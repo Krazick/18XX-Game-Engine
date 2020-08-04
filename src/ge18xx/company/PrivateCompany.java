@@ -1,0 +1,290 @@
+package ge18xx.company;
+
+import java.awt.event.ItemListener;
+
+import javax.swing.JPanel;
+
+import ge18xx.bank.Bank;
+import ge18xx.map.Location;
+import ge18xx.map.MapCell;
+import ge18xx.player.Portfolio;
+import ge18xx.player.PortfolioHolderI;
+import ge18xx.round.action.ActorI;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
+
+//
+//  Private.java
+//  Java_18XX
+//
+//  Created by Mark Smith on 8/7/07.
+//  Copyright 2007 __MyCompanyName__. All rights reserved.
+//
+
+public class PrivateCompany extends Corporation {
+	public static final ElementName EN_PRIVATE = new ElementName ("Private");
+	public static final AttributeName AN_COST = new AttributeName ("cost");
+	public static final AttributeName AN_REVENUE = new AttributeName ("revenue");
+	public static final AttributeName AN_SPECIAL = new AttributeName ("special");
+	public static final AttributeName AN_NOTE = new AttributeName ("note");
+	public static final AttributeName AN_EXCHANGE_ID = new AttributeName ("exchangeID");
+	public static final AttributeName AN_EXCHANGE_PERCENTAGE = new AttributeName ("exchangePercentage");
+	public static final AttributeName AN_MUST_SELL = new AttributeName ("mustSell");
+	public static final AttributeName AN_DISCOUNT = new AttributeName ("discount");
+	public static final int NO_REVENUE = 0;
+	private static final int DISCOUNT = 5;
+	private static final int INITIAL_DISCOUNT = 0;
+	int cost;
+	int revenue;
+	int discount;
+	boolean mustSell;
+	String special;
+	String note;
+	int exchangeID; // Corporation ID to Exchange this Private For
+	int exchangePercentage; // Exchange Percentage
+	
+	public PrivateCompany () {
+		this (Corporation.NO_ID, Corporation.NO_NAME, Corporation.NO_ABBREV, NO_COST, NO_REVENUE, 
+				Corporation.NO_HOME_MAPCELL, Corporation.NO_HOME_LOCATION, Corporation.NO_HOME_MAPCELL, 
+				Corporation.NO_HOME_LOCATION, Corporation.NO_ID, Certificate.NO_PERCENTAGE, ActorI.ActionStates.Unowned, false);
+	}
+
+	public PrivateCompany (int aID, String aName, String aAbbrev, int aCost, int aRevenue, 
+			MapCell aHomeCity1, Location aHomeLocation1, ActorI.ActionStates aState, boolean aMustBeSoldBeforeOperatingRound) {
+		this (aID, aName, aAbbrev, aCost, aRevenue, aHomeCity1, aHomeLocation1, 
+				Corporation.NO_HOME_MAPCELL, Corporation.NO_HOME_LOCATION,
+				Corporation.NO_ID, Certificate.NO_PERCENTAGE, aState, aMustBeSoldBeforeOperatingRound);
+	}
+	
+	public PrivateCompany (int aID, String aName, String aAbbrev, int aCost, int aRevenue, 
+			MapCell aHomeCity1, Location aHomeLocation1, MapCell aHomeCity2, Location aHomeLocation2,
+			int aExchangeCorporationID, int aExchangeCorporationPercentage, ActorI.ActionStates aState, boolean aMustBeSoldBeforeOperatingRound) {
+		super (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aState, false);
+		cost = aCost;
+		discount = INITIAL_DISCOUNT;
+		revenue = aRevenue;
+		exchangeID = aExchangeCorporationID;
+		exchangePercentage = aExchangeCorporationPercentage;
+		mustSell = aMustBeSoldBeforeOperatingRound;
+	}
+	
+	public PrivateCompany (XMLNode aChildNode, CorporationList aCorporationList) {
+		super (aChildNode, aCorporationList);
+		String tNote;
+		
+		cost = aChildNode.getThisIntAttribute (AN_COST);
+		discount = aChildNode.getThisIntAttribute (AN_DISCOUNT);
+		mustSell = aChildNode.getThisBooleanAttribute (AN_MUST_SELL);
+		revenue = aChildNode.getThisIntAttribute (AN_REVENUE);
+		special = aChildNode.getThisAttribute (AN_SPECIAL);
+		tNote = aChildNode.getThisAttribute (AN_NOTE, NO_NOTE);
+		if (NO_NOTE.equals (tNote)) {
+			note = tNote;
+		} else {
+			note = "<html>" + tNote.replaceAll ("\\|br\\|", "<br/>") + "</html>";
+		}
+		exchangeID = aChildNode.getThisIntAttribute (AN_EXCHANGE_ID);
+		exchangePercentage = aChildNode.getThisIntAttribute (AN_EXCHANGE_PERCENTAGE);
+	}
+	
+	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
+		int tCurrentColumn = aStartColumn;
+		
+		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
+		aCorporationList.addDataElement (getCost (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getDiscount (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getMustSell (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getRevenue (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getSpecial (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getExchangeID (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getExchangePercentage (), aRowIndex, tCurrentColumn++);
+		
+		return tCurrentColumn;
+	}
+	
+	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
+		int tCurrentColumn = aStartColumn;
+		
+		tCurrentColumn = super.addAllHeaders (aCorporationList, tCurrentColumn);
+		aCorporationList.addHeader ("Cost", tCurrentColumn++);
+		aCorporationList.addHeader ("Discount", tCurrentColumn++);
+		aCorporationList.addHeader ("Must Sell", tCurrentColumn++);
+		aCorporationList.addHeader ("Revenue", tCurrentColumn++);
+		aCorporationList.addHeader ("Special", tCurrentColumn++);
+		aCorporationList.addHeader ("Exchange ID", tCurrentColumn++);
+		aCorporationList.addHeader ("Exchange Percentage", tCurrentColumn++);
+		
+		return tCurrentColumn;
+	}
+	
+	@Override
+	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
+		JPanel tPrivateCertJPanel;
+		Certificate tPresidentCertificate;
+		
+		tPresidentCertificate = getPresidentCertificate ();
+		tPrivateCertJPanel = tPresidentCertificate.buildPrivateCertJPanel (aItemListener, aAvailableCash);
+		
+		return tPrivateCertJPanel;
+	}
+	
+	@Override
+	public String buildCorpInfoLabel () {
+		String tCorpLabel = "";
+		
+		tCorpLabel = getAbbrev () + "<br>";
+		if (isActive ()) {
+			tCorpLabel += "[" + getPlayerOrCorpOwnedPercentage () + "%&nbsp;" + getStatusName () + "]";
+			tCorpLabel += "<br>Prez: " + getPresidentName ();
+			tCorpLabel += "<br>Price: " + Bank.formatCash (getCost ());
+			tCorpLabel += "<br>Revenue: " + Bank.formatCash (getRevenue ());
+		} else {
+			tCorpLabel += "[" + getStatusName () + "]";
+			if (getBidderCount () > 0) {
+				tCorpLabel += "<br>" + getBidderCount () + " Bidder(s)";
+				tCorpLabel += "<br>Highest Bid " + Bank.formatCash (corporationCertificates.getHighestBid ());
+			}
+			tCorpLabel += "<br>Price: " + Bank.formatCash (getCost ());
+			tCorpLabel += "<br>Revenue: " + Bank.formatCash (getRevenue ());
+			if (getDiscount () > 0) {
+				tCorpLabel += "<br>Discount: " + Bank.formatCash (getDiscount ());
+				
+			}
+		}
+		tCorpLabel = "<html>" + tCorpLabel + "</html>";
+		
+		return tCorpLabel;
+	}
+
+	public String getNote () {
+		return note;
+	}
+	
+	public boolean canBuyPrivate () {
+		return corporationList.canBuyPrivate ();
+	}
+
+	// Number of Fields in Corporation Table to show
+	@Override
+	public int fieldCount () {
+		return super.fieldCount () + 7;
+	}
+	
+	public int getCost () {
+		return cost;
+	}
+	
+	@Override
+	public int getDiscount () {
+		return discount;
+	}
+	
+	@Override
+	public void setDiscount (int aDiscount) {
+		discount = aDiscount;
+	}
+	
+	@Override
+	public void increaseDiscount () {
+		discount += DISCOUNT;
+	}
+	
+	public ElementName getElementName () {
+		return EN_PRIVATE;
+	}
+	
+	public int getExchangeID () {
+		return exchangeID;
+	}
+	
+	public int getExchangePercentage () {
+		return exchangePercentage;
+	}
+
+	@Override
+	public boolean getMustSell () {
+		return mustSell;
+	}
+
+	public String getOwnerName () {
+		if (isOwned ()) {
+			return getPresidentName ();
+		} else {
+			return NO_PRESIDENT;
+		}
+	}
+	
+	public PortfolioHolderI getOwner () {
+		PortfolioHolderI tHolder;
+		
+		tHolder = Portfolio.NO_HOLDER;
+		if (isOwned ()) {
+			return getPresident ();
+		}
+		
+		return tHolder;
+	}
+	
+	public XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement, tBidders;
+		
+		tXMLElement = aXMLDocument.createElement (EN_PRIVATE);
+		super.getCorporationStateElement (tXMLElement);
+		tXMLElement.setAttribute (AN_DISCOUNT, discount);
+		tXMLElement.setAttribute (AN_MUST_SELL, mustSell);
+		tBidders = corporationCertificates.getBidders (aXMLDocument);
+		if (tBidders != Portfolio.NO_BIDDERS) {
+			tXMLElement.appendChild(tBidders);
+		}
+		
+		return tXMLElement;
+	}
+
+	public int getRevenue () {
+		return revenue;
+	}
+	
+	public String getSpecial () {
+		return special;
+	}
+	
+	@Override
+	public String getType () {
+		return PRIVATE_COMPANY;
+	}
+	
+	public int getValue () {
+		return cost;
+	}
+	
+	public boolean isOwned () {
+		boolean tIsOwned;
+		Certificate tCertificate;
+		int tCertificateCount, tCertificateIndex;
+		
+		tIsOwned = false;
+		tCertificateCount = corporationCertificates.getCertificateCountAgainstLimit ();
+		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
+			tCertificate = corporationCertificates.getCertificate (tCertificateIndex);
+			if (tCertificate.isOwned ()) {
+				tIsOwned = true;
+			}
+		}
+		
+		return tIsOwned;
+	}
+	
+	@Override
+	public boolean isAPrivateCompany () {
+		return true;
+	}
+
+	public void loadState (XMLNode aXMLNode) {
+		super.loadStatus (aXMLNode);
+		discount = aXMLNode.getThisIntAttribute (AN_DISCOUNT);
+		mustSell = aXMLNode.getThisBooleanAttribute (AN_MUST_SELL);
+	}
+}

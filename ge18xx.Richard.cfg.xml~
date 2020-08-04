@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+<Frames gameName="1830">
+<Frame height="330" name="Enter Player Information" visible="false" width="853" xLocation="0" yLocation="23"/>
+<Frame height="485" name="1830 Market Frame" visible="true" width="794" xLocation="1789" yLocation="821"/>
+<Frame height="528" name="1830 Tile Tray Frame" visible="true" width="820" xLocation="390" yLocation="23"/>
+<Frame height="790" name="1830 Map Frame" visible="true" width="860" xLocation="1690" yLocation="30"/>
+</Frames>
+<Frames gameName="1870">
+<Frame height="330" name="Enter Player Information" visible="false" width="915" xLocation="0" yLocation="23"/>
+<Frame height="487" name="1870 Market Frame" visible="true" width="860" xLocation="13" yLocation="794"/>
+<Frame height="609" name="1870 Tile Tray Frame" visible="true" width="831" xLocation="1493" yLocation="707"/>
+<Frame height="1030" name="1870 Map Frame" visible="true" width="860" xLocation="1690" yLocation="30"/>
+</Frames>
+</Config>

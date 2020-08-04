@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Cities>
+	<CityInfo id="1" location="14" name="Southwest" type="3" />
+	<CityInfo id="2" location="14" name="Southeast" type="3" />
+	<CityInfo id="3" location="14" name="Galveston" type="3" />
+	<CityInfo id="4" location="14" name="New Orleans" type="3" />
+	<CityInfo id="5" location="14" name="Austin" type="3" />
+	<CityInfo id="6" location="23" name="Houston" type="3" />
+	<CityInfo id="7" location="14" name="Baton Rouge" type="3" />
+	<CityInfo id="8" location="14" name="Mobile" type="3" />
+	<CityInfo id="9" location="14" name="Alexandria" type="3" />
+	<CityInfo id="10" location="14" name="Jackson" type="3" />
+	<CityInfo id="11" location="50" name="Fort Worth" type="3" />
+	<CityInfo id="12" location="50" name="Dallas" type="3" />
+	<CityInfo id="13" location="14" name="Little Rock" type="3" />
+	<CityInfo id="14" location="17" name="Memphis" type="3" />
+	<CityInfo id="15" location="14" name="Oklahoma City" type="3" />
+	<CityInfo id="16" location="14" name="Springfield, MO" type="3" />
+	<CityInfo id="17" location="14" name="Witchita" type="3" />
+	<CityInfo id="18" location="14" name="St. Louis" type="3" />
+	<CityInfo id="19" location="14" name="Topeka" type="3" />
+	<CityInfo id="20" location="50" name="Kansas City" type="3" />
+	<CityInfo id="21" location="14" name="Springfield, IL" type="3" />
+	<CityInfo id="22" location="14" name="Denver" type="3" />
+	<CityInfo id="23" location="14" name="Chicago" type="3" />
+</Cities>

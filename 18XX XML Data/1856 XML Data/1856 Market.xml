@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Market cols="20" neighbors="4" rows="11">
+	<row cols="20" index="0">
+		<MarketCell region="NORMAL" value="70">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="0" rowAdjust="1" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="75">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="80">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="90">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="START" value="100">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="110">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="125">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="150">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="175">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="200">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="225">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="250">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="275">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="300">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="325">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="350">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="375">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="400">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="425">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="450">
+			<SoldOut colAdjust="0" rowAdjust="0" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="0" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+	</row>
+	<row cols="20" index="1">
+		<MarketCell region="NORMAL" value="65">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="0" rowAdjust="1" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="70">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="75">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="80">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="START" value="90">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="100">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="110">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="125">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="150">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="175">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="200">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="225">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="250">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="275">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="300">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="325">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="350">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="375">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="400">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="425">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="0" rowAdjust="-1" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+	</row>
+	<row cols="15" index="2">
+		<MarketCell region="NORMAL" value="60">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="0" rowAdjust="1" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="65">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="70">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="75">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="START" value="80">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="90">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="100">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="110">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="125">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="150">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="175">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="200">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="225">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="250">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="275">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="0" rowAdjust="-1" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+	</row>
+	<row cols="13" index="3">
+		<MarketCell region="NORMAL" value="55">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="0" rowAdjust="1" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="60">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="65">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="70">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="START" value="75">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="80">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="90">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="100">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="110">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="125">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="150">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="175">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="200">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="0" rowAdjust="-1" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+	</row>
+	<row cols="11" index="4">
+		<MarketCell region="YELLOW" value="50">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="0" rowAdjust="1" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="55">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="60">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="65">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="START" value="70">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="75">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="80">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="90">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="100">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="110">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="125">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="0" rowAdjust="-1" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+	</row>
+	<row cols="9" index="5">
+		<MarketCell region="YELLOW" value="45">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="0" rowAdjust="1" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="YELLOW" value="50">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="55">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="60">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="START" value="65">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="70">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="75">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="80">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="90">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="0" rowAdjust="-1" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+	</row>
+	<row cols="7" index="6">
+		<MarketCell region="BROWN" value="40">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="0" rowAdjust="1" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="YELLOW" value="45">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="YELLOW" value="50">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="55">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="60">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="65">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="70">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="0" rowAdjust="-1" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+	</row>
+	<row cols="6" index="7">
+		<MarketCell region="BROWN" value="35">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="0" rowAdjust="1" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="BROWN" value="40">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="YELLOW" value="45">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="YELLOW" value="50">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="55">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="NORMAL" value="60">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="0" rowAdjust="-1" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+	</row>
+	<row cols="5" index="8">
+		<MarketCell region="BROWN" value="30">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="0" rowAdjust="1" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="BROWN" value="35">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="BROWN" value="40">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="YELLOW" value="45">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="YELLOW" value="50">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="0" rowAdjust="-1" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+	</row>
+	<row cols="5" index="9">
+		<MarketCell region="CLOSED" />
+		<MarketCell region="BROWN" value="30">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="0" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="BROWN" value="35">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="BROWN" value="40">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+		<MarketCell region="YELLOW" value="45">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="0" rowAdjust="-1" />
+			<ShareSale colAdjust="0" rowAdjust="1" />
+		</MarketCell>
+	</row>
+	<row cols="5" index="10">
+		<MarketCell region="CLOSED" />
+		<MarketCell region="CLOSED" />
+		<MarketCell region="BROWN" value="30">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="0" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+		<MarketCell region="BROWN" value="35">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="1" rowAdjust="0" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+		<MarketCell region="BROWN" value="40">
+			<SoldOut colAdjust="0" rowAdjust="-1" />
+			<NoDividend colAdjust="-1" rowAdjust="0" />
+			<HalfDividend colAdjust="0" rowAdjust="0" />
+			<FullDividend colAdjust="0" rowAdjust="-1" />
+			<ShareSale colAdjust="0" rowAdjust="0" />
+		</MarketCell>
+	</row>
+</Market>

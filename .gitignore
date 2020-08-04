@@ -1,0 +1,6 @@
+/bin/ge18xx/
+/bin/
+/target/
+/*.cfg.xml
+/autoSaves/
+/Saved Games/

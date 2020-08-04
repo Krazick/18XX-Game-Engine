@@ -1,0 +1,256 @@
+package ge18xx.round;
+
+import ge18xx.bank.Bank;
+import ge18xx.bank.BankPool;
+import ge18xx.company.Certificate;
+import ge18xx.game.GameManager;
+import ge18xx.phase.PhaseManager;
+import ge18xx.player.Portfolio;
+import ge18xx.round.action.Action;
+import ge18xx.round.action.ActionManager;
+import ge18xx.round.action.ActorI;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
+
+public abstract class Round implements ActorI {
+	public final static String NAME = "Round";
+	public final static ElementName EN_ROUND = new ElementName ("Round");
+	public final static AttributeName AN_ROUND_PART1 = new AttributeName ("idPart1");
+	public final static AttributeName AN_ROUND_PART2 = new AttributeName ("idPart2");
+	public final static Round NO_ROUND = null;
+	static final int NO_ID = 0;
+	int idPart1;
+	int idPart2;
+	RoundManager roundManager;
+	
+	public Round (RoundManager aRoundManager) {
+		setID (NO_ID, NO_ID);
+		setRoundManager (aRoundManager);
+	}
+
+	public void addAction (Action aAction) {
+		roundManager.addAction (aAction);
+	}
+	
+	public void clearAllAuctionStates () {
+		roundManager.clearAllAuctionStates ();
+	}
+	
+	public ActionManager getActionManager () {
+		return roundManager.getActionManager ();
+	}
+	
+	public Bank getBank () {
+		return roundManager.getBank ();
+	}
+	
+	public BankPool getBankPool () {
+		return roundManager.getBankPool ();
+	}
+	
+	public Portfolio getBankPoolPortfolio () {
+		return roundManager.getBankPoolPortfolio ();
+	}
+	
+	public Certificate getCertificateToBuy () {
+		return roundManager.getCertificateToBuy ();
+	}
+
+	public Certificate getCertificateToBidOn () {
+		return roundManager.getCertificateToBidOn ();
+	}
+	
+	public GameManager getGameManager () {
+		return roundManager.getGameManager ();
+	}
+	
+	public int getIDPart1 () {
+		return idPart1;
+	}
+	
+	public int getIDPart2 () {
+		return idPart2;
+	}
+	
+	public String getID () {
+		String tID;
+		
+		tID = idPart1 + "." + idPart2;
+		
+		return tID;
+	}
+
+	public Action getLastAction () {
+		return roundManager.getLastAction ();
+	}
+
+	public PhaseManager getPhaseManager () {
+		return roundManager.getPhaseManager ();
+	}
+	
+	public RoundManager getRoundManager () {
+		return roundManager;
+	}
+	
+	public ActorI.ActionStates getRoundType () {
+		return ActorI.ActionStates.NoRound;
+	}
+	
+	public String getStateName () {
+		return getRoundType ().toString ();
+	}
+	
+	public String getType () {
+		return "Round";
+	}
+	
+	public boolean hasActionsToUndo () {
+		return roundManager.hasActionsToUndo ();
+	}
+	
+	@Override
+	public boolean isAPlayer () {
+		return false;
+	}
+	
+	@Override
+	public boolean isAPrivateCompany () {
+		return false;
+	}
+	
+	public void loadRound (XMLNode aRoundNode) {
+		idPart1 = aRoundNode.getThisIntAttribute (AN_ROUND_PART1);
+		idPart2 = aRoundNode.getThisIntAttribute (AN_ROUND_PART2);
+	}
+		
+	public boolean roundIsDone () {
+		return false;
+	}
+	
+	public void printBriefActionReport () {
+		roundManager.printBriefActionReport ();
+	}
+
+	public void setID (String aID) {
+		String tIDs [];
+		int tID1, tID2;
+		
+		tIDs = aID.split ("\\.");
+		tID1 = Integer.parseInt (tIDs [0]);
+		if (tIDs.length == 2) {
+			tID2 = Integer.parseInt (tIDs [1]);
+		} else {
+			tID2 = 1;
+		}
+		setID (tID1, tID2);
+	}
+	
+	public void setID (int aIDPart1, int aIDPart2) {
+		idPart1 = aIDPart1;
+		idPart2 = aIDPart2;
+	}
+	
+	public void setIDPart2 (int aIDPart2) {
+		idPart2 = aIDPart2;
+	}
+	
+	public void setPrimaryActionState (ActorI.ActionStates aPreviousState) {
+		if (aPreviousState == ActorI.ActionStates.StockRound) {
+			startStockRound ();
+		}
+		if (aPreviousState == ActorI.ActionStates.OperatingRound) {
+			startOperatingRound ();
+		}		
+	}
+	
+	public void resetPrimaryActionState (ActorI.ActionStates aPreviousState) {
+		if (aPreviousState == ActorI.ActionStates.StockRound) {
+			resumeStockRound ();
+		}
+		if (aPreviousState == ActorI.ActionStates.OperatingRound) {
+			resetOperatingRound ();
+		}
+	}
+
+	public void setRoundAttributes (XMLElement aXMLElement) {
+		aXMLElement.setAttribute (AN_ROUND_PART1, idPart1);
+		aXMLElement.setAttribute (AN_ROUND_PART2, idPart2);
+	}
+
+	public void setRoundManager (RoundManager aRoundManager) {
+		roundManager = aRoundManager;
+	}
+	
+	public void resetOperatingRound () {
+		roundManager.resetOperatingRound (idPart1, idPart2);
+	}
+
+	public void resumeStockRound () {
+		roundManager.resumeStockRound (idPart1);
+	}
+	
+	public void startAuctionRound () {
+		roundManager.startAuctionRound ();
+	}
+	
+	public boolean startOperatingRound () {
+		roundManager.startOperatingRound ();
+		
+		return true;
+	}
+	
+	public String getClientUserName () {
+		return roundManager.getClientUserName ();
+	}
+
+	public boolean isNetworkGame () {
+		return roundManager.isNetworkGame ();
+	}
+
+	public void startStockRound () {
+		roundManager.startStockRound ();
+	}
+	
+	public boolean undoLastAction () {
+		return roundManager.undoLastAction ();
+	}
+
+	public void updateRoundFrame () {
+		roundManager.updateRoundFrame ();
+	}
+
+	public void updateAllFrames () {
+		roundManager.updateAllFrames ();
+	}
+	
+	@Override
+	public String getName() {
+		return NAME;
+	}
+	
+	public boolean wasLastActionStartAuction () {
+		return roundManager.wasLastActionStartAuction ();
+	}
+
+	@Override
+	public boolean isAStockRound () {
+		return false;
+	}
+
+	@Override
+	public boolean isAOperatingRound () {
+		return false;
+	}
+
+	@Override
+	public boolean isABank () {
+		return false;
+	}
+
+	@Override
+	public boolean isACorporation () {
+		return false;
+	}
+}

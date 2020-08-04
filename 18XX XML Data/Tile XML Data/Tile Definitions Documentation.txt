@@ -1,0 +1,110 @@
+Tile Definitions are laid out as XML Files with names:
+
+Yellow Tile Definitions.xsml
+Green Tile Definitions.xml
+Brown Tile Definitions.xml
+Grey Tile Definitions.xml
+Other Tile Definitions.xml
+
+The basic convention is that Yellow, Green, Brown, and Grey tiles be added to the respective files based upon their color. The last file 'Other Tile Definitions.xml' are for the other tiles that are generally pre-placed tiles on map cells. The numbering scheme is in the 9XXX range with no particular ordering or arrangement.
+
+These Tile Definitions are generic across ALL of the 18xx Games since the Tile Numbers are generally not re-used for different tiles. It is known that there are some exceptions to this rule as newer games were developed in parallel by different designers and their tile number assignments for their new tiles sometimes overlapped with other games. In most of these cases there has been attempts by the 18xx Internet Community to resolve the tile number overlaps by re-assigning tile numbers. There should be some attempt to have each game use their own unique tile numbers where possible, and the Tile Definitions have the overarching Tile Numbering scheme be used. This is still to be resolved for this layout.
+
+For each 18xx Game implemented, there is a 18xx TileSet.xml file that specifies the Tile Manifest that contains the Different Color Tile Sets for each game. Each Tile Set lists out the Tiles used by generic number, and the quantity available in the game. Each Tile also specifies a list of available upgrades and the upgrades allowed rotations from the base rotation of the tile. For Example:
+
+In 1830TileSet.xml we have the tile:
+
+	<Tile number="8" quantity="8">
+		<Upgrade toNumber="16" rotations="0,5"/>
+		<Upgrade toNumber="19" rotations="5"/>
+		<Upgrade toNumber="23" rotations="0"/>
+		<Upgrade toNumber="24" rotations="4"/>
+		<Upgrade toNumber="25" rotations="0,4"/>
+		<Upgrade toNumber="28" rotations="0"/>
+		<Upgrade toNumber="29" rotations="4"/>
+	</Tile>
+
+This says the 1830 game uses Tile #8, quantity 8, with 7 possible tiles it can be upgraded to. For the upgrade to Tile #16, if Tile #8 has a orientation of zero, Tile 16 can only be placed in orientation zero (0) or orientation five (5). The preparation of these allowed upgrades is critical to properly replace all existing track. 
+
+The Tile Definitions structure is more complex. These definitions record the Type (color), the Track Segments, the RevenueCenters (if any), the TileName if applicable, and other pieces if found in the future. To work through an example I will start with Tile # 8, and 16 from above
+
+	<Tile number="8" type="Yellow">
+		<Track enter="1" exit="3" gauge="NORMAL"/>
+	</Tile>
+
+This is a very simple tile that is a Yellow Tile. It has a single Track Segment  that enters at Location 1 and Exist at Location 3 and the gauage is NORMAL (or Broad if you prefer). Options for Gauage include "NORMAL, METER, DUAL, TUNNEL, FERRY, OVERPASS, METER_BASE, FERRY_BASE". These should be entered in ALL CAPS. There METER_BASE and FERRY_BASE are used to properly draw the white background before drawing the METER or FERRY as a DASHED track. The OVERPASS is a special case that allows for the proper drawing of an overpass. This is accomplished by drawing the underlying track first, draw the overpass as a thicker track segment that is the same color as the tile background, and then drawing the normal width track of over top.
+
+Locations are based upon points around the Hex that is drawn. See the Locations.pdf file to get a rough idea of where these are placed. The Drawing is hand drawn (I mis-placed my protractor) and scanned. The drawing shows approximate locations for each numbered point. The code draws them based upon geometry so that when it is scaled up or down, or the tiles are rotated they are re-positioned consistently. The Code that calculates these positions was adjusted incrementally to refine the look. For Tiles drawn where the two of the sides are vertical, Rotate the diagram 90 degrees counter clockwise, so Point zero is on your left, and Point 3 is on your right. 
+
+To describe these points, for the hex with a flat side horizontal, point zero (0) is at top center, on the side of the hex. point two is clockwise 60 degrees to be center of this side, point 3 is the center of the next side clockwise, and around. Point six is "Near Side" at the top of the Hex, but inside the Hex. and 6-11 cycle clockwise around. Points 12-17 shift to "Near Corner" with point 12 at about the 11 O-Clock position, but right on the line that connects the top left corner of the hex with the center. And so on. The assignments are always clockwise, and 6 steps to make a cycle around. A complete list of locations are listed below:
+
+//  0 -  5 Actual Side of Hexagon
+//  6 - 11 Near Side [NS] (Inside Hexagon)
+// 12 - 17 Near Corner [NC] (Inside Hexagon)
+// 18 - 23 Far (from) Side [FS] (Inside Hexagon)
+// 24 - 29 Far (from) Corner Left [FCL] (Inside Hexagon)
+// 30 - 35 Far (from) Corner Right [FCR] (Inside Hexagon)
+// 36 - 39 Near Center [NCNTR] (only 4 locations here)
+// 40 - 45 Adjacent to Side [ADJSIDE] (Inside Hexagon)
+// 50      Center City location
+// 99      Dead End Location
+
+NOTE: The Near Center points being only 4 do not properly rotate around 180 with 6 steps like the others. These locations should be used for features that do not need rotational accuracy, but closeness to the center. 
+
+The Adjacent to Side are positioned so that a City placed there will overlap the edge of the hex a bit. 
+
+So if we get back to Tile # 8
+
+	<Tile number="8" type="Yellow">
+		<Track enter="1" exit="3" gauge="NORMAL"/>
+	</Tile>
+
+We see that the single Track Segment enters the center of Side 1, and exits the center of side 3. This is then drawn as a gentle curve. 
+
+In 1830, Tile #8 upgrades to Tile #16
+
+	<Tile number="16" type="Green">
+		<Track enter="1" exit="3" gauge="NORMAL"/>
+		<Track enter="2" exit="4" gauge="OVERPASS"/>
+		<Track enter="2" exit="4" gauge="NORMAL"/>
+	</Tile>
+
+Here we have a Green Tile (from Green Tile Definitions.xml) that contain three track segments. The first Track Segment is the same as Tile #8's track segment. The last track segment is another simple track segment that is NORMAL Gauge and runs from side 2, to side 4. However, if these two were the only track segments drawn, it would look like a junction type tile, albeit a bit oddly since both track segments are gentle curves that do not meet in the center. This is why there is the second Track Segment from Side 2 to Side 4 with a Gauge of OVERPASS. The sequence these tracks are drawn are the order listed (1 -> 3 first, the Overpass drawn as the background color of the tile - Green in this case and drawn with a thicker stroke, from side 2 -> 4, and then the Normal Gauge Track from 2 -> 4 is drawn). Technically XML files should not be coded based upon a fixed sequence like this, and it can be argued that a sequence value should be added to each track segment to enforce the drawing sequence. This could be done.
+
+Based upon these definitions, we can go back to our Tile Set Definitions and see why Tile #16 with Rotations of zero and five are the only valid orientations when Tile #8 is in orientation zero. For Tile #16 with an orientation of zero will have track segment 1 -> 3 replace Tile #8's track segment 1 -> 3. For Tile #16 with and orientation of give will have track segment 2 -> 4 end up replacing Tile #8's track segment 1 -> 3. 
+
+If we look at Tile #54 we can see some RevenueCenters and Tile Names:
+
+	<Tile number="54" type="Green">
+		<TileName location="14" name="NY"/>
+		<Track enter="0" exit="12" gauge="NORMAL"/>
+		<Track enter="5" exit="12" gauge="NORMAL"/>
+		<Track enter="3" exit="16" gauge="NORMAL"/>
+		<Track enter="4" exit="16" gauge="NORMAL"/>
+		<RevenueCenter id="-1" location="12" name="" number="1" type="Single City">
+			<Revenue location="17" phase="0" value="60"/>
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="16" name="" number="1" type="Single City">
+			<Revenue location="17" phase="0" value="60"/>
+		</RevenueCenter>
+	</Tile>
+
+Here is the New York Green Tile from 1830. The Tile Name is positioned at Location 14. The Track Segments start at sides, but exit at location 12 and location 16, which are "Near Corner" points. These locations also happen to be the same as the two Revenue Centers. The Code draws the track segments first, and then draw the Revenue Centers overtop. This allows the track to appear to end right at the city edge (or the city box for a multiple city). The id values is to allow a distinct assignment to specific cities. This value is useful for a Hex Map cell, but not a Tile, so we set it to -1. The name of the Revenue Center, if one is known. The number field is the count of how many stations/tokens can be placed on this Revenue Center. The type is a textual definition of the Type of the Revenue Center. This is needed to know how big a city to actually draw. Some of these could probably be made optional to reduce the file size.
+
+Each Revenue Center can have multiple Revenues associated with it (think Off-Board Red Tiles). For the Revenue we have a location value (where the revenue value should be drawn on the tile), the phase of the game when the Revenue becomes available, and the actual Revenue Value. For Tile #54, there is only one revenue value, so it is valid from phase zero (0), throughout the game.
+
+Another example that needs to be documented:
+
+	<Tile number="9992" type="Red Off Board">
+		<Track enter="2" exit="99" gauge="NORMAL"/>
+		<Track enter="3" exit="99" gauge="NORMAL"/>
+		<RevenueCenter id="-1" location="99" name="" number="0" type="Dead-End Only City">
+			<Revenue location="50" phase="1" value="30" layout="vertical"/>
+			<Revenue location="50" phase="4" value="40" layout="vertical"/>
+			<Revenue location="50" phase="6" value="50" layout="vertical"/>
+		</RevenueCenter>
+	</Tile>
+
+Here we have an Off Board Red Tile defined with three Revenue Values that are valid from Phase 1-3, 4-5, and 6+. There is also a layout parameter that is optional. The default is "circle", other legal values are (oval, horizontal, vertical, and split). This defines how the revenue values are drawn when there are multiple values to show. 1856 draws the Red-Off Board in Vertical Layout, 1835 draws them in Horizontal Layout, 1830 draws them in split layout. There could be others that need to be defined for other games.
+
+There are some Tile Definitions, and Map Cell Definitions that could be adjusted so that overlaps are eliminated, or at least reduced more.

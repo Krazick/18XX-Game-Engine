@@ -1,0 +1,140 @@
+package ge18xx.network;
+
+import java.net.ConnectException;
+
+public class ChatServerHandler extends ServerHandler {
+	protected JGameClient jClient;
+
+	public ChatServerHandler (String aHost, int aPort) throws ConnectException {
+		super (aHost, aPort);
+	}
+
+	public void initializeChat (JGameClient aJClient) {
+		jClient = aJClient;
+		
+		// Save my name on this local client
+		setName (jClient.getName ());
+		
+		// Tell the Server who I am, and allow it to send to other players I am here
+		sendNewUser ();
+	}
+	
+	public void handleServerMessage (String tMessage) {
+		jClient.handleServerMessage (tMessage);
+//		System.out.println ("Received Message [" + tMessage + "]");
+	}
+	
+	public void handleServerCommands (String aCommand) {
+		String tMessage = aCommand.substring (1, aCommand.length () - 1);
+		String tName, tShortened;
+		
+		if (tMessage.startsWith ("Server: ")) {
+			tShortened = tMessage.substring (8);
+			if (tShortened.startsWith ("Sorry we are full")) {
+
+			} else if (tShortened.startsWith ("rejected")) {
+				closeAll ();
+				setContinueRunning (false);
+				jClient.rejectedConnect ();
+			} else if (tShortened.endsWith (" is AFK")) {
+				tName = extractName (tShortened);
+				jClient.setPlayerAsAFK (tName);
+			} else if (tShortened.endsWith (" is Not AFK")) {
+				tName = extractName (tShortened);
+				jClient.resetPlayerFromAFK (tName);				
+			} else if (tShortened.endsWith (" has joined")) {
+				tShortened = handleJoined (tShortened);
+			} else if (tShortened.endsWith (" has left") ||
+						tShortened.endsWith (" has aborted")) {
+				tName = extractName (tShortened);
+				jClient.removePlayer (tName);
+			} else if (tShortened.endsWith ("is Ready to play the Game")) {
+				handlePlayerReady (tShortened);
+			} else if (tShortened.endsWith (" Starts the Game")) {
+				jClient.startsGame ();
+			} else {
+				System.out.println ("Received Command [" + aCommand + "]");
+
+			}
+			appendToChat (tShortened);
+		}
+	}
+
+	private void handlePlayerReady (String aShortened) {
+		String tName;
+		
+		tName = extractName (aShortened);
+		jClient.playerReady (tName);
+	}
+	
+	private String handleJoined (String aShortened) {
+		String tName;
+		String tMessage;
+		
+		tName = extractName (aShortened);
+		jClient.addPlayer (tName);
+		if (! tName.equals (name)) {
+			tMessage = tName + " is present";
+		} else {
+			tMessage = tName + ", you have joined";
+		}
+		if (aShortened.contains ("[AFK]")) {
+			jClient.setPlayerAsAFK (tName);
+		}
+		if (aShortened.contains ("[READY]")) {
+			jClient.playerReady (tName);
+		}
+		
+		return tMessage;
+	}
+
+	private String extractName (String aShortened) {
+		String tName;
+		
+		tName = aShortened.substring (0, aShortened.indexOf (" "));
+		
+		return tName;
+	}
+	
+	public void appendToChat (String aMessage) {
+		jClient.appendToChat (aMessage);
+	}
+	
+	// Send Commands to the Server ---
+	
+	public void sendGameActivity (String aGameActivity) {
+		println (aGameActivity);
+	}
+	
+	public void sendNewUser () {
+		println ("name " + name);
+	}
+
+	public void requestUserNameList () {
+		println ("who");
+	}
+
+	public void sendMessage (String aMessage) {
+		println ("say " + aMessage);
+	}
+	
+	public void sendUserIsNotAFK () {
+		println ("Not AFK");
+	}
+	
+	public void sendUserIsAFK () {
+		println ("AFK");
+	}
+
+	public void sendUserReady () {
+		println ("Ready");
+		jClient.appendToChat ("I am ready to play the Game", true);
+	}
+
+	public void sendUserStart () {
+		println ("Start");
+		jClient.appendToChat ("I started the Game", true);
+	}
+	
+	// -- End of Sending Commands to the Server
+}

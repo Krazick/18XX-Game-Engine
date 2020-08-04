@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Corporations>
+	<Share id="1901" name="East Indian Railway" abbrev="EIR"
+		homeCell1="Jab" homeLocation1="7" homeCell2="Hx" homeLocation2="10"
+		bgColor="Red" fgColor="White" tokens="5" startPrice="0,14">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1902" name="Great Indian Pennisula Railway" abbrev="GIP"
+		homeCell1="Mi" homeLocation1="10" homeCell2="Ht" homeLocation2="10"
+		bgColor="204,102,0" fgColor="White" tokens="5" startPrice="1,13">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1903" name="North Western Railway" abbrev="NWR"
+		homeCell1="Fn" homeLocation1="7" homeCell2="Ck" homeLocation2="11"
+		bgColor="Black" fgColor="White" tokens="5" startPrice="2,12">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1904" name="Bengal Nagpur Railway" abbrev="BNR"
+		homeCell1="Kq" homeLocation1="17" homeCell2="Jab" homeLocation2="11"
+		bgColor="Dark Green" fgColor="White" tokens="5" startPrice="3,11">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1905" name="Bombay, Baroda and Central India Railway"
+		abbrev="BBCI" homeCell1="Hj" homeLocation1="15" bgColor="Deep Blue"
+		fgColor="White" tokens="4" startPrice="4,10">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1906" name="Madras and South Mahratta Railway" abbrev="MSM"
+		homeCell1="Rr" homeLocation1="7" bgColor="153,0,204" fgColor="Black"
+		tokens="4" startPrice="5,9">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1907" name="South Indian Railway" abbrev="SIR"
+		homeCell1="Tp" homeLocation1="16" bgColor="Yellow" fgColor="Black"
+		tokens="4" startPrice="6,8">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1908" name="Bengal Assam Railway" abbrev="BAR"
+		homeCell1="Jah" homeLocation1="12" bgColor="Light Blue" fgColor="Black"
+		tokens="3" startPrice="7,7">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+</Corporations>

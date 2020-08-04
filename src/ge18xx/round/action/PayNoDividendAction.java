@@ -1,0 +1,40 @@
+package ge18xx.round.action;
+
+import ge18xx.game.GameManager;
+import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
+import ge18xx.utilities.XMLNode;
+
+public class PayNoDividendAction extends ChangeMarketCellAction {
+	public final static String NAME = "Pay No Dividend";
+	
+	public PayNoDividendAction () {
+		super ();
+		setName (NAME);
+	}
+	
+	public PayNoDividendAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
+		super (aRoundType, aRoundID, aActor);
+		setName (NAME);
+	}
+	
+	public PayNoDividendAction (XMLNode aActionNode, GameManager aGameManager) {
+		super (aActionNode, aGameManager);
+		setName (NAME);
+	}
+	
+	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState, ActorI.ActionStates aNewState) {
+		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
+
+		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
+		addEffect (tChangeCorporationStatusEffect);
+	}
+	
+	@Override
+	public String getSimpleActionReport () {
+		String tSimpleActionReport = "";
+		
+		tSimpleActionReport = actor.getName () + " paid NO Dividend.";
+		
+		return tSimpleActionReport;
+	}
+}

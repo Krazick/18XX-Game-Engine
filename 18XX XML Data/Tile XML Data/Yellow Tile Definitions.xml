@@ -1,0 +1,216 @@
+<TileDefinitions color="Yellow">
+	<Tile number="1" type="Yellow">
+		<Track enter="0" exit="29" gauge="NORMAL" />
+		<Track enter="4" exit="29" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="29" name="" type="Small Town">
+			<Revenue location="45" phase="0" value="10" />
+		</RevenueCenter>
+		<Track enter="1" exit="26" gauge="NORMAL" />
+		<Track enter="3" exit="26" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="26" name="" type="Small Town">
+			<Revenue location="42" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="2" type="Yellow">
+		<Track enter="0" exit="6" gauge="NORMAL" />
+		<Track enter="3" exit="6" gauge="NORMAL" />
+		<Track enter="1" exit="14" gauge="NORMAL" />
+		<Track enter="2" exit="14" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="6" name="" type="Small Town">
+			<Revenue location="45" phase="0" value="10" />
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="14" name="" type="Small Town">
+			<Revenue location="15" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="3" type="Yellow">
+		<Track enter="0" exit="13" gauge="NORMAL" />
+		<Track enter="1" exit="13" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="13" name="" type="Small Town">
+			<Revenue location="50" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="4" type="Yellow">
+		<Track enter="0" exit="50" gauge="NORMAL" />
+		<Track enter="3" exit="50" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="50" name="" type="Small Town">
+			<Revenue location="17" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="5" type="Yellow">
+		<Track enter="2" exit="50" gauge="NORMAL" />
+		<Track enter="3" exit="50" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="50" name="" number="1"
+			type="Single City">
+			<Revenue location="12" phase="0" value="20" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="6" type="Yellow">
+		<Track enter="1" exit="50" gauge="NORMAL" />
+		<Track enter="3" exit="50" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="50" name="" number="1"
+			type="Single City">
+			<Revenue location="12" phase="0" value="20" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="7" type="Yellow">
+		<Track enter="2" exit="3" gauge="NORMAL" />
+	</Tile>
+	<Tile number="8" type="Yellow">
+		<Track enter="1" exit="3" gauge="NORMAL" />
+	</Tile>
+	<Tile number="9" type="Yellow">
+		<Track enter="0" exit="3" gauge="NORMAL" />
+	</Tile>
+	<Tile number="55" type="Yellow">
+		<Track enter="2" exit="8" gauge="NORMAL" />
+		<Track enter="5" exit="8" gauge="NORMAL" />
+		<Track enter="3" exit="6" gauge="OVERPASS" />
+		<Track enter="3" exit="6" gauge="NORMAL" />
+		<Track enter="0" exit="6" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="6" name="" type="Small Town">
+			<Revenue location="41" phase="0" value="10" />
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="8" name="" type="Small Town">
+			<Revenue location="-1" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="56" type="Yellow">
+		<Track enter="0" exit="25" gauge="NORMAL" />
+		<Track enter="1" exit="33" gauge="NORMAL" />
+		<Track enter="3" exit="33" gauge="NORMAL" />
+		<Track enter="2" exit="25" gauge="OVERPASS" />
+		<Track enter="2" exit="25" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="25" name="" type="Small Town">
+			<Revenue location="17" phase="0" value="10" />
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="33" name="" type="Small Town">
+			<Revenue location="-1" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="57" type="Yellow">
+		<Track enter="0" exit="50" gauge="NORMAL" />
+		<Track enter="3" exit="50" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="50" name="" number="1"
+			type="Single City">
+			<Revenue location="17" phase="0" value="20" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="58" type="Yellow">
+		<Track enter="0" exit="23" gauge="NORMAL" />
+		<Track enter="4" exit="23" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="23" name="" type="Small Town">
+			<Revenue location="8" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="69" type="Yellow">
+		<Track enter="1" exit="24" gauge="NORMAL" />
+		<Track enter="5" exit="24" gauge="NORMAL" />
+		<Track enter="0" exit="9" gauge="OVERPASS" />
+		<Track enter="0" exit="9" gauge="NORMAL" />
+		<Track enter="3" exit="9" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="9" name="" type="Small Town">
+			<Revenue location="10" phase="0" value="10" />
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="24" name="" type="Small Town">
+			<Revenue location="-1" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="71" type="Yellow">
+		<Track enter="1" exit="26" gauge="METER BASE" />
+		<Track enter="1" exit="26" gauge="METER" />
+		<Track enter="26" exit="33" gauge="METER BASE" />
+		<Track enter="26" exit="33" gauge="METER" />
+		<Track enter="3" exit="33" gauge="METER BASE" />
+		<Track enter="3" exit="33" gauge="METER" />
+		<RevenueCenter id="-1" location="26" name="" type="Small Town">
+			<Revenue location="11" phase="0" value="10" />
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="33" name="" type="Small Town">
+			<Revenue location="-1" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="72" type="Yellow">
+		<Track enter="0" exit="13" gauge="METER BASE" />
+		<Track enter="0" exit="13" gauge="METER" />
+		<Track enter="1" exit="13" gauge="METER BASE" />
+		<Track enter="1" exit="13" gauge="METER" />
+		<RevenueCenter id="-1" location="13" name="" type="Small Town">
+			<Revenue location="50" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="73" type="Yellow">
+		<Track enter="0" exit="23" gauge="METER BASE" />
+		<Track enter="0" exit="23" gauge="METER" />
+		<Track enter="4" exit="23" gauge="METER BASE" />
+		<Track enter="4" exit="23" gauge="METER" />
+		<RevenueCenter id="-1" location="23" name="" type="Small Town">
+			<Revenue location="8" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="74" type="Yellow">
+		<Track enter="0" exit="50" gauge="METER BASE" />
+		<Track enter="0" exit="50" gauge="METER" />
+		<Track enter="3" exit="50" gauge="METER BASE" />
+		<Track enter="3" exit="50" gauge="METER" />
+		<RevenueCenter id="-1" location="50" name="" type="Small Town">
+			<Revenue location="17" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="75" type="Yellow">
+		<Track enter="2" exit="50" gauge="METER BASE" />
+		<Track enter="2" exit="50" gauge="METER" />
+		<Track enter="3" exit="50" gauge="METER BASE" />
+		<Track enter="3" exit="50" gauge="METER" />
+		<RevenueCenter id="-1" location="50" name="" number="1"
+			type="Single City">
+			<Revenue location="12" phase="0" value="20" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="76" type="Yellow">
+		<Track enter="1" exit="50" gauge="METER BASE" />
+		<Track enter="1" exit="50" gauge="METER" />
+		<Track enter="3" exit="50" gauge="METER BASE" />
+		<Track enter="3" exit="50" gauge="METER" />
+		<RevenueCenter id="-1" location="50" name="" number="1"
+			type="Single City">
+			<Revenue location="12" phase="0" value="20" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="77" type="Yellow">
+		<Track enter="2" exit="3" gauge="METER BASE" />
+		<Track enter="2" exit="3" gauge="METER" />
+	</Tile>
+	<Tile number="78" type="Yellow">
+		<Track enter="1" exit="3" gauge="METER BASE" />
+		<Track enter="1" exit="3" gauge="METER" />
+	</Tile>
+	<Tile number="79" type="Yellow">
+		<Track enter="0" exit="3" gauge="METER BASE" />
+		<Track enter="0" exit="3" gauge="METER" />
+	</Tile>
+	<Tile number="113" type="Yellow">
+		<Track enter="3" exit="50" gauge="METER BASE" />
+		<Track enter="3" exit="50" gauge="METER" />
+		<RevenueCenter id="-1" location="50" name="" number="1"
+			type="Single City">
+			<Revenue location="13" phase="0" value="20" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="201" type="Yellow">
+		<TileName location="12" name="Y" />
+		<Track enter="3" exit="50" gauge="NORMAL" />
+		<Track enter="4" exit="50" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="50" name="" type="Single City">
+			<Revenue location="13" phase="0" value="30" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="202" type="Yellow">
+		<TileName location="12" name="Y" />
+		<Track enter="1" exit="50" gauge="NORMAL" />
+		<Track enter="3" exit="50" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="50" name="" type="Single City">
+			<Revenue location="13" phase="0" value="30" />
+		</RevenueCenter>
+	</Tile>
+</TileDefinitions>

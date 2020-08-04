@@ -1,0 +1,153 @@
+<TileDefinitions color="Grey">
+	<Tile number="109" type="Grey">
+		<Track enter="1" exit="50" gauge="DUAL" />
+		<Track enter="2" exit="50" gauge="DUAL" />
+		<Track enter="3" exit="50" gauge="DUAL" />
+		<Track enter="4" exit="50" gauge="DUAL" />
+		<Track enter="5" exit="50" gauge="DUAL" />
+		<RevenueCenter id="-1" location="50" name="" number="3"
+			type="Double City">
+			<Revenue location="13" phase="0" value="50" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="110" type="Grey">
+		<TileName name="CD" />
+		<Track enter="0" exit="40" gauge="DUAL" />
+		<Track enter="1" exit="41" gauge="DUAL" />
+		<Track enter="2" exit="42" gauge="DUAL" />
+		<Track enter="3" exit="43" gauge="DUAL" />
+		<Track enter="4" exit="44" gauge="DUAL" />
+		<Track enter="5" exit="45" gauge="DUAL" />
+		<RevenueCenter id="-1" location="40" name="" number="1"
+			type="Single City">
+			<Revenue location="50" phase="0" value="100" />
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="41" name="" number="1"
+			type="Single City">
+			<Revenue location="50" phase="0" value="100" />
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="42" name="" number="1"
+			type="Single City">
+			<Revenue location="50" phase="0" value="100" />
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="43" name="" number="1"
+			type="Single City">
+			<Revenue location="50" phase="0" value="100" />
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="44" name="" number="1"
+			type="Single City">
+			<Revenue location="50" phase="0" value="100" />
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="45" name="" number="1"
+			type="Single City">
+			<Revenue location="50" phase="0" value="100" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="111" type="Grey">
+		<TileName name="BM" location="40" />
+		<Track enter="3" exit="50" gauge="DUAL" />
+		<Track enter="4" exit="50" gauge="DUAL" />
+		<Track enter="5" exit="50" gauge="DUAL" />
+		<RevenueCenter id="-1" location="50" name="" number="3"
+			type="Triple City">
+			<Revenue location="14" phase="0" value="70" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="112" type="Grey">
+		<Track enter="1" exit="50" gauge="DUAL" />
+		<Track enter="2" exit="50" gauge="DUAL" />
+		<Track enter="3" exit="50" gauge="DUAL" />
+		<Track enter="4" exit="50" gauge="DUAL" />
+		<Track enter="5" exit="50" gauge="DUAL" />
+	</Tile>
+	<Tile number="114" type="Grey">
+		<Track enter="1" exit="3" gauge="NORMAL" />
+		<Track enter="1" exit="5" gauge="NORMAL" />
+		<Track enter="3" exit="5" gauge="NORMAL" />
+		<Track enter="0" exit="2" gauge="OVERPASS" />
+		<Track enter="0" exit="4" gauge="OVERPASS" />
+		<Track enter="2" exit="4" gauge="OVERPASS" />
+		<Track enter="0" exit="2" gauge="NORMAL" />
+		<Track enter="0" exit="4" gauge="NORMAL" />
+		<Track enter="2" exit="4" gauge="NORMAL" />
+	</Tile>
+	<Tile number="123" type="Grey">
+		<TileName name="Hamilton" location="50" />
+		<Track enter="0" exit="50" gauge="NORMAL" />
+		<Track enter="2" exit="50" gauge="NORMAL" />
+		<Track enter="3" exit="50" gauge="NORMAL" />
+		<Track enter="4" exit="50" gauge="NORMAL" />
+		<Track enter="5" exit="50" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="50" name="" number="3"
+			type="Triple City">
+			<Revenue location="16" phase="0" value="60" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="124" type="Grey">
+		<TileName location="43" name="Toronto" />
+		<Track enter="0" exit="50" gauge="NORMAL" />
+		<Track enter="1" exit="50" gauge="NORMAL" />
+		<Track enter="4" exit="50" gauge="NORMAL" />
+		<Track enter="5" exit="50" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="50" name="" number="4"
+			type="Quad City">
+			<Revenue location="14" phase="0" value="100" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="171" type="Grey">
+		<TileName name="Kansas City" location="6" />
+		<Track enter="0" exit="50" gauge="NORMAL" />
+		<Track enter="1" exit="50" gauge="NORMAL" />
+		<Track enter="2" exit="50" gauge="NORMAL" />
+		<Track enter="3" exit="50" gauge="NORMAL" />
+		<Track enter="4" exit="50" gauge="NORMAL" />
+		<Track enter="5" exit="50" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="50" name="" number="3"
+			type="Triple City">
+			<Revenue location="14" phase="0" value="60" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="172" type="Grey">
+		<TileName name="St. Louis" location="6" />
+		<Track enter="0" exit="50" gauge="NORMAL" />
+		<Track enter="1" exit="50" gauge="NORMAL" />
+		<Track enter="2" exit="50" gauge="NORMAL" />
+		<Track enter="3" exit="50" gauge="NORMAL" />
+		<Track enter="4" exit="50" gauge="NORMAL" />
+		<Track enter="5" exit="50" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="50" name="" number="2"
+			type="Double City">
+			<Revenue location="14" phase="0" value="60" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="348" type="Grey">
+		<Track enter="0" exit="3" gauge="NORMAL" />
+		<Track enter="1" exit="4" gauge="OVERPASS" />
+		<Track enter="2" exit="5" gauge="OVERPASS" />
+		<Track enter="1" exit="4" gauge="NORMAL" />
+		<Track enter="2" exit="5" gauge="NORMAL" />
+	</Tile>
+	<Tile number="344" type="Grey">
+		<Track enter="1" exit="4" gauge="NORMAL" />
+		<Track enter="1" exit="2" gauge="NORMAL" />
+		<Track enter="2" exit="4" gauge="NORMAL" />
+		<Track enter="0" exit="3" gauge="OVERPASS" />
+		<Track enter="3" exit="5" gauge="OVERPASS" />
+		<Track enter="0" exit="3" gauge="NORMAL" />
+		<Track enter="3" exit="5" gauge="NORMAL" />
+		<Track enter="0" exit="5" gauge="NORMAL" />
+	</Tile>
+	<Tile number="513" type="Grey">
+		<Track enter="0" exit="50" gauge="NORMAL" />
+		<Track enter="1" exit="50" gauge="NORMAL" />
+		<Track enter="2" exit="50" gauge="NORMAL" />
+		<Track enter="3" exit="50" gauge="NORMAL" />
+		<Track enter="4" exit="50" gauge="NORMAL" />
+		<Track enter="5" exit="50" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="50" name="" number="3"
+			type="Triple City">
+			<Revenue location="14" phase="0" value="60" />
+		</RevenueCenter>
+	</Tile>
+
+</TileDefinitions>

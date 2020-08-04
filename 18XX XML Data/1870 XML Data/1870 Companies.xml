@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Corporations>
+	<Private id="1201" name="Great River Shipping Company" abbrev="GRSC"
+		cost="20" revenue="5" special="NONE">
+		<Certificate director="YES" percentage="100"
+			allowedOwners="IPO,Player,Share" />
+	</Private>
+	<Private id="1202" name="Mississippi River Bridge Company"
+		abbrev="MRBC" cost="40" revenue="10" special="Allow Mississippi River Crossing">
+		<Certificate director="YES" percentage="100"
+			allowedOwners="IPO,Player,Share" />
+	</Private>
+	<Private id="1203" name="The Southern Cattle Company" abbrev="TSCC"
+		cost="50" revenue="10" special="Cattle Token Placement">
+		<Certificate director="YES" percentage="100"
+			allowedOwners="IPO,Player,Share" />
+	</Private>
+	<Private id="1204" name="The Gulf Shipping Company" abbrev="TGSC"
+		cost="80" revenue="15" special="Place Open or Closed Port Token">
+		<Certificate director="YES" percentage="100"
+			allowedOwners="IPO,Player,Share" />
+	</Private>
+	<Private id="1205" name="St. Louis San Francisco Railway"
+		abbrev="Frisco" cost="140" revenue="0" special="Free President's Share of Frisco">
+		<Certificate director="YES" percentage="100"
+			allowedOwners="IPO,Player,Share" />
+	</Private>
+	<Private id="1206" name="Missouri-Kansas-Texas Railroad"
+		abbrev="KATY" cost="160" revenue="20" special="Free Share of KATY">
+		<Certificate director="YES" percentage="100"
+			allowedOwners="IPO,Player,Share" />
+	</Private>
+	<Share id="1301" name="Atchison, Topeka &amp; Santa Fe" abbrev="ATSF"
+		homeCell1="B9" homeLocation1="50" destination="N1"
+		destinationLocation="12" bgColor="102,153,255" fgColor="Black" tokens="3">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1302" name="Fort Worth &amp; Denver City Railway"
+		abbrev="FW" homeCell1="J3" homeLocation1="14" destination="A2"
+		destinationLocation="50" bgColor="102,255,204" fgColor="Black" tokens="2">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1303" name="Gulf, Mobile &amp; Ohio Railroad" abbrev="GMO"
+		homeCell1="M20" homeLocation1="50" destination="C18"
+		destinationLocation="9" bgColor="255,51,153" fgColor="Black" tokens="2">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1304" name="Illinois Central Railroad" abbrev="IC"
+		homeCell1="K16" homeLocation1="16" destination="A22"
+		destinationLocation="50" bgColor="204,204,51" fgColor="Black" tokens="2">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1305" name="Missouri Pacific Railroad" abbrev="MP"
+		homeCell1="C18" homeLocation1="12" destination="J5"
+		destinationLocation="17" bgColor="102,51,0" fgColor="White" tokens="3">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1306" name="Missouri-Kansas-Texas Railroad" abbrev="KATY"
+		homeCell1="B11" homeLocation1="17" destination="N1"
+		destinationLocation="13" bgColor="51,153,102" fgColor="Black" tokens="3">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1307" name="Southern Pacific Railroad" abbrev="SP"
+		homeCell1="N1" homeLocation1="50" destination="N17"
+		destinationLocation="14" bgColor="255,51,51" fgColor="Black" tokens="3">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1308" name="St. Louis, Southwestern Railroad" abbrev="SSW"
+		homeCell1="H17" homeLocation1="15" destination="J3"
+		destinationLocation="17" bgColor="0,0,153" fgColor="White" tokens="2">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1309" name="St. Louis, San Francisco Railway" abbrev="SLSF"
+		homeCell1="E12" homeLocation1="50" destination="M22"
+		destinationLocation="50" bgColor="Red" fgColor="White" tokens="3">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1310" name="Texas &amp; Pacific Railway" abbrev="TP"
+		homeCell1="J5" homeLocation1="14" destination="N17"
+		destinationLocation="16" bgColor="Black" fgColor="White" tokens="2">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<StartPacket>
+		<Item row="1">
+			<Certificate corporationId="1201" discountAmount="5" canBeBidOn="NO"></Certificate>
+		</Item>
+		<Item row="2">
+			<Certificate corporationId="1202" discountAmount="5" canBeBidOn="YES"></Certificate>
+		</Item>
+		<Item row="3">
+			<Certificate corporationId="1203" discountAmount="5" canBeBidOn="YES"></Certificate>
+		</Item>
+		<Item row="4">
+			<Certificate corporationId="1204" discountAmount="5" canBeBidOn="YES"></Certificate>
+		</Item>
+		<Item row="5">
+			<Certificate corporationId="1205" discountAmount="5" canBeBidOn="YES">
+				<FreeCertificate corporationId="1309" percentage="20"/>
+			</Certificate>
+		</Item>
+		<Item row="6">
+			<Certificate corporationId="1206" discountAmount="5" canBeBidOn="YES">
+				<FreeCertificate corporationId="1306" percentage="10"/>
+			</Certificate>
+		</Item>
+	</StartPacket>
+</Corporations>

@@ -1,0 +1,306 @@
+package ge18xx.company;
+
+import ge18xx.bank.Bank;
+import ge18xx.game.GameManager;
+import ge18xx.player.Player;
+import ge18xx.player.Portfolio;
+import ge18xx.player.PortfolioHolderI;
+import ge18xx.round.action.ActorI;
+import ge18xx.round.action.BuyStockAction;
+
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeListener, 
+		PropertyChangeListener {
+	private static final String SET_BUY_PRICE_ACTION = "SetBuyPrice";
+	private static final String BUY_ACTION = "BuyPrivate";
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	JButton doSetPriceButton;
+	JButton doBuyButton;
+	Certificate certificate;
+	JPanel privatePanel;
+	ShareCompany shareCompany;
+	String operatingRoundID;
+	GameManager gameManager;
+	JTextField priceField;
+	JLabel corporationTreasuryLabel;
+	JLabel ownerTreasuryLabel;
+	JLabel frameLabel;
+	int shareTreasury, remainingTreasury;
+	
+	public BuyPrivateFrame (ShareCompany aShareCompany) {
+		super ("Buy Private Company");
+		
+		shareCompany = aShareCompany;
+		gameManager = shareCompany.getGameManager ();
+		privatePanel = new JPanel ();
+		privatePanel.add (Box.createVerticalStrut (10));
+		frameLabel = new JLabel ("Choose Buy Price");
+		frameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		privatePanel.add (frameLabel);
+		privatePanel.add (Box.createVerticalStrut (10));
+
+		priceField = new JTextField ();
+		priceField.setText ("0");
+		priceField.setColumns (3);
+		privatePanel.add (Box.createVerticalStrut (10));
+		privatePanel.add (priceField);
+		privatePanel.add (Box.createVerticalStrut (10));
+		
+		shareTreasury = shareCompany.getTreasury ();
+		corporationTreasuryLabel = new JLabel ("Corporation");
+		privatePanel.add (corporationTreasuryLabel);
+		
+		ownerTreasuryLabel = new JLabel ("Owner");
+		setOwnerTreasuryLabel ();
+		privatePanel.add (ownerTreasuryLabel);
+		privatePanel.add (Box.createVerticalStrut (10));
+		
+		doSetPriceButton = setActionButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
+		privatePanel.add (doSetPriceButton);
+		doBuyButton = setActionButton ("Buy Private", BUY_ACTION);
+		
+		privatePanel.add (doBuyButton);
+		setCorporationTreasuryLabel ();
+		
+		add (privatePanel);
+
+		pack ();
+		setSize (500, 150);
+		setVisible (false);
+	}
+	
+	private int getPrice () {
+		String tPrice;
+		int tGetPrice;
+		
+		tPrice = priceField.getText ();
+		if (tPrice.startsWith ("$")) {
+			tPrice = tPrice.substring (1);
+		}
+		tPrice = tPrice.trim ();
+		if (tPrice.equals ("")) {
+			tGetPrice = 0;
+		} else {
+			try {
+				tGetPrice = Integer.parseInt (tPrice);
+			} catch (NumberFormatException eNFE) {
+				tGetPrice = 0;
+				priceField.setText ("0");
+			}
+		}
+		
+		return tGetPrice;
+	}
+	
+	public void requestFocus () {
+		priceField.requestFocus ();
+	}
+	
+	private void setBuyButtonText () {
+		doBuyButton.setText ("Buy Private for " + Bank.formatCash (getPrice ()));
+	}
+	
+	private void setCorporationTreasuryLabel () {
+		remainingTreasury = shareTreasury - getPrice ();
+		corporationTreasuryLabel.setText (shareCompany.getName () + " will have " + 
+				Bank.formatCash (remainingTreasury) + " after purchase.\n");		
+	}
+	
+	public void setDefaultPrice () {
+		setPrice (certificate.getValue ());
+	}
+	
+	public void setOwnerTreasuryLabel () {
+		Player tPlayer;
+		CertificateHolderI tCertificateHolder;
+		String tTreasury = "No Owner";
+		int tPlayerCashAfter;
+		
+		if (certificate != Certificate.NO_CERTIFICATE) {
+			tCertificateHolder = certificate.getOwner ();
+			if (tCertificateHolder.isPlayer ()) {
+				tPlayer = (Player) tCertificateHolder.getPortfolioHolder ();
+				tPlayerCashAfter = tPlayer.getCash () + getPrice ();
+				tTreasury = tPlayer.getName () + " will have " + 
+						Bank.formatCash (tPlayerCashAfter) + " after purchase.\n";
+				
+			}
+		}
+		ownerTreasuryLabel.setText (tTreasury);
+	}
+	
+	public void setPrice (int aPrice) {
+		priceField.setText (aPrice + "");
+		setBuyButtonText ();
+	}
+	
+	public JButton setActionButton (String aButtonLabel, String aActionCommand) {
+		JButton tActionButton;
+		
+		tActionButton = new JButton (aButtonLabel);
+		tActionButton.setAlignmentX (CENTER_ALIGNMENT);
+		tActionButton.setActionCommand (aActionCommand);
+		tActionButton.addActionListener (this);
+		
+		return tActionButton;
+	}
+
+	public boolean isGoodPrice () {
+		boolean tGoodPrice;
+		int tPrice, tValue, tLowPrice, tHighPrice;
+
+		tPrice = getPrice ();
+		if (certificate == Certificate.NO_CERTIFICATE) {
+			tValue = 0;
+		} else {
+			tValue = certificate.getValue ();			
+		}
+		tLowPrice = tValue/2;
+		tHighPrice = tValue * 2;
+
+		tGoodPrice = true;
+		if (tPrice < tLowPrice) {
+			tGoodPrice = false;
+		} else if (tPrice > tHighPrice) {
+			tGoodPrice = false;
+		} else if (tPrice > shareTreasury) {
+			tGoodPrice = false;
+		}
+
+		return tGoodPrice;
+	}
+	
+	public String getReasonForBad () {
+		String tReasonForBad;
+		int tPrice, tValue, tLowPrice, tHighPrice;
+		
+		tPrice = getPrice ();
+		tValue = certificate.getValue ();
+		tLowPrice = tValue/2;
+		tHighPrice = tValue * 2;
+
+		tReasonForBad = "Ready for Purchase";
+		if (tPrice < tLowPrice) {
+			tReasonForBad = "Must choose price > " + (tLowPrice - 1);
+		} else if (tPrice > tHighPrice) {
+			tReasonForBad = "Must choose price < " + (tHighPrice + 1);
+		} else if (tPrice > shareTreasury) {
+			tReasonForBad = shareCompany.getName () + " only has " + Bank.formatCash (shareTreasury) + " to spend.";
+		}
+
+		return tReasonForBad;
+	}
+	
+	@Override
+	public void actionPerformed (ActionEvent e) {
+		boolean tGoodPrice;
+		String tReasonForBad;
+		String tActionCommand;
+		
+		tActionCommand = e.getActionCommand ();
+		if (tActionCommand == SET_BUY_PRICE_ACTION) {
+			tGoodPrice = isGoodPrice ();
+			tReasonForBad = getReasonForBad ();
+			setBuyButtonText ();
+			setCorporationTreasuryLabel ();
+			setOwnerTreasuryLabel ();
+			doBuyButton.setEnabled (tGoodPrice);
+			doBuyButton.setToolTipText (tReasonForBad);
+		}
+		if (tActionCommand == BUY_ACTION) {
+			buyPrivateCertificate ();
+			setVisible (false);
+		}
+	}
+
+	private void buyPrivateCertificate () {
+		CertificateHolderI tCertificateHolder;
+		Player tPlayer;
+		int tCashValue;
+		Portfolio tCompanyPortfolio, tPlayerPortfolio;
+		BuyStockAction tBuyStockAction;
+		CorporationFrame tCorporationFrame;
+		
+		if (certificate != Certificate.NO_CERTIFICATE) {
+			tCertificateHolder = certificate.getOwner ();
+			if (tCertificateHolder.isPlayer ()) {
+				tBuyStockAction = new BuyStockAction (ActorI.ActionStates.OperatingRound, 
+						operatingRoundID, shareCompany);
+				tCashValue = getPrice ();
+				tPlayer = (Player) (tCertificateHolder.getPortfolioHolder ());
+				shareCompany.transferCashTo (tPlayer, tCashValue);
+				tBuyStockAction.addCashTransferEffect (shareCompany, tPlayer, tCashValue);
+				tCompanyPortfolio = shareCompany.getPortfolio ();
+				tPlayerPortfolio = tPlayer.getPortfolio ();
+				doFinalShareBuySteps (tCompanyPortfolio, tPlayerPortfolio, certificate, tBuyStockAction);
+				tBuyStockAction.addBoughtShareEffect (shareCompany);
+				shareCompany.addAction (tBuyStockAction);
+				tCorporationFrame = shareCompany.getCorporationFrame ();
+				tCorporationFrame.updateInfo ();
+			}
+		}
+		
+	}
+	
+	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, 
+			Certificate aCertificate, BuyStockAction aBuyStockAction) {
+		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
+		PortfolioHolderI tFromHolder, tToHolder;
+		
+		tFromHolder = aFromPortfolio.getHolder ();
+		tToHolder = aToPortfolio.getHolder ();
+		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
+		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate,  tToHolder);
+		tCurrentCorporationStatus = aCertificate.getCorporationStatus ();
+		aCertificate.updateCorporationOwnership ();
+		tNewCorporationStatus = aCertificate.getCorporationStatus ();
+		if (tCurrentCorporationStatus != tNewCorporationStatus) {
+			aBuyStockAction.addStateChangeEffect (aCertificate.getCorporation (), 
+					tCurrentCorporationStatus, tNewCorporationStatus);
+		}
+	}
+
+	@Override
+	public void stateChanged (ChangeEvent e) {
+	    setCorporationTreasuryLabel ();
+	}
+	
+	public void propertyChange (PropertyChangeEvent e) {
+		setCorporationTreasuryLabel ();
+	}
+	
+	public void updateInfo (Certificate aCertificate) {
+		int tLowPrice, tHighPrice;
+		
+		certificate = aCertificate;
+		setDefaultPrice ();
+		tLowPrice = getPrice ()/2;
+		tHighPrice = getPrice () * 2;
+		shareTreasury = shareCompany.getTreasury ();
+		operatingRoundID = shareCompany.getOperatingRoundID ();
+		setCorporationTreasuryLabel ();
+		setOwnerTreasuryLabel ();
+		
+		frameLabel.setText (shareCompany.getPresidentName () + ", choose Buy Price for " + 
+				certificate.getCompanyAbbrev () + " from " + certificate.getOwnerName () + 
+				" Range [" + Bank.formatCash (tLowPrice) + " to " + Bank.formatCash (tHighPrice) + "]");
+	}
+}

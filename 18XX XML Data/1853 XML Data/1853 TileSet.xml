@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TileManifest game="1853" variant="Normal" direction="EW">
+	<TileSet color="Yellow">
+		<Tile number="1" quantity="2">
+			<Upgrade toNumber="88" rotations="1">
+				<RevenueCenter from="29" to="50" />
+				<RevenueCenter from="26" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="2" quantity="2">
+			<Upgrade toNumber="87" rotations="3">
+				<RevenueCenter from="6" to="50" />
+				<RevenueCenter from="14" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="3" quantity="10">
+			<Upgrade toNumber="87" rotations="1,2,3">
+				<RevenueCenter from="13" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="88" rotations="1,4">
+				<RevenueCenter from="13" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="4" quantity="14">
+			<Upgrade toNumber="87" rotations="0,3">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="88" rotations="0,1,3,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="5" quantity="4">
+			<Upgrade toNumber="12" rotations="0,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="14" rotations="2,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="15" rotations="3,4,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="90" rotations="0,1,2">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="92" rotations="1">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="93" rotations="1">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="94" rotations="0,1">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="95" rotations="1,2">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="96" rotations="5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="97" rotations="3">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="99" rotations="2,3">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="6" quantity="8">
+			<Upgrade toNumber="12" rotations="5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="13" rotations="0,2,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="14" rotations="1,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="15" rotations="1,2,3">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="90" rotations="0,1">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="93" rotations="2,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="94" rotations="2,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="95" rotations="2,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="98" rotations="0,2,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="7" quantity="4">
+			<Upgrade toNumber="18" rotations="4" />
+			<Upgrade toNumber="26" rotations="0" />
+			<Upgrade toNumber="27" rotations="5" />
+			<Upgrade toNumber="28" rotations="0" />
+			<Upgrade toNumber="29" rotations="5" />
+		</Tile>
+		<Tile number="8" quantity="14">
+			<Upgrade toNumber="16" rotations="0,5" />
+			<Upgrade toNumber="17" rotations="0,3" />
+			<Upgrade toNumber="19" rotations="5" />
+			<Upgrade toNumber="23" rotations="0" />
+			<Upgrade toNumber="24" rotations="4" />
+			<Upgrade toNumber="25" rotations="0,4" />
+			<Upgrade toNumber="28" rotations="0" />
+			<Upgrade toNumber="29" rotations="4" />
+		</Tile>
+		<Tile number="9" quantity="14">
+			<Upgrade toNumber="18" rotations="0,3" />
+			<Upgrade toNumber="19" rotations="0,3" />
+			<Upgrade toNumber="20" rotations="0,2,3,5" />
+			<Upgrade toNumber="23" rotations="0,3" />
+			<Upgrade toNumber="24" rotations="0,3" />
+			<Upgrade toNumber="26" rotations="0,3" />
+			<Upgrade toNumber="27" rotations="0,3" />
+		</Tile>
+		<Tile number="55" quantity="2">
+			<Upgrade toNumber="88" rotations="0,3">
+				<RevenueCenter from="6" to="50" />
+				<RevenueCenter from="8" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="56" quantity="2">
+			<Upgrade toNumber="87" rotations="3">
+				<RevenueCenter from="25" to="50" />
+				<RevenueCenter from="33" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="69" quantity="2" />
+		<Tile number="71" quantity="2" />
+		<Tile number="72" quantity="4">
+			<Upgrade toNumber="89" rotations="1,4">
+				<RevenueCenter from="13" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="73" quantity="6">
+			<Upgrade toNumber="89" rotations="1,4">
+				<RevenueCenter from="23" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="74" quantity="4">
+			<Upgrade toNumber="89" rotations="0,1,3,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="75" quantity="2">
+			<Upgrade toNumber="90" rotations="4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="91" rotations="1,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="92" rotations="3,4,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="96" rotations="3">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="97" rotations="5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="100" rotations="0,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="76" quantity="2">
+			<Upgrade toNumber="91" rotations="2,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="92" rotations="3,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="94" rotations="3">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="95" rotations="4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="100" rotations="5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="101" rotations="0,2,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="77" quantity="2">
+			<Upgrade toNumber="84" rotations="4,5" />
+			<Upgrade toNumber="85" rotations="3" />
+			<Upgrade toNumber="86" rotations="2" />
+		</Tile>
+		<Tile number="78" quantity="6">
+			<Upgrade toNumber="84" rotations="4" />
+			<Upgrade toNumber="85" rotations="4" />
+			<Upgrade toNumber="86" rotations="0" />
+		</Tile>
+		<Tile number="79" quantity="4">
+			<Upgrade toNumber="85" rotations="0,3" />
+			<Upgrade toNumber="86" rotations="0,3" />
+		</Tile>
+		<Tile number="113" quantity="2">
+			<Upgrade toNumber="90" rotations="4,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="91" rotations="1,2,4,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="92" rotations="0,3,4,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="93" rotations="0,3">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="94" rotations="3,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="95" rotations="0,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="96" rotations="3,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="97" rotations="0,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="98" rotations="3">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="99" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="100" rotations="0,1,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="101" rotations="0,2,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+	</TileSet>
+	<TileSet color="Green">
+		<Tile number="12" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="103" rotations="3">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="13" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="103" rotations="0,2,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="14" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="15" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="80" quantity="2">
+			<Upgrade toNumber="106" rotations="4" />
+			<Upgrade toNumber="108" rotations="2,3" />
+		</Tile>
+		<Tile number="81" quantity="2">
+			<Upgrade toNumber="106" rotations="0,2,4" />
+		</Tile>
+		<Tile number="82" quantity="4">
+			<Upgrade toNumber="106" rotations="0" />
+			<Upgrade toNumber="107" rotations="1,4" />
+			<Upgrade toNumber="108" rotations="0" />
+		</Tile>
+		<Tile number="83" quantity="4">
+			<Upgrade toNumber="106" rotations="0" />
+			<Upgrade toNumber="107" rotations="0,3" />
+			<Upgrade toNumber="108" rotations="3" />
+		</Tile>
+		<Tile number="84" quantity="2">
+			<Upgrade toNumber="106" rotations="4" />
+			<Upgrade toNumber="108" rotations="2,3" />
+		</Tile>
+		<Tile number="85" quantity="2">
+			<Upgrade toNumber="106" rotations="0" />
+			<Upgrade toNumber="107" rotations="0,3" />
+			<Upgrade toNumber="108" rotations="3" />
+		</Tile>
+		<Tile number="86" quantity="2">
+			<Upgrade toNumber="106" rotations="0" />
+			<Upgrade toNumber="107" rotations="1,4" />
+			<Upgrade toNumber="108" rotations="0" />
+		</Tile>
+		<Tile number="87" quantity="2" />
+		<Tile number="88" quantity="2" />
+		<Tile number="89" quantity="2" />
+		<Tile number="90" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="91" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="92" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="93" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="94" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="95" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="96" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="97" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="98" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="103" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="99" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="103" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="100" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="103" rotations="3">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="101" quantity="2">
+			<Upgrade toNumber="102" rotations="0">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+			<Upgrade toNumber="103" rotations="0,2,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+	</TileSet>
+	<TileSet color="Brown">
+		<Tile number="102" quantity="2" />
+		<Tile number="103" quantity="4">
+			<Upgrade toNumber="109" rotations="2,4">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="104" quantity="2">
+			<Upgrade toNumber="110" rotations="0">
+				<RevenueCenter from="40" to="40" />
+				<RevenueCenter from="41" to="41" />
+				<RevenueCenter from="42" to="42" />
+				<RevenueCenter from="43" to="43" />
+				<RevenueCenter from="44" to="44" />
+				<RevenueCenter from="45" to="45" />
+			</Upgrade>
+		</Tile>
+		<Tile number="105" quantity="2">
+			<Upgrade toNumber="111" rotations="2,5">
+				<RevenueCenter from="50" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="106" quantity="2">
+			<Upgrade toNumber="112" rotations="1,4" />
+		</Tile>
+		<Tile number="107" quantity="2">
+			<Upgrade toNumber="112" rotations="1,4" />
+		</Tile>
+		<Tile number="108" quantity="2" />
+	</TileSet>
+	<TileSet color="Grey">
+		<Tile number="109" quantity="2" />
+		<Tile number="110" quantity="1" />
+		<Tile number="111" quantity="2" />
+		<Tile number="112" quantity="2" />
+	</TileSet>
+	<TileSet color="Other">
+		<Tile number="9980" quantity="1">
+			<Upgrade toNumber="105" rotations="5">
+				<RevenueCenter from="8" to="50" />
+				<RevenueCenter from="10" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="9981" quantity="1">
+			<Upgrade toNumber="104" rotations="0">
+				<RevenueCenter from="7" to="41" />
+				<RevenueCenter from="9" to="43" />
+				<RevenueCenter from="11" to="45" />
+			</Upgrade>
+		</Tile>
+		<Tile number="9982" quantity="1">
+			<Upgrade toNumber="105" rotations="2">
+				<RevenueCenter from="7" to="50" />
+				<RevenueCenter from="11" to="50" />
+			</Upgrade>
+		</Tile>
+		<Tile number="9983" quantity="1">
+			<Upgrade toNumber="104" rotations="0">
+				<RevenueCenter from="7" to="41" />
+				<RevenueCenter from="9" to="43" />
+				<RevenueCenter from="11" to="45" />
+			</Upgrade>
+		</Tile>
+	</TileSet>
+</TileManifest>

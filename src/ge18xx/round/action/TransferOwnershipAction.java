@@ -1,0 +1,149 @@
+package ge18xx.round.action;
+
+import ge18xx.bank.Bank;
+import ge18xx.company.Certificate;
+import ge18xx.company.Corporation;
+import ge18xx.game.GameManager;
+import ge18xx.round.action.effects.CloseCorporationEffect;
+import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.TransferOwnershipEffect;
+import ge18xx.utilities.XMLNode;
+
+public class TransferOwnershipAction extends CashTransferAction {
+	public final static String NAME = "Transfer Ownership";
+	
+	public TransferOwnershipAction () {
+		this (NAME);
+	}
+
+	public TransferOwnershipAction (String aName) {
+		super (aName);
+	}
+	
+	public TransferOwnershipAction (ActorI.ActionStates aRoundType, String aRoundID,
+			ActorI aActor) {
+		super (aRoundType, aRoundID, aActor);
+		setName (NAME);
+	}
+	
+	public TransferOwnershipAction (XMLNode aActionNode, GameManager aGameManager) {
+		super (aActionNode, aGameManager);
+		setName (NAME);
+	}
+	
+	public void addCloseCorporationEffect (Corporation aCorporation, ActorI.ActionStates aOldState, ActorI.ActionStates aNewState) {
+		CloseCorporationEffect tCloseCorporationEffect;
+		
+		tCloseCorporationEffect = new CloseCorporationEffect (aCorporation, aOldState, aNewState);
+		addEffect (tCloseCorporationEffect);
+	}
+
+	public void addTransferOwnershipEffect (ActorI afromActor, Certificate aCertificate, ActorI aToActor) {
+		TransferOwnershipEffect tTransferOwnershipEffect;
+		
+		tTransferOwnershipEffect = new TransferOwnershipEffect (afromActor, aCertificate, aToActor);
+		addEffect (tTransferOwnershipEffect);
+	}
+	
+	public String getCompanyAbbrev () {
+		String tCompanyAbbrev = "";
+		
+		for (Effect tEffect : effects) {
+			if (tCompanyAbbrev.equals ("")) {
+				if (tEffect instanceof TransferOwnershipEffect) {
+					tCompanyAbbrev = ((TransferOwnershipEffect) tEffect).getCompanyAbbrev ();
+				}
+			}
+		}
+		
+		return tCompanyAbbrev;
+	}
+	
+	protected int getShareCountTransferred () {
+		int tShareCountTransferred = 0;
+		
+		for (Effect tEffect : effects) {
+			if (tEffect instanceof TransferOwnershipEffect) {
+				tShareCountTransferred++;
+			}
+		}
+		
+		return tShareCountTransferred;
+	}
+	
+	protected int getSharePercentageTransferred () {
+		int tSharePercentage = 0;
+		Certificate tCertificate;
+		
+		for (Effect tEffect : effects) {
+			if (tEffect instanceof TransferOwnershipEffect) {
+				tCertificate = ((TransferOwnershipEffect) tEffect).getCertificate ();
+				tSharePercentage += tCertificate.getPercentage ();
+			}
+		}
+		
+		return tSharePercentage;
+	}
+	
+	protected boolean isPresidentTransferred () {
+		boolean tIsPresident = false;
+		Certificate tCertificate;
+		
+		for (Effect tEffect : effects) {
+			if ((tEffect instanceof TransferOwnershipEffect) && (! tIsPresident)) {
+				tCertificate = ((TransferOwnershipEffect) tEffect).getCertificate ();
+				tIsPresident = tCertificate.isPresidentShare ();
+			}
+		}
+		
+		return tIsPresident;
+	}
+	
+	protected boolean isPrivateTransferred () {
+		boolean tIsPrivateTransferred = false;
+		Certificate tCertificate;
+		
+		for (Effect tEffect : effects) {
+			if ((tEffect instanceof TransferOwnershipEffect) && (! tIsPrivateTransferred)) {
+				tCertificate = ((TransferOwnershipEffect) tEffect).getCertificate ();
+				tIsPrivateTransferred = tCertificate.isPrivateCompany ();
+			}
+		}
+		
+		return tIsPrivateTransferred;
+	}
+	
+	protected String getBuySaleSimpleReport (String aVerb1, String aVerb2) {
+		String tShareCountTransferred, tSimpleActionReport;
+		int tCount, tTotalPrice, tSharePrice, tSharePercentage;
+		boolean tIsPresident, tIsPrivate;
+		String tFullShareDescription, tPrice;
+		
+		tCount = getShareCountTransferred ();
+		tSharePercentage = getSharePercentageTransferred ();
+		tShareCountTransferred = tCount + " Share";
+		if (tCount > 1) {
+			tShareCountTransferred += "s";
+		}
+		tTotalPrice = getCashAmount ();
+		tSharePrice = (10 * tTotalPrice)/tSharePercentage;
+		tIsPresident = isPresidentTransferred ();
+		tIsPrivate = isPrivateTransferred ();
+		if (tIsPrivate) {
+			tFullShareDescription = "the Private Company " + getCompanyAbbrev () + ".";
+			tPrice = " Total " + aVerb2 + " price of " + Bank.formatCash (tTotalPrice) + ".";
+		} else {
+			tFullShareDescription = tShareCountTransferred + " (" + tSharePercentage + "%) of " + getCompanyAbbrev ();
+			if (tIsPresident) {
+				tFullShareDescription += " (President Share)";
+			}
+			tPrice = " for " + Bank.formatCash (tSharePrice) + " per share." +
+					" Total " + aVerb2 + " price of " + Bank.formatCash (tTotalPrice) + ".";
+		}
+		
+		tSimpleActionReport = actor.getName () + " " + aVerb1 + " " + 
+				tFullShareDescription + tPrice;
+		
+		return tSimpleActionReport;
+	}
+}
