@@ -58,6 +58,8 @@ import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.File18XXFilter;
+import ge18xx.utilities.FileUtils;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -76,6 +78,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final PlayerManager NO_PLAYER_MANAGER = null;
 	public static final PhaseManager NO_PHASE_MANAGER = null;
 	public static final ElementName EN_CONFIG = new ElementName ("Config");
+	public static final ElementName EN_SAVEGAMEDIR = new ElementName ("SaveGameDir");
 	public static final ElementName EN_GAME = new ElementName ("Game");
 	public static final ElementName EN_FRAMES = new ElementName ("Frames");
 	public static final AttributeName AN_GAME_NAME = new AttributeName ("gameName");
@@ -928,10 +931,54 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
+	private File getSelectedFile (File aDirectory, JFileChooser aChooser, boolean aSaveFile) {
+		File tSelectedFile = null;
+		File18XXFilter tFileFilter = new File18XXFilter ();
+		int tResult;
+		boolean tNotChosenYet = true;
+		File tDirectory = aDirectory;
+		
+		aChooser.addChoosableFileFilter (tFileFilter);
+		aChooser.setAcceptAllFileFilterUsed (true);
+		aChooser.setFileSelectionMode (JFileChooser.FILES_AND_DIRECTORIES);
+		
+		while (tNotChosenYet) {
+			aChooser.setCurrentDirectory (tDirectory);
+			if (aSaveFile) {
+				tResult = chooser.showSaveDialog (this);
+			} else {
+				tResult = chooser.showOpenDialog (this);
+			}
+			if (tResult == JFileChooser.APPROVE_OPTION) {
+				tSelectedFile = chooser.getSelectedFile ();
+				if (tSelectedFile.isDirectory ()) {
+					tDirectory = tSelectedFile;
+				} else {
+					tNotChosenYet = false;
+				}
+			} else {
+				tSelectedFile = null;
+				tNotChosenYet = false;
+			}
+		}
+		
+		return tSelectedFile;
+	}
+	
 	public void loadSavedGame () {
+		File tSaveDirectory; 
+		
+		File18XXFilter tFileFilter = new File18XXFilter ();
 		chooser = new JFileChooser ();
-		chooser.showOpenDialog (this);
-		saveFile = chooser.getSelectedFile ();
+		chooser.setDialogTitle ("Find Saved Game File to Load");
+		tSaveDirectory = new File (configData.getSaveGameDirectory ());
+		chooser.setCurrentDirectory (tSaveDirectory);
+		chooser.addChoosableFileFilter (tFileFilter);
+		chooser.setAcceptAllFileFilterUsed (true);
+		chooser.setFileSelectionMode (JFileChooser.FILES_AND_DIRECTORIES);
+		saveFile = getSelectedFile (tSaveDirectory, chooser, false);
+		tSaveDirectory = chooser.getCurrentDirectory ();
+		configData.setSaveGameDirectory (tSaveDirectory.getAbsolutePath ());
 		List<ActionStates> auctionStates;
 		
 		if (saveFile != null) {
@@ -1088,7 +1135,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 		
-		roundManager.updateRoundFrame ();
+		if (roundManager != null) {
+			roundManager.updateRoundFrame ();
+		}
 		
 		return tLoadedSaveGame;
 	}
@@ -1218,10 +1267,27 @@ public class GameManager extends Component implements NetworkGameSupport {
 			saveGame ();
 			setGameChanged (false);
 		} else {
+			
+			File tSaveDirectory; 
+			String tFileName;
+			tSaveDirectory = new File (configData.getSaveGameDirectory());
+			File18XXFilter tFileFilter = new File18XXFilter ();
 			chooser = new JFileChooser ();
-			chooser.showSaveDialog (this);
-			saveFile = chooser.getSelectedFile ();
+			chooser.setDialogTitle ("Save 18XX Game File");
+			chooser.setCurrentDirectory (tSaveDirectory);
+			chooser.addChoosableFileFilter (tFileFilter);
+			chooser.setAcceptAllFileFilterUsed (true);
+			chooser.setFileSelectionMode (JFileChooser.FILES_AND_DIRECTORIES);
+			chooser.setSelectedFile (new File("SaveGame." + FileUtils.xml));
+			saveFile = getSelectedFile (tSaveDirectory, chooser, true);
+			tSaveDirectory = chooser.getCurrentDirectory ();
+			configData.setSaveGameDirectory (tSaveDirectory.getAbsolutePath ());
+			
 			if (saveFile != null) {
+				tFileName = saveFile.getName ();
+				if (! tFileName.endsWith (FileUtils.xml)) {
+					saveFile = new File (saveFile.getAbsoluteFile() + "." + FileUtils.xml);
+				}
 				/* Once a Game has been saved, can enable the Save Menu Item */
 				saveGame ();
 				setGameChanged (false);
@@ -1747,13 +1813,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public XMLDocument createNewConfigDocument () {
-		XMLElement tConfigElement, tFramesElement, tFrameElement;
+		XMLElement tConfigElement, tFramesElement, tFrameElement, tSaveGameDirElement;
 		XMLDocument tXMLDocument;
 		int tGameCount, tGameIndex;
 		String tGameName;
 		
 		tXMLDocument = new XMLDocument ();
 		tConfigElement = tXMLDocument.createElement(EN_CONFIG);
+		
+		tSaveGameDirElement = tXMLDocument.createElement(EN_SAVEGAMEDIR);
+		tSaveGameDirElement.setAttribute(AN_NAME, configData.getSaveGameDirectory ());
+		tConfigElement.appendChild (tSaveGameDirElement);
 		
 		tFramesElement = tXMLDocument.createElement (EN_FRAMES);
 		tFramesElement.setAttribute (AN_GAME_NAME, activeGame.getName ());

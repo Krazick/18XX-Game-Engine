@@ -16,11 +16,13 @@ public class Config {
 	public static final ElementName EN_FRAMES = new ElementName ("Frames");
 	public static final GameFrameConfig NO_GAME_FRAME = null;
 	ArrayList<GameFrameConfig> gameFrames;
+	String saveGameDirectory;
 	GameManager gameManager;
 
 	public Config (GameManager aGameManager) {
 		gameManager = aGameManager;	
 		gameFrames = new ArrayList<GameFrameConfig> ();
+		setSaveGameDirectory ("");
 	}
 	
 	public Config (XMLNode aConfigNode, GameManager aGameManager) {
@@ -28,6 +30,7 @@ public class Config {
 		XMLNode tChildNode;
 		int tNodeCount, tNodeIndex;
 		GameFrameConfig tGameFrameConfig;
+		String tSaveGameDirName;
 		
 		gameManager = aGameManager;
 		tChildren = aConfigNode.getChildNodes ();
@@ -39,12 +42,23 @@ public class Config {
 				if (EN_FRAMES.equals (tChildNode.getNodeName ())) {
 					tGameFrameConfig = new GameFrameConfig (tChildNode);
 					gameFrames.add (tGameFrameConfig);
+				} else if (GameManager.EN_SAVEGAMEDIR.equals(tChildNode.getNodeName ())) {
+					tSaveGameDirName = tChildNode.getThisAttribute(GameManager.AN_NAME);
+					setSaveGameDirectory (tSaveGameDirName);
 				}
 			}
 		} catch (Exception tException) {
 			System.out.println ("Caught Exception with message ");
 			tException.printStackTrace ();
 		}
+	}
+	
+	public String getSaveGameDirectory () {
+		return saveGameDirectory;
+	}
+	
+	public void setSaveGameDirectory (String aSaveGameDirectory) {
+		saveGameDirectory = aSaveGameDirectory;
 	}
 	
 	public int getGameFramesCount () {
