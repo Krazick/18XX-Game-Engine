@@ -202,52 +202,54 @@ public class CorporationFrame extends JFrame implements ActionListener, ItemList
 	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
+		String tActionCommand;
 		
-		if (SHOW_MAP.equals (aEvent.getActionCommand ())) {
+		tActionCommand = aEvent.getActionCommand ();
+		if (SHOW_MAP.equals (tActionCommand)) {
 			corporation.showMap ();
 		}
-		if (PLACE_TILE.equals (aEvent.getActionCommand ())) {
+		if (PLACE_TILE.equals (tActionCommand)) {
 			corporation.showMap ();
 			corporation.showTileTray ();
 			corporation.enterPlaceTileMode ();	
 		}
-		if (PLACE_TOKEN.equals (aEvent.getActionCommand ())) {
+		if (PLACE_TOKEN.equals (tActionCommand)) {
 			corporation.showMap ();
 			corporation.enterPlaceTokenMode ();
 		}
-		if (OPERATE_TRAIN.equals (aEvent.getActionCommand ())) {
+		if (OPERATE_TRAIN.equals (tActionCommand)) {
 			corporation.showMap ();
 			corporation.operateTrains ();
 		}
-		if (PAY_NO_DIVIDEND.equals (aEvent.getActionCommand ())) {
+		if (PAY_NO_DIVIDEND.equals (tActionCommand)) {
 			corporation.payNoDividend ();
 		}
-		if (PAY_HALF_DIVIDEND.equals (aEvent.getActionCommand ())) {
+		if (PAY_HALF_DIVIDEND.equals (tActionCommand)) {
 			System.out.println ("Pay Half Dividend Action");
 //			corporation.payHalfDividend ();
 		}
-		if (PAY_FULL_DIVIDEND.equals (aEvent.getActionCommand ())) {
+		if (PAY_FULL_DIVIDEND.equals (tActionCommand)) {
 			corporation.payFullDividend ();
 		}
-		if (BUY_TRAIN.equals (aEvent.getActionCommand ())) {
+		if (BUY_TRAIN.equals (tActionCommand)) {
 			corporation.buyTrain ();
 		}
-		if (FORCE_BUY_TRAIN.equals (aEvent.getActionCommand ())) {
+		if (FORCE_BUY_TRAIN.equals (tActionCommand)) {
 			corporation.forceBuyTrain ();
 		}
-		if (BUY_PRIVATE.equals (aEvent.getActionCommand ())) {
+		if (BUY_PRIVATE.equals (tActionCommand)) {
 			corporation.buyPrivate ();
 		}
-		if (GET_LOAN.equals (aEvent.getActionCommand ())) {
+		if (GET_LOAN.equals (tActionCommand)) {
 			corporation.getLoan ();
 		}
-		if (PAYBACK_LOAN.equals (aEvent.getActionCommand ())) {
+		if (PAYBACK_LOAN.equals (tActionCommand)) {
 			corporation.paybackLoan ();
 		}
-		if (DONE.equals (aEvent.getActionCommand ())) {
+		if (DONE.equals (tActionCommand)) {
 			corporation.doneAction ();	
 		}
-		if (UNDO.equals (aEvent.getActionCommand ())) {
+		if (UNDO.equals (tActionCommand)) {
 			System.out.println ("Undo Last Action");
 			corporation.clearBankSelections ();
 			corporation.undoAction ();
