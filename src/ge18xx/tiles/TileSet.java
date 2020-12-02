@@ -265,8 +265,13 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		tXMLNodeList.parseXMLNodeList (aManifestNode, EN_TILE);
 	}
 	
-    public void mouseClicked (MouseEvent e) {
-		Point tPoint = e.getPoint ();
+	public void mouseClicked (MouseEvent e) {
+		handleClick (e);
+	}
+	
+	public void handleClick (MouseEvent aMouseEvent) {
+
+		Point tPoint = aMouseEvent.getPoint ();
 		GameTile tGameTile = getTileContainingPoint (tPoint);
 		GameTile tRotateGameTile;
 		GameTile tPreviousGameTile;
@@ -312,8 +317,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	 * 
 	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
 	 */
-	public void mouseMoved (MouseEvent arg0)
-	{
+	public void mouseMoved (MouseEvent arg0) {
 		GameTile tGameTile;
 		
 		Point point = arg0.getPoint();
@@ -331,7 +335,9 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	
     public void mousePressed (MouseEvent e) {}
 	
-    public void mouseReleased (MouseEvent e) {}
+    public void mouseReleased (MouseEvent e) {
+    	handleClick (e);
+    }
 	
     public boolean showThisTile (Tile tTile) {
     	boolean tShowThisTile = true;

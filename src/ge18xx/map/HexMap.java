@@ -877,8 +877,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	 * 
 	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
 	 */
-	public void mouseMoved (MouseEvent arg0)
-	{
+	public void mouseMoved (MouseEvent arg0) {
 		MapCell tMapCell;
 		
 		Point tPoint = arg0.getPoint();
@@ -891,24 +890,25 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 	
     public void mouseClicked (MouseEvent e) {
-		Point tPoint;
-		MapCell tSelectedMapCell;
-		MapCell tPreviousSelectedMapCell;
-		
-		tPoint = e.getPoint ();
-		tSelectedMapCell = getMapCellContainingPoint (tPoint);
-		tPreviousSelectedMapCell = getSelectedMapCell ();
-		if (singleMapCellSelect) {
-			handleSingleMapCellSelect (tSelectedMapCell, tPreviousSelectedMapCell);
-		} else {
-			if (selectRevenueCenter) {
-				handleSelectRevenueCenter (tSelectedMapCell, tPreviousSelectedMapCell, tPoint);
-			} else {
-				toggleSelectedMapCell (tSelectedMapCell);
-			}
-		}
-		
-		redrawMap ();
+    	handleClick (e);
+//		Point tPoint;
+//		MapCell tSelectedMapCell;
+//		MapCell tPreviousSelectedMapCell;
+//		
+//		tPoint = e.getPoint ();
+//		tSelectedMapCell = getMapCellContainingPoint (tPoint);
+//		tPreviousSelectedMapCell = getSelectedMapCell ();
+//		if (singleMapCellSelect) {
+//			handleSingleMapCellSelect (tSelectedMapCell, tPreviousSelectedMapCell);
+//		} else {
+//			if (selectRevenueCenter) {
+//				handleSelectRevenueCenter (tSelectedMapCell, tPreviousSelectedMapCell, tPoint);
+//			} else {
+//				toggleSelectedMapCell (tSelectedMapCell);
+//			}
+//		}
+//		
+//		redrawMap ();
 	}
 	
 	public void redrawMap () {
@@ -922,8 +922,32 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	
     public void mousePressed (MouseEvent e) {}
 	
-    public void mouseReleased (MouseEvent e) {}
+    public void mouseReleased (MouseEvent e) {
+    	handleClick (e);
+    }
 	
+    public void handleClick (MouseEvent aMouseEvent) {
+		Point tPoint;
+		MapCell tSelectedMapCell;
+		MapCell tPreviousSelectedMapCell;
+		
+		tPoint = aMouseEvent.getPoint ();
+		tSelectedMapCell = getMapCellContainingPoint (tPoint);
+		tPreviousSelectedMapCell = getSelectedMapCell ();
+		if (singleMapCellSelect) {
+			handleSingleMapCellSelect (tSelectedMapCell, tPreviousSelectedMapCell);
+		} else {
+			if (selectRevenueCenter) {
+				handleSelectRevenueCenter (tSelectedMapCell, tPreviousSelectedMapCell, tPoint);
+			} else {
+				toggleSelectedMapCell (tSelectedMapCell);
+			}
+		}
+		
+		redrawMap ();
+
+    }
+    
 	public void paintComponent (Graphics g) {
         int rowIndex, colIndex;
 		int rowCount;
