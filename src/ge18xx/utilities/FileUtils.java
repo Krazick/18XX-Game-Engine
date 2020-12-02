@@ -14,7 +14,7 @@ public class FileUtils {
 	    String s = aFile.getName ();
 	    int i = s.lastIndexOf ('.' + ext18xx);
 	
-	    if (i > 0 &&  i < s.length () - 1) {
+	    if ((i > 0) &&  (i < s.length () - 1)) {
 	        tExtension = s.substring (i + 1).toLowerCase ();
 	    }
 	    

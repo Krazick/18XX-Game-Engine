@@ -909,7 +909,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (isNetworkGame ()) {
 			tAutoSaveFileName += ".network";
 		}
-		tAutoSaveFileName += ".save";
+		tAutoSaveFileName += ".save" + FileUtils.xml;
 		
 		return tAutoSaveFileName;
 	}
@@ -966,22 +966,23 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public void loadSavedGame () {
-		File tSaveDirectory; 
+		File tSaveDirectory, tNewSaveDirectory; 
 		
-		File18XXFilter tFileFilter = new File18XXFilter ();
 		chooser = new JFileChooser ();
 		chooser.setDialogTitle ("Find Saved Game File to Load");
 		tSaveDirectory = new File (configData.getSaveGameDirectory ());
 		chooser.setCurrentDirectory (tSaveDirectory);
-		chooser.addChoosableFileFilter (tFileFilter);
 		chooser.setAcceptAllFileFilterUsed (true);
 		chooser.setFileSelectionMode (JFileChooser.FILES_AND_DIRECTORIES);
 		saveFile = getSelectedFile (tSaveDirectory, chooser, false);
-		tSaveDirectory = chooser.getCurrentDirectory ();
-		configData.setSaveGameDirectory (tSaveDirectory.getAbsolutePath ());
-		List<ActionStates> auctionStates;
 		
 		if (saveFile != null) {
+			tNewSaveDirectory = chooser.getCurrentDirectory ();
+			if (!tSaveDirectory.equals (tNewSaveDirectory)) {
+				configData.setSaveGameDirectory (tSaveDirectory.getAbsolutePath ());
+			}
+			List<ActionStates> auctionStates;
+		
 			setNotifyNetwork (false);
 			if (loadXMLFile (saveFile)) {
 				/* Once a Game has been loaded, can enable both Save and Save As Menu Items */
