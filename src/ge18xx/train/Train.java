@@ -58,6 +58,8 @@ public class Train implements Comparable<Object> {
 	TrainInfo trainInfo;
 	JCheckBox actionCheckbox;
 	JLabel costLabel;
+	RouteInformation currentRouteInformation;
+	RouteInformation previousRouteInformation;
 	
 	public Train () {
 		Gauge no_gauge = new Gauge ();
@@ -80,6 +82,19 @@ public class Train implements Comparable<Object> {
 		setTrainInfo (aTrain.getTrainInfo ());
 	}
 
+	public void addRouteInformation (RouteInformation aRouteInformation) {
+		previousRouteInformation = currentRouteInformation;
+		currentRouteInformation = aRouteInformation;
+	}
+	
+	public RouteInformation getCurrentRouteInformation () {
+		return currentRouteInformation;
+	}
+	
+	public RouteInformation getPreviousRouteInformation () {
+		return previousRouteInformation;
+	}
+	
 	public JPanel buildCertificateInfoPanel () {
 		JPanel tCertificateInfoPanel;
 		BoxLayout tCertInfoLayout;
@@ -396,6 +411,8 @@ public class Train implements Comparable<Object> {
 		setPrice (aPrice);
 		setStatus (NOT_AVAILABLE);
 		setTrainInfo (NO_TRAIN_INFO);
+		currentRouteInformation = RouteInformation.NO_ROUTE_INFORMATION;
+		previousRouteInformation = RouteInformation.NO_ROUTE_INFORMATION;
 	}
 	
 	public boolean willRustAfterNextOR () {
