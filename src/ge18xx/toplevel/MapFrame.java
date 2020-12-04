@@ -25,9 +25,13 @@ import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.map.Terrain;
+import ge18xx.phase.PhaseInfo;
 import ge18xx.tiles.GameTile;
+import ge18xx.tiles.Gauge;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
+import ge18xx.train.RouteInformation;
+import ge18xx.train.RouteSegment;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
@@ -78,6 +82,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	Container allButtonContainers;
 	JScrollPane scrollPane;
 	GameManager gameManager;
+	RouteInformation routeInformation;
 //	private String CANCEL_SELECT_MODE = "Cancel Select";
 //	private String CANCEL_TILE_MODE = "Cancel Tile";
 	private String CANCEL_TOKEN_MODE = "CancelToken";
@@ -199,17 +204,21 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		map.clearAllSelected ();
 	}
 
+	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
+		toggleSelectRouteMode ();
+		routeInformation = aRouteInformation;
+	}
+	
 	public void toggleSelectRouteMode () {
-		setModes (false, false, ! selectRouteMode);
-		setPlaceTileMode (false);
-		setPlaceTokenMode (false);
+		setSelectRouteMode (! selectRouteMode);
 		if (selectRouteMode) {
-			System.out.print ("Exit ");
+			System.out.print ("*** Entered ");
 		} else {
-			System.out.print ("Enter ");
+			System.out.print ("=== Exited ");
 		}
-		System.out.println ("Select Route Mode");
+		selectRouteButton.setEnabled (selectRouteMode);
 		map.clearAllSelected ();
+		System.out.println ("Select Route Mode. Revenue Center " + map.getSelectRevenueCenter() + " Track " + map.getSelectTrackSegment());
 	}
 	
 	public void actionPerformed (ActionEvent e) {
@@ -387,6 +396,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	
 	public boolean isPlaceTileMode () {
 		return placeTileMode;
+	}
+	
+	public  boolean isSelectRouteMode () {
+		return selectRouteMode;
 	}
 	
 	public void loadMapStates (XMLNode aMapNode) {
@@ -702,6 +715,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		} else {
 			selectRouteButton.setText ("Enter Select Route Mode");
 		}
+		System.out.println ("Ready to set Track and Revenue Modes to " + aMode);
+		
+		map.setSelectTrackSegment (aMode);
+		map.setSelectRevenueCenter (aMode);
 	}
 
 	public void setTileSet (TileSet aTileSet) {
@@ -779,5 +796,33 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	
 	public void sendToReportFrame (String aReport) {
 		shareCos.sendToReportFrame (aReport);
+	}
+
+	public void handleSelectedRouteRC (MapCell aSelectedMapCell, City aSelectedCity) {
+		RouteSegment tRouteSegment;
+		boolean tCorpStation, tOpenStation;
+		int tRevenue, tBonus;
+		Gauge tGauge;
+		Corporation tCorporation = getOperatingCompany ();
+		int tCorpID;
+		int tPhase;
+		
+		tCorpID = tCorporation.getID ();
+		tPhase = gameManager.getCurrentPhase ();
+		tRouteSegment = new RouteSegment (aSelectedMapCell);
+		tCorpStation = aSelectedCity.cityHasStation (tCorpID);
+		tOpenStation = aSelectedCity.isOpen ();
+		tRevenue = aSelectedCity.getRevenue (tPhase);
+		
+		tBonus = 0;		// TODO: If Selected City has Cattle, Port, etc that will add a Bonus, put that here
+		tGauge = new Gauge (Gauge.NORMAL_GAUGE);	// TODO: For 1853, and others with different Gauges, 
+													// find the Selected Gauge from the Tile.
+				
+		// setStartSegment (Location aStartLocation, boolean aCorpStation, boolean aOpenStation, int aRevenue, 
+		//					int aBonus, Gauge aGauge
+		
+		tRouteSegment.setStartSegment (aSelectedCity.getLocation(), tCorpStation, tOpenStation, tRevenue, tBonus, tGauge);
+		System.out.println ("In Select Route Mode, City is Selected - Add to Route. " + aSelectedCity.isCity () + 
+				", Corp Station " + tCorpStation + ", Open Station " + tOpenStation + ", Revenue " + tRevenue);
 	}
 }

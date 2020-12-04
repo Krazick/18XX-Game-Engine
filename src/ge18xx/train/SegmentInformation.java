@@ -64,4 +64,16 @@ public class SegmentInformation {
 	private void setLocation (Location aLocation) {
 		location = aLocation;
 	}
+
+	public boolean isValid () {
+		boolean tIsValid = false;
+		
+		if (location != null) {
+			if (location.getLocation() != Location.NO_LOCATION) {
+				tIsValid = true;
+			}
+		}
+		
+		return tIsValid;
+	}
 }

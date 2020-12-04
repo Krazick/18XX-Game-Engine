@@ -1169,4 +1169,10 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 		return tTokenToolTip;
 	}
 
+	@Override
+	public boolean isOpen () {
+	
+		return (getFreeStationCount () > 0);
+	}
+
 }

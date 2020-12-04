@@ -12,9 +12,11 @@ public class RouteSegment {
 	SegmentInformation end;
 	int cost;					// For Ferry/Tunnel/Bridge Fee
 	
-	RouteSegment (MapCell aMapCell) {
+	public RouteSegment (MapCell aMapCell) {
 		setMapCell (aMapCell);
 		setCost (0);
+		setStartSegment (new Location ());
+		setEndSegment (new Location ());
 	}
 	
 	private void setMapCell (MapCell aMapCell) {
@@ -25,8 +27,22 @@ public class RouteSegment {
 		return mapCell;
 	}
 	
+	public boolean validSegment () {
+		return (start.isValid () && end.isValid ());
+	}
+	
 	public void setStartSegment (Location aStartLocation) {
 		start = new SegmentInformation (aStartLocation, false, false, 0, 0, NORMAL_GAUGE);
+	}
+	
+	public void setStartSegment (Location aStartLocation, boolean aCorpStation, boolean aOpenStation, int aRevenue, 
+				int aBonus, Gauge aGauge) {
+		start = new SegmentInformation (aStartLocation, aCorpStation, aOpenStation, aRevenue, aBonus, aGauge);
+	}
+	
+	public void setEndSegment (Location aEndLocation, boolean aCorpStation, boolean aOpenStation, int aRevenue, 
+			int aBonus, Gauge aGauge) {
+		end = new SegmentInformation (aEndLocation, aCorpStation, aOpenStation, aRevenue, aBonus, aGauge);
 	}
 	
 	public void setEndSegment (Location aEndLocation) {

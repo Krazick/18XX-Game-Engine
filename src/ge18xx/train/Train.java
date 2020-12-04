@@ -83,8 +83,16 @@ public class Train implements Comparable<Object> {
 	}
 
 	public void addRouteInformation (RouteInformation aRouteInformation) {
-		previousRouteInformation = currentRouteInformation;
+		setPreviousRouiteInformation (currentRouteInformation);
+		setCurrentRouteInformation  (aRouteInformation);
+	}
+	
+	public void setCurrentRouteInformation (RouteInformation aRouteInformation) {
 		currentRouteInformation = aRouteInformation;
+	}
+	
+	public void setPreviousRouiteInformation (RouteInformation aRouteInformation) {
+		previousRouteInformation = aRouteInformation;
 	}
 	
 	public RouteInformation getCurrentRouteInformation () {

@@ -54,6 +54,7 @@ import ge18xx.toplevel.ShareCompaniesFrame;
 import ge18xx.toplevel.TileDefinitionFrame;
 import ge18xx.toplevel.TileTrayFrame;
 import ge18xx.toplevel.XMLFrame;
+import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import ge18xx.utilities.AttributeName;
@@ -455,8 +456,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		mapFrame.togglePlaceTokenMode ();
 	}
 
-	public void enterSelectRouteMode () {
-		mapFrame.toggleSelectRouteMode ();
+	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
+		mapFrame.enterSelectRouteMode (aRouteInformation);
 	}
 	
 	public void fullOwnershipAdjustment () {
@@ -1916,5 +1917,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (networkJGameClient != null) {
 			networkJGameClient.setVisible (true);
 		}
+	}
+
+	public int getCurrentPhase () {
+		return phaseManager.getCurrentPhase ();
 	}
 }

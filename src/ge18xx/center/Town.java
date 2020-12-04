@@ -114,4 +114,10 @@ public class Town extends RevenueCenter {
 		g.setColor (Color.black);
 		drawValue (g, Xc, Yc, aHex, aTileOrient);
 	}
+	
+	@Override
+	public boolean isOpen() {
+		return true;
+	}
+
 }

@@ -35,6 +35,7 @@ import ge18xx.round.action.DoneAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.tiles.Tile;
+import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
@@ -1762,5 +1763,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		}
 		
 		return tHomeMapCellHasTile;
+	}
+
+	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
+//		Overriden in Train Company Class
+		
 	}
 }

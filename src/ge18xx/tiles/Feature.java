@@ -98,4 +98,8 @@ public class Feature implements Cloneable {
 	public void setLocation (int aLocation) {
 		location = new Location (aLocation);
 	}
+
+	public boolean isOpen() {
+		return false;
+	}
 }

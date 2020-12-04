@@ -3,6 +3,7 @@ package ge18xx.train;
 import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.HeadlessException;
@@ -31,14 +32,21 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	private static final long serialVersionUID = 1L;
 	private static final String CONFIRM_ACTION = "DoConfirmAction";
 	private static final String CANCEL_ACTION = "DoCancelAction";
+	private static final String ROUTE_ACTION = "DoRouteAction";
 	String LAST_REVENUE = "Last Round Revenue ";
 	String THIS_REVENUE = "This Round Revenue ";
+	String SELECT_ROUTE = "Select Route";
+	String CONFIRM_REVENUE = "Confirm Revenue";
+	String CANCEL = "Cancel";
+	int maxTrainCount = 5;
+	int maxStops = 15;
 	TrainCompany trainCompany;
 	JLabel title;
 	JLabel lastRevenue;
 	JLabel thisRevenue;
 	JButton confirm;
 	JButton cancel;
+	JButton [] selectRoutes;
 	JPanel allFramePanel;
 	Box allRevenuesBox;
 	JPanel buttonsPanel;
@@ -76,22 +84,37 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		allFramePanel.add (Box.createVerticalStrut (10));
 		
 		buttonsPanel = new JPanel (tFlowLayout);
-		confirm = new JButton ("Confirm Revenue");
-		confirm.setActionCommand (CONFIRM_ACTION);
-		confirm.addActionListener (this);
-		cancel = new JButton ("Cancel");
-		cancel.setActionCommand (CANCEL_ACTION);
-		cancel.addActionListener (this);
+		confirm = setupButton (CONFIRM_REVENUE, CONFIRM_ACTION);
 		buttonsPanel.add (confirm);
+		
+		cancel = setupButton (CANCEL, CANCEL_ACTION);
 		buttonsPanel.add (cancel);
+		
+//		confirm = new JButton ("Confirm Revenue");
+//		confirm.setActionCommand (CONFIRM_ACTION);
+//		confirm.addActionListener (this);
+//		cancel = new JButton ("Cancel");
+//		cancel.setActionCommand (CANCEL_ACTION);
+//		cancel.addActionListener (this);
 		allFramePanel.add (buttonsPanel);
 		add (allFramePanel);
-		revenuesByTrain = new JFormattedTextField [5][12];
-		totalRevenueByEachTrain = new JLabel [5];
+		revenuesByTrain = new JFormattedTextField [maxTrainCount] [maxStops];
+		totalRevenueByEachTrain = new JLabel [maxTrainCount];
+		selectRoutes = new JButton [maxTrainCount];
 		pack ();
 		updateFrameSize ();
 	}
 
+	private JButton setupButton (String aTitle, String aAction) {
+		JButton tButton;
+		
+		tButton = new JButton (aTitle);
+		tButton.setActionCommand (aAction);
+		tButton.addActionListener (this);
+
+		return tButton;
+	}
+	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		int tAllTrainRevenue, tTrainCount;
@@ -106,9 +129,36 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		if (CANCEL_ACTION.equals (aEvent.getActionCommand ())) {
 			this.setVisible (false);
 		}
+		if (ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
+			handleSelectRoute (aEvent);
+		}
 
 	}
 	
+	public void handleSelectRoute (ActionEvent aSelectRouteEvent) {
+		JButton tRouteButton = (JButton) aSelectRouteEvent.getSource ();
+		int tTrainIndex, tTrainCount, tCityCount;
+		Train tTrain;
+		Color tColor = Color.BLUE;
+		String tRoundID = "1.1";
+		int tRegionBonus = 0, tSpecialBonus = 0;
+		RouteInformation tRouteInformation;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			if (tRouteButton.equals(selectRoutes [tTrainIndex])) {
+				tTrain = trainCompany.getTrain (tTrainIndex);
+				tCityCount = tTrain.getCityCount ();
+				System.out.println ("Selecting Route for Train Index " + tTrainIndex + " City Count " + tCityCount);
+
+				tRouteInformation = new RouteInformation (tTrain, tColor, tRoundID, tRegionBonus, tSpecialBonus, trainCompany);
+				trainCompany.enterSelectRouteMode (tRouteInformation);
+				
+				System.out.println ("Ready to Select the Route");
+			}
+		}
+
+	}
 	public int addAllTrainRevenues () {
 		int tAllTrainRevenues, tTrainCount, tTrainIndex, tCityCount, tTrainRevenue;
 		Train tTrain;
@@ -180,10 +230,21 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				revenuesByTrain [tTrainIndex] [tCityIndex].setMinimumSize (textFieldSize);
 				revenuesByTrain [tTrainIndex] [tCityIndex].addPropertyChangeListener ("value", this);
 				tTrainRevenueBox.add (revenuesByTrain [tTrainIndex] [tCityIndex]);
-				tTrainRevenueBox.add (Box.createHorizontalStrut (10));
+				tTrainRevenueBox.add (Box.createHorizontalStrut (5));
+				if ((tCityIndex + 1) < tCityCount) {
+					tTrainRevenueBox.add (new JLabel ("+"));
+				} else {
+					tTrainRevenueBox.add (new JLabel ("="));
+				}
+				tTrainRevenueBox.add (Box.createHorizontalStrut (5));
+				
 			}
 			totalRevenueByEachTrain [tTrainIndex] = new JLabel ("0");
 			tTrainRevenueBox.add (totalRevenueByEachTrain [tTrainIndex]);
+			tTrainRevenueBox.add (Box.createHorizontalStrut (10));
+			
+			selectRoutes [tTrainIndex] = setupButton (SELECT_ROUTE, ROUTE_ACTION);
+			tTrainRevenueBox.add (selectRoutes [tTrainIndex]);
 			tTrainRevenueBox.add (Box.createHorizontalStrut (40));
 			allRevenuesBox.add (tTrainRevenueBox);
 		}

@@ -20,6 +20,7 @@ import ge18xx.round.action.RemoveTileAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.tiles.Tile;
+import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
@@ -626,6 +627,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 	
 	@Override
+	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
+		corporationList.enterSelectRouteMode (aRouteInformation);
+	}
+	
+	@Override
 	public int fieldCount () {
 		return super.fieldCount () + 5;
 	}
@@ -908,7 +914,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	public void operateTrains () {
 		trainRevenueFrame.updateInfo ();
-		corporationList.enterSelectRouteMode ();
+//		corporationList.enterSelectRouteMode ();
 		trainRevenueFrame.setVisible (true);
 	}
 	

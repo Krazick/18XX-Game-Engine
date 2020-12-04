@@ -535,7 +535,11 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 		}
 		
-		mapFrame.updatePutTokenButton (tSelectedCity);
+		if (mapFrame.isSelectRouteMode ()) {
+			mapFrame.handleSelectedRouteRC (aSelectedMapCell, tSelectedCity);
+		} else {
+			mapFrame.updatePutTokenButton (tSelectedCity);
+		}
 	}
 	
 	public void handleSingleMapCellSelect (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell) {

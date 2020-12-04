@@ -26,6 +26,7 @@ import ge18xx.round.action.PayRevenueAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.toplevel.InformationTable;
 import ge18xx.toplevel.LoadableXMLI;
+import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
@@ -270,8 +271,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		roundManager.enterPlaceTokenMode ();
 	}
 	
-	public void enterSelectRouteMode () {
-		roundManager.enterSelectRouteMode ();
+	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
+		roundManager.enterSelectRouteMode (aRouteInformation);
 	}
 	
 	public boolean gameHasPrivates () {

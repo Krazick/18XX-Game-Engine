@@ -29,6 +29,7 @@ import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.tiles.TileSet;
+import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -209,8 +210,8 @@ public class RoundManager {
 		gameManager.enterPlaceTokenMode ();
 	}
 
-	public void enterSelectRouteMode () {
-		gameManager.enterSelectRouteMode ();
+	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
+		gameManager.enterSelectRouteMode (aRouteInformation);
 	}
 	
 	public void fullOwnershipAdjustment () {

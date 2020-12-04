@@ -526,4 +526,11 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public String getTokenToolTip () {
 		return "";
 	}
+	
+	@Override
+	public boolean isOpen() {
+		
+		return false;
+	}
+
 }

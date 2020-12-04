@@ -209,4 +209,8 @@ public class PhaseManager {
 		
 		return tUpgradeAllowed;
 	}
+
+	public int getCurrentPhase() {
+		return currentPhase;
+	}
 }
