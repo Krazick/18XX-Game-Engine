@@ -101,6 +101,18 @@ public class Tracks implements Cloneable {
 		return tTip;
 	}
 	
+	public boolean isTrackOnSide (int aSide) {
+		boolean tIsTrackOnSide = false;
+		
+		for (Track tSegment : segments) {
+			if (tSegment.isTrackToSide (aSide)) {
+				tIsTrackOnSide = true;
+			}
+		}
+		
+		return tIsTrackOnSide;
+	}
+	
 	public boolean isTrackToSide (int aSide) {
 		boolean tIsTrackToSide = false;
 		
