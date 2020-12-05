@@ -139,6 +139,55 @@ public class MapCell implements Comparator<Object> {
 		return (aTile.canAllTracksExit (this, aTileOrient));
 	}
 	
+	public boolean isNeighbor (MapCell tPossibleNeighbor) {
+		boolean tIsNeighbor = false;
+
+		if (tPossibleNeighbor != NO_MAP_CELL) {
+			for (MapCell tNeighbor : neighbors) {
+				if (tNeighbor == tPossibleNeighbor) {
+					tIsNeighbor = true;
+				}
+			}
+		}
+		
+		return tIsNeighbor;
+	}
+	
+	public boolean hasConnectingTrackTo (MapCell aNeighborMapCell) {
+		boolean tHasConnectingTrackTo = false;
+		boolean tMatchedNeighbors = false;
+		boolean tMatchedTracksNeighbor, tMatchedTracks;
+		int tSideToNeighbor, tSideFromNeighbor;
+		
+		tSideToNeighbor = Location.NO_LOCATION;
+		tSideFromNeighbor = Location.NO_LOCATION;
+		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
+			if (neighbors [tSideIndex] == aNeighborMapCell) {
+				tSideToNeighbor = tSideIndex;
+				tSideFromNeighbor = (tSideIndex + 3) % 6;
+				if (aNeighborMapCell.getNeighbor (tSideFromNeighbor) == this) {
+					tMatchedNeighbors = true;
+				}
+			}
+		}
+		if (tMatchedNeighbors) {
+			tMatchedTracksNeighbor = false;
+			tMatchedTracks = false;
+			if (aNeighborMapCell.isTrackOnSide (tSideFromNeighbor)) {
+				tMatchedTracksNeighbor = true;
+			}
+			if (isTrackOnSide (tSideToNeighbor)) {
+				tMatchedTracks = true;
+			}
+			tHasConnectingTrackTo = tMatchedTracksNeighbor && tMatchedTracks;
+			
+		} else {
+			System.out.println ("Failed to find matching Neighbors");
+		}
+		
+		return tHasConnectingTrackTo;
+	}
+	
 	public boolean canTrackToSide (int aSide) {
 		boolean tCanTrackToSide;
 		MapCell tNeighborMapCell;
@@ -149,7 +198,7 @@ public class MapCell implements Comparator<Object> {
 			tCanTrackToSide = false;
 		} else {
 			tNeighborMapCell = getNeighbor (aSide);
-			if (tNeighborMapCell != null) {
+			if (tNeighborMapCell != NO_MAP_CELL) {
 				if (tNeighborMapCell.isTileOnCell ()) {
 					tOtherSide = (aSide + 3) % 6;
 					tCanTrackToSide = tNeighborMapCell.isTrackToSide (tOtherSide);
@@ -573,6 +622,22 @@ public class MapCell implements Comparator<Object> {
 		} else {
 			return true;
 		}
+	}
+	
+	public boolean isTrackOnSide (int aSide) {
+		boolean tIsTrackOnSide = false;
+		int tUnrotatedSide;
+		
+		if (isTileOnCell ()) {
+			if (tile != Tile.NO_TILE) {
+				tUnrotatedSide = (aSide - tileOrient + 6) % 6;
+				tIsTrackOnSide = tile.isTrackOnSide (tUnrotatedSide);
+
+			}
+			
+		}
+		
+		return tIsTrackOnSide;
 	}
 	
 	public boolean isTrackToSide (int aSide) {
