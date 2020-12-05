@@ -858,6 +858,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		int tSegmentCount = routeInformation.getSegmentCount ();
 		RouteSegment tPreviousSegment;
 		MapCell tCurrentMapCell, tPreviousMapCell;
+		Location tPreviousSIde, tCurrentSide;
 		
 		if (tSegmentCount == 0) {
 			routeInformation.addRouteSegment (tRouteSegment);			
@@ -869,8 +870,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				System.out.println ("Current Map Cell is Neighbor of Previous Map Cell");
 				if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
 					System.out.println ("Current Map Cell has Track connecting to Previous Map Cell");
+					routeInformation.addRouteSegment (tRouteSegment);
+				} else {
+					System.out.println ("NO Connecting Track Current " + tCurrentMapCell.getID() + " to Previous " + tPreviousMapCell.getID());
 				}
-				routeInformation.addRouteSegment (tRouteSegment);
 			} else {
 				System.out.println ("The Selected Map Cell is NOT a Neighbor of the Previous Map Cell");
 			}

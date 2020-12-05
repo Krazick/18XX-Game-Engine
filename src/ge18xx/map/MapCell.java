@@ -153,6 +153,32 @@ public class MapCell implements Comparator<Object> {
 		return tIsNeighbor;
 	}
 	
+	// Get the Side of the this MapCell to this Neighbor 
+	public int getSideToNeighbor (MapCell aNeighborMapCell) {
+		int tSideToNeighbor;
+
+		tSideToNeighbor = Location.NO_LOCATION;
+		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
+			if (neighbors [tSideIndex] == aNeighborMapCell) {
+				tSideToNeighbor = tSideIndex;
+			}
+		}
+		return tSideToNeighbor;
+	}
+	
+	// Get the Side of the Neighbor that connects back to this MapCell
+	public int getSideFromNeighbor (MapCell aNeighborMapCell) {
+		int tSideFromNeighbor;
+
+		tSideFromNeighbor = Location.NO_LOCATION;
+		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
+			if (neighbors [tSideIndex] == aNeighborMapCell) {
+				tSideFromNeighbor = (tSideIndex + 3) % 6;
+			}
+		}
+		return tSideFromNeighbor;
+	}
+	
 	// Does an Existing Tile on this MapCell have Track that is connected to the Neighboring MapCell
 	public boolean hasConnectingTrackTo (MapCell aNeighborMapCell) {
 		boolean tHasConnectingTrackTo = false;
@@ -160,16 +186,10 @@ public class MapCell implements Comparator<Object> {
 		boolean tMatchedTracksNeighbor, tMatchedTracks;
 		int tSideToNeighbor, tSideFromNeighbor;
 		
-		tSideToNeighbor = Location.NO_LOCATION;
-		tSideFromNeighbor = Location.NO_LOCATION;
-		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
-			if (neighbors [tSideIndex] == aNeighborMapCell) {
-				tSideToNeighbor = tSideIndex;
-				tSideFromNeighbor = (tSideIndex + 3) % 6;
-				if (aNeighborMapCell.getNeighbor (tSideFromNeighbor) == this) {
-					tMatchedNeighbors = true;
-				}
-			}
+		tSideToNeighbor = getSideToNeighbor (aNeighborMapCell);
+		tSideFromNeighbor = getSideFromNeighbor (aNeighborMapCell);
+		if ((tSideToNeighbor != Location.NO_LOCATION) && (tSideFromNeighbor != Location.NO_LOCATION)) {
+			tMatchedNeighbors = true;
 		}
 		if (tMatchedNeighbors) {
 			tMatchedTracksNeighbor = false;

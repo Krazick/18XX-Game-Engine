@@ -146,7 +146,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
-			if (tRouteButton.equals(selectRoutes [tTrainIndex])) {
+			if (tRouteButton.equals (selectRoutes [tTrainIndex])) {
 				tTrain = trainCompany.getTrain (tTrainIndex);
 				tCityCount = tTrain.getCityCount ();
 
