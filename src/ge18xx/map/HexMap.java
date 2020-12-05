@@ -12,6 +12,7 @@ import ge18xx.center.City;
 
 import ge18xx.center.CityInfo;
 import ge18xx.center.RevenueCenter;
+import ge18xx.center.Town;
 import ge18xx.company.Corporation;
 import ge18xx.company.TokenCompany;
 import ge18xx.game.GameManager;
@@ -522,24 +523,30 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	
 	public void handleSelectRevenueCenter (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell, Point aPoint) {
 		City tSelectedCity = City.NO_CITY;
-		RevenueCenter tSelectedRevenueCenter;
+		RevenueCenter tSelectedRevenueCenter = RevenueCenter.NO_CENTER;
 		
 		if (aPreviousSelectedMapCell != null) {
 			aPreviousSelectedMapCell.clearSelected ();
 		}
 		if (aSelectedMapCell != null) {
-			aSelectedMapCell.handleSelectRevenueCenter(aPoint);
+			aSelectedMapCell.handleSelectRevenueCenter (aPoint);
 			tSelectedRevenueCenter = aSelectedMapCell.getSelectedRevenueCenter ();
 			if (tSelectedRevenueCenter instanceof City) {
 				tSelectedCity = (City) tSelectedRevenueCenter;
 			}
+			if (mapFrame.isSelectRouteMode ()) {
+				if (aSelectedMapCell.isTileOnCell ()) {
+					mapFrame.handleSelectedRouteRC (aSelectedMapCell, tSelectedRevenueCenter);
+				} else {
+					System.out.println ("No Tile, and no Track on Tile - Ignore the Click");
+				}
+			} else {
+				if (tSelectedCity != City.NO_CITY) {
+					mapFrame.updatePutTokenButton (tSelectedCity);
+				}
+			}
 		}
 		
-		if (mapFrame.isSelectRouteMode ()) {
-			mapFrame.handleSelectedRouteRC (aSelectedMapCell, tSelectedCity);
-		} else {
-			mapFrame.updatePutTokenButton (tSelectedCity);
-		}
 	}
 	
 	public void handleSingleMapCellSelect (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell) {
@@ -894,7 +901,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 	
     public void mouseClicked (MouseEvent e) {
-    	handleClick (e);
+//    	handleClick (e);
 //		Point tPoint;
 //		MapCell tSelectedMapCell;
 //		MapCell tPreviousSelectedMapCell;
