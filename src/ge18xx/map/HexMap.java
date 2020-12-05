@@ -902,24 +902,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	
     public void mouseClicked (MouseEvent e) {
 //    	handleClick (e);
-//		Point tPoint;
-//		MapCell tSelectedMapCell;
-//		MapCell tPreviousSelectedMapCell;
-//		
-//		tPoint = e.getPoint ();
-//		tSelectedMapCell = getMapCellContainingPoint (tPoint);
-//		tPreviousSelectedMapCell = getSelectedMapCell ();
-//		if (singleMapCellSelect) {
-//			handleSingleMapCellSelect (tSelectedMapCell, tPreviousSelectedMapCell);
-//		} else {
-//			if (selectRevenueCenter) {
-//				handleSelectRevenueCenter (tSelectedMapCell, tPreviousSelectedMapCell, tPoint);
-//			} else {
-//				toggleSelectedMapCell (tSelectedMapCell);
-//			}
-//		}
-//		
-//		redrawMap ();
 	}
 	
 	public void redrawMap () {
