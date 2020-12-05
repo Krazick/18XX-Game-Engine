@@ -798,21 +798,46 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		shareCos.sendToReportFrame (aReport);
 	}
 
-	public void handleSelectedRouteRC (MapCell aSelectedMapCell, City aSelectedCity) {
+	public void handleSelectedRouteRC (MapCell aSelectedMapCell, RevenueCenter aSelectedRevenueCenter) {
 		RouteSegment tRouteSegment;
-		boolean tCorpStation, tOpenStation;
+		boolean tCorpStation, tOpenFlow, tIsCity, tIsDeadEnd, tHasRevenueCenter;
 		int tRevenue, tBonus;
 		Gauge tGauge;
 		Corporation tCorporation = getOperatingCompany ();
 		int tCorpID;
 		int tPhase;
+		Location tLocation;
 		
 		tCorpID = tCorporation.getID ();
 		tPhase = gameManager.getCurrentPhase ();
 		tRouteSegment = new RouteSegment (aSelectedMapCell);
-		tCorpStation = aSelectedCity.cityHasStation (tCorpID);
-		tOpenStation = aSelectedCity.isOpen ();
-		tRevenue = aSelectedCity.getRevenue (tPhase);
+		if (aSelectedRevenueCenter == RevenueCenter.NO_CENTER) {
+			tCorpStation = false;
+			tOpenFlow = true;
+			tHasRevenueCenter = false;
+			tRevenue = 0;
+			tLocation = new Location ();
+			tIsCity = false;
+		} else {
+			tCorpStation = aSelectedRevenueCenter.cityHasStation (tCorpID);
+			tIsCity = aSelectedRevenueCenter.isCity ();
+			tIsDeadEnd = aSelectedRevenueCenter.isDeadEnd ();
+			tHasRevenueCenter = true;
+			if (tIsDeadEnd) {			// if a Dead-End City, no Flow beyond this.
+				tOpenFlow = false;
+			} else if (tIsCity) {	
+				if (tCorpStation) {		// If this is a City, and it has the Current Operating Company matches the Token
+										// Then can flow beyond
+					tOpenFlow = true;
+				} else { 				// If this is a City, then if there is an Open Station, Flow can continue
+					tOpenFlow = aSelectedRevenueCenter.isOpen ();
+				}
+			} else {					// If this is not a City, it is a Town, and Flow is allowed further
+				tOpenFlow = true;
+			}
+			tRevenue = aSelectedRevenueCenter.getRevenue (tPhase);
+			tLocation = aSelectedRevenueCenter.getLocation ();
+		}
 		
 		tBonus = 0;		// TODO: If Selected City has Cattle, Port, etc that will add a Bonus, put that here
 		tGauge = new Gauge (Gauge.NORMAL_GAUGE);	// TODO: For 1853, and others with different Gauges, 
@@ -821,8 +846,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		// setStartSegment (Location aStartLocation, boolean aCorpStation, boolean aOpenStation, int aRevenue, 
 		//					int aBonus, Gauge aGauge
 		
-		tRouteSegment.setStartSegment (aSelectedCity.getLocation(), tCorpStation, tOpenStation, tRevenue, tBonus, tGauge);
-		System.out.println ("In Select Route Mode, City is Selected - Add to Route. " + aSelectedCity.isCity () + 
-				", Corp Station " + tCorpStation + ", Open Station " + tOpenStation + ", Revenue " + tRevenue);
+		tRouteSegment.setStartSegment (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, tRevenue, tBonus, tGauge);
+		routeInformation.addRouteSegment (tRouteSegment);
+		System.out.println ("In Select Route Mode, - Add to Route. " + tIsCity + 
+				", Corp Station " + tCorpStation + ", Open Flow " + tOpenFlow + ", Revenue " + tRevenue);
+		System.out.println ("Route Segment Count " + routeInformation.getSegmentCount () + 
+				" Center Count " + routeInformation.getCenterCount());
 	}
 }
