@@ -149,12 +149,11 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			if (tRouteButton.equals(selectRoutes [tTrainIndex])) {
 				tTrain = trainCompany.getTrain (tTrainIndex);
 				tCityCount = tTrain.getCityCount ();
-				System.out.println ("Selecting Route for Train Index " + tTrainIndex + " City Count " + tCityCount);
 
 				tRouteInformation = new RouteInformation (tTrain, tColor, tRoundID, tRegionBonus, tSpecialBonus, trainCompany);
 				trainCompany.enterSelectRouteMode (tRouteInformation);
+				System.out.println ("Selecting Route for Train Index " + tTrainIndex + " City Count " + tCityCount);
 				
-				System.out.println ("Ready to Select the Route");
 			}
 		}
 
