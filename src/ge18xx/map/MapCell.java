@@ -153,6 +153,7 @@ public class MapCell implements Comparator<Object> {
 		return tIsNeighbor;
 	}
 	
+	// Does an Existing Tile on this MapCell have Track that is connected to the Neighboring MapCell
 	public boolean hasConnectingTrackTo (MapCell aNeighborMapCell) {
 		boolean tHasConnectingTrackTo = false;
 		boolean tMatchedNeighbors = false;
@@ -188,6 +189,7 @@ public class MapCell implements Comparator<Object> {
 		return tHasConnectingTrackTo;
 	}
 	
+	// Can a Tile added to this MapCell have Track to this side?
 	public boolean canTrackToSide (int aSide) {
 		boolean tCanTrackToSide;
 		MapCell tNeighborMapCell;
