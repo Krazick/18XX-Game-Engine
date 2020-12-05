@@ -350,6 +350,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return type.isFixed ();
 	}
 	
+	public boolean isTrackOnSide (int aSide) {
+		return tracks.isTrackOnSide (aSide);
+	}
+	
 	public boolean isTrackToSide (int aSide) {
 		return tracks.isTrackToSide (aSide);
 	}
