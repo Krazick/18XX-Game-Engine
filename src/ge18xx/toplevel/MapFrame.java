@@ -847,10 +847,35 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		//					int aBonus, Gauge aGauge
 		
 		tRouteSegment.setStartSegment (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, tRevenue, tBonus, tGauge);
-		routeInformation.addRouteSegment (tRouteSegment);
+		addRouteSegment (tRouteSegment);
 		System.out.println ("In Select Route Mode, - Add to Route. " + tIsCity + 
 				", Corp Station " + tCorpStation + ", Open Flow " + tOpenFlow + ", Revenue " + tRevenue);
 		System.out.println ("Route Segment Count " + routeInformation.getSegmentCount () + 
 				" Center Count " + routeInformation.getCenterCount());
+	}
+	
+	public void addRouteSegment (RouteSegment tRouteSegment) {
+		int tSegmentCount = routeInformation.getSegmentCount ();
+		RouteSegment tPreviousSegment;
+		MapCell tCurrentMapCell, tPreviousMapCell;
+		
+		if (tSegmentCount == 0) {
+			routeInformation.addRouteSegment (tRouteSegment);			
+		} else {
+			tPreviousSegment = routeInformation.getRouteSegment (tSegmentCount - 1);
+			tCurrentMapCell = tRouteSegment.getMapCell ();
+			tPreviousMapCell = tPreviousSegment.getMapCell ();
+			if (tCurrentMapCell.isNeighbor (tPreviousMapCell)) {
+				System.out.println ("Current Map Cell is Neighbor of Previous Map Cell");
+				if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
+					System.out.println ("Current Map Cell has Track connecting to Previous Map Cell");
+				}
+				routeInformation.addRouteSegment (tRouteSegment);
+			} else {
+				System.out.println ("The Selected Map Cell is NOT a Neighbor of the Previous Map Cell");
+			}
+		}
+		
+
 	}
 }
