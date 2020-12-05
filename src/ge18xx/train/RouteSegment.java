@@ -32,25 +32,37 @@ public class RouteSegment {
 	}
 	
 	public void setStartSegment (Location aStartLocation) {
-		start = new SegmentInformation (aStartLocation, false, false, 0, 0, NORMAL_GAUGE);
+		start = new SegmentInformation (aStartLocation, false, false, false, 0, 0, NORMAL_GAUGE);
 	}
 	
-	public void setStartSegment (Location aStartLocation, boolean aCorpStation, boolean aOpenStation, int aRevenue, 
+	public void setStartSegment (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
 				int aBonus, Gauge aGauge) {
-		start = new SegmentInformation (aStartLocation, aCorpStation, aOpenStation, aRevenue, aBonus, aGauge);
+		start = new SegmentInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aGauge);
 	}
 	
-	public void setEndSegment (Location aEndLocation, boolean aCorpStation, boolean aOpenStation, int aRevenue, 
+	public void setEndSegment (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
 			int aBonus, Gauge aGauge) {
-		end = new SegmentInformation (aEndLocation, aCorpStation, aOpenStation, aRevenue, aBonus, aGauge);
+		end = new SegmentInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aGauge);
 	}
 	
 	public void setEndSegment (Location aEndLocation) {
-		end = new SegmentInformation (aEndLocation, false, false, 0, 0, NORMAL_GAUGE);
+		end = new SegmentInformation (aEndLocation, false, false, false, 0, 0, NORMAL_GAUGE);
 	}
 	
 	public void setCost (int aCost) {
 		cost = aCost;
+	}
+
+	public boolean hasRevenueCenter() {
+		boolean tHasRevenueCenter = false;
+		
+		if (start.hasRevenueCenter ()) {
+			tHasRevenueCenter = true;
+		} else if (end.hasRevenueCenter ()) {
+			tHasRevenueCenter = true;
+		}
+		
+		return tHasRevenueCenter;
 	}
 }
 

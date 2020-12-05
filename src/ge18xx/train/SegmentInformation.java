@@ -7,15 +7,18 @@ public class SegmentInformation {
 
 	Location location;		//	Location
 	boolean corpStation;	//	Operating Corp Station (true or false)
-	boolean openStation;	//	Open Station (true or false)
+	boolean openFlow;		//	Open Flow for Train Running Through (true or false)
+	boolean hasRevenueCenter;	// Has a Revenue Center
 	int revenue;			//	Revenue
 	int bonus;				//	Bonus (for Cattle or Port)
 	Gauge gauge;			//	Track Gauge
 	
-	public SegmentInformation (Location aLocation, boolean aCorpStation, boolean aOpenStation, int aRevenue, int aBonus, Gauge aGauge) {
+	public SegmentInformation (Location aLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter,
+				int aRevenue, int aBonus, Gauge aGauge) {
 		setLocation (aLocation);
 		setCorpStation (aCorpStation);
-		setOpenStation (aOpenStation);
+		setOpenFlow (aOpenFlow);
+		setHasRevenueCenter (aHasRevenueCenter);
 		setRevenue (aRevenue);
 		setBonus (aBonus);
 		setGauge (aGauge);
@@ -33,8 +36,8 @@ public class SegmentInformation {
 		return revenue;
 	}
 	
-	public boolean getOpenStation () {
-		return openStation;
+	public boolean getOpenFLow () {
+		return openFlow;
 	}
 	
 	public boolean getCorpStation () {
@@ -53,8 +56,8 @@ public class SegmentInformation {
 		revenue = aRevenue;
 	}
 
-	private void setOpenStation (boolean aOpenStation) {
-		openStation = aOpenStation;
+	private void setOpenFlow (boolean aOpenFlow) {
+		openFlow = aOpenFlow;
 	}
 
 	private void setCorpStation (boolean aCorpStation) {
@@ -75,5 +78,13 @@ public class SegmentInformation {
 		}
 		
 		return tIsValid;
+	}
+
+	public void setHasRevenueCenter (boolean aHasRevenueCenter) {
+		hasRevenueCenter = aHasRevenueCenter;
+	}
+	
+	public boolean hasRevenueCenter() {
+		return hasRevenueCenter;
 	}
 }

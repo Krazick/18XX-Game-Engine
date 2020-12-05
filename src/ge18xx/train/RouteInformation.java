@@ -36,6 +36,19 @@ public class RouteInformation {
 		return routeSegments.size ();
 	}
 	
+	public int getCenterCount () {
+		int tCenterCount;
+		
+		tCenterCount = 0;
+		for (RouteSegment tRouteSegment : routeSegments) {
+			if (tRouteSegment.hasRevenueCenter ()) {
+				tCenterCount++;
+			}
+		}
+		
+		return tCenterCount;
+	}
+	
 	public RouteSegment getRouteSegment (int aRouteIndex) {
 		RouteSegment tRouteSegment = RouteSegment.NO_ROUTE_SEGMENT;
 		
