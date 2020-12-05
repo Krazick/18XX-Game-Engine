@@ -37,6 +37,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	static final int NO_VALUE = 0;
 	static final int STATION_NOT_POSSIBLE = -1;
 	static final String NO_NAME = "";
+	public static final RevenueCenter NO_CENTER = null;
 	int id;
 	String name;
 	Revenues revenues;
@@ -528,7 +529,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 	
 	@Override
-	public boolean isOpen() {
+	public boolean isOpen () {
 		
 		return false;
 	}
