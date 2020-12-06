@@ -30,6 +30,7 @@ import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Gauge;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
+import ge18xx.tiles.Track;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.RouteSegment;
 import ge18xx.utilities.ElementName;
@@ -854,23 +855,39 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				" Center Count " + routeInformation.getCenterCount());
 	}
 	
-	public void addRouteSegment (RouteSegment tRouteSegment) {
+	public void addRouteSegment (RouteSegment aRouteSegment) {
 		int tSegmentCount = routeInformation.getSegmentCount ();
 		RouteSegment tPreviousSegment;
 		MapCell tCurrentMapCell, tPreviousMapCell;
-		Location tPreviousSIde, tCurrentSide;
+		int tPreviousSide, tCurrentSide;
+		Track tPreviousTrack, tCurrentTrack;
+		int tTrainNumber;
 		
 		if (tSegmentCount == 0) {
-			routeInformation.addRouteSegment (tRouteSegment);			
+			routeInformation.addRouteSegment (aRouteSegment);			
 		} else {
 			tPreviousSegment = routeInformation.getRouteSegment (tSegmentCount - 1);
-			tCurrentMapCell = tRouteSegment.getMapCell ();
+			tCurrentMapCell = aRouteSegment.getMapCell ();
 			tPreviousMapCell = tPreviousSegment.getMapCell ();
+			tTrainNumber = routeInformation.getTrainIndex () + 1;
 			if (tCurrentMapCell.isNeighbor (tPreviousMapCell)) {
 				System.out.println ("Current Map Cell is Neighbor of Previous Map Cell");
 				if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
+					tPreviousSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
+					tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
 					System.out.println ("Current Map Cell has Track connecting to Previous Map Cell");
-					routeInformation.addRouteSegment (tRouteSegment);
+					System.out.println ("Previous MapCell Side " + tPreviousSide + " Current MapCell Side " + tCurrentSide);
+					
+					tPreviousTrack = tPreviousMapCell.getTrackFromSide (tPreviousSide);
+					
+					tPreviousTrack.setTrainNumber (tTrainNumber);
+					tPreviousTrack.printlog ();
+					tPreviousSegment.setEndSegment (tPreviousSide);
+					
+					tCurrentTrack = tCurrentMapCell.getTrackFromSide (tCurrentSide);
+					tCurrentTrack.setTrainNumber (tTrainNumber);
+					aRouteSegment.setEndSegment (tCurrentSide);
+					routeInformation.addRouteSegment (aRouteSegment);
 				} else {
 					System.out.println ("NO Connecting Track Current " + tCurrentMapCell.getID() + " to Previous " + tPreviousMapCell.getID());
 				}

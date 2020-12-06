@@ -138,4 +138,16 @@ public class Tracks implements Cloneable {
 	public String toString () {
 		return segments.toString ();
 	}
+
+	public Track getTrackFromSide (int aSideLocation) {
+		Track tTrack = Track.NO_TRACK;
+		
+		for (Track tSegment : segments) {
+			if (tSegment.isTrackToSide (aSideLocation)) {
+				tTrack = tSegment;
+			}
+		}
+		
+		return tTrack;
+	}
 }

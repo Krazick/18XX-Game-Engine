@@ -150,7 +150,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				tTrain = trainCompany.getTrain (tTrainIndex);
 				tCityCount = tTrain.getCityCount ();
 
-				tRouteInformation = new RouteInformation (tTrain, tColor, tRoundID, tRegionBonus, tSpecialBonus, trainCompany);
+				tRouteInformation = new RouteInformation (tTrain, tTrainIndex, tColor, tRoundID, tRegionBonus, tSpecialBonus, trainCompany);
 				trainCompany.enterSelectRouteMode (tRouteInformation);
 				System.out.println ("Selecting Route for Train Index " + tTrainIndex + " City Count " + tCityCount);
 				

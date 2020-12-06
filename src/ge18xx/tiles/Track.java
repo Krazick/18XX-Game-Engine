@@ -20,6 +20,7 @@ public class Track implements Cloneable {
 	public static final AttributeName AN_GAUGE = new AttributeName ("gauge");
 	static final int NO_SIDE = 0;
 	static final int NO_TRAIN = 0;
+	public static Track NO_TRACK = null;
 	
 	Location enter;
 	Location exit;

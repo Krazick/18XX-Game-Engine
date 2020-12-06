@@ -8,6 +8,7 @@ import ge18xx.company.TrainCompany;
 public class RouteInformation {
 	public static RouteInformation NO_ROUTE_INFORMATION = null;
 	Train train;		// Reference to actual Train
+	int trainIndex;		// Index for Train within TrainPortfolio
 	Color color;		// Route Color
 	int totalRevenue;	// Total Revenue for Route
 	String roundID;		// Operating Round ID when Route was Run
@@ -17,8 +18,9 @@ public class RouteInformation {
 	TrainCompany trainCompany;
 	
 	// Collection of Route Segments
-	public RouteInformation (Train aTrain, Color aColor, String aRoundID, int aRegionBonus, int aSpecialBonus, TrainCompany aTrainCompany) {
+	public RouteInformation (Train aTrain, int aTrainIndex, Color aColor, String aRoundID, int aRegionBonus, int aSpecialBonus, TrainCompany aTrainCompany) {
 		setTrain (aTrain);
+		setTrainIndex (aTrainIndex);
 		setColor (aColor);
 		setRoundID (aRoundID);
 		setRegionBonus (aRegionBonus);
@@ -117,5 +119,13 @@ public class RouteInformation {
 	
 	public TrainCompany getTrainCompany () {
 		return trainCompany;
+	}
+	
+	public void setTrainIndex (int aTrainIndex) {
+		trainIndex = aTrainIndex;
+	}
+	
+	public int getTrainIndex () {
+		return trainIndex;
 	}
 }

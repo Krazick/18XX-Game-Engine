@@ -29,6 +29,7 @@ import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileName;
 import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TileType;
+import ge18xx.tiles.Track;
 import ge18xx.tiles.Upgrade;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -207,6 +208,18 @@ public class MapCell implements Comparator<Object> {
 		}
 		
 		return tHasConnectingTrackTo;
+	}
+	
+	public Track getTrackFromSide (int aSideLocation) {
+		Track tTrack = Track.NO_TRACK;
+		int tUnrotatedSideLocation;
+		
+		if (isTileOnCell ()) {
+			tUnrotatedSideLocation = (aSideLocation - tileOrient) % 6;
+			tTrack = tile.getTrackFromSide (tUnrotatedSideLocation);
+		}
+		
+		return tTrack;
 	}
 	
 	// Can a Tile added to this MapCell have Track to this side?

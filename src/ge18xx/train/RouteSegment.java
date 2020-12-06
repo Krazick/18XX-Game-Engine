@@ -49,6 +49,13 @@ public class RouteSegment {
 		end = new SegmentInformation (aEndLocation, false, false, false, 0, 0, NORMAL_GAUGE);
 	}
 	
+	public void setEndSegment (int aEndLocation) {
+		Location tLocation;
+		
+		tLocation = new Location (aEndLocation);
+		setEndSegment (tLocation);
+	}
+	
 	public void setCost (int aCost) {
 		cost = aCost;
 	}
