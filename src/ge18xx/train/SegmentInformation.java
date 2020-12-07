@@ -68,6 +68,10 @@ public class SegmentInformation {
 		location = aLocation;
 	}
 
+	public int getLocation () {
+		return location.getLocation ();
+	}
+	
 	public boolean isValid () {
 		boolean tIsValid = false;
 		
