@@ -230,7 +230,7 @@ public class Centers implements Cloneable {
 	}
 	
 	public RevenueCenter getCenterAtLocation (Location aLocation) {
-		RevenueCenter tCenter = null;
+		RevenueCenter tCenter = RevenueCenter.NO_CENTER;
 		int tRCLocationInt;
 		int tLocationInt;
 		
@@ -461,7 +461,7 @@ public class Centers implements Cloneable {
 		}
 	}
 	
-	public void 	copyCityInfo (Tile aTile) {
+	public void copyCityInfo (Tile aTile) {
 		int tCenterCount, tCenterIndex;
 		RevenueCenter tCenter;
 		CityInfo tCityInfo;
@@ -530,5 +530,32 @@ public class Centers implements Cloneable {
 	
 	public String toString () {
 		return centers.toString ();
+	}
+
+	public boolean hasTown() {
+		boolean tHasTown = false;
+		
+		for (RevenueCenter tCenter : centers) {
+			if (tCenter.isTown ()) {
+				tHasTown = true;
+			}
+		}
+		
+		return tHasTown;
+	}
+
+	public RevenueCenter getCenterAtLocation (int aLocation) {
+		int tRCLocationInt;
+		RevenueCenter tCenter = RevenueCenter.NO_CENTER;
+		
+		for (RevenueCenter tRevenueCenter : centers) {
+			tRCLocationInt = tRevenueCenter.getLocationToInt ();
+			if (aLocation == tRCLocationInt) {
+				tCenter = tRevenueCenter;
+			}
+		}
+		
+		return tCenter;
+
 	}
 }
