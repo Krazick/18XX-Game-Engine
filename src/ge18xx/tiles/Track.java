@@ -710,12 +710,20 @@ public class Track implements Cloneable {
 		}
 	}
 	
+	public int getEnterLocationInt () {
+		return enter.getLocation ();
+	}
+	
+	public int getExitLocationInt () {
+		return exit.getLocation ();
+	}
+	
 	public Location getEnterLocation () {
-		return (enter);
+		return enter;
 	}
 	
 	public Location getExitLocation () {
-		return (exit);
+		return exit;
 	}
 	
 	public Gauge getGauge () {
