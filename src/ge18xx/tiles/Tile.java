@@ -370,6 +370,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers.getCenterAtLocation (aLocation);
 	}
 	
+	public RevenueCenter getCenterAtLocation (int aLocation) {
+		return centers.getCenterAtLocation (aLocation);
+	}
+	
 	public int getCenterCount () {
 		return centers.getCenterCount ();
 	}
@@ -720,5 +724,9 @@ public class Tile implements Comparable<Object>, Cloneable {
 				}
 			}
 		}
+	}
+
+	public boolean hasTown () {
+		return centers.hasTown ();
 	}
 }
