@@ -128,4 +128,21 @@ public class RouteInformation {
 	public int getTrainIndex () {
 		return trainIndex;
 	}
+
+//	Train train;		// Reference to actual Train
+//	int trainIndex;		// Index for Train within TrainPortfolio
+//	Color color;		// Route Color
+//	int totalRevenue;	// Total Revenue for Route
+//	String roundID;		// Operating Round ID when Route was Run
+//	int regionBonus;	// Bonus (Special Region-to-Region connection)
+//	int specialBonus;	// Bonus (Special Train/Car used)
+//	ArrayList<RouteSegment> routeSegments;
+//	TrainCompany trainCompany;
+
+	public void printDetail () {
+		System.out.println (trainIndex + "." +train.getName () + " Train, Total Revenue: " + totalRevenue);
+		for (RouteSegment tRouteSegment : routeSegments) {
+			tRouteSegment.printDetail ();
+		}
+	}
 }
