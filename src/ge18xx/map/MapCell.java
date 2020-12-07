@@ -215,7 +215,7 @@ public class MapCell implements Comparator<Object> {
 		int tUnrotatedSideLocation;
 		
 		if (isTileOnCell ()) {
-			tUnrotatedSideLocation = (aSideLocation - tileOrient) % 6;
+			tUnrotatedSideLocation = (aSideLocation + 6 - tileOrient) % 6;
 			tTrack = tile.getTrackFromSide (tUnrotatedSideLocation);
 		}
 		
