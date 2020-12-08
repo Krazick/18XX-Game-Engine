@@ -864,16 +864,18 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		if (tSegmentCount == 0) {
 			routeInformation.addRouteSegment (aRouteSegment);			
-			routeInformation.printDetail ();
 		} else {
 			tPreviousSegment = routeInformation.getRouteSegment (tSegmentCount - 1);
 			tCurrentMapCell = aRouteSegment.getMapCell ();
 			tPreviousMapCell = tPreviousSegment.getMapCell ();
 			tTrainNumber = routeInformation.getTrainIndex () + 1;
+			
 			if (tCurrentMapCell.isNeighbor (tPreviousMapCell)) {
+				
 				if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
 					tPreviousSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
 					tPreviousEnd = tPreviousSegment.getEndLocationInt ();
+					
 					if ((tPreviousEnd == Location.NO_LOCATION) ||
 						(tPreviousMapCell.hasConnectingTrackBetween (tPreviousSide, tPreviousEnd))) {
 						System.out.println ("MapCell " + tPreviousMapCell.getID () + " has Track connecting between " +
@@ -903,7 +905,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						routeInformation.addRouteSegment (aRouteSegment);
 						System.out.println ("Added New Current Segment from " + 
 										aRouteSegment.getStartLocationInt () + " to " + aRouteSegment.getEndLocationInt ());
-						routeInformation.printDetail ();
 					} else {
 						System.err.println ("TRACK NOT FOUND between " + tPreviousSide + " and " + tPreviousEnd);
 					}
@@ -914,6 +915,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				System.err.println ("The Selected Map Cell is NOT a Neighbor of the Previous Map Cell");
 			}
 		}
+		routeInformation.printDetail ();
 	}
 	
 }
