@@ -850,7 +850,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tGauge = new Gauge (Gauge.NORMAL_GAUGE);	// TODO: For 1853, and others with different Gauges, 
 													// find the Selected Gauge from the Tile.
 				
-		aRouteSegment.setStartSegment (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, tRevenue, tBonus, tGauge);
+		aRouteSegment.setStartSegment (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, tRevenue, tBonus, tGauge, aSelectedRevenueCenter);
 	}
 	
 	public void extendRouteInformation (RouteSegment aRouteSegment) {
@@ -859,7 +859,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		RevenueCenter tPreviousRevenueCenter;
 		MapCell tCurrentMapCell, tPreviousMapCell;
 		int tPreviousSide, tCurrentSide, tPreviousEnd;
-		Track tPreviousTrack, tNewPreviousTrack, tCurrentTrack;
 		Tile tPreviousTile;
 		int tTrainNumber;
 		
@@ -874,40 +873,36 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			if (tCurrentMapCell.isNeighbor (tPreviousMapCell)) {
 				if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
 					tPreviousSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
-					tPreviousEnd = tPreviousSegment.getEndLocation ();
+					tPreviousEnd = tPreviousSegment.getEndLocationInt ();
 					if ((tPreviousEnd == Location.NO_LOCATION) ||
 						(tPreviousMapCell.hasConnectingTrackBetween (tPreviousSide, tPreviousEnd))) {
 						System.out.println ("MapCell " + tPreviousMapCell.getID () + " has Track connecting between " +
 									tPreviousSide + " and " + tPreviousEnd);
 						tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
-						tPreviousTrack = tPreviousMapCell.getTrackFromSide (tPreviousSide);
 						
-						if (tPreviousSegment.getEndLocation () != Location.NO_LOCATION) {
+						if (tPreviousSegment.getEndLocationInt () != Location.NO_LOCATION) {
 							tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
 							tPreviousTile = tPreviousSegment.getTile ();
 							tPreviousRevenueCenter = tPreviousTile.getCenterAtLocation (tPreviousEnd); 
 							setStartSegment (tNewPreviousSegment, tPreviousRevenueCenter);
 							tNewPreviousSegment.setEndSegment (tPreviousSide);
-							
-							tNewPreviousTrack = tPreviousMapCell.getTrackFromSide (tPreviousSide);
-							tNewPreviousTrack.setTrainNumber (tTrainNumber);
+							tNewPreviousSegment.setTrainOn (tTrainNumber);
 							
 							routeInformation.addRouteSegment (tNewPreviousSegment);
 							System.out.println ("Added New Previous Segment from " + 
-										tNewPreviousSegment.getStartLocation () + " to " + tNewPreviousSegment.getEndLocation ());
+										tNewPreviousSegment.getStartLocationInt () + " to " + tNewPreviousSegment.getEndLocationInt ());
 							routeInformation.printDetail ();
 						} else {
 							tPreviousSegment.setEndSegment (tPreviousSide);
-							tPreviousTrack.setTrainNumber (tTrainNumber);
+							tPreviousSegment.setTrainOn (tTrainNumber);
 						}
 						aRouteSegment.setEndSegment (tCurrentSide);
-						tCurrentTrack = tCurrentMapCell.getTrackFromSide (tCurrentSide);
-						tCurrentTrack.setTrainNumber (tTrainNumber);
+						aRouteSegment.setTrainOn (tTrainNumber);
 	
 						aRouteSegment.swapStartEndLocations ();
 						routeInformation.addRouteSegment (aRouteSegment);
 						System.out.println ("Added New Current Segment from " + 
-										aRouteSegment.getStartLocation () + " to " + aRouteSegment.getEndLocation ());
+										aRouteSegment.getStartLocationInt () + " to " + aRouteSegment.getEndLocationInt ());
 						routeInformation.printDetail ();
 					} else {
 						System.err.println ("TRACK NOT FOUND between " + tPreviousSide + " and " + tPreviousEnd);
@@ -919,7 +914,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				System.err.println ("The Selected Map Cell is NOT a Neighbor of the Previous Map Cell");
 			}
 		}
-		
-
 	}
+	
 }

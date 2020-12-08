@@ -1,9 +1,11 @@
 package ge18xx.train;
 
+import ge18xx.center.RevenueCenter;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Gauge;
 import ge18xx.tiles.Tile;
+import ge18xx.tiles.Track;
 
 public class RouteSegment {
 	static Gauge NORMAL_GAUGE = new Gauge (Gauge.NORMAL_GAUGE);
@@ -35,21 +37,21 @@ public class RouteSegment {
 	}
 	
 	public void setStartSegment (Location aStartLocation) {
-		start = new SegmentInformation (aStartLocation, false, false, false, 0, 0, NORMAL_GAUGE);
+		start = new SegmentInformation (aStartLocation, false, false, false, 0, 0, NORMAL_GAUGE, RevenueCenter.NO_CENTER);
 	}
 	
 	public void setStartSegment (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
-				int aBonus, Gauge aGauge) {
-		start = new SegmentInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aGauge);
+				int aBonus, Gauge aGauge, RevenueCenter aRevenueCenter) {
+		start = new SegmentInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aGauge, aRevenueCenter);
 	}
 	
 	public void setEndSegment (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
-			int aBonus, Gauge aGauge) {
-		end = new SegmentInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aGauge);
+			int aBonus, Gauge aGauge, RevenueCenter aRevenueCenter) {
+		end = new SegmentInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aGauge, aRevenueCenter);
 	}
 	
 	public void setEndSegment (Location aEndLocation) {
-		end = new SegmentInformation (aEndLocation, false, false, false, 0, 0, NORMAL_GAUGE);
+		end = new SegmentInformation (aEndLocation, false, false, false, 0, 0, NORMAL_GAUGE, RevenueCenter.NO_CENTER);
 	}
 	
 	public void setEndSegment (int aEndLocation) {
@@ -106,14 +108,30 @@ public class RouteSegment {
 
 	public void printDetail() {
 		System.out.println ("MapCell " + mapCell.getCellID () + " Tile # " + tile.getNumber() + 
-				" Start " + start.getLocation () + " End " + end.getLocation ());
+				" Start " + start.getLocationInt () + " End " + end.getLocationInt ());
 		
 	}
-	public int getStartLocation() {
-		return start.getLocation ();
+	public int getStartLocationInt () {
+		int tStartLocation;
+		
+		tStartLocation = start.getLocationInt ();
+		
+		return tStartLocation;
 	}
 
-	public int getEndLocation() {
+	public int getEndLocationInt () {
+		int tEndLocation;
+		
+		tEndLocation = end.getLocationInt ();
+		
+		return tEndLocation;
+	}
+	
+	public Location getStartLocation () {
+		return start.getLocation ();
+	}
+	
+	public Location getEndLocation () {
 		return end.getLocation ();
 	}
 	
@@ -123,6 +141,60 @@ public class RouteSegment {
 		tTempSegmentInformation = start;
 		start = end;
 		end = tTempSegmentInformation;
+	}
+	
+	public Track getTrack () {
+		Track tTrack = Track.NO_TRACK;
+		Location tSideLocation;
+		
+		tSideLocation = getStartLocation ();
+		if (! tSideLocation.isSide ()) {
+			tSideLocation = getEndLocation ();
+		}
+		
+		tTrack = mapCell.getTrackFromSide (tSideLocation.getLocation ());
+		
+		return tTrack;
+	}
+
+	public RevenueCenter getRevenueCenter() {
+		RevenueCenter tRevenueCenter = RevenueCenter.NO_CENTER;
+		
+		if (start.hasRevenueCenter ()) {
+			tRevenueCenter = start.getRevenueCenter();
+		} else if (end.hasRevenueCenter ()) {
+			tRevenueCenter = end.getRevenueCenter ();
+		}
+		
+		return tRevenueCenter;
+	}
+	
+	public void clearTrainOn () {
+		Track tTrack;
+		RevenueCenter tRevenueCenter;
+		
+		tTrack = getTrack ();
+		System.out.println ("READY to Clear Train on Track from " + 
+					tTrack.getEnterLocationInt () + " to " + tTrack.getExitLocationInt());
+		tTrack.setTrainNumber (0);
+		if (hasRevenueCenter ()) {
+			tRevenueCenter = getRevenueCenter ();
+			tRevenueCenter.clearAllSelected();
+		}
+	}
+	
+	public void setTrainOn (int aTrainIndex) {
+		Track tTrack;
+		RevenueCenter tRevenueCenter;
+		
+		tTrack = getTrack ();
+		System.out.println ("READY to set Train " + aTrainIndex + " on Track from " + 
+					tTrack.getEnterLocationInt () + " to " + tTrack.getExitLocationInt());
+		tTrack.setTrainNumber (aTrainIndex);
+		if (hasRevenueCenter ()) {
+			tRevenueCenter = getRevenueCenter ();
+			tRevenueCenter.setSelected (true, aTrainIndex);
+		}
 	}
 }
 
