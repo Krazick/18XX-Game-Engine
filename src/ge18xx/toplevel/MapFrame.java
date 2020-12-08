@@ -805,8 +805,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tRouteSegment = new RouteSegment (aSelectedMapCell);
 		setStartSegment (tRouteSegment, aSelectedRevenueCenter);
 		extendRouteInformation (tRouteSegment);
-		System.out.println ("Route Segment Count " + routeInformation.getSegmentCount () + 
-				" Center Count " + routeInformation.getCenterCount());
 	}
 	
 	public void setStartSegment (RouteSegment aRouteSegment, RevenueCenter aSelectedRevenueCenter) {
@@ -852,12 +850,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tGauge = new Gauge (Gauge.NORMAL_GAUGE);	// TODO: For 1853, and others with different Gauges, 
 													// find the Selected Gauge from the Tile.
 				
-		// setStartSegment (Location aStartLocation, boolean aCorpStation, boolean aOpenStation, int aRevenue, 
-		//					int aBonus, Gauge aGauge
-		
 		aRouteSegment.setStartSegment (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, tRevenue, tBonus, tGauge);
-		System.out.println ("In Select Route Mode, - Add to Route. " + tIsCity + 
-				", Corp Station " + tCorpStation + ", Open Flow " + tOpenFlow + ", Revenue " + tRevenue);
 	}
 	
 	public void extendRouteInformation (RouteSegment aRouteSegment) {
@@ -917,13 +910,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 										aRouteSegment.getStartLocation () + " to " + aRouteSegment.getEndLocation ());
 						routeInformation.printDetail ();
 					} else {
-						System.out.println ("TRACK NOT FOUND between " + tPreviousSide + " and " + tPreviousEnd);
+						System.err.println ("TRACK NOT FOUND between " + tPreviousSide + " and " + tPreviousEnd);
 					}
 				} else {
-					System.out.println ("NO Connecting Track From Current " + tCurrentMapCell.getID() + " to Previous " + tPreviousMapCell.getID());
+					System.err.println ("NO Connecting Track From Current " + tCurrentMapCell.getID() + " to Previous " + tPreviousMapCell.getID());
 				}
 			} else {
-				System.out.println ("The Selected Map Cell is NOT a Neighbor of the Previous Map Cell");
+				System.err.println ("The Selected Map Cell is NOT a Neighbor of the Previous Map Cell");
 			}
 		}
 		
