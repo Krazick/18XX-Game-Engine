@@ -671,4 +671,8 @@ public class Location implements Cloneable {
 		
 		return (new Location (newLocation));
 	}
+	
+	public boolean equals (Location aOtherLocation) {
+		return (location == aOtherLocation.getLocation());
+	}
 }
