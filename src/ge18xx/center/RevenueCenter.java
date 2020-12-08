@@ -37,13 +37,14 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	static final int NO_VALUE = 0;
 	static final int STATION_NOT_POSSIBLE = -1;
 	static final String NO_NAME = "";
+	static final int MAX_TRAIN_COUNT = 6;
 	public static final RevenueCenter NO_CENTER = null;
 	int id;
 	String name;
 	Revenues revenues;
 	RevenueCenterType type; 
 	CityInfo cityInfo;
-	boolean selectedForTrain [] = new boolean [4];
+	boolean selectedForTrain [] = new boolean [MAX_TRAIN_COUNT];
 	TileType tileType;
 
 	public RevenueCenter () {
@@ -146,7 +147,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public void clearAllSelected () {
 		int tIndex;
 		
-		for (tIndex = 0; tIndex < 4; tIndex++) {
+		for (tIndex = 0; tIndex < MAX_TRAIN_COUNT; tIndex++) {
 			setSelected (false, tIndex);
 		}
 	}
@@ -178,10 +179,9 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		tRevenueCenter.revenues = revenues;
 		tRevenueCenter.type = type.clone ();
 		tRevenueCenter.cityInfo = cityInfo;
-		tRevenueCenter.selectedForTrain [0] = selectedForTrain [0];
-		tRevenueCenter.selectedForTrain [1] = selectedForTrain [1];
-		tRevenueCenter.selectedForTrain [2] = selectedForTrain [2];
-		tRevenueCenter.selectedForTrain [3] = selectedForTrain [3];
+		for (int tTrainIndex = 0; tTrainIndex < MAX_TRAIN_COUNT; tTrainIndex++) {
+			tRevenueCenter.selectedForTrain [tTrainIndex] = selectedForTrain [tTrainIndex];
+		}
 	
 		return tRevenueCenter;
 	}
@@ -519,10 +519,6 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public void toggleSelected (int aIndex) {
 		setSelected (! selectedForTrain [aIndex], aIndex);
 	}
-	
-	// ABSTRACT Methods that should be overloaded by the sub-classes
-	public abstract boolean cityOrTown ();
-	public abstract void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile, Feature2 aSelectedFeature);
 
 	public String getTokenToolTip () {
 		return "";
@@ -530,8 +526,10 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	
 	@Override
 	public boolean isOpen () {
-		
 		return false;
 	}
 
+	// ABSTRACT Methods that should be overloaded by the sub-classes
+	public abstract boolean cityOrTown ();
+	public abstract void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile, Feature2 aSelectedFeature);
 }
