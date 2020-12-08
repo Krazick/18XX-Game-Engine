@@ -729,4 +729,27 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public boolean hasTown () {
 		return centers.hasTown ();
 	}
+
+
+	public boolean hasConnectingTrackBetween (Location aThisLocation, Location aThatLocation) {
+		boolean tHasConnectingTrackBetween = false;
+		int tTrackIndex;
+		Track tTrack;
+		Location tEnterLocation, tExitLocation;
+		
+		for (tTrackIndex = 0; tTrackIndex < tracks.size (); tTrackIndex++) {
+			tTrack = tracks.get (tTrackIndex);
+			tEnterLocation = tTrack.getEnterLocation ();
+			tExitLocation = tTrack.getExitLocation ();
+			if ((tEnterLocation.equals (aThisLocation)) && 
+				(tExitLocation.equals (aThatLocation))) {
+				tHasConnectingTrackBetween = true;
+			} else if ((tEnterLocation.equals (aThatLocation)) && 
+					(tExitLocation.equals (aThisLocation))) {
+				tHasConnectingTrackBetween = true;
+			}
+		}
+		
+		return tHasConnectingTrackBetween;
+	}
 }
