@@ -139,6 +139,10 @@ public class Tracks implements Cloneable {
 		return segments.toString ();
 	}
 
+	public Track get (int aTrackIndex) {
+		return segments.get(aTrackIndex);
+	}
+	
 	public Track getTrackFromSide (int aSideLocation) {
 		Track tTrack = Track.NO_TRACK;
 		
