@@ -801,57 +801,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	public void handleSelectedRouteRC (MapCell aSelectedMapCell, RevenueCenter aSelectedRevenueCenter) {
 		RouteSegment tRouteSegment;
-		boolean tCorpStation, tOpenFlow, tIsCity, tIsDeadEnd, tHasRevenueCenter;
-		int tRevenue, tBonus;
-		Gauge tGauge;
-		Corporation tCorporation = getOperatingCompany ();
-		int tCorpID;
-		int tPhase;
-		Location tLocation;
 		
 		tRouteSegment = new RouteSegment (aSelectedMapCell);
 		setStartSegment (tRouteSegment, aSelectedRevenueCenter);
-//		tCorpID = tCorporation.getID ();
-//		tPhase = gameManager.getCurrentPhase ();
-//		if (aSelectedRevenueCenter == RevenueCenter.NO_CENTER) {
-//			tCorpStation = false;
-//			tOpenFlow = true;
-//			tHasRevenueCenter = false;
-//			tRevenue = 0;
-//			tLocation = new Location ();
-//			tIsCity = false;
-//		} else {
-//			tCorpStation = aSelectedRevenueCenter.cityHasStation (tCorpID);
-//			tIsCity = aSelectedRevenueCenter.isCity ();
-//			tIsDeadEnd = aSelectedRevenueCenter.isDeadEnd ();
-//			tHasRevenueCenter = true;
-//			if (tIsDeadEnd) {			// if a Dead-End City, no Flow beyond this.
-//				tOpenFlow = false;
-//			} else if (tIsCity) {	
-//				if (tCorpStation) {		// If this is a City, and it has the Current Operating Company matches the Token
-//										// Then can flow beyond
-//					tOpenFlow = true;
-//				} else { 				// If this is a City, then if there is an Open Station, Flow can continue
-//					tOpenFlow = aSelectedRevenueCenter.isOpen ();
-//				}
-//			} else {					// If this is not a City, it is a Town, and Flow is allowed further
-//				tOpenFlow = true;
-//			}
-//			tRevenue = aSelectedRevenueCenter.getRevenue (tPhase);
-//			tLocation = aSelectedRevenueCenter.getLocation ();
-//		}
-//		
-//		tBonus = 0;		// TODO: If Selected City has Cattle, Port, etc that will add a Bonus, put that here
-//		tGauge = new Gauge (Gauge.NORMAL_GAUGE);	// TODO: For 1853, and others with different Gauges, 
-//													// find the Selected Gauge from the Tile.
-//				
-//		// setStartSegment (Location aStartLocation, boolean aCorpStation, boolean aOpenStation, int aRevenue, 
-//		//					int aBonus, Gauge aGauge
-//		
-//		tRouteSegment.setStartSegment (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, tRevenue, tBonus, tGauge);
-		addRouteSegment (tRouteSegment);
-//		System.out.println ("In Select Route Mode, - Add to Route. " + tIsCity + 
-//				", Corp Station " + tCorpStation + ", Open Flow " + tOpenFlow + ", Revenue " + tRevenue);
+		extendRouteInformation (tRouteSegment);
 		System.out.println ("Route Segment Count " + routeInformation.getSegmentCount () + 
 				" Center Count " + routeInformation.getCenterCount());
 	}
@@ -907,7 +860,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				", Corp Station " + tCorpStation + ", Open Flow " + tOpenFlow + ", Revenue " + tRevenue);
 	}
 	
-	public void addRouteSegment (RouteSegment aRouteSegment) {
+	public void extendRouteInformation (RouteSegment aRouteSegment) {
 		int tSegmentCount = routeInformation.getSegmentCount ();
 		RouteSegment tPreviousSegment, tNewPreviousSegment;
 		RevenueCenter tPreviousRevenueCenter;
@@ -926,40 +879,48 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			tPreviousMapCell = tPreviousSegment.getMapCell ();
 			tTrainNumber = routeInformation.getTrainIndex () + 1;
 			if (tCurrentMapCell.isNeighbor (tPreviousMapCell)) {
-				System.out.println ("Current Map Cell is Neighbor of Previous Map Cell");
 				if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
 					tPreviousSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
-					tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
-					tPreviousTrack = tPreviousMapCell.getTrackFromSide (tPreviousSide);
-					
-					if (tPreviousSegment.getEndLocation () != Location.NO_LOCATION) {
-						tPreviousEnd = tPreviousSegment.getEndLocation ();
-						tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
-						tPreviousTile = tPreviousSegment.getTile ();
-						tPreviousRevenueCenter = tPreviousTile.getCenterAtLocation (tPreviousEnd); 
-						setStartSegment (tNewPreviousSegment, tPreviousRevenueCenter);
-						tNewPreviousSegment.setEndSegment (tPreviousSide);
+					tPreviousEnd = tPreviousSegment.getEndLocation ();
+					if ((tPreviousEnd == Location.NO_LOCATION) ||
+						(tPreviousMapCell.hasConnectingTrackBetween (tPreviousSide, tPreviousEnd))) {
+						System.out.println ("MapCell " + tPreviousMapCell.getID () + " has Track connecting between " +
+									tPreviousSide + " and " + tPreviousEnd);
+						tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
+						tPreviousTrack = tPreviousMapCell.getTrackFromSide (tPreviousSide);
 						
-						tNewPreviousTrack = tPreviousMapCell.getTrackFromSide (tPreviousSide);
-						tNewPreviousTrack.setTrainNumber (tTrainNumber);
-						
-						routeInformation.addRouteSegment (tNewPreviousSegment);
-						System.out.println ("Added New PreviousSegment");
+						if (tPreviousSegment.getEndLocation () != Location.NO_LOCATION) {
+							tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
+							tPreviousTile = tPreviousSegment.getTile ();
+							tPreviousRevenueCenter = tPreviousTile.getCenterAtLocation (tPreviousEnd); 
+							setStartSegment (tNewPreviousSegment, tPreviousRevenueCenter);
+							tNewPreviousSegment.setEndSegment (tPreviousSide);
+							
+							tNewPreviousTrack = tPreviousMapCell.getTrackFromSide (tPreviousSide);
+							tNewPreviousTrack.setTrainNumber (tTrainNumber);
+							
+							routeInformation.addRouteSegment (tNewPreviousSegment);
+							System.out.println ("Added New Previous Segment from " + 
+										tNewPreviousSegment.getStartLocation () + " to " + tNewPreviousSegment.getEndLocation ());
+							routeInformation.printDetail ();
+						} else {
+							tPreviousSegment.setEndSegment (tPreviousSide);
+							tPreviousTrack.setTrainNumber (tTrainNumber);
+						}
+						aRouteSegment.setEndSegment (tCurrentSide);
+						tCurrentTrack = tCurrentMapCell.getTrackFromSide (tCurrentSide);
+						tCurrentTrack.setTrainNumber (tTrainNumber);
+	
+						aRouteSegment.swapStartEndLocations ();
+						routeInformation.addRouteSegment (aRouteSegment);
+						System.out.println ("Added New Current Segment from " + 
+										aRouteSegment.getStartLocation () + " to " + aRouteSegment.getEndLocation ());
 						routeInformation.printDetail ();
 					} else {
-						tPreviousSegment.setEndSegment (tPreviousSide);
-						tPreviousTrack.setTrainNumber (tTrainNumber);
+						System.out.println ("TRACK NOT FOUND between " + tPreviousSide + " and " + tPreviousEnd);
 					}
-					aRouteSegment.setEndSegment (tCurrentSide);
-					tCurrentTrack = tCurrentMapCell.getTrackFromSide (tCurrentSide);
-					tCurrentTrack.setTrainNumber (tTrainNumber);
-
-					aRouteSegment.swapStartEndLocations ();
-					routeInformation.addRouteSegment (aRouteSegment);
-					System.out.println ("Added New Current Segment");
-					routeInformation.printDetail ();
 				} else {
-					System.out.println ("NO Connecting Track Current " + tCurrentMapCell.getID() + " to Previous " + tPreviousMapCell.getID());
+					System.out.println ("NO Connecting Track From Current " + tCurrentMapCell.getID() + " to Previous " + tPreviousMapCell.getID());
 				}
 			} else {
 				System.out.println ("The Selected Map Cell is NOT a Neighbor of the Previous Map Cell");
