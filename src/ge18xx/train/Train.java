@@ -263,11 +263,11 @@ public class Train implements Comparable<Object> {
 				break;
 				
             case (2):		
-				color = Color.blue;
+				color = Color.orange;
 				break;
 					
 			case (3):		
-				color = Color.orange;
+				color = Color.pink;
 				break;
 						
 			case (4):		
