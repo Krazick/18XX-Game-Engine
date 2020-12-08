@@ -1589,5 +1589,20 @@ public class MapCell implements Comparator<Object> {
 		
 		return tCostToLay;
 	}
+
+	public boolean hasConnectingTrackBetween (int aThisLocation, int aThatLocation) {
+		Location tRawThisLocation, tRawThatLocation;
+		
+		tRawThisLocation = new Location (aThisLocation);
+		tRawThatLocation = new Location (aThatLocation);
+		if (tRawThisLocation.isSide ()) {
+			tRawThisLocation = tRawThisLocation.unrotateLocation (tileOrient);
+		}
+		if (tRawThatLocation.isSide ()) {
+			tRawThatLocation = tRawThatLocation.unrotateLocation (tileOrient);
+		}
+		
+		return tile.hasConnectingTrackBetween (tRawThisLocation, tRawThatLocation);
+	}
 }
 
