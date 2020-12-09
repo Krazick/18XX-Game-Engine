@@ -3,8 +3,8 @@ package ge18xx.train;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import ge18xx.center.RevenueCenter;
 import ge18xx.company.TrainCompany;
-import ge18xx.map.MapCell;
 
 public class RouteInformation {
 	public static RouteInformation NO_ROUTE_INFORMATION = null;
@@ -17,6 +17,7 @@ public class RouteInformation {
 	int specialBonus;	// Bonus (Special Train/Car used)
 	int phase;
 	ArrayList<RouteSegment> routeSegments;
+	ArrayList<RevenueCenter> revenueCenters;
 	TrainCompany trainCompany;
 	
 	// Collection of Route Segments
@@ -32,28 +33,44 @@ public class RouteInformation {
 		phase = aPhase;
 		setTrainCompany (aTrainCompany);
 		routeSegments = new ArrayList<RouteSegment> ();
+		revenueCenters = new ArrayList<RevenueCenter> ();
 	}
 	
 	public void addRouteSegment (RouteSegment aRouteSegment) {
+		RevenueCenter tRevenueCenter;
+		
+		if (aRouteSegment.hasRevenueCenter()) {
+			tRevenueCenter = aRouteSegment.getRevenueCenter();
+			if (! isSameRCasLast (tRevenueCenter)) {
+				revenueCenters.add (tRevenueCenter);
+			}
+		}
 		routeSegments.add (aRouteSegment);
 		calculateTotalRevenue ();
 	}
+	
+	public boolean isSameRCasLast (RevenueCenter aRevenueCenter) {
+		boolean tIsSameRCasLast = false;
+		RevenueCenter tLastRevenueCenter;
+		int tRevenueCenterCount;
 		
+		tRevenueCenterCount = revenueCenters.size ();
+		if (tRevenueCenterCount > 0) {
+			tLastRevenueCenter = revenueCenters.get (tRevenueCenterCount - 1);
+			if (tLastRevenueCenter.equals (aRevenueCenter)) {
+				tIsSameRCasLast = true;
+			}
+		}
+		return tIsSameRCasLast;
+	}
+	
 	public int getSegmentCount () {
+		
 		return routeSegments.size ();
 	}
 	
 	public int getCenterCount () {
-		int tCenterCount;
-		
-		tCenterCount = 0;
-		for (RouteSegment tRouteSegment : routeSegments) {
-			if (tRouteSegment.hasRevenueCenter ()) {
-				tCenterCount++;
-			}
-		}
-		
-		return tCenterCount;
+		return revenueCenters.size ();
 	}
 	
 	public RouteSegment getRouteSegment (int aRouteIndex) {
@@ -119,21 +136,12 @@ public class RouteInformation {
 	}
 	
 	public void calculateTotalRevenue () {
-		int tSegmentRevenue;
-		MapCell tMapCell, tPreviousMapCell;
+		int tRevenue;
 		
 		setTotalRevenue (0);
-		tPreviousMapCell = MapCell.NO_MAP_CELL;
-		for (RouteSegment tRouteSegment : routeSegments) {
-			tMapCell = tRouteSegment.getMapCell ();
-			// Don't add the Revenue a second time if the Previous MapCell is the same as the current MapCell
-			// If a Tile has two (or more) Revenue Centers connected via tracks, this needs to account for the 
-			// different RevenueCenters
-			if (tMapCell != tPreviousMapCell) {
-				tSegmentRevenue = tRouteSegment.getRevenue (phase);
-				addToTotalRevenue (tSegmentRevenue);
-			}
-			tPreviousMapCell = tMapCell;
+		for (RevenueCenter tRevenueCenter : revenueCenters) {
+			tRevenue = tRevenueCenter.getRevenue (phase);
+			addToTotalRevenue (tRevenue);
 		}
 	}
 	
@@ -154,9 +162,18 @@ public class RouteInformation {
 	}
 
 	public void printDetail () {
-		System.out.println ((trainIndex + 1) + ". " +train.getName () + " Train, Total Revenue: " + totalRevenue);
+		int tCenterIndex;
+		
+		System.out.println ((trainIndex + 1) + ". " +train.getName () + " Train, Total Revenue: " + totalRevenue +
+				" Center Count " + getCenterCount ());
 		for (RouteSegment tRouteSegment : routeSegments) {
 			tRouteSegment.printDetail ();
+		}
+		
+		tCenterIndex = 1;
+		for (RevenueCenter tRevenueCenter : revenueCenters) {
+			System.out.println (tCenterIndex + ". Center " + tRevenueCenter.getID () + " Revenue " + tRevenueCenter.getRevenue (phase));
+			tCenterIndex++;
 		}
 	}
 	
@@ -164,6 +181,33 @@ public class RouteInformation {
 		for (RouteSegment tRouteSegment : routeSegments) {
 			tRouteSegment.clearTrainOn ();
 		}
+	}
+
+	public int getRevenueAt (int aRevenueCenterIndex) {
+		int tRevenue = 0;
+		RevenueCenter tRevenueCenter;
+		
+		if ((aRevenueCenterIndex > 0) && (aRevenueCenterIndex <= revenueCenters.size ())) {
+			tRevenueCenter = revenueCenters.get (aRevenueCenterIndex);
+			tRevenue = tRevenueCenter.getRevenue (phase);
+		}
+		
+		return tRevenue;
+	}
+	
+	public int getRevenueAt (int aRevenueCenterIndex, int aPhase) {
+		int tRevenue;
+		RevenueCenter tFoundRevenueCenter;
+		
+		tRevenue = 0;
+		if ((aRevenueCenterIndex > 0) && (aRevenueCenterIndex <= revenueCenters.size ())) {
+			tFoundRevenueCenter = revenueCenters.get (aRevenueCenterIndex - 1);
+			tRevenue = tFoundRevenueCenter.getRevenue (phase);
+		} else {
+			System.err.println ("\nHave " + revenueCenters.size () + " Centers, asked for " + aRevenueCenterIndex);
+		}
+		
+		return tRevenue;
 	}
 
 	public void clear() {
