@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import ge18xx.company.TrainCompany;
+import ge18xx.map.MapCell;
 
 public class RouteInformation {
 	public static RouteInformation NO_ROUTE_INFORMATION = null;
@@ -14,11 +15,13 @@ public class RouteInformation {
 	String roundID;		// Operating Round ID when Route was Run
 	int regionBonus;	// Bonus (Special Region-to-Region connection)
 	int specialBonus;	// Bonus (Special Train/Car used)
+	int phase;
 	ArrayList<RouteSegment> routeSegments;
 	TrainCompany trainCompany;
 	
 	// Collection of Route Segments
-	public RouteInformation (Train aTrain, int aTrainIndex, Color aColor, String aRoundID, int aRegionBonus, int aSpecialBonus, TrainCompany aTrainCompany) {
+	public RouteInformation (Train aTrain, int aTrainIndex, Color aColor, String aRoundID, int aRegionBonus, 
+				int aSpecialBonus, int aPhase, TrainCompany aTrainCompany) {
 		setTrain (aTrain);
 		setTrainIndex (aTrainIndex);
 		setColor (aColor);
@@ -26,14 +29,16 @@ public class RouteInformation {
 		setRegionBonus (aRegionBonus);
 		setSpecialBonus (aSpecialBonus);
 		setTotalRevenue (0);
+		phase = aPhase;
 		setTrainCompany (aTrainCompany);
 		routeSegments = new ArrayList<RouteSegment> ();
 	}
 	
 	public void addRouteSegment (RouteSegment aRouteSegment) {
-		routeSegments.add(aRouteSegment);
+		routeSegments.add (aRouteSegment);
+		calculateTotalRevenue ();
 	}
-	
+		
 	public int getSegmentCount () {
 		return routeSegments.size ();
 	}
@@ -113,6 +118,25 @@ public class RouteInformation {
 		totalRevenue += aRevenue;
 	}
 	
+	public void calculateTotalRevenue () {
+		int tSegmentRevenue;
+		MapCell tMapCell, tPreviousMapCell;
+		
+		setTotalRevenue (0);
+		tPreviousMapCell = MapCell.NO_MAP_CELL;
+		for (RouteSegment tRouteSegment : routeSegments) {
+			tMapCell = tRouteSegment.getMapCell ();
+			// Don't add the Revenue a second time if the Previous MapCell is the same as the current MapCell
+			// If a Tile has two (or more) Revenue Centers connected via tracks, this needs to account for the 
+			// different RevenueCenters
+			if (tMapCell != tPreviousMapCell) {
+				tSegmentRevenue = tRouteSegment.getRevenue (phase);
+				addToTotalRevenue (tSegmentRevenue);
+			}
+			tPreviousMapCell = tMapCell;
+		}
+	}
+	
 	public void setTrainCompany (TrainCompany aTrainCompany) {
 		trainCompany = aTrainCompany;
 	}
@@ -140,6 +164,14 @@ public class RouteInformation {
 		for (RouteSegment tRouteSegment : routeSegments) {
 			tRouteSegment.clearTrainOn ();
 		}
-		
+	}
+
+	public void clear() {
+		clearTrainOn ();
+		setTotalRevenue (0);
+	}
+	
+	public void setTrainCurrentRouteInformation () {
+		train.setCurrentRouteInformation (this);
 	}
 }
