@@ -790,4 +790,9 @@ public class Track implements Cloneable {
 		gauge = aGauge;
 		trainNumberUsing = NO_TRAIN;
 	}
+
+	public boolean isTrackUsed() {
+		
+		return (trainNumberUsing > 0);
+	}
 }
