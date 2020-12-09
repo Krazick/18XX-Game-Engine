@@ -2,6 +2,7 @@ package ge18xx.train;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
+import ge18xx.phase.PhaseInfo;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -143,14 +144,18 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		String tRoundID = "1.1";
 		int tRegionBonus = 0, tSpecialBonus = 0;
 		RouteInformation tRouteInformation;
+		int tPhase;
+		PhaseInfo tPhaseInfo;
 		
 		tTrainCount = trainCompany.getTrainCount ();
+		tPhaseInfo = trainCompany.getCurrentPhaseInfo();
+		tPhase = tPhaseInfo.getName ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tRouteButton.equals (selectRoutes [tTrainIndex])) {
 				tTrain = trainCompany.getTrain (tTrainIndex);
 				tCityCount = tTrain.getCityCount ();
-
-				tRouteInformation = new RouteInformation (tTrain, tTrainIndex, tColor, tRoundID, tRegionBonus, tSpecialBonus, trainCompany);
+				tTrain.clearRouteInformation ();
+				tRouteInformation = new RouteInformation (tTrain, tTrainIndex, tColor, tRoundID, tRegionBonus, tSpecialBonus, tPhase, trainCompany);
 				trainCompany.enterSelectRouteMode (tRouteInformation);
 				System.out.println ("Selecting Route for Train Index " + tTrainIndex + " City Count " + tCityCount);
 				
