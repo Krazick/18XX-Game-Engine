@@ -430,4 +430,11 @@ public class Train implements Comparable<Object> {
 	public String getType () {
 		return PurchaseOffer.TRAIN_TYPE;
 	}
+
+	public void clearRouteInformation() {
+		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+			currentRouteInformation.clear ();
+		}
+		
+	}
 }
