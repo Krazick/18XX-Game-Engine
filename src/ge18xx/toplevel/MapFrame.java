@@ -932,5 +932,4 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 		routeInformation.printDetail ();
 	}
-	
 }
