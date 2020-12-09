@@ -100,11 +100,14 @@ public class RouteSegment {
 		
 		return tHasRevenueCenter;
 	}
-//	MapCell mapCell; 			// Hex ID
-//	Tile tile;
-//	SegmentInformation start;
-//	SegmentInformation end;
-//	int cost;					// For Ferry/Tunnel/Bridge Fee
+	
+	public boolean hasRevenueCenterAtStart () {
+		return start.hasRevenueCenter ();
+	}
+	
+	public boolean hasRevenueCenterAtEnd () {
+		return end.hasRevenueCenter ();
+	}
 
 	public void printDetail() {
 		System.out.println ("MapCell " + mapCell.getCellID () + " Tile # " + tile.getNumber() + 
@@ -222,5 +225,6 @@ public class RouteSegment {
 		
 		return tRevenue;
 	}
+
 }
 
