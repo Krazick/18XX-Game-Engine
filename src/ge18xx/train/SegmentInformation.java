@@ -103,7 +103,7 @@ public class SegmentInformation {
 		return revenueCenter;
 	}
 	
-	public boolean hasRevenueCenter() {
+	public boolean hasRevenueCenter () {
 		return hasRevenueCenter;
 	}
 }
