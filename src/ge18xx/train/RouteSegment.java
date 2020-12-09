@@ -196,5 +196,31 @@ public class RouteSegment {
 			tRevenueCenter.setSelected (true, aTrainIndex);
 		}
 	}
+
+	public boolean isTrackUsed() {
+		Track tTrack;
+		boolean tIsTrackUsed;
+		
+		tTrack = getTrack ();
+		if (tTrack == Track.NO_TRACK) {
+			tIsTrackUsed = false;
+		} else {
+			tIsTrackUsed = tTrack.isTrackUsed ();
+		}
+		
+		return tIsTrackUsed;
+	}
+
+	public int getRevenue (int aPhase) {
+		RevenueCenter tRevenueCenter;
+		
+		int tRevenue = 0;
+		tRevenueCenter = getRevenueCenter ();
+		if (tRevenueCenter != RevenueCenter.NO_CENTER) {
+			tRevenue = tRevenueCenter.getRevenue(aPhase);
+		}
+		
+		return tRevenue;
+	}
 }
 
