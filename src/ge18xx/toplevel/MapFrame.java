@@ -715,6 +715,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			selectRouteButton.setText ("Exit Select Route Mode");
 		} else {
 			selectRouteButton.setText ("Enter Select Route Mode");
+			if (routeInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+				routeInformation.setTrainCurrentRouteInformation ();
+			}
 		}
 		System.out.println ("Ready to set Track and Revenue Modes to " + aMode);
 		
@@ -861,6 +864,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		int tPreviousSide, tCurrentSide, tPreviousEnd;
 		Tile tPreviousTile;
 		int tTrainNumber;
+		boolean tAddNewSegment = false;
 		
 		if (tSegmentCount == 0) {
 			routeInformation.addRouteSegment (aRouteSegment);			
@@ -881,6 +885,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						System.out.println ("MapCell " + tPreviousMapCell.getID () + " has Track connecting between " +
 									tPreviousSide + " and " + tPreviousEnd);
 						tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
+						aRouteSegment.setEndSegment (tCurrentSide);
 						
 						if (tPreviousSegment.getEndLocationInt () != Location.NO_LOCATION) {
 							tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
@@ -888,23 +893,33 @@ public class MapFrame extends XMLFrame implements ActionListener {
 							tPreviousRevenueCenter = tPreviousTile.getCenterAtLocation (tPreviousEnd); 
 							setStartSegment (tNewPreviousSegment, tPreviousRevenueCenter);
 							tNewPreviousSegment.setEndSegment (tPreviousSide);
-							tNewPreviousSegment.setTrainOn (tTrainNumber);
 							
-							routeInformation.addRouteSegment (tNewPreviousSegment);
-							System.out.println ("Added New Previous Segment from " + 
+							if (! tNewPreviousSegment.isTrackUsed ()) {
+								tNewPreviousSegment.setTrainOn (tTrainNumber);
+							
+								routeInformation.addRouteSegment (tNewPreviousSegment);
+								System.out.println ("Added New Previous Segment from " + 
 										tNewPreviousSegment.getStartLocationInt () + " to " + tNewPreviousSegment.getEndLocationInt ());
-							routeInformation.printDetail ();
+								routeInformation.printDetail ();
+								tAddNewSegment = true;
+							}
 						} else {
 							tPreviousSegment.setEndSegment (tPreviousSide);
 							tPreviousSegment.setTrainOn (tTrainNumber);
 						}
-						aRouteSegment.setEndSegment (tCurrentSide);
-						aRouteSegment.setTrainOn (tTrainNumber);
+						if (! aRouteSegment.isTrackUsed ()) {
+							tAddNewSegment = true;
+						}
+						if (tAddNewSegment) {
+							aRouteSegment.setTrainOn (tTrainNumber);
 	
-						aRouteSegment.swapStartEndLocations ();
-						routeInformation.addRouteSegment (aRouteSegment);
-						System.out.println ("Added New Current Segment from " + 
+							aRouteSegment.swapStartEndLocations ();
+							routeInformation.addRouteSegment (aRouteSegment);
+							System.out.println ("Added New Current Segment from " + 
 										aRouteSegment.getStartLocationInt () + " to " + aRouteSegment.getEndLocationInt ());
+						} else {
+							System.err.println ("New Track Segment already in use");
+						}
 					} else {
 						System.err.println ("TRACK NOT FOUND between " + tPreviousSide + " and " + tPreviousEnd);
 					}
