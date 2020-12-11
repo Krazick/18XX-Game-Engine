@@ -752,4 +752,20 @@ public class Tile implements Comparable<Object>, Cloneable {
 		
 		return tHasConnectingTrackBetween;
 	}
+
+	public boolean isSideUsed (Location aSide) {
+		boolean tIsSideUsed = false;
+		Track tTrack;
+		
+		for (int tTrackIndex = 0; tTrackIndex < tracks.size (); tTrackIndex++) {
+			tTrack = tracks.get (tTrackIndex);
+			if (tTrack.isTrackToSide (aSide.getLocation ())) {
+				if (tTrack.isTrackUsed ()) {
+					tIsSideUsed = true;
+				}
+			}
+		}
+		
+		return tIsSideUsed;
+	}
 }
