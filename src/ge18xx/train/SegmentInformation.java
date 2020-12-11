@@ -67,7 +67,7 @@ public class SegmentInformation {
 		corpStation = aCorpStation;
 	}
 
-	private void setLocation (Location aLocation) {
+	public void setLocation (Location aLocation) {
 		location = aLocation;
 	}
 
