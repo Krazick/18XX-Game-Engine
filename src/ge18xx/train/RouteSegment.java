@@ -54,6 +54,14 @@ public class RouteSegment {
 		end = new SegmentInformation (aEndLocation, false, false, false, 0, 0, NORMAL_GAUGE, RevenueCenter.NO_CENTER);
 	}
 	
+	public void setStartLocation (Location aStartLocation) {
+		start.setLocation (aStartLocation);
+	}
+	
+	public void setEndLocation (Location aEndLocation) {
+		end.setLocation (aEndLocation);
+	}
+	
 	public void setEndSegment (int aEndLocation) {
 		Location tLocation;
 		
@@ -146,15 +154,45 @@ public class RouteSegment {
 		end = tTempSegmentInformation;
 	}
 	
-	public Track getTrack () {
-		Track tTrack = Track.NO_TRACK;
+	public Location getEnterSide () {
+		Location tEnterSide;
+		
+		tEnterSide = getStartLocation ();
+		if (! tEnterSide.isSide ()) {
+			tEnterSide = new Location ();
+		}
+		
+		return tEnterSide;
+	}
+	
+	public Location getExitSide () {
+		Location tExitSide;
+		
+		tExitSide = getEndLocation ();
+		if (! tExitSide.isSide ()) {
+			tExitSide = new Location ();
+		}
+		
+		return tExitSide;
+	}
+	
+	public Location getSide () {
 		Location tSideLocation;
 		
 		tSideLocation = getStartLocation ();
 		if (! tSideLocation.isSide ()) {
 			tSideLocation = getEndLocation ();
 		}
+
+		return tSideLocation;
+	}
+	
+	public Track getTrack () {
+		Track tTrack = Track.NO_TRACK;
+		Location tSideLocation;
 		
+		tSideLocation = getSide ();	
+		tSideLocation.rotateLocation (mapCell.getTileOrient ());
 		tTrack = mapCell.getTrackFromSide (tSideLocation.getLocation ());
 		
 		return tTrack;
@@ -177,12 +215,14 @@ public class RouteSegment {
 		RevenueCenter tRevenueCenter;
 		
 		tTrack = getTrack ();
-		System.out.println ("READY to Clear Train on Track from " + 
-					tTrack.getEnterLocationInt () + " to " + tTrack.getExitLocationInt());
-		tTrack.setTrainNumber (0);
-		if (hasRevenueCenter ()) {
-			tRevenueCenter = getRevenueCenter ();
-			tRevenueCenter.clearAllSelected();
+		if (tTrack != Track.NO_TRACK) {
+			System.out.println ("READY to Clear Train on Track from " + 
+						tTrack.getEnterLocationInt () + " to " + tTrack.getExitLocationInt());
+			tTrack.setTrainNumber (0);
+			if (hasRevenueCenter ()) {
+				tRevenueCenter = getRevenueCenter ();
+				tRevenueCenter.clearAllSelected ();
+			}
 		}
 	}
 	
@@ -200,15 +240,38 @@ public class RouteSegment {
 		}
 	}
 
-	public boolean isTrackUsed() {
+	public boolean isSideUsed () {
+		boolean tIsEnterSideUsed = false, tIsExitSideUsed = false, tIsSideUsed;
+		Location tSide;
+		int tTileOrient;
+		
+		tTileOrient = mapCell.getTileOrient();
+		tSide = getEnterSide ();
+		tSide = tSide.rotateLocation (tTileOrient);
+		tIsEnterSideUsed = tile.isSideUsed (tSide);
+		tSide = getExitSide ();
+		tSide = tSide.rotateLocation (tTileOrient);
+		tIsExitSideUsed = tile.isSideUsed (tSide);
+		
+		tIsSideUsed = tIsEnterSideUsed || tIsExitSideUsed;
+		
+		return tIsSideUsed;
+	}
+	
+	// if the Track is used, or even the side that the Track is used then return true.
+	public boolean isTrackUsed () {
 		Track tTrack;
 		boolean tIsTrackUsed;
 		
-		tTrack = getTrack ();
-		if (tTrack == Track.NO_TRACK) {
-			tIsTrackUsed = false;
+		if (isSideUsed ()) {
+			tIsTrackUsed = true;
 		} else {
-			tIsTrackUsed = tTrack.isTrackUsed ();
+			tTrack = getTrack ();
+			if (tTrack == Track.NO_TRACK) {
+				tIsTrackUsed = false;
+			} else {
+				tIsTrackUsed = tTrack.isTrackUsed ();
+			}
 		}
 		
 		return tIsTrackUsed;
@@ -225,6 +288,5 @@ public class RouteSegment {
 		
 		return tRevenue;
 	}
-
 }
 
