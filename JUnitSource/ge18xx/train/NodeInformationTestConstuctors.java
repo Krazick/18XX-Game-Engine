@@ -69,10 +69,34 @@ class NodeInformationTestConstuctors {
 		assertTrue (nodeInformationSide.isValid (), "Valid Node Information for Side");
 		assertTrue (nodeInformationCenter.isValid (), "Valid Node Information for Center");
 		
-		assertTrue (nodeInformationSide.isSide (), "Node Information for Side is a Side");
-		assertFalse (nodeInformationCenter.isSide (), "Node Information for Center is Not Side");
+		assertTrue (nodeInformationSide.isSide (), "Node Information for Side is NOT a Side");
+		assertFalse (nodeInformationCenter.isSide (), "Node Information for Center is a Side");
 
 		assertFalse (tNodeInformationBadLocation1.isValid (), "Valid Node Information for NO_LOCATION");
 		assertFalse (tNodeInformationBadLocation2.isValid (), "Valid Node Information for NULL Location");
+	}
+	
+	@Test
+	@DisplayName ("Node Information Test for setting Location")
+	public void NodeInformationSetLocationTests () {
+		Location tFoundLocation, tNewLocation;
+		
+		tFoundLocation = nodeInformationSide.getLocation ();
+		assertEquals (locationSide, tFoundLocation, "Node Information Constructor - Valid Side Location");
+		assertEquals (1, nodeInformationSide.getLocationInt (), "Node Information - getLocationInt");
+
+		tNewLocation = new Location (3);
+		nodeInformationSide.setLocation (tNewLocation);
+		assertNotEquals (tNewLocation, tFoundLocation, "Node Information Set Location - did not Change Location Object");
+		tFoundLocation = nodeInformationSide.getLocation ();
+		assertEquals (tNewLocation, tFoundLocation, "Node Information reset Side - did not get New Location");
+		assertNotEquals (1, nodeInformationSide.getLocationInt (), "Node Information - Location is not 3");
+		assertEquals (3, nodeInformationSide.getLocationInt (), "Node Information - getLocationInt");
+
+		assertTrue (nodeInformationSide.isSide (), "Node Information for Side is NOT a Side");
+		tNewLocation = new Location (10);
+		nodeInformationSide.setLocation (tNewLocation);
+		
+		assertFalse (nodeInformationSide.isSide (), "Node Information for Side is NOT a Side");
 	}
 }
