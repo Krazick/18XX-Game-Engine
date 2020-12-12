@@ -731,8 +731,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 
 
-	public boolean hasConnectingTrackBetween (Location aThisLocation, Location aThatLocation) {
-		boolean tHasConnectingTrackBetween = false;
+	public Track getConnectingTrackBetween (Location aThisLocation, Location aThatLocation) {
+		Track tFoundTrack = Track.NO_TRACK;
 		int tTrackIndex;
 		Track tTrack;
 		Location tEnterLocation, tExitLocation;
@@ -743,11 +743,23 @@ public class Tile implements Comparable<Object>, Cloneable {
 			tExitLocation = tTrack.getExitLocation ();
 			if ((tEnterLocation.equals (aThisLocation)) && 
 				(tExitLocation.equals (aThatLocation))) {
-				tHasConnectingTrackBetween = true;
+				tFoundTrack = tTrack;
 			} else if ((tEnterLocation.equals (aThatLocation)) && 
 					(tExitLocation.equals (aThisLocation))) {
-				tHasConnectingTrackBetween = true;
+				tFoundTrack = tTrack;
 			}
+		}
+		
+		return tFoundTrack;
+	}
+	
+	public boolean hasConnectingTrackBetween (Location aThisLocation, Location aThatLocation) {
+		boolean tHasConnectingTrackBetween = false;
+		Track tTrack;
+		
+		tTrack = getConnectingTrackBetween (aThisLocation, aThatLocation);
+		if (tTrack == Track.NO_TRACK)  {
+			tHasConnectingTrackBetween = true;
 		}
 		
 		return tHasConnectingTrackBetween;
@@ -767,5 +779,17 @@ public class Tile implements Comparable<Object>, Cloneable {
 		}
 		
 		return tIsSideUsed;
+	}
+
+	public Gauge getGauge (Location aThisLocation, Location aThatLocation) {
+		Gauge tGauge = new Gauge ();
+		Track tTrack;
+		
+		tTrack = getConnectingTrackBetween (aThisLocation, aThatLocation);
+			if (tTrack == Track.NO_TRACK)  {
+				tGauge = tTrack.getGauge ();
+			}
+
+		return tGauge;
 	}
 }
