@@ -18,11 +18,18 @@ public class RouteSegment {
 	Gauge gauge;			//	Track Gauge
 
 	public RouteSegment (MapCell aMapCell) {
+		NodeInformation tNodeInformation1;
+		NodeInformation tNodeInformation2;
+
 		setMapCell (aMapCell);
 		setTile (aMapCell.getTile ());
 		setCost (0);
-		setStartNode (new Location ());
-		setEndNode (new Location ());
+		
+		tNodeInformation1 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER);
+		setStartNode (tNodeInformation1);
+		
+		tNodeInformation2 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER);
+		setEndNode (tNodeInformation2);
 		setGauge (new Gauge ());
 	}
 	
@@ -39,25 +46,52 @@ public class RouteSegment {
 	}
 	
 	public boolean validSegment () {
-		return (start.isValid () && end.isValid ());
+		boolean tValidSegment;
+		
+		tValidSegment = (start.isValid () && end.isValid ());
+		if (tValidSegment) {
+			tValidSegment = (start.getLocationInt () != end.getLocationInt());
+		}
+		
+		return tValidSegment;
+	}
+	
+	public void setStartNode (NodeInformation aNodeInformation) {
+		start = aNodeInformation;
+	}
+	
+	public void setEndNode (NodeInformation aNodeInformation) {
+		end = aNodeInformation;
 	}
 	
 	public void setStartNode (Location aStartLocation) {
-		start = new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
+		NodeInformation tNodeInformation;
+		
+		tNodeInformation = new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
+		setStartNode (tNodeInformation);
 	}
 	
 	public void setStartNode (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
 				int aBonus, RevenueCenter aRevenueCenter) {
-		start = new NodeInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
+		NodeInformation tNodeInformation;
+		
+		tNodeInformation = new NodeInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
+		setStartNode (tNodeInformation);
 	}
 	
 	public void setEndNode (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
 			int aBonus, RevenueCenter aRevenueCenter) {
-		end = new NodeInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
+		NodeInformation tNodeInformation;
+		
+		tNodeInformation = new NodeInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
+		setEndNode (tNodeInformation);
 	}
 	
 	public void setEndNode (Location aEndLocation) {
-		end = new NodeInformation (aEndLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
+		NodeInformation tNodeInformation;
+		
+		tNodeInformation = new NodeInformation (aEndLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
+		setEndNode (tNodeInformation);
 	}
 	
 	public void setStartNodeLocation (Location aStartLocation) {
