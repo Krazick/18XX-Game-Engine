@@ -16,6 +16,7 @@ class RouteSegmentTests {
 	@Test
 	@DisplayName ("Route Segment Constructor Tests with Mocks")
 	void RouteSegmentConstructorTests () {
+		Location tLocation1, tLocation2, tLocation3;
 //		tMockCoID = 5001;
 //		TokenCompany mCompany = Mockito.mock (TokenCompany.class);
 //		Mockito.when (mCompany.getID ()).thenReturn (tMockCoID);
@@ -30,7 +31,20 @@ class RouteSegmentTests {
 		
 		assertEquals (tRouteSegment.getStartLocationInt (), Location.NO_LOCATION, "Route Segment Start is not NO_LOCATTION");
 		assertEquals (tRouteSegment.getEndLocationInt (), Location.NO_LOCATION, "Route Segment End is not NO_LOCATTION");
-//		fail("Not yet implemented");
+		
+		assertFalse (tRouteSegment.validSegment (), "Route Segment before Locations set does have two good Locations");
+		tLocation1 = new Location (1);
+		tLocation2 = new Location (50);
+		tRouteSegment.setStartNode (tLocation1);
+		assertFalse (tRouteSegment.validSegment (), "Route Segment after location1 set does have two good Locations");
+		tRouteSegment.setEndNode (tLocation2);
+		assertTrue (tRouteSegment.validSegment (), "Route Segment after location2 set does NOT have two good Locations");
+		
+		tLocation3 = new Location (1);
+		tRouteSegment.setEndNode (tLocation3);
+		assertFalse (tRouteSegment.validSegment (), "Route Segment after location1 set does have two good Different Int Locations");
+		tRouteSegment.setEndNode (tLocation1);
+		assertFalse (tRouteSegment.validSegment (), "Route Segment after location1 set does have two good Different Locations");
 	}
 
 }
