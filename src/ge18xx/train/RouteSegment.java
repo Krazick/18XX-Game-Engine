@@ -21,8 +21,8 @@ public class RouteSegment {
 		setMapCell (aMapCell);
 		setTile (aMapCell.getTile ());
 		setCost (0);
-		setStartSegment (new Location ());
-		setEndSegment (new Location ());
+		setStartNode (new Location ());
+		setEndNode (new Location ());
 		setGauge (new Gauge ());
 	}
 	
@@ -42,43 +42,47 @@ public class RouteSegment {
 		return (start.isValid () && end.isValid ());
 	}
 	
-	public void setStartSegment (Location aStartLocation) {
+	public void setStartNode (Location aStartLocation) {
 		start = new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 	}
 	
-	public void setStartSegment (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
+	public void setStartNode (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
 				int aBonus, RevenueCenter aRevenueCenter) {
 		start = new NodeInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
 	}
 	
-	public void setEndSegment (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
+	public void setEndNode (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
 			int aBonus, RevenueCenter aRevenueCenter) {
 		end = new NodeInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
 	}
 	
-	public void setEndSegment (Location aEndLocation) {
+	public void setEndNode (Location aEndLocation) {
 		end = new NodeInformation (aEndLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 	}
 	
-	public void setStartLocation (Location aStartLocation) {
+	public void setStartNodeLocation (Location aStartLocation) {
 		start.setLocation (aStartLocation);
 	}
 	
-	public void setEndLocation (Location aEndLocation) {
+	public void setEndNodeLocation (Location aEndLocation) {
 		end.setLocation (aEndLocation);
 	}
 	
-	public void setEndSegment (int aEndLocation) {
+	public void setEndNodeLocationInt (int aEndLocation) {
 		Location tLocation;
 		
 		tLocation = new Location (aEndLocation);
-		setEndSegment (tLocation);
+		setEndNode (tLocation);
 	}
 	
 	public void setCost (int aCost) {
 		cost = aCost;
 	}
 
+	public int getCost () {
+		return cost;
+	}
+	
 	public void setTile (Tile aTile) {
 		tile = aTile;
 	}
