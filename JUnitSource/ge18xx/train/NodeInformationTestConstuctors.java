@@ -13,8 +13,9 @@ import ge18xx.center.RevenueCenterType;
 import ge18xx.map.Location;
 import ge18xx.tiles.TileType;
 
-@DisplayName ("Node Information Tests")
-public class NodeInformationConstructors {
+@DisplayName ("Node Information Constructor Tests")
+
+class NodeInformationTestConstuctors {
 	Location locationSide;
 	Location locationCenter;
 	NodeInformation nodeInformationSide;
@@ -31,8 +32,7 @@ public class NodeInformationConstructors {
 		locationCenter = new Location (50);
 		centerCity = new City (RevenueCenterType.SINGLE_CITY, 1, 1, Location.CENTER_CITY_LOC, "Home Town", 20, tYellow);
 		nodeInformationSide = new NodeInformation (locationSide, false, true, false, 0, 0, RevenueCenter.NO_CENTER);
-		nodeInformationCenter = new NodeInformation (locationSide, false, true, true, 0, 0, centerCity);
-
+		nodeInformationCenter = new NodeInformation (locationCenter, false, true, true, 0, 0, centerCity);
 	}
 
 	/**
@@ -68,6 +68,9 @@ public class NodeInformationConstructors {
 
 		assertTrue (nodeInformationSide.isValid (), "Valid Node Information for Side");
 		assertTrue (nodeInformationCenter.isValid (), "Valid Node Information for Center");
+		
+		assertTrue (nodeInformationSide.isSide (), "Node Information for Side is a Side");
+		assertFalse (nodeInformationCenter.isSide (), "Node Information for Center is Not Side");
 
 		assertFalse (tNodeInformationBadLocation1.isValid (), "Valid Node Information for NO_LOCATION");
 		assertFalse (tNodeInformationBadLocation2.isValid (), "Valid Node Information for NULL Location");
