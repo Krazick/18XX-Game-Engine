@@ -851,7 +851,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		tBonus = 0;		// TODO: If Selected City has Cattle, Port, etc that will add a Bonus, put that here
 				
-		aRouteSegment.setStartSegment (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, tRevenue, tBonus, aSelectedRevenueCenter);
+		aRouteSegment.setStartNode (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, tRevenue, tBonus, aSelectedRevenueCenter);
 	}
 	
 //	public boolean fixSegment (RouteSegment aRouteSegment, MapCell tCurrentMapCell, MapCell tPreviousMapCell) {
@@ -930,7 +930,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						(tPreviousMapCell.hasConnectingTrackBetween (tPreviousSide, tPreviousEnd))) {
 //						if (! tFixedSegment) {
 							tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
-							aRouteSegment.setEndSegment (tCurrentSide);
+							aRouteSegment.setEndNodeLocationInt (tCurrentSide);
 //						}
 						
 						if (tPreviousSegment.getEndLocationInt () != Location.NO_LOCATION) {
@@ -938,7 +938,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 							tPreviousTile = tPreviousSegment.getTile ();
 							tPreviousRevenueCenter = tPreviousTile.getCenterAtLocation (tPreviousEnd); 
 							setStartSegment (tNewPreviousSegment, tPreviousRevenueCenter);
-							tNewPreviousSegment.setEndSegment (tPreviousSide);
+							tNewPreviousSegment.setEndNodeLocationInt (tPreviousSide);
 							
 							if (! tNewPreviousSegment.isTrackUsed ()) {
 								tNewPreviousSegment.setTrainOn (tTrainNumber);
@@ -950,7 +950,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 								tAddNewSegment = true;
 							}
 						} else {
-							tPreviousSegment.setEndSegment (tPreviousSide);
+							tPreviousSegment.setEndNodeLocationInt (tPreviousSide);
 							tPreviousSegment.setTrainOn (tTrainNumber);
 						}
 						if (! aRouteSegment.isTrackUsed ()) {
