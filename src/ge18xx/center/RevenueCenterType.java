@@ -9,27 +9,27 @@ package ge18xx.center;
 //
 
 public class RevenueCenterType implements Cloneable {
-	static final int NO_REVENUE_CENTER = 0;
-	static final int SMALL_TOWN = 1;
-	static final int TWO_SMALL_TOWNS = 2;
-	static final int SINGLE_CITY = 3;
-	static final int TWO_CITIES = 4;
-	static final int THREE_CITIES = 5;
-	static final int FOUR_CITIES = 6;
-	static final int FIVE_CITIES = 7;
-	static final int SIX_CITIES = 8;
-	static final int DOUBLE_CITY = 9;
-	static final int TRIPLE_CITY = 10;
-	static final int QUAD_CITY = 11;
-	static final int TWO_DOUBLE_CITIES = 12;
-	static final int DEAD_END_CITY = 13;
-	static final int DEAD_END_ONLY_CITY = 14;
-	static final int BYPASS_CITY = 15;
-	static final int DESTINATION_CITY = 16;
-	static final int DOT_TOWN = 17;
-	static final int PRIVATE_RAILWAY_POINT = 18;
-	static final int MIN_REVENUE_CENTER_TYPE = NO_REVENUE_CENTER;
-	static final int MAX_REVENUE_CENTER_TYPE = PRIVATE_RAILWAY_POINT;
+	public static final int NO_REVENUE_CENTER = 0;
+	public static final int SMALL_TOWN = 1;
+	public static final int TWO_SMALL_TOWNS = 2;
+	public static final int SINGLE_CITY = 3;
+	public static final int TWO_CITIES = 4;
+	public static final int THREE_CITIES = 5;
+	public static final int FOUR_CITIES = 6;
+	public static final int FIVE_CITIES = 7;
+	public static final int SIX_CITIES = 8;
+	public static final int DOUBLE_CITY = 9;
+	public static final int TRIPLE_CITY = 10;
+	public static final int QUAD_CITY = 11;
+	public static final int TWO_DOUBLE_CITIES = 12;
+	public static final int DEAD_END_CITY = 13;
+	public static final int DEAD_END_ONLY_CITY = 14;
+	public static final int BYPASS_CITY = 15;
+	public static final int DESTINATION_CITY = 16;
+	public static final int DOT_TOWN = 17;
+	public static final int PRIVATE_RAILWAY_POINT = 18;
+	public static final int MIN_REVENUE_CENTER_TYPE = NO_REVENUE_CENTER;
+	public static final int MAX_REVENUE_CENTER_TYPE = PRIVATE_RAILWAY_POINT;
 	static final String NAMES [] = {"No Revenue Center", "Small Town", "Two Small Towns", "Single City", 
 		"Two Cities", "Three Cities", "Four Cities", "Five Cities", "Six Cities", "Double City", "Triple City", 
 		"Quad City", "Two Double Cities", "Dead-End City", "Dead-End Only City", "Bypass City", 
