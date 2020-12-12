@@ -12,16 +12,22 @@ public class RouteSegment {
 	public static RouteSegment NO_ROUTE_SEGMENT = null;
 	MapCell mapCell; 			// Hex ID
 	Tile tile;
-	SegmentInformation start;
-	SegmentInformation end;
-	int cost;					// For Ferry/Tunnel/Bridge Fee
-	
+	NodeInformation start;
+	NodeInformation end;
+	int cost;				// For Ferry/Tunnel/Bridge Fee
+	Gauge gauge;			//	Track Gauge
+
 	public RouteSegment (MapCell aMapCell) {
 		setMapCell (aMapCell);
 		setTile (aMapCell.getTile ());
 		setCost (0);
 		setStartSegment (new Location ());
 		setEndSegment (new Location ());
+		setGauge (new Gauge ());
+	}
+	
+	private void setGauge (Gauge aGauge) {
+		gauge = aGauge;
 	}
 	
 	private void setMapCell (MapCell aMapCell) {
@@ -37,21 +43,21 @@ public class RouteSegment {
 	}
 	
 	public void setStartSegment (Location aStartLocation) {
-		start = new SegmentInformation (aStartLocation, false, false, false, 0, 0, NORMAL_GAUGE, RevenueCenter.NO_CENTER);
+		start = new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 	}
 	
 	public void setStartSegment (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
-				int aBonus, Gauge aGauge, RevenueCenter aRevenueCenter) {
-		start = new SegmentInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aGauge, aRevenueCenter);
+				int aBonus, RevenueCenter aRevenueCenter) {
+		start = new NodeInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
 	}
 	
 	public void setEndSegment (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
-			int aBonus, Gauge aGauge, RevenueCenter aRevenueCenter) {
-		end = new SegmentInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aGauge, aRevenueCenter);
+			int aBonus, RevenueCenter aRevenueCenter) {
+		end = new NodeInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
 	}
 	
 	public void setEndSegment (Location aEndLocation) {
-		end = new SegmentInformation (aEndLocation, false, false, false, 0, 0, NORMAL_GAUGE, RevenueCenter.NO_CENTER);
+		end = new NodeInformation (aEndLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 	}
 	
 	public void setStartLocation (Location aStartLocation) {
@@ -147,7 +153,7 @@ public class RouteSegment {
 	}
 	
 	public void swapStartEndLocations () {
-		SegmentInformation tTempSegmentInformation;
+		NodeInformation tTempSegmentInformation;
 		
 		tTempSegmentInformation = start;
 		start = end;
