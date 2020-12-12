@@ -68,6 +68,10 @@ public class NodeInformation {
 		return location;
 	}
 	
+	public boolean isSide () {
+		return location.isSide ();
+	}
+	
 	public boolean isValid () {
 		boolean tIsValid = false;
 		
