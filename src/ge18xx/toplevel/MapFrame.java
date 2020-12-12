@@ -31,6 +31,7 @@ import ge18xx.tiles.Gauge;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.tiles.Track;
+import ge18xx.train.NodeInformation;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.RouteSegment;
 import ge18xx.utilities.ElementName;
@@ -813,12 +814,12 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public void setStartSegment (RouteSegment aRouteSegment, RevenueCenter aSelectedRevenueCenter) {
 		boolean tCorpStation, tOpenFlow, tIsCity, tIsDeadEnd, tHasRevenueCenter;
 		int tRevenue, tBonus;
-		Gauge tGauge;
 		Corporation tCorporation = getOperatingCompany ();
 		int tCorpID;
 		int tPhase;
 		Location tLocation;
-
+		NodeInformation tStartNode;
+		
 		tCorpID = tCorporation.getID ();
 		tPhase = gameManager.getCurrentPhase ();
 		if (aSelectedRevenueCenter == RevenueCenter.NO_CENTER) {
@@ -850,8 +851,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 		
 		tBonus = 0;		// TODO: If Selected City has Cattle, Port, etc that will add a Bonus, put that here
-				
-		aRouteSegment.setStartNode (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, tRevenue, tBonus, aSelectedRevenueCenter);
+		
+		//new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
+		tStartNode = new NodeInformation (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, 
+				tRevenue, tBonus, aSelectedRevenueCenter);
+		aRouteSegment.setStartNode (tStartNode);
 	}
 	
 //	public boolean fixSegment (RouteSegment aRouteSegment, MapCell tCurrentMapCell, MapCell tPreviousMapCell) {
@@ -925,13 +929,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
 					tPreviousSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
 					tPreviousEnd = tPreviousSegment.getEndLocationInt ();
-//					tFixedSegment = fixSegment (aRouteSegment, tCurrentMapCell, tPreviousMapCell);
 					if ((tPreviousEnd == Location.NO_LOCATION) ||
 						(tPreviousMapCell.hasConnectingTrackBetween (tPreviousSide, tPreviousEnd))) {
-//						if (! tFixedSegment) {
-							tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
+						tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
 							aRouteSegment.setEndNodeLocationInt (tCurrentSide);
-//						}
 						
 						if (tPreviousSegment.getEndLocationInt () != Location.NO_LOCATION) {
 							tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
@@ -958,9 +959,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						}
 						if (tAddNewSegment) {
 							aRouteSegment.setTrainOn (tTrainNumber);
-//							if (! tFixedSegment) {
-								aRouteSegment.swapStartEndLocations ();
-//							}
+							aRouteSegment.swapStartEndLocations ();
 							routeInformation.addRouteSegment (aRouteSegment);
 							System.out.println ("Added New Current Segment from " + 
 										aRouteSegment.getStartLocationInt () + " to " + aRouteSegment.getEndLocationInt ());
