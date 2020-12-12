@@ -2,9 +2,8 @@ package ge18xx.train;
 
 import ge18xx.center.RevenueCenter;
 import ge18xx.map.Location;
-import ge18xx.tiles.Gauge;
 
-public class SegmentInformation {
+public class NodeInformation {
 
 	Location location;		//	Location
 	boolean corpStation;	//	Operating Corp Station (true or false)
@@ -13,10 +12,9 @@ public class SegmentInformation {
 	RevenueCenter revenueCenter;	// If a RevenueCenter, it is saved here
 	int revenue;			//	Revenue
 	int bonus;				//	Bonus (for Cattle or Port)
-	Gauge gauge;			//	Track Gauge
 	
-	public SegmentInformation (Location aLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter,
-				int aRevenue, int aBonus, Gauge aGauge, RevenueCenter aRevenueCenter) {
+	public NodeInformation (Location aLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter,
+				int aRevenue, int aBonus, RevenueCenter aRevenueCenter) {
 		setLocation (aLocation);
 		setCorpStation (aCorpStation);
 		setOpenFlow (aOpenFlow);
@@ -24,11 +22,6 @@ public class SegmentInformation {
 		setRevenueCenter (aRevenueCenter);
 		setRevenue (aRevenue);
 		setBonus (aBonus);
-		setGauge (aGauge);
-	}
-
-	public Gauge getGauge () {
-		return gauge;
 	}
 	
 	public int getBonus () {
@@ -45,10 +38,6 @@ public class SegmentInformation {
 	
 	public boolean getCorpStation () {
 		return corpStation;
-	}
-	
-	private void setGauge (Gauge aGauge) {
-		gauge = aGauge;
 	}
 
 	private void setBonus (int aBonus) {
