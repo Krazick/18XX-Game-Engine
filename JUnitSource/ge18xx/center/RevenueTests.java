@@ -39,7 +39,7 @@ class RevenueTests {
 
 	
 	@Test
-	@DisplayName ("Revenue Cosntructor Test No Args")
+	@DisplayName ("Revenue Constructor Test No Args")
 	public void RevenueTestConstructorNoArgs () {
 		Revenue tRevenue1 = new Revenue ();
 		
@@ -50,7 +50,7 @@ class RevenueTests {
 	}
 	
 	@Test
-	@DisplayName ("Revenue Cosntructor Test with Two Args (Value and Phase)")
+	@DisplayName ("Revenue Constructor Test with Two Args (Value and Phase)")
 	public void RevenueTestConstructorTwoArgs () {
 		Revenue tRevenue2 = new Revenue (20, 1);
 		
