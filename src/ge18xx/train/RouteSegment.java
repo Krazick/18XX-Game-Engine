@@ -357,7 +357,7 @@ public class RouteSegment {
 		int tRevenue = 0;
 		tRevenueCenter = getRevenueCenter ();
 		if (tRevenueCenter != RevenueCenter.NO_CENTER) {
-			tRevenue = tRevenueCenter.getRevenue(aPhase);
+			tRevenue = tRevenueCenter.getRevenue (aPhase);
 		}
 		
 		return tRevenue;
