@@ -29,6 +29,7 @@ public class Location implements Cloneable {
 	public static final AttributeName AN_HOME_LOCATION1 = new AttributeName ("homeLocation1");
 	public static final AttributeName AN_HOME_LOCATION2 = new AttributeName ("homeLocation2");
 	public static final int NO_LOCATION = -1;
+	public static final Location NO_LOC = null;
 	static final int MIN_SIDE = 0;
 	static final int MAX_SIDE = 5;
 	static final int MIN_CITY_LOC_NS = 6;
