@@ -770,12 +770,12 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 	
 	public boolean hasConnectingTrackBetween (Location aThisLocation, Location aThatLocation) {
-		boolean tHasConnectingTrackBetween = false;
+		boolean tHasConnectingTrackBetween = true;
 		Track tTrack;
 		
 		tTrack = getConnectingTrackBetween (aThisLocation, aThatLocation);
 		if (tTrack == Track.NO_TRACK)  {
-			tHasConnectingTrackBetween = true;
+			tHasConnectingTrackBetween = false;
 		}
 		
 		return tHasConnectingTrackBetween;
