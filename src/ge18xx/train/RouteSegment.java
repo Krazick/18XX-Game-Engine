@@ -50,7 +50,7 @@ public class RouteSegment {
 		
 		tValidSegment = (start.isValid () && end.isValid ());
 		if (tValidSegment) {
-			tValidSegment = (start.getLocationInt () != end.getLocationInt());
+			tValidSegment = (start.getLocationInt () != end.getLocationInt ());
 		}
 		
 		return tValidSegment;
@@ -128,12 +128,12 @@ public class RouteSegment {
 	public boolean hasTownOnTile () {
 		boolean tHasTownOnTile = false;
 		
-		if (start.hasRevenueCenter()) {
+		if (start.hasRevenueCenter ()) {
 			if (tile.hasTown ()) {
 				tHasTownOnTile = true;
 			}
 		}
-		if (end.hasRevenueCenter()) {
+		if (end.hasRevenueCenter ()) {
 			if (tile.hasTown ()) {
 				tHasTownOnTile = true;
 			}
@@ -198,26 +198,44 @@ public class RouteSegment {
 		end = tTempSegmentInformation;
 	}
 	
-	public Location getEnterSide () {
-		Location tEnterSide;
+	public boolean isStartASide () {
+		Location tStartSide;
+		boolean tIsStartASide = false;
 		
-		tEnterSide = getStartLocation ();
-		if (! tEnterSide.isSide ()) {
-			tEnterSide = new Location ();
-		}
+		tStartSide = getStartLocation ();
+		tIsStartASide = tStartSide.isSide ();
 		
-		return tEnterSide;
+		return tIsStartASide;
 	}
 	
-	public Location getExitSide () {
-		Location tExitSide;
+	public boolean isEndASide () {
+		Location tEndSide;
+		boolean tIsEndASide = false;
 		
-		tExitSide = getEndLocation ();
-		if (! tExitSide.isSide ()) {
-			tExitSide = new Location ();
+		tEndSide = getEndLocation ();
+		tIsEndASide = tEndSide.isSide ();
+		
+		return tIsEndASide;
+	}
+	
+	public Location getStartLocationIsSide () {
+		Location tStartSide = Location.NO_LOC;
+		
+		if (isStartASide ()) {
+			tStartSide = getStartLocation ();
 		}
 		
-		return tExitSide;
+		return tStartSide;
+	}
+	
+	public Location getEndLocationIsSide () {
+		Location tEndSide = Location.NO_LOC;
+		
+		if (isEndASide ()) {
+			tEndSide = getEndLocation ();
+		}
+		
+		return tEndSide;
 	}
 	
 	public Location getSide () {
@@ -246,7 +264,7 @@ public class RouteSegment {
 		RevenueCenter tRevenueCenter = RevenueCenter.NO_CENTER;
 		
 		if (start.hasRevenueCenter ()) {
-			tRevenueCenter = start.getRevenueCenter();
+			tRevenueCenter = start.getRevenueCenter ();
 		} else if (end.hasRevenueCenter ()) {
 			tRevenueCenter = end.getRevenueCenter ();
 		}
@@ -289,15 +307,27 @@ public class RouteSegment {
 		Location tSide;
 		int tTileOrient;
 		
-		tTileOrient = mapCell.getTileOrient();
-		tSide = getEnterSide ();
-		tSide = tSide.rotateLocation (tTileOrient);
-		tIsEnterSideUsed = tile.isSideUsed (tSide);
-		tSide = getExitSide ();
-		tSide = tSide.rotateLocation (tTileOrient);
-		tIsExitSideUsed = tile.isSideUsed (tSide);
+		tTileOrient = mapCell.getTileOrient ();
+		if (isStartASide ()) {
+			tSide = getStartLocationIsSide ();
+			tSide = tSide.rotateLocation (tTileOrient);
+			tIsEnterSideUsed = tile.isSideUsed (tSide);
+		}
+		if (isEndASide ()) {
+			tSide = getEndLocationIsSide ();
+			tSide = tSide.rotateLocation (tTileOrient);
+			tIsExitSideUsed = tile.isSideUsed (tSide);
+		}
+//		tSide = getEnterSide ();
+//		tSide = tSide.rotateLocation (tTileOrient);
+//		tIsEnterSideUsed = tile.isSideUsed (tSide);
+//		tSide = getExitSide ();
+//		tSide = tSide.rotateLocation (tTileOrient);
+//		tIsExitSideUsed = tile.isSideUsed (tSide);
 		
 		tIsSideUsed = tIsEnterSideUsed || tIsExitSideUsed;
+		
+//		tIsSideUsed = false;
 		
 		return tIsSideUsed;
 	}
