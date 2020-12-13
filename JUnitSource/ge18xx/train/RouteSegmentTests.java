@@ -8,9 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import ge18xx.center.City;
 import ge18xx.center.RevenueCenter;
-import ge18xx.center.Town;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Tile;
@@ -38,13 +36,16 @@ class RouteSegmentTests {
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
-	void setUp () throws Exception {
+	void setUp () throws Exception { 
 		mMapCellWithRCCityTile = Mockito.mock (MapCell.class);
 		mMapCellWithRCTownTile = Mockito.mock (MapCell.class);
 		mMapCellWithNoRCTile = Mockito.mock (MapCell.class);
 		
 		mRCCity = Mockito.mock (RevenueCenter.class);
+		Mockito.when (mRCCity.getRevenue (1)).thenReturn (30);
+		Mockito.when (mRCCity.getRevenue (2)).thenReturn (50);
 		mRCTown = Mockito.mock (RevenueCenter.class);
+		Mockito.when (mRCTown.getRevenue (1)).thenReturn (10);
 		mNoRevenueCenter = RevenueCenter.NO_CENTER;
 		
 		mTileWithRCCity = Mockito.mock (Tile.class);
@@ -216,8 +217,26 @@ class RouteSegmentTests {
 		RevenueCenter tFoundRevenueCenter;
 		
 		routeSegmentWithRCCity.setStartNode (mNodeSide1);
-		routeSegmentWithRCCity.setStartNode (mNodeRCCity);
+		routeSegmentWithRCCity.setEndNode (mNodeRCCity);
 		tFoundRevenueCenter = routeSegmentWithRCCity.getRevenueCenter ();
 		assertEquals (mRCCity, tFoundRevenueCenter, "Expected mRCCity, did not find it");
+		assertEquals (30, tFoundRevenueCenter.getRevenue (1), "Asking mRCCity for Revenue - Expected 30");
+		assertEquals (50, tFoundRevenueCenter.getRevenue (2), "Asking mRCCity for Revenue - Expected 50");
+		
+		assertEquals (30, routeSegmentWithRCCity.getRevenue (1), "Asking RouteSegment for Revenue - Expected 30");
+		assertEquals (50, routeSegmentWithRCCity.getRevenue (2), "Asking RouteSegment for Revenue - Expected 50");
+		
+		routeSegmentWithRCTown.setStartNode (mNodeRCTown);
+		routeSegmentWithRCTown.setEndNode (mNodeSide3);
+		tFoundRevenueCenter = routeSegmentWithRCTown.getRevenueCenter ();
+		assertEquals (mRCTown, tFoundRevenueCenter, "Expected mNodeRCTown, did not find it");
+		assertEquals (10, tFoundRevenueCenter.getRevenue (1), "Asking mRCCity for Revenue - Expected 10");
+		assertEquals (10, routeSegmentWithRCTown.getRevenue (1), "Asking RouteSegment for Revenue - Expected 10");
+		
+		routeSegmentWithRCCity.setStartNode (mNodeSide3);
+		routeSegmentWithRCCity.setEndNode (mNodeSide1);
+		tFoundRevenueCenter = routeSegmentWithRCCity.getRevenueCenter ();
+		assertEquals (RevenueCenter.NO_CENTER, tFoundRevenueCenter, "Expected No RevenueCenter, did not find one");
+		assertEquals (0, routeSegmentWithRCCity.getRevenue (1), "Asking RouteSegment for Revenue - Expected 0");
 	}
 }
