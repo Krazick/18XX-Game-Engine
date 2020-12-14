@@ -210,6 +210,16 @@ public class MapCell implements Comparator<Object> {
 		return tHasConnectingTrackTo;
 	}
 	
+	public Track getTrackFromStartToEnd (int aStartLocation, int aEndLocation) {
+		Track tTrack = Track.NO_TRACK;
+		
+		if (isTileOnCell ()) {
+			tTrack = tile.getTrackFromStartToEnd (aStartLocation, aEndLocation);
+		}
+		
+		return tTrack;
+
+	}
 	public Track getTrackFromSide (int aSideLocation) {
 		Track tTrack = Track.NO_TRACK;
 		int tUnrotatedSideLocation;
