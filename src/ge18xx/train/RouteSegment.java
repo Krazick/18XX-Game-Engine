@@ -48,12 +48,22 @@ public class RouteSegment {
 	public boolean validSegment () {
 		boolean tValidSegment;
 		
-		tValidSegment = (start.isValid () && end.isValid ());
+//		tValidSegment = (start.isValid () && end.isValid ());
+		tValidSegment = (validStart () && validEnd ());
+		
 		if (tValidSegment) {
 			tValidSegment = (start.getLocationInt () != end.getLocationInt ());
 		}
 		
 		return tValidSegment;
+	}
+	
+	public boolean validStart () {
+		return start.isValid ();
+	}
+	
+	public boolean validEnd () {
+		return end.isValid ();
 	}
 	
 	public void setStartNode (NodeInformation aNodeInformation) {
@@ -251,11 +261,18 @@ public class RouteSegment {
 	
 	public Track getTrack () {
 		Track tTrack = Track.NO_TRACK;
-		Location tSideLocation;
+		Location tStartLocation, tEndLocation;
 		
-		tSideLocation = getSide ();	
-		tSideLocation.rotateLocation (mapCell.getTileOrient ());
-		tTrack = mapCell.getTrackFromSide (tSideLocation.getLocation ());
+		tStartLocation = start.getLocation ();
+		if (tStartLocation.isSide ()) {
+			tStartLocation = tStartLocation.unrotateLocation (mapCell.getTileOrient ());
+		}
+		tEndLocation = end.getLocation ();
+		if (tEndLocation.isSide ()) {
+			tEndLocation = tEndLocation.unrotateLocation (mapCell.getTileOrient ());
+		}
+		System.out.println ("Looking for Track " + tStartLocation.getLocation () + " to " + tEndLocation.getLocation ());
+		tTrack = mapCell.getTrackFromStartToEnd (tStartLocation.getLocation (), tEndLocation.getLocation ());
 		
 		return tTrack;
 	}
@@ -310,24 +327,16 @@ public class RouteSegment {
 		tTileOrient = mapCell.getTileOrient ();
 		if (isStartASide ()) {
 			tSide = getStartLocationIsSide ();
-			tSide = tSide.rotateLocation (tTileOrient);
+			tSide = tSide.unrotateLocation (tTileOrient);
 			tIsEnterSideUsed = tile.isSideUsed (tSide);
 		}
 		if (isEndASide ()) {
 			tSide = getEndLocationIsSide ();
-			tSide = tSide.rotateLocation (tTileOrient);
+			tSide = tSide.unrotateLocation (tTileOrient);
 			tIsExitSideUsed = tile.isSideUsed (tSide);
 		}
-//		tSide = getEnterSide ();
-//		tSide = tSide.rotateLocation (tTileOrient);
-//		tIsEnterSideUsed = tile.isSideUsed (tSide);
-//		tSide = getExitSide ();
-//		tSide = tSide.rotateLocation (tTileOrient);
-//		tIsExitSideUsed = tile.isSideUsed (tSide);
 		
 		tIsSideUsed = tIsEnterSideUsed || tIsExitSideUsed;
-		
-//		tIsSideUsed = false;
 		
 		return tIsSideUsed;
 	}
@@ -361,6 +370,26 @@ public class RouteSegment {
 		}
 		
 		return tRevenue;
+	}
+
+	public Location getPossibleEnd () {
+		Location tPossibleEnd;
+		Location tStartLocation;
+		Track tTrack;
+		int tStartLoc;
+		
+		tStartLocation = start.getLocation ();
+		tStartLocation = tStartLocation.unrotateLocation (mapCell.getTileOrient());
+		tStartLoc = tStartLocation.getLocation ();
+		tTrack = tile.getTrackFromSide (tStartLoc);
+		if (tTrack.getEnterLocationInt () == tStartLoc) {
+			tPossibleEnd = tTrack.getExitLocation ();
+		} else {
+			tPossibleEnd = tTrack.getEnterLocation ();
+		}
+		tPossibleEnd = tPossibleEnd.rotateLocation (mapCell.getTileOrient ());
+		
+		return tPossibleEnd;
 	}
 }
 
