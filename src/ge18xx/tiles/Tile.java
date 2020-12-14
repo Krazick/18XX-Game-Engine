@@ -101,6 +101,14 @@ public class Tile implements Comparable<Object>, Cloneable {
 		type.setFixed (tFixed);
 	}
 	
+	public Track getTrackFromStartToEnd (int aStartLocation, int aEndLocation) {
+		Track tTrack;
+		
+		tTrack = tracks.getTrackFromStartToEnd (aStartLocation, aEndLocation);
+		
+		return tTrack;
+	}
+	
 	public Track getTrackFromSide (int aSideLocation) {
 		Track tTrack;
 		
