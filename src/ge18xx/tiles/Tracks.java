@@ -143,6 +143,23 @@ public class Tracks implements Cloneable {
 		return segments.get(aTrackIndex);
 	}
 	
+	public Track getTrackFromStartToEnd (int aStartLocation, int aEndLocation) {
+		Track tTrack = Track.NO_TRACK;
+		int tLocation1, tLocation2;
+		
+		for (Track tSegment : segments) {
+			tLocation1 = tSegment.getEnterLocationInt ();
+			tLocation2 = tSegment.getExitLocationInt ();
+			if ((tLocation1 == aStartLocation) && (tLocation2 == aEndLocation)) {
+				tTrack = tSegment;
+			} else if ((tLocation2 == aStartLocation) && (tLocation1 == aEndLocation)) {
+				tTrack = tSegment;
+			}
+		}
+		
+		return tTrack;
+	}
+	
 	public Track getTrackFromSide (int aSideLocation) {
 		Track tTrack = Track.NO_TRACK;
 		
