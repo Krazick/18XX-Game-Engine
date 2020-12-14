@@ -915,6 +915,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		int tTrainNumber;
 		int tCurrentSide;
 		boolean tAddNewSegment = false;
+		Location tPossibleEnd;
 		
 		if (tSegmentCount == 0) {
 			routeInformation.addRouteSegment (aRouteSegment);			
@@ -932,7 +933,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					if ((tPreviousEnd == Location.NO_LOCATION) ||
 						(tPreviousMapCell.hasConnectingTrackBetween (tPreviousSide, tPreviousEnd))) {
 						tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
-							aRouteSegment.setEndNodeLocationInt (tCurrentSide);
+						
+						aRouteSegment.setEndNodeLocationInt (tCurrentSide);
 						
 						if (tPreviousSegment.getEndLocationInt () != Location.NO_LOCATION) {
 							tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
@@ -949,7 +951,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 										tNewPreviousSegment.getStartLocationInt () + " to " + tNewPreviousSegment.getEndLocationInt ());
 								routeInformation.printDetail ();
 								tAddNewSegment = true;
+							} else {
+								System.err.println ("New Previous Segment the Track is Used From " +
+										tNewPreviousSegment.getStartLocationInt () + " to " + tNewPreviousSegment.getEndLocationInt () + "\n");
 							}
+							
 						} else {
 							tPreviousSegment.setEndNodeLocationInt (tPreviousSide);
 							tPreviousSegment.setTrainOn (tTrainNumber);
@@ -958,8 +964,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 							tAddNewSegment = true;
 						}
 						if (tAddNewSegment) {
-							aRouteSegment.setTrainOn (tTrainNumber);
 							aRouteSegment.swapStartEndLocations ();
+							if (! aRouteSegment.validEnd ())  {
+								tPossibleEnd = aRouteSegment.getPossibleEnd ();
+								aRouteSegment.setEndNodeLocation (tPossibleEnd);
+							}
+							
+							aRouteSegment.setTrainOn (tTrainNumber);
 							routeInformation.addRouteSegment (aRouteSegment);
 							System.out.println ("Added New Current Segment from " + 
 										aRouteSegment.getStartLocationInt () + " to " + aRouteSegment.getEndLocationInt ());
