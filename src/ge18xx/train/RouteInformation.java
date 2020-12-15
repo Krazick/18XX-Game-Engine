@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.TrainCompany;
+import ge18xx.map.MapCell;
+import ge18xx.tiles.Track;
 
 public class RouteInformation {
 	public static RouteInformation NO_ROUTE_INFORMATION = null;
@@ -164,7 +166,8 @@ public class RouteInformation {
 	public void printDetail () {
 		int tCenterIndex;
 		
-		System.out.println ((trainIndex + 1) + ". " +train.getName () + " Train, Total Revenue: " + totalRevenue +
+		System.out.println ("----------- Start Route Information Detail ----------");
+		System.out.println ((trainIndex + 1) + ". " + train.getName () + " Train, Total Revenue: " + totalRevenue +
 				" Center Count " + getCenterCount ());
 		for (RouteSegment tRouteSegment : routeSegments) {
 			tRouteSegment.printDetail ();
@@ -172,9 +175,10 @@ public class RouteInformation {
 		
 		tCenterIndex = 1;
 		for (RevenueCenter tRevenueCenter : revenueCenters) {
-			System.out.println (tCenterIndex + ". Center " + tRevenueCenter.getID () + " Revenue " + tRevenueCenter.getRevenue (phase));
+			System.out.println (tCenterIndex + ". Center with Revenue " + tRevenueCenter.getRevenue (phase));
 			tCenterIndex++;
 		}
+		System.out.println ("----------- End Route Information Detail ----------");
 	}
 	
 	public void clearTrainOn () {
@@ -217,5 +221,45 @@ public class RouteInformation {
 	
 	public void setTrainCurrentRouteInformation () {
 		train.setCurrentRouteInformation (this);
+	}
+
+	public boolean lastMapCellIs (MapCell aSelectedMapCell) {
+		boolean tLastMapCellMatches = false;
+		MapCell tLastMapCell;
+		
+		if (getSegmentCount () > 0) {
+			tLastMapCell = getLastMapCell  ();
+			if (tLastMapCell == aSelectedMapCell) {
+				tLastMapCellMatches = true;
+			}
+		}
+		
+		return tLastMapCellMatches;
+	}
+
+	private RouteSegment getLastRouteSegment () {
+		RouteSegment tLastRouteSegment;
+		
+		tLastRouteSegment = routeSegments.get (getSegmentCount () - 1);
+		
+		return tLastRouteSegment;
+	}
+	
+	private MapCell getLastMapCell () {
+		MapCell tLastMapCell;
+		RouteSegment tLastRouteSegment;
+		
+		tLastRouteSegment = getLastRouteSegment ();
+		tLastMapCell = tLastRouteSegment.getMapCell ();
+		
+		return tLastMapCell;
+	}
+
+	public void cycleToNextTrack () {
+		RouteSegment tLastRouteSegment;
+		
+		tLastRouteSegment = getLastRouteSegment ();
+		tLastRouteSegment.cycleToNextTrack ();
+		printDetail ();
 	}
 }
