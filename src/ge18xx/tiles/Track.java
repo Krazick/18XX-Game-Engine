@@ -791,8 +791,7 @@ public class Track implements Cloneable {
 		trainNumberUsing = NO_TRAIN;
 	}
 
-	public boolean isTrackUsed() {
-		
+	public boolean isTrackUsed() {	
 		return (trainNumberUsing > 0);
 	}
 }
