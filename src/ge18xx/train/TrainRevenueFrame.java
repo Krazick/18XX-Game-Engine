@@ -133,7 +133,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		if (ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
 			handleSelectRoute (aEvent);
 		}
-
 	}
 	
 	public void handleSelectRoute (ActionEvent aSelectRouteEvent) {
@@ -155,10 +154,11 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				tTrain = trainCompany.getTrain (tTrainIndex);
 				tCityCount = tTrain.getCityCount ();
 				tTrain.clearRouteInformation ();
-				tRouteInformation = new RouteInformation (tTrain, tTrainIndex, tColor, tRoundID, tRegionBonus, tSpecialBonus, tPhase, trainCompany);
+				tRouteInformation = new RouteInformation (tTrain, tTrainIndex, tColor, tRoundID, tRegionBonus, tSpecialBonus, 
+						tPhase, trainCompany, this);
 				trainCompany.enterSelectRouteMode (tRouteInformation);
 				System.out.println ("Selecting Route for Train Index " + tTrainIndex + " City Count " + tCityCount);
-				
+				disableAllSelectRoutes ();
 			}
 		}
 
@@ -251,6 +251,29 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tTrainRevenueBox.add (selectRoutes [tTrainIndex]);
 			tTrainRevenueBox.add (Box.createHorizontalStrut (40));
 			allRevenuesBox.add (tTrainRevenueBox);
+		}
+	}
+	
+	public void disableAllSelectRoutes () {
+		int tTrainIndex, tTrainCount;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			selectRoutes [tTrainIndex].setEnabled (false);
+		}
+	}
+	
+	public void enableAllSelectRoutes () {
+		int tTrainIndex, tTrainCount;
+		
+		System.out.println ("TRF - Ready to enable all Select Routes");
+		if (trainCompany != null) {
+			tTrainCount = trainCompany.getTrainCount ();
+
+			for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+				selectRoutes [tTrainIndex].setEnabled (true);
+			}
 		}
 	}
 	

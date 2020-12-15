@@ -25,12 +25,9 @@ import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.map.Terrain;
-import ge18xx.phase.PhaseInfo;
 import ge18xx.tiles.GameTile;
-import ge18xx.tiles.Gauge;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
-import ge18xx.tiles.Track;
 import ge18xx.train.NodeInformation;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.RouteSegment;
@@ -213,14 +210,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	
 	public void toggleSelectRouteMode () {
 		setSelectRouteMode (! selectRouteMode);
-		if (selectRouteMode) {
-			System.out.print ("*** Entered ");
-		} else {
-			System.out.print ("=== Exited ");
-		}
+//		if (selectRouteMode) {
+//			System.out.print ("*** Entered ");
+//		} else {
+//			System.out.print ("=== Exited ");
+//		}
 		selectRouteButton.setEnabled (selectRouteMode);
 		map.clearAllSelected ();
-		System.out.println ("Select Route Mode. Revenue Center " + map.getSelectRevenueCenter() + " Track " + map.getSelectTrackSegment());
+//		System.out.println ("Select Route Mode. Revenue Center " + map.getSelectRevenueCenter() + " Track " + map.getSelectTrackSegment());
 	}
 	
 	public void actionPerformed (ActionEvent e) {
@@ -716,7 +713,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			selectRouteButton.setText ("Exit Select Route Mode");
 		} else {
 			selectRouteButton.setText ("Enter Select Route Mode");
+			System.out.println ("MF - Ready to enable all Select Routes");
 			if (routeInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+				routeInformation.enableAllSelectRoutes ();
 				routeInformation.setTrainCurrentRouteInformation ();
 			}
 		}

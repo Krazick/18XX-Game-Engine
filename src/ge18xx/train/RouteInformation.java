@@ -21,10 +21,11 @@ public class RouteInformation {
 	ArrayList<RouteSegment> routeSegments;
 	ArrayList<RevenueCenter> revenueCenters;
 	TrainCompany trainCompany;
+	TrainRevenueFrame trainRevenueFrame;
 	
 	// Collection of Route Segments
 	public RouteInformation (Train aTrain, int aTrainIndex, Color aColor, String aRoundID, int aRegionBonus, 
-				int aSpecialBonus, int aPhase, TrainCompany aTrainCompany) {
+				int aSpecialBonus, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
 		setTrain (aTrain);
 		setTrainIndex (aTrainIndex);
 		setColor (aColor);
@@ -34,21 +35,34 @@ public class RouteInformation {
 		setTotalRevenue (0);
 		phase = aPhase;
 		setTrainCompany (aTrainCompany);
+		setTrainRevenueFrame (aTrainRevenueFrame);
 		routeSegments = new ArrayList<RouteSegment> ();
 		revenueCenters = new ArrayList<RevenueCenter> ();
+	}
+	
+	public void setTrainRevenueFrame (TrainRevenueFrame aTrainRevenueFrame) {
+		trainRevenueFrame = aTrainRevenueFrame;
+	}
+	
+	public TrainRevenueFrame getTrainRevenueFrame () {
+		return trainRevenueFrame;
 	}
 	
 	public void addRouteSegment (RouteSegment aRouteSegment) {
 		RevenueCenter tRevenueCenter;
 		
-		if (aRouteSegment.hasRevenueCenter()) {
-			tRevenueCenter = aRouteSegment.getRevenueCenter();
-			if (! isSameRCasLast (tRevenueCenter)) {
-				revenueCenters.add (tRevenueCenter);
+		if (revenueCenters != null) {
+			if (aRouteSegment.hasRevenueCenter()) {
+				tRevenueCenter = aRouteSegment.getRevenueCenter();
+				if (! isSameRCasLast (tRevenueCenter)) {
+					revenueCenters.add (tRevenueCenter);
+				}
 			}
+			routeSegments.add (aRouteSegment);
+			calculateTotalRevenue ();
+		} else {
+			System.err.println ("Revenue Centers Array not Initialized");
 		}
-		routeSegments.add (aRouteSegment);
-		calculateTotalRevenue ();
 	}
 	
 	public boolean isSameRCasLast (RevenueCenter aRevenueCenter) {
@@ -261,5 +275,12 @@ public class RouteInformation {
 		tLastRouteSegment = getLastRouteSegment ();
 		tLastRouteSegment.cycleToNextTrack ();
 		printDetail ();
+	}
+
+	public void enableAllSelectRoutes() {
+		System.out.println ("RI - Ready to enable all Select Routes");
+		if (trainRevenueFrame != null) {
+			trainRevenueFrame.enableAllSelectRoutes ();
+		}
 	}
 }
