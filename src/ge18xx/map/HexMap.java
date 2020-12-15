@@ -672,7 +672,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		if (tGameTile != GameTile.NO_GAME_TILE) {
 			tTile = tGameTile.popTile ();
 		} else {
-			System.out.println ("Did not find the Game Tile with # " + aTileNumber);
+			System.err.println ("Did not find the Game Tile with # " + aTileNumber);
 		}
 		
 		return tTile;
@@ -791,7 +791,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 		
 		if (! tGoodLoad) {
-			System.out.println ("Bad Load on Row [" + tRowIndex + "].");
+			System.err.println ("Bad Load on Row [" + tRowIndex + "].");
 		}
 		
 		return tGoodLoad;
@@ -866,7 +866,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			} else if (EN_ROW.equals (tChildName)) {
 				tLoadedRow = loadXMLRow (tChildNode, tTerrainCost, tTerrainType, tCols, tDefaultTerrainType, theRowIDs, theColIDs);
 				if (! tLoadedRow) {
-					System.out.println ("Found too many columns to Load on Row.");
+					System.err.println ("Found too many columns to Load on Row.");
 				}
 			}
 		}
@@ -1082,7 +1082,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tSelectedCity =  (City) aSelectedRevenueCenter;
 			}
 		}
-		System.out.println ("Toggling Selected Revenue Center");
 		mapFrame.updatePutTokenButton (tSelectedCity);
 	}
 	
@@ -1102,7 +1101,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		
 		tSelectedMapCell = getSelectedMapCell ();
 		if (tSelectedMapCell == null) {
-			System.out.println ("Pickup Tile Button Selected, no Map Cell Selected from Frame");
+			System.err.println ("Pickup Tile Button Selected, no Map Cell Selected from Frame");
 		} else {
 			tSelectedMapCell.pickupTile (tileSet);
 		}		
