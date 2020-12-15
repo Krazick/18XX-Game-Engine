@@ -720,8 +720,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				routeInformation.setTrainCurrentRouteInformation ();
 			}
 		}
-		System.out.println ("Ready to set Track and Revenue Modes to " + aMode);
-		
 		map.setSelectTrackSegment (aMode);
 		map.setSelectRevenueCenter (aMode);
 	}
@@ -806,7 +804,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public void handleSelectedRouteRC (MapCell aSelectedMapCell, RevenueCenter aSelectedRevenueCenter) {
 		RouteSegment tRouteSegment;
 		
-		System.out.println (" ---\nReady have " + aSelectedMapCell.getCellID());
 		if (routeInformation.lastMapCellIs (aSelectedMapCell)) {
 			routeInformation.cycleToNextTrack ();
 		} else {
@@ -947,14 +944,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 								if (tAddPreviousSegment) {
 									tNewPreviousSegment.setTrainOn (tTrainNumber);
 									routeInformation.addRouteSegment (tNewPreviousSegment);
-//									System.out.println ("Added New Previous Segment from " + 
-//											tNewPreviousSegment.getStartLocationInt () + " to " + tNewPreviousSegment.getEndLocationInt ());
-									routeInformation.printDetail ();
+//									routeInformation.printDetail ();
 								}
 								aRouteSegment.setTrainOn (tTrainNumber);
 								routeInformation.addRouteSegment (aRouteSegment);
-								System.out.println ("Added New Current Segment from " + 
-											aRouteSegment.getStartLocationInt () + " to " + aRouteSegment.getEndLocationInt ());
 							} else {
 								System.err.println ("New Track already in use");
 							}
@@ -971,6 +964,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				System.err.println ("The Selected Map Cell is NOT a Neighbor of the Previous Map Cell");
 			}
 		}
-		routeInformation.printDetail ();
+//		routeInformation.printDetail ();
 	}
 }

@@ -1057,7 +1057,6 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 		good_placement = false;
 		do_more = -1;
 		for (index = 0; (index < stationCount) && (do_more == -1); index++) {
-			System.out.println ("Ready to place Token on Index " + index);
 			if (corpStations [index] == NO_STATION) {
 				good_placement = true;
 				do_more = index;

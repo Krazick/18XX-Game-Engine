@@ -275,7 +275,6 @@ public class RouteSegment {
 		if (tEndLocation.isSide ()) {
 			tEndLocation = tEndLocation.unrotateLocation (mapCell.getTileOrient ());
 		}
-		System.out.println ("Looking for Track " + tStartLocation.getLocation () + " to " + tEndLocation.getLocation ());
 		tTrack = mapCell.getTrackFromStartToEnd (tStartLocation.getLocation (), tEndLocation.getLocation ());
 		
 		return tTrack;
@@ -329,8 +328,6 @@ public class RouteSegment {
 		RevenueCenter tRevenueCenter;
 		Location tSide;
 		
-		System.out.println ("READY to set Train " + aTrainIndex + " on Track from " + 
-				aTrack.getEnterLocationInt () + " to " + aTrack.getExitLocationInt ());
 		aTrack.setTrainNumber (aTrainIndex);
 		if (hasRevenueCenter ()) {
 			tRevenueCenter = getRevenueCenter ();
