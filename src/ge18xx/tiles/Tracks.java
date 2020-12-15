@@ -9,6 +9,7 @@ package ge18xx.tiles;
 //
 
 import ge18xx.map.Hex;
+import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -171,4 +172,53 @@ public class Tracks implements Cloneable {
 		
 		return tTrack;
 	}
+
+	public int getTrackCountFromSide (Location aLocation) {
+		int tTrackCount = 0;
+		int tCounter = 0;
+		
+		for (Track tSegment : segments) {
+			if (tSegment.isTrackToSide (aLocation.getLocation ())) {
+				tTrackCount++;
+			}
+			tCounter++;
+		}
+
+		return tTrackCount;
+	}
+	
+	public int getTrackIndexBetween (Location aStartLocation, Location aEndLocation) {
+		int tTrackIndex = 0;
+		int tCounter = 0;
+		
+		for (Track tSegment : segments) {
+			if ((tSegment.getEnterLocation ().getLocation () == aStartLocation.getLocation ()) &&
+				(tSegment.getExitLocation ().getLocation () == aEndLocation.getLocation ())) {
+				tTrackIndex = tCounter;
+			} else if ((tSegment.getEnterLocation ().getLocation () == aEndLocation.getLocation ()) &&
+					(tSegment.getExitLocation ().getLocation () == aStartLocation.getLocation ())) {
+				tTrackIndex = tCounter;
+			}
+			tCounter++;
+		}
+		
+		return tTrackIndex;
+	}
+
+	public Track getTrackFromStartByIndex (Location aStartLocation, int aNextTrackIndex) {
+		int tCounter = 0;
+		Track tTrack = Track.NO_TRACK;
+		
+		for (Track tSegment : segments) {
+			if (tSegment.isTrackToSide (aStartLocation.getLocation ())) {
+				if (tCounter == aNextTrackIndex) {
+					tTrack = tSegment;
+				}
+			}
+			tCounter++;
+		}
+		
+		return tTrack;
+	}
+
 }
