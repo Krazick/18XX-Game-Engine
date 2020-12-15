@@ -88,6 +88,7 @@ public class MapCell implements Comparator<Object> {
 	Terrain terrain1;
 	Terrain terrain2;
 	HexMap hexMap;
+	int trainUsingSide [] = new int [6];		// Train Number using the side;
 	
 	public MapCell (HexMap aHexMap) {
 		this (aHexMap, NO_DIRECTION);
@@ -124,6 +125,28 @@ public class MapCell implements Comparator<Object> {
 		}
 		
 		return addOK;
+	}
+	
+	public void setTrainUsingSide (int aSide, int aTrainIndex) {
+		trainUsingSide [aSide] = aTrainIndex;
+	}
+	
+	public void clearTrainUsingASide (int aSide) {
+		setTrainUsingSide (aSide, 0);
+	}
+	
+	public void clearTrainUsingSides () {
+		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
+			trainUsingSide [tSideIndex] = 0;
+		}
+	}
+	
+	public boolean isTrainUsingSide (int aSide) {
+		boolean tIsTrainUsingSide = false;
+		
+		tIsTrainUsingSide = (trainUsingSide [aSide] > 0);
+		
+		return tIsTrainUsingSide;
 	}
 	
 	public boolean addRevenueCenter (RevenueCenter aRC) {
@@ -1231,6 +1254,7 @@ public class MapCell implements Comparator<Object> {
 		startingTileNumber = Tile.NOT_A_TILE;
 		startingTile = false;
 		rebate = null;
+		clearTrainUsingSides ();
     }
 	
 	public void setScale (int hexScale, Hex aHex) {
@@ -1613,6 +1637,49 @@ public class MapCell implements Comparator<Object> {
 		}
 		
 		return tile.hasConnectingTrackBetween (tRawThisLocation, tRawThatLocation);
+	}
+
+	public int getSideInUseCount () {
+		int tSideInUseCount = 0;
+		
+		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
+			if (trainUsingSide [tSideIndex] > 0) {
+				tSideInUseCount++;
+			}
+		}
+		
+		return tSideInUseCount;
+	}
+	
+	public String getSidesInUse () {
+		String tSidesInUse = "";
+		
+		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
+			if (trainUsingSide [tSideIndex] > 0) {
+				if (tSidesInUse != "") {
+					tSidesInUse += ", ";
+				}
+				tSidesInUse += tSideIndex + ": " + trainUsingSide [tSideIndex];
+			}
+		}
+		
+		return tSidesInUse;
+	}
+	
+	public String getDetail() {
+		String tMapCellDetail;
+		
+		tMapCellDetail = getCellID ();
+		if (isTileOnCell ()) {
+			tMapCellDetail += " Tile # " + tile.getNumber () + " Orientation " + tileOrient;
+		}
+		if (getSideInUseCount () == 0) {
+			tMapCellDetail += " No Sides in Use";
+		} else {
+			tMapCellDetail += " Sides in use [" + getSidesInUse () + "]";
+		}
+		
+		return tMapCellDetail;
 	}
 }
 
