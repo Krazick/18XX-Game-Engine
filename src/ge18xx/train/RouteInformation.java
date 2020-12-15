@@ -298,6 +298,7 @@ public class RouteInformation {
 		
 		if (isValidRoute ()) {
 			trainRevenueFrame.enableConfirmRouteButton (trainIndex);
+			train.setCurrentRouteInformation (this);
 		} else {
 			tToolTipText = "Route is not Valid";
 			trainRevenueFrame.disableConfirmRouteButton (trainIndex, tToolTipText);
