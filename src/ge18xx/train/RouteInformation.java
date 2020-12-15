@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.TrainCompany;
 import ge18xx.map.MapCell;
-import ge18xx.tiles.Track;
 
 public class RouteInformation {
 	public static RouteInformation NO_ROUTE_INFORMATION = null;
@@ -60,6 +59,7 @@ public class RouteInformation {
 			}
 			routeSegments.add (aRouteSegment);
 			calculateTotalRevenue ();
+			updateConfirmRoute ();
 		} else {
 			System.err.println ("Revenue Centers Array not Initialized");
 		}
@@ -278,9 +278,29 @@ public class RouteInformation {
 	}
 
 	public void enableAllSelectRoutes() {
-		System.out.println ("RI - Ready to enable all Select Routes");
 		if (trainRevenueFrame != null) {
 			trainRevenueFrame.enableAllSelectRoutes ();
+		}
+	}
+
+	public boolean isValidRoute() {
+		boolean tIsValidRoute = false;
+		
+		if (getCenterCount () > 1) {
+			tIsValidRoute = true;
+		}
+		
+		return tIsValidRoute;
+	}
+	
+	public void updateConfirmRoute () {
+		String tToolTipText;
+		
+		if (isValidRoute ()) {
+			trainRevenueFrame.enableConfirmRouteButton (trainIndex);
+		} else {
+			tToolTipText = "Route is not Valid";
+			trainRevenueFrame.disableConfirmRouteButton (trainIndex, tToolTipText);
 		}
 	}
 }
