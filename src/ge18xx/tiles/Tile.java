@@ -54,7 +54,6 @@ public class Tile implements Comparable<Object>, Cloneable {
 	TileType type;
 	Tracks tracks;
 	Centers centers;
-	int trainUsingSide [] = new int [6];		// Train Number using the side;
 	
 	public Tile () {
 		this (NOT_A_TILE, TileType.NO_TYPE);
@@ -115,20 +114,6 @@ public class Tile implements Comparable<Object>, Cloneable {
 		tTrack = tracks.getTrackFromSide (aSideLocation);
 		
 		return tTrack;
-	}
-	
-	public void clearTrainUsingSide () {
-		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
-			trainUsingSide [tSideIndex] = 0;
-		}
-	}
-	
-	public boolean isTrainUsingSide (int aSideIndex) {
-		boolean tIsTrainUsingSide = false;
-		
-		tIsTrainUsingSide = (trainUsingSide [aSideIndex] > 0);
-		
-		return tIsTrainUsingSide;
 	}
 	
 	public boolean addTrack (Track aTrack) {
@@ -675,7 +660,6 @@ public class Tile implements Comparable<Object>, Cloneable {
 		tracks = new Tracks ();
 		setValues (aNumber, aType);
 		name = new TileName (aName);
-		clearTrainUsingSide ();
 	}
 	
 	public void setValues (int aNumber, int aType) {
@@ -815,5 +799,29 @@ public class Tile implements Comparable<Object>, Cloneable {
 			}
 
 		return tGauge;
+	}
+
+	public int getTrackCountFromSide (Location aLocation) {
+		int tTrackCount = 0;
+		
+		tTrackCount = tracks.getTrackCountFromSide (aLocation);
+		
+		return tTrackCount;
+	}
+
+	public int getTrackIndexBetween (Location aStartLocation, Location aEndLocation) {
+		int tTrackIndex;
+		
+		tTrackIndex = tracks.getTrackIndexBetween (aStartLocation, aEndLocation);
+		
+		return tTrackIndex;
+	}
+
+	public Track getTrackFromStartByIndex (Location aStartLocation, int aNextTrackIndex) {
+		Track tTrack;
+		
+		tTrack = tracks.getTrackFromStartByIndex (aStartLocation, aNextTrackIndex);
+		
+		return tTrack;
 	}
 }
