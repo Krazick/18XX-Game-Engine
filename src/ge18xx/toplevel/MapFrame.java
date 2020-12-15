@@ -208,16 +208,16 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		routeInformation = aRouteInformation;
 	}
 	
-	public void toggleSelectRouteMode () {
-		setSelectRouteMode (! selectRouteMode);
-//		if (selectRouteMode) {
-//			System.out.print ("*** Entered ");
-//		} else {
-//			System.out.print ("=== Exited ");
-//		}
+	public void exitSelectRouteMode (RouteInformation aRouteInformation) {
+		setSelectRouteMode (false);
 		selectRouteButton.setEnabled (selectRouteMode);
 		map.clearAllSelected ();
-//		System.out.println ("Select Route Mode. Revenue Center " + map.getSelectRevenueCenter() + " Track " + map.getSelectTrackSegment());
+	}
+	
+	public void toggleSelectRouteMode () {
+		setSelectRouteMode (! selectRouteMode);
+		selectRouteButton.setEnabled (selectRouteMode);
+		map.clearAllSelected ();
 	}
 	
 	public void actionPerformed (ActionEvent e) {
