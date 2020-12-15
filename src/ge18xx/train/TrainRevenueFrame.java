@@ -32,6 +32,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String CONFIRM_ROUTE_ACTION = "DoConfirmRouteAction";
+	private static final String RESET_ROUTES_ACTION = "DoResetAction";
 	private static final String CONFIRM_ACTION = "DoConfirmAction";
 	private static final String CANCEL_ACTION = "DoCancelAction";
 	private static final String ROUTE_ACTION = "DoRouteAction";
@@ -40,6 +41,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	String SELECT_ROUTE = "Select Route";
 	String CONFIRM_REVENUE = "Confirm Revenue";
 	String CANCEL = "Cancel";
+	String RESET_ROUTES = "Reset Routes";
 	int maxTrainCount = 5;
 	int maxStops = 15;
 	TrainCompany trainCompany;
@@ -92,6 +94,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		cancel = setupButton (CANCEL, CANCEL_ACTION);
 		buttonsPanel.add (cancel);
 		
+		cancel = setupButton (RESET_ROUTES, RESET_ROUTES_ACTION);
+		buttonsPanel.add (cancel);
+		
 //		confirm = new JButton ("Confirm Revenue");
 //		confirm.setActionCommand (CONFIRM_ACTION);
 //		confirm.addActionListener (this);
@@ -137,15 +142,61 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		if (CONFIRM_ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
 			handleConfirmRoute (aEvent);
 		}
+		if (RESET_ROUTES_ACTION.equals (aEvent.getActionCommand ())) {
+			handleResetAllRoutes (aEvent);
+		}
 	}
 	
+	public void handleResetAllRoutes (ActionEvent aSelectRouteEvent) {
+		System.out.println ("Ready to Reset All Routes");
+		int tTrainIndex, tTrainCount;
+		RouteInformation tRouteInformation;
+		Train tTrain;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			tTrain = trainCompany.getTrain (tTrainIndex);
+			tRouteInformation = tTrain.getCurrentRouteInformation ();
+			tRouteInformation.clearTrainOn ();
+			if ((tTrainIndex + 1) == tTrainCount) {
+				trainCompany.exitSelectRouteMode (tRouteInformation);
+			}
+		}
+	}
+
 	public void handleConfirmRoute (ActionEvent aSelectRouteEvent) {
-		System.out.println ("Ready to Confirm Route");
+		JButton tRouteButton = (JButton) aSelectRouteEvent.getSource ();
+		int tTrainIndex, tTrainCount, tCityCount, tSelectedTrainIndex;
+		int tCityIndex, tRevenue;
+		int tPhase;
+		PhaseInfo tPhaseInfo;
+		Train tTrain;
+		RouteInformation tRouteInformation;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		tPhaseInfo = trainCompany.getCurrentPhaseInfo ();
+		tPhase = tPhaseInfo.getName ();
+		tSelectedTrainIndex = 0;
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			if (tRouteButton.equals (selectRoutes [tTrainIndex])) {
+				tSelectedTrainIndex = tTrainIndex + 1;
+				tTrain = trainCompany.getTrain (tTrainIndex);
+				tCityCount = tTrain.getCityCount ();
+				tRouteInformation = tTrain.getCurrentRouteInformation ();
+				System.out.println ("Train " + tSelectedTrainIndex + " with size " + tCityCount + " has Route with " + 
+							tRouteInformation.getCenterCount () + " Centers");
+				for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
+					tRevenue = tRouteInformation.getRevenueAt(tCityIndex + 1, tPhase);
+					revenuesByTrain [tTrainIndex] [tCityIndex].setValue (tRevenue);
+				}
+				trainCompany.exitSelectRouteMode (tRouteInformation);
+			}
+		}
 	}
 	
 	public void handleSelectRoute (ActionEvent aSelectRouteEvent) {
 		JButton tRouteButton = (JButton) aSelectRouteEvent.getSource ();
-		int tTrainIndex, tTrainCount, tCityCount, tSelectedTrainIndex;
+		int tTrainIndex, tTrainCount, tSelectedTrainIndex;
 		Train tTrain;
 		Color tColor = Color.BLUE;
 		String tRoundID = "1.1";
@@ -163,12 +214,10 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			if (tRouteButton.equals (selectRoutes [tTrainIndex])) {
 				tSelectedTrainIndex = tTrainIndex + 1;
 				tTrain = trainCompany.getTrain (tTrainIndex);
-				tCityCount = tTrain.getCityCount ();
 				tTrain.clearRouteInformation ();
 				tRouteInformation = new RouteInformation (tTrain, tTrainIndex, tColor, tRoundID, tRegionBonus, tSpecialBonus, 
 						tPhase, trainCompany, this);
 				trainCompany.enterSelectRouteMode (tRouteInformation);
-				System.out.println ("Selecting Route for Train Index " + tSelectedTrainIndex + " City Count " + tCityCount);
 			}
 		}
 		tToolTipText = "Complete Route Selection for Train " + tSelectedTrainIndex;
