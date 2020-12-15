@@ -806,9 +806,19 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public void handleSelectedRouteRC (MapCell aSelectedMapCell, RevenueCenter aSelectedRevenueCenter) {
 		RouteSegment tRouteSegment;
 		
-		tRouteSegment = new RouteSegment (aSelectedMapCell);
-		setStartSegment (tRouteSegment, aSelectedRevenueCenter);
-		extendRouteInformation (tRouteSegment);
+		System.out.println (" ---\nReady have " + aSelectedMapCell.getCellID());
+		if (routeInformation.lastMapCellIs (aSelectedMapCell)) {
+			routeInformation.cycleToNextTrack ();
+		} else {
+			if ((routeInformation.getSegmentCount () == 0) && 
+				(aSelectedRevenueCenter == RevenueCenter.NO_CENTER)) {
+					System.err.println ("No Route Started, and No RevenueCenter Selected -- Nothing to do");
+			} else {
+				tRouteSegment = new RouteSegment (aSelectedMapCell);
+				setStartSegment (tRouteSegment, aSelectedRevenueCenter);
+				extendRouteInformation (tRouteSegment);
+			}
+		}
 	}
 	
 	public void setStartSegment (RouteSegment aRouteSegment, RevenueCenter aSelectedRevenueCenter) {
@@ -857,53 +867,23 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				tRevenue, tBonus, aSelectedRevenueCenter);
 		aRouteSegment.setStartNode (tStartNode);
 	}
-	
-//	public boolean fixSegment (RouteSegment aRouteSegment, MapCell tCurrentMapCell, MapCell tPreviousMapCell) {
-//		int tCurrentSide;
-//		Location tCurrentSideLoc, tOtherSideLoc, tRouteStartLoc, tRouteEndLoc;
-//		Track tCurrentTrack;
-//		boolean tFixed = false;
-//		
-//		tOtherSideLoc = new Location ();
-//		tCurrentSideLoc = new Location ();
-//		tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
-//		tCurrentTrack = tCurrentMapCell.getTrackFromSide (tCurrentSide);
-//		if (tCurrentTrack.getEnterLocationInt () == tCurrentSide) {
-////			tOtherSide = tCurrentTrack.getExitLocationInt ();
-//			tCurrentSideLoc = tCurrentTrack.getEnterLocation ();
-//			tOtherSideLoc = tCurrentTrack.getExitLocation ();
-//		} else if (tCurrentTrack.getExitLocationInt () == tCurrentSide) {
-////			tOtherSide = tCurrentTrack.getEnterLocationInt ();
-//			tCurrentSideLoc = tCurrentTrack.getExitLocation ();
-//			tOtherSideLoc = tCurrentTrack.getEnterLocation ();
-//		}
-//		if (tOtherSideLoc.isSide () && tCurrentSideLoc.isSide ()) {
-//			tRouteStartLoc = aRouteSegment.getStartLocation ();
-//			tRouteEndLoc = aRouteSegment.getEndLocation ();
-//			if (tRouteStartLoc.getLocation () == tCurrentSideLoc.getLocation ()) {
-//				if (tRouteEndLoc.getLocation () == Location.NO_LOCATION) {
-//					aRouteSegment.setEndLocation (tRouteEndLoc);
-//					tFixed = true;
-//				}
-//			}
-//			if (tRouteEndLoc.getLocation () == tCurrentSideLoc.getLocation ()) {
-//				if (tRouteStartLoc.getLocation () == Location.NO_LOCATION) {
-//					aRouteSegment.setStartLocation (tRouteEndLoc);
-//					tFixed = true;
-//				}
-//			}
-//			if (tRouteStartLoc.getLocation () == Location.NO_LOCATION) {
-//				aRouteSegment.setStartLocation (tCurrentSideLoc);
-//				tFixed = true;
-//			}
-//			if (tRouteEndLoc.getLocation () == Location.NO_LOCATION) {
-//				aRouteSegment.setEndLocation (tOtherSideLoc);
-//				tFixed = true;
-//			}
-//		}
-//		
-//		return tFixed;
-//	}
+
+	public boolean continueExtending (int aPreviousSide, int aPreviousEnd, MapCell aPreviousMapCell) {
+		boolean tContinueExtending;
+		
+		if (aPreviousEnd == Location.NO_LOCATION) {
+			tContinueExtending = true;
+		} else if (aPreviousMapCell.hasConnectingTrackBetween (aPreviousSide, aPreviousEnd)) {
+			tContinueExtending = true;
+		} else if (aPreviousEnd == aPreviousSide) {
+			tContinueExtending = true;
+		} else {
+			tContinueExtending = false;
+			System.err.println ("Something askew - Previous Side " + aPreviousSide + " Previous End " + aPreviousEnd);
+		}
+		
+		return tContinueExtending;
+	}
 	
 	public void extendRouteInformation (RouteSegment aRouteSegment) {
 		int tSegmentCount = routeInformation.getSegmentCount ();
@@ -914,7 +894,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		Tile tPreviousTile;
 		int tTrainNumber;
 		int tCurrentSide;
-		boolean tAddNewSegment = false;
+		boolean tAddNewSegment = false, tAddPreviousSegment = false;
 		Location tPossibleEnd;
 		
 		if (tSegmentCount == 0) {
@@ -930,26 +910,20 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
 					tPreviousSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
 					tPreviousEnd = tPreviousSegment.getEndLocationInt ();
-					if ((tPreviousEnd == Location.NO_LOCATION) ||
-						(tPreviousMapCell.hasConnectingTrackBetween (tPreviousSide, tPreviousEnd))) {
-						tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
+					if (continueExtending (tPreviousSide, tPreviousEnd, tPreviousMapCell)) {
 						
+						tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
 						aRouteSegment.setEndNodeLocationInt (tCurrentSide);
+						tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
 						
 						if (tPreviousSegment.getEndLocationInt () != Location.NO_LOCATION) {
-							tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
 							tPreviousTile = tPreviousSegment.getTile ();
 							tPreviousRevenueCenter = tPreviousTile.getCenterAtLocation (tPreviousEnd); 
 							setStartSegment (tNewPreviousSegment, tPreviousRevenueCenter);
 							tNewPreviousSegment.setEndNodeLocationInt (tPreviousSide);
 							
 							if (! tNewPreviousSegment.isTrackUsed ()) {
-								tNewPreviousSegment.setTrainOn (tTrainNumber);
-							
-								routeInformation.addRouteSegment (tNewPreviousSegment);
-								System.out.println ("Added New Previous Segment from " + 
-										tNewPreviousSegment.getStartLocationInt () + " to " + tNewPreviousSegment.getEndLocationInt ());
-								routeInformation.printDetail ();
+								tAddPreviousSegment = true;
 								tAddNewSegment = true;
 							} else {
 								System.err.println ("New Previous Segment the Track is Used From " +
@@ -969,11 +943,21 @@ public class MapFrame extends XMLFrame implements ActionListener {
 								tPossibleEnd = aRouteSegment.getPossibleEnd ();
 								aRouteSegment.setEndNodeLocation (tPossibleEnd);
 							}
-							
-							aRouteSegment.setTrainOn (tTrainNumber);
-							routeInformation.addRouteSegment (aRouteSegment);
-							System.out.println ("Added New Current Segment from " + 
-										aRouteSegment.getStartLocationInt () + " to " + aRouteSegment.getEndLocationInt ());
+							if (! aRouteSegment.isTrackUsed ()) {
+								if (tAddPreviousSegment) {
+									tNewPreviousSegment.setTrainOn (tTrainNumber);
+									routeInformation.addRouteSegment (tNewPreviousSegment);
+//									System.out.println ("Added New Previous Segment from " + 
+//											tNewPreviousSegment.getStartLocationInt () + " to " + tNewPreviousSegment.getEndLocationInt ());
+									routeInformation.printDetail ();
+								}
+								aRouteSegment.setTrainOn (tTrainNumber);
+								routeInformation.addRouteSegment (aRouteSegment);
+								System.out.println ("Added New Current Segment from " + 
+											aRouteSegment.getStartLocationInt () + " to " + aRouteSegment.getEndLocationInt ());
+							} else {
+								System.err.println ("New Track already in use");
+							}
 						} else {
 							System.err.println ("New Track Segment already in use");
 						}
