@@ -213,6 +213,10 @@ public class RoundManager {
 	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
 		gameManager.enterSelectRouteMode (aRouteInformation);
 	}
+
+	public void exitSelectRouteMode (RouteInformation aRouteInformation) {
+		gameManager.exitSelectRouteMode (aRouteInformation);
+	}
 	
 	public void fullOwnershipAdjustment () {
 		gameManager.fullOwnershipAdjustment ();

@@ -457,7 +457,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
-		mapFrame.enterSelectRouteMode (aRouteInformation);
+		mapFrame.enterSelectRouteMode (aRouteInformation);		
+	}
+
+	public void exitSelectRouteMode (RouteInformation aRouteInformation) {
+		mapFrame.exitSelectRouteMode (aRouteInformation);
 	}
 	
 	public void fullOwnershipAdjustment () {

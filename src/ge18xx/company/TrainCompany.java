@@ -630,7 +630,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
 		corporationList.enterSelectRouteMode (aRouteInformation);
 	}
-	
+
+	@Override
+	public void exitSelectRouteMode (RouteInformation aRouteInformation) {
+		corporationList.exitSelectRouteMode (aRouteInformation);
+	}
+
 	@Override
 	public int fieldCount () {
 		return super.fieldCount () + 5;
@@ -1475,5 +1480,4 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 		addAction (aBuyTrainAction);
 	}
-
 }

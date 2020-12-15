@@ -1766,7 +1766,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
-//		Overriden in Train Company Class
+//		Override in Train Company Class
+		
+	}
+	
+	public void exitSelectRouteMode (RouteInformation aRouteInformation) {
+//		Override in Train Company Class
 		
 	}
 }
