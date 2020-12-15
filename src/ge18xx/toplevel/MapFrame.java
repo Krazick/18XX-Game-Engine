@@ -713,7 +713,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			selectRouteButton.setText ("Exit Select Route Mode");
 		} else {
 			selectRouteButton.setText ("Enter Select Route Mode");
-			System.out.println ("MF - Ready to enable all Select Routes");
 			if (routeInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 				routeInformation.enableAllSelectRoutes ();
 				routeInformation.setTrainCurrentRouteInformation ();
@@ -880,7 +879,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		return tContinueExtending;
 	}
-	
+		
 	public void extendRouteInformation (RouteSegment aRouteSegment) {
 		int tSegmentCount = routeInformation.getSegmentCount ();
 		RouteSegment tPreviousSegment, tNewPreviousSegment;
@@ -943,7 +942,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 								if (tAddPreviousSegment) {
 									tNewPreviousSegment.setTrainOn (tTrainNumber);
 									routeInformation.addRouteSegment (tNewPreviousSegment);
-//									routeInformation.printDetail ();
 								}
 								aRouteSegment.setTrainOn (tTrainNumber);
 								routeInformation.addRouteSegment (aRouteSegment);
@@ -963,6 +961,5 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				System.err.println ("The Selected Map Cell is NOT a Neighbor of the Previous Map Cell");
 			}
 		}
-//		routeInformation.printDetail ();
 	}
 }
