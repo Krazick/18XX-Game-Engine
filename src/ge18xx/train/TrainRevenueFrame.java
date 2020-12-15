@@ -31,6 +31,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final String CONFIRM_ROUTE_ACTION = "DoConfirmRouteAction";
 	private static final String CONFIRM_ACTION = "DoConfirmAction";
 	private static final String CANCEL_ACTION = "DoCancelAction";
 	private static final String ROUTE_ACTION = "DoRouteAction";
@@ -133,11 +134,18 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		if (ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
 			handleSelectRoute (aEvent);
 		}
+		if (CONFIRM_ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
+			handleConfirmRoute (aEvent);
+		}
+	}
+	
+	public void handleConfirmRoute (ActionEvent aSelectRouteEvent) {
+		System.out.println ("Ready to Confirm Route");
 	}
 	
 	public void handleSelectRoute (ActionEvent aSelectRouteEvent) {
 		JButton tRouteButton = (JButton) aSelectRouteEvent.getSource ();
-		int tTrainIndex, tTrainCount, tCityCount;
+		int tTrainIndex, tTrainCount, tCityCount, tSelectedTrainIndex;
 		Train tTrain;
 		Color tColor = Color.BLUE;
 		String tRoundID = "1.1";
@@ -145,24 +153,36 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		RouteInformation tRouteInformation;
 		int tPhase;
 		PhaseInfo tPhaseInfo;
+		String tToolTipText;
 		
 		tTrainCount = trainCompany.getTrainCount ();
-		tPhaseInfo = trainCompany.getCurrentPhaseInfo();
+		tPhaseInfo = trainCompany.getCurrentPhaseInfo ();
 		tPhase = tPhaseInfo.getName ();
+		tSelectedTrainIndex = 0;
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tRouteButton.equals (selectRoutes [tTrainIndex])) {
+				tSelectedTrainIndex = tTrainIndex + 1;
 				tTrain = trainCompany.getTrain (tTrainIndex);
 				tCityCount = tTrain.getCityCount ();
 				tTrain.clearRouteInformation ();
 				tRouteInformation = new RouteInformation (tTrain, tTrainIndex, tColor, tRoundID, tRegionBonus, tSpecialBonus, 
 						tPhase, trainCompany, this);
 				trainCompany.enterSelectRouteMode (tRouteInformation);
-				System.out.println ("Selecting Route for Train Index " + tTrainIndex + " City Count " + tCityCount);
-				disableAllSelectRoutes ();
+				System.out.println ("Selecting Route for Train Index " + tSelectedTrainIndex + " City Count " + tCityCount);
 			}
 		}
-
+		tToolTipText = "Complete Route Selection for Train " + tSelectedTrainIndex;
+		disableAllSelectRoutes (tToolTipText);
+		tToolTipText = "Select Valid Route for Train " + tSelectedTrainIndex + " before confirming";
+		enableConfirmRoute (tRouteButton, tToolTipText);
 	}
+	
+	public void enableConfirmRoute (JButton aRouteButton, String aToolTipText) {
+		aRouteButton.setText ("Confirm Route");
+		aRouteButton.setActionCommand (CONFIRM_ROUTE_ACTION);
+		aRouteButton.setToolTipText (aToolTipText);
+	}
+	
 	public int addAllTrainRevenues () {
 		int tAllTrainRevenues, tTrainCount, tTrainIndex, tCityCount, tTrainRevenue;
 		Train tTrain;
@@ -254,25 +274,28 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		}
 	}
 	
-	public void disableAllSelectRoutes () {
+	public void disableAllSelectRoutes (String aToolTipText) {
 		int tTrainIndex, tTrainCount;
 		
 		tTrainCount = trainCompany.getTrainCount ();
 
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			selectRoutes [tTrainIndex].setEnabled (false);
+			selectRoutes [tTrainIndex].setToolTipText (aToolTipText);
 		}
 	}
 	
 	public void enableAllSelectRoutes () {
 		int tTrainIndex, tTrainCount;
 		
-		System.out.println ("TRF - Ready to enable all Select Routes");
 		if (trainCompany != null) {
 			tTrainCount = trainCompany.getTrainCount ();
 
 			for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 				selectRoutes [tTrainIndex].setEnabled (true);
+				selectRoutes [tTrainIndex].setToolTipText ("");
+				selectRoutes [tTrainIndex].setText (SELECT_ROUTE);
+				selectRoutes [tTrainIndex].setActionCommand (ROUTE_ACTION);
 			}
 		}
 	}
@@ -365,7 +388,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		int tTrainCount;
 		
 		tTrainCount = trainCompany.getTrainCount ();
-		setSize (450, 165 + (tTrainCount * 30));
+		setSize (450, 185 + (tTrainCount * 30));
 	}
 	
 	public void updateInfo () {
@@ -387,5 +410,23 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		thisRevenue.setText (THIS_REVENUE + "NONE");
 		fillRevenuesBox ();
 		updateFrameSize ();
+	}
+
+	public void enableConfirmRouteButton (int aTrainIndex) {
+		if ((aTrainIndex >= 0) && (aTrainIndex < trainCompany.getTrainCount ())) {
+			selectRoutes [aTrainIndex].setEnabled (true);
+			selectRoutes [aTrainIndex].setToolTipText ("Valid Route Found");
+		} else {
+			System.err.println ("TrainIndex of " + aTrainIndex + " is out of range");
+		}
+	}
+
+	public void disableConfirmRouteButton (int aTrainIndex, String aToolTipText) {
+		if ((aTrainIndex >= 0) && (aTrainIndex < trainCompany.getTrainCount ())) {
+			selectRoutes [aTrainIndex].setEnabled (false);
+			selectRoutes [aTrainIndex].setToolTipText (aToolTipText);
+		} else {
+			System.err.println ("TrainIndex of " + aTrainIndex + " is out of range");
+		}
 	}
 }
