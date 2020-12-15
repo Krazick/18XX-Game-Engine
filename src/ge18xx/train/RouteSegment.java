@@ -172,10 +172,14 @@ public class RouteSegment {
 	}
 
 	public void printDetail() {
-		System.out.println ("MapCell " + mapCell.getCellID () + " Tile # " + tile.getNumber() + 
+		String tMapCellDetail;
+		
+		tMapCellDetail = mapCell.getDetail ();
+		System.out.println ("MapCell " + tMapCellDetail + 
 				" Start " + start.getLocationInt () + " End " + end.getLocationInt ());
 		
 	}
+	
 	public int getStartLocationInt () {
 		int tStartLocation;
 		
@@ -289,51 +293,76 @@ public class RouteSegment {
 		return tRevenueCenter;
 	}
 	
-	public void clearTrainOn () {
-		Track tTrack;
+	public void clearTrainOnTrack (Track aTrack) {
 		RevenueCenter tRevenueCenter;
+		Location tSide;
 		
-		tTrack = getTrack ();
-		if (tTrack != Track.NO_TRACK) {
+		if (aTrack != Track.NO_TRACK) {
 			System.out.println ("READY to Clear Train on Track from " + 
-						tTrack.getEnterLocationInt () + " to " + tTrack.getExitLocationInt());
-			tTrack.setTrainNumber (0);
+						aTrack.getEnterLocationInt () + " to " + aTrack.getExitLocationInt());
+			aTrack.setTrainNumber (0);
 			if (hasRevenueCenter ()) {
 				tRevenueCenter = getRevenueCenter ();
 				tRevenueCenter.clearAllSelected ();
 			}
+		} else {
+			System.err.println ("Track Provided is NULL");
+		}
+		if (isStartASide ()) {
+			tSide = getStartLocationIsSide ();
+			mapCell.clearTrainUsingASide (tSide.getLocation ());
+		}
+		if (isEndASide ()) {
+			tSide = getEndLocationIsSide ();
+			mapCell.clearTrainUsingASide (tSide.getLocation ());
+		}
+	}
+	
+	public void clearTrainOn () {
+		Track tTrack;
+		
+		tTrack = getTrack ();
+		clearTrainOnTrack (tTrack);
+	}
+	
+	public void setTrainOnTrack (Track aTrack, int aTrainIndex) {
+		RevenueCenter tRevenueCenter;
+		Location tSide;
+		
+		System.out.println ("READY to set Train " + aTrainIndex + " on Track from " + 
+				aTrack.getEnterLocationInt () + " to " + aTrack.getExitLocationInt ());
+		aTrack.setTrainNumber (aTrainIndex);
+		if (hasRevenueCenter ()) {
+			tRevenueCenter = getRevenueCenter ();
+			tRevenueCenter.setSelected (true, aTrainIndex);
+		}
+		if (isStartASide ()) {
+			tSide = getStartLocationIsSide ();
+			mapCell.setTrainUsingSide (tSide.getLocation (), aTrainIndex);
+		}
+		if (isEndASide ()) {
+			tSide = getEndLocationIsSide ();
+			mapCell.setTrainUsingSide (tSide.getLocation (), aTrainIndex);
 		}
 	}
 	
 	public void setTrainOn (int aTrainIndex) {
 		Track tTrack;
-		RevenueCenter tRevenueCenter;
 		
 		tTrack = getTrack ();
-		System.out.println ("READY to set Train " + aTrainIndex + " on Track from " + 
-					tTrack.getEnterLocationInt () + " to " + tTrack.getExitLocationInt());
-		tTrack.setTrainNumber (aTrainIndex);
-		if (hasRevenueCenter ()) {
-			tRevenueCenter = getRevenueCenter ();
-			tRevenueCenter.setSelected (true, aTrainIndex);
-		}
+		setTrainOnTrack (tTrack, aTrainIndex);
 	}
 
 	public boolean isSideUsed () {
 		boolean tIsEnterSideUsed = false, tIsExitSideUsed = false, tIsSideUsed;
 		Location tSide;
-		int tTileOrient;
-		
-		tTileOrient = mapCell.getTileOrient ();
 		if (isStartASide ()) {
 			tSide = getStartLocationIsSide ();
-			tSide = tSide.unrotateLocation (tTileOrient);
-			tIsEnterSideUsed = tile.isSideUsed (tSide);
+			tIsEnterSideUsed = mapCell.isTrainUsingSide (tSide.getLocation ());
 		}
 		if (isEndASide ()) {
 			tSide = getEndLocationIsSide ();
-			tSide = tSide.unrotateLocation (tTileOrient);
-			tIsExitSideUsed = tile.isSideUsed (tSide);
+			tIsExitSideUsed = mapCell.isTrainUsingSide (tSide.getLocation ());
 		}
 		
 		tIsSideUsed = tIsEnterSideUsed || tIsExitSideUsed;
@@ -390,6 +419,51 @@ public class RouteSegment {
 		tPossibleEnd = tPossibleEnd.rotateLocation (mapCell.getTileOrient ());
 		
 		return tPossibleEnd;
+	}
+
+	public void cycleToNextTrack () {
+		Track tNextTrack, tTrack;
+		int tTrackCount, tTrainNumber;
+		Location tNewStartLocation, tEndLocation, tStartLocation, tNewEndLocation, tOriginalStart, tOriginalEnd;
+		Location tNewRotStart, tNewRotEnd;
+		int tTileOrient, tCurrentTrackIndex, tNextTrackIndex;
+		
+		tTileOrient = mapCell.getTileOrient ();
+		tOriginalStart = new Location (start.getLocationInt ());
+		tOriginalEnd = new Location (end.getLocationInt ());
+		tStartLocation = tOriginalStart.unrotateLocation (tTileOrient);
+		tEndLocation = tOriginalEnd.unrotateLocation (tTileOrient);
+		tTrackCount = tile.getTrackCountFromSide (tStartLocation);
+		if (tTrackCount > 1) {
+			tCurrentTrackIndex = tile.getTrackIndexBetween (tStartLocation, tEndLocation);
+			tTrack = tile.getTrackFromStartByIndex (tStartLocation, tCurrentTrackIndex);
+			System.out.println ("Counted Tracks for MapCell " + mapCell.getCellID () + " Found " + tTrackCount + 
+					" on Side " + tStartLocation.getLocation () + " Current Track Index " + tCurrentTrackIndex);
+			// Want to move to Next Track Index, cycling back to first (which is zero)
+			
+			tNextTrackIndex = ((tCurrentTrackIndex + 1) % tTrackCount);
+			tNextTrack = tile.getTrackFromStartByIndex (tStartLocation, tNextTrackIndex);
+			if (tNextTrack != Track.NO_TRACK) {
+				System.out.println ("Next Track Index is " + tNextTrackIndex + " found Track from " + 
+					tNextTrack.getEnterLocationInt () + " to " + tNextTrack.getExitLocationInt ());
+				tTrainNumber = tTrack.getTrainNumber ();
+				clearTrainOnTrack (tTrack);
+				tNewStartLocation = tNextTrack.getEnterLocation ();
+				tNewEndLocation = tNextTrack.getExitLocation ();
+				tNewRotStart = tNewStartLocation.rotateLocation(tTileOrient);
+				tNewRotEnd = tNewEndLocation.rotateLocation(tTileOrient);
+				
+				System.out.println ("Original [" + tOriginalStart.getLocation () + " to " +  tOriginalEnd.getLocation () +
+						"] UnRotated [" + tStartLocation.getLocation () + " to " +  tEndLocation.getLocation () + 
+						"] NextTrack [" + tNewStartLocation.getLocation () + " to " +  tNewEndLocation.getLocation () + 
+						"] NextTrack Rotated [" + tNewRotStart.getLocation () + " to " +  tNewRotEnd.getLocation () + "]");
+				end.setLocation (tNewRotStart);
+				System.out.println ("ReSetting Route Segment new EndLocation to " + tNewRotStart.getLocation ());
+				setTrainOnTrack (tNextTrack, tTrainNumber);
+			} else {
+				System.err.println ("Failed to Find Next Track for Index " + tNextTrackIndex);
+			}
+		}
 	}
 }
 
