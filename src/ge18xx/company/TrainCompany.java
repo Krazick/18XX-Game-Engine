@@ -923,6 +923,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		trainRevenueFrame.setVisible (true);
 	}
 	
+	public void handleResetAllRoutes () {
+		trainRevenueFrame.handleResetAllRoutes ();
+	}
+	
 	public void payNoDividend () {
 		int tRevenueGenerated;
 		PayNoDividendAction tPayNoDividendAction;
