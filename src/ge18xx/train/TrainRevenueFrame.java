@@ -143,11 +143,11 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			handleConfirmRoute (aEvent);
 		}
 		if (RESET_ROUTES_ACTION.equals (aEvent.getActionCommand ())) {
-			handleResetAllRoutes (aEvent);
+			handleResetAllRoutes ();
 		}
 	}
 	
-	public void handleResetAllRoutes (ActionEvent aSelectRouteEvent) {
+	public void handleResetAllRoutes () {
 		System.out.println ("Ready to Reset All Routes");
 		int tTrainIndex, tTrainCount;
 		RouteInformation tRouteInformation;
@@ -157,9 +157,11 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			tTrain = trainCompany.getTrain (tTrainIndex);
 			tRouteInformation = tTrain.getCurrentRouteInformation ();
-			tRouteInformation.clearTrainOn ();
-			if ((tTrainIndex + 1) == tTrainCount) {
-				trainCompany.exitSelectRouteMode (tRouteInformation);
+			if (tRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+				tRouteInformation.clearTrainOn ();
+				if ((tTrainIndex + 1) == tTrainCount) {
+					trainCompany.exitSelectRouteMode (tRouteInformation);
+				}
 			}
 		}
 	}
@@ -341,10 +343,12 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tTrainCount = trainCompany.getTrainCount ();
 
 			for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
-				selectRoutes [tTrainIndex].setEnabled (true);
-				selectRoutes [tTrainIndex].setToolTipText ("");
-				selectRoutes [tTrainIndex].setText (SELECT_ROUTE);
-				selectRoutes [tTrainIndex].setActionCommand (ROUTE_ACTION);
+				if (selectRoutes [tTrainIndex] != null) {
+					selectRoutes [tTrainIndex].setEnabled (true);
+					selectRoutes [tTrainIndex].setToolTipText ("");
+					selectRoutes [tTrainIndex].setText (SELECT_ROUTE);
+					selectRoutes [tTrainIndex].setActionCommand (ROUTE_ACTION);
+				}
 			}
 		}
 	}

@@ -277,7 +277,7 @@ public class RouteInformation {
 		printDetail ();
 	}
 
-	public void enableAllSelectRoutes() {
+	public void enableAllSelectRoutes () {
 		if (trainRevenueFrame != null) {
 			trainRevenueFrame.enableAllSelectRoutes ();
 		}
