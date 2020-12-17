@@ -2,6 +2,7 @@ package ge18xx.train;
 
 import ge18xx.center.RevenueCenter;
 import ge18xx.map.Location;
+import ge18xx.tiles.Tile;
 
 public class NodeInformation {
 
@@ -14,13 +15,13 @@ public class NodeInformation {
 	int bonus;				//	Bonus (for Cattle or Port)
 	
 	public NodeInformation (Location aLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter,
-				int aRevenue, int aBonus, RevenueCenter aRevenueCenter) {
+				int aRevenue, int aBonus, RevenueCenter aRevenueCenter, int aPhase) {
 		setLocation (aLocation);
 		setCorpStation (aCorpStation);
 		setOpenFlow (aOpenFlow);
 		setHasRevenueCenter (aHasRevenueCenter);
-		setRevenueCenter (aRevenueCenter);
 		setRevenue (aRevenue);
+		setRevenueCenter (aRevenueCenter, aPhase);
 		setBonus (aBonus);
 	}
 	
@@ -88,8 +89,15 @@ public class NodeInformation {
 		hasRevenueCenter = aHasRevenueCenter;
 	}
 	
-	public void setRevenueCenter (RevenueCenter aRevenueCenter) {
+	public void setRevenueCenter (RevenueCenter aRevenueCenter, int aPhase) {
 		revenueCenter = aRevenueCenter;
+		if (aRevenueCenter != RevenueCenter.NO_CENTER) {
+			setHasRevenueCenter (true);
+			setRevenue (aRevenueCenter.getRevenue (aPhase));
+		} else {
+			setHasRevenueCenter (false);
+			setRevenue (0);
+		}
 	}
 	
 	public RevenueCenter getRevenueCenter () {
@@ -98,5 +106,31 @@ public class NodeInformation {
 	
 	public boolean hasRevenueCenter () {
 		return hasRevenueCenter;
+	}
+	
+	public String getDetail () {
+		String tDetail;
+		
+		tDetail = "[" + getLocationInt ();
+		if (revenueCenter != null) {
+			tDetail += ": $" + revenueCenter.getRevenueToString ();
+		}
+		tDetail += "]";
+		
+		return tDetail;
+	}
+
+	public void applyRCinfo (Tile aTile, Location aLocation, int aPhase) {
+		RevenueCenter tRevenueCenter;
+		if (aTile != Tile.NO_TILE) {
+			tRevenueCenter = aTile.getCenterAtLocation (aLocation);
+			if (tRevenueCenter != RevenueCenter.NO_CENTER) {
+				setHasRevenueCenter (true);
+				setRevenueCenter (tRevenueCenter, aPhase);
+			} else {
+				System.err.println ("Can't find Revenue Center at " + aLocation.getLocation ());
+			}
+		}
+		
 	}
 }
