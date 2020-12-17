@@ -801,19 +801,25 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	public void handleSelectedRouteRC (MapCell aSelectedMapCell, RevenueCenter aSelectedRevenueCenter) {
 		RouteSegment tRouteSegment;
-		
-		if (routeInformation.lastMapCellIs (aSelectedMapCell)) {
-			routeInformation.cycleToNextTrack ();
-		} else {
-			if ((routeInformation.getSegmentCount () == 0) && 
-				(aSelectedRevenueCenter == RevenueCenter.NO_CENTER)) {
-					System.err.println ("No Route Started, and No RevenueCenter Selected -- Nothing to do");
-			} else {
-				tRouteSegment = new RouteSegment (aSelectedMapCell);
-				setStartSegment (tRouteSegment, aSelectedRevenueCenter);
-				extendRouteInformation (tRouteSegment);
-			}
-		}
+		Corporation tCorporation = getOperatingCompany ();
+		int tCorpID;
+		int tPhase;
+	
+		tRouteSegment = new RouteSegment (aSelectedMapCell);
+		setStartSegment (tRouteSegment, aSelectedRevenueCenter);
+		tCorpID = tCorporation.getID ();
+		tPhase = gameManager.getCurrentPhase ();
+		routeInformation.extendRouteInformation (tRouteSegment, tPhase, tCorpID);
+//		if (routeInformation.lastMapCellIs (aSelectedMapCell)) {
+//			routeInformation.cycleToNextTrack ();
+//		} else {
+//			if ((routeInformation.getSegmentCount () == 0) && 
+//				(aSelectedRevenueCenter == RevenueCenter.NO_CENTER)) {
+//					System.err.println ("No Route Started, and No RevenueCenter Selected -- Nothing to do");
+//			} else {
+////				extendRouteInformation (tRouteSegment);
+//			}
+//		}
 	}
 	
 	public void setStartSegment (RouteSegment aRouteSegment, RevenueCenter aSelectedRevenueCenter) {
@@ -859,7 +865,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		//new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 		tStartNode = new NodeInformation (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, 
-				tRevenue, tBonus, aSelectedRevenueCenter);
+				tRevenue, tBonus, aSelectedRevenueCenter, tPhase);
 		aRouteSegment.setStartNode (tStartNode);
 	}
 
@@ -879,87 +885,96 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		return tContinueExtending;
 	}
-		
-	public void extendRouteInformation (RouteSegment aRouteSegment) {
-		int tSegmentCount = routeInformation.getSegmentCount ();
-		RouteSegment tPreviousSegment, tNewPreviousSegment;
-		RevenueCenter tPreviousRevenueCenter;
-		MapCell tCurrentMapCell, tPreviousMapCell;
-		int tPreviousSide, tPreviousEnd;
-		Tile tPreviousTile;
-		int tTrainNumber;
-		int tCurrentSide;
-		boolean tAddNewSegment = false, tAddPreviousSegment = false;
-		Location tPossibleEnd;
-		
-		if (tSegmentCount == 0) {
-			routeInformation.addRouteSegment (aRouteSegment);			
-		} else {
-			tPreviousSegment = routeInformation.getRouteSegment (tSegmentCount - 1);
-			tCurrentMapCell = aRouteSegment.getMapCell ();
-			tPreviousMapCell = tPreviousSegment.getMapCell ();
-			tTrainNumber = routeInformation.getTrainIndex () + 1;
-			
-			if (tCurrentMapCell.isNeighbor (tPreviousMapCell)) {
-				
-				if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
-					tPreviousSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
-					tPreviousEnd = tPreviousSegment.getEndLocationInt ();
-					if (continueExtending (tPreviousSide, tPreviousEnd, tPreviousMapCell)) {
-						
-						tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
-						aRouteSegment.setEndNodeLocationInt (tCurrentSide);
-						tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
-						
-						if (tPreviousSegment.getEndLocationInt () != Location.NO_LOCATION) {
-							tPreviousTile = tPreviousSegment.getTile ();
-							tPreviousRevenueCenter = tPreviousTile.getCenterAtLocation (tPreviousEnd); 
-							setStartSegment (tNewPreviousSegment, tPreviousRevenueCenter);
-							tNewPreviousSegment.setEndNodeLocationInt (tPreviousSide);
-							
-							if (! tNewPreviousSegment.isTrackUsed ()) {
-								tAddPreviousSegment = true;
-								tAddNewSegment = true;
-							} else {
-								System.err.println ("New Previous Segment the Track is Used From " +
-										tNewPreviousSegment.getStartLocationInt () + " to " + tNewPreviousSegment.getEndLocationInt () + "\n");
-							}
-							
-						} else {
-							tPreviousSegment.setEndNodeLocationInt (tPreviousSide);
-							tPreviousSegment.setTrainOn (tTrainNumber);
-						}
-						if (! aRouteSegment.isTrackUsed ()) {
-							tAddNewSegment = true;
-						}
-						if (tAddNewSegment) {
-							aRouteSegment.swapStartEndLocations ();
-							if (! aRouteSegment.validEnd ())  {
-								tPossibleEnd = aRouteSegment.getPossibleEnd ();
-								aRouteSegment.setEndNodeLocation (tPossibleEnd);
-							}
-							if (! aRouteSegment.isTrackUsed ()) {
-								if (tAddPreviousSegment) {
-									tNewPreviousSegment.setTrainOn (tTrainNumber);
-									routeInformation.addRouteSegment (tNewPreviousSegment);
-								}
-								aRouteSegment.setTrainOn (tTrainNumber);
-								routeInformation.addRouteSegment (aRouteSegment);
-							} else {
-								System.err.println ("New Track already in use");
-							}
-						} else {
-							System.err.println ("New Track Segment already in use");
-						}
-					} else {
-						System.err.println ("TRACK NOT FOUND between " + tPreviousSide + " and " + tPreviousEnd);
-					}
-				} else {
-					System.err.println ("NO Connecting Track From Current " + tCurrentMapCell.getID() + " to Previous " + tPreviousMapCell.getID());
-				}
-			} else {
-				System.err.println ("The Selected Map Cell is NOT a Neighbor of the Previous Map Cell");
-			}
-		}
-	}
+	
+//	public void extendRouteInformation (RouteSegment aRouteSegment) {
+//		int tSegmentCount = routeInformation.getSegmentCount ();
+//		RouteSegment tPreviousSegment, tNewPreviousSegment;
+//		RevenueCenter tPreviousRevenueCenter;
+//		MapCell tCurrentMapCell, tPreviousMapCell;
+//		int tPreviousSide, tPreviousEnd;
+//		Tile tPreviousTile;
+//		int tTrainNumber;
+//		int tCurrentSide;
+//		boolean tAddNewSegment = false, tAddPreviousSegment = false;
+//		Location tPossibleEnd;
+//		
+//		if (tSegmentCount == 0) {
+////			routeInformation.addRouteSegment (aRouteSegment);			
+//		} else {
+//			tPreviousSegment = routeInformation.getRouteSegment (tSegmentCount - 1);
+//			tCurrentMapCell = aRouteSegment.getMapCell ();
+//			tPreviousMapCell = tPreviousSegment.getMapCell ();
+//			tTrainNumber = routeInformation.getTrainIndex () + 1;
+//			
+//			if (tCurrentMapCell.isNeighbor (tPreviousMapCell)) {
+//				
+//				if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
+//					tPreviousSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
+//					tPreviousEnd = tPreviousSegment.getEndLocationInt ();
+//					if (continueExtending (tPreviousSide, tPreviousEnd, tPreviousMapCell)) {
+//						
+//						tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
+//						aRouteSegment.setEndNodeLocationInt (tCurrentSide);
+//						tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
+//						
+////						// Come in here if the Previous Segment is not set (ie, when it ended on a Revenue Center
+////						if (tPreviousSegment.getEndLocationInt () != Location.NO_LOCATION) {
+////							tPreviousTile = tPreviousSegment.getTile ();
+////							tPreviousRevenueCenter = tPreviousTile.getCenterAtLocation (tPreviousEnd); 
+////							setStartSegment (tNewPreviousSegment, tPreviousRevenueCenter);
+////							tNewPreviousSegment.setEndNodeLocationInt (tPreviousSide);
+////							if (tNewPreviousSegment.foundTrack ()) {
+////								if (! tNewPreviousSegment.isTrackUsed ()) {
+////									tAddPreviousSegment = true;
+////									tAddNewSegment = true;
+////								} else {
+////									System.err.println ("New Previous Segment the Track is Used From " +
+////											tNewPreviousSegment.getStartLocationInt () + " to " + tNewPreviousSegment.getEndLocationInt ());
+////									tAddNewSegment = false;
+////								}
+////							} else {
+////								System.err.println ("New Previous Segment No Track was Found From " +
+////										tNewPreviousSegment.getStartLocationInt () + " to " + tNewPreviousSegment.getEndLocationInt ());
+////								tAddNewSegment = false;
+////							}
+////						
+////						} else {
+////							tPreviousSegment.setEndNodeLocationInt (tPreviousSide);
+////							tPreviousSegment.setTrainOn (tTrainNumber);
+////						}
+//						if (! aRouteSegment.isTrackUsed ()) {
+//							tAddNewSegment = true;
+//						}
+//						if (tAddNewSegment) {
+//							aRouteSegment.swapStartEndLocations ();
+////							System.err.println ("Looking for Route Segment  With Track From " +
+////									aRouteSegment.getStartLocationInt () + " to " + aRouteSegment.getEndLocationInt ());
+//								if (! aRouteSegment.validEnd ())  {
+//									tPossibleEnd = aRouteSegment.getPossibleEnd ();
+//									aRouteSegment.setEndNodeLocation (tPossibleEnd);
+//								}
+//								if (! aRouteSegment.isTrackUsed ()) {
+//									if (tAddPreviousSegment) {
+//										tNewPreviousSegment.setTrainOn (tTrainNumber);
+//										routeInformation.addRouteSegment (tNewPreviousSegment);
+//									}
+//									aRouteSegment.setTrainOn (tTrainNumber);
+//									routeInformation.addRouteSegment (aRouteSegment);
+//								} else {
+//									System.err.println ("New Track already in use");
+//								}
+//						} else {
+//							System.err.println ("New Track Segment already in use");
+//						}
+//					} else {
+//						System.err.println ("TRACK NOT FOUND between " + tPreviousSide + " and " + tPreviousEnd);
+//					}
+//				} else {
+//					System.err.println ("NO Connecting Track From Current " + tCurrentMapCell.getID() + " to Previous " + tPreviousMapCell.getID());
+//				}
+//			} else {
+//				System.err.println ("The Selected Map Cell is NOT a Neighbor of the Previous Map Cell");
+//			}
+//		}
+//	}
 }
