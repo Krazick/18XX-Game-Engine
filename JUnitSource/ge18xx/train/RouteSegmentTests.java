@@ -114,6 +114,7 @@ class RouteSegmentTests {
 	@DisplayName ("Route Segment Constructor Tests with Mocks")
 	void RouteSegmentConstructorTests () {
 		Location tLocation1, tLocation2, tLocation3;
+		int tPhase = 1;
 		
 		assertEquals (routeSegmentWithRCCity.getCost (), 0, "Route Segment Cost is not Zero");
 		
@@ -125,13 +126,13 @@ class RouteSegmentTests {
 		tLocation2 = new Location (50);
 		routeSegmentWithRCCity.setStartNode (tLocation1);
 		assertFalse (routeSegmentWithRCCity.validSegment (), "Route Segment after location1 set does have two good Locations");
-		routeSegmentWithRCCity.setEndNode (tLocation2);
+		routeSegmentWithRCCity.setEndNode (tLocation2, tPhase);
 		assertTrue (routeSegmentWithRCCity.validSegment (), "Route Segment after location2 set does NOT have two good Locations");
 		
 		tLocation3 = new Location (1);
-		routeSegmentWithRCCity.setEndNode (tLocation3);
+		routeSegmentWithRCCity.setEndNode (tLocation3, tPhase);
 		assertFalse (routeSegmentWithRCCity.validSegment (), "Route Segment after location1 set does have two good Different Int Locations");
-		routeSegmentWithRCCity.setEndNode (tLocation1);
+		routeSegmentWithRCCity.setEndNode (tLocation1, tPhase);
 		assertFalse (routeSegmentWithRCCity.validSegment (), "Route Segment after location1 set does have two good Different Locations");
 	}
 
