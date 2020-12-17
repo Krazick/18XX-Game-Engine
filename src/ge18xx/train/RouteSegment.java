@@ -25,10 +25,10 @@ public class RouteSegment {
 		setTile (aMapCell.getTile ());
 		setCost (0);
 		
-		tNodeInformation1 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER);
+		tNodeInformation1 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER, 1);
 		setStartNode (tNodeInformation1);
 		
-		tNodeInformation2 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER);
+		tNodeInformation2 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER, 1);
 		setEndNode (tNodeInformation2);
 		setGauge (new Gauge ());
 	}
@@ -77,30 +77,30 @@ public class RouteSegment {
 	public void setStartNode (Location aStartLocation) {
 		NodeInformation tNodeInformation;
 		
-		tNodeInformation = new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
+		tNodeInformation = new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER, 1);
 		setStartNode (tNodeInformation);
 	}
 	
 	public void setStartNode (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
-				int aBonus, RevenueCenter aRevenueCenter) {
+				int aBonus, RevenueCenter aRevenueCenter, int aPhase) {
 		NodeInformation tNodeInformation;
 		
-		tNodeInformation = new NodeInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
+		tNodeInformation = new NodeInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter, aPhase);
 		setStartNode (tNodeInformation);
 	}
 	
 	public void setEndNode (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
-			int aBonus, RevenueCenter aRevenueCenter) {
+			int aBonus, RevenueCenter aRevenueCenter, int aPhase) {
 		NodeInformation tNodeInformation;
 		
-		tNodeInformation = new NodeInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
+		tNodeInformation = new NodeInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter, aPhase);
 		setEndNode (tNodeInformation);
 	}
 	
-	public void setEndNode (Location aEndLocation) {
+	public void setEndNode (Location aEndLocation, int aPhase) {
 		NodeInformation tNodeInformation;
 		
-		tNodeInformation = new NodeInformation (aEndLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
+		tNodeInformation = new NodeInformation (aEndLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER, aPhase);
 		setEndNode (tNodeInformation);
 	}
 	
@@ -112,11 +112,18 @@ public class RouteSegment {
 		end.setLocation (aEndLocation);
 	}
 	
-	public void setEndNodeLocationInt (int aEndLocation) {
+	public void setStartNodeLocationInt (int aStartLocation) {
+		Location tLocation;
+		
+		tLocation = new Location (aStartLocation);
+		setStartNode (tLocation);
+	}
+	
+	public void setEndNodeLocationInt (int aEndLocation, int aPhase) {
 		Location tLocation;
 		
 		tLocation = new Location (aEndLocation);
-		setEndNode (tLocation);
+		setEndNode (tLocation, aPhase);
 	}
 	
 	public void setCost (int aCost) {
@@ -171,12 +178,27 @@ public class RouteSegment {
 		return end.hasRevenueCenter ();
 	}
 
+	public void applyRCInfo (int aPhase) {
+		Location tStartLocation, tEndLocation, tRCLocation;
+		
+		tStartLocation = start.getLocation ();
+		if (! tStartLocation.isSide ()) {
+			tRCLocation = tStartLocation.unrotateLocation (mapCell.getTileOrient ());
+			start.applyRCinfo (tile, tRCLocation, aPhase);
+		}
+		tEndLocation = end.getLocation ();
+		if (! tEndLocation.isSide ()) {
+			tRCLocation = tEndLocation.unrotateLocation (mapCell.getTileOrient ());
+			end.applyRCinfo (tile, tRCLocation, aPhase);
+		}
+	}
+	
 	public void printDetail() {
 		String tMapCellDetail;
 		
 		tMapCellDetail = mapCell.getDetail ();
 		System.out.println ("MapCell " + tMapCellDetail + 
-				" Start " + start.getLocationInt () + " End " + end.getLocationInt ());
+				" Track Starts " + start.getDetail () + " Ends " + end.getDetail ());
 		
 	}
 	
@@ -268,13 +290,7 @@ public class RouteSegment {
 		Location tStartLocation, tEndLocation;
 		
 		tStartLocation = start.getLocation ();
-		if (tStartLocation.isSide ()) {
-			tStartLocation = tStartLocation.unrotateLocation (mapCell.getTileOrient ());
-		}
 		tEndLocation = end.getLocation ();
-		if (tEndLocation.isSide ()) {
-			tEndLocation = tEndLocation.unrotateLocation (mapCell.getTileOrient ());
-		}
 		tTrack = mapCell.getTrackFromStartToEnd (tStartLocation.getLocation (), tEndLocation.getLocation ());
 		
 		return tTrack;
@@ -329,16 +345,21 @@ public class RouteSegment {
 		Location tSide;
 		
 		aTrack.setTrainNumber (aTrainIndex);
+		System.out.println ("*Setting Train " + aTrainIndex + 
+				" On MapCell " + mapCell.getCellID () + " Tile " + tile.getNumber() + " Track from " + start.getLocationInt() +
+				" to " + end.getLocationInt ());
 		if (hasRevenueCenter ()) {
 			tRevenueCenter = getRevenueCenter ();
 			tRevenueCenter.setSelected (true, aTrainIndex);
 		}
 		if (isStartASide ()) {
 			tSide = getStartLocationIsSide ();
+			System.out.println ("***Setting Start Side " + tSide.getLocation () + " to be Used by Train " + aTrainIndex);
 			mapCell.setTrainUsingSide (tSide.getLocation (), aTrainIndex);
 		}
 		if (isEndASide ()) {
 			tSide = getEndLocationIsSide ();
+			System.out.println ("***Setting End Side " + tSide.getLocation () + " to be Used by Train " + aTrainIndex);
 			mapCell.setTrainUsingSide (tSide.getLocation (), aTrainIndex);
 		}
 	}
@@ -460,6 +481,36 @@ public class RouteSegment {
 			} else {
 				System.err.println ("Failed to Find Next Track for Index " + tNextTrackIndex);
 			}
+		}
+	}
+
+	public boolean hasACorpStation() {
+		boolean tHasACorpStation;
+		
+		tHasACorpStation = start.getCorpStation () || end.getCorpStation ();
+		
+		return tHasACorpStation;
+	}
+
+	public boolean foundTrack() {
+		boolean tFoundTrack = false;
+		Track tTrack;
+		
+		tTrack = getTrack ();
+		if (tTrack != Track.NO_TRACK) {
+			tFoundTrack = true;
+		}
+		
+		return tFoundTrack;
+	}
+
+	public void rotateStartLocaiton() {
+		Location tStartLocation;
+		
+		tStartLocation = start.getLocation ();
+		if (! tStartLocation.isSide ()) {
+			tStartLocation = tStartLocation.rotateLocation (mapCell.getTileOrient ());
+			start.setLocation (tStartLocation);
 		}
 	}
 }
