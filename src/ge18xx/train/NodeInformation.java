@@ -114,19 +114,23 @@ public class NodeInformation {
 		tDetail = "[" + getLocationInt ();
 		if (revenueCenter != null) {
 			tDetail += ": $" + revenueCenter.getRevenueToString ();
+			tDetail += " Has Corp Station " + corpStation;
 		}
 		tDetail += "]";
 		
 		return tDetail;
 	}
 
-	public void applyRCinfo (Tile aTile, Location aLocation, int aPhase) {
+	public void applyRCinfo (Tile aTile, Location aLocation, int aPhase, int aCorpID) {
 		RevenueCenter tRevenueCenter;
 		if (aTile != Tile.NO_TILE) {
 			tRevenueCenter = aTile.getCenterAtLocation (aLocation);
 			if (tRevenueCenter != RevenueCenter.NO_CENTER) {
 				setHasRevenueCenter (true);
 				setRevenueCenter (tRevenueCenter, aPhase);
+				if (tRevenueCenter.cityHasStation (aCorpID)) {
+					setCorpStation (true);
+				}
 			} else {
 				System.err.println ("Can't find Revenue Center at " + aLocation.getLocation ());
 			}
