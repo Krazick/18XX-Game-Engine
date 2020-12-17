@@ -318,7 +318,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 				gameIndex = 0;
 				tXMLNodeList.parseXMLNodeList (tChildNode, GameInfo.EN_GAME_INFO);
 			} else if (EN_NETWORK.equals (tChildName)) {
-				System.out.println ("Found Tag " + EN_NETWORK);
+//				System.out.println ("Found Tag " + EN_NETWORK);
 			}
 		}
 	}
