@@ -233,16 +233,6 @@ public class MapCell implements Comparator<Object> {
 		return tHasConnectingTrackTo;
 	}
 	
-	public Track getTrackFromStartToEnd (int aStartLocation, int aEndLocation) {
-		Track tTrack = Track.NO_TRACK;
-		
-		if (isTileOnCell ()) {
-			tTrack = tile.getTrackFromStartToEnd (aStartLocation, aEndLocation);
-		}
-		
-		return tTrack;
-
-	}
 	public Track getTrackFromSide (int aSideLocation) {
 		Track tTrack = Track.NO_TRACK;
 		int tUnrotatedSideLocation;
@@ -426,7 +416,14 @@ public class MapCell implements Comparator<Object> {
 	}
 	
 	public RevenueCenter getCenterAtLocation (Location aLocation) {
-		return centers.getCenterAtLocation (aLocation);
+		RevenueCenter tRevenueCenter;
+		
+		if (isTileOnCell ()) {
+			tRevenueCenter = tile.getCenterAtLocation (aLocation);
+		} else {
+			tRevenueCenter = centers.getCenterAtLocation(aLocation);
+		}
+		return tRevenueCenter;
 	}
 	
 	public String getCellID () {
@@ -1623,6 +1620,22 @@ public class MapCell implements Comparator<Object> {
 		
 		return tCostToLay;
 	}
+	
+	public Track getTrackFromStartToEnd (int aStartLocation, int aEndLocation) {
+		Track tTrack = Track.NO_TRACK;
+		Location tRawThisLocation, tRawThatLocation;
+		
+		if (isTileOnCell ()) {
+			tRawThisLocation = new Location (aStartLocation);
+			tRawThatLocation = new Location (aEndLocation);
+			tRawThisLocation = tRawThisLocation.unrotateLocation (tileOrient);
+			tRawThatLocation = tRawThatLocation.unrotateLocation (tileOrient);
+	
+			tTrack = tile.getTrackFromStartToEnd (tRawThisLocation.getLocation (), tRawThatLocation.getLocation ());
+		}
+		
+		return tTrack;
+	}
 
 	public boolean hasConnectingTrackBetween (int aThisLocation, int aThatLocation) {
 		Location tRawThisLocation, tRawThatLocation;
@@ -1674,9 +1687,9 @@ public class MapCell implements Comparator<Object> {
 			tMapCellDetail += " Tile # " + tile.getNumber () + " Orientation " + tileOrient;
 		}
 		if (getSideInUseCount () == 0) {
-			tMapCellDetail += " No Sides in Use";
+			tMapCellDetail += " [No Sides in Use]";
 		} else {
-			tMapCellDetail += " Sides in use [" + getSidesInUse () + "]";
+			tMapCellDetail += " [Sides in use {" + getSidesInUse () + "} ]";
 		}
 		
 		return tMapCellDetail;
