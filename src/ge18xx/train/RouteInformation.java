@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import ge18xx.center.RevenueCenter;
-import ge18xx.company.Corporation;
 import ge18xx.company.TrainCompany;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -192,7 +191,8 @@ public class RouteInformation {
 		
 		tCenterIndex = 1;
 		for (RevenueCenter tRevenueCenter : revenueCenters) {
-			System.out.println (tCenterIndex + ". Center with Revenue " + tRevenueCenter.getRevenue (phase));
+			System.out.println (tCenterIndex + ". Center with Revenue " + tRevenueCenter.getRevenue (phase) + 
+					" Train " + (trainIndex + 1) +  " is Using " + tRevenueCenter.getSelected (trainIndex + 1));
 			tCenterIndex++;
 		}
 		System.out.println ("----------- End Route Information Detail ----------");
@@ -315,8 +315,7 @@ public class RouteInformation {
 			trainRevenueFrame.disableConfirmRouteButton (trainIndex, tToolTipText);
 		}
 	}
-	
-	
+
 	public void extendRouteInformation (RouteSegment aRouteSegment, int aPhase, int aCorpID) {
 		// Break this into three separate subroutines, based upon Criteria
 		// Generic Testing Criteria to be met before the Route Segment can be successfully added/modified:
@@ -336,11 +335,11 @@ public class RouteInformation {
 		// Trying to mesh these together into a single routine (first attempt) leads to 
 		// DONE: 1. Handle Scenario 1 - Add First Segment to Route
 		
-		// TODO: 2. Handle Scenario 2 - Adding Segment # 2 to Route (First Route Segment has RC but no valid end point)
+		// DONE: 2. Handle Scenario 2 - Adding Segment # 2 to Route (First Route Segment has RC but no valid end point)
 		
-		// TODO: 3. Handle Scenario 3 - Cycling to Next Track Segment on Last Route Segment due to re-click of MapCell
+		// DONE: 3. Handle Scenario 3 - Cycling to Next Track Segment on Last Route Segment due to re-click of MapCell
 		
-		// TODO: 4. Handle Scenario 4 - Adding Segment # 3+ to Route, when Previous Route Segment has Valid End Point
+		// DONE: 4. Handle Scenario 4 - Adding Segment # 3+ to Route, when Previous Route Segment has Valid End Point
 		boolean tContinueWork = true;
 		int tInitialSegmentCount;
 		MapCell tNewMapCell;
@@ -349,30 +348,28 @@ public class RouteInformation {
 	
 		tInitialSegmentCount = getSegmentCount ();
 		if (tInitialSegmentCount == 0) {
-			System.out.println ("Scenario 1 - Add Segment # 1");
+			System.out.println ("\nScenario 1 - Add Segment # 1");
 			addRouteSegment (aRouteSegment);
 		} else if (tInitialSegmentCount == 1) {
-			System.out.println ("Scenario 2 - Add Segment # 2");
+			System.out.println ("\nScenario 2 - Add Segment # 2");
 			tContinueWork = fillEndPoint (aRouteSegment);
 			if (tContinueWork) {
-				tContinueWork = addNextRouteSegment (aRouteSegment);
+				tContinueWork = addNextRouteSegment (aRouteSegment, aCorpID);
 			}
 		} else if (tInitialSegmentCount > 1) {
 			tNewMapCell = aRouteSegment.getMapCell ();
 			if (lastMapCellIs (tNewMapCell)) {
-				System.out.println ("Scenario 3 - Cycle Track");
+				System.out.println ("\nScenario 3 - Cycle Track");
 				cycleToNextTrack ();
 			} else {
-				System.out.println ("Scenario 4 - Add Route Segment # 3+");
-				printDetail ();
-				System.out.println ("----");
+				System.out.println ("\nScenario 4 - Add Route Segment # 3+");
 				tContinueWork = addNewPreviousSegment (aRouteSegment, aPhase, aCorpID);
 				if (tContinueWork) {
-					tContinueWork = addNextRouteSegment (aRouteSegment);
+					tContinueWork = addNextRouteSegment (aRouteSegment, aCorpID);
 				}
 			}
 		}
-		System.out.println ("--------- Done Extending Route, Success: " + tContinueWork);
+		System.out.println ("--------- Done Extending Route, Success: " + tContinueWork + " \n");
 		printDetail ();
 	}
 	
@@ -397,7 +394,8 @@ public class RouteInformation {
 		int tSegmentCount, tTrainNumber;
 		int tPreviousEnd, tPreviousSide;
 		Track tTrack;
-		Location tPreviousEndLocation, tNewPreviousStartLocation;
+		Location tPreviousEndLocation;
+		int tCurrentCellNeighborSide;
 		RevenueCenter tPreviousRevenueCenter;
 		
 		System.out.println ("Time to Add New Previous Route Segment");
@@ -409,9 +407,9 @@ public class RouteInformation {
 		if (tCurrentMapCell.isNeighbor (tPreviousMapCell)) {
 			if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
 				tPreviousEndLocation = tPreviousSegment.getEndLocation ();
+				tPreviousSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
+				tPreviousEnd = tPreviousEndLocation.getLocation ();
 				if (! tPreviousEndLocation.isSide ()) {
-					tPreviousEnd = tPreviousEndLocation.getLocation ();
-					tPreviousSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
 					tTrack = tPreviousMapCell.getTrackFromStartToEnd (tPreviousEnd, tPreviousSide);
 					if (! tTrack.isTrackUsed ()) {
 						tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
@@ -429,7 +427,13 @@ public class RouteInformation {
 					}
 				} else {
 					System.out.println ("Previous Map Cell's Track ends on a Side");
-					tAddNewPreviousSegment = true;
+					tCurrentCellNeighborSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
+					if (tCurrentCellNeighborSide != tPreviousEnd) {
+						System.err.println ("Previous Map Cell Track ended on " + tPreviousEnd + 
+								" Current Map Cell track connects to "+ tCurrentCellNeighborSide);
+					} else {
+						tAddNewPreviousSegment = true;
+					}
 				}
 			} else {
 				System.err.println ("No connecting Track between MapCell " + tPreviousMapCell.getCellID () + " and " + tCurrentMapCell.getCellID ());
@@ -439,10 +443,11 @@ public class RouteInformation {
 		}
 		System.out.println ("--------- Done adding New Previous, Success: " + tAddNewPreviousSegment);
 		printDetail ();
+		
 		return tAddNewPreviousSegment;
 	}
 
-	private boolean addNextRouteSegment (RouteSegment aRouteSegment) {
+	private boolean addNextRouteSegment (RouteSegment aRouteSegment, int aCorpID) {
 		boolean tAddNextRouteSegment = false;
 		int tCurrentSide, tTrainNumber;
 		MapCell tCurrentMapCell, tPreviousMapCell;
@@ -461,17 +466,8 @@ public class RouteInformation {
 		aRouteSegment.setEndNodeLocation (tPossibleEnd);
 		tTrack = aRouteSegment.getTrack ();
 		
-			System.out.println ("Route Detail to add: ");
-			aRouteSegment.printDetail();
-			System.out.println ("-----------DONE DETAIL----");
-			System.out.println ("Track from " + tCurrentSide + " to " + tPossibleEnd);
-			if (tTrack != Track.NO_TRACK) {
-				System.out.println ("Found Track " + tTrack.getEnterLocationInt() + " to " + tTrack.getExitLocationInt());
-			} else {
-				System.err.println ("Did NOT FIND A Track");
-			}
 		if (! tTrack.isTrackUsed ()) {
-			aRouteSegment.applyRCInfo (phase);
+			aRouteSegment.applyRCInfo (phase, aCorpID);
 			tTrainNumber = getTrainIndex () + 1;
 			aRouteSegment.setTrainOnTrack (tTrack, tTrainNumber);
 			addRouteSegment (aRouteSegment);
