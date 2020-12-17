@@ -417,7 +417,7 @@ public class RouteInformation {
 						tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
 						tPreviousRevenueCenter = tPreviousSegment.getRevenueCenter ();
 						setStartSegment (tNewPreviousSegment, tPreviousRevenueCenter, aPhase, aCorpID);
-						tNewPreviousSegment.rotateStartLocaiton ();
+						tNewPreviousSegment.rotateStartLocation ();
 						tNewPreviousSegment.setEndNodeLocationInt (tPreviousSide, phase);
 
 						addRouteSegment (tNewPreviousSegment);

@@ -504,7 +504,7 @@ public class RouteSegment {
 		return tFoundTrack;
 	}
 
-	public void rotateStartLocaiton() {
+	public void rotateStartLocation() {
 		Location tStartLocation;
 		
 		tStartLocation = start.getLocation ();
