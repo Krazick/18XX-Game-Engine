@@ -178,18 +178,18 @@ public class RouteSegment {
 		return end.hasRevenueCenter ();
 	}
 
-	public void applyRCInfo (int aPhase) {
+	public void applyRCInfo (int aPhase, int aCorpID) {
 		Location tStartLocation, tEndLocation, tRCLocation;
 		
 		tStartLocation = start.getLocation ();
 		if (! tStartLocation.isSide ()) {
 			tRCLocation = tStartLocation.unrotateLocation (mapCell.getTileOrient ());
-			start.applyRCinfo (tile, tRCLocation, aPhase);
+			start.applyRCinfo (tile, tRCLocation, aPhase, aCorpID);
 		}
 		tEndLocation = end.getLocation ();
 		if (! tEndLocation.isSide ()) {
 			tRCLocation = tEndLocation.unrotateLocation (mapCell.getTileOrient ());
-			end.applyRCinfo (tile, tRCLocation, aPhase);
+			end.applyRCinfo (tile, tRCLocation, aPhase, aCorpID);
 		}
 	}
 	
@@ -345,21 +345,16 @@ public class RouteSegment {
 		Location tSide;
 		
 		aTrack.setTrainNumber (aTrainIndex);
-		System.out.println ("*Setting Train " + aTrainIndex + 
-				" On MapCell " + mapCell.getCellID () + " Tile " + tile.getNumber() + " Track from " + start.getLocationInt() +
-				" to " + end.getLocationInt ());
 		if (hasRevenueCenter ()) {
 			tRevenueCenter = getRevenueCenter ();
 			tRevenueCenter.setSelected (true, aTrainIndex);
 		}
 		if (isStartASide ()) {
 			tSide = getStartLocationIsSide ();
-			System.out.println ("***Setting Start Side " + tSide.getLocation () + " to be Used by Train " + aTrainIndex);
 			mapCell.setTrainUsingSide (tSide.getLocation (), aTrainIndex);
 		}
 		if (isEndASide ()) {
 			tSide = getEndLocationIsSide ();
-			System.out.println ("***Setting End Side " + tSide.getLocation () + " to be Used by Train " + aTrainIndex);
 			mapCell.setTrainUsingSide (tSide.getLocation (), aTrainIndex);
 		}
 	}
