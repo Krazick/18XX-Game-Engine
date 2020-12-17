@@ -27,12 +27,14 @@ class NodeInformationTestConstuctors {
 	 */
 	@BeforeEach
 	void setUp () throws Exception {
+		int tPhase = 1;
+		
 		TileType tYellow = new TileType (TileType.YELLOW, false);
 		locationSide = new Location (1);
 		locationCenter = new Location (50);
 		centerCity = new City (RevenueCenterType.SINGLE_CITY, 1, 1, Location.CENTER_CITY_LOC, "Home Town", 20, tYellow);
-		nodeInformationSide = new NodeInformation (locationSide, false, true, false, 0, 0, RevenueCenter.NO_CENTER);
-		nodeInformationCenter = new NodeInformation (locationCenter, false, true, true, 0, 0, centerCity);
+		nodeInformationSide = new NodeInformation (locationSide, false, true, false, 0, 0, RevenueCenter.NO_CENTER, tPhase);
+		nodeInformationCenter = new NodeInformation (locationCenter, false, true, true, 0, 0, centerCity, tPhase);
 	}
 
 	/**
@@ -62,9 +64,10 @@ class NodeInformationTestConstuctors {
 	public void NodeInformationIsValidMethodTests () {
 		NodeInformation tNodeInformationBadLocation1;
 		NodeInformation tNodeInformationBadLocation2;
+		int tPhase = 1;
 		
-		tNodeInformationBadLocation1 = new NodeInformation (new Location (), false, true, false, 0, 0, RevenueCenter.NO_CENTER);
-		tNodeInformationBadLocation2 = new NodeInformation (null, false, true, false, 0, 0, RevenueCenter.NO_CENTER);
+		tNodeInformationBadLocation1 = new NodeInformation (new Location (), false, true, false, 0, 0, RevenueCenter.NO_CENTER, tPhase);
+		tNodeInformationBadLocation2 = new NodeInformation (null, false, true, false, 0, 0, RevenueCenter.NO_CENTER, tPhase);
 
 		assertTrue (nodeInformationSide.isValid (), "Valid Node Information for Side");
 		assertTrue (nodeInformationCenter.isValid (), "Valid Node Information for Center");
