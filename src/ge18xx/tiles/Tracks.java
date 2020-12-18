@@ -175,13 +175,11 @@ public class Tracks implements Cloneable {
 
 	public int getTrackCountFromSide (Location aLocation) {
 		int tTrackCount = 0;
-		int tCounter = 0;
 		
 		for (Track tSegment : segments) {
 			if (tSegment.isTrackToSide (aLocation.getLocation ())) {
 				tTrackCount++;
 			}
-			tCounter++;
 		}
 
 		return tTrackCount;
