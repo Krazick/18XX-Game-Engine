@@ -1484,4 +1484,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 		addAction (aBuyTrainAction);
 	}
+
+	public int getMaxTrainSize () {
+		int tMaxTrainSize;
+		
+		tMaxTrainSize = trainPortfolio.getMaxTrainSize ();
+		
+		return tMaxTrainSize;
+	}
 }

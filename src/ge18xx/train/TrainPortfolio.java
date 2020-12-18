@@ -675,4 +675,18 @@ public class TrainPortfolio implements TrainHolderI {
 			}
 		}
 	}
+
+	public int getMaxTrainSize () {
+		int tMaxTrainSize = 2;
+		int tTrainSize;
+		
+		for (Train tTrain : trains) {
+			tTrainSize = tTrain.getCityCount ();
+			if (tTrainSize > tMaxTrainSize) {
+				tMaxTrainSize = tTrainSize;
+			}
+		}
+		
+		return tMaxTrainSize;
+	}
 }
