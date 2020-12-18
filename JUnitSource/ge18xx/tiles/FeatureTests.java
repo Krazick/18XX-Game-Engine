@@ -25,7 +25,7 @@ class FeatureTests {
 	Feature featureDelta;
 	Feature featureGamma;
 	Location locationDeadEnd;
-	Location locationSide;
+//	Location locationSide;
 	Location locationCenter;
 
 	/**
@@ -85,10 +85,10 @@ class FeatureTests {
 	@Test
 	@DisplayName ("Test Feature Setting Locations")
 	public void FeatureSetLocationsTest () {
-		Location tFeatureAlphaLocation;
+//		Location tFeatureAlphaLocation;
 		Location tFeatureBetaLocation;
 		
-		locationSide = null;
+//		locationSide = null;
 		featureAlpha.setLocation (null);
 		assertTrue (featureAlpha.isNoLocation (), "Feature Alpha with no Location (null) - TRUE");
 		assertFalse (featureBeta.isNoLocation (), "Feature Beta with no Location (null) - FALSE");
@@ -101,8 +101,8 @@ class FeatureTests {
 		assertFalse (featureAlpha.isAtLocation (locationDeadEnd), "Feature Alpha not at Dead-End - With 'isAtLocation' Method");
 		assertTrue (featureAlpha.isAtLocation (locationCenter), "Feature Center at Center - With 'isAtLocation' Method");
 		
-		tFeatureAlphaLocation = featureAlpha.getLocation ();
-		assertNotSame (locationSide, tFeatureAlphaLocation, "Side Location (null) and Feature Alpha Location Objects are not the same");
+//		tFeatureAlphaLocation = featureAlpha.getLocation ();
+//		assertNotSame (Location.NO_LOC, tFeatureAlphaLocation, "Side Location (null) and Feature Alpha Location Objects are not the same");
 		tFeatureBetaLocation = featureBeta.getLocation ();
 		assertSame (locationDeadEnd, tFeatureBetaLocation, "Dead End Location (null) and Feature Beta Location Objects are the same");
 		assertFalse (featureDelta.bleedThroughAll (), "Feature Will not Bleed Through");
