@@ -179,17 +179,15 @@ public class RouteSegment {
 	}
 
 	public void applyRCInfo (int aPhase, int aCorpID) {
-		Location tStartLocation, tEndLocation, tRCLocation;
+		Location tStartLocation, tEndLocation;
 		
 		tStartLocation = start.getLocation ();
 		if (! tStartLocation.isSide ()) {
-			tRCLocation = tStartLocation.unrotateLocation (mapCell.getTileOrient ());
-			start.applyRCinfo (tile, tRCLocation, aPhase, aCorpID);
+			start.applyRCinfo (tile, tStartLocation, aPhase, aCorpID);
 		}
 		tEndLocation = end.getLocation ();
 		if (! tEndLocation.isSide ()) {
-			tRCLocation = tEndLocation.unrotateLocation (mapCell.getTileOrient ());
-			end.applyRCinfo (tile, tRCLocation, aPhase, aCorpID);
+			end.applyRCinfo (tile, tEndLocation, aPhase, aCorpID);
 		}
 	}
 	
@@ -314,7 +312,7 @@ public class RouteSegment {
 		
 		if (aTrack != Track.NO_TRACK) {
 			System.out.println ("READY to Clear Train on Track from " + 
-						aTrack.getEnterLocationInt () + " to " + aTrack.getExitLocationInt());
+						aTrack.getEnterLocationInt () + " to " + aTrack.getExitLocationInt ());
 			aTrack.setTrainNumber (0);
 			if (hasRevenueCenter ()) {
 				tRevenueCenter = getRevenueCenter ();
@@ -429,7 +427,9 @@ public class RouteSegment {
 		} else {
 			tPossibleEnd = tTrack.getEnterLocation ();
 		}
-		tPossibleEnd = tPossibleEnd.rotateLocation (mapCell.getTileOrient ());
+		if (tPossibleEnd.isSide ()) {
+			tPossibleEnd = tPossibleEnd.rotateLocation (mapCell.getTileOrient ());
+		}
 		
 		return tPossibleEnd;
 	}
@@ -499,14 +499,14 @@ public class RouteSegment {
 		return tFoundTrack;
 	}
 
-	public void rotateStartLocation() {
-		Location tStartLocation;
-		
-		tStartLocation = start.getLocation ();
-		if (! tStartLocation.isSide ()) {
-			tStartLocation = tStartLocation.rotateLocation (mapCell.getTileOrient ());
-			start.setLocation (tStartLocation);
-		}
-	}
+//	public void rotateStartLocation() {
+//		Location tStartLocation;
+//		
+//		tStartLocation = start.getLocation ();
+//		if (! tStartLocation.isSide ()) {
+//			tStartLocation = tStartLocation.rotateLocation (mapCell.getTileOrient ());
+//			start.setLocation (tStartLocation);
+//		}
+//	}
 }
 
