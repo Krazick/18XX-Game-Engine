@@ -740,25 +740,15 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 
 	public Track getConnectingTrackBetween (Location aThisLocation, Location aThatLocation) {
-		Track tFoundTrack = Track.NO_TRACK;
-		int tTrackIndex;
 		Track tTrack;
-		Location tEnterLocation, tExitLocation;
+		int tStartLocation, tEndLocation;
 		
-		for (tTrackIndex = 0; tTrackIndex < tracks.size (); tTrackIndex++) {
-			tTrack = tracks.get (tTrackIndex);
-			tEnterLocation = tTrack.getEnterLocation ();
-			tExitLocation = tTrack.getExitLocation ();
-			if ((tEnterLocation.equals (aThisLocation)) && 
-				(tExitLocation.equals (aThatLocation))) {
-				tFoundTrack = tTrack;
-			} else if ((tEnterLocation.equals (aThatLocation)) && 
-					(tExitLocation.equals (aThisLocation))) {
-				tFoundTrack = tTrack;
-			}
-		}
+		tStartLocation = aThisLocation.getLocation ();
+		tEndLocation = aThatLocation.getLocation ();
+
+		tTrack = tracks.getTrackFromStartToEnd (tStartLocation, tEndLocation);
 		
-		return tFoundTrack;
+		return tTrack;
 	}
 	
 	public boolean hasConnectingTrackBetween (Location aThisLocation, Location aThatLocation) {
