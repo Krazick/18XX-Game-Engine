@@ -61,6 +61,7 @@ public class RouteInformation {
 			}
 			routeSegments.add (aRouteSegment);
 			calculateTotalRevenue ();
+			trainRevenueFrame.updateRevenues (this);
 			updateConfirmRoute ();
 		} else {
 			System.err.println ("Revenue Centers Array not Initialized");
@@ -225,7 +226,7 @@ public class RouteInformation {
 			tFoundRevenueCenter = revenueCenters.get (aRevenueCenterIndex - 1);
 			tRevenue = tFoundRevenueCenter.getRevenue (phase);
 		} else {
-			System.err.println ("\nHave " + revenueCenters.size () + " Centers, asked for " + aRevenueCenterIndex);
+//			System.err.println ("\nHave " + revenueCenters.size () + " Centers, asked for " + aRevenueCenterIndex);
 		}
 		
 		return tRevenue;
@@ -415,7 +416,7 @@ public class RouteInformation {
 						tNewPreviousSegment = new RouteSegment (tPreviousMapCell);
 						tPreviousRevenueCenter = tPreviousSegment.getRevenueCenter ();
 						setStartSegment (tNewPreviousSegment, tPreviousRevenueCenter, aPhase, aCorpID);
-						tNewPreviousSegment.rotateStartLocation ();
+						
 						tNewPreviousSegment.setEndNodeLocationInt (tPreviousSide, phase);
 
 						addRouteSegment (tNewPreviousSegment);
@@ -568,6 +569,10 @@ public class RouteInformation {
 		tStartNode = new NodeInformation (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, 
 				tRevenue, tBonus, aSelectedRevenueCenter, phase);
 		aRouteSegment.setStartNode (tStartNode);
+	}
+
+	public int getPhase() {
+		return phase;
 	}
 
 }
