@@ -1628,8 +1628,10 @@ public class MapCell implements Comparator<Object> {
 		if (isTileOnCell ()) {
 			tRawThisLocation = new Location (aStartLocation);
 			tRawThatLocation = new Location (aEndLocation);
-			tRawThisLocation = tRawThisLocation.unrotateLocation (tileOrient);
-			tRawThatLocation = tRawThatLocation.unrotateLocation (tileOrient);
+			tRawThisLocation = unrotateIfSide (tRawThisLocation);
+			tRawThatLocation = unrotateIfSide (tRawThatLocation);
+//			tRawThisLocation = tRawThisLocation.unrotateLocation (tileOrient);
+//			tRawThatLocation = tRawThatLocation.unrotateLocation (tileOrient);
 	
 			tTrack = tile.getTrackFromStartToEnd (tRawThisLocation.getLocation (), tRawThatLocation.getLocation ());
 		}
@@ -1637,17 +1639,27 @@ public class MapCell implements Comparator<Object> {
 		return tTrack;
 	}
 
+	public Location unrotateIfSide (Location aLocation) {
+		if (aLocation.isSide ()) {
+			aLocation = aLocation.unrotateLocation (tileOrient);
+		}
+		
+		return aLocation;
+	}
+	
 	public boolean hasConnectingTrackBetween (int aThisLocation, int aThatLocation) {
 		Location tRawThisLocation, tRawThatLocation;
 		
 		tRawThisLocation = new Location (aThisLocation);
 		tRawThatLocation = new Location (aThatLocation);
-		if (tRawThisLocation.isSide ()) {
-			tRawThisLocation = tRawThisLocation.unrotateLocation (tileOrient);
-		}
-		if (tRawThatLocation.isSide ()) {
-			tRawThatLocation = tRawThatLocation.unrotateLocation (tileOrient);
-		}
+		tRawThisLocation = unrotateIfSide (tRawThisLocation);
+		tRawThatLocation = unrotateIfSide (tRawThatLocation);
+//		if (tRawThisLocation.isSide ()) {
+//			tRawThisLocation = tRawThisLocation.unrotateLocation (tileOrient);
+//		}
+//		if (tRawThatLocation.isSide ()) {
+//			tRawThatLocation = tRawThatLocation.unrotateLocation (tileOrient);
+//		}
 		
 		return tile.hasConnectingTrackBetween (tRawThisLocation, tRawThatLocation);
 	}
