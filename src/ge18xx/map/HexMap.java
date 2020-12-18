@@ -12,7 +12,6 @@ import ge18xx.center.City;
 
 import ge18xx.center.CityInfo;
 import ge18xx.center.RevenueCenter;
-import ge18xx.center.Town;
 import ge18xx.company.Corporation;
 import ge18xx.company.TokenCompany;
 import ge18xx.game.GameManager;
