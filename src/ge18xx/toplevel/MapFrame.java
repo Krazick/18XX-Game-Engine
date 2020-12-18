@@ -28,7 +28,6 @@ import ge18xx.map.Terrain;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
-import ge18xx.train.NodeInformation;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.RouteSegment;
 import ge18xx.utilities.ElementName;
@@ -82,8 +81,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	JScrollPane scrollPane;
 	GameManager gameManager;
 	RouteInformation routeInformation;
-//	private String CANCEL_SELECT_MODE = "Cancel Select";
-//	private String CANCEL_TILE_MODE = "Cancel Tile";
 	private String CANCEL_TOKEN_MODE = "CancelToken";
 	private String CANCEL_MODE_LABEL = "Cancel Mode";
 	private String COMPLETE_TILE_LAY = "Complete Tile Lay";
@@ -811,68 +808,4 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		routeInformation.setStartSegment (tRouteSegment, aSelectedRevenueCenter, tPhase, tCorpID);
 		routeInformation.extendRouteInformation (tRouteSegment, tPhase, tCorpID);
 	}
-	
-//	public void setStartSegment (RouteSegment aRouteSegment, RevenueCenter aSelectedRevenueCenter) {
-//		boolean tCorpStation, tOpenFlow, tIsCity, tIsDeadEnd, tHasRevenueCenter;
-//		int tRevenue, tBonus;
-//		Corporation tCorporation = getOperatingCompany ();
-//		int tCorpID;
-//		int tPhase;
-//		Location tLocation;
-//		NodeInformation tStartNode;
-//		
-//		tCorpID = tCorporation.getID ();
-//		tPhase = gameManager.getCurrentPhase ();
-//		if (aSelectedRevenueCenter == RevenueCenter.NO_CENTER) {
-//			tCorpStation = false;
-//			tOpenFlow = true;
-//			tHasRevenueCenter = false;
-//			tRevenue = 0;
-//			tLocation = new Location ();
-//			tIsCity = false;
-//		} else {
-//			tCorpStation = aSelectedRevenueCenter.cityHasStation (tCorpID);
-//			tIsCity = aSelectedRevenueCenter.isCity ();
-//			tIsDeadEnd = aSelectedRevenueCenter.isDeadEnd ();
-//			tHasRevenueCenter = true;
-//			if (tIsDeadEnd) {			// if a Dead-End City, no Flow beyond this.
-//				tOpenFlow = false;
-//			} else if (tIsCity) {	
-//				if (tCorpStation) {		// If this is a City, and it has the Current Operating Company matches the Token
-//										// Then can flow beyond
-//					tOpenFlow = true;
-//				} else { 				// If this is a City, then if there is an Open Station, Flow can continue
-//					tOpenFlow = aSelectedRevenueCenter.isOpen ();
-//				}
-//			} else {					// If this is not a City, it is a Town, and Flow is allowed further
-//				tOpenFlow = true;
-//			}
-//			tRevenue = aSelectedRevenueCenter.getRevenue (tPhase);
-//			tLocation = aSelectedRevenueCenter.getLocation ();
-//		}
-//		
-//		tBonus = 0;		// TODO: If Selected City has Cattle, Port, etc that will add a Bonus, put that here
-//		
-//		//new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
-//		tStartNode = new NodeInformation (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, 
-//				tRevenue, tBonus, aSelectedRevenueCenter, tPhase);
-//		aRouteSegment.setStartNode (tStartNode);
-//	}
-//
-//	public boolean continueExtending (int aPreviousSide, int aPreviousEnd, MapCell aPreviousMapCell) {
-//		boolean tContinueExtending;
-//		
-//		if (aPreviousEnd == Location.NO_LOCATION) {
-//			tContinueExtending = true;
-//		} else if (aPreviousMapCell.hasConnectingTrackBetween (aPreviousSide, aPreviousEnd)) {
-//			tContinueExtending = true;
-//		} else if (aPreviousEnd == aPreviousSide) {
-//			tContinueExtending = true;
-//		} else {
-//			tContinueExtending = false;
-//			System.err.println ("Something askew - Previous Side " + aPreviousSide + " Previous End " + aPreviousEnd);
-//		}
-//		
-//		return tContinueExtending;
-//	}
 }
