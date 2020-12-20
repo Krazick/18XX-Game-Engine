@@ -28,6 +28,7 @@ import ge18xx.network.JGameClient;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Escrow;
 import ge18xx.player.Player;
+import ge18xx.player.PlayerFrame;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderLoaderI;
@@ -1344,6 +1345,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void setParPrice (ShareCompany aShareCompany, int aParPrice) {
 		 marketFrame.setParPrice (aShareCompany, aParPrice);
+		 System.out.println ("Ready to update ALL Player Frames after setting a Par Price for " + aShareCompany.getAbbrev());
+		 playerManager.updateAllPlayerFrames ();
 	}
 	
 	public void setPhaseManager (PhaseManager aPhaseManager) {
