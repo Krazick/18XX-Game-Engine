@@ -268,23 +268,23 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCorpBorder;
 	}
 
-	@Override
+//	@Override
 	public Container buildPortfolioTrainsJPanel (CorporationFrame aItemListener, 
 			GameManager aGameManager, boolean aFullTrainPortfolio, 
 			boolean aCanBuyTrain, String aDisableToolTipReason, 
-			Corporation aBuyingCorporation) {
+			Corporation aBuyingCorporation, int aTokenCount) {
 		Container tTrainPortfolioInfoContainer;
 		Container tTrainInfoContainer;
 		Container tCorpTrainContainer;
 		Container tCorpInfoContainer;
 		JPanel tCorpJPanel;
-		JLabel tLabel, tPresidentLabel, tStateLabel, tTreasuryLabel;
+		JLabel tLabel, tPresidentLabel, tStateLabel, tTreasuryLabel, tTokensLabel;
 		Border tBorder;
 		String tPresident, tBuyingPresident;
 		String tActionLabel;
-	
+
 		tActionLabel = BUY_LABEL;
-		tPresident = getPresidentName ();
+		tPresident = getPresidentName (); 
 		tBuyingPresident = aBuyingCorporation.getPresidentName ();		
 		tBorder = setupBorder (tPresident.equals (tBuyingPresident));
 
@@ -298,11 +298,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tCorpInfoContainer.add (tLabel);
 		if (isPlayerOwned ()) {
 			tStateLabel = new JLabel ("State: " + getStatusName ());
-			tTreasuryLabel = new JLabel ("Treasury: " + Bank.formatCash (treasury));
 			tPresidentLabel = new JLabel ("Prez: " + tPresident);
+			tTreasuryLabel = new JLabel ("Treasury: " + Bank.formatCash (treasury));
+			tTokensLabel = new JLabel ("Tokens: " + aTokenCount);
 			tCorpInfoContainer.add (tStateLabel);
-			tCorpInfoContainer.add (tTreasuryLabel);
 			tCorpInfoContainer.add (tPresidentLabel);
+			tCorpInfoContainer.add (tTreasuryLabel);
+			tCorpInfoContainer.add (tTokensLabel);
 			tCorpTrainContainer.add (tCorpInfoContainer);
 			if (trainPortfolio != null) {
 				tTrainInfoContainer = trainPortfolio.buildPortfolioJPanel (aItemListener, this, 

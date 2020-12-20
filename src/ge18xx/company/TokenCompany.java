@@ -9,6 +9,7 @@ package ge18xx.company;
 //
 
 import ge18xx.bank.Bank;
+import ge18xx.game.GameManager;
 import ge18xx.map.Hex;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
@@ -452,5 +453,20 @@ public abstract class TokenCompany extends TrainCompany {
 		tCorpLabel = "<html>" + tCorpLabel + "</html>";
 
 		return tCorpLabel;
+	}
+	
+	@Override
+	public Container buildPortfolioTrainsJPanel (CorporationFrame aItemListener, 
+			GameManager aGameManager, boolean aFullTrainPortfolio, 
+			boolean aCanBuyTrain, String aDisableToolTipReason, 
+			Corporation aBuyingCorporation) {
+		Container tTrainPortfolioInfoContainer;
+		int tTokenCount;
+		
+		tTokenCount = getTokenCount ();
+		tTrainPortfolioInfoContainer = super.buildPortfolioTrainsJPanel (aItemListener, aGameManager, aFullTrainPortfolio, aCanBuyTrain,
+				aDisableToolTipReason, aBuyingCorporation, tTokenCount);
+		
+		return tTrainPortfolioInfoContainer;
 	}
 }
