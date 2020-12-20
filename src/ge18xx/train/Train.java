@@ -37,7 +37,7 @@ public class Train implements Comparable<Object> {
 	final static AttributeName AN_STATUS = new AttributeName ("status");
 	public static final JCheckBox NO_ACTION_CHECKBOX = null;
 	static final TrainInfo NO_TRAIN_INFO = null;
-	static final int NO_TRAIN = 0;
+	public static Train NO_TRAIN = null;
 	public static final int NO_ORDER = -1;
 	public static final int INFINITE_COUNT = 9999;
 	public static final int NO_RC_COUNT = -1;
