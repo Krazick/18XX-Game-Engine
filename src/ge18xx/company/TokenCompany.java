@@ -442,4 +442,15 @@ public abstract class TokenCompany extends TrainCompany {
 		
 		return tCostToLayHome;
 	}
+	
+	@Override
+	public String buildCorpInfoLabel () {
+		String tCorpLabel = "";
+
+		tCorpLabel = super.buildCorpInfoLabel ();
+		tCorpLabel += "<br>Tokens: " + getTokenCount ();
+		tCorpLabel = "<html>" + tCorpLabel + "</html>";
+
+		return tCorpLabel;
+	}
 }

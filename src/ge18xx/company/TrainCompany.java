@@ -219,7 +219,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		} else {
 			tCorpLabel += "<br>[" + getStatusName () + "]";
 		}
-		tCorpLabel = "<html>" + tCorpLabel + "</html>";
 		
 		return tCorpLabel;
 	}
