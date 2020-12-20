@@ -726,7 +726,7 @@ public class CorporationFrame extends JFrame implements ActionListener, ItemList
 				if (! corporation.homeMapCell1HasTile ()) {
 					placeTokenActionButton.setEnabled (false);
 					placeTokenActionButton.setToolTipText (HOME1_NO_TILE);
-				} else if (corporation.homeMapCell2HasTile ()) {
+				} else if (! corporation.homeMapCell2HasTile ()) {
 					placeTokenActionButton.setEnabled (false);
 					placeTokenActionButton.setToolTipText (HOME2_NO_TILE);
 				} else {
