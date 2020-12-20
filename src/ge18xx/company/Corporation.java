@@ -1756,6 +1756,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		
 		if (homeCity1 != null) {
 			tHomeMapCellHasTile = homeCity1.isTileOnCell ();
+		} else {
+			System.err.println ("Home City 1 Map Cell is NULL -- PROBLEM!");
 		}
 		
 		return tHomeMapCellHasTile;
@@ -1766,6 +1768,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		
 		if (homeCity2 != null) {
 			tHomeMapCellHasTile = homeCity2.isTileOnCell ();
+		} else {
+			tHomeMapCellHasTile = true;
 		}
 		
 		return tHomeMapCellHasTile;
@@ -1778,6 +1782,5 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	
 	public void exitSelectRouteMode (RouteInformation aRouteInformation) {
 //		Override in Train Company Class
-		
 	}
 }
