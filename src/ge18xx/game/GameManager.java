@@ -1277,7 +1277,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			
 			File tSaveDirectory; 
 			String tFileName;
-			tSaveDirectory = new File (configData.getSaveGameDirectory());
+			tSaveDirectory = new File (configData.getSaveGameDirectory ());
 			File18XXFilter tFileFilter = new File18XXFilter ();
 			chooser = new JFileChooser ();
 			chooser.setDialogTitle ("Save 18XX Game File");

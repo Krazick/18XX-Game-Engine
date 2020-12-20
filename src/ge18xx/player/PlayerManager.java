@@ -424,7 +424,6 @@ public class PlayerManager {
 		int tSelectedParPrice;
 		Player tCurrentPresident, tNewPresident;
 		PortfolioHolderI tCurrentHolder;
-//		ParPriceFrame tParPriceFrame;
 		boolean tCanBuyStock = true;
 		boolean tChainBuyToParValue = false;
 		
@@ -461,6 +460,7 @@ public class PlayerManager {
 					if ((tSelectedParPrice > 0) && (tShareCompany != null)) {
 						gameManager.setParPrice (tShareCompany, tSelectedParPrice);
 						parPriceFrame = new ParPriceFrame (aPlayer, stockRound, aCertificateToBuy);
+						parPriceFrame.setParPriceFrameActive (false);
 						parPriceFrame.setParValueAction (tSelectedParPrice, tShareCompany);
 						tChainBuyToParValue = true;
 					} else {
