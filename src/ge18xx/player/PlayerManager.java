@@ -61,6 +61,7 @@ public class PlayerManager {
 	GameManager gameManager;
 	StockRound stockRound;
 	AuctionRound auctionRound;
+	ParPriceFrame parPriceFrame;
 	
 	public PlayerManager (GameManager aGameManager) {
 		stockRound = null;
@@ -78,6 +79,10 @@ public class PlayerManager {
 		if (! players.contains (aPlayer)) {
 			players.add (aPlayer);
 		}
+	}
+	
+	public ParPriceFrame getParPriceFrame () {
+		return parPriceFrame;
 	}
 	
 	public boolean canBeExchanged (Corporation aCorporation) {
@@ -419,7 +424,7 @@ public class PlayerManager {
 		int tSelectedParPrice;
 		Player tCurrentPresident, tNewPresident;
 		PortfolioHolderI tCurrentHolder;
-		ParPriceFrame tParPriceFrame;
+//		ParPriceFrame tParPriceFrame;
 		boolean tCanBuyStock = true;
 		boolean tChainBuyToParValue = false;
 		
@@ -455,8 +460,8 @@ public class PlayerManager {
 					tSelectedParPrice = aCertificateToBuy.getComboParValue ();
 					if ((tSelectedParPrice > 0) && (tShareCompany != null)) {
 						gameManager.setParPrice (tShareCompany, tSelectedParPrice);
-						tParPriceFrame = new ParPriceFrame (aPlayer, stockRound, aCertificateToBuy);
-						tParPriceFrame.setParValueAction (tSelectedParPrice, tShareCompany);
+						parPriceFrame = new ParPriceFrame (aPlayer, stockRound, aCertificateToBuy);
+						parPriceFrame.setParValueAction (tSelectedParPrice, tShareCompany);
 						tChainBuyToParValue = true;
 					} else {
 						System.err.println ("***Selected Par Price is " + tSelectedParPrice + " or tShareCompany is NULL***");
@@ -500,8 +505,8 @@ public class PlayerManager {
 					if (tFreeCertificate.hasParPrice ()) {
 						System.out.println ("Par Price already set.");
 					} else {
-						tParPriceFrame = new ParPriceFrame (aPlayer, stockRound, tFreeCertificate);
-						tParPriceFrame.setVisible (true);
+						parPriceFrame = new ParPriceFrame (aPlayer, stockRound, tFreeCertificate);
+						parPriceFrame.setVisible (true);
 						tChainBuyToParValue = true;
 					}
 				}
@@ -1163,4 +1168,15 @@ public class PlayerManager {
 	public void updateRoundWindow () {
 		stockRound.updateStockRoundWindow ();
 	}
+	
+	public boolean isParPriceFrameActive () {
+		boolean tIsParPriceFrameActive = false;
+		
+		if (parPriceFrame != null) {
+			tIsParPriceFrameActive = parPriceFrame.isParPriceFrameActive ();
+		}
+		
+		return tIsParPriceFrameActive;
+	}
+
 }

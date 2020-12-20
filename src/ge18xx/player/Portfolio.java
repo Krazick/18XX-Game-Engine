@@ -1391,12 +1391,20 @@ public class Portfolio implements CertificateHolderI {
 		}
 	}
 
+	private String buildAbbrevAndType (String aAbbrev, String aType) {
+		String tAbbrevAndType;
+		
+		tAbbrevAndType = aAbbrev + aType;
+		
+		return tAbbrevAndType;
+	}
+	
 	public Container buildOwnershipContainer () {
 		Container tOwnershipContainer = null;
 		JLabel tCertificateOwnershipLabel;
 		List<PortfolioSummary> tPortfolioSummary;
 		PortfolioSummary tASummary;
-		String tAbbrev, tOwnershipLabel, tNote;
+		String tAbbrev, tOwnershipLabel, tNote, tAbbrevAndType1, tAbbrevAndType2;
 		int tCount, tPercentage;
 		boolean tIsPresident, tHandledCertificate;
 		Border tCorporateColorBorder;
@@ -1419,12 +1427,17 @@ public class Portfolio implements CertificateHolderI {
 				} else if (tCertificate.isCoalCompany ()) {
 					tType = PortfolioSummary.COAL_CORP_TYPE;
 				}
+				tAbbrevAndType1 = buildAbbrevAndType (tAbbrev, tType);
 				tCount = 1;
 				tPercentage = tCertificate.getPercentage ();
 				tIsPresident = tCertificate.isPresidentShare ();
 				tHandledCertificate = false;
 				for (PortfolioSummary tASingleSummary : tPortfolioSummary) {
-					if (tASingleSummary.getAbbrev ().equals (tAbbrev)) {
+					// Test with both Abbrev and Type, to be sure to show B&O Private the B&O Share Company Certs when owned by
+					// the same player
+					tAbbrevAndType2 = buildAbbrevAndType (tASingleSummary.getAbbrev (), tASingleSummary.getType ());
+					
+					if (tAbbrevAndType1.equals (tAbbrevAndType2)) {
 						tASingleSummary.addCount (tCount);
 						tASingleSummary.addPercentage (tPercentage);
 						tASingleSummary.setIsPresident (tIsPresident);

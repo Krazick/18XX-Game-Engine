@@ -33,6 +33,7 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 	JComboBox<Integer> parValuesCombo;
 	JButton doActionButton;
 	JPanel parValuesPanel;
+	boolean parPriceFrameActive;
 	
 	public ParPriceFrame (Player aPlayer, StockRound aStockRound, Certificate aCertificate) {
 		super ("Par Value Selection");
@@ -85,8 +86,17 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 		parValuesPanel.add (Box.createHorizontalStrut (10));
 		parValuesPanel.add (verticalBox);
 		parValuesPanel.add (Box.createHorizontalStrut (10));
+		setParPriceFrameActive (true);
 		add (parValuesPanel);
 		pack ();
+	}
+	
+	public void setParPriceFrameActive (boolean aParPriceFrameActive) {
+		parPriceFrameActive = aParPriceFrameActive;
+	}
+	
+	public boolean isParPriceFrameActive () {
+		return parPriceFrameActive;
 	}
 	
 	public void setActionButton (String aButtonLabel, String aActionCommand) {
@@ -116,6 +126,7 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 				tShareCompany = (ShareCompany) CorporationList.NO_CORPORATION;
 			}
 			if ((tSelectedParPrice > 0) && (tShareCompany != CorporationList.NO_CORPORATION)) {
+				setParPriceFrameActive (false);
 				gameManager.setParPrice (tShareCompany, tSelectedParPrice);
 				setParValueAction (tSelectedParPrice, tShareCompany);
 			}

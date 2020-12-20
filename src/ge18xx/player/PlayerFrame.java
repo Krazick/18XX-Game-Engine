@@ -358,6 +358,9 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		setPassDoneButton (PASS, PASS);
 	}
 	
+	// TODO: Test if the Par Price Frame is UP, and disable the Done Button if so -- 
+	// Must set that Par Price before allowing the Stock Action to be done.
+	
 	public void setPassDoneButton (String tLabel, String tAction) {
 		passActionButton.setText (tLabel);
 		passActionButton.setActionCommand (tAction);
@@ -376,6 +379,9 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		} else if (hasSelectedPrivateOrMinorToExchange ()) {
 			passActionButton.setEnabled (false);
 			passActionButton.setToolTipText ("A Private/Minor has been selected to be Exchanged");
+		} else if (player.isParPriceFrameActive () ) {
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText ("A Share Company needs to have Par Price selected - Find the Par Price Frame");		
 		} else if (hasMustBuyCertificate ()) {
 			setCannotPass ();
 		} else {
