@@ -143,7 +143,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		
 		tCanDoAction = false;
 		if (primaryActionState == ActionStates.Pass){
-			System.out.println ("Player has passed, can't Act");
+			System.err.println ("Player has passed, can't Act");
 		} else {
 			tCanDoAction = true;
 			primaryActionState = ActionStates.Acted;
@@ -610,7 +610,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		tHasLessThanPresident = true;
 		tShareCompany = playerManager.getShareCompany (aCompanyAbbrev);
 		if (tShareCompany.equals (CorporationList.NO_CORPORATION)) {
-			System.out.println ("Share Company with abbrev " + aCompanyAbbrev + " could not be found");
+			System.err.println ("Share Company with abbrev " + aCompanyAbbrev + " could not be found");
 		} else {
 			tCurrentPlayerHasXPercent = getPercentOwnedOf (tShareCompany);
 			tPresidentOf =  (Player) tShareCompany.getPresident ();
@@ -871,7 +871,6 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		playerManager.addAction (tBuyStockAction);
 
 		if (tNextShareHasBids) {
-			System.out.println ("After Normal Stock Buy - Next Share in Start Packet has Bids -- AUCTION ROUND TIME");
 			tNewState = getPrimaryActionState ();
 
 			playerManager.startAuctionRound ();
@@ -914,7 +913,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 			primaryActionState = ActionStates.Pass;
 			tCanPass = true;
 		} else {
-			System.out.println ("Player has acted already, can't Pass");
+			System.err.println ("Player has acted already, can't Pass");
 		}
 		
 		return tCanPass;
@@ -928,7 +927,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 			setAuctionActionState (ActionStates.AuctionPass);
 			tCanPass = true;
 		} else {
-			System.out.println ("Player has acted in Auction already, can't Pass");			
+			System.err.println ("Player has acted in Auction already, can't Pass");			
 		}
 		
 		return tCanPass;
@@ -1273,6 +1272,14 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		return true;
 	}
 
+	public boolean isParPriceFrameActive () {
+		boolean tIsParPriceFrameActive = false;
+		
+		tIsParPriceFrameActive = playerManager.isParPriceFrameActive ();
+		
+		return tIsParPriceFrameActive;
+	}
+	
 	public boolean willSaleOverfillBankPool () {
 		boolean tWillSaleOverfillBankPool = false;
 		GameManager tGameManager;
