@@ -3,8 +3,18 @@ package ge18xx.train;
 import ge18xx.center.RevenueCenter;
 import ge18xx.map.Location;
 import ge18xx.tiles.Tile;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 
 public class NodeInformation {
+	final static AttributeName AN_LOCATION = new AttributeName ("location");
+	final static AttributeName AN_CORP_STATION = new AttributeName ("corpStation");
+	final static AttributeName AN_OPEN_FLOW = new AttributeName ("openFlow");
+	final static AttributeName AN_HAS_REVENUE_CENTER = new AttributeName ("hasRevenueCenter");
+	final static AttributeName AN_REVENUE = new AttributeName ("revenue");
+	final static AttributeName AN_BONUS = new AttributeName ("bonus");
 
 	Location location;		//	Location
 	boolean corpStation;	//	Operating Corp Station (true or false)
@@ -16,13 +26,13 @@ public class NodeInformation {
 	
 	public NodeInformation (Location aLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter,
 				int aRevenue, int aBonus, RevenueCenter aRevenueCenter, int aPhase) {
-		setLocation (aLocation);
-		setCorpStation (aCorpStation);
-		setOpenFlow (aOpenFlow);
 		setHasRevenueCenter (aHasRevenueCenter);
 		setRevenue (aRevenue);
 		setRevenueCenter (aRevenueCenter, aPhase);
 		setBonus (aBonus);
+		setOpenFlow (aOpenFlow);
+		setCorpStation (aCorpStation);
+		setLocation (aLocation);
 	}
 	
 	public int getBonus () {
@@ -55,10 +65,21 @@ public class NodeInformation {
 
 	private void setCorpStation (boolean aCorpStation) {
 		corpStation = aCorpStation;
+		if (corpStation) {
+			setOpenFlow (true);
+		}
 	}
 
 	public void setLocation (Location aLocation) {
 		location = aLocation;
+		// if the Location is a MapCell Side, it is -ALWAYS OPEN-
+		if (isSide ()) {
+			setOpenFlow (true);
+		}
+		// Or if there is a Corporate Station, it is -ALWAYS OPEN-
+		if (corpStation) {
+			setOpenFlow (true);
+		}
 	}
 
 	public int getLocationInt () {
@@ -136,5 +157,19 @@ public class NodeInformation {
 			}
 		}
 		
+	}
+	
+	public XMLElement getElement (XMLDocument aXMLDocument, ElementName aElementName) {
+		XMLElement tXMLElement;
+		
+		tXMLElement = aXMLDocument.createElement (aElementName);
+		tXMLElement.setAttribute (AN_LOCATION, location.getLocation ());
+		tXMLElement.setAttribute (AN_CORP_STATION, corpStation);
+		tXMLElement.setAttribute (AN_OPEN_FLOW, openFlow);
+		tXMLElement.setAttribute (AN_HAS_REVENUE_CENTER, hasRevenueCenter);
+		tXMLElement.setAttribute (AN_REVENUE, revenue);
+		tXMLElement.setAttribute (AN_BONUS, bonus);
+
+		return tXMLElement;
 	}
 }
