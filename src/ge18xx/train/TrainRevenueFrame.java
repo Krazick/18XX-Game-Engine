@@ -209,7 +209,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		int tTrainIndex, tTrainCount, tSelectedTrainIndex;
 		Train tTrain;
 		Color tColor = Color.BLUE;
-		String tRoundID = "1.1";
+		String tRoundID;
 		int tRegionBonus = 0, tSpecialBonus = 0;
 		RouteInformation tRouteInformation;
 		int tPhase;
@@ -218,6 +218,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		
 		tTrainCount = trainCompany.getTrainCount ();
 		tPhaseInfo = trainCompany.getCurrentPhaseInfo ();
+		tRoundID = trainCompany.getOperatingRoundID ();
 		tPhase = tPhaseInfo.getName ();
 		tSelectedTrainIndex = 0;
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {

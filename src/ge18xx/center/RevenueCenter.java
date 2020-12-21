@@ -532,4 +532,13 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	// ABSTRACT Methods that should be overloaded by the sub-classes
 	public abstract boolean cityOrTown ();
 	public abstract void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile, Feature2 aSelectedFeature);
+
+	public XMLElement getElement (XMLDocument aXMLDocument, ElementName aElementName) {
+		XMLElement tXMLElement;
+		
+		tXMLElement = aXMLDocument.createElement (aElementName);
+		tXMLElement.setAttribute (Location.AN_LOCATION, getLocationToInt ());
+		
+		return tXMLElement;
+	}
 }

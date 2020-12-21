@@ -28,6 +28,8 @@ import javax.swing.border.Border;
 
 public class Train implements Comparable<Object> {
 	final static ElementName EN_TRAIN = new ElementName ("Train");
+	final static ElementName EN_CURRENT_ROUTE = new ElementName ("CurrentRoute");
+	final static ElementName EN_PREVIOUS_ROUTE = new ElementName ("PreviousRoute");
 	final static AttributeName AN_GAUGE = new AttributeName ("gauge");
 	final static AttributeName AN_NAME = new AttributeName ("name");
 	final static AttributeName AN_ORDER = new AttributeName ("order");
@@ -289,13 +291,22 @@ public class Train implements Comparable<Object> {
 		
 		return color;
 	}
-	
+
 	public XMLElement getElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
+		XMLElement tXMLCurrentRouteInfoElement, tPreviousRouteInfoElement;
 		
 		tXMLElement = aXMLDocument.createElement (EN_TRAIN);
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_STATUS, status);
+		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+			tXMLCurrentRouteInfoElement = currentRouteInformation.getElement (aXMLDocument, EN_CURRENT_ROUTE);
+			tXMLElement.appendChild (tXMLCurrentRouteInfoElement);
+		}
+		if (previousRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+			tPreviousRouteInfoElement = previousRouteInformation.getElement (aXMLDocument, EN_PREVIOUS_ROUTE);
+			tXMLElement.appendChild (tPreviousRouteInfoElement);
+		}
 		
 		return tXMLElement;
 	}
@@ -435,6 +446,5 @@ public class Train implements Comparable<Object> {
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			currentRouteInformation.clear ();
 		}
-		
 	}
 }

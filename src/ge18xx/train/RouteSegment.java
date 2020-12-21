@@ -6,8 +6,20 @@ import ge18xx.map.MapCell;
 import ge18xx.tiles.Gauge;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.Track;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 
 public class RouteSegment {
+	final static ElementName EN_ROUTE_SEGMENT = new ElementName ("RouteSegment");
+	final static ElementName EN_START_NODE = new ElementName ("StartNode");
+	final static ElementName EN_END_NODE = new ElementName ("EndNode");
+	final static AttributeName AN_MAP_CELL_ID = new AttributeName ("mapCellID");
+	final static AttributeName AN_TILE_NUMBER = new AttributeName ("tileNumber");
+	final static AttributeName AN_COST = new AttributeName ("cost");
+	final static AttributeName AN_GAUGE = new AttributeName ("gauge");
+
 	static Gauge NORMAL_GAUGE = new Gauge (Gauge.NORMAL_GAUGE);
 	public static RouteSegment NO_ROUTE_SEGMENT = null;
 	MapCell mapCell; 			// Hex ID
@@ -499,14 +511,21 @@ public class RouteSegment {
 		return tFoundTrack;
 	}
 
-//	public void rotateStartLocation() {
-//		Location tStartLocation;
-//		
-//		tStartLocation = start.getLocation ();
-//		if (! tStartLocation.isSide ()) {
-//			tStartLocation = tStartLocation.rotateLocation (mapCell.getTileOrient ());
-//			start.setLocation (tStartLocation);
-//		}
-//	}
+	public XMLElement getElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+		XMLElement tXMLStartElement, tXMLEndElement;
+		
+		tXMLElement = aXMLDocument.createElement (EN_ROUTE_SEGMENT);
+		tXMLElement.setAttribute (AN_MAP_CELL_ID, mapCell.getCellID ());
+		tXMLElement.setAttribute (AN_TILE_NUMBER, tile.getNumber ());
+		tXMLElement.setAttribute (AN_COST, cost);
+		tXMLElement.setAttribute (AN_GAUGE, gauge.getType ());
+		tXMLStartElement = start.getElement (aXMLDocument, EN_START_NODE);
+		tXMLEndElement = end.getElement (aXMLDocument, EN_END_NODE);
+		tXMLElement.appendChild (tXMLStartElement);
+		tXMLElement.appendChild (tXMLEndElement);
+		
+		return tXMLElement;
+	}
 }
 

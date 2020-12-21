@@ -8,8 +8,21 @@ import ge18xx.company.TrainCompany;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Track;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 
 public class RouteInformation {
+	final static ElementName EN_ROUTE_SEGMENTS = new ElementName ("RouteSegments");
+	final static ElementName EN_REVENUE_CENTERS = new ElementName ("RevenueCenters");
+	final static AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");
+	final static AttributeName AN_TRAIN_INDEX = new AttributeName ("trainIndex");
+	final static AttributeName AN_TOTAL_REVENUE = new AttributeName ("totalRevenue");
+	final static AttributeName AN_ROUND_ID = new AttributeName ("roundID");
+	final static AttributeName AN_REGION_BONUS = new AttributeName ("regionBonus");
+	final static AttributeName AN_SPECIAL_BONUS = new AttributeName ("specialBonus");
+	final static AttributeName AN_PHASE = new AttributeName ("phase");
 	public static RouteInformation NO_ROUTE_INFORMATION = null;
 	Train train;		// Reference to actual Train
 	int trainIndex;		// Index for Train within TrainPortfolio
@@ -565,7 +578,6 @@ public class RouteInformation {
 		
 		tBonus = 0;		// TODO: If Selected City has Cattle, Port, etc that will add a Bonus, put that here
 		
-		//new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 		tStartNode = new NodeInformation (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, 
 				tRevenue, tBonus, aSelectedRevenueCenter, phase);
 		aRouteSegment.setStartNode (tStartNode);
@@ -573,6 +585,36 @@ public class RouteInformation {
 
 	public int getPhase() {
 		return phase;
+	}
+
+	public XMLElement getElement (XMLDocument aXMLDocument, ElementName aElementName) {
+		XMLElement tXMLElement;
+		XMLElement tXMLRouteSegmentsElement, tXMLRevenueCentersElement;
+		XMLElement tXMLRouteSegmentElement, tXMLRevenueCenterElement;
+		
+		tXMLElement = aXMLDocument.createElement (aElementName);
+		tXMLElement.setAttribute (Train.AN_NAME, train.getName ());
+		tXMLElement.setAttribute (AN_TRAIN_INDEX, trainIndex);
+		tXMLElement.setAttribute (AN_TOTAL_REVENUE, totalRevenue);
+		tXMLElement.setAttribute (AN_ROUND_ID, roundID);
+		tXMLElement.setAttribute (AN_REGION_BONUS, regionBonus);
+		tXMLElement.setAttribute (AN_SPECIAL_BONUS, specialBonus);
+		tXMLElement.setAttribute (AN_PHASE, phase);
+		tXMLRouteSegmentsElement = aXMLDocument.createElement (EN_ROUTE_SEGMENTS);
+		for (RouteSegment tRouteSegment : routeSegments) {
+			tXMLRouteSegmentElement = tRouteSegment.getElement (aXMLDocument);
+			tXMLRouteSegmentsElement.appendChild (tXMLRouteSegmentElement);
+		}
+		tXMLRevenueCentersElement = aXMLDocument.createElement (EN_ROUTE_SEGMENTS);
+		for (RevenueCenter tRevenueCenter : revenueCenters) {
+			tXMLRevenueCenterElement = tRevenueCenter.getElement (aXMLDocument, RevenueCenter.EN_REVENUE_CENTER);
+			tXMLRevenueCentersElement.appendChild (tXMLRevenueCenterElement);
+		}
+		
+		tXMLElement.appendChild (tXMLRouteSegmentsElement);
+		tXMLElement.appendChild (tXMLRevenueCentersElement);
+
+		return tXMLElement;
 	}
 
 }
