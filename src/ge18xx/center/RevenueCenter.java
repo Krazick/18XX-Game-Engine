@@ -541,4 +541,6 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		
 		return tXMLElement;
 	}
+
+	public abstract boolean cityHasOpenStation ();
 }

@@ -24,4 +24,9 @@ public class PrivateRailwayCenter extends RevenueCenter {
 			cityInfo.drawPrivateRailway (g, Xc, Yc, aHex);
 		}
 	}
+
+	@Override
+	public boolean cityHasOpenStation() {
+		return false;
+	}
 }

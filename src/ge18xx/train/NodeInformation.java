@@ -28,9 +28,9 @@ public class NodeInformation {
 				int aRevenue, int aBonus, RevenueCenter aRevenueCenter, int aPhase) {
 		setHasRevenueCenter (aHasRevenueCenter);
 		setRevenue (aRevenue);
-		setRevenueCenter (aRevenueCenter, aPhase);
 		setBonus (aBonus);
 		setOpenFlow (aOpenFlow);
+		setRevenueCenter (aRevenueCenter, aPhase);
 		setCorpStation (aCorpStation);
 		setLocation (aLocation);
 	}
@@ -124,6 +124,13 @@ public class NodeInformation {
 		if (aRevenueCenter != RevenueCenter.NO_CENTER) {
 			setHasRevenueCenter (true);
 			setRevenue (aRevenueCenter.getRevenue (aPhase));
+			if (aRevenueCenter.isTown () || aRevenueCenter.isDotTown ()) {
+				setOpenFlow (true);
+			} else if (aRevenueCenter.isCity ()) {
+				if (aRevenueCenter.cityHasOpenStation ()) {
+					setOpenFlow (true);
+				}
+			}
 		} else {
 			setHasRevenueCenter (false);
 			setRevenue (0);
@@ -144,9 +151,9 @@ public class NodeInformation {
 		tDetail = "[" + getLocationInt ();
 		if (revenueCenter != null) {
 			tDetail += ": $" + revenueCenter.getRevenueToString ();
-			tDetail += " Has Corp Station " + corpStation;
+			tDetail += " CS " + corpStation;
 		}
-		tDetail += "]";
+		tDetail +=  " OF " + openFlow + "]";
 		
 		return tDetail;
 	}

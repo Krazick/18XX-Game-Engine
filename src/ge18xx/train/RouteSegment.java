@@ -69,6 +69,18 @@ public class RouteSegment {
 		return tValidSegment;
 	}
 	
+	public boolean isStartOpen () {
+		return start.getOpenFlow ();
+	}
+	
+	public boolean isEndOpen () {
+		return end.getOpenFlow ();
+	}
+	
+	public boolean isFullyOpen () {
+		return isStartOpen () && isEndOpen ();
+	}
+	
 	public boolean validStart () {
 		return start.isValid ();
 	}
@@ -208,7 +220,6 @@ public class RouteSegment {
 		tMapCellDetail = mapCell.getDetail ();
 		System.out.println ("MapCell " + tMapCellDetail + 
 				" Track Starts " + start.getDetail () + " Ends " + end.getDetail ());
-		
 	}
 	
 	public int getStartLocationInt () {

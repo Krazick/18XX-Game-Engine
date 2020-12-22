@@ -119,6 +119,19 @@ public class City extends RevenueCenter implements Cloneable {
 		return (type.canPlaceStation ());
 	}
 	
+	public boolean cityHasOpenStation () {
+		boolean tHasOpenStation = false;
+		int tIndex;
+		
+		for (tIndex = 0; tIndex < stationCount; tIndex++) {
+			if (corpStations [tIndex] == NO_STATION) {
+				tHasOpenStation = true;
+			}
+		}
+
+		return tHasOpenStation;
+	}
+	
 	public boolean cityHasAnyStation () {
 		boolean tHasAnyStation = false;
 		int tIndex;

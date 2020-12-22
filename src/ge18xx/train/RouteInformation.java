@@ -297,11 +297,38 @@ public class RouteInformation {
 		
 		if (getCenterCount () > 1) {
 			if (hasACorpStation ()) {
-				tIsValidRoute = true;
+				tIsValidRoute = isRouteOpen ();
+				if (tIsValidRoute) {
+					tIsValidRoute = true;
+				}
 			}
 		}
 		
 		return tIsValidRoute;
+	}
+	
+	public boolean isRouteOpen () {
+		boolean tIsRouteOpen = true, tIsSegmentRouteOpen;
+		int tSegmentCount, tSegmentIndex;
+		RouteSegment tRouteSegment;
+		
+		tSegmentCount = getSegmentCount ();
+
+		if (tSegmentCount > 2) {
+			for (tSegmentIndex = 0; tSegmentIndex < tSegmentCount; tSegmentIndex++) {
+				tRouteSegment = routeSegments.get (tSegmentIndex);
+				if (tSegmentIndex == 0) {
+					tIsSegmentRouteOpen = tRouteSegment.isEndOpen ();
+				} if ((tSegmentIndex + 1) == tSegmentCount) {
+					tIsSegmentRouteOpen = tRouteSegment.isStartOpen ();
+				} else {
+					tIsSegmentRouteOpen = tRouteSegment.isFullyOpen ();
+				}
+				tIsRouteOpen = tIsRouteOpen && tIsSegmentRouteOpen;
+			}
+		}
+			
+		return tIsRouteOpen;
 	}
 	
 	public boolean hasACorpStation () {

@@ -122,4 +122,9 @@ public class Town extends RevenueCenter {
 		return true;
 	}
 
+	@Override
+	public boolean cityHasOpenStation() {
+		return false;
+	}
+
 }
