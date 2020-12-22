@@ -123,7 +123,7 @@ public class NodeInformation {
 		revenueCenter = aRevenueCenter;
 		if (aRevenueCenter != RevenueCenter.NO_CENTER) {
 			setHasRevenueCenter (true);
-			setRevenue (aRevenueCenter.getRevenue (aPhase));
+			setRevenue (revenueCenter.getRevenue (aPhase));
 			if (aRevenueCenter.isTown () || aRevenueCenter.isDotTown ()) {
 				setOpenFlow (true);
 			} else if (aRevenueCenter.isCity ()) {
@@ -133,6 +133,7 @@ public class NodeInformation {
 			}
 		} else {
 			setHasRevenueCenter (false);
+			setOpenFlow (true);
 			setRevenue (0);
 		}
 	}
