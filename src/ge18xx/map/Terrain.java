@@ -334,7 +334,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		}
 	}
 	
-	public void setColors () {
+	private void setColors () {
 		if (colors == null) {
 			colors = new Color [(MAX_TERRAIN - MIN_TERRAIN) + 1];
 			colors [NO_TERRAIN] = Color.black;
@@ -383,6 +383,6 @@ public class Terrain extends Feature implements LoadableXMLI {
 	@Override
 	public void foundItemMatchKey1 (XMLNode aChildNode) {
 		// Terrain has no Node List to parse -- not required to be completed.
-		System.out.println ("Terrain Class Found Item Match Key 1 -- SHOULD NOT HAPPEN");
+		System.err.println ("Terrain Class Found Item Match Key 1 -- SHOULD NOT HAPPEN");
 	}
 }
