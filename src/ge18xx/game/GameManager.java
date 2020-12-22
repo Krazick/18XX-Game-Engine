@@ -28,7 +28,6 @@ import ge18xx.network.JGameClient;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Escrow;
 import ge18xx.player.Player;
-import ge18xx.player.PlayerFrame;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderLoaderI;
