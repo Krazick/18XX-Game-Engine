@@ -43,7 +43,7 @@ public class NodeInformation {
 		return revenue;
 	}
 	
-	public boolean getOpenFLow () {
+	public boolean getOpenFlow () {
 		return openFlow;
 	}
 	
@@ -59,12 +59,13 @@ public class NodeInformation {
 		revenue = aRevenue;
 	}
 
-	private void setOpenFlow (boolean aOpenFlow) {
+	public void setOpenFlow (boolean aOpenFlow) {
 		openFlow = aOpenFlow;
 	}
 
-	private void setCorpStation (boolean aCorpStation) {
+	public void setCorpStation (boolean aCorpStation) {
 		corpStation = aCorpStation;
+		// If there is a Corporate Station, it is -ALWAYS OPEN-
 		if (corpStation) {
 			setOpenFlow (true);
 		}
@@ -91,7 +92,15 @@ public class NodeInformation {
 	}
 	
 	public boolean isSide () {
-		return location.isSide ();
+		boolean tIsSide;
+		
+		if (location == Location.NO_LOC) {
+			tIsSide = false;
+		} else {
+			tIsSide = location.isSide ();
+		}
+		
+		return tIsSide;
 	}
 	
 	public boolean isValid () {
@@ -144,6 +153,7 @@ public class NodeInformation {
 
 	public void applyRCinfo (Tile aTile, Location aLocation, int aPhase, int aCorpID) {
 		RevenueCenter tRevenueCenter;
+		
 		if (aTile != Tile.NO_TILE) {
 			tRevenueCenter = aTile.getCenterAtLocation (aLocation);
 			if (tRevenueCenter != RevenueCenter.NO_CENTER) {

@@ -67,7 +67,7 @@ class NodeInformationTestConstuctors {
 		int tPhase = 1;
 		
 		tNodeInformationBadLocation1 = new NodeInformation (new Location (), false, true, false, 0, 0, RevenueCenter.NO_CENTER, tPhase);
-		tNodeInformationBadLocation2 = new NodeInformation (null, false, true, false, 0, 0, RevenueCenter.NO_CENTER, tPhase);
+		tNodeInformationBadLocation2 = new NodeInformation (Location.NO_LOC, false, true, false, 0, 0, RevenueCenter.NO_CENTER, tPhase);
 
 		assertTrue (nodeInformationSide.isValid (), "Valid Node Information for Side");
 		assertTrue (nodeInformationCenter.isValid (), "Valid Node Information for Center");
@@ -102,4 +102,43 @@ class NodeInformationTestConstuctors {
 		
 		assertFalse (nodeInformationSide.isSide (), "Node Information for Side is NOT a Side");
 	}
+	
+	@Test
+	@DisplayName ("Node Information for testing OpenFlow")
+	public void NodeInformationTestOpenFlow () {
+		Location tLocationSide3;
+		
+		assertTrue (nodeInformationSide.isSide (), "Node Information for Side is NOT a Side");
+		assertTrue (nodeInformationSide.getOpenFlow (), "Node Information for Side is NOT a Open Flow");
+
+		assertTrue (nodeInformationCenter.getOpenFlow (), "Node Information for Center is an Open Flow");
+		nodeInformationCenter.setCorpStation (false);
+		nodeInformationCenter.setOpenFlow (false);
+		assertFalse (nodeInformationCenter.getOpenFlow (), "Node Information for Center is an NOT Open Flow with FALSE Corp Station");
+		
+		nodeInformationCenter.setCorpStation (true);
+		assertTrue (nodeInformationCenter.getOpenFlow (), "Node Information for Center is an Open Flow");
+		
+		nodeInformationCenter.setCorpStation (false);
+		nodeInformationCenter.setOpenFlow (false);
+		assertFalse (nodeInformationCenter.getOpenFlow (), "Node Information for Center is an NOT Open Flow with FALSE Corp Station");
+
+		tLocationSide3 = new Location (3);
+
+		nodeInformationCenter.setCorpStation (true);
+		nodeInformationCenter.setLocation (tLocationSide3);
+		assertTrue (nodeInformationCenter.getOpenFlow (), "Node Information for Center is an Open Flow");
+
+	}
+	
+	@Test
+	@DisplayName ("Node Information for testing getDetail")
+	public void NodeInformationTestGetDetail () {
+		String tSideDetail = "[1]";
+		String tCenterDetail = "[50: $20 Has Corp Station false]";
+		
+		assertEquals (tSideDetail, nodeInformationSide.getDetail (), "Side Detail does not match the expected");
+		assertEquals (tCenterDetail, nodeInformationCenter.getDetail (), "Center Detail does not match the expected");
+	}
+
 }
