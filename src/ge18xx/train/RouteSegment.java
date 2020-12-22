@@ -60,7 +60,6 @@ public class RouteSegment {
 	public boolean validSegment () {
 		boolean tValidSegment;
 		
-//		tValidSegment = (start.isValid () && end.isValid ());
 		tValidSegment = (validStart () && validEnd ());
 		
 		if (tValidSegment) {
