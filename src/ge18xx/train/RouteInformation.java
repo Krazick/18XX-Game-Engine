@@ -85,10 +85,12 @@ public class RouteInformation {
 	
 	public void addRouteSegment (RouteSegment aRouteSegment) {
 		RevenueCenter tRevenueCenter;
+		int tRevenue;
 		
 		if (revenueCenters != null) {
 			if (aRouteSegment.hasRevenueCenter()) {
 				tRevenueCenter = aRouteSegment.getRevenueCenter();
+				aRouteSegment.setRevenue (tRevenueCenter, phase);
 				if (! isSameRCasLast (tRevenueCenter)) {
 					revenueCenters.add (tRevenueCenter);
 				}
@@ -245,24 +247,9 @@ public class RouteInformation {
 		int tRevenue = 0;
 		RevenueCenter tRevenueCenter;
 		
-		if ((aRevenueCenterIndex > 0) && (aRevenueCenterIndex <= revenueCenters.size ())) {
+		if ((aRevenueCenterIndex >= 0) && (aRevenueCenterIndex < revenueCenters.size ())) {
 			tRevenueCenter = revenueCenters.get (aRevenueCenterIndex);
 			tRevenue = tRevenueCenter.getRevenue (phase);
-		}
-		
-		return tRevenue;
-	}
-	
-	public int getRevenueAt (int aRevenueCenterIndex, int aPhase) {
-		int tRevenue;
-		RevenueCenter tFoundRevenueCenter;
-		
-		tRevenue = 0;
-		if ((aRevenueCenterIndex > 0) && (aRevenueCenterIndex <= revenueCenters.size ())) {
-			tFoundRevenueCenter = revenueCenters.get (aRevenueCenterIndex - 1);
-			tRevenue = tFoundRevenueCenter.getRevenue (phase);
-		} else {
-//			System.err.println ("\nHave " + revenueCenters.size () + " Centers, asked for " + aRevenueCenterIndex);
 		}
 		
 		return tRevenue;
@@ -626,12 +613,13 @@ public class RouteInformation {
 			}
 			tRevenue = aSelectedRevenueCenter.getRevenue (aPhase);
 			tLocation = aSelectedRevenueCenter.getLocation ();
+			System.out.println (">>>>>Revenue Center Location " + tLocation + " Phase " + aPhase + " Revenue Found " + tRevenue);
 		}
 		
 		tBonus = 0;		// TODO: If Selected City has Cattle, Port, etc that will add a Bonus, put that here
 		
 		tStartNode = new NodeInformation (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, 
-				tRevenue, tBonus, aSelectedRevenueCenter, phase);
+				tRevenue, tBonus, aSelectedRevenueCenter);
 		aRouteSegment.setStartNode (tStartNode);
 	}
 

@@ -37,10 +37,10 @@ public class RouteSegment {
 		setTile (aMapCell.getTile ());
 		setCost (0);
 		
-		tNodeInformation1 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER, 1);
+		tNodeInformation1 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 		setStartNode (tNodeInformation1);
 		
-		tNodeInformation2 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER, 1);
+		tNodeInformation2 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 		setEndNode (tNodeInformation2);
 		setGauge (new Gauge ());
 	}
@@ -100,30 +100,30 @@ public class RouteSegment {
 	public void setStartNode (Location aStartLocation) {
 		NodeInformation tNodeInformation;
 		
-		tNodeInformation = new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER, 1);
+		tNodeInformation = new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 		setStartNode (tNodeInformation);
 	}
 	
 	public void setStartNode (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
-				int aBonus, RevenueCenter aRevenueCenter, int aPhase) {
+				int aBonus, RevenueCenter aRevenueCenter) {
 		NodeInformation tNodeInformation;
 		
-		tNodeInformation = new NodeInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter, aPhase);
+		tNodeInformation = new NodeInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
 		setStartNode (tNodeInformation);
 	}
 	
 	public void setEndNode (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
-			int aBonus, RevenueCenter aRevenueCenter, int aPhase) {
+			int aBonus, RevenueCenter aRevenueCenter) {
 		NodeInformation tNodeInformation;
 		
-		tNodeInformation = new NodeInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter, aPhase);
+		tNodeInformation = new NodeInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
 		setEndNode (tNodeInformation);
 	}
 	
 	public void setEndNode (Location aEndLocation, int aPhase) {
 		NodeInformation tNodeInformation;
 		
-		tNodeInformation = new NodeInformation (aEndLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER, aPhase);
+		tNodeInformation = new NodeInformation (aEndLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 		setEndNode (tNodeInformation);
 	}
 	
@@ -163,6 +163,22 @@ public class RouteSegment {
 	
 	public Tile getTile () {
 		return tile;
+	}
+	
+	public void setRevenue (RevenueCenter aRevenueCenter, int aPhase) {
+		int tRevenue;
+		
+		tRevenue = aRevenueCenter.getRevenue (aPhase);
+		if (start.hasRevenueCenter ()) {
+			if (aRevenueCenter.equals (start.getRevenueCenter ())) {
+				start.setRevenue (tRevenue);
+			}
+		}
+		if (end.hasRevenueCenter ()) {
+			if (aRevenueCenter.equals (end.getRevenueCenter ())) {
+				end.setRevenue (tRevenue);
+			}
+		}
 	}
 	
 	public boolean hasTownOnTile () {
@@ -206,11 +222,11 @@ public class RouteSegment {
 		
 		tStartLocation = start.getLocation ();
 		if (! tStartLocation.isSide ()) {
-			start.applyRCinfo (tile, tStartLocation, aPhase, aCorpID);
+			start.applyRCinfo (tile, tStartLocation, aCorpID);
 		}
 		tEndLocation = end.getLocation ();
 		if (! tEndLocation.isSide ()) {
-			end.applyRCinfo (tile, tEndLocation, aPhase, aCorpID);
+			end.applyRCinfo (tile, tEndLocation, aCorpID);
 		}
 	}
 	

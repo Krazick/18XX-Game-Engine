@@ -25,12 +25,12 @@ public class NodeInformation {
 	int bonus;				//	Bonus (for Cattle or Port)
 	
 	public NodeInformation (Location aLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter,
-				int aRevenue, int aBonus, RevenueCenter aRevenueCenter, int aPhase) {
+				int aRevenue, int aBonus, RevenueCenter aRevenueCenter) {
 		setHasRevenueCenter (aHasRevenueCenter);
 		setRevenue (aRevenue);
 		setBonus (aBonus);
 		setOpenFlow (aOpenFlow);
-		setRevenueCenter (aRevenueCenter, aPhase);
+		setRevenueCenter (aRevenueCenter);
 		setCorpStation (aCorpStation);
 		setLocation (aLocation);
 	}
@@ -55,7 +55,7 @@ public class NodeInformation {
 		bonus = aBonus;
 	}
 
-	private void setRevenue (int aRevenue) {
+	public void setRevenue (int aRevenue) {
 		revenue = aRevenue;
 	}
 
@@ -119,11 +119,10 @@ public class NodeInformation {
 		hasRevenueCenter = aHasRevenueCenter;
 	}
 	
-	public void setRevenueCenter (RevenueCenter aRevenueCenter, int aPhase) {
+	public void setRevenueCenter (RevenueCenter aRevenueCenter) {
 		revenueCenter = aRevenueCenter;
 		if (aRevenueCenter != RevenueCenter.NO_CENTER) {
 			setHasRevenueCenter (true);
-			setRevenue (revenueCenter.getRevenue (aPhase));
 			if (aRevenueCenter.isTown () || aRevenueCenter.isDotTown ()) {
 				setOpenFlow (true);
 			} else if (aRevenueCenter.isCity ()) {
@@ -134,7 +133,6 @@ public class NodeInformation {
 		} else {
 			setHasRevenueCenter (false);
 			setOpenFlow (true);
-			setRevenue (0);
 		}
 	}
 	
@@ -151,7 +149,7 @@ public class NodeInformation {
 		
 		tDetail = "[" + getLocationInt ();
 		if (revenueCenter != null) {
-			tDetail += ": $" + revenueCenter.getRevenueToString ();
+			tDetail += ": $" + revenue;
 			tDetail += " CS " + corpStation;
 		}
 		tDetail +=  " OF " + openFlow + "]";
@@ -159,14 +157,14 @@ public class NodeInformation {
 		return tDetail;
 	}
 
-	public void applyRCinfo (Tile aTile, Location aLocation, int aPhase, int aCorpID) {
+	public void applyRCinfo (Tile aTile, Location aLocation, int aCorpID) {
 		RevenueCenter tRevenueCenter;
 		
 		if (aTile != Tile.NO_TILE) {
 			tRevenueCenter = aTile.getCenterAtLocation (aLocation);
 			if (tRevenueCenter != RevenueCenter.NO_CENTER) {
 				setHasRevenueCenter (true);
-				setRevenueCenter (tRevenueCenter, aPhase);
+				setRevenueCenter (tRevenueCenter);
 				if (tRevenueCenter.cityHasStation (aCorpID)) {
 					setCorpStation (true);
 				}
