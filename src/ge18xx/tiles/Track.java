@@ -794,4 +794,25 @@ public class Track implements Cloneable {
 	public boolean isTrackUsed() {	
 		return (trainNumberUsing > 0);
 	}
+
+	public boolean startsAt (Location aStartLocation) {
+		boolean tStartsAt = false;
+		
+		if (aStartLocation.getLocation () == enter.getLocation ()) {
+			tStartsAt = true;
+			
+		}
+		return tStartsAt;
+	}
+	
+	public boolean endsAt (Location aStartLocation) {
+		boolean tEndsAt = false;
+		
+		if (aStartLocation.getLocation () == exit.getLocation ()) {
+			tEndsAt = true;
+			
+		}
+		return tEndsAt;
+	}
+
 }
