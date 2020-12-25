@@ -546,6 +546,97 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		}
 	}
 	
+	public int getAvailableCount (GameTile aGameTile, String aTileName, String aBaseCityName) {
+		int tUpgradeCount;
+		int tUpgradeIndex;
+		int tToTileNumber;
+		int tAvailableCount;
+		String tTileName;
+		String tBaseCityName;
+		GameTile tUpgradeGameTile;
+		Upgrade tUpgrade;
+		boolean tNoCityName;
+		
+		tAvailableCount = 0;
+		tUpgradeCount = aGameTile.getUpgradeCount ();
+		if (tUpgradeCount > 0) {
+			tBaseCityName = "";
+			for (tUpgradeIndex = 0; tUpgradeIndex < tUpgradeCount; tUpgradeIndex++) {
+				tUpgrade = aGameTile.getUpgrade (tUpgradeIndex);
+				if (tUpgrade != GameTile.NO_UPGRADE) {
+					tBaseCityName = tUpgrade.getBaseCityName ();
+					tToTileNumber = tUpgrade.getTileNumber ();
+					tUpgradeGameTile = getGameTile (tToTileNumber);
+					if (tileTrayFrame.isUpgradeAllowed (tUpgradeGameTile)) {
+						if (aBaseCityName.equals (tBaseCityName)) {
+							tAvailableCount += tUpgradeGameTile.getAvailableCount ();
+						}
+					}
+				}
+			}
+			if (tBaseCityName == null) {
+				tNoCityName = true;
+			} else {
+				if ("".equals (tBaseCityName)) {
+					tNoCityName = true;
+				} else {
+					tNoCityName = false;
+				}
+			}
+			if (tNoCityName) {
+				if (tAvailableCount == 0) {
+					if (! "".equals (aTileName)) {
+						for (tUpgradeIndex = 0; tUpgradeIndex < tUpgradeCount; tUpgradeIndex++) {
+							tUpgrade = aGameTile.getUpgrade (tUpgradeIndex);
+							if (tUpgrade != GameTile.NO_UPGRADE) {
+								tToTileNumber = tUpgrade.getTileNumber ();
+								tUpgradeGameTile = getGameTile (tToTileNumber);
+								tTileName = tUpgradeGameTile.getTileName ();
+								if (tileTrayFrame.isUpgradeAllowed (tUpgradeGameTile)) {
+									if (aTileName.equals (tTileName)) {
+										tAvailableCount += tUpgradeGameTile.getAvailableCount ();
+									}
+								}
+							}
+						}
+					}
+				}
+				if (tAvailableCount == 0) {
+					for (tUpgradeIndex = 0; tUpgradeIndex < tUpgradeCount; tUpgradeIndex++) {
+						tUpgrade = aGameTile.getUpgrade (tUpgradeIndex);
+						if (tUpgrade != GameTile.NO_UPGRADE) {
+							tToTileNumber = tUpgrade.getTileNumber ();
+							tUpgradeGameTile = getGameTile (tToTileNumber);
+							tTileName = tUpgradeGameTile.getTileName ();
+							if (tileTrayFrame.isUpgradeAllowed (tUpgradeGameTile)) {
+								if ("".equals (tTileName))  {
+									tAvailableCount += tUpgradeGameTile.getAvailableCount ();
+								}
+							}
+						}
+					}
+				}
+				if (tAvailableCount == 0) {
+					if (tUpgradeCount == 1) {
+						tUpgrade = aGameTile.getUpgrade (0);
+						if (tUpgrade != null) {
+							tToTileNumber = tUpgrade.getTileNumber ();
+							tUpgradeGameTile = getGameTile (tToTileNumber);
+							if (tileTrayFrame.isUpgradeAllowed (tUpgradeGameTile)) {
+								tAvailableCount += tUpgradeGameTile.getAvailableCount ();
+							}
+						}
+					}
+				}
+			}
+		}
+		if (tAvailableCount > 0) {
+			redrawTileTray ();
+		}
+		
+		return tAvailableCount;
+	}
+	
 	public void setPlayableTiles (int aTileType, int aMapCellTypeCount, String aTileName) {
 		int tTileTypeCount;
 		int tTileType;
@@ -582,11 +673,65 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		if (tPlayableCount > 0) {
 			redrawTileTray ();
 		}
+		
 	}
 	
+	public int getAvailableCount (int aTileType, int aMapCellTypeCount, String aTileName) {
+		int tTileTypeCount;
+		int tTileType;
+		int tAvailableCount;
+		String tTileName;
+		
+		tAvailableCount = 0;
+		for (GameTile tGameTile : gameTiles) {
+			tTileName = tGameTile.getTileName ();
+			if (aTileName.equals (tTileName)) {
+				tTileType = tGameTile.getTileType ();
+				if (aTileType == tTileType) {
+					tTileTypeCount = tGameTile.getTypeCount ();
+					if (tTileTypeCount == aMapCellTypeCount) {
+						tAvailableCount += tGameTile.getAvailableCount ();
+					}
+				}
+			}
+		}
+		if (tAvailableCount == 0) {
+			for (GameTile tGameTile : gameTiles) {
+				tTileType = tGameTile.getTileType ();
+				if (aTileType == tTileType) {
+					tTileTypeCount = tGameTile.getTypeCount ();
+					if (tTileTypeCount == aMapCellTypeCount) {
+						tAvailableCount += tGameTile.getAvailableCount ();
+					}
+				}
+			}
+		}
+		
+		return tAvailableCount;
+	}
+	
+	public int getAvailableCount (int aTileType, String aTileName) {
+		String tTileName;
+		int tTileType;
+		int tAvailableCount = 0;
+		
+		for (GameTile tGameTile : gameTiles) {
+			tTileType = tGameTile.getTileType ();
+			if (aTileType == tTileType) {
+				tTileName = tGameTile.getTileName ();
+				if (tTileName.equals (aTileName)) {
+					tAvailableCount += tGameTile.getAvailableCount ();
+				}
+			}
+		}
+		
+		return tAvailableCount;
+	}
+
 	public void setPlayableTiles (int aTileType, String aTileName) {
 		String tTileName;
 		int tTileType;
+		int tPlayableCount = 0;
 		
 		for (GameTile tGameTile : gameTiles) {
 			tTileType = tGameTile.getTileType ();
@@ -594,10 +739,13 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 				tTileName = tGameTile.getTileName ();
 				if (tTileName.equals (aTileName)) {
 					tGameTile.setPlayable (true);
+					tPlayableCount++;
 				}
 			}
 		}
-		redrawTileTray ();
+		if (tPlayableCount > 0) {
+			redrawTileTray ();
+		}
 	}
 
 	public void setScale (int aHexScale) {
