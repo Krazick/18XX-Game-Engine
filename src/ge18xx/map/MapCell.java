@@ -1517,17 +1517,37 @@ public class MapCell implements Comparator<Object> {
 		return 42; // any arbitrary constant will do
 	}
 	
+	public boolean isTileLayCostFree () {
+		boolean tIsTileLayCostFree = true;
+		
+		// A Tile on the Cell, unless it is Fixed, is Free to lay
+		if (isTileOnCell ()) {
+			if (tile.isFixedTile ()) {
+				tIsTileLayCostFree = false;
+			}
+		} else {
+			tIsTileLayCostFree = false;
+		}
+		
+		return tIsTileLayCostFree;
+	}
+	
 	public int getCostToLayTile () {
 		int tCostToLayTile = 0;
 		
-		if (baseTerrain != Terrain.NO_TERRAIN_FEATURE) {
-			tCostToLayTile += baseTerrain.getCost ();
-		}
-		if (terrain1 != Terrain.NO_TERRAIN_FEATURE) {
-			tCostToLayTile += terrain1.getCost ();
-		}
-		if (terrain2 != Terrain.NO_TERRAIN_FEATURE) {
-			tCostToLayTile += terrain2.getCost ();
+		// Test if the Tile Lay Cost if Free.
+		if (! isTileLayCostFree ()) {
+
+			if (baseTerrain != Terrain.NO_TERRAIN_FEATURE) {
+				tCostToLayTile += baseTerrain.getCost ();
+			}
+			
+			if (terrain1 != Terrain.NO_TERRAIN_FEATURE) {
+				tCostToLayTile += terrain1.getCost ();
+			}
+			if (terrain2 != Terrain.NO_TERRAIN_FEATURE) {
+				tCostToLayTile += terrain2.getCost ();
+			}
 		}
 		
 		return tCostToLayTile;
@@ -1551,13 +1571,16 @@ public class MapCell implements Comparator<Object> {
 		boolean tPrivatePrevents = false;
 		PrivateCompany tPrivateCompany;
 		
-		if (privateCos != CorporationList.NO_CORPORATION_LIST) {
-			tPrivateCompany = privateCos.getPrivateCompanyAtMapCell (this);
-			if (tPrivateCompany != CorporationList.NO_CORPORATION) {
-				// Given this Map Cell is home to a Private Company
-				// Then Prevent this Tile Lay if the Private is not Owned by the Operating Train Company
-				if (tOperatingTrainCompany.doesNotOwn (tPrivateCompany)) {
-					tPrivatePrevents = true;
+		// If a Tile is on the Cell any Company can do a placement/upgrade
+		if (! isTileOnCell ()) {
+			if (privateCos != CorporationList.NO_CORPORATION_LIST) {
+				tPrivateCompany = privateCos.getPrivateCompanyAtMapCell (this);
+				if (tPrivateCompany != CorporationList.NO_CORPORATION) {
+					// Given this Map Cell is home to a Private Company
+					// Then Prevent this Tile Lay if the Private is not Owned by the Operating Train Company
+					if (tOperatingTrainCompany.doesNotOwn (tPrivateCompany)) {
+						tPrivatePrevents = true;
+					}
 				}
 			}
 		}
@@ -1706,5 +1729,15 @@ public class MapCell implements Comparator<Object> {
 		
 		return tMapCellDetail;
 	}
+	
+	
+	public boolean isTileAvailableForMapCell () {
+		boolean tIsTileAvailableForMapCell = true;
+		
+		tIsTileAvailableForMapCell = hexMap.isTileAvailableForMapCell (this);
+		
+		return tIsTileAvailableForMapCell;
+	}
+
 }
 
