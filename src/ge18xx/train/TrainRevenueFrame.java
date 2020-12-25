@@ -201,7 +201,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tRevenue = aRouteInformation.getRevenueAt (tCityIndex + 1, aPhase);
 			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (tRevenue);
 		}
-//		trainCompany.exitSelectRouteMode (aRouteInformation);
 	}
 	
 	public void handleSelectRoute (ActionEvent aSelectRouteEvent) {
