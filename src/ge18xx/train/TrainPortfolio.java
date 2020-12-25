@@ -546,7 +546,31 @@ public class TrainPortfolio implements TrainHolderI {
 		aBank.removeTrain (tTrainName);
 		tTrain.setStatus (tTrainStatus);
 		trains.add (tTrain);
+		loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE, tTrain);
+		loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE, tTrain);
 	}
+	
+	public void loadRouteForTrain (XMLNode aTrainNode, ElementName aElementName, Train aTrain) {
+		XMLNodeList tXMLNodeList;
+		
+		tXMLNodeList = new XMLNodeList (trainRouteParsingRoutine, aTrain);
+		tXMLNodeList.parseXMLNodeList (aTrainNode, aElementName);
+	}
+	
+	ParsingRoutineIO trainRouteParsingRoutine  = new ParsingRoutineIO ()  {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aRouteNode, Object aTrain) {
+			Train tTrain;
+			
+			tTrain = (Train) aTrain;
+			tTrain.loadRouteInformation (aRouteNode);
+		}
+
+		@Override
+		public void foundItemMatchKey1(XMLNode aChildNode) {
+			
+		}
+	};
 	
 	ParsingRoutineI trainParsingRoutine  = new ParsingRoutineIO ()  {
 		@Override
