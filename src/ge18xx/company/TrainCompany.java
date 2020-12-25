@@ -186,6 +186,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		super.appendOtherElements (aXMLCorporationState, aXMLDocument);
 	}
 
+	@Override
 	public boolean atTrainLimit () {
 		int tTrainLimit;
 		boolean tAtTrainLimit;
