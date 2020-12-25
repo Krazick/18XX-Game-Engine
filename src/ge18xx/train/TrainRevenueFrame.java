@@ -169,25 +169,21 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	public void handleConfirmRoute (ActionEvent aSelectRouteEvent) {
 		JButton tRouteButton = (JButton) aSelectRouteEvent.getSource ();
 		int tTrainIndex, tTrainCount;
-		int tPhase;
-		PhaseInfo tPhaseInfo;
 		Train tTrain;
 		RouteInformation tRouteInformation;
 		
 		tTrainCount = trainCompany.getTrainCount ();
-		tPhaseInfo = trainCompany.getCurrentPhaseInfo ();
-		tPhase = tPhaseInfo.getName ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tRouteButton.equals (selectRoutes [tTrainIndex])) {
 				tTrain = trainCompany.getTrain (tTrainIndex);
 				tRouteInformation = tTrain.getCurrentRouteInformation ();
-				fillRevenueForTrain (tRouteInformation, tTrain, tTrainIndex, tPhase);
+				fillRevenueForTrain (tRouteInformation, tTrain, tTrainIndex);
 				trainCompany.exitSelectRouteMode (tRouteInformation);
 			}
 		}
 	}
 
-	private void fillRevenueForTrain (RouteInformation aRouteInformation, Train aTrain, int aTrainIndex, int aPhase) {
+	private void fillRevenueForTrain (RouteInformation aRouteInformation, Train aTrain, int aTrainIndex) {
 		int tCityCount;
 		int tSelectedTrainIndex;
 		int tCityIndex;
@@ -196,9 +192,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tSelectedTrainIndex = aTrainIndex + 1;
 		tCityCount = aTrain.getCityCount ();
 		System.out.println ("Train " + tSelectedTrainIndex + " with size " + tCityCount + " has Route with " + 
-					aRouteInformation.getCenterCount () + " Centers");
+					aRouteInformation.getCenterCount () + " Centers -- Phase " + aRouteInformation.getPhase ());
 		for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
-			tRevenue = aRouteInformation.getRevenueAt (tCityIndex + 1, aPhase);
+			tRevenue = aRouteInformation.getRevenueAt (tCityIndex);
 			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (tRevenue);
 		}
 	}
@@ -346,14 +342,12 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	
 	public void updateRevenues (RouteInformation aRouteInformation) {
 		int tTrainIndex;
-		int tPhase;
 		Train tTrain;
 		
 		tTrainIndex = aRouteInformation.getTrainIndex ();
-		tPhase = aRouteInformation.getPhase ();
 		tTrain = aRouteInformation.getTrain ();
 		System.out.println ("*** Ready to Fill Revenues for Train # " + (tTrainIndex + 1));
-		fillRevenueForTrain (aRouteInformation, tTrain, tTrainIndex, tPhase);
+		fillRevenueForTrain (aRouteInformation, tTrain, tTrainIndex);
 	}
 	
 	public void enableAllSelectRoutes () {
