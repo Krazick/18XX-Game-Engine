@@ -15,6 +15,7 @@ import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
 
 import java.awt.Color;
 import java.awt.event.ItemListener;
@@ -269,7 +270,7 @@ public class Train implements Comparable<Object> {
 				break;
 					
 			case (3):		
-				color = Color.pink;
+				color = Color.red;
 				break;
 						
 			case (4):		
@@ -281,7 +282,7 @@ public class Train implements Comparable<Object> {
 				break;
 				
 			case (6):		
-				color = Color.red;
+				color = Color.pink;
 				break;
 				
 			default:		
@@ -300,12 +301,16 @@ public class Train implements Comparable<Object> {
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_STATUS, status);
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-			tXMLCurrentRouteInfoElement = currentRouteInformation.getElement (aXMLDocument, EN_CURRENT_ROUTE);
-			tXMLElement.appendChild (tXMLCurrentRouteInfoElement);
+			if (currentRouteInformation.isValidRoute ()) {
+				tXMLCurrentRouteInfoElement = currentRouteInformation.getElement (aXMLDocument, EN_CURRENT_ROUTE);
+				tXMLElement.appendChild (tXMLCurrentRouteInfoElement);
+			}
 		}
 		if (previousRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-			tPreviousRouteInfoElement = previousRouteInformation.getElement (aXMLDocument, EN_PREVIOUS_ROUTE);
-			tXMLElement.appendChild (tPreviousRouteInfoElement);
+			if (previousRouteInformation.isValidRoute ()) {
+				tPreviousRouteInfoElement = previousRouteInformation.getElement (aXMLDocument, EN_PREVIOUS_ROUTE);
+				tXMLElement.appendChild (tPreviousRouteInfoElement);
+			}
 		}
 		
 		return tXMLElement;
@@ -445,6 +450,20 @@ public class Train implements Comparable<Object> {
 	public void clearRouteInformation() {
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			currentRouteInformation.clear ();
+		}
+	}
+
+	public void loadRouteInformation (XMLNode aRouteNode) {
+		RouteInformation tRouteInformation;
+		String tNodeName;
+		
+		tNodeName = aRouteNode.getNodeName ();
+		tRouteInformation = new RouteInformation (this, aRouteNode);
+		if (tNodeName.equals (EN_CURRENT_ROUTE.getString ())) {
+			currentRouteInformation = tRouteInformation;
+		}
+		if (tNodeName.equals (EN_PREVIOUS_ROUTE.getString ())) {
+			previousRouteInformation = tRouteInformation;
 		}
 	}
 }
