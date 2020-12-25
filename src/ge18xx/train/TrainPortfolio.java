@@ -91,7 +91,14 @@ public class TrainPortfolio implements TrainHolderI {
 						tActionToolTip = "";
 					} else {
 						tActionEnabled = false;
-						tActionToolTip = "Train has not handled dividends yet";
+						if (aCorporation.atTrainLimit ()) {
+							tActionToolTip = "Corporation at Train Limit";
+						} else if (aCorporation.getCash () == 0) {
+							tActionToolTip = "Corporation has no Cash";
+
+						} else {
+							tActionToolTip = "Train has not handled dividends yet";
+						}
 					}
 				} else {
 					tActionLabel = null;
