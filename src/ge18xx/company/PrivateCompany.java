@@ -287,4 +287,9 @@ public class PrivateCompany extends Corporation {
 		discount = aXMLNode.getThisIntAttribute (AN_DISCOUNT);
 		mustSell = aXMLNode.getThisBooleanAttribute (AN_MUST_SELL);
 	}
+
+	@Override
+	public boolean atTrainLimit() {
+		return false;
+	}
 }
