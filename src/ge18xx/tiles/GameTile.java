@@ -258,4 +258,8 @@ public class GameTile {
 	public int totalCount () {
 		return totalCount;
 	}
+
+	public int getAvailableCount() {
+		return availableCount ();
+	}
 }

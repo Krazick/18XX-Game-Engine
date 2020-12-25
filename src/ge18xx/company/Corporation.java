@@ -1751,6 +1751,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return NO_NOTE;
 	}
 
+	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
+		boolean tIsTileAvailableForMapCell = true;
+		
+		tIsTileAvailableForMapCell = aMapCell.isTileAvailableForMapCell ();
+		
+		return tIsTileAvailableForMapCell;
+	}
+	
 	public boolean homeMapCell1HasTile () {
 		boolean tHomeMapCellHasTile = false;
 		
@@ -1783,4 +1791,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public void exitSelectRouteMode (RouteInformation aRouteInformation) {
 //		Override in Train Company Class
 	}
+
+	public abstract boolean atTrainLimit();
 }
