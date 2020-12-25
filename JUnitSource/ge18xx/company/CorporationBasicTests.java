@@ -13,6 +13,11 @@ import ge18xx.round.action.ActorI;
 class CorporationBasicTests {
 
 	class CorporationConcrete extends Corporation {
+
+		@Override
+		public boolean atTrainLimit() {
+			return false;
+		}
 	}
 	
 	CorporationConcrete corporation;
