@@ -791,6 +791,14 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return tGauge;
 	}
 
+	public int getTrackCount () {
+		int tTrackCount = 0;
+		
+		tTrackCount = tracks.size ();
+		
+		return tTrackCount;
+	}
+
 	public int getTrackCountFromSide (Location aLocation) {
 		int tTrackCount = 0;
 		
@@ -805,6 +813,14 @@ public class Tile implements Comparable<Object>, Cloneable {
 		tTrackIndex = tracks.getTrackIndexBetween (aStartLocation, aEndLocation);
 		
 		return tTrackIndex;
+	}
+	
+	public Track getTrackByIndex (int aNextTrackIndex) {
+		Track tTrack;
+		
+		tTrack = tracks.getTrack (aNextTrackIndex);
+		
+		return tTrack;
 	}
 
 	public Track getTrackFromStartByIndex (Location aStartLocation, int aNextTrackIndex) {

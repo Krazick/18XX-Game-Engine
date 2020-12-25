@@ -203,6 +203,14 @@ public class Tracks implements Cloneable {
 		return tTrackIndex;
 	}
 
+	public Track getTrack (int aTrackIndex) {
+		Track tTrack = Track.NO_TRACK;
+		
+		tTrack = segments.get (aTrackIndex);
+		
+		return tTrack;
+	}
+
 	public Track getTrackFromStartByIndex (Location aStartLocation, int aNextTrackIndex) {
 		int tCounter = 0;
 		Track tTrack = Track.NO_TRACK;
