@@ -1234,7 +1234,7 @@ public class MapCell implements Comparator<Object> {
 				}
 			} else {
 				for (tBlockedIndex = 0; tBlockedIndex < 6; tBlockedIndex++) {
-					tIndex = aBlockedSides.indexOf (tSideNames[tBlockedIndex]);
+					tIndex = aBlockedSides.indexOf (tSideNames [tBlockedIndex]);
 					if (tIndex >= 0) {
 						blockedSides [tBlockedIndex] = true;
 					} else {
