@@ -12,6 +12,7 @@ import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
 
 public class RouteInformation {
 	final static ElementName EN_ROUTE_SEGMENTS = new ElementName ("RouteSegments");
@@ -54,6 +55,26 @@ public class RouteInformation {
 		revenueCenters = new ArrayList<RevenueCenter> ();
 	}
 	
+	public RouteInformation (Train aTrain, XMLNode aRouteNode) {
+		String tTrainName;
+		int tPhase, tRegionBonus, tSpecialBonus, tTotalRevenue, tTrainIndex;
+		String tRoundID;
+
+		tTrainName = aRouteNode.getThisAttribute (Train.AN_NAME);
+		tRoundID = aRouteNode.getThisAttribute (AN_ROUND_ID);
+		tPhase = aRouteNode.getThisIntAttribute (AN_PHASE);
+		tRegionBonus = aRouteNode.getThisIntAttribute (AN_REGION_BONUS);
+		tSpecialBonus = aRouteNode.getThisIntAttribute (AN_SPECIAL_BONUS);
+		tTotalRevenue = aRouteNode.getThisIntAttribute (AN_TOTAL_REVENUE);
+		tTrainIndex = aRouteNode.getThisIntAttribute (AN_TRAIN_INDEX);
+		System.out.println ("Found a Route Node to Parse, with Train " + tTrainName + " Phase " + tPhase +
+				" Round ID " + tRoundID + " Region Bonus " + tRegionBonus + " Special Bonus " + tSpecialBonus +
+				" Total Revenue " + tTotalRevenue + " Train Index " + tTrainIndex
+				);
+		// TODO: Parse Route Segments List
+		// TODO: Parse Revenue Centers List
+	}
+
 	public void setTrainRevenueFrame (TrainRevenueFrame aTrainRevenueFrame) {
 		trainRevenueFrame = aTrainRevenueFrame;
 	}
@@ -216,6 +237,8 @@ public class RouteInformation {
 		for (RouteSegment tRouteSegment : routeSegments) {
 			tRouteSegment.clearTrainOn ();
 		}
+		routeSegments.removeAll (routeSegments);
+		revenueCenters.removeAll (revenueCenters);
 	}
 
 	public int getRevenueAt (int aRevenueCenterIndex) {
@@ -295,11 +318,13 @@ public class RouteInformation {
 	public boolean isValidRoute() {
 		boolean tIsValidRoute = false;
 		
-		if (getCenterCount () > 1) {
-			if (hasACorpStation ()) {
-				tIsValidRoute = isRouteOpen ();
-				if (tIsValidRoute) {
-					tIsValidRoute = true;
+		if (train != Train.NO_TRAIN) {
+			if (getCenterCount () > 1) {
+				if (hasACorpStation ()) {
+					tIsValidRoute = isRouteOpen ();
+					if (tIsValidRoute) {
+						tIsValidRoute = true;
+					}
 				}
 			}
 		}
@@ -319,7 +344,7 @@ public class RouteInformation {
 				tRouteSegment = routeSegments.get (tSegmentIndex);
 				if (tSegmentIndex == 0) {
 					tIsSegmentRouteOpen = tRouteSegment.isEndOpen ();
-				} if ((tSegmentIndex + 1) == tSegmentCount) {
+				} else if ((tSegmentIndex + 1) == tSegmentCount) {
 					tIsSegmentRouteOpen = tRouteSegment.isStartOpen ();
 				} else {
 					tIsSegmentRouteOpen = tRouteSegment.isFullyOpen ();
@@ -418,14 +443,17 @@ public class RouteInformation {
 		RouteSegment tLastRouteSegment;
 		Track tLastTrack, tNextTrack;
 		int tTrainNumber;
+		boolean tCycledToNextTrack;
 		
 		tTrainNumber = getTrainIndex () + 1;
 		tLastRouteSegment = getLastRouteSegment ();
 		tLastTrack = tLastRouteSegment.getTrack ();
-		tLastRouteSegment.cycleToNextTrack ();
-		tLastTrack.clearTrainNumber ();
-		tNextTrack = tLastRouteSegment.getTrack ();
-		tNextTrack.setTrainNumber (tTrainNumber);
+		tCycledToNextTrack = tLastRouteSegment.cycleToNextTrack ();
+		if (tCycledToNextTrack) {
+			tLastTrack.clearTrainNumber ();
+			tNextTrack = tLastRouteSegment.getTrack ();
+			tNextTrack.setTrainNumber (tTrainNumber);
+		}
 	}
 
 	private boolean addNewPreviousSegment (RouteSegment aRouteSegment, int aPhase, int aCorpID) {
@@ -483,7 +511,6 @@ public class RouteInformation {
 			System.err.println ("MapCell " + tPreviousMapCell.getCellID () + " and " + tCurrentMapCell.getCellID () + " are not Neighbors");
 		}
 		System.out.println ("--------- Done adding New Previous, Success: " + tAddNewPreviousSegment);
-		printDetail ();
 		
 		return tAddNewPreviousSegment;
 	}
@@ -514,7 +541,6 @@ public class RouteInformation {
 			addRouteSegment (aRouteSegment);
 			tAddNextRouteSegment = true;
 		}
-		printDetail ();
 		
 		return tAddNextRouteSegment;
 	}
@@ -563,7 +589,6 @@ public class RouteInformation {
 		} else {
 			System.err.println ("MapCell " + tPreviousMapCell.getCellID () + " and " + tCurrentMapCell.getCellID () + " are not Neighbors");
 		}
-		printDetail ();
 		System.out.println ("--------- Done Filling End Point, Success: " + tFillEndPoint);
 		
 		return tFillEndPoint;
