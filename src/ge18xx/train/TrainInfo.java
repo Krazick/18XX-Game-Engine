@@ -95,7 +95,7 @@ public class TrainInfo {
 		tQuantity = aCellNode.getThisIntAttribute (AN_QUANTITY);
 		tPrice = aCellNode.getThisIntAttribute (AN_PRICE);
 		tTriggerPhase = aCellNode.getThisAttribute (AN_TRIGGER_PHASE, START_PHASE);
-		tSplit = tTriggerPhase.split ("\\.");	// Split uses Reg-ex, so the . needs escapping -- twice
+		tSplit = tTriggerPhase.split ("\\.");	// Split uses Reg-ex, so the . needs escaping -- twice
 		tTriggerMainPhase = Integer.parseInt (tSplit [0]);
 		tTriggerMinorPhase = Integer.parseInt (tSplit [1]);
 		tDiscountPrice = aCellNode.getThisIntAttribute (AN_DISCOUNT_PRICE, NO_DISCOUNT);
