@@ -3,6 +3,7 @@ package ge18xx.company;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.game.GameManager;
+import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.train.Train;
 import ge18xx.train.TrainPortfolio;
@@ -27,8 +28,7 @@ public class CorporationFrame extends JFrame implements ActionListener, ItemList
 	static final String PLACE_TILE = "Place Tile";
 	static final String PLACE_TOKEN = "Place Token";
 	static final String PLACE_BASE_TOKEN = "Place Base Token";
-	static final String HOME1_NO_TILE = "Home Map Cell 1 does not have Tile";
-	static final String HOME2_NO_TILE = "Home Map Cell 2 does not have Tile";
+	static final String HOME_NO_TILE = "Home Map Cell %s does not have Tile";
 	static final String OPERATE_TRAIN = "Operate Train";
 	static final String OPERATE_TRAINS = "Operate Trains";
 	static final String NO_TRAINS_TO_OPERATE = "No Trains to Operate";
@@ -708,6 +708,8 @@ public class CorporationFrame extends JFrame implements ActionListener, ItemList
 	
 	private void updatePlaceTokenActionButton () {
 		String tDisableToolTipReason;
+		String tMapCellID;
+		MapCell tMapCell;
 		
 		if (corporation.canLayToken ()) {
 			placeTokenActionButton.setEnabled (true);
@@ -722,14 +724,32 @@ public class CorporationFrame extends JFrame implements ActionListener, ItemList
 					placeTokenActionButton.setToolTipText (tDisableToolTipReason);				
 				}
 			} else {
+
 				placeTokenActionButton.setText (PLACE_BASE_TOKEN);
 				if (! corporation.homeMapCell1HasTile ()) {
 					placeTokenActionButton.setEnabled (false);
-					placeTokenActionButton.setToolTipText (HOME1_NO_TILE);
+					tMapCell = corporation.getHomeCity1 ();
+					tMapCellID = tMapCell.getID ();
+					System.err.println ("Testing Home Cell 1 " + tMapCellID + " for Playable Tile ");
+					if (corporation.isTileAvailableForMapCell (tMapCell)) {
+						tDisableToolTipReason = String.format (HOME_NO_TILE, tMapCellID);
+						placeTokenActionButton.setToolTipText (tDisableToolTipReason);
+					} else {
+						// TODO: Update placeTokenActionButton to be "SKIP BASE TOKEN" and enabled
+						System.err.println ("Home Cell " + tMapCellID + " Has no tile available to place");
+					}
 				} else if (! corporation.homeMapCell2HasTile ()) {
-					placeTokenActionButton.setEnabled (false);
-					placeTokenActionButton.setToolTipText (HOME2_NO_TILE);
-				} else {
+					tMapCell = corporation.getHomeCity2 ();
+					tMapCellID = tMapCell.getID ();
+					tDisableToolTipReason = String.format (HOME_NO_TILE, tMapCellID);
+					if (corporation.isTileAvailableForMapCell (tMapCell)) {
+						placeTokenActionButton.setEnabled (false);
+						placeTokenActionButton.setToolTipText (tDisableToolTipReason);
+					} else {
+						System.err.println ("Home Cell 2 " + tMapCellID + " Has no tile available to place");
+						// TODO: Update placeTokenActionButton to be "SKIP BASE TOKEN" and enabled
+					}
+			} else {
 					placeTokenActionButton.setEnabled (true);
 					placeTokenActionButton.setToolTipText (NO_TOOL_TIP);
 				}
