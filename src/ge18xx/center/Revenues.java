@@ -269,7 +269,7 @@ public class Revenues extends Feature {
 		tValue = 0;
 		for (Revenue tRevenue : revenues) {
 			tPhase = tRevenue.getPhase ();
-			if (tPhase < aPhase) {
+			if (tPhase <= aPhase) {
 				tValue = tRevenue.getValue ();
 			}
 		}
