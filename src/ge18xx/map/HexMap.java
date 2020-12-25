@@ -698,7 +698,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 							map [tRow] [tCol].putTile (tTile, tTileOrientation);
 							restoreTile (tCurrentTile);
 						} else {
-							System.out.println ("Upgrade: Did not find the Tile with # " + tTileNumber);
+							System.err.println ("Upgrade: Did not find the Tile with # " + tTileNumber);
 						}
 					}
 				} else {
@@ -706,7 +706,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 					if (tTile != Tile.NO_TILE) {
 						map [tRow] [tCol].putTile (tTile, tTileOrientation);
 					} else {
-						System.out.println ("Did not find the Tile with # " + tTileNumber);
+						System.err.println ("Did not find the Tile with # " + tTileNumber);
 					}
 				}
 				if (isTileOnCell (tRow, tCol)) {
@@ -1031,6 +1031,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		String tBaseCityName;
 		Tile tTile;
 		GameTile tGameTile;
+
 		
 		if (aSelectedMapCell != null) {
 			if (aSelectedMapCell.isSelectable ()) {
@@ -1072,6 +1073,53 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		mapFrame.updatePutTileButton ();
 	}
 	
+	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
+		boolean tIsTileAvailableForMapCell = true;
+		Tile tTile;
+		int tMapCellTypeCount;
+		int tTileNumber;
+		String tTileName;
+		GameTile tGameTile;
+		int tAvailableCount = 0;
+		String tBaseTileName;
+		String tBaseCityName;
+	
+		System.out.println ("Ready to test for Playable Tile for Map Cell " + aMapCell.getCellID ());
+		tTileName = aMapCell.getName ();
+		if (tTileName == null) {
+			tTileName = "";
+		}
+		tBaseCityName = aMapCell.getCityName ();
+		if (tBaseCityName == null) {
+			tBaseCityName = "";
+		}
+		if (aMapCell.isTileOnCell ()) {
+			tTile = aMapCell.getTile ();
+			tTileNumber = tTile.getNumber ();
+			tGameTile = tileSet.getGameTile (tTileNumber);
+			tAvailableCount = tileSet.getAvailableCount (tGameTile, tTileName, tBaseCityName);
+		} else {
+			tBaseTileName = aMapCell.getName ();
+			tMapCellTypeCount = aMapCell.getTypeCount ();
+			if ("OO".equals (tTileName)) {
+				tAvailableCount = tileSet.getAvailableCount (TileType.GREEN, tTileName);
+			} else {
+				if ("".equals (tTileName)) {
+					tAvailableCount = tileSet.getAvailableCount (TileType.YELLOW, tMapCellTypeCount, tBaseTileName);
+				} else {
+					tAvailableCount = tileSet.getAvailableCount (TileType.YELLOW, tMapCellTypeCount, tTileName);
+				}
+			}
+		}
+		
+		if (tAvailableCount == 0) {
+			tIsTileAvailableForMapCell = false;
+		}
+		
+		return tIsTileAvailableForMapCell;
+	}
+	
+
 	public void toggleSelectedRevenueCenter (RevenueCenter aSelectedRevenueCenter) {
 		City tSelectedCity = null;
 		
