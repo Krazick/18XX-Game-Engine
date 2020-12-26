@@ -550,11 +550,15 @@ public class TrainPortfolio implements TrainHolderI {
 		tTrainName = aTrainNode.getThisAttribute (Train.AN_NAME);
 		tTrainStatus = aTrainNode.getThisIntAttribute (Train.AN_STATUS);
 		tTrain = aBank.getTrain (tTrainName);
-		aBank.removeTrain (tTrainName);
-		tTrain.setStatus (tTrainStatus);
-		trains.add (tTrain);
-		loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE, tTrain);
-		loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE, tTrain);
+		if (tTrain != null) {
+			aBank.removeTrain (tTrainName);
+			tTrain.setStatus (tTrainStatus);
+			trains.add (tTrain);
+			loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE, tTrain);
+			loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE, tTrain);
+		} else {
+			System.err.println ("Trying to load a " + tTrainName + " Not found in the Bank, Status should be " + tTrainStatus);
+		}
 	}
 	
 	public void loadRouteForTrain (XMLNode aTrainNode, ElementName aElementName, Train aTrain) {
