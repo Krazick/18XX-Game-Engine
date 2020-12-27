@@ -32,7 +32,7 @@ class NodeInformationTestConstuctors {
 		locationCenter = new Location (50);
 		centerCity = new City (RevenueCenterType.SINGLE_CITY, 1, 1, Location.CENTER_CITY_LOC, "Home Town", 20, tYellow);
 		nodeInformationSide = new NodeInformation (locationSide, false, true, false, 0, 0, RevenueCenter.NO_CENTER);
-		nodeInformationCenter = new NodeInformation (locationCenter, false, true, true, 0, 0, centerCity);
+		nodeInformationCenter = new NodeInformation (locationCenter, false, true, true, 20, 0, centerCity);
 	}
 
 	/**
