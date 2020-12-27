@@ -85,7 +85,6 @@ public class RouteInformation {
 	
 	public void addRouteSegment (RouteSegment aRouteSegment) {
 		RevenueCenter tRevenueCenter;
-		int tRevenue;
 		
 		if (revenueCenters != null) {
 			if (aRouteSegment.hasRevenueCenter()) {
