@@ -955,6 +955,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return (status == ActorI.ActionStates.Closed);
 	}
 	
+	public boolean isStationLaid () {
+		return (status == ActorI.ActionStates.StationLaid);
+	}
+	
 	public boolean isPlayerOwned () {
 		boolean tPresidentIsAPlayer;
 		
@@ -1793,4 +1797,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public abstract boolean atTrainLimit();
+
+	public void skipBaseToken() {
+//		Override in Train Company Class		
+	}
 }

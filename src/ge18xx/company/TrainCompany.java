@@ -17,6 +17,7 @@ import ge18xx.round.action.LayTileAction;
 import ge18xx.round.action.OperatedTrainAction;
 import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.RemoveTileAction;
+import ge18xx.round.action.SkipBaseTokenAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.tiles.Tile;
@@ -927,6 +928,29 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	
 	public void handleResetAllRoutes () {
 		trainRevenueFrame.handleResetAllRoutes ();
+	}
+	
+	public void skipBaseToken () {
+		ActorI.ActionStates tCurrentStatus, tNewStatus;
+		boolean tStatusUpdated;
+		String tOperatingRoundID;
+		OperatingRound tOperatingRound;
+		SkipBaseTokenAction tSkipBaseTokenAction;
+		
+		tCurrentStatus = status;
+		tStatusUpdated = updateStatus (ActorI.ActionStates.StationLaid);
+		if (tStatusUpdated) {
+			tNewStatus = status;
+			tOperatingRoundID = corporationList.getOperatingRoundID ();
+			tOperatingRound = corporationList.getOperatingRound ();
+			tSkipBaseTokenAction = new SkipBaseTokenAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
+			tSkipBaseTokenAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
+			tOperatingRound.addAction (tSkipBaseTokenAction);
+			setLastRevenue (thisRevenue);
+			corporationFrame.updateInfo ();
+		} else {
+			System.out.println ("Status has NOT been updated from " + status);
+		}
 	}
 	
 	public void payNoDividend () {

@@ -28,6 +28,7 @@ public class CorporationFrame extends JFrame implements ActionListener, ItemList
 	static final String PLACE_TILE = "Place Tile";
 	static final String PLACE_TOKEN = "Place Token";
 	static final String PLACE_BASE_TOKEN = "Place Base Token";
+	static final String SKIP_BASE_TOKEN = "Skip Base Token";
 	static final String HOME_NO_TILE = "Home Map Cell %s does not have Tile";
 	static final String OPERATE_TRAIN = "Operate Train";
 	static final String OPERATE_TRAINS = "Operate Trains";
@@ -216,6 +217,10 @@ public class CorporationFrame extends JFrame implements ActionListener, ItemList
 		if (PLACE_TOKEN.equals (tActionCommand)) {
 			corporation.showMap ();
 			corporation.enterPlaceTokenMode ();
+		}
+		if (SKIP_BASE_TOKEN.equals (tActionCommand)) {
+			corporation.showMap ();
+			corporation.skipBaseToken ();
 		}
 		if (OPERATE_TRAIN.equals (tActionCommand)) {
 			corporation.showMap ();
@@ -515,8 +520,13 @@ public class CorporationFrame extends JFrame implements ActionListener, ItemList
 		
 		payNoDividendActionButton.setText ("Pay No Dividend");
 		if (! corporation.haveLaidAllBaseTokens ()) {
-			payNoDividendActionButton.setEnabled (false);
-			payNoDividendActionButton.setToolTipText ("Base Token must be laid first.");							
+			if (corporation.isStationLaid ()) {
+				payNoDividendActionButton.setEnabled (true);
+				payNoDividendActionButton.setToolTipText ("Base Token was Skippped due to missing Tile.");
+			} else {
+				payNoDividendActionButton.setEnabled (false);
+				payNoDividendActionButton.setToolTipText ("Base Token must be laid first.");
+			}
 		} else if (corporation.dividendsHandled ()) {
 			payNoDividendActionButton.setEnabled (false);
 			tToolTip = corporation.reasonForNoDividendPayment ();
@@ -724,19 +734,19 @@ public class CorporationFrame extends JFrame implements ActionListener, ItemList
 					placeTokenActionButton.setToolTipText (tDisableToolTipReason);				
 				}
 			} else {
-
 				placeTokenActionButton.setText (PLACE_BASE_TOKEN);
 				if (! corporation.homeMapCell1HasTile ()) {
 					placeTokenActionButton.setEnabled (false);
 					tMapCell = corporation.getHomeCity1 ();
 					tMapCellID = tMapCell.getID ();
-					System.err.println ("Testing Home Cell 1 " + tMapCellID + " for Playable Tile ");
 					if (corporation.isTileAvailableForMapCell (tMapCell)) {
 						tDisableToolTipReason = String.format (HOME_NO_TILE, tMapCellID);
 						placeTokenActionButton.setToolTipText (tDisableToolTipReason);
 					} else {
-						// TODO: Update placeTokenActionButton to be "SKIP BASE TOKEN" and enabled
-						System.err.println ("Home Cell " + tMapCellID + " Has no tile available to place");
+						placeTokenActionButton.setText (SKIP_BASE_TOKEN);
+						placeTokenActionButton.setActionCommand (SKIP_BASE_TOKEN);
+						placeTokenActionButton.setEnabled (true);
+						placeTokenActionButton.setToolTipText (NO_TOOL_TIP);
 					}
 				} else if (! corporation.homeMapCell2HasTile ()) {
 					tMapCell = corporation.getHomeCity2 ();
@@ -746,8 +756,10 @@ public class CorporationFrame extends JFrame implements ActionListener, ItemList
 						placeTokenActionButton.setEnabled (false);
 						placeTokenActionButton.setToolTipText (tDisableToolTipReason);
 					} else {
-						System.err.println ("Home Cell 2 " + tMapCellID + " Has no tile available to place");
-						// TODO: Update placeTokenActionButton to be "SKIP BASE TOKEN" and enabled
+						placeTokenActionButton.setText (SKIP_BASE_TOKEN);
+						placeTokenActionButton.setActionCommand (SKIP_BASE_TOKEN);
+						placeTokenActionButton.setEnabled (true);
+						placeTokenActionButton.setToolTipText (NO_TOOL_TIP);
 					}
 			} else {
 					placeTokenActionButton.setEnabled (true);
