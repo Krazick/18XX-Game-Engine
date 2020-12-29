@@ -113,4 +113,17 @@ public class CorporationTableFrame extends TableFrame {
 	public void loadStates (XMLNode aXMLNode) {
 		companies.loadStates (aXMLNode);
 	}
+	
+	public void fixLoadedRoutes (MapFrame aMapFrame, String aCompanyType) {
+		int tCompanyCount;
+		
+		if (companies != CorporationList.NO_CORPORATION_LIST) {
+			tCompanyCount = companies.getRowCount ();
+			
+			if (tCompanyCount > 0) {
+				companies.fixLoadedRoutes (aMapFrame);
+			}
+		}
+	}
+
 }

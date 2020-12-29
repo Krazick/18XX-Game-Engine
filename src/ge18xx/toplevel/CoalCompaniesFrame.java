@@ -38,4 +38,8 @@ public class CoalCompaniesFrame extends CorporationTableFrame {
 		super.loadStates (aXMLNode);
 	}
 
+	public void fixLoadedRoutes (MapFrame aMapFrame) {
+		super.fixLoadedRoutes (aMapFrame, "Coal");
+	}
+
 }

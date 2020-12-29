@@ -808,4 +808,12 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		routeInformation.setStartSegment (tRouteSegment, aSelectedRevenueCenter, tPhase, tCorpID);
 		routeInformation.extendRouteInformation (tRouteSegment, tPhase, tCorpID);
 	}
+
+	public MapCell getMapCellForID (String aMapCellID) {
+		MapCell tMapCell;
+		
+		tMapCell = map.getMapCellForID (aMapCellID);
+		
+		return tMapCell;
+	}
 }

@@ -398,4 +398,8 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 			}
 		}
 	}
+
+	public void fixLoadedRoutes (MapFrame aMapFrame) {
+		super.fixLoadedRoutes (aMapFrame, "Share");
+	}
 }

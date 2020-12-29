@@ -11,6 +11,7 @@ package ge18xx.train;
 import ge18xx.bank.Bank;
 import ge18xx.company.PurchaseOffer;
 import ge18xx.tiles.Gauge;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -465,6 +466,18 @@ public class Train implements Comparable<Object> {
 		}
 		if (tNodeName.equals (EN_PREVIOUS_ROUTE.getString ())) {
 			previousRouteInformation = tRouteInformation;
+		}
+	}
+
+	public void fixLoadedRoutes (MapFrame aMapFrame) {
+		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+			System.out.println ("Ready to fix Current Route info for the " + getName () + " Train");
+			currentRouteInformation.fixLoadedRoutes (aMapFrame);
+			currentRouteInformation.printDetail ();
+		}
+		if (previousRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+			System.out.println ("Ready to fix Previous Route info for the " + getName () + " Train");
+			previousRouteInformation.fixLoadedRoutes (aMapFrame);
 		}
 	}
 }

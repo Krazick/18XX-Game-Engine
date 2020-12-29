@@ -21,6 +21,7 @@ import ge18xx.round.action.SkipBaseTokenAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.tiles.Tile;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
@@ -1521,5 +1522,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tMaxTrainSize = trainPortfolio.getMaxTrainSize ();
 		
 		return tMaxTrainSize;
+	}
+
+	public void fixLoadedRoutes (MapFrame aMapFrame) {
+		int tTrainCount;
+		
+		tTrainCount = trainPortfolio.getTrainCount ();
+		if (tTrainCount > 0) {
+			trainPortfolio.fixLoadedRoutes (aMapFrame);
+		}
 	}
 }

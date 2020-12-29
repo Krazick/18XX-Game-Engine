@@ -216,4 +216,16 @@ public class NodeInformation {
 
 		return tXMLElement;
 	}
+
+
+	public void fixRevenueCenter (Tile tTile) {
+		RevenueCenter tRevenueCenter;
+		
+		tRevenueCenter = tTile.getCenterAtLocation (location);
+		if (tRevenueCenter != RevenueCenter.NO_CENTER) {
+			setRevenueCenter (tRevenueCenter); 
+		} else {
+			System.err.println ("Looking for Revenue Center at " + location.getLocation () + " on Tile " + tTile.getNumber () + " But not Found.");
+		}
+	}
 }

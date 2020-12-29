@@ -7,6 +7,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.ParsingRoutineIO;
@@ -723,5 +724,12 @@ public class TrainPortfolio implements TrainHolderI {
 		}
 		
 		return tMaxTrainSize;
+	}
+
+	public void fixLoadedRoutes (MapFrame aMapFrame) {
+		for (Train tTrain : trains) {
+			tTrain.fixLoadedRoutes (aMapFrame);
+		}
+		
 	}
 }

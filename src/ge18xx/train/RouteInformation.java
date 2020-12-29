@@ -10,6 +10,7 @@ import ge18xx.company.TrainCompany;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Track;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutineIO;
@@ -719,5 +720,11 @@ public class RouteInformation {
 		tXMLElement.appendChild (tXMLRevenueCentersElement);
 
 		return tXMLElement;
+	}
+
+	public void fixLoadedRoutes (MapFrame aMapFrame) {
+		for (RouteSegment tRouteSegment : routeSegments) {
+			tRouteSegment.fixLoadedRouteSegment (aMapFrame);
+		}
 	}
 }

@@ -26,6 +26,7 @@ import ge18xx.round.action.PayRevenueAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.toplevel.InformationTable;
 import ge18xx.toplevel.LoadableXMLI;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
@@ -998,5 +999,16 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 		
 		return tPrivateCompany;
+	}
+
+	public void fixLoadedRoutes (MapFrame aMapFrame) {
+		TrainCompany tTrainCompany;
+		
+		for (Corporation tCorporation : corporations) {
+			if (tCorporation.isATrainCompany()) {
+				tTrainCompany = (TrainCompany) tCorporation;
+				tTrainCompany.fixLoadedRoutes (aMapFrame);
+			}
+		}
 	}
 }

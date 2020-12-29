@@ -8,6 +8,7 @@ import ge18xx.map.MapCell;
 import ge18xx.tiles.Gauge;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.Track;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -676,6 +677,33 @@ public class RouteSegment {
 		tXMLElement.appendChild (tXMLEndElement);
 		
 		return tXMLElement;
+	}
+
+	public void fixLoadedRouteSegment (MapFrame aMapFrame) {
+		MapCell tMapCell;
+		Tile tTile;
+		int tTileNumber;
+		
+		System.out.println ("Need to get the MapCell with ID " + mapCellID);
+		tMapCell = aMapFrame.getMapCellForID (mapCellID);
+		if (tMapCell != MapCell.NO_MAP_CELL) {
+			setMapCell (tMapCell);
+			tTile = tMapCell.getTile ();
+			tTileNumber = tTile.getNumber ();
+			if (tTileNumber == tileNumber) {
+				setTile (tTile);
+				if (start.hasRevenueCenter ()) {
+					start.fixRevenueCenter (tTile);
+				}
+				if (end.hasRevenueCenter ()) {
+					end.fixRevenueCenter (tTile);
+				}
+			} else {
+				System.err.println ("Looking for Tile " + tileNumber + " found " + tTileNumber + " on MapCell " + mapCellID);
+			}
+		} else {
+			System.err.println ("Looking for MapCell " + mapCellID + " Did not find it in the Map");
+		}
 	}
 }
 

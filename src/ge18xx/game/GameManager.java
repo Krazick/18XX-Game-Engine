@@ -1136,6 +1136,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 					}
 				}
 			}
+			fixLoadedRoutes ();
 			if ((activeGame != null) && (playerManager.getPlayerCount () > 0)) {
 				tLoadedSaveGame = true;
 			}
@@ -1146,6 +1147,18 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 		
 		return tLoadedSaveGame;
+	}
+	
+	private void fixLoadedRoutes () {
+		if (minorCompaniesFrame != XMLFrame.NO_XML_FRAME) {
+			minorCompaniesFrame.fixLoadedRoutes (mapFrame);
+		}
+		if (coalCompaniesFrame != XMLFrame.NO_XML_FRAME) {
+			coalCompaniesFrame.fixLoadedRoutes (mapFrame);
+		}
+		if (shareCompaniesFrame != XMLFrame.NO_XML_FRAME) {
+			shareCompaniesFrame.fixLoadedRoutes (mapFrame);
+		}
 	}
 	
 	private void cleanupLoadedPrivates () {

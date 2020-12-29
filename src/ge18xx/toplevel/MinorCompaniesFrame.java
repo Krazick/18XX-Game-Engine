@@ -21,7 +21,6 @@ public class MinorCompaniesFrame extends CorporationTableFrame {
 	 */
 	public static final ElementName EN_MINORS = new ElementName (CorporationList.TYPE_NAMES [2] + "s");
 	private static final long serialVersionUID = 1L;
-	CorporationList minorCompanies;
 	
 	public MinorCompaniesFrame (String aFrameName, RoundManager aRoundManager) {
 		super (aFrameName, CorporationList.TYPE_NAMES [2], aRoundManager);
@@ -45,5 +44,9 @@ public class MinorCompaniesFrame extends CorporationTableFrame {
 	
 	public void loadMinorsStates (XMLNode aXMLNode) {
 		super.loadStates (aXMLNode);
+	}
+
+	public void fixLoadedRoutes (MapFrame aMapFrame) {
+		super.fixLoadedRoutes (aMapFrame, "Minor");
 	}
 }
