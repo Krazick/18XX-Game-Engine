@@ -3,6 +3,8 @@ package ge18xx.train;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import org.w3c.dom.NodeList;
+
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.TrainCompany;
 import ge18xx.map.Location;
@@ -10,9 +12,11 @@ import ge18xx.map.MapCell;
 import ge18xx.tiles.Track;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.ParsingRoutineIO;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
+import ge18xx.utilities.XMLNodeList;
 
 public class RouteInformation {
 	final static ElementName EN_ROUTE_SEGMENTS = new ElementName ("RouteSegments");
@@ -35,7 +39,6 @@ public class RouteInformation {
 	int phase;
 	ArrayList<RouteSegment> routeSegments;
 	ArrayList<RevenueCenter> revenueCenters;
-	TrainCompany trainCompany;
 	TrainRevenueFrame trainRevenueFrame;
 	
 	// Collection of Route Segments
@@ -49,32 +52,98 @@ public class RouteInformation {
 		setSpecialBonus (aSpecialBonus);
 		setTotalRevenue (0);
 		phase = aPhase;
-		setTrainCompany (aTrainCompany);
 		setTrainRevenueFrame (aTrainRevenueFrame);
 		routeSegments = new ArrayList<RouteSegment> ();
 		revenueCenters = new ArrayList<RevenueCenter> ();
 	}
-	
+
 	public RouteInformation (Train aTrain, XMLNode aRouteNode) {
-		String tTrainName;
+		XMLNodeList tXMLNodeList;
+		String tTrainName, tProvidedTrainName;
 		int tPhase, tRegionBonus, tSpecialBonus, tTotalRevenue, tTrainIndex;
 		String tRoundID;
 
-		tTrainName = aRouteNode.getThisAttribute (Train.AN_NAME);
+		tTrainName = aRouteNode.getThisAttribute (Train.AN_NAME, Train.MISSING_NAME);
 		tRoundID = aRouteNode.getThisAttribute (AN_ROUND_ID);
 		tPhase = aRouteNode.getThisIntAttribute (AN_PHASE);
 		tRegionBonus = aRouteNode.getThisIntAttribute (AN_REGION_BONUS);
 		tSpecialBonus = aRouteNode.getThisIntAttribute (AN_SPECIAL_BONUS);
 		tTotalRevenue = aRouteNode.getThisIntAttribute (AN_TOTAL_REVENUE);
 		tTrainIndex = aRouteNode.getThisIntAttribute (AN_TRAIN_INDEX);
-		System.out.println ("Found a Route Node to Parse, with Train " + tTrainName + " Phase " + tPhase +
-				" Round ID " + tRoundID + " Region Bonus " + tRegionBonus + " Special Bonus " + tSpecialBonus +
-				" Total Revenue " + tTotalRevenue + " Train Index " + tTrainIndex
-				);
-		// TODO: Parse Route Segments List
+		tProvidedTrainName = aTrain.getName ();
+		if (tTrainName.equals (tProvidedTrainName)) {
+			setTrainIndex (tTrainIndex);
+			setTrain (aTrain);
+			setRoundID (tRoundID);
+			setRegionBonus (tRegionBonus);
+			setSpecialBonus (tSpecialBonus);
+			setTotalRevenue (tTotalRevenue);
+			phase = tPhase;
+			
+			routeSegments = new ArrayList<RouteSegment> ();
+			revenueCenters = new ArrayList<RevenueCenter> ();
+			
+			tXMLNodeList = new XMLNodeList (routeSegmentsParsingRoutine, this);
+			tXMLNodeList.parseXMLNodeList (aRouteNode, EN_ROUTE_SEGMENTS, RouteSegment.EN_ROUTE_SEGMENT);
+		} else {
+			System.err.println ("Looking for Train Named " + tProvidedTrainName + " Found " + tTrainName);
+		}
+		
 		// TODO: Parse Revenue Centers List
+			
+	}
+	
+	public void addJustRouteSegment (RouteSegment aRouteSegment) {
+		routeSegments.add(aRouteSegment);
+	}
+	
+	public void loadRouteSegments (RouteInformation aRouteInformation, XMLNode aRouteSegmentsNode) {
+		XMLNode tRouteSegmentNode;
+		NodeList tRoutesChildren;
+		int tRoutesNodeCount, tRouteIndex;
+		String tRouteNodeName;
+		RouteSegment tRouteSegment;
+		
+		tRoutesChildren = aRouteSegmentsNode.getChildNodes ();
+		tRoutesNodeCount = tRoutesChildren.getLength ();
+		try {
+			for (tRouteIndex = 0; tRouteIndex < tRoutesNodeCount; tRouteIndex++) {
+				tRouteSegmentNode = new XMLNode (tRoutesChildren.item (tRouteIndex));
+				tRouteNodeName = tRouteSegmentNode.getNodeName ();
+				if (RouteSegment.EN_ROUTE_SEGMENT.equals (tRouteNodeName)) {
+					tRouteSegment = new RouteSegment (tRouteSegmentNode);
+					aRouteInformation.addJustRouteSegment (tRouteSegment);
+				}
+			}			
+		} catch (Exception tException) {
+			System.out.println ("Caught Exception with message ");
+			tException.printStackTrace ();
+		}
+		printDetail ();
+	}
+	
+	public void loadRouteForTrain (XMLNode aRouteSegmentNode, ElementName aElementName, Train aTrain) {
+		XMLNodeList tXMLNodeList;
+		
+		tXMLNodeList = new XMLNodeList (routeSegmentsParsingRoutine, this);
+		tXMLNodeList.parseXMLNodeList (aRouteSegmentNode, aElementName);
 	}
 
+	ParsingRoutineIO routeSegmentsParsingRoutine  = new ParsingRoutineIO ()  {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aRouteSegmentNode, Object aRouteInformation) {
+			RouteInformation tRouteInformation;
+			
+			tRouteInformation = (RouteInformation) aRouteInformation;
+			loadRouteSegments (tRouteInformation, aRouteSegmentNode);
+		}
+
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			
+		}
+	};
+	
 	public void setTrainRevenueFrame (TrainRevenueFrame aTrainRevenueFrame) {
 		trainRevenueFrame = aTrainRevenueFrame;
 	}
@@ -199,14 +268,6 @@ public class RouteInformation {
 		}
 	}
 	
-	public void setTrainCompany (TrainCompany aTrainCompany) {
-		trainCompany = aTrainCompany;
-	}
-	
-	public TrainCompany getTrainCompany () {
-		return trainCompany;
-	}
-	
 	public void setTrainIndex (int aTrainIndex) {
 		trainIndex = aTrainIndex;
 	}
@@ -234,10 +295,14 @@ public class RouteInformation {
 		System.out.println ("----------- End Route Information Detail ----------");
 	}
 	
-	public void clearTrainOn () {
+	public void clearTrainFromMap () {
 		for (RouteSegment tRouteSegment : routeSegments) {
 			tRouteSegment.clearTrainOn ();
 		}
+	}
+	
+	public void clearTrainOn () {
+		clearTrainFromMap ();
 		routeSegments.removeAll (routeSegments);
 		revenueCenters.removeAll (revenueCenters);
 	}
@@ -644,7 +709,7 @@ public class RouteInformation {
 			tXMLRouteSegmentElement = tRouteSegment.getElement (aXMLDocument);
 			tXMLRouteSegmentsElement.appendChild (tXMLRouteSegmentElement);
 		}
-		tXMLRevenueCentersElement = aXMLDocument.createElement (EN_ROUTE_SEGMENTS);
+		tXMLRevenueCentersElement = aXMLDocument.createElement (EN_REVENUE_CENTERS);
 		for (RevenueCenter tRevenueCenter : revenueCenters) {
 			tXMLRevenueCenterElement = tRevenueCenter.getElement (aXMLDocument, RevenueCenter.EN_REVENUE_CENTER);
 			tXMLRevenueCentersElement.appendChild (tXMLRevenueCenterElement);
@@ -655,5 +720,4 @@ public class RouteInformation {
 
 		return tXMLElement;
 	}
-
 }

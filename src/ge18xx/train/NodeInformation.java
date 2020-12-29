@@ -7,6 +7,7 @@ import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
 
 public class NodeInformation {
 	final static AttributeName AN_LOCATION = new AttributeName ("location");
@@ -34,7 +35,34 @@ public class NodeInformation {
 		setCorpStation (aCorpStation);
 		setLocation (aLocation);
 	}
+//	<RouteSegment cost="0" gauge="0" mapCellID="H18" tileNumber="59">
+//	<StartNode bonus="0" corpStation="false" hasRevenueCenter="true" location="16" openFlow="false" revenue="40"/>
+//	<EndNode bonus="0" corpStation="false" hasRevenueCenter="false" location="0" openFlow="true" revenue="0"/>
+//	</RouteSegment>
+
 	
+	public NodeInformation (XMLNode aNodeInfoNode) {
+		boolean tCorpStation, tHasRevenueCenter, tOpenFlow;
+		int tBonus, tLocationInt, tRevenue;
+		Location tLocation;
+
+		tCorpStation = aNodeInfoNode.getThisBooleanAttribute (AN_CORP_STATION);
+		tOpenFlow = aNodeInfoNode.getThisBooleanAttribute (AN_OPEN_FLOW);
+		tHasRevenueCenter = aNodeInfoNode.getThisBooleanAttribute (AN_HAS_REVENUE_CENTER);
+		tBonus = aNodeInfoNode.getThisIntAttribute (AN_BONUS);
+		tLocationInt = aNodeInfoNode.getThisIntAttribute (AN_LOCATION);
+		tRevenue = aNodeInfoNode.getThisIntAttribute (AN_REVENUE);
+		tLocation = new Location (tLocationInt);
+		
+		setHasRevenueCenter (tHasRevenueCenter);
+		setRevenue (tRevenue);
+		setBonus (tBonus);
+		setOpenFlow (tOpenFlow);
+		setCorpStation (tCorpStation);
+		setLocation (tLocation);
+		System.out.println ("Node Info: " + getDetail ());
+	}
+
 	public int getBonus () {
 		return bonus;
 	}

@@ -1,5 +1,7 @@
 package ge18xx.train;
 
+import org.w3c.dom.NodeList;
+
 import ge18xx.center.RevenueCenter;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -10,6 +12,7 @@ import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
 
 public class RouteSegment {
 	final static ElementName EN_ROUTE_SEGMENT = new ElementName ("RouteSegment");
@@ -24,6 +27,8 @@ public class RouteSegment {
 	public static RouteSegment NO_ROUTE_SEGMENT = null;
 	MapCell mapCell; 			// Hex ID
 	Tile tile;
+	String mapCellID;
+	int tileNumber;
 	NodeInformation start;
 	NodeInformation end;
 	int cost;				// For Ferry/Tunnel/Bridge Fee
@@ -44,17 +49,68 @@ public class RouteSegment {
 		setEndNode (tNodeInformation2);
 		setGauge (new Gauge ());
 	}
-	
+//	<RouteSegment cost="0" gauge="0" mapCellID="H18" tileNumber="59">
+//	<StartNode bonus="0" corpStation="false" hasRevenueCenter="true" location="16" openFlow="false" revenue="40"/>
+//	<EndNode bonus="0" corpStation="false" hasRevenueCenter="false" location="0" openFlow="true" revenue="0"/>
+//	</RouteSegment>
+
+	public RouteSegment (XMLNode aRouteSegmentNode) {
+		String tMapCellID;
+		int tTileNumber, tCost, tGaugeInt;
+		XMLNode tSegmentNode;
+		NodeList tSegmentChildren;
+		int tSegmentIndex, tSegmentNodeCount;
+		String tSegmentNodeName;
+		NodeInformation tStartNode, tEndNode;
+		Gauge tGauge;
+		
+		tMapCellID = aRouteSegmentNode.getThisAttribute (AN_MAP_CELL_ID);
+		tCost = aRouteSegmentNode.getThisIntAttribute (AN_COST);
+		tGaugeInt = aRouteSegmentNode.getThisIntAttribute (AN_GAUGE);
+		tTileNumber = aRouteSegmentNode.getThisIntAttribute (AN_TILE_NUMBER);
+		
+		setMapCellID (tMapCellID);
+		setTileNumber (tTileNumber);
+		setCost (tCost);
+		tGauge = new Gauge (tGaugeInt);
+		setGauge (tGauge);
+		
+		tSegmentChildren = aRouteSegmentNode.getChildNodes ();
+		tSegmentNodeCount = tSegmentChildren.getLength ();
+		for (tSegmentIndex = 0; tSegmentIndex < tSegmentNodeCount; tSegmentIndex++) {
+			tSegmentNode = new XMLNode (tSegmentChildren.item (tSegmentIndex));
+			tSegmentNodeName = tSegmentNode.getNodeName ();
+			if (EN_START_NODE.equals (tSegmentNodeName)) {
+				tStartNode = new NodeInformation (tSegmentNode);
+				setStartNode (tStartNode);
+			}
+			if (EN_END_NODE.equals (tSegmentNodeName)) {
+				tEndNode = new NodeInformation (tSegmentNode);
+				setEndNode (tEndNode);
+			}
+		}
+	}
+
+
 	private void setGauge (Gauge aGauge) {
 		gauge = aGauge;
 	}
 	
 	private void setMapCell (MapCell aMapCell) {
 		mapCell = aMapCell;
+		setMapCellID (mapCell.getID ());
+	}
+	
+	private void setMapCellID (String aMapCellID) {
+		mapCellID = aMapCellID;
 	}
 	
 	public MapCell getMapCell () {
 		return mapCell;
+	}
+	
+	public String getMapCellID () {
+		return mapCellID;
 	}
 	
 	public boolean validSegment () {
@@ -157,8 +213,17 @@ public class RouteSegment {
 		return cost;
 	}
 	
+	private void setTileNumber (int aTileNumber) {
+		tileNumber = aTileNumber;
+	}
+	
 	public void setTile (Tile aTile) {
 		tile = aTile;
+		setTileNumber (tile.getNumber ());
+	}
+	
+	public int getTileNumber () {
+		return tileNumber;
 	}
 	
 	public Tile getTile () {
@@ -233,7 +298,11 @@ public class RouteSegment {
 	public void printDetail() {
 		String tMapCellDetail;
 		
-		tMapCellDetail = mapCell.getDetail ();
+		if (mapCell != MapCell.NO_MAP_CELL) {
+			tMapCellDetail = mapCell.getDetail ();
+		} else {
+			tMapCellDetail = "ID " + mapCellID + " Tile Number " + tileNumber;
+		}
 		System.out.println ("MapCell " + tMapCellDetail + 
 				" Track Starts " + start.getDetail () + " Ends " + end.getDetail ());
 	}
