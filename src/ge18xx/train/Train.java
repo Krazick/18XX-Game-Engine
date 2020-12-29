@@ -51,6 +51,7 @@ public class Train implements Comparable<Object> {
 	public static final int RUST_AFTER_NEXT_OR = -1;
 	public static final int NO_TRAIN_STATUS = -3;
 	public static final String NO_TRAIN_NAME = null;
+	public static final String MISSING_NAME = "MISSING";
 	Gauge gauge;
 	String name;
 	int order;
@@ -447,7 +448,7 @@ public class Train implements Comparable<Object> {
 		return PurchaseOffer.TRAIN_TYPE;
 	}
 
-	public void clearRouteInformation() {
+	public void clearRouteInformation () {
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			currentRouteInformation.clear ();
 		}
