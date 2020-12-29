@@ -48,6 +48,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final AttributeName AN_TREASURY = new AttributeName ("treasury");
 	public static final AttributeName AN_VALUE = new AttributeName ("value");
 	public static final AttributeName AN_LAST_REVENUE = new AttributeName ("lastRevenue");
+	public static final AttributeName AN_THIS_REVENUE = new AttributeName ("thisRevenue");
 	static final AttributeName AN_CLOSE_ON_TRAIN_PURCHASE = new AttributeName ("closeOnTrainPurchase");
 	static final AttributeName AN_BG_COLOR = new AttributeName ("bgColor");
 	static final AttributeName AN_FG_COLOR = new AttributeName ("fgColor");
@@ -134,14 +135,24 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		value = aChildNode.getThisIntAttribute (AN_COST);
 		tMustBuyTrain = aChildNode.getThisBooleanAttribute (AN_MUST_BUY_TRAIN);
 		setMustBuyTrain (tMustBuyTrain);
-		setLastRevenue (aChildNode.getThisIntAttribute (AN_LAST_REVENUE));
-		setThisRevenue (NO_REVENUE);
 		closeOnTrainPurchase = aChildNode.getThisIntAttribute (AN_CLOSE_ON_TRAIN_PURCHASE, NO_ID);
 		tRevenueFrameTitle = "Train Revenue for " + abbrev;
 		trainRevenueFrame = new TrainRevenueFrame (this, tRevenueFrameTitle);
 		setCorporationFrame ();
 	}
+	
+	public void loadStates (XMLNode aXMLNode) {
+		int tThisRevenue, tLastRevenue;
+		boolean tMustBuyTrain;
 		
+		tLastRevenue = aXMLNode.getThisIntAttribute (AN_LAST_REVENUE);
+		tThisRevenue = aXMLNode.getThisIntAttribute (AN_THIS_REVENUE);
+		setLastRevenue (tLastRevenue);
+		setThisRevenue (tThisRevenue);
+		tMustBuyTrain = aXMLNode.getThisBooleanAttribute (AN_MUST_BUY_TRAIN);
+		setMustBuyTrain (tMustBuyTrain);
+	}
+	
 	public void addCash (int aAmount) {
 		treasury += aAmount;
 	}
@@ -180,6 +191,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		XMLElement tTrainPortfolioElements;
 
 		aXMLCorporationState.setAttribute (AN_LAST_REVENUE, getLastRevenue ());
+		aXMLCorporationState.setAttribute (AN_THIS_REVENUE, getThisRevenue ());
 		aXMLCorporationState.setAttribute (AN_MUST_BUY_TRAIN, mustBuyTrain ());
 		if (trainPortfolio.getTrainCount () > 0) {
 			tTrainPortfolioElements = trainPortfolio.getElements (aXMLDocument);
@@ -206,7 +218,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public String buildCorpInfoLabel () {
 		String tCorpLabel = "";
-		String tLastRevenue;
+		String tThisRevenue, tLastRevenue;
 		
 		tCorpLabel = getAbbrev () + "&nbsp;";
 		if (isActive ()) {
@@ -216,8 +228,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tCorpLabel += "<br>Treasury: " + Bank.formatCash (getCash ());
 			if (canOperate ()) {
 				tCorpLabel += "<br>" + trainPortfolio.getTrainList ();
-				tLastRevenue = getFormattedThisRevenue ();
-				tCorpLabel += "<br>Revenue: " + tLastRevenue;
+				tThisRevenue = getFormattedThisRevenue ();
+				tCorpLabel += "<br>This Revenue: " + tThisRevenue;
+				tLastRevenue = getFormattedLastRevenue ();
+				tCorpLabel += "<br>Last Revenue: " + tLastRevenue;
 			}
 		} else {
 			tCorpLabel += "<br>[" + getStatusName () + "]";
