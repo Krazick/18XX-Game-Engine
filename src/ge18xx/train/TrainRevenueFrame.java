@@ -97,12 +97,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		cancel = setupButton (RESET_ROUTES, RESET_ROUTES_ACTION);
 		buttonsPanel.add (cancel);
 		
-//		confirm = new JButton ("Confirm Revenue");
-//		confirm.setActionCommand (CONFIRM_ACTION);
-//		confirm.addActionListener (this);
-//		cancel = new JButton ("Cancel");
-//		cancel.setActionCommand (CANCEL_ACTION);
-//		cancel.addActionListener (this);
 		allFramePanel.add (buttonsPanel);
 		add (allFramePanel);
 		revenuesByTrain = new JFormattedTextField [maxTrainCount] [maxStops];
@@ -144,6 +138,25 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		}
 		if (RESET_ROUTES_ACTION.equals (aEvent.getActionCommand ())) {
 			handleResetAllRoutes ();
+		}
+	}
+	
+	public void clearTrainsFromMap () {
+		System.out.println ("Ready to Clear All Routes from Map only");
+		int tTrainIndex, tTrainCount;
+		RouteInformation tRouteInformation;
+		Train tTrain;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			tTrain = trainCompany.getTrain (tTrainIndex);
+			tRouteInformation = tTrain.getCurrentRouteInformation ();
+			if (tRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+				tRouteInformation.clearTrainFromMap ();
+				if ((tTrainIndex + 1) == tTrainCount) {
+					trainCompany.exitSelectRouteMode (tRouteInformation);
+				}
+			}
 		}
 	}
 	
