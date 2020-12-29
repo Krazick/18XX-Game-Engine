@@ -473,11 +473,9 @@ public class Train implements Comparable<Object> {
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			System.out.println ("Ready to fix Current Route info for the " + getName () + " Train");
 			currentRouteInformation.fixLoadedRoutes (aMapFrame);
-			currentRouteInformation.printDetail ();
 		}
 		if (previousRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			System.out.println ("Ready to fix Previous Route info for the " + getName () + " Train");
-			previousRouteInformation.fixLoadedRoutes (aMapFrame);
 		}
 	}
 }
