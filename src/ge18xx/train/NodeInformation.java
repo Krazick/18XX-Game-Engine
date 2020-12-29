@@ -104,6 +104,7 @@ public class NodeInformation {
 		// if the Location is a MapCell Side, it is -ALWAYS OPEN-
 		if (isSide ()) {
 			setOpenFlow (true);
+			setCorpStation (false); // If this is a Side, there is -NEVER- a Corp Station
 		}
 		// Or if there is a Corporate Station, it is -ALWAYS OPEN-
 		if (corpStation) {
