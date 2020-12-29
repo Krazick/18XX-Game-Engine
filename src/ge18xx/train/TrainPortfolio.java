@@ -555,7 +555,7 @@ public class TrainPortfolio implements TrainHolderI {
 			tTrain.setStatus (tTrainStatus);
 			trains.add (tTrain);
 			loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE, tTrain);
-			loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE, tTrain);
+			loadRouteForTrain (aTrainNode, Train.EN_PREVIOUS_ROUTE, tTrain);
 		} else {
 			System.err.println ("Trying to load a " + tTrainName + " Not found in the Bank, Status should be " + tTrainStatus);
 		}
