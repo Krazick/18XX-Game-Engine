@@ -434,6 +434,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		System.err.println ("Trying to -RESET ALL ROUTES- Should be handled by Train Company");
 	}
 
+	// Train Company will override
+	public void clearTrainsFromMap () {
+		System.err.println ("Trying to -CLEAR ALL TRAINS- Should be handled by Train Company");
+	}
+	
 	public int getThisRevenue () { 
 		return TrainCompany.NO_REVENUE; 
 	}
@@ -575,7 +580,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			tOperatingRound.addAction (tDoneAction);
 			corporationList.doneAction (this);
 		}
-		handleResetAllRoutes ();
+		clearTrainsFromMap ();
 		hideFrame ();
 	}
 	
