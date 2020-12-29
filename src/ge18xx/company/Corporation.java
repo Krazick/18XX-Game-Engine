@@ -1138,6 +1138,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			tLoadedState = tGenericActor.getCorporationActionState (tLoadedStatus);
 			resetStatus (tLoadedState);
 		}
+		loadStates (aXMLNode);
+	}
+	
+	public void loadStates (XMLNode aXMLNode) {
+		// Override with Train Company
 	}
 	
 	public boolean mapVisible () {
