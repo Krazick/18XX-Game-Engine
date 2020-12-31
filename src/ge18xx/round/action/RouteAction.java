@@ -11,6 +11,7 @@ import ge18xx.utilities.XMLNode;
 public class RouteAction extends Action {
 
 	public static final String NAME = "Route";
+	public static final RouteAction NO_ACTION = null;
 
 	public RouteAction() {
 		super();
