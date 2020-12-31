@@ -178,7 +178,9 @@ public class RouteInformation {
 			tMapCell = aRouteSegment.getMapCell ();
 			tStartLocation = aRouteSegment.getStartLocation ();
 			tEndLocation = aRouteSegment.getEndLocation ();
-			aRouteAction.addNewRouteSegmentEffect (trainCompany, trainIndex, tMapCell, tStartLocation, tEndLocation);
+			if (aRouteAction != RouteAction.NO_ACTION) {
+				aRouteAction.addNewRouteSegmentEffect (trainCompany, trainIndex, tMapCell, tStartLocation, tEndLocation);
+			}
 		} else {
 			System.err.println ("Revenue Centers Array not Initialized");
 		}
@@ -354,7 +356,7 @@ public class RouteInformation {
 		return tLastMapCellMatches;
 	}
 
-	private RouteSegment getLastRouteSegment () {
+	public RouteSegment getLastRouteSegment () {
 		RouteSegment tLastRouteSegment;
 		
 		tLastRouteSegment = routeSegments.get (getSegmentCount () - 1);
@@ -523,7 +525,9 @@ public class RouteInformation {
 			tMapCell = tLastRouteSegment.getMapCell ();
 			tStartLocation = tLastRouteSegment.getStartLocation ();
 			tEndLocation = tLastRouteSegment.getEndLocation ();
-			aRouteAction.addSetNewEndPointEffect (trainCompany, trainIndex, tMapCell, tStartLocation, tEndLocation);
+			if (aRouteAction != RouteAction.NO_ACTION) {
+				aRouteAction.addSetNewEndPointEffect (trainCompany, trainIndex, tMapCell, tStartLocation, tEndLocation);
+			}
 		}
 	}
 
@@ -616,10 +620,11 @@ public class RouteInformation {
 		boolean tFillEndPoint = false;
 		RouteSegment tPreviousSegment;
 		MapCell tCurrentMapCell, tPreviousMapCell;
-		int tSegmentCount, tTrainNumber;
+		int tSegmentCount;
 		int tPreviousSide, tPreviousEnd, tPreviousStart;
-		Track tTrack;
-		Location tPreviousStartLoc, tPreviousEndLoc;
+//		int tTrainNumber;
+//		Track tTrack;
+//		Location tPreviousStartLoc, tPreviousEndLoc;
 		
 		System.out.println ("Time to Fill End Point for Previous Route Segment");
 		tSegmentCount = getSegmentCount ();
@@ -634,19 +639,8 @@ public class RouteInformation {
 				tPreviousStart = tPreviousSegment.getStartLocationInt ();
 				if (tPreviousEnd == Location.NO_LOCATION) {
 					if (tPreviousMapCell.hasConnectingTrackBetween (tPreviousStart, tPreviousSide)) {
-						tTrack = tPreviousMapCell.getTrackFromStartToEnd (tPreviousStart, tPreviousSide);
-						if (! tTrack.isTrackUsed ()) {
-							tTrainNumber = getTrainIndex () + 1;
-							tPreviousSegment.setEndNodeLocationInt (tPreviousSide, phase);
-							// TODO: Add Effect to Change End Point
-							tPreviousStartLoc = new Location (tPreviousStart);
-							tPreviousEndLoc = new Location (tPreviousSide);
-							aRouteAction.addSetNewEndPointEffect (trainCompany, trainIndex, tPreviousMapCell, tPreviousStartLoc, tPreviousEndLoc);
-							tPreviousSegment.setTrainOnTrack (tTrack, tTrainNumber);
-							tFillEndPoint = true;
-						} else {
-							System.err.println ("Previous Map Cell's Track is in Use");
-						}
+						tFillEndPoint = setTrainOn (aRouteAction, tPreviousSegment, tPreviousMapCell,
+								tPreviousSide, tPreviousStart);
 					} else {
 						System.err.println ("Previous Map Cell's Tile does not have Track Segment between " + tPreviousSide + " and " + tPreviousStart);
 					}
@@ -660,6 +654,33 @@ public class RouteInformation {
 			System.err.println ("MapCell " + tPreviousMapCell.getCellID () + " and " + tCurrentMapCell.getCellID () + " are not Neighbors");
 		}
 		System.out.println ("--------- Done Filling End Point, Success: " + tFillEndPoint);
+		
+		return tFillEndPoint;
+	}
+
+	public boolean setTrainOn (RouteAction aRouteAction, RouteSegment aPreviousSegment,
+			MapCell aPreviousMapCell, int aPreviousSide, int aPreviousStart) {
+		int tTrainNumber;
+		Track tTrack;
+		Location tPreviousStartLoc;
+		Location tPreviousEndLoc;
+		boolean tFillEndPoint = false;
+		
+		tTrack = aPreviousMapCell.getTrackFromStartToEnd (aPreviousStart, aPreviousSide);
+		if (! tTrack.isTrackUsed ()) {
+			tTrainNumber = getTrainIndex () + 1;
+			aPreviousSegment.setEndNodeLocationInt (aPreviousSide, phase);
+			if (aRouteAction != RouteAction.NO_ACTION) {
+
+				tPreviousStartLoc = new Location (aPreviousStart);
+				tPreviousEndLoc = new Location (aPreviousSide);
+				aRouteAction.addSetNewEndPointEffect (trainCompany, trainIndex, aPreviousMapCell, tPreviousStartLoc, tPreviousEndLoc);
+			}
+			aPreviousSegment.setTrainOnTrack (tTrack, tTrainNumber);
+			tFillEndPoint = true;
+		} else {
+			System.err.println ("Previous Map Cell's Track is in Use");
+		}
 		
 		return tFillEndPoint;
 	}

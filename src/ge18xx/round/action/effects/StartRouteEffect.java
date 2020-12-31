@@ -53,7 +53,6 @@ public class StartRouteEffect extends ChangeRouteEffect {
 			}
 		}
 		
-		
 		return tEffectApplied;
 	}
 
