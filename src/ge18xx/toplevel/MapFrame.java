@@ -25,6 +25,12 @@ import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.map.Terrain;
+import ge18xx.round.RoundManager;
+import ge18xx.round.action.ActionManager;
+import ge18xx.round.action.StartRouteAction;
+import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.ExtendRouteAction;
+import ge18xx.round.action.RouteAction;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
@@ -81,6 +87,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	JScrollPane scrollPane;
 	GameManager gameManager;
 	RouteInformation routeInformation;
+	private String SELECT_ROUTE_MODE = "Select Route Mode";
 	private String CANCEL_TOKEN_MODE = "CancelToken";
 	private String CANCEL_MODE_LABEL = "Cancel Mode";
 	private String COMPLETE_TILE_LAY = "Complete Tile Lay";
@@ -165,7 +172,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		selectRouteButton = new JButton ("Enter Select Route Mode");
 		selectRouteButton.addActionListener (this);
-		selectRouteButton.setActionCommand ("SelectRoute");
+		selectRouteButton.setActionCommand (SELECT_ROUTE_MODE);
 		selectRouteButton.setEnabled (false);
 		tNorthComponents.add (Box.createHorizontalGlue ());
 		tNorthComponents.add (selectRouteButton);
@@ -227,7 +234,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		if (COMPLETE_TILE_LAY.equals (tTheAction)) {
 			togglePlaceTileMode ();
-		} else if ("SelectRoute".equals (tTheAction)) {
+		} else if (SELECT_ROUTE_MODE.equals (tTheAction)) {
 			toggleSelectRouteMode ();
 		} else if (CANCEL_TOKEN_MODE.equals (tTheAction)) {
 			togglePlaceTokenMode ();
@@ -799,14 +806,42 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public void handleSelectedRouteRC (MapCell aSelectedMapCell, RevenueCenter aSelectedRevenueCenter) {
 		RouteSegment tRouteSegment;
 		Corporation tCorporation = getOperatingCompany ();
-		int tCorpID;
-		int tPhase;
-	
+		int tCorpID, tPhase, tTrainIndex;
+		RouteAction tRouteAction;
+		StartRouteAction tStartRouteAction;
+		ActionStates tRoundType;
+		String tRoundID;
+		RoundManager tRoundManager;
+		ActionManager tActionManager;
+		Location tStartLocation, tEndLocation;
+		
 		tRouteSegment = new RouteSegment (aSelectedMapCell);
 		tCorpID = tCorporation.getID ();
 		tPhase = gameManager.getCurrentPhase ();
+		tRoundManager = gameManager.getRoundManager ();
+		tActionManager = tRoundManager.getActionManager ();
+		tRoundType = tRoundManager.getCurrentRoundType ();
+		tRoundID = tRoundManager.getOperatingRoundID ();
+		if (routeInformation.getSegmentCount () == 0) {
+			if (aSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
+				tStartRouteAction = new StartRouteAction (tRoundType, tRoundID, tCorporation);
+				tStartLocation = aSelectedRevenueCenter.getLocation ();
+				tEndLocation = new Location ();
+				tTrainIndex = routeInformation.getTrainIndex ();
+				tStartRouteAction.addStartRouteEffect (tCorporation, tTrainIndex, aSelectedMapCell, tStartLocation, tEndLocation);
+				tRouteAction = tStartRouteAction;
+			} else {
+				System.err.println ("Need to Select a Revenue Center to start a new Route");
+				tRouteAction = new RouteAction (tRoundType, tRoundID, tCorporation);
+			}
+		} else {
+			tRouteAction = new ExtendRouteAction (tRoundType, tRoundID, tCorporation);
+		}
 		routeInformation.setStartSegment (tRouteSegment, aSelectedRevenueCenter, tPhase, tCorpID);
-		routeInformation.extendRouteInformation (tRouteSegment, tPhase, tCorpID);
+		routeInformation.extendRouteInformation (tRouteSegment, tPhase, tCorpID, tRouteAction);
+		
+		tActionManager.addAction (tRouteAction);
+
 	}
 
 	public MapCell getMapCellForID (String aMapCellID) {
