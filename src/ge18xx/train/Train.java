@@ -9,10 +9,12 @@ package ge18xx.train;
 //
 
 import ge18xx.bank.Bank;
+import ge18xx.center.RevenueCenter;
 import ge18xx.company.PurchaseOffer;
 import ge18xx.company.TrainCompany;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
+import ge18xx.round.action.RouteAction;
 import ge18xx.tiles.Gauge;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
@@ -259,7 +261,15 @@ public class Train implements Comparable<Object> {
 	}
 
 	public int getCityCount () {
-		return cityCount;
+		// TODO: KLUDGE to allow Diesel to run with Infiite LENGTH (max 15).
+		int tCityCountMax;
+		
+		tCityCountMax = cityCount;
+		if (tCityCountMax > 15) {
+			tCityCountMax = 15;
+		}
+		
+		return tCityCountMax;
 	}
 	
 	public Color getColor (int aTrainNumber) {
@@ -489,15 +499,51 @@ public class Train implements Comparable<Object> {
 		boolean tRouteStarted = false;
 		Color tColor = Color.BLUE;
 		int tRegionBonus = 0, tSpecialBonus = 0;
+		RevenueCenter tRevenueCenter;
+		RouteSegment tRouteSegment;
+		int tCorpID;
+		RouteAction tRouteAction;
 		
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			currentRouteInformation.clearTrainOn ();
 		}
 		currentRouteInformation = new RouteInformation (this, aTrainIndex, tColor, aRoundID, tRegionBonus, tSpecialBonus, 
 				aPhase, aTrainCompany, aTrainRevenueFrame);
-		
+		tRouteSegment = new RouteSegment (aMapCell);
+		tCorpID = aTrainCompany.getID ();
+		tRouteAction = RouteAction.NO_ACTION;
+		tRevenueCenter = aMapCell.getCenterAtLocation (aStartLocation);
+		currentRouteInformation.setStartSegment (tRouteSegment, tRevenueCenter, aPhase, tCorpID);
+		currentRouteInformation.extendRouteInformation (tRouteSegment, aPhase, tCorpID, tRouteAction);
+		System.out.println ("Should have First Route Segment on Client");
+		currentRouteInformation.printDetail ();
 		tRouteStarted = true;
 		
 		return tRouteStarted;
+	}
+	
+	public boolean setNewEndPoint (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+		RouteSegment tPreviousRouteSegment;
+		boolean tSetNewEndPoint;
+		RouteAction tRouteAction;
+		
+		tRouteAction = RouteAction.NO_ACTION;
+//		tRouteSegment = new RouteSegment (aMapCell);
+//		tCorpID = aTrainCompany.getID ();
+//		tRevenueCenter = aMapCell.getCenterAtLocation (aStartLocation);
+		
+		tPreviousRouteSegment = currentRouteInformation.getLastRouteSegment ();
+		tPreviousRouteSegment.setEndNode (aEndLocation, aPhase);
+//		currentRouteInformation.setStartSegment (tRouteSegment, tRevenueCenter, aPhase, tCorpID);
+//		currentRouteInformation.extendRouteInformation (tRouteSegment, aPhase, tCorpID, tRouteAction);
+		currentRouteInformation.setTrainOn (tRouteAction, tPreviousRouteSegment, aMapCell, aTrainIndex, aPhase);
+		System.out.println ("Should have Set New End Point for PreviousRoute Segment on Client");
+		currentRouteInformation.printDetail ();
+		tSetNewEndPoint = true;
+//		public boolean setTrainOn (RouteAction aRouteAction, RouteSegment tPreviousSegment,
+//				MapCell tPreviousMapCell, int tPreviousSide, int tPreviousStart) {
+
+		return tSetNewEndPoint;
 	}
 }
