@@ -10,6 +10,9 @@ package ge18xx.train;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.PurchaseOffer;
+import ge18xx.company.TrainCompany;
+import ge18xx.map.Location;
+import ge18xx.map.MapCell;
 import ge18xx.tiles.Gauge;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
@@ -437,8 +440,8 @@ public class Train implements Comparable<Object> {
 		setPrice (aPrice);
 		setStatus (NOT_AVAILABLE);
 		setTrainInfo (NO_TRAIN_INFO);
-		currentRouteInformation = RouteInformation.NO_ROUTE_INFORMATION;
-		previousRouteInformation = RouteInformation.NO_ROUTE_INFORMATION;
+		setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
+		setPreviousRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 	}
 	
 	public boolean willRustAfterNextOR () {
@@ -477,5 +480,24 @@ public class Train implements Comparable<Object> {
 		if (previousRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			System.out.println ("Ready to fix Previous Route info for the " + getName () + " Train");
 		}
+	}
+//	public RouteInformation (Train aTrain, int aTrainIndex, Color aColor, String aRoundID, int aRegionBonus, 
+//			int aSpecialBonus, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+
+	public boolean startRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+		boolean tRouteStarted = false;
+		Color tColor = Color.BLUE;
+		int tRegionBonus = 0, tSpecialBonus = 0;
+		
+		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+			currentRouteInformation.clearTrainOn ();
+		}
+		currentRouteInformation = new RouteInformation (this, aTrainIndex, tColor, aRoundID, tRegionBonus, tSpecialBonus, 
+				aPhase, aTrainCompany, aTrainRevenueFrame);
+		
+		tRouteStarted = true;
+		
+		return tRouteStarted;
 	}
 }

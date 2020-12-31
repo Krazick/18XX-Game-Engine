@@ -4,6 +4,8 @@ import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
+import ge18xx.map.Location;
+import ge18xx.map.MapCell;
 import ge18xx.player.CashHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
@@ -731,5 +733,21 @@ public class TrainPortfolio implements TrainHolderI {
 			tTrain.fixLoadedRoutes (aMapFrame);
 		}
 		
+	}
+//	public boolean startRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+//			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+
+	public boolean startRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+		Train tTrain;
+		boolean tRouteStarted = false;
+		
+		tTrain = trains.get (aTrainIndex);
+		if (tTrain != Train.NO_TRAIN) {
+			tRouteStarted = tTrain.startRouteInformation (aTrainIndex, aMapCell, aStartLocation, aEndLocation, aRoundID, aPhase, 
+					aTrainCompany, aTrainRevenueFrame);
+		}
+		
+		return tRouteStarted;
 	}
 }

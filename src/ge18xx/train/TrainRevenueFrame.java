@@ -36,6 +36,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	private static final String CONFIRM_ACTION = "DoConfirmAction";
 	private static final String CANCEL_ACTION = "DoCancelAction";
 	private static final String ROUTE_ACTION = "DoRouteAction";
+	public static final TrainRevenueFrame NO_TRAIN_REVENUE_FRAME = null;
 	String LAST_REVENUE = "Last Round Revenue ";
 	String THIS_REVENUE = "This Round Revenue ";
 	String SELECT_ROUTE = "Select Route";
@@ -359,7 +360,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		
 		tTrainIndex = aRouteInformation.getTrainIndex ();
 		tTrain = aRouteInformation.getTrain ();
-		System.out.println ("*** Ready to Fill Revenues for Train # " + (tTrainIndex + 1));
 		fillRevenueForTrain (aRouteInformation, tTrain, tTrainIndex);
 	}
 	

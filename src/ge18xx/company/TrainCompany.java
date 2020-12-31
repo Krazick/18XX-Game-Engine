@@ -5,6 +5,7 @@ import ge18xx.bank.BankPool;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
+import ge18xx.phase.PhaseInfo;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
@@ -1545,5 +1546,24 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (tTrainCount > 0) {
 			trainPortfolio.fixLoadedRoutes (aMapFrame);
 		}
+	}
+//	public boolean startRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+//	Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+
+	public boolean startRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation) {
+		boolean tRouteStarted = false;
+		String tRoundID;
+		int tPhase;
+		TrainRevenueFrame tTrainRevenueFrame;
+		PhaseInfo tPhaseInfo;
+		
+		tRoundID = corporationList.getOperatingRoundID ();
+		tPhaseInfo = corporationList.getCurrentPhaseInfo( ) ;
+		tPhase = tPhaseInfo.getName ();
+		tTrainRevenueFrame = TrainRevenueFrame.NO_TRAIN_REVENUE_FRAME;
+		tRouteStarted = trainPortfolio.startRouteInformation (aTrainIndex, aMapCell, aStartLocation, aEndLocation,
+				tRoundID, tPhase, this, tTrainRevenueFrame);
+		
+		return tRouteStarted;
 	}
 }
