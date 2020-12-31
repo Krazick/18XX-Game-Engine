@@ -103,8 +103,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			Location aHomeLocation2, int aCost, ActorI.ActionStates aState, boolean aGovtRailway) {
 		super (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aState, aGovtRailway);
 		
-		String tRevenueFrameTitle;
-		
 		trainPortfolio = new TrainPortfolio (this);
 		bgColor = aBgColor;
 		fgColor = aFgColor;
@@ -112,9 +110,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		value = aCost;
 		setThisRevenue (NO_REVENUE);
 		setLastRevenue (NO_REVENUE);
-		tRevenueFrameTitle = "Train Revenue for " + abbrev;
-		if (aID != Corporation.NO_ID) { 
-			trainRevenueFrame = new TrainRevenueFrame (this, tRevenueFrameTitle);
+		if (aID != Corporation.NO_ID) {
+			setupTrainRevenueFrame ();
 			setCorporationFrame ();
 		}
 		setMustBuyTrain (false);
@@ -123,7 +120,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public TrainCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
 		
-		String tRevenueFrameTitle;
 		String tColorName;
 		boolean tMustBuyTrain;
 		
@@ -137,9 +133,17 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tMustBuyTrain = aChildNode.getThisBooleanAttribute (AN_MUST_BUY_TRAIN);
 		setMustBuyTrain (tMustBuyTrain);
 		closeOnTrainPurchase = aChildNode.getThisIntAttribute (AN_CLOSE_ON_TRAIN_PURCHASE, NO_ID);
-		tRevenueFrameTitle = "Train Revenue for " + abbrev;
-		trainRevenueFrame = new TrainRevenueFrame (this, tRevenueFrameTitle);
+		setupTrainRevenueFrame ();
 		setCorporationFrame ();
+	}
+	
+	private void setupTrainRevenueFrame () {
+		String tRevenueFrameTitle;
+		String tClientName;
+		
+		tClientName = corporationList.getGameManager ().getClientUserName ();
+		tRevenueFrameTitle = "Train Revenue for " + abbrev + " (" + tClientName + ")";
+		trainRevenueFrame = new TrainRevenueFrame (this, tRevenueFrameTitle);
 	}
 	
 	public void loadStates (XMLNode aXMLNode) {
@@ -1554,16 +1558,37 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tRouteStarted = false;
 		String tRoundID;
 		int tPhase;
-		TrainRevenueFrame tTrainRevenueFrame;
 		PhaseInfo tPhaseInfo;
 		
+		showTrainRevenueFrameForOthers (aTrainIndex);
+		tRoundID = corporationList.getOperatingRoundID ();
+		tPhaseInfo = corporationList.getCurrentPhaseInfo () ;
+		tPhase = tPhaseInfo.getName ();
+		tRouteStarted = trainPortfolio.startRouteInformation (aTrainIndex, aMapCell, aStartLocation, aEndLocation,
+				tRoundID, tPhase, this, trainRevenueFrame);
+		
+		return tRouteStarted;
+	}
+
+	public void showTrainRevenueFrameForOthers (int aTrainIndex) {
+		trainRevenueFrame.updateInfo ();
+		trainRevenueFrame.setVisible (true);
+		trainRevenueFrame.disableAll (aTrainIndex);
+	}
+	
+	public boolean setNewEndPoint (int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation) {
+		boolean tNewEndPointSet = false;
+		String tRoundID;
+		int tPhase;
+		PhaseInfo tPhaseInfo;
+		
+		showTrainRevenueFrameForOthers (aTrainIndex);
 		tRoundID = corporationList.getOperatingRoundID ();
 		tPhaseInfo = corporationList.getCurrentPhaseInfo( ) ;
 		tPhase = tPhaseInfo.getName ();
-		tTrainRevenueFrame = TrainRevenueFrame.NO_TRAIN_REVENUE_FRAME;
-		tRouteStarted = trainPortfolio.startRouteInformation (aTrainIndex, aMapCell, aStartLocation, aEndLocation,
-				tRoundID, tPhase, this, tTrainRevenueFrame);
-		
-		return tRouteStarted;
+		tNewEndPointSet = trainPortfolio.setNewEndPoint (aTrainIndex, aMapCell, aStartLocation, aEndLocation,
+				tRoundID, tPhase, this, trainRevenueFrame);
+
+		return tNewEndPointSet;
 	}
 }
