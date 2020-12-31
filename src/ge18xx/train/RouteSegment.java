@@ -419,8 +419,6 @@ public class RouteSegment {
 		Location tSide;
 		
 		if (aTrack != Track.NO_TRACK) {
-			System.out.println ("READY to Clear Train on Track from " + 
-						aTrack.getEnterLocationInt () + " to " + aTrack.getExitLocationInt ());
 			aTrack.setTrainNumber (0);
 			if (hasRevenueCenter ()) {
 				tRevenueCenter = getRevenueCenter ();

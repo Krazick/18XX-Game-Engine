@@ -4,11 +4,12 @@ import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.effects.ChangeRouteEffect;
 import ge18xx.round.action.effects.StartRouteEffect;
 import ge18xx.utilities.XMLNode;
 
-public class StartRouteAction extends Action {
-	public final static String NAME = "Start Route";
+public class StartRouteAction extends RouteAction {
+	public static final String NAME = "Start Route";
 
 	public StartRouteAction () {
 		super (NAME);
@@ -28,13 +29,13 @@ public class StartRouteAction extends Action {
 		setName (NAME);
 	}
 
-	public void addStartRouteEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aLocation) {
-		StartRouteEffect tStartRouteEffect;
+	public void addStartRouteEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation) {
+		ChangeRouteEffect tStartRouteEffect;
 
-		tStartRouteEffect = new StartRouteEffect (aActor, aTrainIndex, aMapCell, aLocation);
+		tStartRouteEffect = new StartRouteEffect (aActor, aTrainIndex, aMapCell, aStartLocation, aEndLocation);
 		addEffect (tStartRouteEffect);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
@@ -43,5 +44,4 @@ public class StartRouteAction extends Action {
 		
 		return tSimpleActionReport;
 	}
-
 }
