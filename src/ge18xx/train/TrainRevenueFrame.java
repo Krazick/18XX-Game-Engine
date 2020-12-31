@@ -40,6 +40,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	String LAST_REVENUE = "Last Round Revenue ";
 	String THIS_REVENUE = "This Round Revenue ";
 	String SELECT_ROUTE = "Select Route";
+	String RUNNING_ROUTE = "Running";
 	String CONFIRM_REVENUE = "Confirm Revenue";
 	String CANCEL = "Cancel";
 	String RESET_ROUTES = "Reset Routes";
@@ -51,6 +52,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JLabel thisRevenue;
 	JButton confirm;
 	JButton cancel;
+	JButton reset;
 	JButton [] selectRoutes;
 	JPanel allFramePanel;
 	Box allRevenuesBox;
@@ -95,8 +97,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		cancel = setupButton (CANCEL, CANCEL_ACTION);
 		buttonsPanel.add (cancel);
 		
-		cancel = setupButton (RESET_ROUTES, RESET_ROUTES_ACTION);
-		buttonsPanel.add (cancel);
+		reset = setupButton (RESET_ROUTES, RESET_ROUTES_ACTION);
+		buttonsPanel.add (reset);
 		
 		allFramePanel.add (buttonsPanel);
 		add (allFramePanel);
@@ -308,6 +310,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			}
 			tTrain = trainCompany.getTrain (tTrainIndex);
 			tCityCount = tTrain.getCityCount ();
+			// TODO: QUICK FIX, the "getCityCount" will return a Maximum of maxStops (15) to allow Diesels to Operate
+			// MUST Figure out way to give Diesels an infinite length
+			
 			tTrainRevenueBox = Box.createHorizontalBox ();
 			tTrainLabel = new JLabel (tTrain.getName () + " Train #" + (tTrainIndex + 1));
 			tTrainRevenueBox.add (Box.createHorizontalStrut (40));
@@ -512,6 +517,41 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			selectRoutes [aTrainIndex].setToolTipText (aToolTipText);
 		} else {
 			System.err.println ("TrainIndex of " + aTrainIndex + " is out of range");
+		}
+	}
+
+	public void disableAll (int aTrainIndex) {
+		String tNotYourCompany = "This is not your company operating";
+		int tTrainIndex, tCityIndex, tCityCount;
+		Train tTrain;
+		boolean tEnabled;
+		
+		tEnabled = false;
+		confirm.setEnabled (tEnabled);
+		confirm.setToolTipText (tNotYourCompany);
+		cancel.setEnabled (tEnabled);
+		cancel.setToolTipText (tNotYourCompany);
+		reset.setEnabled (tEnabled);
+		reset.setToolTipText (tNotYourCompany);
+		for (JButton tSelectedRoute : selectRoutes) {
+			if (tSelectedRoute != null) {
+				tSelectedRoute.setEnabled (tEnabled);
+				tSelectedRoute.setToolTipText (tNotYourCompany);
+			}
+		}
+		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
+			if (tTrainIndex == aTrainIndex) {
+				selectRoutes [tTrainIndex].setText (RUNNING_ROUTE);
+			} else {
+				selectRoutes [tTrainIndex].setText (SELECT_ROUTE);
+			}
+			selectRoutes [tTrainIndex].setEnabled (tEnabled);
+			selectRoutes [tTrainIndex].setToolTipText (tNotYourCompany);
+			tTrain = trainCompany.getTrain (tTrainIndex);
+			tCityCount = tTrain.getCityCount ();
+			for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
+				revenuesByTrain [tTrainIndex] [tCityIndex].setEditable (tEnabled);
+			}
 		}
 	}
 }
