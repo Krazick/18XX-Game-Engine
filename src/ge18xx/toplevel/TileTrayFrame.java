@@ -90,7 +90,6 @@ public class TileTrayFrame extends XMLFrame {
 		TileType tTileType = aUpgradeGameTile.getTheTileType ();
 		String tTileColor = tTileType.getName ();
 		
-		System.out.println ("Tile " + aUpgradeGameTile.getTileNumber () + " is Color " + tTileColor);
 		tUpgradeAllowed = gameManager.isUpgradeAllowed (tTileColor);
 		
 		return tUpgradeAllowed;
