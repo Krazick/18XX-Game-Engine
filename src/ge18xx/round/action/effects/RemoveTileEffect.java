@@ -139,10 +139,9 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		tGameMap = aRoundManager.getGameMap ();
 		tMapCell = this.getMapCell (tGameMap);
 		tTile = tMapCell.getTile ();
+		tTile.returnTokens ();
 		tMapCell.removeTile ();
 		tMapCell.restoreTile (tTileSet, tTile);
-//		restorePreviousBases (aRoundManager, tTile, tMapCell);
-//		restorePreviousTokens (aRoundManager, tMapCell);
 		tGameMap.redrawMap ();
 		tEffectApplied = true;
 		
