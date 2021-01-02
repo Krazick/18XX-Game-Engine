@@ -5,6 +5,7 @@ import ge18xx.bank.BankPool;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.Train;
 import ge18xx.train.TrainPortfolio;
 
@@ -12,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Container;
@@ -23,7 +23,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class CorporationFrame extends JFrame implements ActionListener, ItemListener {
+public class CorporationFrame extends XMLFrame implements ActionListener, ItemListener {
 	static final String SHOW_MAP = "Show Map";
 	static final String PLACE_TILE = "Place Tile";
 	static final String PLACE_TOKEN = "Place Token";

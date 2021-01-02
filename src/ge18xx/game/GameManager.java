@@ -972,10 +972,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public void loadSavedGame () {
 		File tSaveDirectory, tNewSaveDirectory; 
+		String tSaveDirectoryPath;
 		
 		chooser = new JFileChooser ();
 		chooser.setDialogTitle ("Find Saved Game File to Load");
-		tSaveDirectory = new File (configData.getSaveGameDirectory ());
+		tSaveDirectoryPath = configData.getSaveGameDirectory ();
+		if (tSaveDirectoryPath == null) {
+			tSaveDirectoryPath = "";
+			configData.setSaveGameDirectory (tSaveDirectoryPath);
+		}
+		tSaveDirectory = new File (tSaveDirectoryPath);
 		chooser.setCurrentDirectory (tSaveDirectory);
 		chooser.setAcceptAllFileFilterUsed (true);
 		chooser.setFileSelectionMode (JFileChooser.FILES_AND_DIRECTORIES);
@@ -984,7 +990,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (saveFile != null) {
 			tNewSaveDirectory = chooser.getCurrentDirectory ();
 			if (!tSaveDirectory.equals (tNewSaveDirectory)) {
-				configData.setSaveGameDirectory (tSaveDirectory.getAbsolutePath ());
+				configData.setSaveGameDirectory (tNewSaveDirectory.toString ());
 			}
 			List<ActionStates> auctionStates;
 		
@@ -1279,6 +1285,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public void saveAGame (boolean aOverwriteFile) {
+		
 		if (saveFile == null) {
 			aOverwriteFile = false;
 		}
@@ -1289,7 +1296,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 			
 			File tSaveDirectory; 
 			String tFileName;
-			tSaveDirectory = new File (configData.getSaveGameDirectory ());
+			String tOriginalSaveGameDir, tNewSaveGameDir;
+			
+			tOriginalSaveGameDir = configData.getSaveGameDirectory ();
+			tSaveDirectory = new File (tOriginalSaveGameDir);
 			File18XXFilter tFileFilter = new File18XXFilter ();
 			chooser = new JFileChooser ();
 			chooser.setDialogTitle ("Save 18XX Game File");
@@ -1300,8 +1310,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 			chooser.setSelectedFile (new File("SaveGame." + FileUtils.xml));
 			saveFile = getSelectedFile (tSaveDirectory, chooser, true);
 			tSaveDirectory = chooser.getCurrentDirectory ();
-			configData.setSaveGameDirectory (tSaveDirectory.getAbsolutePath ());
-			
+			tNewSaveGameDir = tSaveDirectory.getAbsolutePath ();
+			if (! tOriginalSaveGameDir.equals (tNewSaveGameDir)) {
+				System.out.println ("Changing Default Save Game Dir from [" + 
+						tOriginalSaveGameDir + "] to [" + tNewSaveGameDir + "]");
+				configData.setSaveGameDirectory (tNewSaveGameDir);
+				saveConfig (true);
+			}
 			if (saveFile != null) {
 				tFileName = saveFile.getName ();
 				if (! tFileName.endsWith (FileUtils.xml)) {
@@ -1838,16 +1853,23 @@ public class GameManager extends Component implements NetworkGameSupport {
 		XMLDocument tXMLDocument;
 		int tGameCount, tGameIndex;
 		String tGameName;
+		String tActiveGameName;
 		
 		tXMLDocument = new XMLDocument ();
-		tConfigElement = tXMLDocument.createElement(EN_CONFIG);
+		tConfigElement = tXMLDocument.createElement (EN_CONFIG);
 		
 		tSaveGameDirElement = tXMLDocument.createElement(EN_SAVEGAMEDIR);
-		tSaveGameDirElement.setAttribute(AN_NAME, configData.getSaveGameDirectory ());
+		tSaveGameDirElement.setAttribute (AN_NAME, configData.getSaveGameDirectory ());
 		tConfigElement.appendChild (tSaveGameDirElement);
 		
 		tFramesElement = tXMLDocument.createElement (EN_FRAMES);
-		tFramesElement.setAttribute (AN_GAME_NAME, activeGame.getName ());
+		
+		if (activeGame == null) {
+			tActiveGameName = "NONE";
+		} else {
+			tActiveGameName = activeGame.getName ();
+		}
+		tFramesElement.setAttribute (AN_GAME_NAME, tActiveGameName);
 
 		for (XMLFrame tXMLFrame : configFrames) {
 			if (tXMLFrame != XMLFrame.NO_XML_FRAME) {

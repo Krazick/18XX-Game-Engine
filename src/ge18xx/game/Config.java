@@ -22,7 +22,7 @@ public class Config {
 	public Config (GameManager aGameManager) {
 		gameManager = aGameManager;	
 		gameFrames = new ArrayList<GameFrameConfig> ();
-		setSaveGameDirectory ("");
+		setJustSaveGameDirectory ("");
 	}
 	
 	public Config (XMLNode aConfigNode, GameManager aGameManager) {
@@ -44,7 +44,7 @@ public class Config {
 					gameFrames.add (tGameFrameConfig);
 				} else if (GameManager.EN_SAVEGAMEDIR.equals(tChildNode.getNodeName ())) {
 					tSaveGameDirName = tChildNode.getThisAttribute(GameManager.AN_NAME);
-					setSaveGameDirectory (tSaveGameDirName);
+					setJustSaveGameDirectory (tSaveGameDirName);
 				}
 			}
 		} catch (Exception tException) {
@@ -57,8 +57,13 @@ public class Config {
 		return saveGameDirectory;
 	}
 	
-	public void setSaveGameDirectory (String aSaveGameDirectory) {
+	private void setJustSaveGameDirectory (String aSaveGameDirectory) {
 		saveGameDirectory = aSaveGameDirectory;
+	}
+	
+	public void setSaveGameDirectory (String aSaveGameDirectory) {
+		setJustSaveGameDirectory (aSaveGameDirectory);
+		gameManager.saveConfig (true);
 	}
 	
 	public int getGameFramesCount () {
