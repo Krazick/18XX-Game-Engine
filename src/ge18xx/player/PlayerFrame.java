@@ -293,9 +293,15 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	}
 	
 	public boolean hasSelectedStocksToBuy () {
-		boolean tSelectedStocksToBuy;
+		boolean tSelectedStocksToBuy = false;
+		Bank tBank;
 		
-		tSelectedStocksToBuy = player.hasSelectedStockToBuy ();
+		tBank = player.getBank ();
+		if (tBank != null) { 
+			tSelectedStocksToBuy = player.hasSelectedStockToBuy (tBank);
+		} else {
+			System.err.println ("Player has failed to retrieve the Bank");
+		}
 		// Need to examine if any shares have been selected to Buy from Bank Pool or Bank
 		
 		return tSelectedStocksToBuy;
