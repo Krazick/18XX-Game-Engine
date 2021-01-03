@@ -42,7 +42,6 @@ public class Bidders {
 					tPlayerAlreadyBid = true;
 				}
 			}
-			
 		}
 		
 		return tPlayerAlreadyBid;
@@ -73,10 +72,16 @@ public class Bidders {
 	
 	public CashHolderI getCashHolderAt (int aIndex) {
 		Bidder tBidder;
+		CashHolderI tCashHolder;
 		
-		tBidder = bidders.get (aIndex);
+		if (bidders.size () > 0) {
+			tBidder = bidders.get (aIndex);
+			tCashHolder = tBidder.getCashHolder ();
+		} else {
+			tCashHolder = (CashHolderI) ActorI.NO_ACTOR;
+		}
 		
-		return tBidder.getCashHolder ();
+		return tCashHolder;
 	}
 	
 	public int getBidAt (int aIndex) {
@@ -211,7 +216,6 @@ public class Bidders {
 		int tBid;
 		Player tBidder;
 
-		
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidder = (Player) getCashHolderAt (0);
@@ -270,6 +274,24 @@ public class Bidders {
 				}
 			}
 		}
+	}
+
+	public boolean AmIABidder (String aClientName) {
+		boolean tAmIABidder = false;
+		int tBidderCount;
+		CashHolderI tThisBidder;
+		
+		tBidderCount = bidders.size ();
+		if (tBidderCount > 0) {
+			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
+				tThisBidder = getCashHolderAt (tBidderIndex);
+				if (aClientName.equals (tThisBidder.getName ())) {
+					tAmIABidder = true;
+				}
+			}
+		}
+		
+		return tAmIABidder;
 	}
 	
 }
