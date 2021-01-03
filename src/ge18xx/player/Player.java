@@ -55,6 +55,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	final static AttributeName AN_SOLD_COMPANIES = new AttributeName ("soldCompanies");
 	final static AttributeName AN_BOUGHT_SHARE = new AttributeName ("boughtShare");
 	final static AttributeName AN_BID_SHARE = new AttributeName ("bidShare");
+	final static AttributeName AN_TRIGGERED_AUCTION = new AttributeName ("triggeredAuction");
 	public static final String SELL_LABEL = "Sell";
 	public static final String BUY_LABEL = "Buy";
 	public static final String BUY_AT_PAR_LABEL = "Buy at Par";
@@ -73,6 +74,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	boolean gameHasShares;
 	boolean boughtShare;
 	boolean bidShare;
+	boolean triggeredAuction;
 	int certificateLimit;
 	JLabel rfPlayerLabel;
 	Container playerContainer = null;
@@ -101,6 +103,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		clearPrimaryActionState ();
 		setBoughtShare (false);
 		setBidShare (false);
+		setTriggeredAuction (false);
 		setExchangedPrezShare (null);
 		
 		/* Set Non-Changing Values */
@@ -119,6 +122,14 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		escrows = new LinkedList<Escrow> ();
 	}
 
+	public void setTriggeredAuction (boolean aTriggeredAuction) {
+		triggeredAuction = aTriggeredAuction;
+	}
+	
+	public boolean getTriggeredAuction () {
+		return triggeredAuction;
+	}
+	
 	public void setBoughtShare (boolean aBoughtShare) {
 		boughtShare = aBoughtShare;
 		if (boughtShare) {
@@ -463,6 +474,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		tXMLElement.setAttribute (AN_EXCHANGED_PREZ_SHARE, exchangedPrezShare);
 		tXMLElement.setAttribute (AN_BOUGHT_SHARE, boughtShare);
 		tXMLElement.setAttribute (AN_BID_SHARE, bidShare);
+		tXMLElement.setAttribute (AN_TRIGGERED_AUCTION, triggeredAuction);
 		tXMLElement.setAttribute (AN_SOLD_COMPANIES, tCompaniesSold);
 		tXMLPortofolioElements = portfolio.getElements (aXMLDocument);
 		tXMLElement.appendChild (tXMLPortofolioElements);
@@ -696,7 +708,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		Bank tBank;
 		StartPacketPortfolio tStartPacketPortfolio;
 		
-		tBank = playerManager.getBank ();
+		tBank = getBank ();
 		tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
 		if (tStartPacketPortfolio == null) {
 			tHasSelectedPrivateToBidOn = false;
@@ -707,7 +719,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		return tHasSelectedPrivateToBidOn;
 	}
 	
-	public boolean hasSelectedStockToBuy () {
+	public boolean hasSelectedStockToBuy (Bank aBank) {
 		boolean tHasSelectedStockToBuy;
 		Bank tBank;
 		BankPool tBankPool;
@@ -736,15 +748,14 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	
 	public int getCostSelectedStockToBuy () {
 		int tSelectedStockToBuyCost;
+		Bank tBank;
+		BankPool tBankPool;
+		Portfolio tBankPortfolio, tBankPoolPortfolio;
+		StartPacketPortfolio tStartPacketPortfolio;
 		
 		tSelectedStockToBuyCost = 0;
-		if (hasSelectedStockToBuy ()) {
-			Bank tBank;
-			BankPool tBankPool;
-			Portfolio tBankPortfolio, tBankPoolPortfolio;
-			StartPacketPortfolio tStartPacketPortfolio;
-			
-			tBank = playerManager.getBank ();
+		tBank = getBank ();
+		if (hasSelectedStockToBuy (tBank)) {
 			tBankPortfolio = tBank.getPortfolio ();
 			tSelectedStockToBuyCost = tBankPortfolio.getSelectedStockCost ();
 			if (tSelectedStockToBuyCost == 0) {
@@ -853,7 +864,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	
 	public void buyAction () {
 		boolean tNextShareHasBids;
-		ActionStates tNewState;
+//		ActionStates tNewState;
 		Certificate tCertificate = playerManager.getCertificateToBuy ();
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
@@ -871,10 +882,11 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		playerManager.addAction (tBuyStockAction);
 
 		if (tNextShareHasBids) {
-			tNewState = getPrimaryActionState ();
-
+//			tNewState = getPrimaryActionState ();
+			setTriggeredAuction (true);	// Set the Triggered Auction Flag.
 			playerManager.startAuctionRound ();
-			setPrimaryActionState (tNewState);
+			
+//			setPrimaryActionState (tNewState);
 		} 
 		updateActionButtons ();
 	}
