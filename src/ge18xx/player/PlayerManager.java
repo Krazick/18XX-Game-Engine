@@ -81,6 +81,18 @@ public class PlayerManager {
 		}
 	}
 	
+	public Player getPlayerWhoTriggeredAuction () {
+		Player tPlayer = Player.NO_PLAYER;
+		
+		for (Player tAPlayer : players) {
+			if (tAPlayer.getTriggeredAuction ()) {
+				tPlayer = tAPlayer;
+			}
+		}
+
+		return tPlayer;
+	}
+	
 	public ParPriceFrame getParPriceFrame () {
 		return parPriceFrame;
 	}
