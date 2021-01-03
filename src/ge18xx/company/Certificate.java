@@ -1262,4 +1262,12 @@ public class Certificate implements Comparable<Certificate> {
 	public void setAsPassForBidder (Player aPlayer) {
 		bidders.setAsPassForBidder (aPlayer);
 	}
+
+	public boolean amIABidder (String aClientName) {
+		boolean tAmIABidder = false;
+		
+		tAmIABidder = bidders.AmIABidder (aClientName);
+		
+		return tAmIABidder;
+	}
 }
