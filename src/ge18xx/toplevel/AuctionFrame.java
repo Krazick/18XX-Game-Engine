@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
+import ge18xx.game.GameManager;
 import ge18xx.player.Bidder;
 import ge18xx.player.Escrow;
 import ge18xx.player.Player;
@@ -261,12 +262,16 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		if (isNetworkGame) {
 			tHighestBidderIndex = certificateToAuction.getHighestBidderIndex ();
 			tWinningPlayer = (Player) certificateToAuction.getCashHolderAt (tHighestBidderIndex);
-			if (clientUserName.equals (tWinningPlayer.getName ())) {
-				tClientIsWinner = true;
-				doneToolTipText = WON_BY_YOU;
+			if (tWinningPlayer != Player.NO_PLAYER) {
+				if (clientUserName.equals (tWinningPlayer.getName ())) {
+					tClientIsWinner = true;
+					doneToolTipText = WON_BY_YOU;
+				} else {
+					tClientIsWinner = false;
+					doneToolTipText = WON_NOT_YOU;
+				}
 			} else {
 				tClientIsWinner = false;
-				doneToolTipText = WON_NOT_YOU;
 			}
 		} else {
 			tClientIsWinner = true;
@@ -429,10 +434,33 @@ public class AuctionFrame extends JFrame implements ActionListener {
 				oneBidderBox.add (Box.createHorizontalStrut (15));
 				biddersBox.add (oneBidderBox);
 				biddersBox.add (Box.createVerticalStrut (15));
+				configAuctionUndoButton ();
 			}			
 		} else {
 			System.err.println ("ERROR -- Adding Certificate for " + certificateToAuction.getCompanyAbbrev () + " with NO Bidders!!!");
 		}
+	}
+	
+	public void configAuctionUndoButton () {
+		String tClientName;
+		GameManager tGameManager;
+		boolean tAmIBidder;
+		
+		tGameManager = auctionRound.getGameManager ();
+		tClientName = tGameManager.getClientUserName ();
+		System.out.println ("Configuring Auction Undo Button for " + tClientName);
+		tAmIBidder = certificateToAuction.amIABidder (tClientName);
+		if (tAmIBidder) {
+			undoButton.setEnabled (true);
+			undoButton.setToolTipText ("");
+		} else {
+			disableAuctionUndoButton ();
+		}
+	}
+	
+	public void disableAuctionUndoButton () {
+		undoButton.setEnabled (false);
+		undoButton.setToolTipText ("You are not a Bidder, cannot Undo");
 	}
 	
 	public void updateBidderBoxes () {
@@ -453,7 +481,8 @@ public class AuctionFrame extends JFrame implements ActionListener {
 			tCash = certificateToAuction.getBidAt (tBidderIndex);
 			bidderLabels [tBidderIndex].setText (getBidderLabel (tPlayer, tCash));
 			tRaiseLabel = RAISE + " " + Bank.formatCash (PlayerManager.BID_INCREMENT);
-
+			configAuctionUndoButton ();
+			
 			if (tBidderIndex == tHighestBidderIndex) {
 				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tEnableButton, HIGHEST_NO_RAISE);
 				setButton (bidderPassButtons [tBidderIndex], PASS, false, tEnableButton, HIGHEST_NO_PASS);
