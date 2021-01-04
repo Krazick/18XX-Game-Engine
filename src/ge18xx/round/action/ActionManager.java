@@ -56,9 +56,30 @@ public class ActionManager {
 		actionReportFrame.append ("\n\n" + aAction.getActionReport (roundManager));
 	}
 	
+	public int getLastActionNumber () {
+		Action tLastAction;
+		int tNumber, tActionCount;
+		
+		tActionCount = actions.size ();
+		if (tActionCount > 0) {
+			tLastAction = actions.get (tActionCount - 1);
+			tNumber = tLastAction.getNumber ();
+		} else {
+			tNumber = 0;
+		}
+		
+		return tNumber;
+	}
+	
 	public void addAction (Action aAction) {
 		JGameClient tNetworkJGameClient;
 		String tXMLFormat;
+		int tLastActionNumber, tTotalCash;
+		
+		tLastActionNumber = getLastActionNumber ();
+		aAction.setNumber (tLastActionNumber + 1);
+		tTotalCash = gameManager.getTotalCash ();
+		aAction.setTotalCash (tTotalCash);
 		
 		actions.add (aAction);
 		appendToReportFrame (aAction);

@@ -24,6 +24,8 @@ public class Action {
 	public final static String REPORT_PREFIX = "-";
 	public final static ElementName EN_ACTIONS = new ElementName ("Actions");
 	public final static ElementName EN_ACTION = new ElementName ("Action");
+	public final static AttributeName AN_NUMBER = new AttributeName ("number");
+	public final static AttributeName AN_TOTAL_CASH = new AttributeName ("totalCash");
 	public final static AttributeName AN_CLASS = new AttributeName ("class");
 	static final AttributeName AN_NAME = new AttributeName ("name");
 	static final AttributeName AN_ROUND_TYPE = new AttributeName ("roundType");
@@ -33,6 +35,8 @@ public class Action {
 	ActorI.ActionStates roundType;
 	String roundID;
 	ActorI actor;
+	int number = 0;
+	int totalCash;
 	List<Effect> effects;
 	Boolean chainToPrevious; // Chain this Action to Previous Action -- 
 							// If Undo This Action, Undo Previous Action as well - Default is FALSE;
@@ -64,8 +68,11 @@ public class Action {
 		ActorI tActor;
 		ActorI.ActionStates tRoundType;
 		Boolean tChainToPrevious;
+		int tNumber, tTotalCash;
 		
 		tActionName = aActionNode.getThisAttribute (AN_NAME);
+		tNumber = aActionNode.getThisIntAttribute (AN_NUMBER);
+		tTotalCash = aActionNode.getThisIntAttribute (AN_TOTAL_CASH);
 		tRoundTypeString = aActionNode.getThisAttribute (AN_ROUND_TYPE);
 		tRoundID = aActionNode.getThisAttribute (AN_ROUND_ID);
 		tActorName = aActionNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
@@ -74,6 +81,8 @@ public class Action {
 		tRoundType = aGameManager.getRoundType (tRoundTypeString);
 		
 		setName (tActionName);
+		setNumber (tNumber);
+		setTotalCash (tTotalCash);
 		setActor (tActor);
 		setRoundType (tRoundType);
 		setRoundID (tRoundID);
@@ -118,6 +127,22 @@ public class Action {
 		}
 	}
 
+	public void setNumber (int aNumber) {
+		number = aNumber;
+	}
+	
+	public int getNumber () {
+		return number;
+	}
+	
+	public void setTotalCash (int aCash) {
+		totalCash = aCash;
+	}
+	
+	public int getTotalCash () {
+		return totalCash;
+	}
+	
 	public boolean actorIsSet () {
 		boolean tActorSet;
 		
@@ -161,6 +186,8 @@ public class Action {
 		tActionElement = aXMLDocument.createElement (EN_ACTION);
 		tActionElement.setAttribute (AN_CLASS, this.getClass ().getName ());
 		tActionElement.setAttribute (AN_NAME, getName ());
+		tActionElement.setAttribute (AN_NUMBER, getNumber ());
+		tActionElement.setAttribute (AN_TOTAL_CASH, getTotalCash ());
 		tActionElement.setAttribute (AN_ROUND_TYPE, getRoundType ().toString ());
 		tActionElement.setAttribute (AN_ROUND_ID, getRoundID ());
 		tActionElement.setAttribute (ActorI.AN_ACTOR_NAME, tActorName);
