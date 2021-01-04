@@ -1191,4 +1191,13 @@ public class PlayerManager {
 		return tIsParPriceFrameActive;
 	}
 
+	public int getTotalPlayerCash() {
+		int tTotalPlayerCash = 0;
+		
+		for (Player tPlayer : players) {
+			tTotalPlayerCash += tPlayer.getCash ();
+		}
+		
+		return tTotalPlayerCash;
+	}
 }

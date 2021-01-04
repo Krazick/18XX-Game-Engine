@@ -1270,4 +1270,16 @@ public class Certificate implements Comparable<Certificate> {
 		
 		return tAmIABidder;
 	}
+
+	public int getTotalEscrows() {
+		int tTotalEscrows = 0;
+		
+		if (bidders != null) {
+			if (bidders.getCount () > 0) {
+				tTotalEscrows += bidders.getTotalEscrows ();
+			}
+		}
+		
+		return tTotalEscrows;
+	}
 }

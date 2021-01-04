@@ -8,6 +8,7 @@ import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.toplevel.XMLFrame;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -33,10 +34,14 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	JLabel frameLabel;
 	JLabel phaseLabel;
 	JPanel playersContainer;
+	JLabel totalCashLabel;
 	JButton doActionButton;
+	Color defaultColor;
 	
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, String aGameName) {
 		super (aFrameName, aGameName);
+		
+		int tTotalCash;
 		
 		roundManager = aRoundManager;
 		
@@ -55,6 +60,11 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		tBankCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		roundBox.add (tBankCashLabel);
 		roundBox.add (Box.createVerticalStrut (10));
+		
+		tTotalCash = roundManager.getTotalCash ();
+		totalCashLabel = new JLabel ("Total Cash: " + Bank.formatCash (tTotalCash));
+		totalCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		roundBox.add (totalCashLabel);
 		
 		phaseLabel = new JLabel ("Current Game Phase");
 		phaseLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
@@ -79,8 +89,10 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		centerBox.add (Box.createHorizontalStrut(20));
 		centerBox.add (roundBox);
 		centerBox.add (Box.createHorizontalStrut(20));
+
 		add (centerBox);
 		pack ();
+		defaultColor = getContentPane ().getBackground ();
 	}
 
 	@Override
@@ -181,13 +193,14 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
 		setFrameLabel (aGameName, " " + aRoundIDPart1 + " [" + aCurrentOR + " of " + aMaxOR + "]");
 		setActionButton ("Do Company Action", CORPORATION_ACTION);
+		updateTotalCashLabel ();
 	}
 	
 	public void setStockRound (String aGameName, int aRoundID) {
-		
 		setFrameLabel (aGameName, " " + aRoundID);
 		setActionButton ("Player do Stock Action", PLAYER_ACTION);
 		setCurrentPlayerText ();
+		updateTotalCashLabel ();
 	}
 	
 	public void setActionForCurrentPlayer () {
@@ -272,8 +285,32 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		doActionButton.setEnabled (aEnableActionButton);
 		if (aEnableActionButton) {
 			doActionButton.setToolTipText ("");
+			setBackGround ();
 		} else {
 			doActionButton.setToolTipText ("You are not the President of the Company");
+			resetBackGround ();
 		}
+	}
+	
+	private void updateTotalCashLabel () {
+		int tTotalCash;
+		
+		tTotalCash = roundManager.getTotalCash ();
+		totalCashLabel.setText ("Total Cash: " + Bank.formatCash (tTotalCash));
+	}
+	
+	public void updateAll () {
+		updateTotalCashLabel ();
+		updatePhaseLabel ();
+		updateAllCorporationsBox ();
+	}
+	
+	public void setBackGround () {
+		getContentPane ().setBackground (Color.CYAN);
+	}
+	
+	public void resetBackGround () {
+		getContentPane ().setBackground (defaultColor);
+		
 	}
 }

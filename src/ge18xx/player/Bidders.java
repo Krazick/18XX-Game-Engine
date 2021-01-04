@@ -293,5 +293,22 @@ public class Bidders {
 		
 		return tAmIABidder;
 	}
+
+	public int getCount () {
+		return bidders.size ();
+	}
 	
+	public int getTotalEscrows() {
+		int tTotalEscrows = 0;
+		int tBidderCount;
+	
+		tBidderCount = bidders.size ();
+		if (tBidderCount > 0) {
+			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
+				tTotalEscrows += getBidAt (tBidderIndex);
+			}
+		}
+		
+		return tTotalEscrows;
+	}
 }

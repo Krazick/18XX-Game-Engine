@@ -87,4 +87,12 @@ public class PrivatesFrame extends CorporationTableFrame {
 	public void loadPrivatesStates (XMLNode aXMLNode) {
 		super.loadStates (aXMLNode);
 	}
+
+	public int getTotalEscrow() {
+		int tTotalEscrow = 0;
+		
+		tTotalEscrow = companies.getTotalEscrow ();
+		
+		return tTotalEscrow;
+	}
 }

@@ -292,4 +292,18 @@ public class PrivateCompany extends Corporation {
 	public boolean atTrainLimit() {
 		return false;
 	}
+
+	public int getTotalEscrows() {
+		int tTotalEscrows = 0;
+		Certificate tCertificate;
+		int tCertificateCount, tCertificateIndex;
+		
+		tCertificateCount = corporationCertificates.getCertificateCountAgainstLimit ();
+		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
+			tCertificate = corporationCertificates.getCertificate (tCertificateIndex);
+			tTotalEscrows = tCertificate.getTotalEscrows ();
+		}
+
+		return tTotalEscrows;
+	}
 }

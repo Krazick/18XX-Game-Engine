@@ -126,4 +126,18 @@ public class CorporationTableFrame extends TableFrame {
 		}
 	}
 
+	public int getTotalCorpCash () {
+		int tTotalCorpCash = 0;
+		int tCompanyCount;
+		
+		if (companies != CorporationList.NO_CORPORATION_LIST) {
+			tCompanyCount = companies.getRowCount ();
+			
+			if (tCompanyCount > 0) {
+				tTotalCorpCash = companies.getTotalCorpCash ();
+			}
+		}
+		
+		return tTotalCorpCash;
+	}
 }

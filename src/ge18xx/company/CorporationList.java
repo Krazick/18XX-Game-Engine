@@ -1005,10 +1005,37 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		TrainCompany tTrainCompany;
 		
 		for (Corporation tCorporation : corporations) {
-			if (tCorporation.isATrainCompany()) {
+			if (tCorporation.isATrainCompany ()) {
 				tTrainCompany = (TrainCompany) tCorporation;
 				tTrainCompany.fixLoadedRoutes (aMapFrame);
 			}
 		}
+	}
+
+	public int getTotalCorpCash () {
+		int tTotalCorpCash = 0;
+		TrainCompany tTrainCompany;
+		
+		for (Corporation tCorporation : corporations) {
+			if (tCorporation.isATrainCompany ()) {
+				tTrainCompany = (TrainCompany) tCorporation;
+				tTotalCorpCash += tTrainCompany.getCash ();
+			}
+		}
+		
+		return tTotalCorpCash;
+	}
+
+	public int getTotalEscrow() {
+		int tTotalEscrow = 0;
+		PrivateCompany tPrivateCompany;
+		for (Corporation tCorporation : corporations) {
+			if (tCorporation.isAPrivateCompany ()) {
+				tPrivateCompany = (PrivateCompany) tCorporation;
+				tTotalEscrow += tPrivateCompany.getTotalEscrows ();
+			}
+		}
+		
+		return tTotalEscrow;
 	}
 }

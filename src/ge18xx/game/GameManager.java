@@ -1963,4 +1963,22 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public int getCurrentPhase () {
 		return phaseManager.getCurrentPhase ();
 	}
+
+	public int getTotalCash() {
+		int tTotalCash = 0;
+		int tBankCash, tAllPlayerCash, tAllCorpCash, tAllEscrows;
+		int tAllCoalCash, tAllMinorCash, tAllShareCash;
+		
+		tBankCash = bank.getCash ();
+		tAllEscrows = privatesFrame.getTotalEscrow ();
+		tAllPlayerCash = playerManager.getTotalPlayerCash ();
+		tAllCoalCash = coalCompaniesFrame.getTotalCorpCash ();
+		tAllMinorCash = minorCompaniesFrame.getTotalCorpCash ();
+		tAllShareCash = shareCompaniesFrame.getTotalCorpCash ();
+		tAllCorpCash = tAllCoalCash + tAllMinorCash + tAllShareCash;
+		
+		tTotalCash = tBankCash + tAllPlayerCash + tAllEscrows + tAllCorpCash;
+		
+		return tTotalCash;
+	}
 }

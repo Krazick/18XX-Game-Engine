@@ -930,4 +930,8 @@ public class RoundManager {
 	public void enableActionButton (boolean aEnableActionButton) {
 		roundFrame.enableActionButton (aEnableActionButton);
 	}
+	
+	public int getTotalCash () {
+		return gameManager.getTotalCash ();
+	}
 }
