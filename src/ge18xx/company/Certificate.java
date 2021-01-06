@@ -97,8 +97,8 @@ public class Certificate implements Comparable<Certificate> {
 	
 	public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage, CertificateHolderI aOwner) {
 		setValues (aCorporation, aIsPresidentShare, aPercentage, aOwner);
-		checkedButton = NO_CHECKED_BOX;
 		parValuesCombo = null;
+		checkedButton = NO_CHECKED_BOX;
 	}
 	
 	public Certificate (Certificate aCertificate) {
@@ -108,6 +108,7 @@ public class Certificate implements Comparable<Certificate> {
 			allowedOwners = aCertificate.allowedOwners.clone ();
 			setCorporation (aCertificate.getCorporation ());
 			setOwner (aCertificate.getOwner ());	
+			checkedButton = new JCheckBox ("EMPTY");
 			checkedButton = NO_CHECKED_BOX;
 			parValuesCombo = null;
 			bidders = new Bidders (this);
@@ -171,6 +172,8 @@ public class Certificate implements Comparable<Certificate> {
 		int tRevenue, tPrice, tPlayerCash, tDiscount;
 		JLabel tLabel, tLastRevenueLabel;
 		JLabel tDiscountLabel;
+		String tToolTip = "";
+		boolean tEnabled = false;
 
 		boolean tPlayerHasEnoughCash, tPlayerHasBidOnThisCert, tPlayerHasEnoughCashToBid;
 		boolean tPlayerHasSoldThisCompany, tPlayerHasMaxShares, tPlayerHasBoughtShare;
@@ -189,6 +192,7 @@ public class Certificate implements Comparable<Certificate> {
 			tPlayerCash = aPlayer.getCash ();
 			tHasMustBuyCertificate = aPlayer.hasMustBuyCertificate ();
 		} else {
+			tCompanyAbbrev = "NONE";
 			tPlayerHasSoldThisCompany = false;
 			tPlayerHasMaxShares = false;
 			tPlayerAtCertLimit = false;
@@ -258,40 +262,53 @@ public class Certificate implements Comparable<Certificate> {
 		}
 
 		tPlayerHasEnoughCashToBid = addBidderLabels (tCertificateInfoPanel, tPlayerCash);
+		
 		if (aCheckBoxLabel.equals (Player.SELL_LABEL)) {
 			// If the Checkbox to add is Sell -- test first if it is a Private Company
 			// Then, and only then, test if it can be Exchanged... then show an Exchange Label (not Sell)
 			if (isPrivateCompany ()) {
 				if (canBeExchanged (aGameManager)) {
-					setupCheckedButton (Player.EXCHANGE_LABEL, true, NO_TOOL_TIP, aItemListener, tCertificateInfoPanel);
+					checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, true, NO_TOOL_TIP, aItemListener);
+					tCertificateInfoPanel.add (checkedButton);
 				}
 				// If it cannot be exchanged, Never show the Checkbox Here, we can't sell it, and can't exchange it
 			} else {
 				// Only if it is a Share Company, can it be Sold 
 				// TODO: non-1830 For 1835 with Minors, 1837 with Coal we cannot Sell them either, test for CanBeSold
 				if (canBeSold (aGameManager)) {
-					setupCheckedButton (aCheckBoxLabel, true, NO_TOOL_TIP, aItemListener, tCertificateInfoPanel);
+					checkedButton = setupCheckedButton (aCheckBoxLabel, true, NO_TOOL_TIP, aItemListener);
+					tCertificateInfoPanel.add (checkedButton);
 				} else {
-					setupCheckedButton (aCheckBoxLabel, false, getReasonForNoSale (aGameManager), aItemListener, tCertificateInfoPanel);
+					checkedButton = setupCheckedButton (aCheckBoxLabel, false, getReasonForNoSale (aGameManager), aItemListener);
+					tCertificateInfoPanel.add (checkedButton);
 				}
 			}
 		} else if (aCheckBoxLabel.equals (Player.BUY_LABEL) || aCheckBoxLabel.equals (Player.BUY_AT_PAR_LABEL)) {
 			if (canBeBought ()) {
+				tToolTip = "";
+				tEnabled = false;
+				
 				if (tPlayerHasEnoughCash) {
-					setupCheckedButton (aCheckBoxLabel, false, NOT_ENOUGH_CASH, aItemListener, tCertificateInfoPanel);
+					tToolTip = NOT_ENOUGH_CASH;
 				} else if (tPlayerHasBoughtShare) {
-					setupCheckedButton (aCheckBoxLabel, false, ALREADY_BOUGHT, aItemListener, tCertificateInfoPanel);
+					tToolTip = ALREADY_BOUGHT;
 				} else if (tPlayerHasBidOnThisCert) {
-					setupCheckedButton (aCheckBoxLabel, false, ALREADY_BID_ON_CERT, aItemListener, tCertificateInfoPanel);
+					tToolTip = ALREADY_BID_ON_CERT;
 				} else if (tPlayerHasSoldThisCompany) { 
-					setupCheckedButton (aCheckBoxLabel, false, ALREADY_SOLD, aItemListener, tCertificateInfoPanel);
+					tToolTip = ALREADY_SOLD;
 				} else if (tPlayerHasMaxShares) {
-					setupCheckedButton (aCheckBoxLabel, false, ALREADY_HAVE_MAX, aItemListener, tCertificateInfoPanel);
+					tToolTip = ALREADY_HAVE_MAX;
 				} else if (tPlayerAtCertLimit) {
-					setupCheckedButton (aCheckBoxLabel, false, AT_CERT_LIMIT, aItemListener, tCertificateInfoPanel);
+					tToolTip = AT_CERT_LIMIT;
 				} else {
-					setupCheckedButton (aCheckBoxLabel, true, NO_TOOL_TIP, aItemListener, tCertificateInfoPanel);					
+					tEnabled = true;
 				}
+				if (checkedButton == NO_CHECKED_BOX) {
+					checkedButton = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);	
+				} else {
+					updateCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);
+				}
+				tCertificateInfoPanel.add (checkedButton);
 			} else {
 				System.err.println ("Flagged Certificate cannot be Bought");
 			}
@@ -303,27 +320,51 @@ public class Certificate implements Comparable<Certificate> {
 		} else if (aCheckBoxLabel.equals (Player.BID_LABEL)) {
 			if (canBeBidUpon ()) {
 				if (tPlayerHasBoughtShare) {
-					setupCheckedButton (aCheckBoxLabel, false, ALREADY_BOUGHT, aItemListener, tCertificateInfoPanel);					
+					tToolTip = ALREADY_BOUGHT;
 				} else if (tPlayerHasBidOnThisCert) {
-					setupCheckedButton (aCheckBoxLabel, false, ALREADY_BID_ON_CERT, aItemListener, tCertificateInfoPanel);
+					tToolTip = ALREADY_BID_ON_CERT;
 				} else if (tPlayerHasEnoughCashToBid) {
-					setupCheckedButton (aCheckBoxLabel, false, NOT_ENOUGH_CASH_TO_BID, aItemListener, tCertificateInfoPanel);
+					tToolTip = NOT_ENOUGH_CASH_TO_BID;
 				} else if (tPlayerHasEnoughCash) {
-					setupCheckedButton (aCheckBoxLabel, false, NOT_ENOUGH_CASH, aItemListener, tCertificateInfoPanel);
+					tToolTip = NOT_ENOUGH_CASH;
 				} else if (tHasMustBuyCertificate) {
-					setupCheckedButton (aCheckBoxLabel, false, HAVE_MUST_BUY, aItemListener, tCertificateInfoPanel);
+					tToolTip = HAVE_MUST_BUY;
 				} else {
-					setupCheckedButton (aCheckBoxLabel, true, NO_TOOL_TIP, aItemListener, tCertificateInfoPanel);
+					tEnabled = true;
 				}
+				checkedButton = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);					
+				tCertificateInfoPanel.add (checkedButton);
 			}
 		} else if (aCheckBoxLabel.equals ("")) {
-			
+			System.err.println ("CHECKBOX Label equal EMPTY String");
 		} else {
 			System.err.println ("No label that matches [" + aCheckBoxLabel + "]");	
 		}
 		
 		return tCertificateInfoPanel;
 	}
+	
+	public void updateCheckedButton (String aLabel, boolean aEnabledState, String aToolTip, ItemListener aItemListener) {
+		checkedButton.setText (aLabel);
+		checkedButton.setEnabled (aEnabledState);
+		checkedButton.setToolTipText (aToolTip);
+		checkedButton.setSelected (false);
+		checkedButton.addItemListener (aItemListener);
+	}
+	
+	public JCheckBox setupCheckedButton (String aLabel, boolean aEnabledState, String aToolTip, ItemListener aItemListener) {
+		JCheckBox tCheckBox;
+		
+		tCheckBox = new JCheckBox (aLabel);
+		tCheckBox.setEnabled (aEnabledState);
+		tCheckBox.setToolTipText (aToolTip);
+		tCheckBox.setVisible (true);
+		tCheckBox.setSelected (false);
+		tCheckBox.addItemListener (aItemListener);
+		
+		return tCheckBox;
+	}
+
 
 	public CompoundBorder setupCIPBorder () {
 		Color tCorporateColor;
@@ -437,10 +478,11 @@ public class Certificate implements Comparable<Certificate> {
 			tPrivateCertJPanel.add (tPresidentLabel);
 			tCheckboxLabel = "Buy";
 			if (aAvailableCash < tHalfValue) {
-				setupCheckedButton (tCheckboxLabel, false, "Not enough cash to buy at half price", 
-						aItemListener, tPrivateCertJPanel);
+				checkedButton = setupCheckedButton (tCheckboxLabel, false, "Not enough cash to buy at half price",  aItemListener);
+				tPrivateCertJPanel.add (checkedButton);
 			} else if (corporation.canBuyPrivate ()) {
-				setupCheckedButton (tCheckboxLabel, true, NO_TOOL_TIP, aItemListener, tPrivateCertJPanel);
+				checkedButton = setupCheckedButton (tCheckboxLabel, true, NO_TOOL_TIP, aItemListener);
+				tPrivateCertJPanel.add (checkedButton);
 			}
 		} else {
 			tPrivateCertJPanel.add (tPresidentLabel);		
@@ -1166,30 +1208,17 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public void setStateCheckedButton (boolean aEnabledState, String aToolTip) {
-		if (checkedButton != null) {
-			checkedButton.setEnabled(aEnabledState);
+		if (checkedButton != NO_CHECKED_BOX) {
+			checkedButton.setEnabled (aEnabledState);
 			checkedButton.setToolTipText (aToolTip);
 		}
 	}
 	
-	public void setupCheckedButton (String aLabel, boolean aEnabledState, String aToolTip, ItemListener aItemListener, JPanel aInfoPanel) {
-		if (checkedButton == NO_CHECKED_BOX) {
-			checkedButton = new JCheckBox (aLabel);
-		} else {
-			checkedButton.setText (aLabel);
-		}
-		setStateCheckedButton (aEnabledState, aToolTip);
-		checkedButton.setSelected (false);
-		checkedButton.addItemListener (aItemListener);
-		aInfoPanel.add (checkedButton);
-	}
-
 	public void setValues (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage, CertificateHolderI aOwner) {
 		setCorporation (aCorporation);
 		isPresidentShare = aIsPresidentShare;
 		percentage = aPercentage;
 		setOwner (aOwner);
-		checkedButton = NO_CHECKED_BOX;
 		bidders = new Bidders (this);
 	}
 	
@@ -1252,10 +1281,10 @@ public class Certificate implements Comparable<Certificate> {
 					aParValuesCombo.addItem (aParValues [tIndex]);
 				}
 			} else {
-				System.out.println ("***No Par Values to fill into Combo Box ***");
+				System.err.println ("***No Par Values to fill into Combo Box ***");
 			}			
 		} else {
-			System.out.println ("***Par Values Combo Box to fill is NULL ***");
+			System.err.println ("***Par Values Combo Box to fill is NULL ***");
 		}
 	}
 

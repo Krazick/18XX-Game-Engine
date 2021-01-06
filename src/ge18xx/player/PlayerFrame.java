@@ -176,6 +176,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionText;
 		
+		System.out.println ("Action Listener for Player Frame Triggered");
 		if (PASS.equals (aEvent.getActionCommand ())) {
 			player.passAction ();	
 		}
@@ -486,9 +487,9 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		}
 		if (tStocksToBuy) {
 			buyBidActionButton.setEnabled (tStocksToBuy);
-			buyBidActionButton.setToolTipText ("Stock or Private have been selected to be Bought.");
+			buyBidActionButton.setToolTipText ("Stock or Private has been selected to be Bought.");
 			buyBidActionButton.setText ("BUY");
-			disableAllStartPacketButtons ("Another Stock have been selected to be Bought.");
+			disableAllStartPacketButtons ("Another Stock has been selected to be Bought.");
 			enableSelectedButton ("Stock have been selected to be Bought.");
 		}
 		if (tPrivateToBidOn && (tStocksToBuy == false)) {
