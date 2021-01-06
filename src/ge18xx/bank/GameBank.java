@@ -72,7 +72,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public Certificate getCertificateToBidOn() {
 		Certificate tCertificateToBidOn;
 		
-		System.out.println ("In GameBank");
 		tCertificateToBidOn = portfolio.getCertificateToBidOn ();
 		
 		return tCertificateToBidOn;
