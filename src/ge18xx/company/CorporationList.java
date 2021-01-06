@@ -674,7 +674,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			tAbbrev = aChildNode.getThisAttribute (Corporation.AN_ABBREV);
 			tCorporation = getCorporation (tAbbrev);
 			if (tCorporation == null) {
-				System.out.println ("Did not find a " + aChildNode.getNodeName() + " with name " + tAbbrev);
+				System.err.println ("Did not find a " + aChildNode.getNodeName() + " with name " + tAbbrev);
 			} else {
 				tCorporation.loadStatus (aChildNode);
 			}
@@ -686,7 +686,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		XMLNode XMLCorporationListRoot;
 		
 		if (typeName == NO_TYPE_NAME) {
-			System.out.println ("Before loading Corporations, need to know which Type to load.");
+			System.err.println ("Before loading Corporations, need to know which Type to load.");
 		} else {
 			XMLCorporationListRoot = aXMLDocument.getDocumentElement ();
 			tXMLNodeList = new XMLNodeList (corporationListParsingRoutine, this);
