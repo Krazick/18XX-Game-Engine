@@ -371,7 +371,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					bankBox.add (tBPPortfolioJPanel);
 					bankBox.add (Box.createHorizontalGlue ());
 				} else {
-					System.out.println ("Bank Pool is Null");
+					System.err.println ("Bank Pool is Null");
 				}
 				if (tBank != null) {
 					tBankPortfolioJPanel = tBank.buildTrainPortfolioInfoJPanel (this, corporation, 
@@ -380,7 +380,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					bankBox.add (Box.createHorizontalGlue ());
 					bankBox.validate ();
 				} else {
-					System.out.println ("Bank is Null");
+					System.err.println ("Bank is Null");
 				}
 			}
 		}
