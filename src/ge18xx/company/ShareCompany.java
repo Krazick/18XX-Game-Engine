@@ -163,8 +163,9 @@ public class ShareCompany extends TokenCompany {
 		tFloatCompanyAction.addChangeCorporationStatusEffect (this, tOldState, tNewState);
 		tFloatCompanyAction.addCashTransferEffect (tBank, this, aInitialTreasury);
 		
-		addCash (aInitialTreasury);
-		tBank.addCash (-aInitialTreasury);
+//		addCash (aInitialTreasury);
+//		tBank.addCash (-aInitialTreasury);
+		tBank.transferCashTo (this, aInitialTreasury);
 		corporationList.addDataElement (treasury, tRowIndex, 9);
 		corporationList.addDataElement (getStatusName (), tRowIndex, 3);
 		corporationList.addAction (tFloatCompanyAction);
