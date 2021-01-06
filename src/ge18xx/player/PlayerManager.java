@@ -971,7 +971,7 @@ public class PlayerManager {
 		if (gameManager.isOperatingRound ()) {
 			tForceSell = true;
 			tNormalSale = false;
-		} else if (aPlayer.acts ()) {
+		} else if (aPlayer.sells ()) {
 			tForceSell = false;
 			tNormalSale = true;
 		} else {
@@ -1155,7 +1155,7 @@ public class PlayerManager {
 	public void updateAllRFPlayerLabels () {
 		for (Player tPlayer : players) {
 			updateRFPlayerLabel (tPlayer);
-			tPlayer.updatePlayerInfo ();
+//			tPlayer.updatePlayerInfo ();
 		}
 	}
 	

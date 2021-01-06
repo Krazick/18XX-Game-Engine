@@ -149,6 +149,20 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		exchangedPrezShare = aExchangedShare;
 	}
 	
+	public boolean sells () {
+		boolean tCanDoAction;
+		
+		tCanDoAction = false;
+		if (primaryActionState == ActionStates.Pass){
+			System.err.println ("Player has passed, can't Act");
+		} else {
+			tCanDoAction = true;
+			primaryActionState = ActionStates.Sold;
+		}
+		
+		return tCanDoAction;
+	}
+	
 	public boolean acts () {
 		boolean tCanDoAction;
 		
@@ -1029,6 +1043,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		
 		tGameManager = playerManager.getGameManager ();
 		updateActionButtons ();
+		System.out.println ("Showing Player Frame for " + name);
 		playerFrame.fillBankBox (tGameManager);
 		playerFrame.setVisible (true);
 	}
@@ -1112,6 +1127,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	public void removeEscrow (Escrow aEscrow) {
 		removeEscrow (aEscrow, ESCROW_EXACT_MATCH);
 	}
+	
 	public void removeEscrow (Escrow aEscrow, boolean aMatchCriteria) {
 		int tEscrowCount = escrows.size ();
 		Escrow tEscrow;
