@@ -91,7 +91,7 @@ public class StartPacketRow implements ParsingRoutineI {
 		StartPacketItem tStartPacketItem;
 		
 		if (aIndex >= startPacketItems.size ()) {
-			System.out.println ("Only " + startPacketItems.size () + " Items in Row, asked for " + aIndex);
+			System.err.println ("Only " + startPacketItems.size () + " Items in Row, asked for " + aIndex);
 		} else {
 			tStartPacketItem = startPacketItems.get (aIndex);
 			tItemCertificate = tStartPacketItem.getCertificate ();
@@ -143,8 +143,7 @@ public class StartPacketRow implements ParsingRoutineI {
 	}
 	
 	void printStartPacketRow () {
-		System.out.println ("");
-		System.out.println ("Start Packet Row # " + rowNumber);
+		System.out.println ("\nStart Packet Row # " + rowNumber);
 		for (StartPacketItem tStartPacketItem : startPacketItems) {
 			tStartPacketItem.printStartPacketItemInfo ();
 		}
