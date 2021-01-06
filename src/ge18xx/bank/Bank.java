@@ -132,7 +132,7 @@ public class Bank extends GameBank implements CashHolderI {
 			try {
 				startPacketFrame.loadXML (tXMLCompaniesName, startPacketFrame);
 			} catch (Exception tException) {
-				System.out.println (tException);
+				System.err.println (tException);
 			}
 		}
 		startPacketFrame.loadStartPacketWithCertificates (portfolio);
