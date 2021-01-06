@@ -138,6 +138,7 @@ public class TrainPortfolio implements TrainHolderI {
 						if (tTrainQuantity > 2) {
 							tLabelText += "s";
 						}
+						tLabelText = "<br>Quantity: " + tTrainQuantity;
 					} else if (tTrainQuantity == 1) {
 						tLabelText = "<br>LAST " + tTrainName + " Train";
 					} else {
