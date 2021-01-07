@@ -190,7 +190,13 @@ public class PlayerManager {
 	}
 	
 	public Bank getBank () {
-		return stockRound.getBank ();
+		Bank tBank = Bank.NO_BANK;
+		
+		if (stockRound != StockRound.NO_ROUND) {
+			tBank = stockRound.getBank ();
+		}
+		
+		return tBank;
 	}
 	
 	public BankPool getBankPool () {
