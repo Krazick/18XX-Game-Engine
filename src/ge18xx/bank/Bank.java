@@ -36,6 +36,7 @@ public class Bank extends GameBank implements CashHolderI {
 	private static final AttributeName AN_BANK_CASH = new AttributeName ("cash");
 	public static final StartPacketFrame NO_START_PACKET = null;
 	public static final String NAME = "Bank";
+	public static final Bank NO_BANK = null;
 	int treasury;
 	static String format;
 	static DecimalFormat decimalFormat;
