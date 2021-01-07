@@ -235,8 +235,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tCorpLabel += "<br>" + trainPortfolio.getTrainList ();
 				tThisRevenue = getFormattedThisRevenue ();
 				tCorpLabel += "<br>This Revenue: " + tThisRevenue;
-				tLastRevenue = getFormattedLastRevenue ();
-				tCorpLabel += "<br>Last Revenue: " + tLastRevenue;
 			}
 		} else {
 			tCorpLabel += "<br>[" + getStatusName () + "]";
