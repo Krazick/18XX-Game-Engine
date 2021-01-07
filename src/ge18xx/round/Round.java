@@ -149,7 +149,7 @@ public abstract class Round implements ActorI {
 	
 	public void setID (int aIDPart1, int aIDPart2) {
 		idPart1 = aIDPart1;
-		idPart2 = aIDPart2;
+		setIDPart2 (aIDPart2);
 	}
 	
 	public void setIDPart2 (int aIDPart2) {
