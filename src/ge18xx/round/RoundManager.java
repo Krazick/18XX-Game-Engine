@@ -682,7 +682,6 @@ public class RoundManager {
 			roundFrame.setStockRound (gameName, stockRound.getIDPart1 ());
 			tPlayerManager = gameManager.getPlayerManager ();
 			tPlayerManager.updateAllRFPlayerLabels ();
-//			roundFrame.fillPlayersContainer (stockRound);
 		}
 		if (isOperatingRound ()) {
 			tPlayerManager = gameManager.getPlayerManager ();
