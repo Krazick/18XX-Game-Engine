@@ -1039,11 +1039,12 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	}
 	
 	public void showPlayerFrame () {
-		GameManager tGameManager;
-		
-		tGameManager = playerManager.getGameManager ();
-		updateActionButtons ();
-		playerFrame.fillBankBox (tGameManager);
+//		GameManager tGameManager;
+//		
+//		tGameManager = playerManager.getGameManager ();
+		updatePlayerInfo ();
+//		updateActionButtons ();
+//		playerFrame.fillBankBox (tGameManager);
 		playerFrame.setVisible (true);
 	}
 	
