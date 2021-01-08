@@ -776,6 +776,7 @@ public class RoundManager {
 		if (! operatingRound.startOperatingRound ()) {
 			startStockRound ();
 		}
+		roundFrame.resetBackGround ();
 	}
 	
 	public void endOperatingRound () {

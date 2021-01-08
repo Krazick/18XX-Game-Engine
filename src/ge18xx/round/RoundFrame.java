@@ -20,6 +20,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 public class RoundFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -27,6 +28,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	private static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
 	private static final String CORPORATION_ACTION = "DoCorporationAction";
 	private static final String PLAYER_CONTAINER_LABEL = "Player Order and Last Action";
+	private static final String YOU_NOT_PRESIDENT = "You are not the President of the Company";
 	RoundManager roundManager;
 	Container centerBox;
 	Container roundBox;
@@ -92,7 +94,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 
 		add (centerBox);
 		pack ();
-		defaultColor = getContentPane ().getBackground ();
+		defaultColor = UIManager.getColor ( "Panel.background" );
 	}
 
 	@Override
@@ -186,17 +188,20 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	}
 	
 	public void setAuctionRound (String aGameName, int aRoundID) {
+		resetBackGround ();
 		setFrameLabel (aGameName, " " + aRoundID);
 		setActionButton ("Do Auction Action", PLAYER_AUCTION_ACTION);
 	}
 
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
+		resetBackGround ();
 		setFrameLabel (aGameName, " " + aRoundIDPart1 + " [" + aCurrentOR + " of " + aMaxOR + "]");
 		setActionButton ("Do Company Action", CORPORATION_ACTION);
 		updateTotalCashLabel ();
 	}
 	
 	public void setStockRound (String aGameName, int aRoundID) {
+		resetBackGround ();
 		setFrameLabel (aGameName, " " + aRoundID);
 		setActionButton ("Player do Stock Action", PLAYER_ACTION);
 		setCurrentPlayerText ();
@@ -215,9 +220,11 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 				if (tCurrentPlayerName.equals (tClientUserName)) {
 					doActionButton.setEnabled (true);
 					doActionButton.setToolTipText ("");
+					setBackGround ();
 				} else {
 					doActionButton.setEnabled (false);
 					doActionButton.setToolTipText ("It is not your turn to Perform the Action");
+					resetBackGround ();
 				}
 			}			
 		}
@@ -287,9 +294,10 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 			doActionButton.setToolTipText ("");
 			setBackGround ();
 		} else {
-			doActionButton.setToolTipText ("You are not the President of the Company");
+			doActionButton.setToolTipText (YOU_NOT_PRESIDENT);
 			resetBackGround ();
 		}
+		revalidate ();
 	}
 	
 	private void updateTotalCashLabel () {
@@ -306,11 +314,15 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	}
 	
 	public void setBackGround () {
-		getContentPane ().setBackground (Color.CYAN);
+		GameManager tGameManager;
+
+		tGameManager = roundManager.getGameManager ();
+		if (tGameManager.isNetworkGame ()) {
+			getContentPane ().setBackground (Color.CYAN);
+		}
 	}
 	
 	public void resetBackGround () {
-		getContentPane ().setBackground (defaultColor);
-		
+		getContentPane ().setBackground (defaultColor);		
 	}
 }
