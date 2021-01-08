@@ -223,7 +223,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public String buildCorpInfoLabel () {
 		String tCorpLabel = "";
-		String tThisRevenue, tLastRevenue;
+		String tThisRevenue;
 		
 		tCorpLabel = getAbbrev () + "&nbsp;";
 		if (isActive ()) {
