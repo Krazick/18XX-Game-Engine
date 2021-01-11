@@ -72,6 +72,7 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String CANNOT_SELL_COAL = "Cannot sell a Coal Company";
 	public static final String BANK_POOL_AT_LIMIT = "Bank Pool at Share Limit";
 	public static final String CANNOT_SELL_PRESIDENT = "Cannot directly sell President Share";
+	public static final String CANNOT_EXCHANGE_PRESIDENT = "Cannot exchange President Share";
 	public static final String COMPANY_NOT_OPERATED = "Share Company has NOT operated yet";
 	public static final String HAVE_MUST_BUY = "Must buy the Private where COST == DISCOUNT";
 	static final Corporation NO_COMPANY = null;
@@ -275,14 +276,22 @@ public class Certificate implements Comparable<Certificate> {
 			} else {
 				// Only if it is a Share Company, can it be Sold 
 				// TODO: non-1830 For 1835 with Minors, 1837 with Coal we cannot Sell them either, test for CanBeSold
-				if (canBeSold (aGameManager)) {
+				if (isPresidentShare ()) {
+					if (this.canBeExchanged (aGameManager)) {
+						checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, true, NO_TOOL_TIP, aItemListener);
+						tCertificateInfoPanel.add (checkedButton);
+					} else {
+						checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, false, CANNOT_EXCHANGE_PRESIDENT, aItemListener);
+						tCertificateInfoPanel.add (checkedButton);						
+					}
+				} else if (canBeSold (aGameManager)) {
 					checkedButton = setupCheckedButton (aCheckBoxLabel, true, NO_TOOL_TIP, aItemListener);
 					tCertificateInfoPanel.add (checkedButton);
 				} else {
 					checkedButton = setupCheckedButton (aCheckBoxLabel, false, getReasonForNoSale (aGameManager), aItemListener);
 					tCertificateInfoPanel.add (checkedButton);
 				}
-			}
+			}			
 		} else if (aCheckBoxLabel.equals (Player.BUY_LABEL) || aCheckBoxLabel.equals (Player.BUY_AT_PAR_LABEL)) {
 			if (canBeBought ()) {
 				tToolTip = "";
