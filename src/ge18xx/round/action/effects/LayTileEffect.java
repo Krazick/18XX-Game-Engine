@@ -71,6 +71,7 @@ public class LayTileEffect extends ChangeTileContentEffect {
 			applyBases (aRoundManager, tMapCell);
 			tGameMap.redrawMap ();
 			tEffectApplied = true;
+			tTileSet.clearAllSelected ();
 		} else {
 			System.err.println ("Applying " + name + " by " + actor.getName () + " Fails since Tile Numbers don't match");
 			System.err.println ("Effect Tile # " + tileNumber + " Map Cell Tile # " + tTile.getTileNumber ());
