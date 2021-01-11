@@ -387,6 +387,8 @@ public class Bank extends GameBank implements CashHolderI {
 		tTrainPortfolio = tBankPool.getTrainPortfolio ();
 		tTrainPortfolio.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, tBankPool,
 					this, aBuyTrainAction);
+		trainPortfolio.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this,
+				this, aBuyTrainAction);
 		
 		tShareCorporationList = gameManager.getShareCompanies ();
 		tShareCorporationList.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, aBuyTrainAction);
