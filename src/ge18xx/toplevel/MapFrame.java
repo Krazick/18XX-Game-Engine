@@ -34,6 +34,7 @@ import ge18xx.round.action.RouteAction;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
+import ge18xx.tiles.TileType;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.RouteSegment;
 import ge18xx.utilities.ElementName;
@@ -754,7 +755,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public void updatePutTileButton () {
 		MapCell tMapCell;
 		GameTile tTile;
-		int tTileLayCost;
+		int tTileLayCost, tSelectedTileType;
 		TrainCompany tOperatingTrainCompany;
 		int tOperatingCompanyTreasury;
 		
@@ -772,8 +773,15 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					if (tTileLayCost <= tOperatingCompanyTreasury) {
 						// And there is a Game Tile Selected -- Enable the Put Tile Button 
 						if (tTile != GameTile.NO_GAME_TILE) {
-							putTileButton.setEnabled (true);
-							putTileButton.setToolTipText (NO_TOOL_TIP);
+							if (tMapCell.isTileOnCell ()) {
+								if (tTile.getTileType () ==  TileType.YELLOW) {
+									putTileButton.setEnabled (false);
+									putTileButton.setToolTipText ("Cannot Place a Yellow Tile over an existing Tile");
+								}
+							} else {
+								putTileButton.setEnabled (true);
+								putTileButton.setToolTipText (NO_TOOL_TIP);
+							}
 						} else {
 							putTileButton.setToolTipText (NO_TILE_SELECTED);
 						}
