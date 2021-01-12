@@ -48,6 +48,7 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 import java.util.List;
+import java.awt.Color;
 import java.awt.Point;
 import java.util.LinkedList;
 
@@ -545,6 +546,7 @@ public class PlayerManager {
 						parPriceFrame = new ParPriceFrame (aPlayer, stockRound, tFreeCertificate);
 						Point tNewPoint = gameManager.getOffsetPlayerFrame ();
 						parPriceFrame.setLocation (tNewPoint);
+						parPriceFrame.setBackground (Color.CYAN);
 						parPriceFrame.setVisible (true);
 						tChainBuyToParValue = true;
 					}

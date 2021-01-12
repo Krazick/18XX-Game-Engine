@@ -1,5 +1,6 @@
 package ge18xx.game;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ItemListener;
@@ -1521,6 +1522,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	private void showFrame (JFrame aJFrame) {
+		aJFrame.revalidate ();
 		aJFrame.setVisible (true);
 	}
 	
