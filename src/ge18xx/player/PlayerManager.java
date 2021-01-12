@@ -603,7 +603,7 @@ public class PlayerManager {
 		tDonePlayerAction = new DonePlayerAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
 		tDonePlayerAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
 		tDonePlayerAction.addNewPriorityPlayerEffect (aPlayer, tOldPriorityPlayerIndex, tNextPlayerIndex);
-		aPlayer.setExchangedPrezShare (null);
+		aPlayer.setExchangedPrezShare (Player.NO_STOCK_TO_SELL);
 		tDonePlayerAction.addExchangePrezShareEffect (null);
 
 		aPlayer.updatePortfolioInfo ();
@@ -650,10 +650,12 @@ public class PlayerManager {
 				tCorporationAbbrev = tCorporation.getAbbrev ();
 				tNewPresident = findPlayerWithMost ((ShareCompany) tCorporation, aPlayer);
 				aPlayer.setExchangedPrezShare (tCorporationAbbrev);
+				
 				tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundType (),stockRound.getID (), aPlayer);
 				tExchangeStockAction.addExchangePrezShareEffect (tCorporationAbbrev);
 				exchangePresidentCertificate ((ShareCompany) tCorporation, aPlayer, tNewPresident, tExchangeStockAction);
-				addAction (tExchangeStockAction);		
+				addAction (tExchangeStockAction);
+				
 			} else if (tCorporation.isAPrivateCompany ()) {
 				tPrivateCompany = (PrivateCompany) tCorporation;
 				tExchangeID = tPrivateCompany.getExchangeID ();
@@ -688,7 +690,7 @@ public class PlayerManager {
 				System.out.println ("Ready to Exchange a Minor Company for a Major");
 			}
 		} else {
-			System.out.println ("No Certificate selected to Exchange");
+			System.err.println ("No Certificate selected to Exchange");
 		}
 		aPlayer.updatePlayerInfo ();				
 	}
@@ -1066,7 +1068,7 @@ public class PlayerManager {
 				// Test if the current player has < shares than current President
 				// If so, can clear Exchanged Share attribute.
 				if (aPlayer.hasLessThanPresident (tExchangedShare)) {
-					aPlayer.setExchangedPrezShare (null);
+					aPlayer.setExchangedPrezShare (Player.NO_STOCK_TO_SELL);
 					tSellStockAction.addClearExchangePrezShareEffect (aPlayer, tExchangedShare);
 				} else {
 					System.out.println ("STILL owns more than the president");

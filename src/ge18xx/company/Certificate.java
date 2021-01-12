@@ -277,7 +277,7 @@ public class Certificate implements Comparable<Certificate> {
 				// Only if it is a Share Company, can it be Sold 
 				// TODO: non-1830 For 1835 with Minors, 1837 with Coal we cannot Sell them either, test for CanBeSold
 				if (isPresidentShare ()) {
-					if (this.canBeExchanged (aGameManager)) {
+					if (canBeExchanged (aGameManager)) {
 						checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, true, NO_TOOL_TIP, aItemListener);
 						tCertificateInfoPanel.add (checkedButton);
 					} else {
@@ -574,11 +574,16 @@ public class Certificate implements Comparable<Certificate> {
 		tCanBeExchanged = false;
 		// Only a Share Company Stock Share can be Exchanged
 		if (isShareCompany ()) {
-			// Can Exchange only if there is a Par Price for the Company
-			if (hasParPrice ()) {
-				// Only the President Share can be Exchanged.
-				if (isPresidentShare) {
-					tCanBeExchanged = aGameManager.canBeExchanged (corporation);
+			
+			// Company must have Operated before Exchange can ha
+			if (didOperate ()) {
+				// Can Exchange only if there is a Par Price for the Company
+				if (hasParPrice ()) {
+					// Only the President Share can be Exchanged.
+					if (isPresidentShare) {
+						tCanBeExchanged = aGameManager.canBeExchanged (corporation);
+						// TODO: Test if the Bank Pool can hold the shares needed to be sold to allow Exchange to happen
+					}
 				}
 			}
 		}
@@ -591,6 +596,18 @@ public class Certificate implements Comparable<Certificate> {
 		}
 	
 		return tCanBeExchanged;
+	}
+	
+	public boolean didOperate () {
+		ShareCompany tShareCompany;
+		boolean tDidOperate = false;
+		
+		if (isShareCompany ()) {
+			tShareCompany = (ShareCompany) corporation;
+			tDidOperate = tShareCompany.didOperate ();
+		}
+		
+		return tDidOperate;
 	}
 	
 	public boolean canBeSold (GameManager aGameManager) {

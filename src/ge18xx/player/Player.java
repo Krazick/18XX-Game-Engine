@@ -62,6 +62,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	public static final String BID_LABEL = "Bid";
 	public static final String EXCHANGE_LABEL = "Exchange";
 	public static final int OWN_ZERO_PERCENT = 0;
+	public static final String NO_STOCK_TO_SELL = null;
 	private final String DELIMITER = ",";
 	static final AttributeName AN_NAME = new AttributeName ("name");
 	/* These attributes are set once, and never change, but are needed for game use */
@@ -104,7 +105,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		setBoughtShare (false);
 		setBidShare (false);
 		setTriggeredAuction (false);
-		setExchangedPrezShare (null);
+		setExchangedPrezShare (NO_STOCK_TO_SELL);
 		
 		/* Set Non-Changing Values */
 		setGameHasCompanies (aPrivates, aCoals, aMinors, aShares);
@@ -218,7 +219,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		String tShareCompanyThatExceeds;
 		
 		tCanCompleteTurn = true;
-		if (exchangedPrezShare != null) {
+		if (exchangedPrezShare != NO_STOCK_TO_SELL) {
 			tCanCompleteTurn = false;
 		} else {
 			tShareCompanyThatExceeds = exceedsAnyCorpShareLimit ();
@@ -857,7 +858,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		auctionActionState = tGenericActor.getPlayerState (tState);
 		exchangedPrezShare = aPlayerNode.getThisAttribute (AN_EXCHANGED_PREZ_SHARE);
 		if (exchangedPrezShare.equals ("")) {
-			exchangedPrezShare = null;
+			exchangedPrezShare = NO_STOCK_TO_SELL;
 		}
 		tSoldCompanies = aPlayerNode.getThisAttribute (AN_SOLD_COMPANIES);
 		soldCompanies.parse (DELIMITER, tSoldCompanies);

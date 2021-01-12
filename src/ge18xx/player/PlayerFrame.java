@@ -369,6 +369,9 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	// Must set that Par Price before allowing the Stock Action to be done.
 	
 	public void setPassDoneButton (String tLabel, String tAction) {
+		String tStock;
+		int tPercentage;
+		
 		passActionButton.setText (tLabel);
 		passActionButton.setActionCommand (tAction);
 		if (hasSelectedStocksToBuy ()) {
@@ -389,12 +392,29 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		} else if (player.isParPriceFrameActive () ) {
 			passActionButton.setEnabled (false);
 			passActionButton.setToolTipText ("A Share Company needs to have Par Price selected - Find the Par Price Frame");		
+		} else if (mustSellStock ()) {
+			tStock = player.hasExchangedShare ();
+			tPercentage = player.getMustSellPercent (tStock);
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText ("Must sell at least " + tPercentage + "% of " + tStock + " Share Company due to Exchange");		
 		} else if (hasMustBuyCertificate ()) {
 			setCannotPass ();
 		} else {
 			passActionButton.setEnabled (true);
 			passActionButton.setToolTipText ("");
 		}
+	}
+	
+	private boolean mustSellStock () {
+		boolean tMustSellStock = false;
+		String tStockToSell;
+		
+		tStockToSell = player.hasExchangedShare ();
+		if (tStockToSell != Player.NO_STOCK_TO_SELL) {
+			tMustSellStock = true;
+		}
+		
+		return tMustSellStock;
 	}
 	
 	private void setCannotPass () {
