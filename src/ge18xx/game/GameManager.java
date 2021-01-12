@@ -1,6 +1,7 @@
 package ge18xx.game;
 
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.ItemListener;
 
 import javax.swing.JFileChooser;
@@ -28,6 +29,7 @@ import ge18xx.network.JGameClient;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Escrow;
 import ge18xx.player.Player;
+import ge18xx.player.PlayerFrame;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderLoaderI;
@@ -1523,8 +1525,36 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public void showAuctionRound () {
+		Point tNewPoint = getOffsetPlayerFrame ();
+		
 		auctionFrame.pack ();
+		auctionFrame.setLocation (tNewPoint);
 		showFrame (auctionFrame);
+	}
+
+	public Point getOffsetPlayerFrame () {
+		PlayerFrame tPlayerFrame;
+		Player tPlayer;
+		Point tPlayerFramePoint, tNewPoint;
+		double tX, tY;
+		int tNewX, tNewY;
+		String tPlayerName;
+		
+		if (isNetworkGame ()) {
+			tPlayerName = clientUserName;
+		} else {
+			tPlayerName = playerManager.getCurrentPlayer ().getName ();
+		}
+		tPlayer = playerManager.getPlayer (tPlayerName);
+		tPlayerFrame = tPlayer.getPlayerFrame ();
+		tPlayerFramePoint = tPlayerFrame.getLocation ();
+		tX = tPlayerFramePoint.getX ();
+		tY = tPlayerFramePoint.getY ();
+		tNewX = (int) tX + 100;
+		tNewY = (int) tY + 100;
+		tNewPoint = new Point (tNewX, tNewY);
+		
+		return tNewPoint;
 	}
 	
 	public void showMap () {

@@ -48,12 +48,14 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 import java.util.List;
+import java.awt.Point;
 import java.util.LinkedList;
 
 public class PlayerManager {
 	final AttributeName AN_NAME = new AttributeName ("name");
 	public static final int BID_INCREMENT = 5;
 	public final static int NO_PLAYER_INDEX = -1;
+	public final static String NO_PLAYER_NAME = null;
 	public enum STOCK_BUY_IN { StockRound, AuctionRound, OperatingRound }; // Round a Stock Certificate was purchased
 	public final static boolean AUCTION_BUY = false;
 	public final static
@@ -242,6 +244,23 @@ public class PlayerManager {
 		tNextPlayerIndex = (aCurrentPlayerIndex + 1) % getPlayerCount ();
 		
 		return tNextPlayerIndex;
+	}
+	
+	public Player getPlayer (String aName) {
+		Player tFoundPlayer;
+		
+		tFoundPlayer = Player.NO_PLAYER;
+		if (players != null) {
+			if (aName != NO_PLAYER_NAME) {
+				for (Player tPlayer : players) {
+					if (tPlayer.getName ().equals (aName)) {
+						tFoundPlayer = tPlayer;
+					}
+				}
+			}
+		}
+		
+		return tFoundPlayer;
 	}
 	
 	public Player getPlayer (int aIndex) {
@@ -524,6 +543,8 @@ public class PlayerManager {
 						System.out.println ("Par Price already set.");
 					} else {
 						parPriceFrame = new ParPriceFrame (aPlayer, stockRound, tFreeCertificate);
+						Point tNewPoint = gameManager.getOffsetPlayerFrame ();
+						parPriceFrame.setLocation (tNewPoint);
 						parPriceFrame.setVisible (true);
 						tChainBuyToParValue = true;
 					}

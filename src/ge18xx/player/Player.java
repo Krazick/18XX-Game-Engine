@@ -467,6 +467,10 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		return tPercentOwned;
 	}
 	
+	public PlayerFrame getPlayerFrame () {
+		return playerFrame;
+	}
+	
 	public XMLElement getPlayerElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		
