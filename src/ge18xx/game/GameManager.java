@@ -1,6 +1,5 @@
 package ge18xx.game;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ItemListener;
