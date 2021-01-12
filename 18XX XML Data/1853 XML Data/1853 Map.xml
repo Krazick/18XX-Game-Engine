@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Map cols="19" defaultType="Ocean" direction="EW" fillColor="hollow"
 	rows="21" rowStart="V" colStart="zz"
-	width="1350" height="1350" xLocation="1180" yLocation="20" visible="false">
+	width="1350" height="1350" xLocation="100" yLocation="100" visible="false">
 	<TerrainCosts>
 		<Terrain cost="40" type="River" />
 		<Terrain cost="70" type="Multiple River" />

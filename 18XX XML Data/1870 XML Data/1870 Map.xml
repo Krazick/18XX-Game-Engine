@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Map cols="12" defaultType="Ocean" direction="EW" fillColor="black"
 	rows="15" rowStart="O" colStart="0"
-	width="860" height="1030" xLocation="1690" yLocation="30" visible="false">
+	width="860" height="1030" xLocation="100" yLocation="100" visible="false">
 	<TerrainCosts>
 		<Terrain cost="100" type="Deep Coast" />
 		<Terrain cost="80" type="Coast" />
