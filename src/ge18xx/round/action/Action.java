@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
+import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -35,7 +36,7 @@ public class Action {
 	ActorI.ActionStates roundType;
 	String roundID;
 	ActorI actor;
-	int number = 0;
+	int number;
 	int totalCash;
 	List<Effect> effects;
 	Boolean chainToPrevious; // Chain this Action to Previous Action -- 
@@ -46,6 +47,7 @@ public class Action {
 	}
 	
 	public Action (String aName) {
+		setNumber (0);
 		setName (aName);
 		setActor (NO_ACTOR);
 		setRoundType (NO_ROUND_TYPE);
@@ -328,5 +330,53 @@ public class Action {
 		System.out.println ("Applied All Effects " + tActionApplied);
 
 		return tActionApplied;
+	}
+
+	public int getEffectDebit (String aActorName) {
+		int tDebit = 0;
+		CashTransferEffect tCashTransferEffect;
+		
+		for (Effect tEffect: effects) {
+			if (tEffect instanceof CashTransferEffect) {
+				tCashTransferEffect = (CashTransferEffect) tEffect;
+				tDebit = tCashTransferEffect.getEffectDebit (aActorName);
+			}
+		}
+		
+		return tDebit;
+	}
+	
+	public int getEffectCredit (String aActorName) {
+		int tCredit = 0;
+		CashTransferEffect tCashTransferEffect;
+		
+		for (Effect tEffect: effects) {
+			if (tEffect instanceof CashTransferEffect) {
+				tCashTransferEffect = (CashTransferEffect) tEffect;
+				tCredit = tCashTransferEffect.getEffectCredit (aActorName);
+			}
+		}
+		
+		return tCredit;
+	}
+	
+	public boolean effectsThisActor (String aActorName) {
+		boolean tEffectsThisActor = false;
+		String tFoundActorName;
+		
+		tFoundActorName = actor.getName ();
+		if (aActorName.equals (tFoundActorName)) {
+			tEffectsThisActor = true;
+		} else {
+			for (Effect tEffect: effects) {
+				if (aActorName.equals (tEffect.getActorName ())) {
+					tEffectsThisActor = true;
+				} else if (aActorName.equals (tEffect.getToActorName ())) {
+					tEffectsThisActor = true;
+				}
+			}
+		}
+		
+		return tEffectsThisActor;
 	}
 }

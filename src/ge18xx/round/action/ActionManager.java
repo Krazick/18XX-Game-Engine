@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.network.JGameClient;
 import ge18xx.round.RoundManager;
+import ge18xx.toplevel.AuditFrame;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -20,6 +21,7 @@ public class ActionManager {
 	ActionReportFrame actionReportFrame;
 	RoundManager roundManager;
 	GameManager gameManager;
+	int actionNumber;
 	
 	public ActionManager (RoundManager aRoundManager) {
 		String tFullTitle;
@@ -30,6 +32,19 @@ public class ActionManager {
 		actions = new LinkedList<Action> ();
 		actionReportFrame = new ActionReportFrame (tFullTitle, aRoundManager.getGameName ());
 		gameManager.addNewFrame (actionReportFrame);
+		setActionNumber (100);
+	}
+	
+	public void setActionNumber (int aNumber) {
+		actionNumber = aNumber;
+	}
+	
+	public int getActionNumber () {
+		return actionNumber;
+	}
+	
+	public void incrementActionNumber () {
+		actionNumber++;
 	}
 	
 	public void actionReport () {
@@ -56,28 +71,14 @@ public class ActionManager {
 		actionReportFrame.append ("\n\n" + aAction.getActionReport (roundManager));
 	}
 	
-	public int getLastActionNumber () {
-		Action tLastAction;
-		int tNumber, tActionCount;
-		
-		tActionCount = actions.size ();
-		if (tActionCount > 0) {
-			tLastAction = actions.get (tActionCount - 1);
-			tNumber = tLastAction.getNumber ();
-		} else {
-			tNumber = 0;
-		}
-		
-		return tNumber;
-	}
-	
 	public void addAction (Action aAction) {
 		JGameClient tNetworkJGameClient;
 		String tXMLFormat;
-		int tLastActionNumber, tTotalCash;
+		int tActionNumber, tTotalCash;
 		
-		tLastActionNumber = getLastActionNumber ();
-		aAction.setNumber (tLastActionNumber + 1);
+		incrementActionNumber ();
+		tActionNumber = getActionNumber ();
+		aAction.setNumber (tActionNumber);
 		tTotalCash = gameManager.getTotalCash ();
 		aAction.setTotalCash (tTotalCash);
 		
@@ -301,5 +302,32 @@ public class ActionManager {
 
 	public void showFrame () {
 		actionReportFrame.setVisible (true);
+	}
+	
+	public void fillAuditFrame (AuditFrame aAuditFrame, String aActorName) {
+		int tTotalActionCount, tActionIndex;
+		Action tAction;
+		String tActionEventDescription, tActionName;
+		int tDebit, tCredit, tActionNumber, tFoundActionCount;
+		
+		if (aActorName != null) { 
+			tTotalActionCount = actions.size ();
+			if (tTotalActionCount > 0) {
+				tFoundActionCount = 0;
+				for (tActionIndex = 0; tActionIndex < tTotalActionCount; tActionIndex++) {
+					tAction = actions.get (tActionIndex);
+					if (tAction.effectsThisActor (aActorName)) {
+						tFoundActionCount++;
+						tActionNumber = tAction.getNumber ();
+						tActionName = tAction.getName ();
+						tActionEventDescription = tActionName + ": " + tAction.getSimpleActionReport ();
+						tDebit = tAction.getEffectDebit (aActorName);
+						tCredit = tAction.getEffectCredit (aActorName);
+						aAuditFrame.addRow (tActionNumber, tActionEventDescription, tDebit, tCredit);
+					}
+				}
+				System.out.println ("Examined " + tActionIndex + " Actions found " + tFoundActionCount + " Actions for " + aActorName);
+			}
+		}
 	}
 }

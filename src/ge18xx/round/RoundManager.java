@@ -29,6 +29,7 @@ import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.tiles.TileSet;
+import ge18xx.toplevel.AuditFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.utilities.AttributeName;
@@ -933,5 +934,9 @@ public class RoundManager {
 	
 	public int getTotalCash () {
 		return gameManager.getTotalCash ();
+	}
+	
+	public void fillAuditFrame (AuditFrame aAuditFrame, String aActorName) {
+		actionManager.fillAuditFrame (aAuditFrame, aActorName);
 	}
 }

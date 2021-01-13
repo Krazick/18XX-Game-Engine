@@ -113,6 +113,10 @@ public class Effect {
 		}
 	}
 
+	public String getToActorName () {
+		return ActorI.NO_NAME;
+	}
+
 	public String getActorName () {
 		return actor.getName ();
 	}

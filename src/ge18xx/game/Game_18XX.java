@@ -44,7 +44,7 @@ public class Game_18XX extends JFrame {
 	protected Action selectGameAction, showMapAction, showMarketAction, showCitiesAction, showPrivatesAction;
 	protected Action showTileTrayAction, showCoalCompaniesAction, showMinorCompaniesAction;
 	protected Action showChatClientAction, showRoundFrameAction, showShareCompaniesAction;
-	protected Action showPlayerInputAction;
+	protected Action showPlayerInputAction, showAuditFrameAction;
 	static final JMenuBar mainMenuBar = new JMenuBar ();	
 	protected JMenu fileMenu, gameMenu;
 
@@ -288,7 +288,7 @@ public class Game_18XX extends JFrame {
 		mainMenuBar.add (fileMenu);
 
 		gameMenu = new JMenu("Game");
-		tMenuItemCount = 10;
+		tMenuItemCount = 11;
 		gameMenuItems = new JMenuItem [tMenuItemCount];
 		gameMenuItems [0] = new JMenuItem (showMapAction);
 		gameMenuItems [1] = new JMenuItem (showMarketAction);
@@ -300,6 +300,7 @@ public class Game_18XX extends JFrame {
 		gameMenuItems [7] = new JMenuItem (showTileTrayAction);
 		gameMenuItems [8] = new JMenuItem (showChatClientAction);
 		gameMenuItems [9] = new JMenuItem (showRoundFrameAction);
+		gameMenuItems [10] = new JMenuItem (showAuditFrameAction);
 		
 		for (tMenuItemIndex = 0; tMenuItemIndex < tMenuItemCount; tMenuItemIndex++) {
 			gameMenuItems [tMenuItemIndex].setEnabled (false);
@@ -329,7 +330,7 @@ public class Game_18XX extends JFrame {
 		
 		showMapAction = new showMapActionClass (resbundle.getString("showMapItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_M, shortcutKeyMask));
-		showMarketAction = new showMarketActionClass (resbundle.getString("showMarketItem"),
+		showMarketAction = new showMarketActionClass (resbundle.getString ("showMarketItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_K, shortcutKeyMask));
 		showCitiesAction = new showCitiesActionClass (resbundle.getString ("showCitiesItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_L, shortcutKeyMask));
@@ -342,6 +343,7 @@ public class Game_18XX extends JFrame {
 		showShareCompaniesAction = new showShareCompaniesActionClass (resbundle.getString ("showShareCompaniesItem"), null);
 		showChatClientAction = new showChatClientActionClass (resbundle.getString ("showChatClientItem"), null);
 		showRoundFrameAction = new showRoundFrameActionClass (resbundle.getString ("showRoundFrameItem"), null);
+		showAuditFrameAction = new showAuditFrameActionClass (resbundle.getString ("showAuditFrameItem"), null);
 	}
 	
 	public void createGameSet () {
@@ -615,6 +617,19 @@ public class Game_18XX extends JFrame {
 		
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showRoundFrame ();
+		}
+	}
+	
+	public class showAuditFrameActionClass extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public showAuditFrameActionClass (String text, KeyStroke shortcut) {
+			super (text);
+			putValue (ACCELERATOR_KEY, shortcut);
+		}
+		
+		public void actionPerformed (ActionEvent e) {
+			gameManager.showAuditFrame ();
 		}
 	}
 	

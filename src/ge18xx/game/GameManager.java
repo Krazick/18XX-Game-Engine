@@ -44,6 +44,7 @@ import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.toplevel.AuctionFrame;
+import ge18xx.toplevel.AuditFrame;
 import ge18xx.toplevel.CitiesFrame;
 import ge18xx.toplevel.CoalCompaniesFrame;
 import ge18xx.toplevel.CorporationTableFrame;
@@ -104,6 +105,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	MinorCompaniesFrame minorCompaniesFrame;
 	ShareCompaniesFrame shareCompaniesFrame;
 	TileTrayFrame tileTrayFrame;
+	AuditFrame auditFrame;
 	TileDefinitionFrame tileDefinitionFrame;
 	PlayerInputFrame playerInputFrame;
 	JFileChooser chooser;
@@ -136,6 +138,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setTileTrayFrame (NO_FRAME);
 		setTileDefinitionFrame (NO_FRAME);
 		setPlayerInputFrame (NO_PLAYER_INPUT_FRAME);
+		setAuditFrame (NO_FRAME);
 		setClientUserName (aClientUserName);
 		saveFile = null;
 		autoSaveFile = null;
@@ -278,6 +281,18 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 		
 		return tFullTitle;
+	}
+	
+	public void createAuditFrame () {
+		AuditFrame tAuditFrame;
+		String tFullTitle;
+		
+		if (gameIsStarted ()) {
+			tFullTitle = createFrameTitle ("Audit");
+		
+			tAuditFrame = new AuditFrame (tFullTitle, this);
+			setAuditFrame (tAuditFrame);
+		}
 	}
 	
 	public void createMap () {
@@ -732,6 +747,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public AuctionFrame getAuctionFrame () {
 		return auctionFrame;
+	}
+	
+	public AuditFrame getAuditFrame () {
+		return auditFrame;
 	}
 	
 	public MapFrame getMapFrame () {
@@ -1406,6 +1425,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		addNewFrame (aXMLFrame);
 	}
 
+	public void setAuditFrame (XMLFrame aXMLFrame) {
+		auditFrame = (AuditFrame) aXMLFrame;
+		addNewFrame (aXMLFrame);
+	}
+	
 	public void setTileDefinitionFrame (XMLFrame aXMLFrame) {
 		tileDefinitionFrame = (TileDefinitionFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
@@ -1445,7 +1469,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 			createCities ();
 			createTileTray ();
 			createMap ();
-
+			createAuditFrame ();
+			
 			tileTrayFrame.setTraySize ();
 		}
 	}
@@ -1983,6 +2008,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void showRoundFrame () {
 		roundManager.showRoundFrame ();
+	}
+	
+	public void showAuditFrame () {
+		String tActorName;
+		
+		tActorName = "Canadian Pacific";	
+		auditFrame.setActorName (tActorName);
+
+		roundManager.fillAuditFrame (auditFrame, tActorName);
+		auditFrame.setVisible (true);
 	}
 	
 	public void showChatClient () {

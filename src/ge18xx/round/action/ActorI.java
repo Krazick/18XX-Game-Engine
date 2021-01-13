@@ -4,6 +4,7 @@ import ge18xx.utilities.AttributeName;
 
 public interface ActorI {
 	public final ActorI NO_ACTOR = null;
+	public final String NO_NAME = null;
 	public static final AttributeName AN_ACTOR_NAME = new AttributeName ("actor");
 	public static final AttributeName AN_TO_ACTOR_NAME = new AttributeName ("toActor");
 	public static final AttributeName AN_FROM_ACTOR_NAME = new AttributeName ("fromActor");

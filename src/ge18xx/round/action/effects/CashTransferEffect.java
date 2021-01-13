@@ -93,6 +93,26 @@ public class CashTransferEffect extends Effect {
 		toActor = aToActor;
 	}
 	
+	public int getEffectDebit (String aActorName) {
+		int tDebit = 0;
+		
+		if (aActorName.equals (actor.getName ())) {
+			tDebit = cash;
+		}
+		
+		return tDebit;
+	}
+	
+	public int getEffectCredit (String aActorName) {
+		int tCredit = 0;
+		
+		if (aActorName.equals (toActor.getName ())) {
+			tCredit = cash;
+		}
+		
+		return tCredit;
+	}
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
@@ -120,4 +140,10 @@ public class CashTransferEffect extends Effect {
 		
 		return tEffectUndone;
 	}
+	
+
+	public String getToActorName () {
+		return toActor.getName ();
+	}
+
 }
