@@ -991,6 +991,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tSelectedFile;
 	}
 	
+	public int getStartingCash () {
+		int tStartingCash;
+		
+		tStartingCash = activeGame.getStartingCash (playerManager.getPlayerCount ());
+		
+		return tStartingCash;
+	}
+	
 	public void loadSavedGame () {
 		File tSaveDirectory, tNewSaveDirectory; 
 		String tSaveDirectoryPath;
@@ -1128,6 +1136,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				}
 				if (tGameInitiated) {
 					if (Action.EN_ACTIONS.equals (tChildName)) {
+						System.out.println ("Found an <Actions> Element Loading");
 						roundManager.loadActions (tChildNode, this);
 					}
 					if (RoundManager.EN_ROUNDS.equals (tChildName)) {
@@ -2012,12 +2021,19 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public void showAuditFrame () {
 		String tActorName;
+		CorporationList tCompanies;
+		Corporation tCorporation;
 		
-		tActorName = "Canadian Pacific";	
+		tCompanies = shareCompaniesFrame.getShareCompanies ();
+		tCorporation = tCompanies.getCorporation (0);
+		tActorName = tCorporation.getName ();
 		auditFrame.setActorName (tActorName);
-
-		roundManager.fillAuditFrame (auditFrame, tActorName);
+		fillAuditFrame (tActorName);
 		auditFrame.setVisible (true);
+	}
+	
+	public void fillAuditFrame (String aActorName) {
+		roundManager.fillAuditFrame (auditFrame, aActorName);
 	}
 	
 	public void showChatClient () {

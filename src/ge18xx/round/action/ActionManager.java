@@ -72,16 +72,15 @@ public class ActionManager {
 	}
 	
 	public void addAction (Action aAction) {
+		setNewActionNumber (aAction);
+		setAuditAttributes (aAction);
+		justAddAction (aAction);
+	}
+
+	private void justAddAction (Action aAction) {
 		JGameClient tNetworkJGameClient;
 		String tXMLFormat;
-		int tActionNumber, tTotalCash;
-		
-		incrementActionNumber ();
-		tActionNumber = getActionNumber ();
-		aAction.setNumber (tActionNumber);
-		tTotalCash = gameManager.getTotalCash ();
-		aAction.setTotalCash (tTotalCash);
-		
+
 		actions.add (aAction);
 		appendToReportFrame (aAction);
 		// Note the 'getNotifyNetwork' in the Game Manager should be tested
@@ -93,7 +92,21 @@ public class ActionManager {
 			tXMLFormat = tXMLFormat.replaceAll ("\n","");
 			tNetworkJGameClient.sendGameActivity (tXMLFormat);
 			appendToJGameClient (aAction);
-		}
+		}	
+	}
+	
+	private void setAuditAttributes (Action aAction) {
+		int tTotalCash;
+		
+		tTotalCash = gameManager.getTotalCash ();
+		aAction.setTotalCash (tTotalCash);
+	}
+	
+	private void setNewActionNumber (Action aAction) {
+		int tActionNumber;
+		incrementActionNumber ();
+		tActionNumber = getActionNumber ();
+		aAction.setNumber (tActionNumber);
 	}
 	
 	public void briefActionReport () {
@@ -166,17 +179,19 @@ public class ActionManager {
 		
 		tActionChildren = aActionsNode.getChildNodes ();
 		tActionNodeCount = tActionChildren.getLength ();
+		System.out.println ("Total Children Count for Actions: " + tActionNodeCount);
 		try {
 			for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
 				tActionNode = new XMLNode (tActionChildren.item (tActionIndex));
 				tAction = getAction (aGameManager, tActionNode);
 				if (tAction != NO_ACTION) {
-					addAction (tAction);
+					justAddAction (tAction);
 				}
 			}
 			appendAllActions();
 		} catch (Exception e) {
-			System.out.println (e.getMessage ());
+			System.err.println (e.getMessage ());
+			e.printStackTrace();
 		}
 	}
 
@@ -187,9 +202,12 @@ public class ActionManager {
 		Action tAction = NO_ACTION;
 		Class<?> tActionToLoad;
 		Constructor<?> tActionConstructor;
+		int tNumber;
 		
 		tANodeName = tActionNode.getNodeName ();
 		if (Action.EN_ACTION.equals (tANodeName)) {
+			tNumber = tActionNode.getThisIntAttribute (Action.AN_NUMBER);
+			System.out.println ("Action Number " + tNumber + " Found - Ready to Load");
 			// Use Reflections to identify the Action and call the constructor with the XMLNode and the Game Manager
 			tClassName = tActionNode.getThisAttribute (Action.AN_CLASS);
 			tActionToLoad = Class.forName (tClassName);
@@ -309,6 +327,7 @@ public class ActionManager {
 		Action tAction;
 		String tActionEventDescription, tActionName;
 		int tDebit, tCredit, tActionNumber, tFoundActionCount;
+		String tRoundID;
 		
 		if (aActorName != null) { 
 			tTotalActionCount = actions.size ();
@@ -317,13 +336,17 @@ public class ActionManager {
 				for (tActionIndex = 0; tActionIndex < tTotalActionCount; tActionIndex++) {
 					tAction = actions.get (tActionIndex);
 					if (tAction.effectsThisActor (aActorName)) {
-						tFoundActionCount++;
-						tActionNumber = tAction.getNumber ();
-						tActionName = tAction.getName ();
-						tActionEventDescription = tActionName + ": " + tAction.getSimpleActionReport ();
-						tDebit = tAction.getEffectDebit (aActorName);
-						tCredit = tAction.getEffectCredit (aActorName);
-						aAuditFrame.addRow (tActionNumber, tActionEventDescription, tDebit, tCredit);
+						if (tAction.effectsForActorAreCash (aActorName)) {
+							tFoundActionCount++;
+							tActionNumber = tAction.getNumber ();
+							tActionName = tAction.getName ();
+							
+							tActionEventDescription = tActionName + ": " + tAction.getSimpleActionReport ();
+							tDebit = tAction.getEffectDebit (aActorName);
+							tCredit = tAction.getEffectCredit (aActorName);
+							tRoundID = tAction.getRoundType ().toAbbrev () + " " + tAction.getRoundID ();
+							aAuditFrame.addRow (tActionNumber, tRoundID, tActionEventDescription, tDebit, tCredit);
+						}
 					}
 				}
 				System.out.println ("Examined " + tActionIndex + " Actions found " + tFoundActionCount + " Actions for " + aActorName);
