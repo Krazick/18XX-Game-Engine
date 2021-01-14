@@ -16,18 +16,18 @@ public class RustTrainEffect extends TransferTrainEffect {
 	public final static String NAME = "Rust Train";
 	int oldTrainStatus;
 	
-	public RustTrainEffect() {
+	public RustTrainEffect () {
 		super ();
 		setName (NAME);
 	}
 
-	public RustTrainEffect(ActorI aFromActor, Train aTrain, ActorI aToActor, int aTrainStatus) {
+	public RustTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor, int aTrainStatus) {
 		super (aFromActor, aTrain, aToActor);
 		setName (NAME);
 		setOldTrainStatus (aTrainStatus);
 	}
 
-	public RustTrainEffect(XMLNode aEffectNode, GameManager aGameManager) {
+	public RustTrainEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		int tTrainStatus;
 		
@@ -48,8 +48,13 @@ public class RustTrainEffect extends TransferTrainEffect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " named " + train.getName () + " from " + 
-				actor.getName () + " placing it into the Rusted Portfolio held by the " + toActor.getName () + ".");
+		String tTrainName, tActorName, tToActorName;
+		
+		tTrainName = train.getName ();
+		tActorName = actor.getName ();
+		tToActorName = toActor.getName ();
+		return (REPORT_PREFIX + name + " named " + tTrainName + " from " + tActorName +
+				" placing it into the Rusted Portfolio held by the " + tToActorName + ".");
 	}
 
 	public int getOldTrainStatus () {

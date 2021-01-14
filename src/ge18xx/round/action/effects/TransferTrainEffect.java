@@ -66,7 +66,12 @@ public class TransferTrainEffect extends Effect {
 				if (tTrain != TrainPortfolio.NO_TRAIN) {
 					setTrain (tTrain);
 				} else {
-//					System.err.println ("Can't find " + tTrainName + " in Train Portfolio for " + tTrainCompany.getAbbrev ());
+					tTrain = aGameManager.getTrain (tTrainName);
+					if (tTrain != TrainPortfolio.NO_TRAIN) {
+						setTrain (tTrain);
+					} else {
+						System.err.println ("Can't find " + tTrainName + " in Train Portfolio for " + tTrainCompany.getAbbrev ());
+					}
 				}
 			} else {
 				System.err.println ("From Actor " + tFromActorName + " is not a Train Company");
