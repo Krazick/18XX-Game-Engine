@@ -106,4 +106,9 @@ public class Bidder implements ActorI {
 	public boolean isACorporation () {
 		return false;
 	}
+
+	@Override
+	public String getAbbrev () {
+		return getName ();
+	}
 }

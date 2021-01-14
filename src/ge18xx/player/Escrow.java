@@ -157,4 +157,9 @@ public class Escrow implements CashHolderI {
 	public boolean isACorporation () {
 		return false;
 	}
+	
+	@Override
+	public String getAbbrev () {
+		return getName ();
+	}
 }

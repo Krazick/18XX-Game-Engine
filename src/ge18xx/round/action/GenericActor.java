@@ -197,4 +197,9 @@ public class GenericActor implements ActorI {
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		// Nothing to do for the Generic Actor Class
 	}
+
+	@Override
+	public String getAbbrev() {
+		return getName ();
+	}
 }

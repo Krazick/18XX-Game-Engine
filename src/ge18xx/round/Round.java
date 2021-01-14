@@ -253,4 +253,9 @@ public abstract class Round implements ActorI {
 	public boolean isACorporation () {
 		return false;
 	}
+	
+	@Override
+	public String getAbbrev () {
+		return getName ();
+	}
 }

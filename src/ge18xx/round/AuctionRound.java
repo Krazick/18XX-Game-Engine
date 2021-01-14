@@ -66,4 +66,9 @@ public class AuctionRound extends Round {
 		roundManager.addPrivateToAuction ();
 		playerManager.showAuctionRound ();
 	}
+	
+	@Override
+	public String getAbbrev () {
+		return getName ();
+	}
 }
