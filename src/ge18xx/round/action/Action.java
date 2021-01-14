@@ -253,7 +253,7 @@ public class Action {
 	}
 	
 	public String getBriefActionReport () {
-		return REPORT_PREFIX + roundType + " " + roundID + ": " + actor.getName () + 
+		return number + ". " + roundType + " " + roundID + ": " + actor.getAbbrev () + 
 				" performed " + name + " Chain to Previous [" + chainToPrevious + "]";
 	}
 	
@@ -318,8 +318,6 @@ public class Action {
 		
 		tActionApplied = true;
 		for (Effect tEffect: effects) {
-//			System.out.println ("---Trying to Apply Effect:");
-//			tEffect.printEffectReport (aRoundManager);
 			tEffectApplied = tEffect.applyEffect (aRoundManager);
 			tActionApplied &= tEffectApplied;
 			System.out.println ("Tried to Apply a |" + name + "|, Effect " + tEffect.getName () +
@@ -351,9 +349,11 @@ public class Action {
 		CashTransferEffect tCashTransferEffect;
 		
 		for (Effect tEffect: effects) {
-			if (tEffect instanceof CashTransferEffect) {
-				tCashTransferEffect = (CashTransferEffect) tEffect;
-				tCredit = tCashTransferEffect.getEffectCredit (aActorName);
+			if (tCredit == 0) {
+				if (tEffect instanceof CashTransferEffect) {
+					tCashTransferEffect = (CashTransferEffect) tEffect;
+					tCredit = tCashTransferEffect.getEffectCredit (aActorName);
+				}
 			}
 		}
 		
@@ -378,5 +378,23 @@ public class Action {
 		}
 		
 		return tEffectsThisActor;
+	}
+
+	public boolean effectsForActorAreCash (String aActorName) {
+		boolean tEffectsThisActorAreCash = false;
+		String tActorName, tToActorName;
+		
+		for (Effect tEffect: effects) {
+			tActorName = tEffect.getActorName ();
+			tToActorName = tEffect.getToActorName ();
+				if ( (aActorName.equals (tActorName)) ||
+				 (aActorName.equals (tToActorName )) ) {
+				if (tEffect instanceof CashTransferEffect)  {
+					tEffectsThisActorAreCash = true;
+				}
+			}
+		}
+		
+		return tEffectsThisActorAreCash;
 	}
 }
