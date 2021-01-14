@@ -41,13 +41,13 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 		String tReceiverName;
 		CashTransferEffect tCashTransferEffect;
 		
-		tSimpleActionReport = actor.getName () + " paid Full Dividend.";
+		tSimpleActionReport = actor.getAbbrev () + " paid Full Dividend.";
 		
 		for (Effect tEffect : effects) {
 			if (tEffect instanceof CashTransferEffect) {
 				tCashTransferEffect = (CashTransferEffect) tEffect;
 				tCashAmount = tCashTransferEffect.getCash ();
-				tReceiverName = tCashTransferEffect.getToActor ().getName ();
+				tReceiverName = tCashTransferEffect.getToActor ().getAbbrev ();
 				tSimpleActionReport += "\n" + tReceiverName + " received " + Bank.formatCash (tCashAmount) + ".";
 			}
 		}
