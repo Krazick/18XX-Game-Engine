@@ -818,7 +818,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		boolean tLoadedRow;
 		int tTerrainType [] = new int [15];
 		int tTerrainCost [] = new int [15];
-
+		int tDefaultHexSize;
+		
 		tXMLMapRoot = aXMLDocument.getDocumentElement ();
 		tCols = tXMLMapRoot.getThisIntAttribute (AN_COLS);
 		tRows = tXMLMapRoot.getThisIntAttribute (AN_ROWS);
@@ -841,6 +842,12 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		map [0] [0] = new MapCell (this, tDirection);
 		map [0] [0].setTerrainFillColor (tFillColor);
 		hex = new Hex (map [0] [0].getMapDirection ());
+		tDefaultHexSize = mapFrame.getDefaultHexScale ();
+		if (tDefaultHexSize == 0) {
+			tDefaultHexSize = 8;
+		}
+		setHexScale (tDefaultHexSize);
+		
         CalcGridCenters ();
         
 		tChildren = tXMLMapRoot.getChildNodes ();
@@ -1008,18 +1015,33 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tileSet = aTileSet;
 	}
 	
+	public int getHexScale () {
+		return Hex.getScale ();
+	}
+	
+	public void setHexScale (int aScale) {
+		hex.setScale (aScale);
+		if (map != null) {
+			CalcGridCenters ();
+			setMapSize ();
+			redrawMap ();
+		}
+		tileSet.setScale (aScale);
+	}
+	
 	/** Listen to the slider. */
     public void stateChanged (ChangeEvent e) {
         JSlider source = (JSlider) e.getSource();
         if (!source.getValueIsAdjusting ()) {
             int hexScale = (int) source.getValue ();
-			hex.setScale (hexScale);
-			if (map != null) {
-				CalcGridCenters ();
-				setMapSize ();
-				redrawMap ();
-			}
-			tileSet.setScale (hexScale);
+            setHexScale (hexScale);
+//			hex.setScale (hexScale);
+//			if (map != null) {
+//				CalcGridCenters ();
+//				setMapSize ();
+//				redrawMap ();
+//			}
+//			tileSet.setScale (hexScale);
         }
     }
 	

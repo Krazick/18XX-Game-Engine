@@ -30,6 +30,7 @@ public class XMLFrame extends JFrame {
 	int defaultHeight;
 	int defaultXLocation;
 	int defaultYLocation;
+	int defaultHexSize;
 	boolean defaultVisible;
 	String gameName;
 	
@@ -68,18 +69,19 @@ public class XMLFrame extends JFrame {
 		return tXMLFileWasLoaded;
 	}
 	
-	public void setDefaults (int aWidth, int aHeight, int aXLocation, int aYLocation, boolean aVisible) {
+	public void setDefaults (int aWidth, int aHeight, int aXLocation, int aYLocation, boolean aVisible, int aHexSize) {
 		defaultWidth = aWidth;
 		defaultHeight = aHeight;
 		defaultXLocation = aXLocation;
 		defaultYLocation = aYLocation;
 		defaultVisible = aVisible;
+		defaultHexSize = aHexSize;
 	}
 	
 	public void setDefaults (FrameInfo aFrameInfo) {
 		setDefaults (aFrameInfo.getWidth (), aFrameInfo.getHeight (),
 				aFrameInfo.getXLocation (), aFrameInfo.getYLocation (), 
-				aFrameInfo.getVisible ());
+				aFrameInfo.getVisible (), aFrameInfo.getHexSize ());
 	}
 	
 	public void setDefaults (XMLNode aXMLMapRoot) {
@@ -107,6 +109,10 @@ public class XMLFrame extends JFrame {
 		return defaultVisible;
 	}
 
+	public int getDefaultHexScale () {
+		return defaultHexSize;
+	}
+	
 	public void setDefaultFrameInfo () {
 		setLocation (defaultXLocation, defaultYLocation);
 		setSize (defaultWidth, defaultHeight);
@@ -183,6 +189,14 @@ public class XMLFrame extends JFrame {
 		} else if (aVisibility.equals (Visibility.OFF.toString ())) {
 			setVisible (false);				
 		}
-
+	}
+	
+	public int getHexScale () {
+		return 0;
+	}
+	
+	public void setHexScale (int aScale) {
+		// DO NOTHING by default - If a Specific Frame Type needs to set the Scale, it will have it's Overriding Function.
+		// Primarily for the MapFrame
 	}
 }

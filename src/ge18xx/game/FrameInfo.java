@@ -12,12 +12,14 @@ public class FrameInfo {
 	public static final AttributeName AN_XLOCATION = new AttributeName ("xLocation");
 	public static final AttributeName AN_YLOCATION= new AttributeName ("yLocation");
 	public static final AttributeName AN_VISIBLE = new AttributeName ("visible");
+	public static final AttributeName AN_HEX_SCAKE = new AttributeName ("hexScale");
 	public static final FrameInfo NO_FRAME_INFO = null;
 	public static final String NO_FRAME_NAME = null;
 	int height;
 	int width;
 	int xLocation;
 	int yLocation;
+	int hexSize = 0;
 	boolean visible;
 	String name;
 
@@ -30,7 +32,8 @@ public class FrameInfo {
 		xLocation = aXMLFrame.getLocation ().x;
 		yLocation = aXMLFrame.getLocation ().y;
 		visible = aXMLFrame.isVisible ();
-		
+		hexSize = aXMLFrame.getHexScale ();
+
 		tFrameName = aXMLFrame.getTitle ();
 		if (tFrameName.matches (tPattern)) {
 			int tIndexLastSpace = tFrameName.lastIndexOf (" ");
@@ -47,7 +50,10 @@ public class FrameInfo {
 		aXMLFrameElement.setAttribute (AN_XLOCATION, xLocation);
 		aXMLFrameElement.setAttribute (AN_YLOCATION, yLocation);
 		aXMLFrameElement.setAttribute (AN_VISIBLE, visible);
-	
+		if (hexSize > 0) {
+			aXMLFrameElement.setAttribute (AN_HEX_SCAKE, hexSize);	
+		}
+		
 		return aXMLFrameElement;
 	}
 
@@ -58,6 +64,7 @@ public class FrameInfo {
 		yLocation = aFrameInfoNode.getThisIntAttribute (AN_YLOCATION, 20);
 		visible = aFrameInfoNode.getThisBooleanAttribute (AN_VISIBLE);
 		name = aFrameInfoNode.getThisAttribute (AN_NAME);
+		hexSize = aFrameInfoNode.getThisIntAttribute (AN_HEX_SCAKE);
 	}
 
 	public String toString () {
@@ -95,5 +102,9 @@ public class FrameInfo {
 	
 	public String getName () {
 		return name;
+	}
+	
+	public int getHexSize () {
+		return hexSize;
 	}
 }
