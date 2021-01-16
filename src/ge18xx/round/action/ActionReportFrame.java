@@ -20,7 +20,7 @@ public class ActionReportFrame extends XMLFrame {
 	}
 	
 	public void append (String aReport) {
-		actionReport.append (aReport);
+		actionReport.append ("\n" + aReport);
 		actionReport.setCaretPosition (actionReport.getDocument ().getLength ());
 	}
 }
