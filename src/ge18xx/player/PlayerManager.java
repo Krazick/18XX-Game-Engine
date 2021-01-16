@@ -633,8 +633,8 @@ public class PlayerManager {
 		stockRound.setPriorityPlayer (tNextPlayerIndex);
 		stockRound.updateRFPlayerLabel (tOldPriorityPlayer);
 		
-		moveToNextPlayer (tNextPlayerIndex);
 		addAction (tDonePlayerAction);
+		moveToNextPlayer (tNextPlayerIndex);
 		stockRound.printBriefActionReport ();
 	}
 	
