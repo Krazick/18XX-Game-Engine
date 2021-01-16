@@ -32,6 +32,11 @@ import javax.swing.ButtonGroup;
 import javax.swing.SwingConstants;
 
 import ge18xx.game.NetworkGameSupport;
+import ge18xx.player.Player;
+import ge18xx.round.RoundManager;
+import ge18xx.round.action.ActionManager;
+import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.SyncActionNumber;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -466,11 +471,22 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	private void handleStartGame () {
+		SyncActionNumber tSyncActionNumber;
+		Player tPlayer;
+		RoundManager tRoundManager;
+		
 		serverHandler.sendUserStart ();
 		startsGame ();
+		tPlayer = gameManager.getClientPlayer ();
+		tSyncActionNumber = new SyncActionNumber (ActionStates.StockRound, "1", tPlayer);
+		tSyncActionNumber.addSyncActionNumberEffect (tPlayer, ActionManager.STARTING_ACTION_NUMBER);
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundManager.setActionNumber (ActionManager.STARTING_ACTION_NUMBER);
+		tRoundManager.addAction (tSyncActionNumber);
 	}
 	
 	public void startsGame () {
+		
 		swapToGameActivity ();
 		gameManager.initiateNetworkGame ();
 		startReadyButton.setEnabled (false);
