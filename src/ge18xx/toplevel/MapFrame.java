@@ -189,6 +189,15 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		return gameManager;
 	}
 	
+	public int getHexScale () {
+		return map.getHexScale ();
+	}
+	
+	@Override
+	public void setHexScale (int aScale) {
+		map.setHexScale (aScale);
+	}
+	
 	private void setModes (boolean aTileMode, boolean aTokenMode, boolean aRouteMode) {
 		setSelectRouteMode (aRouteMode);
 		setPlaceTokenMode (aTokenMode);
