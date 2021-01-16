@@ -139,7 +139,6 @@ public class NetworkPlayers {
 			for (tIndex = 0; tIndex < tNetworkPlayerCount; tIndex++) {
 				tNetworkPlayer = playerList.get (tIndex);
 				tAllPlayersAreReady = tAllPlayersAreReady && tNetworkPlayer.isReady ();
-				System.out.println ("Player " + tNetworkPlayer.getName () + " Is Ready " + tNetworkPlayer.isReady () + " All Players Ready " + tAllPlayersAreReady);
 			}
 		}
 
