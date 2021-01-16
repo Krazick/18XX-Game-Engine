@@ -86,6 +86,8 @@ public class AuditFrame extends TableFrame implements ItemListener {
 		tNorthComponents.add (playerCombo);
 		updatePlayerComboBox ();
 		
+		companyCombo.addItemListener (this);
+		playerCombo.addItemListener (this);
 		add (tNorthComponents, BorderLayout.NORTH);
 		setActorType (ActorTypes.ShareCompany);
 	}
@@ -199,16 +201,36 @@ public class AuditFrame extends TableFrame implements ItemListener {
 		PlayerManager tPlayerManager;
 		int tPlayerCount, tPlayerIndex;
 		Player tPlayer;
+		String tPlayerName;
 		
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayerCount = tPlayerManager.getPlayerCount ();
 		if (tPlayerCount > 0) {
 			for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
 				tPlayer = tPlayerManager.getPlayer (tPlayerIndex);
-				playerCombo.addItem (tPlayer.getName ());
+				tPlayerName = tPlayer.getName ();
+				if (! isPlayerInComboBox (tPlayerName)) {
+					playerCombo.addItem (tPlayerName);
+				}
 			}
 		}
-		playerCombo.addItemListener (this);
+	}
+	
+	public boolean isPlayerInComboBox (String aPlayerName) {
+		boolean tPlayerInComboBox = false;
+		int tCount, tIndex;
+		String tPlayerFound;
+		
+		tCount = playerCombo.getItemCount ();
+		for (tIndex = 0; tIndex < tCount; tIndex++) {
+			tPlayerFound = playerCombo.getItemAt (tIndex);
+			if (tPlayerFound.equals (aPlayerName)) {
+				tPlayerInComboBox = true;
+			}
+		
+		}
+		
+		return tPlayerInComboBox;
 	}
 	
 	public void updateCorpComboBox () {
@@ -230,7 +252,6 @@ public class AuditFrame extends TableFrame implements ItemListener {
 				}
 			}
 		}
-		companyCombo.addItemListener (this);
 	}
 
 }
