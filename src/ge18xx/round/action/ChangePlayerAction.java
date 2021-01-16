@@ -14,7 +14,7 @@ public class ChangePlayerAction extends Action {
 	}
 
 	public ChangePlayerAction (String aName) {
-		super (NAME);
+		super (aName);
 	}
 
 	public ChangePlayerAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
