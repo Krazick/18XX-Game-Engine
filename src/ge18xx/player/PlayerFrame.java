@@ -176,7 +176,6 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionText;
 		
-		System.out.println ("Action Listener for Player Frame Triggered");
 		if (PASS.equals (aEvent.getActionCommand ())) {
 			player.passAction ();	
 		}
