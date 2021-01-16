@@ -36,6 +36,7 @@ import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.Action;
+import ge18xx.round.action.ActionManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BuyTrainAction;
@@ -2033,6 +2034,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public void fillAuditFrame (String aActorName) {
+		auditFrame.updatePlayerComboBox ();
 		roundManager.fillAuditFrame (auditFrame, aActorName);
 	}
 	
@@ -2062,5 +2064,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tTotalCash = tBankCash + tAllPlayerCash + tAllEscrows + tAllCorpCash;
 		
 		return tTotalCash;
+	}
+	
+	public Player getClientPlayer () {
+		Player tPlayer = Player.NO_PLAYER;
+		
+		tPlayer = playerManager.getPlayer (clientUserName);
+		return tPlayer;
 	}
 }
