@@ -17,6 +17,7 @@ import java.util.List;
 
 public class ActionManager {
 	public final static Action NO_ACTION = null;
+	public final static int STARTING_ACTION_NUMBER = 100;
 	List<Action> actions;
 	ActionReportFrame actionReportFrame;
 	RoundManager roundManager;
@@ -32,11 +33,16 @@ public class ActionManager {
 		actions = new LinkedList<Action> ();
 		actionReportFrame = new ActionReportFrame (tFullTitle, aRoundManager.getGameName ());
 		gameManager.addNewFrame (actionReportFrame);
-		setActionNumber (100);
+		setActionNumber (0);
 	}
 	
 	public void setActionNumber (int aNumber) {
+		String tReportActionNumber;
+		
+		tReportActionNumber = "Change Action Number from " + actionNumber + " to " + aNumber + "\n";
+		
 		actionNumber = aNumber;
+		actionReportFrame.append (tReportActionNumber);
 	}
 	
 	public int getActionNumber () {
@@ -44,7 +50,11 @@ public class ActionManager {
 	}
 	
 	public void incrementActionNumber () {
+		String tReportActionNumber;
+		
+		tReportActionNumber = "Increment Action Number from " + actionNumber + " to " + (actionNumber + 1) + "\n";
 		actionNumber++;
+		actionReportFrame.append (tReportActionNumber);
 	}
 	
 	public void actionReport () {
@@ -104,6 +114,7 @@ public class ActionManager {
 	
 	private void setNewActionNumber (Action aAction) {
 		int tActionNumber;
+		
 		incrementActionNumber ();
 		tActionNumber = getActionNumber ();
 		aAction.setNumber (tActionNumber);
@@ -202,12 +213,9 @@ public class ActionManager {
 		Action tAction = NO_ACTION;
 		Class<?> tActionToLoad;
 		Constructor<?> tActionConstructor;
-		int tNumber;
 		
 		tANodeName = tActionNode.getNodeName ();
 		if (Action.EN_ACTION.equals (tANodeName)) {
-			tNumber = tActionNode.getThisIntAttribute (Action.AN_NUMBER);
-			System.out.println ("Action Number " + tNumber + " Found - Ready to Load");
 			// Use Reflections to identify the Action and call the constructor with the XMLNode and the Game Manager
 			tClassName = tActionNode.getThisAttribute (Action.AN_CLASS);
 			tActionToLoad = Class.forName (tClassName);
@@ -258,12 +266,22 @@ public class ActionManager {
 		actionReportFrame.append (aGameActivity);
 	}
 
+	public boolean isSyncActionNumber (Action aAction) {
+		return (aAction instanceof SyncActionNumber);
+	}
+	
+	public void handleSyncActionNumber (Action aSyncAction) {
+		
+	}
+	
 	public void handleNetworkAction (XMLNode aXMLGameActivityNode) {
 		Action tAction;
 		XMLNode tActionNode;
 		NodeList tActionChildren;
 		int tActionNodeCount, tActionIndex;
+		int tExpectedActionNumber, tThisActionNumber;
 		String tANodeName;
+		String tActionFailureMessage;
 		
 		// When handling incomming Network Actions, we DO NOT want to notify other clients
 		// that they should apply these Actions (one of them is sending it to us)
@@ -275,14 +293,46 @@ public class ActionManager {
 			tActionNodeCount = tActionChildren.getLength ();
 			try {
 				for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
+					tExpectedActionNumber = actionNumber + 1;
 					tActionNode = new XMLNode (tActionChildren.item (tActionIndex));
 					tAction = getAction (gameManager, tActionNode);
-					actions.add (tAction);
-					applyAction (tAction);
-										
-					// Add the Report of the Action Applied to the Action Frame, and the JGameClient Game Activity Frame
-					appendToReportFrame (tAction);
-					appendToJGameClient (tAction);
+					tThisActionNumber = tAction.getNumber ();
+					System.out.println ("----------- Action Index " + tActionIndex + 
+							" -- Number " + actionNumber + " Received " + tThisActionNumber + " -------------");
+					tAction.printActionReport (roundManager);
+					if (isSyncActionNumber (tAction)) {
+						setActionNumber (tThisActionNumber);
+						justAddAction (tAction);
+					} else {
+						if ((tThisActionNumber < STARTING_ACTION_NUMBER) ||
+							(tThisActionNumber == tExpectedActionNumber)) {
+							System.out.println ("\nReceived Action Number " + tThisActionNumber + 
+									" the Expected Action Number is " + tExpectedActionNumber + " Processing\n");
+							if (tThisActionNumber == tExpectedActionNumber) {
+								setActionNumber (tExpectedActionNumber);
+							}
+							actions.add (tAction);
+							applyAction (tAction);
+											
+							// Add the Report of the Action Applied to the Action Frame, and the JGameClient Game Activity Frame
+							appendToReportFrame (tAction);
+							appendToJGameClient (tAction);
+						} else if (tThisActionNumber <= actionNumber) {
+							tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
+									" is before the Expected Action Number of " + tExpectedActionNumber + " IGNORING\n";
+							System.err.println (tActionFailureMessage);
+							actionReportFrame.append (tActionFailureMessage);
+						} else if (tThisActionNumber > tExpectedActionNumber) {
+							tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
+									" is after the Expected Action Number of " + tExpectedActionNumber + " THERE IS A GAP\n";
+							System.err.println (tActionFailureMessage);						
+							actionReportFrame.append (tActionFailureMessage);
+						} else {
+							tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
+									" is not the Expected Action Number of " + tExpectedActionNumber + " This should have Matched\n";
+							System.err.println (tActionFailureMessage);
+						}
+					}
 				}
 			} catch (Exception tException) {
 				System.err.println (tException.getMessage ());
@@ -309,10 +359,15 @@ public class ActionManager {
 	
 	public boolean applyAction (Action aAction) {
 		boolean tActionApplied;
+		int tActionNumber;
 		
-		actionReportFrame.append ("\n\nApplying: " + aAction.getBriefActionReport ());
-		aAction.printBriefActionReport ();
+//		actionReportFrame.append ("\n\nApplying: " + aAction.getBriefActionReport ());
+//		aAction.printBriefActionReport ();
 		tActionApplied = aAction.applyAction (roundManager);
+		tActionNumber = aAction.getNumber ();
+		if (tActionNumber > actionNumber) {
+			setActionNumber (tActionNumber);
+		}
 		roundManager.updateRoundFrame ();
 		
 		return tActionApplied;
