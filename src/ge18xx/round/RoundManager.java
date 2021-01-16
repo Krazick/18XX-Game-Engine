@@ -675,25 +675,27 @@ public class RoundManager {
 	}
 	
 	public void updateRoundFrame () {
-		roundFrame.updatePhaseLabel ();
-		PlayerManager tPlayerManager;
-		
-		if (isStockRound ()) {
-			updateAllCorporationsBox ();
-			roundFrame.setStockRound (gameName, stockRound.getIDPart1 ());
-			tPlayerManager = gameManager.getPlayerManager ();
-			tPlayerManager.updateAllRFPlayerLabels ();
-		}
-		if (isOperatingRound ()) {
-			tPlayerManager = gameManager.getPlayerManager ();
-			tPlayerManager.updateAllRFPlayerLabels ();
-			roundFrame.setOperatingRound (gameName, operatingRound.getIDPart1 (), currentOR, operatingRoundCount);
-			updateAllCorporationsBox ();
-			updateOperatingCorporationFrame ();
-			operatingRound.updateActionLabel ();
-		}
-		if (isAuctionRound ()) {
-			roundFrame.setAuctionRound (gameName, auctionRound.getIDPart1 ());
+		if (roundFrame != RoundManager.NO_ROUND_FRAME) {
+			roundFrame.updatePhaseLabel ();
+			PlayerManager tPlayerManager;
+			
+			if (isStockRound ()) {
+				updateAllCorporationsBox ();
+				roundFrame.setStockRound (gameName, stockRound.getIDPart1 ());
+				tPlayerManager = gameManager.getPlayerManager ();
+				tPlayerManager.updateAllRFPlayerLabels ();
+			}
+			if (isOperatingRound ()) {
+				tPlayerManager = gameManager.getPlayerManager ();
+				tPlayerManager.updateAllRFPlayerLabels ();
+				roundFrame.setOperatingRound (gameName, operatingRound.getIDPart1 (), currentOR, operatingRoundCount);
+				updateAllCorporationsBox ();
+				updateOperatingCorporationFrame ();
+				operatingRound.updateActionLabel ();
+			}
+			if (isAuctionRound ()) {
+				roundFrame.setAuctionRound (gameName, auctionRound.getIDPart1 ());
+			}
 		}
 	}
 	
@@ -938,5 +940,9 @@ public class RoundManager {
 	
 	public void fillAuditFrame (AuditFrame aAuditFrame, String aActorName) {
 		actionManager.fillAuditFrame (aAuditFrame, aActorName);
+	}
+
+	public void setActionNumber (int aActionNumber) {
+		actionManager.setActionNumber (aActionNumber);
 	}
 }
