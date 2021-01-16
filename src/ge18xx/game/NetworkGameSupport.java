@@ -1,6 +1,8 @@
 package ge18xx.game;
 
 import ge18xx.network.JGameClient;
+import ge18xx.player.Player;
+import ge18xx.round.RoundManager;
 import ge18xx.toplevel.XMLFrame;
 
 public interface NetworkGameSupport {
@@ -22,4 +24,6 @@ public interface NetworkGameSupport {
 	public void initiateNetworkGame ();
 	public boolean gameStarted ();
 	public void addNewFrame (XMLFrame jGameClient);
+	public Player getClientPlayer ();
+	public RoundManager getRoundManager ();
 }
