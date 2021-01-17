@@ -723,16 +723,16 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	}
 	
 	public boolean hasSelectedPrivateToBidOn () {
-		boolean tHasSelectedPrivateToBidOn;
+		boolean tHasSelectedPrivateToBidOn = false;;
 		Bank tBank;
 		StartPacketPortfolio tStartPacketPortfolio;
 		
 		tBank = getBank ();
-		tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
-		if (tStartPacketPortfolio == null) {
-			tHasSelectedPrivateToBidOn = false;
-		} else {
-			tHasSelectedPrivateToBidOn = tStartPacketPortfolio.hasSelectedPrivateToBidOn ();
+		if (tBank != Bank.NO_BANK) {
+			tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
+			if (tStartPacketPortfolio != null) {
+				tHasSelectedPrivateToBidOn = tStartPacketPortfolio.hasSelectedPrivateToBidOn ();
+			}
 		}
 		
 		return tHasSelectedPrivateToBidOn;
@@ -888,6 +888,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
 		BuyStockAction tBuyStockAction;
+		boolean tCreateNewAuctionAction = true;
 		
 		tRoundType = ActorI.ActionStates.StockRound;
 		tRoundID = playerManager.getStockRoundID ();
@@ -899,14 +900,15 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 				PlayerManager.STOCK_BUY_IN.StockRound, tBuyStockAction);
 
 		playerManager.addAction (tBuyStockAction);
-
+		
 		if (tNextShareHasBids) {
-//			tNewState = getPrimaryActionState ();
+//				tNewState = getPrimaryActionState ();
 			setTriggeredAuction (true);	// Set the Triggered Auction Flag.
-			playerManager.startAuctionRound ();
-			
-//			setPrimaryActionState (tNewState);
-		} 
+			playerManager.startAuctionRound (tCreateNewAuctionAction);
+		
+//				setPrimaryActionState (tNewState);
+		}
+
 		updateActionButtons ();
 	}
 	
