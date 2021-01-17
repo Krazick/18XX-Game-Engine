@@ -360,8 +360,6 @@ public class ActionManager {
 		boolean tActionApplied;
 		int tActionNumber;
 		
-//		actionReportFrame.append ("\n\nApplying: " + aAction.getBriefActionReport ());
-//		aAction.printBriefActionReport ();
 		tActionApplied = aAction.applyAction (roundManager);
 		tActionNumber = aAction.getNumber ();
 		if (tActionNumber > actionNumber) {
@@ -390,10 +388,13 @@ public class ActionManager {
 				for (tActionIndex = 0; tActionIndex < tTotalActionCount; tActionIndex++) {
 					tAction = actions.get (tActionIndex);
 					if (tAction.effectsThisActor (aActorName)) {
-						if (tAction.effectsForActorAreCash (aActorName)) {
+						tActionNumber = tAction.getNumber ();
+						tActionName = tAction.getName ();
+						if (tAction.hasRefundEscrowEffect (aActorName)) {
 							tFoundActionCount++;
-							tActionNumber = tAction.getNumber ();
-							tActionName = tAction.getName ();
+							handleAuctionReporting(aAuditFrame, aActorName, tAction, tActionName, tActionNumber);		
+						} else if (tAction.effectsForActorAreCash (aActorName)) {
+							tFoundActionCount++;
 							
 							tActionEventDescription = tActionName + ": " + tAction.getSimpleActionReport ();
 							tDebit = tAction.getEffectDebit (aActorName);
@@ -405,6 +406,27 @@ public class ActionManager {
 				}
 				System.out.println ("Examined " + tActionIndex + " Actions found " + tFoundActionCount + " Actions for " + aActorName);
 			}
+		}
+	}
+
+	private void handleAuctionReporting (AuditFrame aAuditFrame, String aActorName, Action aAction, String aActionName,
+			int aActionNumber) {
+		String tActionEventDescription;
+		int tDebit;
+		int tCredit;
+		String tRoundID;
+		String tAuctionWinner;
+		
+		tActionEventDescription = aActionName + ": " + aAction.getSimpleActionReport (aActorName);
+		tDebit = 0;
+		tCredit = aAction.getEffectCredit (aActorName);
+		tRoundID = aAction.getRoundType ().toAbbrev () + " " + aAction.getRoundID ();
+		aAuditFrame.addRow (aActionNumber, tRoundID, tActionEventDescription, tDebit, tCredit);
+//		tClientUserName = gameManager.getClientUserName ();
+		tAuctionWinner = aAction.getAuctionWinner ();
+		if (aActorName.equals (tAuctionWinner)) {
+			tActionEventDescription = aActionName + ": " + aAction.getSimpleActionReport ();
+			aAuditFrame.addRow (aActionNumber, tRoundID, tActionEventDescription, tCredit, tDebit);
 		}
 	}
 }
