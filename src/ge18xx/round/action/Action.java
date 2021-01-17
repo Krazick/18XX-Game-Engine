@@ -5,6 +5,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.RefundEscrowEffect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -335,12 +336,14 @@ public class Action {
 		CashTransferEffect tCashTransferEffect;
 		
 		for (Effect tEffect: effects) {
-			if (tEffect instanceof CashTransferEffect) {
-				tCashTransferEffect = (CashTransferEffect) tEffect;
-				tDebit = tCashTransferEffect.getEffectDebit (aActorName);
+			if (tDebit == 0) {
+				if (tEffect instanceof CashTransferEffect) {
+					tCashTransferEffect = (CashTransferEffect) tEffect;
+					tDebit = tCashTransferEffect.getEffectDebit (aActorName);
+				}
 			}
 		}
-		
+
 		return tDebit;
 	}
 	
@@ -389,12 +392,35 @@ public class Action {
 			tToActorName = tEffect.getToActorName ();
 				if ( (aActorName.equals (tActorName)) ||
 				 (aActorName.equals (tToActorName )) ) {
-				if (tEffect instanceof CashTransferEffect)  {
+				if ((tEffect instanceof CashTransferEffect) ||
+					(tEffect instanceof RefundEscrowEffect)) {
 					tEffectsThisActorAreCash = true;
 				}
 			}
 		}
 		
 		return tEffectsThisActorAreCash;
+	}
+
+	public boolean hasRefundEscrowEffect (String aActorName) {
+		boolean tHasRefundEscrowEffect = false;
+		
+		for (Effect tEffect: effects) {
+			if (tEffect instanceof RefundEscrowEffect) {
+				tHasRefundEscrowEffect = true;
+			}
+		}
+		
+		return tHasRefundEscrowEffect;
+	}
+
+	public String getSimpleActionReport (String aActorName) {
+		return getSimpleActionReport ();
+	}
+
+	public String getAuctionWinner() {
+		String aAuctionWinner = ActorI.NO_NAME;
+		
+		return aAuctionWinner;
 	}
 }
