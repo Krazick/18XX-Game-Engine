@@ -360,9 +360,9 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		}
 	}
 	
-	public void enableAllCheckedButtons (String aToolTip) {
+	public void enableAllCheckedButtons (String aToolTip, Player aPlayer) {
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
-			tStartPacketRow.enableAllCheckedButtons (aToolTip);			
+			tStartPacketRow.enableAllCheckedButtons (aToolTip, aPlayer);			
 		}
 	}
 	

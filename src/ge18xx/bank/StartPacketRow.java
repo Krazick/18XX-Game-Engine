@@ -168,9 +168,11 @@ public class StartPacketRow implements ParsingRoutineI {
 		}
 	}
 	
-	public void enableAllCheckedButtons (String aToolTip) {
+	public void enableAllCheckedButtons (String aToolTip, Player aPlayer) {
 		for (StartPacketItem tStartPacketItem : startPacketItems) {
-			tStartPacketItem.enableCheckedButton (aToolTip);			
+			if (! tStartPacketItem.hasBidOnThisCert (aPlayer)) {
+				tStartPacketItem.enableCheckedButton (aToolTip);
+			}
 		}
 	}
 	

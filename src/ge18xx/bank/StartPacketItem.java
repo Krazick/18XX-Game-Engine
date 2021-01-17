@@ -62,6 +62,10 @@ public class StartPacketItem implements ParsingRoutineI {
 		return tCertificateInfoPanel;
 	}
 	
+	public boolean hasBidOnThisCert (Player aPlayer) {
+		return certificate.hasBidOnThisCert (aPlayer);
+	}
+	
 	public int getCorporationId () {
 		return corporationId;
 	}
