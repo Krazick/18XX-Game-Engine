@@ -192,7 +192,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		}
 		if (BUY_BID.equals (aEvent.getActionCommand ())) {
 			tActionText = buyBidActionButton.getText();
-			if (tActionText.equals(BUY.toUpperCase())) {
+			if (tActionText.equals (BUY)) {
 				player.buyAction ();
 			} else {
 				player.bidAction ();
