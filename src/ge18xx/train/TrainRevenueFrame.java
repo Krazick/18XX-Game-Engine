@@ -145,7 +145,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 	
 	public void clearTrainsFromMap () {
-		System.out.println ("Ready to Clear All Routes from Map only");
+//		System.out.println ("Ready to Clear All Routes from Map only");
 		int tTrainIndex, tTrainCount;
 		RouteInformation tRouteInformation;
 		Train tTrain;

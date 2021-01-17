@@ -1137,7 +1137,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 				}
 				if (tGameInitiated) {
 					if (Action.EN_ACTIONS.equals (tChildName)) {
-						System.out.println ("Found an <Actions> Element Loading");
 						roundManager.loadActions (tChildNode, this);
 					}
 					if (RoundManager.EN_ROUNDS.equals (tChildName)) {

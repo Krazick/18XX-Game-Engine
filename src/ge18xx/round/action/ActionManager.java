@@ -190,7 +190,6 @@ public class ActionManager {
 		
 		tActionChildren = aActionsNode.getChildNodes ();
 		tActionNodeCount = tActionChildren.getLength ();
-		System.out.println ("Total Children Count for Actions: " + tActionNodeCount);
 		try {
 			for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
 				tActionNode = new XMLNode (tActionChildren.item (tActionIndex));
