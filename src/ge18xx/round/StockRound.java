@@ -211,8 +211,8 @@ public class StockRound extends Round {
 	}
 	
 	@Override
-	public void startAuctionRound () {
-		roundManager.startAuctionRound ();
+	public void startAuctionRound (boolean aCreateNewAuctionAction) {
+		roundManager.startAuctionRound (aCreateNewAuctionAction);
 	}
 	
 	public boolean canStartOperatingRound () {

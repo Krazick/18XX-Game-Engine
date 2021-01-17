@@ -441,8 +441,9 @@ public class PlayerManager {
 	}
 	
 	public void finishAuction (boolean aNextShareHasBids) {
+		boolean tCreateNewAuctionAction = true;
 		if (aNextShareHasBids) {
-			startAuctionRound ();
+			startAuctionRound (tCreateNewAuctionAction);
 		} else {
 			resumeStockRound ();
 		}
@@ -1156,8 +1157,8 @@ public class PlayerManager {
 		gameManager.showAuctionRound ();
 	}
 	
-	public void startAuctionRound () {
-		stockRound.startAuctionRound ();
+	public void startAuctionRound (boolean aCreateNewAuctionAction) {
+		stockRound.startAuctionRound (aCreateNewAuctionAction);
 	}
 	
 	public void undoAction (Player aPlayer) {
@@ -1222,6 +1223,14 @@ public class PlayerManager {
 		return tIsParPriceFrameActive;
 	}
 
+	public boolean isNetworkAndIsThisClient (String aPlayerName) {
+		return gameManager.isNetworkAndIsThisClient (aPlayerName);
+	}
+	
+	public String getClientUserName () {
+		return gameManager.getClientUserName ();
+	}
+	
 	public int getTotalPlayerCash() {
 		int tTotalPlayerCash = 0;
 		

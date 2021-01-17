@@ -21,6 +21,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PlayerFrame extends XMLFrame implements ActionListener, ItemListener {
+	public static final String STOCK_SELECTED_FOR_BID2 = "Another Private has been selected to be Bid On";
+	public static final String STOCK_SELECTED_FOR_BUY = "A Stock has been selected to be Bought";
+	public static final String STOCK_SELECTED_FOR_BUY2 = "Another Stock has been selected to be Bought";
+	public static final String STOCK_SELECTED_FOR_SALE = "At least one Stock has been selected to be Sold";
+	public static final String NO_STOCK_SELECTED_FOR_SALE = "No Stocks have been selected to Sell";
+	public static final String NO_STOCK_SELECTED_FOR_SALE2 = "No Stock or Private have been selected to be Bought or Private to Bid upon.";
+	public static final String STOCK_SELECTED_FOR_EXCHANGE = "A President Share has been selected to be Exchanged";
+	public static final String STOCK_SELECTED_FOR_BID = "A Private has been selected to be Bid On";
+	public static final String PRIVATE_SELECTED_FOR_EXCHANGE = "A Private/Minor has been selected to be Exchanged";
+	public static final String STOCK_PAR_PRICE_NEEDS_SETTING = "A Share Company needs to have Par Price selected - Find the Par Price Frame";
+	public static final String MUST_BUY_PRIVATE = "Must buy the Private where COST == DISCOUNT";
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
 	static final String PASS = "Pass";
@@ -375,22 +386,22 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		passActionButton.setActionCommand (tAction);
 		if (hasSelectedStocksToBuy ()) {
 			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText ("A Stock has been selected to be Bought");
+			passActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
 		} else if (hasSelectedStocksToSell ()) {
 			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText ("At least one Stock has been selected to be Sold");
+			passActionButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
 		} else if (hasSelectedPrezToExchange ()) {
 			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText ("A President Share has been selected to be Exchanged");
+			passActionButton.setToolTipText (STOCK_SELECTED_FOR_EXCHANGE);
 		} else if (hasSelectedPrivateToBidOn ()) {
 			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText ("A Private has been selected to be Bid On");
+			passActionButton.setToolTipText (STOCK_SELECTED_FOR_BID);
 		} else if (hasSelectedPrivateOrMinorToExchange ()) {
 			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText ("A Private/Minor has been selected to be Exchanged");
+			passActionButton.setToolTipText (PRIVATE_SELECTED_FOR_EXCHANGE);
 		} else if (player.isParPriceFrameActive () ) {
 			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText ("A Share Company needs to have Par Price selected - Find the Par Price Frame");		
+			passActionButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);		
 		} else if (mustSellStock ()) {
 			tStock = player.hasExchangedShare ();
 			tPercentage = player.getMustSellPercent (tStock);
@@ -418,8 +429,8 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	
 	private void setCannotPass () {
 		passActionButton.setEnabled (false);
-		passActionButton.setToolTipText ("Must buy the Private where COST == DISCOUNT");
-		disableAllStartPacketButtons ("Must buy the Private where COST == DISCOUNT");
+		passActionButton.setToolTipText (MUST_BUY_PRIVATE);
+		disableAllStartPacketButtons (MUST_BUY_PRIVATE);
 	}
 	
 	public void setPortfolioInfoContainer (JPanel aPortfolioInfoContainer) {
@@ -453,7 +464,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			playerTotalValue.setText ("Total Value: " + Bank.formatCash (tTotalValue));
 		}
 	}
-	
+
 	public void updateActionButtons () {
 		boolean tStocksToSell, tStocksToBuy, tActionsToUndo, tStocksToSellSame;
 		boolean tPrezToExchange, tCanCompleteTurn, tPrivateOrMinorToExchange;
@@ -495,34 +506,34 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 				sellActionButton.setToolTipText ("Stocks selected to be Sold will Overfill BankPool");
 			} else if (tStocksToSellSame) {
 				sellActionButton.setEnabled (tStocksToSell);
-				sellActionButton.setToolTipText ("Stocks have been selected to Sell");
+				sellActionButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
 			} else {
 				sellActionButton.setEnabled (tStocksToSellSame);
 				sellActionButton.setToolTipText ("Stocks selected to sell are different companies, sell one company stock at a time");
 			}
 		} else {
 			sellActionButton.setEnabled (tStocksToSell);
-			sellActionButton.setToolTipText ("No Stocks have been selected to Sell");
+			sellActionButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE);
 		}
 		if (tStocksToBuy) {
 			buyBidActionButton.setEnabled (tStocksToBuy);
-			buyBidActionButton.setToolTipText ("Stock or Private has been selected to be Bought.");
-			buyBidActionButton.setText ("BUY");
-			disableAllStartPacketButtons ("Another Stock has been selected to be Bought.");
-			enableSelectedButton ("Stock have been selected to be Bought.");
+			buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+			buyBidActionButton.setText (BUY);
+			disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
+			enableSelectedButton (STOCK_SELECTED_FOR_BUY);
 		}
 		if (tPrivateToBidOn && (tStocksToBuy == false)) {
 			buyBidActionButton.setEnabled (tPrivateToBidOn);
-			buyBidActionButton.setToolTipText ("Private has been selected to Bid On");
-			buyBidActionButton.setText ("BID");
-			disableAllStartPacketButtons ("Another Private has been selected to Bid On");
-			enableSelectedButton ("Private has been selected to Bid On");
+			buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BID);
+			buyBidActionButton.setText (BID);
+			disableAllStartPacketButtons (STOCK_SELECTED_FOR_BID2);
+			enableSelectedButton (STOCK_SELECTED_FOR_BID);
 		}
 		if ((tStocksToBuy == false) && (tPrivateToBidOn == false)) {
 			buyBidActionButton.setEnabled (tStocksToBuy);
-			buyBidActionButton.setToolTipText ("No Stock or Private have been selected to be Bought or Private to Bid upon.");
-			buyBidActionButton.setText ("Buy-Bid");
-			enableAllStartPacketButtons ("No Stock or Private has been selected");
+			buyBidActionButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE2);
+			buyBidActionButton.setText (BUY_BID);
+			enableAllStartPacketButtons ("");
 		}
 		exchangeActionButton.setEnabled (tPrezToExchange || tPrivateOrMinorToExchange);
 		if (tPrezToExchange) {
@@ -560,7 +571,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			tBank = player.getBank ();
 			if (! tBank.isStartPacketPortfolioEmpty ()) {
 				tStartPacketFrame = tBank.getStartPacketFrame ();
-				tStartPacketFrame.enableAllCheckedButtons (aToolTip);
+				tStartPacketFrame.enableAllCheckedButtons (aToolTip, player);
 			}
 		}
 	}

@@ -104,6 +104,7 @@ public class StateChangeEffect extends Effect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
+		boolean tNewAuctionAction = false;
 		
 		tEffectApplied = false;
 		tEffectApplied = true;
@@ -114,7 +115,7 @@ public class StateChangeEffect extends Effect {
 			tStockRound.updateRFPlayerLabel (tPlayer);
 		} else if (actor.isAStockRound ()) {
 			if (newState == ActorI.ActionStates.AuctionRound) {
-				aRoundManager.startAuctionRound ();
+				aRoundManager.startAuctionRound (tNewAuctionAction);
 			} else if (newState == ActorI.ActionStates.OperatingRound) {
 				actor.resetPrimaryActionState (newState);
 				aRoundManager.setOperatingRoundCount ();
