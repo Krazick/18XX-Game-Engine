@@ -13,6 +13,9 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLDocument;
 
+//TODO: Refactor TransferTrainEffect, TransferOwnershipEffect, ResponseToOfferEffect, and CashTransferEffect
+//to extend a new SuperClass "ToEffect" to hold the "toActor" and methods setToActor, getToActor, getToActorName
+
 public class TransferOwnershipEffect extends Effect {
 	public final static String NAME = "Transfer Ownership";
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
@@ -83,6 +86,17 @@ public class TransferOwnershipEffect extends Effect {
 		return toActor;
 	}
 	
+	@Override
+	public String getToActorName () {
+		String tToActorName = ActorI.NO_NAME;
+		
+		if (toActor != ActorI.NO_ACTOR) {
+			tToActorName = toActor.getName ();
+		}
+		
+		return tToActorName;
+	}
+	
 	@Override 
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tEffectReport = "";
@@ -120,6 +134,10 @@ public class TransferOwnershipEffect extends Effect {
 		tEffectApplied = false;
 		tToHolder = (PortfolioHolderI) toActor;
 		tToPortfolio = tToHolder.getPortfolio ();
+		
+		// TODO: When the new "ToEffect" is created, also create a new "isActor" Method that receives an Actor's Name and does
+		// the comparison of the toActor's Name
+		
 		// Test if the ToPortfolio has the Certificate. If this was a Close Corp Action,  and the ToHolder 
 		// is the Bank, need to get the Closed Portfolio from the Bank instead.
 		if (tToHolder.getName ().equals (Bank.NAME)){
@@ -152,6 +170,10 @@ public class TransferOwnershipEffect extends Effect {
 		tToHolder = (PortfolioHolderI) toActor;
 		tToPortfolio = tToHolder.getPortfolio ();
 		System.out.println ("Undoing " + getEffectReport (aRoundManager));
+		
+		// TODO: When the new "ToEffect" is created, also create a new "isActor" Method that receives an Actor's Name and does
+		// the comparison of the toActor's Name
+
 		// Test if the ToPortfolio has the Certificate. If this was a Close Corp Action,  and the ToHolder 
 		// is the Bank, need to get the Closed Portfolio from the Bank instead.
 		if (tToHolder.getName ().equals (Bank.NAME)){

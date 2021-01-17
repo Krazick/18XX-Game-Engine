@@ -11,6 +11,9 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
+//TODO: Refactor TransferTrainEffect, TransferOwnershipEffect, ResponseToOfferEffect, and CashTransferEffect
+//to extend a new SuperClass "ToEffect" to hold the "toActor" and methods setToActor, getToActor, getToActorName
+
 public class ResponseOfferEffect extends Effect {
 	public final static String NAME = "Response To Offer";
 	final static AttributeName AN_RESPONSE = new AttributeName ("response");

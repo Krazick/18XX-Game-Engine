@@ -15,6 +15,9 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
+// TODO: Refactor TransferTrainEffect, TransferOwnershipEffect, ResponseToOfferEffect, and CashTransferEffect
+// to extend a new SuperClass "ToEffect" to hold the "toActor" and methods setToActor, getToActor, getToActorName
+
 public class TransferTrainEffect extends Effect {
 	final static AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
@@ -147,7 +150,13 @@ public class TransferTrainEffect extends Effect {
 
 		tEffectApplied = false;
 		tToHolder = (TrainHolderI) toActor;
+		
+		// Consider moving this statement as a final "Else" clause below... 
 		tToTrainPortfolio = tToHolder.getTrainPortfolio ();
+		
+		// TODO: When the new "ToEffect" is created, also create a new "isActor" Method that receives an Actor's Name and does
+		// the comparison of the toActor's Name
+		// TODO: Also move this If/Else If Block to a new method "getToTrainPortfolio" to get from Bank (Rusted) or BankPool Train Portfolio
 		
 		/* If the ToActor is the Bank -- the Train was Rusted */
 		if (toActor.getName ().equals (Bank.NAME)){
@@ -186,6 +195,11 @@ public class TransferTrainEffect extends Effect {
 		tToTrainPortfolio = tToHolder.getTrainPortfolio ();
 
 		/* If the ToActor is the Bank -- the Train was Rusted, need to "un-rust" the Train */
+		
+		// TODO: When the new "ToEffect" is created, also create a new "isActor" Method that receives an Actor's Name and does
+		// the comparison of the toActor's Name
+		// TODO: Also move this If/Else If Block to a new method "getToTrainPortfolio" to get from Bank (Rusted) or BankPool Train Portfolio
+		
 		if (toActor.getName ().equals (Bank.NAME)){
 			if (tToHolder.hasTrainNamed (getTrainName ())) {
 				tBank = (Bank) toActor;

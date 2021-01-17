@@ -11,6 +11,9 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLDocument;
 
+//TODO: Refactor TransferTrainEffect, TransferOwnershipEffect, ResponseToOfferEffect, and CashTransferEffect
+//to extend a new SuperClass "ToEffect" to hold the "toActor" and methods setToActor, getToActor, getToActorName
+
 public class CashTransferEffect extends Effect {
 	public final static String NAME = "Cash Transfer";
 	final static AttributeName AN_CASH = new AttributeName ("cash");
@@ -141,9 +144,7 @@ public class CashTransferEffect extends Effect {
 		return tEffectUndone;
 	}
 	
-
 	public String getToActorName () {
 		return toActor.getName ();
 	}
-
 }
