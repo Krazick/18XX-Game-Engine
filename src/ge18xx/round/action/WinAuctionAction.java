@@ -1,14 +1,17 @@
 package ge18xx.round.action;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.player.Escrow;
 import ge18xx.player.Player;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.FinishAuctionEffect;
 import ge18xx.round.action.effects.RefundEscrowEffect;
 import ge18xx.round.action.effects.RemoveAllBids;
 import ge18xx.round.action.effects.RemoveEscrowEffect;
+import ge18xx.round.action.effects.TransferOwnershipEffect;
 import ge18xx.utilities.XMLNode;
 
 public class WinAuctionAction extends BuyStockAction {
@@ -56,4 +59,60 @@ public class WinAuctionAction extends BuyStockAction {
 		tFinishAuctionEffect = new FinishAuctionEffect (aActor);
 		addEffect (tFinishAuctionEffect);
 	}
+	
+	@Override
+	public int getEffectCredit (String aActorName) {
+		int tCredit = 0;
+		RefundEscrowEffect tRefundEscrowEffect;
+		
+		for (Effect tEffect: effects) {
+			if (tCredit == 0) {
+				if (tEffect instanceof RefundEscrowEffect) {
+					tRefundEscrowEffect = (RefundEscrowEffect) tEffect;
+					
+					tCredit = tRefundEscrowEffect.getEffectCredit (aActorName);
+				}
+			}
+		}
+		
+		return tCredit;
+	}
+
+	@Override
+	public String getSimpleActionReport (String aActorName) {
+		String tRefundReport = "";
+		String tActorName, tToActorName;
+		RefundEscrowEffect tRefundEscrowEffect;
+		int tCredit;
+		
+		for (Effect tEffect: effects) {
+			tActorName = tEffect.getActorName ();
+			tToActorName = tEffect.getToActorName ();
+			if ( (aActorName.equals (tActorName)) ||
+				  (aActorName.equals (tToActorName )) ) {
+				if ((tEffect instanceof RefundEscrowEffect)) {
+					tRefundEscrowEffect = (RefundEscrowEffect) tEffect;
+					tCredit = tRefundEscrowEffect.getEffectCredit (aActorName);
+					tRefundReport = "Refund " + Bank.formatCash (tCredit) + " to " + aActorName;
+				}
+			}
+		}
+		return tRefundReport;
+	}
+	
+	@Override
+	public String getAuctionWinner () {
+		String aAuctionWinner = ActorI.NO_NAME;
+		TransferOwnershipEffect tTransferOwnershipEffect;
+		
+		for (Effect tEffect: effects) {
+			if (tEffect instanceof TransferOwnershipEffect) {
+				tTransferOwnershipEffect = (TransferOwnershipEffect) tEffect;
+				aAuctionWinner = tTransferOwnershipEffect.getToActorName ();
+			}
+		}
+		
+		return aAuctionWinner;
+	}
+
 }
