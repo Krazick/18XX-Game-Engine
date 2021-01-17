@@ -91,6 +91,26 @@ public class TileType implements Cloneable, LoadableXMLI {
 		return NAMES [type];
 	}
 	
+	public boolean canUpgradeTo (TileType aTileType) {
+		boolean tCanUpgradeTo = false;
+		
+		if (type == YELLOW) {
+			if (aTileType.getType () == GREEN) {
+				tCanUpgradeTo = true;
+			}
+		} else if (type == GREEN) {
+			if (aTileType.getType () == BROWN) {
+				tCanUpgradeTo = true;
+			}
+		} else if (type == BROWN) {
+			if (aTileType.getType () == GREY) {
+				tCanUpgradeTo = true;
+			}
+		}
+		
+		return tCanUpgradeTo;
+	}
+	
 	public Color getRevenueColor () {
 		Color tRevenueColor = Color.black;
 		
@@ -198,5 +218,15 @@ public class TileType implements Cloneable, LoadableXMLI {
 
 	@Override
 	public void foundItemMatchKey1 (XMLNode aChildNode) {
+	}
+
+	public boolean isSameType (int aTileType) {
+		boolean tIsSameType = false;
+		
+		if (type == aTileType) {
+			tIsSameType = true;
+		}
+		
+		return tIsSameType;
 	}
 }

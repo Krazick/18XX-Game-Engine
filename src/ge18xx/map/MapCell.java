@@ -1015,6 +1015,16 @@ public class MapCell implements Comparator<Object> {
 		setTile (null);
 	}
 	
+	public boolean pseudoYellowTile () {
+		boolean tPseudoYellowTile = false;
+		
+		if ("OO".equals (baseTileName.getName ())) {
+			tPseudoYellowTile = true;
+		}
+		
+		return tPseudoYellowTile;
+	}
+	
     public void paintComponent (Graphics g, Hex aHex) {
 		RevenueCenter tRC1;
 		Color thickFrame;
@@ -1065,7 +1075,7 @@ public class MapCell implements Comparator<Object> {
 				}
 			}
 		} else {
-			if ("OO".equals (baseTileName.getName ())) {
+			if (pseudoYellowTile ()) {
 				thickFrame = new TileType (TileType.YELLOW, false).getColor ();
 			} else {
 				thickFrame = null;
@@ -1737,6 +1747,18 @@ public class MapCell implements Comparator<Object> {
 		tIsTileAvailableForMapCell = hexMap.isTileAvailableForMapCell (this);
 		
 		return tIsTileAvailableForMapCell;
+	}
+
+	public boolean canUpgradeTo (TileType tSelectedTileType) {
+		boolean tCanUpgradeTo = false;
+		TileType tTileTypeOnCell;
+		
+		if (isTileOnCell ()) {
+			tTileTypeOnCell = tile.getTheTileType ();
+			tCanUpgradeTo = tTileTypeOnCell.canUpgradeTo (tSelectedTileType);
+		}
+		
+		return tCanUpgradeTo;
 	}
 
 }

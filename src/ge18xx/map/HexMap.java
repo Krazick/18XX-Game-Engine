@@ -610,7 +610,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tRotations++;
 			}
 		}
-		System.out.println ("Allowed Rotation Count " + tRotations);
 		if (tRotations > 0) {
 			for (tIndex = 0; tIndex < tSteps; tIndex++) {
 				aThisMapCell.rotateTileRight (tRotations);

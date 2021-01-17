@@ -761,10 +761,33 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 	
+	public boolean validUpgradeType (MapCell aMapCell, GameTile aGameTile) {
+		boolean tValidUpgradeType = false;
+		TileType tSelectedTileType;
+		
+		tSelectedTileType = aGameTile.getTheTileType ();
+		if (aMapCell.isTileOnCell ()) {
+			tSelectedTileType = aGameTile.getTheTileType ();
+			if (aMapCell.canUpgradeTo (tSelectedTileType)) {
+				tValidUpgradeType = true;
+			}
+		} else {
+			if (aMapCell.pseudoYellowTile ()) {
+				if (tSelectedTileType.isSameType (TileType.GREEN)) {
+					tValidUpgradeType = true;							
+				}
+			} else if (tSelectedTileType.isSameType (TileType.YELLOW)) {
+				tValidUpgradeType = true;		
+			}
+		}
+		
+		return tValidUpgradeType;	
+	}
+	
 	public void updatePutTileButton () {
 		MapCell tMapCell;
 		GameTile tTile;
-		int tTileLayCost, tSelectedTileType;
+		int tTileLayCost;
 		TrainCompany tOperatingTrainCompany;
 		int tOperatingCompanyTreasury;
 		
@@ -782,14 +805,12 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					if (tTileLayCost <= tOperatingCompanyTreasury) {
 						// And there is a Game Tile Selected -- Enable the Put Tile Button 
 						if (tTile != GameTile.NO_GAME_TILE) {
-							if (tMapCell.isTileOnCell ()) {
-								if (tTile.getTileType () ==  TileType.YELLOW) {
-									putTileButton.setEnabled (false);
-									putTileButton.setToolTipText ("Cannot Place a Yellow Tile over an existing Tile");
-								}
-							} else {
+							if (validUpgradeType (tMapCell, tTile)) {
 								putTileButton.setEnabled (true);
 								putTileButton.setToolTipText (NO_TOOL_TIP);
+							} else {
+								putTileButton.setEnabled (false);
+								putTileButton.setToolTipText ("Not a Valid Upgrade choice");
 							}
 						} else {
 							putTileButton.setToolTipText (NO_TILE_SELECTED);

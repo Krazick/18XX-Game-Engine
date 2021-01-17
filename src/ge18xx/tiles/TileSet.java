@@ -280,7 +280,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			if (tGameTile.tileAvailable ()) {
 				if (singleTileSelect) {
 					tPreviousGameTile = getSelectedTile ();
-					if (tPreviousGameTile == null) {
+					if (tPreviousGameTile == GameTile.NO_GAME_TILE) {
 						toggleSelectedTile (tGameTile);
 					} else {
 						if (tGameTile != tPreviousGameTile) {
