@@ -418,6 +418,19 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		return tEscrow;
 	}
 	
+	public int getTotalEscrow () {
+		int tEscrowCount = escrows.size ();
+		Escrow tThisEscrow;
+		int tTotalEscrow = 0;
+		
+		for (int tEscrowIndex = 0; tEscrowIndex < tEscrowCount; tEscrowIndex++) {
+			tThisEscrow = escrows.get (tEscrowIndex);
+			tTotalEscrow += tThisEscrow.getCash ();
+		}
+		
+		return tTotalEscrow;
+	
+	}
 	public Escrow getCheapestEscrow () {
 		Escrow tEscrow = Escrow.NO_ESCROW;
 		Escrow tThisEscrow;
@@ -1265,6 +1278,9 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		Container tOwnershipContainer;
 		JLabel tCertCountLabel;
 		JLabel tCashLabel, tTotalValueLabel;
+		int tTotalEscrow, tEscrowCount;
+		JLabel tEscrowLabel;
+		String tEscrowText;
 		
 		if (playerContainer == null) {
 			playerContainer = Box.createVerticalBox ();
@@ -1275,7 +1291,20 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		playerContainer.add (rfPlayerLabel);
 		tCashLabel = new JLabel ("Cash: " + Bank.formatCash (getCash ()));
 		playerContainer.add (tCashLabel);
-		tTotalValueLabel = new JLabel ("Total Value: " + Bank.formatCash (getCash () + getPortfolioValue ()));
+		// TODO: If the Player bid on something (added cash to Escrow), Show Escrow Amount
+		tEscrowCount = getEscrowCount ();
+		tTotalEscrow = 0;
+		if (tEscrowCount > 0) {
+			tTotalEscrow = getTotalEscrow ();
+			tEscrowText = tEscrowCount + " Bid";
+			if (tEscrowCount > 1) {
+				tEscrowText += "s";
+			}
+			tEscrowText += " totaling " + Bank.formatCash (tTotalEscrow);
+			tEscrowLabel = new JLabel (tEscrowText);
+			playerContainer.add (tEscrowLabel);
+		}
+		tTotalValueLabel = new JLabel ("Total Value: " + Bank.formatCash (getCash () + getPortfolioValue () + tTotalEscrow));
 		playerContainer.add (tTotalValueLabel);
 
 		tCertCountLabel = new JLabel (buildCertCountInfo ("Certificates "));
