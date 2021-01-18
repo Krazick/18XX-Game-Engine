@@ -411,7 +411,10 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			passActionButton.setToolTipText (PRIVATE_SELECTED_FOR_EXCHANGE);
 		} else if (player.isParPriceFrameActive () ) {
 			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);		
+			passActionButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);
+		} else if (player.isAuctionRound ()) {
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText ("Auction Round must complete first");	
 		} else if (mustSellStock ()) {
 			tStock = player.hasExchangedShare ();
 			tPercentage = player.getMustSellPercent (tStock);

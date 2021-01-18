@@ -5,6 +5,8 @@ import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.player.Escrow;
 import ge18xx.player.Player;
+import ge18xx.player.PlayerFrame;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.FinishAuctionEffect;
@@ -113,6 +115,25 @@ public class WinAuctionAction extends BuyStockAction {
 		}
 		
 		return aAuctionWinner;
+	}
+	
+	@Override
+	public boolean applyAction (RoundManager aRoundManager) {
+		boolean tActionApplied = false;
+		GameManager tGameManager;
+		PlayerFrame tPlayerFrame;
+		
+		tActionApplied = super.applyAction (aRoundManager);
+		tGameManager = aRoundManager.getGameManager ();
+		if (tGameManager.isNetworkGame ()) {
+			tGameManager.hideAuctionFrame ();
+			if (tGameManager.isClientCurrentPlayer ()) {
+				tPlayerFrame = tGameManager.getCurrentPlayerFrame ();
+				tPlayerFrame.setDoneButton ();
+			}
+		}
+		
+		return tActionApplied;
 	}
 
 }

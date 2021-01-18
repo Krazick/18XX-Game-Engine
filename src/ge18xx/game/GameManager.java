@@ -2088,4 +2088,38 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tPlayer = playerManager.getPlayer (clientUserName);
 		return tPlayer;
 	}
+
+	public void hideAuctionFrame () {
+		auctionFrame.hideAuctionFrame ();
+		
+	}
+
+	public boolean isClientCurrentPlayer () {
+		boolean tIsClientCurrentPlayer = false;
+		Player tCurrentPlayer, tClientPlayer;
+		
+		tClientPlayer = getClientPlayer ();
+		tCurrentPlayer = playerManager.getCurrentPlayer ();
+		if (tClientPlayer.equals (tCurrentPlayer)) {
+			tIsClientCurrentPlayer = true;
+		}
+		
+		return tIsClientCurrentPlayer;
+	}
+	
+	public PlayerFrame getCurrentPlayerFrame () {
+		Player tCurrentPlayer;
+		PlayerFrame tCurrentPlayerFrame;
+		
+		tCurrentPlayer = playerManager.getCurrentPlayer ();
+		tCurrentPlayerFrame = tCurrentPlayer.getPlayerFrame ();
+		
+		return tCurrentPlayerFrame;
+	}
+	
+
+	public boolean isAuctionRound () {
+		return roundManager.isAuctionRound ();
+	}
+
 }

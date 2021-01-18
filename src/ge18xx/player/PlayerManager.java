@@ -1244,4 +1244,9 @@ public class PlayerManager {
 	public Point getOffsetRoundFramePoint() {
 		return gameManager.getOffsetRoundFrame ();
 	}
+	
+	public boolean isAuctionRound () {
+		return gameManager.isAuctionRound ();
+	}
+
 }

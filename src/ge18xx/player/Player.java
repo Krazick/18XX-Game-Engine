@@ -1376,4 +1376,8 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	public Point getOffsetRoundFramePoint() {
 		return playerManager.getOffsetRoundFramePoint ();
 	}
+
+	public boolean isAuctionRound () {
+		return playerManager.isAuctionRound ();
+	}
 }
