@@ -110,6 +110,8 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			playerAndBankBox.add (bankBox);
 			playerAndBankBox.add(Box.createHorizontalStrut(20));
 			add (playerAndBankBox);
+			
+			// TODO: Set Default Location offset from Round Frame
 			setSize (850, 900);
 		}
 	}
