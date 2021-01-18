@@ -614,13 +614,34 @@ public class PlayerManager {
 		}
 	}
 	
+	public int getThisPlayerIndex (Player aPlayer) {
+		int tThisPlayerIndex = -1;
+		int tPlayerIndex;
+		Player tThisPlayer;
+		
+		for (tPlayerIndex = 0; tPlayerIndex < players.size (); tPlayerIndex++) {
+			tThisPlayer = players.get(tPlayerIndex);
+			if (tThisPlayer.equals (aPlayer)) {
+				tThisPlayerIndex = tPlayerIndex;
+			}
+		}
+		
+		return tThisPlayerIndex;
+	}
+	
 	public void doneAction (Player aPlayer) {
 		int tNextPlayerIndex, tCurrentPlayerIndex;
-		int tOldPriorityPlayerIndex;
+		int tOldPriorityPlayerIndex, tThisPlayerIndex;
 		Player tOldPriorityPlayer;
 		DonePlayerAction tDonePlayerAction;
 		
 		tCurrentPlayerIndex = stockRound.getCurrentPlayerIndex ();
+		tThisPlayerIndex = getThisPlayerIndex (aPlayer);
+		if (tThisPlayerIndex != tCurrentPlayerIndex) {
+			System.err.println ("----- CurrentPlayerIndex is " + tCurrentPlayerIndex + " This Player Index " + tThisPlayerIndex);
+			stockRound.setCurrentPlayer (tThisPlayerIndex);
+			tCurrentPlayerIndex = tThisPlayerIndex;
+		}
 		tNextPlayerIndex = stockRound.getNextPlayerIndex ();
 		tOldPriorityPlayerIndex = stockRound.getPriorityIndex ();
 		tOldPriorityPlayer = getPlayer (tOldPriorityPlayerIndex);
