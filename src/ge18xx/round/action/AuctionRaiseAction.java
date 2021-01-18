@@ -7,7 +7,7 @@ import ge18xx.round.action.effects.AuctionBidChangeEffect;
 import ge18xx.round.action.effects.AuctionStateChangeEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.EscrowChangeEffect;
-import ge18xx.round.action.effects.NewCurrentPlayerEffect;
+import ge18xx.round.action.effects.NewCurrentBidderEffect;
 import ge18xx.utilities.XMLNode;
 
 public class AuctionRaiseAction extends CashTransferAction {
@@ -29,9 +29,9 @@ public class AuctionRaiseAction extends CashTransferAction {
 	}
 
 	public void addNewCurrentBidderEffect (ActorI aPlayer, int aCurrentBidderIndex, int aNextBidderIndex) {
-		NewCurrentPlayerEffect tNewCurrentBidderEffect;
+		NewCurrentBidderEffect tNewCurrentBidderEffect;
 
-		tNewCurrentBidderEffect = new NewCurrentPlayerEffect (aPlayer, aCurrentBidderIndex, aNextBidderIndex);
+		tNewCurrentBidderEffect = new NewCurrentBidderEffect (aPlayer, aCurrentBidderIndex, aNextBidderIndex);
 		addEffect (tNewCurrentBidderEffect);
 	}
 	
