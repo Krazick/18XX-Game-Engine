@@ -1,6 +1,7 @@
 package ge18xx.player;
 
 import java.awt.Container;
+import java.awt.Point;
 import java.awt.event.ItemListener;
 import java.util.LinkedList;
 import java.util.List;
@@ -1046,20 +1047,24 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	}
 	
 	public void showPlayerFrame () {
-//		GameManager tGameManager;
-//		
-//		tGameManager = playerManager.getGameManager ();
+		Point tOffsetRoundFramePoint;
+		
+		if (! playerFrame.isLocationFixed ()) {
+			tOffsetRoundFramePoint = getOffsetRoundFramePoint ();
+			playerFrame.setLocation (tOffsetRoundFramePoint);
+			playerFrame.setLocationFixed (true);
+		}
 		updatePlayerInfo ();
-//		updateActionButtons ();
-//		playerFrame.fillBankBox (tGameManager);
+
 		playerFrame.setVisible (true);
 	}
 	
 	public void refundEscrow (Certificate aCertificate, int aBidAmount, WinAuctionAction aWinAuctionAction) {
 		Escrow tEscrow = getMatchingEscrow (aCertificate);
 		
-		tEscrow.addCash (-aBidAmount);
-		addCash (aBidAmount);
+//		tEscrow.addCash (-aBidAmount);
+//		addCash (aBidAmount);
+		tEscrow.transferCashTo(this, aBidAmount);
 		aWinAuctionAction.addRefundEscrowEffect (tEscrow, this, aBidAmount);
 		removeEscrow (tEscrow);
 		aWinAuctionAction.addRemoveEscrowEffect (this, tEscrow);
@@ -1366,5 +1371,9 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	@Override
 	public boolean isACorporation () {
 		return false;
+	}
+
+	public Point getOffsetRoundFramePoint() {
+		return playerManager.getOffsetRoundFramePoint ();
 	}
 }
