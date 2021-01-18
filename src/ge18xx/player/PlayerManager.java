@@ -1240,4 +1240,8 @@ public class PlayerManager {
 		
 		return tTotalPlayerCash;
 	}
+
+	public Point getOffsetRoundFramePoint() {
+		return gameManager.getOffsetRoundFrame ();
+	}
 }

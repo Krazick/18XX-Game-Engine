@@ -147,6 +147,10 @@ public class RoundManager {
 		setRoundType (ActorI.ActionStates.StockRound);
 	}
 	
+	public RoundFrame getRoundFrame () {
+		return roundFrame;
+	}
+	
 	public void setRoundFrame (RoundFrame aRoundFrame) {
 		roundFrame = aRoundFrame;
 	}
