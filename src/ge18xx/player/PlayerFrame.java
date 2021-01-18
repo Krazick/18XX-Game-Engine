@@ -4,7 +4,6 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.bank.StartPacketFrame;
 import ge18xx.game.GameManager;
-import ge18xx.round.RoundFrame;
 import ge18xx.toplevel.XMLFrame;
 
 import java.awt.Container;
@@ -62,10 +61,10 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	JButton exchangeActionButton;
 	JButton undoActionButton;
 	int portfolioInfoIndex;
+	boolean locationFixed;
 	
 	public PlayerFrame (String aFrameName, Player aPlayer, String aGameName) {
 		super (aFrameName, aGameName);
-		RoundFrame tRoundFrame;
 		
 		if (aPlayer != Player.NO_PLAYER) {
 			player = aPlayer;
@@ -112,11 +111,17 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			playerAndBankBox.add (bankBox);
 			playerAndBankBox.add(Box.createHorizontalStrut(20));
 			add (playerAndBankBox);
-			
-			// TODO: Set Default Location offset from Round Frame
-			tRoundFrame = aPlayer.getRoundFrame ();
+			setLocationFixed (false);
 			setSize (850, 900);
 		}
+	}
+	
+	public boolean isLocationFixed () {
+		return locationFixed;
+	}
+	
+	public void setLocationFixed (boolean aLocationFixed) {
+		locationFixed = aLocationFixed;
 	}
 	
 	private void addPlayerInfoJPanelLabel (JLabel aLabel) {
