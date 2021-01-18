@@ -4,6 +4,7 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.bank.StartPacketFrame;
 import ge18xx.game.GameManager;
+import ge18xx.round.RoundFrame;
 import ge18xx.toplevel.XMLFrame;
 
 import java.awt.Container;
@@ -64,6 +65,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	
 	public PlayerFrame (String aFrameName, Player aPlayer, String aGameName) {
 		super (aFrameName, aGameName);
+		RoundFrame tRoundFrame;
 		
 		if (aPlayer != Player.NO_PLAYER) {
 			player = aPlayer;
@@ -112,6 +114,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			add (playerAndBankBox);
 			
 			// TODO: Set Default Location offset from Round Frame
+			tRoundFrame = aPlayer.getRoundFrame ();
 			setSize (850, 900);
 		}
 	}
