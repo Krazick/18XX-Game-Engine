@@ -404,9 +404,13 @@ public class Bank extends GameBank implements CashHolderI {
 		bankCashLabel = aBankCashLabel;
 	}
 	
-	public void setFormat (String aFormat) {
+	public static void setStaticFormat (String aFormat) {
 		format = aFormat;
 		decimalFormat = new DecimalFormat (aFormat);
+	}
+
+	public void setFormat (String aFormat) {
+		setStaticFormat (aFormat);
 	}
 	
 	public void setStartPacketFrame (StartPacketFrame aStartPacket) {
