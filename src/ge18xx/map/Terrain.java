@@ -209,7 +209,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 	}
 	
 	public boolean drawBorder () {
-		boolean retValue = true;
+		boolean tDrawBorder = true;
 		
 		switch (terrain) {
 			
@@ -218,11 +218,11 @@ public class Terrain extends Feature implements LoadableXMLI {
             case OFF_BOARD_GRAY:	
             case OFF_BOARD_BLACK:	
             case OFF_BOARD_GREEN:	
-				retValue = false;
+            	tDrawBorder = false;
 				break;
         }
 		
-		return (retValue);
+		return (tDrawBorder);
 	}
 	
 	public Color getColor () {
@@ -246,7 +246,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 	}
 	
 	public int getTerrain () {
-		return (terrain);
+		return terrain;
 	}
 	
 	public String getTypeName () {
@@ -276,15 +276,37 @@ public class Terrain extends Feature implements LoadableXMLI {
 	}
 	
 	public boolean isRiver () {
-		return (terrain == RIVER);
+		boolean tIsRiver = false;
+		
+		switch (terrain) {
+		
+			case RIVER:		
+	       	case MULTIPLE_RIVER:	/* Multiple River */
+	       	case MAJOR_RIVER:		/* Major River */
+	        case SMALL_RIVER:		/* Small River */
+	       	case LARGE_RIVER:		/* Large River */
+				tIsRiver = true;
+				break;
+		}
+		
+		return tIsRiver;
 	}
 	
 	public boolean isSelectable () {
-		boolean tIsSelectable;
+		boolean tIsSelectable = true;
 		
-		tIsSelectable = true;
-		if ((terrain == OFF_BOARD_BLACK) || (terrain == OFF_BOARD_GREEN) || (terrain == OCEAN) || (terrain == OFF_BOARD_GRAY)) {
-			tIsSelectable = false;
+		switch (terrain) {
+		
+			case OFF_BOARD_BLACK:		
+			case OFF_BOARD_GREEN:	
+			case OCEAN:		
+			case OFF_BOARD_GRAY:
+				tIsSelectable = false;
+				break;
+		}
+		
+		if ((terrain <= NO_TERRAIN) || (terrain > MAX_TERRAIN)) {
+			tIsSelectable = false;			
 		}
 		
 		return tIsSelectable;
@@ -378,10 +400,10 @@ public class Terrain extends Feature implements LoadableXMLI {
 		setColors ();
 		if ((aTerrain >= MIN_TERRAIN) && (aTerrain <= MAX_TERRAIN)) {
 			terrain = aTerrain;
-			cost = aCost;
+			setCost (aCost);
 		} else {
 			terrain = NO_TERRAIN;
-			cost = NO_COST;
+			setCost (NO_COST);
 		}
 	}
 
