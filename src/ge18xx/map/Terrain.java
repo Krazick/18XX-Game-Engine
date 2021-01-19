@@ -336,33 +336,38 @@ public class Terrain extends Feature implements LoadableXMLI {
 	
 	private void setColors () {
 		if (colors == null) {
-			colors = new Color [(MAX_TERRAIN - MIN_TERRAIN) + 1];
-			colors [NO_TERRAIN] = Color.black;
-			colors [CLEAR] = new Color (218, 227, 131);
-			colors [OCEAN] = new Color (165, 204, 236);
-			colors [DELTA] = Color.orange;
-			colors [OFF_BOARD_RED] = new Color (233, 39, 34);
-			colors [OFF_BOARD_GRAY] = Color.gray;
-			colors [OFF_BOARD_BLACK] = new Color (102, 204, 102);
-			colors [OFF_BOARD_GREEN] = new Color (100, 166, 80);
-			colors [THICK_BORDER] = Color.yellow;
-			colors [RIVER] = Color.blue;
-			colors [MULTIPLE_RIVER] = Color.blue;
-			colors [MAJOR_RIVER] = Color.blue;
-			colors [HILL] = Color.lightGray;
-			colors [MOUNTAIN] = Color.lightGray;
-			colors [HIMALAYA] = Color.lightGray;
-			colors [PASS] = Color.lightGray;
-			colors [SWAMP] = Color.lightGray;
-			colors [LAKE] = Color.blue;
-			colors [PORT] = Color.black;
-			colors [SMALL_RIVER] = Color.blue;
-			colors [LARGE_RIVER] = Color.blue;
-			colors [SHALLOW_COAST] = Color.blue;
-			colors [COAST] = Color.blue;
-			colors [DEEP_COAST] = Color.blue;
-			colors [DESERT] = Color.black;
+			int tColorCount = (MAX_TERRAIN - MIN_TERRAIN) + 1;
+			setStaticColors (tColorCount);
 		}
+	}
+	
+	private static void setStaticColors (int aColorCount) {
+		colors = new Color [aColorCount];
+		colors [NO_TERRAIN] = Color.black;
+		colors [CLEAR] = new Color (218, 227, 131);
+		colors [OCEAN] = new Color (165, 204, 236);
+		colors [DELTA] = Color.orange;
+		colors [OFF_BOARD_RED] = new Color (233, 39, 34);
+		colors [OFF_BOARD_GRAY] = Color.gray;
+		colors [OFF_BOARD_BLACK] = new Color (102, 204, 102);
+		colors [OFF_BOARD_GREEN] = new Color (100, 166, 80);
+		colors [THICK_BORDER] = Color.yellow;
+		colors [RIVER] = Color.blue;
+		colors [MULTIPLE_RIVER] = Color.blue;
+		colors [MAJOR_RIVER] = Color.blue;
+		colors [HILL] = Color.lightGray;
+		colors [MOUNTAIN] = Color.lightGray;
+		colors [HIMALAYA] = Color.lightGray;
+		colors [PASS] = Color.lightGray;
+		colors [SWAMP] = Color.lightGray;
+		colors [LAKE] = Color.blue;
+		colors [PORT] = Color.black;
+		colors [SMALL_RIVER] = Color.blue;
+		colors [LARGE_RIVER] = Color.blue;
+		colors [SHALLOW_COAST] = Color.blue;
+		colors [COAST] = Color.blue;
+		colors [DEEP_COAST] = Color.blue;
+		colors [DESERT] = Color.black;
 	}
 	
 	public void setCost (int aCost) {

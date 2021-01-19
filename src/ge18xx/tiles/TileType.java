@@ -172,19 +172,24 @@ public class TileType implements Cloneable, LoadableXMLI {
 		System.out.println ("Tile Type value " + type + " Name is " + NAMES [type]);
 	}
 	
-	public void setColors () {
+	private void setColors () {
 		if (colors == null) {
-			colors = new Color [(MAX_TYPE - MIN_TYPE) + 1];
-			colors [0] = Color.lightGray;
-			colors [1] = Color.yellow;
-			colors [2] = Color.green;
-			colors [3] = new Color (150, 150, 150);
-			colors [4] = new Color (139, 69, 19);
-			colors [5] = new Color (153, 0, 0);
-			colors [6] = new Color (204, 51, 51);
-			colors [7] = new Color (153, 204, 255);
-			colors [8] = new Color (153, 204, 255);
+			int tColorCount = (MAX_TYPE - MIN_TYPE) + 1;
+			setStaticColors (tColorCount);
 		}
+	}
+	
+	private static void setStaticColors (int aColorCount) {
+		colors = new Color [aColorCount];
+		colors [0] = Color.lightGray;
+		colors [1] = Color.yellow;
+		colors [2] = Color.green;
+		colors [3] = new Color (150, 150, 150);
+		colors [4] = new Color (139, 69, 19);
+		colors [5] = new Color (153, 0, 0);
+		colors [6] = new Color (204, 51, 51);
+		colors [7] = new Color (153, 204, 255);
+		colors [8] = new Color (153, 204, 255);
 	}
 	
 	ParsingRoutineI tileTypesParsingRoutine  = new ParsingRoutineI ()  {

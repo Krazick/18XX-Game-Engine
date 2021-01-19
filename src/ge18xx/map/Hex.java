@@ -1320,8 +1320,12 @@ public class Hex {
 		return tRect.contains (aPoint.getX (), aPoint.getY ());
 	}
 	
-	public void setDirection (boolean aDirection) {
+	public static void setStaticDirection (boolean aDirection) {
 		direction = aDirection;
+	}
+	
+	public void setDirection (boolean aDirection) {
+		setStaticDirection (aDirection);
 	}
 	
 	public void setScale (int hexScale) {

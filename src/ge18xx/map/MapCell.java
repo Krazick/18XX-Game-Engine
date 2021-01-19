@@ -1200,17 +1200,21 @@ public class MapCell implements Comparator<Object> {
 		setOtherValues (aBaseTerrain, NO_TILE, NO_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
 	}
 	
+	public static void setMapDirection (boolean aMapDirection) {
+		mapDirection = aMapDirection;
+	}
+	
 	public void setMapDirection (String aMapDirection) {
 		if (aMapDirection == null) {
-			mapDirection = false;
+			setMapDirection (false);
 		} else {
 			if (aMapDirection.equals ("NS")) {
-				mapDirection = false;
+				setMapDirection (false);
 			} else {
 				if (aMapDirection.equals ("EW")) {
-					mapDirection = true;
+					setMapDirection (true);
 				} else {
-					mapDirection = false;
+					setMapDirection (false);
 				}
 			}
 		}

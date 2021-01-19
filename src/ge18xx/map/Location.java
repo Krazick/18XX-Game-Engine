@@ -673,7 +673,7 @@ public class Location implements Cloneable {
 		return (new Location (newLocation));
 	}
 	
-	public boolean equals (Location aOtherLocation) {
+	public boolean isSameLocationValue (Location aOtherLocation) {
 		int tOtherLocation;
 		boolean tSameLocationValue;
 		

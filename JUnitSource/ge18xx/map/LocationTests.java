@@ -46,7 +46,7 @@ class LocationTests {
 		assertTrue (noLocation.isNoLocation ());
 		assertFalse (locations [0].isNoLocation ());
 		Location tLocation = centerLocation.clone ();
-		assertNotEquals (tLocation.equals (centerLocation), "Clone value test Equals - Same, Cloning Failed");
+		assertNotEquals (tLocation.isSameLocationValue (centerLocation), "Clone value test Equals - Same, Cloning Failed");
 		assertEquals (tLocation.getLocation (), centerLocation.getLocation (), "Clone value same");
 		tLocation.setValue (-2);
 		assertEquals (tLocation.getLocation (), centerLocation.getLocation (), "Clone value still Same after Invalid (-2) Location set attempt");
