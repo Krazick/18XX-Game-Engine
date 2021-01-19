@@ -105,7 +105,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		for (GameTile tGameTile : gameTiles) {
 			tTileNumber = tGameTile.getTileNumber ();
 			tTile = aTileDefinitions.getTile (tTileNumber);
-			if (tTile != null) {
+			if (tTile != Tile.NO_TILE) {
 				// Set the Generic Tile Definition to show in Tile Tray
 				tGameTile.setTile (tTile);
 				tTotalCount = tGameTile.totalCount ();
@@ -241,7 +241,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		XMLNodeList tXMLNodeList;
 		XMLNode tXMLTileSetRoot;
 		String tRootName;
-//		String tBaseColor;
 		String tDirection;
 		
 		tXMLTileSetRoot = aXMLDocument.getDocumentElement ();
@@ -777,6 +776,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	
 	public void setTraySize () {
 		int maxX, maxY, tileCount, rowCount;
+		Dimension tNewDimension;
 		
 		if (hex == null) {
 			setHex (Hex.getDirection ());
@@ -785,7 +785,8 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		rowCount = new Double (tileCount / TILES_PER_ROW).intValue () + 1;
 		maxX = new Double (Hex.getWidth () * 2.25 * TILES_PER_ROW + 10).intValue ();
 		maxY = (hex.getYd () * 2 + 20) * rowCount;
-		tileTrayFrame.setPreferredSize (new Dimension (maxX, maxY));
+		tNewDimension = new Dimension (maxX, maxY);
+		tileTrayFrame.setScrollPanePSize (tNewDimension);
 	}
 	
 	public void setValues (String aSetName) {

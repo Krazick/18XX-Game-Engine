@@ -26,22 +26,31 @@ public class TileTrayFrame extends XMLFrame {
 	private final int TILE_HEIGHT = 115; 	// # of Pixels Height per Tile
 	TileSet tileSet;
 	GameManager gameManager;
+	JScrollPane scrollPane;
 	
 	public TileTrayFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getActiveGameName ());
-		JScrollPane scrollPane;
-		int num_rows;
+		int tNumRows;
+		int tWidth, tHeight;
+		Dimension tDimension;
 		
 		tileSet = new TileSet (this);
-        scrollPane = new JScrollPane ();
-		scrollPane.setViewportView (tileSet);
+		
 		// Width - 92 pixels for each tile, Multiply by # TILES/ROW
 		// Height - 115 Pixels per Row
 		// Count types of tiles, and divide by TILES/ROW, round up, to get how many rows need to show
 		// Should change based upon phase (and tiles available/to be shown)
-		num_rows = 4;  // TODO: Need to Calculate this from the TileSet
-        scrollPane.setPreferredSize (new Dimension (TILE_WIDTH * TileSet.TILES_PER_ROW, TILE_HEIGHT * num_rows));
+		tNumRows = 4;  
+		tWidth = TILE_WIDTH * TileSet.TILES_PER_ROW;
+		tHeight = TILE_HEIGHT * tNumRows;
+		tDimension = new Dimension (tWidth, tHeight);
+		
+        scrollPane = new JScrollPane ();
+		scrollPane.setViewportView (tileSet);
+		setScrollPanePSize (tDimension);
+        
 		add (scrollPane, BorderLayout.CENTER);
+		
 		gameManager = aGameManager;
 	}
 	
@@ -94,4 +103,10 @@ public class TileTrayFrame extends XMLFrame {
 		
 		return tUpgradeAllowed;
 	}
+
+	public void setScrollPanePSize(Dimension tNewDimension) {
+		scrollPane.setPreferredSize (tNewDimension);
+        scrollPane.setVerticalScrollBarPolicy (ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy (ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+ 	}
 }
