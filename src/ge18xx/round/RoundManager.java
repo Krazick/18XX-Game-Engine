@@ -658,6 +658,7 @@ public class RoundManager {
 	}
 
 	public void revalidateRoundFrame () {
+		roundFrame.repaint ();
 		roundFrame.revalidate ();	
 	}
 	
@@ -691,12 +692,8 @@ public class RoundManager {
 			if (isStockRound ()) {
 				updateAllCorporationsBox ();
 				roundFrame.setStockRound (gameName, stockRound.getIDPart1 ());
-				tPlayerManager = gameManager.getPlayerManager ();
-				tPlayerManager.updateAllRFPlayerLabels ();
 			}
 			if (isOperatingRound ()) {
-				tPlayerManager = gameManager.getPlayerManager ();
-				tPlayerManager.updateAllRFPlayerLabels ();
 				roundFrame.setOperatingRound (gameName, operatingRound.getIDPart1 (), currentOR, operatingRoundCount);
 				updateAllCorporationsBox ();
 				updateOperatingCorporationFrame ();
@@ -705,6 +702,10 @@ public class RoundManager {
 			if (isAuctionRound ()) {
 				roundFrame.setAuctionRound (gameName, auctionRound.getIDPart1 ());
 			}
+			
+			tPlayerManager = gameManager.getPlayerManager ();
+			tPlayerManager.updateAllRFPlayerLabels ();
+			roundFrame.revalidate ();
 		}
 	}
 	
@@ -838,6 +839,10 @@ public class RoundManager {
 		if (roundFrame != NO_ROUND_FRAME) {
 			roundFrame.updateAllCorporationsBox ();
 		}
+	}
+	
+	public void updateAllRFPlayers () {
+		playerManager.updateAllRFPlayerLabels ();
 	}
 	
 	public void updateRFPlayerLabel (Player aPlayer, int aPriorityPlayerIndex, int aPlayerIndex) {
