@@ -79,6 +79,9 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	boolean triggeredAuction;
 	int certificateLimit;
 	JLabel rfPlayerLabel;
+//	JLabel certCountLabel;
+	JLabel cashLabel;
+//	JLabel totalValueLabel;
 	Container playerContainer = null;
 
 	/* These attributes below change during the game, need to save/load them */
@@ -1274,10 +1277,21 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		playerManager.updateRFPlayerLabel (this);
 	}
 	
+	public void updateCashLabel () {
+		String tCashText;
+		
+		tCashText = "Cash: " + Bank.formatCash (getCash ());
+		if (cashLabel == null) {
+			cashLabel = new JLabel (tCashText);
+		} else {
+			cashLabel.setText (tCashText);
+		}
+	}
+	
 	public Container buildAPlayerContainer (int aPriorityPlayerIndex, int aPlayerIndex) {
 		Container tOwnershipContainer;
 		JLabel tCertCountLabel;
-		JLabel tCashLabel, tTotalValueLabel;
+		JLabel tTotalValueLabel;
 		int tTotalEscrow, tEscrowCount;
 		JLabel tEscrowLabel;
 		String tEscrowText;
@@ -1289,9 +1303,9 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		}
 		buildPlayerLabel (aPriorityPlayerIndex, aPlayerIndex);
 		playerContainer.add (rfPlayerLabel);
-		tCashLabel = new JLabel ("Cash: " + Bank.formatCash (getCash ()));
-		playerContainer.add (tCashLabel);
-		// TODO: If the Player bid on something (added cash to Escrow), Show Escrow Amount
+		updateCashLabel ();
+		playerContainer.add (cashLabel);
+		
 		tEscrowCount = getEscrowCount ();
 		tTotalEscrow = 0;
 		if (tEscrowCount > 0) {
@@ -1304,6 +1318,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 			tEscrowLabel = new JLabel (tEscrowText);
 			playerContainer.add (tEscrowLabel);
 		}
+		
 		tTotalValueLabel = new JLabel ("Total Value: " + Bank.formatCash (getCash () + getPortfolioValue () + tTotalEscrow));
 		playerContainer.add (tTotalValueLabel);
 
