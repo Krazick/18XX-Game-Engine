@@ -54,6 +54,7 @@ public class RotateTileEffect extends LayTileEffect {
 		HexMap tGameMap;
 		TileSet tTileSet;
 		int tNewOrientation;
+		int tCurrentOrientation;
 		
 		tEffectApplied = false;
 		tTileSet = aRoundManager.getTileSet ();
@@ -65,13 +66,20 @@ public class RotateTileEffect extends LayTileEffect {
 		if (tGameTile.getTileNumber () == tileNumber) {
 			tPossibleRotation = tMapCell.getAllAllowedRotations (tTile);
 			if (tPossibleRotation != MapCell.NO_ROTATION) {
+				tCurrentOrientation = tMapCell.getTileOrient ();
 				tMapCell.setTileOrientationLocked (false);
-				tGameMap.rotateTileInPlace (tMapCell, HexMap.DONT_ADD_ACTION);
-				tNewOrientation = tMapCell.getTileOrient ();
-				if (tNewOrientation != orientation) {
-					System.err.println ("Tile was supposed to be Rotated to " + tNewOrientation + " which is NOT the same as current " + orientation);
-				} else {
+				if (tCurrentOrientation == orientation) {
+					System.out.println ("Tile in Correct Orientation of " + orientation);
 					tEffectApplied = true;
+				} else {
+					tMapCell.setTileOrient (orientation);
+	//				tGameMap.rotateTileInPlace (tMapCell, HexMap.DONT_ADD_ACTION);
+					tNewOrientation = tMapCell.getTileOrient ();
+					if (tNewOrientation != orientation) {
+						System.err.println ("Tile was supposed to be Rotated to " + orientation + " which is NOT the same as current " + tNewOrientation );
+					} else {
+						tEffectApplied = true;
+					}
 				}
 				tMapCell.setTileOrientationLocked (true);
 				tGameMap.redrawMap ();

@@ -995,7 +995,8 @@ public class MapCell implements Comparator<Object> {
 		if (isTileOnCell ()) {
 			if (! tileOrientLocked) {
 				if (aSteps > 0) {
-					tileOrient = (tileOrient + aSteps) % 6;
+					setTileOrient ((tileOrient + aSteps) % 6);
+//					tileOrient = (tileOrient + aSteps) % 6;
 				}
 			} else {
 				System.err.println ("The Tile Orientation is Locked on MapCell " + getID ());
@@ -1003,6 +1004,10 @@ public class MapCell implements Comparator<Object> {
 		} else {
 			System.err.println ("No Tile found on this Map Cell " + getID ());
 		}
+	}
+	
+	public void setTileOrient (int aNewTileOrientation) {
+		tileOrient = aNewTileOrientation;
 	}
 	
 	public void rotateTileRight () {
