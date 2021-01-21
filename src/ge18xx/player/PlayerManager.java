@@ -1208,10 +1208,9 @@ public class PlayerManager {
 	public void updateAllRFPlayerLabels () {
 		for (Player tPlayer : players) {
 			updateRFPlayerLabel (tPlayer);
-//			tPlayer.updatePlayerInfo ();
 		}
 	}
-	
+
 	public void updateRFPlayerLabel (Player aPlayer) {
 		stockRound.updateRFPlayerLabel (aPlayer);
 	}
