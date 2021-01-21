@@ -130,7 +130,6 @@ public class StateChangeEffect extends Effect {
 		} else if (actor.isACorporation ()) {
 			
 		}
-		aRoundManager.revalidateRoundFrame();
 		tEffectApplied = true;
 		
 		return tEffectApplied;
