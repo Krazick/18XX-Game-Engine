@@ -84,24 +84,48 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		oneBidderBox = Box.createHorizontalBox ();
 		oneBidderBox.add (new JLabel ("Bidder Box"));
 		biddersBox.add (Box.createVerticalStrut (15));
+		
+		bottomBox.add (Box.createVerticalStrut (5));
+		doneButton = setupButton (DONE, DONE);
+		bottomBox.add (Box.createVerticalStrut (5));
+		undoButton = setupButton (UNDO, UNDO);
 
-		doneButton = new JButton (DONE);
-		doneButton.addActionListener (this);
-		doneButton.setAlignmentX (Component.CENTER_ALIGNMENT);
-		doneButton.setActionCommand (DONE);
-		undoButton = new JButton (UNDO);
-		undoButton.addActionListener (this);
-		undoButton.setAlignmentX (Component.CENTER_ALIGNMENT);
-		undoButton.setActionCommand (UNDO);
-		bottomBox.add (Box.createVerticalStrut (5));
-		bottomBox.add (doneButton);
-		bottomBox.add (Box.createVerticalStrut (5));
-		bottomBox.add (undoButton);
+//		doneButton = new JButton (DONE);
+//		doneButton.addActionListener (this);
+//		doneButton.setAlignmentX (Component.CENTER_ALIGNMENT);
+//		doneButton.setActionCommand (DONE);
+//		bottomBox.add (Box.createVerticalStrut (5));
+//		bottomBox.add (doneButton);
+//		bottomBox.add (Box.createVerticalStrut (5));
+		
+//		undoButton = new JButton (UNDO);
+//		undoButton.addActionListener (this);
+//		undoButton.setAlignmentX (Component.CENTER_ALIGNMENT);
+//		undoButton.setActionCommand (UNDO);
+//		bottomBox.add (undoButton);
+		
 		bottomBox.add (Box.createVerticalStrut (5));
 		
 		add (topBox, BorderLayout.NORTH);
 		add (biddersBox, BorderLayout.CENTER);
 		add (bottomBox, BorderLayout.SOUTH);
+	}
+	
+	public JButton setupButton (String aButtonText, String aButtonCommand) {
+		JButton tJButton;
+		
+		tJButton = new JButton (aButtonText);
+		tJButton.setActionCommand(aButtonCommand);
+		tJButton.addActionListener (this);
+		tJButton.setAlignmentX (Component.CENTER_ALIGNMENT);
+		bottomBox.add (tJButton);
+		if (isNetworkGame) {
+			if (aButtonText.equals (UNDO)) {
+				tJButton.setEnabled (false);
+			}
+		}
+		
+		return tJButton;
 	}
 	
 	@Override
@@ -450,7 +474,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		tClientName = tGameManager.getClientUserName ();
 		System.out.println ("Configuring Auction Undo Button for " + tClientName);
 		tAmIBidder = certificateToAuction.amIABidder (tClientName);
-		if (tAmIBidder) {
+		if (tAmIBidder && ! isNetworkGame) {
 			undoButton.setEnabled (true);
 			undoButton.setToolTipText ("");
 		} else {
