@@ -270,6 +270,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		tCurrentCorporationStatus = trainCompany.getStatus ();
 		trainCompany.updateStatus (ActorI.ActionStates.BoughtTrain);
 		tNewCorporationStatus = trainCompany.getStatus ();
+		// TODO: possible issue when Buying a Train Between Companies, not saving the train properly in the Effect
 		aBuyTrainAction.addTransferTrainEffect (aOwningTrainCompany, aTrain, trainCompany);
 		if (tCurrentCorporationStatus != tNewCorporationStatus) {
 			aBuyTrainAction.addChangeCorporationStatusEffect (trainCompany, 
