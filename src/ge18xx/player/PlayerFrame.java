@@ -556,18 +556,30 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		} else {
 			exchangeActionButton.setToolTipText ("There are no selected President's Share to Exchange");
 		}
-		undoActionButton.setEnabled (tActionsToUndo);
-		if (tActionsToUndo) {
-			undoActionButton.setToolTipText ("There are Actions that can be undone");
-		} else {
-			undoActionButton.setToolTipText ("No Actions to Undo");
-		}
+		updateUndoButton(tActionsToUndo);
 		
 		if (hasActed ()) {
 			setDoneButton ();
 			disableAllStartPacketButtons ("Already acted");
 		} else {
 			setPassButton ();
+		}
+	}
+
+	private void updateUndoButton(boolean tActionsToUndo) {
+		GameManager tGameManager;
+		
+		tGameManager = player.getGameManager ();
+		if (tGameManager.isNetworkGame ()) {
+			undoActionButton.setEnabled (false);
+			undoActionButton.setToolTipText ("Network Game - Undos are not allowed");
+		} else {
+			undoActionButton.setEnabled (tActionsToUndo);
+			if (tActionsToUndo) {
+				undoActionButton.setToolTipText ("There are Actions that can be undone");
+			} else {
+				undoActionButton.setToolTipText ("No Actions to Undo");
+			}
 		}
 	}
 	

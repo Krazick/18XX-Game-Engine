@@ -115,4 +115,9 @@ public class MinorCompany extends TokenCompany {
 	public void setTreasury (int aInitialTreasury) {
 		addCash (aInitialTreasury);
 	}
+
+	@Override
+	protected boolean isPlaceTileMode() {
+		return false;
+	}
 }

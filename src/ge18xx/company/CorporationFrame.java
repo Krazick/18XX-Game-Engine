@@ -79,8 +79,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	JButton doneActionButton;
 	JButton undoActionButton;
 	Corporation corporation;
+	boolean isNetworkGame;
 	
-	public CorporationFrame (String aFrameName, Corporation aCorporation) {
+	public CorporationFrame (String aFrameName, Corporation aCorporation, boolean aIsNetworkGame) {
 		super (((aCorporation != null) ? aCorporation.getName () + " " : "") + aFrameName);
 		Dimension tMinSize = new Dimension (20, 10);
 		Container tActionButtons, tTopBoxes;
@@ -127,6 +128,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			}
 			add (corporationContainer);
 			setSize (900, 700);
+			setIsNetworkGame (aIsNetworkGame);
+			updateUndoButton ();
 		}
 	}
 
@@ -201,6 +204,17 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tPhaseInfoBox;
 	}
 	
+	public void setIsNetworkGame (boolean aIsNetworkGame) {
+		isNetworkGame = aIsNetworkGame;
+	}
+	
+	public void updateUndoButton () {
+		if (isNetworkGame) {
+			undoActionButton.setEnabled (false);
+			undoActionButton.setToolTipText ("Network Game - Undo is not allowed");
+		}
+	}
+	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
@@ -212,7 +226,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (PLACE_TILE.equals (tActionCommand)) {
 			corporation.showMap ();
 			corporation.showTileTray ();
-			corporation.enterPlaceTileMode ();	
+			corporation.enterPlaceTileMode ();
 		}
 		if (PLACE_TOKEN.equals (tActionCommand)) {
 			corporation.showMap ();
@@ -784,7 +798,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		} else {
 			operateTrainActionButton.setText (NO_TRAINS_TO_OPERATE);
 		}
-		if (corporation.canOperateTrains ()) {
+		if (corporation.isPlaceTileMode () || corporation.isPlaceTokenMode ()) {
+			operateTrainActionButton.setEnabled(false);
+			operateTrainActionButton.setToolTipText ("Need to complete Tile/Token Placement");
+		} else if (corporation.canOperateTrains ()) {
 			operateTrainActionButton.setEnabled (true);
 			operateTrainActionButton.setToolTipText (NO_TOOL_TIP);
 		} else {

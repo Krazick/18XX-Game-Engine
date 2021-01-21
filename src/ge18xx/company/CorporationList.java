@@ -1038,4 +1038,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		
 		return tTotalEscrow;
 	}
+
+	public boolean isPlaceTileMode() {
+		return roundManager.isPlaceTileMode ();
+	}
+
+	public boolean isPlaceTokenMode() {
+		return roundManager.isPlaceTokenMode ();
+	}
 }

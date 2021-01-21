@@ -1182,12 +1182,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public void setCorporationFrame () {
 		String tFullTitle;
 		GameManager tGameManager;
+		boolean tIsNetworkGame;
 		
 		if (isATrainCompany ()) {
-//		if (this instanceof TrainCompany) {
 			tGameManager = corporationList.getGameManager ();
+			tIsNetworkGame = tGameManager.isNetworkGame ();
 			tFullTitle = tGameManager.createFrameTitle ("Corporation");
-			corporationFrame = new CorporationFrame (tFullTitle, this);
+			corporationFrame = new CorporationFrame (tFullTitle, this, tIsNetworkGame);
 		} else {
 			corporationFrame = null;
 		}
@@ -1814,5 +1815,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	public void skipBaseToken() {
 //		Override in Train Company Class		
+	}
+
+	protected boolean isPlaceTileMode () {
+		return corporationList.isPlaceTileMode ();
+	};
+
+	protected boolean isPlaceTokenMode () {
+		return corporationList.isPlaceTokenMode ();
 	}
 }
