@@ -304,6 +304,7 @@ public class ActionManager {
 						justAddAction (tAction);
 					} else {
 						if ((tThisActionNumber < STARTING_ACTION_NUMBER) ||
+								(tThisActionNumber > tExpectedActionNumber) ||	//TODO: FIX Action Number Sequences.
 							(tThisActionNumber == tExpectedActionNumber)) {
 							System.out.println ("\nReceived Action Number " + tThisActionNumber + 
 									" the Expected Action Number is " + tExpectedActionNumber + " Processing\n");
@@ -321,11 +322,11 @@ public class ActionManager {
 									" is before the Expected Action Number of " + tExpectedActionNumber + " IGNORING\n";
 							System.err.println (tActionFailureMessage);
 							actionReportFrame.append (tActionFailureMessage);
-						} else if (tThisActionNumber > tExpectedActionNumber) {
-							tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
-									" is after the Expected Action Number of " + tExpectedActionNumber + " THERE IS A GAP\n";
-							System.err.println (tActionFailureMessage);						
-							actionReportFrame.append (tActionFailureMessage);
+//						} else if (tThisActionNumber > tExpectedActionNumber) {
+//							tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
+//									" is after the Expected Action Number of " + tExpectedActionNumber + " THERE IS A GAP\n";
+//							System.err.println (tActionFailureMessage);						
+//							actionReportFrame.append (tActionFailureMessage);
 						} else {
 							tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
 									" is not the Expected Action Number of " + tExpectedActionNumber + " This should have Matched\n";
