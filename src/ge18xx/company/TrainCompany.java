@@ -511,6 +511,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 		addAction (aBuyTrainAction);
 		corporationFrame.updateInfo ();
+		corporationFrame.revalidate ();
 	}
 	
 	public boolean trainIsSelected () {
