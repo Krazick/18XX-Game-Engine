@@ -136,6 +136,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	}
 	
 	private void updateUndoActionButtion () {
+		
 		if (sellActionCount == 0) {
 			undoButton.setEnabled (false);
 			undoButton.setToolTipText ("No Stock Sell Actions to undo. Close Window to undo previous OR Action");
