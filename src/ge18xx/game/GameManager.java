@@ -473,6 +473,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void enterPlaceTokenMode () {
 		mapFrame.togglePlaceTokenMode ();
 	}
+	
+	public boolean isPlaceTileMode() {
+		return mapFrame.isPlaceTileMode ();
+	}
+
+	public boolean isPlaceTokenMode() {
+		return mapFrame.isPlaceTokenMode ();
+	}
 
 	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
 		mapFrame.enterSelectRouteMode (aRouteInformation);		

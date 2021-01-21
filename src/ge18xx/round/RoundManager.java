@@ -206,7 +206,15 @@ public class RoundManager {
 	public void clearAllPlayerSelections () {
 		gameManager.clearAllPlayerSelections ();
 	}
-	
+
+	public boolean isPlaceTileMode() {
+		return gameManager.isPlaceTileMode ();
+	}
+
+	public boolean isPlaceTokenMode() {
+		return gameManager.isPlaceTokenMode ();
+	}
+
 	public void enterPlaceTileMode () {
 		gameManager.enterPlaceTileMode ();
 	}
