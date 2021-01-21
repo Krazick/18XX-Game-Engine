@@ -107,7 +107,6 @@ public class StateChangeEffect extends Effect {
 		boolean tNewAuctionAction = false;
 		
 		tEffectApplied = false;
-		tEffectApplied = true;
 		if (actor.isAPlayer ()) {
 			Player tPlayer = (Player) actor;
 			StockRound tStockRound = aRoundManager.getStockRound ();
@@ -131,6 +130,8 @@ public class StateChangeEffect extends Effect {
 		} else if (actor.isACorporation ()) {
 			
 		}
+		aRoundManager.revalidateRoundFrame();
+		tEffectApplied = true;
 		
 		return tEffectApplied;
 
