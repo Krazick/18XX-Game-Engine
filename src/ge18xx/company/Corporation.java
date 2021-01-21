@@ -1765,6 +1765,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return NO_NOTE;
 	}
 
+	public void revalidateCorporationFrame () {
+		corporationFrame.revalidate ();
+	}
+	
 	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
 		boolean tIsTileAvailableForMapCell = true;
 		
