@@ -667,21 +667,26 @@ public class RouteInformation {
 		boolean tFillEndPoint = false;
 		
 		tTrack = aPreviousMapCell.getTrackFromStartToEnd (aPreviousStart, aPreviousSide);
-		if (! tTrack.isTrackUsed ()) {
-			tTrainNumber = getTrainIndex () + 1;
-			aPreviousSegment.setEndNodeLocationInt (aPreviousSide, phase);
-			if (aRouteAction != RouteAction.NO_ACTION) {
-
-				tPreviousStartLoc = new Location (aPreviousStart);
-				tPreviousEndLoc = new Location (aPreviousSide);
-				aRouteAction.addSetNewEndPointEffect (trainCompany, trainIndex, aPreviousMapCell, tPreviousStartLoc, tPreviousEndLoc);
+		if (tTrack != Track.NO_TRACK) {
+			if (! tTrack.isTrackUsed ()) {
+				tTrainNumber = getTrainIndex () + 1;
+				aPreviousSegment.setEndNodeLocationInt (aPreviousSide, phase);
+				if (aRouteAction != RouteAction.NO_ACTION) {
+	
+					tPreviousStartLoc = new Location (aPreviousStart);
+					tPreviousEndLoc = new Location (aPreviousSide);
+					aRouteAction.addSetNewEndPointEffect (trainCompany, trainIndex, aPreviousMapCell, tPreviousStartLoc, tPreviousEndLoc);
+				}
+				aPreviousSegment.setTrainOnTrack (tTrack, tTrainNumber);
+				tFillEndPoint = true;
+			} else {
+				System.err.println ("Previous Map Cell's Track is in Use");
 			}
-			aPreviousSegment.setTrainOnTrack (tTrack, tTrainNumber);
-			tFillEndPoint = true;
 		} else {
-			System.err.println ("Previous Map Cell's Track is in Use");
+			System.err.println ("Track from" + aPreviousStart + " to " + aPreviousSide + 
+					" on MapCell " + aPreviousMapCell.getID () + " with Tile " + aPreviousMapCell.getTileNumber ());
 		}
-		
+
 		return tFillEndPoint;
 	}
 	
