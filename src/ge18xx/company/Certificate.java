@@ -345,7 +345,7 @@ public class Certificate implements Comparable<Certificate> {
 				tCertificateInfoPanel.add (checkedButton);
 			}
 		} else if (aCheckBoxLabel.equals ("")) {
-			System.err.println ("CHECKBOX Label equal EMPTY String");
+//			System.err.println ("CHECKBOX Label equal EMPTY String");
 		} else {
 			System.err.println ("No label that matches [" + aCheckBoxLabel + "]");	
 		}
