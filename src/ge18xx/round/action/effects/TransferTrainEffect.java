@@ -73,7 +73,7 @@ public class TransferTrainEffect extends Effect {
 					if (tTrain != TrainPortfolio.NO_TRAIN) {
 						setTrain (tTrain);
 					} else {
-						System.err.println ("Can't find " + tTrainName + " in Train Portfolio for " + tTrainCompany.getAbbrev ());
+						System.err.println ("Can't find [" + tTrainName + "] in Train Portfolio for " + tTrainCompany.getAbbrev ());
 					}
 				}
 			} else {
