@@ -271,7 +271,6 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		Token tToken;
 		
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
-		System.out.println ("Hold Dividend in stock for " + tCompanyAbbrev);
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
 		if (tShareCompany != CorporationList.NO_CORPORATION) {
 			tMarketCell = tShareCompany.getSharePriceMarketCell ();
@@ -302,7 +301,6 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		Token tToken;
 		
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
-		System.out.println ("Pay Full Dividend for stock in " + tCompanyAbbrev);
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
 		if (tShareCompany != CorporationList.NO_CORPORATION) {
 			tMarketCell = tShareCompany.getSharePriceMarketCell ();
@@ -328,13 +326,11 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		Token tToken;
 		
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
-		System.out.println ("Should sell stock in " + tCompanyAbbrev);
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
 		if (tShareCompany != CorporationList.NO_CORPORATION) {
 			tMarketCell = tShareCompany.getSharePriceMarketCell ();
 			if (tMarketCell != Market.NO_MARKET_CELL) {
 				tNewMarketCell = tMarketCell.getSellShareMarketCell (1);
-				System.out.println ("Market Cells to Bottom " + tMarketCell.getCellCountToBottom ());
 				if (tMarketCell != tNewMarketCell) {
 					tShareCompany.setSharePrice (tNewMarketCell);
 					tToken = tMarketCell.getToken (tCompanyAbbrev);
