@@ -274,7 +274,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporation.undoAction ();
 			updateInfo ();
 		}
-		updateActionButtons ();
+		updateCFActionButtons ();
 	}
 	
 	private JButton setupActionButton (String aButtonLabel, String aButtonAction) {
@@ -488,7 +488,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		treasuryLabel.setText ("Treasury: " + Bank.formatCash (tTreasuryValue));
 	}
 	
-	public void updateActionButtons () {
+	public void updateCFActionButtons () {
 		int tTrainCount;
 		
 		if (corporation.mapVisible ()) {
@@ -498,10 +498,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			showMapActionButton.setEnabled (true);
 			showMapActionButton.setToolTipText (NO_TOOL_TIP);
 		}
-		updatePlaceTileActionButton ();
-		updatePlaceTokenActionButton ();
 		tTrainCount = corporation.getTrainCount ();
-		updateOperateTrainActionButton (tTrainCount);
+		updateTTOButtons (tTrainCount);
+//		updatePlaceTileActionButton ();
+//		updatePlaceTokenActionButton ();
+//		updateOperateTrainActionButton (tTrainCount);
 		updatePayFullDividendActionButton ();
 		updatePayHalfDividendActionButton (tTrainCount);
 		updatePayNoDividendActionButton (tTrainCount);
@@ -511,6 +512,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateDoneActionButton ();
 	}
 
+	public void updateTTOButtons (int aTrainCount) {
+		updatePlaceTileActionButton ();
+		updatePlaceTokenActionButton ();
+		updateOperateTrainActionButton (aTrainCount);
+	}
+	
 	private void updatePayHalfDividendActionButton (int aTrainCount) {
 		String tDisableToolTipReason;
 		
@@ -838,7 +845,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		setTreasuryLabel ();
 		setTokenLabel ();
 		setLastRevenueLabel ();
-		updateActionButtons ();
+		updateCFActionButtons ();
 		updateBuyableItems ();
 	}
 

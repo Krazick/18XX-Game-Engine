@@ -241,7 +241,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		Tile tTile;
 		int tRevenueCenterIndex;
 		int tCorporationID;
-		
+
+		tCorporation = getOperatingCompany ();
+
 		if (COMPLETE_TILE_LAY.equals (tTheAction)) {
 			togglePlaceTileMode ();
 		} else if (SELECT_ROUTE_MODE.equals (tTheAction)) {
@@ -253,19 +255,19 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		} else if ("PutTile".equals (tTheAction)) {
 			putTileDownOnMap ();
 		} else if ("PutToken".equals (tTheAction)) {
-			tCorporation = getOperatingCompany ();
-			if (tCorporation != null) {
+			if (tCorporation != CorporationList.NO_CORPORATION) {
 				setCompanyAbbrev (tCorporation.getAbbrev ());
 				tMapCell = map.getSelectedMapCell ();
 				putTokenDown (tCorporation);
 				tTile = tMapCell.getTile ();
-				if (tCorporation != null) {
-					tCorporationID = tCorporation.getID ();
-					tRevenueCenterIndex = tTile.getStationIndex (tCorporationID);
-					tCorporation.tokenWasPlaced (tMapCell, tTile, tRevenueCenterIndex);
-				}				
+				tCorporationID = tCorporation.getID ();
+				tRevenueCenterIndex = tTile.getStationIndex (tCorporationID);
+				tCorporation.tokenWasPlaced (tMapCell, tTile, tRevenueCenterIndex);
 			}
 			togglePlaceTokenMode ();
+		}
+		if (tCorporation != CorporationList.NO_CORPORATION) {
+			tCorporation.updateFrameInfo ();
 		}
 	}
 
