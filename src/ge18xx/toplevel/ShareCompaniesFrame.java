@@ -117,7 +117,6 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		Token tToken;
 		
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
-		System.out.println ("All stock in " + tCompanyAbbrev + " Sold Out");
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
 		if (tShareCompany != CorporationList.NO_CORPORATION) {
 			tMarketCell = tShareCompany.getSharePriceMarketCell ();
