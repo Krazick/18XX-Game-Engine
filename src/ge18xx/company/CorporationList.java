@@ -39,6 +39,7 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 import ge18xx.utilities.XMLDocument;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -51,6 +52,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 //  Should be able to specify this as a Generic Class, where the TYPE extends Corporation
@@ -865,6 +867,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		Container tOtherCorpsInfoContainer;
 		Container tOtherCorpInfoContainer;
 		Container tOperatingCorpContainer;
+		JPanel tOperatingCorpPanel;
+		Color tFgColor, tBgColor;
+		TrainCompany tTrainCompany;
+		Border tBorder;
 		
 		tOtherCorpsInfoContainer = Box.createHorizontalBox ();
 		tOtherCorpsInfoContainer.add (Box.createHorizontalStrut (10));
@@ -874,10 +880,25 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 						aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason, aBuyingCorporation);
 				tOtherCorpsInfoContainer.add (tOtherCorpInfoContainer);
 			} else {
+			
+				if (aBuyingCorporation instanceof TrainCompany) {
+					tTrainCompany  = (TrainCompany) aBuyingCorporation;
+					tBgColor = tTrainCompany.getBgColor ();
+					tFgColor = tTrainCompany.getFgColor ();
+				} else {
+					tBgColor = Color.BLACK;
+					tFgColor = Color.white;
+				}
+				tBorder = setupBorder (true, tFgColor, tBgColor);
+//				SET BORDER HERE
+				tOperatingCorpPanel = new JPanel ();
+				tOperatingCorpPanel.setBorder (tBorder);
+				
 				tOperatingCorpContainer = Box.createVerticalBox ();
 				tOperatingCorpContainer.add (new JLabel (tCorporation.getAbbrev ()));
 				tOperatingCorpContainer.add (new JLabel ("State: Operating"));
-				tOtherCorpsInfoContainer.add (tOperatingCorpContainer);
+				tOperatingCorpPanel.add (tOperatingCorpContainer);
+				tOtherCorpsInfoContainer.add (tOperatingCorpPanel);
 			}
 			tOtherCorpsInfoContainer.add (Box.createHorizontalStrut (10));
 		}
@@ -885,6 +906,51 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tOtherCorpsInfoContainer;
 	}
 	
+	public Border setupBorder (boolean aSamePresident, Color aFgColor, Color aBgColor) {
+		Border tPanelBorder, tBackgroundBorder, tOuterBorder, tRaisedBevel;
+		Border tLoweredBevel, tBevelBorder1, tBevelBorder2;
+
+		tBackgroundBorder = setupBackgroundBorder (5);
+		if (aSamePresident) {
+			tRaisedBevel = BorderFactory.createBevelBorder (BevelBorder.RAISED, aFgColor, aBgColor);
+			tLoweredBevel = BorderFactory.createBevelBorder (BevelBorder.LOWERED, aFgColor, aBgColor);
+			tBevelBorder1 = BorderFactory.createCompoundBorder (tRaisedBevel, tLoweredBevel);
+			tBevelBorder2 = BorderFactory.createCompoundBorder (tBevelBorder1, tBackgroundBorder);
+			tPanelBorder = BorderFactory.createCompoundBorder (tBackgroundBorder, tBevelBorder2);
+		} else {
+			tOuterBorder = setupOuterBorder (aFgColor, aBgColor);
+			tPanelBorder = BorderFactory.createCompoundBorder (tOuterBorder, tBackgroundBorder);
+		}
+		
+		return tPanelBorder;
+	}
+
+	private Border setupOuterBorder (Color aFgColor, Color aBgColor) {
+		Border tOuterBorder;
+		tOuterBorder = BorderFactory.createLineBorder (aBgColor, 2);
+		return tOuterBorder;
+	}
+
+	private Border setupBackgroundBorder (int aWidth) {
+		Border tBackgroundBorder;
+		Color tBackgroundColor;
+		
+		tBackgroundColor = new Color (237, 237, 237);
+		tBackgroundBorder = BorderFactory.createLineBorder (tBackgroundColor, aWidth);
+		
+		return tBackgroundBorder;
+	}
+	
+	public Border setupBorder (Color aFgColor, Color aBgColor) {
+		Border tCorpBorder, tOuterBorder, tInnerBorder;
+
+		tOuterBorder = setupOuterBorder (aFgColor, aBgColor);
+		tInnerBorder = setupBackgroundBorder (2);
+		tCorpBorder = BorderFactory.createCompoundBorder (tOuterBorder, tInnerBorder);
+		
+		return tCorpBorder;
+	}
+
 	public boolean isSelectedTrainItem (String aCurrentAbbrev, Object aItem) {
 		boolean tSelectedTrainItem = false;
 		int tSelectedTrainCount;

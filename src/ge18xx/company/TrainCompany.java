@@ -719,6 +719,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tHalfShare;
 	}
 
+	@Override
 	public Color getFgColor () {
 		return fgColor;
 	}

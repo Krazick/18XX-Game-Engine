@@ -271,6 +271,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		corporationCertificates.clearSelections ();
 	}
 	
+	// Override in Train Company
+	public Color getFgColor () {
+		return Color.WHITE;
+	}
+	
+	// Override in Train Company
 	public Color getBgColor () {
 		return Color.BLACK;
 	}
