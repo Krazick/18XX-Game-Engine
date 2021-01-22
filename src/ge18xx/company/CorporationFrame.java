@@ -500,9 +500,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 		tTrainCount = corporation.getTrainCount ();
 		updateTTOButtons (tTrainCount);
-//		updatePlaceTileActionButton ();
-//		updatePlaceTokenActionButton ();
-//		updateOperateTrainActionButton (tTrainCount);
 		updatePayFullDividendActionButton ();
 		updatePayHalfDividendActionButton (tTrainCount);
 		updatePayNoDividendActionButton (tTrainCount);

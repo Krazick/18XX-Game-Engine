@@ -17,6 +17,7 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
+import ge18xx.company.CorporationFrame;
 import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.PrivateCompany;
@@ -1583,6 +1584,25 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 		tRoundFrame = roundManager.getRoundFrame ();
 		tRoundFramePoint = tRoundFrame.getLocation ();
+		tX = tRoundFramePoint.getX ();
+		tY = tRoundFramePoint.getY ();
+		tNewX = (int) tX + 100;
+		tNewY = (int) tY + 100;
+		tNewPoint = new Point (tNewX, tNewY);
+		
+		return tNewPoint;
+	}
+
+	public Point getOffsetCorporationFrame () {
+		CorporationFrame tCorporationFrame;
+		Corporation tOperatingCorporation;
+		Point tRoundFramePoint, tNewPoint;
+		double tX, tY;
+		int tNewX, tNewY;
+		
+		tOperatingCorporation = roundManager.getOperatingCompany ();
+		tCorporationFrame = tOperatingCorporation.getCorporationFrame ();
+		tRoundFramePoint = tCorporationFrame.getLocation ();
 		tX = tRoundFramePoint.getX ();
 		tY = tRoundFramePoint.getY ();
 		tNewX = (int) tX + 100;

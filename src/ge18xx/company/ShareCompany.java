@@ -1,10 +1,12 @@
 package ge18xx.company;
 
+import java.awt.Point;
 import java.awt.event.ItemListener;
 
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
+import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.market.Market;
@@ -112,11 +114,17 @@ public class ShareCompany extends TokenCompany {
 		PrivateCompany tPrivateToBuy;
 		Certificate tPresidentCertificate;
 		BuyPrivateFrame tBuyPrivateFrame;
+		GameManager tGameManager;
+		Point tCorpFrameOffset;
+		
+		tGameManager = corporationList.getGameManager ();
+		tCorpFrameOffset = tGameManager.getOffsetCorporationFrame ();
 		
 		tPrivateToBuy = corporationList.getSelectedPrivateCompanyToBuy ();
 		tPresidentCertificate = tPrivateToBuy.getPresidentCertificate ();
 		tBuyPrivateFrame = new BuyPrivateFrame (this);
 		tBuyPrivateFrame.updateInfo (tPresidentCertificate);
+		tBuyPrivateFrame.setLocation (tCorpFrameOffset);
 		tBuyPrivateFrame.setVisible (true);
 		tBuyPrivateFrame.requestFocus ();
 	}
