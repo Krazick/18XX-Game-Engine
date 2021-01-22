@@ -439,6 +439,7 @@ public class RouteInformation {
 		String tToolTipText;
 		
 		if (isValidRoute ()) {
+			tToolTipText = "";
 			trainRevenueFrame.enableConfirmRouteButton (trainIndex);
 			train.setCurrentRouteInformation (this);
 		} else {

@@ -30,6 +30,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	/**
 	 * 
 	 */
+	private String NOT_YOUR_COMPANY = "This is not your company operating";
 	private static final long serialVersionUID = 1L;
 	private static final String CONFIRM_ROUTE_ACTION = "DoConfirmRouteAction";
 	private static final String RESET_ROUTES_ACTION = "DoResetAction";
@@ -59,6 +60,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JPanel buttonsPanel;
 	JFormattedTextField [] [] revenuesByTrain;
 	JLabel [] totalRevenueByEachTrain;
+	boolean yourCompany;
 	
 	public TrainRevenueFrame (TrainCompany aTrainCompany, String aTitle) throws HeadlessException {
 		super (aTitle);
@@ -107,8 +109,17 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		selectRoutes = new JButton [maxTrainCount];
 		pack ();
 		updateFrameSize ();
+		setYourCompany (true);
 	}
 
+	public void setYourCompany (boolean aYourCompany) {
+		yourCompany = aYourCompany;
+	}
+	
+	private boolean isYourCompany () {
+		return yourCompany;
+	}
+	
 	private JButton setupButton (String aTitle, String aAction) {
 		JButton tButton;
 		
@@ -145,7 +156,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 	
 	public void clearTrainsFromMap () {
-//		System.out.println ("Ready to Clear All Routes from Map only");
 		int tTrainIndex, tTrainCount;
 		RouteInformation tRouteInformation;
 		Train tTrain;
@@ -453,6 +463,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			if (! allRevenuesValid (tTrainIndex, tCityCount)) {
 				validRevenue = false;
 			}
+			
 			for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
 				if (revenuesByTrain [tTrainIndex] [tCityIndex] == tSource) {
 					totalRevenueByEachTrain [tTrainIndex].setText (Bank.formatCash (tTrainRevenue));
@@ -461,11 +472,16 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tTotalRevenue += tTrainRevenue;
 		}
 		thisRevenue.setText (THIS_REVENUE + tTotalRevenue);
-		confirm.setEnabled (validRevenue);
-		if (validRevenue) {
-			confirm.setToolTipText ("");
+		if (isYourCompany ()) {
+			confirm.setEnabled (validRevenue);
+			if (validRevenue) {
+				confirm.setToolTipText ("");
+			} else {
+				confirm.setToolTipText ("One or more Revenues is not valid");
+			}
 		} else {
-			confirm.setToolTipText ("One or more Revenues is not valid");
+			confirm.setEnabled (false);
+			confirm.setToolTipText (NOT_YOUR_COMPANY);
 		}
 	}
 	
@@ -503,11 +519,15 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	public void enableConfirmRouteButton (int aTrainIndex) {
-		if ((aTrainIndex >= 0) && (aTrainIndex < trainCompany.getTrainCount ())) {
-			selectRoutes [aTrainIndex].setEnabled (true);
-			selectRoutes [aTrainIndex].setToolTipText ("Valid Route Found");
+		if (isYourCompany ()) {
+			if ((aTrainIndex >= 0) && (aTrainIndex < trainCompany.getTrainCount ())) {
+				selectRoutes [aTrainIndex].setEnabled (true);
+				selectRoutes [aTrainIndex].setToolTipText ("Valid Route Found");
+			} else {
+				System.err.println ("TrainIndex of " + aTrainIndex + " is out of range");
+			}
 		} else {
-			System.err.println ("TrainIndex of " + aTrainIndex + " is out of range");
+			disableConfirmRouteButton (aTrainIndex, NOT_YOUR_COMPANY);
 		}
 	}
 
@@ -521,22 +541,22 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	public void disableAll (int aTrainIndex) {
-		String tNotYourCompany = "This is not your company operating";
 		int tTrainIndex, tCityIndex, tCityCount;
 		Train tTrain;
 		boolean tEnabled;
 		
 		tEnabled = false;
+		setYourCompany (false);
 		confirm.setEnabled (tEnabled);
-		confirm.setToolTipText (tNotYourCompany);
+		confirm.setToolTipText (NOT_YOUR_COMPANY);
 		cancel.setEnabled (tEnabled);
-		cancel.setToolTipText (tNotYourCompany);
+		cancel.setToolTipText (NOT_YOUR_COMPANY);
 		reset.setEnabled (tEnabled);
-		reset.setToolTipText (tNotYourCompany);
+		reset.setToolTipText (NOT_YOUR_COMPANY);
 		for (JButton tSelectedRoute : selectRoutes) {
 			if (tSelectedRoute != null) {
 				tSelectedRoute.setEnabled (tEnabled);
-				tSelectedRoute.setToolTipText (tNotYourCompany);
+				tSelectedRoute.setToolTipText (NOT_YOUR_COMPANY);
 			}
 		}
 		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
@@ -546,7 +566,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				selectRoutes [tTrainIndex].setText (SELECT_ROUTE);
 			}
 			selectRoutes [tTrainIndex].setEnabled (tEnabled);
-			selectRoutes [tTrainIndex].setToolTipText (tNotYourCompany);
+			selectRoutes [tTrainIndex].setToolTipText (NOT_YOUR_COMPANY);
 			tTrain = trainCompany.getTrain (tTrainIndex);
 			tCityCount = tTrain.getCityCount ();
 			for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
