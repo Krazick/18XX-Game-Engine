@@ -135,5 +135,4 @@ public class WinAuctionAction extends BuyStockAction {
 		
 		return tActionApplied;
 	}
-
 }

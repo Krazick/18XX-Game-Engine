@@ -1,6 +1,8 @@
 package ge18xx.round.action;
 
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.utilities.XMLNode;
 
@@ -36,5 +38,21 @@ public class PayNoDividendAction extends ChangeMarketCellAction {
 		tSimpleActionReport = actor.getName () + " paid NO Dividend.";
 		
 		return tSimpleActionReport;
+	}
+	
+	@Override
+	public boolean applyAction (RoundManager aRoundManager) {
+		boolean tActionApplied = false;
+		GameManager tGameManager;
+		TrainCompany tTrainCompany;
+		
+		tActionApplied = super.applyAction (aRoundManager);
+		tGameManager = aRoundManager.getGameManager ();
+		if (tGameManager.isNetworkGame ()) {
+			tTrainCompany = (TrainCompany) tGameManager.getOperatingCompany ();
+			tTrainCompany.hideTrainRevenueFrame ();
+		}
+		
+		return tActionApplied;
 	}
 }

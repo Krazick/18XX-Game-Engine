@@ -1,7 +1,10 @@
 package ge18xx.round.action;
 
 import ge18xx.bank.Bank;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
+import ge18xx.player.PlayerFrame;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
@@ -53,5 +56,21 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 		}
 
 		return tSimpleActionReport;
+	}
+	
+	@Override
+	public boolean applyAction (RoundManager aRoundManager) {
+		boolean tActionApplied = false;
+		GameManager tGameManager;
+		TrainCompany tTrainCompany;
+		
+		tActionApplied = super.applyAction (aRoundManager);
+		tGameManager = aRoundManager.getGameManager ();
+		if (tGameManager.isNetworkGame ()) {
+			tTrainCompany = (TrainCompany) tGameManager.getOperatingCompany ();
+			tTrainCompany.hideTrainRevenueFrame ();
+		}
+		
+		return tActionApplied;
 	}
 }
