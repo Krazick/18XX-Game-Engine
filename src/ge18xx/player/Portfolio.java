@@ -1303,6 +1303,8 @@ public class Portfolio implements CertificateHolderI {
 					tTransferGood = true;
 				} else {
 					System.err.println ("Transfer Certificate Failed since the Certificate could not be found");
+					System.err.println ("Looking for " + tCompanyAbbrev + " " + tPercentage + "% as President " + tIsPresident);
+					System.err.println ("From the Portfolio of " + aFromPortfolio.getName ());
 				}
 			} else {
 				System.err.println ("Transfer Certificate Failed since Certificate is Null");
