@@ -969,4 +969,9 @@ public class RoundManager {
 	public void setActionNumber (int aActionNumber) {
 		actionManager.setActionNumber (aActionNumber);
 	}
+
+	public void hideTrainRevenueFrame() {
+		// TODO Auto-generated method stub
+		
+	}
 }

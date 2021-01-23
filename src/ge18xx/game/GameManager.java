@@ -2149,5 +2149,4 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean isAuctionRound () {
 		return roundManager.isAuctionRound ();
 	}
-
 }
