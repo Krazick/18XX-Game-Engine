@@ -331,6 +331,16 @@ public class Train implements Comparable<Object> {
 		return tXMLElement;
 	}
 	
+	public boolean isCurrentRouteValid () {
+		boolean tIsCurrrentRouteValid = true;
+		
+		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+			tIsCurrrentRouteValid = currentRouteInformation.isValidRoute ();
+		}
+		
+		return tIsCurrrentRouteValid;
+	}
+	
 	public String getName () {
 		return name;
 	}
