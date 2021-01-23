@@ -42,13 +42,14 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	String THIS_REVENUE = "This Round Revenue ";
 	String SELECT_ROUTE = "Select Route";
 	String RUNNING_ROUTE = "Running";
-	String CONFIRM_REVENUE = "Confirm Revenue";
+	String CONFIRM_REVENUE = "Confirm All Revenues";
 	String CANCEL = "Cancel";
 	String RESET_ROUTES = "Reset Routes";
 	int maxTrainCount = 5;
 	int maxStops = 15;
 	TrainCompany trainCompany;
 	JLabel title;
+	JLabel presidentLabel;
 	JLabel lastRevenue;
 	JLabel thisRevenue;
 	JButton confirm;
@@ -75,6 +76,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		trainCompany = aTrainCompany;
 		title = new JLabel ();
 		title.setAlignmentX (CENTER_ALIGNMENT);
+		updatePresidentLabel ();
+		presidentLabel.setAlignmentX (CENTER_ALIGNMENT);
 		lastRevenue = new JLabel (LAST_REVENUE + trainCompany.getFormattedLastRevenue ());
 		lastRevenue.setAlignmentX (CENTER_ALIGNMENT);
 		thisRevenue = new JLabel (THIS_REVENUE + "NONE");
@@ -84,6 +87,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		
 		allFramePanel.add (Box.createVerticalStrut (10));
 		allFramePanel.add (title);
+		allFramePanel.add (Box.createVerticalStrut (10));
+		allFramePanel.add (presidentLabel);
 		allFramePanel.add (Box.createVerticalStrut (10));
 		allFramePanel.add (lastRevenue);
 		allFramePanel.add (Box.createVerticalStrut (10));
@@ -112,6 +117,18 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		setYourCompany (true);
 	}
 
+	public void updatePresidentLabel () {
+		String tTextLabel;
+		
+		tTextLabel = "President: " + trainCompany.getPresidentName ();
+		if (presidentLabel == null) {
+			presidentLabel = new JLabel (tTextLabel);
+			
+		} else {
+			presidentLabel.setText (tTextLabel);
+		}
+	}
+	
 	public void setYourCompany (boolean aYourCompany) {
 		yourCompany = aYourCompany;
 	}
@@ -400,6 +417,26 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	}
 
+	public boolean allRoutesValid () {
+		boolean tAllRoutesValid = true;
+		int tTrainIndex, tTrainCount;
+		Train tTrain;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			tTrain = trainCompany.getTrain (tTrainIndex); 
+			if (tTrain != Train.NO_TRAIN) {
+				if (! tTrain.isCurrentRouteValid ())  {
+					tAllRoutesValid = false;
+				}
+			}
+			
+		}
+
+		return tAllRoutesValid;
+	}
+	
 	public boolean allRevenuesValid (int aTrainIndex, int aCityCount) {
 		int tCityIndex;
 		boolean tAllRevenuesValid = true;
@@ -451,7 +488,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		int tTrainCount, tTrainIndex, tCityCount, tCityIndex;
 		int tTotalRevenue, tTrainRevenue;
 		Train tTrain;
-		boolean validRevenue = true;
+		boolean tValidRevenues = true;
+		boolean tAllRoutesValid;
 		
 		tTrainCount = trainCompany.getTrainCount ();
 		tTotalRevenue = 0;
@@ -461,7 +499,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tTrainRevenue = addTrainRevenues (tTrainIndex, tCityCount);
 			
 			if (! allRevenuesValid (tTrainIndex, tCityCount)) {
-				validRevenue = false;
+				tValidRevenues = false;
 			}
 			
 			for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
@@ -471,13 +509,17 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			}
 			tTotalRevenue += tTrainRevenue;
 		}
-		thisRevenue.setText (THIS_REVENUE + tTotalRevenue);
+		thisRevenue.setText (THIS_REVENUE + Bank.formatCash (tTotalRevenue));
 		if (isYourCompany ()) {
-			confirm.setEnabled (validRevenue);
-			if (validRevenue) {
-				confirm.setToolTipText ("");
-			} else {
+			tAllRoutesValid = allRoutesValid ();
+			
+			confirm.setEnabled (tValidRevenues && tAllRoutesValid);
+			if (! tValidRevenues) {
 				confirm.setToolTipText ("One or more Revenues is not valid");
+			} else if (! tAllRoutesValid) {
+				confirm.setToolTipText ("One or more Routes is not valid");
+			} else {
+				confirm.setToolTipText ("");
 			}
 		} else {
 			confirm.setEnabled (false);
@@ -492,8 +534,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		
 		tTrainCount = trainCompany.getTrainCount ();
 		tMaxTrainSize = trainCompany.getMaxTrainSize ();
-		tWidth = 340 + tMaxTrainSize * 50;
-		tHeight = 185 + (tTrainCount * 30);
+		tWidth = 350 + tMaxTrainSize * 50;
+		tHeight = 205 + (tTrainCount * 30);
 		setSize (tWidth, tHeight);
 	}
 	
@@ -512,6 +554,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		}
 		tTitleText = "Train Revenue for " + trainCompany.getName () + " with " + tTrainInfo;
 		title.setText (tTitleText);
+		updatePresidentLabel ();
 		lastRevenue.setText (LAST_REVENUE + trainCompany.getFormattedLastRevenue ());
 		thisRevenue.setText (THIS_REVENUE + "NONE");
 		fillRevenuesBox ();
@@ -535,6 +578,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		if ((aTrainIndex >= 0) && (aTrainIndex < trainCompany.getTrainCount ())) {
 			selectRoutes [aTrainIndex].setEnabled (false);
 			selectRoutes [aTrainIndex].setToolTipText (aToolTipText);
+			confirm.setEnabled (false);
+			confirm.setToolTipText ("One or more Routes is not valid");
 		} else {
 			System.err.println ("TrainIndex of " + aTrainIndex + " is out of range");
 		}
