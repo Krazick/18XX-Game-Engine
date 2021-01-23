@@ -960,6 +960,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		trainRevenueFrame.clearTrainsFromMap();
 	}
 	
+	public void hideTrainRevenueFrame () {
+		trainRevenueFrame.setVisible (false);
+	}
+	
 	public void skipBaseToken () {
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
 		boolean tStatusUpdated;
