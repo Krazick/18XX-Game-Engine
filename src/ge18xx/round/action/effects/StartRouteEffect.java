@@ -37,7 +37,6 @@ public class StartRouteEffect extends ChangeRouteEffect {
 		super (aEffectNode, aGameManager);
 	}
 
-
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;

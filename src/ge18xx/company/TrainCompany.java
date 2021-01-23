@@ -942,13 +942,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	public void operateTrains () {
 		GameManager tGameManager;
-		Point tCorpFrameOffset;
+		Point tFrameOffset;
 		
 		tGameManager = corporationList.getGameManager ();
-		tCorpFrameOffset = tGameManager.getOffsetCorporationFrame ();
-		
+		tFrameOffset = tGameManager.getOffsetCorporationFrame ();
 		trainRevenueFrame.updateInfo ();
-		trainRevenueFrame.setLocation (tCorpFrameOffset);
+		trainRevenueFrame.setLocation (tFrameOffset);
 		trainRevenueFrame.setYourCompany (true);
 		trainRevenueFrame.setVisible (true);
 	}
@@ -1578,6 +1577,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public void showTrainRevenueFrameForOthers (int aTrainIndex) {
+		Point tFrameOffset;
+		GameManager tGameManager;
+		
+		tGameManager = corporationList.getGameManager ();
+		tFrameOffset = tGameManager.getOffsetRoundFrame ();
+		trainRevenueFrame.setLocation (tFrameOffset);
 		trainRevenueFrame.updateInfo ();
 		trainRevenueFrame.setVisible (true);
 		trainRevenueFrame.disableAll (aTrainIndex);
