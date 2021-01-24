@@ -234,8 +234,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		map.clearAllSelected ();
 	}
 	
-	public void actionPerformed (ActionEvent e) {
-		String tTheAction = e.getActionCommand ();
+	public void actionPerformed (ActionEvent aActionEvent) {
+		String tTheAction = aActionEvent.getActionCommand ();
 		Corporation tCorporation;
 		MapCell tMapCell;
 		Tile tTile;

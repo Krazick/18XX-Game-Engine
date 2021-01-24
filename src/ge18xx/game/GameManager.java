@@ -934,6 +934,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 			if (! activeGame.isATestGame ()) {
 				roundManager.showInitialFrames ();
 			}
+			createAuditFrame ();
+
 			gameStarted = true;
 		}
 	}
@@ -1487,7 +1489,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 			createCities ();
 			createTileTray ();
 			createMap ();
-			createAuditFrame ();
 			
 			tileTrayFrame.setTraySize ();
 		}
@@ -2068,17 +2069,22 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tActorName;
 		CorporationList tCompanies;
 		Corporation tCorporation;
+		Player tPlayer;
 		
-		tCompanies = shareCompaniesFrame.getShareCompanies ();
-		tCorporation = tCompanies.getCorporation (0);
-		tActorName = tCorporation.getName ();
+		if (playerManager.getPlayerCount () > 0) {
+			tPlayer = playerManager.getPlayer (0);
+			tActorName = tPlayer.getName ();
+		} else {
+			tCompanies = shareCompaniesFrame.getShareCompanies ();
+			tCorporation = tCompanies.getCorporation (0);
+			tActorName = tCorporation.getAbbrev ();
+		}
 		auditFrame.setActorName (tActorName);
 		fillAuditFrame (tActorName);
 		auditFrame.setVisible (true);
 	}
 	
 	public void fillAuditFrame (String aActorName) {
-		auditFrame.updatePlayerComboBox ();
 		roundManager.fillAuditFrame (auditFrame, aActorName);
 	}
 	

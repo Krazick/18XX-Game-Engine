@@ -2,9 +2,12 @@ package ge18xx.toplevel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -23,8 +26,13 @@ import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActorTypes;
 
-public class AuditFrame extends TableFrame implements ItemListener {
+public class AuditFrame extends TableFrame implements ItemListener, ActionListener {
 	DefaultTableModel auditModel = new DefaultTableModel (0, 0);
+	private String REFRESH_LIST = "REFRESH LIST";
+	private String PLAYER_PREFIX = "Player: ";
+	private String SHARE_CORP_PREFIX = "Share Company: ";
+	private int NO_CREDIT = 0;
+	private int NO_DEBIT = 0;
 	JTable auditTable;
 	int actorBalance;
 	String actorName;
@@ -32,6 +40,8 @@ public class AuditFrame extends TableFrame implements ItemListener {
 	ActorI.ActorTypes actorType;
 	JComboBox <String> companyCombo;
 	JComboBox <String> playerCombo;
+	JComboBox <String> actorsCombo;
+	JButton refreshList;
 	CorporationList companies;
 	GameManager gameManager;
 	/**
@@ -79,17 +89,27 @@ public class AuditFrame extends TableFrame implements ItemListener {
 		JPanel tNorthComponents = new JPanel ();
 		
 		companyCombo = new JComboBox <String> ();
-		tNorthComponents.add (companyCombo);
-		updateCorpComboBox ();
+//		tNorthComponents.add (companyCombo);
+//		updateCorpComboBox ();
 		
 		playerCombo = new JComboBox <String> ();
-		tNorthComponents.add (playerCombo);
-		updatePlayerComboBox ();
+//		tNorthComponents.add (playerCombo);
+//		updatePlayerComboBox ();
 		
-		companyCombo.addItemListener (this);
-		playerCombo.addItemListener (this);
+		actorsCombo = new JComboBox <String> ();
+		tNorthComponents.add (actorsCombo);
+		updateActorsComboBox ();
+		
+//		companyCombo.addItemListener (this);
+//		playerCombo.addItemListener (this);
+		
+		refreshList = new JButton ("Refresh List");
+		refreshList.setActionCommand (REFRESH_LIST);
+		refreshList.addActionListener (this);
+		tNorthComponents.add (refreshList);
+		
 		add (tNorthComponents, BorderLayout.NORTH);
-		setActorType (ActorTypes.ShareCompany);
+		setActorType (ActorTypes.Player);
 	}
 	
 	public void setActorType (ActorI.ActorTypes aActorType) {
@@ -114,7 +134,9 @@ public class AuditFrame extends TableFrame implements ItemListener {
            		@SuppressWarnings ("unchecked")
 				JComboBox<String> source = (JComboBox<String>) aItemEvent.getSource ();
 				tThisComboBox = source;
-        		if (tThisComboBox.equals (companyCombo)) {
+				if (tThisComboBox.equals (actorsCombo)) {
+					setSelectedActor ();
+				} else if (tThisComboBox.equals (companyCombo)) {
 	        		setSelectedShareCompany ();
         		} else if (tThisComboBox.equals (playerCombo)) {
         			setSelectedPlayer ();
@@ -171,50 +193,90 @@ public class AuditFrame extends TableFrame implements ItemListener {
 		}
 	}
 	
+    public void updateActorsCombo () {
+    	String tActorName;
+    	
+    	tActorName = getSelectedActorName ();
+    	if (! actorName.endsWith (tActorName)) {
+    		System.out.println ("Need to update Pulldown Menu to match Actor");
+    	}
+    }
+
+    private String getSelectedActorName () {
+    	return (String) actorsCombo.getSelectedItem ();
+    }
+    
+	private void setSelectedActor () {
+		String tActorName;
+		
+		tActorName = getSelectedActorName ();
+		System.out.println ("Selected Actor is " + tActorName);
+		if (tActorName.startsWith (PLAYER_PREFIX)) {
+			tActorName = tActorName.substring (PLAYER_PREFIX.length ());
+			setSelectedPlayer (tActorName);
+		} else if (tActorName.startsWith (SHARE_CORP_PREFIX)) {
+			tActorName = tActorName.substring (SHARE_CORP_PREFIX.length ());
+			setSelectedShareCompany (tActorName);
+		}
+	}
+	
 	public void setSelectedPlayer () {
 		String tPlayerName;
-		int tStartingCash;
 		
 		tPlayerName = (String) playerCombo.getSelectedItem ();
-		setActorName (tPlayerName);
-		setActorAbbrev (tPlayerName);
+		setSelectedPlayer (tPlayerName);
+	}
+
+	private void setSelectedPlayer (String aPlayerName) {
+		int tStartingCash;
+		
+		System.err.println ("Selected Player is: [" + aPlayerName + "]");
+		setActorName (aPlayerName);
+		setActorAbbrev (aPlayerName);
 		setActorType (ActorI.ActorTypes.Player);
 		tStartingCash = gameManager.getStartingCash ();
 		setActorBalance (0);
-		addRow (0, "Start", "Initial Capital fron Bank of " + Bank.formatCash (tStartingCash), 0,tStartingCash);
+		addRow (0, "Start", "Initial Capital fron Bank of " + Bank.formatCash (tStartingCash), NO_DEBIT, tStartingCash);
 		setActorBalance (tStartingCash);
 	}
 	
 	public void setSelectedShareCompany () {
-		ShareCompany tShareCompany;
 		String tCompanyAbbrev;
 		
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
-		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
+		setSelectedShareCompany(tCompanyAbbrev);
+	}
+
+	private void setSelectedShareCompany (String aCompanyAbbrev) {
+		ShareCompany tShareCompany;
+		
+		System.err.println ("Selected Company is: [" + aCompanyAbbrev + "]");
+
+		tShareCompany = (ShareCompany) companies.getCorporation (aCompanyAbbrev);
 		setActorName (tShareCompany.getName ());
 		setActorAbbrev (tShareCompany.getAbbrev ());
 		setActorType (ActorI.ActorTypes.ShareCompany);
 		setActorBalance (0);
 	}
 	
-	public void updatePlayerComboBox () {
-		PlayerManager tPlayerManager;
-		int tPlayerCount, tPlayerIndex;
-		Player tPlayer;
-		String tPlayerName;
-		
-		tPlayerManager = gameManager.getPlayerManager ();
-		tPlayerCount = tPlayerManager.getPlayerCount ();
-		if (tPlayerCount > 0) {
-			for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
-				tPlayer = tPlayerManager.getPlayer (tPlayerIndex);
-				tPlayerName = tPlayer.getName ();
-				if (! isPlayerInComboBox (tPlayerName)) {
-					playerCombo.addItem (tPlayerName);
-				}
-			}
-		}
-	}
+//	public void updatePlayerComboBox () {
+//		PlayerManager tPlayerManager;
+//		int tPlayerCount, tPlayerIndex;
+//		Player tPlayer;
+//		String tPlayerName;
+//		
+//		tPlayerManager = gameManager.getPlayerManager ();
+//		tPlayerCount = tPlayerManager.getPlayerCount ();
+//		if (tPlayerCount > 0) {
+//			for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
+//				tPlayer = tPlayerManager.getPlayer (tPlayerIndex);
+//				tPlayerName = tPlayer.getName ();
+//				if (! isPlayerInComboBox (tPlayerName)) {
+//					playerCombo.addItem (tPlayerName);
+//				}
+//			}
+//		}
+//	}
 	
 	public boolean isPlayerInComboBox (String aPlayerName) {
 		boolean tPlayerInComboBox = false;
@@ -233,25 +295,93 @@ public class AuditFrame extends TableFrame implements ItemListener {
 		return tPlayerInComboBox;
 	}
 	
-	public void updateCorpComboBox () {
-		int tIndex;
-		int tCorpCount;
+//	public void updateCorpComboBox () {
+//		int tIndex;
+//		int tCorpCount;
+//		Corporation tCorporation;
+//		String tAbbrev;
+//		
+//		if (companies != null) {
+//			tCorpCount = companies.getRowCount ();
+//			if (tCorpCount > 0) {
+//				for (tIndex = 0; tIndex < tCorpCount; tIndex++) {
+//					tCorporation = companies.getCorporation (tIndex);
+//					if (tCorporation != CorporationList.NO_CORPORATION) {
+//						tAbbrev = tCorporation.getAbbrev ();
+//						companyCombo.addItem (tAbbrev);
+//					}
+//				}
+//			}
+//		}
+//	}
+	
+	public void updateActorsComboBox () {
+		PlayerManager tPlayerManager;
+		int tPlayerCount, tPlayerIndex;
+		int tCorpCount, tCorpIndex;
+		Player tPlayer;
 		Corporation tCorporation;
-		String tAbbrev;
+		String tActorName;
 		
-		companyCombo.removeAllItems ();
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayerCount = tPlayerManager.getPlayerCount ();
+		
+		// As we add Actors we don't want to recursively call itemListener
+		actorsCombo.removeAllItems ();
+		if (tPlayerCount > 0) {
+			for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
+				tPlayer = tPlayerManager.getPlayer (tPlayerIndex);
+				tActorName = PLAYER_PREFIX + tPlayer.getName ();
+				if (! isActorsInComboBox (tActorName)) {
+					actorsCombo.addItem (tActorName);
+				}
+			}
+		}
+		
 		if (companies != null) {
 			tCorpCount = companies.getRowCount ();
 			if (tCorpCount > 0) {
-				for (tIndex = 0; tIndex < tCorpCount; tIndex++) {
-					tCorporation = companies.getCorporation (tIndex);
+				for (tCorpIndex = 0; tCorpIndex < tCorpCount; tCorpIndex++) {
+					tCorporation = companies.getCorporation (tCorpIndex);
 					if (tCorporation != CorporationList.NO_CORPORATION) {
-						tAbbrev = tCorporation.getAbbrev ();
-						companyCombo.addItem (tAbbrev);
+						tActorName = SHARE_CORP_PREFIX + tCorporation.getAbbrev ();
+						if (! isActorsInComboBox (tActorName)) {
+							actorsCombo.addItem (tActorName);
+						}
 					}
 				}
 			}
 		}
+		actorsCombo.addItemListener (this);
+	}
+	
+	public boolean isActorsInComboBox (String aActorsName) {
+		boolean tActorInComboBox = false;
+		int tCount, tIndex;
+		String tActorFound;
+		
+		tCount = actorsCombo.getItemCount ();
+		for (tIndex = 0; tIndex < tCount; tIndex++) {
+			tActorFound = actorsCombo.getItemAt (tIndex);
+			if (tActorFound.equals (aActorsName)) {
+				tActorInComboBox = true;
+			}
+		}
+		
+		return tActorInComboBox;
 	}
 
+	@Override
+	public void actionPerformed (ActionEvent aActionEvent) {
+		String tTheAction = aActionEvent.getActionCommand ();
+		if (REFRESH_LIST.equals (tTheAction)) {
+			removeAllRows ();
+			if (actorType.equals (ActorI.ActorTypes.Player)) {
+				setSelectedPlayer (actorName);
+			} else if (actorType.equals (ActorI.ActorTypes.ShareCompany)) {
+				setSelectedShareCompany (actorAbbrev);
+			}
+			gameManager.fillAuditFrame (actorName);
+		}
+	}
 }
