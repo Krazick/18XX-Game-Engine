@@ -77,7 +77,7 @@
 		</RevenueCenter>
 		<RevenueCenter id="-1" location="12" name="" number="2"
 			type="Double City">
-			<Revenue location="-1" phase="0" value="60" />
+			<Revenue location="-1" phase="0" value="80" />
 		</RevenueCenter>
 	</Tile>
 	<Tile number="63" type="Brown">
