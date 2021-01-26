@@ -1555,7 +1555,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			playerManager.addPlayer (tPlayer);
 		}
 		
-		if (roundManager != null) {
+		if (roundManager != null) {	
 			roundManager.updateAllCorporationsBox ();
 		}
 	}
@@ -2154,5 +2154,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public boolean isAuctionRound () {
 		return roundManager.isAuctionRound ();
+	}
+
+	public void showGEFrame() {
+		game18XXFrame.setVisible (true);
+		
 	}
 }

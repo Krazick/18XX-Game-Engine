@@ -710,7 +710,7 @@ public class RoundManager {
 			if (isAuctionRound ()) {
 				roundFrame.setAuctionRound (gameName, auctionRound.getIDPart1 ());
 			}
-			
+			roundFrame.updateAll ();
 			tPlayerManager = gameManager.getPlayerManager ();
 			tPlayerManager.updateAllRFPlayerLabels ();
 			roundFrame.revalidate ();
@@ -972,6 +972,9 @@ public class RoundManager {
 
 	public void hideTrainRevenueFrame() {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	public void showGEFrame () {
+		gameManager.showGEFrame ();
 	}
 }

@@ -2,6 +2,7 @@ package ge18xx.round;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.CorporationList;
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
@@ -13,6 +14,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -24,6 +27,7 @@ import javax.swing.UIManager;
 
 public class RoundFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
+	private static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
 	private static final String PLAYER_ACTION = "DoPlayerAction";
 	private static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
 	private static final String CORPORATION_ACTION = "DoCorporationAction";
@@ -33,12 +37,22 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	Container centerBox;
 	Container roundBox;
 	Container allCorporationsBox;
+	Container headerBox;
+	Container parPricesBox;
+	Container trainSummaryBox;
+	Container roundInfoBox;
 	JLabel frameLabel;
 	JLabel phaseLabel;
 	JPanel playersContainer;
 	JLabel totalCashLabel;
 	JButton doActionButton;
+	JButton showGameEngineFrameButton;
 	Color defaultColor;
+	JLabel parPriceLabel;
+	List<JLabel> parPrices = new LinkedList<JLabel> ();
+	List<JLabel> companiesAtPar = new LinkedList<JLabel> ();
+	List<Container> parPriceLineBoxes = new LinkedList<Container> ();
+	JLabel trainSummary;
 	
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, String aGameName) {
 		super (aFrameName, aGameName);
@@ -48,31 +62,51 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		roundManager = aRoundManager;
 		
 		roundBox = Box.createVerticalBox ();
+		
+		headerBox = Box.createHorizontalBox ();
+		parPricesBox = Box.createVerticalBox ();
+		roundInfoBox = Box.createVerticalBox ();
+		trainSummaryBox = Box.createVerticalBox ();
+		
+		parPriceLabel = new JLabel ("Par Prices");
+		parPricesBox.add (parPriceLabel);
+		fillParPrices ();
+		updateParPrices ();
+		
+		trainSummary = new JLabel ("Train Summary");
+		trainSummaryBox.add( trainSummary);
+		
+		headerBox.add (parPricesBox);
+		headerBox.add (roundInfoBox);
+		headerBox.add (trainSummaryBox);
+		
 		allCorporationsBox = Box.createVerticalBox ();
 		
-		roundBox.add (Box.createVerticalStrut (10));
+		roundInfoBox.add (Box.createVerticalStrut (10));
 		frameLabel = new JLabel ("Round");
 		frameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundBox.add (frameLabel);
-		roundBox.add (Box.createVerticalStrut (10));
+		roundInfoBox.add (frameLabel);
+		roundInfoBox.add (Box.createVerticalStrut (10));
 		
 		Bank tBank = roundManager.getBank ();
 		tBank.updateBankCashLabel ();
 		JLabel tBankCashLabel = tBank.getBankCashLabel ();
 		tBankCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundBox.add (tBankCashLabel);
-		roundBox.add (Box.createVerticalStrut (10));
+		roundInfoBox.add (tBankCashLabel);
+		roundInfoBox.add (Box.createVerticalStrut (10));
 		
 		tTotalCash = roundManager.getTotalCash ();
 		totalCashLabel = new JLabel ("Total Cash: " + Bank.formatCash (tTotalCash));
 		totalCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundBox.add (totalCashLabel);
+		roundInfoBox.add (totalCashLabel);
 		
 		phaseLabel = new JLabel ("Current Game Phase");
 		phaseLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundBox.add (phaseLabel);
-		roundBox.add (Box.createVerticalStrut (10));
+		roundInfoBox.add (phaseLabel);
+		roundInfoBox.add (Box.createVerticalStrut (10));
 		updatePhaseLabel ();
+		
+		roundBox.add (headerBox);
 		
 		buildPlayersContainer ();
 		roundBox.add (playersContainer);
@@ -87,6 +121,12 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		roundBox.add (doActionButton);
 		roundBox.add (Box.createVerticalStrut (10));
 	
+		showGameEngineFrameButton = new JButton ("Show Game Engine Frame");
+		showGameEngineFrameButton.setActionCommand (SHOW_GE_FRAME_ACTION);
+		showGameEngineFrameButton.addActionListener (this);
+		showGameEngineFrameButton.setAlignmentX (Component.CENTER_ALIGNMENT);
+		roundBox.add (showGameEngineFrameButton);
+		
 		centerBox = Box.createHorizontalBox();
 		centerBox.add (Box.createHorizontalStrut(20));
 		centerBox.add (roundBox);
@@ -97,6 +137,28 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		defaultColor = UIManager.getColor ( "Panel.background" );
 	}
 
+	private void fillParPrices () {
+		int tParPriceCount, tParPriceIndex;
+		String tPrices [];
+		Container tParPriceLineBox;
+		
+//		tPrices = roundManager.getParPrices ();
+		tPrices = new String [] { "$ 100", "$ 90", "$ 82", "$ 76", "$ 71", "$ 67" };
+		
+		tParPriceCount = tPrices.length;
+		for (tParPriceIndex = 0; tParPriceIndex < tParPriceCount; tParPriceIndex++) {
+			parPrices.add (new JLabel (tPrices [tParPriceIndex]) );
+			companiesAtPar.add (new JLabel ("B&O"));
+			tParPriceLineBox = Box.createHorizontalBox ();
+			tParPriceLineBox.add (parPrices.get (tParPriceIndex));
+			tParPriceLineBox.add (Box.createHorizontalStrut (10));
+			tParPriceLineBox.add (companiesAtPar.get (tParPriceIndex));
+			parPriceLineBoxes.add (tParPriceLineBox);
+			parPricesBox.add (parPriceLineBoxes.get (tParPriceIndex));
+		}
+		
+	}
+	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		if (CORPORATION_ACTION.equals (aEvent.getActionCommand ())) {
@@ -108,6 +170,9 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		if (PLAYER_AUCTION_ACTION.equals (aEvent.getActionCommand ())) {
 			roundManager.showCurrentPlayerFrame ();
 			roundManager.showAuctionFrame ();
+		}
+		if (SHOW_GE_FRAME_ACTION.equals (aEvent.getActionCommand ())) {
+			roundManager.showGEFrame ();
 		}
 	}
 	
@@ -278,6 +343,46 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		revalidate ();
 	}
 	
+	public void updateParPrices () {
+		OperatingRound tOperatingRound;
+		int tCorporationCount, tCorporationIndex;
+		int tPriceCount, tPriceIndex;
+		CorporationList tCorporationList;
+		String tPriceLabel;
+		String tParPrice;
+		ShareCompany tShareCompany;
+		
+		tOperatingRound = roundManager.getOperatingRound ();		
+		tCorporationCount = tOperatingRound.getShareCompanyCount ();
+		
+		if (tCorporationCount > 0) {
+			tCorporationList = tOperatingRound.getShareCompanies ();
+			tPriceCount = companiesAtPar.size ();
+			String tCompaniesAtPrice [] = new String [tPriceCount];
+			for (tCorporationIndex = 0; tCorporationIndex < tCorporationCount; tCorporationIndex++) {
+				tShareCompany = (ShareCompany) tCorporationList.getCorporation (tCorporationIndex);
+				if (tShareCompany.hasParPrice ()) {
+					tParPrice = Bank.formatCash (tShareCompany.getParPrice ());
+					for (tPriceIndex = 0; tPriceIndex < tPriceCount; tPriceIndex++) {
+						tPriceLabel = parPrices.get(tPriceIndex).getText ();
+						if (tPriceLabel.equals (tParPrice)) {
+							if (tCompaniesAtPrice [tPriceIndex] == null) {
+								tCompaniesAtPrice [tPriceIndex] = tShareCompany.getAbbrev ();
+							} else {
+								tCompaniesAtPrice [tPriceIndex] += ", " + tShareCompany.getAbbrev ();
+							}
+						}
+					}
+				}
+			}
+
+			for (tPriceIndex = 0; tPriceIndex < tPriceCount; tPriceIndex++) {
+				companiesAtPar.get (tPriceIndex).setText (tCompaniesAtPrice [tPriceIndex]);
+			}
+		}
+		revalidate ();
+	}
+	
 	public void updatePhaseLabel () {
 		PhaseManager tPhaseManager;
 		PhaseInfo tCurrentPhaseInfo;
@@ -311,6 +416,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		updateTotalCashLabel ();
 		updatePhaseLabel ();
 		updateAllCorporationsBox ();
+		updateParPrices ();
 	}
 	
 	public void setBackGround () {
