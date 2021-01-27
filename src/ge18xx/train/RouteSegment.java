@@ -580,7 +580,8 @@ public class RouteSegment {
 		int tTrackCount, tTrainNumber;
 		Location tNewStartLocation, tEndLocation, tStartLocation, tNewEndLocation, tOriginalStart, tOriginalEnd;
 		Location tNewRotStart, tNewRotEnd;
-		int tTileOrient, tCurrentTrackIndex, tNextTrackIndex;
+		int tTileOrient, tCurrentTrackIndex;
+//		int tNextTrackIndex;
 		
 		tTileOrient = mapCell.getTileOrient ();
 		tOriginalStart = new Location (start.getLocationInt ());
@@ -601,7 +602,7 @@ public class RouteSegment {
 				tNewRotStart = tNewStartLocation.rotateLocation(tTileOrient);
 				tNewRotEnd = tNewEndLocation.rotateLocation(tTileOrient);
 				
-				tNextTrackIndex = tile.getTrackIndexBetween (tStartLocation, tNewEndLocation);;
+//				tNextTrackIndex = tile.getTrackIndexBetween (tStartLocation, tNewEndLocation);;
 //				System.out.println ("Next Track Index is " + tNextTrackIndex + " found Track from " + 
 //					tNextTrack.getEnterLocationInt () + " to " + tNextTrack.getExitLocationInt ());
 				tTrainNumber = tTrack.getTrainNumber ();
