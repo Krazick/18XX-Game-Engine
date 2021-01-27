@@ -236,6 +236,10 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tCityCount = aTrain.getCityCount ();
 		System.out.println ("Train " + tSelectedTrainIndex + " with size " + tCityCount + " has Route with " + 
 					aRouteInformation.getCenterCount () + " Centers -- Phase " + aRouteInformation.getPhase ());
+		
+		for (tCityIndex = 0; tCityIndex < aTrain.getCityCount (); tCityIndex++) {
+			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (0);
+		}
 		for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
 			tRevenue = aRouteInformation.getRevenueAt (tCityIndex);
 			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (tRevenue);

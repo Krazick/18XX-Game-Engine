@@ -156,19 +156,28 @@ public class RouteInformation {
 		return trainRevenueFrame;
 	}
 	
-	public void addRouteSegment (RouteSegment aRouteSegment, RouteAction aRouteAction) {
+	public void removeLastRevenueCenter () {
+		revenueCenters.remove (revenueCenters.size () - 1);
+	}
+	
+	public void addRevenueCenter (RouteSegment aRouteSegment) {
 		RevenueCenter tRevenueCenter;
+		
+		if (aRouteSegment.hasRevenueCenter ()) {
+			tRevenueCenter = aRouteSegment.getRevenueCenter ();
+			aRouteSegment.setRevenue (tRevenueCenter, phase);
+			if (! isSameRCasLast (tRevenueCenter)) {
+				revenueCenters.add (tRevenueCenter);
+			}
+		}		
+	}
+	
+	public void addRouteSegment (RouteSegment aRouteSegment, RouteAction aRouteAction) {
 		MapCell tMapCell;
 		Location tStartLocation, tEndLocation;
 		
 		if (revenueCenters != null) {
-			if (aRouteSegment.hasRevenueCenter()) {
-				tRevenueCenter = aRouteSegment.getRevenueCenter();
-				aRouteSegment.setRevenue (tRevenueCenter, phase);
-				if (! isSameRCasLast (tRevenueCenter)) {
-					revenueCenters.add (tRevenueCenter);
-				}
-			}
+			addRevenueCenter (aRouteSegment);
 			routeSegments.add (aRouteSegment);
 			calculateTotalRevenue ();
 			trainRevenueFrame.updateRevenues (this);
@@ -492,7 +501,7 @@ public class RouteInformation {
 			tNewMapCell = aRouteSegment.getMapCell ();
 			if (lastMapCellIs (tNewMapCell)) {
 				System.out.println ("\nScenario 3 - Cycle Track");
-				cycleToNextTrack (aRouteAction);
+				cycleToNextTrack (aRouteAction, aCorpID);
 			} else {
 				System.out.println ("\nScenario 4 - Add Route Segment # 3+");
 				tContinueWork = addNewPreviousSegment (aRouteSegment, aPhase, aCorpID, aRouteAction);
@@ -505,17 +514,19 @@ public class RouteInformation {
 		printDetail ();
 	}
 	
-	public void cycleToNextTrack (RouteAction aRouteAction) {
+	public void cycleToNextTrack (RouteAction aRouteAction, int aCorpID) {
 		RouteSegment tLastRouteSegment;
 		Track tLastTrack, tNextTrack;
 		int tTrainNumber;
 		boolean tCycledToNextTrack;
 		MapCell tMapCell;
 		Location tStartLocation, tEndLocation;
+		Location tOldEndLocation;
 		
 		tTrainNumber = getTrainIndex () + 1;
 		tLastRouteSegment = getLastRouteSegment ();
 		tLastTrack = tLastRouteSegment.getTrack ();
+		tOldEndLocation = tLastRouteSegment.getEndLocation ();
 		tCycledToNextTrack = tLastRouteSegment.cycleToNextTrack ();
 		if (tCycledToNextTrack) {
 			tLastTrack.clearTrainNumber ();
@@ -526,9 +537,17 @@ public class RouteInformation {
 			tMapCell = tLastRouteSegment.getMapCell ();
 			tStartLocation = tLastRouteSegment.getStartLocation ();
 			tEndLocation = tLastRouteSegment.getEndLocation ();
+			if (! tOldEndLocation.isSide ()) {
+				removeLastRevenueCenter ();
+			}
+			if (! tEndLocation.isSide ()) {
+				tLastRouteSegment.applyRCInfo (phase, aCorpID);
+				addRevenueCenter (tLastRouteSegment);
+			}
 			if (aRouteAction != RouteAction.NO_ACTION) {
 				aRouteAction.addSetNewEndPointEffect (trainCompany, trainIndex, tMapCell, tStartLocation, tEndLocation);
 			}
+			trainRevenueFrame.updateRevenues (this);
 		}
 	}
 

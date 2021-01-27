@@ -591,8 +591,8 @@ public class RouteSegment {
 		if (tTrackCount > 1) {
 			tCurrentTrackIndex = tile.getTrackIndexBetween (tStartLocation, tEndLocation);
 			tTrack = tile.getTrackFromStartByIndex (tStartLocation, tCurrentTrackIndex);
-			System.out.println ("Counted Tracks for MapCell " + mapCell.getCellID () + " Found " + tTrackCount + 
-					" on Side " + tStartLocation.getLocation () + " Current Track Index " + tCurrentTrackIndex);
+//			System.out.println ("Counted Tracks for MapCell " + mapCell.getCellID () + " Found " + tTrackCount + 
+//					" on Side " + tStartLocation.getLocation () + " Current Track Index " + tCurrentTrackIndex);
 			
 			tNextTrack = getNextTrack (tCurrentTrackIndex, tStartLocation, tEndLocation);
 			if (tNextTrack != Track.NO_TRACK) {
@@ -602,8 +602,8 @@ public class RouteSegment {
 				tNewRotEnd = tNewEndLocation.rotateLocation(tTileOrient);
 				
 				tNextTrackIndex = tile.getTrackIndexBetween (tStartLocation, tNewEndLocation);;
-				System.out.println ("Next Track Index is " + tNextTrackIndex + " found Track from " + 
-					tNextTrack.getEnterLocationInt () + " to " + tNextTrack.getExitLocationInt ());
+//				System.out.println ("Next Track Index is " + tNextTrackIndex + " found Track from " + 
+//					tNextTrack.getEnterLocationInt () + " to " + tNextTrack.getExitLocationInt ());
 				tTrainNumber = tTrack.getTrainNumber ();
 				clearTrainOnTrack (tTrack);
 				
@@ -614,20 +614,17 @@ public class RouteSegment {
 				if (tOriginalStart.getLocation () == tNewStartLocation.getLocation ()) {
 					if (tOriginalStart.getLocation () == tNewRotEnd.getLocation ()) {
 						end.setLocation (tNewRotStart);
-						System.out.println ("A. ReSetting Route Segment new EndLocation to Start Rotated by " + tTileOrient + " to " + tNewRotStart.getLocation ());
 					} else {
 						end.setLocation (tNewRotEnd);
-						System.out.println ("B. ReSetting Route Segment new EndLocation to End Rotated by " + tTileOrient + " to " + tNewRotEnd.getLocation ());
 					}
 				} else {
 					if (tOriginalStart.getLocation () == tNewRotStart.getLocation ()) {
 						end.setLocation (tNewRotEnd);
-						System.out.println ("C. ReSetting Route Segment new EndLocation to End Rotated by " + tTileOrient + " to " + tNewRotEnd.getLocation ());
 					} else {
 						end.setLocation (tNewRotStart);
-						System.out.println ("D. ReSetting Route Segment new EndLocation to Start Rotated by " + tTileOrient + " to " + tNewRotStart.getLocation ());
 					}
 				}
+				
 				tCycledToNextTrack = true;
 				setTrainOnTrack (tNextTrack, tTrainNumber);
 			} else {
@@ -640,7 +637,7 @@ public class RouteSegment {
 		return tCycledToNextTrack;
 	}
 
-	public boolean hasACorpStation() {
+	public boolean hasACorpStation () {
 		boolean tHasACorpStation;
 		
 		tHasACorpStation = start.getCorpStation () || end.getCorpStation ();
