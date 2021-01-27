@@ -27,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class TrainPortfolio implements TrainHolderI {
+	private final static String NEWLINE = "\n";
 	public final static ElementName EN_TRAIN_PORTFOLIO = new ElementName ("TrainPortfolio");
 	public final static ElementName EN_RUSTED_TRAIN_PORTFOLIO = new ElementName ("RustedTrainPortfolio");
 	public static final Train NO_TRAIN = null;
@@ -732,11 +733,8 @@ public class TrainPortfolio implements TrainHolderI {
 	public void fixLoadedRoutes (MapFrame aMapFrame) {
 		for (Train tTrain : trains) {
 			tTrain.fixLoadedRoutes (aMapFrame);
-		}
-		
+		}	
 	}
-//	public boolean startRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
-//			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
 
 	public boolean startRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
 			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
@@ -764,5 +762,44 @@ public class TrainPortfolio implements TrainHolderI {
 		}
 		
 		return tRouteStarted;
+	}
+
+	public String getTrainSummary() {
+		String tTrainSummary = "NONE";
+		String tTrainInfo;
+		String tPreviousName = "";
+		String tCurrentName = "";
+		String tCost = "";
+		int tDiscountCost;
+		int tCount = 0;
+		
+		for (Train tTrain : trains) {
+			tCurrentName = tTrain.getName ();
+			if (! tCurrentName.equals (tPreviousName)) {
+				if (tCount > 0) {
+					tTrainInfo = tPreviousName + " Train QTY: " + tCount + " " + tCost;
+					if (tTrainSummary.equals("NONE")) {
+						tTrainSummary = tTrainInfo;
+					} else {
+						tTrainSummary += NEWLINE + tTrainInfo;
+					}
+				}
+				tCount = 1;
+				tPreviousName = tCurrentName;
+				tCost = Bank.formatCash (tTrain.getPrice ());
+				tDiscountCost = tTrain.getDiscountCost ();
+				if (tDiscountCost > 0) {
+					tCost = Bank.formatCash(tDiscountCost) + " / " + tCost;
+				}
+			} else {
+				tCount++;
+			}
+		}
+		if (tCount > 0) {
+			tTrainInfo = tPreviousName + " Train QTY: " + tCount + " " + tCost;
+			tTrainSummary += NEWLINE + tTrainInfo;
+		}
+		
+		return tTrainSummary;
 	}
 }

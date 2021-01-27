@@ -322,4 +322,19 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public boolean isACorporation () {
 		return false;
 	}
+	
+	public String getTrainSummary() {
+		return trainPortfolio.getTrainSummary ();
+	}
+	
+	public boolean hasAnyTrains () {
+		boolean tHasAnyTrains = false;
+		
+		if (trainPortfolio.getTrainCount () > 0) {
+			tHasAnyTrains = true;
+		}
+		
+		return tHasAnyTrains;
+	}
+
 }

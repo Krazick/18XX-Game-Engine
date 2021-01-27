@@ -1,6 +1,7 @@
 package ge18xx.round;
 
 import ge18xx.bank.Bank;
+import ge18xx.bank.BankPool;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
@@ -12,6 +13,7 @@ import ge18xx.toplevel.XMLFrame;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -23,10 +25,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
 public class RoundFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
+	private final static String NEWLINE = "\n";
 	private static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
 	private static final String PLAYER_ACTION = "DoPlayerAction";
 	private static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
@@ -37,10 +41,10 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	Container centerBox;
 	Container roundBox;
 	Container allCorporationsBox;
-	Container headerBox;
-	Container parPricesBox;
-	Container trainSummaryBox;
-	Container roundInfoBox;
+	JPanel headerBox;
+	JPanel parPricesBox;
+	JPanel trainSummaryBox;
+	JPanel roundInfoBox;
 	JLabel frameLabel;
 	JLabel phaseLabel;
 	JPanel playersContainer;
@@ -52,7 +56,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	List<JLabel> parPrices = new LinkedList<JLabel> ();
 	List<JLabel> companiesAtPar = new LinkedList<JLabel> ();
 	List<Container> parPriceLineBoxes = new LinkedList<Container> ();
-	JLabel trainSummary;
+	JTextArea trainSummary;
 	
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, String aGameName) {
 		super (aFrameName, aGameName);
@@ -63,21 +67,27 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		
 		roundBox = Box.createVerticalBox ();
 		
-		headerBox = Box.createHorizontalBox ();
-		parPricesBox = Box.createVerticalBox ();
-		roundInfoBox = Box.createVerticalBox ();
-		trainSummaryBox = Box.createVerticalBox ();
+		headerBox = new JPanel ();
+		parPricesBox = new JPanel ();
+		roundInfoBox = new JPanel ();
+		trainSummaryBox = new JPanel ();
 		
-		parPriceLabel = new JLabel ("Par Prices");
-		parPricesBox.add (parPriceLabel);
 		fillParPrices ();
 		updateParPrices ();
+//		parPricesBox.setBackground (Color.yellow);
+		trainSummary = new JTextArea ("");
+		updateTrainSummary ();
+		trainSummaryBox.add (trainSummary);
+//		trainSummaryBox.setBackground (Color.GRAY);
 		
-		trainSummary = new JLabel ("Train Summary");
-		trainSummaryBox.add( trainSummary);
-		
+		headerBox.setLayout (new BoxLayout (headerBox, BoxLayout.X_AXIS));
+		headerBox.setAlignmentY (Component.TOP_ALIGNMENT);
 		headerBox.add (parPricesBox);
+		headerBox.add (Box.createHorizontalGlue ());
+		roundInfoBox.setLayout (new BoxLayout (roundInfoBox, BoxLayout.Y_AXIS));
+		roundInfoBox.setAlignmentX (Component.CENTER_ALIGNMENT);
 		headerBox.add (roundInfoBox);
+		headerBox.add (Box.createHorizontalGlue ());
 		headerBox.add (trainSummaryBox);
 		
 		allCorporationsBox = Box.createVerticalBox ();
@@ -104,6 +114,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		phaseLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		roundInfoBox.add (phaseLabel);
 		roundInfoBox.add (Box.createVerticalStrut (10));
+//		roundInfoBox.setBackground (Color.lightGray);
 		updatePhaseLabel ();
 		
 		roundBox.add (headerBox);
@@ -137,26 +148,57 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		defaultColor = UIManager.getColor ( "Panel.background" );
 	}
 
-	private void fillParPrices () {
-		int tParPriceCount, tParPriceIndex;
-		String tPrices [];
-		Container tParPriceLineBox;
+	private void updateTrainSummary () {
+		String tFullTrainSummary;
+		String tBankPoolTrainSummary = "";
+		Bank tBank;
+		BankPool tBankPool;
 		
-//		tPrices = roundManager.getParPrices ();
-		tPrices = new String [] { "$ 100", "$ 90", "$ 82", "$ 76", "$ 71", "$ 67" };
-		
-		tParPriceCount = tPrices.length;
-		for (tParPriceIndex = 0; tParPriceIndex < tParPriceCount; tParPriceIndex++) {
-			parPrices.add (new JLabel (tPrices [tParPriceIndex]) );
-			companiesAtPar.add (new JLabel ("B&O"));
-			tParPriceLineBox = Box.createHorizontalBox ();
-			tParPriceLineBox.add (parPrices.get (tParPriceIndex));
-			tParPriceLineBox.add (Box.createHorizontalStrut (10));
-			tParPriceLineBox.add (companiesAtPar.get (tParPriceIndex));
-			parPriceLineBoxes.add (tParPriceLineBox);
-			parPricesBox.add (parPriceLineBoxes.get (tParPriceIndex));
+		trainSummary.setEditable (false);
+		tBankPool = roundManager.getBankPool ();
+		if (tBankPool.hasAnyTrains ()) {
+			tBankPoolTrainSummary = "Bank Pool Train Summary" + NEWLINE + tBankPool.getTrainSummary () + NEWLINE + NEWLINE;
 		}
+		tBank = roundManager.getBank ();
+		tFullTrainSummary = tBankPoolTrainSummary + "Bank Train Summary" + NEWLINE + tBank.getTrainSummary ();
 		
+		trainSummary.setText (tFullTrainSummary);
+		trainSummary.setBackground (defaultColor);
+	}
+	
+	private void fillParPrices () {
+		int tParPriceCount, tParPriceIndex, tIndex, tPrice;
+		Container tParPriceLineBox;
+		Integer [] tParPrices;
+		GameManager tGameManager;
+		
+		tGameManager = roundManager.getGameManager ();
+		tParPrices = tGameManager.getAllStartCells ();
+		tParPriceCount = tParPrices.length;
+		if (tParPriceCount > 0) {
+			parPricesBox.setLayout(new BoxLayout (parPricesBox, BoxLayout.Y_AXIS));
+			parPricesBox.setAlignmentX (Component.LEFT_ALIGNMENT);
+			parPricesBox.setMinimumSize(new Dimension (150, 150));
+			parPricesBox.setMaximumSize (new Dimension (200, 160));
+			parPricesBox.setBorder (BorderFactory.createTitledBorder ("Par Prices"));
+			String tPrices [] = new String [tParPriceCount];
+			for (tIndex = 0; tIndex < tParPrices.length; tIndex++) {
+				tPrice = tParPrices [tIndex].intValue ();
+				tPrices [tIndex] = Bank.formatCash (tPrice);
+			}
+			
+			for (tParPriceIndex = 0; tParPriceIndex < tParPriceCount; tParPriceIndex++) {
+				parPrices.add (new JLabel (tPrices [tParPriceIndex]) );
+				companiesAtPar.add (new JLabel ("B&O"));
+				tParPriceLineBox = Box.createHorizontalBox ();
+				tParPriceLineBox.add (parPrices.get (tParPriceIndex));
+				tParPriceLineBox.add (Box.createHorizontalStrut (10));
+				tParPriceLineBox.add (companiesAtPar.get (tParPriceIndex));
+				parPriceLineBoxes.add (tParPriceLineBox);
+				parPricesBox.add (parPriceLineBoxes.get (tParPriceIndex));
+			}
+			parPricesBox.setVisible (false);
+		}
 	}
 	
 	@Override
@@ -351,6 +393,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		String tPriceLabel;
 		String tParPrice;
 		ShareCompany tShareCompany;
+		boolean tAtLeastOneParPrice = false;
 		
 		tOperatingRound = roundManager.getOperatingRound ();		
 		tCorporationCount = tOperatingRound.getShareCompanyCount ();
@@ -371,6 +414,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 							} else {
 								tCompaniesAtPrice [tPriceIndex] += ", " + tShareCompany.getAbbrev ();
 							}
+							tAtLeastOneParPrice = true;
 						}
 					}
 				}
@@ -378,6 +422,9 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 
 			for (tPriceIndex = 0; tPriceIndex < tPriceCount; tPriceIndex++) {
 				companiesAtPar.get (tPriceIndex).setText (tCompaniesAtPrice [tPriceIndex]);
+			}
+			if (tAtLeastOneParPrice) {
+				parPricesBox.setVisible (true);
 			}
 		}
 		revalidate ();
@@ -417,6 +464,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		updatePhaseLabel ();
 		updateAllCorporationsBox ();
 		updateParPrices ();
+		updateTrainSummary ();
 	}
 	
 	public void setBackGround () {
