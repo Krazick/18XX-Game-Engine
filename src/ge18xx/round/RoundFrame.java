@@ -41,6 +41,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	Container centerBox;
 	Container roundBox;
 	Container allCorporationsBox;
+	Container buttonsBox;
 	JPanel headerBox;
 	JPanel parPricesBox;
 	JPanel trainSummaryBox;
@@ -129,14 +130,19 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		roundBox.add (allCorporationsBox);
 		roundBox.add (Box.createVerticalStrut (10));
 		setStockRound (roundManager.getGameName (), roundManager.getStockRoundID ());
-		roundBox.add (doActionButton);
-		roundBox.add (Box.createVerticalStrut (10));
+		
+		buttonsBox = Box.createHorizontalBox ();
+		buttonsBox.add (doActionButton);
+		buttonsBox.add (Box.createHorizontalStrut(20));
 	
 		showGameEngineFrameButton = new JButton ("Show Game Engine Frame");
 		showGameEngineFrameButton.setActionCommand (SHOW_GE_FRAME_ACTION);
 		showGameEngineFrameButton.addActionListener (this);
 		showGameEngineFrameButton.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundBox.add (showGameEngineFrameButton);
+		buttonsBox.add (showGameEngineFrameButton);
+		
+		roundBox.add (buttonsBox);
+		roundBox.add (Box.createVerticalStrut (10));
 		
 		centerBox = Box.createHorizontalBox();
 		centerBox.add (Box.createHorizontalStrut(20));
@@ -473,10 +479,16 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		tGameManager = roundManager.getGameManager ();
 		if (tGameManager.isNetworkGame ()) {
 			getContentPane ().setBackground (Color.CYAN);
+			headerBox.setBackground (Color.CYAN);
+			parPricesBox.setBackground (Color.CYAN);
+			trainSummaryBox.setBackground (Color.CYAN);
 		}
 	}
 	
 	public void resetBackGround () {
-		getContentPane ().setBackground (defaultColor);		
+		getContentPane ().setBackground (defaultColor);	
+		headerBox.setBackground (defaultColor);
+		parPricesBox.setBackground (defaultColor);
+		trainSummaryBox.setBackground (defaultColor);
 	}
 }
