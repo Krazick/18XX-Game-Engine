@@ -1,6 +1,7 @@
 package ge18xx.company;
 
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -289,6 +290,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 	
 	public void updateInfo (Train aTrain) {
 		int tLowPrice, tHighPrice;
+		Point tNewPoint;
 		
 		train = aTrain;
 		setDefaultPrice ();
@@ -302,5 +304,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		frameLabel.setText (trainCompany.getPresidentName () + ", choose Buy Price for " + 
 				train.getName () + " from " +  currentOwner.getName () + 
 				" Range [" + Bank.formatCash (tLowPrice) + " to " + Bank.formatCash (tHighPrice) + "]");
+		tNewPoint = gameManager.getOffsetCorporationFrame ();
+		setLocation (tNewPoint);
 	}
 }
