@@ -251,13 +251,13 @@ public class Certificate implements Comparable<Certificate> {
 		if (isPrivateCompany ()) {
 			tRevenue = getRevenue ();
 			if (tRevenue != PrivateCompany.NO_REVENUE) {
-				tRevenueInfo = "Revenue: " + Bank.formatCash (getRevenue ());
+				tRevenueInfo = "Revenue: " + Bank.formatCash (tRevenue);
 				tLabel = new JLabel (tRevenueInfo);
 				tCertificateInfoPanel.add (tLabel);
 			}			
 		} else {
 			if (corporation.canOperate ()) {
-				tLastRevenueLabel = new JLabel ("Revenue: " + corporation.getFormattedLastRevenue ());
+				tLastRevenueLabel = new JLabel ("Revenue: " + corporation.getFormattedThisRevenue ());
 				tCertificateInfoPanel.add (tLastRevenueLabel);
 			}
 		}
@@ -903,16 +903,16 @@ public class Certificate implements Comparable<Certificate> {
 	}
 	
 	public int getRevenue () {
-		int iRevenue;
+		int tRevenue;
 		PrivateCompany iPrivate;
 		
-		iRevenue = PrivateCompany.NO_REVENUE;
+		tRevenue = PrivateCompany.NO_REVENUE;
 		if (corporation.isAPrivateCompany ()) {
 			iPrivate = (PrivateCompany) corporation;
-			iRevenue = iPrivate.getRevenue () * percentage/100;
+			tRevenue = iPrivate.getRevenue () * percentage/100;
 		}
 		
-		return iRevenue;
+		return tRevenue;
 	}
 	
 	public int getSharePrice () {

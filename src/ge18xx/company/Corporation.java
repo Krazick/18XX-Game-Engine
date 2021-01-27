@@ -395,8 +395,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return Bank.formatCash (getLastRevenue ());
 	}
 	
+	public String getFormattedThisRevenue () {
+		return Bank.formatCash (getThisRevenue ());
+	}
+	
 	public int getLastRevenue () {
-		return 0;
+		return TrainCompany.NO_REVENUE; 
 	}
 	
 	// Train Company will override
