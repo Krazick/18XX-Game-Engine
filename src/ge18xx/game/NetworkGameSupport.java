@@ -1,5 +1,7 @@
 package ge18xx.game;
 
+import java.awt.Point;
+
 import ge18xx.network.JGameClient;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
@@ -26,4 +28,5 @@ public interface NetworkGameSupport {
 	public void addNewFrame (XMLFrame jGameClient);
 	public Player getClientPlayer ();
 	public RoundManager getRoundManager ();
+	public Point getOffsetGEFrame ();
 }

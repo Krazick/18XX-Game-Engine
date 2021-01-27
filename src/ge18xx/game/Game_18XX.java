@@ -83,8 +83,8 @@ public class Game_18XX extends JFrame {
 		createActions ();
 		addMenus ();
 		
-		setSize (375, 250);
-		
+		setSize (385, 260);
+		setLocation (100, 100);
 		setFrameContents ();
 		setupFrameActions ();
 		setVisible (aVisible);
@@ -353,11 +353,30 @@ public class Game_18XX extends JFrame {
 	}
 
 	public void createPlayerInputFrame () {
+		Point tNewPoint;
+		
 		if (playerInputFrame == null) {
 			playerInputFrame = new PlayerInputFrame ("Enter Player Information", gameManager);
 			playerInputFrame.setParentFrame (this);
+			tNewPoint = getOffsetGEFrame ();
+			playerInputFrame.setLocation (tNewPoint);
 			createGameSet ();	
 		}
+	}
+
+	public Point getOffsetGEFrame () {
+		Point tGEFramePoint, tNewPoint;
+		double tX, tY;
+		int tNewX, tNewY;
+		
+		tGEFramePoint = getLocation ();
+		tX = tGEFramePoint.getX ();
+		tY = tGEFramePoint.getY ();
+		tNewX = (int) tX + 100;
+		tNewY = (int) tY + 100;
+		tNewPoint = new Point (tNewX, tNewY);
+		
+		return tNewPoint;
 	}
 
 	public void disableNewMenuItem () {

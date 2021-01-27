@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.net.ConnectException;
 import java.awt.Adjustable;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
@@ -118,6 +119,7 @@ public class JGameClient extends XMLFrame {
 	
 	public JGameClient (String aTitle, NetworkGameSupport aGameManager, String aServerIP, int aServerPort) {
 		super (aTitle);
+		Point tNewPoint;
 		
 		gameManager = aGameManager;
 		networkPlayers = new NetworkPlayers (aGameManager);
@@ -127,6 +129,8 @@ public class JGameClient extends XMLFrame {
 		setServerPort (aServerPort);
 		if (gameManager != null) {
 			gameManager.addNewFrame (this);
+			tNewPoint = gameManager.getOffsetGEFrame ();
+			setLocation (tNewPoint);
 			setVisible (true);
 		}
 	}

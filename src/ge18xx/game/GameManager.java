@@ -1577,6 +1577,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		showFrame (auctionFrame);
 	}
 
+	public Point getOffsetGEFrame () {
+		return game18XXFrame.getOffsetGEFrame ();
+	}
+
 	public Point getOffsetRoundFrame () {
 		RoundFrame tRoundFrame;
 		Point tRoundFramePoint, tNewPoint;
