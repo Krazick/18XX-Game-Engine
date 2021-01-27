@@ -34,7 +34,6 @@ import ge18xx.player.PlayerFrame;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderLoaderI;
-import ge18xx.round.RoundFrame;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.Action;
@@ -1582,18 +1581,19 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public Point getOffsetRoundFrame () {
-		RoundFrame tRoundFrame;
-		Point tRoundFramePoint, tNewPoint;
-		double tX, tY;
-		int tNewX, tNewY;
-		
-		tRoundFrame = roundManager.getRoundFrame ();
-		tRoundFramePoint = tRoundFrame.getLocation ();
-		tX = tRoundFramePoint.getX ();
-		tY = tRoundFramePoint.getY ();
-		tNewX = (int) tX + 100;
-		tNewY = (int) tY + 100;
-		tNewPoint = new Point (tNewX, tNewY);
+		Point tNewPoint;
+//		RoundFrame tRoundFrame;
+//		double tX, tY;
+//		int tNewX, tNewY;
+//		
+//		tRoundFrame = roundManager.getRoundFrame ();
+//		tRoundFramePoint = tRoundFrame.getLocation ();
+//		tX = tRoundFramePoint.getX ();
+//		tY = tRoundFramePoint.getY ();
+//		tNewX = (int) tX + 100;
+//		tNewY = (int) tY + 100;
+//		tNewPoint = new Point (tNewX, tNewY);
+		tNewPoint = roundManager.getOffsetRoundFrame();
 		
 		return tNewPoint;
 	}
