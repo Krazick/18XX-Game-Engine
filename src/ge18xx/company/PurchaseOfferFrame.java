@@ -1,5 +1,6 @@
 package ge18xx.company;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,6 +33,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		JLabel tOfferLabel;
 		String tOffer;
 		String tPlayerName;
+		Point tNewPoint;
 		
 		purchaseOfferEffect = aPurchaseOfferEffect;
 		roundManager = aRoundManager;
@@ -54,6 +56,8 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		add (tOfferPanel);
 		
 		pack ();
+		tNewPoint = roundManager.getOffsetRoundFrame ();
+		setLocation (tNewPoint);
 		setSize (500, 150);
 		setVisible (false);
 	}
