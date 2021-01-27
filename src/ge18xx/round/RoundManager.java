@@ -1,5 +1,6 @@
 package ge18xx.round;
 
+import java.awt.Point;
 import java.awt.event.ItemListener;
 
 import javax.swing.JPanel;
@@ -976,5 +977,20 @@ public class RoundManager {
 	
 	public void showGEFrame () {
 		gameManager.showGEFrame ();
+	}
+	
+	public Point getOffsetRoundFrame () {
+		Point tRoundFramePoint, tNewPoint;
+		double tX, tY;
+		int tNewX, tNewY;
+		
+		tRoundFramePoint = roundFrame.getLocation ();
+		tX = tRoundFramePoint.getX ();
+		tY = tRoundFramePoint.getY ();
+		tNewX = (int) tX + 100;
+		tNewY = (int) tY + 100;
+		tNewPoint = new Point (tNewX, tNewY);
+		
+		return tNewPoint;
 	}
 }
