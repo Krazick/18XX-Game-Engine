@@ -10,6 +10,7 @@ package ge18xx.company;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Point;
 import java.awt.event.ItemListener;
 import java.util.Comparator;
 
@@ -1114,7 +1115,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public void showFrame () {
+		Point tNewPoint;
+		GameManager tGameManager;
+		
 		updateFrameInfo ();
+		tGameManager = corporationList.getGameManager ();
+		tNewPoint = tGameManager.getOffsetRoundFrame ();
+		corporationFrame.setLocation (tNewPoint);
 		corporationFrame.setVisible (true);
 	}
 	
