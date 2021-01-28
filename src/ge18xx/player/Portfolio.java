@@ -525,6 +525,22 @@ public class Portfolio implements CertificateHolderI {
 		return tPercentage;
 	}
 	
+	public int getBankPoolPercentage (Corporation aCorporation) {
+		int tPercentage;
+		
+		tPercentage = 0;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isForThis (aCorporation)) {
+				if (tCertificate.isOwnedbyBankPool ()) {
+					tPercentage += tCertificate.getPercentage ();
+				}
+			}
+		}
+		
+		return tPercentage;
+	}
+
+	
 	public int getPlayerOrCorpOwnedPercentageFor (Corporation aCorporation) {
 		int tPercentage;
 		

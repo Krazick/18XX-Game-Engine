@@ -891,6 +891,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationCertificates.getPresidentPercent (this);
 	}
 
+	public int getBankPoolPercentage () {
+		return corporationCertificates.getBankPoolPercentage (this);
+	}
+
 	public int getPlayerOrCorpOwnedPercentage () {
 		return corporationCertificates.getPlayerOrCorpOwnedPercentageFor (this);
 	}

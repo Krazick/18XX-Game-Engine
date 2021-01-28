@@ -228,6 +228,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tCorpLabel = getAbbrev () + "&nbsp;";
 		if (isActive ()) {
 			tCorpLabel += "[" + getPlayerOrCorpOwnedPercentage () + "%&nbsp; Owned]";
+			tCorpLabel += "<br>[" + getBankPoolPercentage () + "%&nbsp; in Bank Pool]";
 			tCorpLabel += "<br>[" + getStatusName () + "]";
 			tCorpLabel += "<br>Prez: " + getPresidentName ();
 			tCorpLabel += "<br>Treasury: " + Bank.formatCash (getCash ());

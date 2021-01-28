@@ -1013,6 +1013,23 @@ public class Certificate implements Comparable<Certificate> {
 		return tOwned;
 	}
 
+	public boolean isOwnedbyBankPool () {
+		PortfolioHolderI tHolder;
+		boolean tOwned;
+		
+		tOwned = false;
+		if (owner != null) {
+			tHolder = owner.getPortfolioHolder ();
+			if (tHolder != null) {
+				if (tHolder instanceof BankPool) {
+					tOwned = true;
+				}
+			}
+		}
+		
+		return tOwned;
+	}
+
 	public boolean isOwnedByBank () {
 		return (! isOwned ());
 	}
