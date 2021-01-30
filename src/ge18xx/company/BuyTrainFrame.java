@@ -1,6 +1,7 @@
 package ge18xx.company;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,11 +9,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -34,6 +37,8 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 	Train train;
 	Corporation currentOwner;
 	JPanel trainPanel;
+	JPanel offerButtonPanel;
+	JPanel offerPricePanel;
 	TrainCompany trainCompany;
 	String operatingRoundID;
 	GameManager gameManager;
@@ -55,41 +60,70 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		}
 		gameManager = trainCompany.getGameManager ();
 		trainPanel = new JPanel ();
+		trainPanel.setBorder (new EmptyBorder (10, 10, 10, 10));
+		trainPanel.setLayout (new BoxLayout (trainPanel, BoxLayout.Y_AXIS));
+		trainPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		
 		trainPanel.add (Box.createVerticalStrut (10));
 		frameLabel = new JLabel ("Choose Buy Price");
 		frameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		trainPanel.add (frameLabel);
 		trainPanel.add (Box.createVerticalStrut (10));
 
-		priceField = new JTextField ();
-		priceField.setText ("0");
-		priceField.setColumns (3); //get some space
-		trainPanel.add (Box.createVerticalStrut (10));
-		trainPanel.add (priceField);
-		trainPanel.add (Box.createVerticalStrut (10));
-		
 		buyingTrainCompanyTreasury = trainCompany.getTreasury ();
-		corporationTreasuryLabel = new JLabel ("Corporation");
-		setCorporationTreasuryLabel ();
-		trainPanel.add (corporationTreasuryLabel);
+		setOfferTopPanel ();
+		trainPanel.add (offerPricePanel);
+		trainPanel.add (Box.createVerticalStrut (10));
 		
 		ownerTreasuryLabel = new JLabel ("Owner");
 		setOwnerTreasuryLabel ();
+		ownerTreasuryLabel.setAlignmentX (CENTER_ALIGNMENT);
 		trainPanel.add (ownerTreasuryLabel);
 		trainPanel.add (Box.createVerticalStrut (10));
 		
-		doSetPriceButton = setActionButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
-		trainPanel.add (doSetPriceButton);
-		doBuyButton = setActionButton ("Buy Train", BUY_ACTION);
-		
-		trainPanel.add (doBuyButton);
+		setOfferButtonPanel ();
+		trainPanel.add (offerButtonPanel);
 		add (trainPanel);
 
 		pack ();
-		setSize (500, 150);
+		setSize (520, 170);
 		setVisible (false);
 	}
 	
+	private void setOfferTopPanel () {		
+		priceField = new JTextField ();
+		corporationTreasuryLabel = new JLabel ("Corporation");
+		setCorporationTreasuryLabel ();
+		offerPricePanel = new JPanel ();
+		offerPricePanel.add (Box.createVerticalStrut (10));
+		offerPricePanel.setLayout (new BoxLayout (offerPricePanel, BoxLayout.X_AXIS));
+		offerPricePanel.setAlignmentY (Component.CENTER_ALIGNMENT);
+		
+		priceField.setText ("0");
+		priceField.setPreferredSize ( new Dimension ( 80, 24 ) );
+		priceField.setMaximumSize ( new Dimension ( 100, 24 ) );
+		priceField.setAlignmentX (Component.RIGHT_ALIGNMENT);
+		priceField.setColumns (4); //get some space
+		
+		offerPricePanel.add (priceField);
+		offerPricePanel.add (Box.createHorizontalStrut (10));
+		offerPricePanel.add (corporationTreasuryLabel);
+		offerPricePanel.add (Box.createHorizontalStrut (10));
+	}
+
+	private void setOfferButtonPanel () {
+		offerButtonPanel = new JPanel ();
+		offerButtonPanel.setLayout (new BoxLayout (offerButtonPanel, BoxLayout.X_AXIS));
+		offerButtonPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
+		
+		doSetPriceButton = setActionButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
+		doBuyButton = setActionButton ("Buy Train", BUY_ACTION);
+		offerButtonPanel.add (doSetPriceButton);
+		offerButtonPanel.add (Box.createHorizontalStrut (10));
+		offerButtonPanel.add (doBuyButton);
+		offerButtonPanel.add (Box.createHorizontalStrut (10));
+	}
+
 	private int getPrice () {
 		String tPrice;
 		int tGetPrice;
@@ -118,7 +152,11 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 	}
 	
 	private void setBuyButtonText () {
-		doBuyButton.setText ("Buy Train for " + Bank.formatCash (getPrice ()));
+		if (corporationsHaveSamePresident ()) {
+			doBuyButton.setText ("Buy Train for " + Bank.formatCash (getPrice ()));
+		} else {
+			doBuyButton.setText ("Offer to Buy Train for " + Bank.formatCash (getPrice ()));
+		}
 	}
 	
 	private void setCorporationTreasuryLabel () {
@@ -288,6 +326,23 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		setCorporationTreasuryLabel ();
 	}
 	
+	private boolean corporationsHaveSamePresident () {
+		boolean tCorporationsHaveSamePresident = false;
+		String tTrainPresidentName;
+		String tOwnerPresidentName;
+		
+		if ((trainCompany != Corporation.NO_ACTOR) ||
+			(currentOwner != Corporation.NO_ACTOR)) {
+			tTrainPresidentName = trainCompany.getPresidentName ();
+			tOwnerPresidentName = currentOwner.getPresidentName ();
+			if (tTrainPresidentName.equals (tOwnerPresidentName)) {
+				tCorporationsHaveSamePresident = true;
+			}
+		}
+		
+		return tCorporationsHaveSamePresident;
+	}
+	
 	public void updateInfo (Train aTrain) {
 		int tLowPrice, tHighPrice;
 		Point tNewPoint;
@@ -304,6 +359,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		frameLabel.setText (trainCompany.getPresidentName () + ", choose Buy Price for " + 
 				train.getName () + " from " +  currentOwner.getName () + 
 				" Range [" + Bank.formatCash (tLowPrice) + " to " + Bank.formatCash (tHighPrice) + "]");
+		frameLabel.setAlignmentX (CENTER_ALIGNMENT);
 		tNewPoint = gameManager.getOffsetCorporationFrame ();
 		setLocation (tNewPoint);
 	}

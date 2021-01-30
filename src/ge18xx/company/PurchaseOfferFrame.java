@@ -1,10 +1,13 @@
 package ge18xx.company;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,13 +28,13 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 	JButton rejectButton;
 	PurchaseOfferEffect purchaseOfferEffect;
 	RoundManager roundManager;
+	JPanel offerPanel;
+	JPanel offerTopPanel;
+	JPanel offerButtonPanel;
 	
 	public PurchaseOfferFrame (PurchaseOfferEffect aPurchaseOfferEffect, RoundManager aRoundManager) {
 		super ("Purchase Offer");
 		
-		JPanel tOfferPanel;
-		JLabel tOfferLabel;
-		String tOffer;
 		String tPlayerName;
 		Point tNewPoint;
 		
@@ -39,27 +42,66 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		roundManager = aRoundManager;
 		tPlayerName = aRoundManager.getClientUserName ();
 		setTitle ("Purchase Offer for " + tPlayerName);
-		tOfferPanel = new JPanel ();
-		tOfferPanel.add (Box.createVerticalStrut (10));
-		tOffer = "The President of " + aPurchaseOfferEffect.getActorName () + " offers to buy a " + 
-				aPurchaseOfferEffect.getItemName () + " " + aPurchaseOfferEffect.getItemType () +
-				" for " + Bank.formatCash (aPurchaseOfferEffect.getCash ()) + " from " +
-				aPurchaseOfferEffect.getToActor ().getName () + ".";
-		tOfferLabel = new JLabel (tOffer);
-		tOfferPanel.add (tOfferLabel);
-		tOfferPanel.add (Box.createVerticalStrut (10));
-		acceptButton = setActionButton (ACCEPT_ACTION, ACCEPT_ACTION);
-		rejectButton = setActionButton (REJECT_ACTION, REJECT_ACTION);
-		tOfferPanel.add (rejectButton);
-		tOfferPanel.add (Box.createVerticalStrut (10));
-		tOfferPanel.add (acceptButton);
-		add (tOfferPanel);
+		
+		setOfferTopPanel (aPurchaseOfferEffect);
+		setOfferButtonPanel();
+		
+		offerPanel = new JPanel ();
+		offerPanel.add (offerTopPanel);
+		offerPanel.setLayout (new BoxLayout (offerPanel, BoxLayout.Y_AXIS));
+		offerPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		offerPanel.add (offerButtonPanel);
+		offerPanel.setBackground (Color.CYAN);
+		add (offerPanel);
 		
 		pack ();
 		tNewPoint = roundManager.getOffsetRoundFrame ();
 		setLocation (tNewPoint);
 		setSize (500, 150);
 		setVisible (false);
+	}
+
+	private void setOfferButtonPanel() {
+		offerButtonPanel = new JPanel ();
+		offerButtonPanel.setLayout (new BoxLayout (offerButtonPanel, BoxLayout.X_AXIS));
+		offerButtonPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
+		
+		acceptButton = setActionButton (ACCEPT_ACTION, ACCEPT_ACTION);
+		rejectButton = setActionButton (REJECT_ACTION, REJECT_ACTION);
+		offerButtonPanel.add (rejectButton);
+		offerButtonPanel.add (Box.createHorizontalStrut (10));
+		offerButtonPanel.add (acceptButton);
+		offerButtonPanel.setBackground (Color.CYAN);
+	}
+
+	private void setOfferTopPanel (PurchaseOfferEffect aPurchaseOfferEffect) {
+		JLabel tOfferLabel1;
+		JLabel tOfferLabel2;
+		String tOffer1;
+		String tOffer2;
+		String tPresidentName;
+		Corporation tOperatingCompany;
+		
+		tOperatingCompany = roundManager.getOperatingCompany ();
+		tPresidentName = tOperatingCompany.getPresidentName ();
+		tOffer1 = "The President of " + aPurchaseOfferEffect.getActorName () + 
+				" (" + tPresidentName + ") offers to buy a ";
+		tOffer2 =  aPurchaseOfferEffect.getItemName () + " " + aPurchaseOfferEffect.getItemType () +
+				" for " + Bank.formatCash (aPurchaseOfferEffect.getCash ()) + " from " +
+				aPurchaseOfferEffect.getToActor ().getName () + ".";
+		tOfferLabel1 = new JLabel (tOffer1);
+		tOfferLabel2 = new JLabel (tOffer2);
+		tOfferLabel1.setAlignmentX (CENTER_ALIGNMENT);
+		tOfferLabel2.setAlignmentX (CENTER_ALIGNMENT);
+		offerTopPanel = new JPanel ();
+		offerTopPanel.add (Box.createVerticalStrut (10));
+		offerTopPanel.setLayout (new BoxLayout (offerTopPanel, BoxLayout.Y_AXIS));
+		offerTopPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
+		offerTopPanel.add (tOfferLabel1);
+		offerTopPanel.add (Box.createVerticalStrut (10));
+		offerTopPanel.add (tOfferLabel2);
+		offerTopPanel.add (Box.createVerticalStrut (10));
+		offerTopPanel.setBackground (Color.CYAN);
 	}
 
 	@Override
@@ -100,6 +142,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		tResponseOfferAction = new ResponseOfferAction (tRoundType, tRoundID, tFromActor);
 		tResponseOfferAction.addResponseOfferEffect (tFromActor, tToActor, aResponse);
 		roundManager.addAction (tResponseOfferAction);
+
 		setVisible (false);
 	}
 	
