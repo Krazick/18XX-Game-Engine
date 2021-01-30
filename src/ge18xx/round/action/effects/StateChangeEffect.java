@@ -72,17 +72,21 @@ public class StateChangeEffect extends Effect {
 		
 		tEffectReport = REPORT_PREFIX + name;
 		
-		if (actor.isAPlayer ()) {
-			tEffectReport += " for " + actor.getName () + " from " + previousState + 
-					" to " + newState + ".";
-		} else if (actor.isAOperatingRound () || actor.isAStockRound ()) {
-			tEffectReport += " from " + previousState +  " to " + newState + ".";
-		} else if (actor.isACorporation ()) {
-			tEffectReport += " for " + actor.getName () + " from " + previousState + 
-					" to " + newState + ".";
+		if (actor != ActorI.NO_ACTOR) {
+			if (actor.isAPlayer ()) {
+				tEffectReport += " for " + actor.getName () + " from " + previousState + 
+						" to " + newState + ".";
+			} else if (actor.isAOperatingRound () || actor.isAStockRound ()) {
+				tEffectReport += " from " + previousState +  " to " + newState + ".";
+			} else if (actor.isACorporation ()) {
+				tEffectReport += " for " + actor.getName () + " from " + previousState + 
+						" to " + newState + ".";
+			} else {
+				tEffectReport += " for " + actor.getName () + " from " + previousState + 
+						" to " + newState + ". ***";
+			}
 		} else {
-			tEffectReport += " for " + actor.getName () + " from " + previousState + 
-					" to " + newState + ". ***";
+			tEffectReport += " Actor within Action is not defined";
 		}
 		
 		return tEffectReport;
