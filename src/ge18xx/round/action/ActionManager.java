@@ -185,20 +185,23 @@ public class ActionManager {
 	public void loadActions (XMLNode aActionsNode, GameManager aGameManager) {
 		XMLNode tActionNode;
 		NodeList tActionChildren;
-		int tActionNodeCount, tActionIndex;
+		int tActionNodeCount, tActionIndex, tActionNumber;
 		Action tAction;
 		
 		tActionChildren = aActionsNode.getChildNodes ();
 		tActionNodeCount = tActionChildren.getLength ();
+		tActionNumber = 0;
 		try {
 			for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
 				tActionNode = new XMLNode (tActionChildren.item (tActionIndex));
 				tAction = getAction (aGameManager, tActionNode);
 				if (tAction != NO_ACTION) {
 					justAddAction (tAction);
+					tActionNumber = tAction.getNumber ();
 				}
 			}
 			appendAllActions();
+			setActionNumber (tActionNumber);
 		} catch (Exception e) {
 			System.err.println (e.getMessage ());
 			e.printStackTrace();
