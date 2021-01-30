@@ -182,7 +182,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		tParPrices = tGameManager.getAllStartCells ();
 		tParPriceCount = tParPrices.length;
 		if (tParPriceCount > 0) {
-			parPricesBox.setLayout(new BoxLayout (parPricesBox, BoxLayout.Y_AXIS));
+			parPricesBox.setLayout (new BoxLayout (parPricesBox, BoxLayout.Y_AXIS));
 			parPricesBox.setAlignmentX (Component.LEFT_ALIGNMENT);
 			parPricesBox.setMinimumSize(new Dimension (150, 150));
 			parPricesBox.setMaximumSize (new Dimension (200, 160));
