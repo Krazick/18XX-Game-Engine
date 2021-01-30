@@ -5,7 +5,6 @@ import ge18xx.bank.BankPool;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
-import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.Train;
 import ge18xx.train.TrainPortfolio;
