@@ -1845,4 +1845,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	protected boolean isPlaceTokenMode () {
 		return corporationList.isPlaceTokenMode ();
 	}
+
+	public boolean isWaitingForResponse() {
+		boolean tIsWaitingForResponse = false;
+		
+		if (status.equals (ActorI.ActionStates.WaitingResponse)) {
+			tIsWaitingForResponse = true;
+		}
+		
+		return tIsWaitingForResponse;
+	}
 }

@@ -5,6 +5,7 @@ import ge18xx.bank.BankPool;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.Train;
 import ge18xx.train.TrainPortfolio;
@@ -536,43 +537,48 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private void updatePayNoDividendActionButton (int aTrainCount) {
 		String tToolTip;
 		
-		payNoDividendActionButton.setText ("Pay No Dividend");
-		if (! corporation.haveLaidAllBaseTokens ()) {
-			if (corporation.isStationLaid ()) {
-				payNoDividendActionButton.setEnabled (true);
-				payNoDividendActionButton.setToolTipText ("Base Token was Skippped due to missing Tile.");
-			} else {
+		if (! corporation.isWaitingForResponse ()) {
+			payNoDividendActionButton.setText ("Pay No Dividend");
+			if (! corporation.haveLaidAllBaseTokens ()) {
+				if (corporation.isStationLaid ()) {
+					payNoDividendActionButton.setEnabled (true);
+					payNoDividendActionButton.setToolTipText ("Base Token was Skippped due to missing Tile.");
+				} else {
+					payNoDividendActionButton.setEnabled (false);
+					payNoDividendActionButton.setToolTipText ("Base Token must be laid first.");
+				}
+			} else if (corporation.dividendsHandled ()) {
 				payNoDividendActionButton.setEnabled (false);
-				payNoDividendActionButton.setToolTipText ("Base Token must be laid first.");
-			}
-		} else if (corporation.dividendsHandled ()) {
-			payNoDividendActionButton.setEnabled (false);
-			tToolTip = corporation.reasonForNoDividendPayment ();
-			payNoDividendActionButton.setToolTipText (tToolTip);
-		} else if (aTrainCount == 0) {
-			payNoDividendActionButton.setEnabled (true);
-			payNoDividendActionButton.setToolTipText (NO_TOOL_TIP);
-		} else if (corporation.canPayDividend ()) {
-			payNoDividendActionButton.setEnabled (true);
-			payNoDividendActionButton.setText ("Hold " + Bank.formatCash (corporation.getThisRevenue ()) + " in Treasury");
-			payNoDividendActionButton.setToolTipText (NO_TOOL_TIP);
-		} else if ((aTrainCount > 0) && (corporation.didOperateTrain ())) {
-			if (corporation.getThisRevenue () == 0) {
+				tToolTip = corporation.reasonForNoDividendPayment ();
+				payNoDividendActionButton.setToolTipText (tToolTip);
+			} else if (aTrainCount == 0) {
 				payNoDividendActionButton.setEnabled (true);
 				payNoDividendActionButton.setToolTipText (NO_TOOL_TIP);
+			} else if (corporation.canPayDividend ()) {
+				payNoDividendActionButton.setEnabled (true);
+				payNoDividendActionButton.setText ("Hold " + Bank.formatCash (corporation.getThisRevenue ()) + " in Treasury");
+				payNoDividendActionButton.setToolTipText (NO_TOOL_TIP);
+			} else if ((aTrainCount > 0) && (corporation.didOperateTrain ())) {
+				if (corporation.getThisRevenue () == 0) {
+					payNoDividendActionButton.setEnabled (true);
+					payNoDividendActionButton.setToolTipText (NO_TOOL_TIP);
+				} else {
+					payNoDividendActionButton.setEnabled (false);
+					if (aTrainCount == 1) {
+						tToolTip = "Must Operate the Train first.";
+					} else {
+						tToolTip = "Must Operate the Trains (QTY: " + aTrainCount + ") first.";
+					}
+					payNoDividendActionButton.setToolTipText (tToolTip);
+				}
 			} else {
 				payNoDividendActionButton.setEnabled (false);
-				if (aTrainCount == 1) {
-					tToolTip = "Must Operate the Train first.";
-				} else {
-					tToolTip = "Must Operate the Trains (QTY: " + aTrainCount + ") first.";
-				}
+				tToolTip = corporation.reasonForNoDividendOptions ();
 				payNoDividendActionButton.setToolTipText (tToolTip);
 			}
 		} else {
 			payNoDividendActionButton.setEnabled (false);
-			tToolTip = corporation.reasonForNoDividendOptions ();
-			payNoDividendActionButton.setToolTipText (tToolTip);
+			payNoDividendActionButton.setToolTipText ("Waiting for Response");
 		}
 	}
 	
@@ -918,10 +924,17 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
-		if (corporation.isOperating ()) {
+		if (corporation.isWaitingForResponse ()) {
+			disableBuyTrainActionButton ("Waiting for Response from Puchase Offer");
+		} else  if (corporation.isOperating ()) {
 			updateBuyTrainActionButton ();
 			updateBuyPrivateActionButton ();
 			updateDoneActionButton ();			
 		}
+	}
+
+	public void waitForResponse() {
+		System.out.println ("Time to Disable Everything while waiting for Response -  New State [" + corporation.getStateName () + "]");
+		updateInfo ();
 	}
 }

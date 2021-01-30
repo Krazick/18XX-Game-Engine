@@ -264,15 +264,19 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 				tCorporationFrame = trainCompany.getCorporationFrame ();
 				tCorporationFrame.updateInfo ();
 			} else {
-				makePurchaseOffer (tOwningTrainCompany);
+				if (makePurchaseOffer (tOwningTrainCompany)) {
+					tCorporationFrame = trainCompany.getCorporationFrame ();
+					tCorporationFrame.waitForResponse ();
+				}
 			}
 		}
 	}
 	
-	public void makePurchaseOffer (TrainCompany aOwningTrainCompany) {
+	public boolean makePurchaseOffer (TrainCompany aOwningTrainCompany) {
 		PurchaseOfferAction tPurchaseOfferAction;
 		PurchaseOffer tPurchaseOffer;
 		ActorI.ActionStates tOldState, tNewState;
+		boolean tOfferMade = true;
 		
 		tPurchaseOffer = new PurchaseOffer (train.getName (), train.getType (),
 				train, CorporationList.NO_PRIVATE_COMPANY,
@@ -290,9 +294,10 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		tPurchaseOfferAction.addChangeCorporationStatusEffect (trainCompany, tOldState, tNewState);
 		trainCompany.addAction (tPurchaseOfferAction);
 		
-		trainCompany.setStatus (ActorI.ActionStates.WaitingResponse);
 		// Set new Company State, Waiting for Reply to Purchase Offer
 		// TODO -- All buttons should be disabled until the Response is received
+		
+		return tOfferMade;
 	}
 	
 	public void doFinalTrainBuySteps (TrainCompany aOwningTrainCompany, 
@@ -331,7 +336,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		String tTrainPresidentName;
 		String tOwnerPresidentName;
 		
-		if ((trainCompany != Corporation.NO_ACTOR) ||
+		if ((trainCompany != Corporation.NO_ACTOR) &&
 			(currentOwner != Corporation.NO_ACTOR)) {
 			tTrainPresidentName = trainCompany.getPresidentName ();
 			tOwnerPresidentName = currentOwner.getPresidentName ();
