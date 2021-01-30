@@ -891,7 +891,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tCanBuyTrain = false;
 			tDisableToolTipReason = "Cannot buy Other Corporation Trains in current Phase";
 		}
-		System.out.println ("updateOtherCorps Method " + corporation.getAbbrev () + " - Can Buy " + tCanBuyTrain + " disable reason " + tDisableToolTipReason);
 		fillOtherCorpsContainer (tCanBuyTrain, tDisableToolTipReason);
 	}
 
