@@ -848,8 +848,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		setTreasuryLabel ();
 		setTokenLabel ();
 		setLastRevenueLabel ();
-		updateCFActionButtons ();
 		updateBuyableItems ();
+		updateCFActionButtons ();
+		revalidate ();
 	}
 
 	public void updateBuyableItems () {
@@ -890,7 +891,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tCanBuyTrain = false;
 			tDisableToolTipReason = "Cannot buy Other Corporation Trains in current Phase";
 		}
-//		System.out.println ("updateOtherCorps Method " + corporation.getAbbrev () + " - Can Buy " + tCanBuyTrain + " disable reason " + tDisableToolTipReason);
+		System.out.println ("updateOtherCorps Method " + corporation.getAbbrev () + " - Can Buy " + tCanBuyTrain + " disable reason " + tDisableToolTipReason);
 		fillOtherCorpsContainer (tCanBuyTrain, tDisableToolTipReason);
 	}
 

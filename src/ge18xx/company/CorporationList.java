@@ -1112,4 +1112,15 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public boolean isPlaceTokenMode() {
 		return roundManager.isPlaceTokenMode ();
 	}
+
+	public void clearTrainSelections() {
+		TrainCompany tTrainCompany;
+		
+		for (Corporation tCorporation : corporations) {
+			if (tCorporation.isATrainCompany ()) {
+				tTrainCompany = (TrainCompany) tCorporation;
+				tTrainCompany.clearAllTrainSelections ();
+			}
+		}
+	}
 }

@@ -1460,6 +1460,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return purchaseOffer;
 	}
 	
+	public void handleRejectOffer (RoundManager aRoundManager) {
+		CorporationFrame tCorporationFrame;
+		
+		corporationList.clearTrainSelections ();
+		tCorporationFrame = getCorporationFrame ();
+		tCorporationFrame.updateInfo ();
+	}
+	
 	public void handleAcceptOffer (RoundManager aRoundManager) {
 		BuyTrainAction tBuyTrainAction;
 		TrainCompany tOwningTrainCompany;

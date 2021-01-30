@@ -99,6 +99,7 @@ public class PurchaseOfferEffect extends CashInfoEffect {
 			tActorName = toActor.getName ();
 			System.out.println ("To Actor is not a Corporation, probably a Player (Offer to buy a Private)");
 		}
+		System.out.println ("---- Offer to " + tActorName + " This client is " + tClientUserName);
 		if (tClientUserName.equals (tActorName)) {
 			System.out.println ("Ready to display Dialog to query Client if the Purchase offer should be Accepted or Rejected");
 			tPurchaseOfferFrame = new PurchaseOfferFrame (this, aRoundManager);

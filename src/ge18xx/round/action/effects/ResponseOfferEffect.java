@@ -139,6 +139,7 @@ public class ResponseOfferEffect extends Effect {
 						tTrainCompany.handleAcceptOffer (aRoundManager);
 					} else {
 						System.out.println ("Offer was Rejected");
+						tTrainCompany.handleRejectOffer (aRoundManager);
 					}			
 					tEffectApplied = true;
 				} else {
