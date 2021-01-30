@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ItemListener;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -65,6 +64,7 @@ import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.File18XXFilter;
 import ge18xx.utilities.FileUtils;
+import ge18xx.utilities.JFileMChooser;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -109,7 +109,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	AuditFrame auditFrame;
 	TileDefinitionFrame tileDefinitionFrame;
 	PlayerInputFrame playerInputFrame;
-	JFileChooser chooser;
+	JFileMChooser chooser;
 	File saveFile;
 	File autoSaveFile;
 	JGameClient networkJGameClient;
@@ -968,7 +968,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
-	private File getSelectedFile (File aDirectory, JFileChooser aChooser, boolean aSaveFile) {
+	private File getSelectedFile (File aDirectory, JFileMChooser aChooser, boolean aSaveFile) {
 		File tSelectedFile = null;
 		File18XXFilter tFileFilter = new File18XXFilter ();
 		int tResult;
@@ -977,7 +977,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 		aChooser.addChoosableFileFilter (tFileFilter);
 		aChooser.setAcceptAllFileFilterUsed (true);
-		aChooser.setFileSelectionMode (JFileChooser.FILES_AND_DIRECTORIES);
+		aChooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
 		
 		while (tNotChosenYet) {
 			aChooser.setCurrentDirectory (tDirectory);
@@ -986,7 +986,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			} else {
 				tResult = chooser.showOpenDialog (this);
 			}
-			if (tResult == JFileChooser.APPROVE_OPTION) {
+			if (tResult == JFileMChooser.APPROVE_OPTION) {
 				tSelectedFile = chooser.getSelectedFile ();
 				if (tSelectedFile.isDirectory ()) {
 					tDirectory = tSelectedFile;
@@ -1013,8 +1013,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void loadSavedGame () {
 		File tSaveDirectory, tNewSaveDirectory; 
 		String tSaveDirectoryPath;
+		Point tNewPoint;
 		
-		chooser = new JFileChooser ();
+		tNewPoint = getOffsetGEFrame ();
+		chooser = new JFileMChooser ();
 		chooser.setDialogTitle ("Find Saved Game File to Load");
 		tSaveDirectoryPath = configData.getSaveGameDirectory ();
 		if (tSaveDirectoryPath == null) {
@@ -1024,7 +1026,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tSaveDirectory = new File (tSaveDirectoryPath);
 		chooser.setCurrentDirectory (tSaveDirectory);
 		chooser.setAcceptAllFileFilterUsed (true);
-		chooser.setFileSelectionMode (JFileChooser.FILES_AND_DIRECTORIES);
+		chooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
+		chooser.setMLocation (tNewPoint);
+		System.out.println ("Set New Point for Load Dialog to " + tNewPoint.getX () + ", " + tNewPoint.getY ());
 		saveFile = getSelectedFile (tSaveDirectory, chooser, false);
 		
 		if (saveFile != null) {
@@ -1325,6 +1329,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public void saveAGame (boolean aOverwriteFile) {
+		Point tNewPoint;
 		
 		if (saveFile == null) {
 			aOverwriteFile = false;
@@ -1341,12 +1346,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tOriginalSaveGameDir = configData.getSaveGameDirectory ();
 			tSaveDirectory = new File (tOriginalSaveGameDir);
 			File18XXFilter tFileFilter = new File18XXFilter ();
-			chooser = new JFileChooser ();
+			tNewPoint = getOffsetGEFrame ();
+			chooser = new JFileMChooser ();
+			chooser.setMLocation (tNewPoint);
 			chooser.setDialogTitle ("Save 18XX Game File");
 			chooser.setCurrentDirectory (tSaveDirectory);
 			chooser.addChoosableFileFilter (tFileFilter);
 			chooser.setAcceptAllFileFilterUsed (true);
-			chooser.setFileSelectionMode (JFileChooser.FILES_AND_DIRECTORIES);
+			chooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
 			chooser.setSelectedFile (new File("SaveGame." + FileUtils.xml));
 			saveFile = getSelectedFile (tSaveDirectory, chooser, true);
 			tSaveDirectory = chooser.getCurrentDirectory ();

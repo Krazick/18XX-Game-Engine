@@ -122,7 +122,6 @@ public class Game_18XX extends JFrame {
 				if (tEventObject instanceof JTextField) {
 					setupNewGameManager ();
 				}
-
 			}
 		});
 		
