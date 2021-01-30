@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -63,6 +64,24 @@ public class RustTrainEffect extends TransferTrainEffect {
 	
 	public void setOldTrainStatus (int aOldTrainStatus) {
 		oldTrainStatus = aOldTrainStatus;
+	}
+	
+	@Override
+	public boolean applyEffect (RoundManager aRoundManager) {
+		Bank tBank;
+		boolean tEffectApplied = false;
+		TrainPortfolio tToTrainPortfolio;
+		TrainHolderI tFromHolder;
+		
+		tBank = (Bank) toActor;
+		tToTrainPortfolio = tBank.getRustedTrainPortfolio ();
+		train.setStatus (Train.RUSTED);
+		tToTrainPortfolio.addTrain (train);
+		tFromHolder = (TrainHolderI) actor;
+		tFromHolder.removeTrain (getTrainName ());
+		tEffectApplied = true;
+
+		return tEffectApplied;
 	}
 	
 	@Override
