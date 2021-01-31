@@ -927,15 +927,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tShares = shareCompaniesFrame.getShareCompanies ();
 			
 			autoSaveFile = new File (constructAutoSaveFileName ());
-			applyConfigSettings ();
 			
 			roundManager.initiateGame (tPrivates, tCoals, tMinors, tShares);
 			if (! activeGame.isATestGame ()) {
 				roundManager.showInitialFrames ();
 			}
-			createAuditFrame ();
 
 			gameStarted = true;
+			createAuditFrame ();
+			applyConfigSettings ();
 		}
 	}
 	
