@@ -352,7 +352,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
     
 	public void paintComponent (Graphics g) {
 		int X, Y, Xoffset, Yoffset, index, XNum, YNum, YNumOffset;
-		int valueWidth, XUpperLeft, YUpperLeft;
+		int valueWidth;
 		int tWidth, tHeight;
 		Tile tTile;
 		int tTileOrient;
@@ -371,16 +371,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			tTile = tGameTile.getTile ();
 			if (tTile != Tile.NO_TILE) {
 				if (showThisTile (tTile)) {
-					if (tGameTile.isPlayable ()) {
-						XUpperLeft = X - tWidth;
-						YUpperLeft = Y - tHeight;
-						if (tGameTile.availableCount () > 0) {
-							g.setColor (Color.CYAN);
-						} else {
-							g.setColor (Color.LIGHT_GRAY);
-						}
-						g.fillRect (XUpperLeft, YUpperLeft, tWidth * 2, tHeight * 2);
-					}
+					setBackgroundForTile (g, X, Y, tWidth, tHeight, tGameTile);
 					tTileOrient = tGameTile.getTileOrient ();
 					tTile.paintComponent (g, tTileOrient, hex, new Feature2 ());
 					hex.drawRotateRightArrow (g, X, Y);
@@ -406,6 +397,27 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			} else {
 				X += Xoffset;
 			}
+		}
+	}
+
+	private void setBackgroundForTile (Graphics g, int X, int Y, int aWidth, int aHeight, GameTile aGameTile) {
+		int XUpperLeft;
+		int YUpperLeft;
+		XUpperLeft = X - aWidth;
+		YUpperLeft = Y - aHeight;
+
+		if (tileTrayFrame.isUpgradeAllowed (aGameTile)) {
+			if (aGameTile.isPlayable ()) {
+				if (aGameTile.availableCount () > 0) {
+					g.setColor (Color.CYAN);
+				} else {
+					g.setColor (Color.LIGHT_GRAY);
+				}
+				g.fillRect (XUpperLeft, YUpperLeft, aWidth * 2, aHeight * 2);
+			}
+		} else {
+			g.setColor (Color.GRAY);
+			g.fillRect (XUpperLeft, YUpperLeft, aWidth * 2, aHeight * 2);
 		}
 	}
 	

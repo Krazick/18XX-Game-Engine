@@ -1028,7 +1028,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		chooser.setAcceptAllFileFilterUsed (true);
 		chooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
 		chooser.setMLocation (tNewPoint);
-		System.out.println ("Set New Point for Load Dialog to " + tNewPoint.getX () + ", " + tNewPoint.getY ());
 		saveFile = getSelectedFile (tSaveDirectory, chooser, false);
 		
 		if (saveFile != null) {
@@ -1234,8 +1233,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public void performPhaseChange (TrainCompany aTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction) {
 		phaseManager.performPhaseChange (aTrainCompany, aTrain, aBuyTrainAction, bank);
+		repaintTileTrayFrame ();
 	}
 
+	public void repaintTileTrayFrame () {
+		tileTrayFrame.repaint ();
+	}
+	
 	public boolean tileTrayVisible () {
 		return tileTrayFrame.isVisible ();
 	}

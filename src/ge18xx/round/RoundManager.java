@@ -596,6 +596,10 @@ public class RoundManager {
 		gameManager.performPhaseChange (aTrainCompany, aTrain, aBuyTrainAction);
 	}
 	
+	public void revalidateTileTrayFrame () {
+		gameManager.repaintTileTrayFrame ();
+	}
+
 	public void printBriefActionReport () {
 		actionManager.briefActionReport ();
 	}
