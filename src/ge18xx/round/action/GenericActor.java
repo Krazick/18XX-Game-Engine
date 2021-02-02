@@ -64,7 +64,6 @@ public class GenericActor implements ActorI {
 		} else if (aState.equals (ActionStates.NotBidder.toString ())) {
 			tPlayerState = ActionStates.NotBidder;
 		}
-//		Bidder, AuctionPass, AuctionRaise, NotBidder,					// Player Auction States
 	
 		return tPlayerState;
 	}
@@ -113,6 +112,8 @@ public class GenericActor implements ActorI {
 			tCorporationState = ActionStates.FullDividend;
 		} else if (aState.equals (ActionStates.BoughtTrain.toString ())) {
 			tCorporationState = ActionStates.BoughtTrain;
+		} else if (aState.equals (ActionStates.WaitingResponse.toString ())) {
+			tCorporationState = ActionStates.WaitingResponse;
 		}
 		
 		return tCorporationState;
