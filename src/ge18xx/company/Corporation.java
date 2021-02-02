@@ -293,8 +293,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public int getSelectedTrainCount () {
-		int tGetSelectedTrainCount = 0;
+		int tGetSelectedTrainCount;
 		
+		tGetSelectedTrainCount = 0;
 		if (corporationList != null) {
 			tGetSelectedTrainCount = corporationList.getSelectedTrainCount (abbrev);
 		}
@@ -303,8 +304,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public boolean isSelectedTrainItem (Object aItem) {
-		boolean tIsSelectedTrainItem = false;
+		boolean tIsSelectedTrainItem;
 		
+		tIsSelectedTrainItem = false;
 		if (corporationList != null) {
 			tIsSelectedTrainItem = corporationList.isSelectedTrainItem (abbrev, aItem);
 		}
@@ -318,8 +320,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public boolean canPayHalfDividend () {
-		boolean tCanPayHalfDividend = false;
+		boolean tCanPayHalfDividend;
 		
+		tCanPayHalfDividend = false;
 		if (corporationList != null) {
 			tCanPayHalfDividend = corporationList.canPayHalfDividend ();
 		}
@@ -347,8 +350,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public boolean canBuyPrivate () {
-		boolean tCanBuyPrivate = false;
+		boolean tCanBuyPrivate;
 		
+		tCanBuyPrivate = false;
 		if (corporationList != null) {
 			tCanBuyPrivate = corporationList.canBuyPrivate ();
 		}
@@ -373,8 +377,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public boolean gameHasPrivates () {
-		boolean tGameHasPrivates = false;
+		boolean tGameHasPrivates;
 		
+		tGameHasPrivates = false;
 		if (corporationList != null) {
 			tGameHasPrivates =  corporationList.gameHasPrivates ();
 		}
@@ -742,6 +747,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return portfolio.getCurrentHolder (aLoadedCertificate);
 	}
 
+	// TODO: Create Override Methods for this in the extended Classes
 	public int getCurrentValue () {
 		int tValue;
 		
@@ -1373,7 +1379,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 //		Unowned, Owned, Closed, MayFloat, WillFloat, NotOperated,
 //		StartedOperations, TileLaid, Tile2Laid, TileUpgraded, 
 //		StationLaid, TileAndStationLaid, OperatedTrain, HoldDividend, 
-//		HalfDividend, FullDividend, BoughtTrain, Operated
+//		HalfDividend, FullDividend, BoughtTrain, Operated, WaitingResponse
 		
 		return tStatusUpdated;
 	}
@@ -1392,8 +1398,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public boolean canOperate () {
-		boolean tCanOperate = true;
+		boolean tCanOperate;
 		
+		tCanOperate = true;
 		if ((status == ActorI.ActionStates.Closed) ||
 			(status == ActorI.ActionStates.Unowned) || 
 			(status == ActorI.ActionStates.Owned)) {
@@ -1404,7 +1411,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public boolean isOperating () {
-		boolean isOperating = true;
+		boolean isOperating;
 		
 		isOperating = true;
 		if ((status == ActorI.ActionStates.Closed) ||
@@ -1719,7 +1726,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public Train getCheapestBankTrain () {
-		return null;
+		return Train.NO_TRAIN;
 	}
 
 	public boolean mustBuyTrain () {
@@ -1787,12 +1794,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return NO_NOTE;
 	}
 
-	public void revalidateCorporationFrame () {
-		corporationFrame.revalidate ();
+	public void repaintCorporationFrame () {
+		corporationFrame.repaint ();
+//		corporationFrame.revalidate ();
 	}
 	
 	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
-		boolean tIsTileAvailableForMapCell = true;
+		boolean tIsTileAvailableForMapCell;
 		
 		tIsTileAvailableForMapCell = aMapCell.isTileAvailableForMapCell ();
 		
@@ -1800,21 +1808,23 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public boolean homeMapCell1HasTile () {
-		boolean tHomeMapCellHasTile = false;
+		boolean tHomeMapCellHasTile;
 		
-		if (homeCity1 != null) {
+		tHomeMapCellHasTile = false;
+		if (homeCity1 != MapCell.NO_MAP_CELL) {
 			tHomeMapCellHasTile = homeCity1.isTileOnCell ();
 		} else {
-			System.err.println ("Home City 1 Map Cell is NULL -- PROBLEM!");
+			System.err.println ("Home City 1 Map Cell is NOT SET -- PROBLEM!");
 		}
 		
 		return tHomeMapCellHasTile;
 	}
 	
 	public boolean homeMapCell2HasTile () {
-		boolean tHomeMapCellHasTile = false;
+		boolean tHomeMapCellHasTile;
 		
-		if (homeCity2 != null) {
+		tHomeMapCellHasTile = false;
+		if (homeCity2 != MapCell.NO_MAP_CELL) {
 			tHomeMapCellHasTile = homeCity2.isTileOnCell ();
 		} else {
 			tHomeMapCellHasTile = true;
@@ -1832,9 +1842,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 //		Override in Train Company Class
 	}
 
-	public abstract boolean atTrainLimit();
+	public abstract boolean atTrainLimit ();
 
-	public void skipBaseToken() {
+	public void skipBaseToken () {
 //		Override in Train Company Class		
 	}
 
@@ -1846,9 +1856,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationList.isPlaceTokenMode ();
 	}
 
-	public boolean isWaitingForResponse() {
-		boolean tIsWaitingForResponse = false;
+	public boolean isWaitingForResponse () {
+		boolean tIsWaitingForResponse;
 		
+		tIsWaitingForResponse = false;
 		if (status.equals (ActorI.ActionStates.WaitingResponse)) {
 			tIsWaitingForResponse = true;
 		}
