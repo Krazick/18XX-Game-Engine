@@ -544,6 +544,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			(status == ActorI.ActionStates.HoldDividend) ||
 			(status == ActorI.ActionStates.HalfDividend) ||
 			(status == ActorI.ActionStates.FullDividend) ||
+			(status == ActorI.ActionStates.WaitingResponse) ||
 			(status == ActorI.ActionStates.BoughtTrain)) {
 			tDidPartiallyOperate = true;
 		}
