@@ -31,8 +31,11 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 	JPanel offerPanel;
 	JPanel offerTopPanel;
 	JPanel offerButtonPanel;
+	String itemType;
+	String itemName;
 	
-	public PurchaseOfferFrame (PurchaseOfferEffect aPurchaseOfferEffect, RoundManager aRoundManager) {
+	public PurchaseOfferFrame (PurchaseOfferEffect aPurchaseOfferEffect, RoundManager aRoundManager,
+			String aItemType, String aItemName) {
 		super ("Purchase Offer");
 		
 		String tPlayerName;
@@ -54,11 +57,29 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		offerPanel.setBackground (Color.CYAN);
 		add (offerPanel);
 		
+		setItemType (aItemType);
+		setItemName (aItemName);
 		pack ();
 		tNewPoint = roundManager.getOffsetRoundFrame ();
 		setLocation (tNewPoint);
 		setSize (500, 150);
 		setVisible (false);
+	}
+
+	public String getItemType () {
+		return itemType;
+	}
+	
+	public String getItemName () {
+		return itemName;
+	}
+	
+	public void setItemType (String aItemType) {
+		itemType = aItemType;
+	}
+	
+	public void setItemName (String aItemName) {
+		itemName = aItemName;
 	}
 
 	private void setOfferButtonPanel() {
@@ -140,7 +161,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		
 		tFromActor = purchaseOfferEffect.getToActor ();
 		tResponseOfferAction = new ResponseOfferAction (tRoundType, tRoundID, tFromActor);
-		tResponseOfferAction.addResponseOfferEffect (tFromActor, tToActor, aResponse);
+		tResponseOfferAction.addResponseOfferEffect (tFromActor, tToActor, aResponse, itemType, itemName);
 		roundManager.addAction (tResponseOfferAction);
 
 		setVisible (false);

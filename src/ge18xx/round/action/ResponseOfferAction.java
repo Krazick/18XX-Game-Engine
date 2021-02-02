@@ -36,11 +36,11 @@ public class ResponseOfferAction extends QueryActorAction {
 	}
 
 	public void addResponseOfferEffect (ActorI aFromActor, ActorI aToActor, 
-			boolean aResponse) {
+			boolean aResponse, String aItemType, String aItemName) {
 		ResponseOfferEffect tOfferResponseEffect;
 		
 		tOfferResponseEffect = new ResponseOfferEffect (aFromActor, aToActor, 
-				aResponse);
+				aResponse, aItemType, aItemName);
 		addEffect (tOfferResponseEffect);
 	}
 

@@ -102,7 +102,7 @@ public class PurchaseOfferEffect extends CashInfoEffect {
 		System.out.println ("---- Offer to " + tActorName + " This client is " + tClientUserName);
 		if (tClientUserName.equals (tActorName)) {
 			System.out.println ("Ready to display Dialog to query Client if the Purchase offer should be Accepted or Rejected");
-			tPurchaseOfferFrame = new PurchaseOfferFrame (this, aRoundManager);
+			tPurchaseOfferFrame = new PurchaseOfferFrame (this, aRoundManager, getItemType (), getItemName ());
 			tPurchaseOfferFrame.setVisible (true);			
 		}
 		

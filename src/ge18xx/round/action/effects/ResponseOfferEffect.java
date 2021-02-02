@@ -17,8 +17,12 @@ import ge18xx.utilities.XMLNode;
 public class ResponseOfferEffect extends Effect {
 	public final static String NAME = "Response To Offer";
 	final static AttributeName AN_RESPONSE = new AttributeName ("response");
+	final static AttributeName AN_ITEM_TYPE = new AttributeName ("itemType");
+	final static AttributeName AN_ITEM_NAME = new AttributeName ("itemName");
 	boolean response;
 	ActorI toActor;
+	String itemType;
+	String itemName;
 
 	public ResponseOfferEffect () {
 		this (NAME);
@@ -28,11 +32,14 @@ public class ResponseOfferEffect extends Effect {
 		super (aName);
 	}
 
-	public ResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse) {
+	public ResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, 
+				String aItemType, String aItemName) {
 		super (NAME, aFromActor);
 		
 		setResponse (aResponse);
 		setToActor (aToActor);
+		setItemType (aItemType);
+		setItemName (aItemName);
 	}
 
 	public ResponseOfferEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -43,11 +50,32 @@ public class ResponseOfferEffect extends Effect {
 		ActorI tToActor;
 		String tToActorName;
 		
+		String tItemType, tItemName;
+		tItemType = aEffectNode.getThisAttribute (AN_ITEM_TYPE);
+		tItemName = aEffectNode.getThisAttribute (AN_ITEM_NAME);
+		setItemType (tItemType);
+		setItemName (tItemName);
 		tResponse = aEffectNode.getThisBooleanAttribute (AN_RESPONSE);
 		setResponse (tResponse);
 		tToActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
 		tToActor = aGameManager.getActor (tToActorName);
 		setToActor (tToActor);
+	}
+
+	public String getItemType () {
+		return itemType;
+	}
+	
+	public String getItemName () {
+		return itemName;
+	}
+	
+	public void setItemType (String aItemType) {
+		itemType = aItemType;
+	}
+	
+	public void setItemName (String aItemName) {
+		itemName = aItemName;
 	}
 	
 	@Override
@@ -57,6 +85,8 @@ public class ResponseOfferEffect extends Effect {
 		
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_RESPONSE, getResponse ());
+		tEffectElement.setAttribute (AN_ITEM_TYPE, getItemType ());
+		tEffectElement.setAttribute (AN_ITEM_NAME, getItemName ());
 		if (toActor.isACorporation ()) {
 			tActorName = ((Corporation) toActor).getAbbrev ();
 		} else {
@@ -71,6 +101,8 @@ public class ResponseOfferEffect extends Effect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tTextResponse;
 		String tFullReport, tToActorName = "NULL";
+		String tWho, tItem;
+		Corporation tCorporation;
 		
 		if (response) {
 			tTextResponse = "Accepted";
@@ -80,9 +112,15 @@ public class ResponseOfferEffect extends Effect {
 		if (toActor != null) {
 			tToActorName = toActor.getName ();
 		}
-		tFullReport = REPORT_PREFIX + name + " President of " + actor.getName () +
-				" has " + tTextResponse + " the offer from " + tToActorName + ".";
-		
+		if (actor.isACorporation ()) {
+			tCorporation = (Corporation) actor;
+			tWho = " President of " + actor.getName () + " (" + tCorporation.getPresidentName () + ")";
+		} else {
+			tWho = actor.getName ();
+		}
+		tItem = " to buy " + itemName + " " + itemType;
+		tFullReport = REPORT_PREFIX + " The offer from " + tToActorName + tItem + " sent to " + 
+				tWho + " was " + tTextResponse;
 		return tFullReport;
 	}
 	
@@ -111,8 +149,8 @@ public class ResponseOfferEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		String tClientUserName;
-		String tActorName = "";
-		TrainCompany tTrainCompany = null;
+		String tToActorName = "";
+		TrainCompany tTrainCompany = TrainCompany.NO_TRAIN_COMPANY;
 		ActorI.ActionStates tOldStatus;
 		PurchaseOffer tPurchaseOffer;
 		
@@ -120,16 +158,16 @@ public class ResponseOfferEffect extends Effect {
 		System.out.println ("Ready to handle the Response to the Purchase offer");
 		
 		tClientUserName = aRoundManager.getClientUserName ();
-		if (toActor.isACorporation ()) {
-			tActorName = ((Corporation) toActor).getPresidentName ();
+		tToActorName = ((Corporation) toActor).getPresidentName ();
+		if (actor.isACorporation ()) {
 			tTrainCompany = (TrainCompany) toActor;
 		} else {
-			tActorName = toActor.getName ();
-			System.out.println ("To Actor is not a Corporation, probably a Player (Offer to buy a Private)");
+			System.out.println ("Actor is not a Corporation [" + tToActorName + 
+					"], probably a Player (Offer to buy a Private)");
 		}
 		
-		if (tClientUserName.equals (tActorName)) {
-			if (tTrainCompany != null) {
+		if (tClientUserName.equals (tToActorName)) {
+			if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
 				if (tTrainCompany.getStatus ().equals (ActorI.ActionStates.WaitingResponse)) {
 					tPurchaseOffer = tTrainCompany.getPurchaseOffer ();
 					tOldStatus = tPurchaseOffer.getOldStatus ();
@@ -147,7 +185,7 @@ public class ResponseOfferEffect extends Effect {
 							" is not in Waiting Response State, it is in " + tTrainCompany.getStateName ());
 				}	
 			} else {
-				System.err.println ("To Actor " + tActorName + " Not flagged as Corporation");
+				System.err.println ("To Actor " + tToActorName + " Not flagged as Corporation");
 			}
 		}
 		

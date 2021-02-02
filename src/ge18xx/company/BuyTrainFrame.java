@@ -246,6 +246,33 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		}
 	}
 
+	private boolean samePresident (TrainCompany aOwningTrainCompany) {
+		boolean tSamePresident = false;
+		String tPresidentName, tOwningPresidentName;
+		
+		tOwningPresidentName = aOwningTrainCompany.getPresidentName ();
+		tPresidentName = trainCompany.getPresidentName ();
+		if (tOwningPresidentName.equals(tPresidentName)) {
+			tSamePresident = true;
+		}
+		
+		return tSamePresident;
+	}
+	
+	private boolean needToMakeOffer (TrainCompany aOwningTrainCompany) {
+		boolean tNeedToMakeOffer = true;
+		
+		if (gameManager.isNetworkGame ()) {
+			if (samePresident (aOwningTrainCompany)) {
+				tNeedToMakeOffer = false;
+			}
+		} else {
+			tNeedToMakeOffer = false;
+		}
+		
+		return tNeedToMakeOffer;
+	}
+	
 	private void buyTrain () {
 		TrainCompany tOwningTrainCompany;
 		int tCashValue;
@@ -255,7 +282,12 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		if (train != TrainPortfolio.NO_TRAIN) {
 			tCashValue = getPrice ();
 			tOwningTrainCompany = (TrainCompany) (currentOwner);
-			if (tOwningTrainCompany.getPresidentName ().equals (trainCompany.getPresidentName ())) {
+			if (needToMakeOffer (tOwningTrainCompany)) {
+				if (makePurchaseOffer (tOwningTrainCompany)) {
+					tCorporationFrame = trainCompany.getCorporationFrame ();
+					tCorporationFrame.waitForResponse ();
+				}
+			} else {
 				tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, 
 						operatingRoundID, trainCompany);
 				trainCompany.transferCashTo (tOwningTrainCompany, tCashValue);
@@ -263,11 +295,6 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 				trainCompany.doFinalTrainBuySteps (tOwningTrainCompany, train, tBuyTrainAction);
 				tCorporationFrame = trainCompany.getCorporationFrame ();
 				tCorporationFrame.updateInfo ();
-			} else {
-				if (makePurchaseOffer (tOwningTrainCompany)) {
-					tCorporationFrame = trainCompany.getCorporationFrame ();
-					tCorporationFrame.waitForResponse ();
-				}
 			}
 		}
 	}
@@ -293,9 +320,6 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		tNewState = trainCompany.getStatus ();
 		tPurchaseOfferAction.addChangeCorporationStatusEffect (trainCompany, tOldState, tNewState);
 		trainCompany.addAction (tPurchaseOfferAction);
-		
-		// Set new Company State, Waiting for Reply to Purchase Offer
-		// TODO -- All buttons should be disabled until the Response is received
 		
 		return tOfferMade;
 	}

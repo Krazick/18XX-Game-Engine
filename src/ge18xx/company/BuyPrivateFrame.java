@@ -7,6 +7,8 @@ import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
+import ge18xx.round.action.PurchaseOfferAction;
+import ge18xx.train.Train;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -230,10 +232,37 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 			setVisible (false);
 		}
 	}
+	
+	private boolean samePresident (Player aOwningPlayer) {
+		boolean tSamePresident = false;
+		String tPresidentName, tOwningPresidentName;
+		
+		tOwningPresidentName = aOwningPlayer.getName ();
+		tPresidentName = shareCompany.getPresidentName ();
+		if (tOwningPresidentName.equals(tPresidentName)) {
+			tSamePresident = true;
+		}
+		
+		return tSamePresident;
+	}
+	
+	private boolean needToMakeOffer (Player aOwningPlayer) {
+		boolean tNeedToMakeOffer = true;
+		
+		if (gameManager.isNetworkGame ()) {
+			if (samePresident (aOwningPlayer)) {
+				tNeedToMakeOffer = false;
+			}
+		} else {
+			tNeedToMakeOffer = false;
+		}
+		
+		return tNeedToMakeOffer;
+	}
 
 	private void buyPrivateCertificate () {
 		CertificateHolderI tCertificateHolder;
-		Player tPlayer;
+		Player tOwningPlayer;
 		int tCashValue;
 		Portfolio tCompanyPortfolio, tPlayerPortfolio;
 		BuyStockAction tBuyStockAction;
@@ -242,22 +271,55 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		if (certificate != Certificate.NO_CERTIFICATE) {
 			tCertificateHolder = certificate.getOwner ();
 			if (tCertificateHolder.isPlayer ()) {
-				tBuyStockAction = new BuyStockAction (ActorI.ActionStates.OperatingRound, 
-						operatingRoundID, shareCompany);
-				tCashValue = getPrice ();
-				tPlayer = (Player) (tCertificateHolder.getPortfolioHolder ());
-				shareCompany.transferCashTo (tPlayer, tCashValue);
-				tBuyStockAction.addCashTransferEffect (shareCompany, tPlayer, tCashValue);
-				tCompanyPortfolio = shareCompany.getPortfolio ();
-				tPlayerPortfolio = tPlayer.getPortfolio ();
-				doFinalShareBuySteps (tCompanyPortfolio, tPlayerPortfolio, certificate, tBuyStockAction);
-				tBuyStockAction.addBoughtShareEffect (shareCompany);
-				shareCompany.addAction (tBuyStockAction);
-				tCorporationFrame = shareCompany.getCorporationFrame ();
-				tCorporationFrame.updateInfo ();
+				tOwningPlayer = (Player) (tCertificateHolder.getPortfolioHolder ());
+				if (needToMakeOffer (tOwningPlayer)) {
+					if (makePurchaseOffer (tOwningPlayer)) {
+						tCorporationFrame = shareCompany.getCorporationFrame ();
+						tCorporationFrame.waitForResponse ();
+					}
+				} else {
+					tBuyStockAction = new BuyStockAction (ActorI.ActionStates.OperatingRound, 
+							operatingRoundID, shareCompany);
+					tCashValue = getPrice ();
+					shareCompany.transferCashTo (tOwningPlayer, tCashValue);
+					tBuyStockAction.addCashTransferEffect (shareCompany, tOwningPlayer, tCashValue);
+					tCompanyPortfolio = shareCompany.getPortfolio ();
+					tPlayerPortfolio = tOwningPlayer.getPortfolio ();
+					doFinalShareBuySteps (tCompanyPortfolio, tPlayerPortfolio, certificate, tBuyStockAction);
+					tBuyStockAction.addBoughtShareEffect (shareCompany);
+					shareCompany.addAction (tBuyStockAction);
+					tCorporationFrame = shareCompany.getCorporationFrame ();
+					tCorporationFrame.updateInfo ();
+				}
 			}
 		}
+	}
+	
+	private boolean makePurchaseOffer (Player aOwningPlayer) {
+		PurchaseOfferAction tPurchaseOfferAction;
+		PurchaseOffer tPurchaseOffer;
+		ActorI.ActionStates tOldState, tNewState;
+		boolean tOfferMade = true;
+		PrivateCompany tPrivateCompany;
 		
+		tOldState = shareCompany.getStatus ();
+		tPrivateCompany = (PrivateCompany) certificate.getCorporation ();
+		tPurchaseOffer = new PurchaseOffer (certificate.getCompanyName (), certificate.getCorpType (),
+				Train.NO_TRAIN, tPrivateCompany,
+				tPrivateCompany.getAbbrev (), aOwningPlayer.getName (), 
+				getPrice (), tOldState);
+		shareCompany.setPurchaseOffer (tPurchaseOffer);
+		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound,
+				operatingRoundID, shareCompany);
+		tPurchaseOfferAction.addPurchaseOfferEffect (shareCompany, aOwningPlayer, 
+				getPrice (), certificate.getCorpType (), certificate.getCompanyAbbrev ());
+		
+		shareCompany.setStatus (ActorI.ActionStates.WaitingResponse);
+		tNewState = shareCompany.getStatus ();
+		tPurchaseOfferAction.addChangeCorporationStatusEffect (shareCompany, tOldState, tNewState);
+		shareCompany.addAction (tPurchaseOfferAction);
+		
+		return tOfferMade;
 	}
 	
 	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, 
