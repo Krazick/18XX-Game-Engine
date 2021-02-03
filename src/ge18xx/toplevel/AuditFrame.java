@@ -31,8 +31,8 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 	private String REFRESH_LIST = "REFRESH LIST";
 	private String PLAYER_PREFIX = "Player: ";
 	private String SHARE_CORP_PREFIX = "Share Company: ";
-	private int NO_CREDIT = 0;
-	private int NO_DEBIT = 0;
+	public static int NO_CREDIT = 0;
+	public static int NO_DEBIT = 0;
 	JTable auditTable;
 	int actorBalance;
 	String actorName;
