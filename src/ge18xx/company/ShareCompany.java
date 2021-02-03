@@ -11,8 +11,13 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
+import ge18xx.player.Player;
+import ge18xx.player.Portfolio;
+import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.OperatingRound;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.BuyStockAction;
 import ge18xx.round.action.FloatCompanyAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayNoDividendAction;
@@ -35,6 +40,7 @@ public class ShareCompany extends TokenCompany {
 	static final AttributeName AN_PAR_PRICE = new AttributeName ("parPrice");
 	static final AttributeName AN_LOAN_COUNT = new AttributeName ("loanCount");
 	public static final int NO_PAR_PRICE = -1;
+	public static ShareCompany NO_SHARE_COMPANY = null;
 	static final AttributeName AN_DESTINATION = new AttributeName ("destination");
 	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	static final AttributeName AN_START_PRICE = new AttributeName ("startPrice");
@@ -110,7 +116,7 @@ public class ShareCompany extends TokenCompany {
 	
 	// Buy the Private Corporation into the Share Company
 	@Override
-	public void buyPrivate () {
+	public void buyPrivate (boolean tVisible) {
 		PrivateCompany tPrivateToBuy;
 		Certificate tPresidentCertificate;
 		BuyPrivateFrame tBuyPrivateFrame;
@@ -125,7 +131,7 @@ public class ShareCompany extends TokenCompany {
 		tBuyPrivateFrame = new BuyPrivateFrame (this);
 		tBuyPrivateFrame.updateInfo (tPresidentCertificate);
 		tBuyPrivateFrame.setLocation (tCorpFrameOffset);
-		tBuyPrivateFrame.setVisible (true);
+		tBuyPrivateFrame.setVisible (tVisible);
 		tBuyPrivateFrame.requestFocus ();
 	}
 		
@@ -451,4 +457,126 @@ public class ShareCompany extends TokenCompany {
 		
 		return tShouldFloat;
 	}
+	
+	public void handleRejectOfferPrivate (RoundManager aRoundManager) {
+		CorporationFrame tCorporationFrame;
+		
+		corporationList.clearPrivateSelections ();
+		tCorporationFrame = getCorporationFrame ();
+		tCorporationFrame.updateInfo ();
+	}
+	
+	public void handleAcceptOfferPrivate (RoundManager aRoundManager) {
+//		BuyTrainAction tBuyTrainAction;
+//		TrainCompany tOwningTrainCompany;
+//		Corporation tOwningCompany;
+		Player tOwningPlayer;
+		ActorI tActorOfferSentTo;
+		int tCashValue;
+		PrivateCompany tPrivateCompany;
+		CorporationFrame tCorporationFrame;
+//		String tOperatingRoundID;
+		String tActorToName;
+		String tItemName, tItemType;
+		GameManager tGameManager;
+//		boolean tCurrentNotify;
+		
+		tGameManager = aRoundManager.getGameManager ();
+//		tOperatingRoundID = aRoundManager.getOperatingRoundID ();
+		tCashValue = purchaseOffer.getAmount ();
+		tActorToName = purchaseOffer.getToName ();
+		tActorOfferSentTo = tGameManager.getActor (tActorToName);
+		if (tActorOfferSentTo.isAPlayer ()) {
+			tOwningPlayer = (Player) tActorOfferSentTo;
+			if (tOwningPlayer.isAPlayer ()) {
+				tCorporationFrame = getCorporationFrame ();
+				tItemType = purchaseOffer.getItemType ();
+				tItemName = purchaseOffer.getItemName ();
+				System.out.println ("Received approval for buying the " + tItemName + " " + tItemType);
+				tPrivateCompany = purchaseOffer.getPrivateCompany ();
+				if (tPrivateCompany != null) {
+					if (tPrivateCompany.getType ().equals (tItemType)) {
+						if (tPrivateCompany.getName ().equals (tItemName)) {
+							System.out.println ("Almost Ready to buy " + tItemName + " " + tItemType);
+							buyPrivateCompany (tOwningPlayer, tPrivateCompany, tCashValue);
+//							tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, 
+//								tOperatingRoundID, this);
+//							System.out.println ("Buying a " + tTrain.getName () + 
+//									" Train from " + tOwningTrainCompany.getAbbrev () + 
+//									" for " + Bank.formatCash (tCashValue) + " into " + getAbbrev ());
+//							transferCashTo (tOwningTrainCompany, tCashValue);
+//							tBuyTrainAction.addCashTransferEffect (this, tOwningTrainCompany, tCashValue);
+//							// We must toggle NotifyNetwork on, for this, and reset to prior state to allow for handling Response
+//							// to when doing a purchase between players
+//							tCurrentNotify = tGameManager.getNotifyNetwork ();
+//							tGameManager.setNotifyNetwork (true); 
+//							doFinalTrainBuySteps (tOwningTrainCompany, tTrain, tBuyTrainAction);
+//							tGameManager.setNotifyNetwork (tCurrentNotify); 
+						} else {
+							System.err.println ("Purchase Offer's Item Name " + tItemName +
+									" does not match Selected Item Name " + tPrivateCompany.getName ());
+						}
+					} else {
+						System.err.println ("Purchase Offer's Item Type " + tItemType +
+								" does not match Selected Item Type " + tPrivateCompany.getType ());
+					}
+					tCorporationFrame.updateInfo ();
+				} else {
+					System.err.println ("Private Company Selected to buy not found (NULL)");
+				}
+			} else {
+				System.err.println ("Company " + tActorToName + " is not a Share Company");
+			}
+		} else {
+			System.out.println ("Actor " + tActorToName + " is not a Corporation - Likely Player");
+		}
+	}
+	
+	public void buyPrivateCompany (Player aOwningPlayer, PrivateCompany aPrivateCompany, int aCashValue) {
+		Portfolio tCompanyPortfolio;
+		Portfolio tPlayerPortfolio;
+		BuyStockAction tBuyStockAction;
+		CorporationFrame tCorporationFrame;
+		Certificate tCertificate;
+		String tOperatingRoundID;
+		GameManager tGameManager;
+		boolean tCurrentNotify;
+		
+		tGameManager = corporationList.getGameManager ();
+		tOperatingRoundID = "X.X";
+		tCertificate = aOwningPlayer.getPresidentCertificateFor (aPrivateCompany);
+		tBuyStockAction = new BuyStockAction (ActorI.ActionStates.OperatingRound, 
+				tOperatingRoundID, this);
+		transferCashTo (aOwningPlayer, aCashValue);
+		tBuyStockAction.addCashTransferEffect (this, aOwningPlayer, aCashValue);
+		tCompanyPortfolio = getPortfolio ();
+		tPlayerPortfolio = aOwningPlayer.getPortfolio ();
+		doFinalShareBuySteps (tCompanyPortfolio, tPlayerPortfolio, tCertificate, tBuyStockAction);
+		tBuyStockAction.addBoughtShareEffect (this);
+		tCurrentNotify = tGameManager.getNotifyNetwork ();
+		tGameManager.setNotifyNetwork (true); 
+		addAction (tBuyStockAction);
+		tGameManager.setNotifyNetwork (tCurrentNotify); 
+		tCorporationFrame = getCorporationFrame ();
+		tCorporationFrame.updateInfo ();
+	}
+	
+	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, 
+			Certificate aCertificate, BuyStockAction aBuyStockAction) {
+		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
+		PortfolioHolderI tFromHolder, tToHolder;
+		
+		tFromHolder = aFromPortfolio.getHolder ();
+		tToHolder = aToPortfolio.getHolder ();
+		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
+		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate,  tToHolder);
+		tCurrentCorporationStatus = aCertificate.getCorporationStatus ();
+		aCertificate.updateCorporationOwnership ();
+		tNewCorporationStatus = aCertificate.getCorporationStatus ();
+		if (tCurrentCorporationStatus != tNewCorporationStatus) {
+			aBuyStockAction.addStateChangeEffect (aCertificate.getCorporation (), 
+					tCurrentCorporationStatus, tNewCorporationStatus);
+		}
+	}
+
 }

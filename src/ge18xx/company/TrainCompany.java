@@ -1530,7 +1530,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		} else {
 			System.out.println ("Actor " + tActorToName + " is not a Corporation - Likely Player");
 		}
-
 	}
 	
 	public void doFinalTrainBuySteps (TrainCompany aOwningTrainCompany, 
