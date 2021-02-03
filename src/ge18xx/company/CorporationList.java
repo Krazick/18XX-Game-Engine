@@ -1123,4 +1123,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			}
 		}
 	}
+
+	public void clearPrivateSelections() {
+		// TODO Need to walk through the Privates, and clear all Selections
+		
+	}
 }
