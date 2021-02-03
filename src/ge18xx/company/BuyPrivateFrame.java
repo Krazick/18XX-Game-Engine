@@ -263,9 +263,9 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 	private void buyPrivateCertificate () {
 		CertificateHolderI tCertificateHolder;
 		Player tOwningPlayer;
-		int tCashValue;
-		Portfolio tCompanyPortfolio, tPlayerPortfolio;
-		BuyStockAction tBuyStockAction;
+//		int tCashValue;
+//		Portfolio tCompanyPortfolio, tPlayerPortfolio;
+//		BuyStockAction tBuyStockAction;
 		CorporationFrame tCorporationFrame;
 		
 		if (certificate != Certificate.NO_CERTIFICATE) {
@@ -278,21 +278,31 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 						tCorporationFrame.waitForResponse ();
 					}
 				} else {
-					tBuyStockAction = new BuyStockAction (ActorI.ActionStates.OperatingRound, 
-							operatingRoundID, shareCompany);
-					tCashValue = getPrice ();
-					shareCompany.transferCashTo (tOwningPlayer, tCashValue);
-					tBuyStockAction.addCashTransferEffect (shareCompany, tOwningPlayer, tCashValue);
-					tCompanyPortfolio = shareCompany.getPortfolio ();
-					tPlayerPortfolio = tOwningPlayer.getPortfolio ();
-					doFinalShareBuySteps (tCompanyPortfolio, tPlayerPortfolio, certificate, tBuyStockAction);
-					tBuyStockAction.addBoughtShareEffect (shareCompany);
-					shareCompany.addAction (tBuyStockAction);
-					tCorporationFrame = shareCompany.getCorporationFrame ();
-					tCorporationFrame.updateInfo ();
+					buyPrivateCompany (tOwningPlayer);
 				}
 			}
 		}
+	}
+
+	public void buyPrivateCompany (Player aOwningPlayer) {
+		int tCashValue;
+		Portfolio tCompanyPortfolio;
+		Portfolio tPlayerPortfolio;
+		BuyStockAction tBuyStockAction;
+		CorporationFrame tCorporationFrame;
+		
+		tBuyStockAction = new BuyStockAction (ActorI.ActionStates.OperatingRound, 
+				operatingRoundID, shareCompany);
+		tCashValue = getPrice ();
+		shareCompany.transferCashTo (aOwningPlayer, tCashValue);
+		tBuyStockAction.addCashTransferEffect (shareCompany, aOwningPlayer, tCashValue);
+		tCompanyPortfolio = shareCompany.getPortfolio ();
+		tPlayerPortfolio = aOwningPlayer.getPortfolio ();
+		doFinalShareBuySteps (tCompanyPortfolio, tPlayerPortfolio, certificate, tBuyStockAction);
+		tBuyStockAction.addBoughtShareEffect (shareCompany);
+		shareCompany.addAction (tBuyStockAction);
+		tCorporationFrame = shareCompany.getCorporationFrame ();
+		tCorporationFrame.updateInfo ();
 	}
 	
 	private boolean makePurchaseOffer (Player aOwningPlayer) {
