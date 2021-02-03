@@ -45,6 +45,6 @@ public class MyResources extends ListResourceBundle {
 			{"showRoundFrameItem", "Show Round Frame"},
 			{"showAuditFrameItem", "Show Audit Frame"},
 			{"frameTitle", "18XX Game Engine"},
-			{"version", "V 0.6.5 Beta"}
+			{"version", "V 0.6.6 Beta"}
 	};
 }
