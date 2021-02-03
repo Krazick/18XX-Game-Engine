@@ -2,6 +2,7 @@ package ge18xx.round.action.effects;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.PurchaseOffer;
+import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -151,6 +152,7 @@ public class ResponseOfferEffect extends Effect {
 		String tClientUserName;
 		String tToActorName = "";
 		TrainCompany tTrainCompany = TrainCompany.NO_TRAIN_COMPANY;
+		ShareCompany tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		ActorI.ActionStates tOldStatus;
 		PurchaseOffer tPurchaseOffer;
 		
@@ -164,6 +166,7 @@ public class ResponseOfferEffect extends Effect {
 		} else {
 			System.out.println ("Actor is not a Corporation [" + tToActorName + 
 					"], probably a Player (Offer to buy a Private)");
+			tShareCompany = (ShareCompany) toActor;
 		}
 		
 		if (tClientUserName.equals (tToActorName)) {
@@ -184,9 +187,26 @@ public class ResponseOfferEffect extends Effect {
 					System.err.println ("Train Company " + tTrainCompany.getAbbrev () + 
 							" is not in Waiting Response State, it is in " + tTrainCompany.getStateName ());
 				}	
+			} else if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
+				if (tShareCompany.getStatus ().equals(ActorI.ActionStates.WaitingResponse)) {
+					tPurchaseOffer = tShareCompany.getPurchaseOffer ();
+					tOldStatus = tPurchaseOffer.getOldStatus ();
+					tShareCompany.resetStatus (tOldStatus);
+					if (response) {
+						System.out.println ("Offer was Accepted");
+						tShareCompany.handleAcceptOfferPrivate (aRoundManager);
+					} else {
+						System.out.println ("Offer was Rejected");
+						tShareCompany.handleRejectOfferPrivate (aRoundManager);
+					}			
+					tEffectApplied = true;
+				
+				}
 			} else {
 				System.err.println ("To Actor " + tToActorName + " Not flagged as Corporation");
 			}
+		} else {
+			System.out.println ("The ToActor is " + tToActorName + " is not the Client User of " + tClientUserName);
 		}
 		
 		return tEffectApplied;

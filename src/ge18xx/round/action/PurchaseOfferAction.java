@@ -50,11 +50,13 @@ public class PurchaseOfferAction extends QueryActorAction {
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
+		String tFromActorName;
 		
+		tFromActorName = getToActorName ();
 		tSimpleActionReport = actor.getName () + getPresidentName () +
 				" offered to buy " + 
 				getItemName () + " " + getItemType () +
-				" for " + Bank.formatCash (getCashAmount ()) + " from " + getFromActorName () +
+				" for " + Bank.formatCash (getCashAmount ()) + " from " + tFromActorName +
 				".";
 		
 		return tSimpleActionReport;
@@ -100,7 +102,6 @@ public class PurchaseOfferAction extends QueryActorAction {
 		return tItemName;
 	}
 
-
 	private String getItemType () {
 		String tItemType = "";
 		
@@ -115,17 +116,31 @@ public class PurchaseOfferAction extends QueryActorAction {
 		return tItemType;
 	}
 
-	private String getFromActorName () {
+	private String getToActorName () {
 		String tFromActorName = "";
 		
 		for (Effect tEffect : effects) {
 			if (tFromActorName.equals ("")) {
 				if (tEffect instanceof PurchaseOfferEffect) {
-					tFromActorName = ((PurchaseOfferEffect) tEffect).getActorName ();
+					tFromActorName = ((PurchaseOfferEffect) tEffect).getToActorName ();
 				}
 			}
 		}
 
 		return tFromActorName;
 	}
+
+//	private String getFromActorName () {
+//		String tFromActorName = "";
+//		
+//		for (Effect tEffect : effects) {
+//			if (tFromActorName.equals ("")) {
+//				if (tEffect instanceof PurchaseOfferEffect) {
+//					tFromActorName = ((PurchaseOfferEffect) tEffect).getActorName ();
+//				}
+//			}
+//		}
+//
+//		return tFromActorName;
+//	}
 }

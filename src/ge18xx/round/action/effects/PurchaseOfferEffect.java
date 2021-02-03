@@ -6,6 +6,7 @@ import ge18xx.company.PurchaseOfferFrame;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.toplevel.AuditFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -71,6 +72,16 @@ public class PurchaseOfferEffect extends CashInfoEffect {
 		itemName = aItemName;
 	}
 	
+	@Override
+	public int getEffectDebit (String aActorName) {
+		return AuditFrame.NO_DEBIT;
+	}
+	
+	@Override
+	public int getEffectCredit (String aActorName) {
+		return AuditFrame.NO_CREDIT;
+	}
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " President of " + actor.getName () +
