@@ -6,6 +6,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.toplevel.AuditFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -97,7 +98,7 @@ public class CashTransferEffect extends Effect {
 	}
 	
 	public int getEffectDebit (String aActorName) {
-		int tDebit = 0;
+		int tDebit = AuditFrame.NO_DEBIT;
 		
 		if (aActorName.equals (actor.getName ())) {
 			tDebit = cash;
@@ -107,7 +108,7 @@ public class CashTransferEffect extends Effect {
 	}
 	
 	public int getEffectCredit (String aActorName) {
-		int tCredit = 0;
+		int tCredit = AuditFrame.NO_CREDIT;
 		
 		if (aActorName.equals (toActor.getName ())) {
 			tCredit = cash;
