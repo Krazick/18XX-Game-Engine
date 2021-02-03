@@ -252,7 +252,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	// Share Company will Override
-	public void buyPrivate () {
+	public void buyPrivate (boolean tVisible) {
 		System.err.println ("Trying to -BUY PRIVATE- Should be handled by Share Company");
 	}
 	

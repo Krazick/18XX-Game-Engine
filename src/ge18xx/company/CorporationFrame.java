@@ -257,7 +257,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporation.forceBuyTrain ();
 		}
 		if (BUY_PRIVATE.equals (tActionCommand)) {
-			corporation.buyPrivate ();
+			corporation.buyPrivate (true);
 		}
 		if (GET_LOAN.equals (tActionCommand)) {
 			corporation.getLoan ();
