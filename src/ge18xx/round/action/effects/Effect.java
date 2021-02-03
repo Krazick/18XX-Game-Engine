@@ -61,7 +61,7 @@ public class Effect {
 		boolean tActorSet;
 		
 		tActorSet = false;
-		if (actor != null) {
+		if (actor != NO_ACTOR) {
 			tActorSet = true;
 		}
 		
