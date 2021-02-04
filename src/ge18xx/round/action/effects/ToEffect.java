@@ -2,6 +2,7 @@ package ge18xx.round.action.effects;
 
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
@@ -10,6 +11,7 @@ import ge18xx.utilities.XMLNode;
 
 public class ToEffect extends Effect {
 	public final static String NO_NAME = ">>NO TO EFFECT NAME<<";
+	public final static ActorI NO_TO_ACTOR = null;
 	ActorI toActor;
 
 	public ToEffect () {
@@ -17,11 +19,12 @@ public class ToEffect extends Effect {
 	}
 
 	public ToEffect (String aName) {
-		this (aName, NO_ACTOR);
+		this (aName, NO_ACTOR, NO_TO_ACTOR);
 	}
 
-	public ToEffect (String aName, ActorI aActor) {
-		super (aName, aActor);
+	public ToEffect (String aName, ActorI aFromActor, ActorI aToActor) {
+		super (aName, aFromActor);
+		setToActor (aToActor);
 	}
 
 	public ToEffect(XMLNode aEffectNode, GameManager aGameManager) {
@@ -48,6 +51,10 @@ public class ToEffect extends Effect {
 		tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, tActorName);
 	
 		return tEffectElement;
+	}
+	
+	public String getEffectReport (RoundManager aRoundManager) {
+		return (REPORT_PREFIX + name + " for " + getActorName () + " to " + getToActorName () + ".");
 	}
 	
 	public ActorI getToActor () {
