@@ -2,6 +2,8 @@ package ge18xx.game;
 
 import org.mockito.Mockito;
 
+import ge18xx.company.CorporationList;
+import ge18xx.company.ShareCompany;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLNode;
@@ -58,7 +60,7 @@ public class TestFactory {
 		XMLDocument tXMLDocument = new XMLDocument ();
 		tXMLDocument = tXMLDocument.ParseXMLString (t1830TestXML);
 		
-		if (tXMLDocument.ValidDocument()) {
+		if (tXMLDocument.ValidDocument ()) {
 			tGameInfoNode = tXMLDocument.getDocumentElement ();
 			tGameInfo = new GameInfo (tGameInfoNode);
 			tGameInfo.setTestingFlag (true);
@@ -66,5 +68,49 @@ public class TestFactory {
 		
 		return tGameInfo;
 	}
+	
+	public ShareCompany buildAShareCompany (int tCompanyIndex) {
+		String tShareCompany1TestXML =
+				"<Share id=\"901\" name=\"TestPennsylvania\" abbrev=\"TPRR\" homeCell1=\"H12\" \n" +
+				"	homeLocation1=\"14\" bgColor=\"Dark Green\" fgColor=\"White\" tokens=\"4\"> \n" +
+				"	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n" +
+				"	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n" +
+				"		allowedOwners=\"IPO,Player,BankPool\" /> \n" +
+				"</Share>";
+		String tShareCompany2TestXML =
+				"<Share id=\"902\" name=\"Test Baltimore and Ohio\" abbrev=\"TBNO\" homeCell1=\"I15\" \n" +
+				"	homeLocation1=\"21\" bgColor=\"Deep Blue\" fgColor=\"White\" tokens=\"3\"> \n" +
+				"	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n" +
+				"	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n" +
+				"		allowedOwners=\"IPO,Player,BankPool\" /> \n" +
+				"</Share>";
 
+		ShareCompany tShareCompany = null;
+		XMLNode tShareCompanyNode;
+		XMLDocument tXMLDocument = new XMLDocument ();
+		CorporationList mCorporationList = Mockito.mock (CorporationList.class);
+		GameManager mGameManager = Mockito.mock (GameManager.class);
+		Mockito.when (mGameManager.getClientUserName ()).thenReturn ("MockedUserName");
+		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
+
+		if (tCompanyIndex == 1) {
+			tXMLDocument = tXMLDocument.ParseXMLString (tShareCompany1TestXML);
+			
+			if (tXMLDocument.ValidDocument ()) {
+				tShareCompanyNode = tXMLDocument.getDocumentElement ();
+				tShareCompany = new ShareCompany (tShareCompanyNode, mCorporationList);
+				tShareCompany.setTestingFlag (true);
+			}
+		} else if (tCompanyIndex == 2) {
+			tXMLDocument = tXMLDocument.ParseXMLString (tShareCompany2TestXML);
+			
+			if (tXMLDocument.ValidDocument ()) {
+				tShareCompanyNode = tXMLDocument.getDocumentElement ();
+				tShareCompany = new ShareCompany (tShareCompanyNode, mCorporationList);
+				tShareCompany.setTestingFlag (true);
+			}
+		}
+		
+		return tShareCompany;
+	}
 }
