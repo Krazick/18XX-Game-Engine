@@ -59,6 +59,9 @@ class ToEffectTestConstructor {
 		assertEquals ("ToEffectTesterGamma", effectBeta.getToActorName ());
 		assertEquals ("ToEffectTesterGamma", tFoundToPlayer.getName ());
 	
+		assertFalse (effectBeta.isToActor ("ToEffectTesterBeta"));
+		assertTrue (effectBeta.isToActor ("ToEffectTesterGamma"));
+		
 		assertFalse (effectBeta.undoEffect (null));
 		assertFalse (effectBeta.wasNewStateAuction ());
 		assertFalse (effectBeta.applyEffect (null));

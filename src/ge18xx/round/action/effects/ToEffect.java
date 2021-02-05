@@ -68,4 +68,16 @@ public class ToEffect extends Effect {
 	public String getToActorName () {
 		return toActor.getName ();
 	}
+	
+	public boolean isToActor (String aActorName) {
+		boolean tIsToActor = false;
+		
+		if (toActor != NO_TO_ACTOR) {
+			if (toActor.getName ().equals (aActorName)) {
+				tIsToActor = true;
+			}
+		}
+		
+		return tIsToActor;
+	}
 }
