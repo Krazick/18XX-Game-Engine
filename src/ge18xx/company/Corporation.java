@@ -81,6 +81,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	static final int NO_NAME_INT = -1;
 	static final int SORT_CO1_BEFORE_CO2 = -100;
 	static final int SORT_CO2_BEFORE_CO1 = 100;
+	boolean gameTestFlag = false;
 	int id;
 	String name;
 	String abbrev;
@@ -1867,4 +1868,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		
 		return tIsWaitingForResponse;
 	}
+	
+	public void setTestingFlag (boolean aGameTestFlag) {
+		gameTestFlag = aGameTestFlag;
+	}
+
 }
