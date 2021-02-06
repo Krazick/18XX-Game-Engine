@@ -33,6 +33,7 @@ class TransferOwnershipEffectTestConstructor {
 	void setUp() throws Exception {
 		String tClientName, tPlayer2Name, tPlayer3Name;
 		Portfolio tPortfolioAlpha;
+		
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterAlpha";
 		tPlayer3Name = "ToEffectTesterDelta";
@@ -48,7 +49,6 @@ class TransferOwnershipEffectTestConstructor {
 		
 		certificate = new Certificate (actorBeta, true, 20, tPortfolioAlpha);
 		tPortfolioAlpha.addCertificate (certificate);
-		effectAlpha = new TransferOwnershipEffect ();
 //		public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage, CertificateHolderI aOwner) {
 		effectBeta = new TransferOwnershipEffect (playerActorAlpha, certificate, playerActorDelta);
 	}
