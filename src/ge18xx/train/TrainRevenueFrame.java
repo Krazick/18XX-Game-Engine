@@ -202,11 +202,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tRouteInformation = tTrain.getCurrentRouteInformation ();
 			if (tRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 				tRouteInformation.clearTrainOn ();
-				if ((tTrainIndex + 1) == tTrainCount) {
-					trainCompany.exitSelectRouteMode (tRouteInformation);
-				}
 			}
 		}
+		trainCompany.exitSelectRouteMode (RouteInformation.NO_ROUTE_INFORMATION);
 	}
 
 	public void handleConfirmRoute (ActionEvent aSelectRouteEvent) {
