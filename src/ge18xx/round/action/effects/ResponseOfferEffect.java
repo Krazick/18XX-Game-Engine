@@ -146,6 +146,10 @@ public class ResponseOfferEffect extends Effect {
 		return toActor;
 	}
 	
+	public String getToActorName() {
+		return toActor.getName ();
+	}
+	
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
