@@ -31,7 +31,7 @@ public class PhaseManager {
 	
 	public void addPhase (PhaseInfo aPhase) {
 		if (phases == NO_PHASES) {
-			System.out.println ("Phases Linked List not Initialized");
+			System.err.println ("Phases Linked List not Initialized");
 		} else {
 			phases.add (aPhase);
 		}
@@ -166,7 +166,6 @@ public class PhaseManager {
 				aBank.closeAllPrivates (aBuyTrainAction);
 			}
 		}
-		
 	}
 	
 	public void printAllPhaseInfos () {
@@ -210,7 +209,7 @@ public class PhaseManager {
 		return tUpgradeAllowed;
 	}
 
-	public int getCurrentPhase() {
+	public int getCurrentPhase () {
 		return currentPhase;
 	}
 }
