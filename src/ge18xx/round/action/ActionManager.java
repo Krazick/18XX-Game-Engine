@@ -276,76 +276,67 @@ public class ActionManager {
 		
 	}
 	
-	public void handleNetworkAction (XMLNode aXMLGameActivityNode) {
+	public void handleNetworkAction (XMLNode aActionNode) {
 		Action tAction;
-		XMLNode tActionNode;
-		NodeList tActionChildren;
-		int tActionNodeCount, tActionIndex;
 		int tExpectedActionNumber, tThisActionNumber;
-		String tANodeName;
 		String tActionFailureMessage;
 		
 		// When handling incomming Network Actions, we DO NOT want to notify other clients
 		// that they should apply these Actions (one of them is sending it to us)
 		// We end up getting into an Infinite Loop between two separate clients 
 		gameManager.setNotifyNetwork (false); 
-		tANodeName = aXMLGameActivityNode.getNodeName ();
-		if (JGameClient.EN_GAME_ACTIVITY.equals (tANodeName)) {
-			tActionChildren = aXMLGameActivityNode.getChildNodes ();
-			tActionNodeCount = tActionChildren.getLength ();
-			try {
-				for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
-					tExpectedActionNumber = actionNumber + 1;
-					tActionNode = new XMLNode (tActionChildren.item (tActionIndex));
-					tAction = getAction (gameManager, tActionNode);
-					tThisActionNumber = tAction.getNumber ();
-					System.out.println ("----------- Action Index " + tActionIndex + 
-							" -- Number " + actionNumber + " Received " + tThisActionNumber + " -------------");
-					tAction.printActionReport (roundManager);
-					if (isSyncActionNumber (tAction)) {
-						setActionNumber (tThisActionNumber);
-						justAddAction (tAction);
-					} else {
-						if ((tThisActionNumber < STARTING_ACTION_NUMBER) ||
-								(tThisActionNumber > tExpectedActionNumber) ||	//TODO: FIX Action Number Sequences.
-							(tThisActionNumber == tExpectedActionNumber)) {
-							System.out.println ("\nReceived Action Number " + tThisActionNumber + 
-									" the Expected Action Number is " + tExpectedActionNumber + " Processing\n");
-							if (tThisActionNumber == tExpectedActionNumber) {
-								setActionNumber (tExpectedActionNumber);
-							}
-							actions.add (tAction);
-							applyAction (tAction);
-											
-							// Add the Report of the Action Applied to the Action Frame, and the JGameClient Game Activity Frame
-							appendToReportFrame (tAction);
-							appendToJGameClient (tAction);
-						} else if (tThisActionNumber <= actionNumber) {
-							tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
-									" is before the Expected Action Number of " + tExpectedActionNumber + " IGNORING\n";
-							System.err.println (tActionFailureMessage);
-							actionReportFrame.append (tActionFailureMessage);
-//						} else if (tThisActionNumber > tExpectedActionNumber) {
-//							tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
-//									" is after the Expected Action Number of " + tExpectedActionNumber + " THERE IS A GAP\n";
-//							System.err.println (tActionFailureMessage);						
-//							actionReportFrame.append (tActionFailureMessage);
-						} else {
-							tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
-									" is not the Expected Action Number of " + tExpectedActionNumber + " This should have Matched\n";
-							System.err.println (tActionFailureMessage);
+		try {
+			tAction = getAction (gameManager, aActionNode);
+			if (tAction != ActionManager.NO_ACTION) {
+				tExpectedActionNumber = actionNumber + 1;
+				tThisActionNumber = tAction.getNumber ();
+				System.out.println ("----------- Action Number " + actionNumber + 
+						" Received " + tThisActionNumber + " -------------");
+				tAction.printActionReport (roundManager);
+				if (isSyncActionNumber (tAction)) {
+					setActionNumber (tThisActionNumber);
+					justAddAction (tAction);
+				} else {
+					if ((tThisActionNumber < STARTING_ACTION_NUMBER) ||
+							(tThisActionNumber > tExpectedActionNumber) ||	//TODO: FIX Action Number Sequences.
+						(tThisActionNumber == tExpectedActionNumber)) {
+						System.out.println ("\nReceived Action Number " + tThisActionNumber + 
+								" the Expected Action Number is " + tExpectedActionNumber + " Processing\n");
+						if (tThisActionNumber == tExpectedActionNumber) {
+							setActionNumber (tExpectedActionNumber);
 						}
+						actions.add (tAction);
+						applyAction (tAction);
+										
+						// Add the Report of the Action Applied to the Action Frame, and the JGameClient Game Activity Frame
+						appendToReportFrame (tAction);
+						appendToJGameClient (tAction);
+					} else if (tThisActionNumber <= actionNumber) {
+						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
+								" Current Action Number " + actionNumber +
+								" is before the Expected Action Number of " + tExpectedActionNumber + " IGNORING\n";
+						System.err.println (tActionFailureMessage);
+						actionReportFrame.append (tActionFailureMessage);
+//					} else if (tThisActionNumber > tExpectedActionNumber) {
+//						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
+//								" is after the Expected Action Number of " + tExpectedActionNumber + " THERE IS A GAP\n";
+//						System.err.println (tActionFailureMessage);						
+//						actionReportFrame.append (tActionFailureMessage);
+					} else {
+						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
+								" is not the Expected Action Number of " + tExpectedActionNumber + " This should have Matched\n";
+						System.err.println (tActionFailureMessage);
 					}
 				}
-			} catch (Exception tException) {
-				System.err.println (tException.getMessage ());
-				tException.printStackTrace ();
+			} else {
+				System.err.println ("No Action Found to Process");
 			}
-		} else {
-			System.err.println ("XML Document does not have <GA> Tag Set");
+		} catch (Exception tException) {
+			System.err.println (tException.getMessage ());
+			tException.printStackTrace ();
 		}
 		gameManager.setNotifyNetwork (true);
-		// Once we are done applying these Actions, we then can reset this back to Notify
+//		Once we are done applying these Actions, we then can reset this back to Notify
 
 	}
 	

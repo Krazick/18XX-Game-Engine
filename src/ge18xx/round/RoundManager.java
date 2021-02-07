@@ -897,8 +897,8 @@ public class RoundManager {
 		}
 	}
 	
-	public void handleNetworkAction (XMLNode aXMLGameActivityNode) {
-		actionManager.handleNetworkAction (aXMLGameActivityNode);
+	public void handleNetworkAction (XMLNode aXMLActionNode) {
+		actionManager.handleNetworkAction (aXMLActionNode);
 	}
 	
 	public void revalidateAuctionFrame () {

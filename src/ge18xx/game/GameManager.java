@@ -1817,8 +1817,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 						tPlayerOrder = tActionNode.getThisAttribute (JGameClient.AN_PLAYER_ORDER);
 						tBroadcast = tActionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
 						playerInputFrame.handleResetPlayerOrder (tPlayerOrder, tBroadcast);
+					} else if (Action.EN_ACTION.equals (tANodeName)){
+						if (roundManager != null) {
+							roundManager.handleNetworkAction (tActionNode);
+						} else {
+							System.err.println ("Trying to handle a Server Game Activity, Node Named [" + tANodeName + "] no Round Manager created");
+						}
+					} else if ("#text".equals(tANodeName)){
+						// If a #text Node, ignore -- it is empty
 					} else {
-						roundManager.handleNetworkAction (tXMLGameActivityNode);
+						System.err.println ("Node Name is [" + tANodeName + "] which is Unrecognized");
 					}
 				}
 			} catch (Exception tException) {
