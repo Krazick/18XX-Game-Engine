@@ -1821,7 +1821,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 						if (roundManager != null) {
 							roundManager.handleNetworkAction (tActionNode);
 						} else {
-							System.err.println ("Trying to handle a Server Game Activity, Node Named [" + tANodeName + "] no Round Manager created");
+//							System.err.println ("Trying to handle a Server Game Activity, Node Named [" + tANodeName + "] no Round Manager created");
 						}
 					} else if ("#text".equals(tANodeName)){
 						// If a #text Node, ignore -- it is empty
