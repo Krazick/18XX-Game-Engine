@@ -1,11 +1,12 @@
 package ge18xx.network;
 
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 public class ChatServerHandler extends ServerHandler {
 	protected JGameClient jClient;
 
-	public ChatServerHandler (String aHost, int aPort) throws ConnectException {
+	public ChatServerHandler (String aHost, int aPort) throws ConnectException, SocketTimeoutException {
 		super (aHost, aPort);
 	}
 

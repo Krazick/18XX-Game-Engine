@@ -23,13 +23,15 @@ public abstract class ServerHandler implements Runnable {
 		setValues (aServerSocket);
 	}
 	
-	public ServerHandler (String aHost, int aPort) throws ConnectException {
+	public ServerHandler (String aHost, int aPort) throws ConnectException, SocketTimeoutException {
 		boolean tContinueRunning = false;
+		InetAddress tIPAddress;
 		
 		try {
             Socket tSocket = new Socket ();
             // Connect to socket by host, port, and with specified timeout.
-            tSocket.connect (new InetSocketAddress (InetAddress.getByName (aHost), aPort), DefaultTimeout);
+            tIPAddress = InetAddress.getByName (aHost);
+            tSocket.connect (new InetSocketAddress (tIPAddress, aPort), DefaultTimeout);
             tSocket.setKeepAlive (true);
 			setValues (tSocket);
 			tContinueRunning = true;
@@ -38,7 +40,7 @@ public abstract class ServerHandler implements Runnable {
 		} catch (ConnectException tException) {
 			throw tException;
 		} catch (SocketTimeoutException tException) {
-			log ("Connect SocketTimeoutException thrown when trying to Connect to Server", tException);
+			throw tException;
 		} catch (IOException tException) {
 			log ("IOException thrown when creating Socket to Server", tException);
 		}

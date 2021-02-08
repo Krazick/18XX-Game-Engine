@@ -27,9 +27,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.JTextPane;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
-import javax.swing.ButtonGroup;
 import javax.swing.SwingConstants;
 
 import ge18xx.game.NetworkGameSupport;
@@ -41,6 +39,7 @@ import ge18xx.round.action.SyncActionNumber;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.Validators;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 
@@ -51,7 +50,7 @@ public class JGameClient extends XMLFrame {
 	private static final long serialVersionUID = 1L;
 	private static final int DEFAULT_SERVER_PORT = 18300;
 	private static final String DEFAULT_REMOTE_SERVER_IP = "173.66.216.105"; // OLD "71.178.207.104";
-	private static final String DEFAULT_LOCAL_SERVER_IP = "192.168.1.21";
+//	private static final String DEFAULT_LOCAL_SERVER_IP = "192.168.1.21";
 	private static final String CONNECT_ACTION = "CONNECT";
 	private final String ALREADY_CONNECTED = "You are already connected";
 	private final String NO_TOOL_TIP = "";
@@ -89,9 +88,7 @@ public class JGameClient extends XMLFrame {
 	private JButton disconnectButton;
 	private JButton refreshPlayersButton;
 	private JButton startReadyButton;
-	private final ButtonGroup bgServerChoice = new ButtonGroup ();
-	private JRadioButton rbLocalServer;
-	private JRadioButton rbRemoteServer;
+	private JTextField serverIPField;
 	private JScrollPane spChatText;
 	private JScrollPane spGameActivity;
 	private JPanel gameActivityPanel;
@@ -135,13 +132,22 @@ public class JGameClient extends XMLFrame {
 		}
 	}
 	
-	private void setupServerInfo () {
-		if (rbLocalServer.isSelected ()) {
-			setServerIP (DEFAULT_LOCAL_SERVER_IP);
+	private boolean setupServerInfo () {
+		String tServerIPEntered;
+		boolean tGoodServer;
+		
+		tServerIPEntered = serverIPField.getText ();
+		if (Validators.isValidIP (tServerIPEntered)) {
+			setServerIP (tServerIPEntered);
+			tGoodServer = true;
 		} else {
-			setServerIP (DEFAULT_REMOTE_SERVER_IP);
+			tServerIPEntered = "BAD " + tServerIPEntered;
+			serverIPField.setText (tServerIPEntered);
+			tGoodServer = false;
 		}
 		setServerPort (DEFAULT_SERVER_PORT);
+		
+		return tGoodServer;
 	}
 
 	private boolean setupNewPlayer (String aAction) {
@@ -150,7 +156,13 @@ public class JGameClient extends XMLFrame {
 
 		tValidNewPlayer = NetworkPlayer.validPlayerName (tPlayerName);
 		if (tValidNewPlayer) {
-			connect (aAction);
+			try {
+				connect (aAction);
+				serverIPField.setEnabled (false);
+				serverIPField.setToolTipText ("Cannot change Server while Connected");
+			} catch (Exception eSocket) {
+				setForUnconnected ();
+			}
 		} else {
 			appendToChat ("Player Name [" + tPlayerName + "] is not valid");
 		}
@@ -158,36 +170,40 @@ public class JGameClient extends XMLFrame {
 		return tValidNewPlayer;
 	}
 	
+	private void setupServerAndPlayer (String aAction) {
+		if (setupServerInfo ()) {
+			setupNewPlayer (aAction);
+		}
+	}
+
 	private void setupActions () {
 		connectButton.addActionListener (new ActionListener () {
-			public void actionPerformed (ActionEvent e) {
-				String tAction = e.getActionCommand ();
-				setupServerInfo ();
-				setupNewPlayer (tAction);
+			public void actionPerformed (ActionEvent aActionEvent) {
+				String tAction = aActionEvent.getActionCommand ();
+				setupServerAndPlayer (tAction);
 			}
 		});
 		
 		connectButton.addKeyListener (new KeyAdapter() {
 			@Override
-			public void keyReleased (KeyEvent e) {
-				if (e.getKeyCode () == KeyEvent.VK_ENTER){
+			public void keyReleased (KeyEvent aActionEvent) {
+				if (aActionEvent.getKeyCode () == KeyEvent.VK_ENTER){
 					String tAction = connectButton.getActionCommand ();
-					setupServerInfo ();
-					setupNewPlayer (tAction);
+					setupServerAndPlayer (tAction);
 				 }
 			}
 		});
 		
 		sendMessageButton.addActionListener (new ActionListener () {
-			public void actionPerformed (ActionEvent e) {
-				sendMessage (e);
+			public void actionPerformed (ActionEvent aActionEvent) {
+				sendMessage (aActionEvent);
 			}
 		});
 		
 		sendMessageButton.addKeyListener (new KeyAdapter() {
 			@Override
-			public void keyReleased (KeyEvent e) {
-				if (e.getKeyCode () == KeyEvent.VK_ENTER) {
+			public void keyReleased (KeyEvent aActionEvent) {
+				if (aActionEvent.getKeyCode () == KeyEvent.VK_ENTER) {
 					String tAction = sendMessageButton.getActionCommand ();
 					sendMessage (tAction);
 				 }
@@ -195,8 +211,8 @@ public class JGameClient extends XMLFrame {
 		});
 		
 		refreshPlayersButton.addActionListener (new ActionListener() {
-			public void actionPerformed (ActionEvent e) {
-				String tAction = e.getActionCommand ();
+			public void actionPerformed (ActionEvent aActionEvent) {
+				String tAction = aActionEvent.getActionCommand ();
 				
 				if ("REFRESH".equals (tAction)) {
 					refreshPlayers ();
@@ -211,14 +227,14 @@ public class JGameClient extends XMLFrame {
 		});
 
 		message.addActionListener (new ActionListener() {
-			public void actionPerformed (ActionEvent e) {
-				sendMessage (e);
+			public void actionPerformed (ActionEvent aActionEvent) {
+				sendMessage (aActionEvent);
 			}
 		});
 		
 		awayFromKeyboardAFKButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String tAction = e.getActionCommand ();
+			public void actionPerformed(ActionEvent aActionEvent) {
+				String tAction = aActionEvent.getActionCommand ();
 				
 				if ("AFK".equals (tAction)) {
 					serverHandler.sendUserIsAFK ();
@@ -229,8 +245,8 @@ public class JGameClient extends XMLFrame {
 		});
 		
 		startReadyButton.addActionListener (new ActionListener() {
-			public void actionPerformed (ActionEvent aException) {
-				String tAction = aException.getActionCommand ();
+			public void actionPerformed (ActionEvent aActionEvent) {
+				String tAction = aActionEvent.getActionCommand ();
 				
 				if ("SELECT GAME".equals (tAction)) {
 					sendGameSelection ();
@@ -245,8 +261,8 @@ public class JGameClient extends XMLFrame {
 		});
 
 		disconnectButton.addActionListener (new ActionListener () {
-			public void actionPerformed (ActionEvent e) {
-				String tAction = e.getActionCommand ();
+			public void actionPerformed (ActionEvent aActionEvent) {
+				String tAction = aActionEvent.getActionCommand ();
 				
 				if ("DISCONNECT".equals (tAction)) {
 					serverHandler.shutdown ();
@@ -278,10 +294,8 @@ public class JGameClient extends XMLFrame {
 		
 		message.setEnabled (false);
 		message.setFocusable (false);
-		rbLocalServer.setEnabled (true);
-		rbLocalServer.setToolTipText (NO_TOOL_TIP);
-		rbRemoteServer.setEnabled (true);
-		rbRemoteServer.setToolTipText (NO_TOOL_TIP);
+		serverIPField.setEnabled (true);
+		serverIPField.setToolTipText (NO_TOOL_TIP);
 	}
 	
 	public void setForConnected () {
@@ -296,11 +310,6 @@ public class JGameClient extends XMLFrame {
 		refreshPlayersButton.setEnabled (true);
 		refreshPlayersButton.setToolTipText (NO_TOOL_TIP);
 		updateReadyButton ("SELECT GAME", false, WAITING_FOR_GAME);
-		
-		rbLocalServer.setEnabled (false);
-		rbLocalServer.setToolTipText (ALREADY_CONNECTED);
-		rbRemoteServer.setEnabled (false);
-		rbRemoteServer.setToolTipText (ALREADY_CONNECTED);
 		
 		playerName.setFocusable (false);
 		playerName.setEnabled (false);
@@ -324,18 +333,14 @@ public class JGameClient extends XMLFrame {
 		// Static Labels
 		JLabel lblName = new JLabel ("Name:");
 		lblName.setLabelFor (playerName);
-		JLabel lblServerChoice = new JLabel ("Server");
+		JLabel lblServerChoice = new JLabel ("Server IP:");
 		JLabel lblPlayers = new JLabel ("Players");
 		JLabel lblMessage = new JLabel ("Message:");		
 		lblMessage.setVerticalTextPosition (SwingConstants.BOTTOM);
 		lblMessage.setLabelFor (message);
 		
-		// Radio Buttons
-		rbLocalServer = new JRadioButton ("Local");
-		rbLocalServer.setSelected (true);
-		bgServerChoice.add (rbLocalServer);
-		rbRemoteServer = new JRadioButton ("Remote");
-		bgServerChoice.add (rbRemoteServer);
+		serverIPField = new JTextField (DEFAULT_REMOTE_SERVER_IP, 10);
+		serverIPField.setHorizontalAlignment (JTextField.CENTER);
 		
 		// Action Buttons
 		connectButton = new JButton (CONNECT_ACTION);
@@ -395,9 +400,7 @@ public class JGameClient extends XMLFrame {
 							.addGap (18)
 							.addComponent(lblServerChoice)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(rbLocalServer)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(rbRemoteServer))
+							.addComponent(serverIPField))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblMessage)
@@ -441,8 +444,7 @@ public class JGameClient extends XMLFrame {
 						.addComponent(connectButton)
 						.addComponent (startReadyButton)
 						.addComponent(lblServerChoice)
-						.addComponent(rbLocalServer)
-						.addComponent(rbRemoteServer)
+						.addComponent(serverIPField)
 						.addComponent(lblPlayers))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -529,14 +531,20 @@ public class JGameClient extends XMLFrame {
 		revalidate ();
 	}
 
+	public void log (String aMessage) {
+		log (aMessage, null);
+	}
+	
 	private void log (String aMessage, Exception aException) {
 		System.err.println (aMessage);
-		aException.printStackTrace ();
+		if (aException != null) {
+			aException.printStackTrace ();
+		}
     }
 	
 	// Server Handler Connection Routines ---
 	
-	private boolean connectToServer (String aPlayerName) {
+	private boolean connectToServer (String aPlayerName) throws Exception {
 		boolean tSuccess = false;
 		
 		try {
@@ -556,14 +564,16 @@ public class JGameClient extends XMLFrame {
 			}
 		} catch (ConnectException tException) {
 			appendToChat ("Server Connection Failed - confirm Server is up and operational");
+			throw tException;
 		} catch (Exception tException) {
-			log ("Exception thrown when creating Socket to Server", tException);
+			appendToChat ("Server Connection Timed Out - confirm Server is up and operational");
+			throw tException;
 		}
 
 		return tSuccess;
 	}
 
-	private void connect (String aAction) {
+	private void connect (String aAction) throws Exception {
 
 		String tPlayerName;
 		boolean tSuccess;
