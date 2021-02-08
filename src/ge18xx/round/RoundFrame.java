@@ -478,10 +478,10 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 
 		tGameManager = roundManager.getGameManager ();
 		if (tGameManager.isNetworkGame ()) {
-			getContentPane ().setBackground (Color.CYAN);
-			headerBox.setBackground (Color.CYAN);
-			parPricesBox.setBackground (Color.CYAN);
-			trainSummaryBox.setBackground (Color.CYAN);
+			getContentPane ().setBackground (Color.ORANGE);
+			headerBox.setBackground (Color.ORANGE);
+			parPricesBox.setBackground (Color.ORANGE);
+			trainSummaryBox.setBackground (Color.ORANGE);
 		}
 	}
 	

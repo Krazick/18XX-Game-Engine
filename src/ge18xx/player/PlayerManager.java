@@ -547,7 +547,7 @@ public class PlayerManager {
 						parPriceFrame = new ParPriceFrame (aPlayer, stockRound, tFreeCertificate);
 						Point tNewPoint = gameManager.getOffsetPlayerFrame ();
 						parPriceFrame.setLocation (tNewPoint);
-						parPriceFrame.setBackground (Color.CYAN);
+						parPriceFrame.setBackground (Color.ORANGE);
 						parPriceFrame.setVisible (true);
 						tChainBuyToParValue = true;
 					}

@@ -54,7 +54,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		offerPanel.setLayout (new BoxLayout (offerPanel, BoxLayout.Y_AXIS));
 		offerPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		offerPanel.add (offerButtonPanel);
-		offerPanel.setBackground (Color.CYAN);
+		offerPanel.setBackground (Color.ORANGE);
 		add (offerPanel);
 		
 		setItemType (aItemType);
@@ -92,7 +92,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		offerButtonPanel.add (rejectButton);
 		offerButtonPanel.add (Box.createHorizontalStrut (10));
 		offerButtonPanel.add (acceptButton);
-		offerButtonPanel.setBackground (Color.CYAN);
+		offerButtonPanel.setBackground (Color.ORANGE);
 	}
 
 	private void setOfferTopPanel (PurchaseOfferEffect aPurchaseOfferEffect) {
@@ -122,7 +122,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		offerTopPanel.add (Box.createVerticalStrut (10));
 		offerTopPanel.add (tOfferLabel2);
 		offerTopPanel.add (Box.createVerticalStrut (10));
-		offerTopPanel.setBackground (Color.CYAN);
+		offerTopPanel.setBackground (Color.ORANGE);
 	}
 
 	@Override

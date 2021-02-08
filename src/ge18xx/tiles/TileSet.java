@@ -409,7 +409,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		if (tileTrayFrame.isUpgradeAllowed (aGameTile)) {
 			if (aGameTile.isPlayable ()) {
 				if (aGameTile.availableCount () > 0) {
-					g.setColor (Color.CYAN);
+					g.setColor (Color.ORANGE);
 				} else {
 					g.setColor (Color.LIGHT_GRAY);
 				}
