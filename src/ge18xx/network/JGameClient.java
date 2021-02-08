@@ -109,6 +109,7 @@ public class JGameClient extends XMLFrame {
 	private int serverPort;
 	private int selectedGameIndex;
 	private String selectedGameName;
+	private boolean gameStarted = false;
 		
 	public JGameClient (String aTitle, NetworkGameSupport aGameManager) {
 		this (aTitle, aGameManager, DEFAULT_REMOTE_SERVER_IP, DEFAULT_SERVER_PORT);
@@ -265,6 +266,9 @@ public class JGameClient extends XMLFrame {
 				String tAction = aActionEvent.getActionCommand ();
 				
 				if ("DISCONNECT".equals (tAction)) {
+					if (! gameStarted) {
+						// Send to all Players command to unselect game, clear all Ready Flags
+					}
 					serverHandler.shutdown ();
 					networkPlayers.removeAllPlayers ();
 					setForUnconnected ();
@@ -494,6 +498,7 @@ public class JGameClient extends XMLFrame {
 	public void startsGame () {
 		
 		swapToGameActivity ();
+		gameStarted = true;
 		gameManager.initiateNetworkGame ();
 		startReadyButton.setEnabled (false);
 		startReadyButton.setToolTipText ("Game already started");
