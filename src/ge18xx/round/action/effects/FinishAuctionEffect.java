@@ -32,11 +32,9 @@ public class FinishAuctionEffect extends Effect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied = false;
-		String tPreviousWinner;
 		
 		GameManager tGameManager = aRoundManager.getGameManager ();
-		tPreviousWinner = getActorName ();
-		tGameManager.finishAuction (tPreviousWinner);
+		tGameManager.finishAuction (false);
 		tEffectApplied = true;
 		
 		return tEffectApplied;

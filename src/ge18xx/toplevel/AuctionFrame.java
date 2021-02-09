@@ -1,6 +1,7 @@
 package ge18xx.toplevel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -149,7 +150,6 @@ public class AuctionFrame extends JFrame implements ActionListener {
 	
 	private void completeAuction () {
 		boolean tNextShareHasBids;
-		String tPreviousWinner;
 		
 		// Transfer Certificate to Highest Bidder
 		// Transfer Escrow from Highest Bidder to Bank
@@ -164,8 +164,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		//    3. Effect to Remove Bid Element from Certificate
 		int tHighestBidderIndex = certificateToAuction.getHighestBidderIndex ();
 		Player tPlayer = (Player) certificateToAuction.getCashHolderAt (tHighestBidderIndex);
-		tPreviousWinner = tPlayer.getName ();
-		tNextShareHasBids = tPlayer.finishAuction (certificateToAuction, tPreviousWinner);
+		tNextShareHasBids = tPlayer.finishAuction (certificateToAuction, true);
 		if (! tNextShareHasBids) {
 			hideAuctionFrame ();			
 		}
@@ -384,7 +383,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		int tBidderCount;
 		int tHighestBidderIndex, tLowestBidderIndex;
 		String tRaiseLabel, tBidderName;
-		boolean tEnableButton;
+		boolean tBidderIsActing;
 		
 		privateCompanyLabel.setText (aCertificateToAuction.getCompanyAbbrev () + 
 				" Value " + Bank.formatCash (aCertificateToAuction.getValue ()));
@@ -415,7 +414,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 				setBidderSuffixLabel (tBidderCount, tBidderIndex, tHighestBidderIndex);
 				tPlayer = (Player) certificateToAuction.getCashHolderAt (tBidderIndex);
 				tBidderName = tPlayer.getName ();
-				tEnableButton = isBidderActing (tBidderIndex, tBidderName);
+				tBidderIsActing = isBidderActing (tBidderIndex, tBidderName);
 				
 				tCash = certificateToAuction.getBidAt (tBidderIndex);
 				bidderLabels [tBidderIndex] = new JLabel (getBidderLabel (tPlayer, tCash));
@@ -437,21 +436,21 @@ public class AuctionFrame extends JFrame implements ActionListener {
 				
 				if (tBidderIndex == tHighestBidderIndex) {
 					if (tBidderCount == 1) {
-						tEnableButton = thisIsTheClient ();
-						doneButton.setEnabled (tEnableButton);
+						tBidderIsActing = thisIsTheClient ();
+						doneButton.setEnabled (tBidderIsActing);
 						doneToolTipText = ONLY_ONE_BIDDER_NOT_YOU;
-						if (!tEnableButton) {
+						if (!tBidderIsActing) {
 							doneButton.setToolTipText (doneToolTipText);
 						}
 					} else {
 						doneButton.setEnabled (false);
 						doneButton.setToolTipText (doneToolTipText);
 					}
-					setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tEnableButton, HIGHEST_NO_RAISE);
-					setButton (bidderPassButtons [tBidderIndex], PASS, false, tEnableButton, HIGHEST_NO_PASS);
+					setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing, HIGHEST_NO_RAISE);
+					setButton (bidderPassButtons [tBidderIndex], PASS, false, tBidderIsActing, HIGHEST_NO_PASS);
 				} else {
-					setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, true, tEnableButton, NOT_HIGHEST);
-					setButton (bidderPassButtons [tBidderIndex], PASS, true, tEnableButton, NOT_HIGHEST);
+					setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, true, tBidderIsActing, NOT_HIGHEST);
+					setButton (bidderPassButtons [tBidderIndex], PASS, true, tBidderIsActing, NOT_HIGHEST);
 					doneButton.setEnabled (false);
 					doneButton.setToolTipText (doneToolTipText);
 				}
@@ -459,6 +458,8 @@ public class AuctionFrame extends JFrame implements ActionListener {
 				oneBidderBox.add (Box.createHorizontalStrut (15));
 				biddersBox.add (oneBidderBox);
 				biddersBox.add (Box.createVerticalStrut (15));
+				
+				setBidderBoxColor (tBidderName, tBidderIsActing);				
 				configAuctionUndoButton ();
 			}			
 		} else {
@@ -493,7 +494,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		int tCash, tBidderCount, tHighestBidderIndex;
 		String tRaiseLabel;
 		String tBidderName;
-		boolean tEnableButton;
+		boolean tBidderIsActing;
 
 		tBidderCount = certificateToAuction.getNumberOfBidders ();
 		tHighestBidderIndex = certificateToAuction.getHighestBidderIndex ();
@@ -502,20 +503,34 @@ public class AuctionFrame extends JFrame implements ActionListener {
 			setBidderSuffixLabel (tBidderCount, tBidderIndex, tHighestBidderIndex);
 			tPlayer = (Player) certificateToAuction.getCashHolderAt (tBidderIndex);
 			tBidderName = tPlayer.getName ();
-			tEnableButton = isBidderActing (tBidderIndex, tBidderName);
+			tBidderIsActing = isBidderActing (tBidderIndex, tBidderName);
 			tCash = certificateToAuction.getBidAt (tBidderIndex);
 			bidderLabels [tBidderIndex].setText (getBidderLabel (tPlayer, tCash));
 			tRaiseLabel = RAISE + " " + Bank.formatCash (PlayerManager.BID_INCREMENT);
+			setBidderBoxColor (tBidderName, tBidderIsActing);
 			configAuctionUndoButton ();
 			
 			if (tBidderIndex == tHighestBidderIndex) {
-				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tEnableButton, HIGHEST_NO_RAISE);
-				setButton (bidderPassButtons [tBidderIndex], PASS, false, tEnableButton, HIGHEST_NO_PASS);
+				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing, HIGHEST_NO_RAISE);
+				setButton (bidderPassButtons [tBidderIndex], PASS, false, tBidderIsActing, HIGHEST_NO_PASS);
 			} else {
-				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, true, tEnableButton, NOT_HIGHEST);
-				setButton (bidderPassButtons [tBidderIndex], PASS, true, tEnableButton, NOT_HIGHEST);
+				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, true, tBidderIsActing, NOT_HIGHEST);
+				setButton (bidderPassButtons [tBidderIndex], PASS, true, tBidderIsActing, NOT_HIGHEST);
 			}
 		}
+	}
+	
+	private void setBidderBoxColor (String aBidderName, boolean aBidderActing) {
+		Color tBackgroundColor = this.getBackground ();
+		
+		if (aBidderActing) {
+			if (isNetworkGame) {
+				if (aBidderName.equals (clientUserName)) {
+					tBackgroundColor = Color.ORANGE;
+				}
+			}
+		}
+		getContentPane ().setBackground (tBackgroundColor);
 	}
 	
 	private boolean isBidderActing (int aBidderIndex, String aBidderName) {

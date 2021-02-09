@@ -2056,10 +2056,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		auctionFrame.updateAuctionFrame ();
 	}
 
-	public void finishAuction (String aPreviousWinner) {
+	public void finishAuction (boolean aCreateNewAuctionAction) {
 		updateAllFrames ();
 		auctionFrame.setVisible (false);
-		playerManager.finishAuction (bank.availableShareHasBids (), aPreviousWinner);
+		playerManager.finishAuction (bank.availableShareHasBids (), aCreateNewAuctionAction);
 	}
 
 	public void printAllPlayersInfo () {
