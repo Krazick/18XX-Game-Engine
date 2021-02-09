@@ -440,8 +440,14 @@ public class PlayerManager {
 		return tNextShareHasBids;
 	}
 	
-	public void finishAuction (boolean aNextShareHasBids) {
+	public void finishAuction (boolean aNextShareHasBids, String aPreviousWinner) {
 		boolean tCreateNewAuctionAction = true;
+		
+		if (gameManager.isNetworkGame ()) {
+			if (! gameManager.isNetworkAndIsThisClient (aPreviousWinner)) {
+				tCreateNewAuctionAction = false;			
+			}
+		}
 		if (aNextShareHasBids) {
 			startAuctionRound (tCreateNewAuctionAction);
 		} else {

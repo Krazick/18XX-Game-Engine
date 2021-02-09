@@ -1593,17 +1593,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public Point getOffsetRoundFrame () {
 		Point tNewPoint;
-//		RoundFrame tRoundFrame;
-//		double tX, tY;
-//		int tNewX, tNewY;
-//		
-//		tRoundFrame = roundManager.getRoundFrame ();
-//		tRoundFramePoint = tRoundFrame.getLocation ();
-//		tX = tRoundFramePoint.getX ();
-//		tY = tRoundFramePoint.getY ();
-//		tNewX = (int) tX + 100;
-//		tNewY = (int) tY + 100;
-//		tNewPoint = new Point (tNewX, tNewY);
+		
 		tNewPoint = roundManager.getOffsetRoundFrame();
 		
 		return tNewPoint;
@@ -2066,10 +2056,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		auctionFrame.updateAuctionFrame ();
 	}
 
-	public void finishAuction () {
+	public void finishAuction (String aPreviousWinner) {
 		updateAllFrames ();
 		auctionFrame.setVisible (false);
-		playerManager.finishAuction (bank.availableShareHasBids ());
+		playerManager.finishAuction (bank.availableShareHasBids (), aPreviousWinner);
 	}
 
 	public void printAllPlayersInfo () {

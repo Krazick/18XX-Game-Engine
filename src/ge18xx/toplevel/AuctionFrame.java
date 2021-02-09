@@ -149,6 +149,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 	
 	private void completeAuction () {
 		boolean tNextShareHasBids;
+		String tPreviousWinner;
 		
 		// Transfer Certificate to Highest Bidder
 		// Transfer Escrow from Highest Bidder to Bank
@@ -163,8 +164,8 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		//    3. Effect to Remove Bid Element from Certificate
 		int tHighestBidderIndex = certificateToAuction.getHighestBidderIndex ();
 		Player tPlayer = (Player) certificateToAuction.getCashHolderAt (tHighestBidderIndex);
-		tNextShareHasBids = tPlayer.finishAuction (certificateToAuction);
-		
+		tPreviousWinner = tPlayer.getName ();
+		tNextShareHasBids = tPlayer.finishAuction (certificateToAuction, tPreviousWinner);
 		if (! tNextShareHasBids) {
 			hideAuctionFrame ();			
 		}

@@ -277,7 +277,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		return tExceedsThisCorpLimit;
 	}
 	
-	public boolean finishAuction (Certificate aCertificateToBuy) {
+	public boolean finishAuction (Certificate aCertificateToBuy, String aPreviousWinner) {
 		boolean tNextShareHasBids;
 		WinAuctionAction tWinAuctionAction;
 		ActorI.ActionStates tRoundType;
@@ -296,7 +296,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		tWinAuctionAction.addFinishAuctionEffect (this);
 		
 		playerManager.addAction (tWinAuctionAction);		
-		playerManager.finishAuction (tNextShareHasBids);
+		playerManager.finishAuction (tNextShareHasBids, aPreviousWinner);
 		
 		return tNextShareHasBids;
 	}
