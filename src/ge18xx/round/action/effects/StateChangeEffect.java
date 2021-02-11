@@ -161,4 +161,15 @@ public class StateChangeEffect extends Effect {
 	public boolean wasNewStateAuction () {
 		return (newState.equals (ActorI.ActionStates.AuctionRound));
 	}
+	
+	@Override
+	public boolean nullEffect () {
+		boolean tNullEffect = false;
+		
+		if (previousState.equals (newState)) {
+			tNullEffect = true;
+		}
+		
+		return tNullEffect;
+	}
 }

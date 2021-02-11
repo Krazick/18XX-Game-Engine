@@ -418,9 +418,15 @@ public class Action {
 		return getSimpleActionReport ();
 	}
 
-	public String getAuctionWinner() {
+	public String getAuctionWinner () {
 		String aAuctionWinner = ActorI.NO_NAME;
 		
 		return aAuctionWinner;
+	}
+	
+	public boolean allNullEffects () {
+		boolean tAllNullEffects = false;
+		
+		return tAllNullEffects;
 	}
 }

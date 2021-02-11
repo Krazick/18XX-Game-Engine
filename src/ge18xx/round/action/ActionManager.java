@@ -82,9 +82,16 @@ public class ActionManager {
 	}
 	
 	public void addAction (Action aAction) {
-		setNewActionNumber (aAction);
-		setAuditAttributes (aAction);
-		justAddAction (aAction);
+		boolean tAllNullEffects;
+		
+		tAllNullEffects = aAction.allNullEffects ();
+		if (tAllNullEffects) {
+			System.err.println (aAction.getBriefActionReport() + " All Null Effects " + tAllNullEffects + " Last Action Number " + actionNumber);			
+		} else {
+			setNewActionNumber (aAction);
+			setAuditAttributes (aAction);
+			justAddAction (aAction);
+		}
 	}
 
 	private void justAddAction (Action aAction) {

@@ -124,4 +124,18 @@ public class ChangeStateAction extends ChangePlayerAction {
 		
 		return tSimpleActionReport;
 	}
+	
+	@Override
+	public boolean allNullEffects () {
+		boolean tAllNullEffects = true;
+		
+		for (Effect tEffect : effects) {
+			if (! tEffect.nullEffect ()) {
+				tAllNullEffects = false;
+			}
+		}
+		
+		return tAllNullEffects;
+	}
+
 }

@@ -136,4 +136,8 @@ public class Effect {
 		
 		return tEffectApplied;
 	}
+	
+	public boolean nullEffect () {
+		return false;
+	}
 }
