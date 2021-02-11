@@ -162,6 +162,16 @@ public class StartPacketRow implements ParsingRoutineI {
 		tStartPacketItem.setStartPacketRow (this);
 	}
 	
+	public boolean enableMustBuyPrivateButton () {
+		boolean tPrivateEnabled = false;
+		
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			tPrivateEnabled = tStartPacketItem.enableMustBuyPrivateButton ();
+		}
+		
+		return tPrivateEnabled;
+	}
+	
 	public void disableAllCheckedButtons (String aToolTip) {
 		for (StartPacketItem tStartPacketItem : startPacketItems) {
 			tStartPacketItem.disableCheckedButton (aToolTip);

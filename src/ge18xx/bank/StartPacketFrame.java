@@ -354,6 +354,16 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		
 	}
 	
+	public void enableMustBuyPrivateButton () {
+		boolean enableMustBuyPrivateButton = false;
+		
+		for (StartPacketRow tStartPacketRow : startPacketRows) {
+			if (! enableMustBuyPrivateButton) {
+				enableMustBuyPrivateButton = tStartPacketRow.enableMustBuyPrivateButton ();
+			}
+		}
+	}
+	
 	public void disbleAllCheckedButtons (String aToolTip) {
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
 			tStartPacketRow.disableAllCheckedButtons (aToolTip);

@@ -166,6 +166,17 @@ public class StartPacketItem implements ParsingRoutineI {
 		setFreeCertificateCorporationPercentage (aChildNode.getThisIntAttribute (AN_PERCENTAGE, 0));
 	}
 	
+	public boolean enableMustBuyPrivateButton () {
+		boolean tPrivateEnabled = false;
+		
+		if (certificate.getValue () == certificate.getDiscount ()) {
+			certificate.setStateCheckedButton (true, "Must Buy this Private");
+			tPrivateEnabled = true;
+		}
+		
+		return tPrivateEnabled;
+	}
+	
 	public void disableCheckedButton (String aToolTip) {
 		certificate.setStateCheckedButton (false, aToolTip);
 	}

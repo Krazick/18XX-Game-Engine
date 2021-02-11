@@ -444,6 +444,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		passActionButton.setEnabled (false);
 		passActionButton.setToolTipText (MUST_BUY_PRIVATE);
 		disableAllStartPacketButtons (MUST_BUY_PRIVATE);
+		enableMustBuyPrivateButton ();
 	}
 	
 	public void setPortfolioInfoContainer (JPanel aPortfolioInfoContainer) {
@@ -597,6 +598,19 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			if (! tBank.isStartPacketPortfolioEmpty ()) {
 				tStartPacketFrame = tBank.getStartPacketFrame ();
 				tStartPacketFrame.enableAllCheckedButtons (aToolTip, player);
+			}
+		}
+	}
+	
+	public void enableMustBuyPrivateButton () {
+		StartPacketFrame tStartPacketFrame;
+		Bank tBank;
+		
+		if (player.isCurrentPlayer ()) {
+			tBank = player.getBank ();
+			if (! tBank.isStartPacketPortfolioEmpty ()) {
+				tStartPacketFrame = tBank.getStartPacketFrame ();
+				tStartPacketFrame.enableMustBuyPrivateButton ();
 			}
 		}
 	}
