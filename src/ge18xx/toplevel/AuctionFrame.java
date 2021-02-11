@@ -61,7 +61,8 @@ public class AuctionFrame extends JFrame implements ActionListener {
 	String doneToolTipText = MULTIPLE_BIDDERS_IN_AUCTION;
 	boolean isNetworkGame;
 	boolean onlyBidder = false;
-		
+	Color defaultColor;
+	
 	public AuctionFrame (String aFrameName, String aClientUser, boolean aIsNetworkGame) {
 		super (aFrameName);
 		
@@ -69,6 +70,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		
 		clientUserName = aClientUser;
 		isNetworkGame = aIsNetworkGame;
+		defaultColor = this.getBackground ();
 		
 		tLabel = new JLabel ("Auction Round for Private Company");
 		tLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
@@ -91,20 +93,6 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		bottomBox.add (Box.createVerticalStrut (5));
 		undoButton = setupButton (UNDO, UNDO);
 
-//		doneButton = new JButton (DONE);
-//		doneButton.addActionListener (this);
-//		doneButton.setAlignmentX (Component.CENTER_ALIGNMENT);
-//		doneButton.setActionCommand (DONE);
-//		bottomBox.add (Box.createVerticalStrut (5));
-//		bottomBox.add (doneButton);
-//		bottomBox.add (Box.createVerticalStrut (5));
-		
-//		undoButton = new JButton (UNDO);
-//		undoButton.addActionListener (this);
-//		undoButton.setAlignmentX (Component.CENTER_ALIGNMENT);
-//		undoButton.setActionCommand (UNDO);
-//		bottomBox.add (undoButton);
-		
 		bottomBox.add (Box.createVerticalStrut (5));
 		
 		add (topBox, BorderLayout.NORTH);
@@ -164,6 +152,8 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		//    3. Effect to Remove Bid Element from Certificate
 		int tHighestBidderIndex = certificateToAuction.getHighestBidderIndex ();
 		Player tPlayer = (Player) certificateToAuction.getCashHolderAt (tHighestBidderIndex);
+		
+		this.setBidderBoxColor (tPlayer.getName (), false);
 		tNextShareHasBids = tPlayer.finishAuction (certificateToAuction, true);
 		if (! tNextShareHasBids) {
 			hideAuctionFrame ();			
@@ -210,9 +200,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		
 		tEscrow.setCash (tNewBidAmount);
 		tAuctionRaiseAction.addEscrowChangeEffect (tEscrow, tOldBidAmount, tNewBidAmount);
-		
 		tNewBidderState = tPlayer.getAuctionActionState ();
-		tAuctionRaiseAction.addNewCurrentBidderEffect (auctionRound, aActingBidderIndex, tNextBidderIndex);
 		
 		for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
 			tNextPlayer = (Player) certificateToAuction.getCashHolderAt (tBidderIndex);
@@ -226,15 +214,56 @@ public class AuctionFrame extends JFrame implements ActionListener {
 					tBidder.setAuctionActionState (ActorI.ActionStates.NoAction);
 				}
 				tAuctionRaiseAction.addAuctionStateChangeEffect (tPlayer, tOldBidderState, tNewBidderState);
-				tAuctionRaiseAction.addAuctionStateChangeEffect (tBidder, tOldBidderState, tNewBidderState);
 				tNewNextBidderState = tNextPlayer.getAuctionActionState ();
-				tAuctionRaiseAction.addAuctionStateChangeEffect (tNextPlayer, tOldNextBidderState, tNewNextBidderState);				
+				if (tBidder.getName ().equals (tNextPlayer.getName ())) {
+					if (tOldNextBidderState != tNewNextBidderState) {
+						tAuctionRaiseAction.addAuctionStateChangeEffect (tNextPlayer, tOldNextBidderState, tNewNextBidderState);
+					}
+				} else {
+					tAuctionRaiseAction.addAuctionStateChangeEffect (tBidder, tOldBidderState, tNewBidderState);
+					tAuctionRaiseAction.addAuctionStateChangeEffect (tNextPlayer, tOldNextBidderState, tNewNextBidderState);	
+				}
 			}
 		}
 		tAuctionRaiseAction.addCashTransferEffect (tPlayer, tEscrow, tRaiseAmount);
 		tAuctionRaiseAction.addBidChangeEffect (tPlayer, tOldBidAmount, tNewBidAmount, certificateToAuction);
+		tAuctionRaiseAction.addNewCurrentBidderEffect (auctionRound, aActingBidderIndex, tNextBidderIndex);
+		this.setBidderBoxColor (tPlayer.getName (), false);
 
 		completeAuctionAction (tAuctionRaiseAction, false);
+	}
+	
+	public void setNewBidderBoxColor (int aNewBidderIndex) {
+		Player tPlayer;
+		String tBidderName;
+		
+		tPlayer = (Player) certificateToAuction.getCashHolderAt (aNewBidderIndex);
+		tBidderName = tPlayer.getName ();
+		setBidderBoxColor (tBidderName, true);
+	}
+	
+	public void setPrevBidderBoxColor (int aPrevBidderIndex) {
+		Player tPlayer;
+		String tBidderName;
+		
+		tPlayer = (Player) certificateToAuction.getCashHolderAt (aPrevBidderIndex);
+		tBidderName = tPlayer.getName ();
+		setBidderBoxColor (tBidderName, false);
+	}
+	
+	private void setBidderBoxColor (String aBidderName, boolean aBidderActing) {
+		Color tBackgroundColor = defaultColor;
+		
+		System.out.println ("Set Color Bidder " + aBidderName + " Network " + isNetworkGame + " Client " + clientUserName);
+		if (aBidderActing) {
+			if (isNetworkGame) {
+				if (aBidderName.equals (clientUserName)) {
+					tBackgroundColor = Color.ORANGE;
+				}
+			}
+		}
+		System.out.println ("Color chosen " + tBackgroundColor.toString ());
+		getContentPane ().setBackground (tBackgroundColor);
 	}
 	
 	private void passBid (int aActingBidderIndex) {
@@ -274,7 +303,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 			tAuctionPassAction.addAuctionStateChangeEffect (tBidder, tOldNextBidderState, tNewNextBidderState);
 			tDone = false;
 		}
-
+		this.setBidderBoxColor (tPlayer.getName (), false);
 		completeAuctionAction (tAuctionPassAction, tDone);
 	}
 
@@ -321,14 +350,15 @@ public class AuctionFrame extends JFrame implements ActionListener {
 	}
 	
 	public void updateAuctionFrame (boolean aDone) {
-		boolean tEnableDone;
+		boolean tClientIsWinner = false;
 		
 		if (aDone) {
-			tEnableDone = clientIsWinner ();
-			doneButton.setEnabled (tEnableDone);
+			tClientIsWinner = clientIsWinner ();
+			doneButton.setEnabled (tClientIsWinner);
 		}
 		doneButton.setToolTipText (doneToolTipText);
 		updateBidderBoxes ();
+		setBidderBoxColor (clientUserName, tClientIsWinner);
 	}
 	
 	private boolean thisIsTheClient () {
@@ -443,6 +473,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 							doneButton.setToolTipText (doneToolTipText);
 						}
 					} else {
+						tBidderIsActing = false;
 						doneButton.setEnabled (false);
 						doneButton.setToolTipText (doneToolTipText);
 					}
@@ -459,7 +490,10 @@ public class AuctionFrame extends JFrame implements ActionListener {
 				biddersBox.add (oneBidderBox);
 				biddersBox.add (Box.createVerticalStrut (15));
 				
-				setBidderBoxColor (tBidderName, tBidderIsActing);				
+				System.out.println ("---> Bidder " + tBidderName + " Acting " + tBidderIsActing);
+				if (tBidderIsActing) {
+					setBidderBoxColor (tBidderName, tBidderIsActing);
+				}
 				configAuctionUndoButton ();
 			}			
 		} else {
@@ -507,8 +541,8 @@ public class AuctionFrame extends JFrame implements ActionListener {
 			tCash = certificateToAuction.getBidAt (tBidderIndex);
 			bidderLabels [tBidderIndex].setText (getBidderLabel (tPlayer, tCash));
 			tRaiseLabel = RAISE + " " + Bank.formatCash (PlayerManager.BID_INCREMENT);
-			setBidderBoxColor (tBidderName, tBidderIsActing);
 			configAuctionUndoButton ();
+//			setBidderBoxColor (tBidderName, tBidderIsActing);
 			
 			if (tBidderIndex == tHighestBidderIndex) {
 				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing, HIGHEST_NO_RAISE);
@@ -518,19 +552,6 @@ public class AuctionFrame extends JFrame implements ActionListener {
 				setButton (bidderPassButtons [tBidderIndex], PASS, true, tBidderIsActing, NOT_HIGHEST);
 			}
 		}
-	}
-	
-	private void setBidderBoxColor (String aBidderName, boolean aBidderActing) {
-		Color tBackgroundColor = this.getBackground ();
-		
-		if (aBidderActing) {
-			if (isNetworkGame) {
-				if (aBidderName.equals (clientUserName)) {
-					tBackgroundColor = Color.ORANGE;
-				}
-			}
-		}
-		getContentPane ().setBackground (tBackgroundColor);
 	}
 	
 	private boolean isBidderActing (int aBidderIndex, String aBidderName) {
