@@ -134,6 +134,8 @@ public class PrivateCompany extends Corporation {
 	@Override
 	public String buildCorpInfoLabel () {
 		String tCorpLabel = "";
+		int tBidderCount;
+		String tBidderNames;
 		
 		tCorpLabel = getAbbrev () + "<br>";
 		if (isActive ()) {
@@ -143,8 +145,14 @@ public class PrivateCompany extends Corporation {
 			tCorpLabel += "<br>Revenue: " + Bank.formatCash (getRevenue ());
 		} else {
 			tCorpLabel += "[" + getStatusName () + "]";
-			if (getBidderCount () > 0) {
-				tCorpLabel += "<br>" + getBidderCount () + " Bidder(s)";
+			tBidderCount = getBidderCount ();
+			if (tBidderCount > 0) {
+				tBidderNames = getBidderNames ();
+				if (tBidderCount == 1) {
+					tCorpLabel += "<br>" + getBidderCount () + " Bidder: " + tBidderNames;
+				} else {
+					tCorpLabel += "<br>" + getBidderCount () + " Bidders (" + tBidderNames + ")";
+				}
 				tCorpLabel += "<br>Highest Bid " + Bank.formatCash (corporationCertificates.getHighestBid ());
 			}
 			tCorpLabel += "<br>Price: " + Bank.formatCash (getCost ());

@@ -50,6 +50,19 @@ public class Bidders {
 	public int getNumberOfBidders () {
 		return bidders.size ();
 	}
+	
+	public String getBidderNames () {
+		String tBidderNames = "";
+		
+		for (Bidder tBidder : bidders) {
+			if (tBidderNames.length() > 0) {
+				tBidderNames += ", ";
+			}
+			tBidderNames += tBidder.getName ();
+		}
+		
+		return tBidderNames;
+	}
 
 	public XMLElement getOnlyBiddersElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLBidders = NO_BIDDERS;

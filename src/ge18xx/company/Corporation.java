@@ -685,6 +685,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationList.getBankPool ();
 	}
 	
+	public String getBidderNames () {
+		String tBidderNames;
+		
+		tBidderNames = corporationCertificates.getBidderNames ();
+		
+		return tBidderNames;
+	}
 	public int getBidderCount () {
 		int tBidderCount;
 		

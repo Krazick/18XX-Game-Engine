@@ -669,6 +669,19 @@ public class Portfolio implements CertificateHolderI {
 		return tBidderCount;
 	}
 	
+	public String getBidderNames () {
+		String tBidderNames = "";
+		
+		for (Certificate tCertificate : certificates) {
+			if (tBidderNames.length () > 0) {
+				tBidderNames += ", ";
+			}
+			tBidderNames += tCertificate.getBidderNames ();
+		}
+		
+		return tBidderNames;
+	}
+	
 	public int getHighestBid () {
 		int tHighestBid = 0;
 		

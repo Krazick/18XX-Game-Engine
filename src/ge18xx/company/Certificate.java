@@ -1178,6 +1178,10 @@ public class Certificate implements Comparable<Certificate> {
 		return bidders.getNumberOfBidders ();
 	}
 	
+	public String getBidderNames () {
+		return bidders.getBidderNames ();
+	}
+	
 	public CashHolderI getCashHolderAt (int aIndex) {
 		return bidders.getCashHolderAt (aIndex);
 	}
