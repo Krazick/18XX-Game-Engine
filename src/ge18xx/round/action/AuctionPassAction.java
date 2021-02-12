@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.AuctionPassEffect;
 import ge18xx.round.action.effects.AuctionStateChangeEffect;
-import ge18xx.round.action.effects.NewCurrentPlayerEffect;
+import ge18xx.round.action.effects.NewCurrentBidderEffect;
 import ge18xx.utilities.XMLNode;
 
 public class AuctionPassAction extends ChangeStateAction {
@@ -33,9 +33,9 @@ public class AuctionPassAction extends ChangeStateAction {
 	}
 
 	public void addNewCurrentBidderEffect (ActorI aPlayer, int aCurrentBidderIndex, int aNextBidderIndex) {
-		NewCurrentPlayerEffect tNewCurrentBidderEffect;
+		NewCurrentBidderEffect tNewCurrentBidderEffect;
 
-		tNewCurrentBidderEffect = new NewCurrentPlayerEffect (aPlayer, aCurrentBidderIndex, aNextBidderIndex);
+		tNewCurrentBidderEffect = new NewCurrentBidderEffect (aPlayer, aCurrentBidderIndex, aNextBidderIndex);
 		addEffect (tNewCurrentBidderEffect);
 	}
 	
