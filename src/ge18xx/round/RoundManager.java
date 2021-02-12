@@ -686,13 +686,15 @@ public class RoundManager {
 		setRoundType (aNewRoundType);
 		tNewRoundType = getCurrentRoundType ();
 
-		if (aCreateNewAction) {
-			if (! tRoundID.equals ("0.0")) {
-				tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, tRoundID, aCurrentRound);
-				tChangeRoundAction.addStateChangeEffect (aCurrentRound, tCurrentRoundType, tNewRoundType);
-				tChangeRoundAction.addChangeRoundIDEffect (aNewRound, aOldRoundID, aNewRoundID);
-				tChangeRoundAction.setChainToPrevious (true);
-				addAction (tChangeRoundAction);
+		if (! applyingAction ()) {
+			if (aCreateNewAction) {
+				if (! tRoundID.equals ("0.0")) {
+					tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, tRoundID, aCurrentRound);
+					tChangeRoundAction.addStateChangeEffect (aCurrentRound, tCurrentRoundType, tNewRoundType);
+					tChangeRoundAction.addChangeRoundIDEffect (aNewRound, aOldRoundID, aNewRoundID);
+					tChangeRoundAction.setChainToPrevious (true);
+					addAction (tChangeRoundAction);
+				}
 			}
 		}
 	}
@@ -826,6 +828,10 @@ public class RoundManager {
 		setRoundToStockRound (tIDPart1);
 		stockRound.clearAllSoldCompanies ();
 		stockRound.setCurrentPlayer (stockRound.getPriorityIndex ());
+	}
+	
+	public boolean applyingAction () {
+		return gameManager.applyingAction ();
 	}
 	
 	public boolean canStartOperatingRound () {

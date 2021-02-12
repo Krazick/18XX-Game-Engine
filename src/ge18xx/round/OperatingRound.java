@@ -40,7 +40,9 @@ public class OperatingRound extends Round {
 	public boolean startOperatingRound () {
 		boolean tStartedOperatingRound = true;
 		
-		payRevenues ();
+		if (! roundManager.applyingAction ()) {
+			payRevenues ();
+		}
 		if (anyFloatedCompanies ()) {
 			coalCompanies.clearOperatedStatus ();
 			minorCompanies.clearOperatedStatus ();

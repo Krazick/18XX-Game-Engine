@@ -118,6 +118,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	Config configData;
 	ArrayList<XMLFrame> configFrames;
 	boolean gameStarted;
+	boolean applyingNetworkAction = false;
 	
 	public GameManager () {
 		
@@ -1809,7 +1810,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 						playerInputFrame.handleResetPlayerOrder (tPlayerOrder, tBroadcast);
 					} else if (Action.EN_ACTION.equals (tANodeName)){
 						if (roundManager != null) {
+							applyingNetworkAction = true;
 							roundManager.handleNetworkAction (tActionNode);
+							applyingNetworkAction = false;
 						} else {
 //							System.err.println ("Trying to handle a Server Game Activity, Node Named [" + tANodeName + "] no Round Manager created");
 						}
@@ -1827,6 +1830,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 	}
 
+	public boolean applyingAction () {
+		return applyingNetworkAction;
+	}
+	
 	@Override
 	public void updatePlayerCountLabel () {
 		playerInputFrame.updatePlayerCountLabel ();

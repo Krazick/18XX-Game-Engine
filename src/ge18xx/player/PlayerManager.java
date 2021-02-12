@@ -139,7 +139,9 @@ public class PlayerManager {
 				tChangeStateAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
 			}
 		}
-		addAction (tChangeStateAction);
+		if (! gameManager.applyingAction ()) {
+			addAction (tChangeStateAction);
+		}
 	}
 	
 	public void clearAllPlayerSelections () {
