@@ -649,8 +649,12 @@ public class PlayerManager {
 		tDonePlayerAction = new DonePlayerAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
 		tDonePlayerAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
 		tDonePlayerAction.addNewPriorityPlayerEffect (aPlayer, tOldPriorityPlayerIndex, tNextPlayerIndex);
-		aPlayer.setExchangedPrezShare (Player.NO_STOCK_TO_SELL);
-		tDonePlayerAction.addExchangePrezShareEffect (null);
+		
+		// If this Player Stock Action include exchanging out the President Share, clear it, and add the Effect.
+		if (aPlayer.hasExchangedShare () != Player.NO_STOCK_TO_SELL) {
+			aPlayer.setExchangedPrezShare (Player.NO_STOCK_TO_SELL);
+			tDonePlayerAction.addExchangePrezShareEffect (Player.NO_STOCK_TO_SELL);
+		}
 
 		aPlayer.updatePortfolioInfo ();
 		stockRound.setPriorityPlayer (tNextPlayerIndex);
@@ -1110,7 +1114,7 @@ public class PlayerManager {
 				tSellStockAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
 			}
 			tExchangedShare = aPlayer.hasExchangedShare ();
-			if (tExchangedShare != null) {
+			if (tExchangedShare != Player.NO_STOCK_TO_SELL) {
 				// Test if the current player has < shares than current President
 				// If so, can clear Exchanged Share attribute.
 				if (aPlayer.hasLessThanPresident (tExchangedShare)) {
