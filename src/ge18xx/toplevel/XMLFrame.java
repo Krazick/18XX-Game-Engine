@@ -199,4 +199,15 @@ public class XMLFrame extends JFrame {
 		// DO NOTHING by default - If a Specific Frame Type needs to set the Scale, it will have it's Overriding Function.
 		// Primarily for the MapFrame
 	}
+	
+	@Override
+	public  void toFront () {
+	    int tState = super.getExtendedState () & ~JFrame.ICONIFIED & JFrame.NORMAL;
+
+	    super.setExtendedState (tState);
+	    super.setAlwaysOnTop (true);
+	    super.toFront ();
+	    super.requestFocus ();
+	    super.setAlwaysOnTop (false);
+	}
 }
