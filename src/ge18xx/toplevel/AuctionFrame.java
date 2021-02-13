@@ -21,7 +21,7 @@ import ge18xx.round.action.Action;
 import ge18xx.round.action.AuctionPassAction;
 import ge18xx.round.action.AuctionRaiseAction;
 
-public class AuctionFrame extends JFrame implements ActionListener {
+public class AuctionFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static int NO_BIDDER_INDEX = -1;
 	private final String HIGHEST_NO_RAISE = "Highest Bidder does not need to Raise the Bid";
@@ -229,7 +229,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		tAuctionRaiseAction.addCashTransferEffect (tPlayer, tEscrow, tRaiseAmount);
 		tAuctionRaiseAction.addBidChangeEffect (tPlayer, tOldBidAmount, tNewBidAmount, certificateToAuction);
 		tAuctionRaiseAction.addNewCurrentBidderEffect (auctionRound, aActingBidderIndex, tNextBidderIndex);
-		this.setBidderBoxColor (tPlayer.getName (), false);
+		setBidderBoxColor (tPlayer.getName (), false);
 
 		completeAuctionAction (tAuctionRaiseAction, false);
 	}
@@ -255,7 +255,6 @@ public class AuctionFrame extends JFrame implements ActionListener {
 	private void setBidderBoxColor (String aBidderName, boolean aBidderActing) {
 		Color tBackgroundColor = defaultColor;
 		
-		System.out.println ("Set Color Bidder " + aBidderName + " Network " + isNetworkGame + " Client " + clientUserName + " Acting " + aBidderActing);
 		if (aBidderActing) {
 			if (isNetworkGame) {
 				if (aBidderName.equals (clientUserName)) {
@@ -263,7 +262,6 @@ public class AuctionFrame extends JFrame implements ActionListener {
 				}
 			}
 		}
-		System.out.println ("Color chosen " + tBackgroundColor.toString ());
 		getContentPane ().setBackground (tBackgroundColor);
 	}
 	
@@ -314,7 +312,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 			tAuctionPassAction.addNewCurrentBidderEffect (auctionRound, aActingBidderIndex, tNextBidderIndex);
 			tDone = false;
 		}
-		this.setBidderBoxColor (tPlayer.getName (), false);
+		setBidderBoxColor (tPlayer.getName (), false);
 		completeAuctionAction (tAuctionPassAction, tDone);
 	}
 

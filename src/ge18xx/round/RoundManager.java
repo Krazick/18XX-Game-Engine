@@ -133,6 +133,10 @@ public class RoundManager {
 	public void addPrivateToAuction () {
 		gameManager.addPrivateToAuction ();
 	}
+
+	public void setAuctionFrameLocation () {
+		gameManager.setAuctionFrameLocation ();
+	}
 	
 	public void setOtherRoundInfo () {
 		String tFullTitle;
@@ -586,6 +590,10 @@ public class RoundManager {
 
 	public boolean mapVisible () {
 		return gameManager.mapVisible ();
+	}
+	
+	public void repaintMapFrame () {
+		gameManager.repaintMapFrame ();
 	}
 
 	public boolean tileTrayVisible () {
