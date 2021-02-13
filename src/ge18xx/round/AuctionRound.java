@@ -60,7 +60,7 @@ public class AuctionRound extends Round {
 	}
 	
 	public void showAuctionFrame () {
-		playerManager.showAuctionRound ();
+		playerManager.showAuctionFrame ();
 	}
 	
 	public void setPlayerManager (PlayerManager aPlayerManager) {
@@ -72,7 +72,8 @@ public class AuctionRound extends Round {
 	
 	public void startAuctionRound () {
 		roundManager.addPrivateToAuction ();
-		playerManager.showAuctionRound ();
+		roundManager.setAuctionFrameLocation ();
+		showAuctionFrame ();
 	}
 	
 	@Override
