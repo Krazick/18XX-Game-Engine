@@ -188,6 +188,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				}
 			}
 		}
+		trainCompany.repaintMapFrame ();
 	}
 	
 	public void handleResetAllRoutes () {
@@ -540,7 +541,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tTrainCount = trainCompany.getTrainCount ();
 		tMaxTrainSize = trainCompany.getMaxTrainSize ();
 		tWidth = 350 + tMaxTrainSize * 50;
-		tHeight = 205 + (tTrainCount * 30);
+		tHeight = 205 + (tTrainCount * 40);
 		setSize (tWidth, tHeight);
 	}
 	
