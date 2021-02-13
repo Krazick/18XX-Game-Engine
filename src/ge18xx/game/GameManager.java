@@ -1228,6 +1228,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return mapFrame.isVisible ();
 	}
 
+	public void repaintMapFrame () {
+		mapFrame.repaint();
+	}
+	
 	public void notifyMapFrame () {
 		mapFrame.updatePutTileButton ();
 	}
@@ -1580,12 +1584,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 		aJFrame.setVisible (true);
 	}
 	
-	public void showAuctionRound () {
+	public void setAuctionFrameLocation () {
 		Point tNewPoint = getOffsetPlayerFrame ();
 		
-		auctionFrame.pack ();
 		auctionFrame.setLocation (tNewPoint);
-		showFrame (auctionFrame);
+	}
+	
+	public void showAuctionFrame () {
+		auctionFrame.pack ();
+		auctionFrame.repaint ();
+		auctionFrame.setVisible (true);
+		auctionFrame.toFront ();
 	}
 
 	public Point getOffsetGEFrame () {
