@@ -344,17 +344,7 @@ public class AuctionFrame extends JFrame implements ActionListener {
 		
 		return tClientIsWinner;
 	}
-	
-	private boolean clientIsActing  () {
-		boolean tClientIsActing = false;
 		
-		if (isNetworkGame) {
-			
-		}
-		
-		return tClientIsActing;
-	}
-	
 	private void completeAuctionAction (Action aAuctionAction, boolean aDone) {
 		auctionRound.addAction (aAuctionAction);
 		// If all Bidders have passed, and one Raise -- We are done, and can enable Done Button.
