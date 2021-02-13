@@ -704,6 +704,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return roundManager.mapVisible ();
 	}
 	
+	public void repaintMapFrame () {
+		roundManager.repaintMapFrame ();
+	}
+	
 	public void closeAll (BuyTrainAction aBuyTrainAction) {
 		for (Corporation tCorporation : corporations) {
 			tCorporation.close (aBuyTrainAction);

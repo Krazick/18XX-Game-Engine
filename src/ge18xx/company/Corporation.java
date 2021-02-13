@@ -456,6 +456,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		System.err.println ("Trying to -CLEAR ALL TRAINS- Should be handled by Train Company");
 	}
 	
+	public void repaintMapFrame () {
+		corporationList.repaintMapFrame ();
+	}
+	
 	public int getThisRevenue () { 
 		return TrainCompany.NO_REVENUE; 
 	}
