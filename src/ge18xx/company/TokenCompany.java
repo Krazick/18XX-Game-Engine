@@ -422,6 +422,7 @@ public abstract class TokenCompany extends TrainCompany {
 		}
 	}
 	
+	@Override
 	public int getCostToLayToken (MapCell aMapCell) {
 		int tCostToLayToken;
 		String tMapCellID;
@@ -435,15 +436,17 @@ public abstract class TokenCompany extends TrainCompany {
 		//  -- If Calculated on Distance from Base -- $X * # of Hexes
 		
 		tCostToLayToken = NO_COST_CALCULATED;
-		tMapCellID = aMapCell.getID ();
-		if (tCostToLayToken == NO_COST_CALCULATED) {
-			// Home City 1 for this Corporation -- This Token is Free
-			tCostToLayToken = getHomeBaseCost (homeCity1, tMapCellID);
-		} 
-		if (tCostToLayToken == NO_COST_CALCULATED) {
-			// Home City 2 for this Corporation -- This Token is Free
-			tCostToLayToken = getHomeBaseCost (homeCity2, tMapCellID);
-		} 
+		if (aMapCell != MapCell.NO_MAP_CELL) {
+			tMapCellID = aMapCell.getID ();
+			if (tCostToLayToken == NO_COST_CALCULATED) {
+				// Home City 1 for this Corporation -- This Token is Free
+				tCostToLayToken = getHomeBaseCost (homeCity1, tMapCellID);
+			} 
+			if (tCostToLayToken == NO_COST_CALCULATED) {
+				// Home City 2 for this Corporation -- This Token is Free
+				tCostToLayToken = getHomeBaseCost (homeCity2, tMapCellID);
+			} 
+		}
 		// First Token is used on the Market 
 		
 		/* If Laying Base Token -- Cost is Zero */
@@ -474,6 +477,7 @@ public abstract class TokenCompany extends TrainCompany {
 	private int getHomeBaseCost (MapCell aBaseMapCell, String aMapCellID) {
 		int tCostToLayHome;
 		
+		// TODO For non-1830 Games, need to determine if cost is based on Distance
 		tCostToLayHome = NO_COST_CALCULATED;
 		if (aBaseMapCell != NO_HOME_MAPCELL) {
 			if (aBaseMapCell.getID () == aMapCellID) {
