@@ -92,6 +92,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private String CANCEL_TOKEN_MODE = "CancelToken";
 	private String CANCEL_MODE_LABEL = "Cancel Mode";
 	private String COMPLETE_TILE_LAY = "Complete Tile Lay";
+	JSlider hexScaleSlider;
 	
 	public MapFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getActiveGameName ());
@@ -115,7 +116,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		scrollPane.setViewportView (map);
 		add (scrollPane, BorderLayout.CENTER);
 
-		JSlider hexScaleSlider = new JSlider (JSlider.HORIZONTAL, 4, 16, 8);
+		hexScaleSlider = new JSlider (JSlider.HORIZONTAL, 4, 16, 8);
 		hexScaleSlider.addChangeListener (map);
 		
 		//Turn on labels at major tick marks.
@@ -193,6 +194,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	
 	public int getHexScale () {
 		return map.getHexScale ();
+	}
+	
+	public void setHexScaleSlider (int aScale) {
+		hexScaleSlider.setValue (aScale);
 	}
 	
 	@Override

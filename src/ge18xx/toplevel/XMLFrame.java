@@ -117,6 +117,9 @@ public class XMLFrame extends JFrame {
 		setLocation (defaultXLocation, defaultYLocation);
 		setSize (defaultWidth, defaultHeight);
 		setVisible (defaultVisible);
+		if (defaultHexSize > 0) {
+			setHexScale (defaultHexSize);
+		}
 	}
 	
 	public XMLElement getXMLFrameElement (XMLDocument aXMLDocument) {
