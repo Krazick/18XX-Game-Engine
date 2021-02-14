@@ -82,8 +82,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	JButton exitTokenButton;
 	JButton putTokenButton;
 	String companyAbbrev;
-	Container tokenButtons;
-	Container tileButtons;
+	Box tokenButtons;
+	Box tileButtons;
 	Container allButtonContainers;
 	JScrollPane scrollPane;
 	GameManager gameManager;
@@ -103,7 +103,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		allButtonContainers = Box.createVerticalBox ();
 		tokenButtons = Box.createHorizontalBox ();
+		tokenButtons.setOpaque (true);
 		tileButtons = Box.createHorizontalBox ();
+		tileButtons.setOpaque (true);
 		allButtonContainers.add (tokenButtons);
 		allButtonContainers.add (Box.createVerticalStrut (10));
 		allButtonContainers.add (tileButtons);
@@ -237,10 +239,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public void actionPerformed (ActionEvent aActionEvent) {
 		String tTheAction = aActionEvent.getActionCommand ();
 		Corporation tCorporation;
-		MapCell tMapCell;
-		Tile tTile;
-		int tRevenueCenterIndex;
-		int tCorporationID;
 
 		tCorporation = getOperatingCompany ();
 
@@ -255,16 +253,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		} else if ("PutTile".equals (tTheAction)) {
 			putTileDownOnMap ();
 		} else if ("PutToken".equals (tTheAction)) {
-			if (tCorporation != CorporationList.NO_CORPORATION) {
-				setCompanyAbbrev (tCorporation.getAbbrev ());
-				tMapCell = map.getSelectedMapCell ();
-				putTokenDown (tCorporation);
-				tTile = tMapCell.getTile ();
-				tCorporationID = tCorporation.getID ();
-				tRevenueCenterIndex = tTile.getStationIndex (tCorporationID);
-				tCorporation.tokenWasPlaced (tMapCell, tTile, tRevenueCenterIndex);
-			}
-			togglePlaceTokenMode ();
+			putATokenDown (tCorporation);
 		}
 		if (tCorporation != CorporationList.NO_CORPORATION) {
 			tCorporation.updateFrameInfo ();
@@ -470,30 +459,21 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 		return tHasCityBeenSelected;
 	}
+
+	public void putATokenDown (Corporation aCorporation) {
+		putTokenDown (aCorporation);
+		togglePlaceTokenMode ();
+	}
 	
 	public void putTokenDown (Corporation aCorporation) {
-		City tSelectedCity;
 		MapCell tSelectedMapCell;
 		RevenueCenter tSelectedRevenueCenter;
-		boolean tCanPlaceToken;
 		
 		tSelectedMapCell = map.getSelectedMapCell ();
-		if (tSelectedMapCell != null) {
+		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 			tSelectedRevenueCenter = tSelectedMapCell.getSelectedRevenueCenter ();
-			if (tSelectedRevenueCenter != null) {
-				if (tSelectedRevenueCenter.canPlaceStation ()) {
-					tSelectedCity = (City) tSelectedRevenueCenter;
-					if (aCorporation != null) {
-						tCanPlaceToken = canPlaceToken (aCorporation, tSelectedCity);
-						if (tCanPlaceToken) {
-							putMapTokenDown (aCorporation, tSelectedCity, tSelectedMapCell);
-						}
-					} else {
-						System.err.println ("No Operating Company Found ");
-					}
-				} else {
-					System.err.println ("Cannot Place Station on this Revenue Center");
-				}
+			if (tSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
+				putTokenDownHere (aCorporation, tSelectedMapCell, tSelectedRevenueCenter);
 			} else {
 				System.err.println ("No Revenue Center Selected from Map Cell");
 			}
@@ -502,11 +482,36 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}		
 	}
 
+	public void putTokenDownHere (Corporation aCorporation, MapCell aMapCell, 
+								RevenueCenter aRevenueCenter) {
+		City tSelectedCity;
+		boolean tCanPlaceToken;
+		
+		if (aCorporation != CorporationList.NO_CORPORATION) {
+			setCompanyAbbrev (aCorporation.getAbbrev ());
+			if (aRevenueCenter != RevenueCenter.NO_CENTER) {
+				if (aRevenueCenter.canPlaceStation ()) {
+					tSelectedCity = (City) aRevenueCenter;
+					tCanPlaceToken = canPlaceToken (aCorporation, tSelectedCity);
+					if (tCanPlaceToken) {
+						putMapTokenDown (aCorporation, tSelectedCity, aMapCell);
+					}
+				} else {
+					System.err.println ("Cannot Place Station on this Revenue Center");
+				}
+			}
+		} else {
+			System.err.println ("No Operating Company Found ");
+		}
+	}
+
 	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell) {
 		Tile tTile;
 		MapToken tMapToken;
 		boolean tTokenPlaced;
 		Corporation tBaseCorporation;
+		int tRevenueCenterIndex;
+		int tCorporationID;
 		
 		tBaseCorporation = (Corporation) aCity.getTokenCorporation ();
 		tMapToken = aCorporation.getMapToken ();
@@ -515,9 +520,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		} else {
 			tTokenPlaced = aCity.setStation (tMapToken);
 			if (tTokenPlaced) {
+				tCorporationID = aCorporation.getID ();
+				tTile = aMapCell.getTile ();
+				tRevenueCenterIndex = tTile.getStationIndex (tCorporationID);
+				aCorporation.tokenWasPlaced (aMapCell, tTile, tRevenueCenterIndex);
 				putTokenButton.setEnabled (false);
 				putTokenButton.setToolTipText (TOKEN_ALREADY_PLACED);
-				// If we have placed the Token and these was a Base Corporation Tile, clear out any other Bases for this Corporation from this Tile
+				// If we have placed the Token and there was a Base Corporation Tile, clear out any other Bases for this Corporation from this Tile
 				// Primarily for EIRE that starts with a choice of two spots in the Tile.
 				if (tBaseCorporation == aCorporation) {
 					tTile = aMapCell.getTile ();
@@ -687,10 +696,12 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		placeTileMode = aMode;
 		map.setPlaceTileMode (placeTileMode);
 		exitTileButton.setEnabled (aMode);
-		if (! aMode) {
-			exitTileButton.setToolTipText (NOT_PLACE_TILE_MODE);
-		} else {
+		if (aMode) {
 			exitTileButton.setToolTipText (NO_TOOL_TIP);
+			tileButtons.setBackground (Color.ORANGE);
+		} else {
+			exitTileButton.setToolTipText (NOT_PLACE_TILE_MODE);
+			tileButtons.setBackground (getBackground ());
 		}
 		putTileButton.setEnabled (false);
 		if (placeTileMode) {
@@ -712,12 +723,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		placeTokenMode = aMode;
 		exitTokenButton.setEnabled (aMode);
 		putTokenButton.setEnabled (false);
-		if (!aMode) {
-			exitTokenButton.setToolTipText (NOT_PLACE_TOKEN_MODE);
-			putTokenButton.setToolTipText (NOT_PLACE_TOKEN_MODE);
-		} else {
+		if (aMode) {
 			exitTokenButton.setToolTipText (NO_TOOL_TIP);
 			putTokenButton.setToolTipText (NO_SELECTED_RC);
+			tokenButtons.setBackground (Color.ORANGE);
+		} else {
+			exitTokenButton.setToolTipText (NOT_PLACE_TOKEN_MODE);
+			putTokenButton.setToolTipText (NOT_PLACE_TOKEN_MODE);
+			tokenButtons.setBackground (getBackground ());
 		}
 		map.setSelectTrackSegment (aMode);
 		map.setSelectRevenueCenter (aMode);

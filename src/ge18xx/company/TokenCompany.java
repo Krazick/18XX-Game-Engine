@@ -9,13 +9,16 @@ package ge18xx.company;
 //
 
 import ge18xx.bank.Bank;
+import ge18xx.center.RevenueCenter;
 import ge18xx.game.GameManager;
 import ge18xx.map.Hex;
 import ge18xx.map.HexMap;
+import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.LayTokenAction;
 import ge18xx.tiles.Tile;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -114,6 +117,43 @@ public abstract class TokenCompany extends TrainCompany {
 	
 	public void addMapToken (MapToken aMapToken) {
 		mapTokens.add (aMapToken);
+	}
+
+	@Override
+	public void placeBaseTokens () {
+		MapFrame tMapFrame;
+		MapCell tBaseMapCell;
+		Tile tTile;
+		RevenueCenter tBaseRevenueCenter;
+		Location tHomeLocation;
+		int tBaseCount;
+		
+		if (homeMapCell1HasTile ()) {
+			tBaseMapCell = this.getHomeCity1 ();
+			if (tBaseMapCell != MapCell.NO_MAP_CELL) {
+				tTile = tBaseMapCell.getTile ();
+				if (tTile != Tile.NO_TILE) {
+					tHomeLocation = this.getHomeLocation1 ();
+					tBaseRevenueCenter = tTile.getCenterAtLocation (tHomeLocation);
+					if (tBaseRevenueCenter != RevenueCenter.NO_CENTER) {
+						tMapFrame = corporationList.getMapFrame ();
+						tMapFrame.putTokenDownHere (this, tBaseMapCell, tBaseRevenueCenter);
+					} else {
+						tBaseCount = tTile.getCorporationBaseCount ();
+						if (tBaseCount > 1) {
+							enterPlaceTokenMode ();
+						} else {
+							System.err.println ("No RevenueCenter found for " + getAbbrev () + " at " + tHomeLocation);
+							System.err.println ("Corp Bases [" + tBaseCount + "]");
+						}
+					}
+				} else {
+					System.err.println ("No Tile found on Base MapCell found for " + getAbbrev ());
+				}
+			} else {
+				System.err.println ("No Base MapCell found for " + getAbbrev ());
+			}
+		}
 	}
 	
 	public JLabel buildTokenLabel () {

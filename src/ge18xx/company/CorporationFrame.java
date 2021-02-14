@@ -215,6 +215,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 	
+	public void handlePlaceToken () {
+		if (corporation.haveLaidAllBaseTokens ()) {
+			corporation.enterPlaceTokenMode ();
+		} else {
+			corporation.placeBaseTokens ();
+		}
+	}
+	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
@@ -230,7 +238,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 		if (PLACE_TOKEN.equals (tActionCommand)) {
 			corporation.showMap ();
-			corporation.enterPlaceTokenMode ();
+			handlePlaceToken ();
 		}
 		if (SKIP_BASE_TOKEN.equals (tActionCommand)) {
 			corporation.showMap ();
@@ -784,7 +792,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 						placeTokenActionButton.setEnabled (true);
 						placeTokenActionButton.setToolTipText (NO_TOOL_TIP);
 					}
-			} else {
+				} else {
 					placeTokenActionButton.setEnabled (true);
 					placeTokenActionButton.setToolTipText (NO_TOOL_TIP);
 				}

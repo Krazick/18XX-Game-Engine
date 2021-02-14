@@ -1884,4 +1884,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		gameTestFlag = aGameTestFlag;
 	}
 
+	public void placeBaseTokens () {
+		// Override in Token Company Class
+	}
 }

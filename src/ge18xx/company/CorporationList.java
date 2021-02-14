@@ -1132,4 +1132,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		// TODO Need to walk through the Privates, and clear all Selections
 		
 	}
+
+	public MapFrame getMapFrame() {
+		return roundManager.getMapFrame ();
+	}
 }

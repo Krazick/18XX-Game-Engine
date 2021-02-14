@@ -31,6 +31,7 @@ import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.tiles.TileSet;
 import ge18xx.toplevel.AuditFrame;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.utilities.AttributeName;
@@ -1010,5 +1011,9 @@ public class RoundManager {
 		tNewPoint = new Point (tNewX, tNewY);
 		
 		return tNewPoint;
+	}
+
+	public MapFrame getMapFrame() {
+		return gameManager.getMapFrame ();
 	}
 }

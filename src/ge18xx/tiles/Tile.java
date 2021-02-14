@@ -246,6 +246,28 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 	}
 	
+	public int getCorporationBaseCount () {
+		int tBaseCount = 0;
+		int tCityCenterCount, tCityIndex;
+		RevenueCenter tRevenueCenter;
+		City tCity;
+		
+		tCityCenterCount = getCityCenterCount ();
+		if (tCityCenterCount > 0) {
+			for (tCityIndex = 0; tCityIndex < tCityCenterCount; tCityIndex++) {
+				tRevenueCenter = getRevenueCenter (tCityIndex);
+				if (tRevenueCenter.isCity ()) {
+					tCity = (City) getRevenueCenter (tCityIndex);
+					if (tCity.isCorporationBase ()) {
+						tBaseCount++;
+					}
+				}
+			}
+		}
+		
+		return tBaseCount;
+	}
+	
 	public String getCorporationBases () {
 		String tCorporationBases = NO_BASES, tCorporationBase;
 		int tCityCenterCount, tCityIndex;

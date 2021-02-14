@@ -483,6 +483,14 @@ public class MapCell implements Comparator<Object> {
 		return centers.get (aCenterIndex);
 	}
 	
+	public RevenueCenter getRevenueCenterAt (Location aLocation) {
+		RevenueCenter tFoundRevenueCenter = RevenueCenter.NO_CENTER;
+		
+		tFoundRevenueCenter = centers.getCenterAtLocation (aLocation);
+		
+		return tFoundRevenueCenter;
+	}
+	
 	public int getRevenueCenterCount () {
 		return centers.size ();
 	}
