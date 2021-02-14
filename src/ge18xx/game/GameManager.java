@@ -1581,6 +1581,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	private void showFrame (JFrame aJFrame) {
 		aJFrame.revalidate ();
+		aJFrame.toFront ();
 		aJFrame.setVisible (true);
 	}
 	
