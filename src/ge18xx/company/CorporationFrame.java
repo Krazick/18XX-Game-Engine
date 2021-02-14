@@ -28,6 +28,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String PLACE_TILE = "Place Tile";
 	static final String PLACE_TOKEN = "Place Token";
 	static final String PLACE_BASE_TOKEN = "Place Base Token";
+	static final String IN_PLACE_TILE_MODE = "Already in Place Tile Mode";
+	static final String IN_TOKEN_MODE = "Already in Place Token Mode";
 	static final String SKIP_BASE_TOKEN = "Skip Base Token";
 	static final String HOME_NO_TILE = "Home Map Cell %s does not have Tile";
 	static final String OPERATE_TRAIN = "Operate Train";
@@ -214,10 +216,18 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			undoActionButton.setToolTipText ("Network Game - Undo is not allowed");
 		}
 	}
+
+	public void handlePlaceTile () {
+		corporation.showMap ();
+		corporation.showTileTray ();
+		corporation.enterPlaceTileMode ();
+		updateTTODButtons ();
+	}
 	
 	public void handlePlaceToken () {
 		if (corporation.haveLaidAllBaseTokens ()) {
 			corporation.enterPlaceTokenMode ();
+			updateTTODButtons ();
 		} else {
 			corporation.placeBaseTokens ();
 		}
@@ -232,9 +242,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporation.showMap ();
 		}
 		if (PLACE_TILE.equals (tActionCommand)) {
-			corporation.showMap ();
-			corporation.showTileTray ();
-			corporation.enterPlaceTileMode ();
+			handlePlaceTile ();
 		}
 		if (PLACE_TOKEN.equals (tActionCommand)) {
 			corporation.showMap ();
@@ -497,8 +505,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 	
 	public void updateCFActionButtons () {
-		int tTrainCount;
-		
 		if (corporation.mapVisible ()) {
 			showMapActionButton.setEnabled (false);
 			showMapActionButton.setToolTipText ("The Map is already visible.");
@@ -506,27 +512,40 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			showMapActionButton.setEnabled (true);
 			showMapActionButton.setToolTipText (NO_TOOL_TIP);
 		}
-		tTrainCount = corporation.getTrainCount ();
-		updateTTOButtons (tTrainCount);
-		updatePayFullDividendActionButton ();
-		updatePayHalfDividendActionButton (tTrainCount);
-		updatePayNoDividendActionButton (tTrainCount);
+		updateTTODButtons ();
 		updateBuyTrainActionButton ();
 		updateForceBuyTrainActionButton ();
 		updateBuyPrivateActionButton ();
 		updateDoneActionButton ();
 	}
 
-	public void updateTTOButtons (int aTrainCount) {
+	public void updateTTODButtons () {
+		int tTrainCount;
+		
+		tTrainCount = corporation.getTrainCount ();
 		updatePlaceTileActionButton ();
 		updatePlaceTokenActionButton ();
-		updateOperateTrainActionButton (aTrainCount);
+		updateOperateTrainActionButton (tTrainCount);
+		updatePayFullDividendActionButton ();
+		updatePayHalfDividendActionButton (tTrainCount);
+		updatePayNoDividendActionButton (tTrainCount);
 	}
 	
 	private void updatePayHalfDividendActionButton (int aTrainCount) {
 		String tDisableToolTipReason;
 		
-		if ((aTrainCount > 0) && (corporation.getThisRevenue () == TrainCompany.NO_REVENUE)) {
+		if (corporation.isWaitingForResponse ()) {
+			payHalfDividendActionButton.setEnabled (false);
+			payHalfDividendActionButton.setToolTipText ("Waiting for Response");
+		} else if (corporation.isPlaceTileMode ()) {
+			payHalfDividendActionButton.setEnabled (false);
+			tDisableToolTipReason = IN_PLACE_TILE_MODE;
+			payHalfDividendActionButton.setToolTipText (tDisableToolTipReason);
+		} else if (corporation.isPlaceTokenMode ()) {
+			payHalfDividendActionButton.setEnabled (false);
+			tDisableToolTipReason = IN_TOKEN_MODE;
+			payHalfDividendActionButton.setToolTipText (tDisableToolTipReason);				
+		} else if ((aTrainCount > 0) && (corporation.getThisRevenue () == TrainCompany.NO_REVENUE)) {
 			payHalfDividendActionButton.setEnabled (false);
 			tDisableToolTipReason = "No Dividends calculated yet";
 			payHalfDividendActionButton.setToolTipText (tDisableToolTipReason);
@@ -554,6 +573,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					payNoDividendActionButton.setEnabled (false);
 					payNoDividendActionButton.setToolTipText ("Base Token must be laid first.");
 				}
+			} else if (corporation.isPlaceTileMode ()) {
+				payNoDividendActionButton.setEnabled (false);
+				tToolTip = IN_PLACE_TILE_MODE;
+				payNoDividendActionButton.setToolTipText (tToolTip);
+			} else if (corporation.isPlaceTokenMode ()) {
+				payNoDividendActionButton.setEnabled (false);
+				tToolTip = IN_TOKEN_MODE;
+				payNoDividendActionButton.setToolTipText (tToolTip);
 			} else if (corporation.dividendsHandled ()) {
 				payNoDividendActionButton.setEnabled (false);
 				tToolTip = corporation.reasonForNoDividendPayment ();
@@ -606,9 +633,20 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	
 	private void updatePlaceTileActionButton () {
 		String tDisableToolTipReason;
+		
 		if (corporation.canLayTile ()) {
-			placeTileActionButton.setEnabled (true);
-			placeTileActionButton.setToolTipText (NO_TOOL_TIP);
+			if (corporation.isPlaceTileMode ()) {
+				placeTileActionButton.setEnabled (false);
+				tDisableToolTipReason = IN_PLACE_TILE_MODE;
+				placeTileActionButton.setToolTipText (tDisableToolTipReason);				
+			} else if (corporation.isPlaceTokenMode ()) {
+				placeTileActionButton.setEnabled (false);
+				tDisableToolTipReason = IN_TOKEN_MODE;
+				placeTileActionButton.setToolTipText (tDisableToolTipReason);				
+			} else {
+				placeTileActionButton.setEnabled (true);
+				placeTileActionButton.setToolTipText (NO_TOOL_TIP);
+			}
 		} else {
 			placeTileActionButton.setEnabled (false);
 			tDisableToolTipReason = corporation.reasonForNoTileLay ();
@@ -756,7 +794,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			placeTokenActionButton.setEnabled (true);
 			if (corporation.haveLaidAllBaseTokens ()) {
 				placeTokenActionButton.setText (PLACE_TOKEN);
-				if (corporation.haveMoneyForToken ()) {
+				if (corporation.isPlaceTileMode ()){
+					placeTokenActionButton.setEnabled (false);
+					placeTokenActionButton.setToolTipText (IN_PLACE_TILE_MODE);
+				} else if (corporation.isPlaceTokenMode ()){
+					placeTokenActionButton.setEnabled (false);
+					placeTokenActionButton.setToolTipText (IN_TOKEN_MODE);
+				} else if (corporation.haveMoneyForToken ()) {
 					placeTokenActionButton.setEnabled (true);
 					placeTokenActionButton.setToolTipText (NO_TOOL_TIP);
 				} else {
