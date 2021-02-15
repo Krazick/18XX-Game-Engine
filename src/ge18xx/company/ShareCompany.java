@@ -476,22 +476,16 @@ public class ShareCompany extends TokenCompany {
 	}
 	
 	public void handleAcceptOfferPrivate (RoundManager aRoundManager) {
-//		BuyTrainAction tBuyTrainAction;
-//		TrainCompany tOwningTrainCompany;
-//		Corporation tOwningCompany;
 		Player tOwningPlayer;
 		ActorI tActorOfferSentTo;
 		int tCashValue;
 		PrivateCompany tPrivateCompany;
 		CorporationFrame tCorporationFrame;
-//		String tOperatingRoundID;
 		String tActorToName;
 		String tItemName, tItemType;
 		GameManager tGameManager;
-//		boolean tCurrentNotify;
 		
 		tGameManager = aRoundManager.getGameManager ();
-//		tOperatingRoundID = aRoundManager.getOperatingRoundID ();
 		tCashValue = purchaseOffer.getAmount ();
 		tActorToName = purchaseOffer.getToName ();
 		tActorOfferSentTo = tGameManager.getActor (tActorToName);
@@ -508,19 +502,6 @@ public class ShareCompany extends TokenCompany {
 						if (tPrivateCompany.getName ().equals (tItemName)) {
 							System.out.println ("Almost Ready to buy " + tItemName + " " + tItemType);
 							buyPrivateCompany (tOwningPlayer, tPrivateCompany, tCashValue);
-//							tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, 
-//								tOperatingRoundID, this);
-//							System.out.println ("Buying a " + tTrain.getName () + 
-//									" Train from " + tOwningTrainCompany.getAbbrev () + 
-//									" for " + Bank.formatCash (tCashValue) + " into " + getAbbrev ());
-//							transferCashTo (tOwningTrainCompany, tCashValue);
-//							tBuyTrainAction.addCashTransferEffect (this, tOwningTrainCompany, tCashValue);
-//							// We must toggle NotifyNetwork on, for this, and reset to prior state to allow for handling Response
-//							// to when doing a purchase between players
-//							tCurrentNotify = tGameManager.getNotifyNetwork ();
-//							tGameManager.setNotifyNetwork (true); 
-//							doFinalTrainBuySteps (tOwningTrainCompany, tTrain, tBuyTrainAction);
-//							tGameManager.setNotifyNetwork (tCurrentNotify); 
 						} else {
 							System.err.println ("Purchase Offer's Item Name " + tItemName +
 									" does not match Selected Item Name " + tPrivateCompany.getName ());
