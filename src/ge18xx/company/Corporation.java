@@ -1892,4 +1892,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		// Override in Token Company Class
 		return 0;
 	}
+
+	public PrivateCompany getSelectedPrivateToBuy() {
+		// Override in Share Company Class
+		return null;
+	}
 }

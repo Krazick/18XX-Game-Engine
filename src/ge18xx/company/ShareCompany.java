@@ -126,15 +126,24 @@ public class ShareCompany extends TokenCompany {
 		tGameManager = corporationList.getGameManager ();
 		tCorpFrameOffset = tGameManager.getOffsetCorporationFrame ();
 		
-		tPrivateToBuy = corporationList.getSelectedPrivateCompanyToBuy ();
-		tPresidentCertificate = tPrivateToBuy.getPresidentCertificate ();
+		tPrivateToBuy = getSelectedPrivateToBuy ();
+		tPresidentCertificate = getPresidentCertificate (tPrivateToBuy);
 		tBuyPrivateFrame = new BuyPrivateFrame (this);
 		tBuyPrivateFrame.updateInfo (tPresidentCertificate);
 		tBuyPrivateFrame.setLocation (tCorpFrameOffset);
 		tBuyPrivateFrame.setVisible (tVisible);
 		tBuyPrivateFrame.requestFocus ();
 	}
-		
+	
+	@Override
+	public PrivateCompany getSelectedPrivateToBuy () {
+		return (corporationList.getSelectedPrivateCompanyToBuy ());	
+	}
+	
+	public Certificate getPresidentCertificate (Corporation aCorporation) {
+		return aCorporation.getPresidentCertificate ();
+	}
+	
 	public boolean canBuyPrivate () {
 		return corporationList.canBuyPrivate ();
 	}

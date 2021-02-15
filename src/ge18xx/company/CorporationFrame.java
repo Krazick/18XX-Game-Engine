@@ -41,6 +41,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String BUY_TRAIN = "Buy Train";
 	static final String FORCE_BUY_TRAIN = "Force Buy Train";
 	static final String BUY_PRIVATE = "Buy Private";
+	static final String COMPLETE_TT_PLACEMENT = "Need to complete Tile/Token Placement";
+	static final String OFFER_TO_BUY_PRIVATE = "Offer to Buy Private";
 	static final String GET_LOAN = "Get Loan";
 	static final String PAYBACK_LOAN = "Payback Loan";
 	static final String DONE = "Done";
@@ -363,7 +365,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		CorporationList tShareCorporations;
 		Container tCorporationsTrainsContainer;
 
-		if (corporation != null) {
+		if (isCorporationSet ()) {
 			if (corporation.isOperating ()) {
 				tGameManager = corporation.getGameManager ();
 				if (tGameManager != null) {
@@ -380,6 +382,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 	
+	private boolean isCorporationSet () {
+		return (corporation != CorporationList.NO_CORPORATION);
+	}
+	
 	public void fillBankBox (boolean aCanBuyTrain, String aDisableToolTipReason) {
 		Bank tBank;
 		BankPool tBankPool;
@@ -387,7 +393,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		Container tBankPortfolioJPanel;
 		GameManager tGameManager;
 		
-		if (corporation != null) {
+		if (isCorporationSet ()) {
 			tGameManager = corporation.getGameManager ();
 			tBank = corporation.getBank ();
 			tBankPool = corporation.getBankPool ();
@@ -744,7 +750,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			// If the actual tSelectedCount is zero -- the Apply the Discount;
 			if (tSelectedCount == 0) {
 				tTrainCompany.applyDiscount ();
-				fillOtherCorpsContainer (false, "Select Train for Upgrading from Bank");
+				fillOtherCorpsContainer (false, "Select Train to Upgrade to from Bank");
 			}
 			if (canBuySelectedTrain (tSelectedCount)) {
 				if (tTrainCompany.isSelectedTrainHolderTheBank ()) {
@@ -872,7 +878,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 		if (corporation.isPlaceTileMode () || corporation.isPlaceTokenMode ()) {
 			operateTrainActionButton.setEnabled(false);
-			operateTrainActionButton.setToolTipText ("Need to complete Tile/Token Placement");
+			operateTrainActionButton.setToolTipText (COMPLETE_TT_PLACEMENT);
 		} else if (corporation.canOperateTrains ()) {
 			operateTrainActionButton.setEnabled (true);
 			operateTrainActionButton.setToolTipText (NO_TOOL_TIP);
@@ -886,8 +892,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private void updateBuyPrivateActionButton () {
 		String tDisableToolTipReason;
 		
-		// TODO: Build routines to 'Enable' and 'Disable' Private Box Checkboxes, 
-		// with a reason for Enabling/Disabling for the ToolTip
+		updateBuyPrivateLabel ();
 		if (corporation.canBuyPrivate ()) {
 			if (corporation.getCountOfSelectedPrivates () == 1) {
 				buyPrivateActionButton.setEnabled (true);
@@ -900,6 +905,20 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			buyPrivateActionButton.setEnabled (false);
 			tDisableToolTipReason = corporation.reasonForNoBuyPrivate ();
 			buyPrivateActionButton.setToolTipText (tDisableToolTipReason);
+		}
+	}
+	
+	private void updateBuyPrivateLabel () {
+		PrivateCompany tPrivateCompany;
+		String tPrivatePrezName, tCorpPrezName;
+		
+		tPrivateCompany = corporation.getSelectedPrivateToBuy ();
+		tPrivatePrezName = tPrivateCompany.getPresidentName ();
+		tCorpPrezName = corporation.getPresidentName ();
+		if (tCorpPrezName.equals (tPrivatePrezName)) {
+			buyPrivateActionButton.setText (BUY_PRIVATE);
+		} else {
+			buyPrivateActionButton.setText (OFFER_TO_BUY_PRIVATE);
 		}
 	}
 	
