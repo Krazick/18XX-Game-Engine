@@ -7,6 +7,7 @@ import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.Train;
+import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 
 import javax.swing.BorderFactory;
@@ -39,6 +40,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String PAY_HALF_DIVIDEND = "Pay Half Dividend";
 	static final String PAY_NO_DIVIDEND = "Pay No Dividend";
 	static final String BUY_TRAIN = "Buy Train";
+	static final String OFFER_TO_BUY_TRAIN = "Offer to Buy Train";
 	static final String FORCE_BUY_TRAIN = "Force Buy Train";
 	static final String BUY_PRIVATE = "Buy Private";
 	static final String COMPLETE_TT_PLACEMENT = "Need to complete Tile/Token Placement";
@@ -753,6 +755,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				fillOtherCorpsContainer (false, "Select Train to Upgrade to from Bank");
 			}
 			if (canBuySelectedTrain (tSelectedCount)) {
+				updateBuyTrainLabel ();
 				if (tTrainCompany.isSelectedTrainHolderTheBank ()) {
 					tSelectedTrainToBuy = tTrainCompany.getSelectedBankTrain ();
 					tSelectedTrainToUpgrade = tTrainCompany.getSelectedTrain ();
@@ -768,9 +771,33 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				disableBuyTrainActionButton ();
 			}
 		} else if (canBuySelectedTrain (tSelectedCount)) {
+			updateBuyTrainLabel ();
+			
 			enableBuyTrainActionButton ();
 		} else {
+			updateBuyTrainLabel ();
 			disableBuyTrainActionButton ();
+		}
+	}
+
+	private void updateBuyTrainLabel () {
+		TrainHolderI tOtherTrainHolder;
+		Corporation tOtherCorporation;
+		String tOtherPresidentName;
+		String tCurrentPresidentName;
+		
+		tOtherTrainHolder = corporation.getOtherSelectedTrainHolder ();
+		if (tOtherTrainHolder != null) {
+			if (tOtherTrainHolder instanceof Corporation) {
+				tOtherCorporation = (Corporation) tOtherTrainHolder;
+				tOtherPresidentName = tOtherCorporation.getPresidentName ();
+				tCurrentPresidentName = corporation.getPresidentName ();
+				if (tCurrentPresidentName.equals (tOtherPresidentName)) {
+					buyTrainActionButton.setText (BUY_TRAIN);
+				} else {
+					buyTrainActionButton.setText (OFFER_TO_BUY_TRAIN);
+				}
+			}
 		}
 	}
 
@@ -913,12 +940,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tPrivatePrezName, tCorpPrezName;
 		
 		tPrivateCompany = corporation.getSelectedPrivateToBuy ();
-		tPrivatePrezName = tPrivateCompany.getPresidentName ();
-		tCorpPrezName = corporation.getPresidentName ();
-		if (tCorpPrezName.equals (tPrivatePrezName)) {
-			buyPrivateActionButton.setText (BUY_PRIVATE);
-		} else {
-			buyPrivateActionButton.setText (OFFER_TO_BUY_PRIVATE);
+		if (tPrivateCompany != CorporationList.NO_PRIVATE_COMPANY) {
+			tPrivatePrezName = tPrivateCompany.getPresidentName ();
+			tCorpPrezName = corporation.getPresidentName ();
+			if (tCorpPrezName.equals (tPrivatePrezName)) {
+				buyPrivateActionButton.setText (BUY_PRIVATE);
+			} else {
+				buyPrivateActionButton.setText (OFFER_TO_BUY_PRIVATE);
+			}
 		}
 	}
 	
