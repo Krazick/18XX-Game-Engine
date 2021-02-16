@@ -486,7 +486,11 @@ public class MapCell implements Comparator<Object> {
 	public RevenueCenter getRevenueCenterAt (Location aLocation) {
 		RevenueCenter tFoundRevenueCenter = RevenueCenter.NO_CENTER;
 		
-		tFoundRevenueCenter = centers.getCenterAtLocation (aLocation);
+		if (isTileOnCell ()) {
+			tFoundRevenueCenter = tile.getCenterAtLocation(aLocation);
+		} else {
+			tFoundRevenueCenter = centers.getCenterAtLocation (aLocation);
+		}
 		
 		return tFoundRevenueCenter;
 	}
