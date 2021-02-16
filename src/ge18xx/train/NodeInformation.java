@@ -229,4 +229,22 @@ public class NodeInformation {
 			System.err.println ("Looking for Revenue Center at " + location.getLocation () + " on Tile " + tTile.getNumber () + " But not Found.");
 		}
 	}
+
+//	Location location;		//	Location
+//	boolean corpStation;	//	Operating Corp Station (true or false)
+//	boolean openFlow;		//	Open Flow for Train Running Through (true or false)
+//	boolean hasRevenueCenter;	// Has a Revenue Center
+//	RevenueCenter revenueCenter;	// If a RevenueCenter, it is saved here
+//	int revenue;			//	Revenue
+//	int bonus;				//	Bonus (for Cattle or Port)
+
+	public boolean isSame (NodeInformation aNode) {
+		boolean tIsSame = true;
+		
+		if (location.getLocation () != aNode.getLocationInt ()) {
+			tIsSame = false;
+		}
+		
+		return tIsSame;
+	}
 }

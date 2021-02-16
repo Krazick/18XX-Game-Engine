@@ -402,6 +402,41 @@ public class RouteSegment {
 		return tTrack;
 	}
 
+	public NodeInformation getStartNode () {
+		return start;
+	}
+	
+	public NodeInformation getEndNode () {
+		return end;
+	}
+	
+//	MapCell mapCell; 			// Hex ID
+//	Tile tile;
+//	String mapCellID;
+//	int tileNumber;
+//	NodeInformation start;
+//	NodeInformation end;
+//	int cost;				// For Ferry/Tunnel/Bridge Fee
+//	Gauge gauge;			//	Track Gauge
+
+	public boolean isSame (RouteSegment aRouteSegment) {
+		boolean tIsSame = true;
+		
+		if (! mapCellID.equals(aRouteSegment.getMapCellID ())) {
+			tIsSame = false;
+		}
+		if (tileNumber != aRouteSegment.getTileNumber()) {
+			tIsSame = false;
+		}
+		if (! start.isSame (aRouteSegment.getStartNode ())) {
+			tIsSame = false;
+		}
+		if (! end.isSame (aRouteSegment.getEndNode ())) {
+			tIsSame = false;
+		}
+		return tIsSame;
+	}
+	
 	public RevenueCenter getRevenueCenter() {
 		RevenueCenter tRevenueCenter = RevenueCenter.NO_CENTER;
 		
