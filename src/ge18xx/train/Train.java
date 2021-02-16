@@ -543,7 +543,6 @@ public class Train implements Comparable<Object> {
 		RevenueCenter tRevenueCenter;
 		
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-//			currentRouteInformation.clearTrainOn ();
 			tCorpID = aTrainCompany.getID ();
 			tRouteSegment = new RouteSegment (aMapCell);
 			tRevenueCenter = aMapCell.getRevenueCenterAt (aStartLocation);
@@ -559,7 +558,6 @@ public class Train implements Comparable<Object> {
 			tCorpID = aTrainCompany.getID ();
 			tRouteAction = RouteAction.NO_ACTION;
 			System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
-//			currentRouteInformation.extendRouteInformation (tRouteSegment, aPhase, tCorpID, tRouteAction);
 			currentRouteInformation.addTheRouteSegment (tRouteSegment, tRouteAction);
 			System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
 			System.out.println ("Should have Extended Route Segment on Client");
