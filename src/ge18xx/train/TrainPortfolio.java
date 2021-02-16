@@ -750,6 +750,21 @@ public class TrainPortfolio implements TrainHolderI {
 		return tRouteStarted;
 	}
 	
+	public boolean extendRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+		Train tTrain;
+		boolean tRouteExtended = false;
+		
+		tTrain = trains.get (aTrainIndex);
+		if (tTrain != Train.NO_TRAIN) {
+			tRouteExtended = tTrain.extendRouteInformation (aTrainIndex, aMapCell, aStartLocation, aEndLocation, aRoundID, aPhase, 
+					aTrainCompany, aTrainRevenueFrame);
+		}
+		
+		return tRouteExtended;
+		
+	}
+	
 	public boolean setNewEndPoint (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
 			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
 		Train tTrain;
@@ -764,7 +779,7 @@ public class TrainPortfolio implements TrainHolderI {
 		return tRouteStarted;
 	}
 
-	public String getTrainSummary() {
+	public String getTrainSummary () {
 		String tTrainSummary = "NONE";
 		String tTrainInfo;
 		String tPreviousName = "";

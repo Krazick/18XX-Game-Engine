@@ -1587,10 +1587,28 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tPhase = tPhaseInfo.getName ();
 		tRouteStarted = trainPortfolio.startRouteInformation (aTrainIndex, aMapCell, aStartLocation, aEndLocation,
 				tRoundID, tPhase, this, trainRevenueFrame);
-		
+		corporationList.repaintMapFrame ();
+	
 		return tRouteStarted;
 	}
 
+	public boolean extendRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation) {
+		boolean tRouteExtended = false;
+		String tRoundID;
+		int tPhase;
+		PhaseInfo tPhaseInfo;
+		
+		showTrainRevenueFrameForOthers (aTrainIndex);
+		tRoundID = corporationList.getOperatingRoundID ();
+		tPhaseInfo = corporationList.getCurrentPhaseInfo () ;
+		tPhase = tPhaseInfo.getName ();
+		tRouteExtended = trainPortfolio.extendRouteInformation (aTrainIndex, aMapCell, aStartLocation, aEndLocation,
+				tRoundID, tPhase, this, trainRevenueFrame);
+		corporationList.repaintMapFrame ();
+
+		return tRouteExtended;
+	}
+	
 	public void showTrainRevenueFrameForOthers (int aTrainIndex) {
 		Point tFrameOffset;
 		GameManager tGameManager;
@@ -1615,7 +1633,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tPhase = tPhaseInfo.getName ();
 		tNewEndPointSet = trainPortfolio.setNewEndPoint (aTrainIndex, aMapCell, aStartLocation, aEndLocation,
 				tRoundID, tPhase, this, trainRevenueFrame);
-
+		corporationList.repaintMapFrame ();
+		
 		return tNewEndPointSet;
 	}
 }
