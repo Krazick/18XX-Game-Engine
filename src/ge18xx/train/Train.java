@@ -524,35 +524,70 @@ public class Train implements Comparable<Object> {
 		tRouteAction = RouteAction.NO_ACTION;
 		tRevenueCenter = aMapCell.getCenterAtLocation (aStartLocation);
 		currentRouteInformation.setStartSegment (tRouteSegment, tRevenueCenter, aPhase, tCorpID);
+		System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
 		currentRouteInformation.extendRouteInformation (tRouteSegment, aPhase, tCorpID, tRouteAction);
-		System.out.println ("Should have First Route Segment on Client");
+		System.out.println ("Should have First Route Segment on Client with " + currentRouteInformation.getSegmentCount () + " Segments");
 		currentRouteInformation.printDetail ();
 		tRouteStarted = true;
 		
 		return tRouteStarted;
 	}
 	
+	public boolean extendRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+		boolean tRouteExtended = false;
+		RouteSegment tRouteSegment;
+		int tCorpID;
+		RouteAction tRouteAction;
+		NodeInformation tStartNode, tEndNode;
+		RevenueCenter tRevenueCenter;
+		
+		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+//			currentRouteInformation.clearTrainOn ();
+			tCorpID = aTrainCompany.getID ();
+			tRouteSegment = new RouteSegment (aMapCell);
+			tRevenueCenter = aMapCell.getRevenueCenterAt (aStartLocation);
+			tStartNode = currentRouteInformation.buildNodeInformation (tRevenueCenter, aStartLocation, 
+							aPhase, tCorpID);
+			tRouteSegment.setStartNode (tStartNode);
+			
+			tRevenueCenter = aMapCell.getRevenueCenterAt (aEndLocation);
+			tEndNode = currentRouteInformation.buildNodeInformation (tRevenueCenter, aEndLocation, 
+							aPhase, tCorpID);
+			tRouteSegment.setEndNode (tEndNode);
+
+			tCorpID = aTrainCompany.getID ();
+			tRouteAction = RouteAction.NO_ACTION;
+			System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
+//			currentRouteInformation.extendRouteInformation (tRouteSegment, aPhase, tCorpID, tRouteAction);
+			currentRouteInformation.addTheRouteSegment (tRouteSegment, tRouteAction);
+			System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
+			System.out.println ("Should have Extended Route Segment on Client");
+			currentRouteInformation.printDetail ();
+			tRouteExtended = true;
+		} 
+		
+		return tRouteExtended;
+		
+	}
+	
 	public boolean setNewEndPoint (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
 			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
 		RouteSegment tPreviousRouteSegment;
 		boolean tSetNewEndPoint;
+		int tPreviousSide, tPreviousStart;
 		RouteAction tRouteAction;
 		
 		tRouteAction = RouteAction.NO_ACTION;
-//		tRouteSegment = new RouteSegment (aMapCell);
-//		tCorpID = aTrainCompany.getID ();
-//		tRevenueCenter = aMapCell.getCenterAtLocation (aStartLocation);
 		
 		tPreviousRouteSegment = currentRouteInformation.getLastRouteSegment ();
 		tPreviousRouteSegment.setEndNode (aEndLocation, aPhase);
-//		currentRouteInformation.setStartSegment (tRouteSegment, tRevenueCenter, aPhase, tCorpID);
-//		currentRouteInformation.extendRouteInformation (tRouteSegment, aPhase, tCorpID, tRouteAction);
-		currentRouteInformation.setTrainOn (tRouteAction, tPreviousRouteSegment, aMapCell, aTrainIndex, aPhase);
+		tPreviousSide = aEndLocation.getLocation ();
+		tPreviousStart = aStartLocation.getLocation ();
+		currentRouteInformation.setTrainOn (tRouteAction, tPreviousRouteSegment, aMapCell, tPreviousSide, tPreviousStart);
 		System.out.println ("Should have Set New End Point for PreviousRoute Segment on Client");
 		currentRouteInformation.printDetail ();
 		tSetNewEndPoint = true;
-//		public boolean setTrainOn (RouteAction aRouteAction, RouteSegment tPreviousSegment,
-//				MapCell tPreviousMapCell, int tPreviousSide, int tPreviousStart) {
 
 		return tSetNewEndPoint;
 	}
