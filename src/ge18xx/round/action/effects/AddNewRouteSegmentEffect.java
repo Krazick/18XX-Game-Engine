@@ -1,5 +1,7 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.company.Corporation;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -35,11 +37,20 @@ public class AddNewRouteSegmentEffect extends ChangeRouteEffect {
 
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
-		boolean tEffectApply;
+		boolean tEffectApplied;
+		Corporation tCompany;
+		TrainCompany tTrainCompany;
 		
-		tEffectApply = true;
+		tEffectApplied = true;
+		if (actor.isACorporation ()) {
+			tCompany = (Corporation) actor;
+			if (tCompany.isATrainCompany ()) {
+				tTrainCompany = (TrainCompany) tCompany;
+				tEffectApplied = tTrainCompany.extendRouteInformation (trainIndex, mapCell, startLocation, endLocation);
+			}
+		}
 		
-		return tEffectApply;
+		return tEffectApplied;
 	}
 
 	@Override
