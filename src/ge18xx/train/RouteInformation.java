@@ -172,23 +172,39 @@ public class RouteInformation {
 		}		
 	}
 	
+	public boolean isLastSegmentSame (RouteSegment aRouteSegment) {
+		boolean tIsLastSegmentSame = false;
+		RouteSegment tPreviousSegment;
+		int tLastSegmentIndex;
+		
+		tLastSegmentIndex = routeSegments.size ();
+		if (tLastSegmentIndex > 0) {
+			tPreviousSegment = routeSegments.get (tLastSegmentIndex - 1);
+			tIsLastSegmentSame = aRouteSegment.isSame (tPreviousSegment);
+		}
+
+		return tIsLastSegmentSame;
+	}
+	
 	public void addRouteSegment (RouteSegment aRouteSegment, RouteAction aRouteAction) {
 		MapCell tMapCell;
 		Location tStartLocation, tEndLocation;
 		
 		if (revenueCenters != null) {
 			addRevenueCenter (aRouteSegment);
-			routeSegments.add (aRouteSegment);
-			calculateTotalRevenue ();
-			trainRevenueFrame.updateRevenues (this);
-			updateConfirmRouteButton ();
-			
-			// Add the New Route Segment Effect
-			tMapCell = aRouteSegment.getMapCell ();
-			tStartLocation = aRouteSegment.getStartLocation ();
-			tEndLocation = aRouteSegment.getEndLocation ();
-			if (aRouteAction != RouteAction.NO_ACTION) {
-				aRouteAction.addNewRouteSegmentEffect (trainCompany, trainIndex, tMapCell, tStartLocation, tEndLocation);
+			if (! isLastSegmentSame (aRouteSegment)) {
+				routeSegments.add (aRouteSegment);
+				calculateTotalRevenue ();
+				trainRevenueFrame.updateRevenues (this);
+				updateConfirmRouteButton ();
+				
+				// Add the New Route Segment Effect
+				tMapCell = aRouteSegment.getMapCell ();
+				tStartLocation = aRouteSegment.getStartLocation ();
+				tEndLocation = aRouteSegment.getEndLocation ();
+				if (aRouteAction != RouteAction.NO_ACTION) {
+					aRouteAction.addNewRouteSegmentEffect (trainCompany, trainIndex, tMapCell, tStartLocation, tEndLocation);
+				}			
 			}
 		} else {
 			System.err.println ("Revenue Centers Array not Initialized");
@@ -610,7 +626,8 @@ public class RouteInformation {
 
 	private boolean addNextRouteSegment (RouteSegment aRouteSegment, int aCorpID, RouteAction aRouteAction) {
 		boolean tAddNextRouteSegment = false;
-		int tCurrentSide, tTrainNumber;
+		int tCurrentSide;
+//		int tTrainNumber;
 		MapCell tCurrentMapCell, tPreviousMapCell;
 		RouteSegment tPreviousSegment;
 		Location tPossibleEnd;
@@ -627,15 +644,30 @@ public class RouteInformation {
 		
 		if (! tTrack.isTrackUsed ()) {
 			aRouteSegment.applyRCInfo (phase, aCorpID);
-			tTrainNumber = getTrainIndex () + 1;
-			aRouteSegment.setTrainOnTrack (tTrack, tTrainNumber);
-			addRouteSegment (aRouteSegment, aRouteAction);
-			tAddNextRouteSegment = true;
+			tAddNextRouteSegment = addTheRouteSegment (aRouteSegment, aRouteAction);
+//			tTrainNumber = getTrainIndex () + 1;
+//			aRouteSegment.setTrainOnTrack (tTrack, tTrainNumber);
+//			addRouteSegment (aRouteSegment, aRouteAction);
+//			tAddNextRouteSegment = true;
 		}
 		
 		return tAddNextRouteSegment;
 	}
 
+	public boolean addTheRouteSegment (RouteSegment aRouteSegment, RouteAction aRouteAction) {
+		int tTrainNumber;
+		Track tTrack;
+		
+		tTrack = aRouteSegment.getTrack ();
+		if (tTrack != Track.NO_TRACK) {
+			tTrainNumber = getTrainIndex () + 1;
+			aRouteSegment.setTrainOnTrack (tTrack, tTrainNumber);
+		}
+		addRouteSegment (aRouteSegment, aRouteAction);
+		
+		return true;
+	}
+	
 	private boolean fillEndPoint (RouteSegment aRouteSegment, RouteAction aRouteAction) {
 		boolean tFillEndPoint = false;
 		RouteSegment tPreviousSegment;
@@ -703,7 +735,7 @@ public class RouteInformation {
 				System.err.println ("Previous Map Cell's Track is in Use");
 			}
 		} else {
-			System.err.println ("Track from" + aPreviousStart + " to " + aPreviousSide + 
+			System.err.println ("No Track Found from " + aPreviousStart + " to " + aPreviousSide + 
 					" on MapCell " + aPreviousMapCell.getID () + " with Tile " + aPreviousMapCell.getTileNumber ());
 		}
 
@@ -711,22 +743,37 @@ public class RouteInformation {
 	}
 	
 	public void setStartSegment (RouteSegment aRouteSegment, RevenueCenter aSelectedRevenueCenter, int aPhase, int aCorpID) {
-		boolean tCorpStation, tOpenFlow, tIsCity, tIsDeadEnd, tHasRevenueCenter;
-		int tRevenue, tBonus;
-		Location tStartLocation;
-		NodeInformation tStartNode;
+		NodeInformation tNode;
+		Location tLocation;
 		
-		if (aSelectedRevenueCenter == RevenueCenter.NO_CENTER) {
+		tLocation = new Location ();
+		tNode = buildNodeInformation (aSelectedRevenueCenter, tLocation, aPhase, aCorpID);
+		aRouteSegment.setStartNode (tNode);
+	}
+
+	public NodeInformation buildNodeInformation (RevenueCenter aRevenueCenter, Location aLocation,
+					int aPhase, int aCorpID) {
+		boolean tCorpStation;
+		boolean tOpenFlow;
+		boolean tIsCity;
+		boolean tIsDeadEnd;
+		boolean tHasRevenueCenter;
+		int tRevenue;
+		int tBonus;
+		Location tStartLocation;
+		NodeInformation tNode;
+		
+		if (aRevenueCenter == RevenueCenter.NO_CENTER) {
 			tCorpStation = false;
 			tOpenFlow = true;
 			tHasRevenueCenter = false;
 			tRevenue = 0;
-			tStartLocation = new Location ();
+			tStartLocation = aLocation;
 			tIsCity = false;
 		} else {
-			tCorpStation = aSelectedRevenueCenter.cityHasStation (aCorpID);
-			tIsCity = aSelectedRevenueCenter.isCity ();
-			tIsDeadEnd = aSelectedRevenueCenter.isDeadEnd ();
+			tCorpStation = aRevenueCenter.cityHasStation (aCorpID);
+			tIsCity = aRevenueCenter.isCity ();
+			tIsDeadEnd = aRevenueCenter.isDeadEnd ();
 			tHasRevenueCenter = true;
 			if (tIsDeadEnd) {			// if a Dead-End City, no Flow beyond this.
 				tOpenFlow = false;
@@ -735,20 +782,21 @@ public class RouteInformation {
 										// Then can flow beyond
 					tOpenFlow = true;
 				} else { 				// If this is a City, then if there is an Open Station, Flow can continue
-					tOpenFlow = aSelectedRevenueCenter.isOpen ();
+					tOpenFlow = aRevenueCenter.isOpen ();
 				}
 			} else {					// If this is not a City, it is a Town, and Flow is allowed further
 				tOpenFlow = true;
 			}
-			tRevenue = aSelectedRevenueCenter.getRevenue (aPhase);
-			tStartLocation = aSelectedRevenueCenter.getLocation ();
+			tRevenue = aRevenueCenter.getRevenue (aPhase);
+			tStartLocation = aRevenueCenter.getLocation ();
 		}
 		
 		tBonus = 0;		// TODO: If Selected City has Cattle, Port, etc that will add a Bonus, put that here
 		
-		tStartNode = new NodeInformation (tStartLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, 
-				tRevenue, tBonus, aSelectedRevenueCenter);
-		aRouteSegment.setStartNode (tStartNode);
+		tNode = new NodeInformation (tStartLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, 
+				tRevenue, tBonus, aRevenueCenter);
+		
+		return tNode;
 	}
 
 	public int getPhase() {
