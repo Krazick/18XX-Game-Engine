@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.HeadlessException;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -62,6 +63,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JFormattedTextField [] [] revenuesByTrain;
 	JLabel [] totalRevenueByEachTrain;
 	boolean yourCompany;
+	boolean frameSetup;
 	
 	public TrainRevenueFrame (TrainCompany aTrainCompany, String aTitle) throws HeadlessException {
 		super (aTitle);
@@ -115,6 +117,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		pack ();
 		updateFrameSize ();
 		setYourCompany (true);
+		setFrameSetup (false);
 	}
 
 	public void updatePresidentLabel () {
@@ -205,9 +208,25 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				tRouteInformation.clearTrainOn ();
 			}
 		}
+		clearAllRevenueValues ();
 		trainCompany.exitSelectRouteMode (RouteInformation.NO_ROUTE_INFORMATION);
 	}
 
+	public void clearAllRevenueValues () {
+		int tTrainIndex, tCityIndex;
+		int tTrainCount, tCityCount;
+		Train tTrain;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			tTrain = trainCompany.getTrain (tTrainIndex);
+			tCityCount = tTrain.getCityCount ();
+			for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
+				revenuesByTrain [tTrainIndex] [tCityIndex].setValue (0);
+			}
+		}
+	}
+	
 	public void handleConfirmRoute (ActionEvent aSelectRouteEvent) {
 		JButton tRouteButton = (JButton) aSelectRouteEvent.getSource ();
 		int tTrainIndex, tTrainCount;
@@ -420,6 +439,14 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	}
 
+	public void operateTrains (Point aFrameOffset) {
+		updateInfo ();
+		clearAllRevenueValues ();
+		setLocation (aFrameOffset);
+		setYourCompany (true);
+		setVisible (true);
+	}
+	
 	public boolean allRoutesValid () {
 		boolean tAllRoutesValid = true;
 		int tTrainIndex, tTrainCount;
@@ -563,10 +590,17 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updatePresidentLabel ();
 		lastRevenue.setText (LAST_REVENUE + trainCompany.getFormattedLastRevenue ());
 		thisRevenue.setText (THIS_REVENUE + "NONE");
-		fillRevenuesBox ();
-		updateFrameSize ();
+		if (! frameSetup) {
+			fillRevenuesBox ();
+			updateFrameSize ();
+		}
+		setFrameSetup (true);
 	}
 
+	public void setFrameSetup (boolean aFrameSetup) {
+		frameSetup = aFrameSetup;
+	}
+	
 	public void enableConfirmRouteButton (int aTrainIndex) {
 		if (isYourCompany ()) {
 			if ((aTrainIndex >= 0) && (aTrainIndex < trainCompany.getTrainCount ())) {
