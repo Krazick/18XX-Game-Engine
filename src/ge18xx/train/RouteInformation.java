@@ -195,7 +195,7 @@ public class RouteInformation {
 			if (! isLastSegmentSame (aRouteSegment)) {
 				routeSegments.add (aRouteSegment);
 				calculateTotalRevenue ();
-				trainRevenueFrame.updateRevenues (this);
+				updateRevenueFrame ();
 				updateConfirmRouteButton ();
 				
 				// Add the New Route Segment Effect
@@ -545,28 +545,46 @@ public class RouteInformation {
 		tOldEndLocation = tLastRouteSegment.getEndLocation ();
 		tCycledToNextTrack = tLastRouteSegment.cycleToNextTrack ();
 		if (tCycledToNextTrack) {
-			tLastTrack.clearTrainNumber ();
 			tNextTrack = tLastRouteSegment.getTrack ();
-			tNextTrack.setTrainNumber (tTrainNumber);
+			swapTrackHighlights (tTrainNumber, tLastTrack, tNextTrack);
+//			tLastTrack.clearTrainNumber ();
+//			tNextTrack.setTrainNumber (tTrainNumber);
 			
-			// Add the New Route Segment Effect
 			tMapCell = tLastRouteSegment.getMapCell ();
 			tStartLocation = tLastRouteSegment.getStartLocation ();
 			tEndLocation = tLastRouteSegment.getEndLocation ();
-			if (! tOldEndLocation.isSide ()) {
-				removeLastRevenueCenter ();
-			}
-			if (! tEndLocation.isSide ()) {
-				tLastRouteSegment.applyRCInfo (phase, aCorpID);
-				addRevenueCenter (tLastRouteSegment);
-			}
+			updateRevenueCenterInfo (aCorpID, tLastRouteSegment, tEndLocation, tOldEndLocation);
+			
+			// Add the New Route Segment Effect
 			if (aRouteAction != RouteAction.NO_ACTION) {
 				aRouteAction.addSetNewEndPointEffect (trainCompany, trainIndex, tMapCell, tStartLocation, tEndLocation);
 			}
-			trainRevenueFrame.updateRevenues (this);
+			updateRevenueFrame ();
 		}
 	}
 
+	public void updateRevenueFrame () {
+		trainRevenueFrame.updateRevenues (this);
+	}
+
+	public void updateRevenueCenterInfo (int aCorpID, RouteSegment aLastRouteSegment, 
+					Location aNewEndLocation, Location aOldEndLocation) {
+		if ((! aOldEndLocation.isSide ()) && (! aOldEndLocation.isNoLocation())) {
+			removeLastRevenueCenter ();
+		}
+		if (! aNewEndLocation.isSide ()) {
+			aLastRouteSegment.applyRCInfo (phase, aCorpID);
+			addRevenueCenter (aLastRouteSegment);
+		}
+	}
+	
+	public void swapTrackHighlights (int aTrainNumber, Track aOldTrack, Track aNewTrack) {
+		int tTrainIndex = getTrainIndex () + 1;
+		
+		aOldTrack.clearTrainNumber ();
+		aNewTrack.setTrainNumber (tTrainIndex);
+	}
+	
 	private boolean addNewPreviousSegment (RouteSegment aRouteSegment, int aPhase, int aCorpID, RouteAction aRouteAction) {
 		boolean tAddNewPreviousSegment = false;
 		RouteSegment tPreviousSegment, tNewPreviousSegment;

@@ -16,6 +16,7 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.RouteAction;
 import ge18xx.tiles.Gauge;
+import ge18xx.tiles.Track;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -573,17 +574,36 @@ public class Train implements Comparable<Object> {
 			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
 		RouteSegment tPreviousRouteSegment;
 		boolean tSetNewEndPoint;
-		int tPreviousSide, tPreviousStart;
-		RouteAction tRouteAction;
+		int tPreviousEndLocation, tPreviousStartLocation;
+		Location tPreviousEnd;
+//		RouteAction tRouteAction;
+		Track tOldTrack, tNewTrack;
 		
-		tRouteAction = RouteAction.NO_ACTION;
+//		tRouteAction = RouteAction.NO_ACTION;
 		
 		tPreviousRouteSegment = currentRouteInformation.getLastRouteSegment ();
+		tPreviousStartLocation = tPreviousRouteSegment.getStartLocationInt ();
+		tPreviousEnd = tPreviousRouteSegment.getEndLocation ();
+		tPreviousEndLocation = tPreviousEnd.getLocation ();
+		
+		if (tPreviousEndLocation == Location.NO_LOCATION) {
+			tPreviousEndLocation = aEndLocation.getLocation ();
+		}
+		tOldTrack = aMapCell.getTrackFromStartToEnd (tPreviousStartLocation, tPreviousEndLocation);
+		tNewTrack = aMapCell.getTrackFromStartToEnd (aStartLocation.getLocation (), aEndLocation.getLocation ());
 		tPreviousRouteSegment.setEndNode (aEndLocation, aPhase);
-		tPreviousSide = aEndLocation.getLocation ();
-		tPreviousStart = aStartLocation.getLocation ();
-		currentRouteInformation.setTrainOn (tRouteAction, tPreviousRouteSegment, aMapCell, tPreviousSide, tPreviousStart);
+		
+//		if (tOldTrack == Track.NO_TRACK) {
+//			currentRouteInformation.setTrainOn (tRouteAction, tPreviousRouteSegment, aMapCell, tPreviousEnd, tPreviousStart);		
+//		} else {
+			currentRouteInformation.swapTrackHighlights (aTrainIndex, tOldTrack, tNewTrack);
+//		}
 		System.out.println ("Should have Set New End Point for PreviousRoute Segment on Client");
+
+		currentRouteInformation.updateRevenueCenterInfo (aTrainCompany.getID (), tPreviousRouteSegment, 
+							aEndLocation, tPreviousEnd);
+		currentRouteInformation.updateRevenueFrame ();
+
 		currentRouteInformation.printDetail ();
 		tSetNewEndPoint = true;
 
