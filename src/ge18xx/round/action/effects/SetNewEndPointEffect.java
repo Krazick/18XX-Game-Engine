@@ -41,7 +41,6 @@ public class SetNewEndPointEffect extends ChangeRouteEffect {
 		Corporation tCompany;
 		TrainCompany tTrainCompany;
 		
-		System.out.println ("Set New End Point for Previous Route Segment");
 		if (actor.isACorporation ()) {
 			tCompany = (Corporation) actor;
 			if (tCompany.isATrainCompany ()) {
