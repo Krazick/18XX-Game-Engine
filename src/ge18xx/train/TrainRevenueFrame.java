@@ -42,6 +42,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	String LAST_REVENUE = "Last Round Revenue ";
 	String THIS_REVENUE = "This Round Revenue ";
 	String SELECT_ROUTE = "Select Route";
+	String CONFIRM_ROUTE = "Confirm Route";
 	String RUNNING_ROUTE = "Running";
 	String CONFIRM_REVENUE = "Confirm All Revenues";
 	String CANCEL = "Cancel";
@@ -195,8 +196,42 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 	
 	public void handleResetAllRoutes () {
-		System.out.println ("Ready to Reset All Routes");
-		int tTrainIndex, tTrainCount;
+		clearAllRoutes ();
+		clearAllRevenueValues ();
+		trainCompany.exitSelectRouteMode (RouteInformation.NO_ROUTE_INFORMATION);
+	}
+
+	public void copyAllRoutesToPrevious () {
+		int tTrainIndex;
+		int tTrainCount;
+		RouteInformation tRouteInformation;
+		Train tTrain;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			tTrain = trainCompany.getTrain (tTrainIndex);
+			tRouteInformation = tTrain.getCurrentRouteInformation ();
+			tTrain.setPreviousRouteInformation (tRouteInformation);
+		}
+	}
+
+	public void restoreAllRoutesFromPrevious () {
+		int tTrainIndex;
+		int tTrainCount;
+		RouteInformation tRouteInformation;
+		Train tTrain;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			tTrain = trainCompany.getTrain (tTrainIndex);
+			tRouteInformation = tTrain.getPreviousRouteInformation ();
+			tTrain.setCurrentRouteInformation (tRouteInformation);
+		}
+	}
+
+	public void clearAllRoutes () {
+		int tTrainIndex;
+		int tTrainCount;
 		RouteInformation tRouteInformation;
 		Train tTrain;
 		
@@ -208,10 +243,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				tRouteInformation.clearTrainOn ();
 			}
 		}
-		clearAllRevenueValues ();
-		trainCompany.exitSelectRouteMode (RouteInformation.NO_ROUTE_INFORMATION);
 	}
 
+	
 	public void clearAllRevenueValues () {
 		int tTrainIndex, tCityIndex;
 		int tTrainCount, tCityCount;
@@ -246,14 +280,14 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	private void fillRevenueForTrain (RouteInformation aRouteInformation, Train aTrain, int aTrainIndex) {
 		int tCityCount;
-		int tSelectedTrainIndex;
+//		int tSelectedTrainIndex;
 		int tCityIndex;
 		int tRevenue;
 		
-		tSelectedTrainIndex = aTrainIndex + 1;
+//		tSelectedTrainIndex = aTrainIndex + 1;
 		tCityCount = aTrain.getCityCount ();
-		System.out.println ("Train " + tSelectedTrainIndex + " with size " + tCityCount + " has Route with " + 
-					aRouteInformation.getCenterCount () + " Centers -- Phase " + aRouteInformation.getPhase ());
+//		System.out.println ("Train " + tSelectedTrainIndex + " with size " + tCityCount + " has Route with " + 
+//					aRouteInformation.getCenterCount () + " Centers -- Phase " + aRouteInformation.getPhase ());
 		
 		for (tCityIndex = 0; tCityIndex < aTrain.getCityCount (); tCityIndex++) {
 			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (0);
@@ -298,7 +332,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 	
 	public void enableConfirmRoute (JButton aRouteButton, String aToolTipText) {
-		aRouteButton.setText ("Confirm Route");
+		aRouteButton.setText (CONFIRM_ROUTE);
 		aRouteButton.setActionCommand (CONFIRM_ROUTE_ACTION);
 		aRouteButton.setToolTipText (aToolTipText);
 	}
@@ -441,6 +475,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	public void operateTrains (Point aFrameOffset) {
 		updateInfo ();
+		copyAllRoutesToPrevious ();
+		clearAllRoutes ();
 		clearAllRevenueValues ();
 		setLocation (aFrameOffset);
 		setYourCompany (true);
@@ -459,14 +495,11 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			if (tTrain != Train.NO_TRAIN) {
 				if (! tTrain.isCurrentRouteValid ())  {
 					tAllRoutesValid = false;
-					System.err.println ("Train # " + tTrainIndex + " Route is Invalid");
 				}
 			}
 			
 		}
-
-		// TODO: Must Fix testing 'isCurrentRouteValid' Method, not working properly for PRR
-		tAllRoutesValid = true;
+		
 		return tAllRoutesValid;
 	}
 	
