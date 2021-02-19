@@ -60,7 +60,6 @@ public class NodeInformation {
 		setOpenFlow (tOpenFlow);
 		setCorpStation (tCorpStation);
 		setLocation (tLocation);
-		System.out.println ("Node Info: " + getDetail ());
 	}
 
 	public int getBonus () {
