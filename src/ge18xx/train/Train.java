@@ -495,15 +495,12 @@ public class Train implements Comparable<Object> {
 
 	public void fixLoadedRoutes (MapFrame aMapFrame) {
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-			System.out.println ("Ready to fix Current Route info for the " + getName () + " Train");
 			currentRouteInformation.fixLoadedRoutes (aMapFrame);
 		}
 		if (previousRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			System.out.println ("Ready to fix Previous Route info for the " + getName () + " Train");
 		}
 	}
-//	public RouteInformation (Train aTrain, int aTrainIndex, Color aColor, String aRoundID, int aRegionBonus, 
-//			int aSpecialBonus, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
 
 	public boolean startRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
 			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
@@ -525,10 +522,10 @@ public class Train implements Comparable<Object> {
 		tRouteAction = RouteAction.NO_ACTION;
 		tRevenueCenter = aMapCell.getCenterAtLocation (aStartLocation);
 		currentRouteInformation.setStartSegment (tRouteSegment, tRevenueCenter, aPhase, tCorpID);
-		System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
+//		System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
 		currentRouteInformation.extendRouteInformation (tRouteSegment, aPhase, tCorpID, tRouteAction);
-		System.out.println ("Should have First Route Segment on Client with " + currentRouteInformation.getSegmentCount () + " Segments");
-		currentRouteInformation.printDetail ();
+//		System.out.println ("Should have First Route Segment on Client with " + currentRouteInformation.getSegmentCount () + " Segments");
+//		currentRouteInformation.printDetail ();
 		tRouteStarted = true;
 		
 		return tRouteStarted;
@@ -558,11 +555,11 @@ public class Train implements Comparable<Object> {
 
 			tCorpID = aTrainCompany.getID ();
 			tRouteAction = RouteAction.NO_ACTION;
-			System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
+//			System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
 			currentRouteInformation.addTheRouteSegment (tRouteSegment, tRouteAction);
-			System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
-			System.out.println ("Should have Extended Route Segment on Client");
-			currentRouteInformation.printDetail ();
+//			System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
+//			System.out.println ("Should have Extended Route Segment on Client");
+//			currentRouteInformation.printDetail ();
 			tRouteExtended = true;
 		} 
 		
@@ -576,10 +573,7 @@ public class Train implements Comparable<Object> {
 		boolean tSetNewEndPoint;
 		int tPreviousEndLocation, tPreviousStartLocation;
 		Location tPreviousEnd;
-//		RouteAction tRouteAction;
 		Track tOldTrack, tNewTrack;
-		
-//		tRouteAction = RouteAction.NO_ACTION;
 		
 		tPreviousRouteSegment = currentRouteInformation.getLastRouteSegment ();
 		tPreviousStartLocation = tPreviousRouteSegment.getStartLocationInt ();
@@ -593,18 +587,14 @@ public class Train implements Comparable<Object> {
 		tNewTrack = aMapCell.getTrackFromStartToEnd (aStartLocation.getLocation (), aEndLocation.getLocation ());
 		tPreviousRouteSegment.setEndNode (aEndLocation, aPhase);
 		
-//		if (tOldTrack == Track.NO_TRACK) {
-//			currentRouteInformation.setTrainOn (tRouteAction, tPreviousRouteSegment, aMapCell, tPreviousEnd, tPreviousStart);		
-//		} else {
-			currentRouteInformation.swapTrackHighlights (aTrainIndex, tOldTrack, tNewTrack);
-//		}
-		System.out.println ("Should have Set New End Point for PreviousRoute Segment on Client");
+		currentRouteInformation.swapTrackHighlights (aTrainIndex, tOldTrack, tNewTrack);
+//		System.out.println ("Should have Set New End Point for PreviousRoute Segment on Client");
 
 		currentRouteInformation.updateRevenueCenterInfo (aTrainCompany.getID (), tPreviousRouteSegment, 
 							aEndLocation, tPreviousEnd);
 		currentRouteInformation.updateRevenueFrame ();
 
-		currentRouteInformation.printDetail ();
+//		currentRouteInformation.printDetail ();
 		tSetNewEndPoint = true;
 
 		return tSetNewEndPoint;
