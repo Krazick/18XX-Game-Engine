@@ -120,10 +120,10 @@ public class RouteInformation {
 				}
 			}			
 		} catch (Exception tException) {
-			System.out.println ("Caught Exception with message ");
+			System.err.println ("Caught Exception with message ");
 			tException.printStackTrace ();
 		}
-		printDetail ();
+//		printDetail ();
 	}
 	
 	public void loadRouteForTrain (XMLNode aRouteSegmentNode, ElementName aElementName, Train aTrain) {
@@ -409,12 +409,14 @@ public class RouteInformation {
 		boolean tIsValidRoute = false;
 		
 		if (train != Train.NO_TRAIN) {
-			if (getCenterCount () > 1) {
+			if (routeSegments.size () == 0) {
+				tIsValidRoute = true;
+			} else  if (getCenterCount () > 1) {
 				if (hasACorpStation ()) {
 					tIsValidRoute = isRouteOpen ();
-					if (tIsValidRoute) {
-						tIsValidRoute = true;
-					}
+//					if (tIsValidRoute) {
+//						tIsValidRoute = true;
+//					}
 				}
 			}
 		}
