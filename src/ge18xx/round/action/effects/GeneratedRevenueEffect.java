@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -59,6 +60,12 @@ public class GeneratedRevenueEffect extends Effect {
 		trainCount = aTrainCount;
 	}
 	
+	@Override
+	public String getEffectReport (RoundManager aRoundManager) {
+		return (REPORT_PREFIX + name + " of " + Bank.formatCash (revenue) +
+				" with " + trainCount + " for " + getActorName () + ".");
+	}
+	
 	public int getRevenue () {
 		return revenue;
 	}
@@ -67,6 +74,7 @@ public class GeneratedRevenueEffect extends Effect {
 		return trainCount;
 	}
 	
+	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		TrainCompany tOperatingCompany;
