@@ -95,6 +95,9 @@ public class ChangeCorporationStatusEffect extends Effect {
 		tEffectApplied = false;
 		if (actor instanceof Corporation) {
 			tCorporation = (Corporation) actor;
+			if (newState.equals (ActorI.ActionStates.Operated)) {
+				tCorporation.clearTrainsFromMap ();
+			}
 			tCorporation.resetStatus (newState);
 			tEffectApplied = true;
 		}
