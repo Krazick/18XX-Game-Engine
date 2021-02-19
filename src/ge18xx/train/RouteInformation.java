@@ -501,7 +501,7 @@ public class RouteInformation {
 		int tInitialSegmentCount;
 		MapCell tNewMapCell;
 		
-		System.out.println ("--------- Start Extending Route, Success: " + tContinueWork);
+//		System.out.println ("--------- Start Extending Route, Success: " + tContinueWork);
 	
 		tInitialSegmentCount = getSegmentCount ();
 		if (tInitialSegmentCount == 0) {
@@ -526,8 +526,8 @@ public class RouteInformation {
 				}
 			}
 		}
-		System.out.println ("--------- Done Extending Route, Success: " + tContinueWork + " \n");
-		printDetail ();
+//		System.out.println ("--------- Done Extending Route, Success: " + tContinueWork + " \n");
+//		printDetail ();
 	}
 	
 	public void cycleToNextTrack (RouteAction aRouteAction, int aCorpID) {
@@ -547,8 +547,6 @@ public class RouteInformation {
 		if (tCycledToNextTrack) {
 			tNextTrack = tLastRouteSegment.getTrack ();
 			swapTrackHighlights (tTrainNumber, tLastTrack, tNextTrack);
-//			tLastTrack.clearTrainNumber ();
-//			tNextTrack.setTrainNumber (tTrainNumber);
 			
 			tMapCell = tLastRouteSegment.getMapCell ();
 			tStartLocation = tLastRouteSegment.getStartLocation ();
@@ -596,7 +594,7 @@ public class RouteInformation {
 		int tCurrentCellNeighborSide;
 		RevenueCenter tPreviousRevenueCenter;
 		
-		System.out.println ("Time to Add New Previous Route Segment");
+//		System.out.println ("Time to Add New Previous Route Segment");
 		
 		tSegmentCount = getSegmentCount ();
 		tPreviousSegment = getRouteSegment (tSegmentCount - 1);
@@ -645,7 +643,6 @@ public class RouteInformation {
 	private boolean addNextRouteSegment (RouteSegment aRouteSegment, int aCorpID, RouteAction aRouteAction) {
 		boolean tAddNextRouteSegment = false;
 		int tCurrentSide;
-//		int tTrainNumber;
 		MapCell tCurrentMapCell, tPreviousMapCell;
 		RouteSegment tPreviousSegment;
 		Location tPossibleEnd;
@@ -663,10 +660,6 @@ public class RouteInformation {
 		if (! tTrack.isTrackUsed ()) {
 			aRouteSegment.applyRCInfo (phase, aCorpID);
 			tAddNextRouteSegment = addTheRouteSegment (aRouteSegment, aRouteAction);
-//			tTrainNumber = getTrainIndex () + 1;
-//			aRouteSegment.setTrainOnTrack (tTrack, tTrainNumber);
-//			addRouteSegment (aRouteSegment, aRouteAction);
-//			tAddNextRouteSegment = true;
 		}
 		
 		return tAddNextRouteSegment;
@@ -692,11 +685,8 @@ public class RouteInformation {
 		MapCell tCurrentMapCell, tPreviousMapCell;
 		int tSegmentCount;
 		int tPreviousSide, tPreviousEnd, tPreviousStart;
-//		int tTrainNumber;
-//		Track tTrack;
-//		Location tPreviousStartLoc, tPreviousEndLoc;
 		
-		System.out.println ("Time to Fill End Point for Previous Route Segment");
+//		System.out.println ("Time to Fill End Point for Previous Route Segment");
 		tSegmentCount = getSegmentCount ();
 		tPreviousSegment = getRouteSegment (tSegmentCount - 1);
 		tCurrentMapCell = aRouteSegment.getMapCell ();
@@ -723,7 +713,7 @@ public class RouteInformation {
 		} else {
 			System.err.println ("MapCell " + tPreviousMapCell.getCellID () + " and " + tCurrentMapCell.getCellID () + " are not Neighbors");
 		}
-		System.out.println ("--------- Done Filling End Point, Success: " + tFillEndPoint);
+//		System.out.println ("--------- Done Filling End Point, Success: " + tFillEndPoint);
 		
 		return tFillEndPoint;
 	}
