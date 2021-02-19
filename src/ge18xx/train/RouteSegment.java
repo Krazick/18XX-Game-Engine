@@ -715,7 +715,6 @@ public class RouteSegment {
 		Tile tTile;
 		int tTileNumber;
 		
-		System.out.println ("Need to get the MapCell with ID " + mapCellID);
 		tMapCell = aMapFrame.getMapCellForID (mapCellID);
 		if (tMapCell != MapCell.NO_MAP_CELL) {
 			setMapCell (tMapCell);
