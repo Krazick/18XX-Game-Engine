@@ -78,7 +78,7 @@ public class NodeInformation {
 		return corpStation;
 	}
 
-	private void setBonus (int aBonus) {
+	public void setBonus (int aBonus) {
 		bonus = aBonus;
 	}
 
@@ -199,8 +199,7 @@ public class NodeInformation {
 			} else {
 				System.err.println ("Can't find Revenue Center at " + aLocation.getLocation ());
 			}
-		}
-		
+		}	
 	}
 	
 	public XMLElement getElement (XMLDocument aXMLDocument, ElementName aElementName) {
@@ -216,7 +215,6 @@ public class NodeInformation {
 
 		return tXMLElement;
 	}
-
 
 	public void fixRevenueCenter (Tile tTile) {
 		RevenueCenter tRevenueCenter;

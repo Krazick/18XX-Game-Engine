@@ -414,9 +414,6 @@ public class RouteInformation {
 			} else  if (getCenterCount () > 1) {
 				if (hasACorpStation ()) {
 					tIsValidRoute = isRouteOpen ();
-//					if (tIsValidRoute) {
-//						tIsValidRoute = true;
-//					}
 				}
 			}
 		}
