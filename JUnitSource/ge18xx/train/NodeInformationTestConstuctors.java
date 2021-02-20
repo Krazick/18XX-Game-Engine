@@ -15,10 +15,7 @@ import ge18xx.map.Location;
 @DisplayName ("Node Information Constructor Tests")
 
 class NodeInformationTestConstuctors {
-//	Location locationSide;
-//	Location locationSide1, locationSide3;
-//	Location locationCenter;
-	Location mLocationSide;
+ 	Location mLocationSide;
 	Location mLocationSide1;
 	Location mLocationSide3;
 	Location mLocationCenter;
