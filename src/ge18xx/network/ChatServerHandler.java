@@ -107,6 +107,10 @@ public class ChatServerHandler extends ServerHandler {
 		println (aGameActivity);
 	}
 	
+	public void sendGameSupport (String aGameSupport) {
+		println (aGameSupport);
+	}
+
 	public void sendNewUser () {
 		println ("name " + name);
 	}
