@@ -256,7 +256,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tTrain = trainCompany.getTrain (tTrainIndex);
 			tCityCount = tTrain.getCityCount ();
 			for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
-				revenuesByTrain [tTrainIndex] [tCityIndex].setValue (0);
+				if (revenuesByTrain [tTrainIndex] [tCityIndex] != null) {
+					revenuesByTrain [tTrainIndex] [tCityIndex].setValue (0);
+				}
 			}
 		}
 	}
@@ -437,6 +439,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tTrainCount = trainCompany.getTrainCount ();
 
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			// TODO: Test for NULL Train
 			selectRoutes [tTrainIndex].setEnabled (false);
 			selectRoutes [tTrainIndex].setToolTipText (aToolTipText);
 		}
