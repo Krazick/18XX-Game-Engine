@@ -49,8 +49,7 @@ import java.awt.Color;
 public class JGameClient extends XMLFrame {
 	private static final long serialVersionUID = 1L;
 	private static final int DEFAULT_SERVER_PORT = 18300;
-	private static final String DEFAULT_REMOTE_SERVER_IP = "173.66.216.105"; // OLD "71.178.207.104";
-//	private static final String DEFAULT_LOCAL_SERVER_IP = "192.168.1.21";
+	private static final String DEFAULT_REMOTE_SERVER_IP = "173.66.216.105";
 	private static final String CONNECT_ACTION = "CONNECT";
 	private final String ALREADY_CONNECTED = "You are already connected";
 	private final String NO_TOOL_TIP = "";
@@ -64,10 +63,17 @@ public class JGameClient extends XMLFrame {
 	// Static Strings used by Client Handler - Should replace with XML Utilities handling
 	public static final String GAME_ACTIVITY_TAG = "GA";
 	public static final String GAME_ACTIVITY_PREFIX = "Game Activity";
-
+	public static final String GAME_SUPPORT_TAG = "GS";
+	public static final String GAME_SUPPORT_PREFIX = "Game Support";
+	public static final String GA_XML_START = "<" + GAME_ACTIVITY_TAG + ">";
+	public static final String GA_XML_END = "</" + GAME_ACTIVITY_TAG + ">";
+	public static final String GS_XML_START = "<" + GAME_SUPPORT_TAG + ">";
+	public static final String GS_XML_END = "</" + GAME_SUPPORT_TAG + ">";
+	
 	// XML Utilities Element Names and Attribute Names
 	public static final ElementName EN_NETWORK_GAME = new ElementName ("NetworkGame");
-	public static final ElementName EN_GAME_ACTIVITY = new ElementName ("GA");
+	public static final ElementName EN_GAME_ACTIVITY = new ElementName (GAME_ACTIVITY_TAG);
+	public static final ElementName EN_GAME_SUPPORT = new ElementName (GAME_SUPPORT_TAG);
 	public static final ElementName EN_GAME_SELECTION = new ElementName ("GameSelection");
 	public static final ElementName EN_PLAYER_ORDER = new ElementName ("PlayerOrder");
 	public static final AttributeName AN_SERVER_IP = new AttributeName ("serverIP");
@@ -76,7 +82,9 @@ public class JGameClient extends XMLFrame {
 	public static final AttributeName AN_GAME_OPTIONS = new AttributeName ("gameOptions");
 	public static final AttributeName AN_BROADCAST_MESSAGE = new AttributeName ("z_broadcast");
 	public static final AttributeName AN_PLAYER_ORDER = new AttributeName ("players");
-
+	public static final AttributeName AN_REQUEST_ACTION_NUMBER = new AttributeName ("requestActionNumber");
+	public static final AttributeName AN_NONE = null;
+	
 	// Java Swing Objects
 	private JTextPane chatText;
 	private JTextPane gameActivity;
@@ -84,6 +92,7 @@ public class JGameClient extends XMLFrame {
 	private JTextField message;
 	private JButton connectButton;
 	private JButton sendMessageButton;
+	private JButton sendGameSupportButton;
 	private JButton awayFromKeyboardAFKButton;
 	private JButton disconnectButton;
 	private JButton refreshPlayersButton;
@@ -185,7 +194,7 @@ public class JGameClient extends XMLFrame {
 			}
 		});
 		
-		connectButton.addKeyListener (new KeyAdapter() {
+		connectButton.addKeyListener (new KeyAdapter () {
 			@Override
 			public void keyReleased (KeyEvent aActionEvent) {
 				if (aActionEvent.getKeyCode () == KeyEvent.VK_ENTER){
@@ -201,7 +210,7 @@ public class JGameClient extends XMLFrame {
 			}
 		});
 		
-		sendMessageButton.addKeyListener (new KeyAdapter() {
+		sendMessageButton.addKeyListener (new KeyAdapter () {
 			@Override
 			public void keyReleased (KeyEvent aActionEvent) {
 				if (aActionEvent.getKeyCode () == KeyEvent.VK_ENTER) {
@@ -211,7 +220,13 @@ public class JGameClient extends XMLFrame {
 			}
 		});
 		
-		refreshPlayersButton.addActionListener (new ActionListener() {
+		sendGameSupportButton.addActionListener (new ActionListener () {
+			public void actionPerformed (ActionEvent aActionEvent) {
+				sendGameSupport (aActionEvent);
+			}
+		});
+		
+		refreshPlayersButton.addActionListener (new ActionListener () {
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				
@@ -227,14 +242,14 @@ public class JGameClient extends XMLFrame {
 			}
 		});
 
-		message.addActionListener (new ActionListener() {
+		message.addActionListener (new ActionListener () {
 			public void actionPerformed (ActionEvent aActionEvent) {
 				sendMessage (aActionEvent);
 			}
 		});
 		
-		awayFromKeyboardAFKButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent aActionEvent) {
+		awayFromKeyboardAFKButton.addActionListener (new ActionListener() {
+			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				
 				if ("AFK".equals (tAction)) {
@@ -284,6 +299,8 @@ public class JGameClient extends XMLFrame {
 	public void setForUnconnected () {
 		sendMessageButton.setEnabled (false);
 		sendMessageButton.setToolTipText (NOT_CONNECTED);
+		sendGameSupportButton.setEnabled (false);
+		sendGameSupportButton.setToolTipText (NOT_CONNECTED);
 		disconnectButton.setEnabled (false);
 		disconnectButton.setToolTipText (NOT_CONNECTED);
 		refreshPlayersButton.setEnabled (false);
@@ -307,6 +324,8 @@ public class JGameClient extends XMLFrame {
 		connectButton.setToolTipText (ALREADY_CONNECTED);
 		sendMessageButton.setEnabled (true);
 		sendMessageButton.setToolTipText (NO_TOOL_TIP);
+		sendGameSupportButton.setEnabled (true);
+		sendGameSupportButton.setToolTipText (NO_TOOL_TIP);
 		disconnectButton.setEnabled (true);
 		disconnectButton.setToolTipText ("For Debugging Purposes ONLY");
 		awayFromKeyboardAFKButton.setEnabled (true);
@@ -349,6 +368,7 @@ public class JGameClient extends XMLFrame {
 		// Action Buttons
 		connectButton = new JButton (CONNECT_ACTION);
 		sendMessageButton = new JButton ("SEND");
+		sendGameSupportButton = new JButton ("Game Support");
 		awayFromKeyboardAFKButton = new JButton ("AFK");
 		refreshPlayersButton = new JButton ("REFRESH");
 		disconnectButton = new JButton("DISCONNECT");
@@ -412,7 +432,9 @@ public class JGameClient extends XMLFrame {
 							.addComponent(message, GroupLayout.PREFERRED_SIZE, 619, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(sendMessageButton)
-							.addPreferredGap(ComponentPlacement.RELATED, 339, Short.MAX_VALUE)
+							.addGap (18)
+							.addComponent(sendGameSupportButton)
+							.addPreferredGap(ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
 							.addComponent(awayFromKeyboardAFKButton)
 							.addGap (85))
 						.addGroup(groupLayout.createSequentialGroup()
@@ -468,6 +490,7 @@ public class JGameClient extends XMLFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(sendMessageButton)
+						.addComponent(sendGameSupportButton)
 						.addComponent(awayFromKeyboardAFKButton)
 						.addComponent(disconnectButton))
 					.addGap(13))
@@ -677,25 +700,82 @@ public class JGameClient extends XMLFrame {
 			AttributeName aAttributeName1, String aAttributeValue1,
 			AttributeName aAttributeName2, String aAttributeValue2) {
 		String tGameActivity = "";
-		XMLDocument tXMLDocument = new XMLDocument ();
-		XMLElement tXMLGameActivity, tXMLElement;
-		
-		tXMLGameActivity = tXMLDocument.createElement (EN_GAME_ACTIVITY);
-		tXMLElement = tXMLDocument.createElement (aElementName);
-		tXMLElement.setAttribute (aAttributeName1, aAttributeValue1);
-		tXMLElement.setAttribute (aAttributeName2, aAttributeValue2);
-		tXMLGameActivity.appendChild (tXMLElement);
-		tXMLDocument.appendChild (tXMLGameActivity);
-		
-		tGameActivity = tXMLDocument.toString ();
-		tGameActivity = tGameActivity.replace ("\n", "");
+		tGameActivity = constructGameXML (EN_GAME_ACTIVITY, aElementName, 
+				aAttributeName1, aAttributeValue1, 
+				aAttributeName2, aAttributeValue2);
 		
 		return tGameActivity;
 	}
 
-	private void sendMessage (ActionEvent e) {
-		String tAction = e.getActionCommand ();
+	public String constructGameSupportXML (ElementName aElementName, 
+			AttributeName aAttributeName1, String aAttributeValue1) {
+		String tGameSupport = "";
+		
+		tGameSupport = constructGameXML (EN_GAME_SUPPORT, aElementName, 
+				aAttributeName1, aAttributeValue1);
+		
+		return tGameSupport;
+	}
+	
+	public String constructGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, 
+			AttributeName aAttributeName1, String aAttributeValue1) {
+		String tGameSupport;
+		XMLDocument tXMLDocument = new XMLDocument ();
+		XMLElement tXMLGameMessage, tXMLElement;
+		
+		tXMLGameMessage = tXMLDocument.createElement (aPrimaryEN);
+		tXMLElement = tXMLDocument.createElement (aSecondaryEN);
+		
+		tXMLElement.setAttribute (aAttributeName1, aAttributeValue1);
+		tXMLGameMessage.appendChild (tXMLElement);
+		tXMLDocument.appendChild (tXMLGameMessage);
+		
+		tGameSupport = tXMLDocument.toString ();
+		tGameSupport = tGameSupport.replace ("\n", "");
+		
+		return tGameSupport;
+	}
+
+	public String constructGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, 
+					AttributeName aAttributeName1, String aAttributeValue1,
+					AttributeName aAttributeName2, String aAttributeValue2) {
+		String tGameSupport;
+		XMLDocument tXMLDocument = new XMLDocument ();
+		XMLElement tXMLGameMessage, tXMLElement;
+		
+		tXMLGameMessage = tXMLDocument.createElement (aPrimaryEN);
+		tXMLElement = tXMLDocument.createElement (aSecondaryEN);
+		
+		tXMLElement.setAttribute (aAttributeName1, aAttributeValue1);
+		tXMLElement.setAttribute (aAttributeName2, aAttributeValue2);
+		tXMLGameMessage.appendChild (tXMLElement);
+		tXMLDocument.appendChild (tXMLGameMessage);
+		
+		tGameSupport = tXMLDocument.toString ();
+		tGameSupport = tGameSupport.replace ("\n", "");
+		
+		return tGameSupport;
+	}
+	
+	
+	private void sendMessage (ActionEvent aActionEvent) {
+		String tAction = aActionEvent.getActionCommand ();
 		sendMessage (tAction);
+	}
+	
+	private void sendGameSupport (ActionEvent aActionEvent) {
+		String tAction = aActionEvent.getActionCommand ();
+		String tFullMessage;
+		
+		if ("Game Support".equals (tAction)) {
+			String tMessage = message.getText ();
+			if (tMessage.length () > 0) {
+				System.out.println ("Need to send Game Support Request [" + tMessage + "]");
+				tFullMessage = GAME_SUPPORT_PREFIX + " " + 
+						this.constructGameSupportXML (EN_GAME_SUPPORT, AN_REQUEST_ACTION_NUMBER, tMessage); 
+				serverHandler.sendGameSupport (tFullMessage);
+			}
+		}
 	}
 	
 	private void sendMessage (String aAction) {
@@ -707,8 +787,10 @@ public class JGameClient extends XMLFrame {
 			
 			// Send the Message to the Server
 			if (tMessage.length () > 0) {
-				if (tMessage.startsWith ("<GA>") && tMessage.endsWith ("</GA>")) {
+				if (tMessage.startsWith (GA_XML_START) && tMessage.endsWith (GA_XML_END)) {
 					serverHandler.sendGameActivity (tMessage);
+				} else if (tMessage.startsWith (GA_XML_START) && tMessage.endsWith (GA_XML_END)) {
+					serverHandler.sendGameSupport (tMessage);
 				} else {
 					serverHandler.sendMessage (tMessage);
 					StyleConstants.setItalic (iSaid, true);
@@ -733,15 +815,16 @@ public class JGameClient extends XMLFrame {
 	public void handleGameActivity (String aGameActivity) {
 		String tGameActivity;
 		
-		tGameActivity = aGameActivity.substring (14);
+		tGameActivity = aGameActivity.substring (GAME_ACTIVITY_PREFIX.length () + 1);
 		gameManager.handleGameActivity (tGameActivity);
 	}
 	
 	public void handleServerMessage (String tMessage) {
 		String tPatternStart, tPatternEnd;
 		
-		tPatternStart = GAME_ACTIVITY_PREFIX + " <" + GAME_ACTIVITY_TAG + ">";
-		tPatternEnd = "</" + GAME_ACTIVITY_TAG + ">";
+		System.out.println ("GAP " + GAME_ACTIVITY_PREFIX.length () + " GSP " + GAME_SUPPORT_PREFIX.length ());
+		tPatternStart = GAME_ACTIVITY_PREFIX + " " + GA_XML_START;
+		tPatternEnd = GA_XML_END;
 		if (tMessage.startsWith (tPatternStart) && tMessage.endsWith (tPatternEnd)) {
 			handleGameActivity (tMessage);
 		} else {
