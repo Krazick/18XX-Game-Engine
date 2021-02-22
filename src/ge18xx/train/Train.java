@@ -575,28 +575,33 @@ public class Train implements Comparable<Object> {
 		Location tPreviousEnd;
 		Track tOldTrack, tNewTrack;
 		
-		tPreviousRouteSegment = currentRouteInformation.getLastRouteSegment ();
-		tPreviousStartLocation = tPreviousRouteSegment.getStartLocationInt ();
-		tPreviousEnd = tPreviousRouteSegment.getEndLocation ();
-		tPreviousEndLocation = tPreviousEnd.getLocation ();
-		
-		if (tPreviousEndLocation == Location.NO_LOCATION) {
-			tPreviousEndLocation = aEndLocation.getLocation ();
+		// TODO: Test currentRouteInformation as Not Null
+		if (currentRouteInformation == RouteInformation.NO_ROUTE_INFORMATION) {
+			tSetNewEndPoint = false;
+		} else {
+			tPreviousRouteSegment = currentRouteInformation.getLastRouteSegment ();
+			tPreviousStartLocation = tPreviousRouteSegment.getStartLocationInt ();
+			tPreviousEnd = tPreviousRouteSegment.getEndLocation ();
+			tPreviousEndLocation = tPreviousEnd.getLocation ();
+			
+			if (tPreviousEndLocation == Location.NO_LOCATION) {
+				tPreviousEndLocation = aEndLocation.getLocation ();
+			}
+			tOldTrack = aMapCell.getTrackFromStartToEnd (tPreviousStartLocation, tPreviousEndLocation);
+			tNewTrack = aMapCell.getTrackFromStartToEnd (aStartLocation.getLocation (), aEndLocation.getLocation ());
+			tPreviousRouteSegment.setEndNode (aEndLocation, aPhase);
+			
+			currentRouteInformation.swapTrackHighlights (aTrainIndex, tOldTrack, tNewTrack);
+	//		System.out.println ("Should have Set New End Point for PreviousRoute Segment on Client");
+	
+			currentRouteInformation.updateRevenueCenterInfo (aTrainCompany.getID (), tPreviousRouteSegment, 
+								aEndLocation, tPreviousEnd);
+			currentRouteInformation.updateRevenueFrame ();
+	
+	//		currentRouteInformation.printDetail ();
+			tSetNewEndPoint = true;
 		}
-		tOldTrack = aMapCell.getTrackFromStartToEnd (tPreviousStartLocation, tPreviousEndLocation);
-		tNewTrack = aMapCell.getTrackFromStartToEnd (aStartLocation.getLocation (), aEndLocation.getLocation ());
-		tPreviousRouteSegment.setEndNode (aEndLocation, aPhase);
 		
-		currentRouteInformation.swapTrackHighlights (aTrainIndex, tOldTrack, tNewTrack);
-//		System.out.println ("Should have Set New End Point for PreviousRoute Segment on Client");
-
-		currentRouteInformation.updateRevenueCenterInfo (aTrainCompany.getID (), tPreviousRouteSegment, 
-							aEndLocation, tPreviousEnd);
-		currentRouteInformation.updateRevenueFrame ();
-
-//		currentRouteInformation.printDetail ();
-		tSetNewEndPoint = true;
-
 		return tSetNewEndPoint;
 	}
 }
