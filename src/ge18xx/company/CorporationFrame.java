@@ -133,7 +133,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				corporationContainer.add (Box.createVerticalStrut (10));
 			}
 			add (corporationContainer);
-			setSize (900, 700);
+			setSize (900, 800);
 			setIsNetworkGame (aIsNetworkGame);
 			updateUndoButton ();
 		}

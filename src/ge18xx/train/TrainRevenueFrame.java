@@ -604,7 +604,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tTrainCount = trainCompany.getTrainCount ();
 		tMaxTrainSize = trainCompany.getMaxTrainSize ();
 		tWidth = 350 + tMaxTrainSize * 50;
-		tHeight = 205 + (tTrainCount * 40);
+		tHeight = 180 + (tTrainCount * 40);
 		setSize (tWidth, tHeight);
 	}
 	
@@ -626,10 +626,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updatePresidentLabel ();
 		lastRevenue.setText (LAST_REVENUE + trainCompany.getFormattedLastRevenue ());
 		thisRevenue.setText (THIS_REVENUE + "NONE");
-		if (! frameSetup) {
-			fillRevenuesBox ();
-			updateFrameSize ();
-		}
+		fillRevenuesBox ();
+		updateFrameSize ();
 		setFrameSetup (true);
 	}
 
