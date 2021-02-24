@@ -797,11 +797,13 @@ public class RoundManager {
 	public void resumeStockRound (int aRoundIDPart1) {
 		setRoundType (ActorI.ActionStates.StockRound);
 		roundFrame.setStockRound (gameName, aRoundIDPart1);
+		roundFrame.enablePassButton ();
 	}
 	
 	public void startAuctionRound (boolean aCreateNewAuctionAction) {
 		setRoundToAuctionRound (aCreateNewAuctionAction);
 		auctionRound.startAuctionRound ();
+		roundFrame.disablePassButton ("In Auction Round, Can't Pass");
 	}
 	
 	public void startOperatingRound () {
@@ -816,6 +818,7 @@ public class RoundManager {
 			startStockRound ();
 		}
 		roundFrame.resetBackGround ();
+		roundFrame.disablePassButton ("In Operating Round, Can't Pass");
 	}
 	
 	public void endOperatingRound () {
@@ -837,6 +840,7 @@ public class RoundManager {
 		setRoundToStockRound (tIDPart1);
 		stockRound.clearAllSoldCompanies ();
 		stockRound.setCurrentPlayer (stockRound.getPriorityIndex ());
+		roundFrame.enablePassButton ();
 	}
 	
 	public boolean applyingAction () {
@@ -1015,5 +1019,9 @@ public class RoundManager {
 
 	public MapFrame getMapFrame() {
 		return gameManager.getMapFrame ();
+	}
+
+	public void passStockAction () {
+		stockRound.passStockAction ();
 	}
 }

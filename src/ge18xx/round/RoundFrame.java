@@ -31,7 +31,9 @@ import javax.swing.UIManager;
 public class RoundFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final static String NEWLINE = "\n";
+	private static final String PASS_STOCK_TEXT = "Pass in Stock Round";
 	private static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
+	private static final String PASS_STOCK_ACTION = "passStockAction";
 	private static final String PLAYER_ACTION = "DoPlayerAction";
 	private static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
 	private static final String CORPORATION_ACTION = "DoCorporationAction";
@@ -50,6 +52,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	JLabel phaseLabel;
 	JPanel playersContainer;
 	JLabel totalCashLabel;
+	JButton passActionButton;
 	JButton doActionButton;
 	JButton showGameEngineFrameButton;
 	Color defaultColor;
@@ -132,7 +135,15 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		setStockRound (roundManager.getGameName (), roundManager.getStockRoundID ());
 		
 		buttonsBox = Box.createHorizontalBox ();
+		
+		passActionButton = new JButton (PASS_STOCK_TEXT);
+		passActionButton.setActionCommand (PASS_STOCK_ACTION);
+		passActionButton.addActionListener (this);
+		passActionButton.setAlignmentX (Component.CENTER_ALIGNMENT);
+		
 		buttonsBox.add (doActionButton);
+		buttonsBox.add (Box.createHorizontalStrut(20));
+		buttonsBox.add (passActionButton);
 		buttonsBox.add (Box.createHorizontalStrut(20));
 	
 		showGameEngineFrameButton = new JButton ("Show Game Engine Frame");
@@ -222,6 +233,9 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		if (SHOW_GE_FRAME_ACTION.equals (aEvent.getActionCommand ())) {
 			roundManager.showGEFrame ();
 		}
+		if (PASS_STOCK_ACTION.equals (aEvent.getActionCommand ())) {
+			roundManager.passStockAction ();
+		}
 	}
 	
 	private void buildPlayersContainer () {
@@ -278,6 +292,9 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	}
 	
 	public void setCurrentPlayerText (String aPlayerName) {
+		if (passActionButton != null) {
+			passActionButton.setText (aPlayerName + " " + PASS_STOCK_TEXT);
+		}
 		updateActionButtonText (aPlayerName + " do Stock Action");
 		setActionForCurrentPlayer ();
 	}
@@ -304,6 +321,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		resetBackGround ();
 		setFrameLabel (aGameName, " " + aRoundID);
 		setActionButton ("Do Auction Action", PLAYER_AUCTION_ACTION);
+		disablePassButton ("In Auction Round, Can't Pass");
 	}
 
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
@@ -311,6 +329,8 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		setFrameLabel (aGameName, " " + aRoundIDPart1 + " [" + aCurrentOR + " of " + aMaxOR + "]");
 		setActionButton ("Do Company Action", CORPORATION_ACTION);
 		updateTotalCashLabel ();
+		disablePassButton ("In Operating Round, Can't Pass");
+		passActionButton.setText (PASS_STOCK_TEXT);
 	}
 	
 	public void setStockRound (String aGameName, int aRoundID) {
@@ -319,6 +339,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		setActionButton ("Player do Stock Action", PLAYER_ACTION);
 		setCurrentPlayerText ();
 		updateTotalCashLabel ();
+		enablePassButton ();
 	}
 	
 	public void setActionForCurrentPlayer () {
@@ -490,5 +511,19 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		headerBox.setBackground (defaultColor);
 		parPricesBox.setBackground (defaultColor);
 		trainSummaryBox.setBackground (defaultColor);
+	}
+	
+	public void disablePassButton (String aToolTip) {
+		if (passActionButton != null) {
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText (aToolTip);
+		}
+	}
+	
+	public void enablePassButton () {
+		if (passActionButton != null) {
+			passActionButton.setEnabled (true);
+			passActionButton.setToolTipText ("");
+		}
 	}
 }

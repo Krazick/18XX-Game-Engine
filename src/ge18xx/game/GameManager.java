@@ -2188,6 +2188,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void showGEFrame() {
 		game18XXFrame.setVisible (true);
-		
+		game18XXFrame.toFront ();
 	}
 }
