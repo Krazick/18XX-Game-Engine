@@ -786,15 +786,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tOtherPresidentName;
 		String tCurrentPresidentName;
 		
+		buyTrainActionButton.setText (BUY_TRAIN);
 		tOtherTrainHolder = corporation.getOtherSelectedTrainHolder ();
 		if (tOtherTrainHolder != null) {
 			if (tOtherTrainHolder instanceof Corporation) {
 				tOtherCorporation = (Corporation) tOtherTrainHolder;
 				tOtherPresidentName = tOtherCorporation.getPresidentName ();
 				tCurrentPresidentName = corporation.getPresidentName ();
-				if (tCurrentPresidentName.equals (tOtherPresidentName)) {
-					buyTrainActionButton.setText (BUY_TRAIN);
-				} else {
+				if (! tCurrentPresidentName.equals (tOtherPresidentName)) {
 					buyTrainActionButton.setText (OFFER_TO_BUY_TRAIN);
 				}
 			}
