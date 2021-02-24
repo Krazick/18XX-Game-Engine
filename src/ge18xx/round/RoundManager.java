@@ -840,7 +840,7 @@ public class RoundManager {
 		setRoundToStockRound (tIDPart1);
 		stockRound.clearAllSoldCompanies ();
 		stockRound.setCurrentPlayer (stockRound.getPriorityIndex ());
-		roundFrame.enablePassButton ();
+		roundFrame.updatePassButton ();
 	}
 	
 	public boolean applyingAction () {

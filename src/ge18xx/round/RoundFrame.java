@@ -30,7 +30,7 @@ import javax.swing.UIManager;
 
 public class RoundFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	private final static String NEWLINE = "\n";
+	private static final String NEWLINE = "\n";
 	private static final String PASS_STOCK_TEXT = "Pass in Stock Round";
 	private static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
 	private static final String PASS_STOCK_ACTION = "passStockAction";
@@ -39,6 +39,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	private static final String CORPORATION_ACTION = "DoCorporationAction";
 	private static final String PLAYER_CONTAINER_LABEL = "Player Order and Last Action";
 	private static final String YOU_NOT_PRESIDENT = "You are not the President of the Company";
+	private static final String NOT_YOUR_TURN = "It is not your turn to Perform the Action";
 	RoundManager roundManager;
 	Container centerBox;
 	Container roundBox;
@@ -78,11 +79,9 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		
 		fillParPrices ();
 		updateParPrices ();
-//		parPricesBox.setBackground (Color.yellow);
 		trainSummary = new JTextArea ("");
 		updateTrainSummary ();
 		trainSummaryBox.add (trainSummary);
-//		trainSummaryBox.setBackground (Color.GRAY);
 		
 		headerBox.setLayout (new BoxLayout (headerBox, BoxLayout.X_AXIS));
 		headerBox.setAlignmentY (Component.TOP_ALIGNMENT);
@@ -118,7 +117,6 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		phaseLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		roundInfoBox.add (phaseLabel);
 		roundInfoBox.add (Box.createVerticalStrut (10));
-//		roundInfoBox.setBackground (Color.lightGray);
 		updatePhaseLabel ();
 		
 		roundBox.add (headerBox);
@@ -297,6 +295,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		}
 		updateActionButtonText (aPlayerName + " do Stock Action");
 		setActionForCurrentPlayer ();
+		updatePassButton ();
 	}
 
 	public void setFrameLabel (String aGameName, String aIDLabel) {
@@ -339,7 +338,29 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		setActionButton ("Player do Stock Action", PLAYER_ACTION);
 		setCurrentPlayerText ();
 		updateTotalCashLabel ();
-		enablePassButton ();
+		updatePassButton ();
+	}
+	
+	public void updatePassButton () {
+		String tClientUserName, tCurrentPlayerName;
+		GameManager tGameManager;
+		
+		tGameManager = roundManager.getGameManager ();
+		if (passActionButton != null) {
+			if (tGameManager.isNetworkGame ()) {
+				tCurrentPlayerName = getCurrentPlayerName ();
+				tClientUserName = tGameManager.getClientUserName ();
+				if (tCurrentPlayerName.equals (tClientUserName)) {
+					enablePassButton ();
+					setBackGround ();
+				} else {
+					disablePassButton (NOT_YOUR_TURN);
+					resetBackGround ();
+				}
+			} else {
+				enablePassButton ();
+			}
+		}
 	}
 	
 	public void setActionForCurrentPlayer () {
@@ -357,7 +378,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 					setBackGround ();
 				} else {
 					doActionButton.setEnabled (false);
-					doActionButton.setToolTipText ("It is not your turn to Perform the Action");
+					doActionButton.setToolTipText (NOT_YOUR_TURN);
 					resetBackGround ();
 				}
 			}			
