@@ -131,13 +131,13 @@ public class ChatServerHandler extends ServerHandler {
 		println ("AFK");
 	}
 
-	public void sendUserReady () {
-		println ("Ready");
+	public void sendUserReady (String aGameID) {
+		println ("Game Support <GS gameID=\"" + aGameID + "\"><Ready></GS>");
 		jClient.appendToChat ("I am ready to play the Game", true);
 	}
 
 	public void sendUserStart () {
-		println ("Start");
+		println ("<GS><Start></GS>");
 		jClient.appendToChat ("I started the Game", true);
 	}
 	
