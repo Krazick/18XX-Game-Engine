@@ -507,9 +507,11 @@ public class JGameClient extends XMLFrame {
 	private void handleStartGame () {
 		SyncActionNumber tSyncActionNumber;
 		Player tPlayer;
-		RoundManager tRoundManager;
+		RoundManager tRoundManager;		
+		String tGameID;
 		
-		serverHandler.sendUserStart ();
+		tGameID = gameManager.getGameID ();
+		serverHandler.sendUserStart (tGameID);
 		startsGame ();
 		tPlayer = gameManager.getClientPlayer ();
 		tSyncActionNumber = new SyncActionNumber (ActionStates.StockRound, "1", tPlayer);
@@ -826,7 +828,6 @@ public class JGameClient extends XMLFrame {
 	public void handleServerMessage (String tMessage) {
 		String tPatternStart, tPatternEnd;
 		
-		System.out.println ("GAP " + GAME_ACTIVITY_PREFIX.length () + " GSP " + GAME_SUPPORT_PREFIX.length ());
 		tPatternStart = GAME_ACTIVITY_PREFIX + " " + GA_XML_START;
 		tPatternEnd = GA_XML_END;
 		if (tMessage.startsWith (tPatternStart) && tMessage.endsWith (tPatternEnd)) {
