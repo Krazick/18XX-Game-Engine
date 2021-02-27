@@ -29,4 +29,5 @@ public interface NetworkGameSupport {
 	public Player getClientPlayer ();
 	public RoundManager getRoundManager ();
 	public Point getOffsetGEFrame ();
+	public String getGameID ();
 }
