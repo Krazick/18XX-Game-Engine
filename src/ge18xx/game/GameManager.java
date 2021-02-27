@@ -115,13 +115,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 	JGameClient networkJGameClient;
 	boolean notifyNetwork = false;
 	String clientUserName;
+	String gameID;
 	Config configData;
 	ArrayList<XMLFrame> configFrames;
 	boolean gameStarted;
 	boolean applyingNetworkAction = false;
 	
 	public GameManager () {
-		
+		gameID = "";		
 	}
 	
 	public GameManager (Game_18XX aGame_18XX_Frame, String aClientUserName) {
@@ -145,7 +146,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		saveFile = null;
 		autoSaveFile = null;
 		gameStarted = false;
-		
+		gameID = "";
 		loadConfig ();
 		System.out.println ("=== Client Console for " + clientUserName + " ===");
 	}
@@ -1795,7 +1796,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		int tActionNodeCount, tActionIndex;
 		String tANodeName;
 		int tGameIndex;
-		String tGameOptions, tBroadcast, tPlayerOrder;
+		String tGameOptions, tBroadcast, tPlayerOrder, tGameID;
 
 		tXMLGameActivity = new XMLDocument ();
 		tXMLGameActivity = tXMLGameActivity.ParseXMLString (aGameActivity);
@@ -1812,6 +1813,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 						tGameIndex = tActionNode.getThisIntAttribute (JGameClient.AN_GAME_INDEX);
 						tGameOptions = tActionNode.getThisAttribute (JGameClient.AN_GAME_OPTIONS);
 						tBroadcast = tActionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
+						tGameID = tActionNode.getThisAttribute (JGameClient.AN_GAME_ID);
+						setGameID (tGameID);
 						playerInputFrame.handleGameSelection (tGameIndex, tGameOptions, tBroadcast);
 						networkJGameClient.updateReadyButton ("READY", true, "Hit when ready to play");
 					} else if (JGameClient.EN_PLAYER_ORDER.equals (tANodeName)) {
@@ -1874,6 +1877,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public String getClientUserName () {
 		return clientUserName;
+	}
+	
+	public String getGameID () {
+		return gameID;
 	}
 	
 	public boolean isNetworkAndIsThisClient (String aClientName) {
@@ -2042,6 +2049,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 	@Override
 	public int getSelectedGameIndex () {
 		return playerInputFrame.getSelectedGameIndex ();
+	}
+	
+	private void setGameID (String aGameID) {
+		gameID = aGameID;
 	}
 	
 	public void setSelectedGameIndex (int aGameIndex) {
