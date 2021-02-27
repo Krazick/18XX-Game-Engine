@@ -81,6 +81,7 @@ public class JGameClient extends XMLFrame {
 	public static final AttributeName AN_GAME_INDEX = new AttributeName ("gameIndex");
 	public static final AttributeName AN_GAME_OPTIONS = new AttributeName ("gameOptions");
 	public static final AttributeName AN_BROADCAST_MESSAGE = new AttributeName ("z_broadcast");
+	public static final AttributeName AN_GAME_ID = new AttributeName ("z_gameID");
 	public static final AttributeName AN_PLAYER_ORDER = new AttributeName ("players");
 	public static final AttributeName AN_REQUEST_ACTION_NUMBER = new AttributeName ("requestActionNumber");
 	public static final AttributeName AN_NONE = null;
@@ -644,7 +645,10 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void sendPlayerReady () {
-		serverHandler.sendUserReady ();
+		String tGameID;
+		
+		tGameID = gameManager.getGameID ();
+		serverHandler.sendUserReady (tGameID);
 		sendPlayerOrder ();
 	}
 	
