@@ -1796,7 +1796,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		int tActionNodeCount, tActionIndex;
 		String tANodeName;
 		int tGameIndex;
-		String tGameOptions, tBroadcast, tPlayerOrder, tGameID;
+		String tGameOptions, tBroadcast, tPlayerOrder;
+		String tGameID;
 
 		tXMLGameActivity = new XMLDocument ();
 		tXMLGameActivity = tXMLGameActivity.ParseXMLString (aGameActivity);
@@ -2051,6 +2052,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return playerInputFrame.getSelectedGameIndex ();
 	}
 	
+	public void resetGameID (String aGameID) {
+		if (gameID.equals("")) {
+			System.out.println ("ReSetting the Game ID to " + aGameID);
+			setGameID (aGameID);
+		}
+	}
+	
 	private void setGameID (String aGameID) {
 		gameID = aGameID;
 	}
@@ -2200,5 +2208,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void showGEFrame() {
 		game18XXFrame.setVisible (true);
 		game18XXFrame.toFront ();
+	}
+
+	public String requestGameSupport (String aRequestActionNumber) {
+		// TODO Auto-generated method stub
+		return networkJGameClient.requestGameSupport (gameID, aRequestActionNumber);
 	}
 }

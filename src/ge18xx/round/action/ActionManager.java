@@ -14,6 +14,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ActionManager {
 	public final static Action NO_ACTION = null;
@@ -23,6 +25,8 @@ public class ActionManager {
 	RoundManager roundManager;
 	GameManager gameManager;
 	int actionNumber;
+	private final static String ACTION_NUMBER_RESPONSE = "<GSResponse><ActionNumber newNumber=\"(\\d+)\"></GSResponse>";
+	private final static Pattern ACTION_NUMBER_PATTERN = Pattern.compile (ACTION_NUMBER_RESPONSE);
 	
 	public ActionManager (RoundManager aRoundManager) {
 		String tFullTitle;
@@ -49,12 +53,43 @@ public class ActionManager {
 		return actionNumber;
 	}
 	
-	public void incrementActionNumber () {
-		String tReportActionNumber;
+	public int getActionNumberFrome (String aResponse) {
+		Matcher tMatcher = ACTION_NUMBER_PATTERN.matcher (aResponse);
+		String tFoundNewNumber = "NOID";
+		int tNewNumber = 0;
 		
-		tReportActionNumber = "Increment Action Number from " + actionNumber + " to " + (actionNumber + 1) + "\n";
-		actionNumber++;
-		actionReportFrame.append (tReportActionNumber);
+		if (tMatcher.find ()) {
+			tFoundNewNumber = tMatcher.group (1);
+			tNewNumber = Integer.parseInt (tFoundNewNumber);
+		}
+		
+		return tNewNumber;
+	}
+
+	public void generateNewActionNumber () {
+		String tReportActionNumber;
+		String tActionNumberString;
+		int tNewActionNumber;
+		
+		if (gameManager.isNetworkGame ()) {
+			System.out.println ("Need to request Action Number from Server");
+			tActionNumberString = gameManager.requestGameSupport (JGameClient.REQUEST_ACTION_NUMBER);
+			tNewActionNumber = getActionNumberFrome (tActionNumberString);
+			System.out.println ("Game Support Request returned [" + tActionNumberString + "]");
+			if (tNewActionNumber > 0) {
+				actionNumber = tNewActionNumber;
+				tReportActionNumber = "Retrieved New Action Number " + actionNumber + " from Game Server\n";
+			} else {
+				actionNumber++;
+				tReportActionNumber = "FAILED to retrieve New Action Number from Game Server\n";
+			}
+			
+			actionReportFrame.append (tReportActionNumber);
+		} else {
+			tReportActionNumber = "Increment Action Number from " + actionNumber + " to " + (actionNumber + 1) + "\n";
+			actionNumber++;
+			actionReportFrame.append (tReportActionNumber);
+		}
 	}
 	
 	public void actionReport () {
@@ -122,7 +157,7 @@ public class ActionManager {
 	private void setNewActionNumber (Action aAction) {
 		int tActionNumber;
 		
-		incrementActionNumber ();
+		generateNewActionNumber ();
 		tActionNumber = getActionNumber ();
 		aAction.setNumber (tActionNumber);
 	}

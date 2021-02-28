@@ -31,11 +31,11 @@ import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 
 import ge18xx.game.NetworkGameSupport;
-import ge18xx.player.Player;
-import ge18xx.round.RoundManager;
-import ge18xx.round.action.ActionManager;
-import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.SyncActionNumber;
+//import ge18xx.player.Player;
+//import ge18xx.round.RoundManager;
+//import ge18xx.round.action.ActionManager;
+//import ge18xx.round.action.ActorI.ActionStates;
+//import ge18xx.round.action.SyncActionNumber;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -59,6 +59,7 @@ public class JGameClient extends XMLFrame {
 	private final String WAITING_FOR_ALL = "Waiting for ALL players to be Ready";
 
 	private static ChatServerHandler serverHandler;
+	private GameSupportHandler gameSupportHandler;
 	
 	// Static Strings used by Client Handler - Should replace with XML Utilities handling
 	public static final String GAME_ACTIVITY_TAG = "GA";
@@ -69,6 +70,7 @@ public class JGameClient extends XMLFrame {
 	public static final String GA_XML_END = "</" + GAME_ACTIVITY_TAG + ">";
 	public static final String GS_XML_START = "<" + GAME_SUPPORT_TAG + ">";
 	public static final String GS_XML_END = "</" + GAME_SUPPORT_TAG + ">";
+	public static final String REQUEST_ACTION_NUMBER = "<ActionNumber requestNew=\"TRUE\">";
 	
 	// XML Utilities Element Names and Attribute Names
 	public static final ElementName EN_NETWORK_GAME = new ElementName ("NetworkGame");
@@ -113,7 +115,7 @@ public class JGameClient extends XMLFrame {
 	// GE18XX Specific Objects
 	private NetworkGameSupport gameManager;
 	private NetworkPlayers networkPlayers;
-
+	
 	// Standard Java Objects
 	private String serverIP;
 	private int serverPort;
@@ -131,6 +133,7 @@ public class JGameClient extends XMLFrame {
 		
 		gameManager = aGameManager;
 		networkPlayers = new NetworkPlayers (aGameManager);
+		gameSupportHandler = new GameSupportHandler (this);
 		setupJFrame ();
 		setupActions ();
 		setServerIP (aServerIP);
@@ -265,6 +268,9 @@ public class JGameClient extends XMLFrame {
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				
+				if (gameManager.getGameID ().equals ("")) {
+					retrieveGameID ();
+				}
 				if ("SELECT GAME".equals (tAction)) {
 					sendGameSelection ();
 				} else if ("READY".equals (tAction)) {
@@ -505,20 +511,20 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	private void handleStartGame () {
-		SyncActionNumber tSyncActionNumber;
-		Player tPlayer;
-		RoundManager tRoundManager;		
+//		SyncActionNumber tSyncActionNumber;
+//		Player tPlayer;
+//		RoundManager tRoundManager;		
 		String tGameID;
 		
 		tGameID = gameManager.getGameID ();
 		serverHandler.sendUserStart (tGameID);
 		startsGame ();
-		tPlayer = gameManager.getClientPlayer ();
-		tSyncActionNumber = new SyncActionNumber (ActionStates.StockRound, "1", tPlayer);
-		tSyncActionNumber.addSyncActionNumberEffect (tPlayer, ActionManager.STARTING_ACTION_NUMBER);
-		tRoundManager = gameManager.getRoundManager ();
-		tRoundManager.setActionNumber (ActionManager.STARTING_ACTION_NUMBER);
-		tRoundManager.addAction (tSyncActionNumber);
+//		tPlayer = gameManager.getClientPlayer ();
+//		tSyncActionNumber = new SyncActionNumber (ActionStates.StockRound, "1", tPlayer);
+//		tSyncActionNumber.addSyncActionNumberEffect (tPlayer, ActionManager.STARTING_ACTION_NUMBER);
+//		tRoundManager = gameManager.getRoundManager ();
+//		tRoundManager.setActionNumber (ActionManager.STARTING_ACTION_NUMBER);
+//		tRoundManager.addAction (tSyncActionNumber);
 	}
 	
 	public void startsGame () {
@@ -672,14 +678,18 @@ public class JGameClient extends XMLFrame {
 	
 	public void sendGameSelection () {
 		String tBroadcastMessage, tGameActivity;
-
+		String tGameID;
+		
 		tBroadcastMessage = getName () + " has Selected [" + selectedGameName + "] Are you ready to Play?";
+		tGameID = gameManager.getGameID ();
 		tGameActivity = constructGameActivityXML (EN_GAME_SELECTION, AN_GAME_INDEX, selectedGameIndex + "",
 				AN_BROADCAST_MESSAGE, tBroadcastMessage);
+//		tGameActivity = constructGameActivityXML (EN_GAME_SELECTION, AN_GAME_INDEX, selectedGameIndex + "",
+//				AN_BROADCAST_MESSAGE, tBroadcastMessage, AN_GAME_ID, tGameID);
 		sendGameActivity (tGameActivity);
 		sendPlayerOrder ();
 	}
-	
+
 	public void updateReadyButton (String aAction, boolean aEnabled, String aToolTip) {
 		startReadyButton.setActionCommand (aAction);
 		startReadyButton.setText (aAction);
@@ -696,6 +706,18 @@ public class JGameClient extends XMLFrame {
 		}
 	}
 
+	public void retrieveGameID () {
+		String tGameIDRequest;
+		String tGameID;
+		String tResponse;
+		
+		tGameIDRequest = GAME_SUPPORT_PREFIX + " <GS><GameIDRequest></GS>";
+		tResponse = gameSupportHandler.requestGameSupport (tGameIDRequest);
+		System.out.println ("Response is [" + tResponse + "]");
+		tGameID = gameSupportHandler.getFromResponseGameID (tResponse);
+		gameManager.resetGameID (tGameID);
+	}
+	
 	public String constructGameActivityXML (ElementName aElementName, 
 			AttributeName aAttributeName1, int aAttributeValue1,
 			AttributeName aAttributeName2, String aAttributeValue2) {
@@ -709,6 +731,19 @@ public class JGameClient extends XMLFrame {
 		tGameActivity = constructGameXML (EN_GAME_ACTIVITY, aElementName, 
 				aAttributeName1, aAttributeValue1, 
 				aAttributeName2, aAttributeValue2);
+		
+		return tGameActivity;
+	}
+
+	public String constructGameActivityXML (ElementName aElementName, 
+			AttributeName aAttributeName1, String aAttributeValue1,
+			AttributeName aAttributeName2, String aAttributeValue2,
+			AttributeName aAttributeName3, String aAttributeValue3) {
+		String tGameActivity = "";
+		tGameActivity = constructGameXML (EN_GAME_ACTIVITY, aElementName, 
+				aAttributeName1, aAttributeValue1, 
+				aAttributeName2, aAttributeValue2,
+				aAttributeName3, aAttributeValue3);
 		
 		return tGameActivity;
 	}
@@ -754,6 +789,30 @@ public class JGameClient extends XMLFrame {
 		
 		tXMLElement.setAttribute (aAttributeName1, aAttributeValue1);
 		tXMLElement.setAttribute (aAttributeName2, aAttributeValue2);
+		tXMLGameMessage.appendChild (tXMLElement);
+		tXMLDocument.appendChild (tXMLGameMessage);
+		
+		tGameSupport = tXMLDocument.toString ();
+		tGameSupport = tGameSupport.replace ("\n", "");
+		
+		return tGameSupport;
+		
+	}
+	
+	public String constructGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, 
+					AttributeName aAttributeName1, String aAttributeValue1,
+					AttributeName aAttributeName2, String aAttributeValue2, 
+					AttributeName aAttributeName3, String aAttributeValue3) {
+		String tGameSupport;
+		XMLDocument tXMLDocument = new XMLDocument ();
+		XMLElement tXMLGameMessage, tXMLElement;
+		
+		tXMLGameMessage = tXMLDocument.createElement (aPrimaryEN);
+		tXMLElement = tXMLDocument.createElement (aSecondaryEN);
+		
+		tXMLElement.setAttribute (aAttributeName1, aAttributeValue1);
+		tXMLElement.setAttribute (aAttributeName2, aAttributeValue2);
+		tXMLElement.setAttribute (aAttributeName3, aAttributeValue3);
 		tXMLGameMessage.appendChild (tXMLElement);
 		tXMLDocument.appendChild (tXMLGameMessage);
 		
@@ -815,7 +874,6 @@ public class JGameClient extends XMLFrame {
 		} catch (BadLocationException exc) {
 			exc.printStackTrace ();
 		}
-	
 	}
 	
 	public void handleGameActivity (String aGameActivity) {
@@ -868,10 +926,10 @@ public class JGameClient extends XMLFrame {
 		
 	public void playerReady () {
 		backFromAFK ();
-		playerReady (getName ());
+		playerReady (getName (), "");
 	}
 	
-	public void playerReady (String aPlayerName) {
+	public void playerReady (String aPlayerName, String aFullMessage) {
 		int tIndex = aPlayerName.indexOf (aPlayerName);
 		String tPlayerName = aPlayerName;
 		
@@ -1006,5 +1064,27 @@ public class JGameClient extends XMLFrame {
 	
 	public int getServerPort () {
 		return serverPort;
+	}
+
+	// Need to make a Request for Game Support, then block until we get a response
+	// Send the response back
+	
+	public String requestGameSupport (String aGameID, String aRequestActionNumber) {
+		String tGSResponse = "NO_RESPONSE";
+		String tFullGSRequest;
+		
+		tFullGSRequest = serverHandler.buildGameSupportXML (aGameID, aRequestActionNumber);
+		System.out.println ("Full GS Request sent [" + tFullGSRequest + "]");
+		tGSResponse = gameSupportHandler.requestGameSupport (tFullGSRequest);
+		
+		return tGSResponse;
+	}
+
+	public void handleGSResponse (String aGSResponse) {
+		gameSupportHandler.handleGSResponse (aGSResponse);
+	}
+	
+	public ServerHandler getServerHandler() {
+		return serverHandler;
 	}
 }

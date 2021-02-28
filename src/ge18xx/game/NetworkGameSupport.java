@@ -30,4 +30,5 @@ public interface NetworkGameSupport {
 	public RoundManager getRoundManager ();
 	public Point getOffsetGEFrame ();
 	public String getGameID ();
+	public void resetGameID(String tGameID);
 }

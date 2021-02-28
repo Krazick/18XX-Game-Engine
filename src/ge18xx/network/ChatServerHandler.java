@@ -31,7 +31,9 @@ public class ChatServerHandler extends ServerHandler {
 		
 		if (tMessage.startsWith ("Server: ")) {
 			tShortened = tMessage.substring (8);
-			if (tShortened.startsWith ("Sorry we are full")) {
+			if (tShortened.startsWith("<GSResponse")) {
+				jClient.handleGSResponse (tShortened);
+			} else if (tShortened.startsWith ("Sorry we are full")) {
 
 			} else if (tShortened.startsWith ("rejected")) {
 				closeAll ();
@@ -63,9 +65,9 @@ public class ChatServerHandler extends ServerHandler {
 
 	private void handlePlayerReady (String aShortened) {
 		String tName;
-		
 		tName = extractName (aShortened);
-		jClient.playerReady (tName);
+		
+		jClient.playerReady (tName, aShortened);
 	}
 	
 	private String handleJoined (String aShortened) {
@@ -83,7 +85,7 @@ public class ChatServerHandler extends ServerHandler {
 			jClient.setPlayerAsAFK (tName);
 		}
 		if (aShortened.contains ("[READY]")) {
-			jClient.playerReady (tName);
+			jClient.playerReady (tName, "");
 		}
 		
 		return tMessage;
@@ -107,6 +109,7 @@ public class ChatServerHandler extends ServerHandler {
 		println (aGameActivity);
 	}
 	
+	@Override
 	public void sendGameSupport (String aGameSupport) {
 		println (aGameSupport);
 	}
@@ -131,7 +134,7 @@ public class ChatServerHandler extends ServerHandler {
 		println ("AFK");
 	}
 
-	private String buildGameSupportXML (String aGameID, String tXMLChild) {
+	public String buildGameSupportXML (String aGameID, String tXMLChild) {
 		String tGameSupportXML;
 		
 		tGameSupportXML = "Game Support <GS gameID=\"" + aGameID + "\">" + tXMLChild + "</GS>";
