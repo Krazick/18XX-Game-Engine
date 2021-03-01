@@ -678,10 +678,10 @@ public class JGameClient extends XMLFrame {
 	
 	public void sendGameSelection () {
 		String tBroadcastMessage, tGameActivity;
-		String tGameID;
+//		String tGameID;
 		
 		tBroadcastMessage = getName () + " has Selected [" + selectedGameName + "] Are you ready to Play?";
-		tGameID = gameManager.getGameID ();
+//		tGameID = gameManager.getGameID ();
 		tGameActivity = constructGameActivityXML (EN_GAME_SELECTION, AN_GAME_INDEX, selectedGameIndex + "",
 				AN_BROADCAST_MESSAGE, tBroadcastMessage);
 //		tGameActivity = constructGameActivityXML (EN_GAME_SELECTION, AN_GAME_INDEX, selectedGameIndex + "",
