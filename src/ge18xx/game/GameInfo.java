@@ -51,6 +51,7 @@ public class GameInfo {
 	static final int NO_SHARE_LIMIT = 100;
 	static final String NO_FORMAT = "<NONE>";
 	static final TrainInfo [] NO_TRAINS = null;
+	public static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
 	static final AttributeName AN_ID = new AttributeName ("id");
 	static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");
@@ -58,6 +59,7 @@ public class GameInfo {
 	boolean gameTestFlag = false;  // For marking this Game info as Test for JUNIT Purposes ONLY
 	
 	int id;
+	String gameID;
 	String name;
 	int minPlayers;
 	int maxPlayers;
@@ -101,6 +103,7 @@ public class GameInfo {
 		NodeList tChildren;
 		XMLNode tChildNode;
 		String tChildName;
+		String tGameID;
 		String tName, tCurrencyFormat, tSubTitle, tLocation, tDesigners, tProducers, tReleaseDate;
 		int tID, tMinPlayers, tMaxPlayers, tBankTotal, tFileCount;
 		int tChildrenCount, tIndex, tOptionCount;
@@ -108,6 +111,7 @@ public class GameInfo {
 		int tBankPoolShareLimit, tPlayerShareLimit;
 		boolean tHasPrivates, tHasMinors, tHasCoals, tHasShares;
 
+		tGameID = aCellNode.getThisAttribute (AN_GAME_ID);
 		tID = aCellNode.getThisIntAttribute (AN_ID);
 		tName = aCellNode.getThisAttribute (AN_NAME);
 		tMinPlayers = aCellNode.getThisIntAttribute (AN_MIN_PLAYERS);
@@ -126,6 +130,7 @@ public class GameInfo {
 		tHasShares = aCellNode.getThisBooleanAttribute (AN_SHARES);
 		canPayHalfDividend = aCellNode.getThisBooleanAttribute (AN_CAN_PAY_HALF);
 		
+		setGameID (tGameID);
 		setValues (tID, tName, tMinPlayers, tMaxPlayers, tBankTotal, tCurrencyFormat);
 		setOtherValues (tSubTitle, tLocation, tDesigners, tProducers, tReleaseDate);
 		setHasCompanies (tHasPrivates, tHasMinors, tHasCoals, tHasShares);
@@ -281,12 +286,16 @@ public class GameInfo {
 		return tFileName;
 	}
 	
+	public String getGameID () {
+		return gameID;
+	}
+	
 	public XMLElement getGameInfoElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement, tGameOptions, tGameOption;
 		
 		tXMLElement = aXMLDocument.createElement (EN_GAME_INFO);
 		tXMLElement.setAttribute (AN_NAME, name);
-		
+		tXMLElement.setAttribute (AN_GAME_ID, gameID);
 		if (options != null) {
 			tGameOptions = aXMLDocument.createElement (Option.EN_OPTIONS);
 			for (Option tOption : options) {
@@ -425,6 +434,10 @@ public class GameInfo {
 		bankPoolShareLimit = aBankPoolShareLimit;
 	}
 
+	public void setGameID (String aGameID) {
+		gameID = aGameID;
+	}
+	
 	public void setHasCompanies (boolean aHasPrivates, boolean aHasMinors, boolean aHasCoals, boolean aHasShares) {
 		hasPrivates = aHasPrivates;
 		hasMinors = aHasMinors;

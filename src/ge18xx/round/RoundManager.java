@@ -1024,4 +1024,8 @@ public class RoundManager {
 	public void passStockAction () {
 		stockRound.passStockAction ();
 	}
+
+	public int getLastActionNumber() {
+		return actionManager.getActionNumber ();
+	}
 }

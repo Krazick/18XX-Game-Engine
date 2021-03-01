@@ -1041,6 +1041,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 			setNotifyNetwork (false);
 			if (loadXMLFile (saveFile)) {
+				if (isNetworkGame ()) {
+					networkJGameClient.setGameIDonServer (gameID, roundManager.getLastActionNumber (), activeGame.getGameName ());
+				}
 				/* Once a Game has been loaded, can enable both Save and Save As Menu Items */
 				game18XXFrame.disableGameStartItems ();
 				game18XXFrame.enableSaveMenuItem ();
@@ -1111,7 +1114,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tChildName, tSaveGameName;
 		GameSet tGameSet;
 		boolean tGameIdentified = false, tPlayersLoaded = false, tGameInitiated = false;
-		String tServerIP;
+		String tServerIP, tGameID;
 		int tServerPort;
 		
 		tLoadedSaveGame = false;
@@ -1142,6 +1145,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 					tGameSet = playerInputFrame.getGameSet ();
 					tSaveGameName = tChildNode.getThisAttribute (AN_NAME);
 					activeGame = tGameSet.getGameByName (tSaveGameName);
+					tGameID = tChildNode.getThisAttribute (GameInfo.AN_GAME_ID);
+					setGameID (tGameID);
+					activeGame.setGameID (tGameID);
 					tGameIdentified = true;
 				}
 				if (PlayerInputFrame.EN_PLAYERS.equals (tChildName)) {
@@ -1406,6 +1412,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public void setGame (GameInfo aGame) {
 		activeGame = aGame;
+		if (activeGame != NO_GAME) {
+			activeGame.setGameID (gameID);
+		}
 	}
 	
 	public void setGameChanged (boolean aFlag) {

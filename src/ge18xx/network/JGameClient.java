@@ -678,14 +678,12 @@ public class JGameClient extends XMLFrame {
 	
 	public void sendGameSelection () {
 		String tBroadcastMessage, tGameActivity;
-//		String tGameID;
+		String tGameID;
 		
 		tBroadcastMessage = getName () + " has Selected [" + selectedGameName + "] Are you ready to Play?";
-//		tGameID = gameManager.getGameID ();
+		tGameID = gameManager.getGameID ();
 		tGameActivity = constructGameActivityXML (EN_GAME_SELECTION, AN_GAME_INDEX, selectedGameIndex + "",
-				AN_BROADCAST_MESSAGE, tBroadcastMessage);
-//		tGameActivity = constructGameActivityXML (EN_GAME_SELECTION, AN_GAME_INDEX, selectedGameIndex + "",
-//				AN_BROADCAST_MESSAGE, tBroadcastMessage, AN_GAME_ID, tGameID);
+				AN_BROADCAST_MESSAGE, tBroadcastMessage, AN_GAME_ID, tGameID);
 		sendGameActivity (tGameActivity);
 		sendPlayerOrder ();
 	}
@@ -718,6 +716,20 @@ public class JGameClient extends XMLFrame {
 		gameManager.resetGameID (tGameID);
 	}
 	
+	public void setGameIDonServer (String aGameID, int aLastActionNumber, String aGameName) {
+		String tGameIDRequest;
+		String tResponse;
+
+//		"<LoadGameSetup gameID=\"" + GAME_ID + "\" " + ACTION_NUMBER + " gameName=\"([A-Z0-9]+)\">";
+
+		tGameIDRequest = GAME_SUPPORT_PREFIX + " <GS><LoadGameSetup gameID=\"" + aGameID + "\" " + ""
+				+ "actionNumber=\"" + aLastActionNumber + "\" gameName=\"" + aGameName + "\"></GS>";
+		tResponse = gameSupportHandler.requestGameSupport (tGameIDRequest);
+		System.out.println ("Response is [" + tResponse + "]");
+
+	}
+//	String tGoodRequest = "<GS gameID=\"2020-02-26-1001\"><Ready></GS>";
+
 	public String constructGameActivityXML (ElementName aElementName, 
 			AttributeName aAttributeName1, int aAttributeValue1,
 			AttributeName aAttributeName2, String aAttributeValue2) {
