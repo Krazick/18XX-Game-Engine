@@ -720,15 +720,12 @@ public class JGameClient extends XMLFrame {
 		String tGameIDRequest;
 		String tResponse;
 
-//		"<LoadGameSetup gameID=\"" + GAME_ID + "\" " + ACTION_NUMBER + " gameName=\"([A-Z0-9]+)\">";
-
 		tGameIDRequest = GAME_SUPPORT_PREFIX + " <GS><LoadGameSetup gameID=\"" + aGameID + "\" " + ""
 				+ "actionNumber=\"" + aLastActionNumber + "\" gameName=\"" + aGameName + "\"></GS>";
 		tResponse = gameSupportHandler.requestGameSupport (tGameIDRequest);
 		System.out.println ("Response is [" + tResponse + "]");
 
 	}
-//	String tGoodRequest = "<GS gameID=\"2020-02-26-1001\"><Ready></GS>";
 
 	public String constructGameActivityXML (ElementName aElementName, 
 			AttributeName aAttributeName1, int aAttributeValue1,
