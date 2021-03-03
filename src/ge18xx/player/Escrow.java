@@ -2,10 +2,15 @@ package ge18xx.player;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
+import ge18xx.company.Corporation;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.ParsingRoutineI;
+import ge18xx.utilities.ParsingRoutineIO;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
+import ge18xx.utilities.XMLNodeList;
 
 public class Escrow implements CashHolderI {
 	public static final ElementName EN_ESCROW = new ElementName ("Escrow");
@@ -40,7 +45,60 @@ public class Escrow implements CashHolderI {
 		actionState = ActionStates.NoAction;
 		setCertificate (aCertificate);
 	}
+//	<Escrow actionState="No Action" cash="120" name="0) Escrow for Mark2">
+//	<Certificate abbrev="M&amp;H" isPresident="true" percentage="100">
+//	<Bidders>
+//	<Bidder cash="115" name="Jim"/>
+//	<Bidder cash="120" name="Mark2"/>
+//	</Bidders>
+//	</Certificate>
+//	</Escrow>
 	
+	public Escrow (XMLNode aEscrowXMLNode, Bank aBank) {
+		int tCash;
+		String tName;
+		XMLNodeList tXMLCertificateNodeList;
+		
+		tName = aEscrowXMLNode.getThisAttribute (AN_NAME);
+		tCash = aEscrowXMLNode.getThisIntAttribute (AN_CASH);
+		
+		tXMLCertificateNodeList = new XMLNodeList (certificateParsingRoutine, aBank);
+		tXMLCertificateNodeList.parseXMLNodeList (aEscrowXMLNode, Certificate.EN_CERTIFICATE);
+		
+		System.out.println ("Parsing an Escrow XML Node with Name " + tName + " Cash " + tCash);
+		actionState = ActionStates.NoAction;
+		setCash (tCash);
+		setName (tName);
+		
+	}
+	
+	ParsingRoutineIO certificateParsingRoutine  = new ParsingRoutineIO ()  {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+		}
+
+		@Override
+		public void foundItemMatchKey1(XMLNode aChildNode, Object aBankObject) {
+			Certificate tCertificate;
+			String tAbbrev;
+			int tPercentage;
+			boolean tIsPresident;
+			Bank tBank;
+			
+			tBank = (Bank) aBankObject;
+			tAbbrev = aChildNode.getThisAttribute (Corporation.AN_ABBREV);
+			tIsPresident = aChildNode.getThisBooleanAttribute (Certificate.AN_IS_PRESIDENT);
+			tPercentage = aChildNode.getThisIntAttribute (Certificate.AN_PERCENTAGE);
+			tCertificate = tBank.getMatchingCertificate (tAbbrev, tPercentage, tIsPresident);
+			setCertificate (tCertificate);
+			if (tCertificate != Certificate.NO_CERTIFICATE) {
+				System.out.println ("--- Certificate Found and loaded for " + tAbbrev);
+			} else {
+				System.err.println ("--- Did not find Certificate for " + tAbbrev + " from Bank");
+			}
+		}
+	};
+
 	@Override
 	public String getStateName () {
 		return actionState.toString ();

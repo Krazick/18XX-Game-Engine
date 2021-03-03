@@ -867,7 +867,8 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	public void loadState (XMLNode aPlayerNode) {
 		String tState;
 		String tSoldCompanies;
-		XMLNodeList tXMLNodeList;
+		XMLNodeList tXMLPortfolioNodeList;
+		XMLNodeList tXMLEscrowsNodeList;
 		GenericActor tGenericActor;
 		
 		// Need to remove any Cash the Player has before setting it.
@@ -883,8 +884,10 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		}
 		tSoldCompanies = aPlayerNode.getThisAttribute (AN_SOLD_COMPANIES);
 		soldCompanies.parse (DELIMITER, tSoldCompanies);
-		tXMLNodeList = new XMLNodeList (portfolioParsingRoutine);
-		tXMLNodeList.parseXMLNodeList (aPlayerNode, Portfolio.EN_PORTFOLIO);
+		tXMLPortfolioNodeList = new XMLNodeList (portfolioParsingRoutine);
+		tXMLPortfolioNodeList.parseXMLNodeList (aPlayerNode, Portfolio.EN_PORTFOLIO);
+		tXMLEscrowsNodeList = new XMLNodeList (escrowsParsingRoutine);
+		tXMLEscrowsNodeList.parseXMLNodeList (aPlayerNode, EN_ESCROWS);
 	}
 	
 	ParsingRoutineI portfolioParsingRoutine  = new ParsingRoutineI ()  {
@@ -893,6 +896,47 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 			portfolio.loadPortfolio (aChildNode);
 		}
 	};
+	
+	ParsingRoutineI escrowsParsingRoutine  = new ParsingRoutineI ()  {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			loadEscrows (aChildNode);
+		}
+	};
+
+	ParsingRoutineI singleEscrowParsingRoutine  = new ParsingRoutineI ()  {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			loadSingleEscrow (aChildNode);
+		}
+	};
+
+	private void loadEscrows (XMLNode aEscrowsNode) {
+		XMLNodeList tXMLEscrowNodeList;
+		
+		System.out.println ("Need to load Escrows for " + name);
+		tXMLEscrowNodeList = new XMLNodeList (singleEscrowParsingRoutine);
+		tXMLEscrowNodeList.parseXMLNodeList (aEscrowsNode, Escrow.EN_ESCROW);
+//		tChildEscrows = aEscrowsNode.getChildNodes ();
+//		tChildrenCount = tChildEscrows.getLength ();
+//		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
+//			tChildEscrowNode = new XMLNode (tChildEscrows.item (tIndex));
+//
+//			tXMLEscrowNodeList = new XMLNodeList (singleEscrowParsingRoutine);
+//			tXMLEscrowNodeList.parseXMLNodeList (tChildEscrowNode, Escrow.EN_ESCROW);
+//		}
+	}
+	
+	private void loadSingleEscrow (XMLNode aEscrowsNode) {
+		Escrow tEscrow;
+		Bank tBank;
+		
+		tBank = playerManager.getBank ();
+		tEscrow = new Escrow (aEscrowsNode, tBank);
+		escrows.add (tEscrow);
+		System.out.println ("Need to load a Single Escrow for " + name);
+		
+	}
 
 	public void bidAction () {
 		playerManager.bidAction (this);
