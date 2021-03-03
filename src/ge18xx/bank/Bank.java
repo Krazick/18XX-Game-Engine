@@ -434,4 +434,17 @@ public class Bank extends GameBank implements CashHolderI {
 	public void clearAllTrainSelections () {
 		trainPortfolio.clearAllTrainSelections ();
 	}
+
+	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
+		Certificate tCertificate = Certificate.NO_CERTIFICATE;
+		
+		if (startPacketFrame != null) {
+			tCertificate = startPacketFrame.getMatchingCertificate (aAbbrev, aPercentage, aIsPresident);
+		}
+		if (tCertificate == Certificate.NO_CERTIFICATE) {
+			tCertificate = portfolio.getCertificate(aAbbrev, aPercentage, aIsPresident);
+		}
+		
+		return tCertificate;
+	}
 }

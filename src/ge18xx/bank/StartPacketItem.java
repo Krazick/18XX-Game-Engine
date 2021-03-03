@@ -184,4 +184,14 @@ public class StartPacketItem implements ParsingRoutineI {
 	public void enableCheckedButton (String aToolTip) {
 		certificate.setStateCheckedButton (true, aToolTip);
 	}
+
+	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
+		Certificate tCertificate = Certificate.NO_CERTIFICATE;
+		
+		if (certificate.isMatchingCertificate  (aAbbrev, aPercentage, aIsPresident)) {
+			tCertificate = certificate;
+		}
+		
+		return tCertificate;
+	}
 }

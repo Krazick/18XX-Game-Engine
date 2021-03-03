@@ -193,4 +193,14 @@ public class StartPacketRow implements ParsingRoutineI {
 			}
 		}
 	}
+
+	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
+		Certificate tCertificate = Certificate.NO_CERTIFICATE;
+		
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			tCertificate = tStartPacketItem.getMatchingCertificate (aAbbrev, aPercentage, aIsPresident);
+		}
+		
+		return tCertificate;
+	}
 }

@@ -1358,4 +1358,16 @@ public class Certificate implements Comparable<Certificate> {
 		
 		return tTotalEscrows;
 	}
+
+	public boolean isMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
+		boolean tIsMatchingCertificate = false;
+		
+		if ((aAbbrev.equals(corporation.getAbbrev ())) &&
+			(aPercentage == percentage) &&
+			(aIsPresident == isPresidentShare)) {
+			tIsMatchingCertificate = true;
+		}
+		
+		return tIsMatchingCertificate;
+	}
 }

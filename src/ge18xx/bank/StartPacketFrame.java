@@ -421,4 +421,16 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public boolean isACorporation () {
 		return false;
 	}
+
+	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
+		Certificate tCertificate = Certificate.NO_CERTIFICATE;
+		
+		for (StartPacketRow tStartPacketRow : startPacketRows) {
+			if (tCertificate == Certificate.NO_CERTIFICATE) {
+				tCertificate = tStartPacketRow.getMatchingCertificate (aAbbrev, aPercentage, aIsPresident);
+			}
+		}
+		
+		return tCertificate;
+	}
 }
