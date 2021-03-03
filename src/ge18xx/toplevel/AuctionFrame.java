@@ -182,7 +182,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		Player tPlayer;
 		Player tNextPlayer;
 		Bidder tBidder;
-		Escrow tEscrow;;
+		Escrow tEscrow;
 		ActorI.ActionStates tOldBidderState, tNewBidderState, tOldNextBidderState, tNewNextBidderState;
 		AuctionRaiseAction tAuctionRaiseAction;
 		
@@ -201,7 +201,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaise);
 		
 		tEscrow.setCash (tNewBidAmount);
-		tAuctionRaiseAction.addEscrowChangeEffect (tEscrow, tOldBidAmount, tNewBidAmount);
+//		tAuctionRaiseAction.addEscrowChangeEffect (tEscrow, tOldBidAmount, tNewBidAmount);
 		tNewBidderState = tPlayer.getAuctionActionState ();
 		
 		tAuctionRaiseAction.addAuctionStateChangeEffect (tPlayer, tOldBidderState, tNewBidderState);
@@ -259,6 +259,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			if (isNetworkGame) {
 				if (aBidderName.equals (clientUserName)) {
 					tBackgroundColor = Color.ORANGE;
+					toFront ();
 				}
 			}
 		}
