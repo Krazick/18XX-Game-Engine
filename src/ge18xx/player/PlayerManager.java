@@ -550,6 +550,7 @@ public class PlayerManager {
 						parPriceFrame.setLocation (tNewPoint);
 						parPriceFrame.setBackground (Color.ORANGE);
 						parPriceFrame.setVisible (true);
+						parPriceFrame.toFront ();
 						tChainBuyToParValue = true;
 					}
 				}
