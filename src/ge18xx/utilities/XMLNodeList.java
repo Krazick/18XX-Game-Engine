@@ -29,7 +29,6 @@ public class XMLNodeList {
 		tChildrenCount = tChildren.getLength ();
 		tChildCount = 0;
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
-			
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
 			if (tChildName.equals (aThisChildName.getString ())) {
@@ -55,20 +54,28 @@ public class XMLNodeList {
 		}
 	}
 	
-	private void testAndCallback2 (XMLNode aNode, ElementName aThisChildName) {
+	private void testAndCallback2 (XMLNode aNode, String aThisChildName) {
 		String tChildName;
+		ParsingRoutine2IO tParsingRoutine2IO;
+		ParsingRoutine2I tParsingRoutine2I;
 		
 		tChildName = aNode.getNodeName ();
-		if (tChildName.equals (aThisChildName.getString ())) {
-			((ParsingRoutine2I) parsingRoutineI).foundItemMatchKey2 (aNode);
+		if (tChildName.equals (aThisChildName)) {
+			if (metaObject == null) {
+				tParsingRoutine2I = (ParsingRoutine2I) parsingRoutineI;
+				tParsingRoutine2I.foundItemMatchKey2 (aNode);
+			} else {
+				tParsingRoutine2IO = (ParsingRoutine2IO) parsingRoutineI;
+				tParsingRoutine2IO.foundItemMatchKey2 (aNode, metaObject);
+			}
 		}
 	}
 	
-	private void testAndCallback3 (XMLNode aNode, ElementName aThisChildName) {
+	private void testAndCallback3 (XMLNode aNode, String aThisChildName) {
 		String tChildName;
 		
 		tChildName = aNode.getNodeName ();
-		if (tChildName.equals (aThisChildName.getString ())) {
+		if (tChildName.equals (aThisChildName)) {
 			((ParsingRoutine3I) parsingRoutineI).foundItemMatchKey3 (aNode);
 		}
 	}
@@ -101,7 +108,7 @@ public class XMLNodeList {
 			for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {				
 				tChildNode = new XMLNode (tChildren.item (tIndex));
 				testAndCallback1 (tChildNode, aThisChildName1.getString ());
-				testAndCallback2 (tChildNode, aThisChildName2);
+				testAndCallback2 (tChildNode, aThisChildName2.getString ());
 			}
 		}
 	}
@@ -118,8 +125,8 @@ public class XMLNodeList {
 			for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {				
 				tChildNode = new XMLNode (tChildren.item (tIndex));
 				testAndCallback1 (tChildNode, aThisChildName1.getString ());
-				testAndCallback2 (tChildNode, aThisChildName2);
-				testAndCallback3 (tChildNode, aThisChildName3);
+				testAndCallback2 (tChildNode, aThisChildName2.getString ());
+				testAndCallback3 (tChildNode, aThisChildName3.getString ());
 			}
 		}
 	}

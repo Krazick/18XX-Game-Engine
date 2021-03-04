@@ -17,6 +17,10 @@ public class XMLNode {
 		node = aNode;
 	}
 	
+	public Node getNode () {
+		return node;
+	}
+	
 	public String getNodeName () {
 		return node.getNodeName ();
 	}
@@ -153,5 +157,16 @@ public class XMLNode {
 		} else {
 			return Integer.parseInt (tValue);
 		}
+	}
+	
+	public String toString () {
+		String tFormattedOutput;
+		StringBuffer buff = new StringBuffer (1024);
+		
+		XMLTransformer.getXMLString (node, false, buff, true);
+		
+		tFormattedOutput = buff.toString ();
+		
+		return tFormattedOutput;
 	}
 }
