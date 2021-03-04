@@ -26,6 +26,7 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.market.MarketCell;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.player.CashHolderI;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
@@ -1896,5 +1897,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public PrivateCompany getSelectedPrivateToBuy() {
 		// Override in Share Company Class
 		return null;
+	}
+
+	public CashHolderI getCashHolderByName (String aCashHolderName) {
+		CashHolderI tCashHolder;
+		
+		tCashHolder = corporationList.getCashHolderByName (aCashHolderName);
+		
+		return tCashHolder;
 	}
 }

@@ -19,6 +19,7 @@ import ge18xx.map.HexMap;
 import ge18xx.market.Market;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
+import ge18xx.player.CashHolderI;
 import ge18xx.player.Escrow;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
@@ -1027,5 +1028,15 @@ public class RoundManager {
 
 	public int getLastActionNumber() {
 		return actionManager.getActionNumber ();
+	}
+
+	public CashHolderI getCashHolderByName (String aCashHolderName) {
+		CashHolderI tCashHolder;
+		ActorI tBidderActorI;
+		
+		tBidderActorI = gameManager.getActor (aCashHolderName);
+		tCashHolder = (CashHolderI) tBidderActorI;
+		
+		return tCashHolder;
 	}
 }

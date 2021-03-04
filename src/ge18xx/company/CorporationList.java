@@ -1136,4 +1136,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public MapFrame getMapFrame() {
 		return roundManager.getMapFrame ();
 	}
+
+	public CashHolderI getCashHolderByName (String aCashHolderName) {
+		CashHolderI tCashHolder;
+		
+		tCashHolder = roundManager.getCashHolderByName (aCashHolderName);
+		
+		return tCashHolder;
+	}
 }
