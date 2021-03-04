@@ -5,7 +5,6 @@ import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.ParsingRoutineIO;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -62,9 +61,10 @@ public class Escrow implements CashHolderI {
 		tName = aEscrowXMLNode.getThisAttribute (AN_NAME);
 		tCash = aEscrowXMLNode.getThisIntAttribute (AN_CASH);
 		
+		System.out.println ("Escrow Node Formatted " + aEscrowXMLNode.toString ());
 		tXMLCertificateNodeList = new XMLNodeList (certificateParsingRoutine, aBank);
 		tXMLCertificateNodeList.parseXMLNodeList (aEscrowXMLNode, Certificate.EN_CERTIFICATE);
-		
+
 		System.out.println ("Parsing an Escrow XML Node with Name " + tName + " Cash " + tCash);
 		actionState = ActionStates.NoAction;
 		setCash (tCash);
@@ -72,13 +72,13 @@ public class Escrow implements CashHolderI {
 		
 	}
 	
-	ParsingRoutineIO certificateParsingRoutine  = new ParsingRoutineIO ()  {
+	ParsingRoutineIO certificateParsingRoutine  = new ParsingRoutineIO () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 		}
 
 		@Override
-		public void foundItemMatchKey1(XMLNode aChildNode, Object aBankObject) {
+		public void foundItemMatchKey1 (XMLNode aCertificateNode, Object aBankObject) {
 			Certificate tCertificate;
 			String tAbbrev;
 			int tPercentage;
@@ -86,16 +86,15 @@ public class Escrow implements CashHolderI {
 			Bank tBank;
 			
 			tBank = (Bank) aBankObject;
-			tAbbrev = aChildNode.getThisAttribute (Corporation.AN_ABBREV);
-			tIsPresident = aChildNode.getThisBooleanAttribute (Certificate.AN_IS_PRESIDENT);
-			tPercentage = aChildNode.getThisIntAttribute (Certificate.AN_PERCENTAGE);
+			tAbbrev = aCertificateNode.getThisAttribute (Corporation.AN_ABBREV);
+			tIsPresident = aCertificateNode.getThisBooleanAttribute (Certificate.AN_IS_PRESIDENT);
+			tPercentage = aCertificateNode.getThisIntAttribute (Certificate.AN_PERCENTAGE);
 			tCertificate = tBank.getMatchingCertificate (tAbbrev, tPercentage, tIsPresident);
 			setCertificate (tCertificate);
-			if (tCertificate != Certificate.NO_CERTIFICATE) {
-				System.out.println ("--- Certificate Found and loaded for " + tAbbrev);
-			} else {
+			if (tCertificate == Certificate.NO_CERTIFICATE) {
 				System.err.println ("--- Did not find Certificate for " + tAbbrev + " from Bank");
 			}
+			tCertificate.addBiddersInfo (aCertificateNode);
 		}
 	};
 
