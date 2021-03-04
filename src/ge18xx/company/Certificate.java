@@ -29,9 +29,11 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.WinAuctionAction;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
+import ge18xx.utilities.XMLNodeList;
 
 //
 //  Certificate.java
@@ -1370,4 +1372,38 @@ public class Certificate implements Comparable<Certificate> {
 		
 		return tIsMatchingCertificate;
 	}
+//	<Escrow actionState="No Action" cash="120" name="0) Escrow for Mark2">
+//		<Certificate abbrev="M&amp;H" isPresident="true" percentage="100">
+//			<Bidders>
+//				<Bidder cash="115" name="Jim"/>
+//				<Bidder cash="120" name="Mark2"/>
+//			</Bidders>
+//		</Certificate>
+//	</Escrow>
+
+	public void addBiddersInfo (XMLNode aCertificateNode) {
+
+		XMLNodeList tXMLBiddersNodeList;
+		
+		tXMLBiddersNodeList = new XMLNodeList (biddersParsingRoutine);
+		tXMLBiddersNodeList.parseXMLNodeList (aCertificateNode, Bidders.EN_BIDDERS);
+	}
+			
+	ParsingRoutineI biddersParsingRoutine  = new ParsingRoutineI ()  {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aBiddersNode) {
+			System.out.println ("Found Bidders to load");
+			bidders.addBidderInfo (aBiddersNode);
+//			portfolio.loadPortfolio (aBiddersNode);
+		}
+	};
+
+	public CashHolderI getCashHolderByName (String aBidderName) {
+		CashHolderI tCashHolder;
+		
+		tCashHolder = corporation.getCashHolderByName (aBidderName);
+		
+		return tCashHolder;
+	}
+
 }
