@@ -7,8 +7,11 @@ import ge18xx.company.Certificate;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.WinAuctionAction;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
+import ge18xx.utilities.XMLNodeList;
 
 public class Bidders {
 	public static ElementName EN_BIDDERS = new ElementName ("Bidders");
@@ -324,4 +327,33 @@ public class Bidders {
 		
 		return tTotalEscrows;
 	}
+	
+	public void addBidderInfo (XMLNode aBiddersNode) {
+		XMLNodeList tXMLBiddersNodeList;
+		
+		tXMLBiddersNodeList = new XMLNodeList (bidderParsingRoutine);
+		tXMLBiddersNodeList.parseXMLNodeList (aBiddersNode, Bidder.EN_BIDDER);
+	}
+			
+	ParsingRoutineI bidderParsingRoutine  = new ParsingRoutineI ()  {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aBidderNode) {
+			String tBidderName;
+			int tCash;
+			CashHolderI tCashHolder;
+			
+			tBidderName = aBidderNode.getThisAttribute (Bidder.AN_NAME);
+			tCash = aBidderNode.getThisIntAttribute (Bidder.AN_CASH);
+			tCashHolder = certificate.getCashHolderByName (tBidderName);
+			if (tCashHolder != ActorI.NO_ACTOR) {
+				System.out.println ("Found a Bidder to load " + tBidderName + " Cash " + tCash);
+				addBidderInfo (tCashHolder, tCash);
+			} else {
+				System.err.println ("Failed to Find Bidder named " + tBidderName);
+			}
+//			portfolio.loadPortfolio (aBidderNode);
+		}
+	};
+
+
 }
