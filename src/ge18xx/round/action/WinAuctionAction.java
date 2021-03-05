@@ -86,7 +86,7 @@ public class WinAuctionAction extends BuyStockAction {
 		String tActorName, tToActorName;
 		RefundEscrowEffect tRefundEscrowEffect;
 		int tCredit;
-		
+
 		for (Effect tEffect: effects) {
 			tActorName = tEffect.getActorName ();
 			tToActorName = tEffect.getToActorName ();
@@ -99,6 +99,7 @@ public class WinAuctionAction extends BuyStockAction {
 				}
 			}
 		}
+		
 		return tRefundReport;
 	}
 	
