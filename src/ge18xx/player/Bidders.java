@@ -33,6 +33,13 @@ public class Bidders {
 	}
 	
 	public boolean hasBidOnThisCert (Player aPlayer) {
+		String tPlayerName;
+		
+		tPlayerName = aPlayer.getName ();
+		return hasBidOnThisCert (tPlayerName);
+	}
+
+	public boolean hasBidOnThisCert (String aPlayerName) {
 		boolean tPlayerAlreadyBid = false;
 		int tBidderCount;
 		CashHolderI tThisBidder;
@@ -41,7 +48,8 @@ public class Bidders {
 		if (tBidderCount > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
 				tThisBidder = getCashHolderAt (tBidderIndex);
-				if (aPlayer.getName ().equals (tThisBidder.getName ())) {
+				
+				if (aPlayerName.equals (tThisBidder.getName ())) {
 					tPlayerAlreadyBid = true;
 				}
 			}
@@ -291,24 +299,14 @@ public class Bidders {
 			}
 		}
 	}
-
-	public boolean AmIABidder (String aClientName) {
-		boolean tAmIABidder = false;
-		int tBidderCount;
-		CashHolderI tThisBidder;
-		
-		tBidderCount = bidders.size ();
-		if (tBidderCount > 0) {
-			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
-				tThisBidder = getCashHolderAt (tBidderIndex);
-				if (aClientName.equals (tThisBidder.getName ())) {
-					tAmIABidder = true;
-				}
-			}
-		}
-		
-		return tAmIABidder;
-	}
+//
+//	public boolean AmIABidder (String aClientName) {
+//		boolean tAmIABidder = false;
+//		int tBidderCount;
+//		CashHolderI tThisBidder;
+//		
+//		return hasBidOnThisCert (aClientName);
+//	}
 
 	public int getCount () {
 		return bidders.size ();
@@ -344,12 +342,15 @@ public class Bidders {
 			
 			tBidderName = aBidderNode.getThisAttribute (Bidder.AN_NAME);
 			tCash = aBidderNode.getThisIntAttribute (Bidder.AN_CASH);
-			tCashHolder = certificate.getCashHolderByName (tBidderName);
-			if (tCashHolder != ActorI.NO_ACTOR) {
-				System.out.println ("Found a Bidder to load " + tBidderName + " Cash " + tCash);
-				addBidderInfo (tCashHolder, tCash);
-			} else {
-				System.err.println ("Failed to Find Bidder named " + tBidderName);
+			if (! hasBidOnThisCert (tBidderName)) {
+				tCashHolder = certificate.getCashHolderByName (tBidderName);
+				if (tCashHolder != ActorI.NO_ACTOR) {
+					System.out.println ("Found a Bidder to load " + tBidderName + " Cash " + tCash);
+	
+					addBidderInfo (tCashHolder, tCash);
+				} else {
+					System.err.println ("Failed to Find Bidder named " + tBidderName);
+				}
 			}
 //			portfolio.loadPortfolio (aBidderNode);
 		}

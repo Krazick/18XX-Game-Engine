@@ -1344,12 +1344,12 @@ public class Certificate implements Comparable<Certificate> {
 	public boolean amIABidder (String aClientName) {
 		boolean tAmIABidder = false;
 		
-		tAmIABidder = bidders.AmIABidder (aClientName);
+		tAmIABidder = bidders.hasBidOnThisCert (aClientName);
 		
 		return tAmIABidder;
 	}
 
-	public int getTotalEscrows() {
+	public int getTotalEscrows () {
 		int tTotalEscrows = 0;
 		
 		if (bidders != null) {
