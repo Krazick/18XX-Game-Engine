@@ -130,6 +130,14 @@ public class AuctionBidChangeEffect extends Effect {
 		return tEffectUndone;
 	}
 
+	public int getOldBid () {
+		return oldBid;
+	}
+	
+	public int getNewBid () {
+		return newBid;
+	}
+	
 	public Certificate getCertificate () {
 		return certificate;
 	}

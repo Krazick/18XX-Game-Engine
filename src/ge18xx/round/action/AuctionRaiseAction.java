@@ -74,18 +74,18 @@ public class AuctionRaiseAction extends CashTransferAction {
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		int tNewEscrow = 0;
-		
+		int tNewBid = 0;
+
 		for (Effect tEffect : effects) {
-			if (tNewEscrow == 0) {
-				if (tEffect instanceof EscrowChangeEffect) {
-					tNewEscrow = ((EscrowChangeEffect) tEffect).getNewEscrowAmount ();
+			if (tNewBid == 0) {
+				if (tEffect instanceof AuctionBidChangeEffect) {
+					tNewBid = ((AuctionBidChangeEffect) tEffect).getNewBid ();
 				}
 			}
 		}
 	
 		tSimpleActionReport = actor.getName () + " raised the bid by " + Bank.formatCash (getCashAmount ()) +
-				" to " + Bank.formatCash(tNewEscrow) + " for " + getCompanyAbbrev () + ".";
+				" to " + Bank.formatCash (tNewBid) + " for " + getCompanyAbbrev () + ".";
 		
 		return tSimpleActionReport;
 	}
