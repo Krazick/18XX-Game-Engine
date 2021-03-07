@@ -230,7 +230,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tAuctionRaiseAction.addBidChangeEffect (tPlayer, tOldBidAmount, tNewBidAmount, certificateToAuction);
 		tAuctionRaiseAction.addNewCurrentBidderEffect (auctionRound, aActingBidderIndex, tNextBidderIndex);
 		setBidderBoxColor (tPlayer.getName (), false);
-
+		certificateToAuction.printAllBiddersEscrows ();
 		completeAuctionAction (tAuctionRaiseAction, false);
 	}
 	
@@ -521,7 +521,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		
 		tGameManager = auctionRound.getGameManager ();
 		tClientName = tGameManager.getClientUserName ();
-		System.out.println ("Configuring Auction Undo Button for " + tClientName);
 		tAmIBidder = certificateToAuction.amIABidder (tClientName);
 		if (tAmIBidder && ! isNetworkGame) {
 			undoButton.setEnabled (true);
