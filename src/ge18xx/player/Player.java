@@ -394,6 +394,12 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		return tCurrentHolder;
 	}
 	
+	public void printAllEscrows () {
+		for (Escrow tFoundEscrow : escrows) {
+			tFoundEscrow.printInfo (name);
+		}		
+	}
+	
 	public Escrow getEscrowMatching (String aEscrowName) {
 		Escrow tEscrow = Escrow.NO_ESCROW;
 
@@ -1135,41 +1141,46 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	}
 	
 	public Escrow getMatchingEscrow (String aActorName) {
-		Escrow tEscrow = (Escrow) ActorI.NO_ACTOR;
-		String tFoundEscrowName;
+		Escrow tFoundEscrow = (Escrow) ActorI.NO_ACTOR;
+		String tEscrowName;
 		int tEscrowCount = escrows.size ();
-	
+		boolean tEscrowMatched;
+		boolean tEscrowWasFound = false;
+		
 		if (tEscrowCount > 0) {
-			for (Escrow tFoundEscrow: escrows) {
-				tFoundEscrowName = tFoundEscrow.getName ();
+			for (Escrow tEscrow: escrows) {
 				// Find an Escrow Name that matches for this Player, and return the first. Don't change once found
-				if ((tFoundEscrowName.endsWith (Escrow.getUnindexedName (aActorName))) && 
-						(tEscrow == ((Escrow) ActorI.NO_ACTOR))) {
-					tEscrow = tFoundEscrow;
+				if (! tEscrowWasFound) {
+					tEscrowName = tEscrow.getName ();
+					tEscrowMatched = tEscrowName.equals (aActorName);
+					if (tEscrowMatched) {
+						tFoundEscrow = tEscrow;
+						tEscrowWasFound = true;
+					}
 				}
 			}
 		}
 		
-		return tEscrow;
+		return tFoundEscrow;
 	}
 
 	public Escrow getMatchingEscrow (Certificate aCertificate) {
-		Escrow tEscrow = (Escrow) ActorI.NO_ACTOR;
+		Escrow tFoundEscrow = (Escrow) ActorI.NO_ACTOR;
 		int tEscrowCount = escrows.size ();
 		Certificate tFoundCertficate;
 	
 		if (tEscrowCount > 0) {
-			for (Escrow tFoundEscrow: escrows) {
-				tFoundCertficate = tFoundEscrow.getCertificate ();
+			for (Escrow tEscrow: escrows) {
+				tFoundCertficate = tEscrow.getCertificate ();
 				// Find an Escrow that matches the Certificate
 				if (tFoundCertficate.equals (aCertificate) &&
-						(tEscrow == ((Escrow) ActorI.NO_ACTOR))) {
-					tEscrow = tFoundEscrow;
+						(tFoundEscrow == ((Escrow) ActorI.NO_ACTOR))) {
+					tFoundEscrow = tEscrow;
 				}
 			}
 		}
 		
-		return tEscrow;
+		return tFoundEscrow;
 	}
 	
 	public Escrow addEmptyEscrow (String aName) {
