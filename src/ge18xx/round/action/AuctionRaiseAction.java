@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.AuctionBidChangeEffect;
 import ge18xx.round.action.effects.AuctionStateChangeEffect;
 import ge18xx.round.action.effects.Effect;
@@ -88,5 +89,22 @@ public class AuctionRaiseAction extends CashTransferAction {
 				" to " + Bank.formatCash (tNewBid) + " for " + getCompanyAbbrev () + ".";
 		
 		return tSimpleActionReport;
+	}
+	
+	public boolean applyAction (RoundManager aRoundManager) {
+		boolean tActionApplied = super.applyAction (aRoundManager);
+		
+		Certificate tCertificate = Certificate.NO_CERTIFICATE;
+		
+		for (Effect tEffect : effects) {
+			if (tCertificate == Certificate.NO_CERTIFICATE) {
+				if (tEffect instanceof AuctionBidChangeEffect) {
+					tCertificate = ((AuctionBidChangeEffect) tEffect).getCertificate ();
+				}
+			}
+		}
+		tCertificate.printAllBiddersEscrows ();
+		
+		return tActionApplied;
 	}
 }
