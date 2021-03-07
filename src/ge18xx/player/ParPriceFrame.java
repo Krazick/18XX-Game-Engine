@@ -55,6 +55,7 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 		verticalBox.add (Box.createVerticalStrut (10));
 		
 		tTotalTreasury = aPlayer.getCash ();
+		// TODO: Rethink why this is being done
 		tEscrowCount = aPlayer.getEscrowCount ();
 		if (tEscrowCount == 1) {
 			tEscrow = aPlayer.getEscrowAt (0);
