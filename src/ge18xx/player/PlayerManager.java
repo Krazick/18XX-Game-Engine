@@ -400,8 +400,8 @@ public class PlayerManager {
 				tBidStockAction.addBidShareEffect (aPlayer);
 				tEscrow = aPlayer.addEscrowInfo (tCertificateToBidOn, tCashValue);
 				tBidStockAction.addCashTransferEffect (aPlayer, tEscrow, tCashValue);
-				tBidStockAction.addBidToCertificateEffect(aPlayer, tCertificateToBidOn, tCashValue);
-				tBidStockAction.addEscrowToPlayerEffect(aPlayer, tEscrow);
+				tBidStockAction.addBidToCertificateEffect (aPlayer, tCertificateToBidOn, tCashValue);
+				tBidStockAction.addEscrowToPlayerEffect (aPlayer, tEscrow);
 				
 				tNewState = aPlayer.getPrimaryActionState ();
 				tNewAuctionState = aPlayer.getAuctionActionState ();
