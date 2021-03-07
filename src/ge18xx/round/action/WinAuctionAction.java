@@ -4,7 +4,7 @@ import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.player.Escrow;
-import ge18xx.player.Player;
+import ge18xx.player.EscrowHolderI;
 import ge18xx.player.PlayerFrame;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
@@ -34,10 +34,10 @@ public class WinAuctionAction extends BuyStockAction {
 		setName (NAME);
 	}
 
-	public void addRefundEscrowEffect (ActorI aActor, Player aPlayer, int aBidAmount) {
+	public void addRefundEscrowEffect (ActorI aActor, EscrowHolderI aEscrowHolder, int aBidAmount) {
 		RefundEscrowEffect tRefundEscrowEffect;
 
-		tRefundEscrowEffect = new RefundEscrowEffect (aActor, aPlayer, aBidAmount);
+		tRefundEscrowEffect = new RefundEscrowEffect (aActor, aEscrowHolder, aBidAmount);
 		addEffect (tRefundEscrowEffect);
 	}
 
