@@ -42,7 +42,6 @@ public class GameSupportHandler {
 	public void handleGSResponse (String aGSResponse) {
 		setResponse (aGSResponse);
 		setWaitingForResponse (false);
-		System.out.println ("Received Response [" + response + "] should exit loop");
 	}
 	
 	public String requestGameSupport (String aRequest) {
@@ -59,7 +58,6 @@ public class GameSupportHandler {
 				e.printStackTrace();
 			}
 		}
-		System.out.println ("Received Response [" + response + "]");
 		
 		return response;
 	}
