@@ -3,7 +3,6 @@ package ge18xx.player;
 import java.awt.Container;
 import java.awt.Point;
 import java.awt.event.ItemListener;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -41,13 +40,12 @@ import ge18xx.utilities.XMLNodeList;
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-public class Player implements CashHolderI, PortfolioHolderLoaderI {
+public class Player implements CashHolderI, EscrowHolderI, PortfolioHolderLoaderI {
 	public static final Player NO_PLAYER = null;
 	public static final String NO_PLAYER_NAME = ">NO PLAYER<";
 	public static final ElementName EN_PLAYER = new ElementName ("Player");
 	public static final ElementName EN_PLAYERS = new ElementName ("Players");
 	public static final ElementName EN_PLAYER_STATES = new ElementName ("PlayerStates");
-	public static final ElementName EN_ESCROWS = new ElementName ("Escrows");
 	public static final AttributeName AN_CASH = new AttributeName ("cash");
 	final static AttributeName AN_PLAYER_INDEX = new AttributeName ("playerIndex");
 	final static AttributeName AN_PRIMARY_STATE = new AttributeName ("primaryState");
@@ -86,7 +84,8 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 
 	/* These attributes below change during the game, need to save/load them */
 	int treasury;
-	LinkedList<Escrow> escrows;
+//	LinkedList<Escrow> EscrowsLinkedList;
+	Escrows escrows;
 	ActionStates primaryActionState;
 	ActionStates auctionActionState;
 	Portfolio portfolio;
@@ -124,7 +123,8 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		playerFrame.setFrameToConfigDetails (tGameManager, XMLFrame.getVisibileOFF ());
 
 		soldCompanies = new SoldCompanies ();
-		escrows = new LinkedList<Escrow> ();
+//		EscrowsLinkedList = new LinkedList<Escrow> ();
+		escrows = new Escrows (this);
 	}
 
 	public void setTriggeredAuction (boolean aTriggeredAuction) {
@@ -395,84 +395,98 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	}
 	
 	public void printAllEscrows () {
-		for (Escrow tFoundEscrow : escrows) {
-			tFoundEscrow.printInfo (name);
-		}		
+		escrows.printAllEscrows ();
 	}
 	
 	public Escrow getEscrowMatching (String aEscrowName) {
-		Escrow tEscrow = Escrow.NO_ESCROW;
+		return escrows.getEscrowMatching (aEscrowName);
+	}
 
-		for (Escrow tFoundEscrow : escrows) {
-			if (tFoundEscrow.getName ().equals (aEscrowName)) {
-				tEscrow = tFoundEscrow;
-			}
-		}
-		
-		return tEscrow;
-	}
-	
 	public Escrow getEscrowFor (Certificate aCertificate) {
-		Escrow tEscrow = Escrow.NO_ESCROW;
-		Escrow tThisEscrow;
-		int tEscrowCount = escrows.size ();
-		
-		for (int tEscrowIndex = 0; tEscrowIndex < tEscrowCount; tEscrowIndex++) {
-			tThisEscrow = escrows.get (tEscrowIndex);
-			if (aCertificate.equals (tThisEscrow.getCertificate ())) {
-				tEscrow = tThisEscrow;
-			}
-		}
-		
-		return tEscrow;
+		return escrows.getEscrowFor (aCertificate);
 	}
 	
-	public int getTotalEscrow () {
-		int tEscrowCount = escrows.size ();
-		Escrow tThisEscrow;
-		int tTotalEscrow = 0;
-		
-		for (int tEscrowIndex = 0; tEscrowIndex < tEscrowCount; tEscrowIndex++) {
-			tThisEscrow = escrows.get (tEscrowIndex);
-			tTotalEscrow += tThisEscrow.getCash ();
-		}
-		
-		return tTotalEscrow;
+//	public Escrow getEscrowMatching (String aEscrowName) {
+//		Escrow tEscrow = Escrow.NO_ESCROW;
+//
+//		for (Escrow tFoundEscrow : escrows) {
+//			if (tFoundEscrow.getName ().equals (aEscrowName)) {
+//				tEscrow = tFoundEscrow;
+//			}
+//		}
+//		
+//		return tEscrow;
+//	}
+//	
+//	public Escrow getEscrowFor (Certificate aCertificate) {
+//		Escrow tEscrow = Escrow.NO_ESCROW;
+//		Escrow tThisEscrow;
+//		int tEscrowCount = escrows.size ();
+//		
+//		for (int tEscrowIndex = 0; tEscrowIndex < tEscrowCount; tEscrowIndex++) {
+//			tThisEscrow = escrows.get (tEscrowIndex);
+//			if (aCertificate.equals (tThisEscrow.getCertificate ())) {
+//				tEscrow = tThisEscrow;
+//			}
+//		}
+//		
+//		return tEscrow;
+//	}
 	
-	}
-	public Escrow getCheapestEscrow () {
-		Escrow tEscrow = Escrow.NO_ESCROW;
-		Escrow tThisEscrow;
-		int tEscrowCount = escrows.size ();
-		int tEscrowAmount = 0;
-		
-		for (int tEscrowIndex = 0; tEscrowIndex < tEscrowCount; tEscrowIndex++) {
-			tThisEscrow = escrows.get (tEscrowIndex);
-			if (tEscrowAmount == 0) {
-				tEscrowAmount = tThisEscrow.getCash ();
-				tEscrow = tThisEscrow;
-			} else {
-				if (tThisEscrow.getCash () < tEscrowAmount) {
-					tEscrowAmount = tThisEscrow.getCash ();
-					tEscrow = tThisEscrow;					
-				}
-			}
-		}
-		
-		return tEscrow;
-	}
+//	public int getTotalEscrow () {
+//		int tEscrowCount = escrows.size ();
+//		Escrow tThisEscrow;
+//		int tTotalEscrow = 0;
+//		
+//		for (int tEscrowIndex = 0; tEscrowIndex < tEscrowCount; tEscrowIndex++) {
+//			tThisEscrow = escrows.get (tEscrowIndex);
+//			tTotalEscrow += tThisEscrow.getCash ();
+//		}
+//		
+//		return tTotalEscrow;
+//	
+//	}
+//	public Escrow getCheapestEscrow () {
+//		Escrow tEscrow = Escrow.NO_ESCROW;
+//		Escrow tThisEscrow;
+//		int tEscrowCount = escrows.size ();
+//		int tEscrowAmount = 0;
+//		
+//		for (int tEscrowIndex = 0; tEscrowIndex < tEscrowCount; tEscrowIndex++) {
+//			tThisEscrow = escrows.get (tEscrowIndex);
+//			if (tEscrowAmount == 0) {
+//				tEscrowAmount = tThisEscrow.getCash ();
+//				tEscrow = tThisEscrow;
+//			} else {
+//				if (tThisEscrow.getCash () < tEscrowAmount) {
+//					tEscrowAmount = tThisEscrow.getCash ();
+//					tEscrow = tThisEscrow;					
+//				}
+//			}
+//		}
+//		
+//		return tEscrow;
+//	}
 	
 	public Escrow getEscrowAt (int aEscrowIndex) {
-		Escrow tEscrow;
-		
-		tEscrow = escrows.get (aEscrowIndex);
-		
-		return tEscrow;
+		return escrows.getEscrowAt (aEscrowIndex);
 	}
 	
 	public int getEscrowCount () {
-		return escrows.size ();
+		return escrows.getEscrowCount ();
 	}
+//	
+//	public Escrow getEscrowAt (int aEscrowIndex) {
+//		Escrow tEscrow;
+//		
+//		tEscrow = escrows.get (aEscrowIndex);
+//		
+//		return tEscrow;
+//	}
+//	
+//	public int getEscrowCount () {
+//		return escrows.size ();
+//	}
 	
 	public GameManager getGameManager () {
 		return playerManager.getGameManager ();
@@ -505,7 +519,8 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	}
 	
 	public XMLElement getPlayerStateElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement, tXMLPortofolioElements, tXMLEscrows, tXMLEscrowElement;
+		XMLElement tXMLElement, tXMLPortofolioElements, tXMLEscrows;
+//		XMLElement tXMLEscrowElement;
 		String tCompaniesSold;
 		
 		tCompaniesSold = soldCompanies.toString (DELIMITER);
@@ -520,11 +535,12 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		tXMLElement.setAttribute (AN_SOLD_COMPANIES, tCompaniesSold);
 		tXMLPortofolioElements = portfolio.getElements (aXMLDocument);
 		tXMLElement.appendChild (tXMLPortofolioElements);
-		tXMLEscrows = aXMLDocument.createElement (EN_ESCROWS);
-		for (Escrow tEscrow : escrows) {
-			tXMLEscrowElement = tEscrow.getElements (aXMLDocument);
-			tXMLEscrows.appendChild (tXMLEscrowElement);
-		}
+		tXMLEscrows = escrows.getEscrowXML (aXMLDocument);
+//		tXMLEscrows = aXMLDocument.createElement (EN_ESCROWS);
+//		for (Escrow tEscrow : escrows) {
+//			tXMLEscrowElement = tEscrow.getElements (aXMLDocument);
+//			tXMLEscrows.appendChild (tXMLEscrowElement);
+//		}
 		tXMLElement.appendChild (tXMLEscrows);
 		
 		return tXMLElement;
@@ -874,7 +890,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		String tState;
 		String tSoldCompanies;
 		XMLNodeList tXMLPortfolioNodeList;
-		XMLNodeList tXMLEscrowsNodeList;
+//		XMLNodeList tXMLEscrowsNodeList;
 		GenericActor tGenericActor;
 		
 		// Need to remove any Cash the Player has before setting it.
@@ -892,8 +908,9 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		soldCompanies.parse (DELIMITER, tSoldCompanies);
 		tXMLPortfolioNodeList = new XMLNodeList (portfolioParsingRoutine);
 		tXMLPortfolioNodeList.parseXMLNodeList (aPlayerNode, Portfolio.EN_PORTFOLIO);
-		tXMLEscrowsNodeList = new XMLNodeList (escrowsParsingRoutine);
-		tXMLEscrowsNodeList.parseXMLNodeList (aPlayerNode, EN_ESCROWS);
+		escrows.loadEscrowState (aPlayerNode);
+//		tXMLEscrowsNodeList = new XMLNodeList (escrowsParsingRoutine);
+//		tXMLEscrowsNodeList.parseXMLNodeList (aPlayerNode, EN_ESCROWS);
 	}
 	
 	ParsingRoutineI portfolioParsingRoutine  = new ParsingRoutineI ()  {
@@ -902,27 +919,27 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 			portfolio.loadPortfolio (aChildNode);
 		}
 	};
-	
-	ParsingRoutineI escrowsParsingRoutine  = new ParsingRoutineI ()  {
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			loadEscrows (aChildNode);
-		}
-	};
-
-	ParsingRoutineI singleEscrowParsingRoutine  = new ParsingRoutineI ()  {
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			loadSingleEscrow (aChildNode);
-		}
-	};
-
-	private void loadEscrows (XMLNode aEscrowsNode) {
-		XMLNodeList tXMLEscrowNodeList;
-		
-		System.out.println ("Need to load Escrows for " + name);
-		tXMLEscrowNodeList = new XMLNodeList (singleEscrowParsingRoutine);
-		tXMLEscrowNodeList.parseXMLNodeList (aEscrowsNode, Escrow.EN_ESCROW);
+//	
+//	ParsingRoutineI escrowsParsingRoutine  = new ParsingRoutineI ()  {
+//		@Override
+//		public void foundItemMatchKey1 (XMLNode aChildNode) {
+//			loadEscrows (aChildNode);
+//		}
+//	};
+//
+//	ParsingRoutineI singleEscrowParsingRoutine  = new ParsingRoutineI ()  {
+//		@Override
+//		public void foundItemMatchKey1 (XMLNode aChildNode) {
+//			loadSingleEscrow (aChildNode);
+//		}
+//	};
+//
+//	private void loadEscrows (XMLNode aEscrowsNode) {
+//		XMLNodeList tXMLEscrowNodeList;
+//		
+//		System.out.println ("Need to load Escrows for " + name);
+//		tXMLEscrowNodeList = new XMLNodeList (singleEscrowParsingRoutine);
+//		tXMLEscrowNodeList.parseXMLNodeList (aEscrowsNode, Escrow.EN_ESCROW);
 //		tChildEscrows = aEscrowsNode.getChildNodes ();
 //		tChildrenCount = tChildEscrows.getLength ();
 //		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
@@ -931,18 +948,18 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 //			tXMLEscrowNodeList = new XMLNodeList (singleEscrowParsingRoutine);
 //			tXMLEscrowNodeList.parseXMLNodeList (tChildEscrowNode, Escrow.EN_ESCROW);
 //		}
-	}
+//	}
 	
-	private void loadSingleEscrow (XMLNode aEscrowsNode) {
-		Escrow tEscrow;
-		Bank tBank;
-		
-		tBank = playerManager.getBank ();
-		tEscrow = new Escrow (aEscrowsNode, tBank);
-		escrows.add (tEscrow);
-		System.out.println ("Need to load a Single Escrow for " + name);
-		
-	}
+//	private void loadSingleEscrow (XMLNode aEscrowsNode) {
+//		Escrow tEscrow;
+//		Bank tBank;
+//		
+//		tBank = playerManager.getBank ();
+//		tEscrow = new Escrow (aEscrowsNode, tBank);
+//		escrows.add (tEscrow);
+//		System.out.println ("Need to load a Single Escrow for " + name);
+//		
+//	}
 
 	public void bidAction () {
 		playerManager.bidAction (this);
@@ -1037,13 +1054,15 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		printPlayerStateInfo ();
 		System.out.println ("Bought Share State is " + boughtShare);
 		System.out.println ("Bid on Share State is " + bidShare);
-		if (escrows.size() > 0) {
-			for (Escrow tEscrow: escrows) {
-				tEscrow.showInfo ();
-			}
-		} else {
-			System.out.println ("No Escrows");
-		}
+		
+		escrows.printAllEscrows ();
+//		if (EscrowsLinkedList.size() > 0) {
+//			for (Escrow tEscrow: EscrowsLinkedList) {
+//				tEscrow.showInfo ();
+//			}
+//		} else {
+//			System.out.println ("No Escrows");
+//		}
 		soldCompanies.printInfo ();
 		portfolio.printPortfolioInfo ();
 	}
@@ -1126,131 +1145,145 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	}
 	
 	public void refundEscrow (Certificate aCertificate, int aBidAmount, WinAuctionAction aWinAuctionAction) {
-		Escrow tEscrow = getMatchingEscrow (aCertificate);
+		escrows.refundEscrow (aCertificate, aBidAmount, aWinAuctionAction);
+//		Escrow tEscrow = getMatchingEscrow (aCertificate);
 		
 //		tEscrow.addCash (-aBidAmount);
 //		addCash (aBidAmount);
-		tEscrow.transferCashTo(this, aBidAmount);
-		aWinAuctionAction.addRefundEscrowEffect (tEscrow, this, aBidAmount);
-		removeEscrow (tEscrow);
-		aWinAuctionAction.addRemoveEscrowEffect (this, tEscrow);
+//		tEscrow.transferCashTo(this, aBidAmount);
+//		aWinAuctionAction.addRefundEscrowEffect (tEscrow, this, aBidAmount);
+//		removeEscrow (tEscrow);
+//		aWinAuctionAction.addRemoveEscrowEffect (this, tEscrow);
 	}
 
 	public void removeAllEscrows () {
-		escrows.clear ();
+		escrows.removeAllEscrows ();
+//		escrows.clear ();
 	}
 	
 	public Escrow getMatchingEscrow (String aActorName) {
-		Escrow tFoundEscrow = (Escrow) ActorI.NO_ACTOR;
-		String tEscrowName;
-		int tEscrowCount = escrows.size ();
-		boolean tEscrowMatched;
-		boolean tEscrowWasFound = false;
-		
-		if (tEscrowCount > 0) {
-			for (Escrow tEscrow: escrows) {
-				// Find an Escrow Name that matches for this Player, and return the first. Don't change once found
-				if (! tEscrowWasFound) {
-					tEscrowName = tEscrow.getName ();
-					tEscrowMatched = tEscrowName.equals (aActorName);
-					if (tEscrowMatched) {
-						tFoundEscrow = tEscrow;
-						tEscrowWasFound = true;
-					}
-				}
-			}
-		}
-		
-		return tFoundEscrow;
+		return escrows.getMatchingEscrow (aActorName);
+//		Escrow tFoundEscrow = (Escrow) ActorI.NO_ACTOR;
+//		String tEscrowName;
+//		int tEscrowCount = escrows.size ();
+//		boolean tEscrowMatched;
+//		boolean tEscrowWasFound = false;
+//		
+//		if (tEscrowCount > 0) {
+//			for (Escrow tEscrow: escrows) {
+//				// Find an Escrow Name that matches for this Player, and return the first. Don't change once found
+//				if (! tEscrowWasFound) {
+//					tEscrowName = tEscrow.getName ();
+//					tEscrowMatched = tEscrowName.equals (aActorName);
+//					if (tEscrowMatched) {
+//						tFoundEscrow = tEscrow;
+//						tEscrowWasFound = true;
+//					}
+//				}
+//			}
+//		}
+//		
+//		return tFoundEscrow;
 	}
 
 	public Escrow getMatchingEscrow (Certificate aCertificate) {
-		Escrow tFoundEscrow = (Escrow) ActorI.NO_ACTOR;
-		int tEscrowCount = escrows.size ();
-		Certificate tFoundCertficate;
-	
-		if (tEscrowCount > 0) {
-			for (Escrow tEscrow: escrows) {
-				tFoundCertficate = tEscrow.getCertificate ();
-				// Find an Escrow that matches the Certificate
-				if (tFoundCertficate.equals (aCertificate) &&
-						(tFoundEscrow == ((Escrow) ActorI.NO_ACTOR))) {
-					tFoundEscrow = tEscrow;
-				}
-			}
-		}
-		
-		return tFoundEscrow;
+		return escrows.getMatchingEscrow (aCertificate);
+//		Escrow tFoundEscrow = (Escrow) ActorI.NO_ACTOR;
+//		int tEscrowCount = escrows.size ();
+//		Certificate tFoundCertficate;
+//	
+//		if (tEscrowCount > 0) {
+//			for (Escrow tEscrow: escrows) {
+//				tFoundCertficate = tEscrow.getCertificate ();
+//				// Find an Escrow that matches the Certificate
+//				if (tFoundCertficate.equals (aCertificate) &&
+//						(tFoundEscrow == ((Escrow) ActorI.NO_ACTOR))) {
+//					tFoundEscrow = tEscrow;
+//				}
+//			}
+//		}
+//		
+//		return tFoundEscrow;
 	}
 	
 	public Escrow addEmptyEscrow (String aName) {
-		Escrow tEscrow;
-		
-		tEscrow = new Escrow ();
-		tEscrow.setName (aName);
-		
-		return tEscrow;
+		return escrows.addEmptyEscrow (aName);
 	}
+//	public Escrow addEmptyEscrow (String aName) {
+//		Escrow tEscrow;
+//		
+//		tEscrow = new Escrow ();
+//		tEscrow.setName (aName);
+//		
+//		return tEscrow;
+//	}
 	
 	public Escrow addEscrowInfo (Certificate aCertificate, int aAmount) {
-		Escrow tEscrow;
-
-		tEscrow = new Escrow (aCertificate);
-		tEscrow.setName (getName (), escrows.size ());
-		tEscrow.transferCashTo (this, -aAmount);
-		escrows.add (tEscrow);
-		aCertificate.addBidderInfo (this, aAmount);
-		
-		return tEscrow;
+		return escrows.addEscrowInfo (aCertificate, aAmount);
 	}
+	
+//	
+//	public Escrow addEscrowInfo (Certificate aCertificate, int aAmount) {
+//		Escrow tEscrow;
+//
+//		tEscrow = new Escrow (aCertificate);
+//		tEscrow.setName (getName (), escrows.size ());
+//		tEscrow.transferCashTo (this, -aAmount);
+//		escrows.add (tEscrow);
+//		aCertificate.addBidderInfo (this, aAmount);
+//		
+//		return tEscrow;
+//	}
 	
 	public final boolean ESCROW_EXACT_MATCH = true;
 	public final boolean ESCROW_CLOSE_MATCH = false;
 	
 	public void removeEscrow (Escrow aEscrow) {
-		removeEscrow (aEscrow, ESCROW_EXACT_MATCH);
+		escrows.removeEscrow (aEscrow, ESCROW_EXACT_MATCH);
 	}
 	
 	public void removeEscrow (Escrow aEscrow, boolean aMatchCriteria) {
-		int tEscrowCount = escrows.size ();
-		Escrow tEscrow;
-		String tPassedEscrowCompany, tFoundEscrowCompany;
-		boolean tEscrowRemoved = false;
-		
-		if (tEscrowCount > 0) {
-			tPassedEscrowCompany = aEscrow.getCompanyAbbrev ();
-			for (int tEscrowIndex = 0; tEscrowIndex < tEscrowCount; tEscrowIndex++) {
-				if (!tEscrowRemoved) {
-					tEscrow = escrows.get (tEscrowIndex);
-					if (aMatchCriteria == ESCROW_EXACT_MATCH) {
-						if (tEscrow.equals (aEscrow)) {
-							escrows.remove (tEscrowIndex);
-							tEscrowRemoved = true;
-						}
-					} else {
-						tFoundEscrowCompany = tEscrow.getCompanyAbbrev ();
-						if (tPassedEscrowCompany.equals (tFoundEscrowCompany)) {
-							escrows.remove (tEscrowIndex);
-							tEscrowRemoved = true;
-						}
-					}
-				}
-			}
-		}
+		escrows.removeEscrow (aEscrow, aMatchCriteria);
+//		int tEscrowCount = escrows.size ();
+//		Escrow tEscrow;
+//		String tPassedEscrowCompany, tFoundEscrowCompany;
+//		boolean tEscrowRemoved = false;
+//		
+//		if (tEscrowCount > 0) {
+//			tPassedEscrowCompany = aEscrow.getCompanyAbbrev ();
+//			for (int tEscrowIndex = 0; tEscrowIndex < tEscrowCount; tEscrowIndex++) {
+//				if (!tEscrowRemoved) {
+//					tEscrow = escrows.get (tEscrowIndex);
+//					if (aMatchCriteria == ESCROW_EXACT_MATCH) {
+//						if (tEscrow.equals (aEscrow)) {
+//							escrows.remove (tEscrowIndex);
+//							tEscrowRemoved = true;
+//						}
+//					} else {
+//						tFoundEscrowCompany = tEscrow.getCompanyAbbrev ();
+//						if (tPassedEscrowCompany.equals (tFoundEscrowCompany)) {
+//							escrows.remove (tEscrowIndex);
+//							tEscrowRemoved = true;
+//						}
+//					}
+//				}
+//			}
+//		}
 	}
 	
 	public void raiseBid (Certificate aCertificate, int aRaise) {
-		String tFoundEscrowName;
-		int tEscrowCount = escrows.size ();
-	
-		if (tEscrowCount > 0) {
-			for (Escrow tFoundEscrow: escrows) {
-				tFoundEscrowName = tFoundEscrow.getName ();
-				if (tFoundEscrowName.endsWith (Escrow.getUnindexedName (getName ()))) {
-					transferCashTo (tFoundEscrow, aRaise);
-				}
-			}
-		}
+		escrows.raiseBid (aCertificate, aRaise);
+//		String tFoundEscrowName;
+//		int tEscrowCount = EscrowsLinkedList.size ();
+//	
+//		if (tEscrowCount > 0) {
+//			for (Escrow tFoundEscrow: EscrowsLinkedList) {
+//				tFoundEscrowName = tFoundEscrow.getName ();
+//				if (tFoundEscrowName.endsWith (Escrow.getUnindexedName (getName ()))) {
+//					transferCashTo (tFoundEscrow, aRaise);
+//				}
+//			}
+//		}
 
 	}
 	
@@ -1361,10 +1394,10 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 		updateCashLabel ();
 		playerContainer.add (cashLabel);
 		
-		tEscrowCount = getEscrowCount ();
+		tEscrowCount = escrows.getEscrowCount ();
 		tTotalEscrow = 0;
 		if (tEscrowCount > 0) {
-			tTotalEscrow = getTotalEscrow ();
+			tTotalEscrow = escrows.getTotalEscrow ();
 			tEscrowText = tEscrowCount + " Bid";
 			if (tEscrowCount > 1) {
 				tEscrowText += "s";
@@ -1455,7 +1488,7 @@ public class Player implements CashHolderI, PortfolioHolderLoaderI {
 	}
 
 	public void applyAuctionPass () {
-		Escrow tCheapestEscrow = getCheapestEscrow ();
+		Escrow tCheapestEscrow = escrows.getCheapestEscrow ();
 		Certificate tCertificate = tCheapestEscrow.getCertificate ();
 		
 		tCertificate.setAsPassForBidder (this);
