@@ -834,13 +834,15 @@ public class PlayerManager {
 		Escrow tEscrow = Escrow.NO_ESCROW;
 		Escrow tFoundEscrow;
 		
+		System.out.println ("    Looking for Escrow named [" + aEscrowName + "]");
 		for (Player tPlayer : players) {
 			tFoundEscrow = tPlayer.getEscrowMatching (aEscrowName);
 			if (tFoundEscrow != Escrow.NO_ESCROW) {
 				tEscrow = tFoundEscrow;
 			}
 		}
-		
+		System.out.println ("    Found for Escrow named [" + tEscrow.getName () + "]");
+	
 		return tEscrow;
 	}
 
