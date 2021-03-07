@@ -984,7 +984,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			setLastRevenue (thisRevenue);
 			corporationFrame.updateInfo ();
 		} else {
-			System.out.println ("Status has NOT been updated from " + status);
+			System.err.println ("Status has NOT been updated from " + status);
 		}
 	}
 	
@@ -1025,7 +1025,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			setLastRevenue (thisRevenue);
 			corporationFrame.updateInfo ();
 		} else {
-			System.out.println ("Status has NOT been updated from " + status);
+			System.err.println ("Status has NOT been updated from " + status);
 		}
 	}
 	
@@ -1500,9 +1500,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 						if (tTrain.getName ().equals (tItemName)) {
 							tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, 
 								tOperatingRoundID, this);
-							System.out.println ("Buying a " + tTrain.getName () + 
-									" Train from " + tOwningTrainCompany.getAbbrev () + 
-									" for " + Bank.formatCash (tCashValue) + " into " + getAbbrev ());
+//							System.out.println ("Buying a " + tTrain.getName () + 
+//									" Train from " + tOwningTrainCompany.getAbbrev () + 
+//									" for " + Bank.formatCash (tCashValue) + " into " + getAbbrev ());
 							transferCashTo (tOwningTrainCompany, tCashValue);
 							tBuyTrainAction.addCashTransferEffect (this, tOwningTrainCompany, tCashValue);
 							// We must toggle NotifyNetwork on, for this, and reset to prior state to allow for handling Response
@@ -1527,7 +1527,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				System.err.println ("Company " + tActorToName + " is not a Train Company");
 			}
 		} else {
-			System.out.println ("Actor " + tActorToName + " is not a Corporation - Likely Player");
+			System.err.println ("Actor " + tActorToName + " is not a Corporation - Likely Player");
 		}
 	}
 	
