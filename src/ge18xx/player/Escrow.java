@@ -219,4 +219,10 @@ public class Escrow implements CashHolderI {
 	public String getAbbrev () {
 		return getName ();
 	}
+
+	public void printInfo (String aHolderName) {
+		System.out.println ("+++Escrow Holder: " + aHolderName + " Escrow Name " + name + 
+				" Cert for " + certificate.getCompanyAbbrev () + " Amount " + Bank.formatCash (cash));
+		
+	}
 }
