@@ -3,6 +3,7 @@ package ge18xx.player;
 import java.util.LinkedList;
 import java.util.List;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.WinAuctionAction;
@@ -299,17 +300,22 @@ public class Bidders {
 			}
 		}
 	}
-//
-//	public boolean AmIABidder (String aClientName) {
-//		boolean tAmIABidder = false;
-//		int tBidderCount;
-//		CashHolderI tThisBidder;
-//		
-//		return hasBidOnThisCert (aClientName);
-//	}
 
 	public int getCount () {
 		return bidders.size ();
+	}
+	
+	public void printAllBidderEscrows () {
+		int tNumberOfBidders = getNumberOfBidders ();
+		Player tBidder;
+		
+		if (tNumberOfBidders > 0) {
+			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
+				tBidder = (Player) getCashHolderAt (tBidderIndex);
+				tBidder.printAllEscrows ();
+				System.out.println ("Player " + tBidder.getName () + " Cash " + Bank.formatCash (tBidder.getCash ()));
+			}
+		}
 	}
 	
 	public int getTotalEscrows() {
