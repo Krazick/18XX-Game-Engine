@@ -68,7 +68,7 @@ public class MapToken extends Token {
 	public void printlog () {
 		super.printlog ();
 		if (mapCell == HexMap.NO_MAP_CELL) {
-			System.out.println ("No Map Cell Specified Yet");
+			System.err.println ("No Map Cell Specified Yet");
 		} else {
 			mapCell.printlog ();
 		}
