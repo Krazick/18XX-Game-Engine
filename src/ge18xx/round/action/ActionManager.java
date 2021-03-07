@@ -72,10 +72,8 @@ public class ActionManager {
 		int tNewActionNumber;
 		
 		if (gameManager.isNetworkGame ()) {
-			System.out.println ("Need to request Action Number from Server");
 			tActionNumberString = gameManager.requestGameSupport (JGameClient.REQUEST_ACTION_NUMBER);
 			tNewActionNumber = getActionNumberFrome (tActionNumberString);
-			System.out.println ("Game Support Request returned [" + tActionNumberString + "]");
 			if (tNewActionNumber > 0) {
 				actionNumber = tNewActionNumber;
 				tReportActionNumber = "Retrieved New Action Number " + actionNumber + " from Game Server\n";

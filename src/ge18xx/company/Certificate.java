@@ -1392,7 +1392,6 @@ public class Certificate implements Comparable<Certificate> {
 	ParsingRoutineI biddersParsingRoutine  = new ParsingRoutineI ()  {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aBiddersNode) {
-			System.out.println ("Found Bidders to load");
 			bidders.addBidderInfo (aBiddersNode);
 //			portfolio.loadPortfolio (aBiddersNode);
 		}
@@ -1406,4 +1405,7 @@ public class Certificate implements Comparable<Certificate> {
 		return tCashHolder;
 	}
 
+	public void printAllBiddersEscrows () {
+		bidders.printAllBidderEscrows ();
+	}
 }

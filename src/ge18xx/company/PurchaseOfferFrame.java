@@ -131,11 +131,9 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		
 		tActionCommand = e.getActionCommand ();
 		if (tActionCommand.equals (ACCEPT_ACTION)) {
-			System.out.println ("Accepted Offer");
 			sendOfferResponseAction (true);
 		}
 		if (tActionCommand.equals (REJECT_ACTION)) {
-			System.out.println ("Offer Rejected");
 			sendOfferResponseAction (false);
 		}
 	}
