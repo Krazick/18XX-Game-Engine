@@ -1083,7 +1083,6 @@ public class JGameClient extends XMLFrame {
 		String tFullGSRequest;
 		
 		tFullGSRequest = serverHandler.buildGameSupportXML (aGameID, aRequestActionNumber);
-		System.out.println ("Full GS Request sent [" + tFullGSRequest + "]");
 		tGSResponse = gameSupportHandler.requestGameSupport (tFullGSRequest);
 		
 		return tGSResponse;
