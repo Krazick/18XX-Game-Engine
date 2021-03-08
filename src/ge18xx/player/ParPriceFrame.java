@@ -10,6 +10,7 @@ import ge18xx.round.StockRound;
 import ge18xx.round.action.ActionManager;
 import ge18xx.round.action.SetParValueAction;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -55,13 +56,14 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 		verticalBox.add (Box.createVerticalStrut (10));
 		
 		tTotalTreasury = aPlayer.getCash ();
-		// TODO: Rethink why this is being done
 		tEscrowCount = aPlayer.getEscrowCount ();
 		if (tEscrowCount == 1) {
 			tEscrow = aPlayer.getEscrowAt (0);
 			tTotalTreasury += tEscrow.getCash ();
 		}
-		tFrameLabel = new JLabel (aPlayer.getName () + " is buying the " + aCertificate.getCompanyAbbrev () + " has in Treasury " + Bank.formatCash (tTotalTreasury));
+		tFrameLabel = new JLabel (aPlayer.getName () + " is buying the " + 
+								aCertificate.getCompanyAbbrev () + " has in Treasury " + 
+								Bank.formatCash (tTotalTreasury));
 		tFrameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		verticalBox.add (tFrameLabel);
 		verticalBox.add (Box.createVerticalStrut (10));
@@ -131,6 +133,9 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 				gameManager.setParPrice (tShareCompany, tSelectedParPrice);
 				setParValueAction (tSelectedParPrice, tShareCompany);
 			}
+		}
+		if (gameManager.isNetworkGame ()) {
+			setBackground (Color.ORANGE);
 		}
 		setVisible (false);
 	}
