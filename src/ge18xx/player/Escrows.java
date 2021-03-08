@@ -80,6 +80,7 @@ public class Escrows {
 	}
 	
 	public void printAllEscrows () {
+		System.out.println ("Printing all Escrows for " + escrowHolder.getName ());
 		for (Escrow tFoundEscrow : escrows) {
 			tFoundEscrow.printInfo (escrowHolderName);
 		}		
@@ -244,7 +245,6 @@ public class Escrows {
 			tFoundEscrow = getEscrowFor (aCertificate);
 			escrowHolder.transferCashTo (tFoundEscrow, aRaise);
 		}
-
 	}
 	
 	public void removeEscrow (Escrow aEscrow) {

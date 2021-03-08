@@ -1372,14 +1372,6 @@ public class Certificate implements Comparable<Certificate> {
 		
 		return tIsMatchingCertificate;
 	}
-//	<Escrow actionState="No Action" cash="120" name="0) Escrow for Mark2">
-//		<Certificate abbrev="M&amp;H" isPresident="true" percentage="100">
-//			<Bidders>
-//				<Bidder cash="115" name="Jim"/>
-//				<Bidder cash="120" name="Mark2"/>
-//			</Bidders>
-//		</Certificate>
-//	</Escrow>
 
 	public void addBiddersInfo (XMLNode aCertificateNode) {
 
@@ -1393,7 +1385,6 @@ public class Certificate implements Comparable<Certificate> {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aBiddersNode) {
 			bidders.addBidderInfo (aBiddersNode);
-//			portfolio.loadPortfolio (aBiddersNode);
 		}
 	};
 
@@ -1406,6 +1397,8 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public void printAllBiddersEscrows () {
+		System.out.println ("Printing all Escrows for all Bidders on the Cert for " + 
+				getCompanyAbbrev ());
 		bidders.printAllBidderEscrows ();
 	}
 }
