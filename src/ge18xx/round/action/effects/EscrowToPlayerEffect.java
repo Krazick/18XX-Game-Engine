@@ -3,6 +3,7 @@ package ge18xx.round.action.effects;
 import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.player.Escrow;
+import ge18xx.player.EscrowHolderI;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -35,14 +36,11 @@ public class EscrowToPlayerEffect extends Effect {
 		String tCertificateName;
 		Certificate tCertificate;
 		int tCash;
-		Player tPlayer;
 		
 		tCertificateName = aEffectNode.getThisAttribute (AN_ESCROW_TO_PLAYER_COMPANY);
 		tCertificate = aGameManager.getCertificate (tCertificateName, 100, true);
 		tCash = aEffectNode.getThisIntAttribute (AN_ESCROW_TO_PLAYER_CASH);
-		escrow = new Escrow (tCertificate, tCash);
-		tPlayer = (Player) actor;
-		tPlayer.addEscrowInfo (tCertificate, tCash);
+		escrow = new Escrow (tCertificate, tCash);		
 	}
 	
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
@@ -80,9 +78,17 @@ public class EscrowToPlayerEffect extends Effect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApply;
+		EscrowHolderI tEscrowHolder;
+		Certificate tCertificate;
+		int tCash;
 		
-		// The creation of the Escrow when the Action is Parsed 
-		// means we don't have to apply the effect of the Action.
+		tCertificate = escrow.getCertificate ();
+		tCash = escrow.getCash ();
+		tEscrowHolder = (EscrowHolderI) actor;
+		tEscrowHolder.addEscrowInfo (tCertificate, tCash);
+		tEscrowHolder.printAllEscrows ();
+		tCertificate.printAllBiddersEscrows ();
+		System.out.println ("Done Printing Escrow Info\n");
 		tEffectApply = true;
 		
 		return tEffectApply;
