@@ -14,8 +14,8 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 public class Escrows {
-	public final boolean ESCROW_EXACT_MATCH = true;
-	public final boolean ESCROW_CLOSE_MATCH = false;
+	public final static boolean ESCROW_EXACT_MATCH = true;
+	public final static boolean ESCROW_CLOSE_MATCH = false;
 	public static final ElementName EN_ESCROWS = new ElementName ("Escrows");
 	LinkedList<Escrow> escrows;
 	String escrowHolderName;

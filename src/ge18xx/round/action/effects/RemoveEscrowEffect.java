@@ -4,7 +4,8 @@ import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.player.Escrow;
-import ge18xx.player.Player;
+import ge18xx.player.EscrowHolderI;
+import ge18xx.player.Escrows;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
@@ -43,14 +44,11 @@ public class RemoveEscrowEffect extends Effect {
 		String tCertificateName;
 		Certificate tCertificate;
 		int tCash;
-//		Player tPlayer;
 
 		tCertificateName = aEffectNode.getThisAttribute (AN_ESCROW_TO_PLAYER_COMPANY);
 		tCertificate = aGameManager.getCertificate (tCertificateName, 100, true);
 		tCash = aEffectNode.getThisIntAttribute (AN_ESCROW_TO_PLAYER_CASH);
 		escrow = new Escrow (tCertificate, tCash);
-//		tPlayer = (Player) actor;
-//		tPlayer.addEscrowInfo (tCertificate, tCash);
 	}
 	
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
@@ -84,9 +82,9 @@ public class RemoveEscrowEffect extends Effect {
 	
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied = false;
-		Player tPlayer = (Player) actor;
+		EscrowHolderI tHolder = (EscrowHolderI) actor;
 		
-		tPlayer.removeEscrow (escrow, tPlayer.ESCROW_CLOSE_MATCH);
+		tHolder.removeEscrow (escrow, Escrows.ESCROW_CLOSE_MATCH);
 		tEffectApplied = true;
 		
 		return tEffectApplied;
