@@ -1026,11 +1026,8 @@ public class Player implements CashHolderI, EscrowHolderI, PortfolioHolderLoader
 	}
 	
 	public Escrow addEscrowInfo (Certificate aCertificate, int aAmount) {
-		return escrows.addEscrowInfo (aCertificate, aAmount);
+		return  escrows.addEscrowInfo (aCertificate, aAmount);
 	}
-	
-//	public final boolean ESCROW_EXACT_MATCH = true;
-//	public final boolean ESCROW_CLOSE_MATCH = false;
 	
 	public void removeEscrow (Escrow aEscrow) {
 		escrows.removeEscrow (aEscrow, Escrows.ESCROW_EXACT_MATCH);
