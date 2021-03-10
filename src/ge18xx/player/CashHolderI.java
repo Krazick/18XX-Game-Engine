@@ -16,7 +16,7 @@ public interface CashHolderI extends ActorI {
 	
 	public abstract int getCash ();
 	
-	public abstract String getName ();
+//	public abstract String getName ();
 	
 	public abstract void transferCashTo (CashHolderI aToCashHolder, int aAmount);
 }
