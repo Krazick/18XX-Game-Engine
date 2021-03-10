@@ -53,13 +53,13 @@ public interface ActorI {
 
 	
 	public String getName ();
+	public String getAbbrev();
 	public String getStateName ();
-	public boolean isAPrivateCompany ();
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState);
+	public boolean isAPrivateCompany ();
 	public boolean isAPlayer ();
 	public boolean isAStockRound ();
 	public boolean isAOperatingRound ();
 	public boolean isABank ();
 	public boolean isACorporation ();
-	public String getAbbrev();
 }
