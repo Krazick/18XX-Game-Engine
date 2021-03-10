@@ -25,23 +25,17 @@ public class Escrow implements CashHolderI {
 	Certificate certificate;
 	
 	Escrow () {
-		setCash (0);
-		setName (NO_NAME);
-		actionState = ActionStates.NoAction;
-		setCertificate (Certificate.NO_CERTIFICATE);
+		this (Certificate.NO_CERTIFICATE, 0);
 	}
 
 	Escrow (Certificate aCertificate) {
-		setCash (0);
-		setName (NO_NAME);
-		actionState = ActionStates.NoAction;
-		setCertificate (aCertificate);
+		this (aCertificate, 0);
 	}
 	
 	public Escrow (Certificate aCertificate, int aCash) {
 		setCash (aCash);
 		setName (NO_NAME);
-		actionState = ActionStates.NoAction;
+		setActionState (ActionStates.NoAction);
 		setCertificate (aCertificate);
 	}
 //	<Escrow actionState="No Action" cash="120" name="0) Escrow for Mark2">
@@ -131,7 +125,13 @@ public class Escrow implements CashHolderI {
 	}
 	
 	public String getCompanyAbbrev () {
-		return certificate.getCompanyAbbrev ();
+		String tCompanyAbbrev = NO_NAME;
+		
+		if (certificate != Certificate.NO_CERTIFICATE) {
+			tCompanyAbbrev = certificate.getCompanyAbbrev();
+		}
+		
+		return tCompanyAbbrev;
 	}
 	
 	public void setCertificate (Certificate aCertificate) {
@@ -144,11 +144,6 @@ public class Escrow implements CashHolderI {
 	
 	public void setActionState (ActionStates aActionState) {
 		actionState = aActionState;
-	}
-	
-	public void setCertificate (Certificate aCertificate, int aIndex) {
-		certificate = aCertificate;
-		setName (aCertificate.getCompanyAbbrev (), aIndex);
 	}
 	
 	public Certificate getCertificate () {
@@ -172,10 +167,6 @@ public class Escrow implements CashHolderI {
 
 		return tXMLElement;
 	}
-	
-	public boolean isAPrivateCompany () {
-		return false;
-	}
 
 	@Override
 	public void transferCashTo (CashHolderI aToCashHolder, int aAmount) {
@@ -188,6 +179,11 @@ public class Escrow implements CashHolderI {
 	@Override
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		// Nothing to do for the Escrow State
+	}
+	
+	@Override
+	public boolean isAPrivateCompany () {
+		return false;
 	}
 	
 	@Override
