@@ -40,7 +40,7 @@ import ge18xx.utilities.XMLNodeList;
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-public class Player implements CashHolderI, EscrowHolderI, PortfolioHolderLoaderI {
+public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	public static final Player NO_PLAYER = null;
 	public static final String NO_PLAYER_NAME = ">NO PLAYER<";
 	public static final ElementName EN_PLAYER = new ElementName ("Player");
