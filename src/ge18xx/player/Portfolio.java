@@ -167,48 +167,48 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public JPanel buildShareCertificateJPanel (String aCorpType, String aSelectedButtonLabel, 
+				ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
+		JPanel tCorporationPanel;
+		boolean tIsBankPortfolioHolder;
+		
+		tIsBankPortfolioHolder = holder.isBank ();
+		if (tIsBankPortfolioHolder) {
+			tCorporationPanel = buildCertJPanelForBank (aCorpType, aSelectedButtonLabel, aItemListener,
+					aPlayer, aGameManager);
+		} else {
+			tCorporationPanel = buildCertJPanelForPlayer (aCorpType, aSelectedButtonLabel, aItemListener,
+					aPlayer, aGameManager);
+		}
+		
+		return tCorporationPanel;
+	}
+
+	public JPanel buildCertJPanelForPlayer (String aCorpType, String aSelectedButtonLabel, 
 			ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
 		JPanel tAllCertificatesPanel;
 		JPanel tCertificateInfoPanel;
-		JPanel tOtherCertificatesInfoPanel;
 		JPanel tCorporationPanel;
-		BoxLayout tLayout, tSPLayout;
+		BoxLayout tLayout;
 		Certificate tCertificateToShow;
 		Corporation tCorporationToShow;
-		int tCount, tCertCount,tCertTotalPercent;
+		int tCount;
 		String tCertificateType, tPrevShareCorpAbbrev, tShareCorpAbbrev;
-		JLabel tLabel;
-		boolean tIsBankPortfolioHolder;
+		boolean tIsBankPortfolioHolder = false;
 		
 		tCount = 0;
-		
-		tCorporationPanel = new JPanel ();
-		tCorporationPanel.setBorder (BorderFactory.createTitledBorder (aCorpType + " Companies"));
-		tSPLayout = new BoxLayout (tCorporationPanel, BoxLayout.Y_AXIS);
-		tCorporationPanel.setLayout (tSPLayout);
-		tCorporationPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		
-		addJCAndHGlue (tCorporationPanel, null);
+		tCorporationPanel = buildEmptyCorpPanel (aCorpType);
 		tPrevShareCorpAbbrev = NO_COMPANY_YET;
 		tAllCertificatesPanel = null;
 		
-		tIsBankPortfolioHolder = holder.isBank ();
-		tCertCount = 0;
-		tCertTotalPercent = 0;
 		for (Certificate tCertificate : certificates) {
 			tCertificateType = tCertificate.getCorpType ();
 			if (tCertificateType.equals (aCorpType)) {
-				tCertCount = getCertificateCountFor (tCertificate.getCorporation ());
-				tCertTotalPercent = getCertificatePercentageFor (tCertificate.getCorporation ());
 				tCount++;
 				tShareCorpAbbrev = tCertificate.getCompanyAbbrev ();
 				if (tShareCorpAbbrev.equals (tPrevShareCorpAbbrev)) {
-					if (!tIsBankPortfolioHolder) {
-						// If this is NOT a Bank Portfolio -- Show ALL Certificates
-						tCertificateInfoPanel = tCertificate.buildCertificateInfoContainer (aSelectedButtonLabel, 
-								aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
-						addJCAndHGlue (tAllCertificatesPanel, tCertificateInfoPanel);
-					}
+					tCertificateInfoPanel = tCertificate.buildCertificateInfoContainer (aSelectedButtonLabel, 
+							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
+					addJCAndHGlue (tAllCertificatesPanel, tCertificateInfoPanel);
 				} else {
 					tCertificateToShow = tCertificate;
 					// Want to be sure to show the President's Certificate FIRST to buy, if the Bank has it. 
@@ -226,11 +226,6 @@ public class Portfolio implements CertificateHolderI {
 							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
 					addJCAndHGlue (tAllCertificatesPanel, null);
 					addJCAndHGlue (tAllCertificatesPanel, tCertificateInfoPanel);
-					if (tIsBankPortfolioHolder) {
-						tOtherCertificatesInfoPanel = buildCompactCertInfoPanel (tShareCorpAbbrev, tCertCount, 
-								tCertTotalPercent);
-						addJCAndHGlue (tAllCertificatesPanel, tOtherCertificatesInfoPanel);
-					}
 					addJCAndVGlue (tCorporationPanel, tAllCertificatesPanel);
 					tPrevShareCorpAbbrev = tShareCorpAbbrev;
 				}
@@ -238,19 +233,104 @@ public class Portfolio implements CertificateHolderI {
 		}
 
 		if (tCount == 0) {
-			tLabel = new JLabel (NO_CERTIFICATES);
-			tAllCertificatesPanel = new JPanel ();
-			tLayout = new BoxLayout (tAllCertificatesPanel, BoxLayout.X_AXIS);
-			tAllCertificatesPanel.setLayout (tLayout);
-			tAllCertificatesPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
-			addJCAndHGlue (tAllCertificatesPanel, null);
-			addJCAndHGlue (tAllCertificatesPanel, tLabel);
-			addJCAndVGlue (tCorporationPanel, tAllCertificatesPanel);
-		} else {
-			addJCAndVGlue (tCorporationPanel, tAllCertificatesPanel);
+			tAllCertificatesPanel = buildNoCertificatesPanel ();
 		}
+		addJCAndVGlue (tCorporationPanel, tAllCertificatesPanel);
+
 		
 		return tCorporationPanel;
+	}
+	
+	public JPanel buildCertJPanelForBank (String aCorpType, String aSelectedButtonLabel, 
+			ItemListener aItemListener, 
+			Player aPlayer, 
+			GameManager aGameManager) {
+		JPanel tAllCertificatesPanel;
+		JPanel tCertificateInfoPanel;
+		JPanel tOtherCertificatesInfoPanel;
+		JPanel tCorporationPanel;
+		BoxLayout tLayout;
+		Certificate tCertificateToShow;
+		Corporation tCorporationToShow;
+		int tCount, tCertCount,tCertTotalPercent;
+		String tCertificateType, tPrevShareCorpAbbrev, tShareCorpAbbrev;
+		boolean tIsBankPortfolioHolder = true;
+		
+		tCount = 0;
+		tCertCount = 0;
+		tCertTotalPercent = 0;
+		tCorporationPanel = buildEmptyCorpPanel (aCorpType);
+		tPrevShareCorpAbbrev = NO_COMPANY_YET;
+		tAllCertificatesPanel = null;
+		
+		for (Certificate tCertificate : certificates) {
+			tCertificateType = tCertificate.getCorpType ();
+			if (tCertificateType.equals (aCorpType)) {
+				tCertCount = getCertificateCountFor (tCertificate.getCorporation ());
+				tCertTotalPercent = getCertificatePercentageFor (tCertificate.getCorporation ());
+				tCount++;
+				tShareCorpAbbrev = tCertificate.getCompanyAbbrev ();
+				if (! tShareCorpAbbrev.equals (tPrevShareCorpAbbrev)) {
+					tCertificateToShow = tCertificate;
+					// Want to be sure to show the President's Certificate FIRST to buy, if the Bank has it. 
+					// The Sort Certificates has trouble placing the President Certificate in Proper order on the Undo.
+					tCorporationToShow = tCertificateToShow.getCorporation ();
+					if (containsPresidentShareOf (tCorporationToShow)) {
+						tCertificateToShow = getPresidentCertificate (tCorporationToShow);
+					}
+					tAllCertificatesPanel = new JPanel ();
+					tLayout = new BoxLayout (tAllCertificatesPanel, BoxLayout.X_AXIS);
+					tAllCertificatesPanel.setLayout (tLayout);
+					tAllCertificatesPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
+					
+					tCertificateInfoPanel = tCertificateToShow.buildCertificateInfoContainer (aSelectedButtonLabel, 
+							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
+					addJCAndHGlue (tAllCertificatesPanel, null);
+					addJCAndHGlue (tAllCertificatesPanel, tCertificateInfoPanel);
+					tOtherCertificatesInfoPanel = buildCompactCertInfoPanel (tShareCorpAbbrev, tCertCount, 
+							tCertTotalPercent);
+					addJCAndHGlue (tAllCertificatesPanel, tOtherCertificatesInfoPanel);
+					addJCAndVGlue (tCorporationPanel, tAllCertificatesPanel);
+					tPrevShareCorpAbbrev = tShareCorpAbbrev;
+				}
+			}
+		}
+
+		if (tCount == 0) {
+			tAllCertificatesPanel = buildNoCertificatesPanel ();
+		}
+		addJCAndVGlue (tCorporationPanel, tAllCertificatesPanel);
+		
+		return tCorporationPanel;
+	}
+
+	private JPanel buildEmptyCorpPanel (String aCorpType) {
+		JPanel tCorporationPanel;
+		BoxLayout tSPLayout;
+		
+		tCorporationPanel = new JPanel ();
+		tCorporationPanel.setBorder (BorderFactory.createTitledBorder (aCorpType + " Companies"));
+		tSPLayout = new BoxLayout (tCorporationPanel, BoxLayout.Y_AXIS);
+		tCorporationPanel.setLayout (tSPLayout);
+		tCorporationPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		addJCAndHGlue (tCorporationPanel, null);
+		
+		return tCorporationPanel;
+	}
+
+	private JPanel buildNoCertificatesPanel() {
+		JPanel tAllCertificatesPanel;
+		BoxLayout tLayout;
+		JLabel tLabel;
+		
+		tLabel = new JLabel (NO_CERTIFICATES);
+		tAllCertificatesPanel = new JPanel ();
+		tLayout = new BoxLayout (tAllCertificatesPanel, BoxLayout.X_AXIS);
+		tAllCertificatesPanel.setLayout (tLayout);
+		tAllCertificatesPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
+		addJCAndHGlue (tAllCertificatesPanel, null);
+		addJCAndHGlue (tAllCertificatesPanel, tLabel);
+		return tAllCertificatesPanel;
 	}
 	
 	public JPanel buildPortfolioJPanel (boolean aPrivates, boolean aCoals, boolean aMinors, 
