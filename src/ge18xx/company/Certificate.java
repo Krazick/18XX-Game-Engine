@@ -354,7 +354,7 @@ public class Certificate implements Comparable<Certificate> {
 		
 		return tCertificateInfoPanel;
 	}
-	
+
 	public void updateCheckedButton (String aLabel, boolean aEnabledState, String aToolTip, ItemListener aItemListener) {
 		checkedButton.setText (aLabel);
 		checkedButton.setEnabled (aEnabledState);
