@@ -224,11 +224,11 @@ public class JGameClient extends XMLFrame {
 			}
 		});
 		
-		sendGameSupportButton.addActionListener (new ActionListener () {
-			public void actionPerformed (ActionEvent aActionEvent) {
-				sendGameSupport (aActionEvent);
-			}
-		});
+//		sendGameSupportButton.addActionListener (new ActionListener () {
+//			public void actionPerformed (ActionEvent aActionEvent) {
+//				sendGameSupport (aActionEvent);
+//			}
+//		});
 		
 		refreshPlayersButton.addActionListener (new ActionListener () {
 			public void actionPerformed (ActionEvent aActionEvent) {
@@ -306,8 +306,8 @@ public class JGameClient extends XMLFrame {
 	public void setForUnconnected () {
 		sendMessageButton.setEnabled (false);
 		sendMessageButton.setToolTipText (NOT_CONNECTED);
-		sendGameSupportButton.setEnabled (false);
-		sendGameSupportButton.setToolTipText (NOT_CONNECTED);
+//		sendGameSupportButton.setEnabled (false);
+//		sendGameSupportButton.setToolTipText (NOT_CONNECTED);
 		disconnectButton.setEnabled (false);
 		disconnectButton.setToolTipText (NOT_CONNECTED);
 		refreshPlayersButton.setEnabled (false);
@@ -331,8 +331,8 @@ public class JGameClient extends XMLFrame {
 		connectButton.setToolTipText (ALREADY_CONNECTED);
 		sendMessageButton.setEnabled (true);
 		sendMessageButton.setToolTipText (NO_TOOL_TIP);
-		sendGameSupportButton.setEnabled (true);
-		sendGameSupportButton.setToolTipText (NO_TOOL_TIP);
+//		sendGameSupportButton.setEnabled (true);
+//		sendGameSupportButton.setToolTipText (NO_TOOL_TIP);
 		disconnectButton.setEnabled (true);
 		disconnectButton.setToolTipText ("For Debugging Purposes ONLY");
 		awayFromKeyboardAFKButton.setEnabled (true);
@@ -375,7 +375,6 @@ public class JGameClient extends XMLFrame {
 		// Action Buttons
 		connectButton = new JButton (CONNECT_ACTION);
 		sendMessageButton = new JButton ("SEND");
-		sendGameSupportButton = new JButton ("Game Support");
 		awayFromKeyboardAFKButton = new JButton ("AFK");
 		refreshPlayersButton = new JButton ("REFRESH");
 		disconnectButton = new JButton("DISCONNECT");
@@ -440,7 +439,6 @@ public class JGameClient extends XMLFrame {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(sendMessageButton)
 							.addGap (18)
-							.addComponent(sendGameSupportButton)
 							.addPreferredGap(ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
 							.addComponent(awayFromKeyboardAFKButton)
 							.addGap (85))
@@ -497,7 +495,6 @@ public class JGameClient extends XMLFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(sendMessageButton)
-						.addComponent(sendGameSupportButton)
 						.addComponent(awayFromKeyboardAFKButton)
 						.addComponent(disconnectButton))
 					.addGap(13))
