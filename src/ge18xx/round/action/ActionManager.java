@@ -53,7 +53,7 @@ public class ActionManager {
 		return actionNumber;
 	}
 	
-	public int getActionNumberFrome (String aResponse) {
+	public int getActionNumberFrom (String aResponse) {
 		Matcher tMatcher = ACTION_NUMBER_PATTERN.matcher (aResponse);
 		String tFoundNewNumber = "NOID";
 		int tNewNumber = 0;
@@ -73,7 +73,7 @@ public class ActionManager {
 		
 		if (gameManager.isNetworkGame ()) {
 			tActionNumberString = gameManager.requestGameSupport (JGameClient.REQUEST_ACTION_NUMBER);
-			tNewActionNumber = getActionNumberFrome (tActionNumberString);
+			tNewActionNumber = getActionNumberFrom (tActionNumberString);
 			if (tNewActionNumber > 0) {
 				actionNumber = tNewActionNumber;
 				tReportActionNumber = "Retrieved New Action Number " + actionNumber + " from Game Server\n";
@@ -463,5 +463,18 @@ public class ActionManager {
 			tActionEventDescription = aActionName + ": " + aAction.getSimpleActionReport ();
 			aAuditFrame.addRow (aActionNumber, tRoundID, tActionEventDescription, tCredit, tDebit);
 		}
+	}
+
+	public boolean isLastActionComplete () {
+		boolean tIsLastActionComplete = true;
+//		String tLastActionComplete;
+		
+		if (gameManager.isNetworkGame ()) {
+//			tLastActionComplete = gameManager.requestGameSupport (JGameClient.REQUEST_LAST_ACTION_COMPLETE);
+		} else {
+			tIsLastActionComplete = true;
+		}
+		
+		return tIsLastActionComplete;
 	}
 }

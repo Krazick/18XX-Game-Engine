@@ -1266,4 +1266,8 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	public boolean isAuctionRound () {
 		return playerManager.isAuctionRound ();
 	}
+
+	public boolean isLastActionComplete () {
+		return playerManager.isLastActionComplete ();
+	}
 }

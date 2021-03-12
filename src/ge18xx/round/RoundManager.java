@@ -1039,4 +1039,9 @@ public class RoundManager {
 		
 		return tCashHolder;
 	}
+
+	public boolean isLastActionComplete () {
+		// TODO Auto-generated method stub
+		return actionManager.isLastActionComplete ();
+	}
 }

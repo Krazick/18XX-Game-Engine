@@ -87,6 +87,7 @@ public class JGameClient extends XMLFrame {
 	public static final AttributeName AN_PLAYER_ORDER = new AttributeName ("players");
 	public static final AttributeName AN_REQUEST_ACTION_NUMBER = new AttributeName ("requestActionNumber");
 	public static final AttributeName AN_NONE = null;
+	public static final String REQUEST_LAST_ACTION_COMPLETE = "<LastAction isComplete=\"TRUE\">";
 	
 	// Java Swing Objects
 	private JTextPane chatText;
@@ -95,7 +96,6 @@ public class JGameClient extends XMLFrame {
 	private JTextField message;
 	private JButton connectButton;
 	private JButton sendMessageButton;
-	private JButton sendGameSupportButton;
 	private JButton awayFromKeyboardAFKButton;
 	private JButton disconnectButton;
 	private JButton refreshPlayersButton;
@@ -834,20 +834,20 @@ public class JGameClient extends XMLFrame {
 		sendMessage (tAction);
 	}
 	
-	private void sendGameSupport (ActionEvent aActionEvent) {
-		String tAction = aActionEvent.getActionCommand ();
-		String tFullMessage;
-		
-		if ("Game Support".equals (tAction)) {
-			String tMessage = message.getText ();
-			if (tMessage.length () > 0) {
-				System.out.println ("Need to send Game Support Request [" + tMessage + "]");
-				tFullMessage = GAME_SUPPORT_PREFIX + " " + 
-						this.constructGameSupportXML (EN_GAME_SUPPORT, AN_REQUEST_ACTION_NUMBER, tMessage); 
-				serverHandler.sendGameSupport (tFullMessage);
-			}
-		}
-	}
+//	private void sendGameSupport (ActionEvent aActionEvent) {
+//		String tAction = aActionEvent.getActionCommand ();
+//		String tFullMessage;
+//		
+//		if ("Game Support".equals (tAction)) {
+//			String tMessage = message.getText ();
+//			if (tMessage.length () > 0) {
+//				System.out.println ("Need to send Game Support Request [" + tMessage + "]");
+//				tFullMessage = GAME_SUPPORT_PREFIX + " " + 
+//						this.constructGameSupportXML (EN_GAME_SUPPORT, AN_REQUEST_ACTION_NUMBER, tMessage); 
+//				serverHandler.sendGameSupport (tFullMessage);
+//			}
+//		}
+//	}
 	
 	private void sendMessage (String aAction) {
 		if ("SEND".equals (aAction)) {
@@ -1075,11 +1075,11 @@ public class JGameClient extends XMLFrame {
 	// Need to make a Request for Game Support, then block until we get a response
 	// Send the response back
 	
-	public String requestGameSupport (String aGameID, String aRequestActionNumber) {
+	public String requestGameSupport (String aGameID, String aRequestGameSupport) {
 		String tGSResponse = "NO_RESPONSE";
 		String tFullGSRequest;
 		
-		tFullGSRequest = serverHandler.buildGameSupportXML (aGameID, aRequestActionNumber);
+		tFullGSRequest = serverHandler.buildGameSupportXML (aGameID, aRequestGameSupport);
 		tGSResponse = gameSupportHandler.requestGameSupport (tFullGSRequest);
 		
 		return tGSResponse;

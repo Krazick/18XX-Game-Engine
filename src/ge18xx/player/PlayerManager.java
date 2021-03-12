@@ -1277,4 +1277,8 @@ public class PlayerManager {
 		return gameManager.isAuctionRound ();
 	}
 
+	public boolean isLastActionComplete () {
+		return gameManager.isLastActionComplete ();
+	}
+
 }

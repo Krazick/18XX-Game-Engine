@@ -2219,8 +2219,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		game18XXFrame.toFront ();
 	}
 
-	public String requestGameSupport (String aRequestActionNumber) {
-		// TODO Auto-generated method stub
-		return networkJGameClient.requestGameSupport (gameID, aRequestActionNumber);
+	public String requestGameSupport (String aRequestGameSupport) {
+		return networkJGameClient.requestGameSupport (gameID, aRequestGameSupport);
+	}
+
+	public boolean isLastActionComplete () {
+		return roundManager.isLastActionComplete ();
 	}
 }
