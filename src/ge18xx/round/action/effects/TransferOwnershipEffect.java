@@ -138,7 +138,7 @@ public class TransferOwnershipEffect extends Effect {
 		// TODO: When the new "ToEffect" is created, also create a new "isActor" Method that receives an Actor's Name and does
 		// the comparison of the toActor's Name
 		
-		// Test if the ToPortfolio has the Certificate. If this was a Close Corp Action,  and the ToHolder 
+		// Test if the ToPortfolio has the Certificate. If this was a Close Corp Action, and the ToHolder 
 		// is the Bank, need to get the Closed Portfolio from the Bank instead.
 		if (tToHolder.getName ().equals (Bank.NAME)){
 			tCorporation = certificate.getCorporation ();
