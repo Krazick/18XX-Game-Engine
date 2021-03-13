@@ -227,7 +227,7 @@ public class MapCell implements Comparator<Object> {
 			tHasConnectingTrackTo = tMatchedTracksNeighbor && tMatchedTracks;
 			
 		} else {
-			System.out.println ("Failed to find matching Neighbors");
+			System.err.println ("Failed to find matching Neighbors");
 		}
 		
 		return tHasConnectingTrackTo;
@@ -826,7 +826,6 @@ public class MapCell implements Comparator<Object> {
 		Tile tNewTile;
 		
 		if ((isTileOnCell ()) && (getTile () != Tile.NO_TILE)) {
-			System.out.println ("in Map Cell, Ready to do Tile Upgrade");
 			upgradeTile (aTileSet, aTile);
 		} else {
 			tNewTile = new Tile (aTile);
