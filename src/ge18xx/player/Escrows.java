@@ -63,7 +63,6 @@ public class Escrows {
 	private void loadEscrows (XMLNode aEscrowsNode) {
 		XMLNodeList tXMLEscrowNodeList;
 		
-		System.out.println ("Need to load Escrows for " + escrowHolderName);
 		tXMLEscrowNodeList = new XMLNodeList (singleEscrowParsingRoutine);
 		tXMLEscrowNodeList.parseXMLNodeList (aEscrowsNode, Escrow.EN_ESCROW);
 	}
@@ -75,8 +74,6 @@ public class Escrows {
 		tBank = escrowHolder.getBank ();
 		tEscrow = new Escrow (aEscrowsNode, tBank);
 		escrows.add (tEscrow);
-		System.out.println ("Need to load a Single Escrow for " + escrowHolderName);
-		
 	}
 	
 	public void printAllEscrows () {

@@ -834,14 +834,12 @@ public class PlayerManager {
 		Escrow tEscrow = Escrow.NO_ESCROW;
 		Escrow tFoundEscrow;
 		
-		System.out.println ("    Looking for Escrow named [" + aEscrowName + "]");
 		for (Player tPlayer : players) {
 			tFoundEscrow = tPlayer.getEscrowMatching (aEscrowName);
 			if (tFoundEscrow != Escrow.NO_ESCROW) {
 				tEscrow = tFoundEscrow;
 			}
 		}
-		System.out.println ("    Found for Escrow named [" + tEscrow.getName () + "]");
 	
 		return tEscrow;
 	}
@@ -955,10 +953,8 @@ public class PlayerManager {
 			
 			tCurrentPlayerIndex = stockRound.getCurrentPlayerIndex ();
 			tNextPlayerIndex = stockRound.getNextPlayerIndex ();
-			
 			tCertificate = gameManager.getMustSellCertificate ();
 			tHaveAllPassed = haveAllPassed ();
-			System.out.println (aPlayer.getName () + " has Passed, and All Players Passed is " + tHaveAllPassed);
 			if (tHaveAllPassed) {
 				// Test result -- if True, continue 
 				// If False -- clear all Pass Flags, and move to Next Player, continuing Stock Round
@@ -1124,7 +1120,7 @@ public class PlayerManager {
 					aPlayer.setExchangedPrezShare (Player.NO_STOCK_TO_SELL);
 					tSellStockAction.addClearExchangePrezShareEffect (aPlayer, tExchangedShare);
 				} else {
-					System.out.println ("STILL owns more than the president");
+					System.err.println (aPlayer.getName () + " STILL owns more than the president");
 				}
 			}
 			addAction (tSellStockAction);
@@ -1208,7 +1204,7 @@ public class PlayerManager {
 			}
 			System.out.println ("Last Action undone successfully");
 		} else {
-			System.out.println ("**** Undo Action failed ****");
+			System.err.println ("**** Undo Action failed ****");
 		}
 		stockRound.printBriefActionReport ();
 	}
