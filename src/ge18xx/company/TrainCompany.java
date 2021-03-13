@@ -1500,9 +1500,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 						if (tTrain.getName ().equals (tItemName)) {
 							tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, 
 								tOperatingRoundID, this);
-//							System.out.println ("Buying a " + tTrain.getName () + 
-//									" Train from " + tOwningTrainCompany.getAbbrev () + 
-//									" for " + Bank.formatCash (tCashValue) + " into " + getAbbrev ());
 							transferCashTo (tOwningTrainCompany, tCashValue);
 							tBuyTrainAction.addCashTransferEffect (this, tOwningTrainCompany, tCashValue);
 							// We must toggle NotifyNetwork on, for this, and reset to prior state to allow for handling Response
