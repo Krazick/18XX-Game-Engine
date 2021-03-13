@@ -27,7 +27,7 @@ public class ToEffect extends Effect {
 		setToActor (aToActor);
 	}
 
-	public ToEffect(XMLNode aEffectNode, GameManager aGameManager) {
+	public ToEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		String tToActorName;
 		ActorI tToActor;
