@@ -361,6 +361,4 @@ public class Bidders {
 //			portfolio.loadPortfolio (aBidderNode);
 		}
 	};
-
-
 }
