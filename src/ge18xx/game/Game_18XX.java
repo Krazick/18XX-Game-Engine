@@ -514,7 +514,7 @@ public class Game_18XX extends JFrame {
 			playerInputFrame.loadXML (tFileName, playerInputFrame.getGameSet ());
 			tLoadedGameSet = true;
 		} catch (IOException tException) {
-			System.out.println ("Caught Exception " + tException);
+			System.err.println ("Caught Exception " + tException);
 			tLoadedGameSet = false;
 		} 
 
