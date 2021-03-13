@@ -358,7 +358,6 @@ public class Bidders {
 					System.err.println ("Failed to Find Bidder named " + tBidderName);
 				}
 			}
-//			portfolio.loadPortfolio (aBidderNode);
 		}
 	};
 }
