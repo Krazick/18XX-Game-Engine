@@ -9,9 +9,10 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLNode;
 
 public class TestFactory {
+	XMLDocument theXMLDocument;
 
 	public TestFactory () {
-		
+		theXMLDocument = new XMLDocument ();
 	}
 
 	public PlayerInputFrame buildPIFMock () {
@@ -57,13 +58,10 @@ public class TestFactory {
 				"</GameInfo>";
 		GameInfo tGameInfo = null;
 		XMLNode tGameInfoNode;
-		XMLDocument tXMLDocument = new XMLDocument ();
-		tXMLDocument = tXMLDocument.ParseXMLString (t1830TestXML);
-		
-		if (tXMLDocument.ValidDocument ()) {
-			tGameInfoNode = tXMLDocument.getDocumentElement ();
+		tGameInfoNode = constructXMLNode (t1830TestXML);
+		if (tGameInfoNode != null) {
 			tGameInfo = new GameInfo (tGameInfoNode);
-			tGameInfo.setTestingFlag (true);
+			tGameInfo.setTestingFlag (true);			
 		}
 		
 		return tGameInfo;
@@ -86,31 +84,46 @@ public class TestFactory {
 				"</Share>";
 
 		ShareCompany tShareCompany = null;
-		XMLNode tShareCompanyNode;
-		XMLDocument tXMLDocument = new XMLDocument ();
 		CorporationList mCorporationList = Mockito.mock (CorporationList.class);
 		GameManager mGameManager = Mockito.mock (GameManager.class);
 		Mockito.when (mGameManager.getClientUserName ()).thenReturn ("MockedUserName");
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 
 		if (tCompanyIndex == 1) {
-			tXMLDocument = tXMLDocument.ParseXMLString (tShareCompany1TestXML);
-			
-			if (tXMLDocument.ValidDocument ()) {
-				tShareCompanyNode = tXMLDocument.getDocumentElement ();
-				tShareCompany = new ShareCompany (tShareCompanyNode, mCorporationList);
-				tShareCompany.setTestingFlag (true);
-			}
+			tShareCompany = constructShareCompany (tShareCompany1TestXML, tShareCompany, mCorporationList);
 		} else if (tCompanyIndex == 2) {
-			tXMLDocument = tXMLDocument.ParseXMLString (tShareCompany2TestXML);
-			
-			if (tXMLDocument.ValidDocument ()) {
-				tShareCompanyNode = tXMLDocument.getDocumentElement ();
-				tShareCompany = new ShareCompany (tShareCompanyNode, mCorporationList);
-				tShareCompany.setTestingFlag (true);
-			}
+			tShareCompany = constructShareCompany (tShareCompany2TestXML, tShareCompany, mCorporationList);
+		} else {
+			tShareCompany = (ShareCompany) CorporationList.NO_CORPORATION;
 		}
 		
 		return tShareCompany;
+	}
+
+	public XMLNode constructXMLNode (String aXMLText) {
+		XMLNode tXMLNode;
+		
+		theXMLDocument = theXMLDocument.ParseXMLString (aXMLText);
+		
+		if (theXMLDocument.ValidDocument ()) {
+			tXMLNode = theXMLDocument.getDocumentElement ();
+		} else {
+			tXMLNode = null;
+		}
+		
+		return tXMLNode;
+	}
+	
+	private ShareCompany constructShareCompany(String aShareCompanyTestXML, ShareCompany aShareCompany,
+			CorporationList mCorporationList) {
+		XMLNode tShareCompanyNode;
+		
+		tShareCompanyNode = constructXMLNode (aShareCompanyTestXML);
+		if (tShareCompanyNode != null) {
+			aShareCompany = new ShareCompany (tShareCompanyNode, mCorporationList);
+			aShareCompany.setTestingFlag (true);			
+		}
+		
+		return aShareCompany;
 	}
 }

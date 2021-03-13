@@ -20,6 +20,7 @@ class TransferTrainEffectTests {
 	TransferTrainEffect effectBeta;
 	ShareCompany actorBeta;
 	ShareCompany actorGamma;
+	ShareCompany actorZeta;
 	GameManager gameManager;
 	PlayerManager playerManager;
 	TestFactory testFactory;
@@ -36,6 +37,7 @@ class TransferTrainEffectTests {
 		effectAlpha = new TransferTrainEffect ();
 		actorBeta = testFactory.buildAShareCompany (1);
 		actorGamma = testFactory.buildAShareCompany (2);
+		actorZeta = testFactory.buildAShareCompany (33);
 		train = new Train ("Test2", 0, 1, 2, 80);
 		effectBeta = new TransferTrainEffect (actorBeta, train, actorGamma);
 	}
@@ -62,6 +64,8 @@ class TransferTrainEffectTests {
 		assertNotNull (effectBeta.getToActorName ());
 		assertEquals ("Test Baltimore and Ohio", effectBeta.getToActorName ());
 		assertEquals ("Test Baltimore and Ohio", tToShareActor.getName ());
+		
+		assertNull (actorZeta);
 	}
 
 }
