@@ -1333,13 +1333,12 @@ public class Portfolio implements CertificateHolderI {
 			for (Certificate tCertificate : certificates) {
 				tCompanyName = tCertificate.getCompanyName ();
 				if (!(tCompanyName.equals (tPreviousName))) {
-					System.out.println ("");
-					System.out.print ("Certificates For " + tCompanyName + " ");
+					System.out.print ("\nCertificates For " + tCompanyName + " ");
 					tPreviousName = tCompanyName;
 				}
 				System.out.print (tCertificate.getPercentage () + " ");
 			}
-			System.out.println ("");
+			System.out.println ("\n");
 		}
 	}
 
