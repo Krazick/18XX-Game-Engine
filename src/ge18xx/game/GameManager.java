@@ -1438,7 +1438,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void setParPrice (ShareCompany aShareCompany, int aParPrice) {
 		 marketFrame.setParPrice (aShareCompany, aParPrice);
-		 System.out.println ("Ready to update ALL Player Frames after setting a Par Price for " + aShareCompany.getAbbrev());
 		 playerManager.updateAllPlayerFrames ();
 	}
 	
@@ -1995,9 +1994,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tGameName = getGameName ();
 		
 		tGameFrameConfig = configData.getGameFrameConfigFor (tGameName);
-//		if (tGameFrameConfig == Config.NO_GAME_FRAME) {
-//			System.out.println ("No Configuration Data for " + tGameName);
-//		} 
 		
 		return tGameFrameConfig;
 	}
@@ -2063,7 +2059,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public void resetGameID (String aGameID) {
 		if (gameID.equals("")) {
-			System.out.println ("ReSetting the Game ID to " + aGameID);
 			setGameID (aGameID);
 		}
 	}
