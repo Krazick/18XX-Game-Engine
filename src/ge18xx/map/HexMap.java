@@ -1105,7 +1105,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		String tBaseTileName;
 		String tBaseCityName;
 	
-		System.out.println ("Ready to test for Playable Tile for Map Cell " + aMapCell.getCellID ());
 		tTileName = aMapCell.getName ();
 		if (tTileName == null) {
 			tTileName = "";
