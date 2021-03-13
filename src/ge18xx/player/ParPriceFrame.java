@@ -93,7 +93,7 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 		add (parValuesPanel);
 		pack ();
 	}
-	
+
 	public void setParPriceFrameActive (boolean aParPriceFrameActive) {
 		parPriceFrameActive = aParPriceFrameActive;
 	}
