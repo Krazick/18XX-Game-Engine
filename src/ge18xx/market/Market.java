@@ -450,7 +450,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			if (AN_ROW.equals (tChildName)) {
 				tLoadedRow = loadXMLRow (tChildNode, tNeighborCount, tMaxCols, tRowIds, tColIds);
 				if (! tLoadedRow) {
-					System.out.println ("Found too many columns to Load.");
+					System.err.println ("Found too many columns to Load.");
 				}
 			}
 		}
@@ -461,7 +461,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				market [0][0].setMarket (this);
 			}
 		} catch (Exception exc) {
-			System.out.println ("Error trying to Calculate Cell Centers, Setting Market Size");
+			System.err.println ("Error trying to Calculate Cell Centers, Setting Market Size");
 		}
 		
 		tMarketFrame = gameManager.getMarketFrame ();
@@ -559,7 +559,6 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int colIndex = 0;
 		
 		if (market == null) {
-			System.out.println ("Ready to draw the Market Table.");
 			g.setColor (Color.black);
 			g.drawString ("Empty Market Table", 0, 0);
 			g.setColor (Color.blue);
