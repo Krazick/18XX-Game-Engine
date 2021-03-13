@@ -69,10 +69,8 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	}
 	
 	public void setSelectedGameIndex (int aSelectedGameIndex) {
-		System.out.println ("Need to reset Game Index to " + aSelectedGameIndex);
 		gameRadioButtons [aSelectedGameIndex].setSelected (true);
 		setSelectedGame (aSelectedGameIndex);
-		System.out.println ("Button State " + gameRadioButtons [aSelectedGameIndex].isSelected ());
 	}
 	
 	public void setSelectedGame (int aSelectedGameIndex) {
@@ -317,8 +315,6 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 				gameInfo = new GameInfo [tGameCount];
 				gameIndex = 0;
 				tXMLNodeList.parseXMLNodeList (tChildNode, GameInfo.EN_GAME_INFO);
-			} else if (EN_NETWORK.equals (tChildName)) {
-//				System.out.println ("Found Tag " + EN_NETWORK);
 			}
 		}
 	}
