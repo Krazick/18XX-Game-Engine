@@ -248,7 +248,6 @@ public class Bidders {
 				tBidder.refundEscrow (certificate, tBid, aWinAuctionAction);
 				bidders.remove (0);
 				tBidder.updatePlayerContainer ();
-				System.out.println ("Refunded Bid from " + tBidder.getName () + " for " + tBid + " remaining Bidder Count " + getNumberOfBidders ());
 			}
 		}
 	}
@@ -290,12 +289,9 @@ public class Bidders {
 			for (tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tAsBidder = bidders.get (tBidderIndex);
 				tBidder = (Player) getCashHolderAt (tBidderIndex);
-//				System.out.println ("===> Looking for " + aPlayer.getName () + " at " + tBidder.getName () + " as Bidder # " + tBidderIndex);
 				if (tBidder.equals (aPlayer)) {
-//					System.out.println ("=====> Setting Auction Pass for " + tAsBidder.getName ());
 					tBidder.setAuctionActionState (ActorI.ActionStates.AuctionPass);
 					tAsBidder.passBid ();
-//					System.out.println ("=====> Bidder Auction State is now " + tAsBidder.getStateName ());
 				}
 			}
 		}
