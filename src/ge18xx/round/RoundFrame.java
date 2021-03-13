@@ -517,28 +517,17 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	
 	public void setBackGround () {
 		GameManager tGameManager;
-//		Color tCurrentColor;
 		Color tAlertColor = Color.ORANGE;
-//		int tCurrentRGB, tAlertRGB;
 		
 		tGameManager = roundManager.getGameManager ();
-//		tCurrentColor = getContentPane ().getBackground();
-//		tCurrentRGB = tCurrentColor.getRGB ();
-//		tAlertRGB = tAlertColor.getRGB ();
 		if (tGameManager.isNetworkGame ()) {
 			getContentPane ().setBackground (tAlertColor);
 			headerBox.setBackground (tAlertColor);
 			parPricesBox.setBackground (tAlertColor);
 			trainSummaryBox.setBackground (tAlertColor);
 		}
-		// If the Color of the Background is changed, Bring this Frame to the Front
-		// When player is acting in Stock Round, or Corp is acting in Operating Round, don't want to bring this 
-		// frame in the Front of it
-//		if (tCurrentRGB != tAlertRGB) {
-//			toFront ();
-//		}
 	}
-	
+
 	public void resetBackGround () {
 		getContentPane ().setBackground (defaultColor);	
 		headerBox.setBackground (defaultColor);
