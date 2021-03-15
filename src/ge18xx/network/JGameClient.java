@@ -108,6 +108,8 @@ public class JGameClient extends XMLFrame {
 	private JPanel gameInfoPanel;
 	private JList<NetworkPlayer> playerList;
 	
+	private HeartbeatThread heartbeatThread;
+	private Thread hbeatThread;
 	private Thread serverThread = null;
 	private SimpleAttributeSet normal = new SimpleAttributeSet ();
 	private SimpleAttributeSet iSaid = new SimpleAttributeSet ();
@@ -122,7 +124,7 @@ public class JGameClient extends XMLFrame {
 	private int selectedGameIndex;
 	private String selectedGameName;
 	private boolean gameStarted = false;
-		
+
 	public JGameClient (String aTitle, NetworkGameSupport aGameManager) {
 		this (aTitle, aGameManager, DEFAULT_REMOTE_SERVER_IP, DEFAULT_SERVER_PORT);
 	}
@@ -304,6 +306,10 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void setForUnconnected () {
+		if (heartbeatThread != null) {
+			heartbeatThread.setContinueRunning (false);
+		}
+		
 		sendMessageButton.setEnabled (false);
 		sendMessageButton.setToolTipText (NOT_CONNECTED);
 //		sendGameSupportButton.setEnabled (false);
@@ -327,6 +333,11 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void setForConnected () {
+		heartbeatThread = new HeartbeatThread (this);
+		hbeatThread = new Thread (heartbeatThread);
+		heartbeatThread.setContinueRunning (true);
+		hbeatThread.start ();
+		
 		connectButton.setEnabled (false);
 		connectButton.setToolTipText (ALREADY_CONNECTED);
 		sendMessageButton.setEnabled (true);
@@ -655,6 +666,10 @@ public class JGameClient extends XMLFrame {
 		tGameID = gameManager.getGameID ();
 		serverHandler.sendUserReady (tGameID);
 		sendPlayerOrder ();
+	}
+	
+	public NetworkGameSupport getGameManager () {
+		return gameManager;
 	}
 	
 	public void sendPlayerOrder () {

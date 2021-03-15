@@ -135,8 +135,12 @@ public class ChatServerHandler extends ServerHandler {
 
 	public String buildGameSupportXML (String aGameID, String tXMLChild) {
 		String tGameSupportXML;
+		String tGameIDChunk = "";
 		
-		tGameSupportXML = "Game Support <GS gameID=\"" + aGameID + "\">" + tXMLChild + "</GS>";
+		if (! aGameID.equals ("")) {
+			tGameIDChunk =  " gameID=\"" + aGameID + "\"";
+		}
+		tGameSupportXML = "Game Support <GS" + tGameIDChunk + ">" + tXMLChild + "</GS>";
 		
 		return tGameSupportXML;
 	}
@@ -146,7 +150,6 @@ public class ChatServerHandler extends ServerHandler {
 		
 		tGameSupportXML = buildGameSupportXML (aGameID, "<Ready>");
 		println (tGameSupportXML);
-//		println ("Game Support <GS gameID=\"" + aGameID + "\"><Ready></GS>");
 		jClient.appendToChat ("I am ready to play the Game", true);
 	}
 

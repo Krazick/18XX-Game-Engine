@@ -154,4 +154,6 @@ public abstract class ServerHandler implements Runnable {
 	}
 
 	protected abstract void sendGameSupport (String aRequest);
+
+	protected abstract String buildGameSupportXML (String tGameID, String string);
 }
