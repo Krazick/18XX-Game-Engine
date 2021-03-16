@@ -45,9 +45,21 @@ public class GameSupportHandler {
 		setWaitingForResponse (false);
 	}
 	
+	public void holdRequestTillReady () {
+		while (waitingForResponse) {
+			try {
+				Thread.sleep (waitTime + 1);
+			} catch (InterruptedException e) {
+				System.err.println ("Waiting for the Response to Clear - Exception");
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public String requestGameSupport (String aRequest) {
 		ServerHandler tServerHandler;
 		
+		holdRequestTillReady ();
 		tServerHandler = jGameClient.getServerHandler ();
 		setWaitingForResponse (true);
 		tServerHandler.sendGameSupport (aRequest);
