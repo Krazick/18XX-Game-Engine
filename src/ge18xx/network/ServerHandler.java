@@ -8,6 +8,7 @@ import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
@@ -18,6 +19,8 @@ public abstract class ServerHandler implements Runnable {
 	private PrintWriter out;
 	private boolean continueRunning;
 	protected String name;
+	private String host;
+	private int port;
 	
 	public ServerHandler (Socket aServerSocket) {
 		setValues (aServerSocket);
@@ -25,21 +28,19 @@ public abstract class ServerHandler implements Runnable {
 	
 	public ServerHandler (String aHost, int aPort) throws ConnectException, SocketTimeoutException {
 		boolean tContinueRunning = false;
-		InetAddress tIPAddress;
 		
 		try {
-            Socket tSocket = new Socket ();
             // Connect to socket by host, port, and with specified timeout.
-            tIPAddress = InetAddress.getByName (aHost);
-            tSocket.connect (new InetSocketAddress (tIPAddress, aPort), DefaultTimeout);
-            tSocket.setKeepAlive (true);
-			setValues (tSocket);
+			setHost (aHost);
+			setPort (aPort);
+            establishSocketConnection ();
 			tContinueRunning = true;
 		} catch (UnknownHostException tException) {
 			log ("Unkown Host Exception thrown when creating Socket to Server", tException);
 		} catch (ConnectException tException) {
 			throw tException;
 		} catch (SocketTimeoutException tException) {
+			log ("Socket Timeout Exception when establing Connection to Server", tException);
 			throw tException;
 		} catch (IOException tException) {
 			log ("IOException thrown when creating Socket to Server", tException);
@@ -48,10 +49,29 @@ public abstract class ServerHandler implements Runnable {
 		setContinueRunning (tContinueRunning);
 	}
 
+	private void establishSocketConnection ()
+			throws UnknownHostException, IOException, SocketException {
+		InetAddress tIPAddress;
+		
+        Socket tSocket = new Socket ();
+        tIPAddress = InetAddress.getByName (host);
+		tSocket.connect (new InetSocketAddress (tIPAddress, port), DefaultTimeout);
+		tSocket.setKeepAlive (true);
+		setValues (tSocket);
+	}
+
 	protected void setContinueRunning (boolean aContinueRunning) {
 		continueRunning = aContinueRunning;
 	}
 
+	private void setHost (String aHost) {
+		host = aHost;
+	}
+	
+	private void setPort (int aPort) {
+		port = aPort;
+	}
+	
 	private void setValues (Socket aServerSocket) {
 		socket = aServerSocket;
 		setupBufferedReader ();
@@ -94,6 +114,8 @@ public abstract class ServerHandler implements Runnable {
 						handleServerMessage (tString);
 					}
 				}
+			} catch (SocketTimeoutException tException) {
+				log ("Socket Timeout Exception when reading from Server", tException);
 			} catch (IOException tException) {
 				log ("Exception thrown when Reading from Server", tException);
 			} finally {
@@ -152,6 +174,27 @@ public abstract class ServerHandler implements Runnable {
 		println ("stop");
 		closeAll ();
 	}
+	
+//	private boolean tryReConnect () {
+//		boolean tContinue;
+//   	
+//		try {
+//			serverFrame.closeServerSocket ("Trying to ReConnect");
+//			//empty my old lost connection and let it get by garbage collect immediately 
+//			socket = null;
+//			System.gc ();
+// 			//Wait a new client Socket connection and address this to my local variable
+//			socket = serverFrame.acceptServerSocket ("Trying to ReConnect"); // Waiting for another Connection
+//			System.out.println ("YEAH!!!!   Connection established...");
+//			tContinue = true;
+//		} catch (Exception eException) {
+//			String message = "ReConnect not successful " + eException.getMessage ();
+//			log (message, eException); //etc...
+//			tContinue = false;
+//		}
+//    
+//		return tContinue;
+//	}
 
 	protected abstract void sendGameSupport (String aRequest);
 
