@@ -1091,7 +1091,7 @@ public class JGameClient extends XMLFrame {
 	// Send the response back
 	
 	public String requestGameSupport (String aGameID, String aRequestGameSupport) {
-		String tGSResponse = "NO_RESPONSE";
+		String tGSResponse;
 		String tFullGSRequest;
 		
 		tFullGSRequest = serverHandler.buildGameSupportXML (aGameID, aRequestGameSupport);
