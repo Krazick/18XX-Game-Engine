@@ -28,11 +28,14 @@ public class ChatServerHandler extends ServerHandler {
 	public void handleServerCommands (String aCommand) {
 		String tMessage = aCommand.substring (1, aCommand.length () - 1);
 		String tName, tShortened;
+		boolean tAddToChat;
 		
 		if (tMessage.startsWith ("Server: ")) {
 			tShortened = tMessage.substring (8);
+			tAddToChat = true;
 			if (tShortened.startsWith("<GSResponse")) {
 				jClient.handleGSResponse (tShortened);
+				tAddToChat = false;
 			} else if (tShortened.startsWith ("Sorry we are full")) {
 
 			} else if (tShortened.startsWith ("rejected")) {
@@ -58,7 +61,9 @@ public class ChatServerHandler extends ServerHandler {
 			} else {
 				System.err.println ("Received Command that wasn't Matched [" + aCommand + "]");
 			}
-			appendToChat (tShortened);
+			if (tAddToChat) {
+				appendToChat (tShortened);
+			}
 		}
 	}
 
