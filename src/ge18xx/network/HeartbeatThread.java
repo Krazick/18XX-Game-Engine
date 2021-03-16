@@ -84,7 +84,6 @@ public class HeartbeatThread implements Runnable {
 				" Average Duration " + tAverage);
 	}
 	
-   
 	public void sendHeartbeat () {
 		String tGameID;
 		
