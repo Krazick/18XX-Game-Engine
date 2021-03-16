@@ -7,6 +7,7 @@ public class GameSupportHandler {
 	private boolean waitingForResponse;
 	private String response;
 	JGameClient jGameClient;
+	public final static int waitTime = 10;
 	private final static String GAME_ID = "(\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d\\d\\d)";
 	private final static String GS_WITH_GAME_ID = "<GS gameID=\"" + GAME_ID + "\">(.*)</GS>";
 	private final static Pattern GS_WITH_GAME_ID_PATTERN = Pattern.compile (GS_WITH_GAME_ID);
@@ -50,11 +51,11 @@ public class GameSupportHandler {
 		tServerHandler = jGameClient.getServerHandler ();
 		setWaitingForResponse (true);
 		tServerHandler.sendGameSupport (aRequest);
-		while (waiting ()) {
+		while (waitingForResponse) {
 			try {
-				Thread.sleep (100);
+				Thread.sleep (waitTime);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				e.printStackTrace ();
 			}
 		}
 		
