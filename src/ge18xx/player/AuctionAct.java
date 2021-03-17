@@ -13,7 +13,7 @@ public class AuctionAct {
 	public boolean isNoAct () {
 		return (NO_ACT.equals (act));
 	}
-	
+
 	public boolean isRaiseAct () {
 		return (RAISE_ACT.equals (act));
 	}
