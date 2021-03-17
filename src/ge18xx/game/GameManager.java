@@ -907,6 +907,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		CorporationList tShares;
 		PhaseManager tPhaseManager;
 		PlayerManager tPlayerManager;
+		String tAutoSavesDirName;
 		
 		if (activeGame != GameManager.NO_GAME) {
 			game18XXFrame.initiateGame ();
@@ -928,7 +929,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tMinors = minorCompaniesFrame.getMinorCompanies ();
 			tShares = shareCompaniesFrame.getShareCompanies ();
 			
-			autoSaveFile = new File (constructAutoSaveFileName ());
+			tAutoSavesDirName = "autoSaves";
+			createAutoSavesDir (tAutoSavesDirName);
+			autoSaveFile = new File (constructAutoSaveFileName (tAutoSavesDirName));
 			
 			roundManager.initiateGame (tPrivates, tCoals, tMinors, tShares);
 			if (! activeGame.isATestGame ()) {
@@ -941,10 +944,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 	
-	private String constructAutoSaveFileName () {
+	private void createAutoSavesDir (String tDirectoryName) {
+	    File tDirectory = new File (tDirectoryName);
+	    if (! tDirectory.exists ()){
+	    	tDirectory.mkdir ();
+	    }
+	}
+	
+	private String constructAutoSaveFileName (String tDirectoryName) {
 		String tAutoSaveFileName = "";
 		
-		tAutoSaveFileName = "autoSaves" + File.separator + getGameName () + "." + clientUserName;
+		tAutoSaveFileName = tDirectoryName + File.separator + getGameName () + "." + clientUserName;
 		if (isNetworkGame ()) {
 			tAutoSaveFileName += ".network";
 		}
