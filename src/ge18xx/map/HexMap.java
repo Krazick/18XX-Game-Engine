@@ -1034,13 +1034,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
         if (!source.getValueIsAdjusting ()) {
             int hexScale = (int) source.getValue ();
             setHexScale (hexScale);
-//			hex.setScale (hexScale);
-//			if (map != null) {
-//				CalcGridCenters ();
-//				setMapSize ();
-//				redrawMap ();
-//			}
-//			tileSet.setScale (hexScale);
         }
     }
 	

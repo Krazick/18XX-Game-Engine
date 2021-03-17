@@ -203,6 +203,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	@Override
 	public void setHexScale (int aScale) {
 		map.setHexScale (aScale);
+		setHexScaleSlider (aScale);
 	}
 	
 	private void setModes (boolean aTileMode, boolean aTokenMode, boolean aRouteMode) {
