@@ -86,7 +86,7 @@ public class RoundManager {
 
 	public void showInitialFrames () {
 		showFrame ();
-		actionManager.showFrame ();
+		actionManager.showActionReportFrame ();
 	}
 	
 	public void setManagers (GameManager aGameManager, PlayerManager aPlayerManager) {
@@ -1001,6 +1001,10 @@ public class RoundManager {
 	
 	public void showGEFrame () {
 		gameManager.showGEFrame ();
+	}
+	
+	public void showActionReportFrame () {
+		actionManager.showActionReportFrame ();
 	}
 	
 	public Point getOffsetRoundFrame () {

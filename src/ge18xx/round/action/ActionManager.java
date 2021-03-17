@@ -405,7 +405,7 @@ public class ActionManager {
 		return tActionApplied;
 	}
 
-	public void showFrame () {
+	public void showActionReportFrame () {
 		actionReportFrame.setVisible (true);
 	}
 	

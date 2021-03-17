@@ -44,7 +44,8 @@ public class MyResources extends ListResourceBundle {
 			{"showChatClientItem", "Show Chat Client"},
 			{"showRoundFrameItem", "Show Round Frame"},
 			{"showAuditFrameItem", "Show Audit Frame"},
+			{"showActionReportFrameItem", "Show Action Report Frame"},
 			{"frameTitle", "18XX Game Engine"},
-			{"version", "V 0.6.8 Beta"}
+			{"version", "V 0.6.9 Beta"}
 	};
 }

@@ -44,7 +44,7 @@ public class Game_18XX extends JFrame {
 	protected Action selectGameAction, showMapAction, showMarketAction, showCitiesAction, showPrivatesAction;
 	protected Action showTileTrayAction, showCoalCompaniesAction, showMinorCompaniesAction;
 	protected Action showChatClientAction, showRoundFrameAction, showShareCompaniesAction;
-	protected Action showPlayerInputAction, showAuditFrameAction;
+	protected Action showPlayerInputAction, showAuditFrameAction, showActionReportFrameAction;
 	static final JMenuBar mainMenuBar = new JMenuBar ();	
 	protected JMenu fileMenu, gameMenu;
 
@@ -87,6 +87,7 @@ public class Game_18XX extends JFrame {
 		setLocation (100, 100);
 		setFrameContents ();
 		setupFrameActions ();
+		toFront ();
 		setVisible (aVisible);
 	}
 
@@ -287,7 +288,7 @@ public class Game_18XX extends JFrame {
 		mainMenuBar.add (fileMenu);
 
 		gameMenu = new JMenu("Game");
-		tMenuItemCount = 11;
+		tMenuItemCount = 12;
 		gameMenuItems = new JMenuItem [tMenuItemCount];
 		gameMenuItems [0] = new JMenuItem (showMapAction);
 		gameMenuItems [1] = new JMenuItem (showMarketAction);
@@ -300,6 +301,7 @@ public class Game_18XX extends JFrame {
 		gameMenuItems [8] = new JMenuItem (showChatClientAction);
 		gameMenuItems [9] = new JMenuItem (showRoundFrameAction);
 		gameMenuItems [10] = new JMenuItem (showAuditFrameAction);
+		gameMenuItems [11] = new JMenuItem (showActionReportFrameAction);
 		
 		for (tMenuItemIndex = 0; tMenuItemIndex < tMenuItemCount; tMenuItemIndex++) {
 			gameMenuItems [tMenuItemIndex].setEnabled (false);
@@ -343,6 +345,7 @@ public class Game_18XX extends JFrame {
 		showChatClientAction = new showChatClientActionClass (resbundle.getString ("showChatClientItem"), null);
 		showRoundFrameAction = new showRoundFrameActionClass (resbundle.getString ("showRoundFrameItem"), null);
 		showAuditFrameAction = new showAuditFrameActionClass (resbundle.getString ("showAuditFrameItem"), null);
+		showActionReportFrameAction = new showActionReportFrameActionClass (resbundle.getString ("showActionReportFrameItem"), null);
 	}
 	
 	public void createGameSet () {
@@ -648,6 +651,19 @@ public class Game_18XX extends JFrame {
 		
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showAuditFrame ();
+		}
+	}
+	
+	public class showActionReportFrameActionClass extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public showActionReportFrameActionClass (String text, KeyStroke shortcut) {
+			super (text);
+			putValue (ACCELERATOR_KEY, shortcut);
+		}
+		
+		public void actionPerformed (ActionEvent e) {
+			gameManager.showActionReportFrame ();
 		}
 	}
 	

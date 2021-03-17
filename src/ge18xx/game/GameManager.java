@@ -2118,6 +2118,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		roundManager.showRoundFrame ();
 	}
 	
+	public void showActionReportFrame () {
+		roundManager.showActionReportFrame ();
+	}
+	
 	public void showAuditFrame () {
 		String tActorName;
 		CorporationList tCompanies;
