@@ -4,11 +4,12 @@
 package ge18xx.center;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * @author marksmith
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
  */
 @DisplayName ("Revenue Tests")
 class RevenueTests {
+	private static final Logger logger = LogManager.getLogger(RevenueTests.class);
 
 	/**
 	 * @throws java.lang.Exception
@@ -47,6 +49,14 @@ class RevenueTests {
 		assertEquals ("0", tRevenue1.getPhaseToString (), "Revenue - All Phases String");
 		assertEquals (0, tRevenue1.getValue (), "Revenue -- Zero Value ");
 		assertEquals ("0", tRevenue1.getValueToString (), "Revenue -- Zero Value String");
+	     String message = "Hello there!";
+	      logger.trace(message);
+	      logger.debug(message);
+	      logger.info(message);
+	      logger.warn(message);
+	      logger.error(message);
+	      logger.fatal(message);
+
 	}
 	
 	@Test

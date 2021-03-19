@@ -1,19 +1,19 @@
 package ge18xx.game;
 
+//
+//Game_18XX.java
+//Game_18XX
+//
+//Created by Mark Smith on 8/25/07.
+//Copyright (c) 2007 __MyCompanyName__. All rights reserved.
+//
+//For information on setting Java configuration information, including 
+//setting Java properties, refer to the documentation at
+//	http://developer.apple.com/techpubs/java/java.html
+//
+
+
 import ge18xx.network.NetworkPlayer;
-
-//
-//  Game_18XX.java
-//  Game_18XX
-//
-//  Created by Mark Smith on 8/25/07.
-//  Copyright (c) 2007 __MyCompanyName__. All rights reserved.
-//
-//	For information on setting Java configuration information, including 
-//	setting Java properties, refer to the documentation at
-//		http://developer.apple.com/techpubs/java/java.html
-//
-
 import ge18xx.toplevel.AboutBox;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.PrefPane;
@@ -31,6 +31,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class Game_18XX extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -62,6 +64,8 @@ public class Game_18XX extends JFrame {
 	private JButton newGameButton;
 	private JButton loadGameButton;
 	private JButton tQuitButton;
+	
+	private static final Logger logger = LogManager.getLogger (Game_18XX.class);
 
 	public Game_18XX () {
 		this (true);
@@ -89,6 +93,14 @@ public class Game_18XX extends JFrame {
 		setupFrameActions ();
 		toFront ();
 		setVisible (aVisible);
+
+	    String message = "Hello there from GE 18XX!";
+		logger.trace(message);
+		logger.debug(message);
+		logger.info(message);
+		logger.warn(message);
+		logger.error(message);
+		logger.fatal(message);
 	}
 
 	private void setApplicationIcon () {
