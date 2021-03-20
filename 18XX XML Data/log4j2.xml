@@ -2,6 +2,7 @@
 <Configuration status="warn" strict="true">
     <!-- Define custom levels before using them for filtering below. -->
 	<Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n</Property>
         <Property name="LOG_DIRECTORY">autoSaves/logs/</Property>
 	</Properties>
 	
@@ -12,11 +13,9 @@
     <Appenders>
     
         <RollingFile name="RollingFile" fileName="${LOG_DIRECTORY}application-debug.log" 
-       				filePattern="logs/application-debug-%d{yyyy-MM-dd}-%i.log">
+       				filePattern="${LOG_DIRECTORY}application-debug-%d{yyyy-MM-dd}-%i.log">
 			<LevelRangeFilter minLevel="HEARTBEAT" maxLevel="HEARTBEAT" onMatch="DENY" onMismatch="ACCEPT"/>
-			<PatternLayout>
-                <pattern>%d{MM-dd-yyyy HH:mm:ss,SSS}|%p|%m%n</pattern>
-            </PatternLayout>
+			<PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="5 MB" />
             </Policies>
@@ -24,11 +23,9 @@
         </RollingFile>
         
         <RollingFile name="HearbeatLogFile" fileName="${LOG_DIRECTORY}heartbeat.log" 
-					filePattern="logs/heartbeat-%d{yyyy-MM-dd}-%i.log">
+					filePattern="${LOG_DIRECTORY}heartbeat-%d{yyyy-MM-dd}-%i.log">
 	  		<LevelRangeFilter minLevel="HEARTBEAT" maxLevel="HEARTBEAT" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout>
-                <pattern>%d{MM-dd-yyyy HH:mm:ss.SSS}|%p|%m%n</pattern>
-            </PatternLayout>
+			<PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="5 MB" />
             </Policies>
