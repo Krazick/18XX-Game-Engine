@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" strict="true">
+    <!-- Define custom levels before using them for filtering below. -->
+	<Properties>
+        <Property name="LOG_DIRECTORY">autoSaves/logs/</Property>
+	</Properties>
+	
+    <CustomLevels>
+        <CustomLevel name="HEARTBEAT" intLevel="190" />
+    </CustomLevels>
+    
+    <Appenders>
+    
+        <RollingFile name="RollingFile" fileName="${LOG_DIRECTORY}application-debug.log" 
+       				filePattern="logs/application-debug-%d{yyyy-MM-dd}-%i.log">
+			<LevelRangeFilter minLevel="HEARTBEAT" maxLevel="HEARTBEAT" onMatch="DENY" onMismatch="ACCEPT"/>
+			<PatternLayout>
+                <pattern>%d{MM-dd-yyyy HH:mm:ss,SSS}|%p|%m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="180"/>
+        </RollingFile>
+        
+        <RollingFile name="HearbeatLogFile" fileName="${LOG_DIRECTORY}heartbeat.log" 
+					filePattern="logs/heartbeat-%d{yyyy-MM-dd}-%i.log">
+	  		<LevelRangeFilter minLevel="HEARTBEAT" maxLevel="HEARTBEAT" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <pattern>%d{MM-dd-yyyy HH:mm:ss.SSS}|%p|%m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="180"/>
+        </RollingFile>
+        
+    </Appenders>
+    <Loggers>
+    
+		<Logger name="com.ge18xx.heartbeat" additivity="false" level="HEARTBEAT">
+            <AppenderRef ref="HearbeatLogFile" level="HEARTBEAT"/>
+        </Logger>
+    
+        <Root level="all">
+            <AppenderRef ref="RollingFile" level="info"/>
+        </Root>
+        
+    </Loggers>
+</Configuration>

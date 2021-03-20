@@ -871,7 +871,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public String getXMLBaseDirectory () {
 		String aBaseDirectory;
 		
-		aBaseDirectory = "18XX XML Data/";
+		aBaseDirectory = "18XX XML Data" + File.separator;
 		
 		return aBaseDirectory;
 	}

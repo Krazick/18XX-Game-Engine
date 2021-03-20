@@ -1,5 +1,7 @@
 package ge18xx.game;
 
+import ge18xx.network.HeartbeatThread;
+
 //
 //Game_18XX.java
 //Game_18XX
@@ -65,7 +67,7 @@ public class Game_18XX extends JFrame {
 	private JButton loadGameButton;
 	private JButton tQuitButton;
 	
-	private static final Logger logger = LogManager.getLogger (Game_18XX.class);
+	private static Logger logger;
 
 	public Game_18XX () {
 		this (true);
@@ -79,6 +81,7 @@ public class Game_18XX extends JFrame {
 		// application.  ResourceBundles are useful for localizing applications.
 		// New localities can be added by adding additional properties files.
 		resbundle = ResourceBundle.getBundle ("ge18xx.game.MyResources", Locale.getDefault ());
+		setupLogger ();
 		
 		tTitle = resbundle.getString ("frameTitle");
 		setTitle (tTitle);
@@ -101,6 +104,14 @@ public class Game_18XX extends JFrame {
 		logger.warn(message);
 		logger.error(message);
 		logger.fatal(message);
+	}
+	
+	private void setupLogger () {
+		String tXMLConfigFIle;
+		
+		tXMLConfigFIle = "18XX XML Data" + File.separator + "log4j2.xml";
+		System.setProperty ("log4j.configurationFile", tXMLConfigFIle);
+		logger = LogManager.getLogger (Game_18XX.class);
 	}
 
 	private void setApplicationIcon () {

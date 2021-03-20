@@ -4,10 +4,16 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ge18xx.game.NetworkGameSupport;
 
 public class HeartbeatThread implements Runnable {
-
+	private Logger logger = LogManager.getLogger (HeartbeatThread.class);
+	final Level HEARTBEAT = Level.forName ("HEARTBEAT", 550);
+	
 	Thread thread;
 	boolean continueRunning = false;
 	JGameClient jGameClient;
@@ -22,7 +28,18 @@ public class HeartbeatThread implements Runnable {
 		setContinueRunning (false);
 		jGameClient = aJGameClient;
 		gameManager = jGameClient.getGameManager ();
+		setupLogger ();
 		totalResponseTime = 0;
+		// Create and use a new custom level "DIAG".
+//		logger.log (HEARTBEAT, "a heartbeat message");
+	}
+	
+	private void setupLogger () {
+		String tXMLBaseDir;
+		
+		tXMLBaseDir = gameManager.getXMLBaseDirectory ();
+		System.setProperty ("log4j.configurationFile", tXMLBaseDir + "log4j2.xml");
+		logger = LogManager.getLogger ("com.ge18xx.heartbeat");
 	}
 	
 	public void setContinueRunning (boolean aContinueRunning) {
@@ -56,7 +73,7 @@ public class HeartbeatThread implements Runnable {
    public void run () {
     	int tCounter = 0;
      	
-    	System.out.println ("Heartbeat Thread running");
+    	logger.log (HEARTBEAT, "Thread running");
         while (continueRunning) {
         	tCounter++;
         	try {
@@ -73,15 +90,17 @@ public class HeartbeatThread implements Runnable {
 	private void displayTiming (int aCounter) {
 		long tDifference;
 		long tAverage;
+		String tMessage;
 		
 		tDifference = startTime.until (responseTime, ChronoUnit.MILLIS) - GameSupportHandler.waitTime; 
 		totalResponseTime += tDifference;
 		tAverage = totalResponseTime/aCounter;
-		System.out.println ("Heartbeat Thread cycle " + aCounter + 
+		tMessage = "Thread cycle " + aCounter + 
 				" Start Time " + hmssFormat.format (startTime) +
 				" Response Time " + hmssFormat.format (responseTime) +
 				" Duration in MilliSeconds (less Wait Time) " + tDifference + 
-				" Average Duration " + tAverage);
+				" Average Duration " + tAverage;
+		logger.log (HEARTBEAT, tMessage);
 	}
 	
 	public void sendHeartbeat () {
