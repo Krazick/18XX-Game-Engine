@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="warn" strict="true">
+<Configuration status="warn" strict="true" packages="log4j2.plugins">
     <!-- Define custom levels before using them for filtering below. -->
 	<Properties>
-        <Property name="LOG_PATTERN">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n</Property>
-        <Property name="LOG_DIRECTORY">autoSaves/logs/</Property>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %p %m%n</Property>
+        <Property name="LOG_DIRECTORY">autoSaves${sys:file.separator}logs${sys:file.separator}</Property>
+        <Property name="USER_NAME">$${userlookup:userName}</Property>
 	</Properties>
 	
     <CustomLevels>
@@ -12,8 +13,8 @@
     
     <Appenders>
     
-        <RollingFile name="RollingFile" fileName="${LOG_DIRECTORY}application-debug.log" 
-       				filePattern="${LOG_DIRECTORY}application-debug-%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="RollingFile" fileName="${LOG_DIRECTORY}application-debug-${USER_NAME}.log" 
+       				filePattern="${LOG_DIRECTORY}application-debug-${USER_NAME}-%d{yyyy-MM-dd}-%i.log">
 			<LevelRangeFilter minLevel="HEARTBEAT" maxLevel="HEARTBEAT" onMatch="DENY" onMismatch="ACCEPT"/>
 			<PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
@@ -22,8 +23,8 @@
             <DefaultRolloverStrategy max="180"/>
         </RollingFile>
         
-        <RollingFile name="HearbeatLogFile" fileName="${LOG_DIRECTORY}heartbeat.log" 
-					filePattern="${LOG_DIRECTORY}heartbeat-%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="HearbeatLogFile" fileName="${LOG_DIRECTORY}heartbeat-${USER_NAME}.log" 
+					filePattern="${LOG_DIRECTORY}heartbeat-${USER_NAME}-%d{yyyy-MM-dd}-%i.log">
 	  		<LevelRangeFilter minLevel="HEARTBEAT" maxLevel="HEARTBEAT" onMatch="ACCEPT" onMismatch="DENY"/>
 			<PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>

@@ -1,7 +1,5 @@
 package ge18xx.game;
 
-import ge18xx.network.HeartbeatThread;
-
 //
 //Game_18XX.java
 //Game_18XX
@@ -14,11 +12,11 @@ import ge18xx.network.HeartbeatThread;
 //	http://developer.apple.com/techpubs/java/java.html
 //
 
-
 import ge18xx.network.NetworkPlayer;
 import ge18xx.toplevel.AboutBox;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.PrefPane;
+import log4j2.plugins.LoggerLookup;
 
 import java.util.*;
 import java.awt.*;
@@ -66,8 +64,8 @@ public class Game_18XX extends JFrame {
 	private JButton newGameButton;
 	private JButton loadGameButton;
 	private JButton tQuitButton;
-	
 	private static Logger logger;
+	LoggerLookup loggerLookup;
 
 	public Game_18XX () {
 		this (true);
@@ -81,7 +79,6 @@ public class Game_18XX extends JFrame {
 		// application.  ResourceBundles are useful for localizing applications.
 		// New localities can be added by adding additional properties files.
 		resbundle = ResourceBundle.getBundle ("ge18xx.game.MyResources", Locale.getDefault ());
-		setupLogger ();
 		
 		tTitle = resbundle.getString ("frameTitle");
 		setTitle (tTitle);
@@ -96,24 +93,31 @@ public class Game_18XX extends JFrame {
 		setupFrameActions ();
 		toFront ();
 		setVisible (aVisible);
-
-	    String message = "Hello there from GE 18XX!";
-		logger.trace(message);
-		logger.debug(message);
-		logger.info(message);
-		logger.warn(message);
-		logger.error(message);
-		logger.fatal(message);
 	}
 	
-	private void setupLogger () {
+	private void setupLogger (String aUserName) {
 		String tXMLConfigFIle;
 		
+		LoggerLookup.setUserName (aUserName);
 		tXMLConfigFIle = "18XX XML Data" + File.separator + "log4j2.xml";
 		System.setProperty ("log4j.configurationFile", tXMLConfigFIle);
 		logger = LogManager.getLogger (Game_18XX.class);
+
 	}
 
+	private void testLogger () {
+	    String message = "Hello there from GE 18XX!";
+	    
+		if (logger != null) {
+			logger.trace(message);
+			logger.debug(message);
+			logger.info(message);
+			logger.warn(message);
+			logger.error(message);
+			logger.fatal(message);
+		}
+	}
+	
 	private void setApplicationIcon () {
 		// This will set the GE18XX Frame Icon (when it is minimized)
 		// For Mac on the Doc even, but not the Application Level Icon.
@@ -127,7 +131,10 @@ public class Game_18XX extends JFrame {
 	
 	private void setupNewGameManager () {
 		String tCUNText = clientUserName.getText ();
+
 		if (NetworkPlayer.validPlayerName (tCUNText)) {
+			setupLogger (tCUNText);
+			testLogger ();
 			setGameManager (new GameManager (this, tCUNText));
 			enableGameStartItems ();
 			newGameButton.requestFocusInWindow ();
