@@ -102,26 +102,27 @@ public class Game_18XX extends JFrame {
 		tXMLConfigFIle = "18XX XML Data" + File.separator + "log4j2.xml";
 		System.setProperty ("log4j.configurationFile", tXMLConfigFIle);
 		logger = LogManager.getLogger (Game_18XX.class);
-
+		logger.info ("Game Engine 18XX, Version " + getGEVersion () + 
+					" Client " + aUserName);
 	}
 
-	private void testLogger () {
-	    String message = "Hello there from GE 18XX!";
-	    
-		if (logger != null) {
-			logger.trace(message);
-			logger.debug(message);
-			logger.info(message);
-			logger.warn(message);
-			logger.error(message);
-			logger.fatal(message);
-		}
-	}
+//	private void testLogger () {
+//	    String message = "Hello there from GE 18XX!";
+//	    
+//		if (logger != null) {
+//			logger.trace(message);
+//			logger.debug(message);
+//			logger.info(message);
+//			logger.warn(message);
+//			logger.error(message);
+//			logger.fatal(message);
+//		}
+//	}
 	
 	private void setApplicationIcon () {
 		// This will set the GE18XX Frame Icon (when it is minimized)
 		// For Mac on the Doc even, but not the Application Level Icon.
-		Image image = Toolkit.getDefaultToolkit().getImage("images/GE18XX.png");
+		Image image = Toolkit.getDefaultToolkit ().getImage ("images/GE18XX.png");
 		this.setIconImage (image);
 	}
 	
@@ -134,7 +135,6 @@ public class Game_18XX extends JFrame {
 
 		if (NetworkPlayer.validPlayerName (tCUNText)) {
 			setupLogger (tCUNText);
-			testLogger ();
 			setGameManager (new GameManager (this, tCUNText));
 			enableGameStartItems ();
 			newGameButton.requestFocusInWindow ();
