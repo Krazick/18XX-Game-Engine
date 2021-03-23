@@ -106,7 +106,7 @@ public class CityInfo implements Cloneable {
 			tCityInfo.mapCell = mapCell;
 			tCityInfo.corporation = corporation;
 		} catch (CloneNotSupportedException e) {
-			System.out.println ("City Info Clone, Clone Not Supported");
+			System.err.println ("City Info Clone, Clone Not Supported");
 		}
 		
 		return tCityInfo;
