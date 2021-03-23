@@ -30,8 +30,6 @@ public class HeartbeatThread implements Runnable {
 		gameManager = jGameClient.getGameManager ();
 		setupLogger ();
 		totalResponseTime = 0;
-		// Create and use a new custom level "DIAG".
-//		logger.log (HEARTBEAT, "a heartbeat message");
 	}
 	
 	private void setupLogger () {
@@ -81,8 +79,9 @@ public class HeartbeatThread implements Runnable {
 	            sendHeartbeat ();
 	            displayTiming (tCounter);
 	            Thread.sleep (10000);
-	         } catch (Exception e) {
-	            System.out.println (e);
+	         } catch (Exception eException) {
+	        	 logger.error ("Heartbeat Thread throwing Exception");
+	        	 logger.error (eException);
 	         }
         }
     }

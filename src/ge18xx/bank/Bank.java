@@ -9,6 +9,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ge18xx.company.Certificate;
 import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
@@ -44,6 +47,7 @@ public class Bank extends GameBank implements CashHolderI {
 	StartPacketFrame startPacketFrame;
 	Portfolio closedPortfolio;
 	TrainPortfolio rustedTrainsPortfolio;
+	private static Logger logger;
 	
 	public Bank () {
 		this (0, null);
@@ -57,6 +61,7 @@ public class Bank extends GameBank implements CashHolderI {
 		setBankCashLabel (null);
 		closedPortfolio = new Portfolio ();
 		rustedTrainsPortfolio = new TrainPortfolio (this);
+		logger = LogManager.getLogger (Bank.class);
 	}
 	
 	public void addCash (int aAmount) {
@@ -133,7 +138,9 @@ public class Bank extends GameBank implements CashHolderI {
 			try {
 				startPacketFrame.loadXML (tXMLCompaniesName, startPacketFrame);
 			} catch (Exception tException) {
-				System.err.println (tException);
+				logger.error ("Creating Start Packet Failure");
+				logger.error (tException);
+//				System.err.println (tException);
 			}
 		}
 		startPacketFrame.loadStartPacketWithCertificates (portfolio);

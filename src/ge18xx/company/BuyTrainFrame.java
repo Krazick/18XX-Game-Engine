@@ -235,7 +235,6 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 			if (tGoodPrice) {
 				doBuyButton.setEnabled (true);
 			} else {
-				System.out.println (tReasonForBad);
 				doBuyButton.setEnabled (false);
 				doBuyButton.setToolTipText (tReasonForBad);
 			}

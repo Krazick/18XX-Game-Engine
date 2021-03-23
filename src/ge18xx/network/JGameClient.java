@@ -736,7 +736,6 @@ public class JGameClient extends XMLFrame {
 				+ "actionNumber=\"" + aLastActionNumber + "\" gameName=\"" + aGameName + "\"></GS>";
 		tResponse = gameSupportHandler.requestGameSupport (tGameIDRequest);
 		System.out.println ("Response is [" + tResponse + "]");
-
 	}
 
 	public String constructGameActivityXML (ElementName aElementName, 
@@ -848,21 +847,6 @@ public class JGameClient extends XMLFrame {
 		String tAction = aActionEvent.getActionCommand ();
 		sendMessage (tAction);
 	}
-	
-//	private void sendGameSupport (ActionEvent aActionEvent) {
-//		String tAction = aActionEvent.getActionCommand ();
-//		String tFullMessage;
-//		
-//		if ("Game Support".equals (tAction)) {
-//			String tMessage = message.getText ();
-//			if (tMessage.length () > 0) {
-//				System.out.println ("Need to send Game Support Request [" + tMessage + "]");
-//				tFullMessage = GAME_SUPPORT_PREFIX + " " + 
-//						this.constructGameSupportXML (EN_GAME_SUPPORT, AN_REQUEST_ACTION_NUMBER, tMessage); 
-//				serverHandler.sendGameSupport (tFullMessage);
-//			}
-//		}
-//	}
 	
 	private void sendMessage (String aAction) {
 		if ("SEND".equals (aAction)) {

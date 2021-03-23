@@ -148,7 +148,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		gameStarted = false;
 		gameID = "";
 		loadConfig ();
-		System.out.println ("=== Client Console for " + clientUserName + " ===");
 	}
 	
 	public JPanel buildPrivatesForPurchaseJPanel (ItemListener aItemListener, int aAvailableCash) {
@@ -1385,8 +1384,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tSaveDirectory = chooser.getCurrentDirectory ();
 			tNewSaveGameDir = tSaveDirectory.getAbsolutePath ();
 			if (! tOriginalSaveGameDir.equals (tNewSaveGameDir)) {
-				System.out.println ("Changing Default Save Game Dir from [" + 
-						tOriginalSaveGameDir + "] to [" + tNewSaveGameDir + "]");
 				configData.setSaveGameDirectory (tNewSaveGameDir);
 				saveConfig (true);
 			}
