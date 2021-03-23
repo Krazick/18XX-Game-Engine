@@ -451,8 +451,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tXMLTileDefinitionName = tBaseDirName + "Tile XML Data/"+ tXMLTileDefinitionName;
 				try {
 					tTileDefinitionFrame.loadXML (tXMLTileDefinitionName, tTileDefinitionFrame.getTileSet ());
-				} catch (Exception e) {
-					System.err.println (e);
+				} catch (Exception tException) {
+					System.err.println (tException);
 				}
 				tTileTrayFrame.copyTileDefinitions (tileDefinitionFrame.getTileSet ());
 			}

@@ -79,9 +79,9 @@ public class HeartbeatThread implements Runnable {
 	            sendHeartbeat ();
 	            displayTiming (tCounter);
 	            Thread.sleep (10000);
-	         } catch (Exception eException) {
+	         } catch (Exception tException) {
 	        	 logger.error ("Heartbeat Thread throwing Exception");
-	        	 logger.error (eException);
+	        	 logger.error (tException);
 	         }
         }
     }
