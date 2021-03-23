@@ -12,9 +12,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="JUnitSource"/>
-	<classpathentry kind="src" path="main/resource"/>
-	<classpathentry excluding="resource/" kind="src" path="main"/>
-	<classpathentry kind="src" path="src/main/resource"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/log4j"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
@@ -22,7 +19,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/marksmith/eclipse-workspace/JARS/mockito-core-3.4.6.jar"/>
-	<classpathentry kind="lib" path="/Users/marksmith/eclipse-workspace/JARS/mockito-junit-jupiter-3.4.6.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Mockito"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

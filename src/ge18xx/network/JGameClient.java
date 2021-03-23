@@ -593,7 +593,7 @@ public class JGameClient extends XMLFrame {
 		boolean tSuccess = false;
 		
 		try {
-			serverHandler = new ChatServerHandler (serverIP, serverPort);
+			serverHandler = new ChatServerHandler (serverIP, serverPort, gameManager);
 			if (serverHandler != null) {
 				if (serverHandler.isConnected ()) {
 					serverThread = new Thread (serverHandler);

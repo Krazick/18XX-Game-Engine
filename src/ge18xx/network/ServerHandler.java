@@ -12,6 +12,11 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import ge18xx.game.NetworkGameSupport;
+
 public abstract class ServerHandler implements Runnable {
     private final static int DefaultTimeout = 2000;
 	private Socket socket;
@@ -21,14 +26,28 @@ public abstract class ServerHandler implements Runnable {
 	protected String name;
 	private String host;
 	private int port;
+	private Logger logger;
+	private NetworkGameSupport gameManager;
 	
-	public ServerHandler (Socket aServerSocket) {
+	public ServerHandler (Socket aServerSocket, NetworkGameSupport aGameManager) {
 		setValues (aServerSocket);
+		gameManager = aGameManager;
+		setupLogger ();
 	}
 	
-	public ServerHandler (String aHost, int aPort) throws ConnectException, SocketTimeoutException {
+	private void setupLogger () {
+		String tXMLBaseDir;
+		
+		tXMLBaseDir = gameManager.getXMLBaseDirectory ();
+		System.setProperty ("log4j.configurationFile", tXMLBaseDir + "log4j2.xml");
+		logger = LogManager.getLogger ("com.ge18xx.heartbeat");
+	}
+
+	public ServerHandler (String aHost, int aPort, NetworkGameSupport aGameManager) throws ConnectException, SocketTimeoutException {
 		boolean tContinueRunning = false;
 		
+		gameManager = aGameManager;
+		setupLogger ();
 		try {
             // Connect to socket by host, port, and with specified timeout.
 			setHost (aHost);
@@ -118,6 +137,7 @@ public abstract class ServerHandler implements Runnable {
 				log ("Socket Timeout Exception when reading from Server", tException);
 			} catch (IOException tException) {
 				log ("Exception thrown when Reading from Server", tException);
+				// TODO: Timeout occurred HERE... need to attempt to reconnect
 			} finally {
 				closeAll ();
 			}		
@@ -148,6 +168,8 @@ public abstract class ServerHandler implements Runnable {
     private void log (String aMessage, Exception aException) {
 		System.err.println (aMessage);
 		aException.printStackTrace ();
+		logger.error (aMessage);
+		logger.error (aException);
     }
 
 	public void closeAll () {

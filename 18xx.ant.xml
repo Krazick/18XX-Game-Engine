@@ -7,7 +7,7 @@
     <property name="dir.workspace" value="${dir.buildfile}/.."/>
     <property name="dir.jarfile" value="/Users/marksmith/Documents/18XX_Games"/>
     <target name="create_run_jar">
-        <jar destfile="${dir.jarfile}/ge18XX.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="${dir.jarfile}/ge18XX.jar" filesetmanifest="mergewithoutmain" duplicate="preserve">
             <manifest>
                 <attribute name="Main-Class" value="ge18xx.game.Game_18XX"/>
                 <attribute name="Class-Path" value="."/>
@@ -29,8 +29,8 @@
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.apiguardian_1.1.0.v20190826-0900.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit_4.13.0.v20200204-1500.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/JARS/mockito-core-3.4.6.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/JARS/mockito-junit-jupiter-3.4.6.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/JARS/mockito-core-3.4.6.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/apache/logging/log4j/log4j-api/2.14.1/log4j-api-2.14.1.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/apache/logging/log4j/log4j-core/2.14.1/log4j-core-2.14.1.jar"/>
         </jar>

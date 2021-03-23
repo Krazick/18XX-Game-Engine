@@ -97,13 +97,18 @@ public class Game_18XX extends JFrame {
 	
 	private void setupLogger (String aUserName) {
 		String tXMLConfigFIle;
-		
+	    String tJavaVersion = System.getProperty ("java.version");
+	    String tOSName = System.getProperty ("os.name");
+	    String tOSVersion = System.getProperty( "os.version");
+	    
 		LoggerLookup.setUserName (aUserName);
-		tXMLConfigFIle = "18XX XML Data" + File.separator + "log4j2.xml";
+	    tXMLConfigFIle = "18XX XML Data" + File.separator + "log4j2.xml";
 		System.setProperty ("log4j.configurationFile", tXMLConfigFIle);
 		logger = LogManager.getLogger (Game_18XX.class);
 		logger.info ("Game Engine 18XX, Version " + getGEVersion () + 
 					" Client " + aUserName);
+		logger.info ("Java Version " + tJavaVersion + 
+					" OS Name " + tOSName + " OS Version " + tOSVersion);
 	}
 
 //	private void testLogger () {
