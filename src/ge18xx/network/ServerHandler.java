@@ -18,7 +18,9 @@ import org.apache.logging.log4j.Logger;
 import ge18xx.game.NetworkGameSupport;
 
 public abstract class ServerHandler implements Runnable {
-    private final static int DefaultTimeout = 2000;
+	// Set Default Timeout to 60 Seconds, 1 Minute
+    private final static int DefaultTimeout = 60000;
+    private final static int DefaultSleep = 60000;
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
@@ -40,7 +42,8 @@ public abstract class ServerHandler implements Runnable {
 		
 		tXMLBaseDir = gameManager.getXMLBaseDirectory ();
 		System.setProperty ("log4j.configurationFile", tXMLBaseDir + "log4j2.xml");
-		logger = LogManager.getLogger ("com.ge18xx.heartbeat");
+		logger = LogManager.getLogger (ServerHandler.class);
+		logger.info ("Logger setup in Server Handler");
 	}
 
 	public ServerHandler (String aHost, int aPort, NetworkGameSupport aGameManager) throws ConnectException, SocketTimeoutException {
@@ -57,6 +60,7 @@ public abstract class ServerHandler implements Runnable {
 		} catch (UnknownHostException tException) {
 			log ("Unkown Host Exception thrown when creating Socket to Server", tException);
 		} catch (ConnectException tException) {
+			log ("Connection Exception thrown when creating Socket to Server", tException);
 			throw tException;
 		} catch (SocketTimeoutException tException) {
 			log ("Socket Timeout Exception when establing Connection to Server", tException);
@@ -74,7 +78,9 @@ public abstract class ServerHandler implements Runnable {
 		
         Socket tSocket = new Socket ();
         tIPAddress = InetAddress.getByName (host);
+        logger.info ("Attempting Socket Connection to Host " + host + " using IP " + tIPAddress + " Port " + port);
 		tSocket.connect (new InetSocketAddress (tIPAddress, port), DefaultTimeout);
+        logger.info ("Socket Connection Established");
 		tSocket.setKeepAlive (true);
 		setValues (tSocket);
 	}
@@ -103,7 +109,9 @@ public abstract class ServerHandler implements Runnable {
 	
 	private void setupBufferedReader () {
 		try {
+	        logger.info ("Attempting to setup Buffered Reader");
 			in = new BufferedReader (new InputStreamReader (socket.getInputStream ()));
+			logger.info ("Successful Buffered Reader");
 		} catch (IOException tException) {
 			log ("IOException thrown when seting up Buffered Reader", tException);
 		}		
@@ -111,7 +119,9 @@ public abstract class ServerHandler implements Runnable {
 	
 	private void setupPrintWriter () {
 		try {
+	        logger.info ("Attempting to setup Print Writer");
 			out = new PrintWriter (socket.getOutputStream (), true);
+			logger.info ("Successful Print Writer");
 		} catch (IOException tException) {
 			log ("IOException thrown when seting up PrintWriter", tException);
 		}		
@@ -120,29 +130,88 @@ public abstract class ServerHandler implements Runnable {
 	@Override
 	public void run () {
 		String tString;
-
-		if (in != null) {
-			try {
-				while (continueRunning) {
-					tString = in.readLine ();
-					if (tString == null) {
-						setContinueRunning (false);
-					} else if (tString.startsWith ("[") && tString.endsWith ("]")) {
-						handleServerCommands (tString);
-					} else {
-						handleServerMessage (tString);
+		int tRetryCount;
+		
+		tRetryCount = 5;
+		while (tRetryCount > 0) {
+			if (in != null) {
+				try {
+					while (continueRunning) {
+						tString = in.readLine ();
+						if (tString == null) {
+							setContinueRunning (false);
+						} else if (tString.startsWith ("[") && tString.endsWith ("]")) {
+							handleServerCommands (tString);
+						} else {
+							handleServerMessage (tString);
+						}
 					}
+				} catch (SocketTimeoutException tException1) {
+					log ("Socket Timeout Exception when reading from Server. Retry Count " + 
+							tRetryCount, tException1);
+				} catch (IOException tException2) {
+					log ("Exception thrown when Reading from Server. Retry Count " + 
+							tRetryCount, tException2);
+				}		
+			}
+			try {
+				Thread.sleep (DefaultSleep);
+			} catch (InterruptedException tException3) {
+				// TODO Auto-generated catch block
+				log ("Exception thrown when Sleeping after Socket Timeout", tException3);
+			}
+			tRetryCount--;
+			if (tRetryCount == 2) {
+				if (tryReConnect ()) {
+					tRetryCount = 5;
 				}
-			} catch (SocketTimeoutException tException) {
-				log ("Socket Timeout Exception when reading from Server", tException);
-			} catch (IOException tException) {
-				log ("Exception thrown when Reading from Server", tException);
-				// TODO: Timeout occurred HERE... need to attempt to reconnect
-			} finally {
-				closeAll ();
-			}		
+			}
 		}
+		closeAll ();
 	}
+	
+	private boolean tryReConnect () {
+		boolean tContinue;
+		
+		try {
+			Thread.sleep (10000);
+			logger.warn ("Attempting once to Reconnect to the Server");
+			socket = null;
+			System.gc ();
+			establishSocketConnection ();
+			logger.warn ("Success on creating a new Socket to the Server");
+			System.out.println ("Attempt to Reconnect appears successful");
+			handleChatReconnect ();
+			tContinue = true;	
+		} catch (Exception tException) {
+			String message = "ReConnect not successful " + tException.getMessage ();
+			log (message, tException);
+			tContinue = false;	
+		}
+		
+		return tContinue;
+	}
+	
+//	private boolean tryReConnect () {
+//		boolean tContinue;
+//   	
+//		try {
+//			serverFrame.closeServerSocket ("Trying to ReConnect");
+//			//empty my old lost connection and let it get by garbage collect immediately 
+//			socket = null;
+//			System.gc ();
+// 			//Wait a new client Socket connection and address this to my local variable
+//			socket = serverFrame.acceptServerSocket ("Trying to ReConnect"); // Waiting for another Connection
+//			System.out.println ("YEAH!!!!   Connection established...");
+//			tContinue = true;
+//		} catch (Exception eException) {
+//			String message = "ReConnect not successful " + eException.getMessage ();
+//			log (message, eException); //etc...
+//			tContinue = false;
+//		}
+//    
+//		return tContinue;
+//	}
 
 	public boolean isConnected () {
 		return continueRunning;
@@ -168,8 +237,7 @@ public abstract class ServerHandler implements Runnable {
     private void log (String aMessage, Exception aException) {
 		System.err.println (aMessage);
 		aException.printStackTrace ();
-		logger.error (aMessage);
-		logger.error (aException);
+		logger.error (aMessage, aException);
     }
 
 	public void closeAll () {
@@ -197,26 +265,7 @@ public abstract class ServerHandler implements Runnable {
 		closeAll ();
 	}
 	
-//	private boolean tryReConnect () {
-//		boolean tContinue;
-//   	
-//		try {
-//			serverFrame.closeServerSocket ("Trying to ReConnect");
-//			//empty my old lost connection and let it get by garbage collect immediately 
-//			socket = null;
-//			System.gc ();
-// 			//Wait a new client Socket connection and address this to my local variable
-//			socket = serverFrame.acceptServerSocket ("Trying to ReConnect"); // Waiting for another Connection
-//			System.out.println ("YEAH!!!!   Connection established...");
-//			tContinue = true;
-//		} catch (Exception eException) {
-//			String message = "ReConnect not successful " + eException.getMessage ();
-//			log (message, eException); //etc...
-//			tContinue = false;
-//		}
-//    
-//		return tContinue;
-//	}
+	protected abstract void handleChatReconnect ();
 
 	protected abstract void sendGameSupport (String aRequest);
 
