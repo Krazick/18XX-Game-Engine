@@ -1091,4 +1091,8 @@ public class JGameClient extends XMLFrame {
 	public ServerHandler getServerHandler() {
 		return serverHandler;
 	}
+
+	public String getGameID () {
+		return gameManager.getGameID ();
+	}
 }
