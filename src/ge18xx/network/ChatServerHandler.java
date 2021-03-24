@@ -168,6 +168,18 @@ public class ChatServerHandler extends ServerHandler {
 //		println ("Game Support <GS gameID=\"" + aGameID + "\"><Start></GS>");
 		jClient.appendToChat ("I started the Game", true);
 	}
+
+	@Override
+	protected void handleChatReconnect() {
+		System.out.println ("Ready to attempt Server Connect");
+		String tGameSupportXML;
+		String tGameID;
+		
+		tGameID = jClient.getGameID ();
+		
+		tGameSupportXML = buildGameSupportXML (tGameID, "<Reconnect>");
+		println (tGameSupportXML);
+	}
 	
 	// -- End of Sending Commands to the Server
 }
