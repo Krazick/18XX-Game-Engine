@@ -110,19 +110,6 @@ public class Game_18XX extends JFrame {
 		logger.info ("Java Version " + tJavaVersion + 
 					" OS Name " + tOSName + " OS Version " + tOSVersion);
 	}
-
-//	private void testLogger () {
-//	    String message = "Hello there from GE 18XX!";
-//	    
-//		if (logger != null) {
-//			logger.trace(message);
-//			logger.debug(message);
-//			logger.info(message);
-//			logger.warn(message);
-//			logger.error(message);
-//			logger.fatal(message);
-//		}
-//	}
 	
 	private void setApplicationIcon () {
 		// This will set the GE18XX Frame Icon (when it is minimized)
@@ -135,9 +122,28 @@ public class Game_18XX extends JFrame {
 		gameManager = aGameManager;
 	}
 	
+	private void setupAutoSavesAndLogDirectory () {
+		String tAutoSavesDirName;
+		String tAutoSavesLogDirName;
+		
+		tAutoSavesDirName = "autoSaves";
+		createDirectory (tAutoSavesDirName);
+		tAutoSavesLogDirName = tAutoSavesDirName + File.separator + "logs";
+		createDirectory (tAutoSavesLogDirName);
+	}
+	
+	private void createDirectory (String tDirectoryName) {
+	    File tDirectory = new File (tDirectoryName);
+	    
+	    if (! tDirectory.exists ()){
+	    	tDirectory.mkdir ();
+	    }
+	}
+
 	private void setupNewGameManager () {
 		String tCUNText = clientUserName.getText ();
 
+		setupAutoSavesAndLogDirectory ();
 		if (NetworkPlayer.validPlayerName (tCUNText)) {
 			setupLogger (tCUNText);
 			setGameManager (new GameManager (this, tCUNText));

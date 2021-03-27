@@ -929,7 +929,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tShares = shareCompaniesFrame.getShareCompanies ();
 			
 			tAutoSavesDirName = "autoSaves";
-			createAutoSavesDir (tAutoSavesDirName);
 			autoSaveFile = new File (constructAutoSaveFileName (tAutoSavesDirName));
 			
 			roundManager.initiateGame (tPrivates, tCoals, tMinors, tShares);
@@ -941,13 +940,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 			createAuditFrame ();
 			applyConfigSettings ();
 		}
-	}
-	
-	private void createAutoSavesDir (String tDirectoryName) {
-	    File tDirectory = new File (tDirectoryName);
-	    if (! tDirectory.exists ()){
-	    	tDirectory.mkdir ();
-	    }
 	}
 	
 	private String constructAutoSaveFileName (String tDirectoryName) {
