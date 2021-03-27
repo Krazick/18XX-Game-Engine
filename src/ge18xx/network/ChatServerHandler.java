@@ -182,5 +182,9 @@ public class ChatServerHandler extends ServerHandler {
 		println (tGameSupportXML);
 	}
 	
+	@Override
+	protected void startHeartbeat () {
+		jClient.startHeartbeat ();
+	}
 	// -- End of Sending Commands to the Server
 }

@@ -333,10 +333,7 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void setForConnected () {
-		heartbeatThread = new HeartbeatThread (this);
-		hbeatThread = new Thread (heartbeatThread);
-		heartbeatThread.setContinueRunning (true);
-		hbeatThread.start ();
+		startHeartbeat();
 		
 		connectButton.setEnabled (false);
 		connectButton.setToolTipText (ALREADY_CONNECTED);
@@ -358,6 +355,13 @@ public class JGameClient extends XMLFrame {
 		message.setEnabled (true);
 		message.setFocusable (true);
 		message.requestFocusInWindow ();
+	}
+
+	public void startHeartbeat () {
+		heartbeatThread = new HeartbeatThread (this);
+		hbeatThread = new Thread (heartbeatThread);
+		heartbeatThread.setContinueRunning (true);
+		hbeatThread.start ();
 	}
 	
 	private void setupJFrame () {

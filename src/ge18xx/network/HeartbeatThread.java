@@ -72,7 +72,7 @@ public class HeartbeatThread implements Runnable {
    public void run () {
     	int tCounter = 0;
      	
-    	logger.log (HEARTBEAT, "Thread running");
+    	logger.log (HEARTBEAT, "Thread Starting to run");
         while (continueRunning) {
         	tCounter++;
         	try {
@@ -85,6 +85,7 @@ public class HeartbeatThread implements Runnable {
 	        	 logger.error (tException);
 	         }
         }
+       	logger.log (HEARTBEAT, "Thread Stopping");
     }
 
 	private void displayTiming (int aCounter) {
