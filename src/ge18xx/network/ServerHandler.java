@@ -18,8 +18,8 @@ import org.apache.logging.log4j.Logger;
 import ge18xx.game.NetworkGameSupport;
 
 public abstract class ServerHandler implements Runnable {
-	// Set Default Timeout to 60 Seconds, 1 Minute
-    private final static int DefaultTimeout = 60000;
+	// Set Default Timeout to 120 Seconds, 2 Minutes
+    private final static int DefaultTimeout = 120000;
     private final static int DefaultSleep = 60000;
 	private Socket socket;
 	private BufferedReader in;
