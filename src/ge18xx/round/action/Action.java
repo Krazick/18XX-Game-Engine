@@ -164,6 +164,7 @@ public class Action {
 	public String getXMLFormat (ElementName aElementName) {
 		XMLDocument tXMLDocument = new XMLDocument ();
 		String tXMLFormat = "";
+		String tXMLFormatClean;
 		XMLElement tActionElement, tGameActivityElement;
 		
 		tActionElement = getActionElement (tXMLDocument);
@@ -171,8 +172,9 @@ public class Action {
 		tGameActivityElement.appendChild(tActionElement);
 		tXMLDocument.appendChild (tGameActivityElement);
 		tXMLFormat = tXMLDocument.toString ();
+		tXMLFormatClean = tXMLFormat.replaceAll (">\s+<","><");
 		
-		return tXMLFormat;
+		return tXMLFormatClean;
 	}
 	
 	/* Build XML Element to save the State */
