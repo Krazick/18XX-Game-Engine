@@ -174,10 +174,11 @@ public class ChatServerHandler extends ServerHandler {
 		System.out.println ("Ready to attempt Server Connect");
 		String tGameSupportXML;
 		String tGameID;
+		String tUserName;
 		
 		tGameID = jClient.getGameID ();
-		
-		tGameSupportXML = buildGameSupportXML (tGameID, "<Reconnect>");
+		tUserName = jClient.getPlayerName ();
+		tGameSupportXML = buildGameSupportXML (tGameID, "<Reconnect name=\"" + tUserName + "\">");
 		println (tGameSupportXML);
 	}
 	
