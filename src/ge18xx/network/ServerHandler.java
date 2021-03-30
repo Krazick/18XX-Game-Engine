@@ -18,8 +18,9 @@ import org.apache.logging.log4j.Logger;
 import ge18xx.game.NetworkGameSupport;
 
 public abstract class ServerHandler implements Runnable {
-	// Set Default Timeout to 120 Seconds, 2 Minutes
-    private final static int DefaultTimeout = 120000;
+	// Set Default Timeout to 120 Seconds, 2 Minutes -- change to 12 Second to allow Debugging
+    private final static int DefaultTimeout = 12000;
+//    private final static int DefaultTimeout = 120000;
     private final static int DefaultSleep = 60000;
 	private Socket socket;
 	private BufferedReader in;
@@ -132,7 +133,7 @@ public abstract class ServerHandler implements Runnable {
 		String tString;
 		int tRetryCount;
 		
-		tRetryCount = 5;
+		tRetryCount = 3;
 		while (tRetryCount > 0) {
 			if (in != null) {
 				try {
@@ -150,20 +151,19 @@ public abstract class ServerHandler implements Runnable {
 					log ("Socket Timeout Exception when reading from Server. Retry Count " + 
 							tRetryCount, tException1);
 				} catch (IOException tException2) {
-					log ("Exception thrown when Reading from Server. Retry Count " + 
+					log ("IOException thrown when Reading from Server. Retry Count " + 
 							tRetryCount, tException2);
 				}		
 			}
 			try {
 				Thread.sleep (DefaultSleep);
 			} catch (InterruptedException tException3) {
-				// TODO Auto-generated catch block
-				log ("Exception thrown when Sleeping after Socket Timeout", tException3);
+				log ("Exception thrown when Sleeping after SocketTimeout/IO Exception) ", tException3);
 			}
 			tRetryCount--;
 			if (tRetryCount == 2) {
 				if (tryReConnect ()) {
-					tRetryCount = 5;
+					tRetryCount = 3;
 					setContinueRunning (true);
 //					startHeartbeat ();
 				}
@@ -184,7 +184,6 @@ public abstract class ServerHandler implements Runnable {
 			System.gc ();
 			establishSocketConnection ();
 			logger.warn ("Success on creating a new Socket to the Server");
-			System.out.println ("Attempt to Reconnect appears successful");
 			handleChatReconnect ();
 			tContinue = true;	
 		} catch (Exception tException) {

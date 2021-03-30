@@ -171,15 +171,16 @@ public class ChatServerHandler extends ServerHandler {
 
 	@Override
 	protected void handleChatReconnect() {
-		System.out.println ("Ready to attempt Server Connect");
 		String tGameSupportXML;
 		String tGameID;
 		String tUserName;
 		
 		tGameID = jClient.getGameID ();
 		tUserName = jClient.getPlayerName ();
+		System.out.println ("Ready to attempt Server Connect");
 		tGameSupportXML = buildGameSupportXML (tGameID, "<Reconnect name=\"" + tUserName + "\">");
 		println (tGameSupportXML);
+		startHeartbeat ();
 	}
 	
 	@Override
