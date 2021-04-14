@@ -347,7 +347,7 @@ public class ActionManager {
 						}
 						actions.add (tAction);
 						applyAction (tAction);
-										
+						gameManager.autoSaveGame ();
 						// Add the Report of the Action Applied to the Action Frame, and the JGameClient Game Activity Frame
 						appendToReportFrame (tAction);
 						appendToJGameClient (tAction);
