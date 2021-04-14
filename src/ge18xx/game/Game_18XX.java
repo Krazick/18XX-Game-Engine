@@ -125,11 +125,14 @@ public class Game_18XX extends JFrame {
 	private void setupAutoSavesAndLogDirectory () {
 		String tAutoSavesDirName;
 		String tAutoSavesLogDirName;
+		String tAutoSavesNetwork;
 		
 		tAutoSavesDirName = "autoSaves";
 		createDirectory (tAutoSavesDirName);
 		tAutoSavesLogDirName = tAutoSavesDirName + File.separator + "logs";
 		createDirectory (tAutoSavesLogDirName);
+		tAutoSavesNetwork = tAutoSavesDirName + File.separator + "network";
+		createDirectory (tAutoSavesNetwork);
 	}
 	
 	private void createDirectory (String tDirectoryName) {
