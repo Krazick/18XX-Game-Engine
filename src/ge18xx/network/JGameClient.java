@@ -31,11 +31,6 @@ import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 
 import ge18xx.game.NetworkGameSupport;
-//import ge18xx.player.Player;
-//import ge18xx.round.RoundManager;
-//import ge18xx.round.action.ActionManager;
-//import ge18xx.round.action.ActorI.ActionStates;
-//import ge18xx.round.action.SyncActionNumber;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -78,6 +73,7 @@ public class JGameClient extends XMLFrame {
 	public static final ElementName EN_GAME_SUPPORT = new ElementName (GAME_SUPPORT_TAG);
 	public static final ElementName EN_GAME_SELECTION = new ElementName ("GameSelection");
 	public static final ElementName EN_PLAYER_ORDER = new ElementName ("PlayerOrder");
+	public static final ElementName EN_REQUEST_SAVED_GAMES = new ElementName ("RequestSavedGames");
 	public static final AttributeName AN_SERVER_IP = new AttributeName ("serverIP");
 	public static final AttributeName AN_SERVER_PORT = new AttributeName ("serverPort");
 	public static final AttributeName AN_GAME_INDEX = new AttributeName ("gameIndex");
@@ -85,6 +81,7 @@ public class JGameClient extends XMLFrame {
 	public static final AttributeName AN_BROADCAST_MESSAGE = new AttributeName ("z_broadcast");
 	public static final AttributeName AN_GAME_ID = new AttributeName ("z_gameID");
 	public static final AttributeName AN_PLAYER_ORDER = new AttributeName ("players");
+	public static final AttributeName AN_PLAYER = new AttributeName ("player");
 	public static final AttributeName AN_REQUEST_ACTION_NUMBER = new AttributeName ("requestActionNumber");
 	public static final AttributeName AN_NONE = null;
 	public static final String REQUEST_LAST_ACTION_COMPLETE = "<LastAction isComplete=\"TRUE\">";
@@ -352,11 +349,24 @@ public class JGameClient extends XMLFrame {
 		playerName.setFocusable (false);
 		playerName.setEnabled (false);
 		playerName.setEditable (false);
+		requestSavedGames ();
 		message.setEnabled (true);
 		message.setFocusable (true);
 		message.requestFocusInWindow ();
 	}
 
+	public void requestSavedGames () {
+		String tRequestSavedGames;
+		String tFullRequest;
+		String tResponse;
+		
+		tRequestSavedGames = constructGameSupportXML (EN_REQUEST_SAVED_GAMES, AN_PLAYER, playerName.getText ());
+		tFullRequest = GAME_SUPPORT_PREFIX + " " + tRequestSavedGames;
+		tResponse = gameSupportHandler.requestGameSupport (tFullRequest);
+		System.out.println ("Saved Games: " + tResponse);
+		System.out.println ("Request [" + tRequestSavedGames + "]");
+	}
+	
 	public void startHeartbeat () {
 		heartbeatThread = new HeartbeatThread (this);
 		hbeatThread = new Thread (heartbeatThread);
