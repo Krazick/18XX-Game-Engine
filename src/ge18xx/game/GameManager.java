@@ -112,6 +112,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	JFileMChooser chooser;
 	File saveFile;
 	File autoSaveFile;
+	String autoSaveFileName;
 	JGameClient networkJGameClient;
 	boolean notifyNetwork = false;
 	String clientUserName;
@@ -906,7 +907,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		CorporationList tShares;
 		PhaseManager tPhaseManager;
 		PlayerManager tPlayerManager;
-		String tAutoSavesDirName;
 		
 		if (activeGame != GameManager.NO_GAME) {
 			game18XXFrame.initiateGame ();
@@ -928,8 +928,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tMinors = minorCompaniesFrame.getMinorCompanies ();
 			tShares = shareCompaniesFrame.getShareCompanies ();
 			
-			tAutoSavesDirName = "autoSaves";
-			autoSaveFile = new File (constructAutoSaveFileName (tAutoSavesDirName));
+			autoSaveFileName = constructAutoSaveFileName ("autoSaves");
+			autoSaveFile = new File (autoSaveFileName);
 			
 			roundManager.initiateGame (tPrivates, tCoals, tMinors, tShares);
 			if (! activeGame.isATestGame ()) {
@@ -941,13 +941,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 			applyConfigSettings ();
 		}
 	}
-	
+
 	private String constructAutoSaveFileName (String tDirectoryName) {
 		String tAutoSaveFileName = "";
 		
-		tAutoSaveFileName = tDirectoryName + File.separator + getGameName () + "." + clientUserName;
 		if (isNetworkGame ()) {
-			tAutoSaveFileName += ".network";
+			tAutoSaveFileName = tDirectoryName + File.separator  + "network" + 
+					File.separator + getGameName () + "." + getGameID () + "." + clientUserName;
+		} else {
+			tAutoSaveFileName = tDirectoryName + File.separator + getGameName () + "." + clientUserName;
+	
 		}
 		tAutoSaveFileName += ".save" + FileUtils.xml;
 		
