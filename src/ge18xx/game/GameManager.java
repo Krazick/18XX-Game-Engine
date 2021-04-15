@@ -119,6 +119,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	String gameID;
 	Config configData;
 	ArrayList<XMLFrame> configFrames;
+	SavedGames networkSavedGames;
 	boolean gameStarted;
 	boolean applyingNetworkAction = false;
 	
@@ -1089,6 +1090,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
+	public void parseNetworkSavedGames (String aNetworkSavedGames) {
+		System.out.println ("Saved Games: " + aNetworkSavedGames);
+		networkSavedGames = new SavedGames (aNetworkSavedGames);
+	}
+	
 	public boolean loadXMLFile (File aSaveGame) {
 		boolean tXMLFileWasLoaded;
 		
@@ -2157,7 +2163,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return phaseManager.getCurrentPhase ();
 	}
 
-	public int getTotalCash() {
+	public int getTotalCash () {
 		int tTotalCash = 0;
 		int tBankCash, tAllPlayerCash, tAllCorpCash, tAllEscrows;
 		int tAllCoalCash, tAllMinorCash, tAllShareCash;
