@@ -26,6 +26,7 @@ public class SavedGame {
 	public final static String NO_STATUS = "NO_STATUS";
 	public final static String TEST_FILE = "JunitTestFile";
 	public final static int BAD_ACTION_NUMBER = -1;
+	public final static SavedGame NO_SAVED_GAME = null;
 	
 	public SavedGame (String aFileName) throws FileNotFoundException {
 		setupPlayers ();
@@ -202,7 +203,7 @@ public class SavedGame {
 		return tHasPlayer;
 	}
 
-	public SavedGame parseSavedGameXML (String aSavedGameXML) {
+	public static SavedGame parseSavedGameXML (String aSavedGameXML) {
 		Matcher tMatcher = GAME_WITH_GAME_ID_PATTERN.matcher (aSavedGameXML);
 		String tGameID = NO_GAME_ID;
 		String tLastActionNumberString;

@@ -155,12 +155,12 @@ class SavedGameTest {
 			String tSavedGameXML = "<Game gameID=\"2021-04-12-1353\" lastActionNumber=\"103\" players=\"SGPlayerAlpha,SGPlayerBeta,SGPlayerGamma\" status=\"Active\">";
 			String tBadSavedGameXML = "<Game gameID=\"2021-AA-BBBB\" lastActionNumber=\"103\" players=\"SGPlayerAlpha,SGPlayerBeta,SGPlayerGamma\" status=\"Active\">";
 			
-			tSavedGame = savedGame.parseSavedGameXML (tSavedGameXML);
+			tSavedGame = SavedGame.parseSavedGameXML (tSavedGameXML);
 			assertEquals (3, tSavedGame.getPlayerCount ());
 			assertEquals ("2021-04-12-1353", tSavedGame.getGameID ());
 			assertEquals (103, tSavedGame.getLastActionNumber ());
 			
-			tSavedGameBad = savedGame.parseSavedGameXML(tBadSavedGameXML);
+			tSavedGameBad = SavedGame.parseSavedGameXML(tBadSavedGameXML);
 			assertEquals (0, tSavedGameBad.getPlayerCount ());
 			assertEquals (0, tSavedGameBad.getLastActionNumber ());
 		}
