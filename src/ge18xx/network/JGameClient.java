@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.ConnectException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.Adjustable;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -359,12 +361,21 @@ public class JGameClient extends XMLFrame {
 		String tRequestSavedGames;
 		String tFullRequest;
 		String tResponse;
+		String tGSResponseRegEx = "<GSResponse>(.*)</GSResponse>";
+		Pattern tGSResponsePattern = Pattern.compile (tGSResponseRegEx);
+		Matcher tMatcher;
+		String tSavedGamesXML;
 		
 		tRequestSavedGames = constructGameSupportXML (EN_REQUEST_SAVED_GAMES, AN_PLAYER, playerName.getText ());
 		tFullRequest = GAME_SUPPORT_PREFIX + " " + tRequestSavedGames;
 		tResponse = gameSupportHandler.requestGameSupport (tFullRequest);
-		System.out.println ("Saved Games: " + tResponse);
-		System.out.println ("Request [" + tRequestSavedGames + "]");
+		
+		tMatcher = tGSResponsePattern.matcher (tResponse);
+		if (tMatcher.find ()) {
+			tSavedGamesXML = tMatcher.group (1);
+		
+			gameManager.parseNetworkSavedGames (tSavedGamesXML);
+		}
 	}
 	
 	public void startHeartbeat () {
