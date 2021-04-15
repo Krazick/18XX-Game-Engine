@@ -11,10 +11,12 @@ import org.junit.jupiter.api.Test;
 class SavedGamesTests {
 	SavedGames savedGames;
 	SavedGames noSavedGames;
+	SavedGames noMatchingSavedGames;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		String tEmptyXMLData = "";
+		String tNoMatchingSavedGames = "<SavedGames name=\"NSGPlayerTau\"></SavedGames>";
 		String tXMLData = "<SavedGames name=\"Mark\">" +
 				"<Game gameID=\"2021-04-08-1923\" lastActionNumber=\"100\" players=\"Dave, Mark\" status=\"ACTIVE\">" + 
 				"<Game gameID=\"2021-04-09-1541\" lastActionNumber=\"105\" players=\"Mark, Dave\" status=\"ACTIVE\">" + 
@@ -24,6 +26,7 @@ class SavedGamesTests {
 
 		savedGames = new SavedGames (tXMLData);
 		noSavedGames = new SavedGames (tEmptyXMLData);
+		noMatchingSavedGames = new SavedGames (tNoMatchingSavedGames);
 	}
 
 	@Test
@@ -44,6 +47,8 @@ class SavedGamesTests {
 			assertEquals ("NOID", noSavedGames.getGameIDat (0));
 			assertEquals ("NOID", noSavedGames.getGameIDat (1));
 			assertEquals ("NOID", noSavedGames.getGameIDat (-31));
+			
+			assertEquals (0, noMatchingSavedGames.getSavedGameCount ());
 		}
 		
 		@Test
