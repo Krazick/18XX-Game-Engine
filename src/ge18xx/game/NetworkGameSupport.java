@@ -32,4 +32,5 @@ public interface NetworkGameSupport {
 	public String getGameID ();
 	public void resetGameID (String tGameID);
 	public String getXMLBaseDirectory ();
+	public void parseNetworkSavedGames (String tResponse);
 }
