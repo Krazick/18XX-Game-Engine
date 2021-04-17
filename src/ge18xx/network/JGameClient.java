@@ -33,6 +33,7 @@ import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 
 import ge18xx.game.NetworkGameSupport;
+import ge18xx.game.SavedGames;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -99,12 +100,14 @@ public class JGameClient extends XMLFrame {
 	private JButton disconnectButton;
 	private JButton refreshPlayersButton;
 	private JButton startReadyButton;
+	private JButton showSavedGames;
 	private JTextField serverIPField;
 	private JScrollPane spChatText;
 	private JScrollPane spGameActivity;
 	private JPanel gameActivityPanel;
 	private JPanel gamePanel;
 	private JPanel gameInfoPanel;
+	private JPanel networkSavedGamesPanel;
 	private JList<NetworkPlayer> playerList;
 	
 	private HeartbeatThread heartbeatThread;
@@ -225,12 +228,6 @@ public class JGameClient extends XMLFrame {
 			}
 		});
 		
-//		sendGameSupportButton.addActionListener (new ActionListener () {
-//			public void actionPerformed (ActionEvent aActionEvent) {
-//				sendGameSupport (aActionEvent);
-//			}
-//		});
-		
 		refreshPlayersButton.addActionListener (new ActionListener () {
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
@@ -265,7 +262,15 @@ public class JGameClient extends XMLFrame {
 			}
 		});
 		
-		startReadyButton.addActionListener (new ActionListener() {
+		showSavedGames.addActionListener (new ActionListener () {
+			public void actionPerformed (ActionEvent aActionEvent) {
+				
+				swapToNSGPanel ();
+				
+			}
+		});
+			
+		startReadyButton.addActionListener (new ActionListener () {
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				
@@ -311,8 +316,8 @@ public class JGameClient extends XMLFrame {
 		
 		sendMessageButton.setEnabled (false);
 		sendMessageButton.setToolTipText (NOT_CONNECTED);
-//		sendGameSupportButton.setEnabled (false);
-//		sendGameSupportButton.setToolTipText (NOT_CONNECTED);
+		showSavedGames.setEnabled (false);
+		showSavedGames.setToolTipText (NOT_CONNECTED);
 		disconnectButton.setEnabled (false);
 		disconnectButton.setToolTipText (NOT_CONNECTED);
 		refreshPlayersButton.setEnabled (false);
@@ -338,8 +343,8 @@ public class JGameClient extends XMLFrame {
 		connectButton.setToolTipText (ALREADY_CONNECTED);
 		sendMessageButton.setEnabled (true);
 		sendMessageButton.setToolTipText (NO_TOOL_TIP);
-//		sendGameSupportButton.setEnabled (true);
-//		sendGameSupportButton.setToolTipText (NO_TOOL_TIP);
+		showSavedGames.setEnabled (true);
+		showSavedGames.setToolTipText (NO_TOOL_TIP);
 		disconnectButton.setEnabled (true);
 		disconnectButton.setToolTipText ("For Debugging Purposes ONLY");
 		awayFromKeyboardAFKButton.setEnabled (true);
@@ -415,7 +420,8 @@ public class JGameClient extends XMLFrame {
 		refreshPlayersButton = new JButton ("REFRESH");
 		disconnectButton = new JButton("DISCONNECT");
 		startReadyButton = new JButton ("SELECT GAME");
-
+		showSavedGames = new JButton ("SHOW SAVED GAMES");
+		
 		// Text Panes and Scroll Panes
 		chatText = new JTextPane ();
 		chatText.setText ("Player Chat Area");
@@ -458,9 +464,11 @@ public class JGameClient extends XMLFrame {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblName)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(playerName, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE)
+							.addComponent(playerName, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(connectButton)
+							.addGap (18)
+							.addComponent(showSavedGames)
 							.addGap (18)
 							.addComponent (startReadyButton)
 							.addGap (18)
@@ -509,6 +517,7 @@ public class JGameClient extends XMLFrame {
 						.addComponent(lblName)
 						.addComponent(playerName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(connectButton)
+						.addComponent(showSavedGames)
 						.addComponent (startReadyButton)
 						.addComponent(lblServerChoice)
 						.addComponent(serverIPField)
@@ -544,20 +553,11 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	private void handleStartGame () {
-//		SyncActionNumber tSyncActionNumber;
-//		Player tPlayer;
-//		RoundManager tRoundManager;		
 		String tGameID;
 		
 		tGameID = gameManager.getGameID ();
 		serverHandler.sendUserStart (tGameID);
 		startsGame ();
-//		tPlayer = gameManager.getClientPlayer ();
-//		tSyncActionNumber = new SyncActionNumber (ActionStates.StockRound, "1", tPlayer);
-//		tSyncActionNumber.addSyncActionNumberEffect (tPlayer, ActionManager.STARTING_ACTION_NUMBER);
-//		tRoundManager = gameManager.getRoundManager ();
-//		tRoundManager.setActionNumber (ActionManager.STARTING_ACTION_NUMBER);
-//		tRoundManager.addAction (tSyncActionNumber);
 	}
 	
 	public void startsGame () {
@@ -571,12 +571,20 @@ public class JGameClient extends XMLFrame {
 
 	private void swapToGameActivity () {
 		removeGamePanel ();
+		removeNSGPanel ();
 		addSPGameActivity ();		
+	}
+	
+	private void swapToNSGPanel () {
+		removeGamePanel ();
+		addNSGPanel ();
 	}
 	
 	public void removeGamePanel () {
 		gameActivityPanel.remove (gamePanel);
-		gameActivityPanel.remove (gameInfoPanel);
+		if (gameInfoPanel != null) {
+			gameActivityPanel.remove (gameInfoPanel);
+		}
 		revalidate ();
 	}
 	
@@ -594,13 +602,24 @@ public class JGameClient extends XMLFrame {
 
 	public void removeSPGameActivity () {
 		gameActivityPanel.remove (spGameActivity);
+		revalidate ();
 	}
 	
 	public void addSPGameActivity () {
 		gameActivityPanel.add (spGameActivity);
 		revalidate ();
 	}
-
+	
+	public void addNSGPanel () {
+		gameActivityPanel.add (networkSavedGamesPanel);
+		revalidate ();
+	}
+	
+	public void removeNSGPanel () {
+		gameActivityPanel.remove (networkSavedGamesPanel);
+		revalidate ();
+	}
+	
 	public void log (String aMessage) {
 		log (aMessage, null);
 	}
@@ -1119,5 +1138,23 @@ public class JGameClient extends XMLFrame {
 
 	public String getGameID () {
 		return gameManager.getGameID ();
+	}
+	
+	public void buildNetworkSGPanel (SavedGames aNetworkSavedGames) {
+		JLabel tPanelTitle;
+		int tSavedGameCount;
+		String tTitle;
+		
+		networkSavedGamesPanel = new JPanel ();
+		tSavedGameCount = aNetworkSavedGames.getMatchedSavedGameCount ();
+		if (tSavedGameCount == 1) {
+			tTitle = "Your Saved Game";
+		} else if (tSavedGameCount > 1) {
+			tTitle = "Your " + tSavedGameCount + " Saved Games";
+		} else {
+			tTitle = "You have no Saved Games";
+		}
+		tPanelTitle = new JLabel (tTitle);
+		networkSavedGamesPanel.add (tPanelTitle);
 	}
 }
