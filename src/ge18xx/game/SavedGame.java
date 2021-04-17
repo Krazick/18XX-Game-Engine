@@ -13,6 +13,8 @@ public class SavedGame {
 	String gameStatus;
 	int lastActionNumber;
 	ArrayList<String> players;
+	boolean localAutoSaveFound;
+	
 	public ArrayList<String> NO_PLAYERS = null;
 	private final static String GAME_ID = "(\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d\\d\\d)";
 	private final static String NSG_WITH_GAME_ID = "<NetworkSaveGame gameID=\"" + GAME_ID + "\" status=\"(.*)\" lastActionNumber=\"(\\d+)\">";
@@ -30,6 +32,7 @@ public class SavedGame {
 	
 	public SavedGame (String aFileName) throws FileNotFoundException {
 		setupPlayers ();
+		setLocalAutoSaveFound (false);
 		if (aFileName != null) {
 			readFile (aFileName);
 		} else {
@@ -85,6 +88,19 @@ public class SavedGame {
 		setGameID ("");
 		setLastActionNumber (0);
 		setGameStatus ("");
+		setLocalAutoSaveFound (false);
+	}
+	
+	public void setLocalAutoSaveFound (boolean aLocalFound) {
+		localAutoSaveFound = aLocalFound;
+	}
+	
+	public boolean getLocalAutoSaveFound () {
+		return localAutoSaveFound;
+	}
+	
+	public boolean localAutoSaveFound () {
+		return localAutoSaveFound;
 	}
 	
 	public void setPlayers (String aPlayerList) {
