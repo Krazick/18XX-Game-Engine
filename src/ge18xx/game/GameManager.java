@@ -1102,14 +1102,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void parseNetworkSavedGames (String aNetworkSavedGames) {
 		String tAutoSavesDir;
 		
-		System.out.println ("Saved Games: " + aNetworkSavedGames);
 		networkSavedGames = new SavedGames (aNetworkSavedGames, this);
 		tAutoSavesDir = constructAutoSaveNetworkDir (AUTO_SAVES_DIR);
 		networkSavedGames.setAllLocalAutoSaveFound (tAutoSavesDir);
-		if (networkSavedGames.atLeastOneMatchedLocal ()) {
-			System.out.println ("Found at least One Local Saved Game that Matched Network Saves");
-			networkJGameClient.buildNetworkSGPanel (networkSavedGames);
-		}
+		networkJGameClient.buildNetworkSGPanel (networkSavedGames);
 	}
 	
 	public boolean loadXMLFile (File aSaveGame) {

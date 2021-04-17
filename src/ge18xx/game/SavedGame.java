@@ -14,6 +14,7 @@ public class SavedGame {
 	int lastActionNumber;
 	ArrayList<String> players;
 	boolean localAutoSaveFound;
+	String gameName;
 	
 	public ArrayList<String> NO_PLAYERS = null;
 	private final static String GAME_ID = "(\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d\\d\\d)";
@@ -101,6 +102,14 @@ public class SavedGame {
 	
 	public boolean localAutoSaveFound () {
 		return localAutoSaveFound;
+	}
+	
+	public void setGameName (String aGameName) {
+		gameName = aGameName;
+	}
+	
+	public String getGameName () {
+		return gameName;
 	}
 	
 	public void setPlayers (String aPlayerList) {

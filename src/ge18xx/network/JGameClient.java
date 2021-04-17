@@ -18,9 +18,12 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.Box;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -33,6 +36,7 @@ import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 
 import ge18xx.game.NetworkGameSupport;
+import ge18xx.game.SavedGame;
 import ge18xx.game.SavedGames;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
@@ -88,6 +92,8 @@ public class JGameClient extends XMLFrame {
 	public static final AttributeName AN_REQUEST_ACTION_NUMBER = new AttributeName ("requestActionNumber");
 	public static final AttributeName AN_NONE = null;
 	public static final String REQUEST_LAST_ACTION_COMPLETE = "<LastAction isComplete=\"TRUE\">";
+	private final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
+	private final String SHOW_ALL_GAMES = "SHOW ALL GAMES"; 
 	
 	// Java Swing Objects
 	private JTextPane chatText;
@@ -109,6 +115,8 @@ public class JGameClient extends XMLFrame {
 	private JPanel gameInfoPanel;
 	private JPanel networkSavedGamesPanel;
 	private JList<NetworkPlayer> playerList;
+	private JList<String> savedGamesList;
+	private DefaultListModel<String> savedGamesListModel;
 	
 	private HeartbeatThread heartbeatThread;
 	private Thread hbeatThread;
@@ -261,12 +269,17 @@ public class JGameClient extends XMLFrame {
 				}
 			}
 		});
-		
+
 		showSavedGames.addActionListener (new ActionListener () {
 			public void actionPerformed (ActionEvent aActionEvent) {
 				
-				swapToNSGPanel ();
-				
+				if (showSavedGames.getText ().equals (SHOW_SAVED_GAMES)) {
+					showSavedGames.setText (SHOW_ALL_GAMES);
+					swapToNSGPanel ();
+				} else if (showSavedGames.getText ().equals (SHOW_ALL_GAMES)) {
+					showSavedGames.setText (SHOW_SAVED_GAMES);
+					swapToGIPanel ();
+				}
 			}
 		});
 			
@@ -343,8 +356,6 @@ public class JGameClient extends XMLFrame {
 		connectButton.setToolTipText (ALREADY_CONNECTED);
 		sendMessageButton.setEnabled (true);
 		sendMessageButton.setToolTipText (NO_TOOL_TIP);
-		showSavedGames.setEnabled (true);
-		showSavedGames.setToolTipText (NO_TOOL_TIP);
 		disconnectButton.setEnabled (true);
 		disconnectButton.setToolTipText ("For Debugging Purposes ONLY");
 		awayFromKeyboardAFKButton.setEnabled (true);
@@ -360,6 +371,11 @@ public class JGameClient extends XMLFrame {
 		message.setEnabled (true);
 		message.setFocusable (true);
 		message.requestFocusInWindow ();
+	}
+
+	private void updateShowSavedGamesButton () {
+		showSavedGames.setEnabled (true);
+		showSavedGames.setToolTipText (NO_TOOL_TIP);
 	}
 
 	public void requestSavedGames () {
@@ -420,7 +436,7 @@ public class JGameClient extends XMLFrame {
 		refreshPlayersButton = new JButton ("REFRESH");
 		disconnectButton = new JButton("DISCONNECT");
 		startReadyButton = new JButton ("SELECT GAME");
-		showSavedGames = new JButton ("SHOW SAVED GAMES");
+		showSavedGames = new JButton (SHOW_SAVED_GAMES);
 		
 		// Text Panes and Scroll Panes
 		chatText = new JTextPane ();
@@ -580,6 +596,11 @@ public class JGameClient extends XMLFrame {
 		addNSGPanel ();
 	}
 	
+	private void swapToGIPanel () {
+		removeNSGPanel ();
+		addGamePanel ();
+	}
+	
 	public void removeGamePanel () {
 		gameActivityPanel.remove (gamePanel);
 		if (gameInfoPanel != null) {
@@ -588,9 +609,13 @@ public class JGameClient extends XMLFrame {
 		revalidate ();
 	}
 	
+	public void addGamePanel () {
+		gameActivityPanel.add(gamePanel, BorderLayout.WEST);
+	}
+	
 	public void addGamePanel (JPanel aGamePanel) {
-		gameActivityPanel.add (aGamePanel, BorderLayout.WEST);
 		gamePanel = aGamePanel;
+		addGamePanel ();
 		revalidate ();
 	}
 
@@ -1140,21 +1165,57 @@ public class JGameClient extends XMLFrame {
 		return gameManager.getGameID ();
 	}
 	
+	public void loadSavedGameJList (SavedGames aNetworkSavedGames) {
+		SavedGame tSavedGame;
+		String tSavedGameInfo;
+		
+		savedGamesListModel = new DefaultListModel<String> ();
+		for (int tIndex = 0; tIndex < aNetworkSavedGames.getSavedGameCount(); tIndex++) {
+			tSavedGame = aNetworkSavedGames.getSavedGameAt (tIndex);
+			if (tSavedGame.localAutoSaveFound ()) {
+				tSavedGameInfo = "    " + tSavedGame.getGameName () + "  " + tSavedGame.getGameID () + 
+						"  Players (" + tSavedGame.getPlayers () + ")    ";
+				savedGamesListModel.addElement (tSavedGameInfo);
+			}
+		}
+		savedGamesList = new JList<String> (savedGamesListModel);
+		savedGamesList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		savedGamesList.setLayoutOrientation(JList.VERTICAL);
+	}
+	
 	public void buildNetworkSGPanel (SavedGames aNetworkSavedGames) {
 		JLabel tPanelTitle;
 		int tSavedGameCount;
 		String tTitle;
+		Box tNetworkSavedGamesBox;
 		
 		networkSavedGamesPanel = new JPanel ();
+		tNetworkSavedGamesBox = Box.createVerticalBox ();
 		tSavedGameCount = aNetworkSavedGames.getMatchedSavedGameCount ();
+		
 		if (tSavedGameCount == 1) {
-			tTitle = "Your Saved Game";
+			tTitle = " Your Saved Game ";
 		} else if (tSavedGameCount > 1) {
 			tTitle = "Your " + tSavedGameCount + " Saved Games";
 		} else {
 			tTitle = "You have no Saved Games";
 		}
+		
 		tPanelTitle = new JLabel (tTitle);
-		networkSavedGamesPanel.add (tPanelTitle);
+		tNetworkSavedGamesBox.add(Box.createVerticalStrut (10));
+		tNetworkSavedGamesBox.add (tPanelTitle);
+		
+		if (tSavedGameCount > 0) {
+			loadSavedGameJList (aNetworkSavedGames);
+			tNetworkSavedGamesBox.add (Box.createVerticalStrut (20));
+			tNetworkSavedGamesBox.add (savedGamesList);
+			showSavedGames.setToolTipText ("Show " + tTitle);
+			updateShowSavedGamesButton ();
+		} else {
+			showSavedGames.setEnabled (false);
+			showSavedGames.setToolTipText (tTitle);
+		}
+		
+		networkSavedGamesPanel.add (tNetworkSavedGamesBox);		
 	}
 }

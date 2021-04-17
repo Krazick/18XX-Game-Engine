@@ -58,6 +58,7 @@ public class SavedGames {
 										if (tLocalPlayerName.equals (tFileNameParts [2])) {
 											System.out.println ("Matching Local Player " + tLocalPlayerName);
 											tSavedGame.setLocalAutoSaveFound (true);
+											tSavedGame.setGameName (tFileNameParts [0]);
 										}
 									}
 								}
