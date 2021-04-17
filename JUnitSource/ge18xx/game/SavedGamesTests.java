@@ -6,13 +6,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 @DisplayName ("GE18XX Saved Games Tests")
 class SavedGamesTests {
 	SavedGames savedGames;
 	SavedGames noSavedGames;
 	SavedGames noMatchingSavedGames;
-	
+	@Mock
+	GameManager mGameManager;
+
 	@BeforeEach
 	void setUp() throws Exception {
 		String tEmptyXMLData = "";
@@ -24,9 +27,9 @@ class SavedGamesTests {
 				"<Game gameID=\"2021-04-13-1214\" lastActionNumber=\"105\" players=\"Dave, Mark\" status=\"ACTIVE\">" + 
 				"</SavedGames>";
 
-		savedGames = new SavedGames (tXMLData);
-		noSavedGames = new SavedGames (tEmptyXMLData);
-		noMatchingSavedGames = new SavedGames (tNoMatchingSavedGames);
+		savedGames = new SavedGames (tXMLData, mGameManager);
+		noSavedGames = new SavedGames (tEmptyXMLData, mGameManager);
+		noMatchingSavedGames = new SavedGames (tNoMatchingSavedGames, mGameManager);
 	}
 
 	@Test
