@@ -89,6 +89,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final AttributeName AN_GAME_NAME = new AttributeName ("gameName");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_GE_VERSION = new AttributeName ("version");
+	public static String AUTO_SAVES_DIR = "autoSaves";
 	boolean gameChangedSinceSave;
 	Game_18XX game18XXFrame;
 	GameInfo activeGame;
@@ -929,7 +930,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tMinors = minorCompaniesFrame.getMinorCompanies ();
 			tShares = shareCompaniesFrame.getShareCompanies ();
 			
-			autoSaveFileName = constructAutoSaveFileName ("autoSaves");
+			autoSaveFileName = constructAutoSaveFileName (AUTO_SAVES_DIR);
 			autoSaveFile = new File (autoSaveFileName);
 			
 			roundManager.initiateGame (tPrivates, tCoals, tMinors, tShares);
@@ -947,8 +948,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tAutoSaveFileName = "";
 		
 		if (isNetworkGame ()) {
-			tAutoSaveFileName = tDirectoryName + File.separator  + "network" + 
-					File.separator + getGameName () + "." + getGameID () + "." + clientUserName;
+			tAutoSaveFileName = constructAutoSaveNetworkDir (tDirectoryName) + 
+					getGameName () + "." + getGameID () + "." + clientUserName;
 		} else {
 			tAutoSaveFileName = tDirectoryName + File.separator + getGameName () + "." + clientUserName;
 	
@@ -956,6 +957,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tAutoSaveFileName += ".save" + FileUtils.xml;
 		
 		return tAutoSaveFileName;
+	}
+	
+	private String constructAutoSaveNetworkDir (String tDirectoryName) {
+		String tASNDir;
+		
+		tASNDir = tDirectoryName + File.separator  + "network" + File.separator;
+		
+		return tASNDir;
 	}
 	
 	private void loadCorporationsIntoBank (CorporationList aCorporationList) {
@@ -1091,8 +1100,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void parseNetworkSavedGames (String aNetworkSavedGames) {
+		String tAutoSavesDir;
+		
 		System.out.println ("Saved Games: " + aNetworkSavedGames);
-		networkSavedGames = new SavedGames (aNetworkSavedGames);
+		networkSavedGames = new SavedGames (aNetworkSavedGames, this);
+		tAutoSavesDir = constructAutoSaveNetworkDir (AUTO_SAVES_DIR);
+		networkSavedGames.setAllLocalAutoSaveFound (tAutoSavesDir);
+		if (networkSavedGames.atLeastOneMatchedLocal ()) {
+			System.out.println ("Found at least One Local Saved Game that Matched Network Saves");
+			networkJGameClient.buildNetworkSGPanel (networkSavedGames);
+		}
 	}
 	
 	public boolean loadXMLFile (File aSaveGame) {
@@ -2083,7 +2100,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		networkJGameClient.appendToGameActivity (aGameActivity);
 	}
 
-	// TODO: Determine if this is needed still
 	public JFrame getJFrameName (String aJFrameTitle) {
 		JFrame tJFrame = null;
 		
