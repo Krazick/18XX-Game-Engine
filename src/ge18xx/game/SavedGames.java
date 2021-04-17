@@ -1,21 +1,71 @@
 package ge18xx.game;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class SavedGames {
 	private ArrayList<SavedGame> games;
 	public static int NO_INDEX = -1;
+	GameManager gameManager;
 	
-	public SavedGames (String aSavedGamesXML) {
+	public SavedGames (String aSavedGamesXML, GameManager aGameManager) {
 		String tSavedGamesXML;
 		String [] tSavedGamesParsed;
 		
+		setGameManager (aGameManager);
 		games = new ArrayList<SavedGame> ();
 		tSavedGamesXML = aSavedGamesXML.replaceAll ("><", ">\r<");
 		tSavedGamesParsed = tSavedGamesXML.split ("\r");
 		for (String tLine : tSavedGamesParsed) {
 			if (tLine.startsWith("<Game ")) {
 				addSavedGame (tLine);
+			}
+		}
+	}
+	
+	public void setGameManager (GameManager aGameManager) {
+		gameManager = aGameManager;
+	}
+	
+	public GameManager getGameManager () {
+		return gameManager;
+	}
+	
+	public void setAllLocalAutoSaveFound (String aAutoSaveDirectory) {
+		File tAutoSavesNetDir;
+		String [] tAutoSavesNetFiles;
+		String [] tFileNameParts;
+		String tSavedGameID;
+		String tLocalPlayerName;
+		
+		if (aAutoSaveDirectory != null) {
+			if (! aAutoSaveDirectory.equals ("")) {
+				if (games.size () > 0) {
+					tAutoSavesNetDir = new File (aAutoSaveDirectory);
+					tAutoSavesNetFiles = tAutoSavesNetDir.list ();
+					if (tAutoSavesNetFiles != null) {
+						tLocalPlayerName = gameManager.getClientUserName ();
+						for (SavedGame tSavedGame : games) {
+							tSavedGameID = tSavedGame.getGameID ();
+							
+							for (String tFileName : tAutoSavesNetFiles) {
+								if (tFileName.endsWith (".save18xx.xml")) {
+									tFileNameParts = tFileName.split (Pattern.quote ("."));
+									if (tSavedGameID.equals (tFileNameParts [1])) {
+										System.out.println ("Game ID " + tSavedGameID + 
+												" Found Locally with Player Name " + tFileNameParts [2]);
+										if (tLocalPlayerName.equals (tFileNameParts [2])) {
+											System.out.println ("Matching Local Player " + tLocalPlayerName);
+											tSavedGame.setLocalAutoSaveFound (true);
+										}
+									}
+								}
+							}
+						
+						}
+					}
+				}
 			}
 		}
 	}
@@ -29,6 +79,30 @@ public class SavedGames {
 	
 	public int getSavedGameCount () {
 		return games.size ();
+	}
+	
+	public boolean atLeastOneMatchedLocal () {
+		boolean tFoundAtLeastOne = false;
+		
+		for (SavedGame tSavedGame : games) {
+			if (tSavedGame.getLocalAutoSaveFound ()) {
+				tFoundAtLeastOne = true;
+			}
+		}
+		
+		return tFoundAtLeastOne;
+	}
+	
+	public int getMatchedSavedGameCount () {
+		int tMatchedCount = 0;
+		
+		for (SavedGame tSavedGame : games) {
+			if (tSavedGame.getLocalAutoSaveFound ()) {
+				tMatchedCount++;
+			}
+		}
+		
+		return tMatchedCount;
 	}
 	
 	public String getGameIDat (int aIndex) {
