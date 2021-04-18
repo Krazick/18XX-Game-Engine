@@ -435,12 +435,12 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		return gameManager.getNetworkJGameClient ();
 	}
 	
-	public void addGameInfoPanel (JPanel gameInfoPanel) {
+	public void addGameInfoPanel (JPanel aGameInfoPanel) {
 		if (isNetworkGame ()) {
 			JGameClient tJGameClient = getNetworkJGameClient ();
-			tJGameClient.addGameInfoPanel (gameInfoPanel);
+			tJGameClient.addGameInfoPanel (aGameInfoPanel, gameSet);
 		} else {
-			add (gameInfoPanel, BorderLayout.EAST);
+			add (aGameInfoPanel, BorderLayout.EAST);
 			pack ();
 		}
 	}
