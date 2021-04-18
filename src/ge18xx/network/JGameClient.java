@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 
+import ge18xx.game.GameSet;
 import ge18xx.game.NetworkGameSupport;
 import ge18xx.game.SavedGame;
 import ge18xx.game.SavedGames;
@@ -94,6 +95,11 @@ public class JGameClient extends XMLFrame {
 	public static final String REQUEST_LAST_ACTION_COMPLETE = "<LastAction isComplete=\"TRUE\">";
 	private final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
 	private final String SHOW_ALL_GAMES = "SHOW ALL GAMES"; 
+	private final String SELECT_GAME = "SELECT GAME";
+	private final String READY_TO_PLAY = "READY";
+	private final String PLAY_GAME = "PLAY GAME";
+	private final String START_GAME = "START";
+	private final String NO_SELECTED_GAME = null;
 	
 	// Java Swing Objects
 	private JTextPane chatText;
@@ -127,6 +133,7 @@ public class JGameClient extends XMLFrame {
 	// GE18XX Specific Objects
 	private NetworkGameSupport gameManager;
 	private NetworkPlayers networkPlayers;
+	private GameSet gameSet;
 	
 	// Standard Java Objects
 	private String serverIP;
@@ -276,9 +283,13 @@ public class JGameClient extends XMLFrame {
 				if (showSavedGames.getText ().equals (SHOW_SAVED_GAMES)) {
 					showSavedGames.setText (SHOW_ALL_GAMES);
 					swapToNSGPanel ();
+					updateReadyButton (PLAY_GAME, false, WAITING_FOR_GAME);
+
 				} else if (showSavedGames.getText ().equals (SHOW_ALL_GAMES)) {
 					showSavedGames.setText (SHOW_SAVED_GAMES);
+					clearGameSelection ();
 					swapToGIPanel ();
+					updateReadyButton (SELECT_GAME, false, WAITING_FOR_GAME);
 				}
 			}
 		});
@@ -290,12 +301,12 @@ public class JGameClient extends XMLFrame {
 				if (gameManager.getGameID ().equals ("")) {
 					retrieveGameID ();
 				}
-				if ("SELECT GAME".equals (tAction)) {
+				if (SELECT_GAME.equals (tAction)) {
 					sendGameSelection ();
-				} else if ("READY".equals (tAction)) {
+				} else if (READY_TO_PLAY.equals (tAction)) {
 					sendPlayerReady ();
 				}
-				if ("START".equals (tAction)) {
+				if (START_GAME.equals (tAction)) {
 					handleStartGame ();
 				}
 			}
@@ -341,7 +352,7 @@ public class JGameClient extends XMLFrame {
 		connectButton.setEnabled (true);
 		connectButton.setToolTipText (NO_TOOL_TIP);
 		connectButton.requestFocusInWindow ();
-		updateReadyButton ("SELECT GAME", false, NOT_CONNECTED);
+		updateReadyButton (SELECT_GAME, false, NOT_CONNECTED);
 		
 		message.setEnabled (false);
 		message.setFocusable (false);
@@ -362,7 +373,7 @@ public class JGameClient extends XMLFrame {
 		awayFromKeyboardAFKButton.setToolTipText (NO_TOOL_TIP);
 		refreshPlayersButton.setEnabled (true);
 		refreshPlayersButton.setToolTipText (NO_TOOL_TIP);
-		updateReadyButton ("SELECT GAME", false, WAITING_FOR_GAME);
+		updateReadyButton (SELECT_GAME, false, WAITING_FOR_GAME);
 		
 		playerName.setFocusable (false);
 		playerName.setEnabled (false);
@@ -435,7 +446,7 @@ public class JGameClient extends XMLFrame {
 		awayFromKeyboardAFKButton = new JButton ("AFK");
 		refreshPlayersButton = new JButton ("REFRESH");
 		disconnectButton = new JButton("DISCONNECT");
-		startReadyButton = new JButton ("SELECT GAME");
+		startReadyButton = new JButton (SELECT_GAME);
 		showSavedGames = new JButton (SHOW_SAVED_GAMES);
 		
 		// Text Panes and Scroll Panes
@@ -619,7 +630,8 @@ public class JGameClient extends XMLFrame {
 		revalidate ();
 	}
 
-	public void addGameInfoPanel (JPanel aGameInfoPanel) {
+	public void addGameInfoPanel (JPanel aGameInfoPanel, GameSet aGameSet) {
+		gameSet = aGameSet;
 		gameInfoPanel = aGameInfoPanel;
 		gameActivityPanel.add (aGameInfoPanel, BorderLayout.EAST);
 		revalidate ();
@@ -723,10 +735,19 @@ public class JGameClient extends XMLFrame {
 		serverHandler.sendGameActivity (GAME_ACTIVITY_PREFIX + " " + aGameActivity);
 	}
 
+	public void clearGameSelection () {
+		if (gameSet != GameSet.NO_GAME_SET) {
+			gameSet.clearAllSelectedGames ();
+		}
+		selectedGameIndex = GameSet.NO_GAME_SELECTED;
+		selectedGameName = NO_SELECTED_GAME;
+		updateReadyButton (SELECT_GAME, false, WAITING_FOR_GAME);
+	}
+	
 	public void handleGameSelection (int aGameIndex, String aGameName) {
 		selectedGameIndex = aGameIndex;
 		selectedGameName = aGameName;
-		updateReadyButton ("SELECT GAME", true, GAME_SELECTED);
+		updateReadyButton (SELECT_GAME, true, GAME_SELECTED);
 	}
 	
 	public void sendPlayerReady () {
@@ -1013,7 +1034,7 @@ public class JGameClient extends XMLFrame {
 		
 		networkPlayers.setPlayerReady (tPlayerName, true);
 		if (networkPlayers.allPlayersAreReady ()) {
-			updateReadyButton ("START", true, "Hit to Start Game");
+			updateReadyButton (START_GAME, true, "Hit to Start Game");
 		}
 	}
 	
