@@ -113,6 +113,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	JFileMChooser chooser;
 	File saveFile;
 	File autoSaveFile;
+	File loadSavedFile;
 	String autoSaveFileName;
 	JGameClient networkJGameClient;
 	boolean notifyNetwork = false;
@@ -147,10 +148,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setAuditFrame (NO_FRAME);
 		setClientUserName (aClientUserName);
 		saveFile = null;
+		setLoadSavedFile (null);
 		autoSaveFile = null;
 		gameStarted = false;
 		gameID = "";
 		loadConfig ();
+	}
+	
+	public void setLoadSavedFile (File aLoadSavedFile) {
+		loadSavedFile = aLoadSavedFile;
 	}
 	
 	public JPanel buildPrivatesForPurchaseJPanel (ItemListener aItemListener, int aAvailableCash) {
@@ -1044,39 +1050,55 @@ public class GameManager extends Component implements NetworkGameSupport {
 		chooser.setAcceptAllFileFilterUsed (true);
 		chooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
 		chooser.setMLocation (tNewPoint);
-		saveFile = getSelectedFile (tSaveDirectory, chooser, false);
+		setLoadSavedFile (getSelectedFile (tSaveDirectory, chooser, false));
 		
-		if (saveFile != null) {
+		if (loadSavedFile != null) {
 			tNewSaveDirectory = chooser.getCurrentDirectory ();
 			if (!tSaveDirectory.equals (tNewSaveDirectory)) {
 				configData.setSaveGameDirectory (tNewSaveDirectory.toString ());
-			}
-			List<ActionStates> auctionStates;
-		
-			setNotifyNetwork (false);
-			if (loadXMLFile (saveFile)) {
-				if (isNetworkGame ()) {
-					networkJGameClient.setGameIDonServer (gameID, roundManager.getLastActionNumber (), activeGame.getGameName ());
-				}
-				/* Once a Game has been loaded, can enable both Save and Save As Menu Items */
-				game18XXFrame.disableGameStartItems ();
-				game18XXFrame.enableSaveMenuItem ();
-				game18XXFrame.enableSaveAsMenuItem ();
-				game18XXFrame.enableSaveConfigMenuItem ();
-				setGameChanged (false);
-				playerManager.updateAllRFPlayerLabels ();
-				roundManager.updateAllCorporationsBox ();
-				roundManager.setCurrentPlayerLabel ();
-				if (roundManager.isAuctionRound ()) {
-					// Save the Auction States since 'AddPrivateToAuction' will reset the Player Auction States Reset After adding the Private to Auction.
-					auctionStates = playerManager.getPlayerAuctionStates ();
-					addPrivateToAuction ();
-					playerManager.resetPlayerAuctionStates (auctionStates);
-				}
-				bank.updateBankCashLabel ();
-			}
-			setNotifyNetwork (true);
+			}		
+			loadSavedXMLFile ();
 		}
+	}
+
+	public void loadAutoSavedGame (String aSavedGameFile) {
+		String tAutoSavesDir;
+		String tFullAutoSaveFilePath;
+		File tAutoSaveFile;
+		
+		tAutoSavesDir = constructAutoSaveNetworkDir (AUTO_SAVES_DIR);
+		tFullAutoSaveFilePath = tAutoSavesDir + File.separator + aSavedGameFile;
+		tAutoSaveFile = new File (tFullAutoSaveFilePath);
+		setLoadSavedFile (tAutoSaveFile);
+		loadSavedXMLFile ();
+	}
+	
+	public void loadSavedXMLFile () {
+		List<ActionStates> auctionStates;
+		
+		setNotifyNetwork (false);
+		if (loadXMLFile (loadSavedFile)) {
+			if (isNetworkGame ()) {
+				networkJGameClient.setGameIDonServer (gameID, roundManager.getLastActionNumber (), activeGame.getGameName ());
+			}
+			/* Once a Game has been loaded, can enable both Save and Save As Menu Items */
+			game18XXFrame.disableGameStartItems ();
+			game18XXFrame.enableSaveMenuItem ();
+			game18XXFrame.enableSaveAsMenuItem ();
+			game18XXFrame.enableSaveConfigMenuItem ();
+			setGameChanged (false);
+			playerManager.updateAllRFPlayerLabels ();
+			roundManager.updateAllCorporationsBox ();
+			roundManager.setCurrentPlayerLabel ();
+			if (roundManager.isAuctionRound ()) {
+				// Save the Auction States since 'AddPrivateToAuction' will reset the Player Auction States Reset After adding the Private to Auction.
+				auctionStates = playerManager.getPlayerAuctionStates ();
+				addPrivateToAuction ();
+				playerManager.resetPlayerAuctionStates (auctionStates);
+			}
+			bank.updateBankCashLabel ();
+		}
+		setNotifyNetwork (true);
 	}
 
 	private void loadTrainsIntoBank () {
@@ -1156,13 +1178,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tChildNode = new XMLNode (tChildren.item (tIndex));
 				tChildName = tChildNode.getNodeName ();
 				if (JGameClient.EN_NETWORK_GAME.equals (tChildName)) {
-					// <NetworkGame serverIP="192.168.1.9" serverPort="18300"/>
-					tServerIP = tChildNode.getThisAttribute (JGameClient.AN_SERVER_IP);
-					tServerPort = tChildNode.getThisIntAttribute (JGameClient.AN_SERVER_PORT);
-					networkJGameClient = new JGameClient (GameSet.CHAT_TITLE + " (" + clientUserName + ")", this, tServerIP, tServerPort);
-					setNetworkJGameClient (networkJGameClient);
-					networkJGameClient.addLocalPlayer (clientUserName, true);
-					networkJGameClient.addSPGameActivity ();
+					if (networkJGameClient == null) {
+						tServerIP = tChildNode.getThisAttribute (JGameClient.AN_SERVER_IP);
+						tServerPort = tChildNode.getThisIntAttribute (JGameClient.AN_SERVER_PORT);
+						networkJGameClient = new JGameClient (GameSet.CHAT_TITLE + " (" + clientUserName + ")", this, tServerIP, tServerPort);
+						setNetworkJGameClient (networkJGameClient);
+						networkJGameClient.addLocalPlayer (clientUserName, true);
+						networkJGameClient.addSPGameActivity ();
+					}
 				}
 				if (GameInfo.EN_GAME_INFO.equals (tChildName)) {
 					tGameSet = playerInputFrame.getGameSet ();

@@ -42,11 +42,15 @@ import ge18xx.game.SavedGames;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.FileUtils;
 import ge18xx.utilities.Validators;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.Color;
 
 public class JGameClient extends XMLFrame {
@@ -141,6 +145,7 @@ public class JGameClient extends XMLFrame {
 	private int selectedGameIndex;
 	private String selectedGameName;
 	private boolean gameStarted = false;
+	private String autoSaveFileName;
 
 	public JGameClient (String aTitle, NetworkGameSupport aGameManager) {
 		this (aTitle, aGameManager, DEFAULT_REMOTE_SERVER_IP, DEFAULT_SERVER_PORT);
@@ -298,16 +303,20 @@ public class JGameClient extends XMLFrame {
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				
-				if (gameManager.getGameID ().equals ("")) {
-					retrieveGameID ();
-				}
-				if (SELECT_GAME.equals (tAction)) {
-					sendGameSelection ();
-				} else if (READY_TO_PLAY.equals (tAction)) {
-					sendPlayerReady ();
-				}
-				if (START_GAME.equals (tAction)) {
-					handleStartGame ();
+				if (PLAY_GAME.equals (tAction) ) {
+					loadAndStartGame ();
+				} else {
+					if (gameManager.getGameID ().equals ("")) {
+						retrieveGameID ();
+					}
+					if (SELECT_GAME.equals (tAction)) {
+						sendGameSelection ();
+					} else if (READY_TO_PLAY.equals (tAction)) {
+						sendPlayerReady ();
+					}
+					if (START_GAME.equals (tAction)) {
+						handleStartGame ();
+					}
 				}
 			}
 
@@ -358,6 +367,15 @@ public class JGameClient extends XMLFrame {
 		message.setFocusable (false);
 		serverIPField.setEnabled (true);
 		serverIPField.setToolTipText (NO_TOOL_TIP);
+		
+		showSavedGames.setText (SHOW_SAVED_GAMES);
+		if (gameManager.gameStarted ()) {
+			removeGamePanel ();
+		}
+		clearGameSelection ();
+		removeGamePanel ();
+		removeNSGPanel ();
+		addGamePanel ();
 	}
 	
 	public void setForConnected () {
@@ -588,7 +606,6 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void startsGame () {
-		
 		swapToGameActivity ();
 		gameStarted = true;
 		gameManager.initiateNetworkGame ();
@@ -613,7 +630,9 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void removeGamePanel () {
-		gameActivityPanel.remove (gamePanel);
+		if (gamePanel != null) {
+			gameActivityPanel.remove (gamePanel);
+		}
 		if (gameInfoPanel != null) {
 			gameActivityPanel.remove (gameInfoPanel);
 		}
@@ -621,7 +640,9 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void addGamePanel () {
-		gameActivityPanel.add(gamePanel, BorderLayout.WEST);
+		if (gamePanel != null) {
+			gameActivityPanel.add (gamePanel, BorderLayout.WEST);
+		}
 	}
 	
 	public void addGamePanel (JPanel aGamePanel) {
@@ -653,7 +674,9 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void removeNSGPanel () {
-		gameActivityPanel.remove (networkSavedGamesPanel);
+		if (networkSavedGamesPanel != null) {
+			gameActivityPanel.remove (networkSavedGamesPanel);
+		}
 		revalidate ();
 	}
 	
@@ -1194,14 +1217,48 @@ public class JGameClient extends XMLFrame {
 		for (int tIndex = 0; tIndex < aNetworkSavedGames.getSavedGameCount(); tIndex++) {
 			tSavedGame = aNetworkSavedGames.getSavedGameAt (tIndex);
 			if (tSavedGame.localAutoSaveFound ()) {
-				tSavedGameInfo = "    " + tSavedGame.getGameName () + "  " + tSavedGame.getGameID () + 
-						"  Players (" + tSavedGame.getPlayers () + ")    ";
+				tSavedGameInfo = "   : " + tSavedGame.getGameName () + " : " + tSavedGame.getGameID () + 
+						" : Players (" + tSavedGame.getPlayers () + ") : " +
+						" Last Action Number : " + tSavedGame.getLastActionNumber ();
 				savedGamesListModel.addElement (tSavedGameInfo);
 			}
 		}
 		savedGamesList = new JList<String> (savedGamesListModel);
-		savedGamesList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		savedGamesList.setLayoutOrientation(JList.VERTICAL);
+		savedGamesList.setSelectionMode (ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		savedGamesList.setLayoutOrientation (JList.VERTICAL);
+		savedGamesList.addListSelectionListener (new ListSelectionListener () {
+		      public void valueChanged (ListSelectionEvent aEvent) {
+		    	  savedGameSelected (aEvent);
+		        }
+		      });
+	}
+	
+	private void savedGameSelected (ListSelectionEvent aEvent) {
+		String tSelectedGame;
+		String [] tSelectedParts;
+		String tNewSaveGameFile;
+		
+		tSelectedGame = savedGamesList.getSelectedValue ();
+		tSelectedParts = tSelectedGame.split (" : ");
+		tNewSaveGameFile = tSelectedParts [1] + "." + tSelectedParts [2] + "." +
+				gameManager.getClientUserName () + ".save" + FileUtils.xml;
+		if (! tNewSaveGameFile.equals (autoSaveFileName)) {
+			System.out.println ("Selected Saved Game is [" + tSelectedGame + "]");
+			System.out.println (" Part 0 [" + tSelectedParts [0] + "]" + 
+								" Part 1 [" + tSelectedParts [1] + "]" + 
+								" Part 2 [" + tSelectedParts [2] + "]" + 
+								" Part 3 [" + tSelectedParts [3] + "]");
+			System.out.println ("New Auto Save File Name: " + tNewSaveGameFile);
+			autoSaveFileName = tNewSaveGameFile;
+			updateReadyButton (PLAY_GAME, true, NO_TOOL_TIP);
+
+		}
+	}
+	
+	public void loadAndStartGame () {
+		System.out.println ("Should have Game Manager Load the Network Game, and Start Playing");
+		gameManager.loadAutoSavedGame (autoSaveFileName);
+		swapToGameActivity ();
 	}
 	
 	public void buildNetworkSGPanel (SavedGames aNetworkSavedGames) {
