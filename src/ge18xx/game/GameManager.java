@@ -1071,8 +1071,19 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tAutoSaveFile = new File (tFullAutoSaveFilePath);
 		setLoadSavedFile (tAutoSaveFile);
 		loadSavedXMLFile ();
+		handleMissedActions ();
 	}
 	
+	public void handleMissedActions () {
+		int tLastLocalAction;
+		int tLastNetworkAction;
+		
+		tLastLocalAction = roundManager.getLastActionNumber ();
+		tLastNetworkAction = networkJGameClient.getAutoSavedLastAction ();
+		System.out.println ("Last Local Action Number = " + tLastLocalAction);
+		System.out.println ("Last Network Action Number = " + tLastNetworkAction);
+		
+	}
 	public void loadSavedXMLFile () {
 		List<ActionStates> auctionStates;
 		
