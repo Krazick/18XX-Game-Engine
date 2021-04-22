@@ -167,7 +167,11 @@ public class RoundManager {
 	}
 	
 	public void addAction (Action aAction) {
-		actionManager.addAction (aAction);
+		// If applying a Network Action, we do -NOT- Need to add the Action again. This will double-up the Actions, and
+		// During a Reload and Saved Network Game, this messes up the lastAction Number locally.
+		if (! gameManager.applyingAction ()) {
+			actionManager.addAction (aAction);
+		}
 		// If this does NOT Chain to a Previous Action, Do an Auto save... Don't need extra overhead.
 		if (! aAction.getChainToPrevious ()) {
 			gameManager.autoSaveGame ();
@@ -178,7 +182,7 @@ public class RoundManager {
 	public void addOR () {
 		if (addedOR == false) {
 			operatingRoundCount++;
-			addedOR = true;
+			addedOR = true; 
 		}
 	}
 	
