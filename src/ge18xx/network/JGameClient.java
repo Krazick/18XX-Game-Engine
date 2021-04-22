@@ -1315,10 +1315,17 @@ public class JGameClient extends XMLFrame {
 		networkSavedGamesPanel.add (tNetworkSavedGamesBox);		
 	}
 
-	public String fetchActionNumber (int tActionNumber) {
+	public String fetchActionWithNumber (int tActionNumber) {
 		String tActionFound;
+		String tRequestAction;
+		String tResponse;
+		
+		tRequestAction = "<RequestAction actionNumber=\"" + tActionNumber + "\">";
+		tResponse = requestGameSupport (gameManager.getGameID (), tRequestAction);
 		
 		tActionFound = "Network Provided Action Number " + tActionNumber;
+		
+		tActionFound = tResponse;
 		
 		return tActionFound;
 	}

@@ -1087,9 +1087,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tNextActionNumber = tLastLocalAction + 1;
 			System.out.println ("Need to Retrieve Actions from " + tNextActionNumber + " to " + tLastNetworkAction);
 			for (tActionNumber = tNextActionNumber; tActionNumber <= tLastNetworkAction; tActionNumber++) {
-				System.out.println ("Fetch Action " + tActionNumber + " And Process");
-				tNextAction = networkJGameClient.fetchActionNumber (tActionNumber);
+				tNextAction = networkJGameClient.fetchActionWithNumber (tActionNumber);
 				System.out.println ("Provided Action [" + tNextAction + "]");
+				handleNetworkAction (tNextAction);
 			}
 		} else {
 			System.out.println ("Actions are Current at " + tLastNetworkAction);
@@ -1862,6 +1862,36 @@ public class GameManager extends Component implements NetworkGameSupport {
 		playerInputFrame.randomizePlayerOrder ();
 	}
 	
+	public void handleNetworkAction (String aNetworkAction) {
+		XMLDocument tXMLNetworkAction;
+		XMLNode tActionNode, tGSResponseNode;
+		NodeList tActionChildren;
+		String tNodeName, tActionNodeName;
+		int tActionNodeCount, tActionIndex;
+		
+		tXMLNetworkAction = new XMLDocument ();
+		tXMLNetworkAction = tXMLNetworkAction.ParseXMLString (aNetworkAction);
+		tGSResponseNode = tXMLNetworkAction.getDocumentElement ();
+		tNodeName = tGSResponseNode.getNodeName ();
+		if ("GSResponse".equals (tNodeName)) {
+			tActionChildren = tGSResponseNode.getChildNodes ();
+			tActionNodeCount = tActionChildren.getLength ();
+			for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
+				tActionNode = new XMLNode (tActionChildren.item (tActionIndex));
+				tActionNodeName = tActionNode.getNodeName ();
+				if (Action.EN_ACTION.equals (tActionNodeName)) {
+					if (roundManager != null) {
+						applyingNetworkAction = true;
+						roundManager.handleNetworkAction (tActionNode);
+						applyingNetworkAction = false;
+					} else {
+		//				System.err.println ("Trying to handle a Server Game Activity, Node Named [" + tANodeName + "] no Round Manager created");
+					}
+				}
+			}
+		}
+	}
+	
 	public void handleGameActivity (String aGameActivity) {
 		XMLDocument tXMLGameActivity;
 
@@ -1897,7 +1927,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 						tPlayerOrder = tActionNode.getThisAttribute (JGameClient.AN_PLAYER_ORDER);
 						tBroadcast = tActionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
 						playerInputFrame.handleResetPlayerOrder (tPlayerOrder, tBroadcast);
-					} else if (Action.EN_ACTION.equals (tANodeName)){
+					} else if (Action.EN_ACTION.equals (tANodeName)) {
 						if (roundManager != null) {
 							applyingNetworkAction = true;
 							roundManager.handleNetworkAction (tActionNode);
