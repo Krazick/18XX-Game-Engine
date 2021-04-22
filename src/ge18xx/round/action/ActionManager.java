@@ -53,6 +53,16 @@ public class ActionManager {
 		return actionNumber;
 	}
 	
+	public int getLastActionNumber () {
+		int tLastActionNumber;
+		Action tLastAction;
+		
+		tLastAction = this.getLastAction ();
+		tLastActionNumber = tLastAction.getNumber ();
+		
+		return tLastActionNumber;
+	}
+	
 	public int getActionNumberFrom (String aResponse) {
 		Matcher tMatcher = ACTION_NUMBER_PATTERN.matcher (aResponse);
 		String tFoundNewNumber = "NOID";
