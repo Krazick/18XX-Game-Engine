@@ -1077,11 +1077,23 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void handleMissedActions () {
 		int tLastLocalAction;
 		int tLastNetworkAction;
+		int tNextActionNumber;
+		int tActionNumber;
+		String tNextAction;
 		
 		tLastLocalAction = roundManager.getLastActionNumber ();
 		tLastNetworkAction = networkJGameClient.getAutoSavedLastAction ();
-		System.out.println ("Last Local Action Number = " + tLastLocalAction);
-		System.out.println ("Last Network Action Number = " + tLastNetworkAction);
+		if (tLastNetworkAction > tLastLocalAction) {
+			tNextActionNumber = tLastLocalAction + 1;
+			System.out.println ("Need to Retrieve Actions from " + tNextActionNumber + " to " + tLastNetworkAction);
+			for (tActionNumber = tNextActionNumber; tActionNumber <= tLastNetworkAction; tActionNumber++) {
+				System.out.println ("Fetch Action " + tActionNumber + " And Process");
+				tNextAction = networkJGameClient.fetchActionNumber (tActionNumber);
+				System.out.println ("Provided Action [" + tNextAction + "]");
+			}
+		} else {
+			System.out.println ("Actions are Current at " + tLastNetworkAction);
+		}
 		
 	}
 	public void loadSavedXMLFile () {
