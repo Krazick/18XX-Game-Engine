@@ -64,6 +64,7 @@ public class JGameClient extends XMLFrame {
 	private final String WAITING_FOR_GAME = "Waiting for Game Selection";
 	private final String GAME_SELECTED = "Game has been Selected, hit the button when ready to play";
 	private final String WAITING_FOR_ALL = "Waiting for ALL players to be Ready";
+	private final String GAME_ALREADY_STARTED = "Game has already started, don't need to Start again";
 
 	private static ChatServerHandler serverHandler;
 	private GameSupportHandler gameSupportHandler;
@@ -368,14 +369,13 @@ public class JGameClient extends XMLFrame {
 		serverIPField.setEnabled (true);
 		serverIPField.setToolTipText (NO_TOOL_TIP);
 		
-		showSavedGames.setText (SHOW_SAVED_GAMES);
-		if (gameManager.gameStarted ()) {
+		if (! gameManager.gameStarted ()) {
+			showSavedGames.setText (SHOW_SAVED_GAMES);
+			removeNSGPanel ();
 			removeGamePanel ();
+			clearGameSelection ();
+			addGamePanel ();
 		}
-		clearGameSelection ();
-		removeGamePanel ();
-		removeNSGPanel ();
-		addGamePanel ();
 	}
 	
 	public void setForConnected () {
@@ -603,6 +603,10 @@ public class JGameClient extends XMLFrame {
 		tGameID = gameManager.getGameID ();
 		serverHandler.sendUserStart (tGameID);
 		startsGame ();
+		startReadyButton.setEnabled (false);
+		startReadyButton.setToolTipText (GAME_ALREADY_STARTED);
+		showSavedGames.setEnabled (false);
+		showSavedGames.setToolTipText (GAME_ALREADY_STARTED);
 	}
 	
 	public void startsGame () {
@@ -610,7 +614,9 @@ public class JGameClient extends XMLFrame {
 		gameStarted = true;
 		gameManager.initiateNetworkGame ();
 		startReadyButton.setEnabled (false);
-		startReadyButton.setToolTipText ("Game already started");
+		startReadyButton.setToolTipText (GAME_ALREADY_STARTED);
+		showSavedGames.setEnabled (false);
+		showSavedGames.setToolTipText (GAME_ALREADY_STARTED);
 	}
 
 	private void swapToGameActivity () {
@@ -820,7 +826,7 @@ public class JGameClient extends XMLFrame {
 		if (aEnabled) {
 			if (gameManager.gameStarted ()) {
 				startReadyButton.setEnabled (false);
-				startReadyButton.setToolTipText ("Game Has Started, don't need to Start Again");
+				startReadyButton.setToolTipText (GAME_ALREADY_STARTED);
 			} else {
 				startReadyButton.setEnabled (true);
 			}
@@ -1259,6 +1265,18 @@ public class JGameClient extends XMLFrame {
 		System.out.println ("Should have Game Manager Load the Network Game, and Start Playing");
 		gameManager.loadAutoSavedGame (autoSaveFileName);
 		swapToGameActivity ();
+	}
+	
+	public int getAutoSavedLastAction () {
+		int tLastAction = 99;
+		String tSelectedGame;
+		String [] tSelectedParts;
+
+		tSelectedGame = savedGamesList.getSelectedValue ();
+		tSelectedParts = tSelectedGame.split (" : ");
+		tLastAction = Integer.parseInt (tSelectedParts [5]);
+		
+		return tLastAction;
 	}
 	
 	public void buildNetworkSGPanel (SavedGames aNetworkSavedGames) {
