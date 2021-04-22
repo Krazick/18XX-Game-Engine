@@ -52,6 +52,8 @@ public class ChatServerHandler extends ServerHandler {
 				jClient.resetPlayerFromAFK (tName);				
 			} else if (tShortened.endsWith (" has joined")) {
 				tShortened = handleJoined (tShortened);
+			} else if (tShortened.endsWith (" has reconnected")) {
+				tShortened = handleJoined (tShortened);
 			} else if (tShortened.endsWith (" has left") ||
 						tShortened.endsWith (" has aborted")) {
 				tName = extractName (tShortened);
