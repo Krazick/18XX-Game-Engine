@@ -347,8 +347,6 @@ public class Bidders {
 			if (! hasBidOnThisCert (tBidderName)) {
 				tCashHolder = certificate.getCashHolderByName (tBidderName);
 				if (tCashHolder != ActorI.NO_ACTOR) {
-					System.out.println ("Found a Bidder to load " + tBidderName + " Cash " + tCash);
-	
 					addBidderInfo (tCashHolder, tCash);
 				} else {
 					System.err.println ("Failed to Find Bidder named " + tBidderName);

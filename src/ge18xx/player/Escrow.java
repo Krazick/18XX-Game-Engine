@@ -38,14 +38,6 @@ public class Escrow implements CashHolderI {
 		setActionState (ActionStates.NoAction);
 		setCertificate (aCertificate);
 	}
-//	<Escrow actionState="No Action" cash="120" name="0) Escrow for Mark2">
-//	<Certificate abbrev="M&amp;H" isPresident="true" percentage="100">
-//	<Bidders>
-//	<Bidder cash="115" name="Jim"/>
-//	<Bidder cash="120" name="Mark2"/>
-//	</Bidders>
-//	</Certificate>
-//	</Escrow>
 	
 	public Escrow (XMLNode aEscrowXMLNode, Bank aBank) {
 		int tCash;
@@ -55,11 +47,9 @@ public class Escrow implements CashHolderI {
 		tName = aEscrowXMLNode.getThisAttribute (AN_NAME);
 		tCash = aEscrowXMLNode.getThisIntAttribute (AN_CASH);
 		
-		System.out.println ("Escrow Node Formatted " + aEscrowXMLNode.toString ());
 		tXMLCertificateNodeList = new XMLNodeList (certificateParsingRoutine, aBank);
 		tXMLCertificateNodeList.parseXMLNodeList (aEscrowXMLNode, Certificate.EN_CERTIFICATE);
 
-		System.out.println ("Parsing an Escrow XML Node with Name " + tName + " Cash " + tCash);
 		actionState = ActionStates.NoAction;
 		setCash (tCash);
 		setName (tName);
