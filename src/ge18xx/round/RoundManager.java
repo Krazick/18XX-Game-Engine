@@ -1030,8 +1030,8 @@ public class RoundManager {
 		stockRound.passStockAction ();
 	}
 
-	public int getLastActionNumber() {
-		return actionManager.getActionNumber ();
+	public int getLastActionNumber () {
+		return actionManager.getLastActionNumber ();
 	}
 
 	public CashHolderI getCashHolderByName (String aCashHolderName) {
