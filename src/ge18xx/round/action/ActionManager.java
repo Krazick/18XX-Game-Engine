@@ -1,6 +1,7 @@
 package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
+import ge18xx.game.Game_18XX;
 import ge18xx.network.JGameClient;
 import ge18xx.round.RoundManager;
 import ge18xx.toplevel.AuditFrame;
@@ -8,6 +9,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
 
 import java.lang.reflect.Constructor;
@@ -27,6 +29,7 @@ public class ActionManager {
 	int actionNumber;
 	private final static String ACTION_NUMBER_RESPONSE = "<GSResponse><ActionNumber newNumber=\"(\\d+)\"></GSResponse>";
 	private final static Pattern ACTION_NUMBER_PATTERN = Pattern.compile (ACTION_NUMBER_RESPONSE);
+	Logger logger;
 	
 	public ActionManager (RoundManager aRoundManager) {
 		String tFullTitle;
@@ -38,6 +41,7 @@ public class ActionManager {
 		actionReportFrame = new ActionReportFrame (tFullTitle, aRoundManager.getGameName ());
 		gameManager.addNewFrame (actionReportFrame);
 		setActionNumber (0);
+		logger = Game_18XX.getLogger ();
 	}
 	
 	public void setActionNumber (int aNumber) {
@@ -129,10 +133,12 @@ public class ActionManager {
 		
 		tAllNullEffects = aAction.allNullEffects ();
 		if (tAllNullEffects) {
-			System.err.println (aAction.getBriefActionReport() + " All Null Effects " + tAllNullEffects + " Last Action Number " + actionNumber);			
+			logger.debug (aAction.getBriefActionReport() + " All Null Effects " + tAllNullEffects + " Last Action Number " + actionNumber);
+//			System.err.println (aAction.getBriefActionReport() + " All Null Effects " + tAllNullEffects + " Last Action Number " + actionNumber);			
 		} else {
 			setNewActionNumber (aAction);
 			setAuditAttributes (aAction);
+			logger.info ("Local Action # " + actionNumber + " Name " + aAction.getName () + " From " + aAction.getActor ().getName ());
 			justAddAction (aAction);
 		}
 	}
@@ -172,13 +178,15 @@ public class ActionManager {
 	
 	public void briefActionReport () {
 		int tActionCount;
+		String tBriefReport;
 		
 		tActionCount = getActionCount ();
 		if (tActionCount == 1) {
-			System.out.println ("There is ONE Action.");
+			tBriefReport = "There is ONE Action.";
 		} else {
-			System.out.println ("There are " + getActionCount () + " Actions.");
+			tBriefReport = "There are " + getActionCount () + " Actions.";
 		}
+		System.out.println (tBriefReport);
 		for (Action tAction: actions) {
 			System.out.println (tAction.getBriefActionReport ());
 		}
@@ -253,8 +261,7 @@ public class ActionManager {
 			appendAllActions();
 			setActionNumber (tActionNumber);
 		} catch (Exception e) {
-			System.err.println (e.getMessage ());
-			e.printStackTrace();
+			logger.error ("Error Loading Actions", e);
 		}
 	}
 
@@ -340,6 +347,7 @@ public class ActionManager {
 			if (tAction != ActionManager.NO_ACTION) {
 				tExpectedActionNumber = actionNumber + 1;
 				tThisActionNumber = tAction.getNumber ();
+				
 				System.out.println ("----------- Action Number " + actionNumber + 
 						" Received " + tThisActionNumber + " -------------");
 				tAction.printActionReport (roundManager);
@@ -355,6 +363,7 @@ public class ActionManager {
 						if (tThisActionNumber == tExpectedActionNumber) {
 							setActionNumber (tExpectedActionNumber);
 						}
+						logger.info ("Network Action # " + actionNumber + " Name " + tAction.getName () + " From " + tAction.getActor ().getName ());
 						actions.add (tAction);
 						applyAction (tAction);
 						gameManager.autoSaveGame ();
@@ -365,25 +374,29 @@ public class ActionManager {
 						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
 								" Current Action Number " + actionNumber +
 								" is before the Expected Action Number of " + tExpectedActionNumber + " IGNORING\n";
-						System.err.println (tActionFailureMessage);
+						logger.error (tActionFailureMessage);
+//						System.err.println (tActionFailureMessage);
 						actionReportFrame.append (tActionFailureMessage);
 //					} else if (tThisActionNumber > tExpectedActionNumber) {
 //						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
 //								" is after the Expected Action Number of " + tExpectedActionNumber + " THERE IS A GAP\n";
+//						logger.error (tActionFailureMessage);
 //						System.err.println (tActionFailureMessage);						
 //						actionReportFrame.append (tActionFailureMessage);
 					} else {
 						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
 								" is not the Expected Action Number of " + tExpectedActionNumber + " This should have Matched\n";
-						System.err.println (tActionFailureMessage);
+						logger.error (tActionFailureMessage);
+//						System.err.println (tActionFailureMessage);
 					}
 				}
 			} else {
-				System.err.println ("No Action Found to Process");
+				logger.error ("No Action Found to Process");
 			}
 		} catch (Exception tException) {
-			System.err.println (tException.getMessage ());
-			tException.printStackTrace ();
+			logger.error (tException.getMessage (), tException);
+//			System.err.println (tException.getMessage ());
+//			tException.printStackTrace ();
 		}
 		gameManager.setNotifyNetwork (true);
 //		Once we are done applying these Actions, we then can reset this back to Notify
@@ -449,7 +462,9 @@ public class ActionManager {
 						}
 					}
 				}
-				System.out.println ("Examined " + tActionIndex + " Actions found " + tFoundActionCount + " Actions for " + aActorName);
+				logger.info ("Examined " + tActionIndex + " Actions found " + tFoundActionCount + " Actions for " + aActorName);
+
+//				System.out.println ("Examined " + tActionIndex + " Actions found " + tFoundActionCount + " Actions for " + aActorName);
 			}
 		}
 	}

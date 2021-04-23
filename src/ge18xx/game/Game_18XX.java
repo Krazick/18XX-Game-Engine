@@ -111,6 +111,10 @@ public class Game_18XX extends JFrame {
 					" OS Name " + tOSName + " OS Version " + tOSVersion);
 	}
 	
+	public static Logger getLogger () {
+		return logger;
+	}
+	
 	private void setApplicationIcon () {
 		// This will set the GE18XX Frame Icon (when it is minimized)
 		// For Mac on the Doc even, but not the Application Level Icon.
