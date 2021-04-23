@@ -135,6 +135,9 @@ public abstract class TokenCompany extends TrainCompany {
 				if (tTile != Tile.NO_TILE) {
 					tHomeLocation = this.getHomeLocation1 ();
 					tBaseRevenueCenter = tTile.getCenterAtLocation (tHomeLocation);
+					if (tBaseRevenueCenter == RevenueCenter.NO_CENTER) {
+						tBaseRevenueCenter = tTile.getCenterAtLocation (Location.CENTER_CITY_LOC);
+					}
 					if (tBaseRevenueCenter != RevenueCenter.NO_CENTER) {
 						tMapFrame = corporationList.getMapFrame ();
 						tMapFrame.putTokenDownHere (this, tBaseMapCell, tBaseRevenueCenter);
