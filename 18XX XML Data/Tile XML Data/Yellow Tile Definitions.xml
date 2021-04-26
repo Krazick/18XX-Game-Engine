@@ -89,11 +89,11 @@
 		</RevenueCenter>
 	</Tile>
 	<Tile number="57" type="Yellow">
-		<Track enter="0" exit="50" gauge="NORMAL" />
-		<Track enter="3" exit="50" gauge="NORMAL" />
+		<Track enter="2" exit="50" gauge="NORMAL" />
+		<Track enter="5" exit="50" gauge="NORMAL" />
 		<RevenueCenter id="-1" location="50" name="" number="1"
 			type="Single City">
-			<Revenue location="17" phase="0" value="20" />
+			<Revenue location="13" phase="0" value="20" />
 		</RevenueCenter>
 	</Tile>
 	<Tile number="58" type="Yellow">
