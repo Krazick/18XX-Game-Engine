@@ -356,15 +356,15 @@ public class ActionManager {
 					justAddAction (tAction);
 				} else {
 					if ((tThisActionNumber < STARTING_ACTION_NUMBER) ||
-							(tThisActionNumber > tExpectedActionNumber) ||	//TODO: FIX Action Number Sequences.
+							(tThisActionNumber > tExpectedActionNumber) ||
 						(tThisActionNumber == tExpectedActionNumber)) {
 						System.out.println ("\nReceived Action Number " + tThisActionNumber + 
 								" the Expected Action Number is " + tExpectedActionNumber + " Processing\n");
 						if (tThisActionNumber == tExpectedActionNumber) {
 							setActionNumber (tExpectedActionNumber);
 						}
-						logger.info ("Network Action # " + actionNumber + " Name " + tAction.getName () + " From " + tAction.getActor ().getName ());
 						actions.add (tAction);
+						logger.info ("Network Action # " + actionNumber + " Name " + tAction.getName () + " From " + tAction.getActor ().getName ());
 						applyAction (tAction);
 						gameManager.autoSaveGame ();
 						// Add the Report of the Action Applied to the Action Frame, and the JGameClient Game Activity Frame

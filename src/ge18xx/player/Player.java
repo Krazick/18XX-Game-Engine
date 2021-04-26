@@ -9,6 +9,8 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.logging.log4j.Logger;
+
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.Certificate;
@@ -17,6 +19,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
+import ge18xx.game.Game_18XX;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.action.ActorI;
@@ -79,7 +82,8 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	JLabel rfPlayerLabel;
 	JLabel cashLabel;
 	Container playerContainer = null;
-
+	Logger logger;
+	
 	/* These attributes below change during the game, need to save/load them */
 	int treasury;
 	Escrows escrows;
@@ -121,6 +125,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 
 		soldCompanies = new SoldCompanies ();
 		escrows = new Escrows (this);
+		logger = Game_18XX.getLogger();
 	}
 
 	public void setTriggeredAuction (boolean aTriggeredAuction) {
@@ -1001,6 +1006,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 			playerFrame.setLocationFixed (true);
 		}
 		updatePlayerInfo ();
+		logger.info ("Player Action for Stock Round selected");
 
 		playerFrame.setVisible (true);
 	}
@@ -1083,6 +1089,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		updatePortfolioInfo ();
 		updateBankBox ();
 		updateActionButtons ();
+		logger.info ("Player Information Updated for Stock Round selected");
 	}
 	
 	public void updatePortfolioInfo () {

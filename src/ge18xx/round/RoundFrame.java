@@ -5,6 +5,7 @@ import ge18xx.bank.BankPool;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
+import ge18xx.game.Game_18XX;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
@@ -27,6 +28,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
+
+import org.apache.logging.log4j.Logger;
 
 public class RoundFrame extends XMLFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -62,6 +65,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	List<JLabel> companiesAtPar = new LinkedList<JLabel> ();
 	List<Container> parPriceLineBoxes = new LinkedList<Container> ();
 	JTextArea trainSummary;
+	Logger logger;
 	
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, String aGameName) {
 		super (aFrameName, aGameName);
@@ -69,6 +73,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		int tTotalCash;
 		
 		roundManager = aRoundManager;
+		logger = Game_18XX.getLogger ();
 		
 		roundBox = Box.createVerticalBox ();
 		
@@ -219,9 +224,11 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		if (CORPORATION_ACTION.equals (aEvent.getActionCommand ())) {
+			logger.info ("Corporation Action for Operation Round selected");
 			roundManager.showCurrentCompanyFrame ();
 		}
 		if (PLAYER_ACTION.equals (aEvent.getActionCommand ())) {
+			logger.info ("Player Action for Stock Round selected");
 			roundManager.showCurrentPlayerFrame ();
 		}
 		if (PLAYER_AUCTION_ACTION.equals (aEvent.getActionCommand ())) {
