@@ -541,6 +541,14 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		
 		return tXMLElement;
 	}
+	
+	public boolean withBaseForCorp (Corporation aCorporation) {
+		boolean tBaseForCorp = false;
+		
+		tBaseForCorp = cityInfo.withBaseForCorp (aCorporation);
+		
+		return tBaseForCorp;
+	}
 
 	public abstract boolean cityHasOpenStation ();
 }

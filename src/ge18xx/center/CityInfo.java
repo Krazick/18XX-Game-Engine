@@ -334,4 +334,14 @@ public class CityInfo implements Cloneable {
 	public void setRevenueCenter (RevenueCenter aRevenueCenter) {
 		center = aRevenueCenter;
 	}
+	
+	public boolean withBaseForCorp (Corporation aCorporation) {
+		boolean tWithBaseForCorp = false;
+		
+		if (corporation == aCorporation) {
+			tWithBaseForCorp = true;
+		}
+		
+		return tWithBaseForCorp;
+	}
 }

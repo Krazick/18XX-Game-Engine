@@ -229,6 +229,18 @@ public class Centers implements Cloneable {
 		return tCenter;
 	}
 	
+	public RevenueCenter getRCWithBaseForCorp (Corporation aCorporation) {
+		RevenueCenter tCenter = RevenueCenter.NO_CENTER;
+		
+		for (RevenueCenter tRevenueCenter : centers) {
+			if (tRevenueCenter.withBaseForCorp (aCorporation)) {
+				tCenter = tRevenueCenter;
+			}
+		}
+		
+		return tCenter;
+		
+	}
 	public RevenueCenter getCenterAtLocation (Location aLocation) {
 		RevenueCenter tCenter = RevenueCenter.NO_CENTER;
 		int tRCLocationInt;

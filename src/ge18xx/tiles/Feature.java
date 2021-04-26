@@ -1,5 +1,7 @@
 package ge18xx.tiles;
 
+import ge18xx.company.Corporation;
+
 //
 //  Feature.java
 //  Game_18XX

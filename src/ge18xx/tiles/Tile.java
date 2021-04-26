@@ -400,6 +400,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers.getCenterAtLocation (aLocation);
 	}
 	
+	public RevenueCenter getRCWithBaseForCorp (Corporation aCorporation) {
+		return centers.getRCWithBaseForCorp (aCorporation);
+	}
+	
 	public RevenueCenter getCenterAtLocation (int aLocation) {
 		return centers.getCenterAtLocation (aLocation);
 	}
