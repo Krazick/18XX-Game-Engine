@@ -70,7 +70,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	static final int NO_COST = -1;
 	public static final int NO_ID = 0;
 	static final String NO_NAME = null;
-	static final String NO_ABBREV = null;
+	public static final String NO_ABBREV = null;
 	static final String NO_HOME_GRID = null;
 	static final Location NO_HOME_LOCATION = null;
 	public static final String NO_NAME_STRING = "<NONE>";

@@ -1190,6 +1190,11 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		
 	}
 
+	public Corporation getCorporation (String aCorporationAbbrev) {
+		// TODO Auto-generated method stub
+		return mapFrame.getCorporation (aCorporationAbbrev);
+	}
+
 //	public boolean getMapDirection () {
 //		return Hex.getDirection ();
 //	}

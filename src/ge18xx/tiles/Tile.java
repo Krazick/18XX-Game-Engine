@@ -138,6 +138,12 @@ public class Tile implements Comparable<Object>, Cloneable {
 		}
 	}
 	
+	public void appendCorporationBases (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
+		if (centers != null) {
+			centers.appendCorporationBases (aXMLDocument, aMapCellElement);
+		}
+	}
+
 	public boolean canAllTracksExit (MapCell aThisMapCell, int aTileOrient) {
 		return tracks.canAllTracksExit (aThisMapCell, aTileOrient);
 	}
@@ -551,6 +557,14 @@ public class Tile implements Comparable<Object>, Cloneable {
 		}
 	}
 	
+	public boolean hasAnyCorporationBase () {
+		if (centers != null) {
+			return centers.hasAnyCorporationBase ();
+		} else {
+			return false;
+		}
+	}
+
 	public boolean hasStation (Token aToken) {
 		if (centers != null) {
 			return centers.hasStation (aToken);

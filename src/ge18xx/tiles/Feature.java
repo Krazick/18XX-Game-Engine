@@ -1,7 +1,5 @@
 package ge18xx.tiles;
 
-import ge18xx.company.Corporation;
-
 //
 //  Feature.java
 //  Game_18XX
@@ -16,10 +14,12 @@ import ge18xx.company.Corporation;
 
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
+import ge18xx.utilities.AttributeName;
 
 import java.awt.Point;
 
 public class Feature implements Cloneable {
+	public static final AttributeName AN_LOCATION = new AttributeName ("location");
 	protected Location location;
 	
 	public Feature () {

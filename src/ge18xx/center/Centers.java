@@ -84,11 +84,17 @@ public class Centers implements Cloneable {
 	}
 	
 	public void appendTokensState (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
-		for (RevenueCenter center : centers) {
-			center.appendTokensState (aXMLDocument, aMapCellElement);
+		for (RevenueCenter tCenter : centers) {
+			tCenter.appendTokensState (aXMLDocument, aMapCellElement);
 		}
 	}
 
+	public void appendCorporationBases (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
+		for (RevenueCenter tCenter : centers) {
+			tCenter.appendCorporationBase (aXMLDocument, aMapCellElement);
+		}
+	}
+	
 	public void clearAllCityInfoCorporations () {
 		for (RevenueCenter tCenter: centers) {
 			tCenter.clearCityInfoCorporation ();
@@ -438,6 +444,18 @@ public class Centers implements Cloneable {
 		}
 		
 		return tHasAnyStation;
+	}
+	
+	public boolean hasAnyCorporationBase () {
+		boolean tHasAnyCorporationBase = false;
+		
+		for (RevenueCenter tRC : centers) {
+			if (tRC.hasAnyCorporationBase ()) {
+				tHasAnyCorporationBase = true;
+			}
+		}
+		
+		return tHasAnyCorporationBase;
 	}
 	
 	public boolean hasStation (Token aToken) {

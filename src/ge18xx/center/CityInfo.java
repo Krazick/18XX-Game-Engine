@@ -31,6 +31,7 @@ public class CityInfo implements Cloneable {
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_TYPE = new AttributeName ("type");
 	public static final AttributeName AN_ID = new AttributeName ("id");
+	public static final AttributeName AN_CORP_BASE = new AttributeName ("corpBase");
 	public static final ElementName EN_CITY_INFO = new ElementName ("CityInfo");
 	public static final CityInfo NO_CITY_INFO = null;
 	public static final String NO_NAME = "";
@@ -57,15 +58,18 @@ public class CityInfo implements Cloneable {
 	
 	public CityInfo (XMLNode aChildNode) {
 		int tLocation;
+		String tCorporationAbbrev;
 		
-		id = aChildNode.getThisIntAttribute (AN_ID);
-		name = aChildNode.getThisAttribute (AN_NAME);
-		type = aChildNode.getThisIntAttribute (AN_TYPE);
-		tLocation = aChildNode.getThisIntAttribute (Location.AN_LOCATION, Location.CENTER_CITY_LOC);
-		nameLocation = new Location (tLocation);
 		clearCorporation ();
 		clearMapCell ();
 		clearRevenueCenter ();
+		id = aChildNode.getThisIntAttribute (AN_ID);
+		name = aChildNode.getThisAttribute (AN_NAME);
+		type = aChildNode.getThisIntAttribute (AN_TYPE);
+		tCorporationAbbrev = aChildNode.getThisAttribute (AN_CORP_BASE);
+		setCorporation (tCorporationAbbrev);
+		tLocation = aChildNode.getThisIntAttribute (Location.AN_LOCATION, Location.CENTER_CITY_LOC);
+		nameLocation = new Location (tLocation);
 	}
 	
 	public void clearCorporation () {
@@ -119,6 +123,7 @@ public class CityInfo implements Cloneable {
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_ID, id);
 		tXMLElement.setAttribute (AN_TYPE, type);
+		tXMLElement.setAttribute (AN_CORP_BASE, getCorporationAbbrev ());
 		
 		return tXMLElement;
 	}
@@ -296,7 +301,15 @@ public class CityInfo implements Cloneable {
 	}
 	
 	public boolean isCorporationBase () {
-		return (corporation != null);
+		boolean tIsCorporationBase = false;
+		
+		if (corporation != CorporationList.NO_CORPORATION) {
+			if (corporation.isShareCompany ()) {
+				tIsCorporationBase = true;
+			}
+		}
+		
+		return tIsCorporationBase;
 	}
 	
 	public boolean mapCellHasStation (Token aToken) {
@@ -314,7 +327,16 @@ public class CityInfo implements Cloneable {
 		if (corporation == CorporationList.NO_CORPORATION) {
 			System.out.println ("No Corporation Base");
 		} else {
-			System.out.println ("Base for " + corporation.getAbbrev() + " Corporation");
+			System.out.println ("Base for " + corporation.getAbbrev () + " Corporation");
+		}
+	}
+	
+	public void setCorporation (String aCorporationAbbrev) {
+		Corporation tCorporation;
+		
+		if (aCorporationAbbrev != Corporation.NO_ABBREV) {
+			tCorporation = mapCell.getCorporation (aCorporationAbbrev);
+			setCorporation (tCorporation);
 		}
 	}
 	

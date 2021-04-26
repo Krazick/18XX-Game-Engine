@@ -29,6 +29,7 @@ import org.w3c.dom.*;
 
 public abstract class RevenueCenter extends Feature implements Cloneable {
 	public static final ElementName EN_REVENUE_CENTER = new ElementName ("RevenueCenter");
+	public static final ElementName EN_CORPORATE_BASE = new ElementName ("CorporationBase");
 	public static final AttributeName AN_TYPE = new AttributeName ("type");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_ID = new AttributeName ("id");
@@ -136,6 +137,29 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		return false;
 	}
 	
+	public void appendCorporationBase (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
+		XMLElement tCorporationBaseElement;
+		String tCorporationAbbrev;
+		
+		tCorporationBaseElement = aXMLDocument.createElement (EN_CORPORATE_BASE);
+		tCorporationAbbrev = cityInfo.getCorporationAbbrev ();
+		if (tCorporationAbbrev != Corporation.NO_ABBREV) {
+			if (tCorporationAbbrev.length () > 0) {
+				tCorporationBaseElement.setAttribute (Corporation.AN_ABBREV, tCorporationAbbrev);
+				tCorporationBaseElement.setAttribute (AN_LOCATION, location.getLocation ());
+				aMapCellElement.appendChild (tCorporationBaseElement);
+			}
+		}
+	}
+	
+	public boolean hasAnyCorporationBase () {
+		boolean tHasAnyStation = false;
+		
+		tHasAnyStation = cityInfo.isCorporationBase ();
+
+		return tHasAnyStation;
+	}
+
 	public boolean cityHasAnyStation () {
 		return false;
 	}

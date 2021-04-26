@@ -910,4 +910,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		return tMapCell;
 	}
+
+	public Corporation getCorporation(String aCorporationAbbrev) {
+		return shareCos.getCorporation (aCorporationAbbrev);
+	}
 }

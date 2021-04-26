@@ -450,6 +450,9 @@ public class MapCell implements Comparator<Object> {
 			if (tile.hasAnyStation ()) {
 				tile.appendTokensState (aXMLDocument, tXMLElement);
 			}
+			if (tile.hasAnyCorporationBase () ) {
+				tile.appendCorporationBases (aXMLDocument, tXMLElement);
+			}
 		}
 		
 		return tXMLElement;
@@ -1779,6 +1782,10 @@ public class MapCell implements Comparator<Object> {
 		}
 		
 		return tCanUpgradeTo;
+	}
+
+	public Corporation getCorporation (String aCorporationAbbrev) {
+		return hexMap.getCorporation (aCorporationAbbrev);
 	}
 
 }
