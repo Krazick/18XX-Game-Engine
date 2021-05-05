@@ -25,6 +25,7 @@ import ge18xx.company.Token;
 import ge18xx.company.TrainCompany;
 import ge18xx.map.HexMap;
 import ge18xx.market.Market;
+import ge18xx.network.GameSupportHandler;
 import ge18xx.network.JGameClient;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Escrow;
@@ -69,6 +70,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
 
 public class GameManager extends Component implements NetworkGameSupport {
@@ -77,9 +79,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final String NO_FILE_NAME = "<NONE>";
 	public static final GameInfo NO_GAME = null;
 	public static final XMLFrame NO_FRAME = null;
-	public static final BankPool NO_BANK_POOL = null;
 	public static final PlayerInputFrame NO_PLAYER_INPUT_FRAME = null;
-	public static final int NO_BANK = 0;
 	public static final PlayerManager NO_PLAYER_MANAGER = null;
 	public static final PhaseManager NO_PHASE_MANAGER = null;
 	public static final ElementName EN_CONFIG = new ElementName ("Config");
@@ -90,6 +90,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_GE_VERSION = new AttributeName ("version");
 	public static String AUTO_SAVES_DIR = "autoSaves";
+	public static final int NO_BANK_CASH = 0;
 	boolean gameChangedSinceSave;
 	Game_18XX game18XXFrame;
 	GameInfo activeGame;
@@ -124,6 +125,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	SavedGames networkSavedGames;
 	boolean gameStarted;
 	boolean applyingNetworkAction = false;
+	Logger logger;
 	
 	public GameManager () {
 		gameID = "";		
@@ -133,8 +135,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		game18XXFrame = aGame_18XX_Frame;
 		configFrames = new ArrayList<XMLFrame> ();
 		setGame (NO_GAME);
-		setBankPool (NO_BANK_POOL);
-		setBank (NO_BANK);
+		setBankPool (BankPool.NO_BANK_POOL);
+		setBank (NO_BANK_CASH);
 		setPlayerManager (NO_PLAYER_MANAGER);
 		setPhaseManager (NO_PHASE_MANAGER);
 		setMapFrame (NO_FRAME);
@@ -153,6 +155,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		gameStarted = false;
 		gameID = "";
 		loadConfig ();
+		logger = Game_18XX.getLogger ();
 	}
 	
 	public void setLoadSavedFile (File aLoadSavedFile) {
@@ -231,7 +234,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			try {
 				tCitiesFrame.loadXML (tXMLCitiesName, tCitiesFrame.getCities ());
 			} catch (Exception tException) {
-				System.err.println (tException);
+				logger.error (tException);
 			}
 		}
 	}
@@ -251,7 +254,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			try {
 				tCoalCompaniesFrame.loadXML (tXMLCompaniesName, tCoalCompaniesFrame.getCoalCompanies ());
 			} catch (Exception tException) {
-				System.err.println (tException);
+				logger.error (tException);
 			}
 		}
 	}
@@ -324,14 +327,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 			try {
 				tMapFrame.loadXML (tXMLMapName, tMapFrame.getMap ());
 			} catch (Exception tException) {
-				System.err.println (tException);
+				logger.error (tException);
 			}
 			tColorSchemeName = tBaseDir + "Color Scheme.xml";
 			try {
 				tMapFrame.loadXMLColorScheme (tColorSchemeName, tMapFrame.getTerrain ());
 				tMapFrame.loadXMLColorScheme (tColorSchemeName, tileTrayFrame.getTileType ());
 			} catch (Exception tException) {
-				System.err.println ("Problem Loading Color Scheme: " + tException);
+				logger.error ("Problem Loading Color Scheme: " + tException);
 			}
 			
 			tMapFrame.setCityInfo (citiesFrame.getCities ());
@@ -359,7 +362,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			try {
 				tMarketFrame.loadXML (tXMLMarketName, tMarketFrame.getMarket ());
 			} catch (Exception tException) {
-				System.err.println (tException);
+				logger.error (tException);
 			}
 		}
 	}
@@ -376,7 +379,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			try {
 				tMinorCompaniesFrame.loadXML (tXMLCompaniesName, tMinorCompaniesFrame.getMinorCompanies ());
 			} catch (Exception tException) {
-				System.err.println (tException);
+				logger.error (tException);
 			}
 		}
 	}
@@ -393,7 +396,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			try {
 				tPrivatesFrame.loadXML (tXMLCompaniesName, tPrivatesFrame.getPrivates ());
 			} catch (Exception tException) {
-				System.err.println (tException);
+				logger.error (tException);
 			}
 		}
 	}
@@ -418,7 +421,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tParValues = tMarket.getAllStartCells ();
 				tShareCompaniesFrame.updateParValuesComboBox (tParValues);
 			} catch (Exception tException) {
-				System.err.println (tException);
+				logger.error (tException);
 			}
 		}
 	}
@@ -450,7 +453,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			try {
 				tTileTrayFrame.loadXML (tXMLTileTrayName, tTileTrayFrame.getTileSet ());
 			} catch (Exception tException) {
-				System.err.println (tException);
+				logger.error (tException);
 			}
 			
 			tTileDefinitionFrame = new TileDefinitionFrame (createFrameTitle ("Tile Definition"), tTileTrayFrame, tActiveGameName);
@@ -461,7 +464,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				try {
 					tTileDefinitionFrame.loadXML (tXMLTileDefinitionName, tTileDefinitionFrame.getTileSet ());
 				} catch (Exception tException) {
-					System.err.println (tException);
+					logger.error (tException);
 				}
 				tTileTrayFrame.copyTileDefinitions (tileDefinitionFrame.getTileSet ());
 			}
@@ -548,7 +551,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 		tActor = ActorI.NO_ACTOR;
 		if (aActorName == null) {
-			System.err.println ("Actor Name IS NULL<-----");
+			logger.error ("Actor Name IS NULL<-----");
 		} else {
 			if (aActorName.equals (bank.getName ())) {
 				tActor = bank;
@@ -944,6 +947,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				roundManager.showInitialFrames ();
 			}
 
+			logger.info ("Game has started");
 			gameStarted = true;
 			createAuditFrame ();
 			applyConfigSettings ();
@@ -1161,13 +1165,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 				XMLDocument tXMLDocument = new XMLDocument (aSaveGame);
 				tXMLFileWasLoaded = loadXMLSavedGame (tXMLDocument);
 			} catch (Exception aException) {
-				System.err.println ("Oops, mucked up the XML Save Game File Access [" + aSaveGame.getName () + "].");
-				System.err.println ("Exception Message [" + aException.getMessage () + "].");
-				aException.printStackTrace ();
+				logger.error ("Oops, mucked up the XML Save Game File Access [" + aSaveGame.getName () + "].");
+				logger.error ("Exception Message [" + aException.getMessage () + "].", tException);
 				tXMLFileWasLoaded = false;
 			}
 		} else {
-			System.err.println ("No File Object for XML Save Game");
+			logger.error("No File Object for XML Save Game");
 			tXMLFileWasLoaded = false;
 		}
 		
@@ -1457,7 +1460,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				setGameChanged (false);
 				game18XXFrame.enableSaveMenuItem ();
 			} else {
-				System.err.println ("Cancel Save Game Action");
+				logger.error ("Cancel Save Game Action");
 			}
 		}
 	}
@@ -1592,7 +1595,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		int tPlayerStartingCash;
 		
 		if (playerManager == GameManager.NO_PLAYER_MANAGER) {
-			System.err.println ("No Player Manager loaded from Save Game");
+			logger.error ("No Player Manager loaded from Save Game");
 		} else {
 			tPlayerCount = playerManager.getPlayerCount ();
 			tPlayerStartingCash = activeGame.getStartingCash (tPlayerCount);
@@ -1782,7 +1785,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		Train [] tAvailableTrains;
 		int tIndex = 0, tBankCount = 0, tBankPoolCount = 0;
 		
-		if (bank != null) {
+		if (bank != Bank.NO_BANK) {
 			tBankAvailableTrains = bank.getAvailableTrains ();
 			if (tBankAvailableTrains != null) {
 				tBankCount = tBankAvailableTrains.length;
@@ -1790,7 +1793,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		} else {
 			tBankAvailableTrains = null;
 		}
-		if (bankPool != null)  {
+		if (bankPool != BankPool.NO_BANK_POOL)  {
 			tBankPoolAvailableTrains = bankPool.getAvailableTrains ();
 			if (tBankPoolAvailableTrains != null) {
 				tBankPoolCount = tBankPoolAvailableTrains.length;
@@ -1873,7 +1876,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tXMLNetworkAction = tXMLNetworkAction.ParseXMLString (aNetworkAction);
 		tGSResponseNode = tXMLNetworkAction.getDocumentElement ();
 		tNodeName = tGSResponseNode.getNodeName ();
-		if ("GSResponse".equals (tNodeName)) {
+		if (GameSupportHandler.GS_RESPONSE_TAG.equals (tNodeName)) {
 			tActionChildren = tGSResponseNode.getChildNodes ();
 			tActionNodeCount = tActionChildren.getLength ();
 			for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
@@ -1938,12 +1941,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 					} else if ("#text".equals(tANodeName)){
 						// If a #text Node, ignore -- it is empty
 					} else {
-						System.err.println ("Node Name is [" + tANodeName + "] which is Unrecognized");
+						logger.error ("Node Name is [" + tANodeName + "] which is Unrecognized");
 					}
 				}
 			} catch (Exception tException) {
-				System.err.println (tException.getMessage ());
-				tException.printStackTrace ();
+				logger.error (tException.getMessage (), tException);
 			}
 		}
 		
@@ -2012,9 +2014,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 			try {
 				tXMLDocument = new XMLDocument (tConfigFile);
 			} catch (Exception tException) {
-				System.err.println ("Oops, mucked up the Config File Access [" + tConfigFileName + "].");
-				System.err.println ("Exception Message [" + tException.getMessage () + "].");
-				tException.printStackTrace (System.err);
+				logger.error ("Oops, mucked up the Config File Access [" + tConfigFileName + "].");
+				logger.error ("Exception Message [" + tException.getMessage () + "].", tException);
 			}
 			if (tXMLDocument != null) {
 				XMLNode tXMLNode = tXMLDocument.getDocumentElement ();
@@ -2273,6 +2274,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		Player tPlayer = Player.NO_PLAYER;
 		
 		tPlayer = playerManager.getPlayer (clientUserName);
+		
 		return tPlayer;
 	}
 
