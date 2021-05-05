@@ -2,6 +2,7 @@ package ge18xx.train;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
+import ge18xx.game.Game_18XX;
 import ge18xx.phase.PhaseInfo;
 
 import java.awt.Color;
@@ -24,6 +25,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.apache.logging.log4j.Logger;
 
 public class TrainRevenueFrame extends JFrame implements ActionListener, PropertyChangeListener,
 		ItemListener {
@@ -65,6 +68,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JLabel [] totalRevenueByEachTrain;
 	boolean yourCompany;
 	boolean frameSetup;
+	Logger logger;
 	
 	public TrainRevenueFrame (TrainCompany aTrainCompany, String aTitle) throws HeadlessException {
 		super (aTitle);
@@ -119,6 +123,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updateFrameSize ();
 		setYourCompany (true);
 		setFrameSetup (false);
+		logger = Game_18XX.getLogger ();
 	}
 
 	public void updatePresidentLabel () {
@@ -127,7 +132,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tTextLabel = "President: " + trainCompany.getPresidentName ();
 		if (presidentLabel == null) {
 			presidentLabel = new JLabel (tTextLabel);
-			
 		} else {
 			presidentLabel.setText (tTextLabel);
 		}
@@ -160,10 +164,10 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tTrainCount = trainCompany.getTrainCount ();
 			trainCompany.setThisRevenue (tAllTrainRevenue);
 			trainCompany.trainOperated (tAllTrainRevenue, tTrainCount);
-			this.setVisible (false);
+			setVisible (false);
 		}
 		if (CANCEL_ACTION.equals (aEvent.getActionCommand ())) {
-			this.setVisible (false);
+			setVisible (false);
 		}
 		if (ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
 			handleSelectRoute (aEvent);
@@ -282,14 +286,10 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	private void fillRevenueForTrain (RouteInformation aRouteInformation, Train aTrain, int aTrainIndex) {
 		int tCityCount;
-//		int tSelectedTrainIndex;
 		int tCityIndex;
 		int tRevenue;
 		
-//		tSelectedTrainIndex = aTrainIndex + 1;
 		tCityCount = aTrain.getCityCount ();
-//		System.out.println ("Train " + tSelectedTrainIndex + " with size " + tCityCount + " has Route with " + 
-//					aRouteInformation.getCenterCount () + " Centers -- Phase " + aRouteInformation.getPhase ());
 		
 		for (tCityIndex = 0; tCityIndex < aTrain.getCityCount (); tCityIndex++) {
 			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (0);
@@ -641,7 +641,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				selectRoutes [aTrainIndex].setEnabled (true);
 				selectRoutes [aTrainIndex].setToolTipText ("Valid Route Found");
 			} else {
-				System.err.println ("TrainIndex of " + aTrainIndex + " is out of range");
+				logger.error ("TrainIndex of " + aTrainIndex + " is out of range");
 			}
 		} else {
 			disableConfirmRouteButton (aTrainIndex, NOT_YOUR_COMPANY);
@@ -655,7 +655,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			confirm.setEnabled (false);
 			confirm.setToolTipText ("One or more Routes is not valid");
 		} else {
-			System.err.println ("TrainIndex of " + aTrainIndex + " is out of range");
+			logger.error ("TrainIndex of " + aTrainIndex + " is out of range");
 		}
 	}
 
