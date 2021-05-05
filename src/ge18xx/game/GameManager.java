@@ -1164,13 +1164,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 			try {
 				XMLDocument tXMLDocument = new XMLDocument (aSaveGame);
 				tXMLFileWasLoaded = loadXMLSavedGame (tXMLDocument);
-			} catch (Exception aException) {
+			} catch (Exception tException) {
 				logger.error ("Oops, mucked up the XML Save Game File Access [" + aSaveGame.getName () + "].");
-				logger.error ("Exception Message [" + aException.getMessage () + "].", tException);
+				logger.error ("Exception Message [" + tException.getMessage () + "].", tException);
 				tXMLFileWasLoaded = false;
 			}
 		} else {
-			logger.error("No File Object for XML Save Game");
+			logger.error ("No File Object for XML Save Game");
 			tXMLFileWasLoaded = false;
 		}
 		
