@@ -27,6 +27,7 @@ import ge18xx.utilities.XMLNodeList;
 public class BankPool extends GameBank {
 	public static final String NAME = "Bank Pool";
 	public static final ElementName EN_BANK_POOL_STATE = new ElementName ("BankPool");
+	public static final BankPool NO_BANK_POOL = null;
 
 	public BankPool (GameManager aGameManager) {
 		super (NAME, aGameManager);
