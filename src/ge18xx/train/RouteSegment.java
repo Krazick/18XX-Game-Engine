@@ -1,8 +1,10 @@
 package ge18xx.train;
 
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
 
 import ge18xx.center.RevenueCenter;
+import ge18xx.game.Game_18XX;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Gauge;
@@ -34,7 +36,8 @@ public class RouteSegment {
 	NodeInformation end;
 	int cost;				// For Ferry/Tunnel/Bridge Fee
 	Gauge gauge;			//	Track Gauge
-
+	Logger logger;
+	
 	public RouteSegment (MapCell aMapCell) {
 		NodeInformation tNodeInformation1;
 		NodeInformation tNodeInformation2;
@@ -49,11 +52,8 @@ public class RouteSegment {
 		tNodeInformation2 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 		setEndNode (tNodeInformation2);
 		setGauge (new Gauge ());
+		logger = Game_18XX.getLogger ();
 	}
-//	<RouteSegment cost="0" gauge="0" mapCellID="H18" tileNumber="59">
-//	<StartNode bonus="0" corpStation="false" hasRevenueCenter="true" location="16" openFlow="false" revenue="40"/>
-//	<EndNode bonus="0" corpStation="false" hasRevenueCenter="false" location="0" openFlow="true" revenue="0"/>
-//	</RouteSegment>
 
 	public RouteSegment (XMLNode aRouteSegmentNode) {
 		String tMapCellID;
@@ -296,7 +296,7 @@ public class RouteSegment {
 		}
 	}
 	
-	public void printDetail() {
+	public void printDetail () {
 		String tMapCellDetail;
 		
 		if (mapCell != MapCell.NO_MAP_CELL) {
@@ -309,19 +309,11 @@ public class RouteSegment {
 	}
 	
 	public int getStartLocationInt () {
-		int tStartLocation;
-		
-		tStartLocation = start.getLocationInt ();
-		
-		return tStartLocation;
+		return start.getLocationInt ();
 	}
 
 	public int getEndLocationInt () {
-		int tEndLocation;
-		
-		tEndLocation = end.getLocationInt ();
-		
-		return tEndLocation;
+		return end.getLocationInt ();
 	}
 	
 	public Location getStartLocation () {
@@ -409,15 +401,6 @@ public class RouteSegment {
 	public NodeInformation getEndNode () {
 		return end;
 	}
-	
-//	MapCell mapCell; 			// Hex ID
-//	Tile tile;
-//	String mapCellID;
-//	int tileNumber;
-//	NodeInformation start;
-//	NodeInformation end;
-//	int cost;				// For Ferry/Tunnel/Bridge Fee
-//	Gauge gauge;			//	Track Gauge
 
 	public boolean isSame (RouteSegment aRouteSegment) {
 		boolean tIsSame = true;
@@ -437,7 +420,7 @@ public class RouteSegment {
 		return tIsSame;
 	}
 	
-	public RevenueCenter getRevenueCenter() {
+	public RevenueCenter getRevenueCenter () {
 		RevenueCenter tRevenueCenter = RevenueCenter.NO_CENTER;
 		
 		if (start.hasRevenueCenter ()) {
@@ -460,7 +443,7 @@ public class RouteSegment {
 				tRevenueCenter.clearAllSelected ();
 			}
 		} else {
-			System.err.println ("Track Provided is NULL");
+			logger.error ("Track Provided is NULL");
 		}
 		if (isStartASide ()) {
 			tSide = getStartLocationIsSide ();
@@ -560,7 +543,7 @@ public class RouteSegment {
 		int tStartLoc;
 		
 		tStartLocation = start.getLocation ();
-		tStartLocation = tStartLocation.unrotateLocation (mapCell.getTileOrient());
+		tStartLocation = tStartLocation.unrotateLocation (mapCell.getTileOrient ());
 		tStartLoc = tStartLocation.getLocation ();
 		tTrack = tile.getTrackFromSide (tStartLoc);
 		if (tTrack.getEnterLocationInt () == tStartLoc) {
@@ -664,10 +647,12 @@ public class RouteSegment {
 				tCycledToNextTrack = true;
 				setTrainOnTrack (tNextTrack, tTrainNumber);
 			} else {
-				System.err.println ("Failed to Find Next Track connected to " + tStartLocation.getLocation ());
+//				System.err.println ("Failed to Find Next Track connected to " + tStartLocation.getLocation ());
+				logger.info ("Failed to Find Next Track connected to " + tStartLocation.getLocation ());
 			}
 		} else {
-			System.out.println ("Tile has only found " + tTrackCount + " Track from side " + tStartLocation.getLocation ());
+//			System.out.println ("Tile has only found " + tTrackCount + " Track from side " + tStartLocation.getLocation ());
+			logger.info ("Tile has only found " + tTrackCount + " Track from side " + tStartLocation.getLocation ());
 		}
 		
 		return tCycledToNextTrack;
@@ -681,7 +666,7 @@ public class RouteSegment {
 		return tHasACorpStation;
 	}
 
-	public boolean foundTrack() {
+	public boolean foundTrack () {
 		boolean tFoundTrack = false;
 		Track tTrack;
 		
@@ -729,10 +714,12 @@ public class RouteSegment {
 					end.fixRevenueCenter (tTile);
 				}
 			} else {
-				System.err.println ("Looking for Tile " + tileNumber + " found " + tTileNumber + " on MapCell " + mapCellID);
+//				System.err.println ("Looking for Tile " + tileNumber + " found " + tTileNumber + " on MapCell " + mapCellID);
+				logger.error ("Looking for Tile " + tileNumber + " found " + tTileNumber + " on MapCell " + mapCellID);
 			}
 		} else {
-			System.err.println ("Looking for MapCell " + mapCellID + " Did not find it in the Map");
+//			System.err.println ("Looking for MapCell " + mapCellID + " Did not find it in the Map");
+			logger.error ("Looking for MapCell " + mapCellID + " Did not find it in the Map");
 		}
 	}
 }
