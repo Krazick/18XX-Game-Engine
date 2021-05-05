@@ -1,5 +1,7 @@
 package ge18xx.tiles;
 
+import ge18xx.game.Game_18XX;
+
 //
 //  Feature.java
 //  Game_18XX
@@ -18,20 +20,30 @@ import ge18xx.utilities.AttributeName;
 
 import java.awt.Point;
 
+import org.apache.logging.log4j.Logger;
+
 public class Feature implements Cloneable {
 	public static final AttributeName AN_LOCATION = new AttributeName ("location");
 	protected Location location;
+	public Logger logger;
 	
 	public Feature () {
 		setLocation (Location.NO_LOCATION);
+		setLogger ();
 	}
 	
 	public Feature (Location aLocation) {
 		setLocation (aLocation);
+		setLogger ();
 	}
 	
 	public Feature (int aLocation) {
 		setLocation (new Location (aLocation));
+		setLogger ();
+	}
+	
+	public void setLogger () {
+		logger = Game_18XX.getLogger ();
 	}
 	
 	public boolean bleedThroughAll () {

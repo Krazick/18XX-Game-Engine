@@ -170,10 +170,10 @@ public class City extends RevenueCenter implements Cloneable {
 			tCorpID = aMapToken.getCorporationID ();
 			tHasStation = cityHasStation (tCorpID);
 			if (tHasStation) {
-				System.out.println ("City Has Station, Found Station for This Corp already on This City.");
+				logger.info ("City Has Station, Found Station for This Corp already on This City.");
 			}
 		} else {
-			System.out.println ("City Has Station, tested CanPlaceStation - Failed");
+			logger.info ("City Has Station, tested CanPlaceStation - Failed");
 		}
 		
 		return tHasStation;
@@ -1044,7 +1044,7 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 			tMapCell = tCity.cityInfo.getMapCell ();
 			tTokenCompany = tMapCell.getTokenCompany (tAbbrev);
 			if (tTokenCompany == TokenCompany.NO_TOKEN_COMPANY) {
-				System.out.println ("Did not find a Token Company with abbrev " + tAbbrev);
+				logger.info ("Did not find a Token Company with abbrev " + tAbbrev);
 			} else {
 				tMapToken = tTokenCompany.popToken ();
 				tCity.setStation (tIndex, tMapToken);
@@ -1108,7 +1108,7 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 			tStationSet = setStation (tFirstFree, aStation);
 		} else {
 			tStationSet = false;
-			System.err.println ("No Free Station Found.");
+			logger.error ("No Free Station Found.");
 		}
 		
 		return tStationSet;
@@ -1128,13 +1128,13 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 					cityInfo.clearCorporationOnMapCell ();
 					tStationSet = true;
 				} else {
-					System.err.println ("City Has Station Failed");
+					logger.error ("City Has Station - Placement of enw Station Failed");
 				}
 			} else {
-				System.err.println ("Station Index " + aStationIndex + " Out of Range");
+				logger.error ("Station Index " + aStationIndex + " Out of Range");
 			}
 		} else {
-			System.err.println ("Can Place Station Failed");
+			logger.error ("Can Place Station Failed");
 		}
 		
 		return (tStationSet);
@@ -1186,5 +1186,4 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 	
 		return (getFreeStationCount () > 0);
 	}
-
 }
