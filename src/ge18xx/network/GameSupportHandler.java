@@ -8,10 +8,11 @@ public class GameSupportHandler {
 	private String response;
 	JGameClient jGameClient;
 	public final static int waitTime = 10;
+	public final static String GS_RESPONSE_TAG = "GSResponse";
 	private final static String GAME_ID = "(\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d\\d\\d)";
 	private final static String GS_WITH_GAME_ID = "<GS gameID=\"" + GAME_ID + "\">(.*)</GS>";
 	private final static Pattern GS_WITH_GAME_ID_PATTERN = Pattern.compile (GS_WITH_GAME_ID);
-	private final static String GSR_WITH_GAME_ID = "<GSResponse gameID=\"" + GAME_ID + "\">";
+	private final static String GSR_WITH_GAME_ID = "<" + GS_RESPONSE_TAG + " gameID=\"" + GAME_ID + "\">";
 	private final static Pattern GSR_WITH_GAME_ID_PATTERN = Pattern.compile (GSR_WITH_GAME_ID);
 	
 	public GameSupportHandler (JGameClient aJGameClient) {
