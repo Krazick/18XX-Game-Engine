@@ -37,7 +37,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	private String NOT_YOUR_COMPANY = "This is not your company operating";
 	private static final long serialVersionUID = 1L;
 	private static final String CONFIRM_ROUTE_ACTION = "DoConfirmRouteAction";
-	private static final String RESET_ROUTES_ACTION = "DoResetAction";
+	private static final String RESET_ROUTES_ACTION = "DoResetRoutesAction";
+	private static final String RESET_ROUTE_ACTION = "DoResetRouteAction";
 	private static final String CONFIRM_ACTION = "DoConfirmAction";
 	private static final String CANCEL_ACTION = "DoCancelAction";
 	private static final String ROUTE_ACTION = "DoRouteAction";
@@ -50,6 +51,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	String CONFIRM_REVENUE = "Confirm All Revenues";
 	String CANCEL = "Cancel";
 	String RESET_ROUTES = "Reset Routes";
+	String RESET_ROUTE = "Reset Route";
 	int maxTrainCount = 5;
 	int maxStops = 15;
 	TrainCompany trainCompany;
@@ -635,11 +637,25 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		frameSetup = aFrameSetup;
 	}
 	
+	public void updateConfirmRouteButton (int aTrainIndex, String aButtonLabel, boolean aEnable, String aToolTipText) {
+		if (isValidIndex(aTrainIndex)) {
+			selectRoutes [aTrainIndex].setText (aButtonLabel);
+			selectRoutes [aTrainIndex].setEnabled (aEnable);
+			selectRoutes [aTrainIndex].setToolTipText (aToolTipText);
+		} else {
+			logger.error ("TrainIndex of " + aTrainIndex + " is out of range");
+		}
+	}
+
+	private boolean isValidIndex (int aTrainIndex) {
+		return (aTrainIndex >= 0) && (aTrainIndex < trainCompany.getTrainCount ());
+	}
+	
 	public void enableConfirmRouteButton (int aTrainIndex) {
+		
 		if (isYourCompany ()) {
-			if ((aTrainIndex >= 0) && (aTrainIndex < trainCompany.getTrainCount ())) {
-				selectRoutes [aTrainIndex].setEnabled (true);
-				selectRoutes [aTrainIndex].setToolTipText ("Valid Route Found");
+			if (isValidIndex (aTrainIndex)) {
+				updateConfirmRouteButton (aTrainIndex, selectRoutes [aTrainIndex].getText (), true, "Valid Route Found");
 			} else {
 				logger.error ("TrainIndex of " + aTrainIndex + " is out of range");
 			}
@@ -649,9 +665,10 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	public void disableConfirmRouteButton (int aTrainIndex, String aToolTipText) {
-		if ((aTrainIndex >= 0) && (aTrainIndex < trainCompany.getTrainCount ())) {
-			selectRoutes [aTrainIndex].setEnabled (false);
-			selectRoutes [aTrainIndex].setToolTipText (aToolTipText);
+		if (isValidIndex (aTrainIndex)) {
+			updateConfirmRouteButton (aTrainIndex, selectRoutes [aTrainIndex].getText (), false, aToolTipText);
+//			selectRoutes [aTrainIndex].setEnabled (false);
+//			selectRoutes [aTrainIndex].setToolTipText (aToolTipText);
 			confirm.setEnabled (false);
 			confirm.setToolTipText ("One or more Routes is not valid");
 		} else {
