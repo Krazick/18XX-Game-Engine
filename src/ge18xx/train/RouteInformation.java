@@ -405,7 +405,64 @@ public class RouteInformation {
 		}
 	}
 
-	public boolean isValidRoute() {
+	public int getRouteCityCount () {
+		int tRouteCityCount = 0;
+		
+		for (RouteSegment tRouteSegment : routeSegments) {
+			if (tRouteSegment.hasCityOnTile ()) {
+				tRouteCityCount++;
+			}
+		}
+		
+		return tRouteCityCount;
+	}
+
+	public int getRouteTownCount () {
+		int tRouteTownCount = 0;
+		
+		for (RouteSegment tRouteSegment : routeSegments) {
+			if (tRouteSegment.hasTownOnTile ()) {
+				tRouteTownCount++;
+			}
+		}
+		
+		return tRouteTownCount;
+	}
+	
+	public boolean isRouteTooLong () {
+		boolean tRouteIsTooLong  = false;
+		int tCityCount, tTownCount;
+		int tRouteCityCount, tRouteTownCount, tRouteRCCount;
+		
+		tCityCount = train.getCityCount ();
+		tTownCount = train.getTownCount ();
+		if (routeSegments.size () == 0) {
+			tRouteIsTooLong = false;
+		} else {
+			tRouteCityCount = getRouteCityCount ();
+			tRouteTownCount = getRouteTownCount ();
+			tRouteRCCount = tRouteCityCount + tRouteTownCount;
+			if (tTownCount == 0) {
+				if (tRouteRCCount > tCityCount) {
+					tRouteIsTooLong = true;
+				}
+			} else {
+				if (tRouteCityCount > tCityCount) {
+					tRouteIsTooLong = true;
+				} 
+				if (tRouteTownCount > tTownCount) {
+					tRouteIsTooLong = true;
+				}
+				if (tRouteRCCount > (tCityCount + tTownCount)) {
+					tRouteIsTooLong = true;
+				}
+			}
+		}
+		
+		return tRouteIsTooLong;
+	}
+	
+	public boolean isValidRoute () {
 		boolean tIsValidRoute = false;
 		
 		if (train != Train.NO_TRAIN) {
