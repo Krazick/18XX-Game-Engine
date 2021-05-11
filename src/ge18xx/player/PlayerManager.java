@@ -663,7 +663,7 @@ public class PlayerManager {
 		
 		addAction (tDonePlayerAction);
 		moveToNextPlayer (tNextPlayerIndex);
-		stockRound.printBriefActionReport ();
+//		stockRound.printBriefActionReport ();
 	}
 	
 	private void moveToNextPlayer (int aNextPlayerIndex) {
