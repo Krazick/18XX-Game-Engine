@@ -95,7 +95,7 @@ public class Game_18XX extends JFrame {
 		setVisible (aVisible);
 	}
 	
-	private void setupLogger (String aUserName) {
+	public void setupLogger (String aUserName) {
 		String tXMLConfigFIle;
 	    String tJavaVersion = System.getProperty ("java.version");
 	    String tOSName = System.getProperty ("os.name");

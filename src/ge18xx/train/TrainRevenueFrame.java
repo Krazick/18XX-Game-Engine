@@ -180,6 +180,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		if (RESET_ROUTES_ACTION.equals (aEvent.getActionCommand ())) {
 			handleResetAllRoutes ();
 		}
+		if (RESET_ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
+			handleResetRoute (aEvent);
+		}
 	}
 	
 	public void clearTrainsFromMap () {
@@ -238,39 +241,48 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	public void clearAllRoutes () {
 		int tTrainIndex;
 		int tTrainCount;
-		RouteInformation tRouteInformation;
 		Train tTrain;
 		
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			tTrain = trainCompany.getTrain (tTrainIndex);
-			tRouteInformation = tTrain.getCurrentRouteInformation ();
-			if (tRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-				tRouteInformation.clearTrainOn ();
-			}
+			clearRouteFromTrain (tTrain);
 		}
 	}
 
-	
+	private void clearRouteFromTrain (Train aTrain) {
+		RouteInformation tRouteInformation;
+		tRouteInformation = aTrain.getCurrentRouteInformation ();
+		if (tRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+			tRouteInformation.clearTrainOn ();
+		}
+	}
+
 	public void clearAllRevenueValues () {
-		int tTrainIndex, tCityIndex;
-		int tTrainCount, tCityCount;
+		int tTrainIndex;
+		int tTrainCount;
 		Train tTrain;
 		
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			tTrain = trainCompany.getTrain (tTrainIndex);
-			tCityCount = tTrain.getCityCount ();
-			for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
-				if (revenuesByTrain [tTrainIndex] [tCityIndex] != null) {
-					revenuesByTrain [tTrainIndex] [tCityIndex].setValue (0);
-				}
-			}
+			clearRevenuesFromTrain (tTrainIndex, tTrain);
 		}
 	}
 	
-	public void handleConfirmRoute (ActionEvent aSelectRouteEvent) {
-		JButton tRouteButton = (JButton) aSelectRouteEvent.getSource ();
+	private void clearRevenuesFromTrain (int aTrainIndex, Train aTrain) {
+		int tCityCount, tCityIndex;
+		
+		tCityCount = aTrain.getCityCount ();
+		for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
+			if (revenuesByTrain [aTrainIndex] [tCityIndex] != null) {
+				revenuesByTrain [aTrainIndex] [tCityIndex].setValue (0);
+			}
+		}	
+	}
+	
+	public void handleConfirmRoute (ActionEvent aConfirmRouteEvent) {
+		JButton tRouteButton = (JButton) aConfirmRouteEvent.getSource ();
 		int tTrainIndex, tTrainCount;
 		Train tTrain;
 		RouteInformation tRouteInformation;
@@ -286,6 +298,22 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		}
 	}
 
+	public void handleResetRoute (ActionEvent aResetRouteEvent) {
+		JButton tRouteButton = (JButton) aResetRouteEvent.getSource ();
+		int tTrainIndex, tTrainCount;
+		Train tTrain;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			if (tRouteButton.equals (selectRoutes [tTrainIndex])) {
+				tTrain = trainCompany.getTrain (tTrainIndex);
+				clearRevenuesFromTrain (tTrainIndex, tTrain);
+				clearRouteFromTrain (tTrain);
+			}
+		}
+		
+	}
+			
 	private void fillRevenueForTrain (RouteInformation aRouteInformation, Train aTrain, int aTrainIndex) {
 		int tCityCount;
 		int tCityIndex;

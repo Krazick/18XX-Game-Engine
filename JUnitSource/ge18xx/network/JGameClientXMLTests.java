@@ -5,14 +5,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import ge18xx.game.GameManager;
+import ge18xx.game.TestFactory;
+
 @DisplayName ("JGameClient XML Tests")
 public class JGameClientXMLTests {
-
+	TestFactory testFactory;
 	JGameClient jGameClient;
 	
 	@BeforeEach 
 	public void setUp () {
-		jGameClient = new JGameClient ("JGameClient Testing Frame", null);
+		GameManager tGameManager;
+		String tClientName;
+		
+		testFactory = new TestFactory ();
+		tClientName = "GMTestBuster";
+		tGameManager = testFactory.buildGameManager (tClientName);
+		jGameClient = new JGameClient ("JGameClient Testing Frame", tGameManager);
 	}
 	
 	@Test

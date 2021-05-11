@@ -17,7 +17,7 @@ import org.apache.logging.log4j.LogManager;
  */
 @DisplayName ("Revenue Tests")
 class RevenueTests {
-	private static final Logger logger = LogManager.getLogger(RevenueTests.class);
+	private static final Logger logger = LogManager.getLogger (RevenueTests.class);
 
 	/**
 	 * @throws java.lang.Exception

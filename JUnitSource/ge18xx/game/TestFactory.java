@@ -34,6 +34,7 @@ public class TestFactory {
 		Game_18XX tGame_18XX;
 		
 		tGame_18XX = new Game_18XX (false);
+		tGame_18XX.setupLogger (aClientName);
 		tGameManager = new GameManager (tGame_18XX, aClientName);
 		tGame_18XX.setGameManager (tGameManager);
 		
