@@ -260,10 +260,11 @@ public class RouteSegment {
 				tHasTownOnTile = true;
 			}
 		}
+		
 		return tHasTownOnTile;
 	}
 	
-	public boolean hasRevenueCenter() {
+	public boolean hasRevenueCenter () {
 		boolean tHasRevenueCenter = false;
 		
 		if (start.hasRevenueCenter ()) {
@@ -273,6 +274,18 @@ public class RouteSegment {
 		}
 		
 		return tHasRevenueCenter;
+	}
+	
+	public boolean hasCityOnTile () {
+		boolean tHasCity = false;
+		
+		if (hasRevenueCenter ()) {
+			if (! hasTownOnTile ()) {
+				tHasCity = true;
+			}
+		}
+		
+		return tHasCity;
 	}
 	
 	public boolean hasRevenueCenterAtStart () {
