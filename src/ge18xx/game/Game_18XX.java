@@ -16,6 +16,7 @@ import ge18xx.network.NetworkPlayer;
 import ge18xx.toplevel.AboutBox;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.PrefPane;
+import ge18xx.utilities.Sound;
 import log4j2.plugins.LoggerLookup;
 
 import java.util.*;
@@ -93,6 +94,15 @@ public class Game_18XX extends JFrame {
 		setupFrameActions ();
 		toFront ();
 		setVisible (aVisible);
+		
+		playWhistle();
+	}
+
+	private void playWhistle () {
+		Sound tSound;
+		
+		tSound = new Sound ();
+		tSound.playSoundClip (tSound.WHISTLE);
 	}
 	
 	public void setupLogger (String aUserName) {
