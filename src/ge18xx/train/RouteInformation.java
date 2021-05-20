@@ -97,6 +97,20 @@ public class RouteInformation {
 			
 	}
 	
+	public boolean hasOperated () {
+		boolean tHasOperated = false;
+		
+		if (isValidRoute ()) {
+			if (routeSegments.size () > 1) {
+				if (! isRouteTooLong ()) {
+					tHasOperated = true;
+				}
+			}
+		}
+		
+		return tHasOperated;
+	}
+	
 	public void addJustRouteSegment (RouteSegment aRouteSegment) {
 		routeSegments.add(aRouteSegment);
 	}
@@ -196,7 +210,6 @@ public class RouteInformation {
 				routeSegments.add (aRouteSegment);
 				calculateTotalRevenue ();
 				updateRevenueFrame ();
-				updateConfirmRouteButton ();
 				
 				// Add the New Route Segment Effect
 				tMapCell = aRouteSegment.getMapCell ();
@@ -399,12 +412,6 @@ public class RouteInformation {
 		return tLastMapCell;
 	}
 
-	public void enableAllSelectRoutes () {
-		if (trainRevenueFrame != null) {
-			trainRevenueFrame.enableAllSelectRoutes ();
-		}
-	}
-
 	public int getRouteCityCount () {
 		int tRouteCityCount = 0;
 		
@@ -442,7 +449,7 @@ public class RouteInformation {
 			tRouteCityCount = getRouteCityCount ();
 			tRouteTownCount = getRouteTownCount ();
 			tRouteRCCount = tRouteCityCount + tRouteTownCount;
-			if (tTownCount == 0) {
+			if (tTownCount == -1) {
 				if (tRouteRCCount > tCityCount) {
 					tRouteIsTooLong = true;
 				}
@@ -517,16 +524,11 @@ public class RouteInformation {
 	}
 	
 	public void updateConfirmRouteButton () {
-		String tToolTipText;
-		
 		if (isValidRoute ()) {
-			tToolTipText = "";
-			trainRevenueFrame.enableConfirmRouteButton (trainIndex);
+			trainRevenueFrame.updateResetRouteButtons (true, "Reset Route for Train " + trainIndex);
 			train.setCurrentRouteInformation (this);
-		} else {
-			tToolTipText = "Route is not Valid";
-			trainRevenueFrame.disableConfirmRouteButton (trainIndex, tToolTipText);
 		}
+		trainRevenueFrame.updateSelectRouteButton (trainIndex);
 	}
 
 	public void extendRouteInformation (RouteSegment aRouteSegment, int aPhase, int aCorpID, RouteAction aRouteAction) {
@@ -582,6 +584,8 @@ public class RouteInformation {
 				}
 			}
 		}
+		updateConfirmRouteButton ();
+
 //		System.out.println ("--------- Done Extending Route, Success: " + tContinueWork + " \n");
 //		printDetail ();
 	}
@@ -619,7 +623,8 @@ public class RouteInformation {
 
 	public void updateRevenueFrame () {
 		trainRevenueFrame.updateRevenues (this);
-		trainRevenueFrame.updateResetRouteButtons ();
+		trainRevenueFrame.updateResetRouteButtons (false, "Train " + trainIndex + " is Not Running");
+		trainRevenueFrame.updateResetRouteButton (trainIndex, "Reset Route for Train " + trainIndex, true);
 	}
 
 	public void updateRevenueCenterInfo (int aCorpID, RouteSegment aLastRouteSegment, 
