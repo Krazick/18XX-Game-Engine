@@ -952,10 +952,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tFrameOffset = tGameManager.getOffsetCorporationFrame ();
 		trainRevenueFrame.operateTrains (tFrameOffset);
 	}
-	
-	public void handleResetAllRoutes () {
-		trainRevenueFrame.handleResetAllRoutes ();
-	}
+//	
+//	public void handleResetAllRoutes () {
+//		trainRevenueFrame.handleResetAllRoutes ();
+//	}
 	
 	public void clearTrainsFromMap () {
 		trainRevenueFrame.clearTrainsFromMap();
@@ -1269,6 +1269,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (thisRevenue > 0) {
 			setMustBuyTrain (true);
 		}
+	}
+	
+	public boolean isAnyTrainOperating () {
+		return trainPortfolio.isAnyTrainOperating ();
 	}
 	
 	public void setOperated () {
