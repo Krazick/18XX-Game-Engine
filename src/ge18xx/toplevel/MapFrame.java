@@ -749,7 +749,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		} else {
 			selectRouteButton.setText ("Enter Select Route Mode");
 			if (routeInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-				routeInformation.enableAllSelectRoutes ();
+//				routeInformation.enableAllSelectRoutes ();
 				routeInformation.setTrainCurrentRouteInformation ();
 			}
 		}
