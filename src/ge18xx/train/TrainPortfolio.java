@@ -188,6 +188,20 @@ public class TrainPortfolio implements TrainHolderI {
 		return null;
 	}
 	
+	public boolean isAnyTrainOperating () {
+		boolean tIsAnyTrainOperating = false;
+		
+		if (trains != null) {
+			for (Train tTrain : trains) {
+				if (tTrain.isOperating ()) {
+					tIsAnyTrainOperating = true;
+				}
+			}
+		}
+		
+		return tIsAnyTrainOperating;
+	}
+	
 	public String getTrainList () {
 		String tTrainList = "NO TRAINS";
 		int tTrainIndex = 0;
