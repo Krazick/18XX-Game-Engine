@@ -69,6 +69,7 @@ public class Train implements Comparable<Object> {
 	TrainInfo trainInfo;
 	JCheckBox actionCheckbox;
 	JLabel costLabel;
+	boolean operating;
 	RouteInformation currentRouteInformation;
 	RouteInformation previousRouteInformation;
 	
@@ -463,6 +464,25 @@ public class Train implements Comparable<Object> {
 		setTrainInfo (NO_TRAIN_INFO);
 		setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 		setPreviousRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
+		setOperating (false);
+	}
+	
+	public void setOperating (boolean aOperating) {
+		operating = aOperating;
+	}
+	
+	public boolean isOperating () {
+//		boolean tIsOperating = false;
+//		
+//		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+//			tIsOperating = operating;
+//		}
+		
+		return operating;
+	}
+	
+	public boolean hasOperated () {
+		return currentRouteInformation.hasOperated ();
 	}
 	
 	public boolean willRustAfterNextOR () {
