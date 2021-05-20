@@ -25,10 +25,10 @@ public class Sound {
 	}
 
 	public void playSoundClip (String aSoundFileName) {
-		String tAudioFileName;
-		
-		tAudioFileName = "AudioClips" + File.separator + aSoundFileName;
-		playSound (tAudioFileName);
+//		String tAudioFileName;
+//		
+//		tAudioFileName = "AudioClips" + File.separator + aSoundFileName;
+//		playSound (tAudioFileName);
 	}
 
 	public void playSound (String aSoundFileName) {
