@@ -658,8 +658,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public void exitSelectRouteMode (RouteInformation aRouteInformation) {
-		corporationList.exitSelectRouteMode (aRouteInformation);
+	public void exitSelectRouteMode () {
+		corporationList.exitSelectRouteMode ();
 	}
 
 	@Override

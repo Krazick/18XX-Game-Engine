@@ -278,8 +278,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		roundManager.enterSelectRouteMode (aRouteInformation);
 	}
 	
-	public void exitSelectRouteMode (RouteInformation aRouteInformation) {
-		roundManager.exitSelectRouteMode (aRouteInformation);
+	public void exitSelectRouteMode () {
+		roundManager.exitSelectRouteMode ();
 	}
 	
 	public boolean gameHasPrivates () {

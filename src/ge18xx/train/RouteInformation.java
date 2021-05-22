@@ -523,11 +523,11 @@ public class RouteInformation {
 		return tHasACorpStation;
 	}
 	
-	public void updateConfirmRouteButton () {
+	public void updateRouteButtons () {
 		if (isValidRoute ()) {
-			trainRevenueFrame.updateResetRouteButtons (true, "Reset Route for Train " + trainIndex);
 			train.setCurrentRouteInformation (this);
 		}
+		trainRevenueFrame.updateResetRouteButton (trainIndex);
 		trainRevenueFrame.updateSelectRouteButton (trainIndex);
 	}
 
@@ -584,7 +584,7 @@ public class RouteInformation {
 				}
 			}
 		}
-		updateConfirmRouteButton ();
+		updateRouteButtons ();
 
 //		System.out.println ("--------- Done Extending Route, Success: " + tContinueWork + " \n");
 //		printDetail ();
@@ -623,8 +623,8 @@ public class RouteInformation {
 
 	public void updateRevenueFrame () {
 		trainRevenueFrame.updateRevenues (this);
-		trainRevenueFrame.updateResetRouteButtons (false, "Train " + trainIndex + " is Not Running");
-		trainRevenueFrame.updateResetRouteButton (trainIndex, "Reset Route for Train " + trainIndex, true);
+		trainRevenueFrame.updateResetRouteButtons ();
+//		trainRevenueFrame.updateResetRouteButton (trainIndex);
 	}
 
 	public void updateRevenueCenterInfo (int aCorpID, RouteSegment aLastRouteSegment, 

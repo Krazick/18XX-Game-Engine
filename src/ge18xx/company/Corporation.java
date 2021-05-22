@@ -1852,7 +1852,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		
 	}
 	
-	public void exitSelectRouteMode (RouteInformation aRouteInformation) {
+	public void exitSelectRouteMode () {
 //		Override in Train Company Class
 	}
 

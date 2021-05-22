@@ -230,7 +230,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		routeInformation = aRouteInformation;
 	}
 	
-	public void exitSelectRouteMode (RouteInformation aRouteInformation) {
+	public void exitSelectRouteMode () {
 		setSelectRouteMode (false);
 		selectRouteButton.setEnabled (selectRouteMode);
 		map.clearAllSelected ();
@@ -748,10 +748,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			selectRouteButton.setText ("Exit Select Route Mode");
 		} else {
 			selectRouteButton.setText ("Enter Select Route Mode");
-			if (routeInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-//				routeInformation.enableAllSelectRoutes ();
-				routeInformation.setTrainCurrentRouteInformation ();
-			}
+//			if (routeInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+////				routeInformation.enableAllSelectRoutes ();
+//				routeInformation.setTrainCurrentRouteInformation ();
+//			}
 		}
 		map.setSelectTrackSegment (aMode);
 		map.setSelectRevenueCenter (aMode);
