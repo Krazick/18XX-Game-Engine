@@ -524,11 +524,8 @@ public class RouteInformation {
 	}
 	
 	public void updateRouteButtons () {
-		if (isValidRoute ()) {
-			train.setCurrentRouteInformation (this);
-		}
-		trainRevenueFrame.updateResetRouteButton (trainIndex);
-		trainRevenueFrame.updateSelectRouteButton (trainIndex);
+		train.setCurrentRouteInformation (this);
+		trainRevenueFrame.updateAllFrameButtons ();
 	}
 
 	public void extendRouteInformation (RouteSegment aRouteSegment, int aPhase, int aCorpID, RouteAction aRouteAction) {
