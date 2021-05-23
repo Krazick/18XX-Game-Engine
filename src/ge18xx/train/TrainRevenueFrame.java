@@ -40,7 +40,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	private static final String RESET_ROUTE_ACTION = "DoResetRouteAction";
 	private static final String CONFIRM_ALL_REVENUES_ACTION = "DoConfirmAllRevenuesAction";
 	private static final String CANCEL_ACTION = "DoCancelAction";
-	private static final String ROUTE_ACTION = "DoRouteAction";
+	private static final String SELECT_ROUTE_ACTION = "DoSelectRouteAction";
 	public static final TrainRevenueFrame NO_TRAIN_REVENUE_FRAME = null;
 	String LAST_REVENUE = "Last Round Revenue ";
 	String THIS_REVENUE = "This Round Revenue ";
@@ -165,9 +165,10 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		}
 		if (CANCEL_ACTION.equals (aEvent.getActionCommand ())) {
 			clearAllTrainsRoutes ();
+			trainCompany.exitSelectRouteMode ();
 			setVisible (false);
 		}
-		if (ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
+		if (SELECT_ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
 			handleSelectRoute (aEvent);
 		}
 		if (CONFIRM_ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
@@ -194,6 +195,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				}
 			}
 		}
+		updateAllFrameButtons ();
 		trainCompany.repaintMapFrame ();
 	}
 
@@ -247,6 +249,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tRouteInformation.clearTrainOn ();
 			aTrain.setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 		}
+		aTrain.setOperating (false);
 	}
 
 	public void clearAllRevenueValues () {
@@ -452,7 +455,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tTrainRevenueBox.add (totalRevenueByEachTrain [tTrainIndex]);
 			tTrainRevenueBox.add (Box.createHorizontalStrut (10));
 			
-			selectRoutes [tTrainIndex] = setupButton (SELECT_ROUTE, ROUTE_ACTION);
+			selectRoutes [tTrainIndex] = setupButton (SELECT_ROUTE, SELECT_ROUTE_ACTION);
 			updateSelectRouteButton (tTrainIndex);
 			tTrainRevenueBox.add (selectRoutes [tTrainIndex]);
 			tTrainRevenueBox.add (Box.createHorizontalStrut (5));
@@ -698,7 +701,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 					if (anyTrainIsOperating ()) {
 						disableSelectRouteButton (aTrainIndex, "Another Train is Operating");			
 					} else {
-						enableSelectRouteButton (aTrainIndex, SELECT_ROUTE, ROUTE_ACTION, "Select Route");					
+						enableSelectRouteButton (aTrainIndex, SELECT_ROUTE, SELECT_ROUTE_ACTION, "Select Route");					
 					}
 				}
 			} else {
