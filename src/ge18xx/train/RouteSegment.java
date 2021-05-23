@@ -612,7 +612,6 @@ public class RouteSegment {
 		Location tNewStartLocation, tEndLocation, tStartLocation, tNewEndLocation, tOriginalStart, tOriginalEnd;
 		Location tNewRotStart, tNewRotEnd;
 		int tTileOrient, tCurrentTrackIndex;
-//		int tNextTrackIndex;
 		
 		tTileOrient = mapCell.getTileOrient ();
 		tOriginalStart = new Location (start.getLocationInt ());
@@ -623,8 +622,6 @@ public class RouteSegment {
 		if (tTrackCount > 1) {
 			tCurrentTrackIndex = tile.getTrackIndexBetween (tStartLocation, tEndLocation);
 			tTrack = tile.getTrackFromStartByIndex (tStartLocation, tCurrentTrackIndex);
-//			System.out.println ("Counted Tracks for MapCell " + mapCell.getCellID () + " Found " + tTrackCount + 
-//					" on Side " + tStartLocation.getLocation () + " Current Track Index " + tCurrentTrackIndex);
 			
 			tNextTrack = getNextTrack (tCurrentTrackIndex, tStartLocation, tEndLocation);
 			if (tNextTrack != Track.NO_TRACK) {
@@ -633,9 +630,6 @@ public class RouteSegment {
 				tNewRotStart = tNewStartLocation.rotateLocation(tTileOrient);
 				tNewRotEnd = tNewEndLocation.rotateLocation(tTileOrient);
 				
-//				tNextTrackIndex = tile.getTrackIndexBetween (tStartLocation, tNewEndLocation);;
-//				System.out.println ("Next Track Index is " + tNextTrackIndex + " found Track from " + 
-//					tNextTrack.getEnterLocationInt () + " to " + tNextTrack.getExitLocationInt ());
 				tTrainNumber = tTrack.getTrainNumber ();
 				clearTrainOnTrack (tTrack);
 				
@@ -660,11 +654,9 @@ public class RouteSegment {
 				tCycledToNextTrack = true;
 				setTrainOnTrack (tNextTrack, tTrainNumber);
 			} else {
-//				System.err.println ("Failed to Find Next Track connected to " + tStartLocation.getLocation ());
 				logger.info ("Failed to Find Next Track connected to " + tStartLocation.getLocation ());
 			}
 		} else {
-//			System.out.println ("Tile has only found " + tTrackCount + " Track from side " + tStartLocation.getLocation ());
 			logger.info ("Tile has only found " + tTrackCount + " Track from side " + tStartLocation.getLocation ());
 		}
 		
@@ -727,11 +719,9 @@ public class RouteSegment {
 					end.fixRevenueCenter (tTile);
 				}
 			} else {
-//				System.err.println ("Looking for Tile " + tileNumber + " found " + tTileNumber + " on MapCell " + mapCellID);
 				logger.error ("Looking for Tile " + tileNumber + " found " + tTileNumber + " on MapCell " + mapCellID);
 			}
 		} else {
-//			System.err.println ("Looking for MapCell " + mapCellID + " Did not find it in the Map");
 			logger.error ("Looking for MapCell " + mapCellID + " Did not find it in the Map");
 		}
 	}
