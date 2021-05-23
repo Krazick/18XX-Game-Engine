@@ -542,10 +542,7 @@ public class Train implements Comparable<Object> {
 		tRouteAction = RouteAction.NO_ACTION;
 		tRevenueCenter = aMapCell.getCenterAtLocation (aStartLocation);
 		currentRouteInformation.setStartSegment (tRouteSegment, tRevenueCenter, aPhase, tCorpID);
-//		System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
 		currentRouteInformation.extendRouteInformation (tRouteSegment, aPhase, tCorpID, tRouteAction);
-//		System.out.println ("Should have First Route Segment on Client with " + currentRouteInformation.getSegmentCount () + " Segments");
-//		currentRouteInformation.printDetail ();
 		tRouteStarted = true;
 		
 		return tRouteStarted;
