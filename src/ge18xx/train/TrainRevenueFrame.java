@@ -663,24 +663,32 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 	
 	public void udpateConfirmAllRoutesButton () {
-		if (anyTrainIsOperating ()) {
-			confirm.setEnabled (false);
-			confirm.setToolTipText ("A Train is Operating");
-		} else if (! allRoutesValid ()) {
-			confirm.setEnabled (false);
-			confirm.setToolTipText ("One or more Routes are Invalid");
-		} else if (! allTrainRevenuesAreValid ()) {
-			confirm.setEnabled (false);
-			confirm.setToolTipText ("One or more Revenues are Invalid");
-		} else {
-			confirm.setEnabled (true);
-			confirm.setToolTipText ("Confirm that all Routes and Revenues are Accepted");		
+		if (confirm != null) {
+			if (isYourCompany ()) {
+				if (anyTrainIsOperating ()) {
+					confirm.setEnabled (false);
+					confirm.setToolTipText ("A Train is Operating");
+				} else if (! allRoutesValid ()) {
+					confirm.setEnabled (false);
+					confirm.setToolTipText ("One or more Routes are Invalid");
+				} else if (! allTrainRevenuesAreValid ()) {
+					confirm.setEnabled (false);
+					confirm.setToolTipText ("One or more Revenues are Invalid");
+				} else {
+					confirm.setEnabled (true);
+					confirm.setToolTipText ("Confirm that all Routes and Revenues are Accepted");		
+				}
+			} else {
+				confirm.setEnabled (false);
+				confirm.setToolTipText (NOT_YOUR_COMPANY);
+			}
 		}
 	}
 	
 	public void updateSelectRouteButton (int aTrainIndex) {
 		Train tTrain;
 		RouteInformation tRouteInformation;
+		String tToolTip;
 		
 		if (isValidIndex (aTrainIndex)) {
 			if (isYourCompany ()) {
@@ -691,9 +699,14 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 						enableSelectRouteButton (aTrainIndex, CONFIRM_ROUTE, CONFIRM_ROUTE_ACTION, "Confirm Route");
 						disableSelectRouteButton (aTrainIndex, "Route is not yet valid");
 					} else if (tRouteInformation.isRouteTooLong ()) {
-						disableSelectRouteButton (aTrainIndex, "Route is Too Long");
+						disableSelectRouteButton (aTrainIndex, "Route is Too Long. Max length is " + tTrain.getName ());
 					} else if (! tRouteInformation.isValidRoute ()) {
-						disableSelectRouteButton (aTrainIndex, "Route is Invalid - too short or Blocked");
+						if (tRouteInformation.getCenterCount () < 2) {
+							tToolTip = "Route must have at least two Revenue Centers";
+						} else {
+							tToolTip = "Route is Blocked by Station, or Have no Corp Station";
+						}
+						disableSelectRouteButton (aTrainIndex, tToolTip);
 					} else {
 						enableSelectRouteButton (aTrainIndex, CONFIRM_ROUTE, CONFIRM_ROUTE_ACTION, "Confirm Route");
 					}
@@ -752,7 +765,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		int tTrainIndex;
 	
 		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
-			updateSelectRouteButton (tTrainIndex);
+			if (selectRoutes [tTrainIndex] != null) {
+				updateSelectRouteButton (tTrainIndex);
+			}
 		}
 	}
 	
@@ -760,7 +775,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		int tTrainIndex;
 	
 		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
-			updateResetRouteButton (tTrainIndex);
+			if (resetRoutes [tTrainIndex] != null) {
+				updateResetRouteButton (tTrainIndex);
+			}
 		}
 	}
 	
