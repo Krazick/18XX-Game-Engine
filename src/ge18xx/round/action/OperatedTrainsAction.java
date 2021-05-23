@@ -7,23 +7,23 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.GeneratedRevenueEffect;
 import ge18xx.utilities.XMLNode;
 
-public class OperatedTrainAction extends ChangeStateAction {
+public class OperatedTrainsAction extends ChangeStateAction {
 	public final static String NAME = "Operated Train";
 
-	public OperatedTrainAction () {
+	public OperatedTrainsAction () {
 		this (NAME);
 	}
 
-	public OperatedTrainAction (String aName) {
+	public OperatedTrainsAction (String aName) {
 		super (aName);
 	}
 
-	public OperatedTrainAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
+	public OperatedTrainsAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
 
-	public OperatedTrainAction (XMLNode aActionNode, GameManager aGameManager) {
+	public OperatedTrainsAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}

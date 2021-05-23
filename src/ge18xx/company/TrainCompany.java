@@ -15,7 +15,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.LayTileAction;
-import ge18xx.round.action.OperatedTrainAction;
+import ge18xx.round.action.OperatedTrainsAction;
 import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.RemoveTileAction;
 import ge18xx.round.action.SkipBaseTokenAction;
@@ -1271,8 +1271,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 	
-	public boolean isAnyTrainOperating () {
-		return trainPortfolio.isAnyTrainOperating ();
+	public boolean anyTrainIsOperating () {
+		return trainPortfolio.anyTrainIsOperating ();
 	}
 	
 	public void setOperated () {
@@ -1330,24 +1330,26 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 	
-	public void trainOperated (int aRevenue, int aTrainCount) {
-		OperatedTrainAction tOperatedTrainAction;
+	public void trainsOperated (int aRevenue) {
+		OperatedTrainsAction tOperatedTrainsAction;
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
 		String tOperatingRoundID;
 		OperatingRound tOperatingRound;
+		int tTrainCount;
 		
 		tCurrentStatus = getStatus ();
 		if (updateStatus (ActorI.ActionStates.OperatedTrain)) {
 			tNewStatus = getStatus ();
+			tTrainCount = getTrainCount ();
 			tOperatingRoundID = corporationList.getOperatingRoundID ();
-			tOperatedTrainAction = new OperatedTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-			tOperatedTrainAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
-			tOperatedTrainAction.addGeneratedRevenueEffect (this, aRevenue, aTrainCount);
+			tOperatedTrainsAction = new OperatedTrainsAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
+			tOperatedTrainsAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
+			tOperatedTrainsAction.addGeneratedRevenueEffect (this, aRevenue, tTrainCount);
 			tOperatingRound = corporationList.getOperatingRound ();
-			tOperatingRound.addAction (tOperatedTrainAction);
+			tOperatingRound.addAction (tOperatedTrainsAction);
 			tOperatingRound.updateRoundFrame ();
 		} else {
-			System.err.println ("--> Failure to update State to Operated Train");
+			System.err.println ("--> Failure to update State to Operated Trains");
 		}
 		corporationFrame.updateInfo ();	
 	}
