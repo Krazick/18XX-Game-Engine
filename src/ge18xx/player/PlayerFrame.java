@@ -189,8 +189,8 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			bankBox.add (tStartPacketPortfolioJPanel);
 			bankBox.add (Box.createVerticalGlue ());
 		}
-		bankBox.revalidate ();
 		bankBox.repaint ();
+		bankBox.revalidate ();
 	}
 	
 	@Override
@@ -532,26 +532,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			sellActionButton.setEnabled (tStocksToSell);
 			sellActionButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE);
 		}
-		if (tStocksToBuy) {
-			buyBidActionButton.setEnabled (tStocksToBuy);
-			buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
-			buyBidActionButton.setText (BUY);
-			disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
-			enableSelectedButton (STOCK_SELECTED_FOR_BUY);
-		}
-		if (tPrivateToBidOn && (tStocksToBuy == false)) {
-			buyBidActionButton.setEnabled (tPrivateToBidOn);
-			buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BID);
-			buyBidActionButton.setText (BID);
-			disableAllStartPacketButtons (STOCK_SELECTED_FOR_BID2);
-			enableSelectedButton (STOCK_SELECTED_FOR_BID);
-		}
-		if ((tStocksToBuy == false) && (tPrivateToBidOn == false)) {
-			buyBidActionButton.setEnabled (tStocksToBuy);
-			buyBidActionButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE2);
-			buyBidActionButton.setText (BUY_BID);
-			enableAllStartPacketButtons ("");
-		}
+		updateBuyBidButton (tStocksToBuy, tPrivateToBidOn);
 		exchangeActionButton.setEnabled (tPrezToExchange || tPrivateOrMinorToExchange);
 		if (tPrezToExchange) {
 			exchangeActionButton.setToolTipText ("There is one President's Share Selected to Exchange");
@@ -560,7 +541,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		} else {
 			exchangeActionButton.setToolTipText ("There are no selected President's Share to Exchange");
 		}
-		updateUndoButton(tActionsToUndo);
+		updateUndoButton (tActionsToUndo);
 		
 		if (hasActed ()) {
 			setDoneButton ();
@@ -570,7 +551,30 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		}
 	}
 
-	private void updateUndoButton(boolean tActionsToUndo) {
+	private void updateBuyBidButton (boolean aStocksToBuy, boolean aPrivateToBidOn) {
+		if (aStocksToBuy) {
+			buyBidActionButton.setEnabled (aStocksToBuy);
+			buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+			buyBidActionButton.setText (BUY);
+			disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
+			enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+		} else {
+			if (aPrivateToBidOn) {
+				buyBidActionButton.setEnabled (aPrivateToBidOn);
+				buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BID);
+				buyBidActionButton.setText (BID);
+				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BID2);
+				enableSelectedButton (STOCK_SELECTED_FOR_BID);
+			} else {
+				buyBidActionButton.setEnabled (aStocksToBuy);
+				buyBidActionButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE2);
+				buyBidActionButton.setText (BUY_BID);
+				enableAllStartPacketButtons ("");
+			}
+		}
+	}
+
+	private void updateUndoButton (boolean tActionsToUndo) {
 		GameManager tGameManager;
 		
 		tGameManager = player.getGameManager ();
