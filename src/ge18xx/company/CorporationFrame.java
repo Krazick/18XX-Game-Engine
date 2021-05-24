@@ -416,10 +416,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 							tGameManager, TrainPortfolio.COMPACT_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
 					bankBox.add (tBankPortfolioJPanel);
 					bankBox.add (Box.createHorizontalGlue ());
-					bankBox.validate ();
+//					bankBox.validate ();
 				} else {
 					System.err.println ("Bank is Null");
 				}
+				bankBox.repaint ();
+				bankBox.revalidate ();
 			}
 		}
 	}
@@ -441,11 +443,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					privatesBox.add (Box.createVerticalGlue ());
 					privatesBox.add (privatesJPanel);
 					privatesBox.add (Box.createVerticalGlue ());
-					privatesBox.validate ();
+//					privatesBox.validate ();
 				} else {
 					JLabel NoPrivatesLeft = new JLabel ("No Privates Left for purchase");
 					privatesBox.add (NoPrivatesLeft);
 				}
+				privatesBox.repaint ();
+				privatesBox.revalidate ();
 			}
 		}
 	}
