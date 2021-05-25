@@ -55,14 +55,7 @@ public class SoldCompanies {
 	public String toString (String aDelimiter) {
 		String tCompaniesSold = "";
 		
-		if (soldCompanies.size () > 0) {
-			for (String tCompanyAbbrev : soldCompanies) {
-				if (tCompaniesSold.length () > 0) {
-					tCompaniesSold += aDelimiter;
-				}
-				tCompaniesSold += tCompanyAbbrev;
-			}
-		}
+		tCompaniesSold = String.join (aDelimiter, soldCompanies);
 
 		return tCompaniesSold;
 	}
