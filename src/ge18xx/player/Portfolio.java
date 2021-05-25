@@ -1228,6 +1228,24 @@ public class Portfolio implements CertificateHolderI {
 		return tCertificateToSell;
 	}
 	
+	public int getCountSelectedCosToBuy () {
+		int tCountSelectedCosToBuy = 0;
+		String tCoAbbrev, tPrevCoAbbrev;
+		
+		tPrevCoAbbrev = "";
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelectedToBuy ()) {
+				tCoAbbrev = tCertificate.getCompanyAbbrev ();
+				if (! (tCoAbbrev.equals (tPrevCoAbbrev))) {
+					tCountSelectedCosToBuy++;
+					tPrevCoAbbrev = tCoAbbrev;
+				}
+			}
+		}
+
+		return tCountSelectedCosToBuy;
+	}
+	
 	public int getSelectedStockCost () {
 		int tSelectedStockCost;
 		

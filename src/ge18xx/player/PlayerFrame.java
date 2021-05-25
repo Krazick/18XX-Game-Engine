@@ -328,6 +328,10 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		return tSelectedStocksToBuy;
 	}
 	
+	public int getCountSelectedCosToBuy ( ) {
+		return player.getCountSelectedCosToBuy ();
+	}
+	
 	public int getCostSelectedStocksToBuy () {
 		int tSelectedStocksToBuyCost;
 		
@@ -552,12 +556,23 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	}
 
 	private void updateBuyBidButton (boolean aStocksToBuy, boolean aPrivateToBidOn) {
+		int tCountSelectedCosToBuy;
+		
 		if (aStocksToBuy) {
-			buyBidActionButton.setEnabled (aStocksToBuy);
-			buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
-			buyBidActionButton.setText (BUY);
-			disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
-			enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+			tCountSelectedCosToBuy = getCountSelectedCosToBuy ();
+			if (tCountSelectedCosToBuy > 1) {
+				buyBidActionButton.setEnabled (false);
+				buyBidActionButton.setToolTipText ("Only Select one Company's Stock to buy at a time");
+				buyBidActionButton.setText (BUY);
+				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
+				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+			} else {
+				buyBidActionButton.setEnabled (aStocksToBuy);
+				buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+				buyBidActionButton.setText (BUY);
+				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
+				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+			}
 		} else {
 			if (aPrivateToBidOn) {
 				buyBidActionButton.setEnabled (aPrivateToBidOn);

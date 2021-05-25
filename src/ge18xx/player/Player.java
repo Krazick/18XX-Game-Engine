@@ -725,6 +725,24 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		return tHasSelectedStockToBuy;
 	}
 	
+	public int getCountSelectedCosToBuy () {
+		int tCountSelectedCosToBuy = 0;
+		Bank tBank;
+		BankPool tBankPool;
+		Portfolio tBankPortfolio, tBankPoolPortfolio;
+		
+		tBank = getBank ();
+		if (hasSelectedStockToBuy (tBank)) {
+			tBankPortfolio = tBank.getPortfolio ();
+			tCountSelectedCosToBuy = tBankPortfolio.getCountSelectedCosToBuy ();
+			tBankPool = playerManager.getBankPool ();
+			tBankPoolPortfolio = tBankPool.getPortfolio ();
+			tCountSelectedCosToBuy += tBankPoolPortfolio.getCountSelectedCosToBuy ();
+		}
+		
+		return tCountSelectedCosToBuy;
+	}
+	
 	public int getCostSelectedStockToBuy () {
 		int tSelectedStockToBuyCost;
 		Bank tBank;
