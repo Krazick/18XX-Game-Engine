@@ -1162,6 +1162,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		int tTotalEscrow, tEscrowCount;
 		JLabel tEscrowLabel;
 		String tEscrowText;
+		JLabel tSoldCompanies;
 		
 		if (playerContainer == null) {
 			playerContainer = Box.createVerticalBox ();
@@ -1194,6 +1195,10 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		tOwnershipContainer  = portfolio.buildOwnershipContainer ();
 		if (tOwnershipContainer != null) {
 			playerContainer.add (tOwnershipContainer);
+		}
+		tSoldCompanies = soldCompanies.buildSoldCompaniesLabel ();
+		if (tSoldCompanies != null) {
+			playerContainer.add (tSoldCompanies);
 		}
 		playerContainer.add (Box.createHorizontalStrut (10));
 		

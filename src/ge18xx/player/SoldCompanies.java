@@ -3,6 +3,8 @@ package ge18xx.player;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JLabel;
+
 public class SoldCompanies {
 	List<String> soldCompanies;
 
@@ -51,9 +53,16 @@ public class SoldCompanies {
 	}
 	
 	public String toString (String aDelimiter) {
-		String tCompaniesSold;
+		String tCompaniesSold = "";
 		
-		tCompaniesSold = String.join (aDelimiter, soldCompanies);
+		if (soldCompanies.size () > 0) {
+			for (String tCompanyAbbrev : soldCompanies) {
+				if (tCompaniesSold.length () > 0) {
+					tCompaniesSold += aDelimiter;
+				}
+				tCompaniesSold += tCompanyAbbrev;
+			}
+		}
 
 		return tCompaniesSold;
 	}
@@ -64,5 +73,17 @@ public class SoldCompanies {
 	
 	public void undoClearSoldCompany (String aDelimiter, String aSoldCompanies) {
 		parse (aDelimiter, aSoldCompanies);
+	}
+	
+	public JLabel buildSoldCompaniesLabel () {
+		JLabel tSoldCompaniesLabel = null;
+		String tSoldCompanies;
+		
+		if (soldCompanies.size () > 0) {
+			tSoldCompanies = "Sold: " + toString (", ");
+			tSoldCompaniesLabel = new JLabel (tSoldCompanies);
+		}
+		
+		return tSoldCompaniesLabel;
 	}
 }
