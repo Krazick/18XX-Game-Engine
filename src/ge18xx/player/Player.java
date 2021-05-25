@@ -1201,6 +1201,8 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 			playerContainer.add (tSoldCompanies);
 		}
 		playerContainer.add (Box.createHorizontalStrut (10));
+		playerContainer.repaint ();
+		playerContainer.revalidate ();
 		
 		return playerContainer;
 	}
