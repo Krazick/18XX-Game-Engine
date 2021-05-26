@@ -110,16 +110,16 @@
 			</Upgrade>
 		</Tile>
 		<Tile number="57" quantity="2">
-			<Upgrade toNumber="14" rotations="0,2,3,5">
+			<Upgrade toNumber="14" rotations="2,4,5,1">
 				<RevenueCenter from="50" to="50" />
 			</Upgrade>
-			<Upgrade toNumber="15" rotations="0,3">
+			<Upgrade toNumber="15" rotations="2,5">
 				<RevenueCenter from="50" to="50" />
 			</Upgrade>
-			<Upgrade toNumber="205" rotations="0,3">
+			<Upgrade toNumber="205" rotations="2,5">
 				<RevenueCenter from="50" to="50" />
 			</Upgrade>
-			<Upgrade toNumber="206" rotations="0,3">
+			<Upgrade toNumber="206" rotations="2,5">
 				<RevenueCenter from="50" to="50" />
 			</Upgrade>
 		</Tile>

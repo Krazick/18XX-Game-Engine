@@ -50,10 +50,10 @@
 		<Tile number="55" quantity="1" />
 		<Tile number="56" quantity="1" />
 		<Tile number="57" quantity="4">
-			<Upgrade toNumber="14" rotations="0,2,3,5">
+			<Upgrade toNumber="14" rotations="2,4,5,1">
 				<RevenueCenter from="50" to="50" />
 			</Upgrade>
-			<Upgrade toNumber="15" rotations="0,3">
+			<Upgrade toNumber="15" rotations="2,5">
 				<RevenueCenter from="50" to="50" />
 			</Upgrade>
 		</Tile>
