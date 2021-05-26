@@ -9,29 +9,45 @@
 	<Private id="1402" name="Waterloo &amp; Saugeen Railway Co."
 		abbrev="WSR" cost="40" revenue="10" homeCell1="I12" homeLocation1="20"
 		homeLocation2="23" special="Tile and Token Placement">
+		<Benefits>
+			<Benefit tilePlacement="true" mapCell="I12" cost="0" close="true"/>
+			<Benefit tokenPlacment="true" mapCell="I12" cost="0" sameTurn="true" close="true"/>
+		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
 	<Private id="1403" name="The Canada Company" abbrev="CC" cost="50"
 		revenue="10" homeCell1="H11" homeLocation1="15" homeLocation2="17"
 		special="Free Tile Placement">
+		<Benefits>
+			<Benefit actorType="Corporation" extraTilePlacement="true" mapCell="H11" cost="0"/>
+		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
 	<Private id="1404" name="Great Lakes Shipping Company" abbrev="GLSC"
 		cost="70" revenue="15" special="Port Token Placement">
+		<Benefits>
+			<Benefit actorType="Corporation" tokenType="port" tokenPlacement="true" tokenBonus="20" close="true"/>
+		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
 	<Private id="1405" name="Niagra Falls Suspension Bridge Company"
 		abbrev="NFSBC" cost="100" revenue="20" homeCell1="P19" homeLocation1="50"
 		special="Buffalo Bonus">
+		<Benefits>
+			<Benefit actorType="Corporation" license="true" licenseCost="50" mapCell="P17,P19" value="10"/>
+		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
 	<Private id="1406" name="St. Clair Frontier Tunnel Company"
 		abbrev="SCFTC" cost="100" revenue="20" homeCell1="A14" homeLocation1="50"
 		special="Sarnia Bonus">
+		<Benefits>
+			<Benefit actorType="Corporation" license="true" licenseCost="50" mapCell="B13" value="10"/>
+		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
