@@ -29,6 +29,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
+
+import org.apache.logging.log4j.Logger;
+
 import javax.swing.JTextPane;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -36,6 +39,7 @@ import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 
 import ge18xx.game.GameSet;
+import ge18xx.game.Game_18XX;
 import ge18xx.game.NetworkGameSupport;
 import ge18xx.game.SavedGame;
 import ge18xx.game.SavedGames;
@@ -147,7 +151,8 @@ public class JGameClient extends XMLFrame {
 	private String selectedGameName;
 	private boolean gameStarted = false;
 	private String autoSaveFileName;
-
+	private Logger logger;
+	
 	public JGameClient (String aTitle, NetworkGameSupport aGameManager) {
 		this (aTitle, aGameManager, DEFAULT_REMOTE_SERVER_IP, DEFAULT_SERVER_PORT);
 	}
@@ -157,6 +162,7 @@ public class JGameClient extends XMLFrame {
 		Point tNewPoint;
 		
 		gameManager = aGameManager;
+		logger = Game_18XX.getLogger ();
 		networkPlayers = new NetworkPlayers (aGameManager);
 		gameSupportHandler = new GameSupportHandler (this);
 		setupJFrame ();
@@ -783,6 +789,8 @@ public class JGameClient extends XMLFrame {
 		String tGameID;
 		
 		tGameID = gameManager.getGameID ();
+		showSavedGames.setEnabled (false);
+		showSavedGames.setToolTipText ("Ready to play New Game");
 		serverHandler.sendUserReady (tGameID);
 		sendPlayerOrder ();
 	}
@@ -815,6 +823,8 @@ public class JGameClient extends XMLFrame {
 		tGameID = gameManager.getGameID ();
 		tGameActivity = constructGameActivityXML (EN_GAME_SELECTION, AN_GAME_INDEX, selectedGameIndex + "",
 				AN_BROADCAST_MESSAGE, tBroadcastMessage, AN_GAME_ID, tGameID);
+		showSavedGames.setEnabled (false);
+		showSavedGames.setToolTipText ("Ready to play New Game");
 		sendGameActivity (tGameActivity);
 		sendPlayerOrder ();
 	}
@@ -842,7 +852,7 @@ public class JGameClient extends XMLFrame {
 		
 		tGameIDRequest = GAME_SUPPORT_PREFIX + " <GS><GameIDRequest></GS>";
 		tResponse = gameSupportHandler.requestGameSupport (tGameIDRequest);
-		System.out.println ("Response is [" + tResponse + "]");
+//		System.out.println ("Response is [" + tResponse + "]");
 		tGameID = gameSupportHandler.getFromResponseGameID (tResponse);
 		gameManager.resetGameID (tGameID);
 	}
@@ -854,7 +864,8 @@ public class JGameClient extends XMLFrame {
 		tGameIDRequest = GAME_SUPPORT_PREFIX + " <GS><LoadGameSetup gameID=\"" + aGameID + "\" " + ""
 				+ "actionNumber=\"" + aLastActionNumber + "\" gameName=\"" + aGameName + "\"></GS>";
 		tResponse = gameSupportHandler.requestGameSupport (tGameIDRequest);
-		System.out.println ("Response is [" + tResponse + "]");
+		logger.info ("Request sent is [" + tGameIDRequest + "]");
+		logger.info ("Response is [" + tResponse + "]");
 	}
 
 	public String constructGameActivityXML (ElementName aElementName, 
