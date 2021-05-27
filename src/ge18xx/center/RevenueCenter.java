@@ -544,6 +544,16 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		setSelected (! selectedForTrain [aIndex], aIndex);
 	}
 
+	public String getToolTip () {
+		String tToolTip = "";
+		
+		if (type.isPrivateRailway ()) {
+			tToolTip = "Private Railway: " + name + "<br>";
+		}
+
+		return tToolTip;
+	}
+	
 	public String getTokenToolTip () {
 		return "";
 	}
