@@ -346,6 +346,7 @@ public class Centers implements Cloneable {
 	
 	public String getToolTip () {
 		String tToolTip = "";
+		String tSuperToolTip = "";
 		String tCompanyHomes;
 		String tCompanyDestinations;
 		String tPreviousAbbrev;
@@ -370,6 +371,9 @@ public class Centers implements Cloneable {
 		tRCType = "";
 		
 		for (RevenueCenter tRC : centers) {
+			if (tSuperToolTip.length () == 0) {
+				tSuperToolTip = tRC.getToolTip ();
+			}
 			tTokenAbbrev = "";
 			if (tRC.isTown ()) {
 				if (tRCType.equals ("")) {
@@ -400,6 +404,7 @@ public class Centers implements Cloneable {
 			tToolTip += "RC Type: " + tRCType + "<br>";
 		}
 		tToolTip += tCompanyHomes;
+		tToolTip += tSuperToolTip;
 		tToolTip += tCompanyDestinations;
 		
 		return tToolTip;
