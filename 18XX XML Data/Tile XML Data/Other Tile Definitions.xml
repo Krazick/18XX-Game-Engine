@@ -278,9 +278,9 @@
 			type="Single City">
 			<Revenue location="14" phase="1" value="30" />
 		</RevenueCenter>
-		<RevenueCenter id="0" location="12" name=""
+		<RevenueCenter id="0" location="12" name="B&amp;O"
 			type="Private Railway" />
-		<RevenueCenter id="0" location="13" name=""
+		<RevenueCenter id="0" location="13" name="B&amp;O"
 			type="Private Railway" />
 	</Tile>
 	<Tile number="9942" type="Yellow" fixed="true">
