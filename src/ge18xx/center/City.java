@@ -1166,7 +1166,7 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 	
 	public String getTokenToolTip () {
 		String tTokenToolTip ="";
-
+		
 		if (stationCount > 0) {
 			for (MapToken tMapToken : corpStations) {
 				if (tMapToken != NO_STATION) {
