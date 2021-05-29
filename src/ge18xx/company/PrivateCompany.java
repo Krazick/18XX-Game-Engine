@@ -2,6 +2,7 @@ package ge18xx.company;
 
 import java.awt.event.ItemListener;
 
+
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
@@ -15,6 +16,7 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
+
 
 //
 //  Private.java
@@ -84,10 +86,19 @@ public class PrivateCompany extends Corporation {
 		if (NO_NOTE.equals (tNote)) {
 			note = tNote;
 		} else {
-			note = "<html>" + tNote.replaceAll ("\\|br\\|", "<br/>") + "</html>";
+			note = "<html>" + wordWrap (tNote) + "</html>";
 		}
 		exchangeID = aChildNode.getThisIntAttribute (AN_EXCHANGE_ID);
 		exchangePercentage = aChildNode.getThisIntAttribute (AN_EXCHANGE_PERCENTAGE);
+	}
+	
+	private String wordWrap (String aText) {
+		String tWrappedWords = "";
+		
+		tWrappedWords = aText.replaceAll ("\\|br\\|", "<br/>");
+//		tWrappedWords = WordUtils.wrap(aText, 10, "<br/>\n", true);
+		
+		return tWrappedWords;
 	}
 	
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
