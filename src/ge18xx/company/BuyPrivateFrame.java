@@ -127,7 +127,13 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 	}
 	
 	public void setDefaultPrice () {
-		setPrice (certificate.getValue ());
+		int tDefaultValue;
+		
+		tDefaultValue = certificate.getValue ();
+		if (tDefaultValue > shareTreasury) {
+			tDefaultValue = shareTreasury;
+		}
+		setPrice (tDefaultValue);
 	}
 	
 	public void setOwnerTreasuryLabel () {
@@ -360,13 +366,17 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 	}
 	
 	public void updateInfo (Certificate aCertificate) {
-		int tLowPrice, tHighPrice;
+		int tLowPrice, tHighPrice, tCertPrice;
 		
-		certificate = aCertificate;
-		setDefaultPrice ();
-		tLowPrice = getPrice ()/2;
-		tHighPrice = getPrice () * 2;
 		shareTreasury = shareCompany.getTreasury ();
+		certificate = aCertificate;
+		tCertPrice = certificate.getValue ();
+		setDefaultPrice ();
+		tLowPrice = tCertPrice/2;
+		tHighPrice = tCertPrice * 2;
+		if (tHighPrice > shareTreasury) {
+			tHighPrice = shareTreasury;
+		}
 		operatingRoundID = shareCompany.getOperatingRoundID ();
 		setCorporationTreasuryLabel ();
 		setOwnerTreasuryLabel ();
