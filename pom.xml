@@ -48,14 +48,10 @@
         <artifactId>log4j-core</artifactId>
         <version>2.14.1</version>
     </dependency>
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+		<artifactId>commons-text</artifactId>
+		<version>1.9</version>
+	</dependency>
   </dependencies>
-  <dependencyManagement>
-  	<dependencies>
-  		<dependency>
-  			<groupId>commons-text</groupId>
-  			<artifactId>commons-text-1.9</artifactId>
-  			<version>1.9</version>
-  		</dependency>
-  	</dependencies>
-  </dependencyManagement>
 </project>
