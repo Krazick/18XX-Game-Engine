@@ -2,8 +2,9 @@ package ge18xx.company;
 
 import java.awt.event.ItemListener;
 
-
 import javax.swing.JPanel;
+
+import org.apache.commons.text.WordUtils;
 
 import ge18xx.bank.Bank;
 import ge18xx.map.Location;
@@ -16,7 +17,6 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
 
 //
 //  Private.java
@@ -95,8 +95,8 @@ public class PrivateCompany extends Corporation {
 	private String wordWrap (String aText) {
 		String tWrappedWords = "";
 		
-		tWrappedWords = aText.replaceAll ("\\|br\\|", "<br/>");
-//		tWrappedWords = WordUtils.wrap(aText, 10, "<br/>\n", true);
+//		tWrappedWords = aText.replaceAll ("\\|br\\|", "<br/>");
+		tWrappedWords = WordUtils.wrap (aText, 50, "<br/>", true);
 		
 		return tWrappedWords;
 	}
