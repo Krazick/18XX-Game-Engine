@@ -185,9 +185,9 @@
 		<MapCell>
 			<Terrain category="base" type="Clear" />
 			<RevenueCenter id="0" location="30" name="" type="Small Town" />
-			<RevenueCenter id="0" location="15" name=""
+			<RevenueCenter id="0" location="15" name="CC"
 				type="Private Railway" />
-			<RevenueCenter id="0" location="17" name=""
+			<RevenueCenter id="0" location="17" name="CC"
 				type="Private Railway" />
 		</MapCell>
 		<MapCell>
@@ -225,9 +225,9 @@
 				type="Single City" />
 			<RevenueCenter id="14" location="17" name="" number="1"
 				type="Single City" />
-			<RevenueCenter id="14" location="20" name="" number="1"
+			<RevenueCenter id="14" location="20" name="WSR" number="1"
 				type="Private Railway" />
-			<RevenueCenter id="14" location="23" name="" number="1"
+			<RevenueCenter id="14" location="23" name="WSR" number="1"
 				type="Private Railway" />
 		</MapCell>
 		<MapCell>
@@ -324,9 +324,9 @@
 	<Row index="11" startCol="1">
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<RevenueCenter id="0" location="12" name="" number="1"
+			<RevenueCenter id="0" location="12" name="FT" number="1"
 				type="Private Railway" />
-			<RevenueCenter id="0" location="14" name="" number="1"
+			<RevenueCenter id="0" location="14" name="FT" number="1"
 				type="Private Railway" />
 		</MapCell>
 		<MapCell>
