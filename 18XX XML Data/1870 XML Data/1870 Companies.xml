@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Corporations>
-	<Private id="1201" name="Great River Shipping Company" abbrev="GRSC"
-		cost="20" revenue="5" special="NONE">
+	<Private id="1201" name="Great River Shipping Company" abbrev="GRSC" cost="20" 
+		note="No other attributes"
+		revenue="5" special="NONE">
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
-	<Private id="1202" name="Mississippi River Bridge Company"
-		abbrev="MRBC" cost="40" revenue="10" special="Allow Mississippi River Crossing">
+	<Private id="1202" name="Mississippi River Bridge Company" abbrev="MRBC" cost="40" 
+		note="Until this company is closed or sold to a public company, no company may bridge the Mississippi river. A company may lay track along the river, but may not lay track to cross the river, do an upgrade that would cause track to cross the river. A company can lay any of the three $20 yellow city tiles (#5, #6 or #57) and the green &quot;K&quot; city (Tile #18) in Memphis as long as the track sections point northeast, east, southeast, or southwest. A company can only lay the #5 $20 yellow city tin in St. Louis and it must face west and southwest, any other placement would cross the Mississippi River and be, therefore, illegal. Companies laying the first tile in a hex along the Mississippi River must pay $40 to $80 (as specified on the printed hex) to build along or across the river. The public company that purchases the Mississippi River Bridge Company may build in one of the hexts along the Mississippi River for a $40 discount. The company may be purchases by one of the two companies on the Mississippi river (Missouri Pacific or St. Louis Southwestern) in phase one for $20 to $40. If one of these two public companies purchases this private company during their first operating round, that company can lay a tile at its starting city for no cost and in addition to its normal til lay(s). The company cannot lay a tile in their starting city and upgrade it during the same operating round."
+		revenue="10" special="Allow Mississippi River Crossing">
+		<Benifits>
+			<Benefit actorType="Corporation" extraTilePlacement="true"/>
+			<Benefit actorType="Corporation" riverDiscount="true" value="40"/>
+			<Benefit actorType="Corporation" firstORPurchase="true" shareCorpIDs="1305,1308" lowPrice="20" highPrice="40"/>
+		</Benifits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
-	<Private id="1203" name="The Southern Cattle Company" abbrev="TSCC"
-		cost="50" revenue="10" special="Cattle Token Placement">
+	<Private id="1203" name="The Southern Cattle Company" abbrev="TSCC" cost="50" 
+		note="This company has a token that may be placed on any city west of the Mississippi river. Cities locateduinb the same hex as any portion of the Mississippi are not eligible for this placement. This increases the value of that city by $10 for the corporation only. Placing the token does not close the company."
+		revenue="10" special="Cattle Token Placement">
 		<Benefits>
 			<Benefit actorType="Corporation" tokenType="cattle" tokenPlacement="true" tokenBonus="10" close="false"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
-	<Private id="1204" name="The Gulf Shipping Company" abbrev="TGSC"
-		cost="80" revenue="15" special="Place Open or Closed Port Token">
+	<Private id="1204" name="The Gulf Shipping Company" abbrev="TGSC" cost="80" 
+		note="This company has two tokens. One represents an open port and the other is a closed port. One (but not both) of these tokens may be placed on any city on the gulf cost, or any cityon the Mississippi river south of and including Memphis. For a city to be consider on the Gulf or on the River, it must be in a hex that contains a portion of either. For example, New Orleans is eligible, but the South east red off-board location is not. Either token increases the value of that city for the owning company by $20. The open port token also increases the value of that city for all other companies by $10. If the president of the owning company places the closed port token, the private company is closed. If the open port token is placed, it may be replaced in a later operating round by the closed port token, closing the company. Once placed, however neither token may be moved to a different city. When the company closes at the begining of phase four, the status of the port is fixed; that is if it is open, it may not then be closed."
+		revenue="15" special="Place Open or Closed Port Token">
 		<Benefits>
 			<Benefit actorType="Corporation" tokenType="openPort" tokenPlacement="true" 
 				ownerTokenBonus="20" tokenBonus="10" close="false"/>
@@ -29,13 +38,18 @@
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
-	<Private id="1205" name="St. Louis San Francisco Railway"
-		abbrev="Frisco" cost="140" revenue="0" special="Free President's Share of Frisco">
+	<Private id="1205" name="St. Louis San Francisco Railway" abbrev="Frisco" cost="140" 
+		note="This is the president's certificate of the St. Louis San Francisco Railway. The purchaser sets the par value of the railway. Unlike other companies, this company may operate with just 20% sold. It may not be purchased by a public company"
+		revenue="0" special="Free President's Share of Frisco">
+		<Benefits>
+			<Benefit actorType="Player" freeShareID="1309" freeSharePercentage="20" close="true"/>
+		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
-	<Private id="1206" name="Missouri-Kansas-Texas Railroad"
-		abbrev="KATY" cost="160" revenue="20" special="Free Share of KATY">
+	<Private id="1206" name="Missouri-Kansas-Texas Railroad" abbrev="KATY" cost="160" 
+		note="Comes with a 10% share of the Missouri-Kanasas-Texas Railroad"
+		revenue="20" special="Free Share of KATY">
 		<Benefits>
 			<Benefit actorType="Player" freeShareID="1306" freeSharePercentage="10"/>
 		</Benefits>
@@ -100,7 +114,7 @@
 	</Share>
 	<Share id="1309" name="St. Louis, San Francisco Railway" abbrev="SLSF"
 		homeCell1="E12" homeLocation1="50" destination="M22"
-		destinationLocation="50" bgColor="Red" fgColor="White" tokens="3">
+		destinationLocation="50" bgColor="Red" fgColor="White" tokens="3" floatPercentage="20%">
 		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
 		<Certificate director="NO" percentage="10" quantity="8"
 			allowedOwners="IPO,Player,BankPool" />
