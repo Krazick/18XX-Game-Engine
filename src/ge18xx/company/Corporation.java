@@ -21,6 +21,7 @@ import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.company.benefit.Benefits;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -141,7 +142,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		
 		setStatus (aXMLNode);
 		tXMLNodeList = new XMLNodeList (this);
-		tXMLNodeList.parseXMLNodeList (aXMLNode, Certificate.EN_CERTIFICATE);
+		tXMLNodeList.parseXMLNodeList (aXMLNode, Certificate.EN_CERTIFICATE, Benefits.EN_BENEFITS);
 		setCorporationList (aCorporationList);
 	}
 
@@ -171,7 +172,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			corporationCertificates.addCertificate (tCertificate);
 		}
 	}
-	
+		
 	public void addAction (Action aAction) {
 		corporationList.addAction (aAction);
 	}
@@ -1809,8 +1810,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public void repaintCorporationFrame () {
+		corporationFrame.revalidate ();
 		corporationFrame.repaint ();
-//		corporationFrame.revalidate ();
 	}
 	
 	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
