@@ -9,6 +9,7 @@ public interface ActorI {
 	public static final AttributeName AN_TO_ACTOR_NAME = new AttributeName ("toActor");
 	public static final AttributeName AN_FROM_ACTOR_NAME = new AttributeName ("fromActor");
 	public enum ActorTypes { 
+		NO_TYPE ("No Type"), Corporation ("Corporation"), 
 		ShareCompany ("Share Company"), MinorCompany ("Minor Company"),  CoalCompany ("Coal Company"),
 		Player ("Player"), Bank ("Bank"), BankPool ("Bank Pool");
 		private String enumString;
@@ -18,7 +19,18 @@ public interface ActorI {
 		@Override
 		public String toString () { return enumString; }
 		
-		};
+		public static ActorTypes fromString (String aActorType) {
+			ActorTypes tFoundActorType = ActorTypes.NO_TYPE;
+			
+			for (ActorTypes tActorType : ActorTypes.values ()) {
+				if (tActorType.toString ().equalsIgnoreCase (aActorType)) {
+					tFoundActorType = tActorType;
+				}
+			}
+			return tFoundActorType;
+		}
+		
+	};
 	
 	public enum ActionStates { 
 		NoAction ("No Action"), Pass ("Passed"), Acted ("Acted"), 			// Player Primary States
@@ -49,7 +61,7 @@ public interface ActorI {
 		public String toString () { return enumString; }
 		public String toAbbrev () { return enumAbbrev; }
 				
-		};
+	};
 
 	
 	public String getName ();
