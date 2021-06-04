@@ -1,5 +1,8 @@
 package ge18xx.company.benefit;
 
+import javax.swing.JPanel;
+
+import ge18xx.company.PrivateCompany;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -17,22 +20,7 @@ public class Benefit {
 	boolean closeOnUse;
 	boolean used;
 	boolean passive;
-	
-//	String mapCellID;
-//	boolean extraTilePlacement;
-//	boolean tilePlacement;
-//	boolean tokenPlacement;
-//	int cost;
-//	boolean sameTurn;
-//	String exchangeID;
-//	int exchangePercentage;
-//	String freeShareID;
-//	int freeSharePercentage;
-	
-	public Benefit () {
-//		setValues (ActorI.ActorTypes.NO_TYPE.toString (), false, "", 0, false, false, false, "", 0, false, "", 0);
-	}
-	
+		
 	public Benefit (XMLNode aXMLNode) {
 		boolean tClose;
 		boolean tPassive;
@@ -75,100 +63,38 @@ public class Benefit {
 		return passive;
 	}
 	
-//	private void setValues (String aActorType, boolean aExtraTilePlacement, String aMapCellID, int aCost,
-//			boolean aTilePlacement, boolean aTokenPlacement, boolean aSameTurn, String aExchangeID, int aExchangePercentage,
-//			boolean aCloseOnUse, String aFreeShareID, int aFreeSharePercentage) {
-//		setActorType (aActorType);
-////		setExtraTilePlacement  (aExtraTilePlacement);
-//		setMapCellID  (aMapCellID);
-//		setCost  (aCost);
-////		setExtraTilePlacement (aTilePlacement);
-////		setExtraTokenPlacement (aTokenPlacement);
-//		setSameTurn (aSameTurn);
-////		setExchangeID (aExchangeID);
-////		setExchangePercentage (aExchangePercentage);
-//		setCloseOnUse (aCloseOnUse);
-//		setFreeShareID (aFreeShareID);
-//		setFreeSharePercentage (aFreeSharePercentage);
-//	}
-//	
-//	private void setFreeSharePercentage (int aFreeSharePercentage) {
-//		freeSharePercentage = aFreeSharePercentage;
-//	}
-//
-//	private void setFreeShareID (String aFreeShareID) {
-//		freeShareID = aFreeShareID;
-//	}
-//
-//	private void setCloseOnUse (boolean aCloseOnUse) {
-//		closeOnUse = aCloseOnUse;
-//	}
-////
-////	private void setExchangePercentage (int aExchangePercentage) {
-////		exchangePercentage = aExchangePercentage;
-////	}
-////
-////	private void setExchangeID (String aExchangeID) {
-////		exchangeID = aExchangeID;
-////	}
-//
-//	private void setSameTurn (boolean aSameTurn) {
-//		sameTurn = aSameTurn;
-//	}
-//
-//	private void setCost (int aCost) {
-//		cost = aCost;
-//	}
-//
-//	private void setMapCellID (String aMapCellID) {
-//		mapCellID = aMapCellID;
-//	}
-//
-////	private void setExtraTilePlacement (boolean aExtraTilePlacement) {
-////		extraTilePlacement = aExtraTilePlacement;
-////	}
-//
-//	private void setActorType (String aActorType) {
-//		actorType = ActorI.ActorTypes.fromString(aActorType);
-//	}
-//	
-//	public ActorI.ActorTypes getActorType () {
-//		return actorType;
-//	}
-//	
-//	public boolean givesExtraTilePlacment () {
-//		return extraTilePlacement;
-//	}
-//	
-//	public String getMapCellID () {
-//		return mapCellID;
-//	}
-//	
-//	public int getCost () {
-//		return cost;
-//	}
-//	
-//	public boolean mustBeSameTurn () {
-//		return sameTurn;
-//	}
-//	
-//	public boolean closesPrivate () {
-//		return closeOnUse;
-//	}
-//	
-//	public String getFreeShareID () {
-//		return freeShareID;
-//	}
-//	
-//	public int getFreeSharePercentage () {
-//		return freeSharePercentage;
-//	}
-//	
-////	public String getExchangeID () {
-////		return exchangeID;
-////	}
-//	
-//	public int getExchangePercentage () {
-//		return exchangePercentage;
-//	}
+	public boolean isPlayerBenefit () {
+		boolean tIsPlayerBenefit = false;
+		
+		if (actorType.compareTo (ActorI.ActorTypes.Player) == 0) {
+			tIsPlayerBenefit = true;
+		}
+		
+		return tIsPlayerBenefit;
+	}
+	
+	public boolean shouldConfigure (PrivateCompany aPrivateCompany) {
+		boolean tShouldConfigure = true;
+		
+		if (used || passive) {
+			tShouldConfigure = false;
+		}
+		
+		if ((! aPrivateCompany.isPlayerOwned ()) && isPlayerBenefit ()) {
+			tShouldConfigure = false;
+		}
+		
+		return tShouldConfigure;
+	}
+	
+	public String getNewButtonLabel (PrivateCompany aPrivateCompany) {
+		// Should have sub-class override to build label for the type of Benefit
+		String tNewButtonText = "";
+		
+		return tNewButtonText;
+	}
+	
+	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
+		// Should have sub-class override to configure for the type of Benefit
+	}
 }

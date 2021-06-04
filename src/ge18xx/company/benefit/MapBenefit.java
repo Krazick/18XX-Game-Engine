@@ -1,5 +1,6 @@
 package ge18xx.company.benefit;
 
+import ge18xx.company.PrivateCompany;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
@@ -48,5 +49,9 @@ public class MapBenefit extends Benefit {
 	
 	public boolean getSameTurn () {
 		return sameTurn;
+	}
+
+	public String getNewButtonLabel(PrivateCompany aPrivateCompany) {
+		return null;
 	}
 }

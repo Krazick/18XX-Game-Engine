@@ -16,6 +16,7 @@ import ge18xx.company.CertificateHolderI;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
+import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.utilities.AttributeName;
@@ -1595,5 +1596,16 @@ public class Portfolio implements CertificateHolderI {
 		}
 		
 		return tOwnershipContainer;
+	}
+	
+	public void addPrivateBenefitButtons (JPanel aButtonRow) {
+		PrivateCompany tPrivateCompany;
+		
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isPrivateCompany ()) {
+				tPrivateCompany = (PrivateCompany) tCertificate.getCorporation ();
+				tPrivateCompany.addBenefitButtons (aButtonRow);
+			}
+		}
 	}
 }

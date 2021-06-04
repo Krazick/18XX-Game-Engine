@@ -1,11 +1,16 @@
 package ge18xx.company.benefit;
 
+import java.awt.Component;
 import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 import org.w3c.dom.NodeList;
 
+import ge18xx.company.PrivateCompany;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLNode;
 
@@ -51,5 +56,40 @@ public class Benefits {
 
 	private void addBenefit (Benefit aBenefit) {
 		benefits.add (aBenefit);
+	}
+
+	public boolean hasButtonFor (JPanel aButtonRow, String aButtonLabel) {
+		boolean tHasButtonFor = false;
+		JButton tThisButton;
+		Component tComponent;
+		String tButtonText;
+		int tComponentCount, tComponentIndex;
+		
+		tComponentCount = aButtonRow.getComponentCount ();
+		if (tComponentCount > 0) {
+			for (tComponentIndex = 0; tComponentIndex < tComponentCount; tComponentIndex++) {
+				tComponent = aButtonRow.getComponent (tComponentIndex);
+				if (tComponent instanceof JButton) {
+					tThisButton = (JButton) tComponent;
+					tButtonText = tThisButton.getText ();
+					if (aButtonLabel.equals (tButtonText)) {
+						tHasButtonFor = true;
+					}
+				}
+			}
+		}
+		
+		return tHasButtonFor;
+	}
+	
+	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
+		String tNewButtonText;
+		
+		for (Benefit tBenefit : benefits) {
+			tNewButtonText = tBenefit.getNewButtonLabel (aPrivateCompany);
+			if (! hasButtonFor (aButtonRow, tNewButtonText)) {
+				tBenefit.configure (aPrivateCompany, aButtonRow);
+			}
+		}
 	}
 }

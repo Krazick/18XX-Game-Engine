@@ -568,5 +568,4 @@ public class ShareCompany extends TokenCompany {
 					tCurrentCorporationStatus, tNewCorporationStatus);
 		}
 	}
-
 }

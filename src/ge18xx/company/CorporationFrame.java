@@ -27,6 +27,8 @@ import java.awt.event.ItemListener;
 public class CorporationFrame extends XMLFrame implements ActionListener, ItemListener {
 	static final String SHOW_MAP = "Show Map";
 	static final String PLACE_TILE = "Place Tile";
+	public static final String PLACE_TILE_PRIVATE = "Place Tile on Private Home";
+	public static final String PLACE_TOKEN_PRIVATE = "Place Token on Private Home";
 	static final String PLACE_TOKEN = "Place Token";
 	static final String PLACE_BASE_TOKEN = "Place Base Token";
 	static final String IN_PLACE_TILE_MODE = "Already in Place Tile Mode";
@@ -330,7 +332,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		paybackLoanActionButton = setupActionButton (PAYBACK_LOAN, PAYBACK_LOAN);
 		addActionButtons ();
 		tActionButtons.add (buttonRow1);
-		tActionButtons.add (Box.createVerticalStrut (10));
+		tActionButtons.add (Box.createVerticalStrut (5));
 		tActionButtons.add (buttonRow2);
 		
 		return tActionButtons;
@@ -529,6 +531,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateForceBuyTrainActionButton ();
 		updateBuyPrivateActionButton ();
 		updateDoneActionButton ();
+		corporation.addPrivateBenefitButtons (buttonRow2);
+		repaint ();
+		revalidate ();
 	}
 
 	public void updateTTODButtons () {

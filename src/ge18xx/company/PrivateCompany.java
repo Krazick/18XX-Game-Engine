@@ -1,7 +1,9 @@
 package ge18xx.company;
 
+import java.awt.Component;
 import java.awt.event.ItemListener;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.apache.commons.text.WordUtils;
@@ -107,6 +109,34 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		benefits = new Benefits (aChildNode);
 	}
 
+	public boolean hasButtonFor (JPanel aButtonRow, String aButtonLabel) {
+		boolean tHasButtonFor = false;
+		JButton tThisButton;
+		Component tComponent;
+		String tButtonText;
+		int tComponentCount, tComponentIndex;
+		
+		tComponentCount = aButtonRow.getComponentCount ();
+		if (tComponentCount > 0) {
+			for (tComponentIndex = 0; tComponentIndex < tComponentCount; tComponentIndex++) {
+				tComponent = aButtonRow.getComponent (tComponentIndex);
+				if (tComponent instanceof JButton) {
+					tThisButton = (JButton) tComponent;
+					tButtonText = tThisButton.getText ();
+					if (aButtonLabel.equals (tButtonText)) {
+						tHasButtonFor = true;
+					}
+				}
+			}
+		}
+		
+		return tHasButtonFor;
+	}
+
+	public void addBenefitButtons (JPanel aButtonRow) {
+		benefits.configure (this, aButtonRow);
+	}
+	
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
