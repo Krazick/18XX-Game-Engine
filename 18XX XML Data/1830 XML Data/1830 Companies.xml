@@ -11,7 +11,7 @@
 		note="A Corporation owning the C&amp;SL may lay a tile onC&amp;SL's hex even if this hex is not connected to the Corporation's Railhead. This free tile placement is in addition to the Corporation's tile placement — For this turn only the Corporation may play two tiles. The tile played on the C&amp;SL hex does not have to connect to any existing adjacent track."
 		special="Free Tile Placement">
 		<Benefits>
-			<Benefit actorType="Corporation" class="ge18xx.company.benefit.TilePlacementBenefit" extra="true" mapCell="B20" cost="0" passive="false"/>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TilePlacementBenefit" extra="true" mapCell="B20" cost="0" passive="false"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
@@ -21,8 +21,8 @@
 		note="A Corporation owning the D&amp;H may establish a Railhead on the D&amp;H’s hex by laying a station tile and a token. The station does NOT have to be connected to the remainder of the Corporation’s route. The tile slayed is the owning Railroad’s one tile placement per turn. Placing token is not required, but if placed in a future turn, it must be paid for. Removal of the mountain costs $120 as usual but there is no charge for laying the token.  (Other Corporations may lay a tile here subject to the  ordinary rules.)"
 		special="Tile Placement and Token Placement">
 		<Benefits>
-			<Benefit actorType="Corporation" class="ge18xx.company.benefit.TilePlacementBenefit" extra="false" mapCell="F16" cost="120" passive="false"/>
-			<Benefit actorType="Corporation" class="ge18xx.company.benefit.TokenPlacementBenefit" extra="false" mapCell="F16" cost="0" sameTurn="true" passive="false"/>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TilePlacementBenefit" extra="false" mapCell="F16" cost="120" passive="false"/>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TokenPlacementBenefit" extra="false" mapCell="F16" cost="0" sameTurn="true" passive="false"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
