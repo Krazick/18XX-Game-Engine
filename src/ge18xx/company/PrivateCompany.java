@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import org.apache.commons.text.WordUtils;
 
 import ge18xx.bank.Bank;
+import ge18xx.company.benefit.Benefits;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.player.Portfolio;
@@ -14,6 +15,7 @@ import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.ParsingRoutine2I;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -26,7 +28,7 @@ import ge18xx.utilities.XMLNode;
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
-public class PrivateCompany extends Corporation {
+public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public static final ElementName EN_PRIVATE = new ElementName ("Private");
 	public static final AttributeName AN_COST = new AttributeName ("cost");
 	public static final AttributeName AN_REVENUE = new AttributeName ("revenue");
@@ -47,6 +49,7 @@ public class PrivateCompany extends Corporation {
 	String note;
 	int exchangeID; // Corporation ID to Exchange this Private For
 	int exchangePercentage; // Exchange Percentage
+	Benefits benefits;
 	
 	public PrivateCompany () {
 		this (Corporation.NO_ID, Corporation.NO_NAME, Corporation.NO_ABBREV, NO_COST, NO_REVENUE, 
@@ -95,12 +98,16 @@ public class PrivateCompany extends Corporation {
 	private String wordWrap (String aText) {
 		String tWrappedWords = "";
 		
-//		tWrappedWords = aText.replaceAll ("\\|br\\|", "<br/>");
 		tWrappedWords = WordUtils.wrap (aText, 50, "<br/>", true);
 		
 		return tWrappedWords;
 	}
-	
+
+	public void foundItemMatchKey2 (XMLNode aChildNode) {
+		benefits = new Benefits (aChildNode);
+	}
+
+	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
 		
