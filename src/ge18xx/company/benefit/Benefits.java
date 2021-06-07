@@ -58,6 +58,30 @@ public class Benefits {
 		benefits.add (aBenefit);
 	}
 
+	public JButton findButtonFor (JPanel aButtonRow, String aButtonLabel) {
+		JButton tThisButton;
+		JButton tFoundButton = Benefit.NO_BUTTON;
+		Component tComponent;
+		String tButtonText;
+		int tComponentCount, tComponentIndex;
+		
+		tComponentCount = aButtonRow.getComponentCount ();
+		if (tComponentCount > 0) {
+			for (tComponentIndex = 0; tComponentIndex < tComponentCount; tComponentIndex++) {
+				tComponent = aButtonRow.getComponent (tComponentIndex);
+				if (tComponent instanceof JButton) {
+					tThisButton = (JButton) tComponent;
+					tButtonText = tThisButton.getText ();
+					if (aButtonLabel.equals (tButtonText)) {
+						tFoundButton = tThisButton;
+					}
+				}
+			}
+		}
+		
+		return tFoundButton;
+	}
+
 	public boolean hasButtonFor (JPanel aButtonRow, String aButtonLabel) {
 		boolean tHasButtonFor = false;
 		JButton tThisButton;

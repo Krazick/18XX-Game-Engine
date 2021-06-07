@@ -1,25 +1,33 @@
 package ge18xx.company.benefit;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import ge18xx.company.CorporationList;
 import ge18xx.company.PrivateCompany;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLNode;
 
-public class Benefit {
+public class Benefit implements ActionListener {
 	public final static ElementName EN_BENEFITS = new ElementName ("Benefits");
 	public final static ElementName EN_BENEFIT = new ElementName ("Benefit");
 	public final static AttributeName AN_CLASS = new AttributeName ("class");
 	public final static AttributeName AN_CLOSE_ON_USE = new AttributeName ("closeOnUse");
 	public final static AttributeName AN_PASSIVE = new AttributeName ("passive");
 	public final static AttributeName AN_ACTOR_TYPE = new AttributeName ("actorType");
+	public final static JButton NO_BUTTON = null;
 	
 	ActorI.ActorTypes actorType;
 	boolean closeOnUse;
 	boolean used;
 	boolean passive;
+	JButton button;
+	PrivateCompany privateCompany;
 		
 	public Benefit (XMLNode aXMLNode) {
 		boolean tClose;
@@ -33,10 +41,38 @@ public class Benefit {
 		setPassive (tPassive);
 		setActorType (tActorType);
 		setUsed (false);
+		setButton (NO_BUTTON);
+		setPrivateCompany (CorporationList.NO_PRIVATE_COMPANY);
+	}
+	
+	public void setPrivateCompany (PrivateCompany aPrivateCompany) {
+		privateCompany = aPrivateCompany;
+	}
+	
+	public PrivateCompany getPrivateCompany () {
+		return privateCompany;
 	}
 	
 	private void setActorType (String aActorType) {
 		actorType = ActorI.ActorTypes.fromString (aActorType);
+	}
+	
+	public void setButton (JButton aButton) {
+		button = aButton;
+	}
+	
+	public JButton getButton () {
+		return button;
+	}
+	
+	public boolean hasButton () {
+		boolean tHasButton = false;
+		
+		if (button != NO_BUTTON) {
+			tHasButton = true;
+		}
+		
+		return tHasButton;
 	}
 	
 	private void setPassive (boolean aPassive) {
@@ -94,7 +130,20 @@ public class Benefit {
 		return tNewButtonText;
 	}
 	
+	public void removeButton (JPanel aButtonRow) {
+		if (hasButton ()) {
+			aButtonRow.remove (button);
+		}
+	}
+	
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
+		setPrivateCompany (aPrivateCompany);
 		// Should have sub-class override to configure for the type of Benefit
+	}
+
+	@Override
+	public void actionPerformed (ActionEvent aEvent) {
+		// TODO Auto-generated method stub
+		
 	}
 }
