@@ -1,6 +1,10 @@
 package ge18xx.company.benefit;
 
 import ge18xx.company.PrivateCompany;
+import ge18xx.game.GameManager;
+import ge18xx.map.HexMap;
+import ge18xx.map.MapCell;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
@@ -51,7 +55,33 @@ public class MapBenefit extends Benefit {
 		return sameTurn;
 	}
 
-	public String getNewButtonLabel(PrivateCompany aPrivateCompany) {
+	public String getNewButtonLabel (PrivateCompany aPrivateCompany) {
 		return null;
+	}
+
+	protected HexMap getMap () {
+		MapFrame tMapFrame;
+		GameManager tGameManager;
+		HexMap tMap;
+		
+		tGameManager = privateCompany.getGameManager ();
+		tMapFrame = tGameManager.getMapFrame ();
+		tMap = tMapFrame.getMap ();
+		
+		return tMap;
+	}
+	
+	protected boolean hasTile () {
+		boolean tHasTile = false;
+		HexMap tMap;
+		MapCell tMapCell;
+		
+		tMap = getMap ();
+		tMapCell = tMap.getMapCellForID (mapCellID);
+		if (tMapCell.isTileOnCell ()) {
+			tHasTile = true;
+		}
+		
+		return tHasTile;
 	}
 }
