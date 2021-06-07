@@ -1908,6 +1908,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tCashHolder;
 	}
 
+	public void handlePlaceTile () {
+		corporationFrame.handlePlaceTile ();
+	}
+	
 	protected void addPrivateBenefitButtons (JPanel aButtonRow) {
 		portfolio.addPrivateBenefitButtons (aButtonRow);
 	}
