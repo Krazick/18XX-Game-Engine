@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
+import ge18xx.company.CorporationList;
 import ge18xx.company.PrivateCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
@@ -51,6 +52,7 @@ public class TilePlacementBenefit extends MapBenefit {
 						" for Tile Placement with Private " + aPrivateCompany.getAbbrev ());
 			tPlaceTileButton = new JButton (getNewButtonLabel (aPrivateCompany));
 			setButton (tPlaceTileButton);
+			setButtonPanel (aButtonRow);
 			tPlaceTileButton.setActionCommand (CorporationFrame.PLACE_TILE_PRIVATE);
 			tPlaceTileButton.addActionListener (this);
 			aButtonRow.add (tPlaceTileButton);
@@ -78,6 +80,9 @@ public class TilePlacementBenefit extends MapBenefit {
 		System.out.println ("Place a Tile on " + getMapCellID () + 
 				" for " + tOwningCorpAbbrev +
 				" using Private " + privateCompany.getAbbrev () + " Benefit.");
+		
+		capturePreviousBenefitInUse (tOwningCompany, this);
+		
 		tOwningCompany.handlePlaceTile ();
 		tMap = getMap ();
 		tMap.clearAllSelected ();
@@ -89,4 +94,34 @@ public class TilePlacementBenefit extends MapBenefit {
 			tMap.toggleSelectedMapCell (tMapCell);
 		}
 	}
+	
+	public void resetBenefitInUse () {
+		Corporation tOwningCompany;
+		
+		if (privateCompany != CorporationList.NO_PRIVATE_COMPANY) {
+			tOwningCompany = (Corporation) privateCompany.getOwner ();
+			tOwningCompany.setBenefitInUse (previousBenefitInUse);
+		}
+	}
+	
+	public void abortUse () {
+		resetBenefitInUse ();
+	}
+	
+	public void completeBenefitUse () {
+		setUsed (true);
+		removeButton ();
+		resetBenefitInUse ();
+		if (closeOnUse) {
+			System.out.println ("Need to close the Private Company " + privateCompany.getAbbrev ());
+		} else {
+			System.out.println ("Private Benefit Used, but don't need to Close");
+		}
+	}
+	
+	// If this is an Extra Tile Placement Benefit, we DO NOT want to Change the State
+	public boolean changeState () {
+		return ! extraTilePlacement;
+	}
+
 }
