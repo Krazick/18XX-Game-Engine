@@ -249,6 +249,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tCorporation = getOperatingCompany ();
 
 		if (COMPLETE_TILE_LAY.equals (tTheAction)) {
+			completeBenefitUse ();
 			togglePlaceTileMode ();
 		} else if (SELECT_ROUTE_MODE.equals (tTheAction)) {
 			toggleSelectRouteMode ();
@@ -312,6 +313,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					tPreviousTile, tPreviousOrientation, 
 					tPreviousTokens, tPreviousBases);
 		}
+	}
+	
+	private void completeBenefitUse () {
+		Corporation tCorporation;
+		
+		tCorporation = getOperatingCompany ();
+		tCorporation.completeBenefitUse ();
 	}
 	
 	private void updatePickupTileButton (boolean aEnabled, String aToolTip) {
