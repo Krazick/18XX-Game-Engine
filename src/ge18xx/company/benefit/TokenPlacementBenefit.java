@@ -49,6 +49,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 			System.out.println ("Should Configure for Token Placement");
 			tPlaceTokenButton = new JButton (getNewButtonLabel (aPrivateCompany));
 			setButton (tPlaceTokenButton);
+			setButtonPanel (aButtonRow);
 			tPlaceTokenButton.setActionCommand (CorporationFrame.PLACE_TOKEN_PRIVATE);
 			tPlaceTokenButton.addActionListener (this);
 			aButtonRow.add (tPlaceTokenButton);
@@ -75,6 +76,8 @@ public class TokenPlacementBenefit extends MapBenefit {
 		System.out.println ("Place a Token on " + getMapCellID () + 
 				" for " + tOwningCompany.getAbbrev () +				
 				" using Private " + privateCompany.getAbbrev () + " Benefit");
+		capturePreviousBenefitInUse (tOwningCompany, this);
+
 		tMap = getMap ();
 		tMap.clearAllSelected ();
 		tMapCell = tMap.getMapCellForID (mapCellID);
