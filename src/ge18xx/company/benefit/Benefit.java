@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.PrivateCompany;
 import ge18xx.round.action.ActorI;
@@ -21,14 +22,33 @@ public class Benefit implements ActionListener {
 	public final static AttributeName AN_PASSIVE = new AttributeName ("passive");
 	public final static AttributeName AN_ACTOR_TYPE = new AttributeName ("actorType");
 	public final static JButton NO_BUTTON = null;
+	public final static JPanel NO_BUTTON_PANEL = null;
+	public final static Benefit NO_BENEFIT = null;
 	
 	ActorI.ActorTypes actorType;
 	boolean closeOnUse;
 	boolean used;
 	boolean passive;
 	JButton button;
+	JPanel buttonPanel;
 	PrivateCompany privateCompany;
-		
+	Benefit previousBenefitInUse;
+	
+	public Benefit () {
+		setCloseOnUse (false);
+		setPassive (true);
+		setActorType (ActorI.ActorTypes.NO_TYPE.toString ());
+		setDefaults ();		
+	}
+
+	private void setDefaults() {
+		setUsed (false);
+		setButton (NO_BUTTON);
+		setButtonPanel (NO_BUTTON_PANEL);
+		setPrivateCompany (CorporationList.NO_PRIVATE_COMPANY);
+		setPreviousBenefitInUse (NO_BENEFIT);
+	}
+	
 	public Benefit (XMLNode aXMLNode) {
 		boolean tClose;
 		boolean tPassive;
@@ -40,9 +60,40 @@ public class Benefit implements ActionListener {
 		setCloseOnUse (tClose);
 		setPassive (tPassive);
 		setActorType (tActorType);
-		setUsed (false);
-		setButton (NO_BUTTON);
-		setPrivateCompany (CorporationList.NO_PRIVATE_COMPANY);
+		setDefaults ();
+	}
+	
+	protected void setPreviousBenefitInUse (Benefit aPreviousBenefitInUse) {
+		previousBenefitInUse = aPreviousBenefitInUse;
+	}
+	
+	public Benefit getPreviousBenefitInUse () {
+		return previousBenefitInUse;
+	}
+	
+	protected void capturePreviousBenefitInUse (Corporation aCorporation, Benefit aNewBenefit) {
+		Benefit tPreviousBenefitInUse;
+		
+		tPreviousBenefitInUse = aCorporation.getBenefitInUse ();
+		setPreviousBenefitInUse (tPreviousBenefitInUse);
+		aCorporation.setBenefitInUse (aNewBenefit);
+	}
+	
+	protected void setButtonPanel (JPanel aButtonPanel) {
+		buttonPanel = aButtonPanel;
+	}
+	
+	protected JPanel getButtonPanel () {
+		return buttonPanel;
+	}
+	
+	protected void removeButton () {
+		if (buttonPanel != NO_BUTTON_PANEL) {
+			if (button != NO_BUTTON) {
+				buttonPanel.remove (button);
+				setButton (NO_BUTTON);
+			}
+		}
 	}
 	
 	public void setPrivateCompany (PrivateCompany aPrivateCompany) {
@@ -79,7 +130,7 @@ public class Benefit implements ActionListener {
 		passive = aPassive;
 	}
 	
-	private void setUsed (boolean aUsed) {
+	protected void setUsed (boolean aUsed) {
 		used = aUsed;
 	}
 	
@@ -145,5 +196,17 @@ public class Benefit implements ActionListener {
 	public void actionPerformed (ActionEvent aEvent) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void abortUse () {
+		
+	}
+	
+	public void completeBenefitUse () {
+		
+	}
+	
+	public boolean changeState () {
+		return true;
 	}
 }
