@@ -1295,12 +1295,16 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		String tNewTokens, tNewBases;
 		
 		tCurrentStatus = status;
-		if (status == ActorI.ActionStates.TileLaid) {
-			tStatusUpdated = updateStatus (ActorI.ActionStates.Tile2Laid);
-		} else if (status == ActorI.ActionStates.StationLaid) {
-			tStatusUpdated = updateStatus (ActorI.ActionStates.TileAndStationLaid);
+		if (benefitInUse.changeState ()) {
+			if (status == ActorI.ActionStates.TileLaid) {
+				tStatusUpdated = updateStatus (ActorI.ActionStates.Tile2Laid);
+			} else if (status == ActorI.ActionStates.StationLaid) {
+				tStatusUpdated = updateStatus (ActorI.ActionStates.TileAndStationLaid);
+			} else {
+				tStatusUpdated = updateStatus (ActorI.ActionStates.TileLaid);
+			}
 		} else {
-			tStatusUpdated = updateStatus (ActorI.ActionStates.TileLaid);
+			tStatusUpdated = true;
 		}
 		if (tStatusUpdated) {
 			tNewStatus = status;
@@ -1319,7 +1323,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tNewTokens = aTile.getPlacedTokens ();
 			tNewBases = aTile.getCorporationBases ();
 			tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, tNewTokens, tNewBases);
-			tLayTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
+			if (tCurrentStatus != tNewStatus) {
+				tLayTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
+			}
 			if (tCostToLayTile > 0) {
 				tBank = corporationList.getBank ();
 				this.transferCashTo (tBank, tCostToLayTile);
@@ -1328,6 +1334,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			addAction (tLayTileAction);
 			corporationFrame.updateInfo ();
 		}
+	}
+	
+	public void completeBenefitUse () {
+		benefitInUse.completeBenefitUse ();		
 	}
 	
 	public void trainsOperated (int aRevenue) {
