@@ -21,6 +21,7 @@ import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
@@ -97,6 +98,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	ActorI.ActionStates status;
 	CorporationFrame corporationFrame;
 	CorporationList corporationList;
+	Benefit benefitInUse;
 	Portfolio portfolio;   // All Certificates Owned by the Corporation (Privates, Minors, it's own, and others)
 			// Use this portfolio to find what this company can sell.
 	Portfolio corporationCertificates; // A copy of all of this Corporation's Certificates -- regardless of who owns them.
@@ -121,6 +123,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		int tLocation;
 		XMLNodeList tXMLNodeList;
 		String tName, tAbbrev;
+		Benefit tBenefitInUse;
 		
 		corporationCertificates = new Portfolio (this);
 		portfolio = new Portfolio (this);
@@ -144,8 +147,18 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		tXMLNodeList = new XMLNodeList (this);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, Certificate.EN_CERTIFICATE, Benefits.EN_BENEFITS);
 		setCorporationList (aCorporationList);
+		tBenefitInUse = new Benefit ();
+		setBenefitInUse (tBenefitInUse);
 	}
 
+	public void setBenefitInUse (Benefit aBenefitInUse) {
+		benefitInUse = aBenefitInUse;
+	}
+	
+	public Benefit getBenefitInUse () {
+		return benefitInUse;
+	}
+	
 	private void setStatus (XMLNode aXMLNode) {
 		String tStatus;
 		ActorI.ActionStates tActionStatus;
@@ -1915,4 +1928,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	protected void addPrivateBenefitButtons (JPanel aButtonRow) {
 		portfolio.addPrivateBenefitButtons (aButtonRow);
 	}
+
+	public abstract void completeBenefitUse ();
 }
