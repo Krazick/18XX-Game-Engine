@@ -345,11 +345,11 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	@Override
-	public boolean atTrainLimit() {
+	public boolean atTrainLimit () {
 		return false;
 	}
 
-	public int getTotalEscrows() {
+	public int getTotalEscrows () {
 		int tTotalEscrows = 0;
 		Certificate tCertificate;
 		int tCertificateCount, tCertificateIndex;
@@ -361,5 +361,10 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		}
 
 		return tTotalEscrows;
+	}
+
+	@Override
+	public void completeBenefitUse () {
+		
 	}
 }
