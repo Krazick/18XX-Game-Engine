@@ -337,14 +337,21 @@ public class GameManager extends Component implements NetworkGameSupport {
 				logger.error ("Problem Loading Color Scheme: " + tException);
 			}
 			
+			CorporationList tShareCompaniesList, tPrivatesCompaniesList, tMinorCompaniesList;
+//			CorporationList tCoalCompaniesList;
+			
 			tMapFrame.setCityInfo (citiesFrame.getCities ());
-			tMapFrame.setCorporationList (privatesFrame.getPrivates (), CorporationList.TYPE_NAMES [0]);
-			tMapFrame.setCorporationList (coalCompaniesFrame.getCoalCompanies (), CorporationList.TYPE_NAMES [1]);
-			tMapFrame.setCorporationList (minorCompaniesFrame.getMinorCompanies (), CorporationList.TYPE_NAMES [2]);
-			tMapFrame.setCorporationList (shareCompaniesFrame.getShareCompanies (), CorporationList.TYPE_NAMES [3]);
-			tMapFrame.setHomeCities (shareCompaniesFrame.getShareCompanies ());
-			tMapFrame.setHomeCities (minorCompaniesFrame.getMinorCompanies ());
-			tMapFrame.setHomeCities (privatesFrame.getPrivates ());
+			tPrivatesCompaniesList = privatesFrame.getPrivates ();
+			tShareCompaniesList = shareCompaniesFrame.getShareCompanies ();
+			tMinorCompaniesList = minorCompaniesFrame.getMinorCompanies ();
+//			tCoalCompaniesList = coalCompaniesFrame.getCoalCompanies ();
+			tMapFrame.setCorporationList (tPrivatesCompaniesList, CorporationList.TYPE_NAMES [0]);
+//			tMapFrame.setCorporationList (tCoalCompaniesList, CorporationList.TYPE_NAMES [1]);
+			tMapFrame.setCorporationList (tMinorCompaniesList, CorporationList.TYPE_NAMES [2]);
+			tMapFrame.setCorporationList (tShareCompaniesList, CorporationList.TYPE_NAMES [3]);
+			tMapFrame.setHomeCities (tShareCompaniesList);
+			tMapFrame.setHomeCities (tMinorCompaniesList);
+			tMapFrame.setHomeCities (tPrivatesCompaniesList);
 		}	
 	}
 	
