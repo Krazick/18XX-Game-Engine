@@ -15,8 +15,13 @@ class CorporationBasicTests {
 	class CorporationConcrete extends Corporation {
 
 		@Override
-		public boolean atTrainLimit() {
+		public boolean atTrainLimit () {
 			return false;
+		}
+
+		@Override
+		public void completeBenefitUse () {
+			
 		}
 	}
 	
