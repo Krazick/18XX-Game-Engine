@@ -456,9 +456,6 @@ public abstract class TokenCompany extends TrainCompany {
 			tCostToLayToken = getNonBaseTokenCost ();
 		}
 		
-		// TODO: If laying the D&H Tile and Token, as Special Effect of Private
-		// Cost to Lay this token is $0
-		
 		// Also note, some games may vary token cost on Distance from Home Station
 		
 		return tCostToLayToken;
@@ -468,8 +465,12 @@ public abstract class TokenCompany extends TrainCompany {
 		int tCostToLayToken = 0;
 		MapToken tFirstToken;
 		
-		tFirstToken = mapTokens.get (0);
-		tCostToLayToken = tFirstToken.getCost ();
+		if (benefitInUse.realBenefit ()) {
+			tCostToLayToken = benefitInUse.getCost ();
+		} else {
+			tFirstToken = mapTokens.get (0);
+			tCostToLayToken = tFirstToken.getCost ();
+		}
 		
 		return tCostToLayToken;
 	}
