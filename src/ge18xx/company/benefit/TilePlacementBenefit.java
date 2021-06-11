@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
-import ge18xx.company.CorporationList;
 import ge18xx.company.PrivateCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
@@ -17,6 +16,7 @@ import ge18xx.utilities.XMLNode;
 public class TilePlacementBenefit extends MapBenefit {
 	boolean extraTilePlacement;
 	final static AttributeName AN_EXTRA = new AttributeName ("extra");
+	public final static String NAME = "TILE_PLACEMENT";
 
 	public TilePlacementBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -25,6 +25,7 @@ public class TilePlacementBenefit extends MapBenefit {
 		
 		tExtraTilePlacement = aXMLNode.getThisBooleanAttribute (AN_EXTRA);
 		setExtraTilePlacement (tExtraTilePlacement);
+		setName (NAME);
 	}
 	
 	private void setExtraTilePlacement (boolean aExtraTilePlacement) {
@@ -32,30 +33,43 @@ public class TilePlacementBenefit extends MapBenefit {
 	}
 	
 	@Override
-	public String getNewButtonLabel (PrivateCompany aPrivateCompany) {
+	public String getNewButtonLabel () {
 		String tNewButtonText;
 		
-		tNewButtonText = "Place Tile on " + aPrivateCompany.getAbbrev () + " Home";
+		tNewButtonText = "Place Tile on " + privateCompany.getAbbrev () + " Home";
 		
 		return tNewButtonText;
 	}
 	
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
-		String tOwningCorpAbbrev;
 		JButton tPlaceTileButton;
 		
 		super.configure (aPrivateCompany, aButtonRow);
-		if (shouldConfigure (aPrivateCompany)) {
-			tOwningCorpAbbrev = aPrivateCompany.getOwnerName ();
-			System.out.println ("Should Configure Buttons for " + tOwningCorpAbbrev + 
-						" for Tile Placement with Private " + aPrivateCompany.getAbbrev ());
-			tPlaceTileButton = new JButton (getNewButtonLabel (aPrivateCompany));
-			setButton (tPlaceTileButton);
-			setButtonPanel (aButtonRow);
-			tPlaceTileButton.setActionCommand (CorporationFrame.PLACE_TILE_PRIVATE);
-			tPlaceTileButton.addActionListener (this);
-			aButtonRow.add (tPlaceTileButton);
+		if (shouldConfigure ()) {
+			if (! hasButton ()) {
+				tPlaceTileButton = new JButton (getNewButtonLabel ());
+				setButton (tPlaceTileButton);
+				setButtonPanel (aButtonRow);
+				tPlaceTileButton.setActionCommand (CorporationFrame.PLACE_TILE_PRIVATE);
+				tPlaceTileButton.addActionListener (this);
+				aButtonRow.add (tPlaceTileButton);
+			}
+			updateButton ();
+		}
+	}
+	
+	@Override
+	public void updateButton () {
+		if (hasTile ()) {
+			disableButton ();
+			setToolTip ("MapCell already has Tile");
+		} else if (isTileAvailable ()) {
+			enableButton ();
+			setToolTip ("");
+		} else {
+			disableButton ();
+			setToolTip ("No Tile available to place on MapCell");
 		}
 	}
 	
@@ -68,19 +82,13 @@ public class TilePlacementBenefit extends MapBenefit {
 			handlePlaceTile  ();
 		}
 	}
-
+	
 	private void handlePlaceTile () {
-		Corporation tOwningCompany;
-		String tOwningCorpAbbrev;
 		HexMap tMap;
 		MapCell tMapCell;
+		Corporation tOwningCompany;
 		
-		tOwningCompany = (Corporation) privateCompany.getOwner ();
-		tOwningCorpAbbrev = privateCompany.getOwnerName ();
-		System.out.println ("Place a Tile on " + getMapCellID () + 
-				" for " + tOwningCorpAbbrev +
-				" using Private " + privateCompany.getAbbrev () + " Benefit.");
-		
+		tOwningCompany = (Corporation) privateCompany.getOwner ();		
 		capturePreviousBenefitInUse (tOwningCompany, this);
 		
 		tOwningCompany.handlePlaceTile ();
@@ -95,28 +103,12 @@ public class TilePlacementBenefit extends MapBenefit {
 		}
 	}
 	
-	public void resetBenefitInUse () {
-		Corporation tOwningCompany;
-		
-		if (privateCompany != CorporationList.NO_PRIVATE_COMPANY) {
-			tOwningCompany = (Corporation) privateCompany.getOwner ();
-			tOwningCompany.setBenefitInUse (previousBenefitInUse);
-		}
+	public boolean realBenefit () {
+		return true;
 	}
 	
 	public void abortUse () {
 		resetBenefitInUse ();
-	}
-	
-	public void completeBenefitUse () {
-		setUsed (true);
-		removeButton ();
-		resetBenefitInUse ();
-		if (closeOnUse) {
-			System.out.println ("Need to close the Private Company " + privateCompany.getAbbrev ());
-		} else {
-			System.out.println ("Private Benefit Used, but don't need to Close");
-		}
 	}
 	
 	// If this is an Extra Tile Placement Benefit, we DO NOT want to Change the State

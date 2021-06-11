@@ -5,9 +5,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import ge18xx.center.City;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.PrivateCompany;
+import ge18xx.company.TokenCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Tile;
@@ -17,6 +19,7 @@ import ge18xx.utilities.XMLNode;
 public class TokenPlacementBenefit extends MapBenefit {
 	boolean extraTokenPlacement;
 	final static AttributeName AN_EXTRA = new AttributeName ("extra");
+	public final static String NAME = "TOKEN_PLACEMENT";
 
 	public TokenPlacementBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -25,6 +28,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 		
 		tExtraTokenPlacement = aXMLNode.getThisBooleanAttribute (AN_EXTRA);
 		setExtraTokenPlacement (tExtraTokenPlacement);
+		setName (NAME);
 	}
 	
 	private void setExtraTokenPlacement (boolean aExtraTokenPlacement) {
@@ -32,10 +36,10 @@ public class TokenPlacementBenefit extends MapBenefit {
 	}
 	
 	@Override
-	public String getNewButtonLabel (PrivateCompany aPrivateCompany) {
+	public String getNewButtonLabel () {
 		String tNewButtonText;
 		
-		tNewButtonText = "Place Token on " + aPrivateCompany.getAbbrev () + " Home";
+		tNewButtonText = "Place Token on " + privateCompany.getAbbrev () + " Home";
 		
 		return tNewButtonText;
 	}
@@ -45,14 +49,55 @@ public class TokenPlacementBenefit extends MapBenefit {
 		JButton tPlaceTokenButton;
 		
 		super.configure (aPrivateCompany, aButtonRow);
-		if (shouldConfigure (aPrivateCompany)) {
+		if (shouldConfigure ()) {
 			System.out.println ("Should Configure for Token Placement");
-			tPlaceTokenButton = new JButton (getNewButtonLabel (aPrivateCompany));
-			setButton (tPlaceTokenButton);
-			setButtonPanel (aButtonRow);
-			tPlaceTokenButton.setActionCommand (CorporationFrame.PLACE_TOKEN_PRIVATE);
-			tPlaceTokenButton.addActionListener (this);
-			aButtonRow.add (tPlaceTokenButton);
+			if (! hasButton ()) {
+				tPlaceTokenButton = new JButton (getNewButtonLabel ());
+				setButton (tPlaceTokenButton);
+				setButtonPanel (aButtonRow);
+				tPlaceTokenButton.setActionCommand (CorporationFrame.PLACE_TOKEN_PRIVATE);
+				tPlaceTokenButton.addActionListener (this);
+				aButtonRow.add (tPlaceTokenButton);
+			}
+			updateButton ();
+		}
+	}
+	
+	private boolean hasTokens () {
+		TokenCompany tOwningCompany;
+		boolean tHasTokens = true;
+		int tTokenCount;
+		
+		tOwningCompany = (TokenCompany) privateCompany.getOwner ();
+		tTokenCount = tOwningCompany.getTokenCount ();
+		if (tTokenCount == 0) {
+			tHasTokens = false;
+		}
+		
+		return tHasTokens;
+	}
+	
+	@Override
+	public void updateButton () {
+		Corporation tOwningCompany;
+		Benefit tBenefitInUse;
+		String tBenefitInUseName;
+		
+		tOwningCompany = (Corporation) privateCompany.getOwner ();
+		tBenefitInUse = tOwningCompany.getBenefitInUse ();
+		tBenefitInUseName = tBenefitInUse.getName ();
+		if ((tBenefitInUse.realBenefit ()) && (! NAME.equals(tBenefitInUseName))) {
+			disableButton ();
+			setToolTip ("Another Benefit is currently in Use");
+		} else if (hasTile ()) {
+			enableButton ();
+			setToolTip ("");
+		} else if (! hasTokens ()) {
+			disableButton ();
+			setToolTip ("Company has no Tokens, can't place Button");
+		} else {
+			disableButton ();
+			setToolTip ("No Tile on the MapCell, can't place Button");
 		}
 	}
 	
@@ -67,10 +112,11 @@ public class TokenPlacementBenefit extends MapBenefit {
 	}
 
 	private void handlePlaceToken () {
-		Corporation tOwningCompany;
 		HexMap tMap;
 		MapCell tMapCell;
 		Tile tTile;
+		Corporation tOwningCompany;
+		City tCity;
 		
 		tOwningCompany = (Corporation) privateCompany.getOwner ();
 		System.out.println ("Place a Token on " + getMapCellID () + 
@@ -90,13 +136,21 @@ public class TokenPlacementBenefit extends MapBenefit {
 				System.out.println ("Found Tile # " + tTile.getNumber () + " on the MapCell");
 				if (tTile.cityOnTile ()) {
 					System.out.println ("City is on the Tile");
-					
+					tCity = (City) tTile.getRevenueCenter (0);
+					tMap.putMapTokenDown (tOwningCompany, tCity, tMapCell);
 				}
 				tMap.toggleSelectedMapCell (tMapCell);
 			} else {
 				System.err.println ("No Tile found on MapCell");
 			}
 		}
-		
+	}
+	
+	public boolean realBenefit () {
+		return true;
+	}
+	
+	public boolean changeState () {
+		return true;
 	}
 }
