@@ -6,14 +6,17 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.utilities.XMLNode;
 
 public class FreeCertificateBenefit extends CertificateBenefit {
+	public final static String NAME = "FREE_CERTIFICATE";
 
 	public FreeCertificateBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
+		setName (NAME);
 	}
 	
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
-		if (shouldConfigure (aPrivateCompany)) {
+		super.configure (aPrivateCompany, aButtonRow);
+		if (shouldConfigure ()) {
 			System.out.println ("Should Configure for Free Certificate -- PASSIVE");
 		}
 	}

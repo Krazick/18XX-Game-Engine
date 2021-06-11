@@ -7,6 +7,7 @@ public class CertificateBenefit extends Benefit {
 	final static AttributeName AN_CERTIFICATE_PERCENTAGE = new AttributeName ("certificatePercentage");
 	final static AttributeName AN_CERTIFICATE_ID = new AttributeName ("certificateID");
 	final static AttributeName AN_CERTIFICATE_PRESIDENT = new AttributeName ("certificatePresident");
+	public final static String NAME = "CERTIFICATE";
 	String certificateID;
 	int certificatePercentage;
 	boolean certificatePresident;
@@ -24,6 +25,7 @@ public class CertificateBenefit extends Benefit {
 		setCertificateID (tCertificateID);
 		setCertificatePercentage (tCertificatePercentage);
 		setCertificatePresident (tCertificatePresident);
+		setName (NAME);
 	}
 
 	private void setCertificatePresident (boolean aCertificatePresident) {
@@ -48,5 +50,10 @@ public class CertificateBenefit extends Benefit {
 	
 	public boolean getCcertificatePresident () {
 		return certificatePresident;
+	}
+
+	@Override
+	public int getCost () {
+		return 0;
 	}
 }

@@ -14,7 +14,7 @@ import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLNode;
 
-public class Benefit implements ActionListener {
+public abstract class Benefit implements ActionListener {
 	public final static ElementName EN_BENEFITS = new ElementName ("Benefits");
 	public final static ElementName EN_BENEFIT = new ElementName ("Benefit");
 	public final static AttributeName AN_CLASS = new AttributeName ("class");
@@ -24,6 +24,7 @@ public class Benefit implements ActionListener {
 	public final static JButton NO_BUTTON = null;
 	public final static JPanel NO_BUTTON_PANEL = null;
 	public final static Benefit NO_BENEFIT = null;
+	public final static String NAME = "ABSTRACT";
 	
 	ActorI.ActorTypes actorType;
 	boolean closeOnUse;
@@ -33,14 +34,24 @@ public class Benefit implements ActionListener {
 	JPanel buttonPanel;
 	PrivateCompany privateCompany;
 	Benefit previousBenefitInUse;
+	String name;
 	
 	public Benefit () {
+		setName (NAME);
 		setCloseOnUse (false);
 		setPassive (true);
 		setActorType (ActorI.ActorTypes.NO_TYPE.toString ());
 		setDefaults ();		
 	}
 
+	public void setName (String aName) {
+		name = aName;
+	}
+	
+	public String getName () {
+		return name;
+	}
+	
 	private void setDefaults() {
 		setUsed (false);
 		setButton (NO_BUTTON);
@@ -94,6 +105,22 @@ public class Benefit implements ActionListener {
 				setButton (NO_BUTTON);
 			}
 		}
+	}
+	
+	public void updateButton () {
+		
+	}
+	
+	public void enableButton () {
+		button.setEnabled (true);
+	}
+	
+	public void disableButton () {
+		button.setEnabled (false);
+	}
+	
+	public void setToolTip (String aToolTip) {
+		button.setToolTipText (aToolTip);
 	}
 	
 	public void setPrivateCompany (PrivateCompany aPrivateCompany) {
@@ -150,6 +177,8 @@ public class Benefit implements ActionListener {
 		return passive;
 	}
 	
+	public abstract int getCost ();
+	
 	public boolean isPlayerBenefit () {
 		boolean tIsPlayerBenefit = false;
 		
@@ -160,21 +189,21 @@ public class Benefit implements ActionListener {
 		return tIsPlayerBenefit;
 	}
 	
-	public boolean shouldConfigure (PrivateCompany aPrivateCompany) {
+	public boolean shouldConfigure () {
 		boolean tShouldConfigure = true;
 		
 		if (used || passive) {
 			tShouldConfigure = false;
 		}
 		
-		if ((! aPrivateCompany.isPlayerOwned ()) && isPlayerBenefit ()) {
+		if ((! privateCompany.isPlayerOwned ()) && isPlayerBenefit ()) {
 			tShouldConfigure = false;
 		}
 		
 		return tShouldConfigure;
 	}
 	
-	public String getNewButtonLabel (PrivateCompany aPrivateCompany) {
+	public String getNewButtonLabel () {
 		// Should have sub-class override to build label for the type of Benefit
 		String tNewButtonText = "";
 		
@@ -194,8 +223,10 @@ public class Benefit implements ActionListener {
 
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
-		// TODO Auto-generated method stub
-		
+	}
+	
+	public boolean realBenefit () {
+		return false;
 	}
 	
 	public void abortUse () {
