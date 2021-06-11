@@ -23,6 +23,7 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
+import ge18xx.company.benefit.FakeBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -147,7 +148,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		tXMLNodeList = new XMLNodeList (this);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, Certificate.EN_CERTIFICATE, Benefits.EN_BENEFITS);
 		setCorporationList (aCorporationList);
-		tBenefitInUse = new Benefit ();
+		tBenefitInUse = new FakeBenefit ();
 		setBenefitInUse (tBenefitInUse);
 	}
 
