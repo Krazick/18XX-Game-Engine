@@ -14,7 +14,7 @@ public class BuyStockAction extends TransferOwnershipAction {
 		setName (NAME);
 	}
 	
-	public BuyStockAction (ActorI.ActionStates aRoundType, String aRoundID,ActorI aActor) {
+	public BuyStockAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
