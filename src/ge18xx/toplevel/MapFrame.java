@@ -538,6 +538,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				tTile = aMapCell.getTile ();
 				tRevenueCenterIndex = tTile.getStationIndex (tCorporationID);
 				aCorporation.tokenWasPlaced (aMapCell, tTile, tRevenueCenterIndex);
+				completeBenefitUse ();
 				putTokenButton.setEnabled (false);
 				putTokenButton.setToolTipText (TOKEN_ALREADY_PLACED);
 				// If we have placed the Token and there was a Base Corporation Tile, clear out any other Bases for this Corporation from this Tile
