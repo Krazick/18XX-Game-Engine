@@ -85,35 +85,18 @@ public class Benefits {
 	public boolean hasButtonFor (JPanel aButtonRow, String aButtonLabel) {
 		boolean tHasButtonFor = false;
 		JButton tThisButton;
-		Component tComponent;
-		String tButtonText;
-		int tComponentCount, tComponentIndex;
 		
-		tComponentCount = aButtonRow.getComponentCount ();
-		if (tComponentCount > 0) {
-			for (tComponentIndex = 0; tComponentIndex < tComponentCount; tComponentIndex++) {
-				tComponent = aButtonRow.getComponent (tComponentIndex);
-				if (tComponent instanceof JButton) {
-					tThisButton = (JButton) tComponent;
-					tButtonText = tThisButton.getText ();
-					if (aButtonLabel.equals (tButtonText)) {
-						tHasButtonFor = true;
-					}
-				}
-			}
+		tThisButton = findButtonFor (aButtonRow, aButtonLabel);
+		if (tThisButton != Benefit.NO_BUTTON) {
+			tHasButtonFor = true;
 		}
-		
+				
 		return tHasButtonFor;
 	}
 	
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
-		String tNewButtonText;
-		
 		for (Benefit tBenefit : benefits) {
-			tNewButtonText = tBenefit.getNewButtonLabel (aPrivateCompany);
-			if (! hasButtonFor (aButtonRow, tNewButtonText)) {
-				tBenefit.configure (aPrivateCompany, aButtonRow);
-			}
+			tBenefit.configure (aPrivateCompany, aButtonRow);
 		}
 	}
 }
