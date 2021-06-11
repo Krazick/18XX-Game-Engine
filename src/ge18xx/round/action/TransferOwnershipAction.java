@@ -20,8 +20,7 @@ public class TransferOwnershipAction extends CashTransferAction {
 		super (aName);
 	}
 	
-	public TransferOwnershipAction (ActorI.ActionStates aRoundType, String aRoundID,
-			ActorI aActor) {
+	public TransferOwnershipAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
