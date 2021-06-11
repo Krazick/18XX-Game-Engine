@@ -22,7 +22,7 @@
 		special="Tile Placement and Token Placement">
 		<Benefits>
 			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TilePlacementBenefit" extra="false" mapCell="F16" cost="120" passive="false"/>
-			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TokenPlacementBenefit" extra="false" mapCell="F16" cost="0" sameTurn="true" passive="false"/>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TokenPlacementBenefit" closeOnUse="false" extra="false" mapCell="F16" cost="0" sameTurn="true" passive="false"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
