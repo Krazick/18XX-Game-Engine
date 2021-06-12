@@ -115,5 +115,4 @@ public class TilePlacementBenefit extends MapBenefit {
 	public boolean changeState () {
 		return ! extraTilePlacement;
 	}
-
 }
