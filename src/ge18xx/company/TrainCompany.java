@@ -149,6 +149,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		trainRevenueFrame = new TrainRevenueFrame (this, tRevenueFrameTitle);
 	}
 	
+	@Override
 	public void loadStates (XMLNode aXMLNode) {
 		int tThisRevenue, tLastRevenue;
 		boolean tMustBuyTrain;
