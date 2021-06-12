@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
@@ -26,7 +27,11 @@ public class ChangeTileEffect extends ChangeMapEffect {
 	
 	public ChangeTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
 			int aOrientation) {
-		super (aActor, aMapCell);
+		this (aActor, aMapCell, aTile, aOrientation, NO_BENEFIT_IN_USE);
+	}
+	public ChangeTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
+			int aOrientation, Benefit aBenefitInUse) {
+		super (aActor, aMapCell, aBenefitInUse);
 		setName (NAME);
 		setTileNumber (aTile.getNumber ());
 		setOrientation (aOrientation);

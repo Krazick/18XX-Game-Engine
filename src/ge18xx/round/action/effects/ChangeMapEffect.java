@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
@@ -23,7 +24,11 @@ public class ChangeMapEffect extends Effect {
 	}
 	
 	public ChangeMapEffect (ActorI aActor, MapCell aMapCell) {
-		super (NAME, aActor);
+		this (aActor, aMapCell, NO_BENEFIT_IN_USE);
+	}
+	
+	public ChangeMapEffect (ActorI aActor, MapCell aMapCell, Benefit aBenefitInUse) {
+		super (NAME, aActor, aBenefitInUse);
 		setMapCellID (aMapCell);
 	}
 

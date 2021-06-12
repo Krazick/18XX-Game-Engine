@@ -2,6 +2,7 @@ package ge18xx.round.action.effects;
 
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -17,6 +18,7 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 	public static final String NAME = "Change Tile Contents";
 	final static AttributeName AN_TOKENS = new AttributeName ("tokens");
 	final static AttributeName AN_BASES = new AttributeName ("bases");
+	
 	String tokens;
 	String bases;
 
@@ -27,10 +29,16 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 	public ChangeTileContentEffect (String aName) {
 		super (aName);
 	}
-
+	
 	public ChangeTileContentEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
 			int aOrientation, String aTokens, String aBases) {
-		super (aActor, aMapCell, aTile, aOrientation);
+		this (aActor, aMapCell, aTile, aOrientation, aTokens, aBases, NO_BENEFIT_IN_USE);
+	}
+
+	public ChangeTileContentEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
+			int aOrientation, String aTokens, String aBases, Benefit aBenefitInUse) {
+		super (aActor, aMapCell, aTile, aOrientation, aBenefitInUse);
+				
 		setName (NAME);
 		setTokens (aTokens);
 		setBases (aBases);
@@ -54,7 +62,7 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_TOKENS, getTokens ());
 		tEffectElement.setAttribute (AN_BASES, getBases ());
-	
+		
 		return tEffectElement;
 	}
 

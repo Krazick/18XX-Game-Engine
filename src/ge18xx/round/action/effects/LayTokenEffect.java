@@ -5,6 +5,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.MapToken;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TokenStack;
+import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
@@ -26,8 +27,8 @@ public class LayTokenEffect extends ChangeMapEffect {
 		setName (NAME);
 	}
 
-	public LayTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex) {
-		super (aActor, aMapCell);
+	public LayTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, Benefit aBenefitInUse) {
+		super (aActor, aMapCell, aBenefitInUse);
 		setName (NAME);
 		setTileNumber (aTile);
 		setRevenueCenterIndex (aRevenueCenterIndex);
@@ -67,8 +68,10 @@ public class LayTokenEffect extends ChangeMapEffect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
+		String tBenefitReport = getBenefitEffectReport ();
+		
 		return (REPORT_PREFIX + getName () + " on Tile " + tileNumber + " at Center Index " + revenueCenterIndex +
-				" by " + getActor ().getName () + " on MapCell " + getMapCellID () + ".");
+				" by " + getActor ().getName () + " on MapCell " + getMapCellID () + "." + tBenefitReport);
 	}
 	
 	@Override

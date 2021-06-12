@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
@@ -26,7 +27,12 @@ public class LayTileEffect extends ChangeTileContentEffect {
 	
 	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, 
 			String aNewTokens, String aNewBases) {
-		super (aActor, aMapCell, aTile, aOrientation, aNewTokens, aNewBases);
+		this (aActor, aMapCell, aTile, aOrientation, aNewTokens, aNewBases, NO_BENEFIT_IN_USE);
+	}
+	
+	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, 
+			String aNewTokens, String aNewBases, Benefit aBenefitInUse) {
+		super (aActor, aMapCell, aTile, aOrientation, aNewTokens, aNewBases, aBenefitInUse);
 		setName (NAME);
 	}
 
@@ -46,9 +52,11 @@ public class LayTileEffect extends ChangeTileContentEffect {
 	
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
+		String tBenefitReport = getBenefitEffectReport ();
+		
 		return (REPORT_PREFIX + name + " #" + tileNumber + " with orientation " + orientation +
 				" by " + actor.getName () + " on MapCell " + mapCellID +
-				" New Tokens [ " + getTokens () + " ] New Bases [ " + getBases () + " ].");
+				" New Tokens [ " + getTokens () + " ] New Bases [ " + getBases () + " ]." + tBenefitReport);
 	}
 
 	@Override
