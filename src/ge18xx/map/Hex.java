@@ -1213,23 +1213,23 @@ public class Hex {
         Yc = offsetY;
 	}
 	
-	public void paintHex (Graphics g, int Xo, int Yo, Color fill_color) {
-		paintHex (g, Xo, Yo, fill_color, true, null);
+	public void paintHex (Graphics g, int Xo, int Yo, Color aFill_color) {
+		paintHex (g, Xo, Yo, aFill_color, true, null);
 	}
 	
-    public void paintHex (Graphics g, int Xo, int Yo, Color fill_color, Color thickFrame) {
-		paintHex (g, Xo, Yo, fill_color, true, thickFrame);
+    public void paintHex (Graphics g, int Xo, int Yo, Color aFill_color, Color aThickFrame) {
+		paintHex (g, Xo, Yo, aFill_color, true, aThickFrame);
 	}
 	
-    public void paintHex (Graphics g, int Xo, int Yo, Color fillColor, boolean drawBorder) {
-		paintHex (g, Xo, Yo, fillColor, drawBorder, null);
+    public void paintHex (Graphics g, int Xo, int Yo, Color aFillColor, boolean aDrawBorder) {
+		paintHex (g, Xo, Yo, aFillColor, aDrawBorder, null);
 	}
 	
-    public void paintHex (Graphics g, int Xo, int Yo, Color fillColor, boolean drawBorder, Color thickFrame) {
-		paintHex (g, Xo, Yo, fillColor, drawBorder, null, null);
+    public void paintHex (Graphics g, int Xo, int Yo, Color aFillColor, boolean aDrawBorder, Color aThickFrame) {
+		paintHex (g, Xo, Yo, aFillColor, aDrawBorder, null, null);
 	}
 
-    public void paintHex (Graphics g, int Xo, int Yo, Color fillColor, boolean drawBorder, Color thickFrame, 
+    public void paintHex (Graphics g, int Xo, int Yo, Color aFillColor, boolean aDrawBorder, Color aThickFrame, 
 						  boolean aBlockedSides []) {
 		Stroke tCurrentStroke;
 		BasicStroke tFrameStroke;
@@ -1245,14 +1245,14 @@ public class Hex {
 	    		yp [index] = y [index] + Yo;
     		}
 		
-    		g.setColor (fillColor);
+    		g.setColor (aFillColor);
  		try {
  			g.fillPolygon (xp, yp, npnts - 1);
  		} catch (ArrayIndexOutOfBoundsException exc) {
  			System.err.println ("Oops, trying to fill polygon at " + Xo + ", " + Yo + ". Sorry");
  		}
-		if (thickFrame != null) {
-			g.setColor (thickFrame);
+		if (aThickFrame != null) {
+			g.setColor (aThickFrame);
 			tCurrentStroke = g2d.getStroke();
 			tFrameStroke = new BasicStroke (trackWidth*2);
 			g2d.setStroke (tFrameStroke);
@@ -1266,7 +1266,7 @@ public class Hex {
 			
 			g2d.setStroke (tCurrentStroke);
 		}
-		drawBorders (g, Xo, Yo, drawBorder, aBlockedSides);
+		drawBorders (g, Xo, Yo, aDrawBorder, aBlockedSides);
 		g.setClip (tPreviousClip);
     }
     
