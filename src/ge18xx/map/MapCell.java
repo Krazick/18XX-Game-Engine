@@ -1045,7 +1045,7 @@ public class MapCell implements Comparator<Object> {
 	
     public void paintComponent (Graphics g, Hex aHex) {
 		RevenueCenter tRC1;
-		Color thickFrame;
+		Color tThickFrame;
 		String tTileName = TileName.NO_NAME2;
 		String tBaseTileName;
 		String tCityInfoName;
@@ -1094,12 +1094,12 @@ public class MapCell implements Comparator<Object> {
 			}
 		} else {
 			if (pseudoYellowTile ()) {
-				thickFrame = new TileType (TileType.YELLOW, false).getColor ();
+				tThickFrame = new TileType (TileType.YELLOW, false).getColor ();
 			} else {
-				thickFrame = null;
+				tThickFrame = null;
 			}
 			aHex.paintHex (g, XCenter, YCenter, baseTerrain.getColor (), baseTerrain.drawBorder (), 
-						   thickFrame, blockedSides);
+						   tThickFrame, blockedSides);
 			if (tRC1 != null) {
 				if (terrain1 != null) {
 					if (terrain1.isRiver ()) {
