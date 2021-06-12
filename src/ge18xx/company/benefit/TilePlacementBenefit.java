@@ -16,7 +16,7 @@ import ge18xx.utilities.XMLNode;
 public class TilePlacementBenefit extends MapBenefit {
 	boolean extraTilePlacement;
 	final static AttributeName AN_EXTRA = new AttributeName ("extra");
-	public final static String NAME = "TILE_PLACEMENT";
+	public final static String NAME = "Tile Placement";
 
 	public TilePlacementBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -32,6 +32,21 @@ public class TilePlacementBenefit extends MapBenefit {
 		extraTilePlacement = aExtraTilePlacement;
 	}
 	
+	@Override
+	public String getName () {
+		String tName;
+		
+		tName = super.getName ();
+		if (extraTilePlacement) {
+			tName = "Extra " + tName;
+		}
+		if (getCost () == 0) {
+			tName = "Free " + tName;
+		}
+		
+		return tName;
+	}
+
 	@Override
 	public String getNewButtonLabel () {
 		String tNewButtonText;

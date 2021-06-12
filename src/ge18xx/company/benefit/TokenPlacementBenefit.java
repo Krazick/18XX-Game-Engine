@@ -19,7 +19,7 @@ import ge18xx.utilities.XMLNode;
 public class TokenPlacementBenefit extends MapBenefit {
 	boolean extraTokenPlacement;
 	final static AttributeName AN_EXTRA = new AttributeName ("extra");
-	public final static String NAME = "TOKEN_PLACEMENT";
+	public final static String NAME = "Token Placement";
 
 	public TokenPlacementBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -33,6 +33,21 @@ public class TokenPlacementBenefit extends MapBenefit {
 	
 	private void setExtraTokenPlacement (boolean aExtraTokenPlacement) {
 		extraTokenPlacement = aExtraTokenPlacement;
+	}
+	
+	@Override
+	public String getName () {
+		String tName;
+		
+		tName = super.getName ();
+		if (extraTokenPlacement) {
+			tName = "Extra " + tName;
+		}
+		if (getCost () == 0) {
+			tName = "Free " + tName;
+		}
+		
+		return tName;
 	}
 	
 	@Override
