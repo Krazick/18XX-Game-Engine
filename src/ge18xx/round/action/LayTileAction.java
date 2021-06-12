@@ -1,5 +1,6 @@
 package ge18xx.round.action;
 
+import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.Effect;
@@ -28,10 +29,11 @@ public class LayTileAction extends ChangeMapAction {
 		setName (NAME);
 	}
 
-	public void addLayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aNewTokens, String aNewBases) {
+	public void addLayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aNewTokens, 
+			String aNewBases, Benefit aBenefitInUse) {
 		LayTileEffect tTileLayEffect;
 
-		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aNewTokens, aNewBases);
+		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aNewTokens, aNewBases, aBenefitInUse);
 		addEffect (tTileLayEffect);
 	}
 	

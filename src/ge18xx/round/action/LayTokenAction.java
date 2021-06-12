@@ -1,5 +1,6 @@
 package ge18xx.round.action;
 
+import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.Effect;
@@ -25,10 +26,10 @@ public class LayTokenAction extends ChangeMapAction {
 		setName (NAME);
 	}
 
-	public void addLayTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex) {
+	public void addLayTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, Benefit aBenefitInUse) {
 		LayTokenEffect tLayTokenEffect;
 
-		tLayTokenEffect = new LayTokenEffect (aActor, aMapCell, aTile, aRevenueCenterIndex);
+		tLayTokenEffect = new LayTokenEffect (aActor, aMapCell, aTile, aRevenueCenterIndex, aBenefitInUse);
 		addEffect (tLayTokenEffect);
 	}
 	
