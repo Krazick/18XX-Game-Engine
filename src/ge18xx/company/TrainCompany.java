@@ -1322,7 +1322,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 			tNewTokens = aTile.getPlacedTokens ();
 			tNewBases = aTile.getCorporationBases ();
-			tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, tNewTokens, tNewBases);
+			tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, tNewTokens, tNewBases, benefitInUse);
 			if (tCurrentStatus != tNewStatus) {
 				tLayTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			}

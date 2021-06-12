@@ -409,7 +409,7 @@ public abstract class TokenCompany extends TrainCompany {
 			popToken ();  // Pop off the Token from the list of Map Tokens, don't want infinite supply
 			tOperatingRoundID = corporationList.getOperatingRoundID ();
 			tLayTokenAction = new LayTokenAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-			tLayTokenAction.addLayTokenEffect (this, aMapCell, aTile, aRevenueCenterIndex);
+			tLayTokenAction.addLayTokenEffect (this, aMapCell, aTile, aRevenueCenterIndex, benefitInUse);
 			tLayTokenAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			if (tCostToLayTokenOnMapCell > 0) {
 				tBank = corporationList.getBank ();
