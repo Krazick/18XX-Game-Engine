@@ -149,5 +149,24 @@ public class MapBenefit extends Benefit {
 		
 		return tXMLBenefitElement;
 	}
+	
+	@Override
+	protected Benefit findMatchedBenefit (XMLNode aBenefitNode) {
+		Benefit tMatchedBenefit = NO_BENEFIT;
+		Benefit tMatchedNameBenefit;
+		String tMapCellID;
+		
+		tMatchedNameBenefit = super.findMatchedBenefit (aBenefitNode);
+		if (tMatchedNameBenefit != NO_BENEFIT) {
+			tMapCellID = aBenefitNode.getThisAttribute (AN_MAPCELL);
+			if (tMapCellID != null) {
+				if (tMapCellID.equals (mapCellID)) {
+					tMatchedBenefit = this;
+				}
+			}
+		}
+		
+		return tMatchedBenefit;
+	}
 
 }
