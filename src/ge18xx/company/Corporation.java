@@ -802,7 +802,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tLabel;
 	}
 
-	public ElementName getElementName() {
+	public ElementName getElementName () {
 		return EN_CORPORATION;
 	}
 	
@@ -1198,7 +1198,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public void loadStates (XMLNode aXMLNode) {
-		// Override with Train Company
+		// Override with Train Company and Private Company
 	}
 	
 	public boolean mapVisible () {
