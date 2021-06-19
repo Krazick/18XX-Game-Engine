@@ -56,11 +56,13 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public PrivateCompany () {
 		this (Corporation.NO_ID, Corporation.NO_NAME, Corporation.NO_ABBREV, NO_COST, NO_REVENUE, 
 				Corporation.NO_HOME_MAPCELL, Corporation.NO_HOME_LOCATION, Corporation.NO_HOME_MAPCELL, 
-				Corporation.NO_HOME_LOCATION, Corporation.NO_ID, Certificate.NO_PERCENTAGE, ActorI.ActionStates.Unowned, false);
+				Corporation.NO_HOME_LOCATION, Corporation.NO_ID, Certificate.NO_PERCENTAGE, 
+				ActorI.ActionStates.Unowned, false);
 	}
 
 	public PrivateCompany (int aID, String aName, String aAbbrev, int aCost, int aRevenue, 
-			MapCell aHomeCity1, Location aHomeLocation1, ActorI.ActionStates aState, boolean aMustBeSoldBeforeOperatingRound) {
+			MapCell aHomeCity1, Location aHomeLocation1, ActorI.ActionStates aState, 
+			boolean aMustBeSoldBeforeOperatingRound) {
 		this (aID, aName, aAbbrev, aCost, aRevenue, aHomeCity1, aHomeLocation1, 
 				Corporation.NO_HOME_MAPCELL, Corporation.NO_HOME_LOCATION,
 				Corporation.NO_ID, Certificate.NO_PERCENTAGE, aState, aMustBeSoldBeforeOperatingRound);
@@ -68,7 +70,8 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	
 	public PrivateCompany (int aID, String aName, String aAbbrev, int aCost, int aRevenue, 
 			MapCell aHomeCity1, Location aHomeLocation1, MapCell aHomeCity2, Location aHomeLocation2,
-			int aExchangeCorporationID, int aExchangeCorporationPercentage, ActorI.ActionStates aState, boolean aMustBeSoldBeforeOperatingRound) {
+			int aExchangeCorporationID, int aExchangeCorporationPercentage, ActorI.ActionStates aState, 
+			boolean aMustBeSoldBeforeOperatingRound) {
 		super (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aState, false);
 		cost = aCost;
 		discount = INITIAL_DISCOUNT;
@@ -285,7 +288,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 	
 	public XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement, tBidders;
+		XMLElement tXMLElement, tBidders, tXMLBenefits;
 		
 		tXMLElement = aXMLDocument.createElement (EN_PRIVATE);
 		super.getCorporationStateElement (tXMLElement);
@@ -293,7 +296,13 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		tXMLElement.setAttribute (AN_MUST_SELL, mustSell);
 		tBidders = corporationCertificates.getBidders (aXMLDocument);
 		if (tBidders != Portfolio.NO_BIDDERS) {
-			tXMLElement.appendChild(tBidders);
+			tXMLElement.appendChild (tBidders);
+		}
+		if (benefits != Benefits.NO_BENEFITS) {
+			if (benefits.getCount () > 0) {
+				tXMLBenefits = benefits.getBenefitsStateElement (aXMLDocument);
+				tXMLElement.appendChild (tXMLBenefits);
+			}
 		}
 		
 		return tXMLElement;
