@@ -10,6 +10,8 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class MapBenefit extends Benefit {
@@ -135,6 +137,17 @@ public class MapBenefit extends Benefit {
 			System.out.println ("Private Benefit Used, but don't need to Close");
 		}
 		tOwningCompany.updateFrameInfo ();
+	}
+	
+	@Override
+	protected XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLBenefitElement;
+		
+		tXMLBenefitElement = super.getCorporationStateElement (aXMLDocument);
+		
+		tXMLBenefitElement.setAttribute (AN_MAPCELL, mapCellID);
+		
+		return tXMLBenefitElement;
 	}
 
 }
