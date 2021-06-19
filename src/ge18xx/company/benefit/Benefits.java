@@ -52,7 +52,7 @@ public class Benefits {
 				}
 			}			
 		} catch (Exception tException) {
-			System.out.println ("Caught Exception with message ");
+			System.err.println ("Caught Exception with message ");
 			tException.printStackTrace ();
 		}
 	}
@@ -82,22 +82,10 @@ public class Benefits {
 				}
 			}
 		} catch (Exception tException) {
-			System.out.println ("Caught Exception with message ");
+			System.err.println ("Caught Exception with message ");
 			tException.printStackTrace ();
 		}
 	}
-//	<Private abbrev="SVN&amp;RR" discount="0" mustSell="true" status="Owned"/>
-//	<Private abbrev="C&amp;SL" discount="0" mustSell="false" status="Owned">
-//	<Benefits>
-//	<Benefit mapCell="B20" name="Tile Placement" used="true"/>
-//	</Benefits>
-//	</Private>
-//	<Private abbrev="D&amp;H" discount="0" mustSell="false" status="Owned">
-//	<Benefits>
-//	<Benefit mapCell="F16" name="Tile Placement" used="false"/>
-//	<Benefit mapCell="F16" name="Token Placement" used="false"/>
-//	</Benefits>
-//	</Private>
 
 	protected Benefit findMatchedBenefit (XMLNode aBenefitNode) {
 		Benefit tMatchedBenefit = Benefit.NO_BENEFIT;
@@ -168,5 +156,4 @@ public class Benefits {
 		
 		return tXMLElement;
 	}
-
 }
