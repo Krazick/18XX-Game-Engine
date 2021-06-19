@@ -143,9 +143,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 		} else {
 			if (tMapCell.isTileOnCell ()) {
 				tTile = tMapCell.getTile ();
-				System.out.println ("Found Tile # " + tTile.getNumber () + " on the MapCell");
 				if (tTile.cityOnTile ()) {
-					System.out.println ("City is on the Tile");
 					tCity = (City) tTile.getRevenueCenter (0);
 					tMap.putMapTokenDown (tOwningCompany, tCity, tMapCell);
 				}
