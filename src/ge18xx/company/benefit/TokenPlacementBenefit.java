@@ -65,7 +65,6 @@ public class TokenPlacementBenefit extends MapBenefit {
 		
 		super.configure (aPrivateCompany, aButtonRow);
 		if (shouldConfigure ()) {
-			System.out.println ("Should Configure for Token Placement");
 			if (! hasButton ()) {
 				tPlaceTokenButton = new JButton (getNewButtonLabel ());
 				setButton (tPlaceTokenButton);
