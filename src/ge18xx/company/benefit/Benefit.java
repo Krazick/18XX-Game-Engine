@@ -12,12 +12,16 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public abstract class Benefit implements ActionListener {
 	public final static ElementName EN_BENEFITS = new ElementName ("Benefits");
 	public final static ElementName EN_BENEFIT = new ElementName ("Benefit");
 	public final static AttributeName AN_CLASS = new AttributeName ("class");
+	public final static AttributeName AN_USED = new AttributeName ("used");
+	public final static AttributeName AN_NAME = new AttributeName ("name");
 	public final static AttributeName AN_CLOSE_ON_USE = new AttributeName ("closeOnUse");
 	public final static AttributeName AN_PASSIVE = new AttributeName ("passive");
 	public final static AttributeName AN_ACTOR_TYPE = new AttributeName ("actorType");
@@ -46,6 +50,10 @@ public abstract class Benefit implements ActionListener {
 
 	public void setName (String aName) {
 		name = aName;
+	}
+	
+	public String getBaseName () {
+		return name;
 	}
 	
 	public String getName () {
@@ -239,5 +247,15 @@ public abstract class Benefit implements ActionListener {
 	
 	public boolean changeState () {
 		return true;
+	}
+
+	protected XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLBenefitElement;
+		
+		tXMLBenefitElement = aXMLDocument.createElement (EN_BENEFIT);		
+		tXMLBenefitElement.setAttribute (AN_USED, used);
+		tXMLBenefitElement.setAttribute (AN_NAME, getBaseName ());
+		
+		return tXMLBenefitElement;
 	}
 }
