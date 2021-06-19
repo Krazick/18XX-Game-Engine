@@ -166,7 +166,6 @@ public class StockRound extends Round {
 		Player tPlayer = Player.NO_PLAYER;
 		ChangeStateAction tChangeStateAction;
 		
-//		tPlayer = playerManager.getCurrentPlayer ();
 		tPlayer = playerManager.getPlayer(aPlayerIndex);
 		if (tPlayer != Player.NO_PLAYER) {
 			tChangeStateAction = new ChangeStateAction (getRoundType (), getID (),tPlayer);
