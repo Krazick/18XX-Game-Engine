@@ -133,9 +133,6 @@ public class TokenPlacementBenefit extends MapBenefit {
 		City tCity;
 		
 		tOwningCompany = (Corporation) privateCompany.getOwner ();
-		System.out.println ("Place a Token on " + getMapCellID () + 
-				" for " + tOwningCompany.getAbbrev () +				
-				" using Private " + privateCompany.getAbbrev () + " Benefit");
 		capturePreviousBenefitInUse (tOwningCompany, this);
 
 		tMap = getMap ();
@@ -144,7 +141,6 @@ public class TokenPlacementBenefit extends MapBenefit {
 		if (tMapCell == HexMap.NO_MAP_CELL) {
 			System.err.println ("Did not find Map Cell with ID " + mapCellID);
 		} else {
-			System.out.println ("Did find Map Cell with ID " + mapCellID);
 			if (tMapCell.isTileOnCell ()) {
 				tTile = tMapCell.getTile ();
 				System.out.println ("Found Tile # " + tTile.getNumber () + " on the MapCell");
