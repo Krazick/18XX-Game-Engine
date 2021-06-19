@@ -490,7 +490,6 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		boolean tStocksToSell, tStocksToBuy, tActionsToUndo, tStocksToSellSame;
 		boolean tPrezToExchange, tCanCompleteTurn, tPrivateOrMinorToExchange;
 		boolean tStocksToSellOverfill, tMustBuy, tPrivateToBidOn;
-		String tToolTip;
 		
 		tMustBuy = hasMustBuyCertificate ();
 		tStocksToSell = hasSelectedStocksToSell ();
@@ -503,48 +502,10 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		tPrivateOrMinorToExchange = hasSelectedPrivateOrMinorToExchange ();
 		tCanCompleteTurn = canCompleteTurn ();
 		
-		// If there is a Must Buy -- Cannot Do a Pass, or a Bid -- disable these
-		if (tMustBuy) {
-			setCannotPass ();
-		} else {
-			if (tCanCompleteTurn) {
-				passActionButton.setEnabled (tCanCompleteTurn);
-				passActionButton.setToolTipText ("Can complete player turn");
-			} else {
-				tToolTip = getReasonForNotCompleting ();
-				if (">>NONE<<".equals (tToolTip)) {
-					passActionButton.setEnabled (true);
-					passActionButton.setToolTipText ("");
-				} else {
-					passActionButton.setEnabled (tCanCompleteTurn);
-					passActionButton.setToolTipText (tToolTip);
-				}
-			}
-		}
-		if (tStocksToSell) {
-			if (tStocksToSellOverfill) {
-				sellActionButton.setEnabled (false);
-				sellActionButton.setToolTipText ("Stocks selected to be Sold will Overfill BankPool");
-			} else if (tStocksToSellSame) {
-				sellActionButton.setEnabled (tStocksToSell);
-				sellActionButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
-			} else {
-				sellActionButton.setEnabled (tStocksToSellSame);
-				sellActionButton.setToolTipText ("Stocks selected to sell are different companies, sell one company stock at a time");
-			}
-		} else {
-			sellActionButton.setEnabled (tStocksToSell);
-			sellActionButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE);
-		}
+		updatePassButton (tCanCompleteTurn, tMustBuy);
+		updateSellButton (tStocksToSell, tStocksToSellSame, tStocksToSellOverfill);
 		updateBuyBidButton (tStocksToBuy, tPrivateToBidOn);
-		exchangeActionButton.setEnabled (tPrezToExchange || tPrivateOrMinorToExchange);
-		if (tPrezToExchange) {
-			exchangeActionButton.setToolTipText ("There is one President's Share Selected to Exchange");
-		} else if (tPrivateOrMinorToExchange) {
-			exchangeActionButton.setToolTipText ("There is one Private or Minor Share Selected to Exchange");
-		} else {
-			exchangeActionButton.setToolTipText ("There are no selected President's Share to Exchange");
-		}
+		updateExchangeButton (tPrezToExchange, tPrivateOrMinorToExchange);
 		updateUndoButton (tActionsToUndo);
 		
 		if (hasActed ()) {
@@ -552,6 +513,57 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			disableAllStartPacketButtons ("Already acted");
 		} else {
 			setPassButton ();
+		}
+	}
+
+	private void updatePassButton (boolean aCanCompleteTurn, boolean aMustBuy) {
+		String tToolTip;
+		// If there is a Must Buy -- Cannot Do a Pass, or a Bid -- disable these
+		if (aMustBuy) {
+			setCannotPass ();
+		} else {
+			if (aCanCompleteTurn) {
+				passActionButton.setEnabled (aCanCompleteTurn);
+				passActionButton.setToolTipText ("Can complete player turn");
+			} else {
+				tToolTip = getReasonForNotCompleting ();
+				if (">>NONE<<".equals (tToolTip)) {
+					passActionButton.setEnabled (true);
+					passActionButton.setToolTipText ("");
+				} else {
+					passActionButton.setEnabled (aCanCompleteTurn);
+					passActionButton.setToolTipText (tToolTip);
+				}
+			}
+		}
+	}
+
+	private void updateSellButton (boolean aStocksToSell, boolean aStocksToSellSame, boolean aStocksToSellOverfill) {
+		if (aStocksToSell) {
+			if (aStocksToSellOverfill) {
+				sellActionButton.setEnabled (false);
+				sellActionButton.setToolTipText ("Stocks selected to be Sold will Overfill BankPool");
+			} else if (aStocksToSellSame) {
+				sellActionButton.setEnabled (aStocksToSell);
+				sellActionButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
+			} else {
+				sellActionButton.setEnabled (aStocksToSellSame);
+				sellActionButton.setToolTipText ("Stocks selected to sell are different companies, sell one company stock at a time");
+			}
+		} else {
+			sellActionButton.setEnabled (aStocksToSell);
+			sellActionButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE);
+		}
+	}
+
+	private void updateExchangeButton (boolean aPrezToExchange, boolean aPrivateOrMinorToExchange) {
+		exchangeActionButton.setEnabled (aPrezToExchange || aPrivateOrMinorToExchange);
+		if (aPrezToExchange) {
+			exchangeActionButton.setToolTipText ("There is one President's Share Selected to Exchange");
+		} else if (aPrivateOrMinorToExchange) {
+			exchangeActionButton.setToolTipText ("There is one Private or Minor Share Selected to Exchange");
+		} else {
+			exchangeActionButton.setToolTipText ("There are no selected President's Share to Exchange");
 		}
 	}
 
