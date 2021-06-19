@@ -119,13 +119,13 @@ public class ActionManager {
 	}
 
 	public void sendToReportFrame (String aReport) {
-		actionReportFrame.append ("\n\n----------------------\n");
+		actionReportFrame.append ("\n----------------------\n");
 		actionReportFrame.append (aReport);
 		actionReportFrame.append ("\n----------------------\n");
 	}
 	
 	private void appendToReportFrame (Action aAction) {
-		actionReportFrame.append ("\n\n" + aAction.getActionReport (roundManager));
+		actionReportFrame.append ("\n" + aAction.getActionReport (roundManager));
 	}
 	
 	public void addAction (Action aAction) {
@@ -297,7 +297,7 @@ public class ActionManager {
 		Action tLastAction;
 
 		tLastAction = getLastAction ();
-		actionReportFrame.append ("\n\nUNDOING: " + tLastAction.getBriefActionReport ());
+		actionReportFrame.append ("\nUNDOING: " + tLastAction.getBriefActionReport ());
 		tLastAction.printBriefActionReport ();
 		tLastActionUndone = tLastAction.undoAction (aRoundManager);
 		if (tLastActionUndone) {
