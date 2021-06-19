@@ -12,10 +12,13 @@ import org.w3c.dom.NodeList;
 
 import ge18xx.company.PrivateCompany;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class Benefits {
 	public final static ElementName EN_BENEFITS = new ElementName ("Benefits");
+	public final static Benefits NO_BENEFITS = null;
 	List<Benefit> benefits;
 	
 	public Benefits (XMLNode aBenefitsNode) {
@@ -99,4 +102,21 @@ public class Benefits {
 			tBenefit.configure (aPrivateCompany, aButtonRow);
 		}
 	}
+	
+	public int getCount () {
+		return benefits.size ();
+	}
+	
+	public XMLElement getBenefitsStateElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement, tXMLBenefitElement;
+		
+		tXMLElement = aXMLDocument.createElement (EN_BENEFITS);
+		for (Benefit tBenefit : benefits) {
+			tXMLBenefitElement = tBenefit.getCorporationStateElement (aXMLDocument);
+			tXMLElement.appendChild (tXMLBenefitElement);
+		}
+		
+		return tXMLElement;
+	}
+
 }
