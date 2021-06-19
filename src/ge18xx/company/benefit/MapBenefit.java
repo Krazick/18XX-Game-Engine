@@ -18,7 +18,7 @@ public class MapBenefit extends Benefit {
 	final static AttributeName AN_MAPCELL = new AttributeName ("mapCell");
 	final static AttributeName AN_COST = new AttributeName ("cost");
 	final static AttributeName AN_SAME_TURN = new AttributeName ("sameTurn");
-	public final static String NAME = "MAP";
+	public final static String NAME = "Map";
 	String mapCellID;
 	int cost;
 	boolean sameTurn;
@@ -126,15 +126,12 @@ public class MapBenefit extends Benefit {
 		removeButton ();
 		resetBenefitInUse ();
 		if (closeOnUse) {
-			System.out.println ("Need to close the Private Company " + privateCompany.getAbbrev ());
 			tGameManager = privateCompany.getGameManager ();
 			tRoundManager = tGameManager.getRoundManager ();
 			tRoundID = tRoundManager.getOperatingRoundID ();
 			tCloseCompanyAction = new CloseCompanyAction (ActorI.ActionStates.OperatingRound, tRoundID, tOwningCompany);
 			privateCompany.close (tCloseCompanyAction);
 			tRoundManager.addAction (tCloseCompanyAction);
-		} else {
-			System.out.println ("Private Benefit Used, but don't need to Close");
 		}
 		tOwningCompany.updateFrameInfo ();
 	}
@@ -144,7 +141,6 @@ public class MapBenefit extends Benefit {
 		XMLElement tXMLBenefitElement;
 		
 		tXMLBenefitElement = super.getCorporationStateElement (aXMLDocument);
-		
 		tXMLBenefitElement.setAttribute (AN_MAPCELL, mapCellID);
 		
 		return tXMLBenefitElement;
