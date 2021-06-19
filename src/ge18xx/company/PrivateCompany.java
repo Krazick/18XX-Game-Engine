@@ -18,9 +18,11 @@ import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutine2I;
+import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
+import ge18xx.utilities.XMLNodeList;
 
 //
 //  Private.java
@@ -347,11 +349,24 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return true;
 	}
 
-	public void loadState (XMLNode aXMLNode) {
-		super.loadStatus (aXMLNode);
+	@Override
+	public void loadStates (XMLNode aXMLNode) {
+		XMLNodeList tXMLNodeList;
+
 		discount = aXMLNode.getThisIntAttribute (AN_DISCOUNT);
 		mustSell = aXMLNode.getThisBooleanAttribute (AN_MUST_SELL);
+		tXMLNodeList = new XMLNodeList (benefitsParsingRoutine);
+		tXMLNodeList.parseXMLNodeList (aXMLNode, Benefits.EN_BENEFITS);
+
 	}
+	
+	ParsingRoutineI benefitsParsingRoutine  = new ParsingRoutineI ()  {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {			
+			System.out.println ("Found Benefits with States to Load for " + getAbbrev ());
+			benefits.parseBenefitsStates (aChildNode);
+		}
+	};
 
 	@Override
 	public boolean atTrainLimit () {

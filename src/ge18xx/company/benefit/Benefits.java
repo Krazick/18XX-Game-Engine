@@ -61,6 +61,56 @@ public class Benefits {
 		benefits.add (aBenefit);
 	}
 
+	public void parseBenefitsStates (XMLNode aBenefitsNode) {
+		int tBenefitNodeCount, tBenefitIndex;
+		String tBenefitNodeName;
+		XMLNode tBenefitNode;
+		NodeList tBenefitChildren;
+		Benefit tMatchedBenefit;
+	
+		tBenefitChildren = aBenefitsNode.getChildNodes ();
+		tBenefitNodeCount = tBenefitChildren.getLength ();
+		try {
+			for (tBenefitIndex = 0; tBenefitIndex < tBenefitNodeCount; tBenefitIndex++) {
+				tBenefitNode = new XMLNode (tBenefitChildren.item (tBenefitIndex));
+				tBenefitNodeName = tBenefitNode.getNodeName ();
+				if (Benefit.EN_BENEFIT.equals (tBenefitNodeName)) {
+					tMatchedBenefit = findMatchedBenefit (tBenefitNode);
+					if (tMatchedBenefit != Benefit.NO_BENEFIT) {
+						tMatchedBenefit.updateState (tBenefitNode);
+					}
+				}
+			}
+		} catch (Exception tException) {
+			System.out.println ("Caught Exception with message ");
+			tException.printStackTrace ();
+		}
+	}
+//	<Private abbrev="SVN&amp;RR" discount="0" mustSell="true" status="Owned"/>
+//	<Private abbrev="C&amp;SL" discount="0" mustSell="false" status="Owned">
+//	<Benefits>
+//	<Benefit mapCell="B20" name="Tile Placement" used="true"/>
+//	</Benefits>
+//	</Private>
+//	<Private abbrev="D&amp;H" discount="0" mustSell="false" status="Owned">
+//	<Benefits>
+//	<Benefit mapCell="F16" name="Tile Placement" used="false"/>
+//	<Benefit mapCell="F16" name="Token Placement" used="false"/>
+//	</Benefits>
+//	</Private>
+
+	protected Benefit findMatchedBenefit (XMLNode aBenefitNode) {
+		Benefit tMatchedBenefit = Benefit.NO_BENEFIT;
+		
+		for (Benefit tBenefit : benefits) {
+			if (tMatchedBenefit == Benefit.NO_BENEFIT) {
+				tMatchedBenefit = tBenefit.findMatchedBenefit (aBenefitNode);
+			}
+		}
+		
+		return tMatchedBenefit;
+	}
+	
 	public JButton findButtonFor (JPanel aButtonRow, String aButtonLabel) {
 		JButton tThisButton;
 		JButton tFoundButton = Benefit.NO_BUTTON;

@@ -258,4 +258,23 @@ public abstract class Benefit implements ActionListener {
 		
 		return tXMLBenefitElement;
 	}
+	
+	protected Benefit findMatchedBenefit (XMLNode aBenefitNode) {
+		Benefit tMatchedBenefit = NO_BENEFIT;
+		String tBenefitNodeName;
+		
+		tBenefitNodeName = aBenefitNode.getThisAttribute (AN_NAME);
+		if (tBenefitNodeName.equals (getBaseName ())) {
+			tMatchedBenefit = this;
+		}
+		
+		return tMatchedBenefit;
+	}
+	
+	public void updateState (XMLNode aBenefitNode) {
+		boolean tUsedState;
+		
+		tUsedState = aBenefitNode.getThisBooleanAttribute (AN_USED);
+		setUsed (tUsedState);
+	}
 }
