@@ -249,12 +249,10 @@ public class StockRound extends Round {
 	}
 
 	public void passStockAction () {
-		// TODO Auto-generated method stub
 		Player tPlayer;
 		
 		tPlayer = playerManager.getCurrentPlayer();
 		tPlayer.passAction ();
-		System.out.println (">>>> Ready to Pass Stock Action for " + tPlayer.getName ());
 	}
 
 }
