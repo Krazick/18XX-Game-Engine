@@ -137,7 +137,6 @@ public class ActionManager {
 		tAllNullEffects = aAction.allNullEffects ();
 		if (tAllNullEffects) {
 			logger.debug (aAction.getBriefActionReport() + " All Null Effects " + tAllNullEffects + " Last Action Number " + actionNumber);
-//			System.err.println (aAction.getBriefActionReport() + " All Null Effects " + tAllNullEffects + " Last Action Number " + actionNumber);			
 		} else {
 			setNewActionNumber (aAction);
 			setAuditAttributes (aAction);
