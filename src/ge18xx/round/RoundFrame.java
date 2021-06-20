@@ -9,6 +9,7 @@ import ge18xx.game.Game_18XX;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
+import ge18xx.player.PlayerFrame;
 import ge18xx.toplevel.XMLFrame;
 
 import java.awt.Color;
@@ -240,6 +241,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		}
 		if (PASS_STOCK_ACTION.equals (aEvent.getActionCommand ())) {
 			roundManager.passStockAction ();
+			this.updateAllCorporationsBox ();
 		}
 	}
 	
@@ -351,6 +353,9 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	public void updatePassButton () {
 		String tClientUserName, tCurrentPlayerName;
 		GameManager tGameManager;
+		PlayerFrame tPlayerFrame;
+		Player tCurrentPlayer;
+		String tToolTip;
 		
 		tGameManager = roundManager.getGameManager ();
 		if (passActionButton != null) {
@@ -365,7 +370,16 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 					resetBackGround ();
 				}
 			} else {
-				enablePassButton ();
+				tPlayerFrame = tGameManager.getCurrentPlayerFrame ();
+				if (tPlayerFrame.hasMustBuyCertificate ()) {
+					disablePassButton (PlayerFrame.MUST_BUY_PRIVATE);
+				} else if (tPlayerFrame.mustSellStock ()){
+					tCurrentPlayer = tGameManager.getPlayerManager().getCurrentPlayer ();
+					tToolTip = tPlayerFrame.getMustSellToolTip (tCurrentPlayer);
+					disablePassButton (tToolTip);
+				} else {
+					enablePassButton ();
+				}
 			}
 		}
 	}
