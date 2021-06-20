@@ -353,9 +353,6 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	public void updatePassButton () {
 		String tClientUserName, tCurrentPlayerName;
 		GameManager tGameManager;
-		PlayerFrame tPlayerFrame;
-		Player tCurrentPlayer;
-		String tToolTip;
 		
 		tGameManager = roundManager.getGameManager ();
 		if (passActionButton != null) {
@@ -363,24 +360,32 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 				tCurrentPlayerName = getCurrentPlayerName ();
 				tClientUserName = tGameManager.getClientUserName ();
 				if (tCurrentPlayerName.equals (tClientUserName)) {
-					enablePassButton ();
+					verifyMustActions (tGameManager);
 					setBackGround ();
 				} else {
 					disablePassButton (NOT_YOUR_TURN);
 					resetBackGround ();
 				}
 			} else {
-				tPlayerFrame = tGameManager.getCurrentPlayerFrame ();
-				if (tPlayerFrame.hasMustBuyCertificate ()) {
-					disablePassButton (PlayerFrame.MUST_BUY_PRIVATE);
-				} else if (tPlayerFrame.mustSellStock ()){
-					tCurrentPlayer = tGameManager.getPlayerManager().getCurrentPlayer ();
-					tToolTip = tPlayerFrame.getMustSellToolTip (tCurrentPlayer);
-					disablePassButton (tToolTip);
-				} else {
-					enablePassButton ();
-				}
+				verifyMustActions (tGameManager);
 			}
+		}
+	}
+
+	public void verifyMustActions (GameManager aGameManager) {
+		PlayerFrame tPlayerFrame;
+		Player tCurrentPlayer;
+		String tToolTip;
+		
+		tPlayerFrame = aGameManager.getCurrentPlayerFrame ();
+		if (tPlayerFrame.hasMustBuyCertificate ()) {
+			disablePassButton (PlayerFrame.MUST_BUY_PRIVATE);
+		} else if (tPlayerFrame.mustSellStock ()){
+			tCurrentPlayer = aGameManager.getPlayerManager().getCurrentPlayer ();
+			tToolTip = tPlayerFrame.getMustSellToolTip (tCurrentPlayer);
+			disablePassButton (tToolTip);
+		} else {
+			enablePassButton ();
 		}
 	}
 	
@@ -534,6 +539,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		updateAllCorporationsBox ();
 		updateParPrices ();
 		updateTrainSummary ();
+		updatePassButton ();
 	}
 	
 	public void setBackGround () {
