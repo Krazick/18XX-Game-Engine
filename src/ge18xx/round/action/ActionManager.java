@@ -125,7 +125,10 @@ public class ActionManager {
 	}
 	
 	private void appendToReportFrame (Action aAction) {
-		actionReportFrame.append ("\n" + aAction.getActionReport (roundManager));
+		String tActionReport;
+		
+		tActionReport = aAction.getActionReport(roundManager);
+		actionReportFrame.append (tActionReport);
 	}
 	
 	public void addAction (Action aAction) {
