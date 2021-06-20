@@ -393,8 +393,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	// Must set that Par Price before allowing the Stock Action to be done.
 	
 	public void setPassDoneButton (String tLabel, String tAction) {
-		String tStock;
-		int tPercentage;
+		String tToolTip;
 		
 		passActionButton.setText (tLabel);
 		passActionButton.setActionCommand (tAction);
@@ -423,10 +422,9 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			passActionButton.setEnabled (false);
 			passActionButton.setToolTipText ("Last Action must be completed first");	
 		} else if (mustSellStock ()) {
-			tStock = player.hasExchangedShare ();
-			tPercentage = player.getMustSellPercent (tStock);
+			tToolTip = getMustSellToolTip (player);
 			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText ("Must sell at least " + tPercentage + "% of " + tStock + " Share Company due to Exchange");		
+			passActionButton.setToolTipText (tToolTip);		
 		} else if (hasMustBuyCertificate ()) {
 			setCannotPass ();
 		} else {
@@ -434,8 +432,26 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			passActionButton.setToolTipText ("");
 		}
 	}
+
+	public String getMustSellToolTip (Player aPlayer) {
+		String tStock;
+		String tToolTip;
+		int tPercentage;
+		
+		// TODO: Test for Over Total Certificate Limit 
+		// TODO: Test for Over specific Company Certificate Limit
+		
+		// Reason 1 from Exchange of President Share
+		// Reason 2 from Company Share Price leaving Market Region that allowed excess certificates
+		
+		tStock = aPlayer.hasExchangedShare ();
+		tPercentage = aPlayer.getMustSellPercent (tStock);
+		tToolTip = "Must sell at least " + tPercentage + "% of " + tStock + " Share Company due to Exchange";
+		
+		return tToolTip;
+	}
 	
-	private boolean mustSellStock () {
+	public boolean mustSellStock () {
 		boolean tMustSellStock = false;
 		String tStockToSell;
 		
