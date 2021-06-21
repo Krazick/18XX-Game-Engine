@@ -126,6 +126,10 @@ public class ChatServerHandler extends ServerHandler {
 		println ("name " + name);
 	}
 
+	public void sendGEVersion (String aVersion) {
+		println ("GEVersion " + aVersion);
+	}
+
 	public void requestUserNameList () {
 		println ("who");
 	}

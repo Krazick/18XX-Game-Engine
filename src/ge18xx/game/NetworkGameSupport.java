@@ -35,4 +35,5 @@ public interface NetworkGameSupport {
 	public void parseNetworkSavedGames (String tResponse);
 	public String getClientUserName ();
 	public void loadAutoSavedGame (String autoSaveFileName);
+	public String getGEVersion ();
 }

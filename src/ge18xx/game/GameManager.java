@@ -1334,6 +1334,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean tileTrayVisible () {
 		return tileTrayFrame.isVisible ();
 	}
+	
+	public String getGEVersion () {
+		return game18XXFrame.getGEVersion ();
+	}
 
 	public void saveGame () {
 		XMLDocument tXMLDocument;
@@ -1341,7 +1345,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 		tXMLDocument = new XMLDocument ();
 		tSaveGameElement = tXMLDocument.createElement(EN_GAME);
-		tSaveGameElement.setAttribute (AN_GE_VERSION, game18XXFrame.getGEVersion ());
+		tSaveGameElement.setAttribute (AN_GE_VERSION, getGEVersion ());
 		
 		if (isNetworkGame ()) {
 			tXMLElement = networkJGameClient.getNetworkElement (tXMLDocument);
