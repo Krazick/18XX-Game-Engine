@@ -148,7 +148,7 @@ public class XMLDocument {
 			trans.setOutputProperty (OutputKeys.OMIT_XML_DECLARATION, "yes");
 			trans.setOutputProperty (OutputKeys.INDENT, "yes");
 			
-			//create string from xml tree
+			//create string from XML tree
 			StringWriter sw = new StringWriter ();
 			StreamResult result = new StreamResult (sw);
 			DOMSource source = this.getDOMSource ();
