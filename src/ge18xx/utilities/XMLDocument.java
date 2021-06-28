@@ -154,7 +154,6 @@ public class XMLDocument {
 			DOMSource source = this.getDOMSource ();
 			trans.transform (source, result);
 			xmlString = sw.toString ();
-//			xmlString = sw.toString ().replaceAll ("\r", "").replaceAll ("\n", "");
 		} catch (Exception tException) {
 			System.err.println (tException);
 			tException.printStackTrace ();
