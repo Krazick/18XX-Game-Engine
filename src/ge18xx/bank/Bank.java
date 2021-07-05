@@ -59,7 +59,7 @@ public class Bank extends GameBank implements CashHolderI {
 		setStartPacketFrame (NO_START_PACKET);
 		setFormat ("");
 		setBankCashLabel (null);
-		closedPortfolio = new Portfolio ();
+		closedPortfolio = new Portfolio (this);
 		rustedTrainsPortfolio = new TrainPortfolio (this);
 		logger = LogManager.getLogger (Bank.class);
 	}
