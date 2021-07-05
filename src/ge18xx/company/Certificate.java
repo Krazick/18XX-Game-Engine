@@ -270,10 +270,10 @@ public class Certificate implements Comparable<Certificate> {
 			// If the Checkbox to add is Sell -- test first if it is a Private Company
 			// Then, and only then, test if it can be Exchanged... then show an Exchange Label (not Sell)
 			if (isPrivateCompany ()) {
-				if (canBeExchanged (aGameManager)) {
-					checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, true, NO_TOOL_TIP, aItemListener);
-					tCertificateInfoPanel.add (checkedButton);
-				}
+//				if (canBeExchanged (aGameManager)) {
+//					checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, true, NO_TOOL_TIP, aItemListener);
+//					tCertificateInfoPanel.add (checkedButton);
+//				}
 				// If it cannot be exchanged, Never show the Checkbox Here, we can't sell it, and can't exchange it
 			} else {
 				// Only if it is a Share Company, can it be Sold 
