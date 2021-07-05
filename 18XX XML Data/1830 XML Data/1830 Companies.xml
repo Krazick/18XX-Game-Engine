@@ -32,7 +32,7 @@
 		note="A player owning the M&amp;H may exchange it for a 10% share of NYC provided the player does not already hold 60% of the NYC stock and there is NYC stock available in the Bank or the Pool. The exchange may be made during the player’s turn of a Stock Round or between the turns of other players or Railroads in either Stock or Operating Rounds.  This action closes the M&amp;H." 
 		special="Exchange for 10% of NYC" exchangeID="1103" exchangePercentage="10">
 		<Benefits>
-			<Benefit actorType="Player" class="ge18xx.company.benefit.ExchangeBenefit" certificateID="1103" certificatePercentage="10" closeOnUse="true" passive="false"/>
+			<Benefit actorType="Player" class="ge18xx.company.benefit.ExchangeBenefit" corporationID="1103" certificatePercentage="10" closeOnUse="true" passive="false"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
@@ -42,7 +42,7 @@
 		note="The initial purchaser of the C&amp;A immediately receives a 10% share of PRR stock without further payment. This action does NOT close the C&amp;A. The PRR Corporation will not be running at this point, but the stock may be retained or sold subject to the ordinary rules of the game (see  8.1, last paragraph)."
 		special="Free 10% PRR">
 		<Benefits>
-			<Benefit actorType="Player" class="ge18xx.company.benefit.FreeCertificateBenefit" certificateID="1101" certificatePercentage="10" passive="true"/>
+			<Benefit actorType="Player" class="ge18xx.company.benefit.FreeCertificateBenefit" corporationID="1101" certificatePercentage="10" passive="true"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
@@ -52,7 +52,7 @@
 		note="The owner of the B&amp;O Private Company immediately receives the President’s Certificate of the B&amp;O Railroad without further payment (see 8.1). The B&amp;O Private Company may NOT be sold to any Corporation, and does not change hands if the owning player loses the Presidency of the  B&amp;O. When the B&amp;O Corporation purchases its first train the Private Company is closed down."
 		special="Free President Share of B&amp;O">
 		<Benefits>
-			<Benefit actorType="Player" class="ge18xx.company.benefit.FreeCertificateBenefit" certificateID="1102" certificatePercentage="20" certificatePresident="true" passive="true"/>
+			<Benefit actorType="Player" class="ge18xx.company.benefit.FreeCertificateBenefit" corporationID="1102" certificatePercentage="20" certificatePresident="true" passive="true"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player" />
