@@ -165,11 +165,12 @@ public class TransferOwnershipEffect extends Effect {
 		Corporation tCorporation;
 		Certificate tThisCertificate;
 		Bank tBank;
+//		String tToHolderName, tFromHolderName, tCorpAbbrev;
 		
 		tEffectUndone = false;
 		tToHolder = (PortfolioHolderI) toActor;
 		tToPortfolio = tToHolder.getPortfolio ();
-		System.out.println ("Undoing " + getEffectReport (aRoundManager));
+//		System.out.println ("Undoing " + getEffectReport (aRoundManager));
 		
 		// TODO: When the new "ToEffect" is created, also create a new "isActor" Method that receives an Actor's Name and does
 		// the comparison of the toActor's Name
@@ -178,7 +179,7 @@ public class TransferOwnershipEffect extends Effect {
 		// is the Bank, need to get the Closed Portfolio from the Bank instead.
 		if (tToHolder.getName ().equals (Bank.NAME)){
 			tCorporation = certificate.getCorporation ();
-			tThisCertificate = tToPortfolio.getCertificate (tCorporation, certificate.getPercentage());
+			tThisCertificate = tToPortfolio.getCertificate (tCorporation, certificate.getPercentage ());
 			if (tThisCertificate == Certificate.NO_CERTIFICATE) {
 				tBank = (Bank) tToHolder;
 				tToPortfolio = tBank.getClosedPortfolio ();
@@ -186,11 +187,16 @@ public class TransferOwnershipEffect extends Effect {
 		}
 		tFromHolder = (PortfolioHolderI) actor;
 		tFromPortfolio = tFromHolder.getPortfolio ();
-
-		System.out.println ("Ready to Trainsfer Cert " + certificate.getPercentage () + " From " + 
-				tToPortfolio.getHolderName () + " back to " + tFromPortfolio.getHolderName ());
-		tToPortfolio.printPortfolioInfo ();
+//		tToHolderName = tToPortfolio.getHolderName ();
+//		tFromHolderName = tFromPortfolio.getHolderName ();
+//		tCorpAbbrev = certificate.getCompanyAbbrev ();
+//		System.out.println ("Ready to Transfer " + tCorpAbbrev + " Cert " + certificate.getPercentage () + "% From " + 
+//				tToHolderName + " back to " + tFromHolderName);
+		
 		tEffectUndone = tFromPortfolio.transferOneCertificateOwnership (tToPortfolio, certificate);
+		
+//		System.out.println ("After Transfer Back");
+//		tFromPortfolio.printPortfolioInfo ();
 		
 		return tEffectUndone;
 	}
