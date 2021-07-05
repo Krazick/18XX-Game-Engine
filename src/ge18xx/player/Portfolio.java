@@ -73,7 +73,7 @@ public class Portfolio implements CertificateHolderI {
 	
 	public Portfolio (PortfolioHolderI aHolder) {
 		certificates = new LinkedList<Certificate> ();
-		holder = aHolder;
+		setHolder (aHolder);
 		privateIndex = NO_COMPONENT;
 		coalIndex = NO_COMPONENT;
 		minorIndex = NO_COMPONENT;
@@ -1004,6 +1004,10 @@ public class Portfolio implements CertificateHolderI {
 		}
 	};
 	
+	public void setHolder (PortfolioHolderI aPortfolioHolder) {
+		holder = aPortfolioHolder;
+	}
+	
 	public PortfolioHolderI getHolder () {
 		return holder;
 	}
@@ -1604,7 +1608,9 @@ public class Portfolio implements CertificateHolderI {
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isPrivateCompany ()) {
 				tPrivateCompany = (PrivateCompany) tCertificate.getCorporation ();
-				tPrivateCompany.addBenefitButtons (aButtonRow);
+				if (tPrivateCompany.hasActivePlayerBenefits ()) {
+					tPrivateCompany.addBenefitButtons (aButtonRow);
+				}
 			}
 		}
 	}
