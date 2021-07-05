@@ -363,7 +363,6 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	ParsingRoutineI benefitsParsingRoutine  = new ParsingRoutineI ()  {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {			
-			System.out.println ("Found Benefits with States to Load for " + getAbbrev ());
 			benefits.parseBenefitsStates (aChildNode);
 		}
 	};

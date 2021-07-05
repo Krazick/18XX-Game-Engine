@@ -1,28 +1,32 @@
 package ge18xx.company.benefit;
 
+import ge18xx.company.Certificate;
+import ge18xx.company.Corporation;
+import ge18xx.company.CorporationList;
+import ge18xx.game.GameManager;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
 public class CertificateBenefit extends Benefit {
 	final static AttributeName AN_CERTIFICATE_PERCENTAGE = new AttributeName ("certificatePercentage");
-	final static AttributeName AN_CERTIFICATE_ID = new AttributeName ("certificateID");
+	final static AttributeName AN_CORPORATION_ID = new AttributeName ("corporationID");
 	final static AttributeName AN_CERTIFICATE_PRESIDENT = new AttributeName ("certificatePresident");
 	public final static String NAME = "CERTIFICATE";
-	String certificateID;
+	int corporationID;
 	int certificatePercentage;
 	boolean certificatePresident;
 	
 	public CertificateBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
 		
-		String tCertificateID;
+		int tCorporationID;
 		int tCertificatePercentage;
 		boolean tCertificatePresident;
 		
-		tCertificateID = aXMLNode.getThisAttribute (AN_CERTIFICATE_ID);
+		tCorporationID = aXMLNode.getThisIntAttribute (AN_CORPORATION_ID);
 		tCertificatePercentage = aXMLNode.getThisIntAttribute (AN_CERTIFICATE_PERCENTAGE);
 		tCertificatePresident = aXMLNode.getThisBooleanAttribute (AN_CERTIFICATE_PRESIDENT);
-		setCertificateID (tCertificateID);
+		setCorporationID (tCorporationID);
 		setCertificatePercentage (tCertificatePercentage);
 		setCertificatePresident (tCertificatePresident);
 		setName (NAME);
@@ -36,19 +40,19 @@ public class CertificateBenefit extends Benefit {
 		certificatePercentage = aCertificatePercentage;
 	}
 
-	private void setCertificateID (String aCertificateID) {
-		certificateID = aCertificateID;
+	private void setCorporationID (int aCorporationID) {
+		corporationID = aCorporationID;
 	}
 
 	public int getCertificatePercentage () {
 		return certificatePercentage;
 	}
 	
-	public String getCertificateID () {
-		return certificateID;
+	public int getCorporationID () {
+		return corporationID;
 	}
 	
-	public boolean getCcertificatePresident () {
+	public boolean getCertificatePresident () {
 		return certificatePresident;
 	}
 
@@ -56,4 +60,20 @@ public class CertificateBenefit extends Benefit {
 	public int getCost () {
 		return 0;
 	}
+	
+
+	public Certificate getShareCertificate () {
+		Certificate tShareCertificate = Certificate.NO_CERTIFICATE;
+		GameManager tGameManager;
+		CorporationList tShareCompanyList;
+		Corporation tShareCompany;
+		
+		tGameManager = privateCompany.getGameManager ();
+		tShareCompanyList = tGameManager.getShareCompanies ();
+		tShareCompany = tShareCompanyList.getCorporationByID (corporationID);
+		tShareCertificate = tShareCompany.getCertificate (certificatePercentage, certificatePresident);
+		
+		return tShareCertificate;
+	}
+
 }
