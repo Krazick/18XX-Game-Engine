@@ -142,6 +142,16 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		benefits.configure (this, aButtonRow);
 	}
 	
+	public boolean hasActivePlayerBenefits () {
+		boolean tHasActivePlayerBenefits = false;
+		
+		if (benefits != Benefits.NO_BENEFITS) {
+			tHasActivePlayerBenefits = benefits.hasActivePlayerBenefits ();
+		}
+		
+		return tHasActivePlayerBenefits;
+	}
+	
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
