@@ -32,6 +32,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	public static final String PRIVATE_SELECTED_FOR_EXCHANGE = "A Private/Minor has been selected to be Exchanged";
 	public static final String STOCK_PAR_PRICE_NEEDS_SETTING = "A Share Company needs to have Par Price selected - Find the Par Price Frame";
 	public static final String MUST_BUY_PRIVATE = "Must buy the Private where COST == DISCOUNT";
+	public static final String EXCHANGE_PRIVATE = "Exchange Private Certificate for Share Certificate";
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
 	static final String PASS = "Pass";
@@ -44,7 +45,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	Container playerAndBankBox;
 	Container bankBox;
 	Container playerBox;
-	Container actionButtonBox;
+	JPanel actionButtonBox;
 	JPanel playerInfoJPanel;
 	JPanel portfolioInfoJPanel;
 	Player player;
@@ -147,7 +148,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	}
 
 	private void createActionButtonBox () {
-		actionButtonBox = Box.createHorizontalBox ();
+		actionButtonBox = new JPanel ();
 
 		passActionButton = setupActionButton (PASS, PASS);
 		buyBidActionButton = setupActionButton (BUY_BID, BUY_BID);
@@ -530,6 +531,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		} else {
 			setPassButton ();
 		}
+		player.addPrivateBenefitButtons (actionButtonBox);
 	}
 
 	private void updatePassButton (boolean aCanCompleteTurn, boolean aMustBuy) {

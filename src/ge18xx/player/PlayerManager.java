@@ -679,23 +679,33 @@ public class PlayerManager {
 	
 	public void exchangeAction (Player aPlayer) {
 		Certificate tCertificate;
+		
+		tCertificate = aPlayer.getCertificateToExchange ();
+		exchangeCertificate (aPlayer, tCertificate);
+	}
+
+	public void exchangeCertificate (Player aPlayer, Certificate aCertificate) {
 		Certificate tNewCertificate;
 		Player tNewPresident;
 		Corporation tCorporation;
 		Corporation tNewCorporation;
-		ActorI.ActionStates tOldState, tNewState;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
 		ExchangeStockAction tExchangeStockAction;
 		String tCorporationAbbrev;
-		int tExchangeID, tExchangePercentage;
+		int tExchangeID;
+		int tExchangePercentage;
 		PrivateCompany tPrivateCompany;
-		Portfolio tBankPortfolio, tPlayerPortfolio, tClosedPortfolio;
+		Portfolio tBankPortfolio;
+		Portfolio tPlayerPortfolio;
+		Portfolio tClosedPortfolio;
 		Bank tBank;
-		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
+		ActorI.ActionStates tCurrentCorporationStatus;
+		ActorI.ActionStates tNewCorporationStatus;
 		
-		tCertificate = aPlayer.getCertificateToExchange ();
-		if (tCertificate != Certificate.NO_CERTIFICATE) {
-			tCertificate.printCertificateInfo ();
-			tCorporation = tCertificate.getCorporation ();
+		if (aCertificate != Certificate.NO_CERTIFICATE) {
+			aCertificate.printCertificateInfo ();
+			tCorporation = aCertificate.getCorporation ();
 			if (tCorporation.isShareCompany ()) {
 				aPlayer.acts (); // Simply set the fact that the Player has acted. This does not require that he has not
 				tCorporationAbbrev = tCorporation.getAbbrev ();
@@ -706,7 +716,6 @@ public class PlayerManager {
 				tExchangeStockAction.addExchangePrezShareEffect (tCorporationAbbrev);
 				exchangePresidentCertificate ((ShareCompany) tCorporation, aPlayer, tNewPresident, tExchangeStockAction);
 				addAction (tExchangeStockAction);
-				
 			} else if (tCorporation.isAPrivateCompany ()) {
 				tPrivateCompany = (PrivateCompany) tCorporation;
 				tExchangeID = tPrivateCompany.getExchangeID ();
@@ -720,8 +729,8 @@ public class PlayerManager {
 					tClosedPortfolio = tBank.getClosedPortfolio ();
 					tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundType (),stockRound.getID (), aPlayer);
 					tExchangeStockAction.addExchangeShareEffect (tPrivateCompany.getAbbrev (), tNewCorporation.getAbbrev ());
-					tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, tCertificate);
-					tExchangeStockAction.addTransferOwnershipEffect (aPlayer, tCertificate, tBank);
+					tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, aCertificate);
+					tExchangeStockAction.addTransferOwnershipEffect (aPlayer, aCertificate, tBank);
 					tPlayerPortfolio.transferOneCertificateOwnership (tBankPortfolio, tNewCertificate);
 					tExchangeStockAction.addTransferOwnershipEffect (tBank, tNewCertificate, aPlayer);
 					tOldState = tPrivateCompany.getActionStatus ();
@@ -740,10 +749,10 @@ public class PlayerManager {
 			} else {
 				System.out.println ("Ready to Exchange a Minor Company for a Major");
 			}
+			aPlayer.updatePlayerInfo ();				
 		} else {
 			System.err.println ("No Certificate selected to Exchange");
 		}
-		aPlayer.updatePlayerInfo ();				
 	}
 	
 	public Player findPlayerWithMost (ShareCompany aShareCompany, Player aCurrentPlayer) {
