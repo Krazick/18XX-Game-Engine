@@ -185,6 +185,16 @@ public abstract class Benefit implements ActionListener {
 		return passive;
 	}
 	
+	public boolean isActivePlayerBenefit () {
+		boolean tIsActivePlayerBenefit = false;
+		
+		if (isPlayerBenefit () && (! passive)) {
+			tIsActivePlayerBenefit = true;
+		}
+		
+		return tIsActivePlayerBenefit;
+	}
+	
 	public abstract int getCost ();
 	
 	public boolean isPlayerBenefit () {

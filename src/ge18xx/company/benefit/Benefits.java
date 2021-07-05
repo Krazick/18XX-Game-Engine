@@ -141,6 +141,18 @@ public class Benefits {
 		}
 	}
 	
+	public boolean hasActivePlayerBenefits () {
+		boolean tHasActivePlayerBenefits = false;
+		
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit.isActivePlayerBenefit ()) {
+				tHasActivePlayerBenefits = true;
+			}
+		}
+		
+		return tHasActivePlayerBenefits;
+	}
+	
 	public int getCount () {
 		return benefits.size ();
 	}
