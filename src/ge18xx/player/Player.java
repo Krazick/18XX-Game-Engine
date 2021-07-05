@@ -18,6 +18,8 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.benefit.Benefit;
+import ge18xx.company.benefit.FakeBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
 import ge18xx.market.Market;
@@ -83,6 +85,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	JLabel cashLabel;
 	Container playerContainer = null;
 	Logger logger;
+	Benefit benefitInUse;
 	
 	/* These attributes below change during the game, need to save/load them */
 	int treasury;
@@ -97,6 +100,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 					boolean aShares, PlayerManager aPlayerManager, int aCertificateLimit) {
 		String tFullTitle;
 		GameManager tGameManager;
+		Benefit tBenefitInUse;
 		
 		/* Save the Player Name -- ONCE */
 		name = aName;
@@ -126,6 +130,24 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		soldCompanies = new SoldCompanies ();
 		escrows = new Escrows (this);
 		logger = Game_18XX.getLogger();
+		tBenefitInUse = new FakeBenefit ();
+		setBenefitInUse (tBenefitInUse);
+	}
+
+	public void setBenefitInUse (Benefit aBenefitInUse) {
+		benefitInUse = aBenefitInUse;
+	}
+	
+	public Benefit getBenefitInUse () {
+		return benefitInUse;
+	}
+	
+	protected void addPrivateBenefitButtons (JPanel aButtonRow) {
+		portfolio.addPrivateBenefitButtons (aButtonRow);
+	}
+
+	public void completeBenefitUse () {
+		
 	}
 
 	public void setTriggeredAuction (boolean aTriggeredAuction) {
@@ -894,6 +916,10 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	
 	public void exchangeAction () {
 		playerManager.exchangeAction (this);
+	}
+	
+	public void exchangeCertificate (Certificate aCertificate) {
+		playerManager.exchangeCertificate (this, aCertificate);
 	}
 	
 	public void sellAction () {
