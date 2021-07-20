@@ -274,7 +274,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 				playersContainer.add (tPlayerContainer);
 				playersContainer.add (Box.createHorizontalStrut (10));
 			} else {
-				System.err.println ("No Player Found for " + tPlayerIndex);
+				logger.error ("No Player Found for " + tPlayerIndex);
 			}
 			if (tCurrentPlayer == tPlayerIndex) {
 				setCurrentPlayerText (tPlayer.getName ());
