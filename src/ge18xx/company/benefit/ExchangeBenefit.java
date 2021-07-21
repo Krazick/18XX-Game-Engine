@@ -58,7 +58,7 @@ public class ExchangeBenefit extends CertificateBenefit {
 		tOwner = (Player) privateCompany.getOwner ();
 		tBenefitInUse = tOwner.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
-		if ((tBenefitInUse.realBenefit ()) && (! NAME.equals(tBenefitInUseName))) {
+		if ((tBenefitInUse.realBenefit ()) && (! NAME.equals (tBenefitInUseName))) {
 			disableButton ();
 			setToolTip ("Another Benefit is currently in Use");
 		} else if (! hasShareInBank ()) {
@@ -68,7 +68,13 @@ public class ExchangeBenefit extends CertificateBenefit {
 	}
 
 	private boolean hasShareInBank () {
-		boolean tHasShareInBank = true;
+		boolean tHasShareInBank = false;
+		Certificate tCertificate;
+		
+		tCertificate = getShareCertificate ();
+		if (tCertificate != Certificate.NO_CERTIFICATE) {
+			tHasShareInBank = true;
+		}
 		
 		return tHasShareInBank;
 	}
@@ -93,5 +99,4 @@ public class ExchangeBenefit extends CertificateBenefit {
 		tOwner.exchangeCertificate (tPrivateCertificate);
 		removeButton ();
 	}
-
 }
