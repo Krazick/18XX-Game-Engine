@@ -71,7 +71,7 @@ public class CertificateBenefit extends Benefit {
 		tGameManager = privateCompany.getGameManager ();
 		tShareCompanyList = tGameManager.getShareCompanies ();
 		tShareCompany = tShareCompanyList.getCorporationByID (corporationID);
-		tShareCertificate = tShareCompany.getCertificate (certificatePercentage, certificatePresident);
+		tShareCertificate = tShareCompany.getIPOCertificate (certificatePercentage, certificatePresident);
 		
 		return tShareCertificate;
 	}

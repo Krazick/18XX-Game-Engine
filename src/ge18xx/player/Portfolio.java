@@ -560,6 +560,30 @@ public class Portfolio implements CertificateHolderI {
 		return tThisCertificate;
 	}
 	
+	public Certificate getIPOCertificate (int aPercentage, boolean aPresidentShare) {
+		Certificate tThisCertificate;
+	
+		tThisCertificate = Certificate.NO_CERTIFICATE;
+		for (Certificate tCertificate : certificates) {
+			if (tThisCertificate == Certificate.NO_CERTIFICATE) {
+				if (aPercentage == tCertificate.getPercentage()) {
+					if (aPresidentShare && tCertificate.isPresidentShare ()) {
+						tThisCertificate = tCertificate;
+					} else if (! aPresidentShare && ! tCertificate.isPresidentShare ()) {
+						tThisCertificate = tCertificate;
+					}
+					if (tThisCertificate != Certificate.NO_CERTIFICATE) {
+						if (! tThisCertificate.isOwnedByBank ()) {
+							tThisCertificate = Certificate.NO_CERTIFICATE;
+						}
+					}
+				}
+			}
+		}
+		
+		return tThisCertificate;
+	}
+
 	public Certificate getCertificate (int aPercentage, boolean aPresidentShare) {
 		Certificate tThisCertificate;
 	

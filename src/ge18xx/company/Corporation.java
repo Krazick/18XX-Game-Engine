@@ -729,6 +729,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tCapitalizationAmount;
 	}
 
+	public Certificate getIPOCertificate (int aPercentage, boolean aPresidentShare) {
+		return corporationCertificates.getIPOCertificate (aPercentage, aPresidentShare);
+	}
+	
 	public Certificate getCertificate (int aPercentage, boolean aPresidentShare) {
 		return corporationCertificates.getCertificate (aPercentage, aPresidentShare);
 	}
