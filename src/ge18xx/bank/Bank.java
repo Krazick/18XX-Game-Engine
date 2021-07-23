@@ -138,8 +138,7 @@ public class Bank extends GameBank implements CashHolderI {
 			try {
 				startPacketFrame.loadXML (tXMLCompaniesName, startPacketFrame);
 			} catch (Exception tException) {
-				logger.error ("Creating Start Packet Failure");
-				logger.error (tException);
+				logger.error ("Creating Start Packet Failure", tException);
 			}
 		}
 		startPacketFrame.loadStartPacketWithCertificates (portfolio);

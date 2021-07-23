@@ -1947,9 +1947,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 							roundManager.handleNetworkAction (tActionNode);
 							applyingNetworkAction = false;
 						} else {
-//							System.err.println ("Trying to handle a Server Game Activity, Node Named [" + tANodeName + "] no Round Manager created");
+							logger.error ("Trying to handle a Server Game Activity, Node Named [" + tANodeName + "] no Round Manager set yet");
 						}
-					} else if ("#text".equals(tANodeName)){
+					} else if ("#text".equals (tANodeName)){
 						// If a #text Node, ignore -- it is empty
 					} else {
 						logger.error ("Node Name is [" + tANodeName + "] which is Unrecognized");
