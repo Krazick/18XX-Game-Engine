@@ -51,12 +51,12 @@ public class ExchangeBenefit extends CertificateBenefit {
 
 	@Override
 	public void updateButton () {
-		Player tOwner;
+		Player tPlayer;
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
 		
-		tOwner = (Player) privateCompany.getOwner ();
-		tBenefitInUse = tOwner.getBenefitInUse ();
+		tPlayer = (Player) privateCompany.getOwner ();
+		tBenefitInUse = tPlayer.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
 		if ((tBenefitInUse.realBenefit ()) && (! NAME.equals (tBenefitInUseName))) {
 			disableButton ();
@@ -64,9 +64,27 @@ public class ExchangeBenefit extends CertificateBenefit {
 		} else if (! hasShareInBank ()) {
 			disableButton ();
 			setToolTip ("Company has no Shares in Bank for Exchange.");
+		} else if (playerAtShareLimit ()) {
+			disableButton ();
+			setToolTip ("Player cannot exceed Corp Share Limit.");
+			
 		}
 	}
 
+	private boolean playerAtShareLimit () {
+		boolean tPlayerAtShareLimit = false;
+		Player tPlayer;
+		Certificate tCertificate;
+		String tShareAbbrev;
+		
+		tCertificate = getShareCertificate ();
+		tShareAbbrev = tCertificate.getCompanyAbbrev ();
+		tPlayer = (Player) privateCompany.getOwner ();
+		tPlayerAtShareLimit = tPlayer.hasMaxShares (tShareAbbrev);
+		
+		return tPlayerAtShareLimit;
+	}
+	
 	private boolean hasShareInBank () {
 		boolean tHasShareInBank = false;
 		Certificate tCertificate;
