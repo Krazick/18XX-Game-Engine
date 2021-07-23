@@ -140,7 +140,6 @@ public class Bank extends GameBank implements CashHolderI {
 			} catch (Exception tException) {
 				logger.error ("Creating Start Packet Failure");
 				logger.error (tException);
-//				System.err.println (tException);
 			}
 		}
 		startPacketFrame.loadStartPacketWithCertificates (portfolio);
