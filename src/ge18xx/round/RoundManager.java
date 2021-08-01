@@ -817,13 +817,15 @@ public class RoundManager {
 		tIDPart1 = incrementRoundIDPart1 (operatingRound);
 		tIDPart2 = 1;
 		setRoundToOperatingRound (tIDPart1, tIDPart2);
-		// If no Minor, Coal of Share company operates, the Operating Round failed to start, Revenues were paid
+		// If no Minor, Coal of Share company operates, the Operating Round failed to start, 
+		// Revenues were paid by Private Companies
 		// Need to simply restart Stock Round
 		if (! operatingRound.startOperatingRound ()) {
 			startStockRound ();
+		} else {
+			roundFrame.resetBackGround ();
+			roundFrame.disablePassButton ("In Operating Round, Can't Pass");
 		}
-		roundFrame.resetBackGround ();
-		roundFrame.disablePassButton ("In Operating Round, Can't Pass");
 	}
 	
 	public void endOperatingRound () {
