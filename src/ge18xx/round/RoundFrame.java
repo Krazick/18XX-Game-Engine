@@ -44,6 +44,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	private static final String PLAYER_CONTAINER_LABEL = "Player Order and Last Action";
 	private static final String YOU_NOT_PRESIDENT = "You are not the President of the Company";
 	private static final String NOT_YOUR_TURN = "It is not your turn to Perform the Action";
+	private static final String IS_OPERATING_ROUND = "It is an Operating Round, can't Pass";
 	RoundManager roundManager;
 	Container centerBox;
 	Container roundBox;
@@ -354,20 +355,24 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		String tClientUserName, tCurrentPlayerName;
 		GameManager tGameManager;
 		
-		tGameManager = roundManager.getGameManager ();
 		if (passActionButton != null) {
-			if (tGameManager.isNetworkGame ()) {
-				tCurrentPlayerName = getCurrentPlayerName ();
-				tClientUserName = tGameManager.getClientUserName ();
-				if (tCurrentPlayerName.equals (tClientUserName)) {
-					verifyMustActions (tGameManager);
-					setBackGround ();
-				} else {
-					disablePassButton (NOT_YOUR_TURN);
-					resetBackGround ();
-				}
+			if (roundManager.isOperatingRound ()) {
+				disablePassButton (IS_OPERATING_ROUND);
 			} else {
-				verifyMustActions (tGameManager);
+				tGameManager = roundManager.getGameManager ();
+				if (tGameManager.isNetworkGame ()) {
+					tCurrentPlayerName = getCurrentPlayerName ();
+					tClientUserName = tGameManager.getClientUserName ();
+					if (tCurrentPlayerName.equals (tClientUserName)) {
+						verifyMustActions (tGameManager);
+						setBackGround ();
+					} else {
+						disablePassButton (NOT_YOUR_TURN);
+						resetBackGround ();
+					}
+				} else {
+					verifyMustActions (tGameManager);
+				}
 			}
 		}
 	}
