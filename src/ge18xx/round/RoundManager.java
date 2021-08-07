@@ -724,7 +724,7 @@ public class RoundManager {
 			}
 			if (isOperatingRound ()) {
 				roundFrame.setOperatingRound (gameName, operatingRound.getIDPart1 (), currentOR, operatingRoundCount);
-				updateAllCorporationsBox ();
+//				updateAllCorporationsBox ();
 				updateOperatingCorporationFrame ();
 				operatingRound.updateActionLabel ();
 			}
