@@ -1083,6 +1083,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setLoadSavedFile (tAutoSaveFile);
 		loadSavedXMLFile ();
 		handleMissedActions ();
+		roundManager.updateRoundFrame ();
 	}
 	
 	public void handleMissedActions () {
