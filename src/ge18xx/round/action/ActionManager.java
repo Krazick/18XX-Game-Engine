@@ -260,7 +260,6 @@ public class ActionManager {
 					tActionNumber = tAction.getNumber ();
 				}
 			}
-			appendAllActions();
 			setActionNumber (tActionNumber);
 		} catch (Exception e) {
 			logger.error ("Error Loading Actions", e);
