@@ -136,11 +136,13 @@ public class ActionManager {
 		
 		tAllNullEffects = aAction.allNullEffects ();
 		if (tAllNullEffects) {
-			logger.debug (aAction.getBriefActionReport() + " All Null Effects " + tAllNullEffects + " Last Action Number " + actionNumber);
+			logger.debug (aAction.getBriefActionReport () + " All Null Effects " + 
+					tAllNullEffects + " Last Action Number " + actionNumber);
 		} else {
 			setNewActionNumber (aAction);
 			setAuditAttributes (aAction);
-			logger.info ("Local Action # " + actionNumber + " Name " + aAction.getName () + " From " + aAction.getActor ().getName ());
+			logger.info ("Local Action # " + actionNumber + " Name " + aAction.getName () + 
+					" From " + aAction.getActor ().getName ());
 			justAddAction (aAction);
 		}
 	}
