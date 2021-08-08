@@ -119,9 +119,9 @@ public class ActionManager {
 	}
 
 	public void sendToReportFrame (String aReport) {
-		actionReportFrame.append ("\n----------------------\n");
-		actionReportFrame.append (aReport);
-		actionReportFrame.append ("\n----------------------\n");
+		String tReport = "\n----------------------" + aReport + "\n----------------------";
+		
+		actionReportFrame.append (tReport);
 	}
 	
 	private void appendToReportFrame (Action aAction) {
