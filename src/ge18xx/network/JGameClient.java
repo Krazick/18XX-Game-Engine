@@ -715,7 +715,6 @@ public class JGameClient extends XMLFrame {
 					serverThread = new Thread (serverHandler);
 					serverThread.start ();
 					serverHandler.initializeChat (this);
-					serverHandler.sendGEVersion (gameManager.getGEVersion ());
 					// If initializeChat method caused the Server Handler to abort 
 					// for example: same name used by another client, it will stop
 					// the Handler, so do NOT add the player, and return Failure here
@@ -746,6 +745,7 @@ public class JGameClient extends XMLFrame {
 			if (tSuccess) {
 				if (serverHandler != null) {
 					if (serverHandler.isConnected ()) {
+						serverHandler.sendGEVersion (gameManager.getGEVersion ());
 						setForConnected ();
 						serverHandler.requestUserNameList ();
 					}
