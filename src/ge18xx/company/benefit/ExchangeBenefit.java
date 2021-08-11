@@ -9,6 +9,7 @@ import ge18xx.company.Certificate;
 import ge18xx.company.PrivateCompany;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerFrame;
+import ge18xx.player.PortfolioHolderI;
 import ge18xx.utilities.XMLNode;
 
 public class ExchangeBenefit extends CertificateBenefit {
@@ -54,20 +55,23 @@ public class ExchangeBenefit extends CertificateBenefit {
 		Player tPlayer;
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
+		PortfolioHolderI tHolder;
 		
-		tPlayer = (Player) privateCompany.getOwner ();
-		tBenefitInUse = tPlayer.getBenefitInUse ();
-		tBenefitInUseName = tBenefitInUse.getName ();
-		if ((tBenefitInUse.realBenefit ()) && (! NAME.equals (tBenefitInUseName))) {
-			disableButton ();
-			setToolTip ("Another Benefit is currently in Use");
-		} else if (! hasShareInBank ()) {
-			disableButton ();
-			setToolTip ("Company has no Shares in Bank for Exchange.");
-		} else if (playerAtShareLimit ()) {
-			disableButton ();
-			setToolTip ("Player cannot exceed Corp Share Limit.");
-			
+		tHolder = privateCompany.getOwner ();
+		if (tHolder.isAPlayer ()) {
+			tPlayer = (Player) tHolder;
+			tBenefitInUse = tPlayer.getBenefitInUse ();
+			tBenefitInUseName = tBenefitInUse.getName ();
+			if ((tBenefitInUse.realBenefit ()) && (! NAME.equals (tBenefitInUseName))) {
+				disableButton ();
+				setToolTip ("Another Benefit is currently in Use");
+			} else if (! hasShareInBank ()) {
+				disableButton ();
+				setToolTip ("Company has no Shares in Bank for Exchange.");
+			} else if (playerAtShareLimit ()) {
+				disableButton ();
+				setToolTip ("Player cannot exceed Corp Share Limit.");
+			}
 		}
 	}
 
