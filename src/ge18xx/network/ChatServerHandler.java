@@ -127,6 +127,7 @@ public class ChatServerHandler extends ServerHandler {
 	}
 
 	public void sendGEVersion (String aVersion) {
+		System.out.println("Sending Game Engine Version " + aVersion);
 		println ("GEVersion " + aVersion);
 	}
 
