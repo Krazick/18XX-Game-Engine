@@ -96,7 +96,7 @@ public class JGameClient extends XMLFrame {
 	public static final AttributeName AN_GAME_INDEX = new AttributeName ("gameIndex");
 	public static final AttributeName AN_GAME_OPTIONS = new AttributeName ("gameOptions");
 	public static final AttributeName AN_BROADCAST_MESSAGE = new AttributeName ("z_broadcast");
-	public static final AttributeName AN_GAME_ID = new AttributeName ("z_gameID");
+	public static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
 	public static final AttributeName AN_PLAYER_ORDER = new AttributeName ("players");
 	public static final AttributeName AN_PLAYER = new AttributeName ("player");
 	public static final AttributeName AN_REQUEST_ACTION_NUMBER = new AttributeName ("requestActionNumber");
