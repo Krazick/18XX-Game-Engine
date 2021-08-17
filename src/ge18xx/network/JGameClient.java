@@ -1341,4 +1341,12 @@ public class JGameClient extends XMLFrame {
 		
 		return tActionFound;
 	}
+	
+	public void stopHeartbeatDelivery () {
+		heartbeatThread.stopHeartbeatDelivery (); 
+	}
+	
+	public void startHeartbeatDelivery () {
+		heartbeatThread.startHeartbeatDelivery (); 
+	}
 }

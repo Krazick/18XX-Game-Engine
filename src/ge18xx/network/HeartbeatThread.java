@@ -24,6 +24,7 @@ public class HeartbeatThread implements Runnable {
    	DateTimeFormatter hmssFormat = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
    	long totalResponseTime;
    	String heartbeatRequest = "<Heartbeat>";
+	boolean sendHeartbeat = true;
 	
 	public HeartbeatThread (JGameClient aJGameClient) {
 		setContinueRunning (false);
@@ -107,10 +108,19 @@ public class HeartbeatThread implements Runnable {
 	public void sendHeartbeat () {
 		String tGameID;
 		
-		tGameID = gameManager.getGameID ();
-        captureStartTime ();
-		jGameClient.requestGameSupport (tGameID, heartbeatRequest);
-        captureResponseTime ();
+		if (sendHeartbeat) {
+			tGameID = gameManager.getGameID ();
+	        captureStartTime ();
+			jGameClient.requestGameSupport (tGameID, heartbeatRequest);
+	        captureResponseTime ();
+		}
 	}
 
+	public void stopHeartbeatDelivery () {
+		sendHeartbeat = false;
+	}
+	
+	public void startHeartbeatDelivery () {
+		sendHeartbeat = true;
+	}
 }
