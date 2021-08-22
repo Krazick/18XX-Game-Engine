@@ -313,6 +313,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					tPreviousTile, tPreviousOrientation, 
 					tPreviousTokens, tPreviousBases);
 		}
+		toFront ();
 	}
 	
 	private void completeBenefitUse () {
