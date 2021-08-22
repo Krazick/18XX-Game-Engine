@@ -1748,6 +1748,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void showMap () {
 		showFrame (mapFrame);
 	}
+
+	public void bringMapToFront () {
+		mapFrame.toFront ();
+	}
 	
 	public void showMarket () {
 		marketFrame.pack ();
@@ -1772,6 +1776,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void showTileTray () {
 		tileTrayFrame.pack ();
 		showFrame (tileTrayFrame);
+	}
+	
+	public void bringTileTrayToFront () {
+		tileTrayFrame.toFront ();
 	}
 	
 	public void sendToReportFrame (String aReport) {
