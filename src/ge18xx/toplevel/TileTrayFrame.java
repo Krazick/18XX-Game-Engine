@@ -24,6 +24,7 @@ public class TileTrayFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
 	private final int TILE_WIDTH = 92; 		// # of Pixels Wide per Tile
 	private final int TILE_HEIGHT = 115; 	// # of Pixels Height per Tile
+	public static final TileTrayFrame NO_TILE_TRAY_FRAME = null;
 	TileSet tileSet;
 	GameManager gameManager;
 	JScrollPane scrollPane;
@@ -84,6 +85,10 @@ public class TileTrayFrame extends XMLFrame {
 	
 	public void notifyMapFrame () {
 		gameManager.notifyMapFrame ();
+	}
+	
+	public void bringMapToFront () {
+		gameManager.bringMapToFront ();
 	}
 	
 	public void setTraySize () {
