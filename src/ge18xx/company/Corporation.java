@@ -1172,6 +1172,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		if (! mapVisible ()) {
 			corporationList.showMap ();
 		}
+		corporationList.bringMapToFront ();
 	}
 	
 	public void showTileTray () {
