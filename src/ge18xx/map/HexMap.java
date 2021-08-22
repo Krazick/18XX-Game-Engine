@@ -908,7 +908,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
     public void mouseClicked (MouseEvent e) {
 //    	handleClick (e);
 	}
-	
+    
 	public void redrawMap () {
 		revalidate ();
 		repaint ();
@@ -943,7 +943,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 		
 		redrawMap ();
-
     }
     
 	public void paintComponent (Graphics g) {
@@ -1078,6 +1077,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 								}
 							}
 						}
+						tileSet.tileTrayFrameToFront ();
 					} else {
 						tileSet.clearAllPlayable ();
 					}
