@@ -93,6 +93,12 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		revalidate ();
 		repaint ();		
 	}
+
+	public void tileTrayFrameToFront () {
+		if (tileTrayFrame != TileTrayFrame.NO_TILE_TRAY_FRAME) {
+			tileTrayFrame.toFront ();
+		}
+	}
 	
 	public void copyTileDefinitions (TileSet aTileDefinitions) {
 		Tile tTile;
@@ -290,12 +296,14 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 				} else {
 					toggleSelectedTile (tGameTile);
 				}
+				tileTrayFrame.bringMapToFront ();
 			}
 		} else {
 			tRotateGameTile = getRotateTileContainingPoint (tPoint);
 			if (tRotateGameTile != null) {
 				tRotateGameTile.rotateTileRight ();
 			}
+			tileTrayFrameToFront ();
 		}
 		redrawTileTray ();
 	}
