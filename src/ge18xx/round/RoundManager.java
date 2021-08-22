@@ -790,8 +790,16 @@ public class RoundManager {
 		gameManager.showMap ();
 	}
 
+	public void bringMapToFront () {
+		gameManager.bringMapToFront ();
+	}
+	
 	public void showTileTray () {
 		gameManager.showTileTray ();
+	}
+	
+	public void bringTileTrayToFront () {
+		gameManager.bringTileTrayToFront ();
 	}
 	
 	public void resetOperatingRound (int aRoundIDPart1, int aRoundIDPart2) {
