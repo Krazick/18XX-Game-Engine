@@ -224,13 +224,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	public void handlePlaceTile () {
-		corporation.showMap ();
 		corporation.showTileTray ();
 		corporation.enterPlaceTileMode ();
+		corporation.showMap ();
 		updateTTODButtons ();
 	}
 	
 	public void handlePlaceToken () {
+		corporation.showTileTray ();
 		if (corporation.haveLaidAllBaseTokens ()) {
 			corporation.enterPlaceTokenMode ();
 			updateTTODButtons ();
