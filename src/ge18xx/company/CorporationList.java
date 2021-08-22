@@ -797,8 +797,16 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		roundManager.showMap ();
 	}
 	
+	public void bringMapToFront () {
+		roundManager.bringMapToFront ();
+	}
+	
 	public void showTileTray () {
 		roundManager.showTileTray ();
+	}
+	
+	public void bringTileTrayToFront () {
+		roundManager.bringTileTrayToFront ();
 	}
 
 	public void undoAction () {
