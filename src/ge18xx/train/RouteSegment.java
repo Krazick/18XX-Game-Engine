@@ -52,7 +52,7 @@ public class RouteSegment {
 		tNodeInformation2 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 		setEndNode (tNodeInformation2);
 		setGauge (new Gauge ());
-		logger = Game_18XX.getLogger ();
+		setLogger ();
 	}
 
 	public RouteSegment (XMLNode aRouteSegmentNode) {
@@ -90,9 +90,15 @@ public class RouteSegment {
 				setEndNode (tEndNode);
 			}
 		}
+		setLogger ();
 	}
 
-
+	private void setLogger () {
+		if (logger == null) {
+			logger = Game_18XX.getLogger ();
+		}
+	}
+	
 	private void setGauge (Gauge aGauge) {
 		gauge = aGauge;
 	}
