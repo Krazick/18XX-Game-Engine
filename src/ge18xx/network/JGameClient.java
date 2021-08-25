@@ -1274,11 +1274,11 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void loadAndStartGame () {
-		System.out.println ("Should have Game Manager Load the Network Game, and Start Playing");
+		System.out.println ("Should have Game Manager Load the Network Game, and Start Playing Game ID " + gameManager.getGameID ());
 		gameManager.loadAutoSavedGame (autoSaveFileName);
 		swapToGameActivity ();
 	}
-	
+
 	public int getAutoSavedLastAction () {
 		int tLastAction = 99;
 		String tSelectedGame;
