@@ -1583,6 +1583,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			trainPortfolio.fixLoadedRoutes (aMapFrame);
 		}
 	}
+	
 //	public boolean startRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
 //	Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
 
