@@ -75,13 +75,6 @@ import org.w3c.dom.NodeList;
 
 public class GameManager extends Component implements NetworkGameSupport {
 	private static final long serialVersionUID = 1L;
-	public static final String NO_GAME_NAME = "<NONE>";
-	public static final String NO_FILE_NAME = "<NONE>";
-	public static final GameInfo NO_GAME = null;
-	public static final XMLFrame NO_FRAME = null;
-	public static final PlayerInputFrame NO_PLAYER_INPUT_FRAME = null;
-	public static final PlayerManager NO_PLAYER_MANAGER = null;
-	public static final PhaseManager NO_PHASE_MANAGER = null;
 	public static final ElementName EN_CONFIG = new ElementName ("Config");
 	public static final ElementName EN_SAVEGAMEDIR = new ElementName ("SaveGameDir");
 	public static final ElementName EN_GAME = new ElementName ("Game");
@@ -89,6 +82,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final AttributeName AN_GAME_NAME = new AttributeName ("gameName");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_GE_VERSION = new AttributeName ("version");
+	public static final String NO_GAME_NAME = "<NONE>";
+	public static final String NO_FILE_NAME = "<NONE>";
+	public static final GameInfo NO_GAME = null;
+	public static final XMLFrame NO_FRAME = null;
+	public static final PlayerInputFrame NO_PLAYER_INPUT_FRAME = null;
+	public static final PlayerManager NO_PLAYER_MANAGER = null;
+	public static final PhaseManager NO_PHASE_MANAGER = null;
 	public static String AUTO_SAVES_DIR = "autoSaves";
 	public static final int NO_BANK_CASH = 0;
 	boolean gameChangedSinceSave;
