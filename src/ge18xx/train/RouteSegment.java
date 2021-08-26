@@ -253,6 +253,19 @@ public class RouteSegment {
 		}
 	}
 	
+	public boolean countableRevenueCenter (int aSegmentIndex) {
+		boolean tCountableRevenueCenter = false;
+		
+		if (aSegmentIndex == 0) {
+			tCountableRevenueCenter = true;
+		} else {
+			if (start.isSide ()) {
+				tCountableRevenueCenter = true;
+			}
+		}
+		
+		return tCountableRevenueCenter;
+	}
 	public boolean hasTownOnTile () {
 		boolean tHasTownOnTile = false;
 		

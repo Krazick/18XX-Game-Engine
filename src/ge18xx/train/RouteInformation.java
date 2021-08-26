@@ -414,11 +414,15 @@ public class RouteInformation {
 
 	public int getRouteCityCount () {
 		int tRouteCityCount = 0;
+		int tSegmentIndex = 0;
 		
 		for (RouteSegment tRouteSegment : routeSegments) {
-			if (tRouteSegment.hasCityOnTile ()) {
-				tRouteCityCount++;
+			if (tRouteSegment.countableRevenueCenter (tSegmentIndex)) {
+				if (tRouteSegment.hasCityOnTile ()) {
+					tRouteCityCount++;
+				}
 			}
+			tSegmentIndex++;
 		}
 		
 		return tRouteCityCount;
@@ -426,15 +430,20 @@ public class RouteInformation {
 
 	public int getRouteTownCount () {
 		int tRouteTownCount = 0;
+		int tSegmentIndex = 0;
 		
 		for (RouteSegment tRouteSegment : routeSegments) {
-			if (tRouteSegment.hasTownOnTile ()) {
-				tRouteTownCount++;
+			if (tRouteSegment.countableRevenueCenter (tSegmentIndex)) {
+				if (tRouteSegment.hasTownOnTile ()) {
+					tRouteTownCount++;
+				}
 			}
+			tSegmentIndex++;
 		}
 		
 		return tRouteTownCount;
 	}
+	
 	
 	public boolean isRouteTooLong () {
 		boolean tRouteIsTooLong  = false;
