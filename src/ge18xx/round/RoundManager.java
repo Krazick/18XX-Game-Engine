@@ -209,6 +209,7 @@ public class RoundManager {
 	public void doneAction (Corporation aCorporation) {
 		clearAllPlayerSelections ();
 		updateRoundFrame ();
+		roundFrame.toFront ();
 		if (operatingRoundIsDone ()) {
 			endOperatingRound ();
 		}
@@ -724,7 +725,6 @@ public class RoundManager {
 			}
 			if (isOperatingRound ()) {
 				roundFrame.setOperatingRound (gameName, operatingRound.getIDPart1 (), currentOR, operatingRoundCount);
-//				updateAllCorporationsBox ();
 				updateOperatingCorporationFrame ();
 				operatingRound.updateActionLabel ();
 			}
