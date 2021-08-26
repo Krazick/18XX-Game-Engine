@@ -126,9 +126,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	boolean gameStarted;
 	boolean applyingNetworkAction = false;
 	Logger logger;
+	String userDir = System.getProperty ("user.dir");
 	
 	public GameManager () {
-		gameID = "";		
+		gameID = "";
+		userDir = System.getProperty ("user.dir");
 	}
 	
 	public GameManager (Game_18XX aGame_18XX_Frame, String aClientUserName) {
@@ -156,6 +158,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		gameID = "";
 		loadConfig ();
 		logger = Game_18XX.getLogger ();
+		userDir = System.getProperty ("user.dir");
+	}
+	
+	public String getUserDir () {
+		return userDir;
 	}
 	
 	public void setLoadSavedFile (File aLoadSavedFile) {
@@ -888,7 +895,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public String getXMLBaseDirectory () {
 		String aBaseDirectory;
-		
+
 		aBaseDirectory = "18XX XML Data" + File.separator;
 		
 		return aBaseDirectory;

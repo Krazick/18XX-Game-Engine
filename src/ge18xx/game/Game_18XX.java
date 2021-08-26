@@ -67,6 +67,7 @@ public class Game_18XX extends JFrame {
 	private JButton tQuitButton;
 	private static Logger logger;
 	LoggerLookup loggerLookup;
+	String userDir = System.getProperty ("user.dir");
 
 	public Game_18XX () {
 		this (true);
@@ -106,19 +107,23 @@ public class Game_18XX extends JFrame {
 	}
 	
 	public void setupLogger (String aUserName) {
-		String tXMLConfigFIle;
+		String tXMLConfigFile;
 	    String tJavaVersion = System.getProperty ("java.version");
 	    String tOSName = System.getProperty ("os.name");
 	    String tOSVersion = System.getProperty( "os.version");
 	    
 		LoggerLookup.setUserName (aUserName);
-	    tXMLConfigFIle = "18XX XML Data" + File.separator + "log4j2.xml";
-		System.setProperty ("log4j.configurationFile", tXMLConfigFIle);
+	    tXMLConfigFile = "18XX XML Data" + File.separator + "log4j2.xml";
+		System.setProperty ("log4j.configurationFile", tXMLConfigFile);
 		logger = LogManager.getLogger (Game_18XX.class);
 		logger.info ("Game Engine 18XX, Version " + getGEVersion () + 
 					" Client " + aUserName);
 		logger.info ("Java Version " + tJavaVersion + 
 					" OS Name " + tOSName + " OS Version " + tOSVersion);
+	}
+	
+	public String getUserDir () {
+		return userDir;
 	}
 	
 	public static Logger getLogger () {
