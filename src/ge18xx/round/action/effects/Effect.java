@@ -15,6 +15,7 @@ import ge18xx.utilities.XMLNode;
 public class Effect {
 	public final static String NO_NAME = ">>NO EFFECT NAME<<";
 	public final static ActorI NO_ACTOR = null;
+	public final static Effect NO_EFFECT = null;
 	public static final ElementName EN_EFFECTS = new ElementName ("Effects");
 	public static final ElementName EN_EFFECT = new ElementName ("Effect");
 	public final static String REPORT_PREFIX = "--" + EN_EFFECT + ": ";

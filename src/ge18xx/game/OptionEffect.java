@@ -20,6 +20,7 @@ public class OptionEffect {
 	static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
 	public static final ElementName EN_OPTION_EFFECT = new ElementName ("OptionEffect");
 	public static final ElementName EN_OPTION_EFFECTS = new ElementName ("OptionEffects");
+	public static final OptionEffect NO_OPTION_EFFECT = null;
 	public static final String SET_TRAIN_QUANTITY = "Set Train Quantity";
 	public static final String MUST_BUY_TRAIN = "Must Buy Train";
 	public static final String ADD_TO_BANK = "Add To Bank";

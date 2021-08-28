@@ -12,6 +12,8 @@ public class Option {
 	static final String NO_TITLE = "<NO TITLE>";
 	static final AttributeName AN_TITLE = new AttributeName ("title");
 	public static final OptionEffect NO_OPTION_EFFECT = null;
+	public static final Option NO_OPTION = null;
+	public static final Option [] NO_OPTIONS = null;
 	public static final ElementName EN_OPTION = new ElementName ("Option");
 	public static final ElementName EN_OPTIONS = new ElementName ("Options");
 	String title;
