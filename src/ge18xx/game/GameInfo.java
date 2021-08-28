@@ -49,6 +49,7 @@ public class GameInfo {
 	static final int NO_MAX_PLAYERS = 0;
 	static final int NO_BANK_TOTAL = 0;
 	static final int NO_SHARE_LIMIT = 100;
+	static final int NO_BANK_SHARE_LIMIT = 9;
 	static final String NO_FORMAT = "<NONE>";
 	static final TrainInfo [] NO_TRAINS = null;
 	public static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
@@ -234,7 +235,7 @@ public class GameInfo {
 		boolean tCanSellPresidentShare;
 		
 		tCanSellPresidentShare = false;
-		if (bankPoolShareLimit == 9) {
+		if (bankPoolShareLimit == NO_BANK_SHARE_LIMIT) {
 			tCanSellPresidentShare = true;
 		}
 		
@@ -254,7 +255,8 @@ public class GameInfo {
 		int tIndex, tPlayerInfoCount;
 		
 		tCertificateLimit = 0;
-		if ((aNumPlayers >= minPlayers) && (aNumPlayers <= maxPlayers)) {
+		if (canPlayWithXPlayers (aNumPlayers)) {
+//		if ((aNumPlayers >= minPlayers) && (aNumPlayers <= maxPlayers)) {
 			tPlayerInfoCount = players.length;
 			for (tIndex = 0; (tIndex < tPlayerInfoCount) && (tCertificateLimit == 0); tIndex++) {
 				if (aNumPlayers == players [tIndex].getNumPlayers ()) {
@@ -296,7 +298,7 @@ public class GameInfo {
 		tXMLElement = aXMLDocument.createElement (EN_GAME_INFO);
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_GAME_ID, gameID);
-		if (options != null) {
+		if (options != Option.NO_OPTIONS) {
 			tGameOptions = aXMLDocument.createElement (Option.EN_OPTIONS);
 			for (Option tOption : options) {
 				if (tOption.isEnabled ()) {
@@ -348,7 +350,7 @@ public class GameInfo {
 	}
 	
 	public int getOptionCount () {
-		if (options == null) {
+		if (options == Option.NO_OPTIONS) {
 			return 0;
 		} else {
 			return options.length;
@@ -356,10 +358,10 @@ public class GameInfo {
 	}
 	
 	public Option getOptionIndex (int aIndex) {
-		if (options == null) {
-			return null;
+		if (options == Option.NO_OPTIONS) {
+			return Option.NO_OPTION;
 		} else if (aIndex >= getOptionCount ()) {
-			return null;
+			return Option.NO_OPTION;
 		} else {
 			return options [aIndex];
 		}
@@ -378,7 +380,8 @@ public class GameInfo {
 		int tIndex, tPlayerInfoCount;
 		
 		tStartingCash = 0;
-		if ((aNumPlayers >= minPlayers) && (aNumPlayers <= maxPlayers)) {
+		if (canPlayWithXPlayers (aNumPlayers)) {
+//		if ((aNumPlayers >= minPlayers) && (aNumPlayers <= maxPlayers)) {
 			tPlayerInfoCount = players.length;
 			for (tIndex = 0; (tIndex < tPlayerInfoCount) && (tStartingCash == 0); tIndex++) {
 				if (aNumPlayers == players [tIndex].getNumPlayers ()) {
@@ -467,7 +470,7 @@ public class GameInfo {
 		Bank tBank;
 		CorporationList tCorporationList;
 		
-		if (options != null) {
+		if (options != Option.NO_OPTIONS) {
 			if (options.length > 0) {
 				tBank = aGameManager.getBank ();
 				for (Option tOption : options) {
@@ -475,7 +478,7 @@ public class GameInfo {
 						tEffectCount = tOption.getEffectCount ();
 						for (tEffectIndex = 0; tEffectIndex < tEffectCount; tEffectIndex++) {
 							tEffect = tOption.getEffectIndex (tEffectIndex);
-							if (tEffect != null) {
+							if (tEffect != OptionEffect.NO_OPTION_EFFECT) {
 								tEffectName = tEffect.getName ();
 								if (OptionEffect.MUST_BUY_TRAIN.equals (tEffectName)) {
 									tCorporationList = aGameManager.getShareCompanies ();
