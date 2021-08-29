@@ -46,18 +46,21 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 public class Portfolio implements CertificateHolderI {
-	public static final int NO_COMPONENT = -1;
-	public static final PortfolioHolderI NO_HOLDER = null;
-	public static final String NO_COMPANY_YET = ">>NONE YET<<";
-	public static final String NO_CERTIFICATES = ">> NO CERTIFICATES <<";
-	public static final XMLElement NO_BIDDERS = null;
 	public final static ElementName EN_PORTFOLIO = new ElementName ("Portfolio");
 	public final static ElementName EN_BIDDERS = new ElementName ("Bidders");
-	public static final String NO_NAME_STRING = "<NONE>";
 	final static AttributeName AN_PRIVATE_INDEX = new AttributeName ("privateIndex");
 	final static AttributeName AN_COAL_INDEX = new AttributeName ("coalIndex");
 	final static AttributeName AN_MINOR_INDEX = new AttributeName ("minorIndex");
 	final static AttributeName AN_SHARE_INDEX = new AttributeName ("shareIndex");
+	public static final PortfolioHolderI NO_HOLDER = null;
+	public static final Portfolio NO_PORTFOLIO = null;
+	public static final String NO_PORTFOLIO_LABEL = ">> NO PORTFOLIO <<";
+	public static final String NO_CERTIFICATES_LABEL = ">> NO CERTIFICATES <<";
+	public static final int NO_COMPONENT = -1;
+	public static final String NO_COMPANY_YET = ">> NONE YET <<";
+	public static final String NO_CERTIFICATES = ">> NO CERTIFICATES <<";
+	public static final XMLElement NO_BIDDERS = null;
+	public static final String NO_NAME_STRING = "<NONE>";
 
 	/* These items are set once, no need to save/load */
 	PortfolioHolderI holder;
