@@ -246,12 +246,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		JPanel tCertsPanel;
 		
 		tPortfolioInfoJPanel = new JPanel ();
-		if (portfolio == null) {
-			tLabel = new JLabel (">> NO PORTFOLIO <<");
+		if (portfolio == Portfolio.NO_PORTFOLIO) {
+			tLabel = new JLabel (Portfolio.NO_PORTFOLIO_LABEL);
 			tPortfolioInfoJPanel.add (tLabel);
 		} else {
 			if (portfolio.getCertificateTotalCount () == 0) {
-				tLabel = new JLabel (">> NO CERTIFICATES <<");
+				tLabel = new JLabel (Portfolio.NO_CERTIFICATES_LABEL);
 				tPortfolioInfoJPanel.add (tLabel);				
 			} else {
 				tCertsPanel = portfolio.buildPortfolioJPanel (true, false, false, false, "", 
@@ -302,7 +302,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public TrainHolderI getOtherSelectedTrainHolder () {
 		TrainHolderI tGetOtherSelectedTrainHolder = TrainPortfolio.NO_TRAIN_HOLDER;
 		
-		if (corporationList != null) {
+		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tGetOtherSelectedTrainHolder = corporationList.getOtherSelectedTrainHolder (abbrev);
 		}
 		
@@ -313,7 +313,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		int tGetSelectedTrainCount;
 		
 		tGetSelectedTrainCount = 0;
-		if (corporationList != null) {
+		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tGetSelectedTrainCount = corporationList.getSelectedTrainCount (abbrev);
 		}
 		
@@ -324,7 +324,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tIsSelectedTrainItem;
 		
 		tIsSelectedTrainItem = false;
-		if (corporationList != null) {
+		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tIsSelectedTrainItem = corporationList.isSelectedTrainItem (abbrev, aItem);
 		}
 		
@@ -340,7 +340,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tCanPayHalfDividend;
 		
 		tCanPayHalfDividend = false;
-		if (corporationList != null) {
+		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tCanPayHalfDividend = corporationList.canPayHalfDividend ();
 		}
 		
@@ -370,7 +370,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tCanBuyPrivate;
 		
 		tCanBuyPrivate = false;
-		if (corporationList != null) {
+		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tCanBuyPrivate = corporationList.canBuyPrivate ();
 		}
 		
@@ -388,7 +388,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public void clearBankSelections () {
-		if (corporationList != null) {
+		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			corporationList.clearBankSelections ();
 		}
 	}
@@ -407,7 +407,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public String getOperatingOwnerName () {
 		String tGetOperatingOwnerName = null;
 		
-		if (corporationList != null) {
+		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tGetOperatingOwnerName = corporationList.getOperatingOwnerName ();
 		}
 		
