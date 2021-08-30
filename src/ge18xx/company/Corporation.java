@@ -145,6 +145,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		homeLocation2 = new Location (tLocation);
 		
 		setStatus (aXMLNode);
+				
 		tXMLNodeList = new XMLNodeList (this);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, Certificate.EN_CERTIFICATE, Benefits.EN_BENEFITS);
 		setCorporationList (aCorporationList);
@@ -1932,7 +1933,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	protected void addPrivateBenefitButtons (JPanel aButtonRow) {
-		portfolio.addPrivateBenefitButtons (aButtonRow);
+		portfolio.addPrivateCompanyBenefitButtons (aButtonRow);
 	}
 
 	public abstract void completeBenefitUse ();
