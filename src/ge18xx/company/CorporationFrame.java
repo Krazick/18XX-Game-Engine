@@ -329,8 +329,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		buyTrainForceActionButton = setupActionButton (FORCE_BUY_TRAIN, FORCE_BUY_TRAIN);
 		buyTrainActionButton = setupActionButton (BUY_TRAIN, BUY_TRAIN);
 		buyPrivateActionButton = setupActionButton (BUY_PRIVATE, BUY_PRIVATE);
-		getLoanActionButton = setupActionButton (GET_LOAN, GET_LOAN);
-		paybackLoanActionButton = setupActionButton (PAYBACK_LOAN, PAYBACK_LOAN);
+		if (corporation.gameHasLoans ()) {
+			getLoanActionButton = setupActionButton (GET_LOAN, GET_LOAN);
+			paybackLoanActionButton = setupActionButton (PAYBACK_LOAN, PAYBACK_LOAN);
+		}
 		addActionButtons ();
 		tActionButtons.add (buttonRow1);
 		tActionButtons.add (Box.createVerticalStrut (5));
@@ -419,7 +421,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 							tGameManager, TrainPortfolio.COMPACT_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
 					bankBox.add (tBankPortfolioJPanel);
 					bankBox.add (Box.createHorizontalGlue ());
-//					bankBox.validate ();
 				} else {
 					System.err.println ("Bank is Null");
 				}
@@ -446,7 +447,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					privatesBox.add (Box.createVerticalGlue ());
 					privatesBox.add (privatesJPanel);
 					privatesBox.add (Box.createVerticalGlue ());
-//					privatesBox.validate ();
 				} else {
 					JLabel NoPrivatesLeft = new JLabel ("No Privates Left for purchase");
 					privatesBox.add (NoPrivatesLeft);
