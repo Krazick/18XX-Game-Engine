@@ -185,6 +185,16 @@ public abstract class Benefit implements ActionListener {
 		return passive;
 	}
 	
+	public boolean isActiveCompanyBenefit () {
+		boolean tIsActiveCompanyBenefit = false;
+		
+		if (isCompanyBenefit () && (! passive)) {
+			tIsActiveCompanyBenefit = true;
+		}
+		
+		return tIsActiveCompanyBenefit;
+	}
+	
 	public boolean isActivePlayerBenefit () {
 		boolean tIsActivePlayerBenefit = false;
 		
@@ -196,6 +206,16 @@ public abstract class Benefit implements ActionListener {
 	}
 	
 	public abstract int getCost ();
+	
+	public boolean isCompanyBenefit () {
+		boolean tIsCompanyBenefit = false;
+		
+		if (actorType.compareTo (ActorI.ActorTypes.ShareCompany) == 0) {
+			tIsCompanyBenefit = true;
+		}
+		
+		return tIsCompanyBenefit;
+	}
 	
 	public boolean isPlayerBenefit () {
 		boolean tIsPlayerBenefit = false;
