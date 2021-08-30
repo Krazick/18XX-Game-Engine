@@ -1629,7 +1629,20 @@ public class Portfolio implements CertificateHolderI {
 		return tOwnershipContainer;
 	}
 	
-	public void addPrivateBenefitButtons (JPanel aButtonRow) {
+	public void addPrivateCompanyBenefitButtons (JPanel aButtonRow) {
+		PrivateCompany tPrivateCompany;
+		
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isPrivateCompany ()) {
+				tPrivateCompany = (PrivateCompany) tCertificate.getCorporation ();
+				if (tPrivateCompany.hasActiveCompanyBenefits ()) {
+					tPrivateCompany.addBenefitButtons (aButtonRow);
+				}
+			}
+		}
+	}
+	
+	public void addPrivatePlayerBenefitButtons (JPanel aButtonRow) {
 		PrivateCompany tPrivateCompany;
 		
 		for (Certificate tCertificate : certificates) {
