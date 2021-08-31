@@ -2,6 +2,7 @@ package ge18xx.round;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.bank.GameBank;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
@@ -167,25 +168,34 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 
 		add (centerBox);
 		pack ();
-		defaultColor = UIManager.getColor ( "Panel.background" );
+		defaultColor = UIManager.getColor ("Panel.background");
 	}
 
 	private void updateTrainSummary () {
 		String tFullTrainSummary;
-		String tBankPoolTrainSummary = "";
+		String tBankPoolTrainSummary;
 		Bank tBank;
 		BankPool tBankPool;
 		
 		trainSummary.setEditable (false);
 		tBankPool = roundManager.getBankPool ();
-		if (tBankPool.hasAnyTrains ()) {
-			tBankPoolTrainSummary = "Bank Pool Train Summary" + NEWLINE + tBankPool.getTrainSummary () + NEWLINE + NEWLINE;
-		}
+		tBankPoolTrainSummary = getTrainSummary (tBankPool);
 		tBank = roundManager.getBank ();
-		tFullTrainSummary = tBankPoolTrainSummary + "Bank Train Summary" + NEWLINE + tBank.getTrainSummary ();
+		tFullTrainSummary = tBankPoolTrainSummary +  NEWLINE + getTrainSummary (tBank);
 		
 		trainSummary.setText (tFullTrainSummary);
 		trainSummary.setBackground (defaultColor);
+	}
+
+	public String getTrainSummary (GameBank aBankWithTrains) {
+		String tBankPoolTrainSummary = "";
+		
+		if (aBankWithTrains.hasAnyTrains ()) {
+			tBankPoolTrainSummary = aBankWithTrains.getName () + " Train Summary" + NEWLINE + 
+									aBankWithTrains.getTrainSummary ();
+		}
+		
+		return tBankPoolTrainSummary;
 	}
 	
 	private void fillParPrices () {
