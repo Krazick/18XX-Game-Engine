@@ -202,7 +202,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		Bank tBank;
 		
 		tBank = gameManager.getBank ();
-		trainPortfolio.loadTrainPortfolio (aTrainPortfolioNode, tBank);
+		trainPortfolio.loadTrainPortfolioFromBank (aTrainPortfolioNode, tBank);
 	}
 	
 	public int getLocalSelectedTrainCount () {
