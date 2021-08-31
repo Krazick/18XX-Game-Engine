@@ -780,7 +780,8 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 	
 	public boolean setNewEndPoint (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
-			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+							Location aEndLocation, String aRoundID, int aPhase, 
+							TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
 		Train tTrain;
 		boolean tRouteStarted = false;
 		
@@ -794,7 +795,7 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public String getTrainSummary () {
-		String tTrainSummary = "NONE";
+		String tTrainSummary = "";
 		String tTrainInfo;
 		String tPreviousName = "";
 		String tCurrentName = "";
@@ -806,29 +807,33 @@ public class TrainPortfolio implements TrainHolderI {
 			tCurrentName = tTrain.getName ();
 			if (! tCurrentName.equals (tPreviousName)) {
 				if (tCount > 0) {
-					tTrainInfo = tPreviousName + " Train QTY: " + tCount + " " + tCost;
-					if (tTrainSummary.equals("NONE")) {
-						tTrainSummary = tTrainInfo;
-					} else {
-						tTrainSummary += NEWLINE + tTrainInfo;
-					}
+					tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount);
+					tTrainSummary += tTrainInfo;
 				}
 				tCount = 1;
 				tPreviousName = tCurrentName;
 				tCost = Bank.formatCash (tTrain.getPrice ());
 				tDiscountCost = tTrain.getDiscountCost ();
 				if (tDiscountCost > 0) {
-					tCost = Bank.formatCash(tDiscountCost) + " / " + tCost;
+					tCost = Bank.formatCash (tDiscountCost) + " / " + tCost;
 				}
 			} else {
 				tCount++;
 			}
 		}
 		if (tCount > 0) {
-			tTrainInfo = tPreviousName + " Train QTY: " + tCount + " " + tCost;
-			tTrainSummary += NEWLINE + tTrainInfo;
+			tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount);
+			tTrainSummary += tTrainInfo;
 		}
 		
 		return tTrainSummary;
+	}
+
+	public String buildTrainInfo(String aPreviousName, String aCost, int aCount) {
+		String tTrainInfo;
+		
+		tTrainInfo = aPreviousName + " Train QTY: " + aCount + " " + aCost + NEWLINE;
+		
+		return tTrainInfo;
 	}
 }
