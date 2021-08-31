@@ -1200,8 +1200,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tChildName, tSaveGameName;
 		GameSet tGameSet;
 		boolean tGameIdentified = false, tPlayersLoaded = false, tGameInitiated = false;
-		String tServerIP, tGameID;
-		int tServerPort;
+		String tGameID;
 		
 		tLoadedSaveGame = false;
 		if (aXMLDocument.ValidDocument()) {
@@ -1220,12 +1219,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tChildName = tChildNode.getNodeName ();
 				if (JGameClient.EN_NETWORK_GAME.equals (tChildName)) {
 					if (networkJGameClient == null) {
-						tServerIP = tChildNode.getThisAttribute (JGameClient.AN_SERVER_IP);
-						tServerPort = tChildNode.getThisIntAttribute (JGameClient.AN_SERVER_PORT);
-						networkJGameClient = new JGameClient (GameSet.CHAT_TITLE + " (" + clientUserName + ")", this, tServerIP, tServerPort);
-						setNetworkJGameClient (networkJGameClient);
-						networkJGameClient.addLocalPlayer (clientUserName, true);
-						networkJGameClient.addSPGameActivity ();
+						loadNetworkJGameClient (tChildNode);
 					}
 				}
 				if (GameInfo.EN_GAME_INFO.equals (tChildName)) {
@@ -1291,6 +1285,19 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 		
 		return tLoadedSaveGame;
+	}
+
+	public void loadNetworkJGameClient(XMLNode tChildNode) {
+		String tServerIP;
+		int tServerPort;
+		JGameClient tNetworkJGameClient;
+		
+		tServerIP = tChildNode.getThisAttribute (JGameClient.AN_SERVER_IP);
+		tServerPort = tChildNode.getThisIntAttribute (JGameClient.AN_SERVER_PORT);
+		tNetworkJGameClient = new JGameClient (GameSet.CHAT_TITLE + " (" + clientUserName + ")", this, tServerIP, tServerPort);
+		tNetworkJGameClient.addLocalPlayer (clientUserName, true);
+		tNetworkJGameClient.addSPGameActivity ();
+		setNetworkJGameClient (tNetworkJGameClient);
 	}
 	
 	private void fixLoadedRoutes () {
