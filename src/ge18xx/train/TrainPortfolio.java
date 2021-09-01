@@ -829,7 +829,7 @@ public class TrainPortfolio implements TrainHolderI {
 		return tTrainSummary;
 	}
 
-	public String buildTrainInfo(String aPreviousName, String aCost, int aCount) {
+	public String buildTrainInfo (String aPreviousName, String aCost, int aCount) {
 		String tTrainInfo;
 		
 		tTrainInfo = aPreviousName + " Train QTY: " + aCount + " " + aCost + NEWLINE;
