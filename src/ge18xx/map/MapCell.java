@@ -288,8 +288,14 @@ public class MapCell implements Comparator<Object> {
 		setSelectedFeature2 (new Location (Location.NO_LOCATION));
 	}
 	
+	public void returnStation (TokenCompany aTokenCompany) {
+		if (tile != Tile.NO_TILE) {
+			tile.returnStation (aTokenCompany);
+		}
+	}
+	
 	public void clearStation (int aCorporationId) {
-		if (tile != null) {
+		if (tile != Tile.NO_TILE) {
 			tile.clearStation (aCorporationId);
 		}
 	}

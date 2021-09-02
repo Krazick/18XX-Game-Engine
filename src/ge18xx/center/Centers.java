@@ -11,6 +11,7 @@ package ge18xx.center;
 import ge18xx.company.Corporation;
 import ge18xx.company.MapToken;
 import ge18xx.company.Token;
+import ge18xx.company.TokenCompany;
 import ge18xx.company.TokenStack;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
@@ -132,6 +133,17 @@ public class Centers implements Cloneable {
 	public void clearCityInfoCorporation (Corporation aCorporation) {
 		for (RevenueCenter tCenter: centers) {
 			tCenter.clearCityInfoCorporation (aCorporation);
+		}
+	}
+	
+	public void returnStation (TokenCompany aTokenCompany) {
+		City tCity;
+		
+		for (RevenueCenter tCenter: centers) {
+			if (tCenter.isCity ()) {
+				tCity = (City) tCenter;
+				tCity.returnStation (aTokenCompany);
+			}
 		}
 	}
 	

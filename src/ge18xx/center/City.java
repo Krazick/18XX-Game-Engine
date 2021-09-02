@@ -193,6 +193,35 @@ public class City extends RevenueCenter implements Cloneable {
 		}
 	}
 	
+	public void returnStation (TokenCompany aTokenCompany) {
+		int tIndex;
+		int tCorporationId;
+		boolean tFound;
+		MapToken tMapToken;
+		
+		if (stationCount > 0) {
+			tFound = false;
+			for (tIndex = 0; tIndex < stationCount; tIndex++) {
+				if (corpStations [tIndex] != NO_STATION) {
+					tCorporationId = corpStations [tIndex].getCorporationID ();
+					if (tCorporationId == aTokenCompany.getID ()) {
+						tFound = true;
+						tMapToken = corpStations [tIndex];
+						aTokenCompany.addMapToken (tMapToken);
+					}
+					if (tFound) {
+						if ((tIndex + 1) < stationCount) {
+							corpStations [tIndex] = corpStations [tIndex + 1];
+						} else {
+							corpStations [tIndex] = NO_STATION;
+						}
+					}
+				}
+			}
+		}
+
+	}
+	
 	public void clearStation (int aCorporationId) {
 		int tIndex;
 		int tCorporationId;

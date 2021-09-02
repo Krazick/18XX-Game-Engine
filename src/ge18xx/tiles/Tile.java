@@ -180,6 +180,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 		centers.clearAllStations ();
 	}
 	
+	public void returnStation (TokenCompany aTokenCompany) {
+		centers.returnStation (aTokenCompany);
+	}
+	
 	public void clearStation (int aCorporationId) {
 		centers.clearStation (aCorporationId);
 	}
