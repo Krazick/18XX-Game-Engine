@@ -52,6 +52,18 @@ public class SoldCompanies {
 		System.out.println ("]");
 	}
 	
+	public String uniqueCompanies (String aDelimeter) {
+		String tUniqueCompanies = "";
+
+		for (String tCompanyAbbrev : soldCompanies) {
+			if (! tUniqueCompanies.contains (tCompanyAbbrev)) {
+				tUniqueCompanies += tCompanyAbbrev + " ";
+			}
+		}
+
+		return tUniqueCompanies;
+	}
+	
 	public String toString (String aDelimiter) {
 		String tCompaniesSold = "";
 		
@@ -73,7 +85,7 @@ public class SoldCompanies {
 		String tSoldCompanies;
 		
 		if (soldCompanies.size () > 0) {
-			tSoldCompanies = "Sold: " + toString (", ");
+			tSoldCompanies = "Sold: " + uniqueCompanies (", ");
 			tSoldCompaniesLabel = new JLabel (tSoldCompanies);
 		}
 		
