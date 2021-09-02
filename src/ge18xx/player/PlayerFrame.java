@@ -40,7 +40,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	static final String BID = "Bid";
 	static final String BUY_BID = "Buy-Bid";
 	static final String SELL = "Sell";
-	static final String EXCHANGE = "EXCHANGE";
+	static final String EXCHANGE = "Exchange";
 	private static final long serialVersionUID = 1L;
 	Container playerAndBankBox;
 	Container bankBox;
