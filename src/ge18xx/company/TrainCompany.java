@@ -1652,7 +1652,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tNewEndPointSet;
 	}
 
-	public void closeTrainRevenueFrame() {
+	public void closeTrainRevenueFrame () {
 		// Need to clear the Frame Setup Flag for the Next Company Operating to be able to update.
 		trainRevenueFrame.setFrameSetup (false);
 		trainRevenueFrame.setVisible (false);
