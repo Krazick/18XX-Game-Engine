@@ -1643,7 +1643,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		
 		showTrainRevenueFrameForOthers (aTrainIndex);
 		tRoundID = corporationList.getOperatingRoundID ();
-		tPhaseInfo = corporationList.getCurrentPhaseInfo( ) ;
+		tPhaseInfo = corporationList.getCurrentPhaseInfo ();
 		tPhase = tPhaseInfo.getName ();
 		tNewEndPointSet = trainPortfolio.setNewEndPoint (aTrainIndex, aMapCell, aStartLocation, aEndLocation,
 				tRoundID, tPhase, this, trainRevenueFrame);
