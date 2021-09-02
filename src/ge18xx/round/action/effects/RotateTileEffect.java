@@ -53,8 +53,8 @@ public class RotateTileEffect extends LayTileEffect {
 		MapCell tMapCell;
 		HexMap tGameMap;
 		TileSet tTileSet;
-		int tNewOrientation;
-		int tCurrentOrientation;
+//		int tNewOrientation;
+//		int tCurrentOrientation;
 		
 		tEffectApplied = false;
 		tTileSet = aRoundManager.getTileSet ();
@@ -66,29 +66,40 @@ public class RotateTileEffect extends LayTileEffect {
 		if (tGameTile.getTileNumber () == tileNumber) {
 			tPossibleRotation = tMapCell.getAllAllowedRotations (tTile);
 			if (tPossibleRotation != MapCell.NO_ROTATION) {
-				tCurrentOrientation = tMapCell.getTileOrient ();
-				tMapCell.setTileOrientationLocked (false);
-				if (tCurrentOrientation == orientation) {
-					System.out.println ("Tile in Correct Orientation of " + orientation);
-					tEffectApplied = true;
-				} else {
-					tMapCell.setTileOrient (orientation);
-	//				tGameMap.rotateTileInPlace (tMapCell, HexMap.DONT_ADD_ACTION);
-					tNewOrientation = tMapCell.getTileOrient ();
-					if (tNewOrientation != orientation) {
-						System.err.println ("Tile was supposed to be Rotated to " + orientation + " which is NOT the same as current " + tNewOrientation );
-					} else {
-						tEffectApplied = true;
-					}
-				}
-				tMapCell.setTileOrientationLocked (true);
-				tGameMap.redrawMap ();
+				tEffectApplied = changeOrientation (aRoundManager, tEffectApplied, tMapCell, tGameMap);
 			} else {
 				System.err.println ("Tile Allowed Rotation is " + tPossibleRotation);
 			}
 		}
 		
 		return tEffectApplied;
+	}
+
+	public boolean changeOrientation (RoundManager aRoundManager, boolean aEffectApplied, MapCell aMapCell,
+			HexMap aGameMap) {
+		int tNewOrientation;
+		int tCurrentOrientation;
+		
+		tCurrentOrientation = aMapCell.getTileOrient ();
+		aMapCell.setTileOrientationLocked (false);
+		if (tCurrentOrientation == orientation) {
+			System.out.println ("Tile in Correct Orientation of " + orientation);
+			aEffectApplied = true;
+		} else {
+			aMapCell.setTileOrient (orientation);
+			tNewOrientation = aMapCell.getTileOrient ();
+			if (tNewOrientation != orientation) {
+				System.err.println ("Tile was supposed to be Rotated to " + orientation + " which is NOT the same as current " + tNewOrientation );
+			} else {
+				applyTokens (aRoundManager, aMapCell);
+				applyBases (aRoundManager, aMapCell);
+				aEffectApplied = true;
+			}
+		}
+		aMapCell.setTileOrientationLocked (true);
+		aGameMap.redrawMap ();
+		
+		return aEffectApplied;
 	}
 	
 	@Override
