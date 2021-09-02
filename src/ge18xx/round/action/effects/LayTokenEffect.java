@@ -156,7 +156,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 							tMapCell.setCorporation (tTokenCompany, tTokenCompany.getHomeLocation2 ());
 						}
 					}
-					tTile.clearStation (tCorporationID);
+					tTile.returnStation (tTokenCompany);
 					tGameMap.redrawMap ();
 					tTokenCompany.updateFrameInfo ();
 					tEffectUndone = true;
