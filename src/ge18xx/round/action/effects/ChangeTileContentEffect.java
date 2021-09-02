@@ -102,6 +102,7 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 				tCityIndex = Integer.parseInt (tTokenInfo [2]);
 				tGameManager = aRoundManager.getGameManager ();
 				tShareCompany = tGameManager.getShareCompany (tAbbrev);
+				aMapCell.returnStation (tShareCompany);
 				aMapCell.setStationAt (tShareCompany, tStationIndex, tCityIndex);
 			}
 		}
