@@ -1,4 +1,8 @@
 package ge18xx.company;
+import java.awt.event.ItemListener;
+
+import javax.swing.JPanel;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -117,7 +121,13 @@ public class MinorCompany extends TokenCompany {
 	}
 
 	@Override
-	protected boolean isPlaceTileMode() {
+	protected boolean isPlaceTileMode () {
 		return false;
+	}
+
+	@Override
+	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

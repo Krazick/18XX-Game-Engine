@@ -568,4 +568,10 @@ public class ShareCompany extends TokenCompany {
 					tCurrentCorporationStatus, tNewCorporationStatus);
 		}
 	}
+
+	@Override
+	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

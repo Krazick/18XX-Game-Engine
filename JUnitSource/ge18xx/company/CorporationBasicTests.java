@@ -2,6 +2,10 @@ package ge18xx.company;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.event.ItemListener;
+
+import javax.swing.JPanel;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,6 +26,12 @@ class CorporationBasicTests {
 		@Override
 		public void completeBenefitUse () {
 			
+		}
+
+		@Override
+		public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 	

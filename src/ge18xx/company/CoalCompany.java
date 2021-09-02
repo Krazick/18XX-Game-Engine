@@ -1,5 +1,9 @@
 package ge18xx.company;
 
+import java.awt.event.ItemListener;
+
+import javax.swing.JPanel;
+
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLNode;
 
@@ -77,5 +81,11 @@ public class CoalCompany extends TrainCompany {
 		}
 		
 		return (isOwned);
+	}
+
+	@Override
+	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

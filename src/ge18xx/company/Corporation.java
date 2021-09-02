@@ -237,9 +237,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	// Private Company will Override
-	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
-		return null;
-	}
+	public abstract JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash);
+//	{
+//		return null;
+//	}
 
 	public JPanel buildPortfolioJPanel (ItemListener aItemListener, GameManager aGameManager) {
 		JLabel tLabel;
