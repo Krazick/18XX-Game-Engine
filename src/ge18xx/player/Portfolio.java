@@ -57,7 +57,6 @@ public class Portfolio implements CertificateHolderI {
 	public final static PortfolioHolderI NO_HOLDER = null;
 	public final static Portfolio NO_PORTFOLIO = null;
 	public final static String NO_PORTFOLIO_LABEL = ">> NO PORTFOLIO <<";
-	public final static String NO_CERTIFICATES_LABEL = ">> NO CERTIFICATES <<";
 	public final static String NO_COMPANY_YET = ">> NONE YET <<";
 	public final static String NO_CERTIFICATES = ">> NO CERTIFICATES <<";
 	public final static String NO_NAME_STRING = "<NONE>";
@@ -590,7 +589,7 @@ public class Portfolio implements CertificateHolderI {
 		tThisCertificate = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (tThisCertificate == Certificate.NO_CERTIFICATE) {
-				if (aPercentage == tCertificate.getPercentage()) {
+				if (aPercentage == tCertificate.getPercentage ()) {
 					if (aPresidentShare && tCertificate.isPresidentShare ()) {
 						tThisCertificate = tCertificate;
 					} else if (! aPresidentShare && ! tCertificate.isPresidentShare ()) {
@@ -613,7 +612,7 @@ public class Portfolio implements CertificateHolderI {
 	
 		tThisCertificate = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
-			if (aPercentage == tCertificate.getPercentage()) {
+			if (aPercentage == tCertificate.getPercentage ()) {
 				if (aPresidentShare && tCertificate.isPresidentShare ()) {
 					tThisCertificate = tCertificate;
 				} else if (! aPresidentShare && ! tCertificate.isPresidentShare ()) {
@@ -854,7 +853,6 @@ public class Portfolio implements CertificateHolderI {
 	public String getSelectedCompanyAbbrev () {
 		String tSelectedCompanyAbbrev = "";
 		
-
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelected ()) {
 				tSelectedCompanyAbbrev = tCertificate.getCompanyAbbrev ();
@@ -866,7 +864,6 @@ public class Portfolio implements CertificateHolderI {
 
 	public int getSelectedPercent () {
 		int tSelectedPercent = 0;
-		
 		
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelected ()) {
@@ -900,12 +897,10 @@ public class Portfolio implements CertificateHolderI {
 
 	public int getNextPresidentPercent (Corporation aCorporation) {
 		String tCertificateOwnerName, tNextName, tPresidentName;
-//		String tNextPresidentName;
 		PortfolioHolderI tPresident;
 		int tNextPresidentPercent;
 		int tPercent;
 
-//		tNextPresidentName = "";
 		tNextName = "";
 		tPresident = getPresident ();
 		tPresidentName = tPresident.getName ();
@@ -922,7 +917,6 @@ public class Portfolio implements CertificateHolderI {
 					} else {
 						if (tPercent > tNextPresidentPercent) {
 							tNextPresidentPercent = tPercent;
-//							tNextPresidentName = tNextName;
 						}
 						tPercent = tCertificate.getPercentage ();
 					}
@@ -932,7 +926,6 @@ public class Portfolio implements CertificateHolderI {
 		}
 		if (tPercent > tNextPresidentPercent) {
 			tNextPresidentPercent = tPercent;
-//			tNextPresidentName = tNextName;
 		}
 		
 		return tNextPresidentPercent;

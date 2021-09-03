@@ -253,7 +253,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			tPortfolioInfoJPanel.add (tLabel);
 		} else {
 			if (portfolio.getCertificateTotalCount () == 0) {
-				tLabel = new JLabel (Portfolio.NO_CERTIFICATES_LABEL);
+				tLabel = new JLabel (Portfolio.NO_CERTIFICATES);
 				tPortfolioInfoJPanel.add (tLabel);				
 			} else {
 				tCertsPanel = portfolio.buildPortfolioJPanel (true, false, false, false, "", 
