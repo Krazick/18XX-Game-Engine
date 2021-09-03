@@ -50,10 +50,10 @@ import javax.swing.border.Border;
 public class Portfolio implements CertificateHolderI {
 	public final static ElementName EN_PORTFOLIO = new ElementName ("Portfolio");
 	public final static ElementName EN_BIDDERS = new ElementName ("Bidders");
-	final static AttributeName AN_PRIVATE_INDEX = new AttributeName ("privateIndex");
-	final static AttributeName AN_COAL_INDEX = new AttributeName ("coalIndex");
-	final static AttributeName AN_MINOR_INDEX = new AttributeName ("minorIndex");
-	final static AttributeName AN_SHARE_INDEX = new AttributeName ("shareIndex");
+	public final static AttributeName AN_PRIVATE_INDEX = new AttributeName ("privateIndex");
+	public final static AttributeName AN_COAL_INDEX = new AttributeName ("coalIndex");
+	public final static AttributeName AN_MINOR_INDEX = new AttributeName ("minorIndex");
+	public final static AttributeName AN_SHARE_INDEX = new AttributeName ("shareIndex");
 	public static final PortfolioHolderI NO_HOLDER = null;
 	public static final Portfolio NO_PORTFOLIO = null;
 	public static final String NO_PORTFOLIO_LABEL = ">> NO PORTFOLIO <<";
