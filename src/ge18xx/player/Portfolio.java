@@ -43,6 +43,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.border.Border;
 
 public class Portfolio implements CertificateHolderI {
@@ -250,10 +252,13 @@ public class Portfolio implements CertificateHolderI {
 			Player aPlayer, 
 			GameManager aGameManager) {
 		JPanel tAllCertificatesPanel;
+		JScrollPane tCorporationScrollPane;
 		JPanel tCertificateInfoPanel;
 		JPanel tOtherCertificatesInfoPanel;
 		JPanel tCorporationPanel;
+		JPanel tScrollableCorpPanel;
 		BoxLayout tLayout;
+		ScrollPaneLayout tSPLayout;
 		Certificate tCertificateToShow;
 		Corporation tCorporationToShow;
 		int tCount, tCertCount,tCertTotalPercent;
@@ -263,7 +268,8 @@ public class Portfolio implements CertificateHolderI {
 		tCount = 0;
 		tCertCount = 0;
 		tCertTotalPercent = 0;
-		tCorporationPanel = buildEmptyCorpPanel (aCorpType);
+		tScrollableCorpPanel = buildEmptyCorpPanel (aCorpType);
+		tCorporationPanel = buildEmptyCorpPanel (null);
 		tPrevShareCorpAbbrev = NO_COMPANY_YET;
 		tAllCertificatesPanel = null;
 		
@@ -289,11 +295,19 @@ public class Portfolio implements CertificateHolderI {
 					
 					tCertificateInfoPanel = tCertificateToShow.buildCertificateInfoContainer (aSelectedButtonLabel, 
 							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
-					addJCAndHGlue (tAllCertificatesPanel, null);
-					addJCAndHGlue (tAllCertificatesPanel, tCertificateInfoPanel);
+//					addJCAndHGlue (tAllCertificatesPanel, null);
+					tAllCertificatesPanel.add (Box.createHorizontalGlue ());
+					tAllCertificatesPanel.add (tCertificateInfoPanel);
+					tAllCertificatesPanel.add (Box.createHorizontalStrut (3));
+//					addJCAndHGlue (tAllCertificatesPanel, tCertificateInfoPanel);
+					
 					tOtherCertificatesInfoPanel = buildCompactCertInfoPanel (tShareCorpAbbrev, tCertCount, 
 							tCertTotalPercent);
-					addJCAndHGlue (tAllCertificatesPanel, tOtherCertificatesInfoPanel);
+					tAllCertificatesPanel.add (Box.createHorizontalStrut (3));
+					tAllCertificatesPanel.add (tOtherCertificatesInfoPanel);
+					tAllCertificatesPanel.add (Box.createHorizontalGlue ());
+//					addJCAndHGlue (tAllCertificatesPanel, tOtherCertificatesInfoPanel);
+
 					addJCAndVGlue (tCorporationPanel, tAllCertificatesPanel);
 					tPrevShareCorpAbbrev = tShareCorpAbbrev;
 				}
@@ -303,9 +317,13 @@ public class Portfolio implements CertificateHolderI {
 		if (tCount == 0) {
 			tAllCertificatesPanel = buildNoCertificatesPanel ();
 		}
-		addJCAndVGlue (tCorporationPanel, tAllCertificatesPanel);
+		tCorporationScrollPane = new JScrollPane (tCorporationPanel);
+		tSPLayout = new ScrollPaneLayout ();
+		tCorporationScrollPane.setLayout (tSPLayout);
+		addJCAndVGlue (tScrollableCorpPanel, tCorporationScrollPane);
+//		addJCAndVGlue (tCorporationPanel, tAllCertificatesPanel);
 		
-		return tCorporationPanel;
+		return tScrollableCorpPanel;
 	}
 
 	private JPanel buildEmptyCorpPanel (String aCorpType) {
@@ -313,7 +331,9 @@ public class Portfolio implements CertificateHolderI {
 		BoxLayout tSPLayout;
 		
 		tCorporationPanel = new JPanel ();
-		tCorporationPanel.setBorder (BorderFactory.createTitledBorder (aCorpType + " Companies"));
+		if (aCorpType != null) {
+			tCorporationPanel.setBorder (BorderFactory.createTitledBorder (aCorpType + " Companies"));
+		}
 		tSPLayout = new BoxLayout (tCorporationPanel, BoxLayout.Y_AXIS);
 		tCorporationPanel.setLayout (tSPLayout);
 		tCorporationPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
@@ -321,6 +341,22 @@ public class Portfolio implements CertificateHolderI {
 		
 		return tCorporationPanel;
 	}
+
+//	private JScrollPane buildNoCertificatesScrollPane () {
+//		JScrollPane tAllCertificatesPanel;
+//		BoxLayout tLayout;
+//		JLabel tLabel;
+//		
+//		tLabel = new JLabel (NO_CERTIFICATES);
+//		tAllCertificatesPanel = new JScrollPane ();
+//		tLayout = new BoxLayout (tAllCertificatesPanel, BoxLayout.X_AXIS);
+//		tAllCertificatesPanel.setLayout (tLayout);
+//		tAllCertificatesPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
+//		addJCAndHGlue (tAllCertificatesPanel, null);
+//		addJCAndHGlue (tAllCertificatesPanel, tLabel);
+//		
+//		return tAllCertificatesPanel;
+//	}
 
 	private JPanel buildNoCertificatesPanel() {
 		JPanel tAllCertificatesPanel;
@@ -334,6 +370,7 @@ public class Portfolio implements CertificateHolderI {
 		tAllCertificatesPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		addJCAndHGlue (tAllCertificatesPanel, null);
 		addJCAndHGlue (tAllCertificatesPanel, tLabel);
+		
 		return tAllCertificatesPanel;
 	}
 	
