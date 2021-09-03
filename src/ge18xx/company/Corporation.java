@@ -86,10 +86,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	static final int SORT_CO1_BEFORE_CO2 = -100;
 	static final int SORT_CO2_BEFORE_CO1 = 100;
 	boolean gameTestFlag = false;
+	boolean govtRailway;
 	int id;
 	String name;
 	String abbrev;
-	boolean govtRailway;
 	String homeCityGrid1;
 	String homeCityGrid2;
 	MapCell homeCity1;
