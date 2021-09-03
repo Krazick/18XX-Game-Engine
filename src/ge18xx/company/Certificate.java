@@ -2,6 +2,7 @@ package ge18xx.company;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
@@ -184,6 +185,7 @@ public class Certificate implements Comparable<Certificate> {
 		String tCompanyAbbrev, tNote;
 		CompoundBorder tCertInfoBorder2;
 		Integer [] tParValues;
+		Dimension tParValueSize;
 		
 		if (aPlayer != null) {
 			tCompanyAbbrev = getCompanyAbbrev ();
@@ -237,6 +239,9 @@ public class Certificate implements Comparable<Certificate> {
 
 				tPrice = 0;
 				if (parValuesCombo != null) {
+					tParValueSize = new Dimension (75, 50);
+					parValuesCombo.setPreferredSize (tParValueSize);
+					parValuesCombo.setMaximumSize (tParValueSize);
 					parValuesCombo.addItemListener (aItemListener);
 					parValuesCombo.setAlignmentX (Component.LEFT_ALIGNMENT);
 					tCertificateInfoPanel.add (parValuesCombo);
@@ -267,15 +272,7 @@ public class Certificate implements Comparable<Certificate> {
 		tPlayerHasEnoughCashToBid = addBidderLabels (tCertificateInfoPanel, tPlayerCash);
 		
 		if (aCheckBoxLabel.equals (Player.SELL_LABEL)) {
-			// If the Checkbox to add is Sell -- test first if it is a Private Company
-			// Then, and only then, test if it can be Exchanged... then show an Exchange Label (not Sell)
-			if (isPrivateCompany ()) {
-//				if (canBeExchanged (aGameManager)) {
-//					checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, true, NO_TOOL_TIP, aItemListener);
-//					tCertificateInfoPanel.add (checkedButton);
-//				}
-				// If it cannot be exchanged, Never show the Checkbox Here, we can't sell it, and can't exchange it
-			} else {
+			if (! isPrivateCompany ()) {
 				// Only if it is a Share Company, can it be Sold 
 				// TODO: non-1830 For 1835 with Minors, 1837 with Coal we cannot Sell them either, test for CanBeSold
 				if (isPresidentShare ()) {
