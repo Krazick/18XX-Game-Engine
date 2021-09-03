@@ -342,22 +342,6 @@ public class Portfolio implements CertificateHolderI {
 		return tCorporationPanel;
 	}
 
-//	private JScrollPane buildNoCertificatesScrollPane () {
-//		JScrollPane tAllCertificatesPanel;
-//		BoxLayout tLayout;
-//		JLabel tLabel;
-//		
-//		tLabel = new JLabel (NO_CERTIFICATES);
-//		tAllCertificatesPanel = new JScrollPane ();
-//		tLayout = new BoxLayout (tAllCertificatesPanel, BoxLayout.X_AXIS);
-//		tAllCertificatesPanel.setLayout (tLayout);
-//		tAllCertificatesPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
-//		addJCAndHGlue (tAllCertificatesPanel, null);
-//		addJCAndHGlue (tAllCertificatesPanel, tLabel);
-//		
-//		return tAllCertificatesPanel;
-//	}
-
 	private JPanel buildNoCertificatesPanel() {
 		JPanel tAllCertificatesPanel;
 		BoxLayout tLayout;
