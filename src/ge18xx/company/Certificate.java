@@ -239,7 +239,7 @@ public class Certificate implements Comparable<Certificate> {
 
 				tPrice = 0;
 				if (parValuesCombo != null) {
-					tParValueSize = new Dimension (75, 50);
+					tParValueSize = new Dimension (75, 20);
 					parValuesCombo.setPreferredSize (tParValueSize);
 					parValuesCombo.setMaximumSize (tParValueSize);
 					parValuesCombo.addItemListener (aItemListener);
