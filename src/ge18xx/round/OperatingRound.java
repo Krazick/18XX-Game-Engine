@@ -161,6 +161,21 @@ public class OperatingRound extends Round {
 		return tRoundDone;
 	}
 	
+	public boolean companyStartedOperating () {
+		int tNextShareToOperate;
+		
+		tNextShareToOperate = getNextToOperate ();
+		
+		return shareCompanies.companyStartedOperating (tNextShareToOperate);
+	}
+	
+	public void prepareCorporation () {
+		int tNextShareToOperate;
+		
+		tNextShareToOperate = getNextToOperate ();
+		shareCompanies.prepareCorporation (tNextShareToOperate);		
+	}
+	
 	public void showCurrentCompanyFrame () {
 		int tNextShareToOperate;
 		
