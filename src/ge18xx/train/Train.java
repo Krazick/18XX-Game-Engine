@@ -46,12 +46,12 @@ public class Train implements Comparable<Object> {
 	final static AttributeName AN_PRICE = new AttributeName ("price");
 	final static AttributeName AN_STATUS = new AttributeName ("status");
 	public static final JCheckBox NO_ACTION_CHECKBOX = null;
-	static final TrainInfo NO_TRAIN_INFO = null;
-	public static Train NO_TRAIN = null;
+	public static final TrainInfo NO_TRAIN_INFO = null;
+	public static final Train NO_TRAIN = null;
 	public static final int NO_ORDER = -1;
 	public static final int INFINITE_COUNT = 9999;
 	public static final int NO_RC_COUNT = -1;
-	static final int NO_PRICE = -1;
+	public static final int NO_PRICE = -1;
 	public static final int NOT_AVAILABLE = 0;
 	public static final int AVAILABLE_FOR_PURCHASE = 1;
 	public static final int RUSTED = -2;
@@ -374,6 +374,8 @@ public class Train implements Comparable<Object> {
 	static public String getNameOfStatus (int aStatusValue) {
 		String tNameOfStatus;
 		
+		// TODO: update the TrainStatusValue to be an Enum, and get name from the Enum
+		
 		tNameOfStatus = "No Train Status";
 		if (aStatusValue == NOT_AVAILABLE) {
 			tNameOfStatus = "Not Available for Purchase";
@@ -519,7 +521,6 @@ public class Train implements Comparable<Object> {
 		}
 		if (previousRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			previousRouteInformation.fixLoadedRoutes (aMapFrame);
-//			System.out.println ("Ready to fix Previous Route info for the " + getName () + " Train");
 		}
 	}
 
@@ -573,11 +574,7 @@ public class Train implements Comparable<Object> {
 
 			tCorpID = aTrainCompany.getID ();
 			tRouteAction = RouteAction.NO_ACTION;
-//			System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
 			currentRouteInformation.addTheRouteSegment (tRouteSegment, tRouteAction);
-//			System.out.println ("Current Route has length " + currentRouteInformation.getSegmentCount() + " Segments\n");
-//			System.out.println ("Should have Extended Route Segment on Client");
-//			currentRouteInformation.printDetail ();
 			tRouteExtended = true;
 		} 
 		
@@ -610,13 +607,11 @@ public class Train implements Comparable<Object> {
 			tPreviousRouteSegment.setEndNode (aEndLocation, aPhase);
 			
 			currentRouteInformation.swapTrackHighlights (aTrainIndex, tOldTrack, tNewTrack);
-	//		System.out.println ("Should have Set New End Point for PreviousRoute Segment on Client");
 	
 			currentRouteInformation.updateRevenueCenterInfo (aTrainCompany.getID (), tPreviousRouteSegment, 
 								aEndLocation, tPreviousEnd);
 			currentRouteInformation.updateRevenueFrame ();
 	
-	//		currentRouteInformation.printDetail ();
 			tSetNewEndPoint = true;
 		}
 		
