@@ -150,6 +150,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 	
 	@Override
+	public void prepareCorporation () {
+		System.out.println ("Ready to Prepare Train Company " + getAbbrev () + " for Operating");
+		updateStatus (ActorI.ActionStates.StartedOperations);
+		setLastRevenue (thisRevenue);
+		setThisRevenue (NO_REVENUE);
+	}
+	
+	@Override
 	public void loadStates (XMLNode aXMLNode) {
 		int tThisRevenue, tLastRevenue;
 		boolean tMustBuyTrain;
