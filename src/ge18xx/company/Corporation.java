@@ -165,6 +165,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		String tStatus;
 		ActorI.ActionStates tActionStatus;
 		GenericActor tGenericActor;
+		
 		tStatus = aXMLNode.getThisAttribute (AN_CORP_STATUS, ActorI.ActionStates.Unowned.toString ());
 		tGenericActor = new GenericActor ();
 		tActionStatus = tGenericActor.getCorporationActionState (tStatus);
@@ -236,11 +237,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tCurrentColumn;
 	}
 	
-	// Private Company will Override
 	public abstract JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash);
-//	{
-//		return null;
-//	}
 
 	public JPanel buildPortfolioJPanel (ItemListener aItemListener, GameManager aGameManager) {
 		JLabel tLabel;
