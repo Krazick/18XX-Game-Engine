@@ -785,11 +785,27 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 	}
 	
+	public boolean companyStartedOperating (int aIndex) {
+		Corporation tCorporation;
+		boolean tCompanyStartedOperating;
+		
+		tCorporation = corporations.get (aIndex);
+		tCompanyStartedOperating = tCorporation.isOperating ();
+		
+		return tCompanyStartedOperating;
+	}
+	
+	public void prepareCorporation (int aIndex) {
+		Corporation tCorporation;
+		
+		tCorporation = corporations.get (aIndex);
+		tCorporation.prepareCorporation ();
+	}
+	
 	public void showCompanyFrame (int aIndex) {
 		Corporation tCorporation;
 		
 		tCorporation = corporations.get (aIndex);
-		tCorporation.updateStatus (ActorI.ActionStates.StartedOperations);
 		tCorporation.showFrame ();
 	}
 	
