@@ -13,8 +13,8 @@
 		revenue="10" homeCell1="I12" homeLocation1="20"
 		homeLocation2="23" special="Tile and Token Placement">
 		<Benefits>
-			<Benefit tilePlacement="true" mapCell="I12" cost="0" close="true"/>
-			<Benefit tokenPlacment="true" mapCell="I12" cost="0" sameTurn="true" close="true"/>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TilePlacementBenefit" tilePlacement="true" mapCell="I12" cost="0" close="true"/>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TokenPlacementBenefit" tokenPlacment="true" mapCell="I12" cost="0" sameTurn="true" close="true"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
@@ -24,7 +24,7 @@
 		revenue="10" homeCell1="H11" homeLocation1="15" homeLocation2="17"
 		special="Free Tile Placement">
 		<Benefits>
-			<Benefit actorType="Corporation" extraTilePlacement="true" mapCell="H11" cost="0" close="false"/>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TilePlacementBenefit" extraTilePlacement="true" mapCell="H11" cost="0" close="false"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
@@ -33,7 +33,7 @@
 		note="At any time during its operating round, the owning public company may place the port token in any one city adjacent to Lake Erie, Lake Huron or Georgian Bay. These cities are marked with an anchor symbol. The port token raises the value of the city by $20 for only the owning company. Once placed the port token may not be moved. This port token, if place is removed when the first type 6 train is purchased. Placement of the this token closes the Great Lakes Shipping Company."
 		revenue="15" special="Port Token Placement">
 		<Benefits>
-			<Benefit actorType="Corporation" tokenType="port" tokenPlacement="true" tokenBonus="20" close="true"/>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.PortPlacementBenefit" tokenType="port" tokenPlacement="true" tokenBonus="20" close="true"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
@@ -43,7 +43,7 @@
 		revenue="20" homeCell1="P19" homeLocation1="50"
 		special="Buffalo Bonus">
 		<Benefits>
-			<Benefit actorType="Corporation" license="true" licenseCost="50" mapCell="P17,P19" value="10"/>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.LicenseBenefit" license="true" licenseCost="50" mapCell="P17,P19" value="10"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
@@ -52,7 +52,7 @@
 		note="The public company that owns this private company may add the $10 Port Huron bonus when running to Sarnia. Other public companies may purchase the right to use this bonus by paying $50 to the owning company. This right may not be purchased if this private company is owned by a player. The right may be purchased from the bank for $50 after the private comapny closes. Companies that have gained this right never lose it. The Canadian Government Railways gains this right if any of its forming companies had this right."
 		revenue="20" homeCell1="A14" homeLocation1="50" special="Sarnia Bonus">
 		<Benefits>
-			<Benefit actorType="Corporation" license="true" licenseCost="50" mapCell="B13" value="10"/>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.LicenseBenefit" license="true" licenseCost="50" mapCell="B13" value="10"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
