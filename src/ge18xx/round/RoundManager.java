@@ -782,6 +782,14 @@ public class RoundManager {
 		stockRound.showCurrentPlayerFrame ();
 	}
 	
+	public boolean companyStartedOperating () {
+		return operatingRound.companyStartedOperating ();
+	}
+	
+	public void prepareCorporation () {
+		operatingRound.prepareCorporation ();
+	}
+	
 	public void showCurrentCompanyFrame () {
 		operatingRound.showCurrentCompanyFrame ();
 	}
