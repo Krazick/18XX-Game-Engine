@@ -598,6 +598,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tDidOperate;
 	}
 	
+	public void prepareCorporation () {
+		System.out.println ("Ready to Prepare Corporation  for Operating -- OVERRIDDING SHOULD HANDLE");
+	}
+	
 	public void doneAction () {
 		boolean tStatusUpdated;
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
@@ -1160,11 +1164,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		Point tNewPoint;
 		GameManager tGameManager;
 		
-		updateFrameInfo ();
-		tGameManager = corporationList.getGameManager ();
-		tNewPoint = tGameManager.getOffsetRoundFrame ();
-		corporationFrame.setLocation (tNewPoint);
-		corporationFrame.setVisible (true);
+		if (! corporationFrame.isVisible ()) {
+			updateFrameInfo ();
+			tGameManager = corporationList.getGameManager ();
+			tNewPoint = tGameManager.getOffsetRoundFrame ();
+			corporationFrame.setLocation (tNewPoint);
+			corporationFrame.setVisible (true);
+		}
 	}
 	
 	public void showMap () {
@@ -1449,6 +1455,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		isOperating = true;
 		if ((status == ActorI.ActionStates.Closed) ||
 			(status == ActorI.ActionStates.Unowned) || 
+			(status == ActorI.ActionStates.WillFloat) || 
+			(status == ActorI.ActionStates.MayFloat) || 
 			(status == ActorI.ActionStates.Owned) ||
 			(status == ActorI.ActionStates.Operated) ||
 			(status == ActorI.ActionStates.NotOperated)) {
