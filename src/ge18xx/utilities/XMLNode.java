@@ -11,6 +11,7 @@ package ge18xx.utilities;
 import org.w3c.dom.*;
 
 public class XMLNode {
+	public static final String XML_TEXT_TAG = "#text";
 	Node node;
 	
 	public XMLNode (Node aNode) {
