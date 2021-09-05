@@ -84,12 +84,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final AttributeName AN_GE_VERSION = new AttributeName ("version");
 	public static final String NO_GAME_NAME = "<NONE>";
 	public static final String NO_FILE_NAME = "<NONE>";
+	public static final String AUTO_SAVES_DIR = "autoSaves";
 	public static final GameInfo NO_GAME = null;
 	public static final XMLFrame NO_FRAME = null;
 	public static final PlayerInputFrame NO_PLAYER_INPUT_FRAME = null;
 	public static final PlayerManager NO_PLAYER_MANAGER = null;
 	public static final PhaseManager NO_PHASE_MANAGER = null;
-	public static String AUTO_SAVES_DIR = "autoSaves";
 	public static final int NO_BANK_CASH = 0;
 	boolean gameChangedSinceSave;
 	Game_18XX game18XXFrame;
@@ -1217,60 +1217,29 @@ public class GameManager extends Component implements NetworkGameSupport {
 				}
 				tChildNode = new XMLNode (tChildren.item (tIndex));
 				tChildName = tChildNode.getNodeName ();
-				if (JGameClient.EN_NETWORK_GAME.equals (tChildName)) {
-					if (networkJGameClient == null) {
-						loadNetworkJGameClient (tChildNode);
+				if (! tChildName.equals (XMLNode.XML_TEXT_TAG)) {
+					if (JGameClient.EN_NETWORK_GAME.equals (tChildName)) {
+						if (networkJGameClient == null) {
+							loadNetworkJGameClient (tChildNode);
+						}
 					}
-				}
-				if (GameInfo.EN_GAME_INFO.equals (tChildName)) {
-					tGameSet = playerInputFrame.getGameSet ();
-					tSaveGameName = tChildNode.getThisAttribute (AN_NAME);
-					activeGame = tGameSet.getGameByName (tSaveGameName);
-					tGameID = tChildNode.getThisAttribute (GameInfo.AN_GAME_ID);
-					setGameID (tGameID);
-					activeGame.setGameID (tGameID);
-					tGameIdentified = true;
-				}
-				if (PlayerInputFrame.EN_PLAYERS.equals (tChildName)) {
-					tPlayersLoaded = playerManager.loadPlayers (tChildNode, activeGame);
-				}
-				if (PhaseManager.EN_PHASE.equals (tChildName)) {
-					phaseManager.loadPhase (tChildNode);
-				}
-				if (tGameInitiated) {
-					if (Action.EN_ACTIONS.equals (tChildName)) {
-						roundManager.loadActions (tChildNode, this);
+					if (GameInfo.EN_GAME_INFO.equals (tChildName)) {
+						tGameSet = playerInputFrame.getGameSet ();
+						tSaveGameName = tChildNode.getThisAttribute (AN_NAME);
+						activeGame = tGameSet.getGameByName (tSaveGameName);
+						tGameID = tChildNode.getThisAttribute (GameInfo.AN_GAME_ID);
+						setGameID (tGameID);
+						activeGame.setGameID (tGameID);
+						tGameIdentified = true;
 					}
-					if (RoundManager.EN_ROUNDS.equals (tChildName)) {
-						roundManager.loadRoundStates (tChildNode);
+					if (PlayerInputFrame.EN_PLAYERS.equals (tChildName)) {
+						tPlayersLoaded = playerManager.loadPlayers (tChildNode, activeGame);
 					}
-					if (Player.EN_PLAYER_STATES.equals (tChildName)) {
-						playerManager.loadPlayerStates (tChildNode);
+					if (PhaseManager.EN_PHASE.equals (tChildName)) {
+						phaseManager.loadPhase (tChildNode);
 					}
-					if (Bank.EN_BANK_STATE.equals (tChildName)) {
-						bank.loadBankState (tChildNode);
-					}
-					if (BankPool.EN_BANK_POOL_STATE.equals (tChildName)) {
-						bankPool.loadBankPoolState (tChildNode);
-					}
-					if (Market.EN_MARKET.equals (tChildName)) {
-						marketFrame.loadMarketTokens (tChildNode);
-					}
-					if (PrivatesFrame.EN_PRIVATES.equals (tChildName)) {
-						privatesFrame.loadPrivatesStates (tChildNode);
-						cleanupLoadedPrivates ();
-					}
-					if (MinorCompaniesFrame.EN_MINORS.equals (tChildName)) {
-						minorCompaniesFrame.loadMinorsStates (tChildNode);
-					}
-					if (CoalCompaniesFrame.EN_COALS.equals (tChildName)) {
-						coalCompaniesFrame.loadCoalsStates (tChildNode);
-					}
-					if (ShareCompaniesFrame.EN_SHARES.equals (tChildName)) {
-						shareCompaniesFrame.loadSharesStates (tChildNode);
-					}
-					if (HexMap.EN_MAP.equals (tChildName)) {
-						mapFrame.loadMapStates (tChildNode);
+					if (tGameInitiated) {
+						handleIfGameInitiated (tChildNode, tChildName);
 					}
 				}
 			}
@@ -1285,6 +1254,43 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 		
 		return tLoadedSaveGame;
+	}
+
+	public void handleIfGameInitiated (XMLNode aChildNode, String aChildName) {
+		if (Action.EN_ACTIONS.equals (aChildName)) {
+			roundManager.loadActions (aChildNode, this);
+		}
+		if (RoundManager.EN_ROUNDS.equals (aChildName)) {
+			roundManager.loadRoundStates (aChildNode);
+		}
+		if (Player.EN_PLAYER_STATES.equals (aChildName)) {
+			playerManager.loadPlayerStates (aChildNode);
+		}
+		if (Bank.EN_BANK_STATE.equals (aChildName)) {
+			bank.loadBankState (aChildNode);
+		}
+		if (BankPool.EN_BANK_POOL_STATE.equals (aChildName)) {
+			bankPool.loadBankPoolState (aChildNode);
+		}
+		if (Market.EN_MARKET.equals (aChildName)) {
+			marketFrame.loadMarketTokens (aChildNode);
+		}
+		if (PrivatesFrame.EN_PRIVATES.equals (aChildName)) {
+			privatesFrame.loadPrivatesStates (aChildNode);
+			cleanupLoadedPrivates ();
+		}
+		if (MinorCompaniesFrame.EN_MINORS.equals (aChildName)) {
+			minorCompaniesFrame.loadMinorsStates (aChildNode);
+		}
+		if (CoalCompaniesFrame.EN_COALS.equals (aChildName)) {
+			coalCompaniesFrame.loadCoalsStates (aChildNode);
+		}
+		if (ShareCompaniesFrame.EN_SHARES.equals (aChildName)) {
+			shareCompaniesFrame.loadSharesStates (aChildNode);
+		}
+		if (HexMap.EN_MAP.equals (aChildName)) {
+			mapFrame.loadMapStates (aChildNode);
+		}
 	}
 
 	public void loadNetworkJGameClient(XMLNode tChildNode) {
@@ -1972,7 +1978,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 						} else {
 							logger.error ("Trying to handle a Server Game Activity, Node Named [" + tANodeName + "] no Round Manager set yet");
 						}
-					} else if ("#text".equals (tANodeName)){
+					} else if (XMLNode.XML_TEXT_TAG.equals (tANodeName)){
 						// If a #text Node, ignore -- it is empty
 					} else {
 						logger.error ("Node Name is [" + tANodeName + "] which is Unrecognized");
