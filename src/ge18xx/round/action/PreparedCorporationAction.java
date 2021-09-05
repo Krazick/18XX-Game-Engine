@@ -28,7 +28,7 @@ public class PreparedCorporationAction extends ChangeStateAction {
 		setName (NAME);
 	}
 
-	public void addGeneratedRevenueEffect (ActorI aActor, int aNewLastRevenue, int aOldLastRevenue) {
+	public void addUpdateLastRevenueEffect (ActorI aActor, int aNewLastRevenue, int aOldLastRevenue) {
 		UpdateLastRevenueEffect tUpdateLastRevenueEffect;
 
 		tUpdateLastRevenueEffect = new UpdateLastRevenueEffect (aActor, aNewLastRevenue, aOldLastRevenue);
