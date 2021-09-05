@@ -155,6 +155,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		PreparedCorporationAction tPreparedCorporationAction;
 		String tOperatingRoundID;
 		ActorI.ActionStates tPreviousStatus, tNewStatus;
+		int tCurrentRevenue, tPreviousRevenue;
 		
 		System.out.println ("Ready to Prepare Company " + getAbbrev () + " for Operating");
 		tPreviousStatus = this.getActionStatus ();
@@ -165,10 +166,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tPreparedCorporationAction = new PreparedCorporationAction (ActorI.ActionStates.OperatingRound, 
 						tOperatingRoundID, this);
 		tPreparedCorporationAction.addChangeCorporationStatusEffect (this, tPreviousStatus, tNewStatus);
-		if (thisRevenue != lastRevenue) {
+		tCurrentRevenue = thisRevenue;
+		tPreviousRevenue = lastRevenue;
+		
+		setLastRevenue (thisRevenue);
+		setThisRevenue (NO_REVENUE);
+		if (tCurrentRevenue != tPreviousRevenue) {
 			tPreparedCorporationAction.addUpdateLastRevenueEffect (this, thisRevenue, lastRevenue);
-			setLastRevenue (thisRevenue);
-			setThisRevenue (NO_REVENUE);
 		}
 		addAction (tPreparedCorporationAction);
 	}
