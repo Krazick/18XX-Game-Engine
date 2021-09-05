@@ -17,6 +17,7 @@ import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.LayTileAction;
 import ge18xx.round.action.OperatedTrainsAction;
 import ge18xx.round.action.PayNoDividendAction;
+import ge18xx.round.action.PreparedCorporationAction;
 import ge18xx.round.action.RemoveTileAction;
 import ge18xx.round.action.SkipBaseTokenAction;
 import ge18xx.round.action.TransferOwnershipAction;
@@ -151,10 +152,25 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	
 	@Override
 	public void prepareCorporation () {
-		System.out.println ("Ready to Prepare Train Company " + getAbbrev () + " for Operating");
+		PreparedCorporationAction tPreparedCorporationAction;
+		String tOperatingRoundID;
+		ActorI.ActionStates tPreviousStatus, tNewStatus;
+		
+		System.out.println ("Ready to Prepare Company " + getAbbrev () + " for Operating");
+		tPreviousStatus = this.getActionStatus ();
 		updateStatus (ActorI.ActionStates.StartedOperations);
-		setLastRevenue (thisRevenue);
-		setThisRevenue (NO_REVENUE);
+		tNewStatus = this.getActionStatus ();
+		
+		tOperatingRoundID = corporationList.getOperatingRoundID ();
+		tPreparedCorporationAction = new PreparedCorporationAction (ActorI.ActionStates.OperatingRound, 
+						tOperatingRoundID, this);
+		tPreparedCorporationAction.addChangeCorporationStatusEffect (this, tPreviousStatus, tNewStatus);
+		if (thisRevenue != lastRevenue) {
+			tPreparedCorporationAction.addUpdateLastRevenueEffect (this, thisRevenue, lastRevenue);
+			setLastRevenue (thisRevenue);
+			setThisRevenue (NO_REVENUE);
+		}
+		addAction (tPreparedCorporationAction);
 	}
 	
 	@Override
