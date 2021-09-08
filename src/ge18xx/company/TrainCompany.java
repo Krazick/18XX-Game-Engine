@@ -157,7 +157,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		ActorI.ActionStates tPreviousStatus, tNewStatus;
 		int tCurrentRevenue, tPreviousRevenue;
 		
-		System.out.println ("Ready to Prepare Company " + getAbbrev () + " for Operating");
 		tPreviousStatus = this.getActionStatus ();
 		updateStatus (ActorI.ActionStates.StartedOperations);
 		tNewStatus = this.getActionStatus ();
