@@ -818,9 +818,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public void updatePutTileButton () {
 		MapCell tMapCell;
 		GameTile tTile;
+		Tile tNewTile;
 		int tTileLayCost;
 		TrainCompany tOperatingTrainCompany;
 		int tOperatingCompanyTreasury;
+		boolean tAnyAllowedRotation;
 		
 		tOperatingTrainCompany = getOperatingTrainCompany ();
 		if (tOperatingTrainCompany != CorporationList.NO_CORPORATION) {
@@ -830,34 +832,47 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			tTile = tileSet.getSelectedTile ();
 			// If there is a Map Cell Selected we can do further tests
 			if (tMapCell != HexMap.NO_MAP_CELL) {
-				if (! tMapCell.privatePreventsTileLay (privateCos, tOperatingTrainCompany)) {
-					tTileLayCost = tMapCell.getCostToLayTile ();
-					// If there is a Tile Lay Cost, and the Company Treasury has enough cash we can move forward
-					if (tTileLayCost <= tOperatingCompanyTreasury) {
-						// And there is a Game Tile Selected -- Enable the Put Tile Button 
-						if (tTile != GameTile.NO_GAME_TILE) {
-							if (validUpgradeType (tMapCell, tTile)) {
-								putTileButton.setEnabled (true);
-								putTileButton.setToolTipText (NO_TOOL_TIP);
+				if (tTile != GameTile.NO_GAME_TILE) {
+					tNewTile = tTile.getTile ();
+					tAnyAllowedRotation = tMapCell.anyAllowedRotation (tileSet, tNewTile);
+					if (tAnyAllowedRotation) {
+						if (! tMapCell.privatePreventsTileLay (privateCos, tOperatingTrainCompany)) {
+							tTileLayCost = tMapCell.getCostToLayTile ();
+							// If there is a Tile Lay Cost, and the Company Treasury has enough cash we can move forward
+							if (tTileLayCost <= tOperatingCompanyTreasury) {
+								// And there is a Game Tile Selected -- Enable the Put Tile Button 
+								if (tTile != GameTile.NO_GAME_TILE) {
+									if (validUpgradeType (tMapCell, tTile)) {
+										putTileButton.setEnabled (true);
+										putTileButton.setToolTipText (NO_TOOL_TIP);
+									} else {
+										putTileButton.setEnabled (false);
+										putTileButton.setToolTipText ("Not a Valid Upgrade choice");
+									}
+								} else {
+									putTileButton.setToolTipText (NO_TILE_SELECTED);
+								}
 							} else {
-								putTileButton.setEnabled (false);
-								putTileButton.setToolTipText ("Not a Valid Upgrade choice");
+								String tNotEnoughCash = String.format (NOT_ENOUGH_CASH, 
+										tOperatingTrainCompany.getAbbrev (), 
+										Bank.formatCash (tTileLayCost), 
+										Bank.formatCash (tOperatingCompanyTreasury));
+								putTileButton.setToolTipText (tNotEnoughCash);
 							}
 						} else {
-							putTileButton.setToolTipText (NO_TILE_SELECTED);
+							String tPrivateNotOwned = String.format (PRIVATE_NOT_OWNED, 
+									tOperatingTrainCompany.getAbbrev (),
+									tMapCell.getBasePrivateAbbrev (privateCos));
+							putTileButton.setToolTipText (tPrivateNotOwned);
 						}
+
 					} else {
-						String tNotEnoughCash = String.format (NOT_ENOUGH_CASH, 
-								tOperatingTrainCompany.getAbbrev (), 
-								Bank.formatCash (tTileLayCost), 
-								Bank.formatCash (tOperatingCompanyTreasury));
-						putTileButton.setToolTipText (tNotEnoughCash);
+						putTileButton.setEnabled (false);
+						putTileButton.setToolTipText ("Not a Valid Rotation for the selected Upgrade Tile");
 					}
 				} else {
-					String tPrivateNotOwned = String.format (PRIVATE_NOT_OWNED, 
-							tOperatingTrainCompany.getAbbrev (),
-							tMapCell.getBasePrivateAbbrev (privateCos));
-					putTileButton.setToolTipText (tPrivateNotOwned);
+					putTileButton.setEnabled (false);
+					putTileButton.setToolTipText ("No selected Tile Yet");
 				}
 			} else {
 				putTileButton.setToolTipText (NO_SELECTED_MAP_CELL);
