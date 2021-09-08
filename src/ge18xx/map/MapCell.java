@@ -474,7 +474,7 @@ public class MapCell implements Comparator<Object> {
 	
 	public MapCell getNeighbor (int aSide) {
 		if ((aSide < 0) || (aSide > 5)) {
-			return null;
+			return NO_MAP_CELL;
 		} else {
 			return neighbors [aSide];
 		}
@@ -921,6 +921,22 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 	
+	public boolean canPlaceTile (TileSet aTileSet) {
+		boolean tCanPlaceTile = true;
+		GameTile tSelectedTile;
+		Tile tNewTile;
+		
+		tSelectedTile = aTileSet.getSelectedTile ();
+		if (tSelectedTile != null) {
+			if (isTileOnCell ()) {
+				tNewTile = tSelectedTile.getTile ();
+				tCanPlaceTile = anyAllowedRotation (aTileSet, tNewTile);
+			}
+		}
+		
+		return tCanPlaceTile;
+	}
+	
 	public void putTileDown (TileSet aTileSet) {
 		GameTile tSelectedTile;
 		
@@ -939,6 +955,7 @@ public class MapCell implements Comparator<Object> {
 		int tUpgradeCount;
 		int tTileNumber;
 		int tPossibleOrientation;
+		
 		if (isTileOnCell ()) {
 			// Tile on MapCell -- Upgrade Required
 			tTileOnMapCell = getTile ();
@@ -948,7 +965,7 @@ public class MapCell implements Comparator<Object> {
 			if (tUpgradeCount > 0) {
 				tTile = aThisTile.popTile ();
 				upgradeTile (aTileSet, tTile);
-				hexMap.redrawMap();
+				hexMap.redrawMap ();
 			} else {
 				System.err.println ("No Upgrades Available");
 			}
@@ -1398,57 +1415,50 @@ public class MapCell implements Comparator<Object> {
 	}
 	
 	public void upgradeTile (TileSet aTileSet, Tile aNewTile) {
-		int tCurrentTileOrient;
+//		int tCurrentTileOrient;
+//		int tRotationIndex;
+//		int tUpgradeRotation;
 		int tCurrentTileNumber;
 		int tUpgradeToTileNumber;
-		int tRotation;
-		int tRotationCount;
-		int tRotationIndex;
+//		int tRotation;
+//		int tRotationCount;
 		int tCityCenterCount;
 		int tCityCenterIndex;
-		int tUpgradeRotation;
 		int tFirstPossibleRotation;
 		int tStationIndex;
 		Location tOldCityLocation, tNewCityLocation;
 		RevenueCenter tRevenueCenter;
 		City tCity;
-		City tTileCity;
+//		City tTileCity;
 		Corporation tBaseCorporation;
 		GameTile tCurrentGameTile;
 		Tile tCurrentTile;
 		Upgrade tUpgrade;
-		MapToken tMapToken;
+//		MapToken tMapToken;
 		boolean tAllowedRotations [] = new boolean [6];
 		
 		tCurrentTile = getTile ();
-		tCurrentTileOrient = getTileOrient ();	// Identify current rotation of Tile on Map Cell
+//		tCurrentTileOrient = getTileOrient ();	// Identify current rotation of Tile on Map Cell
 		tCurrentTileNumber = getTileNumber ();	// Find Current Tile Number and the Current Game Tile
 		tCurrentGameTile = aTileSet.getGameTile (tCurrentTileNumber);
 		
-		for (tRotationIndex = 0; tRotationIndex < 6; tRotationIndex++) {
+		for (int tRotationIndex = 0; tRotationIndex < 6; tRotationIndex++) {
 			tAllowedRotations [tRotationIndex] = false;
 		}
 		tFirstPossibleRotation = MapCell.NO_ROTATION;
 		tUpgradeToTileNumber = aNewTile.getNumber (); // get New Tile's Number
-		tRotation = NO_ROTATION;
+//		tRotation = NO_ROTATION;
 		tUpgrade = GameTile.NO_UPGRADE;
 		if (tCurrentGameTile != GameTile.NO_GAME_TILE) {
 			// Determine possible rotations of new Tile that replaces all Existing Track on previous Tile
 			// Add an Allowed Rotations if all Tracks can Exit based on 'canAllTracksExit' Method
 			// Once the first Rotation that is allowed is found, Save it.
 			tUpgrade = tCurrentGameTile.getUpgradeTo (tUpgradeToTileNumber);
-			tRotationCount = tUpgrade.getRotationCount ();
-			for (tRotationIndex = 0; tRotationIndex < tRotationCount; tRotationIndex++) {
-				tRotation = tUpgrade.getRotation (tRotationIndex);
-				tUpgradeRotation = (tRotation + tCurrentTileOrient) % 6;
-				tAllowedRotations [tUpgradeRotation] = canAllTracksExit (aNewTile, tUpgradeRotation);
-				if (tAllowedRotations [tUpgradeRotation]) {
-					if (tFirstPossibleRotation == NO_ROTATION) {
-						tFirstPossibleRotation = tUpgradeRotation;
-					}
-				}
-			}
+//			tRotationCount = tUpgrade.getRotationCount ();
+			tAllowedRotations = getAllowedRotations (tUpgrade, aNewTile);
 		}
+		
+		tFirstPossibleRotation = getFirstPossibleRotation (tAllowedRotations);
 		
 		if (tUpgrade == GameTile.NO_UPGRADE) {
 			restoreTile (aTileSet, aNewTile);
@@ -1472,20 +1482,10 @@ public class MapCell implements Comparator<Object> {
 				if (tRevenueCenter.isCity ()) {
 					tCity = (City) tCurrentTile.getRevenueCenter (tCityCenterIndex);
 					tOldCityLocation = tCity.getLocation ();
-					tNewCityLocation = tUpgrade.getToFromLocation (tOldCityLocation, tRotation);
+					tNewCityLocation = tUpgrade.getToFromLocation (tOldCityLocation, tFirstPossibleRotation);
 					if (tCity.hasToken ()) {
 						for (tStationIndex = 0; tStationIndex < tCity.getStationCount (); tStationIndex++) {
-							tMapToken = tCity.getToken (tStationIndex);
-							tTileCity = (City) aNewTile.getCenterAtLocation (tNewCityLocation);
-							if ((tTileCity != null)  && (tMapToken != null)) {
-								tTileCity.setStation (tMapToken);
-							} else {
-								if (tTileCity == null) {
-									System.err.println ("===Do not have Tile City");
-								} else {
-									System.err.println ("===Do not have Map Token");
-								}
-							}
+							moveMapToken (aNewTile, tStationIndex, tNewCityLocation, tCity);
 						}
 					} else {
 						if (tCity.isCorporationBase ()) {
@@ -1500,7 +1500,7 @@ public class MapCell implements Comparator<Object> {
 		restoreTile (aTileSet, tCurrentTile);
 		
 		// Add Tile in first Possible Orientation
-		for (tRotationIndex = 0; tRotationIndex < 6; tRotationIndex++) {
+		for (int tRotationIndex = 0; tRotationIndex < 6; tRotationIndex++) {
 			setAllowedRotation (tRotationIndex, tAllowedRotations [tRotationIndex]);
 		}
 		setTile (aNewTile);
@@ -1508,6 +1508,92 @@ public class MapCell implements Comparator<Object> {
 		setTileInfo (aNewTile.getNumber (), tFirstPossibleRotation, false);
 	}
 
+	public void moveMapToken (Tile aNewTile, int aStationIndex, Location aNewCityLocation, City aCity) {
+		City tTileCity;
+		MapToken tMapToken;
+		
+		tMapToken = aCity.getToken (aStationIndex);
+		tTileCity = (City) aNewTile.getCenterAtLocation (aNewCityLocation);
+		if ((tTileCity != City.NO_CITY)  && (tMapToken != MapToken.NO_MAP_TOKEN)) {
+			tTileCity.setStation (tMapToken);
+		} else {
+			if (tTileCity == City.NO_CITY) {
+				System.err.println ("===Do not have Tile City");
+			} else {
+				System.err.println ("===Do not have Map Token");
+			}
+		}
+	}
+
+	public boolean anyAllowedRotation (TileSet aTileSet, Tile aNewTile) {
+		boolean tAnyAllowedRotation = false;
+		Upgrade tUpgrade;
+		GameTile tCurrentGameTile;
+		int tCurrentTileNumber;
+		int tUpgradeToTileNumber;
+		int tFirstPossibleRotation;
+		boolean tAllowedRotations [];
+		
+		tCurrentTileNumber = getTileNumber ();	// Find Current Tile Number and the Current Game Tile
+		tCurrentGameTile = aTileSet.getGameTile (tCurrentTileNumber);
+		tUpgradeToTileNumber = aNewTile.getNumber (); // get New Tile's Number
+		tUpgrade = tCurrentGameTile.getUpgradeTo (tUpgradeToTileNumber);
+		tAllowedRotations = getAllowedRotations (tUpgrade, aNewTile);
+		tFirstPossibleRotation = getFirstPossibleRotation (tAllowedRotations);
+		if (tFirstPossibleRotation != NO_ROTATION) {
+			tAnyAllowedRotation = true;
+		}
+		
+		return tAnyAllowedRotation;
+	}
+	
+	public boolean [] getAllowedRotations (Upgrade aUpgrade, Tile aNewTile) {
+		int tRotationCount;
+		int tRotation;
+		int tCurrentTileOrient;
+		int tUpgradeRotation;
+		boolean tAllowedRotations [] = new boolean [6];
+		
+		for (int tRotationIndex = 0; tRotationIndex < 6; tRotationIndex++) {
+			tAllowedRotations [tRotationIndex] = false;
+		}
+		tCurrentTileOrient = getTileOrient ();	// Identify current rotation of Tile on Map Cell
+		tRotationCount = aUpgrade.getRotationCount ();
+		for (int tRotationIndex = 0; tRotationIndex < tRotationCount; tRotationIndex++) {
+			tRotation = aUpgrade.getRotation (tRotationIndex);
+			tUpgradeRotation = (tRotation + tCurrentTileOrient) % 6;
+			tAllowedRotations [tUpgradeRotation] = canAllTracksExit (aNewTile, tUpgradeRotation);
+		}
+
+		return tAllowedRotations;
+	}
+	
+	public int getFirstPossibleRotation (boolean aAllowedRotations []) {
+		int tFirstPossibleRotation = NO_ROTATION;
+		
+		for (int tUpgradeRotation = 0; tUpgradeRotation < aAllowedRotations.length; tUpgradeRotation++) {
+			if (aAllowedRotations [tUpgradeRotation]) {
+				if (tFirstPossibleRotation == NO_ROTATION) {
+					tFirstPossibleRotation = tUpgradeRotation;
+				}
+			}
+		}
+		
+		return tFirstPossibleRotation;
+	}
+	
+	public boolean upgradeAllowed (boolean aAllowedRotations []) {
+		boolean tUpgradeAllowed = false;
+		int tFirstPossibleRotation;
+		
+		tFirstPossibleRotation = getFirstPossibleRotation (aAllowedRotations);
+		if (tFirstPossibleRotation != NO_ROTATION) {
+			tUpgradeAllowed = true;
+		}
+		
+		return tUpgradeAllowed;
+	}
+	
 	public void restoreTile (TileSet aTileSet, Tile aCurrentTile) {
 		GameTile tCurrentGameTile;
 		int tCurrentTileNumber = aCurrentTile.getNumber ();
@@ -1691,8 +1777,6 @@ public class MapCell implements Comparator<Object> {
 			tRawThatLocation = new Location (aEndLocation);
 			tRawThisLocation = unrotateIfSide (tRawThisLocation);
 			tRawThatLocation = unrotateIfSide (tRawThatLocation);
-//			tRawThisLocation = tRawThisLocation.unrotateLocation (tileOrient);
-//			tRawThatLocation = tRawThatLocation.unrotateLocation (tileOrient);
 	
 			tTrack = tile.getTrackFromStartToEnd (tRawThisLocation.getLocation (), tRawThatLocation.getLocation ());
 		}
@@ -1715,12 +1799,6 @@ public class MapCell implements Comparator<Object> {
 		tRawThatLocation = new Location (aThatLocation);
 		tRawThisLocation = unrotateIfSide (tRawThisLocation);
 		tRawThatLocation = unrotateIfSide (tRawThatLocation);
-//		if (tRawThisLocation.isSide ()) {
-//			tRawThisLocation = tRawThisLocation.unrotateLocation (tileOrient);
-//		}
-//		if (tRawThatLocation.isSide ()) {
-//			tRawThatLocation = tRawThatLocation.unrotateLocation (tileOrient);
-//		}
 		
 		return tile.hasConnectingTrackBetween (tRawThisLocation, tRawThatLocation);
 	}
@@ -1792,6 +1870,5 @@ public class MapCell implements Comparator<Object> {
 	public Corporation getCorporation (String aCorporationAbbrev) {
 		return hexMap.getCorporation (aCorporationAbbrev);
 	}
-
 }
 
