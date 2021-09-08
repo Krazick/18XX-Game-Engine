@@ -7,6 +7,7 @@ import ge18xx.map.MapCell;
 public class MapToken extends Token {
 	static final MapCell NOT_PLACED = null;
 	static final Location NO_LOCATION = null;
+	public static final MapToken NO_MAP_TOKEN = null;
 	MapCell mapCell;
 	Location location;
 	int cost;
