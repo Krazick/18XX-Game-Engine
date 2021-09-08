@@ -563,19 +563,16 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 						} else {
 							//	Tile Orientation is locked, Toggle Cell selection
 							toggleSelectedMapCell (aSelectedMapCell);
-							tileSet.clearAllSelected ();
 						}
 					} else {
 						//	No Tile on Cell, Toggle Selection
 						toggleSelectedMapCell (aSelectedMapCell);
-						tileSet.clearAllSelected ();
 					}
 				} else {
 					if (aSelectedMapCell.isSelectable ()) {
 						aPreviousSelectedMapCell.lockTileOrientation ();
 						toggleSelectedMapCell (aPreviousSelectedMapCell);
 						toggleSelectedMapCell (aSelectedMapCell);
-						tileSet.clearAllSelected ();
 					}
 				}
 			} else {
@@ -1045,7 +1042,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		Tile tTile;
 		GameTile tGameTile;
 
-		
 		if (aSelectedMapCell != null) {
 			if (aSelectedMapCell.isSelectable ()) {
 				aSelectedMapCell.toggleSelected ();
@@ -1084,6 +1080,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 			}
 		}
+		tileSet.clearAllSelected ();
 		mapFrame.updatePutTileButton ();
 	}
 	
