@@ -316,7 +316,6 @@ public class CityInfo implements Cloneable {
 		if (mapCell != HexMap.NO_MAP_CELL) {
 			return mapCell.hasStation (aToken);
 		} else {
-			System.out.println (name + " has no Map Cell Associated with it.");
 			return false;
 		}
 	}
