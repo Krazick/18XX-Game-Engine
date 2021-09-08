@@ -85,12 +85,12 @@ public class Upgrade {
 		
 		tToLocation = null;
 		tFromLocation = aFromLocation.getLocation ();
-		System.out.println ("Looking for a To Location from " + aFromLocation.toString () + 
-				" as " + tFromLocation + " with Rotation " + aRotation);
+//		System.out.println ("Looking for a To Location from " + aFromLocation.toString () + 
+//				" as " + tFromLocation + " with Rotation " + aRotation);
 		for (tIndex = 0; (tIndex < RCfrom.length) && (tToLocation == null); tIndex++) {
-			System.out.println ("tIndex " + tIndex + " RCfrom " + RCfrom [tIndex] + 
-					" RCTo " + RCto [tIndex] +
-					" RCRotation " + RCrotation [tIndex]);
+//			System.out.println ("tIndex " + tIndex + " RCfrom " + RCfrom [tIndex] + 
+//					" RCTo " + RCto [tIndex] +
+//					" RCRotation " + RCrotation [tIndex]);
 			if ((RCfrom [tIndex] == tFromLocation) && (RCrotation [tIndex] == aRotation)) {
 				tToLocation = new Location (RCto [tIndex]);
 			}
@@ -99,7 +99,7 @@ public class Upgrade {
 			}
 		}
 		
-		System.out.println ("Returning To Location of " + tToLocation);
+//		System.out.println ("Returning To Location of " + tToLocation);
 		return tToLocation;
 	}
 	
