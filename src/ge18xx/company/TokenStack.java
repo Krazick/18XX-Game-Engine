@@ -163,7 +163,7 @@ public class TokenStack {
 		tCompanyAbbrev = aShareCompany.getAbbrev ();
 		aShareCompany.setSharePrice (aNewMarketCell);
 		tToken = aMarketCell.getToken (tCompanyAbbrev);
-		if (tToken != TokenCompany.NO_TOKEN) {
+		if (tToken != Token.NO_TOKEN) {
 			aNewMarketCell.addTokenToBottom (tToken);
 		}
 		aNewMarketCell.redrawMarket ();	
