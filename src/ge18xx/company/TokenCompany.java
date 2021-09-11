@@ -12,7 +12,6 @@ import ge18xx.bank.Bank;
 import ge18xx.center.RevenueCenter;
 import ge18xx.game.GameManager;
 import ge18xx.map.Hex;
-import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.ActorI;
@@ -35,9 +34,7 @@ public abstract class TokenCompany extends TrainCompany {
 	public static final ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
 	static final AttributeName AN_TOKENS = new AttributeName ("tokens");
 	static final AttributeName AN_AVAILABLE_TOKEN_COUNT = new AttributeName ("availableTokenCount");
-	public static final Token NO_TOKEN = null;
 	public static final TokenCompany NO_TOKEN_COMPANY = null;
-	public static final MapToken NO_MAP_TOKEN = null;
 	public static String FONT_CNAME = "Courier";
 	public static String FONT_DNAME = "Dialog";
 	public static String FONT_SNAME = "Serif";
@@ -350,7 +347,7 @@ public abstract class TokenCompany extends TrainCompany {
 	public boolean haveLaidThisBaseToken (MapCell aMapCell) {
 		boolean tHaveLaidThisBaseToken;
 		
-		if (aMapCell != HexMap.NO_MAP_CELL) {
+		if (aMapCell != MapCell.NO_MAP_CELL) {
 			tHaveLaidThisBaseToken = aMapCell.haveLaidBaseTokenFor (this);
 		} else { // Note, if MapCell is NO_MAP_CELL, treat as Token Laid
 			tHaveLaidThisBaseToken = true;
@@ -378,7 +375,7 @@ public abstract class TokenCompany extends TrainCompany {
 		MapToken tMapToken;
 		
 		if (getTokenCount () == 0) {
-			tMapToken = NO_MAP_TOKEN;
+			tMapToken = MapToken.NO_MAP_TOKEN;
 		} else {
 			tMapToken = mapTokens.remove (0);
 		}
