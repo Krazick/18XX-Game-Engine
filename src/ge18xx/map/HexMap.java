@@ -55,7 +55,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	final static AttributeName AN_FILL_COLOR = new AttributeName ("fillColor");
 	final static AttributeName AN_ROW_START = new AttributeName ("rowStart");
 	final static AttributeName AN_COL_START = new AttributeName ("colStart");
-	public static final MapCell NO_MAP_CELL = null;
 	public static final boolean DONT_ADD_ACTION = false;
 	public static final boolean DO_ADD_ACTION = true;
 	private static final long serialVersionUID = 1L;
