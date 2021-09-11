@@ -1,12 +1,9 @@
 package ge18xx.company;
 
-import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 
 public class MapToken extends Token {
-	static final MapCell NOT_PLACED = null;
-//	static final Location NO_LOCATION = null;
 	public static final MapToken NO_MAP_TOKEN = null;
 	MapCell mapCell;
 	Location location;
@@ -15,7 +12,7 @@ public class MapToken extends Token {
 	public MapToken () {
 		super ();
 		setLocation (Location.NO_LOC);
-		setMapCell (NOT_PLACED);
+		setMapCell (MapCell.NO_MAP_CELL);
 		setCost (0);
 	}
 	
@@ -23,7 +20,7 @@ public class MapToken extends Token {
 		super ();
 
 		setLocation (Location.NO_LOC);
-		setMapCell (NOT_PLACED);
+		setMapCell (MapCell.NO_MAP_CELL);
 		setCost (aCost);
 	}
 
@@ -68,7 +65,7 @@ public class MapToken extends Token {
 	
 	public void printlog () {
 		super.printlog ();
-		if (mapCell == HexMap.NO_MAP_CELL) {
+		if (mapCell == MapCell.NO_MAP_CELL) {
 			System.err.println ("No Map Cell Specified Yet");
 		} else {
 			mapCell.printlog ();
@@ -77,7 +74,7 @@ public class MapToken extends Token {
 	}
 	
 	public boolean tokenPlaced () {
-		if (mapCell == NOT_PLACED) {
+		if (mapCell == MapCell.NO_MAP_CELL) {
 			return false;
 		} else if (location == Location.NO_LOC) {
 			return false;
