@@ -15,7 +15,6 @@ package ge18xx.center;
 import ge18xx.company.Corporation;
 import ge18xx.company.MapToken;
 import ge18xx.company.TokenCompany;
-import ge18xx.company.TokenStack;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -35,11 +34,9 @@ import java.awt.geom.*;
 
 public class City extends RevenueCenter implements Cloneable {
 	public static final AttributeName AN_NUMBER = new AttributeName ("number");
-	final ElementName EN_CORPORATE_STATION = new ElementName ("CorporateStation");
-	final AttributeName AN_COMPANY = new AttributeName ("company");
-	final AttributeName AN_STATION_INDEX = new AttributeName ("stationIndex");
-
-//	public static final MapToken NO_STATION = null;
+	public static final AttributeName AN_COMPANY = new AttributeName ("company");
+	public static final AttributeName AN_STATION_INDEX = new AttributeName ("stationIndex");
+	public static final ElementName EN_CORPORATE_STATION = new ElementName ("CorporateStation");
 	public static final City NO_CITY = null;
 	static final int NO_STATIONS = 0;
 	static final int NOT_VALID_STATION = -1;
@@ -104,7 +101,7 @@ public class City extends RevenueCenter implements Cloneable {
 		XMLElement tXMLTokenState;
 		
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
-			if (corpStations [tIndex] != MapToken.NO_MAP_TOKEN) {
+			if (hasMapTokenAtStation (tIndex)) {
 				tXMLTokenState = aXMLDocument.createElement(EN_CORPORATE_STATION);
 				tXMLTokenState.setAttribute (Corporation.AN_ABBREV, corpStations [tIndex].getCorporationAbbrev());
 				tXMLTokenState.setAttribute (AN_STATION_INDEX, tIndex);
@@ -124,12 +121,20 @@ public class City extends RevenueCenter implements Cloneable {
 		int tIndex;
 		
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
-			if (corpStations [tIndex] == MapToken.NO_MAP_TOKEN) {
+			if (hasNoMapTokenAtStation (tIndex)) {
 				tHasOpenStation = true;
 			}
 		}
 
 		return tHasOpenStation;
+	}
+
+	public boolean hasNoMapTokenAtStation (int aIndex) {
+		return (corpStations [aIndex] == MapToken.NO_MAP_TOKEN);
+	}
+
+	public boolean hasMapTokenAtStation (int aIndex) {
+		return (corpStations [aIndex] != MapToken.NO_MAP_TOKEN);
 	}
 	
 	public boolean cityHasAnyStation () {
@@ -137,7 +142,7 @@ public class City extends RevenueCenter implements Cloneable {
 		int tIndex;
 		
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
-			if (corpStations [tIndex] != MapToken.NO_MAP_TOKEN) {
+			if (hasMapTokenAtStation (tIndex)) {
 				tHasAnyStation = true;
 			}
 		}
@@ -151,7 +156,7 @@ public class City extends RevenueCenter implements Cloneable {
 		int tPlacedTokenCorpID;
 		
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
-			if (corpStations [tIndex] != MapToken.NO_MAP_TOKEN) {
+			if (hasMapTokenAtStation (tIndex)) {
 				tPlacedTokenCorpID = corpStations [tIndex].getCorporationID ();
 				if (tPlacedTokenCorpID == aCorpID) {
 					tHasStation = true;
@@ -184,13 +189,17 @@ public class City extends RevenueCenter implements Cloneable {
 	}
 	
 	public void clearAllStations () {
-		int index;
+		int tIndex;
 		
 		if (stationCount > 0) {
-			for (index = 0; index < stationCount; index++) {
-				corpStations [index] = MapToken.NO_MAP_TOKEN;
+			for (tIndex = 0; tIndex < stationCount; tIndex++) {
+				setMapTokenAt (tIndex);
 			}
 		}
+	}
+
+	public void setMapTokenAt (int aIndex) {
+		corpStations [aIndex] = MapToken.NO_MAP_TOKEN;
 	}
 	
 	public void returnStation (TokenCompany aTokenCompany) {
@@ -202,7 +211,7 @@ public class City extends RevenueCenter implements Cloneable {
 		if (stationCount > 0) {
 			tFound = false;
 			for (tIndex = 0; tIndex < stationCount; tIndex++) {
-				if (corpStations [tIndex] != MapToken.NO_MAP_TOKEN) {
+				if (hasMapTokenAtStation (tIndex)) {
 					tCorporationId = corpStations [tIndex].getCorporationID ();
 					if (tCorporationId == aTokenCompany.getID ()) {
 						tFound = true;
@@ -213,7 +222,7 @@ public class City extends RevenueCenter implements Cloneable {
 						if ((tIndex + 1) < stationCount) {
 							corpStations [tIndex] = corpStations [tIndex + 1];
 						} else {
-							corpStations [tIndex] = MapToken.NO_MAP_TOKEN;
+							setMapTokenAt(tIndex);
 						}
 					}
 				}
@@ -230,7 +239,7 @@ public class City extends RevenueCenter implements Cloneable {
 		if (stationCount > 0) {
 			tFound = false;
 			for (tIndex = 0; tIndex < stationCount; tIndex++) {
-				if (corpStations [tIndex] != MapToken.NO_MAP_TOKEN) {
+				if (hasMapTokenAtStation (tIndex)) {
 					tCorporationId = corpStations [tIndex].getCorporationID ();
 					if (tCorporationId == aCorporationId) {
 						tFound = true;
@@ -239,7 +248,7 @@ public class City extends RevenueCenter implements Cloneable {
 						if ((tIndex + 1) < stationCount) {
 							corpStations [tIndex] = corpStations [tIndex + 1];
 						} else {
-							corpStations [tIndex] = MapToken.NO_MAP_TOKEN;
+							setMapTokenAt (tIndex);
 						}
 					}
 				}
@@ -252,13 +261,13 @@ public class City extends RevenueCenter implements Cloneable {
 		int tIndex;
 		int tCorporationId;
 		
-		tMapToken = (MapToken) TokenStack.NO_TOKEN;
+		tMapToken = MapToken.NO_MAP_TOKEN;
 		if (stationCount > 0) {
 			for (tIndex = 0; 
 					(tIndex < stationCount) && 
-					(tMapToken == (MapToken) TokenStack.NO_TOKEN); 
+					(tMapToken == MapToken.NO_MAP_TOKEN); 
 					tIndex++) {
-				if (corpStations [tIndex] != MapToken.NO_MAP_TOKEN) {
+				if (hasMapTokenAtStation (tIndex)) {
 					tCorporationId = corpStations [tIndex].getCorporationID ();
 					if (tCorporationId == aCorporationID) {
 						tMapToken = corpStations [tIndex];
@@ -333,7 +342,7 @@ public class City extends RevenueCenter implements Cloneable {
 		tXMLElement.setAttribute (AN_NUMBER, stationCount);
 		if (stationCount > 0) {
 			for (tIndex = 0; tIndex < stationCount; tIndex++) {
-				if (corpStations [tIndex] != MapToken.NO_MAP_TOKEN) {
+				if (hasMapTokenAtStation(tIndex)) {
 					tCorpStation = aXMLDocument.createElement (EN_CORPORATE_STATION);
 					tTokenCompany = corpStations [tIndex].getWhichCompany ();
 					tCorpStation.setAttribute (AN_COMPANY, tTokenCompany.getID ());
@@ -871,7 +880,7 @@ public class City extends RevenueCenter implements Cloneable {
 		tDrawToken = false;
 		if (stationCount > 0) {
 			if (aTokenIndex < stationCount) {
-				if (corpStations [aTokenIndex] != MapToken.NO_MAP_TOKEN) {
+				if (hasMapTokenAtStation(aTokenIndex)) {
 					tDrawToken = true;
 				}
 			}
@@ -965,7 +974,7 @@ public class City extends RevenueCenter implements Cloneable {
 		tFirstFree = NOT_VALID_STATION;
 		if (canPlaceStation ()) {
 			for (tIndex = 0; (tIndex < stationCount) && (tFirstFree == NOT_VALID_STATION); tIndex++) {
-				if (corpStations [tIndex] == MapToken.NO_MAP_TOKEN) {
+				if (hasNoMapTokenAtStation(tIndex)) {
 					tFirstFree = tIndex;
 				}
 			}
@@ -979,7 +988,7 @@ public class City extends RevenueCenter implements Cloneable {
 		
 		tFreeCount = 0;
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
-			if (corpStations [tIndex] == MapToken.NO_MAP_TOKEN) {
+			if (hasNoMapTokenAtStation(tIndex)) {
 				tFreeCount++;
 			}
 		}
@@ -1029,19 +1038,20 @@ public class City extends RevenueCenter implements Cloneable {
 		return stationCount;
 	}
 	
-	public boolean hasToken () {
-		boolean tHasStation;
-		int tIndex;
-		
-		tHasStation = false;
-		for (tIndex = 0; (tIndex < stationCount) && !tHasStation; tIndex++) {
-			if (corpStations [tIndex] != null) {
-				tHasStation = true;
-			}
-		}
-		
-		return tHasStation;
-	}
+//	public boolean hasToken () {
+//		boolean tHasStation;
+//		int tIndex;
+//		
+//		tHasStation = false;
+//		for (tIndex = 0; (tIndex < stationCount) && !tHasStation; tIndex++) {
+//			if (hasMapTokenAtStation (tIndex)) {
+////			if (corpStations [tIndex] != null) {
+//				tHasStation = true;
+//			}
+//		}
+//		
+//		return tHasStation;
+//	}
 	
 	public boolean isDestination () {
 		return (type.isDestination ());
@@ -1099,7 +1109,7 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 		good_placement = false;
 		do_more = -1;
 		for (index = 0; (index < stationCount) && (do_more == -1); index++) {
-			if (corpStations [index] == MapToken.NO_MAP_TOKEN) {
+			if (hasNoMapTokenAtStation (index)) {
 				good_placement = true;
 				do_more = index;
 				corpStations [index] = aStation;
@@ -1120,7 +1130,7 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 		super.printlog ();
 		System.out.println ("City size " + stationCount);
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
-			if (corpStations [tIndex] == MapToken.NO_MAP_TOKEN) {
+			if (hasNoMapTokenAtStation(tIndex)) {
 				System.out.println ("City at index " + tIndex + " has no Stations");
 			} else {
 				corpStations [tIndex].printlog ();
@@ -1157,7 +1167,7 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 					cityInfo.clearCorporationOnMapCell ();
 					tStationSet = true;
 				} else {
-					logger.error ("City Has Station - Placement of enw Station Failed");
+					logger.error ("City Has Station - Placement of new Station Failed");
 				}
 			} else {
 				logger.error ("Station Index " + aStationIndex + " Out of Range");
@@ -1184,7 +1194,7 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 		if (aNumber > 0) {
 			corpStations = new MapToken [aNumber];
 			for (tIndex = 0; tIndex < aNumber; tIndex++) {
-				corpStations [tIndex] = MapToken.NO_MAP_TOKEN;
+				setMapTokenAt(tIndex);
 			}
 		}
 	}
@@ -1212,7 +1222,6 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 
 	@Override
 	public boolean isOpen () {
-	
 		return (getFreeStationCount () > 0);
 	}
 }
