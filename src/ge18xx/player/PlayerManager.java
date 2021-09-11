@@ -17,7 +17,6 @@ import ge18xx.company.LoadedCertificate;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
-import ge18xx.company.TokenCompany;
 import ge18xx.company.TokenStack;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
@@ -1096,7 +1095,7 @@ public class PlayerManager {
 					if (tMarketCell != tNewMarketCell) {
 						tShareCompany.setSharePrice (tNewMarketCell);
 						tToken = tMarketCell.getToken (tCompanyAbbrev);
-						if (tToken != TokenCompany.NO_TOKEN) {
+						if (tToken != Token.NO_TOKEN) {
 							tNewMarketCell.addTokenToBottom (tToken);
 						}
 						tNewMarketCell.redrawMarket ();

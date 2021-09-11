@@ -10,7 +10,6 @@ package ge18xx.toplevel;
 
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
-import ge18xx.company.TokenCompany;
 import ge18xx.game.GameManager;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
@@ -61,7 +60,7 @@ public class MarketFrame extends XMLFrame {
 		tMarketCell = market.findStartCell (aParPrice);
 		if (tMarketCell != Market.NO_MARKET_CELL) {
 			tToken = aShareCompany.getToken ();
-			if (tToken != TokenCompany.NO_TOKEN) {
+			if (tToken != Token.NO_TOKEN) {
 				aShareCompany.setParPrice (aParPrice);
 				aShareCompany.setSharePrice (tMarketCell);
 				tMarketCell.addTokenToBottom (tToken);

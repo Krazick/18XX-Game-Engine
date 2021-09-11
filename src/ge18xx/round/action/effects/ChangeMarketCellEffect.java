@@ -3,7 +3,6 @@ package ge18xx.round.action.effects;
 import ge18xx.bank.Bank;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
-import ge18xx.company.TokenCompany;
 import ge18xx.game.GameManager;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
@@ -176,7 +175,7 @@ public class ChangeMarketCellEffect extends Effect {
 			tCompanyAbbrev = tShareCompany.getAbbrev ();
 			tShareCompany.setSharePrice (tNewCell);
 			tToken = tStartCell.getToken (tCompanyAbbrev);
-			if (tToken != TokenCompany.NO_TOKEN) {
+			if (tToken != Token.NO_TOKEN) {
 				tNewCell.addTokenToLocation (newLocation, tToken);
 			}
 			tNewCell.redrawMarket ();
@@ -203,7 +202,7 @@ public class ChangeMarketCellEffect extends Effect {
 			tCompanyAbbrev = tShareCompany.getAbbrev ();
 			tShareCompany.setSharePrice (tStartCell);
 			tToken = tNewCell.getToken (tCompanyAbbrev);
-			if (tToken != TokenCompany.NO_TOKEN) {
+			if (tToken != Token.NO_TOKEN) {
 				tStartCell.addTokenToLocation (startLocation, tToken);
 			}
 			tStartCell.redrawMarket ();
