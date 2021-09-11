@@ -16,11 +16,11 @@ import java.awt.*;
 
 public class Token {
 	public static final ElementName EN_TOKEN = new ElementName ("Token");
-	static final TokenCompany NO_COMPANY = null;
+	public static final Token NO_TOKEN = null;
 	TokenCompany whichCompany;
 	
 	public Token () {
-		setCompany (NO_COMPANY);
+		setCompany (TokenCompany.NO_TOKEN_COMPANY);
 	}
 	
 	public Token (TokenCompany aTokenCompany) {
