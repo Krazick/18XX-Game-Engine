@@ -831,7 +831,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			tMapCell = map.getSelectedMapCell ();
 			tTile = tileSet.getSelectedTile ();
 			// If there is a Map Cell Selected we can do further tests
-			if (tMapCell != HexMap.NO_MAP_CELL) {
+			if (tMapCell != MapCell.NO_MAP_CELL) {
 				if (tTile != GameTile.NO_GAME_TILE) {
 					tNewTile = tTile.getTile ();
 					tAnyAllowedRotation = tMapCell.anyAllowedRotation (tileSet, tNewTile);
