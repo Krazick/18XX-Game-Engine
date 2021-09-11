@@ -36,7 +36,7 @@ class TokenTests {
 		Token tToken1;
 		
 		tToken1 = new Token ();
-		assertEquals (Token.NO_COMPANY, tToken1.getWhichCompany ());
+		assertEquals (TokenCompany.NO_TOKEN_COMPANY, tToken1.getWhichCompany ());
 	}
 
 	@Test
