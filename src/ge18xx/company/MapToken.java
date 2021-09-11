@@ -6,7 +6,7 @@ import ge18xx.map.MapCell;
 
 public class MapToken extends Token {
 	static final MapCell NOT_PLACED = null;
-	static final Location NO_LOCATION = null;
+//	static final Location NO_LOCATION = null;
 	public static final MapToken NO_MAP_TOKEN = null;
 	MapCell mapCell;
 	Location location;
@@ -14,7 +14,7 @@ public class MapToken extends Token {
 	
 	public MapToken () {
 		super ();
-		setLocation (NO_LOCATION);
+		setLocation (Location.NO_LOC);
 		setMapCell (NOT_PLACED);
 		setCost (0);
 	}
@@ -22,7 +22,7 @@ public class MapToken extends Token {
 	public MapToken (MapToken aMapToken, int aCost) {
 		super ();
 
-		setLocation (NO_LOCATION);
+		setLocation (Location.NO_LOC);
 		setMapCell (NOT_PLACED);
 		setCost (aCost);
 	}
@@ -79,7 +79,7 @@ public class MapToken extends Token {
 	public boolean tokenPlaced () {
 		if (mapCell == NOT_PLACED) {
 			return false;
-		} else if (location == NO_LOCATION) {
+		} else if (location == Location.NO_LOC) {
 			return false;
 		} else {
 			return true;
