@@ -868,7 +868,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 					} else {
 						putTileButton.setEnabled (false);
-						putTileButton.setToolTipText ("Not a Valid Rotation for the selected Upgrade Tile");
+						putTileButton.setToolTipText ("No Valid Rotation for the selected Upgrade Tile");
 					}
 				} else {
 					putTileButton.setEnabled (false);
