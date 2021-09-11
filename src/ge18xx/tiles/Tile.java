@@ -239,7 +239,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 				tRevenueCenter = getRevenueCenter (tCityCenterIndex);
 				if (tRevenueCenter.isCity ()) {
 					tCity = (City) getRevenueCenter (tCityCenterIndex);
-					if (tCity.hasToken ()) {
+					if (tCity.cityHasAnyStation ()) {
 						for (tStationIndex = 0; tStationIndex < tCity.getStationCount (); tStationIndex++) {
 							tMapToken = tCity.getToken (tStationIndex);
 							if (tMapToken != MapToken.NO_MAP_TOKEN) {
@@ -332,7 +332,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 				tRevenueCenter = getRevenueCenter (tCityCenterIndex);
 				if (tRevenueCenter.isCity ()) {
 					tCity = (City) getRevenueCenter (tCityCenterIndex);
-					if (tCity.hasToken ()) {
+					if (tCity.cityHasAnyStation ()) {
 						for (tStationIndex = 0; tStationIndex < tCity.getStationCount (); tStationIndex++) {
 							tMapToken = tCity.getToken (tStationIndex);
 							if (tMapToken != MapToken.NO_MAP_TOKEN) {
