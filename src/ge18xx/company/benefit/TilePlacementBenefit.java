@@ -110,7 +110,7 @@ public class TilePlacementBenefit extends MapBenefit {
 		tMap = getMap ();
 		tMap.clearAllSelected ();
 		tMapCell = tMap.getMapCellForID (mapCellID);
-		if (tMapCell == HexMap.NO_MAP_CELL) {
+		if (tMapCell == MapCell.NO_MAP_CELL) {
 			System.err.println ("Did not find Map Cell with ID " + mapCellID);
 		} else {
 			System.out.println ("Did find Map Cell with ID " + mapCellID);
