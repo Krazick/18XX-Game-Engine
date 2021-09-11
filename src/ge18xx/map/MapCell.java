@@ -1483,7 +1483,7 @@ public class MapCell implements Comparator<Object> {
 					tCity = (City) tCurrentTile.getRevenueCenter (tCityCenterIndex);
 					tOldCityLocation = tCity.getLocation ();
 					tNewCityLocation = tUpgrade.getToFromLocation (tOldCityLocation, tFirstPossibleRotation);
-					if (tCity.hasToken ()) {
+					if (tCity.cityHasAnyStation ()) {
 						for (tStationIndex = 0; tStationIndex < tCity.getStationCount (); tStationIndex++) {
 							moveMapToken (aNewTile, tStationIndex, tNewCityLocation, tCity);
 						}
@@ -1534,11 +1534,15 @@ public class MapCell implements Comparator<Object> {
 		int tFirstPossibleRotation;
 		boolean tAllowedRotations [];
 		
-		tCurrentTileNumber = getTileNumber ();	// Find Current Tile Number and the Current Game Tile
-		tCurrentGameTile = aTileSet.getGameTile (tCurrentTileNumber);
-		tUpgradeToTileNumber = aNewTile.getNumber (); // get New Tile's Number
-		tUpgrade = tCurrentGameTile.getUpgradeTo (tUpgradeToTileNumber);
-		tAllowedRotations = getAllowedRotations (tUpgrade, aNewTile);
+		if (this.isTileOnCell ()) {
+			tCurrentTileNumber = getTileNumber ();	// Find Current Tile Number and the Current Game Tile
+			tCurrentGameTile = aTileSet.getGameTile (tCurrentTileNumber);
+			tUpgradeToTileNumber = aNewTile.getNumber (); // get New Tile's Number
+			tUpgrade = tCurrentGameTile.getUpgradeTo (tUpgradeToTileNumber);
+			tAllowedRotations = getAllowedRotations (tUpgrade, aNewTile);
+		} else {
+			tAllowedRotations = getAllowedRotations (aNewTile);
+		}
 		tFirstPossibleRotation = getFirstPossibleRotation (tAllowedRotations);
 		if (tFirstPossibleRotation != NO_ROTATION) {
 			tAnyAllowedRotation = true;
@@ -1565,6 +1569,21 @@ public class MapCell implements Comparator<Object> {
 			tAllowedRotations [tUpgradeRotation] = canAllTracksExit (aNewTile, tUpgradeRotation);
 		}
 
+		return tAllowedRotations;
+	}
+	
+	public boolean [] getAllowedRotations (Tile aTile) {
+		boolean tAllowedRotations [] = new boolean [6];
+		int tRotationCount;
+		
+		for (int tRotation = 0; tRotation < 6; tRotation++) {
+			tAllowedRotations [tRotation] = false;
+		}
+		tRotationCount = 6;
+		for (int tRotation = 0; tRotation < tRotationCount; tRotation++) {
+			tAllowedRotations [tRotation] = canAllTracksExit (aTile, tRotation);
+		}
+		
 		return tAllowedRotations;
 	}
 	
