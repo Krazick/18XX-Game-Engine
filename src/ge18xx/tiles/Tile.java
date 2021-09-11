@@ -242,7 +242,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 					if (tCity.hasToken ()) {
 						for (tStationIndex = 0; tStationIndex < tCity.getStationCount (); tStationIndex++) {
 							tMapToken = tCity.getToken (tStationIndex);
-							if (tMapToken != City.NO_STATION) {
+							if (tMapToken != MapToken.NO_MAP_TOKEN) {
 								tTokenCompany = tMapToken.getWhichCompany ();
 								System.out.println ("Returning Token for " + tTokenCompany.getAbbrev () + " count before " + tTokenCompany.getTokenCount ());
 								tTokenCompany.addMapToken (tMapToken);
@@ -335,7 +335,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 					if (tCity.hasToken ()) {
 						for (tStationIndex = 0; tStationIndex < tCity.getStationCount (); tStationIndex++) {
 							tMapToken = tCity.getToken (tStationIndex);
-							if (tMapToken != City.NO_STATION) {
+							if (tMapToken != MapToken.NO_MAP_TOKEN) {
 								tAbbrev = tMapToken.getCorporationAbbrev ();
 								tAPlacedToken = tAbbrev + "," + tStationIndex + "," + tCityCenterIndex;
 								if (!(tPlacedTokens.equals (NO_TOKENS))) {
@@ -761,17 +761,17 @@ public class Tile implements Comparable<Object>, Cloneable {
 				tCity1 = (City) centers.get (1);
 				tMapToken0 = tCity0.getToken (0);
 				tMapToken1 = tCity1.getToken (0);
-				if (tMapToken0 != City.NO_STATION) {
+				if (tMapToken0 != MapToken.NO_MAP_TOKEN) {
 					tMapToken0.printlog ();
 				}
-				if (tMapToken1 != City.NO_STATION) { 
+				if (tMapToken1 != MapToken.NO_MAP_TOKEN) { 
 					tMapToken1.printlog ();
 				}
 				centers.clearAllStations ();
-				if (tMapToken1 != City.NO_STATION) {
+				if (tMapToken1 != MapToken.NO_MAP_TOKEN) {
 					tCity0.placeStation (tMapToken1, aMapCell);
 				}
-				if (tMapToken0 != City.NO_STATION) { 
+				if (tMapToken0 != MapToken.NO_MAP_TOKEN) { 
 					tCity1.placeStation (tMapToken0, aMapCell);
 				}
 			}
