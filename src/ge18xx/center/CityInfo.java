@@ -13,7 +13,6 @@ import ge18xx.company.CorporationList;
 import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
 import ge18xx.map.Hex;
-import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.utilities.AttributeName;
@@ -83,13 +82,13 @@ public class CityInfo implements Cloneable {
 	}
 	
 	public void clearCorporationOnMapCell () {
-		if (mapCell != HexMap.NO_MAP_CELL) {
+		if (mapCell != MapCell.NO_MAP_CELL) {
 			mapCell.clearCorporation ();
 		}
 	}
 	
 	public void clearMapCell () {
-		mapCell = HexMap.NO_MAP_CELL;
+		mapCell = MapCell.NO_MAP_CELL;
 	}
 	
 	public void clearRevenueCenter () {
@@ -273,7 +272,7 @@ public class CityInfo implements Cloneable {
 	}
 	
 	public String getMapCellID () {
-		if (mapCell == HexMap.NO_MAP_CELL) {
+		if (mapCell == MapCell.NO_MAP_CELL) {
 			return "NOT YET";
 		} else {
 			return mapCell.getID ();
@@ -313,7 +312,7 @@ public class CityInfo implements Cloneable {
 	}
 	
 	public boolean mapCellHasStation (Token aToken) {
-		if (mapCell != HexMap.NO_MAP_CELL) {
+		if (mapCell != MapCell.NO_MAP_CELL) {
 			return mapCell.hasStation (aToken);
 		} else {
 			return false;
