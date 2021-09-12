@@ -47,7 +47,7 @@ public class OperatingRound extends Round {
 			coalCompanies.clearOperatedStatus ();
 			minorCompanies.clearOperatedStatus ();
 			shareCompanies.clearOperatedStatus ();
-			// Note -- Need to check for Coal Companies and Minor Companies BEFORE Share Companies
+			// TODO: Test for Coal Companies and Minor Companies BEFORE Share Companies
 			roundManager.revalidateRoundFrame ();
 			updateActionLabel ();
 		} else {
@@ -60,11 +60,19 @@ public class OperatingRound extends Round {
 	public void updateActionLabel () {
 		ShareCompany tShareCompany;
 		int tNextShareToOperate;
+		int tCurrentlyOperating;
 		
-		tNextShareToOperate = shareCompanies.getNextToOperate ();
-		if (tNextShareToOperate >= 0) {
-			tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate); 
+		// TODO: Test if Minor Companies, or Coal Companies need to operate Before Share Companies
+		tCurrentlyOperating = shareCompanies.getCurrentlyOperating ();
+		if (tCurrentlyOperating != CorporationList.NO_CORPORATION_INDEX) {
+			tShareCompany = (ShareCompany) shareCompanies.getCorporation (tCurrentlyOperating); 
 			roundManager.updateActionLabel (tShareCompany);
+		} else {
+			tNextShareToOperate = shareCompanies.getNextToOperate ();
+			if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
+				tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate); 
+				roundManager.updateActionLabel (tShareCompany);
+			}
 		}
 	}
 	
