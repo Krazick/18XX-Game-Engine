@@ -72,7 +72,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public static final String MINOR_COMPANY = "Minor";
 	public static final String SHARE_COMPANY = "Share";
 	public static final String CORPORATION = "Corporation";
-	public static final MapCell NO_HOME_MAPCELL = null;
 	public static final JLabel NO_LABEL = null;
 	public static final int NO_ID = 0;
 	static final String enum_closed = ActionStates.Closed.toString ();
@@ -110,7 +109,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public Corporation (int aID, String aName) {
-		this (aID, aName, NO_ABBREV, NO_HOME_MAPCELL, NO_HOME_LOCATION, NO_HOME_MAPCELL, 
+		this (aID, aName, NO_ABBREV, MapCell.NO_MAP_CELL, NO_HOME_LOCATION, MapCell.NO_MAP_CELL, 
 				NO_HOME_LOCATION, ActorI.ActionStates.Unowned, false);
 	}
 	

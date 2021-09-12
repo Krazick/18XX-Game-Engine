@@ -1092,12 +1092,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			if (! tCorporation.isClosed ()) {
 				tHomeCity1 = tCorporation.getHomeCity1 ();
 				tHomeCity2 = tCorporation.getHomeCity2 ();
-				if (tHomeCity1 != Corporation.NO_HOME_MAPCELL) {
+				if (tHomeCity1 != MapCell.NO_MAP_CELL) {
 					if (tHomeCity1 == aMapCell) {
 						tPrivateCompany = (PrivateCompany) tCorporation;
 					}
 				}
-				if ((tHomeCity2 != Corporation.NO_HOME_MAPCELL) && 
+				if ((tHomeCity2 != MapCell.NO_MAP_CELL) && 
 					(tPrivateCompany == (PrivateCompany) NO_CORPORATION)) {
 					if (tHomeCity2 == aMapCell) {
 						tPrivateCompany = (PrivateCompany) tCorporation;

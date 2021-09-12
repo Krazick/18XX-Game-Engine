@@ -146,12 +146,12 @@ public class LayTokenEffect extends ChangeMapEffect {
 					}
 					tCorpHomeCell1 = tTokenCompany.getHomeCity1 ();
 					tCorpHomeCell2 = tTokenCompany.getHomeCity2 ();
-					if (tCorpHomeCell1 != Corporation.NO_HOME_MAPCELL) {
+					if (tCorpHomeCell1 != MapCell.NO_MAP_CELL) {
 						if (tMapCell.getID ().equals (tCorpHomeCell1.getID ())) {
 							tMapCell.setCorporation (tTokenCompany, tTokenCompany.getHomeLocation1 ());
 						}
 					}
-					if (tCorpHomeCell2 != Corporation.NO_HOME_MAPCELL) {
+					if (tCorpHomeCell2 != MapCell.NO_MAP_CELL) {
 						if (tMapCell.getID ().equals (tCorpHomeCell2.getID ())) {
 							tMapCell.setCorporation (tTokenCompany, tTokenCompany.getHomeLocation2 ());
 						}

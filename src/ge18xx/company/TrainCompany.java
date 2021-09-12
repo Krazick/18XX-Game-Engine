@@ -64,8 +64,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public final static String NO_TRAIN_SELECTED = "No train has been selected to be bought.";
 	public final static String SELECT_SINGLE_TRAIN = "Must select a single Train to be bought.";
 	public final static String OPERATED_NO_REVENUE = "Train Operated but no Revenue has been generated.";
-	static final int NO_COST = 0;
 	public static final TrainCompany NO_TRAIN_COMPANY = null;
+	static final int NO_COST = 0;
 	static final int NO_REVENUE = -1;
 	static final float LEFT_ALIGNMENT = 0.0f;
 	String bgColorName;
@@ -89,7 +89,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	
 	public TrainCompany (int aID, String aName) {
 		this (aID, aName, Corporation.NO_ABBREV, Color.white, 
-				Color.black, Corporation.NO_HOME_MAPCELL, Corporation.NO_HOME_LOCATION, 
+				Color.black, MapCell.NO_MAP_CELL, Corporation.NO_HOME_LOCATION, 
 				NO_COST, ActorI.ActionStates.Unowned, false);
 	}
 
@@ -97,7 +97,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			MapCell aHomeCity1, Location aHomeLocation1, int aCost, ActorI.ActionStates aState, 
 			boolean aGovtRailway) {
 		this (aID, aName, aAbbrev, aBgColor, aFgColor, aHomeCity1, aHomeLocation1, 
-				Corporation.NO_HOME_MAPCELL, Corporation.NO_HOME_LOCATION, aCost, aState, aGovtRailway);
+				MapCell.NO_MAP_CELL, Corporation.NO_HOME_LOCATION, aCost, aState, aGovtRailway);
 	}
 	
 	public TrainCompany (int aID, String aName, String aAbbrev, Color aBgColor, Color aFgColor, 

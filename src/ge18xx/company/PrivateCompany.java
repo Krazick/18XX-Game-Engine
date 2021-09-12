@@ -57,7 +57,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	
 	public PrivateCompany () {
 		this (Corporation.NO_ID, Corporation.NO_NAME, Corporation.NO_ABBREV, NO_COST, NO_REVENUE, 
-				Corporation.NO_HOME_MAPCELL, Corporation.NO_HOME_LOCATION, Corporation.NO_HOME_MAPCELL, 
+				MapCell.NO_MAP_CELL, Corporation.NO_HOME_LOCATION, MapCell.NO_MAP_CELL, 
 				Corporation.NO_HOME_LOCATION, Corporation.NO_ID, Certificate.NO_PERCENTAGE, 
 				ActorI.ActionStates.Unowned, false);
 	}
@@ -66,7 +66,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 			MapCell aHomeCity1, Location aHomeLocation1, ActorI.ActionStates aState, 
 			boolean aMustBeSoldBeforeOperatingRound) {
 		this (aID, aName, aAbbrev, aCost, aRevenue, aHomeCity1, aHomeLocation1, 
-				Corporation.NO_HOME_MAPCELL, Corporation.NO_HOME_LOCATION,
+				MapCell.NO_MAP_CELL, Corporation.NO_HOME_LOCATION,
 				Corporation.NO_ID, Certificate.NO_PERCENTAGE, aState, aMustBeSoldBeforeOperatingRound);
 	}
 	

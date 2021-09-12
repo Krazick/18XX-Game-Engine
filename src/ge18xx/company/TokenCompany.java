@@ -477,7 +477,7 @@ public abstract class TokenCompany extends TrainCompany {
 		
 		// TODO For non-1830 Games, need to determine if cost is based on Distance
 		tCostToLayHome = NO_COST_CALCULATED;
-		if (aBaseMapCell != NO_HOME_MAPCELL) {
+		if (aBaseMapCell != MapCell.NO_MAP_CELL) {
 			if (aBaseMapCell.getID () == aMapCellID) {
 				tCostToLayHome = 0;
 			}

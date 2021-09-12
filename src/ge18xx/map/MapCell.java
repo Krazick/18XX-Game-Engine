@@ -64,7 +64,6 @@ public class MapCell implements Comparator<Object> {
 	static final String NO_NAME = "";
 	static final String NO_BLOCKED_SIDES = "";
 	static final String NO_DIRECTION = null;
-	static final Tile NO_TILE = null;
 	static boolean mapDirection;
 	Color terrainFillColor;
 	boolean tileOrientLocked;
@@ -100,7 +99,7 @@ public class MapCell implements Comparator<Object> {
 	}
 	
     public MapCell (int Xc, int Yc, HexMap aHexMap) {
-		this (Xc, Yc, aHexMap, Terrain.NO_TERRAIN, NO_TILE, NO_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
+		this (Xc, Yc, aHexMap, Terrain.NO_TERRAIN, Tile.NO_TILE, NO_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
    }
 	
     public MapCell (int Xc, int Yc, HexMap aHexMap, int aBaseTerrain, Tile aTile, int aTileOrient, 
@@ -1238,7 +1237,7 @@ public class MapCell implements Comparator<Object> {
 	}
 	
 	public void setEmptyMapCell (int aBaseTerrain) {
-		setOtherValues (aBaseTerrain, NO_TILE, NO_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
+		setOtherValues (aBaseTerrain, Tile.NO_TILE, NO_ORIENTATION, NO_NAME, NO_BLOCKED_SIDES);
 	}
 	
 	public static void setMapDirection (boolean aMapDirection) {
