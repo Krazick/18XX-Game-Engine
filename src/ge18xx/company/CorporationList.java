@@ -493,7 +493,22 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		
 		return tElementName;
 	}
+	
+	public int getCurrentlyOperating () {
+		int tCurrentlyOperating = NO_CORPORATION_INDEX;
+		int tCount = getCorporationCount ();
+		Corporation tCorporation;
 		
+		for (int tIndex = 0; tIndex < tCount; tIndex++) {
+			tCorporation = corporations.get (tIndex);
+			if (tCorporation.isOperating () && (tCurrentlyOperating == NO_CORPORATION_INDEX)) {
+				tCurrentlyOperating = tIndex;
+			}
+		}
+		
+		return tCurrentlyOperating; 
+	}
+	
 	public int getNextToOperate () {
 		int tNextToOperate = NO_CORPORATION_INDEX;
 		int tCount = getCorporationCount ();
