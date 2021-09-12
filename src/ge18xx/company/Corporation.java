@@ -79,7 +79,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	static final String enum_not_operated = ActionStates.NotOperated.toString ();
 	static final String NO_NAME = null;
 	static final String NO_HOME_GRID = null;
-	static final Location NO_HOME_LOCATION = null;
+//	static final Location NO_HOME_LOCATION = null;
 	static final int NO_COST = -1;
 	static final int NO_NAME_INT = -1;
 	static final int SORT_CO1_BEFORE_CO2 = -100;
@@ -109,8 +109,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public Corporation (int aID, String aName) {
-		this (aID, aName, NO_ABBREV, MapCell.NO_MAP_CELL, NO_HOME_LOCATION, MapCell.NO_MAP_CELL, 
-				NO_HOME_LOCATION, ActorI.ActionStates.Unowned, false);
+		this (aID, aName, NO_ABBREV, MapCell.NO_MAP_CELL, Location.NO_LOC, MapCell.NO_MAP_CELL, 
+				Location.NO_LOC, ActorI.ActionStates.Unowned, false);
 	}
 	
 	public Corporation (int aID, String aName, String aAbbrev, MapCell aHomeCity1, Location aHomeLocation1, 
@@ -867,7 +867,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public int getHomeLocation1Int () {
-		if (homeLocation1 == NO_HOME_LOCATION) {
+		if (homeLocation1 == Location.NO_LOC) {
 			return NO_NAME_INT;
 		} else {
 			return homeLocation1.getLocation ();
@@ -875,7 +875,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public int getHomeLocation2Int () {
-		if (homeLocation2 == NO_HOME_LOCATION) {
+		if (homeLocation2 == Location.NO_LOC) {
 			return NO_NAME_INT;
 		} else {
 			return homeLocation2.getLocation ();
