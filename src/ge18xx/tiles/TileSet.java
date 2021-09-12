@@ -271,11 +271,10 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	}
 	
 	public void mouseClicked (MouseEvent e) {
-		handleClick (e);
+//		handleClick (e);
 	}
 	
 	public void handleClick (MouseEvent aMouseEvent) {
-
 		Point tPoint = aMouseEvent.getPoint ();
 		GameTile tGameTile = getTileContainingPoint (tPoint);
 		GameTile tRotateGameTile;
