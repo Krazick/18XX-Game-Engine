@@ -21,6 +21,7 @@ import java.awt.Point;
 public class Rebate extends Feature {
 	public static final AttributeName AN_VALUE = new AttributeName ("value");
 	public static final ElementName EN_REBATE = new ElementName ("Rebate");
+	public static final Rebate NO_REBATEX = null;
 	static final int NO_REBATE = 0;
 	int amount;
 	
