@@ -153,7 +153,7 @@ public class MapCell implements Comparator<Object> {
 	}
 	
 	public void clearAllStation () {
-		if (tile != null) {
+		if (tile != Tile.NO_TILE) {
 			tile.clearAllStations ();
 		}
 	}
@@ -186,6 +186,7 @@ public class MapCell implements Comparator<Object> {
 				tSideToNeighbor = tSideIndex;
 			}
 		}
+		
 		return tSideToNeighbor;
 	}
 	
@@ -199,6 +200,7 @@ public class MapCell implements Comparator<Object> {
 				tSideFromNeighbor = (tSideIndex + 3) % 6;
 			}
 		}
+		
 		return tSideFromNeighbor;
 	}
 	
@@ -322,21 +324,21 @@ public class MapCell implements Comparator<Object> {
 			tTerrainElement.setAttribute (Terrain.AN_CATEGORY, "base");
 			tXMLElement.appendChild (tTerrainElement);
 		}
-		if (terrain1 != null) {
+		if (terrain1 != Terrain.NO_TERRAINX) {
 			tTerrainElement = terrain1.createElement (aXMLDocument);
 			if (tTerrainElement != null) {
 				tTerrainElement.setAttribute (Terrain.AN_CATEGORY, "optional");
 				tXMLElement.appendChild (tTerrainElement);
 			}
 		}
-		if (terrain2 != null) {
+		if (terrain2 != Terrain.NO_TERRAINX) {
 			tTerrainElement = terrain2.createElement (aXMLDocument);
 			if (tTerrainElement != null) {
 				tTerrainElement.setAttribute (Terrain.AN_CATEGORY, "optional");
 				tXMLElement.appendChild (tTerrainElement);
 			}
 		}
-		if (baseTileName != null) {
+		if (baseTileName != TileName.NO_TILE_NAME) {
 			tNameElement = new XMLElement (baseTileName.createElement (aXMLDocument).getElement ());
 			if (tNameElement != null) {
 				tXMLElement.appendChild (tNameElement);
@@ -352,7 +354,7 @@ public class MapCell implements Comparator<Object> {
 				tXMLElement.appendChild (tBlockedElement);
 			}
 		}
-		if (tile != null) {
+		if (tile != Tile.NO_TILE) {
 			tTileElement = aXMLDocument.createElement (Tile.EN_TILE);
 			tTileElement.setAttribute (Tile.AN_NUMBER, tile.getNumber ());
 			if (tileOrient > 0) {
@@ -373,10 +375,10 @@ public class MapCell implements Comparator<Object> {
 		Font tCurrentFont;
 		Font tNewFont;
 		
-		if (aTerrain != null) {
+		if (aTerrain != Terrain.NO_TERRAINX) {
 			tLocation = aTerrain.getLocation ();
 			
-			if (tLocation == null) {
+			if (tLocation == Location.NO_LOC) {
 				Xol = XCenter + Xoffset;
 				Yol = YCenter + Yoffset;
 			} else {
@@ -428,6 +430,7 @@ public class MapCell implements Comparator<Object> {
 		} else {
 			tRevenueCenter = centers.getCenterAtLocation(aLocation);
 		}
+		
 		return tRevenueCenter;
 	}
 	
@@ -516,7 +519,7 @@ public class MapCell implements Comparator<Object> {
 	}
 	
 	public Location getSelectedFeature2Location () {
-		if (selectedFeature2 != null) {
+		if (selectedFeature2 != Feature2.NO_FEATURE2) {
 			return selectedFeature2.getLocation ();
 		} else {
 			return new Location (Location.NO_LOCATION);
@@ -524,7 +527,7 @@ public class MapCell implements Comparator<Object> {
 	}
 	
 	public Location getSelectedFeature2Location2 () {
-		if (selectedFeature2 != null) {
+		if (selectedFeature2 != Feature2.NO_FEATURE2) {
 			return selectedFeature2.getLocation2 ();
 		} else {
 			return new Location (Location.NO_LOCATION);
@@ -537,7 +540,7 @@ public class MapCell implements Comparator<Object> {
 		if (isTileOnCell ()) {
 			tRevenueCenter = tile.getSelectedRevenueCenter (selectedFeature2, tileOrient);
 		} else {
-			tRevenueCenter = null;
+			tRevenueCenter = RevenueCenter.NO_CENTER;
 		}
 		
 		return tRevenueCenter;
@@ -578,7 +581,7 @@ public class MapCell implements Comparator<Object> {
 		
 		if (baseTerrain.isSelectable ()) {
 			tTip = "<html>Cell <b>" + getCellID () + "</b><br>";
-			if (baseTileName != null) {
+			if (baseTileName != TileName.NO_TILE_NAME) {
 				tTileName = baseTileName.getName ();
 				if (tTileName.length () > 0) {
 					tTip += "Tile Name: " + baseTileName.getName () + "<br>";
@@ -593,10 +596,10 @@ public class MapCell implements Comparator<Object> {
 				}			
 			}
 			tTip = tTip + "Base: " + baseTerrain.getName () + "<br>";
-			if (terrain1 != null) {
+			if (terrain1 != Terrain.NO_TERRAINX) {
 				tTip += "Terain: " + terrain1.getName ();
 				tTerrainCost = terrain1.getCost ();
-				if (terrain2 != null) {
+				if (terrain2 != Terrain.NO_TERRAINX) {
 					tTip += " & " + terrain2.getName ();
 					tTerrainCost += terrain2.getCost ();
 				}
@@ -605,7 +608,7 @@ public class MapCell implements Comparator<Object> {
 					tTip += "Build Cost: " + tTerrainCost + "<br>";
 				}
 			}
-			if (rebate != null) {
+			if (rebate != Rebate.NO_REBATEX) {
 				tTip += "Rebate: " + rebate.getAmount () + "<br>";
 			}
 			tTip += "</html>";
@@ -642,7 +645,7 @@ public class MapCell implements Comparator<Object> {
 		}
 		if (isTileOnCell ()) {
 			tSelectedRevenueCenter = getRCContainingPoint (aPoint, hexMap.hex);
-			if (tSelectedRevenueCenter != null) {
+			if (tSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
 				tSelectedLocation = tSelectedRevenueCenter.getLocation ();
 				tTileOrient = getTileOrient ();
 				tSelectedLocation = tSelectedLocation.rotateLocation (tTileOrient);
@@ -768,15 +771,15 @@ public class MapCell implements Comparator<Object> {
 		
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
-		tile = null;
-		rebate = null;
+		tile = Tile.NO_TILE;
+		rebate = Rebate.NO_REBATEX;
 		id = aID;
 		for (tChildrenIndex = 0; tChildrenIndex < tChildrenCount; tChildrenIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tChildrenIndex));
 			tChildName = tChildNode.getNodeName ();
 			if (Terrain.EN_TERRAIN.equals (tChildName)) {
 				tTerrain = new Terrain (tChildNode);
-				if (tTerrain != null) {
+				if (tTerrain != Terrain.NO_TERRAINX) {
 					tTerrainType = tTerrain.getTerrain ();
 					for (tTerrainIndex = 0; tTerrainIndex < 15; tTerrainIndex++) {
 						if (aTerrainType [tTerrainIndex] == tTerrainType) {
@@ -788,9 +791,9 @@ public class MapCell implements Comparator<Object> {
 				if (Terrain.AN_BASE.equals (tCategory)) {
 					baseTerrain = tTerrain;
 				} else if (Terrain.AN_OPTIONAL.equals (tCategory)) {
-					if (terrain1 == null) {
+					if (terrain1 == Terrain.NO_TERRAINX) {
 						terrain1 = tTerrain;
-					} else if (terrain2 == null) {
+					} else if (terrain2 == Terrain.NO_TERRAINX) {
 						terrain2 = tTerrain;
 					}
 				}
@@ -926,7 +929,7 @@ public class MapCell implements Comparator<Object> {
 		Tile tNewTile;
 		
 		tSelectedTile = aTileSet.getSelectedTile ();
-		if (tSelectedTile != null) {
+		if (tSelectedTile != GameTile.NO_GAME_TILE) {
 			if (isTileOnCell ()) {
 				tNewTile = tSelectedTile.getTile ();
 				tCanPlaceTile = anyAllowedRotation (aTileSet, tNewTile);
@@ -940,7 +943,7 @@ public class MapCell implements Comparator<Object> {
 		GameTile tSelectedTile;
 		
 		tSelectedTile = aTileSet.getSelectedTile ();
-		if (tSelectedTile != null) {
+		if (tSelectedTile != GameTile.NO_GAME_TILE) {
 			putThisTileDown (aTileSet, tSelectedTile, NO_ROTATION);
 		} else {
 			System.err.println ("Put Tile Down Button Selected, no Tile Selected From Tray");
@@ -1052,7 +1055,7 @@ public class MapCell implements Comparator<Object> {
 	public void removeTile () {
 		setTileOrientation (NO_ORIENTATION);
 		setTileNumber (0);
-		setTile (null);
+		setTile (Tile.NO_TILE);
 	}
 	
 	public boolean pseudoYellowTile () {
@@ -1084,8 +1087,8 @@ public class MapCell implements Comparator<Object> {
 				aHex.drawBorders (g, XCenter, YCenter, baseTerrain.drawBorder (), blockedSides);
 			}
 			if (isStartingTile ()) {
-				if (tRC1 != null) {
-					if (terrain1 != null) {
+				if (tRC1 != RevenueCenter.NO_CENTER) {
+					if (terrain1 != Terrain.NO_TERRAINX) {
 						if (terrain1.isRiver ()) {
 							if (tRC1.isCenterLocation ()) {
 								Yoffset = aHex.getTrackWidth () * 4;
@@ -1094,7 +1097,7 @@ public class MapCell implements Comparator<Object> {
 						drawTerrain (g, terrain1, aHex, Xoffset, Yoffset);
 					}
 				}
-				if (terrain2 != null) {
+				if (terrain2 != Terrain.NO_TERRAINX) {
 					if (terrain2.isRiver ()) {
 						if (terrain1.getLocation () == terrain2.getLocation ()) {
 							Yoffset = aHex.getTrackWidth () * 2;
@@ -1103,12 +1106,12 @@ public class MapCell implements Comparator<Object> {
 					drawTerrain (g, terrain2, aHex, Xoffset, Yoffset);
 				}
 			} else {
-				if (terrain1 != null) {
+				if (terrain1 != Terrain.NO_TERRAINX) {
 					if (terrain1.bleedThroughAll ()) {
 						drawTerrain (g, terrain1, aHex, Xoffset,Yoffset);
 					}
 				}
-				if (terrain2 != null) {
+				if (terrain2 != Terrain.NO_TERRAINX) {
 					if (terrain2.bleedThroughAll ()) {
 						drawTerrain (g, terrain2, aHex, Xoffset,Yoffset);
 					}
@@ -1122,8 +1125,8 @@ public class MapCell implements Comparator<Object> {
 			}
 			aHex.paintHex (g, XCenter, YCenter, baseTerrain.getColor (), baseTerrain.drawBorder (), 
 						   tThickFrame, blockedSides);
-			if (tRC1 != null) {
-				if (terrain1 != null) {
+			if (tRC1 != RevenueCenter.NO_CENTER) {
+				if (terrain1 != Terrain.NO_TERRAINX) {
 					if (terrain1.isRiver ()) {
 						if (tRC1.isCenterLocation ()) {
 							Yoffset = aHex.getTrackWidth () * 4;
@@ -1132,7 +1135,7 @@ public class MapCell implements Comparator<Object> {
 				}
 			}
 			drawTerrain (g, terrain1, aHex, Xoffset, Yoffset);
-			if (terrain2 != null) {
+			if (terrain2 != Terrain.NO_TERRAINX) {
 				if (terrain2.isRiver ()) {
 					if (terrain1.getLocation () == terrain2.getLocation ()) {
 						Yoffset = aHex.getTrackWidth () * 2;
@@ -1145,9 +1148,9 @@ public class MapCell implements Comparator<Object> {
 				rebate.draw (g, XCenter, YCenter, aHex);
 			}
 		}
-		if (baseTileName != null) {
+		if (baseTileName != TileName.NO_TILE_NAME) {
 			tBaseTileName = baseTileName.getName ();
-			if (tRC1 != null) {
+			if (tRC1 != RevenueCenter.NO_CENTER) {
 				tCityInfoName = tRC1.getCIName ();
 				if (! tBaseTileName.equalsIgnoreCase (tCityInfoName)) {
 					if (! tTileName.equalsIgnoreCase (tBaseTileName)) {
@@ -1208,7 +1211,7 @@ public class MapCell implements Comparator<Object> {
 		allowedRotations = new boolean [6];
 		for (tIndex = 0; tIndex < 6; tIndex++) {
 			allowedRotations [tIndex] = false;
-			neighbors [tIndex] = null;
+			neighbors [tIndex] = NO_MAP_CELL;
 		}
 		tileOrientLocked = false;
 		selectedFeature2 = new Feature2 ();
@@ -1217,7 +1220,7 @@ public class MapCell implements Comparator<Object> {
 	public void setCityInfo (CityInfo aCityInfo) {
 		centers.setCityInfo (aCityInfo);
 		
-		if (tile != null) {
+		if (tile != Tile.NO_TILE) {
 			tile.setCityInfo (aCityInfo);
 		}
 	}
@@ -1228,7 +1231,7 @@ public class MapCell implements Comparator<Object> {
 		centers.setCorporationBase (aCorporation, aLocation);
 		centers.setMapCell (this);
 		if (isTileOnCell ()) {
-			if (tile != null) {
+			if (tile != Tile.NO_TILE) {
 				tNewLocation = aLocation.rotateLocation (-tileOrient);
 				tile.setCorporationBase (aCorporation, tNewLocation);
 				tile.setMapCell (this);
@@ -1248,10 +1251,10 @@ public class MapCell implements Comparator<Object> {
 		if (aMapDirection == null) {
 			setMapDirection (false);
 		} else {
-			if (aMapDirection.equals ("NS")) {
+			if (aMapDirection.equals (Hex.DIRECTION_NS)) {
 				setMapDirection (false);
 			} else {
-				if (aMapDirection.equals ("EW")) {
+				if (aMapDirection.equals (Hex.DIRECTION_EW)) {
 					setMapDirection (true);
 				} else {
 					setMapDirection (false);
@@ -1261,7 +1264,7 @@ public class MapCell implements Comparator<Object> {
 	}
 	
 	public void setNeighbor (int aSide, MapCell aNeighbor) {
-		if (neighbors [aSide] == null) {
+		if (neighbors [aSide] == NO_MAP_CELL) {
 			neighbors [aSide] = aNeighbor;
 			aNeighbor.setNeighbor ((aSide + 3) % 6, this);
 		}
@@ -1297,14 +1300,14 @@ public class MapCell implements Comparator<Object> {
 				}
 			}
 		}
-		terrain1 = null;
-		terrain2 = null;
+		terrain1 = Terrain.NO_TERRAINX;
+		terrain2 = Terrain.NO_TERRAINX;
 		baseTerrain = new Terrain (aBaseTerrain);
         putTile (aTile, aTileOrient);
 		clearSelected ();
 		startingTileNumber = Tile.NOT_A_TILE;
 		startingTile = false;
-		rebate = null;
+		rebate = Rebate.NO_REBATEX;
 		clearTrainUsingSides ();
     }
 	
@@ -1313,7 +1316,7 @@ public class MapCell implements Comparator<Object> {
 	}
 	
 	public void setSelectedFeature2 (Location aLocation) {
-		if (selectedFeature2 != null) {
+		if (selectedFeature2 != Feature2.NO_FEATURE2) {
 			selectedFeature2.setLocation (aLocation);
 		}
 	}
@@ -1414,13 +1417,8 @@ public class MapCell implements Comparator<Object> {
 	}
 	
 	public void upgradeTile (TileSet aTileSet, Tile aNewTile) {
-//		int tCurrentTileOrient;
-//		int tRotationIndex;
-//		int tUpgradeRotation;
 		int tCurrentTileNumber;
 		int tUpgradeToTileNumber;
-//		int tRotation;
-//		int tRotationCount;
 		int tCityCenterCount;
 		int tCityCenterIndex;
 		int tFirstPossibleRotation;
@@ -1428,16 +1426,13 @@ public class MapCell implements Comparator<Object> {
 		Location tOldCityLocation, tNewCityLocation;
 		RevenueCenter tRevenueCenter;
 		City tCity;
-//		City tTileCity;
 		Corporation tBaseCorporation;
 		GameTile tCurrentGameTile;
 		Tile tCurrentTile;
 		Upgrade tUpgrade;
-//		MapToken tMapToken;
 		boolean tAllowedRotations [] = new boolean [6];
 		
 		tCurrentTile = getTile ();
-//		tCurrentTileOrient = getTileOrient ();	// Identify current rotation of Tile on Map Cell
 		tCurrentTileNumber = getTileNumber ();	// Find Current Tile Number and the Current Game Tile
 		tCurrentGameTile = aTileSet.getGameTile (tCurrentTileNumber);
 		
@@ -1446,14 +1441,12 @@ public class MapCell implements Comparator<Object> {
 		}
 		tFirstPossibleRotation = MapCell.NO_ROTATION;
 		tUpgradeToTileNumber = aNewTile.getNumber (); // get New Tile's Number
-//		tRotation = NO_ROTATION;
 		tUpgrade = GameTile.NO_UPGRADE;
 		if (tCurrentGameTile != GameTile.NO_GAME_TILE) {
 			// Determine possible rotations of new Tile that replaces all Existing Track on previous Tile
 			// Add an Allowed Rotations if all Tracks can Exit based on 'canAllTracksExit' Method
 			// Once the first Rotation that is allowed is found, Save it.
 			tUpgrade = tCurrentGameTile.getUpgradeTo (tUpgradeToTileNumber);
-//			tRotationCount = tUpgrade.getRotationCount ();
 			tAllowedRotations = getAllowedRotations (tUpgrade, aNewTile);
 		}
 		
@@ -1889,4 +1882,3 @@ public class MapCell implements Comparator<Object> {
 		return hexMap.getCorporation (aCorporationAbbrev);
 	}
 }
-
