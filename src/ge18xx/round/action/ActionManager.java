@@ -4,6 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
 import ge18xx.network.JGameClient;
 import ge18xx.round.RoundManager;
+import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.toplevel.AuditFrame;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -295,7 +296,40 @@ public class ActionManager {
 		actions.remove (tLastActionID);
 	}
 	
+	public boolean undoLastActionNetwork () {
+		JGameClient tNetworkJGameClient;
+		String tXMLFormat;
+		Action tUndoAction, tLastAction;
+		ActorI tActor;
+		ActionStates tRoundType;
+		String tRoundID;
+		boolean tLastActionUndone = true;
+		
+		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
+			tLastAction = getLastAction ();
+			tActor = tLastAction.getActor ();
+			tRoundType = tLastAction.getRoundType ();
+			tRoundID = tLastAction.getRoundID ();
+			tUndoAction = new UndoLastAction (tRoundType, tRoundID, tActor);
+			setNewActionNumber (tUndoAction);
+			tNetworkJGameClient = gameManager.getNetworkJGameClient ();
+			tXMLFormat = tUndoAction.getXMLFormat (JGameClient.EN_GAME_ACTIVITY);
+			tXMLFormat = tXMLFormat.replaceAll ("\n","");
+			tNetworkJGameClient.sendGameActivity (tXMLFormat);
+			appendToJGameClient (tUndoAction);
+		}	
+
+		return tLastActionUndone;
+	}
 	public boolean undoLastAction (RoundManager aRoundManager) {
+		boolean tLastActionUndone;
+		
+		tLastActionUndone = undoLastAction (aRoundManager, true);
+		
+		return tLastActionUndone;
+	}
+	
+	public boolean undoLastAction (RoundManager aRoundManager, boolean aNotifyNetwork) {
 		boolean tLastActionUndone;
 		Action tLastAction;
 
@@ -303,10 +337,13 @@ public class ActionManager {
 		actionReportFrame.append ("\nUNDOING: " + tLastAction.getBriefActionReport ());
 		tLastAction.printBriefActionReport ();
 		tLastActionUndone = tLastAction.undoAction (aRoundManager);
+		if (aNotifyNetwork) {
+			undoLastActionNetwork ();
+		}
 		if (tLastActionUndone) {
 			removeLastAction ();
 			if (tLastAction.getChainToPrevious ()) {
-				tLastActionUndone = undoLastAction (aRoundManager);
+				tLastActionUndone = undoLastAction (aRoundManager, false);
 			}
 		}
 		aRoundManager.updateAllFrames ();
