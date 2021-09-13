@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.geom.*;
 
 public class Hex {
+	public static final String DIRECTION_NS = "NS";
+	public static final String DIRECTION_EW = "EW";
 	static final int NOT_VALID_SLICE = -9999;
 	static final int NOT_VALID_POINT = -9998;
 	static boolean direction = false;
