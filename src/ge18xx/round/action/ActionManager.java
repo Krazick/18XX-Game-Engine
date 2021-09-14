@@ -6,6 +6,7 @@ import ge18xx.network.JGameClient;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.toplevel.AuditFrame;
+import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -30,6 +31,7 @@ public class ActionManager {
 	int actionNumber;
 	private final static String ACTION_NUMBER_RESPONSE = "<GSResponse><ActionNumber newNumber=\"(\\d+)\"></GSResponse>";
 	private final static Pattern ACTION_NUMBER_PATTERN = Pattern.compile (ACTION_NUMBER_RESPONSE);
+	private static final ElementName EN_REMOVE_ACTION = new ElementName ("RemoveAction");
 	Logger logger;
 	
 	public ActionManager (RoundManager aRoundManager) {
@@ -294,6 +296,25 @@ public class ActionManager {
 		
 		tLastActionID = getActionCount () - 1;
 		actions.remove (tLastActionID);
+		removeActionFromNetwork (tLastActionID);
+	}
+	
+	public void removeActionFromNetwork (int aLastActionID) {
+		String tRemoveActionXML;
+		XMLDocument tXMLDocument = new XMLDocument ();
+		String tXMLFormatClean;
+		XMLElement tGameActivityElement;
+		JGameClient tNetworkJGameClient;
+	
+		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
+			tGameActivityElement = tXMLDocument.createElement (EN_REMOVE_ACTION);
+			tGameActivityElement.setAttribute (Action.AN_NUMBER, aLastActionID);
+			tXMLDocument.appendChild (tGameActivityElement);
+			tRemoveActionXML = tXMLDocument.toString ();
+			tXMLFormatClean = tRemoveActionXML.replaceAll (">\s+<","><");
+			tNetworkJGameClient = gameManager.getNetworkJGameClient ();
+			tNetworkJGameClient.sendGameActivity (tXMLFormatClean);
+		}
 	}
 	
 	public boolean undoLastActionNetwork () {
@@ -321,6 +342,7 @@ public class ActionManager {
 
 		return tLastActionUndone;
 	}
+	
 	public boolean undoLastAction (RoundManager aRoundManager) {
 		boolean tLastActionUndone;
 		
