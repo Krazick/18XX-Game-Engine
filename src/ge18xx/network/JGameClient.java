@@ -973,6 +973,13 @@ public class JGameClient extends XMLFrame {
 		return tGameSupport;
 	}
 	
+	public String wrapWithGA (String aXMLText) {
+		String tXMLWrapped;
+		
+		tXMLWrapped = GA_XML_START + aXMLText + GA_XML_END;
+		
+		return tXMLWrapped;
+	}
 	
 	private void sendMessage (ActionEvent aActionEvent) {
 		String tAction = aActionEvent.getActionCommand ();
