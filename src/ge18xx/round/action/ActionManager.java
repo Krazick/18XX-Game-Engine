@@ -151,7 +151,6 @@ public class ActionManager {
 	}
 
 	private void justAddAction (Action aAction) {
-		JGameClient tNetworkJGameClient;
 		String tXMLFormat;
 
 		actions.add (aAction);
@@ -160,10 +159,9 @@ public class ActionManager {
 		// To prevent Applying Actions from a remote client would also send
 		// The action back out to the remote client causing an Infinite Loop
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
-			tNetworkJGameClient = gameManager.getNetworkJGameClient ();
 			tXMLFormat = aAction.getXMLFormat (JGameClient.EN_GAME_ACTIVITY);
 			tXMLFormat = tXMLFormat.replaceAll ("\n","");
-			tNetworkJGameClient.sendGameActivity (tXMLFormat);
+			sendGameActivity (tXMLFormat, false);
 			appendToJGameClient (aAction);
 		}	
 	}
@@ -292,33 +290,29 @@ public class ActionManager {
 	}
 	
 	public void removeLastAction () {
-		int tLastActionID;
+		int tLastActionNumber;
 		
-		tLastActionID = getActionCount () - 1;
-		actions.remove (tLastActionID);
-		removeActionFromNetwork (tLastActionID);
+		tLastActionNumber = getActionNumber ();
+		actions.remove (tLastActionNumber);
+		removeActionFromNetwork (tLastActionNumber);
+		setActionNumber (tLastActionNumber - 1);
 	}
 	
-	public void removeActionFromNetwork (int aLastActionID) {
+	public void removeActionFromNetwork (int aLastActionNumber) {
 		String tRemoveActionXML;
 		XMLDocument tXMLDocument = new XMLDocument ();
-		String tXMLFormatClean;
 		XMLElement tGameActivityElement;
-		JGameClient tNetworkJGameClient;
 	
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			tGameActivityElement = tXMLDocument.createElement (EN_REMOVE_ACTION);
-			tGameActivityElement.setAttribute (Action.AN_NUMBER, aLastActionID);
+			tGameActivityElement.setAttribute (Action.AN_NUMBER, aLastActionNumber);
 			tXMLDocument.appendChild (tGameActivityElement);
 			tRemoveActionXML = tXMLDocument.toString ();
-			tXMLFormatClean = tRemoveActionXML.replaceAll (">\s+<","><");
-			tNetworkJGameClient = gameManager.getNetworkJGameClient ();
-			tNetworkJGameClient.sendGameActivity (tXMLFormatClean);
+			sendGameActivity (tRemoveActionXML, true);
 		}
 	}
 	
 	public boolean undoLastActionNetwork () {
-		JGameClient tNetworkJGameClient;
 		String tXMLFormat;
 		Action tUndoAction, tLastAction;
 		ActorI tActor;
@@ -333,14 +327,24 @@ public class ActionManager {
 			tRoundID = tLastAction.getRoundID ();
 			tUndoAction = new UndoLastAction (tRoundType, tRoundID, tActor);
 			setNewActionNumber (tUndoAction);
-			tNetworkJGameClient = gameManager.getNetworkJGameClient ();
 			tXMLFormat = tUndoAction.getXMLFormat (JGameClient.EN_GAME_ACTIVITY);
-			tXMLFormat = tXMLFormat.replaceAll ("\n","");
-			tNetworkJGameClient.sendGameActivity (tXMLFormat);
+			sendGameActivity (tXMLFormat, false);
 			appendToJGameClient (tUndoAction);
 		}	
 
 		return tLastActionUndone;
+	}
+
+	public void sendGameActivity (String aXMLFormat, boolean aWrap) {
+		JGameClient tNetworkJGameClient;
+		String tXMLFormat;
+		
+		tXMLFormat = aXMLFormat.replaceAll ("\n","");
+		tNetworkJGameClient = gameManager.getNetworkJGameClient ();
+		if (aWrap) {
+			tXMLFormat = tNetworkJGameClient.wrapWithGA (tXMLFormat);
+		}
+		tNetworkJGameClient.sendGameActivity (tXMLFormat);
 	}
 	
 	public boolean undoLastAction (RoundManager aRoundManager) {
