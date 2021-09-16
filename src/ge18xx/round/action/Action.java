@@ -266,7 +266,7 @@ public class Action {
 	
 	public void printUndoCompletion (boolean aActionUndone) {
 		if (aActionUndone == false) {
-			System.out.println ("***Not all Effects Undone properly***");
+			System.err.println ("***Not all Effects Undone properly***");
 		}
 	}
 	
@@ -302,12 +302,11 @@ public class Action {
 			System.out.println ("Trying to Undo " + name + " Effect: " + tEffect.getName ());
 			tEffectUndone = tEffect.undoEffect (aRoundManager);
 			tActionUndone &= tEffectUndone;
-			System.out.println ("Tried to Undo a " + name + ", Effect " + tEffect.getName () +
-					" EffectUndone Flag " + tEffectUndone);
+//			System.out.println ("Tried to Undo a " + name + ", Effect " + tEffect.getName () +
+//					" EffectUndone Flag " + tEffectUndone);
 		}
 		
 		aRoundManager.updateAllCorporationsBox ();
-		System.out.println ("Request to Undo Action -- All Effects Undone");
 		
 		return tActionUndone;
 	}

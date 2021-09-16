@@ -25,13 +25,14 @@ public class ActionManager {
 	public final static Action NO_ACTION = null;
 	public final static int STARTING_ACTION_NUMBER = 100;
 	List<Action> actions;
+	List<Action> actionsToRemove;
 	ActionReportFrame actionReportFrame;
 	RoundManager roundManager;
 	GameManager gameManager;
 	int actionNumber;
 	private final static String ACTION_NUMBER_RESPONSE = "<GSResponse><ActionNumber newNumber=\"(\\d+)\"></GSResponse>";
 	private final static Pattern ACTION_NUMBER_PATTERN = Pattern.compile (ACTION_NUMBER_RESPONSE);
-	private static final ElementName EN_REMOVE_ACTION = new ElementName ("RemoveAction");
+	public static final ElementName EN_REMOVE_ACTION = new ElementName ("RemoveAction");
 	Logger logger;
 	
 	public ActionManager (RoundManager aRoundManager) {
@@ -41,6 +42,7 @@ public class ActionManager {
 		gameManager = roundManager.getGameManager ();
 		tFullTitle = gameManager.createFrameTitle ("Action Report");
 		actions = new LinkedList<Action> ();
+		actionsToRemove = new LinkedList<Action> ();
 		actionReportFrame = new ActionReportFrame (tFullTitle, aRoundManager.getGameName ());
 		gameManager.addNewFrame (actionReportFrame);
 		setActionNumber (0);
@@ -64,7 +66,7 @@ public class ActionManager {
 		int tLastActionNumber;
 		Action tLastAction;
 		
-		tLastAction = this.getLastAction ();
+		tLastAction = getLastAction ();
 		tLastActionNumber = tLastAction.getNumber ();
 		
 		return tLastActionNumber;
@@ -291,25 +293,71 @@ public class ActionManager {
 	
 	public void removeLastAction () {
 		int tLastActionNumber;
+		int tActionNumberToRemove;
+		Action tLastAction;
 		
-		tLastActionNumber = getActionNumber ();
-		actions.remove (tLastActionNumber);
-		removeActionFromNetwork (tLastActionNumber);
-		setActionNumber (tLastActionNumber - 1);
+		tActionNumberToRemove = getActionNumber ();
+		tLastAction = getLastAction ();
+		removeActionFromNetwork (tLastAction);
+		actions.remove (actions.size() - 1);
+		
+		tLastAction = getLastAction ();
+		tLastActionNumber = tLastAction.getNumber ();
+		System.out.println ("\n After Undoing last Action " + tActionNumberToRemove + 
+				", reset Action Number to " + tLastActionNumber);
+		setActionNumber (tLastActionNumber);
+		System.out.println ("Current Action Number " + actionNumber);
 	}
 	
-	public void removeActionFromNetwork (int aLastActionNumber) {
-		String tRemoveActionXML;
-		XMLDocument tXMLDocument = new XMLDocument ();
-		XMLElement tGameActivityElement;
+	public void removeActionFromNetwork (Action aActionToRemove) {
 	
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
-			tGameActivityElement = tXMLDocument.createElement (EN_REMOVE_ACTION);
-			tGameActivityElement.setAttribute (Action.AN_NUMBER, aLastActionNumber);
-			tXMLDocument.appendChild (tGameActivityElement);
-			tRemoveActionXML = tXMLDocument.toString ();
-			sendGameActivity (tRemoveActionXML, true);
+			actionsToRemove.add (aActionToRemove);
+			printLastXActions (actionsToRemove, 5);
+			// Queue up the Action to remove from Network, after all are Undone.
 		}
+	}
+	
+	public void printLastXActions (List<Action> aActions, int aCount) {
+		int tActionCount;
+		Action tActionToPrint;
+		int tPrintedCount = 0;
+		
+		tActionCount = aActions.size ();
+		System.out.println ("$$$$$$$$$ - Actions to remove Count " + tActionCount);
+		if (tActionCount > 0) {
+			for (int tIndex = tActionCount; (tIndex > 0) && (tPrintedCount < aCount); tIndex--, tPrintedCount++) {
+				tActionToPrint = aActions.get (tIndex - 1);
+				tActionToPrint.printBriefActionReport ();
+			}
+		} else {
+			System.out.println ("$$$ No Actions in list to print");
+		}
+		System.out.println ("$$$$$$$$$$$");
+	}
+	
+	public void removeUndoneActionsFromNetwork () {
+		String tRemoveActionXML;
+		Action tLastAction;
+		int tActionNumberToRemove;
+		int tLastActionNumber;
+		
+		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
+			for (Action tActionToRemove : actionsToRemove) {
+				tActionNumberToRemove = tActionToRemove.getNumber ();
+				tRemoveActionXML = "<" + EN_REMOVE_ACTION + " " + Action.AN_NUMBER + "=\"" + 
+									tActionNumberToRemove + "\"/>";
+				System.out.println ("Ready to Remove " + tActionNumberToRemove + " From Network");
+				sendGameActivity (tRemoveActionXML, true);
+			}
+		}
+		tLastAction = getLastAction ();
+		tLastActionNumber = tLastAction.getNumber ();
+		System.out.println ("\n After Undoing last Action " + 
+				", reset Action Number to " + tLastActionNumber);
+		setActionNumber (tLastActionNumber);
+		System.out.println ("Current Action Number " + actionNumber);
+		actionsToRemove.clear ();
 	}
 	
 	public boolean undoLastActionNetwork () {
@@ -329,6 +377,7 @@ public class ActionManager {
 			setNewActionNumber (tUndoAction);
 			tXMLFormat = tUndoAction.getXMLFormat (JGameClient.EN_GAME_ACTIVITY);
 			sendGameActivity (tXMLFormat, false);
+			removeActionFromNetwork (tUndoAction);	// Queue up Undo to be removed from Network 
 			appendToJGameClient (tUndoAction);
 		}	
 
@@ -347,10 +396,12 @@ public class ActionManager {
 		tNetworkJGameClient.sendGameActivity (tXMLFormat);
 	}
 	
+	// This is called on Local Client Issuing the Undo Action
 	public boolean undoLastAction (RoundManager aRoundManager) {
 		boolean tLastActionUndone;
 		
 		tLastActionUndone = undoLastAction (aRoundManager, true);
+		removeUndoneActionsFromNetwork ();
 		
 		return tLastActionUndone;
 	}
@@ -466,6 +517,8 @@ public class ActionManager {
 		}
 		gameManager.setNotifyNetwork (true);
 //		Once we are done applying these Actions, we then can reset this back to Notify
+		System.out.println ("----------- Finshed Handling Action, Latest Action Number is " + actionNumber + 
+				 " -------------");
 
 	}
 	
@@ -485,9 +538,14 @@ public class ActionManager {
 		int tActionNumber;
 		
 		tActionApplied = aAction.applyAction (roundManager);
-		tActionNumber = aAction.getNumber ();
-		if (tActionNumber > actionNumber) {
-			setActionNumber (tActionNumber);
+		if (aAction instanceof UndoLastAction) {
+			// If this is an UndoLastAction, we don't want to adjust the Action Number, this is 
+			// handled for undoing the chain of actions.
+		} else {
+			tActionNumber = aAction.getNumber ();
+			if (tActionNumber > actionNumber) {
+				setActionNumber (tActionNumber);
+			}
 		}
 		roundManager.updateRoundFrame ();
 		

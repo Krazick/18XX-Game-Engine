@@ -37,6 +37,7 @@ import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.Action;
+import ge18xx.round.action.ActionManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BuyTrainAction;
@@ -1978,6 +1979,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 						} else {
 							logger.error ("Trying to handle a Server Game Activity, Node Named [" + tANodeName + "] no Round Manager set yet");
 						}
+					} else if (ActionManager.EN_REMOVE_ACTION.equals (tANodeName)) {
+						// RemoveAction should be ignored
 					} else if (XMLNode.XML_TEXT_TAG.equals (tANodeName)){
 						// If a #text Node, ignore -- it is empty
 					} else {
