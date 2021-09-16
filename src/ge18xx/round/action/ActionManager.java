@@ -303,17 +303,14 @@ public class ActionManager {
 		
 		tLastAction = getLastAction ();
 		tLastActionNumber = tLastAction.getNumber ();
-		System.out.println ("\n After Undoing last Action " + tActionNumberToRemove + 
-				", reset Action Number to " + tLastActionNumber);
 		setActionNumber (tLastActionNumber);
-		System.out.println ("Current Action Number " + actionNumber);
 	}
 	
 	public void removeActionFromNetwork (Action aActionToRemove) {
 	
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			actionsToRemove.add (aActionToRemove);
-			printLastXActions (actionsToRemove, 5);
+//			printLastXActions (actionsToRemove, 5);
 			// Queue up the Action to remove from Network, after all are Undone.
 		}
 	}
@@ -347,16 +344,12 @@ public class ActionManager {
 				tActionNumberToRemove = tActionToRemove.getNumber ();
 				tRemoveActionXML = "<" + EN_REMOVE_ACTION + " " + Action.AN_NUMBER + "=\"" + 
 									tActionNumberToRemove + "\"/>";
-				System.out.println ("Ready to Remove " + tActionNumberToRemove + " From Network");
 				sendGameActivity (tRemoveActionXML, true);
 			}
 		}
 		tLastAction = getLastAction ();
 		tLastActionNumber = tLastAction.getNumber ();
-		System.out.println ("\n After Undoing last Action " + 
-				", reset Action Number to " + tLastActionNumber);
 		setActionNumber (tLastActionNumber);
-		System.out.println ("Current Action Number " + actionNumber);
 		actionsToRemove.clear ();
 	}
 	
@@ -512,8 +505,6 @@ public class ActionManager {
 			}
 		} catch (Exception tException) {
 			logger.error (tException.getMessage (), tException);
-//			System.err.println (tException.getMessage ());
-//			tException.printStackTrace ();
 		}
 		gameManager.setNotifyNetwork (true);
 //		Once we are done applying these Actions, we then can reset this back to Notify
@@ -587,8 +578,6 @@ public class ActionManager {
 					}
 				}
 				logger.info ("Examined " + tActionIndex + " Actions found " + tFoundActionCount + " Actions for " + aActorName);
-
-//				System.out.println ("Examined " + tActionIndex + " Actions found " + tFoundActionCount + " Actions for " + aActorName);
 			}
 		}
 	}
@@ -606,7 +595,6 @@ public class ActionManager {
 		tCredit = aAction.getEffectCredit (aActorName);
 		tRoundID = aAction.getRoundType ().toAbbrev () + " " + aAction.getRoundID ();
 		aAuditFrame.addRow (aActionNumber, tRoundID, tActionEventDescription, tDebit, tCredit);
-//		tClientUserName = gameManager.getClientUserName ();
 		tAuctionWinner = aAction.getAuctionWinner ();
 		if (aActorName.equals (tAuctionWinner)) {
 			tActionEventDescription = aActionName + ": " + aAction.getSimpleActionReport ();
