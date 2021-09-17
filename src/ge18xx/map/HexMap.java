@@ -1033,46 +1033,12 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
     }
 	
 	public void toggleSelectedMapCell (MapCell aSelectedMapCell) {
-		int tMapCellTypeCount;
-		int tTileNumber;
-		String tTileName;
-		String tBaseTileName;
-		String tBaseCityName;
-		Tile tTile;
-		GameTile tGameTile;
-
 		if (aSelectedMapCell != null) {
 			if (aSelectedMapCell.isSelectable ()) {
 				aSelectedMapCell.toggleSelected ();
 				if (placeTileMode) {
 					if (aSelectedMapCell.isSelected ()) {
-						tTileName = aSelectedMapCell.getName ();
-						if (tTileName == null) {
-							tTileName = "";
-						}
-						tBaseCityName = aSelectedMapCell.getCityName ();
-						if (tBaseCityName == null) {
-							tBaseCityName = "";
-						}
-						if (aSelectedMapCell.isTileOnCell ()) {
-							tTile = aSelectedMapCell.getTile ();
-							tTileNumber = tTile.getNumber ();
-							tGameTile = tileSet.getGameTile (tTileNumber);
-							tileSet.setPlayableUpgradeTiles (tGameTile, tTileName, tBaseCityName);
-						} else {
-							tBaseTileName = aSelectedMapCell.getName ();
-							tMapCellTypeCount = aSelectedMapCell.getTypeCount ();
-							if ("OO".equals (tTileName)) {
-								tileSet.setPlayableTiles (TileType.GREEN, tTileName);
-							} else {
-								if ("".equals (tTileName)) {
-									tileSet.setPlayableTiles (TileType.YELLOW, tMapCellTypeCount, tBaseTileName);
-								} else {
-									tileSet.setPlayableTiles (TileType.YELLOW, tMapCellTypeCount, tTileName);
-								}
-							}
-						}
-						tileSet.tileTrayFrameToFront ();
+						setPlayableTiles (aSelectedMapCell);
 					} else {
 						tileSet.clearAllPlayable ();
 					}
@@ -1081,6 +1047,44 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 		tileSet.clearAllSelected ();
 		mapFrame.updatePutTileButton ();
+	}
+
+	public void setPlayableTiles (MapCell aSelectedMapCell) {
+		int tMapCellTypeCount;
+		int tTileNumber;
+		String tTileName;
+		String tBaseTileName;
+		String tBaseCityName;
+		Tile tTile;
+		GameTile tGameTile;
+		
+		tTileName = aSelectedMapCell.getName ();
+		if (tTileName == null) {
+			tTileName = "";
+		}
+		tBaseCityName = aSelectedMapCell.getCityName ();
+		if (tBaseCityName == null) {
+			tBaseCityName = "";
+		}
+		if (aSelectedMapCell.isTileOnCell ()) {
+			tTile = aSelectedMapCell.getTile ();
+			tTileNumber = tTile.getNumber ();
+			tGameTile = tileSet.getGameTile (tTileNumber);
+			tileSet.setPlayableUpgradeTiles (tGameTile, tTileName, tBaseCityName);
+		} else {
+			tBaseTileName = aSelectedMapCell.getName ();
+			tMapCellTypeCount = aSelectedMapCell.getTypeCount ();
+			if ("OO".equals (tTileName)) {
+				tileSet.setPlayableTiles (TileType.GREEN, tTileName);
+			} else {
+				if ("".equals (tTileName)) {
+					tileSet.setPlayableTiles (TileType.YELLOW, tMapCellTypeCount, tBaseTileName);
+				} else {
+					tileSet.setPlayableTiles (TileType.YELLOW, tMapCellTypeCount, tTileName);
+				}
+			}
+		}
+		tileSet.tileTrayFrameToFront ();
 	}
 	
 	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
