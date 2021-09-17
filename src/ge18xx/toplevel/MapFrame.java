@@ -92,6 +92,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private String CANCEL_TOKEN_MODE = "CancelToken";
 	private String CANCEL_MODE_LABEL = "Cancel Mode";
 	private String COMPLETE_TILE_LAY = "Complete Tile Lay";
+	private String PUT_TILE = "PutTile";
+	private String PICKUP_TILE = "PickupTile";
+	private String PUT_TOKEN = "PutToken";
 	JSlider hexScaleSlider;
 	
 	public MapFrame (String aFrameName, GameManager aGameManager) {
@@ -131,7 +134,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		putTokenButton = new JButton ("Put Down");
 		putTokenButton.addActionListener (this);
-		putTokenButton.setActionCommand ("PutToken");
+		putTokenButton.setActionCommand (PUT_TOKEN);
 		putTokenButton.setEnabled (false);
 		putTokenButton.setToolTipText (NOT_PLACE_TOKEN_MODE);
 		tokenButtons.add (putTokenButton);
@@ -149,7 +152,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 		putTileButton = new JButton ("Put Down");
 		putTileButton.addActionListener (this);
-		putTileButton.setActionCommand ("PutTile");
+		putTileButton.setActionCommand (PUT_TILE);
 		putTileButton.setEnabled (false);
 		putTileButton.setToolTipText (NOT_PLACE_TILE_MODE);
 		tileButtons.add (putTileButton);
@@ -157,7 +160,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		pickupTileButton = new JButton ("Pickup");
 		pickupTileButton.addActionListener (this);
-		pickupTileButton.setActionCommand ("PickupTile");
+		pickupTileButton.setActionCommand (PICKUP_TILE);
 		updatePickupTileButton (false, NOT_PLACE_TILE_MODE);
 		tileButtons.add (pickupTileButton);
 		tileButtons.add (Box.createHorizontalStrut (10));
@@ -255,11 +258,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			toggleSelectRouteMode ();
 		} else if (CANCEL_TOKEN_MODE.equals (tTheAction)) {
 			togglePlaceTokenMode ();
-		} else if ("PickupTile".equals (tTheAction)) {
+		} else if (PICKUP_TILE.equals (tTheAction)) {
 			pickupTile ();
-		} else if ("PutTile".equals (tTheAction)) {
+		} else if (PUT_TILE.equals (tTheAction)) {
 			putTileDownOnMap ();
-		} else if ("PutToken".equals (tTheAction)) {
+		} else if (PUT_TOKEN.equals (tTheAction)) {
 			putATokenDown (tCorporation);
 		}
 		if (tCorporation != CorporationList.NO_CORPORATION) {
