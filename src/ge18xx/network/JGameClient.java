@@ -311,6 +311,8 @@ public class JGameClient extends XMLFrame {
 				String tAction = aActionEvent.getActionCommand ();
 				
 				if (PLAY_GAME.equals (tAction) ) {
+					updateReadyButton (PLAY_GAME, false, GAME_ALREADY_STARTED);
+					updateButtonGameStarted (showSavedGames);
 					loadAndStartGame ();
 				} else {
 					if (gameManager.getGameID ().equals ("")) {
@@ -609,22 +611,31 @@ public class JGameClient extends XMLFrame {
 		tGameID = gameManager.getGameID ();
 		serverHandler.sendUserStart (tGameID);
 		startsGame ();
-		startReadyButton.setEnabled (false);
-		startReadyButton.setToolTipText (GAME_ALREADY_STARTED);
-		showSavedGames.setEnabled (false);
-		showSavedGames.setToolTipText (GAME_ALREADY_STARTED);
+		updateButtonGameStarted (startReadyButton);
+		updateButtonGameStarted (showSavedGames);
+//		startReadyButton.setEnabled (false);
+//		startReadyButton.setToolTipText (GAME_ALREADY_STARTED);
+//		showSavedGames.setEnabled (false);
+//		showSavedGames.setToolTipText (GAME_ALREADY_STARTED);
 	}
 	
 	public void startsGame () {
 		swapToGameActivity ();
 		gameStarted = true;
 		gameManager.initiateNetworkGame ();
-		startReadyButton.setEnabled (false);
-		startReadyButton.setToolTipText (GAME_ALREADY_STARTED);
-		showSavedGames.setEnabled (false);
-		showSavedGames.setToolTipText (GAME_ALREADY_STARTED);
+		updateButtonGameStarted (startReadyButton);
+		updateButtonGameStarted (showSavedGames);
+//		startReadyButton.setEnabled (false);
+//		startReadyButton.setToolTipText (GAME_ALREADY_STARTED);
+//		showSavedGames.setEnabled (false);
+//		showSavedGames.setToolTipText (GAME_ALREADY_STARTED);
 	}
 
+	private void updateButtonGameStarted (JButton aButton) {
+		aButton.setEnabled (false);
+		aButton.setToolTipText (GAME_ALREADY_STARTED);
+	}
+	
 	private void swapToGameActivity () {
 		removeGamePanel ();
 		removeNSGPanel ();
@@ -836,8 +847,8 @@ public class JGameClient extends XMLFrame {
 		startReadyButton.setToolTipText (aToolTip);
 		if (aEnabled) {
 			if (gameManager.gameStarted ()) {
-				startReadyButton.setEnabled (false);
-				startReadyButton.setToolTipText (GAME_ALREADY_STARTED);
+				updateButtonGameStarted (startReadyButton);
+				updateButtonGameStarted (showSavedGames);
 			} else {
 				startReadyButton.setEnabled (true);
 			}
@@ -853,7 +864,6 @@ public class JGameClient extends XMLFrame {
 		
 		tGameIDRequest = GAME_SUPPORT_PREFIX + " <GS><GameIDRequest></GS>";
 		tResponse = gameSupportHandler.requestGameSupport (tGameIDRequest);
-//		System.out.println ("Response is [" + tResponse + "]");
 		tGameID = gameSupportHandler.getFromResponseGameID (tResponse);
 		gameManager.resetGameID (tGameID);
 	}
