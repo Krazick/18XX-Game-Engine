@@ -109,6 +109,7 @@ public class LayTileEffect extends ChangeTileContentEffect {
 				tTile.returnTokens ();
 				tMapCell.removeTile ();
 				tMapCell.restoreTile (tTileSet, tTile);
+				tGameMap.setPlayableTiles (tMapCell);
 				tGameMap.redrawMap ();
 				tEffectUndone = true;
 			} else {
