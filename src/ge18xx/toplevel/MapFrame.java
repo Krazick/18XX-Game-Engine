@@ -316,6 +316,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					tPreviousTile, tPreviousOrientation, 
 					tPreviousTokens, tPreviousBases);
 		}
+		tileSet.clearAllSelected ();
+		updatePutTileButton ();
 		toFront ();
 	}
 	
