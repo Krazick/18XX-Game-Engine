@@ -293,10 +293,8 @@ public class ActionManager {
 	
 	public void removeLastAction () {
 		int tLastActionNumber;
-		int tActionNumberToRemove;
 		Action tLastAction;
 		
-		tActionNumberToRemove = getActionNumber ();
 		tLastAction = getLastAction ();
 		removeActionFromNetwork (tLastAction);
 		actions.remove (actions.size() - 1);
