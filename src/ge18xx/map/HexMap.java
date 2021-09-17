@@ -1132,7 +1132,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public void toggleSelectedRevenueCenter (RevenueCenter aSelectedRevenueCenter) {
 		City tSelectedCity = null;
 		
-		if (aSelectedRevenueCenter != null) {
+		if (aSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
 			aSelectedRevenueCenter.toggleSelected (0);
 			if (aSelectedRevenueCenter instanceof City) {
 				tSelectedCity =  (City) aSelectedRevenueCenter;
@@ -1145,7 +1145,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		MapCell tSelectedMapCell;
 		
 		tSelectedMapCell = getSelectedMapCell ();
-		if (tSelectedMapCell == null) {
+		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
 			System.err.println ("Put Tile Down Button Selected, no Map Cell Selected from Frame");
 		} else {
 			tSelectedMapCell.putTileDown (tileSet);
@@ -1156,7 +1156,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		MapCell tSelectedMapCell;
 		
 		tSelectedMapCell = getSelectedMapCell ();
-		if (tSelectedMapCell == null) {
+		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
 			System.err.println ("Pickup Tile Button Selected, no Map Cell Selected from Frame");
 		} else {
 			tSelectedMapCell.pickupTile (tileSet);
