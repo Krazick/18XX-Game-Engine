@@ -39,9 +39,9 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	static final GameInfo NO_GAME = null;
 	public static final GameSet NO_GAME_SET = null;
 	private static final String NO_DESCRIPTION = "<html><body><h3>Game Description</h3><p>NO GAME SELECTED</p></body></html>";
-	private static final String NEW_GAME = "New Game";
-	private static final String NETWORK_GAME = "Network Game";
-	private static final String LOAD_GAME = "Load Game";
+	private static final String NEW_GAME = "New Local Game";
+	private static final String NETWORK_GAME = "Online Game";
+	private static final String LOAD_GAME = "Load Local Game";
 	private static final String REASON_WRONG_PLAYER_COUNT = "Either too many, or too few Players for this game";
 	private static final String REASON_NO_NEW_GAME = "Must select Game before you can start";
 	private static final String NO_TIP = "";
