@@ -61,9 +61,11 @@ public class Game_18XX extends JFrame {
 	JMenuItem saveAsMenuItem;
 	JMenuItem saveConfigMenuItem;
 	JMenuItem exitMenuItem;
+	private String OK_TEXT = "OK";
+	private String QUIT_TEXT = "Quit";
 	private JTextField clientUserName;
 	private JButton newGameButton;
-	private JButton loadGameButton;
+//	private JButton loadGameButton;
 	private JButton tQuitButton;
 	private static Logger logger;
 	LoggerLookup loggerLookup;
@@ -211,20 +213,20 @@ public class Game_18XX extends JFrame {
 			}
 		});
 		
-		loadGameButton.addActionListener (new ActionListener() {
-			public void actionPerformed (ActionEvent aEvent) {
-				loadGame ();
-			}
-		});
-		
-		loadGameButton.addKeyListener (new KeyAdapter() {
-			@Override
-			public void keyReleased (KeyEvent e) {
-				if (e.getKeyCode () == KeyEvent.VK_ENTER){
-					loadGame ();
-				 }
-			}
-		});
+//		loadGameButton.addActionListener (new ActionListener() {
+//			public void actionPerformed (ActionEvent aEvent) {
+//				loadGame ();
+//			}
+//		});
+//		
+//		loadGameButton.addKeyListener (new KeyAdapter() {
+//			@Override
+//			public void keyReleased (KeyEvent e) {
+//				if (e.getKeyCode () == KeyEvent.VK_ENTER){
+//					loadGame ();
+//				 }
+//			}
+//		});
 		
 		tQuitButton.addActionListener (new ActionListener() {
 			public void actionPerformed (ActionEvent aEvent) {
@@ -254,9 +256,9 @@ public class Game_18XX extends JFrame {
 		clientUserName.setColumns (10);
 		clientUserName.setEnabled (true);
 		
-		newGameButton = new JButton ("New Game");
-		loadGameButton = new JButton ("Load Game...");
-		tQuitButton = new JButton("Quit");
+		newGameButton = new JButton (OK_TEXT);
+//		loadGameButton = new JButton ("Load Game...");
+		tQuitButton = new JButton(QUIT_TEXT);
 		
 		GroupLayout groupLayout = new GroupLayout (getContentPane ());
 		groupLayout.setHorizontalGroup(
@@ -278,7 +280,7 @@ public class Game_18XX extends JFrame {
 							.addGap(21)
 							.addComponent(newGameButton)
 							.addGap(21)
-							.addComponent(loadGameButton)
+//							.addComponent(loadGameButton)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(tQuitButton)))
 					.addContainerGap(11, Short.MAX_VALUE))
@@ -297,7 +299,7 @@ public class Game_18XX extends JFrame {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(newGameButton)
-						.addComponent(loadGameButton)
+//						.addComponent(loadGameButton)
 						.addComponent(tQuitButton))
 					.addContainerGap(12, Short.MAX_VALUE))
 		);
@@ -327,6 +329,7 @@ public class Game_18XX extends JFrame {
 	
 	public void addMenus() {
 		int tMenuItemCount, tMenuItemIndex;
+		int tMenuIndex;
 		
 		fileMenu = new JMenu("File");
 		newMenuItem = new JMenuItem (newAction);
@@ -350,21 +353,34 @@ public class Game_18XX extends JFrame {
 		fileMenu.add (exitMenuItem);
 		mainMenuBar.add (fileMenu);
 
-		gameMenu = new JMenu("Game");
-		tMenuItemCount = 12;
+		gameMenu = new JMenu ("Game");
+		tMenuItemCount = 10;
 		gameMenuItems = new JMenuItem [tMenuItemCount];
-		gameMenuItems [0] = new JMenuItem (showMapAction);
-		gameMenuItems [1] = new JMenuItem (showMarketAction);
-		gameMenuItems [2] = new JMenuItem (showCitiesAction);
-		gameMenuItems [3] = new JMenuItem (showPrivatesAction);
-		gameMenuItems [4] = new JMenuItem (showCoalCompaniesAction);
-		gameMenuItems [5] = new JMenuItem (showMinorCompaniesAction);
-		gameMenuItems [6] = new JMenuItem (showShareCompaniesAction);
-		gameMenuItems [7] = new JMenuItem (showTileTrayAction);
-		gameMenuItems [8] = new JMenuItem (showChatClientAction);
-		gameMenuItems [9] = new JMenuItem (showRoundFrameAction);
-		gameMenuItems [10] = new JMenuItem (showAuditFrameAction);
-		gameMenuItems [11] = new JMenuItem (showActionReportFrameAction);
+		tMenuIndex = 0;
+		tMenuIndex = addGameMenu (tMenuIndex, showMapAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showMarketAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showCitiesAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showPrivatesAction);
+//		tMenuIndex = addGameMenu (tMenuIndex, showCoalCompaniesAction);
+//		tMenuIndex = addGameMenu (tMenuIndex, showMinorCompaniesAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showShareCompaniesAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showTileTrayAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showChatClientAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showRoundFrameAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showAuditFrameAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showActionReportFrameAction);
+//		gameMenuItems [0] = new JMenuItem (showMapAction);
+//		gameMenuItems [1] = new JMenuItem (showMarketAction);
+//		gameMenuItems [2] = new JMenuItem (showCitiesAction);
+//		gameMenuItems [3] = new JMenuItem (showPrivatesAction);
+//		gameMenuItems [4] = new JMenuItem (showCoalCompaniesAction);
+//		gameMenuItems [5] = new JMenuItem (showMinorCompaniesAction);
+//		gameMenuItems [6] = new JMenuItem (showShareCompaniesAction);
+//		gameMenuItems [7] = new JMenuItem (showTileTrayAction);
+//		gameMenuItems [8] = new JMenuItem (showChatClientAction);
+//		gameMenuItems [9] = new JMenuItem (showRoundFrameAction);
+//		gameMenuItems [10] = new JMenuItem (showAuditFrameAction);
+//		gameMenuItems [11] = new JMenuItem (showActionReportFrameAction);
 		
 		for (tMenuItemIndex = 0; tMenuItemIndex < tMenuItemCount; tMenuItemIndex++) {
 			gameMenuItems [tMenuItemIndex].setEnabled (false);
@@ -375,7 +391,13 @@ public class Game_18XX extends JFrame {
 		setJMenuBar (mainMenuBar);
 	}
 	
-	public void createActions() {
+	private int addGameMenu (int aMenuIndex, Action aMenuAction) {
+		gameMenuItems [aMenuIndex] = new JMenuItem (aMenuAction);
+		
+		return (aMenuIndex + 1);
+	}
+	
+	public void createActions () {
 		int shortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask ();
 
 		//Create actions that can be used by menus, buttons, toolbars, etc.
@@ -402,8 +424,8 @@ public class Game_18XX extends JFrame {
 				KeyStroke.getKeyStroke (KeyEvent.VK_T, shortcutKeyMask));
 		showPrivatesAction = new showPrivatesActionClass (resbundle.getString ("showPrivatesItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_P, shortcutKeyMask));
-		showCoalCompaniesAction = new showMinorsActionClass (resbundle.getString ("showCoalsItem"), null);
-		showMinorCompaniesAction = new showMinorsActionClass (resbundle.getString ("showMinorsItem"), null);
+//		showCoalCompaniesAction = new showMinorsActionClass (resbundle.getString ("showCoalsItem"), null);
+//		showMinorCompaniesAction = new showMinorsActionClass (resbundle.getString ("showMinorsItem"), null);
 		showShareCompaniesAction = new showShareCompaniesActionClass (resbundle.getString ("showShareCompaniesItem"), null);
 		showChatClientAction = new showChatClientActionClass (resbundle.getString ("showChatClientItem"), null);
 		showRoundFrameAction = new showRoundFrameActionClass (resbundle.getString ("showRoundFrameItem"), null);
@@ -471,8 +493,8 @@ public class Game_18XX extends JFrame {
 	public void disableGameButtons () {
 		newGameButton.setEnabled (false);
 		newGameButton.setToolTipText (ENTER_USER_NAME);
-		loadGameButton.setEnabled (false);
-		loadGameButton.setToolTipText (ENTER_USER_NAME);
+//		loadGameButton.setEnabled (false);
+//		loadGameButton.setToolTipText (ENTER_USER_NAME);
 	}
 	
 	public void disableGameStartItems () {
@@ -487,8 +509,8 @@ public class Game_18XX extends JFrame {
 		enableOpenMenuItem ();
 		newGameButton.setEnabled (true);
 		newGameButton.setToolTipText (NO_TOOL_TIP);
-		loadGameButton.setEnabled (true);
-		loadGameButton.setToolTipText (NO_TOOL_TIP);
+//		loadGameButton.setEnabled (true);
+//		loadGameButton.setToolTipText (NO_TOOL_TIP);
 		clientUserName.setEnabled (true);
 	}
 	
