@@ -177,8 +177,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tElement;		
 	}
 	
-	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell) {
-		mapFrame.putMapTokenDown (aCorporation, aCity, aMapCell);
+	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell,
+								boolean aAddLayTokenAtion) {
+		mapFrame.putMapTokenDown (aCorporation, aCity, aMapCell, aAddLayTokenAtion);
 	}
 	
 	public int getColCount (int thisRow) {

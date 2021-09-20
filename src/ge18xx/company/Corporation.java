@@ -663,7 +663,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	// Token Company will Override
-	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex) {
+	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex,
+			boolean aAddLayTokenAction) {
 		System.err.println ("Trying to Verify Place Token as Corporation - WRONG");
 	}
 	

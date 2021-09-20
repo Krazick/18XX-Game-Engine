@@ -384,13 +384,10 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 	
 	@Override
-	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex) {
+	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
+			boolean aAddLayTokenAction) {
 		boolean tStatusUpdated;
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
-		LayTokenAction tLayTokenAction;
-		String tOperatingRoundID;
-		int tCostToLayTokenOnMapCell;
-		Bank tBank;
 		
 		tCurrentStatus = status;
 		if ((status == ActorI.ActionStates.TileLaid) ||
@@ -402,21 +399,34 @@ public abstract class TokenCompany extends TrainCompany {
 		}
 		if (tStatusUpdated) {
 			tNewStatus = status;
-			tCostToLayTokenOnMapCell = getCostToLayToken (aMapCell);
-			popToken ();  // Pop off the Token from the list of Map Tokens, don't want infinite supply
-			tOperatingRoundID = corporationList.getOperatingRoundID ();
-			tLayTokenAction = new LayTokenAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-			tLayTokenAction.addLayTokenEffect (this, aMapCell, aTile, aRevenueCenterIndex, benefitInUse);
-			tLayTokenAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
-			if (tCostToLayTokenOnMapCell > 0) {
-				tBank = corporationList.getBank ();
-				this.transferCashTo (tBank, tCostToLayTokenOnMapCell);
-				tLayTokenAction.addCashTransferEffect (this, tBank, tCostToLayTokenOnMapCell);
+			if (aAddLayTokenAction) {
+				addLayTokenAction (aMapCell, aTile, aRevenueCenterIndex, tCurrentStatus, tNewStatus);
 			}
-			addAction (tLayTokenAction);
-
+			popToken ();  	// Pop off the Token from the list of Map Tokens, 
+							// don't want infinite supply
+			
 			corporationFrame.updateInfo ();
 		}
+	}
+
+	public void addLayTokenAction (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex,
+			ActorI.ActionStates aCurrentStatus, ActorI.ActionStates aNewStatus) {
+		LayTokenAction tLayTokenAction;
+		String tOperatingRoundID;
+		Bank tBank;
+		int tCostToLayTokenOnMapCell;
+		
+		tCostToLayTokenOnMapCell = getCostToLayToken (aMapCell);
+		tOperatingRoundID = corporationList.getOperatingRoundID ();
+		tLayTokenAction = new LayTokenAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
+		tLayTokenAction.addLayTokenEffect (this, aMapCell, aTile, aRevenueCenterIndex, benefitInUse);
+		tLayTokenAction.addChangeCorporationStatusEffect (this, aCurrentStatus, aNewStatus);
+		if (tCostToLayTokenOnMapCell > 0) {
+			tBank = corporationList.getBank ();
+			transferCashTo (tBank, tCostToLayTokenOnMapCell);
+			tLayTokenAction.addCashTransferEffect (this, tBank, tCostToLayTokenOnMapCell);
+		}
+		addAction (tLayTokenAction);
 	}
 	
 	@Override

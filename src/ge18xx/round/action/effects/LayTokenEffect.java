@@ -103,7 +103,8 @@ public class LayTokenEffect extends ChangeMapEffect {
 			tCorporation = (Corporation) getActor ();
 			if (tCorporation instanceof TokenCompany) {
 				tCity = (City) tTile.getRevenueCenter (revenueCenterIndex);
-				tGameMap.putMapTokenDown (tCorporation, tCity, tMapCell);
+				// Apply effect on Remote Client, don't want to add a new LayTokenAction (or spend money)
+				tGameMap.putMapTokenDown (tCorporation, tCity, tMapCell, false);
 				tGameMap.redrawMap ();
 				tEffectApplied = true;
 			} else {

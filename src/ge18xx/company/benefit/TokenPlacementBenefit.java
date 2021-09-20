@@ -145,7 +145,8 @@ public class TokenPlacementBenefit extends MapBenefit {
 				tTile = tMapCell.getTile ();
 				if (tTile.cityOnTile ()) {
 					tCity = (City) tTile.getRevenueCenter (0);
-					tMap.putMapTokenDown (tOwningCompany, tCity, tMapCell);
+					// Local Client, need to add the Lay Token Action
+					tMap.putMapTokenDown (tOwningCompany, tCity, tMapCell, true);
 				}
 				tMap.toggleSelectedMapCell (tMapCell);
 			} else {

@@ -514,7 +514,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					tSelectedCity = (City) aRevenueCenter;
 					tCanPlaceToken = canPlaceToken (aCorporation, tSelectedCity);
 					if (tCanPlaceToken) {
-						putMapTokenDown (aCorporation, tSelectedCity, aMapCell);
+						putMapTokenDown (aCorporation, tSelectedCity, aMapCell, true);
 					}
 				} else {
 					System.err.println ("Cannot Place Station on this Revenue Center");
@@ -525,7 +525,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell) {
+	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell, 
+								boolean aAddLayTokenAction) {
 		Tile tTile;
 		MapToken tMapToken;
 		boolean tTokenPlaced;
@@ -543,7 +544,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				tCorporationID = aCorporation.getID ();
 				tTile = aMapCell.getTile ();
 				tRevenueCenterIndex = tTile.getStationIndex (tCorporationID);
-				aCorporation.tokenWasPlaced (aMapCell, tTile, tRevenueCenterIndex);
+				aCorporation.tokenWasPlaced (aMapCell, tTile, tRevenueCenterIndex, aAddLayTokenAction);
 				completeBenefitUse ();
 				putTokenButton.setEnabled (false);
 				putTokenButton.setToolTipText (TOKEN_ALREADY_PLACED);

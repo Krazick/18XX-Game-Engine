@@ -1472,7 +1472,7 @@ public class MapCell implements Comparator<Object> {
 			for (tCityCenterIndex = 0; tCityCenterIndex < tCityCenterCount; tCityCenterIndex++) {
 				tRevenueCenter = tCurrentTile.getRevenueCenter (tCityCenterIndex);
 				if (tRevenueCenter.isCity ()) {
-					tCity = (City) tCurrentTile.getRevenueCenter (tCityCenterIndex);
+					tCity = (City) tRevenueCenter;
 					tOldCityLocation = tCity.getLocation ();
 					tNewCityLocation = tUpgrade.getToFromLocation (tOldCityLocation, tFirstPossibleRotation);
 					if (tCity.cityHasAnyStation ()) {
