@@ -323,7 +323,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return false;
 	}
 	
-	public String getTrainSummary() {
+	public String getTrainSummary () {
 		return trainPortfolio.getTrainSummary ();
 	}
 	
