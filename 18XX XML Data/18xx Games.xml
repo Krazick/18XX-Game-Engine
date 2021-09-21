@@ -51,11 +51,11 @@
 			<Train name="2" order="1" revenueCenters="2" quantity="6" price="80"
 				 onLast="2" />
 			<Train name="3" order="2" revenueCenters="3" quantity="5" price="180"
-				onLast="3" triggerPhase="2.1" />
+				onLast="3" triggerPhase="2.1" tileInfo="Green"/>
 			<Train name="4" order="3" revenueCenters="4" quantity="4" price="300"
 				onLast="4" triggerPhase="2.2" rust="2" />
 			<Train name="5" order="4" revenueCenters="5" quantity="3" price="450"
-				onLast="5" triggerPhase="3.1" />
+				onLast="5" triggerPhase="3.1" tileInfo="Brown"/>
 			<Train name="6" order="5" revenueCenters="6" quantity="2" price="630"
 				onFirst="6" triggerPhase="3.2" rust="3" />
 			<Train name="Diesel" order="6" revenueCenters="unlimited" quantity="6"
@@ -110,7 +110,7 @@
 			<Train name="2+2" order="2" revenueCenters="2" townRevenueCenters="2"
 				quantity="4" price="120" onLast="3" triggerPhase="1.2" />
 			<Train name="3" order="3" revenueCenters="3" quantity="4" price="180"
-				onLast="4" triggerPhase="2.1" />
+				onLast="4" triggerPhase="2.1" tileInfo="Green" />
 			<Train name="3+3" order="4" revenueCenters="3" townRevenueCenters="3"
 				quantity="3" price="270" onLast="5" triggerPhase="2.2" />
 			<Train name="4" order="5" revenueCenters="4" quantity="3" price="360"
@@ -118,7 +118,7 @@
 			<Train name="4+4" order="6" revenueCenters="4" townRevenueCenters="4"
 				quantity="1" price="440" onLast="7" triggerPhase="2.4" rust="2+2" />
 			<Train name="5" order="7" revenueCenters="5" quantity="2" price="500"
-				onLast="8" triggerPhase="3.1" />
+				onLast="8" triggerPhase="3.1" tileInfo="Brown" />
 			<Train name="5+5" order="8" revenueCenters="5" townRevenueCenters="5"
 				quantity="1" price="600" onLast="9" triggerPhase="3.2" />
 			<Train name="6" order="9" revenueCenters="6" quantity="2" price="600"
@@ -166,15 +166,15 @@
 			<Train name="2" order="1" revenueCenters="2" TownRevenueCenters="unlimited"
 				quantity="6" price="300" />
 			<Train name="3" order="2" revenueCenters="3" TownRevenueCenters="unlimited"
-				quantity="5" price="440" triggerPhase="2.1" />
+				quantity="5" price="440" triggerPhase="2.1" tileInfo="Green" />
 			<Train name="2M" order="3" revenueCenters="2" TownRevenueCenters="unlimited"
 				gauge="Meter" quantity="2" price="250" triggerPhase="2.2" />
 			<Train name="4" order="4" revenueCenters="4" TownRevenueCenters="unlimited"
-				quantity="4" price="620" rust="2" triggerPhase="3.1" />
+				quantity="4" price="620" rust="2" triggerPhase="3.1" tileInfo="Brown" />
 			<Train name="3M" order="5" revenueCenters="3" TownRevenueCenters="unlimited"
 				gauge="Meter" quantity="3" price="430" rust="2" triggerPhase="3.2" />
 			<Train name="5" order="6" revenueCenters="5" TownRevenueCenters="unlimited"
-				quantity="3" price="830" rust="3,2M" triggerPhase="4.1" />
+				quantity="3" price="830" rust="3,2M" triggerPhase="4.1" tileInfo="Grey" />
 			<Train name="4M" order="7" revenueCenters="4" TownRevenueCenters="unlimited"
 				gauge="Meter" quantity="2" price="590" rust="3,2M" triggerPhase="4.2" />
 			<Train name="6" order="8" revenueCenters="6" TownRevenueCenters="unlimited"
@@ -280,13 +280,13 @@
 			<Train name="2" order="1" revenueCenters="2" quantity="9" price="100" 
 				onLast="2" />
 			<Train name="3" order="2" revenueCenters="3" quantity="4" price="225"
-				onLast="3" triggerPhase="2.1" />
+				onLast="3" triggerPhase="2.1" tileInfo="Green" />
 			<Train name="4" order="3" revenueCenters="4" quantity="3" price="350"
 				onLast="4" triggerPhase="3.1" rust="2" />
 			<Train name="5" order="4" revenueCenters="5" quantity="2" price="550"
-				onLast="5" triggerPhase="4.1" />
+				onLast="5" triggerPhase="4.1" tileInfo="Brown" />
 			<Train name="6" order="5" revenueCenters="6" quantity="2" price="700"
-				onFirst="6" triggerPhase="5.1" rust="3" />
+				onFirst="6" triggerPhase="5.1" rust="3" tileInfo="Grey" />
 			<Train name="Diesel" order="6" revenueCenters="unlimited" quantity="6"
 				price="1100" triggerPhase="6.1" discountPrice="750" tradeInTrain="4,5,6" />
 		</Trains>
@@ -359,13 +359,13 @@
 			<Train name="2" order="1" revenueCenters="2" quantity="7" price="80"
 				onLast="2"  />
 			<Train name="3" order="2" revenueCenters="3" quantity="6" price="180"
-				onLast="3" triggerPhase="2.1" />
+				onLast="3" triggerPhase="2.1" tileInfo="Green" />
 			<Train name="4" order="3" revenueCenters="4" quantity="5" price="300"
 				onLast="4" triggerPhase="3.1" rust="2" />
 			<Train name="5" order="4" revenueCenters="5" quantity="4" price="450"
-				onLast="5" triggerPhase="4.1" />
+				onLast="5" triggerPhase="4.1" tileInfo="Brown" />
 			<Train name="6" order="5" revenueCenters="6" quantity="3" price="630"
-				onLast="6" triggerPhase="5.1" rust="3" />
+				onLast="6" triggerPhase="5.1" rust="3" tileInfo="Grey" />
 			<Train name="8" order="6" revenueCenters="8" quantity="3" price="800"
 				onLast="7" triggerPhase="6.1" rust="4" />
 			<Train name="10" order="7" revenueCenters="10" quantity="2" price="950"
