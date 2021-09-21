@@ -737,8 +737,8 @@ public class RouteSegment {
 				if (end.hasRevenueCenter ()) {
 					end.fixRevenueCenter (tTile);
 				}
-			} else {
-				logger.error ("Looking for Tile " + tileNumber + " found " + tTileNumber + " on MapCell " + mapCellID);
+//			} else {
+//				logger.error ("Looking for Tile " + tileNumber + " found " + tTileNumber + " on MapCell " + mapCellID);
 			}
 		} else {
 			logger.error ("Looking for MapCell " + mapCellID + " Did not find it in the Map");

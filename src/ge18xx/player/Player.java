@@ -1050,7 +1050,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 			playerFrame.setLocationFixed (true);
 		}
 		updatePlayerInfo ();
-		logger.info ("Player Action for Stock Round selected");
+//		logger.info ("Player Action for Stock Round selected");
 
 		playerFrame.setVisible (true);
 	}
@@ -1133,7 +1133,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		updatePortfolioInfo ();
 		updateBankBox ();
 		updateActionButtons ();
-		logger.info ("Player Information Updated for Stock Round selected");
+//		logger.info ("Player Information Updated for Stock Round selected");
 	}
 	
 	public void updatePortfolioInfo () {
