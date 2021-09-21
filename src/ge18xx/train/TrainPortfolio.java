@@ -802,18 +802,20 @@ public class TrainPortfolio implements TrainHolderI {
 		String tCost = "";
 		int tDiscountCost;
 		int tCount = 0;
-		String tRustInfo = "";
+		String tRustInfo = TrainInfo.NO_RUST;
+		String tTileInfo = Train.NO_TILE_INFO;
 		
 		for (Train tTrain : trains) {
 			tCurrentName = tTrain.getName ();
-			tRustInfo = tTrain.getRustInfo ();
 			if (! tCurrentName.equals (tPreviousName)) {
 				if (tCount > 0) {
-					tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tRustInfo);
+					tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tRustInfo, tTileInfo);
 					tTrainSummary += tTrainInfo;
 				}
 				tCount = 1;
 				tPreviousName = tCurrentName;
+				tRustInfo = tTrain.getRustInfo ();
+				tTileInfo = tTrain.getTileInfo ();
 				tCost = Bank.formatCash (tTrain.getPrice ());
 				tDiscountCost = tTrain.getDiscountCost ();
 				if (tDiscountCost > 0) {
@@ -824,18 +826,29 @@ public class TrainPortfolio implements TrainHolderI {
 			}
 		}
 		if (tCount > 0) {
-			tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tRustInfo);
+			tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tRustInfo, tTileInfo);
 			tTrainSummary += tTrainInfo;
 		}
 		
 		return tTrainSummary;
 	}
 
-	public String buildTrainInfo (String aPreviousName, String aCost, int aCount, String aRustInfo) {
+	public String buildTrainInfo (String aPreviousName, String aCost, int aCount, String aRustInfo,
+								String aTileInfo) {
 		String tTrainInfo;
+		String tRustTileInfo;
 		
-		
-		tTrainInfo = aPreviousName + " Train QTY: " + aCount + " " + aCost + aRustInfo + NEWLINE;
+		tRustTileInfo = aRustInfo;
+		if (! aTileInfo.equals (Train.NO_TILE_INFO)) {
+			if (! tRustTileInfo.equals (TrainInfo.NO_RUST)) {
+				tRustTileInfo += " and ";
+			}
+			tRustTileInfo += aTileInfo;
+		}
+		if (tRustTileInfo.length () > 0) {
+			tRustTileInfo = " ( " + tRustTileInfo + " )";
+		}
+		tTrainInfo = aPreviousName + " Train QTY: " + aCount + " " + aCost + tRustTileInfo + NEWLINE;
 		
 		return tTrainInfo;
 	}

@@ -31,6 +31,7 @@ public class TrainInfo {
 	public static final AttributeName AN_GAUGE = new AttributeName ("gauge");
 	public static final AttributeName AN_ON_FIRST = new AttributeName ("onFirst");
 	public static final AttributeName AN_ON_LAST = new AttributeName ("onLast");
+	public static final AttributeName AN_TILE_INFO = new AttributeName ("tileInfo");
 	public static final String NO_RUST = "";
 	static final String NORMAL_GAUGE = "Normal";
 	static final String METER_GAUGE = "Meter";
@@ -48,6 +49,7 @@ public class TrainInfo {
 	int triggerMainPhase;
 	int triggerMinorPhase;
 	String rust;
+	String tileInfo;
 	int discountPrice;
 	String tradeInTrains;
 	int onFirstOrderAvailable;
@@ -55,14 +57,16 @@ public class TrainInfo {
 	
 	public TrainInfo () {
 		train = new Train ();
-		setValues (NO_TRAINS, NO_PHASE, NO_PHASE, NO_RUST, NO_DISCOUNT, NO_TRADE_INS, Train.NO_ORDER, Train.NO_ORDER);
+		setValues (NO_TRAINS, NO_PHASE, NO_PHASE, NO_RUST, NO_DISCOUNT, NO_TRADE_INS, 
+				Train.NO_ORDER, Train.NO_ORDER, Train.NO_TILE_INFO);
 	}
 	
 	public TrainInfo (TrainInfo aTrainInfo) {
 		train = new Train (aTrainInfo.train);
 		setValues (aTrainInfo.quantity, aTrainInfo.triggerMainPhase, aTrainInfo.triggerMinorPhase,
 				aTrainInfo.rust, aTrainInfo.discountPrice, aTrainInfo.tradeInTrains,
-				aTrainInfo.onFirstOrderAvailable, aTrainInfo.onLastOrderAvailable);
+				aTrainInfo.onFirstOrderAvailable, aTrainInfo.onLastOrderAvailable, 
+				aTrainInfo.tileInfo);
 	}
 	
 	public TrainInfo (XMLNode aCellNode) {
@@ -70,7 +74,7 @@ public class TrainInfo {
 		int tQuantity, tTriggerMainPhase, tTriggerMinorPhase;
 		String tName, tTriggerPhase;
 		String tRevenueCenters, tTownRevenueCenters;
-		String tGaugeValue;
+		String tGaugeValue, tTileInfo;
 		int tMajorCount, tMinorCount;
 		int tPrice, tDiscountPrice, tGauge, tOrder, tOnFirstOrderAvailable, tOnLastOrderAvailable;
 		String tTradeInTrains;
@@ -101,6 +105,7 @@ public class TrainInfo {
 		tDiscountPrice = aCellNode.getThisIntAttribute (AN_DISCOUNT_PRICE, NO_DISCOUNT);
 		tTradeInTrains = aCellNode.getThisAttribute (AN_TRADE_IN_TRAINS, NO_TRADE_INS);
 		tRust = aCellNode.getThisAttribute (AN_RUST, NO_RUST);
+		tTileInfo = aCellNode.getThisAttribute (AN_TILE_INFO, Train.NO_TILE_INFO);
 		tGaugeValue = aCellNode.getThisAttribute (AN_GAUGE, NORMAL_GAUGE);
 		tGauge = Gauge.NORMAL_GAUGE;
 		if (tGaugeValue.equals (METER_GAUGE)) {
@@ -110,7 +115,7 @@ public class TrainInfo {
 		tOnLastOrderAvailable = aCellNode.getThisIntAttribute (AN_ON_LAST, Train.NO_ORDER);
 		train = new Train (tName, tOrder, tGauge, tMajorCount, tMinorCount, tPrice);
 		setValues (tQuantity, tTriggerMainPhase, tTriggerMinorPhase, tRust, tDiscountPrice, tTradeInTrains, 
-				tOnFirstOrderAvailable, tOnLastOrderAvailable);
+				tOnFirstOrderAvailable, tOnLastOrderAvailable, tTileInfo);
 	}
 	
 	public String getName () {
@@ -131,6 +136,10 @@ public class TrainInfo {
 	
 	public String getRust () {
 		return rust;
+	}
+	
+	public String getTileInfo () {
+		return tileInfo;
 	}
 	
 	public Train getTrain () {
@@ -157,6 +166,9 @@ public class TrainInfo {
 		}
 		if (! rust.equals (NO_RUST)) {
 			tElement.setAttribute (AN_RUST, rust);
+		}
+		if (! tileInfo.equals (Train.NO_TILE_INFO)) {
+			tElement.setAttribute (AN_TILE_INFO, tileInfo);
 		}
 		
 		return tElement;
@@ -213,11 +225,13 @@ public class TrainInfo {
 	}
 	
 	public void setValues (int aQuantity, int aTriggerMajorPhase, int aTriggerMinorPhase, String aRust, 
-			int aDiscountPrice, String aTradeInTrains, int aOnFirstOrderAvailable, int aOnLastOrderAvailable) {
+			int aDiscountPrice, String aTradeInTrains, int aOnFirstOrderAvailable, int aOnLastOrderAvailable,
+			String aTileInfo) {
 		quantity = aQuantity;
 		triggerMainPhase = aTriggerMajorPhase;
 		triggerMinorPhase = aTriggerMinorPhase;
 		rust = aRust;
+		tileInfo = aTileInfo;
 		discountPrice = aDiscountPrice;
 		tradeInTrains = aTradeInTrains;
 		train.setTrainInfo (this);

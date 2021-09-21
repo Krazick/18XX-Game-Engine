@@ -59,6 +59,7 @@ public class Train implements Comparable<Object> {
 	public static final int NO_TRAIN_STATUS = -3;
 	public static final String NO_TRAIN_NAME = null;
 	public static final String MISSING_NAME = "MISSING";
+	public static final String NO_TILE_INFO = "";
 	Gauge gauge;
 	String name;
 	int order;
@@ -372,10 +373,21 @@ public class Train implements Comparable<Object> {
 		
 		tRustInfo = getRust ();
 		if (! tRustInfo.equals (TrainInfo.NO_RUST)) {
-			tRustInfo = "  Rust " + tRustInfo + " Trains";
+			tRustInfo = "Rust " + tRustInfo + " Trains";
 		}
 		
 		return tRustInfo;
+	}
+	
+	public String getTileInfo () {
+		String tTileInfo;
+		
+		tTileInfo = trainInfo.getTileInfo ();
+		if (! tTileInfo.equals (Train.NO_TILE_INFO)) {
+			tTileInfo = tTileInfo + " Tiles Available";
+		}
+		
+		return tTileInfo;
 	}
 	
 	public int getStatus () {
