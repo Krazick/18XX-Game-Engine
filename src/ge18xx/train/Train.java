@@ -367,6 +367,17 @@ public class Train implements Comparable<Object> {
 		return trainInfo.getRust ();
 	}
 	
+	public String getRustInfo () {
+		String tRustInfo;
+		
+		tRustInfo = getRust ();
+		if (! tRustInfo.equals (TrainInfo.NO_RUST)) {
+			tRustInfo = "  Rust " + tRustInfo + " Trains";
+		}
+		
+		return tRustInfo;
+	}
+	
 	public int getStatus () {
 		return status;
 	}

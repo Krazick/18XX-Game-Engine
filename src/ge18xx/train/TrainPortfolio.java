@@ -802,12 +802,14 @@ public class TrainPortfolio implements TrainHolderI {
 		String tCost = "";
 		int tDiscountCost;
 		int tCount = 0;
+		String tRustInfo = "";
 		
 		for (Train tTrain : trains) {
 			tCurrentName = tTrain.getName ();
+			tRustInfo = tTrain.getRustInfo ();
 			if (! tCurrentName.equals (tPreviousName)) {
 				if (tCount > 0) {
-					tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount);
+					tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tRustInfo);
 					tTrainSummary += tTrainInfo;
 				}
 				tCount = 1;
@@ -822,17 +824,18 @@ public class TrainPortfolio implements TrainHolderI {
 			}
 		}
 		if (tCount > 0) {
-			tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount);
+			tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tRustInfo);
 			tTrainSummary += tTrainInfo;
 		}
 		
 		return tTrainSummary;
 	}
 
-	public String buildTrainInfo (String aPreviousName, String aCost, int aCount) {
+	public String buildTrainInfo (String aPreviousName, String aCost, int aCount, String aRustInfo) {
 		String tTrainInfo;
 		
-		tTrainInfo = aPreviousName + " Train QTY: " + aCount + " " + aCost + NEWLINE;
+		
+		tTrainInfo = aPreviousName + " Train QTY: " + aCount + " " + aCost + aRustInfo + NEWLINE;
 		
 		return tTrainInfo;
 	}
