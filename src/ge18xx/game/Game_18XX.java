@@ -42,7 +42,8 @@ public class Game_18XX extends JFrame {
 	protected ResourceBundle resbundle;
 	protected AboutBox aboutBox;
 	protected PrefPane prefs;
-	protected Action newAction, openAction, closeAction, saveAction, saveAsAction, saveConfigAction, exitAction,
+	protected Action newAction, openAction, closeAction, saveAction, saveAsAction, saveConfigAction, 
+					 frameInfoAction, exitAction,
 					 undoAction, cutAction, copyAction, pasteAction, clearAction, selectAllAction;
 	protected Action selectGameAction, showMapAction, showMarketAction, showCitiesAction, showPrivatesAction;
 	protected Action showTileTrayAction, showCoalCompaniesAction, showMinorCompaniesAction;
@@ -60,6 +61,7 @@ public class Game_18XX extends JFrame {
 	JMenuItem saveMenuItem;
 	JMenuItem saveAsMenuItem;
 	JMenuItem saveConfigMenuItem;
+	JMenuItem frameInfoMenuItem;
 	JMenuItem exitMenuItem;
 	private String OK_TEXT = "OK";
 	private String QUIT_TEXT = "Quit";
@@ -349,6 +351,9 @@ public class Game_18XX extends JFrame {
 		saveConfigMenuItem = new JMenuItem (saveConfigAction);
 		disableSaveConfigMenuItem ();
 		fileMenu.add (saveConfigMenuItem);
+		frameInfoMenuItem = new JMenuItem (frameInfoAction);
+		disableFrameInfoMenuItem ();
+		fileMenu.add (frameInfoMenuItem);
 		exitMenuItem = new JMenuItem (exitAction);
 		fileMenu.add (exitMenuItem);
 		mainMenuBar.add (fileMenu);
@@ -411,6 +416,7 @@ public class Game_18XX extends JFrame {
 				KeyStroke.getKeyStroke (KeyEvent.VK_S, shortcutKeyMask));
 		saveAsAction = new saveAsActionClass (resbundle.getString ("saveAsItem"));
 		saveConfigAction = new saveConfigActionClass (resbundle.getString ("saveConfigItem"));
+		frameInfoAction = new frameInfoActionClass (resbundle.getString ("frameInfoItem"));
 		exitAction = new exitActionClass (resbundle.getString ("exitItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_Q, shortcutKeyMask));
 		
@@ -488,6 +494,10 @@ public class Game_18XX extends JFrame {
 
 	public void disableSaveConfigMenuItem () {
 		saveConfigMenuItem.setEnabled (false);
+	}
+	
+	public void disableFrameInfoMenuItem () {
+		frameInfoMenuItem.setEnabled (false);
 	}
 	
 	public void disableGameButtons () {
@@ -581,10 +591,15 @@ public class Game_18XX extends JFrame {
 		saveConfigMenuItem.setEnabled (true);
 	}
 
+	public void enableFrameInfoMenuItem () {
+		frameInfoMenuItem.setEnabled (true);
+	}
+
 	public void enableSaveMenuItems () {
 		enableSaveMenuItem ();
 		enableSaveAsMenuItem ();
 		enableSaveConfigMenuItem ();
+		enableFrameInfoMenuItem ();
 	}
 	
 	public void initiateGame () {
@@ -836,6 +851,16 @@ public class Game_18XX extends JFrame {
 		}
 		public void actionPerformed (ActionEvent e) {
 			gameManager.saveConfig (false);
+		}
+	}
+	
+	public class frameInfoActionClass extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+		public frameInfoActionClass (String text) {
+			super (text);
+		}
+		public void actionPerformed (ActionEvent e) {
+			gameManager.showFrameInfo ();
 		}
 	}
 	

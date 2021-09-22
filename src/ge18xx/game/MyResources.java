@@ -25,6 +25,7 @@ public class MyResources extends ListResourceBundle {
 			{"saveItem", "Save"},
 			{"saveAsItem", "Save As..."},
 			{"saveConfigItem", "Save Config"},
+			{"frameInfoItem", "Frame Info"},
 			{"exitItem", "Exit"},
 			{"undoItem", "Undo"},
 			{"cutItem", "Cut"},
@@ -46,6 +47,6 @@ public class MyResources extends ListResourceBundle {
 			{"showAuditFrameItem", "Show Audit Frame"},
 			{"showActionReportFrameItem", "Show Action Report Frame"},
 			{"frameTitle", "18XX Game Engine"},
-			{"version", "V 0.7.3 Beta"}
+			{"version", "V 0.7.4 Beta"}
 	};
 }

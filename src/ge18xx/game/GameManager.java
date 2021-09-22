@@ -2349,12 +2349,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tCurrentPlayerFrame;
 	}
 	
-
 	public boolean isAuctionRound () {
 		return roundManager.isAuctionRound ();
 	}
 
-	public void showGEFrame() {
+	public void showGEFrame () {
 		game18XXFrame.setVisible (true);
 		game18XXFrame.toFront ();
 	}
@@ -2365,5 +2364,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public boolean isLastActionComplete () {
 		return roundManager.isLastActionComplete ();
+	}
+
+	public void showFrameInfo () {
+		// TODO Auto-generated method stub
+		System.out.println ("Ready to show Frame Info Frame");
 	}
 }
