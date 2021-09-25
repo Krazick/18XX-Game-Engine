@@ -47,6 +47,19 @@ public class XMLFrame extends JFrame {
 		return gameName;
 	}
 	
+	public String extractFrameName () {
+		String tFrameName;
+		String tPattern = "^(.*) \\([A-Za-z][A-Za-z0-9_]*\\)$";
+		
+		tFrameName = getTitle ();
+		if (tFrameName.matches (tPattern)) {
+			int tIndexLastSpace = tFrameName.lastIndexOf (" ");
+			tFrameName = tFrameName.substring (0, tIndexLastSpace);
+		}
+		
+		return tFrameName;
+	}
+
 	public boolean loadXML (String aXMLFileName, LoadableXMLI aLoadableObject) throws IOException {
 		boolean tXMLFileWasLoaded;
 		
@@ -204,7 +217,7 @@ public class XMLFrame extends JFrame {
 	}
 	
 	@Override
-	public  void toFront () {
+	public void toFront () {
 	    int tState = super.getExtendedState () & ~JFrame.ICONIFIED & JFrame.NORMAL;
 
 	    super.setExtendedState (tState);

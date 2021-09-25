@@ -25,7 +25,6 @@ public class FrameInfo {
 
 	public FrameInfo (XMLFrame aXMLFrame) {
 		String tFrameName;
-		String tPattern = "^(.*) \\([A-Za-z][A-Za-z0-9_]*\\)$";
 		
 		height = aXMLFrame.getHeight ();
 		width = aXMLFrame.getWidth ();
@@ -34,12 +33,22 @@ public class FrameInfo {
 		visible = aXMLFrame.isVisible ();
 		hexSize = aXMLFrame.getHexScale ();
 
+		tFrameName = aXMLFrame.extractFrameName ();
+//		tFrameName = extractFrameName (aXMLFrame);
+		name = tFrameName;
+	}
+
+	public String extractFrameName (XMLFrame aXMLFrame) {
+		String tFrameName;
+		String tPattern = "^(.*) \\([A-Za-z][A-Za-z0-9_]*\\)$";
+		
 		tFrameName = aXMLFrame.getTitle ();
 		if (tFrameName.matches (tPattern)) {
 			int tIndexLastSpace = tFrameName.lastIndexOf (" ");
 			tFrameName = tFrameName.substring (0, tIndexLastSpace);
 		}
-		name = tFrameName;
+		
+		return tFrameName;
 	}
 	
 	public XMLElement appendXMLFrameAttributes (XMLElement aXMLFrameElement) {
@@ -88,12 +97,28 @@ public class FrameInfo {
 		return width;
 	}
 
+	public String getHeightStr () {
+		return height + "";
+	}
+	
+	public String getWidthStr () {
+		return width + "";
+	}
+	
 	public int getXLocation () {
 		return xLocation;
 	}
 
+	public String getX () {
+		return xLocation + "";
+	}
+	
 	public int getYLocation () {
 		return yLocation;
+	}
+
+	public String getY () {
+		return yLocation + "";
 	}
 	
 	public boolean getVisible () {

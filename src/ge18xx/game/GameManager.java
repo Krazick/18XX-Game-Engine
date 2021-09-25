@@ -50,6 +50,7 @@ import ge18xx.toplevel.AuditFrame;
 import ge18xx.toplevel.CitiesFrame;
 import ge18xx.toplevel.CoalCompaniesFrame;
 import ge18xx.toplevel.CorporationTableFrame;
+import ge18xx.toplevel.FrameInfoFrame;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.MarketFrame;
 import ge18xx.toplevel.MinorCompaniesFrame;
@@ -112,6 +113,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	AuditFrame auditFrame;
 	TileDefinitionFrame tileDefinitionFrame;
 	PlayerInputFrame playerInputFrame;
+	FrameInfoFrame frameInfoFrame;
 	JFileMChooser chooser;
 	File saveFile;
 	File autoSaveFile;
@@ -151,6 +153,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setTileDefinitionFrame (NO_FRAME);
 		setPlayerInputFrame (NO_PLAYER_INPUT_FRAME);
 		setAuditFrame (NO_FRAME);
+		setFrameInfoFrame (NO_FRAME);
 		setClientUserName (aClientUserName);
 		saveFile = null;
 		setLoadSavedFile (null);
@@ -314,6 +317,22 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 			tAuditFrame = new AuditFrame (tFullTitle, this);
 			setAuditFrame (tAuditFrame);
+		}
+	}
+	
+	public ArrayList<XMLFrame> getConfigFrames () {
+		return configFrames;
+	}
+	
+	public void createFrameInfoFrame () {
+		FrameInfoFrame tFrameInfoFrame;
+		String tFullTitle;
+		
+		if (gameIsStarted ()) {
+			tFullTitle = createFrameTitle ("Frame Info");
+		
+			tFrameInfoFrame = new FrameInfoFrame (tFullTitle, this);
+			setFrameInfoFrame (tFrameInfoFrame);
 		}
 	}
 	
@@ -966,7 +985,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			gameStarted = true;
 			createAuditFrame ();
 			applyConfigSettings ();
-		}
+			createFrameInfoFrame ();		}
 	}
 
 	private String constructAutoSaveFileName (String tDirectoryName) {
@@ -1577,6 +1596,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		addNewFrame (aXMLFrame);
 	}
 	
+	public void setFrameInfoFrame (XMLFrame aXMLFrame) {
+		frameInfoFrame = (FrameInfoFrame) aXMLFrame;
+		addNewFrame (aXMLFrame);
+	}
+	
 	public void setTileDefinitionFrame (XMLFrame aXMLFrame) {
 		tileDefinitionFrame = (TileDefinitionFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
@@ -1691,7 +1715,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		showFrame (citiesFrame);
 	}
 	
-	private void showFrame (JFrame aJFrame) {
+	public void showFrame (JFrame aJFrame) {
 		aJFrame.revalidate ();
 		aJFrame.toFront ();
 		aJFrame.setVisible (true);
@@ -2369,6 +2393,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void showFrameInfo () {
 		// TODO Auto-generated method stub
 		// Build This	
-		System.out.println ("Ready to show Frame Info Frame");
+		if (frameInfoFrame != NO_FRAME) {
+			System.out.println ("Ready to show Frame Info Frame");
+			frameInfoFrame.setVisible (true);
+		} else {
+			System.out.println ("No Frame Info Setup yet");
+		}
 	}
 }
