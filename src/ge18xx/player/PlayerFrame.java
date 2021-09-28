@@ -106,11 +106,11 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			portfolioInfoIndex = 5;
 			updatePortfolioInfo ();
 
-			playerAndBankBox.add (Box.createHorizontalStrut(20));
+			playerAndBankBox.add (Box.createHorizontalStrut (20));
 			playerAndBankBox.add (playerBox);
 			playerAndBankBox.add (Box.createHorizontalGlue ());
 			playerAndBankBox.add (bankBox);
-			playerAndBankBox.add(Box.createHorizontalStrut(20));
+			playerAndBankBox.add(Box.createHorizontalStrut (20));
 			add (playerAndBankBox);
 			setLocationFixed (false);
 			setSize (850, 900);

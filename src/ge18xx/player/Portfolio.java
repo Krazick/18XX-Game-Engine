@@ -62,7 +62,7 @@ public class Portfolio implements CertificateHolderI {
 	public final static String NO_NAME_STRING = "<NONE>";
 	public final static XMLElement NO_BIDDERS = null;
 	public final static int NO_COMPONENT = -1;
-
+	
 	/* These items are set once, no need to save/load */
 	PortfolioHolderI holder;
 	JPanel portfolioInfoJPanel;
