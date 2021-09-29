@@ -193,7 +193,6 @@ public class Portfolio implements CertificateHolderI {
 		JPanel tAllCertificatesPanel;
 		JPanel tCertificateInfoPanel;
 		JPanel tCorporationPanel;
-		BoxLayout tLayout;
 		Certificate tCertificateToShow;
 		Corporation tCorporationToShow;
 		int tCount;
@@ -222,14 +221,10 @@ public class Portfolio implements CertificateHolderI {
 					if (containsPresidentShareOf (tCorporationToShow)) {
 						tCertificateToShow = getPresidentCertificate (tCorporationToShow);
 					}
-					tAllCertificatesPanel = new JPanel ();
-					tLayout = new BoxLayout (tAllCertificatesPanel, BoxLayout.X_AXIS);
-					tAllCertificatesPanel.setLayout (tLayout);
-					tAllCertificatesPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
+					tAllCertificatesPanel = setupAllCertPanel ();
 					
 					tCertificateInfoPanel = tCertificateToShow.buildCertificateInfoContainer (aSelectedButtonLabel, 
 							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
-					addJCAndHGlue (tAllCertificatesPanel, null);
 					addJCAndHGlue (tAllCertificatesPanel, tCertificateInfoPanel);
 					addJCAndVGlue (tCorporationPanel, tAllCertificatesPanel);
 					tPrevShareCorpAbbrev = tShareCorpAbbrev;
@@ -245,6 +240,19 @@ public class Portfolio implements CertificateHolderI {
 		
 		return tCorporationPanel;
 	}
+
+	public JPanel setupAllCertPanel () {
+		JPanel tAllCertificatesPanel;
+		BoxLayout tLayout;
+		
+		tAllCertificatesPanel = new JPanel ();
+		tLayout = new BoxLayout (tAllCertificatesPanel, BoxLayout.X_AXIS);
+		tAllCertificatesPanel.setLayout (tLayout);
+		tAllCertificatesPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
+		addJCAndHGlue (tAllCertificatesPanel, null);
+		
+		return tAllCertificatesPanel;
+	}
 	
 	public JPanel buildCertJPanelForBank (String aCorpType, String aSelectedButtonLabel, 
 			ItemListener aItemListener, 
@@ -256,7 +264,6 @@ public class Portfolio implements CertificateHolderI {
 		JPanel tOtherCertificatesInfoPanel;
 		JPanel tCorporationPanel;
 		JPanel tScrollableCorpPanel;
-		BoxLayout tLayout;
 		ScrollPaneLayout tSPLayout;
 		Certificate tCertificateToShow;
 		Corporation tCorporationToShow;
@@ -287,25 +294,18 @@ public class Portfolio implements CertificateHolderI {
 					if (containsPresidentShareOf (tCorporationToShow)) {
 						tCertificateToShow = getPresidentCertificate (tCorporationToShow);
 					}
-					tAllCertificatesPanel = new JPanel ();
-					tLayout = new BoxLayout (tAllCertificatesPanel, BoxLayout.X_AXIS);
-					tAllCertificatesPanel.setLayout (tLayout);
-					tAllCertificatesPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
+					tAllCertificatesPanel = setupAllCertPanel ();
 					
 					tCertificateInfoPanel = tCertificateToShow.buildCertificateInfoContainer (aSelectedButtonLabel, 
 							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
-//					addJCAndHGlue (tAllCertificatesPanel, null);
-					tAllCertificatesPanel.add (Box.createHorizontalGlue ());
 					tAllCertificatesPanel.add (tCertificateInfoPanel);
 					tAllCertificatesPanel.add (Box.createHorizontalStrut (3));
-//					addJCAndHGlue (tAllCertificatesPanel, tCertificateInfoPanel);
 					
 					tOtherCertificatesInfoPanel = buildCompactCertInfoPanel (tShareCorpAbbrev, tCertCount, 
 							tCertTotalPercent);
 					tAllCertificatesPanel.add (Box.createHorizontalStrut (3));
 					tAllCertificatesPanel.add (tOtherCertificatesInfoPanel);
 					tAllCertificatesPanel.add (Box.createHorizontalGlue ());
-//					addJCAndHGlue (tAllCertificatesPanel, tOtherCertificatesInfoPanel);
 
 					addJCAndVGlue (tCorporationPanel, tAllCertificatesPanel);
 					tPrevShareCorpAbbrev = tShareCorpAbbrev;
@@ -341,17 +341,12 @@ public class Portfolio implements CertificateHolderI {
 		return tCorporationPanel;
 	}
 
-	private JPanel buildNoCertificatesPanel() {
+	private JPanel buildNoCertificatesPanel () {
 		JPanel tAllCertificatesPanel;
-		BoxLayout tLayout;
 		JLabel tLabel;
 		
 		tLabel = new JLabel (NO_CERTIFICATES);
-		tAllCertificatesPanel = new JPanel ();
-		tLayout = new BoxLayout (tAllCertificatesPanel, BoxLayout.X_AXIS);
-		tAllCertificatesPanel.setLayout (tLayout);
-		tAllCertificatesPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
-		addJCAndHGlue (tAllCertificatesPanel, null);
+		tAllCertificatesPanel = setupAllCertPanel ();
 		addJCAndHGlue (tAllCertificatesPanel, tLabel);
 		
 		return tAllCertificatesPanel;

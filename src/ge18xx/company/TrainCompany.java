@@ -164,6 +164,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tOperatingRoundID = corporationList.getOperatingRoundID ();
 		tPreparedCorporationAction = new PreparedCorporationAction (ActorI.ActionStates.OperatingRound, 
 						tOperatingRoundID, this);
+		tPreparedCorporationAction.setChainToPrevious (true);
 		tPreparedCorporationAction.addChangeCorporationStatusEffect (this, tPreviousStatus, tNewStatus);
 		tCurrentRevenue = thisRevenue;
 		tPreviousRevenue = lastRevenue;
@@ -473,14 +474,23 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public void buyTrain () {
+		buyTrain (0);
+	}
+	
+	public void buyTrain (int aNeededCash) {
 		Train tUpgradingTrain;
 		BankPool tBankPool;
 		BuyTrainAction tBuyTrainAction;
 		String tOperatingRoundID;
+		CashHolderI tPresident;
 
 		if (isSelectedTrainInBank ()) {
 			tOperatingRoundID = corporationList.getOperatingRoundID ();
 			tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
+			if (aNeededCash > 0) {
+				tPresident = (CashHolderI) getPresident ();
+				tBuyTrainAction.addCashTransferEffect (tPresident, this, aNeededCash);
+			}
 			tUpgradingTrain = getSelectedTrain ();
 			if (tUpgradingTrain != TrainPortfolio.NO_TRAIN) {
 				tBankPool = corporationList.getBankPool ();

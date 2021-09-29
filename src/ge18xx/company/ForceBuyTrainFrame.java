@@ -262,7 +262,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		tNeededCash = train.getPrice () - trainCompany.getCash ();
 		president.transferCashTo (trainCompany, tNeededCash);
 		train.setSelection ();
-		trainCompany.buyTrain ();
+		trainCompany.buyTrain (tNeededCash);
 		setVisible (false);
 	}
 
