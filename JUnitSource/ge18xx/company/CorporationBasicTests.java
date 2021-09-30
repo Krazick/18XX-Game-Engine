@@ -33,6 +33,12 @@ class CorporationBasicTests {
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+		@Override
+		protected boolean choiceForBaseToken () {
+			// TODO Auto-generated method stub
+			return false;
+		}
 	}
 	
 	CorporationConcrete corporation;

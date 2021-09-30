@@ -410,4 +410,10 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public void completeBenefitUse () {
 		
 	}
+
+	@Override
+	protected boolean choiceForBaseToken () {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
