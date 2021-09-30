@@ -232,7 +232,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	
 	public void handlePlaceToken () {
 		corporation.showTileTray ();
-		if (corporation.haveLaidAllBaseTokens ()) {
+		if (corporation.haveLaidAllBaseTokens () || corporation.choiceForBaseToken ()) {
 			corporation.enterPlaceTokenMode ();
 			updateTTODButtons ();
 		} else {
