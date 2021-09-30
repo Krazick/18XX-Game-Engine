@@ -1943,4 +1943,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public abstract void completeBenefitUse ();
+
+	protected abstract boolean choiceForBaseToken ();
 }
