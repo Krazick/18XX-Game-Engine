@@ -356,6 +356,16 @@ public abstract class TokenCompany extends TrainCompany {
 		return tHaveLaidThisBaseToken;
 	}
 	
+	public boolean choiceForBaseToken () {
+		boolean tChoiceForBaseToken = false;
+		
+		if (homeCity1.sameID (homeCity2)) {
+			tChoiceForBaseToken = true;
+		}
+		
+		return tChoiceForBaseToken;
+	}
+	
 	@Override
 	public boolean haveLaidAllBaseTokens () {
 		boolean tHaveLaidAllBaseTokens, tLaidBaseToken1, tLaidBaseToken2;
