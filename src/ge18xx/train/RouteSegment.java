@@ -260,12 +260,15 @@ public class RouteSegment {
 			tCountableRevenueCenter = true;
 		} else {
 			if (start.isSide ()) {
-				tCountableRevenueCenter = true;
+				if (! end.isSide ()) {
+					tCountableRevenueCenter = true;
+				}
 			}
 		}
 		
 		return tCountableRevenueCenter;
 	}
+	
 	public boolean hasTownOnTile () {
 		boolean tHasTownOnTile = false;
 		
