@@ -126,6 +126,18 @@ public class MapCell implements Comparator<Object> {
 		return addOK;
 	}
 	
+	public boolean sameID (MapCell aMapCell) {
+		boolean tSameID = false;
+		
+		if (aMapCell != NO_MAP_CELL) {
+			if (id.equals(aMapCell.getID ())) {
+				tSameID = true;
+			}
+		}
+		
+		return tSameID;
+	}
+	
 	public void setTrainUsingSide (int aSide, int aTrainIndex) {
 		trainUsingSide [aSide] = aTrainIndex;
 	}
