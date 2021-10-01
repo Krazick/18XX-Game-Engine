@@ -1223,7 +1223,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tGameID;
 		
 		tLoadedSaveGame = false;
-		if (aXMLDocument.ValidDocument()) {
+		if (aXMLDocument.ValidDocument ()) {
 			playerManager = new PlayerManager (this); /* Create a new Player Manager - repeated openings, should not add players to an existing set */
 			activeGame = null;
 			
@@ -1313,7 +1313,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
-	public void loadNetworkJGameClient(XMLNode tChildNode) {
+	public void loadNetworkJGameClient (XMLNode tChildNode) {
 		String tServerIP;
 		int tServerPort;
 		JGameClient tNetworkJGameClient;
@@ -1385,7 +1385,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		XMLElement tXMLElement, tSaveGameElement;
 		
 		tXMLDocument = new XMLDocument ();
-		tSaveGameElement = tXMLDocument.createElement(EN_GAME);
+		tSaveGameElement = tXMLDocument.createElement (EN_GAME);
 		tSaveGameElement.setAttribute (AN_GE_VERSION, getGEVersion ());
 		
 		if (isNetworkGame ()) {
@@ -1612,7 +1612,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		CorporationList tCorpList;
 		
 		bankPool = new BankPool (this);
-		setBankPool (bankPool);
 		tBankTotal = activeGame.getBankTotal ();
 		tFormat = activeGame.getCurrencyFormat ();
 		bank = new Bank (tBankTotal, this);
@@ -1728,10 +1727,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public void showAuctionFrame () {
-		auctionFrame.pack ();
-		auctionFrame.repaint ();
-		auctionFrame.setVisible (true);
-		auctionFrame.toFront ();
+		showFrame (auctionFrame);
+//		auctionFrame.pack ();
+//		auctionFrame.repaint ();
+//		auctionFrame.setVisible (true);
+//		auctionFrame.toFront ();
 	}
 
 	public Point getOffsetGEFrame () {
@@ -1741,7 +1741,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public Point getOffsetRoundFrame () {
 		Point tNewPoint;
 		
-		tNewPoint = roundManager.getOffsetRoundFrame();
+		tNewPoint = roundManager.getOffsetRoundFrame ();
 		
 		return tNewPoint;
 	}
@@ -1749,18 +1749,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public Point getOffsetCorporationFrame () {
 		CorporationFrame tCorporationFrame;
 		Corporation tOperatingCorporation;
-		Point tRoundFramePoint, tNewPoint;
-		double tX, tY;
-		int tNewX, tNewY;
+		Point tNewPoint;
 		
 		tOperatingCorporation = roundManager.getOperatingCompany ();
 		tCorporationFrame = tOperatingCorporation.getCorporationFrame ();
-		tRoundFramePoint = tCorporationFrame.getLocation ();
-		tX = tRoundFramePoint.getX ();
-		tY = tRoundFramePoint.getY ();
-		tNewX = (int) tX + 100;
-		tNewY = (int) tY + 100;
-		tNewPoint = new Point (tNewX, tNewY);
+		tNewPoint = tCorporationFrame.getOffsetFrame ();
 		
 		return tNewPoint;
 	}
@@ -1768,9 +1761,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public Point getOffsetPlayerFrame () {
 		PlayerFrame tPlayerFrame;
 		Player tPlayer;
-		Point tPlayerFramePoint, tNewPoint;
-		double tX, tY;
-		int tNewX, tNewY;
+		Point tNewPoint;
 		String tPlayerName;
 		
 		if (isNetworkGame ()) {
@@ -1780,12 +1771,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 		tPlayer = playerManager.getPlayer (tPlayerName);
 		tPlayerFrame = tPlayer.getPlayerFrame ();
-		tPlayerFramePoint = tPlayerFrame.getLocation ();
-		tX = tPlayerFramePoint.getX ();
-		tY = tPlayerFramePoint.getY ();
-		tNewX = (int) tX + 100;
-		tNewY = (int) tY + 100;
-		tNewPoint = new Point (tNewX, tNewY);
+		tNewPoint = tPlayerFrame.getOffsetFrame ();
 		
 		return tNewPoint;
 	}
