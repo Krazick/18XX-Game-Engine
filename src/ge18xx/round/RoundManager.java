@@ -1031,16 +1031,18 @@ public class RoundManager {
 	}
 	
 	public Point getOffsetRoundFrame () {
-		Point tRoundFramePoint, tNewPoint;
-		double tX, tY;
-		int tNewX, tNewY;
-		
-		tRoundFramePoint = roundFrame.getLocation ();
-		tX = tRoundFramePoint.getX ();
-		tY = tRoundFramePoint.getY ();
-		tNewX = (int) tX + 100;
-		tNewY = (int) tY + 100;
-		tNewPoint = new Point (tNewX, tNewY);
+		Point tNewPoint;
+//		Point tRoundFramePoint, tNewPoint;
+//		double tX, tY;
+//		int tNewX, tNewY;
+//		
+//		tRoundFramePoint = roundFrame.getLocation ();
+//		tX = tRoundFramePoint.getX ();
+//		tY = tRoundFramePoint.getY ();
+//		tNewX = (int) tX + 100;
+//		tNewY = (int) tY + 100;
+//		tNewPoint = new Point (tNewX, tNewY);
+		tNewPoint = roundFrame.getOffsetFrame ();
 		
 		return tNewPoint;
 	}

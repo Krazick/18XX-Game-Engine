@@ -17,6 +17,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
+import java.awt.Point;
 import java.io.*;
 
 import javax.swing.*;
@@ -225,5 +226,20 @@ public class XMLFrame extends JFrame {
 	    super.toFront ();
 	    super.requestFocus ();
 	    super.setAlwaysOnTop (false);
+	}
+	
+	public Point getOffsetFrame () {
+		Point tFramePoint, tNewPoint;
+		double tX, tY;
+		int tNewX, tNewY;
+		
+		tFramePoint = getLocation ();
+		tX = tFramePoint.getX ();
+		tY = tFramePoint.getY ();
+		tNewX = (int) tX + 100;
+		tNewY = (int) tY + 100;
+		tNewPoint = new Point (tNewX, tNewY);
+
+		return tNewPoint;
 	}
 }
