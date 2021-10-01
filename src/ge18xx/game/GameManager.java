@@ -1714,24 +1714,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		showFrame (citiesFrame);
 	}
 	
-	public void showFrame (JFrame aJFrame) {
-		aJFrame.revalidate ();
-		aJFrame.toFront ();
-		aJFrame.setVisible (true);
-	}
-	
 	public void setAuctionFrameLocation () {
 		Point tNewPoint = getOffsetPlayerFrame ();
 		
 		auctionFrame.setLocation (tNewPoint);
-	}
-	
-	public void showAuctionFrame () {
-		showFrame (auctionFrame);
-//		auctionFrame.pack ();
-//		auctionFrame.repaint ();
-//		auctionFrame.setVisible (true);
-//		auctionFrame.toFront ();
 	}
 
 	public Point getOffsetGEFrame () {
@@ -1776,12 +1762,19 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tNewPoint;
 	}
 	
+	public void showFrame (JFrame aJFrame) {
+		aJFrame.revalidate ();
+		aJFrame.toFront ();
+		aJFrame.setVisible (true);
+	}
+	
 	public void showMap () {
 		showFrame (mapFrame);
 	}
-
-	public void bringMapToFront () {
-		mapFrame.toFront ();
+	
+	public void showAuctionFrame () {
+		auctionFrame.pack ();
+		showFrame (auctionFrame);
 	}
 	
 	public void showMarket () {
@@ -1807,6 +1800,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void showTileTray () {
 		tileTrayFrame.pack ();
 		showFrame (tileTrayFrame);
+	}
+
+	public void bringMapToFront () {
+		mapFrame.toFront ();
 	}
 	
 	public void bringTileTrayToFront () {
