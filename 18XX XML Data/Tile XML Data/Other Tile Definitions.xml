@@ -257,6 +257,22 @@
 			<Revenue location="50" phase="6" value="40" layout="horizontal" />
 		</RevenueCenter>
 	</Tile>
+	<Tile number="9938" type="Grey" fixed="true">
+		<Track enter="0" exit="5" gauge="NORMAL" />
+		<Track enter="0" exit="4" gauge="NORMAL" />
+		<Track enter="4" exit="5" gauge="NORMAL" />
+	</Tile>
+
+	<Tile number="9939" type="Grey" fixed="true">
+		<Track enter="5" exit="50" gauge="NORMAL" />
+		<Track enter="4" exit="50" gauge="NORMAL" />
+		<Track enter="0" exit="50" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="50" name="" number="1"
+			type="Double City">
+			<Revenue location="8" phase="1" value="40" layout="split" />
+			<Revenue location="8" phase="3" value="60" layout="split" />
+		</RevenueCenter>
+	</Tile>
 	<Tile number="9940" type="Yellow" fixed="true">
 		<TileName location="16" name="NY" />
 		<Track enter="2" exit="8" gauge="NORMAL" />
