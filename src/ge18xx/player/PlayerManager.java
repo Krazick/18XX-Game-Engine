@@ -1235,9 +1235,11 @@ public class PlayerManager {
 	public void updateAllPlayerFrames (Player aCurrentPlayer) {
 		for (Player tPlayer : players) {
 			if (tPlayer != aCurrentPlayer) {
+				System.out.println ("Update All Player Frames, ready to update Info for " + tPlayer.getName ());
 				tPlayer.updatePlayerInfo ();
 			}
 		}
+		System.out.println ("Update All Player Frames, ready to update Info for " + aCurrentPlayer.getName ());
 		aCurrentPlayer.updatePlayerInfo ();
 	}
 	
