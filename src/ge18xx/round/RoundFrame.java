@@ -69,6 +69,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	List<Container> parPriceLineBoxes = new LinkedList<Container> ();
 	JTextArea trainSummary;
 	Logger logger;
+	long previousWhen;
 	
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, String aGameName) {
 		super (aFrameName, aGameName);
@@ -169,8 +170,13 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		add (centerBox);
 		pack ();
 		defaultColor = UIManager.getColor ("Panel.background");
+		setPreviousWhen (0);
 	}
 
+	private void setPreviousWhen (long aWhen) {
+		previousWhen = aWhen;
+	}
+	
 	private void updateTrainSummary () {
 		String tFullTrainSummary;
 		String tBankPoolTrainSummary;
@@ -235,6 +241,8 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
+		long tWhen;
+		
 		if (CORPORATION_ACTION.equals (aEvent.getActionCommand ())) {
 			if (! roundManager.companyStartedOperating ()) {
 				logger.info ("Corporation Action for Operation Round selected");
@@ -243,8 +251,14 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 			roundManager.showCurrentCompanyFrame ();
 		}
 		if (PLAYER_ACTION.equals (aEvent.getActionCommand ())) {
-			logger.info ("Player Action for Stock Round selected");
-			roundManager.showCurrentPlayerFrame ();
+			// TODO  --- KLUDGE, if current Event is 500ms (0.5 Sec) or more since last Player Action, handle it
+			// Otherwise consider this a "double-click". To prevent Player Frame from taking longer and longer to process.
+			tWhen = aEvent.getWhen ();
+			if ((previousWhen + 500) < tWhen) {
+				System.out.println ("Round Frame Player Action Selected - Show Current Player Frame When (" + tWhen + ")");
+				roundManager.showCurrentPlayerFrame ();
+				setPreviousWhen (tWhen);
+			}
 		}
 		if (PLAYER_AUCTION_ACTION.equals (aEvent.getActionCommand ())) {
 			roundManager.showCurrentPlayerFrame ();
