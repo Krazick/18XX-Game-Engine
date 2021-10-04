@@ -269,7 +269,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		}
 		if (PASS_STOCK_ACTION.equals (aEvent.getActionCommand ())) {
 			roundManager.passStockAction ();
-			this.updateAllCorporationsBox ();
+			updateAllCorporationsBox ();
 		}
 	}
 	
