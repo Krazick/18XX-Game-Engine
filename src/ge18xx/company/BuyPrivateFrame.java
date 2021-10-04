@@ -269,9 +269,6 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 	private void buyPrivateCertificate () {
 		CertificateHolderI tCertificateHolder;
 		Player tOwningPlayer;
-//		int tCashValue;
-//		Portfolio tCompanyPortfolio, tPlayerPortfolio;
-//		BuyStockAction tBuyStockAction;
 		CorporationFrame tCorporationFrame;
 		
 		if (certificate != Certificate.NO_CERTIFICATE) {
@@ -342,9 +339,12 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 			Certificate aCertificate, BuyStockAction aBuyStockAction) {
 		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
 		PortfolioHolderI tFromHolder, tToHolder;
+		PrivateCompany tPrivateCompany;
 		
 		tFromHolder = aFromPortfolio.getHolder ();
 		tToHolder = aToPortfolio.getHolder ();
+		tPrivateCompany = (PrivateCompany) aCertificate.getCorporation ();
+		tPrivateCompany.removeBenefitButtons ();
 		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
 		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate,  tToHolder);
 		tCurrentCorporationStatus = aCertificate.getCorporationStatus ();
