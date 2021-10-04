@@ -143,7 +143,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	}
 	
 	protected void addPrivateBenefitButtons (JPanel aButtonRow) {
-		portfolio.addPrivatePlayerBenefitButtons (aButtonRow);
+		portfolio.configurePrivatePlayerBenefitButtons (aButtonRow);
 	}
 
 	public void completeBenefitUse () {
