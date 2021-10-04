@@ -142,6 +142,12 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		benefits.configure (this, aButtonRow);
 	}
 	
+	public void removeBenefitButtons  () {
+		if (hasActivePlayerBenefits ()) {
+			benefits.removeBenefitButtons ();
+		}
+	}
+	
 	public boolean hasActiveCompanyBenefits () {
 		boolean tHasActiveCompanyBenefits = false;
 		
