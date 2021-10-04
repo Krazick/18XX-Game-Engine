@@ -141,6 +141,14 @@ public class Benefits {
 		}
 	}
 	
+	public void removeBenefitButtons  () {
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit.isActivePlayerBenefit ()) {
+				tBenefit.removeButton ();
+			}
+		}
+	}
+	
 	public boolean hasActiveCompanyBenefits () {
 		boolean tHasActiveCompanyBenefits = false;
 		
