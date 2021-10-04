@@ -532,7 +532,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateForceBuyTrainActionButton ();
 		updateBuyPrivateActionButton ();
 		updateDoneActionButton ();
-		corporation.addPrivateBenefitButtons (buttonRow2);
+		corporation.configurePrivateBenefitButtons (buttonRow2);
 		repaint ();
 		revalidate ();
 	}

@@ -1938,8 +1938,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		corporationFrame.handlePlaceTile ();
 	}
 	
-	protected void addPrivateBenefitButtons (JPanel aButtonRow) {
-		portfolio.addPrivateCompanyBenefitButtons (aButtonRow);
+	protected void configurePrivateBenefitButtons (JPanel aButtonRow) {
+		portfolio.configurePrivateCompanyBenefitButtons (aButtonRow);
 	}
 
 	public abstract void completeBenefitUse ();

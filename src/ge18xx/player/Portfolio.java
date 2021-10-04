@@ -1638,7 +1638,7 @@ public class Portfolio implements CertificateHolderI {
 		return tOwnershipContainer;
 	}
 	
-	public void addPrivateCompanyBenefitButtons (JPanel aButtonRow) {
+	public void configurePrivateCompanyBenefitButtons (JPanel aButtonRow) {
 		PrivateCompany tPrivateCompany;
 		
 		for (Certificate tCertificate : certificates) {
@@ -1651,7 +1651,7 @@ public class Portfolio implements CertificateHolderI {
 		}
 	}
 	
-	public void addPrivatePlayerBenefitButtons (JPanel aButtonRow) {
+	public void configurePrivatePlayerBenefitButtons (JPanel aButtonRow) {
 		PrivateCompany tPrivateCompany;
 		
 		for (Certificate tCertificate : certificates) {
