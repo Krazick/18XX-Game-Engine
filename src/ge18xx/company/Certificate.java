@@ -373,7 +373,6 @@ public class Certificate implements Comparable<Certificate> {
 		return tCheckBox;
 	}
 
-
 	public CompoundBorder setupCIPBorder () {
 		Color tCorporateColor;
 		CompoundBorder tCertInfoBorder;
