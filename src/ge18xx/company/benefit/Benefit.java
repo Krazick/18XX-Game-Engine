@@ -9,8 +9,6 @@ import javax.swing.JPanel;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.PrivateCompany;
-import ge18xx.player.Player;
-import ge18xx.player.PlayerFrame;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;

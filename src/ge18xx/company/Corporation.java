@@ -511,6 +511,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		}
 	}
 	
+	public void removeBenefitButtons () {
+		
+	}
+	
 	public void close (TransferOwnershipAction aTransferOwnershipAction) {
 		Certificate tCertificate;
 		CertificateHolderI tCertificateHolder;
@@ -528,6 +532,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		} else if (updateStatus (ActorI.ActionStates.Closed)) {
 			tNewState = getActionStatus ();
 			tBank = corporationList.getBank ();
+			removeBenefitButtons ();
 			tCertificateCount = corporationCertificates.getCertificateTotalCount ();
 			tClosedPortfolio = tBank.getClosedPortfolio ();
 			if (tCertificateCount > 0) {
