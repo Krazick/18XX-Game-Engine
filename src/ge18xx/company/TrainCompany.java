@@ -385,7 +385,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		JPanel tTrainPortfolioInfoContainer;
 		JPanel tPortfolioInfoJPanel;
 		GameManager tGameManager;
-		JLabel tLabel;
+		JLabel tLabel, tBPPLabel;
+		String tBankPoolPercent;
 		
 		tGameManager = corporationList.getGameManager ();
 		if (trainPortfolio != null) {
@@ -399,6 +400,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		
 		tPortfolioInfoJPanel = buildPortfolioJPanel (aItemListener, tGameManager);
 		tCertPortfolioInfoContainer = new JPanel ();
+
+		tBankPoolPercent = getBankPoolPercentage () + "% " + abbrev + " in Bank Pool";
+		tBPPLabel = new JLabel (tBankPoolPercent);
+		tCertPortfolioInfoContainer.add (tBPPLabel);
 		tCertPortfolioInfoContainer.add (tTrainPortfolioInfoContainer);
 		tCertPortfolioInfoContainer.add (tPortfolioInfoJPanel);
 		
