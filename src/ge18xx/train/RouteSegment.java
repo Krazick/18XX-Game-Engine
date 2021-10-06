@@ -469,7 +469,7 @@ public class RouteSegment {
 	
 	public void clearTrainOnTrack (Track aTrack) {
 		RevenueCenter tRevenueCenter;
-		Location tSide;
+		Location tSide, tEnd;
 		
 		if (aTrack != Track.NO_TRACK) {
 			aTrack.setTrainNumber (0);
@@ -487,6 +487,9 @@ public class RouteSegment {
 		if (isEndASide ()) {
 			tSide = getEndLocationIsSide ();
 			mapCell.clearTrainUsingASide (tSide.getLocation ());
+		} else {
+			tEnd = end.getLocation ();
+			mapCell.removeEndRoute (tEnd);
 		}
 	}
 	

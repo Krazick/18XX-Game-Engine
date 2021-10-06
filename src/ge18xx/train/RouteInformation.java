@@ -725,6 +725,8 @@ public class RouteInformation {
 		aRouteSegment.setEndNodeLocation (tPossibleEnd);
 		tTrack = aRouteSegment.getTrack ();
 		
+		tCurrentMapCell.addEndRoute (tPossibleEnd);
+		
 		if (! tTrack.isTrackUsed ()) {
 			aRouteSegment.applyRCInfo (phase, aCorpID);
 			tAddNextRouteSegment = addTheRouteSegment (aRouteSegment, aRouteAction);
