@@ -309,6 +309,44 @@ public class Hex {
 		g.drawArc (xtr, ytr, width, height, 220, 100);
 	}
 	
+   public void drawOctagon (Graphics g, int Xc, int Yc, Color aColor) {
+	   Polygon polygon = new Polygon ();
+	   Graphics2D g2 = (Graphics2D) g;
+       g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                           RenderingHints.VALUE_ANTIALIAS_ON);
+       Stroke tOriginalStroke = g2.getStroke ();
+       Stroke tNewStroke = new BasicStroke (3);
+       int R;
+
+       R = (int) (cityWidth * 2);
+       int[][] xy = getPolygonArrays (Xc, Yc, R, 8);
+       polygon = new Polygon (xy [0], xy [1], 8);
+//       System.out.println ("Drawing Octagon center " + Xc + ", " + Yc);
+//       for (int i = 0; i < 8; i++) {
+//    	   System.out.println ("Point " + i + " (" + polygon.xpoints [i] + "," + polygon.ypoints [i] + ")");
+//       }
+       g2.setPaint (aColor);
+       g2.setStroke (tNewStroke);
+       g2.draw (polygon);
+       g2.setStroke (tOriginalStroke);
+   }
+   
+   private int [][] getPolygonArrays (int cx, int cy, int R, int sides) {
+       int [] x = new int [sides];
+       int [] y = new int [sides];
+       double thetaInc = 2 * Math.PI/sides;
+       double theta = (sides % 2 == 0) ? thetaInc : -Math.PI/2;
+       
+       theta += Math.PI/8;
+       for (int j = 0; j < sides; j++) {
+           x [j] = (int) (cx + R * Math.cos (theta));
+           y [j] = (int) (cy + R * Math.sin (theta));
+           theta += thetaInc;
+       }
+       
+       return new int [][]{ x, y };
+   }
+
 	public void drawRiver (Graphics g, int Xc, int Yc, Color aRiverColor) {
 		int X1, Y1, width, height, index;
 		Graphics2D g2d = (Graphics2D) g;
