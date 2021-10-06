@@ -64,12 +64,13 @@ public class Terrain extends Feature implements LoadableXMLI {
 	static final int COAST = 23;
 	static final int DEEP_COAST = 24;
     static final int DESERT = 25;
+    static final int END_ROUTE = 26;
 	static final int MIN_TERRAIN = NO_TERRAIN;
-	static final int MAX_TERRAIN = DESERT;
+	static final int MAX_TERRAIN = END_ROUTE;
 	static final String NAMES [] = {"NO TERRAIN", "Clear", "Ocean", "Delta", "Off Board Red", "Off Board Gray", 
 		"Off Board Black", "Off Board Green", "", "Thick Border", "River", "Multiple River", "Major River", "Hill", 
 		"Mountain", "Himalya", "Pass", "Swamp", "Lake", "Port", "Small River", "Large River", "Shallow Coast", 
-		"Coast", "Deep Coast", "Desert"};
+		"Coast", "Deep Coast", "Desert", "End Route"};
     static Color [] colors = null;
 	
 	int terrain;
@@ -116,7 +117,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 	
 	@Override
 	public boolean bleedThroughAll () {
-		if ((terrain < RIVER) || (terrain == PORT)) {
+		if ((terrain < RIVER) || (terrain == PORT) || (terrain == END_ROUTE)) {
 			return true;
 		} else {
 			return false;
@@ -206,6 +207,9 @@ public class Terrain extends Feature implements LoadableXMLI {
 			
 			case DESERT:	/* Desert, Draw a Cactus */
 				break;
+				
+			case END_ROUTE:
+				aHex.drawOctagon (g, X, Y, Color.RED);
         }
 	}
 	
