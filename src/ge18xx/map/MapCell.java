@@ -81,7 +81,7 @@ public class MapCell implements Comparator<Object> {
 	TileName baseTileName;
 	Rebate rebate;
 	Centers centers;
-	List<Feature2> selectedFeatures;
+	List<Terrain> endRoutes;
 	Feature2 selectedFeature2;
 	Terrain baseTerrain;
 	Terrain terrain1;
@@ -149,6 +149,37 @@ public class MapCell implements Comparator<Object> {
 	public void clearTrainUsingSides () {
 		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
 			trainUsingSide [tSideIndex] = 0;
+		}
+	}
+	
+	public void addEndRoute (Location aLocation) {
+		Terrain tNewEndRoute;
+		
+		tNewEndRoute = new Terrain (Terrain.END_ROUTE, Terrain.NO_COST, aLocation);
+		endRoutes.add (tNewEndRoute);
+	}
+	
+	public void clearAllEndRoutes () {
+		endRoutes.clear ();
+	}
+	
+	public void removeEndRoute (Location aLocation) {
+		int tCount, tIndex;
+		int tThisLocation, tFoundLocation;
+		Terrain tEndRoute;
+		
+		tCount = endRoutes.size ();
+		if (tCount > 0) {
+			tThisLocation = aLocation.getLocation ();
+			for (tIndex = 0; tIndex < tCount; tIndex++) {
+				tEndRoute = endRoutes.get(tIndex);
+				tFoundLocation = tEndRoute.getLocationToInt ();
+				
+				if (tThisLocation == tFoundLocation) {
+					endRoutes.remove (tIndex);
+					tIndex = tCount;
+				}
+			}
 		}
 	}
 	
@@ -732,9 +763,7 @@ public class MapCell implements Comparator<Object> {
 			if (tile != Tile.NO_TILE) {
 				tUnrotatedSide = (aSide - tileOrient + 6) % 6;
 				tIsTrackOnSide = tile.isTrackOnSide (tUnrotatedSide);
-
 			}
-			
 		}
 		
 		return tIsTrackOnSide;
@@ -1129,6 +1158,11 @@ public class MapCell implements Comparator<Object> {
 					}
 				}
 			}
+			if (endRoutes.size () > 0) {
+				for (Terrain tEndRoute : endRoutes) {
+					drawTerrain (g, tEndRoute, aHex, Xoffset,Yoffset);
+				}
+			}
 		} else {
 			if (pseudoYellowTile ()) {
 				tThickFrame = new TileType (TileType.YELLOW, false).getColor ();
@@ -1289,7 +1323,7 @@ public class MapCell implements Comparator<Object> {
 		int tIndex;
 		
 		centers = new Centers ();
-		selectedFeatures = new LinkedList<Feature2> ();
+		endRoutes = new LinkedList<Terrain> ();
 		neighbors = new MapCell [6];
 		baseTileName = new TileName (aBaseName);
 		if (aBlockedSides == null) {
