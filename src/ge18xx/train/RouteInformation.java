@@ -137,7 +137,6 @@ public class RouteInformation {
 			System.err.println ("Caught Exception with message ");
 			tException.printStackTrace ();
 		}
-//		printDetail ();
 	}
 	
 	public void loadRouteForTrain (XMLNode aRouteSegmentNode, ElementName aElementName, Train aTrain) {
@@ -565,8 +564,6 @@ public class RouteInformation {
 		int tInitialSegmentCount;
 		MapCell tNewMapCell;
 		
-//		System.out.println ("--------- Start Extending Route, Success: " + tContinueWork);
-	
 		tInitialSegmentCount = getSegmentCount ();
 		if (tInitialSegmentCount == 0) {
 			System.out.println ("\nScenario 1 - Add Segment # 1");
@@ -591,9 +588,6 @@ public class RouteInformation {
 			}
 		}
 		updateRouteButtons ();
-
-//		System.out.println ("--------- Done Extending Route, Success: " + tContinueWork + " \n");
-//		printDetail ();
 	}
 	
 	public void cycleToNextTrack (RouteAction aRouteAction, int aCorpID) {
@@ -604,7 +598,7 @@ public class RouteInformation {
 		MapCell tMapCell;
 		Location tStartLocation, tEndLocation;
 		Location tOldEndLocation;
-		
+
 		tTrainNumber = getTrainIndex () + 1;
 		tLastRouteSegment = getLastRouteSegment ();
 		tLastTrack = tLastRouteSegment.getTrack ();
@@ -617,6 +611,7 @@ public class RouteInformation {
 			tMapCell = tLastRouteSegment.getMapCell ();
 			tStartLocation = tLastRouteSegment.getStartLocation ();
 			tEndLocation = tLastRouteSegment.getEndLocation ();
+			moveEndRoute (tLastRouteSegment, tLastRouteSegment, tMapCell, tMapCell);
 			updateRevenueCenterInfo (aCorpID, tLastRouteSegment, tEndLocation, tOldEndLocation);
 			
 			// Add the New Route Segment Effect
@@ -630,7 +625,6 @@ public class RouteInformation {
 	public void updateRevenueFrame () {
 		trainRevenueFrame.updateRevenues (this);
 		trainRevenueFrame.updateResetRouteButtons ();
-//		trainRevenueFrame.updateResetRouteButton (trainIndex);
 	}
 
 	public void updateRevenueCenterInfo (int aCorpID, RouteSegment aLastRouteSegment, 
@@ -661,8 +655,6 @@ public class RouteInformation {
 		Location tPreviousEndLocation;
 		int tCurrentCellNeighborSide;
 		RevenueCenter tPreviousRevenueCenter;
-		
-//		System.out.println ("Time to Add New Previous Route Segment");
 		
 		tSegmentCount = getSegmentCount ();
 		tPreviousSegment = getRouteSegment (tSegmentCount - 1);
@@ -721,11 +713,11 @@ public class RouteInformation {
 		tPreviousMapCell = tPreviousSegment.getMapCell ();
 		tCurrentSide = tCurrentMapCell.getSideToNeighbor (tPreviousMapCell);
 		aRouteSegment.setStartNodeLocationInt (tCurrentSide);
-		tPossibleEnd = aRouteSegment.getPossibleEnd ();
+		
+		tPossibleEnd = moveEndRoute (tPreviousSegment, aRouteSegment, tPreviousMapCell, tCurrentMapCell);
+		
 		aRouteSegment.setEndNodeLocation (tPossibleEnd);
 		tTrack = aRouteSegment.getTrack ();
-		
-		tCurrentMapCell.addEndRoute (tPossibleEnd);
 		
 		if (! tTrack.isTrackUsed ()) {
 			aRouteSegment.applyRCInfo (phase, aCorpID);
@@ -733,6 +725,19 @@ public class RouteInformation {
 		}
 		
 		return tAddNextRouteSegment;
+	}
+
+	public Location moveEndRoute(RouteSegment aPreviousSegment, RouteSegment aRouteSegment, MapCell aPreviousMapCell,
+			MapCell aCurrentMapCell) {
+		Location tPossibleEnd;
+		Location tPreviousEnd;
+		
+		tPossibleEnd = aRouteSegment.getPossibleEnd ();
+		tPreviousEnd = aPreviousSegment.getEndLocation ();
+		aPreviousMapCell.removeEndRoute (tPreviousEnd);
+		aCurrentMapCell.addEndRoute (tPossibleEnd);
+		
+		return tPossibleEnd;
 	}
 
 	public boolean addTheRouteSegment (RouteSegment aRouteSegment, RouteAction aRouteAction) {
@@ -756,7 +761,6 @@ public class RouteInformation {
 		int tSegmentCount;
 		int tPreviousSide, tPreviousEnd, tPreviousStart;
 		
-//		System.out.println ("Time to Fill End Point for Previous Route Segment");
 		tSegmentCount = getSegmentCount ();
 		tPreviousSegment = getRouteSegment (tSegmentCount - 1);
 		tCurrentMapCell = aRouteSegment.getMapCell ();
@@ -783,7 +787,6 @@ public class RouteInformation {
 		} else {
 			System.err.println ("MapCell " + tPreviousMapCell.getCellID () + " and " + tCurrentMapCell.getCellID () + " are not Neighbors");
 		}
-//		System.out.println ("--------- Done Filling End Point, Success: " + tFillEndPoint);
 		
 		return tFillEndPoint;
 	}
