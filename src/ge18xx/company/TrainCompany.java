@@ -35,8 +35,10 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Container;
 import java.awt.event.ItemListener;
+import java.awt.Point;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
