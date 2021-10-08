@@ -153,10 +153,10 @@ public class MapCell implements Comparator<Object> {
 	}
 	
 	public void addEndRoute (Location aLocation) {
-		Terrain tNewEndRoute;
+//		Terrain tNewEndRoute;
 		
-		tNewEndRoute = new Terrain (Terrain.END_ROUTE, Terrain.NO_COST, aLocation);
-		endRoutes.add (tNewEndRoute);
+//		tNewEndRoute = new Terrain (Terrain.END_ROUTE, Terrain.NO_COST, aLocation);
+//		endRoutes.add (tNewEndRoute);
 	}
 	
 	public void clearAllEndRoutes () {
