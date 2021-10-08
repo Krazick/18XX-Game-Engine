@@ -155,7 +155,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	}
 	
 	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, 
-			GameManager aGameManager, String aBuyLabel) {
+			GameManager aGameManager, String aCheckboxLabel) {
 		JPanel tPortfolioJPanel;
 		JPanel tBankJPanel;
 		BoxLayout tLayout;
@@ -164,9 +164,8 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		tBankJPanel.setBorder (BorderFactory.createTitledBorder (name));
 		tLayout = new BoxLayout (tBankJPanel, BoxLayout.X_AXIS);
 		tBankJPanel.setLayout (tLayout);
-	
 		tPortfolioJPanel = portfolio.buildShareCertificateJPanel (Corporation.SHARE_COMPANY, 
-				aBuyLabel, aItemListener, aPlayer, aGameManager);
+				aCheckboxLabel, aItemListener, aPlayer, aGameManager);
 		tBankJPanel.add (Box.createVerticalGlue ());
 		tBankJPanel.add (tPortfolioJPanel);
 		tBankJPanel.add (Box.createVerticalGlue ());
