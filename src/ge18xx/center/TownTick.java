@@ -8,14 +8,19 @@ package ge18xx.center;
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 //
 
-
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.TileType;
 import ge18xx.utilities.XMLNode;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Stroke;
 
 public class TownTick extends Town {
 
