@@ -112,7 +112,6 @@ public class Revenues extends Feature {
 		int tBoxWidth, tBoxHeight;
 		String tValueLabel;
 		String tHorizontalLabel;
-//		String tPhaseLabel;
 		int tValue;
 		int XUL, YUL;
 		int tXc, tYc;
@@ -206,11 +205,6 @@ public class Revenues extends Feature {
 								tRevenueShownCount++;
 								break;
 						}
-						// Draw Cross at Center of Revenue Point for Testing
-//						g.setColor (Color.green); 
-//						g.drawLine (tXc - 1, tYc, tXc + 1, tYc);
-//						g.drawLine (tXc, tYc - 1, tXc, tYc + 1);
-//						g.setColor (Color.black);
 					}
 				}
 				if ((layoutStyle == LAYOUT_HORIZONTAL) && (tHorizontalLabel.length () > 0)) {
