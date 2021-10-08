@@ -12,7 +12,7 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 public class Token {
 	public static final ElementName EN_TOKEN = new ElementName ("Token");

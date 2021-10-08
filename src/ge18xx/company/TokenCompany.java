@@ -26,7 +26,11 @@ import ge18xx.utilities.XMLNode;
 
 import java.util.List;
 import java.util.LinkedList;
-import java.awt.*;
+
+import java.awt.Container;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 
 import javax.swing.JLabel;
 
