@@ -23,9 +23,10 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Point;
 
-import org.w3c.dom.*;
+import org.w3c.dom.NodeList;
 
 public abstract class RevenueCenter extends Feature implements Cloneable {
 	public static final ElementName EN_REVENUE_CENTER = new ElementName ("RevenueCenter");
