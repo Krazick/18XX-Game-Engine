@@ -8,14 +8,16 @@ package ge18xx.center;
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 //
 
-
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.TileType;
 import ge18xx.utilities.XMLNode;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 public class Town extends RevenueCenter {
 	public static final Town NO_TOWN = null;
@@ -126,5 +128,4 @@ public class Town extends RevenueCenter {
 	public boolean cityHasOpenStation() {
 		return false;
 	}
-
 }
