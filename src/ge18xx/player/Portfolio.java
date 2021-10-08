@@ -1,7 +1,5 @@
 package ge18xx.player;
 
-import ge18xx.bank.Bank;
-
 //
 //  Portfolio.java
 //  Game_18XX
@@ -10,6 +8,7 @@ import ge18xx.bank.Bank;
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.Certificate;
 import ge18xx.company.CertificateHolderI;
