@@ -10,9 +10,15 @@ package ge18xx.toplevel;
 
 import ge18xx.utilities.ColorRenderer;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 
 public class TableFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;

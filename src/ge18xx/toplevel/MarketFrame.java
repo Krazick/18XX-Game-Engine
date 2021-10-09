@@ -18,9 +18,10 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.JScrollPane;
 
 public class MarketFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;

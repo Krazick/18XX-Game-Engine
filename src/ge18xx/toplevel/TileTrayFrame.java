@@ -16,9 +16,11 @@ import ge18xx.tiles.TileType;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class TileTrayFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;

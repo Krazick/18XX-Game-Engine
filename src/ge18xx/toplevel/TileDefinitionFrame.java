@@ -10,9 +10,10 @@ package ge18xx.toplevel;
 
 import ge18xx.tiles.TileSet;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.JScrollPane;
 
 public class TileDefinitionFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;

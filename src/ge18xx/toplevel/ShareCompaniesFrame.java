@@ -21,10 +21,15 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
 
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class ShareCompaniesFrame extends CorporationTableFrame implements ActionListener {
 	public static final ElementName EN_SHARES = new ElementName (CorporationList.TYPE_NAMES [3] + "s");
