@@ -1,5 +1,11 @@
 package ge18xx.tiles;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import javax.swing.JLabel;
+
 //
 //  AllTileSets.java
 //  Game_18XX
@@ -7,10 +13,6 @@ package ge18xx.tiles;
 //  Created by Mark Smith on 9/3/07.
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
-
-
-import java.util.*;
-import javax.swing.*;
 
 public class AllTileSets extends JLabel{
 	/**

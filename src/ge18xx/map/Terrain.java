@@ -19,9 +19,9 @@ import ge18xx.utilities.XMLNode;
 import java.awt.Graphics;
 import java.awt.Color;
 
-import java.io.*;
+import java.io.IOException;
 
-import org.w3c.dom.*;
+import org.w3c.dom.NodeList;
 
 public class Terrain extends Feature implements LoadableXMLI {
 	public static final ElementName EN_TERRAIN = new ElementName ("Terrain");

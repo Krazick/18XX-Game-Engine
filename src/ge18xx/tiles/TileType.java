@@ -18,7 +18,7 @@ import ge18xx.utilities.XMLNodeList;
 
 import java.awt.Color;
 
-import java.io.*;
+import java.io.IOException;
 
 public class TileType implements Cloneable, LoadableXMLI {
 	public static final ElementName EN_TILE_TYPE = new ElementName ("TileType");

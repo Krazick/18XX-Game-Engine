@@ -31,9 +31,10 @@ import ge18xx.utilities.XMLNodeList;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.geom.*;
 
-import org.w3c.dom.*;
+import java.awt.geom.Point2D;
+
+import org.w3c.dom.NodeList;
 
 public class MarketCell {
 	final static AttributeName AN_VALUE = new AttributeName ("value");

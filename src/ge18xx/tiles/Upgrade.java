@@ -13,7 +13,7 @@ import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLNode;
 
-import org.w3c.dom.*;
+import org.w3c.dom.NodeList;
 
 public class Upgrade {
 	public static final ElementName EN_REVENUE_CENTER = new ElementName ("RevenueCenter");

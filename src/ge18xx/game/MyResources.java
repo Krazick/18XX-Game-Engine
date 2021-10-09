@@ -1,5 +1,7 @@
 package ge18xx.game;
 
+import java.util.ListResourceBundle;
+
 //
 //  MyResources.java
 //  Game_18XX
@@ -7,8 +9,6 @@ package ge18xx.game;
 //  Created by Mark Smith on 9/7/07.
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
-
-import java.util.*;
 
 public class MyResources extends ListResourceBundle {
 	public Object [][] getContents () {

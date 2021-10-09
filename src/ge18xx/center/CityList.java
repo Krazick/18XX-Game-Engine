@@ -17,8 +17,11 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+
+import java.util.List;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public class CityList extends InformationTable implements LoadableXMLI {
 	/**

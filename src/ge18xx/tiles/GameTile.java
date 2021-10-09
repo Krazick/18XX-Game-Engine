@@ -8,13 +8,13 @@ package ge18xx.tiles;
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 //
 
-
 import ge18xx.map.Hex;
 import ge18xx.utilities.ElementName;
 
 import java.awt.Graphics;
-import java.awt.geom.*;
 import java.awt.Point;
+
+import java.awt.geom.Point2D;
 
 import java.util.List;
 import java.util.LinkedList;

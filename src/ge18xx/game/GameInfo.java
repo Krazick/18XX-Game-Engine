@@ -24,7 +24,7 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
-import org.w3c.dom.*;
+import org.w3c.dom.NodeList;
 
 public class GameInfo {
 	final AttributeName AN_PRIVATES = new AttributeName ("privates");

@@ -43,9 +43,15 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+
 import java.awt.event.ItemListener;
-import java.io.*;
-import java.util.*;
+
+import java.io.IOException;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
