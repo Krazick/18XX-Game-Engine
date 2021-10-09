@@ -8,8 +8,18 @@ package ge18xx.map;
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 //
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 
 public class Hex {
 	public static final String DIRECTION_NS = "NS";
