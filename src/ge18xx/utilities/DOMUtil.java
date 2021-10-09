@@ -8,7 +8,10 @@ package ge18xx.utilities;
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
-import org.w3c.dom.*;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 
 public class DOMUtil {
 	public static Element getFirstElement (Element element, String name) {

@@ -4,9 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;

@@ -10,7 +10,8 @@ package ge18xx.toplevel;
 
 import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JTable;
 
 public abstract class InformationTable extends JPanel {
 	/**

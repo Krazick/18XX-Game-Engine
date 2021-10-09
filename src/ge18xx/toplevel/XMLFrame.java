@@ -18,9 +18,9 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 import java.awt.Point;
-import java.io.*;
+import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class XMLFrame extends JFrame {
 	public static enum Visibility { ON, OFF, CONFIG_VALUE };

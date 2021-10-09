@@ -12,7 +12,7 @@ import ge18xx.center.CityList;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 
-import javax.swing.*;
+import javax.swing.JTable;
 
 public class CitiesFrame extends TableFrame {
 	private static final long serialVersionUID = 1L;
