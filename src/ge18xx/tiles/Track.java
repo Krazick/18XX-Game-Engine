@@ -10,8 +10,16 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Shape;
+import java.awt.Stroke;
+
+import java.awt.geom.Area;
 
 public class Track implements Cloneable {
 	public static final ElementName EN_TRACK = new ElementName ("Track");

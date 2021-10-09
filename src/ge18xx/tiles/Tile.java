@@ -31,7 +31,9 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
 
 public class Tile implements Comparable<Object>, Cloneable {
 	public final static AttributeName AN_NUMBER = new AttributeName ("number");

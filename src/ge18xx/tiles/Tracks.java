@@ -14,7 +14,8 @@ import ge18xx.map.MapCell;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 import java.util.List;
 import java.util.LinkedList;
