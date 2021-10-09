@@ -8,9 +8,18 @@ package ge18xx.toplevel;
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 public class Initialization extends JFrame {
     /**
@@ -23,21 +32,21 @@ public class Initialization extends JFrame {
 	protected String selectedVariation;
 	
     public Initialization () {
-		super();
+		super ();
 		
-        this.getContentPane().setLayout(new BorderLayout(10, 10));
+        this.getContentPane ().setLayout (new BorderLayout (10, 10));
         InitializationText = new JLabel ("18XX Game Selection ...");
-        JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        textPanel.add(InitializationText);
+        JPanel textPanel = new JPanel (new FlowLayout (FlowLayout.LEFT, 10, 10));
+        textPanel.add (InitializationText);
 		addGameChoices (textPanel);
-        this.getContentPane().add (textPanel, BorderLayout.NORTH);
+        this.getContentPane ().add (textPanel, BorderLayout.NORTH);
 		
-        okButton = new JButton("OK");
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        okButton = new JButton ("OK");
+        JPanel buttonPanel = new JPanel (new FlowLayout (FlowLayout.RIGHT, 10, 10));
         buttonPanel.add (okButton);
-        okButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent newEvent) {
-				setVisible(false);
+        okButton.addActionListener (new ActionListener () {
+			public void actionPerformed (ActionEvent newEvent) {
+				setVisible (false);
 			}	
 		});
         this.getContentPane ().add (buttonPanel, BorderLayout.SOUTH);
@@ -54,15 +63,15 @@ public class Initialization extends JFrame {
 		
 		for (tIndex = 0; tIndex < tGameCount; tIndex++) {
 			tGameChoice = new JRadioButton (tGameChoices [tIndex]);
-			tGameChoice.setActionCommand(tGameChoices[tIndex]);
+			tGameChoice.setActionCommand (tGameChoices [tIndex]);
 			if (tIndex == 0) {
-				tGameChoice.setSelected(true);
+				tGameChoice.setSelected (true);
 				selectedGame = tGameChoices [tIndex];
 			}
 			group.add (tGameChoice);
-			tGameChoice.addActionListener (new ActionListener() {
-				public void actionPerformed(ActionEvent newEvent) {
-					selectedGame = newEvent.getActionCommand();
+			tGameChoice.addActionListener (new ActionListener () {
+				public void actionPerformed (ActionEvent newEvent) {
+					selectedGame = newEvent.getActionCommand ();
 				}	
 			});
 			
