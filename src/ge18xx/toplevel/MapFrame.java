@@ -54,7 +54,6 @@ import java.awt.event.ActionListener;
 
 import java.io.IOException;
 
-//import javax.swing.*;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
