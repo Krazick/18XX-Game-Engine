@@ -172,7 +172,6 @@ public class ChatServerHandler extends ServerHandler {
 
 		tGameSupportXML = buildGameSupportXML (aGameID, "<Start>");
 		println (tGameSupportXML);
-//		println ("Game Support <GS gameID=\"" + aGameID + "\"><Start></GS>");
 		jClient.appendToChat ("I started the Game", true);
 	}
 
