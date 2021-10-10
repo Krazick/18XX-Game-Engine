@@ -6,6 +6,7 @@ import java.awt.event.ItemListener;
 import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -83,7 +84,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	int certificateLimit;
 	JLabel rfPlayerLabel;
 	JLabel cashLabel;
-	Container playerContainer = null;
+	JPanel playerJPanel = null;
 	Logger logger;
 	Benefit benefitInUse;
 	
@@ -1179,24 +1180,26 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		}
 	}
 	
-	public Container buildAPlayerContainer (int aPriorityPlayerIndex, int aPlayerIndex) {
+	public JPanel buildAPlayerJPanel (int aPriorityPlayerIndex, int aPlayerIndex) {
 		Container tOwnershipContainer;
 		JLabel tCertCountLabel;
 		JLabel tTotalValueLabel;
-		int tTotalEscrow, tEscrowCount;
+		JLabel tSoldCompanies;
 		JLabel tEscrowLabel;
 		String tEscrowText;
-		JLabel tSoldCompanies;
+		int tTotalEscrow, tEscrowCount;
 		
-		if (playerContainer == null) {
-			playerContainer = Box.createVerticalBox ();
+		if (playerJPanel == null) {
+			playerJPanel = new JPanel ();
+			playerJPanel.setLayout (new BoxLayout (playerJPanel, BoxLayout.Y_AXIS));
+
 		} else {
-			playerContainer.removeAll ();
+			playerJPanel.removeAll ();
 		}
 		buildPlayerLabel (aPriorityPlayerIndex, aPlayerIndex);
-		playerContainer.add (rfPlayerLabel);
+		playerJPanel.add (rfPlayerLabel);
 		updateCashLabel ();
-		playerContainer.add (cashLabel);
+		playerJPanel.add (cashLabel);
 		
 		tEscrowCount = escrows.getEscrowCount ();
 		tTotalEscrow = 0;
@@ -1208,27 +1211,27 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 			}
 			tEscrowText += " totaling " + Bank.formatCash (tTotalEscrow);
 			tEscrowLabel = new JLabel (tEscrowText);
-			playerContainer.add (tEscrowLabel);
+			playerJPanel.add (tEscrowLabel);
 		}
 		
 		tTotalValueLabel = new JLabel ("Total Value: " + Bank.formatCash (getCash () + getPortfolioValue () + tTotalEscrow));
-		playerContainer.add (tTotalValueLabel);
+		playerJPanel.add (tTotalValueLabel);
 
 		tCertCountLabel = new JLabel (buildCertCountInfo ("Certificates "));
-		playerContainer.add (tCertCountLabel);
+		playerJPanel.add (tCertCountLabel);
 		tOwnershipContainer  = portfolio.buildOwnershipContainer ();
 		if (tOwnershipContainer != null) {
-			playerContainer.add (tOwnershipContainer);
+			playerJPanel.add (tOwnershipContainer);
 		}
 		tSoldCompanies = soldCompanies.buildSoldCompaniesLabel ();
 		if (tSoldCompanies != null) {
-			playerContainer.add (tSoldCompanies);
+			playerJPanel.add (tSoldCompanies);
 		}
-		playerContainer.add (Box.createHorizontalStrut (10));
-		playerContainer.repaint ();
-		playerContainer.revalidate ();
+		playerJPanel.add (Box.createHorizontalStrut (10));
+		playerJPanel.repaint ();
+		playerJPanel.revalidate ();
 		
-		return playerContainer;
+		return playerJPanel;
 	}
 	
 	public String buildCertCountInfo (String aPrefix) {

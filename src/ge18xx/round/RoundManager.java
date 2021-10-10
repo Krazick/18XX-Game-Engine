@@ -903,7 +903,7 @@ public class RoundManager {
 	
 	public void updateRFPlayerLabel (Player aPlayer, int aPriorityPlayerIndex, int aPlayerIndex) {
 		if (aPlayer != Player.NO_PLAYER) {
-			aPlayer.buildAPlayerContainer (aPriorityPlayerIndex, aPlayerIndex);
+			aPlayer.buildAPlayerJPanel (aPriorityPlayerIndex, aPlayerIndex);
 		}
 	}
 	

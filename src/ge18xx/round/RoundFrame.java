@@ -47,10 +47,10 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	private static final String NOT_YOUR_TURN = "It is not your turn to Perform the Action";
 	private static final String IS_OPERATING_ROUND = "It is an Operating Round, can't Pass";
 	RoundManager roundManager;
-	Container centerBox;
-	Container roundBox;
-	Container allCorporationsBox;
-	Container buttonsBox;
+	JPanel centerBox;
+	JPanel roundBox;
+	JPanel allCorporationsBox;
+	JPanel buttonsBox;
 	JPanel headerBox;
 	JPanel parPricesBox;
 	JPanel trainSummaryBox;
@@ -79,7 +79,8 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		roundManager = aRoundManager;
 		logger = Game_18XX.getLogger ();
 		
-		roundBox = Box.createVerticalBox ();
+		roundBox = new JPanel ();
+		roundBox.setLayout (new BoxLayout (roundBox, BoxLayout.Y_AXIS));
 		
 		headerBox = new JPanel ();
 		parPricesBox = new JPanel ();
@@ -102,8 +103,9 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		headerBox.add (Box.createHorizontalGlue ());
 		headerBox.add (trainSummaryBox);
 		
-		allCorporationsBox = Box.createVerticalBox ();
-		
+		allCorporationsBox = new JPanel ();
+		allCorporationsBox.setLayout (new BoxLayout (allCorporationsBox, BoxLayout.Y_AXIS));
+
 		roundInfoBox.add (Box.createVerticalStrut (10));
 		frameLabel = new JLabel ("Round");
 		frameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
@@ -141,8 +143,9 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		roundBox.add (Box.createVerticalStrut (10));
 		setStockRound (roundManager.getGameName (), roundManager.getStockRoundID ());
 		
-		buttonsBox = Box.createHorizontalBox ();
-		
+		buttonsBox = new JPanel ();
+		buttonsBox.setLayout (new BoxLayout (buttonsBox, BoxLayout.X_AXIS));
+
 		passActionButton = new JButton (PASS_STOCK_TEXT);
 		passActionButton.setActionCommand (PASS_STOCK_ACTION);
 		passActionButton.addActionListener (this);
@@ -162,7 +165,8 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		roundBox.add (buttonsBox);
 		roundBox.add (Box.createVerticalStrut (10));
 		
-		centerBox = Box.createHorizontalBox();
+//		centerBox = Box.createHorizontalBox();
+		centerBox = new JPanel ();
 		centerBox.add (Box.createHorizontalStrut(20));
 		centerBox.add (roundBox);
 		centerBox.add (Box.createHorizontalStrut(20));
@@ -289,7 +293,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	public void fillPlayersContainer (StockRound aStockRound) {
 		int tPlayerIndex;
 		Player tPlayer;
-		Container tPlayerContainer;
+		JPanel tPlayerContainer;
 		int tPlayerCount, tCurrentPlayer, tPriorityPlayer;
 		
 		tCurrentPlayer = aStockRound.getCurrentPlayerIndex ();
@@ -298,7 +302,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
 			tPlayer = aStockRound.getPlayerAtIndex (tPlayerIndex);
 			if (tPlayer != Player.NO_PLAYER) {
-				tPlayerContainer = tPlayer.buildAPlayerContainer (tPriorityPlayer, tPlayerIndex);
+				tPlayerContainer = tPlayer.buildAPlayerJPanel (tPriorityPlayer, tPlayerIndex);
 				playersContainer.add (tPlayerContainer);
 				playersContainer.add (Box.createHorizontalStrut (10));
 			} else {
