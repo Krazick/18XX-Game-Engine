@@ -56,7 +56,7 @@ public class StartPacketItem implements ParsingRoutineI {
 			Player aPlayer, GameManager aGameManager) {
 		JPanel tCertificateInfoPanel;
 		
-		tCertificateInfoPanel = certificate.buildCertificateInfoContainer (aSelectedButtonLabel, 
+		tCertificateInfoPanel = certificate.buildCertificateInfoJPanel (aSelectedButtonLabel, 
 				aItemListener, true, aPlayer, aGameManager);
 
 		return tCertificateInfoPanel;

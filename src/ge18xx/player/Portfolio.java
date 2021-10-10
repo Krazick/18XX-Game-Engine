@@ -130,7 +130,7 @@ public class Portfolio implements CertificateHolderI {
 			tCertificateType = tCertificate.getCorpType ();
 			if (tCertificateType.equals (aCorpType)) {
 				tCount++;
-				tCertificateInfoPanel = tCertificate.buildCertificateInfoContainer (aSelectedButtonLabel, 
+				tCertificateInfoPanel = tCertificate.buildCertificateInfoJPanel (aSelectedButtonLabel, 
 						aItemListener, tIsBankPortfolioHolder, Player.NO_PLAYER, aGameManager);
 				addJCAndHGlue (tCertificatePanel, tCertificateInfoPanel);
 			}
@@ -212,7 +212,7 @@ public class Portfolio implements CertificateHolderI {
 				tCount++;
 				tShareCorpAbbrev = tCertificate.getCompanyAbbrev ();
 				if (tShareCorpAbbrev.equals (tPrevShareCorpAbbrev)) {
-					tCertificateInfoPanel = tCertificate.buildCertificateInfoContainer (aSelectedButtonLabel, 
+					tCertificateInfoPanel = tCertificate.buildCertificateInfoJPanel (aSelectedButtonLabel, 
 							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
 					addJCAndHGlue (tAllCertificatesPanel, tCertificateInfoPanel);
 				} else {
@@ -224,7 +224,7 @@ public class Portfolio implements CertificateHolderI {
 						tCertificateToShow = getPresidentCertificate (tCorporationToShow);
 					}
 					tAllCertificatesPanel = setupAllCertPanel ();
-					tCertificateInfoPanel = tCertificateToShow.buildCertificateInfoContainer (aSelectedButtonLabel, 
+					tCertificateInfoPanel = tCertificateToShow.buildCertificateInfoJPanel (aSelectedButtonLabel, 
 							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
 					addJCAndHGlue (tAllCertificatesPanel, tCertificateInfoPanel);
 					addJCAndVGlue (tCorporationPanel, tAllCertificatesPanel);
@@ -298,7 +298,7 @@ public class Portfolio implements CertificateHolderI {
 						tCertificateToShow = getPresidentCertificate (tCorporationToShow);
 					}
 					tAllCertificatesPanel = setupAllCertPanel ();
-					tCertificateInfoPanel = tCertificateToShow.buildCertificateInfoContainer (aSelectedButtonLabel, 
+					tCertificateInfoPanel = tCertificateToShow.buildCertificateInfoJPanel (aSelectedButtonLabel, 
 							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
 					tAllCertificatesPanel.add (tCertificateInfoPanel);
 					tAllCertificatesPanel.add (Box.createHorizontalStrut (3));

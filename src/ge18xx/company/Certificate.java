@@ -167,18 +167,17 @@ public class Certificate implements Comparable<Certificate> {
 		return tBankPoolAtLimit;
 	}
 	
-	public JPanel buildCertificateInfoContainer (String aCheckBoxLabel, ItemListener aItemListener, 
+	public JPanel buildCertificateInfoJPanel (String aCheckBoxLabel, ItemListener aItemListener, 
 			boolean aIsBankHolder, Player aPlayer, GameManager aGameManager) {
 		JPanel tCertificateInfoPanel;
+		JLabel tLabel, tLastRevenueLabel;
+		JLabel tDiscountLabel;
 		BoxLayout tCertInfoLayout;
 		String tCertInfo;
 		String tRevenueInfo;
-		int tRevenue, tPrice, tPlayerCash, tDiscount;
-		JLabel tLabel, tLastRevenueLabel;
-		JLabel tDiscountLabel;
 		String tToolTip = "";
+		int tRevenue, tPrice, tPlayerCash, tDiscount;
 		boolean tEnabled = false;
-
 		boolean tPlayerHasEnoughCash, tPlayerHasBidOnThisCert, tPlayerHasEnoughCashToBid;
 		boolean tPlayerHasSoldThisCompany, tPlayerHasMaxShares, tPlayerHasBoughtShare;
 		boolean tHasMustBuyCertificate, tPlayerAtCertLimit;

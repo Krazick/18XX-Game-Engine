@@ -194,9 +194,6 @@ class HexTests {
 		Hex tHex10t = new Hex (10, 10, true, 10); 
 		assertEquals (aExpectedMidpointX, tHex10t.midpointX (aPoint));
 	}
-//	@DisplayName("Display name of container")
-//	@ParameterizedTest(name = "{index} ==> the rank of ''{0}'' is {1}")
-//	@CsvSource({ "apple, 1", "banana, 2", "'lemon, lime', 3" })
 	
 	@DisplayName ("Test getMidpointY method with True Direction ")
 	@ParameterizedTest (name = "{index} ==> Point {0}, Expected Y {1}")

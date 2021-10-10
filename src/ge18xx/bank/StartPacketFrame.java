@@ -36,7 +36,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public static final StartPacketRow NO_ROW = null;
 	List<StartPacketRow> startPacketRows;
 	GameManager gameManager;
-	JPanel portfolioInfoContainer;
+	JPanel portfolioInfoJPanel;
 	StartPacketPortfolio portfolio;
 	
 	public StartPacketFrame (String aFrameName, GameManager aGameManager) {
@@ -53,7 +53,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	
 	public JPanel buildStartPacketInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
 		JPanel tSPPortfolioJPanel;
-		JPanel tRowContainer;
+		JPanel tRowJPanel;
 		BoxLayout tSPLayout;
 		boolean tPreviousRowSoldOut;
 		String tSelectedButtonLabel;
@@ -72,10 +72,10 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 				tSelectedButtonLabel = Player.BID_LABEL;
 			}
 			if (tStartPacketRow.isRowNotSoldOut (portfolio)) {
-				tRowContainer = tStartPacketRow.buildRowJPanel (tSelectedButtonLabel, 
+				tRowJPanel = tStartPacketRow.buildRowJPanel (tSelectedButtonLabel, 
 						aItemListener, aPlayer, aGameManager);
 				tSPPortfolioJPanel.add (Box.createVerticalGlue ());
-				tSPPortfolioJPanel.add (tRowContainer);
+				tSPPortfolioJPanel.add (tRowJPanel);
 				tSPPortfolioJPanel.add (Box.createVerticalGlue ());
 				tPreviousRowSoldOut = false;
 			}
@@ -350,7 +350,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	}
 
 	@Override
-	public void replacePortfolioInfo (JPanel aPortfolioContainer) {
+	public void replacePortfolioInfo (JPanel aPortfolioJPanel) {
 		
 	}
 	

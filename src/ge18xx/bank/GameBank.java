@@ -249,8 +249,8 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return trainPortfolio.removeTrain (aName);
 	}
 
-	public void replacePortfolioInfo (JPanel aPortfolioInfoContainer) {
-	//	BankFrame.replacePortfolioInfo (aPortfolioInfoContainer);
+	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
+	//	BankFrame.replacePortfolioInfo (aPortfolioInfoJPanel);
 	}
 
 	@Override
