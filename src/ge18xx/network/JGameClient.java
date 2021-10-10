@@ -613,10 +613,6 @@ public class JGameClient extends XMLFrame {
 		startsGame ();
 		updateButtonGameStarted (startReadyButton);
 		updateButtonGameStarted (showSavedGames);
-//		startReadyButton.setEnabled (false);
-//		startReadyButton.setToolTipText (GAME_ALREADY_STARTED);
-//		showSavedGames.setEnabled (false);
-//		showSavedGames.setToolTipText (GAME_ALREADY_STARTED);
 	}
 	
 	public void startsGame () {
@@ -625,10 +621,6 @@ public class JGameClient extends XMLFrame {
 		gameManager.initiateNetworkGame ();
 		updateButtonGameStarted (startReadyButton);
 		updateButtonGameStarted (showSavedGames);
-//		startReadyButton.setEnabled (false);
-//		startReadyButton.setToolTipText (GAME_ALREADY_STARTED);
-//		showSavedGames.setEnabled (false);
-//		showSavedGames.setToolTipText (GAME_ALREADY_STARTED);
 	}
 
 	private void updateButtonGameStarted (JButton aButton) {
