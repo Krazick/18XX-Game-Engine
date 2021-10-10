@@ -31,7 +31,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.LinkedList;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -1572,8 +1571,8 @@ public class Portfolio implements CertificateHolderI {
 		return tAbbrevAndType;
 	}
 	
-	public Container buildOwnershipContainer () {
-		Container tOwnershipContainer = null;
+	public JPanel buildOwnershipPanel () {
+		JPanel tOwnershipPanel = null;
 		JLabel tCertificateOwnershipLabel;
 		List<PortfolioSummary> tPortfolioSummary;
 		PortfolioSummary tASummary;
@@ -1585,7 +1584,9 @@ public class Portfolio implements CertificateHolderI {
 		String tType;
 		
 		if (certificates.size () > 0) {
-			tOwnershipContainer = Box.createVerticalBox ();
+			tOwnershipPanel = new JPanel ();
+			tOwnershipPanel.setLayout (new BoxLayout (tOwnershipPanel, BoxLayout.Y_AXIS));
+
 			tPortfolioSummary = new LinkedList<PortfolioSummary> ();
 			for (Certificate tCertificate : certificates) {				
 				tType = PortfolioSummary.SHARE_CORP_TYPE;
@@ -1633,11 +1634,11 @@ public class Portfolio implements CertificateHolderI {
 					tCertificateOwnershipLabel.setBorder (tCorporateColorBorder);
 				}
 				tCertificateOwnershipLabel.setToolTipText (tASingleSummary.getNote ());
-				tOwnershipContainer.add (tCertificateOwnershipLabel);
+				tOwnershipPanel.add (tCertificateOwnershipLabel);
 			}
 		}
 		
-		return tOwnershipContainer;
+		return tOwnershipPanel;
 	}
 	
 	public void configurePrivateCompanyBenefitButtons (JPanel aButtonRow) {

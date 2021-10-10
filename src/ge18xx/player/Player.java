@@ -1,6 +1,6 @@
 package ge18xx.player;
 
-import java.awt.Container;
+//import java.awt.Container;
 import java.awt.Point;
 import java.awt.event.ItemListener;
 import java.util.List;
@@ -1181,7 +1181,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	}
 	
 	public JPanel buildAPlayerJPanel (int aPriorityPlayerIndex, int aPlayerIndex) {
-		Container tOwnershipContainer;
+		JPanel tOwnershipPanel;
 		JLabel tCertCountLabel;
 		JLabel tTotalValueLabel;
 		JLabel tSoldCompanies;
@@ -1192,7 +1192,6 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		if (playerJPanel == null) {
 			playerJPanel = new JPanel ();
 			playerJPanel.setLayout (new BoxLayout (playerJPanel, BoxLayout.Y_AXIS));
-
 		} else {
 			playerJPanel.removeAll ();
 		}
@@ -1219,9 +1218,9 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 
 		tCertCountLabel = new JLabel (buildCertCountInfo ("Certificates "));
 		playerJPanel.add (tCertCountLabel);
-		tOwnershipContainer  = portfolio.buildOwnershipContainer ();
-		if (tOwnershipContainer != null) {
-			playerJPanel.add (tOwnershipContainer);
+		tOwnershipPanel  = portfolio.buildOwnershipPanel ();
+		if (tOwnershipPanel != null) {
+			playerJPanel.add (tOwnershipPanel);
 		}
 		tSoldCompanies = soldCompanies.buildSoldCompaniesLabel ();
 		if (tSoldCompanies != null) {

@@ -863,7 +863,7 @@ public class RoundManager {
 		setRoundToStockRound (tIDPart1);
 		stockRound.clearAllSoldCompanies ();
 		stockRound.setCurrentPlayer (stockRound.getPriorityIndex ());
-		roundFrame.fillPlayersContainer (stockRound);
+		roundFrame.fillPlayersJPanel (stockRound);
 		roundFrame.updatePassButton ();
 	}
 	

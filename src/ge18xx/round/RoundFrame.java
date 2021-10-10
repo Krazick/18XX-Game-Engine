@@ -42,7 +42,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	private static final String PLAYER_ACTION = "DoPlayerAction";
 	private static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
 	private static final String CORPORATION_ACTION = "DoCorporationAction";
-	private static final String PLAYER_CONTAINER_LABEL = "Player Order and Last Action";
+	private static final String PLAYER_JPANEL_LABEL = "Player Order and Last Action";
 	private static final String YOU_NOT_PRESIDENT = "You are not the President of the Company";
 	private static final String NOT_YOUR_TURN = "It is not your turn to Perform the Action";
 	private static final String IS_OPERATING_ROUND = "It is an Operating Round, can't Pass";
@@ -57,7 +57,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	JPanel roundInfoBox;
 	JLabel frameLabel;
 	JLabel phaseLabel;
-	JPanel playersContainer;
+	JPanel playersJPanel;
 	JLabel totalCashLabel;
 	JButton passActionButton;
 	JButton doActionButton;
@@ -132,8 +132,8 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		
 		roundBox.add (headerBox);
 		
-		buildPlayersContainer ();
-		roundBox.add (playersContainer);
+		buildPlayersJPanel ();
+		roundBox.add (playersJPanel);
 		
 		roundBox.add (Box.createVerticalStrut (10));
 
@@ -277,23 +277,23 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		}
 	}
 	
-	private void buildPlayersContainer () {
+	private void buildPlayersJPanel () {
 		StockRound tStockRound;
 
 		tStockRound = roundManager.getStockRound ();
-		playersContainer = new JPanel ();
-		playersContainer.setBorder (BorderFactory.createTitledBorder (PLAYER_CONTAINER_LABEL));
-		BoxLayout tLayout = new BoxLayout (playersContainer, BoxLayout.X_AXIS);
-		playersContainer.setLayout (tLayout);
-		playersContainer.add (Box.createHorizontalStrut (10));
-		fillPlayersContainer (tStockRound);
-		playersContainer.add (Box.createVerticalStrut (20));
+		playersJPanel = new JPanel ();
+		playersJPanel.setBorder (BorderFactory.createTitledBorder (PLAYER_JPANEL_LABEL));
+		BoxLayout tLayout = new BoxLayout (playersJPanel, BoxLayout.X_AXIS);
+		playersJPanel.setLayout (tLayout);
+		playersJPanel.add (Box.createHorizontalStrut (10));
+		fillPlayersJPanel (tStockRound);
+//		playersJPanel.add (Box.createVerticalStrut (20));
 	}
 
-	public void fillPlayersContainer (StockRound aStockRound) {
+	public void fillPlayersJPanel (StockRound aStockRound) {
 		int tPlayerIndex;
 		Player tPlayer;
-		JPanel tPlayerContainer;
+		JPanel tPlayerJPanel;
 		int tPlayerCount, tCurrentPlayer, tPriorityPlayer;
 		
 		tCurrentPlayer = aStockRound.getCurrentPlayerIndex ();
@@ -302,9 +302,9 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
 			tPlayer = aStockRound.getPlayerAtIndex (tPlayerIndex);
 			if (tPlayer != Player.NO_PLAYER) {
-				tPlayerContainer = tPlayer.buildAPlayerJPanel (tPriorityPlayer, tPlayerIndex);
-				playersContainer.add (tPlayerContainer);
-				playersContainer.add (Box.createHorizontalStrut (10));
+				tPlayerJPanel = tPlayer.buildAPlayerJPanel (tPriorityPlayer, tPlayerIndex);
+				playersJPanel.add (tPlayerJPanel);
+				playersJPanel.add (Box.createHorizontalStrut (10));
 			} else {
 				logger.error ("No Player Found for " + tPlayerIndex);
 			}
@@ -454,7 +454,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	}
 
 	public void updateAllCorporationsBox () {
-		JPanel tCompanyContainer;
+		JPanel tCompanyJPanel;
 		OperatingRound tOperatingRound;
 		int tCorporationCount;
 		CorporationList tCorporationList;
@@ -464,32 +464,32 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		allCorporationsBox.removeAll ();
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getPrivateCompanies ();
-			tCompanyContainer = tCorporationList.buildCompanyContainer (true);
-			allCorporationsBox.add (tCompanyContainer);
+			tCompanyJPanel = tCorporationList.buildCompanyJPanel (true);
+			allCorporationsBox.add (tCompanyJPanel);
 			allCorporationsBox.add (Box.createVerticalStrut (10));
 		}
 
 		tCorporationCount = tOperatingRound.getCoalCompanyCount ();
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getCoalCompanies ();
-			tCompanyContainer = tCorporationList.buildCompanyContainer (true);
-			allCorporationsBox.add (tCompanyContainer);
+			tCompanyJPanel = tCorporationList.buildCompanyJPanel (true);
+			allCorporationsBox.add (tCompanyJPanel);
 			allCorporationsBox.add (Box.createVerticalStrut (10));
 		}
 		
 		tCorporationCount = tOperatingRound.getMinorCompanyCount ();
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getMinorCompanies ();
-			tCompanyContainer = tCorporationList.buildCompanyContainer (true);
-			allCorporationsBox.add (tCompanyContainer);
+			tCompanyJPanel = tCorporationList.buildCompanyJPanel (true);
+			allCorporationsBox.add (tCompanyJPanel);
 			allCorporationsBox.add (Box.createVerticalStrut (10));
 		}
 		
 		tCorporationCount = tOperatingRound.getShareCompanyCount ();
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getShareCompanies ();
-			tCompanyContainer = tCorporationList.buildCompanyContainer (false);
-			allCorporationsBox.add (tCompanyContainer);
+			tCompanyJPanel = tCorporationList.buildCompanyJPanel (false);
+			allCorporationsBox.add (tCompanyJPanel);
 			allCorporationsBox.add (Box.createVerticalStrut (10));
 		}
 		revalidate ();

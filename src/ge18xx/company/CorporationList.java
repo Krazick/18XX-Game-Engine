@@ -101,8 +101,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tAnyCanOperate;
 	}
 	
-	public JPanel buildCompanyContainer (boolean aAllCompanies) {
-		JPanel tCompanyContainer;
+	public JPanel buildCompanyJPanel (boolean aAllCompanies) {
+		JPanel tCompanyJPanel;
 		JLabel tLabel;
 		BoxLayout tLayout;
 		String tBoxLabel, tCorpLabel;
@@ -114,24 +114,24 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		} else {
 			tBoxLabel += " in Operating Order";
 		}
-		tCompanyContainer = new JPanel ();
-		tCompanyContainer.setBorder (BorderFactory.createTitledBorder (tBoxLabel));
-		tLayout = new BoxLayout (tCompanyContainer, BoxLayout.X_AXIS);
-		tCompanyContainer.setLayout (tLayout);
+		tCompanyJPanel = new JPanel ();
+		tCompanyJPanel.setBorder (BorderFactory.createTitledBorder (tBoxLabel));
+		tLayout = new BoxLayout (tCompanyJPanel, BoxLayout.X_AXIS);
+		tCompanyJPanel.setLayout (tLayout);
 		
 		Collections.sort (corporations, Corporation.CorporationOperatingOrderComparator);
 		for (Corporation tCorporation : corporations) {
 			tCorpLabel = tCorporation.buildCorpInfoLabel ();
 			tCorpBorder = tCorporation.setupBorder ();
-			tCompanyContainer.add (Box.createHorizontalStrut (10));
+			tCompanyJPanel.add (Box.createHorizontalStrut (10));
 			tLabel = new JLabel (tCorpLabel);
 			tLabel.setBorder (tCorpBorder);
-			tCompanyContainer.add (tLabel);
+			tCompanyJPanel.add (tLabel);
 		}
-		tCompanyContainer.add (Box.createHorizontalStrut (10));
-		tCompanyContainer.add (Box.createVerticalStrut (30));
+		tCompanyJPanel.add (Box.createHorizontalStrut (10));
+		tCompanyJPanel.add (Box.createVerticalStrut (30));
 		
-		return tCompanyContainer;
+		return tCompanyJPanel;
 	}
 	
 	public JPanel buildCompaniesForPurchaseJPanel (ItemListener aItemListener, String aCorpType, int aAvailableCash) {
