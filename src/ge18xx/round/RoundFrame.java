@@ -144,11 +144,10 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 
 		roundJPanel.add (allCorporationsJPanel);
 		roundJPanel.add (Box.createVerticalStrut (10));
-		setStockRound (roundManager.getGameName (), roundManager.getStockRoundID ());
-		
 		buttonsJPanel = new JPanel ();
 		buttonsJPanel.setLayout (new BoxLayout (buttonsJPanel, BoxLayout.X_AXIS));
 
+		setupActionButton ("Player do Stock Action", PLAYER_ACTION);
 		passActionButton = new JButton (PASS_STOCK_TEXT);
 		passActionButton.setActionCommand (PASS_STOCK_ACTION);
 		passActionButton.addActionListener (this);
@@ -158,6 +157,8 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		buttonsJPanel.add (Box.createHorizontalStrut(20));
 		buttonsJPanel.add (passActionButton);
 		buttonsJPanel.add (Box.createHorizontalStrut(20));
+		
+		setStockRound (roundManager.getGameName (), roundManager.getStockRoundID ());
 	
 		showGameEngineFrameButton = new JButton ("Show Game Engine Frame");
 		showGameEngineFrameButton.setActionCommand (SHOW_GE_FRAME_ACTION);
@@ -240,13 +241,12 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 			parPriceLineJPanels.add (tParPriceLineBox);
 			parPricesJPanel.add (parPriceLineJPanels.get (tParPriceIndex));
 		}
-//		parPricesJPanel.setVisible (true);
 	}
 	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
-		long tWhen;
-		
+		System.out.println ("Round Frame Action [" + aEvent.getActionCommand () + "]");
+
 		if (CORPORATION_ACTION.equals (aEvent.getActionCommand ())) {
 			if (! roundManager.companyStartedOperating ()) {
 				logger.info ("Corporation Action for Operation Round selected");
@@ -255,14 +255,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 			roundManager.showCurrentCompanyFrame ();
 		}
 		if (PLAYER_ACTION.equals (aEvent.getActionCommand ())) {
-			// TODO  --- KLUDGE, if current Event is 500ms (0.5 Sec) or more since last Player Action, handle it
-			// Otherwise consider this a "double-click". To prevent Player Frame from taking longer and longer to process.
-			tWhen = aEvent.getWhen ();
-			if ((previousWhen + 500) < tWhen) {
-				System.out.println ("Round Frame Player Action Selected - Show Current Player Frame When (" + tWhen + ")");
-				roundManager.showCurrentPlayerFrame ();
-				setPreviousWhen (tWhen);
-			}
+			roundManager.showCurrentPlayerFrame ();
 		}
 		if (PLAYER_AUCTION_ACTION.equals (aEvent.getActionCommand ())) {
 			roundManager.showCurrentPlayerFrame ();
@@ -287,7 +280,6 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		playersJPanel.setLayout (tLayout);
 		playersJPanel.add (Box.createHorizontalStrut (10));
 		fillPlayersJPanel (tStockRound);
-//		playersJPanel.add (Box.createVerticalStrut (20));
 	}
 
 	public void fillPlayersJPanel (StockRound aStockRound) {
@@ -347,27 +339,29 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		revalidate ();
 	}
 	
-	public void setActionButton (String aButtonLabel, String aActionCommand) {
-		if (doActionButton == null) {
-			doActionButton = new JButton ("");
-		}
-		updateActionButtonText (aButtonLabel);
+	public void setupActionButton (String aButtonLabel, String aActionCommand) {
+		doActionButton = new JButton (aButtonLabel);
 		doActionButton.setAlignmentX (CENTER_ALIGNMENT);
+		doActionButton.addActionListener (this);			
+		updateActionButton (aButtonLabel, aActionCommand);
+	}
+	
+	public void updateActionButton (String aButtonLabel, String aActionCommand) {
+		updateActionButtonText (aButtonLabel);
 		doActionButton.setActionCommand (aActionCommand);
-		doActionButton.addActionListener (this);
 	}
 	
 	public void setAuctionRound (String aGameName, int aRoundID) {
 		resetBackGround ();
 		setFrameLabel (aGameName, " " + aRoundID);
-		setActionButton ("Do Auction Action", PLAYER_AUCTION_ACTION);
+		updateActionButton ("Do Auction Action", PLAYER_AUCTION_ACTION);
 		disablePassButton ("In Auction Round, Can't Pass");
 	}
 
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
 		resetBackGround ();
 		setFrameLabel (aGameName, " " + aRoundIDPart1 + " [" + aCurrentOR + " of " + aMaxOR + "]");
-		setActionButton ("Do Company Action", CORPORATION_ACTION);
+		updateActionButton ("Do Company Action", CORPORATION_ACTION);
 		updateTotalCashLabel ();
 		disablePassButton ("In Operating Round, Can't Pass");
 		passActionButton.setText (PASS_STOCK_TEXT);
@@ -376,7 +370,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	public void setStockRound (String aGameName, int aRoundID) {
 		resetBackGround ();
 		setFrameLabel (aGameName, " " + aRoundID);
-		setActionButton ("Player do Stock Action", PLAYER_ACTION);
+		updateActionButton ("Player do Stock Action", PLAYER_ACTION);
 		setCurrentPlayerText ();
 		updateTotalCashLabel ();
 		updatePassButton ();
