@@ -18,7 +18,7 @@ public interface PortfolioHolderI extends ActorI {
 	
 	public Portfolio getPortfolio ();
 	
-	public void replacePortfolioInfo (JPanel aPortfolioContainer);
+	public void replacePortfolioInfo (JPanel aPortfolioJPanel);
 	
 	public boolean isBank ();
 	

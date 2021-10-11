@@ -12,11 +12,11 @@ import ge18xx.round.action.SetParValueAction;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -42,9 +42,8 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 		JLabel tFrameLabel;
 		int tTotalTreasury, tEscrowCount;
 		Escrow tEscrow;
-		Container verticalBox = Box.createVerticalBox ();
-		Container middleBox = Box.createHorizontalBox ();
-
+		JPanel tVerticalBox = new JPanel ();
+		JPanel tMiddleBox = new JPanel ();
 		// Need to have the Player that has bought the President Sale shown in Dialog 
 		// This is to confirm the player who bought the share, possible during Auction, is notified THEY should be setting this,
 		// Not the Player that bought the prior share that triggered the Auction
@@ -53,7 +52,10 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 		stockRound = aStockRound;
 		certificate = aCertificate;
 		parValuesPanel = new JPanel ();
-		verticalBox.add (Box.createVerticalStrut (10));
+		tVerticalBox.setLayout (new BoxLayout (tVerticalBox, BoxLayout.Y_AXIS));
+		tMiddleBox.setLayout (new BoxLayout (tMiddleBox, BoxLayout.X_AXIS));
+		parValuesPanel.setLayout (new BoxLayout (parValuesPanel, BoxLayout.Y_AXIS));
+		tVerticalBox.add (Box.createVerticalStrut (10));
 		
 		tTotalTreasury = aPlayer.getCash ();
 		tEscrowCount = aPlayer.getEscrowCount ();
@@ -65,13 +67,13 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 								aCertificate.getCompanyAbbrev () + " has in Treasury " + 
 								Bank.formatCash (tTotalTreasury));
 		tFrameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		verticalBox.add (tFrameLabel);
-		verticalBox.add (Box.createVerticalStrut (10));
+		tVerticalBox.add (tFrameLabel);
+		tVerticalBox.add (Box.createVerticalStrut (10));
 
 		tFrameLabel = new JLabel ("MUST set the Par Price for " + aCertificate.getCompanyAbbrev ());
 		tFrameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		middleBox.add (tFrameLabel);
-		middleBox.add (Box.createHorizontalStrut (10));
+		tMiddleBox.add (tFrameLabel);
+		tMiddleBox.add (Box.createHorizontalStrut (10));
 
 		gameManager = aPlayer.getGameManager ();
 		tParValues = gameManager.getAllStartCells ();
@@ -80,14 +82,14 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 		certificate.fillParValueComboBox (parValuesCombo, tParValues);
 
 		if (parValuesCombo != null) {
-			middleBox.add (parValuesCombo);
-			middleBox.add (Box.createHorizontalStrut (10));
+			tMiddleBox.add (parValuesCombo);
+			tMiddleBox.add (Box.createHorizontalStrut (10));
 		}
-		verticalBox.add (middleBox);
+		tVerticalBox.add (tMiddleBox);
 		setActionButton ("Set Par Price", SET_PAR_PRICE_ACTION);
-		verticalBox.add (doActionButton);
+		tVerticalBox.add (doActionButton);
 		parValuesPanel.add (Box.createHorizontalStrut (10));
-		parValuesPanel.add (verticalBox);
+		parValuesPanel.add (tVerticalBox);
 		parValuesPanel.add (Box.createHorizontalStrut (10));
 		setParPriceFrameActive (true);
 		add (parValuesPanel);
