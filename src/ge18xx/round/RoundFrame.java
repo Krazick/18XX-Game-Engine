@@ -15,7 +15,6 @@ import ge18xx.toplevel.XMLFrame;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +27,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
@@ -47,27 +47,27 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	private static final String NOT_YOUR_TURN = "It is not your turn to Perform the Action";
 	private static final String IS_OPERATING_ROUND = "It is an Operating Round, can't Pass";
 	RoundManager roundManager;
-	JPanel centerBox;
-	JPanel roundBox;
-	JPanel allCorporationsBox;
-	JPanel buttonsBox;
-	JPanel headerBox;
-	JPanel parPricesBox;
-	JPanel trainSummaryBox;
-	JPanel roundInfoBox;
-	JLabel frameLabel;
-	JLabel phaseLabel;
+	JPanel roundJPanel;
+	JPanel allCorporationsJPanel;
+	JPanel buttonsJPanel;
+	JPanel headerJPanel;
+	JPanel parPricesJPanel;
+	JPanel trainSummaryJPanel;
+	JPanel roundInfoJPanel;
 	JPanel playersJPanel;
-	JLabel totalCashLabel;
+	JScrollPane roundScrollPane;
 	JButton passActionButton;
 	JButton doActionButton;
 	JButton showGameEngineFrameButton;
-	Color defaultColor;
+	JTextArea trainSummary;
+	JLabel frameLabel;
+	JLabel phaseLabel;
+	JLabel totalCashLabel;
 	JLabel parPriceLabel;
 	List<JLabel> parPrices = new LinkedList<JLabel> ();
 	List<JLabel> companiesAtPar = new LinkedList<JLabel> ();
-	List<Container> parPriceLineBoxes = new LinkedList<Container> ();
-	JTextArea trainSummary;
+	List<JPanel> parPriceLineJPanels = new LinkedList<JPanel> ();
+	Color defaultColor;
 	Logger logger;
 	long previousWhen;
 	
@@ -79,99 +79,97 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		roundManager = aRoundManager;
 		logger = Game_18XX.getLogger ();
 		
-		roundBox = new JPanel ();
-		roundBox.setLayout (new BoxLayout (roundBox, BoxLayout.Y_AXIS));
+		roundJPanel = new JPanel ();
+		roundJPanel.setLayout (new BoxLayout (roundJPanel, BoxLayout.Y_AXIS));
 		
-		headerBox = new JPanel ();
-		parPricesBox = new JPanel ();
-		roundInfoBox = new JPanel ();
-		trainSummaryBox = new JPanel ();
+		headerJPanel = new JPanel ();
+		parPricesJPanel = new JPanel ();
+		roundInfoJPanel = new JPanel ();
+		trainSummaryJPanel = new JPanel ();
 		
 		fillParPrices ();
 		updateParPrices ();
 		trainSummary = new JTextArea ("");
 		updateTrainSummary ();
-		trainSummaryBox.add (trainSummary);
+		trainSummaryJPanel.add (trainSummary);
+		roundInfoJPanel.setLayout (new BoxLayout (roundInfoJPanel, BoxLayout.Y_AXIS));
+		roundInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		
-		headerBox.setLayout (new BoxLayout (headerBox, BoxLayout.X_AXIS));
-		headerBox.setAlignmentY (Component.TOP_ALIGNMENT);
-		headerBox.add (parPricesBox);
-		headerBox.add (Box.createHorizontalGlue ());
-		roundInfoBox.setLayout (new BoxLayout (roundInfoBox, BoxLayout.Y_AXIS));
-		roundInfoBox.setAlignmentX (Component.CENTER_ALIGNMENT);
-		headerBox.add (roundInfoBox);
-		headerBox.add (Box.createHorizontalGlue ());
-		headerBox.add (trainSummaryBox);
+		headerJPanel.setLayout (new BoxLayout (headerJPanel, BoxLayout.X_AXIS));
+		headerJPanel.setAlignmentY (Component.TOP_ALIGNMENT);
+		headerJPanel.add (Box.createHorizontalStrut (20));
+		headerJPanel.add (parPricesJPanel);
+		headerJPanel.add (Box.createHorizontalGlue ());
+		headerJPanel.add (roundInfoJPanel);
+		headerJPanel.add (Box.createHorizontalGlue ());
+		headerJPanel.add (trainSummaryJPanel);
+		headerJPanel.add (Box.createHorizontalStrut (20));
 		
-		allCorporationsBox = new JPanel ();
-		allCorporationsBox.setLayout (new BoxLayout (allCorporationsBox, BoxLayout.Y_AXIS));
+		allCorporationsJPanel = new JPanel ();
+		allCorporationsJPanel.setLayout (new BoxLayout (allCorporationsJPanel, BoxLayout.Y_AXIS));
 
-		roundInfoBox.add (Box.createVerticalStrut (10));
+		roundInfoJPanel.add (Box.createVerticalStrut (10));
 		frameLabel = new JLabel ("Round");
 		frameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundInfoBox.add (frameLabel);
-		roundInfoBox.add (Box.createVerticalStrut (10));
+		roundInfoJPanel.add (frameLabel);
+		roundInfoJPanel.add (Box.createVerticalStrut (10));
 		
 		Bank tBank = roundManager.getBank ();
 		tBank.updateBankCashLabel ();
 		JLabel tBankCashLabel = tBank.getBankCashLabel ();
 		tBankCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundInfoBox.add (tBankCashLabel);
-		roundInfoBox.add (Box.createVerticalStrut (10));
+		roundInfoJPanel.add (tBankCashLabel);
+		roundInfoJPanel.add (Box.createVerticalStrut (10));
 		
 		tTotalCash = roundManager.getTotalCash ();
 		totalCashLabel = new JLabel ("Total Cash: " + Bank.formatCash (tTotalCash));
 		totalCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundInfoBox.add (totalCashLabel);
+		roundInfoJPanel.add (totalCashLabel);
 		
 		phaseLabel = new JLabel ("Current Game Phase");
 		phaseLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		roundInfoBox.add (phaseLabel);
-		roundInfoBox.add (Box.createVerticalStrut (10));
+		roundInfoJPanel.add (phaseLabel);
+		roundInfoJPanel.add (Box.createVerticalStrut (10));
 		updatePhaseLabel ();
 		
-		roundBox.add (headerBox);
+		roundJPanel.add (headerJPanel);
 		
 		buildPlayersJPanel ();
-		roundBox.add (playersJPanel);
+		roundJPanel.add (playersJPanel);
 		
-		roundBox.add (Box.createVerticalStrut (10));
+		roundJPanel.add (Box.createVerticalStrut (10));
 
 		updateAllCorporationsBox ();
 
-		roundBox.add (allCorporationsBox);
-		roundBox.add (Box.createVerticalStrut (10));
+		roundJPanel.add (allCorporationsJPanel);
+		roundJPanel.add (Box.createVerticalStrut (10));
 		setStockRound (roundManager.getGameName (), roundManager.getStockRoundID ());
 		
-		buttonsBox = new JPanel ();
-		buttonsBox.setLayout (new BoxLayout (buttonsBox, BoxLayout.X_AXIS));
+		buttonsJPanel = new JPanel ();
+		buttonsJPanel.setLayout (new BoxLayout (buttonsJPanel, BoxLayout.X_AXIS));
 
 		passActionButton = new JButton (PASS_STOCK_TEXT);
 		passActionButton.setActionCommand (PASS_STOCK_ACTION);
 		passActionButton.addActionListener (this);
 		passActionButton.setAlignmentX (Component.CENTER_ALIGNMENT);
 		
-		buttonsBox.add (doActionButton);
-		buttonsBox.add (Box.createHorizontalStrut(20));
-		buttonsBox.add (passActionButton);
-		buttonsBox.add (Box.createHorizontalStrut(20));
+		buttonsJPanel.add (doActionButton);
+		buttonsJPanel.add (Box.createHorizontalStrut(20));
+		buttonsJPanel.add (passActionButton);
+		buttonsJPanel.add (Box.createHorizontalStrut(20));
 	
 		showGameEngineFrameButton = new JButton ("Show Game Engine Frame");
 		showGameEngineFrameButton.setActionCommand (SHOW_GE_FRAME_ACTION);
 		showGameEngineFrameButton.addActionListener (this);
 		showGameEngineFrameButton.setAlignmentX (Component.CENTER_ALIGNMENT);
-		buttonsBox.add (showGameEngineFrameButton);
+		buttonsJPanel.add (showGameEngineFrameButton);
 		
-		roundBox.add (buttonsBox);
-		roundBox.add (Box.createVerticalStrut (10));
+		roundJPanel.add (buttonsJPanel);
+		roundJPanel.add (Box.createVerticalStrut (10));
 		
-//		centerBox = Box.createHorizontalBox();
-		centerBox = new JPanel ();
-		centerBox.add (Box.createHorizontalStrut(20));
-		centerBox.add (roundBox);
-		centerBox.add (Box.createHorizontalStrut(20));
+		roundScrollPane = new JScrollPane (roundJPanel);
 
-		add (centerBox);
+		add (roundScrollPane);
 		pack ();
 		defaultColor = UIManager.getColor ("Panel.background");
 		setPreviousWhen (0);
@@ -210,37 +208,38 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	
 	private void fillParPrices () {
 		int tParPriceCount, tParPriceIndex, tIndex, tPrice;
-		Container tParPriceLineBox;
+		JPanel tParPriceLineBox;
+		JLabel tParPriceHeader;
 		Integer [] tParPrices;
 		GameManager tGameManager;
+		String tPrices [];
 		
 		tGameManager = roundManager.getGameManager ();
 		tParPrices = tGameManager.getAllStartCells ();
 		tParPriceCount = tParPrices.length;
-		if (tParPriceCount > 0) {
-			parPricesBox.setLayout (new BoxLayout (parPricesBox, BoxLayout.Y_AXIS));
-			parPricesBox.setAlignmentX (Component.LEFT_ALIGNMENT);
-			parPricesBox.setMinimumSize(new Dimension (150, 150));
-			parPricesBox.setMaximumSize (new Dimension (200, 160));
-			parPricesBox.setBorder (BorderFactory.createTitledBorder ("Par Prices"));
-			String tPrices [] = new String [tParPriceCount];
-			for (tIndex = 0; tIndex < tParPrices.length; tIndex++) {
-				tPrice = tParPrices [tIndex].intValue ();
-				tPrices [tIndex] = Bank.formatCash (tPrice);
-			}
+		parPricesJPanel.setLayout (new BoxLayout (parPricesJPanel, BoxLayout.Y_AXIS));
+		parPricesJPanel.setMinimumSize(new Dimension (600, 1500));
+		parPricesJPanel.setMaximumSize (new Dimension (600, 150));
+		parPricesJPanel.setBorder (BorderFactory.createLineBorder (Color.BLACK));
+		tParPriceHeader = new JLabel ("Par Prices");
+		parPricesJPanel.add (tParPriceHeader);
+		
+		tPrices = new String [tParPriceCount];
+		for (tParPriceIndex = 0; tParPriceIndex < tParPriceCount; tParPriceIndex++) {
+			tPrice = tParPrices [tParPriceIndex].intValue ();
+			tPrices [tParPriceIndex] = Bank.formatCash (tPrice);
+			parPrices.add (new JLabel (tPrices [tParPriceIndex]) );
+			companiesAtPar.add (new JLabel (""));
 			
-			for (tParPriceIndex = 0; tParPriceIndex < tParPriceCount; tParPriceIndex++) {
-				parPrices.add (new JLabel (tPrices [tParPriceIndex]) );
-				companiesAtPar.add (new JLabel ("B&O"));
-				tParPriceLineBox = Box.createHorizontalBox ();
-				tParPriceLineBox.add (parPrices.get (tParPriceIndex));
-				tParPriceLineBox.add (Box.createHorizontalStrut (10));
-				tParPriceLineBox.add (companiesAtPar.get (tParPriceIndex));
-				parPriceLineBoxes.add (tParPriceLineBox);
-				parPricesBox.add (parPriceLineBoxes.get (tParPriceIndex));
-			}
-			parPricesBox.setVisible (false);
+			tParPriceLineBox = new JPanel ();
+			tParPriceLineBox.setLayout (new BoxLayout (tParPriceLineBox, BoxLayout.X_AXIS));
+			tParPriceLineBox.add (parPrices.get (tParPriceIndex));
+			tParPriceLineBox.add (Box.createHorizontalStrut (10));
+			tParPriceLineBox.add (companiesAtPar.get (tParPriceIndex));
+			parPriceLineJPanels.add (tParPriceLineBox);
+			parPricesJPanel.add (parPriceLineJPanels.get (tParPriceIndex));
 		}
+//		parPricesJPanel.setVisible (true);
 	}
 	
 	@Override
@@ -461,36 +460,36 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 
 		tOperatingRound = roundManager.getOperatingRound ();
 		tCorporationCount = tOperatingRound.getPrivateCompanyCount ();
-		allCorporationsBox.removeAll ();
+		allCorporationsJPanel.removeAll ();
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getPrivateCompanies ();
 			tCompanyJPanel = tCorporationList.buildCompanyJPanel (true);
-			allCorporationsBox.add (tCompanyJPanel);
-			allCorporationsBox.add (Box.createVerticalStrut (10));
+			allCorporationsJPanel.add (tCompanyJPanel);
+			allCorporationsJPanel.add (Box.createVerticalStrut (10));
 		}
 
 		tCorporationCount = tOperatingRound.getCoalCompanyCount ();
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getCoalCompanies ();
 			tCompanyJPanel = tCorporationList.buildCompanyJPanel (true);
-			allCorporationsBox.add (tCompanyJPanel);
-			allCorporationsBox.add (Box.createVerticalStrut (10));
+			allCorporationsJPanel.add (tCompanyJPanel);
+			allCorporationsJPanel.add (Box.createVerticalStrut (10));
 		}
 		
 		tCorporationCount = tOperatingRound.getMinorCompanyCount ();
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getMinorCompanies ();
 			tCompanyJPanel = tCorporationList.buildCompanyJPanel (true);
-			allCorporationsBox.add (tCompanyJPanel);
-			allCorporationsBox.add (Box.createVerticalStrut (10));
+			allCorporationsJPanel.add (tCompanyJPanel);
+			allCorporationsJPanel.add (Box.createVerticalStrut (10));
 		}
 		
 		tCorporationCount = tOperatingRound.getShareCompanyCount ();
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getShareCompanies ();
 			tCompanyJPanel = tCorporationList.buildCompanyJPanel (false);
-			allCorporationsBox.add (tCompanyJPanel);
-			allCorporationsBox.add (Box.createVerticalStrut (10));
+			allCorporationsJPanel.add (tCompanyJPanel);
+			allCorporationsJPanel.add (Box.createVerticalStrut (10));
 		}
 		revalidate ();
 	}
@@ -503,7 +502,6 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		String tPriceLabel;
 		String tParPrice;
 		ShareCompany tShareCompany;
-		boolean tAtLeastOneParPrice = false;
 		
 		tOperatingRound = roundManager.getOperatingRound ();		
 		tCorporationCount = tOperatingRound.getShareCompanyCount ();
@@ -517,14 +515,13 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 				if (tShareCompany.hasParPrice ()) {
 					tParPrice = Bank.formatCash (tShareCompany.getParPrice ());
 					for (tPriceIndex = 0; tPriceIndex < tPriceCount; tPriceIndex++) {
-						tPriceLabel = parPrices.get(tPriceIndex).getText ();
+						tPriceLabel = parPrices.get (tPriceIndex).getText ();
 						if (tPriceLabel.equals (tParPrice)) {
 							if (tCompaniesAtPrice [tPriceIndex] == null) {
 								tCompaniesAtPrice [tPriceIndex] = tShareCompany.getAbbrev ();
 							} else {
 								tCompaniesAtPrice [tPriceIndex] += ", " + tShareCompany.getAbbrev ();
 							}
-							tAtLeastOneParPrice = true;
 						}
 					}
 				}
@@ -532,9 +529,6 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 
 			for (tPriceIndex = 0; tPriceIndex < tPriceCount; tPriceIndex++) {
 				companiesAtPar.get (tPriceIndex).setText (tCompaniesAtPrice [tPriceIndex]);
-			}
-			if (tAtLeastOneParPrice) {
-				parPricesBox.setVisible (true);
 			}
 		}
 		revalidate ();
@@ -585,17 +579,17 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		tGameManager = roundManager.getGameManager ();
 		if (tGameManager.isNetworkGame ()) {
 			getContentPane ().setBackground (tAlertColor);
-			headerBox.setBackground (tAlertColor);
-			parPricesBox.setBackground (tAlertColor);
-			trainSummaryBox.setBackground (tAlertColor);
+			headerJPanel.setBackground (tAlertColor);
+			parPricesJPanel.setBackground (tAlertColor);
+			trainSummaryJPanel.setBackground (tAlertColor);
 		}
 	}
 
 	public void resetBackGround () {
 		getContentPane ().setBackground (defaultColor);	
-		headerBox.setBackground (defaultColor);
-		parPricesBox.setBackground (defaultColor);
-		trainSummaryBox.setBackground (defaultColor);
+		headerJPanel.setBackground (defaultColor);
+		parPricesJPanel.setBackground (defaultColor);
+		trainSummaryJPanel.setBackground (defaultColor);
 	}
 	
 	public void disablePassButton (String aToolTip) {
