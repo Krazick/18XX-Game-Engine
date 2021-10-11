@@ -9,7 +9,6 @@ package ge18xx.company;
 //
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Point;
 import java.awt.event.ItemListener;
 import java.util.Comparator;
@@ -79,7 +78,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	static final String enum_not_operated = ActionStates.NotOperated.toString ();
 	static final String NO_NAME = null;
 	static final String NO_HOME_GRID = null;
-//	static final Location NO_HOME_LOCATION = null;
 	static final int NO_COST = -1;
 	static final int NO_NAME_INT = -1;
 	static final int SORT_CO1_BEFORE_CO2 = -100;
@@ -1741,7 +1739,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return 0;
 	}
 
-	public Container buildPortfolioTrainsJPanel (CorporationFrame corporationFrame2, 
+	public JPanel buildPortfolioTrainsJPanel (CorporationFrame corporationFrame2, 
 			GameManager aGameManager, boolean aFullTrainPortfolio, 
 			boolean aCanBuyTrain, String aDisableToolTipReason, 
 			Corporation aBuyingCorporation) {

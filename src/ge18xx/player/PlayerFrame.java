@@ -6,7 +6,6 @@ import ge18xx.bank.StartPacketFrame;
 import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,9 +41,9 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	static final String SELL = "Sell";
 	static final String EXCHANGE = "Exchange";
 	private static final long serialVersionUID = 1L;
-	Container playerAndBankBox;
-	Container bankBox;
-	Container playerBox;
+	JPanel playerAndBankBox;
+	JPanel bankBox;
+	JPanel playerBox;
 	JPanel actionButtonBox;
 	JPanel playerInfoJPanel;
 	JPanel portfolioInfoJPanel;
@@ -70,14 +69,16 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		if (aPlayer != Player.NO_PLAYER) {
 			player = aPlayer;
 			
-			playerAndBankBox = Box.createHorizontalBox ();
-			bankBox = Box.createVerticalBox ();
-			playerBox = Box.createVerticalBox ();
+			playerAndBankBox = new JPanel ();
+			playerAndBankBox.setLayout (new BoxLayout (playerAndBankBox, BoxLayout.X_AXIS));
+			bankBox = new JPanel ();
+			bankBox.setLayout (new BoxLayout (bankBox, BoxLayout.Y_AXIS));
+			playerBox = new JPanel ();
+			playerBox.setLayout (new BoxLayout (playerBox, BoxLayout.Y_AXIS));
 			playerInfoJPanel = new JPanel ();
 			playerBox.add (Box.createVerticalStrut (10));
 			playerInfoJPanel.setBorder (BorderFactory.createTitledBorder ("Information For " + player.getName ()));
-			BoxLayout tLayout = new BoxLayout (playerInfoJPanel, BoxLayout.X_AXIS);
-			playerInfoJPanel.setLayout (tLayout);
+			playerInfoJPanel.setLayout (new BoxLayout (playerInfoJPanel, BoxLayout.X_AXIS));
 			playerInfoJPanel.setAlignmentX (CENTER_ALIGNMENT);
 			
 			addPlayerInfoJPanelLabel (null);
@@ -350,14 +351,14 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		updateActionButtons ();
 	}
 
-	public void replacePortfolioInfo (JPanel aPortfolioContainer) {
+	public void replacePortfolioInfo (JPanel aPortfolioJPanel) {
 		if (portfolioInfoJPanel == null) {
-			setPortfolioInfoContainer (aPortfolioContainer);
+			setPortfolioInfoJPanel (aPortfolioJPanel);
 		} else {
 			playerBox.remove (portfolioInfoIndex);
 			playerBox.remove (portfolioInfoIndex - 1);
 		}
-		playerBox.add (aPortfolioContainer);
+		playerBox.add (aPortfolioJPanel);
 		playerBox.add (Box.createVerticalStrut (10));
 		playerBox.validate ();
 	}
@@ -471,8 +472,8 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		enableMustBuyPrivateButton ();
 	}
 	
-	public void setPortfolioInfoContainer (JPanel aPortfolioInfoContainer) {
-		portfolioInfoJPanel = aPortfolioInfoContainer;
+	public void setPortfolioInfoJPanel (JPanel aPortfolioInfoJPanel) {
+		portfolioInfoJPanel = aPortfolioInfoJPanel;
 	}
 	
 	public void setPortfolioValueLabel () {

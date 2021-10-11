@@ -218,7 +218,7 @@ public class Bidders {
 				if (tBidder.equals (aCashHolder)) {
 					bidders.remove (tBidderIndex);
 					tPlayer = (Player) tBidder;
-					tPlayer.updatePlayerContainer ();
+					tPlayer.updatePlayerJPanel ();
 				}
 			}
 		}
@@ -247,7 +247,7 @@ public class Bidders {
 				tBid = getBidAt (0);
 				tBidder.refundEscrow (certificate, tBid, aWinAuctionAction);
 				bidders.remove (0);
-				tBidder.updatePlayerContainer ();
+				tBidder.updatePlayerJPanel ();
 			}
 		}
 	}

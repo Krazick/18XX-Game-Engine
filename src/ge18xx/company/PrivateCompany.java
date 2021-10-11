@@ -239,7 +239,6 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 			tCorpLabel += "<br>Revenue: " + Bank.formatCash (getRevenue ());
 			if (getDiscount () > 0) {
 				tCorpLabel += "<br>Discount: " + Bank.formatCash (getDiscount ());
-				
 			}
 		}
 		tCorpLabel = "<html>" + tCorpLabel + "</html>";

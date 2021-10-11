@@ -18,7 +18,6 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
-import java.awt.Container;
 import java.awt.event.ItemListener;
 import java.util.Collections;
 import java.util.ArrayList;
@@ -62,9 +61,9 @@ public class TrainPortfolio implements TrainHolderI {
 	public JPanel buildPortfolioJPanel (ItemListener aItemListener, Corporation aCorporation, 
 			GameManager aGameManager, String aActionLabel, boolean aFullvsCompact,
 			boolean aEnableAction, String aDisableReason) {
-		JPanel tPortfolioContainer;
+		JPanel tPortfolioJPanel;
+		JPanel tTrainCertJPanel;
 		JLabel tLabel;
-		Container tTrainCertContainer;
 		int tTrainIndex, tTrainCount, tTrainQuantity;
 		Train tTrain;
 		String tTrainName, tLabelText;
@@ -75,10 +74,10 @@ public class TrainPortfolio implements TrainHolderI {
 		TrainCompany tTrainCompany;
 		Train [] tBankAvailableTrains = aGameManager.getBankAvailableTrains ();
 		
-		tPortfolioContainer = new JPanel ();
+		tPortfolioJPanel = new JPanel ();
 		if (trains.isEmpty ()) {
 			tLabel = new JLabel (">> NO TRAINS <<");
-			tPortfolioContainer.add (tLabel);
+			tPortfolioJPanel.add (tLabel);
 		} else {
 			tTrainIndex = 0;
 			tTrainCount = getTrainCount ();
@@ -99,7 +98,6 @@ public class TrainPortfolio implements TrainHolderI {
 							tActionToolTip = "Corporation at Train Limit";
 						} else if (aCorporation.getCash () == 0) {
 							tActionToolTip = "Corporation has no Cash";
-
 						} else {
 							tActionToolTip = "Train has not handled dividends yet";
 						}
@@ -131,7 +129,7 @@ public class TrainPortfolio implements TrainHolderI {
 						}
 					}
 				}
-				tTrainCertContainer = tTrain.buildCertificateInfoContainer (aItemListener, tActionLabel, 
+				tTrainCertJPanel = tTrain.buildCertificateInfoJPanel (aItemListener, tActionLabel, 
 						tActionEnabled, tActionToolTip);
 				if (aFullvsCompact == COMPACT_TRAIN_PORTFOLIO) {
 					if (tTrainQuantity > 1) {
@@ -148,16 +146,16 @@ public class TrainPortfolio implements TrainHolderI {
 					tLabel = new JLabel ("<html>" + tLabelText + "</html>");
 				
 					if (tTrainQuantity > 0) {
-						tTrainCertContainer.add (tLabel);
+						tTrainCertJPanel.add (tLabel);
 					}
 					tTrainIndex += tTrainQuantity - 1;	
 				}
-				tPortfolioContainer.add (tTrainCertContainer);
+				tPortfolioJPanel.add (tTrainCertJPanel);
 				tTrainIndex++;
 			}			
 		}
 		
-		return tPortfolioContainer;
+		return tPortfolioJPanel;
 	}
 	
 	public void clearSelections () {

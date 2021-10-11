@@ -1,6 +1,5 @@
 package ge18xx.player;
 
-//import java.awt.Container;
 import java.awt.Point;
 import java.awt.event.ItemListener;
 import java.util.List;
@@ -984,8 +983,8 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		System.out.println ("Auction Action State [" + auctionActionState.toString () + "]");
 	}
 	
-	public void replacePortfolioInfo (JPanel aPortfolioInfoContainer) {
-		playerFrame.replacePortfolioInfo (aPortfolioInfoContainer);
+	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
+		playerFrame.replacePortfolioInfo (aPortfolioInfoJPanel);
 	}
 	
 	public void setAuctionActionState (ActionStates aAuctionActionState) {
@@ -1165,7 +1164,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	}
 
 
-	public void updatePlayerContainer () {
+	public void updatePlayerJPanel () {
 		playerManager.updateRFPlayerLabel (this);
 	}
 	

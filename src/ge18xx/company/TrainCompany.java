@@ -42,6 +42,7 @@ import java.awt.Point;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
@@ -324,11 +325,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 //	@Override
-	public Container buildPortfolioTrainsJPanel (CorporationFrame aItemListener, 
+	public JPanel buildPortfolioTrainsJPanel (CorporationFrame aItemListener, 
 			GameManager aGameManager, boolean aFullTrainPortfolio, 
 			boolean aCanBuyTrain, String aDisableToolTipReason, 
 			Corporation aBuyingCorporation, int aTokenCount) {
-		Container tTrainPortfolioInfoContainer;
+		JPanel tTrainPortfolioInfoContainer;
 		Container tTrainInfoContainer;
 		Container tCorpTrainContainer;
 		Container tCorpInfoContainer;
@@ -346,7 +347,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tCorpJPanel = new JPanel ();
 		tCorpJPanel.setBorder (tBorder);
 		
-		tTrainPortfolioInfoContainer = Box.createVerticalBox ();
+		tTrainPortfolioInfoContainer = new JPanel ();
+		tTrainPortfolioInfoContainer.setLayout (new BoxLayout (tTrainPortfolioInfoContainer, BoxLayout.Y_AXIS));
 		tCorpTrainContainer = Box.createVerticalBox ();
 		tCorpInfoContainer = Box.createVerticalBox ();
 		tLabel = new JLabel (getAbbrev ());
@@ -382,9 +384,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tTrainPortfolioInfoContainer;
 	}
 
-	public JPanel buildCertPortfolioInfoContainer (ItemListener aItemListener) {
-		JPanel tCertPortfolioInfoContainer;
-		JPanel tTrainPortfolioInfoContainer;
+	public JPanel buildCertPortfolioInfoJPanel (ItemListener aItemListener) {
+		JPanel tCertPortfolioInfoJPanel;
+		JPanel tTrainPortfolioInfoJPanel;
 		JPanel tPortfolioInfoJPanel;
 		GameManager tGameManager;
 		JLabel tLabel, tBPPLabel;
@@ -392,24 +394,24 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		
 		tGameManager = corporationList.getGameManager ();
 		if (trainPortfolio != null) {
-			tTrainPortfolioInfoContainer = trainPortfolio.buildPortfolioJPanel (aItemListener, this, 
+			tTrainPortfolioInfoJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, this, 
 					tGameManager, null, TrainPortfolio.FULL_TRAIN_PORTFOLIO, true, "");
 		} else {
-			tTrainPortfolioInfoContainer = new JPanel ();
+			tTrainPortfolioInfoJPanel = new JPanel ();
 			tLabel = new JLabel (">>NO TRAINS<<");
-			tTrainPortfolioInfoContainer.add (tLabel);
+			tTrainPortfolioInfoJPanel.add (tLabel);
 		}
 		
 		tPortfolioInfoJPanel = buildPortfolioJPanel (aItemListener, tGameManager);
-		tCertPortfolioInfoContainer = new JPanel ();
+		tCertPortfolioInfoJPanel = new JPanel ();
 
 		tBankPoolPercent = getBankPoolPercentage () + "% " + abbrev + " in Bank Pool";
 		tBPPLabel = new JLabel (tBankPoolPercent);
-		tCertPortfolioInfoContainer.add (tBPPLabel);
-		tCertPortfolioInfoContainer.add (tTrainPortfolioInfoContainer);
-		tCertPortfolioInfoContainer.add (tPortfolioInfoJPanel);
+		tCertPortfolioInfoJPanel.add (tBPPLabel);
+		tCertPortfolioInfoJPanel.add (tTrainPortfolioInfoJPanel);
+		tCertPortfolioInfoJPanel.add (tPortfolioInfoJPanel);
 		
-		return tCertPortfolioInfoContainer;
+		return tCertPortfolioInfoJPanel;
 	}
 	
 	public void forceBuyTrain () {
@@ -1142,7 +1144,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				if (tPortfolioHolder instanceof Player) {
 					tPlayer = (Player) tPortfolioHolder;
 					tBank.transferCashTo (tPlayer, tDividendForShares);
-					tPlayer.updatePlayerContainer ();
+					tPlayer.updatePlayerJPanel ();
 					aPayFullDividendAction.addCashTransferEffect (tBank, tPlayer, tDividendForShares);
 				} else if (tPortfolioHolder instanceof BankPool) {
 					tBank.transferCashTo (this, tDividendForShares);

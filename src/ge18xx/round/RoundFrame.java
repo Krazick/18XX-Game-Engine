@@ -75,6 +75,8 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		super (aFrameName, aGameName);
 		
 		int tTotalCash;
+		Bank tBank;
+		JLabel tBankCashLabel;
 		
 		roundManager = aRoundManager;
 		logger = Game_18XX.getLogger ();
@@ -92,9 +94,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		trainSummary = new JTextArea ("");
 		updateTrainSummary ();
 		trainSummaryJPanel.add (trainSummary);
-		roundInfoJPanel.setLayout (new BoxLayout (roundInfoJPanel, BoxLayout.Y_AXIS));
-		roundInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		
+
 		headerJPanel.setLayout (new BoxLayout (headerJPanel, BoxLayout.X_AXIS));
 		headerJPanel.setAlignmentY (Component.TOP_ALIGNMENT);
 		headerJPanel.add (Box.createHorizontalStrut (20));
@@ -108,15 +108,17 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		allCorporationsJPanel = new JPanel ();
 		allCorporationsJPanel.setLayout (new BoxLayout (allCorporationsJPanel, BoxLayout.Y_AXIS));
 
-		roundInfoJPanel.add (Box.createVerticalStrut (10));
 		frameLabel = new JLabel ("Round");
 		frameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		roundInfoJPanel.setLayout (new BoxLayout (roundInfoJPanel, BoxLayout.Y_AXIS));
+		roundInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);	
+		roundInfoJPanel.add (Box.createVerticalStrut (10));
 		roundInfoJPanel.add (frameLabel);
 		roundInfoJPanel.add (Box.createVerticalStrut (10));
 		
-		Bank tBank = roundManager.getBank ();
+		tBank = roundManager.getBank ();
 		tBank.updateBankCashLabel ();
-		JLabel tBankCashLabel = tBank.getBankCashLabel ();
+		tBankCashLabel = tBank.getBankCashLabel ();
 		tBankCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		roundInfoJPanel.add (tBankCashLabel);
 		roundInfoJPanel.add (Box.createVerticalStrut (10));
@@ -136,7 +138,6 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		
 		buildPlayersJPanel ();
 		roundJPanel.add (playersJPanel);
-		
 		roundJPanel.add (Box.createVerticalStrut (10));
 
 		updateAllCorporationsBox ();
@@ -207,7 +208,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	}
 	
 	private void fillParPrices () {
-		int tParPriceCount, tParPriceIndex, tIndex, tPrice;
+		int tParPriceCount, tParPriceIndex, tPrice;
 		JPanel tParPriceLineBox;
 		JLabel tParPriceHeader;
 		Integer [] tParPrices;

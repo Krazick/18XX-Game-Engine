@@ -61,7 +61,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	JPanel corporationAllInfoJPanel;
 	JPanel corporationInfoJPanel;
 	JPanel privatesJPanel;
-	Container certContainer;
+	JPanel certContainer;
 	JPanel buttonRow1, buttonRow2;
 	JLabel treasuryLabel;
 	JLabel presidentLabel;
@@ -467,7 +467,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			}
 			tTrainCompany = (TrainCompany) corporation;
 			certBox.removeAll ();
-			certContainer = tTrainCompany.buildCertPortfolioInfoContainer (this);
+			certContainer = tTrainCompany.buildCertPortfolioInfoJPanel (this);
 			certBox.add (certContainer);
 			certBox.validate ();
 		}

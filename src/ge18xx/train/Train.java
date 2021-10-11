@@ -136,7 +136,7 @@ public class Train implements Comparable<Object> {
 		return tCertificateInfoPanel;
 	}
 	
-	public JPanel buildCertificateInfoContainer (ItemListener aItemListener, String aActionLabel,
+	public JPanel buildCertificateInfoJPanel (ItemListener aItemListener, String aActionLabel,
 					boolean aActionEnabled, String aActionToolTip) {
 		JPanel tCertificateInfoPanel;
 		

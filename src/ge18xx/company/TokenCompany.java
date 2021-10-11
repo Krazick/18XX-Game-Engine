@@ -27,12 +27,12 @@ import ge18xx.utilities.XMLNode;
 import java.util.List;
 import java.util.LinkedList;
 
-import java.awt.Container;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public abstract class TokenCompany extends TrainCompany {
 	public static final ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
@@ -522,17 +522,17 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 	
 	@Override
-	public Container buildPortfolioTrainsJPanel (CorporationFrame aItemListener, 
+	public JPanel buildPortfolioTrainsJPanel (CorporationFrame aItemListener, 
 			GameManager aGameManager, boolean aFullTrainPortfolio, 
 			boolean aCanBuyTrain, String aDisableToolTipReason, 
 			Corporation aBuyingCorporation) {
-		Container tTrainPortfolioInfoContainer;
+		JPanel tTrainPortfolioInfoJPanel;
 		int tTokenCount;
 		
 		tTokenCount = getTokenCount ();
-		tTrainPortfolioInfoContainer = super.buildPortfolioTrainsJPanel (aItemListener, aGameManager, aFullTrainPortfolio, aCanBuyTrain,
+		tTrainPortfolioInfoJPanel = super.buildPortfolioTrainsJPanel (aItemListener, aGameManager, aFullTrainPortfolio, aCanBuyTrain,
 				aDisableToolTipReason, aBuyingCorporation, tTokenCount);
 		
-		return tTrainPortfolioInfoContainer;
+		return tTrainPortfolioInfoJPanel;
 	}
 }
