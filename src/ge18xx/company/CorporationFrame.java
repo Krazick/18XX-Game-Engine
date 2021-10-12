@@ -16,9 +16,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.Container;
+//import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -53,15 +52,15 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String UNDO = "Undo";
 	static final String NO_TOOL_TIP = "";
 	private static final long serialVersionUID = 1L;
-	Container bankBox;
-	Container certBox;
-	Container privatesBox;
-	Container corporationContainer;
-	Container otherCorpsContainer;
+	JPanel bankJPanel;
+	JPanel certJPanel;
+	JPanel privatesBox;
+	JPanel corporationJPanel;
+	JPanel otherCorpsJPanel;
 	JPanel corporationAllInfoJPanel;
 	JPanel corporationInfoJPanel;
 	JPanel privatesJPanel;
-	JPanel certContainer;
+	JPanel certInfoJPanel;
 	JPanel buttonRow1, buttonRow2;
 	JLabel treasuryLabel;
 	JLabel presidentLabel;
@@ -92,11 +91,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public CorporationFrame (String aFrameName, Corporation aCorporation, boolean aIsNetworkGame) {
 		super (((aCorporation != null) ? aCorporation.getName () + " " : "") + aFrameName);
 		Dimension tMinSize = new Dimension (20, 10);
-		Container tActionButtons, tTopBoxes;
+		JPanel tActionButtons, tTopBoxes, tPhaseInfoBox;
 		
-		corporationContainer = Box.createVerticalBox ();
-		tTopBoxes = Box.createHorizontalBox ();
-		certBox = null;
+		corporationJPanel = new JPanel ();
+		corporationJPanel.setLayout (new BoxLayout (corporationJPanel, BoxLayout.Y_AXIS));
+		tTopBoxes = new JPanel ();
+		tTopBoxes.setLayout (new BoxLayout (tTopBoxes, BoxLayout.X_AXIS));
+		certJPanel = null;
 		corporation = aCorporation;
 		if (corporation != CorporationList.NO_CORPORATION) {
 			corporation = aCorporation;
@@ -106,35 +107,38 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tTopBoxes.add (Box.createHorizontalStrut (20));
 			tTopBoxes.add (corporationAllInfoJPanel);
 			tTopBoxes.add (Box.createHorizontalStrut (10));
-			Container tPhaseInfoBox = buildPhaseInfoBox ();
+			tPhaseInfoBox = buildPhaseInfoBox ();
 			tTopBoxes.add (tPhaseInfoBox);
 			tTopBoxes.add (Box.createHorizontalStrut (20));
-			corporationContainer.add (Box.createVerticalStrut (20));
-			corporationContainer.add (tTopBoxes);
-			corporationContainer.add (Box.createVerticalStrut (10));
+			corporationJPanel.add (Box.createVerticalStrut (20));
+			corporationJPanel.add (tTopBoxes);
+			corporationJPanel.add (Box.createVerticalStrut (10));
 			tActionButtons = createActionButtonRows ();
-			corporationContainer.add (tActionButtons);
-			corporationContainer.add (Box.createVerticalStrut (10));
+			corporationJPanel.add (tActionButtons);
+			corporationJPanel.add (Box.createVerticalStrut (10));
 
 			if (corporation.gameHasPrivates ()) {
 				if (corporation instanceof ShareCompany) {
-					privatesBox = Box.createVerticalBox ();
-					corporationContainer.add (privatesBox);
-					corporationContainer.add (Box.createVerticalStrut (10));
+					privatesBox = new JPanel ();
+					privatesBox.setLayout (new BoxLayout (privatesBox, BoxLayout.Y_AXIS));
+					corporationJPanel.add (privatesBox);
+					corporationJPanel.add (Box.createVerticalStrut (10));
 				}
 			}
 	
 			// Set up Bank Pool and Bank Box for Train Certificates - But only for Train Companies
 
 			if (corporation.isATrainCompany ()) {
-				otherCorpsContainer = Box.createHorizontalBox ();
-				corporationContainer.add (otherCorpsContainer);
-				corporationContainer.add (Box.createVerticalStrut (10));
-				bankBox = Box.createHorizontalBox ();
-				corporationContainer.add (bankBox);
-				corporationContainer.add (Box.createVerticalStrut (10));
+				otherCorpsJPanel = new JPanel ();
+				otherCorpsJPanel.setLayout (new BoxLayout (otherCorpsJPanel, BoxLayout.Y_AXIS));
+				corporationJPanel.add (otherCorpsJPanel);
+				corporationJPanel.add (Box.createVerticalStrut (10));
+				bankJPanel = new JPanel ();
+				bankJPanel.setLayout (new BoxLayout (bankJPanel, BoxLayout.X_AXIS));
+				corporationJPanel.add (bankJPanel);
+				corporationJPanel.add (Box.createVerticalStrut (10));
 			}
-			add (corporationContainer);
+			add (corporationJPanel);
 			setSize (900, 800);
 			setIsNetworkGame (aIsNetworkGame);
 			updateUndoButton ();
@@ -142,21 +146,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void buildCorporationInfoJPanel (Dimension tMinSize) {
-		BoxLayout tLayoutX;
-		BoxLayout tLayoutY;
-		
 		corporationAllInfoJPanel = new JPanel ();
+		corporationAllInfoJPanel.setLayout (new BoxLayout (corporationAllInfoJPanel, BoxLayout.Y_AXIS));
+		corporationAllInfoJPanel.setAlignmentY (CENTER_ALIGNMENT);
 		corporationAllInfoJPanel.setBorder (
 				BorderFactory.createTitledBorder (
 						BorderFactory.createLineBorder (((TrainCompany) corporation).getBgColor (), 2),
 						" Information For " + corporation.getName ()));
-		tLayoutY = new BoxLayout (corporationAllInfoJPanel, BoxLayout.Y_AXIS);
-		corporationAllInfoJPanel.setLayout (tLayoutY);
-		corporationAllInfoJPanel.setAlignmentY (CENTER_ALIGNMENT);
 		
 		corporationInfoJPanel = new JPanel ();			
-		tLayoutX = new BoxLayout (corporationInfoJPanel, BoxLayout.X_AXIS);
-		corporationInfoJPanel.setLayout (tLayoutX);
+		corporationInfoJPanel.setLayout (new BoxLayout (corporationInfoJPanel, BoxLayout.X_AXIS));
 		corporationInfoJPanel.setAlignmentX (CENTER_ALIGNMENT);
 		statusLabel = new JLabel ("");
 		corporationInfoJPanel.add (Box.createRigidArea (tMinSize));
@@ -188,13 +187,17 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporationAllInfoJPanel.add (Box.createRigidArea (tMinSize));
 			fillCertPortfolioContainer ();
 			if (corporation instanceof TrainCompany) {
-				corporationAllInfoJPanel.add (certBox);
+				corporationAllInfoJPanel.add (certJPanel);
 			}
 		}
 	}
 	
-	private Container buildPhaseInfoBox () {
-		Container tPhaseInfoBox = Box.createVerticalBox ();
+	private JPanel buildPhaseInfoBox () {
+		JPanel tPhaseInfoBox;
+		
+
+		tPhaseInfoBox = new JPanel ();
+		tPhaseInfoBox.setLayout (new BoxLayout (tPhaseInfoBox, BoxLayout.Y_AXIS));
 		tPhaseInfoBox.add (Box.createVerticalStrut (5));
 		phaseNameLabel = new JLabel ("Current Phase Name ");
 		tPhaseInfoBox.add (phaseNameLabel);
@@ -310,12 +313,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tActionButton;
 	}
 	
-	private Container createActionButtonRows () {
-		FlowLayout tFlowLayout = new FlowLayout();
-		Container tActionButtons = Box.createVerticalBox ();
+	private JPanel createActionButtonRows () {
+		JPanel tActionButtons;
 		
-		buttonRow1 = new JPanel (tFlowLayout);
-		buttonRow2 = new JPanel (tFlowLayout);
+		buttonRow1 = new JPanel ();
+		buttonRow2 = new JPanel ();
+		tActionButtons = new JPanel ();
+		tActionButtons.setLayout (new BoxLayout (tActionButtons, BoxLayout.Y_AXIS));
 		
 		doneActionButton = setupActionButton (DONE, DONE);
 		undoActionButton = setupActionButton (UNDO, UNDO);
@@ -370,20 +374,20 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void fillOtherCorpsContainer (boolean aCanBuyTrain, String aDisableToolTipReason) {
 		GameManager tGameManager;
 		CorporationList tShareCorporations;
-		JPanel tCorporationsTrainsContainer;
+		JPanel tCorporationsTrainsJPanel;
 
 		if (isCorporationSet ()) {
 			if (corporation.isOperating ()) {
 				tGameManager = corporation.getGameManager ();
 				if (tGameManager != null) {
-					otherCorpsContainer.removeAll ();
+					otherCorpsJPanel.removeAll ();
 					tShareCorporations = tGameManager.getShareCompanies ();
-					tCorporationsTrainsContainer = tShareCorporations.buildFullCorpsJPanel (this, 
+					tCorporationsTrainsJPanel = tShareCorporations.buildFullCorpsJPanel (this, 
 							corporation, tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO, 
 							aCanBuyTrain, aDisableToolTipReason);
-					otherCorpsContainer.add (Box.createHorizontalGlue ());
-					otherCorpsContainer.add (tCorporationsTrainsContainer);
-					otherCorpsContainer.add (Box.createHorizontalGlue ());
+					otherCorpsJPanel.add (Box.createHorizontalGlue ());
+					otherCorpsJPanel.add (tCorporationsTrainsJPanel);
+					otherCorpsJPanel.add (Box.createHorizontalGlue ());
 				}				
 			}
 		}
@@ -396,8 +400,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void fillBankBox (boolean aCanBuyTrain, String aDisableToolTipReason) {
 		Bank tBank;
 		BankPool tBankPool;
-		Container tBPPortfolioJPanel;
-		Container tBankPortfolioJPanel;
+		JPanel tBPPortfolioJPanel;
+		JPanel tBankPortfolioJPanel;
 		GameManager tGameManager;
 		
 		if (isCorporationSet ()) {
@@ -406,26 +410,26 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tBankPool = corporation.getBankPool ();
 			
 			if (tGameManager != null) {
-				bankBox.removeAll ();
+				bankJPanel.removeAll ();
 				if (tBankPool != null) {
 					tBPPortfolioJPanel = tBankPool.buildTrainPortfolioInfoJPanel (this, corporation, 
 							tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
-					bankBox.add (Box.createHorizontalGlue ());
-					bankBox.add (tBPPortfolioJPanel);
-					bankBox.add (Box.createHorizontalGlue ());
+					bankJPanel.add (Box.createHorizontalGlue ());
+					bankJPanel.add (tBPPortfolioJPanel);
+					bankJPanel.add (Box.createHorizontalGlue ());
 				} else {
 					System.err.println ("Bank Pool is Null");
 				}
 				if (tBank != null) {
 					tBankPortfolioJPanel = tBank.buildTrainPortfolioInfoJPanel (this, corporation, 
 							tGameManager, TrainPortfolio.COMPACT_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
-					bankBox.add (tBankPortfolioJPanel);
-					bankBox.add (Box.createHorizontalGlue ());
+					bankJPanel.add (tBankPortfolioJPanel);
+					bankJPanel.add (Box.createHorizontalGlue ());
 				} else {
 					System.err.println ("Bank is Null");
 				}
-				bankBox.repaint ();
-				bankBox.revalidate ();
+				bankJPanel.repaint ();
+				bankJPanel.revalidate ();
 			}
 		}
 	}
@@ -460,16 +464,17 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void fillCertPortfolioContainer () {
 		TrainCompany tTrainCompany;
 		
-		certContainer = null;
+		certInfoJPanel = null;
 		if (corporation instanceof TrainCompany) {
-			if (certBox == null) {
-				certBox = Box.createVerticalBox (); 
+			if (certJPanel == null) {
+				certJPanel = new JPanel ();
+				certJPanel.setLayout (new BoxLayout (certJPanel, BoxLayout.Y_AXIS));
 			}
 			tTrainCompany = (TrainCompany) corporation;
-			certBox.removeAll ();
-			certContainer = tTrainCompany.buildCertPortfolioInfoJPanel (this);
-			certBox.add (certContainer);
-			certBox.validate ();
+			certJPanel.removeAll ();
+			certInfoJPanel = tTrainCompany.buildCertPortfolioInfoJPanel (this);
+			certJPanel.add (certInfoJPanel);
+			certJPanel.validate ();
 		}
 	}
 	
