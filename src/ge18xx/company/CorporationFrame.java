@@ -370,7 +370,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void fillOtherCorpsContainer (boolean aCanBuyTrain, String aDisableToolTipReason) {
 		GameManager tGameManager;
 		CorporationList tShareCorporations;
-		Container tCorporationsTrainsContainer;
+		JPanel tCorporationsTrainsContainer;
 
 		if (isCorporationSet ()) {
 			if (corporation.isOperating ()) {
@@ -378,7 +378,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				if (tGameManager != null) {
 					otherCorpsContainer.removeAll ();
 					tShareCorporations = tGameManager.getShareCompanies ();
-					tCorporationsTrainsContainer = tShareCorporations.buildOtherTrainsContainer (this, 
+					tCorporationsTrainsContainer = tShareCorporations.buildFullCorpsJPanel (this, 
 							corporation, tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO, 
 							aCanBuyTrain, aDisableToolTipReason);
 					otherCorpsContainer.add (Box.createHorizontalGlue ());

@@ -41,7 +41,6 @@ import ge18xx.utilities.XMLDocument;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 
 import java.awt.event.ItemListener;
@@ -885,44 +884,46 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		roundManager.sendToReportFrame (aReport);
 	}
 
-	public Container buildOtherTrainsContainer (CorporationFrame aCorporationFrame, Corporation aBuyingCorporation,
+	public JPanel buildFullCorpsJPanel (CorporationFrame aCorporationFrame, Corporation aBuyingCorporation,
 			GameManager aGameManager, boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason) {
-		Container tOtherCorpsContainer;
-		Container tOtherCorpsInfoContainer;
-		JPanel tOtherCorpsJPanel;
+		JPanel tFullCorpsJPanel;
+		JPanel tOtherCorpsInfoJPanel;
+		JPanel tOtherCorpsJPanel1;
 		
-		tOtherCorpsContainer = Box.createHorizontalBox ();
-		tOtherCorpsJPanel = new JPanel ();
-		tOtherCorpsJPanel.setBorder (BorderFactory.createTitledBorder (" Other Train Corporations - In Operating Order "));
+		tFullCorpsJPanel = new JPanel ();
+		tFullCorpsJPanel.setLayout (new BoxLayout (tFullCorpsJPanel, BoxLayout.X_AXIS));
+		tOtherCorpsJPanel1 = new JPanel ();
+		tOtherCorpsJPanel1.setLayout (new BoxLayout (tOtherCorpsJPanel1, BoxLayout.Y_AXIS));
+		tOtherCorpsJPanel1.setBorder (BorderFactory.createTitledBorder (" Other Train Corporations - In Operating Order "));
 
-		tOtherCorpsJPanel.setLayout (new BoxLayout (tOtherCorpsJPanel, BoxLayout.X_AXIS));
-		tOtherCorpsInfoContainer = buildOtherCorpsInfo (aCorporationFrame, aBuyingCorporation, 
+		tOtherCorpsInfoJPanel = buildOtherCorpsInfoJPanel (aCorporationFrame, aBuyingCorporation, 
 				aGameManager, aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason);
-		tOtherCorpsJPanel.add (Box.createVerticalGlue ());
-		tOtherCorpsJPanel.add (tOtherCorpsInfoContainer);
-		tOtherCorpsJPanel.add (Box.createVerticalGlue ());
-		tOtherCorpsContainer.add (tOtherCorpsJPanel);
+		tOtherCorpsJPanel1.add (Box.createVerticalStrut (5));
+		tOtherCorpsJPanel1.add (tOtherCorpsInfoJPanel);
+		tOtherCorpsJPanel1.add (Box.createVerticalStrut (5));
+		tFullCorpsJPanel.add (tOtherCorpsJPanel1);
 		
-		return tOtherCorpsContainer;
+		return tFullCorpsJPanel;
 	}
 	
-	public Container buildOtherCorpsInfo (CorporationFrame aCorporationFrame, Corporation aBuyingCorporation,
+	public JPanel buildOtherCorpsInfoJPanel (CorporationFrame aCorporationFrame, Corporation aBuyingCorporation,
 			GameManager aGameManager, boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason) {
-		Container tOtherCorpsInfoContainer;
-		Container tOtherCorpInfoContainer;
-		Container tOperatingCorpContainer;
+		JPanel tOtherCorpsInfoJPanel;
+		JPanel tOtherCorpInfoJPanel;
+		JPanel tOperatingCorpJPanel;
 		JPanel tOperatingCorpPanel;
 		Color tFgColor, tBgColor;
 		TrainCompany tTrainCompany;
 		Border tBorder;
 		
-		tOtherCorpsInfoContainer = Box.createHorizontalBox ();
-		tOtherCorpsInfoContainer.add (Box.createHorizontalStrut (10));
+		tOtherCorpsInfoJPanel = new JPanel ();
+		tOtherCorpsInfoJPanel.setLayout (new BoxLayout (tOtherCorpsInfoJPanel, BoxLayout.X_AXIS));
+		tOtherCorpsInfoJPanel.add (Box.createHorizontalStrut (10));
 		for (Corporation tCorporation : corporations) {
 			if (aBuyingCorporation != tCorporation) {
-				tOtherCorpInfoContainer = tCorporation.buildPortfolioTrainsJPanel (aCorporationFrame, aGameManager, 
+				tOtherCorpInfoJPanel = tCorporation.buildPortfolioTrainsJPanel (aCorporationFrame, aGameManager, 
 						aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason, aBuyingCorporation);
-				tOtherCorpsInfoContainer.add (tOtherCorpInfoContainer);
+				tOtherCorpsInfoJPanel.add (tOtherCorpInfoJPanel);
 			} else {
 			
 				if (aBuyingCorporation instanceof TrainCompany) {
@@ -938,16 +939,17 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 				tOperatingCorpPanel = new JPanel ();
 				tOperatingCorpPanel.setBorder (tBorder);
 				
-				tOperatingCorpContainer = Box.createVerticalBox ();
-				tOperatingCorpContainer.add (new JLabel (tCorporation.getAbbrev ()));
-				tOperatingCorpContainer.add (new JLabel ("State: Operating"));
-				tOperatingCorpPanel.add (tOperatingCorpContainer);
-				tOtherCorpsInfoContainer.add (tOperatingCorpPanel);
+				tOperatingCorpJPanel = new JPanel ();
+				tOperatingCorpJPanel.setLayout (new BoxLayout (tOperatingCorpJPanel, BoxLayout.Y_AXIS));
+				tOperatingCorpJPanel.add (new JLabel (tCorporation.getAbbrev ()));
+				tOperatingCorpJPanel.add (new JLabel ("State: Operating"));
+				tOperatingCorpPanel.add (tOperatingCorpJPanel);
+				tOtherCorpsInfoJPanel.add (tOperatingCorpPanel);
 			}
-			tOtherCorpsInfoContainer.add (Box.createHorizontalStrut (10));
+			tOtherCorpsInfoJPanel.add (Box.createHorizontalStrut (10));
 		}
 		
-		return tOtherCorpsInfoContainer;
+		return tOtherCorpsInfoJPanel;
 	}
 	
 	public Border setupBorder (boolean aSamePresident, Color aFgColor, Color aBgColor) {
