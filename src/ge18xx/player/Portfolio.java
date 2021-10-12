@@ -106,7 +106,7 @@ public class Portfolio implements CertificateHolderI {
 		}
 	}
 
-	public JPanel buildCertificateContainer (String aCorpType, String aSelectedButtonLabel, 
+	public JPanel buildCertificateJPanel (String aCorpType, String aSelectedButtonLabel, 
 			ItemListener aItemListener, GameManager aGameManager) {
 		JPanel tCertificatePanel;
 		JPanel tCertificateInfoPanel;
@@ -144,15 +144,13 @@ public class Portfolio implements CertificateHolderI {
 		return tCertificatePanel;
 	}
 	
-	public JPanel buildCompactCertInfoPanel (String aCompanyAbbrev, int aCertCount, int aCertTotalPercent) {
+	public JPanel buildCompactCertInfoJPanel (String aCompanyAbbrev, int aCertCount, int aCertTotalPercent) {
 		JPanel tCertificateCompactPanel;
-		BoxLayout tLayout;
 		String tCertInfo;
 		JLabel tLabel;
 		
 		tCertificateCompactPanel = new JPanel ();
-		tLayout = new BoxLayout (tCertificateCompactPanel, BoxLayout.Y_AXIS);
-		tCertificateCompactPanel.setLayout (tLayout);
+		tCertificateCompactPanel.setLayout (new BoxLayout (tCertificateCompactPanel, BoxLayout.Y_AXIS));
 		tCertificateCompactPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		tCertInfo = compactCertInfo (aCompanyAbbrev, aCertCount, aCertTotalPercent); 
 		tLabel = new JLabel (tCertInfo);
@@ -303,7 +301,7 @@ public class Portfolio implements CertificateHolderI {
 					tAllCertificatesPanel.add (tCertificateInfoPanel);
 					tAllCertificatesPanel.add (Box.createHorizontalStrut (3));
 					
-					tOtherCertificatesInfoPanel = buildCompactCertInfoPanel (tShareCorpAbbrev, tCertCount, 
+					tOtherCertificatesInfoPanel = buildCompactCertInfoJPanel (tShareCorpAbbrev, tCertCount, 
 							tCertTotalPercent);
 					tAllCertificatesPanel.add (Box.createHorizontalStrut (3));
 					tAllCertificatesPanel.add (tOtherCertificatesInfoPanel);
@@ -366,17 +364,17 @@ public class Portfolio implements CertificateHolderI {
 		addJCAndVGlue (portfolioInfoJPanel, null);
 
 		if (aPrivates) {
-			tPrivateCertPanel = buildCertificateContainer (Corporation.PRIVATE_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
+			tPrivateCertPanel = buildCertificateJPanel (Corporation.PRIVATE_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tPrivateCertPanel);
 			privateIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 		if (aCoals) {
-			tCoalCertPanel = buildCertificateContainer (Corporation.COAL_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
+			tCoalCertPanel = buildCertificateJPanel (Corporation.COAL_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tCoalCertPanel);
 			coalIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 		if (aMinors) {
-			tMinorCertPanel = buildCertificateContainer (Corporation.MINOR_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
+			tMinorCertPanel = buildCertificateJPanel (Corporation.MINOR_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tMinorCertPanel);
 			minorIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
@@ -1505,10 +1503,10 @@ public class Portfolio implements CertificateHolderI {
 	}
 	
 	public void updatePortfolioInfox (String aCorpType, String aSelectedButtonLabel, ItemListener aItemListener, GameManager aGameManager) {
-		JPanel tCertificateContainer;
+		JPanel tCertificateJPanel;
 		int tAddLocation = -1;
 
-		tCertificateContainer = buildCertificateContainer (aCorpType, aSelectedButtonLabel, aItemListener, aGameManager);
+		tCertificateJPanel = buildCertificateJPanel (aCorpType, aSelectedButtonLabel, aItemListener, aGameManager);
 		if (aCorpType.equals (Corporation.PRIVATE_COMPANY)) {
 			tAddLocation = privateIndex;
 		} else if (aCorpType.equals (Corporation.COAL_COMPANY)) {
@@ -1518,9 +1516,7 @@ public class Portfolio implements CertificateHolderI {
 		} else if (aCorpType.equals (Corporation.SHARE_COMPANY)) {
 			tAddLocation = shareIndex;
 		}
-		portfolioInfoJPanel.add (tCertificateContainer, tAddLocation);
-		// Note, even though adding Component to Container shows After the Container
-		// When I need to remove the previous container, I have to use an index one lower.
+		portfolioInfoJPanel.add (tCertificateJPanel, tAddLocation);
 		portfolioInfoJPanel.remove (tAddLocation - 1);
 		portfolioInfoJPanel.validate ();
 	}

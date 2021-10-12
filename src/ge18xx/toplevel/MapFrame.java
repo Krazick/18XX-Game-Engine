@@ -1,7 +1,5 @@
 package ge18xx.toplevel;
 
-import ge18xx.bank.Bank;
-
 //
 //  MapFrame.java
 //  rails_18xx
@@ -10,6 +8,7 @@ import ge18xx.bank.Bank;
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
+import ge18xx.bank.Bank;
 import ge18xx.center.City;
 import ge18xx.center.CityInfo;
 import ge18xx.center.CityList;
@@ -45,7 +44,6 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -55,6 +53,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -93,9 +92,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	JButton exitTokenButton;
 	JButton putTokenButton;
 	String companyAbbrev;
-	Box tokenButtons;
-	Box tileButtons;
-	Container allButtonContainers;
+	JPanel tokenButtons;
+	JPanel tileButtons;
+	JPanel allButtonsJPanel;
 	JScrollPane scrollPane;
 	GameManager gameManager;
 	RouteInformation routeInformation;
@@ -116,14 +115,17 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		JLabel tLabelTokenMode = new JLabel ("Token Mode");
 		JLabel tLabelTileMode = new JLabel ("Tile Mode");
 		
-		allButtonContainers = Box.createVerticalBox ();
-		tokenButtons = Box.createHorizontalBox ();
+		allButtonsJPanel = new JPanel ();
+		allButtonsJPanel.setLayout (new BoxLayout (allButtonsJPanel, BoxLayout.Y_AXIS));
+		tokenButtons = new JPanel ();
+		tokenButtons.setLayout (new BoxLayout (tokenButtons, BoxLayout.X_AXIS));
 		tokenButtons.setOpaque (true);
-		tileButtons = Box.createHorizontalBox ();
+		tileButtons = new JPanel ();
+		tileButtons.setLayout (new BoxLayout (tileButtons, BoxLayout.X_AXIS));
 		tileButtons.setOpaque (true);
-		allButtonContainers.add (tokenButtons);
-		allButtonContainers.add (Box.createVerticalStrut (10));
-		allButtonContainers.add (tileButtons);
+		allButtonsJPanel.add (tokenButtons);
+		allButtonsJPanel.add (Box.createVerticalStrut (10));
+		allButtonsJPanel.add (tileButtons);
 		
 		map = new HexMap (this);
         scrollPane = new JScrollPane ();
@@ -186,7 +188,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tileButtons.add (Box.createHorizontalStrut (10));
 		
 		tNorthComponents.add (Box.createHorizontalGlue ());
-		tNorthComponents.add (allButtonContainers);
+		tNorthComponents.add (allButtonsJPanel);
 		
 		selectRouteButton = new JButton ("Enter Select Route Mode");
 		selectRouteButton.addActionListener (this);
