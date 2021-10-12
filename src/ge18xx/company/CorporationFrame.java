@@ -16,7 +16,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-//import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -185,7 +184,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporationAllInfoJPanel.add (Box.createRigidArea (tMinSize));
 			corporationAllInfoJPanel.add (corporationInfoJPanel);
 			corporationAllInfoJPanel.add (Box.createRigidArea (tMinSize));
-			fillCertPortfolioContainer ();
+			fillCertPortfolioJPanel ();
 			if (corporation instanceof TrainCompany) {
 				corporationAllInfoJPanel.add (certJPanel);
 			}
@@ -371,7 +370,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		buttonRow2.add (undoActionButton);
 	}
 	
-	public void fillOtherCorpsContainer (boolean aCanBuyTrain, String aDisableToolTipReason) {
+	public void fillOtherCorpsJPanel (boolean aCanBuyTrain, String aDisableToolTipReason) {
 		GameManager tGameManager;
 		CorporationList tShareCorporations;
 		JPanel tCorporationsTrainsJPanel;
@@ -461,7 +460,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 	
-	public void fillCertPortfolioContainer () {
+	public void fillCertPortfolioJPanel () {
 		TrainCompany tTrainCompany;
 		
 		certInfoJPanel = null;
@@ -758,7 +757,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	// TODO Something here when an Upgrade is Selected, a Diesel is selected, then the Diesel is unselected, and Upgrade is unselected
 	// then tRemovedADiscount is true -- Fine, but this update then puts the state of the Other Corp Action Buttons to allow a Select,
 	// But then disallows an unselect --- This should rebuild the entire set of trains from scratch... but it gets into a weird state
-				updateOtherCorpsContainer ();
+				updateOtherCorpsJPanel ();
 			}
 		}
 		
@@ -767,7 +766,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			// If the actual tSelectedCount is zero -- the Apply the Discount;
 			if (tSelectedCount == 0) {
 				tTrainCompany.applyDiscount ();
-				fillOtherCorpsContainer (false, "Select Train to Upgrade to from Bank");
+				fillOtherCorpsJPanel (false, "Select Train to Upgrade to from Bank");
 			}
 			if (canBuySelectedTrain (tSelectedCount)) {
 				updateBuyTrainLabel ();
@@ -978,13 +977,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	public void updateBuyableItems () {
-		fillCertPortfolioContainer ();
+		fillCertPortfolioJPanel ();
 		fillPrivatesBox ();
 		updateBankBox ();
-		updateOtherCorpsContainer ();
+		updateOtherCorpsJPanel ();
 	}
 
-	public void updateOtherCorpsContainer () {
+	public void updateOtherCorpsJPanel () {
 		boolean tCanBuyTrain;
 		boolean tHasCash;
 		boolean tIsAtTrainLimit;
@@ -1015,7 +1014,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tCanBuyTrain = false;
 			tDisableToolTipReason = "Cannot buy Other Corporation Trains in current Phase";
 		}
-		fillOtherCorpsContainer (tCanBuyTrain, tDisableToolTipReason);
+		fillOtherCorpsJPanel (tCanBuyTrain, tDisableToolTipReason);
 	}
 
 	public void updateBankBox () {
