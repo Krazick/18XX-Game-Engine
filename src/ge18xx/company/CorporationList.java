@@ -890,13 +890,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		Container tOtherCorpsContainer;
 		Container tOtherCorpsInfoContainer;
 		JPanel tOtherCorpsJPanel;
-		BoxLayout tLayout;
 		
 		tOtherCorpsContainer = Box.createHorizontalBox ();
 		tOtherCorpsJPanel = new JPanel ();
-		tOtherCorpsJPanel.setBorder (BorderFactory.createTitledBorder (" Other Corporation Trains - In Operating Order "));
-		tLayout = new BoxLayout (tOtherCorpsJPanel, BoxLayout.X_AXIS);
-		tOtherCorpsJPanel.setLayout (tLayout);
+		tOtherCorpsJPanel.setBorder (BorderFactory.createTitledBorder (" Other Train Corporations - In Operating Order "));
+
+		tOtherCorpsJPanel.setLayout (new BoxLayout (tOtherCorpsJPanel, BoxLayout.X_AXIS));
 		tOtherCorpsInfoContainer = buildOtherCorpsInfo (aCorporationFrame, aBuyingCorporation, 
 				aGameManager, aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason);
 		tOtherCorpsJPanel.add (Box.createVerticalGlue ());
