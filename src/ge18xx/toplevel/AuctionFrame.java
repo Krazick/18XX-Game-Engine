@@ -3,14 +3,15 @@ package ge18xx.toplevel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
@@ -51,14 +52,14 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	JButton doneButton;
 	JButton undoButton;
 	
-	Container oneBidderBox;
-	JLabel [] bidderLabels;
+	JPanel oneBidderBox;
+	JPanel topBox;
+	JPanel biddersBox;
+	JPanel bottomBox;
 	JButton [] bidderRaiseButtons;
 	JButton [] bidderPassButtons;
+	JLabel [] bidderLabels;
 	JLabel [] bidderSuffixLabel;
-	Container topBox = Box.createVerticalBox ();
-	Container biddersBox = Box.createVerticalBox ();
-	Container bottomBox = Box.createVerticalBox ();
 	Certificate certificateToAuction;
 	AuctionRound auctionRound;
 	String clientUserName;
@@ -79,16 +80,22 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tLabel = new JLabel ("Auction Round for Private Company");
 		tLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		privateCompanyLabel = new JLabel ("DUMMY PRIVATE");
+		topBox = new JPanel ();
+		topBox.setLayout (new BoxLayout (topBox, BoxLayout.Y_AXIS));
 		topBox.add (Box.createVerticalStrut (15));
 		topBox.add (tLabel);
 		topBox.add (Box.createVerticalStrut (10));
 		topBox.add (privateCompanyLabel);
 		topBox.add (Box.createVerticalStrut (15));
 		
-		// Empty the Bidders Box to be sure empty it out incase of undo/redo steps left prior Bidder Boxes inside.
-		biddersBox.removeAll ();
+		biddersBox = new JPanel ();
+		biddersBox.setLayout (new BoxLayout (biddersBox, BoxLayout.Y_AXIS));
+		bottomBox = new JPanel ();
+		bottomBox.setLayout (new BoxLayout (bottomBox, BoxLayout.Y_AXIS));
+
 		biddersBox.add (Box.createVerticalStrut (15));
-		oneBidderBox = Box.createHorizontalBox ();
+		oneBidderBox = new JPanel ();
+		oneBidderBox.setLayout (new BoxLayout (oneBidderBox, BoxLayout.X_AXIS));
 		oneBidderBox.add (new JLabel ("Bidder Box"));
 		biddersBox.add (Box.createVerticalStrut (15));
 		
@@ -96,7 +103,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		doneButton = setupButton (DONE, DONE);
 		bottomBox.add (Box.createVerticalStrut (5));
 		undoButton = setupButton (UNDO, UNDO);
-
 		bottomBox.add (Box.createVerticalStrut (5));
 		
 		add (topBox, BorderLayout.NORTH);
@@ -465,7 +471,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 				
 				tCash = certificateToAuction.getBidAt (tBidderIndex);
 				bidderLabels [tBidderIndex] = new JLabel (getBidderLabel (tPlayer, tCash));
-				oneBidderBox = Box.createHorizontalBox ();
+				oneBidderBox = new JPanel ();
+				oneBidderBox.setLayout (new BoxLayout (oneBidderBox, BoxLayout.X_AXIS));
 				oneBidderBox.add (Box.createHorizontalStrut (15));
 				oneBidderBox.add (bidderLabels [tBidderIndex]);
 				oneBidderBox.add (Box.createHorizontalStrut (5));

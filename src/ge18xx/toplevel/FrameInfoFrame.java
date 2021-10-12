@@ -1,23 +1,22 @@
 package ge18xx.toplevel;
 
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JPanel;
 
 import ge18xx.game.FrameInfo;
 import ge18xx.game.GameManager;
 
 public class FrameInfoFrame extends XMLFrame implements ActionListener {
-	DefaultTableModel frameModel = new DefaultTableModel (0, 0);
 	ArrayList<XMLFrame> configFrames;
-	ArrayList<Container> infoContainers;
-	Container allContainerPanels;
+	ArrayList<JPanel> infoJPanels;
+	JPanel allJFramesJPanel;
 	GameManager gameManager;
 	private String RESET_START = "Reset ";
 	/**
@@ -30,75 +29,77 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 		configFrames = aGameManager.getConfigFrames ();
 		gameManager = aGameManager;
 		
-		allContainerPanels = Box.createVerticalBox ();
-		infoContainers = new ArrayList<Container> ();
+		allJFramesJPanel = new JPanel ();
+		allJFramesJPanel.setLayout (new BoxLayout (allJFramesJPanel, BoxLayout.Y_AXIS));
+		infoJPanels = new ArrayList<JPanel> ();
 		setLocation (100, 100);
 		setSize (500, 400);
 
 		fillFrames ();
-		add (allContainerPanels);
+		add (allJFramesJPanel);
 	}
 	
 	public void fillFrames () {
 		boolean tAddVerticalGlue = false;
-		Container tOneFrameBox;
+		JPanel tOneFrameJPanel;
 		
-		allContainerPanels.add (Box.createVerticalStrut (10));
+		allJFramesJPanel.add (Box.createVerticalStrut (10));
 		for (XMLFrame tXMLFrame : configFrames) {
 			if (tAddVerticalGlue) {
-				allContainerPanels.add (Box.createVerticalGlue ());
+				allJFramesJPanel.add (Box.createVerticalGlue ());
 			}
-			tOneFrameBox = buildOneFrameBox (tXMLFrame);
-			if (tOneFrameBox != null) {
-				infoContainers.add (tOneFrameBox);
-				allContainerPanels.add (tOneFrameBox);
+			tOneFrameJPanel = buildOneFrameJPanel (tXMLFrame);
+			if (tOneFrameJPanel != null) {
+				infoJPanels.add (tOneFrameJPanel);
+				allJFramesJPanel.add (tOneFrameJPanel);
 				tAddVerticalGlue = true;
 			} else {
 				tAddVerticalGlue = false;
 			}
 		}
-		allContainerPanels.add (Box.createVerticalStrut (10));
+		allJFramesJPanel.add (Box.createVerticalStrut (10));
 	}
 	
-	public Container buildOneFrameBox (XMLFrame aXMLFrame) {
+	public JPanel buildOneFrameJPanel (XMLFrame aXMLFrame) {
 		FrameInfo tFrameInfo;
 		JButton tResetButton;
 		JLabel tLabel;
-		Container tOneFrameBox = null;
+		JPanel tOneFrameJPanel = null;
 		String tFrameName;
 		
 		tFrameInfo = new FrameInfo (aXMLFrame);
 		
 		if (tFrameInfo.getHeight () > 0) {
 			tResetButton = new JButton ("Reset");
-			tOneFrameBox = Box.createHorizontalBox ();
-			tOneFrameBox.add (Box.createHorizontalStrut (10));
+			tOneFrameJPanel = new JPanel ();
+			tOneFrameJPanel.setLayout (new BoxLayout (tOneFrameJPanel, BoxLayout.X_AXIS));
+			tOneFrameJPanel.add (Box.createHorizontalStrut (10));
 	
 			tFrameName = tFrameInfo.getName ();
 			tLabel = new JLabel (tFrameName);
-			tOneFrameBox.add (tLabel);
-			tOneFrameBox.add (Box.createHorizontalGlue ());
+			tOneFrameJPanel.add (tLabel);
+			tOneFrameJPanel.add (Box.createHorizontalGlue ());
 			tLabel = new JLabel (tFrameInfo.getX ());
-			tOneFrameBox.add (tLabel);
-			tOneFrameBox.add (Box.createHorizontalGlue ());
+			tOneFrameJPanel.add (tLabel);
+			tOneFrameJPanel.add (Box.createHorizontalGlue ());
 			tLabel = new JLabel (tFrameInfo.getY ());
-			tOneFrameBox.add (tLabel);
-			tOneFrameBox.add (Box.createHorizontalGlue ());
+			tOneFrameJPanel.add (tLabel);
+			tOneFrameJPanel.add (Box.createHorizontalGlue ());
 			tLabel = new JLabel (tFrameInfo.getHeightStr ());
-			tOneFrameBox.add (tLabel);
-			tOneFrameBox.add (Box.createHorizontalGlue ());
+			tOneFrameJPanel.add (tLabel);
+			tOneFrameJPanel.add (Box.createHorizontalGlue ());
 			tLabel = new JLabel (tFrameInfo.getWidthStr ());
-			tOneFrameBox.add (tLabel);
-			tOneFrameBox.add (Box.createHorizontalGlue ());
+			tOneFrameJPanel.add (tLabel);
+			tOneFrameJPanel.add (Box.createHorizontalGlue ());
 			
 			tResetButton.setActionCommand (RESET_START + tFrameName);
 			tResetButton.addActionListener (this);
 			
-			tOneFrameBox.add (tResetButton);
-			tOneFrameBox.add (Box.createHorizontalStrut (10));
+			tOneFrameJPanel.add (tResetButton);
+			tOneFrameJPanel.add (Box.createHorizontalStrut (10));
 		}
 		
-		return tOneFrameBox;
+		return tOneFrameJPanel;
 
 	}
 
