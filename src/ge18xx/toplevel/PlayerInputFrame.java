@@ -17,7 +17,6 @@ import ge18xx.network.NetworkPlayer;
 import ge18xx.utilities.ElementName;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,20 +62,25 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		super (aFrameName, "Player Input Frame");
 		setGameManager (aGameManager);
 		int tIndex;
-		westComponents = new JPanel ();
-		centerComponents = new JPanel ();
 		JLabel tLabel;
-		Container tOnePlayerBox;
-		Container tPlayersBox = Box.createVerticalBox ();
-		Container tWestBox = Box.createHorizontalBox ();
+		JPanel tOnePlayerBox;
+		JPanel tPlayersBox;
+		JPanel tWestBox;
 		String tClientUserName;
-		tPlayersBox.add (Box.createVerticalStrut (5));
 		
 		tfPlayerNames = new JTextField [MAX_PLAYERS + 1];
-		BoxLayout tCenterLayout = new BoxLayout (centerComponents, BoxLayout.PAGE_AXIS);
-		centerComponents.setLayout (tCenterLayout);
-		BoxLayout tWestLayout = new BoxLayout (westComponents, BoxLayout.PAGE_AXIS);
-		westComponents.setLayout (tWestLayout);
+		centerComponents = new JPanel ();
+		centerComponents.setLayout (new BoxLayout (centerComponents, BoxLayout.PAGE_AXIS));
+
+		westComponents = new JPanel ();
+		westComponents.setLayout (new BoxLayout (westComponents, BoxLayout.PAGE_AXIS));
+		
+		tPlayersBox = new JPanel ();
+		tPlayersBox.setLayout (new BoxLayout (tPlayersBox, BoxLayout.Y_AXIS));
+		tPlayersBox.add (Box.createVerticalStrut (5));
+		
+		tWestBox = new JPanel ();
+		tWestBox.setLayout (new BoxLayout (tWestBox, BoxLayout.X_AXIS));
 		
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
 			tLabel = new JLabel (" Player " + (tIndex + 1) + ": ");
@@ -84,7 +88,8 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 			tfPlayerNames [tIndex].addActionListener (this);
 			tfPlayerNames [tIndex].addFocusListener (this);
 			
-			tOnePlayerBox = Box.createHorizontalBox ();
+			tOnePlayerBox = new JPanel ();
+			tOnePlayerBox.setLayout (new BoxLayout (tOnePlayerBox, BoxLayout.X_AXIS));
 			tOnePlayerBox.add (Box.createHorizontalStrut (10));
 			tOnePlayerBox.add (tLabel);
 			tOnePlayerBox.add (Box.createHorizontalGlue ());

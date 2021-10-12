@@ -18,7 +18,6 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -27,6 +26,7 @@ import java.awt.event.ItemListener;
 import java.io.IOException;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -54,25 +54,25 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	private static final String NO_TIP = "";
 	GameInfo gameInfo [];
 	PlayerInputFrame playerInputFrame;
-	JPanel gamePanel;
-	JPanel gameInfoPanel;
+	JPanel gameJPanel;
+	JPanel gameInfoJPanel;
+	JPanel descAndOptionsJPanel;
+	JPanel listAndButtonJPanel;
 	ButtonGroup gameButtons;
 	JRadioButton gameRadioButtons [];
 	JCheckBox gameOptions [];
 	JButton newGameButton;
 	JButton networkGameButton;
 	JButton loadGameButton;
-	Container listAndButtonBox;
 	JLabel gameInfoLabel;
 	JLabel gameDescriptionLabel;
-	Container boxOfDescAndOptions = null;
 	int selectedGameIndex;
 	int gameIndex;
 	
 	public GameSet (PlayerInputFrame aPlayerInputFrame) {
 		gameInfo = NO_GAMES;
 		setSelectedGame (NO_GAME_SELECTED);
-		gameInfoPanel = new JPanel ();
+		gameInfoJPanel = new JPanel ();
 		setPlayerInputFrame (aPlayerInputFrame);
 	}
 	
@@ -142,23 +142,24 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		tGameManager.setNotifyNetwork (true);
 		tNetworkGameJClient.addLocalPlayer (tPlayerName, false);
 		removeGamePanelButtons ();
-		tNetworkGameJClient.addGamePanel (gamePanel);
+		tNetworkGameJClient.addGamePanel (gameJPanel);
 		playerInputFrame.setVisible (false);
 	}
 	
 	public void addGameInfo (JPanel aGamePanel) {
-		Container tBoxOfGames;
-		JPanel tGameList;
+		JPanel tBoxOfGamesJPanel;
+		JPanel tGameListJPanel;
 		int tIndex, tGameCount;
 		String tGameName;
 		
 		if (gameInfo != NO_GAMES) {
-			gameInfoPanel = new JPanel ();
-			gamePanel = aGamePanel;
+			gameInfoJPanel = new JPanel ();
+			gameJPanel = aGamePanel;
 			tGameCount = gameInfo.length;
 			gameRadioButtons = new JRadioButton [tGameCount];
-			tBoxOfGames = Box.createVerticalBox ();
-			tGameList = new JPanel ();
+			tBoxOfGamesJPanel = new JPanel ();
+			tBoxOfGamesJPanel.setLayout (new BoxLayout (tBoxOfGamesJPanel, BoxLayout.Y_AXIS));
+			tGameListJPanel = new JPanel ();
 			gameButtons = new ButtonGroup ();
 			for (tIndex = 0; tIndex < tGameCount; tIndex++ ) {
 				tGameName = "<html><body>" + gameInfo [tIndex].getName () + " <i>(" + gameInfo [tIndex].getMinPlayers () + "-" + gameInfo [tIndex].getMaxPlayers () + " Players)</i></body></html>";
@@ -168,12 +169,13 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 				gameRadioButtons [tIndex].setActionCommand (gameInfo [tIndex].getName ());
 				gameRadioButtons [tIndex].addActionListener (this);
 				gameButtons.add (gameRadioButtons [tIndex]);
-				tBoxOfGames.add (gameRadioButtons [tIndex]);
-				tBoxOfGames.add (Box.createVerticalStrut (10));
+				tBoxOfGamesJPanel.add (gameRadioButtons [tIndex]);
+				tBoxOfGamesJPanel.add (Box.createVerticalStrut (10));
 			}
-			tGameList.add (tBoxOfGames);			
-			listAndButtonBox = Box.createVerticalBox ();
-			listAndButtonBox.add (tGameList);
+			tGameListJPanel.add (tBoxOfGamesJPanel);			
+			listAndButtonJPanel = new JPanel ();
+			listAndButtonJPanel.setLayout (new BoxLayout (listAndButtonJPanel, BoxLayout.Y_AXIS));
+			listAndButtonJPanel.add (tGameListJPanel);
 			
 			networkGameButton = new JButton ();
 			setupButton (networkGameButton, NETWORK_GAME);
@@ -185,8 +187,8 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			loadGameButton = new JButton ();
 			setupButton (loadGameButton, LOAD_GAME);
 			
-			gamePanel.add (listAndButtonBox);
-			gamePanel.add (Box.createVerticalStrut (10));
+			gameJPanel.add (listAndButtonJPanel);
+			gameJPanel.add (Box.createVerticalStrut (10));
 			
 			showDescriptionAndOptions (NO_GAME_SELECTED);
 		}
@@ -196,13 +198,13 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		aButton.setText (aName);
 		aButton.setActionCommand (aName);
 		aButton.addActionListener (this);
-		listAndButtonBox.add (aButton);
+		listAndButtonJPanel.add (aButton);
 	}
 	
 	public void removeGamePanelButtons () {
-		listAndButtonBox.remove (networkGameButton);
-		listAndButtonBox.remove (newGameButton);
-		listAndButtonBox.remove (loadGameButton);
+		listAndButtonJPanel.remove (networkGameButton);
+		listAndButtonJPanel.remove (newGameButton);
+		listAndButtonJPanel.remove (loadGameButton);
 	}
 	
 	public boolean gameIsSelected () {
@@ -389,23 +391,24 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		Option tOption;
 		String tOptionName;
 		
-		if (boxOfDescAndOptions == null) {
-			boxOfDescAndOptions = Box.createVerticalBox ();
+		if (descAndOptionsJPanel == null) {
+			descAndOptionsJPanel = new JPanel ();
+			descAndOptionsJPanel.setLayout (new BoxLayout (descAndOptionsJPanel, BoxLayout.Y_AXIS));
 		}
-		boxOfDescAndOptions.removeAll ();
+		descAndOptionsJPanel.removeAll ();
 		if (aIndex == NO_GAME_SELECTED) {
 			if (gameDescriptionLabel == null) {
 				gameDescriptionLabel = new JLabel (NO_DESCRIPTION);
-				boxOfDescAndOptions.add (gameDescriptionLabel);
+				descAndOptionsJPanel.add (gameDescriptionLabel);
 			} else {
 				gameDescriptionLabel.setText (NO_DESCRIPTION);
 			}
 			tDescription = NO_DESCRIPTION;
-			boxOfDescAndOptions.add (gameDescriptionLabel);
+			descAndOptionsJPanel.add (gameDescriptionLabel);
 		} else {
 			tDescription = gameInfo [aIndex].getHTMLDescription ();
 			gameDescriptionLabel.setText (tDescription);
-			boxOfDescAndOptions.add (gameDescriptionLabel);			
+			descAndOptionsJPanel.add (gameDescriptionLabel);			
 			tOptionCount = gameInfo [aIndex].getOptionCount ();
 			gameOptions = new JCheckBox [tOptionCount];
 			for (tOptionIndex = 0; tOptionIndex < tOptionCount; tOptionIndex++) {
@@ -413,11 +416,11 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 				tOptionName = tOption.getTitle ();
 				gameOptions [tOptionIndex] = new JCheckBox (tOptionName);
 				gameOptions [tOptionIndex].addItemListener (this);
-				boxOfDescAndOptions.add (gameOptions [tOptionIndex]);
+				descAndOptionsJPanel.add (gameOptions [tOptionIndex]);
 			}
 		}
-		gameInfoPanel.removeAll ();
-		gameInfoPanel.add (boxOfDescAndOptions);
-		playerInputFrame.addGameInfoPanel (gameInfoPanel);
+		gameInfoJPanel.removeAll ();
+		gameInfoJPanel.add (descAndOptionsJPanel);
+		playerInputFrame.addGameInfoPanel (gameInfoJPanel);
 	}
 }
