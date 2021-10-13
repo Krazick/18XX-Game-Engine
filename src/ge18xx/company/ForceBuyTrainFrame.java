@@ -1,12 +1,12 @@
 package ge18xx.company;
 
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,20 +27,21 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	JButton doSellButton;
 	JButton doBuyButton;
 	JButton undoButton;
-	Train train;
-	Container buttonContainer;
-	Container infoContainer;
-	Container mainContainer;
-	Container stockCertificatesContainer;
-	TrainCompany trainCompany;
-	Player president;
-	String operatingRoundID;
-	GameManager gameManager;
+	JPanel buttonJPanel;
+	JPanel infoJPanel;
+	JPanel mainJPanel;
+	JPanel stockCertificatesJPanel;
 	JLabel corporationTreasuryLabel;
 	JLabel presidentTreasuryLabel;
 	JLabel totalTreasuryLabel;
 	JLabel frameLabel;
-	int buyingTrainCompanyTreasury, presidentTreasury;
+	Train train;
+	TrainCompany trainCompany;
+	Player president;
+	String operatingRoundID;
+	GameManager gameManager;
+	int buyingTrainCompanyTreasury;
+	int presidentTreasury;
 	int sellActionCount;
 	
 	public ForceBuyTrainFrame (TrainCompany aBuyingCompany, Train aCheapestTrain) {
@@ -59,48 +60,51 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		gameManager = trainCompany.getGameManager ();
 		sellActionCount = 0;
 		
-		mainContainer = Box.createVerticalBox ();
-		infoContainer = Box.createVerticalBox ();
-		buttonContainer = Box.createHorizontalBox ();
-		infoContainer.add (Box.createVerticalStrut (10));
+		mainJPanel = new JPanel ();
+		mainJPanel.setLayout (new BoxLayout (mainJPanel, BoxLayout.Y_AXIS));
+		infoJPanel = new JPanel ();
+		infoJPanel.setLayout (new BoxLayout (infoJPanel, BoxLayout.Y_AXIS));
+		buttonJPanel = new JPanel ();
+		buttonJPanel.setLayout (new BoxLayout (buttonJPanel, BoxLayout.X_AXIS));
+		infoJPanel.add (Box.createVerticalStrut (10));
 		frameLabel = new JLabel ("Force Buy Train for " + trainCompany.getAbbrev ());
-		infoContainer.add (frameLabel);
-		infoContainer.add (Box.createVerticalStrut (10));
+		infoJPanel.add (frameLabel);
+		infoJPanel.add (Box.createVerticalStrut (10));
 		corporationTreasuryLabel = new JLabel ("Treasury: " + Bank.formatCash (trainCompany.getCash ()));
-		infoContainer.add (corporationTreasuryLabel);
-		infoContainer.add (Box.createVerticalStrut (10));
+		infoJPanel.add (corporationTreasuryLabel);
+		infoJPanel.add (Box.createVerticalStrut (10));
 		tPresidentLabel = new JLabel ("President: " + president.getName ());
-		infoContainer.add (tPresidentLabel);
-		infoContainer.add (Box.createVerticalStrut (10));
+		infoJPanel.add (tPresidentLabel);
+		infoJPanel.add (Box.createVerticalStrut (10));
 		presidentTreasuryLabel = new JLabel ("President Treasury: " + Bank.formatCash (presidentTreasury));
-		infoContainer.add (presidentTreasuryLabel);
-		infoContainer.add (Box.createVerticalStrut (10));
+		infoJPanel.add (presidentTreasuryLabel);
+		infoJPanel.add (Box.createVerticalStrut (10));
 		totalTreasuryLabel = new JLabel ("Total Treasury: " + Bank.formatCash (presidentTreasury + trainCompany.getCash ()));
-		infoContainer.add (totalTreasuryLabel);
-		infoContainer.add (Box.createVerticalStrut (10));
+		infoJPanel.add (totalTreasuryLabel);
+		infoJPanel.add (Box.createVerticalStrut (10));
 		tTrainPanel = train.buildCertificateInfoPanel ();
-		infoContainer.add (tTrainPanel);
-		infoContainer.add (Box.createVerticalStrut (10));
+		infoJPanel.add (tTrainPanel);
+		infoJPanel.add (Box.createVerticalStrut (10));
 		
-		setupStockContainer ();
+		setupStockJPanel ();
 		
 		doBuyButton = new JButton ("Buy Train");
 		doBuyButton.setActionCommand (BUY_ACTION);
 		doBuyButton.addActionListener (this);
-		buttonContainer.add (doBuyButton);
+		buttonJPanel.add (doBuyButton);
 		doSellButton = new JButton ("Sell");
 		doSellButton.setActionCommand (SELL_ACTION);
 		doSellButton.setEnabled (false);
 		doSellButton.addActionListener (this);
-		buttonContainer.add (doSellButton);
+		buttonJPanel.add (doSellButton);
 		undoButton = new JButton ("Undo Sell");
 		undoButton.setActionCommand (UNDO_SELL_ACTION);
 		undoButton.addActionListener (this);
-		buttonContainer.add (undoButton);
+		buttonJPanel.add (undoButton);
 		
-		setupMainContainer ();
+		setupMainJPanel ();
 
-		add (mainContainer);
+		add (mainJPanel);
 		
 		updateActionButtons ();
 		setSize (400, 350);
@@ -108,19 +112,20 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		setVisible (true);
 	}
 
-	private void setupStockContainer () {
+	private void setupStockJPanel () {
 		Portfolio tPresidentPortfolio;
 		
 		tPresidentPortfolio = president.getPortfolio ();
-		stockCertificatesContainer = tPresidentPortfolio.buildShareCertificateJPanel (Corporation.SHARE_COMPANY, "Sell", this, null, gameManager);
+		stockCertificatesJPanel = tPresidentPortfolio.buildShareCertificateJPanel (Corporation.SHARE_COMPANY, "Sell", 
+						this, Player.NO_PLAYER, gameManager);
 	}
 	
-	private void setupMainContainer () {
-		mainContainer.removeAll ();
+	private void setupMainJPanel () {
+		mainJPanel.removeAll ();
 		
-		mainContainer.add (infoContainer);
-		mainContainer.add (stockCertificatesContainer);
-		mainContainer.add (buttonContainer);
+		mainJPanel.add (infoJPanel);
+		mainJPanel.add (stockCertificatesJPanel);
+		mainJPanel.add (buttonJPanel);
 	}
 	
 	private void updateActionButtons () {
@@ -250,10 +255,10 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	}
 
 	private void refreshFrame () {
-		setupStockContainer ();
+		setupStockJPanel ();
 		updateActionButtons ();
 		updateTreasuryLabels ();
-		setupMainContainer ();
+		setupMainJPanel ();
 	}
 
 	private void buyTrain () {

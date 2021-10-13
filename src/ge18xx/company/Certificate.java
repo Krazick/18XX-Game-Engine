@@ -86,6 +86,7 @@ public class Certificate implements Comparable<Certificate> {
 	static final float X_RIGHT_ALIGNMENT = 1.0f;
 	static final CertificateHolderI NO_OWNER = null;
 	
+//	Border REDLINE_BORDER = BorderFactory.createLineBorder (Color.red);
 	Corporation corporation;
 	boolean isPresidentShare;
 	int percentage;
@@ -169,10 +170,10 @@ public class Certificate implements Comparable<Certificate> {
 	
 	public JPanel buildCertificateInfoJPanel (String aCheckBoxLabel, ItemListener aItemListener, 
 			boolean aIsBankHolder, Player aPlayer, GameManager aGameManager) {
-		JPanel tCertificateInfoPanel;
+		JPanel tCertificateInfoJPanel;
 		JLabel tLabel, tLastRevenueLabel;
 		JLabel tDiscountLabel;
-		BoxLayout tCertInfoLayout;
+//		BoxLayout tCertInfoLayout;
 		String tCertInfo;
 		String tRevenueInfo;
 		String tToolTip = "";
@@ -206,22 +207,22 @@ public class Certificate implements Comparable<Certificate> {
 			tHasMustBuyCertificate = false;
 		}
 
-		tCertificateInfoPanel = new JPanel ();
-		tCertInfoLayout = new BoxLayout (tCertificateInfoPanel, BoxLayout.Y_AXIS);
-		tCertificateInfoPanel.setLayout (tCertInfoLayout);
-		tCertificateInfoPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		tCertificateInfoJPanel = new JPanel ();
+//		tCertInfoLayout = new BoxLayout (tCertificateInfoPanel, BoxLayout.Y_AXIS);
+		tCertificateInfoJPanel.setLayout (new BoxLayout (tCertificateInfoJPanel, BoxLayout.Y_AXIS));
+		tCertificateInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		tCertInfoBorder2 = setupCIPBorder ();
-		tCertificateInfoPanel.setBorder (tCertInfoBorder2);
+		tCertificateInfoJPanel.setBorder (tCertInfoBorder2);
 		
 		tCertInfo = getCompanyAbbrev () + " (" +  getPercentage () + "%)"; 
 		tLabel = new JLabel (tCertInfo);
 		tNote = corporation.getNote ();
 		tLabel.setToolTipText (tNote);
-		tCertificateInfoPanel.add (tLabel);
+		tCertificateInfoJPanel.add (tLabel);
 		
 		if (isPresidentShare) {
 			tLabel = new JLabel ("PREZ SHARE");
-			tCertificateInfoPanel.add (tLabel);
+			tCertificateInfoJPanel.add (tLabel);
 		}
 
 		tPlayerHasEnoughCash = true;
@@ -243,7 +244,7 @@ public class Certificate implements Comparable<Certificate> {
 					parValuesCombo.setMaximumSize (tParValueSize);
 					parValuesCombo.addItemListener (aItemListener);
 					parValuesCombo.setAlignmentX (Component.LEFT_ALIGNMENT);
-					tCertificateInfoPanel.add (parValuesCombo);
+					tCertificateInfoJPanel.add (parValuesCombo);
 				}
 			}
 		} else {
@@ -252,23 +253,23 @@ public class Certificate implements Comparable<Certificate> {
 		}
 		if (tPrice != 0) {
 			tLabel = new JLabel ("Price: " + Bank.formatCash (tPrice));
-			tCertificateInfoPanel.add (tLabel);
+			tCertificateInfoJPanel.add (tLabel);
 		}
 		if (isPrivateCompany ()) {
 			tRevenue = getRevenue ();
 			if (tRevenue != PrivateCompany.NO_REVENUE) {
 				tRevenueInfo = "Revenue: " + Bank.formatCash (tRevenue);
 				tLabel = new JLabel (tRevenueInfo);
-				tCertificateInfoPanel.add (tLabel);
+				tCertificateInfoJPanel.add (tLabel);
 			}			
 		} else {
 			if (corporation.canOperate ()) {
 				tLastRevenueLabel = new JLabel ("Revenue: " + corporation.getFormattedThisRevenue ());
-				tCertificateInfoPanel.add (tLastRevenueLabel);
+				tCertificateInfoJPanel.add (tLastRevenueLabel);
 			}
 		}
 
-		tPlayerHasEnoughCashToBid = addBidderLabels (tCertificateInfoPanel, tPlayerCash);
+		tPlayerHasEnoughCashToBid = addBidderLabels (tCertificateInfoJPanel, tPlayerCash);
 		
 		if (aCheckBoxLabel.equals (Player.SELL_LABEL)) {
 			if (! isPrivateCompany ()) {
@@ -277,17 +278,17 @@ public class Certificate implements Comparable<Certificate> {
 				if (isPresidentShare ()) {
 					if (canBeExchanged (aGameManager)) {
 						checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, true, NO_TOOL_TIP, aItemListener);
-						tCertificateInfoPanel.add (checkedButton);
+						tCertificateInfoJPanel.add (checkedButton);
 					} else {
 						checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, false, CANNOT_EXCHANGE_PRESIDENT, aItemListener);
-						tCertificateInfoPanel.add (checkedButton);						
+						tCertificateInfoJPanel.add (checkedButton);						
 					}
 				} else if (canBeSold (aGameManager)) {
 					checkedButton = setupCheckedButton (aCheckBoxLabel, true, NO_TOOL_TIP, aItemListener);
-					tCertificateInfoPanel.add (checkedButton);
+					tCertificateInfoJPanel.add (checkedButton);
 				} else {
 					checkedButton = setupCheckedButton (aCheckBoxLabel, false, getReasonForNoSale (aGameManager), aItemListener);
-					tCertificateInfoPanel.add (checkedButton);
+					tCertificateInfoJPanel.add (checkedButton);
 				}
 			}			
 		} else if (aCheckBoxLabel.equals (Player.BUY_LABEL) || aCheckBoxLabel.equals (Player.BUY_AT_PAR_LABEL)) {
@@ -315,14 +316,14 @@ public class Certificate implements Comparable<Certificate> {
 				} else {
 					updateCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);
 				}
-				tCertificateInfoPanel.add (checkedButton);
+				tCertificateInfoJPanel.add (checkedButton);
 			} else {
 				System.err.println ("Flagged Certificate cannot be Bought");
 			}
 			tDiscount = getDiscount ();
 			if (tDiscount > 0) {
 				tDiscountLabel = new JLabel ("Discount: " + Bank.formatCash (tDiscount));
-				tCertificateInfoPanel.add (tDiscountLabel);
+				tCertificateInfoJPanel.add (tDiscountLabel);
 			}
 		} else if (aCheckBoxLabel.equals (Player.BID_LABEL)) {
 			if (canBeBidUpon ()) {
@@ -340,7 +341,7 @@ public class Certificate implements Comparable<Certificate> {
 					tEnabled = true;
 				}
 				checkedButton = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);					
-				tCertificateInfoPanel.add (checkedButton);
+				tCertificateInfoJPanel.add (checkedButton);
 			}
 		} else if (aCheckBoxLabel.equals ("")) {
 //			System.err.println ("CHECKBOX Label equal EMPTY String");
@@ -348,7 +349,7 @@ public class Certificate implements Comparable<Certificate> {
 			System.err.println ("No label that matches [" + aCheckBoxLabel + "]");	
 		}
 		
-		return tCertificateInfoPanel;
+		return tCertificateInfoJPanel;
 	}
 
 	public void updateCheckedButton (String aLabel, boolean aEnabledState, String aToolTip, ItemListener aItemListener) {
