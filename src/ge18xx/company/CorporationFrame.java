@@ -194,7 +194,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private JPanel buildPhaseInfoBox () {
 		JPanel tPhaseInfoBox;
 		
-
 		tPhaseInfoBox = new JPanel ();
 		tPhaseInfoBox.setLayout (new BoxLayout (tPhaseInfoBox, BoxLayout.Y_AXIS));
 		tPhaseInfoBox.add (Box.createVerticalStrut (5));

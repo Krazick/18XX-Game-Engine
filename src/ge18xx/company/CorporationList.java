@@ -57,6 +57,8 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
@@ -78,6 +80,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	List<Corporation> corporations;
 	ElementName typeName;
 	RoundManager roundManager;
+	Border EMPTY_BORDER = BorderFactory.createEmptyBorder ();
 	
 	public CorporationList (ElementName aTypeName, RoundManager aRoundManager) {
 		super ();
@@ -912,6 +915,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		JPanel tOtherCorpInfoJPanel;
 		JPanel tOperatingCorpJPanel;
 		JPanel tOperatingCorpPanel;
+		JPanel tScrollableCorpJPanel;
+
+		JScrollPane tScrollCorpPane;
 		Color tFgColor, tBgColor;
 		TrainCompany tTrainCompany;
 		Border tBorder;
@@ -919,6 +925,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		tOtherCorpsInfoJPanel = new JPanel ();
 		tOtherCorpsInfoJPanel.setLayout (new BoxLayout (tOtherCorpsInfoJPanel, BoxLayout.X_AXIS));
 		tOtherCorpsInfoJPanel.add (Box.createHorizontalStrut (10));
+
 		for (Corporation tCorporation : corporations) {
 			if (aBuyingCorporation != tCorporation) {
 				tOtherCorpInfoJPanel = tCorporation.buildPortfolioTrainsJPanel (aCorporationFrame, aGameManager, 
@@ -948,8 +955,14 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			}
 			tOtherCorpsInfoJPanel.add (Box.createHorizontalStrut (10));
 		}
+		tScrollableCorpJPanel = new JPanel ();
+		tScrollableCorpJPanel.setLayout (new BoxLayout (tScrollableCorpJPanel, BoxLayout.X_AXIS));
+		tScrollCorpPane = new JScrollPane (tOtherCorpsInfoJPanel);
+		tScrollCorpPane.setLayout (new ScrollPaneLayout ());
+		tScrollCorpPane.setBorder (EMPTY_BORDER);
+		tScrollableCorpJPanel.add (tScrollCorpPane);
 		
-		return tOtherCorpsInfoJPanel;
+		return tScrollableCorpJPanel;
 	}
 	
 	public Border setupBorder (boolean aSamePresident, Color aFgColor, Color aBgColor) {

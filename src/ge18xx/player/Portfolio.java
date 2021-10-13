@@ -263,7 +263,6 @@ public class Portfolio implements CertificateHolderI {
 		JPanel tOtherCertificatesInfoJPanel;
 		JPanel tCorporationJPanel;
 		JPanel tScrollableCorpJPanel;
-		ScrollPaneLayout tSPLayout;
 		Certificate tCertificateToShow;
 		Corporation tCorporationToShow;
 		int tCount, tCertCount,tCertTotalPercent;
@@ -315,8 +314,8 @@ public class Portfolio implements CertificateHolderI {
 			tAllCertificatesJPanel = buildNoCertificatesPanel ();
 		}
 		tCorporationScrollPane = new JScrollPane (tCorporationJPanel);
-		tSPLayout = new ScrollPaneLayout ();
-		tCorporationScrollPane.setLayout (tSPLayout);
+		tCorporationScrollPane.setLayout (new ScrollPaneLayout ());
+		tCorporationScrollPane.setBorder (EMPTY_BORDER);
 		addJCAndVGlue (tScrollableCorpJPanel, tCorporationScrollPane);
 		
 		return tScrollableCorpJPanel;

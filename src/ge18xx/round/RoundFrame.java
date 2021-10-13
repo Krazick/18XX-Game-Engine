@@ -245,8 +245,6 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
-		System.out.println ("Round Frame Action [" + aEvent.getActionCommand () + "]");
-
 		if (CORPORATION_ACTION.equals (aEvent.getActionCommand ())) {
 			if (! roundManager.companyStartedOperating ()) {
 				logger.info ("Corporation Action for Operation Round selected");
