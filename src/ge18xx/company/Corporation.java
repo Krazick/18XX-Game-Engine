@@ -1739,6 +1739,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return 0;
 	}
 
+	// Overriden in Train Company
 	public JPanel buildPortfolioTrainsJPanel (CorporationFrame corporationFrame2, 
 			GameManager aGameManager, boolean aFullTrainPortfolio, 
 			boolean aCanBuyTrain, String aDisableToolTipReason, 

@@ -18,6 +18,7 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
+import java.awt.Color;
 import java.awt.event.ItemListener;
 import java.util.Collections;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class TrainPortfolio implements TrainHolderI {
 		JPanel tPortfolioJPanel;
 		JPanel tTrainCertJPanel;
 		JLabel tLabel;
-		int tTrainIndex, tTrainCount, tTrainQuantity;
+		int tTrainCount, tTrainQuantity;
 		Train tTrain;
 		String tTrainName, tLabelText;
 		String tActionLabel;
@@ -76,12 +77,11 @@ public class TrainPortfolio implements TrainHolderI {
 		
 		tPortfolioJPanel = new JPanel ();
 		if (trains.isEmpty ()) {
-			tLabel = new JLabel (">> NO TRAINS <<");
+			tLabel = new JLabel ("<html>NO<br>TRAINS</html>");
 			tPortfolioJPanel.add (tLabel);
 		} else {
-			tTrainIndex = 0;
 			tTrainCount = getTrainCount ();
-			while (tTrainIndex < tTrainCount) {
+			for (int tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 				tTrain = getTrainAt (tTrainIndex);
 				tTrainName = tTrain.getName ();
 				tTrainQuantity = getTrainQuantity (tTrainName);
@@ -150,11 +150,12 @@ public class TrainPortfolio implements TrainHolderI {
 					}
 					tTrainIndex += tTrainQuantity - 1;	
 				}
+				tTrainCertJPanel.setBackground (Color.YELLOW);
 				tPortfolioJPanel.add (tTrainCertJPanel);
-				tTrainIndex++;
 			}			
 		}
 		
+		tPortfolioJPanel.setBackground(Color.PINK);
 		return tPortfolioJPanel;
 	}
 	

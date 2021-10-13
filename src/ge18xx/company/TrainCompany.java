@@ -40,7 +40,6 @@ import java.awt.event.ItemListener;
 import java.awt.Point;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -299,7 +298,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	private Border setupOuterBorder () {
 		Border tOuterBorder;
+		
 		tOuterBorder = BorderFactory.createLineBorder (bgColor, 2);
+		
 		return tOuterBorder;
 	}
 
@@ -328,12 +329,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			GameManager aGameManager, boolean aFullTrainPortfolio, 
 			boolean aCanBuyTrain, String aDisableToolTipReason, 
 			Corporation aBuyingCorporation, int aTokenCount) {
-		JPanel tTrainPortfolioInfoJPanel;
 		JPanel tTrainInfoJPanel;
-		JPanel tCorpTrainJPanel;
-		JPanel tCorpInfoJPanel;
 		JPanel tCorpJPanel;
-		JLabel tLabel, tPresidentLabel, tStateLabel, tTreasuryLabel, tTokensLabel;
+		JLabel tCorpAbbrev, tPresidentLabel, tStateLabel, tTreasuryLabel, tTokensLabel;
 		Border tBorder;
 		String tPresident, tBuyingPresident;
 		String tActionLabel;
@@ -346,44 +344,34 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tCorpJPanel = new JPanel ();
 		tCorpJPanel.setLayout (new BoxLayout (tCorpJPanel, BoxLayout.Y_AXIS));
 		tCorpJPanel.setBorder (tBorder);
-		
-		tTrainPortfolioInfoJPanel = new JPanel ();
-		tTrainPortfolioInfoJPanel.setLayout (new BoxLayout (tTrainPortfolioInfoJPanel, BoxLayout.Y_AXIS));
-		tCorpTrainJPanel =  new JPanel ();
-		tCorpTrainJPanel.setLayout (new BoxLayout (tCorpTrainJPanel, BoxLayout.Y_AXIS));
-		tCorpInfoJPanel = new JPanel ();
-		tCorpInfoJPanel.setLayout (new BoxLayout (tCorpInfoJPanel, BoxLayout.Y_AXIS));
-		tLabel = new JLabel (getAbbrev ());
-		tCorpInfoJPanel.add (tLabel);
+		tCorpJPanel.setAlignmentX (LEFT_ALIGNMENT);
+		tCorpJPanel.setBackground (Color.GREEN);
+
+		tCorpAbbrev = new JLabel (getAbbrev ());
+		tStateLabel = new JLabel ("State: " + getStatusName ());
+		tTreasuryLabel = new JLabel ("Treasury: " + Bank.formatCash (treasury));
+		tTokensLabel = new JLabel ("Tokens: " + aTokenCount);
 		if (isPlayerOwned ()) {
-			tStateLabel = new JLabel ("State: " + getStatusName ());
 			tPresidentLabel = new JLabel ("Prez: " + tPresident);
-			tTreasuryLabel = new JLabel ("Treasury: " + Bank.formatCash (treasury));
-			tTokensLabel = new JLabel ("Tokens: " + aTokenCount);
-			tCorpInfoJPanel.add (tStateLabel);
-			tCorpInfoJPanel.add (tPresidentLabel);
-			tCorpInfoJPanel.add (tTreasuryLabel);
-			tCorpInfoJPanel.add (tTokensLabel);
-			tCorpTrainJPanel.add (tCorpInfoJPanel);
-			if (trainPortfolio != null) {
-				tTrainInfoJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, this, 
-						aGameManager, tActionLabel, aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason);
-				
-				tCorpTrainJPanel.add (tTrainInfoJPanel);
-			} else {
-				tLabel = new JLabel (">> NO TRAINS <<");
-				tCorpTrainJPanel.add (tLabel);
-			}
 		} else {
-			tCorpTrainJPanel.add (new JLabel (getAbbrev ()));
-			tCorpTrainJPanel.add (new JLabel ("State: " + getStatusName ()));
+			tPresidentLabel = new JLabel ("Prez: Bank");
 		}
-		tCorpTrainJPanel.add (Box.createVerticalGlue ());
+		tCorpJPanel.add (tCorpAbbrev);
+		tCorpJPanel.add (tStateLabel);
+		tCorpJPanel.add (tPresidentLabel);
+		tCorpJPanel.add (tTreasuryLabel);
+		tCorpJPanel.add (tTokensLabel);
+		if (canOperate ()) {
+			tCorpJPanel.add (new JLabel ("Revenue: " + getFormattedThisRevenue ()));
+		}
 		
-		tCorpJPanel.add (tCorpTrainJPanel);			
-		tTrainPortfolioInfoJPanel.add (tCorpJPanel);
-		
-		return tTrainPortfolioInfoJPanel;
+		if (trainPortfolio != null) {
+			tTrainInfoJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, this, 
+					aGameManager, tActionLabel, aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason);
+			tCorpJPanel.add (tTrainInfoJPanel);	
+		}
+
+		return tCorpJPanel;
 	}
 
 	public JPanel buildCertPortfolioInfoJPanel (ItemListener aItemListener) {

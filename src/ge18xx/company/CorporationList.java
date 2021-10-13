@@ -914,7 +914,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		JPanel tOtherCorpsInfoJPanel;
 		JPanel tOtherCorpInfoJPanel;
 		JPanel tOperatingCorpJPanel;
-		JPanel tOperatingCorpPanel;
 		JPanel tScrollableCorpJPanel;
 
 		JScrollPane tScrollCorpPane;
@@ -932,7 +931,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 						aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason, aBuyingCorporation);
 				tOtherCorpsInfoJPanel.add (tOtherCorpInfoJPanel);
 			} else {
-			
 				if (aBuyingCorporation instanceof TrainCompany) {
 					tTrainCompany  = (TrainCompany) aBuyingCorporation;
 					tBgColor = tTrainCompany.getBgColor ();
@@ -943,15 +941,13 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 				}
 				tBorder = setupBorder (true, tFgColor, tBgColor);
 //				SET BORDER HERE
-				tOperatingCorpPanel = new JPanel ();
-				tOperatingCorpPanel.setBorder (tBorder);
 				
 				tOperatingCorpJPanel = new JPanel ();
 				tOperatingCorpJPanel.setLayout (new BoxLayout (tOperatingCorpJPanel, BoxLayout.Y_AXIS));
+				tOperatingCorpJPanel.setBorder (tBorder);
 				tOperatingCorpJPanel.add (new JLabel (tCorporation.getAbbrev ()));
-				tOperatingCorpJPanel.add (new JLabel ("State: Operating"));
-				tOperatingCorpPanel.add (tOperatingCorpJPanel);
-				tOtherCorpsInfoJPanel.add (tOperatingCorpPanel);
+				tOperatingCorpJPanel.add (new JLabel ("State: Operating"));	
+				tOtherCorpsInfoJPanel.add (tOperatingCorpJPanel);
 			}
 			tOtherCorpsInfoJPanel.add (Box.createHorizontalStrut (10));
 		}
