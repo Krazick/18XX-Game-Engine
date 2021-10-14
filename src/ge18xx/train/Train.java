@@ -118,19 +118,13 @@ public class Train implements Comparable<Object> {
 	
 	public JPanel buildCertificateInfoPanel () {
 		JPanel tCertificateInfoPanel;
-		BoxLayout tCertInfoLayout;
-		String tNameLabel;
-		JLabel tLabel;
 		Border tCertInfoBorder;
 		
 		tCertificateInfoPanel = new JPanel ();
-		tCertInfoLayout = new BoxLayout (tCertificateInfoPanel, BoxLayout.Y_AXIS);
-		tCertificateInfoPanel.setLayout (tCertInfoLayout);
+		tCertificateInfoPanel.setLayout (new BoxLayout (tCertificateInfoPanel, BoxLayout.Y_AXIS));
 		tCertInfoBorder = setupBorder ();
 		tCertificateInfoPanel.setBorder (tCertInfoBorder);
-		tNameLabel = name + " Train";
-		tLabel = new JLabel (tNameLabel);
-		tCertificateInfoPanel.add (tLabel);
+		tCertificateInfoPanel.add (new JLabel (name + " Train"));
 		setCostLabel (tCertificateInfoPanel, price);
 
 		return tCertificateInfoPanel;

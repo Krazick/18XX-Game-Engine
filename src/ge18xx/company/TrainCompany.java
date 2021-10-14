@@ -280,20 +280,30 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public Border setupBorder (boolean aSamePresident) {
 		Border tPanelBorder, tBackgroundBorder, tOuterBorder, tRaisedBevel;
 		Border tLoweredBevel, tBevelBorder1, tBevelBorder2;
-
+		Border tSamePrezBorder;
+		
 		tBackgroundBorder = setupBackgroundBorder (5);
 		if (aSamePresident) {
+			tSamePrezBorder = setupSamePrezBorder ();
 			tRaisedBevel = BorderFactory.createBevelBorder (BevelBorder.RAISED, fgColor, bgColor);
 			tLoweredBevel = BorderFactory.createBevelBorder (BevelBorder.LOWERED, fgColor, bgColor);
 			tBevelBorder1 = BorderFactory.createCompoundBorder (tRaisedBevel, tLoweredBevel);
-			tBevelBorder2 = BorderFactory.createCompoundBorder (tBevelBorder1, tBackgroundBorder);
-			tPanelBorder = BorderFactory.createCompoundBorder (tBackgroundBorder, tBevelBorder2);
+			tBevelBorder2 = BorderFactory.createCompoundBorder (tBevelBorder1, tSamePrezBorder);
+			tPanelBorder = BorderFactory.createCompoundBorder (tSamePrezBorder, tBevelBorder2);
 		} else {
 			tOuterBorder = setupOuterBorder ();
 			tPanelBorder = BorderFactory.createCompoundBorder (tOuterBorder, tBackgroundBorder);
 		}
 		
 		return tPanelBorder;
+	}
+
+	private Border setupSamePrezBorder () {
+		Border tOuterBorder;
+		
+		tOuterBorder = BorderFactory.createLineBorder (Color.CYAN, 2);
+		
+		return tOuterBorder;
 	}
 
 	private Border setupOuterBorder () {
@@ -344,8 +354,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tCorpJPanel = new JPanel ();
 		tCorpJPanel.setLayout (new BoxLayout (tCorpJPanel, BoxLayout.Y_AXIS));
 		tCorpJPanel.setBorder (tBorder);
-		tCorpJPanel.setAlignmentX (LEFT_ALIGNMENT);
-		tCorpJPanel.setBackground (Color.GREEN);
 
 		tCorpAbbrev = new JLabel (getAbbrev ());
 		tStateLabel = new JLabel ("State: " + getStatusName ());

@@ -18,11 +18,11 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
-import java.awt.Color;
 import java.awt.event.ItemListener;
 import java.util.Collections;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -76,11 +76,13 @@ public class TrainPortfolio implements TrainHolderI {
 		Train [] tBankAvailableTrains = aGameManager.getBankAvailableTrains ();
 		
 		tPortfolioJPanel = new JPanel ();
+		tPortfolioJPanel.add (Box.createHorizontalStrut (10));
 		if (trains.isEmpty ()) {
-			tLabel = new JLabel ("<html>NO<br>TRAINS</html>");
+			tLabel = new JLabel (">> NO TRAINS <<");
 			tPortfolioJPanel.add (tLabel);
 		} else {
 			tTrainCount = getTrainCount ();
+			tPortfolioJPanel.add (Box.createHorizontalGlue ());
 			for (int tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 				tTrain = getTrainAt (tTrainIndex);
 				tTrainName = tTrain.getName ();
@@ -150,12 +152,11 @@ public class TrainPortfolio implements TrainHolderI {
 					}
 					tTrainIndex += tTrainQuantity - 1;	
 				}
-				tTrainCertJPanel.setBackground (Color.YELLOW);
+				
 				tPortfolioJPanel.add (tTrainCertJPanel);
 			}			
 		}
 		
-		tPortfolioJPanel.setBackground(Color.PINK);
 		return tPortfolioJPanel;
 	}
 	
