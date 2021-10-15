@@ -1179,15 +1179,16 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		}
 	}
 	
+	public int getTotalValue () {
+		return (getCash () + getPortfolioValue () + escrows.getTotalEscrow ());
+	}
+	
 	public JPanel buildAPlayerJPanel (int aPriorityPlayerIndex, int aPlayerIndex) {
 		JPanel tOwnershipPanel;
 		JLabel tCertCountLabel;
 		JLabel tTotalValueLabel;
 		JLabel tSoldCompanies;
-		JLabel tEscrowLabel;
-		String tEscrowText;
-		int tTotalEscrow, tEscrowCount;
-		
+
 		if (playerJPanel == null) {
 			playerJPanel = new JPanel ();
 			playerJPanel.setLayout (new BoxLayout (playerJPanel, BoxLayout.Y_AXIS));
@@ -1199,20 +1200,11 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		updateCashLabel ();
 		playerJPanel.add (cashLabel);
 		
-		tEscrowCount = escrows.getEscrowCount ();
-		tTotalEscrow = 0;
-		if (tEscrowCount > 0) {
-			tTotalEscrow = escrows.getTotalEscrow ();
-			tEscrowText = tEscrowCount + " Bid";
-			if (tEscrowCount > 1) {
-				tEscrowText += "s";
-			}
-			tEscrowText += " totaling " + Bank.formatCash (tTotalEscrow);
-			tEscrowLabel = new JLabel (tEscrowText);
-			playerJPanel.add (tEscrowLabel);
+		if (escrows.getEscrowCount () > 0) {
+			playerJPanel.add (escrows.getEscrowLabel ());
 		}
 		
-		tTotalValueLabel = new JLabel ("Total Value: " + Bank.formatCash (getCash () + getPortfolioValue () + tTotalEscrow));
+		tTotalValueLabel = new JLabel ("Total Value: " + Bank.formatCash (getTotalValue ()));
 		playerJPanel.add (tTotalValueLabel);
 
 		tCertCountLabel = new JLabel (buildCertCountInfo ("Certificates "));
@@ -1222,7 +1214,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 			playerJPanel.add (tOwnershipPanel);
 		}
 		tSoldCompanies = soldCompanies.buildSoldCompaniesLabel ();
-		if (tSoldCompanies != null) {
+		if (tSoldCompanies != SoldCompanies.NO_SOLD_COMPANIES) {
 			playerJPanel.add (tSoldCompanies);
 		}
 		playerJPanel.add (Box.createHorizontalStrut (10));
