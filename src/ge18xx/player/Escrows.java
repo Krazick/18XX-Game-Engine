@@ -2,6 +2,8 @@ package ge18xx.player;
 
 import java.util.LinkedList;
 
+import javax.swing.JLabel;
+
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.round.action.ActorI;
@@ -108,6 +110,24 @@ public class Escrows {
 		}
 		
 		return tEscrow;
+	}
+	
+	public JLabel getEscrowLabel () {
+		String tEscrowText;
+		JLabel tEscrowLabel;
+		int tEscrowCount;
+		int tTotalEscrow;
+		
+		tTotalEscrow = getTotalEscrow ();
+		tEscrowCount = getEscrowCount ();
+		tEscrowText = tEscrowCount + " Bid";
+		if (tEscrowCount > 1) {
+			tEscrowText += "s";
+		}
+		tEscrowText += " totaling " + Bank.formatCash (tTotalEscrow);
+		tEscrowLabel = new JLabel (tEscrowText);
+
+		return tEscrowLabel;
 	}
 	
 	public int getTotalEscrow () {
