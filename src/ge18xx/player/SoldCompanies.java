@@ -7,7 +7,8 @@ import javax.swing.JLabel;
 
 public class SoldCompanies {
 	List<String> soldCompanies;
-
+	public static final JLabel NO_SOLD_COMPANIES = null;
+	
 	SoldCompanies () {
 		soldCompanies = new LinkedList<String> ();
 	}
@@ -81,7 +82,7 @@ public class SoldCompanies {
 	}
 	
 	public JLabel buildSoldCompaniesLabel () {
-		JLabel tSoldCompaniesLabel = null;
+		JLabel tSoldCompaniesLabel = NO_SOLD_COMPANIES;
 		String tSoldCompanies;
 		
 		if (soldCompanies.size () > 0) {
