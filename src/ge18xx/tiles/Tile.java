@@ -150,6 +150,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return tracks.canAllTracksExit (aThisMapCell, aTileOrient);
 	}
 	
+	public void clearAllTrains () {
+		tracks.clearAllTrains ();
+	}
+	
 	public boolean canDeadEndTrack () {
 		return type.canDeadEndTrack ();
 	}

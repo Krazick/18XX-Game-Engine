@@ -329,6 +329,11 @@ public class MapCell implements Comparator<Object> {
 		selected = false;
 		clearSelectedFeature2 ();
 	}
+	public void clearAllTrains () {
+		if (isTileOnCell ()) {
+			tile.clearAllTrains ();
+		}
+	}
 	
 	public void clearSelectedFeature2 () {
 		setSelectedFeature2 (new Location (Location.NO_LOCATION));

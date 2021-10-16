@@ -49,6 +49,12 @@ public class Tracks implements Cloneable {
 		return tCanAllTracksExit;
 	}
 	
+	public void clearAllTrains () {
+		for (Track tSegment : segments) {
+			tSegment.clearTrainNumber ();
+		}
+	}
+	
 	public Tracks clone () {
 		List<Track> tSegmentsCopy = new LinkedList<Track> ();
 		for (Track tSegment : segments) {

@@ -228,6 +228,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		setPlaceTileMode (aTileMode);
 	}
 
+	public void clearTrainsFromMap () {
+		map.clearAllTrains ();
+	}
 	public void togglePlaceTileMode () {
 		setModes (! placeTileMode, false, false);
 		map.setSingleMapCellSelect (placeTileMode);
