@@ -47,6 +47,6 @@ public class MyResources extends ListResourceBundle {
 			{"showAuditFrameItem", "Show Audit Frame"},
 			{"showActionReportFrameItem", "Show Action Report Frame"},
 			{"frameTitle", "18XX Game Engine"},
-			{"version", "V 0.7.4 Beta"}
+			{"version", "V 0.7.5 Beta"}
 	};
 }
