@@ -1766,6 +1766,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		}
 	};
 
+	// Routines needed by a Train Company to test for Emergency Train Buy
 	// Train company will Override
 	public void forceBuyTrain () {
 	}
@@ -1774,12 +1775,20 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return Train.NO_TRAIN;
 	}
 
+	// Train Company will Override these
+	public void setMustBuyTrain (boolean b) {
+	}
+	
 	public boolean mustBuyTrain () {
 		return false;
 	}
 	
 	public boolean mustBuyTrainNow () {
 		return false;
+	}
+	
+	public boolean hasNoTrain () {
+		return true;
 	}
 
 	public boolean canBuyTrainInPhase () {
@@ -1806,10 +1815,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tCorpBorder;
 	}
 
-	// Train Company will Override
-	public void setMustBuyTrain (boolean b) {
-	}
-	
 	@Override
 	public boolean isAPlayer () {
 		return false;
@@ -1949,4 +1954,5 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public abstract void completeBenefitUse ();
 
 	protected abstract boolean choiceForBaseToken ();
+
 }

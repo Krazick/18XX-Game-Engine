@@ -422,10 +422,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return mustBuyTrain;
 	}
 
+	@Override
+	public boolean hasNoTrain () {
+		return (trainPortfolio.getTrainCount () == 0);
+	}
+	
 	public boolean mustBuyTrainNow () {
 		boolean tMustBuyTrainNow = false;
 		
-		if (mustBuyTrain && (trainPortfolio.getTrainCount () == 0)) {
+		if (mustBuyTrain && hasNoTrain ()) {
 			tMustBuyTrainNow = true;
 		}
 		
