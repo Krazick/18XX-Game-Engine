@@ -4,26 +4,27 @@ import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
+import ge18xx.round.action.effects.ClearTrainsFromMapEffect;
 import ge18xx.round.action.effects.NewActingCorpEffect;
 import ge18xx.utilities.XMLNode;
 
-public class DoneAction extends Action {
+public class DoneCorpAction extends Action {
 	public final static String NAME = "Done";
 
-	public DoneAction() {
+	public DoneCorpAction() {
 		this (NAME);
 	}
 
-	public DoneAction (String aName) {
+	public DoneCorpAction (String aName) {
 		super (aName);
 	}
 	
-	public DoneAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
+	public DoneCorpAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
 
-	public DoneAction (XMLNode aActionNode, GameManager aGameManager) {
+	public DoneCorpAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
@@ -42,6 +43,13 @@ public class DoneAction extends Action {
 		addEffect (tChangeCorporationStatusEffect);
 	}
 
+	public void addClearTrainsFromMapEffect (Corporation aCorporation) {
+		ClearTrainsFromMapEffect tClearTrainsFromMapEffect;
+		
+		tClearTrainsFromMapEffect = new ClearTrainsFromMapEffect (aCorporation);
+		addEffect (tClearTrainsFromMapEffect);
+	}
+	
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
