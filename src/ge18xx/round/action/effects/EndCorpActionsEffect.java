@@ -9,22 +9,22 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class NewActingCorpEffect extends Effect {
-	public final static String NAME = "New Acting Corporation";
+public class EndCorpActionsEffect extends Effect {
+	public final static String NAME = "End Corporation Actions";
 	
-	public NewActingCorpEffect () {
+	public EndCorpActionsEffect () {
 		super (NAME);
 	}
 
-	public NewActingCorpEffect (String aName) {
+	public EndCorpActionsEffect (String aName) {
 		super (aName);
 	}
 
-	public NewActingCorpEffect (ActorI aActor) {
+	public EndCorpActionsEffect (ActorI aActor) {
 		super (NAME, aActor);
 	}
 
-	public NewActingCorpEffect (XMLNode aEffectNode, GameManager aGameManager) {
+	public EndCorpActionsEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
@@ -40,7 +40,7 @@ public class NewActingCorpEffect extends Effect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + actor.getName () + " should Start Operations.");
+		return (REPORT_PREFIX + actor.getName () + " has Ended Operations.");
 	}
 	
 	@Override
