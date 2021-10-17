@@ -62,8 +62,15 @@ public class GeneratedRevenueEffect extends Effect {
 	
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
+		String tTrainsUsed;
+		
+		tTrainsUsed = trainCount + " train";
+		if (trainCount > 1) {
+			tTrainsUsed += "s";
+		}
+		
 		return (REPORT_PREFIX + name + " of " + Bank.formatCash (revenue) +
-				" with " + trainCount + " for " + getActorName () + ".");
+				" with " + tTrainsUsed + " for " + getActorName () + ".");
 	}
 	
 	public int getRevenue () {

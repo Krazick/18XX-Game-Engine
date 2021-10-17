@@ -113,9 +113,16 @@ public class ChangeRouteEffect extends Effect {
 	
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + getActorName () + " for Train " + getTrainIndex () +
-				" on MapCell " + mapCell.getCellID () + " from Location " + startLocation.getLocation () +
-				" to Location " + endLocation.getLocation () + ".");
+		String tReport;
+		
+		tReport = REPORT_PREFIX + name + " for " + getActorName () + " for Train " + getTrainIndex () +
+				" on MapCell " + mapCell.getCellID () + " from Location " + startLocation.getLocation ();
+		if (endLocation.getLocation () != Location.NO_LOCATION) {
+			tReport += " to Location " + endLocation.getLocation ();
+		}
+		tReport += ".";
+		
+		return tReport;
 	}
 
 	@Override
