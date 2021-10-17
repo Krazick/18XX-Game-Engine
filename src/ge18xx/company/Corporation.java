@@ -35,7 +35,7 @@ import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.round.OperatingRound;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
-import ge18xx.round.action.DoneAction;
+import ge18xx.round.action.DoneCorpAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.tiles.Tile;
@@ -607,7 +607,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public void doneAction () {
 		boolean tStatusUpdated;
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
-		DoneAction tDoneAction;
+		DoneCorpAction tDoneAction;
 		OperatingRound tOperatingRound;
 		String tOperatingRoundID;
 		
@@ -616,9 +616,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		if (tStatusUpdated) {
 			tNewStatus = status;
 			tOperatingRoundID = getOperatingRoundID ();
-			tDoneAction = new DoneAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
+			tDoneAction = new DoneCorpAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 			tDoneAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			tDoneAction.addNewActingCorpEffect (this);
+			tDoneAction.addClearTrainsFromMapEffect (this);
 			tOperatingRound = corporationList.getOperatingRound ();
 			tOperatingRound.addAction (tDoneAction);
 			corporationList.doneAction (this);

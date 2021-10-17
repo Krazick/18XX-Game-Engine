@@ -22,7 +22,6 @@ public class NewActingCorpEffect extends Effect {
 
 	public NewActingCorpEffect (ActorI aActor) {
 		super (NAME, aActor);
-
 	}
 
 	public NewActingCorpEffect (XMLNode aEffectNode, GameManager aGameManager) {
