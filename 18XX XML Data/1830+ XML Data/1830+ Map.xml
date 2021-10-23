@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Map cols="12" defaultType="Ocean" direction="EW" fillColor="black"
-	rows="11" rowStart="K" colStart="1" 
+	rows="13" rowStart="M" colStart="1" 
 	width="860" height="790" xLocation="100" yLocation="100" visible="false">
 	<TerrainCosts>
 		<Terrain cost="40" type="Coast" />
@@ -18,25 +18,18 @@
 			<Terrain category="base" type="Off Board Green" />
 		</MapCell>
 		<MapCell>
-			<Terrain category="base" type="Off Board Green" />
-		</MapCell>
-		<MapCell>
-			<Terrain category="base" type="Off Board Green" />
-		</MapCell>
-		<MapCell>
-			<Terrain category="base" type="Off Board Green" />
-		</MapCell>
-		<MapCell>
-			<Terrain category="base" type="Off Board Red" />
-			<Tile number="9807" orientation="0" starting="TRUE" />
-			<RevenueCenter id="1" location="13" name="" number="1"
-				type="Dead-End Only City" />
+			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="Hill" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Tile number="9947" orientation="0" starting="TRUE" />
-			<RevenueCenter id="10" location="13" name="" number="1"
-				type="Single City" />
+			<Terrain category="optional" location="50" type="Hill" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Off Board Red" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Off Board Green" />
@@ -45,9 +38,21 @@
 	<Row index="1" startCol="0">
 		<MapCell>
 			<Terrain category="base" type="Off Board Red" />
-			<Tile number="9806" orientation="0" starting="TRUE" />
-			<RevenueCenter id="2" location="13" name="" number="1"
-				type="Dead-End Only City" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="Hill" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="Hill" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="Hill" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -57,6 +62,91 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
+		</MapCell>
+	</Row>
+	<Row index="2" startCol="0">
+		<MapCell>
+			<Terrain category="base" type="Off Board Red" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<TileName name="OO" location="7" />
+			<RevenueCenter id="0" location="8" name="" number="1"
+				type="Single City" />
+			<RevenueCenter id="0" location="11" name="" number="1"
+				type="Single City" />
+<!--			<RevenueCenter id="11" location="20" name="" number="1"
+				type="Single City" />  -->
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<TileName name="OO" location="7" />
+			<RevenueCenter id="0" location="8" name="" number="1"
+				type="Single City" />
+			<RevenueCenter id="0" location="11" name="" number="1"
+				type="Single City" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<TileName name="OO" location="7" />
+			<RevenueCenter id="0" location="8" name="" number="1"
+				type="Single City" />
+			<RevenueCenter id="0" location="11" name="" number="1"
+				type="Single City" />
+<!-- 			<Terrain category="optional" location="50" type="Hill" />
+			<RevenueCenter id="11" location="20" name="" number="1"
+				type="Single City" /> -->
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="Hill" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="Hill" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<RevenueCenter id="11" location="20" name="" number="1"
+				type="Single City" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<Tile number="9947" orientation="0" starting="TRUE" />
+			<RevenueCenter id="10" location="13" name="" number="1"
+				type="Single City" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+		</MapCell>
+	</Row>
+	<Row index="3" startCol="0">
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<TileName name="OO" location="7" />
+			<RevenueCenter id="0" location="8" name="" number="1"
+				type="Single City" />
+			<RevenueCenter id="0" location="11" name="" number="1"
+				type="Single City" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<TileName name="OO" location="7" />
+			<RevenueCenter id="0" location="8" name="" number="1"
+				type="Single City" />
+			<RevenueCenter id="0" location="11" name="" number="1"
+				type="Single City" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<TileName name="OO" location="7" />
+			<RevenueCenter id="0" location="8" name="" number="1"
+				type="Single City" />
+			<RevenueCenter id="0" location="11" name="" number="1"
+				type="Single City" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -76,12 +166,9 @@
 			<Terrain category="base" type="Off Board Green" />
 		</MapCell>
 	</Row>
-	<Row index="2" startCol="0">
+	<Row index="4" startCol="0">
 		<MapCell>
-			<Terrain category="base" type="Off Board Red" />
-			<Tile number="9805" orientation="0" starting="TRUE" />
-			<RevenueCenter id="2" location="13" name="" number="1"
-				type="Dead-End Only City" />
+			<Terrain category="base" type="Clear" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -122,7 +209,7 @@
 			<Tile number="9944" orientation="0" starting="TRUE" />
 		</MapCell>
 	</Row>
-	<Row index="3" startCol="0">
+	<Row index="5" startCol="0">
 		<MapCell>
 			<Terrain category="base" type="Clear" />
 		</MapCell>
@@ -169,7 +256,7 @@
 				type="Private Railway" />
 		</MapCell>
 	</Row>
-	<Row index="4" startCol="0">
+	<Row index="6" startCol="0">
 		<MapCell>
 			<Terrain category="base" type="Off Board Green" />
 		</MapCell>
@@ -221,7 +308,7 @@
 			<Terrain category="base" type="Off Board Green" />
 		</MapCell>
 	</Row>
-	<Row index="5" startCol="0">
+	<Row index="7" startCol="0">
 		<MapCell>
 			<Terrain category="base" type="Off Board Red" />
 			<Tile number="9801" orientation="1" starting="TRUE" />
@@ -284,7 +371,7 @@
 			<RevenueCenter id="0" location="15" name="" type="Small Town" />
 		</MapCell>
 	</Row>
-	<Row index="6" startCol="0">
+	<Row index="8" startCol="0">
 		<MapCell>
 			<Terrain category="base" type="Off Board Green" />
 		</MapCell>
@@ -344,7 +431,7 @@
 				type="Single City" />
 		</MapCell>
 	</Row>
-	<Row index="7" startCol="0">
+	<Row index="9" startCol="0">
 		<MapCell>
 			<Terrain category="base" type="Clear" />
 			<Tile number="9948" orientation="0" starting="TRUE" />
@@ -404,7 +491,7 @@
 			<Tile number="9943" orientation="0" starting="TRUE" />
 		</MapCell>
 	</Row>
-	<Row index="8" startCol="0">
+	<Row index="10" startCol="0">
 		<MapCell>
 			<Terrain category="base" type="Off Board Green" />
 		</MapCell>
@@ -449,7 +536,7 @@
 			<Terrain category="base" type="Clear" />
 		</MapCell>
 	</Row>
-	<Row index="9" startCol="0">
+	<Row index="11" startCol="0">
 		<MapCell>
 			<Terrain category="base" type="Off Board Green" />
 		</MapCell>
@@ -503,7 +590,7 @@
 				type="Dead-End Only City" />
 		</MapCell>
 	</Row>
-	<Row index="10" startCol="4">
+	<Row index="12" startCol="4">
 		<MapCell>
 			<Terrain category="base" type="Off Board Red" />
 			<Tile number="9803" orientation="0" starting="TRUE" />
