@@ -478,7 +478,7 @@ public class MapCell implements Comparator<Object> {
 		if (isTileOnCell ()) {
 			tRevenueCenter = tile.getCenterAtLocation (aLocation);
 		} else {
-			tRevenueCenter = centers.getCenterAtLocation(aLocation);
+			tRevenueCenter = centers.getCenterAtLocation (aLocation);
 		}
 		
 		return tRevenueCenter;
@@ -1254,6 +1254,20 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 	
+	public int getCountofAllowedRotations () {
+		int tCount;
+		int tIndex;
+		
+		tCount = 0;
+		for (tIndex = 0; tIndex < 6; tIndex++) {
+			if (allowedRotations [tIndex]) {
+				tCount++;
+			}
+		}
+		
+		return tCount;
+	}
+	
 	private void setAllValues (int Xc, int Yc, HexMap aHexMap, int aBaseTerrain, Tile aTile, 
 								int aTileOrient, String aBaseName, String aBlockedSides) {
 		int tIndex;
@@ -1441,11 +1455,11 @@ public class MapCell implements Comparator<Object> {
 		RevenueCenter tRevenueCenter;
 		int tStationCount = tRevenueCenterType.getStationCount ();
 		
-		if (tRevenueCenterType.isDotTown()) {
+		if (tRevenueCenterType.isDotTown ()) {
 			tRevenueCenter = new Town (tRevenueCenterType, aID, aLocation, aName, aValue, aTileType);
-		} else if (tRevenueCenterType.isTown()) {
+		} else if (tRevenueCenterType.isTown ()) {
 			tRevenueCenter = new Town (tRevenueCenterType, aID, aLocation, aName, aValue, aTileType);
-		} else if (tRevenueCenterType.isCity()) {
+		} else if (tRevenueCenterType.isCity ()) {
 			tRevenueCenter = new City (tRevenueCenterType, tStationCount, aID, aLocation, aName, aValue, aTileType);
 		} else {
 			tRevenueCenter = null;
