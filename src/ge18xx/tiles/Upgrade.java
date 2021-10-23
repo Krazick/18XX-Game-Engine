@@ -43,6 +43,7 @@ public class Upgrade {
 		String tChildName;
 		int tIndex;
 		int tChildrenCount;
+		int tUpgradeCount, tUpgradeIndex;
 		
 		toNumber = aNode.getThisIntAttribute (AN_TO_NUMBER);
 		tRotations = aNode.getThisAttribute (AN_ROTATIONS);
@@ -54,16 +55,19 @@ public class Upgrade {
 		tChildren = aNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		if (tChildrenCount > 0) {
-			RCfrom = new int [tChildrenCount];
-			RCto = new int [tChildrenCount];
-			RCrotation = new int [tChildrenCount];
+			tUpgradeCount = tChildrenCount/2;
+			tUpgradeIndex = 0;
+			RCfrom = new int [tUpgradeCount];
+			RCto = new int [tUpgradeCount];
+			RCrotation = new int [tUpgradeCount];
 			for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 				tChildNode = new XMLNode (tChildren.item (tIndex));
 				tChildName = tChildNode.getNodeName ();
 				if (EN_REVENUE_CENTER.equals (tChildName)) {
-					RCto [tIndex] = tChildNode.getThisIntAttribute (AN_TO);
-					RCfrom [tIndex] = tChildNode.getThisIntAttribute (AN_FROM);
-					RCrotation [tIndex] = tChildNode.getThisIntAttribute (AN_ROTATION, ANY_ROTATION);
+					RCto [tUpgradeIndex] = tChildNode.getThisIntAttribute (AN_TO);
+					RCfrom [tUpgradeIndex] = tChildNode.getThisIntAttribute (AN_FROM);
+					RCrotation [tUpgradeIndex] = tChildNode.getThisIntAttribute (AN_ROTATION, ANY_ROTATION);
+					tUpgradeIndex++;
 				}
 				if (EN_BASE_CITY_NAME.equals (tChildName)) {
 					baseCityName = tChildNode.getThisAttribute (AN_VALUES);
@@ -91,11 +95,14 @@ public class Upgrade {
 //			System.out.println ("tIndex " + tIndex + " RCfrom " + RCfrom [tIndex] + 
 //					" RCTo " + RCto [tIndex] +
 //					" RCRotation " + RCrotation [tIndex]);
-			if ((RCfrom [tIndex] == tFromLocation) && (RCrotation [tIndex] == aRotation)) {
+			if (RCfrom [tIndex] == tFromLocation) {
+//				if (RCrotation [tIndex] == aRotation) {
+//					tToLocation = new Location (RCto [tIndex]);
+//				}
+//				if (RCrotation [tIndex] == ANY_ROTATION) {
+//					tToLocation = new Location (RCto [tIndex]);				
+//				}
 				tToLocation = new Location (RCto [tIndex]);
-			}
-			if ((RCfrom [tIndex] == tFromLocation) && (RCrotation [tIndex] == ANY_ROTATION)) {
-				tToLocation = new Location (RCto [tIndex]);				
 			}
 		}
 		
