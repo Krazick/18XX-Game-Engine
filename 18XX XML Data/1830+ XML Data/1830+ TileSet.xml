@@ -117,24 +117,24 @@
 				<RevenueCenter from="16" to="12" rotation="0"/>
 			</Upgrade>
 		</Tile>
-		<Tile number="59" quantity="2">
+		<Tile number="59" quantity="6">
 			<Upgrade toNumber="64" rotations="0,2">
-				<RevenueCenter from="13" to="35" rotation="0" />
-				<RevenueCenter from="16" to="13" rotation="0" />
-				<RevenueCenter from="13" to="13" rotation="2" />
-				<RevenueCenter from="16" to="35" rotation="2" />
+				<RevenueCenter from="13" to="13" rotation="0" />
+				<RevenueCenter from="16" to="35" rotation="0" />
+				<RevenueCenter from="13" to="35" rotation="2" />
+				<RevenueCenter from="16" to="13" rotation="2" />
 			</Upgrade>
 			<Upgrade toNumber="65" rotations="0,2">
-				<RevenueCenter from="13" to="35" rotation="0" />
-				<RevenueCenter from="16" to="14" rotation="0" />
-				<RevenueCenter from="13" to="14" rotation="2" />
-				<RevenueCenter from="16" to="35" rotation="2" />
+				<RevenueCenter from="13" to="14" rotation="0" />
+				<RevenueCenter from="16" to="35" rotation="0" />
+				<RevenueCenter from="13" to="35" rotation="2" />
+				<RevenueCenter from="16" to="14" rotation="2" />
 			</Upgrade>
 			<Upgrade toNumber="66" rotations="3,4">
-				<RevenueCenter from="13" to="6" rotation="3" />
-				<RevenueCenter from="16" to="17" rotation="3" />
-				<RevenueCenter from="13" to="17" rotation="4" />
-				<RevenueCenter from="16" to="6" rotation="4" />
+				<RevenueCenter from="13" to="17" rotation="3" />
+				<RevenueCenter from="16" to="6" rotation="3" />
+				<RevenueCenter from="13" to="6" rotation="4" />
+				<RevenueCenter from="16" to="17" rotation="4" />
 			</Upgrade>
 			<Upgrade toNumber="67" rotations="1,3">
 				<RevenueCenter from="13" to="6" rotation="1" />
@@ -161,8 +161,8 @@
 		<Tile number="61" quantity="2" />
 		<Tile number="62" quantity="1" />
 		<Tile number="63" quantity="3" />
-		<Tile number="64" quantity="1" />
-		<Tile number="65" quantity="1" />
+		<Tile number="64" quantity="6" />
+		<Tile number="65" quantity="6" />
 		<Tile number="66" quantity="1" />
 		<Tile number="67" quantity="1" />
 		<Tile number="68" quantity="1" />
