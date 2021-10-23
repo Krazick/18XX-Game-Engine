@@ -600,10 +600,10 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 	
-	public void rotateTileInPlace (MapCell aThisMapCell, boolean tAddAction) {
+	public void rotateTileInPlace (MapCell aThisMapCell, boolean aAddAction) {
 		boolean tCanAllTracksExit;
-		int tTileOrient, tRotations, tPossible;
-		int tSteps, tIndex;
+		int tTileOrient, tCountOfRotations, tPossible;
+		int tSteps;
 		int tNewOrientation, tPreviousOrientation;
 		Tile tTile;
 		RotateTileAction tRotateTileAction;
@@ -612,44 +612,41 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		Corporation tOperatingCompany;
 		String tTokens, tBases;
 		
-		tTile = aThisMapCell.getTile ();
-		tPossible = aThisMapCell.getTileOrient ();
-		tPreviousOrientation = tPossible;
-		tCanAllTracksExit = false;
-		tRotations = 0;
-		tSteps = 0;
-		for (tTileOrient = 0; (tTileOrient < 6) && (! tCanAllTracksExit); tTileOrient++) {
-			tPossible = (tPossible + 1) % 6;
-			tSteps++;
-			if (aThisMapCell.getAllowedRotation (tPossible)) {
-				tCanAllTracksExit = aThisMapCell.canAllTracksExit (tTile, tPossible);
-				tRotations++;
+		tCountOfRotations = aThisMapCell.getCountofAllowedRotations ();
+		if (tCountOfRotations > 1) {
+			tTile = aThisMapCell.getTile ();
+			tPossible = aThisMapCell.getTileOrient ();
+			tPreviousOrientation = tPossible;
+			tSteps = 0;
+			tCanAllTracksExit = false;
+			for (tTileOrient = 0; ((! tCanAllTracksExit) && (tTileOrient < 6)); tTileOrient++) {
+				tPossible = (tPossible + 1) % 6;
+				tSteps++;
+				if (aThisMapCell.getAllowedRotation (tPossible)) {
+					tCanAllTracksExit = aThisMapCell.canAllTracksExit (tTile, tPossible);
+				}
 			}
-		}
-		if (tRotations > 0) {
-			for (tIndex = 0; tIndex < tSteps; tIndex++) {
-				aThisMapCell.rotateTileRight (tRotations);
-			}
+			aThisMapCell.rotateTileRight (tSteps);
 			if (tTile.getRevenueCenterCount () == 2) {
 				// Two Revenue Centers, need to Swap Tokens -- "OO" in 1830 and 1856 to keep on
 				// the correct centers -- a bit kludgy
 				aThisMapCell.swapTokens ();
 			}
+			if (aAddAction == DO_ADD_ACTION) {
+				tNewOrientation = aThisMapCell.getTileOrient ();
+				tGameManager = mapFrame.getGameManager ();
+				tRoundManager = tGameManager.getRoundManager ();
+				tOperatingCompany = tRoundManager.getOperatingCompany ();
+				tRotateTileAction = new RotateTileAction (ActorI.ActionStates.OperatingRound, 
+						tRoundManager.getOperatingRoundID (), tOperatingCompany);
+				tTokens = tTile.getPlacedTokens ();
+				tBases = tTile.getCorporationBases ();
+				tRotateTileAction.addRotateTileEffect (tOperatingCompany, aThisMapCell, 
+						tTile, tNewOrientation, tPreviousOrientation, tTokens, tBases);
+				tRoundManager.addAction (tRotateTileAction);
+			}
 		} else {
-			System.err.println ("No Allowed Rotations have been identified for the Tile on this MapCell");
-		}
-		if (tAddAction == DO_ADD_ACTION) {
-			tNewOrientation = aThisMapCell.getTileOrient ();
-			tGameManager = mapFrame.getGameManager ();
-			tRoundManager = tGameManager.getRoundManager ();
-			tOperatingCompany = tRoundManager.getOperatingCompany ();
-			tRotateTileAction = new RotateTileAction (ActorI.ActionStates.OperatingRound, 
-					tRoundManager.getOperatingRoundID (), tOperatingCompany);
-			tTokens = tTile.getPlacedTokens ();
-			tBases = tTile.getCorporationBases ();
-			tRotateTileAction.addRotateTileEffect (tOperatingCompany, aThisMapCell, 
-					tTile, tNewOrientation, tPreviousOrientation, tTokens, tBases);
-			tRoundManager.addAction (tRotateTileAction);
+			System.out.println ("Only ONE Allowed Rotations have been identified for the Tile on this MapCell");
 		}
 	}
 	
