@@ -94,7 +94,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final PlayerManager NO_PLAYER_MANAGER = null;
 	public static final PhaseManager NO_PHASE_MANAGER = null;
 	public static final int NO_BANK_CASH = 0;
-	boolean gameChangedSinceSave;
 	Game_18XX game18XXFrame;
 	GameInfo activeGame;
 	PlayerManager playerManager;
@@ -102,6 +101,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 	PhaseManager phaseManager;
 	BankPool bankPool;
 	Bank bank;
+	
+	ArrayList<XMLFrame> configFrames;
+	// Various Frames the Game Manager tracks -- Consider adding to a "FrameManager" Class
 	AuctionFrame auctionFrame;
 	MapFrame mapFrame;
 	MarketFrame marketFrame;
@@ -115,20 +117,31 @@ public class GameManager extends Component implements NetworkGameSupport {
 	TileDefinitionFrame tileDefinitionFrame;
 	PlayerInputFrame playerInputFrame;
 	FrameInfoFrame frameInfoFrame;
+	
+	// Other Frames include:
+	// RoundFrame -- held by RoundManager
+	// TrainRevenueFrame -- held by TrainCompany
+	// ParPriceFrame
+	// BuyTrainFrame
+	// EmergencyBuyTrainFrame
+	// BuyPrivateFrame (makeOffer for Private or Train)
+	
+	JGameClient networkJGameClient;
+	SavedGames networkSavedGames;
+	
 	JFileMChooser chooser;
 	File saveFile;
 	File autoSaveFile;
 	File loadSavedFile;
 	String autoSaveFileName;
-	JGameClient networkJGameClient;
-	boolean notifyNetwork = false;
 	String clientUserName;
 	String gameID;
 	Config configData;
-	ArrayList<XMLFrame> configFrames;
-	SavedGames networkSavedGames;
-	boolean gameStarted;
+	
+	boolean notifyNetwork = false;
 	boolean applyingNetworkAction = false;
+	boolean gameChangedSinceSave;
+	boolean gameStarted;
 	Logger logger;
 	String userDir = System.getProperty ("user.dir");
 	
