@@ -30,8 +30,8 @@ public class Location implements Cloneable {
 	public static final AttributeName AN_HOME_LOCATION2 = new AttributeName ("homeLocation2");
 	public static final int NO_LOCATION = -1;
 	public static final Location NO_LOC = null;
-	static final int MIN_SIDE = 0;
-	static final int MAX_SIDE = 5;
+	public static final int MIN_SIDE = 0;
+	public static final int MAX_SIDE = 5;
 	static final int MIN_CITY_LOC_NS = 6;
 	static final int MAX_CITY_LOC_NS = 11;
 	static final int MIN_CITY_LOC_NC = 12;
@@ -558,12 +558,21 @@ public class Location implements Cloneable {
 		return retValue;		
 	}
 	
-	public boolean isSide () {
-		if ((location >= MIN_SIDE) && (location <= MAX_SIDE)) {
+	public static boolean isValidSide (int aLocation) {
+		if ((aLocation >= MIN_SIDE) && (aLocation <= MAX_SIDE)) {
 			return (true);
 		} else {
 			return (false);
 		}
+		
+	}
+	public boolean isSide () {
+		return (isValidSide (location));
+//		if ((location >= MIN_SIDE) && (location <= MAX_SIDE)) {
+//			return (true);
+//		} else {
+//			return (false);
+//		}
 	}
 	
 	public boolean isSide (int aSide) {
