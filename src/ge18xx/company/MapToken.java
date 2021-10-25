@@ -8,12 +8,14 @@ public class MapToken extends Token {
 	MapCell mapCell;
 	Location location;
 	int cost;
+	boolean connectedSides [] = new boolean [6];
 	
 	public MapToken () {
 		super ();
 		setLocation (Location.NO_LOC);
 		setMapCell (MapCell.NO_MAP_CELL);
 		setCost (0);
+		setAllConnectedSides (false);
 	}
 	
 	public MapToken (MapToken aMapToken, int aCost) {
@@ -22,6 +24,7 @@ public class MapToken extends Token {
 		setLocation (Location.NO_LOC);
 		setMapCell (MapCell.NO_MAP_CELL);
 		setCost (aCost);
+		setAllConnectedSides (false);
 	}
 
 	public MapCell getMapCell () {
@@ -56,6 +59,34 @@ public class MapToken extends Token {
 	
 	public void setLocation (Location aLocation) {
 		location = aLocation;
+	}
+
+	public boolean isConnectedToSide (int aSideIndex) {
+		return getConnectedSide (aSideIndex);
+	}
+	
+	public boolean getConnectedSide (int aSideIndex) {
+		boolean tConnectedSide = false;
+		
+		if (Location.isValidSide (aSideIndex)) {
+			tConnectedSide = connectedSides [aSideIndex];
+		}
+		
+		return tConnectedSide;
+	}
+	
+	public void setConnectedSide (int aSideIndex, boolean aConnected) {
+		if (Location.isValidSide (aSideIndex)) {
+			connectedSides [aSideIndex] = aConnected;
+		}
+	}
+
+	public void setAllConnectedSides (boolean aConnected) {
+		int tSideIndex;
+		
+		for (tSideIndex = Location.MIN_SIDE; tSideIndex < Location.MAX_SIDE; tSideIndex ++) {
+			setConnectedSide (tSideIndex, aConnected);
+		}
 	}
 	
 	public void placeToken (MapCell aMapCell, Location aLocation) {
