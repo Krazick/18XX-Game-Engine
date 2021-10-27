@@ -1047,6 +1047,16 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 
+	public boolean areLocationsConnected (Location aLocation, int aRemoteLocationIndex) {
+		boolean tIsConnectedToLocation = false;
+		
+		if (isTileOnCell ()) {
+			tIsConnectedToLocation = tile.areLocationsConnected (aLocation, aRemoteLocationIndex);
+		}
+		
+		return tIsConnectedToLocation;
+	}
+	
 	public int getAllAllowedRotations (Tile aTile) {
 		int tPossibleOrientation;
 		int tTileOrient;
