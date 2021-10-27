@@ -193,12 +193,9 @@ public class XMLFrame extends JFrame {
 		
 		tFrameName = getTitle ();
 		tFrameInfo = aGameFrameConfig.getFrameInfoFor (tFrameName);
-		System.out.println ("Ready to set Frame [" + tFrameName + "] to Defaults");
 		if (tFrameInfo != FrameInfo.NO_FRAME_INFO) {
 			setDefaults (tFrameInfo);
 			setDefaultFrameInfo ();
-		} else {
-			System.out.println ("Did not find the Frame in Config Set");
 		}
 		// If the Visibility Flag passed in is 
 		//		ON- always set it Visible, 
