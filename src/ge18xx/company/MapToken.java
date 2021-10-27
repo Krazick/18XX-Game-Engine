@@ -84,7 +84,7 @@ public class MapToken extends Token {
 	public void setAllConnectedSides (boolean aConnected) {
 		int tSideIndex;
 		
-		for (tSideIndex = Location.MIN_SIDE; tSideIndex < Location.MAX_SIDE; tSideIndex ++) {
+		for (tSideIndex = Location.MIN_SIDE; tSideIndex <= Location.MAX_SIDE; tSideIndex ++) {
 			setConnectedSide (tSideIndex, aConnected);
 		}
 	}
@@ -92,6 +92,29 @@ public class MapToken extends Token {
 	public void placeToken (MapCell aMapCell, Location aLocation) {
 		setMapCell (aMapCell);
 		setLocation (aLocation);
+		setConnectedSides(aMapCell, aLocation);
+	}
+
+	public void setConnectedSides(MapCell aMapCell, Location aLocation) {
+		int tSideIndex;
+		int tTileRotation;
+		int tSideIndexRotated;
+		Location tSideRotated;
+		boolean tConnectedToSide;
+		
+		tTileRotation = aMapCell.getTileOrient ();
+		System.out.println ("Map Cell " + aMapCell.getCellID () + 
+							" Token for " + getCorporationAbbrev () +
+							" Tile Orientation is " + tTileRotation);
+		for (tSideIndex = Location.MIN_SIDE; tSideIndex <= Location.MAX_SIDE; tSideIndex ++) {
+			tConnectedToSide = aMapCell.areLocationsConnected (aLocation, tSideIndex);
+			tSideRotated = new Location (tSideIndex);
+			tSideRotated = tSideRotated.rotateLocation (tTileRotation);
+			tSideIndexRotated = tSideRotated.getLocation ();
+			System.out.println ("Location " + aLocation.getLocation () + " is Connected to Side " 
+							+ tSideIndexRotated + " is " + tConnectedToSide);
+			setConnectedSide (tSideIndexRotated, tConnectedToSide);
+		}
 	}
 	
 	public void printlog () {
