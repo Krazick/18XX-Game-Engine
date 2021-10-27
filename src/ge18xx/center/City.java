@@ -1167,8 +1167,7 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 				if (! mapCellHasStation (aStation)) {
 					tMapCell = cityInfo.getMapCell ();
 					corpStations [aStationIndex] = aStation;
-					corpStations [aStationIndex].setMapCell (tMapCell);
-					corpStations [aStationIndex].setLocation (getLocation ());
+					corpStations [aStationIndex].placeToken (tMapCell, getLocation ());
 					cityInfo.clearCorporationOnMapCell ();
 					tStationSet = true;
 				} else {
