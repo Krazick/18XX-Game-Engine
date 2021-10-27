@@ -480,7 +480,7 @@ public class Location implements Cloneable {
 		int tOther;
 		boolean retValue = false;
 		
-		if ((this.isSide ()) && (aOther.isSide ())) {
+		if ((isSide ()) && (aOther.isSide ())) {
 			tOther = aOther.getLocation ();
 			if (location == (tOther + 3)%6) {
 				retValue = true;
@@ -564,8 +564,18 @@ public class Location implements Cloneable {
 		} else {
 			return (false);
 		}
-		
 	}
+	
+	public static boolean isValidLocation (int aLocation) {
+		if ((aLocation >= MIN_SIDE) && (aLocation <= MAX_LOCATION)) {
+			return (true);
+		} else if ((aLocation == CENTER_CITY_LOC) || (aLocation == DEAD_END_LOC)) {
+			return (true);
+		} else {
+			return (false);
+		}
+	}
+	
 	public boolean isSide () {
 		return (isValidSide (location));
 //		if ((location >= MIN_SIDE) && (location <= MAX_SIDE)) {
