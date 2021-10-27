@@ -234,4 +234,28 @@ public class Tracks implements Cloneable {
 		return tTrack;
 	}
 
+	public boolean areLocationsConnected (Location aLocation, int aRemoteLocationIndex) {
+		boolean tAreLocationsConnected = false;
+		int tLocationInt;
+		
+		if (aLocation != Location.NO_LOC) {
+			tLocationInt = aLocation.getLocation ();
+			if (Location.isValidLocation (aRemoteLocationIndex)) {
+				if (tLocationInt != aRemoteLocationIndex) {
+					for (Track tSegment : segments) {
+						if ((tSegment.getEnterLocationInt () == tLocationInt) &&
+							(tSegment.getExitLocationInt () == aRemoteLocationIndex)) {
+							tAreLocationsConnected = true;
+						} else if ((tSegment.getExitLocationInt () == tLocationInt) &&
+									(tSegment.getEnterLocationInt () == aRemoteLocationIndex)) {
+							tAreLocationsConnected = true;
+						}
+
+					}
+				}
+			}
+		}
+		
+		return tAreLocationsConnected;
+	}
 }

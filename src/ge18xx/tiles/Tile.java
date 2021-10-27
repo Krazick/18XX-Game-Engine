@@ -880,4 +880,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 		
 		return tTrack;
 	}
+
+	public boolean areLocationsConnected (Location aLocation, int aRemoteLocationIndex) {
+		return tracks.areLocationsConnected (aLocation, aRemoteLocationIndex);
+	}
 }
