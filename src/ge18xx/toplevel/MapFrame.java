@@ -552,7 +552,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		tBaseCorporation = (Corporation) aCity.getTokenCorporation ();
 		tMapToken = aCorporation.getMapToken ();
-		if (tMapToken == null) {
+		if (tMapToken == MapToken.NO_MAP_TOKEN) {
 			System.err.println ("Company has no tokens to place");
 		} else {
 			tTokenPlaced = aCity.setStation (tMapToken);
