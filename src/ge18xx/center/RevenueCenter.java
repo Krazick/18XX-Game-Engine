@@ -466,17 +466,19 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 	
 	public void setCorporation (Corporation aCorporation) {
-		if (cityInfo == null) {
-			cityInfo = new CityInfo ();
-		}
+		setupCityInfo ();
 		cityInfo.setCorporation (aCorporation, this);
 	}
 	
 	public void setMapCell (MapCell aMapCell) {
-		if (cityInfo == null) {
+		setupCityInfo ();
+		cityInfo.setMapCell (aMapCell);
+	}
+	
+	public void setupCityInfo () {
+		if (cityInfo == CityInfo.NO_CITY_INFO) {
 			cityInfo = new CityInfo ();
 		}
-		cityInfo.setMapCell (aMapCell);
 	}
 	
 	public void setRevenueLocation (int aLocation) {
