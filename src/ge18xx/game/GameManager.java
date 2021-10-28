@@ -995,7 +995,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				roundManager.showInitialFrames ();
 			}
 
-			logger.info ("Game has started");
+			logger.info ("Game has started with AutoSave Name " + autoSaveFileName);
 			gameStarted = true;
 			createAuditFrame ();
 			applyConfigSettings ();
