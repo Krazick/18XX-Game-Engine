@@ -1499,7 +1499,6 @@ public class MapCell implements Comparator<Object> {
 		int tCityCenterCount;
 		int tCityCenterIndex;
 		int tFirstPossibleRotation;
-		int tStationIndex;
 		Location tOldCityLocation, tNewCityLocation;
 		RevenueCenter tRevenueCenter;
 		City tCity;
@@ -1508,6 +1507,7 @@ public class MapCell implements Comparator<Object> {
 		Tile tCurrentTile;
 		Upgrade tUpgrade;
 		boolean tAllowedRotations [] = new boolean [6];
+		boolean tMustSwap = false;
 		
 		tCurrentTile = getTile ();
 		tCurrentTileNumber = getTileNumber ();	// Find Current Tile Number and the Current Game Tile
@@ -1541,6 +1541,13 @@ public class MapCell implements Comparator<Object> {
 			return;
 		}
 		
+		// Set the new Tile onto the MapCell so that when MoveMapToken is called, it can properly set the Connected Sides
+		// using the new Tile.
+		
+		setTile (aNewTile);
+		setTileOrientationLocked (false);
+		setTileInfo (aNewTile.getNumber (), tFirstPossibleRotation, false);
+
 		// For the Tile on Map, find Revenue Centers, and Tokens on them. Place them onto the Tile to be Placed.
 		// If the Revenue Center has a Base Corporation without the Base Token, Transfer Base Corporation
 		// To the Tile to be Placed.
@@ -1553,9 +1560,7 @@ public class MapCell implements Comparator<Object> {
 					tOldCityLocation = tCity.getLocation ();
 					tNewCityLocation = tUpgrade.getToFromLocation (tOldCityLocation, tFirstPossibleRotation);
 					if (tCity.cityHasAnyStation ()) {
-						for (tStationIndex = 0; tStationIndex < tCity.getStationCount (); tStationIndex++) {
-							moveMapToken (aNewTile, tStationIndex, tNewCityLocation, tCity);
-						}
+						tMustSwap = moveAllMapTokens (aNewTile, tNewCityLocation, tCity);
 					} else {
 						if (tCity.isCorporationBase ()) {
 							tBaseCorporation = tCity.getCorporation ();
@@ -1566,32 +1571,52 @@ public class MapCell implements Comparator<Object> {
 				}
 			}
 		}
+		if (tMustSwap) {
+			swapTokens ();
+		}
 		restoreTile (aTileSet, tCurrentTile);
 		
 		// Add Tile in first Possible Orientation
 		for (int tRotationIndex = 0; tRotationIndex < 6; tRotationIndex++) {
 			setAllowedRotation (tRotationIndex, tAllowedRotations [tRotationIndex]);
 		}
-		setTile (aNewTile);
-		setTileOrientationLocked (false);
-		setTileInfo (aNewTile.getNumber (), tFirstPossibleRotation, false);
 	}
 
-	public void moveMapToken (Tile aNewTile, int aStationIndex, Location aNewCityLocation, City aCity) {
-		City tTileCity;
+	public boolean moveAllMapTokens (Tile aNewTile, Location aNewCityLocation, City aOldCity) {
+		int tStationIndex;
 		MapToken tMapToken;
+		City tNewTileCity;
+		Location tNewLocation;
+		boolean tMustSwap = false;
+		String tOldSides, tNewSides;
 		
-		tMapToken = aCity.getToken (aStationIndex);
-		tTileCity = (City) aNewTile.getCenterAtLocation (aNewCityLocation);
-		if ((tTileCity != City.NO_CITY)  && (tMapToken != MapToken.NO_MAP_TOKEN)) {
-			tTileCity.setStation (tMapToken);
-		} else {
-			if (tTileCity == City.NO_CITY) {
-				System.err.println ("===Do not have Tile City");
-			} else {
-				System.err.println ("===Do not have Map Token");
+		tNewLocation = aNewCityLocation;
+		for (tStationIndex = 0; tStationIndex < aOldCity.getStationCount (); tStationIndex++) {
+			tMapToken = aOldCity.getToken (tStationIndex);
+			if (tMapToken != MapToken.NO_MAP_TOKEN) {
+				tNewTileCity = (City) aNewTile.getCenterAtLocation (tNewLocation);
+				if (tNewTileCity != City.NO_CITY) {
+					tOldSides = tMapToken.getSides ();
+					System.out.print ("Map Token for " + tMapToken.getCorporationAbbrev() + " is connected to " + tOldSides);
+					moveAMapToken (tMapToken, tNewTileCity);
+					tNewSides = tMapToken.getSides ();
+					System.out.println (" Now connected to " + tNewSides);
+					if (tNewSides.contains (tOldSides)) {
+						System.out.println ("All Old Sides are in New Sides");
+					} else {
+						System.out.println ("Old Sides " + tOldSides + " are not all in New Sides " + tNewSides);
+						tMustSwap = true;
+					}
+				}
 			}
 		}
+		
+		return tMustSwap;
+	}
+	
+	public void moveAMapToken (MapToken aMapToken, City aNewCity) {
+		aNewCity.setMapCell (this);
+		aNewCity.setStation (aMapToken);
 	}
 
 	public boolean anyAllowedRotation (TileSet aTileSet, Tile aNewTile) {
