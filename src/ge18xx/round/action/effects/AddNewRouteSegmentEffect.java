@@ -34,7 +34,6 @@ public class AddNewRouteSegmentEffect extends ChangeRouteEffect {
 		setName (NAME);
 	}
 	
-
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
@@ -55,14 +54,8 @@ public class AddNewRouteSegmentEffect extends ChangeRouteEffect {
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
-		boolean tEffectUndone;
-			
-		tEffectUndone = false;
-	// TODO: Undo the Start Route Effect
-			
-		tEffectUndone = true;
-			
-		return tEffectUndone;
+	// Don't need to undo this effect, just accept
+		return true;
 	}
 
 }
