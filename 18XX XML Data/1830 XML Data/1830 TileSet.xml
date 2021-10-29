@@ -119,22 +119,22 @@
 		</Tile>
 		<Tile number="59" quantity="2">
 			<Upgrade toNumber="64" rotations="0,2">
-				<RevenueCenter from="13" to="35" rotation="0" />
-				<RevenueCenter from="16" to="13" rotation="0" />
-				<RevenueCenter from="13" to="13" rotation="2" />
-				<RevenueCenter from="16" to="35" rotation="2" />
+				<RevenueCenter from="13" to="13" rotation="0" />
+				<RevenueCenter from="16" to="35" rotation="0" />
+				<RevenueCenter from="13" to="35" rotation="2" />
+				<RevenueCenter from="16" to="13" rotation="2" />
 			</Upgrade>
 			<Upgrade toNumber="65" rotations="0,2">
-				<RevenueCenter from="13" to="35" rotation="0" />
-				<RevenueCenter from="16" to="14" rotation="0" />
-				<RevenueCenter from="13" to="14" rotation="2" />
-				<RevenueCenter from="16" to="35" rotation="2" />
+				<RevenueCenter from="13" to="14" rotation="0" />
+				<RevenueCenter from="16" to="35" rotation="0" />
+				<RevenueCenter from="13" to="35" rotation="2" />
+				<RevenueCenter from="16" to="14" rotation="2" />
 			</Upgrade>
 			<Upgrade toNumber="66" rotations="3,4">
-				<RevenueCenter from="13" to="6" rotation="3" />
-				<RevenueCenter from="16" to="17" rotation="3" />
-				<RevenueCenter from="13" to="17" rotation="4" />
-				<RevenueCenter from="16" to="6" rotation="4" />
+				<RevenueCenter from="13" to="17" rotation="3" />
+				<RevenueCenter from="16" to="6" rotation="3" />
+				<RevenueCenter from="13" to="6" rotation="4" />
+				<RevenueCenter from="16" to="17" rotation="4" />
 			</Upgrade>
 			<Upgrade toNumber="67" rotations="1,3">
 				<RevenueCenter from="13" to="6" rotation="1" />

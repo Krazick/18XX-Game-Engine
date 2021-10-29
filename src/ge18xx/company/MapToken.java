@@ -103,7 +103,7 @@ public class MapToken extends Token {
 		boolean tConnectedToSide;
 		
 		tTileRotation = aMapCell.getTileOrient ();
-		for (tSideIndex = Location.MIN_SIDE; tSideIndex <= Location.MAX_SIDE; tSideIndex ++) {
+		for (tSideIndex = Location.MIN_SIDE; tSideIndex <= Location.MAX_SIDE; tSideIndex++) {
 			tConnectedToSide = aMapCell.areLocationsConnected (aLocation, tSideIndex);
 			tSideRotated = new Location (tSideIndex);
 			tSideRotated = tSideRotated.rotateLocation (tTileRotation);
