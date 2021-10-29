@@ -29,7 +29,7 @@ public class ExtendRouteAction extends ClearRouteAction {
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
 		
-		tSimpleActionReport = actor.getName () + " Extend a Route for a Train.";
+		tSimpleActionReport = actor.getName () + " Extended a Route for a Train.";
 		
 		return tSimpleActionReport;
 	}

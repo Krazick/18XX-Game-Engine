@@ -141,14 +141,8 @@ public class ChangeRouteEffect extends Effect {
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
-		boolean tEffectUndone;
-			
-		tEffectUndone = false;
-	// TODO: Undo the Start Route Effect
-			
-		tEffectUndone = true;
-			
-		return tEffectUndone;
+		// Don't really need to undo this effect
+		return true;
 	}
 
 }
