@@ -108,10 +108,10 @@ public class TokenPlacementBenefit extends MapBenefit {
 			setToolTip ("");
 		} else if (! hasTokens ()) {
 			disableButton ();
-			setToolTip ("Company has no Tokens, can't place Button");
+			setToolTip ("Company has no Tokens, can't place Station");
 		} else {
 			disableButton ();
-			setToolTip ("No Tile on the MapCell, can't place Button");
+			setToolTip ("No Tile on the MapCell, can't place Station");
 		}
 	}
 	
