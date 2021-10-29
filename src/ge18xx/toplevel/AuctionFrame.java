@@ -273,7 +273,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 				}
 			}
 		}
-		getContentPane ().setBackground (tBackgroundColor);
+		topBox.setBackground (tBackgroundColor);
+		biddersBox.setBackground (tBackgroundColor);
+		bottomBox.setBackground (tBackgroundColor);
+//		getContentPane ().setBackground (tBackgroundColor);
 	}
 	
 	private int getNextBidderIndex (int aActingBidderIndex) {
@@ -375,8 +378,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		if (aDone) {
 			tClientIsActing = clientIsWinner ();
 			doneButton.setEnabled (tClientIsActing);
-//		} else {
-//			tClientIsActing = isClientActing ();
 		}
 
 		doneButton.setToolTipText (doneToolTipText);
