@@ -75,7 +75,7 @@ public class Feature2 extends Feature {
 	}
 	
 	public boolean isNoLocation2 () {
-		if (location2 == null) {
+		if (location2 == Location.NO_LOC) {
 			return true;
 		} else {
 			return location2.isNoLocation ();

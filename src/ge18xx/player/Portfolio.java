@@ -963,7 +963,7 @@ public class Portfolio implements CertificateHolderI {
 		PortfolioHolderI tPresident;
 		
 		tPresident = getPresident ();
-		if (tPresident == null) {
+		if (tPresident == NO_HOLDER) {
 			tPresidentIsAPlayer = false;
 		} else {
 			tPresidentIsAPlayer = tPresident.isPlayer ();
@@ -1013,14 +1013,14 @@ public class Portfolio implements CertificateHolderI {
 			} else {
 				tCurrentHolder = tHolder.getCurrentHolder (tLoadedCertificate);
 			}
-			if (tCurrentHolder == null) {
+			if (tCurrentHolder == NO_HOLDER) {
 				tBank = holder.getBank ();
 				tCurrentHolder = tBank.getStartPacketFrame ();
 			}
 			
-			if (tCurrentHolder != null) {
+			if (tCurrentHolder != NO_HOLDER) {
 				tPortfolio = tCurrentHolder.getPortfolio ();
-				if (tPortfolio != null) {
+				if (tPortfolio != NO_PORTFOLIO) {
 					tCertificate = tPortfolio.getCertificate (tLoadedCertificate.getCompanyAbbrev (), 
 							tLoadedCertificate.getPercentage (), 
 							tLoadedCertificate.getIsPresidentShare ());

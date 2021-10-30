@@ -208,8 +208,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 			tTile.number = number;
 			tTile.XCenter = XCenter;
 			tTile.YCenter = YCenter;
-			if (name == null) {
-				tTile.name = null;
+			if (name == TileName.NO_TILE_NAME) {
+				tTile.name = TileName.NO_TILE_NAME;
 			} else {
 				tTile.name = name.clone ();
 			}
@@ -441,7 +441,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 	
 	public String getName () {
-		if (name == null) {
+		if (name == TileName.NO_TILE_NAME) {
 			return TileName.NO_NAME2;
 		} else {
 			return (name.getName ());

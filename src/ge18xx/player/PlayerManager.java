@@ -482,11 +482,11 @@ public class PlayerManager {
 
 			if (aCertificateToBuy.isShareCompany ()) {
 				tShareCompany = aCertificateToBuy.getShareCompany ();
-				if (tShareCompany == null) {
+				if (tShareCompany == ShareCompany.NO_SHARE_COMPANY) {
 					tCurrentPresident = Player.NO_PLAYER;
 				} else {
 					tCurrentHolder = tShareCompany.getPresident ();
-					if (tCurrentHolder == null) {
+					if (tCurrentHolder == Portfolio.NO_HOLDER) {
 						tCurrentPresident = Player.NO_PLAYER;
 					} else if (tCurrentHolder instanceof Player) {
 						tCurrentPresident = (Player) tCurrentHolder;

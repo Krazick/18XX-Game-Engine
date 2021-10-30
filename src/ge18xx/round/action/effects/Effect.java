@@ -114,12 +114,12 @@ public class Effect {
 		tEffectName = aEffectNode.getThisAttribute (AN_NAME);
 		tActorName = aEffectNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
 		tIsAPrivate = aEffectNode.getThisBooleanAttribute (AN_IS_A_PRIVATE);
-		if (tActorName == null) {
+		if (tActorName == ActorI.NO_NAME) {
 			tActorName = aEffectNode.getThisAttribute (ActorI.AN_FROM_ACTOR_NAME);
 		}
 		
 		tActor = aGameManager.getActor (tActorName, tIsAPrivate);
-		if (tActor == null) {
+		if (tActor == ActorI.NO_ACTOR) {
 			System.err.println ("No Actor Found -- Looking for [" + tActorName + "]");
 		}
 		setName (tEffectName);
@@ -128,7 +128,7 @@ public class Effect {
 		tBenefitPrivateAbbrev = aEffectNode.getThisAttribute (AN_BENEFIT_PRIVATE_ABBREV);
 		tBenefitName = aEffectNode.getThisAttribute (AN_BENEFIT_NAME);
 		tBenefitUsed = aEffectNode.getThisBooleanAttribute (AN_BENEFIT_USED);
-		if (tBenefitName == null) {
+		if (tBenefitName == Benefit.NO_BENEFIT_NAME) {
 			setNoBenefitInUse ();
 		} else {
 			setBenefitPrivateAbbrev (tBenefitPrivateAbbrev);
@@ -138,9 +138,8 @@ public class Effect {
 	}
 	
 	public boolean actorIsSet () {
-		boolean tActorSet;
+		boolean tActorSet = false;
 		
-		tActorSet = false;
 		if (actor != NO_ACTOR) {
 			tActorSet = true;
 		}
@@ -163,7 +162,7 @@ public class Effect {
 		tEffectElement.setAttribute (aActorAN, tActorName);
 		tEffectElement.setAttribute (AN_IS_A_PRIVATE, isAPrivate);
 		
-		if (benefitName != null) {
+		if (benefitName != Benefit.NO_BENEFIT_NAME) {
 			if (benefitName.length () > 0) {
 				tEffectElement.setAttribute (AN_BENEFIT_PRIVATE_ABBREV, getBenefitPrivateAbbrev ());
 				tEffectElement.setAttribute (AN_BENEFIT_NAME, getBenefitName ());

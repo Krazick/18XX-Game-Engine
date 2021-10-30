@@ -94,7 +94,7 @@ public class Feature implements Cloneable {
 	}
 	
 	public boolean isNoLocation () {
-		if (location == null) {
+		if (location == Location.NO_LOC) {
 			return true;
 		} else {
 			return location.isNoLocation ();

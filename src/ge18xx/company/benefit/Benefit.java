@@ -28,6 +28,7 @@ public abstract class Benefit implements ActionListener {
 	public final static JButton NO_BUTTON = null;
 	public final static JPanel NO_BUTTON_PANEL = null;
 	public final static Benefit NO_BENEFIT = null;
+	public final static String NO_BENEFIT_NAME = null;
 	public final static String NAME = "ABSTRACT";
 	
 	ActorI.ActorTypes actorType;

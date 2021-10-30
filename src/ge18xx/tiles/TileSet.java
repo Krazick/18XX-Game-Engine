@@ -337,7 +337,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		
 		Point point = arg0.getPoint();
 		tGameTile = getTileContainingPoint (point);
-		if (tGameTile == null) {
+		if (tGameTile == GameTile.NO_GAME_TILE) {
 			setToolTipText ("***");
 		} else {
 			if (tGameTile.isFixedTile () && ! showAllTiles) {

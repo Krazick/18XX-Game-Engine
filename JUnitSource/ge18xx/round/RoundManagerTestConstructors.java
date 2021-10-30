@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ge18xx.game.GameManager;
 import ge18xx.game.TestFactory;
+import ge18xx.player.PlayerManager;
 import ge18xx.toplevel.PlayerInputFrame;
 
 @DisplayName ("Round Manager Constructor Tests")
@@ -37,7 +38,7 @@ class RoundManagerTestConstructors {
 	void constructorTwoArgsTest () {
 		RoundManager tRoundManager;
 		
-		tRoundManager = new RoundManager (gameManager, StockRound.NO_PLAYER_MANAGER);
+		tRoundManager = new RoundManager (gameManager, PlayerManager.NO_PLAYER_MANAGER);
 		assertEquals (gameManager, tRoundManager.getGameManager ());
 		
 //		fail ("Not yet implemented");

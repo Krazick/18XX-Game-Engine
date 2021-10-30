@@ -496,6 +496,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		String tPriceLabel;
 		String tParPrice;
 		ShareCompany tShareCompany;
+		String tCompaniesAtPrice [];
 		
 		tOperatingRound = roundManager.getOperatingRound ();		
 		tCorporationCount = tOperatingRound.getShareCompanyCount ();
@@ -503,7 +504,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getShareCompanies ();
 			tPriceCount = companiesAtPar.size ();
-			String tCompaniesAtPrice [] = new String [tPriceCount];
+			tCompaniesAtPrice = new String [tPriceCount];
 			for (tCorporationIndex = 0; tCorporationIndex < tCorporationCount; tCorporationIndex++) {
 				tShareCompany = (ShareCompany) tCorporationList.getCorporation (tCorporationIndex);
 				if (tShareCompany.hasParPrice ()) {

@@ -176,7 +176,7 @@ public class GameTile {
 	}
 	
 	public boolean isTileCreated () {
-		return (! (tile == null));
+		return (! (tile == Tile.NO_TILE));
 	}
 	
 	public Tile popTile () {

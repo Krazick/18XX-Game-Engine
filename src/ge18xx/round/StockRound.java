@@ -17,7 +17,6 @@ public class StockRound extends Round {
 	public final static String NAME = "Stock Round";
 	public final static int FIRST_PLAYER = 0;
 	public final static StockRound NO_STOCK_ROUND = null;
-	public final static PlayerManager NO_PLAYER_MANAGER = null;
 	PlayerManager playerManager;
 	int currentPlayerIndex;
 	int priorityPlayerIndex;
@@ -56,7 +55,7 @@ public class StockRound extends Round {
 		Player tPlayer;
 		
 		tPlayer = Player.NO_PLAYER;
-		if (playerManager != NO_PLAYER_MANAGER) {
+		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
 			tPlayer = playerManager.getPlayer (currentPlayerIndex);
 		}
 		
@@ -71,8 +70,8 @@ public class StockRound extends Round {
 		String tName;
 		Player tPlayer;
 		
-		tName = Player.NO_PLAYER_NAME;
-		if (playerManager != NO_PLAYER_MANAGER) {
+		tName = Player.NO_PLAYER_NAME_LABEL;
+		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
 			tPlayer = getCurrentPlayer ();
 			if (tPlayer != Player.NO_PLAYER) {
 				tName = tPlayer.getName ();
@@ -95,7 +94,7 @@ public class StockRound extends Round {
 		int tNextPlayer;
 		
 		tNextPlayer = PlayerManager.NO_PLAYER_INDEX;
-		if (playerManager != NO_PLAYER_MANAGER) {
+		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
 			tNextPlayer = (currentPlayerIndex + 1) % playerManager.getPlayerCount ();
 		}
 		
@@ -181,7 +180,7 @@ public class StockRound extends Round {
 	
 	public void setPlayerManager (PlayerManager aPlayerManager) {
 		playerManager = aPlayerManager;
-		if (playerManager != NO_PLAYER_MANAGER) {
+		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
 			playerManager.setStockRound (this);
 		}
 	}
@@ -199,7 +198,7 @@ public class StockRound extends Round {
 		boolean tRoundDone;
 		
 		tRoundDone = false;
-		if (playerManager != NO_PLAYER_MANAGER) {
+		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
 			tRoundDone = playerManager.haveAllPassed ();
 		}
 		

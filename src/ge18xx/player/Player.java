@@ -46,11 +46,12 @@ import ge18xx.utilities.XMLNodeList;
 
 public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	public static final Player NO_PLAYER = null;
-	public static final String NO_PLAYER_NAME = ">NO PLAYER<";
+	public static final String NO_PLAYER_NAME_LABEL = ">NO PLAYER<";
 	public static final ElementName EN_PLAYER = new ElementName ("Player");
 	public static final ElementName EN_PLAYERS = new ElementName ("Players");
 	public static final ElementName EN_PLAYER_STATES = new ElementName ("PlayerStates");
 	public static final AttributeName AN_CASH = new AttributeName ("cash");
+	final static AttributeName AN_NAME = new AttributeName ("name");
 	final static AttributeName AN_PLAYER_INDEX = new AttributeName ("playerIndex");
 	final static AttributeName AN_PRIMARY_STATE = new AttributeName ("primaryState");
 	final static AttributeName AN_AUCTION_STATE = new AttributeName ("auctionState");
@@ -67,7 +68,6 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	public static final int OWN_ZERO_PERCENT = 0;
 	public static final String NO_STOCK_TO_SELL = null;
 	private final String DELIMITER = ",";
-	static final AttributeName AN_NAME = new AttributeName ("name");
 	/* These attributes are set once, and never change, but are needed for game use */
 	PlayerManager playerManager;
 	String name;
@@ -578,7 +578,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	public boolean hasActionsToUndo () {
 		boolean tActionsToUndo;
 		
-		if (playerManager == null) {
+		if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 			tActionsToUndo = false;
 		} else {
 			tActionsToUndo = playerManager.hasActionsToUndo ();

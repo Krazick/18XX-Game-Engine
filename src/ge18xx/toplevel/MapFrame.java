@@ -586,7 +586,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		if (aSelectedCity != City.NO_CITY) {
 			tBaseCorporation = (Corporation) aSelectedCity.getTokenCorporation ();
-			if (tBaseCorporation == null) {
+			if (tBaseCorporation == Corporation.NO_CORPORATION) {
 				tCanPlaceToken = true;
 			} else {
 				tBaseAbbrev = tBaseCorporation.getAbbrev ();
