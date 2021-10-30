@@ -40,7 +40,8 @@ public class MarketCell {
 	final static AttributeName AN_VALUE = new AttributeName ("value");
 	final static AttributeName AN_REGION = new AttributeName ("region");
 	public final static ElementName EN_MARKET_CELL = new ElementName ("MarketCell");
-	public static final String NO_COORDINATES = null;
+	public final static String NO_COORDINATES = null;
+	public final static MarketCell NO_MARKET_CELL = null;
 	Market market;
 	int value;
 	int xCenter, yCenter;
@@ -254,7 +255,7 @@ public class MarketCell {
 		g.fillRect (x1, y1, width, height);		
 		g.setColor (Color.black);
 		if (isStart ()) {
-			if (tUpCell == null) {
+			if (tUpCell == NO_MARKET_CELL) {
 				drawTopRed (g, x1, y1, width, height);
 			} else {
 				if (tUpCell.isStart ()) {
@@ -264,7 +265,7 @@ public class MarketCell {
 					drawTopRed (g, x1, y1, width, height);
 				}
 			}
-			if (tDownCell == null) {
+			if (tDownCell == NO_MARKET_CELL) {
 				drawBottomRed (g, x1, y1, width, height);
 			} else {
 				if (tDownCell.isStart ()) {
@@ -274,7 +275,7 @@ public class MarketCell {
 					drawBottomRed (g, x1, y1, width, height);
 				}
 			}
-			if (tRightCell == null) {
+			if (tRightCell == NO_MARKET_CELL) {
 				drawRightRed (g, x1, y1, width, height);
 			} else {
 				if (tRightCell.isStart ()) {
@@ -284,7 +285,7 @@ public class MarketCell {
 					drawRightRed (g, x1, y1, width, height);
 				}
 			}
-			if (tLeftCell == null) {
+			if (tLeftCell == NO_MARKET_CELL) {
 				drawLeftRed (g, x1, y1, width, height);
 			} else {
 				if (tLeftCell.isStart ()) {
@@ -297,7 +298,7 @@ public class MarketCell {
 		} else {
 			if (isOpen ()) {
 				g.setColor (tTextColor);
-				if (tLeftCell == null) {
+				if (tLeftCell == NO_MARKET_CELL) {
 					g.drawLine (x1, y1, x1, y1 + height);
 				} else {
 					if (tLeftCell.isStart ()) {
@@ -310,7 +311,7 @@ public class MarketCell {
 						}
 					}
 				}
-				if (tUpCell == null) {
+				if (tUpCell == NO_MARKET_CELL) {
 					g.drawLine (x1, y1, x1 + width, y1);
 				} else if ((! tUpCell.isStart ()) && (! tUpCell.isLedge ())) {
 					g.drawLine (x1, y1, x1 + width, y1);
@@ -746,7 +747,7 @@ public class MarketCell {
 	}
 	
 	public void setNeighbor (int aDirection, MarketCell aMarketCell) {
-		if (neighbors [aDirection] == null) {
+		if (neighbors [aDirection] == NO_MARKET_CELL) {
 			neighbors [aDirection] = aMarketCell;
 			if (neighborCount == 4) {
 				aMarketCell.setNeighbor ((aDirection + 2) % 4, this);
@@ -758,7 +759,7 @@ public class MarketCell {
 	
 	public void setOtherValues (int aValue, Movement aOut, Movement aNone, Movement aHalf, Movement aFull, 
 								Movement aShare, int aNeighborCount) {
-		if (OUT == null) {
+		if (OUT == Movement.NO_MOVEMENT) {
 			OUT = new Movement (-1, 0);
 			NONE = new Movement (0, -1);
 			HALF = new Movement (0, 0);

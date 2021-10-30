@@ -44,7 +44,8 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	final static AttributeName AN_INDEX = new AttributeName ("index");
 	final static AttributeName AN_NEIGHBORS = new AttributeName ("neighbors");
 	public final static ElementName EN_MARKET = new ElementName ("Market");
-	public static final MarketCell NO_MARKET_CELL = null;
+//	public final static MarketCell NO_MARKET_CELL = null;
+	public final static MarketCell [] [] NO_MARKET = null;
 	
 	MarketCell market [] [];
 	GameManager gameManager;
@@ -122,7 +123,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 				tColCount = getColCount (tRowIndex);
 				for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-					if (market [tRowIndex][tColIndex] != NO_MARKET_CELL) {
+					if (market [tRowIndex][tColIndex] != MarketCell.NO_MARKET_CELL) {
 						if (market [tRowIndex][tColIndex].isStart ()) {
 							tAllCells [tCountofStartCells++] = market [tRowIndex][tColIndex].getValue ();
 						}
@@ -142,13 +143,13 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		MarketCell tMarketCell;
 		int tRowCount, tColCount, tRowIndex, tColIndex;
 		
-		tMarketCell = NO_MARKET_CELL;
+		tMarketCell = MarketCell.NO_MARKET_CELL;
 		tRowCount = getMaxRowCount ();
 		if (tRowCount > 0) {
-			for (tRowIndex = 0; (tRowIndex < tRowCount) && (tMarketCell == NO_MARKET_CELL); tRowIndex++) {
+			for (tRowIndex = 0; (tRowIndex < tRowCount) && (tMarketCell == MarketCell.NO_MARKET_CELL); tRowIndex++) {
 				tColCount = getColCount(tRowIndex);
-				for (tColIndex = 0; (tColIndex < tColCount) && (tMarketCell == NO_MARKET_CELL); tColIndex++) {
-					if (market [tRowIndex][tColIndex] != NO_MARKET_CELL) {
+				for (tColIndex = 0; (tColIndex < tColCount) && (tMarketCell == MarketCell.NO_MARKET_CELL); tColIndex++) {
+					if (market [tRowIndex][tColIndex] != MarketCell.NO_MARKET_CELL) {
 						if (market [tRowIndex][tColIndex].isStart ()) {
 							if (market [tRowIndex][tColIndex].getValue () == aParPrice) {
 								tMarketCell = market [tRowIndex][tColIndex];
@@ -168,20 +169,20 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tRowCount, tColCount, tRowIndex, tColIndex;
 		boolean tNeighborDown;
 		
-		tMarketCell = NO_MARKET_CELL;
+		tMarketCell = MarketCell.NO_MARKET_CELL;
 		tRowCount = getMaxRowCount ();
 		if (tRowCount > 0) {
 			tRowIndex = 0;
 			tColCount = getRightmostColIndex (tRowIndex);
-			for (tColIndex = tColCount; (tColIndex >= 0) && (tMarketCell == NO_MARKET_CELL); tColIndex--) {
+			for (tColIndex = tColCount; (tColIndex >= 0) && (tMarketCell == MarketCell.NO_MARKET_CELL); tColIndex--) {
 				tNeighborDown = true;
 				tMarketCell = market [tRowIndex] [tColIndex];
-				while (tMarketCell == NO_MARKET_CELL) { // If Top of Row has no Market Cell 
+				while (tMarketCell == MarketCell.NO_MARKET_CELL) { // If Top of Row has no Market Cell 
 								// (e.g. 1835) move down column until we find one
 					tMarketCell = market [++tRowIndex] [tColIndex];		
 				}
 				while (tNeighborDown) {
-					if (tMarketCell == NO_MARKET_CELL) {
+					if (tMarketCell == MarketCell.NO_MARKET_CELL) {
 						tNeighborDown = false;
 					} else {
 						tMarketCell.fullOwnershipAdjustment (aStockRound);
@@ -197,7 +198,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 	
 	public int getColCount (int aRow) {
-		if (market == null) {
+		if (market == NO_MARKET) {
 			return 0;
 		}
 		
@@ -209,7 +210,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 		tColCount = getColCount (aRow) - 1;
 		if (tColCount > 0) {
-			while (market [aRow] [tColCount] == Market.NO_MARKET_CELL) {
+			while (market [aRow] [tColCount] == MarketCell.NO_MARKET_CELL) {
 				tColCount--;
 			}
 		}
@@ -219,13 +220,13 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	
 	public MarketCell getMarketCellAtCoordinates (String aCoordinates) {
 		int tRowIndex, tColIndex, tRowCount, tColCount;
-		MarketCell tFoundMarketCell = NO_MARKET_CELL;
+		MarketCell tFoundMarketCell = MarketCell.NO_MARKET_CELL;
 		
 		tRowCount = getMaxRowCount ();
-		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMarketCell == NO_MARKET_CELL); tRowIndex++) {
+		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMarketCell == MarketCell.NO_MARKET_CELL); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
-			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMarketCell == NO_MARKET_CELL); tColIndex++) {
-				if (market [tRowIndex] [tColIndex] != NO_MARKET_CELL) {
+			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMarketCell == MarketCell.NO_MARKET_CELL); tColIndex++) {
+				if (market [tRowIndex] [tColIndex] != MarketCell.NO_MARKET_CELL) {
 					if (market [tRowIndex] [tColIndex].getCoordinates ().equals (aCoordinates)) {
 						tFoundMarketCell = market [tRowIndex] [tColIndex];
 					}
@@ -239,7 +240,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public MarketCell getMarketCellAtRowCol (int aRow, int aCol) {
 		MarketCell tFoundCell;
 		
-		tFoundCell = NO_MARKET_CELL;
+		tFoundCell = MarketCell.NO_MARKET_CELL;
 		if ((aRow >= 0) && (aRow < getMaxRowCount ())) {
 			if ((aCol >= 0) && (aCol < getColCount (aRow))) {
 				tFoundCell = market [aRow] [aCol];
@@ -251,13 +252,13 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	
 	public MarketCell getMarketCellContainingPoint (Point2D.Double aPoint, int aCW, int aCH) {
 		int tRowIndex, tColIndex, tRowCount, tColCount;
-		MarketCell tFoundMarketCell = NO_MARKET_CELL;
+		MarketCell tFoundMarketCell = MarketCell.NO_MARKET_CELL;
 		
 		tRowCount = getMaxRowCount ();
-		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMarketCell == NO_MARKET_CELL); tRowIndex++) {
+		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMarketCell == MarketCell.NO_MARKET_CELL); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
-			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMarketCell == NO_MARKET_CELL); tColIndex++) {
-				if (market [tRowIndex] [tColIndex] != NO_MARKET_CELL) {
+			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMarketCell == MarketCell.NO_MARKET_CELL); tColIndex++) {
+				if (market [tRowIndex] [tColIndex] != MarketCell.NO_MARKET_CELL) {
 					if (market [tRowIndex] [tColIndex].containingPoint (aPoint, aCW, aCH)) {
 						tFoundMarketCell = market [tRowIndex] [tColIndex];
 					}
@@ -270,13 +271,13 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	
 	public MarketCell getMarketCellContainingPoint (Point aPoint, int aCW, int aCH) {
 		int tRowIndex, tColIndex, tRowCount, tColCount;
-		MarketCell tFoundMarketCell = NO_MARKET_CELL;
+		MarketCell tFoundMarketCell = MarketCell.NO_MARKET_CELL;
 		
 		tRowCount = getMaxRowCount ();
-		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMarketCell == NO_MARKET_CELL); tRowIndex++) {
+		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMarketCell == MarketCell.NO_MARKET_CELL); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
-			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMarketCell == NO_MARKET_CELL); tColIndex++) {
-				if (market [tRowIndex] [tColIndex] != NO_MARKET_CELL) {
+			for (tColIndex = 0; (tColIndex < tColCount) && (tFoundMarketCell == MarketCell.NO_MARKET_CELL); tColIndex++) {
+				if (market [tRowIndex] [tColIndex] != MarketCell.NO_MARKET_CELL) {
 					if (market [tRowIndex] [tColIndex].containingPoint (aPoint, aCW, aCH)) {
 						tFoundMarketCell = market [tRowIndex] [tColIndex];
 					}
@@ -289,14 +290,14 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	public MarketCell getMarketCellContainingToken (String aCompanyAbbrev) {
 		int tRowIndex, tColIndex, tRowCount, tColCount;
-		MarketCell tMarketCell = NO_MARKET_CELL;
+		MarketCell tMarketCell = MarketCell.NO_MARKET_CELL;
 		Token tToken;
 		
 		tRowCount = getMaxRowCount ();
-		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tMarketCell == NO_MARKET_CELL); tRowIndex++) {
+		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tMarketCell == MarketCell.NO_MARKET_CELL); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
-			for (tColIndex = 0; (tColIndex < tColCount) && (tMarketCell == NO_MARKET_CELL); tColIndex++) {
-				if (market [tRowIndex] [tColIndex] != NO_MARKET_CELL) {
+			for (tColIndex = 0; (tColIndex < tColCount) && (tMarketCell == MarketCell.NO_MARKET_CELL); tColIndex++) {
+				if (market [tRowIndex] [tColIndex] != MarketCell.NO_MARKET_CELL) {
 					tToken = market [tRowIndex] [tColIndex].findTokenFor (aCompanyAbbrev);
 					if (tToken != null) {
 						tMarketCell = market [tRowIndex] [tColIndex];
@@ -320,7 +321,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
 				tMarketCell = market [tRowIndex] [tColIndex];
-				if (tMarketCell != NO_MARKET_CELL) {
+				if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 					tMarketCellElementTokens = tMarketCell.getCellTokenElements (aXMLDocument);
 					if (tMarketCellElementTokens != null) {
 						tMarketCellElementTokens.setAttribute(AN_ROW, tRowIndex);
@@ -350,7 +351,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 	
 	public int getMaxRowCount () {
-		if (market == null) {
+		if (market == NO_MARKET) {
 			return 0;
 		}
 
@@ -497,7 +498,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 					market [tRowIndex] [tChildIndex] = new MarketCell (tChildNode, aNeighborCount, this);
 					market [tRowIndex] [tChildIndex].setCoordinates (aRowIds [tRowIndex] + aColIds [tChildIndex]);
 					if (tRowIndex > 0) {
-						if (market [tRowIndex - 1] [tChildIndex] != NO_MARKET_CELL) {
+						if (market [tRowIndex - 1] [tChildIndex] != MarketCell.NO_MARKET_CELL) {
 							if (aNeighborCount == 4) {
 								market [tRowIndex][tChildIndex].setNeighbor (0, market [tRowIndex - 1][tChildIndex]);
 							} else {
@@ -506,7 +507,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 						}
 					}
 					if (tChildIndex > 0) {
-						if (market [tRowIndex] [tChildIndex - 1] != NO_MARKET_CELL) {
+						if (market [tRowIndex] [tChildIndex - 1] != MarketCell.NO_MARKET_CELL) {
 							if (aNeighborCount == 4) {
 								market [tRowIndex][tChildIndex].setNeighbor (3, market [tRowIndex][tChildIndex - 1]);
 							} else {
@@ -548,7 +549,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		
 		Point tPoint = arg0.getPoint();
 		tMarketCell = getMarketCellContainingPoint (tPoint, cellWidth, cellHeight);
-		if (tMarketCell == null) {
+		if (tMarketCell == MarketCell.NO_MARKET_CELL) {
 			setToolTipText ("***");
 		} else {
 			setToolTipText (tMarketCell.getToolTip ());
@@ -563,7 +564,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int rowIndex = 0;
 		int colIndex = 0;
 		
-		if (market == null) {
+		if (market == NO_MARKET) {
 			g.setColor (Color.black);
 			g.drawString ("Empty Market Table", 0, 0);
 			g.setColor (Color.blue);
@@ -573,7 +574,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			try {
 				for (rowIndex = 0; rowIndex < market.length; rowIndex++) {
 					for (colIndex = 0; colIndex < market [rowIndex].length; colIndex++) {
-						if (market [rowIndex] [colIndex] != NO_MARKET_CELL) {
+						if (market [rowIndex] [colIndex] != MarketCell.NO_MARKET_CELL) {
 							market [rowIndex] [colIndex].draw (g, cellWidth, cellHeight);
 						}
 					}

@@ -156,7 +156,7 @@ public class ShareCompany extends TokenCompany {
 		boolean tCounts;
 		
 		tCounts = true;
-		if (sharePrice != Market.NO_MARKET_CELL) {
+		if (sharePrice != MarketCell.NO_MARKET_CELL) {
 			tCounts = sharePrice.countsAgainstCertificateLimit ();
 		}
 		
@@ -269,7 +269,7 @@ public class ShareCompany extends TokenCompany {
 	}
 	
 	public int getSharePrice () {
-		if (sharePrice == null) {
+		if (sharePrice == MarketCell.NO_MARKET_CELL) {
 			return MarketCell.NO_STOCK_PRICE;
 		} else {
 			return sharePrice.getValue ();
@@ -434,7 +434,7 @@ public class ShareCompany extends TokenCompany {
 				tRow = getStartRow ();
 				tCol = getStartCol ();
 				tMarketCell = aMarket.getMarketCellAtRowCol (tRow, tCol);
-				if (tMarketCell != Market.NO_MARKET_CELL) {
+				if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 					tParPrice = tMarketCell.getValue ();
 					setParPrice (tParPrice);
 				}

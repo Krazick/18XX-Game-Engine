@@ -22,7 +22,6 @@ import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.FakeBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
-import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
@@ -566,7 +565,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		tShareCompany = tGameManager.getShareCompany (aCompanyAbbrev);
 		if (tShareCompany != CorporationList.NO_CORPORATION) {
 			tMarketCell = tShareCompany.getSharePriceMarketCell ();
-			if (tMarketCell != Market.NO_MARKET_CELL) {
+			if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 				if (tMarketCell.getExceedPlayerCorpShareLimit ()) {
 					tPlayerShareLimit = 10;
 				}

@@ -39,6 +39,7 @@ import ge18xx.round.action.DoneCorpAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.tiles.Tile;
+import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
@@ -73,6 +74,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public static final String CORPORATION = "Corporation";
 	public static final JLabel NO_LABEL = null;
 	public static final int NO_ID = 0;
+	public static final Corporation NO_CORPORATION = null;
 	static final String enum_closed = ActionStates.Closed.toString ();
 	static final String enum_operated = ActionStates.Operated.toString ();
 	static final String enum_not_operated = ActionStates.NotOperated.toString ();
@@ -1191,7 +1193,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public void updateFrameInfo () {
-		if (corporationFrame != null) {
+		if (corporationFrame != XMLFrame.NO_XML_FRAME) {
 			corporationFrame.updateInfo ();
 		}
 	}
@@ -1293,7 +1295,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public void setStatus (ActorI.ActionStates aStatus) {
-		if (status == null) {
+		if (status == ActorI.NO_STATE) {
 			status = aStatus;
 		} else if (status == ActorI.ActionStates.Unowned) {
 			status = aStatus;

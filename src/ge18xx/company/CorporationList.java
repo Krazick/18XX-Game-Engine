@@ -694,7 +694,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			
 			tAbbrev = aChildNode.getThisAttribute (Corporation.AN_ABBREV);
 			tCorporation = getCorporation (tAbbrev);
-			if (tCorporation == null) {
+			if (tCorporation == Corporation.NO_CORPORATION) {
 				System.err.println ("Did not find a " + aChildNode.getNodeName() + " with name " + tAbbrev);
 			} else {
 				tCorporation.loadStatus (aChildNode);

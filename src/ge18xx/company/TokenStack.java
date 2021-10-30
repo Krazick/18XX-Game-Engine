@@ -8,7 +8,6 @@ package ge18xx.company;
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.PayFullDividendAction;
@@ -104,7 +103,7 @@ public class TokenStack {
 		
 		tCompanyAbbrev = aShareCompany.getAbbrev ();
 		tMarketCell = aShareCompany.getSharePriceMarketCell ();
-		if (tMarketCell != Market.NO_MARKET_CELL) {
+		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 			tNewMarketCell = tMarketCell.getSoldOutMarketCell ();
 			tStartLocation = tMarketCell.getTokenLocation (tCompanyAbbrev);
 			if (tMarketCell != tNewMarketCell) {
@@ -125,7 +124,7 @@ public class TokenStack {
 		
 		tCompanyAbbrev = aShareCompany.getAbbrev ();
 		tMarketCell = aShareCompany.getSharePriceMarketCell ();
-		if (tMarketCell != Market.NO_MARKET_CELL) {
+		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 			tNewMarketCell = tMarketCell.getDividendHoldMarketCell ();
 			tStartLocation = tMarketCell.getTokenLocation (tCompanyAbbrev);
 			if (tMarketCell != tNewMarketCell) {
@@ -144,7 +143,7 @@ public class TokenStack {
 		
 		tCompanyAbbrev = aShareCompany.getAbbrev ();
 		tMarketCell = aShareCompany.getSharePriceMarketCell ();
-		if (tMarketCell != Market.NO_MARKET_CELL) {
+		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 			tNewMarketCell = tMarketCell.getDividendPayMarketCell ();
 			tStartLocation = tMarketCell.getTokenLocation (tCompanyAbbrev);
 			if (tMarketCell != tNewMarketCell) {

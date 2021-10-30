@@ -35,10 +35,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public abstract class TokenCompany extends TrainCompany {
-	public static final ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
-	static final AttributeName AN_TOKENS = new AttributeName ("tokens");
-	static final AttributeName AN_AVAILABLE_TOKEN_COUNT = new AttributeName ("availableTokenCount");
-	public static final TokenCompany NO_TOKEN_COMPANY = null;
+	final static AttributeName AN_TOKENS = new AttributeName ("tokens");
+	final static AttributeName AN_AVAILABLE_TOKEN_COUNT = new AttributeName ("availableTokenCount");
+	public final static ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
+	public final static TokenCompany NO_TOKEN_COMPANY = null;
+	public final static List<MapToken> NO_MAP_TOKENS = null;
 	public static String FONT_CNAME = "Courier";
 	public static String FONT_DNAME = "Dialog";
 	public static String FONT_SNAME = "Serif";
@@ -324,7 +325,7 @@ public abstract class TokenCompany extends TrainCompany {
 	public int getTokenCount () {
 		int tTokenCount;
 		
-		if (mapTokens == null) {
+		if (mapTokens == NO_MAP_TOKENS) {
 			tTokenCount = 0;
 		} else {
 			tTokenCount = mapTokens.size ();

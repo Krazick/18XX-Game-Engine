@@ -20,7 +20,6 @@ import ge18xx.company.Token;
 import ge18xx.company.TokenStack;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
-import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.AuctionRound;
 import ge18xx.round.RoundManager;
@@ -1071,7 +1070,7 @@ public class PlayerManager {
 			tPlayerPortfolio = aPlayer.getPortfolio ();
 			
 			// This time transfer the Ownership of the stock certificates to the Bank Portfolio, and adjust the Stock Price
-			tStartMarketCell = Market.NO_MARKET_CELL;
+			tStartMarketCell = MarketCell.NO_MARKET_CELL;
 			tShareCompany = (ShareCompany) Corporation.NO_ACTOR;
 			tStartLocation = TokenStack.NO_LOCATION;
 			tNewLocation = TokenStack.NO_LOCATION;
@@ -1085,9 +1084,9 @@ public class PlayerManager {
 					tCurrentPresident =  (Player) tShareCompany.getPresident ();
 				}
 				tMarketCell = tShareCompany.getSharePriceMarketCell ();
-				if (tMarketCell != Market.NO_MARKET_CELL) {
+				if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 					// Save the Start Market Cell and Start Location (within token stack) of where the Price is before changing anything
-					if (tStartMarketCell == Market.NO_MARKET_CELL) {
+					if (tStartMarketCell == MarketCell.NO_MARKET_CELL) {
 						tStartMarketCell = tMarketCell;
 						tStartLocation = tStartMarketCell.getTokenLocation (tCompanyAbbrev);
 					}

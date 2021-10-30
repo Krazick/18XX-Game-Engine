@@ -52,6 +52,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String UNDO = "Undo";
 	static final String NO_TOOL_TIP = "";
 	private static final long serialVersionUID = 1L;
+	final JPanel NO_PANEL = null;
 	JPanel bankJPanel;
 	JPanel certJPanel;
 	JPanel privatesBox;
@@ -97,7 +98,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		corporationJPanel.setLayout (new BoxLayout (corporationJPanel, BoxLayout.Y_AXIS));
 		tTopBoxes = new JPanel ();
 		tTopBoxes.setLayout (new BoxLayout (tTopBoxes, BoxLayout.X_AXIS));
-		certJPanel = null;
+		certJPanel = NO_PANEL;
 		corporation = aCorporation;
 		if (corporation != CorporationList.NO_CORPORATION) {
 			corporation = aCorporation;
@@ -297,9 +298,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			System.out.println ("Undo Last Action");
 			corporation.clearBankSelections ();
 			corporation.undoAction ();
-			updateInfo ();
 		}
-		updateCFActionButtons ();
+		updateInfo ();
 	}
 	
 	private JButton setupActionButton (String aButtonLabel, String aButtonAction) {
@@ -452,9 +452,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void fillCertPortfolioJPanel () {
 		TrainCompany tTrainCompany;
 		
-		certInfoJPanel = null;
+		certInfoJPanel = NO_PANEL;
 		if (corporation instanceof TrainCompany) {
-			if (certJPanel == null) {
+			if (certJPanel == NO_PANEL) {
 				certJPanel = new JPanel ();
 				certJPanel.setLayout (new BoxLayout (certJPanel, BoxLayout.Y_AXIS));
 			}
