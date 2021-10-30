@@ -304,8 +304,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		Corporation tCorporation;
 		MapCell tMapCell;
 		Tile tTile;
-		int tOrientation;
 		Tile tPreviousTile;
+		int tOrientation;
 		int tPreviousOrientation;
 		String tPreviousTokens;
 		String tPreviousBases;
@@ -486,9 +486,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		RevenueCenter tSelectedRevenueCenter;
 		
 		tSelectedMapCell = map.getSelectedMapCell ();
-		if (tSelectedMapCell != null) {
+		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 			tSelectedRevenueCenter = tSelectedMapCell.getSelectedRevenueCenter ();
-			if (tSelectedRevenueCenter != null) {
+			if (tSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
 				tHasCityBeenSelected = true;
 			}
 		}
@@ -615,7 +615,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		CityInfo tCityInfo;
 		MapCell tMapCell;
 		
-		if (aCityList != null) {
+		if (aCityList != CityList.NO_CITY_LIST) {
 			maxRow = map.getRowCount ();
 			for (rowIndex = 0; rowIndex < maxRow; rowIndex++) {
 				maxCol = map.getColCount (rowIndex);
@@ -624,7 +624,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					if (tRevenueCenterID != RevenueCenter.NO_ID) {
 						tCityInfo = aCityList.getCityInfo (tRevenueCenterID);
 						tMapCell = map.getMapCell (rowIndex, colIndex);
-						if (tCityInfo != null) {
+						if (tCityInfo != CityInfo.NO_CITY_INFO) {
 							tCityInfo.setMapCell (tMapCell);
 						}
 						tMapCell.setCityInfo (tCityInfo);
@@ -669,7 +669,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				if (map.isTileOnCell (rowIndex, colIndex)) {
 					tTileNumber = map.getTileNumber (rowIndex, colIndex);
 					tTile = tileSet.popTile (tTileNumber);
-					if (tTile != null) {
+					if (tTile != Tile.NO_TILE) {
 						map.putStartingTile (rowIndex, colIndex, tTile);
 					}
 				}
@@ -686,7 +686,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		String tCellID;
 		Location tLocation;
 		
-		if (aCorporationList != null) {
+		if (aCorporationList != CorporationList.NO_CORPORATION_LIST) {
 			tMaxCorporations = aCorporationList.getRowCount ();
 			if (tMaxCorporations > 0) {
 				for (tCorporationIndex = 0; tCorporationIndex < tMaxCorporations; tCorporationIndex++) {
@@ -780,10 +780,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			selectRouteButton.setText ("Exit Select Route Mode");
 		} else {
 			selectRouteButton.setText ("Enter Select Route Mode");
-//			if (routeInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-////				routeInformation.enableAllSelectRoutes ();
-//				routeInformation.setTrainCurrentRouteInformation ();
-//			}
 		}
 		map.setSelectTrackSegment (aMode);
 		map.setSelectRevenueCenter (aMode);

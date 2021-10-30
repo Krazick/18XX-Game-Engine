@@ -9,13 +9,14 @@ package ge18xx.center;
 //
 
 public class Revenue implements Cloneable {
-	static final int NO_REVENUE = 0;
+	public static final Revenue NO_REVENUE = null;
+	static final int NO_REVENUE_VALUE = 0;
 	static final int ALL_PHASES = 0;
 	int value;
 	int phase;
 	
 	public Revenue () {
-		this (NO_REVENUE, ALL_PHASES);
+		this (NO_REVENUE_VALUE, ALL_PHASES);
 	}
 	
 	public Revenue (int aValue, int aPhase) {
@@ -23,11 +24,11 @@ public class Revenue implements Cloneable {
 	}
 	
 	public Revenue (Revenue aRevenue) {
-		if (aRevenue != null) {
+		if (aRevenue != NO_REVENUE) {
 			value = aRevenue.value;
 			phase = aRevenue.phase;
 		} else {
-			setValues (NO_REVENUE, ALL_PHASES);
+			setValues (NO_REVENUE_VALUE, ALL_PHASES);
 		}
 	}
 	

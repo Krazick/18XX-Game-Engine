@@ -70,7 +70,7 @@ public class TileTrayFrame extends XMLFrame {
 	}
 	
 	public Tile getTile (int aTileNumber) {
-		if (tileSet == null) {
+		if (tileSet == TileSet.NO_TILE_SET) {
 			return null;
 		} else {
 			return tileSet.getTile (aTileNumber);

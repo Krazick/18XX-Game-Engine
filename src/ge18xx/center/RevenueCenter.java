@@ -226,7 +226,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		tXMLElement.setAttribute (AN_ID, id);
 		tXMLElement.setAttribute (Location.AN_LOCATION, getLocationToString ());
 		tXMLElement.setAttribute (AN_NAME, name);
-		if (revenues != null) {
+		if (revenues != Revenues.NO_REVENUES) {
 			tRevenueElement = revenues.createElement (aXMLDocument);
 			if (tRevenueElement != null) {
 				tXMLElement.appendChild (tRevenueElement);
@@ -252,7 +252,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 	
 	public void drawName (Graphics g, int Xc, int Yc, Hex aHex) {
-		if (cityInfo != null) {
+		if (cityInfo != CityInfo.NO_CITY_INFO) {
 //			cityInfo.drawName (g, Xc, Yc, aHex);
 		}
 	}
@@ -264,7 +264,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public String getCIName () {
 		String tCityInfoName = NO_NAME;
 		
-		if (cityInfo != null) {
+		if (cityInfo != CityInfo.NO_CITY_INFO) {
 			tCityInfoName = cityInfo.getName ();
 		}
 		
@@ -276,7 +276,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 	
 	public String getCityName () {
-		if (cityInfo != null) {
+		if (cityInfo != CityInfo.NO_CITY_INFO) {
 			return cityInfo.getName ();
 		} else {
 			return null;

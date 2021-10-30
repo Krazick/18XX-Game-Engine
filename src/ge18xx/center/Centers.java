@@ -77,7 +77,7 @@ public class Centers implements Cloneable {
 		XMLElement tCenterElement;
 		
 		for (RevenueCenter center : centers) {
-			if (center != null) {
+			if (center != RevenueCenter.NO_CENTER) {
 				tCenterElement = center.createElement (aXMLDocument);
 				aXMLElement.appendChild (tCenterElement);
 			}
@@ -176,7 +176,7 @@ public class Centers implements Cloneable {
 	public Centers clone () {
 		List<RevenueCenter> tCentersCopy = new LinkedList<RevenueCenter> ();
 		for (RevenueCenter tCenter : centers) {
-			if (tCenter != null) {
+			if (tCenter != RevenueCenter.NO_CENTER) {
 				tCentersCopy.add (tCenter.clone ());
 			} else {
 				tCentersCopy.add (null);
@@ -310,7 +310,7 @@ public class Centers implements Cloneable {
 		String tCityName = "";
 		
 		tCityInfo = getCityInfo ();
-		if (tCityInfo != null) {
+		if (tCityInfo != CityInfo.NO_CITY_INFO) {
 			tCityName = tCityInfo.getName ();
 		}
 		
@@ -370,7 +370,7 @@ public class Centers implements Cloneable {
 		String tTokenAbbrev;
 
 		tCenter = centers.get (0);
-		if (tCenter != null) {
+		if (tCenter != RevenueCenter.NO_CENTER) {
 			tCityName = tCenter.getCityName ();
 			if (tCityName != null) {
 				if (tCityName.length () > 0) {
@@ -518,7 +518,7 @@ public class Centers implements Cloneable {
 		for (tCenterIndex = 0; tCenterIndex < tCenterCount; tCenterIndex++) {
 			tCenter = centers.get (tCenterIndex);
 			tCityInfo = tCenter.getCityInfo ();
-			if (tCityInfo != null) {
+			if (tCityInfo != CityInfo.NO_CITY_INFO) {
 				tCityInfo.setRevenueCenter (tCenter);
 				aTile.setCityInfo (tCityInfo);
 			}
@@ -527,7 +527,7 @@ public class Centers implements Cloneable {
 
 	public void setCityInfo (CityInfo aCityInfo) {
 		
-		if (aCityInfo != null) {
+		if (aCityInfo != CityInfo.NO_CITY_INFO) {
 			for (RevenueCenter tRevenueCenter : centers) {
 				tRevenueCenter.setCityInfo (aCityInfo);
 			}

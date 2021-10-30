@@ -108,7 +108,7 @@ public class Bank extends GameBank implements CashHolderI {
 	public boolean hasMustBuyCertificate () {
 		boolean tMustBuy = false;
 		
-		if (startPacketFrame != null) {
+		if (startPacketFrame != StartPacketFrame.NO_XML_FRAME) {
 			tMustBuy = startPacketFrame.hasMustBuyCertificate ();
 		}
 		
@@ -444,7 +444,7 @@ public class Bank extends GameBank implements CashHolderI {
 	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
 		Certificate tCertificate = Certificate.NO_CERTIFICATE;
 		
-		if (startPacketFrame != null) {
+		if (startPacketFrame != StartPacketFrame.NO_XML_FRAME) {
 			tCertificate = startPacketFrame.getMatchingCertificate (aAbbrev, aPercentage, aIsPresident);
 		}
 		if (tCertificate == Certificate.NO_CERTIFICATE) {

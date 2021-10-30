@@ -13,20 +13,20 @@ public class PrivateRailwayCenter extends RevenueCenter {
 	}
 
 	@Override
-	public boolean cityOrTown() {
+	public boolean cityOrTown () {
 		return false;
 	}
 
 	@Override
-	public void draw(Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex,
+	public void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex,
 			boolean onTile, Feature2 aSelectedFeature) {
-		if (cityInfo != null) {
+		if (cityInfo != CityInfo.NO_CITY_INFO) {
 			cityInfo.drawPrivateRailway (g, Xc, Yc, aHex);
 		}
 	}
 
 	@Override
-	public boolean cityHasOpenStation() {
+	public boolean cityHasOpenStation () {
 		return false;
 	}
 }

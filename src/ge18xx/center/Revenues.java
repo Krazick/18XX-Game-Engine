@@ -31,6 +31,7 @@ public class Revenues extends Feature {
 	public static final AttributeName AN_LOCATION = new AttributeName ("location");
 	public static final AttributeName AN_VALUE = new AttributeName ("value");
 	public static final AttributeName AN_LAYOUT = new AttributeName ("layout");
+	public static final Revenues NO_REVENUES = null;
 	static final int LIRA_SYMBOL = -1;
 	static final int LAYOUT_CIRCLE = 0;
 	static final int LAYOUT_OVAL = 1;
@@ -45,7 +46,7 @@ public class Revenues extends Feature {
 	
 	public Revenues () {
 		revenues = new LinkedList<Revenue> ();
-		setValues (Revenue.NO_REVENUE, Location.CENTER_CITY_LOC, Revenue.ALL_PHASES, LAYOUT_CIRCLE);
+		setValues (Revenue.NO_REVENUE_VALUE, Location.CENTER_CITY_LOC, Revenue.ALL_PHASES, LAYOUT_CIRCLE);
 	}
 	
 	public Revenues (Revenues aRevenues) {
@@ -54,7 +55,7 @@ public class Revenues extends Feature {
 		int tRevenueIndex;
 		
 		revenues = new LinkedList<Revenue> ();
-		if (aRevenues != null) {
+		if (aRevenues != NO_REVENUES) {
 			tRevenueCount = aRevenues.getRevenueCount ();
 			for (tRevenueIndex = 0; tRevenueIndex < tRevenueCount; tRevenueIndex++) {
 				tValue = aRevenues.getValueIndex (tRevenueIndex);
@@ -64,7 +65,7 @@ public class Revenues extends Feature {
 			layoutStyle = aRevenues.layoutStyle;
 			setLocation (aRevenues.getLocation ());
 		} else {
-			setValues (Revenue.NO_REVENUE, Location.CENTER_CITY_LOC, Revenue.ALL_PHASES, LAYOUT_CIRCLE);
+			setValues (Revenue.NO_REVENUE_VALUE, Location.CENTER_CITY_LOC, Revenue.ALL_PHASES, LAYOUT_CIRCLE);
 		}
 	}
 	
@@ -95,7 +96,7 @@ public class Revenues extends Feature {
 		
 		for (Revenue tRevenue : revenues) {
 			tRevenueValue = tRevenue.getValue ();
-			if (tRevenueValue > 0) {
+			if (tRevenueValue > Revenue.NO_REVENUE_VALUE) {
 				tXMLElement = aXMLDocument.createElement (EN_REVENUE);
 				tXMLElement.setAttribute (AN_PHASE, tRevenue.getPhaseToString ());
 				tXMLElement.setAttribute (AN_LOCATION, getLocationToString ());

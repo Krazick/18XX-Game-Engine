@@ -60,7 +60,7 @@ public class TestFactory {
 		GameInfo tGameInfo = null;
 		XMLNode tGameInfoNode;
 		tGameInfoNode = constructXMLNode (t1830TestXML);
-		if (tGameInfoNode != null) {
+		if (tGameInfoNode != XMLNode.NO_NODE) {
 			tGameInfo = new GameInfo (tGameInfoNode);
 			tGameInfo.setTestingFlag (true);			
 		}
@@ -120,7 +120,7 @@ public class TestFactory {
 		XMLNode tShareCompanyNode;
 		
 		tShareCompanyNode = constructXMLNode (aShareCompanyTestXML);
-		if (tShareCompanyNode != null) {
+		if (tShareCompanyNode != XMLNode.NO_NODE) {
 			aShareCompany = new ShareCompany (tShareCompanyNode, mCorporationList);
 			aShareCompany.setTestingFlag (true);			
 		}

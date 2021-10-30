@@ -483,7 +483,7 @@ public class City extends RevenueCenter implements Cloneable {
 					break;
 				
 			case RevenueCenterType.PRIVATE_RAILWAY_POINT:	/* Private Railway Revenue Location */
-				if (cityInfo != null) {
+				if (cityInfo != CityInfo.NO_CITY_INFO) {
 					cityInfo.drawPrivateRailway (g, Xc, Yc, aHex);
 				}
 				break;
@@ -1042,21 +1042,6 @@ public class City extends RevenueCenter implements Cloneable {
 	public int getStationCount () {
 		return stationCount;
 	}
-	
-//	public boolean hasToken () {
-//		boolean tHasStation;
-//		int tIndex;
-//		
-//		tHasStation = false;
-//		for (tIndex = 0; (tIndex < stationCount) && !tHasStation; tIndex++) {
-//			if (hasMapTokenAtStation (tIndex)) {
-////			if (corpStations [tIndex] != null) {
-//				tHasStation = true;
-//			}
-//		}
-//		
-//		return tHasStation;
-//	}
 	
 	public boolean isDestination () {
 		return (type.isDestination ());

@@ -200,7 +200,7 @@ public class CityInfo implements Cloneable {
 			tY2 = Yc + tPoint2.y;
 			g.drawLine (tX1, tY1, tX2, tY2);
 			tWidthHeight = tPointTemp * 2;
-			if (mapCell != null) {
+			if (mapCell != MapCell.NO_MAP_CELL) {
 				tTerrainFillColor = mapCell.getBaseTerrainFillColor ();
 				g.setColor (tTerrainFillColor);
 				g.fillOval (tX1 - tPointTemp, tY1 - tPointTemp, tWidthHeight, tWidthHeight);
@@ -212,9 +212,8 @@ public class CityInfo implements Cloneable {
 			tXLabel = (tX1 + tX2)/2;
 			tYLabel = (tY1 + tY2)/2;
 			tLabel = getCorporationAbbrev ();
+			tLabel = corporation.getAbbrev ();
 			drawLabel (g, tXLabel, tYLabel, tLabel);
-//		} else {
-	//		System.out.println ("City Info - Draw Private: Corporation is NULL");
 		}
 	}
 	
