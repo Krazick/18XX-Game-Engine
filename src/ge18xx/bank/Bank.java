@@ -34,12 +34,13 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 public class Bank extends GameBank implements CashHolderI {
-	private static final String BANK_LABEL_PREFIX = "Remaining Bank Cash ";
 	public static final ElementName EN_BANK_STATE = new ElementName ("Bank");
 	private static final AttributeName AN_BANK_CASH = new AttributeName ("cash");
+	private static final String BANK_LABEL_PREFIX = "Remaining Bank Cash ";
 	public static final StartPacketFrame NO_START_PACKET = null;
 	public static final String NAME = "Bank";
 	public static final Bank NO_BANK = null;
+	public static final JLabel NO_LABEL = null;
 	int treasury;
 	static String format;
 	static DecimalFormat decimalFormat;
@@ -233,7 +234,7 @@ public class Bank extends GameBank implements CashHolderI {
 		PortfolioHolderLoaderI tCurrentHolder;
 		
 		tCurrentHolder = startPacketFrame.getCurrentHolder (aLoadedCertificate);
-		if (tCurrentHolder == null) {
+		if (tCurrentHolder == Portfolio.NO_HOLDER) {
 			tCurrentHolder = super.getCurrentHolder (aLoadedCertificate);
 		}
 
@@ -267,8 +268,8 @@ public class Bank extends GameBank implements CashHolderI {
 	public StartPacketPortfolio getStartPacketPortfolio () {
 		StartPacketPortfolio tStartPacketPortfolio;
 		
-		if (startPacketFrame == null) {
-			tStartPacketPortfolio = null;
+		if (startPacketFrame == NO_START_PACKET) {
+			tStartPacketPortfolio = StartPacketPortfolio.NO_START_PACKET;
 		} else {
 			tStartPacketPortfolio = startPacketFrame.getStartPacketPortfolio ();
 		}
@@ -429,7 +430,7 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 	
 	public void updateBankCashLabel () {
-		if (bankCashLabel == null) {
+		if (bankCashLabel == NO_LABEL) {
 			bankCashLabel = new JLabel (BANK_LABEL_PREFIX + Bank.formatCash (getCash ()));
 		} else {
 			bankCashLabel.setText (BANK_LABEL_PREFIX + Bank.formatCash (getCash ()));

@@ -9,6 +9,8 @@ package ge18xx.center;
 //
 
 public class RevenueCenterType implements Cloneable {
+	public static final RevenueCenterType NO_REVENUE_CENTER_TYPE = null;
+	public static final String NO_REVENUE_CENTER_TYPE_NAME = null;
 	public static final int NO_REVENUE_CENTER = 0;
 	public static final int SMALL_TOWN = 1;
 	public static final int TWO_SMALL_TOWNS = 2;

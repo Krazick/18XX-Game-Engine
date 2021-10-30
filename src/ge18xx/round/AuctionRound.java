@@ -6,7 +6,8 @@ import ge18xx.toplevel.AuctionFrame;
 
 public class AuctionRound extends Round {
 	public final static String NAME = "Auction Round";
-	public static final PlayerManager NO_PLAYER_MANAGER = null;
+//	public static final PlayerManager NO_PLAYER_MANAGER = null;
+	public final static AuctionRound NO_AUCTION_ROUND = null;
 	PlayerManager playerManager;
 	AuctionFrame auctionFrame;
 
@@ -65,7 +66,7 @@ public class AuctionRound extends Round {
 	
 	public void setPlayerManager (PlayerManager aPlayerManager) {
 		playerManager = aPlayerManager;
-		if (playerManager != NO_PLAYER_MANAGER) {
+		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
 			playerManager.setAuctionRound (this);
 		}
 	}

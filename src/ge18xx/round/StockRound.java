@@ -15,8 +15,9 @@ public class StockRound extends Round {
 	public final static AttributeName AN_CURRENT_PLAYER = new AttributeName ("currentPlayer");
 	public final static AttributeName AN_PRIORITY_PLAYER = new AttributeName ("priorityPlayer");
 	public final static String NAME = "Stock Round";
-	public static final int FIRST_PLAYER = 0;
-	public static final PlayerManager NO_PLAYER_MANAGER = null;
+	public final static int FIRST_PLAYER = 0;
+	public final static StockRound NO_STOCK_ROUND = null;
+	public final static PlayerManager NO_PLAYER_MANAGER = null;
 	PlayerManager playerManager;
 	int currentPlayerIndex;
 	int priorityPlayerIndex;

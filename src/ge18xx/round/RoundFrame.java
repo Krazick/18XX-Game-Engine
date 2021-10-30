@@ -34,6 +34,7 @@ import javax.swing.UIManager;
 import org.apache.logging.log4j.Logger;
 
 public class RoundFrame extends XMLFrame implements ActionListener {
+	public static final RoundFrame NO_ROUND_FRAME = null;
 	private static final long serialVersionUID = 1L;
 	private static final String NEWLINE = "\n";
 	private static final String PASS_STOCK_TEXT = "Pass in Stock Round";

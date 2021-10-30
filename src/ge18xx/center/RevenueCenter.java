@@ -91,15 +91,15 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		RevenueCenterType tRevenueCenterType;
 		
 		tRevenueCenterTypeName = aNode.getThisAttribute (AN_TYPE);
-		if (tRevenueCenterTypeName == null) {
-			tRevenueCenterType = null;
+		if (tRevenueCenterTypeName == RevenueCenterType.NO_REVENUE_CENTER_TYPE_NAME) {
+			tRevenueCenterType = RevenueCenterType.NO_REVENUE_CENTER_TYPE;
 		} else {
 			tRevenueCenterType = new RevenueCenterType (tRevenueCenterTypeName);
 		}
 		tRevenueCenterName = aNode.getThisAttribute (AN_NAME);
 		tID = aNode.getThisIntAttribute (AN_ID, NO_ID);
 		tLocation = aNode.getThisIntAttribute (Location.AN_LOCATION, Location.CENTER_CITY_LOC);
-		if (tRevenueCenterType != null) {
+		if (tRevenueCenterType != RevenueCenterType.NO_REVENUE_CENTER_TYPE) {
 			setValues (tRevenueCenterType, tID, tLocation, tRevenueCenterName, NO_VALUE);
 		} else {
 			setValues (RevenueCenterType.NO_REVENUE_CENTER, NO_ID, Location.NO_LOCATION, NO_NAME, NO_VALUE);
@@ -288,16 +288,16 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 	
 	public TokenCompany getTokenCorporation () {
-		if (cityInfo == null) {
-			return null;
+		if (cityInfo == CityInfo.NO_CITY_INFO) {
+			return TokenCompany.NO_TOKEN_COMPANY;
 		} else {
 			return cityInfo.getTokenCorporation ();
 		}
 	}
 	
 	public Corporation getCorporation () {
-		if (cityInfo == null) {
-			return null;
+		if (cityInfo == CityInfo.NO_CITY_INFO) {
+			return Corporation.NO_CORPORATION;
 		} else {
 			return cityInfo.getCorporation ();
 		}
@@ -390,7 +390,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 	
 	public boolean isCityInfoAvailable () {
-		return (cityInfo != null);
+		return (cityInfo != CityInfo.NO_CITY_INFO);
 	}
 	
 	public boolean isCorporationBase () {
@@ -566,10 +566,6 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		return false;
 	}
 
-	// ABSTRACT Methods that should be overloaded by the sub-classes
-	public abstract boolean cityOrTown ();
-	public abstract void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile, Feature2 aSelectedFeature);
-
 	public XMLElement getElement (XMLDocument aXMLDocument, ElementName aElementName) {
 		XMLElement tXMLElement;
 		
@@ -587,5 +583,8 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		return tBaseForCorp;
 	}
 
+	// ABSTRACT Methods that should be overloaded by the sub-classes
+	public abstract boolean cityOrTown ();
+	public abstract void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile, Feature2 aSelectedFeature);
 	public abstract boolean cityHasOpenStation ();
 }

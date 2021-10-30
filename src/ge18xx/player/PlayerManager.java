@@ -55,6 +55,7 @@ public class PlayerManager {
 	public static final int BID_INCREMENT = 5;
 	public final static int NO_PLAYER_INDEX = -1;
 	public final static String NO_PLAYER_NAME = null;
+	public final static PlayerManager NO_PLAYER_MANAGER = null;
 	public enum STOCK_BUY_IN { StockRound, AuctionRound, OperatingRound }; // Round a Stock Certificate was purchased
 	public final static boolean AUCTION_BUY = false;
 	public final static
@@ -1234,11 +1235,9 @@ public class PlayerManager {
 	public void updateAllPlayerFrames (Player aCurrentPlayer) {
 		for (Player tPlayer : players) {
 			if (tPlayer != aCurrentPlayer) {
-				System.out.println ("Update All Player Frames, ready to update Info for " + tPlayer.getName ());
 				tPlayer.updatePlayerInfo ();
 			}
 		}
-		System.out.println ("Update All Player Frames, ready to update Info for " + aCurrentPlayer.getName ());
 		aCurrentPlayer.updatePlayerInfo ();
 	}
 	

@@ -11,6 +11,7 @@ import ge18xx.utilities.XMLNode;
 
 public class OperatingRound extends Round {
 	public final static ElementName EN_OPERATING_ROUND = new ElementName ("OperatingRound");
+	public final static OperatingRound NO_OPERATING_ROUND = null;
 	public final static String NAME = "Operating Round";
 	CorporationList privateCompanies;
 	CorporationList coalCompanies;

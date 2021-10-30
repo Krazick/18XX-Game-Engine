@@ -90,8 +90,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final String AUTO_SAVES_DIR = "autoSaves";
 	public static final GameInfo NO_GAME = null;
 	public static final XMLFrame NO_FRAME = null;
+	public static final GameManager NO_GAME_MANAGER = null;
 	public static final PlayerInputFrame NO_PLAYER_INPUT_FRAME = null;
-	public static final PlayerManager NO_PLAYER_MANAGER = null;
+//	public static final PlayerManager NO_PLAYER_MANAGER = null;
 	public static final PhaseManager NO_PHASE_MANAGER = null;
 	public static final int NO_BANK_CASH = 0;
 	Game_18XX game18XXFrame;
@@ -156,7 +157,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setGame (NO_GAME);
 		setBankPool (BankPool.NO_BANK_POOL);
 		setBank (NO_BANK_CASH);
-		setPlayerManager (NO_PLAYER_MANAGER);
+		setPlayerManager (PlayerManager.NO_PLAYER_MANAGER);
 		setPhaseManager (NO_PHASE_MANAGER);
 		setMapFrame (NO_FRAME);
 		setCitiesFrame (NO_FRAME);
@@ -785,7 +786,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		PortfolioHolderLoaderI tCurrentHolder;
 		
 		tCurrentHolder = bank.getCurrentHolder (aLoadedCertificate);
-		if (tCurrentHolder == null) {
+		if (tCurrentHolder == Portfolio.NO_HOLDER) {
 			tCurrentHolder = bankPool.getCurrentHolder (aLoadedCertificate);
 		}
 
@@ -967,9 +968,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		PhaseManager tPhaseManager;
 		PlayerManager tPlayerManager;
 		
-		if (activeGame != GameManager.NO_GAME) {
+		if (activeGame != NO_GAME) {
 			game18XXFrame.initiateGame ();
-			if (playerManager == GameManager.NO_PLAYER_MANAGER) {
+			if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 				tPlayerManager = new PlayerManager (this);
 				setPlayerManager (tPlayerManager);
 			}
@@ -1664,7 +1665,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		int tIndex;
 		int tPlayerStartingCash;
 		
-		if (playerManager == GameManager.NO_PLAYER_MANAGER) {
+		if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 			logger.error ("No Player Manager loaded from Save Game");
 		} else {
 			tPlayerCount = playerManager.getPlayerCount ();
@@ -1705,7 +1706,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (shareCompaniesFrame.getCountOfShares () > 0) {
 			tGameHasShares = true;
 		}
-		if (playerManager == GameManager.NO_PLAYER_MANAGER) {
+		if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 			tPlayerManager = new PlayerManager (this);
 			setPlayerManager (tPlayerManager);
 		}
@@ -1719,7 +1720,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			playerManager.addPlayer (tPlayer);
 		}
 		
-		if (roundManager != null) {	
+		if (roundManager != RoundManager.NO_ROUND_MANAGER) {	
 			roundManager.updateAllCorporationsBox ();
 		}
 	}

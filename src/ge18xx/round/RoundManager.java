@@ -50,12 +50,7 @@ public class RoundManager {
 	public final static AttributeName AN_ADDED_OR = new AttributeName ("addedOR");
 	public final static AttributeName AN_ON_STOCK_ROUND = new AttributeName ("onStockRound");
 	public final static AttributeName AN_CURRENT_ROUND_TYPE = new AttributeName ("currentRoundType");
-	public final static GameManager NO_GAME_MANAGER = null;
-	public final static ActionManager NO_ACTION_MANAGER = null;
-	public final static OperatingRound NO_OPERATING_ROUND = null;
-	public final static StockRound NO_STOCK_ROUND = null;
-	public final static AuctionRound NO_AUCTION_ROUND = null;
-	public final static RoundFrame NO_ROUND_FRAME = null;
+	public final static RoundManager NO_ROUND_MANAGER = null;
 	
 	GameManager gameManager;
 	PlayerManager playerManager;
@@ -90,13 +85,13 @@ public class RoundManager {
 	}
 	
 	public void setManagers (GameManager aGameManager, PlayerManager aPlayerManager) {
-		if (gameManager == NO_GAME_MANAGER) {
+		if (gameManager == GameManager.NO_GAME_MANAGER) {
 			gameManager = aGameManager;
 		}
-		if (playerManager == GameManager.NO_PLAYER_MANAGER) {
+		if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 			playerManager = aPlayerManager;
 		}
-		if (actionManager == NO_ACTION_MANAGER) {
+		if (actionManager == ActionManager.NO_ACTION_MANAGER) {
 			setActionManager (new ActionManager (this));
 		}
 	}
@@ -108,14 +103,14 @@ public class RoundManager {
 	public void setRounds (CorporationList aPrivates, CorporationList aCoals, 
 							CorporationList aMinors, CorporationList aShares) {
 		
-		if (stockRound == NO_STOCK_ROUND) {
+		if (stockRound == StockRound.NO_STOCK_ROUND) {
 			setStockRound (new StockRound (playerManager, this));
 		}
-		if (auctionRound == NO_AUCTION_ROUND) {
+		if (auctionRound == AuctionRound.NO_AUCTION_ROUND) {
 			setAuctionRound (new AuctionRound (playerManager, this));
 			auctionRound.setAuctionRoundInAuctionFrame ();
 		}
-		if (operatingRound == NO_OPERATING_ROUND) {
+		if (operatingRound == OperatingRound.NO_OPERATING_ROUND) {
 			setOperatingRound (new OperatingRound (this, aPrivates, aCoals, aMinors, aShares));
 		}
 	}
@@ -399,7 +394,7 @@ public class RoundManager {
 		String tRoundType;
 		
 		tRoundType = ">>NO Operating Round Set<<";
-		if (operatingRound != NO_OPERATING_ROUND) {
+		if (operatingRound != OperatingRound.NO_OPERATING_ROUND) {
 			tRoundType = operatingRound.getType ();
 		}
 		
@@ -435,7 +430,7 @@ public class RoundManager {
 		String tRoundType;
 		
 		tRoundType = ">>NO Stock Round Set<<";
-		if (stockRound != NO_STOCK_ROUND) {
+		if (stockRound != StockRound.NO_STOCK_ROUND) {
 			tRoundType = stockRound.getType ();
 		}
 		
@@ -446,7 +441,7 @@ public class RoundManager {
 		String tRoundType;
 	
 		tRoundType = ">>NO Auction Round Set<<";
-		if (auctionRound != NO_AUCTION_ROUND) {
+		if (auctionRound != AuctionRound.NO_AUCTION_ROUND) {
 			tRoundType = auctionRound.getType ();
 		}
 	
@@ -639,9 +634,9 @@ public class RoundManager {
 		String tPlayerName;
 		
 		if (isStockRound ()) {
-			if (stockRound != NO_STOCK_ROUND) {
+			if (stockRound != StockRound.NO_STOCK_ROUND) {
 				tPlayerName = stockRound.getCurrentPlayerName ();
-				if (roundFrame != NO_ROUND_FRAME) {
+				if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 					roundFrame.setCurrentPlayerText (tPlayerName);
 				}
 			}
@@ -715,7 +710,7 @@ public class RoundManager {
 	}
 	
 	public void updateRoundFrame () {
-		if (roundFrame != RoundManager.NO_ROUND_FRAME) {
+		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 			roundFrame.updatePhaseLabel ();
 			PlayerManager tPlayerManager;
 			
@@ -892,7 +887,7 @@ public class RoundManager {
 	}
 	
 	public void updateAllCorporationsBox () {
-		if (roundFrame != NO_ROUND_FRAME) {
+		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 			roundFrame.updateAllCorporationsBox ();
 		}
 	}

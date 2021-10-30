@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 
 public class ActionManager {
 	public final static Action NO_ACTION = null;
+	public final static ActionManager NO_ACTION_MANAGER = null;
 	public final static int STARTING_ACTION_NUMBER = 100;
 	List<Action> actions;
 	List<Action> actionsToRemove;

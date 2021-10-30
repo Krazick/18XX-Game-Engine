@@ -16,6 +16,7 @@ import ge18xx.network.NetworkPlayer;
 import ge18xx.toplevel.AboutBox;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.PrefPane;
+import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.Sound;
 import log4j2.plugins.LoggerLookup;
 
@@ -468,7 +469,7 @@ public class Game_18XX extends JFrame {
 	public void createPlayerInputFrame () {
 		Point tNewPoint;
 		
-		if (playerInputFrame == null) {
+		if (playerInputFrame == XMLFrame.NO_XML_FRAME) {
 			playerInputFrame = new PlayerInputFrame ("Enter Player Information", gameManager);
 			playerInputFrame.setParentFrame (this);
 			tNewPoint = getOffsetGEFrame ();

@@ -1,6 +1,5 @@
 package ge18xx.game;
 
-
 //
 //  GameSet.java
 //  Game_18XX
@@ -44,6 +43,8 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	static final String CHAT_TITLE = "GE18XX Chat Client";
 	static final GameInfo [] NO_GAMES = null;
 	static final GameInfo NO_GAME = null;
+	static final JPanel NO_GAME_SET_PANEL = null;
+	static final JLabel NO_LABEL = null;
 	public static final GameSet NO_GAME_SET = null;
 	private static final String NO_DESCRIPTION = "<html><body><h3>Game Description</h3><p>NO GAME SELECTED</p></body></html>";
 	private static final String NEW_GAME = "New Local Game";
@@ -391,13 +392,13 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		Option tOption;
 		String tOptionName;
 		
-		if (descAndOptionsJPanel == null) {
+		if (descAndOptionsJPanel == NO_GAME_SET_PANEL) {
 			descAndOptionsJPanel = new JPanel ();
 			descAndOptionsJPanel.setLayout (new BoxLayout (descAndOptionsJPanel, BoxLayout.Y_AXIS));
 		}
 		descAndOptionsJPanel.removeAll ();
 		if (aIndex == NO_GAME_SELECTED) {
-			if (gameDescriptionLabel == null) {
+			if (gameDescriptionLabel == NO_LABEL) {
 				gameDescriptionLabel = new JLabel (NO_DESCRIPTION);
 				descAndOptionsJPanel.add (gameDescriptionLabel);
 			} else {
