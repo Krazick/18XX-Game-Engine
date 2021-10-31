@@ -33,10 +33,12 @@ public class BankPool extends GameBank {
 		super (NAME, aGameManager);
 	}
 
+	@Override
 	public boolean isBankPool () {
 		return true;
 	}
 	
+	@Override
 	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, 
 			GameManager aGameManager) {
 		return buildPortfolioInfoJPanel (aItemListener, aPlayer, aGameManager, 

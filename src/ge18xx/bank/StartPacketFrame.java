@@ -132,6 +132,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	
 		return tCertificateToAuction;
 	}
+	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
 		
@@ -153,6 +154,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return tFreeCertificate;
 	}
 	
+	@Override
 	public String getName () {
 		return getTypeName ();
 	}
@@ -321,6 +323,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return this;
 	}
 	
+	@Override
 	public String getStateName () {
 		return ActorI.ActionStates.Fixed.toString ();
 	}
@@ -340,6 +343,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return false;
 	}
 	
+	@Override
 	public boolean isAPrivateCompany () {
 		return false;
 	}

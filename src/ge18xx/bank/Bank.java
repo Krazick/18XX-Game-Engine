@@ -65,6 +65,7 @@ public class Bank extends GameBank implements CashHolderI {
 		logger = LogManager.getLogger (Bank.class);
 	}
 	
+	@Override
 	public void addCash (int aAmount) {
 		treasury += aAmount;
 		updateBankCashLabel ();
@@ -123,6 +124,7 @@ public class Bank extends GameBank implements CashHolderI {
 		return startPacketFrame.getMustSellCertificate ();
 	}
 	
+	@Override
 	public void clearSelections () {
 		startPacketFrame.clearSelections ();
 	}
@@ -195,6 +197,7 @@ public class Bank extends GameBank implements CashHolderI {
 		return tXMLElement;
 	}
 
+	@Override
 	public int getCash () {
 		return treasury;
 	}
@@ -204,6 +207,7 @@ public class Bank extends GameBank implements CashHolderI {
 		return (CashHolderI) this;
 	}
 
+	@Override
 	public Certificate getCertificateToBidOn() {
 		Certificate tCertificateToBidOn;
 		
@@ -215,6 +219,7 @@ public class Bank extends GameBank implements CashHolderI {
 		return tCertificateToBidOn;
 	}
 
+	@Override
 	public Certificate getCertificateToBuy () {
 		Certificate tCertificateToBuy;
 		
@@ -230,6 +235,7 @@ public class Bank extends GameBank implements CashHolderI {
 		return closedPortfolio;
 	}
 	
+	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
 		
@@ -277,6 +283,7 @@ public class Bank extends GameBank implements CashHolderI {
 		return tStartPacketPortfolio;
 	}
 	
+	@Override
 	public boolean isBank () {
 		return true;
 	}
@@ -315,6 +322,7 @@ public class Bank extends GameBank implements CashHolderI {
 		rustedTrainsPortfolio.loadTrainPortfolio (aTrainPortfolioNode, this);
 	}
 	
+	@Override
 	public void loadTrainPortfolio (XMLNode aTrainPortfolioNode) {
 		trainPortfolio.loadTrainStatus (aTrainPortfolioNode);
 	}
@@ -423,6 +431,7 @@ public class Bank extends GameBank implements CashHolderI {
 		startPacketFrame = aStartPacket;
 	}
 
+	@Override
 	public void transferCashTo (CashHolderI aToHolder, int aAmount) {
 		aToHolder.addCash (aAmount);
 		addCash (-aAmount);

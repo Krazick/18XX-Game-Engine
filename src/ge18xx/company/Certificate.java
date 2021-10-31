@@ -734,6 +734,7 @@ public class Certificate implements Comparable<Certificate> {
 		return tReason;
 	}
 	
+	@Override
 	public int compareTo (Certificate aCertificate) {
 		int tCompareValue;
 		int tThisID;

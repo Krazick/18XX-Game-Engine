@@ -147,6 +147,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		return tGetPrice;
 	}
 	
+	@Override
 	public void requestFocus () {
 		priceField.requestFocus ();
 	}
@@ -350,6 +351,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 	    setCorporationTreasuryLabel ();
 	}
 	
+	@Override
 	public void propertyChange (PropertyChangeEvent e) {
 		setCorporationTreasuryLabel ();
 	}

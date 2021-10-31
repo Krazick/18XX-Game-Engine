@@ -112,6 +112,7 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		return tGetPrice;
 	}
 	
+	@Override
 	public void requestFocus () {
 		priceField.requestFocus ();
 	}
@@ -361,6 +362,7 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 	    setCorporationTreasuryLabel ();
 	}
 	
+	@Override
 	public void propertyChange (PropertyChangeEvent e) {
 		setCorporationTreasuryLabel ();
 	}

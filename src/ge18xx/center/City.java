@@ -101,6 +101,7 @@ public class City extends RevenueCenter implements Cloneable {
 		setValues (aNumber);
 	}
 	
+	@Override
 	public void appendTokensState (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
 		int tIndex;
 		XMLElement tXMLTokenState;
@@ -117,10 +118,12 @@ public class City extends RevenueCenter implements Cloneable {
 		}
 	}
 
+	@Override
 	public boolean canPlaceStation () {
 		return (type.canPlaceStation ());
 	}
 	
+	@Override
 	public boolean cityHasOpenStation () {
 		boolean tHasOpenStation = false;
 		int tIndex;
@@ -142,6 +145,7 @@ public class City extends RevenueCenter implements Cloneable {
 		return (corpStations [aIndex] != MapToken.NO_MAP_TOKEN);
 	}
 	
+	@Override
 	public boolean cityHasAnyStation () {
 		boolean tHasAnyStation = false;
 		int tIndex;
@@ -155,6 +159,7 @@ public class City extends RevenueCenter implements Cloneable {
 		return tHasAnyStation;
 	}
 	
+	@Override
 	public boolean cityHasStation (int aCorpID) {
 		boolean tHasStation = false;
 		int tIndex;
@@ -189,6 +194,7 @@ public class City extends RevenueCenter implements Cloneable {
 		return tHasStation;
 	}
 	
+	@Override
 	public boolean cityOrTown () {
 		return (type.cityOrTown ());
 	}
@@ -300,6 +306,7 @@ public class City extends RevenueCenter implements Cloneable {
 		return tCity;
 	}
 	
+	@Override
 	public boolean containingPoint (Point aPoint, Hex aHex, int Xc, int Yc, int aTileOrient) {
 		boolean tContainingPoint = false;
 		int X1, Y1;
@@ -359,10 +366,12 @@ public class City extends RevenueCenter implements Cloneable {
 		return tXMLElement;
 	}
 	
+	@Override
 	public void draw (Graphics g, int Xc, int Yc, Hex aHex, boolean onTile, Feature2 aSelectedFeature) {
 		draw (g, Xc, Yc, NO_ROTATION, aHex, onTile, aSelectedFeature);
 	}
 	
+	@Override
 	public void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile, Feature2 aSelectedFeature) {
 		Color tCityColor;
 		Location tLocation = location.rotateLocation (aTileOrient);
@@ -1015,6 +1024,7 @@ public class City extends RevenueCenter implements Cloneable {
 		return (new Integer (stationCount).toString ());
 	}
 	
+	@Override
 	public int getRevenue (int aPhase) {
 		return super.getRevenue (aPhase);
 	}
@@ -1043,10 +1053,12 @@ public class City extends RevenueCenter implements Cloneable {
 		return stationCount;
 	}
 	
+	@Override
 	public boolean isDestination () {
 		return (type.isDestination ());
 	}
 	
+	@Override
 	public void loadStationsStates (XMLNode aMapCellNode) {
 		XMLNodeList tXMLNodeList;
 
@@ -1114,6 +1126,7 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 		return (good_placement);
 	}		
 	
+	@Override
 	public void printlog () {
 		int tIndex;
 		
@@ -1192,6 +1205,7 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 		return ((aStationIndex >= 0) && (aStationIndex < stationCount));
 	}
 	
+	@Override
 	public String getTokenToolTip () {
 		String tTokenToolTip ="";
 		

@@ -40,10 +40,12 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		trainPortfolio.setPortfolioHolder (tBank);
 	}
 
+	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
 	}
 
+	@Override
 	public void addTrain (Train aTrain) {
 		trainPortfolio.addTrain (aTrain);
 	}
@@ -89,6 +91,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return trainPortfolio.getCheapestTrain ();
 	}
 	
+	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
 		
@@ -105,14 +108,17 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tCurrentHolder;
 	}
 
+	@Override
 	public String getName () {
 		return name;
 	}
 
+	@Override
 	public Portfolio getPortfolio () {
 		return portfolio;
 	}
 	
+	@Override
 	public String getStateName () {
 		return ActorI.ActionStates.Fixed.toString ();
 	}
@@ -136,6 +142,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tTrainJPanel;
 	}
 	
+	@Override
 	public Train getSelectedTrain () {
 		return trainPortfolio.getSelectedTrain ();
 	}
@@ -187,6 +194,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tXMLElement;
 	}
 	
+	@Override
 	public PortfolioHolderI getPortfolioHolder () {
 		return this;
 	}
@@ -202,30 +210,37 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		trainPortfolio.loadTrainPortfolioFromBank (aTrainPortfolioNode, tBank);
 	}
 	
+	@Override
 	public int getLocalSelectedTrainCount () {
 		return trainPortfolio.getSelectedCount ();
 	}
 
+	@Override
 	public Train getTrain (String aName) {
 		return trainPortfolio.getTrain (aName);
 	}
 
+	@Override
 	public int getTrainQuantity (String aName) {
 		return trainPortfolio.getTrainQuantity (aName);
 	}
 
+	@Override
 	public TrainPortfolio getTrainPortfolio () {
 		return trainPortfolio;
 	}
 	
+	@Override
 	public String getTrainNameAndQty (String aStatus) {
 		return trainPortfolio.getTrainNameAndQty (aStatus);
 	}
 
+	@Override
 	public boolean hasTrainNamed (String aName) {
 		return trainPortfolio.hasTrainNamed (aName);
 	}
 	
+	@Override
 	public boolean isAPrivateCompany () {
 		return false;
 	}
@@ -239,14 +254,17 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		portfolio.printCompactPortfolioInfo ();
 	}
 
+	@Override
 	public boolean removeSelectedTrain () {
 		return trainPortfolio.removeSelectedTrain ();
 	}
 	
+	@Override
 	public boolean removeTrain (String aName) {
 		return trainPortfolio.removeTrain (aName);
 	}
 
+	@Override
 	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
 	//	BankFrame.replacePortfolioInfo (aPortfolioInfoJPanel);
 	}
