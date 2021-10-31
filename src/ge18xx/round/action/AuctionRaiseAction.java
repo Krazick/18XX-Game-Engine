@@ -103,7 +103,6 @@ public class AuctionRaiseAction extends CashTransferAction {
 				}
 			}
 		}
-		tCertificate.printAllBiddersEscrows ();
 		
 		return tActionApplied;
 	}

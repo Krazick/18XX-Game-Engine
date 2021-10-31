@@ -211,7 +211,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tPlayer.setAuctionActionState (ActorI.ActionStates.AuctionRaise);
 		
 		tEscrow.setCash (tNewBidAmount);
-//		tAuctionRaiseAction.addEscrowChangeEffect (tEscrow, tOldBidAmount, tNewBidAmount);
 		tNewBidderState = tPlayer.getAuctionActionState ();
 		
 		tAuctionRaiseAction.addAuctionStateChangeEffect (tPlayer, tOldBidderState, tNewBidderState);
@@ -240,7 +239,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tAuctionRaiseAction.addBidChangeEffect (tPlayer, tOldBidAmount, tNewBidAmount, certificateToAuction);
 		tAuctionRaiseAction.addNewCurrentBidderEffect (auctionRound, aActingBidderIndex, tNextBidderIndex);
 		setBidderBoxColor (tPlayer.getName (), false);
-		certificateToAuction.printAllBiddersEscrows ();
 		completeAuctionAction (tAuctionRaiseAction, false);
 	}
 	
@@ -416,10 +414,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
 				if (tThisButton.equals (bidderRaiseButtons [tBidderIndex])) {
 					tActingBidderIndex = tBidderIndex;
-					System.out.println ("Found Matching Raising Bidder Button is " + tBidderIndex);
 				} else if (tThisButton.equals (bidderPassButtons [tBidderIndex])) {
 					tActingBidderIndex = tBidderIndex;
-					System.out.println ("Found Matching Pass Bidder Button is " + tBidderIndex);
 				}
 			}
 		}
@@ -515,7 +511,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 				biddersBox.add (oneBidderBox);
 				biddersBox.add (Box.createVerticalStrut (15));
 				
-				System.out.println ("---> Bidder " + tBidderName + " Acting " + tBidderIsActing);
 				if (tBidderIsActing) {
 					setBidderBoxColor (tBidderName, tBidderIsActing);
 				}

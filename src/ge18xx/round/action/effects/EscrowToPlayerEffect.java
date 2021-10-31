@@ -86,9 +86,6 @@ public class EscrowToPlayerEffect extends Effect {
 		tCash = escrow.getCash ();
 		tEscrowHolder = (EscrowHolderI) actor;
 		tEscrowHolder.addEscrowInfo (tCertificate, tCash);
-		tEscrowHolder.printAllEscrows ();
-		tCertificate.printAllBiddersEscrows ();
-		System.out.println ("Done Printing Escrow Info\n");
 		tEffectApply = true;
 		
 		return tEffectApply;
