@@ -933,7 +933,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		int tTrainCount;
 		
 		tTrainCount = 0;
-		if (trainPortfolio != null) {
+		if (trainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {
 			tTrainCount = trainPortfolio.getTrainCount ();
 		}
 		
@@ -1561,7 +1561,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tItemType = purchaseOffer.getItemType ();
 				tItemName = purchaseOffer.getItemName ();
 				tTrain = purchaseOffer.getTrain ();
-				if (tTrain != null) {
+				if (tTrain != Train.NO_TRAIN) {
 					if (tTrain.getType ().equals (tItemType)) {
 						if (tTrain.getName ().equals (tItemName)) {
 							tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, 

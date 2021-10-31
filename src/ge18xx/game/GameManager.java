@@ -1284,7 +1284,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 		
-		if (roundManager != null) {
+		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
 			roundManager.updateRoundFrame ();
 		}
 		

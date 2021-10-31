@@ -497,7 +497,7 @@ public class ShareCompany extends TokenCompany {
 				tItemName = purchaseOffer.getItemName ();
 				System.out.println ("Received approval for buying the " + tItemName + " " + tItemType);
 				tPrivateCompany = purchaseOffer.getPrivateCompany ();
-				if (tPrivateCompany != PrivateCompany.NO_CORPORATION) {
+				if (tPrivateCompany != PrivateCompany.NO_PRIVATE_COMPANY) {
 					if (tPrivateCompany.getType ().equals (tItemType)) {
 						if (tPrivateCompany.getName ().equals (tItemName)) {
 							System.out.println ("Almost Ready to buy " + tItemName + " " + tItemType);
@@ -571,7 +571,6 @@ public class ShareCompany extends TokenCompany {
 
 	@Override
 	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
