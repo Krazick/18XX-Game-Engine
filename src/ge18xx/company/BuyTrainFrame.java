@@ -305,7 +305,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		boolean tOfferMade = true;
 		
 		tPurchaseOffer = new PurchaseOffer (train.getName (), train.getType (),
-				train, CorporationList.NO_PRIVATE_COMPANY,
+				train, PrivateCompany.NO_PRIVATE_COMPANY,
 				trainCompany.getAbbrev (), aOwningTrainCompany.getAbbrev (), 
 				getPrice (), trainCompany.getActionStatus ());
 		tOldState = trainCompany.getStatus ();

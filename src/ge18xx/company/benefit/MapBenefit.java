@@ -1,7 +1,7 @@
 package ge18xx.company.benefit;
 
 import ge18xx.company.Corporation;
-import ge18xx.company.CorporationList;
+import ge18xx.company.PrivateCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
@@ -108,7 +108,7 @@ public class MapBenefit extends Benefit {
 	public void resetBenefitInUse () {
 		Corporation tOwningCompany;
 		
-		if (privateCompany != CorporationList.NO_PRIVATE_COMPANY) {
+		if (privateCompany != PrivateCompany.NO_PRIVATE_COMPANY) {
 			tOwningCompany = (Corporation) privateCompany.getOwner ();
 			tOwningCompany.setBenefitInUse (previousBenefitInUse);
 		}

@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import ge18xx.company.Corporation;
-import ge18xx.company.CorporationList;
 import ge18xx.company.PrivateCompany;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
@@ -65,7 +64,7 @@ public abstract class Benefit implements ActionListener {
 		setUsed (false);
 		setButton (NO_BUTTON);
 		setButtonPanel (NO_BUTTON_PANEL);
-		setPrivateCompany (CorporationList.NO_PRIVATE_COMPANY);
+		setPrivateCompany (PrivateCompany.NO_PRIVATE_COMPANY);
 		setPreviousBenefitInUse (NO_BENEFIT);
 	}
 	

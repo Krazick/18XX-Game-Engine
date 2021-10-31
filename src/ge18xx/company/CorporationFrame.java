@@ -953,7 +953,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tPrivatePrezName, tCorpPrezName;
 		
 		tPrivateCompany = corporation.getSelectedPrivateToBuy ();
-		if (tPrivateCompany != CorporationList.NO_PRIVATE_COMPANY) {
+		if (tPrivateCompany != PrivateCompany.NO_PRIVATE_COMPANY) {
 			tPrivatePrezName = tPrivateCompany.getPresidentName ();
 			tCorpPrezName = corporation.getPresidentName ();
 			if (tCorpPrezName.equals (tPrivatePrezName)) {

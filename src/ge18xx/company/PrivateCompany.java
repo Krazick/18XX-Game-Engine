@@ -42,6 +42,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public static final AttributeName AN_EXCHANGE_PERCENTAGE = new AttributeName ("exchangePercentage");
 	public static final AttributeName AN_MUST_SELL = new AttributeName ("mustSell");
 	public static final AttributeName AN_DISCOUNT = new AttributeName ("discount");
+	public static final PrivateCompany NO_PRIVATE_COMPANY = null;
 	public static final int NO_REVENUE = 0;
 	private static final int DISCOUNT = 5;
 	private static final int INITIAL_DISCOUNT = 0;

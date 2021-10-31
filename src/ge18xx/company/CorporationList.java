@@ -69,7 +69,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	private static final long serialVersionUID = 1L;
 	static final ElementName NO_TYPE_NAME = null;
 	public static final int NO_CORPORATION_INDEX = -1;
-	public static final PrivateCompany NO_PRIVATE_COMPANY = null;
 	public static final CorporationList NO_CORPORATION_LIST = null;
 	public static final ElementName TYPE_NAMES [] = { 
 		new ElementName ("Private"), 
