@@ -12,7 +12,6 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
-import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
@@ -508,7 +507,7 @@ public class PlayerManager {
 				}
 			} else {
 				tCurrentPresident = Player.NO_PLAYER;
-				tShareCompany = (ShareCompany) CorporationList.NO_CORPORATION;
+				tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
 			}
 
 			tFreeCertificate = Certificate.NO_CERTIFICATE;

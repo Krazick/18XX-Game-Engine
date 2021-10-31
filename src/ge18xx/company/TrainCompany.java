@@ -373,7 +373,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tCorpJPanel.add (new JLabel ("Revenue: " + getFormattedThisRevenue ()));
 		}
 		
-		if (trainPortfolio != null) {
+		if (trainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {
 			tTrainInfoJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, this, 
 					aGameManager, tActionLabel, aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason);
 			tCorpJPanel.add (tTrainInfoJPanel);	
@@ -391,7 +391,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		String tBankPoolPercent;
 		
 		tGameManager = corporationList.getGameManager ();
-		if (trainPortfolio != null) {
+		if (trainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {
 			tTrainPortfolioInfoJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, this, 
 					tGameManager, null, TrainPortfolio.FULL_TRAIN_PORTFOLIO, true, "");
 		} else {
@@ -453,12 +453,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tBankPoolTrain = tBankPool.getCheapestTrain ();
 		tBank = corporationList.getBank ();
 		tBankTrain = tBank.getCheapestTrain ();
-		if (tBankPoolTrain != null) {
+		if (tBankPoolTrain != Train.NO_TRAIN) {
 			tBankPoolTrainCost = tBankPoolTrain.getPrice ();
 		} else {
 			tBankPoolTrainCost = 99999;
 		}
-		if (tBankTrain!= null) {
+		if (tBankTrain!= Train.NO_TRAIN) {
 			tBankTrainCost = tBankTrain.getPrice ();
 		} else {
 			tBankTrainCost = 99999;
@@ -504,7 +504,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tBuyTrainAction.addCashTransferEffect (tPresident, this, aNeededCash);
 			}
 			tUpgradingTrain = getSelectedTrain ();
-			if (tUpgradingTrain != TrainPortfolio.NO_TRAIN) {
+			if (tUpgradingTrain != Train.NO_TRAIN) {
 				tBankPool = corporationList.getBankPool ();
 				moveTrainToBankPool (tUpgradingTrain, tBankPool);
 				tBuyTrainAction.addUpgradeTrainEffect (this, tUpgradingTrain, tBankPool);
@@ -576,7 +576,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tTrainHolder = getSelectedTrainHolder ();
 		if (tTrainHolder != TrainPortfolio.NO_TRAIN_HOLDER) {
 			tTrain = tTrainHolder.getSelectedTrain ();
-			if (tTrain != TrainPortfolio.NO_TRAIN) {
+			if (tTrain != Train.NO_TRAIN) {
 				tTrainIsSelected = true;
 			}			
 		}
@@ -825,7 +825,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		Train tSelectedTrain;
 		
 		tSelectedTrain = trainPortfolio.getSelectedTrain ();
-		if (tSelectedTrain != TrainPortfolio.NO_TRAIN) {
+		if (tSelectedTrain != Train.NO_TRAIN) {
 			tTrainHolder = this;
 		}
 		
@@ -870,28 +870,28 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		
 		tBank = this.getBank ();
 		tBankPool = this.getBankPool ();
-		tTrain = TrainPortfolio.NO_TRAIN;
+		tTrain = Train.NO_TRAIN;
 		tTrainHolder = TrainPortfolio.NO_TRAIN_HOLDER;
-		if (tTrain == TrainPortfolio.NO_TRAIN) {
+		if (tTrain == Train.NO_TRAIN) {
 			tTrain = tBank.getSelectedTrain ();
-			if (tTrain != TrainPortfolio.NO_TRAIN) {
+			if (tTrain != Train.NO_TRAIN) {
 				tTrainHolder = tBank;
 			}
 		}
-		if (tTrain == TrainPortfolio.NO_TRAIN) {
+		if (tTrain == Train.NO_TRAIN) {
 			tTrain = tBankPool.getSelectedTrain ();
-			if (tTrain != TrainPortfolio.NO_TRAIN) {
+			if (tTrain != Train.NO_TRAIN) {
 				tTrainHolder = tBankPool;
 			}
 		}
 		
-		if (tTrain == TrainPortfolio.NO_TRAIN) {
+		if (tTrain == Train.NO_TRAIN) {
 			tTrainHolder = getOtherSelectedTrainHolder ();
 		}
 		
-		if (tTrain == TrainPortfolio.NO_TRAIN) {
+		if (tTrain == Train.NO_TRAIN) {
 			tTrain = trainPortfolio.getSelectedTrain ();
-			if (tTrain != TrainPortfolio.NO_TRAIN) {
+			if (tTrain != Train.NO_TRAIN) {
 				tTrainHolder = this;
 			}
 		}

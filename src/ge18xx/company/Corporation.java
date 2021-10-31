@@ -395,7 +395,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tGameHasPrivates;
 		
 		tGameHasPrivates = false;
-		if (corporationList != null) {
+		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tGameHasPrivates =  corporationList.gameHasPrivates ();
 		}
 		
@@ -1610,7 +1610,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		tMarketCell2 = tShare2.getSharePriceMarketCell ();
 		tCompareMarketCellLtoR = 0;
 		
-		if ((tMarketCell1 != null) && (tMarketCell2 != null)) {
+		if ((tMarketCell1 != MarketCell.NO_MARKET_CELL) && 
+			(tMarketCell2 != MarketCell.NO_MARKET_CELL)) {
 			if (tMarketCell1 != tMarketCell2) {
 				if (tMarketCell1.isRightOf (tMarketCell2)) {
 					tCompareMarketCellLtoR = SORT_CO2_BEFORE_CO1;
@@ -1636,7 +1637,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		tMarketCell2 = tShare2.getSharePriceMarketCell ();
 		tCompareMarketCellDtoU = 0;
 		
-		if ((tMarketCell1 != null) && (tMarketCell2 != null)) {
+		if ((tMarketCell1 != MarketCell.NO_MARKET_CELL) && 
+			(tMarketCell2 != MarketCell.NO_MARKET_CELL)) {
 			if (tMarketCell1 != tMarketCell2) {
 				if (tMarketCell1.isAbove (tMarketCell2)) {
 					tCompareMarketCellDtoU = SORT_CO2_BEFORE_CO1;
@@ -1654,7 +1656,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int compareShare (Corporation aCorporation) {
 		int tCompareShare;
 		
-		if ((this instanceof ShareCompany) && (aCorporation instanceof ShareCompany)) {
+		if ((this instanceof ShareCompany) && 
+			(aCorporation instanceof ShareCompany)) {
 			tCompareShare = 0;
 		} else {
 			tCompareShare = compareID (aCorporation);
@@ -1682,7 +1685,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int comparePrice (Corporation aCorporation) {
 		int tPriceDiff;
 		
-		if ((aCorporation.getSharePrice () == NO_COST) && (getSharePrice () == NO_COST)) {
+		if ((aCorporation.getSharePrice () == NO_COST) && 
+			(getSharePrice () == NO_COST)) {
 			tPriceDiff = 0;
 		} else if (aCorporation.getSharePrice () == NO_COST) {
 			tPriceDiff = SORT_CO1_BEFORE_CO2;

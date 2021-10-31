@@ -56,7 +56,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		if (aCurrentOwner instanceof TrainCompany) {
 			currentOwner = (TrainCompany) aCurrentOwner;
 		} else {
-			currentOwner = CorporationList.NO_CORPORATION;
+			currentOwner = Corporation.NO_CORPORATION;
 		}
 		gameManager = trainCompany.getGameManager ();
 		trainPanel = new JPanel ();
@@ -175,8 +175,8 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		int tTreasury = 0;
 		String tLabel;
 		
-		if (train != TrainPortfolio.NO_TRAIN) {
-			if (currentOwner != CorporationList.NO_CORPORATION) {
+		if (train != Train.NO_TRAIN) {
+			if (currentOwner != Corporation.NO_CORPORATION) {
 				tPresidentName = currentOwner.getPresidentName ();
 				tOwnerName = currentOwner.getName ();
 				tTreasury = currentOwner.getCash () + getPrice ();
@@ -278,7 +278,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		BuyTrainAction tBuyTrainAction;
 		CorporationFrame tCorporationFrame;
 		
-		if (train != TrainPortfolio.NO_TRAIN) {
+		if (train != Train.NO_TRAIN) {
 			tCashValue = getPrice ();
 			tOwningTrainCompany = (TrainCompany) (currentOwner);
 			if (needToMakeOffer (tOwningTrainCompany)) {

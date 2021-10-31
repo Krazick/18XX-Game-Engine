@@ -30,7 +30,7 @@ public class TrainPortfolio implements TrainHolderI {
 	private final static String NEWLINE = "\n";
 	public final static ElementName EN_TRAIN_PORTFOLIO = new ElementName ("TrainPortfolio");
 	public final static ElementName EN_RUSTED_TRAIN_PORTFOLIO = new ElementName ("RustedTrainPortfolio");
-	public static final Train NO_TRAIN = null;
+//	public static final Train NO_TRAIN = null;
 	public static final TrainHolderI NO_TRAIN_HOLDER = null;
 	public static final String ALL_TRAINS = "ALL";
 	public static final String AVAILABLE_TRAINS = "AVAILABLE";
@@ -38,6 +38,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public static final String RUSTED_TRAINS = "RUSTED";
 	public static final boolean FULL_TRAIN_PORTFOLIO = true;
 	public static final boolean COMPACT_TRAIN_PORTFOLIO = false;
+	public static final TrainPortfolio NO_TRAIN_PORTFOLIO = null;
 	ArrayList<Train> trains;
 	CashHolderI portfolioHolder;
 	
@@ -224,9 +225,9 @@ public class TrainPortfolio implements TrainHolderI {
 	public Train getCheapestTrain () {
 		Train tCheapestTrain;
 		
-		tCheapestTrain = NO_TRAIN;
+		tCheapestTrain = Train.NO_TRAIN;
 		for (Train tTrain : trains) {
-			if (tCheapestTrain == NO_TRAIN) {
+			if (tCheapestTrain == Train.NO_TRAIN) {
 				tCheapestTrain = tTrain;
 			} else {
 				if (tTrain.getPrice () < tCheapestTrain.getPrice ()) {
@@ -293,7 +294,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public Train getSelectedTrain () {
 		Train tSelectedTrain;
 	
-		tSelectedTrain = NO_TRAIN;
+		tSelectedTrain = Train.NO_TRAIN;
 		if (trains != null) {
 			for (Train tTrain : trains) {
 				if (tTrain.isSelected ()) {
@@ -312,7 +313,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public Train getTrainOfOrder (int aOrder) {
 		Train tTrainOfOrder;
 		
-		tTrainOfOrder = NO_TRAIN;			
+		tTrainOfOrder = Train.NO_TRAIN;			
 		
 		if (! trains.isEmpty ()) {
 			for (Train tTrain : trains) {
@@ -330,10 +331,10 @@ public class TrainPortfolio implements TrainHolderI {
 		int tIndex, tCount;
 		String tTrainName;
 		
-		tTrain = NO_TRAIN;
+		tTrain = Train.NO_TRAIN;
 		tCount = getTrainCount ();
 		if (tCount > 0) {
-			for (tIndex = 0; (tIndex < tCount) && (tTrain == NO_TRAIN); tIndex++) {
+			for (tIndex = 0; (tIndex < tCount) && (tTrain == Train.NO_TRAIN); tIndex++) {
 				tTrainName = trains.get (tIndex).getName ();
 				if (tTrainName.equals (aName)) {
 					tTrain = trains.get (tIndex);
@@ -348,12 +349,12 @@ public class TrainPortfolio implements TrainHolderI {
 		Train tTrain;
 		
 		if (trains.isEmpty ()) {
-			tTrain = NO_TRAIN;
+			tTrain = Train.NO_TRAIN;
 		} else {
 			if ((aIndex >= 0) && (aIndex < getTrainCount ())) {
 				tTrain = trains.get (aIndex);
 			} else {
-				tTrain = NO_TRAIN;
+				tTrain = Train.NO_TRAIN;
 			}
 		}
 			

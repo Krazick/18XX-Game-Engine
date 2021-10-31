@@ -25,6 +25,7 @@ import ge18xx.player.Bidders;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
+import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.WinAuctionAction;
@@ -107,7 +108,7 @@ public class Certificate implements Comparable<Certificate> {
 	}
 	
 	public Certificate (Certificate aCertificate) {
-		if (aCertificate != null) {
+		if (aCertificate != NO_CERTIFICATE) {
 			isPresidentShare = aCertificate.isPresidentShare ();
 			percentage = aCertificate.getPercentage ();
 			allowedOwners = aCertificate.allowedOwners.clone ();
@@ -173,7 +174,6 @@ public class Certificate implements Comparable<Certificate> {
 		JPanel tCertificateInfoJPanel;
 		JLabel tLabel, tLastRevenueLabel;
 		JLabel tDiscountLabel;
-//		BoxLayout tCertInfoLayout;
 		String tCertInfo;
 		String tRevenueInfo;
 		String tToolTip = "";
@@ -187,7 +187,7 @@ public class Certificate implements Comparable<Certificate> {
 		Integer [] tParValues;
 		Dimension tParValueSize;
 		
-		if (aPlayer != null) {
+		if (aPlayer != Player.NO_PLAYER) {
 			tCompanyAbbrev = getCompanyAbbrev ();
 			tPlayerHasSoldThisCompany = aPlayer.hasSoldCompany (tCompanyAbbrev);
 			tPlayerHasMaxShares = aPlayer.hasMaxShares (tCompanyAbbrev);
@@ -208,7 +208,6 @@ public class Certificate implements Comparable<Certificate> {
 		}
 
 		tCertificateInfoJPanel = new JPanel ();
-//		tCertInfoLayout = new BoxLayout (tCertificateInfoPanel, BoxLayout.Y_AXIS);
 		tCertificateInfoJPanel.setLayout (new BoxLayout (tCertificateInfoJPanel, BoxLayout.Y_AXIS));
 		tCertificateInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		tCertInfoBorder2 = setupCIPBorder ();
@@ -646,7 +645,7 @@ public class Certificate implements Comparable<Certificate> {
 		if (aGameManager.isOperatingRound ()) {
 			tOperatingCompany = aGameManager.getOperatingCompany ();
 			// During Loading a game, this is not set yet, so the result is false
-			if (tOperatingCompany != CorporationList.NO_CORPORATION) {
+			if (tOperatingCompany != Corporation.NO_CORPORATION) {
 				if (tOperatingCompany.getTrainCount () == 0) {
 					if (tOperatingCompany.mustBuyTrain ()) {
 						tOCMustBuyTrain = true;
@@ -892,7 +891,7 @@ public class Certificate implements Comparable<Certificate> {
 		if (corporation.isShareCompany ()) {
 			ShareCompany tShare = (ShareCompany) corporation;
 			MarketCell tMarketCell = tShare.getSharePriceMarketCell ();
-			if (tMarketCell != null) {
+			if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 				tColor = tMarketCell.getRegionColor ();
 			}
 		}
@@ -999,7 +998,7 @@ public class Certificate implements Comparable<Certificate> {
 		tOwned = false;
 		if (owner != null) {
 			tHolder = owner.getPortfolioHolder ();
-			if (tHolder != null) {
+			if (tHolder != Portfolio.NO_HOLDER) {
 				if ((tHolder instanceof Player) || 
 					(tHolder instanceof Corporation) || 
 					(tHolder instanceof BankPool)) {
@@ -1018,7 +1017,7 @@ public class Certificate implements Comparable<Certificate> {
 		tOwned = false;
 		if (owner != null) {
 			tHolder = owner.getPortfolioHolder ();
-			if (tHolder != null) {
+			if (tHolder != Portfolio.NO_HOLDER) {
 				if (tHolder instanceof BankPool) {
 					tOwned = true;
 				}
@@ -1039,7 +1038,7 @@ public class Certificate implements Comparable<Certificate> {
 		tOwned = false;
 		if (owner != null) {
 			tHolder = owner.getPortfolioHolder ();
-			if (tHolder != null) {
+			if (tHolder != Portfolio.NO_HOLDER) {
 				if ((tHolder instanceof Player) || 
 					(tHolder instanceof Corporation)) {
 					tOwned = true;
@@ -1087,7 +1086,7 @@ public class Certificate implements Comparable<Certificate> {
 		tIsSelectedToBuy = false;
 		if (isSelected ()) {
 			if (checkedButton.getText().equals (Player.BUY_LABEL) || 
-					checkedButton.getText ().equals (Player.BUY_AT_PAR_LABEL)) {
+				checkedButton.getText ().equals (Player.BUY_AT_PAR_LABEL)) {
 				tIsSelectedToBuy = true;
 			}
 		}

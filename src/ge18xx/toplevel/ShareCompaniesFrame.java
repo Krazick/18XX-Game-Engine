@@ -122,7 +122,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
-		if (tShareCompany != CorporationList.NO_CORPORATION) {
+		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tMarketCell = tShareCompany.getSharePriceMarketCell ();
 			if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 				tNewMarketCell = tMarketCell.getSoldOutMarketCell ();
@@ -151,7 +151,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
-		if (tShareCompany != CorporationList.NO_CORPORATION) {
+		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tCurrentParPrice = tShareCompany.getParPrice ();
 			if (tCurrentParPrice == ShareCompany.NO_PAR_PRICE) {
 				tParPrice = (String) parValuesCombo.getSelectedItem ();
@@ -164,7 +164,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 						tCol = tShareCompany.getStartCol ();
 						if ((tRow >= 0) && (tCol >= 0)) {
 							tMarketCell = market.getMarketCellAtRowCol (tRow, tCol);
-							if (tMarketCell != null) {
+							if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 								tShareCompany.setSharePrice (tMarketCell);
 								tToken = tShareCompany.getToken ();
 								if (tToken != Token.NO_TOKEN) {
@@ -235,7 +235,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		
 		tPrice = ShareCompany.NO_PAR_PRICE;
 		tShareCompany = getSelectedShareCompany ();
-		if (tShareCompany != CorporationList.NO_CORPORATION) {
+		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tPrice = tShareCompany.getSharePrice ();
 		}
 		
@@ -276,7 +276,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
-		if (tShareCompany != CorporationList.NO_CORPORATION) {
+		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tMarketCell = tShareCompany.getSharePriceMarketCell ();
 			if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 				tNewMarketCell = tMarketCell.getDividendHoldMarketCell ();
@@ -306,7 +306,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
-		if (tShareCompany != CorporationList.NO_CORPORATION) {
+		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tMarketCell = tShareCompany.getSharePriceMarketCell ();
 			if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 				tNewMarketCell = tMarketCell.getDividendPayMarketCell ();
@@ -331,7 +331,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
-		if (tShareCompany != CorporationList.NO_CORPORATION) {
+		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tMarketCell = tShareCompany.getSharePriceMarketCell ();
 			if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 				tNewMarketCell = tMarketCell.getSellShareMarketCell (1);
@@ -378,7 +378,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 			if (tCorpCount > 0) {
 				for (tIndex = 0; tIndex < tCorpCount; tIndex++) {
 					tCorporation = companies.getCorporation (tIndex);
-					if (tCorporation != CorporationList.NO_CORPORATION) {
+					if (tCorporation != Corporation.NO_CORPORATION) {
 						tAbbrev = tCorporation.getAbbrev ();
 						companyCombo.addItem (tAbbrev);
 					}

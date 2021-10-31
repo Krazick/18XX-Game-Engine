@@ -3,7 +3,6 @@ package ge18xx.player;
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
-import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.StockRound;
@@ -128,9 +127,9 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 			if (tCorporation instanceof ShareCompany) {
 				tShareCompany = (ShareCompany) tCorporation;
 			} else {
-				tShareCompany = (ShareCompany) CorporationList.NO_CORPORATION;
+				tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
 			}
-			if ((tSelectedParPrice > 0) && (tShareCompany != CorporationList.NO_CORPORATION)) {
+			if ((tSelectedParPrice > 0) && (tShareCompany != Corporation.NO_CORPORATION)) {
 				setParPriceFrameActive (false);
 				gameManager.setParPrice (tShareCompany, tSelectedParPrice);
 				setParValueAction (tSelectedParPrice, tShareCompany);

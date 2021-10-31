@@ -69,7 +69,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	private static final long serialVersionUID = 1L;
 	static final ElementName NO_TYPE_NAME = null;
 	public static final int NO_CORPORATION_INDEX = -1;
-	public static final Corporation NO_CORPORATION = null;
 	public static final PrivateCompany NO_PRIVATE_COMPANY = null;
 	public static final CorporationList NO_CORPORATION_LIST = null;
 	public static final ElementName TYPE_NAMES [] = { 
@@ -294,7 +293,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		boolean tAnyPrivatesUnowned = false;
 		
 		if (gameHasPrivates ()) {
-			if (typeName != null) {
+			if (typeName != ElementName.NO_ELEMENT_NAME) {
 				if (typeName.equals (TYPE_NAMES [0])) {
 					for (Corporation tCorporation : corporations) {
 						if (tCorporation.isUnowned ()) {
@@ -399,7 +398,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public Corporation getCorporation (int aCorporationIndex) {
 		Corporation tCorporation;
 		
-		tCorporation = NO_CORPORATION;
+		tCorporation = Corporation.NO_CORPORATION;
 	
 		if (aCorporationIndex < getRowCount ()) {
 			tCorporation = corporations.get (aCorporationIndex);
@@ -412,7 +411,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		Corporation tCorporation;
 		String tAbbrev;
 		
-		tCorporation = NO_CORPORATION;
+		tCorporation = Corporation.NO_CORPORATION;
 		for (Corporation tCorporationI : corporations) {
 			tAbbrev = tCorporationI.getAbbrev ();
 			if (tAbbrev.equals (aCompanyAbbrev)) {
@@ -426,7 +425,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public Corporation getCorporationByID (int aCorporationID) {
 		Corporation tCorporation;
 		
-		tCorporation = NO_CORPORATION;
+		tCorporation = Corporation.NO_CORPORATION;
 		for (Corporation tCorporationI : corporations) {
 			if (aCorporationID == tCorporationI.getID ()) {
 				tCorporation = tCorporationI;
@@ -490,7 +489,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		Corporation tCorporation;
 		
 		tElementName = null;
-		if (corporations != null) {
+		if (corporations != NO_CORPORATION_LIST) {
 			tCorporation = corporations.get (0);
 			tElementName = tCorporation.getElementName ();
 		}
@@ -583,7 +582,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public Corporation getSelectedCorporation () {
 		Corporation tSelectedCorporation;
 		
-		tSelectedCorporation = NO_CORPORATION;
+		tSelectedCorporation = Corporation.NO_CORPORATION;
 		for (Corporation tCorporation : corporations) {
 			if (tCorporation.isSelectedForBuy ()) {
 				tSelectedCorporation = tCorporation;
@@ -1051,7 +1050,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public Train getOtherSelectedTrain (String aCurrentAbbrev) {
-		Train tTrain = TrainPortfolio.NO_TRAIN;
+		Train tTrain = Train.NO_TRAIN;
 		
 		System.out.println ("Ready to get the Train selected for buying");
 		
@@ -1067,10 +1066,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 	
 	public TrainCompany getOperatingTrainCompany () {
-		TrainCompany tTrainCompany = (TrainCompany) CorporationList.NO_CORPORATION;
+		TrainCompany tTrainCompany = (TrainCompany) Corporation.NO_CORPORATION;
 		
 		for (Corporation tCorporation : corporations) {
-			if (tCorporation.isOperating () && (tTrainCompany == CorporationList.NO_CORPORATION)) {
+			if (tCorporation.isOperating () && (tTrainCompany == Corporation.NO_CORPORATION)) {
 				tTrainCompany = (TrainCompany) tCorporation;
 			}
 		}
@@ -1079,10 +1078,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public ShareCompany getOperatingCompany () {
-		ShareCompany tOperatingCompany = (ShareCompany) CorporationList.NO_CORPORATION;
+		ShareCompany tOperatingCompany = (ShareCompany) Corporation.NO_CORPORATION;
 		
 		for (Corporation tCorporation : corporations) {
-			if (tCorporation.isOperating () && (tOperatingCompany == (ShareCompany) CorporationList.NO_CORPORATION)) {
+			if (tCorporation.isOperating () && (tOperatingCompany == (ShareCompany) Corporation.NO_CORPORATION)) {
 				tOperatingCompany = (ShareCompany) tCorporation;
 			}
 		}
@@ -1097,7 +1096,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public PrivateCompany getPrivateCompanyAtMapCell (MapCell aMapCell) {
-		PrivateCompany tPrivateCompany = (PrivateCompany) NO_CORPORATION;
+		PrivateCompany tPrivateCompany = (PrivateCompany) Corporation.NO_CORPORATION;
 		MapCell tHomeCity1, tHomeCity2;
 		
 		for (Corporation tCorporation : corporations) {
@@ -1110,7 +1109,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 					}
 				}
 				if ((tHomeCity2 != MapCell.NO_MAP_CELL) && 
-					(tPrivateCompany == (PrivateCompany) NO_CORPORATION)) {
+					(tPrivateCompany == (PrivateCompany) Corporation.NO_CORPORATION)) {
 					if (tHomeCity2 == aMapCell) {
 						tPrivateCompany = (PrivateCompany) tCorporation;
 					}

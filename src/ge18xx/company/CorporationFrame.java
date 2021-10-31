@@ -90,7 +90,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	boolean isNetworkGame;
 	
 	public CorporationFrame (String aFrameName, Corporation aCorporation, boolean aIsNetworkGame) {
-		super (((aCorporation != null) ? aCorporation.getName () + " " : "") + aFrameName);
+		super (((aCorporation != Corporation.NO_CORPORATION) ? aCorporation.getName () + " " : "") + aFrameName);
 		Dimension tMinSize = new Dimension (20, 10);
 		JPanel tTopBoxes, tPhaseInfoBox;
 		
@@ -100,7 +100,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		tTopBoxes.setLayout (new BoxLayout (tTopBoxes, BoxLayout.X_AXIS));
 		certJPanel = NO_PANEL;
 		corporation = aCorporation;
-		if (corporation != CorporationList.NO_CORPORATION) {
+		if (corporation != Corporation.NO_CORPORATION) {
 			corporation = aCorporation;
 			
 			buildCorporationInfoJPanel (tMinSize);
@@ -367,7 +367,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (isCorporationSet ()) {
 			if (corporation.isOperating ()) {
 				tGameManager = corporation.getGameManager ();
-				if (tGameManager != null) {
+				if (tGameManager != GameManager.NO_GAME_MANAGER) {
 					otherCorpsJPanel.removeAll ();
 					tShareCorporations = tGameManager.getShareCompanies ();
 					tCorporationsTrainsJPanel = tShareCorporations.buildFullCorpsJPanel (this, 
@@ -382,7 +382,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 	
 	private boolean isCorporationSet () {
-		return (corporation != CorporationList.NO_CORPORATION);
+		return (corporation != Corporation.NO_CORPORATION);
 	}
 	
 	public void fillBankBox (boolean aCanBuyTrain, String aDisableToolTipReason) {
@@ -397,9 +397,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tBank = corporation.getBank ();
 			tBankPool = corporation.getBankPool ();
 			
-			if (tGameManager != null) {
+			if (tGameManager != GameManager.NO_GAME_MANAGER) {
 				bankJPanel.removeAll ();
-				if (tBankPool != null) {
+				if (tBankPool != BankPool.NO_BANK_POOL) {
 					tBPPortfolioJPanel = tBankPool.buildTrainPortfolioInfoJPanel (this, corporation, 
 							tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
 					bankJPanel.add (Box.createHorizontalGlue ());
@@ -408,7 +408,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				} else {
 					System.err.println ("Bank Pool is Null");
 				}
-				if (tBank != null) {
+				if (tBank != Bank.NO_BANK) {
 					tBankPortfolioJPanel = tBank.buildTrainPortfolioInfoJPanel (this, corporation, 
 							tGameManager, TrainPortfolio.COMPACT_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
 					bankJPanel.add (tBankPortfolioJPanel);
@@ -504,7 +504,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		int tTreasuryValue;
 		
 		tTreasuryValue = 0;
-		if (corporation != CorporationList.NO_CORPORATION) {
+		if (corporation != Corporation.NO_CORPORATION) {
 			if (corporation instanceof TrainCompany) {
 				tTreasuryValue = ((TrainCompany) corporation).getTreasury ();
 			}

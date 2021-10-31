@@ -28,7 +28,7 @@ public class TransferTrainEffect extends Effect {
 	public TransferTrainEffect () {
 		super ();
 		setName (NAME);
-		setTrain (TrainPortfolio.NO_TRAIN);
+		setTrain (Train.NO_TRAIN);
 		setToActor (ActorI.NO_ACTOR);
 	}
 
@@ -66,11 +66,11 @@ public class TransferTrainEffect extends Effect {
 			if (tCorporation.isATrainCompany ()) {
 				tTrainCompany = (TrainCompany) tCorporation;
 				tTrain = tTrainCompany.getTrain (tTrainName);
-				if (tTrain != TrainPortfolio.NO_TRAIN) {
+				if (tTrain != Train.NO_TRAIN) {
 					setTrain (tTrain);
 				} else {
 					tTrain = aGameManager.getTrain (tTrainName);
-					if (tTrain != TrainPortfolio.NO_TRAIN) {
+					if (tTrain != Train.NO_TRAIN) {
 						setTrain (tTrain);
 					} else {
 						System.err.println ("Can't find [" + tTrainName + "] in Train Portfolio for " + tTrainCompany.getAbbrev ());

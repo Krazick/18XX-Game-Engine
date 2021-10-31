@@ -226,10 +226,10 @@ public class OperatingRound extends Round {
 		Corporation tCorporation;
 		
 		tCorporation = shareCompanies.getOperatingCompany ();
-		if (tCorporation == CorporationList.NO_CORPORATION) {
+		if (tCorporation == Corporation.NO_CORPORATION) {
 			tCorporation = minorCompanies.getOperatingCompany ();
 		}
-		if (tCorporation == CorporationList.NO_CORPORATION) {
+		if (tCorporation == Corporation.NO_CORPORATION) {
 			tCorporation = coalCompanies.getOperatingCompany ();
 		}
 

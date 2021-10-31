@@ -9,7 +9,6 @@ package ge18xx.center;
 //
 
 import ge18xx.company.Corporation;
-import ge18xx.company.CorporationList;
 import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
 import ge18xx.map.Hex;
@@ -72,7 +71,7 @@ public class CityInfo implements Cloneable {
 	}
 	
 	public void clearCorporation () {
-		corporation = CorporationList.NO_CORPORATION;
+		corporation = Corporation.NO_CORPORATION;
 	}
 	
 	public void clearCorporation (Corporation aCorporation) {
@@ -130,7 +129,7 @@ public class CityInfo implements Cloneable {
 	public void drawCorporationBase (Graphics g, int X1, int Y1, int aWidth, int aHeight, boolean aHome) {
 		TokenCompany tTokenCompany;
 		
-		if (corporation != CorporationList.NO_CORPORATION) {
+		if (corporation != Corporation.NO_CORPORATION) {
 			if (! mapCell.hasStation (corporation.getID ())) {
 				try {
 					tTokenCompany = (TokenCompany) corporation;
@@ -189,7 +188,7 @@ public class CityInfo implements Cloneable {
 		Color tTerrainFillColor;
 		String tLabel;
 		
-		if (corporation != CorporationList.NO_CORPORATION) {
+		if (corporation != Corporation.NO_CORPORATION) {
 			tLocation1 = corporation.getHomeLocation1 ();
 			tLocation2 = corporation.getHomeLocation2 ();
 			tPoint1 = tLocation1.calcCenter (aHex);
@@ -225,7 +224,7 @@ public class CityInfo implements Cloneable {
 		TokenCompany tTokenCompany;
 		
 		tTokenCompany = null;
-		if (corporation != CorporationList.NO_CORPORATION) {
+		if (corporation != Corporation.NO_CORPORATION) {
 			if (! mapCell.hasStation (corporation.getID ())) {
 				try {
 					tTokenCompany = (TokenCompany) corporation;
@@ -301,7 +300,7 @@ public class CityInfo implements Cloneable {
 	public boolean isCorporationBase () {
 		boolean tIsCorporationBase = false;
 		
-		if (corporation != CorporationList.NO_CORPORATION) {
+		if (corporation != Corporation.NO_CORPORATION) {
 			if (corporation.isShareCompany ()) {
 				tIsCorporationBase = true;
 			}
@@ -321,7 +320,7 @@ public class CityInfo implements Cloneable {
 	public void printCityInfo () {
 		System.out.println ("City ID " + id + ", Type " + type + ", Name [" + 
 					name + "] on Map Cell " + getMapCellID ());
-		if (corporation == CorporationList.NO_CORPORATION) {
+		if (corporation == Corporation.NO_CORPORATION) {
 			System.out.println ("No Corporation Base");
 		} else {
 			System.out.println ("Base for " + corporation.getAbbrev () + " Corporation");

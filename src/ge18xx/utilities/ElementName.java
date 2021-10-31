@@ -1,6 +1,8 @@
 package ge18xx.utilities;
 
 public class ElementName extends NoSpaceString {
+	public static final ElementName NO_ELEMENT_NAME = null;
+	
 	public ElementName (String aString) {
 		super (aString);
 		

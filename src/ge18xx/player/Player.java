@@ -541,7 +541,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		tMustSellPercent = 0;
 		tShareCompany = playerManager.getShareCompany (aCompanyAbbrev);
 		if (tShareCompany != null) {
-			if (tShareCompany.equals (CorporationList.NO_CORPORATION)) {
+			if (tShareCompany.equals (Corporation.NO_CORPORATION)) {
 				System.err.println ("Share Company with abbrev " + aCompanyAbbrev + " could not be found");
 			} else {
 				tCurrentPlayerHasXPercent = getPercentOwnedOf (tShareCompany);
@@ -563,7 +563,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		tPlayerShareLimit = playerManager.getPlayerShareLimit ();
 		tGameManager = playerManager.getGameManager();
 		tShareCompany = tGameManager.getShareCompany (aCompanyAbbrev);
-		if (tShareCompany != CorporationList.NO_CORPORATION) {
+		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tMarketCell = tShareCompany.getSharePriceMarketCell ();
 			if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 				if (tMarketCell.getExceedPlayerCorpShareLimit ()) {
@@ -621,7 +621,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		
 		tHasLessThanPresident = true;
 		tShareCompany = playerManager.getShareCompany (aCompanyAbbrev);
-		if (tShareCompany.equals (CorporationList.NO_CORPORATION)) {
+		if (tShareCompany.equals (Corporation.NO_CORPORATION)) {
 			System.err.println ("Share Company with abbrev " + aCompanyAbbrev + " could not be found");
 		} else {
 			tCurrentPlayerHasXPercent = getPercentOwnedOf (tShareCompany);

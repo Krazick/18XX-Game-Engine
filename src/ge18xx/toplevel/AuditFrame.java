@@ -343,7 +343,7 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 			if (tCorpCount > 0) {
 				for (tCorpIndex = 0; tCorpIndex < tCorpCount; tCorpIndex++) {
 					tCorporation = companies.getCorporation (tCorpIndex);
-					if (tCorporation != CorporationList.NO_CORPORATION) {
+					if (tCorporation != Corporation.NO_CORPORATION) {
 						tActorName = SHARE_CORP_PREFIX + tCorporation.getAbbrev ();
 						if (! isActorsInComboBox (tActorName)) {
 							actorsCombo.addItem (tActorName);

@@ -497,7 +497,7 @@ public class ShareCompany extends TokenCompany {
 				tItemName = purchaseOffer.getItemName ();
 				System.out.println ("Received approval for buying the " + tItemName + " " + tItemType);
 				tPrivateCompany = purchaseOffer.getPrivateCompany ();
-				if (tPrivateCompany != null) {
+				if (tPrivateCompany != PrivateCompany.NO_CORPORATION) {
 					if (tPrivateCompany.getType ().equals (tItemType)) {
 						if (tPrivateCompany.getName ().equals (tItemName)) {
 							System.out.println ("Almost Ready to buy " + tItemName + " " + tItemType);

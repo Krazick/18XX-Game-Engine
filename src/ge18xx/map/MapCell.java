@@ -1796,7 +1796,7 @@ public class MapCell implements Comparator<Object> {
 		
 		if (privateCos != CorporationList.NO_CORPORATION_LIST) {
 			tPrivateCompany = privateCos.getPrivateCompanyAtMapCell (this);
-			if (tPrivateCompany != CorporationList.NO_CORPORATION) {
+			if (tPrivateCompany != Corporation.NO_CORPORATION) {
 				tPrivateAbbrev = tPrivateCompany.getAbbrev ();
 			}
 		}
@@ -1812,7 +1812,7 @@ public class MapCell implements Comparator<Object> {
 		if (! isTileOnCell ()) {
 			if (privateCos != CorporationList.NO_CORPORATION_LIST) {
 				tPrivateCompany = privateCos.getPrivateCompanyAtMapCell (this);
-				if (tPrivateCompany != CorporationList.NO_CORPORATION) {
+				if (tPrivateCompany != Corporation.NO_CORPORATION) {
 					// Given this Map Cell is home to a Private Company
 					// Then Prevent this Tile Lay if the Private is not Owned by the Operating Train Company
 					if (tOperatingTrainCompany.doesNotOwn (tPrivateCompany)) {

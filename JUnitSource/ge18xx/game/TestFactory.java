@@ -2,6 +2,7 @@ package ge18xx.game;
 
 import org.mockito.Mockito;
 
+import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.toplevel.PlayerInputFrame;
@@ -95,7 +96,7 @@ public class TestFactory {
 		} else if (tCompanyIndex == 2) {
 			tShareCompany = constructShareCompany (tShareCompany2TestXML, tShareCompany, mCorporationList);
 		} else {
-			tShareCompany = (ShareCompany) CorporationList.NO_CORPORATION;
+			tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
 		}
 		
 		return tShareCompany;

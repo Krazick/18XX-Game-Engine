@@ -281,7 +281,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		} else if (PUT_TOKEN.equals (tTheAction)) {
 			putATokenDown (tCorporation);
 		}
-		if (tCorporation != CorporationList.NO_CORPORATION) {
+		if (tCorporation != Corporation.NO_CORPORATION) {
 			tCorporation.updateFrameInfo ();
 		}
 	}
@@ -374,24 +374,24 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	}
 	
 	public TrainCompany getOperatingTrainCompany () {
-		TrainCompany tTrainCompany = (TrainCompany) CorporationList.NO_CORPORATION;
+		TrainCompany tTrainCompany = (TrainCompany) Corporation.NO_CORPORATION;
 		TrainCompany tCorporation;
 		
 		if (coalCos != CorporationList.NO_CORPORATION_LIST) {
 			tCorporation = coalCos.getOperatingTrainCompany ();
-			if (tCorporation != CorporationList.NO_CORPORATION) {
+			if (tCorporation != Corporation.NO_CORPORATION) {
 				tTrainCompany = tCorporation;
 			}
 		}
 		if (minorCos != CorporationList.NO_CORPORATION_LIST) {
 			tCorporation = minorCos.getOperatingTrainCompany ();
-			if (tCorporation != CorporationList.NO_CORPORATION) {
+			if (tCorporation != Corporation.NO_CORPORATION) {
 				tTrainCompany = tCorporation;
 			}
 		}
 		if (shareCos != CorporationList.NO_CORPORATION_LIST) {
 			tCorporation = shareCos.getOperatingTrainCompany ();
-			if (tCorporation != CorporationList.NO_CORPORATION) {
+			if (tCorporation != Corporation.NO_CORPORATION) {
 				tTrainCompany = tCorporation;
 			}
 		}
@@ -406,14 +406,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tTokenCompany = TokenCompany.NO_TOKEN_COMPANY;
 		if (coalCos != CorporationList.NO_CORPORATION_LIST) {
 			tCorporation = coalCos.getCorporation (aAbbrev);
-			if (tCorporation != CorporationList.NO_CORPORATION) {
+			if (tCorporation != Corporation.NO_CORPORATION) {
 				tTokenCompany = (TokenCompany) tCorporation;
 			}
 		}
 		if (tTokenCompany == TokenCompany.NO_TOKEN_COMPANY) {
 			if (minorCos != CorporationList.NO_CORPORATION_LIST) {
 				tCorporation = minorCos.getCorporation (aAbbrev);
-				if (tCorporation != CorporationList.NO_CORPORATION) {
+				if (tCorporation != Corporation.NO_CORPORATION) {
 					tTokenCompany = (TokenCompany) tCorporation;
 				}
 			}
@@ -421,7 +421,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		if (tTokenCompany == TokenCompany.NO_TOKEN_COMPANY) {
 			if (shareCos != CorporationList.NO_CORPORATION_LIST) {
 				tCorporation = shareCos.getCorporation (aAbbrev);
-				if (tCorporation != CorporationList.NO_CORPORATION) {
+				if (tCorporation != Corporation.NO_CORPORATION) {
 					tTokenCompany = (TokenCompany) tCorporation;
 				}
 			}
@@ -523,7 +523,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		City tSelectedCity;
 		boolean tCanPlaceToken;
 		
-		if (aCorporation != CorporationList.NO_CORPORATION) {
+		if (aCorporation != Corporation.NO_CORPORATION) {
 			setCompanyAbbrev (aCorporation.getAbbrev ());
 			if (aRevenueCenter != RevenueCenter.NO_CENTER) {
 				if (aRevenueCenter.canPlaceStation ()) {
@@ -843,7 +843,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		boolean tAnyAllowedRotation;
 		
 		tOperatingTrainCompany = getOperatingTrainCompany ();
-		if (tOperatingTrainCompany != CorporationList.NO_CORPORATION) {
+		if (tOperatingTrainCompany != Corporation.NO_CORPORATION) {
 			tOperatingCompanyTreasury = tOperatingTrainCompany.getCash ();
 			putTileButton.setEnabled (false);
 			tMapCell = map.getSelectedMapCell ();

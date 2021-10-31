@@ -689,13 +689,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 		Corporation tCorporation;
 		
 		tCorporation = privatesFrame.getCorporationByID (aCorporationID); 
-		if (tCorporation == CorporationList.NO_CORPORATION) {
+		if (tCorporation == Corporation.NO_CORPORATION) {
 			tCorporation = minorCompaniesFrame.getCorporationByID (aCorporationID); 
 		}
-		if (tCorporation == CorporationList.NO_CORPORATION) {
+		if (tCorporation == Corporation.NO_CORPORATION) {
 			tCorporation = coalCompaniesFrame.getCorporationByID (aCorporationID); 
 		}
-		if (tCorporation == CorporationList.NO_CORPORATION) {
+		if (tCorporation == Corporation.NO_CORPORATION) {
 			tCorporation = shareCompaniesFrame.getCorporationByID (aCorporationID); 
 		}
 		
@@ -734,7 +734,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (tSelectedCorporation instanceof PrivateCompany) {
 			tSelectedPrivateCompany = (PrivateCompany) tSelectedCorporation;
 		} else {
-			tSelectedPrivateCompany = (PrivateCompany) CorporationList.NO_CORPORATION;
+			tSelectedPrivateCompany = (PrivateCompany) Corporation.NO_CORPORATION;
 		}
 		
 		return tSelectedPrivateCompany;

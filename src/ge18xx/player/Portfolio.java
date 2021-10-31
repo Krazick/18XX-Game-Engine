@@ -13,7 +13,6 @@ import ge18xx.bank.BankPool;
 import ge18xx.company.Certificate;
 import ge18xx.company.CertificateHolderI;
 import ge18xx.company.Corporation;
-import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
@@ -1110,7 +1109,7 @@ public class Portfolio implements CertificateHolderI {
 	// Find the Corporation, in the Portfolio that matches this CorpID
 	// Used to search the Bank Portfolio to load the Start Packet
 	public Corporation getCorporationForID (int CorpID) {
-		Corporation tCorporation = CorporationList.NO_CORPORATION;
+		Corporation tCorporation = Corporation.NO_CORPORATION;
 		Corporation tTestCorporation;
 		int tTestCorporationID;
 		
@@ -1310,11 +1309,11 @@ public class Portfolio implements CertificateHolderI {
 		Corporation tCorporation, tPreviousCorporation;
 		
 		tAreAllSelectedStocksSameCorporation = true;
-		tPreviousCorporation = CorporationList.NO_CORPORATION;
+		tPreviousCorporation = Corporation.NO_CORPORATION;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToSell ()) {
 				tCorporation = tCertificate.getCorporation ();
-				if (tPreviousCorporation != CorporationList.NO_CORPORATION) {
+				if (tPreviousCorporation != Corporation.NO_CORPORATION) {
 					if (tCorporation != tPreviousCorporation) {
 						tAreAllSelectedStocksSameCorporation = false;
 					}
