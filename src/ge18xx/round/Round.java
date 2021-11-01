@@ -98,6 +98,7 @@ public abstract class Round implements ActorI {
 		return ActorI.ActionStates.NoRound;
 	}
 	
+	@Override
 	public String getStateName () {
 		return getRoundType ().toString ();
 	}
@@ -165,6 +166,7 @@ public abstract class Round implements ActorI {
 		}		
 	}
 	
+	@Override
 	public void resetPrimaryActionState (ActorI.ActionStates aPreviousState) {
 		if (aPreviousState == ActorI.ActionStates.StockRound) {
 			resumeStockRound ();

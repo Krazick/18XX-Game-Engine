@@ -34,6 +34,7 @@ public class AuctionRound extends Round {
 		return auctionFrame;
 	}
 	
+	@Override
 	public String getName () {
 		return NAME;
 	}
@@ -43,6 +44,7 @@ public class AuctionRound extends Round {
 		return NAME;
 	}
 	
+	@Override
 	public String getID () {
 		return "1.0";
 	}
