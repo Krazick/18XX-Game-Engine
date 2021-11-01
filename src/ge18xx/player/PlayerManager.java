@@ -897,6 +897,7 @@ public class PlayerManager {
 			
 		}
 		
+		@Override
 		public void foundItemMatchKey1 (XMLNode aPlayerNode, Object aGameInfo) {
 			String tPlayerName;
 			boolean tGameHasCoals;
@@ -1181,7 +1182,6 @@ public class PlayerManager {
 		Player tPlayer;
 		
 		tPlayer = players.get (aPlayerIndex);
-		tPlayer.clearPrimaryActionState ();
 		tPlayer.showPlayerFrame ();
 	}
 	

@@ -205,11 +205,13 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		return tCanDoAction;
 	}
 	
+	@Override
 	public void addCash (int aAmount) {
 		treasury += aAmount;
 		playerFrame.setCashLabel ();
 	}
 	
+	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
 		playerFrame.updateCertificateInfo ();
@@ -372,6 +374,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		return auctionActionState;
 	}
 
+	@Override
 	public Bank getBank () {
 		return playerManager.getBank ();
 	}
@@ -380,6 +383,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		return playerManager.getBankPool ();
 	}
 	
+	@Override
 	public int getCash () {
 		return treasury;
 	}
@@ -408,6 +412,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		return portfolio.getCertificateToExchange ();
 	}
 	
+	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
 		
@@ -416,6 +421,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		return tCurrentHolder;
 	}
 	
+	@Override
 	public void printAllEscrows () {
 		escrows.printAllEscrows ();
 	}
@@ -441,6 +447,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		return playerManager.getGameManager ();
 	}
 	
+	@Override
 	public String getName () {
 		return name;
 	}
@@ -489,14 +496,17 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		return tXMLElement;
 	}
 	
+	@Override
 	public String getStateName () {
 		return primaryActionState.toString ();
 	}
 	
+	@Override
 	public Portfolio getPortfolio () {
 		return portfolio;
 	}
 	
+	@Override
 	public Player getPortfolioHolder () {
 		return this;
 	}
@@ -814,10 +824,12 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		playerFrame.setVisible (false);
 	}
 	
+	@Override
 	public boolean isBank () {
 		return false;
 	}
 	
+	@Override
 	public boolean isBankPool () {
 		return false;
 	}
@@ -830,14 +842,17 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		return this.equals(tCurrentPlayer);
 	}
 
+	@Override
 	public boolean isPlayer () {
 		return true;
 	}
 	
+	@Override
 	public boolean isCompany () {
 		return false;
 	}
 	
+	@Override
 	public boolean isAPrivateCompany () {
 		return false;
 	}
@@ -982,6 +997,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		System.out.println ("Auction Action State [" + auctionActionState.toString () + "]");
 	}
 	
+	@Override
 	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
 		playerFrame.replacePortfolioInfo (aPortfolioInfoJPanel);
 	}
@@ -1021,6 +1037,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		name = aName;
 	}
 	
+	@Override
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		setPrimaryActionState (aPrimaryActionState);
 	}
@@ -1073,6 +1090,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		return escrows.addEmptyEscrow (aName);
 	}
 	
+	@Override
 	public Escrow addEscrowInfo (Certificate aCertificate, int aAmount) {
 		return  escrows.addEscrowInfo (aCertificate, aAmount);
 	}
@@ -1081,6 +1099,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		escrows.removeEscrow (aEscrow, Escrows.ESCROW_EXACT_MATCH);
 	}
 	
+	@Override
 	public void removeEscrow (Escrow aEscrow, boolean aMatchCriteria) {
 		escrows.removeEscrow (aEscrow, aMatchCriteria);
 	}
@@ -1089,6 +1108,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		escrows.raiseBid (aCertificate, aRaise);
 	}
 	
+	@Override
 	public void transferCashTo (CashHolderI aToHolder, int aAmount) {
 		aToHolder.addCash (aAmount);
 		addCash (-aAmount);
