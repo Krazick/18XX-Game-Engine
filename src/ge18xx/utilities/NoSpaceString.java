@@ -46,6 +46,7 @@ public class NoSpaceString {
 		return string;
 	}
 	
+	@Override
 	public String toString () {
 		return getString ();
 	}

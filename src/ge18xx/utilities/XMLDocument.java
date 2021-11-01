@@ -138,6 +138,7 @@ public class XMLDocument {
 		}
 	}
 
+	@Override
 	public String toString () {
 		String xmlString = "";
 		

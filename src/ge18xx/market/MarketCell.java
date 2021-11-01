@@ -42,6 +42,7 @@ public class MarketCell {
 	public final static ElementName EN_MARKET_CELL = new ElementName ("MarketCell");
 	public final static String NO_COORDINATES = null;
 	public final static MarketCell NO_MARKET_CELL = null;
+	public final static MarketCell NO_SHARE_PRICE = null;
 	Market market;
 	int value;
 	int xCenter, yCenter;

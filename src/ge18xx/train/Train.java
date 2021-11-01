@@ -46,7 +46,7 @@ public class Train implements Comparable<Object> {
 	final static AttributeName AN_PRICE = new AttributeName ("price");
 	final static AttributeName AN_STATUS = new AttributeName ("status");
 	public static final JCheckBox NO_ACTION_CHECKBOX = null;
-	public static final TrainInfo NO_TRAIN_INFO = null;
+//	public static final TrainInfo NO_TRAIN_INFO = null;
 	public static final Train NO_TRAIN = null;
 	public static final int NO_ORDER = -1;
 	public static final int INFINITE_COUNT = 9999;
@@ -247,6 +247,7 @@ public class Train implements Comparable<Object> {
 		}
 	}
 	
+	@Override
 	public int compareTo (Object aTrain) throws ClassCastException {
 		int tResult;
 		
@@ -480,7 +481,7 @@ public class Train implements Comparable<Object> {
 
 		setPrice (aPrice);
 		setStatus (NOT_AVAILABLE);
-		setTrainInfo (NO_TRAIN_INFO);
+		setTrainInfo (TrainInfo.NO_TRAIN_INFO);
 		setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 		setPreviousRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 		setOperating (false);

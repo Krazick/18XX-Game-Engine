@@ -55,6 +55,7 @@ public class TrainPortfolio implements TrainHolderI {
 		portfolioHolder = aPortfolioHolder;
 	}
 	
+	@Override
 	public void addTrain (Train aTrain) {
 		trains.add (aTrain);
 		Collections.sort (trains);
@@ -257,6 +258,7 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 
+	@Override
 	public String getName () {
 		return "Train Portfolio";
 	}
@@ -272,6 +274,7 @@ public class TrainPortfolio implements TrainHolderI {
 		return tXMLElement;
 	}
 
+	@Override
 	public int getLocalSelectedTrainCount () {
 		return getSelectedCount ();
 	}
@@ -291,6 +294,7 @@ public class TrainPortfolio implements TrainHolderI {
 		return tCount;
 	}
 	
+	@Override
 	public Train getSelectedTrain () {
 		Train tSelectedTrain;
 	
@@ -326,6 +330,7 @@ public class TrainPortfolio implements TrainHolderI {
 		return tTrainOfOrder;
 	}
 	
+	@Override
 	public Train getTrain (String aName) {
 		Train tTrain;
 		int tIndex, tCount;
@@ -374,6 +379,7 @@ public class TrainPortfolio implements TrainHolderI {
 		return tNameAndQty;
 	}
 
+	@Override
 	public String getTrainNameAndQty (String aStatus) {
 		String tNameAndQuantity, tName;
 		String tNames [];
@@ -451,6 +457,7 @@ public class TrainPortfolio implements TrainHolderI {
 		return this;
 	}
 	
+	@Override
 	public int getTrainQuantity (String aName) {
 		int tTrainQuantity, tCount, tIndex;
 		String tTrainName;
@@ -484,6 +491,7 @@ public class TrainPortfolio implements TrainHolderI {
 		return tTrainStatusForOrder;
 	}
 
+	@Override
 	public boolean hasTrainNamed (String aTrainName) {
 		boolean tHasTrain;
 		
@@ -618,6 +626,7 @@ public class TrainPortfolio implements TrainHolderI {
 		}
 	};
 	
+	@Override
 	public boolean removeSelectedTrain () {
 		boolean tTrainRemoved;
 		int tIndex, tCount;
@@ -640,6 +649,7 @@ public class TrainPortfolio implements TrainHolderI {
 		return tTrainRemoved;
 	}
 	
+	@Override
 	public boolean removeTrain (String aTrainName) {
 		boolean tTrainRemoved;
 		int tIndex, tCount;

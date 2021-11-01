@@ -39,15 +39,15 @@ public class ShareCompany extends TokenCompany {
 	public static final ElementName EN_SHARE_COMPANY = new ElementName ("ShareCompany");
 	static final AttributeName AN_PAR_PRICE = new AttributeName ("parPrice");
 	static final AttributeName AN_LOAN_COUNT = new AttributeName ("loanCount");
-	public static final int NO_PAR_PRICE = -1;
-	public static ShareCompany NO_SHARE_COMPANY = null;
 	static final AttributeName AN_DESTINATION = new AttributeName ("destination");
 	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	static final AttributeName AN_START_PRICE = new AttributeName ("startPrice");
 	static final String NO_START_CELL = null;
-	static final MarketCell NO_SHARE_PRICE = null;
+//	static final MarketCell NO_SHARE_PRICE = null;
 	static final MapCell NO_DESTINATION = null;
-	public static final Location NO_DESTINATION_LOCATION = null;
+	public static final int NO_PAR_PRICE = -1;
+	public static ShareCompany NO_SHARE_COMPANY = null;
+//	public static final Location NO_DESTINATION_LOCATION = null;
 	static final int NO_LOANS = 0;
 	MarketCell sharePrice;
 	MapCell destination;
@@ -62,7 +62,7 @@ public class ShareCompany extends TokenCompany {
 	public ShareCompany () {
 		super ();
 		setNoPrice ();
-		setValues (NO_PAR_PRICE, NO_SHARE_PRICE, NO_DESTINATION, NO_LOANS, NO_START_CELL);
+		setValues (NO_PAR_PRICE, MarketCell.NO_SHARE_PRICE, NO_DESTINATION, NO_LOANS, NO_START_CELL);
 	}
 	
 	public ShareCompany (XMLNode aChildNode, CorporationList aCorporationList) {
@@ -77,9 +77,10 @@ public class ShareCompany extends TokenCompany {
 		tStartCell = aChildNode.getThisAttribute (AN_START_PRICE, NO_START_CELL);
 		tParPrice = aChildNode.getThisIntAttribute (AN_PAR_PRICE, NO_PAR_PRICE);
 		setNoPrice ();
-		setValues (tParPrice, NO_SHARE_PRICE, NO_DESTINATION, NO_LOANS, tStartCell);
+		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, NO_DESTINATION, NO_LOANS, tStartCell);
 	}
 
+	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
 		
@@ -93,6 +94,7 @@ public class ShareCompany extends TokenCompany {
 		return tCurrentColumn;
 	}
 	
+	@Override
 	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
 		
@@ -144,10 +146,12 @@ public class ShareCompany extends TokenCompany {
 		return aCorporation.getPresidentCertificate ();
 	}
 	
+	@Override
 	public boolean canBuyPrivate () {
 		return corporationList.canBuyPrivate ();
 	}
 	
+	@Override
 	public String reasonForNoBuyPrivate () {
 		return "Cannot buy Private in current Phase";
 	}
@@ -192,6 +196,7 @@ public class ShareCompany extends TokenCompany {
 		corporationList.addAction (tFloatCompanyAction);
 	}
 	
+	@Override
 	public int getCapitalizationAmount () {
 		int tCapitalizationAmount;
 		
@@ -205,6 +210,7 @@ public class ShareCompany extends TokenCompany {
 	}
 	
 	/* Build XML Element of Current Share Company State  -- For Saving */
+	@Override
 	public XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLCorporationState;
 		
@@ -220,11 +226,13 @@ public class ShareCompany extends TokenCompany {
 		return corporationList.getCountOfSelectedPrivates ();
 	}
 	
+	@Override
 	public ElementName getElementName () {
 		return EN_SHARE_COMPANY;
 	}
 
 	/* Fill In the XML Element with Par Price, and Loan Count, and call super's routine */
+	@Override
 	public void getCorporationStateElement (XMLElement aXMLCorporationState) {
 		int tLoanCount;
 		
@@ -241,7 +249,7 @@ public class ShareCompany extends TokenCompany {
 	}
 	
 	public int getDestinationLocationInt () {
-		if (destinationLocation == NO_DESTINATION_LOCATION) {
+		if (destinationLocation == Location.NO_DESTINATION_LOCATION) {
 			return NO_NAME_INT;
 		} else {
 			return destinationLocation.getLocation ();
@@ -268,6 +276,7 @@ public class ShareCompany extends TokenCompany {
 		}
 	}
 	
+	@Override
 	public int getSharePrice () {
 		if (sharePrice == MarketCell.NO_MARKET_CELL) {
 			return MarketCell.NO_STOCK_PRICE;
@@ -325,6 +334,7 @@ public class ShareCompany extends TokenCompany {
 		return SHARE_COMPANY;
 	}
 	
+	@Override
 	public boolean canOperate () {
 		boolean tCanOperate = true;
 		
@@ -376,6 +386,7 @@ public class ShareCompany extends TokenCompany {
 		return true;
 	}
 
+	@Override
 	public void loadStatus (XMLNode aXMLNode) {
 		super.loadStatus (aXMLNode);
 		setParPrice (aXMLNode.getThisIntAttribute (AN_PAR_PRICE));
@@ -401,7 +412,7 @@ public class ShareCompany extends TokenCompany {
 	
 	public void setNoPrice () {
 		setParPrice (NO_PAR_PRICE);
-		setSharePrice (NO_SHARE_PRICE);
+		setSharePrice (MarketCell.NO_SHARE_PRICE);
 	}
 	
 	public void setParPrice (int aParPrice) {
@@ -418,7 +429,7 @@ public class ShareCompany extends TokenCompany {
 		int tRowIndex;
 		
 		sharePrice = aSharePrice;
-		if (aSharePrice != NO_SHARE_PRICE) {
+		if (aSharePrice != MarketCell.NO_SHARE_PRICE) {
 			tRowIndex = corporationList.getRowIndex (this);
 			corporationList.addDataElement (sharePrice.getValue (), tRowIndex, 18);
 		}
@@ -443,7 +454,7 @@ public class ShareCompany extends TokenCompany {
 	}
 	
 	private void setValues (MapCell aDestination, int aLoanCount, String aStartCell) {
-		setDestination (aDestination, NO_DESTINATION_LOCATION);
+		setDestination (aDestination, Location.NO_DESTINATION_LOCATION);
 		setLoanCount (aLoanCount);
 		startCell = aStartCell;
 	}

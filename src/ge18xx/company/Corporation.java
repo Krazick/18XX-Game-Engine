@@ -222,6 +222,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tCurrentColumn;
 	}
 	
+	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
 	}
@@ -698,6 +699,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		// TODO: non-1830 Expand to check Game Info to see if Loans are in game
 	}
 	
+	@Override
 	public String getAbbrev () {
 		return abbrev;
 	}
@@ -706,6 +708,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return status;
 	}
 	
+	@Override
 	public Bank getBank () {
 		return corporationList.getBank ();
 	}
@@ -785,6 +788,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return 0;
 	}
 	
+	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		return portfolio.getCurrentHolder (aLoadedCertificate);
 	}
@@ -894,6 +898,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return null;
 	}
 
+	@Override
 	public String getName () {
 		return name;
 	}
@@ -947,10 +952,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationCertificates.getPlayerOrCorpOwnedPercentageFor (this);
 	}
 	
+	@Override
 	public Portfolio getPortfolio () {
 		return portfolio;
 	}
 
+	@Override
 	public Corporation getPortfolioHolder () {
 		return this;
 	}
@@ -983,6 +990,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return getStateName ();
 	}
 	
+	@Override
 	public String getStateName () {
 		return status.toString ();
 	}
@@ -1011,10 +1019,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tIsActive;
 	}
 	
+	@Override
 	public boolean isBank () {
 		return false;
 	}
 	
+	@Override
 	public boolean isBankPool () {
 		return false;
 	}
@@ -1040,6 +1050,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	// Private Company will override	
+	@Override
 	public boolean isAPrivateCompany () {
 		return false;
 	}
@@ -1059,6 +1070,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return false;
 	}
 	
+	@Override
 	public boolean isCompany () {
 		return true;
 	}
@@ -1072,6 +1084,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return false;
 	}
 	
+	@Override
 	public boolean isPlayer () {
 		return false;
 	}
@@ -1225,6 +1238,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationList.tileTrayVisible ();
 	}
 	
+	@Override
 	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
 		// Note -- Will need to activate when CorporationFrame is built
 		//	corporationFrame.replacePortfolioInfo (aPortfolioInfoJPanel);
@@ -1673,7 +1687,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		
 		tShare = (ShareCompany) this;
 		tMarketCell = tShare.getSharePriceMarketCell ();
-		if (tMarketCell != ShareCompany.NO_SHARE_PRICE) {
+		if (tMarketCell != MarketCell.NO_SHARE_PRICE) {
 			tCompareStackLocation = tMarketCell.compareStackLocation (this, aCorporation);
 		} else {
 			tCompareStackLocation = 0;
@@ -1702,6 +1716,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public static Comparator<Corporation> CorporationOperatingOrderComparator 
     			= new Comparator<Corporation>() {
 		
+		@Override
 		public int compare (Corporation aCorporation1, Corporation aCorporation2) {
 			int tOperatingOrderValue, tClosedCompare;
 			

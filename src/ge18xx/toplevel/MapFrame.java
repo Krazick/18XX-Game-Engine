@@ -208,6 +208,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		return gameManager;
 	}
 	
+	@Override
 	public int getHexScale () {
 		return map.getHexScale ();
 	}
@@ -261,6 +262,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		map.clearAllSelected ();
 	}
 	
+	@Override
 	public void actionPerformed (ActionEvent aActionEvent) {
 		String tTheAction = aActionEvent.getActionCommand ();
 		Corporation tCorporation;
@@ -456,7 +458,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	};
 
-
+	@Override
 	public boolean loadXML (String aXMLFileName, LoadableXMLI aLoadableObject) throws IOException {
 		boolean tXMLFileWasLoaded;
 		int tMaxWidth, tMaxHeight;
@@ -712,7 +714,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					if (tCorporation instanceof ShareCompany) {
 						tShareCompany = (ShareCompany) tCorporation;
 						tLocation = tShareCompany.getDestinationLocation ();
-						if (tLocation != ShareCompany.NO_DESTINATION_LOCATION) {
+						if (tLocation != Location.NO_DESTINATION_LOCATION) {
 							if (! tLocation.isNoLocation ()) {
 								tCellID = tShareCompany.getDestination ();
 								if (tCellID != Corporation.NO_NAME_STRING) {

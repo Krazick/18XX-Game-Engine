@@ -164,6 +164,7 @@ public class XMLNode {
 		}
 	}
 	
+	@Override
 	public String toString () {
 		String tFormattedOutput;
 		StringBuffer buff = new StringBuffer (1024);

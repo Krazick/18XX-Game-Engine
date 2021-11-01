@@ -28,8 +28,9 @@ public class Location implements Cloneable {
 	public static final AttributeName AN_LOCATION = new AttributeName ("location");
 	public static final AttributeName AN_HOME_LOCATION1 = new AttributeName ("homeLocation1");
 	public static final AttributeName AN_HOME_LOCATION2 = new AttributeName ("homeLocation2");
-	public static final int NO_LOCATION = -1;
+	public static final Location NO_DESTINATION_LOCATION = null;
 	public static final Location NO_LOC = null;
+	public static final int NO_LOCATION = -1;
 	public static final int MIN_SIDE = 0;
 	public static final int MAX_SIDE = 5;
 	static final int MIN_CITY_LOC_NS = 6;
@@ -147,6 +148,7 @@ public class Location implements Cloneable {
 		return (new Point (Xdisp, Ydisp));
 	}
 	
+	@Override
 	public Location clone () {
 		try {
 			Location tLocation = (Location) super.clone ();
@@ -662,6 +664,7 @@ public class Location implements Cloneable {
 		}
 	}
 	
+	@Override
 	public String toString () {
 		return (new Integer (location).toString ());
 	}

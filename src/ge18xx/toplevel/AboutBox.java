@@ -77,12 +77,14 @@ public class AboutBox extends JFrame implements ActionListener {
     }
 
     class SymWindow extends java.awt.event.WindowAdapter {
-	    public void windowClosing (java.awt.event.WindowEvent event) {
+	    @Override
+		public void windowClosing (java.awt.event.WindowEvent event) {
 		    setVisible (false);
 	    }
     }
     
-    public void actionPerformed (ActionEvent newEvent) {
+    @Override
+	public void actionPerformed (ActionEvent newEvent) {
         setVisible (false);
     }		
 }

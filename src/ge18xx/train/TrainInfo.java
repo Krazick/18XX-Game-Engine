@@ -32,6 +32,7 @@ public class TrainInfo {
 	public static final AttributeName AN_ON_FIRST = new AttributeName ("onFirst");
 	public static final AttributeName AN_ON_LAST = new AttributeName ("onLast");
 	public static final AttributeName AN_TILE_INFO = new AttributeName ("tileInfo");
+	public static final TrainInfo NO_TRAIN_INFO = null;
 	public static final String NO_RUST = "";
 	static final String NORMAL_GAUGE = "Normal";
 	static final String METER_GAUGE = "Meter";

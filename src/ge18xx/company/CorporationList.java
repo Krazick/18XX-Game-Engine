@@ -700,6 +700,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 	};
 	
+	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNodeList tXMLNodeList;
 		XMLNode XMLCorporationListRoot;
