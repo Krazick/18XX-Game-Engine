@@ -47,6 +47,7 @@ public class LayTokenAction extends ChangeMapAction {
 		return tMapCellID;
 	}
 
+	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
 		

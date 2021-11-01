@@ -47,6 +47,7 @@ public class ChangeStateAction extends ChangePlayerAction {
 		addEffect (tChangeCorporationStatusEffect);
 	}
 
+	@Override
 	public boolean wasLastActionStartAuction () {
 		boolean tWasNewStateAuction = false;
 		

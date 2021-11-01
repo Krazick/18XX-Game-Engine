@@ -34,6 +34,7 @@ public class BuyTrainAction extends TransferOwnershipAction {
 		setName (NAME);
 	}
 
+	@Override
 	public void addChangeCorporationStatusEffect (ActorI aActor, 
 			ActorI.ActionStates aPreviousState, ActorI.ActionStates aNewState) {
 		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;

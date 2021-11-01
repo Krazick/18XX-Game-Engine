@@ -27,20 +27,19 @@ public class UndoLastAction extends Action {
 		setName (NAME);
 	}
 
+	@Override
 	public boolean applyAction (RoundManager aRoundManager) {
 		boolean tActionApplied;
 		ActionManager tActionManager;
-//		int tCurrentActionNumber;
 		
 		tActionApplied = true;
 		tActionManager = aRoundManager.getActionManager ();
 		tActionManager.undoLastAction (aRoundManager, false);
-//		tCurrentActionNumber = tActionManager.getActionNumber ();
-//		System.out.println ("Applying Undo Last Action - from Remote Client " + tCurrentActionNumber);
 
 		return tActionApplied;
 	}
 	
+	@Override
 	public boolean undoAction (RoundManager aRoundManager) {
 		boolean tActionUndone = true;
 		

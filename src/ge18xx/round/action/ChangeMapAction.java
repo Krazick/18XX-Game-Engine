@@ -34,6 +34,7 @@ public class ChangeMapAction extends CashTransferAction {
 		addEffect (tChangeMapEffect);
 	}
 
+	@Override
 	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState, ActorI.ActionStates aNewState) {
 		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
 

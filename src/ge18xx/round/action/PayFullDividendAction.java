@@ -29,6 +29,7 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 		setName (NAME);
 	}
 	
+	@Override
 	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState, ActorI.ActionStates aNewState) {
 		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
 
