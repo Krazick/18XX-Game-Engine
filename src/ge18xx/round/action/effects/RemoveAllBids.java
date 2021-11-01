@@ -102,6 +102,7 @@ public class RemoveAllBids extends Effect {
 		tCertificate = aRoundManager.getCertificate (getCompanyAbbrev (), getPercentage (), isPresident ());
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tCertificate.removeAllBids ();
+			tEffectApplied = true;
 		}
 		
 		return tEffectApplied;
