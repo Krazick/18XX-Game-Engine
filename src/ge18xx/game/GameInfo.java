@@ -27,6 +27,11 @@ import ge18xx.utilities.XMLNodeList;
 import org.w3c.dom.NodeList;
 
 public class GameInfo {
+	public static final GameInfo NO_GAME_INFO = null;
+	public static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
+	static final AttributeName AN_ID = new AttributeName ("id");
+	static final AttributeName AN_NAME = new AttributeName ("name");
+	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");
 	final AttributeName AN_PRIVATES = new AttributeName ("privates");
 	final AttributeName AN_MINORS = new AttributeName ("minors");
 	final AttributeName AN_COALS = new AttributeName ("coals");
@@ -52,10 +57,6 @@ public class GameInfo {
 	static final int NO_BANK_SHARE_LIMIT = 9;
 	static final String NO_FORMAT = "<NONE>";
 	static final TrainInfo [] NO_TRAINS = null;
-	public static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
-	static final AttributeName AN_ID = new AttributeName ("id");
-	static final AttributeName AN_NAME = new AttributeName ("name");
-	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");
 	
 	boolean gameTestFlag = false;  // For marking this Game info as Test for JUNIT Purposes ONLY
 	

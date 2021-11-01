@@ -42,7 +42,6 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	static final String NO_GAME_NAME = "<NO-GAME>";
 	static final String CHAT_TITLE = "GE18XX Chat Client";
 	static final GameInfo [] NO_GAMES = null;
-	static final GameInfo NO_GAME = null;
 	static final JPanel NO_GAME_SET_PANEL = null;
 	static final JLabel NO_LABEL = null;
 	public static final GameSet NO_GAME_SET = null;
@@ -225,7 +224,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		GameInfo tFoundGame;
 		
 		tGameCount = gameInfo.length;
-		tFoundGame = NO_GAME;
+		tFoundGame = GameInfo.NO_GAME_INFO;
 		if ((tGameCount > 0) && (aName != null)) {
 			for (tIndex = 0; tIndex < tGameCount; tIndex++) {
 				if (aName.equals (gameInfo [tIndex].getName ())) {
@@ -259,7 +258,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			tIndex = getSelectedGameIndex ();
 			tGameInfo = gameInfo [tIndex];
 		} else {
-			tGameInfo = NO_GAME;
+			tGameInfo = GameInfo.NO_GAME_INFO;;
 		}
 		
 		return tGameInfo;
