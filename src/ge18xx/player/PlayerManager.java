@@ -1185,10 +1185,6 @@ public class PlayerManager {
 		tPlayer.showPlayerFrame ();
 	}
 	
-	public void showAuctionFrame () {
-		gameManager.showAuctionFrame ();
-	}
-	
 	public void startAuctionRound (boolean aCreateNewAuctionAction) {
 		stockRound.startAuctionRound (aCreateNewAuctionAction);
 	}

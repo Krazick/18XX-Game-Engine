@@ -107,7 +107,7 @@ public class RoundManager {
 			setStockRound (new StockRound (playerManager, this));
 		}
 		if (auctionRound == AuctionRound.NO_AUCTION_ROUND) {
-			setAuctionRound (new AuctionRound (playerManager, this));
+			setAuctionRound (new AuctionRound (this));
 			auctionRound.setAuctionRoundInAuctionFrame ();
 		}
 		if (operatingRound == OperatingRound.NO_OPERATING_ROUND) {

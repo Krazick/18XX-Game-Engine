@@ -1,25 +1,22 @@
 package ge18xx.round;
 
 import ge18xx.game.GameManager;
-import ge18xx.player.PlayerManager;
 import ge18xx.toplevel.AuctionFrame;
 
 public class AuctionRound extends Round {
 	public final static String NAME = "Auction Round";
 	public final static AuctionRound NO_AUCTION_ROUND = null;
-	PlayerManager playerManager;
 	AuctionFrame auctionFrame;
+	GameManager gameManager;
 
-	public AuctionRound (PlayerManager aPlayerManager, RoundManager aRoundManager) {
+	public AuctionRound (RoundManager aRoundManager) {
 		super (aRoundManager);
-		GameManager tGameManager;
 		
-		setPlayerManager (aPlayerManager);
-		tGameManager = aRoundManager.getGameManager ();
-		setAuctionFrame (new AuctionFrame (tGameManager.createFrameTitle (NAME), 
-				tGameManager.getClientUserName (),
-				tGameManager.isNetworkGame ()));
-		tGameManager.setAuctionFrame (auctionFrame);
+		gameManager = aRoundManager.getGameManager ();
+		setAuctionFrame (new AuctionFrame (gameManager.createFrameTitle (NAME), 
+				gameManager.getClientUserName (),
+				gameManager.isNetworkGame ()));
+		gameManager.setAuctionFrame (auctionFrame);
 	}
 
 	public void setAuctionRoundInAuctionFrame () {
@@ -62,14 +59,7 @@ public class AuctionRound extends Round {
 	}
 	
 	public void showAuctionFrame () {
-		playerManager.showAuctionFrame ();
-	}
-	
-	public void setPlayerManager (PlayerManager aPlayerManager) {
-		playerManager = aPlayerManager;
-		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
-			playerManager.setAuctionRound (this);
-		}
+		gameManager.showAuctionFrame ();
 	}
 	
 	public void startAuctionRound () {
