@@ -51,6 +51,7 @@ public class RemoveEscrowEffect extends Effect {
 		escrow = new Escrow (tCertificate, tCash);
 	}
 	
+	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 		String tCompanyAbbrev;
@@ -80,6 +81,7 @@ public class RemoveEscrowEffect extends Effect {
 		return escrow;
 	}
 	
+	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied = false;
 		EscrowHolderI tHolder = (EscrowHolderI) actor;

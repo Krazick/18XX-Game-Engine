@@ -43,6 +43,7 @@ public class EscrowToPlayerEffect extends Effect {
 		escrow = new Escrow (tCertificate, tCash);		
 	}
 	
+	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 		String tCompanyAbbrev;

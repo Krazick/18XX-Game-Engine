@@ -3,8 +3,8 @@ package ge18xx.round.action.effects;
 import ge18xx.center.City;
 import ge18xx.company.Corporation;
 import ge18xx.company.MapToken;
+import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
-import ge18xx.company.TokenStack;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -87,6 +87,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 		revenueCenterIndex = aRevenuCenterIndex;
 	}
 
+	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Tile tTile;
@@ -119,6 +120,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 		return tEffectApplied;
 	}
 	
+	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Tile tTile;
@@ -142,7 +144,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 				tTokenAtID = tTile.getStationIndex (tCorporationID);
 				if (tTokenAtID == revenueCenterIndex) {
 					tMapToken = tTile.getMapTokenFor (tCorporationID);
-					if (tMapToken != TokenStack.NO_TOKEN) {
+					if (tMapToken != Token.NO_TOKEN) {
 						tTokenCompany.addAsFirstMapToken (tMapToken);
 					}
 					tCorpHomeCell1 = tTokenCompany.getHomeCity1 ();

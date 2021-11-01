@@ -146,6 +146,7 @@ public class ResponseOfferEffect extends Effect {
 		return toActor;
 	}
 	
+	@Override
 	public String getToActorName() {
 		return toActor.getName ();
 	}
