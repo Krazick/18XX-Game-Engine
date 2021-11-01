@@ -302,8 +302,6 @@ public class Action {
 			System.out.println ("Trying to Undo " + name + " Effect: " + tEffect.getName ());
 			tEffectUndone = tEffect.undoEffect (aRoundManager);
 			tActionUndone &= tEffectUndone;
-//			System.out.println ("Tried to Undo a " + name + ", Effect " + tEffect.getName () +
-//					" EffectUndone Flag " + tEffectUndone);
 		}
 		
 		aRoundManager.updateAllCorporationsBox ();
@@ -322,12 +320,22 @@ public class Action {
 		for (Effect tEffect: effects) {
 			tEffectApplied = tEffect.applyEffect (aRoundManager);
 			tActionApplied &= tEffectApplied;
-			System.out.println ("Tried to Apply a |" + name + "|, Effect " + tEffect.getName () +
+			if (tEffectApplied) {
+				System.out.println ("Tried to Apply a |" + name + "|, Effect " + tEffect.getName () +
 					" EffectApplied Flag " + tEffectApplied);
+			} else {
+				System.err.println ("Tried to Apply a |" + name + "|, Effect " + tEffect.getName () +
+						" EffectApplied Flag " + tEffectApplied);
+
+			}
 		}
 		
 		aRoundManager.updateAllCorporationsBox ();
-		System.out.println ("Applied All Effects " + tActionApplied);
+		if (tActionApplied) {
+			System.out.println ("Applied All Effects " + tActionApplied);
+		} else {
+			System.err.println ("Applied All Effects " + tActionApplied);
+		}
 
 		return tActionApplied;
 	}
