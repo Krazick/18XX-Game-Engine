@@ -27,14 +27,17 @@ public class PrivatesFrame extends CorporationTableFrame {
 		super (aFrameName, CorporationList.TYPE_NAMES [0], aRoundManager);
 	}
 	
+	@Override
 	public boolean anyPrivatesUnowned () {
 		return companies.anyPrivatesUnowned ();
 	}
 	
+	@Override
 	public void applyCloseToPrivates () {
 		companies.applyClose ();
 	}
 	
+	@Override
 	public void removeAllBids () {
 		companies.removeAllBids ();
 	}
@@ -52,10 +55,12 @@ public class PrivatesFrame extends CorporationTableFrame {
 		return (super.createCompaniesListDefinitions (aXMLDocument));
 	}
 
+	@Override
 	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
 		return (super.getCorporationStateElements (aXMLDocument, EN_PRIVATES));
 	}
 	
+	@Override
 	public int getCountOfSelectedCertificates () {
 		return super.getCountOfSelectedCertificates ();
 	}

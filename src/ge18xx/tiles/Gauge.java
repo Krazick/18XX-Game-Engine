@@ -38,6 +38,7 @@ public class Gauge implements Cloneable {
 		gauge = NO_TYPE;
 	}
 	
+	@Override
 	public Gauge clone () {
 		try {
 			Gauge tGauge = (Gauge) super.clone ();

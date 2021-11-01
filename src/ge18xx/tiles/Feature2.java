@@ -82,6 +82,7 @@ public class Feature2 extends Feature {
 		}
 	}
 
+	@Override
 	public void printlog () {
 		super.printlog ();
 		location2.printlog ();

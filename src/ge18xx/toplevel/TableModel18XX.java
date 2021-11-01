@@ -51,7 +51,8 @@ public class TableModel18XX extends AbstractTableModel {
 		return tGoodAdd;
 	}
 	
-    public Class<?> getColumnClass (int col) {
+    @Override
+	public Class<?> getColumnClass (int col) {
 		Object tValueAt;
 		
 		if ((col >= 0) && (col < colCount)) {
@@ -66,11 +67,13 @@ public class TableModel18XX extends AbstractTableModel {
 		}
     }
 	
-    public int getColumnCount () {
+    @Override
+	public int getColumnCount () {
         return headers.length;
     }
 	
-    public String getColumnName (int col) {
+    @Override
+	public String getColumnName (int col) {
 		if ((col >= 0) && (col < colCount)) {
 			return headers [col];
 		} else {
@@ -78,11 +81,13 @@ public class TableModel18XX extends AbstractTableModel {
 		}
     }
 	
-    public int getRowCount () {
+    @Override
+	public int getRowCount () {
         return data.length;
     }
 	
-    public Object getValueAt (int row, int col) {
+    @Override
+	public Object getValueAt (int row, int col) {
 		if ((row >= 0) && (row < rowCount)) {
 			if ((col >= 0) && (col < colCount)) {
 				if (data [row] [col] != null) {
@@ -102,7 +107,8 @@ public class TableModel18XX extends AbstractTableModel {
      * Don't need to implement this method unless your table's
      * editable.
      */
-    public boolean isCellEditable (int row, int col) {
+    @Override
+	public boolean isCellEditable (int row, int col) {
         //Note that the data/cell address is constant,
         //no matter where the cell appears onscreen.
         if (col < 2) {
@@ -116,7 +122,8 @@ public class TableModel18XX extends AbstractTableModel {
      * Don't need to implement this method unless your table's
      * data can change.
      */
-    public void setValueAt (Object value, int row, int col) {
+    @Override
+	public void setValueAt (Object value, int row, int col) {
         data [row] [col] = value;
         fireTableCellUpdated (row, col);
     }

@@ -104,6 +104,7 @@ public class Track implements Cloneable {
 		setTrainNumber (NO_TRAIN);
 	}
 	
+	@Override
 	public Track clone () {
 		try {
 			Track tTrack = (Track) super.clone ();

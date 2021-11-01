@@ -71,6 +71,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 		return tCanDeadEndTrack;
 	}
 	
+	@Override
 	public TileType clone () {
 		try {
 			TileType tTileType = (TileType) super.clone ();
@@ -134,6 +135,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 		return type;
 	}
 	
+	@Override
 	public String getTypeName () {
 		return "Tile Type";
 	}
@@ -159,6 +161,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 		return fixed;
 	}
 	
+	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNodeList tXMLNodeList;
 		XMLNode XMLMapRoot;

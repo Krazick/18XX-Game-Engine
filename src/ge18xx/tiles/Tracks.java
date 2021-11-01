@@ -55,6 +55,7 @@ public class Tracks implements Cloneable {
 		}
 	}
 	
+	@Override
 	public Tracks clone () {
 		List<Track> tSegmentsCopy = new LinkedList<Track> ();
 		for (Track tSegment : segments) {
@@ -143,6 +144,7 @@ public class Tracks implements Cloneable {
 		return segments.size ();
 	}
 	
+	@Override
 	public String toString () {
 		return segments.toString ();
 	}

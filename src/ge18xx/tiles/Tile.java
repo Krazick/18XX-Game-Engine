@@ -202,6 +202,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers.getMapTokenFor (aCorporationID);
 	}
 	
+	@Override
 	public Tile clone () {
 		try {
 			Tile tTile = (Tile) super.clone ();
@@ -223,6 +224,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		}
 	}
 	
+	@Override
 	public int compareTo (Object oTile) throws ClassCastException {
 		if (!(oTile instanceof Tile)) {
 			throw new ClassCastException ("A Tile object expected.");
@@ -732,6 +734,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 			name = new TileName (aChildNode);
 		}
 
+		@Override
 		public void foundItemMatchKey2 (XMLNode aChildNode) {
 			Track tSegment;
 			
@@ -739,6 +742,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 			tracks.add (tSegment);
 		}
 		
+		@Override
 		public void foundItemMatchKey3 (XMLNode aChildNode) {
 			String tRCType;
 			RevenueCenter tCenter;

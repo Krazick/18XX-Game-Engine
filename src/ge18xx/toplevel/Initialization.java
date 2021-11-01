@@ -45,6 +45,7 @@ public class Initialization extends JFrame {
         JPanel buttonPanel = new JPanel (new FlowLayout (FlowLayout.RIGHT, 10, 10));
         buttonPanel.add (okButton);
         okButton.addActionListener (new ActionListener () {
+			@Override
 			public void actionPerformed (ActionEvent newEvent) {
 				setVisible (false);
 			}	
@@ -70,6 +71,7 @@ public class Initialization extends JFrame {
 			}
 			group.add (tGameChoice);
 			tGameChoice.addActionListener (new ActionListener () {
+				@Override
 				public void actionPerformed (ActionEvent newEvent) {
 					selectedGame = newEvent.getActionCommand ();
 				}	

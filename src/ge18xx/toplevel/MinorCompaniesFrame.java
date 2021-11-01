@@ -30,6 +30,7 @@ public class MinorCompaniesFrame extends CorporationTableFrame {
 		return (super.createCompaniesListDefinitions (aXMLDocument));
 	}
 
+	@Override
 	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
 		return (super.getCorporationStateElements (aXMLDocument, EN_MINORS));
 	}

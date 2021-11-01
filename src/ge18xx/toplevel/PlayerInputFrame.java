@@ -143,7 +143,8 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		gameSet.addGameInfo (centerComponents);
 	}
 	
-    public void actionPerformed (ActionEvent aEvent) {
+    @Override
+	public void actionPerformed (ActionEvent aEvent) {
 		if (RANDOMIZE_ORDER.equals (aEvent.getActionCommand ())) {
 			randomizePlayerOrder ();
 		}
@@ -213,10 +214,12 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		fixClientPlayer ();
 	}
 
+	@Override
 	public void focusGained (FocusEvent aEvent) {
     }
 	
-    public void focusLost (FocusEvent aEvent) {
+    @Override
+	public void focusLost (FocusEvent aEvent) {
 		Object tEventObject = aEvent.getSource ();
 		
 		if (tEventObject instanceof JTextField) {

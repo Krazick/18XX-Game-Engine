@@ -22,6 +22,7 @@ public class CoalCompaniesFrame extends CorporationTableFrame {
 		return (super.createCompaniesListDefinitions (aXMLDocument));
 	}
 
+	@Override
 	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
 		return (super.getCorporationStateElements (aXMLDocument, EN_COALS));
 	}

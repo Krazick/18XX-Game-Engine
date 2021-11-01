@@ -37,6 +37,7 @@ public class PrefPane extends JFrame {
         JPanel buttonPanel = new JPanel (new FlowLayout (FlowLayout.RIGHT, 10, 10));
         buttonPanel.add (okButton);
         okButton.addActionListener (new ActionListener () {
+			@Override
 			public void actionPerformed (ActionEvent newEvent) {
 				setVisible (false);
 			}	

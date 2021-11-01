@@ -58,6 +58,7 @@ public class Feature implements Cloneable {
 		return location.calcCenter (aHex);
 	}
 	
+	@Override
 	public Feature clone () {
 		try {
 			Feature tFeature = (Feature) super.clone ();
