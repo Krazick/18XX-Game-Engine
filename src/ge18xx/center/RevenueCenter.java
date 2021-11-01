@@ -34,13 +34,13 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public static final AttributeName AN_TYPE = new AttributeName ("type");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_ID = new AttributeName ("id");
-	static final int NO_ROTATION = 0;
+	public static final RevenueCenter NO_CENTER = null;
 	public static final int NO_ID = 0;
+	static final int NO_ROTATION = 0;
 	static final int NO_VALUE = 0;
 	static final int STATION_NOT_POSSIBLE = -1;
-	static final String NO_NAME = "";
 	static final int MAX_TRAIN_COUNT = 6;
-	public static final RevenueCenter NO_CENTER = null;
+	static final String NO_NAME = "";
 	int id;
 	String name;
 	Revenues revenues;
@@ -197,6 +197,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		cityInfo.clearCorporation ();
 	}
 	
+	@Override
 	public RevenueCenter clone () {
 		RevenueCenter tRevenueCenter = (RevenueCenter) super.clone ();
 		tRevenueCenter.id = id;
@@ -455,6 +456,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		return cityInfo.mapCellHasStation (aToken);
 	}
 	
+	@Override
 	public void printlog () {
 		System.out.println ("Revenue Center id " + id + " Name " + name);
 		super.printlog ();

@@ -51,10 +51,12 @@ public class Town extends RevenueCenter {
 		super (aRCType, aID, aLocation, aName, aValue, aTileType);
 	}
 	
+	@Override
 	public boolean cityOrTown () {
 		return (true);
 	}
 	
+	@Override
 	public boolean containingPoint (Point aPoint, Hex aHex, int Xc, int Yc, int aTileOrient) {
 		boolean tContainingPoint = false;
 		int X1, Y1, X2, Y2;
@@ -78,6 +80,7 @@ public class Town extends RevenueCenter {
 		return tContainingPoint;
 	}
 		
+	@Override
 	public void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile, Feature2 aSelectedFeature) {
 		int X1, Y1, X2, Y2;
 		int X3, Y3;

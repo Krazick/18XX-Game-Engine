@@ -54,10 +54,12 @@ public class TownTick extends Town {
 		super (aRCType, aID, aLocation, aName, aValue, aTileType);
 	}
 		
+	@Override
 	public boolean cityOrTown () {
 		return (true);
 	}
 	
+	@Override
 	public boolean containingPoint (Point aPoint, Hex aHex, int Xc, int Yc, int aTileOrient) {
 		boolean tContainingPoint = false;
 		int X1, Y1, X2, Y2, Xd, Yd, width, height;
@@ -82,6 +84,7 @@ public class TownTick extends Town {
 		return tContainingPoint;
 	}
 	
+	@Override
 	public void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile, Feature2 aSelectedFeature) {
 		int X1, Y1, X2, Y2, Xd, Yd, X3, Y3, width, height;
 		int temp = aHex.getCityWidth();

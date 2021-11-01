@@ -94,6 +94,7 @@ public class CityInfo implements Cloneable {
 		center = null;
 	}
 	
+	@Override
 	public CityInfo clone () {
 		CityInfo tCityInfo = null;;
 		

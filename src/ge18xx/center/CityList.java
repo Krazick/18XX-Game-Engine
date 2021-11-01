@@ -135,6 +135,7 @@ public class CityList extends InformationTable implements LoadableXMLI {
 		setModel ();
 	}
 	
+	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNodeList tXMLNodeList;
 		XMLNode XMLCityListRoot;

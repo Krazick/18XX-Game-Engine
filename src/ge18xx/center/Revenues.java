@@ -375,6 +375,7 @@ public class Revenues extends Feature {
 		setValues (tValue, tLocation, tPhase, tLayoutStyle);
 	}
 	
+	@Override
 	public void printlog () {
 		int tIndex;
 		int tRevenueCount;

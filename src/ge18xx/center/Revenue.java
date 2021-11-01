@@ -32,6 +32,7 @@ public class Revenue implements Cloneable {
 		}
 	}
 	
+	@Override
 	public Revenue clone () {
 		try {
 			Revenue copy = (Revenue) super.clone ();

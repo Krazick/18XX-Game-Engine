@@ -96,6 +96,7 @@ public class RevenueCenterType implements Cloneable {
 		}
 	}
 	
+	@Override
 	public RevenueCenterType clone () {
 		try {
 			RevenueCenterType tRCT = (RevenueCenterType) super.clone ();
