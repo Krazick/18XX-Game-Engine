@@ -37,7 +37,6 @@ public class Bank extends GameBank implements CashHolderI {
 	public static final ElementName EN_BANK_STATE = new ElementName ("Bank");
 	private static final AttributeName AN_BANK_CASH = new AttributeName ("cash");
 	private static final String BANK_LABEL_PREFIX = "Remaining Bank Cash ";
-	public static final StartPacketFrame NO_START_PACKET = null;
 	public static final String NAME = "Bank";
 	public static final Bank NO_BANK = null;
 	public static final JLabel NO_LABEL = null;
@@ -57,7 +56,7 @@ public class Bank extends GameBank implements CashHolderI {
 	public Bank (int aTreasury, GameManager aGameManager) {
 		super (NAME, aGameManager);
 		treasury = aTreasury;
-		setStartPacketFrame (NO_START_PACKET);
+		setStartPacketFrame (StartPacketFrame.NO_START_PACKET);
 		setFormat ("");
 		setBankCashLabel (null);
 		closedPortfolio = new Portfolio (this);
@@ -274,7 +273,7 @@ public class Bank extends GameBank implements CashHolderI {
 	public StartPacketPortfolio getStartPacketPortfolio () {
 		StartPacketPortfolio tStartPacketPortfolio;
 		
-		if (startPacketFrame == NO_START_PACKET) {
+		if (startPacketFrame == StartPacketFrame.NO_START_PACKET) {
 			tStartPacketPortfolio = StartPacketPortfolio.NO_START_PACKET;
 		} else {
 			tStartPacketPortfolio = startPacketFrame.getStartPacketPortfolio ();

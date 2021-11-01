@@ -33,6 +33,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	private static final ElementName EN_ITEM = new ElementName ("Item");
 	private static final long serialVersionUID = 1L;
 	private static final int NO_ACTIVE_ROW = -1;
+	public static final StartPacketFrame NO_START_PACKET = null;
 	public static final StartPacketRow NO_ROW = null;
 	List<StartPacketRow> startPacketRows;
 	GameManager gameManager;
