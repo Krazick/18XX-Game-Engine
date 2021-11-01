@@ -59,8 +59,6 @@ public class Certificate implements Comparable<Certificate> {
 	private static String BANK_POOL_OWNER = "BankPool";
 	public static final String NO_CERTIFICATE_NAME = "";
 	public static final Certificate NO_CERTIFICATE = null;
-	public static final XMLElement NO_BIDDERS = null;
-	public static final int NO_BIDDER = 0;
 	public static final String NO_TOOL_TIP = "";
 	public static final String NO_REASON = ">> NO REASON <<";
 	public static final String NOT_ENOUGH_CASH = "Player does not have enough Cash";
@@ -79,7 +77,6 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String CANNOT_EXCHANGE_PRESIDENT = "Cannot exchange President Share";
 	public static final String COMPANY_NOT_OPERATED = "Share Company has NOT operated yet";
 	public static final String HAVE_MUST_BUY = "Must buy the Private where COST == DISCOUNT";
-	static final Corporation NO_COMPANY = null;
 	static final JCheckBox NO_CHECKED_BOX = null;
 	static final int NO_PERCENTAGE = 0;
 	static final float X_LEFT_ALIGNMENT = 0.0f;
@@ -98,7 +95,7 @@ public class Certificate implements Comparable<Certificate> {
 	Bidders bidders;
 	
 	public Certificate () {
-		this (NO_COMPANY, false, NO_PERCENTAGE, NO_OWNER);
+		this (Corporation.NO_CORPORATION, false, NO_PERCENTAGE, NO_OWNER);
 	}
 	
 	public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage, CertificateHolderI aOwner) {
@@ -144,7 +141,7 @@ public class Certificate implements Comparable<Certificate> {
 		if (tAllowedOwners != null) {
 			allowedOwners = tAllowedOwners.split (",");
 		}
-		setCorporation (NO_COMPANY);
+		setCorporation (Corporation.NO_CORPORATION);
 		setOwner (NO_OWNER);
 		checkedButton = null;
 		parValuesCombo = null;
@@ -692,7 +689,7 @@ public class Certificate implements Comparable<Certificate> {
 		tXMLElement.setAttribute (AN_IS_PRESIDENT, isPresidentShare);
 		tXMLElement.setAttribute (AN_PERCENTAGE, percentage);
 		tXMLBidders = bidders.getOnlyBiddersElement (aXMLDocument);
-		if (tXMLBidders != NO_BIDDERS) {
+		if (tXMLBidders != Bidders.NO_BIDDERS) {
 			tXMLElement.appendChild (tXMLBidders);
 		}
 
