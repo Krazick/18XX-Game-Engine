@@ -23,6 +23,7 @@ public class CoalCompany extends TrainCompany {
 		super (aChildNode, aCorporationList);
 	}
 		
+	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
 			
@@ -31,6 +32,7 @@ public class CoalCompany extends TrainCompany {
 		return tCurrentColumn;
 	}
 		
+	@Override
 	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
 		
@@ -39,6 +41,7 @@ public class CoalCompany extends TrainCompany {
 		return tCurrentColumn;
 	}
 		
+	@Override
 	public ElementName getElementName () {
 		return EN_COAL_COMPANY;
 	}

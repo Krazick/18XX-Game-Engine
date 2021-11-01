@@ -118,15 +118,18 @@ public class TilePlacementBenefit extends MapBenefit {
 		}
 	}
 	
+	@Override
 	public boolean realBenefit () {
 		return true;
 	}
 	
+	@Override
 	public void abortUse () {
 		resetBenefitInUse ();
 	}
 	
 	// If this is an Extra Tile Placement Benefit, we DO NOT want to Change the State
+	@Override
 	public boolean changeState () {
 		return ! extraTilePlacement;
 	}

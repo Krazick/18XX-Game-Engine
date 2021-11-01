@@ -134,6 +134,7 @@ public class MapToken extends Token {
 		System.out.println ("");	
 	}
 	
+	@Override
 	public void printlog () {
 		super.printlog ();
 		if (mapCell == MapCell.NO_MAP_CELL) {

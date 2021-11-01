@@ -31,6 +31,7 @@ public class MinorCompany extends TokenCompany {
 		upgradePercentage = aChildNode.getThisIntAttribute (AN_UPGRADE_PERCENTAGE);
 	}
 	
+	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
 		
@@ -42,6 +43,7 @@ public class MinorCompany extends TokenCompany {
 		return tCurrentColumn;
 	}
 	
+	@Override
 	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
 		
@@ -53,10 +55,12 @@ public class MinorCompany extends TokenCompany {
 		return tCurrentColumn;
 	}
 
+	@Override
 	public int fieldCount () {
 		return super.fieldCount () + 3;
 	}
 
+	@Override
 	public XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLCorporationState;
 		
@@ -66,6 +70,7 @@ public class MinorCompany extends TokenCompany {
 		return tXMLCorporationState;
 	}
 	
+	@Override
 	public ElementName getElementName () {
 		return EN_MINOR_COMPANY;
 	}
@@ -78,10 +83,12 @@ public class MinorCompany extends TokenCompany {
 		}
 	}
 	
+	@Override
 	public String getStatusName () {
 		return super.getStatusName ();
 	}
 	
+	@Override
 	public String getType () {
 		return MINOR_COMPANY;
 	}

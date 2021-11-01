@@ -75,6 +75,7 @@ public abstract class TokenCompany extends TrainCompany {
 		}
 	}
 	
+	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
 		int tTokenCount;
@@ -86,6 +87,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return tCurrentColumn;
 	}
 	
+	@Override
 	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
 		
@@ -158,10 +160,12 @@ public abstract class TokenCompany extends TrainCompany {
 		}
 	}
 	
+	@Override
 	public JLabel buildTokenLabel () {
 		return new JLabel ("");
 	}
 
+	@Override
 	public String getTokenLabel () {
 		return "Token Count: " + getTokenCount ();
 	}
@@ -171,6 +175,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return true;
 	}
 
+	@Override
 	public boolean canLayToken () {
 		boolean tCanLayToken;
 		
@@ -190,6 +195,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return tCanLayToken;
 	}
 
+	@Override
 	public String reasonForNoTokenLay () {
 		String tReason;
 		
@@ -272,6 +278,7 @@ public abstract class TokenCompany extends TrainCompany {
 		g.setColor (tCurrentColor);
 	}
 	
+	@Override
 	public Color getBgColor () {
 		return bgColor;
 	}
@@ -286,6 +293,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return super.fieldCount () + 1;
 	}
 
+	@Override
 	public XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLCorporationState;
 		
@@ -295,10 +303,12 @@ public abstract class TokenCompany extends TrainCompany {
 		return tXMLCorporationState;
 	}
 	
+	@Override
 	public void appendOtherElements (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		super.appendOtherElements (aXMLCorporationState, aXMLDocument);	
 	}
 
+	@Override
 	public void getCorporationStateElement (XMLElement aXMLCorporationState) {
 		aXMLCorporationState.setAttribute (AN_AVAILABLE_TOKEN_COUNT, getTokenCount ());
 		super.getCorporationStateElement (aXMLCorporationState);
@@ -338,6 +348,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return totalTokenCount;
 	}
 	
+	@Override
 	public boolean haveMoneyForToken () {
 		boolean tHaveMoneyForToken = true;
 		
@@ -361,6 +372,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return tHaveLaidThisBaseToken;
 	}
 	
+	@Override
 	public boolean choiceForBaseToken () {
 		boolean tChoiceForBaseToken = false;
 		
@@ -382,6 +394,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return tHaveLaidAllBaseTokens;
 	}
 	
+	@Override
 	public void loadStatus (XMLNode aXMLNode) {
 		super.loadStatus (aXMLNode);
 	}

@@ -55,6 +55,7 @@ public class MapBenefit extends Benefit {
 		return mapCellID;
 	}
 	
+	@Override
 	public int getCost () {
 		return cost;
 	}
@@ -63,6 +64,7 @@ public class MapBenefit extends Benefit {
 		return sameTurn;
 	}
 
+	@Override
 	public String getNewButtonLabel () {
 		return null;
 	}
@@ -114,6 +116,7 @@ public class MapBenefit extends Benefit {
 		}
 	}
 	
+	@Override
 	public void completeBenefitUse () {
 		Corporation tOwningCompany;
 		CloseCompanyAction tCloseCompanyAction;

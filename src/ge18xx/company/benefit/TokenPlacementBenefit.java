@@ -155,10 +155,12 @@ public class TokenPlacementBenefit extends MapBenefit {
 		}
 	}
 	
+	@Override
 	public boolean realBenefit () {
 		return true;
 	}
 	
+	@Override
 	public boolean changeState () {
 		return true;
 	}
