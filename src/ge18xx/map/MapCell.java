@@ -659,7 +659,7 @@ public class MapCell implements Comparator<Object> {
 					tTip += "Build Cost: " + tTerrainCost + "<br>";
 				}
 			}
-			if (rebate != Rebate.NO_REBATEX) {
+			if (rebate != Rebate.NO_REBATE) {
 				tTip += "Rebate: " + rebate.getAmount () + "<br>";
 			}
 			tTip += "</html>";
@@ -821,7 +821,7 @@ public class MapCell implements Comparator<Object> {
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		tile = Tile.NO_TILE;
-		rebate = Rebate.NO_REBATEX;
+		rebate = Rebate.NO_REBATE;
 		id = aID;
 		for (tChildrenIndex = 0; tChildrenIndex < tChildrenCount; tChildrenIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tChildrenIndex));
@@ -1385,7 +1385,7 @@ public class MapCell implements Comparator<Object> {
 		clearSelected ();
 		startingTileNumber = Tile.NOT_A_TILE;
 		startingTile = false;
-		rebate = Rebate.NO_REBATEX;
+		rebate = Rebate.NO_REBATE;
 		clearTrainUsingSides ();
     }
 	
