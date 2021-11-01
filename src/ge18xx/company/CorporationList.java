@@ -65,9 +65,8 @@ import javax.swing.border.Border;
 //  Should be able to specify this as a Generic Class, where the TYPE extends Corporation
 
 public class CorporationList extends InformationTable implements LoadableXMLI, ParsingRoutineI {
-	public final static ElementName EN_CORPORATIONS = new ElementName ("Corporations");
 	private static final long serialVersionUID = 1L;
-	static final ElementName NO_TYPE_NAME = null;
+	public final static ElementName EN_CORPORATIONS = new ElementName ("Corporations");
 	public static final int NO_CORPORATION_INDEX = -1;
 	public static final CorporationList NO_CORPORATION_LIST = null;
 	public static final ElementName TYPE_NAMES [] = { 
@@ -705,7 +704,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		XMLNodeList tXMLNodeList;
 		XMLNode XMLCorporationListRoot;
 		
-		if (typeName == NO_TYPE_NAME) {
+		if (typeName == ElementName.NO_ELEMENT_NAME) {
 			System.err.println ("Before loading Corporations, need to know which Type to load.");
 		} else {
 			XMLCorporationListRoot = aXMLDocument.getDocumentElement ();
@@ -799,7 +798,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		if (tFoundType) {
 			typeName = aTypeName;
 		} else {
-			typeName = NO_TYPE_NAME;
+			typeName = ElementName.NO_ELEMENT_NAME;
 		}
 	}
 	

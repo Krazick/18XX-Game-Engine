@@ -67,7 +67,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public final static String OPERATED_NO_REVENUE = "Train Operated but no Revenue has been generated.";
 	public static final TrainCompany NO_TRAIN_COMPANY = null;
 	static final int NO_COST = 0;
-	static final int NO_REVENUE = -1;
+	static final int NO_REVENUE_GENERATED = -1;
 	static final float LEFT_ALIGNMENT = 0.0f;
 	String bgColorName;
 	String fgColorName;
@@ -111,8 +111,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		fgColor = aFgColor;
 		treasury = 0;
 		value = aCost;
-		setThisRevenue (NO_REVENUE);
-		setLastRevenue (NO_REVENUE);
+		setThisRevenue (NO_REVENUE_GENERATED);
+		setLastRevenue (NO_REVENUE_GENERATED);
 		if (aID != Corporation.NO_ID) {
 			setupTrainRevenueFrame ();
 			setCorporationFrame ();
@@ -171,7 +171,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tPreviousRevenue = lastRevenue;
 		
 		setLastRevenue (thisRevenue);
-		setThisRevenue (NO_REVENUE);
+		setThisRevenue (NO_REVENUE_GENERATED);
 		if (tCurrentRevenue != tPreviousRevenue) {
 			tPreparedCorporationAction.addUpdateLastRevenueEffect (this, thisRevenue, lastRevenue);
 		}
@@ -803,7 +803,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		String tFormattedThisRevenue;
 		int tThisRevenue = getThisRevenue ();
 		
-		if (tThisRevenue == NO_REVENUE) {
+		if (tThisRevenue == NO_REVENUE_GENERATED) {
 			tFormattedThisRevenue = "NONE";
 		} else {
 			tFormattedThisRevenue = Bank.formatCash (tThisRevenue);
@@ -817,7 +817,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		String tFormattedLastRevenue;
 		int tLastRevenue = getLastRevenue ();
 		
-		if (tLastRevenue == NO_REVENUE) {
+		if (tLastRevenue == NO_REVENUE_GENERATED) {
 			tFormattedLastRevenue = "NONE";
 		} else {
 			tFormattedLastRevenue = Bank.formatCash (tLastRevenue);
@@ -1083,7 +1083,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
 		
 		tRevenueGenerated = 0;
-		if (thisRevenue != NO_REVENUE) {
+		if (thisRevenue != NO_REVENUE_GENERATED) {
 			tRevenueGenerated = thisRevenue;
 		}
 		tCurrentStatus = status;
@@ -1124,7 +1124,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
 		
 		tRevenueGenerated = 0;
-		if (thisRevenue != NO_REVENUE) {
+		if (thisRevenue != NO_REVENUE_GENERATED) {
 			tRevenueGenerated = thisRevenue;
 		}
 		tCurrentStatus = status;

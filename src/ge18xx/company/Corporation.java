@@ -422,7 +422,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public int getLastRevenue () {
-		return TrainCompany.NO_REVENUE; 
+		return TrainCompany.NO_REVENUE_GENERATED; 
 	}
 	
 	// Train Company will override
@@ -476,7 +476,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	public int getThisRevenue () { 
-		return TrainCompany.NO_REVENUE; 
+		return TrainCompany.NO_REVENUE_GENERATED; 
 	}
 	
 	public void close () {

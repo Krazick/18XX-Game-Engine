@@ -1073,8 +1073,8 @@ public class PlayerManager {
 			// This time transfer the Ownership of the stock certificates to the Bank Portfolio, and adjust the Stock Price
 			tStartMarketCell = MarketCell.NO_MARKET_CELL;
 			tShareCompany = (ShareCompany) Corporation.NO_ACTOR;
-			tStartLocation = TokenStack.NO_LOCATION;
-			tNewLocation = TokenStack.NO_LOCATION;
+			tStartLocation = TokenStack.NO_STACK_LOCATION;
+			tNewLocation = TokenStack.NO_STACK_LOCATION;
 			tNewMarketCell = tStartMarketCell;
 			tCurrentPresident = Player.NO_PLAYER;
 			for (Certificate tCertificate : tCertificatesToSell) {

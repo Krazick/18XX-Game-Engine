@@ -25,8 +25,7 @@ import java.util.LinkedList;
 
 public class TokenStack {
 	public static final ElementName EN_TOKENS = new ElementName ("Tokens");
-	public static final Token NO_TOKEN = null;
-	public static final int NO_LOCATION = -1;
+	public static final int NO_STACK_LOCATION = -1;
 	LinkedList<Token> tokens;
 	MarketCell marketCell;
 	
@@ -39,9 +38,9 @@ public class TokenStack {
 		tokens.addFirst (aToken);
 	}
 	
-	public void addTokenToLocation (int aLocation, Token aToken) {
-		if (aLocation != NO_LOCATION) {
-			tokens.add (aLocation, aToken);
+	public void addTokenToLocation (int aStackLocation, Token aToken) {
+		if (aStackLocation != NO_STACK_LOCATION) {
+			tokens.add (aStackLocation, aToken);
 		}
 	}
 	
@@ -56,8 +55,8 @@ public class TokenStack {
 		Corporation tCorporation;
 		
 		tTokenCount = getTokenCount ();
-		tLocation1 = -1;
-		tLocation2 = -1;
+		tLocation1 = NO_STACK_LOCATION;
+		tLocation2 = NO_STACK_LOCATION;
 		for (tTokenIndex = tTokenCount - 1; tTokenIndex >= 0; tTokenIndex--) {
 			tToken = getTokenAtIndex (tTokenIndex);
 			tCorporation = (Corporation) tToken.getWhichCompany ();
@@ -69,7 +68,7 @@ public class TokenStack {
 			}
 		}
 
-		if ((tLocation1 == -1) || (tLocation2 == -1)) {
+		if ((tLocation1 == NO_STACK_LOCATION) || (tLocation2 == NO_STACK_LOCATION)) {
 			tCompareLocation = 0;
 		} else {
 			tCompareLocation = tLocation2 - tLocation1;
@@ -120,17 +119,18 @@ public class TokenStack {
 		MarketCell tMarketCell;
 		MarketCell tNewMarketCell;
 		String tCompanyAbbrev;
-		int tStartLocation, tNewLocation;
+		int tStartStackLocation, tNewStackLocation;
 		
 		tCompanyAbbrev = aShareCompany.getAbbrev ();
 		tMarketCell = aShareCompany.getSharePriceMarketCell ();
 		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 			tNewMarketCell = tMarketCell.getDividendHoldMarketCell ();
-			tStartLocation = tMarketCell.getTokenLocation (tCompanyAbbrev);
+			tStartStackLocation = tMarketCell.getTokenLocation (tCompanyAbbrev);
 			if (tMarketCell != tNewMarketCell) {
 				moveTokenToNewMarketCell (aShareCompany, tMarketCell, tNewMarketCell);
-				tNewLocation = tNewMarketCell.getTokenLocation (tCompanyAbbrev);
-				aPayNoDividendAction.addChangeMarketCellEffect (aShareCompany, tMarketCell, tStartLocation, tNewMarketCell, tNewLocation);
+				tNewStackLocation = tNewMarketCell.getTokenLocation (tCompanyAbbrev);
+				aPayNoDividendAction.addChangeMarketCellEffect (aShareCompany, tMarketCell, tStartStackLocation, 
+								tNewMarketCell, tNewStackLocation);
 			}
 		}
 	}
@@ -139,17 +139,18 @@ public class TokenStack {
 		MarketCell tMarketCell;
 		MarketCell tNewMarketCell;
 		String tCompanyAbbrev;
-		int tStartLocation, tNewLocation;
+		int tStartStackLocation, tNewStackLocation;
 		
 		tCompanyAbbrev = aShareCompany.getAbbrev ();
 		tMarketCell = aShareCompany.getSharePriceMarketCell ();
 		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 			tNewMarketCell = tMarketCell.getDividendPayMarketCell ();
-			tStartLocation = tMarketCell.getTokenLocation (tCompanyAbbrev);
+			tStartStackLocation = tMarketCell.getTokenLocation (tCompanyAbbrev);
 			if (tMarketCell != tNewMarketCell) {
 				moveTokenToNewMarketCell (aShareCompany, tMarketCell, tNewMarketCell);
-				tNewLocation = tNewMarketCell.getTokenLocation (tCompanyAbbrev);
-				aPayFullDividendAction.addChangeMarketCellEffect (aShareCompany, tMarketCell, tStartLocation, tNewMarketCell, tNewLocation);
+				tNewStackLocation = tNewMarketCell.getTokenLocation (tCompanyAbbrev);
+				aPayFullDividendAction.addChangeMarketCellEffect (aShareCompany, tMarketCell, 
+							tStartStackLocation, tNewMarketCell, tNewStackLocation);
 			}
 		}
 	}
@@ -179,7 +180,7 @@ public class TokenStack {
 	public Token findTokenFor (String aCompanyAbbrev) {
 		Token tThisToken;
 		
-		tThisToken = NO_TOKEN;
+		tThisToken = Token.NO_TOKEN;
 		for (Token tToken : tokens) {
 			if (tToken.isCorporationAbbrev (aCompanyAbbrev)) {
 				tThisToken = tToken;
@@ -192,7 +193,7 @@ public class TokenStack {
 	public int getLocation (String aCompanyAbbrev) {
 		int tLocation, tIndex;
 		
-		tLocation = NO_LOCATION;
+		tLocation = NO_STACK_LOCATION;
 		tIndex = 0;
 		for (Token tToken : tokens) {
 			if (tToken.isCorporationAbbrev (aCompanyAbbrev)) {
@@ -265,7 +266,7 @@ public class TokenStack {
 	public Token removeToken (String aCompanyAbbrev) {
 		Token tToken;
 		
-		tToken = NO_TOKEN;
+		tToken = Token.NO_TOKEN;
 		if (getTokenCount () > 0) {
 			tToken = findTokenFor (aCompanyAbbrev);
 			tokens.remove (tToken);

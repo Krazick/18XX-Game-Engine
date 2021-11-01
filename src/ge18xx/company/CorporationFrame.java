@@ -556,7 +556,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			payHalfDividendActionButton.setEnabled (false);
 			tDisableToolTipReason = IN_TOKEN_MODE;
 			payHalfDividendActionButton.setToolTipText (tDisableToolTipReason);				
-		} else if ((aTrainCount > 0) && (corporation.getThisRevenue () == TrainCompany.NO_REVENUE)) {
+		} else if ((aTrainCount > 0) && (corporation.getThisRevenue () == TrainCompany.NO_REVENUE_GENERATED)) {
 			payHalfDividendActionButton.setEnabled (false);
 			tDisableToolTipReason = "No Dividends calculated yet";
 			payHalfDividendActionButton.setToolTipText (tDisableToolTipReason);

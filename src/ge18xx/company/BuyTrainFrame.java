@@ -252,7 +252,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		
 		tOwningPresidentName = aOwningTrainCompany.getPresidentName ();
 		tPresidentName = trainCompany.getPresidentName ();
-		if (tOwningPresidentName.equals(tPresidentName)) {
+		if (tOwningPresidentName.equals (tPresidentName)) {
 			tSamePresident = true;
 		}
 		

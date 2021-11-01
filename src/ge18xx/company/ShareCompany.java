@@ -43,11 +43,8 @@ public class ShareCompany extends TokenCompany {
 	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	static final AttributeName AN_START_PRICE = new AttributeName ("startPrice");
 	static final String NO_START_CELL = null;
-//	static final MarketCell NO_SHARE_PRICE = null;
-	static final MapCell NO_DESTINATION = null;
 	public static final int NO_PAR_PRICE = -1;
 	public static ShareCompany NO_SHARE_COMPANY = null;
-//	public static final Location NO_DESTINATION_LOCATION = null;
 	static final int NO_LOANS = 0;
 	MarketCell sharePrice;
 	MapCell destination;
@@ -62,7 +59,7 @@ public class ShareCompany extends TokenCompany {
 	public ShareCompany () {
 		super ();
 		setNoPrice ();
-		setValues (NO_PAR_PRICE, MarketCell.NO_SHARE_PRICE, NO_DESTINATION, NO_LOANS, NO_START_CELL);
+		setValues (NO_PAR_PRICE, MarketCell.NO_SHARE_PRICE, MapCell.NO_DESTINATION, NO_LOANS, NO_START_CELL);
 	}
 	
 	public ShareCompany (XMLNode aChildNode, CorporationList aCorporationList) {
@@ -77,7 +74,7 @@ public class ShareCompany extends TokenCompany {
 		tStartCell = aChildNode.getThisAttribute (AN_START_PRICE, NO_START_CELL);
 		tParPrice = aChildNode.getThisIntAttribute (AN_PAR_PRICE, NO_PAR_PRICE);
 		setNoPrice ();
-		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, NO_DESTINATION, NO_LOANS, tStartCell);
+		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, MapCell.NO_DESTINATION, NO_LOANS, tStartCell);
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import org.apache.commons.text.WordUtils;
 
 import ge18xx.bank.Bank;
+import ge18xx.center.Revenue;
 import ge18xx.company.benefit.Benefits;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -43,7 +44,6 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public static final AttributeName AN_MUST_SELL = new AttributeName ("mustSell");
 	public static final AttributeName AN_DISCOUNT = new AttributeName ("discount");
 	public static final PrivateCompany NO_PRIVATE_COMPANY = null;
-	public static final int NO_REVENUE = 0;
 	private static final int DISCOUNT = 5;
 	private static final int INITIAL_DISCOUNT = 0;
 	int cost;
@@ -57,7 +57,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	Benefits benefits;
 	
 	public PrivateCompany () {
-		this (Corporation.NO_ID, Corporation.NO_NAME, Corporation.NO_ABBREV, NO_COST, NO_REVENUE, 
+		this (Corporation.NO_ID, Corporation.NO_NAME, Corporation.NO_ABBREV, NO_COST, Revenue.NO_REVENUE_VALUE, 
 				MapCell.NO_MAP_CELL, Location.NO_LOC, MapCell.NO_MAP_CELL, 
 				Location.NO_LOC, Corporation.NO_ID, Certificate.NO_PERCENTAGE, 
 				ActorI.ActionStates.Unowned, false);

@@ -17,6 +17,7 @@ import javax.swing.border.CompoundBorder;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.center.Revenue;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
@@ -253,7 +254,7 @@ public class Certificate implements Comparable<Certificate> {
 		}
 		if (isPrivateCompany ()) {
 			tRevenue = getRevenue ();
-			if (tRevenue != PrivateCompany.NO_REVENUE) {
+			if (tRevenue != Revenue.NO_REVENUE_VALUE) {
 				tRevenueInfo = "Revenue: " + Bank.formatCash (tRevenue);
 				tLabel = new JLabel (tRevenueInfo);
 				tCertificateInfoJPanel.add (tLabel);
@@ -901,7 +902,7 @@ public class Certificate implements Comparable<Certificate> {
 		int tRevenue;
 		PrivateCompany iPrivate;
 		
-		tRevenue = PrivateCompany.NO_REVENUE;
+		tRevenue = Revenue.NO_REVENUE_VALUE;
 		if (corporation.isAPrivateCompany ()) {
 			iPrivate = (PrivateCompany) corporation;
 			tRevenue = iPrivate.getRevenue () * percentage/100;
