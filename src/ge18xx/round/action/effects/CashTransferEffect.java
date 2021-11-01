@@ -145,6 +145,7 @@ public class CashTransferEffect extends Effect {
 		return tEffectUndone;
 	}
 	
+	@Override
 	public String getToActorName () {
 		return toActor.getName ();
 	}

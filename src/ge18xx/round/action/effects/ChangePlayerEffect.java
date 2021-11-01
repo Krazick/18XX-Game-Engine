@@ -59,6 +59,7 @@ public class ChangePlayerEffect extends Effect {
 		return previousPlayerIndex;
 	}
 	
+	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		PlayerManager tPlayerManager;
 		Player tPreviousPlayer, tNewPlayer;

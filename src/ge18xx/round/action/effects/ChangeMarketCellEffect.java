@@ -114,6 +114,7 @@ public class ChangeMarketCellEffect extends Effect {
 		return tStartPrice;
 	}
 	
+	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		int tStartPrice;
 		int tNewPrice;

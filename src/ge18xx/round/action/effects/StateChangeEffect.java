@@ -121,8 +121,6 @@ public class StateChangeEffect extends Effect {
 				aRoundManager.startAuctionRound (tNewAuctionAction);
 			} else if (newState == ActorI.ActionStates.OperatingRound) {
 				aRoundManager.startOperatingRound ();
-//				actor.resetPrimaryActionState (newState);
-//				aRoundManager.setOperatingRoundCount ();
 			}
 		} else if (actor.isAOperatingRound ()) {
 			if (newState == ActorI.ActionStates.StockRound) {
@@ -159,6 +157,7 @@ public class StateChangeEffect extends Effect {
 		return tEffectUndone;
 	}
 
+	@Override
 	public boolean wasNewStateAuction () {
 		return (newState.equals (ActorI.ActionStates.AuctionRound));
 	}

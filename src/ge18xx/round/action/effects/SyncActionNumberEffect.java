@@ -37,6 +37,7 @@ public class SyncActionNumberEffect extends Effect {
 		newActionNumber = aNewActionNumber;
 	}
 	
+	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " to " + newActionNumber + ".");
 	}

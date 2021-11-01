@@ -53,6 +53,7 @@ public class ToEffect extends Effect {
 		return tEffectElement;
 	}
 	
+	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " for " + getActorName () + " to " + getToActorName () + ".");
 	}
@@ -65,6 +66,7 @@ public class ToEffect extends Effect {
 		toActor = aToActor;
 	}
 	
+	@Override
 	public String getToActorName () {
 		return toActor.getName ();
 	}

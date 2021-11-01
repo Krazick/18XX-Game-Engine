@@ -53,6 +53,7 @@ public class ApplyDiscountEffect extends Effect {
 		tCertificate.setDiscount (tNewDiscount);
 	}
 	
+	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 

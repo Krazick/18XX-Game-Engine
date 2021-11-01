@@ -50,6 +50,7 @@ public class ShowFrameEffect extends Effect {
 		return jFrame;
 	}
 	
+	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied = false;
 		

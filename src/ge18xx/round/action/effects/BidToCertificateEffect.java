@@ -37,6 +37,7 @@ public class BidToCertificateEffect extends Effect {
 		bidAmount = aEffectNode.getThisIntAttribute (AN_BID_AMOUNT);
 	}
 
+	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 		
