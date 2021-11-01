@@ -342,6 +342,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		return tSelectedStocksToBuyCost;
 	}
 	
+	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
 		// May not need to do anything except update Action Buttons.
 		Portfolio tPortfolio;

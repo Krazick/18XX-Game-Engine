@@ -57,9 +57,9 @@ public class Certificate implements Comparable<Certificate> {
 	private static String IPO_OWNER = "IPO";
 	private static String PLAYER_OWNER = "Player";
 	private static String BANK_POOL_OWNER = "BankPool";
-	public static String NO_CERTIFICATE_NAME = "";
+	public static final String NO_CERTIFICATE_NAME = "";
+	public static final Certificate NO_CERTIFICATE = null;
 	public static final XMLElement NO_BIDDERS = null;
-	public static Certificate NO_CERTIFICATE = null;
 	public static final int NO_BIDDER = 0;
 	public static final String NO_TOOL_TIP = "";
 	public static final String NO_REASON = ">> NO REASON <<";

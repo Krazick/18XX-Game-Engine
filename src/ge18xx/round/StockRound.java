@@ -43,6 +43,7 @@ public class StockRound extends Round {
 		playerManager.clearAllPlayerPasses ();
 	}
 	
+	@Override
 	public void clearAllAuctionStates () {
 		playerManager.clearAllAuctionStates ();
 	}
@@ -86,6 +87,7 @@ public class StockRound extends Round {
 		return getIDPart1 () + "";
 	}
 	
+	@Override
 	public String getName () {
 		return NAME;
 	}
@@ -128,6 +130,7 @@ public class StockRound extends Round {
 		return tXMLElement;
 	}
 	
+	@Override
 	public void loadRound (XMLNode aRoundNode) {
 		super.loadRound (aRoundNode);
 		currentPlayerIndex = aRoundNode.getThisIntAttribute (AN_CURRENT_PLAYER);
@@ -139,6 +142,7 @@ public class StockRound extends Round {
 		return ActorI.ActionStates.StockRound;
 	}
 	
+	@Override
 	public String getStateName () {
 		return getRoundType ().toString ();
 	}
@@ -218,6 +222,7 @@ public class StockRound extends Round {
 		return roundManager.canStartOperatingRound ();
 	}
 	
+	@Override
 	public boolean startOperatingRound () {
 		boolean tStockRoundStarted = true;
 		

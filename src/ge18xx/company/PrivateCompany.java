@@ -111,6 +111,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return tWrappedWords;
 	}
 
+	@Override
 	public void foundItemMatchKey2 (XMLNode aChildNode) {
 		benefits = new Benefits (aChildNode);
 	}
@@ -186,6 +187,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return tCurrentColumn;
 	}
 	
+	@Override
 	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
 		
@@ -247,10 +249,12 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return tCorpLabel;
 	}
 
+	@Override
 	public String getNote () {
 		return note;
 	}
 	
+	@Override
 	public boolean canBuyPrivate () {
 		return corporationList.canBuyPrivate ();
 	}
@@ -280,6 +284,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		discount += DISCOUNT;
 	}
 	
+	@Override
 	public ElementName getElementName () {
 		return EN_PRIVATE;
 	}
@@ -316,6 +321,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return tHolder;
 	}
 	
+	@Override
 	public XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement, tBidders, tXMLBenefits;
 		
@@ -337,6 +343,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return tXMLElement;
 	}
 
+	@Override
 	public int getRevenue () {
 		return revenue;
 	}

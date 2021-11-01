@@ -91,6 +91,7 @@ public class AuctionRaiseAction extends CashTransferAction {
 		return tSimpleActionReport;
 	}
 	
+	@Override
 	public boolean applyAction (RoundManager aRoundManager) {
 		boolean tActionApplied = super.applyAction (aRoundManager);
 		

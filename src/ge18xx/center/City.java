@@ -109,7 +109,7 @@ public class City extends RevenueCenter implements Cloneable {
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
 			if (hasMapTokenAtStation (tIndex)) {
 				tXMLTokenState = aXMLDocument.createElement(EN_CORPORATE_STATION);
-				tXMLTokenState.setAttribute (Corporation.AN_ABBREV, corpStations [tIndex].getCorporationAbbrev());
+				tXMLTokenState.setAttribute (Corporation.AN_ABBREV, corpStations [tIndex].getCorporationAbbrev ());
 				tXMLTokenState.setAttribute (AN_STATION_INDEX, tIndex);
 				tXMLTokenState.setAttribute (Location.AN_LOCATION, location.getLocation ());
 				tXMLTokenState.setAttribute (MapCell.AN_MAP_CELL_ID, corpStations [tIndex].getMapCellID ());
