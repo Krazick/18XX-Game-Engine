@@ -313,6 +313,10 @@ public class TrainPortfolio implements TrainHolderI {
 	public int getTrainCount () {
 		return trains.size ();
 	}
+	
+	public boolean hasNoTrain () {
+		return (getTrainCount () == 0);
+	}
 
 	public Train getTrainOfOrder (int aOrder) {
 		Train tTrainOfOrder;

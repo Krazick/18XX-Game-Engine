@@ -191,10 +191,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		setMustBuyTrain (tMustBuyTrain);
 	}
 	
+	@Override
 	public void addCash (int aAmount) {
 		treasury += aAmount;
 	}
 	
+	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
 		
@@ -208,6 +210,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCurrentColumn;
 	}
 	
+	@Override
 	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
 		
@@ -221,10 +224,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCurrentColumn;
 	}
 
+	@Override
 	public void addTrain (Train aTrain) {
 		trainPortfolio.addTrain (aTrain);
 	}
 	
+	@Override
 	public void appendOtherElements (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		XMLElement tTrainPortfolioElements;
 
@@ -324,6 +329,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tBackgroundBorder;
 	}
 	
+	@Override
 	public Border setupBorder () {
 		Border tCorpBorder, tOuterBorder, tInnerBorder;
 
@@ -412,21 +418,24 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCertPortfolioInfoJPanel;
 	}
 	
+	@Override
 	public void forceBuyTrain () {
 		Train tCheapestTrain;
 		tCheapestTrain = getCheapestBankTrain ();
 		forceBuyTrainFrame = new ForceBuyTrainFrame (this, tCheapestTrain);
 	}
 	
+	@Override
 	public boolean mustBuyTrain () {
 		return mustBuyTrain;
 	}
 
 	@Override
 	public boolean hasNoTrain () {
-		return (trainPortfolio.getTrainCount () == 0);
+		return (trainPortfolio.hasNoTrain ());
 	}
 	
+	@Override
 	public boolean mustBuyTrainNow () {
 		boolean tMustBuyTrainNow = false;
 		
@@ -442,6 +451,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		mustBuyTrain = aMustBuyTrain;
 	}
 	
+	@Override
 	public Train getCheapestBankTrain () {
 		Train tCheapestTrain = null;
 		Train tBankPoolTrain, tBankTrain;
@@ -485,6 +495,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tBuyTrainFrame.requestFocus ();
 	}
 
+	@Override
 	public void buyTrain () {
 		buyTrain (0);
 	}
@@ -568,6 +579,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		corporationFrame.revalidate ();
 	}
 	
+	@Override
 	public boolean trainIsSelected () {
 		boolean tTrainIsSelected = false;
 		Train tTrain;
@@ -584,6 +596,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tTrainIsSelected;
 	}
 	
+	@Override
 	public boolean canLayTile () {
 		boolean tCanLayTile;
 		
@@ -722,6 +735,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return treasury;
 	}
 
+	@Override
 	public CashHolderI getCashHolder () {
 		return (CashHolderI) this;
 	}
@@ -735,6 +749,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return bgColorName;
 	}
 	
+	@Override
 	public XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLCorporationState;
 		
@@ -744,6 +759,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tXMLCorporationState;
 	}
 	
+	@Override
 	public void getCorporationStateElement (XMLElement aXMLCorporationState) {
 		
 		aXMLCorporationState.setAttribute (AN_VALUE, getValue ());
@@ -782,6 +798,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return fgColorName;
 	}
 	
+	@Override
 	public String getFormattedThisRevenue () {
 		String tFormattedThisRevenue;
 		int tThisRevenue = getThisRevenue ();
@@ -795,6 +812,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tFormattedThisRevenue;
 	}
 	
+	@Override
 	public String getFormattedLastRevenue () {
 		String tFormattedLastRevenue;
 		int tLastRevenue = getLastRevenue ();
@@ -808,10 +826,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tFormattedLastRevenue;
 	}
 
+	@Override
 	public int getLastRevenue () {
 		return lastRevenue;
 	}
 	
+	@Override
 	public int getLocalSelectedTrainCount () {
 		int tSelectedTrainCount;
 		
@@ -820,6 +840,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tSelectedTrainCount;
 	}
 	
+	@Override
 	public TrainHolderI getLocalSelectedTrainHolder () {
 		TrainHolderI tTrainHolder = TrainPortfolio.NO_TRAIN_HOLDER;
 		Train tSelectedTrain;
@@ -899,6 +920,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tTrainHolder;
 	}
 	
+	@Override
 	public Train getSelectedTrain () {
 		return trainPortfolio.getSelectedTrain ();
 	}
@@ -917,6 +939,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tStatus;
 	}
 
+	@Override
 	public int getThisRevenue () {
 		return thisRevenue;
 	}
@@ -925,10 +948,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return trainPortfolio.getTrainAt (aIndex);
 	}
 	
+	@Override
 	public Train getTrain (String aName) {
 		return trainPortfolio.getTrain (aName);
 	}
 
+	@Override
 	public int getTrainCount () {
 		int tTrainCount;
 		
@@ -952,14 +977,17 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tTrainLimit;
 	}
 
+	@Override
 	public String getTrainNameAndQty (String aStatus) {
 		return trainPortfolio.getTrainNameAndQty (aStatus);
 	}
 
+	@Override
 	public TrainPortfolio getTrainPortfolio () {
 		return trainPortfolio;
 	}
 	
+	@Override
 	public int getTrainQuantity (String aName) {
 		return trainPortfolio.getTrainQuantity (aName);
 	}
@@ -972,6 +1000,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return value;
 	}
 
+	@Override
 	public boolean hasTrainNamed (String aName) {
 		return trainPortfolio.hasTrainNamed (aName);
 	}
@@ -981,6 +1010,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return trainPortfolio.hasTrainNamed (aTrain.getName ());
 	}
 
+	@Override
 	public void loadStatus (XMLNode aXMLNode) {
 		Bank tBank;
 		
@@ -994,6 +1024,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		super.loadPortfolio (aXMLNode);
 	}
 
+	@Override
 	public void operateTrains () {
 		GameManager tGameManager;
 		Point tFrameOffset;
@@ -1003,6 +1034,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		trainRevenueFrame.operateTrains (tFrameOffset);
 	}
 	
+	@Override
 	public void clearTrainsFromMap () {
 		MapFrame tMapFrame;
 		
@@ -1015,6 +1047,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		trainRevenueFrame.setVisible (false);
 	}
 	
+	@Override
 	public void skipBaseToken () {
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
 		boolean tStatusUpdated;
@@ -1038,6 +1071,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 	
+	@Override
 	public void payNoDividend () {
 		int tRevenueGenerated;
 		PayNoDividendAction tPayNoDividendAction;
@@ -1079,6 +1113,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 	
+	@Override
 	public void payFullDividend () {
 		int tRevenueGenerated;
 		PayFullDividendAction tPayFullDividendAction;
@@ -1163,6 +1198,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 	
+	@Override
 	public boolean canBuyTrain () {
 		boolean tCanBuyTrain = true;
 		
@@ -1180,6 +1216,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCanBuyTrain;
 	}
 	
+	@Override
 	public int getSelectedTrainCount () {
 		Bank tBank;
 		BankPool tBankPool;
@@ -1194,6 +1231,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tSelectedCount;
 	}
 
+	@Override
 	public String reasonForNoBuyTrain () {
 		String tReasonForNoBuyTrain;
 		int tSelectedTrainCount;
@@ -1223,6 +1261,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tReasonForNoBuyTrain;
 	}
 	
+	@Override
 	public String reasonForNoDividendOptions () {
 		String tReason;
 		
@@ -1245,6 +1284,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tReason;
 	}
 	
+	@Override
 	public String reasonForNoDividendPayment () {
 		String tReason;
 		
@@ -1269,6 +1309,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tReason;
 	}
 	
+	@Override
 	public String reasonForNoTileLay () {
 		String tReason;
 		
@@ -1286,6 +1327,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tReason;
 	}
 
+	@Override
 	public String reasonForNoTrainOperation () {
 		String tReason;
 		if (trainPortfolio.getTrainCount () == 0) {
@@ -1297,10 +1339,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tReason;
 	}
 	
+	@Override
 	public boolean removeSelectedTrain () {
 		return trainPortfolio.removeSelectedTrain ();
 	}
 
+	@Override
 	public boolean removeTrain (String aName) {
 		return trainPortfolio.removeTrain (aName);
 	}
@@ -1386,6 +1430,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 	
+	@Override
 	public void completeBenefitUse () {
 		benefitInUse.completeBenefitUse ();		
 	}
@@ -1414,6 +1459,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		corporationFrame.updateInfo ();	
 	}
 	
+	@Override
 	public void transferCashTo (CashHolderI aToHolder, int aAmount) {
 		aToHolder.addCash (aAmount);
 		addCash (-aAmount);
