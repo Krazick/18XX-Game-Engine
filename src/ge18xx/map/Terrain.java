@@ -254,6 +254,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		return terrain;
 	}
 	
+	@Override
 	public String getTypeName () {
 		return EN_TERRAIN.getString ();
 	}
@@ -317,6 +318,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		return tIsSelectable;
 	}
 	
+	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNode XMLMapRoot;
 		XMLNode tChildNode;

@@ -535,6 +535,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tTileNumber;
 	}
 	
+	@Override
 	public String getTypeName () {
 		return "Map";
 	}
@@ -808,6 +809,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tGoodLoad;
 	}
 
+	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNode tXMLMapRoot;
 		XMLNode tChildNode;
@@ -899,6 +901,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	 * 
 	 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
 	 */
+	@Override
 	public void mouseDragged (MouseEvent arg0) {}
 	
 	/*
@@ -906,6 +909,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	 * 
 	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
 	 */
+	@Override
 	public void mouseMoved (MouseEvent arg0) {
 		MapCell tMapCell;
 		
@@ -918,7 +922,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 	
-    public void mouseClicked (MouseEvent e) {
+    @Override
+	public void mouseClicked (MouseEvent e) {
 //    	handleClick (e);
 	}
     
@@ -927,13 +932,17 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		repaint ();
 	}
 	
-    public void mouseEntered (MouseEvent e) {}
+    @Override
+	public void mouseEntered (MouseEvent e) {}
 	
-    public void mouseExited (MouseEvent e) {}
+    @Override
+	public void mouseExited (MouseEvent e) {}
 	
-    public void mousePressed (MouseEvent e) {}
+    @Override
+	public void mousePressed (MouseEvent e) {}
 	
-    public void mouseReleased (MouseEvent e) {
+    @Override
+	public void mouseReleased (MouseEvent e) {
     	handleClick (e);
     }
 	
@@ -958,6 +967,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		redrawMap ();
     }
     
+	@Override
 	public void paintComponent (Graphics g) {
         int rowIndex, colIndex;
 		int rowCount;
@@ -1041,7 +1051,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 	
 	/** Listen to the slider. */
-    public void stateChanged (ChangeEvent e) {
+    @Override
+	public void stateChanged (ChangeEvent e) {
         JSlider source = (JSlider) e.getSource();
         if (!source.getValueIsAdjusting ()) {
             int hexScale = (int) source.getValue ();

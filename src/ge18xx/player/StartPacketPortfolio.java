@@ -20,6 +20,7 @@ public class StartPacketPortfolio extends Portfolio {
 		super (aHolder);
 	}
 	
+	@Override
 	public JPanel buildPortfolioJPanel (boolean aPrivates, boolean aCoals, boolean aMinors, 
 			boolean aShares, String aSelectedButtonLabel, ItemListener aItemListener, 
 			GameManager aGameManager) {

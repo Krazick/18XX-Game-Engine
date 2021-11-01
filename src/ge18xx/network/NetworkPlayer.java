@@ -11,6 +11,7 @@ public class NetworkPlayer {
 		setName (aName);
 	}
 
+	@Override
 	public String toString () {
 		String tFullDisplay;
 		

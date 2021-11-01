@@ -223,6 +223,7 @@ public class JGameClient extends XMLFrame {
 
 	private void setupActions () {
 		connectButton.addActionListener (new ActionListener () {
+			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				setupServerAndPlayer (tAction);
@@ -240,6 +241,7 @@ public class JGameClient extends XMLFrame {
 		});
 		
 		sendMessageButton.addActionListener (new ActionListener () {
+			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 				sendMessage (aActionEvent);
 			}
@@ -256,6 +258,7 @@ public class JGameClient extends XMLFrame {
 		});
 		
 		refreshPlayersButton.addActionListener (new ActionListener () {
+			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				
@@ -272,12 +275,14 @@ public class JGameClient extends XMLFrame {
 		});
 
 		message.addActionListener (new ActionListener () {
+			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 				sendMessage (aActionEvent);
 			}
 		});
 		
 		awayFromKeyboardAFKButton.addActionListener (new ActionListener() {
+			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				
@@ -290,6 +295,7 @@ public class JGameClient extends XMLFrame {
 		});
 
 		showSavedGames.addActionListener (new ActionListener () {
+			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 				
 				if (showSavedGames.getText ().equals (SHOW_SAVED_GAMES)) {
@@ -307,6 +313,7 @@ public class JGameClient extends XMLFrame {
 		});
 			
 		startReadyButton.addActionListener (new ActionListener () {
+			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				
@@ -332,6 +339,7 @@ public class JGameClient extends XMLFrame {
 		});
 
 		disconnectButton.addActionListener (new ActionListener () {
+			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				
@@ -1110,6 +1118,7 @@ public class JGameClient extends XMLFrame {
 		return networkPlayers.playerIsAFK (getName());
 	}
 		
+	@Override
 	public String getName () {
 		return getPlayerName ();
 	}
@@ -1254,7 +1263,8 @@ public class JGameClient extends XMLFrame {
 		savedGamesList.setSelectionMode (ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		savedGamesList.setLayoutOrientation (JList.VERTICAL);
 		savedGamesList.addListSelectionListener (new ListSelectionListener () {
-		      public void valueChanged (ListSelectionEvent aEvent) {
+		      @Override
+			public void valueChanged (ListSelectionEvent aEvent) {
 		    	  savedGameSelected (aEvent);
 		        }
 		      });

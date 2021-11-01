@@ -28,7 +28,9 @@ public interface PortfolioHolderI extends ActorI {
 	
 	public boolean isCompany ();
 	
+	@Override
 	public String getName ();
 	
+	@Override
 	public String getAbbrev ();
 }

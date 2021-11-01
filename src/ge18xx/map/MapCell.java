@@ -1741,6 +1741,7 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 	
+	@Override
 	public boolean equals (Object arg) {
 		if (compare (this, arg) == 0) {
 			return true;
@@ -1749,6 +1750,7 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 	
+	@Override
 	public int hashCode() {
 		assert false : "hashCode not designed";
 		return 42; // any arbitrary constant will do

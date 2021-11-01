@@ -222,6 +222,7 @@ public class Game_18XX extends JFrame {
 		});
 	
 		newGameButton.addActionListener (new ActionListener() {
+			@Override
 			public void actionPerformed (ActionEvent aEvent) {
 				newGame ();
 			}
@@ -252,6 +253,7 @@ public class Game_18XX extends JFrame {
 //		});
 		
 		tQuitButton.addActionListener (new ActionListener() {
+			@Override
 			public void actionPerformed (ActionEvent aEvent) {
 				System.exit (0);
 			}
@@ -330,6 +332,7 @@ public class Game_18XX extends JFrame {
 		getContentPane ().setLayout (groupLayout);
 	}
 
+	@Override
 	public void paint (Graphics g) {
 		super.paint (g);
 	}
@@ -653,6 +656,7 @@ public class Game_18XX extends JFrame {
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 		
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showMap ();
 		}
@@ -666,6 +670,7 @@ public class Game_18XX extends JFrame {
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 		
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showMarket ();
 		}
@@ -679,6 +684,7 @@ public class Game_18XX extends JFrame {
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 		
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showCities ();
 		}
@@ -692,6 +698,7 @@ public class Game_18XX extends JFrame {
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 		
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showTileTray ();
 		}
@@ -705,6 +712,7 @@ public class Game_18XX extends JFrame {
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 		
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showPrivateCompanies ();
 		}
@@ -718,6 +726,7 @@ public class Game_18XX extends JFrame {
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 		
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showMinorCompanies ();
 		}
@@ -731,6 +740,7 @@ public class Game_18XX extends JFrame {
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 		
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showShareCompanies ();
 		}
@@ -744,6 +754,7 @@ public class Game_18XX extends JFrame {
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 		
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showChatClient ();
 		}
@@ -757,6 +768,7 @@ public class Game_18XX extends JFrame {
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 		
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showRoundFrame ();
 		}
@@ -770,6 +782,7 @@ public class Game_18XX extends JFrame {
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 		
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showAuditFrame ();
 		}
@@ -783,6 +796,7 @@ public class Game_18XX extends JFrame {
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 		
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showActionReportFrame ();
 		}
@@ -796,6 +810,7 @@ public class Game_18XX extends JFrame {
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
 		
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			newGame ();
 		}
@@ -817,6 +832,7 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			loadGame ();
 		}
@@ -828,6 +844,7 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			System.out.println ("Close...");
 		}
@@ -839,6 +856,7 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			System.exit (0);
 		}
@@ -850,6 +868,7 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.saveAGame (true);
 		}
@@ -860,6 +879,7 @@ public class Game_18XX extends JFrame {
 		public saveAsActionClass (String text) {
 			super (text);
 		}
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.saveAGame (false);
 		}
@@ -870,6 +890,7 @@ public class Game_18XX extends JFrame {
 		public saveConfigActionClass (String text) {
 			super (text);
 		}
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.saveConfig (false);
 		}
@@ -880,6 +901,7 @@ public class Game_18XX extends JFrame {
 		public frameInfoActionClass (String text) {
 			super (text);
 		}
+		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showFrameInfo ();
 		}

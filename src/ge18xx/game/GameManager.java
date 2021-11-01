@@ -308,6 +308,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		auctionFrame.addPrivateToAuction (tCertificate);
 	}
 	
+	@Override
 	public boolean gameStarted () {
 		return gameStarted;
 	}
@@ -876,6 +877,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return privatesFrame;
 	}
 
+	@Override
 	public RoundManager getRoundManager () {
 		return roundManager;
 	}
@@ -928,6 +930,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return bank.getTrain (aTrainName);
 	}
 	
+	@Override
 	public String getXMLBaseDirectory () {
 		String aBaseDirectory;
 
@@ -948,6 +951,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return bank.getMustSellCertificate ();
 	}
 	
+	@Override
 	public void initiateNetworkGame () {
 		initiateGame (playerInputFrame.getSelectedGame ());
 	}
@@ -1114,6 +1118,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
+	@Override
 	public void loadAutoSavedGame (String aSavedGameFile) {
 		String tAutoSavesDir;
 		String tFullAutoSaveFilePath;
@@ -1198,6 +1203,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
+	@Override
 	public void parseNetworkSavedGames (String aNetworkSavedGames) {
 		String tAutoSavesDir;
 		
@@ -1391,6 +1397,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tileTrayFrame.isVisible ();
 	}
 	
+	@Override
 	public String getGEVersion () {
 		return game18XXFrame.getGEVersion ();
 	}
@@ -1735,6 +1742,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		auctionFrame.setLocation (tNewPoint);
 	}
 
+	@Override
 	public Point getOffsetGEFrame () {
 		return game18XXFrame.getOffsetGEFrame ();
 	}
@@ -1916,14 +1924,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 		networkJGameClient.setFrameToConfigDetails (this);
 	}
 	
+	@Override
 	public JGameClient getNetworkJGameClient () {
 		return networkJGameClient;
 	}
 
+	@Override
 	public String getPlayersInOrder () {
 		return playerInputFrame.getPlayersInOrder ();
 	}
 	
+	@Override
 	public void randomizePlayerOrder () {
 		playerInputFrame.randomizePlayerOrder ();
 	}
@@ -1958,6 +1969,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 	
+	@Override
 	public void handleGameActivity (String aGameActivity) {
 		XMLDocument tXMLGameActivity;
 
@@ -2048,10 +2060,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 		clientUserName = aClientUserName;
 	}
 	
+	@Override
 	public String getClientUserName () {
 		return clientUserName;
 	}
 	
+	@Override
 	public String getGameID () {
 		return gameID;
 	}
@@ -2110,6 +2124,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return new File (getConfigFileName ());
 	}
 	
+	@Override
 	public void addNewFrame (XMLFrame aXMLFrame) {
 		String tXMLFrameName;
 		
@@ -2220,6 +2235,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return playerInputFrame.getSelectedGameIndex ();
 	}
 	
+	@Override
 	public void resetGameID (String aGameID) {
 		if (gameID.equals ("")) {
 			setGameID (aGameID);
@@ -2230,6 +2246,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		gameID = aGameID;
 	}
 	
+	@Override
 	public void setSelectedGameIndex (int aGameIndex) {
 		playerInputFrame.setSelectedGameIndex (aGameIndex);
 	}
@@ -2335,6 +2352,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tTotalCash;
 	}
 	
+	@Override
 	public Player getClientPlayer () {
 		Player tPlayer = Player.NO_PLAYER;
 		

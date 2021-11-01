@@ -230,6 +230,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		return tGameTile.getTheTileType ();
 	}
 	
+	@Override
 	public String getTypeName () {
 		return "Tile Set";
 	}
@@ -253,6 +254,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		}
 	};
 	
+	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNodeList tXMLNodeList;
 		XMLNode tXMLTileSetRoot;
@@ -280,6 +282,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		tXMLNodeList.parseXMLNodeList (aManifestNode, EN_TILE);
 	}
 	
+	@Override
 	public void mouseClicked (MouseEvent e) {
 //		handleClick (e);
 	}
@@ -322,17 +325,21 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	 * 
 	 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
 	 */
+	@Override
 	public void mouseDragged (MouseEvent arg0) {}
 	
-    public void mouseEntered (MouseEvent e) {}
+    @Override
+	public void mouseEntered (MouseEvent e) {}
 	
-    public void mouseExited (MouseEvent e) {}
+    @Override
+	public void mouseExited (MouseEvent e) {}
 	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
 	 */
+	@Override
 	public void mouseMoved (MouseEvent arg0) {
 		GameTile tGameTile;
 		
@@ -349,9 +356,11 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		}
 	}
 	
-    public void mousePressed (MouseEvent e) {}
+    @Override
+	public void mousePressed (MouseEvent e) {}
 	
-    public void mouseReleased (MouseEvent e) {
+    @Override
+	public void mouseReleased (MouseEvent e) {
     	handleClick (e);
     }
 	
@@ -367,6 +376,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
     	return tShowThisTile;
     }
     
+	@Override
 	public void paintComponent (Graphics g) {
 		int X, Y, Xoffset, Yoffset, index, XNum, YNum, YNumOffset;
 		int valueWidth;

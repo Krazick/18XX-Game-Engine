@@ -33,6 +33,7 @@ public class Bidder implements ActorI {
 		amount = aAmount;
 	}
 	
+	@Override
 	public String getName () {
 		return cashHolder.getName ();
 	}

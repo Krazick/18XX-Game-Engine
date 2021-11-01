@@ -124,11 +124,11 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		gameManager = aGameManager;
 	}
 	
-    @SuppressWarnings("static-access")
+    @Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
     	JComboBox<String> tThisComboBox;
     	
-        if (aItemEvent.getStateChange () == aItemEvent.SELECTED) {
+        if (aItemEvent.getStateChange () == ItemEvent.SELECTED) {
         	if (aItemEvent.getSource() instanceof JComboBox) {
            		removeAllRows ();
            		@SuppressWarnings ("unchecked")

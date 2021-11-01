@@ -22,11 +22,13 @@ public class ChatServerHandler extends ServerHandler {
 		sendNewUser ();
 	}
 	
+	@Override
 	public void handleServerMessage (String tMessage) {
 		jClient.handleServerMessage (tMessage);
 //		System.out.println ("Received Message [" + tMessage + "]");
 	}
 	
+	@Override
 	public void handleServerCommands (String aCommand) {
 		String tMessage = aCommand.substring (1, aCommand.length () - 1);
 		String tName, tShortened;
@@ -147,6 +149,7 @@ public class ChatServerHandler extends ServerHandler {
 		println ("AFK");
 	}
 
+	@Override
 	public String buildGameSupportXML (String aGameID, String tXMLChild) {
 		String tGameSupportXML;
 		String tGameIDChunk = "";

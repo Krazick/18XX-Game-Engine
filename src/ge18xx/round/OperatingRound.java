@@ -38,6 +38,7 @@ public class OperatingRound extends Round {
 		return tAnyFloatedCompanies;
 	}
 	
+	@Override
 	public boolean startOperatingRound () {
 		boolean tStartedOperatingRound = true;
 		
@@ -93,6 +94,7 @@ public class OperatingRound extends Round {
 		return minorCompanies.getRowCount ();
 	}
 	
+	@Override
 	public String getName () {
 		return NAME;
 	}
@@ -114,6 +116,7 @@ public class OperatingRound extends Round {
 		return ActorI.ActionStates.OperatingRound;
 	}
 	
+	@Override
 	public String getStateName () {
 		return getRoundType ().toString ();
 	}
@@ -131,6 +134,7 @@ public class OperatingRound extends Round {
 		return tXMLElement;
 	}
 	
+	@Override
 	public void loadRound (XMLNode aRoundNode) {
 		super.loadRound (aRoundNode);
 	}
@@ -163,7 +167,7 @@ public class OperatingRound extends Round {
 		boolean tRoundDone;
 		
 		tRoundDone = false;
-		if (shareCompanies != null) {
+		if (shareCompanies != CorporationList.NO_CORPORATION_LIST) {
 			tRoundDone = shareCompanies.haveAllCompaniesOperated ();
 		}
 		

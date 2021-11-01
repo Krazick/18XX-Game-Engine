@@ -44,7 +44,6 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	final static AttributeName AN_INDEX = new AttributeName ("index");
 	final static AttributeName AN_NEIGHBORS = new AttributeName ("neighbors");
 	public final static ElementName EN_MARKET = new ElementName ("Market");
-//	public final static MarketCell NO_MARKET_CELL = null;
 	public final static MarketCell [] [] NO_MARKET = null;
 	
 	MarketCell market [] [];
@@ -383,6 +382,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tToken;
 	}
 	
+	@Override
 	public String getTypeName () {
 		return "Market";
 	}
@@ -408,7 +408,6 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 		tXMLNodeList = new XMLNodeList (marketCellParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aXMLMarketNode, MarketCell.EN_MARKET_CELL);
-
 	}
 	
 	ParsingRoutineI marketCellParsingRoutine  = new ParsingRoutineI ()  {
@@ -424,6 +423,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	};
 	
+	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNode tXMLMarketRoot;
 		XMLNode tChildNode;
@@ -525,24 +525,29 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tGoodLoad;
 	}
 	
-    public void mouseClicked (MouseEvent e) {}
+    @Override
+	public void mouseClicked (MouseEvent e) {}
 	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
 	 */
+	@Override
 	public void mouseDragged (MouseEvent arg0) {}
 	
-    public void mouseEntered (MouseEvent e) {}
+    @Override
+	public void mouseEntered (MouseEvent e) {}
 	
-    public void mouseExited (MouseEvent e) {}
+    @Override
+	public void mouseExited (MouseEvent e) {}
 	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
 	 */
+	@Override
 	public void mouseMoved (MouseEvent arg0)
 	{
 		MarketCell tMarketCell;
@@ -556,10 +561,13 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 	
-    public void mousePressed (MouseEvent e) {}
+    @Override
+	public void mousePressed (MouseEvent e) {}
 	
-    public void mouseReleased (MouseEvent e) {}
+    @Override
+	public void mouseReleased (MouseEvent e) {}
 	
+	@Override
 	public void paintComponent (Graphics g) {
 		int rowIndex = 0;
 		int colIndex = 0;

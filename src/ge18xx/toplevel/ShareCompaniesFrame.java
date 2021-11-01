@@ -87,6 +87,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		add (tNorthComponents, BorderLayout.NORTH);
 	}
 	
+	@Override
 	public void actionPerformed (ActionEvent e) {
 		String tTheAction = e.getActionCommand ();
 		
@@ -213,6 +214,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		return companies.getCorporationState (aCorpStateName);
 	}
 
+	@Override
 	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
 		return (super.getCorporationStateElements (aXMLDocument, EN_SHARES));
 	}

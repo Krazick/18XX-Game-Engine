@@ -76,6 +76,7 @@ public class FrameInfo {
 		hexSize = aFrameInfoNode.getThisIntAttribute (AN_HEX_SCAKE);
 	}
 
+	@Override
 	public String toString () {
 		String tFrameInfo;
 		

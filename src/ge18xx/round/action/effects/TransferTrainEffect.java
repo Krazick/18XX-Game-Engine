@@ -83,10 +83,6 @@ public class TransferTrainEffect extends Effect {
 			System.err.println ("From Actor " + tFromActorName + " is not a Corporation");
 		}
 	}
-//
-//	public boolean getBoughtTrain () {
-//		return true;
-//	}
 	
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
@@ -114,6 +110,7 @@ public class TransferTrainEffect extends Effect {
 		return toActor;
 	}
 
+	@Override
 	public String getToActorName () {
 		String tToActorName = ActorI.NO_NAME;
 		

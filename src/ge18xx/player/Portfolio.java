@@ -83,6 +83,7 @@ public class Portfolio implements CertificateHolderI {
 		shareIndex = NO_COMPONENT_INDEX;
 	}
 	
+	@Override
 	public void addCertificate (Certificate aCertificate) {
 		aCertificate.setOwner (this);
 		certificates.add (aCertificate);
@@ -475,6 +476,7 @@ public class Portfolio implements CertificateHolderI {
 		return tThisCertificate;
 	}
 	
+	@Override
 	public int getCertificateCountAgainstLimit () {
 		int tCertificatesThatCount;
 		
@@ -509,6 +511,7 @@ public class Portfolio implements CertificateHolderI {
 		return tCertificate;
 	}
 
+	@Override
 	public int getCertificateCountFor (Corporation aCorporation) {
 		int tCount;
 		
@@ -522,6 +525,7 @@ public class Portfolio implements CertificateHolderI {
 		return tCount;
 	}
 	
+	@Override
 	public Certificate getCertificate (int aIndex) {
 		Certificate tCertificate;
 		int tCertificateCount;
@@ -626,6 +630,7 @@ public class Portfolio implements CertificateHolderI {
 		return tPercentage;		
 	}
 	
+	@Override
 	public int getCertificatePercentageFor (Corporation aCorporation) {
 		int tPercentage;
 		
@@ -1039,6 +1044,7 @@ public class Portfolio implements CertificateHolderI {
 		return holder;
 	}
 	
+	@Override
 	public String getHolderAbbrev () {
 		String tHolderAbbrev;
 		
@@ -1050,6 +1056,7 @@ public class Portfolio implements CertificateHolderI {
 		return tHolderAbbrev;
 	}
 	
+	@Override
 	public String getHolderName () {
 		String tHolderName;
 		
@@ -1061,6 +1068,7 @@ public class Portfolio implements CertificateHolderI {
 		return tHolderName;
 	}
 	
+	@Override
 	public String getName () {
 		return "PORTFOLIO";
 	}
@@ -1091,6 +1099,7 @@ public class Portfolio implements CertificateHolderI {
 		return tPercentOwned;
 	}
 
+	@Override
 	public PortfolioHolderI getPortfolioHolder () {
 		return holder;
 	}
@@ -1174,6 +1183,7 @@ public class Portfolio implements CertificateHolderI {
 		return tCertificate;
 	}
 	
+	@Override
 	public boolean hasCertificateFor (Corporation aCorporation) {
 		boolean tCertificateFound;
 		
@@ -1352,14 +1362,17 @@ public class Portfolio implements CertificateHolderI {
 		return tHasThisCertificate;
 	}
 
+	@Override
 	public boolean isBank () {
 		return holder.isBank ();
 	}
 	
+	@Override
 	public boolean isBankPool () {
 		return holder.isBankPool ();
 	}
 
+	@Override
 	public boolean isCompany () {
 		return holder.isCompany ();
 	}
@@ -1368,6 +1381,7 @@ public class Portfolio implements CertificateHolderI {
 		return certificates.isEmpty ();
 	}
 	
+	@Override
 	public boolean isPlayer () {
 		return holder.isPlayer ();
 	}
@@ -1405,6 +1419,7 @@ public class Portfolio implements CertificateHolderI {
 	}
 	
 	static final Comparator<Certificate> orderByOwner = new Comparator<Certificate> () {
+		@Override
 		public int compare (Certificate aCertificate1, Certificate aCertificate2) {
 			String tOwner1;
 			String tOwner2;

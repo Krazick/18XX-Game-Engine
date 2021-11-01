@@ -70,6 +70,7 @@ public class HeartbeatThread implements Runnable {
 		return responseTime;
 	}
 	
+   @Override
    public void run () {
     	int tCounter = 0;
      	
