@@ -55,6 +55,14 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		trainPortfolio.clearSelections ();
 	}
 	
+	public int getCertificatePercentageFor (Corporation aCorporation) {
+		int tCertificatePercentage;
+		
+		tCertificatePercentage = portfolio.getCertificatePercentageFor (aCorporation);
+		
+		return tCertificatePercentage;
+	}
+	
 	public int getCertificateCountFor (Corporation aCorporation) {
 		int tCertificateCount;
 		

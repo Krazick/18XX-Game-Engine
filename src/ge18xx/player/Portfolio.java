@@ -727,6 +727,19 @@ public class Portfolio implements CertificateHolderI {
 		return tCertificatesToSell;
 	}
 	
+	public int getPercentOfCertificatesForSale () {
+		int tPercentOfSelectedCertificates;
+		
+		tPercentOfSelectedCertificates = 0;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelectedToSell ()) {
+				tPercentOfSelectedCertificates += tCertificate.getPercentage ();
+			}
+		}
+		
+		return tPercentOfSelectedCertificates;
+	}
+	
 	public int getCountOfCertificatesForSale () {
 		int tCountOfSelectedCertificates;
 		
@@ -1668,5 +1681,19 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
+	}
+
+	public int getSmallestSharePercentage () {
+		int tSmallestSharePercentage = 100;
+		int tCertificatePercentage;
+		
+		for (Certificate tCertificate : certificates) {
+			tCertificatePercentage = tCertificate.getPercentage ();
+			if (tCertificatePercentage < tSmallestSharePercentage) {
+				tSmallestSharePercentage = tCertificatePercentage;
+			}
+		}
+		
+		return tSmallestSharePercentage;
 	}
 }
