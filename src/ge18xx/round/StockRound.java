@@ -255,7 +255,7 @@ public class StockRound extends Round {
 	public void passStockAction () {
 		Player tPlayer;
 		
-		tPlayer = playerManager.getCurrentPlayer();
+		tPlayer = playerManager.getCurrentPlayer ();
 		tPlayer.passAction ();
 	}
 
