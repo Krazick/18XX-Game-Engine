@@ -133,23 +133,35 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		JPanel tPrivatesJPanel;
 		BoxLayout tLayout;
 		JPanel tPrivateCertJPanel;
-		Dimension tMinSize = new Dimension (20, 60);
+		Dimension tMinSize = new Dimension (20, 70);
+		int tCount;
+		String tTitle;
 		
 		tPrivatesJPanel = new JPanel ();
-		tPrivatesJPanel.setBorder (BorderFactory.createTitledBorder (aCorpType + " Companies Open and owned by Players "));
 		tLayout = new BoxLayout (tPrivatesJPanel, BoxLayout.X_AXIS);
 		tPrivatesJPanel.setLayout (tLayout);
 		tPrivatesJPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		tPrivatesJPanel.add (Box.createRigidArea (tMinSize));
+		tCount = 0;
 		for (Corporation tCorporation : corporations) {
 			if (! tCorporation.isClosed ()) {
 				if (tCorporation.isPlayerOwned ()) {
 					tPrivateCertJPanel = tCorporation.buildPrivateCertJPanel (aItemListener, aAvailableCash);
 					tPrivatesJPanel.add (tPrivateCertJPanel);
 					tPrivatesJPanel.add (Box.createRigidArea (tMinSize));
+					tCount++;
 				}
 			}
 		}
+		tTitle = "Player Owned ";
+		if (tCount > 3) {
+			tTitle = tTitle + aCorpType + " Companies";
+		} else if (tCount == 2) {
+			tTitle = tTitle + aCorpType + "s";
+		} else {
+			tTitle = tTitle + aCorpType;
+		}
+		tPrivatesJPanel.setBorder (BorderFactory.createTitledBorder (tTitle));
 
 		return tPrivatesJPanel;
 	}
