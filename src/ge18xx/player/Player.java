@@ -550,18 +550,29 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		
 		tMustSellPercent = 0;
 		tShareCompany = playerManager.getShareCompany (aCompanyAbbrev);
-		if (tShareCompany != null) {
-			if (tShareCompany.equals (Corporation.NO_CORPORATION)) {
-				System.err.println ("Share Company with abbrev " + aCompanyAbbrev + " could not be found");
-			} else {
-				tCurrentPlayerHasXPercent = getPercentOwnedOf (tShareCompany);
-				tPresidentOf = (Player) tShareCompany.getPresident ();
-				tPresidentHasXPercent = tPresidentOf.getPercentOwnedOf (tShareCompany);
-				tMustSellPercent = 1 + tCurrentPlayerHasXPercent - tPresidentHasXPercent;
-			}
+		if (tShareCompany == Corporation.NO_CORPORATION) {
+			System.err.println ("Share Company with abbrev " + aCompanyAbbrev + " could not be found");
+		} else {
+			tCurrentPlayerHasXPercent = getPercentOwnedOf (tShareCompany);
+			tPresidentOf = (Player) tShareCompany.getPresident ();
+			tPresidentHasXPercent = tPresidentOf.getPercentOwnedOf (tShareCompany);
+			tMustSellPercent = 1 + tCurrentPlayerHasXPercent - tPresidentHasXPercent;
 		}
 		
 		return tMustSellPercent;
+	}
+	
+	public Player getNextPossiblePrez (String aCompanyAbbrev) {
+		Player tNextPossiblePrez = NO_PLAYER;
+		ShareCompany tShareCompany;
+		
+		tShareCompany = playerManager.getShareCompany (aCompanyAbbrev);
+		if (tShareCompany != Corporation.NO_CORPORATION) {
+			tNextPossiblePrez = playerManager.findPlayerWithMost (tShareCompany, this);
+//xxxx
+		}
+		
+		return tNextPossiblePrez;
 	}
 	
 	public int getShareLimit (String aCompanyAbbrev) {
@@ -1276,24 +1287,33 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	
 	public boolean willSaleOverfillBankPool () {
 		boolean tWillSaleOverfillBankPool = false;
-		GameManager tGameManager;
-		int tBankPoolLimit;
-		BankPool tBankPool;
 		Certificate tASelectedCertificate;
-		int tSelectedCount, tBankPoolCount;
+		int tSelectedCount;
 		Corporation tCorporation;
 		
 		if (hasSelectedStocksToSell ()) {
 			tSelectedCount = portfolio.getCountOfCertificatesForSale ();
 			tASelectedCertificate = portfolio.getSelectedStockToSell ();
 			tCorporation = tASelectedCertificate.getCorporation ();
-			tGameManager = playerManager.getGameManager ();
-			tBankPoolLimit = tGameManager.getBankPoolShareLimit ();
-			tBankPool = tGameManager.getBankPool ();
-			tBankPoolCount = tBankPool.getCertificateCountFor (tCorporation);
-			if ((tSelectedCount + tBankPoolCount) > tBankPoolLimit) {
-				tWillSaleOverfillBankPool = true;
-			}
+			tWillSaleOverfillBankPool = willOverfillBankPool (tSelectedCount, tCorporation);
+		}
+		
+		return tWillSaleOverfillBankPool;
+	}
+
+	public boolean willOverfillBankPool (int aCount, Corporation aCorporation) {
+		boolean tWillSaleOverfillBankPool = false;
+		GameManager tGameManager;
+		int tBankPoolLimit;
+		BankPool tBankPool;
+		int tBankPoolCount;
+		
+		tGameManager = playerManager.getGameManager ();
+		tBankPoolLimit = tGameManager.getBankPoolShareLimit ();
+		tBankPool = tGameManager.getBankPool ();
+		tBankPoolCount = tBankPool.getCertificateCountFor (aCorporation);
+		if ((aCount + tBankPoolCount) > tBankPoolLimit) {
+			tWillSaleOverfillBankPool = true;
 		}
 		
 		return tWillSaleOverfillBankPool;
