@@ -3,6 +3,8 @@ package ge18xx.player;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.bank.StartPacketFrame;
+import ge18xx.company.Certificate;
+import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
 
@@ -47,7 +49,6 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	JPanel actionButtonBox;
 	JPanel playerInfoJPanel;
 	JPanel portfolioInfoJPanel;
-	Player player;
 	JLabel playerCash;
 	JLabel playerCertificateCount;
 	JLabel playerPassed;
@@ -60,6 +61,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	JButton sellActionButton;
 	JButton exchangeActionButton;
 	JButton undoActionButton;
+	Player player;
 	int portfolioInfoIndex;
 	boolean locationFixed;
 	
@@ -577,7 +579,13 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	}
 
 	private void updateExchangeButton (boolean aPrezToExchange, boolean aPrivateOrMinorToExchange) {
-		exchangeActionButton.setEnabled (aPrezToExchange || aPrivateOrMinorToExchange);
+		boolean tCanBankHoldStock = false;
+		
+		if (aPrezToExchange) {
+			tCanBankHoldStock = canBankHoldStock ();
+		}
+		
+		exchangeActionButton.setEnabled (tCanBankHoldStock || aPrivateOrMinorToExchange);
 		if (aPrezToExchange) {
 			exchangeActionButton.setToolTipText ("There is one President's Share Selected to Exchange");
 		} else if (aPrivateOrMinorToExchange) {
@@ -587,6 +595,39 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		}
 	}
 
+	private boolean canBankHoldStock () {
+		boolean tCanBankHoldStock = true;
+		String tCompanyAbbrev;
+		Certificate tCertificate;
+		Corporation tCorporation;
+		Player tNextPossiblePrez;
+		int tCurrentPlayerPercent;
+		int tNextPrezPercent;
+		int tMustSellShareCount;
+		
+		tCertificate = player.getCertificateToExchange ();
+		tCorporation = tCertificate.getCorporation ();
+		tCompanyAbbrev = tCertificate.getCompanyAbbrev ();
+		System.out.println ("Test if " + player.getName () + " can Exchange Prez Share of " + tCompanyAbbrev);
+		tNextPossiblePrez = player.getNextPossiblePrez (tCompanyAbbrev);
+		System.out.println ("Next Possible President is " + tNextPossiblePrez.getName ());
+		tCurrentPlayerPercent = player.getPercentOwnedOf (tCorporation);
+		tNextPrezPercent = tNextPossiblePrez.getPercentOwnedOf (tCorporation);
+		System.out.println (player.getName () + " owns " + tCurrentPlayerPercent + "%");
+		System.out.println (tNextPossiblePrez.getName () + " owns " + tNextPrezPercent + "%");
+		tMustSellShareCount = (tCurrentPlayerPercent - tNextPrezPercent + 10)/10; 
+		// Should calculate based upon Smallest Certificate % for this Company
+		System.out.println (player.getName () + " must sell at least " + tMustSellShareCount);
+		
+		//TODO: Test when Prez selected, if the BankPool can hold enough to complete Transfer
+		// 1. Find next Player who has => 20% AND most of all Players
+		// 2. Calculate minimum # of Shares that must be sold to transfer Presidency
+		// 3. See if Bank can hold that Minimum # of Shares
+		// 4. If NOT, return FALSE
+		 
+		return tCanBankHoldStock;
+	}
+	
 	private void updateBuyBidButton (boolean aStocksToBuy, boolean aPrivateToBidOn) {
 		int tCountSelectedCosToBuy;
 		
