@@ -30,6 +30,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import org.apache.logging.log4j.Logger;
 
@@ -84,6 +86,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		
 		roundJPanel = new JPanel ();
 		roundJPanel.setLayout (new BoxLayout (roundJPanel, BoxLayout.Y_AXIS));
+		roundJPanel.setBorder (BorderFactory.createEmptyBorder (10, 10, 10, 10));
 		
 		headerJPanel = new JPanel ();
 		parPricesJPanel = new JPanel ();
@@ -96,6 +99,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		updateTrainSummary ();
 		trainSummaryJPanel.add (trainSummary);
 
+		headerJPanel.setBorder (BorderFactory.createEmptyBorder (5, 5, 10, 5));
 		headerJPanel.setLayout (new BoxLayout (headerJPanel, BoxLayout.X_AXIS));
 		headerJPanel.setAlignmentY (Component.TOP_ALIGNMENT);
 		headerJPanel.add (Box.createHorizontalStrut (20));
@@ -212,10 +216,10 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	private void fillParPrices () {
 		int tParPriceCount, tParPriceIndex, tPrice;
 		JPanel tParPriceLineBox;
-		JLabel tParPriceHeader;
 		Integer [] tParPrices;
 		GameManager tGameManager;
 		String tPrices [];
+		Border tBorder1, tBorder2;
 		
 		tGameManager = roundManager.getGameManager ();
 		tParPrices = tGameManager.getAllStartCells ();
@@ -223,9 +227,9 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		parPricesJPanel.setLayout (new BoxLayout (parPricesJPanel, BoxLayout.Y_AXIS));
 		parPricesJPanel.setMinimumSize(new Dimension (600, 1500));
 		parPricesJPanel.setMaximumSize (new Dimension (600, 150));
-		parPricesJPanel.setBorder (BorderFactory.createLineBorder (Color.BLACK));
-		tParPriceHeader = new JLabel ("Par Prices");
-		parPricesJPanel.add (tParPriceHeader);
+		tBorder1 = BorderFactory.createLineBorder (Color.BLACK);
+		tBorder2 = BorderFactory.createTitledBorder (tBorder1, "Par Prices", TitledBorder.CENTER, TitledBorder.TOP);
+		parPricesJPanel.setBorder (tBorder2);
 		
 		tPrices = new String [tParPriceCount];
 		for (tParPriceIndex = 0; tParPriceIndex < tParPriceCount; tParPriceIndex++) {
