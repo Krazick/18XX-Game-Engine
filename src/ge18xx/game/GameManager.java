@@ -1912,7 +1912,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public int getBankPoolShareLimit () {
-		return activeGame.getBankPoolShareLimit ();
+		return activeGame.getBankPoolShareLimit () * 10;
+	}
+
+	public int getBankPoolPercentageLimit () {
+		return activeGame.getBankPoolShareLimit () * 10;
 	}
 
 	public boolean isNetworkGame () {

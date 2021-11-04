@@ -1288,31 +1288,31 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	public boolean willSaleOverfillBankPool () {
 		boolean tWillSaleOverfillBankPool = false;
 		Certificate tASelectedCertificate;
-		int tSelectedCount;
+		int tSelectedPercentage;
 		Corporation tCorporation;
 		
 		if (hasSelectedStocksToSell ()) {
-			tSelectedCount = portfolio.getCountOfCertificatesForSale ();
+			tSelectedPercentage = portfolio.getPercentOfCertificatesForSale ();
 			tASelectedCertificate = portfolio.getSelectedStockToSell ();
 			tCorporation = tASelectedCertificate.getCorporation ();
-			tWillSaleOverfillBankPool = willOverfillBankPool (tSelectedCount, tCorporation);
+			tWillSaleOverfillBankPool = willOverfillBankPool (tSelectedPercentage, tCorporation);
 		}
 		
 		return tWillSaleOverfillBankPool;
 	}
 
-	public boolean willOverfillBankPool (int aCount, Corporation aCorporation) {
+	public boolean willOverfillBankPool (int aPercentage, Corporation aCorporation) {
 		boolean tWillSaleOverfillBankPool = false;
 		GameManager tGameManager;
-		int tBankPoolLimit;
+		int tBankPoolPercentageLimit;
 		BankPool tBankPool;
-		int tBankPoolCount;
+		int tBankPoolPercentage;
 		
 		tGameManager = playerManager.getGameManager ();
-		tBankPoolLimit = tGameManager.getBankPoolShareLimit ();
+		tBankPoolPercentageLimit = tGameManager.getBankPoolPercentageLimit ();
 		tBankPool = tGameManager.getBankPool ();
-		tBankPoolCount = tBankPool.getCertificateCountFor (aCorporation);
-		if ((aCount + tBankPoolCount) > tBankPoolLimit) {
+		tBankPoolPercentage = tBankPool.getCertificatePercentageFor (aCorporation);
+		if ((aPercentage + tBankPoolPercentage) > tBankPoolPercentageLimit) {
 			tWillSaleOverfillBankPool = true;
 		}
 		
