@@ -586,7 +586,9 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		}
 		
 		exchangeActionButton.setEnabled (tCanBankHoldStock || aPrivateOrMinorToExchange);
-		if (aPrezToExchange) {
+		if (! tCanBankHoldStock) {
+			exchangeActionButton.setToolTipText ("The Bank Pool cannot hold minimum % of stock required to lose Presidency");			
+		} else if (aPrezToExchange) {
 			exchangeActionButton.setToolTipText ("There is one President's Share Selected to Exchange");
 		} else if (aPrivateOrMinorToExchange) {
 			exchangeActionButton.setToolTipText ("There is one Private or Minor Share Selected to Exchange");
@@ -603,7 +605,8 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		Player tNextPossiblePrez;
 		int tCurrentPlayerPercent;
 		int tNextPrezPercent;
-		int tMustSellShareCount;
+		int tMustSellSharePercentage;
+		int tSmallestSharePercentage;
 		
 		tCertificate = player.getCertificateToExchange ();
 		tCorporation = tCertificate.getCorporation ();
@@ -615,10 +618,17 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		tNextPrezPercent = tNextPossiblePrez.getPercentOwnedOf (tCorporation);
 		System.out.println (player.getName () + " owns " + tCurrentPlayerPercent + "%");
 		System.out.println (tNextPossiblePrez.getName () + " owns " + tNextPrezPercent + "%");
-		tMustSellShareCount = (tCurrentPlayerPercent - tNextPrezPercent + 10)/10; 
+		tSmallestSharePercentage = tCorporation.getSmallestSharePercentage ();
+		tMustSellSharePercentage = tCurrentPlayerPercent - tNextPrezPercent + tSmallestSharePercentage; 
 		// Should calculate based upon Smallest Certificate % for this Company
-		System.out.println (player.getName () + " must sell at least " + tMustSellShareCount);
-		
+		System.out.println (player.getName () + " must sell at least " + tMustSellSharePercentage + "% -- Smallest is " + 
+							tSmallestSharePercentage + "%");
+		tCanBankHoldStock = ! player.willOverfillBankPool(tMustSellSharePercentage, tCorporation);
+		if (tCanBankHoldStock) {
+			System.out.println ("This required Sale will NOT Overfill Bank Pool.");
+		} else {
+			System.out.println ("This required Sale will Overfill Bank Pool.");
+		}
 		//TODO: Test when Prez selected, if the BankPool can hold enough to complete Transfer
 		// 1. Find next Player who has => 20% AND most of all Players
 		// 2. Calculate minimum # of Shares that must be sold to transfer Presidency
