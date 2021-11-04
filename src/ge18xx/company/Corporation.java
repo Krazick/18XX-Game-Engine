@@ -1977,4 +1977,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	protected abstract boolean choiceForBaseToken ();
 
+	public int getSmallestSharePercentage () {
+		return corporationCertificates.getSmallestSharePercentage ();
+	}
 }
