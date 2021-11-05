@@ -1225,6 +1225,25 @@ public class Portfolio implements CertificateHolderI {
 		
 		return tHasSelectedPrivateOrMinorToExchange;
 	}
+	
+	public boolean hasSelectedOneToExchange () {
+		boolean tHasSelectedOneToExchange;
+		int tSelectedCount = 0;
+		
+		tHasSelectedOneToExchange = false;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isShareCompany ()) {
+				if (tCertificate.isSelected ()) {
+					tSelectedCount++;
+				}
+			}
+		}
+		if (tSelectedCount == 1) {
+			tHasSelectedOneToExchange = true;
+		}
+		
+		return tHasSelectedOneToExchange;
+	}
 
 	public boolean hasSelectedPrezToExchange () {
 		boolean tHasSelectedPrezToExchange;

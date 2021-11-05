@@ -313,6 +313,10 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		return tSelectedStocksToSell;
 	}
 	
+	public boolean hasSelectedOneToExchange () {
+		return player.hasSelectedOneToExchange ();
+	}
+	
 	public boolean hasSelectedPrezToExchange () {
 		return player.hasSelectedPrezToExchange ();
 	}
@@ -511,6 +515,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		boolean tStocksToSell, tStocksToBuy, tActionsToUndo, tStocksToSellSame;
 		boolean tPrezToExchange, tCanCompleteTurn, tPrivateOrMinorToExchange;
 		boolean tStocksToSellOverfill, tMustBuy, tPrivateToBidOn;
+		boolean tHasSelectedOneToExchange;
 		
 		tMustBuy = hasMustBuyCertificate ();
 		tStocksToSell = hasSelectedStocksToSell ();
@@ -520,13 +525,14 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		tActionsToUndo = hasActionsToUndo ();
 		tPrivateToBidOn = hasSelectedPrivateToBidOn ();
 		tPrezToExchange = hasSelectedPrezToExchange ();
+		tHasSelectedOneToExchange = hasSelectedOneToExchange ();
 		tPrivateOrMinorToExchange = hasSelectedPrivateOrMinorToExchange ();
 		tCanCompleteTurn = canCompleteTurn ();
 		
 		updatePassButton (tCanCompleteTurn, tMustBuy);
-		updateSellButton (tStocksToSell, tStocksToSellSame, tStocksToSellOverfill);
+		updateSellButton (tStocksToSell, tStocksToSellSame, tStocksToSellOverfill, tPrezToExchange);
 		updateBuyBidButton (tStocksToBuy, tPrivateToBidOn);
-		updateExchangeButton (tPrezToExchange, tPrivateOrMinorToExchange);
+		updateExchangeButton (tPrezToExchange, tPrivateOrMinorToExchange, tHasSelectedOneToExchange);
 		updateUndoButton (tActionsToUndo);
 		
 		if (hasActed ()) {
@@ -560,9 +566,13 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		}
 	}
 
-	private void updateSellButton (boolean aStocksToSell, boolean aStocksToSellSame, boolean aStocksToSellOverfill) {
+	private void updateSellButton (boolean aStocksToSell, boolean aStocksToSellSame, boolean aStocksToSellOverfill,
+					boolean aPrezToExchange) {
 		if (aStocksToSell) {
-			if (aStocksToSellOverfill) {
+			if (aPrezToExchange) {
+				sellActionButton.setEnabled (false);
+				sellActionButton.setToolTipText ("Must Exchange President Share before selecting stock to sell");				
+			} else if (aStocksToSellOverfill) {
 				sellActionButton.setEnabled (false);
 				sellActionButton.setToolTipText ("Stocks selected to be Sold will Overfill BankPool");
 			} else if (aStocksToSellSame) {
@@ -578,22 +588,28 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		}
 	}
 
-	private void updateExchangeButton (boolean aPrezToExchange, boolean aPrivateOrMinorToExchange) {
+	private void updateExchangeButton (boolean aPrezToExchange, boolean aPrivateOrMinorToExchange,
+										boolean tHasSelectedOneToExchange) {
 		boolean tCanBankHoldStock = false;
 		
-		if (aPrezToExchange) {
-			tCanBankHoldStock = canBankHoldStock ();
-		}
-		
-		exchangeActionButton.setEnabled (tCanBankHoldStock || aPrivateOrMinorToExchange);
-		if (! tCanBankHoldStock) {
-			exchangeActionButton.setToolTipText ("The Bank Pool cannot hold minimum % of stock required to lose Presidency");			
-		} else if (aPrezToExchange) {
-			exchangeActionButton.setToolTipText ("There is one President's Share Selected to Exchange");
-		} else if (aPrivateOrMinorToExchange) {
-			exchangeActionButton.setToolTipText ("There is one Private or Minor Share Selected to Exchange");
+		if (tHasSelectedOneToExchange) {
+			if (aPrezToExchange) {
+				tCanBankHoldStock = canBankHoldStock ();
+			}
+			
+			exchangeActionButton.setEnabled (tCanBankHoldStock || aPrivateOrMinorToExchange);
+			if (! tCanBankHoldStock) {
+				exchangeActionButton.setToolTipText ("The Bank Pool cannot hold minimum % of stock required to lose Presidency");			
+			} else if (aPrezToExchange) {
+				exchangeActionButton.setToolTipText ("There is one President's Share Selected to Exchange");
+			} else if (aPrivateOrMinorToExchange) {
+				exchangeActionButton.setToolTipText ("There is one Private or Minor Share Selected to Exchange");
+			} else {
+				exchangeActionButton.setToolTipText ("There are no selected President's Share to Exchange");
+			}
 		} else {
-			exchangeActionButton.setToolTipText ("There are no selected President's Share to Exchange");
+			exchangeActionButton.setEnabled (false);
+			exchangeActionButton.setToolTipText ("Select only a single President Share to Exchange at a time");
 		}
 	}
 
@@ -611,29 +627,12 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		tCertificate = player.getCertificateToExchange ();
 		tCorporation = tCertificate.getCorporation ();
 		tCompanyAbbrev = tCertificate.getCompanyAbbrev ();
-		System.out.println ("Test if " + player.getName () + " can Exchange Prez Share of " + tCompanyAbbrev);
 		tNextPossiblePrez = player.getNextPossiblePrez (tCompanyAbbrev);
-		System.out.println ("Next Possible President is " + tNextPossiblePrez.getName ());
 		tCurrentPlayerPercent = player.getPercentOwnedOf (tCorporation);
 		tNextPrezPercent = tNextPossiblePrez.getPercentOwnedOf (tCorporation);
-		System.out.println (player.getName () + " owns " + tCurrentPlayerPercent + "%");
-		System.out.println (tNextPossiblePrez.getName () + " owns " + tNextPrezPercent + "%");
 		tSmallestSharePercentage = tCorporation.getSmallestSharePercentage ();
 		tMustSellSharePercentage = tCurrentPlayerPercent - tNextPrezPercent + tSmallestSharePercentage; 
-		// Should calculate based upon Smallest Certificate % for this Company
-		System.out.println (player.getName () + " must sell at least " + tMustSellSharePercentage + "% -- Smallest is " + 
-							tSmallestSharePercentage + "%");
 		tCanBankHoldStock = ! player.willOverfillBankPool(tMustSellSharePercentage, tCorporation);
-		if (tCanBankHoldStock) {
-			System.out.println ("This required Sale will NOT Overfill Bank Pool.");
-		} else {
-			System.out.println ("This required Sale will Overfill Bank Pool.");
-		}
-		//TODO: Test when Prez selected, if the BankPool can hold enough to complete Transfer
-		// 1. Find next Player who has => 20% AND most of all Players
-		// 2. Calculate minimum # of Shares that must be sold to transfer Presidency
-		// 3. See if Bank can hold that Minimum # of Shares
-		// 4. If NOT, return FALSE
 		 
 		return tCanBankHoldStock;
 	}
@@ -645,24 +644,24 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			tCountSelectedCosToBuy = getCountSelectedCosToBuy ();
 			if (tCountSelectedCosToBuy > 1) {
 				buyBidActionButton.setEnabled (false);
-				buyBidActionButton.setToolTipText ("Only Select one Company's Stock to buy at a time");
+				buyBidActionButton.setToolTipText ("Select only one Company's Stock to buy at a time");
 				buyBidActionButton.setText (BUY);
-				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
 				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
 			} else {
 				buyBidActionButton.setEnabled (aStocksToBuy);
 				buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
 				buyBidActionButton.setText (BUY);
-				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
 				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
 			}
 		} else {
 			if (aPrivateToBidOn) {
 				buyBidActionButton.setEnabled (aPrivateToBidOn);
 				buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BID);
 				buyBidActionButton.setText (BID);
-				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BID2);
 				enableSelectedButton (STOCK_SELECTED_FOR_BID);
+				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BID2);
 			} else {
 				buyBidActionButton.setEnabled (aStocksToBuy);
 				buyBidActionButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE2);

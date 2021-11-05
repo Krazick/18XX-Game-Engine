@@ -684,6 +684,10 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		return auctionActionState == ActionStates.AuctionPass;
 	}
 	
+	public boolean hasSelectedOneToExchange () {
+		return portfolio.hasSelectedOneToExchange ();
+	}
+	
 	public boolean hasSelectedPrezToExchange () {
 		boolean tHasSelectedPrezToExchange;
 		
