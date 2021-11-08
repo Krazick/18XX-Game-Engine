@@ -223,7 +223,8 @@ public class NodeInformation {
 		if (tRevenueCenter != RevenueCenter.NO_CENTER) {
 			setRevenueCenter (tRevenueCenter); 
 		} else {
-			System.err.println ("Looking for Revenue Center at " + location.getLocation () + " on Tile " + tTile.getNumber () + " But not Found.");
+			System.err.println ("Looking for Revenue Center at Location " + location.getLocation () + 
+					" on Tile " + tTile.getNumber () + " But not Found.");
 		}
 	}
 
