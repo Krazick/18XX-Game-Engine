@@ -581,6 +581,8 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 			headerJPanel.setBackground (tAlertColor);
 			parPricesJPanel.setBackground (tAlertColor);
 			trainSummaryJPanel.setBackground (tAlertColor);
+			buttonsJPanel.setBackground (tAlertColor);
+			roundJPanel.setBackground (tAlertColor);
 		}
 	}
 
@@ -589,6 +591,8 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		headerJPanel.setBackground (defaultColor);
 		parPricesJPanel.setBackground (defaultColor);
 		trainSummaryJPanel.setBackground (defaultColor);
+		buttonsJPanel.setBackground (defaultColor);
+		roundJPanel.setBackground (defaultColor);
 	}
 	
 	public void disablePassButton (String aToolTip) {
