@@ -16,12 +16,11 @@ import ge18xx.utilities.XMLDocument;
 //TODO: Refactor TransferTrainEffect, TransferOwnershipEffect, ResponseToOfferEffect, and CashTransferEffect
 //to extend a new SuperClass "ToEffect" to hold the "toActor" and methods setToActor, getToActor, getToActorName
 
-public class TransferOwnershipEffect extends Effect {
+public class TransferOwnershipEffect extends ToEffect {
 	public final static String NAME = "Transfer Ownership";
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
 	final static AttributeName AN_PRESIDENT_SHARE = new AttributeName ("president");
 	final static AttributeName AN_SHARE_PERCENT = new AttributeName ("percentage");
-	ActorI toActor;
 	Certificate certificate;
 
 	public TransferOwnershipEffect () {
@@ -32,7 +31,7 @@ public class TransferOwnershipEffect extends Effect {
 	}
 
 	public TransferOwnershipEffect (ActorI aFromActor, Certificate aCertificate, ActorI aToActor) {
-		super (NAME, aFromActor);
+		super (NAME, aFromActor, aToActor);
 		setCertificate (aCertificate);
 		setToActor (aToActor);
 	}
@@ -42,23 +41,19 @@ public class TransferOwnershipEffect extends Effect {
 		
 		String tCompanyAbbrev;
 		String tFromActorName;
-		String tToActorName;
-		ActorI tFromActor, tToActor;
+		ActorI tFromActor;
 		Certificate tCertificate;
 		int tPercentage;
 		boolean tPresidentShare;
 		
 		tCompanyAbbrev = aEffectNode.getThisAttribute (AN_COMPANY_ABBREV);
 		tFromActorName = aEffectNode.getThisAttribute (ActorI.AN_FROM_ACTOR_NAME);
-		tToActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
 		tFromActor = aGameManager.getActor (tFromActorName);
-		tToActor = aGameManager.getActor (tToActorName);
 		tPercentage = aEffectNode.getThisIntAttribute (AN_SHARE_PERCENT);
 		tPresidentShare = aEffectNode.getThisBooleanAttribute (AN_PRESIDENT_SHARE);
 		tCertificate = aGameManager.getCertificate (tCompanyAbbrev, tPercentage, tPresidentShare);
 		setCertificate (tCertificate);
 		setActor (tFromActor);
-		setToActor (tToActor);
 	}
 
 	public Certificate getCertificate () {
@@ -77,24 +72,8 @@ public class TransferOwnershipEffect extends Effect {
 		tEffectElement.setAttribute (AN_COMPANY_ABBREV, certificate.getCompanyAbbrev ());
 		tEffectElement.setAttribute (AN_PRESIDENT_SHARE, certificate.isPresidentShare ());
 		tEffectElement.setAttribute (AN_SHARE_PERCENT, certificate.getPercentage ());
-		tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, toActor.getName ());
 	
 		return tEffectElement;
-	}
-
-	public ActorI getToActor () {
-		return toActor;
-	}
-	
-	@Override
-	public String getToActorName () {
-		String tToActorName = ActorI.NO_NAME;
-		
-		if (toActor != ActorI.NO_ACTOR) {
-			tToActorName = toActor.getName ();
-		}
-		
-		return tToActorName;
 	}
 	
 	@Override 
@@ -103,8 +82,8 @@ public class TransferOwnershipEffect extends Effect {
 		
 		tEffectReport += REPORT_PREFIX + name + " of ";
 		tEffectReport += certificate.getPercentage () + "% of " +  certificate.getCompanyAbbrev ();
-		tEffectReport += " from " +  actor.getName ();
-		tEffectReport += " to " + toActor.getName () + ".";
+		tEffectReport += " from " +  getActorName ();
+		tEffectReport += " to " + getToActorName () + ".";
 		
 		return tEffectReport;
 	}
@@ -118,10 +97,6 @@ public class TransferOwnershipEffect extends Effect {
 		certificate = aCertificate;
 	}
 	
-	public void setToActor (ActorI aActor) {
-		toActor = aActor;
-	}
-	
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
@@ -132,7 +107,7 @@ public class TransferOwnershipEffect extends Effect {
 		Bank tBank;
 		
 		tEffectApplied = false;
-		tToHolder = (PortfolioHolderI) toActor;
+		tToHolder = (PortfolioHolderI) getToActor ();
 		tToPortfolio = tToHolder.getPortfolio ();
 		
 		// TODO: When the new "ToEffect" is created, also create a new "isActor" Method that receives an Actor's Name and does
@@ -148,7 +123,7 @@ public class TransferOwnershipEffect extends Effect {
 				tToPortfolio = tBank.getClosedPortfolio ();
 			}
 		}
-		tFromHolder = (PortfolioHolderI) actor;
+		tFromHolder = (PortfolioHolderI) getActor ();
 		tFromPortfolio = tFromHolder.getPortfolio ();
 
 		tEffectApplied = tToPortfolio.transferOneCertificateOwnership (tFromPortfolio, certificate);
@@ -185,7 +160,7 @@ public class TransferOwnershipEffect extends Effect {
 				tToPortfolio = tBank.getClosedPortfolio ();
 			}
 		}
-		tFromHolder = (PortfolioHolderI) actor;
+		tFromHolder = (PortfolioHolderI) getActor ();
 		tFromPortfolio = tFromHolder.getPortfolio ();
 //		tToHolderName = tToPortfolio.getHolderName ();
 //		tFromHolderName = tFromPortfolio.getHolderName ();

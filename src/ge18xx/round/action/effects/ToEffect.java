@@ -46,7 +46,7 @@ public class ToEffect extends Effect {
 		if (toActor.isACorporation ()) {
 			tActorName = ((Corporation) toActor).getAbbrev ();
 		} else {
-			tActorName = toActor.getName ();
+			tActorName = getToActorName ();
 		}
 		tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, tActorName);
 	
@@ -68,7 +68,13 @@ public class ToEffect extends Effect {
 	
 	@Override
 	public String getToActorName () {
-		return toActor.getName ();
+		String tActorName = ActorI.NO_NAME;
+		
+		if (toActor != NO_TO_ACTOR) {
+			tActorName = toActor.getName ();
+		}
+		
+		return tActorName;
 	}
 	
 	public boolean isToActor (String aActorName) {

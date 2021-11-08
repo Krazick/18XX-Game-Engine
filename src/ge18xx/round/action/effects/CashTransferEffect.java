@@ -1,7 +1,6 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.bank.Bank;
-import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.round.RoundManager;
@@ -15,12 +14,11 @@ import ge18xx.utilities.XMLDocument;
 //TODO: Refactor TransferTrainEffect, TransferOwnershipEffect, ResponseToOfferEffect, and CashTransferEffect
 //to extend a new SuperClass "ToEffect" to hold the "toActor" and methods setToActor, getToActor, getToActorName
 
-public class CashTransferEffect extends Effect {
+public class CashTransferEffect extends ToEffect {
 	public final static String NAME = "Cash Transfer";
 	final static AttributeName AN_CASH = new AttributeName ("cash");
 	public final static int NO_CASH = 0;
 	int cash;
-	ActorI toActor;
 	
 	public CashTransferEffect () {
 		this (NAME);
@@ -33,9 +31,8 @@ public class CashTransferEffect extends Effect {
 	}
 	
 	public CashTransferEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount) {
-		super (NAME, aFromActor);
+		super (NAME, aFromActor, aToActor);
 		setCash (aCashAmount);
-		setToActor (aToActor);
 	}
 
 	public CashTransferEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -43,37 +40,21 @@ public class CashTransferEffect extends Effect {
 		setName (NAME);
 		
 		int tCashAmount;
-		String tToActorName;
-		ActorI tToActor;
 		
 		tCashAmount = aEffectNode.getThisIntAttribute (AN_CASH);
-		tToActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
-		tToActor = aGameManager.getActor (tToActorName);
 		setCash (tCashAmount);
-		setToActor (tToActor);
 	}
 
 	public int getCash () {
 		return cash;
 	}
-	
-	public ActorI getToActor () {
-		return toActor;
-	}
 
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		String tActorName;
 		
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_CASH, getCash ());
-		if (toActor.isACorporation ()) {
-			tActorName = ((Corporation) toActor).getAbbrev ();
-		} else {
-			tActorName = toActor.getName ();
-		}
-		tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, tActorName);
 	
 		return tEffectElement;
 	}
@@ -81,7 +62,7 @@ public class CashTransferEffect extends Effect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " of " + Bank.formatCash (cash) + 
-				" from " +  actor.getName () + " to " +  toActor.getName () + ".");
+				" from " +  getActorName () + " to " +  getToActorName () + ".");
 	}
 	
 	@Override
@@ -93,14 +74,10 @@ public class CashTransferEffect extends Effect {
 		cash = aCash;
 	}
 	
-	public void setToActor (ActorI aToActor) {
-		toActor = aToActor;
-	}
-	
 	public int getEffectDebit (String aActorName) {
 		int tDebit = AuditFrame.NO_DEBIT;
 		
-		if (aActorName.equals (actor.getName ())) {
+		if (aActorName.equals (getActorName ())) {
 			tDebit = cash;
 		}
 		
@@ -110,7 +87,7 @@ public class CashTransferEffect extends Effect {
 	public int getEffectCredit (String aActorName) {
 		int tCredit = AuditFrame.NO_CREDIT;
 		
-		if (aActorName.equals (toActor.getName ())) {
+		if (aActorName.equals (getToActorName ())) {
 			tCredit = cash;
 		}
 		
@@ -123,8 +100,8 @@ public class CashTransferEffect extends Effect {
 		CashHolderI tToCashHolder, tFromCashHolder;
 		
 		tEffectApplied = false;
-		tToCashHolder = (CashHolderI) toActor;
-		tFromCashHolder = (CashHolderI) actor;
+		tToCashHolder = (CashHolderI) getToActor ();
+		tFromCashHolder = (CashHolderI) getActor ();
 		tFromCashHolder.transferCashTo (tToCashHolder, cash);
 		tEffectApplied = true;
 		
@@ -137,16 +114,11 @@ public class CashTransferEffect extends Effect {
 		CashHolderI tToCashHolder, tFromCashHolder;
 		
 		tEffectUndone = false;
-		tToCashHolder = (CashHolderI) toActor;
-		tFromCashHolder = (CashHolderI) actor;
+		tToCashHolder = (CashHolderI) getToActor ();
+		tFromCashHolder = (CashHolderI) getActor ();
 		tFromCashHolder.transferCashTo (tToCashHolder, -cash);
 		tEffectUndone = true;
 		
 		return tEffectUndone;
-	}
-	
-	@Override
-	public String getToActorName () {
-		return toActor.getName ();
 	}
 }

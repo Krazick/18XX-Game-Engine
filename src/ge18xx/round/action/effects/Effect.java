@@ -156,7 +156,7 @@ public class Effect {
 		if (actor.isACorporation ()) {
 			tActorName = ((Corporation) actor).getAbbrev ();
 		} else {
-			tActorName = actor.getName ();
+			tActorName = getActorName ();
 		}
 		tEffectElement.setAttribute (AN_NAME, getName ());
 		tEffectElement.setAttribute (aActorAN, tActorName);
