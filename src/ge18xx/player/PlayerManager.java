@@ -516,9 +516,9 @@ public class PlayerManager {
 				tCashValue = aCertificateToBuy.getParValue ();
 				tSourcePortfolio = tBank.getStartPacketPortfolio ();
 				tFreeCertificate = tBank.getFreeCertificateWithThisCertificate (aCertificateToBuy);
-				if (tFreeCertificate != Certificate.NO_CERTIFICATE) {
-					tFreeCertificate.printCertificateInfo ();
-				}
+//				if (tFreeCertificate != Certificate.NO_CERTIFICATE) {
+//					tFreeCertificate.printCertificateInfo ();
+//				}
 			} else if (aCertificateToBuy.isOwnedByBank ()) {
 				tCashValue = aCertificateToBuy.getParValue ();
 				tSourcePortfolio = tBankPortfolio;
@@ -702,7 +702,7 @@ public class PlayerManager {
 		ActorI.ActionStates tNewCorporationStatus;
 		
 		if (aCertificate != Certificate.NO_CERTIFICATE) {
-			aCertificate.printCertificateInfo ();
+//			aCertificate.printCertificateInfo ();
 			tCorporation = aCertificate.getCorporation ();
 			if (tCorporation.isShareCompany ()) {
 				aPlayer.acts (); // Simply set the fact that the Player has acted. This does not require that he has not
