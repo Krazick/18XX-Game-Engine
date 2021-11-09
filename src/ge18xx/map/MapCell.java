@@ -1598,14 +1598,9 @@ public class MapCell implements Comparator<Object> {
 				tNewTileCity = (City) aNewTile.getCenterAtLocation (tNewLocation);
 				if (tNewTileCity != City.NO_CITY) {
 					tOldSides = tMapToken.getSides ();
-					System.out.print ("Map Token for " + tMapToken.getCorporationAbbrev() + " is connected to " + tOldSides);
 					moveAMapToken (tMapToken, tNewTileCity);
 					tNewSides = tMapToken.getSides ();
-					System.out.println (" Now connected to " + tNewSides);
-					if (tNewSides.contains (tOldSides)) {
-						System.out.println ("All Old Sides are in New Sides");
-					} else {
-						System.out.println ("Old Sides " + tOldSides + " are not all in New Sides " + tNewSides);
+					if (! tNewSides.contains (tOldSides)) {
 						tMustSwap = true;
 					}
 				}
