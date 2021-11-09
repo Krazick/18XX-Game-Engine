@@ -857,10 +857,12 @@ public class RoundManager {
 		
 		tIDPart1 = incrementRoundIDPart1 (stockRound);
 		setRoundToStockRound (tIDPart1);
-		stockRound.clearAllSoldCompanies ();
-		stockRound.setCurrentPlayer (stockRound.getPriorityIndex ());
-		roundFrame.updatePlayersJPanel ();
-		roundFrame.updatePassButton ();
+		stockRound.prepareStockRound ();
+//		stockRound.clearAllSoldCompanies ();
+//		stockRound.setCurrentPlayer (stockRound.getPriorityIndex ());
+		roundFrame.updateAll ();
+//		roundFrame.updatePlayersJPanel ();
+//		roundFrame.updatePassButton ();
 	}
 	
 	public boolean applyingAction () {

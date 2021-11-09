@@ -594,11 +594,16 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	}
 	
 	public void updateAll () {
+		updateParPrices ();
 		updateTotalCashLabel ();
 		updatePhaseLabel ();
-		updateAllCorporationsBox ();
-		updateParPrices ();
 		updateTrainSummary ();
+		// If we update the Player JPanel, it does include updating the Action Button Label
+		// Don't want that to happen during an Operating Round
+		if (! roundManager.isOperatingRound ()) {
+			updatePlayersJPanel ();
+		}
+		updateAllCorporationsBox ();
 		updatePassButton ();
 	}
 	

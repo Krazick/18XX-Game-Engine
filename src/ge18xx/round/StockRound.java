@@ -164,6 +164,11 @@ public class StockRound extends Round {
 		roundManager.setCurrentPlayerLabel ();
 	}
 	
+	public void prepareStockRound () {
+		clearAllSoldCompanies ();
+		setCurrentPlayer (getPriorityIndex ());
+	}
+	
 	public void setCurrentPlayer (int aPlayerIndex) {
 		ActorI.ActionStates tOldState = ActorI.ActionStates.NoState;
 		ActorI.ActionStates tNewState = ActorI.ActionStates.NoState;
