@@ -72,6 +72,8 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 	List<JPanel> parPriceLineJPanels = new LinkedList<JPanel> ();
 	Color defaultColor;
 	Logger logger;
+	int padding1;
+	int padding2;
 	
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, String aGameName) {
 		super (aFrameName, aGameName);
@@ -79,9 +81,23 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		roundManager = aRoundManager;
 		logger = Game_18XX.getLogger ();
 		
+		buildRoundJPanel ();
+		
+		roundScrollPane = new JScrollPane (roundJPanel);
+		add (roundScrollPane);
+		pack ();
+		
+		setStockRound (aGameName, roundManager.getStockRoundID ());
+		defaultColor = UIManager.getColor ("Panel.background");
+	}
+
+	public void buildRoundJPanel () {
+		padding1 = 10;
+		padding2 = 5;
+		
 		roundJPanel = new JPanel ();
 		roundJPanel.setLayout (new BoxLayout (roundJPanel, BoxLayout.Y_AXIS));
-		roundJPanel.setBorder (BorderFactory.createEmptyBorder (10, 10, 10, 10));
+		roundJPanel.setBorder (BorderFactory.createEmptyBorder (padding1, padding1, padding1, padding1));
 		
 		buildHeaderJPanel();
 		roundJPanel.add (headerJPanel);
@@ -98,24 +114,17 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		buildButtonsJPanel();
 		roundJPanel.add (buttonsJPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
-		
-		roundScrollPane = new JScrollPane (roundJPanel);
-		add (roundScrollPane);
-		pack ();
-		
-		setStockRound (roundManager.getGameName (), roundManager.getStockRoundID ());
-		defaultColor = UIManager.getColor ("Panel.background");
 	}
 
 	private void buildHeaderJPanel () {
 		buildParPrices ();
-		buildTrainSummary ();
 		buildRoundInfoJPanel ();
+		buildTrainSummary ();
 
 		headerJPanel = new JPanel ();
 		headerJPanel.setMinimumSize (new Dimension (600, 100));
 		headerJPanel.setMaximumSize (new Dimension (1000, 150));
-		headerJPanel.setBorder (BorderFactory.createEmptyBorder (5, 5, 5, 5));
+		headerJPanel.setBorder (BorderFactory.createEmptyBorder (padding2, padding2, padding2, padding2));
 		headerJPanel.setLayout (new BoxLayout (headerJPanel, BoxLayout.X_AXIS));
 		headerJPanel.add (Box.createHorizontalStrut (20));
 		headerJPanel.add (parPricesJPanel);
@@ -194,6 +203,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		
 		phaseLabel = new JLabel ("Current Game Phase");
 		phaseLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		roundInfoJPanel.add (Box.createVerticalStrut (10));
 		roundInfoJPanel.add (phaseLabel);
 		roundInfoJPanel.add (Box.createVerticalStrut (10));
 		updatePhaseLabel ();
@@ -209,14 +219,15 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		tBorder1 = BorderFactory.createLineBorder (Color.BLACK);
 		tBorder2 = BorderFactory.createTitledBorder (tBorder1, "Train Summary", TitledBorder.CENTER, TitledBorder.TOP);
 		trainSummaryJPanel.setBorder (tBorder2);
-		trainSummaryJPanel.add (Box.createHorizontalStrut (20));
+		trainSummaryJPanel.add (Box.createHorizontalStrut (10));
 		trainSummaryJPanel.add (trainSummary);
-		trainSummaryJPanel.add (Box.createHorizontalStrut (20));
+		trainSummaryJPanel.add (Box.createHorizontalStrut (10));
 	}
 	
 	private void updateTrainSummary () {
 		String tFullTrainSummary;
 		String tBankPoolTrainSummary;
+		String tBankTrainSummary;
 		Bank tBank;
 		BankPool tBankPool;
 		
@@ -224,45 +235,45 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		tBankPoolTrainSummary = getTrainSummary (tBankPool);
 		
 		tBank = roundManager.getBank ();
-		tFullTrainSummary = tBankPoolTrainSummary +  NEWLINE + getTrainSummary (tBank);
+		tBankTrainSummary  = getTrainSummary (tBank);
+		tFullTrainSummary = tBankPoolTrainSummary +  NEWLINE + tBankTrainSummary;
 		
 		trainSummary.setText (tFullTrainSummary);
 		trainSummary.setBackground (defaultColor);
 	}
 
 	public String getTrainSummary (GameBank aBankWithTrains) {
-		String tBankPoolTrainSummary = "";
+		String tBankTrainSummary = "";
 		
 		if (aBankWithTrains.hasAnyTrains ()) {
-			tBankPoolTrainSummary = aBankWithTrains.getName () + NEWLINE + aBankWithTrains.getTrainSummary ();
+			tBankTrainSummary = aBankWithTrains.getName () + NEWLINE + NEWLINE + aBankWithTrains.getTrainSummary ();
 		}
 		
-		return tBankPoolTrainSummary;
+		return tBankTrainSummary;
 	}
 	
 	private void buildPlayersJPanel () {
-		StockRound tStockRound;
-
-		tStockRound = roundManager.getStockRound ();
 		playersJPanel = new JPanel ();
 		playersJPanel.setBorder (BorderFactory.createTitledBorder (PLAYER_JPANEL_LABEL));
 		BoxLayout tLayout = new BoxLayout (playersJPanel, BoxLayout.X_AXIS);
 		playersJPanel.setLayout (tLayout);
 		playersJPanel.add (Box.createHorizontalStrut (10));
-		fillPlayersJPanel (tStockRound);
+		updatePlayersJPanel ();
 	}
 
-	public void fillPlayersJPanel (StockRound aStockRound) {
+	public void updatePlayersJPanel () {
 		int tPlayerIndex;
 		Player tPlayer;
 		JPanel tPlayerJPanel;
 		int tPlayerCount, tCurrentPlayer, tPriorityPlayer;
-		
-		tCurrentPlayer = aStockRound.getCurrentPlayerIndex ();
-		tPlayerCount = aStockRound.getPlayerCount ();
-		tPriorityPlayer = aStockRound.getPriorityIndex ();
+		StockRound tStockRound;
+
+		tStockRound = roundManager.getStockRound ();
+		tCurrentPlayer = tStockRound.getCurrentPlayerIndex ();
+		tPlayerCount = tStockRound.getPlayerCount ();
+		tPriorityPlayer = tStockRound.getPriorityIndex ();
 		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
-			tPlayer = aStockRound.getPlayerAtIndex (tPlayerIndex);
+			tPlayer = tStockRound.getPlayerAtIndex (tPlayerIndex);
 			if (tPlayer != Player.NO_PLAYER) {
 				tPlayerJPanel = tPlayer.buildAPlayerJPanel (tPriorityPlayer, tPlayerIndex);
 				playersJPanel.add (tPlayerJPanel);
