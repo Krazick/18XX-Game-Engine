@@ -1218,7 +1218,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		GameManager tGameManager;
 		
 		tGameManager = playerManager.getGameManager ();
-		playerFrame.fillBankBox (tGameManager);
+		playerFrame.updateBankJPanel (tGameManager);
 	}
 	
 	public void updateCertificateInfo () {

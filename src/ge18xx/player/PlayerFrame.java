@@ -104,7 +104,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		playerJPanel.add (playerInfoJPanel);
 		playerJPanel.add (Box.createVerticalStrut (10));
 		
-		buildActionButtonBox ();
+		buildActionButtonJPanel ();
 		playerJPanel.add (actionButtonJPanel);
 		
 		portfolioInfoIndex = 5;
@@ -129,7 +129,6 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		playerBidAndEscrow = new JLabel ("");
 		updateBidAndEscrow ();
 		playerInfoJPanel.add (playerBidAndEscrow);
-//		addPlayerInfoJPanelLabel (playerBidAndEscrow);
 
 		playerPortfolioLabel = new JLabel ("");
 		addPlayerInfoJPanelLabel (playerPortfolioLabel);
@@ -186,7 +185,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		return tActionButton;
 	}
 
-	private void buildActionButtonBox () {
+	private void buildActionButtonJPanel () {
 		actionButtonJPanel = new JPanel ();
 
 		passActionButton = setupActionButton (PASS, PASS);
@@ -202,7 +201,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		actionButtonJPanel.add (undoActionButton);
 	}
 	
-	public void fillBankBox (GameManager aGameManager) {
+	public void updateBankJPanel (GameManager aGameManager) {
 		Bank tBank;
 		BankPool tBankPool;
 		JPanel tBPPortfolioJPanel;
