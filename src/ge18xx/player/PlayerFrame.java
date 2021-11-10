@@ -336,10 +336,14 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		return tSelectedStocksToBuy;
 	}
 	
-	public int getCountSelectedCosToBuy ( ) {
+	public int getCountSelectedCosToBuy () {
 		return player.getCountSelectedCosToBuy ();
 	}
 	
+	public int getCountSelectedCosToBid () {
+		return player.getCountSelectedCosToBid ();
+	}
+
 	public int getCostSelectedStocksToBuy () {
 		int tSelectedStocksToBuyCost;
 		
@@ -639,21 +643,23 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	
 	private void updateBuyBidButton (boolean aStocksToBuy, boolean aPrivateToBidOn) {
 		int tCountSelectedCosToBuy;
+		int tCountSelectedCosToBid;
 		
+		tCountSelectedCosToBuy = getCountSelectedCosToBuy ();
+		tCountSelectedCosToBid = getCountSelectedCosToBid ();
 		if (aStocksToBuy) {
-			tCountSelectedCosToBuy = getCountSelectedCosToBuy ();
-			if (tCountSelectedCosToBuy > 1) {
+			if ((tCountSelectedCosToBuy + tCountSelectedCosToBid) > 1) {
 				buyBidActionButton.setEnabled (false);
-				buyBidActionButton.setToolTipText ("Select only one Company's Stock to buy at a time");
+				buyBidActionButton.setToolTipText ("Select only one Company's Stock to buy and/or bid on at a time");
 				buyBidActionButton.setText (BUY);
 				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
-				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
+// 				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
 			} else {
 				buyBidActionButton.setEnabled (aStocksToBuy);
 				buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
 				buyBidActionButton.setText (BUY);
 				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
-				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
+//				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
 			}
 		} else {
 			if (aPrivateToBidOn) {
@@ -661,7 +667,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 				buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BID);
 				buyBidActionButton.setText (BID);
 				enableSelectedButton (STOCK_SELECTED_FOR_BID);
-				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BID2);
+//				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BID2);
 			} else {
 				buyBidActionButton.setEnabled (aStocksToBuy);
 				buyBidActionButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE2);
