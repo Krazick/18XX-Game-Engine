@@ -1518,7 +1518,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				if (! (tDiscountAppliedTo.equals (tBankTrain.getName ()))) {
 					tDiscountAppliedTo = tBankTrain.getName ();
 					tBankTrain.applyDiscount (tSelectedTrainToUpgrade);
-					corporationFrame.updateBankBox ();
+					corporationFrame.updateBankJPanel ();
 				}
 			}
 		}
@@ -1535,7 +1535,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tADiscountRemoved |= tBankTrain.removeDiscount ();
 		}
 		if (tADiscountRemoved) {
-			corporationFrame.updateBankBox ();
+			corporationFrame.updateBankJPanel ();
 		}
 		
 		return tADiscountRemoved;
