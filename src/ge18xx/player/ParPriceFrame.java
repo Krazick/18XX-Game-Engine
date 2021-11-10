@@ -14,6 +14,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -37,12 +38,9 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 	
 	public ParPriceFrame (Player aPlayer, StockRound aStockRound, Certificate aCertificate) {
 		super ("Par Value Selection");
-		Integer [] tParValues;
-		JLabel tFrameLabel;
-		int tTotalTreasury, tEscrowCount;
-		Escrow tEscrow;
-		JPanel tVerticalBox = new JPanel ();
-		JPanel tMiddleBox = new JPanel ();
+		JPanel tVerticalBox;
+		int tPadding;
+		
 		// Need to have the Player that has bought the President Sale shown in Dialog 
 		// This is to confirm the player who bought the share, possible during Auction, is notified THEY should be setting this,
 		// Not the Player that bought the prior share that triggered the Auction
@@ -50,11 +48,31 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 		player = aPlayer;
 		stockRound = aStockRound;
 		certificate = aCertificate;
+		gameManager = aPlayer.getGameManager ();
+
 		parValuesPanel = new JPanel ();
-		tVerticalBox.setLayout (new BoxLayout (tVerticalBox, BoxLayout.Y_AXIS));
-		tMiddleBox.setLayout (new BoxLayout (tMiddleBox, BoxLayout.X_AXIS));
 		parValuesPanel.setLayout (new BoxLayout (parValuesPanel, BoxLayout.Y_AXIS));
-		tVerticalBox.add (Box.createVerticalStrut (10));
+		tPadding = 10;
+		parValuesPanel.setBorder (BorderFactory.createEmptyBorder (tPadding, tPadding, tPadding, tPadding));
+		
+		tVerticalBox = buildVerticalBox (aPlayer, aCertificate);
+		
+		parValuesPanel.add (Box.createHorizontalStrut (10));
+		parValuesPanel.add (tVerticalBox);
+		parValuesPanel.add (Box.createHorizontalStrut (10));
+		setParPriceFrameActive (true);
+		setUndecorated (true);
+		add (parValuesPanel);
+		pack ();
+	}
+
+	public JPanel buildVerticalBox (Player aPlayer, Certificate aCertificate) {
+		JLabel tFrameLabel1;
+		int tTotalTreasury;
+		int tEscrowCount;
+		Escrow tEscrow;
+		JPanel tVerticalBox;
+		JPanel tMiddleBox;
 		
 		tTotalTreasury = aPlayer.getCash ();
 		tEscrowCount = aPlayer.getEscrowCount ();
@@ -62,19 +80,39 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 			tEscrow = aPlayer.getEscrowAt (0);
 			tTotalTreasury += tEscrow.getCash ();
 		}
-		tFrameLabel = new JLabel (aPlayer.getName () + " is buying the " + 
+		tFrameLabel1 = new JLabel (aPlayer.getName () + " is buying the " + 
 								aCertificate.getCompanyAbbrev () + " has in Treasury " + 
 								Bank.formatCash (tTotalTreasury));
-		tFrameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		tVerticalBox.add (tFrameLabel);
+		tFrameLabel1.setAlignmentX (Component.CENTER_ALIGNMENT);
+		
+		tVerticalBox = new JPanel ();
+		tVerticalBox.setLayout (new BoxLayout (tVerticalBox, BoxLayout.Y_AXIS));
+		tVerticalBox.add (Box.createVerticalStrut (10));
+		tVerticalBox.add (tFrameLabel1);
 		tVerticalBox.add (Box.createVerticalStrut (10));
 
-		tFrameLabel = new JLabel ("MUST set the Par Price for " + aCertificate.getCompanyAbbrev ());
-		tFrameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		tMiddleBox.add (tFrameLabel);
+		tMiddleBox = buildMiddleBox (aCertificate);
+		
+		tVerticalBox.add (tMiddleBox);
+		setActionButton ("Set Par Price", SET_PAR_PRICE_ACTION);
+		tVerticalBox.add (doActionButton);
+		
+		return tVerticalBox;
+	}
+
+	public JPanel buildMiddleBox (Certificate aCertificate) {
+		Integer[] tParValues;
+		JLabel tFrameLabel2;
+		JPanel tMiddleBox;
+		
+		tFrameLabel2 = new JLabel ("MUST set the Par Price for " + aCertificate.getCompanyAbbrev ());
+		tFrameLabel2.setAlignmentX (Component.CENTER_ALIGNMENT);
+		
+		tMiddleBox = new JPanel ();
+		tMiddleBox.setLayout (new BoxLayout (tMiddleBox, BoxLayout.X_AXIS));
+		tMiddleBox.add (tFrameLabel2);
 		tMiddleBox.add (Box.createHorizontalStrut (10));
 
-		gameManager = aPlayer.getGameManager ();
 		tParValues = gameManager.getAllStartCells ();
 		parValuesCombo = new JComboBox <Integer> ();
 		// Update the Par Value Combo Box, and confirm or deny the Player has enough Cash to buy Cheapest.
@@ -84,15 +122,8 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 			tMiddleBox.add (parValuesCombo);
 			tMiddleBox.add (Box.createHorizontalStrut (10));
 		}
-		tVerticalBox.add (tMiddleBox);
-		setActionButton ("Set Par Price", SET_PAR_PRICE_ACTION);
-		tVerticalBox.add (doActionButton);
-		parValuesPanel.add (Box.createHorizontalStrut (10));
-		parValuesPanel.add (tVerticalBox);
-		parValuesPanel.add (Box.createHorizontalStrut (10));
-		setParPriceFrameActive (true);
-		add (parValuesPanel);
-		pack ();
+		
+		return tMiddleBox;
 	}
 
 	public void setParPriceFrameActive (boolean aParPriceFrameActive) {
