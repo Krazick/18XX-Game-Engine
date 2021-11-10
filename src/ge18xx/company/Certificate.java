@@ -184,6 +184,7 @@ public class Certificate implements Comparable<Certificate> {
 		CompoundBorder tCertInfoBorder2;
 		Integer [] tParValues;
 		Dimension tParValueSize;
+		int tPadding;
 		
 		if (aPlayer != Player.NO_PLAYER) {
 			tCompanyAbbrev = getCompanyAbbrev ();
@@ -205,8 +206,10 @@ public class Certificate implements Comparable<Certificate> {
 			tHasMustBuyCertificate = false;
 		}
 
+		tPadding = 3;
 		tCertificateInfoJPanel = new JPanel ();
 		tCertificateInfoJPanel.setLayout (new BoxLayout (tCertificateInfoJPanel, BoxLayout.Y_AXIS));
+		tCertificateInfoJPanel.setBorder (BorderFactory.createEmptyBorder (tPadding, tPadding, tPadding, tPadding));
 		tCertificateInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		tCertInfoBorder2 = setupCIPBorder ();
 		tCertificateInfoJPanel.setBorder (tCertInfoBorder2);
