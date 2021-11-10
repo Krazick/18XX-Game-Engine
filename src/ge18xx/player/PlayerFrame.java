@@ -34,6 +34,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	public static final String STOCK_PAR_PRICE_NEEDS_SETTING = "A Share Company needs to have Par Price selected - Find the Par Price Frame";
 	public static final String MUST_BUY_PRIVATE = "Must buy the Private where COST == DISCOUNT";
 	public static final String EXCHANGE_PRIVATE = "Exchange Private Certificate for Share Certificate";
+	public static final JPanel NO_JPANEL = null;
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
 	static final String PASS = "Pass";
@@ -43,18 +44,19 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	static final String SELL = "Sell";
 	static final String EXCHANGE = "Exchange";
 	private static final long serialVersionUID = 1L;
-	JPanel playerAndBankBox;
-	JPanel bankBox;
-	JPanel playerBox;
-	JPanel actionButtonBox;
+	JPanel playerAndBankJPanel;
+	JPanel bankJPanel;
+	JPanel playerJPanel;
+	JPanel actionButtonJPanel;
 	JPanel playerInfoJPanel;
 	JPanel portfolioInfoJPanel;
 	JLabel playerCash;
 	JLabel playerCertificateCount;
 	JLabel playerPassed;
 	JLabel playerAuctionPassed;
+	JLabel playerBidAndEscrow;
 	JLabel playerBidAmount;
-	JLabel playerPortfolioValue;
+	JLabel playerPortfolioLabel;
 	JLabel playerTotalValue;
 	JButton passActionButton;
 	JButton buyBidActionButton;
@@ -71,52 +73,86 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		if (aPlayer != Player.NO_PLAYER) {
 			player = aPlayer;
 			
-			playerAndBankBox = new JPanel ();
-			playerAndBankBox.setLayout (new BoxLayout (playerAndBankBox, BoxLayout.X_AXIS));
-			bankBox = new JPanel ();
-			bankBox.setLayout (new BoxLayout (bankBox, BoxLayout.Y_AXIS));
-			playerBox = new JPanel ();
-			playerBox.setLayout (new BoxLayout (playerBox, BoxLayout.Y_AXIS));
-			playerInfoJPanel = new JPanel ();
-			playerBox.add (Box.createVerticalStrut (10));
-			playerInfoJPanel.setBorder (BorderFactory.createTitledBorder ("Information For " + player.getName ()));
-			playerInfoJPanel.setLayout (new BoxLayout (playerInfoJPanel, BoxLayout.X_AXIS));
-			playerInfoJPanel.setAlignmentX (CENTER_ALIGNMENT);
-			
-			addPlayerInfoJPanelLabel (null);
-			playerCash = new JLabel ("");
-			addPlayerInfoJPanelLabel (playerCash);
-			setCashLabel ();
-			
-			playerCertificateCount = new JLabel ("");
-			addPlayerInfoJPanelLabel (playerCertificateCount);
-			setCertificateCountLabel ();
-			
-			playerPortfolioValue = new JLabel ("");
-			addPlayerInfoJPanelLabel (playerPortfolioValue);
-			setPortfolioValueLabel ();
-			
-			playerTotalValue = new JLabel ("");
-			addPlayerInfoJPanelLabel (playerTotalValue);
-			setTotalValueLabel ();
-			
-			playerBox.add (playerInfoJPanel);
-			playerBox.add (Box.createVerticalStrut (10));
-			
-			createActionButtonBox ();
-			playerBox.add (actionButtonBox);
-			
-			portfolioInfoIndex = 5;
-			updatePortfolioInfo ();
-
-			playerAndBankBox.add (Box.createHorizontalStrut (20));
-			playerAndBankBox.add (playerBox);
-			playerAndBankBox.add (Box.createHorizontalGlue ());
-			playerAndBankBox.add (bankBox);
-			playerAndBankBox.add(Box.createHorizontalStrut (20));
-			add (playerAndBankBox);
+			buildPlayerAndBankJPanel ();
+			add (playerAndBankJPanel);
 			setLocationFixed (false);
 			setSize (850, 900);
+		}
+	}
+
+	public void buildPlayerAndBankJPanel () {
+		playerAndBankJPanel = new JPanel ();
+		playerAndBankJPanel.setLayout (new BoxLayout (playerAndBankJPanel, BoxLayout.X_AXIS));
+		
+		bankJPanel = new JPanel ();
+		bankJPanel.setLayout (new BoxLayout (bankJPanel, BoxLayout.Y_AXIS));
+		playerAndBankJPanel.add (Box.createHorizontalStrut (20));
+		buildPlayerJPanel ();
+		playerAndBankJPanel.add (playerJPanel);
+		playerAndBankJPanel.add (Box.createHorizontalGlue ());
+		playerAndBankJPanel.add (bankJPanel);
+		playerAndBankJPanel.add(Box.createHorizontalStrut (20));
+	}
+
+	public void buildPlayerJPanel () {
+		playerJPanel = new JPanel ();
+		playerJPanel.setLayout (new BoxLayout (playerJPanel, BoxLayout.Y_AXIS));
+		playerJPanel.add (Box.createVerticalStrut (10));
+		
+		buildPlayerInfoPanel ();
+		
+		playerJPanel.add (playerInfoJPanel);
+		playerJPanel.add (Box.createVerticalStrut (10));
+		
+		buildActionButtonBox ();
+		playerJPanel.add (actionButtonJPanel);
+		
+		portfolioInfoIndex = 5;
+		updatePortfolioInfo ();
+	}
+
+	private void buildPlayerInfoPanel () {
+		playerInfoJPanel = new JPanel ();
+		playerInfoJPanel.setBorder (BorderFactory.createTitledBorder ("Information For " + player.getName ()));
+		playerInfoJPanel.setLayout (new BoxLayout (playerInfoJPanel, BoxLayout.X_AXIS));
+		playerInfoJPanel.setAlignmentX (CENTER_ALIGNMENT);
+		
+		addPlayerInfoJPanelLabel (null);
+		playerCash = new JLabel ("");
+		addPlayerInfoJPanelLabel (playerCash);
+		setCashLabel ();
+		
+		playerCertificateCount = new JLabel ("");
+		addPlayerInfoJPanelLabel (playerCertificateCount);
+		setCertificateCountLabel ();
+		
+		playerBidAndEscrow = new JLabel ("");
+		updateBidAndEscrow ();
+		playerInfoJPanel.add (playerBidAndEscrow);
+//		addPlayerInfoJPanelLabel (playerBidAndEscrow);
+
+		playerPortfolioLabel = new JLabel ("");
+		addPlayerInfoJPanelLabel (playerPortfolioLabel);
+		
+		playerTotalValue = new JLabel ("");
+		addPlayerInfoJPanelLabel (playerTotalValue);
+	}
+	
+	private void updateBidAndEscrow () {
+		int tBidCount, tEscrowTotal;
+		String tBidCountText;
+		
+		tBidCount = player.getEscrowCount ();
+		if (tBidCount > 0) {
+			if (tBidCount == 1) {
+				tBidCountText = "1 Bid";
+			} else {
+				tBidCountText = "Bids: " + tBidCount;
+			}
+			tEscrowTotal = player.getTotalEscrow ();
+			playerBidAndEscrow.setText (tBidCountText + " Total Escrow: " + Bank.formatCash(tEscrowTotal) + " ");
+		} else {
+			playerBidAndEscrow.setText ("");
 		}
 	}
 	
@@ -150,8 +186,8 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		return tActionButton;
 	}
 
-	private void createActionButtonBox () {
-		actionButtonBox = new JPanel ();
+	private void buildActionButtonBox () {
+		actionButtonJPanel = new JPanel ();
 
 		passActionButton = setupActionButton (PASS, PASS);
 		buyBidActionButton = setupActionButton (BUY_BID, BUY_BID);
@@ -159,11 +195,11 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		exchangeActionButton = setupActionButton (EXCHANGE, EXCHANGE);
 		undoActionButton = setupActionButton (UNDO, UNDO);
 				
-		actionButtonBox.add (passActionButton);
-		actionButtonBox.add (buyBidActionButton);
-		actionButtonBox.add (sellActionButton);
-		actionButtonBox.add (exchangeActionButton);
-		actionButtonBox.add (undoActionButton);
+		actionButtonJPanel.add (passActionButton);
+		actionButtonJPanel.add (buyBidActionButton);
+		actionButtonJPanel.add (sellActionButton);
+		actionButtonJPanel.add (exchangeActionButton);
+		actionButtonJPanel.add (undoActionButton);
 	}
 	
 	public void fillBankBox (GameManager aGameManager) {
@@ -176,25 +212,25 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		tBank = player.getBank ();
 		tBankPool = player.getBankPool ();
 		
-		bankBox.removeAll ();
+		bankJPanel.removeAll ();
 		if (tBank.isStartPacketPortfolioEmpty ()) {
 			tBPPortfolioJPanel = tBankPool.buildPortfolioInfoJPanel (this, player, aGameManager);
 			
-			bankBox.add (Box.createVerticalGlue ());
-			bankBox.add (tBPPortfolioJPanel);
-			bankBox.add (Box.createVerticalGlue ());
+			bankJPanel.add (Box.createVerticalGlue ());
+			bankJPanel.add (tBPPortfolioJPanel);
+			bankJPanel.add (Box.createVerticalGlue ());
 			
 			tBankPortfolioJPanel = tBank.buildPortfolioInfoJPanel (this, player, aGameManager);
-			bankBox.add (tBankPortfolioJPanel);
-			bankBox.add (Box.createVerticalGlue ());
+			bankJPanel.add (tBankPortfolioJPanel);
+			bankJPanel.add (Box.createVerticalGlue ());
 		} else {
 			tStartPacketPortfolioJPanel = tBank.buildStartPacketInfoJPanel (this, player, aGameManager);
-			bankBox.add (Box.createVerticalGlue ());
-			bankBox.add (tStartPacketPortfolioJPanel);
-			bankBox.add (Box.createVerticalGlue ());
+			bankJPanel.add (Box.createVerticalGlue ());
+			bankJPanel.add (tStartPacketPortfolioJPanel);
+			bankJPanel.add (Box.createVerticalGlue ());
 		}
-		bankBox.repaint ();
-		bankBox.revalidate ();
+		bankJPanel.repaint ();
+		bankJPanel.revalidate ();
 	}
 	
 	@Override
@@ -239,7 +275,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		
 		tCompanyAbbrev = player.hasExchangedShare ();
 		tReason = ">>NONE<<";
-		if (tCompanyAbbrev != null) {
+		if (tCompanyAbbrev != Corporation.NO_ABBREV) {
 			tPercentMustSell = player.getMustSellPercent (tCompanyAbbrev);
 			if (tPercentMustSell > 0) {
 				tReason = "Must Sell at least " + tPercentMustSell + "% of " + tCompanyAbbrev + " before completing due to Exchange";
@@ -326,7 +362,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		Bank tBank;
 		
 		tBank = player.getBank ();
-		if (tBank != null) { 
+		if (tBank != Bank.NO_BANK) { 
 			tSelectedStocksToBuy = player.hasSelectedStockToBuy (tBank);
 		} else {
 			System.err.println ("Player has failed to retrieve the Bank");
@@ -363,15 +399,15 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	}
 
 	public void replacePortfolioInfo (JPanel aPortfolioJPanel) {
-		if (portfolioInfoJPanel == null) {
+		if (portfolioInfoJPanel == NO_JPANEL) {
 			setPortfolioInfoJPanel (aPortfolioJPanel);
 		} else {
-			playerBox.remove (portfolioInfoIndex);
-			playerBox.remove (portfolioInfoIndex - 1);
+			playerJPanel.remove (portfolioInfoIndex);
+			playerJPanel.remove (portfolioInfoIndex - 1);
 		}
-		playerBox.add (aPortfolioJPanel);
-		playerBox.add (Box.createVerticalStrut (10));
-		playerBox.validate ();
+		playerJPanel.add (aPortfolioJPanel);
+		playerJPanel.add (Box.createVerticalStrut (10));
+		playerJPanel.validate ();
 	}
 
 	public void setCashLabel () {
@@ -494,7 +530,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		if (player != Player.NO_PLAYER) {
 			tPortfolioValue = player.getPortfolioValue ();
 		}
-		playerPortfolioValue.setText ("Portfolio Value: " + Bank.formatCash (tPortfolioValue));
+		playerPortfolioLabel.setText ("Portfolio Value: " + Bank.formatCash (tPortfolioValue));
 		setTotalValueLabel ();
 	}
 	
@@ -502,15 +538,18 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		int tPortfolioValue;
 		int tCashValue;
 		int tTotalValue;
+		int tEscrowValue;
 		
 		if (playerTotalValue != null) {
 			tPortfolioValue = 0;
 			tCashValue = 0;
+			tEscrowValue = 0;
 			if (player != Player.NO_PLAYER) {
 				tPortfolioValue = player.getPortfolioValue ();
 				tCashValue = player.getCash ();
+				tEscrowValue = player.getTotalEscrow ();
 			}
-			tTotalValue = tPortfolioValue + tCashValue;
+			tTotalValue = tPortfolioValue + tCashValue + tEscrowValue;
 			playerTotalValue.setText ("Total Value: " + Bank.formatCash (tTotalValue));
 		}
 	}
@@ -545,7 +584,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		} else {
 			setPassButton ();
 		}
-		player.addPrivateBenefitButtons (actionButtonBox);
+		player.addPrivateBenefitButtons (actionButtonJPanel);
 	}
 
 	private void updatePassButton (boolean aCanCompleteTurn, boolean aMustBuy) {
@@ -699,6 +738,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 	public void updateCertificateInfo () {
 		setCertificateCountLabel ();
 		updatePortfolioInfo ();
+		updateBidAndEscrow ();
 	}
 	
 	public void enableAllStartPacketButtons (String aToolTip) {
