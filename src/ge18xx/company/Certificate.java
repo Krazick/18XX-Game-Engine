@@ -1093,6 +1093,19 @@ public class Certificate implements Comparable<Certificate> {
 		return tIsSelectedToBuy;
 	}
 	
+	public boolean isSelectedToBid () {
+		boolean tIsSelectedToBid;
+		
+		tIsSelectedToBid = false;
+		if (isSelected ()) {
+			if (checkedButton.getText().equals (Player.BID_LABEL)) {
+				tIsSelectedToBid = true;
+			}
+		}
+		
+		return tIsSelectedToBid;
+	}
+	
 	public boolean isSelectedToExchange () {
 		boolean tIsSelectedToExchange;
 		
