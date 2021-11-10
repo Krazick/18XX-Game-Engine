@@ -1290,6 +1290,19 @@ public class Portfolio implements CertificateHolderI {
 		return tHasSelectedStockToBuy;
 	}
 	
+	public boolean hasSelectedStockToBid () {
+		boolean tHasSelectedStockToBid;
+		
+		tHasSelectedStockToBid = false;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelectedToBid ()) {
+				tHasSelectedStockToBid = true;
+			}
+		}
+	
+		return tHasSelectedStockToBid;
+	}
+	
 	public Certificate getSelectedStockToSell () {
 		Certificate tCertificateToSell = Certificate.NO_CERTIFICATE;
 		
@@ -1318,6 +1331,18 @@ public class Portfolio implements CertificateHolderI {
 		}
 
 		return tCountSelectedCosToBuy;
+	}
+	
+	public int getCountSelectedCosToBid () {
+		int tCountSelectedCosToBid = 0;
+		
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelectedToBid ()) {
+				tCountSelectedCosToBid++;
+			}
+		}
+
+		return tCountSelectedCosToBid;
 	}
 	
 	public int getSelectedStockCost () {
