@@ -756,19 +756,46 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		tHasSelectedStockToBuy = tBankPortfolio.hasSelectedStockToBuy ();
 		if (! tHasSelectedStockToBuy) {
 			tBankPool = playerManager.getBankPool ();
-			if (tBankPool != null) {
+			if (tBankPool != BankPool.NO_BANK_POOL) {
 				tBankPoolPortfolio = tBankPool.getPortfolio ();
 				tHasSelectedStockToBuy = tBankPoolPortfolio.hasSelectedStockToBuy ();
 			}
 		}
 		if (! tHasSelectedStockToBuy) {
 			tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
-			if (tStartPacketPortfolio != null) {
+			if (tStartPacketPortfolio != StartPacketPortfolio.NO_START_PACKET) {
 				tHasSelectedStockToBuy = tStartPacketPortfolio.hasSelectedStockToBuy ();
 			}
 		}
 		
 		return tHasSelectedStockToBuy;
+	}
+	
+	public boolean hasSelectedStockToBid (Bank aBank) {
+		boolean tHasSelectedStockToBid;
+		Bank tBank;
+		BankPool tBankPool;
+		Portfolio tBankPortfolio, tBankPoolPortfolio;
+		StartPacketPortfolio tStartPacketPortfolio;
+		
+		tBank = playerManager.getBank ();
+		tBankPortfolio = tBank.getPortfolio ();
+		tHasSelectedStockToBid = tBankPortfolio.hasSelectedStockToBid ();
+		if (! tHasSelectedStockToBid) {
+			tBankPool = playerManager.getBankPool ();
+			if (tBankPool != BankPool.NO_BANK_POOL) {
+				tBankPoolPortfolio = tBankPool.getPortfolio ();
+				tHasSelectedStockToBid = tBankPoolPortfolio.hasSelectedStockToBid ();
+			}
+		}
+		if (! tHasSelectedStockToBid) {
+			tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
+			if (tStartPacketPortfolio != StartPacketPortfolio.NO_START_PACKET) {
+				tHasSelectedStockToBid = tStartPacketPortfolio.hasSelectedStockToBid ();
+			}
+		}
+		
+		return tHasSelectedStockToBid;
 	}
 	
 	public int getCountSelectedCosToBuy () {
@@ -787,6 +814,24 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		}
 		
 		return tCountSelectedCosToBuy;
+	}
+	
+	public int getCountSelectedCosToBid () {
+		int tCountSelectedCosToBid = 0;
+		Bank tBank;
+		BankPool tBankPool;
+		Portfolio tBankPortfolio, tBankPoolPortfolio;
+		
+		tBank = getBank ();
+		if (hasSelectedStockToBid (tBank)) {
+			tBankPortfolio = tBank.getPortfolio ();
+			tCountSelectedCosToBid = tBankPortfolio.getCountSelectedCosToBid ();
+			tBankPool = playerManager.getBankPool ();
+			tBankPoolPortfolio = tBankPool.getPortfolio ();
+			tCountSelectedCosToBid += tBankPoolPortfolio.getCountSelectedCosToBid ();
+		}
+		
+		return tCountSelectedCosToBid;
 	}
 	
 	public int getCostSelectedStockToBuy () {
