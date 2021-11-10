@@ -440,7 +440,25 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	}
 	
 	public int getEscrowCount () {
-		return escrows.getEscrowCount ();
+		int tEscrowCount;
+		
+		tEscrowCount = 0;
+		if (escrows != Escrows.NO_ESCROWS) {
+			tEscrowCount = escrows.getEscrowCount ();
+		}
+		
+		return tEscrowCount;
+	}
+	
+	public int getTotalEscrow () {
+		int tTotalEscrow;
+		
+		tTotalEscrow = 0;
+		if (escrows != Escrows.NO_ESCROWS) {
+			tTotalEscrow = escrows.getTotalEscrow ();
+		}
+		
+		return tTotalEscrow;
 	}
 	
 	public GameManager getGameManager () {
