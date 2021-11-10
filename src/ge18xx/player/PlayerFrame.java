@@ -653,21 +653,23 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 				buyBidActionButton.setToolTipText ("Select only one Company's Stock to buy and/or bid on at a time");
 				buyBidActionButton.setText (BUY);
 				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
-// 				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
 			} else {
 				buyBidActionButton.setEnabled (aStocksToBuy);
 				buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
 				buyBidActionButton.setText (BUY);
 				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
-//				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BUY2);
 			}
 		} else {
-			if (aPrivateToBidOn) {
+			if (tCountSelectedCosToBid > 1) {
+				buyBidActionButton.setEnabled (false);
+				buyBidActionButton.setToolTipText ("Select only one Company's Stock to bid on at a time");
+				buyBidActionButton.setText (BID);
+				enableSelectedButton (STOCK_SELECTED_FOR_BID);
+			} else if (aPrivateToBidOn) {
 				buyBidActionButton.setEnabled (aPrivateToBidOn);
 				buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BID);
 				buyBidActionButton.setText (BID);
 				enableSelectedButton (STOCK_SELECTED_FOR_BID);
-//				disableAllStartPacketButtons (STOCK_SELECTED_FOR_BID2);
 			} else {
 				buyBidActionButton.setEnabled (aStocksToBuy);
 				buyBidActionButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE2);

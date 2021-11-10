@@ -803,11 +803,14 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		Bank tBank;
 		BankPool tBankPool;
 		Portfolio tBankPortfolio, tBankPoolPortfolio;
+		StartPacketPortfolio tStartPacketPortfolio;
 		
 		tBank = getBank ();
 		if (hasSelectedStockToBuy (tBank)) {
 			tBankPortfolio = tBank.getPortfolio ();
 			tCountSelectedCosToBuy = tBankPortfolio.getCountSelectedCosToBuy ();
+			tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
+			tCountSelectedCosToBuy += tStartPacketPortfolio.getCountSelectedCosToBuy ();
 			tBankPool = playerManager.getBankPool ();
 			tBankPoolPortfolio = tBankPool.getPortfolio ();
 			tCountSelectedCosToBuy += tBankPoolPortfolio.getCountSelectedCosToBuy ();
@@ -821,11 +824,14 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		Bank tBank;
 		BankPool tBankPool;
 		Portfolio tBankPortfolio, tBankPoolPortfolio;
+		StartPacketPortfolio tStartPacketPortfolio;
 		
 		tBank = getBank ();
 		if (hasSelectedStockToBid (tBank)) {
 			tBankPortfolio = tBank.getPortfolio ();
 			tCountSelectedCosToBid = tBankPortfolio.getCountSelectedCosToBid ();
+			tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
+			tCountSelectedCosToBid += tStartPacketPortfolio.getCountSelectedCosToBid ();
 			tBankPool = playerManager.getBankPool ();
 			tBankPoolPortfolio = tBankPool.getPortfolio ();
 			tCountSelectedCosToBid += tBankPoolPortfolio.getCountSelectedCosToBid ();
