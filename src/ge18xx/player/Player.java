@@ -1214,7 +1214,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		playerFrame.updateActionButtons ();
 	}
 
-	public void updateBankBox () {
+	public void updateBankJPanel () {
 		GameManager tGameManager;
 		
 		tGameManager = playerManager.getGameManager ();
@@ -1233,7 +1233,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		playerFrame.setCashLabel ();
 		updateCertificateInfo ();
 		updatePortfolioInfo ();
-		updateBankBox ();
+		updateBankJPanel ();
 		updateActionButtons ();
 	}
 	
