@@ -385,7 +385,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return (corporation != Corporation.NO_CORPORATION);
 	}
 	
-	public void fillBankBox (boolean aCanBuyTrain, String aDisableToolTipReason) {
+	public void updateBankJPanel (boolean aCanBuyTrain, String aDisableToolTipReason) {
 		Bank tBank;
 		BankPool tBankPool;
 		JPanel tBPPortfolioJPanel;
@@ -979,7 +979,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void updateBuyableItems () {
 		fillCertPortfolioJPanel ();
 		fillPrivatesBox ();
-		updateBankBox ();
+		updateBankJPanel ();
 		updateOtherCorpsJPanel ();
 	}
 
@@ -1017,7 +1017,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		fillOtherCorpsJPanel (tCanBuyTrain, tDisableToolTipReason);
 	}
 
-	public void updateBankBox () {
+	public void updateBankJPanel () {
 		boolean tCanBuyTrain;
 		boolean tHasCash;
 		boolean tIsAtTrainLimit;
@@ -1041,7 +1041,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else {
 				tDisableToolTipReason = "Dividends have not been handled yet";
 			}
-			fillBankBox (tCanBuyTrain, tDisableToolTipReason);
+			updateBankJPanel (tCanBuyTrain, tDisableToolTipReason);
 		}
 	}
 	
