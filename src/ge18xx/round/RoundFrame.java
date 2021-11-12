@@ -91,7 +91,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		defaultColor = UIManager.getColor ("Panel.background");
 	}
 
-	public void buildRoundJPanel () {
+	private void buildRoundJPanel () {
 		padding1 = 10;
 		padding2 = 5;
 		
