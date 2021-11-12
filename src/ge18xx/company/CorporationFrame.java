@@ -62,7 +62,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	JPanel corporationInfoJPanel;
 	JPanel privatesJPanel;
 	JPanel certInfoJPanel;
-	JPanel actionButtons;
+	JPanel actionButtonsJPanel;
 	JLabel treasuryLabel;
 	JLabel presidentLabel;
 	JLabel statusLabel;
@@ -91,35 +91,28 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	
 	public CorporationFrame (String aFrameName, Corporation aCorporation, boolean aIsNetworkGame) {
 		super (((aCorporation != Corporation.NO_CORPORATION) ? aCorporation.getName () + " " : "") + aFrameName);
-		Dimension tMinSize = new Dimension (20, 10);
-		JPanel tTopBoxes, tPhaseInfoBox;
+		JPanel tTopBoxes;
 		
-		corporationJPanel = new JPanel ();
-		corporationJPanel.setLayout (new BoxLayout (corporationJPanel, BoxLayout.Y_AXIS));
-		tTopBoxes = new JPanel ();
-		tTopBoxes.setLayout (new BoxLayout (tTopBoxes, BoxLayout.X_AXIS));
 		certJPanel = NO_PANEL;
 		corporation = aCorporation;
 		if (corporation != Corporation.NO_CORPORATION) {
 			corporation = aCorporation;
 			
-			buildCorporationInfoJPanel (tMinSize);
+			buildCorporationAllInfoJPanel ();
 			
-			tTopBoxes.add (Box.createHorizontalStrut (20));
-			tTopBoxes.add (corporationAllInfoJPanel);
-			tTopBoxes.add (Box.createHorizontalStrut (10));
-			tPhaseInfoBox = buildPhaseInfoBox ();
-			tTopBoxes.add (tPhaseInfoBox);
-			tTopBoxes.add (Box.createHorizontalStrut (20));
+			tTopBoxes = buildTopBoxes ();
+			
+			corporationJPanel = new JPanel ();
+			corporationJPanel.setLayout (new BoxLayout (corporationJPanel, BoxLayout.Y_AXIS));
 			corporationJPanel.add (Box.createVerticalStrut (20));
 			corporationJPanel.add (tTopBoxes);
 			corporationJPanel.add (Box.createVerticalStrut (10));
-			createActionButtonRows ();
-			corporationJPanel.add (actionButtons);
+			createActionButtonJPanel ();
+			corporationJPanel.add (actionButtonsJPanel);
 			corporationJPanel.add (Box.createVerticalStrut (10));
 
 			if (corporation.gameHasPrivates ()) {
-				if (corporation instanceof ShareCompany) {
+				if (corporation.isAShareCompany ()) {
 					privatesBox = new JPanel ();
 					privatesBox.setLayout (new BoxLayout (privatesBox, BoxLayout.Y_AXIS));
 					corporationJPanel.add (privatesBox);
@@ -146,7 +139,25 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 
-	private void buildCorporationInfoJPanel (Dimension tMinSize) {
+	private JPanel buildTopBoxes () {
+		JPanel tTopBoxes;
+		JPanel tPhaseInfoBox;
+		
+		tTopBoxes = new JPanel ();
+		tTopBoxes.setLayout (new BoxLayout (tTopBoxes, BoxLayout.X_AXIS));
+		tTopBoxes.add (Box.createHorizontalStrut (20));
+		tTopBoxes.add (corporationAllInfoJPanel);
+		tTopBoxes.add (Box.createHorizontalStrut (10));
+		tPhaseInfoBox = buildPhaseInfoBox ();
+		tTopBoxes.add (tPhaseInfoBox);
+		tTopBoxes.add (Box.createHorizontalStrut (20));
+		
+		return tTopBoxes;
+	}
+
+	private void buildCorporationAllInfoJPanel () {
+		Dimension tMinSize = new Dimension (20, 10);
+		
 		corporationAllInfoJPanel = new JPanel ();
 		corporationAllInfoJPanel.setLayout (new BoxLayout (corporationAllInfoJPanel, BoxLayout.Y_AXIS));
 		corporationAllInfoJPanel.setAlignmentY (CENTER_ALIGNMENT);
@@ -154,6 +165,19 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				BorderFactory.createTitledBorder (
 						BorderFactory.createLineBorder (((TrainCompany) corporation).getBgColor (), 2),
 						" Information For " + corporation.getName ()));
+		
+		buildCorporationInfoJPanel (tMinSize);
+
+		corporationAllInfoJPanel.add (Box.createRigidArea (tMinSize));
+		corporationAllInfoJPanel.add (corporationInfoJPanel);
+		corporationAllInfoJPanel.add (Box.createRigidArea (tMinSize));
+		if (corporation.isATrainCompany ()) {
+			corporationAllInfoJPanel.add (certJPanel);
+		}
+
+	}
+	
+	private void buildCorporationInfoJPanel (Dimension tMinSize) {
 		
 		corporationInfoJPanel = new JPanel ();			
 		corporationInfoJPanel.setLayout (new BoxLayout (corporationInfoJPanel, BoxLayout.X_AXIS));
@@ -182,14 +206,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporationInfoJPanel.add (lastRevenueLabel);
 			setLastRevenueLabel ();
 			corporationInfoJPanel.add (Box.createRigidArea (tMinSize));
-			
-			corporationAllInfoJPanel.add (Box.createRigidArea (tMinSize));
-			corporationAllInfoJPanel.add (corporationInfoJPanel);
-			corporationAllInfoJPanel.add (Box.createRigidArea (tMinSize));
-			fillCertPortfolioJPanel ();
-			if (corporation instanceof TrainCompany) {
-				corporationAllInfoJPanel.add (certJPanel);
-			}
+			fillCertPortfolioJPanel ();			
 		}
 	}
 	
@@ -312,8 +329,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tActionButton;
 	}
 	
-	private void createActionButtonRows () {
-		actionButtons = new JPanel (new WrapLayout ());
+	private void createActionButtonJPanel () {
+		actionButtonsJPanel = new JPanel (new WrapLayout ());
 		
 		doneActionButton = setupActionButton (DONE, DONE);
 		undoActionButton = setupActionButton (UNDO, UNDO);
@@ -335,28 +352,28 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 	
 	private void addActionButtons () {
-		actionButtons.removeAll ();
+		actionButtonsJPanel.removeAll ();
 		
-		actionButtons.add (showMapActionButton);
-		actionButtons.add (placeTileActionButton);
-		actionButtons.add (placeTokenActionButton);
-		actionButtons.add (operateTrainActionButton);
-		actionButtons.add (payNoDividendActionButton);
+		actionButtonsJPanel.add (showMapActionButton);
+		actionButtonsJPanel.add (placeTileActionButton);
+		actionButtonsJPanel.add (placeTokenActionButton);
+		actionButtonsJPanel.add (operateTrainActionButton);
+		actionButtonsJPanel.add (payNoDividendActionButton);
 		if (corporation.canPayHalfDividend ()) {
-			actionButtons.add (payHalfDividendActionButton);
+			actionButtonsJPanel.add (payHalfDividendActionButton);
 		}
-		actionButtons.add (payFullDividendActionButton);
-		actionButtons.add (buyTrainActionButton);
-		actionButtons.add (buyTrainForceActionButton);
+		actionButtonsJPanel.add (payFullDividendActionButton);
+		actionButtonsJPanel.add (buyTrainActionButton);
+		actionButtonsJPanel.add (buyTrainForceActionButton);
 		if (corporation.gameHasPrivates ()) {
-			actionButtons.add (buyPrivateActionButton);
+			actionButtonsJPanel.add (buyPrivateActionButton);
 		}
 		if (corporation.gameHasLoans ()) {
-			actionButtons.add (getLoanActionButton);
-			actionButtons.add (paybackLoanActionButton);
+			actionButtonsJPanel.add (getLoanActionButton);
+			actionButtonsJPanel.add (paybackLoanActionButton);
 		}
-		actionButtons.add (doneActionButton);
-		actionButtons.add (undoActionButton);
+		actionButtonsJPanel.add (doneActionButton);
+		actionButtonsJPanel.add (undoActionButton);
 	}
 	
 	public void fillOtherCorpsJPanel (boolean aCanBuyTrain, String aDisableToolTipReason) {
@@ -525,7 +542,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateForceBuyTrainActionButton ();
 		updateBuyPrivateActionButton ();
 		updateDoneActionButton ();
-		corporation.configurePrivateBenefitButtons (actionButtons);
+		corporation.configurePrivateBenefitButtons (actionButtonsJPanel);
 		repaint ();
 		revalidate ();
 	}
