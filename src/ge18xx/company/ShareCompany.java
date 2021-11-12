@@ -576,6 +576,11 @@ public class ShareCompany extends TokenCompany {
 					tCurrentCorporationStatus, tNewCorporationStatus);
 		}
 	}
+	
+	@Override
+	public boolean isAShareCompany () {
+		return true;
+	}
 
 	@Override
 	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
