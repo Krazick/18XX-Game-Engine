@@ -711,7 +711,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 							tMapCell.setCorporation (tCorporation, tLocation);
 						}
 					}
-					if (tCorporation instanceof ShareCompany) {
+					if (tCorporation.isAShareCompany ()) {
 						tShareCompany = (ShareCompany) tCorporation;
 						tLocation = tShareCompany.getDestinationLocation ();
 						if (tLocation != Location.NO_DESTINATION_LOCATION) {

@@ -1399,7 +1399,7 @@ public class Portfolio implements CertificateHolderI {
 		tHasShareCompanyStocks = false;
 		for (Certificate tCertificate : certificates) {
 			tCorporation = tCertificate.getCorporation ();
-			if (tCorporation instanceof ShareCompany) {
+			if (tCorporation.isAShareCompany ()) {
 				tHasShareCompanyStocks = true;
 			}
 		}
@@ -1596,7 +1596,7 @@ public class Portfolio implements CertificateHolderI {
 			tCertificateHolder = tCertificate.getOwner ();
 			if (tCertificateHolder != null) {
 				tPortfolioHolder = tCertificateHolder.getPortfolioHolder ();
-				if (tPortfolioHolder instanceof Player) {
+				if (tPortfolioHolder.isAPlayer ()) {
 					tPlayerOwner = (Player) tPortfolioHolder;
 					if (tPreviousPlayerOwner != tPlayerOwner) {
 						tPlayerOwner.updatePlayerInfo ();

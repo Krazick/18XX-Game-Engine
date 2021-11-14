@@ -487,7 +487,7 @@ public class PlayerManager {
 					tCurrentHolder = tShareCompany.getPresident ();
 					if (tCurrentHolder == Portfolio.NO_HOLDER) {
 						tCurrentPresident = Player.NO_PLAYER;
-					} else if (tCurrentHolder instanceof Player) {
+					} else if (tCurrentHolder.isAPlayer ()) {
 						tCurrentPresident = (Player) tCurrentHolder;
 					} else {
 						tCurrentPresident = Player.NO_PLAYER;

@@ -732,7 +732,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		PrivateCompany tSelectedPrivateCompany;
 		
 		tSelectedCorporation = privatesFrame.getSelectedCorporation ();
-		if (tSelectedCorporation instanceof PrivateCompany) {
+		if (tSelectedCorporation.isAPrivateCompany ()) {
 			tSelectedPrivateCompany = (PrivateCompany) tSelectedCorporation;
 		} else {
 			tSelectedPrivateCompany = (PrivateCompany) Corporation.NO_CORPORATION;

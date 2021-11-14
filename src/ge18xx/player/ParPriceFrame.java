@@ -155,7 +155,7 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 			tSelectedParPrice = (Integer) parValuesCombo.getSelectedItem ();
 			
 			tCorporation = certificate.getCorporation ();
-			if (tCorporation instanceof ShareCompany) {
+			if (tCorporation.isAShareCompany ()) {
 				tShareCompany = (ShareCompany) tCorporation;
 			} else {
 				tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
