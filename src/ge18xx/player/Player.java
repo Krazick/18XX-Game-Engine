@@ -46,7 +46,9 @@ import ge18xx.utilities.XMLNodeList;
 
 public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	public static final Player NO_PLAYER = null;
+	public static final JPanel NO_PLAYER_JPANEL = null;
 	public static final String NO_PLAYER_NAME_LABEL = ">NO PLAYER<";
+	public static final JLabel NO_LABEL = null;
 	public static final ElementName EN_PLAYER = new ElementName ("Player");
 	public static final ElementName EN_PLAYERS = new ElementName ("Players");
 	public static final ElementName EN_PLAYER_STATES = new ElementName ("PlayerStates");
@@ -82,7 +84,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	int certificateLimit;
 	JLabel rfPlayerLabel;
 	JLabel cashLabel;
-	JPanel playerJPanel = null;
+	JPanel playerJPanel = NO_PLAYER_JPANEL;
 	Logger logger;
 	Benefit benefitInUse;
 	
@@ -587,7 +589,6 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		tShareCompany = playerManager.getShareCompany (aCompanyAbbrev);
 		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tNextPossiblePrez = playerManager.findPlayerWithMost (tShareCompany, this);
-//xxxx
 		}
 		
 		return tNextPossiblePrez;
@@ -1275,7 +1276,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		String tCashText;
 		
 		tCashText = "Cash: " + Bank.formatCash (getCash ());
-		if (cashLabel == null) {
+		if (cashLabel == NO_LABEL) {
 			cashLabel = new JLabel (tCashText);
 		} else {
 			cashLabel.setText (tCashText);
@@ -1287,17 +1288,23 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	}
 	
 	public JPanel buildAPlayerJPanel (int aPriorityPlayerIndex, int aPlayerIndex) {
-		JPanel tOwnershipPanel;
-		JLabel tCertCountLabel;
-		JLabel tTotalValueLabel;
-		JLabel tSoldCompanies;
-
-		if (playerJPanel == null) {
+		if (playerJPanel == NO_PLAYER_JPANEL) {
 			playerJPanel = new JPanel ();
 			playerJPanel.setLayout (new BoxLayout (playerJPanel, BoxLayout.Y_AXIS));
 		} else {
 			playerJPanel.removeAll ();
 		}
+		updateAPlayerJPanel (aPriorityPlayerIndex, aPlayerIndex);
+		
+		return playerJPanel;
+	}
+
+	private void updateAPlayerJPanel (int aPriorityPlayerIndex, int aPlayerIndex) {
+		JPanel tOwnershipPanel;
+		JLabel tCertCountLabel;
+		JLabel tTotalValueLabel;
+		JLabel tSoldCompanies;
+		
 		buildPlayerLabel (aPriorityPlayerIndex, aPlayerIndex);
 		playerJPanel.add (rfPlayerLabel);
 		updateCashLabel ();
@@ -1313,7 +1320,7 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		tCertCountLabel = new JLabel (buildCertCountInfo ("Certificates "));
 		playerJPanel.add (tCertCountLabel);
 		tOwnershipPanel  = portfolio.buildOwnershipPanel ();
-		if (tOwnershipPanel != null) {
+		if (tOwnershipPanel != Portfolio.NO_PORTFOLIO_JPANEL) {
 			playerJPanel.add (tOwnershipPanel);
 		}
 		tSoldCompanies = soldCompanies.buildSoldCompaniesLabel ();
@@ -1323,8 +1330,6 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 		playerJPanel.add (Box.createHorizontalStrut (10));
 		playerJPanel.repaint ();
 		playerJPanel.revalidate ();
-		
-		return playerJPanel;
 	}
 	
 	public String buildCertCountInfo (String aPrefix) {
