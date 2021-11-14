@@ -89,19 +89,12 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		JPanel tNorthComponents = new JPanel ();
 		
 		companyCombo = new JComboBox <String> ();
-//		tNorthComponents.add (companyCombo);
-//		updateCorpComboBox ();
 		
 		playerCombo = new JComboBox <String> ();
-//		tNorthComponents.add (playerCombo);
-//		updatePlayerComboBox ();
 		
 		actorsCombo = new JComboBox <String> ();
 		tNorthComponents.add (actorsCombo);
 		updateActorsComboBox ();
-		
-//		companyCombo.addItemListener (this);
-//		playerCombo.addItemListener (this);
 		
 		refreshList = new JButton ("Refresh List");
 		refreshList.setActionCommand (REFRESH_LIST);
