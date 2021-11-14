@@ -15,7 +15,6 @@ import ge18xx.company.CertificateHolderI;
 import ge18xx.company.Corporation;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.PrivateCompany;
-import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -54,6 +53,7 @@ public class Portfolio implements CertificateHolderI {
 	public final static AttributeName AN_SHARE_INDEX = new AttributeName ("shareIndex");
 	public final static PortfolioHolderI NO_HOLDER = null;
 	public final static Portfolio NO_PORTFOLIO = null;
+	public final static JPanel NO_PORTFOLIO_JPANEL = null;
 	public final static String NO_PORTFOLIO_LABEL = ">> NO PORTFOLIO <<";
 	public final static String NO_COMPANY_YET = ">> NONE YET <<";
 	public final static String NO_CERTIFICATES = ">> NO CERTIFICATES <<";
@@ -1632,7 +1632,7 @@ public class Portfolio implements CertificateHolderI {
 	}
 	
 	public JPanel buildOwnershipPanel () {
-		JPanel tOwnershipPanel = null;
+		JPanel tOwnershipPanel = NO_PORTFOLIO_JPANEL;
 		JLabel tCertificateOwnershipLabel;
 		List<PortfolioSummary> tPortfolioSummary;
 		PortfolioSummary tASummary;
