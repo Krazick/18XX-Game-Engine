@@ -19,7 +19,6 @@ package ge18xx.map;
 // 50      Center City Clocation
 // 99      Dead End Location
 
-
 import ge18xx.utilities.AttributeName;
 
 import java.awt.Point;
