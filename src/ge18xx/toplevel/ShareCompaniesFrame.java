@@ -218,10 +218,6 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
 		return (super.getCorporationStateElements (aXMLDocument, EN_SHARES));
 	}
-	
-	public int getCountOfShares () {
-		return (super.getCountOfCompanies ());
-	}
 
 	public ShareCompany getShareCompany (String aCompanyAbbrev) {
 		ShareCompany tShareCompany;

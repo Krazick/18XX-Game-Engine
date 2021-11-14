@@ -732,10 +732,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 		PrivateCompany tSelectedPrivateCompany;
 		
 		tSelectedCorporation = privatesFrame.getSelectedCorporation ();
-		if (tSelectedCorporation.isAPrivateCompany ()) {
-			tSelectedPrivateCompany = (PrivateCompany) tSelectedCorporation;
+		if (tSelectedCorporation == Corporation.NO_CORPORATION) {
+			tSelectedPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
 		} else {
-			tSelectedPrivateCompany = (PrivateCompany) Corporation.NO_CORPORATION;
+			if (tSelectedCorporation.isAPrivateCompany ()) {
+				tSelectedPrivateCompany = (PrivateCompany) tSelectedCorporation;
+			} else {
+				tSelectedPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
+			}
 		}
 		
 		return tSelectedPrivateCompany;
@@ -756,8 +760,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public int getCountOfCoals () {
 		int tCountOfCoals = 0;
 		
-		if (privatesFrame != null) {
-			tCountOfCoals = coalCompaniesFrame.getCountOfCoals ();
+		if (coalCompaniesFrame != CoalCompaniesFrame.NO_COAL_COMPANIES_FRAME) {
+			tCountOfCoals = coalCompaniesFrame.getCountOfCompanies ();
 		}
 		
 		return tCountOfCoals;
@@ -765,9 +769,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public int getCountOfMinors () {
 		int tCountOfMinors = 0;
-		
-		if (minorCompaniesFrame != null) {
-			tCountOfMinors = minorCompaniesFrame.getCountOfMinors ();
+
+		if (minorCompaniesFrame != MinorCompaniesFrame.NO_MINORS_FRAME) {
+			tCountOfMinors = minorCompaniesFrame.getCountOfCompanies ();
 		}
 		
 		return tCountOfMinors;
@@ -776,8 +780,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public int getCountOfPrivates () {
 		int tCountOfPrivates = 0;
 		
-		if (privatesFrame != null) {
-			tCountOfPrivates = privatesFrame.getCountOfPrivates ();
+		if (privatesFrame != PrivatesFrame.NO_PRIVATES_FRAME) {
+			tCountOfPrivates = privatesFrame.getCountOfCompanies ();
 		}
 		
 		return tCountOfPrivates;
@@ -1701,16 +1705,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 		boolean tGameHasPrivates = false;
 		boolean tGameHasShares = false;
 		
-		if (privatesFrame.getCountOfPrivates () > 0) {
+		if (privatesFrame.getCountOfCompanies () > 0) {
 			tGameHasPrivates = true;
 		}
-		if (coalCompaniesFrame.getCountOfCoals () > 0) {
+		if (coalCompaniesFrame.getCountOfCompanies () > 0) {
 			tGameHasCoals = true;
 		}
-		if (minorCompaniesFrame.getCountOfMinors () > 0) {
+		if (minorCompaniesFrame.getCountOfCompanies () > 0) {
 			tGameHasMinors = true;
 		}
-		if (shareCompaniesFrame.getCountOfShares () > 0) {
+		if (shareCompaniesFrame.getCountOfCompanies () > 0) {
 			tGameHasShares = true;
 		}
 		if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {

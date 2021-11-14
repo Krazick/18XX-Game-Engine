@@ -20,6 +20,7 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class PrivatesFrame extends CorporationTableFrame {
+	public static final PrivatesFrame NO_PRIVATES_FRAME = null;
 	public static final ElementName EN_PRIVATES = new ElementName (CorporationList.TYPE_NAMES [0] + "s");
 	private static final long serialVersionUID = 1L;
 	
@@ -66,7 +67,7 @@ public class PrivatesFrame extends CorporationTableFrame {
 	}
 	
 	public boolean gameHasPrivates () {
-		if (getCountOfPrivates () > 0) {
+		if (getCountOfCompanies () > 0) {
 			return true;
 		} else {
 			return false;
@@ -79,10 +80,6 @@ public class PrivatesFrame extends CorporationTableFrame {
 	
 	public int getCountOfPlayerOwnedPrivates () {
 		return (super.getCountOfPlayerOwnedCompanies ());
-	}
-
-	public int getCountOfPrivates () {
-		return (super.getCountOfCompanies ());
 	}
 
 	public CorporationList getPrivates () {

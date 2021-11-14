@@ -19,6 +19,7 @@ public class MinorCompaniesFrame extends CorporationTableFrame {
 	/**
 	 * 
 	 */
+	public static final MinorCompaniesFrame NO_MINORS_FRAME = null;
 	public static final ElementName EN_MINORS = new ElementName (CorporationList.TYPE_NAMES [2] + "s");
 	private static final long serialVersionUID = 1L;
 	
@@ -33,10 +34,6 @@ public class MinorCompaniesFrame extends CorporationTableFrame {
 	@Override
 	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
 		return (super.getCorporationStateElements (aXMLDocument, EN_MINORS));
-	}
-
-	public int getCountOfMinors () {
-		return (super.getCountOfCompanies ());
 	}
 	
 	public CorporationList getMinorCompanies () {

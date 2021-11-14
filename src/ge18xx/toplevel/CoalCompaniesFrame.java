@@ -11,6 +11,7 @@ public class CoalCompaniesFrame extends CorporationTableFrame {
 	/**
 	 * 
 	 */
+	public static final CoalCompaniesFrame NO_COAL_COMPANIES_FRAME = null;
 	public static final ElementName EN_COALS = new ElementName (CorporationList.TYPE_NAMES [1] + "s");
 	private static final long serialVersionUID = 1L;
 	
@@ -25,10 +26,6 @@ public class CoalCompaniesFrame extends CorporationTableFrame {
 	@Override
 	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
 		return (super.getCorporationStateElements (aXMLDocument, EN_COALS));
-	}
-
-	public int getCountOfCoals () {
-		return (super.getCountOfCompanies ());
 	}
 	
 	public CorporationList getCoalCompanies () {
