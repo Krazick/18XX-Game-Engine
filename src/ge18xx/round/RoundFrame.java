@@ -258,20 +258,21 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		BoxLayout tLayout = new BoxLayout (playersJPanel, BoxLayout.X_AXIS);
 		playersJPanel.setLayout (tLayout);
 		playersJPanel.add (Box.createHorizontalStrut (10));
-		updatePlayersJPanel ();
+		updateAllPlayerJPanels ();
+		updateCurrentPlayerText ();
 	}
 
-	public void updatePlayersJPanel () {
+	public void updateAllPlayerJPanels () {
 		int tPlayerIndex;
 		Player tPlayer;
 		JPanel tPlayerJPanel;
-		int tPlayerCount, tCurrentPlayer, tPriorityPlayer;
+		int tPlayerCount, tPriorityPlayer;
 		StockRound tStockRound;
 
 		tStockRound = roundManager.getStockRound ();
-		tCurrentPlayer = tStockRound.getCurrentPlayerIndex ();
 		tPlayerCount = tStockRound.getPlayerCount ();
 		tPriorityPlayer = tStockRound.getPriorityIndex ();
+		playersJPanel.removeAll ();
 		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
 			tPlayer = tStockRound.getPlayerAtIndex (tPlayerIndex);
 			if (tPlayer != Player.NO_PLAYER) {
@@ -281,6 +282,21 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 			} else {
 				logger.error ("No Player Found for " + tPlayerIndex);
 			}
+		}
+
+	}
+	
+	public void updateCurrentPlayerText () {
+		int tPlayerIndex;
+		Player tPlayer;
+		int tPlayerCount, tCurrentPlayer;
+		StockRound tStockRound;
+
+		tStockRound = roundManager.getStockRound ();
+		tCurrentPlayer = tStockRound.getCurrentPlayerIndex ();
+		tPlayerCount = tStockRound.getPlayerCount ();
+		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
+			tPlayer = tStockRound.getPlayerAtIndex (tPlayerIndex);
 			if (tCurrentPlayer == tPlayerIndex) {
 				setCurrentPlayerText (tPlayer.getName ());
 			} 
@@ -598,11 +614,7 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		updateTotalCashLabel ();
 		updatePhaseLabel ();
 		updateTrainSummary ();
-		// If we update the Player JPanel, it does include updating the Action Button Label
-		// Don't want that to happen during an Operating Round
-		if (! roundManager.isOperatingRound ()) {
-			updatePlayersJPanel ();
-		}
+		updateAllPlayerJPanels ();
 		updateAllCorporationsBox ();
 		updatePassButton ();
 	}
