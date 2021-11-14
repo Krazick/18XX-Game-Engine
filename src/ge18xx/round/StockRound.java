@@ -264,4 +264,8 @@ public class StockRound extends Round {
 		tPlayer.passAction ();
 	}
 
+	@Override
+	public boolean isATrainCompany () {
+		return false;
+	}
 }

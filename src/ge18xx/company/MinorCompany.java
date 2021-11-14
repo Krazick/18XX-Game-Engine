@@ -137,4 +137,10 @@ public class MinorCompany extends TokenCompany {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	// Minor Company will override
+	@Override
+	public boolean isAMinorCompany () {
+		return true;
+	}
 }

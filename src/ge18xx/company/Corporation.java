@@ -798,13 +798,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		int tValue;
 		
 		tValue = NO_COST;
-		if (this instanceof PrivateCompany) {
+		if (this.isAPrivateCompany ()) {
 			tValue = ((PrivateCompany) this).getValue ();
-		} else if (this instanceof MinorCompany) {
+		} else if (this.isAMinorCompany ()) {
 			tValue = ((MinorCompany) this).getValue ();
-		} else if (this instanceof CoalCompany) {
+		} else if (this.isACoalCompany ()) {
 			tValue = ((CoalCompany) this).getValue ();
-		} else if (this instanceof ShareCompany) {
+		} else if (this.isAShareCompany ()) {
 			tValue = ((ShareCompany) this).getSharePrice ();
 		}
 		
@@ -1061,7 +1061,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	// Train Company will override
+	@Override
 	public boolean isATrainCompany () {
+		return false;
+	}
+	
+	// Minor Company will override
+	public boolean isAMinorCompany () {
 		return false;
 	}
 	
@@ -1072,6 +1078,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	
 	// Share Company will override
 	public boolean isAShareCompany () {
+		return false;
+	}
+	
+	// Share Company will override
+	@Override
+	public boolean isABankPool () {
 		return false;
 	}
 	
@@ -1572,7 +1584,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		int tCompareCanOperate;
 		TrainCompany tCompany1, tCompany2;
 		
-		if (this instanceof ShareCompany) {
+		if (this.isAShareCompany ()) {
 			tCompany1 = (TrainCompany) this;
 			tCompany2 = (TrainCompany) aCorporation;
 			tCanOperate1 = tCompany1.canOperate ();
@@ -1675,8 +1687,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int compareShare (Corporation aCorporation) {
 		int tCompareShare;
 		
-		if ((this instanceof ShareCompany) && 
-			(aCorporation instanceof ShareCompany)) {
+		if ((this.isAShareCompany ()) && 
+			(aCorporation.isAShareCompany ())) {
 			tCompareShare = 0;
 		} else {
 			tCompareShare = compareID (aCorporation);

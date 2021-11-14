@@ -53,7 +53,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 
 		trainCompany = aBuyingCompany;
 		train = aSelectedTrain;
-		if (aCurrentOwner instanceof TrainCompany) {
+		if (aCurrentOwner.isATrainCompany ()) {
 			currentOwner = (TrainCompany) aCurrentOwner;
 		} else {
 			currentOwner = Corporation.NO_CORPORATION;

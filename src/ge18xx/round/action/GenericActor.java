@@ -200,7 +200,12 @@ public class GenericActor implements ActorI {
 	}
 
 	@Override
-	public String getAbbrev() {
+	public String getAbbrev () {
 		return getName ();
+	}
+
+	@Override
+	public boolean isATrainCompany () {
+		return false;
 	}
 }

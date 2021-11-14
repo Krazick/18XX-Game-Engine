@@ -72,4 +72,9 @@ public class AuctionRound extends Round {
 	public String getAbbrev () {
 		return getName ();
 	}
+
+	@Override
+	public boolean isATrainCompany () {
+		return false;
+	}
 }

@@ -438,4 +438,14 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		
 		return tCertificate;
 	}
+
+	@Override
+	public boolean isABankPool () {
+		return false;
+	}
+
+	@Override
+	public boolean isATrainCompany () {
+		return false;
+	}
 }

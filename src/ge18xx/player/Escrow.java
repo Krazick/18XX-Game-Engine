@@ -77,8 +77,9 @@ public class Escrow implements CashHolderI {
 			setCertificate (tCertificate);
 			if (tCertificate == Certificate.NO_CERTIFICATE) {
 				System.err.println ("--- Did not find Certificate for " + tAbbrev + " from Bank");
+			} else {
+				tCertificate.addBiddersInfo (aCertificateNode);
 			}
-			tCertificate.addBiddersInfo (aCertificateNode);
 		}
 	};
 
@@ -210,5 +211,10 @@ public class Escrow implements CashHolderI {
 		System.out.println ("+++Escrow Holder: " + aHolderName + " Escrow Name " + name + 
 				" Cert for " + certificate.getCompanyAbbrev () + " Amount " + Bank.formatCash (cash));
 		
+	}
+
+	@Override
+	public boolean isATrainCompany () {
+		return false;
 	}
 }

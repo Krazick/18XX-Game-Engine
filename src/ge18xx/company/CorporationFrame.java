@@ -444,7 +444,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		int tCountOpenPrivates, tCountPlayerOwnedPrivates;
 		ShareCompany tShareCompany;
 		
-		if (corporation instanceof ShareCompany) {
+		if (corporation.isAShareCompany ()) {
 			tGameManager = corporation.getGameManager ();
 			tCountOpenPrivates = tGameManager.getCountOfOpenPrivates ();
 			if (tCountOpenPrivates > 0) {
@@ -470,7 +470,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		TrainCompany tTrainCompany;
 		
 		certInfoJPanel = NO_PANEL;
-		if (corporation instanceof TrainCompany) {
+		if (corporation.isATrainCompany ()) {
 			if (certJPanel == NO_PANEL) {
 				certJPanel = new JPanel ();
 				certJPanel.setLayout (new BoxLayout (certJPanel, BoxLayout.Y_AXIS));
@@ -522,7 +522,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		
 		tTreasuryValue = 0;
 		if (corporation != Corporation.NO_CORPORATION) {
-			if (corporation instanceof TrainCompany) {
+			if (corporation.isATrainCompany ()) {
 				tTreasuryValue = ((TrainCompany) corporation).getTreasury ();
 			}
 		}
@@ -820,7 +820,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		buyTrainActionButton.setText (BUY_TRAIN);
 		tOtherTrainHolder = corporation.getOtherSelectedTrainHolder ();
 		if (tOtherTrainHolder != null) {
-			if (tOtherTrainHolder instanceof Corporation) {
+			if (tOtherTrainHolder.isACorporation ()) {
 				tOtherCorporation = (Corporation) tOtherTrainHolder;
 				tOtherPresidentName = tOtherCorporation.getPresidentName ();
 				tCurrentPresidentName = corporation.getPresidentName ();

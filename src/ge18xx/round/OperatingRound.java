@@ -244,4 +244,9 @@ public class OperatingRound extends Round {
 	public boolean isAOperatingRound () {
 		return true;
 	}
+
+	@Override
+	public boolean isATrainCompany () {
+		return false;
+	}
 }

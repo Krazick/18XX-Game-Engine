@@ -264,7 +264,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public void discardExcessTrains (BankPool aBankPool, BuyTrainAction aBuyTrainAction) {
 		TrainCompany tTrainCompany;
 		for (Corporation tCorporation : corporations) {
-			if (tCorporation instanceof TrainCompany) {
+			if (tCorporation.isATrainCompany ()) {
 				tTrainCompany = (TrainCompany) tCorporation;
 				tTrainCompany.discardExcessTrains (aBankPool, aBuyTrainAction);
 			}
@@ -616,7 +616,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		
 		tAllCompaniesOperated = true;
 		for (Corporation tCorporation : corporations) {
-			if (tCorporation instanceof ShareCompany) {
+			if (tCorporation.isAShareCompany ()) {
 				if (tCorporation.shouldOperate ()) {
 					tAllCompaniesOperated &= tCorporation.didOperate ();
 				}
@@ -631,7 +631,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		
 		tIsFirstTrainOfType = true;
 		for (Corporation tCorporation : corporations) {
-			if (tCorporation instanceof TrainCompany) {
+			if (tCorporation.isATrainCompany ()) {
 				if (tCorporation.hasTrainOfType (aTrain)) {
 					tIsFirstTrainOfType = false;
 				}
@@ -789,7 +789,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		TrainPortfolio tTrainPortfolio;
 		
 		for (Corporation tCorporation : corporations) {
-			if (tCorporation instanceof TrainCompany) {
+			if (tCorporation.isATrainCompany ()) {
 				tTrainCompany = (TrainCompany) tCorporation;
 				tTrainPortfolio = tTrainCompany.getTrainPortfolio ();
 				tTrainPortfolio.rustAllTrainsNamed (aTrainName, aRustedTrainsPortfolio, 
@@ -941,7 +941,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 						aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason, aBuyingCorporation);
 				tOtherCorpsInfoJPanel.add (tOtherCorpInfoJPanel);
 			} else {
-				if (aBuyingCorporation instanceof TrainCompany) {
+				if (aBuyingCorporation.isATrainCompany ()) {
 					tTrainCompany  = (TrainCompany) aBuyingCorporation;
 					tBgColor = tTrainCompany.getBgColor ();
 					tFgColor = tTrainCompany.getFgColor ();

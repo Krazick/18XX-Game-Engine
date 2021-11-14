@@ -563,7 +563,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tGameManager.closeCompany (closeOnTrainPurchase, (TransferOwnershipAction) aBuyTrainAction);
 		}
 		tFirstTrainOfType = false;
-		if (tTrainHolder instanceof Bank) {
+		if (tTrainHolder.isABank ()) {
 			tBank = (Bank) tTrainHolder;
 			tFirstTrainOfType = corporationList.isFirstTrainOfType (tTrain);
 			tBank.makeTrainsAvailable (tTrain, aBuyTrainAction);
@@ -1183,12 +1183,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tPercentage = tShareHolders.getShareCount (tShareHolderIndex);
 				tDividendForShares = (int) (tDividendFor1Percent * tPercentage + 0.5);
 
-				if (tPortfolioHolder instanceof Player) {
+				if (tPortfolioHolder.isAPlayer ()) {
 					tPlayer = (Player) tPortfolioHolder;
 					tBank.transferCashTo (tPlayer, tDividendForShares);
 					tPlayer.updatePlayerJPanel ();
 					aPayFullDividendAction.addCashTransferEffect (tBank, tPlayer, tDividendForShares);
-				} else if (tPortfolioHolder instanceof BankPool) {
+				} else if (tPortfolioHolder.isABankPool ()) {
 					tBank.transferCashTo (this, tDividendForShares);
 					aPayFullDividendAction.addCashTransferEffect (tBank, this, tDividendForShares);
 				}

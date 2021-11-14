@@ -75,4 +75,5 @@ public interface ActorI {
 	public boolean isAOperatingRound ();
 	public boolean isABank ();
 	public boolean isACorporation ();
+	public boolean isATrainCompany ();
 }

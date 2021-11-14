@@ -360,4 +360,14 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tHasAnyTrains;
 	}
 
+	@Override
+	public boolean isABankPool () {
+		return false;
+	}
+
+	@Override
+	public boolean isATrainCompany () {
+		return false;
+	}
+
 }

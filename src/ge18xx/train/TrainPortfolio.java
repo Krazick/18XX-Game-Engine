@@ -120,7 +120,7 @@ public class TrainPortfolio implements TrainHolderI {
 					}
 					if (aCorporation.getName ().equals (portfolioHolder.getName ()))  {
 					} else {
-						if (aCorporation instanceof TrainCompany) {
+						if (aCorporation.isATrainCompany ()) {
 							tTrainCompany = (TrainCompany) aCorporation;
 							if (tTrainCompany.atTrainLimit ()) {
 								tActionToolTip = "Company has reached Train Limit";
@@ -866,5 +866,20 @@ public class TrainPortfolio implements TrainHolderI {
 		tTrainInfo = aPreviousName + " Train QTY: " + aCount + " " + aCost + tRustTileInfo + NEWLINE;
 		
 		return tTrainInfo;
+	}
+
+	@Override
+	public boolean isATrainCompany () {
+		return portfolioHolder.isATrainCompany ();
+	}
+	
+	@Override
+	public boolean isACorporation () {
+		return portfolioHolder.isACorporation ();
+	}
+	
+	@Override
+	public boolean isABank () {
+		return portfolioHolder.isABank ();
 	}
 }

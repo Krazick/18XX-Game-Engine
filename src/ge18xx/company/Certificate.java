@@ -811,7 +811,7 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tCounts;
 		
 		tCounts = true;
-		if (corporation instanceof ShareCompany) {
+		if (corporation.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) corporation;
 			tCounts = tShareCompany.countsAgainstCertificateLimit ();
 		}
@@ -841,17 +841,17 @@ public class Certificate implements Comparable<Certificate> {
 		int tParPrice;
 		
 		tParPrice = 0;
-		if (corporation instanceof ShareCompany) {
+		if (corporation.isAShareCompany ()) {
 			ShareCompany tShare = (ShareCompany) corporation;
 			
 			tParPrice = tShare.getParPrice();
 		}
-		if (corporation instanceof MinorCompany) {
+		if (corporation.isAMinorCompany ()) {
 			MinorCompany tMinor = (MinorCompany) corporation;
 			
 			tParPrice = tMinor.getValue ();
 		}
-		if (corporation instanceof CoalCompany) {
+		if (corporation.isACoalCompany ()) {
 			CoalCompany tCoal = (CoalCompany) corporation;
 			
 			tParPrice = tCoal.getValue ();
@@ -1001,9 +1001,9 @@ public class Certificate implements Comparable<Certificate> {
 		if (owner != null) {
 			tHolder = owner.getPortfolioHolder ();
 			if (tHolder != Portfolio.NO_HOLDER) {
-				if ((tHolder instanceof Player) || 
-					(tHolder instanceof Corporation) || 
-					(tHolder instanceof BankPool)) {
+				if ((tHolder .isAPlayer ()) || 
+					(tHolder.isACorporation ()) || 
+					(tHolder.isABankPool ())) {
 					tOwned = true;
 				}
 			}
@@ -1020,7 +1020,7 @@ public class Certificate implements Comparable<Certificate> {
 		if (owner != null) {
 			tHolder = owner.getPortfolioHolder ();
 			if (tHolder != Portfolio.NO_HOLDER) {
-				if (tHolder instanceof BankPool) {
+				if (tHolder.isABankPool ()) {
 					tOwned = true;
 				}
 			}
@@ -1041,8 +1041,8 @@ public class Certificate implements Comparable<Certificate> {
 		if (owner != null) {
 			tHolder = owner.getPortfolioHolder ();
 			if (tHolder != Portfolio.NO_HOLDER) {
-				if ((tHolder instanceof Player) || 
-					(tHolder instanceof Corporation)) {
+				if ((tHolder.isAPlayer ()) || 
+					(tHolder.isACorporation ())) {
 					tOwned = true;
 				}
 			}
@@ -1295,7 +1295,7 @@ public class Certificate implements Comparable<Certificate> {
 		if (tState == ActorI.ActionStates.Unowned) {
 			tNewState = ActorI.ActionStates.Owned;
 		} else if ((tState == ActorI.ActionStates.Owned) || (tState == ActorI.ActionStates.MayFloat)) {
-			if (corporation instanceof ShareCompany) {
+			if (corporation.isAShareCompany ()) {
 				tShareCompany = (ShareCompany) corporation;
 				if (tShareCompany.getPlayerOrCorpOwnedPercentage () >= 60) {
 					tNewState = ActorI.ActionStates.WillFloat;

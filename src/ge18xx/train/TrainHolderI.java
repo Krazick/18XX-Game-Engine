@@ -37,4 +37,10 @@ public interface TrainHolderI {
 	public boolean removeSelectedTrain ();
 
 	public int getLocalSelectedTrainCount ();
+
+	public boolean isATrainCompany ();
+
+	public boolean isACorporation ();
+	
+	public boolean isABank ();
 }

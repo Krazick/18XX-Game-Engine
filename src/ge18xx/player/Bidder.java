@@ -104,6 +104,11 @@ public class Bidder implements ActorI {
 	}
 
 	@Override
+	public boolean isATrainCompany () {
+		return false;
+	}
+
+	@Override
 	public boolean isACorporation () {
 		return false;
 	}
