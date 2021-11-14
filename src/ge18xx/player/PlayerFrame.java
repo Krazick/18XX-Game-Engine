@@ -437,49 +437,6 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		setPassDoneButton (PASS, PASS);
 	}
 	
-	// TODO: Test if the Par Price Frame is UP, and disable the Done Button if so -- 
-	// Must set that Par Price before allowing the Stock Action to be done.
-	
-	public void setPassDoneButton (String tLabel, String tAction) {
-		String tToolTip;
-		
-		passActionButton.setText (tLabel);
-		passActionButton.setActionCommand (tAction);
-		if (hasSelectedStocksToBuy ()) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
-		} else if (hasSelectedStocksToSell ()) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
-		} else if (hasSelectedPrezToExchange ()) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (STOCK_SELECTED_FOR_EXCHANGE);
-		} else if (hasSelectedPrivateToBidOn ()) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (STOCK_SELECTED_FOR_BID);
-		} else if (hasSelectedPrivateOrMinorToExchange ()) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (PRIVATE_SELECTED_FOR_EXCHANGE);
-		} else if (player.isParPriceFrameActive () ) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);
-		} else if (player.isAuctionRound ()) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText ("Auction Round must complete first");	
-		} else if (! player.isLastActionComplete () ) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText ("Last Action must be completed first");	
-		} else if (mustSellStock ()) {
-			tToolTip = getMustSellToolTip (player);
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (tToolTip);		
-		} else if (hasMustBuyCertificate ()) {
-			setCannotPass ();
-		} else {
-			passActionButton.setEnabled (true);
-			passActionButton.setToolTipText ("");
-		}
-	}
 
 	public String getMustSellToolTip (Player aPlayer) {
 		String tStock;
@@ -584,6 +541,49 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 			setPassButton ();
 		}
 		player.addPrivateBenefitButtons (actionButtonJPanel);
+	}
+	// TODO: Test if the Par Price Frame is UP, and disable the Done Button if so -- 
+	// Must set that Par Price before allowing the Stock Action to be done.
+	
+	public void setPassDoneButton (String tLabel, String tAction) {
+		String tToolTip;
+		
+		passActionButton.setText (tLabel);
+		passActionButton.setActionCommand (tAction);
+		if (hasSelectedStocksToBuy ()) {
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+		} else if (hasSelectedStocksToSell ()) {
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
+		} else if (hasSelectedPrezToExchange ()) {
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText (STOCK_SELECTED_FOR_EXCHANGE);
+		} else if (hasSelectedPrivateToBidOn ()) {
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText (STOCK_SELECTED_FOR_BID);
+		} else if (hasSelectedPrivateOrMinorToExchange ()) {
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText (PRIVATE_SELECTED_FOR_EXCHANGE);
+		} else if (player.isParPriceFrameActive () ) {
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);
+		} else if (player.isAuctionRound ()) {
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText ("Auction Round must complete first");	
+		} else if (! player.isLastActionComplete () ) {
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText ("Last Action must be completed first");	
+		} else if (mustSellStock ()) {
+			tToolTip = getMustSellToolTip (player);
+			passActionButton.setEnabled (false);
+			passActionButton.setToolTipText (tToolTip);		
+		} else if (hasMustBuyCertificate ()) {
+			setCannotPass ();
+		} else {
+			passActionButton.setEnabled (true);
+			passActionButton.setToolTipText ("");
+		}
 	}
 
 	private void updatePassButton (boolean aCanCompleteTurn, boolean aMustBuy) {
