@@ -642,7 +642,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	
 	public void setAuctionRound (AuctionRound aAuctionRound) {
 		auctionRound = aAuctionRound;
-		if (auctionRound == null) {
+		if (auctionRound == AuctionRound.NO_AUCTION_ROUND) {
 			System.err.println ("OOPs, Auction Round Not set yet");
 		}
 	}
