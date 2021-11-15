@@ -17,11 +17,12 @@ import ge18xx.round.RoundManager;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
 
 public class PrivatesFrame extends CorporationTableFrame {
+	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [0].toString ();
+	public static final String BASE_TITLE = BASE_TYPE + " Companies";
 	public static final PrivatesFrame NO_PRIVATES_FRAME = null;
-	public static final ElementName EN_PRIVATES = new ElementName (CorporationList.TYPE_NAMES [0] + "s");
+	public static final ElementName EN_PRIVATES = new ElementName (BASE_TYPE + "s");
 	private static final long serialVersionUID = 1L;
 	
 	public PrivatesFrame (String aFrameName, RoundManager aRoundManager) {
@@ -47,23 +48,14 @@ public class PrivatesFrame extends CorporationTableFrame {
 		JPanel tPrivatesJPanel;
 		
 		tPrivatesJPanel = companies.buildCompaniesForPurchaseJPanel (aItemListener, 
-				CorporationList.TYPE_NAMES [0].toString (), aAvailableCash);
+				BASE_TYPE, aAvailableCash);
 		
 		return tPrivatesJPanel;
-	}
-
-	public XMLElement createPrivatesListDefinitions (XMLDocument aXMLDocument) {
-		return (super.createCompaniesListDefinitions (aXMLDocument));
 	}
 
 	@Override
 	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
 		return (super.getCorporationStateElements (aXMLDocument, EN_PRIVATES));
-	}
-	
-	@Override
-	public int getCountOfSelectedCertificates () {
-		return super.getCountOfSelectedCertificates ();
 	}
 	
 	public boolean gameHasPrivates () {
@@ -73,24 +65,8 @@ public class PrivatesFrame extends CorporationTableFrame {
 			return false;
 		}
 	}
-	
-	public int getCountOfOpenPrivates () {
-		return (super.getCountOfOpenCompanies ());
-	}
-	
-	public int getCountOfPlayerOwnedPrivates () {
-		return (super.getCountOfPlayerOwnedCompanies ());
-	}
 
-	public CorporationList getPrivates () {
-		return (super.getCompanies ());
-	}
-	
-	public void loadPrivatesStates (XMLNode aXMLNode) {
-		super.loadStates (aXMLNode);
-	}
-
-	public int getTotalEscrow() {
+	public int getTotalEscrow () {
 		int tTotalEscrow = 0;
 		
 		tTotalEscrow = companies.getTotalEscrow ();

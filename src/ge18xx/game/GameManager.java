@@ -273,12 +273,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (gameIsStarted ()) {
 			tXMLCompaniesName = getCompaniesFileName ();
 			tXMLCompaniesName = getXMLBaseDirectory () + tXMLCompaniesName;
-			tFullFrameTitle = createFrameTitle ("Coal Companies");
+			tFullFrameTitle = createFrameTitle (CoalCompaniesFrame.BASE_TITLE);
 
 			tCoalCompaniesFrame = new CoalCompaniesFrame (tFullFrameTitle, roundManager);
 			setCoalCompaniesFrame (tCoalCompaniesFrame);
 			try {
-				tCoalCompaniesFrame.loadXML (tXMLCompaniesName, tCoalCompaniesFrame.getCoalCompanies ());
+				tCoalCompaniesFrame.loadXML (tXMLCompaniesName, tCoalCompaniesFrame.getCompanies ());
 			} catch (Exception tException) {
 				logger.error (tException);
 			}
@@ -384,10 +384,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 //			CorporationList tCoalCompaniesList;
 			
 			tMapFrame.setCityInfo (citiesFrame.getCities ());
-			tPrivatesCompaniesList = privatesFrame.getPrivates ();
-			tShareCompaniesList = shareCompaniesFrame.getShareCompanies ();
-			tMinorCompaniesList = minorCompaniesFrame.getMinorCompanies ();
-//			tCoalCompaniesList = coalCompaniesFrame.getCoalCompanies ();
+			tPrivatesCompaniesList = privatesFrame.getCompanies ();
+			tShareCompaniesList = shareCompaniesFrame.getCompanies ();
+			tMinorCompaniesList = minorCompaniesFrame.getCompanies ();
+//			tCoalCompaniesList = coalCompaniesFrame.getCompanies ();
 			tMapFrame.setCorporationList (tPrivatesCompaniesList, CorporationList.TYPE_NAMES [0]);
 //			tMapFrame.setCorporationList (tCoalCompaniesList, CorporationList.TYPE_NAMES [1]);
 			tMapFrame.setCorporationList (tMinorCompaniesList, CorporationList.TYPE_NAMES [2]);
@@ -424,10 +424,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (gameIsStarted ()) {
 			tXMLCompaniesName = getCompaniesFileName ();
 			tXMLCompaniesName = getXMLBaseDirectory () + tXMLCompaniesName;
-			tMinorCompaniesFrame = new MinorCompaniesFrame (createFrameTitle ("Minor Companies"), roundManager);
+			tMinorCompaniesFrame = new MinorCompaniesFrame (createFrameTitle (MinorCompaniesFrame.BASE_TITLE), roundManager);
 			setMinorCompaniesFrame (tMinorCompaniesFrame);
 			try {
-				tMinorCompaniesFrame.loadXML (tXMLCompaniesName, tMinorCompaniesFrame.getMinorCompanies ());
+				tMinorCompaniesFrame.loadXML (tXMLCompaniesName, tMinorCompaniesFrame.getCompanies ());
 			} catch (Exception tException) {
 				logger.error (tException);
 			}
@@ -441,10 +441,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (gameIsStarted ()) {
 			tXMLCompaniesName = getCompaniesFileName ();
 			tXMLCompaniesName = getXMLBaseDirectory () + tXMLCompaniesName;
-			tPrivatesFrame = new PrivatesFrame (createFrameTitle ("Private Companies"), roundManager);
+			tPrivatesFrame = new PrivatesFrame (createFrameTitle (PrivatesFrame.BASE_TITLE), roundManager);
 			setPrivatesFrame (tPrivatesFrame);
 			try {
-				tPrivatesFrame.loadXML (tXMLCompaniesName, tPrivatesFrame.getPrivates ());
+				tPrivatesFrame.loadXML (tXMLCompaniesName, tPrivatesFrame.getCompanies ());
 			} catch (Exception tException) {
 				logger.error (tException);
 			}
@@ -460,10 +460,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (gameIsStarted ()) {
 			tXMLCompaniesName = getCompaniesFileName ();
 			tXMLCompaniesName = getXMLBaseDirectory () + tXMLCompaniesName;
-			tShareCompaniesFrame = new ShareCompaniesFrame (createFrameTitle ("Share Companies"), roundManager);
+			tShareCompaniesFrame = new ShareCompaniesFrame (createFrameTitle (ShareCompaniesFrame.BASE_TITLE), roundManager);
 			setShareCompaniesFrame (tShareCompaniesFrame);
 			try {
-				tShareCompaniesFrame.loadXML (tXMLCompaniesName, tShareCompaniesFrame.getShareCompanies ());
+				tShareCompaniesFrame.loadXML (tXMLCompaniesName, tShareCompaniesFrame.getCompanies ());
 				tMarket = marketFrame.getMarket ();
 				tShareCompaniesFrame.setMarket (tMarket);
 				tShareCompaniesFrame.setStartCells ();
@@ -498,7 +498,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tBaseDirName = getXMLBaseDirectory ();
 			tXMLTileTrayName = getTileSetFileName ();
 			tXMLTileTrayName = tBaseDirName + tXMLTileTrayName;
-			tTileTrayFrame = new TileTrayFrame (createFrameTitle ("Tile Tray"), this);
+			tTileTrayFrame = new TileTrayFrame (createFrameTitle (TileTrayFrame.BASE_TITLE), this);
 			setTileTrayFrame (tTileTrayFrame);
 			try {
 				tTileTrayFrame.loadXML (tXMLTileTrayName, tTileTrayFrame.getTileSet ());
@@ -506,7 +506,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				logger.error (tException);
 			}
 			
-			tTileDefinitionFrame = new TileDefinitionFrame (createFrameTitle ("Tile Definition"), tTileTrayFrame, tActiveGameName);
+			tTileDefinitionFrame = new TileDefinitionFrame (createFrameTitle (TileDefinitionFrame.BASE_TITLE), tTileTrayFrame, tActiveGameName);
 			setTileDefinitionFrame (tTileDefinitionFrame);
 			for (String tTileSetName : tTileSets) {
 				tXMLTileDefinitionName = tTileSetName + " Tile Definitions.xml";
@@ -679,7 +679,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public CorporationList getCoalCompanies () {
-		return coalCompaniesFrame.getCoalCompanies ();
+		return coalCompaniesFrame.getCompanies ();
 	}
 	
 	public String getCompaniesFileName () {
@@ -708,11 +708,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public int getCountOfOpenPrivates () {
-		return privatesFrame.getCountOfOpenPrivates ();
+		return privatesFrame.getCountOfOpenCompanies ();
 	}
 	
 	public int getCountOfPlayerOwnedPrivates () {
-		return privatesFrame.getCountOfPlayerOwnedPrivates ();
+		return privatesFrame.getCountOfPlayerOwnedCompanies ();
 	}
 	
 	public int getCountOfSelectedPrivates () {
@@ -746,11 +746,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public CorporationList getPrivates () {
-		return privatesFrame.getPrivates ();
+		return privatesFrame.getCompanies ();
 	}
 	
 	public CorporationList getShareCompanies () {
-		return shareCompaniesFrame.getShareCompanies ();
+		return shareCompaniesFrame.getCompanies ();
 	}
 	
 	public ShareCompany getShareCompany (String aCompanyAbbrev) {
@@ -854,7 +854,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public CorporationList getMinorCompanies () {
-		return minorCompaniesFrame.getMinorCompanies ();
+		return minorCompaniesFrame.getCompanies ();
 	}
 	
 	public MinorCompaniesFrame getMinorCompaniesFrame () {
@@ -991,10 +991,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tPhaseManager = activeGame.getPhaseManager ();
 			tPhaseManager.setCurrentPhase (PhaseManager.FIRST_PHASE);
 			setPhaseManager (tPhaseManager);
-			tPrivates = privatesFrame.getPrivates ();
-			tCoals = coalCompaniesFrame.getCoalCompanies ();
-			tMinors = minorCompaniesFrame.getMinorCompanies ();
-			tShares = shareCompaniesFrame.getShareCompanies ();
+			tPrivates = privatesFrame.getCompanies ();
+			tCoals = coalCompaniesFrame.getCompanies ();
+			tMinors = minorCompaniesFrame.getCompanies ();
+			tShares = shareCompaniesFrame.getCompanies ();
 			
 			autoSaveFileName = constructAutoSaveFileName (AUTO_SAVES_DIR);
 			autoSaveFile = new File (autoSaveFileName);
@@ -1321,17 +1321,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 			marketFrame.loadMarketTokens (aChildNode);
 		}
 		if (PrivatesFrame.EN_PRIVATES.equals (aChildName)) {
-			privatesFrame.loadPrivatesStates (aChildNode);
+			privatesFrame.loadStates (aChildNode);
 			cleanupLoadedPrivates ();
 		}
 		if (MinorCompaniesFrame.EN_MINORS.equals (aChildName)) {
-			minorCompaniesFrame.loadMinorsStates (aChildNode);
+			minorCompaniesFrame.loadStates (aChildNode);
 		}
 		if (CoalCompaniesFrame.EN_COALS.equals (aChildName)) {
-			coalCompaniesFrame.loadCoalsStates (aChildNode);
+			coalCompaniesFrame.loadStates (aChildNode);
 		}
 		if (ShareCompaniesFrame.EN_SHARES.equals (aChildName)) {
-			shareCompaniesFrame.loadSharesStates (aChildNode);
+			shareCompaniesFrame.loadStates (aChildNode);
 		}
 		if (HexMap.EN_MAP.equals (aChildName)) {
 			mapFrame.loadMapStates (aChildNode);
@@ -1643,13 +1643,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 		bank = new Bank (tBankTotal, this);
 		bank.setFormat (tFormat);
 		loadTrainsIntoBank ();
-		tCorpList = privatesFrame.getPrivates ();
+		tCorpList = privatesFrame.getCompanies ();
 		loadCorporationsIntoBank (tCorpList);
-		tCorpList = coalCompaniesFrame.getCoalCompanies ();
+		tCorpList = coalCompaniesFrame.getCompanies ();
 		loadCorporationsIntoBank (tCorpList);
-		tCorpList = minorCompaniesFrame.getMinorCompanies ();
+		tCorpList = minorCompaniesFrame.getCompanies ();
 		loadCorporationsIntoBank (tCorpList);
-		tCorpList = shareCompaniesFrame.getShareCompanies ();
+		tCorpList = shareCompaniesFrame.getCompanies ();
 		loadCorporationsIntoBank (tCorpList);
 		bank.createStartPacket (this);
 		setupOptions ();
@@ -2319,7 +2319,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tPlayer = playerManager.getPlayer (0);
 			tActorName = tPlayer.getName ();
 		} else {
-			tCompanies = shareCompaniesFrame.getShareCompanies ();
+			tCompanies = shareCompaniesFrame.getCompanies ();
 			tCorporation = tCompanies.getCorporation (0);
 			tActorName = tCorporation.getAbbrev ();
 		}

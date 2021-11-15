@@ -19,7 +19,6 @@ import ge18xx.round.action.ActorI;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
 
 import java.awt.BorderLayout;
 
@@ -32,7 +31,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ShareCompaniesFrame extends CorporationTableFrame implements ActionListener {
-	public static final ElementName EN_SHARES = new ElementName (CorporationList.TYPE_NAMES [3] + "s");
+	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [3].toString ();
+	public static final String BASE_TITLE = BASE_TYPE + " Companies";
+	public static final ElementName EN_SHARES = new ElementName (BASE_TYPE + "s");
 	private static final long serialVersionUID = 1L;
 	JButton sellShareButton;
 	JButton buyShareButton;
@@ -250,10 +251,6 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		return tShareCompany;
 	}
 	
-	public CorporationList getShareCompanies () {
-		return (super.getCompanies ());
-	}
-	
 	public Token getToken (String aCompanyAbbrev) {
 		Token tToken;
 		ShareCompany tShareCompany;
@@ -288,10 +285,6 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 				}
 			}
 		}
-	}
-	
-	public void loadSharesStates (XMLNode aXMLNode) {
-		super.loadStates (aXMLNode);
 	}
 
 	// Test Method
@@ -397,6 +390,6 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 	}
 
 	public void fixLoadedRoutes (MapFrame aMapFrame) {
-		super.fixLoadedRoutes (aMapFrame, "Share");
+		super.fixLoadedRoutes (aMapFrame, BASE_TYPE);
 	}
 }
