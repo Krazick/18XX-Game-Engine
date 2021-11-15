@@ -409,6 +409,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		Box tTrainRevenueBox;
 		Train tTrain;
 		Dimension textFieldSize = new Dimension (40, 20);
+		
 		tTrainCount = trainCompany.getTrainCount ();
 		
 		if (allRevenuesBox == null) {
