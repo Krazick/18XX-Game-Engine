@@ -60,6 +60,7 @@ public class MapCell implements Comparator<Object> {
 	public static final ElementName EN_MAP_CELL = new ElementName ("MapCell");
 	public static final String NO_ID = "";
 	public static final MapCell NO_MAP_CELL = null;
+	public static final MapCell [] [] NO_MAP_CELLS = null;
 	public static final MapCell NO_DESTINATION = null;
 	public static final int NO_ORIENTATION = 0;
 	public static final int NO_ROTATION = -1;

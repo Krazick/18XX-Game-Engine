@@ -202,7 +202,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 	
 	public int getColCount (int thisRow) {
-		if (map == null) {
+		if (map == MapCell.NO_MAP_CELLS) {
 			return 0;
 		} 
 		
@@ -402,7 +402,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int maxX;
 		int maxX1, maxX2;
 		
-		if (map == null) {
+		if (map == MapCell.NO_MAP_CELLS) {
 			maxX = 0;
 		} else {
 			maxRow = getMaxRowCount ();
@@ -433,7 +433,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int maxRow;
 		int maxCol;
 		
-		if (map == null) {
+		if (map == MapCell.NO_MAP_CELLS) {
 			maxY = 0;
 		} else {
 			maxRow = getMaxRowCount ();
@@ -481,7 +481,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 	
 	public int getRowCount () {
-		if (map == null) {
+		if (map == MapCell.NO_MAP_CELLS) {
 			return 0;
 		}
 		
