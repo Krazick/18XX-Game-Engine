@@ -16,6 +16,7 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 
 public class TileDefinitionFrame extends XMLFrame {
+	public static final String BASE_TITLE = "Tile Definition";
 	private static final long serialVersionUID = 1L;
 	TileSet tileSet;
 	

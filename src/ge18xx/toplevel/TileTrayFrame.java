@@ -26,6 +26,7 @@ public class TileTrayFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
 	private final int TILE_WIDTH = 92; 		// # of Pixels Wide per Tile
 	private final int TILE_HEIGHT = 115; 	// # of Pixels Height per Tile
+	public static final String BASE_TITLE = "Tile Tray";
 	public static final TileTrayFrame NO_TILE_TRAY_FRAME = null;
 	TileSet tileSet;
 	GameManager gameManager;
