@@ -68,6 +68,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	Hex hex;
 	TileSet tileSet;
 	MapFrame mapFrame;
+	boolean tilePlaced;
 	boolean placeTileMode;
 	boolean singleMapCellSelect;	// Set true if in mode to select a SINGLE Hex Map Cell, selecting a different
 								// should unselect ALL and leave only the single map cell selected.
@@ -77,6 +78,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public HexMap (MapFrame aMapFrame) {
 		mapFrame = aMapFrame;
 		hex = null;
+		setTilePlaced (false);
 		addMouseListener (this);
 		addMouseMotionListener (this);
 		setBackground (Color.white);
@@ -587,6 +589,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 						toggleSelectedMapCell (aSelectedMapCell);
 					}
 				} else {
+					System.out.println ("Previous Map Cell " + aPreviousSelectedMapCell.getID () + 
+							" New Map Cell " + aSelectedMapCell.getID () + " Tile Was Placed " + wasTilePlaced ());
 					if (aSelectedMapCell.isSelectable ()) {
 						aPreviousSelectedMapCell.lockTileOrientation ();
 						toggleSelectedMapCell (aPreviousSelectedMapCell);
@@ -958,6 +962,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			if (selectRevenueCenter) {
 				handleSelectRevenueCenter (tSelectedMapCell, tPreviousSelectedMapCell, tPoint);
 			} else {
+				toggleSelectedMapCell (tPreviousSelectedMapCell);
 				toggleSelectedMapCell (tSelectedMapCell);
 			}
 		}
@@ -1059,20 +1064,22 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
     }
 	
 	public void toggleSelectedMapCell (MapCell aSelectedMapCell) {
-		if (aSelectedMapCell != MapCell.NO_MAP_CELL) {
-			if (aSelectedMapCell.isSelectable ()) {
-				aSelectedMapCell.toggleSelected ();
-				if (placeTileMode) {
-					if (aSelectedMapCell.isSelected ()) {
-						setPlayableTiles (aSelectedMapCell);
-					} else {
-						tileSet.clearAllPlayable ();
+		if (! wasTilePlaced ()) {		// If in Tile Place Mode, and a Tile was put down, but not Exited, do nothing
+			if (aSelectedMapCell != MapCell.NO_MAP_CELL) {
+				if (aSelectedMapCell.isSelectable ()) {
+					aSelectedMapCell.toggleSelected ();
+					if (placeTileMode) {
+						if (aSelectedMapCell.isSelected ()) {
+							setPlayableTiles (aSelectedMapCell);
+						} else {
+							tileSet.clearAllPlayable ();
+						}
 					}
 				}
 			}
+			tileSet.clearAllSelected ();
+			mapFrame.updatePutTileButton ();
 		}
-		tileSet.clearAllSelected ();
-		mapFrame.updatePutTileButton ();
 	}
 
 	public void setPlayableTiles (MapCell aSelectedMapCell) {
@@ -1173,15 +1180,25 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	
 	public void putTileDown () {
 		MapCell tSelectedMapCell;
+		boolean tTilePlaced;
 		
 		tSelectedMapCell = getSelectedMapCell ();
 		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
 			System.err.println ("Put Tile Down Button Selected, no Map Cell Selected from Frame");
 		} else {
-			tSelectedMapCell.putTileDown (tileSet);
+			tTilePlaced = tSelectedMapCell.putTileDown (tileSet);
+			setTilePlaced (tTilePlaced);
 		}
 	}
 	
+	public void setTilePlaced (boolean aTilePlaced) {
+		tilePlaced = aTilePlaced;
+	}
+	
+	public boolean wasTilePlaced () {
+		return tilePlaced;
+	}
+
 	public void pickupTile () {
 		MapCell tSelectedMapCell;
 		
@@ -1190,6 +1207,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			System.err.println ("Pickup Tile Button Selected, no Map Cell Selected from Frame");
 		} else {
 			tSelectedMapCell.pickupTile (tileSet);
+			setTilePlaced (false);
 		}		
 	}
 	

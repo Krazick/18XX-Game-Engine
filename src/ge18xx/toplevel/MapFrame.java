@@ -300,6 +300,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		if (COMPLETE_TILE_LAY.equals (tTheAction)) {
 			completeBenefitUse ();
 			togglePlaceTileMode ();
+			map.setTilePlaced (false);
 		} else if (SELECT_ROUTE_MODE.equals (tTheAction)) {
 			toggleSelectRouteMode ();
 		} else if (CANCEL_TOKEN_MODE.equals (tTheAction)) {
@@ -328,6 +329,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tCorporation.undoAction ();
 		updatePickupTileButton (false, NO_TILE_PLACED);
 		updatePutTileButton ();
+		map.setTilePlaced (false);
 	}
 
 	private void putTileDownOnMap () {
@@ -354,10 +356,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		// Save Tokens from Previous Tile placement
 		map.putTileDown ();
 		updatePickupTileButton (true, NO_TOOL_TIP);
-		tTile = tMapCell.getTile ();
-		tOrientation = tMapCell.getTileOrient ();
 		tCorporation = getOperatingCompany ();
-		if (tCorporation != null) {
+		if (tCorporation != Corporation.NO_CORPORATION) {
+			tTile = tMapCell.getTile ();
+			tOrientation = tMapCell.getTileOrient ();
 			tCorporation.tileWasPlaced (tMapCell, tTile, tOrientation, 
 					tPreviousTile, tPreviousOrientation, 
 					tPreviousTokens, tPreviousBases);
@@ -762,6 +764,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	
 	public void setPlaceTileMode (boolean aMode) {
 		placeTileMode = aMode;
+
 		map.setPlaceTileMode (placeTileMode);
 		exitTileButton.setEnabled (aMode);
 		if (aMode) {
@@ -984,7 +987,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		return tMapCell;
 	}
 
-	public Corporation getCorporation(String aCorporationAbbrev) {
+	public Corporation getCorporation (String aCorporationAbbrev) {
 		return shareCos.getCorporation (aCorporationAbbrev);
 	}
 }

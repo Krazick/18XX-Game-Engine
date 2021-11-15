@@ -989,24 +989,28 @@ public class MapCell implements Comparator<Object> {
 		return tCanPlaceTile;
 	}
 	
-	public void putTileDown (TileSet aTileSet) {
+	public boolean putTileDown (TileSet aTileSet) {
 		GameTile tSelectedTile;
+		boolean tTilePlaced = false;
 		
 		tSelectedTile = aTileSet.getSelectedTile ();
 		if (tSelectedTile != GameTile.NO_GAME_TILE) {
-			putThisTileDown (aTileSet, tSelectedTile, NO_ROTATION);
+			tTilePlaced = putThisTileDown (aTileSet, tSelectedTile, NO_ROTATION);
 		} else {
 			System.err.println ("Put Tile Down Button Selected, no Tile Selected From Tray");
 		}
+		
+		return tTilePlaced;
 	}
 
-	public void putThisTileDown (TileSet aTileSet, GameTile aThisTile, int aThisRotation) {
+	public boolean putThisTileDown (TileSet aTileSet, GameTile aThisTile, int aThisRotation) {
 		GameTile tGameTileOnMapCell;
 		Tile tTile;
 		Tile tTileOnMapCell;
 		int tUpgradeCount;
 		int tTileNumber;
 		int tPossibleOrientation;
+		boolean tTilePlaced = false;
 		
 		if (isTileOnCell ()) {
 			// Tile on MapCell -- Upgrade Required
@@ -1016,7 +1020,7 @@ public class MapCell implements Comparator<Object> {
 			tUpgradeCount = tGameTileOnMapCell.getUpgradeCount ();
 			if (tUpgradeCount > 0) {
 				tTile = aThisTile.popTile ();
-				upgradeTile (aTileSet, tTile);
+				tTilePlaced = upgradeTile (aTileSet, tTile);
 				hexMap.redrawMap ();
 			} else {
 				System.err.println ("No Upgrades Available");
@@ -1037,6 +1041,7 @@ public class MapCell implements Comparator<Object> {
 				} else {
 					// Found at least one orientation that works - Put it on the Map Cell
 					putTile (tTile, tPossibleOrientation);
+					tTilePlaced = true;
 					hexMap.redrawMap ();
 				}
 				aThisTile.toggleSelected ();
@@ -1047,6 +1052,8 @@ public class MapCell implements Comparator<Object> {
 				System.err.println ("Different Type Counts between Tiles");
 			}
 		}
+		
+		return tTilePlaced;
 	}
 
 	public boolean areLocationsConnected (Location aLocation, int aRemoteLocationIndex) {
@@ -1495,7 +1502,7 @@ public class MapCell implements Comparator<Object> {
 		selected = !selected;
 	}
 	
-	public void upgradeTile (TileSet aTileSet, Tile aNewTile) {
+	public boolean upgradeTile (TileSet aTileSet, Tile aNewTile) {
 		int tCurrentTileNumber;
 		int tUpgradeToTileNumber;
 		int tCityCenterCount;
@@ -1510,6 +1517,7 @@ public class MapCell implements Comparator<Object> {
 		Upgrade tUpgrade;
 		boolean tAllowedRotations [] = new boolean [6];
 		boolean tMustSwap = false;
+		boolean tTilePlaced = false;
 		
 		tCurrentTile = getTile ();
 		tCurrentTileNumber = getTileNumber ();	// Find Current Tile Number and the Current Game Tile
@@ -1534,13 +1542,13 @@ public class MapCell implements Comparator<Object> {
 		if (tUpgrade == GameTile.NO_UPGRADE) {
 			restoreTile (aTileSet, aNewTile);
 			System.err.println ("No Upgrade available -- Aborting Upgrade");
-			return;
+			return tTilePlaced;
 		}
 		
 		if (tFirstPossibleRotation == NO_ROTATION) {
 			restoreTile (aTileSet, aNewTile);
 			System.err.println ("No Rotation allows all Tracks to Exit -- Aborting Upgrade");
-			return;
+			return tTilePlaced;
 		}
 		
 		// Set the new Tile onto the MapCell so that when MoveMapToken is called, it can properly set the Connected Sides
@@ -1576,12 +1584,15 @@ public class MapCell implements Comparator<Object> {
 		if (tMustSwap) {
 			swapTokens ();
 		}
+		tTilePlaced = true;
 		restoreTile (aTileSet, tCurrentTile);
 		
 		// Add Tile in first Possible Orientation
 		for (int tRotationIndex = 0; tRotationIndex < 6; tRotationIndex++) {
 			setAllowedRotation (tRotationIndex, tAllowedRotations [tRotationIndex]);
 		}
+		
+		return tTilePlaced;
 	}
 
 	public boolean moveAllMapTokens (Tile aNewTile, Location aNewCityLocation, City aOldCity) {
