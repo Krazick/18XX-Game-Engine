@@ -1007,7 +1007,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			playerManager.startAuctionRound (tCreateNewAuctionAction);
 		}
 
-		updateActionButtons ();
+		playerFrame.updateActionButtons ();
 	}
 	
 	public void doneAction () {
@@ -1213,10 +1213,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		soldCompanies.undoClearSoldCompany (DELIMITER, aSoldCompanies);
 	}
 	
-	public void updateActionButtons () {
-		playerFrame.updateActionButtons ();
-	}
-	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		if (PlayerFrame.PASS.equals (aEvent.getActionCommand ())) {
@@ -1241,35 +1237,20 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		if (PlayerFrame.UNDO.equals (aEvent.getActionCommand ())) {
 			undoAction ();	
 		}
-		updateRoundWindow ();
-	}
-
-	public void updateBankJPanel () {
-		GameManager tGameManager;
-		
-		tGameManager = playerManager.getGameManager ();
-		playerFrame.updateBankJPanel (tGameManager);
-	}
-	
-	public void updateCertificateInfo () {
-		playerFrame.updateCertificateInfo ();
-	}
-	
-	public void updateRoundWindow () {
 		playerManager.updateRoundWindow ();
+	}
+		
+	public void updatePortfolioInfo () {
+		playerFrame.updatePortfolioInfo ();
+		playerFrame.setPortfolioValueLabel ();
 	}
 	
 	public void updatePlayerInfo () {
-		playerFrame.setCashLabel ();
-		updateCertificateInfo ();
-		updatePortfolioInfo ();
-		updateBankJPanel ();
-		updateActionButtons ();
-	}
-	
-	public void updatePortfolioInfo () {
-		playerFrame.updatePortfolioInfo ();
-		playerFrame.setPortfolioValueLabel();
+		GameManager tGameManager;
+		
+		tGameManager = playerManager.getGameManager ();
+		
+		playerFrame.updatePlayerInfo (tGameManager);
 	}
 
 	@Override
@@ -1294,11 +1275,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			}
 		}
 		setRFPlayerLabel (tPlayerLabelText);
-	}
-
-
-	public void updatePlayerJPanel () {
-		playerManager.updateRFPlayerLabel (this);
 	}
 	
 	public void updateCashLabel () {

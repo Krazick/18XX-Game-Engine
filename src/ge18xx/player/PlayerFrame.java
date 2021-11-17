@@ -486,6 +486,15 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		}
 	}
 
+	public void updatePlayerInfo (GameManager aGameManager) {
+		setCashLabel ();
+		updateCertificateInfo ();
+		updatePortfolioInfo ();
+		setPortfolioValueLabel();
+		updateBankJPanel (aGameManager);
+		updateActionButtons ();
+	}
+	
 	public void updateActionButtons () {
 		boolean tStocksToSell, tStocksToBuy, tActionsToUndo, tStocksToSellSame;
 		boolean tPrezToExchange, tCanCompleteTurn, tPrivateOrMinorToExchange;
