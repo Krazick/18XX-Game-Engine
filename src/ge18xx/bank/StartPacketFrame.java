@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -60,7 +59,6 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		String tSelectedButtonLabel;
 		
 		tSPPortfolioJPanel = new JPanel ();
-		tSPPortfolioJPanel.setBorder (BorderFactory.createTitledBorder (""));
 		tSPLayout = new BoxLayout (tSPPortfolioJPanel, BoxLayout.Y_AXIS);
 		tSPPortfolioJPanel.setLayout (tSPLayout);
 		tSPPortfolioJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
