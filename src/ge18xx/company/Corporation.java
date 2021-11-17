@@ -680,6 +680,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return false;
 	}
 	
+	// Token Company will Override
+	public boolean canLayBaseToken () {
+		return false;
+	}
+	
 	// Train Company will Override
 	public boolean hasTrainOfType (Train aTrain) {
 		return false;

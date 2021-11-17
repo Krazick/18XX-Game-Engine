@@ -395,6 +395,19 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 	
 	@Override
+	public boolean canLayBaseToken () {
+		boolean tCanLayBaseToken = false;
+		
+		if (! haveLaidAllBaseTokens ()) {
+			if (homeMapCell1HasTile ()) {
+				tCanLayBaseToken = true;
+			}
+		}
+		
+		return tCanLayBaseToken;
+	}
+	
+	@Override
 	public void loadStatus (XMLNode aXMLNode) {
 		super.loadStatus (aXMLNode);
 	}

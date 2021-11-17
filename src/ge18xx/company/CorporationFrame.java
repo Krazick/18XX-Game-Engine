@@ -46,6 +46,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String BUY_PRIVATE = "Buy Private";
 	static final String COMPLETE_TT_PLACEMENT = "Need to complete Tile/Token Placement";
 	static final String OFFER_TO_BUY_PRIVATE = "Offer to Buy Private";
+	static final String MUST_LAY_BASE_TOKEN = "Must lay Base Token(s) before Tile Lay";
 	static final String GET_LOAN = "Get Loan";
 	static final String PAYBACK_LOAN = "Payback Loan";
 	static final String DONE = "Done";
@@ -671,6 +672,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				placeTileActionButton.setEnabled (false);
 				tDisableToolTipReason = IN_TOKEN_MODE;
 				placeTileActionButton.setToolTipText (tDisableToolTipReason);				
+			} else if (corporation.canLayBaseToken ()) {
+				placeTileActionButton.setEnabled (false);
+				placeTileActionButton.setToolTipText (MUST_LAY_BASE_TOKEN);
 			} else {
 				placeTileActionButton.setEnabled (true);
 				placeTileActionButton.setToolTipText (NO_TOOL_TIP);
