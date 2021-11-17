@@ -1,6 +1,8 @@
 package ge18xx.player;
 
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.util.List;
 
@@ -44,7 +46,7 @@ import ge18xx.utilities.XMLNodeList;
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
+public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoaderI {
 	public static final Player NO_PLAYER = null;
 	public static final JPanel NO_PLAYER_JPANEL = null;
 	public static final String NO_PLAYER_NAME_LABEL = ">NO PLAYER<";
@@ -1213,6 +1215,33 @@ public class Player implements EscrowHolderI, PortfolioHolderLoaderI {
 	
 	public void updateActionButtons () {
 		playerFrame.updateActionButtons ();
+	}
+	
+	@Override
+	public void actionPerformed (ActionEvent aEvent) {
+		if (PlayerFrame.PASS.equals (aEvent.getActionCommand ())) {
+			passAction ();	
+		}
+		if (PlayerFrame.BUY_BID.equals (aEvent.getActionCommand ())) {
+			if (playerFrame.isBuyAction ()) {
+				buyAction ();
+			} else {
+				bidAction ();
+			}
+		}
+		if (PlayerFrame.DONE.equals (aEvent.getActionCommand ())) {
+			doneAction ();	
+		}
+		if (PlayerFrame.SELL.equals (aEvent.getActionCommand ())) {
+			sellAction ();	
+		}
+		if (PlayerFrame.EXCHANGE.equals(aEvent.getActionCommand ())) {
+			exchangeAction ();
+		}
+		if (PlayerFrame.UNDO.equals (aEvent.getActionCommand ())) {
+			undoAction ();	
+		}
+		updateRoundWindow ();
 	}
 
 	public void updateBankJPanel () {

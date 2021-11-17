@@ -9,8 +9,6 @@ import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -21,7 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PlayerFrame extends XMLFrame implements ActionListener, ItemListener {
+public class PlayerFrame extends XMLFrame implements ItemListener {
 	public static final String STOCK_SELECTED_FOR_BID2 = "Another Private has been selected to be Bid On";
 	public static final String STOCK_SELECTED_FOR_BUY = "A Stock has been selected to be Bought";
 	public static final String STOCK_SELECTED_FOR_BUY2 = "Another Stock has been selected to be Bought";
@@ -180,7 +178,7 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		tActionButton = new JButton (aButtonLabel);
 		tActionButton.setAlignmentX (CENTER_ALIGNMENT);
 		tActionButton.setActionCommand (aButtonAction);
-		tActionButton.addActionListener (this);
+		tActionButton.addActionListener (player);
 	
 		return tActionButton;
 	}
@@ -232,34 +230,12 @@ public class PlayerFrame extends XMLFrame implements ActionListener, ItemListene
 		bankJPanel.revalidate ();
 	}
 	
-	@Override
-	public void actionPerformed (ActionEvent aEvent) {
-		String tActionText;
+	public boolean isBuyAction () {
+		boolean tIsBuyAction;
 		
-		if (PASS.equals (aEvent.getActionCommand ())) {
-			player.passAction ();	
-		}
-		if (BUY_BID.equals (aEvent.getActionCommand ())) {
-			tActionText = buyBidActionButton.getText();
-			if (tActionText.equals (BUY)) {
-				player.buyAction ();
-			} else {
-				player.bidAction ();
-			}
-		}
-		if (DONE.equals (aEvent.getActionCommand ())) {
-			player.doneAction ();	
-		}
-		if (SELL.equals (aEvent.getActionCommand ())) {
-			player.sellAction ();	
-		}
-		if (EXCHANGE.equals(aEvent.getActionCommand ())) {
-			player.exchangeAction ();
-		}
-		if (UNDO.equals (aEvent.getActionCommand ())) {
-			player.undoAction ();	
-		}
-		player.updateRoundWindow ();
+		tIsBuyAction = buyBidActionButton.getText().equals (BUY);
+		
+		return tIsBuyAction;
 	}
 	
 	public boolean canCompleteTurn () {
