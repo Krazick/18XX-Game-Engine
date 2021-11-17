@@ -16,8 +16,6 @@ import ge18xx.toplevel.XMLFrame;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,20 +33,20 @@ import javax.swing.border.TitledBorder;
 
 import org.apache.logging.log4j.Logger;
 
-public class RoundFrame extends XMLFrame implements ActionListener {
+public class RoundFrame extends XMLFrame {
 	public static final RoundFrame NO_ROUND_FRAME = null;
 	private static final long serialVersionUID = 1L;
 	private static final String NEWLINE = "\n";
 	private static final String PASS_STOCK_TEXT = "Pass in Stock Round";
-	private static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
-	private static final String PASS_STOCK_ACTION = "passStockAction";
-	private static final String PLAYER_ACTION = "DoPlayerAction";
-	private static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
-	private static final String CORPORATION_ACTION = "DoCorporationAction";
 	private static final String PLAYER_JPANEL_LABEL = "Player Information";
 	private static final String YOU_NOT_PRESIDENT = "You are not the President of the Company";
 	private static final String NOT_YOUR_TURN = "It is not your turn to Perform the Action";
 	private static final String IS_OPERATING_ROUND = "It is an Operating Round, can't Pass";
+	static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
+	static final String PASS_STOCK_ACTION = "passStockAction";
+	static final String PLAYER_ACTION = "DoPlayerAction";
+	static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
+	static final String CORPORATION_ACTION = "DoCorporationAction";
 	RoundManager roundManager;
 	JPanel roundJPanel;
 	JPanel allCorporationsJPanel;
@@ -313,49 +311,25 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		buttonsJPanel = new JPanel ();
 		buttonsJPanel.setLayout (new BoxLayout (buttonsJPanel, BoxLayout.X_AXIS));
 
-		setupActionButton ("Player do Stock Action", PLAYER_ACTION);
+		setupDoActionButton ("Player do Stock Action", PLAYER_ACTION);
+		
 		passActionButton = new JButton (PASS_STOCK_TEXT);
 		passActionButton.setActionCommand (PASS_STOCK_ACTION);
-		passActionButton.addActionListener (this);
+		passActionButton.addActionListener (roundManager);
 		passActionButton.setAlignmentX (Component.CENTER_ALIGNMENT);
+		
+		showGameEngineFrameButton = new JButton ("Show Game Engine Frame");
+		showGameEngineFrameButton.setActionCommand (SHOW_GE_FRAME_ACTION);
+		showGameEngineFrameButton.addActionListener (roundManager);
+		showGameEngineFrameButton.setAlignmentX (Component.CENTER_ALIGNMENT);
 		
 		buttonsJPanel.add (doActionButton);
 		buttonsJPanel.add (Box.createHorizontalStrut(20));
 		buttonsJPanel.add (passActionButton);
 		buttonsJPanel.add (Box.createHorizontalStrut(20));
-		
-		showGameEngineFrameButton = new JButton ("Show Game Engine Frame");
-		showGameEngineFrameButton.setActionCommand (SHOW_GE_FRAME_ACTION);
-		showGameEngineFrameButton.addActionListener (this);
-		showGameEngineFrameButton.setAlignmentX (Component.CENTER_ALIGNMENT);
 		buttonsJPanel.add (showGameEngineFrameButton);
 	}
 	
-	@Override
-	public void actionPerformed (ActionEvent aEvent) {
-		if (CORPORATION_ACTION.equals (aEvent.getActionCommand ())) {
-			if (! roundManager.companyStartedOperating ()) {
-				logger.info ("Corporation Action for Operation Round selected");
-				roundManager.prepareCorporation ();
-			}
-			roundManager.showCurrentCompanyFrame ();
-		}
-		if (PLAYER_ACTION.equals (aEvent.getActionCommand ())) {
-			roundManager.showCurrentPlayerFrame ();
-		}
-		if (PLAYER_AUCTION_ACTION.equals (aEvent.getActionCommand ())) {
-			roundManager.showCurrentPlayerFrame ();
-			roundManager.showAuctionFrame ();
-		}
-		if (SHOW_GE_FRAME_ACTION.equals (aEvent.getActionCommand ())) {
-			roundManager.showGEFrame ();
-		}
-		if (PASS_STOCK_ACTION.equals (aEvent.getActionCommand ())) {
-			roundManager.passStockAction ();
-			updateAllCorporationsBox ();
-		}
-	}
-		
 	public void setCurrentPlayerText () {
 		String tPlayerName = getCurrentPlayerName ();
 		
@@ -389,10 +363,10 @@ public class RoundFrame extends XMLFrame implements ActionListener {
 		revalidate ();
 	}
 	
-	public void setupActionButton (String aButtonLabel, String aActionCommand) {
+	public void setupDoActionButton (String aButtonLabel, String aActionCommand) {
 		doActionButton = new JButton (aButtonLabel);
 		doActionButton.setAlignmentX (CENTER_ALIGNMENT);
-		doActionButton.addActionListener (this);			
+		doActionButton.addActionListener (roundManager);			
 		updateActionButton (aButtonLabel, aActionCommand);
 	}
 	

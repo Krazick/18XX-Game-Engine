@@ -2,8 +2,12 @@ package ge18xx.round;
 
 import java.awt.Point;
 import java.awt.event.ItemListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
+
+import org.apache.logging.log4j.Logger;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
@@ -15,6 +19,7 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
+import ge18xx.game.Game_18XX;
 import ge18xx.map.HexMap;
 import ge18xx.market.Market;
 import ge18xx.phase.PhaseInfo;
@@ -43,7 +48,7 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
-public class RoundManager {
+public class RoundManager implements ActionListener {
 	public final static ElementName EN_ROUNDS = new ElementName ("Rounds");
 	public final static AttributeName AN_CURRENT_OR = new AttributeName ("currentOR");
 	public final static AttributeName AN_OR_COUNT = new AttributeName ("maxOR");
@@ -64,9 +69,11 @@ public class RoundManager {
 	ActorI.ActionStates currentRoundType;
 	RoundFrame roundFrame;
 	String gameName;
+	Logger logger;
 	
 	public RoundManager (GameManager aGameManager, PlayerManager aPlayerManager) {
 		setManagers (aGameManager, aPlayerManager);
+		logger = Game_18XX.getLogger ();
 	}
 	
 	public void initiateGame (CorporationList aPrivates, CorporationList aCoals, 
@@ -858,13 +865,34 @@ public class RoundManager {
 		tIDPart1 = incrementRoundIDPart1 (stockRound);
 		setRoundToStockRound (tIDPart1);
 		stockRound.prepareStockRound ();
-//		stockRound.clearAllSoldCompanies ();
-//		stockRound.setCurrentPlayer (stockRound.getPriorityIndex ());
 		roundFrame.updateAll ();
-//		roundFrame.updatePlayersJPanel ();
-//		roundFrame.updatePassButton ();
 	}
 	
+	@Override
+	public void actionPerformed (ActionEvent aEvent) {
+		if (RoundFrame.CORPORATION_ACTION.equals (aEvent.getActionCommand ())) {
+			if (! companyStartedOperating ()) {
+				logger.info ("Corporation Action for Operation Round selected");
+				prepareCorporation ();
+			}
+			showCurrentCompanyFrame ();
+		}
+		if (RoundFrame.PLAYER_ACTION.equals (aEvent.getActionCommand ())) {
+			showCurrentPlayerFrame ();
+		}
+		if (RoundFrame.PLAYER_AUCTION_ACTION.equals (aEvent.getActionCommand ())) {
+			showCurrentPlayerFrame ();
+			showAuctionFrame ();
+		}
+		if (RoundFrame.SHOW_GE_FRAME_ACTION.equals (aEvent.getActionCommand ())) {
+			showGEFrame ();
+		}
+		if (RoundFrame.PASS_STOCK_ACTION.equals (aEvent.getActionCommand ())) {
+			passStockAction ();
+			updateAllCorporationsBox ();
+		}
+
+	}
 	public boolean applyingAction () {
 		return gameManager.applyingAction ();
 	}
