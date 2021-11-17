@@ -262,7 +262,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			} else {
 				tCompanyAbbrev = player.exceedsAnyCorpShareLimit ();
 				if (tCompanyAbbrev != null) {
-					tReason = "Portfolio has too many share of " + tCompanyAbbrev;
+					tReason = "Portfolio has too many shares of " + tCompanyAbbrev;
 				}
 			}
 		}
@@ -413,7 +413,6 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		setPassDoneButton (PASS, PASS);
 	}
 	
-
 	public String getMustSellToolTip (Player aPlayer) {
 		String tStock;
 		String tToolTip;
@@ -527,8 +526,6 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		}
 		player.addPrivateBenefitButtons (actionButtonJPanel);
 	}
-	// TODO: Test if the Par Price Frame is UP, and disable the Done Button if so -- 
-	// Must set that Par Price before allowing the Stock Action to be done.
 	
 	public void setPassDoneButton (String tLabel, String tAction) {
 		String tToolTip;

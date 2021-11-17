@@ -1239,6 +1239,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 		playerManager.updateRoundWindow ();
 	}
+	
+	public void updatePlayerJPanel () {
+		playerManager.updateRFPlayerLabel (this);
+	}
 		
 	public void updatePortfolioInfo () {
 		playerFrame.updatePortfolioInfo ();
