@@ -353,6 +353,7 @@ public class RoundFrame extends XMLFrame {
 		updateActionButtonText (aPlayerName + " do Stock Action");
 		setActionForCurrentPlayer ();
 		updatePassButton ();
+		setFrameBackground ();
 	}
 
 	public void setFrameLabel (String aGameName, String aIDLabel) {
@@ -398,6 +399,23 @@ public class RoundFrame extends XMLFrame {
 		setCurrentPlayerText ();
 		updateTotalCashLabel ();
 		updatePassButton ();
+		setFrameBackground ();
+	}
+	
+	public void setFrameBackground () {
+		GameManager tGameManager;
+		String tClientUserName, tCurrentPlayerName;
+		
+		tGameManager = roundManager.getGameManager ();
+		if (tGameManager.isNetworkGame ()) {
+			tCurrentPlayerName = getCurrentPlayerName ();
+			tClientUserName = tGameManager.getClientUserName ();
+			if (tCurrentPlayerName.equals (tClientUserName)) {
+				setBackGround ();
+			} else {
+				resetBackGround ();
+			}
+		}
 	}
 	
 	public void updatePassButton () {
@@ -414,10 +432,8 @@ public class RoundFrame extends XMLFrame {
 					tClientUserName = tGameManager.getClientUserName ();
 					if (tCurrentPlayerName.equals (tClientUserName)) {
 						verifyMustActions (tGameManager);
-						setBackGround ();
 					} else {
 						disablePassButton (NOT_YOUR_TURN);
-						resetBackGround ();
 					}
 				} else {
 					verifyMustActions (tGameManager);
@@ -455,11 +471,9 @@ public class RoundFrame extends XMLFrame {
 				if (tCurrentPlayerName.equals (tClientUserName)) {
 					doActionButton.setEnabled (true);
 					doActionButton.setToolTipText ("");
-					setBackGround ();
 				} else {
 					doActionButton.setEnabled (false);
 					doActionButton.setToolTipText (NOT_YOUR_TURN);
-					resetBackGround ();
 				}
 			}			
 		}
@@ -591,6 +605,7 @@ public class RoundFrame extends XMLFrame {
 		updateAllPlayerJPanels ();
 		updateAllCorporationsBox ();
 		updatePassButton ();
+		setFrameBackground ();
 	}
 	
 	public void setBackGround () {
@@ -600,21 +615,27 @@ public class RoundFrame extends XMLFrame {
 		tGameManager = roundManager.getGameManager ();
 		if (tGameManager.isNetworkGame ()) {
 			getContentPane ().setBackground (tAlertColor);
-			headerJPanel.setBackground (tAlertColor);
-			parPricesJPanel.setBackground (tAlertColor);
-			trainSummaryJPanel.setBackground (tAlertColor);
-			buttonsJPanel.setBackground (tAlertColor);
-			roundJPanel.setBackground (tAlertColor);
+			setPanelBackground (headerJPanel, tAlertColor);
+			setPanelBackground (parPricesJPanel, tAlertColor);
+			setPanelBackground (trainSummaryJPanel, tAlertColor);
+			setPanelBackground (buttonsJPanel, tAlertColor);
+			setPanelBackground (roundJPanel, tAlertColor);
 		}
 	}
 
 	public void resetBackGround () {
 		getContentPane ().setBackground (defaultColor);	
-		headerJPanel.setBackground (defaultColor);
-		parPricesJPanel.setBackground (defaultColor);
-		trainSummaryJPanel.setBackground (defaultColor);
-		buttonsJPanel.setBackground (defaultColor);
-		roundJPanel.setBackground (defaultColor);
+		setPanelBackground (headerJPanel, defaultColor);
+		setPanelBackground (parPricesJPanel, defaultColor);
+		setPanelBackground (trainSummaryJPanel, defaultColor);
+		setPanelBackground (buttonsJPanel, defaultColor);
+		setPanelBackground (roundJPanel, defaultColor);
+	}
+	
+	private void setPanelBackground (JPanel aJPanel, Color aBackgroundColor) {
+		if (aJPanel != null) {
+			aJPanel.setBackground (aBackgroundColor);
+		}
 	}
 	
 	public void disablePassButton (String aToolTip) {
