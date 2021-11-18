@@ -570,6 +570,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 	private void updatePassButton (boolean aCanCompleteTurn, boolean aMustBuy) {
 		String tToolTip;
+		
 		// If there is a Must Buy -- Cannot Do a Pass, or a Bid -- disable these
 		if (aMustBuy) {
 			setCannotPass ();
