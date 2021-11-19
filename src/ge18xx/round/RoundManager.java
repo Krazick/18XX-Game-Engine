@@ -646,6 +646,7 @@ public class RoundManager implements ActionListener {
 				tPlayerName = stockRound.getCurrentPlayerName ();
 				if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 					roundFrame.setCurrentPlayerText (tPlayerName);
+					roundFrame.toFront ();
 				}
 			}
 		}
