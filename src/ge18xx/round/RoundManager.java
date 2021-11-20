@@ -843,6 +843,7 @@ public class RoundManager implements ActionListener {
 		if (! operatingRound.startOperatingRound ()) {
 			startStockRound ();
 		} else {
+			roundFrame.updateAll ();
 			roundFrame.resetBackGround ();
 			roundFrame.disablePassButton ("In Operating Round, Can't Pass");
 		}
@@ -1045,8 +1046,7 @@ public class RoundManager implements ActionListener {
 		actionManager.setActionNumber (aActionNumber);
 	}
 
-	public void hideTrainRevenueFrame() {
-		// TODO Auto-generated method stub
+	public void hideTrainRevenueFrame () {
 	}
 	
 	public void showGEFrame () {
@@ -1059,16 +1059,7 @@ public class RoundManager implements ActionListener {
 	
 	public Point getOffsetRoundFrame () {
 		Point tNewPoint;
-//		Point tRoundFramePoint, tNewPoint;
-//		double tX, tY;
-//		int tNewX, tNewY;
-//		
-//		tRoundFramePoint = roundFrame.getLocation ();
-//		tX = tRoundFramePoint.getX ();
-//		tY = tRoundFramePoint.getY ();
-//		tNewX = (int) tX + 100;
-//		tNewY = (int) tY + 100;
-//		tNewPoint = new Point (tNewX, tNewY);
+
 		tNewPoint = roundFrame.getOffsetFrame ();
 		
 		return tNewPoint;
