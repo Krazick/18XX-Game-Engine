@@ -648,7 +648,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private void updatePayFullDividendActionButton () {
 		String tDisableToolTipReason;
 		
-		if (corporation.canPayDividend ()) {
+		if (corporation.isPlaceTileMode ()) {
+			payFullDividendActionButton.setEnabled (false);
+			tDisableToolTipReason = IN_PLACE_TILE_MODE;
+			payFullDividendActionButton.setToolTipText (tDisableToolTipReason);				
+		} else if (corporation.canPayDividend ()) {
 			payFullDividendActionButton.setEnabled (true);
 			payFullDividendActionButton.setText ("Pay " + Bank.formatCash (corporation.getFullShareDividend ()) + " per Share");
 			payFullDividendActionButton.setToolTipText (NO_TOOL_TIP);
@@ -823,7 +827,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		
 		buyTrainActionButton.setText (BUY_TRAIN);
 		tOtherTrainHolder = corporation.getOtherSelectedTrainHolder ();
-		if (tOtherTrainHolder != null) {
+		if (tOtherTrainHolder != TrainHolderI.NO_TRAIN_HOLDER) {
 			if (tOtherTrainHolder.isACorporation ()) {
 				tOtherCorporation = (Corporation) tOtherTrainHolder;
 				tOtherPresidentName = tOtherCorporation.getPresidentName ();
