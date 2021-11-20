@@ -3,6 +3,8 @@ package ge18xx.train;
 import ge18xx.player.CashHolderI;
 
 public interface TrainHolderI {
+	TrainHolderI NO_TRAIN_HOLDER = null;
+
 	public void addTrain (Train aTrain);
 	
 	public CashHolderI getCashHolder ();
