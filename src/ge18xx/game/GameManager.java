@@ -88,6 +88,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final String NO_FILE_NAME = "<NONE>";
 	public static final String AUTO_SAVES_DIR = "autoSaves";
 	public static final GameManager NO_GAME_MANAGER = null;
+	public static final String EMPTY_GAME_ID = "";
 	Game_18XX game18XXFrame;
 	GameInfo activeGame;
 	PlayerManager playerManager;
@@ -182,7 +183,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		gameEnding = false;
 		notifyNetwork = false;
 		applyingNetworkAction = false;
-		gameID = "";
+		gameID = EMPTY_GAME_ID;
 	}
 	
 	public String getUserDir () {
