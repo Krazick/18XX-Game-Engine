@@ -45,6 +45,7 @@ public class Bank extends GameBank implements CashHolderI {
 	public static final JLabel NO_LABEL = null;
 	public static final int NO_BANK_CASH = 0;
 	int treasury;
+	boolean bankIsBroken;
 	static String format;
 	static DecimalFormat decimalFormat;
 	JLabel bankCashLabel;
@@ -54,7 +55,7 @@ public class Bank extends GameBank implements CashHolderI {
 	private static Logger logger;
 	
 	public Bank () {
-		this (0, null);
+		this (NO_BANK_CASH, GameManager.NO_GAME_MANAGER);
 	}
 		
 	public Bank (int aTreasury, GameManager aGameManager) {
@@ -66,12 +67,21 @@ public class Bank extends GameBank implements CashHolderI {
 		closedPortfolio = new Portfolio (this);
 		rustedTrainsPortfolio = new TrainPortfolio (this);
 		logger = LogManager.getLogger (Bank.class);
+		setBankIsBroken (false);
 	}
 	
 	@Override
 	public void addCash (int aAmount) {
 		treasury += aAmount;
 		updateBankCashLabel ();
+	}
+	
+	public void setBankIsBroken (boolean aBroken) {
+		bankIsBroken = aBroken;
+	}
+	
+	public boolean isBroken () {
+		return bankIsBroken;
 	}
 	
 	public void addClosedCertificate (Certificate aCertificate) {
