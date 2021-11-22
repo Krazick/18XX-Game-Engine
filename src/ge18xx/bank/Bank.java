@@ -43,6 +43,7 @@ public class Bank extends GameBank implements CashHolderI {
 	public static final String NAME = "Bank";
 	public static final Bank NO_BANK = null;
 	public static final JLabel NO_LABEL = null;
+	public static final int NO_BANK_CASH = 0;
 	int treasury;
 	static String format;
 	static DecimalFormat decimalFormat;
