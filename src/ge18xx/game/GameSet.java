@@ -39,7 +39,6 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	final ElementName EN_GAMES = new ElementName ("Games");
 	final ElementName EN_NETWORK = new ElementName ("Network");
 	public static final int NO_GAME_SELECTED = -1;
-	static final String NO_GAME_NAME = "<NO-GAME>";
 	static final String CHAT_TITLE = "GE18XX Chat Client";
 	static final GameInfo [] NO_GAMES = null;
 	static final JPanel NO_GAME_SET_PANEL = null;
