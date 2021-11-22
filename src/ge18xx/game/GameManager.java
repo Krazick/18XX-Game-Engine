@@ -90,9 +90,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final GameInfo NO_GAME = null;
 	public static final XMLFrame NO_FRAME = null;
 	public static final GameManager NO_GAME_MANAGER = null;
-	public static final PlayerInputFrame NO_PLAYER_INPUT_FRAME = null;
-//	public static final PlayerManager NO_PLAYER_MANAGER = null;
-	public static final PhaseManager NO_PHASE_MANAGER = null;
 	public static final int NO_BANK_CASH = 0;
 	Game_18XX game18XXFrame;
 	GameInfo activeGame;
@@ -157,7 +154,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setBankPool (BankPool.NO_BANK_POOL);
 		setBank (NO_BANK_CASH);
 		setPlayerManager (PlayerManager.NO_PLAYER_MANAGER);
-		setPhaseManager (NO_PHASE_MANAGER);
+		setPhaseManager (PhaseManager.NO_PHASE_MANAGER);
 		setMapFrame (NO_FRAME);
 		setCitiesFrame (NO_FRAME);
 		setPrivatesFrame (NO_FRAME);
@@ -165,7 +162,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setShareCompaniesFrame (NO_FRAME);
 		setTileTrayFrame (NO_FRAME);
 		setTileDefinitionFrame (NO_FRAME);
-		setPlayerInputFrame (NO_PLAYER_INPUT_FRAME);
+		setPlayerInputFrame (PlayerInputFrame.NO_PLAYER_INPUT_FRAME);
 		setAuditFrame (NO_FRAME);
 		setFrameInfoFrame (NO_FRAME);
 		setClientUserName (aClientUserName);
@@ -986,14 +983,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 			setGameChanged (true);
 			
 			setupBank ();
+			activeGame.setupOptions (this);
 			setupPlayers ();
 			tPhaseManager = activeGame.getPhaseManager ();
 			tPhaseManager.setCurrentPhase (PhaseManager.FIRST_PHASE);
 			setPhaseManager (tPhaseManager);
-			tPrivates = privatesFrame.getCompanies ();
-			tCoals = coalCompaniesFrame.getCompanies ();
-			tMinors = minorCompaniesFrame.getCompanies ();
-			tShares = shareCompaniesFrame.getCompanies ();
+			tPrivates = getPrivates ();
+			tCoals = getCoalCompanies ();
+			tMinors = getMinorCompanies ();
+			tShares = getShareCompanies ();
 			
 			autoSaveFileName = constructAutoSaveFileName (AUTO_SAVES_DIR);
 			autoSaveFile = new File (autoSaveFileName);
@@ -1007,7 +1005,25 @@ public class GameManager extends Component implements NetworkGameSupport {
 			gameStarted = true;
 			createAuditFrame ();
 			applyConfigSettings ();
-			createFrameInfoFrame ();		}
+			createFrameInfoFrame ();
+		}
+	}
+	
+	public void setBank (int aBank) {
+		bank = new Bank (aBank, this);
+	}
+	
+	public void setBankPool (BankPool aBankPool) {
+		bankPool = aBankPool;
+	}
+
+	public void setupBank () {
+		int tBankTotal;
+		
+		bankPool = new BankPool (this);
+		tBankTotal = activeGame.getBankTotal ();
+		setBank (tBankTotal);
+		bank.setup (activeGame);
 	}
 
 	private String constructAutoSaveFileName (String tDirectoryName) {
@@ -1031,23 +1047,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tASNDir = tDirectoryName + File.separator  + "network" + File.separator;
 		
 		return tASNDir;
-	}
-	
-	private void loadCorporationsIntoBank (CorporationList aCorporationList) {
-		Corporation tCorporation;
-		Certificate tCertificate;
-		int tCorporationCount, tCertificateCount;
-		int tCorporationIndex, tCertificateIndex;
-		
-		tCorporationCount = aCorporationList.getRowCount ();
-		for (tCorporationIndex = 0; tCorporationIndex < tCorporationCount; tCorporationIndex++) {
-			tCorporation = aCorporationList.getCorporation (tCorporationIndex);
-			tCertificateCount = tCorporation.getCorporationCertificateCount ();
-			for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
-				tCertificate = tCorporation.getCorporationCertificate (tCertificateIndex);
-				bank.addCertificate (tCertificate);
-			}
-		}
 	}
 
 	private File getSelectedFile (File aDirectory, JFileMChooser aChooser, boolean aSaveFile) {
@@ -1158,6 +1157,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 		
 	}
+	
 	public void loadSavedXMLFile () {
 		List<ActionStates> auctionStates;
 		
@@ -1455,9 +1455,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 			CorporationTableFrame aCorporationTableFrame) {
 		XMLElement tXMLElement;
 		
-		if (aCorporationTableFrame != null) {
+		if (aCorporationTableFrame != CorporationTableFrame.NO_CORP_TABLE_FRAME) {
 			tXMLElement = aCorporationTableFrame.getCorporationStateElements (aXMLDocument);
-			if (tXMLElement != null) {
+			if (tXMLElement != XMLElement.NO_XML_ELEMENT) {
 				aSaveGameElement.appendChild (tXMLElement);
 			}
 		}
@@ -1520,14 +1520,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 				logger.error ("Cancel Save Game Action");
 			}
 		}
-	}
-	
-	public void setBank (int aBank) {
-		bank = new Bank (aBank, this);
-	}
-	
-	public void setBankPool (BankPool aBankPool) {
-		bankPool = aBankPool;
 	}
 	
 	public void setCitiesFrame (XMLFrame aXMLFrame) {
@@ -1610,29 +1602,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tileDefinitionFrame = (TileDefinitionFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
-
-	public void setupBank () {
-		int tBankTotal;
-		String tFormat;
-		CorporationList tCorpList;
-		
-		bankPool = new BankPool (this);
-		tBankTotal = activeGame.getBankTotal ();
-		tFormat = activeGame.getCurrencyFormat ();
-		bank = new Bank (tBankTotal, this);
-		bank.setFormat (tFormat);
-		bank.loadTrains (activeGame);
-		tCorpList = privatesFrame.getCompanies ();
-		loadCorporationsIntoBank (tCorpList);
-		tCorpList = coalCompaniesFrame.getCompanies ();
-		loadCorporationsIntoBank (tCorpList);
-		tCorpList = minorCompaniesFrame.getCompanies ();
-		loadCorporationsIntoBank (tCorpList);
-		tCorpList = shareCompaniesFrame.getCompanies ();
-		loadCorporationsIntoBank (tCorpList);
-		bank.createStartPacket (this);
-		setupOptions ();
-	}
 		
 	public void setupGamePieces () {
 		if (activeGame != GameManager.NO_GAME) {
@@ -1666,11 +1635,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 	}
-	
-	public void setupOptions () {
-		activeGame.setupOptions (this);
-	}
-	
+
 	public void setupPlayers () {
 		Player tPlayer;
 		PlayerManager tPlayerManager;
