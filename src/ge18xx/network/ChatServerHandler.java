@@ -3,7 +3,9 @@ package ge18xx.network;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import ge18xx.game.GameManager;
 import ge18xx.game.NetworkGameSupport;
+import ge18xx.game.SavedGame;
 
 public class ChatServerHandler extends ServerHandler {
 	protected JGameClient jClient;
@@ -154,12 +156,22 @@ public class ChatServerHandler extends ServerHandler {
 		String tGameSupportXML;
 		String tGameIDChunk = "";
 		
-		if (! aGameID.equals ("")) {
+		if (isValidGameID (aGameID)) {
 			tGameIDChunk =  " gameID=\"" + aGameID + "\"";
 		}
 		tGameSupportXML = "Game Support <GS" + tGameIDChunk + ">" + tXMLChild + "</GS>";
 		
 		return tGameSupportXML;
+	}
+	
+	public boolean isValidGameID (String aGameID) {
+		boolean tIsValidGameID = false;
+		
+		if (! (aGameID.equals (SavedGame.NO_GAME_ID) || aGameID.equals (GameManager.EMPTY_GAME_ID))) {
+			tIsValidGameID = true;
+		}
+		
+		return tIsValidGameID;
 	}
 	
 	public void sendUserReady (String aGameID) {
