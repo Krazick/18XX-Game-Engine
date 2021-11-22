@@ -87,10 +87,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final String NO_GAME_NAME = "<NONE>";
 	public static final String NO_FILE_NAME = "<NONE>";
 	public static final String AUTO_SAVES_DIR = "autoSaves";
-	public static final GameInfo NO_GAME = null;
-	public static final XMLFrame NO_FRAME = null;
 	public static final GameManager NO_GAME_MANAGER = null;
-	public static final int NO_BANK_CASH = 0;
 	Game_18XX game18XXFrame;
 	GameInfo activeGame;
 	PlayerManager playerManager;
@@ -135,45 +132,57 @@ public class GameManager extends Component implements NetworkGameSupport {
 	String gameID;
 	Config configData;
 	
-	boolean notifyNetwork = false;
-	boolean applyingNetworkAction = false;
+	boolean notifyNetwork;
+	boolean applyingNetworkAction;
 	boolean gameChangedSinceSave;
 	boolean gameStarted;
+	boolean gameEnding;
 	Logger logger;
-	String userDir = System.getProperty ("user.dir");
+	String userDir;
 	
 	public GameManager () {
-		gameID = "";
-		userDir = System.getProperty ("user.dir");
+		setUserDir ();
+		setDefaults ();
 	}
 	
 	public GameManager (Game_18XX aGame_18XX_Frame, String aClientUserName) {
 		game18XXFrame = aGame_18XX_Frame;
 		configFrames = new ArrayList<XMLFrame> ();
-		setGame (NO_GAME);
+		setGame (GameInfo.NO_GAME_INFO);
 		setBankPool (BankPool.NO_BANK_POOL);
-		setBank (NO_BANK_CASH);
+		setBank (Bank.NO_BANK_CASH);
 		setPlayerManager (PlayerManager.NO_PLAYER_MANAGER);
 		setPhaseManager (PhaseManager.NO_PHASE_MANAGER);
-		setMapFrame (NO_FRAME);
-		setCitiesFrame (NO_FRAME);
-		setPrivatesFrame (NO_FRAME);
-		setMinorCompaniesFrame (NO_FRAME);
-		setShareCompaniesFrame (NO_FRAME);
-		setTileTrayFrame (NO_FRAME);
-		setTileDefinitionFrame (NO_FRAME);
+		setMapFrame (XMLFrame.NO_XML_FRAME);
+		setCitiesFrame (XMLFrame.NO_XML_FRAME);
+		setPrivatesFrame (XMLFrame.NO_XML_FRAME);
+		setMinorCompaniesFrame (XMLFrame.NO_XML_FRAME);
+		setShareCompaniesFrame (XMLFrame.NO_XML_FRAME);
+		setTileTrayFrame (XMLFrame.NO_XML_FRAME);
+		setTileDefinitionFrame (XMLFrame.NO_XML_FRAME);
 		setPlayerInputFrame (PlayerInputFrame.NO_PLAYER_INPUT_FRAME);
-		setAuditFrame (NO_FRAME);
-		setFrameInfoFrame (NO_FRAME);
+		setAuditFrame (XMLFrame.NO_XML_FRAME);
+		setFrameInfoFrame (XMLFrame.NO_XML_FRAME);
 		setClientUserName (aClientUserName);
+		setDefaults ();
+		loadConfig ();
+		logger = Game_18XX.getLogger ();
+		setUserDir ();
+	}
+
+	private void setUserDir () {
+		userDir = System.getProperty ("user.dir");
+	}
+	
+	private void setDefaults() {
 		saveFile = null;
 		setLoadSavedFile (null);
 		autoSaveFile = null;
 		gameStarted = false;
+		gameEnding = false;
+		notifyNetwork = false;
+		applyingNetworkAction = false;
 		gameID = "";
-		loadConfig ();
-		logger = Game_18XX.getLogger ();
-		userDir = System.getProperty ("user.dir");
 	}
 	
 	public String getUserDir () {
@@ -808,7 +817,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public String getGameName () {
 		String tGameName;
 		
-		if (activeGame == NO_GAME) {
+		if (activeGame == GameInfo.NO_GAME_INFO) {
 			tGameName = NO_GAME_NAME;
 		} else {
 			tGameName = activeGame.getGameName ();
@@ -972,7 +981,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		PhaseManager tPhaseManager;
 		PlayerManager tPlayerManager;
 		
-		if (activeGame != NO_GAME) {
+		if (activeGame != GameInfo.NO_GAME_INFO) {
 			game18XXFrame.initiateGame ();
 			if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 				tPlayerManager = new PlayerManager (this);
@@ -1531,7 +1540,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public void setGame (GameInfo aGame) {
 		activeGame = aGame;
-		if (activeGame != NO_GAME) {
+		if (activeGame != GameInfo.NO_GAME_INFO) {
 			activeGame.setGameID (gameID);
 		}
 	}
@@ -1604,7 +1613,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 		
 	public void setupGamePieces () {
-		if (activeGame != GameManager.NO_GAME) {
+		if (activeGame != GameInfo.NO_GAME_INFO) {
 			createMarket ();
 			createShareCompanies ();
 			createPrivateCompanies ();
@@ -2361,7 +2370,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void showFrameInfo () {
 		// TODO Auto-generated method stub
 		// Build This	
-		if (frameInfoFrame != NO_FRAME) {
+		if (frameInfoFrame != XMLFrame.NO_XML_FRAME) {
 			System.out.println ("Ready to show Frame Info Frame");
 			frameInfoFrame.setVisible (true);
 		} else {
