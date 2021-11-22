@@ -15,6 +15,7 @@ import ge18xx.utilities.XMLNode;
 
 public class CorporationTableFrame extends TableFrame {
 	public static final ElementName EN_COMPANIES = new ElementName ("Companies");
+	public static final CorporationTableFrame NO_CORP_TABLE_FRAME = null;
 	private static final long serialVersionUID = 1L;
 	CorporationList companies;
 	
