@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ge18xx.company.Certificate;
+import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.game.GameInfo;
@@ -98,6 +99,41 @@ public class Bank extends GameBank implements CashHolderI {
 				addTrain (tNewTrain);
 			}
 		}
+	}
+	
+	public void loadCorporations (CorporationList aCorporationList) {
+		Corporation tCorporation;
+		Certificate tCertificate;
+		int tCorporationCount, tCertificateCount;
+		int tCorporationIndex, tCertificateIndex;
+		
+		tCorporationCount = aCorporationList.getRowCount ();
+		for (tCorporationIndex = 0; tCorporationIndex < tCorporationCount; tCorporationIndex++) {
+			tCorporation = aCorporationList.getCorporation (tCorporationIndex);
+			tCertificateCount = tCorporation.getCorporationCertificateCount ();
+			for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
+				tCertificate = tCorporation.getCorporationCertificate (tCertificateIndex);
+				addCertificate (tCertificate);
+			}
+		}
+	}
+	
+	public void setup (GameInfo aActiveGame) {
+		String tFormat;
+		CorporationList tCorpList;
+		
+		tFormat = aActiveGame.getCurrencyFormat ();
+		setFormat (tFormat);
+		tCorpList = gameManager.getPrivates ();
+		loadCorporations (tCorpList);
+		tCorpList = gameManager.getCoalCompanies ();
+		loadCorporations (tCorpList);
+		tCorpList = gameManager.getMinorCompanies ();
+		loadCorporations (tCorpList);
+		tCorpList = gameManager.getShareCompanies ();
+		loadCorporations (tCorpList);
+		loadTrains (aActiveGame);
+		createStartPacket (gameManager);
 	}
 
 	public JPanel buildStartPacketInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
