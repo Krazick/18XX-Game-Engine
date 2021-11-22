@@ -13,6 +13,7 @@ import ge18xx.utilities.XMLNode;
 //
 
 public class PhaseInfo {
+	public static final PhaseInfo NO_PHASE_INFO = null;
 	public static final ElementName EN_PHASES = new ElementName ("Phases");
 	public static final ElementName EN_PHASE = new ElementName ("Phase");
 	public static final AttributeName AN_PHASES = new AttributeName ("phases");

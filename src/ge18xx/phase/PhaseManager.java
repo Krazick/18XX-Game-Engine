@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 public class PhaseManager {
-	public static final PhaseInfo NO_PHASE_INFO = null;
+	public static final PhaseManager NO_PHASE_MANAGER = null;
 	public static final List<PhaseInfo> NO_PHASES = null;
 	public static final int NO_PHASE = -1;
 	public static final int FIRST_PHASE = 0;
@@ -47,7 +47,7 @@ public class PhaseManager {
 		
 		tCanBuyPrivate = false;
 		tPhaseInfo = getCurrentPhaseInfo ();
-		if (tPhaseInfo != NO_PHASE_INFO) {
+		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
 			tCanBuyPrivate = tPhaseInfo.getCanBuyPrivate ();
 		}
 		
@@ -58,7 +58,7 @@ public class PhaseManager {
 		PhaseInfo tPhaseInfo;
 		
 		if (currentPhase == NO_PHASE) {
-			tPhaseInfo = NO_PHASE_INFO;
+			tPhaseInfo = PhaseInfo.NO_PHASE_INFO;
 		} else {
 			tPhaseInfo = phases.get (currentPhase);
 		}
@@ -69,8 +69,8 @@ public class PhaseManager {
 	public PhaseInfo getPhaseInfo (int aIndex) {
 		PhaseInfo tPhaseInfo;
 		
-		tPhaseInfo = NO_PHASE_INFO;
-		if (phases != NO_PHASE_INFO) {
+		tPhaseInfo = PhaseInfo.NO_PHASE_INFO;
+		if (phases != PhaseInfo.NO_PHASE_INFO) {
 			if ((aIndex >= 0) && (aIndex <= phases.size ())) {
 				tPhaseInfo = phases.get (aIndex);
 			}
@@ -96,7 +96,7 @@ public class PhaseManager {
 		String tCurrentOffBoard = "";
 		PhaseInfo tCurrentPhaseInfo = getCurrentPhaseInfo ();		
 
-		if (tCurrentPhaseInfo != NO_PHASE_INFO) {
+		if (tCurrentPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
 			tCurrentOffBoard = tCurrentPhaseInfo.getOffBoard ();
 		}
 		
@@ -192,7 +192,7 @@ public class PhaseManager {
 		PhaseInfo tPhaseInfo;
 		
 		tPhaseInfo = getCurrentPhaseInfo ();
-		if (tPhaseInfo != NO_PHASE_INFO) {
+		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
 			tCanBuyTrainInPhase = tPhaseInfo.canBuyTrainInPhase ();
 		}
 		

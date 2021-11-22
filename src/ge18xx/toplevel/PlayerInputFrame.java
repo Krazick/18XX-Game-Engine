@@ -37,6 +37,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusListener {
+	public static final PlayerInputFrame NO_PLAYER_INPUT_FRAME = null;
 	public static final String NO_NAME = "";
 	public static final int NO_PLAYER_INDEX = -1;
 	public static final int NO_PLAYERS = 0;
