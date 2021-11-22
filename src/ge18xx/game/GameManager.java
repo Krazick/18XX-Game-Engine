@@ -63,7 +63,6 @@ import ge18xx.toplevel.TileTrayFrame;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
-import ge18xx.train.TrainInfo;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.File18XXFilter;
@@ -1187,26 +1186,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setNotifyNetwork (true);
 	}
 
-	private void loadTrainsIntoBank () {
-		int tTrainIndex, tTrainCount, tTrainQty, tTrainIndex2;
-		TrainInfo tTrainInfo;
-		Train tTrain, tNewTrain;
-
-		tTrainCount = activeGame.getTrainCount ();
-		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
-			tTrainInfo = activeGame.getTrainInfo (tTrainIndex);
-			tTrainQty = tTrainInfo.getQuantity ();
-			tTrain = tTrainInfo.getTrain ();
-			if (tTrainInfo.isStartPhase ()) {
-				tTrain.setStatus (Train.AVAILABLE_FOR_PURCHASE);
-			}
-			for (tTrainIndex2 = 0; tTrainIndex2 < tTrainQty; tTrainIndex2++) {
-				tNewTrain = new Train (tTrain);
-				bank.addTrain (tNewTrain);
-			}
-		}
-	}
-
 	@Override
 	public void parseNetworkSavedGames (String aNetworkSavedGames) {
 		String tAutoSavesDir;
@@ -1642,7 +1621,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tFormat = activeGame.getCurrencyFormat ();
 		bank = new Bank (tBankTotal, this);
 		bank.setFormat (tFormat);
-		loadTrainsIntoBank ();
+		bank.loadTrains (activeGame);
 		tCorpList = privatesFrame.getCompanies ();
 		loadCorporationsIntoBank (tCorpList);
 		tCorpList = coalCompaniesFrame.getCompanies ();

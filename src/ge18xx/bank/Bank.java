@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import ge18xx.company.Certificate;
 import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
@@ -23,6 +24,7 @@ import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.player.StartPacketPortfolio;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.train.Train;
+import ge18xx.train.TrainInfo;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -75,9 +77,29 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 	
 	public void addRustedTrain (Train aTrain) {
-		rustedTrainsPortfolio.addTrain(aTrain);
+		rustedTrainsPortfolio.addTrain (aTrain);
 	}
 	
+	public void loadTrains (GameInfo aActiveGame) {
+		int tTrainIndex, tTrainCount, tTrainQty, tTrainIndex2;
+		TrainInfo tTrainInfo;
+		Train tTrain, tNewTrain;
+
+		tTrainCount = aActiveGame.getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			tTrainInfo = aActiveGame.getTrainInfo (tTrainIndex);
+			tTrainQty = tTrainInfo.getQuantity ();
+			tTrain = tTrainInfo.getTrain ();
+			if (tTrainInfo.isStartPhase ()) {
+				tTrain.setStatus (Train.AVAILABLE_FOR_PURCHASE);
+			}
+			for (tTrainIndex2 = 0; tTrainIndex2 < tTrainQty; tTrainIndex2++) {
+				tNewTrain = new Train (tTrain);
+				addTrain (tNewTrain);
+			}
+		}
+	}
+
 	public JPanel buildStartPacketInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
 		JPanel tPortfolioJPanel;
 		JPanel tStartPacketJPanel;
