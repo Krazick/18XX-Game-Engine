@@ -89,10 +89,6 @@ public class PhaseInfo {
 		return false;
 	}
 	
-	public int getGovtTrainLimit () {
-		return govtTrainLimit;
-	}
-	
 	public String getOffBoard () {
 		return offBoard;
 	}
@@ -101,8 +97,28 @@ public class PhaseInfo {
 		return rounds;
 	}
 	
+	public int getTrainLimit (boolean aGovtRailway) {
+		int tTrainLimit;
+		
+		if (aGovtRailway) {
+			tTrainLimit = getGovtTrainLimit ();
+		} else {
+			tTrainLimit = getTrainLimit ();
+		}
+		
+		return tTrainLimit;
+	}
+	
+	public int getGovtTrainLimit () {
+		return govtTrainLimit;
+	}
+	
 	public int getMinorTrainLimit () {
 		return minorTrainLimit;
+	}
+	
+	public int getTrainLimit () {
+		return trainLimit;
 	}
 	
 	public String getFullName () {
@@ -115,10 +131,6 @@ public class PhaseInfo {
 	
 	public String getTiles () {
 		return String.join (", ", tiles);
-	}
-	
-	public int getTrainLimit () {
-		return trainLimit;
 	}
 	
 	public int getSubName () {
