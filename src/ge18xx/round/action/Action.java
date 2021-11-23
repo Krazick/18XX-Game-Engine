@@ -20,7 +20,8 @@ import java.util.List;
 
 public class Action {
 	public final static String NO_NAME = ">> NO ACTION NAME <<";
-	public final static ActorI NO_ACTOR = null;
+//	public final static ActorI NO_ACTOR = null;
+	public final static Action NO_ACTION = null;
 	public final static ActorI.ActionStates NO_ROUND_TYPE = ActorI.ActionStates.NoRound;
 	public final static String NO_ROUND_ID = ">> NO ROUND ID <<";
 	public final static String REPORT_PREFIX = "-";
@@ -50,7 +51,7 @@ public class Action {
 	public Action (String aName) {
 		setNumber (0);
 		setName (aName);
-		setActor (NO_ACTOR);
+		setActor (ActorI.NO_ACTOR);
 		setRoundType (NO_ROUND_TYPE);
 		setRoundID (NO_ROUND_ID);
 		setChainToPrevious (false);

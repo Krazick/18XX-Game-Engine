@@ -8,7 +8,7 @@ import ge18xx.utilities.XMLNode;
 
 public class BuyStockAction extends TransferOwnershipAction {
 	public final static String NAME = "Buy Stock";
-	
+	public final static BuyStockAction NO_BUY_STOCK_ACTION = null;
 	public BuyStockAction () {
 		super ();
 		setName (NAME);

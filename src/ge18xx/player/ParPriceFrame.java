@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 public class ParPriceFrame extends JFrame implements ActionListener {
 	private static final String SET_PAR_PRICE_ACTION = "SetParPrice";
 	private static final long serialVersionUID = 1L;
+	public static final ParPriceFrame NO_PAR_PRICE_FRAME = null;
 	
 	Player player;
 	StockRound stockRound;

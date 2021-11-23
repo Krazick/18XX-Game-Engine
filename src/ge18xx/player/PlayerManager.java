@@ -57,16 +57,16 @@ public class PlayerManager {
 	public final static PlayerManager NO_PLAYER_MANAGER = null;
 	public enum STOCK_BUY_IN { StockRound, AuctionRound, OperatingRound }; // Round a Stock Certificate was purchased
 	public final static boolean AUCTION_BUY = false;
-	public final static
-	List<Player> players = new LinkedList<Player> ();
+	public final static List<Player> players = new LinkedList<Player> ();
+	private final static List<Player> NO_PLAYERS = null;
 	GameManager gameManager;
 	StockRound stockRound;
 	AuctionRound auctionRound;
 	ParPriceFrame parPriceFrame;
 	
 	public PlayerManager (GameManager aGameManager) {
-		stockRound = null;
 		gameManager = aGameManager;
+		setStockRound (StockRound.NO_STOCK_ROUND);
 	}
 	
 	public void addPlayer (String aName, boolean aPrivates, boolean aCoals, boolean aMinors, boolean aShares, int aCertificateLimit) {
@@ -251,7 +251,7 @@ public class PlayerManager {
 		Player tFoundPlayer;
 		
 		tFoundPlayer = Player.NO_PLAYER;
-		if (players != null) {
+		if (players != NO_PLAYERS) {
 			if (aName != NO_PLAYER_NAME) {
 				for (Player tPlayer : players) {
 					if (tPlayer.getName ().equals (aName)) {
@@ -268,7 +268,7 @@ public class PlayerManager {
 		Player tPlayer;
 		
 		tPlayer = Player.NO_PLAYER;
-		if (players != null) {
+		if (players != NO_PLAYERS) {
 			if (aIndex != NO_PLAYER_INDEX) {
 				if (aIndex < getPlayerCount () ) {
 					tPlayer = players.get (aIndex);
@@ -358,25 +358,25 @@ public class PlayerManager {
 	}
 	
 	public boolean haveAllPassed () {
-		boolean bAllPassed;
+		boolean tAllPassed;
 		
-		bAllPassed = true;
+		tAllPassed = true;
 		for (Player tPlayer : players) {
-			bAllPassed = bAllPassed && tPlayer.hasPassed ();
+			tAllPassed = tAllPassed && tPlayer.hasPassed ();
 		}
 		
-		return bAllPassed;
+		return tAllPassed;
 	}
 	
 	public boolean haveAllPassedAuction () {
-		boolean bAllPassed;
+		boolean tAllPassed;
 		
-		bAllPassed = true;
+		tAllPassed = true;
 		for (Player tPlayer : players) {
-			bAllPassed = bAllPassed && tPlayer.hasPassedInAuction ();
+			tAllPassed = tAllPassed && tPlayer.hasPassedInAuction ();
 		}
 		
-		return bAllPassed;
+		return tAllPassed;
 	}
 	
 	public void bidAction (Player aPlayer) {
@@ -411,10 +411,10 @@ public class PlayerManager {
 				aPlayer.updatePlayerInfo ();
 				stockRound.updateRFPlayerLabel (aPlayer);
 			} else {
-				System.out.println (aPlayer.getName () + " Not bidding on Private");
+				System.err.println (aPlayer.getName () + " Not bidding on Private");
 			}
 		} else {
-			System.out.println (aPlayer.getName () + " has Acted");
+			System.err.println (aPlayer.getName () + " has Acted");
 		}
 	}
 	
@@ -495,7 +495,7 @@ public class PlayerManager {
 				}
 				if (! aCertificateToBuy.hasParPrice ()) {
 					tSelectedParPrice = aCertificateToBuy.getComboParValue ();
-					if ((tSelectedParPrice > 0) && (tShareCompany != null)) {
+					if ((tSelectedParPrice > 0) && (tShareCompany != ShareCompany.NO_SHARE_COMPANY)) {
 						gameManager.setParPrice (tShareCompany, tSelectedParPrice);
 						parPriceFrame = new ParPriceFrame (aPlayer, stockRound, aCertificateToBuy);
 						parPriceFrame.setParPriceFrameActive (false);
@@ -577,7 +577,7 @@ public class PlayerManager {
 			tBuyStockAction = aBuyStockAction;
 			tBuyStockAction.setChainToPrevious (tChainBuyToParValue);
 		} else {
-			tBuyStockAction = null;
+			tBuyStockAction = BuyStockAction.NO_BUY_STOCK_ACTION;
 		}
 		aPlayer.updatePlayerInfo ();
 
@@ -585,9 +585,8 @@ public class PlayerManager {
 	}
 	
 	public void addAction (Action aAction) {
-		if (aAction != null) {
+		if (aAction != Action.NO_ACTION) {
 			stockRound.addAction (aAction);
-//			printAllPlayersInfo ();
 		}
 	}
 	
@@ -661,7 +660,6 @@ public class PlayerManager {
 		
 		addAction (tDonePlayerAction);
 		moveToNextPlayer (tNextPlayerIndex);
-//		stockRound.printBriefActionReport ();
 	}
 	
 	private void moveToNextPlayer (int aNextPlayerIndex) {
@@ -702,7 +700,6 @@ public class PlayerManager {
 		ActorI.ActionStates tNewCorporationStatus;
 		
 		if (aCertificate != Certificate.NO_CERTIFICATE) {
-//			aCertificate.printCertificateInfo ();
 			tCorporation = aCertificate.getCorporation ();
 			if (tCorporation.isShareCompany ()) {
 				aPlayer.acts (); // Simply set the fact that the Player has acted. This does not require that he has not
@@ -745,7 +742,7 @@ public class PlayerManager {
 					addAction (tExchangeStockAction);
 				}
 			} else {
-				System.out.println ("Ready to Exchange a Minor Company for a Major");
+				System.err.println ("Ready to Exchange a Minor Company for a Major");
 			}
 			aPlayer.updatePlayerInfo ();				
 		} else {
@@ -1243,7 +1240,7 @@ public class PlayerManager {
 	public boolean isParPriceFrameActive () {
 		boolean tIsParPriceFrameActive = false;
 		
-		if (parPriceFrame != null) {
+		if (parPriceFrame != ParPriceFrame.NO_PAR_PRICE_FRAME) {
 			tIsParPriceFrameActive = parPriceFrame.isParPriceFrameActive ();
 		}
 		
