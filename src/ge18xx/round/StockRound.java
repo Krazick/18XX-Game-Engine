@@ -39,10 +39,6 @@ public class StockRound extends Round {
 		playerManager.clearAllPlayerPasses ();
 	}
 	
-	public void clearAllPlayerPasses (ChangeStateAction aChangeStateAction) {
-		playerManager.clearAllPlayerPasses ();
-	}
-	
 	@Override
 	public void clearAllAuctionStates () {
 		playerManager.clearAllAuctionStates ();
