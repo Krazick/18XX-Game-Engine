@@ -119,7 +119,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return portfolio.getCertificateToBuy ();
 	}
 	
-	public Certificate getPrivateToAuction () {
+	public Certificate getPrivateForAuction () {
 		Certificate tCertificateToAuction;
 		
 		tCertificateToAuction = Certificate.NO_CERTIFICATE;
