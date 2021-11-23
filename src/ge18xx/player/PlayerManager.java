@@ -592,7 +592,7 @@ public class PlayerManager {
 	}
 	
 	public String getPrivateAbbrevToAuction () {
-		return gameManager.getPrivateAbbrevToAuction ();
+		return gameManager.getPrivateAbbrevForAuction ();
 	}
 	
 	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, 
