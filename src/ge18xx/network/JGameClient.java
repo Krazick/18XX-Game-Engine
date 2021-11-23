@@ -101,6 +101,7 @@ public class JGameClient extends XMLFrame {
 	public static final AttributeName AN_PLAYER = new AttributeName ("player");
 	public static final AttributeName AN_REQUEST_ACTION_NUMBER = new AttributeName ("requestActionNumber");
 	public static final AttributeName AN_NONE = null;
+	public static JGameClient NO_JGAME_CLIENT = null;
 	public static final String REQUEST_LAST_ACTION_COMPLETE = "<LastAction isComplete=\"TRUE\">";
 	private final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
 	private final String SHOW_ALL_GAMES = "SHOW ALL GAMES"; 

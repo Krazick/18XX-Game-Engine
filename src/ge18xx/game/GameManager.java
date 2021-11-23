@@ -605,7 +605,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		ActorI tActor;
 		
 		tActor = ActorI.NO_ACTOR;
-		if (aActorName == null) {
+		if (aActorName == ActorI.NO_NAME) {
 			logger.error ("Actor Name IS NULL<-----");
 		} else {
 			if (aActorName.equals (bank.getName ())) {
@@ -1277,7 +1277,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				}
 			}
 			fixLoadedRoutes ();
-			if ((activeGame != null) && (playerManager.getPlayerCount () > 0)) {
+			if ((activeGame != GameInfo.NO_GAME_INFO) && (playerManager.getPlayerCount () > 0)) {
 				tLoadedSaveGame = true;
 			}
 		}
@@ -1877,7 +1877,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public boolean isNetworkGame () {
-		return (networkJGameClient != null);
+		return (networkJGameClient != JGameClient.NO_JGAME_CLIENT);
 	}
 	
 	public void setNetworkJGameClient (JGameClient aNetworkJGameClient) {
@@ -2198,7 +2198,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	@Override
 	public void resetGameID (String aGameID) {
-		if (gameID.equals ("")) {
+		if (gameID.equals (EMPTY_GAME_ID)) {
 			setGameID (aGameID);
 		}
 	}
@@ -2286,7 +2286,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public void showChatClient () {
-		if (networkJGameClient != null) {
+		if (networkJGameClient != JGameClient.NO_JGAME_CLIENT) {
 			networkJGameClient.setVisible (true);
 		}
 	}
