@@ -860,12 +860,13 @@ public class RoundManager implements ActionListener {
 		
 		if (bankIsBroken ()) {
 			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
-		} else {
+		}
+//		} else {
 			tIDPart1 = incrementRoundIDPart1 (stockRound);
 			setRoundToStockRound (tIDPart1);
 			stockRound.prepareStockRound ();
 			roundFrame.updateAll ();
-		}
+//		}
 	}
 	
 	public boolean bankIsBroken () {
