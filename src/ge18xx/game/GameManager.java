@@ -292,7 +292,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void setCoalCompaniesFrame (CoalCompaniesFrame aCoalCompaniesFrame) {
-		coalCompaniesFrame = aCoalCompaniesFrame;
 		if (aCoalCompaniesFrame != XMLFrame.NO_XML_FRAME) {
 			coalCompaniesFrame = aCoalCompaniesFrame;
 		}
@@ -302,14 +301,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 		auctionFrame = aAuctionFrame;
 	}
 	
-	public String getPrivateAbbrevToAuction () {
-		Certificate tCertificate = bank.getPrivateToAuction ();
+	public String getPrivateAbbrevForAuction () {
+		Certificate tCertificate = bank.getPrivateForAuction ();
 		
 		return tCertificate.getCompanyAbbrev ();
 	}
 	
 	public void addPrivateToAuction () {
-		Certificate tCertificate = bank.getPrivateToAuction ();
+		Certificate tCertificate = bank.getPrivateForAuction ();
 		
 		auctionFrame.addPrivateToAuction (tCertificate);
 	}
@@ -391,9 +390,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 			
 			tMapFrame.setCityInfo (citiesFrame.getCities ());
 			tPrivatesCompaniesList = privatesFrame.getCompanies ();
-			tShareCompaniesList = shareCompaniesFrame.getCompanies ();
-			tMinorCompaniesList = minorCompaniesFrame.getCompanies ();
 //			tCoalCompaniesList = coalCompaniesFrame.getCompanies ();
+			tMinorCompaniesList = minorCompaniesFrame.getCompanies ();
+			tShareCompaniesList = shareCompaniesFrame.getCompanies ();
 			tMapFrame.setCorporationList (tPrivatesCompaniesList, CorporationList.TYPE_NAMES [0]);
 //			tMapFrame.setCorporationList (tCoalCompaniesList, CorporationList.TYPE_NAMES [1]);
 			tMapFrame.setCorporationList (tMinorCompaniesList, CorporationList.TYPE_NAMES [2]);
@@ -660,7 +659,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public String getCitiesFileName () {
-		return getFileName ("cities");
+		return getFileName (File18XX.CITIES_TYPE);
 	}
 	
 	public CitiesFrame getCitiesFrame () {
@@ -689,7 +688,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public String getCompaniesFileName () {
-		return getFileName ("companies");
+		return getFileName (File18XX.COMPANIES_TYPE);
 	}
 
 	public Corporation getCorporationByID (int aCorporationID) {
@@ -844,7 +843,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public String getMapFileName () {
-		return getFileName ("map");
+		return getFileName (File18XX.MAP_TYPE);
 	}
 	
 	public Market getMarket () {
@@ -852,7 +851,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public String getMarketFileName () {
-		return getFileName ("market");
+		return getFileName (File18XX.MARKET_TYPE);
 	}
 	
 	public MarketFrame getMarketFrame () {
@@ -913,7 +912,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public String getTileSetFileName () {
-		return getFileName ("tileSet");
+		return getFileName (File18XX.TILE_SET_TYPE);
 	}
 
 	public TileSet getTileSet () {
