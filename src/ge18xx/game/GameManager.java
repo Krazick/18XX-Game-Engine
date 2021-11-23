@@ -36,7 +36,6 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.round.RoundManager;
-import ge18xx.round.StockRound;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
 import ge18xx.round.action.ActorI;
@@ -176,8 +175,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	private void setDefaults() {
-		saveFile = null;
 		setLoadSavedFile (null);
+		saveFile = null;
 		autoSaveFile = null;
 		gameStarted = false;
 		gameEnding = false;
@@ -207,11 +206,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public boolean canBeExchanged (Corporation aCorporation) {
-		boolean tCanBeExchanged;
-
-		tCanBeExchanged = playerManager.canBeExchanged (aCorporation);
-		
-		return tCanBeExchanged;
+		return playerManager.canBeExchanged (aCorporation);
 	}
 	
 	public boolean canPayHalfDividend () {
@@ -1141,7 +1136,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setLoadSavedFile (tAutoSaveFile);
 		loadSavedXMLFile ();
 		handleMissedActions ();
-		roundManager.updateRoundFrame ();
+		updateRoundFrame ();
 	}
 	
 	public void handleMissedActions () {
@@ -1282,9 +1277,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 		
-		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
-			roundManager.updateRoundFrame ();
-		}
+		updateRoundFrame ();
 		
 		return tLoadedSaveGame;
 	}
@@ -1566,7 +1559,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void setParPrice (ShareCompany aShareCompany, int aParPrice) {
 		 marketFrame.setParPrice (aShareCompany, aParPrice);
-		 playerManager.updateAllPlayerFrames ();
+		 updateAllPlayerFrames ();
 	}
 	
 	public void setPhaseManager (PhaseManager aPhaseManager) {
@@ -1795,17 +1788,22 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public void updateAllFrames () {
-		Player tCurrentPlayer;
-		StockRound tStockRound;
-		
-		roundManager.updateRoundFrame ();
+		updateRoundFrame ();
 		if (roundManager.getCurrentRoundType ().equals (ActorI.ActionStates.StockRound)) {
-			tStockRound = roundManager.getStockRound ();
-			tCurrentPlayer = tStockRound.getCurrentPlayer ();
-			playerManager.updateAllPlayerFrames (tCurrentPlayer);
+			updateAllPlayerFrames ();
 		}
 	}
 
+	public void updateAllPlayerFrames () {
+		playerManager.updateAllPlayerFrames ();
+	}
+	
+	public void updateRoundFrame () {
+		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+			roundManager.updateRoundFrame ();
+		}
+	}
+	
 	// Get an Array of all Available Trains from Bank, and BankPool together
 	public Train [] getBankAvailableTrains () {
 		Train [] tBankAvailableTrains;
@@ -2367,6 +2365,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return roundManager.isLastActionComplete ();
 	}
 
+	public boolean bankIsBroken () {
+		return bank.isBroken ();
+	}
+	
 	public void showFrameInfo () {
 		// TODO Auto-generated method stub
 		// Build This	
