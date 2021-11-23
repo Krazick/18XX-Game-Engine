@@ -65,6 +65,7 @@ public class RoundFrame extends XMLFrame {
 	JLabel phaseLabel;
 	JLabel totalCashLabel;
 	JLabel parPriceLabel;
+	JLabel gameStateLabel;
 	List<JLabel> parPrices = new LinkedList<JLabel> ();
 	List<JLabel> companiesAtPar = new LinkedList<JLabel> ();
 	List<JPanel> parPriceLineJPanels = new LinkedList<JPanel> ();
@@ -175,6 +176,7 @@ public class RoundFrame extends XMLFrame {
 
 	private void buildRoundInfoJPanel () {
 		int tTotalCash;
+		String tGameState;
 		Bank tBank;
 		JLabel tBankCashLabel;
 		
@@ -199,6 +201,12 @@ public class RoundFrame extends XMLFrame {
 		totalCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		roundInfoJPanel.add (totalCashLabel);
 		
+		tGameState = buildGameState ();
+		gameStateLabel = new JLabel (tGameState);
+		gameStateLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		roundInfoJPanel.add (Box.createVerticalStrut (10));
+		roundInfoJPanel.add (gameStateLabel);
+
 		phaseLabel = new JLabel ("Current Game Phase");
 		phaseLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		roundInfoJPanel.add (Box.createVerticalStrut (10));
@@ -207,6 +215,19 @@ public class RoundFrame extends XMLFrame {
 		updatePhaseLabel ();
 	}
 
+	private String buildGameState () {
+		String tGameState;
+		
+		tGameState = "Current Game State: ";
+		if (roundManager.bankIsBroken ()) {
+			tGameState += "BANK BROKEN";
+		} else {
+			tGameState += "PLAYING";
+		}
+
+		return tGameState;
+	}
+	
 	private void buildTrainSummary () {
 		Border tBorder1, tBorder2;
 
@@ -597,9 +618,17 @@ public class RoundFrame extends XMLFrame {
 		totalCashLabel.setText ("Total Cash: " + Bank.formatCash (tTotalCash));
 	}
 	
+	private void updateGameStateLabel () {
+		String tGameState;
+		
+		tGameState = buildGameState ();
+		gameStateLabel.setText (tGameState);
+	}
+	
 	public void updateAll () {
 		updateParPrices ();
 		updateTotalCashLabel ();
+		updateGameStateLabel ();
 		updatePhaseLabel ();
 		updateTrainSummary ();
 		updateAllPlayerJPanels ();
