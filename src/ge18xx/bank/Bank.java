@@ -74,9 +74,15 @@ public class Bank extends GameBank implements CashHolderI {
 	public void addCash (int aAmount) {
 		treasury += aAmount;
 		updateBankCashLabel ();
+		if (aAmount < 0) {
+			if (treasury < 0) {
+				setBankIsBroken (true);
+				gameManager.updateRoundFrame ();
+			}
+		}
 	}
 	
-	public void setBankIsBroken (boolean aBroken) {
+	private void setBankIsBroken (boolean aBroken) {
 		bankIsBroken = aBroken;
 	}
 	
