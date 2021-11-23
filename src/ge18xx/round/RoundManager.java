@@ -374,12 +374,12 @@ public class RoundManager implements ActionListener {
 		PhaseManager tPhaseManager;
 		PhaseInfo tPhaseInfo;
 		
-		tPhaseManager = null;
-		if (gameManager != null) {
+		tPhaseManager = PhaseManager.NO_PHASE_MANAGER;
+		if (gameManager != GameManager.NO_GAME_MANAGER) {
 			tPhaseManager = gameManager.getPhaseManager ();
 			tPhaseInfo = tPhaseManager.getCurrentPhaseInfo ();
 		} else {
-			tPhaseInfo = null;
+			tPhaseInfo = PhaseInfo.NO_PHASE_INFO;
 		}
 		
 		return tPhaseInfo;
@@ -395,17 +395,6 @@ public class RoundManager implements ActionListener {
 	
 	public String getOperatingRoundID () {
 		return operatingRound.getID ();
-	}
-	
-	public String getORType () {
-		String tRoundType;
-		
-		tRoundType = ">>NO Operating Round Set<<";
-		if (operatingRound != OperatingRound.NO_OPERATING_ROUND) {
-			tRoundType = operatingRound.getType ();
-		}
-		
-		return tRoundType;
 	}
 	
 	public PhaseManager getPhaseManager () {
@@ -432,17 +421,6 @@ public class RoundManager implements ActionListener {
 	
 		return tXMLElement;
 	}
-		
-	public String getSRType () {
-		String tRoundType;
-		
-		tRoundType = ">>NO Stock Round Set<<";
-		if (stockRound != StockRound.NO_STOCK_ROUND) {
-			tRoundType = stockRound.getType ();
-		}
-		
-		return tRoundType;
-	}
 	
 	public String getARType () {
 		String tRoundType;
@@ -452,6 +430,28 @@ public class RoundManager implements ActionListener {
 			tRoundType = auctionRound.getType ();
 		}
 	
+		return tRoundType;
+	}
+
+	public String getORType () {
+		String tRoundType;
+		
+		tRoundType = ">>NO Operating Round Set<<";
+		if (operatingRound != OperatingRound.NO_OPERATING_ROUND) {
+			tRoundType = operatingRound.getType ();
+		}
+		
+		return tRoundType;
+	}
+		
+	public String getSRType () {
+		String tRoundType;
+		
+		tRoundType = ">>NO Stock Round Set<<";
+		if (stockRound != StockRound.NO_STOCK_ROUND) {
+			tRoundType = stockRound.getType ();
+		}
+		
 		return tRoundType;
 	}
 
@@ -752,13 +752,7 @@ public class RoundManager implements ActionListener {
 		changeRound (operatingRound, ActorI.ActionStates.StockRound, stockRound, 
 				tOldRoundID, tNewRoundID, tCreateNewAction);
 		
-		// Round Round ID 1, ONLY we don't want to save the Change State Action for the Player
-		// since this has not been completely initialized at the start of the game and will prevent NULL Pointer Exception
-		if (aRoundIDPart1 == 1) {
-			stockRound.clearAllPlayerPasses (null);
-		} else {
-			stockRound.clearAllPlayerPasses ();
-		}
+		stockRound.clearAllPlayerPasses ();
 		
 		roundFrame.setStockRound (gameName, aRoundIDPart1);
 	}
@@ -864,12 +858,20 @@ public class RoundManager implements ActionListener {
 	public void startStockRound () {
 		int tIDPart1;
 		
-		tIDPart1 = incrementRoundIDPart1 (stockRound);
-		setRoundToStockRound (tIDPart1);
-		stockRound.prepareStockRound ();
-		roundFrame.updateAll ();
+		if (bankIsBroken ()) {
+			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
+		} else {
+			tIDPart1 = incrementRoundIDPart1 (stockRound);
+			setRoundToStockRound (tIDPart1);
+			stockRound.prepareStockRound ();
+			roundFrame.updateAll ();
+		}
 	}
 	
+	public boolean bankIsBroken () {
+		return gameManager.bankIsBroken ();
+	}
+
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		if (RoundFrame.CORPORATION_ACTION.equals (aEvent.getActionCommand ())) {
