@@ -444,8 +444,8 @@ public class Bank extends GameBank implements CashHolderI {
 		return startPacketFrame.nextShareHasBids ();
 	}
 	
-	public Certificate getPrivateToAuction () {
-		return startPacketFrame.getPrivateToAuction ();
+	public Certificate getPrivateForAuction () {
+		return startPacketFrame.getPrivateForAuction ();
 	}
 	
 	public void printStartPacket () {
