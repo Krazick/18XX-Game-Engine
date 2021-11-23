@@ -346,7 +346,8 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		ShareCompany tShareCompany;
 		int tIndex;
 		int tCorpCount;
-		if (companies != null) {
+		
+		if (companies != CorporationList.NO_CORPORATION_LIST) {
 			tCorpCount = companies.getRowCount ();
 			if (tCorpCount > 0) {
 				for (tIndex = 0; tIndex < tCorpCount; tIndex++) {
@@ -364,7 +365,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		String tAbbrev;
 		
 		companyCombo.removeAllItems ();
-		if (companies != null) {
+		if (companies != CorporationList.NO_CORPORATION_LIST) {
 			tCorpCount = companies.getRowCount ();
 			if (tCorpCount > 0) {
 				for (tIndex = 0; tIndex < tCorpCount; tIndex++) {
