@@ -30,10 +30,10 @@ public class DoneCorpAction extends Action {
 	}
 
 	public void addNewActingCorpEffect (Corporation aCorporation) {
-		EndCorpActionsEffect tNewActingCorpEffect;
+		EndCorpActionsEffect tEndCorpActionsEffect;
 		
-		tNewActingCorpEffect = new EndCorpActionsEffect (aCorporation);
-		addEffect (tNewActingCorpEffect);
+		tEndCorpActionsEffect = new EndCorpActionsEffect (aCorporation);
+		addEffect (tEndCorpActionsEffect);
 	}
 	
 	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState, ActorI.ActionStates aNewState) {
