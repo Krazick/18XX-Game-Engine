@@ -2275,7 +2275,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tActorName = tCorporation.getAbbrev ();
 		}
 		auditFrame.setActorName (tActorName);
-		fillAuditFrame (tActorName);
+		auditFrame.refreshAuditTable (true);
 		auditFrame.setVisible (true);
 	}
 	
