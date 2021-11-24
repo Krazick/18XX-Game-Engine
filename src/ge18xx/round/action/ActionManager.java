@@ -553,7 +553,7 @@ public class ActionManager {
 		int tDebit, tCredit, tActionNumber, tFoundActionCount;
 		String tRoundID;
 		
-		if (aActorName != null) { 
+		if (aActorName != ActorI.NO_NAME) { 
 			tTotalActionCount = actions.size ();
 			if (tTotalActionCount > 0) {
 				tFoundActionCount = 0;
@@ -564,7 +564,7 @@ public class ActionManager {
 						tActionName = tAction.getName ();
 						if (tAction.hasRefundEscrowEffect (aActorName)) {
 							tFoundActionCount++;
-							handleAuctionReporting(aAuditFrame, aActorName, tAction, tActionName, tActionNumber);		
+							handleAuctionReporting (aAuditFrame, aActorName, tAction, tActionName, tActionNumber);		
 						} else if (tAction.effectsForActorAreCash (aActorName)) {
 							tFoundActionCount++;
 							
