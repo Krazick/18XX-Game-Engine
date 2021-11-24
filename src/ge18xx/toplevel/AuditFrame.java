@@ -20,6 +20,7 @@ import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
+import ge18xx.game.CashFlowGraph;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
@@ -29,6 +30,7 @@ import ge18xx.round.action.ActorI.ActorTypes;
 public class AuditFrame extends TableFrame implements ItemListener, ActionListener {
 	DefaultTableModel auditModel = new DefaultTableModel (0, 0);
 	private String REFRESH_LIST = "REFRESH LIST";
+	private String DRAW_LINE_GRAPH = "DRAW_LINE_GRAPH";
 	private String PLAYER_PREFIX = "Player: ";
 	private String SHARE_CORP_PREFIX = "Share Company: ";
 	public static int NO_CREDIT = 0;
@@ -42,6 +44,7 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 	JComboBox <String> playerCombo;
 	JComboBox <String> actorsCombo;
 	JButton refreshList;
+	JButton lineGraph;
 	CorporationList companies;
 	GameManager gameManager;
 	/**
@@ -83,6 +86,11 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		refreshList.setActionCommand (REFRESH_LIST);
 		refreshList.addActionListener (this);
 		tNorthComponents.add (refreshList);
+		
+		lineGraph = new JButton ("Draw Line Graph");
+		lineGraph.setActionCommand (DRAW_LINE_GRAPH);
+		lineGraph.addActionListener (this);
+		tNorthComponents.add (lineGraph);
 		
 		return tNorthComponents;
 	}
@@ -239,10 +247,15 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 
 	private void setPlayerStartingCash () {
 		int tStartingCash;
+		int tFirstActionNumber;
 		
 		tStartingCash = gameManager.getStartingCash ();
+		tFirstActionNumber = 0;
+//		if (gameManager.isNetworkGame ()) {
+			tFirstActionNumber += 100;
+//		}
 		setActorBalance (0);
-		addRow (0, "Start", "Initial Capital fron Bank of " + Bank.formatCash (tStartingCash), NO_DEBIT, tStartingCash);
+		addRow (tFirstActionNumber, "Start", "Initial Capital fron Bank of " + Bank.formatCash (tStartingCash), NO_DEBIT, tStartingCash);
 		setActorBalance (tStartingCash);
 	}
 	
@@ -346,10 +359,17 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
     
 	@Override
 	public void actionPerformed (ActionEvent aActionEvent) {
-		String tTheAction = aActionEvent.getActionCommand ();
+		String tTheAction;
+		CashFlowGraph tCashFlowGraph;
 		
+		tTheAction = aActionEvent.getActionCommand ();
 		if (REFRESH_LIST.equals (tTheAction)) {
 			updateAuditTable ();
+		}
+		if (DRAW_LINE_GRAPH.equals (tTheAction)) {
+			tCashFlowGraph = new CashFlowGraph (auditTable);
+			tCashFlowGraph.launch ();
+			tCashFlowGraph.showGraph ();
 		}
 	}
 
