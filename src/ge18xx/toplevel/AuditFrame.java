@@ -31,6 +31,7 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 	DefaultTableModel auditModel = new DefaultTableModel (0, 0);
 	private String REFRESH_LIST = "REFRESH LIST";
 	private String DRAW_LINE_GRAPH = "DRAW_LINE_GRAPH";
+	private String BANK_PREFIX = "Bank";
 	private String PLAYER_PREFIX = "Player: ";
 	private String SHARE_CORP_PREFIX = "Share Company: ";
 	public static int NO_CREDIT = 0;
@@ -61,10 +62,8 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		int tColWidths [] = {50, 50, 110, 1000, 50, 50, 70};
 		int tTotalWidth = 0;
 		
-		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer ();
-		rightRenderer.setHorizontalAlignment (SwingConstants.RIGHT);
 		
-		buildAuditTable (tColumnNames, tColWidths, tTotalWidth, rightRenderer);
+		buildAuditTable (tColumnNames, tColWidths, tTotalWidth);
 		
 		// Test Components
 		JPanel tNorthComponents = buildNorthComponents ();
@@ -91,15 +90,18 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		lineGraph.setActionCommand (DRAW_LINE_GRAPH);
 		lineGraph.addActionListener (this);
 		tNorthComponents.add (lineGraph);
+		lineGraph.setVisible (false);
 		
 		return tNorthComponents;
 	}
 
-	private void buildAuditTable (String[] tColumnNames, int[] tColWidths, int tTotalWidth,
-			DefaultTableCellRenderer rightRenderer) {
+	private void buildAuditTable (String[] aColumnNames, int[] aColWidths, int aTotalWidth) {
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer ();
+		
+		rightRenderer.setHorizontalAlignment (SwingConstants.RIGHT);
 		auditTable = new JTable ();
 
-		auditModel.setColumnIdentifiers (tColumnNames);
+		auditModel.setColumnIdentifiers (aColumnNames);
 		auditTable.setModel (auditModel);
 		auditTable.setGridColor (Color.BLACK);
 		auditTable.setShowGrid (true);
@@ -108,20 +110,29 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		
 		TableColumnModel tColumnModel = auditTable.getColumnModel ();
 		
-		for (int tIndex = 0; tIndex < tColWidths.length; tIndex++) {
-			tColumnModel.getColumn (tIndex).setMaxWidth (tColWidths [tIndex]);
+		for (int tIndex = 0; tIndex < aColWidths.length; tIndex++) {
+			tColumnModel.getColumn (tIndex).setMaxWidth (aColWidths [tIndex]);
 			
-			tTotalWidth += tColWidths [tIndex] + 1;
+			aTotalWidth += aColWidths [tIndex] + 1;
 		}
-		auditTable.getColumnModel ().getColumn (0).setCellRenderer (rightRenderer);
-		auditTable.getColumnModel ().getColumn (4).setCellRenderer (rightRenderer);
-		auditTable.getColumnModel ().getColumn (5).setCellRenderer (rightRenderer);
-		auditTable.getColumnModel ().getColumn (6).setCellRenderer (rightRenderer);
+		setColumnAlign (0, SwingConstants.RIGHT);
+		setColumnAlign (4, SwingConstants.RIGHT);
+		setColumnAlign (5, SwingConstants.RIGHT);
+		setColumnAlign (6, SwingConstants.RIGHT);
 		setLocation (100, 100);
-		setSize (tTotalWidth, 400);
+		setSize (aTotalWidth, 400);
 		setScrollPane (auditTable);
 	}
 	
+	private void setColumnAlign (int aColumnIndex, int tAlignment) {
+		DefaultTableCellRenderer tCellRenderer = new DefaultTableCellRenderer ();
+//		HorizontalAlignmentHeaderRenderer tHeaderRenderer = new HorizontalAlignmentHeaderRenderer (SwingConstants.RIGHT);
+		
+		tCellRenderer.setHorizontalAlignment (tAlignment);
+		auditTable.getColumnModel ().getColumn (aColumnIndex).setHeaderRenderer (tCellRenderer);
+		auditTable.getColumnModel ().getColumn (aColumnIndex).setCellRenderer (tCellRenderer);
+	}
+
 	public void setActorType (ActorI.ActorTypes aActorType) {
 		actorType = aActorType;
 	}
@@ -220,6 +231,8 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		} else if (tActorName.startsWith (SHARE_CORP_PREFIX)) {
 			tActorName = tActorName.substring (SHARE_CORP_PREFIX.length ());
 			setSelectedShareCompany (tActorName);
+		} else if (tActorName.startsWith (BANK_PREFIX)) {
+			setSelectedBank ();
 		}
 		
 		return tIsPlayer;
@@ -244,26 +257,53 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		
 		return tPlayer;
 	}
+	
+	private void setSelectedBank () {
+		Bank tBank;
+		
+		tBank = gameManager.getBank ();
+		setActorName (tBank.getName ());
+		setActorAbbrev (tBank.getName ());
+		setActorType (ActorI.ActorTypes.Bank);
+	}
 
 	private void setPlayerStartingCash () {
 		int tStartingCash;
-		int tFirstActionNumber;
+		String tActionDescription;
+		
+		tActionDescription = "Initial Capital fron Bank of ";
 		
 		tStartingCash = gameManager.getStartingCash ();
+		setStartingCash (tStartingCash, tActionDescription);
+	}
+	
+	private void setBankStartingCash () {
+		int tStartingCash;
+		String tActionDescription;
+		
+		tActionDescription = "Initial Capital of Bank ";
+		
+		tStartingCash = gameManager.getBankStartingCash ();
+		setStartingCash (tStartingCash, tActionDescription);
+	}
+
+	private void setStartingCash (int aStartingCash, String aActionDescription) {
+		int tFirstActionNumber;
+		
 		tFirstActionNumber = 0;
-//		if (gameManager.isNetworkGame ()) {
+		if (gameManager.isNetworkGame ()) {
 			tFirstActionNumber += 100;
-//		}
+		}
 		setActorBalance (0);
-		addRow (tFirstActionNumber, "Start", "Initial Capital fron Bank of " + Bank.formatCash (tStartingCash), NO_DEBIT, tStartingCash);
-		setActorBalance (tStartingCash);
+		addRow (tFirstActionNumber, "Start", aActionDescription + Bank.formatCash (aStartingCash), NO_DEBIT, aStartingCash);
+		setActorBalance (aStartingCash);
 	}
 	
 	public void setSelectedShareCompany () {
 		String tCompanyAbbrev;
 		
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
-		setSelectedShareCompany(tCompanyAbbrev);
+		setSelectedShareCompany (tCompanyAbbrev);
 	}
 
 	private void setSelectedShareCompany (String aCompanyAbbrev) {
@@ -299,6 +339,7 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		Player tPlayer;
 		Corporation tCorporation;
 		String tActorName;
+		Bank tBank;
 		
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayerCount = tPlayerManager.getPlayerCount ();
@@ -329,6 +370,8 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 				}
 			}
 		}
+		tBank = gameManager.getBank ();
+		actorsCombo.addItem (tBank.getName ());
 		actorsCombo.addItemListener (this);
 	}
 	
@@ -380,6 +423,8 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 			tPlayer = setSelectedPlayer (actorName);
 		} else if (actorType.equals (ActorI.ActorTypes.ShareCompany)) {
 			setSelectedShareCompany (actorAbbrev);
+		} else if (actorType.equals (ActorI.ActorTypes.Bank)) {
+			setSelectedBank ();
 		}
 		refreshAuditTable (tPlayer);	
 	}
@@ -387,7 +432,7 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 	private void refreshAuditTable (ItemEvent aItemEvent) {
 		JComboBox<String> tThisComboBox;
 		boolean tPlayer = false;
-		
+
 		@SuppressWarnings ("unchecked")
 		JComboBox<String> source = (JComboBox<String>) aItemEvent.getSource ();
 		tThisComboBox = source;
@@ -398,6 +443,7 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		} else if (tThisComboBox.equals (playerCombo)) {
 			tPlayer = setSelectedPlayer ();
 		}
+
 		refreshAuditTable (tPlayer);
 	}
 
@@ -405,7 +451,27 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		removeAllRows ();
 		if (aPlayer) {
 			setPlayerStartingCash ();
+		} if (actorType == ActorI.ActorTypes.Bank) {
+			setBankStartingCash ();
 		}
 		gameManager.fillAuditFrame (actorName);
 	}
 }
+//
+//class HorizontalAlignmentHeaderRenderer implements TableCellRenderer {
+//	private int horizontalAlignment = SwingConstants.LEFT;
+//	  
+//	public HorizontalAlignmentHeaderRenderer (int aHorizontalAlignment) {
+//		  horizontalAlignment = aHorizontalAlignment;
+//	}
+//	  
+//	@Override 
+//	public Component getTableCellRendererComponent (JTable aTable, Object aValue, boolean aIsSelected,
+//			  		boolean hasFocus, int row, int column) {
+//		TableCellRenderer r = aTable.getTableHeader ().getDefaultRenderer ();
+//		JLabel l = (JLabel) r.getTableCellRendererComponent (aTable, aValue, aIsSelected, hasFocus, row, column);
+//		l.setHorizontalAlignment (horizontalAlignment);
+//	
+//		return l;
+//	}
+//}
