@@ -1025,11 +1025,26 @@ public class GameManager extends Component implements NetworkGameSupport {
 		int tBankTotal;
 		
 		bankPool = new BankPool (this);
-		tBankTotal = activeGame.getBankTotal ();
+		tBankTotal = getBankStartingCash ();
 		setBank (tBankTotal);
 		bank.setup (activeGame);
 	}
 
+	public int getBankStartingCash () {
+		int tBankStartingCash;
+		int tPlayerCount;
+		int tPlayerStartingCash;
+		int tTotalPlayerCash;
+		
+		tBankStartingCash = activeGame.getBankTotal ();
+		tPlayerCount = playerManager.getPlayerCount ();
+		tPlayerStartingCash = activeGame.getStartingCash (tPlayerCount);
+		tTotalPlayerCash = tPlayerCount * tPlayerStartingCash;
+		tBankStartingCash -= tTotalPlayerCash;
+		
+		return tBankStartingCash;
+	}
+	
 	private String constructAutoSaveFileName (String tDirectoryName) {
 		String tAutoSaveFileName = "";
 		
