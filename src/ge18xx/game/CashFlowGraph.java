@@ -1,6 +1,5 @@
 package ge18xx.game;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import javax.swing.JTable;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.Group; 
 import javafx.scene.Scene; 
 import javafx.scene.chart.CategoryAxis; 
 import javafx.scene.chart.NumberAxis; 
@@ -20,10 +18,10 @@ import javafx.stage.Stage;
 public class CashFlowGraph {
     Stage stage;
     JTable auditTable;
-    StackedAreaChart<String, Number> areaChart;
+    StackedAreaChart <String, Number> areaChart;
     CategoryAxis xAxis;
     NumberAxis yAxis;
-    XYChart.Series<String, Number> series1;
+    XYChart.Series <String, Number> series;
     
 	public CashFlowGraph (JTable aAuditTable) {
 		auditTable = aAuditTable;
@@ -36,7 +34,7 @@ public class CashFlowGraph {
         JFrame frame = new JFrame ("Cash Flow Graph");
         final JFXPanel fxPanel = new JFXPanel ();
         frame.add (fxPanel);
-        frame.setSize (600, 600);
+        frame.setSize (1200, 800);
         frame.setVisible (true);
  
         Platform.runLater(new Runnable() {
@@ -48,24 +46,32 @@ public class CashFlowGraph {
 	}
 	
     private void initFX (JFXPanel fxPanel) {
-        // This method is invoked on the JavaFX thread
-        Scene scene = createScene ();
+    	Scene scene = createScene ();
         fxPanel.setScene (scene);
     }
     
     private Scene createScene () {
-        Group  root;
+//        Group  root;
         Scene  scene;
-         
+        
+        createAreaChart ();
         fillData ();
         
 		//Creating a Group object  
-		root = new Group (areaChart); 
+//		root = new Group (areaChart); 
 	          
 		//Creating a scene object 
-		scene = new Scene (root, 600, 600); 
+		scene = new Scene (areaChart, 1200, 800); 
 	      
         return (scene);
+    }
+    
+    private void createAreaChart () {
+		xAxis = new CategoryAxis ();    
+		yAxis = new NumberAxis (0, 12000, 200); 
+		yAxis.setLabel ("Cash Amounts");     
+		areaChart = new StackedAreaChart<String, Number> (xAxis, yAxis);
+		areaChart.setMaxSize (1000, 600);
     }
     
     private void fillData () {
@@ -83,22 +89,16 @@ public class CashFlowGraph {
     		tBalance = getBalance (auditTable, tRowIndex);
     		tBalances.add (tBalance);
      	}
-		xAxis = new CategoryAxis ();    
 		xAxis.setCategories (FXCollections. <String> observableArrayList (tActionNumbers));
-	         
-		yAxis = new NumberAxis (0, 12000, 2000); 
 		yAxis.setLabel ("Cash Amounts");     
-		areaChart = new StackedAreaChart<String, Number> (xAxis, yAxis);
-
-	      //Prepare XYChart.Series objects by setting data 
-		series1 = new XYChart.Series <String, Number> ();  
+		series = new XYChart.Series <String, Number> ();  
 		tActorName = getActorName (auditTable, 0);
-		series1.setName (tActorName); 
+		series.setName (tActorName); 
     	for (int tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
-    		series1.getData ().add (new XYChart.Data <String, Number> (tActionNumbers.get (tRowIndex), tBalances.get (tRowIndex))); 
+    		series.getData ().add (new XYChart.Data <String, Number> (tActionNumbers.get (tRowIndex), tBalances.get (tRowIndex))); 
     	}
 
-		areaChart.getData ().add (series1);
+		areaChart.getData ().add (series);
     }
 
     public String getActionNumber (JTable aTable, int aRowIndex) {
