@@ -113,8 +113,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 		gameManager = aGameManager;
 				
-		buildNorthPanel ();
 		buildMapScrollPanel ();
+		buildNorthPanel ();
 		
 		setPlaceTileMode (false);
 		setPlaceTokenMode (false);
