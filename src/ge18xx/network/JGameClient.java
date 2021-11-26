@@ -47,6 +47,7 @@ import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.FileUtils;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.Validators;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -63,7 +64,7 @@ public class JGameClient extends XMLFrame {
 	private static final String DEFAULT_REMOTE_SERVER_IP = "96.240.138.230";
 	private static final String CONNECT_ACTION = "CONNECT";
 	private final String ALREADY_CONNECTED = "You are already connected";
-	private final String NO_TOOL_TIP = "";
+//	private final String NO_TOOL_TIP = "";
 	private final String NOT_CONNECTED = "You are not connected yet";
 	private final String WAITING_FOR_GAME = "Waiting for Game Selection";
 	private final String GAME_SELECTED = "Game has been Selected, hit the button when ready to play";
@@ -100,7 +101,6 @@ public class JGameClient extends XMLFrame {
 	public static final AttributeName AN_PLAYER_ORDER = new AttributeName ("players");
 	public static final AttributeName AN_PLAYER = new AttributeName ("player");
 	public static final AttributeName AN_REQUEST_ACTION_NUMBER = new AttributeName ("requestActionNumber");
-	public static final AttributeName AN_NONE = null;
 	public static JGameClient NO_JGAME_CLIENT = null;
 	public static final String REQUEST_LAST_ACTION_COMPLETE = "<LastAction isComplete=\"TRUE\">";
 	private final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
@@ -377,14 +377,14 @@ public class JGameClient extends XMLFrame {
 		awayFromKeyboardAFKButton.setEnabled (false);
 		awayFromKeyboardAFKButton.setToolTipText (NOT_CONNECTED);
 		connectButton.setEnabled (true);
-		connectButton.setToolTipText (NO_TOOL_TIP);
+		connectButton.setToolTipText (GUI.NO_TOOL_TIP);
 		connectButton.requestFocusInWindow ();
 		updateReadyButton (SELECT_GAME, false, NOT_CONNECTED);
 		
 		message.setEnabled (false);
 		message.setFocusable (false);
 		serverIPField.setEnabled (true);
-		serverIPField.setToolTipText (NO_TOOL_TIP);
+		serverIPField.setToolTipText (GUI.NO_TOOL_TIP);
 		
 		if (! gameManager.gameStarted ()) {
 			showSavedGames.setText (SHOW_SAVED_GAMES);
@@ -401,13 +401,13 @@ public class JGameClient extends XMLFrame {
 		connectButton.setEnabled (false);
 		connectButton.setToolTipText (ALREADY_CONNECTED);
 		sendMessageButton.setEnabled (true);
-		sendMessageButton.setToolTipText (NO_TOOL_TIP);
+		sendMessageButton.setToolTipText (GUI.NO_TOOL_TIP);
 		disconnectButton.setEnabled (true);
 		disconnectButton.setToolTipText ("For Debugging Purposes ONLY");
 		awayFromKeyboardAFKButton.setEnabled (true);
-		awayFromKeyboardAFKButton.setToolTipText (NO_TOOL_TIP);
+		awayFromKeyboardAFKButton.setToolTipText (GUI.NO_TOOL_TIP);
 		refreshPlayersButton.setEnabled (true);
-		refreshPlayersButton.setToolTipText (NO_TOOL_TIP);
+		refreshPlayersButton.setToolTipText (GUI.NO_TOOL_TIP);
 		updateReadyButton (SELECT_GAME, false, WAITING_FOR_GAME);
 		
 		playerName.setFocusable (false);
@@ -421,7 +421,7 @@ public class JGameClient extends XMLFrame {
 
 	private void updateShowSavedGamesButton () {
 		showSavedGames.setEnabled (true);
-		showSavedGames.setToolTipText (NO_TOOL_TIP);
+		showSavedGames.setToolTipText (GUI.NO_TOOL_TIP);
 	}
 
 	public void requestSavedGames () {
@@ -618,7 +618,9 @@ public class JGameClient extends XMLFrame {
 		String tGameID;
 		
 		tGameID = gameManager.getGameID ();
-		serverHandler.sendUserStart (tGameID);
+		if (serverHandler != ChatServerHandler.NO_SERVER_HANDLER) {
+			serverHandler.sendUserStart (tGameID);
+		}
 		startsGame ();
 		updateButtonGameStarted (startReadyButton);
 		updateButtonGameStarted (showSavedGames);
@@ -654,17 +656,17 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void removeGamePanel () {
-		if (gamePanel != null) {
+		if (gamePanel != GUI.NO_PANEL) {
 			gameActivityPanel.remove (gamePanel);
 		}
-		if (gameInfoPanel != null) {
+		if (gameInfoPanel != GUI.NO_PANEL) {
 			gameActivityPanel.remove (gameInfoPanel);
 		}
 		revalidate ();
 	}
 	
 	public void addGamePanel () {
-		if (gamePanel != null) {
+		if (gamePanel != GUI.NO_PANEL) {
 			gameActivityPanel.add (gamePanel, BorderLayout.WEST);
 		}
 	}
@@ -698,7 +700,7 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void removeNSGPanel () {
-		if (networkSavedGamesPanel != null) {
+		if (networkSavedGamesPanel != GUI.NO_PANEL) {
 			gameActivityPanel.remove (networkSavedGamesPanel);
 		}
 		revalidate ();
@@ -722,7 +724,7 @@ public class JGameClient extends XMLFrame {
 		
 		try {
 			serverHandler = new ChatServerHandler (serverIP, serverPort, gameManager);
-			if (serverHandler != null) {
+			if (serverHandler != ChatServerHandler.NO_SERVER_HANDLER) {
 				if (serverHandler.isConnected ()) {
 					serverThread = new Thread (serverHandler);
 					serverThread.start ();
@@ -1116,7 +1118,7 @@ public class JGameClient extends XMLFrame {
 	}
 
 	public boolean isPlayerAFK () {
-		return networkPlayers.playerIsAFK (getName());
+		return networkPlayers.playerIsAFK (getName ());
 	}
 		
 	@Override
@@ -1288,7 +1290,7 @@ public class JGameClient extends XMLFrame {
 								" Part 3 [" + tSelectedParts [3] + "]");
 			System.out.println ("New Auto Save File Name: " + tNewSaveGameFile);
 			autoSaveFileName = tNewSaveGameFile;
-			updateReadyButton (PLAY_GAME, true, NO_TOOL_TIP);
+			updateReadyButton (PLAY_GAME, true, GUI.NO_TOOL_TIP);
 
 		}
 	}

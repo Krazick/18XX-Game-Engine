@@ -32,6 +32,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.WinAuctionAction;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -60,7 +61,6 @@ public class Certificate implements Comparable<Certificate> {
 	private static String BANK_POOL_OWNER = "BankPool";
 	public static final String NO_CERTIFICATE_NAME = "";
 	public static final Certificate NO_CERTIFICATE = null;
-	public static final String NO_TOOL_TIP = "";
 	public static final String NO_REASON = ">> NO REASON <<";
 	public static final String NOT_ENOUGH_CASH = "Player does not have enough Cash";
 	public static final String NOT_ENOUGH_CASH_TO_BID = "Player does not have enough Cash to Raise Bid";
@@ -277,14 +277,14 @@ public class Certificate implements Comparable<Certificate> {
 				// TODO: non-1830 For 1835 with Minors, 1837 with Coal we cannot Sell them either, test for CanBeSold
 				if (isPresidentShare ()) {
 					if (canBeExchanged (aGameManager)) {
-						checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, true, NO_TOOL_TIP, aItemListener);
+						checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, true, GUI.NO_TOOL_TIP, aItemListener);
 						tCertificateInfoJPanel.add (checkedButton);
 					} else {
 						checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, false, CANNOT_EXCHANGE_PRESIDENT, aItemListener);
 						tCertificateInfoJPanel.add (checkedButton);						
 					}
 				} else if (canBeSold (aGameManager)) {
-					checkedButton = setupCheckedButton (aCheckBoxLabel, true, NO_TOOL_TIP, aItemListener);
+					checkedButton = setupCheckedButton (aCheckBoxLabel, true, GUI.NO_TOOL_TIP, aItemListener);
 					tCertificateInfoJPanel.add (checkedButton);
 				} else {
 					checkedButton = setupCheckedButton (aCheckBoxLabel, false, getReasonForNoSale (aGameManager), aItemListener);
@@ -488,7 +488,7 @@ public class Certificate implements Comparable<Certificate> {
 				checkedButton = setupCheckedButton (tCheckboxLabel, false, "Not enough cash to buy at half price",  aItemListener);
 				tPrivateCertJPanel.add (checkedButton);
 			} else if (corporation.canBuyPrivate ()) {
-				checkedButton = setupCheckedButton (tCheckboxLabel, true, NO_TOOL_TIP, aItemListener);
+				checkedButton = setupCheckedButton (tCheckboxLabel, true, GUI.NO_TOOL_TIP, aItemListener);
 				tPrivateCertJPanel.add (checkedButton);
 			}
 		} else {
