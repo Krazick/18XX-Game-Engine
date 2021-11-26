@@ -29,6 +29,7 @@ import ge18xx.train.TrainInfo;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutine2I;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
@@ -42,7 +43,6 @@ public class Bank extends GameBank implements CashHolderI {
 	private static final String BANK_LABEL_PREFIX = "Remaining Bank Cash ";
 	public static final String NAME = "Bank";
 	public static final Bank NO_BANK = null;
-	public static final JLabel NO_LABEL = null;
 	public static final int NO_BANK_CASH = 0;
 	int treasury;
 	boolean bankIsBroken;
@@ -513,7 +513,7 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 	
 	public void updateBankCashLabel () {
-		if (bankCashLabel == NO_LABEL) {
+		if (bankCashLabel == GUI.NO_LABEL) {
 			bankCashLabel = new JLabel (BANK_LABEL_PREFIX + Bank.formatCash (getCash ()));
 		} else {
 			bankCashLabel.setText (BANK_LABEL_PREFIX + Bank.formatCash (getCash ()));

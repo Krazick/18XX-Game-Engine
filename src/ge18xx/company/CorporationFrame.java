@@ -197,7 +197,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporationInfoJPanel.add (treasuryLabel);
 			setTreasuryLabel ();
 			tokenLabel = corporation.buildTokenLabel ();
-			if (tokenLabel != Corporation.NO_LABEL) {
+			if (tokenLabel != GUI.NO_LABEL) {
 				corporationInfoJPanel.add (Box.createRigidArea (tMinSize));
 				corporationInfoJPanel.add (tokenLabel);
 				setTokenLabel ();

@@ -32,6 +32,7 @@ import ge18xx.round.action.WinAuctionAction;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -48,9 +49,7 @@ import ge18xx.utilities.XMLNodeList;
 
 public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoaderI {
 	public static final Player NO_PLAYER = null;
-	public static final JPanel NO_PLAYER_JPANEL = null;
 	public static final String NO_PLAYER_NAME_LABEL = ">NO PLAYER<";
-	public static final JLabel NO_LABEL = null;
 	public static final ElementName EN_PLAYER = new ElementName ("Player");
 	public static final ElementName EN_PLAYERS = new ElementName ("Players");
 	public static final ElementName EN_PLAYER_STATES = new ElementName ("PlayerStates");
@@ -86,7 +85,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	int certificateLimit;
 	JLabel rfPlayerLabel;
 	JLabel cashLabel;
-	JPanel playerJPanel = NO_PLAYER_JPANEL;
+	JPanel playerJPanel = GUI.NO_PANEL;
 	Logger logger;
 	Benefit benefitInUse;
 	
@@ -1285,7 +1284,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		String tCashText;
 		
 		tCashText = "Cash: " + Bank.formatCash (getCash ());
-		if (cashLabel == NO_LABEL) {
+		if (cashLabel == GUI.NO_LABEL) {
 			cashLabel = new JLabel (tCashText);
 		} else {
 			cashLabel.setText (tCashText);
@@ -1297,7 +1296,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 	
 	public JPanel buildAPlayerJPanel (int aPriorityPlayerIndex, int aPlayerIndex) {
-		if (playerJPanel == NO_PLAYER_JPANEL) {
+		if (playerJPanel == GUI.NO_PANEL) {
 			playerJPanel = new JPanel ();
 			playerJPanel.setLayout (new BoxLayout (playerJPanel, BoxLayout.Y_AXIS));
 		} else {
