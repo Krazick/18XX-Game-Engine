@@ -31,6 +31,7 @@ import ge18xx.train.TrainPortfolio;
 import ge18xx.train.TrainRevenueFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -1252,7 +1253,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			} else if (tSelectedTrainCount > 1) {
 				tReasonForNoBuyTrain = SELECT_SINGLE_TRAIN;
 			} else {
-				tReasonForNoBuyTrain = CorporationFrame.NO_TOOL_TIP;
+				tReasonForNoBuyTrain = GUI.NO_TOOL_TIP;
 			}
 		} else {
 			tReasonForNoBuyTrain = DIVIDENDS_NOT_HANDLED;
