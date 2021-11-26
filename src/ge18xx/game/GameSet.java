@@ -145,7 +145,6 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	
 	public void addGameInfo (JPanel aGamePanel) {
 		JPanel tGamesJPanel;
-//		JPanel tGameListJPanel;
 		int tGameCount;
 		
 		if (gameInfo != GameInfo.NO_GAMES) {
@@ -153,16 +152,13 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			gameJPanel = aGamePanel;
 			tGameCount = gameInfo.length;
 			gameRadioButtons = new JRadioButton [tGameCount];
-//			tGameListJPanel = new JPanel ();
 
 			tGamesJPanel = new JPanel ();
 			tGamesJPanel.setLayout (new BoxLayout (tGamesJPanel, BoxLayout.Y_AXIS));
 			buildGameButtons (tGamesJPanel, tGameCount);
 			
-//			tGameListJPanel.add (tGamesJPanel);			
 			listAndButtonJPanel = new JPanel ();
 			listAndButtonJPanel.setLayout (new BoxLayout (listAndButtonJPanel, BoxLayout.Y_AXIS));
-//			listAndButtonJPanel.add (tGameListJPanel);
 			listAndButtonJPanel.add (tGamesJPanel);
 			
 			networkGameButton = new JButton ();
@@ -188,7 +184,9 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		
 		gameButtons = new ButtonGroup ();
 		for (tIndex = 0; tIndex < aGameCount; tIndex++ ) {
-			tGameName = "<html><body>" + gameInfo [tIndex].getName () + " <i>(" + gameInfo [tIndex].getMinPlayers () + "-" + gameInfo [tIndex].getMaxPlayers () + " Players)</i></body></html>";
+			tGameName = "<html><body>" + gameInfo [tIndex].getName () + 
+					" <i>(" + gameInfo [tIndex].getMinPlayers () + "-" + 
+					gameInfo [tIndex].getMaxPlayers () + " Players)</i></body></html>";
 			gameRadioButtons [tIndex] = new JRadioButton (tGameName);
 			gameRadioButtons [tIndex].setEnabled (false);
 			gameRadioButtons [tIndex].setToolTipText (REASON_WRONG_PLAYER_COUNT);
