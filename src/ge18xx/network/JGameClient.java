@@ -718,13 +718,18 @@ public class JGameClient extends XMLFrame {
     }
 	
 	// Server Handler Connection Routines ---
+	public void setServerHandler (ChatServerHandler aServerHandler) {
+		serverHandler = aServerHandler;
+	}
 	
 	private boolean connectToServer (String aPlayerName) throws Exception {
 		boolean tSuccess = false;
+		ChatServerHandler tChatServerHandler;
 		
 		try {
-			serverHandler = new ChatServerHandler (serverIP, serverPort, gameManager);
-			if (serverHandler != ChatServerHandler.NO_SERVER_HANDLER) {
+			tChatServerHandler = new ChatServerHandler (serverIP, serverPort, gameManager);
+			if (tChatServerHandler != ChatServerHandler.NO_SERVER_HANDLER) {
+				setServerHandler (tChatServerHandler);
 				if (serverHandler.isConnected ()) {
 					serverThread = new Thread (serverHandler);
 					serverThread.start ();

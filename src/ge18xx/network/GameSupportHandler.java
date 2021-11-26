@@ -61,11 +61,13 @@ public class GameSupportHandler {
 	
 	public String requestGameSupport (String aRequest) {
 		ServerHandler tServerHandler;
+		boolean tWaitForResponse = true;
 		
 		holdRequestTillReady ();
+		setWaitingForResponse (tWaitForResponse);
 		tServerHandler = jGameClient.getServerHandler ();
-		setWaitingForResponse (true);
-		tServerHandler.sendGameSupport (aRequest);
+		tWaitForResponse = tServerHandler.sendGameSupport (aRequest);
+		setWaitingForResponse (tWaitForResponse);
 		while (waitingForResponse) {
 			try {
 				Thread.sleep (waitTime);
@@ -89,8 +91,8 @@ public class GameSupportHandler {
 	}
 
 	
-	public String getGameIDFromNetworkResponse (String aRequest) {
-		Matcher tMatcher = GSR_WITH_GAME_ID_PATTERN.matcher (aRequest);
+	public String getGameIDFromNetworkResponse (String aResponse) {
+		Matcher tMatcher = GSR_WITH_GAME_ID_PATTERN.matcher (aResponse);
 		String tFoundGameID = SavedGame.NO_GAME_ID;
 		
 		if (tMatcher.find ()) {
@@ -111,5 +113,4 @@ public class GameSupportHandler {
 		
 		return tGameID;
 	}
-
 }

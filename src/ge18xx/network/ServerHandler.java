@@ -271,7 +271,7 @@ public abstract class ServerHandler implements Runnable {
 	
 	protected abstract void handleChatReconnect ();
 
-	protected abstract void sendGameSupport (String aRequest);
+	protected abstract boolean sendGameSupport (String aRequest);
 
 	protected abstract String buildGameSupportXML (String tGameID, String string);
 }

@@ -62,7 +62,7 @@ public class ChatServerHandler extends ServerHandler {
 						tShortened.endsWith (" has aborted")) {
 				tName = extractName (tShortened);
 				jClient.removePlayer (tName);
-			} else if (tShortened.endsWith ("is Ready to play the Game")) {
+			} else if (tShortened.endsWith (" is Ready to play the Game")) {
 				handlePlayerReady (tShortened);
 			} else if (tShortened.endsWith (" Starts the Game")) {
 				jClient.startsGame ();
@@ -122,8 +122,10 @@ public class ChatServerHandler extends ServerHandler {
 	}
 	
 	@Override
-	public void sendGameSupport (String aGameSupport) {
+	public boolean sendGameSupport (String aGameSupport) {
 		println (aGameSupport);
+		
+		return true;
 	}
 
 	public void sendNewUser () {
@@ -131,7 +133,6 @@ public class ChatServerHandler extends ServerHandler {
 	}
 
 	public void sendGEVersion (String aVersion) {
-		System.out.println("Sending Game Engine Version " + aVersion);
 		println ("GEVersion " + aVersion);
 	}
 
