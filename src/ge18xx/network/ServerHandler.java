@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import ge18xx.game.NetworkGameSupport;
 
 public abstract class ServerHandler implements Runnable {
+	public final static ServerHandler NO_SERVER_HANDLER = null;
 	// Set Default Timeout to 120 Seconds, 2 Minutes -- change to 12 Second to allow Debugging
     private final static int DefaultTimeout = 12000;
 //    private final static int DefaultTimeout = 120000;
