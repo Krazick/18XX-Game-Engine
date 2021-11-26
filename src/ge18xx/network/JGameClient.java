@@ -324,7 +324,7 @@ public class JGameClient extends XMLFrame {
 					loadAndStartGame ();
 				} else {
 					if (gameManager.getGameID ().equals ("")) {
-						retrieveGameID ();
+						setGameIDFromNetwork ();
 					}
 					if (SELECT_GAME.equals (tAction)) {
 						sendGameSelection ();
@@ -860,14 +860,11 @@ public class JGameClient extends XMLFrame {
 		}
 	}
 
-	public void retrieveGameID () {
-		String tGameIDRequest;
+	public void setGameIDFromNetwork () {
 		String tGameID;
-		String tResponse;
 		
-		tGameIDRequest = GAME_SUPPORT_PREFIX + " <GS><GameIDRequest></GS>";
-		tResponse = gameSupportHandler.requestGameSupport (tGameIDRequest);
-		tGameID = gameSupportHandler.getFromResponseGameID (tResponse);
+		tGameID = gameSupportHandler.retrieveGameID ();
+		
 		gameManager.resetGameID (tGameID);
 	}
 	

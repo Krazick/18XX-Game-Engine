@@ -77,7 +77,7 @@ public class GameSupportHandler {
 		return response;
 	}
 	
-	public String getFromRequestGameID (String aRequest) {
+	public String getGameIDFromRequest (String aRequest) {
 		Matcher tMatcher = GS_WITH_GAME_ID_PATTERN.matcher (aRequest);
 		String tFoundGameID = SavedGame.NO_GAME_ID;
 		
@@ -89,7 +89,7 @@ public class GameSupportHandler {
 	}
 
 	
-	public String getFromResponseGameID (String aRequest) {
+	public String getGameIDFromNetworkResponse (String aRequest) {
 		Matcher tMatcher = GSR_WITH_GAME_ID_PATTERN.matcher (aRequest);
 		String tFoundGameID = SavedGame.NO_GAME_ID;
 		
@@ -99,4 +99,17 @@ public class GameSupportHandler {
 		
 		return tFoundGameID;
 	}
+	
+	public String retrieveGameID () {
+		String tGameIDRequest;
+		String tGameID;
+		String tResponse;
+		
+		tGameIDRequest = JGameClient.GAME_SUPPORT_PREFIX + " <GS><GameIDRequest></GS>";
+		tResponse = requestGameSupport (tGameIDRequest);
+		tGameID = getGameIDFromNetworkResponse (tResponse);
+		
+		return tGameID;
+	}
+
 }
