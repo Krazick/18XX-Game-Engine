@@ -37,6 +37,7 @@ import ge18xx.tiles.TileType;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.RouteSegment;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -73,7 +74,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private final String NOT_ENOUGH_CASH = "%s does not have enough Cash, needs %s has %s";
 	private final String PRIVATE_NOT_OWNED = "%s does not own the Private Company %s";
 	private final String NO_OPERATING_COMPANY = "There is no Operating Company to place a Tile";
-	private final String NO_TOOL_TIP = "";
+//	private final String NO_TOOL_TIP = "";
 	public static final String NO_COMPANY = "NO_COMPANY";
 	private static final long serialVersionUID = 1L;
 	HexMap map;
@@ -355,7 +356,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 		// Save Tokens from Previous Tile placement
 		map.putTileDown ();
-		updatePickupTileButton (true, NO_TOOL_TIP);
+		updatePickupTileButton (true, GUI.NO_TOOL_TIP);
 		tCorporation = getOperatingCompany ();
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			tTile = tMapCell.getTile ();
@@ -768,7 +769,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		map.setPlaceTileMode (placeTileMode);
 		exitTileButton.setEnabled (aMode);
 		if (aMode) {
-			exitTileButton.setToolTipText (NO_TOOL_TIP);
+			exitTileButton.setToolTipText (GUI.NO_TOOL_TIP);
 			tileButtons.setBackground (Color.ORANGE);
 		} else {
 			exitTileButton.setToolTipText (NOT_PLACE_TILE_MODE);
@@ -795,7 +796,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		exitTokenButton.setEnabled (aMode);
 		putTokenButton.setEnabled (false);
 		if (aMode) {
-			exitTokenButton.setToolTipText (NO_TOOL_TIP);
+			exitTokenButton.setToolTipText (GUI.NO_TOOL_TIP);
 			putTokenButton.setToolTipText (NO_SELECTED_RC);
 			tokenButtons.setBackground (Color.ORANGE);
 		} else {
@@ -833,7 +834,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		if (tCanPlaceToken) {
 			putTokenButton.setEnabled (tCitySelected);
 			if (tCitySelected) {
-				putTokenButton.setToolTipText (NO_TOOL_TIP);
+				putTokenButton.setToolTipText (GUI.NO_TOOL_TIP);
 			} else {
 				putTokenButton.setToolTipText (NO_SELECTED_RC);
 			}
@@ -895,7 +896,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 								if (tTile != GameTile.NO_GAME_TILE) {
 									if (validUpgradeType (tMapCell, tTile)) {
 										putTileButton.setEnabled (true);
-										putTileButton.setToolTipText (NO_TOOL_TIP);
+										putTileButton.setToolTipText (GUI.NO_TOOL_TIP);
 									} else {
 										putTileButton.setEnabled (false);
 										putTileButton.setToolTipText ("Not a Valid Upgrade choice");

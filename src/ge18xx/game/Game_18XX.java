@@ -17,6 +17,7 @@ import ge18xx.toplevel.AboutBox;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.PrefPane;
 import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.Sound;
 import log4j2.plugins.LoggerLookup;
 
@@ -59,7 +60,7 @@ import org.apache.logging.log4j.LogManager;
 public class Game_18XX extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private final String ENTER_USER_NAME = "Must Enter User Name";
-	private final String NO_TOOL_TIP = "";
+//	private final String NO_TOOL_TIP = "";
 	protected ResourceBundle resbundle;
 	protected AboutBox aboutBox;
 	protected PrefPane prefs;
@@ -542,9 +543,9 @@ public class Game_18XX extends JFrame {
 		enableNewMenuItem ();
 		enableOpenMenuItem ();
 		newGameButton.setEnabled (true);
-		newGameButton.setToolTipText (NO_TOOL_TIP);
+		newGameButton.setToolTipText (GUI.NO_TOOL_TIP);
 //		loadGameButton.setEnabled (true);
-//		loadGameButton.setToolTipText (NO_TOOL_TIP);
+//		loadGameButton.setToolTipText (GUI.NO_TOOL_TIP);
 		clientUserName.setEnabled (true);
 	}
 	
