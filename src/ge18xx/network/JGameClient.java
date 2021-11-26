@@ -64,14 +64,13 @@ public class JGameClient extends XMLFrame {
 	private static final String DEFAULT_REMOTE_SERVER_IP = "96.240.138.230";
 	private static final String CONNECT_ACTION = "CONNECT";
 	private final String ALREADY_CONNECTED = "You are already connected";
-//	private final String NO_TOOL_TIP = "";
 	private final String NOT_CONNECTED = "You are not connected yet";
 	private final String WAITING_FOR_GAME = "Waiting for Game Selection";
 	private final String GAME_SELECTED = "Game has been Selected, hit the button when ready to play";
 	private final String WAITING_FOR_ALL = "Waiting for ALL players to be Ready";
 	private final String GAME_ALREADY_STARTED = "Game has already started, don't need to Start again";
 
-	private static ChatServerHandler serverHandler;
+	private ChatServerHandler serverHandler;
 	private GameSupportHandler gameSupportHandler;
 	
 	// Static Strings used by Client Handler - Should replace with XML Utilities handling
@@ -136,7 +135,7 @@ public class JGameClient extends XMLFrame {
 	
 	private HeartbeatThread heartbeatThread;
 	private Thread hbeatThread;
-	private Thread serverThread = null;
+	private Thread serverThread;
 	private SimpleAttributeSet normal = new SimpleAttributeSet ();
 	private SimpleAttributeSet iSaid = new SimpleAttributeSet ();
 	
@@ -150,9 +149,9 @@ public class JGameClient extends XMLFrame {
 	private int serverPort;
 	private int selectedGameIndex;
 	private String selectedGameName;
-	private boolean gameStarted = false;
 	private String autoSaveFileName;
 	private Logger logger;
+	private boolean gameStarted = false;
 	
 	public JGameClient (String aTitle, NetworkGameSupport aGameManager) {
 		this (aTitle, aGameManager, DEFAULT_REMOTE_SERVER_IP, DEFAULT_SERVER_PORT);
