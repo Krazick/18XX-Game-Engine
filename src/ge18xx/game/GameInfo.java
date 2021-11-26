@@ -28,6 +28,7 @@ import org.w3c.dom.NodeList;
 
 public class GameInfo {
 	public static final GameInfo NO_GAME_INFO = null;
+	public static final GameInfo [] NO_GAMES = null;
 	public static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
 	static final AttributeName AN_ID = new AttributeName ("id");
 	static final AttributeName AN_NAME = new AttributeName ("name");
