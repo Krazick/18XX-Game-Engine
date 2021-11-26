@@ -7,6 +7,7 @@ import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.GUI;
 
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
@@ -32,7 +33,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public static final String STOCK_PAR_PRICE_NEEDS_SETTING = "A Share Company needs to have Par Price selected - Find the Par Price Frame";
 	public static final String MUST_BUY_PRIVATE = "Must buy the Private where COST == DISCOUNT";
 	public static final String EXCHANGE_PRIVATE = "Exchange Private Certificate for Share Certificate";
-	public static final JPanel NO_JPANEL = null;
+//	public static final JPanel NO_JPANEL = null;
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
 	static final String PASS = "Pass";
@@ -374,7 +375,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	public void replacePortfolioInfo (JPanel aPortfolioJPanel) {
-		if (portfolioInfoJPanel == NO_JPANEL) {
+		if (portfolioInfoJPanel == GUI.NO_PANEL) {
 			setPortfolioInfoJPanel (aPortfolioJPanel);
 		} else {
 			playerJPanel.remove (portfolioInfoIndex);

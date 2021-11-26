@@ -53,7 +53,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
 	private static final long serialVersionUID = 1L;
-//	final JPanel NO_PANEL = null;
 	JPanel bankJPanel;
 	JPanel certJPanel;
 	JPanel privatesBox;
