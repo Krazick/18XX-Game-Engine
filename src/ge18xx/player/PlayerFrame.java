@@ -33,7 +33,6 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public static final String STOCK_PAR_PRICE_NEEDS_SETTING = "A Share Company needs to have Par Price selected - Find the Par Price Frame";
 	public static final String MUST_BUY_PRIVATE = "Must buy the Private where COST == DISCOUNT";
 	public static final String EXCHANGE_PRIVATE = "Exchange Private Certificate for Share Certificate";
-//	public static final JPanel NO_JPANEL = null;
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
 	static final String PASS = "Pass";
