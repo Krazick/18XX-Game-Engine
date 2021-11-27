@@ -1132,6 +1132,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		primaryActionState = aPrimaryActionState;
 		if (primaryActionState == ActionStates.NoAction) {
 			playerFrame.setPassButton ();
+			// Nov 27, 2021 -- If Player Primary Action is to set to NO ACTION
+			// reset Bought Share to False 
+			// Should have this as an Affect  on Change State and apply on Clients
+			setBoughtShare (false);
 		}
 	}
 
