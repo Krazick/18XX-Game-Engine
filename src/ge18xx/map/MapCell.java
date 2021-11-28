@@ -1557,6 +1557,7 @@ public class MapCell implements Comparator<Object> {
 		setTile (aNewTile);
 		setTileOrientationLocked (false);
 		setTileInfo (aNewTile.getNumber (), tFirstPossibleRotation, false);
+		aNewTile.setMapCell (this);
 
 		// For the Tile on Map, find Revenue Centers, and Tokens on them. Place them onto the Tile to be Placed.
 		// If the Revenue Center has a Base Corporation without the Base Token, Transfer Base Corporation
