@@ -2337,9 +2337,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void hideAuctionFrame () {
 		auctionFrame.hideAuctionFrame ();
-		
 	}
 
+	public void resetRoundFrameBackgrounds () {
+		roundManager.resetBackgrounds ();
+	}
+	
 	public boolean isClientCurrentPlayer () {
 		boolean tIsClientCurrentPlayer = false;
 		Player tCurrentPlayer, tClientPlayer;

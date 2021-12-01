@@ -838,7 +838,6 @@ public class RoundManager implements ActionListener {
 			startStockRound ();
 		} else {
 			roundFrame.updateAll ();
-			roundFrame.resetBackGround ();
 			roundFrame.disablePassButton ("In Operating Round, Can't Pass");
 		}
 	}
@@ -1093,5 +1092,9 @@ public class RoundManager implements ActionListener {
 	public boolean isLastActionComplete () {
 		// TODO Auto-generated method stub
 		return actionManager.isLastActionComplete ();
+	}
+	
+	public void resetBackgrounds () {
+		roundFrame.resetBackgrounds ();
 	}
 }
