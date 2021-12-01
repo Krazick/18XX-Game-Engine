@@ -12,6 +12,7 @@ import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerFrame;
 import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.GUI;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -374,7 +375,6 @@ public class RoundFrame extends XMLFrame {
 		updateActionButtonText (aPlayerName + " do Stock Action");
 		setActionForCurrentPlayer ();
 		updatePassButton ();
-		setFrameBackground ();
 	}
 
 	public void setFrameLabel (String aGameName, String aIDLabel) {
@@ -398,14 +398,12 @@ public class RoundFrame extends XMLFrame {
 	}
 	
 	public void setAuctionRound (String aGameName, int aRoundID) {
-		resetBackGround ();
 		setFrameLabel (aGameName, " " + aRoundID);
 		updateActionButton ("Do Auction Action", PLAYER_AUCTION_ACTION);
 		disablePassButton ("In Auction Round, Can't Pass");
 	}
 
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
-		resetBackGround ();
 		setFrameLabel (aGameName, " " + aRoundIDPart1 + " [" + aCurrentOR + " of " + aMaxOR + "]");
 		updateActionButton ("Do Company Action", CORPORATION_ACTION);
 		updateTotalCashLabel ();
@@ -414,29 +412,11 @@ public class RoundFrame extends XMLFrame {
 	}
 	
 	public void setStockRound (String aGameName, int aRoundID) {
-		resetBackGround ();
 		setFrameLabel (aGameName, " " + aRoundID);
 		updateActionButton ("Player do Stock Action", PLAYER_ACTION);
 		setCurrentPlayerText ();
 		updateTotalCashLabel ();
 		updatePassButton ();
-		setFrameBackground ();
-	}
-	
-	public void setFrameBackground () {
-		GameManager tGameManager;
-		String tClientUserName, tCurrentPlayerName;
-		
-		tGameManager = roundManager.getGameManager ();
-		if (tGameManager.isNetworkGame ()) {
-			tCurrentPlayerName = getCurrentPlayerName ();
-			tClientUserName = tGameManager.getClientUserName ();
-			if (tCurrentPlayerName.equals (tClientUserName)) {
-				setBackGround ();
-			} else {
-				resetBackGround ();
-			}
-		}
 	}
 	
 	public void updatePassButton () {
@@ -603,10 +583,8 @@ public class RoundFrame extends XMLFrame {
 		doActionButton.setEnabled (aEnableActionButton);
 		if (aEnableActionButton) {
 			doActionButton.setToolTipText ("");
-			setBackGround ();
 		} else {
 			doActionButton.setToolTipText (YOU_NOT_PRESIDENT);
-			resetBackGround ();
 		}
 		revalidate ();
 	}
@@ -634,48 +612,62 @@ public class RoundFrame extends XMLFrame {
 		updateAllPlayerJPanels ();
 		updateAllCorporationsBox ();
 		updatePassButton ();
-		setFrameBackground ();
 	}
 	
-	public void setBackGround () {
+	public void setFrameBackgrounds () {
+		GameManager tGameManager;
+		String tClientUserName, tCurrentPlayerName;
+		
+		tGameManager = roundManager.getGameManager ();
+		if (tGameManager.isNetworkGame ()) {
+			tCurrentPlayerName = getCurrentPlayerName ();
+			tClientUserName = tGameManager.getClientUserName ();
+			if (tCurrentPlayerName.equals (tClientUserName)) {
+				setAlertBackgrounds ();
+			} else {
+				resetBackgrounds ();
+			}
+		}
+	}
+
+	public void setAlertBackgrounds () {
 		GameManager tGameManager;
 		Color tAlertColor = Color.ORANGE;
 		
 		tGameManager = roundManager.getGameManager ();
 		if (tGameManager.isNetworkGame ()) {
-			getContentPane ().setBackground (tAlertColor);
-			setPanelBackground (headerJPanel, tAlertColor);
-			setPanelBackground (parPricesJPanel, tAlertColor);
-			setPanelBackground (trainSummaryJPanel, tAlertColor);
-			setPanelBackground (buttonsJPanel, tAlertColor);
-			setPanelBackground (roundJPanel, tAlertColor);
+			setAllBackgrounds (tAlertColor);
 		}
 	}
-
-	public void resetBackGround () {
-		getContentPane ().setBackground (defaultColor);	
-		setPanelBackground (headerJPanel, defaultColor);
-		setPanelBackground (parPricesJPanel, defaultColor);
-		setPanelBackground (trainSummaryJPanel, defaultColor);
-		setPanelBackground (buttonsJPanel, defaultColor);
-		setPanelBackground (roundJPanel, defaultColor);
+	
+	public void resetBackgrounds () {
+		setAllBackgrounds (defaultColor);
 	}
 	
+	private void setAllBackgrounds (Color aBackgroundColor) {
+		getContentPane ().setBackground (aBackgroundColor);	
+		setPanelBackground (headerJPanel, aBackgroundColor);
+		setPanelBackground (parPricesJPanel, aBackgroundColor);
+		setPanelBackground (trainSummaryJPanel, aBackgroundColor);
+		setPanelBackground (buttonsJPanel, aBackgroundColor);
+		setPanelBackground (roundJPanel, aBackgroundColor);
+
+	}
 	private void setPanelBackground (JPanel aJPanel, Color aBackgroundColor) {
-		if (aJPanel != null) {
+		if (aJPanel != GUI.NO_PANEL) {
 			aJPanel.setBackground (aBackgroundColor);
 		}
 	}
 	
 	public void disablePassButton (String aToolTip) {
-		if (passActionButton != null) {
+		if (passActionButton != GUI.NO_BUTTON) {
 			passActionButton.setEnabled (false);
 			passActionButton.setToolTipText (aToolTip);
 		}
 	}
 	
 	public void enablePassButton () {
-		if (passActionButton != null) {
+		if (passActionButton != GUI.NO_BUTTON) {
 			passActionButton.setEnabled (true);
 			passActionButton.setToolTipText ("");
 		}
