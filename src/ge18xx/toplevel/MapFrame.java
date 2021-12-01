@@ -889,7 +889,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					tAnyAllowedRotation = tMapCell.anyAllowedRotation (tileSet, tNewTile);
 					if (tAnyAllowedRotation) {
 						if (! tMapCell.privatePreventsTileLay (privateCos, tOperatingTrainCompany)) {
-							tTileLayCost = tMapCell.getCostToLayTile ();
+							tTileLayCost = tMapCell.getCostToLayTile (tNewTile);
 							// If there is a Tile Lay Cost, and the Company Treasury has enough cash we can move forward
 							if (tTileLayCost <= tOperatingCompanyTreasury) {
 								// And there is a Game Tile Selected -- Enable the Put Tile Button 
