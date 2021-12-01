@@ -660,6 +660,7 @@ public class PlayerManager {
 		
 		addAction (tDonePlayerAction);
 		moveToNextPlayer (tNextPlayerIndex);
+		gameManager.resetRoundFrameBackgrounds ();
 	}
 	
 	private void moveToNextPlayer (int aNextPlayerIndex) {
@@ -987,7 +988,7 @@ public class PlayerManager {
 			} else {
 				moveToNextPlayer (tNextPlayerIndex);
 			}
-			
+			gameManager.resetRoundFrameBackgrounds ();
 		} else {
 			System.err.println ("Player has acted in this Stock Round, cannot Pass");
 		}
