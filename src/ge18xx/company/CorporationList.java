@@ -70,10 +70,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public static final int NO_CORPORATION_INDEX = -1;
 	public static final CorporationList NO_CORPORATION_LIST = null;
 	public static final ElementName TYPE_NAMES [] = { 
-		new ElementName ("Private"), 
-		new ElementName ("Coal"), 
-		new ElementName ("Minor"), 
-		new ElementName ("Share") };
+		new ElementName (Corporation.PRIVATE_COMPANY), 
+		new ElementName (Corporation.COAL_COMPANY), 
+		new ElementName (Corporation.MINOR_COMPANY), 
+		new ElementName (Corporation.SHARE_COMPANY) };
 	List<Corporation> corporations;
 	ElementName typeName;
 	RoundManager roundManager;
@@ -185,6 +185,22 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 					tOwnerName = tCorporation.getPresidentName ();
 				}
 			}
+		}
+		
+		return tOwnerName;
+	}
+	
+	public String getOwnerWhoWillOperate () {
+		String tOwnerName = Corporation.NO_NAME;
+		int tNextToOperate;
+		Corporation tNextCorpToOperate;
+		
+		if (typeName.equals (TYPE_NAMES [0])) {
+			tOwnerName = roundManager.getOperatingOwnerName ();
+		} else {
+			tNextToOperate = getNextToOperate ();
+			tNextCorpToOperate = getCorporation (tNextToOperate);
+			tOwnerName = tNextCorpToOperate.getPresidentName ();
 		}
 		
 		return tOwnerName;
