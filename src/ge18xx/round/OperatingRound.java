@@ -103,6 +103,10 @@ public class OperatingRound extends Round {
 		return shareCompanies.getOperatingOwnerName ();
 	}
 	
+	public String getOwnerWhoWillOperate () {
+		return shareCompanies.getOwnerWhoWillOperate ();
+	}
+	
 	public CorporationList getPrivateCompanies () {
 		return privateCompanies;
 	}
