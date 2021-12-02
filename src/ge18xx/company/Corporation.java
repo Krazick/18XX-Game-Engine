@@ -54,7 +54,8 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRoutineI, Comparable<Corporation> {
-	public static final ElementName EN_CORPORATION = new ElementName ("Corporation");
+	public static final String CORPORATION = "Corporation";
+	public static final ElementName EN_CORPORATION = new ElementName (CORPORATION);
 	public static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
 	public static final AttributeName AN_ID = new AttributeName ("id");
 	public static final AttributeName AN_NAME = new AttributeName ("name");
@@ -72,13 +73,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public static final String COAL_COMPANY = "Coal";
 	public static final String MINOR_COMPANY = "Minor";
 	public static final String SHARE_COMPANY = "Share";
-	public static final String CORPORATION = "Corporation";
+	public static final String NO_NAME = null;
 	public static final int NO_ID = 0;
 	public static final Corporation NO_CORPORATION = null;
 	static final String enum_closed = ActionStates.Closed.toString ();
 	static final String enum_operated = ActionStates.Operated.toString ();
 	static final String enum_not_operated = ActionStates.NotOperated.toString ();
-	static final String NO_NAME = null;
 	static final String NO_HOME_GRID = null;
 	static final int NO_COST = -1;
 	static final int NO_NAME_INT = -1;
