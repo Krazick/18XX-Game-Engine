@@ -215,6 +215,7 @@ public class RoundManager implements ActionListener {
 		if (operatingRoundIsDone ()) {
 			endOperatingRound ();
 		}
+		gameManager.resetRoundFrameBackgrounds ();
 	}
 
 	public void clearAllPlayerSelections () {
@@ -368,6 +369,10 @@ public class RoundManager implements ActionListener {
 	
 	public String getOperatingOwnerName () {
 		return operatingRound.getOperatingOwnerName ();
+	}
+	
+	public String getOwnerWhoWillOperate () {
+		return operatingRound.getOwnerWhoWillOperate ();
 	}
 	
 	public PhaseInfo getCurrentPhaseInfo () {
@@ -1092,6 +1097,10 @@ public class RoundManager implements ActionListener {
 	public boolean isLastActionComplete () {
 		// TODO Auto-generated method stub
 		return actionManager.isLastActionComplete ();
+	}
+	
+	public void setBackgrounds () {
+		roundFrame.setFrameBackgrounds ();
 	}
 	
 	public void resetBackgrounds () {
