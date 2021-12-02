@@ -3,6 +3,7 @@ package ge18xx.round;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.bank.GameBank;
+import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
@@ -78,6 +79,7 @@ public class RoundFrame extends XMLFrame {
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, String aGameName) {
 		super (aFrameName, aGameName);
 		
+		defaultColor = UIManager.getColor ("Panel.background");
 		roundManager = aRoundManager;
 		logger = Game_18XX.getLogger ();
 		
@@ -86,9 +88,8 @@ public class RoundFrame extends XMLFrame {
 		roundScrollPane = new JScrollPane (roundJPanel);
 		add (roundScrollPane);
 		pack ();
-		
+		resetBackgrounds ();
 		setStockRound (aGameName, roundManager.getStockRoundID ());
-		defaultColor = UIManager.getColor ("Panel.background");
 	}
 
 	private void buildRoundJPanel () {
@@ -617,27 +618,32 @@ public class RoundFrame extends XMLFrame {
 	public void setFrameBackgrounds () {
 		GameManager tGameManager;
 		String tClientUserName, tCurrentPlayerName;
+		String tOperatingOwnerName;
 		
 		tGameManager = roundManager.getGameManager ();
+		resetBackgrounds ();
 		if (tGameManager.isNetworkGame ()) {
-			tCurrentPlayerName = getCurrentPlayerName ();
 			tClientUserName = tGameManager.getClientUserName ();
-			if (tCurrentPlayerName.equals (tClientUserName)) {
-				setAlertBackgrounds ();
-			} else {
-				resetBackgrounds ();
+			if (roundManager.isStockRound ()) {
+				tCurrentPlayerName = getCurrentPlayerName ();
+				if (tCurrentPlayerName.equals (tClientUserName)) {
+					setAlertBackgrounds ();
+				}
+			} else if (roundManager.isOperatingRound () ) {
+				tOperatingOwnerName = roundManager.getOwnerWhoWillOperate ();
+				if (tOperatingOwnerName != Corporation.NO_NAME) {
+					if (tOperatingOwnerName.equals (tClientUserName)) {
+						setAlertBackgrounds ();
+					}
+				}
 			}
 		}
 	}
 
 	public void setAlertBackgrounds () {
-		GameManager tGameManager;
 		Color tAlertColor = Color.ORANGE;
 		
-		tGameManager = roundManager.getGameManager ();
-		if (tGameManager.isNetworkGame ()) {
-			setAllBackgrounds (tAlertColor);
-		}
+		setAllBackgrounds (tAlertColor);
 	}
 	
 	public void resetBackgrounds () {
