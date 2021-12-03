@@ -45,7 +45,6 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 import java.util.List;
-import java.awt.Color;
 import java.awt.Point;
 import java.util.LinkedList;
 
@@ -541,12 +540,9 @@ public class PlayerManager {
 				/* If this Free Certificate is a President Share -- Request a Par Price to be set */
 				if (tFreeCertificate.isPresidentShare ()) {
 					if (tFreeCertificate.hasParPrice ()) {
-						System.out.println ("Par Price already set.");
+						System.err.println ("Par Price already set.");
 					} else {
 						parPriceFrame = new ParPriceFrame (aPlayer, stockRound, tFreeCertificate);
-						Point tNewPoint = gameManager.getOffsetPlayerFrame ();
-						parPriceFrame.setLocation (tNewPoint);
-						parPriceFrame.setBackground (Color.ORANGE);
 						parPriceFrame.setVisible (true);
 						parPriceFrame.toFront ();
 						tChainBuyToParValue = true;
