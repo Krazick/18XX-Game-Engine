@@ -6,11 +6,12 @@ import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.StockRound;
-import ge18xx.round.action.ActionManager;
 import ge18xx.round.action.SetParValueAction;
+import ge18xx.utilities.GUI;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 public class ParPriceFrame extends JFrame implements ActionListener {
 	private static final String SET_PAR_PRICE_ACTION = "SetParPrice";
@@ -39,22 +41,51 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 	
 	public ParPriceFrame (Player aPlayer, StockRound aStockRound, Certificate aCertificate) {
 		super ("Par Value Selection");
-		JPanel tVerticalBox;
-		int tPadding;
 		
 		// Need to have the Player that has bought the President Sale shown in Dialog 
 		// This is to confirm the player who bought the share, possible during Auction, is notified THEY should be setting this,
 		// Not the Player that bought the prior share that triggered the Auction
+		Point tNewPoint;
+		GameManager tGameManager;
 		
-		player = aPlayer;
-		stockRound = aStockRound;
-		certificate = aCertificate;
-		gameManager = aPlayer.getGameManager ();
+		setPlayer (aPlayer);
+		setStockRound (aStockRound);
+		setCertificate (aCertificate);
+		tGameManager = aPlayer.getGameManager ();
+		setGameManager (tGameManager);
+		
+		buildParValuesPanel (aPlayer, aCertificate);
+		tNewPoint = gameManager.getOffsetPlayerFrame ();
+		setLocation (tNewPoint);
+		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
+		pack ();
+	}
 
+	public void setPlayer (Player aPlayer) {
+		player = aPlayer;
+	}
+	
+	public void setStockRound (StockRound aStockRound) {
+		stockRound = aStockRound;
+	}
+	
+	public void setCertificate (Certificate aCertificate) {
+		certificate = aCertificate;
+	}
+	
+	public void setGameManager (GameManager aGameManager) {
+		gameManager = aGameManager;
+	}
+	
+	private void buildParValuesPanel (Player aPlayer, Certificate aCertificate) {
+		JPanel tVerticalBox;
+		Border tCorporateColorBorder;
+		
 		parValuesPanel = new JPanel ();
 		parValuesPanel.setLayout (new BoxLayout (parValuesPanel, BoxLayout.Y_AXIS));
-		tPadding = 10;
-		parValuesPanel.setBorder (BorderFactory.createEmptyBorder (tPadding, tPadding, tPadding, tPadding));
+		tCorporateColorBorder = aCertificate.getCorporateBorder ();
+
+		parValuesPanel.setBorder (tCorporateColorBorder);
 		
 		tVerticalBox = buildVerticalBox (aPlayer, aCertificate);
 		
@@ -62,18 +93,21 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 		parValuesPanel.add (tVerticalBox);
 		parValuesPanel.add (Box.createHorizontalStrut (10));
 		setParPriceFrameActive (true);
-		setUndecorated (true);
 		add (parValuesPanel);
-		pack ();
+		if (gameManager.isNetworkGame ()) {
+			parValuesPanel.setBackground (Color.ORANGE);
+		}
 	}
 
 	public JPanel buildVerticalBox (Player aPlayer, Certificate aCertificate) {
 		JLabel tFrameLabel1;
 		int tTotalTreasury;
 		int tEscrowCount;
+		int tPadding;
 		Escrow tEscrow;
 		JPanel tVerticalBox;
 		JPanel tMiddleBox;
+		JPanel tCertificateInfoJPanel;
 		
 		tTotalTreasury = aPlayer.getCash ();
 		tEscrowCount = aPlayer.getEscrowCount ();
@@ -88,6 +122,13 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 		
 		tVerticalBox = new JPanel ();
 		tVerticalBox.setLayout (new BoxLayout (tVerticalBox, BoxLayout.Y_AXIS));
+		tPadding = 20;
+		tVerticalBox.setBorder (BorderFactory.createEmptyBorder (tPadding, tPadding, tPadding, tPadding));
+
+		tVerticalBox.add (Box.createVerticalStrut (10));
+		
+		tCertificateInfoJPanel = aCertificate.buildBasicCertInfoJPanel ();
+		tVerticalBox.add (tCertificateInfoJPanel);
 		tVerticalBox.add (Box.createVerticalStrut (10));
 		tVerticalBox.add (tFrameLabel1);
 		tVerticalBox.add (Box.createVerticalStrut (10));
@@ -136,7 +177,7 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 	}
 	
 	public void setActionButton (String aButtonLabel, String aActionCommand) {
-		if (doActionButton == null) {
+		if (doActionButton == GUI.NO_BUTTON) {
 			doActionButton = new JButton (aButtonLabel);
 		} else {
 			doActionButton.setText (aButtonLabel);
@@ -167,19 +208,16 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 				setParValueAction (tSelectedParPrice, tShareCompany);
 			}
 		}
-		if (gameManager.isNetworkGame ()) {
-			setBackground (Color.ORANGE);
-		}
 		setVisible (false);
 	}
 
 	public void setParValueAction (int aParPrice, ShareCompany aShareCompany) {
-		ActionManager tActionManager;
+//		ActionManager tActionManager;
 		SetParValueAction tSetParValueAction;
 		
-		tActionManager = stockRound.getActionManager ();
 		tSetParValueAction = new SetParValueAction (stockRound.getRoundType (), stockRound.getID (), player);
 		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice);
-		tActionManager.addAction (tSetParValueAction);
+//		tActionManager = stockRound.getActionManager ();
+		stockRound.addAction (tSetParValueAction);
 	}
 }
