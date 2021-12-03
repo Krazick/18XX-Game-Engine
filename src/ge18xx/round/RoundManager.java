@@ -844,6 +844,7 @@ public class RoundManager implements ActionListener {
 		} else {
 			roundFrame.updateAll ();
 			roundFrame.disablePassButton ("In Operating Round, Can't Pass");
+			setBackgrounds ();
 		}
 	}
 	
@@ -856,6 +857,7 @@ public class RoundManager implements ActionListener {
 			int tIDPart1 = operatingRound.getIDPart1 ();
 			setRoundToOperatingRound (tIDPart1, currentOR + 1);
 			operatingRound.startOperatingRound ();
+			setBackgrounds ();
 		}
 	}
 	
