@@ -52,10 +52,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	JButton doneButton;
 	JButton undoButton;
 	
-	JPanel oneBidderBox;
-	JPanel topBox;
-	JPanel biddersBox;
-	JPanel bottomBox;
+	JPanel oneBidderJPanel;
+	JPanel topJPanel;
+	JPanel biddersJPanel;
+	JPanel bottomJPanel;
 	JButton [] bidderRaiseButtons;
 	JButton [] bidderPassButtons;
 	JLabel [] bidderLabels;
@@ -71,43 +71,58 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	public AuctionFrame (String aFrameName, String aClientUser, boolean aIsNetworkGame) {
 		super (aFrameName);
 		
-		JLabel tLabel;
-		
 		clientUserName = aClientUser;
 		isNetworkGame = aIsNetworkGame;
-		defaultColor = this.getBackground ();
+		defaultColor = getBackground ();
+		
+		buildTopJPanel ();
+		buildBiddersJPanel ();
+		buildBottomJPanel ();
+		
+		add (topJPanel, BorderLayout.NORTH);
+		add (biddersJPanel, BorderLayout.CENTER);
+		add (bottomJPanel, BorderLayout.SOUTH);
+		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
+	}
+
+	public void buildBottomJPanel() {
+		bottomJPanel = new JPanel ();
+		bottomJPanel.setLayout (new BoxLayout (bottomJPanel, BoxLayout.Y_AXIS));
+		bottomJPanel.add (Box.createVerticalStrut (5));
+		doneButton = setupButton (DONE, DONE);
+		bottomJPanel.add (Box.createVerticalStrut (5));
+		undoButton = setupButton (UNDO, UNDO);
+		bottomJPanel.add (Box.createVerticalStrut (5));
+	}
+
+	public void buildBiddersJPanel () {
+		biddersJPanel = new JPanel ();
+		biddersJPanel.setLayout (new BoxLayout (biddersJPanel, BoxLayout.Y_AXIS));
+
+		biddersJPanel.add (Box.createVerticalStrut (15));
+		buildOneBiddersJPanel ();
+		biddersJPanel.add (Box.createVerticalStrut (15));
+	}
+
+	public void buildOneBiddersJPanel () {
+		oneBidderJPanel = new JPanel ();
+		oneBidderJPanel.setLayout (new BoxLayout (oneBidderJPanel, BoxLayout.X_AXIS));
+		oneBidderJPanel.add (new JLabel ("Bidder Box"));
+	}
+
+	public void buildTopJPanel () {
+		JLabel tLabel;
 		
 		tLabel = new JLabel ("Auction Round for Private Company");
 		tLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		privateCompanyLabel = new JLabel ("DUMMY PRIVATE");
-		topBox = new JPanel ();
-		topBox.setLayout (new BoxLayout (topBox, BoxLayout.Y_AXIS));
-		topBox.add (Box.createVerticalStrut (15));
-		topBox.add (tLabel);
-		topBox.add (Box.createVerticalStrut (10));
-		topBox.add (privateCompanyLabel);
-		topBox.add (Box.createVerticalStrut (15));
-		
-		biddersBox = new JPanel ();
-		biddersBox.setLayout (new BoxLayout (biddersBox, BoxLayout.Y_AXIS));
-		bottomBox = new JPanel ();
-		bottomBox.setLayout (new BoxLayout (bottomBox, BoxLayout.Y_AXIS));
-
-		biddersBox.add (Box.createVerticalStrut (15));
-		oneBidderBox = new JPanel ();
-		oneBidderBox.setLayout (new BoxLayout (oneBidderBox, BoxLayout.X_AXIS));
-		oneBidderBox.add (new JLabel ("Bidder Box"));
-		biddersBox.add (Box.createVerticalStrut (15));
-		
-		bottomBox.add (Box.createVerticalStrut (5));
-		doneButton = setupButton (DONE, DONE);
-		bottomBox.add (Box.createVerticalStrut (5));
-		undoButton = setupButton (UNDO, UNDO);
-		bottomBox.add (Box.createVerticalStrut (5));
-		
-		add (topBox, BorderLayout.NORTH);
-		add (biddersBox, BorderLayout.CENTER);
-		add (bottomBox, BorderLayout.SOUTH);
+		topJPanel = new JPanel ();
+		topJPanel.setLayout (new BoxLayout (topJPanel, BoxLayout.Y_AXIS));
+		topJPanel.add (Box.createVerticalStrut (15));
+		topJPanel.add (tLabel);
+		topJPanel.add (Box.createVerticalStrut (10));
+		topJPanel.add (privateCompanyLabel);
+		topJPanel.add (Box.createVerticalStrut (15));
 	}
 	
 	public JButton setupButton (String aButtonText, String aButtonCommand) {
@@ -117,7 +132,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tJButton.setActionCommand(aButtonCommand);
 		tJButton.addActionListener (this);
 		tJButton.setAlignmentX (Component.CENTER_ALIGNMENT);
-		bottomBox.add (tJButton);
+		bottomJPanel.add (tJButton);
 		if (isNetworkGame) {
 			if (aButtonText.equals (UNDO)) {
 				tJButton.setEnabled (false);
@@ -163,7 +178,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		int tHighestBidderIndex = certificateToAuction.getHighestBidderIndex ();
 		Player tPlayer = (Player) certificateToAuction.getCashHolderAt (tHighestBidderIndex);
 		
-		this.setBidderBoxColor (tPlayer.getName (), false);
+		this.setBidderJPanelColor (tPlayer.getName (), false);
 		tNextShareHasBids = tPlayer.finishAuction (certificateToAuction, true);
 		if (! tNextShareHasBids) {
 			hideAuctionFrame ();			
@@ -176,7 +191,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 		tWasStartAuction = auctionRound.wasLastActionStartAuction ();
 		tLastActionUndone = auctionRound.undoLastAction ();
-		updateBidderBoxes ();
+		updateBidderJPanels ();
 		auctionRound.updateAllFrames ();
 		
 		// If the Last Action being undone was to Start the Auction, the Auction Frame should be hidden.
@@ -238,29 +253,29 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tAuctionRaiseAction.addCashTransferEffect (tPlayer, tEscrow, tRaiseAmount);
 		tAuctionRaiseAction.addBidChangeEffect (tPlayer, tOldBidAmount, tNewBidAmount, certificateToAuction);
 		tAuctionRaiseAction.addNewCurrentBidderEffect (auctionRound, aActingBidderIndex, tNextBidderIndex);
-		setBidderBoxColor (tPlayer.getName (), false);
+		setBidderJPanelColor (tPlayer.getName (), false);
 		completeAuctionAction (tAuctionRaiseAction, false);
 	}
 	
-	public void setNewBidderBoxColor (int aNewBidderIndex) {
+	public void setNewBidderJPanelColor (int aNewBidderIndex) {
 		Player tPlayer;
 		String tBidderName;
 		
 		tPlayer = (Player) certificateToAuction.getCashHolderAt (aNewBidderIndex);
 		tBidderName = tPlayer.getName ();
-		setBidderBoxColor (tBidderName, true);
+		setBidderJPanelColor (tBidderName, true);
 	}
 	
-	public void setPrevBidderBoxColor (int aPrevBidderIndex) {
+	public void setPrevBidderJPanelColor (int aPrevBidderIndex) {
 		Player tPlayer;
 		String tBidderName;
 		
 		tPlayer = (Player) certificateToAuction.getCashHolderAt (aPrevBidderIndex);
 		tBidderName = tPlayer.getName ();
-		setBidderBoxColor (tBidderName, false);
+		setBidderJPanelColor (tBidderName, false);
 	}
 	
-	private void setBidderBoxColor (String aBidderName, boolean aBidderActing) {
+	private void setBidderJPanelColor (String aBidderName, boolean aBidderActing) {
 		Color tBackgroundColor = defaultColor;
 		
 		if (aBidderActing) {
@@ -271,10 +286,9 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 				}
 			}
 		}
-		topBox.setBackground (tBackgroundColor);
-		biddersBox.setBackground (tBackgroundColor);
-		bottomBox.setBackground (tBackgroundColor);
-//		getContentPane ().setBackground (tBackgroundColor);
+		topJPanel.setBackground (tBackgroundColor);
+		biddersJPanel.setBackground (tBackgroundColor);
+		bottomJPanel.setBackground (tBackgroundColor);
 	}
 	
 	private int getNextBidderIndex (int aActingBidderIndex) {
@@ -324,7 +338,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			tAuctionPassAction.addNewCurrentBidderEffect (auctionRound, aActingBidderIndex, tNextBidderIndex);
 			tDone = false;
 		}
-		setBidderBoxColor (tPlayer.getName (), false);
+		setBidderJPanelColor (tPlayer.getName (), false);
 		completeAuctionAction (tAuctionPassAction, tDone);
 	}
 
@@ -379,8 +393,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		}
 
 		doneButton.setToolTipText (doneToolTipText);
-		updateBidderBoxes ();
-		setBidderBoxColor (clientUserName, tClientIsActing);
+		updateBidderJPanels ();
+		setBidderJPanelColor (clientUserName, tClientIsActing);
 	}
 	
 	private boolean thisIsTheClient () {
@@ -459,7 +473,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			tPlayer.setAuctionActionState (ActorI.ActionStates.Bidder);
 			
 			// Empty out the Bidders Box of all "one Bidder Box"s in case of undo/redo.. or followup auctions.
-			biddersBox.removeAll ();
+			biddersJPanel.removeAll ();
 			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
 				setBidderSuffixLabel (tBidderCount, tBidderIndex, tHighestBidderIndex);
 				tPlayer = (Player) certificateToAuction.getCashHolderAt (tBidderIndex);
@@ -468,22 +482,9 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 				
 				tCash = certificateToAuction.getBidAt (tBidderIndex);
 				bidderLabels [tBidderIndex] = new JLabel (getBidderLabel (tPlayer, tCash));
-				oneBidderBox = new JPanel ();
-				oneBidderBox.setLayout (new BoxLayout (oneBidderBox, BoxLayout.X_AXIS));
-				oneBidderBox.add (Box.createHorizontalStrut (15));
-				oneBidderBox.add (bidderLabels [tBidderIndex]);
-				oneBidderBox.add (Box.createHorizontalStrut (5));
+				
 				tRaiseLabel = RAISE + " " + Bank.formatCash (PlayerManager.BID_INCREMENT);
-				bidderRaiseButtons [tBidderIndex] = new JButton (tRaiseLabel);
-				bidderRaiseButtons [tBidderIndex].addActionListener (this);
-				bidderRaiseButtons [tBidderIndex].setActionCommand (RAISE);
-
-				oneBidderBox.add (bidderRaiseButtons [tBidderIndex]);
-				oneBidderBox.add (Box.createHorizontalStrut (5));
-				bidderPassButtons [tBidderIndex] = new JButton (PASS);
-				bidderPassButtons [tBidderIndex].addActionListener (this);
-				bidderPassButtons [tBidderIndex].setActionCommand (PASS);
-				oneBidderBox.add (bidderPassButtons [tBidderIndex]);
+				updateOneBidderJPanel (tBidderIndex, tRaiseLabel);
 				
 				if (tBidderIndex == tHighestBidderIndex) {
 					if (tBidderCount == 1) {
@@ -506,19 +507,37 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 					doneButton.setEnabled (false);
 					doneButton.setToolTipText (doneToolTipText);
 				}
-				oneBidderBox.add (bidderSuffixLabel [tBidderIndex]);
-				oneBidderBox.add (Box.createHorizontalStrut (15));
-				biddersBox.add (oneBidderBox);
-				biddersBox.add (Box.createVerticalStrut (15));
+				oneBidderJPanel.add (bidderSuffixLabel [tBidderIndex]);
+				oneBidderJPanel.add (Box.createHorizontalStrut (15));
+				biddersJPanel.add (oneBidderJPanel);
+				biddersJPanel.add (Box.createVerticalStrut (15));
 				
 				if (tBidderIsActing) {
-					setBidderBoxColor (tBidderName, tBidderIsActing);
+					setBidderJPanelColor (tBidderName, tBidderIsActing);
 				}
 				configAuctionUndoButton ();
 			}			
 		} else {
 			System.err.println ("ERROR -- Adding Certificate for " + certificateToAuction.getCompanyAbbrev () + " with NO Bidders!!!");
 		}
+	}
+
+	public void updateOneBidderJPanel (int aBidderIndex, String aRaiseLabel) {		
+		oneBidderJPanel = new JPanel ();
+		oneBidderJPanel.setLayout (new BoxLayout (oneBidderJPanel, BoxLayout.X_AXIS));
+		oneBidderJPanel.add (Box.createHorizontalStrut (15));
+		oneBidderJPanel.add (bidderLabels [aBidderIndex]);
+		oneBidderJPanel.add (Box.createHorizontalStrut (5));
+		bidderRaiseButtons [aBidderIndex] = new JButton (aRaiseLabel);
+		bidderRaiseButtons [aBidderIndex].addActionListener (this);
+		bidderRaiseButtons [aBidderIndex].setActionCommand (RAISE);
+
+		oneBidderJPanel.add (bidderRaiseButtons [aBidderIndex]);
+		oneBidderJPanel.add (Box.createHorizontalStrut (5));
+		bidderPassButtons [aBidderIndex] = new JButton (PASS);
+		bidderPassButtons [aBidderIndex].addActionListener (this);
+		bidderPassButtons [aBidderIndex].setActionCommand (PASS);
+		oneBidderJPanel.add (bidderPassButtons [aBidderIndex]);
 	}
 	
 	public void configAuctionUndoButton () {
@@ -542,7 +561,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		undoButton.setToolTipText ("You are not a Bidder, cannot Undo");
 	}
 	
-	public void updateBidderBoxes () {
+	public void updateBidderJPanels () {
 		Player tPlayer;
 		int tCash, tBidderCount, tHighestBidderIndex;
 		String tRaiseLabel;
