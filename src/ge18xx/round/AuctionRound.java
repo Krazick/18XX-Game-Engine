@@ -46,15 +46,15 @@ public class AuctionRound extends Round {
 		return "1.0";
 	}
 	
-	public void setPrevBidderBoxColor (int aNewBidderIndex) {
+	public void setPrevBidderJPanelColor (int aNewBidderIndex) {
 		auctionFrame.setPrevBidderJPanelColor (aNewBidderIndex);
 	}
 	
-	public void setNewBidderBoxColor (int aNewBidderIndex) {
+	public void setNewBidderJPanelColor (int aNewBidderIndex) {
 		auctionFrame.setNewBidderJPanelColor (aNewBidderIndex);
 	}
 	
-	public void updateBidderBoxes () {
+	public void updateBidderJPanels () {
 		auctionFrame.updateBidderJPanels ();	
 	}
 	

@@ -26,9 +26,9 @@ public class NewCurrentBidderEffect extends ChangePlayerEffect {
 		tEffectApplied = true;
 		System.out.println ("Need to change the the Current Bidder to " + newPlayerIndex);
 		tAuctionRound = aRoundManager.getAuctionRound ();
-		tAuctionRound.setPrevBidderBoxColor (previousPlayerIndex);
-		tAuctionRound.setNewBidderBoxColor (newPlayerIndex);
-		tAuctionRound.updateBidderBoxes ();
+		tAuctionRound.setPrevBidderJPanelColor (previousPlayerIndex);
+		tAuctionRound.setNewBidderJPanelColor (newPlayerIndex);
+		tAuctionRound.updateBidderJPanels ();
 		tAuctionRound.showAuctionFrame ();
 		
 		return tEffectApplied;
@@ -42,8 +42,8 @@ public class NewCurrentBidderEffect extends ChangePlayerEffect {
 		tEffectUndone = true;
 		System.out.println ("Need to change the the Current Bidder to previous");
 		tAuctionRound = aRoundManager.getAuctionRound ();
-		tAuctionRound.setNewBidderBoxColor (previousPlayerIndex);
-		tAuctionRound.setPrevBidderBoxColor (newPlayerIndex);
+		tAuctionRound.setNewBidderJPanelColor (previousPlayerIndex);
+		tAuctionRound.setPrevBidderJPanelColor (newPlayerIndex);
 
 		return tEffectUndone;
 	}
