@@ -172,7 +172,6 @@ public class Certificate implements Comparable<Certificate> {
 		JPanel tCertificateInfoJPanel;
 		JLabel tLabel, tLastRevenueLabel;
 		JLabel tDiscountLabel;
-		String tCertInfo;
 		String tRevenueInfo;
 		String tToolTip = "";
 		int tRevenue, tPrice, tPlayerCash, tDiscount;
@@ -180,11 +179,9 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tPlayerHasEnoughCash, tPlayerHasBidOnThisCert, tPlayerHasEnoughCashToBid;
 		boolean tPlayerHasSoldThisCompany, tPlayerHasMaxShares, tPlayerHasBoughtShare;
 		boolean tHasMustBuyCertificate, tPlayerAtCertLimit;
-		String tCompanyAbbrev, tNote;
-		CompoundBorder tCertInfoBorder2;
+		String tCompanyAbbrev;
 		Integer [] tParValues;
 		Dimension tParValueSize;
-		int tPadding;
 		
 		if (aPlayer != Player.NO_PLAYER) {
 			tCompanyAbbrev = getCompanyAbbrev ();
@@ -206,24 +203,7 @@ public class Certificate implements Comparable<Certificate> {
 			tHasMustBuyCertificate = false;
 		}
 
-		tPadding = 3;
-		tCertificateInfoJPanel = new JPanel ();
-		tCertificateInfoJPanel.setLayout (new BoxLayout (tCertificateInfoJPanel, BoxLayout.Y_AXIS));
-		tCertificateInfoJPanel.setBorder (BorderFactory.createEmptyBorder (tPadding, tPadding, tPadding, tPadding));
-		tCertificateInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		tCertInfoBorder2 = setupCIPBorder ();
-		tCertificateInfoJPanel.setBorder (tCertInfoBorder2);
-		
-		tCertInfo = getCompanyAbbrev () + " (" +  getPercentage () + "%)"; 
-		tLabel = new JLabel (tCertInfo);
-		tNote = corporation.getNote ();
-		tLabel.setToolTipText (tNote);
-		tCertificateInfoJPanel.add (tLabel);
-		
-		if (isPresidentShare) {
-			tLabel = new JLabel ("PREZ SHARE");
-			tCertificateInfoJPanel.add (tLabel);
-		}
+		tCertificateInfoJPanel = buildBasicCertInfoJPanel ();
 
 		tPlayerHasEnoughCash = true;
 		tPlayerHasEnoughCashToBid = true;
@@ -352,6 +332,36 @@ public class Certificate implements Comparable<Certificate> {
 		return tCertificateInfoJPanel;
 	}
 
+	public JPanel buildBasicCertInfoJPanel () {
+		JPanel tCertificateInfoJPanel;
+		JLabel tLabel;
+		String tCertInfo;
+		String tNote;
+		CompoundBorder tCertInfoBorder2;
+		
+		int tPadding;
+		tCertificateInfoJPanel = new JPanel ();
+		tCertificateInfoJPanel.setLayout (new BoxLayout (tCertificateInfoJPanel, BoxLayout.Y_AXIS));
+		tPadding = 3;
+		tCertificateInfoJPanel.setBorder (BorderFactory.createEmptyBorder (tPadding, tPadding, tPadding, tPadding));
+		tCertificateInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		tCertInfoBorder2 = setupCIPBorder ();
+		tCertificateInfoJPanel.setBorder (tCertInfoBorder2);
+		
+		tCertInfo = getCompanyAbbrev () + " (" +  getPercentage () + "%)"; 
+		tLabel = new JLabel (tCertInfo);
+		tNote = corporation.getNote ();
+		tLabel.setToolTipText (tNote);
+		tCertificateInfoJPanel.add (tLabel);
+		
+		if (isPresidentShare) {
+			tLabel = new JLabel ("PREZ SHARE");
+			tCertificateInfoJPanel.add (tLabel);
+		}
+		
+		return tCertificateInfoJPanel;
+	}
+
 	public void updateCheckedButton (String aLabel, boolean aEnabledState, String aToolTip, ItemListener aItemListener) {
 		checkedButton.setText (aLabel);
 		checkedButton.setEnabled (aEnabledState);
@@ -374,7 +384,6 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public CompoundBorder setupCIPBorder () {
-		Color tCorporateColor;
 		CompoundBorder tCertInfoBorder;
 		CompoundBorder tCertInfoBorder2;
 		Border tRegionBorder;
@@ -387,8 +396,7 @@ public class Certificate implements Comparable<Certificate> {
 		if (corporation.isShareCompany ()) {
 			tRegionColor = getRegionColor ();
 			tRegionBorder = BorderFactory.createLineBorder (tRegionColor, 3);
-			tCorporateColor = corporation.getBgColor ();
-			tCorporateColorBorder = BorderFactory.createLineBorder (tCorporateColor, 5);
+			tCorporateColorBorder = getCorporateBorder ();
 			tInnerBorder = BorderFactory.createLineBorder (tInnerColor, 5);
 			tCertInfoBorder = BorderFactory.createCompoundBorder (tRegionBorder, tCorporateColorBorder);
 			tCertInfoBorder2 = BorderFactory.createCompoundBorder (tCertInfoBorder, tInnerBorder);
@@ -401,6 +409,20 @@ public class Certificate implements Comparable<Certificate> {
 		return tCertInfoBorder2;
 	}
 
+	public Border getCorporateBorder () {
+		Border tCorporateColorBorder;
+		Color tCorporateColor;
+		
+		tCorporateColor = getCorporateColor ();
+		tCorporateColorBorder = BorderFactory.createLineBorder (tCorporateColor, 5);
+		
+		return tCorporateColorBorder;
+	}
+	
+	private Color getCorporateColor () {
+		return corporation.getBgColor ();
+	}
+	
 	private boolean addBidderLabels (JPanel aCertificateInfoPanel, int aPlayerCash) {
 		JLabel tLabel;
 		boolean tPlayerHasEnoughCashToBid = false;
