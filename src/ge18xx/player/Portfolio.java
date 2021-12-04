@@ -675,7 +675,7 @@ public class Portfolio implements CertificateHolderI {
 		return tPercentage;		
 	}
 
-	public Certificate getCertificateToBidOn() {
+	public Certificate getCertificateToBidOn () {
 		Certificate tCertificateToBidOn;
 		
 		tCertificateToBidOn = Certificate.NO_CERTIFICATE;
@@ -1140,7 +1140,7 @@ public class Portfolio implements CertificateHolderI {
 			tTestCorporationID = tTestCorporation.getID ();
 			if (tTestCorporationID == CorpID) {
 				tCorporation = tTestCorporation;
-				return tCorporation;
+//				return tCorporation;
 			}
 		}
 		
