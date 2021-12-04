@@ -515,9 +515,6 @@ public class PlayerManager {
 				tCashValue = aCertificateToBuy.getParValue ();
 				tSourcePortfolio = tBank.getStartPacketPortfolio ();
 				tFreeCertificate = tBank.getFreeCertificateWithThisCertificate (aCertificateToBuy);
-//				if (tFreeCertificate != Certificate.NO_CERTIFICATE) {
-//					tFreeCertificate.printCertificateInfo ();
-//				}
 			} else if (aCertificateToBuy.isOwnedByBank ()) {
 				tCashValue = aCertificateToBuy.getParValue ();
 				tSourcePortfolio = tBankPortfolio;
@@ -595,9 +592,10 @@ public class PlayerManager {
 		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
 		PortfolioHolderI tFromHolder, tToHolder;
 		
+		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
+		
 		tFromHolder = aFromPortfolio.getHolder ();
 		tToHolder = aToPortfolio.getHolder ();
-		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
 		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate,  tToHolder);
 		
 		tCurrentCorporationStatus = aCertificate.getCorporationStatus ();
