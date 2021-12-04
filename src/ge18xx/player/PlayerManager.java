@@ -246,6 +246,36 @@ public class PlayerManager {
 		return tNextPlayerIndex;
 	}
 	
+	public PlayerFrame getCurrentPlayerFrame () {
+		PlayerFrame tPlayerFrame;
+		Player tCurrentPlayer;
+		
+		tCurrentPlayer = getCurrentPlayer ();
+		tPlayerFrame = tCurrentPlayer.getPlayerFrame ();
+		
+		return tPlayerFrame;
+	}
+	
+	private PlayerFrame getPlayerFrame (String aPlayerName) {
+		PlayerFrame tPlayerFrame;
+		Player tPlayer;
+
+		tPlayer = getPlayer (aPlayerName);
+		tPlayerFrame = tPlayer.getPlayerFrame ();
+
+		return tPlayerFrame;
+	}
+	
+	public Point getOffsetFrame (String aPlayerName) {
+		Point tNewPoint;
+		PlayerFrame tPlayerFrame;
+		
+		tPlayerFrame = getPlayerFrame (aPlayerName);
+		tNewPoint = tPlayerFrame.getOffsetFrame ();
+		
+		return tNewPoint;
+	}
+	
 	public Player getPlayer (String aName) {
 		Player tFoundPlayer;
 		

@@ -1734,8 +1734,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public Point getOffsetPlayerFrame () {
-		PlayerFrame tPlayerFrame;
-		Player tPlayer;
 		Point tNewPoint;
 		String tPlayerName;
 		
@@ -1744,14 +1742,21 @@ public class GameManager extends Component implements NetworkGameSupport {
 		} else {
 			tPlayerName = playerManager.getCurrentPlayer ().getName ();
 		}
-		tPlayer = playerManager.getPlayer (tPlayerName);
-		tPlayerFrame = tPlayer.getPlayerFrame ();
-		tNewPoint = tPlayerFrame.getOffsetFrame ();
+		tNewPoint = playerManager.getOffsetFrame (tPlayerName);
 		
 		return tNewPoint;
 	}
 	
+	public PlayerFrame getCurrentPlayerFrame () {
+		PlayerFrame tCurrentPlayerFrame;
+		
+		tCurrentPlayerFrame = playerManager.getCurrentPlayerFrame ();
+
+		return tCurrentPlayerFrame;
+	}
+	
 	public void showFrame (JFrame aJFrame) {
+		aJFrame.pack ();
 		aJFrame.revalidate ();
 		aJFrame.toFront ();
 		aJFrame.setVisible (true);
@@ -1762,32 +1767,26 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public void showAuctionFrame () {
-		auctionFrame.pack ();
 		showFrame (auctionFrame);
 	}
 	
 	public void showMarket () {
-		marketFrame.pack ();
 		showFrame (marketFrame);
 	}
 	
 	public void showMinorCompanies () {
-		minorCompaniesFrame.pack ();
 		showFrame (minorCompaniesFrame);
 	}
 	
 	public void showPrivateCompanies () {
-		privatesFrame.pack ();
 		showFrame (privatesFrame);
 	}
 	
 	public void showShareCompanies () {
-		shareCompaniesFrame.pack ();
 		showFrame (shareCompaniesFrame);
 	}
 	
 	public void showTileTray () {
-		tileTrayFrame.pack ();
 		showFrame (tileTrayFrame);
 	}
 
@@ -2360,16 +2359,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 		
 		return tIsClientCurrentPlayer;
-	}
-	
-	public PlayerFrame getCurrentPlayerFrame () {
-		Player tCurrentPlayer;
-		PlayerFrame tCurrentPlayerFrame;
-		
-		tCurrentPlayer = playerManager.getCurrentPlayer ();
-		tCurrentPlayerFrame = tCurrentPlayer.getPlayerFrame ();
-		
-		return tCurrentPlayerFrame;
 	}
 	
 	public boolean isAuctionRound () {
