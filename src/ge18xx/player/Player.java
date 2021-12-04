@@ -336,10 +336,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		primaryActionState = ActionStates.NoAction;
 		setBoughtShare (false);
 		setBidShare (false);
-		if (playerManager != null) {
+		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
 			playerManager.updateRFPlayerLabel (this);
 		}
-		if (playerFrame != null) {
+		if (playerFrame != PlayerFrame.NO_XML_FRAME) {
 			playerFrame.setPassButton ();
 			playerFrame.updatePortfolioInfo ();
 		}
@@ -1129,18 +1129,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 	
 	public void setPrimaryActionState (ActionStates aPrimaryActionState) {
-		primaryActionState = aPrimaryActionState;
-		if (primaryActionState == ActionStates.NoAction) {
-			playerFrame.setPassButton ();
-			// Nov 27, 2021 -- If Player Primary Action is to set to NO ACTION
-			// reset Bought Share to False 
-			// Should have this as an Affect  on Change State and apply on Clients
-			setBoughtShare (false);
+		if (aPrimaryActionState == ActionStates.NoAction) {
+			clearPrimaryActionState ();
+		} else {
+			primaryActionState = aPrimaryActionState;
 		}
 	}
 
 	public void setRFPlayerLabel (String aText) {
-		if (rfPlayerLabel == null) {
+		if (rfPlayerLabel == GUI.NO_LABEL) {
 			rfPlayerLabel = new JLabel (aText);
 		} else {
 			rfPlayerLabel.setText (aText);
