@@ -95,7 +95,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		
 		certJPanel = GUI.NO_PANEL;
 		corporation = aCorporation;
-		if (corporation != Corporation.NO_CORPORATION) {
+		if (isCorporationSet ()) {
 			corporation = aCorporation;
 			
 			buildCorporationAllInfoJPanel ();
@@ -521,7 +521,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		int tTreasuryValue;
 		
 		tTreasuryValue = 0;
-		if (corporation != Corporation.NO_CORPORATION) {
+		if (isCorporationSet ()) {
 			if (corporation.isATrainCompany ()) {
 				tTreasuryValue = ((TrainCompany) corporation).getTreasury ();
 			}
