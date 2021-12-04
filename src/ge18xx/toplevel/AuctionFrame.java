@@ -107,7 +107,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	public void buildOneBiddersJPanel () {
 		oneBidderJPanel = new JPanel ();
 		oneBidderJPanel.setLayout (new BoxLayout (oneBidderJPanel, BoxLayout.X_AXIS));
-		oneBidderJPanel.add (new JLabel ("Bidder Box"));
+		oneBidderJPanel.add (new JLabel ("Bidder JPanel"));
 	}
 
 	public void buildTopJPanel () {
@@ -129,7 +129,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		JButton tJButton;
 		
 		tJButton = new JButton (aButtonText);
-		tJButton.setActionCommand(aButtonCommand);
+		tJButton.setActionCommand (aButtonCommand);
 		tJButton.addActionListener (this);
 		tJButton.setAlignmentX (Component.CENTER_ALIGNMENT);
 		bottomJPanel.add (tJButton);
