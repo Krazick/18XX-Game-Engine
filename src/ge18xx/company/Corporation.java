@@ -1203,15 +1203,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	public void showFrame () {
 		Point tNewPoint;
-		GameManager tGameManager;
-		
+
 		if (! corporationFrame.isVisible ()) {
 			updateFrameInfo ();
-			tGameManager = corporationList.getGameManager ();
-			tNewPoint = tGameManager.getOffsetRoundFrame ();
+			tNewPoint = corporationList.getOffsetRoundFrame ();
 			corporationFrame.setLocation (tNewPoint);
 			corporationFrame.setVisible (true);
 		}
+		corporationFrame.toFront ();
 	}
 	
 	public void showMap () {
