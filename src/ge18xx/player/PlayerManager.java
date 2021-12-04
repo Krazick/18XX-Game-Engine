@@ -208,6 +208,10 @@ public class PlayerManager {
 	public Player getCurrentPlayer () {
 		return stockRound.getCurrentPlayer ();
 	}
+	
+	public String getCurrentPlayerName () {
+		return stockRound.getCurrentPlayerName ();
+	}
 
 	public List<ActionStates> getPlayerAuctionStates () {
 		List<ActionStates> aAuctionStates = new LinkedList<ActionStates> ();
@@ -888,7 +892,7 @@ public class PlayerManager {
 	public boolean loadPlayers (XMLNode aPlayersNode, GameInfo aActiveGame) {
 		XMLNodeList tXMLNodeList;
 		boolean tPlayersLoaded;
-		int tCertificateLimit, tPlayerCount;
+		int tPlayerCount;
 		PlayerInputFrame tPlayerInputFrame;
 		
 		tXMLNodeList = new XMLNodeList (playerParsingRoutine, aActiveGame);
@@ -902,15 +906,21 @@ public class PlayerManager {
 			tPlayerInputFrame = gameManager.getPlayerInputFrame ();
 			tPlayerInputFrame.removeAllPlayers ();
 			tPlayersLoaded = true;
-			tCertificateLimit = aActiveGame.getCertificateLimit (tPlayerCount);
-			for (Player tPlayer : players) {
-				tPlayer.setCertificateLimit (tCertificateLimit);
-			}
+			setCertificateLimit (aActiveGame, tPlayerCount);
 		} else {
 			tPlayersLoaded = false;
 		}
 		
 		return tPlayersLoaded;
+	}
+
+	private void setCertificateLimit (GameInfo aActiveGame, int aPlayerCount) {
+		int tCertificateLimit;
+		
+		tCertificateLimit = aActiveGame.getCertificateLimit (aPlayerCount);
+		for (Player tPlayer : players) {
+			tPlayer.setCertificateLimit (tCertificateLimit);
+		}
 	}
 	
 	ParsingRoutineI playerParsingRoutine  = new ParsingRoutineIO ()  {
@@ -1167,9 +1177,9 @@ public class PlayerManager {
 		tPresidentCertificate = tOldPresidentPortfolio.getPresidentCertificate (aShareCompany);
 		tCertificateOne = tNewPresidentPortfolio.getNonPresidentCertificate (aShareCompany);
 		if (tCertificateOne.getPercentage () == tPresidentCertificate.getPercentage ()) {
-			tNewPresidentPortfolio.transferOneCertificateOwnership(tOldPresidentPortfolio, tPresidentCertificate);
+			tNewPresidentPortfolio.transferOneCertificateOwnership (tOldPresidentPortfolio, tPresidentCertificate);
 			aAction.addTransferOwnershipEffect (aOldPresident, tPresidentCertificate, aNewPresident);
-			tOldPresidentPortfolio.transferOneCertificateOwnership(tNewPresidentPortfolio, tCertificateOne);
+			tOldPresidentPortfolio.transferOneCertificateOwnership (tNewPresidentPortfolio, tCertificateOne);
 			aAction.addTransferOwnershipEffect (aNewPresident, tCertificateOne, aOldPresident);
 		} else {
 			tNewPresidentPortfolio.transferOneCertificateOwnership (tOldPresidentPortfolio, tPresidentCertificate);
@@ -1223,7 +1233,7 @@ public class PlayerManager {
 			if ((tActionToUndo instanceof PassAction) || (tActionToUndo instanceof DonePlayerAction)) {
 				aPlayer.hidePlayerFrame ();
 				
-				tCurrentPlayer = stockRound.getCurrentPlayer ();
+				tCurrentPlayer = getCurrentPlayer ();
 				tCurrentPlayer.showPlayerFrame ();
 				tCurrentPlayer.updatePlayerInfo ();
 			}
@@ -1245,7 +1255,7 @@ public class PlayerManager {
 	}
 	
 	public void updateAllPlayerFrames () {
-		Player tCurrentPlayer = stockRound.getCurrentPlayer ();
+		Player tCurrentPlayer = getCurrentPlayer ();
 		updateAllPlayerFrames (tCurrentPlayer);
 	}
 	
@@ -1280,7 +1290,7 @@ public class PlayerManager {
 		return gameManager.getClientUserName ();
 	}
 	
-	public int getTotalPlayerCash() {
+	public int getTotalPlayerCash () {
 		int tTotalPlayerCash = 0;
 		
 		for (Player tPlayer : players) {
@@ -1290,7 +1300,7 @@ public class PlayerManager {
 		return tTotalPlayerCash;
 	}
 
-	public Point getOffsetRoundFramePoint() {
+	public Point getOffsetRoundFramePoint () {
 		return gameManager.getOffsetRoundFrame ();
 	}
 	

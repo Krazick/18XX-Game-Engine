@@ -1740,7 +1740,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (isNetworkGame ()) {
 			tPlayerName = clientUserName;
 		} else {
-			tPlayerName = playerManager.getCurrentPlayer ().getName ();
+			tPlayerName = playerManager.getCurrentPlayerName ();
 		}
 		tNewPoint = playerManager.getOffsetFrame (tPlayerName);
 		
