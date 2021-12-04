@@ -212,12 +212,10 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 	}
 
 	public void setParValueAction (int aParPrice, ShareCompany aShareCompany) {
-//		ActionManager tActionManager;
 		SetParValueAction tSetParValueAction;
 		
 		tSetParValueAction = new SetParValueAction (stockRound.getRoundType (), stockRound.getID (), player);
 		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice);
-//		tActionManager = stockRound.getActionManager ();
 		stockRound.addAction (tSetParValueAction);
 	}
 }
