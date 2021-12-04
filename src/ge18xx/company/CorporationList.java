@@ -175,13 +175,13 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public String getOperatingOwnerName () {
-		String tOwnerName = Corporation.NO_NAME;
+		String tOwnerName = ActorI.NO_NAME;
 		
 		if (typeName.equals (TYPE_NAMES [0])) {
 			tOwnerName = roundManager.getOperatingOwnerName ();
 		} else {
 			for (Corporation tCorporation : corporations) {
-				if (tCorporation.isOperating () && (tOwnerName == Corporation.NO_NAME)) {
+				if (tCorporation.isOperating () && (tOwnerName == ActorI.NO_NAME)) {
 					tOwnerName = tCorporation.getPresidentName ();
 				}
 			}
@@ -191,7 +191,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 	
 	public String getOwnerWhoWillOperate () {
-		String tOwnerName = Corporation.NO_NAME;
+		String tOwnerName = ActorI.NO_NAME;
 		int tNextToOperate;
 		Corporation tNextCorpToOperate;
 		
@@ -1079,7 +1079,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public Train getOtherSelectedTrain (String aCurrentAbbrev) {
 		Train tTrain = Train.NO_TRAIN;
 		
-		System.out.println ("Ready to get the Train selected for buying");
+		System.err.println ("Ready to get the Train selected for buying");
 		
 		return tTrain;
 	}
@@ -1173,7 +1173,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tTotalCorpCash;
 	}
 
-	public int getTotalEscrow() {
+	public int getTotalEscrow () {
 		int tTotalEscrow = 0;
 		PrivateCompany tPrivateCompany;
 		for (Corporation tCorporation : corporations) {
@@ -1186,15 +1186,15 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tTotalEscrow;
 	}
 
-	public boolean isPlaceTileMode() {
+	public boolean isPlaceTileMode () {
 		return roundManager.isPlaceTileMode ();
 	}
 
-	public boolean isPlaceTokenMode() {
+	public boolean isPlaceTokenMode () {
 		return roundManager.isPlaceTokenMode ();
 	}
 
-	public void clearTrainSelections() {
+	public void clearTrainSelections () {
 		TrainCompany tTrainCompany;
 		
 		for (Corporation tCorporation : corporations) {
@@ -1205,12 +1205,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 	}
 
-	public void clearPrivateSelections() {
+	public void clearPrivateSelections () {
 		// TODO Need to walk through the Privates, and clear all Selections
 		
 	}
 
-	public MapFrame getMapFrame() {
+	public MapFrame getMapFrame () {
 		return roundManager.getMapFrame ();
 	}
 
