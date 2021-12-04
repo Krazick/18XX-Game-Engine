@@ -42,7 +42,7 @@ import ge18xx.utilities.XMLDocument;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-
+import java.awt.Point;
 import java.awt.event.ItemListener;
 
 import java.io.IOException;
@@ -388,6 +388,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	
 	public GameManager getGameManager () {
 		return roundManager.getGameManager ();
+	}
+	
+	public Point getOffsetRoundFrame () {
+		return roundManager.getOffsetRoundFrame ();
 	}
 	
 	public Certificate getCertificate (String aCompanyAbbrev, int aPercentage, boolean aPresidentShare) {
