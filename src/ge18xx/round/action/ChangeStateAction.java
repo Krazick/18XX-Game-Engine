@@ -87,6 +87,34 @@ public class ChangeStateAction extends ChangePlayerAction {
 		
 		return tOldState;
 	}
+	
+	public String getOldCorpState () {
+		String tOldState = "";
+		
+		for (Effect tEffect : effects) {
+			if (tOldState.equals ("")) {
+				if (tEffect instanceof ChangeCorporationStatusEffect) {
+					tOldState = ((ChangeCorporationStatusEffect) tEffect).getPreviousState ().toString ();
+				}
+			}
+		}
+		
+		return tOldState;
+	}
+
+	public String getNewCorpState () {
+		String tOldState = "";
+		
+		for (Effect tEffect : effects) {
+			if (tOldState.equals ("")) {
+				if (tEffect instanceof ChangeCorporationStatusEffect) {
+					tOldState = ((ChangeCorporationStatusEffect) tEffect).getNewState ().toString ();
+				}
+			}
+		}
+		
+		return tOldState;
+	}
 
 	public String getActorNames () {
 		String tActorNames = "";
@@ -120,7 +148,7 @@ public class ChangeStateAction extends ChangePlayerAction {
 			tSimpleActionReport = actor.getName () + " changed state of " + getActorNames () + " from  " + getOldState () + 
 				" to " + getNewState () + ".";
 		} else {
-			tSimpleActionReport = actor.getName () + " state for remains [" + tOldState + "]";
+			tSimpleActionReport = actor.getName () + " state remains [" + tOldState + "]";
 		}
 		
 		return tSimpleActionReport;

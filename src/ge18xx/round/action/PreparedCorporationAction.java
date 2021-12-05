@@ -39,7 +39,7 @@ public class PreparedCorporationAction extends ChangeStateAction {
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
 		
-		tSimpleActionReport = actor.getName () + name + " to state of " + getNewState () + ".";
+		tSimpleActionReport = actor.getName () + " " + name + " set to state of " + getNewCorpState () + ".";
 		
 		return tSimpleActionReport;
 	}
