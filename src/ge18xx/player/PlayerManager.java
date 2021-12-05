@@ -1210,6 +1210,12 @@ public class PlayerManager {
 		auctionRound = aAuctionRound;
 	}
 	
+	public void hideAllPlayerFrames () {
+		for (Player tPlayer : players) {
+			tPlayer.hidePlayerFrame ();
+		}
+	}
+	
 	public void showPlayerFrame (int aPlayerIndex) {
 		Player tPlayer;
 		
