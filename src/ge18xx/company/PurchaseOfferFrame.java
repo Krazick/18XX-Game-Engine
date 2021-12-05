@@ -47,15 +47,9 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		setTitle ("Purchase Offer for " + tPlayerName);
 		
 		setOfferTopPanel (aPurchaseOfferEffect);
-		setOfferButtonPanel();
+		setOfferButtonPanel ();
 		
-		offerPanel = new JPanel ();
-		offerPanel.add (offerTopPanel);
-		offerPanel.setLayout (new BoxLayout (offerPanel, BoxLayout.Y_AXIS));
-		offerPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		offerPanel.add (offerButtonPanel);
-		offerPanel.setBackground (Color.ORANGE);
-		add (offerPanel);
+		buildOfferPanel ();
 		
 		setItemType (aItemType);
 		setItemName (aItemName);
@@ -63,7 +57,18 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		tNewPoint = roundManager.getOffsetRoundFrame ();
 		setLocation (tNewPoint);
 		setSize (500, 150);
+		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
 		setVisible (false);
+	}
+
+	private void buildOfferPanel () {
+		offerPanel = new JPanel ();
+		offerPanel.add (offerTopPanel);
+		offerPanel.setLayout (new BoxLayout (offerPanel, BoxLayout.Y_AXIS));
+		offerPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		offerPanel.add (offerButtonPanel);
+		offerPanel.setBackground (Color.ORANGE);
+		add (offerPanel);
 	}
 
 	public String getItemType () {
@@ -82,7 +87,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		itemName = aItemName;
 	}
 
-	private void setOfferButtonPanel() {
+	private void setOfferButtonPanel () {
 		offerButtonPanel = new JPanel ();
 		offerButtonPanel.setLayout (new BoxLayout (offerButtonPanel, BoxLayout.X_AXIS));
 		offerButtonPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
