@@ -83,6 +83,7 @@ public class UpdateLastRevenueEffect extends Effect {
 		tOperatingCompany = (TrainCompany) aRoundManager.getOperatingCompany ();
 		tOperatingCompany.setLastRevenue (newLastRevenue);
 		aRoundManager.updateAllCorporationsBox ();
+		tEffectApplied = true;
 		
 		return tEffectApplied;
 	}
