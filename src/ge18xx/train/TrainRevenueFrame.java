@@ -61,9 +61,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JButton cancel;
 	JButton [] selectRoutes;
 	JButton [] resetRoutes;
-	JPanel allFramePanel;
+	JPanel allFramesJPanel;
 	Box allRevenuesBox;
-	JPanel buttonsPanel;
+	JPanel buttonsJPanel;
 	JFormattedTextField [] [] revenuesByTrain;
 	JLabel [] totalRevenueByEachTrain;
 	boolean yourCompany;
@@ -72,47 +72,22 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	
 	public TrainRevenueFrame (TrainCompany aTrainCompany, String aTitle) throws HeadlessException {
 		super (aTitle);
-		FlowLayout tFlowLayout = new FlowLayout();
-		BoxLayout tLayoutY;
 		
-		allFramePanel = new JPanel ();
-		tLayoutY = new BoxLayout (allFramePanel, BoxLayout.Y_AXIS);
-		allFramePanel.setLayout (tLayoutY);
-		allFramePanel.setAlignmentY (CENTER_ALIGNMENT);
-		allFramePanel.setAlignmentX (CENTER_ALIGNMENT);
 		trainCompany = aTrainCompany;
 		title = new JLabel ();
 		title.setAlignmentX (CENTER_ALIGNMENT);
 		updatePresidentLabel ();
+		allRevenuesBox = null;
+		fillRevenuesBox ();
+		buildsButtonsJPanel ();
 		presidentLabel.setAlignmentX (CENTER_ALIGNMENT);
 		lastRevenue = new JLabel (LAST_REVENUE + trainCompany.getFormattedLastRevenue ());
 		lastRevenue.setAlignmentX (CENTER_ALIGNMENT);
 		thisRevenue = new JLabel (THIS_REVENUE + "NONE");
 		thisRevenue.setAlignmentX (CENTER_ALIGNMENT);
-		allRevenuesBox = null;
-		fillRevenuesBox ();
 		
-		allFramePanel.add (Box.createVerticalStrut (10));
-		allFramePanel.add (title);
-		allFramePanel.add (Box.createVerticalStrut (10));
-		allFramePanel.add (presidentLabel);
-		allFramePanel.add (Box.createVerticalStrut (10));
-		allFramePanel.add (lastRevenue);
-		allFramePanel.add (Box.createVerticalStrut (10));
-		allFramePanel.add (allRevenuesBox);
-		allFramePanel.add (Box.createVerticalStrut (10));		
-		allFramePanel.add (thisRevenue);
-		allFramePanel.add (Box.createVerticalStrut (10));
+		buildAllFramesJPanel ();
 		
-		buttonsPanel = new JPanel (tFlowLayout);
-		confirm = setupButton (CONFIRM_ALL_REVENUES, CONFIRM_ALL_REVENUES_ACTION);
-		buttonsPanel.add (confirm);
-		
-		cancel = setupButton (CANCEL, CANCEL_ACTION);
-		buttonsPanel.add (cancel);
-		
-		allFramePanel.add (buttonsPanel);
-		add (allFramePanel);
 		revenuesByTrain = new JFormattedTextField [maxTrainCount] [maxStops];
 		totalRevenueByEachTrain = new JLabel [maxTrainCount];
 		selectRoutes = new JButton [maxTrainCount];
@@ -121,7 +96,43 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updateFrameSize ();
 		setYourCompany (true);
 		setFrameSetup (false);
+		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
 		logger = Game_18XX.getLogger ();
+	}
+
+	private void buildAllFramesJPanel () {
+		BoxLayout tLayoutY;
+		
+		allFramesJPanel = new JPanel ();
+		tLayoutY = new BoxLayout (allFramesJPanel, BoxLayout.Y_AXIS);
+		allFramesJPanel.setLayout (tLayoutY);
+		allFramesJPanel.setAlignmentY (CENTER_ALIGNMENT);
+		allFramesJPanel.setAlignmentX (CENTER_ALIGNMENT);
+		
+		allFramesJPanel.add (Box.createVerticalStrut (10));
+		allFramesJPanel.add (title);
+		allFramesJPanel.add (Box.createVerticalStrut (10));
+		allFramesJPanel.add (presidentLabel);
+		allFramesJPanel.add (Box.createVerticalStrut (10));
+		allFramesJPanel.add (lastRevenue);
+		allFramesJPanel.add (Box.createVerticalStrut (10));
+		allFramesJPanel.add (allRevenuesBox);
+		allFramesJPanel.add (Box.createVerticalStrut (10));		
+		allFramesJPanel.add (thisRevenue);
+		allFramesJPanel.add (Box.createVerticalStrut (10));
+		allFramesJPanel.add (buttonsJPanel);
+		add (allFramesJPanel);
+	}
+
+	private void buildsButtonsJPanel () {
+		FlowLayout tFlowLayout = new FlowLayout ();
+		
+		buttonsJPanel = new JPanel (tFlowLayout);
+		confirm = setupButton (CONFIRM_ALL_REVENUES, CONFIRM_ALL_REVENUES_ACTION);
+		buttonsJPanel.add (confirm);
+		
+		cancel = setupButton (CANCEL, CANCEL_ACTION);
+		buttonsJPanel.add (cancel);
 	}
 
 	public void updatePresidentLabel () {
