@@ -30,6 +30,8 @@ import java.util.List;
 
 public class Centers implements Cloneable {
 	public static final int UNSPECIFIED_ID = -1;
+	public static final String NO_CITY_NAME2 = "";
+	public static final String NO_CITY_NAME = null;
 	List<RevenueCenter> centers;
 	
 	public Centers () {
@@ -307,7 +309,7 @@ public class Centers implements Cloneable {
 	
 	public String getCityName () {
 		CityInfo tCityInfo;
-		String tCityName = "";
+		String tCityName = NO_CITY_NAME;
 		
 		tCityInfo = getCityInfo ();
 		if (tCityInfo != CityInfo.NO_CITY_INFO) {
