@@ -1263,7 +1263,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tChildName = tChildNode.getNodeName ();
 				if (! tChildName.equals (XMLNode.XML_TEXT_TAG)) {
 					if (JGameClient.EN_NETWORK_GAME.equals (tChildName)) {
-						if (networkJGameClient == null) {
+						if (networkJGameClient == JGameClient.NO_JGAME_CLIENT) {
 							loadNetworkJGameClient (tChildNode);
 						}
 					}
@@ -2171,7 +2171,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 		tFramesElement = tXMLDocument.createElement (EN_FRAMES);
 		
-		if (activeGame == null) {
+		if (activeGame == GameInfo.NO_GAME_INFO) {
 			tActiveGameName = "NONE";
 		} else {
 			tActiveGameName = activeGame.getName ();
