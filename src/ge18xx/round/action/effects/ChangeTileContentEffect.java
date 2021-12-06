@@ -88,7 +88,6 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		String tAbbrev;
 		int tStationIndex, tCityIndex;
 		ShareCompany tShareCompany;
-		GameManager tGameManager;
 		String tTheTokens;
 		
 		tTheTokens = getTokens ();
@@ -100,8 +99,7 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 				tAbbrev = tTokenInfo [0];
 				tStationIndex = Integer.parseInt (tTokenInfo [1]);
 				tCityIndex = Integer.parseInt (tTokenInfo [2]);
-				tGameManager = aRoundManager.getGameManager ();
-				tShareCompany = tGameManager.getShareCompany (tAbbrev);
+				tShareCompany = aRoundManager.getShareCompany(tAbbrev);
 				aMapCell.returnStation (tShareCompany);
 				aMapCell.setStationAt (tShareCompany, tStationIndex, tCityIndex);
 			}
@@ -114,7 +112,6 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		String tAbbrev;
 		int tIndex;
 		ShareCompany tShareCompany;
-		GameManager tGameManager;
 		RevenueCenter tRevenueCenter;
 		Location tLocation;
 		String tTheBases;
@@ -129,8 +126,7 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 				tBaseInfo = tAPreviousBase.split (",");
 				tAbbrev = tBaseInfo [0];
 				tIndex = Integer.parseInt (tBaseInfo [1]);
-				tGameManager = aRoundManager.getGameManager ();
-				tShareCompany = tGameManager.getShareCompany (tAbbrev);
+				tShareCompany = aRoundManager.getShareCompany (tAbbrev);
 
 				tRevenueCenter = tTile.getRevenueCenter (tIndex);
 				tLocation = tRevenueCenter.getLocation ();
