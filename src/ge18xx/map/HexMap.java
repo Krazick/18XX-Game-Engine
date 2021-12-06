@@ -1246,10 +1246,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		
 		// Remove Tile from Map Cell, Clear all City Info and Stations, and place it back on TileSet
 		tCurrentGameTile = tileSet.getGameTile (tCurrentTileNumber);
-		aCurrentTile.clearAllCityInfoCorporations ();
-		aCurrentTile.clearAllCityInfoMapCells ();
-		aCurrentTile.clearAllCityInfoRevenueCenters ();
-		aCurrentTile.clearAllStations ();
+		aCurrentTile.clearAll ();
 		tCurrentGameTile.pushTile (aCurrentTile);	
 	}
 	
