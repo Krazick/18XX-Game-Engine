@@ -1137,6 +1137,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 				configData.setSaveGameDirectory (tNewSaveDirectory.toString ());
 			}		
 			loadSavedXMLFile ();
+			if (isOperatingRound ()) {
+				playerManager.hideAllPlayerFrames ();
+			}
 		}
 	}
 
