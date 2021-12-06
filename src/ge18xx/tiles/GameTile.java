@@ -86,7 +86,7 @@ public class GameTile {
 	}
 	
 	public int getTileNumber () {
-		if (tile != null) {
+		if (tile != Tile.NO_TILE) {
 			return (tile.getNumber ());
 		} else {
 			return tileNumber;
@@ -188,13 +188,13 @@ public class GameTile {
 					tTile = tiles.remove (0);
 					usedCount++;
 				} else {
-					tTile = null;
+					tTile = Tile.NO_TILE;
 				}
 			} else {
-				tTile = null;
+				tTile = Tile.NO_TILE;
 			}
 		} else {
-			tTile = null;
+			tTile = Tile.NO_TILE;
 		}
 		
 		return tTile;
@@ -259,7 +259,7 @@ public class GameTile {
 		return totalCount;
 	}
 
-	public int getAvailableCount() {
+	public int getAvailableCount () {
 		return availableCount ();
 	}
 }
