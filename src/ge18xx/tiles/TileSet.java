@@ -78,7 +78,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	}
 	
 	public boolean addTile (Tile aTile, int aTotalCount) {
-		return  gameTiles.add (new GameTile (aTile, aTotalCount));
+		return gameTiles.add (new GameTile (aTile, aTotalCount));
 	}
 	
 	public boolean addTile (int aTileNumber, int aTotalCount) {
