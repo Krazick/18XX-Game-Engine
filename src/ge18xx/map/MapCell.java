@@ -962,8 +962,6 @@ public class MapCell implements Comparator<Object> {
 		if (isTileOnCell ()) {
 			// Tile on MapCell -- Need to return it to the Tile Set
 			tTileOnMapCell = getTile ();
-			System.out.println ("Found Tile # " + tTileOnMapCell.getNumber () + " on the Selected Map Cell");
-			System.out.println ("Will try and restore it to the Tile Set and remove from the map.");
 			removeTile ();
 			restoreTile (aTileSet, tTileOnMapCell);
 			hexMap.redrawMap ();
