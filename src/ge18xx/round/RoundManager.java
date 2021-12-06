@@ -1026,6 +1026,9 @@ public class RoundManager implements ActionListener {
 		
 		if (aShareCompany.shouldOperate ()) {
 			tDoActionLabel = aShareCompany.getDoActionLabel ();			
+		} 
+		if (aShareCompany.isOperating()) {
+			tDoActionLabel = aShareCompany.getOperatingActionLabel ();
 		}
 		setActionButtonLabel (tDoActionLabel);
 		if (isNetworkAndIsThisClient (aShareCompany.getPresidentName ())) {

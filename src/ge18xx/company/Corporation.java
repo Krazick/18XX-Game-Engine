@@ -823,6 +823,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		
 		return tLabel;
 	}
+	
+	public String getOperatingActionLabel () {
+		String tLabel;
+		
+		tLabel = getPresidentName () + " is operating " + getName ();
+		
+		return tLabel;
+	}
 
 	public ElementName getElementName () {
 		return EN_CORPORATION;
