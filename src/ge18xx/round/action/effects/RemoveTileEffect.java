@@ -5,6 +5,7 @@ import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.utilities.AttributeName;
@@ -73,10 +74,15 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		MapCell tMapCell;
 		HexMap tGameMap;
 		TileSet tTileSet;
+		GameTile tGameTile;
+		int tTileNumber;
 		
 		tEffectUndone = false;
 		tTileSet = aRoundManager.getTileSet ();
-		tTile = tTileSet.popTile (getTileNumber ());
+		tTileNumber = getTileNumber ();
+		tTile = tTileSet.popTile (tTileNumber);
+		tGameTile = tTileSet.getGameTile (tTileNumber);
+		tGameTile.clearPlayable ();
 		tGameMap = aRoundManager.getGameMap ();
 		tMapCell = getMapCell (tGameMap);
 		tMapCell.putTile (tTile, orientation);
