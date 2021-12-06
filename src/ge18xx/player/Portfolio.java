@@ -136,12 +136,18 @@ public class Portfolio implements CertificateHolderI {
 			}
 		}
 		
-		if (tCount == 0) {
-			tLabel = new JLabel (NO_CERTIFICATES);
-			addJCAndHGlue (tCertificateJPanel, tLabel);
-		}
+		buildIfNoCertificates (tCertificateJPanel, tCount);
 		
 		return tCertificateJPanel;
+	}
+
+	private void buildIfNoCertificates (JPanel aCertificateJPanel, int aCount) {
+		JPanel tNoCertificateJPanel;
+		
+		if (aCount == 0) {
+			tNoCertificateJPanel = buildNoCertificatesPanel ();
+			addJCAndHGlue (aCertificateJPanel, tNoCertificateJPanel);
+		}
 	}
 	
 	public JPanel buildCompactCertInfoJPanel (String aCompanyAbbrev, int aCertCount, int aCertTotalPercent) {
@@ -230,9 +236,11 @@ public class Portfolio implements CertificateHolderI {
 			}
 		}
 
-		if (tCount == 0) {
-			tAllCertificatesJPanel = buildNoCertificatesPanel ();
-		}
+		buildIfNoCertificates (tCorporationJPanel, tCount);
+//		if (tCount == 0) {
+//			tAllCertificatesJPanel = buildNoCertificatesPanel ();
+//			addJCAndVGlue (tCorporationJPanel, tAllCertificatesJPanel);
+//		}
 		tCorporationScrollPane = new JScrollPane (tCorporationJPanel);
 		tCorporationScrollPane.setLayout (new ScrollPaneLayout ());
 		tCorporationScrollPane.setBorder (EMPTY_BORDER);
@@ -310,9 +318,11 @@ public class Portfolio implements CertificateHolderI {
 			}
 		}
 
-		if (tCount == 0) {
-			tAllCertificatesJPanel = buildNoCertificatesPanel ();
-		}
+		buildIfNoCertificates (tCorporationJPanel, tCount);
+//		if (tCount == 0) {
+//			tAllCertificatesJPanel = buildNoCertificatesPanel ();
+//			addJCAndVGlue (tCorporationJPanel, tAllCertificatesJPanel);
+//		}
 		tCorporationScrollPane = new JScrollPane (tCorporationJPanel);
 		tCorporationScrollPane.setLayout (new ScrollPaneLayout ());
 		tCorporationScrollPane.setBorder (EMPTY_BORDER);
@@ -336,14 +346,14 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	private JPanel buildNoCertificatesPanel () {
-		JPanel tAllCertificatesPanel;
+		JPanel tNoCertificatesPanel;
 		JLabel tLabel;
 		
 		tLabel = new JLabel (NO_CERTIFICATES);
-		tAllCertificatesPanel = setupAllCertJPanel ();
-		addJCAndHGlue (tAllCertificatesPanel, tLabel);
+		tNoCertificatesPanel = setupAllCertJPanel ();
+		addJCAndHGlue (tNoCertificatesPanel, tLabel);
 		
-		return tAllCertificatesPanel;
+		return tNoCertificatesPanel;
 	}
 	
 	public JPanel buildPortfolioJPanel (boolean aPrivates, boolean aCoals, boolean aMinors, 
