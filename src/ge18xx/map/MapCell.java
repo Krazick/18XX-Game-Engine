@@ -1722,10 +1722,7 @@ public class MapCell implements Comparator<Object> {
 		
 		// Remove Tile from Map Cell, Clear all City Info and Stations, and place it back on TileSet
 		tCurrentGameTile = aTileSet.getGameTile (tCurrentTileNumber);
-		aCurrentTile.clearAllCityInfoCorporations ();
-		aCurrentTile.clearAllCityInfoMapCells ();
-		aCurrentTile.clearAllCityInfoRevenueCenters ();
-		aCurrentTile.clearAllStations ();
+		aCurrentTile.clearAll ();
 		tCurrentGameTile.pushTile (aCurrentTile);	
 	}
 
