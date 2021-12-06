@@ -114,7 +114,6 @@ public class Portfolio implements CertificateHolderI {
 		JPanel tCertificateInfoJPanel;
 		int tCount;
 		String tCertificateType;
-		JLabel tLabel;
 		boolean tIsBankPortfolioHolder;
 		
 		tCount = 0;
@@ -237,10 +236,6 @@ public class Portfolio implements CertificateHolderI {
 		}
 
 		buildIfNoCertificates (tCorporationJPanel, tCount);
-//		if (tCount == 0) {
-//			tAllCertificatesJPanel = buildNoCertificatesPanel ();
-//			addJCAndVGlue (tCorporationJPanel, tAllCertificatesJPanel);
-//		}
 		tCorporationScrollPane = new JScrollPane (tCorporationJPanel);
 		tCorporationScrollPane.setLayout (new ScrollPaneLayout ());
 		tCorporationScrollPane.setBorder (EMPTY_BORDER);
@@ -319,10 +314,6 @@ public class Portfolio implements CertificateHolderI {
 		}
 
 		buildIfNoCertificates (tCorporationJPanel, tCount);
-//		if (tCount == 0) {
-//			tAllCertificatesJPanel = buildNoCertificatesPanel ();
-//			addJCAndVGlue (tCorporationJPanel, tAllCertificatesJPanel);
-//		}
 		tCorporationScrollPane = new JScrollPane (tCorporationJPanel);
 		tCorporationScrollPane.setLayout (new ScrollPaneLayout ());
 		tCorporationScrollPane.setBorder (EMPTY_BORDER);
