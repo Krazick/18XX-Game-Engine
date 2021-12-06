@@ -135,13 +135,13 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 	
 	public void appendTokensState (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
-		if (centers != null) {
+		if (hasCenters ()) {
 			centers.appendTokensState (aXMLDocument, aMapCellElement);
 		}
 	}
 	
 	public void appendCorporationBases (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
-		if (centers != null) {
+		if (hasCenters ()) {
 			centers.appendCorporationBases (aXMLDocument, aMapCellElement);
 		}
 	}
@@ -161,24 +161,32 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public boolean cityOnTile () {
 		RevenueCenter rc = getRevenueCenter (0);
 		
-		return (rc.canPlaceStation ());
+		return rc.canPlaceStation ();
 	}
 	
 	public boolean cityOrTownOnTile () {
 		RevenueCenter rc = getRevenueCenter (0);
 		
-		return (rc.cityOrTown ());
+		return rc.cityOrTown ();
 	}
 	
-	public void clearAllCityInfoCorporations () {
+	public void clearAll () {
+		clearAllCityInfoCorporations ();
+		clearAllCityInfoMapCells ();
+		clearAllCityInfoRevenueCenters ();
+		clearAllStations ();
+		clearAllTrains ();
+	}
+	
+	private void clearAllCityInfoCorporations () {
 		centers.clearAllCityInfoCorporations ();
 	}
 	
-	public void clearAllCityInfoMapCells () {
+	private void clearAllCityInfoMapCells () {
 		centers.clearAllCityInfoMapCells ();
 	}
 	
-	public void clearAllCityInfoRevenueCenters () {
+	private void clearAllCityInfoRevenueCenters () {
 		centers.clearAllCityInfoRevenueCenters ();
 	}
 	
@@ -479,7 +487,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		for (tRCIndex = 0; tRCIndex < getRevenueCenterCount (); tRCIndex++) {
 			if (tRevenueValue.equals ("")) {
 				tRevenueCenter = getRevenueCenter (tRCIndex);
-				if (tRevenueCenter != null) {
+				if (tRevenueCenter != RevenueCenter.NO_CENTER) {
 					tRevenueValue = tRevenueCenter.getRevenueToString ();
 				}
 			}
@@ -491,10 +499,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public RevenueCenter getSelectedRevenueCenter (Feature2 aSelectedFeature2, int aTileOrient) {
 		RevenueCenter tRevenueCenter;
 		
-		if (centers.size () > 0) {
+		if (hasCenters ()) {
 			tRevenueCenter = centers.getSelectedRevenueCenter (aSelectedFeature2, aTileOrient);
 		} else {
-			tRevenueCenter = null;
+			tRevenueCenter = RevenueCenter.NO_CENTER;
 		}
 		
 		return tRevenueCenter;
@@ -503,7 +511,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public int getTileNameLocation () {
 		int tLocation = Location.NO_LOCATION;
 		
-		if (name != null) {
+		if (name != TileName.NO_TILE_NAME) {
 			tLocation = name.getLocationToInt ();
 		}
 		
@@ -527,10 +535,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 		
 		tTip += "Tile: " + getTypeName () + " " + getNumberToString () + "<br>";
 		tTip += "Revenue: " + getRevenueValue () + "<br>";
-		if (centers != null) {
-			if (centers.size () > 0) {
-				tTip += centers.getToolTip ();
-			}
+		if (hasCenters ()) {
+			tTip += centers.getToolTip ();
 		}
 		tTip += tracks.getToolTip ();
 		
@@ -546,11 +552,11 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 	
 	public int getTypeInt () {
-		return (type.getType ());
+		return type.getType ();
 	}
 	
 	public String getTypeName () {
-		return (type.getName());
+		return type.getName();
 	}
 	
 	public int getX () {
@@ -561,8 +567,20 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return YCenter;
 	}
 	
-	public boolean hasAnyStation () {
+	private boolean hasCenters () {
+		boolean tHasCenters = false;
+		
 		if (centers != null) {
+			if (centers.size () > 0) {
+				tHasCenters = true;
+			}
+		}
+		
+		return tHasCenters;
+	}
+	
+	public boolean hasAnyStation () {
+		if (hasCenters ()) {
 			return centers.hasAnyStation ();
 		} else {
 			return false;
@@ -570,7 +588,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 	
 	public boolean hasAnyCorporationBase () {
-		if (centers != null) {
+		if (hasCenters ()) {
 			return centers.hasAnyCorporationBase ();
 		} else {
 			return false;
@@ -578,7 +596,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 
 	public boolean hasStation (Token aToken) {
-		if (centers != null) {
+		if (hasCenters ()) {
 			return centers.hasStation (aToken);
 		} else {
 			return false;
@@ -586,7 +604,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 	
 	public boolean hasStation (int aCorpID) {
-		if (centers != null) {
+		if (hasCenters ()) {
 			return centers.hasStation (aCorpID);
 		} else {
 			return false;
@@ -594,7 +612,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 	
 	public int getStationIndex (int aCorpID) {
-		if (centers != null)
+		if (hasCenters ())
 			return centers.getStationIndex (aCorpID);
 		else {
 			return Centers.UNSPECIFIED_ID;
@@ -602,7 +620,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 	
 	public void loadStationsStates (XMLNode aMapCellNode) {
-		if (centers != null) {
+		if (hasCenters ()) {
 			centers.loadStationsStates (aMapCellNode);
 		}
 	}
