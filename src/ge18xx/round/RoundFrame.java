@@ -44,6 +44,7 @@ public class RoundFrame extends XMLFrame {
 	private static final String YOU_NOT_PRESIDENT = "You are not the President of the Company";
 	private static final String NOT_YOUR_TURN = "It is not your turn to Perform the Action";
 	private static final String IS_OPERATING_ROUND = "It is an Operating Round, can't Pass";
+	private static final String IS_AUCTION_ROUND = "It is an Auction Round, can't Pass";
 	static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
 	static final String PASS_STOCK_ACTION = "passStockAction";
 	static final String PLAYER_ACTION = "DoPlayerAction";
@@ -427,6 +428,9 @@ public class RoundFrame extends XMLFrame {
 		if (passActionButton != null) {
 			if (roundManager.isOperatingRound ()) {
 				disablePassButton (IS_OPERATING_ROUND);
+			} else if (roundManager.isAuctionRound ()) {
+				disablePassButton (IS_AUCTION_ROUND);
+				
 			} else {
 				tGameManager = roundManager.getGameManager ();
 				if (tGameManager.isNetworkGame ()) {
@@ -452,10 +456,12 @@ public class RoundFrame extends XMLFrame {
 		tPlayerFrame = aGameManager.getCurrentPlayerFrame ();
 		if (tPlayerFrame.hasMustBuyCertificate ()) {
 			disablePassButton (PlayerFrame.MUST_BUY_PRIVATE);
-		} else if (tPlayerFrame.mustSellStock ()){
-			tCurrentPlayer = aGameManager.getPlayerManager().getCurrentPlayer ();
+		} else if (tPlayerFrame.mustSellStock ()) {
+			tCurrentPlayer = aGameManager.getCurrentPlayer ();
 			tToolTip = tPlayerFrame.getMustSellToolTip (tCurrentPlayer);
 			disablePassButton (tToolTip);
+		} else if (tPlayerFrame.isVisible ()) {
+			disablePassButton (PlayerFrame.ALREADY_VISIBLE);
 		} else {
 			enablePassButton ();
 		}
@@ -665,14 +671,14 @@ public class RoundFrame extends XMLFrame {
 		}
 	}
 	
-	public void disablePassButton (String aToolTip) {
+	private void disablePassButton (String aToolTip) {
 		if (passActionButton != GUI.NO_BUTTON) {
 			passActionButton.setEnabled (false);
 			passActionButton.setToolTipText (aToolTip);
 		}
 	}
 	
-	public void enablePassButton () {
+	private void enablePassButton () {
 		if (passActionButton != GUI.NO_BUTTON) {
 			passActionButton.setEnabled (true);
 			passActionButton.setToolTipText ("");
