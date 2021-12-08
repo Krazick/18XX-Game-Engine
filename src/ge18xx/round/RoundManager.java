@@ -821,13 +821,13 @@ public class RoundManager implements ActionListener {
 	public void resumeStockRound (int aRoundIDPart1) {
 		setRoundType (ActorI.ActionStates.StockRound);
 		roundFrame.setStockRound (gameName, aRoundIDPart1);
-		roundFrame.enablePassButton ();
+		roundFrame.updatePassButton ();
 	}
 	
 	public void startAuctionRound (boolean aCreateNewAuctionAction) {
 		setRoundToAuctionRound (aCreateNewAuctionAction);
 		auctionRound.startAuctionRound ();
-		roundFrame.disablePassButton ("In Auction Round, Can't Pass");
+		roundFrame.updatePassButton ();
 	}
 	
 	public void startOperatingRound () {
@@ -843,7 +843,6 @@ public class RoundManager implements ActionListener {
 			startStockRound ();
 		} else {
 			roundFrame.updateAll ();
-			roundFrame.disablePassButton ("In Operating Round, Can't Pass");
 			setBackgrounds ();
 		}
 	}
@@ -890,6 +889,7 @@ public class RoundManager implements ActionListener {
 		}
 		if (RoundFrame.PLAYER_ACTION.equals (aEvent.getActionCommand ())) {
 			showCurrentPlayerFrame ();
+			roundFrame.updatePassButton ();
 		}
 		if (RoundFrame.PLAYER_AUCTION_ACTION.equals (aEvent.getActionCommand ())) {
 			showCurrentPlayerFrame ();
