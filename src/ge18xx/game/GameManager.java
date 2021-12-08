@@ -873,6 +873,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return playerManager;
 	}
 	
+	public Player getCurrentPlayer () {
+		return playerManager.getCurrentPlayer ();
+	}
+	
 	public ActorI.ActionStates getPlayerState (String aState) {
 		return playerManager.getPlayerState (aState);
 	}
