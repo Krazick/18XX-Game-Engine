@@ -1801,6 +1801,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void bringMapToFront () {
 		mapFrame.toFront ();
 	}
+
+	public void bringPlayerFrameToFront () {
+		playerManager.bringPlayerFrameToFront ();
+	}
 	
 	public void bringTileTrayToFront () {
 		tileTrayFrame.toFront ();

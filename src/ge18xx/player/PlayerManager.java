@@ -1262,7 +1262,22 @@ public class PlayerManager {
 	
 	public void updateAllPlayerFrames () {
 		Player tCurrentPlayer = getCurrentPlayer ();
+		
+		tCurrentPlayer = getCurrentPlayer ();
 		updateAllPlayerFrames (tCurrentPlayer);
+	}
+	
+	public void bringPlayerFrameToFront () {
+		Player tPlayer;
+		
+		tPlayer = getCurrentPlayer ();
+		if (gameManager.isNetworkGame ()) {
+			if (isNetworkAndIsThisClient (tPlayer.getName ())) {
+				tPlayer.bringPlayerFrameToFront ();
+			}
+		} else {
+			tPlayer.bringPlayerFrameToFront ();
+		}
 	}
 	
 	public void updateAllPlayerFrames (Player aCurrentPlayer) {

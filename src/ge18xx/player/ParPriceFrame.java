@@ -206,6 +206,7 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 				setParPriceFrameActive (false);
 				gameManager.setParPrice (tShareCompany, tSelectedParPrice);
 				setParValueAction (tSelectedParPrice, tShareCompany);
+				gameManager.bringPlayerFrameToFront();
 			}
 		}
 		setVisible (false);

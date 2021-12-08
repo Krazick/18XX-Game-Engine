@@ -220,6 +220,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerFrame.updateCertificateInfo ();
 	}
 	
+	public void bringPlayerFrameToFront () {
+		playerFrame.toFront ();
+	}
+	
 	public void addSoldCompanies (String aCompanyAbbrev) {
 		soldCompanies.addSoldCompanies (aCompanyAbbrev);
 	}
