@@ -126,8 +126,6 @@ public class MapBenefit extends Benefit {
 		RoundManager tRoundManager;
 		String tRoundID;
 		
-//		setUsed (true);
-//		removeButton ();
 		resetBenefitInUse ();
 		tOwningCompany = (Corporation) privateCompany.getOwner ();
 		if (closeOnUse) {
