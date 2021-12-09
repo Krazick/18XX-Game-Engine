@@ -284,7 +284,8 @@ public abstract class Benefit implements ActionListener {
 		
 	}
 	
-	public void completeBenefitUse () {
+	public void completeBenefitInUse () {
+		setUsed (true);
 		removeButton ();
 	}
 	

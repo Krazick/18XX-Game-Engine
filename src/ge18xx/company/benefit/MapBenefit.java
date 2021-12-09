@@ -117,17 +117,19 @@ public class MapBenefit extends Benefit {
 	}
 	
 	@Override
-	public void completeBenefitUse () {
+	public void completeBenefitInUse () {
+		super.completeBenefitInUse ();
+		
 		Corporation tOwningCompany;
 		CloseCompanyAction tCloseCompanyAction;
 		GameManager tGameManager;
 		RoundManager tRoundManager;
 		String tRoundID;
 		
-		tOwningCompany = (Corporation) privateCompany.getOwner ();
-		setUsed (true);
-		removeButton ();
+//		setUsed (true);
+//		removeButton ();
 		resetBenefitInUse ();
+		tOwningCompany = (Corporation) privateCompany.getOwner ();
 		if (closeOnUse) {
 			tGameManager = privateCompany.getGameManager ();
 			tRoundManager = tGameManager.getRoundManager ();
