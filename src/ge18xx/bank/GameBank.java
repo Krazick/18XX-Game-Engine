@@ -369,5 +369,8 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public boolean isATrainCompany () {
 		return false;
 	}
-
+	
+	@Override
+	public void completeBenefitInUse () {
+	}
 }

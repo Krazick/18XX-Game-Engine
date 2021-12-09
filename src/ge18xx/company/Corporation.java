@@ -2002,7 +2002,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		portfolio.configurePrivateCompanyBenefitButtons (aButtonRow);
 	}
 
-	public abstract void completeBenefitUse ();
+	@Override
+	public abstract void completeBenefitInUse ();
 
 	protected abstract boolean choiceForBaseToken ();
 

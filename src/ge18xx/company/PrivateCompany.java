@@ -421,7 +421,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	@Override
-	public void completeBenefitUse () {
+	public void completeBenefitInUse () {
 		
 	}
 

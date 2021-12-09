@@ -75,4 +75,5 @@ public interface ActorI {
 	public boolean isABank ();
 	public boolean isACorporation ();
 	public boolean isATrainCompany ();
+	public void completeBenefitInUse ();
 }

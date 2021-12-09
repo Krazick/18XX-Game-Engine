@@ -148,7 +148,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		portfolio.configurePrivatePlayerBenefitButtons (aButtonRow);
 	}
 
-	public void completeBenefitUse () {
+	@Override
+	public void completeBenefitInUse () {
 		
 	}
 

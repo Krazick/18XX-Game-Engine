@@ -117,4 +117,8 @@ public class Bidder implements ActorI {
 	public String getAbbrev () {
 		return getName ();
 	}
+
+	@Override
+	public void completeBenefitInUse () {
+	}
 }

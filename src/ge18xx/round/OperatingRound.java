@@ -253,4 +253,8 @@ public class OperatingRound extends Round {
 	public boolean isATrainCompany () {
 		return false;
 	}
+	
+	@Override
+	public void completeBenefitInUse () {
+	}
 }

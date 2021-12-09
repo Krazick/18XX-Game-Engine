@@ -208,4 +208,8 @@ public class GenericActor implements ActorI {
 	public boolean isATrainCompany () {
 		return false;
 	}
+	
+	@Override
+	public void completeBenefitInUse () {
+	}
 }

@@ -446,4 +446,8 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public boolean isATrainCompany () {
 		return false;
 	}
+	
+	@Override
+	public void completeBenefitInUse () {
+	}
 }
