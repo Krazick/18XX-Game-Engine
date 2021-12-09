@@ -74,7 +74,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private final String NOT_ENOUGH_CASH = "%s does not have enough Cash, needs %s has %s";
 	private final String PRIVATE_NOT_OWNED = "%s does not own the Private Company %s";
 	private final String NO_OPERATING_COMPANY = "There is no Operating Company to place a Tile";
-//	private final String NO_TOOL_TIP = "";
 	public static final String NO_COMPANY = "NO_COMPANY";
 	private static final long serialVersionUID = 1L;
 	HexMap map;
@@ -299,9 +298,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tCorporation = getOperatingCompany ();
 
 		if (COMPLETE_TILE_LAY.equals (tTheAction)) {
-			completeBenefitUse ();
-			togglePlaceTileMode ();
-			map.setTilePlaced (false);
+			completeTileLay ();
 		} else if (SELECT_ROUTE_MODE.equals (tTheAction)) {
 			toggleSelectRouteMode ();
 		} else if (CANCEL_TOKEN_MODE.equals (tTheAction)) {
@@ -315,6 +312,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			tCorporation.updateFrameInfo ();
+		}
+	}
+
+	private void completeTileLay () {
+		if (map.wasTilePlaced ()) {
+			completeBenefitInUse ();
+			togglePlaceTileMode ();
+			map.setTilePlaced (false);
 		}
 	}
 
@@ -370,11 +375,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		toFront ();
 	}
 	
-	private void completeBenefitUse () {
+	private void completeBenefitInUse () {
 		Corporation tCorporation;
 		
 		tCorporation = getOperatingCompany ();
-		tCorporation.completeBenefitUse ();
+		tCorporation.completeBenefitInUse ();
 	}
 	
 	private void updatePickupTileButton (boolean aEnabled, String aToolTip) {
@@ -594,7 +599,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				tTile = aMapCell.getTile ();
 				tRevenueCenterIndex = tTile.getStationIndex (tCorporationID);
 				aCorporation.tokenWasPlaced (aMapCell, tTile, tRevenueCenterIndex, aAddLayTokenAction);
-				completeBenefitUse ();
+				completeBenefitInUse ();
 				putTokenButton.setEnabled (false);
 				putTokenButton.setToolTipText (TOKEN_ALREADY_PLACED);
 				// If we have placed the Token and there was a Base Corporation Tile, clear out any other Bases for this Corporation from this Tile
