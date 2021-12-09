@@ -318,9 +318,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private void completeTileLay () {
 		if (map.wasTilePlaced ()) {
 			completeBenefitInUse ();
-			togglePlaceTileMode ();
-			map.setTilePlaced (false);
 		}
+		togglePlaceTileMode ();
+		map.setTilePlaced (false);
 	}
 
 	private void setCompanyAbbrev (String aCompanyAbbrev) {
