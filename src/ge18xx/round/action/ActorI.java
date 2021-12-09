@@ -64,7 +64,6 @@ public interface ActorI {
 				
 	};
 
-	
 	public String getName ();
 	public String getAbbrev();
 	public String getStateName ();

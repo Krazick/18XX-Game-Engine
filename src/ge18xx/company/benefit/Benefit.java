@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
+import ge18xx.company.ShareCompany;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -137,6 +138,18 @@ public abstract class Benefit implements ActionListener {
 	
 	public PrivateCompany getPrivateCompany () {
 		return privateCompany;
+	}
+	
+	protected ShareCompany getOwningCompany () {
+		ShareCompany tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
+		ActorI tOwner;
+		
+		tOwner = privateCompany.getOwner ();
+		if (tOwner.isACorporation ()) {
+			tShareCompany = (ShareCompany) tOwner;
+		}
+		
+		return tShareCompany;
 	}
 	
 	private void setActorType (String aActorType) {

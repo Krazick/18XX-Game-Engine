@@ -83,6 +83,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	ForceBuyTrainFrame forceBuyTrainFrame;
 	int value;
 	boolean mustBuyTrain;
+	boolean hasLaidTile;
 	PurchaseOffer purchaseOffer;
 	
 	public TrainCompany () {
@@ -177,6 +178,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tPreparedCorporationAction.addUpdateLastRevenueEffect (this, thisRevenue, lastRevenue);
 		}
 		addAction (tPreparedCorporationAction);
+		setHasLaidTile (false);
 	}
 	
 	@Override
@@ -436,6 +438,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return (trainPortfolio.hasNoTrain ());
 	}
 	
+	public boolean hasLaidTile () {
+		// If the Company Status is one of these
+		//		TileLaid, Tile2Laid, TileUpgraded, TileAndStationLaid
+		return hasLaidTile;
+	}
+	
 	@Override
 	public boolean mustBuyTrainNow () {
 		boolean tMustBuyTrainNow = false;
@@ -450,6 +458,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void setMustBuyTrain (boolean aMustBuyTrain) {
 		mustBuyTrain = aMustBuyTrain;
+	}
+	
+	public void setHasLaidTile (boolean aHasLaidTile) {
+		hasLaidTile = aHasLaidTile;
 	}
 	
 	@Override
@@ -1397,6 +1409,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tStatusUpdated = updateStatus (ActorI.ActionStates.TileAndStationLaid);
 			} else {
 				tStatusUpdated = updateStatus (ActorI.ActionStates.TileLaid);
+			}
+			if (tStatusUpdated) {
+				setHasLaidTile (true);
 			}
 		} else {
 			tStatusUpdated = true;

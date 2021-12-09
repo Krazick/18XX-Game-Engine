@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.PrivateCompany;
+import ge18xx.company.ShareCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.utilities.AttributeName;
@@ -76,9 +77,16 @@ public class TilePlacementBenefit extends MapBenefit {
 	
 	@Override
 	public void updateButton () {
+		System.out.println ("Updating Button Status for " + getName ());
 		if (hasTile ()) {
 			disableButton ();
 			setToolTip ("MapCell already has Tile");
+		} else if (ownerLaidTile ()) {
+			disableButton ();
+			setToolTip ("Owner has already laid or upgraded a Tile");
+		} else if (! ownerHasEnoughCash ()) {
+			disableButton ();
+			setToolTip ("Owner does not have enough cash to pay for Tile");
 		} else if (isTileAvailable ()) {
 			enableButton ();
 			setToolTip ("");
@@ -86,6 +94,40 @@ public class TilePlacementBenefit extends MapBenefit {
 			disableButton ();
 			setToolTip ("No Tile available to place on MapCell");
 		}
+	}
+	
+	private boolean ownerHasEnoughCash () {
+		boolean tOwnerHasEnoughCash = false;
+		ShareCompany tShareCompany;
+		HexMap tMap;
+		MapCell tMapCell;
+		int tCost;
+		
+		tShareCompany = getOwningCompany  ();
+		if (tShareCompany != Corporation.NO_CORPORATION) {
+			tMap = getMap ();
+			tMapCell = tMap.getMapCellForID (mapCellID);
+			tCost = tMapCell.getCostToLayTile ();
+			if (tShareCompany.getTreasury () >= tCost) {
+				tOwnerHasEnoughCash = true;
+			}
+		}
+		
+		return tOwnerHasEnoughCash;
+	}
+	
+	private boolean ownerLaidTile () {
+		boolean tOwnerLaidTile = false;
+		ShareCompany tShareCompany;
+		
+		tShareCompany = getOwningCompany  ();
+		if (tShareCompany != Corporation.NO_CORPORATION) {
+			if (tShareCompany.hasLaidTile ()) {
+				tOwnerLaidTile = true;
+			}
+		}
+		
+		return tOwnerLaidTile;
 	}
 	
 	@Override
