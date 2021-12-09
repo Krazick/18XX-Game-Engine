@@ -1447,8 +1447,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 	
 	@Override
-	public void completeBenefitUse () {
-		benefitInUse.completeBenefitUse ();		
+	public void completeBenefitInUse () {
+		benefitInUse.completeBenefitInUse ();		
 	}
 	
 	public void trainsOperated (int aRevenue) {
