@@ -26,7 +26,7 @@ class CorporationBasicTests {
 		}
 
 		@Override
-		public void completeBenefitUse () {
+		public void completeBenefitInUse () {
 			
 		}
 

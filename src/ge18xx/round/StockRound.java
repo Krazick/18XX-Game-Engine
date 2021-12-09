@@ -264,4 +264,8 @@ public class StockRound extends Round {
 	public boolean isATrainCompany () {
 		return false;
 	}
+	
+	@Override
+	public void completeBenefitInUse () {
+	}
 }

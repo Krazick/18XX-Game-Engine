@@ -217,4 +217,8 @@ public class Escrow implements CashHolderI {
 	public boolean isATrainCompany () {
 		return false;
 	}
+
+	@Override
+	public void completeBenefitInUse () {
+	}
 }
