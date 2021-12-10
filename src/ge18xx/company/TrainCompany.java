@@ -1413,37 +1413,33 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			if (tStatusUpdated) {
 				setHasLaidTile (true);
 			}
-		} else {
-			tStatusUpdated = true;
 		}
-		if (tStatusUpdated) {
-			tNewStatus = status;
-			tCostToLayTile = aMapCell.getCostToLayTile (aTile);
-			tOperatingRoundID = corporationList.getOperatingRoundID ();
-			tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-			
-			if (aPreviousTile != Tile.NO_TILE) {
-				tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-				tRemoveTileAction.addTileRemoveEffect (this, aMapCell, aPreviousTile, 
-						aPreviousOrientation, aPreviousTokens, aPreviousBases);
-				tRemoveTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
-				addAction (tRemoveTileAction);
-				tLayTileAction.setChainToPrevious (true);
-			}
-			tNewTokens = aTile.getPlacedTokens ();
-			tNewBases = aTile.getCorporationBases ();
-			tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, tNewTokens, tNewBases, benefitInUse);
-			if (tCurrentStatus != tNewStatus) {
-				tLayTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
-			}
-			if (tCostToLayTile > 0) {
-				tBank = corporationList.getBank ();
-				this.transferCashTo (tBank, tCostToLayTile);
-				tLayTileAction.addCashTransferEffect (this, tBank, tCostToLayTile);
-			}
-			addAction (tLayTileAction);
-			corporationFrame.updateInfo ();
+		tNewStatus = status;
+		tCostToLayTile = aMapCell.getCostToLayTile (aTile);
+		tOperatingRoundID = corporationList.getOperatingRoundID ();
+		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
+		
+		if (aPreviousTile != Tile.NO_TILE) {
+			tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
+			tRemoveTileAction.addTileRemoveEffect (this, aMapCell, aPreviousTile, 
+					aPreviousOrientation, aPreviousTokens, aPreviousBases);
+			tRemoveTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
+			addAction (tRemoveTileAction);
+			tLayTileAction.setChainToPrevious (true);
 		}
+		tNewTokens = aTile.getPlacedTokens ();
+		tNewBases = aTile.getCorporationBases ();
+		tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, tNewTokens, tNewBases, benefitInUse);
+		if (tCurrentStatus != tNewStatus) {
+			tLayTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
+		}
+		if (tCostToLayTile > 0) {
+			tBank = corporationList.getBank ();
+			this.transferCashTo (tBank, tCostToLayTile);
+			tLayTileAction.addCashTransferEffect (this, tBank, tCostToLayTile);
+		}
+		addAction (tLayTileAction);
+		corporationFrame.updateInfo ();
 	}
 	
 	@Override
