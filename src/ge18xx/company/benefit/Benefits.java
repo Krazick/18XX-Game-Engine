@@ -188,4 +188,16 @@ public class Benefits {
 		
 		return tXMLElement;
 	}
+
+	public Benefit findBenefit (String aBenefitName) {
+		Benefit tFoundBenefit = Benefit.NO_BENEFIT;
+		
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit.getName ().equals (aBenefitName)) {
+				tFoundBenefit = tBenefit;
+			}
+		}
+		
+		return tFoundBenefit;
+	}
 }

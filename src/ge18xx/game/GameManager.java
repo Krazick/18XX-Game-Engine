@@ -24,6 +24,7 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TrainCompany;
+import ge18xx.company.benefit.Benefit;
 import ge18xx.map.HexMap;
 import ge18xx.market.Market;
 import ge18xx.network.GameSupportHandler;
@@ -2407,5 +2408,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 		} else {
 			System.out.println ("No Frame Info Setup yet");
 		}
+	}
+
+	public Benefit findBenefit (String aBenefitName) {
+		Benefit tBenefit;
+		
+		tBenefit = privatesFrame.findBenefit (aBenefitName);
+		
+		return tBenefit;
 	}
 }

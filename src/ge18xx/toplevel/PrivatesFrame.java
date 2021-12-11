@@ -13,6 +13,7 @@ import java.awt.event.ItemListener;
 import javax.swing.JPanel;
 
 import ge18xx.company.CorporationList;
+import ge18xx.company.benefit.Benefit;
 import ge18xx.round.RoundManager;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -72,5 +73,10 @@ public class PrivatesFrame extends CorporationTableFrame {
 		tTotalEscrow = companies.getTotalEscrow ();
 		
 		return tTotalEscrow;
+	}
+
+	public Benefit findBenefit (String aBenefitName) {
+		
+		return companies.findBenefit (aBenefitName);
 	}
 }

@@ -77,7 +77,6 @@ public class TilePlacementBenefit extends MapBenefit {
 	
 	@Override
 	public void updateButton () {
-		System.out.println ("Updating Button Status for " + getName ());
 		if (hasTile ()) {
 			disableButton ();
 			setToolTip ("MapCell already has Tile");
@@ -155,7 +154,6 @@ public class TilePlacementBenefit extends MapBenefit {
 		if (tMapCell == MapCell.NO_MAP_CELL) {
 			System.err.println ("Did not find Map Cell with ID " + mapCellID);
 		} else {
-			System.out.println ("Did find Map Cell with ID " + mapCellID);
 			tMap.toggleSelectedMapCell (tMapCell);
 		}
 	}

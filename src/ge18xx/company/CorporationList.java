@@ -10,6 +10,7 @@ package ge18xx.company;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
@@ -1224,5 +1225,21 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		tCashHolder = roundManager.getCashHolderByName (aCashHolderName);
 		
 		return tCashHolder;
+	}
+
+	public Benefit findBenefit (String aBenefitName) {
+		Benefit tFoundBenefit = Benefit.NO_BENEFIT;
+		PrivateCompany tPrivateCompany;
+		
+		for (Corporation tCorporation : corporations) {
+			if (tFoundBenefit == Benefit.NO_BENEFIT) {
+				if (tCorporation.isAPrivateCompany ()) {
+					tPrivateCompany = (PrivateCompany) tCorporation;
+					tFoundBenefit = tPrivateCompany.findBenefit (aBenefitName);
+				}
+			}
+		}
+		
+		return tFoundBenefit;
 	}
 }

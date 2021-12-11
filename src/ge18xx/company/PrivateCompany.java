@@ -10,6 +10,7 @@ import org.apache.commons.text.WordUtils;
 
 import ge18xx.bank.Bank;
 import ge18xx.center.Revenue;
+import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -429,5 +430,13 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	protected boolean choiceForBaseToken () {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public Benefit findBenefit (String aBenefitName) {
+		Benefit tFoundBenefit = Benefit.NO_BENEFIT;
+		
+		tFoundBenefit = benefits.findBenefit (aBenefitName);
+		
+		return tFoundBenefit;
 	}
 }

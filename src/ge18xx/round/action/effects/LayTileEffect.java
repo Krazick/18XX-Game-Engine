@@ -1,6 +1,6 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.benefit.Benefit;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
@@ -27,12 +27,7 @@ public class LayTileEffect extends ChangeTileContentEffect {
 	
 	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, 
 			String aNewTokens, String aNewBases) {
-		this (aActor, aMapCell, aTile, aOrientation, aNewTokens, aNewBases, NO_BENEFIT_IN_USE);
-	}
-	
-	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, 
-			String aNewTokens, String aNewBases, Benefit aBenefitInUse) {
-		super (aActor, aMapCell, aTile, aOrientation, aNewTokens, aNewBases, aBenefitInUse);
+		super (aActor, aMapCell, aTile, aOrientation, aNewTokens, aNewBases);
 		setName (NAME);
 	}
 
@@ -95,6 +90,7 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		MapCell tMapCell;
 		HexMap tGameMap;
 		TileSet tTileSet;
+		TrainCompany tTrainCompany;
 		
 		tEffectUndone = false;
 		tTileSet = aRoundManager.getTileSet ();
@@ -104,8 +100,10 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		// Undo if the Tile Number on the Cell matches
 		// OR if the tileNumber was 0, which means the tile was Upgraded,
 		//		and the RemoveTileEffect will restore that previous tile
-		if (tTile != null) {
-			if ((tTile.getNumber () == tileNumber) || (tileNumber == 0)){
+		if (tTile != Tile.NO_TILE) {
+			if ((tTile.getNumber () == tileNumber) || (tileNumber == 0)) {
+				tTrainCompany = (TrainCompany) aRoundManager.getOperatingCompany ();
+				tTrainCompany.setHasLaidTile (false);
 				tTile.returnTokens ();
 				tMapCell.removeTile ();
 				tMapCell.restoreTile (tTileSet, tTile);

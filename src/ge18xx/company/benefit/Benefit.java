@@ -178,7 +178,14 @@ public abstract class Benefit implements ActionListener {
 		passive = aPassive;
 	}
 	
-	protected void setUsed (boolean aUsed) {
+	public void undoUse () {
+		setUsed (false);
+		if (shouldConfigure ()) {
+			configure (privateCompany, buttonPanel);
+		}
+	}
+	
+	public void setUsed (boolean aUsed) {
 		used = aUsed;
 	}
 	
@@ -277,7 +284,7 @@ public abstract class Benefit implements ActionListener {
 	}
 	
 	public boolean realBenefit () {
-		return false;
+		return true;
 	}
 	
 	public void abortUse () {

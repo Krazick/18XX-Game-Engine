@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
+import ge18xx.round.action.effects.BenefitUsedEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.LayTileEffect;
 import ge18xx.tiles.Tile;
@@ -30,11 +31,18 @@ public class LayTileAction extends ChangeMapAction {
 	}
 
 	public void addLayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aNewTokens, 
-			String aNewBases, Benefit aBenefitInUse) {
+			String aNewBases) {
 		LayTileEffect tTileLayEffect;
 
-		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aNewTokens, aNewBases, aBenefitInUse);
+		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aNewTokens, aNewBases);
 		addEffect (tTileLayEffect);
+	}
+	
+	public void addBenefitUsedEffect (ActorI aActor, Benefit aBenefit) {
+		BenefitUsedEffect tBenefitUsedEffect;
+		
+		tBenefitUsedEffect = new BenefitUsedEffect (aActor, aBenefit);
+		addEffect (tBenefitUsedEffect);
 	}
 	
 	@Override

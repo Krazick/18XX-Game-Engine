@@ -167,5 +167,4 @@ public class MapBenefit extends Benefit {
 		
 		return tMatchedBenefit;
 	}
-
 }
