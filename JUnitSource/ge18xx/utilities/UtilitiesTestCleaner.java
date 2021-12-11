@@ -26,7 +26,5 @@ class UtilitiesTestCleaner {
 		System.out.println (tXMLFormatClean);
 		assertEquals (1108, tXMLFormat.length ());
 		assertEquals (1024, tXMLFormatClean.length ());
-//		fail("Not yet implemented");
 	}
-
 }
