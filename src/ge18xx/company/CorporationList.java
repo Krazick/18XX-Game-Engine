@@ -519,8 +519,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		ElementName tElementName;
 		Corporation tCorporation;
 		
-		tElementName = null;
-		if (corporations != NO_CORPORATION_LIST) {
+		tElementName = ElementName.NO_ELEMENT_NAME;
+		if (corporations != null) {
 			tCorporation = corporations.get (0);
 			tElementName = tCorporation.getElementName ();
 		}
