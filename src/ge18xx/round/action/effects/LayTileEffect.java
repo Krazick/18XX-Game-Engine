@@ -1,6 +1,5 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
@@ -90,7 +89,6 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		MapCell tMapCell;
 		HexMap tGameMap;
 		TileSet tTileSet;
-		TrainCompany tTrainCompany;
 		
 		tEffectUndone = false;
 		tTileSet = aRoundManager.getTileSet ();
@@ -102,8 +100,6 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		//		and the RemoveTileEffect will restore that previous tile
 		if (tTile != Tile.NO_TILE) {
 			if ((tTile.getNumber () == tileNumber) || (tileNumber == 0)) {
-				tTrainCompany = (TrainCompany) aRoundManager.getOperatingCompany ();
-				tTrainCompany.setHasLaidTile (false);
 				tTile.returnTokens ();
 				tMapCell.removeTile ();
 				tMapCell.restoreTile (tTileSet, tTile);

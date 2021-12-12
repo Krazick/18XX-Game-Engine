@@ -306,10 +306,8 @@ public class ActionManager {
 	}
 	
 	public void removeActionFromNetwork (Action aActionToRemove) {
-	
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			actionsToRemove.add (aActionToRemove);
-//			printLastXActions (actionsToRemove, 5);
 			// Queue up the Action to remove from Network, after all are Undone.
 		}
 	}

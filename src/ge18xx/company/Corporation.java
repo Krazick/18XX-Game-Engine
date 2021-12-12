@@ -1999,9 +1999,27 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 	
 	protected void configurePrivateBenefitButtons (JPanel aButtonRow) {
+		removeAllBenefitButtons (aButtonRow);
 		portfolio.configurePrivateCompanyBenefitButtons (aButtonRow);
 	}
 
+	private void removeAllBenefitButtons (JPanel aButtonRow) {
+		CorporationList tPrivates;
+		PrivateCompany tPrivate;
+		int tCount, tIndex;
+		
+		tPrivates = corporationList.getPrivates ();
+		tCount = tPrivates.getCountOfOpen ();
+		if (tCount > 0) {
+			for (tIndex = 0; tIndex < tCount; tIndex++) {
+				tPrivate = (PrivateCompany) tPrivates.getCorporation (tIndex);
+				if (tPrivate.hasActiveCompanyBenefits ()) {
+					tPrivate.removeBenefitButtons (aButtonRow);
+				}
+			}
+		}
+	}
+	
 	@Override
 	public abstract void completeBenefitInUse ();
 

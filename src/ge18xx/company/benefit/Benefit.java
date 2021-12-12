@@ -107,6 +107,12 @@ public abstract class Benefit implements ActionListener {
 		return buttonPanel;
 	}
 	
+	public void removeButton (JPanel aButtonRow) {
+		if (hasButton ()) {
+			removeButton ();
+		}
+	}
+
 	protected void removeButton () {
 		if (buttonPanel != NO_BUTTON_PANEL) {
 			if (button != NO_BUTTON) {
@@ -118,6 +124,10 @@ public abstract class Benefit implements ActionListener {
 	
 	public void updateButton () {
 		
+	}
+	
+	public boolean isAExtraTilePlacement () {
+		return false;
 	}
 	
 	public void enableButton () {
@@ -266,12 +276,6 @@ public abstract class Benefit implements ActionListener {
 		String tNewButtonText = "";
 		
 		return tNewButtonText;
-	}
-	
-	public void removeButton (JPanel aButtonRow) {
-		if (hasButton ()) {
-			aButtonRow.remove (button);
-		}
 	}
 	
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {

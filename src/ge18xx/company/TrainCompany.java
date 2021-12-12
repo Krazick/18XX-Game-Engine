@@ -1392,27 +1392,30 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public void tileWasPlaced (MapCell aMapCell, Tile aTile, int aOrientation, 
 			Tile aPreviousTile, int aPreviousOrientation, 
 			String aPreviousTokens, String aPreviousBases) {
-		boolean tStatusUpdated;
 		RemoveTileAction tRemoveTileAction;
 		LayTileAction tLayTileAction;
 		String tOperatingRoundID;
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
+		ActorI.ActionStates tTargetStatus;
+		
 		int tCostToLayTile;
 		Bank tBank;
 		String tNewTokens, tNewBases;
 		
+		
 		tCurrentStatus = status;
 		if (benefitInUse.changeState ()) {
 			if (status == ActorI.ActionStates.TileLaid) {
-				tStatusUpdated = updateStatus (ActorI.ActionStates.Tile2Laid);
+				tTargetStatus = ActorI.ActionStates.Tile2Laid;
+//				updateStatus (ActorI.ActionStates.Tile2Laid);
 			} else if (status == ActorI.ActionStates.StationLaid) {
-				tStatusUpdated = updateStatus (ActorI.ActionStates.TileAndStationLaid);
+				tTargetStatus = ActorI.ActionStates.TileAndStationLaid;
+//				updateStatus (ActorI.ActionStates.TileAndStationLaid);
 			} else {
-				tStatusUpdated = updateStatus (ActorI.ActionStates.TileLaid);
+				tTargetStatus = ActorI.ActionStates.TileLaid;
+//				updateStatus (ActorI.ActionStates.TileLaid);
 			}
-			if (tStatusUpdated) {
-				setHasLaidTile (true);
-			}
+			updateStatus (tTargetStatus);
 		}
 		tNewStatus = status;
 		tCostToLayTile = aMapCell.getCostToLayTile (aTile);
@@ -1435,14 +1438,24 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 		if (benefitInUse.realBenefit ()) {
 			tLayTileAction.addBenefitUsedEffect (this, benefitInUse);
+			if (! benefitInUse.isAExtraTilePlacement ()) {
+				setTileLaid (tLayTileAction);
+			}
+		} else {
+			setTileLaid (tLayTileAction);
 		}
 		if (tCostToLayTile > 0) {
 			tBank = corporationList.getBank ();
-			this.transferCashTo (tBank, tCostToLayTile);
+			transferCashTo (tBank, tCostToLayTile);
 			tLayTileAction.addCashTransferEffect (this, tBank, tCostToLayTile);
 		}
 		addAction (tLayTileAction);
 		corporationFrame.updateInfo ();
+	}
+	
+	private void setTileLaid (LayTileAction aLayTileAction) {
+		setHasLaidTile (true);
+		aLayTileAction.addSetHasLaidTileEffect (this, hasLaidTile);
 	}
 	
 	@Override

@@ -1242,4 +1242,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		
 		return tFoundBenefit;
 	}
+	
+	public CorporationList getPrivates () {
+		return roundManager.getPrivates ();
+	}
 }

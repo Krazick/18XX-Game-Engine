@@ -1823,7 +1823,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		updateRoundFrame ();
 		if (roundManager.getCurrentRoundType ().equals (ActorI.ActionStates.StockRound)) {
 			updateAllPlayerFrames ();
+		} else if (roundManager.getCurrentRoundType ().equals (ActorI.ActionStates.OperatingRound)) {
+			roundManager.updateOperatingCorporationFrame ();
 		}
+
 	}
 
 	public void updateAllPlayerFrames () {

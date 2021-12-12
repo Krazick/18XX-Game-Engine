@@ -972,7 +972,8 @@ public class RoundManager implements ActionListener {
 		Corporation tOperatingCorporation;
 		
 		tOperatingCorporation = getOperatingCompany ();
-		if (tOperatingCorporation != null) {
+		if (tOperatingCorporation != Corporation.NO_CORPORATION) {
+			System.out.println ("Updating current Operating Company " + tOperatingCorporation.getName () + " Frame");
 			tOperatingCorporation.updateFrameInfo ();
 		}
 	}
@@ -1109,5 +1110,9 @@ public class RoundManager implements ActionListener {
 	
 	public void resetBackgrounds () {
 		roundFrame.resetBackgrounds ();
+	}
+
+	public CorporationList getPrivates () {
+		return gameManager.getPrivates ();
 	}
 }

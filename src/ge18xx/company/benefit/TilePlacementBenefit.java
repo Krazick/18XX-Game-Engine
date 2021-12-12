@@ -80,18 +80,23 @@ public class TilePlacementBenefit extends MapBenefit {
 		if (hasTile ()) {
 			disableButton ();
 			setToolTip ("MapCell already has Tile");
-		} else if (ownerLaidTile ()) {
+		} else if (! isTileAvailable ()) {
 			disableButton ();
-			setToolTip ("Owner has already laid or upgraded a Tile");
+			setToolTip ("No Tile available to place on MapCell");
 		} else if (! ownerHasEnoughCash ()) {
 			disableButton ();
 			setToolTip ("Owner does not have enough cash to pay for Tile");
-		} else if (isTileAvailable ()) {
+		} else if (! ownerLaidTile ()) {
 			enableButton ();
-			setToolTip ("");
+			setToolTip ("");			
 		} else {
-			disableButton ();
-			setToolTip ("No Tile available to place on MapCell");
+			if (extraTilePlacement) {
+				enableButton ();
+				setToolTip ("");			
+			} else {
+				disableButton ();
+				setToolTip ("Owner has already laid or upgraded a Tile");
+			}
 		}
 	}
 	
@@ -139,6 +144,11 @@ public class TilePlacementBenefit extends MapBenefit {
 		}
 	}
 	
+	@Override
+	public boolean isAExtraTilePlacement () {
+		return extraTilePlacement;
+	}
+
 	private void handlePlaceTile () {
 		HexMap tMap;
 		MapCell tMapCell;

@@ -6,6 +6,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.BenefitUsedEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.LayTileEffect;
+import ge18xx.round.action.effects.SetHasLaidTileEffect;
 import ge18xx.tiles.Tile;
 import ge18xx.utilities.XMLNode;
 
@@ -43,6 +44,13 @@ public class LayTileAction extends ChangeMapAction {
 		
 		tBenefitUsedEffect = new BenefitUsedEffect (aActor, aBenefit);
 		addEffect (tBenefitUsedEffect);
+	}
+	
+	public void addSetHasLaidTileEffect (ActorI aActor, boolean aHasLaidTile) {
+		SetHasLaidTileEffect tSetHasLaidTileEffect;
+		
+		tSetHasLaidTileEffect = new SetHasLaidTileEffect (aActor, aHasLaidTile);
+		addEffect (tSetHasLaidTileEffect);
 	}
 	
 	@Override
