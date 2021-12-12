@@ -55,7 +55,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	String note;
 	int exchangeID; // Corporation ID to Exchange this Private For
 	int exchangePercentage; // Exchange Percentage
-	Benefits benefits;
+	Benefits benefits;	// Move up to Corporation Level to allow all Companies to have Benefits
 	
 	public PrivateCompany () {
 		this (Corporation.NO_ID, Corporation.NO_NAME, Corporation.NO_ABBREV, NO_COST, Revenue.NO_REVENUE_VALUE, 
