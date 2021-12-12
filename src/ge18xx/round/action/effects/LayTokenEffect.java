@@ -2,8 +2,6 @@ package ge18xx.round.action.effects;
 
 import ge18xx.center.City;
 import ge18xx.company.Corporation;
-import ge18xx.company.MapToken;
-import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
@@ -125,7 +123,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 		boolean tEffectUndone;
 		Tile tTile;
 		MapCell tMapCell, tCorpHomeCell1, tCorpHomeCell2;
-		MapToken tMapToken;
+//		MapToken tMapToken;
 		Corporation tCorporation;
 		TokenCompany tTokenCompany;
 		int tCorporationID;
@@ -143,10 +141,6 @@ public class LayTokenEffect extends ChangeMapEffect {
 				tCorporationID = tTokenCompany.getID ();
 				tTokenAtID = tTile.getStationIndex (tCorporationID);
 				if (tTokenAtID == revenueCenterIndex) {
-					tMapToken = tTile.getMapTokenFor (tCorporationID);
-					if (tMapToken != Token.NO_TOKEN) {
-						tTokenCompany.addAsFirstMapToken (tMapToken);
-					}
 					tCorpHomeCell1 = tTokenCompany.getHomeCity1 ();
 					tCorpHomeCell2 = tTokenCompany.getHomeCity2 ();
 					if (tCorpHomeCell1 != MapCell.NO_MAP_CELL) {

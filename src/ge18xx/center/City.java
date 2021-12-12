@@ -233,7 +233,7 @@ public class City extends RevenueCenter implements Cloneable {
 						if ((tIndex + 1) < stationCount) {
 							corpStations [tIndex] = corpStations [tIndex + 1];
 						} else {
-							setMapTokenAt(tIndex);
+							setMapTokenAt (tIndex);
 						}
 					}
 				}

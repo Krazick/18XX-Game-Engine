@@ -973,7 +973,6 @@ public class RoundManager implements ActionListener {
 		
 		tOperatingCorporation = getOperatingCompany ();
 		if (tOperatingCorporation != Corporation.NO_CORPORATION) {
-			System.out.println ("Updating current Operating Company " + tOperatingCorporation.getName () + " Frame");
 			tOperatingCorporation.updateFrameInfo ();
 		}
 	}

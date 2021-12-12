@@ -1407,13 +1407,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (benefitInUse.changeState ()) {
 			if (status == ActorI.ActionStates.TileLaid) {
 				tTargetStatus = ActorI.ActionStates.Tile2Laid;
-//				updateStatus (ActorI.ActionStates.Tile2Laid);
 			} else if (status == ActorI.ActionStates.StationLaid) {
 				tTargetStatus = ActorI.ActionStates.TileAndStationLaid;
-//				updateStatus (ActorI.ActionStates.TileAndStationLaid);
 			} else {
 				tTargetStatus = ActorI.ActionStates.TileLaid;
-//				updateStatus (ActorI.ActionStates.TileLaid);
 			}
 			updateStatus (tTargetStatus);
 		}

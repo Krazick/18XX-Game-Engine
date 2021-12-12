@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
+import ge18xx.round.action.effects.BenefitUsedEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.LayTokenEffect;
 import ge18xx.tiles.Tile;
@@ -33,6 +34,13 @@ public class LayTokenAction extends ChangeMapAction {
 		addEffect (tLayTokenEffect);
 	}
 	
+	public void addBenefitUsedEffect (ActorI aActor, Benefit aBenefit) {
+		BenefitUsedEffect tBenefitUsedEffect;
+		
+		tBenefitUsedEffect = new BenefitUsedEffect (aActor, aBenefit);
+		addEffect (tBenefitUsedEffect);
+	}
+
 	public String getMapCellID () {
 		String tMapCellID = "";
 		

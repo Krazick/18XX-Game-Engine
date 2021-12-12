@@ -467,6 +467,9 @@ public abstract class TokenCompany extends TrainCompany {
 			transferCashTo (tBank, tCostToLayTokenOnMapCell);
 			tLayTokenAction.addCashTransferEffect (this, tBank, tCostToLayTokenOnMapCell);
 		}
+		if (benefitInUse.realBenefit ()) {
+			tLayTokenAction.addBenefitUsedEffect (this, benefitInUse);
+		}
 		addAction (tLayTokenAction);
 	}
 	
