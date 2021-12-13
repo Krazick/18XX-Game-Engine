@@ -60,7 +60,6 @@ import org.apache.logging.log4j.LogManager;
 public class Game_18XX extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private final String ENTER_USER_NAME = "Must Enter User Name";
-//	private final String NO_TOOL_TIP = "";
 	protected ResourceBundle resbundle;
 	protected AboutBox aboutBox;
 	protected PrefPane prefs;
@@ -89,7 +88,6 @@ public class Game_18XX extends JFrame {
 	private String QUIT_TEXT = "Quit";
 	private JTextField clientUserName;
 	private JButton newGameButton;
-//	private JButton loadGameButton;
 	private JButton tQuitButton;
 	private static Logger logger;
 	LoggerLookup loggerLookup;
@@ -137,19 +135,28 @@ public class Game_18XX extends JFrame {
 	    String tJavaVersion = System.getProperty ("java.version");
 	    String tOSName = System.getProperty ("os.name");
 	    String tOSVersion = System.getProperty( "os.version");
-//	    String tLog4JVersion;
-	    
+	    String tLog4JVersion;
+    
+		tLog4JVersion = org.apache.logging.log4j.LogManager.class.getPackage ().getImplementationVersion ();
 		LoggerLookup.setUserName (aUserName);
-	    tXMLConfigFile = "18XX XML Data" + File.separator + "log4j2.xml";
+	    tXMLConfigFile = "18XX%20XML%20Data" + File.separator + "log4j2.xml";
 		System.setProperty ("log4j.configurationFile", tXMLConfigFile);
 		logger = LogManager.getLogger ("Game_18XX");
-		logger.info ("Game Engine 18XX, Version " + getGEVersion () + 
+		logger.info ("Game Engine 18XX, Version " + getGEVersion () +
 					" Client " + aUserName);
 		logger.info ("Java Version " + tJavaVersion + 
 					" OS Name " + tOSName + " OS Version " + tOSVersion);
-//		tLog4JVersion = org.apache.log4j.Layout.class.getPackage().getImplementationVersion();
+		logger.info ("Log4J2 LogManager Version " + tLog4JVersion);
 	}
 	
+	public String getGEVersion () {
+	    String tResourceVersion;
+	    
+		tResourceVersion = resbundle.getString ("version");
+		
+		return tResourceVersion;
+	}
+
 	public String getUserDir () {
 		return userDir;
 	}
@@ -240,31 +247,12 @@ public class Game_18XX extends JFrame {
 			}
 		});
 		
-//		loadGameButton.addActionListener (new ActionListener() {
-//			public void actionPerformed (ActionEvent aEvent) {
-//				loadGame ();
-//			}
-//		});
-//		
-//		loadGameButton.addKeyListener (new KeyAdapter() {
-//			@Override
-//			public void keyReleased (KeyEvent e) {
-//				if (e.getKeyCode () == KeyEvent.VK_ENTER){
-//					loadGame ();
-//				 }
-//			}
-//		});
-		
 		tQuitButton.addActionListener (new ActionListener() {
 			@Override
 			public void actionPerformed (ActionEvent aEvent) {
 				System.exit (0);
 			}
 		});
-	}
-	
-	public String getGEVersion () {
-		return resbundle.getString ("version");
 	}
 	
 	private void setFrameContents () {
@@ -285,7 +273,6 @@ public class Game_18XX extends JFrame {
 		clientUserName.setEnabled (true);
 		
 		newGameButton = new JButton (OK_TEXT);
-//		loadGameButton = new JButton ("Load Game...");
 		tQuitButton = new JButton(QUIT_TEXT);
 		
 		GroupLayout groupLayout = new GroupLayout (getContentPane ());
@@ -308,7 +295,6 @@ public class Game_18XX extends JFrame {
 							.addGap(60)
 							.addComponent(newGameButton)
 							.addGap(100)
-//							.addComponent(loadGameButton)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(tQuitButton)))
 					.addContainerGap(11, Short.MAX_VALUE))
@@ -327,7 +313,6 @@ public class Game_18XX extends JFrame {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(newGameButton)
-//						.addComponent(loadGameButton)
 						.addComponent(tQuitButton))
 					.addContainerGap(12, Short.MAX_VALUE))
 		);
@@ -393,8 +378,6 @@ public class Game_18XX extends JFrame {
 		tMenuIndex = addGameMenu (tMenuIndex, showMarketAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showCitiesAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showPrivatesAction);
-//		tMenuIndex = addGameMenu (tMenuIndex, showCoalCompaniesAction);
-//		tMenuIndex = addGameMenu (tMenuIndex, showMinorCompaniesAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showShareCompaniesAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showTileTrayAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showChatClientAction);
@@ -457,8 +440,6 @@ public class Game_18XX extends JFrame {
 				KeyStroke.getKeyStroke (KeyEvent.VK_T, shortcutKeyMask));
 		showPrivatesAction = new showPrivatesActionClass (resbundle.getString ("showPrivatesItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_P, shortcutKeyMask));
-//		showCoalCompaniesAction = new showMinorsActionClass (resbundle.getString ("showCoalsItem"), null);
-//		showMinorCompaniesAction = new showMinorsActionClass (resbundle.getString ("showMinorsItem"), null);
 		showShareCompaniesAction = new showShareCompaniesActionClass (resbundle.getString ("showShareCompaniesItem"), null);
 		showChatClientAction = new showChatClientActionClass (resbundle.getString ("showChatClientItem"), null);
 		showRoundFrameAction = new showRoundFrameActionClass (resbundle.getString ("showRoundFrameItem"), null);
@@ -530,8 +511,6 @@ public class Game_18XX extends JFrame {
 	public void disableGameButtons () {
 		newGameButton.setEnabled (false);
 		newGameButton.setToolTipText (ENTER_USER_NAME);
-//		loadGameButton.setEnabled (false);
-//		loadGameButton.setToolTipText (ENTER_USER_NAME);
 	}
 	
 	public void disableGameStartItems () {
@@ -546,8 +525,6 @@ public class Game_18XX extends JFrame {
 		enableOpenMenuItem ();
 		newGameButton.setEnabled (true);
 		newGameButton.setToolTipText (GUI.NO_TOOL_TIP);
-//		loadGameButton.setEnabled (true);
-//		loadGameButton.setToolTipText (GUI.NO_TOOL_TIP);
 		clientUserName.setEnabled (true);
 	}
 	
