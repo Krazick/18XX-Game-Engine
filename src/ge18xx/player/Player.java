@@ -49,6 +49,7 @@ import ge18xx.utilities.XMLNodeList;
 
 public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoaderI {
 	public static final Player NO_PLAYER = null;
+	public static final String NO_PLAYER_NAME = "";
 	public static final String NO_PLAYER_NAME_LABEL = ">NO PLAYER<";
 	public static final ElementName EN_PLAYER = new ElementName ("Player");
 	public static final ElementName EN_PLAYERS = new ElementName ("Players");

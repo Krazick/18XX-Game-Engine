@@ -1,6 +1,7 @@
 package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
+import ge18xx.player.Player;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.NewCurrentPlayerEffect;
@@ -34,17 +35,21 @@ public class ChangePlayerAction extends Action {
 		addEffect (tNewCurrentPlayerEffect);
 	}
 	
-	public String getPlayerName () {
-		String tPlayerName = "";
+	public String getNewPlayerName () {
+		String tNewPlayerName = Player.NO_PLAYER_NAME;
+		int tNewPlayerIndex;
+		NewCurrentPlayerEffect tNewCurrentPlayerEffect;
 		
 		for (Effect tEffect : effects) {
-			if (tPlayerName.equals ("")) {
+			if (tNewPlayerName.equals (Player.NO_PLAYER_NAME)) {
 				if (tEffect instanceof NewCurrentPlayerEffect) {
-					tPlayerName = ((NewCurrentPlayerEffect) tEffect).getName ();
+					tNewCurrentPlayerEffect = (NewCurrentPlayerEffect) tEffect;
+					tNewPlayerIndex = tNewCurrentPlayerEffect.getNewPlayer ();
+					tNewPlayerName = "Player # " + tNewPlayerIndex;
 				}
 			}
 		}
 		
-		return tPlayerName;
+		return tNewPlayerName;
 	}
 }

@@ -36,4 +36,13 @@ public class DonePlayerAction extends ChangeStateAction {
 		tExchangePrezShareEffect = new ExchangePrezShareEffect (getActor (), aCorporationAbbrev);
 		addEffect (tExchangePrezShareEffect);
 	}
+	
+	@Override
+	public String getSimpleActionReport () {
+		String tSimpleActionReport;
+		
+		tSimpleActionReport = actor.getName () + " is Done.";
+		
+		return tSimpleActionReport;
+	}
 }
