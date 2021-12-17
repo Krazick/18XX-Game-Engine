@@ -384,18 +384,6 @@ public class Game_18XX extends JFrame {
 		tMenuIndex = addGameMenu (tMenuIndex, showRoundFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showAuditFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showActionReportFrameAction);
-//		gameMenuItems [0] = new JMenuItem (showMapAction);
-//		gameMenuItems [1] = new JMenuItem (showMarketAction);
-//		gameMenuItems [2] = new JMenuItem (showCitiesAction);
-//		gameMenuItems [3] = new JMenuItem (showPrivatesAction);
-//		gameMenuItems [4] = new JMenuItem (showCoalCompaniesAction);
-//		gameMenuItems [5] = new JMenuItem (showMinorCompaniesAction);
-//		gameMenuItems [6] = new JMenuItem (showShareCompaniesAction);
-//		gameMenuItems [7] = new JMenuItem (showTileTrayAction);
-//		gameMenuItems [8] = new JMenuItem (showChatClientAction);
-//		gameMenuItems [9] = new JMenuItem (showRoundFrameAction);
-//		gameMenuItems [10] = new JMenuItem (showAuditFrameAction);
-//		gameMenuItems [11] = new JMenuItem (showActionReportFrameAction);
 		
 		for (tMenuItemIndex = 0; tMenuItemIndex < tMenuItemCount; tMenuItemIndex++) {
 			gameMenuItems [tMenuItemIndex].setEnabled (false);
