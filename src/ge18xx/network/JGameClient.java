@@ -106,6 +106,10 @@ public class JGameClient extends XMLFrame {
 	private final String SHOW_ALL_GAMES = "SHOW ALL GAMES"; 
 	private final String SELECT_GAME = "SELECT GAME";
 	private final String READY_TO_PLAY = "READY";
+	private final String REFRESH = "REFRESH";
+	private final String AFK = "AFK";
+	private final String SEND = "SEND";
+	private final String DISCONNECT = "DISCONNET";
 	private final String PLAY_GAME = "PLAY GAME";
 	private final String START_GAME = "START";
 	private final String NO_SELECTED_GAME = null;
@@ -262,7 +266,7 @@ public class JGameClient extends XMLFrame {
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				
-				if ("REFRESH".equals (tAction)) {
+				if (REFRESH.equals (tAction)) {
 					refreshPlayers ();
 					backFromAFK ();
 					networkPlayers.removeAllPlayers ();
@@ -286,7 +290,7 @@ public class JGameClient extends XMLFrame {
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				
-				if ("AFK".equals (tAction)) {
+				if (AFK.equals (tAction)) {
 					serverHandler.sendUserIsAFK ();
 					networkPlayers.setPlayerAFK (playerName.getText (), true);
 					awayFromKeyboardAFKButton.setEnabled (false);
@@ -343,7 +347,7 @@ public class JGameClient extends XMLFrame {
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
 				
-				if ("DISCONNECT".equals (tAction)) {
+				if (DISCONNECT.equals (tAction)) {
 					if (! gameStarted) {
 						// Send to all Players command to unselect game, clear all Ready Flags
 					}
@@ -360,9 +364,7 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void setForUnconnected () {
-		if (heartbeatThread != null) {
-			heartbeatThread.setContinueRunning (false);
-		}
+		stopHeartbeatDelivery ();
 		
 		sendMessageButton.setEnabled (false);
 		sendMessageButton.setToolTipText (NOT_CONNECTED);
@@ -395,7 +397,10 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void setForConnected () {
-		startHeartbeat();
+		startHeartbeat ();
+		
+//		Debugging for Saved Game setup in Network
+		stopHeartbeatDelivery ();
 		
 		connectButton.setEnabled (false);
 		connectButton.setToolTipText (ALREADY_CONNECTED);
@@ -452,69 +457,18 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	private void setupJFrame () {
-
-		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-		
-		// Text Fields
-		playerName = new JTextField ();
-		playerName.setColumns (10);
-		message = new JTextField ();
-		message.setActionCommand ("SEND");
-		message.setColumns (80);
-
 		// Static Labels
 		JLabel lblName = new JLabel ("Name:");
-		lblName.setLabelFor (playerName);
 		JLabel lblServerChoice = new JLabel ("Server IP:");
 		JLabel lblPlayers = new JLabel ("Players");
-		JLabel lblMessage = new JLabel ("Message:");		
+		JLabel lblMessage = new JLabel ("Message:");
+		
+		lblName.setLabelFor (playerName);
 		lblMessage.setVerticalTextPosition (SwingConstants.BOTTOM);
 		lblMessage.setLabelFor (message);
 		
-		serverIPField = new JTextField (DEFAULT_REMOTE_SERVER_IP, 10);
-		serverIPField.setHorizontalAlignment (JTextField.CENTER);
-		
-		// Action Buttons
-		connectButton = new JButton (CONNECT_ACTION);
-		sendMessageButton = new JButton ("SEND");
-		awayFromKeyboardAFKButton = new JButton ("AFK");
-		refreshPlayersButton = new JButton ("REFRESH");
-		disconnectButton = new JButton("DISCONNECT");
-		startReadyButton = new JButton (SELECT_GAME);
-		showSavedGames = new JButton (SHOW_SAVED_GAMES);
-		
-		// Text Panes and Scroll Panes
-		chatText = new JTextPane ();
-		chatText.setText ("Player Chat Area");
-		chatText.setFocusable (true);
-		chatText.setFocusTraversalKeysEnabled (false);
-		chatText.setFocusCycleRoot (false);
-		chatText.setEditable (false);
-		
-		spChatText = new JScrollPane ();
-		spChatText.setAutoscrolls (true);
-		spChatText.setViewportBorder (null);
-		spChatText.setViewportView (chatText);
-		
-		gameActivityPanel = new JPanel ();
-		gameActivityPanel.setBorder (new LineBorder (Color.GRAY, 1, true));
-		gameActivityPanel.setPreferredSize (new Dimension (100, 100));
-		
-		gameActivity = new JTextPane ();
-		gameActivity.setText ("Game Activity Area");
-		gameActivity.setFocusable (true);
-		gameActivity.setFocusTraversalKeysEnabled (false);
-		gameActivity.setFocusCycleRoot (false);
-		gameActivity.setEditable (false);
-		
-		spGameActivity = new JScrollPane ();
-		spGameActivity.setAutoscrolls (true);
-		spGameActivity.setViewportView (gameActivity);
-
-		playerList = new JList<NetworkPlayer> (networkPlayers.getPlayerList ());
-		playerList.setFocusable (false);
-		playerList.setFocusTraversalKeysEnabled (false);
-		playerList.setEnabled (false);		
+		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+		buildFrameComponents();		
 				
 		GroupLayout groupLayout = new GroupLayout (getContentPane ());
 		groupLayout.setHorizontalGroup(
@@ -611,6 +565,60 @@ public class JGameClient extends XMLFrame {
 		setForUnconnected ();
 		setSize (919, 470);
 		pack ();
+	}
+
+	private void buildFrameComponents() {
+		// Text Fields
+		playerName = new JTextField ();
+		playerName.setColumns (10);
+		message = new JTextField ();
+		message.setActionCommand (SEND);
+		message.setColumns (80);
+		
+		serverIPField = new JTextField (DEFAULT_REMOTE_SERVER_IP, 10);
+		serverIPField.setHorizontalAlignment (JTextField.CENTER);
+		
+		// Action Buttons
+		connectButton = new JButton (CONNECT_ACTION);
+		sendMessageButton = new JButton (SEND);
+		awayFromKeyboardAFKButton = new JButton (AFK);
+		refreshPlayersButton = new JButton (REFRESH);
+		disconnectButton = new JButton(DISCONNECT);
+		startReadyButton = new JButton (SELECT_GAME);
+		showSavedGames = new JButton (SHOW_SAVED_GAMES);
+		
+		// Text Panes and Scroll Panes
+		chatText = new JTextPane ();
+		chatText.setText ("Player Chat Area");
+		chatText.setFocusable (true);
+		chatText.setFocusTraversalKeysEnabled (false);
+		chatText.setFocusCycleRoot (false);
+		chatText.setEditable (false);
+		
+		spChatText = new JScrollPane ();
+		spChatText.setAutoscrolls (true);
+		spChatText.setViewportBorder (null);
+		spChatText.setViewportView (chatText);
+		
+		gameActivityPanel = new JPanel ();
+		gameActivityPanel.setBorder (new LineBorder (Color.GRAY, 1, true));
+		gameActivityPanel.setPreferredSize (new Dimension (100, 100));
+		
+		gameActivity = new JTextPane ();
+		gameActivity.setText ("Game Activity Area");
+		gameActivity.setFocusable (true);
+		gameActivity.setFocusTraversalKeysEnabled (false);
+		gameActivity.setFocusCycleRoot (false);
+		gameActivity.setEditable (false);
+		
+		spGameActivity = new JScrollPane ();
+		spGameActivity.setAutoscrolls (true);
+		spGameActivity.setViewportView (gameActivity);
+
+		playerList = new JList<NetworkPlayer> (networkPlayers.getPlayerList ());
+		playerList.setFocusable (false);
+		playerList.setFocusTraversalKeysEnabled (false);
+		playerList.setEnabled (false);
 	}
 	
 	private void handleStartGame () {
@@ -761,7 +769,7 @@ public class JGameClient extends XMLFrame {
 			tPlayerName = playerName.getText ();
 			tSuccess = connectToServer (tPlayerName);
 			if (tSuccess) {
-				if (serverHandler != null) {
+				if (serverHandler != ServerHandler.NO_SERVER_HANDLER) {
 					if (serverHandler.isConnected ()) {
 						serverHandler.sendGEVersion (gameManager.getGEVersion ());
 						setForConnected ();
@@ -1001,7 +1009,7 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	private void sendMessage (String aAction) {
-		if ("SEND".equals (aAction)) {
+		if (SEND.equals (aAction)) {
 			String tMessage = message.getText ();
 			
 			// De-activate AFK, if it has been set
@@ -1267,11 +1275,11 @@ public class JGameClient extends XMLFrame {
 		savedGamesList.setSelectionMode (ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		savedGamesList.setLayoutOrientation (JList.VERTICAL);
 		savedGamesList.addListSelectionListener (new ListSelectionListener () {
-		      @Override
+			@Override
 			public void valueChanged (ListSelectionEvent aEvent) {
-		    	  savedGameSelected (aEvent);
-		        }
-		      });
+		    	savedGameSelected (aEvent);
+			}
+		});
 	}
 	
 	private void savedGameSelected (ListSelectionEvent aEvent) {
@@ -1292,14 +1300,13 @@ public class JGameClient extends XMLFrame {
 			System.out.println ("New Auto Save File Name: " + tNewSaveGameFile);
 			autoSaveFileName = tNewSaveGameFile;
 			updateReadyButton (PLAY_GAME, true, GUI.NO_TOOL_TIP);
-
 		}
 	}
 	
 	public void loadAndStartGame () {
-		System.out.println ("Should have Game Manager Load the Network Game, and Start Playing " +
-							" with Game ID [" + gameManager.getGameID () + "]");
 		gameManager.loadAutoSavedGame (autoSaveFileName);
+		System.out.println ("Should have Game Manager Load the Network Game, and Start Playing " +
+				"with Game ID [" + gameManager.getGameID () + "]");
 		swapToGameActivity ();
 	}
 
@@ -1367,7 +1374,9 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	public void stopHeartbeatDelivery () {
-		heartbeatThread.stopHeartbeatDelivery (); 
+		if (heartbeatThread != null) {
+			heartbeatThread.stopHeartbeatDelivery (); 
+		}
 	}
 	
 	public void startHeartbeatDelivery () {
