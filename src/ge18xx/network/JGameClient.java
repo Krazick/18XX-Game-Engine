@@ -400,7 +400,7 @@ public class JGameClient extends XMLFrame {
 		startHeartbeat ();
 		
 //		Debugging for Saved Game setup in Network
-		stopHeartbeatDelivery ();
+//		stopHeartbeatDelivery ();
 		
 		connectButton.setEnabled (false);
 		connectButton.setToolTipText (ALREADY_CONNECTED);
