@@ -250,7 +250,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		privatesFrame.closeCompany (aCompanyID, aTransferOwnershipAction);
 	}
 	
-	public void createCities () {
+	private void createCities () {
 		String tXMLCitiesName;
 		String tActiveGameName;
 		String tFullFrameTitle;
@@ -271,7 +271,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 	
-	public void createCoalCompanies () {
+	private void createCoalCompanies () {
 		String tXMLCompaniesName;
 		String tFullFrameTitle;
 		CoalCompaniesFrame tCoalCompaniesFrame;
@@ -329,7 +329,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tFullTitle;
 	}
 	
-	public void createAuditFrame () {
+	private void createAuditFrame () {
 		AuditFrame tAuditFrame;
 		String tFullTitle;
 		
@@ -345,7 +345,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return configFrames;
 	}
 	
-	public void createFrameInfoFrame () {
+	private void createFrameInfoFrame () {
 		FrameInfoFrame tFrameInfoFrame;
 		String tFullTitle;
 		
@@ -357,7 +357,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 	
-	public void createMap () {
+	private void createMap () {
 		String tXMLMapName;
 		String tBaseDir;
 		String tColorSchemeName;
@@ -403,7 +403,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}	
 	}
 	
-	public void createMarket () {
+	private void createMarket () {
 		String tXMLMarketName;
 		String tFullTitle;
 		MarketFrame tMarketFrame;
@@ -422,7 +422,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 	
-	public void createMinorCompanies () {
+	private void createMinorCompanies () {
 		String tXMLCompaniesName;
 		MinorCompaniesFrame tMinorCompaniesFrame;
 		
@@ -439,7 +439,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 	
-	public void createPrivateCompanies () {
+	private void createPrivateCompanies () {
 		String tXMLCompaniesName;
 		PrivatesFrame tPrivatesFrame;
 		
@@ -456,7 +456,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 	
-	public void createShareCompanies () {
+	private void createShareCompanies () {
 		String tXMLCompaniesName;
 		Integer [] tParValues;
 		Market tMarket;
@@ -489,7 +489,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tMarket.getAllStartCells ();
 	}
 	
-	public void createTileTray () {
+	private void createTileTray () {
 		String tXMLTileTrayName, tXMLTileDefinitionName;
 		String tActiveGameName, tBaseDirName;
 		String tTileSets [] = {
@@ -1023,15 +1023,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 	
-	public void setBank (int aBank) {
+	private void setBank (int aBank) {
 		bank = new Bank (aBank, this);
 	}
 	
-	public void setBankPool (BankPool aBankPool) {
+	private void setBankPool (BankPool aBankPool) {
 		bankPool = aBankPool;
 	}
 
-	public void setupBank () {
+	private void setupBank () {
 		int tBankTotal;
 		
 		bankPool = new BankPool (this);
@@ -1168,7 +1168,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		playerManager.hideAllPlayerFrames ();
 	}
 	
-	public void handleMissedActions () {
+	private void handleMissedActions () {
 		int tLastLocalAction;
 		int tLastNetworkAction;
 		int tNextActionNumber;
@@ -1193,7 +1193,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 	}
 	
-	public void loadSavedXMLFile () {
+	private void loadSavedXMLFile () {
 		List<ActionStates> auctionStates;
 		
 		setNotifyNetwork (false);
