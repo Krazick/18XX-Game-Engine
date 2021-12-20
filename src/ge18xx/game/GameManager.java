@@ -147,13 +147,22 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public GameManager (Game_18XX aGame_18XX_Frame, String aClientUserName) {
-		game18XXFrame = aGame_18XX_Frame;
-		configFrames = new ArrayList<XMLFrame> ();
+		storeAllFrames (aGame_18XX_Frame);
 		setGame (GameInfo.NO_GAME_INFO);
 		setBankPool (BankPool.NO_BANK_POOL);
 		setBank (Bank.NO_BANK_CASH);
 		setPlayerManager (PlayerManager.NO_PLAYER_MANAGER);
 		setPhaseManager (PhaseManager.NO_PHASE_MANAGER);
+		setClientUserName (aClientUserName);
+		setDefaults ();
+		loadConfig ();
+		logger = Game_18XX.getLogger ();
+		setUserDir ();
+	}
+
+	private void storeAllFrames (Game_18XX aGame_18XX_Frame) {
+		game18XXFrame = aGame_18XX_Frame;
+		configFrames = new ArrayList<XMLFrame> ();		
 		setMapFrame (XMLFrame.NO_XML_FRAME);
 		setCitiesFrame (XMLFrame.NO_XML_FRAME);
 		setPrivatesFrame (XMLFrame.NO_XML_FRAME);
@@ -164,18 +173,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setPlayerInputFrame (PlayerInputFrame.NO_PLAYER_INPUT_FRAME);
 		setAuditFrame (XMLFrame.NO_XML_FRAME);
 		setFrameInfoFrame (XMLFrame.NO_XML_FRAME);
-		setClientUserName (aClientUserName);
-		setDefaults ();
-		loadConfig ();
-		logger = Game_18XX.getLogger ();
-		setUserDir ();
 	}
 
 	private void setUserDir () {
 		userDir = System.getProperty ("user.dir");
 	}
 	
-	private void setDefaults() {
+	private void setDefaults () {
 		setLoadSavedFile (null);
 		saveFile = null;
 		autoSaveFile = null;
@@ -1161,9 +1165,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		loadSavedXMLFile ();
 		handleMissedActions ();
 		updateRoundFrame ();
-		if (isOperatingRound ()) {
-			playerManager.hideAllPlayerFrames ();
-		}
+		playerManager.hideAllPlayerFrames ();
 	}
 	
 	public void handleMissedActions () {
