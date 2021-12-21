@@ -420,7 +420,6 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		int tPercentage;
 		
 		// TODO: Test for Over Total Certificate Limit 
-		// TODO: Test for Over specific Company Certificate Limit
 		
 		// Reason 1 from Exchange of President Share
 		// Reason 2 from Company Share Price leaving Market Region that allowed excess certificates
@@ -433,6 +432,11 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			tStock = aPlayer.exceedsAnyCorpShareLimit ();
 			if (tStock != Player.NO_STOCK_TO_SELL) {
 				tToolTip = "Must sell stock in " + tStock + " to get to within Share Limit, or to have Stock return to Orange or Brown Zone";
+			} else {
+				tPercentage = aPlayer.exceedsCertificateLimitBy ();
+				if (tPercentage > 0) {
+					tToolTip = "Player over Certificate Limit by " + tPercentage + ". Must sell Certificates to reach Limit";
+				}
 			}
 		}
 		
@@ -448,6 +452,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			tMustSellStock = true;
 		} else if (player.exceedsAnyCorpShareLimit () != Player.NO_STOCK_TO_SELL) {
 			tMustSellStock = true;		
+		} else if (player.exceedsCertificateLimitBy () > 0) {
+			tMustSellStock = true;
 		}
 		
 		return tMustSellStock;
