@@ -260,7 +260,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			tCanCompleteTurn = false;
 		} else {
 			tShareCompanyThatExceeds = exceedsAnyCorpShareLimit ();
-			if (tShareCompanyThatExceeds != null) {
+			if (tShareCompanyThatExceeds != NO_STOCK_TO_SELL) {
 				tCanCompleteTurn = false;
 			} else if (exceedsCertificateLimitBy () > 0) {
 				tCanCompleteTurn = false;
@@ -295,11 +295,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		GameManager tGameManager;
 		CorporationList tShareCompanies;
 		
-		tExceedsThisCorpLimit = null;
+		tExceedsThisCorpLimit = NO_STOCK_TO_SELL;
 		tGameManager = playerManager.getGameManager ();
 		tShareCompanies = tGameManager.getShareCompanies ();
 		tCorporationCount = tShareCompanies.getCorporationCount ();
-		for (tCorporationIndex = 0; (tCorporationIndex < tCorporationCount) && (tExceedsThisCorpLimit == null); tCorporationIndex++) {
+		for (tCorporationIndex = 0; 
+				(tCorporationIndex < tCorporationCount) && 
+				(tExceedsThisCorpLimit == NO_STOCK_TO_SELL); 
+				tCorporationIndex++) {
 			tCorporation = tShareCompanies.getCorporation (tCorporationIndex);
 			tShareCompanyAbbrev = tCorporation.getAbbrev ();
 			if (exceedsShareLimit (tShareCompanyAbbrev)) {

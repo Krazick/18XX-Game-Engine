@@ -416,7 +416,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	
 	public String getMustSellToolTip (Player aPlayer) {
 		String tStock;
-		String tToolTip;
+		String tToolTip = "";
 		int tPercentage;
 		
 		// TODO: Test for Over Total Certificate Limit 
@@ -426,8 +426,15 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		// Reason 2 from Company Share Price leaving Market Region that allowed excess certificates
 		
 		tStock = aPlayer.hasExchangedShare ();
-		tPercentage = aPlayer.getMustSellPercent (tStock);
-		tToolTip = "Must sell at least " + tPercentage + "% of " + tStock + " Share Company due to Exchange";
+		if (tStock != Player.NO_STOCK_TO_SELL) {
+			tPercentage = aPlayer.getMustSellPercent (tStock);
+			tToolTip = "Must sell at least " + tPercentage + "% of " + tStock + " Share Company due to Exchange";
+		} else {
+			tStock = aPlayer.exceedsAnyCorpShareLimit ();
+			if (tStock != Player.NO_STOCK_TO_SELL) {
+				tToolTip = "Must sell stock in " + tStock + " to get to within Share Limit, or to have Stock return to Orange or Brown Zone";
+			}
+		}
 		
 		return tToolTip;
 	}
@@ -439,6 +446,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tStockToSell = player.hasExchangedShare ();
 		if (tStockToSell != Player.NO_STOCK_TO_SELL) {
 			tMustSellStock = true;
+		} else if (player.exceedsAnyCorpShareLimit () != Player.NO_STOCK_TO_SELL) {
+			tMustSellStock = true;		
 		}
 		
 		return tMustSellStock;
