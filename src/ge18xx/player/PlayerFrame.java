@@ -11,6 +11,7 @@ import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -810,7 +811,12 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		setTotalValueLabel ();
 	}
 	
-	public void handleExplainButtons (GameManager aGameManager) {
-		buttonsInfoFrame.handleExplainButtons (aGameManager);
+	public void handleExplainButtons () {
+		Point tNewPoint;
+		GameManager tGameManager;
+		
+		tGameManager = player.getGameManager ();
+		tNewPoint = tGameManager.getOffsetPlayerFrame ();
+		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}
 }

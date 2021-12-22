@@ -40,6 +40,18 @@ public class FrameButton {
 		return jButton != NO_JBUTTON;
 	}
 	
+	public boolean isVisible () {
+		boolean tIsVisible = false;
+		
+		if (isJCheckBox ()) {
+			tIsVisible = jCheckBox.isVisible ();
+		} else if (isJButton ()) {
+			tIsVisible = jButton.isVisible ();
+		}
+		
+		return tIsVisible;
+	}
+	
 	public boolean isJCheckBox () {
 		return jCheckBox != NO_JCHECKBOX;
 	}

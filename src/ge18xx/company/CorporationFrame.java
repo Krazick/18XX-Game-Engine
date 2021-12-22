@@ -2,6 +2,7 @@ package ge18xx.company;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
@@ -19,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -52,6 +54,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String PAYBACK_LOAN = "Payback Loan";
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
+	static final String EXPLAIN = "Explain";
 	private static final long serialVersionUID = 1L;
 	JPanel bankJPanel;
 	JPanel certJPanel;
@@ -86,17 +89,22 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	JButton paybackLoanActionButton;
 	JButton doneActionButton;
 	JButton undoActionButton;
+	JButton explainButton;
+	ButtonsInfoFrame buttonsInfoFrame;
 	Corporation corporation;
 	boolean isNetworkGame;
 	
 	public CorporationFrame (String aFrameName, Corporation aCorporation, boolean aIsNetworkGame) {
 		super (((aCorporation != Corporation.NO_CORPORATION) ? aCorporation.getName () + " " : "") + aFrameName);
 		JPanel tTopBoxes;
+		GameManager tGameManager;
 		
 		certJPanel = GUI.NO_PANEL;
 		corporation = aCorporation;
 		if (isCorporationSet ()) {
 			corporation = aCorporation;
+			tGameManager = corporation.getGameManager ();
+			buttonsInfoFrame = new ButtonsInfoFrame (corporation.getName () + " Corporation Frame Info for Buttons", tGameManager);
 			
 			buildCorporationAllInfoJPanel ();
 			
@@ -316,7 +324,20 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporation.clearBankSelections ();
 			corporation.undoAction ();
 		}
+		if (EXPLAIN.equals (aEvent.getActionCommand ())) {
+			handleExplainButtons ();	
+		}
 		updateInfo ();
+	}
+	
+	private void handleExplainButtons () {
+		Point tNewPoint;
+		GameManager tGameManager;
+		
+		tGameManager = corporation.getGameManager ();
+		tNewPoint = tGameManager.getOffsetCorporationFrame ();
+
+		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}
 	
 	private JButton setupActionButton (String aButtonLabel, String aButtonAction) {
@@ -325,7 +346,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		tActionButton = new JButton (aButtonLabel);
 		tActionButton.setActionCommand (aButtonAction);
 		tActionButton.addActionListener (this);
-	
+		
 		return tActionButton;
 	}
 	
@@ -348,32 +369,60 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			getLoanActionButton = setupActionButton (GET_LOAN, GET_LOAN);
 			paybackLoanActionButton = setupActionButton (PAYBACK_LOAN, PAYBACK_LOAN);
 		}
+		explainButton = setupActionButton (EXPLAIN, EXPLAIN);
 		addActionButtons ();
 	}
 	
 	private void addActionButtons () {
 		actionButtonsJPanel.removeAll ();
 		
-		actionButtonsJPanel.add (showMapActionButton);
-		actionButtonsJPanel.add (placeTileActionButton);
-		actionButtonsJPanel.add (placeTokenActionButton);
-		actionButtonsJPanel.add (operateTrainActionButton);
-		actionButtonsJPanel.add (payNoDividendActionButton);
+		addButton (showMapActionButton);
+		addButton (placeTileActionButton);
+		addButton (placeTokenActionButton);
+		addButton (operateTrainActionButton);
+		addButton (payNoDividendActionButton);
 		if (corporation.canPayHalfDividend ()) {
-			actionButtonsJPanel.add (payHalfDividendActionButton);
+			addButton (payHalfDividendActionButton);
 		}
-		actionButtonsJPanel.add (payFullDividendActionButton);
-		actionButtonsJPanel.add (buyTrainActionButton);
-		actionButtonsJPanel.add (buyTrainForceActionButton);
+		addButton (payFullDividendActionButton);
+		addButton (buyTrainActionButton);
+		addButton (buyTrainForceActionButton);
 		if (corporation.gameHasPrivates ()) {
-			actionButtonsJPanel.add (buyPrivateActionButton);
+			addButton (buyPrivateActionButton);
 		}
 		if (corporation.gameHasLoans ()) {
-			actionButtonsJPanel.add (getLoanActionButton);
-			actionButtonsJPanel.add (paybackLoanActionButton);
+			addButton (getLoanActionButton);
+			addButton (paybackLoanActionButton);
 		}
-		actionButtonsJPanel.add (doneActionButton);
-		actionButtonsJPanel.add (undoActionButton);
+		addButton (doneActionButton);
+		addButton (undoActionButton);
+		addButton (explainButton);
+//		actionButtonsJPanel.add (showMapActionButton);
+//		actionButtonsJPanel.add (placeTileActionButton);
+//		actionButtonsJPanel.add (placeTokenActionButton);
+//		actionButtonsJPanel.add (operateTrainActionButton);
+//		actionButtonsJPanel.add (payNoDividendActionButton);
+//		if (corporation.canPayHalfDividend ()) {
+//			actionButtonsJPanel.add (payHalfDividendActionButton);
+//		}
+//		actionButtonsJPanel.add (payFullDividendActionButton);
+//		actionButtonsJPanel.add (buyTrainActionButton);
+//		actionButtonsJPanel.add (buyTrainForceActionButton);
+//		if (corporation.gameHasPrivates ()) {
+//			actionButtonsJPanel.add (buyPrivateActionButton);
+//		}
+//		if (corporation.gameHasLoans ()) {
+//			actionButtonsJPanel.add (getLoanActionButton);
+//			actionButtonsJPanel.add (paybackLoanActionButton);
+//		}
+//		actionButtonsJPanel.add (doneActionButton);
+//		actionButtonsJPanel.add (undoActionButton);
+//		actionButtonsJPanel.add (explainButton);
+	}
+	
+	private void addButton (JButton aButton) {
+		actionButtonsJPanel.add (aButton);
+		buttonsInfoFrame.addButton (aButton);		
 	}
 	
 	public void fillOtherCorpsJPanel (boolean aCanBuyTrain, String aDisableToolTipReason) {

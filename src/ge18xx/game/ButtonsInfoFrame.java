@@ -28,7 +28,7 @@ public class ButtonsInfoFrame extends TableFrame {
 	DefaultTableModel buttonModel = new DefaultTableModel (0, 0);
 	JPanel allButtonInfoJPanel;
 	JTable buttonsTable;
-	int colWidths [] = {30, 100, 110, 100, 700};
+	int colWidths [] = {30, 100, 170, 100, 700};
 	int rowHeight = 35;
 	
 	public ButtonsInfoFrame (String aFrameName, GameManager aGameManager) {
@@ -75,7 +75,7 @@ public class ButtonsInfoFrame extends TableFrame {
 		buttonsTable.setFont (new Font ("Serif", Font.PLAIN, 20));
 		buttonsTable.setRowHeight (rowHeight);
 		tTableHeader = buttonsTable.getTableHeader();
-		tTableHeader.setFont(new Font ("SansSerif", Font.ITALIC, 20));
+		tTableHeader.setFont (new Font ("SansSerif", Font.ITALIC, 20));
 
 		tColumnModel = buttonsTable.getColumnModel ();
 		tColumnModel.getColumn (0).setCellRenderer (centerRenderer);
@@ -84,6 +84,7 @@ public class ButtonsInfoFrame extends TableFrame {
 		for (int tIndex = 0; tIndex < colWidths.length; tIndex++) {
 			tColumnModel.getColumn (tIndex).setMaxWidth (colWidths [tIndex]);
 		}
+		buttonsTable.setAutoResizeMode (JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
 		setCalculatedSize ();
 		setScrollPane (buttonsTable);
@@ -100,15 +101,12 @@ public class ButtonsInfoFrame extends TableFrame {
 		setSize (tTotalWidth, tTotalHeight);
 	}
 	
-	public void handleExplainButtons (GameManager aGameManager) {
-		Point tNewPoint;
-		
-		tNewPoint = aGameManager.getOffsetPlayerFrame ();
-		setLocation (tNewPoint);
+	public void handleExplainButtons (Point aNewPoint) {
+		setLocation (aNewPoint);
 		removeAllRows ();
 		fillButtonsTable ();
 		setCalculatedSize ();
-		setVisible(true);
+		setVisible (true);
 	}
 	
 	public void fillButtonsTable () {
@@ -117,12 +115,15 @@ public class ButtonsInfoFrame extends TableFrame {
 		boolean tEnabled;
 		
 		for (FrameButton tFrameButton : frameButtons) {
-			tButtonIndex++;
-			tGroupName = tFrameButton.getGroupName ();
-			tButtonText = tFrameButton.getTitle ();
-			tEnabled = tFrameButton.getEnabled ();
-			tToolTipText = tFrameButton.getToolTipText ();
-			addRow (tButtonIndex, tGroupName, tButtonText, tEnabled, tToolTipText);
+			if (tFrameButton.isVisible ()) {
+				tButtonIndex++;
+				tGroupName = tFrameButton.getGroupName ();
+				tButtonText = tFrameButton.getTitle ();
+				tEnabled = tFrameButton.getEnabled ();
+				tToolTipText = tFrameButton.getToolTipText ();
+	
+				addRow (tButtonIndex, tGroupName, tButtonText, tEnabled, tToolTipText);
+			}
 		}
 	}
 	
