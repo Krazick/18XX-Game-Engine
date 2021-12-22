@@ -1889,7 +1889,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public boolean isOperatingRound () {
-		return roundManager.isOperatingRound ();
+		boolean tIsOperatingRound = false;
+		
+		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+			tIsOperatingRound = roundManager.isOperatingRound ();
+		}
+		
+		return tIsOperatingRound;
 	}
 
 	public Corporation getOperatingCompany () {
