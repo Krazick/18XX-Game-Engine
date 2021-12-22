@@ -61,8 +61,7 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		String [] tColumnNames = {"#", "Round", "Actor", "Action / Event", "Debit", "Credit", "Balance"};
 		int tColWidths [] = {50, 50, 110, 1000, 50, 50, 70};
 		int tTotalWidth = 0;
-		
-		
+				
 		buildAuditTable (tColumnNames, tColWidths, tTotalWidth);
 		
 		// Test Components
@@ -95,7 +94,7 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		return tNorthComponents;
 	}
 
-	private void buildAuditTable (String[] aColumnNames, int[] aColWidths, int aTotalWidth) {
+	private void buildAuditTable (String [] aColumnNames, int [] aColWidths, int aTotalWidth) {
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer ();
 		
 		rightRenderer.setHorizontalAlignment (SwingConstants.RIGHT);
