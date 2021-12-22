@@ -1224,6 +1224,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
+		GameManager tGameManager;
+		
 		if (PlayerFrame.PASS.equals (aEvent.getActionCommand ())) {
 			passAction ();	
 		}
@@ -1245,6 +1247,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 		if (PlayerFrame.UNDO.equals (aEvent.getActionCommand ())) {
 			undoAction ();	
+		}
+		if (PlayerFrame.EXPLAIN.equals (aEvent.getActionCommand ())) {
+			tGameManager = getGameManager ();
+			playerFrame.handleExplainButtons (tGameManager);	
 		}
 		playerManager.updateRoundWindow ();
 	}

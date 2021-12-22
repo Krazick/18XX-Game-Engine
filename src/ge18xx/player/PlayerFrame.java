@@ -5,6 +5,7 @@ import ge18xx.bank.BankPool;
 import ge18xx.bank.StartPacketFrame;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
+import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
@@ -41,6 +42,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	static final String BID = "Bid";
 	static final String BUY_BID = "Buy-Bid";
 	static final String SELL = "Sell";
+	static final String EXPLAIN = "Explain";
 	static final String EXCHANGE = "Exchange";
 	private static final long serialVersionUID = 1L;
 	JPanel playerAndBankJPanel;
@@ -62,16 +64,21 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	JButton sellActionButton;
 	JButton exchangeActionButton;
 	JButton undoActionButton;
+	JButton explainButton;
+	ButtonsInfoFrame buttonsInfoFrame;
 	Player player;
 	int portfolioInfoIndex;
 	boolean locationFixed;
 	
 	public PlayerFrame (String aFrameName, Player aPlayer, String aGameName) {
 		super (aFrameName, aGameName);
+		GameManager tGameManager;
 		
 		if (aPlayer != Player.NO_PLAYER) {
 			player = aPlayer;
 			
+			tGameManager = player.getGameManager ();
+			buttonsInfoFrame = new ButtonsInfoFrame (player.getName () + " Player Frame Info for Buttons", tGameManager);
 			buildPlayerAndBankJPanel ();
 			add (playerAndBankJPanel);
 			setLocationFixed (false);
@@ -180,7 +187,9 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tActionButton.setAlignmentX (CENTER_ALIGNMENT);
 		tActionButton.setActionCommand (aButtonAction);
 		tActionButton.addActionListener (player);
-	
+		
+		buttonsInfoFrame.addButton (tActionButton);
+		
 		return tActionButton;
 	}
 
@@ -192,12 +201,14 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		sellActionButton = setupActionButton (SELL, SELL);
 		exchangeActionButton = setupActionButton (EXCHANGE, EXCHANGE);
 		undoActionButton = setupActionButton (UNDO, UNDO);
-				
+		explainButton = setupActionButton (EXPLAIN, EXPLAIN);
+		
 		actionButtonJPanel.add (passActionButton);
 		actionButtonJPanel.add (buyBidActionButton);
 		actionButtonJPanel.add (sellActionButton);
 		actionButtonJPanel.add (exchangeActionButton);
 		actionButtonJPanel.add (undoActionButton);
+		actionButtonJPanel.add (explainButton);
 	}
 	
 	public void updateBankJPanel (GameManager aGameManager) {
@@ -797,5 +808,9 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tPortfolioInfoJPanel = player.buildPortfolioJPanel (this);
 		replacePortfolioInfo (tPortfolioInfoJPanel);
 		setTotalValueLabel ();
+	}
+	
+	public void handleExplainButtons (GameManager aGameManager) {
+		buttonsInfoFrame.handleExplainButtons (aGameManager);
 	}
 }
