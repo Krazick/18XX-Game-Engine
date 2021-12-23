@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
+import ge18xx.player.Portfolio;
 import ge18xx.toplevel.TableFrame;
 
 public class ButtonsInfoFrame extends TableFrame {
@@ -30,6 +31,7 @@ public class ButtonsInfoFrame extends TableFrame {
 	JTable buttonsTable;
 	int colWidths [] = {30, 100, 170, 100, 700};
 	int rowHeight = 35;
+	int buttonIndex;
 	
 	public ButtonsInfoFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getGameName ());
@@ -101,30 +103,52 @@ public class ButtonsInfoFrame extends TableFrame {
 		setSize (tTotalWidth, tTotalHeight);
 	}
 	
-	public void handleExplainButtons (Point aNewPoint) {
-		setLocation (aNewPoint);
+	public void prepareExplainButtons (Portfolio aPortfolio) {
 		removeAllRows ();
 		fillButtonsTable ();
+		fillCheckedBoxes (aPortfolio);
+	}
+	
+	public void handleExplainButtons (Point aNewPoint) {
+		setLocation (aNewPoint);
 		setCalculatedSize ();
 		setVisible (true);
 	}
 	
 	public void fillButtonsTable () {
-		int tButtonIndex = 0;
+		for (FrameButton tFrameButton : frameButtons) {
+			if (tFrameButton.isVisible ()) {
+				addRow (tFrameButton);
+			}
+		}
+	}
+	
+	public void fillCheckedBoxes (Portfolio aPortfolio) {
+		int tCount, tIndex;
+		FrameButton tFrameButton;
+		
+		if (aPortfolio != Portfolio.NO_PORTFOLIO) {
+			tCount = aPortfolio.getCertificateTotalCount ();
+			if (tCount > 0) {
+				for (tIndex = 0; tIndex < tCount; tIndex++) {
+					tFrameButton = aPortfolio.getFrameButtonAt (tIndex);
+					addRow (tFrameButton);
+				}
+			}
+		}
+	}
+	
+	public void addRow (FrameButton aFrameButton) {
 		String tGroupName, tButtonText, tToolTipText;
 		boolean tEnabled;
 		
-		for (FrameButton tFrameButton : frameButtons) {
-			if (tFrameButton.isVisible ()) {
-				tButtonIndex++;
-				tGroupName = tFrameButton.getGroupName ();
-				tButtonText = tFrameButton.getTitle ();
-				tEnabled = tFrameButton.getEnabled ();
-				tToolTipText = tFrameButton.getToolTipText ();
-	
-				addRow (tButtonIndex, tGroupName, tButtonText, tEnabled, tToolTipText);
-			}
-		}
+		buttonIndex++;
+		tGroupName = aFrameButton.getGroupName ();
+		tButtonText = aFrameButton.getTitle ();
+		tEnabled = aFrameButton.getEnabled ();
+		tToolTipText = aFrameButton.getToolTipText ();
+
+		addRow (buttonIndex, tGroupName, tButtonText, tEnabled, tToolTipText);	
 	}
 	
 	public void addRow (int aButtonNumber, String aGroupName, String aButtonText, boolean aEnabled, String aToolTipText) {
@@ -138,6 +162,6 @@ public class ButtonsInfoFrame extends TableFrame {
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 			buttonModel.removeRow (0);
 		}
+		buttonIndex = 0;
 	}
-
 }

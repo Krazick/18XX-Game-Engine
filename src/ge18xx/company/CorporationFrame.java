@@ -6,6 +6,7 @@ import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.player.Portfolio;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
@@ -336,7 +337,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		
 		tGameManager = corporation.getGameManager ();
 		tNewPoint = tGameManager.getOffsetCorporationFrame ();
-
+		buttonsInfoFrame.prepareExplainButtons (Portfolio.NO_PORTFOLIO);
 		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}
 	

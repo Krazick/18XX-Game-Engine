@@ -814,9 +814,12 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public void handleExplainButtons () {
 		Point tNewPoint;
 		GameManager tGameManager;
+		Portfolio tPortfolio;
 		
 		tGameManager = player.getGameManager ();
 		tNewPoint = tGameManager.getOffsetPlayerFrame ();
+		tPortfolio = player.getPortfolio ();
+		buttonsInfoFrame.prepareExplainButtons (tPortfolio);
 		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}
 }

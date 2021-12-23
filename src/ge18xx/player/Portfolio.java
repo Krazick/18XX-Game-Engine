@@ -15,6 +15,7 @@ import ge18xx.company.CertificateHolderI;
 import ge18xx.company.Corporation;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.PrivateCompany;
+import ge18xx.game.FrameButton;
 import ge18xx.game.GameManager;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -1740,5 +1741,17 @@ public class Portfolio implements CertificateHolderI {
 		}
 		
 		return tSmallestSharePercentage;
+	}
+	
+	public FrameButton getFrameButtonAt (int aIndex) {
+		FrameButton tFrameButton = FrameButton.NO_FRAME_BUTTON;
+		Certificate tCertificate;
+		
+		tCertificate = certificates.get (aIndex);
+		if (tCertificate != Certificate.NO_CERTIFICATE) {
+			tFrameButton = tCertificate.getFrameButton ();
+		}
+		
+		return tFrameButton;
 	}
 }

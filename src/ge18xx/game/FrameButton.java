@@ -4,6 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
 public class FrameButton {
+	public final static FrameButton NO_FRAME_BUTTON = null;
 	private final JButton NO_JBUTTON = null;
 	private final JCheckBox NO_JCHECKBOX = null;
 	private final String NO_GROUP_NAME = null;
@@ -102,4 +103,23 @@ public class FrameButton {
 		return tIsEnabled;
 	}
 	
+	public JButton getJButton () {
+		JButton tJButton = null;
+		
+		if (isJButton ()) {
+			tJButton = jButton;
+		}
+		
+		return tJButton;
+	}
+
+	public JCheckBox getJCheckBox () {
+		JCheckBox tJCheckBox = null;
+		
+		if (isJCheckBox ()) {
+			tJCheckBox = jCheckBox;
+		}
+		
+		return tJCheckBox;
+	}
 }

@@ -18,6 +18,7 @@ import javax.swing.border.CompoundBorder;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.center.Revenue;
+import ge18xx.game.FrameButton;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
@@ -92,6 +93,7 @@ public class Certificate implements Comparable<Certificate> {
 	CertificateHolderI owner;
 	String [] allowedOwners = null;
 	JCheckBox checkedButton;
+	FrameButton frameButton;
 	JComboBox<Integer> parValuesCombo;
 	Bidders bidders;
 	
@@ -103,6 +105,7 @@ public class Certificate implements Comparable<Certificate> {
 		setValues (aCorporation, aIsPresidentShare, aPercentage, aOwner);
 		parValuesCombo = null;
 		checkedButton = NO_CHECKED_BOX;
+		setFrameButton (checkedButton, "");
 	}
 	
 	public Certificate (Certificate aCertificate) {
@@ -114,9 +117,20 @@ public class Certificate implements Comparable<Certificate> {
 			setOwner (aCertificate.getOwner ());	
 			checkedButton = new JCheckBox ("EMPTY");
 			checkedButton = NO_CHECKED_BOX;
+			setFrameButton (checkedButton, "");
 			parValuesCombo = null;
 			bidders = new Bidders (this);
 		}
+	}
+	
+	private void setFrameButton (JCheckBox aJCheckBox, String aGroupName) {
+		if (aJCheckBox != null) {
+			frameButton = new FrameButton (aJCheckBox, aGroupName);
+		}
+	}
+	
+	public FrameButton getFrameButton () {
+		return frameButton;
 	}
 	
 	public Certificate (XMLNode aNode) {
@@ -144,7 +158,8 @@ public class Certificate implements Comparable<Certificate> {
 		}
 		setCorporation (Corporation.NO_CORPORATION);
 		setOwner (NO_OWNER);
-		checkedButton = null;
+		checkedButton = NO_CHECKED_BOX;
+		setFrameButton (checkedButton, "");
 		parValuesCombo = null;
 		bidders = new Bidders (this);
 	}
@@ -258,16 +273,20 @@ public class Certificate implements Comparable<Certificate> {
 				if (isPresidentShare ()) {
 					if (canBeExchanged (aGameManager)) {
 						checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, true, GUI.NO_TOOL_TIP, aItemListener);
+						setFrameButton (checkedButton, getCompanyAbbrev () + " President Share");
 						tCertificateInfoJPanel.add (checkedButton);
 					} else {
 						checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, false, CANNOT_EXCHANGE_PRESIDENT, aItemListener);
+						setFrameButton (checkedButton, getCompanyAbbrev () + " President Share");
 						tCertificateInfoJPanel.add (checkedButton);						
 					}
 				} else if (canBeSold (aGameManager)) {
 					checkedButton = setupCheckedButton (aCheckBoxLabel, true, GUI.NO_TOOL_TIP, aItemListener);
+					setFrameButton (checkedButton, getCompanyAbbrev () + " Share");
 					tCertificateInfoJPanel.add (checkedButton);
 				} else {
 					checkedButton = setupCheckedButton (aCheckBoxLabel, false, getReasonForNoSale (aGameManager), aItemListener);
+					setFrameButton (checkedButton, getCompanyAbbrev () + " Share");
 					tCertificateInfoJPanel.add (checkedButton);
 				}
 			}			
@@ -293,6 +312,7 @@ public class Certificate implements Comparable<Certificate> {
 				}
 				if (checkedButton == NO_CHECKED_BOX) {
 					checkedButton = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);	
+					setFrameButton (checkedButton, getCompanyAbbrev () + " Share");
 				} else {
 					updateCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);
 				}
@@ -321,6 +341,7 @@ public class Certificate implements Comparable<Certificate> {
 					tEnabled = true;
 				}
 				checkedButton = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);					
+				setFrameButton (checkedButton, getCompanyAbbrev () + " Share");
 				tCertificateInfoJPanel.add (checkedButton);
 			}
 		} else if (aCheckBoxLabel.equals ("")) {
