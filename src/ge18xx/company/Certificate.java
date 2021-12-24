@@ -138,6 +138,12 @@ public class Certificate implements Comparable<Certificate> {
 		}
 	}
 	
+	public void resetFrameButton () {
+		if (frameButton != FrameButton.NO_FRAME_BUTTON) {
+			frameButton.setVisible (true);
+		}
+	}
+	
 	public Certificate (XMLNode aNode) {
 		String tAllowedOwners = null;
 		
