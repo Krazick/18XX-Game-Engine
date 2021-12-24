@@ -83,6 +83,14 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return tSPPortfolioJPanel;
 	}
 	
+	public int getStartPacketRowCount () {
+		return startPacketRows.size ();
+	}
+	
+	public StartPacketRow getStartPacketRowAt (int aIndex) {
+		return startPacketRows.get (aIndex);
+	}
+	
 	public boolean noMustSellLeft () {
 		return portfolio.noMustSellLeft ();
 	}

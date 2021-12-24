@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import ge18xx.company.Certificate;
+import ge18xx.game.FrameButton;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
@@ -20,6 +21,7 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 public class StartPacketRow implements ParsingRoutineI {
+	public static final StartPacketRow NO_START_PACKET_ROW = null;
 	private static final ElementName EN_CERTIFICATE = new ElementName ("Certificate");
 	private static final AttributeName AN_ROW = new AttributeName ("row");
 	StartPacketFrame startPacketFrame;
@@ -86,11 +88,27 @@ public class StartPacketRow implements ParsingRoutineI {
 		return tRowNotSoldOut;
 	}
 	
+	public int getItemCount () {
+		return startPacketItems.size ();
+	}
+	
+	public FrameButton getFrameButtonInRow (int aIndex) {
+		Certificate tCertificate;
+		FrameButton tFrameButton = FrameButton.NO_FRAME_BUTTON;
+		
+		tCertificate = getCertificateInRow (aIndex);
+		if (tCertificate != Certificate.NO_CERTIFICATE) {
+			tFrameButton = tCertificate.getFrameButton ();
+		}
+		
+		return tFrameButton;
+	}
+	
 	public Certificate getCertificateInRow (int aIndex) {
 		Certificate tItemCertificate = Certificate.NO_CERTIFICATE;
 		StartPacketItem tStartPacketItem;
 		
-		if (aIndex >= startPacketItems.size ()) {
+		if (aIndex >= getItemCount ()) {
 			System.err.println ("Only " + startPacketItems.size () + " Items in Row, asked for " + aIndex);
 		} else {
 			tStartPacketItem = startPacketItems.get (aIndex);

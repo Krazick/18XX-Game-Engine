@@ -5,8 +5,8 @@ import javax.swing.JCheckBox;
 
 public class FrameButton {
 	public final static FrameButton NO_FRAME_BUTTON = null;
-	private final JButton NO_JBUTTON = null;
-	private final JCheckBox NO_JCHECKBOX = null;
+	public final static JButton NO_JBUTTON = null;
+	public final static JCheckBox NO_JCHECKBOX = null;
 	private final String NO_GROUP_NAME = null;
 	public final String NO_TITLE = null;
 	JButton jButton;
@@ -39,6 +39,14 @@ public class FrameButton {
 	
 	public boolean isJButton () {
 		return jButton != NO_JBUTTON;
+	}
+	
+	public void setVisible (boolean aVisibleFlag) {
+		if (isJCheckBox ()) {
+			jCheckBox.setVisible (aVisibleFlag);
+		} else if (isJButton ()) {
+			jButton.setVisible (aVisibleFlag);
+		}
 	}
 	
 	public boolean isVisible () {

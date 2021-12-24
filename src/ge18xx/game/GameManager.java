@@ -650,6 +650,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return bankPool;
 	}
 	
+	public Portfolio getBankPortfolio () {
+		return bank.getPortfolio ();
+	}
+	
 	public Portfolio getBankPoolPortfolio () {
 		Portfolio tBankPoolPortfolio;
 		

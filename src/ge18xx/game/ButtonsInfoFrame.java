@@ -16,6 +16,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
+import ge18xx.bank.StartPacketFrame;
+import ge18xx.bank.StartPacketRow;
 import ge18xx.player.Portfolio;
 import ge18xx.toplevel.TableFrame;
 
@@ -29,7 +31,7 @@ public class ButtonsInfoFrame extends TableFrame {
 	DefaultTableModel buttonModel = new DefaultTableModel (0, 0);
 	JPanel allButtonInfoJPanel;
 	JTable buttonsTable;
-	int colWidths [] = {30, 100, 170, 100, 700};
+	int colWidths [] = {30, 150, 170, 100, 700};
 	int rowHeight = 35;
 	int buttonIndex;
 	
@@ -105,8 +107,8 @@ public class ButtonsInfoFrame extends TableFrame {
 	
 	public void prepareExplainButtons (Portfolio aPortfolio) {
 		removeAllRows ();
-		fillButtonsTable ();
-		fillCheckedBoxes (aPortfolio);
+		fillWithButtonsTable ();
+		fillWithCheckBoxes (aPortfolio);
 	}
 	
 	public void handleExplainButtons (Point aNewPoint) {
@@ -115,7 +117,7 @@ public class ButtonsInfoFrame extends TableFrame {
 		setVisible (true);
 	}
 	
-	public void fillButtonsTable () {
+	private void fillWithButtonsTable () {
 		for (FrameButton tFrameButton : frameButtons) {
 			if (tFrameButton.isVisible ()) {
 				addRow (tFrameButton);
@@ -123,7 +125,7 @@ public class ButtonsInfoFrame extends TableFrame {
 		}
 	}
 	
-	public void fillCheckedBoxes (Portfolio aPortfolio) {
+	public void fillWithCheckBoxes (Portfolio aPortfolio) {
 		int tCount, tIndex;
 		FrameButton tFrameButton;
 		
@@ -138,24 +140,56 @@ public class ButtonsInfoFrame extends TableFrame {
 		}
 	}
 	
-	public void addRow (FrameButton aFrameButton) {
+	public void fillWithCheckBoxes (StartPacketFrame aStartPacketFrame) {
+		int tRowCount, tRowIndex;
+		StartPacketRow tStartPacketRow;
+		
+		tRowCount = aStartPacketFrame.getStartPacketRowCount ();
+		if (tRowCount > 0) {
+			for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
+				tStartPacketRow = aStartPacketFrame.getStartPacketRowAt (tRowIndex);
+				fillWithCheckBoxes (tStartPacketRow);
+			}
+		}
+	}
+	
+	public void fillWithCheckBoxes (StartPacketRow aStartPacketRow) {
+		int tCount, tIndex;
+		FrameButton tFrameButton;
+		
+		if (aStartPacketRow != StartPacketRow.NO_START_PACKET_ROW) {
+			tCount = aStartPacketRow.getItemCount ();
+			if (tCount > 0) {
+				for (tIndex = 0; tIndex < tCount; tIndex++) {
+					tFrameButton = aStartPacketRow.getFrameButtonInRow (tIndex);
+					addRow (tFrameButton);
+				}
+			}
+			
+		}
+	}
+	
+	private void addRow (FrameButton aFrameButton) {
 		String tGroupName, tButtonText, tToolTipText;
 		boolean tEnabled;
 		
-		buttonIndex++;
-		tGroupName = aFrameButton.getGroupName ();
-		tButtonText = aFrameButton.getTitle ();
-		tEnabled = aFrameButton.getEnabled ();
-		tToolTipText = aFrameButton.getToolTipText ();
-
-		addRow (buttonIndex, tGroupName, tButtonText, tEnabled, tToolTipText);	
+		if (aFrameButton != FrameButton.NO_FRAME_BUTTON) {
+			if (aFrameButton.isVisible ()) {
+				buttonIndex++;
+				tGroupName = aFrameButton.getGroupName ();
+				tButtonText = aFrameButton.getTitle ();
+				tEnabled = aFrameButton.getEnabled ();
+				tToolTipText = aFrameButton.getToolTipText ();
+				addRow (buttonIndex, tGroupName, tButtonText, tEnabled, tToolTipText);
+			}
+		}
 	}
 	
-	public void addRow (int aButtonNumber, String aGroupName, String aButtonText, boolean aEnabled, String aToolTipText) {
+	private void addRow (int aButtonNumber, String aGroupName, String aButtonText, boolean aEnabled, String aToolTipText) {
 		buttonModel.addRow (new Object [] {aButtonNumber, aGroupName, aButtonText, aEnabled, aToolTipText});
 	}
 
-	public void removeAllRows () {
+	private void removeAllRows () {
 		int tRowCount, tRowIndex;
 		
 		tRowCount = buttonModel.getRowCount ();

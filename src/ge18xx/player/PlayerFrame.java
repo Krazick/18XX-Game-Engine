@@ -815,11 +815,25 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		Point tNewPoint;
 		GameManager tGameManager;
 		Portfolio tPortfolio;
+		Bank tBank;
+		StartPacketFrame tStartPacketFrame;
 		
 		tGameManager = player.getGameManager ();
 		tNewPoint = tGameManager.getOffsetPlayerFrame ();
 		tPortfolio = player.getPortfolio ();
 		buttonsInfoFrame.prepareExplainButtons (tPortfolio);
+		
+		tBank = tGameManager.getBank ();
+		tStartPacketFrame = tBank.getStartPacketFrame ();
+		if (tStartPacketFrame.isStartPacketPortfolioEmpty ()) {
+			tPortfolio = tGameManager.getBankPortfolio ();
+			buttonsInfoFrame.fillWithCheckBoxes (tPortfolio);
+		} else {
+			buttonsInfoFrame.fillWithCheckBoxes (tStartPacketFrame);
+		}
+		tPortfolio = tGameManager.getBankPoolPortfolio ();
+		buttonsInfoFrame.fillWithCheckBoxes (tPortfolio);
+		
 		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}
 }

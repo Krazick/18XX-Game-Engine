@@ -63,13 +63,13 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String NO_CERTIFICATE_NAME = "";
 	public static final Certificate NO_CERTIFICATE = null;
 	public static final String NO_REASON = ">> NO REASON <<";
-	public static final String NOT_ENOUGH_CASH = "Player does not have enough Cash";
-	public static final String NOT_ENOUGH_CASH_TO_BID = "Player does not have enough Cash to Raise Bid";
-	public static final String ALREADY_SOLD = "Already Sold Stock this Round";
-	public static final String ALREADY_HAVE_MAX = "Already owns Maximum Share Percentage";
-	public static final String AT_CERT_LIMIT = "Already at Certificate Limit";
-	public static final String ALREADY_BOUGHT = "Already bought a share this Round";
-	public static final String ALREADY_BID_ON_CERT = "Bid already on this certificate";
+	public static final String NOT_ENOUGH_CASH = "You do not have enough Cash to Buy";
+	public static final String NOT_ENOUGH_CASH_TO_BID = "You do not have enough Cash to Raise Bid";
+	public static final String ALREADY_SOLD = "You already Sold this Stock in this Round";
+	public static final String ALREADY_HAVE_MAX = "You are already own the Maximum Share Percentage";
+	public static final String AT_CERT_LIMIT = "You are already at Certificate Limit";
+	public static final String ALREADY_BOUGHT = "You already bought a share this Round";
+	public static final String ALREADY_BID_ON_CERT = "You already Bid on this certificate";
 	public static final String NO_SHARE_PRICE = "No Share Price set";
 	public static final String CANNOT_SELL_PRIVATE = "Cannot sell a Private Company";
 	public static final String CANNOT_SELL_MINOR = "Cannot sell a Minor Company";
@@ -77,9 +77,8 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String BANK_POOL_AT_LIMIT = "Bank Pool at Share Limit";
 	public static final String CANNOT_SELL_PRESIDENT = "Cannot directly sell President Share";
 	public static final String CANNOT_EXCHANGE_PRESIDENT = "Cannot exchange President Share";
-	public static final String COMPANY_NOT_OPERATED = "Share Company has NOT operated yet";
-	public static final String HAVE_MUST_BUY = "Must buy the Private where COST == DISCOUNT";
-	static final JCheckBox NO_CHECKED_BOX = null;
+	public static final String COMPANY_NOT_OPERATED = "This Share Company has NOT operated yet";
+	public static final String HAVE_MUST_BUY = "You must buy the Private where COST == DISCOUNT";
 	static final int NO_PERCENTAGE = 0;
 	static final float X_LEFT_ALIGNMENT = 0.0f;
 	static final float X_CENTER_ALIGNMENT = 0.5f;
@@ -104,7 +103,7 @@ public class Certificate implements Comparable<Certificate> {
 	public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage, CertificateHolderI aOwner) {
 		setValues (aCorporation, aIsPresidentShare, aPercentage, aOwner);
 		parValuesCombo = null;
-		checkedButton = NO_CHECKED_BOX;
+		checkedButton = FrameButton.NO_JCHECKBOX;
 		setFrameButton (checkedButton, "");
 	}
 	
@@ -116,7 +115,7 @@ public class Certificate implements Comparable<Certificate> {
 			setCorporation (aCertificate.getCorporation ());
 			setOwner (aCertificate.getOwner ());	
 			checkedButton = new JCheckBox ("EMPTY");
-			checkedButton = NO_CHECKED_BOX;
+			checkedButton = FrameButton.NO_JCHECKBOX;
 			setFrameButton (checkedButton, "");
 			parValuesCombo = null;
 			bidders = new Bidders (this);
@@ -131,6 +130,12 @@ public class Certificate implements Comparable<Certificate> {
 	
 	public FrameButton getFrameButton () {
 		return frameButton;
+	}
+	
+	public void clearFrameButton () {
+		if (frameButton != FrameButton.NO_FRAME_BUTTON) {
+			frameButton.setVisible (false);
+		}
 	}
 	
 	public Certificate (XMLNode aNode) {
@@ -158,7 +163,7 @@ public class Certificate implements Comparable<Certificate> {
 		}
 		setCorporation (Corporation.NO_CORPORATION);
 		setOwner (NO_OWNER);
-		checkedButton = NO_CHECKED_BOX;
+		checkedButton = FrameButton.NO_JCHECKBOX;
 		setFrameButton (checkedButton, "");
 		parValuesCombo = null;
 		bidders = new Bidders (this);
@@ -310,7 +315,7 @@ public class Certificate implements Comparable<Certificate> {
 				} else {
 					tEnabled = true;
 				}
-				if (checkedButton == NO_CHECKED_BOX) {
+				if (checkedButton == FrameButton.NO_JCHECKBOX) {
 					checkedButton = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);	
 					setFrameButton (checkedButton, getCompanyAbbrev () + " Share");
 				} else {
@@ -703,7 +708,7 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public void clearSelection () {
-		if (checkedButton != NO_CHECKED_BOX) {
+		if (checkedButton != FrameButton.NO_JCHECKBOX) {
 			checkedButton.setSelected (false);
 		}
 	}
@@ -1106,7 +1111,7 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tIsSelected;
 		
 		tIsSelected = false;
-		if (checkedButton != NO_CHECKED_BOX) {
+		if (checkedButton != FrameButton.NO_JCHECKBOX) {
 			tIsSelected = checkedButton.isSelected ();
 		}
 		
@@ -1304,13 +1309,13 @@ public class Certificate implements Comparable<Certificate> {
 	
 	public void setOwner (CertificateHolderI aOwner) {
 		owner = aOwner;
-		if (checkedButton != NO_CHECKED_BOX) {
+		if (checkedButton != FrameButton.NO_JCHECKBOX) {
 			checkedButton.setSelected (false);
 		}
 	}
 
 	public void setStateCheckedButton (boolean aEnabledState, String aToolTip) {
-		if (checkedButton != NO_CHECKED_BOX) {
+		if (checkedButton != FrameButton.NO_JCHECKBOX) {
 			checkedButton.setEnabled (aEnabledState);
 			checkedButton.setToolTipText (aToolTip);
 		}
