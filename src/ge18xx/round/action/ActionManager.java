@@ -25,6 +25,7 @@ public class ActionManager {
 	public final static Action NO_ACTION = null;
 	public final static ActionManager NO_ACTION_MANAGER = null;
 	public final static int STARTING_ACTION_NUMBER = 100;
+	public final static int DEFAULT_ACTION_NUMBER = 0;
 	List<Action> actions;
 	List<Action> actionsToRemove;
 	ActionReportFrame actionReportFrame;
@@ -46,7 +47,7 @@ public class ActionManager {
 		actionsToRemove = new LinkedList<Action> ();
 		actionReportFrame = new ActionReportFrame (tFullTitle, aRoundManager.getGameName ());
 		gameManager.addNewFrame (actionReportFrame);
-		setActionNumber (0);
+		setActionNumber (DEFAULT_ACTION_NUMBER);
 		logger = Game_18XX.getLogger ();
 	}
 	
@@ -293,15 +294,25 @@ public class ActionManager {
 	}
 	
 	public void removeLastAction () {
-		int tLastActionNumber;
 		Action tLastAction;
 		
 		tLastAction = getLastAction ();
 		removeActionFromNetwork (tLastAction);
-		actions.remove (actions.size() - 1);
+		actions.remove (actions.size () - 1);
+		
+		resetLastActionNumber ();
+	}
+
+	private void resetLastActionNumber () {
+		int tLastActionNumber;
+		Action tLastAction;
 		
 		tLastAction = getLastAction ();
-		tLastActionNumber = tLastAction.getNumber ();
+		if (tLastAction == NO_ACTION) {
+			tLastActionNumber = DEFAULT_ACTION_NUMBER;
+		} else {
+			tLastActionNumber = tLastAction.getNumber ();
+		}
 		setActionNumber (tLastActionNumber);
 	}
 	
@@ -332,9 +343,7 @@ public class ActionManager {
 	
 	public void removeUndoneActionsFromNetwork () {
 		String tRemoveActionXML;
-		Action tLastAction;
 		int tActionNumberToRemove;
-		int tLastActionNumber;
 		
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			for (Action tActionToRemove : actionsToRemove) {
@@ -344,9 +353,7 @@ public class ActionManager {
 				sendGameActivity (tRemoveActionXML, true);
 			}
 		}
-		tLastAction = getLastAction ();
-		tLastActionNumber = tLastAction.getNumber ();
-		setActionNumber (tLastActionNumber);
+		resetLastActionNumber ();
 		actionsToRemove.clear ();
 	}
 	
