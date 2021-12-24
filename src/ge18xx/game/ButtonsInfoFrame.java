@@ -26,12 +26,13 @@ public class ButtonsInfoFrame extends TableFrame {
 	/**
 	 * 
 	 */
+	public static final String EXPLAIN = "Explain";
 	private static final long serialVersionUID = 1L;
 	private ArrayList<FrameButton> frameButtons;
 	DefaultTableModel buttonModel = new DefaultTableModel (0, 0);
 	JPanel allButtonInfoJPanel;
 	JTable buttonsTable;
-	int colWidths [] = {30, 150, 170, 100, 700};
+	int colWidths [] = {30, 320, 100, 700};
 	int rowHeight = 35;
 	int buttonIndex;
 	
@@ -62,7 +63,7 @@ public class ButtonsInfoFrame extends TableFrame {
 	private void buildButtonsTable () {
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer ();
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer ();
-		String [] tColumnNames = {"#", "Group", "Button", "Enabled", "Tool Tip Text"};
+		String [] tColumnNames = {"#", "Button Description", "Enabled", "Tool Tip Text"};
 		TableColumnModel tColumnModel;
 		JTableHeader tTableHeader;
 
@@ -83,7 +84,7 @@ public class ButtonsInfoFrame extends TableFrame {
 
 		tColumnModel = buttonsTable.getColumnModel ();
 		tColumnModel.getColumn (0).setCellRenderer (centerRenderer);
-		tColumnModel.getColumn (3).setCellRenderer (centerRenderer);
+		tColumnModel.getColumn (2).setCellRenderer (centerRenderer);
 		
 		for (int tIndex = 0; tIndex < colWidths.length; tIndex++) {
 			tColumnModel.getColumn (tIndex).setMaxWidth (colWidths [tIndex]);
@@ -171,22 +172,29 @@ public class ButtonsInfoFrame extends TableFrame {
 	
 	private void addRow (FrameButton aFrameButton) {
 		String tGroupName, tButtonText, tToolTipText;
+		String tButtonDescription = "";
 		boolean tEnabled;
 		
 		if (aFrameButton != FrameButton.NO_FRAME_BUTTON) {
 			if (aFrameButton.isVisible ()) {
-				buttonIndex++;
 				tGroupName = aFrameButton.getGroupName ();
 				tButtonText = aFrameButton.getTitle ();
-				tEnabled = aFrameButton.getEnabled ();
-				tToolTipText = aFrameButton.getToolTipText ();
-				addRow (buttonIndex, tGroupName, tButtonText, tEnabled, tToolTipText);
+				if (! (EXPLAIN.equals (tButtonText))) {
+					if (tGroupName != FrameButton.NO_GROUP_NAME) {
+						tButtonDescription = tGroupName + " - ";
+					}
+					tButtonDescription += tButtonText;
+					tEnabled = aFrameButton.getEnabled ();
+					tToolTipText = aFrameButton.getToolTipText ();
+					buttonIndex++;
+					addRow (buttonIndex, tButtonDescription, tEnabled, tToolTipText);
+				}
 			}
 		}
 	}
 	
-	private void addRow (int aButtonNumber, String aGroupName, String aButtonText, boolean aEnabled, String aToolTipText) {
-		buttonModel.addRow (new Object [] {aButtonNumber, aGroupName, aButtonText, aEnabled, aToolTipText});
+	private void addRow (int aButtonNumber, String aButtonDescription, boolean aEnabled, String aToolTipText) {
+		buttonModel.addRow (new Object [] {aButtonNumber, aButtonDescription, aEnabled, aToolTipText});
 	}
 
 	private void removeAllRows () {

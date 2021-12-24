@@ -212,6 +212,10 @@ public class Action {
 		return actor;
 	}
 	
+	public String getActorName () {
+		return actor.getName ();
+	}
+	
 	public Boolean getChainToPrevious () {
 		return chainToPrevious;
 	}

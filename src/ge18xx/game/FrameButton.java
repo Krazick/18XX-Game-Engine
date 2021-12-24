@@ -7,7 +7,7 @@ public class FrameButton {
 	public final static FrameButton NO_FRAME_BUTTON = null;
 	public final static JButton NO_JBUTTON = null;
 	public final static JCheckBox NO_JCHECKBOX = null;
-	private final String NO_GROUP_NAME = null;
+	public final static String NO_GROUP_NAME = null;
 	public final String NO_TITLE = null;
 	JButton jButton;
 	JCheckBox jCheckBox;

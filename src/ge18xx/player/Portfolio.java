@@ -1531,7 +1531,8 @@ public class Portfolio implements CertificateHolderI {
 				if (tCertificate != Certificate.NO_CERTIFICATE) {
 					tCertificate.setOwner (this);
 					tCertificate.sortCorporationCertificates ();
-					this.addCertificate (tCertificate);
+					addCertificate (tCertificate);
+					tCertificate.resetFrameButton ();
 					tTransferGood = true;
 				} else {
 					System.err.println ("Transfer Certificate Failed since the Certificate could not be found");

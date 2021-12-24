@@ -628,7 +628,9 @@ public class PlayerManager {
 		
 		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
 		
-		aCertificate.clearFrameButton ();
+		if (aCertificate.isPrivateCompany ()) {
+			aCertificate.clearFrameButton ();
+		}
 		tFromHolder = aFromPortfolio.getHolder ();
 		tToHolder = aToPortfolio.getHolder ();
 		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate,  tToHolder);

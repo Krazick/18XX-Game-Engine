@@ -149,7 +149,7 @@ public class ActionManager {
 			setNewActionNumber (aAction);
 			setAuditAttributes (aAction);
 			logger.info ("Local Action # " + actionNumber + " Name " + aAction.getName () + 
-					" From " + aAction.getActor ().getName ());
+					" From " + aAction.getActorName ());
 			justAddAction (aAction);
 		}
 	}
@@ -237,7 +237,7 @@ public class ActionManager {
 		int tLastActionID;
 		
 		tAction = NO_ACTION;
-		if (!actions.isEmpty()) {
+		if (! actions.isEmpty ()) {
 			tLastActionID = getActionCount () - 1;
 			tAction = actions.get (tLastActionID);
 		}
@@ -246,7 +246,7 @@ public class ActionManager {
 	}
 	
 	public boolean hasActionsToUndo () {
-		return !actions.isEmpty ();
+		return ! actions.isEmpty ();
 	}
 	
 	public void loadActions (XMLNode aActionsNode, GameManager aGameManager) {
