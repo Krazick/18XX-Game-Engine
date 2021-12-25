@@ -628,6 +628,11 @@ public class PlayerManager {
 		
 		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
 		
+		// Note, when Buying a Private, need to make the CheckBox invisible so it is not added to the Explain List
+		// Undo makes this visible again always.
+		// If this is done for all Certs, especially Share Companies, the first will be shown, but follow-on certs don't 
+		// show the Certificate Buy Button.
+		// Should come up with a better way to fix this
 		if (aCertificate.isPrivateCompany ()) {
 			aCertificate.clearFrameButton ();
 		}
