@@ -798,7 +798,7 @@ public class PlayerManager {
 		tNextPlayerIndex = getNextPlayerIndex (tCurrentPlayerIndex);
 		while (tNextPlayerIndex != tCurrentPlayerIndex) {
 			tNextPlayer = getPlayer (tNextPlayerIndex);
-			tNextPercentOwned = tNextPlayer.getPercentOwnedOf(aShareCompany);
+			tNextPercentOwned = tNextPlayer.getPercentOwnedOf (aShareCompany);
 			if (tNextPercentOwned > tCurrentMaxPercentage) {
 				tCurrentMaxPercentage = tNextPercentOwned;
 				tNewPresident = tNextPlayer;
@@ -1340,5 +1340,4 @@ public class PlayerManager {
 	public boolean isLastActionComplete () {
 		return gameManager.isLastActionComplete ();
 	}
-
 }
