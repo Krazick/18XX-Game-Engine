@@ -22,6 +22,7 @@ import ge18xx.company.LoadedCertificate;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.FakeBenefit;
+import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
 import ge18xx.market.MarketCell;
@@ -1247,7 +1248,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		if (PlayerFrame.UNDO.equals (aEvent.getActionCommand ())) {
 			undoAction ();	
 		}
-		if (PlayerFrame.EXPLAIN.equals (aEvent.getActionCommand ())) {
+		if (ButtonsInfoFrame.EXPLAIN.equals (aEvent.getActionCommand ())) {
 			playerFrame.handleExplainButtons ();	
 		}
 		playerManager.updateRoundWindow ();

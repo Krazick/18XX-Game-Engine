@@ -20,6 +20,7 @@ import ge18xx.bank.StartPacketFrame;
 import ge18xx.bank.StartPacketRow;
 import ge18xx.player.Portfolio;
 import ge18xx.toplevel.TableFrame;
+import ge18xx.train.TrainPortfolio;
 
 public class ButtonsInfoFrame extends TableFrame {
 
@@ -165,8 +166,22 @@ public class ButtonsInfoFrame extends TableFrame {
 					tFrameButton = aStartPacketRow.getFrameButtonInRow (tIndex);
 					addRow (tFrameButton);
 				}
+			}	
+		}
+	}
+	
+	public void fillWithCheckBoxes (TrainPortfolio aTrainPortfolio) {
+		int tCount, tIndex;
+		FrameButton tFrameButton;
+		
+		if (aTrainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {
+			tCount = aTrainPortfolio.getAvailableCount ();
+			if (tCount > 0) {
+				for (tIndex = 0; tIndex < tCount; tIndex++) {
+					tFrameButton = aTrainPortfolio.getFrameButtonAt (tIndex);
+					addRow (tFrameButton);
+				}
 			}
-			
 		}
 	}
 	

@@ -43,7 +43,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	static final String BID = "Bid";
 	static final String BUY_BID = "Buy-Bid";
 	static final String SELL = "Sell";
-	static final String EXPLAIN = "Explain";
+//	static final String EXPLAIN = "Explain";
 	static final String EXCHANGE = "Exchange";
 	private static final long serialVersionUID = 1L;
 	JPanel playerAndBankJPanel;
@@ -202,7 +202,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		sellActionButton = setupActionButton (SELL, SELL);
 		exchangeActionButton = setupActionButton (EXCHANGE, EXCHANGE);
 		undoActionButton = setupActionButton (UNDO, UNDO);
-		explainButton = setupActionButton (EXPLAIN, EXPLAIN);
+		explainButton = setupActionButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
 		
 		actionButtonJPanel.add (passActionButton);
 		actionButtonJPanel.add (buyBidActionButton);

@@ -3,6 +3,7 @@ package ge18xx.train;
 import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.TrainCompany;
+import ge18xx.game.FrameButton;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -61,6 +62,18 @@ public class TrainPortfolio implements TrainHolderI {
 		Collections.sort (trains);
 	}
 
+	public FrameButton getFrameButtonAt (int aIndex) {
+		FrameButton tFrameButton = FrameButton.NO_FRAME_BUTTON;
+		Train tTrain;
+		
+		tTrain = trains.get (aIndex);
+		if (tTrain != Train.NO_TRAIN) {
+			tFrameButton = tTrain.getFrameButton ();
+		}
+		
+		return tFrameButton;
+	}
+	
 	public JPanel buildPortfolioJPanel (ItemListener aItemListener, Corporation aCorporation, 
 			GameManager aGameManager, String aActionLabel, boolean aFullvsCompact,
 			boolean aEnableAction, String aDisableReason) {

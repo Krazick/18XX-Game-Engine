@@ -12,6 +12,7 @@ import ge18xx.bank.Bank;
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.PurchaseOffer;
 import ge18xx.company.TrainCompany;
+import ge18xx.game.FrameButton;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.RouteAction;
@@ -46,7 +47,6 @@ public class Train implements Comparable<Object> {
 	final static AttributeName AN_PRICE = new AttributeName ("price");
 	final static AttributeName AN_STATUS = new AttributeName ("status");
 	public static final JCheckBox NO_ACTION_CHECKBOX = null;
-//	public static final TrainInfo NO_TRAIN_INFO = null;
 	public static final Train NO_TRAIN = null;
 	public static final int NO_ORDER = -1;
 	public static final int INFINITE_COUNT = 9999;
@@ -69,6 +69,7 @@ public class Train implements Comparable<Object> {
 	int status;
 	TrainInfo trainInfo;
 	JCheckBox actionCheckbox;
+	FrameButton frameButton;
 	JLabel costLabel;
 	boolean operating;
 	RouteInformation currentRouteInformation;
@@ -93,6 +94,28 @@ public class Train implements Comparable<Object> {
 		this (aTrain.name, aTrain.order, aTrain.gauge.getType (), aTrain.cityCount, aTrain.townCount, aTrain.price);
 		setStatus (aTrain.getStatus ());
 		setTrainInfo (aTrain.getTrainInfo ());
+	}
+	
+	private void setFrameButton (JCheckBox aJCheckBox, String aGroupName) {
+		if (aJCheckBox != null) {
+			frameButton = new FrameButton (aJCheckBox, aGroupName);
+		}
+	}
+	
+	public FrameButton getFrameButton () {
+		return frameButton;
+	}
+	
+	public void clearFrameButton () {
+		if (frameButton != FrameButton.NO_FRAME_BUTTON) {
+			frameButton.setVisible (false);
+		}
+	}
+	
+	public void resetFrameButton () {
+		if (frameButton != FrameButton.NO_FRAME_BUTTON) {
+			frameButton.setVisible (true);
+		}
 	}
 
 	public void addRouteInformation (RouteInformation aRouteInformation) {
@@ -124,10 +147,14 @@ public class Train implements Comparable<Object> {
 		tCertificateInfoPanel.setLayout (new BoxLayout (tCertificateInfoPanel, BoxLayout.Y_AXIS));
 		tCertInfoBorder = setupBorder ();
 		tCertificateInfoPanel.setBorder (tCertInfoBorder);
-		tCertificateInfoPanel.add (new JLabel (name + " Train"));
+		tCertificateInfoPanel.add (new JLabel (getFullName ()));
 		setCostLabel (tCertificateInfoPanel, price);
 
 		return tCertificateInfoPanel;
+	}
+	
+	private String getFullName () {
+		return name + "Train";
 	}
 	
 	public JPanel buildCertificateInfoJPanel (ItemListener aItemListener, String aActionLabel,
@@ -137,7 +164,8 @@ public class Train implements Comparable<Object> {
 		tCertificateInfoPanel = buildCertificateInfoPanel ();
 		if (aActionLabel != null) {
 			if (actionCheckbox == NO_ACTION_CHECKBOX) {
-				actionCheckbox = new JCheckBox (aActionLabel);			
+				actionCheckbox = new JCheckBox (aActionLabel);
+				setFrameButton (actionCheckbox, getFullName ());
 			} else {
 				actionCheckbox.setText (aActionLabel);
 			}
