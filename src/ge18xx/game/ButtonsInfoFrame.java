@@ -207,13 +207,17 @@ public class ButtonsInfoFrame extends TableFrame {
 		}
 	}
 
-	private void addCheckboxFrameButton (FrameButton atFrameButton, String aPortfolioOwner) {
+	private void addCheckboxFrameButton (FrameButton aFrameButton, String aPortfolioOwner) {
 		String tNewGroupName;
+		String tCurrentName;
 		
-		if (atFrameButton != FrameButton.NO_FRAME_BUTTON) {
-			tNewGroupName = aPortfolioOwner + " " + atFrameButton.getGroupName ();
-			atFrameButton.setGroupName (tNewGroupName);
-			addRow (atFrameButton);
+		if (aFrameButton != FrameButton.NO_FRAME_BUTTON) {
+			tCurrentName = aFrameButton.getGroupName ();
+			if (! tCurrentName.startsWith (aPortfolioOwner)) {
+				tNewGroupName = aPortfolioOwner + " " + tCurrentName;
+				aFrameButton.setGroupName (tNewGroupName);
+			}
+			addRow (aFrameButton);
 		}
 	}
 	
