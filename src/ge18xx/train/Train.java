@@ -254,7 +254,12 @@ public class Train implements Comparable<Object> {
 
 	public void clearActionCheckbox (String aActionLabel, String aActionToolTip) {
 		if (actionCheckbox == NO_ACTION_CHECKBOX) {
-			actionCheckbox = new JCheckBox (aActionLabel);	
+			actionCheckbox = new JCheckBox (aActionLabel);
+			if (frameButton == FrameButton.NO_FRAME_BUTTON) {
+				frameButton = new FrameButton (actionCheckbox, getFullName ());
+			} else {
+				frameButton.setCheckBox (actionCheckbox, getFullName ());
+			}
 		} else {
 			actionCheckbox.setText (aActionLabel);
 		}

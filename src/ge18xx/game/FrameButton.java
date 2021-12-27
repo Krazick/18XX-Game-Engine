@@ -25,6 +25,11 @@ public class FrameButton {
 		setJButton (NO_JBUTTON);
 	}
 	
+	public void setCheckBox (JCheckBox aJCheckBox, String aGroupName) {
+		setJCheckBox (aJCheckBox);
+		setGroupName (aGroupName);
+	}
+	
 	private void setJButton (JButton aJButton) {
 		jButton = aJButton;
 	}
