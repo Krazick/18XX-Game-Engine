@@ -55,6 +55,26 @@ public class TrainPortfolio implements TrainHolderI {
 		portfolioHolder = aPortfolioHolder;
 	}
 	
+	public String getPortfolioHolderAbbrev () {
+		String tHolderName = "NONE";
+		
+		if (portfolioHolder != CashHolderI.NO_ACTOR) {
+			tHolderName = portfolioHolder.getAbbrev ();
+		}
+		
+		return tHolderName;
+	}
+	
+	public String getPortfolioHolderName () {
+		String tHolderName = "NONE";
+		
+		if (portfolioHolder != CashHolderI.NO_ACTOR) {
+			tHolderName = portfolioHolder.getName ();
+		}
+		
+		return tHolderName;
+	}
+	
 	@Override
 	public void addTrain (Train aTrain) {
 		trains.add (aTrain);

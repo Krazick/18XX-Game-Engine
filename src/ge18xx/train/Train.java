@@ -154,7 +154,7 @@ public class Train implements Comparable<Object> {
 	}
 	
 	private String getFullName () {
-		return name + "Train";
+		return name + " Train";
 	}
 	
 	public JPanel buildCertificateInfoJPanel (ItemListener aItemListener, String aActionLabel,
@@ -265,7 +265,7 @@ public class Train implements Comparable<Object> {
 		}
 		actionCheckbox.setEnabled (false);
 		actionCheckbox.setToolTipText (aActionToolTip);
-		actionCheckbox.setSelected (false);
+		clearSelection ();
 	}
 	
 	public void setSelection () {

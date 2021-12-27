@@ -173,32 +173,35 @@ public class ButtonsInfoFrame extends TableFrame {
 	public void fillWithCheckBoxes (TrainPortfolio aTrainPortfolio) {
 		int tCount, tIndex;
 		FrameButton tFrameButton;
+		String tPortfolioOwner;
+		String tNewGroupName;
 		
 		if (aTrainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {
 			tCount = aTrainPortfolio.getAvailableCount ();
+			tPortfolioOwner = aTrainPortfolio.getPortfolioHolderAbbrev ();
 			if (tCount > 0) {
 				for (tIndex = 0; tIndex < tCount; tIndex++) {
 					tFrameButton = aTrainPortfolio.getFrameButtonAt (tIndex);
-					addRow (tFrameButton);
+					if (tFrameButton != FrameButton.NO_FRAME_BUTTON) {
+						tNewGroupName = tPortfolioOwner + " " + tFrameButton.getGroupName ();
+						tFrameButton.setGroupName (tNewGroupName);
+						addRow (tFrameButton);
+					}
 				}
 			}
 		}
 	}
 	
 	private void addRow (FrameButton aFrameButton) {
-		String tGroupName, tButtonText, tToolTipText;
+		String tButtonText, tToolTipText;
 		String tButtonDescription = "";
 		boolean tEnabled;
 		
 		if (aFrameButton != FrameButton.NO_FRAME_BUTTON) {
 			if (aFrameButton.isVisible ()) {
-				tGroupName = aFrameButton.getGroupName ();
 				tButtonText = aFrameButton.getTitle ();
 				if (! (EXPLAIN.equals (tButtonText))) {
-					if (tGroupName != FrameButton.NO_GROUP_NAME) {
-						tButtonDescription = tGroupName + " - ";
-					}
-					tButtonDescription += tButtonText;
+					tButtonDescription = aFrameButton.getDescription ();
 					tEnabled = aFrameButton.getEnabled ();
 					tToolTipText = aFrameButton.getToolTipText ();
 					buttonIndex++;

@@ -340,13 +340,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		tGameManager = corporation.getGameManager ();
 		tNewPoint = tGameManager.getOffsetCorporationFrame ();
 		buttonsInfoFrame.prepareExplainButtons (Portfolio.NO_PORTFOLIO);
+		
 		tBank = tGameManager.getBank ();
 		tTrainPortfolio = tBank.getTrainPortfolio ();
 		buttonsInfoFrame.fillWithCheckBoxes (tTrainPortfolio);
 		tBankPool = tGameManager.getBankPool ();
 		tTrainPortfolio = tBankPool.getTrainPortfolio ();
 		buttonsInfoFrame.fillWithCheckBoxes (tTrainPortfolio);
-			
+		
+		corporation.fillCorporationTrains (buttonsInfoFrame);
+		
 		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}
 	

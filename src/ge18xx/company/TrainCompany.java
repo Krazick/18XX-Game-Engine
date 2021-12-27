@@ -2,6 +2,7 @@ package ge18xx.company;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -1777,4 +1778,36 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		trainRevenueFrame.setFrameSetup (false);
 		trainRevenueFrame.setVisible (false);
 	}
+	
+	@Override
+	public void fillCorporationTrains (ButtonsInfoFrame aButtonsInfoFrame) {
+		Corporation tCorporation;
+		int tCorpCount, tCorpIndex;
+		TrainPortfolio tTrainPortfolio;
+		TrainCompany tTrainCompany;
+		
+		tCorpCount = corporationList.getCorporationCount ();
+		if (tCorpCount > 0) {
+			for (tCorpIndex = 0; tCorpIndex < tCorpCount; tCorpIndex++) {
+				tCorporation = corporationList.getCorporation (tCorpIndex);
+				// Only add Trains if a different corporation
+				if (tCorporation.getID () != getID ()) {
+					// Don't look in Corporations that are closed
+					if (! tCorporation.isClosed ()) {
+						// Only a Train Company will have a train for Purchase
+						if (tCorporation.isATrainCompany ()) {
+							// Only if a Train Company has at least one Train
+							if (tCorporation.getTrainCount () > 0) {
+								tTrainCompany = (TrainCompany) tCorporation;
+								tTrainPortfolio = tTrainCompany.getTrainPortfolio ();
+								aButtonsInfoFrame.fillWithCheckBoxes (tTrainPortfolio);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+	}
+
 }

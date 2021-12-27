@@ -23,6 +23,7 @@ import ge18xx.bank.BankPool;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
 import ge18xx.company.benefit.FakeBenefit;
+import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -2018,6 +2019,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				}
 			}
 		}
+	}
+	
+	public void fillCorporationTrains (ButtonsInfoFrame aButtonsInfoFrame) {
+		
 	}
 	
 	@Override

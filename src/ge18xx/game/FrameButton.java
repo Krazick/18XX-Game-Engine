@@ -38,7 +38,7 @@ public class FrameButton {
 		jCheckBox = aJCheckBox;
 	}
 	
-	private void setGroupName (String aGroupName) {
+	public void setGroupName (String aGroupName) {
 		groupName = aGroupName;
 	}
 	
@@ -84,6 +84,17 @@ public class FrameButton {
 		}
 		
 		return tTitle;
+	}
+	
+	public String getDescription () {
+		String tButtonDescription = "";
+		
+		if (groupName != FrameButton.NO_GROUP_NAME) {
+			tButtonDescription = groupName + " - ";
+		}
+		tButtonDescription += getTitle ();
+
+		return tButtonDescription;
 	}
 	
 	public String getToolTipText () {
