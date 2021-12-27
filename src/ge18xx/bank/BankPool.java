@@ -76,4 +76,9 @@ public class BankPool extends GameBank {
 			loadTrainPortfolio (aChildNode);
 		}
 	};
+	
+	@Override
+	public String getAbbrev () {
+		return "Game Pool";
+	}
 }

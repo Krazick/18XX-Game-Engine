@@ -82,6 +82,11 @@ public class Bank extends GameBank implements CashHolderI {
 		}
 	}
 	
+	@Override
+	public String getAbbrev () {
+		return "Bank";
+	}
+	
 	private void setBankIsBroken (boolean aBroken) {
 		bankIsBroken = aBroken;
 	}
