@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
-public class AllTileSets extends JLabel{
+public class AllTileSets extends JLabel {
 	/**
 	 * 
 	 */

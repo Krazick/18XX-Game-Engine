@@ -492,9 +492,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	private void createTileTray () {
 		String tXMLTileTrayName, tXMLTileDefinitionName;
 		String tActiveGameName, tBaseDirName;
-		String tTileSets [] = {
-				"Yellow", "Green", "Brown", "Grey", "Other"
-			};
+		String tAllTileSetNames [];
 		TileTrayFrame tTileTrayFrame;
 		TileDefinitionFrame tTileDefinitionFrame;
 		
@@ -513,9 +511,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 			
 			tTileDefinitionFrame = new TileDefinitionFrame (createFrameTitle (TileDefinitionFrame.BASE_TITLE), tTileTrayFrame, tActiveGameName);
 			setTileDefinitionFrame (tTileDefinitionFrame);
-			for (String tTileSetName : tTileSets) {
-				tXMLTileDefinitionName = tTileSetName + " Tile Definitions.xml";
-				tXMLTileDefinitionName = tBaseDirName + "Tile XML Data/"+ tXMLTileDefinitionName;
+			tAllTileSetNames = tTileDefinitionFrame.getAllTileSetNames ();
+			for (String tTileSetName : tAllTileSetNames) {
+				tXMLTileDefinitionName = tTileSetName + TileDefinitionFrame.TILE_SUFFIX_NAME;
+				tXMLTileDefinitionName = tBaseDirName + TileDefinitionFrame.TILE_DIRECTORY_NAME + tXMLTileDefinitionName;
 				try {
 					tTileDefinitionFrame.loadXML (tXMLTileDefinitionName, tTileDefinitionFrame.getTileSet ());
 				} catch (Exception tException) {
