@@ -187,7 +187,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 	
 	private void buildCorporationInfoJPanel (Dimension tMinSize) {
-		
 		corporationInfoJPanel = new JPanel ();			
 		corporationInfoJPanel.setLayout (new BoxLayout (corporationInfoJPanel, BoxLayout.X_AXIS));
 		corporationInfoJPanel.setAlignmentX (CENTER_ALIGNMENT);
@@ -408,27 +407,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addButton (doneActionButton);
 		addButton (undoActionButton);
 		addButton (explainButton);
-//		actionButtonsJPanel.add (showMapActionButton);
-//		actionButtonsJPanel.add (placeTileActionButton);
-//		actionButtonsJPanel.add (placeTokenActionButton);
-//		actionButtonsJPanel.add (operateTrainActionButton);
-//		actionButtonsJPanel.add (payNoDividendActionButton);
-//		if (corporation.canPayHalfDividend ()) {
-//			actionButtonsJPanel.add (payHalfDividendActionButton);
-//		}
-//		actionButtonsJPanel.add (payFullDividendActionButton);
-//		actionButtonsJPanel.add (buyTrainActionButton);
-//		actionButtonsJPanel.add (buyTrainForceActionButton);
-//		if (corporation.gameHasPrivates ()) {
-//			actionButtonsJPanel.add (buyPrivateActionButton);
-//		}
-//		if (corporation.gameHasLoans ()) {
-//			actionButtonsJPanel.add (getLoanActionButton);
-//			actionButtonsJPanel.add (paybackLoanActionButton);
-//		}
-//		actionButtonsJPanel.add (doneActionButton);
-//		actionButtonsJPanel.add (undoActionButton);
-//		actionButtonsJPanel.add (explainButton);
 	}
 	
 	private void addButton (JButton aButton) {
