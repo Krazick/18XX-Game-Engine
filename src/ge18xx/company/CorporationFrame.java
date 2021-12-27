@@ -6,6 +6,7 @@ import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.Train;
@@ -333,6 +334,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private void handleExplainButtons () {
 		Point tNewPoint;
 		GameManager tGameManager;
+		PlayerManager tPlayerManager;
 		Bank tBank;
 		BankPool tBankPool;
 		TrainPortfolio tTrainPortfolio;
@@ -349,6 +351,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		buttonsInfoFrame.fillWithCheckBoxes (tTrainPortfolio);
 		
 		corporation.fillCorporationTrains (buttonsInfoFrame);
+		
+		tPlayerManager = tGameManager.getPlayerManager ();
+		tPlayerManager.fillPrivateCompanies (buttonsInfoFrame);
 		
 		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}

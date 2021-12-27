@@ -540,9 +540,11 @@ public class Certificate implements Comparable<Certificate> {
 			tCheckboxLabel = "Buy";
 			if (aAvailableCash < tHalfValue) {
 				checkedButton = setupCheckedButton (tCheckboxLabel, false, "Not enough cash to buy at half price",  aItemListener);
+				setFrameButton (checkedButton, getCompanyAbbrev () + " Private");
 				tPrivateCertJPanel.add (checkedButton);
 			} else if (corporation.canBuyPrivate ()) {
 				checkedButton = setupCheckedButton (tCheckboxLabel, true, GUI.NO_TOOL_TIP, aItemListener);
+				setFrameButton (checkedButton, getCompanyAbbrev () + " Private");
 				tPrivateCertJPanel.add (checkedButton);
 			}
 		} else {

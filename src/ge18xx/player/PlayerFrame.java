@@ -827,12 +827,12 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tStartPacketFrame = tBank.getStartPacketFrame ();
 		if (tStartPacketFrame.isStartPacketPortfolioEmpty ()) {
 			tPortfolio = tGameManager.getBankPortfolio ();
-			buttonsInfoFrame.fillWithCheckBoxes (tPortfolio);
+			buttonsInfoFrame.fillWithCheckBoxes (tPortfolio, "Bank");
 		} else {
 			buttonsInfoFrame.fillWithCheckBoxes (tStartPacketFrame);
 		}
 		tPortfolio = tGameManager.getBankPoolPortfolio ();
-		buttonsInfoFrame.fillWithCheckBoxes (tPortfolio);
+		buttonsInfoFrame.fillWithCheckBoxes (tPortfolio, "Bank Pool");
 		
 		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}

@@ -17,6 +17,7 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TokenStack;
+import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
@@ -1339,5 +1340,14 @@ public class PlayerManager {
 
 	public boolean isLastActionComplete () {
 		return gameManager.isLastActionComplete ();
+	}
+	
+	public void fillPrivateCompanies (ButtonsInfoFrame aButtonsInfoFrame) {
+		Portfolio tPortfolio;
+		
+		for (Player tPlayer : players) {
+			tPortfolio = tPlayer.getPortfolio ();
+			aButtonsInfoFrame.fillWithPrivateCheckBoxes (tPortfolio, tPlayer.getName ());
+		}
 	}
 }

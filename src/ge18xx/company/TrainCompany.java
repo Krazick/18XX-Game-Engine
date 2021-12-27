@@ -1285,7 +1285,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			(status == ActorI.ActionStates.TileLaid) ||
 			(status == ActorI.ActionStates.Tile2Laid) ||
 			(status == ActorI.ActionStates.TileUpgraded) ||
-			(status == ActorI.ActionStates.TileAndStationLaid)) {
+			(status == ActorI.ActionStates.TileAndStationLaid)||
+			(status == ActorI.ActionStates.StationLaid) ) {
 			tReason = REVENUES_NOT_GENERATED;
 		} else if ((status == ActorI.ActionStates.HoldDividend) ||
 			(status == ActorI.ActionStates.HalfDividend) ||
@@ -1308,7 +1309,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			(status == ActorI.ActionStates.TileLaid) ||
 			(status == ActorI.ActionStates.Tile2Laid) ||
 			(status == ActorI.ActionStates.TileUpgraded) ||
-			(status == ActorI.ActionStates.TileAndStationLaid)) {
+			(status == ActorI.ActionStates.TileAndStationLaid)||
+			(status == ActorI.ActionStates.StationLaid) ) {
 			tReason = REVENUES_NOT_GENERATED;
 		} else if ((status == ActorI.ActionStates.HoldDividend) ||
 			(status == ActorI.ActionStates.HalfDividend) ||

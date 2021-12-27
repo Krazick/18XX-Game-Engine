@@ -18,6 +18,7 @@ import javax.swing.table.TableColumnModel;
 
 import ge18xx.bank.StartPacketFrame;
 import ge18xx.bank.StartPacketRow;
+import ge18xx.company.Certificate;
 import ge18xx.player.Portfolio;
 import ge18xx.toplevel.TableFrame;
 import ge18xx.train.TrainPortfolio;
@@ -110,7 +111,7 @@ public class ButtonsInfoFrame extends TableFrame {
 	public void prepareExplainButtons (Portfolio aPortfolio) {
 		removeAllRows ();
 		fillWithButtonsTable ();
-		fillWithCheckBoxes (aPortfolio);
+		fillWithCheckBoxes (aPortfolio, "");
 	}
 	
 	public void handleExplainButtons (Point aNewPoint) {
@@ -127,7 +128,7 @@ public class ButtonsInfoFrame extends TableFrame {
 		}
 	}
 	
-	public void fillWithCheckBoxes (Portfolio aPortfolio) {
+	public void fillWithCheckBoxes (Portfolio aPortfolio, String aHolderName) {
 		int tCount, tIndex;
 		FrameButton tFrameButton;
 		
@@ -136,12 +137,31 @@ public class ButtonsInfoFrame extends TableFrame {
 			if (tCount > 0) {
 				for (tIndex = 0; tIndex < tCount; tIndex++) {
 					tFrameButton = aPortfolio.getFrameButtonAt (tIndex);
-					addRow (tFrameButton);
+					addCheckboxFrameButton (tFrameButton, aHolderName);
 				}
 			}
 		}
 	}
 	
+	public void fillWithPrivateCheckBoxes (Portfolio aPortfolio, String aHolderName) {
+		int tCount, tIndex;
+		FrameButton tFrameButton;
+		Certificate tCertificate;
+		
+		if (aPortfolio != Portfolio.NO_PORTFOLIO) {
+			tCount = aPortfolio.getCertificateTotalCount ();
+			if (tCount > 0) {
+				for (tIndex = 0; tIndex < tCount; tIndex++) {
+					tCertificate = aPortfolio.getCertificate (tIndex);
+					if (tCertificate.isPrivateCompany ()) {
+						tFrameButton = tCertificate.getFrameButton ();
+						addCheckboxFrameButton (tFrameButton, aHolderName);
+					}
+				}
+			}
+		}
+	}
+
 	public void fillWithCheckBoxes (StartPacketFrame aStartPacketFrame) {
 		int tRowCount, tRowIndex;
 		StartPacketRow tStartPacketRow;
@@ -174,7 +194,6 @@ public class ButtonsInfoFrame extends TableFrame {
 		int tCount, tIndex;
 		FrameButton tFrameButton;
 		String tPortfolioOwner;
-		String tNewGroupName;
 		
 		if (aTrainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {
 			tCount = aTrainPortfolio.getAvailableCount ();
@@ -182,13 +201,19 @@ public class ButtonsInfoFrame extends TableFrame {
 			if (tCount > 0) {
 				for (tIndex = 0; tIndex < tCount; tIndex++) {
 					tFrameButton = aTrainPortfolio.getFrameButtonAt (tIndex);
-					if (tFrameButton != FrameButton.NO_FRAME_BUTTON) {
-						tNewGroupName = tPortfolioOwner + " " + tFrameButton.getGroupName ();
-						tFrameButton.setGroupName (tNewGroupName);
-						addRow (tFrameButton);
-					}
+					addCheckboxFrameButton (tFrameButton, tPortfolioOwner);
 				}
 			}
+		}
+	}
+
+	private void addCheckboxFrameButton (FrameButton atFrameButton, String aPortfolioOwner) {
+		String tNewGroupName;
+		
+		if (atFrameButton != FrameButton.NO_FRAME_BUTTON) {
+			tNewGroupName = aPortfolioOwner + " " + atFrameButton.getGroupName ();
+			atFrameButton.setGroupName (tNewGroupName);
+			addRow (atFrameButton);
 		}
 	}
 	
