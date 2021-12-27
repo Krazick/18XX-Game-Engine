@@ -87,7 +87,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		}
 	}
 
-	public void buildPlayerAndBankJPanel () {
+	private void buildPlayerAndBankJPanel () {
 		playerAndBankJPanel = new JPanel ();
 		playerAndBankJPanel.setLayout (new BoxLayout (playerAndBankJPanel, BoxLayout.X_AXIS));
 		
@@ -101,7 +101,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		playerAndBankJPanel.add(Box.createHorizontalStrut (20));
 	}
 
-	public void buildPlayerJPanel () {
+	private void buildPlayerJPanel () {
 		playerJPanel = new JPanel ();
 		playerJPanel.setLayout (new BoxLayout (playerJPanel, BoxLayout.Y_AXIS));
 		playerJPanel.add (Box.createVerticalStrut (10));
@@ -212,7 +212,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		actionButtonJPanel.add (explainButton);
 	}
 	
-	public void updateBankJPanel (GameManager aGameManager) {
+	private void updateBankJPanel (GameManager aGameManager) {
 		Bank tBank;
 		BankPool tBankPool;
 		JPanel tBPPortfolioJPanel;
@@ -555,7 +555,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		player.addPrivateBenefitButtons (actionButtonJPanel);
 	}
 	
-	public void setPassDoneButton (String tLabel, String tAction) {
+	private void setPassDoneButton (String tLabel, String tAction) {
 		String tToolTip;
 		
 		passActionButton.setText (tLabel);
@@ -751,7 +751,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		updateBidAndEscrow ();
 	}
 	
-	public void enableAllStartPacketButtons (String aToolTip) {
+	private void enableAllStartPacketButtons (String aToolTip) {
 		StartPacketFrame tStartPacketFrame;
 		Bank tBank;
 		
@@ -764,7 +764,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		}
 	}
 	
-	public void enableMustBuyPrivateButton () {
+	private void enableMustBuyPrivateButton () {
 		StartPacketFrame tStartPacketFrame;
 		Bank tBank;
 		
@@ -777,7 +777,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		}
 	}
 	
-	public void disableAllStartPacketButtons (String aToolTip) {
+	private void disableAllStartPacketButtons (String aToolTip) {
 		StartPacketFrame tStartPacketFrame;
 		Bank tBank;
 		
@@ -790,7 +790,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		}
 	}
 	
-	public void enableSelectedButton (String aToolTip) {
+	private void enableSelectedButton (String aToolTip) {
 		StartPacketFrame tStartPacketFrame;
 		Bank tBank;
 		
