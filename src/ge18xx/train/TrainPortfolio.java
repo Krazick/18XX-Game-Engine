@@ -31,7 +31,6 @@ public class TrainPortfolio implements TrainHolderI {
 	private final static String NEWLINE = "\n";
 	public final static ElementName EN_TRAIN_PORTFOLIO = new ElementName ("TrainPortfolio");
 	public final static ElementName EN_RUSTED_TRAIN_PORTFOLIO = new ElementName ("RustedTrainPortfolio");
-//	public static final Train NO_TRAIN = null;
 	public static final TrainHolderI NO_TRAIN_HOLDER = null;
 	public static final String ALL_TRAINS = "ALL";
 	public static final String AVAILABLE_TRAINS = "AVAILABLE";
