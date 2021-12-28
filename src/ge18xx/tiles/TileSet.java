@@ -241,7 +241,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			try {
 				loadXMLManifest (aChildNode);
 			} catch (IOException e) {
-				System.out.println ("Exception Caught on Loading XML Manifest");
+				System.err.println ("Exception Caught on Loading XML Manifest");
 			}
 		}
 
@@ -507,7 +507,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			tBaseCityName = NO_CITY_NAME;
 			for (tUpgradeIndex = 0; tUpgradeIndex < tUpgradeCount; tUpgradeIndex++) {
 				tUpgrade = aGameTile.getUpgrade (tUpgradeIndex);
-				if (tUpgrade != GameTile.NO_UPGRADE) {
+				if (tUpgrade !=  Upgrade.NO_UPGRADE) {
 					tBaseCityName = tUpgrade.getBaseCityName ();
 					tToTileNumber = tUpgrade.getTileNumber ();
 					tUpgradeGameTile = getGameTile (tToTileNumber);
@@ -546,7 +546,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 				if (tPlayableCount == 0) {
 					if (tUpgradeCount == 1) {
 						tUpgrade = aGameTile.getUpgrade (0);
-						if (tUpgrade != null) {
+						if (tUpgrade != Upgrade.NO_UPGRADE) {
 							tToTileNumber = tUpgrade.getTileNumber ();
 							tUpgradeGameTile = getGameTile (tToTileNumber);
 							if (tileTrayFrame.isUpgradeAllowed (tUpgradeGameTile)) {
@@ -571,7 +571,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		Upgrade tUpgrade;
 		
 		tUpgrade = aGameTile.getUpgrade (aUpgradeIndex);
-		if (tUpgrade != GameTile.NO_UPGRADE) {
+		if (tUpgrade != Upgrade.NO_UPGRADE) {
 			tToTileNumber = tUpgrade.getTileNumber ();
 			tUpgradeGameTile = getGameTile (tToTileNumber);
 			tTileName = tUpgradeGameTile.getTileName ();
@@ -603,7 +603,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			tBaseCityName = NO_CITY_NAME;
 			for (tUpgradeIndex = 0; tUpgradeIndex < tUpgradeCount; tUpgradeIndex++) {
 				tUpgrade = aGameTile.getUpgrade (tUpgradeIndex);
-				if (tUpgrade != GameTile.NO_UPGRADE) {
+				if (tUpgrade != Upgrade.NO_UPGRADE) {
 					tBaseCityName = tUpgrade.getBaseCityName ();
 					tToTileNumber = tUpgrade.getTileNumber ();
 					tUpgradeGameTile = getGameTile (tToTileNumber);
@@ -628,7 +628,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 					if (! NO_CITY_NAME.equals (aTileName)) {
 						for (tUpgradeIndex = 0; tUpgradeIndex < tUpgradeCount; tUpgradeIndex++) {
 							tUpgrade = aGameTile.getUpgrade (tUpgradeIndex);
-							if (tUpgrade != GameTile.NO_UPGRADE) {
+							if (tUpgrade != Upgrade.NO_UPGRADE) {
 								tToTileNumber = tUpgrade.getTileNumber ();
 								tUpgradeGameTile = getGameTile (tToTileNumber);
 								tTileName = tUpgradeGameTile.getTileName ();
@@ -644,7 +644,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 				if (tAvailableCount == 0) {
 					for (tUpgradeIndex = 0; tUpgradeIndex < tUpgradeCount; tUpgradeIndex++) {
 						tUpgrade = aGameTile.getUpgrade (tUpgradeIndex);
-						if (tUpgrade != GameTile.NO_UPGRADE) {
+						if (tUpgrade != Upgrade.NO_UPGRADE) {
 							tToTileNumber = tUpgrade.getTileNumber ();
 							tUpgradeGameTile = getGameTile (tToTileNumber);
 							tTileName = tUpgradeGameTile.getTileName ();
@@ -819,7 +819,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		int maxX, maxY, tileCount, rowCount;
 		Dimension tNewDimension;
 		
-		if (hex == null) {
+		if (hex == Hex.NO_HEX) {
 			setHex (Hex.getDirection ());
 		}
 		tileCount = getTileCountToShow ();

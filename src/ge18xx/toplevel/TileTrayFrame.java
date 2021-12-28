@@ -1,7 +1,5 @@
 package ge18xx.toplevel;
 
-//
-//  TileTrayFrame.java
 //  Game_18XX
 //
 //  Created by Mark Smith on 9/3/07.
@@ -24,8 +22,8 @@ import javax.swing.ScrollPaneConstants;
 
 public class TileTrayFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
-	private final int TILE_WIDTH = 92; 		// # of Pixels Wide per Tile
-	private final int TILE_HEIGHT = 115; 	// # of Pixels Height per Tile
+//	private final int TILE_WIDTH = 92; 		// # of Pixels Wide per Tile
+//	private final int TILE_HEIGHT = 115; 	// # of Pixels Height per Tile
 	public static final String BASE_TITLE = "Tile Tray";
 	public static final TileTrayFrame NO_TILE_TRAY_FRAME = null;
 	TileSet tileSet;
@@ -34,30 +32,34 @@ public class TileTrayFrame extends XMLFrame {
 	
 	public TileTrayFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getActiveGameName ());
-		int tNumRows;
-		int tWidth, tHeight;
-		Dimension tDimension;
 		
-		tileSet = new TileSet (this);
+		buildTileTrayScrollPanel ();
 		
 		// Width - 92 pixels for each tile, Multiply by # TILES/ROW
 		// Height - 115 Pixels per Row
 		// Count types of tiles, and divide by TILES/ROW, round up, to get how many rows need to show
 		// Should change based upon phase (and tiles available/to be shown)
-		tNumRows = 4;  
-		tWidth = TILE_WIDTH * TileSet.TILES_PER_ROW;
-		tHeight = TILE_HEIGHT * tNumRows;
-		tDimension = new Dimension (tWidth, tHeight);
-		
-        scrollPane = new JScrollPane ();
-		scrollPane.setViewportView (tileSet);
-		setScrollPanePSize (tDimension);
-        
-		add (scrollPane, BorderLayout.CENTER);
+//		tNumRows = 4;  
+//		tWidth = TILE_WIDTH * TileSet.TILES_PER_ROW;
+//		tHeight = TILE_HEIGHT * tNumRows;
+//		tDimension = new Dimension (tWidth, tHeight);
+//		
+//		setScrollPanePSize (tDimension);
 		
 		gameManager = aGameManager;
 	}
 	
+	private void buildTileTrayScrollPanel () {
+		tileSet = new TileSet (this);
+        scrollPane = new JScrollPane ();
+		scrollPane.setViewportView (tileSet);
+		scrollPane.setHorizontalScrollBarPolicy(
+			    JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setVerticalScrollBarPolicy(
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		add (scrollPane, BorderLayout.CENTER);
+	}
+
 	public boolean addTile (Tile aTile, int aTotalCount) {
 		return tileSet.addTile (aTile, aTotalCount);
 	}

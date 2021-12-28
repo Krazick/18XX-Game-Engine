@@ -1526,7 +1526,7 @@ public class MapCell implements Comparator<Object> {
 		}
 		tFirstPossibleRotation = MapCell.NO_ROTATION;
 		tUpgradeToTileNumber = aNewTile.getNumber (); // get New Tile's Number
-		tUpgrade = GameTile.NO_UPGRADE;
+		tUpgrade = Upgrade.NO_UPGRADE;
 		if (tCurrentGameTile != GameTile.NO_GAME_TILE) {
 			// Determine possible rotations of new Tile that replaces all Existing Track on previous Tile
 			// Add an Allowed Rotations if all Tracks can Exit based on 'canAllTracksExit' Method
@@ -1537,7 +1537,7 @@ public class MapCell implements Comparator<Object> {
 		
 		tFirstPossibleRotation = getFirstPossibleRotation (tAllowedRotations);
 		
-		if (tUpgrade == GameTile.NO_UPGRADE) {
+		if (tUpgrade == Upgrade.NO_UPGRADE) {
 			restoreTile (aTileSet, aNewTile);
 			System.err.println ("No Upgrade available -- Aborting Upgrade");
 			return tTilePlaced;

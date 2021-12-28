@@ -79,7 +79,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	
 	public HexMap (MapFrame aMapFrame) {
 		mapFrame = aMapFrame;
-		hex = null;
+		hex = Hex.NO_HEX;
 		setTilePlaced (false);
 		addMouseListener (this);
 		addMouseMotionListener (this);

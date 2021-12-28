@@ -21,7 +21,6 @@ import java.util.LinkedList;
 
 public class GameTile {
 	public static final ElementName EN_UPGRADE = new ElementName ("Upgrade");
-	public static final Upgrade NO_UPGRADE = null;
 	public static final GameTile NO_GAME_TILE = null;
 	Tile tile;
 	List<Tile> tiles;

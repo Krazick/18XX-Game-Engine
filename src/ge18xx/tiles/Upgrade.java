@@ -24,6 +24,7 @@ public class Upgrade {
 	public static final AttributeName AN_TO = new AttributeName ("to");
 	public static final AttributeName AN_FROM = new AttributeName ("from");
 	public static final AttributeName AN_VALUES = new AttributeName ("values");
+	public static final Upgrade NO_UPGRADE = null;
 	static final int ANY_ROTATION = -1;
 	int toNumber;
 	int toRotations [];

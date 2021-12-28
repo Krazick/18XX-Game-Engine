@@ -22,6 +22,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
 public class Hex {
+	public static final Hex NO_HEX = null;
 	public static final String DIRECTION_NS = "NS";
 	public static final String DIRECTION_EW = "EW";
 	static final int NOT_VALID_SLICE = -9999;
