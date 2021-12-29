@@ -39,7 +39,7 @@ public abstract class TokenCompany extends TrainCompany {
 	final static AttributeName AN_AVAILABLE_TOKEN_COUNT = new AttributeName ("availableTokenCount");
 	public final static ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
 	public final static TokenCompany NO_TOKEN_COMPANY = null;
-	public final static List<MapToken> NO_MAP_TOKENS = null;
+	private final static List<MapToken> NO_MAP_TOKENS = null;
 	public static String FONT_CNAME = "Courier";
 	public static String FONT_DNAME = "Dialog";
 	public static String FONT_SNAME = "Serif";
