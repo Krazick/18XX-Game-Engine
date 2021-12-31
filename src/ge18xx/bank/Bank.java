@@ -43,6 +43,7 @@ public class Bank extends GameBank implements CashHolderI {
 	private static final String BANK_LABEL_PREFIX = "Remaining Bank Cash ";
 	public static final String NAME = "Bank";
 	public static final Bank NO_BANK = null;
+	public static final String NO_FORMAT = null;
 	public static final int NO_BANK_CASH = 0;
 	int treasury;
 	boolean bankIsBroken;
@@ -216,7 +217,7 @@ public class Bank extends GameBank implements CashHolderI {
 			tActiveGameName = aGameManager.getActiveGameName ();
 			tXMLCompaniesName = aGameManager.getCompaniesFileName ();
 			tXMLCompaniesName = aGameManager.getXMLBaseDirectory () + tXMLCompaniesName;
-			startPacketFrame = new StartPacketFrame (tActiveGameName + " Start Packet Frame", aGameManager);
+			startPacketFrame = new StartPacketFrame (tActiveGameName + StartPacketFrame.SPFRAME_SUFFIX, aGameManager);
 			try {
 				startPacketFrame.loadXML (tXMLCompaniesName, startPacketFrame);
 			} catch (Exception tException) {
@@ -240,13 +241,12 @@ public class Bank extends GameBank implements CashHolderI {
 		
 		tCoalCorporationList = gameManager.getCoalCompanies ();
 		tCoalCorporationList.discardExcessTrains (tBankPool, aBuyTrainAction);
-		
 	}
 	
 	public static String formatCash (int aCashAmount) {
 		String tFormatted;
 		
-		if (format != null) {
+		if (format != NO_FORMAT) {
 			if (format.equals ("")) {
 				tFormatted = String.valueOf (aCashAmount);
 			} else {
@@ -444,7 +444,6 @@ public class Bank extends GameBank implements CashHolderI {
 						tOldNextTrainStatus, tNewNextTrainStatus);			
 			}
 		}
-		
 	}
 	
 	public boolean availableShareHasBids () {
@@ -457,10 +456,6 @@ public class Bank extends GameBank implements CashHolderI {
 	
 	public Certificate getPrivateForAuction () {
 		return startPacketFrame.getPrivateForAuction ();
-	}
-	
-	public void printStartPacket () {
-		startPacketFrame.printStartPacket ();
 	}
 	
 	public void closeAllPrivates (BuyTrainAction aBuyTrainAction) {
@@ -493,20 +488,20 @@ public class Bank extends GameBank implements CashHolderI {
 		tCoalCorporationList.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, aBuyTrainAction);
 	}
 	
-	public void setBankCashLabel (JLabel aBankCashLabel) {
+	private void setBankCashLabel (JLabel aBankCashLabel) {
 		bankCashLabel = aBankCashLabel;
 	}
 	
-	public static void setStaticFormat (String aFormat) {
+	private static void setStaticFormat (String aFormat) {
 		format = aFormat;
 		decimalFormat = new DecimalFormat (aFormat);
 	}
 
-	public void setFormat (String aFormat) {
+	private void setFormat (String aFormat) {
 		setStaticFormat (aFormat);
 	}
 	
-	public void setStartPacketFrame (StartPacketFrame aStartPacket) {
+	private void setStartPacketFrame (StartPacketFrame aStartPacket) {
 		startPacketFrame = aStartPacket;
 	}
 
