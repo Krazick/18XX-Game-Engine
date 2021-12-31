@@ -79,7 +79,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tCertificate;
 	}
 
-	public Certificate getCertificateToBidOn() {
+	public Certificate getCertificateToBidOn () {
 		Certificate tCertificateToBidOn;
 		
 		tCertificateToBidOn = portfolio.getCertificateToBidOn ();
@@ -274,7 +274,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 
 	@Override
 	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
-	//	BankFrame.replacePortfolioInfo (aPortfolioInfoJPanel);
 	}
 
 	@Override
@@ -298,7 +297,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	}
 
 	@Override
-	public CashHolderI getCashHolder() {
+	public CashHolderI getCashHolder () {
 		return gameManager.getBank ();
 	}
 
