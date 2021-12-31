@@ -30,6 +30,7 @@ import ge18xx.utilities.XMLDocument;
 public class StartPacketFrame extends XMLFrame implements LoadableXMLI, PortfolioHolderLoaderI {
 	private static final ElementName EN_START_PACKET = new ElementName ("StartPacket");
 	private static final ElementName EN_ITEM = new ElementName ("Item");
+	public static final String SPFRAME_SUFFIX = " Start Packet Frame";
 	private static final long serialVersionUID = 1L;
 	private static final int NO_ACTIVE_ROW = -1;
 	public static final StartPacketFrame NO_START_PACKET = null;
