@@ -288,7 +288,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	}
 	
 	public void printStartPacket () {
-		System.out.println ("Start Packet");
+		System.out.println (SP_NAME);
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
 			tStartPacketRow.printStartPacketRow ();
 		}
