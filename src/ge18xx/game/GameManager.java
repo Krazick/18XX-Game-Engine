@@ -2413,6 +2413,27 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return bank.isBroken ();
 	}
 	
+	public void disconnect () {
+		if (isNetworkGame ()) {
+			networkJGameClient.disconnect ();
+		}
+	}
+	
+	public boolean isConnected () {
+		boolean tIsConnected = false;
+		
+		if (isNetworkGame ()) {
+			tIsConnected = networkJGameClient.isConnected ();
+		}
+
+		return tIsConnected;
+	}
+	
+	@Override
+	public void updateDisconnectButton () {
+		game18XXFrame.updateDisconnectButton ();
+	}
+
 	public void showFrameInfo () {
 		// TODO Auto-generated method stub
 		// Build This	

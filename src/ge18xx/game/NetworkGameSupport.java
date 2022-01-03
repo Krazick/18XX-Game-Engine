@@ -36,4 +36,5 @@ public interface NetworkGameSupport {
 	public String getClientUserName ();
 	public void loadAutoSavedGame (String autoSaveFileName);
 	public String getGEVersion ();
+	public void updateDisconnectButton ();
 }
