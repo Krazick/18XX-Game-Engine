@@ -1,5 +1,7 @@
 package ge18xx.game;
 
+import ge18xx.network.JGameClient;
+
 //
 //Game_18XX.java
 //Game_18XX
@@ -29,6 +31,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
@@ -47,6 +51,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -88,7 +93,8 @@ public class Game_18XX extends JFrame {
 	private String QUIT_TEXT = "Quit";
 	private JTextField clientUserName;
 	private JButton newGameButton;
-	private JButton tQuitButton;
+	private JButton quitButton;
+	private JButton disconnectButton;
 	private static Logger logger;
 	LoggerLookup loggerLookup;
 	String userDir = System.getProperty ("user.dir");
@@ -121,8 +127,30 @@ public class Game_18XX extends JFrame {
 		setVisible (aVisible);
 		
 		playWhistle();
-	}
 
+		addWindowListener (new WindowAdapter () {
+			@Override
+			public void windowClosing (WindowEvent evt) {
+				onExit ();
+			}
+		});
+		updateDisconnectButton ();
+	}
+	
+    public void onExit () {
+        int confirm;
+        
+        confirm = JOptionPane.showOptionDialog (
+        		null, "Are You Sure to Close the GE18XX?", 
+        		"Exit Confirmation", JOptionPane.YES_NO_OPTION, 
+        		JOptionPane.QUESTION_MESSAGE, null, null, null);
+        if (confirm == 0) {
+        	disconnect ();
+        	System.exit (0);
+        }
+    }
+
+	
 	private void playWhistle () {
 		Sound tSound;
 		
@@ -247,12 +275,30 @@ public class Game_18XX extends JFrame {
 			}
 		});
 		
-		tQuitButton.addActionListener (new ActionListener() {
+		quitButton.addActionListener (new ActionListener() {
 			@Override
 			public void actionPerformed (ActionEvent aEvent) {
-				System.exit (0);
+				onExit ();
 			}
 		});
+		
+		disconnectButton.addActionListener (new ActionListener () {
+			@Override
+			public void actionPerformed (ActionEvent aActionEvent) {
+				String tAction = aActionEvent.getActionCommand ();
+				
+				if (JGameClient.DISCONNECT.equals (tAction)) {
+					disconnect ();
+				}
+			}
+		});
+
+	}
+	
+	private void disconnect () {
+		if (gameManager != GameManager.NO_GAME_MANAGER) {
+			gameManager.disconnect ();
+		}	
 	}
 	
 	private void setFrameContents () {
@@ -273,7 +319,8 @@ public class Game_18XX extends JFrame {
 		clientUserName.setEnabled (true);
 		
 		newGameButton = new JButton (OK_TEXT);
-		tQuitButton = new JButton(QUIT_TEXT);
+		quitButton = new JButton(QUIT_TEXT);
+		disconnectButton = new JButton (JGameClient.DISCONNECT);
 		
 		GroupLayout groupLayout = new GroupLayout (getContentPane ());
 		groupLayout.setHorizontalGroup(
@@ -292,11 +339,13 @@ public class Game_18XX extends JFrame {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(clientUserName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(60)
+							.addGap(20)
 							.addComponent(newGameButton)
-							.addGap(100)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(tQuitButton)))
+							.addGap(20)
+							.addComponent(quitButton)
+							.addGap(20)
+							.addComponent(disconnectButton)
+								))
 					.addContainerGap(11, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -313,7 +362,8 @@ public class Game_18XX extends JFrame {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(newGameButton)
-						.addComponent(tQuitButton))
+						.addComponent(quitButton)
+						.addComponent(disconnectButton))
 					.addContainerGap(12, Short.MAX_VALUE))
 		);
 		disableGameButtons ();
@@ -494,6 +544,22 @@ public class Game_18XX extends JFrame {
 	
 	public void disableFrameInfoMenuItem () {
 		frameInfoMenuItem.setEnabled (false);
+	}
+	
+	public void updateDisconnectButton () {
+		if (gameManager == GameManager.NO_GAME_MANAGER) {
+			disconnectButton.setEnabled (false);
+			disconnectButton.setToolTipText ("No Game Initialized yet");
+		} else if (! gameManager.isNetworkGame ()) {
+			disconnectButton.setEnabled (false);
+			disconnectButton.setToolTipText ("Not a Network Game");
+		} else if (gameManager.isConnected ()){
+			disconnectButton.setEnabled (true);
+			disconnectButton.setToolTipText ("Will Disconnect from Network Connect");
+		} else {
+			disconnectButton.setEnabled (false);
+			disconnectButton.setToolTipText ("Not Connected to a Network Game");
+		}
 	}
 	
 	public void disableGameButtons () {
