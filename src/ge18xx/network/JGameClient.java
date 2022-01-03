@@ -102,6 +102,7 @@ public class JGameClient extends XMLFrame {
 	public static final AttributeName AN_REQUEST_ACTION_NUMBER = new AttributeName ("requestActionNumber");
 	public static JGameClient NO_JGAME_CLIENT = null;
 	public static final String REQUEST_LAST_ACTION_COMPLETE = "<LastAction isComplete=\"TRUE\">";
+	public static final String DISCONNECT = "DISCONNECT";
 	private final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
 	private final String SHOW_ALL_GAMES = "SHOW ALL GAMES"; 
 	private final String SELECT_GAME = "SELECT GAME";
@@ -109,7 +110,6 @@ public class JGameClient extends XMLFrame {
 	private final String REFRESH = "REFRESH";
 	private final String AFK = "AFK";
 	private final String SEND = "SEND";
-	private final String DISCONNECT = "DISCONNET";
 	private final String PLAY_GAME = "PLAY GAME";
 	private final String START_GAME = "START";
 	private final String NO_SELECTED_GAME = null;
@@ -348,15 +348,19 @@ public class JGameClient extends XMLFrame {
 				String tAction = aActionEvent.getActionCommand ();
 				
 				if (DISCONNECT.equals (tAction)) {
-					if (! gameStarted) {
-						// Send to all Players command to unselect game, clear all Ready Flags
-					}
-					serverHandler.shutdown ();
-					networkPlayers.removeAllPlayers ();
-					setForUnconnected ();
+					disconnect ();
 				}
 			}
 		});
+	}
+	
+	public void disconnect () {
+		if (! gameStarted) {
+			// Send to all Players command to unselect game, clear all Ready Flags
+		}
+		serverHandler.shutdown ();
+		networkPlayers.removeAllPlayers ();
+		setForUnconnected ();		
 	}
 	
 	public void printButtonStatus (JButton aButton) {
@@ -394,6 +398,7 @@ public class JGameClient extends XMLFrame {
 			clearGameSelection ();
 			addGamePanel ();
 		}
+		gameManager.updateDisconnectButton ();
 	}
 	
 	public void setForConnected () {
@@ -421,6 +426,7 @@ public class JGameClient extends XMLFrame {
 		message.setEnabled (true);
 		message.setFocusable (true);
 		message.requestFocusInWindow ();
+		gameManager.updateDisconnectButton ();
 	}
 
 	private void updateShowSavedGamesButton () {
@@ -780,6 +786,16 @@ public class JGameClient extends XMLFrame {
 		}
 	} 
 
+	public boolean isConnected () {
+		boolean tIsConnected = false;
+		
+		if (serverHandler != ServerHandler.NO_SERVER_HANDLER) {
+			tIsConnected = serverHandler.isConnected ();
+		}
+		
+		return tIsConnected;
+	}
+	
 	// --- End Server Handler Connection Routines
 	
 	// Message and Chat Management ---
