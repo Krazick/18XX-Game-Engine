@@ -109,7 +109,7 @@ public class Portfolio implements CertificateHolderI {
 		}
 	}
 
-	public JPanel buildCertificateJPanel (String aCorpType, String aSelectedButtonLabel, 
+	public JPanel buildCertificateJPanel (String tTitle, String aCorpType, String aSelectedButtonLabel, 
 			ItemListener aItemListener, GameManager aGameManager) {
 		JPanel tCertificateJPanel;
 		JPanel tCertificateInfoJPanel;
@@ -119,7 +119,9 @@ public class Portfolio implements CertificateHolderI {
 		
 		tCount = 0;
 		tCertificateJPanel = new JPanel ();
-		tCertificateJPanel.setBorder (BorderFactory.createTitledBorder (aCorpType + " Companies"));
+		if (tTitle != null) {
+			tCertificateJPanel.setBorder (BorderFactory.createTitledBorder (tTitle));
+		}
 		tCertificateJPanel.setLayout (new BoxLayout (tCertificateJPanel, BoxLayout.X_AXIS));
 		tCertificateJPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		addJCAndHGlue (tCertificateJPanel, null);
@@ -348,28 +350,28 @@ public class Portfolio implements CertificateHolderI {
 		return tNoCertificatesPanel;
 	}
 	
-	public JPanel buildPortfolioJPanel (boolean aPrivates, boolean aCoals, boolean aMinors, 
+	public JPanel buildPortfolioJPanel (String tTitle, boolean aPrivates, boolean aCoals, boolean aMinors, 
 			boolean aShares, String aSelectedButtonLabel, ItemListener aItemListener, GameManager aGameManager) {
 		JPanel tPrivateCertPanel, tCoalCertPanel, tMinorCertPanel, tShareCertPanel;
 		
 		portfolioInfoJPanel = new JPanel ();
-		portfolioInfoJPanel.setBorder (BorderFactory.createTitledBorder ("Portfolio Information"));
+		portfolioInfoJPanel.setBorder (BorderFactory.createTitledBorder ("Portfolio"));
 		portfolioInfoJPanel.setLayout (new BoxLayout (portfolioInfoJPanel, BoxLayout.Y_AXIS));
 		portfolioInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		addJCAndVGlue (portfolioInfoJPanel, null);
 
 		if (aPrivates) {
-			tPrivateCertPanel = buildCertificateJPanel (Corporation.PRIVATE_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
+			tPrivateCertPanel = buildCertificateJPanel (tTitle, Corporation.PRIVATE_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tPrivateCertPanel);
 			privateIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 		if (aCoals) {
-			tCoalCertPanel = buildCertificateJPanel (Corporation.COAL_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
+			tCoalCertPanel = buildCertificateJPanel (tTitle, Corporation.COAL_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tCoalCertPanel);
 			coalIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 		if (aMinors) {
-			tMinorCertPanel = buildCertificateJPanel (Corporation.MINOR_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
+			tMinorCertPanel = buildCertificateJPanel (tTitle, Corporation.MINOR_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tMinorCertPanel);
 			minorIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
@@ -1572,17 +1574,22 @@ public class Portfolio implements CertificateHolderI {
 	public void updatePortfolioInfox (String aCorpType, String aSelectedButtonLabel, ItemListener aItemListener, GameManager aGameManager) {
 		JPanel tCertificateJPanel;
 		int tAddLocation = -1;
-
-		tCertificateJPanel = buildCertificateJPanel (aCorpType, aSelectedButtonLabel, aItemListener, aGameManager);
+		String tTitle = "";
+		
 		if (aCorpType.equals (Corporation.PRIVATE_COMPANY)) {
 			tAddLocation = privateIndex;
+			tTitle = "Privates";
 		} else if (aCorpType.equals (Corporation.COAL_COMPANY)) {
 			tAddLocation = coalIndex;
+			tTitle = "Coal Companies";
 		} else if (aCorpType.equals (Corporation.MINOR_COMPANY)) {
 			tAddLocation = minorIndex;
+			tTitle = "Minors";
 		} else if (aCorpType.equals (Corporation.SHARE_COMPANY)) {
 			tAddLocation = shareIndex;
+			tTitle = "Share Company";
 		}
+		tCertificateJPanel = buildCertificateJPanel (tTitle, aCorpType, aSelectedButtonLabel, aItemListener, aGameManager);
 		portfolioInfoJPanel.add (tCertificateJPanel, tAddLocation);
 		portfolioInfoJPanel.remove (tAddLocation - 1);
 		portfolioInfoJPanel.validate ();

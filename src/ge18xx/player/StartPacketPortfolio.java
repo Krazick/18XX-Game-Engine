@@ -21,13 +21,13 @@ public class StartPacketPortfolio extends Portfolio {
 	}
 	
 	@Override
-	public JPanel buildPortfolioJPanel (boolean aPrivates, boolean aCoals, boolean aMinors, 
+	public JPanel buildPortfolioJPanel (String aTitle, boolean aPrivates, boolean aCoals, boolean aMinors, 
 			boolean aShares, String aSelectedButtonLabel, ItemListener aItemListener, 
 			GameManager aGameManager) {
 		BoxLayout tLayout;
 		
 		portfolioInfoJPanel = new JPanel ();
-		portfolioInfoJPanel.setBorder (BorderFactory.createTitledBorder ("Start Packet Portfolio Information"));
+		portfolioInfoJPanel.setBorder (BorderFactory.createTitledBorder (aTitle));
 		tLayout = new BoxLayout (portfolioInfoJPanel, BoxLayout.Y_AXIS);
 		portfolioInfoJPanel.setLayout (tLayout);
 		portfolioInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);

@@ -56,7 +56,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String PAYBACK_LOAN = "Payback Loan";
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
-	static final String EXPLAIN = "Explain";
 	private static final long serialVersionUID = 1L;
 	JPanel bankJPanel;
 	JPanel certJPanel;
@@ -325,7 +324,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporation.clearBankSelections ();
 			corporation.undoAction ();
 		}
-		if (EXPLAIN.equals (aEvent.getActionCommand ())) {
+		if (ButtonsInfoFrame.EXPLAIN.equals (aEvent.getActionCommand ())) {
 			handleExplainButtons ();	
 		}
 		updateInfo ();
@@ -364,6 +363,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		tActionButton = new JButton (aButtonLabel);
 		tActionButton.setActionCommand (aButtonAction);
 		tActionButton.addActionListener (this);
+		tActionButton.setVisible (false);
 		
 		return tActionButton;
 	}
@@ -387,7 +387,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			getLoanActionButton = setupActionButton (GET_LOAN, GET_LOAN);
 			paybackLoanActionButton = setupActionButton (PAYBACK_LOAN, PAYBACK_LOAN);
 		}
-		explainButton = setupActionButton (EXPLAIN, EXPLAIN);
+		explainButton = setupActionButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
 		addActionButtons ();
 	}
 	
@@ -418,8 +418,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 	
 	private void addButton (JButton aButton) {
+		aButton.setVisible (true);
 		actionButtonsJPanel.add (aButton);
-		buttonsInfoFrame.addButton (aButton);		
+		buttonsInfoFrame.addButton (aButton);
 	}
 	
 	public void fillOtherCorpsJPanel (boolean aCanBuyTrain, String aDisableToolTipReason) {
@@ -485,7 +486,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 
-	public void fillPrivatesBox () {
+	public void fillPrivatesBox () {	// To show Privates that are owned by the Players
 		GameManager tGameManager;
 		int tCountOpenPrivates, tCountPlayerOwnedPrivates;
 		ShareCompany tShareCompany;

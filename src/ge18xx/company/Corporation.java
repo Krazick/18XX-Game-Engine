@@ -244,6 +244,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		JLabel tLabel;
 		JPanel tPortfolioInfoJPanel;
 		JPanel tCertsPanel;
+		String tTitle;
 		
 		tPortfolioInfoJPanel = new JPanel ();
 		if (portfolio == Portfolio.NO_PORTFOLIO) {
@@ -254,7 +255,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				tLabel = new JLabel (Portfolio.NO_CERTIFICATES);
 				tPortfolioInfoJPanel.add (tLabel);				
 			} else {
-				tCertsPanel = portfolio.buildPortfolioJPanel (true, false, false, false, "", 
+				tTitle = "Privates";
+				tCertsPanel = portfolio.buildPortfolioJPanel (tTitle, true, false, false, false, "", 
 						aItemListener, aGameManager);
 				tPortfolioInfoJPanel.add (tCertsPanel);
 			}

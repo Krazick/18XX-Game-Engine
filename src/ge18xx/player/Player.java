@@ -233,10 +233,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public JPanel buildPortfolioJPanel (ItemListener aItemListener) {
 		GameManager tGameManager;
+		String tTitle; 
 		
 		tGameManager = playerManager.getGameManager ();
+		tTitle = "Privates";
 		
-		return portfolio.buildPortfolioJPanel (gameHasPrivates, gameHasCoals, gameHasMinors, 
+		return portfolio.buildPortfolioJPanel (tTitle, gameHasPrivates, gameHasCoals, gameHasMinors, 
 				gameHasShares, SELL_LABEL, aItemListener, tGameManager);
 	}
 
