@@ -206,19 +206,19 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 			if ((tSelectedParPrice > 0) && (tShareCompany != Corporation.NO_CORPORATION)) {
 				setParPriceFrameActive (false);
 				gameManager.setParPrice (tShareCompany, tSelectedParPrice);
-				setParValueAction (tSelectedParPrice, tShareCompany);
+				setParValueAction (tSelectedParPrice, tShareCompany, true);
 				gameManager.bringPlayerFrameToFront ();
 			}
 		}
 		setVisible (false);
 	}
 
-	public void setParValueAction (int aParPrice, ShareCompany aShareCompany) {
+	public void setParValueAction (int aParPrice, ShareCompany aShareCompany, boolean aChainToPrevious) {
 		SetParValueAction tSetParValueAction;
 		
 		tSetParValueAction = new SetParValueAction (stockRound.getRoundType (), stockRound.getID (), player);
 		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice);
-		tSetParValueAction.setChainToPrevious (true);
+		tSetParValueAction.setChainToPrevious (aChainToPrevious);
 		
 		stockRound.addAction (tSetParValueAction);
 	}
