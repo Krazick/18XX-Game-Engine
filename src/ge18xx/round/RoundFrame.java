@@ -289,13 +289,19 @@ public class RoundFrame extends XMLFrame {
 		Player tPlayer;
 		JPanel tPlayerJPanel;
 		int tPlayerCount, tPriorityPlayer;
+		int tIndex, tClientIndex;
 		StockRound tStockRound;
 
 		tStockRound = roundManager.getStockRound ();
 		tPlayerCount = tStockRound.getPlayerCount ();
 		tPriorityPlayer = tStockRound.getPriorityIndex ();
 		playersJPanel.removeAll ();
-		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
+		tClientIndex = 0;
+		if (roundManager.isNetworkGame ()) {
+			tClientIndex = getClientIndex (tPlayerCount, tStockRound);
+		}
+		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
+			tPlayerIndex = (tIndex + tClientIndex) % tPlayerCount;
 			tPlayer = tStockRound.getPlayerAtIndex (tPlayerIndex);
 			if (tPlayer != Player.NO_PLAYER) {
 				tPlayerJPanel = tPlayer.buildAPlayerJPanel (tPriorityPlayer, tPlayerIndex);
@@ -305,7 +311,25 @@ public class RoundFrame extends XMLFrame {
 				logger.error ("No Player Found for " + tPlayerIndex);
 			}
 		}
-
+	}
+	
+	private int getClientIndex (int aPlayerCount, StockRound aStockRound) {
+		int tClientIndex = 0;
+		int tPlayerIndex;
+		String tClientName, tPlayerName;
+		Player tPlayer;
+		
+		tClientName = roundManager.getClientUserName ();
+		
+		for (tPlayerIndex = 0; tPlayerIndex < aPlayerCount; tPlayerIndex++) {
+			tPlayer = aStockRound.getPlayerAtIndex (tPlayerIndex);
+			tPlayerName = tPlayer.getName ();
+			if (tPlayerName.equals(tClientName)) {
+				tClientIndex = tPlayerIndex;
+			}
+		}
+		
+		return tClientIndex;
 	}
 	
 	public void updateCurrentPlayerText () {
