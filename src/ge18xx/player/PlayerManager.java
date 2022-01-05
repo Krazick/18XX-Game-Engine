@@ -497,7 +497,6 @@ public class PlayerManager {
 		Player tCurrentPresident, tNewPresident;
 		PortfolioHolderI tCurrentHolder;
 		boolean tCanBuyStock = true;
-		boolean tChainBuyToParValue = false;
 		
 		// Get State before acting for saving in the Action Stack.
 		tOldState = aPlayer.getPrimaryActionState ();
@@ -531,7 +530,6 @@ public class PlayerManager {
 					tSelectedParPrice = aCertificateToBuy.getComboParValue ();
 					if ((tSelectedParPrice > 0) && (tShareCompany != ShareCompany.NO_SHARE_COMPANY)) {
 						handleParPriceFrame (aPlayer, aCertificateToBuy, tShareCompany, tSelectedParPrice);
-						tChainBuyToParValue = true;
 					} else {
 						System.err.println ("***Selected Par Price is " + tSelectedParPrice + " or tShareCompany is NULL***");
 					}
@@ -572,7 +570,6 @@ public class PlayerManager {
 						System.err.println ("Par Price already set.");
 					} else {
 						handleParPriceFrame (aPlayer, tFreeCertificate);
-						tChainBuyToParValue = true;
 					}
 				}
 			}
@@ -598,7 +595,6 @@ public class PlayerManager {
 				stockRound.updateRFPlayerLabel (aPlayer);
 			}
 			tBuyStockAction = aBuyStockAction;
-			tBuyStockAction.setChainToPrevious (tChainBuyToParValue);
 		} else {
 			tBuyStockAction = BuyStockAction.NO_BUY_STOCK_ACTION;
 		}
