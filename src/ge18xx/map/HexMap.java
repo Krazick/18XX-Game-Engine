@@ -559,7 +559,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				if (aSelectedMapCell.isTileOnCell ()) {
 					mapFrame.handleSelectedRouteRC (aSelectedMapCell, tSelectedRevenueCenter);
 				} else {
-					System.out.println ("No Tile, and no Track on Tile - Ignore the Click");
+					System.err.println ("No Tile, and no Track on Tile - Ignore the Click");
 				}
 			} else {
 				if (tSelectedCity != City.NO_CITY) {
