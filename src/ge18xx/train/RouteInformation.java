@@ -679,7 +679,7 @@ public class RouteInformation {
 						tNewPreviousSegment.setTrainOnTrack (tTrack, tTrainNumber);
 						tAddNewPreviousSegment = true;
 					} else {
-						System.err.println ("Previous Map Cell's Track is in Use");
+						System.err.println ("Previous Map Cell's Track is in Use (1)");
 					}
 				} else {
 					tCurrentCellNeighborSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
@@ -813,7 +813,7 @@ public class RouteInformation {
 				aPreviousSegment.setTrainOnTrack (tTrack, tTrainNumber);
 				tFillEndPoint = true;
 			} else {
-				System.err.println ("Previous Map Cell's Track is in Use");
+				System.err.println ("Previous Map Cell's Track is in Use (2)");
 			}
 		} else {
 			System.err.println ("No Track Found from " + aPreviousStart + " to " + aPreviousSide + 
