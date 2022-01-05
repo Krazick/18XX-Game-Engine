@@ -20,6 +20,7 @@ import ge18xx.company.MapToken;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
+import ge18xx.game.Game_18XX;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -60,6 +61,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+
+import org.apache.logging.log4j.Logger;
 
 public class MapFrame extends XMLFrame implements ActionListener {
 	private final String NO_TILE_PLACED = "No Tile placed yet";
@@ -107,6 +110,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private String PICKUP_TILE = "PickupTile";
 	private String PUT_TOKEN = "PutToken";
 	JSlider hexScaleSlider;
+	Logger logger;
 	
 	public MapFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getActiveGameName ());
@@ -120,6 +124,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		setPlaceTokenMode (false);
 		setSelectRouteMode (false);
 		setDefaultFrameInfo ();
+		logger = Game_18XX.getLogger ();
 	}
 
 	private void buildMapScrollPanel () {
@@ -948,7 +953,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		RouteSegment tRouteSegment;
 		Corporation tCorporation = getOperatingCompany ();
 		int tCorpID, tPhase, tTrainIndex;
-		RouteAction tRouteAction;
+		RouteAction tRouteAction = RouteAction.NO_ACTION;
 		StartRouteAction tStartRouteAction;
 		ActionStates tRoundType;
 		String tRoundID;
@@ -972,17 +977,17 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				tStartRouteAction.addStartRouteEffect (tCorporation, tTrainIndex, aSelectedMapCell, tStartLocation, tEndLocation);
 				tRouteAction = tStartRouteAction;
 			} else {
-				System.err.println ("Need to Select a Revenue Center to start a new Route");
-				tRouteAction = new RouteAction (tRoundType, tRoundID, tCorporation);
+				logger.error("Need to Select a Revenue Center to start a new Route");
 			}
 		} else {
 			tRouteAction = new ExtendRouteAction (tRoundType, tRoundID, tCorporation);
 		}
-		routeInformation.setStartSegment (tRouteSegment, aSelectedRevenueCenter, tPhase, tCorpID);
-		routeInformation.extendRouteInformation (tRouteSegment, tPhase, tCorpID, tRouteAction);
-		
-		tActionManager.addAction (tRouteAction);
-
+		if (tRouteAction != RouteAction.NO_ACTION) {
+			routeInformation.setStartSegment (tRouteSegment, aSelectedRevenueCenter, tPhase, tCorpID);
+			routeInformation.extendRouteInformation (tRouteSegment, tPhase, tCorpID, tRouteAction);
+			
+			tActionManager.addAction (tRouteAction);
+		}
 	}
 
 	public MapCell getMapCellForID (String aMapCellID) {
