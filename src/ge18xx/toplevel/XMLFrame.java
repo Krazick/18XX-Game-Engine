@@ -222,6 +222,7 @@ public class XMLFrame extends JFrame {
 	    int tState = super.getExtendedState () & ~JFrame.ICONIFIED & JFrame.NORMAL;
 
 	    super.setExtendedState (tState);
+	    super.setEnabled (true);
 	    super.setAlwaysOnTop (true);
 	    super.toFront ();
 	    super.requestFocus ();
