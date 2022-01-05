@@ -530,10 +530,7 @@ public class PlayerManager {
 				if (! aCertificateToBuy.hasParPrice ()) {
 					tSelectedParPrice = aCertificateToBuy.getComboParValue ();
 					if ((tSelectedParPrice > 0) && (tShareCompany != ShareCompany.NO_SHARE_COMPANY)) {
-						gameManager.setParPrice (tShareCompany, tSelectedParPrice);
-						parPriceFrame = new ParPriceFrame (aPlayer, stockRound, aCertificateToBuy);
-						parPriceFrame.setParPriceFrameActive (false);
-						parPriceFrame.setParValueAction (tSelectedParPrice, tShareCompany);
+						handleParPriceFrame (aPlayer, aCertificateToBuy, tShareCompany, tSelectedParPrice);
 						tChainBuyToParValue = true;
 					} else {
 						System.err.println ("***Selected Par Price is " + tSelectedParPrice + " or tShareCompany is NULL***");
@@ -574,9 +571,7 @@ public class PlayerManager {
 					if (tFreeCertificate.hasParPrice ()) {
 						System.err.println ("Par Price already set.");
 					} else {
-						parPriceFrame = new ParPriceFrame (aPlayer, stockRound, tFreeCertificate);
-						parPriceFrame.setVisible (true);
-						parPriceFrame.toFront ();
+						handleParPriceFrame (aPlayer, tFreeCertificate);
 						tChainBuyToParValue = true;
 					}
 				}
@@ -610,6 +605,24 @@ public class PlayerManager {
 		aPlayer.updatePlayerInfo ();
 
 		return tBuyStockAction;
+	}
+	
+	private void handleParPriceFrame (Player aPlayer, Certificate aCertificate, ShareCompany aShareCompany, int aParPrice) {
+		gameManager.setParPrice (aShareCompany, aParPrice);
+		parPriceFrame.setParPriceFrameActive (false);
+		parPriceFrame.setParValueAction (aParPrice, aShareCompany);
+		
+		handleParPriceFrame (aPlayer, aCertificate);
+	}
+
+	private void handleParPriceFrame (Player aPlayer, Certificate aCertificate) {
+		PlayerFrame tPlayerFrame;
+		
+		tPlayerFrame = aPlayer.getPlayerFrame ();
+		parPriceFrame = new ParPriceFrame (tPlayerFrame, aPlayer, stockRound, aCertificate);
+		parPriceFrame.setVisible (true);
+		parPriceFrame.toFront ();
+		tPlayerFrame.setEnabled (false);
 	}
 	
 	public void addAction (Action aAction) {
