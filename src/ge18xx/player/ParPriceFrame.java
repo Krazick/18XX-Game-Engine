@@ -218,6 +218,8 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		
 		tSetParValueAction = new SetParValueAction (stockRound.getRoundType (), stockRound.getID (), player);
 		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice);
+		tSetParValueAction.setChainToPrevious (true);
+		
 		stockRound.addAction (tSetParValueAction);
 	}
 }
