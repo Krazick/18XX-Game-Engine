@@ -20,12 +20,13 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-public class ParPriceFrame extends JFrame implements ActionListener {
+public class ParPriceFrame extends JDialog implements ActionListener {
 	private static final String SET_PAR_PRICE_ACTION = "SetParPrice";
 	private static final long serialVersionUID = 1L;
 	public static final ParPriceFrame NO_PAR_PRICE_FRAME = null;
@@ -39,8 +40,8 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 	JPanel parValuesPanel;
 	boolean parPriceFrameActive;
 	
-	public ParPriceFrame (Player aPlayer, StockRound aStockRound, Certificate aCertificate) {
-		super ("Par Value Selection");
+	public ParPriceFrame (JFrame aParentFrame, Player aPlayer, StockRound aStockRound, Certificate aCertificate) {
+		super (aParentFrame, "Par Value Selection");
 		
 		// Need to have the Player that has bought the President Sale shown in Dialog 
 		// This is to confirm the player who bought the share, possible during Auction, is notified THEY should be setting this,
@@ -206,7 +207,7 @@ public class ParPriceFrame extends JFrame implements ActionListener {
 				setParPriceFrameActive (false);
 				gameManager.setParPrice (tShareCompany, tSelectedParPrice);
 				setParValueAction (tSelectedParPrice, tShareCompany);
-				gameManager.bringPlayerFrameToFront();
+				gameManager.bringPlayerFrameToFront ();
 			}
 		}
 		setVisible (false);
