@@ -497,6 +497,7 @@ public class PlayerManager {
 		Player tCurrentPresident, tNewPresident;
 		PortfolioHolderI tCurrentHolder;
 		boolean tCanBuyStock = true;
+		boolean tChainToPrevious = false;
 		
 		// Get State before acting for saving in the Action Stack.
 		tOldState = aPlayer.getPrimaryActionState ();
@@ -529,7 +530,8 @@ public class PlayerManager {
 				if (! aCertificateToBuy.hasParPrice ()) {
 					tSelectedParPrice = aCertificateToBuy.getComboParValue ();
 					if ((tSelectedParPrice > 0) && (tShareCompany != ShareCompany.NO_SHARE_COMPANY)) {
-						handleParPriceFrame (aPlayer, aCertificateToBuy, tShareCompany, tSelectedParPrice);
+						handleSetParPrice (aPlayer, aCertificateToBuy, tShareCompany, tSelectedParPrice);
+						tChainToPrevious = true;
 					} else {
 						System.err.println ("***Selected Par Price is " + tSelectedParPrice + " or tShareCompany is NULL***");
 					}
@@ -569,7 +571,7 @@ public class PlayerManager {
 					if (tFreeCertificate.hasParPrice ()) {
 						System.err.println ("Par Price already set.");
 					} else {
-						handleParPriceFrame (aPlayer, tFreeCertificate);
+						handleSetParPrice (aPlayer, tFreeCertificate);
 					}
 				}
 			}
@@ -595,6 +597,7 @@ public class PlayerManager {
 				stockRound.updateRFPlayerLabel (aPlayer);
 			}
 			tBuyStockAction = aBuyStockAction;
+			tBuyStockAction.setChainToPrevious (tChainToPrevious);
 		} else {
 			tBuyStockAction = BuyStockAction.NO_BUY_STOCK_ACTION;
 		}
@@ -603,15 +606,17 @@ public class PlayerManager {
 		return tBuyStockAction;
 	}
 	
-	private void handleParPriceFrame (Player aPlayer, Certificate aCertificate, ShareCompany aShareCompany, int aParPrice) {
-		gameManager.setParPrice (aShareCompany, aParPrice);
-		parPriceFrame.setParPriceFrameActive (false);
-		parPriceFrame.setParValueAction (aParPrice, aShareCompany);
+	private void handleSetParPrice (Player aPlayer, Certificate aCertificate, ShareCompany aShareCompany, int aParPrice) {
+		PlayerFrame tPlayerFrame;
 		
-		handleParPriceFrame (aPlayer, aCertificate);
+		gameManager.setParPrice (aShareCompany, aParPrice);
+		tPlayerFrame = aPlayer.getPlayerFrame ();
+		parPriceFrame = new ParPriceFrame (tPlayerFrame, aPlayer, stockRound, aCertificate);
+		parPriceFrame.setParPriceFrameActive (false);
+		parPriceFrame.setParValueAction (aParPrice, aShareCompany, false);
 	}
 
-	private void handleParPriceFrame (Player aPlayer, Certificate aCertificate) {
+	private void handleSetParPrice (Player aPlayer, Certificate aCertificate) {
 		PlayerFrame tPlayerFrame;
 		
 		tPlayerFrame = aPlayer.getPlayerFrame ();
