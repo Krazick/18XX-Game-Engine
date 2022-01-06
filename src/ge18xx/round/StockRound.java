@@ -31,7 +31,7 @@ public class StockRound extends Round {
 	}
 	
 	public void setStartingPlayer () {
-		setCurrentPlayer (FIRST_PLAYER);
+		setCurrentPlayer (FIRST_PLAYER, false);
 		setPriorityPlayer (FIRST_PLAYER);
 	}
 	
@@ -162,10 +162,10 @@ public class StockRound extends Round {
 	
 	public void prepareStockRound () {
 		clearAllSoldCompanies ();
-		setCurrentPlayer (getPriorityIndex ());
+		setCurrentPlayer (getPriorityIndex (), true);
 	}
 	
-	public void setCurrentPlayer (int aPlayerIndex) {
+	public void setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious) {
 		ActorI.ActionStates tOldState = ActorI.ActionStates.NoState;
 		ActorI.ActionStates tNewState = ActorI.ActionStates.NoState;
 		Player tPlayer = Player.NO_PLAYER;
@@ -179,6 +179,7 @@ public class StockRound extends Round {
 			playerManager.clearPlayerPrimaryStateAt (currentPlayerIndex);
 			tNewState = tPlayer.getPrimaryActionState ();
 			tChangeStateAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
+			tChangeStateAction.setChainToPrevious (aChainToPrevious);
 			addAction (tChangeStateAction);
 		}
 	}
