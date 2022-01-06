@@ -1641,7 +1641,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		addNewFrame (aXMLFrame);
 	}
 		
-	public void setupGamePieces () {
+	private void setupGamePieces () {
 		if (activeGame != GameInfo.NO_GAME_INFO) {
 			createMarket ();
 			createShareCompanies ();
@@ -1655,26 +1655,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tileTrayFrame.setTraySize ();
 		}
 	}
-	
-	public void setupLoadedPlayers () {
-		int tPlayerCount;
-		Player tPlayer;
-		int tIndex;
-		int tPlayerStartingCash;
-		
-		if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
-			logger.error ("No Player Manager loaded from Save Game");
-		} else {
-			tPlayerCount = playerManager.getPlayerCount ();
-			tPlayerStartingCash = activeGame.getStartingCash (tPlayerCount);
-			for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
-				tPlayer = playerManager.getPlayer (tIndex);
-				bank.transferCashTo (tPlayer, tPlayerStartingCash);
-			}
-		}
-	}
 
-	public void setupPlayers () {
+	private void setupPlayers () {
 		Player tPlayer;
 		PlayerManager tPlayerManager;
 		String tPlayerName;
@@ -1734,11 +1716,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public Point getOffsetRoundFrame () {
-		Point tNewPoint;
-		
-		tNewPoint = roundManager.getOffsetRoundFrame ();
-		
-		return tNewPoint;
+		return roundManager.getOffsetRoundFrame ();
 	}
 
 	public Point getOffsetCorporationFrame () {
@@ -1768,11 +1746,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public PlayerFrame getCurrentPlayerFrame () {
-		PlayerFrame tCurrentPlayerFrame;
-		
-		tCurrentPlayerFrame = playerManager.getCurrentPlayerFrame ();
-
-		return tCurrentPlayerFrame;
+		return playerManager.getCurrentPlayerFrame ();
 	}
 	
 	public void showFrame (JFrame aJFrame) {
@@ -1904,11 +1878,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public Corporation getOperatingCompany () {
-		Corporation tShareCompany;
-		
-		tShareCompany = roundManager.getOperatingCompany ();
-		
-		return tShareCompany;
+		return roundManager.getOperatingCompany ();
 	}
 
 	public boolean isUpgradeAllowed (String tTileColor) {
@@ -2014,7 +1984,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 						tBroadcast = tActionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
 						playerInputFrame.handleResetPlayerOrder (tPlayerOrder, tBroadcast);
 					} else if (Action.EN_ACTION.equals (tANodeName)) {
-						if (roundManager != null) {
+						if (roundManager != RoundManager.NO_ROUND_MANAGER) {
 							applyingNetworkAction = true;
 							roundManager.handleNetworkAction (tActionNode);
 							applyingNetworkAction = false;
