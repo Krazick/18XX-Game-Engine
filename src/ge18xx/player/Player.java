@@ -1168,6 +1168,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		updatePlayerInfo ();
 
 		playerFrame.setVisible (true);
+		playerFrame.setEnabled (true);
 	}
 	
 	public void refundEscrow (Certificate aCertificate, int aBidAmount, WinAuctionAction aWinAuctionAction) {
