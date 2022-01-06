@@ -428,7 +428,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public String getMustSellToolTip (Player aPlayer) {
 		String tStock;
 		String tToolTip = "";
-		int tPercentage;
+		int tPercentage, tCertificateCount;
 		
 		// TODO: Test for Over Total Certificate Limit 
 		
@@ -442,11 +442,12 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		} else {
 			tStock = aPlayer.exceedsAnyCorpShareLimit ();
 			if (tStock != Player.NO_STOCK_TO_SELL) {
-				tToolTip = "Must sell stock in " + tStock + " to get to within Share Limit, or to have Stock return to Orange or Brown Zone";
+				tToolTip = "Must sell stock in " + tStock + 
+						" to get to within Share Limit, or to have Stock return to Orange or Brown Zone";
 			} else {
-				tPercentage = aPlayer.exceedsCertificateLimitBy ();
-				if (tPercentage > 0) {
-					tToolTip = "Player over Certificate Limit by " + tPercentage + ". Must sell Certificates to reach Limit";
+				tCertificateCount = aPlayer.exceedsCertificateLimitBy ();
+				if (tCertificateCount > 0) {
+					tToolTip = "Player over Certificate Limit by " + tCertificateCount + ". Must sell Certificates to reach Limit";
 				}
 			}
 		}
@@ -684,7 +685,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tNextPrezPercent = tNextPossiblePrez.getPercentOwnedOf (tCorporation);
 		tSmallestSharePercentage = tCorporation.getSmallestSharePercentage ();
 		tMustSellSharePercentage = tCurrentPlayerPercent - tNextPrezPercent + tSmallestSharePercentage; 
-		tCanBankHoldStock = ! player.willOverfillBankPool(tMustSellSharePercentage, tCorporation);
+		tCanBankHoldStock = ! player.willOverfillBankPool (tMustSellSharePercentage, tCorporation);
 		 
 		return tCanBankHoldStock;
 	}
@@ -728,20 +729,20 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	private void updateUndoButton (boolean tActionsToUndo) {
-		GameManager tGameManager;
-		
-		tGameManager = player.getGameManager ();
-		if (tGameManager.isNetworkGame ()) {
-			undoActionButton.setEnabled (false);
-			undoActionButton.setToolTipText ("Network Game - Undos are not allowed");
-		} else {
+//		GameManager tGameManager;
+//		
+//		tGameManager = player.getGameManager ();
+//		if (tGameManager.isNetworkGame ()) {
+//			undoActionButton.setEnabled (false);
+//			undoActionButton.setToolTipText ("Network Game - Undo is not allowed");
+//		} else {
 			undoActionButton.setEnabled (tActionsToUndo);
 			if (tActionsToUndo) {
 				undoActionButton.setToolTipText ("There are Actions that can be undone");
 			} else {
 				undoActionButton.setToolTipText ("No Actions to Undo");
 			}
-		}
+//		}
 	}
 	
 	public void updateCertificateInfo () {

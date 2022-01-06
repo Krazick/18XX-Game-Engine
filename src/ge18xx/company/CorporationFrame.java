@@ -246,10 +246,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 	
 	public void updateUndoButton () {
-		if (isNetworkGame) {
+//		if (isNetworkGame) {
 			undoActionButton.setEnabled (false);
 			undoActionButton.setToolTipText ("Network Game - Undo is not allowed");
-		}
+//		}
 	}
 
 	public void handlePlaceTile () {
