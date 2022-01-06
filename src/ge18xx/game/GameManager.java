@@ -1510,8 +1510,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public void saveAGame (boolean aOverwriteFile) {
-		Point tNewPoint;
-		
 		if (saveFile == null) {
 			aOverwriteFile = false;
 		}
@@ -1526,18 +1524,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 			
 			tOriginalSaveGameDir = configData.getSaveGameDirectory ();
 			tSaveDirectory = new File (tOriginalSaveGameDir);
-			File18XXFilter tFileFilter = new File18XXFilter ();
-			tNewPoint = getOffsetGEFrame ();
-			chooser = new JFileMChooser ();
-			chooser.setMLocation (tNewPoint);
-			chooser.setDialogTitle ("Save 18XX Game File");
-			chooser.setCurrentDirectory (tSaveDirectory);
-			chooser.addChoosableFileFilter (tFileFilter);
-			chooser.setAcceptAllFileFilterUsed (true);
-			chooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
-			chooser.setSelectedFile (new File("SaveGame." + FileUtils.xml));
+			setupChooser (tSaveDirectory);
 			saveFile = getSelectedFile (tSaveDirectory, chooser, true);
-			tSaveDirectory = chooser.getCurrentDirectory ();
+//			tSaveDirectory = chooser.getCurrentDirectory ();
 			tNewSaveGameDir = tSaveDirectory.getAbsolutePath ();
 			if (! tOriginalSaveGameDir.equals (tNewSaveGameDir)) {
 				configData.setSaveGameDirectory (tNewSaveGameDir);
@@ -1546,23 +1535,36 @@ public class GameManager extends Component implements NetworkGameSupport {
 			if (saveFile != null) {
 				tFileName = saveFile.getName ();
 				if (! tFileName.endsWith (FileUtils.xml)) {
-					saveFile = new File (saveFile.getAbsoluteFile() + "." + FileUtils.xml);
+					saveFile = new File (saveFile.getAbsoluteFile () + "." + FileUtils.xml);
 				}
-				/* Once a Game has been saved, can enable the Save Menu Item */
 				saveGame ();
 				setGameChanged (false);
+				/* Once a Game has been saved, can enable the Save Menu Item */
 				game18XXFrame.enableSaveMenuItem ();
 			} else {
 				logger.error ("Cancel Save Game Action");
 			}
 		}
 	}
+
+	private void setupChooser (File aSaveDirectory) {
+		Point tNewPoint;
+		File18XXFilter tFileFilter = new File18XXFilter ();
+		
+		tNewPoint = getOffsetGEFrame ();
+		chooser = new JFileMChooser ();
+		chooser.setMLocation (tNewPoint);
+		chooser.setDialogTitle ("Save 18XX Game File");
+		chooser.setCurrentDirectory (aSaveDirectory);
+		chooser.addChoosableFileFilter (tFileFilter);
+		chooser.setAcceptAllFileFilterUsed (true);
+		chooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
+		chooser.setSelectedFile (new File ("SaveGame." + FileUtils.xml));
+	}
 	
 	public void setCitiesFrame (XMLFrame aXMLFrame) {
 		citiesFrame = (CitiesFrame) aXMLFrame;
-		if (aXMLFrame != XMLFrame.NO_XML_FRAME) {
-			addNewFrame (aXMLFrame);
-		}
+		addNewFrame (aXMLFrame);
 	}
 	
 	public void setGame (GameInfo aGame) {
@@ -1575,21 +1577,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void setGameChanged (boolean aFlag) {
 		gameChangedSinceSave = aFlag;
 	}
-	
-	public void setMapFrame (XMLFrame aXMLFrame) {
-		mapFrame = (MapFrame) aXMLFrame;
-		addNewFrame (aXMLFrame);
-	}
-	
-	public void setMarketFrame (XMLFrame aXMLFrame) {
-		marketFrame = (MarketFrame) aXMLFrame;
-		addNewFrame (aXMLFrame);
-	}
-
-	public void setMinorCompaniesFrame (XMLFrame aXMLFrame) {
-		minorCompaniesFrame = (MinorCompaniesFrame) aXMLFrame;
-		addNewFrame (aXMLFrame);
-	}
 
 	public void setParPrice (ShareCompany aShareCompany, int aParPrice) {
 		 marketFrame.setParPrice (aShareCompany, aParPrice);
@@ -1600,41 +1587,56 @@ public class GameManager extends Component implements NetworkGameSupport {
 		phaseManager = aPhaseManager;
 	}
 	
+	public void setPlayerManager (PlayerManager aPlayerManager) {
+		playerManager = aPlayerManager;
+	}
+
+	public void setMapFrame (XMLFrame aXMLFrame) {
+		mapFrame = (MapFrame) aXMLFrame;
+		addNewFrame (aXMLFrame);
+	}
+	
+	private void setMarketFrame (XMLFrame aXMLFrame) {
+		marketFrame = (MarketFrame) aXMLFrame;
+		addNewFrame (aXMLFrame);
+	}
+
+	private void setMinorCompaniesFrame (XMLFrame aXMLFrame) {
+		minorCompaniesFrame = (MinorCompaniesFrame) aXMLFrame;
+		addNewFrame (aXMLFrame);
+	}
+	
 	public void setPlayerInputFrame (PlayerInputFrame aPlayerInputFrame) {
 		playerInputFrame = aPlayerInputFrame;
 		addNewFrame (playerInputFrame);
 	}
 	
-	public void setPlayerManager (PlayerManager aPlayerManager) {
-		playerManager = aPlayerManager;
-	}
-	
-	public void setPrivatesFrame (XMLFrame aXMLFrame) {
+	private void setPrivatesFrame (XMLFrame aXMLFrame) {
 		privatesFrame = (PrivatesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
 
-	public void setShareCompaniesFrame (XMLFrame aXMLFrame) {
+	private void setShareCompaniesFrame (XMLFrame aXMLFrame) {
 		shareCompaniesFrame = (ShareCompaniesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
 
-	public void setTileTrayFrame (XMLFrame aXMLFrame) {
+	private void setTileTrayFrame (XMLFrame aXMLFrame) {
 		tileTrayFrame = (TileTrayFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
 
-	public void setAuditFrame (XMLFrame aXMLFrame) {
+	private void setAuditFrame (XMLFrame aXMLFrame) {
 		auditFrame = (AuditFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
 	
-	public void setFrameInfoFrame (XMLFrame aXMLFrame) {
+	private void setFrameInfoFrame (XMLFrame aXMLFrame) {
 		frameInfoFrame = (FrameInfoFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
 	
-	public void setTileDefinitionFrame (XMLFrame aXMLFrame) {
+	private void setTileDefinitionFrame (XMLFrame aXMLFrame) {
 		tileDefinitionFrame = (TileDefinitionFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
