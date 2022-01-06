@@ -178,6 +178,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (tCurrentRevenue != tPreviousRevenue) {
 			tPreparedCorporationAction.addUpdateLastRevenueEffect (this, thisRevenue, lastRevenue);
 		}
+		tPreparedCorporationAction.setChainToPrevious (true);
 		addAction (tPreparedCorporationAction);
 		setHasLaidTile (false);
 	}
