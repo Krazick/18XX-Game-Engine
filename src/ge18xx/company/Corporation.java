@@ -1221,7 +1221,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			corporationFrame.setLocation (tNewPoint);
 			corporationFrame.setVisible (true);
 		}
-		corporationFrame.toFront ();
+		corporationFrame.toTheFront ();
 	}
 	
 	public void showMap () {

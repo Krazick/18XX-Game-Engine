@@ -377,7 +377,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 		tileSet.clearAllSelected ();
 		updatePutTileButton ();
-		toFront ();
+		toTheFront ();
 	}
 	
 	private void completeBenefitInUse () {

@@ -224,7 +224,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 	
 	public void bringPlayerFrameToFront () {
-		playerFrame.toFront ();
+		playerFrame.toTheFront ();
 	}
 	
 	public void addSoldCompanies (String aCompanyAbbrev) {

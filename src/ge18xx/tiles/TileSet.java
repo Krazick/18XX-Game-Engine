@@ -106,7 +106,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	public void tileTrayFrameToFront () {
 		if (tileTrayFrame != TileTrayFrame.NO_TILE_TRAY_FRAME) {
-			tileTrayFrame.toFront ();
+			tileTrayFrame.toTheFront ();
 		}
 	}
 	

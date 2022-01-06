@@ -1701,7 +1701,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void showCities () {
-		showFrame (citiesFrame);
+		citiesFrame.showFrame ();
+//		showFrame (citiesFrame);
 	}
 	
 	public void setAuctionFrameLocation () {
@@ -1749,44 +1750,51 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return playerManager.getCurrentPlayerFrame ();
 	}
 	
-	public void showFrame (JFrame aJFrame) {
-		aJFrame.pack ();
-		aJFrame.revalidate ();
-		aJFrame.toFront ();
-		aJFrame.setVisible (true);
-		aJFrame.setEnabled(true);
-	}
+//	public void showFrame (XMLFrame aXMLFrame) {
+//		aXMLFrame.pack ();
+//		aXMLFrame.revalidate ();
+//		aXMLFrame.toFront ();
+//		aXMLFrame.setVisible (true);
+//		aXMLFrame.setEnabled(true);
+//	}
 	
 	public void showMap () {
-		showFrame (mapFrame);
+		mapFrame.showFrame ();
+//		showFrame (mapFrame);
 	}
 	
 	public void showAuctionFrame () {
-		showFrame (auctionFrame);
+		auctionFrame.showFrame ();
+//		showFrame (auctionFrame);
 	}
 	
 	public void showMarket () {
-		showFrame (marketFrame);
+		marketFrame.showFrame ();
+//		showFrame (marketFrame);
 	}
 	
 	public void showMinorCompanies () {
-		showFrame (minorCompaniesFrame);
+		minorCompaniesFrame.showFrame ();
+//		showFrame (minorCompaniesFrame);
 	}
 	
 	public void showPrivateCompanies () {
-		showFrame (privatesFrame);
+		privatesFrame.showFrame ();
+//		showFrame (privatesFrame);
 	}
 	
 	public void showShareCompanies () {
-		showFrame (shareCompaniesFrame);
+		shareCompaniesFrame.showFrame ();
+//		showFrame (shareCompaniesFrame);
 	}
 	
 	public void showTileTray () {
-		showFrame (tileTrayFrame);
+		tileTrayFrame.showFrame ();
+//		showFrame (tileTrayFrame);
 	}
 
 	public void bringMapToFront () {
-		mapFrame.toFront ();
+		mapFrame.toTheFront ();
 	}
 
 	public void bringPlayerFrameToFront () {
@@ -1794,7 +1802,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public void bringTileTrayToFront () {
-		tileTrayFrame.toFront ();
+		tileTrayFrame.toTheFront ();
 	}
 	
 	public void sendToReportFrame (String aReport) {

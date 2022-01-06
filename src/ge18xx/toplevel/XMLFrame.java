@@ -217,13 +217,13 @@ public class XMLFrame extends JFrame {
 		// Primarily for the MapFrame
 	}
 	
-	@Override
-	public void toFront () {
+	public void toTheFront () {
 	    int tState = super.getExtendedState () & ~JFrame.ICONIFIED & JFrame.NORMAL;
 
 	    super.setExtendedState (tState);
 	    super.setEnabled (true);
 	    super.setAlwaysOnTop (true);
+	    super.setVisible (true);
 	    super.toFront ();
 	    super.requestFocus ();
 	    super.setAlwaysOnTop (false);
@@ -243,4 +243,11 @@ public class XMLFrame extends JFrame {
 
 		return tNewPoint;
 	}
+	
+	public void showFrame () {
+		toTheFront ();
+		pack ();
+		revalidate ();
+	}
+
 }

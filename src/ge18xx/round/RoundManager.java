@@ -211,7 +211,7 @@ public class RoundManager implements ActionListener {
 	public void doneAction (Corporation aCorporation) {
 		clearAllPlayerSelections ();
 		updateRoundFrame ();
-		roundFrame.toFront ();
+		roundFrame.toTheFront ();
 		if (operatingRoundIsDone ()) {
 			endOperatingRound ();
 		}
@@ -651,7 +651,7 @@ public class RoundManager implements ActionListener {
 				tPlayerName = stockRound.getCurrentPlayerName ();
 				if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 					roundFrame.setCurrentPlayerText (tPlayerName);
-					roundFrame.toFront ();
+					roundFrame.toTheFront ();
 				}
 			}
 		}

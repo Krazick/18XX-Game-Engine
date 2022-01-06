@@ -282,7 +282,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			if (isNetworkGame) {
 				if (aBidderName.equals (clientUserName)) {
 					tBackgroundColor = Color.ORANGE;
-					toFront ();
+					toTheFront ();
 				}
 			}
 		}

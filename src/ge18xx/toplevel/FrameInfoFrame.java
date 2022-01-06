@@ -127,7 +127,8 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 			System.out.println ("Default X " + tFoundXMLFrame.getDefaultXLocation ());
 			System.out.println ("Default Y " + tFoundXMLFrame.getDefaultYLocation ());
 			tFoundXMLFrame.setLocation (100, 100);
-			gameManager.showFrame (tFoundXMLFrame);
+			tFoundXMLFrame.showFrame ();
+//			gameManager.showFrame (tFoundXMLFrame);
 		}
 	}
 	
