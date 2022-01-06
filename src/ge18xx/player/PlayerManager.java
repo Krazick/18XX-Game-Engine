@@ -689,7 +689,7 @@ public class PlayerManager {
 		tThisPlayerIndex = getThisPlayerIndex (aPlayer);
 		if (tThisPlayerIndex != tCurrentPlayerIndex) {
 			System.err.println ("----- CurrentPlayerIndex is " + tCurrentPlayerIndex + " This Player Index " + tThisPlayerIndex);
-			stockRound.setCurrentPlayer (tThisPlayerIndex);
+			stockRound.setCurrentPlayer (tThisPlayerIndex, true);
 			tCurrentPlayerIndex = tThisPlayerIndex;
 		}
 		tNextPlayerIndex = stockRound.getNextPlayerIndex ();
@@ -721,7 +721,7 @@ public class PlayerManager {
 		tNextPlayer.setBoughtShare (false);
 		tNextPlayer.setBidShare (false);
 		tNextPlayer.updatePortfolioInfo ();
-		stockRound.setCurrentPlayer (aNextPlayerIndex);
+		stockRound.setCurrentPlayer (aNextPlayerIndex, true);
 		stockRound.updateRFPlayerLabel (tNextPlayer);	
 	}
 	
@@ -1056,7 +1056,7 @@ public class PlayerManager {
 		
 		if (aPlayer.canPassAuction ()) {
 			tNextPlayerIndex = stockRound.getNextPlayerIndex ();
-			stockRound.setCurrentPlayer (tNextPlayerIndex);
+			stockRound.setCurrentPlayer (tNextPlayerIndex, false);
 		} else {
 			System.err.println ("Player has acted in this Auction Round, cannot pass");
 		}
