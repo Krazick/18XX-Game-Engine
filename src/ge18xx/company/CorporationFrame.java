@@ -8,6 +8,7 @@ import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
@@ -1045,6 +1046,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateBuyableItems ();
 		updateCFActionButtons ();
 		revalidate ();
+		if (corporation.getStatus() == ActorI.ActionStates.WillFloat) {
+			setVisible (false);
+		}
 	}
 
 	public void updateBuyableItems () {
