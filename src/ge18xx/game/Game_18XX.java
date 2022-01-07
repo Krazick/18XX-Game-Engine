@@ -39,7 +39,6 @@ import java.awt.event.KeyAdapter;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -55,6 +54,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
@@ -75,11 +75,11 @@ public class Game_18XX extends JFrame {
 	protected Action showTileTrayAction, showCoalCompaniesAction, showMinorCompaniesAction;
 	protected Action showChatClientAction, showRoundFrameAction, showShareCompaniesAction;
 	protected Action showPlayerInputAction, showAuditFrameAction, showActionReportFrameAction;
-	static final JMenuBar mainMenuBar = new JMenuBar ();	
 	protected JMenu fileMenu, gameMenu;
 
 	GameManager gameManager;
 	PlayerInputFrame playerInputFrame;
+	JMenuBar mainMenuBar;	
 	JMenuItem gameMenuItems [];
 	JMenuItem newMenuItem;
 	JMenuItem openMenuItem;
@@ -98,7 +98,8 @@ public class Game_18XX extends JFrame {
 	private static Logger logger;
 	LoggerLookup loggerLookup;
 	String userDir = System.getProperty ("user.dir");
-
+	Image iconImage;
+	
 	public Game_18XX () {
 		this (true);
 	}
@@ -157,12 +158,12 @@ public class Game_18XX extends JFrame {
 		tSound = new Sound ();
 		tSound.playSoundClip (tSound.WHISTLE);
 	}
-	
+		
 	public void setupLogger (String aUserName) {
 		String tXMLConfigFile;
 	    String tJavaVersion = System.getProperty ("java.version");
 	    String tOSName = System.getProperty ("os.name");
-	    String tOSVersion = System.getProperty( "os.version");
+	    String tOSVersion = System.getProperty ("os.version");
 	    String tLog4JVersion;
     
 		tLog4JVersion = org.apache.logging.log4j.LogManager.class.getPackage ().getImplementationVersion ();
@@ -178,11 +179,7 @@ public class Game_18XX extends JFrame {
 	}
 	
 	public String getGEVersion () {
-	    String tResourceVersion;
-	    
-		tResourceVersion = resbundle.getString ("version");
-		
-		return tResourceVersion;
+		return resbundle.getString ("version");
 	}
 
 	public String getUserDir () {
@@ -195,9 +192,20 @@ public class Game_18XX extends JFrame {
 	
 	private void setApplicationIcon () {
 		// This will set the GE18XX Frame Icon (when it is minimized)
-		// For Mac on the Doc even, but not the Application Level Icon.
-		Image image = Toolkit.getDefaultToolkit ().getImage ("images/GE18XX.png");
-		this.setIconImage (image);
+		// For Mac on the Dock even, but not the Application Level Icon.
+		iconImage = getIconImage ();
+        setIconImage (iconImage);
+	}
+	
+	@Override
+	public Image getIconImage () {
+		String tIconPath = "images/GE18XX.png";
+		ImageIcon tIcon;
+		
+        tIcon = new ImageIcon (tIconPath);
+        iconImage = tIcon.getImage ();
+        
+		return iconImage;
 	}
 	
 	public void setGameManager (GameManager aGameManager) {
@@ -385,16 +393,13 @@ public class Game_18XX extends JFrame {
 		prefs.setResizable(false);
 		prefs.setVisible(true);
 	}
-
-	public void quit(ApplicationEvent e) {	
-		System.exit(0);
-	}
 */
 	
 	public void addMenus() {
 		int tMenuItemCount, tMenuItemIndex;
 		int tMenuIndex;
 		
+		mainMenuBar = new JMenuBar ();
 		fileMenu = new JMenu("File");
 		newMenuItem = new JMenuItem (newAction);
 		disableNewMenuItem ();
@@ -442,6 +447,7 @@ public class Game_18XX extends JFrame {
 		mainMenuBar.add (gameMenu);
 		
 		setJMenuBar (mainMenuBar);
+		System.out.println ("Menu Bars setup");
 	}
 	
 	private int addGameMenu (int aMenuIndex, Action aMenuAction) {
@@ -570,6 +576,7 @@ public class Game_18XX extends JFrame {
 	public void disableGameStartItems () {
 		disableNewMenuItem ();
 		disableOpenMenuItem ();
+		disableCloseMenuItem ();
 		disableGameButtons ();
 		clientUserName.setEnabled (false);
 	}
@@ -892,7 +899,8 @@ public class Game_18XX extends JFrame {
 		}
 		@Override
 		public void actionPerformed (ActionEvent e) {
-			System.exit (0);
+			System.out.println("EXITING THE APP");
+			onExit ();
 		}
 	}
 	
@@ -940,8 +948,25 @@ public class Game_18XX extends JFrame {
 			gameManager.showFrameInfo ();
 		}
 	}
-	
-	 public static void main (String aArgs []) {
+
+	private static void setupForMac () {
+		boolean tIsMacOS = false;
+				
+		String tOSName = System.getProperty ("os.name");
+		tIsMacOS = tOSName.contains ("Mac OS");
+
+		if (tIsMacOS) {
+			// These calls must come before any AWT or Swing code is called,
+			// otherwise the Mac menu bar will use the class name as the application name.
+			System.setProperty ("apple.laf.useScreenMenuBar", "true");
+			System.setProperty ("com.apple.mrj.application.apple.menu.about.name", "GE18XX Test");
+			System.out.println ("Mac OS -- MenuBar Properties set");
+		}
+	}
+
+	public static void main (String aArgs []) {
+		setupForMac ();
+
 		new Game_18XX ();
 	 }
 }

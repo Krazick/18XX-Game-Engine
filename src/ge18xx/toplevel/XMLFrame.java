@@ -17,6 +17,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
+import java.awt.Image;
 import java.awt.Point;
 import java.io.IOException;
 
@@ -42,6 +43,13 @@ public class XMLFrame extends JFrame {
 	public XMLFrame (String aFrameName, String aGameName) {
 		super (aFrameName);
 		gameName = aGameName;
+	}
+	
+	protected void setIconImage (GameManager aGameManager) {
+		Image tImage;
+		
+		tImage = aGameManager.getIconImage ();
+		setIconImage (tImage);
 	}
 	
 	public String getGameName () {

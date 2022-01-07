@@ -1,6 +1,7 @@
 package ge18xx.game;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ItemListener;
 
@@ -2415,6 +2416,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		game18XXFrame.updateDisconnectButton ();
 	}
 
+	public Image getIconImage () {
+		return game18XXFrame.getIconImage ();
+	}
+	
 	public void showFrameInfo () {
 		// TODO Auto-generated method stub
 		// Build This	
