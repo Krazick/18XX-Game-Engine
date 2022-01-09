@@ -1046,7 +1046,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateBuyableItems ();
 		updateCFActionButtons ();
 		revalidate ();
-		if (corporation.getStatus() == ActorI.ActionStates.WillFloat) {
+		if (corporation.getStatus () == ActorI.ActionStates.WillFloat) {
 			setVisible (false);
 		}
 	}
