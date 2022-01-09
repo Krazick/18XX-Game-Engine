@@ -1311,7 +1311,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tLoadedSaveGame = true;
 			}
 		}
-		
 		updateRoundFrame ();
 		
 		return tLoadedSaveGame;
