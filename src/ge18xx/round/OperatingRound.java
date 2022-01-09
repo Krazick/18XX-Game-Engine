@@ -244,6 +244,10 @@ public class OperatingRound extends Round {
 		return tCorporation;
 	}
 	
+	public void sortByOperatingOrder () {
+		shareCompanies.sortByOperatingOrder ();
+	}
+	
 	@Override
 	public boolean isAOperatingRound () {
 		return true;
