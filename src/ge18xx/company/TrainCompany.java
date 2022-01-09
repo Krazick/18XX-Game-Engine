@@ -70,6 +70,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final TrainCompany NO_TRAIN_COMPANY = null;
 	static final int NO_COST = 0;
 	static final int NO_REVENUE_GENERATED = -1;
+	static final String NO_REVENUE = "NONE";
 	static final float LEFT_ALIGNMENT = 0.0f;
 	String bgColorName;
 	String fgColorName;
@@ -371,11 +372,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tStateLabel = new JLabel ("State: " + getStatusName ());
 		tTreasuryLabel = new JLabel ("Treasury: " + Bank.formatCash (treasury));
 		tTokensLabel = new JLabel ("Tokens: " + aTokenCount);
-		if (isPlayerOwned ()) {
-			tPresidentLabel = new JLabel ("Prez: " + tPresident);
-		} else {
-			tPresidentLabel = new JLabel ("Prez: Bank");
+		if (! isPlayerOwned ()) {
+			tPresident = "Bank";
 		}
+		tPresidentLabel = new JLabel ("Prez: " + tPresident);
 		tCorpJPanel.add (tCorpAbbrev);
 		tCorpJPanel.add (tStateLabel);
 		tCorpJPanel.add (tPresidentLabel);
@@ -469,7 +469,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	
 	@Override
 	public Train getCheapestBankTrain () {
-		Train tCheapestTrain = null;
+		Train tCheapestTrain = Train.NO_TRAIN;
 		Train tBankPoolTrain, tBankTrain;
 		int tBankPoolTrainCost, tBankTrainCost;
 		BankPool tBankPool;
@@ -585,14 +585,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tBank.makeTrainsAvailable (tTrain, aBuyTrainAction);
 		}
 		addTrain (tTrain);
-		this.transferCashTo (tCashHolder, tTrain.getPrice ());
+		transferCashTo (tCashHolder, tTrain.getPrice ());
 		tTrainHolder.removeSelectedTrain ();
 		if (tFirstTrainOfType) {
 			corporationList.performPhaseChange (this, tTrain, aBuyTrainAction);
 		}
 		addAction (aBuyTrainAction);
 		corporationFrame.updateInfo ();
-		corporationFrame.revalidate ();
 	}
 	
 	@Override
@@ -820,7 +819,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		int tThisRevenue = getThisRevenue ();
 		
 		if (tThisRevenue == NO_REVENUE_GENERATED) {
-			tFormattedThisRevenue = "NONE";
+			tFormattedThisRevenue = NO_REVENUE;
 		} else {
 			tFormattedThisRevenue = Bank.formatCash (tThisRevenue);
 		}
@@ -834,7 +833,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		int tLastRevenue = getLastRevenue ();
 		
 		if (tLastRevenue == NO_REVENUE_GENERATED) {
-			tFormattedLastRevenue = "NONE";
+			tFormattedLastRevenue = NO_REVENUE;
 		} else {
 			tFormattedLastRevenue = Bank.formatCash (tLastRevenue);
 		}
@@ -886,7 +885,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		TrainHolderI tSelectedTrainHolder;
 		Bank tBank;
 		
-		tBank = this.getBank ();
+		tBank = getBank ();
 		
 		tSelectedTrainHolder = getSelectedTrainHolder ();
 		tIsSelectedTrainHolderTheBank = tSelectedTrainHolder.equals (tBank);
@@ -905,8 +904,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		TrainHolderI tTrainHolder;
 		Train tTrain;
 		
-		tBank = this.getBank ();
-		tBankPool = this.getBankPool ();
+		tBank = getBank ();
+		tBankPool = getBankPool ();
 		tTrain = Train.NO_TRAIN;
 		tTrainHolder = TrainPortfolio.NO_TRAIN_HOLDER;
 		if (tTrain == Train.NO_TRAIN) {
@@ -1348,6 +1347,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public String reasonForNoTrainOperation () {
 		String tReason;
+		
 		if (trainPortfolio.getTrainCount () == 0) {
 			tReason = "There are no Trains in the Portfolio to Operate";
 		} else {
@@ -1811,7 +1811,5 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				}
 			}
 		}
-		
 	}
-
 }
