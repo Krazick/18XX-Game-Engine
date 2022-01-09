@@ -572,8 +572,6 @@ public class RoundManager implements ActionListener {
 		tGenericActor = new GenericActor ();
 		currentRoundType = tGenericActor.getRoundType (tRoundType);
 		
-		updateRoundFrame ();
-		
 		tXMLNodeList = new XMLNodeList (roundParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aRoundStateNode, StockRound.EN_STOCK_ROUND, 
 				OperatingRound.EN_OPERATING_ROUND);
@@ -725,6 +723,8 @@ public class RoundManager implements ActionListener {
 	
 	public void updateRoundFrame () {
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
+			operatingRound.sortByOperatingOrder ();
+
 			roundFrame.updatePhaseLabel ();
 			PlayerManager tPlayerManager;
 			
