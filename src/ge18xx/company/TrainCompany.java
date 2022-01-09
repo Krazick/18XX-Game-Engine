@@ -181,6 +181,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tPreparedCorporationAction.setChainToPrevious (true);
 		addAction (tPreparedCorporationAction);
 		setHasLaidTile (false);
+		corporationList.updateRoundFrame ();
 	}
 	
 	@Override
