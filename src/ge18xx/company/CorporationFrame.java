@@ -158,7 +158,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		tTopBoxes.add (Box.createHorizontalStrut (20));
 		tTopBoxes.add (corporationAllInfoJPanel);
 		tTopBoxes.add (Box.createHorizontalStrut (10));
-		tPhaseInfoBox = buildPhaseInfoBox ();
+		tPhaseInfoBox = buildPhaseInfoPanel ();
 		tTopBoxes.add (tPhaseInfoBox);
 		tTopBoxes.add (Box.createHorizontalStrut (20));
 		
@@ -219,26 +219,26 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 	
-	private JPanel buildPhaseInfoBox () {
-		JPanel tPhaseInfoBox;
+	private JPanel buildPhaseInfoPanel () {
+		JPanel tPhaseInfoPanel;
 		
-		tPhaseInfoBox = new JPanel ();
-		tPhaseInfoBox.setLayout (new BoxLayout (tPhaseInfoBox, BoxLayout.Y_AXIS));
-		tPhaseInfoBox.add (Box.createVerticalStrut (5));
+		tPhaseInfoPanel = new JPanel ();
+		tPhaseInfoPanel.setLayout (new BoxLayout (tPhaseInfoPanel, BoxLayout.Y_AXIS));
+		tPhaseInfoPanel.add (Box.createVerticalStrut (5));
 		phaseNameLabel = new JLabel ("Current Phase Name ");
-		tPhaseInfoBox.add (phaseNameLabel);
-		tPhaseInfoBox.add (Box.createVerticalStrut (10));
+		tPhaseInfoPanel.add (phaseNameLabel);
+		tPhaseInfoPanel.add (Box.createVerticalStrut (10));
 		roundInfoLabel = new JLabel ("Round # of #");
-		tPhaseInfoBox.add (roundInfoLabel);
-		tPhaseInfoBox.add (Box.createVerticalStrut (10));
+		tPhaseInfoPanel.add (roundInfoLabel);
+		tPhaseInfoPanel.add (Box.createVerticalStrut (10));
 		trainLimitLabel = new JLabel ("Train Limit");
-		tPhaseInfoBox.add (trainLimitLabel);
-		tPhaseInfoBox.add (Box.createVerticalStrut (10));
+		tPhaseInfoPanel.add (trainLimitLabel);
+		tPhaseInfoPanel.add (Box.createVerticalStrut (10));
 		allowedTilesLabel = new JLabel ("Tile Colors");
-		tPhaseInfoBox.add (allowedTilesLabel);
-		tPhaseInfoBox.add (Box.createVerticalStrut (10));
+		tPhaseInfoPanel.add (allowedTilesLabel);
+		tPhaseInfoPanel.add (Box.createVerticalStrut (10));
 
-		return tPhaseInfoBox;
+		return tPhaseInfoPanel;
 	}
 	
 	public void setIsNetworkGame (boolean aIsNetworkGame) {
