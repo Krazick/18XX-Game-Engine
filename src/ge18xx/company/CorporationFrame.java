@@ -77,6 +77,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	JLabel allowedTilesLabel;
 	JLabel roundInfoLabel;
 	JLabel lastRevenueLabel;
+	// TODO rename buttons to remove 'Action' from the name
 	JButton showMapActionButton;
 	JButton placeTileActionButton;
 	JButton placeTokenActionButton;
@@ -885,7 +886,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			}
 		}
 	}
-
+// TODO -- Merge these three routines together, as 'updateBuyTrainButton'
 	private void enableBuyTrainActionButton () {
 		buyTrainActionButton.setEnabled (true);
 		buyTrainActionButton.setToolTipText (GUI.NO_TOOL_TIP);		
@@ -903,6 +904,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		disableBuyTrainActionButton (tDisableToolTipReason);
 	}
 	
+	// Rename method to 'updatePlaceTokenButton'
 	private void updatePlaceTokenActionButton () {
 		String tDisableToolTipReason;
 		String tMapCellID;
