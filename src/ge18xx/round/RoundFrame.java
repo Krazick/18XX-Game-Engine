@@ -141,7 +141,7 @@ public class RoundFrame extends XMLFrame {
 	
 	private void buildParPrices () {
 		int tParPriceCount, tParPriceIndex, tPrice;
-		JPanel tParPriceLineBox;
+		JPanel tParPriceLinePanel;
 		Integer [] tParPrices;
 		GameManager tGameManager;
 		String tPrices [];
@@ -164,14 +164,14 @@ public class RoundFrame extends XMLFrame {
 			parPrices.add (new JLabel (tPrices [tParPriceIndex]));
 			companiesAtPar.add (new JLabel (""));
 			
-			tParPriceLineBox = new JPanel ();
-			tParPriceLineBox.setLayout (new BoxLayout (tParPriceLineBox, BoxLayout.X_AXIS));
-			tParPriceLineBox.add (Box.createHorizontalStrut (20));
-			tParPriceLineBox.add (parPrices.get (tParPriceIndex));
-			tParPriceLineBox.add (Box.createHorizontalStrut (10));
-			tParPriceLineBox.add (companiesAtPar.get (tParPriceIndex));
-			tParPriceLineBox.add (Box.createHorizontalStrut (20));
-			parPriceLineJPanels.add (tParPriceLineBox);
+			tParPriceLinePanel = new JPanel ();
+			tParPriceLinePanel.setLayout (new BoxLayout (tParPriceLinePanel, BoxLayout.X_AXIS));
+			tParPriceLinePanel.add (Box.createHorizontalStrut (20));
+			tParPriceLinePanel.add (parPrices.get (tParPriceIndex));
+			tParPriceLinePanel.add (Box.createHorizontalStrut (10));
+			tParPriceLinePanel.add (companiesAtPar.get (tParPriceIndex));
+			tParPriceLinePanel.add (Box.createHorizontalStrut (20));
+			parPriceLineJPanels.add (tParPriceLinePanel);
 			parPricesJPanel.add (parPriceLineJPanels.get (tParPriceIndex));
 		}
 		updateParPrices ();
@@ -284,7 +284,7 @@ public class RoundFrame extends XMLFrame {
 		updateCurrentPlayerText ();
 	}
 
-	public void updateAllPlayerJPanels () {
+	private void updateAllPlayerJPanels () {
 		int tPlayerIndex;
 		Player tPlayer;
 		JPanel tPlayerJPanel;
@@ -332,7 +332,7 @@ public class RoundFrame extends XMLFrame {
 		return tClientIndex;
 	}
 	
-	public void updateCurrentPlayerText () {
+	private void updateCurrentPlayerText () {
 		int tPlayerIndex;
 		Player tPlayer;
 		int tPlayerCount, tCurrentPlayer;
@@ -395,7 +395,7 @@ public class RoundFrame extends XMLFrame {
 	}
 	
 	public void setCurrentPlayerText (String aPlayerName) {
-		if (passActionButton != null) {
+		if (passActionButton != GUI.NO_BUTTON) {
 			passActionButton.setText (aPlayerName + " " + PASS_STOCK_TEXT);
 		}
 		updateActionButtonText (aPlayerName + " do Stock Action");
@@ -449,7 +449,7 @@ public class RoundFrame extends XMLFrame {
 		String tClientUserName, tCurrentPlayerName;
 		GameManager tGameManager;
 		
-		if (passActionButton != null) {
+		if (passActionButton != GUI.NO_BUTTON) {
 			if (roundManager.isOperatingRound ()) {
 				disablePassButton (IS_OPERATING_ROUND);
 			} else if (roundManager.isAuctionRound ()) {
@@ -496,7 +496,7 @@ public class RoundFrame extends XMLFrame {
 		GameManager tGameManager;
 		
 		tGameManager = roundManager.getGameManager ();
-		if (doActionButton != null) {
+		if (doActionButton != GUI.NO_BUTTON) {
 			if (tGameManager.isNetworkGame ()) {
 				tCurrentPlayerName = getCurrentPlayerName ();
 				tClientUserName = tGameManager.getClientUserName ();
@@ -512,7 +512,7 @@ public class RoundFrame extends XMLFrame {
 	}
 	
 	public void updateActionButtonText (String aNewLabel) {
-		if (doActionButton != null) {
+		if (doActionButton != GUI.NO_BUTTON) {
 			doActionButton.setText (aNewLabel);
 		}
 	}
