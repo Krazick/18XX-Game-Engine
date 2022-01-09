@@ -117,7 +117,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		tCompanyJPanel.setBorder (BorderFactory.createTitledBorder (tBoxLabel));
 		tCompanyJPanel.setLayout (new BoxLayout (tCompanyJPanel, BoxLayout.X_AXIS));
 		
-		Collections.sort (corporations, Corporation.CorporationOperatingOrderComparator);
+		sortByOperatingOrder ();
 		for (Corporation tCorporation : corporations) {
 			tCorpLabel = tCorporation.buildCorpInfoLabel ();
 			tCorpBorder = tCorporation.setupBorder ();
@@ -128,6 +128,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 		
 		return tCompanyJPanel;
+	}
+
+	public void sortByOperatingOrder () {
+		Collections.sort (corporations, Corporation.CorporationOperatingOrderComparator);
 	}
 	
 	public JPanel buildCompaniesForPurchaseJPanel (ItemListener aItemListener, String aCorpType, int aAvailableCash) {
@@ -1245,5 +1249,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	
 	public CorporationList getPrivates () {
 		return roundManager.getPrivates ();
+	}
+	
+	public void updateRoundFrame () {
+		roundManager.updateRoundFrame ();
 	}
 }
