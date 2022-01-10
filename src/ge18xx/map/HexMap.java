@@ -563,7 +563,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 			} else {
 				if (tSelectedCity != City.NO_CITY) {
-					mapFrame.updatePutTokenButton (tSelectedCity);
+					mapFrame.updatePutTokenButton (tSelectedCity, aSelectedMapCell);
 				}
 			}
 		}
@@ -1190,7 +1190,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 	
 
-	public void toggleSelectedRevenueCenter (RevenueCenter aSelectedRevenueCenter) {
+	public void toggleSelectedRevenueCenter (RevenueCenter aSelectedRevenueCenter, MapCell aMapCell) {
 		City tSelectedCity = City.NO_CITY;
 		
 		if (aSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
@@ -1199,7 +1199,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tSelectedCity =  (City) aSelectedRevenueCenter;
 			}
 		}
-		mapFrame.updatePutTokenButton (tSelectedCity);
+		mapFrame.updatePutTokenButton (tSelectedCity, aMapCell);
 	}
 	
 	public void putTileDown () {

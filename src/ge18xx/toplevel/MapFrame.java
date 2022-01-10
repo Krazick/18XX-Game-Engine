@@ -571,7 +571,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			if (aRevenueCenter != RevenueCenter.NO_CENTER) {
 				if (aRevenueCenter.canPlaceStation ()) {
 					tSelectedCity = (City) aRevenueCenter;
-					tCanPlaceToken = canPlaceToken (aCorporation, tSelectedCity);
+					tCanPlaceToken = canPlaceToken (aCorporation, tSelectedCity, aMapCell);
 					if (tCanPlaceToken) {
 						putMapTokenDown (aCorporation, tSelectedCity, aMapCell, true);
 					}
@@ -611,7 +611,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				// Primarily for EIRE that starts with a choice of two spots in the Tile.
 				if (tBaseCorporation == aCorporation) {
 					tTile = aMapCell.getTile ();
-					if (tTile != null) {
+					if (tTile != Tile.NO_TILE) {
 						tTile.clearCorporation (aCorporation);
 					}
 				}
@@ -622,24 +622,67 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 	
-	public boolean canPlaceToken (Corporation aCorporation, City aSelectedCity) {
+	public String canPlaceTokenToolTip (Corporation aCorporation, City aSelectedCity, MapCell aMapCell) {
+		String tCanPlaceTokenToolTip = "";
+		Corporation tBaseCorporation;
+		String tBaseAbbrev, tCorporationAbbrev;
+		int tCorporationID;
+		
+		tCorporationID = aCorporation.getID ();
+		if (aMapCell != MapCell.NO_MAP_CELL) {
+			if (aMapCell.hasStation (tCorporationID)) {
+				tCanPlaceTokenToolTip = "Map Cell already has this Company's Token";
+			} else if (aSelectedCity != City.NO_CITY) {
+				tBaseCorporation = (Corporation) aSelectedCity.getTokenCorporation ();
+				if (tBaseCorporation == Corporation.NO_CORPORATION) {
+					if (! hasFreeStation (aSelectedCity)) {
+						tCanPlaceTokenToolTip = "No Free Station on City";
+					}
+				} else {
+					tBaseAbbrev = tBaseCorporation.getAbbrev ();
+					tCorporationAbbrev = aCorporation.getAbbrev ();
+					if (aSelectedCity.cityHasStation (tCorporationID)) {
+						tCanPlaceTokenToolTip = "City already has this Company's Token";
+					} else if (tBaseAbbrev.equals (tCorporationAbbrev)) {
+						if (!hasFreeStation (aSelectedCity)) {
+							tCanPlaceTokenToolTip = NOT_BASE_CORPORATION;
+						}
+					} else if (! baseHasFreeStation (aSelectedCity)){
+						tCanPlaceTokenToolTip = "No Free Station on City";
+					}
+				}
+			}
+		}
+		
+		return tCanPlaceTokenToolTip;
+	}
+
+	public boolean canPlaceToken (Corporation aCorporation, City aSelectedCity, MapCell aMapCell) {
 		boolean tCanPlaceToken = false;
 		Corporation tBaseCorporation;
 		String tBaseAbbrev, tCorporationAbbrev;
+		int tCorporationID;
 		
-		if (aSelectedCity != City.NO_CITY) {
-			tBaseCorporation = (Corporation) aSelectedCity.getTokenCorporation ();
-			if (tBaseCorporation == Corporation.NO_CORPORATION) {
-				tCanPlaceToken = true;
-			} else {
-				tBaseAbbrev = tBaseCorporation.getAbbrev ();
-				tCorporationAbbrev = aCorporation.getAbbrev ();
-				if (tBaseAbbrev.equals (tCorporationAbbrev)) {
-					if (aSelectedCity.getFreeStationCount () > 0) {
+		tCorporationID = aCorporation.getID ();
+		if (aMapCell != MapCell.NO_MAP_CELL) {
+			if (aMapCell.hasStation (tCorporationID)) {
+				tCanPlaceToken = false;
+			} else if (aSelectedCity != City.NO_CITY) {
+				tBaseCorporation = (Corporation) aSelectedCity.getTokenCorporation ();
+				if (tBaseCorporation == Corporation.NO_CORPORATION) {
+					if (hasFreeStation (aSelectedCity)) {
 						tCanPlaceToken = true;
 					}
 				} else {
-					if ((aSelectedCity.getMaxStations () - aSelectedCity.getFreeStationCount ()) > 0) {
+					tBaseAbbrev = tBaseCorporation.getAbbrev ();
+					tCorporationAbbrev = aCorporation.getAbbrev ();
+					if (aSelectedCity.cityHasStation (tCorporationID)) {
+						tCanPlaceToken = false;
+					} else if (tBaseAbbrev.equals (tCorporationAbbrev)) {
+						if (hasFreeStation (aSelectedCity)) {
+							tCanPlaceToken = true;
+						}
+					} else if (baseHasFreeStation (aSelectedCity)){
 						tCanPlaceToken = true;
 					}
 				}
@@ -647,6 +690,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 		
 		return tCanPlaceToken;
+	}
+	
+	private boolean hasFreeStation (City aCity) {
+		return aCity.getFreeStationCount () > 0;
+	}
+	
+	private boolean baseHasFreeStation (City aCity) {
+		return aCity.getFreeStationCount () > 1;
 	}
 	
 	public void setCityInfo (CityList aCityList) {
@@ -834,13 +885,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		map.setTileSet (aTileSet);
 	}
 	
-	public void updatePutTokenButton (City aSelectedCity) {
+	public void updatePutTokenButton (City aSelectedCity, MapCell aMapCell) {
 		boolean tCitySelected = hasCityBeenSelected ();
 		boolean tCanPlaceToken;
 		Corporation tCorporation;
+		String tToolTip;
 		
 		tCorporation = getOperatingTrainCompany ();
-		tCanPlaceToken = canPlaceToken (tCorporation, aSelectedCity);
+		tCanPlaceToken = canPlaceToken (tCorporation, aSelectedCity, aMapCell);
 		if (tCanPlaceToken) {
 			putTokenButton.setEnabled (tCitySelected);
 			if (tCitySelected) {
@@ -850,7 +902,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			}
 		} else {
 			putTokenButton.setEnabled (false);
-			putTokenButton.setToolTipText (NOT_BASE_CORPORATION);
+			tToolTip = canPlaceTokenToolTip (tCorporation, aSelectedCity, aMapCell);
+			putTokenButton.setToolTipText (tToolTip);
 		}
 	}
 	

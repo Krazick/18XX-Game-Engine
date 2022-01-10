@@ -1002,7 +1002,7 @@ public class City extends RevenueCenter implements Cloneable {
 		
 		tFreeCount = 0;
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
-			if (hasNoMapTokenAtStation(tIndex)) {
+			if (hasNoMapTokenAtStation (tIndex)) {
 				tFreeCount++;
 			}
 		}
