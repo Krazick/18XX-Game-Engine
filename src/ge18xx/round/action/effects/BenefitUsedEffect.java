@@ -94,7 +94,6 @@ public class BenefitUsedEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		
-		tEffectUndone = false;
 		benefitInUse.undoUse ();
 		tEffectUndone = true;
 		
