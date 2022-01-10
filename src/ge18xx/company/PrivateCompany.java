@@ -432,14 +432,15 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	@Override
 	protected boolean choiceForBaseToken () {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public Benefit findBenefit (String aBenefitName) {
 		Benefit tFoundBenefit = Benefit.NO_BENEFIT;
 		
-		tFoundBenefit = benefits.findBenefit (aBenefitName);
+		if (benefits != Benefits.NO_BENEFITS) {
+			tFoundBenefit = benefits.findBenefit (aBenefitName);
+		}
 		
 		return tFoundBenefit;
 	}
