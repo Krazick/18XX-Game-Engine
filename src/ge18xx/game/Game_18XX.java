@@ -447,7 +447,6 @@ public class Game_18XX extends JFrame {
 		mainMenuBar.add (gameMenu);
 		
 		setJMenuBar (mainMenuBar);
-		System.out.println ("Menu Bars setup");
 	}
 	
 	private int addGameMenu (int aMenuIndex, Action aMenuAction) {
@@ -960,7 +959,6 @@ public class Game_18XX extends JFrame {
 			// otherwise the Mac menu bar will use the class name as the application name.
 			System.setProperty ("apple.laf.useScreenMenuBar", "true");
 			System.setProperty ("com.apple.mrj.application.apple.menu.about.name", "GE18XX Test");
-			System.out.println ("Mac OS -- MenuBar Properties set");
 		}
 	}
 
