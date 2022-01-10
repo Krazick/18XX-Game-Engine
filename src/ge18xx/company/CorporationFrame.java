@@ -247,10 +247,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 	
 	public void updateUndoButton () {
-//		if (isNetworkGame) {
-			undoActionButton.setEnabled (false);
-			undoActionButton.setToolTipText ("Network Game - Undo is not allowed");
-//		}
 	}
 
 	public void handlePlaceTile () {
@@ -646,9 +642,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				if (corporation.isStationLaid ()) {
 					payNoDividendActionButton.setEnabled (true);
 					payNoDividendActionButton.setToolTipText ("Base Token was Skippped due to missing Tile.");
-				} else {
+				} else if (corporation.canLayBaseToken ()) {
 					payNoDividendActionButton.setEnabled (false);
 					payNoDividendActionButton.setToolTipText ("Base Token must be laid first.");
+				} else if (corporation.dividendsHandled ()) {
+					payNoDividendActionButton.setEnabled (false);
+					tToolTip = corporation.reasonForNoDividendPayment ();
+					payNoDividendActionButton.setToolTipText (tToolTip);
+				} else {
+					payNoDividendActionButton.setEnabled (true);
+					payNoDividendActionButton.setToolTipText ("Base Token was Skippped due to missing Tile.");
 				}
 			} else if (corporation.isPlaceTileMode ()) {
 				payNoDividendActionButton.setEnabled (false);
