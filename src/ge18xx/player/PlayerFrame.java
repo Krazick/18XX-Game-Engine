@@ -729,20 +729,12 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	private void updateUndoButton (boolean tActionsToUndo) {
-//		GameManager tGameManager;
-//		
-//		tGameManager = player.getGameManager ();
-//		if (tGameManager.isNetworkGame ()) {
-//			undoActionButton.setEnabled (false);
-//			undoActionButton.setToolTipText ("Network Game - Undo is not allowed");
-//		} else {
-			undoActionButton.setEnabled (tActionsToUndo);
-			if (tActionsToUndo) {
-				undoActionButton.setToolTipText ("There are Actions that can be undone");
-			} else {
-				undoActionButton.setToolTipText ("No Actions to Undo");
-			}
-//		}
+		undoActionButton.setEnabled (tActionsToUndo);
+		if (tActionsToUndo) {
+			undoActionButton.setToolTipText ("There are Actions that can be undone");
+		} else {
+			undoActionButton.setToolTipText ("No Actions to Undo");
+		}
 	}
 	
 	public void updateCertificateInfo () {
