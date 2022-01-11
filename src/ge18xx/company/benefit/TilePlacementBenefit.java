@@ -78,7 +78,6 @@ public class TilePlacementBenefit extends MapBenefit {
 	@Override
 	public void updateButton () {
 		if (hasTile ()) {
-//			disableButton ();
 			hideButton ();
 			setToolTip ("MapCell already has Tile");
 		} else if (! isTileAvailable ()) {
