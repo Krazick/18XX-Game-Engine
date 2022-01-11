@@ -87,7 +87,7 @@ public class MapBenefit extends Benefit {
 		boolean tTileIsAvailable;
 
 		tMap = getMap ();
-		tMapCell = tMap.getMapCellForID (mapCellID);
+		tMapCell = getMapCell (tMap);
 		tTileIsAvailable = tMap.isTileAvailableForMapCell (tMapCell);
 		
 		return tTileIsAvailable;
@@ -95,16 +95,26 @@ public class MapBenefit extends Benefit {
 	
 	protected boolean hasTile () {
 		boolean tHasTile = false;
-		HexMap tMap;
 		MapCell tMapCell;
 		
-		tMap = getMap ();
-		tMapCell = tMap.getMapCellForID (mapCellID);
+		tMapCell = getMapCell ();
 		if (tMapCell.isTileOnCell ()) {
 			tHasTile = true;
 		}
 		
 		return tHasTile;
+	}
+	
+	protected MapCell getMapCell () {
+		HexMap tMap;
+		
+		tMap = getMap ();
+		
+		return getMapCell (tMap);
+	}
+	
+	protected MapCell getMapCell (HexMap aMap) {
+		return aMap.getMapCellForID (mapCellID);
 	}
 	
 	public void resetBenefitInUse () {

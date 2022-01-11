@@ -91,6 +91,18 @@ public class TokenPlacementBenefit extends MapBenefit {
 		return tHasTokens;
 	}
 	
+	private boolean hasTokenOnTile () {
+		TokenCompany tOwningCompany;
+		boolean tHasTokenOnTile = true;
+		MapCell tMapCell;
+		
+		tOwningCompany = (TokenCompany) privateCompany.getOwner ();
+		tMapCell = getMapCell ();
+		tHasTokenOnTile = tMapCell.hasStation (tOwningCompany.getID ());
+		
+		return tHasTokenOnTile;
+	}
+	
 	@Override
 	public void updateButton () {
 		Corporation tOwningCompany;
@@ -103,15 +115,18 @@ public class TokenPlacementBenefit extends MapBenefit {
 		if ((tBenefitInUse.realBenefit ()) && (! NAME.equals(tBenefitInUseName))) {
 			disableButton ();
 			setToolTip ("Another Benefit is currently in Use");
-		} else if (hasTile ()) {
-			enableButton ();
-			setToolTip ("");
+		} else if (! hasTile ()) {
+			disableButton ();
+			setToolTip ("No Tile on the MapCell, can't place Station");
+		} else if (hasTokenOnTile ()) {
+			hideButton ();
+			setToolTip ("Company has Station on Tile already");
 		} else if (! hasTokens ()) {
 			disableButton ();
 			setToolTip ("Company has no Tokens, can't place Station");
 		} else {
-			disableButton ();
-			setToolTip ("No Tile on the MapCell, can't place Station");
+			enableButton ();
+			setToolTip ("All Good");
 		}
 	}
 	

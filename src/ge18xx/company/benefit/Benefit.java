@@ -123,7 +123,7 @@ public abstract class Benefit implements ActionListener {
 	}
 	
 	public void updateButton () {
-		
+		// Must update Button for Non-Passive Benefits by Overriding this Method
 	}
 	
 	public boolean isAExtraTilePlacement () {
@@ -136,6 +136,10 @@ public abstract class Benefit implements ActionListener {
 	
 	public void disableButton () {
 		button.setEnabled (false);
+	}
+	
+	public void hideButton () {
+		button.setVisible (false);
 	}
 	
 	public void setToolTip (String aToolTip) {
