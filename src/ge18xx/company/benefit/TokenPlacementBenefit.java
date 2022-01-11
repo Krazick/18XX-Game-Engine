@@ -6,10 +6,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import ge18xx.center.City;
-import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.PrivateCompany;
-import ge18xx.company.TokenCompany;
+import ge18xx.company.ShareCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Tile;
@@ -78,11 +77,11 @@ public class TokenPlacementBenefit extends MapBenefit {
 	}
 	
 	private boolean hasTokens () {
-		TokenCompany tOwningCompany;
+		ShareCompany tOwningCompany;
 		boolean tHasTokens = true;
 		int tTokenCount;
 		
-		tOwningCompany = (TokenCompany) privateCompany.getOwner ();
+		tOwningCompany = getOwningCompany ();
 		tTokenCount = tOwningCompany.getTokenCount ();
 		if (tTokenCount == 0) {
 			tHasTokens = false;
@@ -92,11 +91,11 @@ public class TokenPlacementBenefit extends MapBenefit {
 	}
 	
 	private boolean hasTokenOnTile () {
-		TokenCompany tOwningCompany;
+		ShareCompany tOwningCompany;
 		boolean tHasTokenOnTile = true;
 		MapCell tMapCell;
 		
-		tOwningCompany = (TokenCompany) privateCompany.getOwner ();
+		tOwningCompany = getOwningCompany ();
 		tMapCell = getMapCell ();
 		tHasTokenOnTile = tMapCell.hasStation (tOwningCompany.getID ());
 		
@@ -105,11 +104,11 @@ public class TokenPlacementBenefit extends MapBenefit {
 	
 	@Override
 	public void updateButton () {
-		Corporation tOwningCompany;
+		ShareCompany tOwningCompany;
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
 		
-		tOwningCompany = (Corporation) privateCompany.getOwner ();
+		tOwningCompany = getOwningCompany ();
 		tBenefitInUse = tOwningCompany.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
 		if ((tBenefitInUse.realBenefit ()) && (! NAME.equals(tBenefitInUseName))) {
@@ -144,10 +143,10 @@ public class TokenPlacementBenefit extends MapBenefit {
 		HexMap tMap;
 		MapCell tMapCell;
 		Tile tTile;
-		Corporation tOwningCompany;
+		ShareCompany tOwningCompany;
 		City tCity;
 		
-		tOwningCompany = (Corporation) privateCompany.getOwner ();
+		tOwningCompany = getOwningCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
 
 		tMap = getMap ();

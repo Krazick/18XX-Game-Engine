@@ -107,7 +107,7 @@ public class TilePlacementBenefit extends MapBenefit {
 		MapCell tMapCell;
 		int tCost;
 		
-		tShareCompany = getOwningCompany  ();
+		tShareCompany = getOwningCompany ();
 		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tMap = getMap ();
 			tMapCell = tMap.getMapCellForID (mapCellID);
@@ -152,15 +152,15 @@ public class TilePlacementBenefit extends MapBenefit {
 	private void handlePlaceTile () {
 		HexMap tMap;
 		MapCell tMapCell;
-		Corporation tOwningCompany;
+		ShareCompany tOwningCompany;
 		
-		tOwningCompany = (Corporation) privateCompany.getOwner ();		
+		tOwningCompany = getOwningCompany ();		
 		capturePreviousBenefitInUse (tOwningCompany, this);
 		
 		tOwningCompany.handlePlaceTile ();
 		tMap = getMap ();
 		tMap.clearAllSelected ();
-		tMapCell = tMap.getMapCellForID (mapCellID);
+		tMapCell = getMapCell ();
 		if (tMapCell == MapCell.NO_MAP_CELL) {
 			System.err.println ("Did not find Map Cell with ID " + mapCellID);
 		} else {
