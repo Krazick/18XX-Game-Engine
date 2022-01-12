@@ -4,11 +4,13 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
+import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
@@ -32,6 +34,7 @@ import java.awt.event.ItemListener;
 public class CorporationFrame extends XMLFrame implements ActionListener, ItemListener {
 	static final String SHOW_MAP = "Show Map";
 	static final String PLACE_TILE = "Place Tile";
+	static final String PLACE_BASE_TILE = "Place Base Tile";
 	public static final String PLACE_TILE_PRIVATE = "Place Tile on Private Home";
 	public static final String PLACE_TOKEN_PRIVATE = "Place Token on Private Home";
 	static final String PLACE_TOKEN = "Place Token";
@@ -79,6 +82,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	JLabel lastRevenueLabel;
 	// TODO rename buttons to remove 'Action' from the name
 	JButton showMapActionButton;
+	JButton placeBaseTileActionButton;
 	JButton placeTileActionButton;
 	JButton placeTokenActionButton;
 	JButton operateTrainActionButton;
@@ -248,7 +252,34 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	
 	public void updateUndoButton () {
 	}
+	
+	private HexMap getMap () {
+		MapFrame tMapFrame;
+		GameManager tGameManager;
+		HexMap tMap;
+		
+		tGameManager = corporation.getGameManager ();
+		tMapFrame = tGameManager.getMapFrame ();
+		tMap = tMapFrame.getMap ();
+		
+		return tMap;
+	}
 
+	public void handlePlaceBaseTile () {
+		HexMap tMap;
+		MapCell tMapCell;
+		
+		handlePlaceTile ();
+		tMap = getMap ();
+		tMap.clearAllSelected ();
+		tMapCell = corporation.getHomeCity1 ();
+		if (tMapCell == MapCell.NO_MAP_CELL) {
+			System.err.println ("Corporation " + corporation.getAbbrev() + " has no home Map Cell");
+		} else {
+			tMap.toggleSelectedMapCell (tMapCell);
+		}
+	}
+	
 	public void handlePlaceTile () {
 		corporation.showTileTray ();
 		corporation.enterPlaceTileMode ();
@@ -268,56 +299,59 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
-		String tActionCommand;
+		String tCommand;
 		
-		tActionCommand = aEvent.getActionCommand ();
-		if (SHOW_MAP.equals (tActionCommand)) {
+		tCommand = aEvent.getActionCommand ();
+		if (SHOW_MAP.equals (tCommand)) {
 			corporation.showMap ();
 		}
-		if (PLACE_TILE.equals (tActionCommand)) {
+		if (PLACE_BASE_TILE.equals (tCommand)) {
+			handlePlaceBaseTile ();
+		}
+		if (PLACE_TILE.equals (tCommand)) {
 			handlePlaceTile ();
 		}
-		if (PLACE_TOKEN.equals (tActionCommand)) {
+		if (PLACE_TOKEN.equals (tCommand)) {
 			corporation.showMap ();
 			handlePlaceToken ();
 		}
-		if (SKIP_BASE_TOKEN.equals (tActionCommand)) {
+		if (SKIP_BASE_TOKEN.equals (tCommand)) {
 			corporation.showMap ();
 			corporation.skipBaseToken ();
 		}
-		if (OPERATE_TRAIN.equals (tActionCommand)) {
+		if (OPERATE_TRAIN.equals (tCommand)) {
 			corporation.showMap ();
 			corporation.operateTrains ();
 		}
-		if (PAY_NO_DIVIDEND.equals (tActionCommand)) {
+		if (PAY_NO_DIVIDEND.equals (tCommand)) {
 			corporation.payNoDividend ();
 		}
-		if (PAY_HALF_DIVIDEND.equals (tActionCommand)) {
+		if (PAY_HALF_DIVIDEND.equals (tCommand)) {
 			System.out.println ("Pay Half Dividend Action");
 //			corporation.payHalfDividend ();
 		}
-		if (PAY_FULL_DIVIDEND.equals (tActionCommand)) {
+		if (PAY_FULL_DIVIDEND.equals (tCommand)) {
 			corporation.payFullDividend ();
 		}
-		if (BUY_TRAIN.equals (tActionCommand)) {
+		if (BUY_TRAIN.equals (tCommand)) {
 			corporation.buyTrain ();
 		}
-		if (FORCE_BUY_TRAIN.equals (tActionCommand)) {
+		if (FORCE_BUY_TRAIN.equals (tCommand)) {
 			corporation.forceBuyTrain ();
 		}
-		if (BUY_PRIVATE.equals (tActionCommand)) {
+		if (BUY_PRIVATE.equals (tCommand)) {
 			corporation.buyPrivate (true);
 		}
-		if (GET_LOAN.equals (tActionCommand)) {
+		if (GET_LOAN.equals (tCommand)) {
 			corporation.getLoan ();
 		}
-		if (PAYBACK_LOAN.equals (tActionCommand)) {
+		if (PAYBACK_LOAN.equals (tCommand)) {
 			corporation.paybackLoan ();
 		}
-		if (DONE.equals (tActionCommand)) {
+		if (DONE.equals (tCommand)) {
 			corporation.doneAction ();	
 		}
-		if (UNDO.equals (tActionCommand)) {
+		if (UNDO.equals (tCommand)) {
 			System.out.println ("Undo Last Action");
 			corporation.clearBankSelections ();
 			corporation.undoAction ();
@@ -371,6 +405,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		
 		doneActionButton = setupActionButton (DONE, DONE);
 		undoActionButton = setupActionButton (UNDO, UNDO);
+		placeBaseTileActionButton = setupActionButton (PLACE_BASE_TILE, PLACE_BASE_TILE);
 		placeTileActionButton = setupActionButton (PLACE_TILE, PLACE_TILE);
 		placeTokenActionButton = setupActionButton (PLACE_TOKEN, PLACE_TOKEN);
 		showMapActionButton = setupActionButton (SHOW_MAP, SHOW_MAP);
@@ -393,6 +428,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		actionButtonsJPanel.removeAll ();
 		
 		addButton (showMapActionButton);
+		addButton (placeBaseTileActionButton);
 		addButton (placeTileActionButton);
 		addButton (placeTokenActionButton);
 		addButton (operateTrainActionButton);
@@ -596,6 +632,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		int tTrainCount;
 		
 		tTrainCount = corporation.getTrainCount ();
+		updatePlaceBaseTileActionButton ();
 		updatePlaceTileActionButton ();
 		updatePlaceTokenActionButton ();
 		updateOperateTrainActionButton (tTrainCount);
@@ -715,32 +752,69 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 	
+	public void updatePlaceBaseTileActionButton () {
+		if (corporation.homeMapCell1HasTile ()) {
+			placeBaseTileActionButton.setVisible (false);
+		} else {
+			placeBaseTileActionButton.setVisible (true);
+			updateTileButton (placeBaseTileActionButton);
+		}
+	}
+		
 	private void updatePlaceTileActionButton () {
+//		String tDisableToolTipReason;
+		
+		updateTileButton (placeTileActionButton);
+//		if (corporation.canLayTile ()) {
+//			if (corporation.isPlaceTileMode ()) {
+//				placeTileActionButton.setEnabled (false);
+//				tDisableToolTipReason = IN_PLACE_TILE_MODE;
+//				placeTileActionButton.setToolTipText (tDisableToolTipReason);				
+//			} else if (corporation.isPlaceTokenMode ()) {
+//				placeTileActionButton.setEnabled (false);
+//				tDisableToolTipReason = IN_TOKEN_MODE;
+//				placeTileActionButton.setToolTipText (tDisableToolTipReason);				
+//			} else if (corporation.canLayBaseToken ()) {
+//				placeTileActionButton.setEnabled (false);
+//				placeTileActionButton.setToolTipText (MUST_LAY_BASE_TOKEN);
+//			} else {
+//				placeTileActionButton.setEnabled (true);
+//				placeTileActionButton.setToolTipText (GUI.NO_TOOL_TIP);
+//			}
+//		} else {
+//			placeTileActionButton.setEnabled (false);
+//			tDisableToolTipReason = corporation.reasonForNoTileLay ();
+//			placeTileActionButton.setToolTipText (tDisableToolTipReason);
+//		}
+	}
+
+	private void updateTileButton (JButton aTileButton) {
 		String tDisableToolTipReason;
 		
 		if (corporation.canLayTile ()) {
 			if (corporation.isPlaceTileMode ()) {
-				placeTileActionButton.setEnabled (false);
+				aTileButton.setEnabled (false);
 				tDisableToolTipReason = IN_PLACE_TILE_MODE;
-				placeTileActionButton.setToolTipText (tDisableToolTipReason);				
+				aTileButton.setToolTipText (tDisableToolTipReason);				
 			} else if (corporation.isPlaceTokenMode ()) {
-				placeTileActionButton.setEnabled (false);
+				aTileButton.setEnabled (false);
 				tDisableToolTipReason = IN_TOKEN_MODE;
-				placeTileActionButton.setToolTipText (tDisableToolTipReason);				
+				aTileButton.setToolTipText (tDisableToolTipReason);				
 			} else if (corporation.canLayBaseToken ()) {
-				placeTileActionButton.setEnabled (false);
-				placeTileActionButton.setToolTipText (MUST_LAY_BASE_TOKEN);
+				aTileButton.setEnabled (false);
+				aTileButton.setToolTipText (MUST_LAY_BASE_TOKEN);
 			} else {
-				placeTileActionButton.setEnabled (true);
-				placeTileActionButton.setToolTipText (GUI.NO_TOOL_TIP);
+				aTileButton.setEnabled (true);
+				aTileButton.setToolTipText (GUI.NO_TOOL_TIP);
 			}
 		} else {
-			placeTileActionButton.setEnabled (false);
+			aTileButton.setEnabled (false);
 			tDisableToolTipReason = corporation.reasonForNoTileLay ();
-			placeTileActionButton.setToolTipText (tDisableToolTipReason);
+			aTileButton.setToolTipText (tDisableToolTipReason);
 		}
-	}
 
+	}
+	
 	private void updateDoneActionButton () {
 		String tDisableToolTipReason;
 		
