@@ -175,6 +175,23 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 	
+	public boolean hasStation (int aCorpID) {
+		int rowIndex, colIndex, rowCount, colCount;
+		boolean tHasStation = false;
+		
+		rowCount = getRowCount ();
+		for (rowIndex = 0; (rowIndex < rowCount) && ! tHasStation ; rowIndex++) {
+			colCount = getColCount (rowIndex);
+			for (colIndex = 0; (colIndex < colCount) && ! tHasStation ; colIndex++) {
+				if (map [rowIndex] [colIndex].hasStation (aCorpID)) {
+					tHasStation = true;
+				}
+			}
+		}
+		
+		return tHasStation;
+	}
+
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tElement;
 		XMLElement tCellElement;
