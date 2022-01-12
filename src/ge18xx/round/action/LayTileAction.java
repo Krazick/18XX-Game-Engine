@@ -31,11 +31,11 @@ public class LayTileAction extends ChangeMapAction {
 		setName (NAME);
 	}
 
-	public void addLayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aNewTokens, 
-			String aNewBases) {
+	public void addLayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aTokens, 
+			String aBases) {
 		LayTileEffect tTileLayEffect;
 
-		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aNewTokens, aNewBases);
+		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aTokens, aBases);
 		addEffect (tTileLayEffect);
 	}
 	

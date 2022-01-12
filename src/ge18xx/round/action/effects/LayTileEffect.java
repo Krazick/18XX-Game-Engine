@@ -25,8 +25,8 @@ public class LayTileEffect extends ChangeTileContentEffect {
 	}
 	
 	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, 
-			String aNewTokens, String aNewBases) {
-		super (aActor, aMapCell, aTile, aOrientation, aNewTokens, aNewBases);
+			String aTokens, String aBases) {
+		super (aActor, aMapCell, aTile, aOrientation, aTokens, aBases);
 		setName (NAME);
 	}
 
