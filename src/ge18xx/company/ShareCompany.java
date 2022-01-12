@@ -5,7 +5,6 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JPanel;
 
-import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -14,11 +13,9 @@ import ge18xx.market.MarketCell;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
-import ge18xx.round.OperatingRound;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
-import ge18xx.round.action.FloatCompanyAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.utilities.AttributeName;
@@ -167,30 +164,6 @@ public class ShareCompany extends TokenCompany {
 	@Override
 	public int fieldCount () {
 		return super.fieldCount () + 5;
-	}
-	
-	public void floatCompany (int aInitialTreasury) {
-		int tRowIndex;
-		FloatCompanyAction tFloatCompanyAction;
-		ActorI.ActionStates tOldState, tNewState;
-		OperatingRound tOperatingRound;
-		Bank tBank;
-		
-		tBank = corporationList.getBank ();
-		tOperatingRound = corporationList.getOperatingRound ();
-		tRowIndex = corporationList.getRowIndex (this);
-		tOldState = getStatus ();
-		setStatus (ActorI.ActionStates.NotOperated);
-		
-		tNewState = getStatus ();
-		tFloatCompanyAction = new FloatCompanyAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
-		tFloatCompanyAction.addChangeCorporationStatusEffect (this, tOldState, tNewState);
-		tFloatCompanyAction.addCashTransferEffect (tBank, this, aInitialTreasury);
-		
-		tBank.transferCashTo (this, aInitialTreasury);
-		corporationList.addDataElement (treasury, tRowIndex, 9);
-		corporationList.addDataElement (getStatusName (), tRowIndex, 3);
-		corporationList.addAction (tFloatCompanyAction);
 	}
 	
 	@Override

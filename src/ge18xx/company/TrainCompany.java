@@ -15,6 +15,7 @@ import ge18xx.round.OperatingRound;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
+import ge18xx.round.action.FloatCompanyAction;
 import ge18xx.round.action.LayTileAction;
 import ge18xx.round.action.OperatedTrainsAction;
 import ge18xx.round.action.PayNoDividendAction;
@@ -155,6 +156,32 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		trainRevenueFrame = new TrainRevenueFrame (this, tRevenueFrameTitle);
 	}
 	
+	public void floatCompany (int aInitialTreasury) {
+		int tRowIndex;
+		FloatCompanyAction tFloatCompanyAction;
+		ActorI.ActionStates tOldState, tNewState;
+		OperatingRound tOperatingRound;
+		Bank tBank;
+		
+		tBank = corporationList.getBank ();
+		tOperatingRound = corporationList.getOperatingRound ();
+		tRowIndex = corporationList.getRowIndex (this);
+		tOldState = getStatus ();
+		setStatus (ActorI.ActionStates.NotOperated);
+		
+		tNewState = getStatus ();
+		tFloatCompanyAction = new FloatCompanyAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
+		tFloatCompanyAction.addChangeCorporationStatusEffect (this, tOldState, tNewState);
+		tFloatCompanyAction.addCashTransferEffect (tBank, this, aInitialTreasury);
+		tFloatCompanyAction.setChainToPrevious (true);
+		
+		tBank.transferCashTo (this, aInitialTreasury);
+		corporationList.addDataElement (treasury, tRowIndex, 9);
+		corporationList.addDataElement (getStatusName (), tRowIndex, 3);
+		corporationList.addAction (tFloatCompanyAction);
+	}
+	
+
 	@Override
 	public void prepareCorporation () {
 		PreparedCorporationAction tPreparedCorporationAction;
@@ -1402,11 +1429,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		String tOperatingRoundID;
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
 		ActorI.ActionStates tTargetStatus;
-		
 		int tCostToLayTile;
 		Bank tBank;
-		String tNewTokens, tNewBases;
-		
+		String tTokens, tBases;
 		
 		tCurrentStatus = status;
 		if (benefitInUse.changeState ()) {
@@ -1432,9 +1457,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			addAction (tRemoveTileAction);
 			tLayTileAction.setChainToPrevious (true);
 		}
-		tNewTokens = aTile.getPlacedTokens ();
-		tNewBases = aTile.getCorporationBases ();
-		tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, tNewTokens, tNewBases);
+		tTokens = aTile.getPlacedTokens ();
+		tBases = aTile.getCorporationBases ();
+		tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, tTokens, tBases);
 		if (tCurrentStatus != tNewStatus) {
 			tLayTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 		}
