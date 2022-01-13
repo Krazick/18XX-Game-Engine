@@ -87,4 +87,20 @@ public class UpdateLastRevenueEffect extends Effect {
 		
 		return tEffectApplied;
 	}
+	
+	@Override
+	public boolean undoEffect (RoundManager aRoundManager) {
+		boolean tEffectUndone;
+		TrainCompany tTrainCompany;
+		
+		tEffectUndone = false;
+		tTrainCompany = (TrainCompany) getActor ();
+		tTrainCompany.setLastRevenue (oldLastRevenue);
+		aRoundManager.updateAllCorporationsBox ();
+
+		tEffectUndone = true;
+		
+		return tEffectUndone;
+
+	}
 }
