@@ -762,30 +762,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 		
 	private void updatePlaceTileActionButton () {
-//		String tDisableToolTipReason;
-		
-		updateTileButton (placeTileActionButton);
-//		if (corporation.canLayTile ()) {
-//			if (corporation.isPlaceTileMode ()) {
-//				placeTileActionButton.setEnabled (false);
-//				tDisableToolTipReason = IN_PLACE_TILE_MODE;
-//				placeTileActionButton.setToolTipText (tDisableToolTipReason);				
-//			} else if (corporation.isPlaceTokenMode ()) {
-//				placeTileActionButton.setEnabled (false);
-//				tDisableToolTipReason = IN_TOKEN_MODE;
-//				placeTileActionButton.setToolTipText (tDisableToolTipReason);				
-//			} else if (corporation.canLayBaseToken ()) {
-//				placeTileActionButton.setEnabled (false);
-//				placeTileActionButton.setToolTipText (MUST_LAY_BASE_TOKEN);
-//			} else {
-//				placeTileActionButton.setEnabled (true);
-//				placeTileActionButton.setToolTipText (GUI.NO_TOOL_TIP);
-//			}
-//		} else {
-//			placeTileActionButton.setEnabled (false);
-//			tDisableToolTipReason = corporation.reasonForNoTileLay ();
-//			placeTileActionButton.setToolTipText (tDisableToolTipReason);
-//		}
+		if (corporation.hasPlacedAnyStation ()) {
+			placeTileActionButton.setVisible (true);
+			updateTileButton (placeTileActionButton);
+		} else {
+			placeTileActionButton.setVisible (false);
+		}
 	}
 
 	private void updateTileButton (JButton aTileButton) {
