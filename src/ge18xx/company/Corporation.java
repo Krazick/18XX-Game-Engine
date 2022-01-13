@@ -40,6 +40,7 @@ import ge18xx.round.action.DoneCorpAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.tiles.Tile;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
@@ -1999,6 +2000,16 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	public void handlePlaceTile () {
 		corporationFrame.handlePlaceTile ();
+	}
+	
+	public boolean hasPlacedAnyStation () {
+		boolean tHasPlacedAnyStation = false;
+		MapFrame tMapFrame;
+		
+		tMapFrame = corporationList.getMapFrame ();
+		tHasPlacedAnyStation = tMapFrame.hasStation (getID ());
+		
+		return tHasPlacedAnyStation;
 	}
 	
 	protected void configurePrivateBenefitButtons (JPanel aButtonRow) {

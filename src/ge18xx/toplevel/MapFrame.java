@@ -622,6 +622,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 	
+	public boolean hasStation (int aCorpID) {
+		return map.hasStation (aCorpID);
+	}
+	
 	public String canPlaceTokenToolTip (Corporation aCorporation, City aSelectedCity, MapCell aMapCell) {
 		String tCanPlaceTokenToolTip = "";
 		Corporation tBaseCorporation;
