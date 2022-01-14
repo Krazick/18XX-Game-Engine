@@ -222,11 +222,11 @@ public class RoundManager implements ActionListener {
 		gameManager.clearAllPlayerSelections ();
 	}
 
-	public boolean isPlaceTileMode() {
+	public boolean isPlaceTileMode () {
 		return gameManager.isPlaceTileMode ();
 	}
 
-	public boolean isPlaceTokenMode() {
+	public boolean isPlaceTokenMode () {
 		return gameManager.isPlaceTokenMode ();
 	}
 
@@ -821,7 +821,7 @@ public class RoundManager implements ActionListener {
 	public void resumeStockRound (int aRoundIDPart1) {
 		setRoundType (ActorI.ActionStates.StockRound);
 		roundFrame.setStockRound (gameName, aRoundIDPart1);
-		roundFrame.updatePassButton ();
+//		roundFrame.updatePassButton ();
 	}
 	
 	public void startAuctionRound (boolean aCreateNewAuctionAction) {
