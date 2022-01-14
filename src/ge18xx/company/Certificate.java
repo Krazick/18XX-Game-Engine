@@ -207,7 +207,6 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tHasMustBuyCertificate, tPlayerAtCertLimit;
 		String tCompanyAbbrev;
 		Integer [] tParValues;
-		Dimension tParValueSize;
 		
 		if (aPlayer != Player.NO_PLAYER) {
 			tCompanyAbbrev = getCompanyAbbrev ();
@@ -238,20 +237,10 @@ public class Certificate implements Comparable<Certificate> {
 				tPrice = getParPrice ();
 				tPlayerHasEnoughCash = (tPrice > tPlayerCash);
 			} else {
-				tParValues = aGameManager.getAllStartCells ();
-				parValuesCombo = new JComboBox <Integer> ();
+				tParValues = buildParValuesCombo (aItemListener, tCertificateInfoJPanel);
 				// Update the Par Value Combo Box, and confirm or deny the Player has enough Cash to buy Cheapest.
 				tPlayerHasEnoughCash = updateParValuesComboBox (parValuesCombo, tParValues, tPlayerCash);
-
 				tPrice = 0;
-				if (parValuesCombo != null) {
-					tParValueSize = new Dimension (75, 20);
-					parValuesCombo.setPreferredSize (tParValueSize);
-					parValuesCombo.setMaximumSize (tParValueSize);
-					parValuesCombo.addItemListener (aItemListener);
-					parValuesCombo.setAlignmentX (Component.LEFT_ALIGNMENT);
-					tCertificateInfoJPanel.add (parValuesCombo);
-				}
 			}
 		} else {
 			tPrice = getValue ();
@@ -362,6 +351,31 @@ public class Certificate implements Comparable<Certificate> {
 		}
 		
 		return tCertificateInfoJPanel;
+	}
+
+	public void enableParValuesCombo (boolean aEnable) {
+		if (parValuesCombo != null) {
+			parValuesCombo.setEnabled (aEnable);
+		}
+	}
+	
+	public Integer[] buildParValuesCombo (ItemListener aItemListener, JPanel aCertificateInfoJPanel) {
+		Integer [] tParValues;
+		Dimension tParValueSize;
+		GameManager tGameManager;
+		
+		tGameManager = corporation.getGameManager ();
+		tParValues = tGameManager.getAllStartCells ();
+		parValuesCombo = new JComboBox <Integer> ();
+		tParValueSize = new Dimension (75, 20);
+		parValuesCombo.setPreferredSize (tParValueSize);
+		parValuesCombo.setMaximumSize (tParValueSize);
+		parValuesCombo.addItemListener (aItemListener);
+		parValuesCombo.setAlignmentX (Component.LEFT_ALIGNMENT);
+		enableParValuesCombo (false);
+		aCertificateInfoJPanel.add (parValuesCombo);
+
+		return tParValues;
 	}
 
 	public JPanel buildBasicCertInfoJPanel () {

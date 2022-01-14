@@ -377,12 +377,20 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
-		// May not need to do anything except update Action Buttons.
 		Portfolio tPortfolio;
+		boolean tHandled;
+		Bank tBank;
 		
 		tPortfolio = player.getPortfolio ();
-		tPortfolio.itemStateChanged (aItemEvent);
+		tHandled = tPortfolio.itemStateChanged (aItemEvent);
+		
+		if (! tHandled) {
+			 tBank = player.getBank ();
+			 tPortfolio = tBank.getPortfolio ();
+			 tHandled = tPortfolio.itemStateChanged (aItemEvent);
+		}
 		updateActionButtons ();
+
 	}
 
 	public void replacePortfolioInfo (JPanel aPortfolioJPanel) {

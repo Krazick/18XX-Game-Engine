@@ -1617,20 +1617,22 @@ public class Portfolio implements CertificateHolderI {
 		}
 	}
 	
-	// This method may not be needed
-	public void itemStateChanged (ItemEvent aItemEvent) {
+	public boolean itemStateChanged (ItemEvent aItemEvent) {
 		JCheckBox tCheckedButton;
-
+		boolean tIsSelected, tHandled;
 		Object tSourceButton = aItemEvent.getItemSelectable ();
 		
+		tHandled = false;
 		for (Certificate tCertificate : certificates) {
 			tCheckedButton = tCertificate.getCheckedButton ();
 			if (tSourceButton == tCheckedButton) {
-				if (tCheckedButton.isSelected ()) {
-//					tAtLeastOneButtonSelected = true;
-				}
+				tIsSelected = tCheckedButton.isSelected ();
+				tCertificate.enableParValuesCombo (tIsSelected);
+				tHandled = true;
 			}
 		}
+		
+		return tHandled;
 	}
 
 	private String buildAbbrevAndType (String aAbbrev, String aType) {
