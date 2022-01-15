@@ -493,7 +493,7 @@ public class PlayerManager {
 		Bank tBank;
 		BankPool tBankPool;
 		int tCashValue;
-		int tSelectedParPrice;
+		int tParPrice;
 		Player tCurrentPresident, tNewPresident;
 		PortfolioHolderI tCurrentHolder;
 		boolean tCanBuyStock = true;
@@ -528,12 +528,12 @@ public class PlayerManager {
 					}
 				}
 				if (! aCertificateToBuy.hasParPrice ()) {
-					tSelectedParPrice = aCertificateToBuy.getComboParValue ();
-					if ((tSelectedParPrice > 0) && (tShareCompany != ShareCompany.NO_SHARE_COMPANY)) {
-						handleSetParPrice (aPlayer, aCertificateToBuy, tShareCompany, tSelectedParPrice);
+					tParPrice = aCertificateToBuy.getComboParValue ();
+					if ((tParPrice > 0) && (tShareCompany != ShareCompany.NO_SHARE_COMPANY)) {
+						handleSetParPrice (aPlayer, aCertificateToBuy, tShareCompany, tParPrice);
 						tChainToPrevious = true;
 					} else {
-						System.err.println ("***Selected Par Price is " + tSelectedParPrice + " or tShareCompany is NULL***");
+						System.err.println ("***Selected Par Price is " + tParPrice + " or tShareCompany is NULL***");
 					}
 				}
 			} else {
