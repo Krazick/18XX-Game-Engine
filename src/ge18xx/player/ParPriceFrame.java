@@ -214,9 +214,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		String tParPriceString;
 		
 		tParPriceString = (String) parValuesCombo.getSelectedItem ();
-		if (Certificate.NO_PAR_PRICE.equals (tParPriceString)) {
-			System.err.println ("Par Price has not been Set");
-		} else {
+		if (! Certificate.NO_PAR_PRICE.equals (tParPriceString)) {
 			tParPrice = Integer.parseInt (tParPriceString);
 		}
 		
