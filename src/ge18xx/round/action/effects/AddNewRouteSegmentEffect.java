@@ -57,5 +57,4 @@ public class AddNewRouteSegmentEffect extends ChangeRouteEffect {
 	// Don't need to undo this effect, just accept
 		return true;
 	}
-
 }
