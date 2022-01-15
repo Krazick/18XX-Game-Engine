@@ -51,6 +51,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	JPanel actionButtonJPanel;
 	JPanel playerInfoJPanel;
 	JPanel portfolioInfoJPanel;
+	
 	JLabel playerCash;
 	JLabel playerCertificateCount;
 	JLabel playerPassed;
@@ -59,6 +60,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	JLabel playerBidAmount;
 	JLabel playerPortfolioLabel;
 	JLabel playerTotalValue;
+	// TODO Renamed '...ActionButton' to '...Button'
 	JButton passActionButton;
 	JButton buyBidActionButton;
 	JButton sellActionButton;
