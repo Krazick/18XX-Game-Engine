@@ -536,4 +536,20 @@ public class Bank extends GameBank implements CashHolderI {
 		
 		return tCertificate;
 	}
+	
+	public boolean removeRustedTrain (String aName) {
+		return rustedTrainsPortfolio.removeTrain (aName);
+	}
+
+	public Train getRustedTrain (String aName) {
+		Train tTrain;
+		
+		tTrain = rustedTrainsPortfolio.getTrain (aName);
+		if (tTrain != Train.NO_TRAIN) {
+			System.out.println ("Found Train " + aName + " in the Rusted Pile");
+		}
+		
+		return tTrain;
+	}
+
 }
