@@ -1038,6 +1038,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			}
 		} else {
 			tRouteAction = new ExtendRouteAction (tRoundType, tRoundID, tCorporation);
+			tRouteAction.setChainToPrevious (true);
 		}
 		if (tRouteAction != RouteAction.NO_ACTION) {
 			routeInformation.setStartSegment (tRouteSegment, aSelectedRevenueCenter, tPhase, tCorpID);
