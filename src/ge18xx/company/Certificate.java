@@ -358,6 +358,11 @@ public class Certificate implements Comparable<Certificate> {
 	public void enableParValuesCombo (boolean aEnable) {
 		if (parValuesCombo != null) {
 			parValuesCombo.setEnabled (aEnable);
+			if (! aEnable) {
+				if (parValuesCombo.getItemCount () > 0) {
+					parValuesCombo.setSelectedIndex (0);
+				}
+			}
 		}
 	}
 	
