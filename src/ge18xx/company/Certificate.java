@@ -958,6 +958,7 @@ public class Certificate implements Comparable<Certificate> {
 		return percentage;
 	}
 	
+	// TODO - 1835: When updating for minor Companies, need to update this appropriately.
 	public int getParValue () {
 		int iValue;
 		int iParPrice;
