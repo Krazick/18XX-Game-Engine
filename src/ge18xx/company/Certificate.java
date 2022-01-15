@@ -25,6 +25,7 @@ import ge18xx.market.MarketCell;
 import ge18xx.player.Bidder;
 import ge18xx.player.Bidders;
 import ge18xx.player.CashHolderI;
+import ge18xx.player.ParPriceFrame;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
@@ -84,6 +85,7 @@ public class Certificate implements Comparable<Certificate> {
 	static final float X_CENTER_ALIGNMENT = 0.5f;
 	static final float X_RIGHT_ALIGNMENT = 1.0f;
 	static final CertificateHolderI NO_OWNER = null;
+	public static final String NO_PAR_PRICE = "???";
 	
 //	Border REDLINE_BORDER = BorderFactory.createLineBorder (Color.red);
 	Corporation corporation;
@@ -93,7 +95,7 @@ public class Certificate implements Comparable<Certificate> {
 	String [] allowedOwners = null;
 	JCheckBox checkedButton;
 	FrameButton frameButton;
-	JComboBox<Integer> parValuesCombo;
+	JComboBox<String> parValuesCombo;
 	Bidders bidders;
 	
 	public Certificate () {
@@ -366,12 +368,13 @@ public class Certificate implements Comparable<Certificate> {
 		
 		tGameManager = corporation.getGameManager ();
 		tParValues = tGameManager.getAllStartCells ();
-		parValuesCombo = new JComboBox <Integer> ();
+		parValuesCombo = new JComboBox <String> ();
 		tParValueSize = new Dimension (75, 20);
 		parValuesCombo.setPreferredSize (tParValueSize);
 		parValuesCombo.setMaximumSize (tParValueSize);
 		parValuesCombo.addItemListener (aItemListener);
 		parValuesCombo.setAlignmentX (Component.LEFT_ALIGNMENT);
+
 		enableParValuesCombo (false);
 		aCertificateInfoJPanel.add (parValuesCombo);
 
@@ -736,14 +739,17 @@ public class Certificate implements Comparable<Certificate> {
 	}
 	
 	public int getCost () {
-		int tCertificateCost, tParPrice;
+		int tCertificateCost = 0;
+		int tParPrice;
 		
 		if (hasParPrice ()) {
 			tParPrice = getParPrice ();
 			tCertificateCost = calcCertificateValue (tParPrice);
 		} else if (isShareCompany ()) {
 			tParPrice = getComboParValue ();
-			tCertificateCost = calcCertificateValue (tParPrice);
+			if (tParPrice != ParPriceFrame.NO_PAR_PRICE_VALUE) {
+				tCertificateCost = calcCertificateValue (tParPrice);
+			}
 		} else {
 			tCertificateCost = getValue () - getDiscount ();
 		}
@@ -833,10 +839,18 @@ public class Certificate implements Comparable<Certificate> {
 		return checkedButton;
 	}
 	
+	public JComboBox<String> getComboBox () {
+		return parValuesCombo;
+	}
+	
 	public int getComboParValue () {
-		int tIParPrice;
-
-		tIParPrice = (Integer) parValuesCombo.getSelectedItem ();
+		int tIParPrice = ParPriceFrame.NO_PAR_PRICE_VALUE;
+		String tSelectedValue;
+		
+		tSelectedValue = (String) parValuesCombo.getSelectedItem ();
+		if (! NO_PAR_PRICE.equals (tSelectedValue)) {
+			tIParPrice = Integer.parseInt ((String) parValuesCombo.getSelectedItem ());
+		}
 
 		return tIParPrice;
 	}
@@ -925,6 +939,11 @@ public class Certificate implements Comparable<Certificate> {
 			CoalCompany tCoal = (CoalCompany) corporation;
 			
 			tParPrice = tCoal.getValue ();
+		}
+		if (corporation.isAPrivateCompany ()) {
+			PrivateCompany tPrivate = (PrivateCompany) corporation;
+			
+			tParPrice = tPrivate.getValue ();
 		}
 		
 		return tParPrice;
@@ -1377,7 +1396,7 @@ public class Certificate implements Comparable<Certificate> {
 		}
 	}
 	
-	public boolean updateParValuesComboBox (JComboBox<Integer> aParValuesCombo, Integer [] aParValues, int aPlayerCash) {
+	public boolean updateParValuesComboBox (JComboBox<String> aParValuesCombo, Integer [] aParValues, int aPlayerCash) {
 		int tIndex, tSize, tParValue, tMinSharePrice, tMinPrice;
 		boolean tNotEnoughForCheapest;
 		
@@ -1401,13 +1420,14 @@ public class Certificate implements Comparable<Certificate> {
 		return tNotEnoughForCheapest;
 	}
 	
-	public void fillParValueComboBox (JComboBox<Integer> aParValuesCombo, Integer [] aParValues) {
+	public void fillParValueComboBox (JComboBox<String> aParValuesCombo, Integer [] aParValues) {
 		int tIndex;
 		
 		if (aParValuesCombo != null) {
 			if (aParValues != null) {
+				aParValuesCombo.addItem (NO_PAR_PRICE);
 				for (tIndex = 0; tIndex < aParValues.length; tIndex++) {
-					aParValuesCombo.addItem (aParValues [tIndex]);
+					aParValuesCombo.addItem (aParValues [tIndex] + "");
 				}
 			} else {
 				System.err.println ("***No Par Values to fill into Combo Box ***");

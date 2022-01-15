@@ -30,12 +30,13 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 	private static final String SET_PAR_PRICE_ACTION = "SetParPrice";
 	private static final long serialVersionUID = 1L;
 	public static final ParPriceFrame NO_PAR_PRICE_FRAME = null;
+	public static final int NO_PAR_PRICE_VALUE = -1;
 	
 	Player player;
 	StockRound stockRound;
 	Certificate certificate;
 	GameManager gameManager;
-	JComboBox<Integer> parValuesCombo;
+	JComboBox<String> parValuesCombo;
 	JButton doActionButton;
 	JPanel parValuesPanel;
 	boolean parPriceFrameActive;
@@ -138,6 +139,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		
 		tVerticalBox.add (tMiddleBox);
 		setActionButton ("Set Par Price", SET_PAR_PRICE_ACTION);
+		
 		tVerticalBox.add (doActionButton);
 		
 		return tVerticalBox;
@@ -157,11 +159,19 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		tMiddleBox.add (Box.createHorizontalStrut (10));
 
 		tParValues = gameManager.getAllStartCells ();
-		parValuesCombo = new JComboBox <Integer> ();
+		parValuesCombo = new JComboBox <String> ();
 		// Update the Par Value Combo Box, and confirm or deny the Player has enough Cash to buy Cheapest.
+		
 		certificate.fillParValueComboBox (parValuesCombo, tParValues);
-
+		
+		
 		if (parValuesCombo != null) {
+			parValuesCombo.addActionListener (new ActionListener () {
+			    @Override
+				public void actionPerformed (ActionEvent e) {
+			        updateActionButton ();
+			    }
+			});
 			tMiddleBox.add (parValuesCombo);
 			tMiddleBox.add (Box.createHorizontalStrut (10));
 		}
@@ -186,8 +196,33 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		doActionButton.setAlignmentX (CENTER_ALIGNMENT);
 		doActionButton.setActionCommand (aActionCommand);
 		doActionButton.addActionListener (this);
+		updateActionButton ();
 	}
 
+	public void updateActionButton () {
+		if (getParPrice () > 0) {
+			doActionButton.setEnabled (true);
+			doActionButton.setToolTipText ("");
+		} else {
+			doActionButton.setEnabled (false);
+			doActionButton.setToolTipText ("Par Price has not been selected yet");
+		}
+	}
+	
+	public int getParPrice () {
+		int tParPrice = 0;
+		String tParPriceString;
+		
+		tParPriceString = (String) parValuesCombo.getSelectedItem ();
+		if (Certificate.NO_PAR_PRICE.equals (tParPriceString)) {
+			System.err.println ("Par Price has not been Set");
+		} else {
+			tParPrice = Integer.parseInt (tParPriceString);
+		}
+		
+		return tParPrice;
+	}
+	
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		int tSelectedParPrice;
@@ -195,19 +230,20 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		ShareCompany tShareCompany;
 		
 		if (SET_PAR_PRICE_ACTION.equals (aEvent.getActionCommand ())) {
-			tSelectedParPrice = (Integer) parValuesCombo.getSelectedItem ();
-			
-			tCorporation = certificate.getCorporation ();
-			if (tCorporation.isAShareCompany ()) {
-				tShareCompany = (ShareCompany) tCorporation;
-			} else {
-				tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
-			}
-			if ((tSelectedParPrice > 0) && (tShareCompany != Corporation.NO_CORPORATION)) {
-				setParPriceFrameActive (false);
-				gameManager.setParPrice (tShareCompany, tSelectedParPrice);
-				setParValueAction (tSelectedParPrice, tShareCompany, true);
-				gameManager.bringPlayerFrameToFront ();
+			tSelectedParPrice = getParPrice ();
+			if (tSelectedParPrice > 0) {
+				tCorporation = certificate.getCorporation ();
+				if (tCorporation.isAShareCompany ()) {
+					tShareCompany = (ShareCompany) tCorporation;
+				} else {
+					tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
+				}
+				if ((tSelectedParPrice > 0) && (tShareCompany != Corporation.NO_CORPORATION)) {
+					setParPriceFrameActive (false);
+					gameManager.setParPrice (tShareCompany, tSelectedParPrice);
+					setParValueAction (tSelectedParPrice, tShareCompany, true);
+					gameManager.bringPlayerFrameToFront ();
+				}
 			}
 		}
 		setVisible (false);

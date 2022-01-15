@@ -66,6 +66,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	JButton undoActionButton;
 	JButton explainButton;
 	ButtonsInfoFrame buttonsInfoFrame;
+	boolean canBuy = false;
 	Player player;
 	int portfolioInfoIndex;
 	boolean locationFixed;
@@ -382,15 +383,19 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		Bank tBank;
 		
 		tPortfolio = player.getPortfolio ();
-		tHandled = tPortfolio.itemStateChanged (aItemEvent);
+		tHandled = tPortfolio.itemStateChanged (aItemEvent, this);
 		
 		if (! tHandled) {
 			 tBank = player.getBank ();
 			 tPortfolio = tBank.getPortfolio ();
-			 tHandled = tPortfolio.itemStateChanged (aItemEvent);
+			 tHandled = tPortfolio.itemStateChanged (aItemEvent, this);
+			 
+			 if (! tHandled) {
+				 tPortfolio = tBank.getStartPacketPortfolio ();
+				 tHandled = tPortfolio.itemStateChanged (aItemEvent, this);
+			 }
 		}
 		updateActionButtons ();
-
 	}
 
 	public void replacePortfolioInfo (JPanel aPortfolioJPanel) {
@@ -531,18 +536,18 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 	
 	public void updateActionButtons () {
-		boolean tStocksToSell, tStocksToBuy, tActionsToUndo, tStocksToSellSame;
+		boolean tStocksToSell, tActionsToUndo, tStocksToSellSame;
 		boolean tPrezToExchange, tCanCompleteTurn, tPrivateOrMinorToExchange;
-		boolean tStocksToSellOverfill, tMustBuy, tPrivateToBidOn;
+		boolean tStocksToSellOverfill, tMustBuy;
 		boolean tHasSelectedOneToExchange;
 		
 		tMustBuy = hasMustBuyCertificate ();
 		tStocksToSell = hasSelectedStocksToSell ();
 		tStocksToSellSame = hasSelectedSameStocksToSell ();
 		tStocksToSellOverfill = willSaleOverfillBankPool ();
-		tStocksToBuy = hasSelectedStocksToBuy ();
+//		tStocksToBuy = hasSelectedStocksToBuy ();
 		tActionsToUndo = hasActionsToUndo ();
-		tPrivateToBidOn = hasSelectedPrivateToBidOn ();
+//		tPrivateToBidOn = hasSelectedPrivateToBidOn ();
 		tPrezToExchange = hasSelectedPrezToExchange ();
 		tHasSelectedOneToExchange = hasSelectedOneToExchange ();
 		tPrivateOrMinorToExchange = hasSelectedPrivateOrMinorToExchange ();
@@ -550,7 +555,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		
 		updatePassButton (tCanCompleteTurn, tMustBuy);
 		updateSellButton (tStocksToSell, tStocksToSellSame, tStocksToSellOverfill, tPrezToExchange);
-		updateBuyBidButton (tStocksToBuy, tPrivateToBidOn);
+		updateBuyButton (canBuy);
+//		updateBuyBidButton (tStocksToBuy, tPrivateToBidOn);
 		updateExchangeButton (tPrezToExchange, tPrivateOrMinorToExchange, tHasSelectedOneToExchange);
 		updateUndoButton (tActionsToUndo);
 		
@@ -696,6 +702,29 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tCanBankHoldStock = ! player.willOverfillBankPool (tMustSellSharePercentage, tCorporation);
 		 
 		return tCanBankHoldStock;
+	}
+	
+	public void updateBuyButton (boolean aCanBuy) {
+		boolean tStocksToBuy, tPrivateToBidOn;
+		boolean tNormalBuy = true;
+		
+		tStocksToBuy = hasSelectedStocksToBuy ();
+		tPrivateToBidOn = hasSelectedPrivateToBidOn ();
+		if (tPrivateToBidOn) {
+			tNormalBuy = true;
+		} else if (tStocksToBuy) {
+			if (player.getCountSelectedCosToBuy () == 1) {
+				if (player.getCostSelectedStockToBuy () <= 0) {
+					buyBidActionButton.setEnabled (false);
+					buyBidActionButton.setToolTipText ("No Par Price Selected Yet");
+					buyBidActionButton.setText (BUY);
+					tNormalBuy = false;
+				}
+			}
+		}
+		if (tNormalBuy) {
+			updateBuyBidButton (tStocksToBuy, tPrivateToBidOn);
+		}
 	}
 	
 	private void updateBuyBidButton (boolean aStocksToBuy, boolean aPrivateToBidOn) {

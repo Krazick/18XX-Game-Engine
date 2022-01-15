@@ -38,6 +38,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -1617,18 +1618,31 @@ public class Portfolio implements CertificateHolderI {
 		}
 	}
 	
-	public boolean itemStateChanged (ItemEvent aItemEvent) {
+	public boolean itemStateChanged (ItemEvent aItemEvent, PlayerFrame aPlayerFrame) {
 		JCheckBox tCheckedButton;
+		JComboBox<String> tComboBox;
+		int tParPrice;
 		boolean tIsSelected, tHandled;
 		Object tSourceButton = aItemEvent.getItemSelectable ();
+		Object tSourceItem = aItemEvent.getItem ();
 		
 		tHandled = false;
 		for (Certificate tCertificate : certificates) {
 			tCheckedButton = tCertificate.getCheckedButton ();
-			if (tSourceButton == tCheckedButton) {
-				tIsSelected = tCheckedButton.isSelected ();
-				tCertificate.enableParValuesCombo (tIsSelected);
-				tHandled = true;
+			tComboBox = tCertificate.getComboBox ();
+			if (tCertificate.isPrivateCompany ()) {
+				if (tSourceButton == tCheckedButton) {
+					tHandled = true;
+				}
+			} else {
+				if (tSourceButton == tCheckedButton) {
+					tIsSelected = tCheckedButton.isSelected ();
+					tCertificate.enableParValuesCombo (tIsSelected);
+					tHandled = true;
+				} else if (tSourceItem == tComboBox) {
+					tParPrice = tCertificate.getComboParValue ();
+					aPlayerFrame.updateBuyButton ((tParPrice > 0));
+				}
 			}
 		}
 		
