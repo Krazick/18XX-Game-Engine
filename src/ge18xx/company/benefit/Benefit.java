@@ -146,6 +146,10 @@ public abstract class Benefit implements ActionListener {
 		button.setToolTipText (aToolTip);
 	}
 	
+	public void setCorporation (Corporation aCorporation) {
+		privateCompany = (PrivateCompany) aCorporation;
+	}
+	
 	public void setPrivateCompany (PrivateCompany aPrivateCompany) {
 		privateCompany = aPrivateCompany;
 	}
@@ -268,8 +272,10 @@ public abstract class Benefit implements ActionListener {
 			tShouldConfigure = false;
 		}
 		
-		if ((! privateCompany.isPlayerOwned ()) && isPlayerBenefit ()) {
-			tShouldConfigure = false;
+		if (isPlayerBenefit ()) {
+			if ((! privateCompany.isPlayerOwned ())) {
+				tShouldConfigure = false;
+			}
 		}
 		
 		return tShouldConfigure;

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import org.w3c.dom.NodeList;
 
+import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -21,12 +22,12 @@ public class Benefits {
 	public final static Benefits NO_BENEFITS = null;
 	List<Benefit> benefits;
 	
-	public Benefits (XMLNode aBenefitsNode) {
+	public Benefits (XMLNode aBenefitsNode, Corporation aCorporation) {
 		benefits = new LinkedList<Benefit> ();	
-		parseBenefits (aBenefitsNode);
+		parseBenefits (aBenefitsNode, aCorporation);
 	}
 	
-	private void parseBenefits (XMLNode aBenefitsNode) {
+	private void parseBenefits (XMLNode aBenefitsNode, Corporation aCorporation) {
 		XMLNode tBenefitNode;
 		NodeList tBenefitChildren;
 		Benefit tBenefit;
@@ -48,6 +49,7 @@ public class Benefits {
 					tBenefitToLoad = Class.forName (tClassName);
 					tBenefitConstructor = tBenefitToLoad.getConstructor (tBenefitNode.getClass ());
 					tBenefit = (Benefit) tBenefitConstructor.newInstance (tBenefitNode);
+					tBenefit.setCorporation (aCorporation);
 					addBenefit (tBenefit);
 				}
 			}			

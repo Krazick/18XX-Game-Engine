@@ -114,7 +114,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	@Override
 	public void foundItemMatchKey2 (XMLNode aChildNode) {
-		benefits = new Benefits (aChildNode);
+		benefits = new Benefits (aChildNode, this);
 	}
 
 	public boolean hasButtonFor (JPanel aButtonRow, String aButtonLabel) {
