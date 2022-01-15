@@ -580,7 +580,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			bidderLabels [tBidderIndex].setText (getBidderLabel (tPlayer, tCash));
 			tRaiseLabel = RAISE + " " + Bank.formatCash (PlayerManager.BID_INCREMENT);
 			configAuctionUndoButton ();
-//			setBidderBoxColor (tBidderName, tBidderIsActing);
 			
 			if (tBidderIndex == tHighestBidderIndex) {
 				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing, HIGHEST_NO_RAISE);
@@ -611,7 +610,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private void setBidderSuffixLabel (int aBidderCount, int aBidderIndex, int aHighestBidderIndex) {
 		String tSuffixLabel = HIGHEST;
 		Player tPlayer;
-		Bidder tBidder;
 		ActorI.ActionStates tLastAction;
 		
 		if (aBidderCount > 0) {
@@ -623,10 +621,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			} else {
 				tPlayer = (Player) certificateToAuction.getCashHolderAt (aBidderIndex);
 				tLastAction = tPlayer.getAuctionActionState ();
-				tBidder = certificateToAuction.getBidderAt (aBidderIndex);
-				System.out.println ("Player " + tPlayer.getName () + " State " + 
-						tPlayer.getAuctionActionState () + 
-						" Bidder " + tBidder.getName () + " State " + tBidder.getStateName ());
 				if (ActorI.ActionStates.AuctionPass.equals (tLastAction)) {
 					tSuffixLabel = PASSED;
 				} else if (ActorI.ActionStates.AuctionRaise.equals (tLastAction)) {
