@@ -112,7 +112,7 @@ public class RouteInformation {
 	}
 	
 	public void addJustRouteSegment (RouteSegment aRouteSegment) {
-		routeSegments.add(aRouteSegment);
+		routeSegments.add (aRouteSegment);
 	}
 	
 	public void loadRouteSegments (RouteInformation aRouteInformation, XMLNode aRouteSegmentsNode) {
