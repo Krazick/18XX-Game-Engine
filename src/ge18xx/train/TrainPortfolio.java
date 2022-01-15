@@ -614,15 +614,26 @@ public class TrainPortfolio implements TrainHolderI {
 		tTrainName = aTrainNode.getThisAttribute (Train.AN_NAME);
 		tTrainStatus = aTrainNode.getThisIntAttribute (Train.AN_STATUS);
 		tTrain = aBank.getTrain (tTrainName);
-		if (tTrain != null) {
+		if (tTrain != Train.NO_TRAIN) {
 			aBank.removeTrain (tTrainName);
-			tTrain.setStatus (tTrainStatus);
-			trains.add (tTrain);
-			loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE, tTrain);
-			loadRouteForTrain (aTrainNode, Train.EN_PREVIOUS_ROUTE, tTrain);
+			restoreTrain (aTrainNode, tTrainStatus, tTrain);
 		} else {
-			System.err.println ("Trying to load a " + tTrainName + " Not found in the Bank, Status should be " + tTrainStatus);
+			tTrain = aBank.getRustedTrain (tTrainName);
+			if (tTrain != Train.NO_TRAIN) {
+				aBank.removeRustedTrain (tTrainName);
+				restoreTrain (aTrainNode, tTrainStatus, tTrain);
+			} else {
+				System.err.println ("Trying to load a " + tTrainName + 
+						" Not found in the Bank, Status should be " + tTrainStatus);
+			}
 		}
+	}
+
+	public void restoreTrain (XMLNode aTrainNode, int aTrainStatus, Train aTrain) {
+		aTrain.setStatus (aTrainStatus);
+		trains.add (aTrain);
+		loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE, aTrain);
+		loadRouteForTrain (aTrainNode, Train.EN_PREVIOUS_ROUTE, aTrain);
 	}
 	
 	public void loadRouteForTrain (XMLNode aTrainNode, ElementName aElementName, Train aTrain) {
