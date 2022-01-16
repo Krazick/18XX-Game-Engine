@@ -2,9 +2,11 @@ package ge18xx.game;
 
 import org.mockito.Mockito;
 
-import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
+import ge18xx.map.HexMap;
+import ge18xx.map.MapCell;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLNode;
@@ -85,7 +87,7 @@ public class TestFactory {
 				"		allowedOwners=\"IPO,Player,BankPool\" /> \n" +
 				"</Share>";
 
-		ShareCompany tShareCompany = null;
+		ShareCompany tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		CorporationList mCorporationList = Mockito.mock (CorporationList.class);
 		GameManager mGameManager = Mockito.mock (GameManager.class);
 		Mockito.when (mGameManager.getClientUserName ()).thenReturn ("MockedUserName");
@@ -96,7 +98,7 @@ public class TestFactory {
 		} else if (tCompanyIndex == 2) {
 			tShareCompany = constructShareCompany (tShareCompany2TestXML, tShareCompany, mCorporationList);
 		} else {
-			tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
+			tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		}
 		
 		return tShareCompany;
@@ -116,7 +118,7 @@ public class TestFactory {
 		return tXMLNode;
 	}
 	
-	private ShareCompany constructShareCompany(String aShareCompanyTestXML, ShareCompany aShareCompany,
+	private ShareCompany constructShareCompany (String aShareCompanyTestXML, ShareCompany aShareCompany,
 			CorporationList mCorporationList) {
 		XMLNode tShareCompanyNode;
 		
@@ -127,5 +129,59 @@ public class TestFactory {
 		}
 		
 		return aShareCompany;
+	}
+	
+	public MapFrame buildMapFrame () {
+		MapFrame tMapFrame = (MapFrame) MapFrame.NO_XML_FRAME;
+		
+		return tMapFrame;
+	}
+	
+	public HexMap buildHexMap () {
+		HexMap tHexMap;
+		MapFrame tMapFrame;
+		
+		tMapFrame = buildMapFrame ();
+		tHexMap = new HexMap (tMapFrame);
+		
+		return tHexMap;
+	}
+	
+	public HexMap buildMockHexMap () {
+		MapCell tMapCell;
+		HexMap mHexMap;
+		
+		tMapCell = buildMapCell ();
+		mHexMap = Mockito.mock (HexMap.class);
+		Mockito.when (mHexMap.getMapCellForID ("T1")).thenReturn (tMapCell);
+		
+		return mHexMap;
+	}
+	
+	public MapCell buildMapCell () {
+		MapCell tMapCell;
+		
+		tMapCell = buildMapCell ("T1");
+		
+		return tMapCell;
+	}
+	
+	public MapCell buildMapCell (String aID) {
+		MapCell tMapCell;
+		
+		tMapCell = buildMapCell (aID, 100, 100);
+		
+		return tMapCell;
+	}
+	
+	public MapCell buildMapCell (String aID, int aXc, int aYc) {
+		HexMap tHexMap;
+		MapCell tMapCell;
+		
+		tHexMap = buildHexMap ();
+		tMapCell = new MapCell (aXc, aYc, tHexMap);
+		tMapCell.setID (aID);
+		
+		return tMapCell;
 	}
 }
