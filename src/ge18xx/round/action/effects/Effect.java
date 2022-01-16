@@ -63,35 +63,41 @@ public abstract class Effect {
 		}
 	}
 
-	private void setBenefitUsed (boolean aBenefitUsed) {
+	protected void setBenefitUsed (boolean aBenefitUsed) {
 		benefitUsed = aBenefitUsed;
 	}
 	
-	private void setBenefitPrivateAbbrev (String aAbbrev) {
+	protected void setBenefitPrivateAbbrev (String aAbbrev) {
 		benefitPrivateAbbrev = aAbbrev;
 	}
 
-	private void setBenefitName (String aBenefitName) {
+	protected void setBenefitName (String aBenefitName) {
 		benefitName = aBenefitName;
 	}
 
-	private String getBenefitName () {
+	protected String getBenefitName () {
 		return benefitName;
 	}
 	
-	private String getBenefitPrivateAbbrev () {
+	protected String getBenefitPrivateAbbrev () {
 		return benefitPrivateAbbrev;
 	}
 	
-	private boolean getBenefitUsed () {
+	protected boolean getBenefitUsed () {
 		return benefitUsed;
 	}
 	
 	protected String getBenefitEffectReport () {
 		String tBenefitEffectReport = "";
+		String tUsed;
 		
 		if (benefitName.length () > 0) {
-			tBenefitEffectReport = " Used " + benefitName + " Benefit from " + benefitPrivateAbbrev + ".";
+			if (getBenefitUsed ()) {
+				tUsed = "Used ";
+			} else {
+				tUsed = "";
+			}
+			tBenefitEffectReport = tUsed  + benefitName + " Benefit from " + benefitPrivateAbbrev + ".";
 		}
 		
 		return tBenefitEffectReport;
@@ -101,7 +107,6 @@ public abstract class Effect {
 		setBenefitName ("");
 		setBenefitPrivateAbbrev ("");
 		setBenefitUsed (false);
-
 	}
 
 	Effect (XMLNode aEffectNode, GameManager aGameManager) {

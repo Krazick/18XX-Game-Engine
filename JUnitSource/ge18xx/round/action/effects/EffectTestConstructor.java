@@ -84,6 +84,21 @@ class EffectTestConstructor {
 		tExpected += "<Effect class=\"ge18xx.round.action.effects.ToEffect\" fromActor=\"EffectTesterBeta\" isAPrivate=\"false\" name=\"Generic\" toActor=\"TFBuster\"/>\n";
 		tExpected += "</EnTest>\n";
 		
-		assertEquals (tXMLFormatted, tExpected);
+		assertEquals (tExpected, tXMLFormatted);
+	}
+	
+	@Test
+	@DisplayName ("Test Benefit Aspects")
+	void testBenefitAspects () {
+		assertEquals ("", effectBeta.getBenefitEffectReport ());
+		effectBeta.setBenefitName ("Test Benefit");
+		effectBeta.setBenefitPrivateAbbrev ("TPA");
+		effectBeta.setBenefitUsed (false);
+		
+		assertEquals ("Test Benefit", effectBeta.getBenefitName ());
+		assertEquals ("TPA", effectBeta.getBenefitPrivateAbbrev ());
+		assertEquals ("Test Benefit Benefit from TPA.", effectBeta.getBenefitEffectReport ());
+		effectBeta.setBenefitUsed (true);
+		assertEquals ("Used Test Benefit Benefit from TPA.", effectBeta.getBenefitEffectReport ());
 	}
 }
