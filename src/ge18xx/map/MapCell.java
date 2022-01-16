@@ -802,6 +802,10 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 	
+	public void setID (String aID) {
+		id = aID;
+	}
+	
 	public void loadXMLCell (XMLNode aCellNode, int aTerrainCost [], int aTerrainType [], String aID) {
 		NodeList tChildren;
 		XMLNode tChildNode;
@@ -823,7 +827,7 @@ public class MapCell implements Comparator<Object> {
 		tChildrenCount = tChildren.getLength ();
 		tile = Tile.NO_TILE;
 		rebate = Rebate.NO_REBATE;
-		id = aID;
+		setID (aID);
 		for (tChildrenIndex = 0; tChildrenIndex < tChildrenCount; tChildrenIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tChildrenIndex));
 			tChildName = tChildNode.getNodeName ();
