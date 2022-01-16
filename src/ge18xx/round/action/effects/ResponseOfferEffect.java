@@ -21,7 +21,6 @@ public class ResponseOfferEffect extends ToEffect {
 	final static AttributeName AN_ITEM_TYPE = new AttributeName ("itemType");
 	final static AttributeName AN_ITEM_NAME = new AttributeName ("itemName");
 	boolean response;
-//	ActorI toActor;
 	String itemType;
 	String itemName;
 
@@ -38,7 +37,6 @@ public class ResponseOfferEffect extends ToEffect {
 		super (NAME, aFromActor, aToActor);
 		
 		setResponse (aResponse);
-//		setToActor (aToActor);
 		setItemType (aItemType);
 		setItemName (aItemName);
 	}
@@ -48,8 +46,6 @@ public class ResponseOfferEffect extends ToEffect {
 		setName (NAME);
 		
 		boolean tResponse;
-//		ActorI tToActor;
-//		String tToActorName;
 		
 		String tItemType, tItemName;
 		tItemType = aEffectNode.getThisAttribute (AN_ITEM_TYPE);
@@ -58,9 +54,6 @@ public class ResponseOfferEffect extends ToEffect {
 		setItemName (tItemName);
 		tResponse = aEffectNode.getThisBooleanAttribute (AN_RESPONSE);
 		setResponse (tResponse);
-//		tToActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
-//		tToActor = aGameManager.getActor (tToActorName);
-//		setToActor (tToActor);
 	}
 
 	public String getItemType () {
@@ -82,19 +75,12 @@ public class ResponseOfferEffect extends ToEffect {
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-//		String tActorName;
 		
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_RESPONSE, getResponse ());
 		tEffectElement.setAttribute (AN_ITEM_TYPE, getItemType ());
 		tEffectElement.setAttribute (AN_ITEM_NAME, getItemName ());
-//		if (toActor.isACorporation ()) {
-//			tActorName = ((Corporation) toActor).getAbbrev ();
-//		} else {
-//			tActorName = toActor.getName ();
-//		}
-//		tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, tActorName);
-	
+
 		return tEffectElement;
 	}
 
@@ -138,19 +124,6 @@ public class ResponseOfferEffect extends ToEffect {
 	public boolean getResponse () {
 		return response;
 	}
-//	
-//	public void setToActor (ActorI aToActor) {
-//		toActor = aToActor;
-//	}
-//	
-//	public ActorI getToActor () {
-//		return toActor;
-//	}
-//	
-//	@Override
-//	public String getToActorName() {
-//		return toActor.getName ();
-//	}
 	
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
