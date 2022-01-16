@@ -89,5 +89,4 @@ class TransferOwnershipEffectTestConstructor {
 		assertTrue (effectBeta.undoEffect (null));
 
 	}
-
 }

@@ -1,7 +1,6 @@
 package ge18xx.round.action.effects;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -66,7 +65,6 @@ class EffectTestConstructor {
 	}
 
 	@Test
-	@Disabled ("Don't understand why XML To String doesn't generate output here")
 	@DisplayName ("Test XML Generation")
 	void testXMLGeneration () {
 		XMLDocument tXMLDocument;
@@ -74,12 +72,18 @@ class EffectTestConstructor {
 		ElementName tEN_TEST = new ElementName ("EnTest");
 		XMLElement tXMLElement, tFullElement;
 		String tXMLFormatted;
+		String tExpected = "";
 		
 		tXMLDocument = new XMLDocument ();
 		tFullElement = tXMLDocument.createElement (tEN_TEST); 
 		tXMLElement = effectBeta.getEffectElement (tXMLDocument, tAN_TEST);
 		tFullElement.appendChild (tXMLElement); 
+		tXMLDocument.appendChild (tFullElement);
 		tXMLFormatted = tXMLDocument.toString ();
-		System.out.println ("XML OUT Size [" + tXMLFormatted.length () + "]");
+		tExpected += "<EnTest>\n";
+		tExpected += "<Effect class=\"ge18xx.round.action.effects.ToEffect\" fromActor=\"EffectTesterBeta\" isAPrivate=\"false\" name=\"Generic\" toActor=\"TFBuster\"/>\n";
+		tExpected += "</EnTest>\n";
+		
+		assertEquals (tXMLFormatted, tExpected);
 	}
 }
