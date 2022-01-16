@@ -21,6 +21,7 @@ class ToEffectTestConstructor {
 	ToEffect effectBeta;
 	Player actorBeta;
 	Player actorGamma;
+	Player actorDelta;
 	GameManager gameManager;
 	PlayerManager playerManager;
 	private String GENERIC_TO_EFFECT = "GenericTo";
@@ -37,6 +38,7 @@ class ToEffectTestConstructor {
 		gameManager =  testFactory.buildGameManager (tClientName);
 		playerManager = new PlayerManager (gameManager);
 		effectAlpha = new ToEffect ();
+		actorDelta = new Player (tClientName, false, false, false, false, playerManager, 0);
 		actorBeta = new Player (tPlayer2Name, false, false, false, false, playerManager, 0);
 		actorGamma = new Player (tPlayer3Name, false, false, false, false, playerManager, 0);
 		effectBeta = new ToEffect (GENERIC_TO_EFFECT, actorBeta, actorGamma);
@@ -68,6 +70,13 @@ class ToEffectTestConstructor {
 		assertTrue (effectBeta.undoEffect (RoundManager.NO_ROUND_MANAGER));
 		assertFalse (effectBeta.wasNewStateAuction ());
 		assertFalse (effectBeta.applyEffect (RoundManager.NO_ROUND_MANAGER));
+	}
+	
+	@Test
+	@DisplayName ("ToEffect Tests for toActor")
+	void toActorTests () {
+		assertEquals (effectBeta.getToActor (), actorGamma);
+	
 	}
 
 }
