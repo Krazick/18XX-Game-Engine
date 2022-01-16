@@ -13,6 +13,7 @@ import ge18xx.game.GameManager;
 import ge18xx.game.TestFactory;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
+import ge18xx.round.RoundManager;
 
 @DisplayName ("ToEffect Constructor Tests")
 class ToEffectTestConstructor {
@@ -64,9 +65,9 @@ class ToEffectTestConstructor {
 		assertFalse (effectBeta.isToActor ("ToEffectTesterBeta"));
 		assertTrue (effectBeta.isToActor ("ToEffectTesterGamma"));
 		
-		assertFalse (effectBeta.undoEffect (null));
+		assertTrue (effectBeta.undoEffect (RoundManager.NO_ROUND_MANAGER));
 		assertFalse (effectBeta.wasNewStateAuction ());
-		assertFalse (effectBeta.applyEffect (null));
+		assertFalse (effectBeta.applyEffect (RoundManager.NO_ROUND_MANAGER));
 	}
 
 }

@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
+import ge18xx.round.RoundManager;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -57,12 +57,12 @@ class EffectTestConstructor {
 		
 		tFoundPlayer = (Player) effectBeta.getActor ();
 		assertEquals ("EffectTesterBeta", tFoundPlayer.getName ());
-		assertEquals ("--Effect: Generic for EffectTesterBeta.", effectBeta.getEffectReport (null));
-		assertNull (effectBeta.getToActorName ());
+		assertEquals ("--Effect: Generic for EffectTesterBeta to TFBuster.", effectBeta.getEffectReport (null));
+		assertEquals (effectBeta.getToActorName (), "TFBuster");
 		
-		assertFalse (effectBeta.undoEffect (null));
+		assertTrue (effectBeta.undoEffect (RoundManager.NO_ROUND_MANAGER));
 		assertFalse (effectBeta.wasNewStateAuction ());
-		assertFalse (effectBeta.applyEffect (null));
+		assertFalse (effectBeta.applyEffect (RoundManager.NO_ROUND_MANAGER));
 	}
 
 	@Test
