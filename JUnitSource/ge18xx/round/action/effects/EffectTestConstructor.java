@@ -21,9 +21,10 @@ import ge18xx.game.TestFactory;
 
 @DisplayName ("Effect Constructor Tests")
 class EffectTestConstructor {
-	Effect effectAlpha;
-	Effect effectBeta;
+	ToEffect effectAlpha;
+	ToEffect effectBeta;
 	Player actorBeta;
+	Player actorDelta;
 	GameManager gameManager;
 	PlayerManager playerManager;
 	private String GENERIC_EFFECT = "Generic";
@@ -38,9 +39,10 @@ class EffectTestConstructor {
 		testFactory = new TestFactory ();
 		gameManager =  testFactory.buildGameManager (tClientName);
 		playerManager = new PlayerManager (gameManager);
-		effectAlpha = new Effect ();
+		effectAlpha = new ToEffect ();
 		actorBeta = new Player (tPlayer2Name, false, false, false, false, playerManager, 0);
-		effectBeta = new Effect (GENERIC_EFFECT, actorBeta);
+		actorDelta = new Player (tClientName, false, false, false, false, playerManager, 0);
+		effectBeta = new ToEffect (GENERIC_EFFECT, actorBeta, actorDelta);
 	}
 
 	@Test

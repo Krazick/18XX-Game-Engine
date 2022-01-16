@@ -107,4 +107,9 @@ public class RemoveAllBids extends Effect {
 		
 		return tEffectApplied;
 	}
+
+	@Override
+	public boolean undoEffect (RoundManager aRoundManager) {
+		return true;
+	}
 }

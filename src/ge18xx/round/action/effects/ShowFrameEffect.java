@@ -79,4 +79,9 @@ public class ShowFrameEffect extends Effect {
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
+
+	@Override
+	public boolean undoEffect (RoundManager aRoundManager) {
+		return true;
+	}
 }

@@ -88,4 +88,9 @@ public class ToEffect extends Effect {
 		
 		return tIsToActor;
 	}
+	
+	@Override
+	public boolean undoEffect (RoundManager aRoundManager) {
+		return true;
+	}
 }

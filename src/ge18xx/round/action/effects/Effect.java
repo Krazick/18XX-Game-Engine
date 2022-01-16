@@ -12,7 +12,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class Effect {
+public abstract class Effect {
 	public final static String NO_NAME = ">>NO EFFECT NAME<<";
 	public final static ActorI NO_ACTOR = null;
 	public final static Effect NO_EFFECT = null;
@@ -208,9 +208,7 @@ public class Effect {
 		return actor.getName ();
 	}
 	
-	public boolean undoEffect (RoundManager aRoundManager) {
-		return false;
-	}
+	public abstract boolean undoEffect (RoundManager aRoundManager);
 	
 	public boolean wasNewStateAuction () {
 		return false;
