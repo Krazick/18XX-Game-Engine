@@ -65,6 +65,7 @@ public class BenefitUsedEffect extends Effect {
 		return tEffectElement;
 	}
 	
+	@Override
 	public String getBenefitName () {
 		return benefitInUse.getName ();
 	}
