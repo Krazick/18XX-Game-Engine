@@ -1,5 +1,7 @@
 package ge18xx.round;
 
+import org.mockito.Mockito;
+
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.PlayerManager;
@@ -35,5 +37,10 @@ public class RoundTestFactory {
 	public RoundManager buildRoundManager (GameManager aGameManager, PlayerManager aPlayerManager) {
 		return new RoundManager (aGameManager, aPlayerManager);
 		
+	}
+	public RoundManager buildRoundManagerMock () {
+		RoundManager mRoundManager = Mockito.mock (RoundManager.class);
+
+		return mRoundManager;
 	}
 }
