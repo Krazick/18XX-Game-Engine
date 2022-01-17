@@ -93,14 +93,22 @@ public class RoundManager implements ActionListener {
 	
 	public void setManagers (GameManager aGameManager, PlayerManager aPlayerManager) {
 		if (gameManager == GameManager.NO_GAME_MANAGER) {
-			gameManager = aGameManager;
+			setGameManager (aGameManager);
 		}
 		if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
-			playerManager = aPlayerManager;
+			setPlayerManager (aPlayerManager);
 		}
 		if (actionManager == ActionManager.NO_ACTION_MANAGER) {
 			setActionManager (new ActionManager (this));
 		}
+	}
+	
+	public void setGameManager (GameManager aGameManager) {
+		gameManager = aGameManager;
+	}
+	
+	public void setPlayerManager (PlayerManager aPlayerManager) {
+		playerManager = aPlayerManager;
 	}
 	
 	public void setActionManager (ActionManager aActionManager) {
