@@ -12,7 +12,8 @@ import ge18xx.utilities.XMLNode;
 
 public class GameTestFactory {
 	XMLDocument theXMLDocument;
-
+	private String CLIENT_NAME = "GTF Client";
+	
 	public GameTestFactory () {
 		theXMLDocument = new XMLDocument ();
 	}
@@ -20,7 +21,7 @@ public class GameTestFactory {
 	public PlayerInputFrame buildPIFMock () {
 		String tClientName, tPlayer2Name;
 		
-		tClientName = "TFBuster";
+		tClientName = CLIENT_NAME;
 		tPlayer2Name = "TFPlayer2";
 		
 		PlayerInputFrame mPlayerInputFrame = Mockito.mock (PlayerInputFrame.class);
@@ -32,19 +33,39 @@ public class GameTestFactory {
 	}
 	
 	public GameManager buildGameManager () {
-		return buildGameManager ("GTF Client");
+		return buildGameManager (CLIENT_NAME);
 	}
 	
 	public GameManager buildGameManager (String aClientName) {
 		GameManager tGameManager;
 		Game_18XX tGame_18XX;
 		
-		tGame_18XX = new Game_18XX (false);
-		tGame_18XX.setupLogger (aClientName);
+		tGame_18XX = buildGame18XX (aClientName);
 		tGameManager = new GameManager (tGame_18XX, aClientName);
 		tGame_18XX.setGameManager (tGameManager);
 		
 		return tGameManager;
+	}
+
+	public Game_18XX buildGame18XX (String aClientName) {
+		Game_18XX tGame_18XX;
+		
+		tGame_18XX = new Game_18XX (false);
+		tGame_18XX.setupLogger (aClientName);
+		
+		return tGame_18XX;
+	}
+	
+	public GameManager buildGameManagerMock () {
+		return buildGameManagerMock (CLIENT_NAME);
+	}
+
+	public GameManager buildGameManagerMock (String aClientName) {
+		GameManager mGameManager = Mockito.mock (GameManager.class);
+		
+		Mockito.when (mGameManager.getClientUserName ()).thenReturn (aClientName);
+
+		return mGameManager;
 	}
 	
 	public GameInfo buildGameInfo () {
@@ -89,8 +110,7 @@ public class GameTestFactory {
 				+ "";
 		PrivateCompany tPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
 		CorporationList mCorporationList = Mockito.mock (CorporationList.class);
-		GameManager mGameManager = Mockito.mock (GameManager.class);
-		Mockito.when (mGameManager.getClientUserName ()).thenReturn ("MockedUserName");
+		GameManager mGameManager = buildGameManagerMock ();
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 
 		if (tCompanyIndex == 1) {
@@ -118,8 +138,7 @@ public class GameTestFactory {
 
 		ShareCompany tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		CorporationList mCorporationList = Mockito.mock (CorporationList.class);
-		GameManager mGameManager = Mockito.mock (GameManager.class);
-		Mockito.when (mGameManager.getClientUserName ()).thenReturn ("MockedUserName");
+		GameManager mGameManager = buildGameManagerMock ();
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 
 		if (tCompanyIndex == 1) {
