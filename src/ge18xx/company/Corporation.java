@@ -823,6 +823,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tValue;
 	}
 	
+	// TODO -- Remove 'Action' from method names
 	public String getDoActionLabel () {
 		String tLabel;
 		
