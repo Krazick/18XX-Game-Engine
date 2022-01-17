@@ -60,6 +60,7 @@ public class RoundFrame extends XMLFrame {
 	JPanel roundInfoJPanel;
 	JPanel playersJPanel;
 	JScrollPane roundScrollPane;
+	// TODO Rename buttons to not have 'Action' in the name.
 	JButton passActionButton;
 	JButton doActionButton;
 	JButton showGameEngineFrameButton;
