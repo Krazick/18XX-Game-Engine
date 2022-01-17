@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import ge18xx.game.GameManager;
-import ge18xx.game.TestFactory;
+import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 
@@ -22,7 +22,7 @@ class CashTransferEffectTestConstructor {
 	Player actorGamma;
 	GameManager gameManager;
 	PlayerManager playerManager;
-	TestFactory testFactory;
+	GameTestFactory testFactory;
 	int cashAmount;
 
 	@BeforeEach
@@ -32,7 +32,7 @@ class CashTransferEffectTestConstructor {
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterBeta";
 		tPlayer3Name = "ToEffectTesterGamma";
-		testFactory = new TestFactory ();
+		testFactory = new GameTestFactory ();
 		gameManager =  testFactory.buildGameManager (tClientName);
 		playerManager = new PlayerManager (gameManager);
 		effectAlpha = new CashTransferEffect ();

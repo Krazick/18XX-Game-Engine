@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ge18xx.game.GameManager;
-import ge18xx.game.TestFactory;
+import ge18xx.game.GameTestFactory;
 
 @DisplayName ("JGameClient XML Tests")
 public class JGameClientXMLTests {
-	TestFactory testFactory;
+	GameTestFactory testFactory;
 	JGameClient jGameClient;
 	
 	@BeforeEach 
@@ -19,7 +19,7 @@ public class JGameClientXMLTests {
 		GameManager tGameManager;
 		String tClientName;
 		
-		testFactory = new TestFactory ();
+		testFactory = new GameTestFactory ();
 		tClientName = "GMTestBuster";
 		tGameManager = testFactory.buildGameManager (tClientName);
 		jGameClient = new JGameClient ("JGameClient Testing Frame", tGameManager);

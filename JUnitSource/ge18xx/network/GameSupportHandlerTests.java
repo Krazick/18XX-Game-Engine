@@ -11,14 +11,14 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ge18xx.game.GameManager;
-import ge18xx.game.TestFactory;
+import ge18xx.game.GameTestFactory;
 
 @DisplayName ("Game Support Handler Tests")
 @ExtendWith (MockitoExtension.class)
 class GameSupportHandlerTests {
 
 	GameSupportHandler gameSupportHandler;
-	TestFactory testFactory;
+	GameTestFactory testFactory;
 	JGameClient jGameClient;
 	String clientName;
 	
@@ -29,7 +29,7 @@ class GameSupportHandlerTests {
 	void setUp() throws Exception {
 		GameManager tGameManager;
 		
-		testFactory = new TestFactory ();
+		testFactory = new GameTestFactory ();
 		clientName = "GMTestBuster";
 		tGameManager = testFactory.buildGameManager (clientName);
 		jGameClient = new JGameClient ("JGameClient Testing Frame", tGameManager);

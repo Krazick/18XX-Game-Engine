@@ -15,11 +15,11 @@ import ge18xx.toplevel.PlayerInputFrame;
 
 @DisplayName ("Game Manager Constructor Tests")
 class GameManagerTestConstructors {
-	TestFactory testFactory;
+	GameTestFactory testFactory;
 	
 	@BeforeEach
 	void setUp () throws Exception {
-		testFactory = new TestFactory ();
+		testFactory = new GameTestFactory ();
 	}
 
 	@AfterEach

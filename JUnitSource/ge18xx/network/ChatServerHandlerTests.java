@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import ge18xx.game.GameManager;
-import ge18xx.game.TestFactory;
+import ge18xx.game.GameTestFactory;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,14 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ChatServerHandlerTests {
 	ChatServerHandler chatServerHandler;
-	TestFactory testFactory;
+	GameTestFactory testFactory;
 
 	@BeforeEach
 	void setUp () throws Exception {
 		GameManager tGameManager;
 		String tClientName;
 		
-		testFactory = new TestFactory ();
+		testFactory = new GameTestFactory ();
 		tClientName = "GMTestBuster";
 		tGameManager = testFactory.buildGameManager (tClientName);
 		String tHost = "96.240.138.230";

@@ -8,25 +8,28 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ge18xx.game.GameManager;
-import ge18xx.game.TestFactory;
-import ge18xx.player.PlayerManager;
+import ge18xx.game.GameTestFactory;
 import ge18xx.toplevel.PlayerInputFrame;
 
 @DisplayName ("Round Manager Constructor Tests")
 class RoundManagerTestConstructors {
 	GameManager gameManager;
-	TestFactory testFactory;
+	GameTestFactory gameTestFactory;
+	RoundTestFactory roundTestFactory;
+	RoundManager roundManager;
 	
 	@BeforeEach
 	void setUp () throws Exception {
 		String tClientName;
 		PlayerInputFrame mPlayerInputFrame;
 		
-		testFactory = new TestFactory ();
 		tClientName = "RMTestBuster";
-		gameManager = testFactory.buildGameManager (tClientName);
-		mPlayerInputFrame = testFactory.buildPIFMock ();
+		gameTestFactory = new GameTestFactory ();
+		gameManager = gameTestFactory.buildGameManager (tClientName);
+		mPlayerInputFrame = gameTestFactory.buildPIFMock ();
 		gameManager.setPlayerInputFrame (mPlayerInputFrame);
+		roundTestFactory = new RoundTestFactory ();
+		roundManager = roundTestFactory.buildRoundManager (gameManager);
 	}
 
 	@AfterEach
@@ -36,12 +39,8 @@ class RoundManagerTestConstructors {
 	@Test
 	@DisplayName ("Constructor with GameManager and PlayerManager NULL Tests")
 	void constructorTwoArgsTest () {
-		RoundManager tRoundManager;
-		
-		tRoundManager = new RoundManager (gameManager, PlayerManager.NO_PLAYER_MANAGER);
-		assertEquals (gameManager, tRoundManager.getGameManager ());
-		
-//		fail ("Not yet implemented");
+		assertEquals (gameManager, roundManager.getGameManager ());
+
 	}
 
 }

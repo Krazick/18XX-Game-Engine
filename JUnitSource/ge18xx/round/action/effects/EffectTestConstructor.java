@@ -16,7 +16,7 @@ import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
-import ge18xx.game.TestFactory;
+import ge18xx.game.GameTestFactory;
 
 @DisplayName ("Effect Constructor Tests")
 class EffectTestConstructor {
@@ -27,7 +27,7 @@ class EffectTestConstructor {
 	GameManager gameManager;
 	PlayerManager playerManager;
 	private String GENERIC_EFFECT = "Generic";
-	TestFactory testFactory;
+	GameTestFactory testFactory;
 	
 	@BeforeEach
 	void setUp () throws Exception {
@@ -35,7 +35,7 @@ class EffectTestConstructor {
 		
 		tClientName = "TFBuster";
 		tPlayer2Name = "EffectTesterBeta";
-		testFactory = new TestFactory ();
+		testFactory = new GameTestFactory ();
 		gameManager =  testFactory.buildGameManager (tClientName);
 		playerManager = new PlayerManager (gameManager);
 		effectAlpha = new ToEffect ();

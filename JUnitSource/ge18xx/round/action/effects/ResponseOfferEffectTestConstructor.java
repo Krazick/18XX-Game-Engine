@@ -12,7 +12,7 @@ import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
-import ge18xx.game.TestFactory;
+import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
@@ -29,7 +29,7 @@ class ResponseOfferEffectTestConstructor {
 	Player playerActorDelta;
 	GameManager gameManager;
 	PlayerManager playerManager;
-	TestFactory testFactory;
+	GameTestFactory testFactory;
 	Certificate certificate;
 
 	@BeforeEach
@@ -43,7 +43,7 @@ class ResponseOfferEffectTestConstructor {
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterAlpha";
 		tPlayer3Name = "ToEffectTesterDelta";
-		testFactory = new TestFactory ();
+		testFactory = new GameTestFactory ();
 		gameManager =  testFactory.buildGameManager (tClientName);
 		playerManager = new PlayerManager (gameManager);
 		effectAlpha = new ResponseOfferEffect ();

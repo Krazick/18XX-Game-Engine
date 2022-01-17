@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import ge18xx.game.GameManager;
-import ge18xx.game.TestFactory;
+import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
@@ -25,7 +25,7 @@ class ToEffectTestConstructor {
 	GameManager gameManager;
 	PlayerManager playerManager;
 	private String GENERIC_TO_EFFECT = "GenericTo";
-	TestFactory testFactory;
+	GameTestFactory testFactory;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -34,7 +34,7 @@ class ToEffectTestConstructor {
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterBeta";
 		tPlayer3Name = "ToEffectTesterGamma";
-		testFactory = new TestFactory ();
+		testFactory = new GameTestFactory ();
 		gameManager =  testFactory.buildGameManager (tClientName);
 		playerManager = new PlayerManager (gameManager);
 		effectAlpha = new ToEffect ();
