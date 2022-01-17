@@ -3,7 +3,9 @@ package ge18xx.game;
 import org.mockito.Mockito;
 
 import ge18xx.company.CorporationList;
+import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.benefit.MapBenefit;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.toplevel.MapFrame;
@@ -71,6 +73,32 @@ public class TestFactory {
 		return tGameInfo;
 	}
 	
+	public PrivateCompany buildAPrivateCompany (int tCompanyIndex) {
+		String tPrivateCompany1TestXML =
+				"	<Private id=\"802\" name=\"TEST-Champlain &amp; St. Lawrence\" abbrev=\"TEST-C&amp;SL\" cost=\"40\" \n"
+				+ "		revenue=\"10\" homeCell1=\"B20\" homeLocation1=\"7\" homeLocation2=\"12\" \n"
+				+ "		note=\"A Corporation owning the C&amp;SL may lay a tile onC&amp;SL's hex even if this hex is not connected to the Corporation's Railhead. This free tile placement is in addition to the Corporation's tile placement — For this turn only the Corporation may play two tiles. The tile played on the C&amp;SL hex does not have to connect to any existing adjacent track.\"\n"
+				+ "		special=\"Free Tile Placement\">\n"
+				+ "		<Benefits>\n"
+				+ "			<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>\n"
+				+ "		</Benefits>\n"
+				+ "		<Certificate director=\"YES\" percentage=\"100\"\n"
+				+ "			allowedOwners=\"IPO,Player,Share\" />\n"
+				+ "	</Private>\n"
+				+ "";
+		PrivateCompany tPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
+		CorporationList mCorporationList = Mockito.mock (CorporationList.class);
+		GameManager mGameManager = Mockito.mock (GameManager.class);
+		Mockito.when (mGameManager.getClientUserName ()).thenReturn ("MockedUserName");
+		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
+
+		if (tCompanyIndex == 1) {
+			tPrivateCompany = constructPrivateCompany (tPrivateCompany1TestXML, tPrivateCompany, mCorporationList);
+		}
+		
+		return tPrivateCompany;
+	}
+	
 	public ShareCompany buildAShareCompany (int tCompanyIndex) {
 		String tShareCompany1TestXML =
 				"<Share id=\"901\" name=\"TestPennsylvania\" abbrev=\"TPRR\" homeCell1=\"H12\" \n" +
@@ -116,6 +144,19 @@ public class TestFactory {
 		}
 		
 		return tXMLNode;
+	}
+	
+	private PrivateCompany constructPrivateCompany (String aPrivateCompanyTextXML, PrivateCompany aPrivateCompany, 
+			CorporationList mCorporationList) {
+		XMLNode tPrivateCompanyNode;
+		
+		tPrivateCompanyNode = constructXMLNode (aPrivateCompanyTextXML);
+		if (tPrivateCompanyNode != XMLNode.NO_NODE) {
+			aPrivateCompany = new PrivateCompany (tPrivateCompanyNode, mCorporationList);
+			aPrivateCompany.setTestingFlag (true);			
+		}
+		
+		return aPrivateCompany;
 	}
 	
 	private ShareCompany constructShareCompany (String aShareCompanyTestXML, ShareCompany aShareCompany,
@@ -183,5 +224,18 @@ public class TestFactory {
 		tMapCell.setID (aID);
 		
 		return tMapCell;
+	}
+	
+	public MapBenefit buildMapBenefit (PrivateCompany aPrivateCompany) {
+		MapBenefit tMapBenefit;
+		String tXMLBenefitTest = "<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>";
+		XMLNode tBenefitXMLNode;
+		
+		tBenefitXMLNode = constructXMLNode (tXMLBenefitTest);
+
+		tMapBenefit = new MapBenefit (tBenefitXMLNode);
+		tMapBenefit.setPrivateCompany (aPrivateCompany);
+		
+		return tMapBenefit;
 	}
 }
