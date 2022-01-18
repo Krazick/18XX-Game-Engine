@@ -95,6 +95,8 @@ public class GameTestFactory {
 		return tGameInfo;
 	}
 	
+	// TODO Move buildAPrivateCompany and buildAShareCompany to a new 'CompanyTestFactory' Class in ge18xx.company package
+	
 	public PrivateCompany buildAPrivateCompany (int tCompanyIndex) {
 		String tPrivateCompany1TestXML =
 				"	<Private id=\"802\" name=\"TEST-Champlain &amp; St. Lawrence\" abbrev=\"TEST-C&amp;SL\" cost=\"40\" \n"
@@ -152,6 +154,8 @@ public class GameTestFactory {
 		return tShareCompany;
 	}
 
+	// TODO Move to a 'UtilitiesTestFactory'
+	
 	public XMLNode constructXMLNode (String aXMLText) {
 		XMLNode tXMLNode;
 		
@@ -192,6 +196,8 @@ public class GameTestFactory {
 		return aShareCompany;
 	}
 
+	// TODO Move to a 'BenefitTestFactory'
+	
 	public MapBenefit buildMapBenefit (PrivateCompany aPrivateCompany) {
 		MapBenefit tMapBenefit;
 		String tXMLBenefitTest = "<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>";
