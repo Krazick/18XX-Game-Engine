@@ -12,6 +12,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
+import ge18xx.round.RoundTestFactory;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -101,4 +102,20 @@ class EffectTestConstructor {
 		effectBeta.setBenefitUsed (true);
 		assertEquals ("Used Test Benefit Benefit from TPA.", effectBeta.getBenefitEffectReport ());
 	}
+	
+	@Test
+	@DisplayName ("Using RoundManager Test")
+	void useOfRoundManagerTests () {
+		RoundManager tRoundManager;
+		RoundTestFactory tRoundTestFactory;
+		String tEffectReport;
+		
+		tRoundTestFactory = new RoundTestFactory ();
+		tRoundManager = tRoundTestFactory.buildRoundManager ();
+		tEffectReport = effectBeta.getEffectReport (tRoundManager);
+		assertEquals ("--Effect: Generic for EffectTesterBeta to TFBuster.", tEffectReport);
+		assertTrue (effectBeta.undoEffect (tRoundManager));
+		assertFalse (effectBeta.applyEffect (tRoundManager));
+	}
+
 }

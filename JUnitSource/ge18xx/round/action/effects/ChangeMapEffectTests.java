@@ -1,6 +1,7 @@
 package ge18xx.round.action.effects;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,8 @@ import ge18xx.map.MapTestFactory;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.player.PlayerManager;
+import ge18xx.round.RoundManager;
+import ge18xx.round.RoundTestFactory;
 import ge18xx.toplevel.MapFrame;
 
 class ChangeMapEffectTests {
@@ -29,6 +32,7 @@ class ChangeMapEffectTests {
 	PlayerManager playerManager;
 	GameTestFactory gameTestFactory;
 	MapTestFactory mapTestFactory;
+	RoundTestFactory roundTestFactory;
 	MapFrame mapFrame;
 	HexMap mHexMap;
 	MapCell mapCell1;
@@ -74,5 +78,19 @@ class ChangeMapEffectTests {
 		assertFalse (effectGamma.getBenefitUsed ());
 		assertEquals ("Map", effectGamma.getBenefitName ());
 		assertEquals ("TEST-C&SL", effectGamma.getBenefitPrivateAbbrev ());
+	}
+	
+	@Test
+	@DisplayName ("Using RoundManager Test")
+	void useOfRoundManagerTests () {
+		RoundManager tRoundManager;
+		RoundTestFactory tRoundTestFactory;
+		String tEffectReport;
+		
+		tRoundTestFactory = new RoundTestFactory ();
+		tRoundManager = tRoundTestFactory.buildRoundManager ();
+		tEffectReport = effectAlpha.getEffectReport (tRoundManager);
+		assertEquals ("--Effect: Change Map by TestPennsylvania on MapCell T1.", tEffectReport);
+		assertTrue (effectAlpha.undoEffect (tRoundManager));
 	}
 }
