@@ -70,6 +70,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	JPanel corporationInfoJPanel;
 	JPanel privatesJPanel;
 	JPanel certInfoJPanel;
+	// TODO Rename to remove 'action'
 	JPanel actionButtonsJPanel;
 	JLabel treasuryLabel;
 	JLabel presidentLabel;

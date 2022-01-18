@@ -37,6 +37,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 	Certificate certificate;
 	GameManager gameManager;
 	JComboBox<String> parValuesCombo;
+	// TODO Rename to remove 'Action'
 	JButton doActionButton;
 	JPanel parValuesPanel;
 	boolean parPriceFrameActive;

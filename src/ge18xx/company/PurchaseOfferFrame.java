@@ -92,6 +92,8 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		offerButtonPanel.setLayout (new BoxLayout (offerButtonPanel, BoxLayout.X_AXIS));
 		offerButtonPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		
+		// TODO Rename to remove 'Action'
+		
 		acceptButton = setActionButton (ACCEPT_ACTION, ACCEPT_ACTION);
 		rejectButton = setActionButton (REJECT_ACTION, REJECT_ACTION);
 		offerButtonPanel.add (rejectButton);

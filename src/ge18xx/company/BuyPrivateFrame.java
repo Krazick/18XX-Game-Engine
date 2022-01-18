@@ -161,6 +161,7 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		setBuyButtonText ();
 	}
 	
+	// TODO Rename to remove 'Action'
 	public JButton setActionButton (String aButtonLabel, String aActionCommand) {
 		JButton tActionButton;
 		

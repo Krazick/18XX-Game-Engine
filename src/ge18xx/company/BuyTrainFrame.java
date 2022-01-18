@@ -192,6 +192,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		setBuyButtonText ();
 	}
 	
+	// TODO Rename to remove 'Action'
 	public JButton setActionButton (String aButtonLabel, String aActionCommand) {
 		JButton tActionButton;
 		

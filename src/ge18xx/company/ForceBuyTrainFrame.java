@@ -128,6 +128,8 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		mainJPanel.add (buttonJPanel);
 	}
 	
+	// TODO Rename to remove 'Action'
+	
 	private void updateActionButtons () {
 		updateUndoActionButtion ();
 		updateSellActionButton ();

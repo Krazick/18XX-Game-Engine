@@ -259,6 +259,7 @@ public class RoundManager implements ActionListener {
 		roundFrame.updateAllCorporationsBox ();
 	}
 	
+	// TODO Rename to remove 'Action'
 	public void setActionButtonLabel (String aActionButtonLabel) {
 		roundFrame.updateActionButtonText (aActionButtonLabel);
 	}
