@@ -48,7 +48,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	JPanel playerAndBankJPanel;
 	JPanel bankJPanel;
 	JPanel playerJPanel;
-	JPanel actionButtonJPanel;
+	JPanel buttonJPanel;
 	JPanel playerInfoJPanel;
 	JPanel portfolioInfoJPanel;
 	
@@ -60,12 +60,11 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	JLabel playerBidAmount;
 	JLabel playerPortfolioLabel;
 	JLabel playerTotalValue;
-	// TODO Renamed '...ActionButton' to '...Button'
-	JButton passActionButton;
-	JButton buyBidActionButton;
-	JButton sellActionButton;
-	JButton exchangeActionButton;
-	JButton undoActionButton;
+	JButton passButton;
+	JButton buyBidButton;
+	JButton sellButton;
+	JButton exchangeButton;
+	JButton undoButton;
 	JButton explainButton;
 	ButtonsInfoFrame buttonsInfoFrame;
 	boolean canBuy = false;
@@ -113,8 +112,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		playerJPanel.add (playerInfoJPanel);
 		playerJPanel.add (Box.createVerticalStrut (10));
 		
-		buildActionButtonJPanel ();
-		playerJPanel.add (actionButtonJPanel);
+		buildButtonJPanel ();
+		playerJPanel.add (buttonJPanel);
 		
 		portfolioInfoIndex = 5;
 		updatePortfolioInfo ();
@@ -183,7 +182,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		playerInfoJPanel.add (new Box.Filler (tMinSize, tPrefSize, tMaxSize));		
 	}
 	
-	private JButton setupActionButton (String aButtonLabel, String aButtonAction) {
+	private JButton buildButton (String aButtonLabel, String aButtonAction) {
 		JButton tActionButton;
 		
 		tActionButton = new JButton (aButtonLabel);
@@ -196,22 +195,22 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		return tActionButton;
 	}
 
-	private void buildActionButtonJPanel () {
-		actionButtonJPanel = new JPanel ();
+	private void buildButtonJPanel () {
+		buttonJPanel = new JPanel ();
 
-		passActionButton = setupActionButton (PASS, PASS);
-		buyBidActionButton = setupActionButton (BUY_BID, BUY_BID);
-		sellActionButton = setupActionButton (SELL, SELL);
-		exchangeActionButton = setupActionButton (EXCHANGE, EXCHANGE);
-		undoActionButton = setupActionButton (UNDO, UNDO);
-		explainButton = setupActionButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
+		passButton = buildButton (PASS, PASS);
+		buyBidButton = buildButton (BUY_BID, BUY_BID);
+		sellButton = buildButton (SELL, SELL);
+		exchangeButton = buildButton (EXCHANGE, EXCHANGE);
+		undoButton = buildButton (UNDO, UNDO);
+		explainButton = buildButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
 		
-		actionButtonJPanel.add (passActionButton);
-		actionButtonJPanel.add (buyBidActionButton);
-		actionButtonJPanel.add (sellActionButton);
-		actionButtonJPanel.add (exchangeActionButton);
-		actionButtonJPanel.add (undoActionButton);
-		actionButtonJPanel.add (explainButton);
+		buttonJPanel.add (passButton);
+		buttonJPanel.add (buyBidButton);
+		buttonJPanel.add (sellButton);
+		buttonJPanel.add (exchangeButton);
+		buttonJPanel.add (undoButton);
+		buttonJPanel.add (explainButton);
 	}
 	
 	private void updateBankJPanel (GameManager aGameManager) {
@@ -248,7 +247,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public boolean isBuyAction () {
 		boolean tIsBuyAction;
 		
-		tIsBuyAction = buyBidActionButton.getText().equals (BUY);
+		tIsBuyAction = buyBidButton.getText().equals (BUY);
 		
 		return tIsBuyAction;
 	}
@@ -397,7 +396,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				 tHandled = tPortfolio.itemStateChanged (aItemEvent, this);
 			 }
 		}
-		updateActionButtons ();
+		updateButtons ();
 	}
 
 	public void replacePortfolioInfo (JPanel aPortfolioJPanel) {
@@ -433,19 +432,17 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	public void setDoneButton () {
-		setPassDoneButton (DONE, DONE);
+		updatePassDoneButton (DONE, DONE);
 	}
 	
 	public void setPassButton () {
-		setPassDoneButton (PASS, PASS);
+		updatePassDoneButton (PASS, PASS);
 	}
 	
 	public String getMustSellToolTip (Player aPlayer) {
 		String tStock;
 		String tToolTip = "";
 		int tPercentage, tCertificateCount;
-		
-		// TODO: Test for Over Total Certificate Limit 
 		
 		// Reason 1 from Exchange of President Share
 		// Reason 2 from Company Share Price leaving Market Region that allowed excess certificates
@@ -487,8 +484,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 	
 	private void setCannotPass () {
-		passActionButton.setEnabled (false);
-		passActionButton.setToolTipText (MUST_BUY_PRIVATE);
+		passButton.setEnabled (false);
+		passButton.setToolTipText (MUST_BUY_PRIVATE);
 		disableAllStartPacketButtons (MUST_BUY_PRIVATE);
 		enableMustBuyPrivateButton ();
 	}
@@ -534,10 +531,10 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		updatePortfolioInfo ();
 		setPortfolioValueLabel();
 		updateBankJPanel (aGameManager);
-		updateActionButtons ();
+		updateButtons ();
 	}
 	
-	public void updateActionButtons () {
+	public void updateButtons () {
 		boolean tStocksToSell, tActionsToUndo, tStocksToSellSame;
 		boolean tPrezToExchange, tCanCompleteTurn, tPrivateOrMinorToExchange;
 		boolean tStocksToSellOverfill, tMustBuy;
@@ -568,47 +565,47 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		} else {
 			setPassButton ();
 		}
-		player.addPrivateBenefitButtons (actionButtonJPanel);
+		player.addPrivateBenefitButtons (buttonJPanel);
 	}
 	
-	private void setPassDoneButton (String tLabel, String tAction) {
+	private void updatePassDoneButton (String tLabel, String tAction) {
 		String tToolTip;
 		
-		passActionButton.setText (tLabel);
-		passActionButton.setActionCommand (tAction);
+		passButton.setText (tLabel);
+		passButton.setActionCommand (tAction);
 		if (hasSelectedStocksToBuy ()) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+			passButton.setEnabled (false);
+			passButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
 		} else if (hasSelectedStocksToSell ()) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
+			passButton.setEnabled (false);
+			passButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
 		} else if (hasSelectedPrezToExchange ()) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (STOCK_SELECTED_FOR_EXCHANGE);
+			passButton.setEnabled (false);
+			passButton.setToolTipText (STOCK_SELECTED_FOR_EXCHANGE);
 		} else if (hasSelectedPrivateToBidOn ()) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (STOCK_SELECTED_FOR_BID);
+			passButton.setEnabled (false);
+			passButton.setToolTipText (STOCK_SELECTED_FOR_BID);
 		} else if (hasSelectedPrivateOrMinorToExchange ()) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (PRIVATE_SELECTED_FOR_EXCHANGE);
+			passButton.setEnabled (false);
+			passButton.setToolTipText (PRIVATE_SELECTED_FOR_EXCHANGE);
 		} else if (player.isParPriceFrameActive () ) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);
+			passButton.setEnabled (false);
+			passButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);
 		} else if (player.isAuctionRound ()) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText ("Auction Round must complete first");	
+			passButton.setEnabled (false);
+			passButton.setToolTipText ("Auction Round must complete first");	
 		} else if (! player.isLastActionComplete () ) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText ("Last Action must be completed first");	
+			passButton.setEnabled (false);
+			passButton.setToolTipText ("Last Action must be completed first");	
 		} else if (mustSellStock ()) {
 			tToolTip = getMustSellToolTip (player);
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (tToolTip);		
+			passButton.setEnabled (false);
+			passButton.setToolTipText (tToolTip);		
 		} else if (hasMustBuyCertificate ()) {
 			setCannotPass ();
 		} else {
-			passActionButton.setEnabled (true);
-			passActionButton.setToolTipText ("");
+			passButton.setEnabled (true);
+			passButton.setToolTipText ("");
 		}
 	}
 
@@ -620,16 +617,16 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			setCannotPass ();
 		} else {
 			if (aCanCompleteTurn) {
-				passActionButton.setEnabled (aCanCompleteTurn);
-				passActionButton.setToolTipText ("Can complete player turn");
+				passButton.setEnabled (aCanCompleteTurn);
+				passButton.setToolTipText ("Can complete player turn");
 			} else {
 				tToolTip = getReasonForNotCompleting ();
 				if (">>NONE<<".equals (tToolTip)) {
-					passActionButton.setEnabled (true);
-					passActionButton.setToolTipText ("");
+					passButton.setEnabled (true);
+					passButton.setToolTipText ("");
 				} else {
-					passActionButton.setEnabled (aCanCompleteTurn);
-					passActionButton.setToolTipText (tToolTip);
+					passButton.setEnabled (aCanCompleteTurn);
+					passButton.setToolTipText (tToolTip);
 				}
 			}
 		}
@@ -639,21 +636,21 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 					boolean aPrezToExchange) {
 		if (aStocksToSell) {
 			if (aPrezToExchange) {
-				sellActionButton.setEnabled (false);
-				sellActionButton.setToolTipText ("Must Exchange President Share before selecting stock to sell");				
+				sellButton.setEnabled (false);
+				sellButton.setToolTipText ("Must Exchange President Share before selecting stock to sell");				
 			} else if (aStocksToSellOverfill) {
-				sellActionButton.setEnabled (false);
-				sellActionButton.setToolTipText ("Stocks selected to be Sold will Overfill BankPool");
+				sellButton.setEnabled (false);
+				sellButton.setToolTipText ("Stocks selected to be Sold will Overfill BankPool");
 			} else if (aStocksToSellSame) {
-				sellActionButton.setEnabled (aStocksToSell);
-				sellActionButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
+				sellButton.setEnabled (aStocksToSell);
+				sellButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
 			} else {
-				sellActionButton.setEnabled (aStocksToSellSame);
-				sellActionButton.setToolTipText ("Stocks selected to sell are different companies, sell one company stock at a time");
+				sellButton.setEnabled (aStocksToSellSame);
+				sellButton.setToolTipText ("Stocks selected to sell are different companies, sell one company stock at a time");
 			}
 		} else {
-			sellActionButton.setEnabled (aStocksToSell);
-			sellActionButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE);
+			sellButton.setEnabled (aStocksToSell);
+			sellButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE);
 		}
 	}
 
@@ -666,19 +663,19 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				tCanBankHoldStock = canBankHoldStock ();
 			}
 			
-			exchangeActionButton.setEnabled (tCanBankHoldStock || aPrivateOrMinorToExchange);
+			exchangeButton.setEnabled (tCanBankHoldStock || aPrivateOrMinorToExchange);
 			if (! tCanBankHoldStock) {
-				exchangeActionButton.setToolTipText ("The Bank Pool cannot hold minimum % of stock required to lose Presidency");			
+				exchangeButton.setToolTipText ("The Bank Pool cannot hold minimum % of stock required to lose Presidency");			
 			} else if (aPrezToExchange) {
-				exchangeActionButton.setToolTipText ("There is one President's Share Selected to Exchange");
+				exchangeButton.setToolTipText ("There is one President's Share Selected to Exchange");
 			} else if (aPrivateOrMinorToExchange) {
-				exchangeActionButton.setToolTipText ("There is one Private or Minor Share Selected to Exchange");
+				exchangeButton.setToolTipText ("There is one Private or Minor Share Selected to Exchange");
 			} else {
-				exchangeActionButton.setToolTipText ("There are no selected President's Share to Exchange");
+				exchangeButton.setToolTipText ("There are no selected President's Share to Exchange");
 			}
 		} else {
-			exchangeActionButton.setEnabled (false);
-			exchangeActionButton.setToolTipText ("Select only a single President Share to Exchange at a time");
+			exchangeButton.setEnabled (false);
+			exchangeButton.setToolTipText ("Select only a single President Share to Exchange at a time");
 		}
 	}
 
@@ -717,9 +714,9 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		} else if (tStocksToBuy) {
 			if (player.getCountSelectedCosToBuy () == 1) {
 				if (player.getCostSelectedStockToBuy () <= 0) {
-					buyBidActionButton.setEnabled (false);
-					buyBidActionButton.setToolTipText ("No Par Price Selected Yet");
-					buyBidActionButton.setText (BUY);
+					buyBidButton.setEnabled (false);
+					buyBidButton.setToolTipText ("No Par Price Selected Yet");
+					buyBidButton.setText (BUY);
 					tNormalBuy = false;
 				}
 			}
@@ -737,42 +734,42 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tCountSelectedCosToBid = getCountSelectedCosToBid ();
 		if (aStocksToBuy) {
 			if ((tCountSelectedCosToBuy + tCountSelectedCosToBid) > 1) {
-				buyBidActionButton.setEnabled (false);
-				buyBidActionButton.setToolTipText ("Select only one Company's Stock to buy and/or bid on at a time");
-				buyBidActionButton.setText (BUY);
+				buyBidButton.setEnabled (false);
+				buyBidButton.setToolTipText ("Select only one Company's Stock to buy and/or bid on at a time");
+				buyBidButton.setText (BUY);
 				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
 			} else {
-				buyBidActionButton.setEnabled (aStocksToBuy);
-				buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
-				buyBidActionButton.setText (BUY);
+				buyBidButton.setEnabled (aStocksToBuy);
+				buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+				buyBidButton.setText (BUY);
 				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
 			}
 		} else {
 			if (tCountSelectedCosToBid > 1) {
-				buyBidActionButton.setEnabled (false);
-				buyBidActionButton.setToolTipText ("Select only one Company's Stock to bid on at a time");
-				buyBidActionButton.setText (BID);
+				buyBidButton.setEnabled (false);
+				buyBidButton.setToolTipText ("Select only one Company's Stock to bid on at a time");
+				buyBidButton.setText (BID);
 				enableSelectedButton (STOCK_SELECTED_FOR_BID);
 			} else if (aPrivateToBidOn) {
-				buyBidActionButton.setEnabled (aPrivateToBidOn);
-				buyBidActionButton.setToolTipText (STOCK_SELECTED_FOR_BID);
-				buyBidActionButton.setText (BID);
+				buyBidButton.setEnabled (aPrivateToBidOn);
+				buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BID);
+				buyBidButton.setText (BID);
 				enableSelectedButton (STOCK_SELECTED_FOR_BID);
 			} else {
-				buyBidActionButton.setEnabled (aStocksToBuy);
-				buyBidActionButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE2);
-				buyBidActionButton.setText (BUY_BID);
+				buyBidButton.setEnabled (aStocksToBuy);
+				buyBidButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE2);
+				buyBidButton.setText (BUY_BID);
 				enableAllStartPacketButtons ("");
 			}
 		}
 	}
 
 	private void updateUndoButton (boolean tActionsToUndo) {
-		undoActionButton.setEnabled (tActionsToUndo);
+		undoButton.setEnabled (tActionsToUndo);
 		if (tActionsToUndo) {
-			undoActionButton.setToolTipText ("There are Actions that can be undone");
+			undoButton.setToolTipText ("There are Actions that can be undone");
 		} else {
-			undoActionButton.setToolTipText ("No Actions to Undo");
+			undoButton.setToolTipText ("No Actions to Undo");
 		}
 	}
 	
