@@ -88,13 +88,11 @@ public class CoalCompany extends TrainCompany {
 
 	@Override
 	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected boolean choiceForBaseToken () {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }
