@@ -32,13 +32,11 @@ class CorporationBasicTests {
 
 		@Override
 		public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		protected boolean choiceForBaseToken () {
-			// TODO Auto-generated method stub
 			return false;
 		}
 	}
@@ -256,5 +254,14 @@ class CorporationBasicTests {
 		assertFalse (corporation.isShareCompany ());
 		assertFalse (corporation.isBank ());
 		assertFalse (corporation.isBankPool ());
+	}
+	
+	@Test
+	@DisplayName ("Test base Get Methods")
+	void testCorporationGetMethods () {
+		assertEquals (-1, corporation.getCurrentValue ());
+		assertEquals ("<NONE> will operate null", corporation.getDoLabel ());
+		assertEquals ("<NONE> is operating null", corporation.getOperatingLabel ());
+		assertEquals ("Corporation", corporation.getElementName ().toString ());
 	}
 }
