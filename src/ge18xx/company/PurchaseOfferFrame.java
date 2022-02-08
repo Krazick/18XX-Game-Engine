@@ -22,8 +22,8 @@ import ge18xx.round.action.effects.PurchaseOfferEffect;
 
 public class PurchaseOfferFrame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	private static final String ACCEPT_ACTION = "Accept";
-	private static final String REJECT_ACTION = "Reject";
+	private static final String ACCEPT_OFFER = "Accept";
+	private static final String REJECT_OFFER = "Reject";
 	JButton acceptButton;
 	JButton rejectButton;
 	PurchaseOfferEffect purchaseOfferEffect;
@@ -92,10 +92,8 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		offerButtonPanel.setLayout (new BoxLayout (offerButtonPanel, BoxLayout.X_AXIS));
 		offerButtonPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		
-		// TODO Rename to remove 'Action'
-		
-		acceptButton = setActionButton (ACCEPT_ACTION, ACCEPT_ACTION);
-		rejectButton = setActionButton (REJECT_ACTION, REJECT_ACTION);
+		acceptButton = buildButton (ACCEPT_OFFER, ACCEPT_OFFER);
+		rejectButton = buildButton (REJECT_OFFER, REJECT_OFFER);
 		offerButtonPanel.add (rejectButton);
 		offerButtonPanel.add (Box.createHorizontalStrut (10));
 		offerButtonPanel.add (acceptButton);
@@ -137,10 +135,10 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		String tActionCommand;
 		
 		tActionCommand = e.getActionCommand ();
-		if (tActionCommand.equals (ACCEPT_ACTION)) {
+		if (tActionCommand.equals (ACCEPT_OFFER)) {
 			sendOfferResponseAction (true);
 		}
-		if (tActionCommand.equals (REJECT_ACTION)) {
+		if (tActionCommand.equals (REJECT_OFFER)) {
 			sendOfferResponseAction (false);
 		}
 	}
@@ -172,7 +170,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		setVisible (false);
 	}
 	
-	public JButton setActionButton (String aButtonLabel, String aActionCommand) {
+	public JButton buildButton (String aButtonLabel, String aActionCommand) {
 		JButton tActionButton;
 		
 		tActionButton = new JButton (aButtonLabel);

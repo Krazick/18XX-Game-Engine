@@ -106,7 +106,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 
 		add (mainJPanel);
 		
-		updateActionButtons ();
+		updateButtons ();
 		setSize (400, 350);
 		pack ();
 		setVisible (true);
@@ -128,12 +128,10 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		mainJPanel.add (buttonJPanel);
 	}
 	
-	// TODO Rename to remove 'Action'
-	
-	private void updateActionButtons () {
-		updateUndoActionButtion ();
-		updateSellActionButton ();
-		updateBuyTrainActionButton ();
+	private void updateButtons () {
+		updateUndoButtion ();
+		updateSellButton ();
+		updateBuyTrainButton ();
 	}
 	
 	private void updateTreasuryLabels () {
@@ -142,7 +140,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		totalTreasuryLabel.setText ("Total Treasury: " + Bank.formatCash (presidentTreasury + trainCompany.getCash ()));
 	}
 	
-	private void updateUndoActionButtion () {
+	private void updateUndoButtion () {
 		
 		if (sellActionCount == 0) {
 			undoButton.setEnabled (false);
@@ -184,7 +182,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		return tWillChangePresidency;
 	}
 	
-	private void updateSellActionButton () {
+	private void updateSellButton () {
 		if (haveEnoughCash ()) {
 			doSellButton.setEnabled (false);
 			doSellButton.setToolTipText ("Enough Cash to buy the Train, can't sell stock");
@@ -211,7 +209,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		}
 	}
 	
-	private void updateBuyTrainActionButton () {
+	private void updateBuyTrainButton () {
 		if (haveEnoughCash ()) {
 			doBuyButton.setEnabled (true);
 			doBuyButton.setToolTipText ("Can Force Buy Train");
@@ -240,7 +238,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		if (UNDO_SELL_ACTION.equals (aEvent.getActionCommand ())) {
 			undoSellStock ();
 		}
-		updateActionButtons ();
+		updateButtons ();
 	}
 
 	private void undoSellStock () {
@@ -258,7 +256,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 
 	private void refreshFrame () {
 		setupStockJPanel ();
-		updateActionButtons ();
+		updateButtons ();
 		updateTreasuryLabels ();
 		setupMainJPanel ();
 	}
@@ -275,6 +273,6 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
-		updateActionButtons ();
+		updateButtons ();
 	}
 }

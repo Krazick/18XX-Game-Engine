@@ -75,9 +75,9 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		privatePanel.add (ownerTreasuryLabel);
 		privatePanel.add (Box.createVerticalStrut (10));
 		
-		doSetPriceButton = setActionButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
+		doSetPriceButton = buildButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
 		privatePanel.add (doSetPriceButton);
-		doBuyButton = setActionButton ("Buy Private", BUY_ACTION);
+		doBuyButton = buildButton ("Buy Private", BUY_ACTION);
 		
 		privatePanel.add (doBuyButton);
 		setCorporationTreasuryLabel ();
@@ -161,16 +161,15 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		setBuyButtonText ();
 	}
 	
-	// TODO Rename to remove 'Action'
-	public JButton setActionButton (String aButtonLabel, String aActionCommand) {
-		JButton tActionButton;
+	public JButton buildButton (String aButtonLabel, String aActionCommand) {
+		JButton tButton;
 		
-		tActionButton = new JButton (aButtonLabel);
-		tActionButton.setAlignmentX (CENTER_ALIGNMENT);
-		tActionButton.setActionCommand (aActionCommand);
-		tActionButton.addActionListener (this);
+		tButton = new JButton (aButtonLabel);
+		tButton.setAlignmentX (CENTER_ALIGNMENT);
+		tButton.setActionCommand (aActionCommand);
+		tButton.addActionListener (this);
 		
-		return tActionButton;
+		return tButton;
 	}
 
 	public boolean isGoodPrice () {

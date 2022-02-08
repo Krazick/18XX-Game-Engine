@@ -116,8 +116,8 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		offerButtonPanel.setLayout (new BoxLayout (offerButtonPanel, BoxLayout.X_AXIS));
 		offerButtonPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		
-		doSetPriceButton = setActionButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
-		doBuyButton = setActionButton ("Buy Train", BUY_ACTION);
+		doSetPriceButton = buildButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
+		doBuyButton = buildButton ("Buy Train", BUY_ACTION);
 		offerButtonPanel.add (doSetPriceButton);
 		offerButtonPanel.add (Box.createHorizontalStrut (10));
 		offerButtonPanel.add (doBuyButton);
@@ -192,8 +192,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		setBuyButtonText ();
 	}
 	
-	// TODO Rename to remove 'Action'
-	public JButton setActionButton (String aButtonLabel, String aActionCommand) {
+	public JButton buildButton (String aButtonLabel, String aActionCommand) {
 		JButton tActionButton;
 		
 		tActionButton = new JButton (aButtonLabel);
