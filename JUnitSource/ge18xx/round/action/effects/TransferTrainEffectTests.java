@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
@@ -27,6 +28,7 @@ class TransferTrainEffectTests {
 	GameManager gameManager;
 	PlayerManager playerManager;
 	GameTestFactory testFactory;
+	CompanyTestFactory companyTestFactory;
 	Train train;
 
 	@BeforeEach
@@ -35,12 +37,13 @@ class TransferTrainEffectTests {
 		
 		tClientName = "TFBuster";
 		testFactory = new GameTestFactory ();
+		companyTestFactory = new CompanyTestFactory (testFactory);
 		gameManager =  testFactory.buildGameManager (tClientName);
 		playerManager = new PlayerManager (gameManager);
 		effectAlpha = new TransferTrainEffect ();
-		actorBeta = testFactory.buildAShareCompany (1);
-		actorGamma = testFactory.buildAShareCompany (2);
-		actorZeta = testFactory.buildAShareCompany (33);
+		actorBeta = companyTestFactory.buildAShareCompany (1);
+		actorGamma = companyTestFactory.buildAShareCompany (2);
+		actorZeta = companyTestFactory.buildAShareCompany (3);
 		train = new Train ("Test2", 0, 1, 2, 80);
 		effectBeta = new TransferTrainEffect (actorBeta, train, actorGamma);
 	}

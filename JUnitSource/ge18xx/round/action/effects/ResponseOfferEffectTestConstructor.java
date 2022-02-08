@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ge18xx.company.Certificate;
+import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
@@ -30,6 +31,7 @@ class ResponseOfferEffectTestConstructor {
 	GameManager gameManager;
 	PlayerManager playerManager;
 	GameTestFactory testFactory;
+	CompanyTestFactory companyTestFactory;
 	Certificate certificate;
 
 	@BeforeEach
@@ -44,13 +46,14 @@ class ResponseOfferEffectTestConstructor {
 		tPlayer2Name = "ToEffectTesterAlpha";
 		tPlayer3Name = "ToEffectTesterDelta";
 		testFactory = new GameTestFactory ();
+		companyTestFactory = new CompanyTestFactory (testFactory);
 		gameManager =  testFactory.buildGameManager (tClientName);
 		playerManager = new PlayerManager (gameManager);
 		effectAlpha = new ResponseOfferEffect ();
 		playerActorAlpha = new Player (tPlayer2Name, false, false, false, false, playerManager, 0);
 		playerActorDelta = new Player (tPlayer3Name, false, false, false, false, playerManager, 0);
-		companyBeta = testFactory.buildAShareCompany (1);
-		companyGamma = testFactory.buildAShareCompany (2);
+		companyBeta = companyTestFactory.buildAShareCompany (1);
+		companyGamma = companyTestFactory.buildAShareCompany (2);
 		tPortfolioAlpha = playerActorAlpha.getPortfolio ();
 		
 		certificate = new Certificate (companyBeta, true, 20, tPortfolioAlpha);

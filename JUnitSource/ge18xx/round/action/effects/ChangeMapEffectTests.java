@@ -8,8 +8,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.benefit.BenefitTestFactory;
 import ge18xx.company.benefit.MapBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
@@ -20,6 +22,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.RoundTestFactory;
 import ge18xx.toplevel.MapFrame;
+import ge18xx.utilities.UtilitiesTestFactory;
 
 class ChangeMapEffectTests {
 	ChangeMapEffect effectAlpha;
@@ -31,8 +34,10 @@ class ChangeMapEffectTests {
 	GameManager gameManager;
 	PlayerManager playerManager;
 	GameTestFactory gameTestFactory;
+	CompanyTestFactory companyTestFactory;
 	MapTestFactory mapTestFactory;
 	RoundTestFactory roundTestFactory;
+	BenefitTestFactory benefitTestFactory;
 	MapFrame mapFrame;
 	HexMap mHexMap;
 	MapCell mapCell1;
@@ -42,18 +47,22 @@ class ChangeMapEffectTests {
 	@BeforeEach
 	void setUp () throws Exception {
 		String tClientName;
+		UtilitiesTestFactory tUtilitiesTestFactory;
 		
 		tClientName = "TFBuster";
 		gameTestFactory = new GameTestFactory ();
+		companyTestFactory = new CompanyTestFactory (gameTestFactory);
+		tUtilitiesTestFactory = companyTestFactory.getUtilitiesTestFactory ();
+		benefitTestFactory = new BenefitTestFactory (tUtilitiesTestFactory);
 		gameManager =  gameTestFactory.buildGameManager (tClientName);
-		sharePenn = gameTestFactory.buildAShareCompany (1);
-		shareBnO = gameTestFactory.buildAShareCompany (2);
-		privateSV = gameTestFactory.buildAPrivateCompany (1);
+		sharePenn = companyTestFactory.buildAShareCompany (1);
+		shareBnO = companyTestFactory.buildAShareCompany (2);
+		privateSV = companyTestFactory.buildAPrivateCompany (1);
 		mapTestFactory = new MapTestFactory ();
 		mapCell1 = mapTestFactory.buildMapCell ();
 		mapCell2 = mapTestFactory.buildMapCell ("T4");
 		mHexMap = mapTestFactory.buildMockHexMap ();
-		mapBenefit = gameTestFactory.buildMapBenefit (privateSV);
+		mapBenefit = benefitTestFactory.buildMapBenefit (privateSV);
 		effectAlpha = new ChangeMapEffect (sharePenn, mapCell1);
 		effectBeta = new ChangeMapEffect (sharePenn, mapCell2);
 		effectGamma = new ChangeMapEffect (shareBnO, mapCell2, mapBenefit);

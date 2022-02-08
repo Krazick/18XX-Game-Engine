@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import ge18xx.company.Certificate;
+import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
@@ -29,6 +30,7 @@ class TransferOwnershipEffectTestConstructor {
 	GameManager gameManager;
 	PlayerManager playerManager;
 	GameTestFactory testFactory;
+	CompanyTestFactory companyTestFactory;
 	Certificate certificate;
 
 	@BeforeEach
@@ -40,13 +42,14 @@ class TransferOwnershipEffectTestConstructor {
 		tPlayer2Name = "ToEffectTesterAlpha";
 		tPlayer3Name = "ToEffectTesterDelta";
 		testFactory = new GameTestFactory ();
+		companyTestFactory = new CompanyTestFactory (testFactory);
 		gameManager =  testFactory.buildGameManager (tClientName);
 		playerManager = new PlayerManager (gameManager);
 		effectAlpha = new TransferOwnershipEffect ();
 		playerActorAlpha = new Player (tPlayer2Name, false, false, false, false, playerManager, 0);
 		playerActorDelta = new Player (tPlayer3Name, false, false, false, false, playerManager, 0);
-		actorBeta = testFactory.buildAShareCompany (1);
-		actorGamma = testFactory.buildAShareCompany (2);
+		actorBeta = companyTestFactory.buildAShareCompany (1);
+		actorGamma = companyTestFactory.buildAShareCompany (2);
 		tPortfolioAlpha = playerActorAlpha.getPortfolio ();
 		
 		certificate = new Certificate (actorBeta, true, 20, tPortfolioAlpha);
