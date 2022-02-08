@@ -134,11 +134,9 @@ public class MinorCompany extends TokenCompany {
 
 	@Override
 	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	// Minor Company will override
 	@Override
 	public boolean isAMinorCompany () {
 		return true;
