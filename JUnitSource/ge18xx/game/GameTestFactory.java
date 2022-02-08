@@ -16,6 +16,10 @@ public class GameTestFactory {
 		utilitiesTestFactory = new UtilitiesTestFactory ();
 	}
 
+	public UtilitiesTestFactory getUtilitiesTestFactory () {
+		return utilitiesTestFactory;
+	}
+
 	public PlayerInputFrame buildPIFMock () {
 		String tClientName, tPlayer2Name;
 		
@@ -93,19 +97,4 @@ public class GameTestFactory {
 		
 		return tGameInfo;
 	}
-	
-	// TODO Move to a 'BenefitTestFactory'
-	
-//	public MapBenefit buildMapBenefit (PrivateCompany aPrivateCompany) {
-//		MapBenefit tMapBenefit;
-//		String tXMLBenefitTest = "<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>";
-//		XMLNode tBenefitXMLNode;
-//		
-//		tBenefitXMLNode = utilitiesTestFactory.constructXMLNode (tXMLBenefitTest);
-//
-//		tMapBenefit = new MapBenefit (tBenefitXMLNode);
-//		tMapBenefit.setPrivateCompany (aPrivateCompany);
-//		
-//		return tMapBenefit;
-//	}
-}
+	}

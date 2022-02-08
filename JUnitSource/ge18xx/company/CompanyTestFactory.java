@@ -13,12 +13,12 @@ public class CompanyTestFactory {
 	
 	public CompanyTestFactory () {
 		gameTestFactory = new GameTestFactory ();
-		utilitiesTestFactory = new UtilitiesTestFactory ();
+		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
 	}
 	
 	public CompanyTestFactory (GameTestFactory aGameTestFactory) {
 		gameTestFactory = aGameTestFactory;
-		utilitiesTestFactory = new UtilitiesTestFactory ();
+		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
 	}
 	
 	public UtilitiesTestFactory getUtilitiesTestFactory () {
