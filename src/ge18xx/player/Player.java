@@ -1019,7 +1019,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			playerManager.startAuctionRound (tCreateNewAuctionAction);
 		}
 
-		playerFrame.updateActionButtons ();
+		playerFrame.updateButtons ();
 	}
 	
 	public void doneAction () {
