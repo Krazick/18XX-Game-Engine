@@ -823,8 +823,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tValue;
 	}
 	
-	// TODO -- Remove 'Action' from method names
-	public String getDoActionLabel () {
+	public String getDoLabel () {
 		String tLabel;
 		
 		tLabel = getPresidentName () + " will operate " + getName ();
@@ -832,7 +831,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tLabel;
 	}
 	
-	public String getOperatingActionLabel () {
+	public String getOperatingLabel () {
 		String tLabel;
 		
 		tLabel = getPresidentName () + " is operating " + getName ();
