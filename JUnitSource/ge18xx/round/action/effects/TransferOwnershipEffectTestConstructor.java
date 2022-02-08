@@ -54,7 +54,6 @@ class TransferOwnershipEffectTestConstructor {
 		
 		certificate = new Certificate (actorBeta, true, 20, tPortfolioAlpha);
 		tPortfolioAlpha.addCertificate (certificate);
-//		public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage, CertificateHolderI aOwner) {
 		effectBeta = new TransferOwnershipEffect (playerActorAlpha, certificate, playerActorDelta);
 	}
 
