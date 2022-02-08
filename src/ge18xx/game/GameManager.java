@@ -2419,9 +2419,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return game18XXFrame.getIconImage ();
 	}
 	
-	public void showFrameInfo () {
-		// TODO Auto-generated method stub
-		// Build This	
+	public void showFrameInfo () {	
 		if (frameInfoFrame != XMLFrame.NO_XML_FRAME) {
 			System.out.println ("Ready to show Frame Info Frame");
 			frameInfoFrame.setVisible (true);
