@@ -37,8 +37,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 	Certificate certificate;
 	GameManager gameManager;
 	JComboBox<String> parValuesCombo;
-	// TODO Rename to remove 'Action'
-	JButton doActionButton;
+	JButton doButton;
 	JPanel parValuesPanel;
 	boolean parPriceFrameActive;
 	
@@ -139,9 +138,9 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		tMiddleBox = buildMiddleBox (aCertificate);
 		
 		tVerticalBox.add (tMiddleBox);
-		setActionButton ("Set Par Price", SET_PAR_PRICE_ACTION);
+		updateButton ("Set Par Price", SET_PAR_PRICE_ACTION);
 		
-		tVerticalBox.add (doActionButton);
+		tVerticalBox.add (doButton);
 		
 		return tVerticalBox;
 	}
@@ -165,12 +164,11 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		
 		certificate.fillParValueComboBox (parValuesCombo, tParValues);
 		
-		
 		if (parValuesCombo != null) {
 			parValuesCombo.addActionListener (new ActionListener () {
 			    @Override
 				public void actionPerformed (ActionEvent e) {
-			        updateActionButton ();
+			        updateButton ();
 			    }
 			});
 			tMiddleBox.add (parValuesCombo);
@@ -188,25 +186,25 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		return parPriceFrameActive;
 	}
 	
-	public void setActionButton (String aButtonLabel, String aActionCommand) {
-		if (doActionButton == GUI.NO_BUTTON) {
-			doActionButton = new JButton (aButtonLabel);
+	public void updateButton (String aButtonLabel, String aActionCommand) {
+		if (doButton == GUI.NO_BUTTON) {
+			doButton = new JButton (aButtonLabel);
 		} else {
-			doActionButton.setText (aButtonLabel);
+			doButton.setText (aButtonLabel);
 		}
-		doActionButton.setAlignmentX (CENTER_ALIGNMENT);
-		doActionButton.setActionCommand (aActionCommand);
-		doActionButton.addActionListener (this);
-		updateActionButton ();
+		doButton.setAlignmentX (CENTER_ALIGNMENT);
+		doButton.setActionCommand (aActionCommand);
+		doButton.addActionListener (this);
+		updateButton ();
 	}
 
-	public void updateActionButton () {
+	public void updateButton () {
 		if (getParPrice () > 0) {
-			doActionButton.setEnabled (true);
-			doActionButton.setToolTipText ("");
+			doButton.setEnabled (true);
+			doButton.setToolTipText ("");
 		} else {
-			doActionButton.setEnabled (false);
-			doActionButton.setToolTipText ("Par Price has not been selected yet");
+			doButton.setEnabled (false);
+			doButton.setToolTipText ("Par Price has not been selected yet");
 		}
 	}
 	
