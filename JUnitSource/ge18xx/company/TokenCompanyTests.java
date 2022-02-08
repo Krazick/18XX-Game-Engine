@@ -18,7 +18,6 @@ class TokenCompanyTests {
 
 		@Override
 		public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 	}
