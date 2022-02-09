@@ -22,7 +22,6 @@ public class TransferTrainEffect extends ToEffect {
 	final static AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
 	public final static String NAME = "Transfer Train";
-//	ActorI toActor;
 	Train train;
 	
 	public TransferTrainEffect () {
@@ -42,20 +41,15 @@ public class TransferTrainEffect extends ToEffect {
 		super (aEffectNode, aGameManager);
 		
 		String tFromActorName;
-//		String tToActorName;
 		ActorI tFromActor;
-//		String tToActor;
 		String tTrainName;
 		Train tTrain;
 		Corporation tCorporation;
 		TrainCompany tTrainCompany;
 		
 		tFromActorName = aEffectNode.getThisAttribute (ActorI.AN_FROM_ACTOR_NAME);
-//		tToActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
 		tFromActor = aGameManager.getActor (tFromActorName);
-//		tToActor = aGameManager.getActor (tToActorName);
 		setActor (tFromActor);
-//		setToActor (tToActor);
 		
 		tTrainName = aEffectNode.getThisAttribute (AN_TRAIN_NAME);
 		setTrain (null);
@@ -91,7 +85,6 @@ public class TransferTrainEffect extends ToEffect {
 		
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_TRAIN_NAME, getTrainName ());
-//		tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, getToActorName ());
 	
 		return tEffectElement;
 	}
@@ -106,21 +99,6 @@ public class TransferTrainEffect extends ToEffect {
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
-
-//	public ActorI getToActor () {
-//		return toActor;
-//	}
-//
-//	@Override
-//	public String getToActorName () {
-//		String tToActorName = ActorI.NO_NAME;
-//		
-//		if (toActor != ActorI.NO_ACTOR) {
-//			tToActorName = toActor.getName ();
-//		}
-//		
-//		return tToActorName;
-//	}
 	
 	public Train getTrain () {
 		return train;
@@ -140,44 +118,15 @@ public class TransferTrainEffect extends ToEffect {
 		train = aTrain;
 	}
 	
-//	public void setToActor (ActorI aToActor) {
-//		toActor = aToActor;
-//	}
-//
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		TrainHolderI tToHolder, tFromHolder;
+		TrainHolderI tFromHolder;
 		TrainPortfolio tToTrainPortfolio;
-		Bank tBank;
-		BankPool tBankPool;
 
 		tEffectApplied = false;
-		tToHolder = (TrainHolderI) toActor;
+		tToTrainPortfolio = getToTrainPortfolio ();
 		
-		// Consider moving this statement as a final "Else" clause below... 
-		tToTrainPortfolio = tToHolder.getTrainPortfolio ();
-		
-		// TODO: When the new "ToEffect" is created, also create a new "isActor" Method that receives an Actor's Name and does
-		// the comparison of the toActor's Name
-		// TODO: Also move this If/Else If Block to a new method "getToTrainPortfolio" to get from Bank (Rusted) or BankPool Train Portfolio
-		
-		/* If the ToActor is the Bank -- the Train was Rusted */
-		if (getToActorName ().equals (Bank.NAME)){
-			if (tToHolder.hasTrainNamed (getTrainName ())) {
-				tBank = (Bank) getToActor ();
-				tToTrainPortfolio = tBank.getRustedTrainPortfolio ();
-			}
-		/* If the ToActor is the BankPool -- the Train is either in excess of limit, 
-		 * or the Company had been closed, and need to send it to the Bank Pool
-		 */
-		} else if (getToActorName ().equals (BankPool.NAME)) {
-			if (tToHolder.hasTrainNamed (train.getName ())) {
-				tBankPool = (BankPool) getToActor ();
-				tToTrainPortfolio = tBankPool.getTrainPortfolio ();
-			}
-		}
-
 		tToTrainPortfolio.addTrain (train);
 		tFromHolder = (TrainHolderI) getActor ();
 		tFromHolder.removeTrain (getTrainName ());
@@ -189,36 +138,11 @@ public class TransferTrainEffect extends ToEffect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-		TrainHolderI tToHolder, tFromHolder;
+		TrainHolderI tFromHolder;
 		TrainPortfolio tToTrainPortfolio;
-		Bank tBank;
-		BankPool tBankPool;
 		
 		tEffectUndone = false;
-		tToHolder = (TrainHolderI) getToActor ();
-		tToTrainPortfolio = tToHolder.getTrainPortfolio ();
-
-		/* If the ToActor is the Bank -- the Train was Rusted, need to "un-rust" the Train */
-		
-		// TODO: When the new "ToEffect" is created, also create a new "isActor" Method that receives an Actor's Name and does
-		// the comparison of the toActor's Name
-		// TODO: Also move this If/Else If Block to a new method "getToTrainPortfolio" to get from Bank (Rusted) or BankPool Train Portfolio
-		
-		if (getToActorName ().equals (Bank.NAME)){
-			if (tToHolder.hasTrainNamed (getTrainName ())) {
-				tBank = (Bank) getToActor ();
-				tToTrainPortfolio = tBank.getRustedTrainPortfolio ();
-			}
-		/* If the ToActor is the BankPool -- the Train was either in excess of limit, or the Company had 
-		 * been closed, and need to get from the Bank Pool
-		 */
-		} else if (getToActorName ().equals (BankPool.NAME)) {
-			if (tToHolder.hasTrainNamed (getTrainName ())) {
-				tBankPool = (BankPool) getToActor ();
-				tToTrainPortfolio = tBankPool.getTrainPortfolio ();
-			}
-		}
-
+		tToTrainPortfolio = getToTrainPortfolio ();
 		tToTrainPortfolio.removeTrain (getTrainName ());
 		tFromHolder = (TrainHolderI) getActor ();
 		tFromHolder.addTrain (train);
@@ -226,5 +150,34 @@ public class TransferTrainEffect extends ToEffect {
 		tEffectUndone = true;
 		
 		return tEffectUndone;
+	}
+
+	private TrainPortfolio getToTrainPortfolio () {
+		TrainHolderI tToHolder;
+		TrainPortfolio tToTrainPortfolio;
+		Bank tBank;
+		BankPool tBankPool;
+		
+		tToHolder = (TrainHolderI) getToActor ();
+		tToTrainPortfolio = tToHolder.getTrainPortfolio ();
+
+		// If the Actor is the Bank, confirm the Bank has the Train, 
+		// If not, the Train has been rusted, so get the Rusted Portfolio
+		if (isToActor (Bank.NAME)) {
+			if (tToHolder.hasTrainNamed (getTrainName ())) {
+				tBank = (Bank) getToActor ();
+				tToTrainPortfolio = tBank.getRustedTrainPortfolio ();
+			}
+		/* If the ToActor is the BankPool -- the Train was either in excess of limit due to Phase Change
+		 *, or the Company had been closed, and need to get from the Bank Pool Portfolio
+		 */
+		} else if (isToActor (BankPool.NAME)) {
+			if (tToHolder.hasTrainNamed (getTrainName ())) {
+				tBankPool = (BankPool) getToActor ();
+				tToTrainPortfolio = tBankPool.getTrainPortfolio ();
+			}
+		}
+		
+		return tToTrainPortfolio;
 	}
 }
