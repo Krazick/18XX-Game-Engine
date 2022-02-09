@@ -706,6 +706,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public void updateBuyButton (boolean aCanBuy) {
 		boolean tStocksToBuy, tPrivateToBidOn;
 		boolean tNormalBuy = true;
+		int tCostToBuy;
 		
 		tStocksToBuy = hasSelectedStocksToBuy ();
 		tPrivateToBidOn = hasSelectedPrivateToBidOn ();
@@ -713,9 +714,15 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			tNormalBuy = true;
 		} else if (tStocksToBuy) {
 			if (player.getCountSelectedCosToBuy () == 1) {
-				if (player.getCostSelectedStockToBuy () <= 0) {
+				tCostToBuy = player.getCostSelectedStockToBuy ();
+				if (tCostToBuy <= 0) {
 					buyBidButton.setEnabled (false);
 					buyBidButton.setToolTipText ("No Par Price Selected Yet");
+					buyBidButton.setText (BUY);
+					tNormalBuy = false;
+				} else if (tCostToBuy > player.getCash ()) {
+					buyBidButton.setEnabled (false);
+					buyBidButton.setToolTipText ("Does not have enough cash to Buy");
 					buyBidButton.setText (BUY);
 					tNormalBuy = false;
 				}
