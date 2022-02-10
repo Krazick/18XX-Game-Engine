@@ -5,7 +5,6 @@ import ge18xx.company.Token;
 import ge18xx.game.GameManager;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
-import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
