@@ -13,9 +13,6 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLDocument;
 
-//TODO: Refactor TransferTrainEffect, TransferOwnershipEffect, ResponseToOfferEffect, and CashTransferEffect
-//to extend a new SuperClass "ToEffect" to hold the "toActor" and methods setToActor, getToActor, getToActorName
-
 public class TransferOwnershipEffect extends ToEffect {
 	public final static String NAME = "Transfer Ownership";
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
@@ -100,29 +97,11 @@ public class TransferOwnershipEffect extends ToEffect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		PortfolioHolderI tToHolder, tFromHolder;
+		PortfolioHolderI tFromHolder;
 		Portfolio tToPortfolio, tFromPortfolio;
-		Corporation tCorporation;
-		Certificate tThisCertificate;
-		Bank tBank;
 		
 		tEffectApplied = false;
-		tToHolder = (PortfolioHolderI) getToActor ();
-		tToPortfolio = tToHolder.getPortfolio ();
-		
-		// TODO: When the new "ToEffect" is created, also create a new "isActor" Method that receives an Actor's Name and does
-		// the comparison of the toActor's Name
-		
-		// Test if the ToPortfolio has the Certificate. If this was a Close Corp Action, and the ToHolder 
-		// is the Bank, need to get the Closed Portfolio from the Bank instead.
-		if (tToHolder.getName ().equals (Bank.NAME)){
-			tCorporation = certificate.getCorporation ();
-			tThisCertificate = tToPortfolio.getCertificate (tCorporation, certificate.getPercentage ());
-			if (tThisCertificate == Certificate.NO_CERTIFICATE) {
-				tBank = (Bank) tToHolder;
-				tToPortfolio = tBank.getClosedPortfolio ();
-			}
-		}
+		tToPortfolio = getToPortfolio ();
 		tFromHolder = (PortfolioHolderI) getActor ();
 		tFromPortfolio = tFromHolder.getPortfolio ();
 
@@ -132,33 +111,39 @@ public class TransferOwnershipEffect extends ToEffect {
 		return tEffectApplied;
 	}
 
-	@Override
-	public boolean undoEffect (RoundManager aRoundManager) {
-		boolean tEffectUndone;
-		PortfolioHolderI tToHolder, tFromHolder;
-		Portfolio tToPortfolio, tFromPortfolio;
+	private Portfolio getToPortfolio () {
+		PortfolioHolderI tToHolder;
+		Portfolio tToPortfolio;
 		Corporation tCorporation;
 		Certificate tThisCertificate;
 		Bank tBank;
 		
-		tEffectUndone = false;
-		tToHolder = (PortfolioHolderI) toActor;
+		tToHolder = (PortfolioHolderI) getToActor ();
 		tToPortfolio = tToHolder.getPortfolio ();
 		
-		// TODO: When the new "ToEffect" is created, also create a new "isActor" Method that receives an Actor's Name and does
-		// the comparison of the toActor's Name
-
-		// Test if the ToPortfolio has the Certificate. If this was a Close Corp Action,  and the ToHolder 
+		// Test if the ToPortfolio has the Certificate. If this was a Close Corp Action, and the ToHolder 
 		// is the Bank, need to get the Closed Portfolio from the Bank instead.
-		if (tToHolder.getName ().equals (Bank.NAME)){
+		if (isToActor (Bank.NAME)){
 			tCorporation = certificate.getCorporation ();
-			certificate.resetFrameButton ();
 			tThisCertificate = tToPortfolio.getCertificate (tCorporation, certificate.getPercentage ());
 			if (tThisCertificate == Certificate.NO_CERTIFICATE) {
 				tBank = (Bank) tToHolder;
 				tToPortfolio = tBank.getClosedPortfolio ();
 			}
 		}
+		
+		return tToPortfolio;
+	}
+
+	@Override
+	public boolean undoEffect (RoundManager aRoundManager) {
+		boolean tEffectUndone;
+		PortfolioHolderI tFromHolder;
+		Portfolio tToPortfolio, tFromPortfolio;
+		
+		tEffectUndone = false;
+		tToPortfolio = getToPortfolio ();
+		certificate.resetFrameButton ();
 		tFromHolder = (PortfolioHolderI) getActor ();
 		tFromPortfolio = tFromHolder.getPortfolio ();
 		
