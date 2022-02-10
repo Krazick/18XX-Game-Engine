@@ -87,7 +87,7 @@ public class SetParValueEffect extends Effect {
 		ShareCompany tShareCompany;
 		
 		tEffectApplied = false;
-		if (actor instanceof Player) {
+		if (actor.isAPlayer ()) {
 			tShareCompany = aRoundManager.getShareCompany (companyAbbrev);
 			aRoundManager.setParPrice (tShareCompany, parValue);
 			tEffectApplied = true;
@@ -106,14 +106,13 @@ public class SetParValueEffect extends Effect {
 		
 		tEffectUndone = false;
 		tMarket = aRoundManager.getMarket ();
-		if (actor instanceof Player) {
+		if (actor.isAPlayer ()) {
 			tMarketCell = tMarket.getMarketCellContainingToken (companyAbbrev);
 			tMarketCell.printMarketCellInfo ();
 			tToken = tMarketCell.getToken (companyAbbrev);
 			tShareCompany = (ShareCompany) tToken.getWhichCompany ();
 			tShareCompany.setNoPrice ();
 			tMarketCell.redrawMarket ();
-			// Implement Undo Set Par Value
 			tEffectUndone = true;
 		}
 

@@ -55,12 +55,11 @@ public class BoughtShareEffect extends Effect {
 		Player tPlayer;
 		
 		tEffectApplied = false;
-		if (actor instanceof Player) {
+		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
 			tPlayer.setBoughtShare (true);
+			tEffectApplied = true;
 		}
-		
-		tEffectApplied = true;
 		
 		return tEffectApplied;
 	}
@@ -71,12 +70,11 @@ public class BoughtShareEffect extends Effect {
 		Player tPlayer;
 		
 		tEffectUndone = false;
-		if (actor instanceof Player) {
+		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
 			tPlayer.setBoughtShare (false);
+			tEffectUndone = true;
 		}
-		
-		tEffectUndone = true;
 		
 		return tEffectUndone;
 	}

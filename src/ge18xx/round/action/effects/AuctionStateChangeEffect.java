@@ -40,13 +40,14 @@ public class AuctionStateChangeEffect extends StateChangeEffect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
+		Player tPlayer;
 		
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
-			Player tPlayer = (Player) actor;
+			tPlayer = (Player) actor;
 			tPlayer.setAuctionActionState (newState);
-			tEffectApplied = true;
 			aRoundManager.updateAuctionFrame ();
+			tEffectApplied = true;
 		}
 
 		return tEffectApplied;
@@ -55,10 +56,11 @@ public class AuctionStateChangeEffect extends StateChangeEffect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
+		Player tPlayer;
 		
 		tEffectUndone = false;
-		if (actor instanceof Player) {
-			Player tPlayer = (Player) actor;
+		if (actor.isAPlayer ()) {
+			tPlayer = (Player) actor;
 			tPlayer.setAuctionActionState (previousState);
 			tEffectUndone = true;
 		}

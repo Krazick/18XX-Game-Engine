@@ -108,7 +108,7 @@ public class AuctionBidChangeEffect extends Effect {
 		boolean tEffectUndone;
 		
 		tEffectUndone = false;
-		if (actor instanceof Player) {
+		if (actor.isAPlayer ()) {
 			int tBidderCount;
 			Player tBidder;
 			Player tPlayer = (Player) actor;
