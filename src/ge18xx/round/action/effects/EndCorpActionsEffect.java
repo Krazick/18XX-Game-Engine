@@ -54,11 +54,9 @@ public class EndCorpActionsEffect extends Effect {
 		
 		tEffectApplied = false;
 		if (actor.isACorporation ()) {
-			// TODO -- Properly apply the Effect (Change Round Frame Action Button and enable)
 			aRoundManager.doneAction ((Corporation) actor);
+			tEffectApplied = true;
 		}
-		
-		tEffectApplied = true;
 		
 		return tEffectApplied;
 	}
