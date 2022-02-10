@@ -259,9 +259,8 @@ public class RoundManager implements ActionListener {
 		roundFrame.updateAllCorporationsBox ();
 	}
 	
-	// TODO Rename to remove 'Action'
-	public void setActionButtonLabel (String aActionButtonLabel) {
-		roundFrame.updateActionButtonText (aActionButtonLabel);
+	public void setButtonLabel (String aActionButtonLabel) {
+		roundFrame.updateButtonText (aActionButtonLabel);
 	}
 	
 	public XMLElement getActionElements (XMLDocument aXMLDocument) {
@@ -1039,7 +1038,7 @@ public class RoundManager implements ActionListener {
 		if (aShareCompany.isOperating()) {
 			tDoActionLabel = aShareCompany.getOperatingLabel ();
 		}
-		setActionButtonLabel (tDoActionLabel);
+		setButtonLabel (tDoActionLabel);
 		if (isNetworkAndIsThisClient (aShareCompany.getPresidentName ())) {
 			enableActionButton (true);
 		} else {

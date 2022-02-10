@@ -60,9 +60,8 @@ public class RoundFrame extends XMLFrame {
 	JPanel roundInfoJPanel;
 	JPanel playersJPanel;
 	JScrollPane roundScrollPane;
-	// TODO Rename buttons to not have 'Action' in the name.
-	JButton passActionButton;
-	JButton doActionButton;
+	JButton passButton;
+	JButton doButton;
 	JButton showGameEngineFrameButton;
 	JTextArea trainSummary;
 	JLabel frameLabel;
@@ -362,19 +361,19 @@ public class RoundFrame extends XMLFrame {
 
 		setupDoActionButton ("Player do Stock Action", PLAYER_ACTION);
 		
-		passActionButton = new JButton (PASS_STOCK_TEXT);
-		passActionButton.setActionCommand (PASS_STOCK_ACTION);
-		passActionButton.addActionListener (roundManager);
-		passActionButton.setAlignmentX (Component.CENTER_ALIGNMENT);
+		passButton = new JButton (PASS_STOCK_TEXT);
+		passButton.setActionCommand (PASS_STOCK_ACTION);
+		passButton.addActionListener (roundManager);
+		passButton.setAlignmentX (Component.CENTER_ALIGNMENT);
 		
 		showGameEngineFrameButton = new JButton ("Show Game Engine Frame");
 		showGameEngineFrameButton.setActionCommand (SHOW_GE_FRAME_ACTION);
 		showGameEngineFrameButton.addActionListener (roundManager);
 		showGameEngineFrameButton.setAlignmentX (Component.CENTER_ALIGNMENT);
 		
-		buttonsJPanel.add (doActionButton);
+		buttonsJPanel.add (doButton);
 		buttonsJPanel.add (Box.createHorizontalStrut(20));
-		buttonsJPanel.add (passActionButton);
+		buttonsJPanel.add (passButton);
 		buttonsJPanel.add (Box.createHorizontalStrut(20));
 		buttonsJPanel.add (showGameEngineFrameButton);
 	}
@@ -396,10 +395,10 @@ public class RoundFrame extends XMLFrame {
 	}
 	
 	public void setCurrentPlayerText (String aPlayerName) {
-		if (passActionButton != GUI.NO_BUTTON) {
-			passActionButton.setText (aPlayerName + " " + PASS_STOCK_TEXT);
+		if (passButton != GUI.NO_BUTTON) {
+			passButton.setText (aPlayerName + " " + PASS_STOCK_TEXT);
 		}
-		updateActionButtonText (aPlayerName + " do Stock Action");
+		updateButtonText (aPlayerName + " do Stock Action");
 		setActionForCurrentPlayer ();
 		updatePassButton ();
 	}
@@ -413,15 +412,15 @@ public class RoundFrame extends XMLFrame {
 	}
 	
 	public void setupDoActionButton (String aButtonLabel, String aActionCommand) {
-		doActionButton = new JButton (aButtonLabel);
-		doActionButton.setAlignmentX (CENTER_ALIGNMENT);
-		doActionButton.addActionListener (roundManager);			
+		doButton = new JButton (aButtonLabel);
+		doButton.setAlignmentX (CENTER_ALIGNMENT);
+		doButton.addActionListener (roundManager);			
 		updateActionButton (aButtonLabel, aActionCommand);
 	}
 	
 	public void updateActionButton (String aButtonLabel, String aActionCommand) {
-		updateActionButtonText (aButtonLabel);
-		doActionButton.setActionCommand (aActionCommand);
+		updateButtonText (aButtonLabel);
+		doButton.setActionCommand (aActionCommand);
 	}
 	
 	public void setAuctionRound (String aGameName, int aRoundID) {
@@ -435,7 +434,7 @@ public class RoundFrame extends XMLFrame {
 		updateActionButton ("Do Company Action", CORPORATION_ACTION);
 		updateTotalCashLabel ();
 		disablePassButton ("In Operating Round, Can't Pass");
-		passActionButton.setText (PASS_STOCK_TEXT);
+		passButton.setText (PASS_STOCK_TEXT);
 	}
 	
 	public void setStockRound (String aGameName, int aRoundID) {
@@ -450,7 +449,7 @@ public class RoundFrame extends XMLFrame {
 		String tClientUserName, tCurrentPlayerName;
 		GameManager tGameManager;
 		
-		if (passActionButton != GUI.NO_BUTTON) {
+		if (passButton != GUI.NO_BUTTON) {
 			if (roundManager.isOperatingRound ()) {
 				disablePassButton (IS_OPERATING_ROUND);
 			} else if (roundManager.isAuctionRound ()) {
@@ -497,24 +496,24 @@ public class RoundFrame extends XMLFrame {
 		GameManager tGameManager;
 		
 		tGameManager = roundManager.getGameManager ();
-		if (doActionButton != GUI.NO_BUTTON) {
+		if (doButton != GUI.NO_BUTTON) {
 			if (tGameManager.isNetworkGame ()) {
 				tCurrentPlayerName = getCurrentPlayerName ();
 				tClientUserName = tGameManager.getClientUserName ();
 				if (tCurrentPlayerName.equals (tClientUserName)) {
-					doActionButton.setEnabled (true);
-					doActionButton.setToolTipText ("");
+					doButton.setEnabled (true);
+					doButton.setToolTipText ("");
 				} else {
-					doActionButton.setEnabled (false);
-					doActionButton.setToolTipText (NOT_YOUR_TURN);
+					doButton.setEnabled (false);
+					doButton.setToolTipText (NOT_YOUR_TURN);
 				}
 			}			
 		}
 	}
 	
-	public void updateActionButtonText (String aNewLabel) {
-		if (doActionButton != GUI.NO_BUTTON) {
-			doActionButton.setText (aNewLabel);
+	public void updateButtonText (String aNewLabel) {
+		if (doButton != GUI.NO_BUTTON) {
+			doButton.setText (aNewLabel);
 		}
 	}
 
@@ -612,11 +611,11 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	public void enableActionButton (boolean aEnableActionButton) {
-		doActionButton.setEnabled (aEnableActionButton);
+		doButton.setEnabled (aEnableActionButton);
 		if (aEnableActionButton) {
-			doActionButton.setToolTipText ("");
+			doButton.setToolTipText ("");
 		} else {
-			doActionButton.setToolTipText (YOU_NOT_PRESIDENT);
+			doButton.setToolTipText (YOU_NOT_PRESIDENT);
 		}
 		revalidate ();
 	}
@@ -697,16 +696,16 @@ public class RoundFrame extends XMLFrame {
 	}
 	
 	private void disablePassButton (String aToolTip) {
-		if (passActionButton != GUI.NO_BUTTON) {
-			passActionButton.setEnabled (false);
-			passActionButton.setToolTipText (aToolTip);
+		if (passButton != GUI.NO_BUTTON) {
+			passButton.setEnabled (false);
+			passButton.setToolTipText (aToolTip);
 		}
 	}
 	
 	private void enablePassButton () {
-		if (passActionButton != GUI.NO_BUTTON) {
-			passActionButton.setEnabled (true);
-			passActionButton.setToolTipText ("");
+		if (passButton != GUI.NO_BUTTON) {
+			passButton.setEnabled (true);
+			passButton.setToolTipText ("");
 		}
 	}
 }
