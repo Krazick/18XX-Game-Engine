@@ -489,7 +489,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		}
 	}
 	
-	// TODO -- Build Unit Tests for forceClose methods, 
+	// TODO: Build Unit Tests for forceClose methods, 
 	// Refactor out tBank Calls.
 	
 	public void forceClose () {

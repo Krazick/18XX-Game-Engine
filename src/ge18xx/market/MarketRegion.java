@@ -13,7 +13,7 @@ public enum MarketRegion {
 	Start (false, false, true, false, Color.WHITE, Color.BLACK), 
 	Unused (false, false, false, false, Color.WHITE, Color.BLACK);
 
-	// TODO: In 1856, the Brown Area should be FALSE, TRUE, TRUE
+	// TODO: 1856 the Brown Area should be FALSE, TRUE, TRUE ??? Review Rules
 	
 	boolean closeCorporation; 				// Corporation Should Close
 	boolean exceedPlayerCorpShareLimit; 	// Player can Hold shares in Excess of Corporation Limit
