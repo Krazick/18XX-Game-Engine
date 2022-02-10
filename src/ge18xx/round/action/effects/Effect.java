@@ -204,6 +204,18 @@ public abstract class Effect {
 			isAPrivate = aActor.isAPrivateCompany ();
 		}
 	}
+	
+	public boolean isActor (String aActorName) {
+		boolean tIsActor = false;
+		
+		if (actor != NO_ACTOR) {
+			if (actor.getName ().equals (aActorName)) {
+				tIsActor = true;
+			}
+		}
+		
+		return tIsActor;
+	}
 
 	public String getToActorName () {
 		return ActorI.NO_NAME;
