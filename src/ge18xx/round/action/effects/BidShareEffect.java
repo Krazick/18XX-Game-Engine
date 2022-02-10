@@ -55,7 +55,7 @@ public class BidShareEffect extends Effect {
 		Player tPlayer;
 		
 		tEffectApplied = false;
-		if (actor instanceof Player) {
+		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
 			tPlayer.setBidShare (true);
 		}
@@ -71,7 +71,7 @@ public class BidShareEffect extends Effect {
 		Player tPlayer;
 		
 		tEffectUndone = false;
-		if (actor instanceof Player) {
+		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
 			tPlayer.setBidShare (false);
 		}
