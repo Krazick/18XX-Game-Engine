@@ -109,6 +109,7 @@ public class ResponseOfferEffect extends ToEffect {
 		tItem = " to buy " + itemName + " " + itemType;
 		tFullReport = REPORT_PREFIX + " The offer from " + tToActorName + tItem + " sent to " + 
 				tWho + " was " + tTextResponse;
+		
 		return tFullReport;
 	}
 	
@@ -134,7 +135,7 @@ public class ResponseOfferEffect extends ToEffect {
 		ShareCompany tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		ActorI.ActionStates tOldStatus;
 		PurchaseOffer tPurchaseOffer;
-		
+	
 		tEffectApplied = false;
 		System.out.println ("Ready to handle the Response to the Purchase offer");
 		
