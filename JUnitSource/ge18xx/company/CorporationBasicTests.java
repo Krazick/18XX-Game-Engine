@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -84,157 +85,148 @@ class CorporationBasicTests {
 		assertFalse (corporation.canOperate ());
 	}
 
-	@Test
-	@DisplayName ("Test different states valid for IsOperating Method")
-	void testIsOperating () {
-//		(status == ActorI.ActionStates.Closed) ||
-//		(status == ActorI.ActionStates.Unowned) || 
-//		(status == ActorI.ActionStates.Owned) ||
-//		(status == ActorI.ActionStates.Operated) ||
-//		(status == ActorI.ActionStates.NotOperated)
-		corporation.setAbbrev ("BRC");
-		corporation.setName ("Basic Railway Company");
+	@Nested
+	@DisplayName ("Test with Different Corporation States")
+	class TestDifferentStates {
+		@Test
+		@DisplayName ("Valid for IsOperating Method")
+		void testIsOperating () {
+	//		(status == ActorI.ActionStates.Closed) ||
+	//		(status == ActorI.ActionStates.Unowned) || 
+	//		(status == ActorI.ActionStates.Owned) ||
+	//		(status == ActorI.ActionStates.Operated) ||
+	//		(status == ActorI.ActionStates.NotOperated)
+			corporation.setAbbrev ("BRC");
+			corporation.setName ("Basic Railway Company");
+			
+			corporation.setStatus (ActorI.ActionStates.Unowned);
+			assertFalse (corporation.isOperating ());
+			
+			corporation.resetStatus (ActorI.ActionStates.FullDividend);
+			assertTrue (corporation.isOperating ());
+			
+			corporation.resetStatus (ActorI.ActionStates.Owned);
+			assertFalse (corporation.isOperating ());
+			
+			corporation.resetStatus (ActorI.ActionStates.BoughtTrain);
+			assertTrue (corporation.isOperating ());
+			
+			corporation.resetStatus (ActorI.ActionStates.Operated);
+			assertFalse (corporation.isOperating ());
+			
+			corporation.resetStatus (ActorI.ActionStates.TileLaid);
+			assertTrue (corporation.isOperating ());
+			
+			corporation.resetStatus (ActorI.ActionStates.NotOperated);
+			assertFalse (corporation.isOperating ());
+			
+			corporation.resetStatus (ActorI.ActionStates.StationLaid);
+			assertTrue (corporation.isOperating ());
+			
+			corporation.resetStatus (ActorI.ActionStates.Closed);
+			assertFalse (corporation.isOperating ());
+		}
 		
-		corporation.setStatus (ActorI.ActionStates.Unowned);
-		assertFalse (corporation.isOperating ());
 		
-		corporation.resetStatus (ActorI.ActionStates.FullDividend);
-		assertTrue (corporation.isOperating ());
-		
-		corporation.resetStatus (ActorI.ActionStates.Owned);
-		assertFalse (corporation.isOperating ());
-		
-		corporation.resetStatus (ActorI.ActionStates.BoughtTrain);
-		assertTrue (corporation.isOperating ());
-		
-		corporation.resetStatus (ActorI.ActionStates.Operated);
-		assertFalse (corporation.isOperating ());
-		
-		corporation.resetStatus (ActorI.ActionStates.TileLaid);
-		assertTrue (corporation.isOperating ());
-		
-		corporation.resetStatus (ActorI.ActionStates.NotOperated);
-		assertFalse (corporation.isOperating ());
-		
-		corporation.resetStatus (ActorI.ActionStates.StationLaid);
-		assertTrue (corporation.isOperating ());
-		
-		corporation.resetStatus (ActorI.ActionStates.Closed);
-		assertFalse (corporation.isOperating ());
-	}
+		@Test
+		@DisplayName ("Valid for shouldOperate Method")
+		void testShouldOperate () {
+	//		(status == ActorI.ActionStates.Closed) ||
+	//		(status == ActorI.ActionStates.Unowned) || 
+	//		(status == ActorI.ActionStates.Owned) ||
+	//		(status == ActorI.ActionStates.Operated)
 	
+			corporation.setAbbrev ("BRC");
+			corporation.setName ("Basic Railway Company");
+			
+			corporation.setStatus (ActorI.ActionStates.Unowned);
+			assertFalse (corporation.shouldOperate ());
+			
+			corporation.resetStatus (ActorI.ActionStates.FullDividend);
+			assertTrue (corporation.shouldOperate ());
+			
+			corporation.resetStatus (ActorI.ActionStates.Owned);
+			assertFalse (corporation.shouldOperate ());
+			
+			corporation.resetStatus (ActorI.ActionStates.BoughtTrain);
+			assertTrue (corporation.shouldOperate ());
+			
+			corporation.resetStatus (ActorI.ActionStates.Operated);
+			assertFalse (corporation.shouldOperate ());
+			
+			corporation.resetStatus (ActorI.ActionStates.TileLaid);
+			assertTrue (corporation.shouldOperate ());
+			
+			corporation.resetStatus (ActorI.ActionStates.NotOperated);
+			assertTrue (corporation.shouldOperate ());
+			
+			corporation.resetStatus (ActorI.ActionStates.StationLaid);
+			assertTrue (corporation.shouldOperate ());
+			
+			corporation.resetStatus (ActorI.ActionStates.Closed);
+			assertFalse (corporation.shouldOperate ());
+		}
+		
+		@Test
+		@DisplayName ("Valid for didOperate Method")
+		void testDidOperate () {
+	//		(status == ActorI.ActionStates.Operated)
 	
-	@Test
-	@DisplayName ("Test different states valid for shouldOperate Method")
-	void testShouldOperate () {
-//		(status == ActorI.ActionStates.Closed) ||
-//		(status == ActorI.ActionStates.Unowned) || 
-//		(status == ActorI.ActionStates.Owned) ||
-//		(status == ActorI.ActionStates.Operated)
-
-		corporation.setAbbrev ("BRC");
-		corporation.setName ("Basic Railway Company");
-		
-		corporation.setStatus (ActorI.ActionStates.Unowned);
-		assertFalse (corporation.shouldOperate ());
-		
-		corporation.resetStatus (ActorI.ActionStates.FullDividend);
-		assertTrue (corporation.shouldOperate ());
-		
-		corporation.resetStatus (ActorI.ActionStates.Owned);
-		assertFalse (corporation.shouldOperate ());
-		
-		corporation.resetStatus (ActorI.ActionStates.BoughtTrain);
-		assertTrue (corporation.shouldOperate ());
-		
-		corporation.resetStatus (ActorI.ActionStates.Operated);
-		assertFalse (corporation.shouldOperate ());
-		
-		corporation.resetStatus (ActorI.ActionStates.TileLaid);
-		assertTrue (corporation.shouldOperate ());
-		
-		corporation.resetStatus (ActorI.ActionStates.NotOperated);
-		assertTrue (corporation.shouldOperate ());
-		
-		corporation.resetStatus (ActorI.ActionStates.StationLaid);
-		assertTrue (corporation.shouldOperate ());
-		
-		corporation.resetStatus (ActorI.ActionStates.Closed);
-		assertFalse (corporation.shouldOperate ());
-	}
+			corporation.setAbbrev ("BRC");
+			corporation.setName ("Basic Railway Company");
+			
+			corporation.setStatus (ActorI.ActionStates.Unowned);
+			assertFalse (corporation.didOperate ());
+			
+			corporation.resetStatus (ActorI.ActionStates.Operated);
+			assertTrue (corporation.didOperate ());
+		}
+			
+		@Test
+		@DisplayName ("Valid for didPartiallyOperate Method")
+		void testDidPartiallyOperate () {	
+			corporation.setAbbrev ("BRC");
+			corporation.setName ("Basic Railway Company");
+			
+			corporation.setStatus (ActorI.ActionStates.Unowned);
+			assertFalse (corporation.didPartiallyOperate ());
+			
+			corporation.resetStatus (ActorI.ActionStates.Operated);
+			assertFalse (corporation.didPartiallyOperate ());
+			
+			corporation.resetStatus (ActorI.ActionStates.StationLaid);
+			assertTrue (corporation.didPartiallyOperate ());
+			
+			corporation.resetStatus (ActorI.ActionStates.TileLaid);
+			assertTrue (corporation.didPartiallyOperate ());
 	
-	@Test
-	@DisplayName ("Test different states valid for didOperate Method")
-	void testDidOperate () {
-//		(status == ActorI.ActionStates.Operated)
-
-		corporation.setAbbrev ("BRC");
-		corporation.setName ("Basic Railway Company");
-		
-		corporation.setStatus (ActorI.ActionStates.Unowned);
-		assertFalse (corporation.didOperate ());
-		
-		corporation.resetStatus (ActorI.ActionStates.Operated);
-		assertTrue (corporation.didOperate ());
-	}
+			corporation.resetStatus (ActorI.ActionStates.Tile2Laid);
+			assertTrue (corporation.didPartiallyOperate ());
 	
+			corporation.resetStatus (ActorI.ActionStates.TileUpgraded);
+			assertTrue (corporation.didPartiallyOperate ());
 	
-	@Test
-	@DisplayName ("Test different states valid for didPartiallyOperate Method")
-	void testDidPartiallyOperate () {
-//		(status == ActorI.ActionStates.TileLaid) ||
-//		(status == ActorI.ActionStates.Tile2Laid) ||
-//		(status == ActorI.ActionStates.TileUpgraded) ||
-//		(status == ActorI.ActionStates.StationLaid) ||
-//		(status == ActorI.ActionStates.TileAndStationLaid) ||
-//		(status == ActorI.ActionStates.OperatedTrain) ||
-//		(status == ActorI.ActionStates.HoldDividend) ||
-//		(status == ActorI.ActionStates.HalfDividend) ||
-//		(status == ActorI.ActionStates.FullDividend) ||
-//		(status == ActorI.ActionStates.BoughtTrain)
-
-		corporation.setAbbrev ("BRC");
-		corporation.setName ("Basic Railway Company");
-		
-		corporation.setStatus (ActorI.ActionStates.Unowned);
-		assertFalse (corporation.didPartiallyOperate ());
-		
-		corporation.resetStatus (ActorI.ActionStates.Operated);
-		assertFalse (corporation.didPartiallyOperate ());
-		
-		corporation.resetStatus (ActorI.ActionStates.StationLaid);
-		assertTrue (corporation.didPartiallyOperate ());
-		
-		corporation.resetStatus (ActorI.ActionStates.TileLaid);
-		assertTrue (corporation.didPartiallyOperate ());
-
-		corporation.resetStatus (ActorI.ActionStates.Tile2Laid);
-		assertTrue (corporation.didPartiallyOperate ());
-
-		corporation.resetStatus (ActorI.ActionStates.TileUpgraded);
-		assertTrue (corporation.didPartiallyOperate ());
-
-		corporation.resetStatus (ActorI.ActionStates.TileAndStationLaid);
-		assertTrue (corporation.didPartiallyOperate ());
-
-		corporation.resetStatus (ActorI.ActionStates.OperatedTrain);
-		assertTrue (corporation.didPartiallyOperate ());
-
-		corporation.resetStatus (ActorI.ActionStates.HoldDividend);
-		assertTrue (corporation.didPartiallyOperate ());
-
-		corporation.resetStatus (ActorI.ActionStates.HalfDividend);
-		assertTrue (corporation.didPartiallyOperate ());
-
-		corporation.resetStatus (ActorI.ActionStates.FullDividend);
-		assertTrue (corporation.didPartiallyOperate ());
-
-		corporation.resetStatus (ActorI.ActionStates.BoughtTrain);
-		assertTrue (corporation.didPartiallyOperate ());
-
-		corporation.resetStatus (ActorI.ActionStates.Closed);
-		assertFalse (corporation.didPartiallyOperate ());
-
+			corporation.resetStatus (ActorI.ActionStates.TileAndStationLaid);
+			assertTrue (corporation.didPartiallyOperate ());
+	
+			corporation.resetStatus (ActorI.ActionStates.OperatedTrain);
+			assertTrue (corporation.didPartiallyOperate ());
+	
+			corporation.resetStatus (ActorI.ActionStates.HoldDividend);
+			assertTrue (corporation.didPartiallyOperate ());
+	
+			corporation.resetStatus (ActorI.ActionStates.HalfDividend);
+			assertTrue (corporation.didPartiallyOperate ());
+	
+			corporation.resetStatus (ActorI.ActionStates.FullDividend);
+			assertTrue (corporation.didPartiallyOperate ());
+	
+			corporation.resetStatus (ActorI.ActionStates.BoughtTrain);
+			assertTrue (corporation.didPartiallyOperate ());
+	
+			corporation.resetStatus (ActorI.ActionStates.Closed);
+			assertFalse (corporation.didPartiallyOperate ());
+		}
 	}
 	
 	// Corporation Class Status Methods to Test with Boolean returns:
