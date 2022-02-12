@@ -51,14 +51,12 @@ public abstract class TokenCompany extends TrainCompany {
 	
 	public TokenCompany () {
 		super ();
-		mapTokens = new LinkedList<MapToken> ();
-		totalTokenCount = 0;
+		setupNewMapTokens ();
 	}
 	
 	public TokenCompany (int aID, String aName) {
 		super (aID, aName);
-		mapTokens = new LinkedList<MapToken> ();
-		totalTokenCount = 0;
+		setupNewMapTokens ();
 	}
 
 	public TokenCompany (XMLNode aChildNode, CorporationList aCorporationList) {
@@ -66,13 +64,18 @@ public abstract class TokenCompany extends TrainCompany {
 
 		MapToken tMapToken;
 		
-		mapTokens = new LinkedList<MapToken> ();
+		setupNewMapTokens ();
 		totalTokenCount = aChildNode.getThisIntAttribute (AN_TOKENS);
 		if (totalTokenCount > 0) {
 			tMapToken = new MapToken ();
 			tMapToken.setCompany (this);
 			addNTokens (totalTokenCount, tMapToken);
 		}
+	}
+	
+	private void setupNewMapTokens () {
+		mapTokens = new LinkedList<MapToken> ();
+		totalTokenCount = 0;
 	}
 	
 	@Override
@@ -359,7 +362,6 @@ public abstract class TokenCompany extends TrainCompany {
 		return tHaveMoneyForToken;
 	}
 	
-
 	public boolean haveLaidThisBaseToken (MapCell aMapCell) {
 		boolean tHaveLaidThisBaseToken;
 		
