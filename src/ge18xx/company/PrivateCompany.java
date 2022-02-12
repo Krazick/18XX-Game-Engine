@@ -444,4 +444,9 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		
 		return tFoundBenefit;
 	}
+	
+	@Override
+	public int getCurrentValue () {
+		return getValue ();
+	}
 }

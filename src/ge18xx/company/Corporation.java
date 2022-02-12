@@ -736,6 +736,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		
 		return tBidderNames;
 	}
+	
 	public int getBidderCount () {
 		int tBidderCount;
 		
@@ -805,22 +806,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return portfolio.getCurrentHolder (aLoadedCertificate);
 	}
 
-	// TODO: Create Override Methods for this in the extended Classes
 	public int getCurrentValue () {
-		int tValue;
-		
-		tValue = NO_COST;
-		if (this.isAPrivateCompany ()) {
-			tValue = ((PrivateCompany) this).getValue ();
-		} else if (this.isAMinorCompany ()) {
-			tValue = ((MinorCompany) this).getValue ();
-		} else if (this.isACoalCompany ()) {
-			tValue = ((CoalCompany) this).getValue ();
-		} else if (this.isAShareCompany ()) {
-			tValue = ((ShareCompany) this).getSharePrice ();
-		}
-		
-		return tValue;
+		return NO_COST;
 	}
 	
 	public String getDoLabel () {

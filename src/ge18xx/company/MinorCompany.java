@@ -141,4 +141,9 @@ public class MinorCompany extends TokenCompany {
 	public boolean isAMinorCompany () {
 		return true;
 	}
+	
+	@Override
+	public int getCurrentValue () {
+		return getValue ();
+	}
 }

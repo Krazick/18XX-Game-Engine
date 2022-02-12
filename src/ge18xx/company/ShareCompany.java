@@ -559,4 +559,9 @@ public class ShareCompany extends TokenCompany {
 	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
 		return null;
 	}
+	
+	@Override
+	public int getCurrentValue () {
+		return getSharePrice ();
+	}
 }

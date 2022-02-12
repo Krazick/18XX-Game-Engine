@@ -95,4 +95,9 @@ public class CoalCompany extends TrainCompany {
 	protected boolean choiceForBaseToken () {
 		return false;
 	}
+	
+	@Override
+	public int getCurrentValue () {
+		return getValue ();
+	}
 }
