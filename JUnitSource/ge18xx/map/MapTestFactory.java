@@ -64,4 +64,21 @@ public class MapTestFactory {
 		return tMapCell;
 	}
 
+	public Location buildLocation () {
+		Location tLocation;
+		int tCenterLocation;
+		
+		tCenterLocation = Location.CENTER_CITY_LOC;
+		tLocation = buildLocation (tCenterLocation);
+		
+		return tLocation;
+	}
+	
+	public Location buildLocation (int aIntLocation) {
+		Location tLocation;
+		
+		tLocation = new Location (aIntLocation);
+		
+		return tLocation;
+	}
 }
