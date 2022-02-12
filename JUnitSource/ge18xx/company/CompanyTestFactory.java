@@ -63,7 +63,6 @@ public class CompanyTestFactory {
 		return aPrivateCompany;
 	}
 
-	
 	public ShareCompany buildAShareCompany (int tCompanyIndex) {
 		String tShareCompany1TestXML =
 				"<Share id=\"901\" name=\"TestPennsylvania\" abbrev=\"TPRR\" homeCell1=\"H12\" \n" +
