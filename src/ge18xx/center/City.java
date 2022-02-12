@@ -1196,7 +1196,7 @@ ParsingRoutineI tokenParsingRoutine  = new ParsingRoutineIO ()  {
 		if (aNumber > 0) {
 			corpStations = new MapToken [aNumber];
 			for (tIndex = 0; tIndex < aNumber; tIndex++) {
-				setMapTokenAt(tIndex);
+				setMapTokenAt (tIndex);
 			}
 		}
 	}
