@@ -181,7 +181,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		corporationList.addAction (tFloatCompanyAction);
 	}
 	
-
 	@Override
 	public void prepareCorporation () {
 		PreparedCorporationAction tPreparedCorporationAction;
@@ -454,6 +453,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void forceBuyTrain () {
 		Train tCheapestTrain;
+		
 		tCheapestTrain = getCheapestBankTrain ();
 		forceBuyTrainFrame = new ForceBuyTrainFrame (this, tCheapestTrain);
 	}
@@ -511,11 +511,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		} else {
 			tBankPoolTrainCost = 99999;
 		}
-		if (tBankTrain!= Train.NO_TRAIN) {
+		if (tBankTrain != Train.NO_TRAIN) {
 			tBankTrainCost = tBankTrain.getPrice ();
 		} else {
 			tBankTrainCost = 99999;
 		}
+		// TODO: Determine if BankPool Train and BankTrain cost is the same, which train to buy? 
+		// Provide choice where to buy from?
 		if (tBankPoolTrainCost < tBankTrainCost) {
 			tCheapestTrain = tBankPoolTrain;
 		} else {
