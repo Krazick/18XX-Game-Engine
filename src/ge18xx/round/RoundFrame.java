@@ -360,7 +360,7 @@ public class RoundFrame extends XMLFrame {
 		buttonsJPanel = new JPanel ();
 		buttonsJPanel.setLayout (new BoxLayout (buttonsJPanel, BoxLayout.X_AXIS));
 
-		setupDoActionButton ("Player do Stock Action", PLAYER_ACTION);
+		setupDoButton ("Player do Stock Action", PLAYER_ACTION);
 		
 		passButton = new JButton (PASS_STOCK_TEXT);
 		passButton.setActionCommand (PASS_STOCK_ACTION);
@@ -412,33 +412,32 @@ public class RoundFrame extends XMLFrame {
 		revalidate ();
 	}
 	
-	public void setupDoActionButton (String aButtonLabel, String aActionCommand) {
+	public void setupDoButton (String aButtonLabel, String aActionCommand) {
 		doButton = new JButton (aButtonLabel);
 		doButton.setAlignmentX (CENTER_ALIGNMENT);
 		doButton.addActionListener (roundManager);			
-		updateActionButton (aButtonLabel, aActionCommand);
+		updateDoButton (aButtonLabel, aActionCommand);
 	}
 	
-	public void updateActionButton (String aButtonLabel, String aActionCommand) {
+	public void updateDoButton (String aButtonLabel, String aActionCommand) {
 		updateButtonText (aButtonLabel);
 		doButton.setActionCommand (aActionCommand);
 	}
 	
 	public void setAuctionRound (String aGameName, int aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
-		updateActionButton ("Do Auction Action", PLAYER_AUCTION_ACTION);
-		disablePassButton ("In Auction Round, Can't Pass");
+		updateDoButton ("Do Auction Action", PLAYER_AUCTION_ACTION);
+		updatePassButton ();
 	}
 
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
 		setCurrentRoundOf (aCurrentOR, aMaxOR);
 		setFrameLabel (aGameName, " " + aRoundIDPart1 + " [" + currentRoundOf + "]");
-		updateActionButton ("Do Company Action", CORPORATION_ACTION);
+		updateDoButton ("Do Company Action", CORPORATION_ACTION);
 		updateTotalCashLabel ();
-		disablePassButton ("In Operating Round, Can't Pass");
-		passButton.setText (PASS_STOCK_TEXT);
+		updatePassButton ();
 	}
-	
+
 	private void setCurrentRoundOf (int aCurrentOR, int aMaxOR) {
 		currentRoundOf = aCurrentOR + " of " + aMaxOR;
 	}
@@ -449,7 +448,7 @@ public class RoundFrame extends XMLFrame {
 	
 	public void setStockRound (String aGameName, int aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
-		updateActionButton ("Player do Stock Action", PLAYER_ACTION);
+		updateDoButton ("Player do Stock Action", PLAYER_ACTION);
 		setCurrentPlayerText ();
 		updateTotalCashLabel ();
 		updatePassButton ();
@@ -463,8 +462,7 @@ public class RoundFrame extends XMLFrame {
 			if (roundManager.isOperatingRound ()) {
 				disablePassButton (IS_OPERATING_ROUND);
 			} else if (roundManager.isAuctionRound ()) {
-				disablePassButton (IS_AUCTION_ROUND);
-				
+				disablePassButton (IS_AUCTION_ROUND);		
 			} else {
 				tGameManager = roundManager.getGameManager ();
 				if (tGameManager.isNetworkGame ()) {
@@ -482,7 +480,7 @@ public class RoundFrame extends XMLFrame {
 		}
 	}
 
-	public void verifyMustActions (GameManager aGameManager) {
+	private void verifyMustActions (GameManager aGameManager) {
 		PlayerFrame tPlayerFrame;
 		Player tCurrentPlayer;
 		String tToolTip;
