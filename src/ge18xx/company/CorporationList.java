@@ -566,6 +566,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return roundManager.getOperatingRound ();
 	}
 	
+	public String getCurrentRoundOf () {
+		return roundManager.getCurrentRoundOf ();
+	}
+	
 	public int getCurrentOR () {
 		return roundManager.getCurrentOR ();
 	}

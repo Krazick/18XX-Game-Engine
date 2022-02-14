@@ -339,6 +339,10 @@ public class RoundManager implements ActionListener {
 		return gameManager.getEscrowMatching (aEscrowName);
 	}
 	
+	public String getCurrentRoundOf () {
+		return roundFrame.getCurrentRoundOf ();
+	}
+	
 	public int getCurrentOR () {
 		return currentOR;
 	}

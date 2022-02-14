@@ -76,6 +76,7 @@ public class RoundFrame extends XMLFrame {
 	Logger logger;
 	int padding1;
 	int padding2;
+	String currentRoundOf;
 	
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, String aGameName) {
 		super (aFrameName, aGameName);
@@ -430,11 +431,20 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
-		setFrameLabel (aGameName, " " + aRoundIDPart1 + " [" + aCurrentOR + " of " + aMaxOR + "]");
+		setCurrentRoundOf (aCurrentOR, aMaxOR);
+		setFrameLabel (aGameName, " " + aRoundIDPart1 + " [" + currentRoundOf + "]");
 		updateActionButton ("Do Company Action", CORPORATION_ACTION);
 		updateTotalCashLabel ();
 		disablePassButton ("In Operating Round, Can't Pass");
 		passButton.setText (PASS_STOCK_TEXT);
+	}
+	
+	private void setCurrentRoundOf (int aCurrentOR, int aMaxOR) {
+		currentRoundOf = aCurrentOR + " of " + aMaxOR;
+	}
+	
+	public String getCurrentRoundOf () {
+		return currentRoundOf;
 	}
 	
 	public void setStockRound (String aGameName, int aRoundID) {
