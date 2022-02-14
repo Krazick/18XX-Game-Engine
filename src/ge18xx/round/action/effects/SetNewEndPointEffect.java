@@ -59,7 +59,7 @@ public class SetNewEndPointEffect extends ChangeRouteEffect {
 		boolean tEffectUndone;
 			
 		tEffectUndone = false;
-	// TODO: Undo the Start Route Effect
+		// TODO: Undo the setNewEndPoint Effect
 			
 		tEffectUndone = true;
 			
