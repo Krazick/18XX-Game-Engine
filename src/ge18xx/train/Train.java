@@ -641,7 +641,6 @@ public class Train implements Comparable<Object> {
 		Location tPreviousEnd;
 		Track tOldTrack, tNewTrack;
 		
-		// TODO: Test currentRouteInformation as Not Null
 		if (currentRouteInformation == RouteInformation.NO_ROUTE_INFORMATION) {
 			tSetNewEndPoint = false;
 		} else {
