@@ -236,10 +236,6 @@ public class Revenues extends Feature {
 		return thisLayout;
 	}
 	
-	// TODO: Update to get the Revenue Value based upon the current Phase (for Off-Board companies)
-	// Maybe, simply get a list of all valid values, and return to higher level and let it choose the
-	// appropriate value for the phase.
-	
 	public int getValue () {
 		int tValue = 0;
 		int tPossibleValue;
