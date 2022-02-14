@@ -23,7 +23,6 @@ import ge18xx.company.TokenCompany;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
-import ge18xx.phase.PhaseInfo;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutine3I;
