@@ -57,7 +57,8 @@ public class StartRouteEffect extends ChangeRouteEffect {
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
-	// Don't need to undo this effect
+		// TODO: Clear Selected Train Route from Map
+
 		return true;
 	}
 }
