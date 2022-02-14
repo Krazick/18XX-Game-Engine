@@ -655,9 +655,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationList.getCurrentRoundOf ();
 	}
 	
-	public int getCurrentOR () {
-		return corporationList.getCurrentOR ();
-	}
+//	public int getCurrentOR () {
+//		return corporationList.getCurrentOR ();
+//	}
 
 	public String getOperatingRoundID () {
 		return corporationList.getOperatingRoundID ();

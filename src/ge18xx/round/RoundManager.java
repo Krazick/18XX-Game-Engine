@@ -342,10 +342,10 @@ public class RoundManager implements ActionListener {
 	public String getCurrentRoundOf () {
 		return roundFrame.getCurrentRoundOf ();
 	}
-	
-	public int getCurrentOR () {
-		return currentOR;
-	}
+//	
+//	public int getCurrentOR () {
+//		return currentOR;
+//	}
 		
 	public ActorI.ActionStates getCurrentRoundType () {
 		return currentRoundType;
