@@ -9,6 +9,7 @@ package ge18xx.tiles;
 //
 
 import ge18xx.map.Hex;
+import ge18xx.phase.PhaseInfo;
 import ge18xx.utilities.ElementName;
 
 import java.awt.Graphics;
@@ -108,7 +109,7 @@ public class GameTile {
 		String tTip;
 		
 		tTip = "<html>";
-		tTip += tile.getToolTip ();
+		tTip += tile.getToolTip (PhaseInfo.NO_NAME);
 		tTip += "Total/Available: " + getTotalAndAvailable () + "<br>Tile Orientation: " + tileOrient ;
 		
 		tTip += "</html>";

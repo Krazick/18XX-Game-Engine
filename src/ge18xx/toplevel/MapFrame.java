@@ -265,6 +265,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public void clearTrainsFromMap () {
 		map.clearAllTrains ();
 	}
+	
+	public int getCurrentPhase () {
+		return gameManager.getCurrentPhase ();
+	}
+	
 	public void togglePlaceTileMode () {
 		setModes (! placeTileMode, false, false);
 		map.setSingleMapCellSelect (placeTileMode);

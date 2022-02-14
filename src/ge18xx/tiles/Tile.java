@@ -23,6 +23,7 @@ import ge18xx.company.TokenCompany;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
+import ge18xx.phase.PhaseInfo;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutine3I;
@@ -478,17 +479,16 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers.get (aCenterIndex);
 	}
 	
-	public String getRevenueValue () {
+	public String getRevenueValue (int aPhase) {
 		RevenueCenter tRevenueCenter;
 		int tRCIndex;
 		String tRevenueValue = "";
 		
-		// TODO: For Red-Off Board tiles, check the Phase, and retrieve the correct Revenue Value from the choices
 		for (tRCIndex = 0; tRCIndex < getRevenueCenterCount (); tRCIndex++) {
 			if (tRevenueValue.equals ("")) {
 				tRevenueCenter = getRevenueCenter (tRCIndex);
 				if (tRevenueCenter != RevenueCenter.NO_CENTER) {
-					tRevenueValue = tRevenueCenter.getRevenueToString ();
+					tRevenueValue = tRevenueCenter.getRevenueToString (aPhase);
 				}
 			}
 		}
@@ -530,11 +530,11 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return type;
 	}
 	
-	public String getToolTip () {
+	public String getToolTip (int aPhase) {
 		String tTip = "";
 		
 		tTip += "Tile: " + getTypeName () + " " + getNumberToString () + "<br>";
-		tTip += "Revenue: " + getRevenueValue () + "<br>";
+		tTip += "Revenue: " + getRevenueValue (aPhase) + "<br>";
 		if (hasCenters ()) {
 			tTip += centers.getToolTip ();
 		}

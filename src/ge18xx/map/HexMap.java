@@ -87,6 +87,10 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		setSingleMapCellSelect (false);
 	}
 	
+	public int getCurrentPhase () {
+		return mapFrame.getCurrentPhase ();
+	}
+	
 	public void CalcGridCenters () {
         int rowIndex, colIndex, Xc, Yc, toggle, temp_2DLR, temp_DUP_dwidth;
 		int rowCount;

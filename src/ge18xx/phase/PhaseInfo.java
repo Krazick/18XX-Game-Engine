@@ -32,7 +32,7 @@ public class PhaseInfo {
 	static final AttributeName AN_GOVERNMENT_CAN_FORM = new AttributeName ("governmentCanForm");
 	static final AttributeName AN_GOVERNMENT_MUST_FORM = new AttributeName ("governmentMustForm");
 	static final int NO_LIMIT = 99;
-	static final int NO_NAME = 0;
+	public static final int NO_NAME = 0;
 	static final int NO_ROUNDS = 0;
 	static final String [] NO_TILES = null;
 	static final String NO_OFF_BOARD = null;

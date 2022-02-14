@@ -10,6 +10,7 @@ package ge18xx.center;
 
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
+import ge18xx.phase.PhaseInfo;
 import ge18xx.tiles.Feature;
 import ge18xx.tiles.TileType;
 import ge18xx.utilities.AttributeName;
@@ -261,11 +262,15 @@ public class Revenues extends Feature {
 		int tValue;
 		int tPhase;
 		
-		tValue = 0;
-		for (Revenue tRevenue : revenues) {
-			tPhase = tRevenue.getPhase ();
-			if (tPhase <= aPhase) {
-				tValue = tRevenue.getValue ();
+		if (aPhase == PhaseInfo.NO_NAME) {
+			tValue = getValue ();
+		} else {
+			tValue = 0;
+			for (Revenue tRevenue : revenues) {
+				tPhase = tRevenue.getPhase ();
+				if (tPhase <= aPhase) {
+					tValue = tRevenue.getValue ();
+				}
 			}
 		}
 		
