@@ -260,4 +260,8 @@ public abstract class Round implements ActorI {
 	public String getAbbrev () {
 		return getName ();
 	}
+	
+	public boolean isActor (String aActorName) {
+		return getName ().equals (aActorName);
+	}
 }

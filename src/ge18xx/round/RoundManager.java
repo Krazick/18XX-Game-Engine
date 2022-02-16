@@ -271,17 +271,15 @@ public class RoundManager implements ActionListener {
 		return actionManager;
 	}
 	
-	// TODO: add new Interface Method 'isActor' that takes a name Argument and 
-	// see if it matches this Actor's Name, return True/False
 	public ActorI getActor (String aActorName) {
 		ActorI tActor;
 		
 		tActor = ActorI.NO_ACTOR;
-		if (stockRound.getName ().equals (aActorName)) {
+		if (stockRound.isActor (aActorName)) {
 			tActor = stockRound;
-		} else if (operatingRound.getName ().equals (aActorName)) {
+		} else if (operatingRound.isActor (aActorName)) {
 			tActor = operatingRound;
-		} else if (auctionRound.getName ().equals (aActorName)) {
+		} else if (auctionRound.isActor (aActorName)) {
 			tActor = auctionRound;
 		}
 		

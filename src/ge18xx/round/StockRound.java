@@ -253,7 +253,7 @@ public class StockRound extends Round {
 	public boolean isAStockRound () {
 		return true;
 	}
-
+	
 	public void passStockAction () {
 		Player tPlayer;
 		
