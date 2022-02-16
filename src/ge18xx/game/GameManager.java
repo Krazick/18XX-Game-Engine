@@ -1760,37 +1760,34 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public void showMap () {
 		mapFrame.showFrame ();
-//		showFrame (mapFrame);
 	}
 	
 	public void showAuctionFrame () {
 		auctionFrame.showFrame ();
-//		showFrame (auctionFrame);
+	}
+	
+	public void bringMarketToFront () {
+		marketFrame.toTheFront ();
 	}
 	
 	public void showMarket () {
 		marketFrame.showFrame ();
-//		showFrame (marketFrame);
 	}
 	
 	public void showMinorCompanies () {
 		minorCompaniesFrame.showFrame ();
-//		showFrame (minorCompaniesFrame);
 	}
 	
 	public void showPrivateCompanies () {
 		privatesFrame.showFrame ();
-//		showFrame (privatesFrame);
 	}
 	
 	public void showShareCompanies () {
 		shareCompaniesFrame.showFrame ();
-//		showFrame (shareCompaniesFrame);
 	}
 	
 	public void showTileTray () {
 		tileTrayFrame.showFrame ();
-//		showFrame (tileTrayFrame);
 	}
 
 	public void bringMapToFront () {

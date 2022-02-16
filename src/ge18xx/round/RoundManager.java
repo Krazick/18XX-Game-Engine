@@ -271,6 +271,8 @@ public class RoundManager implements ActionListener {
 		return actionManager;
 	}
 	
+	// TODO: add new Interface Method 'isActor' that takes a name Argument and 
+	// see if it matches this Actor's Name, return True/False
 	public ActorI getActor (String aActorName) {
 		ActorI tActor;
 		
@@ -342,10 +344,6 @@ public class RoundManager implements ActionListener {
 	public String getCurrentRoundOf () {
 		return roundFrame.getCurrentRoundOf ();
 	}
-//	
-//	public int getCurrentOR () {
-//		return currentOR;
-//	}
 		
 	public ActorI.ActionStates getCurrentRoundType () {
 		return currentRoundType;
@@ -878,12 +876,11 @@ public class RoundManager implements ActionListener {
 		if (bankIsBroken ()) {
 			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
 		}
-//		} else {
-			tIDPart1 = incrementRoundIDPart1 (stockRound);
-			setRoundToStockRound (tIDPart1);
-			stockRound.prepareStockRound ();
-			roundFrame.updateAll ();
-//		}
+		tIDPart1 = incrementRoundIDPart1 (stockRound);
+		setRoundToStockRound (tIDPart1);
+		gameManager.bringMarketToFront ();
+		stockRound.prepareStockRound ();
+		roundFrame.updateAll ();
 	}
 	
 	public boolean bankIsBroken () {
