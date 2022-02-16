@@ -831,7 +831,6 @@ public class RoundManager implements ActionListener {
 	public void resumeStockRound (int aRoundIDPart1) {
 		setRoundType (ActorI.ActionStates.StockRound);
 		roundFrame.setStockRound (gameName, aRoundIDPart1);
-//		roundFrame.updatePassButton ();
 	}
 	
 	public void startAuctionRound (boolean aCreateNewAuctionAction) {
