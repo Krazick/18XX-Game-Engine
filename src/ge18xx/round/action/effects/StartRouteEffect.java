@@ -6,8 +6,8 @@ import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
-//import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.train.Train;
 import ge18xx.utilities.XMLNode;
 
 public class StartRouteEffect extends ChangeRouteEffect {
@@ -57,8 +57,20 @@ public class StartRouteEffect extends ChangeRouteEffect {
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
-		// TODO: Clear Selected Train Route from Map
-
+		TrainCompany tTrainCompany;
+		Corporation tCompany;
+		Train tTrain;
+		
+		if (actor.isACorporation ()) {
+			tCompany = (Corporation) actor;
+			if (tCompany.isATrainCompany ()) {
+				tTrainCompany = (TrainCompany) tCompany;
+				tTrain = tTrainCompany.getTrain (trainIndex);
+				tTrain.clearRouteInformation ();
+				aRoundManager.repaintMapFrame ();
+			}
+		}
+		
 		return true;
 	}
 }
