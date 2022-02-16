@@ -138,6 +138,7 @@ public class PlayerManager {
 			}
 		}
 		if (! gameManager.applyingAction ()) {
+			tChangeStateAction.setChainToPrevious (true);
 			addAction (tChangeStateAction);
 		}
 	}
@@ -1253,9 +1254,12 @@ public class PlayerManager {
 	public void undoAction (Player aPlayer) {
 		boolean tActionUndone;
 		Action tActionToUndo;
+		Action tLastActionDone;
 		Player tCurrentPlayer;
+		String tLastActionActor, tUndoneActionActor;
 		
 		tActionToUndo = stockRound.getLastAction ();
+		tUndoneActionActor = tActionToUndo.getActorName ();
 		tActionUndone = stockRound.undoLastAction ();
 		if (tActionUndone) {
 			aPlayer.updatePlayerInfo ();
@@ -1265,6 +1269,13 @@ public class PlayerManager {
 				tCurrentPlayer = getCurrentPlayer ();
 				tCurrentPlayer.showPlayerFrame ();
 				tCurrentPlayer.updatePlayerInfo ();
+			}
+			tLastActionDone = stockRound.getLastAction ();
+			if (tLastActionDone != Action.NO_ACTION) {
+				tLastActionActor = tLastActionDone.getActorName ();
+				if (! tLastActionActor.equals (tUndoneActionActor)) {
+					aPlayer.hidePlayerFrame ();
+				}
 			}
 			System.out.println ("Last Action undone successfully");
 		} else {
