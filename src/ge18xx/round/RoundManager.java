@@ -286,6 +286,14 @@ public class RoundManager implements ActionListener {
 		return tActor;
 	}
 	
+	public Round getRoundByTypeName (String aActorName) {
+		Round tRound;
+		
+		tRound = (Round) getActor (aActorName);
+	
+		return tRound;
+	}
+	
 	public AuctionRound getAuctionRound () {
 		return auctionRound;
 	}
@@ -466,21 +474,6 @@ public class RoundManager implements ActionListener {
 		}
 		
 		return tRoundType;
-	}
-
-	public Round getRoundByTypeName (String tActorName) {
-		Round tRound;
-		
-		tRound = null;
-		if (tActorName.equals (StockRound.NAME)) {
-			tRound = getStockRound ();
-		} else if (tActorName.equals (OperatingRound.NAME)) {
-			tRound = getOperatingRound ();
-		} else if (tActorName.equals (AuctionRound.NAME)) {
-			tRound = getAuctionRound ();
-		}
-		
-		return tRound;
 	}
 	
 	public String getRoundType () {
