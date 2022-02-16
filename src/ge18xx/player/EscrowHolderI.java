@@ -5,7 +5,7 @@ import ge18xx.company.Certificate;
 
 public interface EscrowHolderI extends CashHolderI {
 
-	Bank getBank();
+	Bank getBank ();
 	void removeEscrow (Escrow escrow, boolean escrowCloseMatch);
 	Escrow addEscrowInfo (Certificate tCertificate, int tCash);
 	void printAllEscrows ();
