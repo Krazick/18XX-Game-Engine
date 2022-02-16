@@ -111,16 +111,6 @@ public abstract class Round implements ActorI {
 		return roundManager.hasActionsToUndo ();
 	}
 	
-	@Override
-	public boolean isAPlayer () {
-		return false;
-	}
-	
-	@Override
-	public boolean isAPrivateCompany () {
-		return false;
-	}
-	
 	public void loadRound (XMLNode aRoundNode) {
 		idPart1 = aRoundNode.getThisIntAttribute (AN_ROUND_PART1);
 		idPart2 = aRoundNode.getThisIntAttribute (AN_ROUND_PART2);
@@ -228,12 +218,22 @@ public abstract class Round implements ActorI {
 	}
 	
 	@Override
-	public String getName() {
+	public String getName () {
 		return NAME;
 	}
 	
 	public boolean wasLastActionStartAuction () {
 		return roundManager.wasLastActionStartAuction ();
+	}
+	
+	@Override
+	public boolean isAPlayer () {
+		return false;
+	}
+	
+	@Override
+	public boolean isAPrivateCompany () {
+		return false;
 	}
 
 	@Override
