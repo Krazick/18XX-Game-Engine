@@ -133,7 +133,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 		soldCompanies = new SoldCompanies ();
 		escrows = new Escrows (this);
-		logger = Game_18XX.getLogger();
+		logger = Game_18XX.getLogger ();
 		tBenefitInUse = new FakeBenefit ();
 		setBenefitInUse (tBenefitInUse);
 	}
