@@ -1750,14 +1750,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return playerManager.getCurrentPlayerFrame ();
 	}
 	
-//	public void showFrame (XMLFrame aXMLFrame) {
-//		aXMLFrame.pack ();
-//		aXMLFrame.revalidate ();
-//		aXMLFrame.toFront ();
-//		aXMLFrame.setVisible (true);
-//		aXMLFrame.setEnabled(true);
-//	}
-	
 	public void showMap () {
 		mapFrame.showFrame ();
 	}
