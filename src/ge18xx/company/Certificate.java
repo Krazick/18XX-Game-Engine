@@ -743,6 +743,7 @@ public class Certificate implements Comparable<Certificate> {
 		}
 	}
 
+	// TODO: Build JUNIT Test Cases for getCost, getValue, getDiscount
 	public int getCost () {
 		int tCertificateCost = 0;
 		int tParPrice;
