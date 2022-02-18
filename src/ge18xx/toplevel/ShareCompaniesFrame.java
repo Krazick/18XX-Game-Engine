@@ -34,6 +34,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [3].toString ();
 	public static final String BASE_TITLE = BASE_TYPE + " Companies";
 	public static final ElementName EN_SHARES = new ElementName (BASE_TYPE + "s");
+	public static final ShareCompaniesFrame NO_SHARES_FRAME = null;
 	private static final long serialVersionUID = 1L;
 	JButton sellShareButton;
 	JButton buyShareButton;
