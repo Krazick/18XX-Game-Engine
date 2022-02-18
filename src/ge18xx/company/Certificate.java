@@ -742,26 +742,47 @@ public class Certificate implements Comparable<Certificate> {
 			checkedButton.setSelected (false);
 		}
 	}
-	
+
 	public int getCost () {
 		int tCertificateCost = 0;
 		int tParPrice;
 		
 		if (hasParPrice ()) {
-			tParPrice = getParPrice ();
-			tCertificateCost = calcCertificateValue (tParPrice);
+			tCertificateCost = getValue () - getDiscount ();
 		} else if (isShareCompany ()) {
 			tParPrice = getComboParValue ();
 			if (tParPrice != ParPriceFrame.NO_PAR_PRICE_VALUE) {
 				tCertificateCost = calcCertificateValue (tParPrice);
 			}
+		// If it does not have a Share Price, and is not a Share Company
+		// Originally this was just a Private, but this is now part of getValue Method
 		} else {
 			tCertificateCost = getValue () - getDiscount ();
 		}
 		
 		return tCertificateCost;
 	}
+
+	public int getValue () {
+		int iValue;
+		int iSharePrice;
+		
+		iValue = 0;
+		if (corporation.isShareCompany ()) {
+			iSharePrice = getSharePrice ();
+			iValue = calcCertificateValue (iSharePrice);
+		} else if (corporation.isAPrivateCompany ()) {
+			PrivateCompany tPrivate = (PrivateCompany) corporation;
+			iValue = tPrivate.getValue ();
+		}
+		
+		return iValue;
+	}
 	
+	public int getDiscount () {
+		return corporation.getDiscount ();
+	}
+
 	public boolean hasBidders () {
 		return bidders.hasBidders ();
 	}
@@ -878,10 +899,6 @@ public class Certificate implements Comparable<Certificate> {
 	
 	public String getCorpType () {
 		return corporation.getType ();
-	}
-	
-	public int getDiscount () {
-		return corporation.getDiscount ();
 	}
 	
 	public ShareCompany getShareCompany () {
@@ -1030,22 +1047,6 @@ public class Certificate implements Comparable<Certificate> {
 		}
 		
 		return tSharePrice;
-	}
-
-	public int getValue () {
-		int iValue;
-		int iSharePrice;
-		
-		iValue = 0;
-		if (corporation.isShareCompany ()) {
-			iSharePrice = getSharePrice ();
-			iValue = calcCertificateValue (iSharePrice);
-		} else if (corporation.isAPrivateCompany ()) {
-			PrivateCompany tPrivate = (PrivateCompany) corporation;
-			iValue = tPrivate.getValue ();
-		}
-		
-		return iValue;
 	}
 	
 	public int calcCertificateValue (int aSharePrice) {
