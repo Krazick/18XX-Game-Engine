@@ -75,8 +75,7 @@ public class PrivatesFrame extends CorporationTableFrame {
 		return tTotalEscrow;
 	}
 
-	public Benefit findBenefit (String aBenefitName) {
-		
+	public Benefit findBenefit (String aBenefitName) {	
 		return companies.findBenefit (aBenefitName);
 	}
 }
