@@ -100,6 +100,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	String exchangedPrezShare;
 	SoldCompanies soldCompanies;
 	
+	// TODO: Extract out the 'aPrivatdes, aCoals, aMinors, aShares' arguments and 
+	// saved values. Fetch directly from GameManager if needed here, or in later classes.
+	// This class should not need to store and access these.
+	
 	public Player (String aName, boolean aPrivates, boolean aCoals, boolean aMinors, 
 					boolean aShares, PlayerManager aPlayerManager, int aCertificateLimit) {
 		String tFullTitle;
@@ -615,7 +619,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		GameManager tGameManager;
 
 		tPlayerShareLimit = playerManager.getPlayerShareLimit ();
-		tGameManager = playerManager.getGameManager();
+		tGameManager = getGameManager ();
 		tShareCompany = tGameManager.getShareCompany (aCompanyAbbrev);
 		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tMarketCell = tShareCompany.getSharePriceMarketCell ();
