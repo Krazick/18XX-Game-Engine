@@ -6,7 +6,7 @@
     <property name="dir.buildfile" value="."/>
     <property name="dir.workspace" value="${dir.buildfile}/.."/>
     <property name="dir.jarfile" value="/Users/marksmith/Documents/18XX_Games"/>
-	<property name="version.num" value="0.7.7 Beta"/>
+	<property name="version.num" value="0.7.9 Beta"/>
 	<buildnumber file="1212"/>
     <target name="create_run_jar">
         <jar destfile="${dir.jarfile}/ge18XX.jar" filesetmanifest="mergewithoutmain">
