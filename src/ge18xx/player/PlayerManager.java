@@ -69,6 +69,7 @@ public class PlayerManager {
 		setStockRound (StockRound.NO_STOCK_ROUND);
 	}
 	
+	
 	public void addPlayer (String aName, boolean aPrivates, boolean aCoals, boolean aMinors, boolean aShares, int aCertificateLimit) {
 		Player tPlayer;
 		
