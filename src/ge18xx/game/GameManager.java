@@ -567,19 +567,25 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public boolean gameHasPrivates () {
-		boolean tGameHasPrivates;
-		
-		tGameHasPrivates = activeGame.hasPrivates ();
-		
-		return tGameHasPrivates;
+		return activeGame.hasPrivates ();
 	}
 
+	public boolean gameHasCoals () {
+		return (getCountOfCoals () > 0);
+	}
+	public boolean gameHasMinors () {
+		return (getCountOfMinors () > 0);
+	}
+	public boolean gameHasShares () {
+		return (getCountOfShares () > 0);
+	}
+	
 	public boolean gameIsSaved () {
 		return (saveFile != null);
 	}
 	
 	public boolean gameIsStarted () {
-		return (activeGame != null);
+		return (activeGame != GameInfo.NO_GAME_INFO);
 	}
 
 	public GameInfo getActiveGame () {
@@ -794,6 +800,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 		
 		return tCountOfPrivates;
+	}
+
+	public int getCountOfShares () {
+		int tCountOfShares = 0;
+		
+		if (shareCompaniesFrame != ShareCompaniesFrame.NO_SHARES_FRAME) {
+			tCountOfShares = shareCompaniesFrame.getCountOfCompanies ();
+		}
+		
+		return tCountOfShares;
 	}
 	
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
@@ -1656,6 +1672,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
+	
 	private void setupPlayers () {
 		Player tPlayer;
 		PlayerManager tPlayerManager;
