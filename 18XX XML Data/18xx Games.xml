@@ -381,7 +381,7 @@
 			<File type="tileSet" name="1870 XML Data/1870 TileSet.xml" />
 		</Files>
 	</GameInfo>
-		<GameInfo id="6" name="1830+" minPlayers="2" maxPlayers="6"
+	<GameInfo id="6" name="1830+" minPlayers="2" maxPlayers="6"
 		bankTotal="12000" currencyFormat="$ ###,###" subtitle="Railroads and Robber Barons"
 		location="North Eastern United States" designers="Francis Tresham (UK) and Bruce Shelley (US)"
 		producers="Mayfair" releaseDate="2011"
@@ -447,6 +447,74 @@
 			<File type="cities" name="1830+ XML Data/1830+ Cities.xml" />
 			<File type="market" name="1830+ XML Data/1830+ Market.xml" />
 			<File type="tileSet" name="1830+ XML Data/1830+ TileSet.xml" />
+		</Files>
+	</GameInfo>
+	<GameInfo id="6" name="1830TEST" minPlayers="2" maxPlayers="6"
+		bankTotal="12000" currencyFormat="$ ###,###" subtitle="Railroads and Robber Barons"
+		location="North Eastern United States" designers="Francis Tresham (UK) and Bruce Shelley (US)"
+		producers="Mayfair" releaseDate="2011"
+		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
+		<Options>
+			<!--  			
+			<Option title="All Share Companies must buy Train">
+				<OptionEffect name="Must Buy Train" default="true" />
+			</Option>
+			-->
+			<Option title="Optional 6 Train">
+				<OptionEffect name="Set Train Quantity" trainName="6" quantity="3" />
+			</Option>
+			<Option title="Unlimited Diesels">
+				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="99" />
+			</Option>
+			<Option title="No Diesels">
+				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0" />
+			</Option>
+			<Option title="Introductory Game (Bank of $4,500)">
+				<OptionEffect name="Add To Bank" quantity="-7500" />
+			</Option>
+		</Options>
+		<PlayerInfo>
+			<Player numPlayers="2" startingCash="1200" certificateLimit="28" />
+			<Player numPlayers="3" startingCash="800" certificateLimit="20" />
+			<Player numPlayers="4" startingCash="600" certificateLimit="16" />
+			<Player numPlayers="5" startingCash="480" certificateLimit="13" />
+			<Player numPlayers="6" startingCash="400" certificateLimit="11" />
+		</PlayerInfo>
+		<Phases>
+			<Phase name="1" subName="1" rounds="1" tiles="Yellow"
+				trainLimit="4" offBoard="Low" />
+			<Phase name="2" subName="1" rounds="2" tiles="Yellow,Green"
+				canBuyPrivate="true" canBuyTrain="true" trainLimit="4" offBoard="Low" />
+			<Phase name="2" subName="2" rounds="2" tiles="Yellow,Green"
+				canBuyPrivate="true" canBuyTrain="true" trainLimit="3" offBoard="Low" />
+			<Phase name="3" subName="1" rounds="3" tiles="Yellow,Green,Brown"
+				closePrivate="true" canBuyTrain="true" trainLimit="2" offBoard="High" />
+			<Phase name="3" subName="2" rounds="3" tiles="Yellow,Green,Brown"
+				canBuyTrain="true" trainLimit="2" offBoard="High" />
+			<Phase name="3" subName="3" rounds="3" tiles="Yellow,Green,Brown"
+				canBuyTrain="true" trainLimit="2" offBoard="High" />
+		</Phases>
+		<Trains>
+			<Train name="2" order="1" revenueCenters="2" quantity="6" price="80"
+				 onLast="2" />
+			<Train name="3" order="2" revenueCenters="3" quantity="5" price="180"
+				onLast="3" triggerPhase="2.1" tileInfo="Green"/>
+			<Train name="4" order="3" revenueCenters="4" quantity="4" price="300"
+				onLast="4" triggerPhase="2.2" rust="2" />
+			<Train name="5" order="4" revenueCenters="5" quantity="3" price="450"
+				onLast="5" triggerPhase="3.1" tileInfo="Brown"/>
+			<Train name="6" order="5" revenueCenters="6" quantity="2" price="630"
+				onFirst="6" triggerPhase="3.2" rust="3" />
+			<Train name="Diesel" order="6" revenueCenters="unlimited" quantity="6"
+				price="1100" triggerPhase="3.3" discountPrice="800" tradeInTrain="4,5,6"
+				rust="4" />
+		</Trains>
+		<Files>
+			<File type="map" name="1830TEST XML Data/1830TEST Map.xml" />
+			<File type="companies" name="1830TEST XML Data/1830TEST Companies.xml" />
+			<File type="cities" name="1830TEST XML Data/1830TEST Cities.xml" />
+			<File type="market" name="1830TEST XML Data/1830TEST Market.xml" />
+			<File type="tileSet" name="1830TEST XML Data/1830TEST TileSet.xml" />
 		</Files>
 	</GameInfo>
 </Games>
