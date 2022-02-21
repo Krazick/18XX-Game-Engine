@@ -117,7 +117,7 @@
 				<RevenueCenter from="16" to="12" rotation="0"/>
 			</Upgrade>
 		</Tile>
-		<Tile number="59" quantity="6">
+		<Tile number="59" quantity="3">
 			<Upgrade toNumber="64" rotations="0,2">
 				<RevenueCenter from="13" to="13" rotation="0" />
 				<RevenueCenter from="16" to="35" rotation="0" />
@@ -161,8 +161,8 @@
 		<Tile number="61" quantity="2" />
 		<Tile number="62" quantity="1" />
 		<Tile number="63" quantity="3" />
-		<Tile number="64" quantity="6" />
-		<Tile number="65" quantity="6" />
+		<Tile number="64" quantity="1" />
+		<Tile number="65" quantity="1" />
 		<Tile number="66" quantity="1" />
 		<Tile number="67" quantity="1" />
 		<Tile number="68" quantity="1" />
