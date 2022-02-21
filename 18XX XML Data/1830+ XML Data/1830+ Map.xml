@@ -70,32 +70,9 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<TileName name="OO" location="7" />
-			<RevenueCenter id="0" location="8" name="" number="1"
-				type="Single City" />
-			<RevenueCenter id="0" location="11" name="" number="1"
-				type="Single City" />
-<!--			<RevenueCenter id="11" location="20" name="" number="1"
-				type="Single City" />  -->
 		</MapCell>
 		<MapCell>
-			<Terrain category="base" type="Clear" />
-			<TileName name="OO" location="7" />
-			<RevenueCenter id="0" location="8" name="" number="1"
-				type="Single City" />
-			<RevenueCenter id="0" location="11" name="" number="1"
-				type="Single City" />
-		</MapCell>
-		<MapCell>
-			<Terrain category="base" type="Clear" />
-			<TileName name="OO" location="7" />
-			<RevenueCenter id="0" location="8" name="" number="1"
-				type="Single City" />
-			<RevenueCenter id="0" location="11" name="" number="1"
-				type="Single City" />
-<!-- 			<Terrain category="optional" location="50" type="Hill" />
-			<RevenueCenter id="11" location="20" name="" number="1"
-				type="Single City" /> -->
+ 			<Terrain category="base" type="Clear" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -126,27 +103,12 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<TileName name="OO" location="7" />
-			<RevenueCenter id="0" location="8" name="" number="1"
-				type="Single City" />
-			<RevenueCenter id="0" location="11" name="" number="1"
-				type="Single City" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<TileName name="OO" location="7" />
-			<RevenueCenter id="0" location="8" name="" number="1"
-				type="Single City" />
-			<RevenueCenter id="0" location="11" name="" number="1"
-				type="Single City" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<TileName name="OO" location="7" />
-			<RevenueCenter id="0" location="8" name="" number="1"
-				type="Single City" />
-			<RevenueCenter id="0" location="11" name="" number="1"
-				type="Single City" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
