@@ -496,7 +496,7 @@ public class PlayerManager {
 		BankPool tBankPool;
 		int tCashValue;
 		int tParPrice;
-		Player tCurrentPresident, tNewPresident;
+		Player tCurrentPresident;
 		PortfolioHolderI tCurrentHolder;
 		boolean tCanBuyStock = true;
 		boolean tChainToPrevious = false;
@@ -578,15 +578,7 @@ public class PlayerManager {
 				}
 			}
 			
-			// If we have a Current President, and the Current Player is Not the President, 
-			// Check to see if the Current Player now owns more and we have to Exchange President Share
-			
-			if ((tCurrentPresident != Player.NO_PLAYER) && (tCurrentPresident != aPlayer)) {
-				tNewPresident = findNewPresident (tShareCompany, aPlayer, tCurrentPresident);
-				if ((tNewPresident != tCurrentPresident) && (tNewPresident != Player.NO_PLAYER)) {
-					exchangePresidentCertificate (tShareCompany, tCurrentPresident, tNewPresident, aBuyStockAction);
-				}
-			}
+			handlePresidentialTransfer (aPlayer, aBuyStockAction, tShareCompany, tCurrentPresident);
 
 			// Only want to change the Bought Share, and Primary Action State only if bought during the Stock Round
 			// (For an Auction, it does not change the player's Primary State)
@@ -606,6 +598,25 @@ public class PlayerManager {
 		aPlayer.updatePlayerInfo ();
 
 		return tBuyStockAction;
+	}
+
+
+	private void handlePresidentialTransfer (Player aPlayer, TransferOwnershipAction aTransferOwnershipAction, ShareCompany aShareCompany,
+			Player aCurrentPresident) {
+		Player tNewPresident;
+		
+		// TODO: Extract method out to test and handle Presidential Exchange
+		// Use this method to handle Private Exchange that tests and handles Presidential Exchange
+		
+		// If we have a Current President, and the Current Player is Not the President, 
+		// Check to see if the Current Player now owns more and we have to Exchange President Share
+		
+		if ((aCurrentPresident != Player.NO_PLAYER) && (aCurrentPresident != aPlayer)) {
+			tNewPresident = findNewPresident (aShareCompany, aPlayer, aCurrentPresident);
+			if ((tNewPresident != aCurrentPresident) && (tNewPresident != Player.NO_PLAYER)) {
+				exchangePresidentCertificate (aShareCompany, aCurrentPresident, tNewPresident, aTransferOwnershipAction);
+			}
+		}
 	}
 	
 	private void handleSetParPrice (Player aPlayer, Certificate aCertificate, ShareCompany aShareCompany, int aParPrice) {
@@ -735,23 +746,10 @@ public class PlayerManager {
 	}
 
 	public void exchangeCertificate (Player aPlayer, Certificate aCertificate) {
-		Certificate tNewCertificate;
 		Player tNewPresident;
 		Corporation tCorporation;
-		Corporation tNewCorporation;
-		ActorI.ActionStates tOldState;
-		ActorI.ActionStates tNewState;
 		ExchangeStockAction tExchangeStockAction;
 		String tCorporationAbbrev;
-		int tExchangeID;
-		int tExchangePercentage;
-		PrivateCompany tPrivateCompany;
-		Portfolio tBankPortfolio;
-		Portfolio tPlayerPortfolio;
-		Portfolio tClosedPortfolio;
-		Bank tBank;
-		ActorI.ActionStates tCurrentCorporationStatus;
-		ActorI.ActionStates tNewCorporationStatus;
 		
 		if (aCertificate != Certificate.NO_CERTIFICATE) {
 			tCorporation = aCertificate.getCorporation ();
@@ -766,41 +764,66 @@ public class PlayerManager {
 				exchangePresidentCertificate ((ShareCompany) tCorporation, aPlayer, tNewPresident, tExchangeStockAction);
 				addAction (tExchangeStockAction);
 			} else if (tCorporation.isAPrivateCompany ()) {
-				tPrivateCompany = (PrivateCompany) tCorporation;
-				tExchangeID = tPrivateCompany.getExchangeID ();
-				tExchangePercentage = tPrivateCompany.getExchangePercentage ();
-				tNewCorporation = gameManager.getCorporationByID (tExchangeID);
-				tBank = stockRound.getBank ();
-				tBankPortfolio = tBank.getPortfolio ();
-				tNewCertificate = tBankPortfolio.getCertificate (tNewCorporation, tExchangePercentage);
-				if (tNewCertificate != Certificate.NO_CERTIFICATE) {
-					tPlayerPortfolio = aPlayer.getPortfolio ();
-					tClosedPortfolio = tBank.getClosedPortfolio ();
-					tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundType (),stockRound.getID (), aPlayer);
-					tExchangeStockAction.addExchangeShareEffect (tPrivateCompany.getAbbrev (), tNewCorporation.getAbbrev ());
-					tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, aCertificate);
-					tExchangeStockAction.addTransferOwnershipEffect (aPlayer, aCertificate, tBank);
-					tPlayerPortfolio.transferOneCertificateOwnership (tBankPortfolio, tNewCertificate);
-					tExchangeStockAction.addTransferOwnershipEffect (tBank, tNewCertificate, aPlayer);
-					tOldState = tPrivateCompany.getActionStatus ();
-					tPrivateCompany.close ();
-					tNewState = tPrivateCompany.getActionStatus ();
-					tExchangeStockAction.addCloseCorporationEffect (tPrivateCompany, tOldState, tNewState);
-					tCurrentCorporationStatus = tNewCertificate.getCorporationStatus ();
-					tNewCertificate.updateCorporationOwnership ();
-					tNewCorporationStatus = tNewCertificate.getCorporationStatus ();
-					if (tCurrentCorporationStatus != tNewCorporationStatus) {
-						tExchangeStockAction.addStateChangeEffect (tNewCertificate.getCorporation (), 
-								tCurrentCorporationStatus, tNewCorporationStatus);
-					}
-					addAction (tExchangeStockAction);
-				}
+				handlePrivateExchange (aPlayer, aCertificate, tCorporation);
 			} else {
 				System.err.println ("Ready to Exchange a Minor Company for a Major");
 			}
 			aPlayer.updatePlayerInfo ();				
 		} else {
 			System.err.println ("No Certificate selected to Exchange");
+		}
+	}
+
+
+	private void handlePrivateExchange (Player aPlayer, Certificate aCertificate, Corporation aCorporation) {
+		Certificate tNewCertificate;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		ExchangeStockAction tExchangeStockAction;
+		int tExchangeID;
+		int tExchangePercentage;
+		PrivateCompany tPrivateCompany;
+		Portfolio tBankPortfolio;
+		Portfolio tPlayerPortfolio;
+		Portfolio tClosedPortfolio;
+		Bank tBank;
+		ActorI.ActionStates tCurrentCorporationStatus;
+		ActorI.ActionStates tNewCorporationStatus;
+		Player tCurrentPresident;
+		ShareCompany tShareCompany;
+		
+		tPrivateCompany = (PrivateCompany) aCorporation;
+		tExchangeID = tPrivateCompany.getExchangeID ();
+		tExchangePercentage = tPrivateCompany.getExchangePercentage ();
+		tShareCompany = (ShareCompany) gameManager.getCorporationByID (tExchangeID);
+		tBank = stockRound.getBank ();
+		tBankPortfolio = tBank.getPortfolio ();
+		tNewCertificate = tBankPortfolio.getCertificate (tShareCompany, tExchangePercentage);
+		if (tNewCertificate != Certificate.NO_CERTIFICATE) {
+			tPlayerPortfolio = aPlayer.getPortfolio ();
+			tClosedPortfolio = tBank.getClosedPortfolio ();
+			tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundType (),stockRound.getID (), aPlayer);
+			tExchangeStockAction.addExchangeShareEffect (tPrivateCompany.getAbbrev (), tShareCompany.getAbbrev ());
+			tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, aCertificate);
+			tExchangeStockAction.addTransferOwnershipEffect (aPlayer, aCertificate, tBank);
+			tPlayerPortfolio.transferOneCertificateOwnership (tBankPortfolio, tNewCertificate);
+			tExchangeStockAction.addTransferOwnershipEffect (tBank, tNewCertificate, aPlayer);
+			tOldState = tPrivateCompany.getActionStatus ();
+			tPrivateCompany.close ();
+			tNewState = tPrivateCompany.getActionStatus ();
+			tExchangeStockAction.addCloseCorporationEffect (tPrivateCompany, tOldState, tNewState);
+			tCurrentCorporationStatus = tNewCertificate.getCorporationStatus ();
+			tNewCertificate.updateCorporationOwnership ();
+			tNewCorporationStatus = tNewCertificate.getCorporationStatus ();
+			if (tCurrentCorporationStatus != tNewCorporationStatus) {
+				tExchangeStockAction.addStateChangeEffect (tNewCertificate.getCorporation (), 
+						tCurrentCorporationStatus, tNewCorporationStatus);
+			}
+			tCurrentPresident = (Player) tShareCompany.getPresident ();
+			handlePresidentialTransfer (aPlayer, tExchangeStockAction, tShareCompany, tCurrentPresident);
+
+			// TODO -- 
+			addAction (tExchangeStockAction);
 		}
 	}
 	
