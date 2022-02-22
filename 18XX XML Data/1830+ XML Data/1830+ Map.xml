@@ -32,14 +32,20 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Off Board Red" />
+			<Tile number="9833" orientation="0" starting="TRUE" />
+			<RevenueCenter id="1" location="50" name="Deep South" number="1"
+				type="Dead-End Only City" />
 		</MapCell>
 		<MapCell>
-			<Terrain category="base" type="Off Board Green" />
+			<Terrain category="base" type="Clear" />
 		</MapCell>
 	</Row>
 	<Row index="1" startCol="0">
 		<MapCell>
 			<Terrain category="base" type="Off Board Red" />
+			<Tile number="9806" orientation="0" starting="TRUE" />
+			<RevenueCenter id="2" location="13" name="St. Louis" number="1"
+				type="Dead-End Only City" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -64,11 +70,15 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
+			<Tile number="9937" orientation="0" starting="TRUE" />
 		</MapCell>
 	</Row>
 	<Row index="2" startCol="0">
 		<MapCell>
 			<Terrain category="base" type="Off Board Red" />
+			<Tile number="9805" orientation="0" starting="TRUE" />
+			<RevenueCenter id="2" location="13" name="" number="1"
+				type="Dead-End Only City" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -80,7 +90,7 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="11" type="Hill" />
+			<Terrain category="optional" location="13" type="Hill" />
 			<RevenueCenter id="11" location="20" name="Huntington" number="1"
 				type="Single City" />
 		</MapCell>
@@ -187,7 +197,7 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Tile number="9944" orientation="0" starting="TRUE" />
+			<Tile number="9936" orientation="0" starting="TRUE" />
 		</MapCell>
 	</Row>
 	<Row index="5" startCol="0">

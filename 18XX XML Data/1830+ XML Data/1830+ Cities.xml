@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Cities>
 	<CityInfo id="1" location="17" name="Deep South" type="3" />
-	<CityInfo id="2" location="14" name="Gulf" type="3" />
+	<CityInfo id="2" location="14" name="St. Louis" type="3" />
 	<CityInfo id="3" location="14" name="Chicago" type="3" />
 	<CityInfo id="4" location="14" name="Canadian West" type="3" />
 	<CityInfo id="5" location="14" name="Maritime Provinces" type="3" />
