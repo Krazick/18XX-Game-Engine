@@ -77,8 +77,8 @@
 			allowedOwners="IPO,Player,BankPool" />
 	</Share>
 	<Share id="1104" name="Chesapeake &amp; Ohio" abbrev="C&amp;O"
-		homeCell1="F6" homeLocation1="17" bgColor="turquoise" fgColor="Black"
-		tokens="3">
+		homeCell1="F6" homeLocation1="17" homeCell2="K13" homeLocation2="50"
+		bgColor="turquoise" fgColor="Black" tokens="3">
 		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
 		<Certificate director="NO" percentage="10" quantity="8"
 			allowedOwners="IPO,Player,BankPool" />

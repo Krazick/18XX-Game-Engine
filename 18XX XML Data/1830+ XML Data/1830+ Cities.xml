@@ -14,4 +14,12 @@
 	<CityInfo id="12" location="14" name="Philadelphia" type="3" />
 	<CityInfo id="13" location="17" name="Altoona" type="3" />
 	<CityInfo id="14" location="14" name="Montreal" type="3" />
+	<CityInfo id="15" location="14" name="Richmond" type="3" />
+	<CityInfo id="16" location="14" name="Lexington" type="3" />
+	<CityInfo id="17" location="14" name="Huntington" type="3" />
+	<CityInfo id="18" location="14" name="Columbus" type="3" />
+	<CityInfo id="19" location="14" name="Reading" type="3" />
+	<CityInfo id="20" location="14" name="Pittsburg" type="3" />
+	<CityInfo id="21" location="14" name="Scranton" type="3" />
+	<CityInfo id="22" location="14" name="Trenton" type="3" />
 </Cities>
