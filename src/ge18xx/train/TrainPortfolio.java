@@ -31,7 +31,6 @@ public class TrainPortfolio implements TrainHolderI {
 	private final static String NEWLINE = "\n";
 	public final static ElementName EN_TRAIN_PORTFOLIO = new ElementName ("TrainPortfolio");
 	public final static ElementName EN_RUSTED_TRAIN_PORTFOLIO = new ElementName ("RustedTrainPortfolio");
-	public static final TrainHolderI NO_TRAIN_HOLDER = null;
 	public static final String ALL_TRAINS = "ALL";
 	public static final String AVAILABLE_TRAINS = "AVAILABLE";
 	public static final String FUTURE_TRAINS = "FUTURE";
@@ -39,6 +38,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public static final boolean FULL_TRAIN_PORTFOLIO = true;
 	public static final boolean COMPACT_TRAIN_PORTFOLIO = false;
 	public static final TrainPortfolio NO_TRAIN_PORTFOLIO = null;
+	private final static ArrayList<Train> NO_TRAINS = null;
 	ArrayList<Train> trains;
 	CashHolderI portfolioHolder;
 	
@@ -195,7 +195,7 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 	
 	public void clearSelections () {
-		if (trains != null) {
+		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
 				tTrain.clearSelection ();
 			}
@@ -206,7 +206,7 @@ public class TrainPortfolio implements TrainHolderI {
 		int tCountOfTrains;
 		
 		tCountOfTrains = 0;
-		if (trains != null) {
+		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
 				if (tTrain.isTrainThisOrder (aOrder)) {
 					tCountOfTrains++;
@@ -219,13 +219,13 @@ public class TrainPortfolio implements TrainHolderI {
 	
 	@Override
 	public CashHolderI getCashHolder() {
-		return null;
+		return (CashHolderI) CashHolderI.NO_ACTOR;
 	}
 	
 	public boolean anyTrainIsOperating () {
 		boolean tAnyTrainIsOperating = false;
 		
-		if (trains != null) {
+		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
 				if (tTrain.isOperating ()) {
 					tAnyTrainIsOperating = true;
@@ -239,7 +239,10 @@ public class TrainPortfolio implements TrainHolderI {
 	public String getTrainList () {
 		String tTrainList = "NO TRAINS";
 		int tTrainIndex = 0;
+		int tTrainLimit;
+		int tIndex;
 		
+		tTrainLimit = getTrainLimit ();
 		if (trains.size () > 0) {
 			tTrainList = "Trains (";
 			for (Train tTrain : trains) {
@@ -247,6 +250,11 @@ public class TrainPortfolio implements TrainHolderI {
 				tTrainIndex++;
 				if (tTrainIndex < trains.size ()) {
 					tTrainList += ", ";
+				}
+			}
+			if (tTrainIndex < tTrainLimit) {
+				for (tIndex = tTrainIndex; tIndex < tTrainLimit; tIndex++) {
+					tTrainList += ", X";
 				}
 			}
 			tTrainList += ")";
@@ -489,7 +497,7 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 	
 	@Override
-	public TrainPortfolio getTrainPortfolio() {
+	public TrainPortfolio getTrainPortfolio () {
 		return this;
 	}
 	
@@ -924,5 +932,18 @@ public class TrainPortfolio implements TrainHolderI {
 	@Override
 	public boolean isABank () {
 		return portfolioHolder.isABank ();
+	}
+
+	@Override
+	public int getTrainLimit() {
+		TrainCompany tTrainCompany;
+		int tTrainLimit = 0;
+		
+		if (isATrainCompany ()) {
+			tTrainCompany = (TrainCompany) portfolioHolder;
+			tTrainLimit = tTrainCompany.getTrainLimit ();
+		}
+		
+		return tTrainLimit;
 	}
 }

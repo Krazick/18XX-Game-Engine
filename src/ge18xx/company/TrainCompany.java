@@ -1009,6 +1009,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tTrainCount;
 	}
 	
+	@Override
 	public int getTrainLimit () {
 		int tTrainLimit;
 		

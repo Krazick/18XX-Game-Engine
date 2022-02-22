@@ -3,7 +3,7 @@ package ge18xx.train;
 import ge18xx.player.CashHolderI;
 
 public interface TrainHolderI {
-	TrainHolderI NO_TRAIN_HOLDER = null;
+	public static final TrainHolderI NO_TRAIN_HOLDER = null;
 
 	public void addTrain (Train aTrain);
 	
@@ -38,6 +38,8 @@ public interface TrainHolderI {
 	 * False if this Entity does not have a train of this name	 */
 	public boolean removeSelectedTrain ();
 
+	public int getTrainLimit ();
+	
 	public int getLocalSelectedTrainCount ();
 
 	public boolean isATrainCompany ();
