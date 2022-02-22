@@ -4,8 +4,10 @@
 	width="860" height="790" xLocation="100" yLocation="100" visible="false">
 	<TerrainCosts>
 		<Terrain cost="40" type="Coast" />
+		<Terrain cost="40" type="Small River" />
 		<Terrain cost="80" type="River" />
-		<Terrain cost="120" type="Hill" />
+		<Terrain cost="80" type="Hill" />
+		<Terrain cost="120" type="Mountain" />
 	</TerrainCosts>
 	<Row index="0" startCol="0">
 		<MapCell>
@@ -19,11 +21,11 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -44,15 +46,15 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -70,53 +72,64 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
+			<RevenueCenter id="11" location="50" name="" number="1"
+				type="Single City" />
 		</MapCell>
 		<MapCell>
  			<Terrain category="base" type="Clear" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
-		</MapCell>
-		<MapCell>
-			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
-		</MapCell>
-		<MapCell>
-			<Terrain category="base" type="Clear" />
-			<RevenueCenter id="11" location="20" name="" number="1"
+			<Terrain category="optional" location="11" type="Hill" />
+			<RevenueCenter id="11" location="20" name="Huntington" number="1"
 				type="Single City" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Tile number="9947" orientation="0" starting="TRUE" />
-			<RevenueCenter id="10" location="13" name="" number="1"
+			<Terrain category="optional" location="50" type="Mountain" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="Mountain" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<RevenueCenter id="10" location="13" name="Richmond" number="1"
 				type="Single City" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="Coast" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="Coast" />
 		</MapCell>
 	</Row>
 	<Row index="3" startCol="0">
 		<MapCell>
 			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="River" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="River" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="River" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="River" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -125,12 +138,17 @@
 			<Terrain category="optional" location="50" type="River" />
 		</MapCell>
 		<MapCell>
-			<Terrain category="base" type="Off Board Green" />
+			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="Coast" />
+		</MapCell>
+		<MapCell>
+			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="Coast" />
 		</MapCell>
 	</Row>
 	<Row index="4" startCol="0">
 		<MapCell>
-			<Terrain category="base" type="Clear" />
+			<Terrain category="base" type="Off Board Green" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -143,10 +161,11 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
+			<Terrain category="optional" location="50" type="River" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -241,11 +260,11 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="13" type="Hill" />
+			<Terrain category="optional" location="13" type="Mountain" />
 			<RevenueCenter id="0" location="10" name="SVN&amp;RR"
 				type="Private Railway" />
 			<RevenueCenter id="0" location="15" name="SVN&amp;RR"
@@ -305,7 +324,7 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="13" type="Hill" />
+			<Terrain category="optional" location="13" type="Mountain" />
 			<RevenueCenter id="0" location="17" name="" number="1"
 				type="Single City" />
 			<RevenueCenter id="0" location="16" name="D&amp;H"
@@ -374,7 +393,7 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -383,7 +402,7 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -446,7 +465,7 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -483,7 +502,7 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 			<Blocked side="1" />
 		</MapCell>
 		<MapCell>
@@ -492,7 +511,7 @@
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
-			<Terrain category="optional" location="50" type="Hill" />
+			<Terrain category="optional" location="50" type="Mountain" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
