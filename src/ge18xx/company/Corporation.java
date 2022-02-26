@@ -75,7 +75,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public static final String COAL_COMPANY = "Coal";
 	public static final String MINOR_COMPANY = "Minor";
 	public static final String SHARE_COMPANY = "Share";
-	public static final String NO_NAME = null;
+	public static final String NO_NAME = ActorI.NO_NAME;
 	public static final int NO_ID = 0;
 	public static final Corporation NO_CORPORATION = null;
 	static final String enum_closed = ActionStates.Closed.toString ();

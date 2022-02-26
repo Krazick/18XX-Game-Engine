@@ -204,8 +204,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			tOwnerName = roundManager.getOperatingOwnerName ();
 		} else {
 			tNextToOperate = getNextToOperate ();
-			tNextCorpToOperate = getCorporation (tNextToOperate);
-			tOwnerName = tNextCorpToOperate.getPresidentName ();
+			if (tNextToOperate != NO_CORPORATION_INDEX) {
+				tNextCorpToOperate = getCorporation (tNextToOperate);
+				tOwnerName = tNextCorpToOperate.getPresidentName ();
+			}
 		}
 		
 		return tOwnerName;
