@@ -81,10 +81,12 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		fillRevenuesBox ();
 		buildsButtonsJPanel ();
 		presidentLabel.setAlignmentX (CENTER_ALIGNMENT);
-		lastRevenue = new JLabel (LAST_REVENUE + trainCompany.getFormattedLastRevenue ());
+		lastRevenue = new JLabel (LAST_REVENUE + "NOT SET YET");
 		lastRevenue.setAlignmentX (CENTER_ALIGNMENT);
-		thisRevenue = new JLabel (THIS_REVENUE + "NONE");
+		updateLastRevenue ();
+		thisRevenue = new JLabel (THIS_REVENUE + "NOT SET YET");
 		thisRevenue.setAlignmentX (CENTER_ALIGNMENT);
+		updateThisRevenue ();
 		
 		buildAllFramesJPanel ();
 		
@@ -663,13 +665,21 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tTitleText = "Train Revenue for " + trainCompany.getName () + " with " + tTrainInfo;
 		title.setText (tTitleText);
 		updatePresidentLabel ();
-		lastRevenue.setText (LAST_REVENUE + trainCompany.getFormattedLastRevenue ());
-		thisRevenue.setText (THIS_REVENUE + "NONE");
+		updateLastRevenue ();
 		fillRevenuesBox ();
+		updateThisRevenue ();
 		updateFrameSize ();
 		setFrameSetup (true);
 	}
 
+	private void updateLastRevenue () {
+		lastRevenue.setText (LAST_REVENUE + trainCompany.getFormattedLastRevenue ());
+	}
+	
+	private void updateThisRevenue () {
+		thisRevenue.setText (THIS_REVENUE + trainCompany.getFormattedThisRevenue ());
+	}
+	
 	public void setFrameSetup (boolean aFrameSetup) {
 		frameSetup = aFrameSetup;
 	}
