@@ -374,7 +374,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	}
 
 	@Override
-	public int getTrainLimit() {
+	public int getTrainLimit () {
 		return 0;
 	}
 }
