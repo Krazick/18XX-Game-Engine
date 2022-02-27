@@ -871,6 +871,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
+	public int getThisRevenue () {
+		return thisRevenue;
+	}
+
+	@Override
 	public int getLastRevenue () {
 		return lastRevenue;
 	}
@@ -981,11 +986,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 		
 		return tStatus;
-	}
-
-	@Override
-	public int getThisRevenue () {
-		return thisRevenue;
 	}
 
 	public Train getTrain (int aIndex) {
@@ -1782,9 +1782,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tGameManager = corporationList.getGameManager ();
 			tFrameOffset = tGameManager.getOffsetRoundFrame ();
 			trainRevenueFrame.setLocation (tFrameOffset);
-			trainRevenueFrame.updateInfo ();
+			trainRevenueFrame.setVisible (true);
 		}
-		trainRevenueFrame.setVisible (true);
+		trainRevenueFrame.updateInfo ();
 		trainRevenueFrame.disableAll (aTrainIndex);
 	}
 	
