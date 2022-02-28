@@ -935,6 +935,11 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	@Override
+	public boolean isABankPool () {
+		return portfolioHolder.isABankPool ();
+	}
+	
+	@Override
 	public int getTrainLimit() {
 		TrainCompany tTrainCompany;
 		int tTrainLimit = 0;
@@ -945,5 +950,43 @@ public class TrainPortfolio implements TrainHolderI {
 		}
 		
 		return tTrainLimit;
+	}
+
+	@Override
+	public String getAbbrev () {
+		return null;
+	}
+
+	@Override
+	public String getStateName () {
+		return null;
+	}
+
+	@Override
+	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
+	}
+
+	@Override
+	public boolean isAPrivateCompany () {
+		return false;
+	}
+
+	@Override
+	public boolean isAPlayer () {
+		return false;
+	}
+
+	@Override
+	public boolean isAStockRound () {
+		return false;
+	}
+
+	@Override
+	public boolean isAOperatingRound () {
+		return false;
+	}
+
+	@Override
+	public void completeBenefitInUse () {
 	}
 }
