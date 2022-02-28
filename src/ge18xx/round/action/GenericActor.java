@@ -190,6 +190,11 @@ public class GenericActor implements ActorI {
 	}
 
 	@Override
+	public boolean isABankPool () {
+		return false;
+	}
+
+	@Override
 	public boolean isACorporation () {
 		return false;
 	}

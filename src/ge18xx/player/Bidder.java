@@ -102,6 +102,11 @@ public class Bidder implements ActorI {
 	public boolean isABank () {
 		return false;
 	}
+	
+	@Override
+	public boolean isABankPool () {
+		return false;
+	}
 
 	@Override
 	public boolean isATrainCompany () {

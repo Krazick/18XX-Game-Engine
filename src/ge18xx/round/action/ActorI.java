@@ -73,6 +73,7 @@ public interface ActorI {
 	public boolean isAStockRound ();
 	public boolean isAOperatingRound ();
 	public boolean isABank ();
+	public boolean isABankPool ();
 	public boolean isACorporation ();
 	public boolean isATrainCompany ();
 	public void completeBenefitInUse ();

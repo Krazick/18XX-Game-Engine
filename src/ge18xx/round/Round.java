@@ -250,6 +250,11 @@ public abstract class Round implements ActorI {
 	public boolean isABank () {
 		return false;
 	}
+	
+	@Override
+	public boolean isABankPool () {
+		return false;
+	}
 
 	@Override
 	public boolean isACorporation () {

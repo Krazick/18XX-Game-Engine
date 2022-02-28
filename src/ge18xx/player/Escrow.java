@@ -196,6 +196,11 @@ public class Escrow implements CashHolderI {
 	public boolean isABank () {
 		return false;
 	}
+	
+	@Override
+	public boolean isABankPool () {
+		return false;
+	}
 
 	@Override
 	public boolean isACorporation () {

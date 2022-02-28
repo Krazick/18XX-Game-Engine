@@ -34,5 +34,6 @@ public interface PortfolioHolderI extends ActorI {
 	@Override
 	public String getAbbrev ();
 
+	@Override
 	public boolean isABankPool ();
 }
