@@ -84,6 +84,6 @@ public class BankPool extends GameBank {
 	
 	@Override
 	public String getAbbrev () {
-		return "Game Pool";
+		return NAME;
 	}
 }
