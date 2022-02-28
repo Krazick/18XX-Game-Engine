@@ -1,8 +1,9 @@
 package ge18xx.train;
 
 import ge18xx.player.CashHolderI;
+import ge18xx.round.action.ActorI;
 
-public interface TrainHolderI {
+public interface TrainHolderI extends ActorI {
 	public static final TrainHolderI NO_TRAIN_HOLDER = null;
 
 	public void addTrain (Train aTrain);
@@ -10,6 +11,7 @@ public interface TrainHolderI {
 	public CashHolderI getCashHolder ();
 	
 	/* Get the name of the Entity Holding the Train - Company vs Bank, vs BankPool */
+	@Override
 	public String getName ();
 	
 	/* Get the Selected Train from the Portfolio */
@@ -42,9 +44,15 @@ public interface TrainHolderI {
 	
 	public int getLocalSelectedTrainCount ();
 
+	@Override
 	public boolean isATrainCompany ();
 
+	@Override
 	public boolean isACorporation ();
 	
+	@Override
 	public boolean isABank ();
+	
+	@Override
+	public boolean isABankPool ();
 }
