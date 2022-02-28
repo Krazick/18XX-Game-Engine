@@ -51,9 +51,14 @@ public class RustTrainEffect extends TransferTrainEffect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tTrainName, tActorName, tToActorName;
 		
-		tTrainName = train.getName ();
+		if (train != Train.NO_TRAIN) {
+			tTrainName = train.getName ();
+		} else {
+			tTrainName = "???";
+		}
 		tActorName = actor.getName ();
 		tToActorName = toActor.getName ();
+
 		return (REPORT_PREFIX + name + " named " + tTrainName + " from " + tActorName +
 				" placing it into the Rusted Portfolio held by the " + tToActorName + ".");
 	}
