@@ -959,6 +959,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return phaseManager.getTrainLimit (aGovtRailway);
 	}
 
+	public Train getBankPoolTrain (String aTrainName) {
+		return bankPool.getTrain (aTrainName);
+	}
+
 	public Train getTrain (String aTrainName) {
 		return bank.getTrain (aTrainName);
 	}
