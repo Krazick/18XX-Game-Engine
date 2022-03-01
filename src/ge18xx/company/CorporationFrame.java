@@ -527,9 +527,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (corporation.isAShareCompany ()) {
 			tGameManager = corporation.getGameManager ();
 			tCountOpenPrivates = tGameManager.getCountOfOpenPrivates ();
+			privatesBox.removeAll ();
 			if (tCountOpenPrivates > 0) {
 				tCountPlayerOwnedPrivates = tGameManager.getCountOfPlayerOwnedPrivates ();
-				privatesBox.removeAll ();
 				if (tCountPlayerOwnedPrivates > 0) {
 					tShareCompany = (ShareCompany) corporation;
 					privatesJPanel = tShareCompany.buildPrivatesForPurchaseJPanel (this);
