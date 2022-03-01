@@ -50,7 +50,13 @@ public class TransferTrainEffect extends ToEffect {
 		
 		tTrainName = aEffectNode.getThisAttribute (AN_TRAIN_NAME);
 		setTrain (null);
-		if (tFromActor.isABank ()) {
+		if (tFromActor.isABankPool ()) {
+			tTrain = aGameManager.getBankPoolTrain (tTrainName);
+			if (tTrain == Train.NO_TRAIN) {
+				tTrain = aGameManager.getTrain (tTrainName);
+			}
+			setTrain (tTrain);
+		} else if (tFromActor.isABank ()) {
 			tTrain = aGameManager.getTrain (tTrainName);
 			setTrain (tTrain);
 		} else if (tFromActor.isACorporation ()) {
