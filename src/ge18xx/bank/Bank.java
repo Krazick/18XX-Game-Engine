@@ -282,7 +282,7 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 	
 	@Override
-	public CashHolderI getCashHolder() {
+	public CashHolderI getCashHolder () {
 		return (CashHolderI) this;
 	}
 
@@ -551,5 +551,4 @@ public class Bank extends GameBank implements CashHolderI {
 		
 		return tTrain;
 	}
-
 }
