@@ -1087,7 +1087,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		
 		tMapFrame = corporationList.getMapFrame ();
 		tMapFrame.clearTrainsFromMap ();
-		trainRevenueFrame.clearTrainsFromMap ();
+		trainRevenueFrame.clearAllTrainRoutes ();
 	}
 	
 	public void hideTrainRevenueFrame () {
