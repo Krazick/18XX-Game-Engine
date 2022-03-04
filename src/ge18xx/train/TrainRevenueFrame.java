@@ -119,17 +119,29 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	private void updateLastRevenueLabel () {
 		String tFormattedRevenue;
 		
-		tFormattedRevenue = Bank.formatCash (lastRevenue);
+		tFormattedRevenue = formatRevenue (lastRevenue);
 		lastRevenueLabel.setText (LAST_REVENUE + tFormattedRevenue);
 	}
 	
 	private void updateThisRevenueLabel () {
 		String tFormattedRevenue;
 		
-		tFormattedRevenue = Bank.formatCash (thisRevenue);
+		tFormattedRevenue = formatRevenue (thisRevenue);
 		thisRevenueLabel.setText (THIS_REVENUE + tFormattedRevenue);
 	}
 
+	public String formatRevenue (int aRevenueValue) {
+		String tFormattedRevenue;
+		
+		if (aRevenueValue == TrainCompany.NO_REVENUE_GENERATED) {
+			tFormattedRevenue = TrainCompany.NO_REVENUE;
+		} else {
+			tFormattedRevenue = Bank.formatCash (aRevenueValue);
+		}
+
+		return tFormattedRevenue;
+	}
+	
 	private void buildAllFramesJPanel (TrainCompany aTrainCompany) {
 		BoxLayout tLayoutY;
 		
