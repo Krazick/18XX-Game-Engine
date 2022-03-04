@@ -55,8 +55,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	TrainCompany trainCompany;
 	JLabel title;
 	JLabel presidentLabel;
-	JLabel lastRevenue;
-	JLabel thisRevenue;
+	JLabel lastRevenueLabel;
+	JLabel thisRevenueLabel;
 	JButton confirm;
 	JButton cancel;
 	JButton [] selectRoutes;
@@ -66,6 +66,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JPanel buttonsJPanel;
 	JFormattedTextField [] [] revenuesByTrain;
 	JLabel [] totalRevenueByEachTrain;
+	private int lastRevenue;
+	private int thisRevenue;
 	boolean yourCompany;
 	boolean frameSetup;
 	Logger logger;
@@ -81,14 +83,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		fillRevenuesBox ();
 		buildsButtonsJPanel ();
 		presidentLabel.setAlignmentX (CENTER_ALIGNMENT);
-		lastRevenue = new JLabel (LAST_REVENUE + "NOT SET YET");
-		lastRevenue.setAlignmentX (CENTER_ALIGNMENT);
-		updateLastRevenue ();
-		thisRevenue = new JLabel (THIS_REVENUE + "NOT SET YET");
-		thisRevenue.setAlignmentX (CENTER_ALIGNMENT);
-		updateThisRevenue ();
-		
-		buildAllFramesJPanel ();
+		buildAllFramesJPanel (aTrainCompany);
 		
 		revenuesByTrain = new JFormattedTextField [maxTrainCount] [maxStops];
 		totalRevenueByEachTrain = new JLabel [maxTrainCount];
@@ -102,7 +97,40 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		logger = Game_18XX.getLogger ();
 	}
 
-	private void buildAllFramesJPanel () {
+	public void setRevenueValues (TrainCompany aTrainCompany) {
+		int tThisRevenue, tLastRevenue;
+		
+		tThisRevenue = aTrainCompany.getThisRevenue ();
+		tLastRevenue = aTrainCompany.getLastRevenue ();
+		setThisRevenue (tThisRevenue);
+		setLastRevenue (tLastRevenue);
+	}
+	
+	private void setThisRevenue (int aThisRevenue) {
+		thisRevenue = aThisRevenue;
+		updateThisRevenueLabel ();
+	}
+	
+	private void setLastRevenue (int aLastRevenue) {
+		lastRevenue = aLastRevenue;
+		updateLastRevenueLabel ();
+	}
+
+	private void updateLastRevenueLabel () {
+		String tFormattedRevenue;
+		
+		tFormattedRevenue = Bank.formatCash (lastRevenue);
+		lastRevenueLabel.setText (LAST_REVENUE + tFormattedRevenue);
+	}
+	
+	private void updateThisRevenueLabel () {
+		String tFormattedRevenue;
+		
+		tFormattedRevenue = Bank.formatCash (thisRevenue);
+		thisRevenueLabel.setText (THIS_REVENUE + tFormattedRevenue);
+	}
+
+	private void buildAllFramesJPanel (TrainCompany aTrainCompany) {
 		BoxLayout tLayoutY;
 		
 		allFramesJPanel = new JPanel ();
@@ -111,16 +139,24 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		allFramesJPanel.setAlignmentY (CENTER_ALIGNMENT);
 		allFramesJPanel.setAlignmentX (CENTER_ALIGNMENT);
 		
+		lastRevenueLabel = new JLabel (LAST_REVENUE + "NOT SET YET");
+		lastRevenueLabel.setAlignmentX (CENTER_ALIGNMENT);
+
+		thisRevenueLabel = new JLabel (THIS_REVENUE + "NOT SET YET");
+		thisRevenueLabel.setAlignmentX (CENTER_ALIGNMENT);
+
+		setRevenueValues (aTrainCompany);
+
 		allFramesJPanel.add (Box.createVerticalStrut (10));
 		allFramesJPanel.add (title);
 		allFramesJPanel.add (Box.createVerticalStrut (10));
 		allFramesJPanel.add (presidentLabel);
 		allFramesJPanel.add (Box.createVerticalStrut (10));
-		allFramesJPanel.add (lastRevenue);
+		allFramesJPanel.add (lastRevenueLabel);
 		allFramesJPanel.add (Box.createVerticalStrut (10));
 		allFramesJPanel.add (allRevenuesBox);
 		allFramesJPanel.add (Box.createVerticalStrut (10));		
-		allFramesJPanel.add (thisRevenue);
+		allFramesJPanel.add (thisRevenueLabel);
 		allFramesJPanel.add (Box.createVerticalStrut (10));
 		allFramesJPanel.add (buttonsJPanel);
 		add (allFramesJPanel);
@@ -489,6 +525,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	public void operateTrains (Point aFrameOffset) {
+		setLastRevenue (trainCompany.getLastRevenue ());
+		setThisRevenue (trainCompany.getThisRevenue ());
 		updateInfo ();
 		copyAllRoutesToPrevious ();
 		clearAllTrainRoutes ();
@@ -586,8 +624,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		int tTotalRevenue;
 		
 		tTotalRevenue = getTotalRevenue (tSource);
-		thisRevenue.setText (THIS_REVENUE + Bank.formatCash (tTotalRevenue));
-		this.updateAllFrameButtons ();
+		setThisRevenue (tTotalRevenue);
+//		thisRevenueLabel.setText (THIS_REVENUE + Bank.formatCash (tTotalRevenue));
+		updateAllFrameButtons ();
 	}
 
 	private int getTotalRevenue (Object aSource) {
@@ -645,19 +684,13 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tTitleText = "Train Revenue for " + trainCompany.getName () + " with " + tTrainInfo;
 		title.setText (tTitleText);
 		updatePresidentLabel ();
-		updateLastRevenue ();
-		fillRevenuesBox ();
-		updateThisRevenue ();
+		updateLastRevenueLabel ();
+		if (! isVisible ()) {
+			fillRevenuesBox ();
+		}
+		updateThisRevenueLabel ();
 		updateFrameSize ();
 		setFrameSetup (true);
-	}
-
-	private void updateLastRevenue () {
-		lastRevenue.setText (LAST_REVENUE + trainCompany.getFormattedLastRevenue ());
-	}
-	
-	private void updateThisRevenue () {
-		thisRevenue.setText (THIS_REVENUE + trainCompany.getFormattedThisRevenue ());
 	}
 	
 	public void setFrameSetup (boolean aFrameSetup) {
