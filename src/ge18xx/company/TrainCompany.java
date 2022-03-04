@@ -138,6 +138,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		fgColorName = aChildNode.getThisAttribute (AN_FG_COLOR);
 		fgColor = translateColor (fgColorName);
 		value = aChildNode.getThisIntAttribute (AN_COST);
+		lastRevenue = aChildNode.getThisIntAttribute (AN_LAST_REVENUE);
+		thisRevenue = aChildNode.getThisIntAttribute (AN_THIS_REVENUE);
 		tMustBuyTrain = aChildNode.getThisBooleanAttribute (AN_MUST_BUY_TRAIN);
 		setMustBuyTrain (tMustBuyTrain);
 		closeOnTrainPurchase = aChildNode.getThisIntAttribute (AN_CLOSE_ON_TRAIN_PURCHASE, NO_ID);
@@ -1783,11 +1785,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (! trainRevenueFrame.isVisible ()) {
 			tGameManager = corporationList.getGameManager ();
 			tFrameOffset = tGameManager.getOffsetRoundFrame ();
+			trainRevenueFrame.setRevenueValues (this);
 			trainRevenueFrame.setLocation (tFrameOffset);
-			trainRevenueFrame.setVisible (true);
 		}
 		trainRevenueFrame.updateInfo ();
 		trainRevenueFrame.disableAll (aTrainIndex);
+		trainRevenueFrame.setVisible (true);
 	}
 	
 	public boolean setNewEndPoint (int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation) {
