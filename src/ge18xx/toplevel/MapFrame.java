@@ -264,6 +264,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	public void clearTrainsFromMap () {
 		map.clearAllTrains ();
+		repaint ();
 	}
 	
 	public int getCurrentPhase () {

@@ -70,7 +70,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public final static String OPERATED_NO_REVENUE = "Train Operated but no Revenue has been generated.";
 	public static final TrainCompany NO_TRAIN_COMPANY = null;
 	public static final int NO_REVENUE_GENERATED = -1;
-	public static final String NO_REVENUE = "NONE";
+	public static final String NO_REVENUE = "0";
 	static final int NO_COST = 0;
 	static final float LEFT_ALIGNMENT = 0.0f;
 	String bgColorName;

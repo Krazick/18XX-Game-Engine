@@ -4,6 +4,8 @@ import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.Game_18XX;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ClearRouteAction;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -80,6 +82,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		title.setAlignmentX (CENTER_ALIGNMENT);
 		updatePresidentLabel ();
 		allRevenuesBox = null;
+		setRevenueValues (aTrainCompany);
 		fillRevenuesBox ();
 		buildsButtonsJPanel ();
 		presidentLabel.setAlignmentX (CENTER_ALIGNMENT);
@@ -93,7 +96,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updateFrameSize ();
 		setYourCompany (true);
 		setFrameSetup (false);
-//		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
 		logger = Game_18XX.getLogger ();
 	}
 
@@ -120,14 +123,18 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		String tFormattedRevenue;
 		
 		tFormattedRevenue = formatRevenue (lastRevenue);
-		lastRevenueLabel.setText (LAST_REVENUE + tFormattedRevenue);
+		if (lastRevenueLabel != null) {
+			lastRevenueLabel.setText (LAST_REVENUE + tFormattedRevenue);
+		}
 	}
 	
 	private void updateThisRevenueLabel () {
 		String tFormattedRevenue;
 		
 		tFormattedRevenue = formatRevenue (thisRevenue);
-		thisRevenueLabel.setText (THIS_REVENUE + tFormattedRevenue);
+		if (thisRevenueLabel != null) {
+			thisRevenueLabel.setText (THIS_REVENUE + tFormattedRevenue);
+		}
 	}
 
 	public String formatRevenue (int aRevenueValue) {
@@ -213,7 +220,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 		return tButton;
 	}
-	
+
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		int tAllTrainRevenue;
@@ -225,9 +232,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			setVisible (false);
 		}
 		if (CANCEL_ACTION.equals (aEvent.getActionCommand ())) {
-			clearAllTrainRoutes ();
-			trainCompany.exitSelectRouteMode ();
-			setVisible (false);
+			handleCancelAction ();
 		}
 		if (SELECT_ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
 			handleSelectRoute (aEvent);
@@ -240,16 +245,28 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		}
 	}
 
+	private void handleCancelAction () {
+		clearAllTrainRoutes ();
+		trainCompany.exitSelectRouteMode ();
+		setVisible (false);
+	}
+	
 	public void clearAllTrainRoutes () {
 		int tTrainIndex;
 		int tTrainCount;
 		Train tTrain;
+		ClearRouteAction tClearRouteAction;
+		String tOperatingRoundID;
 		
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			tTrain = trainCompany.getTrain (tTrainIndex);
 			clearRouteFromTrain (tTrain);
 		}
+		tOperatingRoundID = trainCompany.getOperatingRoundID ();
+		tClearRouteAction = new ClearRouteAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, trainCompany);
+		tClearRouteAction.addClearTrainsFromMapEffect (trainCompany);
+		trainCompany.addAction (tClearRouteAction);
 		updateAllFrameButtons ();
 		trainCompany.repaintMapFrame ();
 	}

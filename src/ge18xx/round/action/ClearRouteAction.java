@@ -1,7 +1,9 @@
 package ge18xx.round.action;
 
+import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.effects.ClearTrainsFromMapEffect;
 import ge18xx.utilities.XMLNode;
 
 public class ClearRouteAction extends RouteAction {
@@ -23,6 +25,13 @@ public class ClearRouteAction extends RouteAction {
 	public ClearRouteAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
+	}
+
+	public void addClearTrainsFromMapEffect (Corporation aCorporation) {
+		ClearTrainsFromMapEffect tClearTrainsFromMapEffect;
+		
+		tClearTrainsFromMapEffect = new ClearTrainsFromMapEffect (aCorporation);
+		addEffect (tClearTrainsFromMapEffect);
 	}
 
 	@Override

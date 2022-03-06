@@ -1,6 +1,7 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.company.Corporation;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -47,9 +48,16 @@ public class ClearTrainsFromMapEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		MapFrame tMapFrame;
+		TrainCompany tTrainCompany;
+		ActorI tActor;
 		
 		tMapFrame = aRoundManager.getMapFrame ();
 		tMapFrame.clearTrainsFromMap ();
+		tActor = getActor ();
+		if (tActor.isATrainCompany ()) {
+			tTrainCompany = (TrainCompany) tActor;
+			tTrainCompany.closeTrainRevenueFrame ();
+		}
 		tEffectApplied = true;
 	
 		return tEffectApplied;
