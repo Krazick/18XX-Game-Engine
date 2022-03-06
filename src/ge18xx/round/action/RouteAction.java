@@ -13,7 +13,7 @@ public class RouteAction extends Action {
 	public static final RouteAction NO_ROUTE_ACTION = (RouteAction) Action.NO_ACTION;
 
 	public RouteAction () {
-		super();
+		super ();
 	}
 
 	public RouteAction (String aName) {
