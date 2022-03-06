@@ -9,24 +9,24 @@ import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
-public class ClearTrainsFromMapEffect extends Effect {
-	public final static String NAME = "Clear Trains From Map";
+public class ClearAllTrainsFromMapEffect extends Effect {
+	public final static String NAME = "Clear All Trains From Map";
 	public final static AttributeName AN_CLEAR_TRAINS = new AttributeName ("clearTrains");
 
-	public ClearTrainsFromMapEffect () {
+	public ClearAllTrainsFromMapEffect () {
 		super ();
 		setName (NAME);
 	}
 	
-	public ClearTrainsFromMapEffect (ActorI aActor) {
+	public ClearAllTrainsFromMapEffect (ActorI aActor) {
 		super (NAME, aActor);
 	}
 
-	public ClearTrainsFromMapEffect (ActorI aActor, String aRoundID) {
+	public ClearAllTrainsFromMapEffect (ActorI aActor, String aRoundID) {
 		super (NAME, aActor);
 	}
 
-	public ClearTrainsFromMapEffect (XMLNode aEffectNode, GameManager aGameManager) {
+	public ClearAllTrainsFromMapEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 	}
 	

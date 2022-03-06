@@ -4,7 +4,7 @@ import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
-import ge18xx.round.action.effects.ClearTrainsFromMapEffect;
+import ge18xx.round.action.effects.ClearAllTrainsFromMapEffect;
 import ge18xx.round.action.effects.EndCorpActionsEffect;
 import ge18xx.utilities.XMLNode;
 
@@ -44,9 +44,9 @@ public class DoneCorpAction extends Action {
 	}
 
 	public void addClearTrainsFromMapEffect (Corporation aCorporation) {
-		ClearTrainsFromMapEffect tClearTrainsFromMapEffect;
+		ClearAllTrainsFromMapEffect tClearTrainsFromMapEffect;
 		
-		tClearTrainsFromMapEffect = new ClearTrainsFromMapEffect (aCorporation);
+		tClearTrainsFromMapEffect = new ClearAllTrainsFromMapEffect (aCorporation);
 		addEffect (tClearTrainsFromMapEffect);
 	}
 	

@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.utilities.XMLNode;
 
-public class ExtendRouteAction extends ClearRouteAction {
+public class ExtendRouteAction extends ClearAllRoutesAction {
 	public static final String NAME = "Extend Route";
 
 	public ExtendRouteAction () {

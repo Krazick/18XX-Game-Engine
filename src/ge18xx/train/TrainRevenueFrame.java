@@ -5,7 +5,7 @@ import ge18xx.company.TrainCompany;
 import ge18xx.game.Game_18XX;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.round.action.ActorI;
-import ge18xx.round.action.ClearRouteAction;
+import ge18xx.round.action.ClearAllRoutesAction;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -255,7 +255,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		int tTrainIndex;
 		int tTrainCount;
 		Train tTrain;
-		ClearRouteAction tClearRouteAction;
+		ClearAllRoutesAction tClearRouteAction;
 		String tOperatingRoundID;
 		
 		tTrainCount = trainCompany.getTrainCount ();
@@ -264,8 +264,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			clearRouteFromTrain (tTrain);
 		}
 		tOperatingRoundID = trainCompany.getOperatingRoundID ();
-		tClearRouteAction = new ClearRouteAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, trainCompany);
-		tClearRouteAction.addClearTrainsFromMapEffect (trainCompany);
+		tClearRouteAction = new ClearAllRoutesAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, trainCompany);
+		tClearRouteAction.addClearAllTrainsFromMapEffect (trainCompany);
 		trainCompany.addAction (tClearRouteAction);
 		updateAllFrameButtons ();
 		trainCompany.repaintMapFrame ();
