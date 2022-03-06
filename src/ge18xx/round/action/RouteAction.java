@@ -9,7 +9,6 @@ import ge18xx.round.action.effects.SetNewEndPointEffect;
 import ge18xx.utilities.XMLNode;
 
 public class RouteAction extends Action {
-
 	public static final String NAME = "Route";
 	public static final RouteAction NO_ACTION = null;
 
@@ -38,17 +37,21 @@ public class RouteAction extends Action {
 		return tSimpleActionReport;
 	}
 
-	public void addNewRouteSegmentEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation) {
+	public void addNewRouteSegmentEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, 
+			Location aStartLocation, Location aEndLocation) {
 		AddNewRouteSegmentEffect tNewRouteSegmentEffect;
 		
-		tNewRouteSegmentEffect = new AddNewRouteSegmentEffect (aActor, aTrainIndex, aMapCell, aStartLocation, aEndLocation);
+		tNewRouteSegmentEffect = new AddNewRouteSegmentEffect (aActor, aTrainIndex, aMapCell, 
+				aStartLocation, aEndLocation);
 		addEffect (tNewRouteSegmentEffect);
 	}
 
-	public void addSetNewEndPointEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation) {
+	public void addSetNewEndPointEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, 
+			Location aStartLocation, Location aEndLocation) {
 		SetNewEndPointEffect tSetNewEndPointEffect;
 		
-		tSetNewEndPointEffect = new SetNewEndPointEffect (aActor, aTrainIndex, aMapCell, aStartLocation, aEndLocation);
+		tSetNewEndPointEffect = new SetNewEndPointEffect (aActor, aTrainIndex, aMapCell, 
+				aStartLocation, aEndLocation);
 		addEffect (tSetNewEndPointEffect);
 	}
 }
