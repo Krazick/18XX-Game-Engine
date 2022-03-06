@@ -11,6 +11,7 @@ package ge18xx.tiles;
 import java.awt.Color;
 
 public class Gauge implements Cloneable {
+	public static final Gauge NO_GAUGE = null;
 	static final int NO_TYPE = 0;
 	public static final int NORMAL_GAUGE = 1;
 	public static final int METER_GAUGE = 2;
@@ -51,23 +52,23 @@ public class Gauge implements Cloneable {
 	}
 	
 	public Gauge getBaseGauge () {
-		Gauge baseGauge;
+		Gauge tBaseGauge;
 		
 		if (hasBase ()) {
 			if (gauge == FERRY) {
-				baseGauge = new Gauge (FERRY_BASE);
+				tBaseGauge = new Gauge (FERRY_BASE);
 			} else if (gauge == METER_GAUGE) {
-				baseGauge = new Gauge (METER_BASE);
+				tBaseGauge = new Gauge (METER_BASE);
 			} else if (gauge == TUNNEL) {
-				baseGauge = new Gauge (METER_BASE);
+				tBaseGauge = new Gauge (METER_BASE);
 			} else {
-				baseGauge = null;
+				tBaseGauge = NO_GAUGE;
 			}
 		} else {
-			baseGauge = null;
+			tBaseGauge = NO_GAUGE;
 		}
 		
-		return baseGauge;
+		return tBaseGauge;
 	}
 	
 	public Color getColor () {

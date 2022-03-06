@@ -50,14 +50,14 @@ public class AllTileSets extends JLabel {
 	public Tile getTile (int aTileNumber) {
 		Iterator<TileSet> iter = gameTileSets.iterator ();
 		TileSet tTileSet;
-		Tile tTile = null;
+		Tile tTile = Tile.NO_TILE;
 		boolean tFoundTile = false;
 		
 		if (aTileNumber != 0) {
 			while (iter.hasNext () && !tFoundTile) {
 				tTileSet = (TileSet) iter.next ();
 				tTile = tTileSet.getTile (aTileNumber);
-				if (tTile != null) {
+				if (tTile != Tile.NO_TILE) {
 					tFoundTile = true;
 				}
 			}

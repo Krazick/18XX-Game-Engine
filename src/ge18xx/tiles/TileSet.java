@@ -458,7 +458,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		Iterator<GameTile> iter = gameTiles.iterator ();
 		GameTile tGameTile;
 		boolean tFoundTile = false;
-		Tile tTile = null;
+		Tile tTile = Tile.NO_TILE;
 		
 		if (aTileNumber != 0) {
 			while (iter.hasNext () && !tFoundTile) {

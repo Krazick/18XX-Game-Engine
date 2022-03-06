@@ -19,6 +19,7 @@ import ge18xx.tiles.Feature2;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileName;
 import ge18xx.tiles.TileType;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -240,10 +241,10 @@ public class Centers implements Cloneable {
 			if (aCenterIndex <= tSize) {
 				tCenter = centers.get (aCenterIndex);
 			} else {
-				tCenter = null;
+				tCenter = RevenueCenter.NO_CENTER;
 			}
 		} else {
-			tCenter = null;
+			tCenter = RevenueCenter.NO_CENTER;
 		}
 		
 		return tCenter;
@@ -298,7 +299,7 @@ public class Centers implements Cloneable {
 		return tCityCount;
 	}
 	public CityInfo getCityInfo () {
-		CityInfo tCityInfo = null;
+		CityInfo tCityInfo = CityInfo.NO_CITY_INFO;
 		
 		for (RevenueCenter tCenter : centers) {
 			tCityInfo = tCenter.getCityInfo ();
@@ -320,8 +321,9 @@ public class Centers implements Cloneable {
 	}
 	
 	public RevenueCenter getRCContainingPoint (Point aPoint, Hex aHex, int XCenter, int YCenter, int aTileOrient) {
-		RevenueCenter tRevenueCenter = null;
+		RevenueCenter tRevenueCenter;
 		
+		tRevenueCenter = RevenueCenter.NO_CENTER;
 		for (RevenueCenter tRC : centers) {
 			if (tRC.containingPoint (aPoint, aHex, XCenter, YCenter, aTileOrient)) {
 				tRevenueCenter = tRC;
@@ -332,8 +334,9 @@ public class Centers implements Cloneable {
 	}
 	
 	public int getRevenueCenterID () {
-		int tRevenueCenterID = RevenueCenter.NO_ID;
+		int tRevenueCenterID;
 		
+		tRevenueCenterID = RevenueCenter.NO_ID;
 		for (RevenueCenter tRevenueCenter : centers) {
 			tRevenueCenterID = tRevenueCenter.getID ();
 		}
@@ -345,7 +348,7 @@ public class Centers implements Cloneable {
 		RevenueCenter tRevenueCenter;
 		Location tLocation;
 		
-		tRevenueCenter = null;
+		tRevenueCenter = RevenueCenter.NO_CENTER;
 		if (centers.size () > 0) {
 			for (RevenueCenter tCenter : centers) {
 				tLocation = tCenter.getLocation ();
@@ -360,8 +363,8 @@ public class Centers implements Cloneable {
 	}
 	
 	public String getToolTip () {
-		String tToolTip = "";
-		String tSuperToolTip = "";
+		String tToolTip = GUI.NO_TOOL_TIP;
+		String tSuperToolTip = GUI.NO_TOOL_TIP;
 		String tCompanyHomes;
 		String tCompanyDestinations;
 		String tPreviousAbbrev;

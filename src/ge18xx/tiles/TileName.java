@@ -65,9 +65,9 @@ public class TileName extends Feature implements Cloneable {
 		XMLElement tElement;
 		
 		if (name == NO_NAME) {
-			tElement = null;
+			tElement = XMLElement.NO_XML_ELEMENT;
 		} else if (name.equals (NO_NAME2)) {
-			tElement = null;
+			tElement = XMLElement.NO_XML_ELEMENT;
 		} else {
 			tElement = aXMLDocument.createElement (EN_TILE_NAME);
 			tElement.setAttribute (AN_NAME, name);

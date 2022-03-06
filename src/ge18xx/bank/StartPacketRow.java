@@ -31,7 +31,7 @@ public class StartPacketRow implements ParsingRoutineI {
 	StartPacketRow () {
 		rowNumber = 0;
 		startPacketItems = new LinkedList<StartPacketItem> ();
-		startPacketFrame = null;
+		startPacketFrame = StartPacketFrame.NO_START_PACKET;
 	}
 	
 	StartPacketRow (XMLNode aNode) {

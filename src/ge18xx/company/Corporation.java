@@ -1303,7 +1303,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			tFullTitle = tGameManager.createFrameTitle ("Corporation");
 			corporationFrame = new CorporationFrame (tFullTitle, this, tIsNetworkGame);
 		} else {
-			corporationFrame = null;
+			corporationFrame = (CorporationFrame) CorporationFrame.NO_XML_FRAME;
 		}
 	}
 

@@ -88,7 +88,7 @@ public class Upgrade {
 		int tFromLocation, tIndex;
 		Location tToLocation;
 		
-		tToLocation = null;
+		tToLocation = Location.NO_LOC;
 		tFromLocation = aFromLocation.getLocation ();
 		for (tIndex = 0; (tIndex < RCfrom.length) && (tToLocation == Location.NO_LOC); tIndex++) {
 			if (RCfrom [tIndex] == tFromLocation) {

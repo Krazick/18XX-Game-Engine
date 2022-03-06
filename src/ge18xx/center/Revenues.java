@@ -92,7 +92,7 @@ public class Revenues extends Feature {
 	}
 	
 	public XMLElement createElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement = null;
+		XMLElement tXMLElement = XMLElement.NO_XML_ELEMENT;
 		int tRevenueValue;
 		
 		for (Revenue tRevenue : revenues) {

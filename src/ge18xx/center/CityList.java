@@ -52,7 +52,7 @@ public class CityList extends InformationTable implements LoadableXMLI {
 	}
 	
 	public CityInfo getCityInfo (int aCityID) {
-		CityInfo tCityInfo = null;
+		CityInfo tCityInfo = CityInfo.NO_CITY_INFO;
 		Iterator<CityInfo> tCityInfoIter = cities.iterator ();
 		boolean tNotFoundYet = true;
 		int tCityID;

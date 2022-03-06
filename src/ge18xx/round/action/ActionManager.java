@@ -22,7 +22,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ActionManager {
-	public final static Action NO_ACTION = null;
 	public final static ActionManager NO_ACTION_MANAGER = null;
 	public final static int STARTING_ACTION_NUMBER = 100;
 	public final static int DEFAULT_ACTION_NUMBER = 0;
@@ -217,7 +216,7 @@ public class ActionManager {
 		Action tAction;
 		int tActionCount;
 		
-		tAction = NO_ACTION;
+		tAction = Action.NO_ACTION;
 		tActionCount = getActionCount ();
 		if (tActionCount > 0) {
 			if ((aIndex >= 0) && (aIndex < tActionCount)) {
@@ -236,7 +235,7 @@ public class ActionManager {
 		Action tAction;
 		int tLastActionID;
 		
-		tAction = NO_ACTION;
+		tAction = Action.NO_ACTION;
 		if (! actions.isEmpty ()) {
 			tLastActionID = getActionCount () - 1;
 			tAction = actions.get (tLastActionID);
@@ -262,7 +261,7 @@ public class ActionManager {
 			for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
 				tActionNode = new XMLNode (tActionChildren.item (tActionIndex));
 				tAction = getAction (aGameManager, tActionNode);
-				if (tAction != NO_ACTION) {
+				if (tAction != Action.NO_ACTION) {
 					justAddAction (tAction);
 					tActionNumber = tAction.getNumber ();
 				}
@@ -277,7 +276,7 @@ public class ActionManager {
 			NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		String tANodeName;
 		String tClassName;
-		Action tAction = NO_ACTION;
+		Action tAction = Action.NO_ACTION;
 		Class<?> tActionToLoad;
 		Constructor<?> tActionConstructor;
 		
@@ -308,7 +307,7 @@ public class ActionManager {
 		Action tLastAction;
 		
 		tLastAction = getLastAction ();
-		if (tLastAction == NO_ACTION) {
+		if (tLastAction == Action.NO_ACTION) {
 			tLastActionNumber = DEFAULT_ACTION_NUMBER;
 		} else {
 			tLastActionNumber = tLastAction.getNumber ();
@@ -458,7 +457,7 @@ public class ActionManager {
 		gameManager.setNotifyNetwork (false); 
 		try {
 			tAction = getAction (gameManager, aActionNode);
-			if (tAction != ActionManager.NO_ACTION) {
+			if (tAction != Action.NO_ACTION) {
 				tExpectedActionNumber = actionNumber + 1;
 				tThisActionNumber = tAction.getNumber ();
 				

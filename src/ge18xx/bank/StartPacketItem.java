@@ -32,7 +32,7 @@ public class StartPacketItem implements ParsingRoutineI {
 	int freeCertificateCorporationPercentage;
 	
 	StartPacketItem () {
-		startPacketRow = null;
+		startPacketRow = StartPacketRow.NO_START_PACKET_ROW;
 		setCorporationID (Corporation.NO_ID);
 		discountAmount = 0;
 		canBeBidOn = false;

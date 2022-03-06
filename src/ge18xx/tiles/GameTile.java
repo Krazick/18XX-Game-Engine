@@ -147,7 +147,7 @@ public class GameTile {
 		boolean tFoundUpgrade;
 		
 		tFoundUpgrade = false;
-		tUpgrade = null;
+		tUpgrade = Upgrade.NO_UPGRADE;
 		for (tIndex = 0; (tIndex < upgrades.size ()) && (! tFoundUpgrade); tIndex++) {
 			tUpgrade = getUpgrade (tIndex);
 			tTileNumber = tUpgrade.getTileNumber ();

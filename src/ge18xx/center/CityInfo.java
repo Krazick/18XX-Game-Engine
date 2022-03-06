@@ -91,12 +91,12 @@ public class CityInfo implements Cloneable {
 	}
 	
 	public void clearRevenueCenter () {
-		center = null;
+		center = RevenueCenter.NO_CENTER;
 	}
 	
 	@Override
 	public CityInfo clone () {
-		CityInfo tCityInfo = null;;
+		CityInfo tCityInfo = CityInfo.NO_CITY_INFO;;
 		
 		try {
 			tCityInfo = (CityInfo) super.clone ();
@@ -224,7 +224,7 @@ public class CityInfo implements Cloneable {
 	public TokenCompany getTokenCorporation () {
 		TokenCompany tTokenCompany;
 		
-		tTokenCompany = null;
+		tTokenCompany = TokenCompany.NO_TOKEN_COMPANY;
 		if (corporation != Corporation.NO_CORPORATION) {
 			if (! mapCell.hasStation (corporation.getID ())) {
 				try {
