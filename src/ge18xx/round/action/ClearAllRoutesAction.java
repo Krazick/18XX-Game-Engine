@@ -38,7 +38,7 @@ public class ClearAllRoutesAction extends RouteAction {
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
 		
-		tSimpleActionReport = actor.getName () + " Cleared a Route from the Map.";
+		tSimpleActionReport = actor.getName () + " Cleared all Routes from the Map.";
 		
 		return tSimpleActionReport;
 	}
