@@ -10,9 +10,9 @@ import ge18xx.utilities.XMLNode;
 
 public class RouteAction extends Action {
 	public static final String NAME = "Route";
-	public static final RouteAction NO_ACTION = null;
+	public static final RouteAction NO_ROUTE_ACTION = (RouteAction) Action.NO_ACTION;
 
-	public RouteAction() {
+	public RouteAction () {
 		super();
 	}
 

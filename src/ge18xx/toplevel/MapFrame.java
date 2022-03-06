@@ -1016,7 +1016,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		RouteSegment tRouteSegment;
 		Corporation tCorporation = getOperatingCompany ();
 		int tCorpID, tPhase, tTrainIndex;
-		RouteAction tRouteAction = RouteAction.NO_ACTION;
+		RouteAction tRouteAction = RouteAction.NO_ROUTE_ACTION;
 		StartRouteAction tStartRouteAction;
 		ActionStates tRoundType;
 		String tRoundID;
@@ -1046,7 +1046,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			tRouteAction = new ExtendRouteAction (tRoundType, tRoundID, tCorporation);
 			tRouteAction.setChainToPrevious (true);
 		}
-		if (tRouteAction != RouteAction.NO_ACTION) {
+		if (tRouteAction != RouteAction.NO_ROUTE_ACTION) {
 			routeInformation.setStartSegment (tRouteSegment, aSelectedRevenueCenter, tPhase, tCorpID);
 			routeInformation.extendRouteInformation (tRouteSegment, tPhase, tCorpID, tRouteAction);
 			

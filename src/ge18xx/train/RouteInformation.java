@@ -214,7 +214,7 @@ public class RouteInformation {
 				tMapCell = aRouteSegment.getMapCell ();
 				tStartLocation = aRouteSegment.getStartLocation ();
 				tEndLocation = aRouteSegment.getEndLocation ();
-				if (aRouteAction != RouteAction.NO_ACTION) {
+				if (aRouteAction != RouteAction.NO_ROUTE_ACTION) {
 					aRouteAction.addNewRouteSegmentEffect (trainCompany, trainIndex, tMapCell, tStartLocation, tEndLocation);
 				}			
 			}
@@ -615,7 +615,7 @@ public class RouteInformation {
 			updateRevenueCenterInfo (aCorpID, tLastRouteSegment, tEndLocation, tOldEndLocation);
 			
 			// Add the New Route Segment Effect
-			if (aRouteAction != RouteAction.NO_ACTION) {
+			if (aRouteAction != RouteAction.NO_ROUTE_ACTION) {
 				aRouteAction.addSetNewEndPointEffect (trainCompany, trainIndex, tMapCell, tStartLocation, tEndLocation);
 			}
 			updateRevenueFrame ();
@@ -804,7 +804,7 @@ public class RouteInformation {
 			if (! tTrack.isTrackUsed ()) {
 				tTrainNumber = getTrainIndex () + 1;
 				aPreviousSegment.setEndNodeLocationInt (aPreviousSide, phase);
-				if (aRouteAction != RouteAction.NO_ACTION) {
+				if (aRouteAction != RouteAction.NO_ROUTE_ACTION) {
 	
 					tPreviousStartLoc = new Location (aPreviousStart);
 					tPreviousEndLoc = new Location (aPreviousSide);
