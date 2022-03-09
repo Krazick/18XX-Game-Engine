@@ -103,6 +103,7 @@ public class Action {
 	
 		tEffectsChildren = aActionNode.getChildNodes ();
 		tEffectsNodeCount = tEffectsChildren.getLength ();
+		tClassName = "NO-CLASS";
 		try {
 			for (tEffectsIndex = 0; tEffectsIndex < tEffectsNodeCount; tEffectsIndex++) {
 				tEffectsNode = new XMLNode (tEffectsChildren.item (tEffectsIndex));
@@ -123,9 +124,11 @@ public class Action {
 						}
 					}
 				}
-			}			
+			}
+		} catch (ClassNotFoundException tException) {
+			System.err.println ("Could not find Class for Effect " + tClassName + " due to Rename and using old Save Game");
 		} catch (Exception tException) {
-			System.out.println ("Caught Exception with message ");
+			System.err.println ("Caught Exception with message ");
 			tException.printStackTrace ();
 		}
 	}
