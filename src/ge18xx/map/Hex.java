@@ -178,13 +178,7 @@ public class Hex {
 		}
 		if (drawBorder) {
 			g.setColor (Color.black);
-			try {
-				for (index = 0; index < npnts - 1; index++) {
-					g.drawLine (xp [index], yp [index], xp [index + 1], yp [index + 1]);
-				}
-			} catch (ArrayIndexOutOfBoundsException exc) {
-				System.err.println ("Oops, trying to draw lines at " + Xo + ", " + Yo + ". Sorry");
-			}
+			g.drawPolygon (xp, yp, npnts);
 		}
 		g.setClip (tPreviousClip);
 	}
@@ -206,7 +200,7 @@ public class Hex {
 	}
 	
     public void drawHill (Graphics g, int Xc, int Yc, Color aFillColor) {
-    		double tDwidth6, tDwidth5;
+    	double tDwidth6, tDwidth5;
 		int X1, X2, X3, Y1, Y2, Y3;
 		
 		tDwidth5 = dwidth/6;
@@ -1292,11 +1286,11 @@ public class Hex {
 	    xp = new int [npnts];
 	    yp = new int [npnts];
 	    for (index = 0; index < npnts; index++) {
-	    		xp [index] = x [index] + Xo;
-	    		yp [index] = y [index] + Yo;
-    		}
+    		xp [index] = x [index] + Xo;
+    		yp [index] = y [index] + Yo;
+		}
 		
-    		g.setColor (aFillColor);
+		g.setColor (aFillColor);
  		try {
  			g.fillPolygon (xp, yp, npnts - 1);
  		} catch (ArrayIndexOutOfBoundsException exc) {
@@ -1307,14 +1301,7 @@ public class Hex {
 			tCurrentStroke = g2d.getStroke();
 			tFrameStroke = new BasicStroke (trackWidth*2);
 			g2d.setStroke (tFrameStroke);
-			try {
-				for (index = 0; index < npnts - 1; index++) {
-					g.drawLine (xp [index], yp [index], xp [index + 1], yp [index + 1]);
-				}
-			} catch (ArrayIndexOutOfBoundsException exc) {
-				System.err.println ("Oops, trying to draw lines at " + Xo + ", " + Yo + ". Sorry");
-			}
-			
+			g2d.drawPolygon (xp, yp, npnts);
 			g2d.setStroke (tCurrentStroke);
 		}
 		drawBorders (g, Xo, Yo, aDrawBorder, aBlockedSides);
@@ -1328,21 +1315,18 @@ public class Hex {
 	    xp = new int [npnts];
 	    yp = new int [npnts];
 	    for (index = 0; index < npnts; index++) {
-	    		xp [index] = x [index] + Xo;
-	    		yp [index] = y [index] + Yo;
+    		xp [index] = x [index] + Xo;
+    		yp [index] = y [index] + Yo;
 	    }
 		
 		tPreviousClip = clipToHex (g, Xo, Yo);
 		g.setColor (Color.red);
-		for (index = 0; index < npnts - 1; index++) {
-			g.drawLine (xp [index], yp [index], xp [index + 1], yp [index + 1]);
-		}
+		g.drawPolygon(xp, yp, npnts);
 		g.drawLine (xp [0], yp [0], xp [3], yp [3]);
 		g.drawLine (xp [1], yp [1], xp [4], yp [4]);
 		g.drawLine (xp [2], yp [2], xp [5], yp [5]);
 		g.setClip (tPreviousClip);
 	}
-	
 	
 	public int rightEdgeDisplacement () {
 		return getMaxX ();
