@@ -6,7 +6,7 @@
     <property name="dir.buildfile" value="."/>
     <property name="dir.workspace" value="${dir.buildfile}/.."/>
     <property name="dir.jarfile" value="/Users/marksmith/Documents/18XX_Games"/>
-	<property name="version.num" value="0.7.9 Beta"/>
+	<property name="version.num" value="0.7.10 Beta"/>
 	<buildnumber file="1212"/>
     <target name="create_run_jar">
         <jar destfile="${dir.jarfile}/ge18XX.jar" filesetmanifest="mergewithoutmain">
@@ -17,8 +17,8 @@
             </manifest>
             <fileset dir="${dir.buildfile}/target/test-classes"/>
             <fileset dir="${dir.buildfile}/target/classes"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.15.0-bin/log4j-core-2.15.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.15.0-bin/log4j-api-2.15.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.17.2-bin/log4j-core-2.17.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.17.2-bin/log4j-api-2.17.2.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.jupiter.api_5.7.1.v20210222-1948.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.jupiter.engine_5.7.1.v20210222-1948.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.jupiter.migrationsupport_5.7.1.v20210222-1948.jar"/>

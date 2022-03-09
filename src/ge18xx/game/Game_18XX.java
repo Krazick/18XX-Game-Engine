@@ -251,7 +251,7 @@ public class Game_18XX extends JFrame {
 	private void setupFrameActions () {
 		clientUserName.addFocusListener(new FocusAdapter() {
 			@Override
-			public void focusLost(FocusEvent aEvent) {
+			public void focusLost (FocusEvent aEvent) {
 				Object tEventObject = aEvent.getSource ();
 				
 				if (tEventObject instanceof JTextField) {
