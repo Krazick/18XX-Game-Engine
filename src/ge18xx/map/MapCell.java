@@ -331,6 +331,7 @@ public class MapCell implements Comparator<Object> {
 		selected = false;
 		clearSelectedFeature2 ();
 	}
+	
 	public void clearAllTrains () {
 		if (isTileOnCell ()) {
 			tile.clearAllTrains ();
