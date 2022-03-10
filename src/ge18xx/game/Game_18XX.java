@@ -170,7 +170,8 @@ public class Game_18XX extends JFrame {
 		LoggerLookup.setUserName (aUserName);
 	    tXMLConfigFile = "18XX%20XML%20Data" + File.separator + "log4j2.xml";
 		System.setProperty ("log4j.configurationFile", tXMLConfigFile);
-		logger = LogManager.getLogger ("Game_18XX");
+//		logger = LogManager.getLogger ("Game_18XX");
+		logger = LogManager.getLogger ();
 		logger.info ("Game Engine 18XX, Version " + getGEVersion () +
 					" Client " + aUserName);
 		logger.info ("Java Version " + tJavaVersion + 
@@ -234,15 +235,15 @@ public class Game_18XX extends JFrame {
 	}
 
 	private void setupNewGameManager () {
-		String tCUNText = clientUserName.getText ();
+		String tClientName = clientUserName.getText ();
 
 		setupAutoSavesAndLogDirectory ();
-		if (NetworkPlayer.validPlayerName (tCUNText)) {
-			setupLogger (tCUNText);
-			setGameManager (new GameManager (this, tCUNText));
+		if (NetworkPlayer.validPlayerName (tClientName)) {
+			setupLogger (tClientName);
+			setGameManager (new GameManager (this, tClientName));
 			enableGameStartItems ();
 			newGameButton.requestFocusInWindow ();
-		} else if (! (tCUNText.equals (""))) {
+		} else if (! (tClientName.equals (""))) {
 			clientUserName.setText ("INVALID NAME");
 			clientUserName.requestFocusInWindow ();
 		}		
