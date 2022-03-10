@@ -7,7 +7,6 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
-import ge18xx.game.Game_18XX;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
@@ -83,7 +82,7 @@ public class RoundFrame extends XMLFrame {
 		
 		defaultColor = UIManager.getColor ("Panel.background");
 		roundManager = aRoundManager;
-		logger = Game_18XX.getLogger ();
+		logger = roundManager.getLogger ();
 		
 		buildRoundJPanel ();
 		

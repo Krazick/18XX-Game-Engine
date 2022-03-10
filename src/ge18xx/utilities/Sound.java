@@ -21,7 +21,7 @@ public class Sound {
 	private final static Clip NO_CLIP = null;
 	
 	public Sound () {
-		logger = Game_18XX.getLogger ();
+		logger = Game_18XX.getLoggerX ();
 	}
 
 	public void playSoundClip (String aSoundFileName) {

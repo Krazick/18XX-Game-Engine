@@ -157,10 +157,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setClientUserName (aClientUserName);
 		setDefaults ();
 		loadConfig ();
-		logger = Game_18XX.getLogger ();
+		logger = game18XXFrame.getLogger ();
 		setUserDir ();
 	}
 
+	@Override
+	public Logger getLogger () {
+		return logger;
+	}
+	
 	private void storeAllFrames (Game_18XX aGame_18XX_Frame) {
 		game18XXFrame = aGame_18XX_Frame;
 		configFrames = new ArrayList<XMLFrame> ();		

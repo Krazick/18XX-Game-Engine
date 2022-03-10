@@ -47,7 +47,7 @@ public class ActionManager {
 		actionReportFrame = new ActionReportFrame (tFullTitle, aRoundManager.getGameName ());
 		gameManager.addNewFrame (actionReportFrame);
 		setActionNumber (DEFAULT_ACTION_NUMBER);
-		logger = Game_18XX.getLogger ();
+		logger = Game_18XX.getLoggerX ();
 	}
 	
 	public void setActionNumber (int aNumber) {

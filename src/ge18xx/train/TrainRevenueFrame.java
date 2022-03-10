@@ -97,7 +97,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		setYourCompany (true);
 		setFrameSetup (false);
 		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
-		logger = Game_18XX.getLogger ();
+		logger = Game_18XX.getLoggerX ();
 	}
 
 	public void setRevenueValues (TrainCompany aTrainCompany) {

@@ -19,7 +19,6 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
-import ge18xx.game.Game_18XX;
 import ge18xx.map.HexMap;
 import ge18xx.market.Market;
 import ge18xx.phase.PhaseInfo;
@@ -73,7 +72,11 @@ public class RoundManager implements ActionListener {
 	
 	public RoundManager (GameManager aGameManager, PlayerManager aPlayerManager) {
 		setManagers (aGameManager, aPlayerManager);
-		logger = Game_18XX.getLogger ();
+		logger = gameManager.getLogger ();
+	}
+	
+	public Logger getLogger () {
+		return logger;
 	}
 	
 	public void initiateGame (CorporationList aPrivates, CorporationList aCoals, 

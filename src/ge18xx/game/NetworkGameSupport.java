@@ -2,6 +2,8 @@ package ge18xx.game;
 
 import java.awt.Point;
 
+import org.apache.logging.log4j.Logger;
+
 import ge18xx.network.JGameClient;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
@@ -37,4 +39,5 @@ public interface NetworkGameSupport {
 	public void loadAutoSavedGame (String autoSaveFileName);
 	public String getGEVersion ();
 	public void updateDisconnectButton ();
+	public Logger getLogger ();
 }

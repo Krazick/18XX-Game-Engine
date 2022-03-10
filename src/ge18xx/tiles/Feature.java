@@ -43,7 +43,7 @@ public class Feature implements Cloneable {
 	}
 	
 	public void setLogger () {
-		logger = Game_18XX.getLogger ();
+		logger = Game_18XX.getLoggerX ();
 	}
 	
 	public boolean bleedThroughAll () {

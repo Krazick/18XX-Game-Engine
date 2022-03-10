@@ -20,7 +20,6 @@ import ge18xx.company.MapToken;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
-import ge18xx.game.Game_18XX;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -124,7 +123,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		setPlaceTokenMode (false);
 		setSelectRouteMode (false);
 		setDefaultFrameInfo ();
-		logger = Game_18XX.getLogger ();
+		logger = gameManager.getLogger ();
 	}
 
 	private void buildMapScrollPanel () {

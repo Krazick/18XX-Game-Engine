@@ -24,7 +24,6 @@ import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.FakeBenefit;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
-import ge18xx.game.Game_18XX;
 import ge18xx.market.MarketCell;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
@@ -137,7 +136,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 		soldCompanies = new SoldCompanies ();
 		escrows = new Escrows (this);
-		logger = Game_18XX.getLogger ();
+		logger = tGameManager.getLogger ();
 		tBenefitInUse = new FakeBenefit ();
 		setBenefitInUse (tBenefitInUse);
 	}

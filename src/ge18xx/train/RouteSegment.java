@@ -95,7 +95,7 @@ public class RouteSegment {
 
 	private void setLogger () {
 		if (logger == null) {
-			logger = Game_18XX.getLogger ();
+			logger = Game_18XX.getLoggerX ();
 		}
 	}
 	

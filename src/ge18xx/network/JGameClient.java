@@ -38,8 +38,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 
+import ge18xx.game.GameManager;
 import ge18xx.game.GameSet;
-import ge18xx.game.Game_18XX;
 import ge18xx.game.NetworkGameSupport;
 import ge18xx.game.SavedGame;
 import ge18xx.game.SavedGames;
@@ -166,18 +166,18 @@ public class JGameClient extends XMLFrame {
 		Point tNewPoint;
 		
 		gameManager = aGameManager;
-		logger = Game_18XX.getLogger ();
-		networkPlayers = new NetworkPlayers (aGameManager);
+		networkPlayers = new NetworkPlayers (gameManager);
 		gameSupportHandler = new GameSupportHandler (this);
 		setupJFrame ();
 		setupActions ();
 		setServerIP (aServerIP);
 		setServerPort (aServerPort);
-		if (gameManager != null) {
+		if (gameManager != GameManager.NO_GAME_MANAGER) {
 			gameManager.addNewFrame (this);
 			tNewPoint = gameManager.getOffsetGEFrame ();
 			setLocation (tNewPoint);
 			setVisible (true);
+			logger = gameManager.getLogger ();
 		}
 	}
 	
