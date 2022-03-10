@@ -60,7 +60,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 public class Game_18XX extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -95,8 +94,7 @@ public class Game_18XX extends JFrame {
 	private JButton newGameButton;
 	private JButton quitButton;
 	private JButton disconnectButton;
-	private static Logger logger;
-	LoggerLookup loggerLookup;
+	LoggerLookup loggerLookup = new LoggerLookup ();
 	String userDir = System.getProperty ("user.dir");
 	Image iconImage;
 	
@@ -159,24 +157,13 @@ public class Game_18XX extends JFrame {
 		tSound.playSoundClip (tSound.WHISTLE);
 	}
 		
-	public void setupLogger (String aUserName) {
-		String tXMLConfigFile;
-	    String tJavaVersion = System.getProperty ("java.version");
-	    String tOSName = System.getProperty ("os.name");
-	    String tOSVersion = System.getProperty ("os.version");
-	    String tLog4JVersion;
-    
-		tLog4JVersion = org.apache.logging.log4j.LogManager.class.getPackage ().getImplementationVersion ();
-		LoggerLookup.setUserName (aUserName);
-	    tXMLConfigFile = "18XX%20XML%20Data" + File.separator + "log4j2.xml";
-		System.setProperty ("log4j.configurationFile", tXMLConfigFile);
-//		logger = LogManager.getLogger ("Game_18XX");
-		logger = LogManager.getLogger ();
-		logger.info ("Game Engine 18XX, Version " + getGEVersion () +
-					" Client " + aUserName);
-		logger.info ("Java Version " + tJavaVersion + 
-					" OS Name " + tOSName + " OS Version " + tOSVersion);
-		logger.info ("Log4J2 LogManager Version " + tLog4JVersion);
+	public void setupLogger (String aUserName, String aAppName) {
+	    String tAppVersion;
+	    String tXMLConfigFileDir;
+	    
+	    tAppVersion = getGEVersion ();
+	    tXMLConfigFileDir = "18XX%20XML%20Data";
+	    loggerLookup.setupLogger (aUserName, aAppName, tAppVersion, tXMLConfigFileDir);
 	}
 	
 	public String getGEVersion () {
@@ -187,8 +174,12 @@ public class Game_18XX extends JFrame {
 		return userDir;
 	}
 	
-	public static Logger getLogger () {
-		return logger;
+	public Logger getLogger () {
+		return loggerLookup.getLogger ();
+	}
+	
+	public static Logger getLoggerX () {
+		return LoggerLookup.getLoggerX ();
 	}
 	
 	private void setApplicationIcon () {
@@ -239,7 +230,7 @@ public class Game_18XX extends JFrame {
 
 		setupAutoSavesAndLogDirectory ();
 		if (NetworkPlayer.validPlayerName (tClientName)) {
-			setupLogger (tClientName);
+			setupLogger (tClientName, "GE18XX");
 			setGameManager (new GameManager (this, tClientName));
 			enableGameStartItems ();
 			newGameButton.requestFocusInWindow ();
