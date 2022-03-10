@@ -9,7 +9,8 @@
 	<Properties>
         <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %p %m%n</Property>
         <Property name="LOG_DIRECTORY">autoSaves${sys:file.separator}logs${sys:file.separator}</Property>
-        <Property name="USER_NAME">$${userlookup:userName}</Property>
+        <Property name="USER_NAME">$${loggerlookup:userName}</Property>
+        <Property name="APP_NAME">$${loggerlookup:appName}</Property>
 	</Properties>
 	
     <CustomLevels>
@@ -18,8 +19,8 @@
     
     <Appenders>
     
-        <RollingFile name="RollingFile" fileName="${LOG_DIRECTORY}application-debug-${USER_NAME}.log" 
-       				filePattern="${LOG_DIRECTORY}application-debug-${USER_NAME}-%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="RollingFile" fileName="${LOG_DIRECTORY}${APP_NAME}-debug-${USER_NAME}.log" 
+       				filePattern="${LOG_DIRECTORY}${APP_NAME}-debug-${USER_NAME}-%d{yyyy-MM-dd}-%i.log">
 			<LevelRangeFilter minLevel="HEARTBEAT" maxLevel="HEARTBEAT" onMatch="DENY" onMismatch="ACCEPT"/>
 			<PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
@@ -28,7 +29,7 @@
             <DefaultRolloverStrategy max="180"/>
         </RollingFile>
         
-        <RollingFile name="HearbeatLogFile" fileName="${LOG_DIRECTORY}heartbeat-${USER_NAME}.log" 
+        <RollingFile name="HeartbeatLogFile" fileName="${LOG_DIRECTORY}heartbeat-${USER_NAME}.log" 
 					filePattern="${LOG_DIRECTORY}heartbeat-${USER_NAME}-%d{yyyy-MM-dd}-%i.log">
 	  		<LevelRangeFilter minLevel="HEARTBEAT" maxLevel="HEARTBEAT" onMatch="ACCEPT" onMismatch="DENY"/>
 			<PatternLayout pattern="${LOG_PATTERN}"/>
@@ -42,7 +43,7 @@
     <Loggers>
     
 		<Logger name="com.ge18xx.heartbeat" additivity="false" level="HEARTBEAT">
-            <AppenderRef ref="HearbeatLogFile" level="HEARTBEAT"/>
+            <AppenderRef ref="HeartbeatLogFile" level="HEARTBEAT"/>
         </Logger>
     
         <Root level="all">
