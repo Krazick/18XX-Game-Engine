@@ -53,7 +53,7 @@ public class GameTestFactory {
 		Game_18XX tGame_18XX;
 		
 		tGame_18XX = new Game_18XX (false);
-		tGame_18XX.setupLogger (aClientName);
+		tGame_18XX.setupLogger (aClientName, "GE18XX_JUNIT");
 		
 		return tGame_18XX;
 	}
