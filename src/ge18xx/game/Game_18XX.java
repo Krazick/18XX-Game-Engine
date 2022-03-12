@@ -160,9 +160,12 @@ public class Game_18XX extends JFrame {
 	    String tAppVersion;
 	    String tXMLConfigFileDir;
 	    
-	    tAppVersion = getGEVersion ();
-	    tXMLConfigFileDir = "18XX%20XML%20Data";
-	    loggerLookup.setupLogger (aUserName, aAppName, tAppVersion, tXMLConfigFileDir, ge18xx.game.Game_18XX.class);
+	    if (getLogger () == null) {
+	    	tAppVersion = getGEVersion ();
+	    	tXMLConfigFileDir = "18XX%20XML%20Data";
+	    	loggerLookup.setupLogger (aUserName, aAppName, tAppVersion, tXMLConfigFileDir, 
+	    			ge18xx.game.Game_18XX.class);
+	    }
 	}
 	
 	public String getGEVersion () {
@@ -375,14 +378,14 @@ public class Game_18XX extends JFrame {
 	}
 
 	/*
-	public void about(ApplicationEvent e) {
-		aboutBox.setResizable(false);
-		aboutBox.setVisible(true);
+	public void about (ApplicationEvent e) {
+		aboutBox.setResizable (false);
+		aboutBox.setVisible (true);
 	}
 
-	public void preferences(ApplicationEvent e) {
-		prefs.setResizable(false);
-		prefs.setVisible(true);
+	public void preferences (ApplicationEvent e) {
+		prefs.setResizable (false);
+		prefs.setVisible (true);
 	}
 */
 	
