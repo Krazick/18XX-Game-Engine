@@ -53,33 +53,45 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	static final int MAX_GAMES = 5;
 	GameManager gameManager;
 	GameSet gameSet;
-	JTextField [] tfPlayerNames;
+	int playerCount;
+	JTextField [] playerNames;
 	JLabel labelPlayerCount;
 	JButton randomizeButton;
-	int playerCount;
 	JPanel centerPanel;
-//	Game_18XX parentFrame;
 	Logger logger;
 	
 	public PlayerInputFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, "Player Input Frame");
-		int tIndex;
-		JPanel tPlayersPanel;
-		JPanel tWestPanel;
 		String tClientUserName;
 		
-		tfPlayerNames = new JTextField [MAX_PLAYERS + 1];
 		setGameManager (aGameManager);
 		logger = gameManager.getLogger ();
+		
+		buildWestPanel ();
+		buildCenterPanel ();
+		
+		gameSet = new GameSet (this);
+		
+		tClientUserName = gameManager.getClientUserName ();
+		addPlayer (tClientUserName);
+		lockClientPlayer ();
+		pack ();
+		playerNames [0].transferFocus ();
+	}
+
+	private JPanel buildPlayersPanel () {
+		int tIndex;
+		JPanel tPlayersPanel;
 		
 		tPlayersPanel = new JPanel ();
 		tPlayersPanel.setLayout (new BoxLayout (tPlayersPanel, BoxLayout.Y_AXIS));
 		tPlayersPanel.add (Box.createVerticalStrut (5));
+		playerNames = new JTextField [MAX_PLAYERS + 1];
 		
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
-			tfPlayerNames [tIndex] = new JTextField (10);
-			tfPlayerNames [tIndex].addActionListener (this);
-			tfPlayerNames [tIndex].addFocusListener (this);
+			playerNames [tIndex] = new JTextField (10);
+			playerNames [tIndex].addActionListener (this);
+			playerNames [tIndex].addFocusListener (this);
 			
 			buildOnePlayerPanel (tIndex, tPlayersPanel);
 			tPlayersPanel.add (Box.createVerticalStrut (5));
@@ -93,28 +105,30 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		tPlayersPanel.add (Box.createVerticalStrut (10));
 		labelPlayerCount = new JLabel ();
 		setPlayerCount ();
-		
+
+		return tPlayersPanel;
+	}
+
+	private void buildCenterPanel () {
 		centerPanel = new JPanel ();
 		centerPanel.setLayout (new BoxLayout (centerPanel, BoxLayout.PAGE_AXIS));
-
 		centerPanel.add (Box.createVerticalStrut (10));
 		centerPanel.add (labelPlayerCount);
 		add (centerPanel, BorderLayout.CENTER);
+	}
+
+	private void buildWestPanel () {
+		JPanel tWestPanel;
+		JPanel tPlayersPanel;
 		
+		tPlayersPanel = buildPlayersPanel ();
+
 		tWestPanel = new JPanel ();
 		tWestPanel.setLayout (new BoxLayout (tWestPanel, BoxLayout.X_AXIS));
 		tWestPanel.add (Box.createHorizontalStrut (5));
 		tWestPanel.add (tPlayersPanel);
 		tWestPanel.add (Box.createHorizontalStrut (5));
 		add (tWestPanel, BorderLayout.WEST);
-		
-		gameSet = new GameSet (this);
-		
-		tClientUserName = gameManager.getClientUserName ();
-		addPlayer (tClientUserName);
-		fixClientPlayer ();
-		pack ();
-		tfPlayerNames [0].transferFocus ();
 	}
 
 	private void buildOnePlayerPanel (int aIndex, JPanel aPlayersBox) {
@@ -128,21 +142,21 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		tOnePlayerPanel.add (Box.createHorizontalStrut (10));
 		tOnePlayerPanel.add (tLabel);
 		tOnePlayerPanel.add (Box.createHorizontalGlue ());
-		tOnePlayerPanel.add (tfPlayerNames [aIndex]);
+		tOnePlayerPanel.add (playerNames [aIndex]);
 		tOnePlayerPanel.add (Box.createHorizontalStrut (10));
 		aPlayersBox.add (tOnePlayerPanel);
 	}
 	
-	public void fixClientPlayer () {
+	public void lockClientPlayer () {
 		String tClientUserName;
 		int tIndex;
 		
 		tClientUserName = gameManager.getClientUserName ();
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
-			if (tClientUserName.equals (tfPlayerNames [tIndex].getText ())) {
-				tfPlayerNames [tIndex].setEditable (false);
+			if (tClientUserName.equals (playerNames [tIndex].getText ())) {
+				playerNames [tIndex].setEditable (false);
 			} else {
-				tfPlayerNames [tIndex].setEditable (true);
+				playerNames [tIndex].setEditable (true);
 			}
 		}
 	}
@@ -151,6 +165,13 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		gameSet.addGameInfo (centerPanel);
 	}
 	
+	public void handleHotseatGameStart (GameInfo aGameInfo) {
+		randomizePlayerOrder ();
+		setVisible (false);
+		initiateGame (aGameInfo);
+		logger.info ("Start new Game [" + aGameInfo.getGameName () + "] with Players [" + getPlayersInOrder () + "]");
+	}
+
     @Override
 	public void actionPerformed (ActionEvent aEvent) {
 		if (RANDOMIZE_ORDER.equals (aEvent.getActionCommand ())) {
@@ -175,7 +196,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	
 		tPlayerNames = new ArrayList<String> ();
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
-			tName = tfPlayerNames [tIndex].getText ();
+			tName = playerNames [tIndex].getText ();
 			if (! (tName.equals (NO_NAME))) {
 				tPlayerNames.add (tName);
 			}
@@ -189,16 +210,15 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		JGameClient tJGameClient;
 		String [] tPlayerNames;
 		
-		System.out.println ("Names: " + aPlayerOrder);
 		tPlayerNames = aPlayerOrder.split (",");
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
 			if (tIndex < tPlayerNames.length) {
-				tfPlayerNames [tIndex].setText (tPlayerNames [tIndex]);
+				playerNames [tIndex].setText (tPlayerNames [tIndex]);
 			} else {
-				tfPlayerNames [tIndex].setText (NO_NAME);
+				playerNames [tIndex].setText (NO_NAME);
 			}
 		}
-		fixClientPlayer ();
+		lockClientPlayer ();
 		tJGameClient = gameManager.getNetworkJGameClient ();
 		tJGameClient.appendToChat (aBroadcast);
     }
@@ -214,12 +234,12 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		Collections.shuffle (tPlayerNames, tGenerator);
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
 			if (tIndex < tFoundCount) {
-				tfPlayerNames [tIndex].setText (tPlayerNames.get (tIndex));
+				playerNames [tIndex].setText (tPlayerNames.get (tIndex));
 			} else {
-				tfPlayerNames [tIndex].setText (NO_NAME);
+				playerNames [tIndex].setText (NO_NAME);
 			}
 		}
-		fixClientPlayer ();
+		lockClientPlayer ();
 	}
 
 	@Override
@@ -248,7 +268,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
     	String tName;
     	
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
-			tName = tfPlayerNames [tIndex].getText ();
+			tName = playerNames [tIndex].getText ();
 			if (tFirstPlayerName.equals (NO_NAME)) {
 				if (tName != null) {
 					if (! (tName.equals (NO_NAME))) {
@@ -264,9 +284,9 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
     public void clearOtherPlayers (String aPlayerName) {
     	int tIndex;
     	
-    	tfPlayerNames [0].setText (aPlayerName);
+    	playerNames [0].setText (aPlayerName);
 		for (tIndex = 1; tIndex < MAX_PLAYERS; tIndex++) {
-			tfPlayerNames [tIndex].setText (NO_NAME);
+			playerNames [tIndex].setText (NO_NAME);
 		}
 		setPlayerCount (getTFPlayerCount ());
 		updatePlayerCountLabel ();
@@ -277,13 +297,13 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
     	int tIndex, tPlayerCount = 0;
     	
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
-			tName = tfPlayerNames [tIndex].getText ();
+			tName = playerNames [tIndex].getText ();
 			if (tName != null) {
 				if (! (tName.equals (NO_NAME))) {
 					if (NetworkPlayer.validPlayerName (tName)) {
 						tPlayerCount++;
 					} else {
-						tfPlayerNames [tIndex].setText (INVALID_NAME);
+						playerNames [tIndex].setText (INVALID_NAME);
 					}
 				}
 			}
@@ -323,7 +343,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		
 		tPlayerName = NO_NAME;
 		if ((tIndex >= 0) && (tIndex < playerCount)) {
-			tPlayerName = tfPlayerNames [tIndex].getText ();
+			tPlayerName = playerNames [tIndex].getText ();
 		}
 		
 		return tPlayerName;
@@ -334,7 +354,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		
 		if ((aPlayerName != null) && (aPlayerName != "")) {
 			for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
-				if (aPlayerName.equals (tfPlayerNames [tIndex].getText ())) {
+				if (aPlayerName.equals (playerNames [tIndex].getText ())) {
 					tPlayerIndex = tIndex;
 				}
 			}
@@ -349,7 +369,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		
 		if ((aPlayerName != null) && (! aPlayerName.equals (NO_NAME))) {
 			for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
-				if (aPlayerName.equals (tfPlayerNames [tIndex].getText ())) {
+				if (aPlayerName.equals (playerNames [tIndex].getText ())) {
 					tIsAlreadyPresent = true;
 				}
 			}
@@ -363,10 +383,19 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 
 		tPlayerCount = getTFPlayerCount ();
 		if (! isAlreadyPresent (aPlayerName)) {
-			tfPlayerNames [tPlayerCount++].setText (aPlayerName);
+			playerNames [tPlayerCount++].setText (aPlayerName);
 		}
 		setPlayerCount (tPlayerCount);
-		gameSet.setGameRadioButtons (tPlayerCount);		
+		gameSet.setGameRadioButtons (tPlayerCount);
+		logNewPlayer (aPlayerName);
+	}
+
+	private void logNewPlayer (String aPlayerName) {
+		if (isNetworkGame ()) {
+			logger.info("New Network Player " + aPlayerName + " added to the Player List.");
+		} else {
+			logger.info("New Player " + aPlayerName + " added to the Player List.");
+		}
 	}
 	
 	public void addNetworkPlayer (String aPlayerName) {
@@ -378,7 +407,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		
 		if (playerCount > NO_PLAYERS) {
 			for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
-				tfPlayerNames [tIndex].setText (NO_NAME);
+				playerNames [tIndex].setText (NO_NAME);
 			}
 		}
 		
@@ -393,9 +422,10 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		
 		if (tPlayerIndex != NO_PLAYER_INDEX) {
 			for (tIndex = tPlayerIndex; tIndex < (MAX_PLAYERS - 1); tIndex++) {
-				tfPlayerNames [tIndex].setText (getPlayerName (tIndex + 1));
+				playerNames [tIndex].setText (getPlayerName (tIndex + 1));
 			}
-			tfPlayerNames [MAX_PLAYERS - 1].setText (NO_NAME);
+			playerNames [MAX_PLAYERS - 1].setText (NO_NAME);
+			logger.info("Network Player " + aPlayerName + " removed from the Player List.");
 		}
 		tPlayerCount = getTFPlayerCount ();
 		setPlayerCount (tPlayerCount);
@@ -410,7 +440,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		tPlayers = new String [playerCount];
 		tPlayersIndex = 0;
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
-			tPlayerName = tfPlayerNames [tIndex].getText ();
+			tPlayerName = playerNames [tIndex].getText ();
 			if (! tPlayerName.equals(NO_NAME) ) {
 				tPlayers [tPlayersIndex++] = tPlayerName;
 			}
@@ -450,10 +480,6 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		gameManager = aGameManager;
 		gameManager.setPlayerInputFrame (this);
 	}
-
-//	public void setParentFrame (Game_18XX a18xxFrame) {
-//		parentFrame = a18xxFrame;
-//	}
 
 	public boolean isNetworkGame () {
 		return gameManager.isNetworkGame ();

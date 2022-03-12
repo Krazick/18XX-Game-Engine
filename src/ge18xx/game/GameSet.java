@@ -95,7 +95,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			} else if (NETWORK_GAME.equals (tActionName)) {
 				handleNetworkGameConnect ();
 			} else if (NEW_GAME.equals (tActionName)) {
-				handleHotseatGameStart ();
+				playerInputFrame.handleHotseatGameStart (gameInfo [selectedGameIndex]);;
 			} else {
 				handleGameSelection (tGameIndex, true);
 			}
@@ -116,15 +116,16 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		playerInputFrame.pack ();
 	}
 	
-	private void handleHotseatGameStart () {
-		playerInputFrame.randomizePlayerOrder ();
-		playerInputFrame.setVisible (false);
-		initiateGame ();
-	}
+//	private void handleHotseatGameStart () {
+//		playerInputFrame.handleHotseatGameStart (gameInfo [selectedGameIndex]);
+//		playerInputFrame.randomizePlayerOrder ();
+//		playerInputFrame.setVisible (false);
+//		initiateGame ();
+//	}
 
-	public void initiateGame () {
-		playerInputFrame.initiateGame (gameInfo [selectedGameIndex]);
-	}
+//	public void initiateGame () {
+//		playerInputFrame.initiateGame (gameInfo [selectedGameIndex]);
+//	}
 	
 	private void handleNetworkGameConnect () {
 		GameManager tGameManager;
