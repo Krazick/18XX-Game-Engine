@@ -267,6 +267,8 @@ public class ActionManager {
 				}
 			}
 			setActionNumber (tActionNumber);
+		} catch (ClassNotFoundException eException) {
+			logger.warn ("Class not Found Exception Thrown when trying to get parse Action");
 		} catch (Exception e) {
 			logger.error ("Error Loading Actions", e);
 		}
@@ -328,7 +330,6 @@ public class ActionManager {
 		int tPrintedCount = 0;
 		
 		tActionCount = aActions.size ();
-		System.out.println ("$$$$$$$$$ - Actions to remove Count " + tActionCount);
 		if (tActionCount > 0) {
 			for (int tIndex = tActionCount; (tIndex > 0) && (tPrintedCount < aCount); tIndex--, tPrintedCount++) {
 				tActionToPrint = aActions.get (tIndex - 1);
@@ -337,7 +338,6 @@ public class ActionManager {
 		} else {
 			System.out.println ("$$$ No Actions in list to print");
 		}
-		System.out.println ("$$$$$$$$$$$");
 	}
 	
 	public void removeUndoneActionsFromNetwork () {
@@ -441,11 +441,7 @@ public class ActionManager {
 	public boolean isSyncActionNumber (Action aAction) {
 		return (aAction instanceof SyncActionNumber);
 	}
-	
-	public void handleSyncActionNumber (Action aSyncAction) {
 		
-	}
-	
 	public void handleNetworkAction (XMLNode aActionNode) {
 		Action tAction;
 		int tExpectedActionNumber, tThisActionNumber;
@@ -488,26 +484,20 @@ public class ActionManager {
 								" Current Action Number " + actionNumber +
 								" is before the Expected Action Number of " + tExpectedActionNumber + " IGNORING\n";
 						logger.error (tActionFailureMessage);
-//						System.err.println (tActionFailureMessage);
 						actionReportFrame.append (tActionFailureMessage);
-//					} else if (tThisActionNumber > tExpectedActionNumber) {
-//						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
-//								" is after the Expected Action Number of " + tExpectedActionNumber + " THERE IS A GAP\n";
-//						logger.error (tActionFailureMessage);
-//						System.err.println (tActionFailureMessage);						
-//						actionReportFrame.append (tActionFailureMessage);
 					} else {
 						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
 								" is not the Expected Action Number of " + tExpectedActionNumber + " This should have Matched\n";
 						logger.error (tActionFailureMessage);
-//						System.err.println (tActionFailureMessage);
 					}
 				}
 			} else {
 				logger.error ("No Action Found to Process");
 			}
-		} catch (Exception tException) {
-			logger.error (tException.getMessage (), tException);
+		} catch (ClassNotFoundException eException) {
+			logger.warn ("Class not Found Exception Thrown when trying to get parse Network Action.");
+		} catch (Exception eException) {
+			logger.error (eException.getMessage (), eException);
 		}
 		gameManager.setNotifyNetwork (true);
 //		Once we are done applying these Actions, we then can reset this back to Notify
