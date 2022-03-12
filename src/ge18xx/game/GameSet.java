@@ -116,17 +116,6 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		playerInputFrame.pack ();
 	}
 	
-//	private void handleHotseatGameStart () {
-//		playerInputFrame.handleHotseatGameStart (gameInfo [selectedGameIndex]);
-//		playerInputFrame.randomizePlayerOrder ();
-//		playerInputFrame.setVisible (false);
-//		initiateGame ();
-//	}
-
-//	public void initiateGame () {
-//		playerInputFrame.initiateGame (gameInfo [selectedGameIndex]);
-//	}
-	
 	private void handleNetworkGameConnect () {
 		GameManager tGameManager;
 		JGameClient tNetworkGameJClient;
