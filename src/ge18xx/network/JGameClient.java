@@ -358,9 +358,11 @@ public class JGameClient extends XMLFrame {
 		if (! gameStarted) {
 			// Send to all Players command to unselect game, clear all Ready Flags
 		}
-		serverHandler.shutdown ();
-		networkPlayers.removeAllPlayers ();
-		setForUnconnected ();		
+		if (serverHandler != null) {
+			serverHandler.shutdown ();
+			networkPlayers.removeAllPlayers ();
+			setForUnconnected ();
+		}
 	}
 	
 	public void printButtonStatus (JButton aButton) {
