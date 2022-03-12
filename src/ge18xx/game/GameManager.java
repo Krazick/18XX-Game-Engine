@@ -1178,6 +1178,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 			if (isOperatingRound ()) {
 				playerManager.hideAllPlayerFrames ();
 			}
+		} else {
+			logger.info ("No Saved File selected.");
 		}
 	}
 
@@ -1222,8 +1224,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 	}
 	
-	private void loadSavedXMLFile () {
-		List<ActionStates> auctionStates;
+	private boolean loadSavedXMLFile () {
+		List<ActionStates> tAuctionStates;
+		boolean tGoodLoad = false;
 		
 		setNotifyNetwork (false);
 		if (loadXMLFile (loadSavedFile)) {
@@ -1241,13 +1244,18 @@ public class GameManager extends Component implements NetworkGameSupport {
 			roundManager.setCurrentPlayerLabel ();
 			if (roundManager.isAuctionRound ()) {
 				// Save the Auction States since 'AddPrivateToAuction' will reset the Player Auction States Reset After adding the Private to Auction.
-				auctionStates = playerManager.getPlayerAuctionStates ();
+				tAuctionStates = playerManager.getPlayerAuctionStates ();
 				addPrivateToAuction ();
-				playerManager.resetPlayerAuctionStates (auctionStates);
+				playerManager.resetPlayerAuctionStates (tAuctionStates);
 			}
 			bank.updateBankCashLabel ();
+			tGoodLoad = true;
+			logger.info ("Load of file " + loadSavedFile.getName () + " Succeeded." +
+					" Players [" + playerManager.getPlayersInOrder () + "]");
 		}
 		setNotifyNetwork (true);
+		
+		return tGoodLoad;
 	}
 
 	@Override
