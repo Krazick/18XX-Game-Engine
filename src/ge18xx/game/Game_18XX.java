@@ -492,7 +492,6 @@ public class Game_18XX extends JFrame {
 		
 		if (playerInputFrame == XMLFrame.NO_XML_FRAME) {
 			playerInputFrame = new PlayerInputFrame ("Enter Player Information", gameManager);
-			playerInputFrame.setParentFrame (this);
 			tNewPoint = getOffsetGEFrame ();
 			playerInputFrame.setLocation (tNewPoint);
 			createGameSet ();	
