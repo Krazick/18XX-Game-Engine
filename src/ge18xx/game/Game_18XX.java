@@ -149,7 +149,6 @@ public class Game_18XX extends JFrame {
         }
     }
 
-	
 	private void playWhistle () {
 		Sound tSound;
 		
@@ -163,7 +162,7 @@ public class Game_18XX extends JFrame {
 	    
 	    tAppVersion = getGEVersion ();
 	    tXMLConfigFileDir = "18XX%20XML%20Data";
-	    loggerLookup.setupLogger (aUserName, aAppName, tAppVersion, tXMLConfigFileDir);
+	    loggerLookup.setupLogger (aUserName, aAppName, tAppVersion, tXMLConfigFileDir, ge18xx.game.Game_18XX.class);
 	}
 	
 	public String getGEVersion () {
@@ -308,7 +307,7 @@ public class Game_18XX extends JFrame {
 		tGameEngineTitle.setHorizontalAlignment (SwingConstants.CENTER);
 		
 		JLabel tGameEngineVersion = new JLabel ("Version: X.X");
-		tGameEngineVersion.setText (getGEVersion ());
+		tGameEngineVersion.setText ("V " + getGEVersion ());
 		tGameEngineVersion.setHorizontalAlignment (SwingConstants.CENTER);
 		tGameEngineVersion.setFont (new Font ("Lucida Grande", Font.PLAIN, 20));
 		
@@ -860,10 +859,12 @@ public class Game_18XX extends JFrame {
 	
 	public class openActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
+		
 		public openActionClass (String text, KeyStroke shortcut) {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
+		
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			loadGame ();
@@ -872,10 +873,12 @@ public class Game_18XX extends JFrame {
 	
 	public class closeActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
+		
 		public closeActionClass (String text, KeyStroke shortcut) {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
+		
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			System.out.println ("Close...");
@@ -884,10 +887,12 @@ public class Game_18XX extends JFrame {
 	
 	public class exitActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
+		
 		public exitActionClass (String text, KeyStroke shortcut) {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
+		
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			System.out.println("EXITING THE APP");
@@ -897,10 +902,12 @@ public class Game_18XX extends JFrame {
 	
 	public class saveActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
+		
 		public saveActionClass (String text, KeyStroke shortcut) {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
+		
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.saveAGame (true);
@@ -909,9 +916,11 @@ public class Game_18XX extends JFrame {
 	
 	public class saveAsActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
+		
 		public saveAsActionClass (String text) {
 			super (text);
 		}
+		
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.saveAGame (false);
@@ -920,9 +929,11 @@ public class Game_18XX extends JFrame {
 	
 	public class saveConfigActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
+		
 		public saveConfigActionClass (String text) {
 			super (text);
 		}
+		
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.saveConfig (false);
@@ -931,9 +942,11 @@ public class Game_18XX extends JFrame {
 	
 	public class frameInfoActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
+		
 		public frameInfoActionClass (String text) {
 			super (text);
 		}
+		
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showFrameInfo ();

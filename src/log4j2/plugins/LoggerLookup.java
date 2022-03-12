@@ -52,14 +52,15 @@ public class LoggerLookup implements StrLookup {
     	return logger;
     }
    
-    public void setupLogger (String aUserName, String aAppName, String aAppVersion, String aConfigDir) {
+    public void setupLogger (String aUserName, String aAppName, String aAppVersion, 
+    		String aConfigDir, Class<?> aClass) {
 		String tXMLConfigFile;
 
 		LoggerLookup.setUserName (aUserName);
 		LoggerLookup.setAppName (aAppName);
 	    tXMLConfigFile = aConfigDir + File.separator + "log4j2.xml";
 		System.setProperty ("log4j.configurationFile", tXMLConfigFile);
-		logger = LogManager.getLogger (ge18xx.game.Game_18XX.class);
+		logger = LogManager.getLogger (aClass);
 		logBasicInfo (aUserName, aAppName, aAppVersion);
     }
     
