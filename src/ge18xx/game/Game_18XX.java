@@ -137,13 +137,18 @@ public class Game_18XX extends JFrame {
 	}
 	
     public void onExit () {
-        int confirm;
+        int tConfirm;
+        Logger tLogger;
         
-        confirm = JOptionPane.showOptionDialog (
+        tConfirm = JOptionPane.showOptionDialog (
         		null, "Are You Sure to Close the GE18XX?", 
         		"Exit Confirmation", JOptionPane.YES_NO_OPTION, 
         		JOptionPane.QUESTION_MESSAGE, null, null, null);
-        if (confirm == 0) {
+        if (tConfirm == 0) {
+        	tLogger = loggerLookup.getLogger ();
+        	if (tLogger != null) {
+        		tLogger.info ("EXITING Game Engine");
+        	}
         	disconnect ();
         	System.exit (0);
         }
