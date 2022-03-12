@@ -31,8 +31,6 @@ public class LoggerLookup implements StrLookup {
     		tLookupValue = appName;
     	}
     	
-    	System.out.println ("Looking up " + key + " value is " + tLookupValue);
-    	
         return tLookupValue;
 	}
 	
@@ -56,22 +54,39 @@ public class LoggerLookup implements StrLookup {
    
     public void setupLogger (String aUserName, String aAppName, String aAppVersion, String aConfigDir) {
 		String tXMLConfigFile;
+
+		LoggerLookup.setUserName (aUserName);
+		LoggerLookup.setAppName (aAppName);
+	    tXMLConfigFile = aConfigDir + File.separator + "log4j2.xml";
+		System.setProperty ("log4j.configurationFile", tXMLConfigFile);
+		logger = LogManager.getLogger (ge18xx.game.Game_18XX.class);
+		logBasicInfo (aUserName, aAppName, aAppVersion);
+    }
+    
+
+	private void logBasicInfo (String aUserName, String aAppName, String aAppVersion) {
 	    String tJavaVersion = System.getProperty ("java.version");
 	    String tOSName = System.getProperty ("os.name");
 	    String tOSVersion = System.getProperty ("os.version");
 	    String tLog4JVersion;
 	    
-		tLog4JVersion = org.apache.logging.log4j.LogManager.class.getPackage ().getImplementationVersion ();
-		LoggerLookup.setUserName (aUserName);
-		LoggerLookup.setAppName (aAppName);
-	    tXMLConfigFile = aConfigDir + File.separator + "log4j2.xml";
-		System.setProperty ("log4j.configurationFile", tXMLConfigFile);
-		logger = LogManager.getLogger ();
-		logger.info ("Application " + aAppName + ", Version " + aAppVersion +
-					" User " + aUserName);
+		tLog4JVersion = getLog4JVersion ();
+		logger.info ("Application: " + aAppName + ", Version " + aAppVersion + " Client " + aUserName);
 		logger.info ("Java Version " + tJavaVersion + 
 					" OS Name " + tOSName + " OS Version " + tOSVersion);
 		logger.info ("Log4J2 LogManager Version " + tLog4JVersion);
+	}
+	
+	private String getLog4JVersion () {
+		String tLog4JVersion = "NOT FOUND";
+		
+		try {
+			tLog4JVersion = org.apache.logging.log4j.LogManager.class.getPackage ().getImplementationVersion ();
+		} catch (Exception e) {
+			System.err.println ("Exception Thrown trying to get Log4J Version -- OOPS");
+		}
+		
+		return tLog4JVersion;
+	}
 
-    }
 }
