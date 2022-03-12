@@ -82,7 +82,20 @@ public class PlayerManager {
 			players.add (aPlayer);
 		}
 	}
-	
+
+    public String getPlayersInOrder () {
+    	String tPlayersInOrder = "";
+ 
+    	for (Player tPlayer : players) {
+    		if (tPlayersInOrder != "") {
+    			tPlayersInOrder += ", ";
+    		}
+    		tPlayersInOrder += tPlayer.getName ();
+    	}
+
+    	return tPlayersInOrder;
+    }
+
 	public Player getPlayerWhoTriggeredAuction () {
 		Player tPlayer = Player.NO_PLAYER;
 		
