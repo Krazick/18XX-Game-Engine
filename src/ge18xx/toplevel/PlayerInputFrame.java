@@ -11,7 +11,7 @@ package ge18xx.toplevel;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameSet;
 import ge18xx.game.GameInfo;
-import ge18xx.game.Game_18XX;
+//import ge18xx.game.Game_18XX;
 import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
 import ge18xx.utilities.ElementName;
@@ -36,6 +36,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.apache.logging.log4j.Logger;
+
 public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusListener {
 	public static final PlayerInputFrame NO_PLAYER_INPUT_FRAME = null;
 	public static final String NO_NAME = "";
@@ -55,67 +57,56 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	JLabel labelPlayerCount;
 	JButton randomizeButton;
 	int playerCount;
-	JPanel centerComponents;
-	JPanel westComponents;
-	Game_18XX parentFrame;
+	JPanel centerPanel;
+//	Game_18XX parentFrame;
+	Logger logger;
 	
 	public PlayerInputFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, "Player Input Frame");
-		setGameManager (aGameManager);
 		int tIndex;
-		JLabel tLabel;
-		JPanel tOnePlayerBox;
-		JPanel tPlayersBox;
-		JPanel tWestBox;
+		JPanel tPlayersPanel;
+		JPanel tWestPanel;
 		String tClientUserName;
 		
 		tfPlayerNames = new JTextField [MAX_PLAYERS + 1];
-		centerComponents = new JPanel ();
-		centerComponents.setLayout (new BoxLayout (centerComponents, BoxLayout.PAGE_AXIS));
-
-		westComponents = new JPanel ();
-		westComponents.setLayout (new BoxLayout (westComponents, BoxLayout.PAGE_AXIS));
+		setGameManager (aGameManager);
+		logger = gameManager.getLogger ();
 		
-		tPlayersBox = new JPanel ();
-		tPlayersBox.setLayout (new BoxLayout (tPlayersBox, BoxLayout.Y_AXIS));
-		tPlayersBox.add (Box.createVerticalStrut (5));
-		
-		tWestBox = new JPanel ();
-		tWestBox.setLayout (new BoxLayout (tWestBox, BoxLayout.X_AXIS));
+		tPlayersPanel = new JPanel ();
+		tPlayersPanel.setLayout (new BoxLayout (tPlayersPanel, BoxLayout.Y_AXIS));
+		tPlayersPanel.add (Box.createVerticalStrut (5));
 		
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
-			tLabel = new JLabel (" Player " + (tIndex + 1) + ": ");
 			tfPlayerNames [tIndex] = new JTextField (10);
 			tfPlayerNames [tIndex].addActionListener (this);
 			tfPlayerNames [tIndex].addFocusListener (this);
 			
-			tOnePlayerBox = new JPanel ();
-			tOnePlayerBox.setLayout (new BoxLayout (tOnePlayerBox, BoxLayout.X_AXIS));
-			tOnePlayerBox.add (Box.createHorizontalStrut (10));
-			tOnePlayerBox.add (tLabel);
-			tOnePlayerBox.add (Box.createHorizontalGlue ());
-			tOnePlayerBox.add (tfPlayerNames [tIndex]);
-			tOnePlayerBox.add (Box.createHorizontalStrut (10));
-			tPlayersBox.add (tOnePlayerBox);
-			tPlayersBox.add (Box.createVerticalStrut (5));
+			buildOnePlayerPanel (tIndex, tPlayersPanel);
+			tPlayersPanel.add (Box.createVerticalStrut (5));
 		}
 		randomizeButton = new JButton (RANDOMIZE_ORDER);
 		randomizeButton.setActionCommand (RANDOMIZE_ORDER);
 		randomizeButton.addActionListener (this);
 		randomizeButton.setEnabled (false);
 		randomizeButton.setToolTipText (REASON_NO_RANDOMIZE);
-		tPlayersBox.add (randomizeButton);
-		tPlayersBox.add (Box.createVerticalStrut (10));
+		tPlayersPanel.add (randomizeButton);
+		tPlayersPanel.add (Box.createVerticalStrut (10));
 		labelPlayerCount = new JLabel ();
 		setPlayerCount ();
-		centerComponents.add (Box.createVerticalStrut (10));
-		centerComponents.add (labelPlayerCount);
-		tWestBox.add (Box.createHorizontalStrut (5));
-		tWestBox.add (tPlayersBox);
-		tWestBox.add (Box.createHorizontalStrut (5));
-		westComponents.add (tWestBox);
-		add (centerComponents, BorderLayout.CENTER);
-		add (westComponents, BorderLayout.WEST);
+		
+		centerPanel = new JPanel ();
+		centerPanel.setLayout (new BoxLayout (centerPanel, BoxLayout.PAGE_AXIS));
+
+		centerPanel.add (Box.createVerticalStrut (10));
+		centerPanel.add (labelPlayerCount);
+		add (centerPanel, BorderLayout.CENTER);
+		
+		tWestPanel = new JPanel ();
+		tWestPanel.setLayout (new BoxLayout (tWestPanel, BoxLayout.X_AXIS));
+		tWestPanel.add (Box.createHorizontalStrut (5));
+		tWestPanel.add (tPlayersPanel);
+		tWestPanel.add (Box.createHorizontalStrut (5));
+		add (tWestPanel, BorderLayout.WEST);
 		
 		gameSet = new GameSet (this);
 		
@@ -124,6 +115,22 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		fixClientPlayer ();
 		pack ();
 		tfPlayerNames [0].transferFocus ();
+	}
+
+	private void buildOnePlayerPanel (int aIndex, JPanel aPlayersBox) {
+		JPanel tOnePlayerPanel;
+		JLabel tLabel;
+		
+		tLabel = new JLabel (" Player " + (aIndex + 1) + ": ");
+
+		tOnePlayerPanel = new JPanel ();
+		tOnePlayerPanel.setLayout (new BoxLayout (tOnePlayerPanel, BoxLayout.X_AXIS));
+		tOnePlayerPanel.add (Box.createHorizontalStrut (10));
+		tOnePlayerPanel.add (tLabel);
+		tOnePlayerPanel.add (Box.createHorizontalGlue ());
+		tOnePlayerPanel.add (tfPlayerNames [aIndex]);
+		tOnePlayerPanel.add (Box.createHorizontalStrut (10));
+		aPlayersBox.add (tOnePlayerPanel);
 	}
 	
 	public void fixClientPlayer () {
@@ -141,7 +148,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	}
 	
 	public void addGameInfo () {
-		gameSet.addGameInfo (centerComponents);
+		gameSet.addGameInfo (centerPanel);
 	}
 	
     @Override
@@ -444,9 +451,9 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		gameManager.setPlayerInputFrame (this);
 	}
 
-	public void setParentFrame (Game_18XX a18xxFrame) {
-		parentFrame = a18xxFrame;
-	}
+//	public void setParentFrame (Game_18XX a18xxFrame) {
+//		parentFrame = a18xxFrame;
+//	}
 
 	public boolean isNetworkGame () {
 		return gameManager.isNetworkGame ();
