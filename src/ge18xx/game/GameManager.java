@@ -1235,9 +1235,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 			/* Once a Game has been loaded, can enable both Save and Save As Menu Items */
 			game18XXFrame.disableGameStartItems ();
-			game18XXFrame.enableSaveMenuItem ();
-			game18XXFrame.enableSaveAsMenuItem ();
-			game18XXFrame.enableSaveConfigMenuItem ();
+			game18XXFrame.enableSaveMenuItems ();
 			setGameChanged (false);
 			playerManager.updateAllRFPlayerLabels ();
 			roundManager.updateAllCorporationsBox ();
