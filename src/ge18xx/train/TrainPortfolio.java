@@ -131,11 +131,11 @@ public class TrainPortfolio implements TrainHolderI {
 					} else {
 						tActionEnabled = false;
 						if (aCorporation.atTrainLimit ()) {
-							tActionToolTip = "Corporation at Train Limit";
+							tActionToolTip = aCorporation.getAbbrev () + " is at the Train Limit";
 						} else if (aCorporation.getCash () == 0) {
-							tActionToolTip = "Corporation has no Cash";
+							tActionToolTip = aCorporation.getAbbrev () + " has no Cash";
 						} else {
-							tActionToolTip = "Train has not handled dividends yet";
+							tActionToolTip = aCorporation.getAbbrev () + " has not handled dividends yet";
 						}
 					}
 				} else {
@@ -155,11 +155,11 @@ public class TrainPortfolio implements TrainHolderI {
 						if (aCorporation.isATrainCompany ()) {
 							tTrainCompany = (TrainCompany) aCorporation;
 							if (tTrainCompany.atTrainLimit ()) {
-								tActionToolTip = "Company has reached Train Limit";
+								tActionToolTip = tTrainCompany.getAbbrev () + " is at Train Limit";
 								tActionEnabled = false;
 							}
 							if (tTrainCompany.getTreasury () < tTrain.getPrice ()) {
-								tActionToolTip = "Company does not have sufficient funds";
+								tActionToolTip = tTrainCompany.getAbbrev () + " does not have enough cash";
 								tActionEnabled = false;
 							}
 						}
