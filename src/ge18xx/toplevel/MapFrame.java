@@ -73,7 +73,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private final String NOT_OPERATING_TRAIN_MODE = "Not in Select Route Mode";
 	private final String NOT_BASE_CORPORATION = "City Selected is a Base Corporation that is not the Operating Company";
 	private final String NO_SELECTED_RC = "No Revenue Center Selected for Placing a Token";
-	private final String NOT_ENOUGH_CASH = "%s does not have enough Cash, needs %s has %s";
+	private final String NOT_ENOUGH_CASH = "%s does not have enough cash, needs %s has %s";
 	private final String PRIVATE_NOT_OWNED = "%s does not own the Private Company %s";
 	private final String NO_OPERATING_COMPANY = "There is no Operating Company to place a Tile";
 	public static final String NO_COMPANY = "NO_COMPANY";

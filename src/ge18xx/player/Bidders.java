@@ -309,7 +309,7 @@ public class Bidders {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidder = (Player) getCashHolderAt (tBidderIndex);
 				tBidder.printAllEscrows ();
-				System.out.println ("Player " + tBidder.getName () + " Cash " + Bank.formatCash (tBidder.getCash ()));
+				System.out.println ("Player " + tBidder.getName () + " cash " + Bank.formatCash (tBidder.getCash ()));
 			}
 		}
 	}

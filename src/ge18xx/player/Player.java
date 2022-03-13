@@ -1094,7 +1094,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 	
 	public void printPlayerStateInfo () {
-		System.out.println ("Player " + name + " Cash " + Bank.formatCash (treasury));
+		System.out.println ("Player " + name + " cash " + Bank.formatCash (treasury));
 		System.out.println ("Primary Action State [" + primaryActionState.toString () + "]");
 		System.out.println ("Auction Action State [" + auctionActionState.toString () + "]");
 	}

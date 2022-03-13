@@ -1143,7 +1143,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				tHasCash = (corporation.getCash () > 0);
 				if (!tHasCash) {
 					tCanBuyTrain = false;
-					tDisableToolTipReason = corporation.getAbbrev () + " has no Cash";
+					tDisableToolTipReason = corporation.getAbbrev () + " has no cash";
 				} else {
 					tIsAtTrainLimit = ((TrainCompany) corporation).atTrainLimit ();
 					if (tIsAtTrainLimit) {
@@ -1174,7 +1174,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				tHasCash = (corporation.getCash () > 0);
 				if (!tHasCash) {
 					tCanBuyTrain = false;
-					tDisableToolTipReason = corporation.getAbbrev () + " has no Cash";
+					tDisableToolTipReason = corporation.getAbbrev () + " has no cash";
 				} else {
 					tIsAtTrainLimit = ((TrainCompany) corporation).atTrainLimit ();
 					if (tIsAtTrainLimit) {

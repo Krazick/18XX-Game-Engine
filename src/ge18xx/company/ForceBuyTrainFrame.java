@@ -185,7 +185,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	private void updateSellButton () {
 		if (haveEnoughCash ()) {
 			doSellButton.setEnabled (false);
-			doSellButton.setToolTipText ("Enough Cash to buy the Train, can't sell stock");
+			doSellButton.setToolTipText ("Enough cash to buy the Train, can't sell stock");
 		} else if (hasSelectedStocksToSell ()) {
 			if (! president.hasSelectedSameStocksToSell ()) {
 				doSellButton.setEnabled (false);
@@ -215,7 +215,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 			doBuyButton.setToolTipText ("Can Force Buy Train");
 		} else {
 			doBuyButton.setEnabled (false);
-			doBuyButton.setToolTipText ("Not Enough Cash to buy Train");
+			doBuyButton.setToolTipText ("Not Enough cash to buy Train");
 		}
 	}
 	

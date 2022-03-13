@@ -64,8 +64,8 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String NO_CERTIFICATE_NAME = "";
 	public static final Certificate NO_CERTIFICATE = null;
 	public static final String NO_REASON = ">> NO REASON <<";
-	public static final String NOT_ENOUGH_CASH = "You do not have enough Cash to Buy";
-	public static final String NOT_ENOUGH_CASH_TO_BID = "You do not have enough Cash to Raise Bid";
+	public static final String NOT_ENOUGH_CASH = "You do not have enough cash to Buy";
+	public static final String NOT_ENOUGH_CASH_TO_BID = "You do not have enough cash to Raise Bid";
 	public static final String ALREADY_SOLD = "You already Sold this Stock in this Round";
 	public static final String ALREADY_HAVE_MAX = "You are already own the Maximum Share Percentage";
 	public static final String AT_CERT_LIMIT = "You are already at Certificate Limit";

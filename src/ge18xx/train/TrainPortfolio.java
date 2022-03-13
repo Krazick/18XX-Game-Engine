@@ -133,7 +133,7 @@ public class TrainPortfolio implements TrainHolderI {
 						if (aCorporation.atTrainLimit ()) {
 							tActionToolTip = aCorporation.getAbbrev () + " is at the Train Limit";
 						} else if (aCorporation.getCash () == 0) {
-							tActionToolTip = aCorporation.getAbbrev () + " has no Cash";
+							tActionToolTip = aCorporation.getAbbrev () + " has no cash";
 						} else {
 							tActionToolTip = aCorporation.getAbbrev () + " has not handled dividends yet";
 						}

@@ -722,7 +722,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 					tNormalBuy = false;
 				} else if (tCostToBuy > player.getCash ()) {
 					buyBidButton.setEnabled (false);
-					buyBidButton.setToolTipText ("Does not have enough cash to Buy");
+					buyBidButton.setToolTipText ("Does not have enough cash");
 					buyBidButton.setText (BUY);
 					tNormalBuy = false;
 				}
