@@ -56,6 +56,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String COMPLETE_TT_PLACEMENT = "Need to complete Tile/Token Placement";
 	static final String OFFER_TO_BUY_PRIVATE = "Offer to Buy Private";
 	static final String MUST_LAY_BASE_TOKEN = "Must lay Base Token(s) before Tile Lay";
+	static final String DIVIDENDS_NOT_HANDLED = "Dividends have not been handled yet";
 	static final String GET_LOAN = "Get Loan";
 	static final String PAYBACK_LOAN = "Payback Loan";
 	static final String DONE = "Done";
@@ -188,7 +189,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (corporation.isATrainCompany ()) {
 			corporationAllInfoJPanel.add (certJPanel);
 		}
-
 	}
 	
 	private void buildCorporationInfoJPanel (Dimension tMinSize) {
@@ -388,42 +388,42 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}
 	
-	private JButton setupActionButton (String aButtonLabel, String aButtonAction) {
-		JButton tActionButton;
+	private JButton setupButton (String aButtonLabel, String aButtonAction) {
+		JButton tButton;
 		
-		tActionButton = new JButton (aButtonLabel);
-		tActionButton.setActionCommand (aButtonAction);
-		tActionButton.addActionListener (this);
-		tActionButton.setVisible (false);
+		tButton = new JButton (aButtonLabel);
+		tButton.setActionCommand (aButtonAction);
+		tButton.addActionListener (this);
+		tButton.setVisible (false);
 		
-		return tActionButton;
+		return tButton;
 	}
 	
 	private void createActionButtonJPanel () {
 		buttonsJPanel = new JPanel (new WrapLayout ());
 		
-		doneButton = setupActionButton (DONE, DONE);
-		undoButton = setupActionButton (UNDO, UNDO);
-		placeBaseTileButton = setupActionButton (PLACE_BASE_TILE, PLACE_BASE_TILE);
-		placeTileButton = setupActionButton (PLACE_TILE, PLACE_TILE);
-		placeTokenButton = setupActionButton (PLACE_TOKEN, PLACE_TOKEN);
-		showMapButton = setupActionButton (SHOW_MAP, SHOW_MAP);
-		operateTrainButton = setupActionButton (OPERATE_TRAIN, OPERATE_TRAIN);
-		payNoDividendButton = setupActionButton (PAY_NO_DIVIDEND, PAY_NO_DIVIDEND);
-		payHalfDividendButton = setupActionButton (PAY_HALF_DIVIDEND, PAY_HALF_DIVIDEND);
-		payFullDividendButton = setupActionButton (PAY_FULL_DIVIDEND, PAY_FULL_DIVIDEND);
-		buyTrainForceButton = setupActionButton (FORCE_BUY_TRAIN, FORCE_BUY_TRAIN);
-		buyTrainButton = setupActionButton (BUY_TRAIN, BUY_TRAIN);
-		buyPrivateButton = setupActionButton (BUY_PRIVATE, BUY_PRIVATE);
+		doneButton = setupButton (DONE, DONE);
+		undoButton = setupButton (UNDO, UNDO);
+		placeBaseTileButton = setupButton (PLACE_BASE_TILE, PLACE_BASE_TILE);
+		placeTileButton = setupButton (PLACE_TILE, PLACE_TILE);
+		placeTokenButton = setupButton (PLACE_TOKEN, PLACE_TOKEN);
+		showMapButton = setupButton (SHOW_MAP, SHOW_MAP);
+		operateTrainButton = setupButton (OPERATE_TRAIN, OPERATE_TRAIN);
+		payNoDividendButton = setupButton (PAY_NO_DIVIDEND, PAY_NO_DIVIDEND);
+		payHalfDividendButton = setupButton (PAY_HALF_DIVIDEND, PAY_HALF_DIVIDEND);
+		payFullDividendButton = setupButton (PAY_FULL_DIVIDEND, PAY_FULL_DIVIDEND);
+		buyTrainForceButton = setupButton (FORCE_BUY_TRAIN, FORCE_BUY_TRAIN);
+		buyTrainButton = setupButton (BUY_TRAIN, BUY_TRAIN);
+		buyPrivateButton = setupButton (BUY_PRIVATE, BUY_PRIVATE);
 		if (corporation.gameHasLoans ()) {
-			getLoanButton = setupActionButton (GET_LOAN, GET_LOAN);
-			paybackLoanButton = setupActionButton (PAYBACK_LOAN, PAYBACK_LOAN);
+			getLoanButton = setupButton (GET_LOAN, GET_LOAN);
+			paybackLoanButton = setupButton (PAYBACK_LOAN, PAYBACK_LOAN);
 		}
-		explainButton = setupActionButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
-		addActionButtons ();
+		explainButton = setupButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
+		addButtons ();
 	}
 	
-	private void addActionButtons () {
+	private void addButtons () {
 		buttonsJPanel.removeAll ();
 		
 		addButton (showMapButton);
@@ -608,7 +608,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		treasuryLabel.setText ("Treasury: " + Bank.formatCash (tTreasuryValue));
 	}
 	
-	public void updateCFActionButtons () {
+	public void updateCFButtons () {
 		if (corporation.mapVisible ()) {
 			showMapButton.setEnabled (false);
 			showMapButton.setToolTipText ("The Map is already visible.");
@@ -617,10 +617,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			showMapButton.setToolTipText (GUI.NO_TOOL_TIP);
 		}
 		updateTTODButtons ();
-		updateBuyTrainActionButton ();
-		updateForceBuyTrainActionButton ();
-		updateBuyPrivateActionButton ();
-		updateDoneActionButton ();
+		updateBuyTrainButton ();
+		updateForceBuyTrainButton ();
+		updateBuyPrivateButton ();
+		updateDoneButton ();
 		corporation.configurePrivateBenefitButtons (buttonsJPanel);
 		repaint ();
 		revalidate ();
@@ -630,45 +630,47 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		int tTrainCount;
 		
 		tTrainCount = corporation.getTrainCount ();
-		updatePlaceBaseTileActionButton ();
-		updatePlaceTileActionButton ();
-		updatePlaceTokenActionButton ();
-		updateOperateTrainActionButton (tTrainCount);
-		updatePayFullDividendActionButton ();
-		updatePayHalfDividendActionButton (tTrainCount);
-		updatePayNoDividendActionButton (tTrainCount);
+		updatePlaceBaseTileButton ();
+		updatePlaceTileButton ();
+		updatePlaceTokenButton ();
+		updateOperateTrainButton (tTrainCount);
+		updatePayFullDividendButton ();
+		updatePayHalfDividendButton (tTrainCount);
+		updatePayNoDividendButton (tTrainCount);
 	}
 	
-	private void updatePayHalfDividendActionButton (int aTrainCount) {
-		String tDisableToolTipReason;
+	private void updatePayHalfDividendButton (int aTrainCount) {
+		String tToolTip;
 		
 		if (corporation.isWaitingForResponse ()) {
 			payHalfDividendButton.setEnabled (false);
-			payHalfDividendButton.setToolTipText ("Waiting for Response");
+			tToolTip = "Waiting for Response";
+			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if (corporation.isPlaceTileMode ()) {
 			payHalfDividendButton.setEnabled (false);
-			tDisableToolTipReason = IN_PLACE_TILE_MODE;
-			payHalfDividendButton.setToolTipText (tDisableToolTipReason);
+			tToolTip = IN_PLACE_TILE_MODE;
+			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if (corporation.isPlaceTokenMode ()) {
 			payHalfDividendButton.setEnabled (false);
-			tDisableToolTipReason = IN_TOKEN_MODE;
-			payHalfDividendButton.setToolTipText (tDisableToolTipReason);				
+			tToolTip = IN_TOKEN_MODE;
+			payHalfDividendButton.setToolTipText (tToolTip);				
 		} else if ((aTrainCount > 0) && (corporation.getThisRevenue () == TrainCompany.NO_REVENUE_GENERATED)) {
 			payHalfDividendButton.setEnabled (false);
-			tDisableToolTipReason = "No Dividends calculated yet";
-			payHalfDividendButton.setToolTipText (tDisableToolTipReason);
+			tToolTip = "No Dividends calculated yet";
+			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if (corporation.canPayDividend ()) {
 			payHalfDividendButton.setEnabled (true);
 			payHalfDividendButton.setText ("Pay " + Bank.formatCash (corporation.getHalfShareDividend ()) + " per Share");
-			payHalfDividendButton.setToolTipText (GUI.NO_TOOL_TIP);
+			tToolTip = GUI.NO_TOOL_TIP;
+			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if (corporation.dividendsHandled ()) {
 			payHalfDividendButton.setEnabled (false);
-			tDisableToolTipReason = corporation.reasonForNoDividendOptions ();
-			payHalfDividendButton.setToolTipText (tDisableToolTipReason);
+			tToolTip = corporation.reasonForNoDividendOptions ();
+			payHalfDividendButton.setToolTipText (tToolTip);
 		}
 	}
 	
-	private void updatePayNoDividendActionButton (int aTrainCount) {
+	private void updatePayNoDividendButton (int aTrainCount) {
 		String tToolTip;
 		
 		if (! corporation.isWaitingForResponse ()) {
@@ -676,17 +678,20 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			if (! corporation.haveLaidAllBaseTokens ()) {
 				if (corporation.isStationLaid ()) {
 					payNoDividendButton.setEnabled (true);
-					payNoDividendButton.setToolTipText ("Base Token was Skippped due to missing Tile.");
+					tToolTip = "Base Token was Skippped due to missing Tile.";
+					payNoDividendButton.setToolTipText (tToolTip);
 				} else if (corporation.canLayBaseToken ()) {
 					payNoDividendButton.setEnabled (false);
-					payNoDividendButton.setToolTipText ("Base Token must be laid first.");
+					tToolTip = "Base Token must be laid first.";
+					payNoDividendButton.setToolTipText (tToolTip);
 				} else if (corporation.dividendsHandled ()) {
 					payNoDividendButton.setEnabled (false);
 					tToolTip = corporation.reasonForNoDividendPayment ();
 					payNoDividendButton.setToolTipText (tToolTip);
 				} else {
 					payNoDividendButton.setEnabled (true);
-					payNoDividendButton.setToolTipText ("Base Token was Skippped due to missing Tile.");
+					tToolTip = "Base Token was Skippped due to missing Tile.";
+					payNoDividendButton.setToolTipText (tToolTip);
 				}
 			} else if (corporation.isPlaceTileMode ()) {
 				payNoDividendButton.setEnabled (false);
@@ -702,15 +707,18 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				payNoDividendButton.setToolTipText (tToolTip);
 			} else if (aTrainCount == 0) {
 				payNoDividendButton.setEnabled (true);
-				payNoDividendButton.setToolTipText (GUI.NO_TOOL_TIP);
+				tToolTip = GUI.NO_TOOL_TIP;
+				payNoDividendButton.setToolTipText (tToolTip);
 			} else if (corporation.canPayDividend ()) {
 				payNoDividendButton.setEnabled (true);
 				payNoDividendButton.setText ("Hold " + Bank.formatCash (corporation.getThisRevenue ()) + " in Treasury");
-				payNoDividendButton.setToolTipText (GUI.NO_TOOL_TIP);
+				tToolTip = GUI.NO_TOOL_TIP;
+				payNoDividendButton.setToolTipText (tToolTip);
 			} else if ((aTrainCount > 0) && (corporation.didOperateTrain ())) {
 				if (corporation.getThisRevenue () == 0) {
 					payNoDividendButton.setEnabled (true);
-					payNoDividendButton.setToolTipText (GUI.NO_TOOL_TIP);
+					tToolTip = GUI.NO_TOOL_TIP;
+					payNoDividendButton.setToolTipText (tToolTip);
 				} else {
 					payNoDividendButton.setEnabled (false);
 					if (aTrainCount == 1) {
@@ -727,30 +735,32 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			}
 		} else {
 			payNoDividendButton.setEnabled (false);
-			payNoDividendButton.setToolTipText ("Waiting for Response");
+			tToolTip = "Waiting for Response";
+			payNoDividendButton.setToolTipText (tToolTip);
 		}
 	}
 	
-	private void updatePayFullDividendActionButton () {
-		String tDisableToolTipReason;
+	private void updatePayFullDividendButton () {
+		String tToolTip;
 		
 		if (corporation.isPlaceTileMode ()) {
 			payFullDividendButton.setEnabled (false);
-			tDisableToolTipReason = IN_PLACE_TILE_MODE;
-			payFullDividendButton.setToolTipText (tDisableToolTipReason);				
+			tToolTip = IN_PLACE_TILE_MODE;
+//			payFullDividendButton.setToolTipText (tToolTip);				
 		} else if (corporation.canPayDividend ()) {
 			payFullDividendButton.setEnabled (true);
 			payFullDividendButton.setText ("Pay " + Bank.formatCash (corporation.getFullShareDividend ()) + " per Share");
-			payFullDividendButton.setToolTipText (GUI.NO_TOOL_TIP);
+			tToolTip = GUI.NO_TOOL_TIP;
+//			payFullDividendButton.setToolTipText (GUI.NO_TOOL_TIP);
 		} else {
 			payFullDividendButton.setText (PAY_FULL_DIVIDEND);
 			payFullDividendButton.setEnabled (false);
-			tDisableToolTipReason = corporation.reasonForNoDividendPayment ();
-			payFullDividendButton.setToolTipText (tDisableToolTipReason);
+			tToolTip = corporation.reasonForNoDividendPayment ();
 		}
+		payFullDividendButton.setToolTipText (tToolTip);
 	}
 	
-	public void updatePlaceBaseTileActionButton () {
+	public void updatePlaceBaseTileButton () {
 		if (corporation.homeMapCell1HasTile ()) {
 			placeBaseTileButton.setVisible (false);
 		} else {
@@ -759,7 +769,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 		
-	private void updatePlaceTileActionButton () {
+	private void updatePlaceTileButton () {
 		if (corporation.hasPlacedAnyStation ()) {
 			placeTileButton.setVisible (true);
 			updateTileButton (placeTileButton);
@@ -769,58 +779,61 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void updateTileButton (JButton aTileButton) {
-		String tDisableToolTipReason;
+		String tToolTip;
 		
 		if (corporation.canLayTile ()) {
 			if (corporation.isPlaceTileMode ()) {
 				aTileButton.setEnabled (false);
-				tDisableToolTipReason = IN_PLACE_TILE_MODE;
-				aTileButton.setToolTipText (tDisableToolTipReason);				
+				tToolTip = IN_PLACE_TILE_MODE;
+//				aTileButton.setToolTipText (tToolTip);				
 			} else if (corporation.isPlaceTokenMode ()) {
 				aTileButton.setEnabled (false);
-				tDisableToolTipReason = IN_TOKEN_MODE;
-				aTileButton.setToolTipText (tDisableToolTipReason);				
+				tToolTip = IN_TOKEN_MODE;
+//				aTileButton.setToolTipText (tToolTip);				
 			} else if (corporation.canLayBaseToken ()) {
 				aTileButton.setEnabled (false);
-				aTileButton.setToolTipText (MUST_LAY_BASE_TOKEN);
+				tToolTip = MUST_LAY_BASE_TOKEN;
+//				aTileButton.setToolTipText (MUST_LAY_BASE_TOKEN);
 			} else {
 				aTileButton.setEnabled (true);
-				aTileButton.setToolTipText (GUI.NO_TOOL_TIP);
+				tToolTip = GUI.NO_TOOL_TIP;
+//				aTileButton.setToolTipText (GUI.NO_TOOL_TIP);
 			}
 		} else {
 			aTileButton.setEnabled (false);
-			tDisableToolTipReason = corporation.reasonForNoTileLay ();
-			aTileButton.setToolTipText (tDisableToolTipReason);
+			tToolTip = corporation.reasonForNoTileLay ();
+//			aTileButton.setToolTipText (tToolTip);
 		}
-
+		aTileButton.setToolTipText (tToolTip);
 	}
 	
-	private void updateDoneActionButton () {
-		String tDisableToolTipReason;
+	private void updateDoneButton () {
+		String tToolTip;
 		
 		if (! corporation.dividendsHandled ()) {
 			doneButton.setEnabled (false);
-			tDisableToolTipReason = "Dividends have not been handled yet";
-			doneButton.setToolTipText (tDisableToolTipReason);
+			tToolTip = DIVIDENDS_NOT_HANDLED;
+//			doneButton.setToolTipText (tToolTip);
 		} else if (corporation.getSelectedTrainCount () > 0) {
 			doneButton.setEnabled (false);
-			tDisableToolTipReason = "Train has been Selected for Purchase";
-			doneButton.setToolTipText (tDisableToolTipReason);
+			tToolTip = "Train has been Selected for Purchase";
+//			doneButton.setToolTipText (tToolTip);
 		} else if (corporation.getCountOfSelectedPrivates () > 0) {
 			doneButton.setEnabled (false);
-			tDisableToolTipReason = "Private has been Selected for Purchase";
-			doneButton.setToolTipText (tDisableToolTipReason);
+			tToolTip = "Private has been Selected for Purchase";
+//			doneButton.setToolTipText (tToolTip);
 		} else if (corporation.mustBuyTrainNow ()) {
 			doneButton.setEnabled (false);
-			tDisableToolTipReason = "Corporation must buy a Train";
-			doneButton.setToolTipText (tDisableToolTipReason);
+			tToolTip = "Corporation must buy a Train";
+//			doneButton.setToolTipText (tToolTip);
 		} else {
 			doneButton.setEnabled (true);
-			doneButton.setToolTipText (GUI.NO_TOOL_TIP);
+			tToolTip = GUI.NO_TOOL_TIP;
 		}
+		doneButton.setToolTipText (tToolTip);
 	}
 	
-	private void updateForceBuyTrainActionButton () {
+	private void updateForceBuyTrainButton () {
 		Train tCheapestTrain;
 		
 		if (corporation.isOperating ()) {
@@ -833,7 +846,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 						buyTrainForceButton.setEnabled (true);
 						buyTrainForceButton.setToolTipText (GUI.NO_TOOL_TIP);
 					} else {
-						hideForceBuyTrainActionButton ();
+						hideForceBuyTrainButton ();
 					}
 				} else {
 					if (corporation.hasNoTrain ()) {
@@ -842,21 +855,21 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 							buyTrainForceButton.setEnabled (true);
 							buyTrainForceButton.setToolTipText ("OPTIONAL to Force Buy a Train");
 						} else {
-							hideForceBuyTrainActionButton ();
+							hideForceBuyTrainButton ();
 						}
 					} else {
-						hideForceBuyTrainActionButton ();
+						hideForceBuyTrainButton ();
 					}
 				}
 			} else {
-				hideForceBuyTrainActionButton ();
+				hideForceBuyTrainButton ();
 			}
 		} else {
-			hideForceBuyTrainActionButton ();
+			hideForceBuyTrainButton ();
 		}
 	}
 	
-	private void hideForceBuyTrainActionButton () {
+	private void hideForceBuyTrainButton () {
 		buyTrainForceButton.setVisible (false);
 		buyTrainForceButton.setEnabled (false);
 		buyTrainForceButton.setToolTipText (GUI.NO_TOOL_TIP);
@@ -870,7 +883,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tCanBuySelectedTrain;
 	}
 	
-	private void updateBuyTrainActionButton () {
+	private void updateBuyTrainButton () {
 		int tSelectedCount;
 		int tThisSelectedTrainCount;
 		TrainCompany tTrainCompany = (TrainCompany) corporation;
@@ -884,9 +897,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (tThisSelectedTrainCount == 0) {
 			tRemovedADiscount = tTrainCompany.removeAllDiscounts ();
 			if ((tSelectedCount == 0) && tRemovedADiscount) {
-	// TODO Something here when an Upgrade is Selected, a Diesel is selected, then the Diesel is unselected, and Upgrade is unselected
-	// then tRemovedADiscount is true -- Fine, but this update then puts the state of the Other Corp Action Buttons to allow a Select,
-	// But then disallows an unselect --- This should rebuild the entire set of trains from scratch... but it gets into a weird state
+	// TODO Something here when an Upgrade is Selected, a Diesel is selected, then the Diesel is unselected, 
+	// and Upgrade is unselected then tRemovedADiscount is true -- Fine, but this update then puts the state 
+	// of the Other Corp Action Buttons to allow a Select,
+	// But then disallows an unselect --- This should rebuild the entire set of trains from scratch... 
+	// but it gets into a weird state
 				updateOtherCorpsJPanel ();
 			}
 		}
@@ -904,28 +919,21 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					tSelectedTrainToBuy = tTrainCompany.getSelectedBankTrain ();
 					tSelectedTrainToUpgrade = tTrainCompany.getSelectedTrain ();
 					if (tSelectedTrainToBuy.canBeUpgradedFrom (tSelectedTrainToUpgrade.getName ())) {
-//						enableBuyTrainActionButton ();
 						updateBuyTrainButton (true);
 					} else {
-//						disableBuyTrainActionButton ("Must select Train from the Bank that Can be Upgraded to " + tSelectedTrainToBuy.getName ());
 						updateBuyTrainButton (false, "Must select Train from the Bank that Can be Upgraded to " + tSelectedTrainToBuy.getName ());
 					}
 				} else {
-//					disableBuyTrainActionButton ("Must select Train from the Bank to Upgrade");
 					updateBuyTrainButton (false, "Must select Train from the Bank to Upgrade");
 				}
 			} else {
-//				disableBuyTrainActionButton ();
 				updateBuyTrainButton (false);
 			}
 		} else if (canBuySelectedTrain (tSelectedCount)) {
 			updateBuyTrainLabel ();
-			
-//			enableBuyTrainActionButton ();
 			updateBuyTrainButton (true);
 		} else {
 			updateBuyTrainLabel ();
-//			disableBuyTrainActionButton ();
 			updateBuyTrainButton (false);
 		}
 	}
@@ -964,26 +972,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		buyTrainButton.setToolTipText (aToolTip);
 	}
 	
-//  -- Merge these three routines together, as 'updateBuyTrainButton'
-//	private void enableBuyTrainActionButton () {
-//		buyTrainButton.setEnabled (true);
-//		buyTrainButton.setToolTipText (GUI.NO_TOOL_TIP);		
-//	}
-//	
-//	private void disableBuyTrainActionButton (String aDisableToolTipReason) {
-//		buyTrainButton.setEnabled (false);
-//		buyTrainButton.setToolTipText (aDisableToolTipReason);	
-//	}
-//	
-//	private void disableBuyTrainActionButton () {
-//		String tDisableToolTipReason;
-//		
-//		tDisableToolTipReason = corporation.reasonForNoBuyTrain ();
-//		disableBuyTrainActionButton (tDisableToolTipReason);
-//	}
-	
-	// Rename method to 'updatePlaceTokenButton'
-	private void updatePlaceTokenActionButton () {
+	private void updatePlaceTokenButton () {
 		String tDisableToolTipReason;
 		String tMapCellID;
 		MapCell tMapCell;
@@ -1058,7 +1047,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 
-	private void updateOperateTrainActionButton (int aTrainCount) {
+	private void updateOperateTrainButton (int aTrainCount) {
 		String tDisableToolTipReason;
 		
 		if (aTrainCount > 1) {
@@ -1081,7 +1070,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 	
-	private void updateBuyPrivateActionButton () {
+	private void updateBuyPrivateButton () {
 		String tDisableToolTipReason;
 		
 		updateBuyPrivateLabel ();
@@ -1124,7 +1113,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		setTokenLabel ();
 		setLastRevenueLabel ();
 		updateBuyableItems ();
-		updateCFActionButtons ();
+		updateCFButtons ();
 		revalidate ();
 		if (corporation.getStatus () == ActorI.ActionStates.WillFloat) {
 			setVisible (false);
@@ -1154,16 +1143,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				tHasCash = (corporation.getCash () > 0);
 				if (!tHasCash) {
 					tCanBuyTrain = false;
-					tDisableToolTipReason = corporation.getAbbrev () + " has no Cash available";
+					tDisableToolTipReason = corporation.getAbbrev () + " has no Cash";
 				} else {
 					tIsAtTrainLimit = ((TrainCompany) corporation).atTrainLimit ();
 					if (tIsAtTrainLimit) {
 						tCanBuyTrain = false;
-						tDisableToolTipReason = corporation.getAbbrev () + " at Train Limit";					
+						tDisableToolTipReason = corporation.getAbbrev () + " is at Train Limit";					
 					}
 				}
 			} else {
-				tDisableToolTipReason = "Dividends have not been handled yet";
+				tDisableToolTipReason = DIVIDENDS_NOT_HANDLED;
 			}
 		} else {
 			tCanBuyTrain = false;
@@ -1185,16 +1174,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				tHasCash = (corporation.getCash () > 0);
 				if (!tHasCash) {
 					tCanBuyTrain = false;
-					tDisableToolTipReason = corporation.getAbbrev () + " has no Cash available";
+					tDisableToolTipReason = corporation.getAbbrev () + " has no Cash";
 				} else {
 					tIsAtTrainLimit = ((TrainCompany) corporation).atTrainLimit ();
 					if (tIsAtTrainLimit) {
 						tCanBuyTrain = false;
-						tDisableToolTipReason = corporation.getAbbrev () + " at Train Limit";					
+						tDisableToolTipReason = corporation.getAbbrev () + " is at Train Limit";					
 					}
 				}
 			} else {
-				tDisableToolTipReason = "Dividends have not been handled yet";
+				tDisableToolTipReason = DIVIDENDS_NOT_HANDLED;
 			}
 			updateBankJPanel (tCanBuyTrain, tDisableToolTipReason);
 		}
@@ -1203,12 +1192,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
 		if (corporation.isWaitingForResponse ()) {
-//			disableBuyTrainActionButton ("Waiting for Response from Puchase Offer");
-			updateBuyTrainButton (false, "Waiting for Response from Puchase Offer");
+			updateBuyTrainButton (false, "Waiting for Response from Purchase Offer");
 		} else  if (corporation.isOperating ()) {
-			updateBuyTrainActionButton ();
-			updateBuyPrivateActionButton ();
-			updateDoneActionButton ();			
+			updateBuyTrainButton ();
+			updateBuyPrivateButton ();
+			updateDoneButton ();			
 		}
 	}
 
