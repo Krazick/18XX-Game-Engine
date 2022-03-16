@@ -514,12 +514,11 @@ public class PlayerManager {
 		Certificate tCertificateToBuy;
 		List<Certificate> tCertificatesToTransfer;
 		ShareCompany tShareCompany;
-		Portfolio tBankPortfolio, tBankPoolPortfolio, tPlayerPortfolio, tSourcePortfolio;
+		Portfolio tPlayerPortfolio;
+		Portfolio tSourcePortfolio;
 		Bank tBank;
-		BankPool tBankPool;
 		int tCashValue;
 		int tParPrice;
-		int tCountCertificates;
 		Player tCurrentPresident;
 		PortfolioHolderI tCurrentHolder;
 		boolean tCanBuyStock = true;
@@ -535,9 +534,6 @@ public class PlayerManager {
 		}
 		if (tCanBuyStock) {
 			tBank = stockRound.getBank ();
-			tBankPortfolio = tBank.getPortfolio ();
-			tBankPool = stockRound.getBankPool ();
-			tBankPoolPortfolio = tBankPool.getPortfolio ();
 			tCertificateToBuy = aCertificatesToBuy.get (0);
 			if (tCertificateToBuy.isShareCompany ()) {
 				tShareCompany = tCertificateToBuy.getShareCompany ();
@@ -567,24 +563,9 @@ public class PlayerManager {
 				tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
 			}
 
-			tFreeCertificate = Certificate.NO_CERTIFICATE;
-			// Test to see if the Certificate is in the Start Packet
-			//TODO build separate routine to get the Total Cash value by summing all in the list to buy
-			if (tBank.isInStartPacket (tCertificateToBuy)) {
-				tCashValue = tCertificateToBuy.getParValue ();
-				tSourcePortfolio = tBank.getStartPacketPortfolio ();
-				tFreeCertificate = tBank.getFreeCertificateWithThisCertificate (tCertificateToBuy);
-			} else if (tCertificateToBuy.isOwnedByBank ()) {
-				tCashValue = tCertificateToBuy.getParValue ();
-				tSourcePortfolio = tBankPortfolio;
-				
-				// Otherwise it is owned by the Bank Pool
-				// (Note this may be wrong, if buying from another Player)
-			} else {
-				tCountCertificates = aCertificatesToBuy.size ();
-				tCashValue = tCertificateToBuy.getValue () * tCountCertificates;		
-				tSourcePortfolio = tBankPoolPortfolio;
-			}
+			tFreeCertificate = tBank.getFreeCertificateWithThisCertificate (tCertificateToBuy);
+			tCashValue = calculateCashToBuy (aCertificatesToBuy);
+			tSourcePortfolio = getSourcePortfolio (tCertificateToBuy);
 			
 			aPlayer.transferCashTo (tBank, tCashValue);
 			aBuyStockAction.addCashTransferEffect (aPlayer, tBank, tCashValue);
@@ -628,9 +609,50 @@ public class PlayerManager {
 		return tBuyStockAction;
 	}
 
+	private Portfolio getSourcePortfolio (Certificate aCertificateToBuy) {
+		Portfolio tSourcePortfolio;
+		Bank tBank;
+		BankPool tBankPool;
+		Portfolio tBankPortfolio, tBankPoolPortfolio;
+		
+		tBank = getBank ();
+		tBankPortfolio = tBank.getPortfolio ();
+		tBankPool = stockRound.getBankPool ();
+		tBankPoolPortfolio = tBankPool.getPortfolio ();
+		
+		if (tBank.isInStartPacket (aCertificateToBuy)) {
+			tSourcePortfolio = tBank.getStartPacketPortfolio ();
+		} else if (aCertificateToBuy.isOwnedByBank ()) {
+			tSourcePortfolio = tBankPortfolio;
+		} else {
+			tSourcePortfolio = tBankPoolPortfolio;
+		}
+		// TODO: non-1830, need to check if certificate is being bought from another player so a different source
+		
+		return tSourcePortfolio;
+	}
 
-	private void handlePresidentialTransfer (Player aPlayer, TransferOwnershipAction aTransferOwnershipAction, ShareCompany aShareCompany,
-			Player aCurrentPresident) {
+	private int calculateCashToBuy (List<Certificate> aCertificatesToBuy) {
+		int tCashToBuy;
+		Bank tBank;
+		
+		tBank = getBank ();
+		tCashToBuy = 0;
+		for (Certificate tCertificateToBuy : aCertificatesToBuy) {
+			if (tBank.isInStartPacket (tCertificateToBuy)) {
+				tCashToBuy += tCertificateToBuy.getParValue ();
+			} else if (tCertificateToBuy.isOwnedByBank ()) {
+				tCashToBuy += tCertificateToBuy.getParValue ();
+			} else {
+				tCashToBuy += tCertificateToBuy.getValue ();		
+			}
+		}
+		
+		return tCashToBuy;
+	}
+	
+	private void handlePresidentialTransfer (Player aPlayer, TransferOwnershipAction aTransferOwnershipAction, 
+			ShareCompany aShareCompany, Player aCurrentPresident) {
 		Player tNewPresident;
 		
 		// TODO: Extract method out to test and handle Presidential Exchange
@@ -681,8 +703,6 @@ public class PlayerManager {
 			List<Certificate> aCertificatesToBuy, BuyStockAction aBuyStockAction) {
 		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
 		
-		System.out.println ("Final Steps to buy " + aCertificatesToBuy.size () + " Certificates of " + 
-				aCertificatesToBuy.get (0).getCompanyAbbrev ());
 		for (Certificate tCertificate : aCertificatesToBuy) {
 			transferOneCertificate (aToPortfolio, aFromPortfolio, tCertificate, aBuyStockAction);
 			
