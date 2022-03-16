@@ -1288,13 +1288,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public boolean loadXMLSavedGame (XMLDocument aXMLDocument) throws IOException {
 		boolean tLoadedSaveGame;
-		XMLNode tXMLSaveGame, tChildNode;
+		XMLNode tXMLSaveGame;
 		NodeList tChildren;
 		int tChildrenCount, tIndex;
-		String tChildName, tSaveGameName;
-		GameSet tGameSet;
 		boolean tGameIdentified = false, tPlayersLoaded = false, tGameInitiated = false;
-		String tGameID;
 		
 		tLoadedSaveGame = false;
 		if (aXMLDocument.ValidDocument ()) {
@@ -1309,42 +1306,62 @@ public class GameManager extends Component implements NetworkGameSupport {
 					initiateGame ();
 					tGameInitiated = true;
 				}
-				tChildNode = new XMLNode (tChildren.item (tIndex));
-				tChildName = tChildNode.getNodeName ();
-				if (! tChildName.equals (XMLNode.XML_TEXT_TAG)) {
-					if (JGameClient.EN_NETWORK_GAME.equals (tChildName)) {
-						if (networkJGameClient == JGameClient.NO_JGAME_CLIENT) {
-							loadNetworkJGameClient (tChildNode);
-						}
-					}
-					if (GameInfo.EN_GAME_INFO.equals (tChildName)) {
-						tGameSet = playerInputFrame.getGameSet ();
-						tSaveGameName = tChildNode.getThisAttribute (AN_NAME);
-						activeGame = tGameSet.getGameByName (tSaveGameName);
-						tGameID = tChildNode.getThisAttribute (GameInfo.AN_GAME_ID);
-						setGameID (tGameID);
-						activeGame.setGameID (tGameID);
-						tGameIdentified = true;
-					}
-					if (PlayerInputFrame.EN_PLAYERS.equals (tChildName)) {
-						tPlayersLoaded = playerManager.loadPlayers (tChildNode, activeGame);
-					}
-					if (PhaseManager.EN_PHASE.equals (tChildName)) {
-						phaseManager.loadPhase (tChildNode);
-					}
-					if (tGameInitiated) {
-						handleIfGameInitiated (tChildNode, tChildName);
-					}
+				parseChildNode (tChildren, tIndex, tGameInitiated);
+				if (gameID != null) {
+					tGameIdentified = true;
+				}
+				if (playerManager.getPlayerCount () > 1) {
+					tPlayersLoaded = true;
 				}
 			}
 			fixLoadedRoutes ();
-			if ((activeGame != GameInfo.NO_GAME_INFO) && (playerManager.getPlayerCount () > 0)) {
+			if ((activeGame != GameInfo.NO_GAME_INFO) && (playerManager.getPlayerCount () > 1)) {
 				tLoadedSaveGame = true;
 			}
 		}
 		updateRoundFrame ();
 		
 		return tLoadedSaveGame;
+	}
+
+	private void parseChildNode (NodeList aChildren, int aIndex, boolean aGameInitiated) {
+		XMLNode tChildNode;
+		String tChildName;
+		
+		tChildNode = new XMLNode (aChildren.item (aIndex));
+		tChildName = tChildNode.getNodeName ();
+		if (! tChildName.equals (XMLNode.XML_TEXT_TAG)) {
+			if (JGameClient.EN_NETWORK_GAME.equals (tChildName)) {
+				if (networkJGameClient == JGameClient.NO_JGAME_CLIENT) {
+					loadNetworkJGameClient (tChildNode);
+				}
+			}
+			if (GameInfo.EN_GAME_INFO.equals (tChildName)) {
+				loadGameInfo (tChildNode);
+			}
+			if (PlayerInputFrame.EN_PLAYERS.equals (tChildName)) {
+				playerManager.loadPlayers (tChildNode, activeGame);
+			}
+			if (PhaseManager.EN_PHASE.equals (tChildName)) {
+				phaseManager.loadPhase (tChildNode);
+			}
+			if (aGameInitiated) {
+				handleIfGameInitiated (tChildNode, tChildName);
+			}
+		}
+	}
+
+	private void loadGameInfo (XMLNode aChildNode) {
+		String tSaveGameName;
+		GameSet tGameSet;
+		String tGameID;
+		
+		tGameSet = playerInputFrame.getGameSet ();
+		tSaveGameName = aChildNode.getThisAttribute (AN_NAME);
+		activeGame = tGameSet.getGameByName (tSaveGameName);
+		tGameID = aChildNode.getThisAttribute (GameInfo.AN_GAME_ID);
+		setGameID (tGameID);
+		activeGame.setGameID (tGameID);
 	}
 
 	public void handleIfGameInitiated (XMLNode aChildNode, String aChildName) {
