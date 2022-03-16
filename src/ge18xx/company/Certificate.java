@@ -1127,7 +1127,11 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public boolean isOwnedByBank () {
-		return (! isOwned ());
+		boolean tIsOwnedByBank;
+		
+		tIsOwnedByBank = ! isOwned ();
+		
+		return (tIsOwnedByBank);
 	}
 	
 	public boolean isOwnedbyPlayerOrCorp () {
