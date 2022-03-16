@@ -1232,6 +1232,20 @@ public class Certificate implements Comparable<Certificate> {
 		return tIsSelectedToSell;
 	}
 	
+	public boolean canBuyMultiple () {
+		boolean tCanBuyMultiple = false;
+		ShareCompany tShareCompany;
+		
+		if (corporation.isAShareCompany()) {
+			tShareCompany = (ShareCompany) corporation;
+			if (tShareCompany.canBuyMultiple ()) {
+				tCanBuyMultiple = true;
+			}
+		}
+	
+		return tCanBuyMultiple;
+	}
+	
 	public boolean isShareCompany () {
 		return corporation.isShareCompany ();
 	}

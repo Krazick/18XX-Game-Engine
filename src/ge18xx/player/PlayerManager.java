@@ -471,6 +471,14 @@ public class PlayerManager {
 		return stockRound.getCertificateToBuy ();
 	}
 	
+	public List<Certificate> getCertificatesToBuy () {
+		List<Certificate> tCertificatesToBuy;
+
+		tCertificatesToBuy = stockRound.getCertificatesToBuy ();
+		
+		return tCertificatesToBuy;
+	}
+
 	public String getStockRoundID () {
 		return stockRound.getID ();
 	}
@@ -498,17 +506,20 @@ public class PlayerManager {
 		updateAllPlayerFrames ();
 	}
 	
-	public BuyStockAction buyAction (Player aPlayer, Certificate aCertificateToBuy, 
+	public BuyStockAction buyAction (Player aPlayer, List<Certificate> aCertificatesToBuy, 
 			STOCK_BUY_IN aRoundBuying, BuyStockAction aBuyStockAction) {
 		BuyStockAction tBuyStockAction;
 		Player.ActionStates tOldState, tNewState;
 		Certificate tFreeCertificate;
+		Certificate tCertificateToBuy;
+		List<Certificate> tCertificatesToTransfer;
 		ShareCompany tShareCompany;
 		Portfolio tBankPortfolio, tBankPoolPortfolio, tPlayerPortfolio, tSourcePortfolio;
 		Bank tBank;
 		BankPool tBankPool;
 		int tCashValue;
 		int tParPrice;
+		int tCountCertificates;
 		Player tCurrentPresident;
 		PortfolioHolderI tCurrentHolder;
 		boolean tCanBuyStock = true;
@@ -527,9 +538,9 @@ public class PlayerManager {
 			tBankPortfolio = tBank.getPortfolio ();
 			tBankPool = stockRound.getBankPool ();
 			tBankPoolPortfolio = tBankPool.getPortfolio ();
-
-			if (aCertificateToBuy.isShareCompany ()) {
-				tShareCompany = aCertificateToBuy.getShareCompany ();
+			tCertificateToBuy = aCertificatesToBuy.get (0);
+			if (tCertificateToBuy.isShareCompany ()) {
+				tShareCompany = tCertificateToBuy.getShareCompany ();
 				if (tShareCompany == ShareCompany.NO_SHARE_COMPANY) {
 					tCurrentPresident = Player.NO_PLAYER;
 				} else {
@@ -542,10 +553,10 @@ public class PlayerManager {
 						tCurrentPresident = Player.NO_PLAYER;
 					}
 				}
-				if (! aCertificateToBuy.hasParPrice ()) {
-					tParPrice = aCertificateToBuy.getComboParValue ();
+				if (! tCertificateToBuy.hasParPrice ()) {
+					tParPrice = tCertificateToBuy.getComboParValue ();
 					if ((tParPrice > 0) && (tShareCompany != ShareCompany.NO_SHARE_COMPANY)) {
-						handleSetParPrice (aPlayer, aCertificateToBuy, tShareCompany, tParPrice);
+						handleSetParPrice (aPlayer, tCertificateToBuy, tShareCompany, tParPrice);
 						tChainToPrevious = true;
 					} else {
 						System.err.println ("***Selected Par Price is " + tParPrice + " or tShareCompany is NULL***");
@@ -558,18 +569,20 @@ public class PlayerManager {
 
 			tFreeCertificate = Certificate.NO_CERTIFICATE;
 			// Test to see if the Certificate is in the Start Packet
-			if (tBank.isInStartPacket (aCertificateToBuy)) {
-				tCashValue = aCertificateToBuy.getParValue ();
+			//TODO build separate routine to get the Total Cash value by summing all in the list to buy
+			if (tBank.isInStartPacket (tCertificateToBuy)) {
+				tCashValue = tCertificateToBuy.getParValue ();
 				tSourcePortfolio = tBank.getStartPacketPortfolio ();
-				tFreeCertificate = tBank.getFreeCertificateWithThisCertificate (aCertificateToBuy);
-			} else if (aCertificateToBuy.isOwnedByBank ()) {
-				tCashValue = aCertificateToBuy.getParValue ();
+				tFreeCertificate = tBank.getFreeCertificateWithThisCertificate (tCertificateToBuy);
+			} else if (tCertificateToBuy.isOwnedByBank ()) {
+				tCashValue = tCertificateToBuy.getParValue ();
 				tSourcePortfolio = tBankPortfolio;
 				
 				// Otherwise it is owned by the Bank Pool
 				// (Note this may be wrong, if buying from another Player)
 			} else {
-				tCashValue = aCertificateToBuy.getValue ();
+				tCountCertificates = aCertificatesToBuy.size ();
+				tCashValue = tCertificateToBuy.getValue () * tCountCertificates;		
 				tSourcePortfolio = tBankPoolPortfolio;
 			}
 			
@@ -577,10 +590,12 @@ public class PlayerManager {
 			aBuyStockAction.addCashTransferEffect (aPlayer, tBank, tCashValue);
 			tPlayerPortfolio = aPlayer.getPortfolio ();
 
-			doFinalShareBuySteps (tPlayerPortfolio, tSourcePortfolio, aCertificateToBuy, aBuyStockAction);
+			doFinalShareBuySteps (tPlayerPortfolio, tSourcePortfolio, aCertificatesToBuy, aBuyStockAction);
 			/* If this Private include a Free Certificate, hand that over as well */
 			if (tFreeCertificate != Certificate.NO_CERTIFICATE) {
-				doFinalShareBuySteps (tPlayerPortfolio, tSourcePortfolio, tFreeCertificate, aBuyStockAction);
+				tCertificatesToTransfer = new LinkedList<Certificate> ();
+				tCertificatesToTransfer.add (tFreeCertificate);
+				doFinalShareBuySteps (tPlayerPortfolio, tSourcePortfolio, tCertificatesToTransfer, aBuyStockAction);
 				/* If this Free Certificate is a President Share -- Request a Par Price to be set */
 				if (tFreeCertificate.isPresidentShare ()) {
 					if (tFreeCertificate.hasParPrice ()) {
@@ -662,32 +677,42 @@ public class PlayerManager {
 		return gameManager.getPrivateAbbrevForAuction ();
 	}
 	
-	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, 
-			Certificate aCertificate, BuyStockAction aBuyStockAction) {
+	private void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, 
+			List<Certificate> aCertificatesToBuy, BuyStockAction aBuyStockAction) {
 		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
-		PortfolioHolderI tFromHolder, tToHolder;
+		
+		System.out.println ("Final Steps to buy " + aCertificatesToBuy.size () + " Certificates of " + 
+				aCertificatesToBuy.get (0).getCompanyAbbrev ());
+		for (Certificate tCertificate : aCertificatesToBuy) {
+			transferOneCertificate (aToPortfolio, aFromPortfolio, tCertificate, aBuyStockAction);
+			
+			// Note, when Buying a Private, need to make the CheckBox invisible so it is not added to the Explain List
+			// Undo makes this visible again always.
+			// If this is done for all Certs, especially Share Companies, the first will be shown, but follow-on certs don't 
+			// show the Certificate Buy Button.
+			// Should come up with a better way to fix this
+			if (tCertificate.isPrivateCompany ()) {
+				tCertificate.clearFrameButton ();
+			}
+			tCurrentCorporationStatus = tCertificate.getCorporationStatus ();
+			tCertificate.updateCorporationOwnership ();
+			tNewCorporationStatus = tCertificate.getCorporationStatus ();
+			if (tCurrentCorporationStatus != tNewCorporationStatus) {
+				aBuyStockAction.addStateChangeEffect (tCertificate.getCorporation (), 
+						tCurrentCorporationStatus, tNewCorporationStatus);
+			}
+		}
+	}
+	
+	public void transferOneCertificate (Portfolio aToPortfolio, Portfolio aFromPortfolio, Certificate aCertificate,
+			BuyStockAction aBuyStockAction) {
+		PortfolioHolderI tFromHolder;
+		PortfolioHolderI tToHolder;
 		
 		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
-		
-		// Note, when Buying a Private, need to make the CheckBox invisible so it is not added to the Explain List
-		// Undo makes this visible again always.
-		// If this is done for all Certs, especially Share Companies, the first will be shown, but follow-on certs don't 
-		// show the Certificate Buy Button.
-		// Should come up with a better way to fix this
-		if (aCertificate.isPrivateCompany ()) {
-			aCertificate.clearFrameButton ();
-		}
 		tFromHolder = aFromPortfolio.getHolder ();
 		tToHolder = aToPortfolio.getHolder ();
 		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate,  tToHolder);
-		
-		tCurrentCorporationStatus = aCertificate.getCorporationStatus ();
-		aCertificate.updateCorporationOwnership ();
-		tNewCorporationStatus = aCertificate.getCorporationStatus ();
-		if (tCurrentCorporationStatus != tNewCorporationStatus) {
-			aBuyStockAction.addStateChangeEffect (aCertificate.getCorporation (), 
-					tCurrentCorporationStatus, tNewCorporationStatus);
-		}
 	}
 	
 	public int getThisPlayerIndex (Player aPlayer) {

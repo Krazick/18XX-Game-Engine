@@ -352,7 +352,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		
 		tBank = player.getBank ();
 		if (tBank != Bank.NO_BANK) { 
-			tSelectedStocksToBuy = player.hasSelectedStockToBuy (tBank);
+			tSelectedStocksToBuy = player.hasSelectedStockToBuy ();
 		} else {
 			System.err.println ("Player has failed to retrieve the Bank");
 		}
@@ -736,9 +736,12 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	private void updateBuyBidButton (boolean aStocksToBuy, boolean aPrivateToBidOn) {
 		int tCountSelectedCosToBuy;
 		int tCountSelectedCosToBid;
+		int tCountSharesToBuy;
+		Certificate tCertificate;
 		
 		tCountSelectedCosToBuy = getCountSelectedCosToBuy ();
 		tCountSelectedCosToBid = getCountSelectedCosToBid ();
+		tCountSharesToBuy = player.getCountSelectedCertificatesToBuy ();
 		if (aStocksToBuy) {
 			if ((tCountSelectedCosToBuy + tCountSelectedCosToBid) > 1) {
 				buyBidButton.setEnabled (false);
@@ -746,10 +749,34 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				buyBidButton.setText (BUY);
 				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
 			} else {
-				buyBidButton.setEnabled (aStocksToBuy);
-				buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
-				buyBidButton.setText (BUY);
-				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+				if (tCountSharesToBuy > 1) {
+					tCertificate = player.getSelectedCertificateToBuy ();
+					if (tCertificate != Certificate.NO_CERTIFICATE) {
+						if (tCertificate.canBuyMultiple ()) {
+							
+							buyBidButton.setEnabled (aStocksToBuy);
+							buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+							buyBidButton.setText (BUY);
+							enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+						} else {
+							buyBidButton.setEnabled (false);
+							buyBidButton.setToolTipText ("Can only buy 1 Certificate for this company");
+							buyBidButton.setText (BUY);
+							enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+						
+						}
+					} else {
+						buyBidButton.setEnabled (aStocksToBuy);
+						buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+						buyBidButton.setText (BUY);
+						enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+					}
+				} else {
+					buyBidButton.setEnabled (aStocksToBuy);
+					buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+					buyBidButton.setText (BUY);
+					enableSelectedButton (STOCK_SELECTED_FOR_BUY);
+				}
 			}
 		} else {
 			if (tCountSelectedCosToBid > 1) {

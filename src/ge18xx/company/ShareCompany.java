@@ -259,6 +259,10 @@ public class ShareCompany extends TokenCompany {
 		return sharePrice;
 	}
 	
+	public boolean canBuyMultiple () {
+		return sharePrice.canBuyMultiple ();
+	}
+	
 	public int getStartCol () {
 		String [] tSplit = null;
 		int tCol;

@@ -668,7 +668,6 @@ public class Portfolio implements CertificateHolderI {
 		return tPercentage;
 	}
 
-	
 	public int getPlayerOrCorpOwnedPercentageFor (Corporation aCorporation) {
 		int tPercentage;
 		
@@ -721,6 +720,19 @@ public class Portfolio implements CertificateHolderI {
 		}
 		
 		return tCertificateToExchange;
+	}
+	
+	public List<Certificate> getCertificatesToBuy () {
+		List<Certificate> tCertificatesToBuy;
+		
+		tCertificatesToBuy = new LinkedList<Certificate> ();
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelectedToBuy ()) {
+				tCertificatesToBuy.add (tCertificate);
+			}
+		}
+		
+		return tCertificatesToBuy;
 	}
 	
 	public List<Certificate> getCertificatesToSell () {
@@ -1149,7 +1161,6 @@ public class Portfolio implements CertificateHolderI {
 			tTestCorporationID = tTestCorporation.getID ();
 			if (tTestCorporationID == CorpID) {
 				tCorporation = tTestCorporation;
-//				return tCorporation;
 			}
 		}
 		
@@ -1354,13 +1365,39 @@ public class Portfolio implements CertificateHolderI {
 		return tCountSelectedCosToBid;
 	}
 	
-	public int getSelectedStockCost () {
+	public Certificate getASelectedCertificatesToBuy () {
+		Certificate tSelectedCertificate;
+		
+		tSelectedCertificate = Certificate.NO_CERTIFICATE;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelectedToBuy ()) {
+				tSelectedCertificate = tCertificate;
+			}
+		}
+		
+		return tSelectedCertificate;
+	}
+	
+	public int getCountSelectedCertificatesToBuy () {
+		int tCountOfSelectedCertificates;
+		
+		tCountOfSelectedCertificates = 0;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelectedToBuy ()) {
+				tCountOfSelectedCertificates++;
+			}
+		}
+		
+		return tCountOfSelectedCertificates;
+	}
+	
+	public int getSelectedStocksCost () {
 		int tSelectedStockCost;
 		
 		tSelectedStockCost = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBuy ()) {
-				tSelectedStockCost = tCertificate.getCost ();
+				tSelectedStockCost += tCertificate.getCost ();
 			}
 		}
 		

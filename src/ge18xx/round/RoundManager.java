@@ -2,6 +2,7 @@ package ge18xx.round;
 
 import java.awt.Point;
 import java.awt.event.ItemListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -342,6 +343,23 @@ public class RoundManager implements ActionListener {
 		return tCertificateToBuy;
 	}
 	
+	public List<Certificate> getCertificatesToBuy () {
+		List<Certificate> tCertificatesToBuy;
+		BankPool tBankPool;
+		Bank tBank;
+		Certificate tCertificateToBuy;
+		
+		tBankPool = getBankPool ();
+		tCertificatesToBuy = tBankPool.getCertificatesToBuy ();
+		tBank = getBank ();
+		tCertificateToBuy = tBank.getCertificateToBuy ();
+		if (tCertificateToBuy != Certificate.NO_CERTIFICATE) {
+			tCertificatesToBuy.add (tCertificateToBuy);
+		}
+		
+		return tCertificatesToBuy;
+	}
+
 	public int getCountOfSelectedPrivates () {
 		return gameManager.getCountOfSelectedPrivates ();
 	}

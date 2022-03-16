@@ -1,5 +1,7 @@
 package ge18xx.round;
 
+import java.util.List;
+
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.Certificate;
@@ -56,6 +58,14 @@ public abstract class Round implements ActorI {
 	
 	public Certificate getCertificateToBuy () {
 		return roundManager.getCertificateToBuy ();
+	}
+	
+	public List<Certificate> getCertificatesToBuy () {
+		List<Certificate> tCertificatesToBuy;
+
+		tCertificatesToBuy = roundManager.getCertificatesToBuy ();
+		
+		return tCertificatesToBuy;
 	}
 
 	public Certificate getCertificateToBidOn () {

@@ -37,6 +37,10 @@ public enum MarketRegion {
 		return color;
 	}
 	
+	public boolean notCountAsBuy () {
+		return notCountAsBuy;
+	}
+	
 	public boolean getCloseCorporation () {
 		return closeCorporation;
 	}

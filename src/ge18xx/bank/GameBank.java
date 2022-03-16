@@ -1,6 +1,7 @@
 package ge18xx.bank;
 
 import java.awt.event.ItemListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -93,6 +94,14 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		tCertificateToBuy = portfolio.getCertificateToBuy ();
 		
 		return tCertificateToBuy;
+	}
+
+	public List<Certificate> getCertificatesToBuy () {
+		List<Certificate> tCertificatesToBuy;
+
+		tCertificatesToBuy = portfolio.getCertificatesToBuy ();
+		
+		return tCertificatesToBuy;
 	}
 
 	public Train getCheapestTrain () {

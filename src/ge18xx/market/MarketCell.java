@@ -181,6 +181,10 @@ public class MarketCell {
 		return tContains;
 	}
 
+	public boolean canBuyMultiple () {
+		return marketRegion.notCountAsBuy ();
+	}
+	
 	public boolean countsAgainstCertificateLimit () {
 		return marketRegion.getCountAgainstCertificateLimit ();
 	}

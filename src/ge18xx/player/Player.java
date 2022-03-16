@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -325,6 +326,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		WinAuctionAction tWinAuctionAction;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
+		List<Certificate> tCertificatesToBuy;
 		
 		tRoundType = ActorI.ActionStates.AuctionRound;
 		tRoundID = "1";
@@ -332,7 +334,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tNextShareHasBids = playerManager.nextShareHasBids (aCertificateToBuy);
 
 		tWinAuctionAction = new WinAuctionAction (tRoundType, tRoundID, this);
-		tWinAuctionAction = (WinAuctionAction) playerManager.buyAction (this, aCertificateToBuy, 
+		tCertificatesToBuy = new LinkedList<Certificate> ();
+		tCertificatesToBuy.add (aCertificateToBuy);
+		tWinAuctionAction = (WinAuctionAction) playerManager.buyAction (this, tCertificatesToBuy, 
 				PlayerManager.STOCK_BUY_IN.AuctionRound, tWinAuctionAction);
 		aCertificateToBuy.refundBids (tWinAuctionAction);
 		tWinAuctionAction.addRemoveAllBidsEffect (this, aCertificateToBuy);
@@ -427,6 +431,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tCertificatesToSell;
 	}
 	
+	public List<Certificate> getCertificatesToBuy () {
+		List<Certificate> tCertificatesToBuy;
+
+		tCertificatesToBuy = playerManager.getCertificatesToBuy ();
+		
+		return tCertificatesToBuy;
+	}
+
 	public Certificate getCertificateToExchange () {
 		return portfolio.getCertificateToExchange ();
 	}
@@ -780,7 +792,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tHasSelectedPrivateToBidOn;
 	}
 	
-	public boolean hasSelectedStockToBuy (Bank aBank) {
+	public boolean hasSelectedStockToBuy () {
 		boolean tHasSelectedStockToBuy;
 		Bank tBank;
 		BankPool tBankPool;
@@ -842,7 +854,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		StartPacketPortfolio tStartPacketPortfolio;
 		
 		tBank = getBank ();
-		if (hasSelectedStockToBuy (tBank)) {
+		if (hasSelectedStockToBuy ()) {
 			tBankPortfolio = tBank.getPortfolio ();
 			tCountSelectedCosToBuy = tBankPortfolio.getCountSelectedCosToBuy ();
 			tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
@@ -876,6 +888,41 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tCountSelectedCosToBid;
 	}
 	
+	public int getCountSelectedCertificatesToBuy () {
+		int tCountSelectedCertificatesToBuy = 0;
+		Bank tBank;
+		BankPool tBankPool;
+		Portfolio tBankPortfolio, tBankPoolPortfolio;
+		StartPacketPortfolio tStartPacketPortfolio;
+		
+		tBank = getBank ();
+		if (hasSelectedStockToBuy ()) {
+			tBankPortfolio = tBank.getPortfolio ();
+			tCountSelectedCertificatesToBuy = tBankPortfolio.getCountSelectedCertificatesToBuy ();
+			tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
+			tCountSelectedCertificatesToBuy += tStartPacketPortfolio.getCountSelectedCertificatesToBuy ();
+			tBankPool = playerManager.getBankPool ();
+			tBankPoolPortfolio = tBankPool.getPortfolio ();
+			tCountSelectedCertificatesToBuy += tBankPoolPortfolio.getCountSelectedCertificatesToBuy ();
+		}
+		
+		return tCountSelectedCertificatesToBuy;
+		
+	}
+	
+	public Certificate getSelectedCertificateToBuy () {
+		Certificate tCertificate;
+		BankPool tBankPool;
+		
+		tCertificate = Certificate.NO_CERTIFICATE;
+		tBankPool = getBankPool ();
+		if (hasSelectedStockToBuy ()) {
+			tCertificate = tBankPool.getCertificateToBuy ();
+		}
+		
+		return tCertificate;
+	}
+	
 	public int getCostSelectedStockToBuy () {
 		int tSelectedStockToBuyCost;
 		Bank tBank;
@@ -885,17 +932,17 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		
 		tSelectedStockToBuyCost = 0;
 		tBank = getBank ();
-		if (hasSelectedStockToBuy (tBank)) {
+		if (hasSelectedStockToBuy ()) {
 			tBankPortfolio = tBank.getPortfolio ();
-			tSelectedStockToBuyCost = tBankPortfolio.getSelectedStockCost ();
+			tSelectedStockToBuyCost = tBankPortfolio.getSelectedStocksCost ();
 			if (tSelectedStockToBuyCost == 0) {
 				tBankPool = playerManager.getBankPool ();
 				tBankPoolPortfolio = tBankPool.getPortfolio ();
-				tSelectedStockToBuyCost = tBankPoolPortfolio.getSelectedStockCost ();
+				tSelectedStockToBuyCost = tBankPoolPortfolio.getSelectedStocksCost ();
 			}
 			if (tSelectedStockToBuyCost == 0) {
 				tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
-				tSelectedStockToBuyCost = tStartPacketPortfolio.getSelectedStockCost ();
+				tSelectedStockToBuyCost = tStartPacketPortfolio.getSelectedStocksCost ();
 			}
 		}
 		
@@ -1000,21 +1047,23 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	
 	public void buyAction () {
 		boolean tNextShareHasBids;
-		Certificate tCertificate = playerManager.getCertificateToBuy ();
+		Certificate tCertificate;
+		List<Certificate> tCertificatesToBuy;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
 		BuyStockAction tBuyStockAction;
 		boolean tCreateNewAuctionAction = true;
 		
+		tCertificatesToBuy = playerManager.getCertificatesToBuy ();
+		tCertificate = tCertificatesToBuy.get (0);
 		tRoundType = ActorI.ActionStates.StockRound;
 		tRoundID = playerManager.getStockRoundID ();
 
 		tNextShareHasBids = playerManager.nextShareHasBids (tCertificate);
 		
 		tBuyStockAction = new BuyStockAction (tRoundType, tRoundID, this);
-		tBuyStockAction = playerManager.buyAction (this, tCertificate, 
+		tBuyStockAction = playerManager.buyAction (this, tCertificatesToBuy, 
 				PlayerManager.STOCK_BUY_IN.StockRound, tBuyStockAction);
-
 		playerManager.addAction (tBuyStockAction);
 		
 		if (tNextShareHasBids) {
