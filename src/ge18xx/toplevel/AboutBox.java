@@ -32,7 +32,7 @@ public class AboutBox extends JFrame implements ActionListener {
     protected Font titleFont, bodyFont;
     protected ResourceBundle resbundle;
 
-    public AboutBox() {
+    public AboutBox () {
         super ("");
         this.setResizable (false);
         resbundle = ResourceBundle.getBundle ("Game_18XXstrings", Locale.getDefault ());
@@ -54,16 +54,16 @@ public class AboutBox extends JFrame implements ActionListener {
         aboutLabel = new JLabel [labelCount];
         aboutLabel[0] = new JLabel ("");
         aboutLabel[1] = new JLabel (resbundle.getString ("frameConstructor"));
-        aboutLabel[1].setFont(titleFont);
+        aboutLabel[1].setFont (titleFont);
         aboutLabel[2] = new JLabel (resbundle.getString ("appVersion"));
-        aboutLabel[2].setFont(bodyFont);
+        aboutLabel[2].setFont (bodyFont);
         aboutLabel[3] = new JLabel ("");
         aboutLabel[4] = new JLabel ("");
         aboutLabel[5] = new JLabel ("JDK " + System.getProperty ("java.version"));
         aboutLabel[5].setFont (bodyFont);
         aboutLabel[6] = new JLabel (resbundle.getString ("copyright"));
         aboutLabel[6].setFont (bodyFont);
-        aboutLabel[7] = new JLabel("");		
+        aboutLabel[7] = new JLabel ("");		
 		
         Panel textPanel2 = new Panel (new GridLayout (labelCount, 1));
         for (int i = 0; i<labelCount; i++) {
