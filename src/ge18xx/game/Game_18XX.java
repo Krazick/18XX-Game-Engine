@@ -399,7 +399,7 @@ public class Game_18XX extends JFrame {
 		int tMenuIndex;
 		
 		mainMenuBar = new JMenuBar ();
-		fileMenu = new JMenu("File");
+		fileMenu = new JMenu ("File");
 		newMenuItem = new JMenuItem (newAction);
 		disableNewMenuItem ();
 		fileMenu.add (newMenuItem);
