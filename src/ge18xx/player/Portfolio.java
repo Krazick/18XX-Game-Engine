@@ -41,6 +41,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneLayout;
@@ -1578,6 +1579,9 @@ public class Portfolio implements CertificateHolderI {
 					addCertificate (tCertificate);
 					tCertificate.resetFrameButton ();
 					tTransferGood = true;
+					if (tIsPresident) {
+						notifyPresidentChange (aFromPortfolio, tCertificate);
+					}
 				} else {
 					System.err.println ("Transfer Certificate Failed since the Certificate could not be found");
 					System.err.println ("Looking for " + tCompanyAbbrev + " " + tPercentage + "% as President " + tIsPresident);
@@ -1591,6 +1595,35 @@ public class Portfolio implements CertificateHolderI {
 		}
 		
 		return tTransferGood;
+	}
+	
+	private void notifyPresidentChange (Portfolio aFromPortfolio, Certificate aCertificate) {
+		PlayerFrame tPlayerFrame;
+		Player tPlayer;
+		String tMessage;
+		String tClientName;
+		String tPlayerName;
+		String tHolderName;
+		
+		if (! aCertificate.isPrivateCompany ()) {
+			if (holder.isAPlayer ()) {
+				tPlayer = (Player) holder;
+				tClientName = tPlayer.getClientName ();
+				tPlayerName = tPlayer.getName ();
+				tHolderName = aFromPortfolio.getHolderName ();
+				if (! tClientName.equals (tPlayerName)) {
+					tPlayerFrame = tPlayer.getPlayerFrame ();
+					tMessage = tPlayerName;
+					if (Bank.NAME.equals (tHolderName)) {
+						tMessage += " received President Share of " + aCertificate.getCompanyAbbrev () + " from the Bank";
+					} else {
+						tMessage += " is now the  President of " + aCertificate.getCompanyAbbrev ();
+					}
+					JOptionPane.showMessageDialog (tPlayerFrame, tMessage, "Change of President", 
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		}
 	}
 	
 	public boolean transferOwnership (Portfolio aFromPortfolio, Corporation aCorporation) {
@@ -1613,29 +1646,6 @@ public class Portfolio implements CertificateHolderI {
 		return tTransferGood;
 	}
 	
-//	public void updatePortfolioInfox (String aCorpType, String aSelectedButtonLabel, ItemListener aItemListener, GameManager aGameManager) {
-//		JPanel tCertificateJPanel;
-//		int tAddLocation = -1;
-//		String tTitle = "";
-//		
-//		if (aCorpType.equals (Corporation.PRIVATE_COMPANY)) {
-//			tAddLocation = privateIndex;
-//			tTitle = "Privates";
-//		} else if (aCorpType.equals (Corporation.COAL_COMPANY)) {
-//			tAddLocation = coalIndex;
-//			tTitle = "Coal Companies";
-//		} else if (aCorpType.equals (Corporation.MINOR_COMPANY)) {
-//			tAddLocation = minorIndex;
-//			tTitle = "Minors";
-//		} else if (aCorpType.equals (Corporation.SHARE_COMPANY)) {
-//			tAddLocation = shareIndex;
-//			tTitle = "Share Company";
-//		}
-//		tCertificateJPanel = buildCertificateJPanel (tTitle, aCorpType, aSelectedButtonLabel, aItemListener, aGameManager);
-//		portfolioInfoJPanel.add (tCertificateJPanel, tAddLocation);
-//		portfolioInfoJPanel.remove (tAddLocation - 1);
-//		portfolioInfoJPanel.validate ();
-//	}
 	
 	public void updateCertificateOwnersInfo () {
 		CertificateHolderI tCertificateHolder;

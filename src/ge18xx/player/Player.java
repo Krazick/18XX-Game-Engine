@@ -1524,4 +1524,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public boolean isLastActionComplete () {
 		return playerManager.isLastActionComplete ();
 	}
+	
+	public String getClientName () {
+		String tClientName;
+		
+		tClientName = playerManager.getClientUserName ();
+		
+		return tClientName;
+	}
 }
