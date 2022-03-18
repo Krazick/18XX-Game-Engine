@@ -1605,22 +1605,26 @@ public class Portfolio implements CertificateHolderI {
 		String tPlayerName;
 		String tHolderName;
 		
-		if (! aCertificate.isPrivateCompany ()) {
-			if (holder.isAPlayer ()) {
-				tPlayer = (Player) holder;
-				tClientName = tPlayer.getClientName ();
-				tPlayerName = tPlayer.getName ();
-				tHolderName = aFromPortfolio.getHolderName ();
-				if (! tClientName.equals (tPlayerName)) {
-					tPlayerFrame = tPlayer.getPlayerFrame ();
-					tMessage = tPlayerName;
-					if (Bank.NAME.equals (tHolderName)) {
-						tMessage += " received President Share of " + aCertificate.getCompanyAbbrev () + " from the Bank";
-					} else {
-						tMessage += " is now the  President of " + aCertificate.getCompanyAbbrev ();
+		if (! aCertificate.isLoading ()) {
+			if (! aCertificate.isPrivateCompany ()) {
+				if (holder.isAPlayer ()) {
+					tPlayer = (Player) holder;
+					tClientName = tPlayer.getClientName ();
+					tPlayerName = tPlayer.getName ();
+					tHolderName = aFromPortfolio.getHolderName ();
+					if (! tClientName.equals (tPlayerName)) {
+						tPlayerFrame = tPlayer.getPlayerFrame ();
+						tMessage = tPlayerName;
+						if (Bank.NAME.equals (tHolderName)) {
+							tMessage += " received the President Share of " + aCertificate.getCompanyAbbrev () + 
+									" from the Bank";
+						} else {
+							tMessage += " obtained the Presidency of " + aCertificate.getCompanyAbbrev () + " from " +
+									tHolderName;
+						}
+						JOptionPane.showMessageDialog (tPlayerFrame, tMessage, "Change of President", 
+								JOptionPane.INFORMATION_MESSAGE);
 					}
-					JOptionPane.showMessageDialog (tPlayerFrame, tMessage, "Change of President", 
-							JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		}

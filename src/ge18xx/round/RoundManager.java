@@ -1134,4 +1134,8 @@ public class RoundManager implements ActionListener {
 	public CorporationList getPrivates () {
 		return gameManager.getPrivates ();
 	}
+
+	public boolean isLoading () {
+		return gameManager.gameIsStarted ();
+	}
 }

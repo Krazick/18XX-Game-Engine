@@ -2040,4 +2040,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int getSmallestSharePercentage () {
 		return corporationCertificates.getSmallestSharePercentage ();
 	}
+
+	public boolean isLoading () {
+		return corporationList.isLoading ();
+	}
 }

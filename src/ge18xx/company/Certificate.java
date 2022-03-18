@@ -1527,4 +1527,8 @@ public class Certificate implements Comparable<Certificate> {
 				getCompanyAbbrev ());
 		bidders.printAllBidderEscrows ();
 	}
+
+	public boolean isLoading () {
+		return corporation.isLoading ();
+	}
 }
