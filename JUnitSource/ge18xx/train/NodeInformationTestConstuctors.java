@@ -17,7 +17,6 @@ import ge18xx.center.RevenueCenter;
 import ge18xx.map.Location;
 
 @DisplayName ("Node Information Constructor Tests")
-
 class NodeInformationTestConstuctors {
  	Location mLocationSide;
 	Location mLocationSide1;
