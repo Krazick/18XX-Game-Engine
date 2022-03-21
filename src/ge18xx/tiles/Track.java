@@ -414,7 +414,7 @@ public class Track implements Cloneable {
 		boolean direction = Hex.getDirection ();
 		Color trackColor;
 		
-		tTrackRadius = aHex.getXd();
+		tTrackRadius = aHex.getXd ();
 		tTrackDiameter = tTrackRadius + tTrackRadius;
 		tDraw = true;
 		topLeftX = 0;
@@ -516,7 +516,7 @@ public class Track implements Cloneable {
 	
 	public void drawStraightSegment (Graphics g, int X1, int Y1, int X2, int Y2, Hex aHex, Color aBaseColor) {
 		Graphics2D g2d = (Graphics2D) g;
-		Stroke tCurrentStroke = g2d.getStroke();
+		Stroke tCurrentStroke = g2d.getStroke ();
 		BasicStroke tTrackStroke;
 		Color trackColor;
 		
@@ -666,8 +666,7 @@ public class Track implements Cloneable {
 				break;
 				
 			case (2):
-				
-				tPreviousClip = g.getClip();
+				tPreviousClip = g.getClip ();
 				tHexPolygon = aHex.getHexSlicesPolygon (tStartSliceNum, tStopSliceNum);
 				tNewClip = new Area (tPreviousClip);
 				tHexClip = new Area (tHexPolygon);
@@ -679,7 +678,7 @@ public class Track implements Cloneable {
 				
 			case (3):
 			case (4):
-				tPreviousClip = g.getClip();
+				tPreviousClip = g.getClip ();
 				tHexPolygon = aHex.getHexSlicesPolygon (tStartSliceNum, tStopSliceNum);
 				tNewClip = new Area (tPreviousClip);
 				tHexClip = new Area (tHexPolygon);
@@ -747,7 +746,7 @@ public class Track implements Cloneable {
 		BasicStroke tTrackStroke;
 		boolean isDashed;
 		float tTrackWidth = (float) aHex.getTrackWidth ();
-		float dash1[] = {4.0f};
+		float dash1 [] = {4.0f};
 		
 		isDashed = gauge.isDashed ();
 		if (gauge.isOverpass ()) {
@@ -800,7 +799,7 @@ public class Track implements Cloneable {
 		trainNumberUsing = NO_TRAIN;
 	}
 
-	public boolean isTrackUsed() {	
+	public boolean isTrackUsed () {	
 		return (trainNumberUsing > 0);
 	}
 
@@ -823,5 +822,4 @@ public class Track implements Cloneable {
 		}
 		return tEndsAt;
 	}
-
 }
