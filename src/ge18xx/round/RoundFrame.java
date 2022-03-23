@@ -17,6 +17,7 @@ import ge18xx.utilities.GUI;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,6 +39,10 @@ public class RoundFrame extends XMLFrame {
 	public static final RoundFrame NO_ROUND_FRAME = null;
 	private static final long serialVersionUID = 1L;
 	private static final String NEWLINE = "\n";
+	private static final String DO_STOCK_ACTION = " do Stock Action";
+	private static final String PLAYER_DO_AUCTION = "Player do Auction Action";
+	private static final String COMPANY_DO_ACTION = "Company do Action";
+	private static final String PLAYER_DO_STOCK = "Player" + DO_STOCK_ACTION;
 	private static final String PASS_STOCK_TEXT = "Pass in Stock Round";
 	private static final String PLAYER_JPANEL_LABEL = "Player Information";
 	private static final String YOU_NOT_PRESIDENT = "You are not the President of the Company";
@@ -359,23 +364,34 @@ public class RoundFrame extends XMLFrame {
 		buttonsJPanel = new JPanel ();
 		buttonsJPanel.setLayout (new BoxLayout (buttonsJPanel, BoxLayout.X_AXIS));
 
-		setupDoButton ("Player do Stock Action", PLAYER_ACTION);
-		
-		passButton = new JButton (PASS_STOCK_TEXT);
-		passButton.setActionCommand (PASS_STOCK_ACTION);
-		passButton.addActionListener (roundManager);
-		passButton.setAlignmentX (Component.CENTER_ALIGNMENT);
-		
-		showGameEngineFrameButton = new JButton ("Show Game Engine Frame");
-		showGameEngineFrameButton.setActionCommand (SHOW_GE_FRAME_ACTION);
-		showGameEngineFrameButton.addActionListener (roundManager);
-		showGameEngineFrameButton.setAlignmentX (Component.CENTER_ALIGNMENT);
+		doButton = setupButton (PLAYER_DO_STOCK, PLAYER_ACTION, roundManager, Component.CENTER_ALIGNMENT);
+		passButton = setupButton (PASS_STOCK_TEXT, PASS_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT);
+		showGameEngineFrameButton = setupButton ("Show Game Engine Frame", SHOW_GE_FRAME_ACTION, roundManager, 
+					Component.CENTER_ALIGNMENT);
 		
 		buttonsJPanel.add (doButton);
 		buttonsJPanel.add (Box.createHorizontalStrut(20));
 		buttonsJPanel.add (passButton);
 		buttonsJPanel.add (Box.createHorizontalStrut(20));
 		buttonsJPanel.add (showGameEngineFrameButton);
+		
+		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
+	}
+	
+	private void updateDoButton (String aButtonLabel, String aActionCommand) {
+		updateButtonText (aButtonLabel);
+		doButton.setActionCommand (aActionCommand);
+	}
+	
+	public JButton setupButton (String aLabel, String aAction, ActionListener aListener, float aAlignment) {
+		JButton tButton;
+		
+		tButton = new JButton (aLabel);
+		tButton.setActionCommand (aAction);
+		tButton.addActionListener (aListener);
+		tButton.setAlignmentX (aAlignment);
+		
+		return tButton;
 	}
 	
 	public void setCurrentPlayerText () {
@@ -398,7 +414,7 @@ public class RoundFrame extends XMLFrame {
 		if (passButton != GUI.NO_BUTTON) {
 			passButton.setText (aPlayerName + " " + PASS_STOCK_TEXT);
 		}
-		updateButtonText (aPlayerName + " do Stock Action");
+		updateButtonText (aPlayerName + DO_STOCK_ACTION);
 		setActionForCurrentPlayer ();
 		updatePassButton ();
 	}
@@ -411,28 +427,16 @@ public class RoundFrame extends XMLFrame {
 		revalidate ();
 	}
 	
-	public void setupDoButton (String aButtonLabel, String aActionCommand) {
-		doButton = new JButton (aButtonLabel);
-		doButton.setAlignmentX (CENTER_ALIGNMENT);
-		doButton.addActionListener (roundManager);			
-		updateDoButton (aButtonLabel, aActionCommand);
-	}
-	
-	public void updateDoButton (String aButtonLabel, String aActionCommand) {
-		updateButtonText (aButtonLabel);
-		doButton.setActionCommand (aActionCommand);
-	}
-	
 	public void setAuctionRound (String aGameName, int aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
-		updateDoButton ("Do Auction Action", PLAYER_AUCTION_ACTION);
+		updateDoButton (PLAYER_DO_AUCTION, PLAYER_AUCTION_ACTION);
 		updatePassButton ();
 	}
 
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
 		setCurrentRoundOf (aCurrentOR, aMaxOR);
 		setFrameLabel (aGameName, " " + aRoundIDPart1 + " [" + currentRoundOf + "]");
-		updateDoButton ("Do Company Action", CORPORATION_ACTION);
+		updateDoButton (COMPANY_DO_ACTION, CORPORATION_ACTION);
 		updateTotalCashLabel ();
 		updatePassButton ();
 	}
@@ -447,7 +451,7 @@ public class RoundFrame extends XMLFrame {
 	
 	public void setStockRound (String aGameName, int aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
-		updateDoButton ("Player do Stock Action", PLAYER_ACTION);
+		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
 		setCurrentPlayerText ();
 		updateTotalCashLabel ();
 		updatePassButton ();
