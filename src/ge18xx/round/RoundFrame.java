@@ -489,12 +489,14 @@ public class RoundFrame extends XMLFrame {
 		String tToolTip;
 		
 		tPlayerFrame = aGameManager.getCurrentPlayerFrame ();
+		tCurrentPlayer = aGameManager.getCurrentPlayer ();
 		if (tPlayerFrame.hasMustBuyCertificate ()) {
 			disablePassButton (PlayerFrame.MUST_BUY_PRIVATE);
 		} else if (tPlayerFrame.mustSellStock ()) {
-			tCurrentPlayer = aGameManager.getCurrentPlayer ();
 			tToolTip = tPlayerFrame.getMustSellToolTip (tCurrentPlayer);
 			disablePassButton (tToolTip);
+		} else if (tCurrentPlayer.hasActed ()) {
+			disablePassButton (tCurrentPlayer.getName () + " has already acted, cannot Pass");
 		} else if (tPlayerFrame.isVisible ()) {
 			disablePassButton (PlayerFrame.ALREADY_VISIBLE);
 		} else {
