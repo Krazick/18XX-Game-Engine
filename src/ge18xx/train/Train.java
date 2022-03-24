@@ -347,13 +347,13 @@ public class Train implements Comparable<Object> {
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_STATUS, status);
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-			if (currentRouteInformation.isValidRoute ()) {
+			if (currentRouteInformation.isValidRoute () > 0) {
 				tXMLCurrentRouteInfoElement = currentRouteInformation.getElement (aXMLDocument, EN_CURRENT_ROUTE);
 				tXMLElement.appendChild (tXMLCurrentRouteInfoElement);
 			}
 		}
 		if (previousRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-			if (previousRouteInformation.isValidRoute ()) {
+			if (previousRouteInformation.isValidRoute () > 0) {
 				tPreviousRouteInfoElement = previousRouteInformation.getElement (aXMLDocument, EN_PREVIOUS_ROUTE);
 				tXMLElement.appendChild (tPreviousRouteInfoElement);
 			}
@@ -363,10 +363,12 @@ public class Train implements Comparable<Object> {
 	}
 	
 	public boolean isCurrentRouteValid () {
-		boolean tIsCurrrentRouteValid = true;
+		boolean tIsCurrrentRouteValid = false;
 		
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-			tIsCurrrentRouteValid = currentRouteInformation.isValidRoute ();
+			if (currentRouteInformation.isValidRoute () > 0) {
+				tIsCurrrentRouteValid = true;
+			}
 		}
 		
 		return tIsCurrrentRouteValid;
