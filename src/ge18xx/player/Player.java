@@ -77,6 +77,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	PlayerManager playerManager;
 	String name;
 	PlayerFrame playerFrame;
+	// TODO Should not need to store these in this class, fetch from Game Manager if needed
 	boolean gameHasPrivates;
 	boolean gameHasCoals;
 	boolean gameHasMinors;
@@ -99,20 +100,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	Portfolio portfolio;
 	String exchangedPrezShare;
 	SoldCompanies soldCompanies;
-	
-	// TODO: Extract out the 'aPrivatdes, aCoals, aMinors, aShares' arguments and 
-	// saved values. Fetch directly from GameManager if needed here, or in later classes.
-	// This class should not need to store and access these.
-	
+		
 	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
 		GameManager tGameManager;
-//		boolean tHasPrivates, tHasCoals, tHasMinors, tHasShares;
 		
 		tGameManager = aPlayerManager.getGameManager ();
-//		tHasPrivates = tGameManager.gameHasPrivates ();
-//		tHasCoals = tGameManager.gameHasCoals ();
-//		tHasMinors = tGameManager.gameHasMinors ();
-//		tHasShares = tGameManager.gameHasShares ();
 		setGameHasCompanies (tGameManager);
 		buildPlayer (aName, aPlayerManager, aCertificateLimit);
 	}
@@ -130,6 +122,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setGameHasShares (tHasShares);
 	}
 	
+	//TODO Remove Boolean attributes, fix JUNIT Test Cases to not pass them in
 	public Player (String aName, boolean aPrivates, boolean aCoals, boolean aMinors, 
 					boolean aShares, PlayerManager aPlayerManager, int aCertificateLimit) {
 		/* Set Non-Changing Values */
