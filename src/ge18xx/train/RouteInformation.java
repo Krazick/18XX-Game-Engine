@@ -99,8 +99,10 @@ public class RouteInformation {
 	
 	public boolean hasOperated () {
 		boolean tHasOperated = false;
+		int tValidRouteCode;
 		
-		if (isValidRoute ()) {
+		tValidRouteCode = isValidRoute ();
+		if (tValidRouteCode < 1) {
 			if (routeSegments.size () > 1) {
 				if (! isRouteTooLong ()) {
 					tHasOperated = true;
@@ -477,23 +479,100 @@ public class RouteInformation {
 		return tRouteIsTooLong;
 	}
 	
-	public boolean isValidRoute () {
-		boolean tIsValidRoute = false;
+	public int isValidRoute () {
+		int tValidRoute = 0;
+		
+		// Return Code --- Description
+		//		 1			Valid Route, with Token, not blocked
+		//		 0			No Train
+		//		-1			Route Size 0
+		//		-2			No Revenue Centers Found on Route
+		//		-3			Route has no Corporation Station
+		//		-4			Route is Looped somewhere (reusing the same Revenue Center)
+		//		-5			Route is Blocked by other Corporate Stations
 		
 		if (train != Train.NO_TRAIN) {
 			if (routeSegments.size () == 0) {
-				tIsValidRoute = true;
+				tValidRoute = -1;
 			} else  if (getCenterCount () > 1) {
 				if (hasACorpStation ()) {
-					tIsValidRoute = isRouteOpen ();
+					if (isRouteLooped ()) {
+						tValidRoute = -4;
+					} else {
+						if (isRouteOpen ()) {
+							tValidRoute = 1;
+						} else {
+							tValidRoute = -5;
+						}
+					}
+				} else {
+					tValidRoute = -3;
+				}
+			} else {
+				tValidRoute = -2;
+			}
+		}
+		
+		return tValidRoute;
+	}
+	
+	private boolean isRouteLooped () {
+		boolean tIsRouteLooped = false;
+		int tSegmentCount, tSegmentIndex;
+		RouteSegment tRouteSegment;
+		NodeInformation tARouteNode;
+		String tMapCellID;
+		
+		tSegmentCount = getSegmentCount ();
+		if (tSegmentCount > 2) {
+			for (tSegmentIndex = 0; (tSegmentIndex < tSegmentCount) && (! tIsRouteLooped); tSegmentIndex++) {
+				tRouteSegment = routeSegments.get (tSegmentIndex);
+				tMapCellID = tRouteSegment.getMapCellID ();
+				tARouteNode = tRouteSegment.getStartNode ();
+				tIsRouteLooped = isRevenueCenterReused (tMapCellID, tARouteNode, tSegmentIndex);
+				if (! tIsRouteLooped) {
+					tARouteNode = tRouteSegment.getEndNode ();
+					tIsRouteLooped = isRevenueCenterReused (tMapCellID, tARouteNode, tSegmentIndex);
 				}
 			}
 		}
 		
-		return tIsValidRoute;
+		return tIsRouteLooped;
 	}
 	
-	public boolean isRouteOpen () {
+	private boolean isRevenueCenterReused (String aMapCellId, NodeInformation aRouteNode, int aSourceIndex) {
+		boolean tIsRouteLooped = false;
+		Location tLocation, tNodeLocation;
+		int tSegmentIndex, tSegmentCount;
+		RouteSegment tRouteSegment;
+		String tMapCellId, tPreviousMapCellId;
+		NodeInformation tRouteNode;
+		
+		tLocation = aRouteNode.getLocation ();
+		tSegmentCount = getSegmentCount ();
+		tPreviousMapCellId = "";
+		for (tSegmentIndex = aSourceIndex + 1; (tSegmentIndex < tSegmentCount) && (! tIsRouteLooped); tSegmentIndex++) {
+			tRouteSegment = routeSegments.get (tSegmentIndex);
+			tMapCellId = tRouteSegment.getMapCellID ();
+			if (! tPreviousMapCellId.equals ("")) {
+				if (aMapCellId.equals (tMapCellId)) {
+					tRouteNode = tRouteSegment.getStartNode ();
+					tNodeLocation = tRouteNode.getLocation ();
+					tIsRouteLooped = tLocation.isSameLocationValue (tNodeLocation);
+					if (! tIsRouteLooped) {
+						tRouteNode = tRouteSegment.getEndNode ();
+						tNodeLocation = tRouteNode.getLocation ();
+						tIsRouteLooped = tLocation.isSameLocationValue (tNodeLocation);
+					}
+				}
+			}
+			tPreviousMapCellId = tMapCellId;
+		}
+		
+		return tIsRouteLooped;
+	}
+	
+	private boolean isRouteOpen () {
 		boolean tIsRouteOpen = true, tIsSegmentRouteOpen;
 		int tSegmentCount, tSegmentIndex;
 		RouteSegment tRouteSegment;
@@ -517,7 +596,7 @@ public class RouteInformation {
 		return tIsRouteOpen;
 	}
 	
-	public boolean hasACorpStation () {
+	private boolean hasACorpStation () {
 		boolean tHasACorpStation = false;
 		int tSegmentIndex, tSegmentCount;
 		RouteSegment tRouteSegment;
