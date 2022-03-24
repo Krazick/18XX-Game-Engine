@@ -363,11 +363,11 @@ public class Train implements Comparable<Object> {
 	}
 	
 	public boolean isCurrentRouteValid () {
-		boolean tIsCurrrentRouteValid = false;
+		boolean tIsCurrrentRouteValid = true;
 		
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-			if (currentRouteInformation.isValidRoute () > 0) {
-				tIsCurrrentRouteValid = true;
+			if (currentRouteInformation.isValidRoute () < 0) {
+				tIsCurrrentRouteValid = false;
 			}
 		}
 		
