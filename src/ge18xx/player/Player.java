@@ -105,8 +105,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		GameManager tGameManager;
 		
 		tGameManager = aPlayerManager.getGameManager ();
+		buildPlayer (aName, aPlayerManager, aCertificateLimit, tGameManager);
 		setGameHasCompanies (tGameManager);
-		buildPlayer (aName, aPlayerManager, aCertificateLimit);
 	}
 	
 	public void setGameHasCompanies (GameManager aGameManager) {
@@ -121,51 +121,40 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setGameHasMinors (tHasMinors);
 		setGameHasShares (tHasShares);
 	}
-	
-	//TODO Remove Boolean attributes, fix JUNIT Test Cases to not pass them in
-	public Player (String aName, boolean aPrivates, boolean aCoals, boolean aMinors, 
-					boolean aShares, PlayerManager aPlayerManager, int aCertificateLimit) {
-		/* Set Non-Changing Values */
-		GameManager tGameManager;
 		
-		tGameManager = aPlayerManager.getGameManager ();
-		setGameHasCompanies (tGameManager);
-		buildPlayer (aName, aPlayerManager, aCertificateLimit);
-	}
-	
-	private void buildPlayer (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
-		String tFullTitle;
-		GameManager tGameManager;
+	private void buildPlayer (String aName, PlayerManager aPlayerManager, int aCertificateLimit, 
+				GameManager aGameManager) {
 		Benefit tBenefitInUse;
 		
 		/* Save the Player Name -- ONCE */
 		name = aName;
+		logger = aGameManager.getLogger ();
 		
 		/* Set Variables that change during the game, that must be saved/loaded */
 		treasury = 0;
 		portfolio = new Portfolio (this);
 		clearAuctionActionState ();
 		clearPrimaryActionState ();
-		setBoughtShare (false);
-		setBidShare (false);
 		setTriggeredAuction (false);
 		setExchangedPrezShare (NO_STOCK_TO_SELL);
-		
 		setRFPlayerLabel (aName);
 		setCertificateLimit (aCertificateLimit);
-		
-		playerManager = aPlayerManager;
-		tGameManager = playerManager.getGameManager ();
-		tFullTitle = tGameManager.createFrameTitle ("Player");
-		playerFrame = new PlayerFrame (tFullTitle, this, tGameManager.getActiveGameName ());
-		tGameManager.addNewFrame (playerFrame);
-		playerFrame.setFrameToConfigDetails (tGameManager, XMLFrame.getVisibileOFF ());
-
 		soldCompanies = new SoldCompanies ();
 		escrows = new Escrows (this);
-		logger = tGameManager.getLogger ();
 		tBenefitInUse = new FakeBenefit ();
 		setBenefitInUse (tBenefitInUse);
+		
+		playerManager = aPlayerManager;
+		buildPlayerFrame (aGameManager);
+	}
+
+	private void buildPlayerFrame (GameManager aGameManager) {
+		String tFullTitle;
+		
+		tFullTitle = aGameManager.createFrameTitle ("Player");
+		playerFrame = new PlayerFrame (tFullTitle, this, aGameManager.getActiveGameName ());
+		aGameManager.addNewFrame (playerFrame);
+		playerFrame.setFrameToConfigDetails (aGameManager, XMLFrame.getVisibileOFF ());
 	}
 
 	public void setBenefitInUse (Benefit aBenefitInUse) {
@@ -438,7 +427,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 	
 	public int getCertificateCount () {
-		return portfolio.getCertificateCountAgainstLimit ();
+		int tCertificateCount;
+		
+		if (portfolio == Portfolio.NO_PORTFOLIO) {
+			tCertificateCount = 0;
+		} else {
+			tCertificateCount = portfolio.getCertificateCountAgainstLimit ();
+		}
+		
+		return tCertificateCount;
 	}
 	
 	public int getCertificateLimit () {
@@ -446,7 +443,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 	
 	public int getCertificateTotalCount () {
-		return portfolio.getCertificateTotalCount ();
+		int tCertificateCount;
+		
+		if (portfolio == Portfolio.NO_PORTFOLIO) {
+			tCertificateCount = 0;
+		} else {
+			tCertificateCount = portfolio.getCertificateTotalCount ();
+		}
+		return tCertificateCount;
 	}
 	
 	public List<Certificate> getCertificatesToSell () {
