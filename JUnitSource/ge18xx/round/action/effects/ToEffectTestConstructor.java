@@ -43,9 +43,9 @@ class ToEffectTestConstructor {
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
 		playerManager = new PlayerManager (mGameManager);
 		effectAlpha = new ToEffect ();
-		actorDelta = new Player (tClientName, false, false, false, false, playerManager, 0);
-		actorBeta = new Player (tPlayer2Name, false, false, false, false, playerManager, 0);
-		actorGamma = new Player (tPlayer3Name, false, false, false, false, playerManager, 0);
+		actorDelta = new Player (tClientName, playerManager, 0);
+		actorBeta = new Player (tPlayer2Name, playerManager, 0);
+		actorGamma = new Player (tPlayer3Name, playerManager, 0);
 		effectBeta = new ToEffect (GENERIC_TO_EFFECT, actorBeta, actorGamma);
 	}
 

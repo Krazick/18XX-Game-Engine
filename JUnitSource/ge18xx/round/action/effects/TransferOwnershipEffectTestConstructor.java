@@ -51,8 +51,8 @@ class TransferOwnershipEffectTestConstructor {
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
 		playerManager = new PlayerManager (mGameManager);
 		effectAlpha = new TransferOwnershipEffect ();
-		playerActorAlpha = new Player (tPlayer2Name, false, false, false, false, playerManager, 0);
-		playerActorDelta = new Player (tPlayer3Name, false, false, false, false, playerManager, 0);
+		playerActorAlpha = new Player (tPlayer2Name, playerManager, 0);
+		playerActorDelta = new Player (tPlayer3Name, playerManager, 0);
 		actorBeta = companyTestFactory.buildAShareCompany (1);
 		actorGamma = companyTestFactory.buildAShareCompany (2);
 		tPortfolioAlpha = playerActorAlpha.getPortfolio ();
