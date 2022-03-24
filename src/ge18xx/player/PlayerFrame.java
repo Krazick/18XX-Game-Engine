@@ -72,15 +72,12 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	int portfolioInfoIndex;
 	boolean locationFixed;
 	
-	public PlayerFrame (String aFrameName, Player aPlayer, String aGameName) {
-		super (aFrameName, aGameName);
-		GameManager tGameManager;
+	public PlayerFrame (String aFrameName, Player aPlayer, GameManager aGameManager) {
+		super (aFrameName, aGameManager.getActiveGameName ());
 		
 		if (aPlayer != Player.NO_PLAYER) {
 			player = aPlayer;
-			
-			tGameManager = player.getGameManager ();
-			buttonsInfoFrame = new ButtonsInfoFrame (player.getName () + " Player Frame Info for Buttons", tGameManager);
+			buttonsInfoFrame = new ButtonsInfoFrame (player.getName () + " Player Frame Info for Buttons", aGameManager);
 			buildPlayerAndBankJPanel ();
 			add (playerAndBankJPanel);
 			setLocationFixed (false);
@@ -92,12 +89,13 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		playerAndBankJPanel = new JPanel ();
 		playerAndBankJPanel.setLayout (new BoxLayout (playerAndBankJPanel, BoxLayout.X_AXIS));
 		
-		bankJPanel = new JPanel ();
-		bankJPanel.setLayout (new BoxLayout (bankJPanel, BoxLayout.Y_AXIS));
 		playerAndBankJPanel.add (Box.createHorizontalStrut (20));
 		buildPlayerJPanel ();
 		playerAndBankJPanel.add (playerJPanel);
 		playerAndBankJPanel.add (Box.createHorizontalGlue ());
+		
+		bankJPanel = new JPanel ();
+		bankJPanel.setLayout (new BoxLayout (bankJPanel, BoxLayout.Y_AXIS));
 		playerAndBankJPanel.add (bankJPanel);
 		playerAndBankJPanel.add(Box.createHorizontalStrut (20));
 	}
