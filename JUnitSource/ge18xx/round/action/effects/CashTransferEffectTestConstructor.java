@@ -3,6 +3,7 @@ package ge18xx.round.action.effects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -20,7 +21,7 @@ class CashTransferEffectTestConstructor {
 	CashTransferEffect effectBeta;
 	Player actorBeta;
 	Player actorGamma;
-	GameManager gameManager;
+	GameManager mGameManager;
 	PlayerManager playerManager;
 	GameTestFactory testFactory;
 	int cashAmount;
@@ -33,12 +34,16 @@ class CashTransferEffectTestConstructor {
 		tPlayer2Name = "ToEffectTesterBeta";
 		tPlayer3Name = "ToEffectTesterGamma";
 		testFactory = new GameTestFactory ();
-		gameManager =  testFactory.buildGameManager (tClientName);
-		playerManager = new PlayerManager (gameManager);
+		mGameManager =  testFactory.buildGameManagerMock (tClientName);
+		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
+		Mockito.when (mGameManager.gameHasCoals ()).thenReturn (false);
+		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
+		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
+		playerManager = new PlayerManager (mGameManager);
 		effectAlpha = new CashTransferEffect ();
 		cashAmount = 100;
-		actorBeta = new Player (tPlayer2Name, false, false, false, false, playerManager, 0);
-		actorGamma = new Player (tPlayer3Name, false, false, false, false, playerManager, 0);
+		actorBeta = new Player (tPlayer2Name, playerManager, 0);
+		actorGamma = new Player (tPlayer3Name, playerManager, 0);
 		effectBeta = new CashTransferEffect (actorBeta, actorGamma, cashAmount);
 	}
 

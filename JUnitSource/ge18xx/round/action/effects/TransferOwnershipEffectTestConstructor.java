@@ -3,6 +3,7 @@ package ge18xx.round.action.effects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -27,7 +28,7 @@ class TransferOwnershipEffectTestConstructor {
 	ShareCompany actorGamma;
 	Player playerActorAlpha;
 	Player playerActorDelta;
-	GameManager gameManager;
+	GameManager mGameManager;
 	PlayerManager playerManager;
 	GameTestFactory testFactory;
 	CompanyTestFactory companyTestFactory;
@@ -43,8 +44,12 @@ class TransferOwnershipEffectTestConstructor {
 		tPlayer3Name = "ToEffectTesterDelta";
 		testFactory = new GameTestFactory ();
 		companyTestFactory = new CompanyTestFactory (testFactory);
-		gameManager =  testFactory.buildGameManager (tClientName);
-		playerManager = new PlayerManager (gameManager);
+		mGameManager =  testFactory.buildGameManagerMock (tClientName);
+		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
+		Mockito.when (mGameManager.gameHasCoals ()).thenReturn (false);
+		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
+		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
+		playerManager = new PlayerManager (mGameManager);
 		effectAlpha = new TransferOwnershipEffect ();
 		playerActorAlpha = new Player (tPlayer2Name, false, false, false, false, playerManager, 0);
 		playerActorDelta = new Player (tPlayer3Name, false, false, false, false, playerManager, 0);

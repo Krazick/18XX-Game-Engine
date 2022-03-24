@@ -3,6 +3,7 @@ package ge18xx.round.action.effects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -22,7 +23,7 @@ class ToEffectTestConstructor {
 	Player actorBeta;
 	Player actorGamma;
 	Player actorDelta;
-	GameManager gameManager;
+	GameManager mGameManager;
 	PlayerManager playerManager;
 	private String GENERIC_TO_EFFECT = "GenericTo";
 	GameTestFactory testFactory;
@@ -35,8 +36,12 @@ class ToEffectTestConstructor {
 		tPlayer2Name = "ToEffectTesterBeta";
 		tPlayer3Name = "ToEffectTesterGamma";
 		testFactory = new GameTestFactory ();
-		gameManager =  testFactory.buildGameManager (tClientName);
-		playerManager = new PlayerManager (gameManager);
+		mGameManager =  testFactory.buildGameManagerMock (tClientName);
+		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
+		Mockito.when (mGameManager.gameHasCoals ()).thenReturn (false);
+		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
+		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
+		playerManager = new PlayerManager (mGameManager);
 		effectAlpha = new ToEffect ();
 		actorDelta = new Player (tClientName, false, false, false, false, playerManager, 0);
 		actorBeta = new Player (tPlayer2Name, false, false, false, false, playerManager, 0);
