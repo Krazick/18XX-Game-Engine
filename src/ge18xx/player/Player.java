@@ -104,8 +104,43 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	// saved values. Fetch directly from GameManager if needed here, or in later classes.
 	// This class should not need to store and access these.
 	
+	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
+		GameManager tGameManager;
+//		boolean tHasPrivates, tHasCoals, tHasMinors, tHasShares;
+		
+		tGameManager = aPlayerManager.getGameManager ();
+//		tHasPrivates = tGameManager.gameHasPrivates ();
+//		tHasCoals = tGameManager.gameHasCoals ();
+//		tHasMinors = tGameManager.gameHasMinors ();
+//		tHasShares = tGameManager.gameHasShares ();
+		setGameHasCompanies (tGameManager);
+		buildPlayer (aName, aPlayerManager, aCertificateLimit);
+	}
+	
+	public void setGameHasCompanies (GameManager aGameManager) {
+		boolean tHasPrivates, tHasCoals, tHasMinors, tHasShares;
+		
+		tHasPrivates = aGameManager.gameHasPrivates ();
+		tHasCoals = aGameManager.gameHasCoals ();
+		tHasMinors = aGameManager.gameHasMinors ();
+		tHasShares = aGameManager.gameHasShares ();
+		setGameHasPrivates (tHasPrivates);
+		setGameHasCoals (tHasCoals);
+		setGameHasMinors (tHasMinors);
+		setGameHasShares (tHasShares);
+	}
+	
 	public Player (String aName, boolean aPrivates, boolean aCoals, boolean aMinors, 
 					boolean aShares, PlayerManager aPlayerManager, int aCertificateLimit) {
+		/* Set Non-Changing Values */
+		GameManager tGameManager;
+		
+		tGameManager = aPlayerManager.getGameManager ();
+		setGameHasCompanies (tGameManager);
+		buildPlayer (aName, aPlayerManager, aCertificateLimit);
+	}
+	
+	private void buildPlayer (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
 		String tFullTitle;
 		GameManager tGameManager;
 		Benefit tBenefitInUse;
@@ -123,8 +158,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setTriggeredAuction (false);
 		setExchangedPrezShare (NO_STOCK_TO_SELL);
 		
-		/* Set Non-Changing Values */
-		setGameHasCompanies (aPrivates, aCoals, aMinors, aShares);
 		setRFPlayerLabel (aName);
 		setCertificateLimit (aCertificateLimit);
 		
@@ -1165,13 +1198,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	
 	public void setGameHasCoals (boolean aCoals) {
 		gameHasCoals = aCoals;
-	}
-	
-	public void setGameHasCompanies (boolean aPrivates, boolean aCoals, boolean aMinors, boolean aShares) {
-		setGameHasPrivates (aPrivates);
-		setGameHasCoals (aCoals);
-		setGameHasMinors (aMinors);
-		setGameHasShares (aShares);
 	}
 	
 	public void setGameHasMinors (boolean aMinors) {

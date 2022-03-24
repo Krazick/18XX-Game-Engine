@@ -69,13 +69,23 @@ public class PlayerManager {
 		setStockRound (StockRound.NO_STOCK_ROUND);
 	}
 	
+	public void addPlayer (String aName) {
+		addPlayer (aName, 0);
+	}
 	
-	public void addPlayer (String aName, boolean aPrivates, boolean aCoals, boolean aMinors, boolean aShares, int aCertificateLimit) {
+	private void addPlayer (String aName, int aCertificateLimit) {
 		Player tPlayer;
 		
-		tPlayer = new Player (aName, aPrivates, aCoals, aMinors, aShares, this, aCertificateLimit);
+		tPlayer = new Player (aName, this, aCertificateLimit);
 		addPlayer (tPlayer);
 	}
+//	
+//	private void addPlayer (String aName, boolean aPrivates, boolean aCoals, boolean aMinors, boolean aShares, int aCertificateLimit) {
+//		Player tPlayer;
+//		
+//		tPlayer = new Player (aName, aPrivates, aCoals, aMinors, aShares, this, aCertificateLimit);
+//		addPlayer (tPlayer);
+//	}
 	
 	public void addPlayer (Player aPlayer) {
 		if (! players.contains (aPlayer)) {
@@ -1038,20 +1048,9 @@ public class PlayerManager {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aPlayerNode, Object aGameInfo) {
 			String tPlayerName;
-			boolean tGameHasCoals;
-			boolean tGameHasMinors;
-			boolean tGameHasPrivates;
-			boolean tGameHasShares;
-			GameInfo tActiveGame;
-			
-			tActiveGame = (GameInfo) aGameInfo;
-			tGameHasPrivates = tActiveGame.hasPrivates ();
-			tGameHasCoals = tActiveGame.hasCoals ();
-			tGameHasMinors = tActiveGame.hasMinors ();
-			tGameHasShares = tActiveGame.hasShares ();
+
 			tPlayerName = aPlayerNode.getThisAttribute (AN_NAME);
-			addPlayer (tPlayerName, tGameHasPrivates, tGameHasCoals, tGameHasMinors, 
-					tGameHasShares, 0);
+			addPlayer (tPlayerName);
 		}
 	};
 

@@ -576,13 +576,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public boolean gameHasCoals () {
-		return (getCountOfCoals () > 0);
+		return activeGame.hasCoals ();
 	}
 	public boolean gameHasMinors () {
-		return (getCountOfMinors () > 0);
+		return activeGame.hasMinors ();
 	}
 	public boolean gameHasShares () {
-		return (getCountOfShares () > 0);
+		return activeGame.hasShares ();
 	}
 	
 	public boolean gameIsSaved () {
@@ -1703,7 +1703,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tileTrayFrame.setTraySize ();
 		}
 	}
-
 	
 	private void setupPlayers () {
 		Player tPlayer;
@@ -1713,23 +1712,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		int tPlayerStartingCash;
 		int tPlayerCount;
 		int tCertificateLimit;
-		boolean tGameHasCoals = false;
-		boolean tGameHasMinors = false;
-		boolean tGameHasPrivates = false;
-		boolean tGameHasShares = false;
 		
-		if (privatesFrame.getCountOfCompanies () > 0) {
-			tGameHasPrivates = true;
-		}
-		if (coalCompaniesFrame.getCountOfCompanies () > 0) {
-			tGameHasCoals = true;
-		}
-		if (minorCompaniesFrame.getCountOfCompanies () > 0) {
-			tGameHasMinors = true;
-		}
-		if (shareCompaniesFrame.getCountOfCompanies () > 0) {
-			tGameHasShares = true;
-		}
 		if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 			tPlayerManager = new PlayerManager (this);
 			setPlayerManager (tPlayerManager);
@@ -1739,7 +1722,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tCertificateLimit = activeGame.getCertificateLimit (tPlayerCount);
 		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
 			tPlayerName = playerInputFrame.getPlayerName (tIndex);
-			tPlayer = new Player (tPlayerName, tGameHasPrivates, tGameHasCoals, tGameHasMinors, tGameHasShares, playerManager, tCertificateLimit);
+			tPlayer = new Player (tPlayerName, playerManager, tCertificateLimit);
 			bank.transferCashTo (tPlayer, tPlayerStartingCash);
 			playerManager.addPlayer (tPlayer);
 		}
@@ -1751,7 +1734,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void showCities () {
 		citiesFrame.showFrame ();
-//		showFrame (citiesFrame);
 	}
 	
 	public void setAuctionFrameLocation () {
