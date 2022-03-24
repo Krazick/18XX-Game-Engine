@@ -654,7 +654,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		
 		tTotalRevenue = getTotalRevenue (tSource);
 		setThisRevenue (tTotalRevenue);
-//		thisRevenueLabel.setText (THIS_REVENUE + Bank.formatCash (tTotalRevenue));
 		updateAllFrameButtons ();
 	}
 
@@ -753,6 +752,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		Train tTrain;
 		RouteInformation tRouteInformation;
 		String tToolTip;
+		int tRouteCode;
 		
 		if (isValidIndex (aTrainIndex)) {
 			if (isYourCompany ()) {
@@ -764,15 +764,29 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 						disableSelectRouteButton (aTrainIndex, "Route is not yet valid");
 					} else if (tRouteInformation.isRouteTooLong ()) {
 						disableSelectRouteButton (aTrainIndex, "Route is Too Long. Max length is " + tTrain.getName ());
-					} else if (! tRouteInformation.isValidRoute ()) {
-						if (tRouteInformation.getCenterCount () < 2) {
-							tToolTip = "Route must have at least two Revenue Centers";
-						} else {
-							tToolTip = "Route is Blocked by Station, or Have no Corp Station";
-						}
-						disableSelectRouteButton (aTrainIndex, tToolTip);
 					} else {
-						enableSelectRouteButton (aTrainIndex, CONFIRM_ROUTE, CONFIRM_ROUTE_ACTION, "Confirm Route");
+						tRouteCode = tRouteInformation.isValidRoute ();
+						if (tRouteCode == 1) {
+							enableSelectRouteButton (aTrainIndex, CONFIRM_ROUTE, CONFIRM_ROUTE_ACTION, "Confirm Route");
+						} else {
+							tToolTip = "No Train for company, or other unspecified error";
+							switch (tRouteCode) {
+								case -1:
+								case -2:
+									tToolTip = "Route must have at least two Revenue Centers";
+									break;
+								case -3:
+									tToolTip = "Route has no Corporate Station";
+									break;
+								case -4:
+									tToolTip = "Route has a Loop that reuses the same Revenue Center";
+									break;
+								case -5:
+									tToolTip = "Route is Blocked by other Corporation Stations";
+									break;
+							}
+							disableSelectRouteButton (aTrainIndex, tToolTip);
+						}
 					}
 				} else {
 					if (anyTrainIsOperating ()) {
