@@ -1109,10 +1109,10 @@ public class JGameClient extends XMLFrame {
 		
 	public void playerReady () {
 		backFromAFK ();
-		playerReady (getName (), "");
+		playerReady (getName ());
 	}
 	
-	public void playerReady (String aPlayerName, String aFullMessage) {
+	public void playerReady (String aPlayerName) {
 		int tIndex = aPlayerName.indexOf (aPlayerName);
 		String tPlayerName = aPlayerName;
 		
@@ -1267,7 +1267,7 @@ public class JGameClient extends XMLFrame {
 		gameSupportHandler.handleGSResponse (aGSResponse);
 	}
 	
-	public ServerHandler getServerHandler() {
+	public ServerHandler getServerHandler () {
 		return serverHandler;
 	}
 

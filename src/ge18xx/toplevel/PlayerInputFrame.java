@@ -508,7 +508,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		tJGameClient = gameManager.getNetworkJGameClient ();
 		tJGameClient.appendToChat (aBroadcast);
 		tName = aBroadcast.substring (0, aBroadcast.indexOf (" "));
-		tJGameClient.playerReady (tName, "");
+		tJGameClient.playerReady (tName);
 	}
 
 	public int getSelectedGameIndex () {

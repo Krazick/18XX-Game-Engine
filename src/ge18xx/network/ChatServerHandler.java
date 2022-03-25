@@ -27,7 +27,6 @@ public class ChatServerHandler extends ServerHandler {
 	@Override
 	public void handleServerMessage (String tMessage) {
 		jClient.handleServerMessage (tMessage);
-//		System.out.println ("Received Message [" + tMessage + "]");
 	}
 	
 	@Override
@@ -77,9 +76,9 @@ public class ChatServerHandler extends ServerHandler {
 
 	private void handlePlayerReady (String aShortened) {
 		String tName;
-		tName = extractName (aShortened);
 		
-		jClient.playerReady (tName, aShortened);
+		tName = extractName (aShortened);
+		jClient.playerReady (tName);
 	}
 	
 	private String handleJoined (String aShortened) {
@@ -97,7 +96,7 @@ public class ChatServerHandler extends ServerHandler {
 			jClient.setPlayerAsAFK (tName);
 		}
 		if (aShortened.contains ("[READY]")) {
-			jClient.playerReady (tName, "");
+			jClient.playerReady (tName);
 		}
 		
 		return tMessage;
