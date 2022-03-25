@@ -196,27 +196,6 @@ public abstract class ServerHandler implements Runnable {
 		return tContinue;
 	}
 	
-//	private boolean tryReConnect () {
-//		boolean tContinue;
-//   	
-//		try {
-//			serverFrame.closeServerSocket ("Trying to ReConnect");
-//			//empty my old lost connection and let it get by garbage collect immediately 
-//			socket = null;
-//			System.gc ();
-// 			//Wait a new client Socket connection and address this to my local variable
-//			socket = serverFrame.acceptServerSocket ("Trying to ReConnect"); // Waiting for another Connection
-//			System.out.println ("YEAH!!!!   Connection established...");
-//			tContinue = true;
-//		} catch (Exception eException) {
-//			String message = "ReConnect not successful " + eException.getMessage ();
-//			log (message, eException); //etc...
-//			tContinue = false;
-//		}
-//    
-//		return tContinue;
-//	}
-
 	public boolean isConnected () {
 		return continueRunning;
 	}
