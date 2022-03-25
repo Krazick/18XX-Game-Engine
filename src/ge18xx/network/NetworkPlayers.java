@@ -128,12 +128,16 @@ public class NetworkPlayers {
 		}
 	}
 	
+	public int getPlayerCount () {
+		return playerList.size ();
+	}
+
 	public boolean allPlayersAreReady () {
 		int tIndex, tNetworkPlayerCount;
 		NetworkPlayer tNetworkPlayer;
 		boolean tAllPlayersAreReady = true;
 		
-		tNetworkPlayerCount = playerList.size ();
+		tNetworkPlayerCount = getPlayerCount ();
 		
 		if (tNetworkPlayerCount > 0) {
 			for (tIndex = 0; tIndex < tNetworkPlayerCount; tIndex++) {
