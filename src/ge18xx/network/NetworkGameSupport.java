@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.toplevel.XMLFrame;
-// TODO -- Move this to the Network Package
+
 public interface NetworkGameSupport {
 	public final String NO_NAME = "";
 
@@ -26,9 +26,6 @@ public interface NetworkGameSupport {
 	public void randomizePlayerOrder ();
 	public void initiateNetworkGame ();
 	public boolean gameStarted ();
-	public void addNewFrame (XMLFrame jGameClient);
-	public Player getClientPlayer ();
-	public RoundManager getRoundManager ();
 	public Point getOffsetGEFrame ();
 	public String getGameID ();
 	public void resetGameID (String tGameID);
@@ -38,5 +35,13 @@ public interface NetworkGameSupport {
 	public void loadAutoSavedGame (String autoSaveFileName);
 	public String getGEVersion ();
 	public void updateDisconnectButton ();
+
+	// Needs specific ge18xx Player, RoundManager and XMLFrame Imports
+	
+	public void addNewFrame (XMLFrame jGameClient);
+	public Player getClientPlayer ();
+	public RoundManager getRoundManager ();
+ 
+	// Needs Log4J Imports
 	public Logger getLogger ();
 }
