@@ -325,7 +325,7 @@ public class JGameClient extends XMLFrame {
 					updateButtonGameStarted (showSavedGames);
 					loadAndStartGame ();
 				} else {
-					if (gameManager.getGameID ().equals ("")) {
+					if (getGameID ().equals ("")) {
 						setGameIDFromNetwork ();
 					}
 					if (SELECT_GAME.equals (tAction)) {
@@ -631,7 +631,7 @@ public class JGameClient extends XMLFrame {
 	private void handleStartGame () {
 		String tGameID;
 		
-		tGameID = gameManager.getGameID ();
+		tGameID = getGameID ();
 		if (serverHandler != ChatServerHandler.NO_SERVER_HANDLER) {
 			serverHandler.sendUserStart (tGameID);
 		}
@@ -832,7 +832,7 @@ public class JGameClient extends XMLFrame {
 	public void sendPlayerReady () {
 		String tGameID;
 		
-		tGameID = gameManager.getGameID ();
+		tGameID = getGameID ();
 		showSavedGames.setEnabled (false);
 		showSavedGames.setToolTipText ("Ready to play New Game");
 		serverHandler.sendUserReady (tGameID);
@@ -864,7 +864,7 @@ public class JGameClient extends XMLFrame {
 		String tGameID;
 		
 		tBroadcastMessage = getName () + " has Selected [" + selectedGameName + "] Are you ready to Play?";
-		tGameID = gameManager.getGameID ();
+		tGameID = getGameID ();
 		tGameActivity = constructGameActivityXML (EN_GAME_SELECTION, AN_GAME_INDEX, selectedGameIndex + "",
 				AN_BROADCAST_MESSAGE, tBroadcastMessage, AN_GAME_ID, tGameID);
 		showSavedGames.setEnabled (false);
@@ -1270,6 +1270,10 @@ public class JGameClient extends XMLFrame {
 		return serverHandler;
 	}
 
+	public String getXMLBaseDirectory () {
+		return gameManager.getXMLBaseDirectory ();
+	}
+	
 	public String getGameID () {
 		return gameManager.getGameID ();
 	}
@@ -1279,7 +1283,7 @@ public class JGameClient extends XMLFrame {
 		String tSavedGameInfo;
 		
 		savedGamesListModel = new DefaultListModel<String> ();
-		for (int tIndex = 0; tIndex < aNetworkSavedGames.getSavedGameCount(); tIndex++) {
+		for (int tIndex = 0; tIndex < aNetworkSavedGames.getSavedGameCount (); tIndex++) {
 			tSavedGame = aNetworkSavedGames.getSavedGameAt (tIndex);
 			if (tSavedGame.localAutoSaveFound ()) {
 				tSavedGameInfo = "   : " + tSavedGame.getGameName () + " : " + tSavedGame.getGameID () + 
@@ -1323,7 +1327,7 @@ public class JGameClient extends XMLFrame {
 	public void loadAndStartGame () {
 		gameManager.loadAutoSavedGame (autoSaveFileName);
 		System.out.println ("Should have Game Manager Load the Network Game, and Start Playing " +
-				"with Game ID [" + gameManager.getGameID () + "]");
+				"with Game ID [" + getGameID () + "]");
 		swapToGameActivity ();
 	}
 
