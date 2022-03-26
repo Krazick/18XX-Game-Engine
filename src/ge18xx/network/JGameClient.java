@@ -73,6 +73,8 @@ public class JGameClient extends XMLFrame {
 	private GameSupportHandler gameSupportHandler;
 	
 	// Static Strings used by Client Handler - Should replace with XML Utilities handling
+	public static final String NO_GAME_ID = "NOID";
+	public static final String EMPTY_GAME_ID = "";
 	public static final String GAME_ACTIVITY_TAG = "GA";
 	public static final String GAME_ACTIVITY_PREFIX = "Game Activity";
 	public static final String GAME_SUPPORT_TAG = "GS";

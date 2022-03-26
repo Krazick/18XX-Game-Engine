@@ -3,8 +3,6 @@ package ge18xx.network;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ge18xx.game.SavedGame;
-
 public class GameSupportHandler {
 	private boolean waitingForResponse;
 	private String response;
@@ -81,7 +79,7 @@ public class GameSupportHandler {
 	
 	public String getGameIDFromRequest (String aRequest) {
 		Matcher tMatcher = GS_WITH_GAME_ID_PATTERN.matcher (aRequest);
-		String tFoundGameID = SavedGame.NO_GAME_ID;
+		String tFoundGameID = JGameClient.NO_GAME_ID;
 		
 		if (tMatcher.find ()) {
 			tFoundGameID = tMatcher.group (1);
@@ -93,7 +91,7 @@ public class GameSupportHandler {
 	
 	public String getGameIDFromNetworkResponse (String aResponse) {
 		Matcher tMatcher = GSR_WITH_GAME_ID_PATTERN.matcher (aResponse);
-		String tFoundGameID = SavedGame.NO_GAME_ID;
+		String tFoundGameID = JGameClient.NO_GAME_ID;
 		
 		if (tMatcher.find ()) {
 			tFoundGameID = tMatcher.group (1);

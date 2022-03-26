@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ge18xx.network.JGameClient;
+
 public class SavedGame {
 	String gameID;
 	String gameStatus;
@@ -24,7 +26,6 @@ public class SavedGame {
 	private final static Pattern PLAYER_WITH_NAME_PATTERN = Pattern.compile (PLAYER_WITH_NAME);
 	private final static String GAME_WITH_GAME_ID = "<Game gameID=\"" + GAME_ID + "\" lastActionNumber=\"(\\d+)\" players=\"(.*)\" status=\\\"(.*)\\\">";
 	private final static Pattern GAME_WITH_GAME_ID_PATTERN = Pattern.compile (GAME_WITH_GAME_ID);
-	public final static String NO_GAME_ID = "NOID";
 	public final static String NO_NAME = "NO_NAME";
 	public final static String NO_STATUS = "NO_STATUS";
 	public final static String TEST_FILE = "JunitTestFile";
@@ -62,7 +63,7 @@ public class SavedGame {
 				tReader = new BufferedReader (tFile);
 				while ((tLine = tReader.readLine()) != null) {
 					tGameID = getGameIDFromLine (tLine);
-					if (tGameID.equals (NO_GAME_ID)) {
+					if (tGameID.equals (JGameClient.NO_GAME_ID)) {
 						tPlayerName = getPlayerNameFromLine (tLine);
 						if (! tPlayerName.equals (NO_NAME)) {
 							addPlayer (tPlayerName);
@@ -167,7 +168,7 @@ public class SavedGame {
 	
 	public String getGameIDFromLine (String aRequest) {
 		Matcher tMatcher = NSG_WITH_GAME_ID_PATTERN.matcher (aRequest);
-		String tGameID = NO_GAME_ID;
+		String tGameID = JGameClient.NO_GAME_ID;
 		
 		if (tMatcher.find ()) {
 			tGameID = tMatcher.group (1);
@@ -230,7 +231,7 @@ public class SavedGame {
 
 	public static SavedGame parseSavedGameXML (String aSavedGameXML) {
 		Matcher tMatcher = GAME_WITH_GAME_ID_PATTERN.matcher (aSavedGameXML);
-		String tGameID = NO_GAME_ID;
+		String tGameID = JGameClient.NO_GAME_ID;
 		String tLastActionNumberString;
 		int tLastActionNumber;
 		String aPlayerList;

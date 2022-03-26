@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import ge18xx.network.JGameClient;
+
 public class SavedGames {
 	private ArrayList<SavedGame> games;
 	public static int NO_INDEX = -1;
@@ -108,7 +110,7 @@ public class SavedGames {
 	
 	public String getGameIDat (int aIndex) {
 		SavedGame tSavedGame;
-		String tGameIDat = SavedGame.NO_GAME_ID;
+		String tGameIDat = JGameClient.NO_GAME_ID;
 		int tGameCount;
 		
 		tGameCount = getSavedGameCount ();
@@ -127,7 +129,7 @@ public class SavedGames {
 		String tFoundGameID;
 		
 		if (aGameID != null) {
-			if (! aGameID.equals (SavedGame.NO_GAME_ID)) {
+			if (! aGameID.equals (JGameClient.NO_GAME_ID)) {
 				if (getSavedGameCount () > 0) {
 					for (SavedGame tSavedGame : games) {
 						if (! tHasGameID) {
@@ -151,7 +153,7 @@ public class SavedGames {
 		SavedGame tSavedGame;
 		
 		if (aGameID != null) {
-			if (! aGameID.equals (SavedGame.NO_GAME_ID)) {
+			if (! aGameID.equals (JGameClient.NO_GAME_ID)) {
 				tGameCount = getSavedGameCount ();
 				if (tGameCount > 0) {
 					for (int tIndex = 0; tIndex < tGameCount; tIndex++) {

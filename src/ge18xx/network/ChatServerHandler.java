@@ -3,9 +3,6 @@ package ge18xx.network;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
-import ge18xx.game.GameManager;
-import ge18xx.game.SavedGame;
-
 public class ChatServerHandler extends ServerHandler {
 	protected JGameClient jClient;
 	
@@ -166,7 +163,7 @@ public class ChatServerHandler extends ServerHandler {
 	public boolean isValidGameID (String aGameID) {
 		boolean tIsValidGameID = false;
 		
-		if (! (aGameID.equals (SavedGame.NO_GAME_ID) || aGameID.equals (GameManager.EMPTY_GAME_ID))) {
+		if (! (aGameID.equals (JGameClient.NO_GAME_ID) || aGameID.equals (JGameClient.EMPTY_GAME_ID))) {
 			tIsValidGameID = true;
 		}
 		
