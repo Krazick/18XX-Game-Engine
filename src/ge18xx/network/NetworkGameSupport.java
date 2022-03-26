@@ -1,14 +1,13 @@
-package ge18xx.game;
+package ge18xx.network;
 
 import java.awt.Point;
 
 import org.apache.logging.log4j.Logger;
 
-import ge18xx.network.JGameClient;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.toplevel.XMLFrame;
-
+// TODO -- Move this to the Network Package
 public interface NetworkGameSupport {
 	public final String NO_NAME = "";
 

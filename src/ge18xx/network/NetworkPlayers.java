@@ -2,8 +2,6 @@ package ge18xx.network;
 
 import javax.swing.DefaultListModel;
 
-import ge18xx.game.NetworkGameSupport;
-
 public class NetworkPlayers {
 	private DefaultListModel<NetworkPlayer> playerList;
 	private NetworkGameSupport gameManager;

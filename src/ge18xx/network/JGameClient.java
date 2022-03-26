@@ -40,7 +40,6 @@ import javax.swing.SwingConstants;
 
 import ge18xx.game.GameManager;
 import ge18xx.game.GameSet;
-import ge18xx.game.NetworkGameSupport;
 import ge18xx.game.SavedGame;
 import ge18xx.game.SavedGames;
 import ge18xx.toplevel.XMLFrame;

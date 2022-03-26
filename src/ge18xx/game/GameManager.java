@@ -30,6 +30,7 @@ import ge18xx.map.HexMap;
 import ge18xx.market.Market;
 import ge18xx.network.GameSupportHandler;
 import ge18xx.network.JGameClient;
+import ge18xx.network.NetworkGameSupport;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Escrow;
 import ge18xx.player.Player;

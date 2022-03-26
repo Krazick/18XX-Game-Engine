@@ -15,8 +15,6 @@ import java.net.UnknownHostException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ge18xx.game.NetworkGameSupport;
-
 public abstract class ServerHandler implements Runnable {
 	public final static ServerHandler NO_SERVER_HANDLER = null;
     private final static int DefaultTimeout = 12000;

@@ -8,8 +8,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ge18xx.game.NetworkGameSupport;
-
 public class HeartbeatThread implements Runnable {
 	private Logger logger;
 	final Level HEARTBEAT = Level.forName ("HEARTBEAT", 550);
