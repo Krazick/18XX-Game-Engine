@@ -6,6 +6,7 @@ import ge18xx.game.Game_18XX;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ClearAllRoutesAction;
+import ge18xx.utilities.GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -43,6 +44,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	private static final String CONFIRM_ALL_REVENUES_ACTION = "DoConfirmAllRevenuesAction";
 	private static final String CANCEL_ACTION = "DoCancelAction";
 	private static final String SELECT_ROUTE_ACTION = "DoSelectRouteAction";
+	private static final String REUSE_ROUTE_ACTION = "doReuseRouteAction";
 	private static final String NO_NOTIFICATION = "";
 	public static final TrainRevenueFrame NO_TRAIN_REVENUE_FRAME = null;
 
@@ -54,6 +56,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	String CONFIRM_ALL_REVENUES = "Confirm All Revenues";
 	String CANCEL = "Cancel";
 	String RESET_ROUTE = "Reset Route";
+	String REUSE_ROUTE = "Reuse Route";
 	int maxTrainCount = 5;
 	int maxStops = 15;
 	TrainCompany trainCompany;
@@ -66,8 +69,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JButton cancel;
 	JButton [] selectRoutes;
 	JButton [] resetRoutes;
+	JButton [] resuseRoutes;
 	JPanel allFramesJPanel;
-	Box allRevenuesBox;
+	JPanel allRevenuesJPanel;
 	JPanel buttonsJPanel;
 	JFormattedTextField [] [] revenuesByTrain;
 	JLabel [] totalRevenueByEachTrain;
@@ -84,9 +88,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		title = new JLabel ();
 		title.setAlignmentX (CENTER_ALIGNMENT);
 		updatePresidentLabel ();
-		allRevenuesBox = null;
+		allRevenuesJPanel = null;
 		setRevenueValues (aTrainCompany);
-		fillRevenuesBox ();
+		buildRevenuesJPanel ();
 		buildsButtonsJPanel ();
 		presidentLabel.setAlignmentX (CENTER_ALIGNMENT);
 		buildAllFramesJPanel (aTrainCompany);
@@ -95,6 +99,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		totalRevenueByEachTrain = new JLabel [maxTrainCount];
 		selectRoutes = new JButton [maxTrainCount];
 		resetRoutes = new JButton [maxTrainCount];
+		resuseRoutes = new JButton [maxTrainCount];
 		pack ();
 		updateFrameSize ();
 		setYourCompany (true);
@@ -179,7 +184,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		allFramesJPanel.add (Box.createVerticalStrut (10));
 		allFramesJPanel.add (lastRevenueLabel);
 		allFramesJPanel.add (Box.createVerticalStrut (10));
-		allFramesJPanel.add (allRevenuesBox);
+		allFramesJPanel.add (allRevenuesJPanel);
 		allFramesJPanel.add (Box.createVerticalStrut (10));		
 		allFramesJPanel.add (thisRevenueLabel);
 		allFramesJPanel.add (Box.createVerticalStrut (10));		
@@ -477,69 +482,90 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		return tTotalRevenue;
 	}
 	
-	public void fillRevenuesBox () {
-		JLabel tTrainLabel;
-		int tTrainCount, tTrainIndex, tCityCount, tCityIndex;
-		Box tTrainRevenueBox;
-		Train tTrain;
-		Dimension textFieldSize = new Dimension (40, 20);
+	public void buildRevenuesJPanel () {
+		int tTrainCount, tTrainIndex;
+		JPanel tTrainRevenueJPanel;
 		
 		tTrainCount = trainCompany.getTrainCount ();
 		
-		if (allRevenuesBox == null) {
-			allRevenuesBox = Box.createVerticalBox ();
+		if (allRevenuesJPanel == GUI.NO_PANEL) {
+			allRevenuesJPanel = new JPanel ();
 		} else {
-			allRevenuesBox.removeAll ();
+			allRevenuesJPanel.removeAll ();
 		}
-		allRevenuesBox.setAlignmentX (CENTER_ALIGNMENT);
+		allRevenuesJPanel.setAlignmentX (CENTER_ALIGNMENT);
 		
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tTrainIndex > 0) {
-				allRevenuesBox.add (Box.createVerticalStrut (10));
+				allRevenuesJPanel.add (Box.createVerticalStrut (10));
 			}
-			tTrain = trainCompany.getTrain (tTrainIndex);
-			tCityCount = tTrain.getCityCount ();
-			// TODO: QUICK FIX, the "getCityCount" will return a Maximum of maxStops (15) to allow Diesels to Operate
-			// MUST Figure out way to give Diesels an infinite length
 			
-			tTrainRevenueBox = Box.createHorizontalBox ();
-			tTrainLabel = new JLabel (tTrain.getName () + " Train #" + (tTrainIndex + 1));
-			tTrainRevenueBox.add (Box.createHorizontalStrut (30));
-			tTrainRevenueBox.add (tTrainLabel);
-			tTrainRevenueBox.add (Box.createHorizontalStrut (10));
-			for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
-				revenuesByTrain [tTrainIndex] [tCityIndex] = new JFormattedTextField ();
-				revenuesByTrain [tTrainIndex] [tCityIndex].setValue (0);
-				revenuesByTrain [tTrainIndex] [tCityIndex].setColumns (3);
-				revenuesByTrain [tTrainIndex] [tCityIndex].setHorizontalAlignment (JTextField.RIGHT);
-				revenuesByTrain [tTrainIndex] [tCityIndex].setMaximumSize (textFieldSize);
-				revenuesByTrain [tTrainIndex] [tCityIndex].setPreferredSize (textFieldSize);
-				revenuesByTrain [tTrainIndex] [tCityIndex].setMinimumSize (textFieldSize);
-				revenuesByTrain [tTrainIndex] [tCityIndex].addPropertyChangeListener ("value", this);
-				tTrainRevenueBox.add (revenuesByTrain [tTrainIndex] [tCityIndex]);
-				tTrainRevenueBox.add (Box.createHorizontalStrut (5));
-				if ((tCityIndex + 1) < tCityCount) {
-					tTrainRevenueBox.add (new JLabel ("+"));
-				} else {
-					tTrainRevenueBox.add (new JLabel ("="));
-				}
-				tTrainRevenueBox.add (Box.createHorizontalStrut (5));
-				
+			tTrainRevenueJPanel = buildTrainRevenueJPanel (tTrainIndex);
+			allRevenuesJPanel.add (tTrainRevenueJPanel);
+		}
+	}
+
+	private JPanel buildTrainRevenueJPanel (int aTrainIndex) {
+		JLabel tTrainLabel;
+		int tCityCount;
+		JPanel tTrainRevenueJPanel;
+		BoxLayout tLayoutX;
+		Train tTrain;
+		
+		// TODO: for a N+N Train, need to get maximum City Count
+		// TODO: QUICK FIX, the "getCityCount" will return a Maximum of maxStops (15) to allow Diesels to Operate
+		// MUST Figure out way to give Diesels an infinite length
+		
+		tTrain = trainCompany.getTrain (aTrainIndex);
+		tCityCount = tTrain.getCityCount ();
+		tTrainRevenueJPanel = new JPanel ();
+		tLayoutX = new BoxLayout (tTrainRevenueJPanel, BoxLayout.X_AXIS);
+		tTrainRevenueJPanel.setLayout (tLayoutX);
+		tTrainLabel = new JLabel (tTrain.getName () + " Train #" + (aTrainIndex + 1));
+		tTrainRevenueJPanel.add (Box.createHorizontalStrut (10));
+		tTrainRevenueJPanel.add (tTrainLabel);
+		tTrainRevenueJPanel.add (Box.createHorizontalStrut (10));
+		buildRevenuesByTrain (aTrainIndex, tCityCount, tTrainRevenueJPanel);
+		totalRevenueByEachTrain [aTrainIndex] = new JLabel ("0");
+		tTrainRevenueJPanel.add (totalRevenueByEachTrain [aTrainIndex]);
+		tTrainRevenueJPanel.add (Box.createHorizontalStrut (5));
+		
+		selectRoutes [aTrainIndex] = setupButton (SELECT_ROUTE, SELECT_ROUTE_ACTION);
+		updateSelectRouteButton (aTrainIndex);
+		tTrainRevenueJPanel.add (selectRoutes [aTrainIndex]);
+		tTrainRevenueJPanel.add (Box.createHorizontalStrut (5));
+		resetRoutes [aTrainIndex] = setupButton (RESET_ROUTE, RESET_ROUTE_ACTION);
+		updateResetRouteButton (aTrainIndex);
+		tTrainRevenueJPanel.add (resetRoutes [aTrainIndex]);
+		tTrainRevenueJPanel.add (Box.createHorizontalStrut (5));
+		resuseRoutes [aTrainIndex] = setupButton (REUSE_ROUTE, REUSE_ROUTE_ACTION);
+		tTrainRevenueJPanel.add (resuseRoutes [aTrainIndex]);
+		tTrainRevenueJPanel.add (Box.createHorizontalStrut (10));
+		
+		return tTrainRevenueJPanel;
+	}
+
+	private void buildRevenuesByTrain (int aTrainIndex, int aCityCount, JPanel aTrainRevenueJPanel) {
+		int tCityIndex;
+		Dimension tTextFieldSize = new Dimension (30, 20);
+		
+		for (tCityIndex = 0; tCityIndex < aCityCount; tCityIndex++) {
+			revenuesByTrain [aTrainIndex] [tCityIndex] = new JFormattedTextField ();
+			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (0);
+			revenuesByTrain [aTrainIndex] [tCityIndex].setColumns (3);
+			revenuesByTrain [aTrainIndex] [tCityIndex].setHorizontalAlignment (JTextField.RIGHT);
+			revenuesByTrain [aTrainIndex] [tCityIndex].setMaximumSize (tTextFieldSize);
+			revenuesByTrain [aTrainIndex] [tCityIndex].setPreferredSize (tTextFieldSize);
+			revenuesByTrain [aTrainIndex] [tCityIndex].setMinimumSize (tTextFieldSize);
+			revenuesByTrain [aTrainIndex] [tCityIndex].addPropertyChangeListener ("value", this);
+			aTrainRevenueJPanel.add (revenuesByTrain [aTrainIndex] [tCityIndex]);
+			aTrainRevenueJPanel.add (Box.createHorizontalStrut (3));
+			if ((tCityIndex + 1) < aCityCount) {
+				aTrainRevenueJPanel.add (new JLabel ("+"));
+			} else {
+				aTrainRevenueJPanel.add (new JLabel ("="));
 			}
-			totalRevenueByEachTrain [tTrainIndex] = new JLabel ("0");
-			tTrainRevenueBox.add (totalRevenueByEachTrain [tTrainIndex]);
-			tTrainRevenueBox.add (Box.createHorizontalStrut (10));
-			
-			selectRoutes [tTrainIndex] = setupButton (SELECT_ROUTE, SELECT_ROUTE_ACTION);
-			updateSelectRouteButton (tTrainIndex);
-			tTrainRevenueBox.add (selectRoutes [tTrainIndex]);
-			tTrainRevenueBox.add (Box.createHorizontalStrut (5));
-			resetRoutes [tTrainIndex] = setupButton (RESET_ROUTE, RESET_ROUTE_ACTION);
-			updateResetRouteButton (tTrainIndex);
-			tTrainRevenueBox.add (resetRoutes [tTrainIndex]);
-			tTrainRevenueBox.add (Box.createHorizontalStrut (30));
-			
-			allRevenuesBox.add (tTrainRevenueBox);
+			aTrainRevenueJPanel.add (Box.createHorizontalStrut (3));
 		}
 	}
 	
@@ -707,7 +733,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		
 		tTrainCount = trainCompany.getTrainCount ();
 		tMaxTrainSize = trainCompany.getMaxTrainSize ();
-		tWidth = 450 + tMaxTrainSize * 50;
+		tWidth = 530 + tMaxTrainSize * 50;
 		tHeight = 210 + (tTrainCount * 40);
 		setSize (tWidth, tHeight);
 	}
@@ -730,7 +756,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updatePresidentLabel ();
 		updateLastRevenueLabel ();
 		if (! isVisible ()) {
-			fillRevenuesBox ();
+			buildRevenuesJPanel ();
 		}
 		updateThisRevenueLabel ();
 		updateFrameSize ();
