@@ -4,12 +4,12 @@ import java.awt.Point;
 
 import org.apache.logging.log4j.Logger;
 
-import ge18xx.player.Player;
-import ge18xx.round.RoundManager;
 import ge18xx.toplevel.XMLFrame;
 
 public interface NetworkGameSupport {
 	public final String NO_NAME = "";
+	public static final String NO_GAME_ID = "NOID";
+	public static final String EMPTY_GAME_ID = "";
 
 	public void updatePlayerCountLabel ();
 	public void addNetworkPlayer (String aPlayerName);
@@ -33,11 +33,9 @@ public interface NetworkGameSupport {
 	public String getGEVersion ();
 	public void updateDisconnectButton ();
 
-	// Needs specific ge18xx Player, RoundManager and XMLFrame Imports
+	// Needs specific ge18xx XMLFrame Imports
 	
 	public void addNewFrame (XMLFrame jGameClient);
-	public Player getClientPlayer ();
-	public RoundManager getRoundManager ();
  
 	// Needs Log4J Imports
 	public Logger getLogger ();
