@@ -1374,6 +1374,10 @@ public class Certificate implements Comparable<Certificate> {
 		corporation.setDiscount (aDiscount);
 	}
 	
+	public boolean isATestGame () {
+		return corporation.isATestGame ();
+	}
+	
 	public void setOwner (CertificateHolderI aOwner) {
 		owner = aOwner;
 		if (checkedButton != FrameButton.NO_JCHECKBOX) {

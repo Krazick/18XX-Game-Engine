@@ -1970,6 +1970,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		gameTestFlag = aGameTestFlag;
 	}
 
+	public boolean isATestGame () {
+		return gameTestFlag;
+	}
+	
 	public void placeBaseTokens () {
 		// Override in Token Company Class
 	}

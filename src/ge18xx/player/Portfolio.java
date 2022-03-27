@@ -1580,7 +1580,9 @@ public class Portfolio implements CertificateHolderI {
 					tCertificate.resetFrameButton ();
 					tTransferGood = true;
 					if (tIsPresident) {
-						notifyPresidentChange (aFromPortfolio, tCertificate);
+						if (! tCertificate.isATestGame ()) {
+							notifyPresidentChange (aFromPortfolio, tCertificate);
+						}
 					}
 				} else {
 					System.err.println ("Transfer Certificate Failed since the Certificate could not be found");
