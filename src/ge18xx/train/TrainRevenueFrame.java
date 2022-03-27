@@ -43,7 +43,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	private static final String CONFIRM_ALL_REVENUES_ACTION = "DoConfirmAllRevenuesAction";
 	private static final String CANCEL_ACTION = "DoCancelAction";
 	private static final String SELECT_ROUTE_ACTION = "DoSelectRouteAction";
+	private static final String NO_NOTIFICATION = "";
 	public static final TrainRevenueFrame NO_TRAIN_REVENUE_FRAME = null;
+
 	String LAST_REVENUE = "Last Round Revenue ";
 	String THIS_REVENUE = "This Round Revenue ";
 	String SELECT_ROUTE = "Select Route";
@@ -59,6 +61,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JLabel presidentLabel;
 	JLabel lastRevenueLabel;
 	JLabel thisRevenueLabel;
+	JLabel notificationLabel;
 	JButton confirm;
 	JButton cancel;
 	JButton [] selectRoutes;
@@ -164,6 +167,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		thisRevenueLabel = new JLabel (THIS_REVENUE + "NOT SET YET");
 		thisRevenueLabel.setAlignmentX (CENTER_ALIGNMENT);
 
+		notificationLabel = new JLabel (NO_NOTIFICATION);
+		notificationLabel.setAlignmentX (CENTER_ALIGNMENT);
+		
 		setRevenueValues (aTrainCompany);
 
 		allFramesJPanel.add (Box.createVerticalStrut (10));
@@ -176,6 +182,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		allFramesJPanel.add (allRevenuesBox);
 		allFramesJPanel.add (Box.createVerticalStrut (10));		
 		allFramesJPanel.add (thisRevenueLabel);
+		allFramesJPanel.add (Box.createVerticalStrut (10));		
+		allFramesJPanel.add (notificationLabel);
 		allFramesJPanel.add (Box.createVerticalStrut (10));
 		allFramesJPanel.add (buttonsJPanel);
 		add (allFramesJPanel);
@@ -201,6 +209,13 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		} else {
 			presidentLabel.setText (tTextLabel);
 		}
+	}
+	
+	public void updateNotificationLabel (String aNotification) {
+		if (aNotification.length () > 0) {
+			aNotification = "WARNING: " + aNotification;
+		}
+		notificationLabel.setText (aNotification);
 	}
 	
 	public void setYourCompany (boolean aYourCompany) {
@@ -417,6 +432,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				trainCompany.enterSelectRouteMode (tRouteInformation);
 			}
 		}
+		updateNotificationLabel (NO_NOTIFICATION);
 		updateAllFrameButtons ();
 	}
 	
@@ -692,7 +708,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tTrainCount = trainCompany.getTrainCount ();
 		tMaxTrainSize = trainCompany.getMaxTrainSize ();
 		tWidth = 450 + tMaxTrainSize * 50;
-		tHeight = 180 + (tTrainCount * 40);
+		tHeight = 210 + (tTrainCount * 40);
 		setSize (tWidth, tHeight);
 	}
 	
@@ -752,6 +768,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		Train tTrain;
 		RouteInformation tRouteInformation;
 		String tToolTip;
+		String tWarningMessage;
 		int tRouteCode;
 		
 		if (isValidIndex (aTrainIndex)) {
@@ -763,9 +780,13 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 						enableSelectRouteButton (aTrainIndex, CONFIRM_ROUTE, CONFIRM_ROUTE_ACTION, "Confirm Route");
 						disableSelectRouteButton (aTrainIndex, "Route is not yet valid");
 					} else if (tRouteInformation.isRouteTooLong ()) {
-						disableSelectRouteButton (aTrainIndex, "Route is Too Long. Max length is " + tTrain.getName ());
+						tToolTip = "Route is Too Long. Max length is " + tTrain.getName ();
+						disableSelectRouteButton (aTrainIndex, tToolTip);
+						updateNotificationLabel (tToolTip);
 					} else {
 						tRouteCode = tRouteInformation.isValidRoute ();
+						tWarningMessage = tRouteInformation.getWarningMessage ();
+						updateNotificationLabel (tWarningMessage);
 						if (tRouteCode == 1) {
 							enableSelectRouteButton (aTrainIndex, CONFIRM_ROUTE, CONFIRM_ROUTE_ACTION, "Confirm Route");
 						} else {
@@ -780,9 +801,11 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 									break;
 								case -4:
 									tToolTip = "Route has a Loop that reuses the same Revenue Center";
+									updateNotificationLabel (tToolTip);
 									break;
 								case -5:
 									tToolTip = "Route is Blocked by other Corporation Stations";
+									updateNotificationLabel (tToolTip);
 									break;
 							}
 							disableSelectRouteButton (aTrainIndex, tToolTip);
@@ -834,6 +857,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 	
 	public void updateAllFrameButtons () {
+		updateNotificationLabel (NO_NOTIFICATION);
 		updateSelectRouteButtons ();
 		updateResetRouteButtons ();
 		udpateConfirmAllRoutesButton ();

@@ -31,6 +31,7 @@ public class RouteInformation {
 	final static AttributeName AN_SPECIAL_BONUS = new AttributeName ("specialBonus");
 	final static AttributeName AN_PHASE = new AttributeName ("phase");
 	public static RouteInformation NO_ROUTE_INFORMATION = null;
+	private String NO_MESSAGE = "";
 	Train train;		// Reference to actual Train
 	int trainIndex;		// Index for Train within TrainPortfolio
 	Color color;		// Route Color
@@ -43,7 +44,8 @@ public class RouteInformation {
 	ArrayList<RevenueCenter> revenueCenters;
 	TrainRevenueFrame trainRevenueFrame;
 	TrainCompany trainCompany;
-	
+	String warningMessage;
+
 	// Collection of Route Segments
 	public RouteInformation (Train aTrain, int aTrainIndex, Color aColor, String aRoundID, int aRegionBonus, 
 				int aSpecialBonus, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
@@ -59,6 +61,7 @@ public class RouteInformation {
 		setTrainRevenueFrame (aTrainRevenueFrame);
 		routeSegments = new ArrayList<RouteSegment> ();
 		revenueCenters = new ArrayList<RevenueCenter> ();
+		clearWarningMessage ();
 	}
 
 	public RouteInformation (Train aTrain, XMLNode aRouteNode) {
@@ -739,6 +742,7 @@ public class RouteInformation {
 		tPreviousSegment = getRouteSegment (tSegmentCount - 1);
 		tCurrentMapCell = aRouteSegment.getMapCell ();
 		tPreviousMapCell = tPreviousSegment.getMapCell ();
+		clearWarningMessage ();
 		if (tCurrentMapCell.isNeighbor (tPreviousMapCell)) {
 			if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
 				tPreviousEndLocation = tPreviousSegment.getEndLocation ();
@@ -758,27 +762,41 @@ public class RouteInformation {
 						tNewPreviousSegment.setTrainOnTrack (tTrack, tTrainNumber);
 						tAddNewPreviousSegment = true;
 					} else {
-						System.err.println ("Previous Map Cell's Track is in Use (1)");
+						warningMessage = "Previous Map Cell's Track is in Use";
+						System.err.println (warningMessage);
 					}
 				} else {
 					tCurrentCellNeighborSide = tPreviousMapCell.getSideToNeighbor (tCurrentMapCell);
 					if (tCurrentCellNeighborSide != tPreviousEnd) {
-						System.err.println ("Previous Map Cell Track ended on " + tPreviousEnd + 
-								" Current Map Cell track connects to "+ tCurrentCellNeighborSide);
+						warningMessage = "Previous Map Cell Track ended on " + tPreviousEnd + 
+								" Current Map Cell track connects to "+ tCurrentCellNeighborSide;
+						System.err.println (warningMessage);
 					} else {
 						tAddNewPreviousSegment = true;
 					}
 				}
 			} else {
-				System.err.println ("No connecting Track between MapCell " + tPreviousMapCell.getCellID () + " and " + tCurrentMapCell.getCellID ());
+				warningMessage = "No connecting Track between MapCell " + tPreviousMapCell.getCellID () + 
+						" and " + tCurrentMapCell.getCellID ();
+				System.err.println (warningMessage);
 			}
 		} else {
-			System.err.println ("MapCell " + tPreviousMapCell.getCellID () + " and " + tCurrentMapCell.getCellID () + " are not Neighbors");
+			warningMessage = "MapCell " + tPreviousMapCell.getCellID () + " and " + 
+					tCurrentMapCell.getCellID () + " are not Neighbors";
+			System.err.println (warningMessage);
 		}
 		
 		return tAddNewPreviousSegment;
 	}
 
+	public String getWarningMessage () {
+		return warningMessage;
+	}
+	
+	public void clearWarningMessage () {
+		warningMessage = NO_MESSAGE;
+	}
+	
 	private boolean addNextRouteSegment (RouteSegment aRouteSegment, int aCorpID, RouteAction aRouteAction) {
 		boolean tAddNextRouteSegment = false;
 		int tCurrentSide;
@@ -844,6 +862,7 @@ public class RouteInformation {
 		tPreviousSegment = getRouteSegment (tSegmentCount - 1);
 		tCurrentMapCell = aRouteSegment.getMapCell ();
 		tPreviousMapCell = tPreviousSegment.getMapCell ();
+		clearWarningMessage ();
 		if (tCurrentMapCell.isNeighbor (tPreviousMapCell)) {
 			
 			if (tCurrentMapCell.hasConnectingTrackTo (tPreviousMapCell)) {
@@ -855,16 +874,23 @@ public class RouteInformation {
 						tFillEndPoint = setTrainOn (aRouteAction, tPreviousSegment, tPreviousMapCell,
 								tPreviousSide, tPreviousStart);
 					} else {
-						System.err.println ("Previous Map Cell's Tile does not have Track Segment between " + tPreviousSide + " and " + tPreviousStart);
+						warningMessage = "Previous Map Cell's Tile does not have Track Segment between " + 
+									tPreviousSide + " and " + tPreviousStart;
+						System.err.println (warningMessage);
 					}
 				} else {
-					System.err.println ("The Previous End is not NO_LOCATION - it is " + tPreviousEnd);
+					warningMessage = "The Previous End is not NO_LOCATION - it is " + tPreviousEnd;
+					System.err.println (warningMessage);
 				}
 			} else {
-				System.err.println ("No connecting Track between MapCell " + tPreviousMapCell.getCellID () + " and " + tCurrentMapCell.getCellID ());
+				warningMessage = "No connecting Track between MapCell " +
+						tPreviousMapCell.getCellID () + " and " + tCurrentMapCell.getCellID ();
+				System.err.println (warningMessage);
 			}
 		} else {
-			System.err.println ("MapCell " + tPreviousMapCell.getCellID () + " and " + tCurrentMapCell.getCellID () + " are not Neighbors");
+			warningMessage = "MapCell " + tPreviousMapCell.getCellID () + " and " + 
+						tCurrentMapCell.getCellID () + " are not Neighbors";
+			System.err.println (warningMessage);
 		}
 		
 		return tFillEndPoint;
@@ -879,6 +905,7 @@ public class RouteInformation {
 		boolean tFillEndPoint = false;
 		
 		tTrack = aPreviousMapCell.getTrackFromStartToEnd (aPreviousStart, aPreviousSide);
+		clearWarningMessage ();
 		if (tTrack != Track.NO_TRACK) {
 			if (! tTrack.isTrackUsed ()) {
 				tTrainNumber = getTrainIndex () + 1;
@@ -892,11 +919,14 @@ public class RouteInformation {
 				aPreviousSegment.setTrainOnTrack (tTrack, tTrainNumber);
 				tFillEndPoint = true;
 			} else {
-				System.err.println ("Previous Map Cell's Track is in Use (2)");
+				warningMessage = "Previous Map Cell's Track is in Use";
+				System.err.println (warningMessage);
 			}
 		} else {
-			System.err.println ("No Track Found from " + aPreviousStart + " to " + aPreviousSide + 
-					" on MapCell " + aPreviousMapCell.getID () + " with Tile " + aPreviousMapCell.getTileNumber ());
+			warningMessage = "No Track Found from " + aPreviousStart + 
+					" to " + aPreviousSide + " on MapCell " + aPreviousMapCell.getID () + 
+					" with Tile " + aPreviousMapCell.getTileNumber ();
+			System.err.println (warningMessage);
 		}
 
 		return tFillEndPoint;
