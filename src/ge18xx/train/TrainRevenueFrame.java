@@ -69,7 +69,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JButton cancel;
 	JButton [] selectRoutes;
 	JButton [] resetRoutes;
-	JButton [] resuseRoutes;
+	JButton [] reuseRoutes;
 	JPanel allFramesJPanel;
 	JPanel allRevenuesJPanel;
 	JPanel buttonsJPanel;
@@ -99,7 +99,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		totalRevenueByEachTrain = new JLabel [maxTrainCount];
 		selectRoutes = new JButton [maxTrainCount];
 		resetRoutes = new JButton [maxTrainCount];
-		resuseRoutes = new JButton [maxTrainCount];
+		reuseRoutes = new JButton [maxTrainCount];
 		pack ();
 		updateFrameSize ();
 		setYourCompany (true);
@@ -538,8 +538,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updateResetRouteButton (aTrainIndex);
 		tTrainRevenueJPanel.add (resetRoutes [aTrainIndex]);
 		tTrainRevenueJPanel.add (Box.createHorizontalStrut (5));
-		resuseRoutes [aTrainIndex] = setupButton (REUSE_ROUTE, REUSE_ROUTE_ACTION);
-		tTrainRevenueJPanel.add (resuseRoutes [aTrainIndex]);
+		reuseRoutes [aTrainIndex] = setupButton (REUSE_ROUTE, REUSE_ROUTE_ACTION);
+		tTrainRevenueJPanel.add (reuseRoutes [aTrainIndex]);
 		tTrainRevenueJPanel.add (Box.createHorizontalStrut (10));
 		
 		return tTrainRevenueJPanel;
@@ -569,17 +569,17 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		}
 	}
 	
-	public void disableAllResetRoutes (String aToolTipText) {
-		int tTrainIndex, tTrainCount;
-		
-		tTrainCount = trainCompany.getTrainCount ();
-
-		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
-			// TODO: Test for NULL Train
-			resetRoutes [tTrainIndex].setEnabled (false);
-			resetRoutes [tTrainIndex].setToolTipText (aToolTipText);
-		}
-	}
+//	private void disableAllResetRoutes (String aToolTipText) {
+//		int tTrainIndex, tTrainCount;
+//		
+//		tTrainCount = trainCompany.getTrainCount ();
+//
+//		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+//			// TODO: Test for NULL Train
+//			resetRoutes [tTrainIndex].setEnabled (false);
+//			resetRoutes [tTrainIndex].setToolTipText (aToolTipText);
+//		}
+//	}
 	
 	public void updateRevenues (RouteInformation aRouteInformation) {
 		int tTrainIndex;
@@ -878,6 +878,16 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		resetRoutes [aTrainIndex].setToolTipText (aToolTipText);
 	}
 	
+	private void disableReuseRouteButton (int aTrainIndex, String aToolTipText) {
+		reuseRoutes [aTrainIndex].setEnabled (false);
+		reuseRoutes [aTrainIndex].setToolTipText (aToolTipText);
+	}
+	
+	private void enableReuseRouteButton (int aTrainIndex, String aToolTipText) {
+		reuseRoutes [aTrainIndex].setEnabled (true);
+		reuseRoutes [aTrainIndex].setToolTipText (aToolTipText);
+	}
+	
 	private boolean isValidIndex (int aTrainIndex) {
 		return (aTrainIndex >= 0) && (aTrainIndex < trainCompany.getTrainCount ());
 	}
@@ -886,11 +896,12 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updateNotificationLabel (NO_NOTIFICATION);
 		updateSelectRouteButtons ();
 		updateResetRouteButtons ();
+		updateReuseRouteButtons ();
 		udpateConfirmAllRoutesButton ();
 		updateCancelButton ();
 	}
 	
-	public void updateSelectRouteButtons () {
+	private void updateSelectRouteButtons () {
 		int tTrainIndex;
 	
 		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
@@ -910,6 +921,16 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		}
 	}
 	
+	private void updateReuseRouteButtons () {
+		int tTrainIndex;
+	
+		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
+			if (reuseRoutes [tTrainIndex] != null) {
+				updateReuseRouteButton (tTrainIndex);
+			}
+		}
+	}
+	
 	public boolean totalRevenueIsZero (int aTrainIndex) {
 		boolean tTotalRevenueIsZero = false;
 		String tTotalRevenueForTrain;
@@ -920,6 +941,26 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		}
 		
 		return tTotalRevenueIsZero;
+	}
+	
+	private void updateReuseRouteButton (int aTrainIndex) {
+		Train tTrain;
+		RouteInformation tPreviousRouteInformation;
+		
+		if (isValidIndex (aTrainIndex)) {
+			if (isYourCompany ()) {
+				tTrain = trainCompany.getTrain (aTrainIndex);
+				disableReuseRouteButton (aTrainIndex, "Code not working yet");
+				tPreviousRouteInformation = tTrain.getPreviousRouteInformation ();
+				if (tPreviousRouteInformation == RouteInformation.NO_ROUTE_INFORMATION) {
+					disableReuseRouteButton (aTrainIndex, "No Previous Route Found to use");
+				} else {
+					System.out.println ("NO Previous Route Info " + 
+							tPreviousRouteInformation.getRouteCityCount ());
+					disableReuseRouteButton (aTrainIndex, "Code not working yet");
+				}
+			}
+		}
 	}
 	
 	public void updateResetRouteButton (int aTrainIndex) {
