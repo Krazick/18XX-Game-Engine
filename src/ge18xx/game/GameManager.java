@@ -1263,6 +1263,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		networkSavedGames = new SavedGames (aNetworkSavedGames, this);
 		tAutoSavesDir = constructAutoSaveNetworkDir (AUTO_SAVES_DIR);
 		networkSavedGames.setAllLocalAutoSaveFound (tAutoSavesDir);
+		// TODO Have this method call build the Panel in this package (maybe part of SavedGames?)
+		// Call the JGameClient to set the networkSavedGamesPanel that is built. 
 		networkJGameClient.buildNetworkSGPanel (networkSavedGames);
 	}
 	

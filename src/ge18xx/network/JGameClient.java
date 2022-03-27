@@ -38,6 +38,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 
+// TODO Work out ways to remove imports that refer to ge18xx Packages
+// Intention here is to break out ge18xx.utilities to it's own JAR File first
+// And then have the ge18xx.network to it's own JAR File that requires the utilities JAR.
 import ge18xx.game.GameManager;
 import ge18xx.game.GameSet;
 import ge18xx.game.SavedGame;
@@ -1345,6 +1348,10 @@ public class JGameClient extends XMLFrame {
 		return tLastAction;
 	}
 	
+	// TODO Extract the method building the Saved Game Panel to separate Class, 
+	// into the ge18xx.game Package
+	// Take along Subroutines with it.
+	// Leave new method to set the networkSavedGames JPanel
 	public void buildNetworkSGPanel (SavedGames aNetworkSavedGames) {
 		JLabel tPanelTitle;
 		int tSavedGameCount;
