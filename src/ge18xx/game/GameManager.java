@@ -916,7 +916,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return privatesFrame;
 	}
 
-	@Override
 	public RoundManager getRoundManager () {
 		return roundManager;
 	}
@@ -2359,15 +2358,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 		return tTotalCash;
 	}
-	
-	@Override
-	public Player getClientPlayer () {
-		Player tPlayer = Player.NO_PLAYER;
-		
-		tPlayer = playerManager.getPlayer (clientUserName);
-		
-		return tPlayer;
-	}
 
 	public void hideAuctionFrame () {
 		auctionFrame.hideAuctionFrame ();
@@ -2385,7 +2375,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		boolean tIsClientCurrentPlayer = false;
 		Player tCurrentPlayer, tClientPlayer;
 		
-		tClientPlayer = getClientPlayer ();
+		tClientPlayer = playerManager.getPlayer (clientUserName);
 		tCurrentPlayer = playerManager.getCurrentPlayer ();
 		if (tClientPlayer.equals (tCurrentPlayer)) {
 			tIsClientCurrentPlayer = true;
