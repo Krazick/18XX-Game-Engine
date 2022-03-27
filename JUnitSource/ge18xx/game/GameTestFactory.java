@@ -2,8 +2,6 @@ package ge18xx.game;
 
 import org.mockito.Mockito;
 
-//import ge18xx.company.PrivateCompany;
-//import ge18xx.company.benefit.MapBenefit;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
@@ -97,4 +95,4 @@ public class GameTestFactory {
 		
 		return tGameInfo;
 	}
-	}
+}
