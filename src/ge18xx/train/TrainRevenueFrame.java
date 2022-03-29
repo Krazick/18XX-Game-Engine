@@ -734,7 +734,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tTrainCount = trainCompany.getTrainCount ();
 		tMaxTrainSize = trainCompany.getMaxTrainSize ();
 		tWidth = 530 + tMaxTrainSize * 50;
-		tHeight = 210 + (tTrainCount * 40);
+		tHeight = 200 + (tTrainCount * 57);
 		setSize (tWidth, tHeight);
 	}
 	
@@ -950,7 +950,10 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		if (isValidIndex (aTrainIndex)) {
 			if (isYourCompany ()) {
 				tTrain = trainCompany.getTrain (aTrainIndex);
+				// Temporary until this routine built out
+				enableReuseRouteButton (aTrainIndex, "Ready to use");
 				disableReuseRouteButton (aTrainIndex, "Code not working yet");
+				
 				tPreviousRouteInformation = tTrain.getPreviousRouteInformation ();
 				if (tPreviousRouteInformation == RouteInformation.NO_ROUTE_INFORMATION) {
 					disableReuseRouteButton (aTrainIndex, "No Previous Route Found to use");
