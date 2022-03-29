@@ -3,7 +3,6 @@ package ge18xx.tiles;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
-import ge18xx.train.Train;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -706,6 +705,42 @@ public class Track implements Cloneable {
 		return aLocation;
 	}
 	
+	public Color getColor (int aTrainNumber) {
+		Color color;
+		
+		switch (aTrainNumber) {
+            case (1):		
+				color = Color.green;
+				break;
+				
+            case (2):		
+				color = Color.orange;
+				break;
+					
+			case (3):		
+				color = Color.red;
+				break;
+						
+			case (4):		
+				color = Color.magenta;
+				break;
+				
+			case (5):		
+				color = Color.cyan;
+				break;
+				
+			case (6):		
+				color = Color.pink;
+				break;
+				
+			default:		
+				color = Color.black;
+				break;
+        }
+		
+		return color;
+	}
+
 	public Color getColor (Color aBaseColor) {
 		if (gauge.isOverpass () || gauge.isFerryBase ()) {
 			return aBaseColor;
@@ -713,7 +748,7 @@ public class Track implements Cloneable {
 			if (trainNumberUsing == NO_TRAIN) {
 				return gauge.getColor ();
 			} else {
-				return (new Train ().getColor (trainNumberUsing));
+				return (getColor (trainNumberUsing));
 			}
 		}
 	}
