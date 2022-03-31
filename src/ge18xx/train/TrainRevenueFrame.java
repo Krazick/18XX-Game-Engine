@@ -31,6 +31,15 @@ import javax.swing.JTextField;
 
 import org.apache.logging.log4j.Logger;
 
+/**
+ * This class manages the Train Revenue Frame that will show all of the trains the company owns, and allows you to
+ * operate the train. The Revenues the train produces will be shown in the Frame. It allows the Route to be reset,
+ * and reuse the previous route run by the train.
+ * 
+ * @author Mark J Smith
+ * @version 1.0
+ *
+ */
 public class TrainRevenueFrame extends JFrame implements ActionListener, PropertyChangeListener,
 		ItemListener {
 
@@ -80,6 +89,14 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	boolean yourCompany;
 	boolean frameSetup;
 	Logger logger;
+	
+	/**
+	 * This will construct the basic Train Revenue Frame
+	 * 
+	 * @param aTrainCompany
+	 * @param aTitle
+	 * @throws HeadlessException
+	 */
 	
 	public TrainRevenueFrame (TrainCompany aTrainCompany, String aTitle) throws HeadlessException {
 		super (aTitle);
@@ -244,24 +261,29 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		int tAllTrainRevenue;
+		String tActionCommand;
 		
-		if (CONFIRM_ALL_REVENUES_ACTION.equals (aEvent.getActionCommand ())) {
+		tActionCommand = aEvent.getActionCommand ();
+		if (CONFIRM_ALL_REVENUES_ACTION.equals (tActionCommand)) {
 			tAllTrainRevenue = addAllTrainRevenues ();
 			trainCompany.setThisRevenue (tAllTrainRevenue);
 			trainCompany.trainsOperated (tAllTrainRevenue);
 			setVisible (false);
 		}
-		if (CANCEL_ACTION.equals (aEvent.getActionCommand ())) {
+		if (CANCEL_ACTION.equals (tActionCommand)) {
 			handleCancelAction ();
 		}
-		if (SELECT_ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
+		if (SELECT_ROUTE_ACTION.equals (tActionCommand)) {
 			handleSelectRoute (aEvent);
 		}
-		if (CONFIRM_ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
+		if (CONFIRM_ROUTE_ACTION.equals (tActionCommand)) {
 			handleConfirmRoute (aEvent);
 		}
-		if (RESET_ROUTE_ACTION.equals (aEvent.getActionCommand ())) {
+		if (RESET_ROUTE_ACTION.equals (tActionCommand)) {
 			handleResetRoute (aEvent);
+		}
+		if (REUSE_ROUTE_ACTION.equals (tActionCommand)) {
+			handleReuseRoute (aEvent);
 		}
 	}
 
@@ -353,7 +375,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		}	
 	}
 	
-	public void handleConfirmRoute (ActionEvent aConfirmRouteEvent) {
+	private void handleConfirmRoute (ActionEvent aConfirmRouteEvent) {
 		JButton tConfirmRouteButton = (JButton) aConfirmRouteEvent.getSource ();
 		int tTrainIndex, tTrainCount;
 		Train tTrain;
@@ -372,7 +394,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updateAllFrameButtons ();
 	}
 
-	public void handleResetRoute (ActionEvent aResetRouteEvent) {
+	private void handleResetRoute (ActionEvent aResetRouteEvent) {
 		JButton tResetRouteButton = (JButton) aResetRouteEvent.getSource ();
 		int tTrainIndex, tTrainCount;
 		
@@ -386,6 +408,11 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updateAllFrameButtons ();
 	}
 
+	private void handleReuseRoute (ActionEvent aReuseRouteEvent) {
+		System.out.println ("Ready to handle Reuse Route");
+		
+	}
+	
 	private void resetTrainRoute (int aTrainIndex) {
 		Train tTrain;
 		
@@ -393,7 +420,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		clearRevenuesFromTrain (aTrainIndex, tTrain);
 		clearRouteFromTrain (tTrain);
 		tTrain.setOperating (false);
-		tTrain.setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 	}
 			
 	private void fillRevenueForTrain (RouteInformation aRouteInformation, Train aTrain, int aTrainIndex) {
@@ -447,6 +473,12 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		aResetRouteButton.setToolTipText (aToolTipText);
 	}
 	
+	/**
+	 * This returns the sum of all of the trains the company owns that have been collected by the trains
+	 * 
+	 * @return the Total of all Trains revenues
+	 */
+	
 	public int addAllTrainRevenues () {
 		int tAllTrainRevenues, tTrainCount, tTrainIndex, tCityCount, tTrainRevenue;
 		Train tTrain;
@@ -462,6 +494,15 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		
 		return tAllTrainRevenues;
 	}
+	
+	/**
+	 * This returns the sum of a single Train Revenues, provided the Train Index and the count of the cities
+	 * The actual Revenue values summed are from the Train Revenue Frame Labels filled with the Revenues
+	 * 
+	 * @param aTrainIndex The index of which train to sum up
+	 * @param aCityCount The total number of Revenue Fields to sum up
+	 * @return Total Revenue value of the RevenueLabels for the specific train
+	 */
 	
 	public int addTrainRevenues (int aTrainIndex, int aCityCount) {
 		int tTotalRevenue, tCityIndex;
@@ -482,7 +523,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		return tTotalRevenue;
 	}
 	
-	public void buildRevenuesJPanel () {
+	private void buildRevenuesJPanel () {
 		int tTrainCount, tTrainIndex;
 		JPanel tTrainRevenueJPanel;
 		
@@ -539,6 +580,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tTrainRevenueJPanel.add (resetRoutes [aTrainIndex]);
 		tTrainRevenueJPanel.add (Box.createHorizontalStrut (5));
 		reuseRoutes [aTrainIndex] = setupButton (REUSE_ROUTE, REUSE_ROUTE_ACTION);
+		updateReuseRouteButton (aTrainIndex);
 		tTrainRevenueJPanel.add (reuseRoutes [aTrainIndex]);
 		tTrainRevenueJPanel.add (Box.createHorizontalStrut (10));
 		
@@ -599,9 +641,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		setLastRevenue (trainCompany.getLastRevenue ());
 		setThisRevenue (trainCompany.getThisRevenue ());
 		updateInfo ();
-		copyAllRoutesToPrevious ();
-		clearAllTrainRoutes ();
-		clearAllRevenueValues ();
+		if (! trainCompany.isOperatingTrains ()) {
+			clearAllRevenueValues ();
+		}
 		setLocation (aFrameOffset);
 		setYourCompany (true);
 		setVisible (true);
@@ -953,12 +995,12 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				// Temporary until this routine built out
 				enableReuseRouteButton (aTrainIndex, "Ready to use");
 				disableReuseRouteButton (aTrainIndex, "Code not working yet");
-				
 				tPreviousRouteInformation = tTrain.getPreviousRouteInformation ();
+				System.out.println ("For " + trainCompany.getAbbrev () + " Train Index " + aTrainIndex + " Size " + tTrain.getCityCount ());
 				if (tPreviousRouteInformation == RouteInformation.NO_ROUTE_INFORMATION) {
 					disableReuseRouteButton (aTrainIndex, "No Previous Route Found to use");
 				} else {
-					System.out.println ("NO Previous Route Info " + 
+					System.out.println ("Previous Route Info Found for Train Index " + aTrainIndex + " Size " + 
 							tPreviousRouteInformation.getRouteCityCount ());
 					disableReuseRouteButton (aTrainIndex, "Code not working yet");
 				}
