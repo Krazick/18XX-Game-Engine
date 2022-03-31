@@ -87,6 +87,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	int value;
 	boolean mustBuyTrain;
 	boolean hasLaidTile;
+	boolean isOperatingTrains;
 	PurchaseOffer purchaseOffer;
 	
 	public TrainCompany () {
@@ -118,6 +119,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		value = aCost;
 		setThisRevenue (NO_REVENUE_GENERATED);
 		setLastRevenue (NO_REVENUE_GENERATED);
+		setIsOperatingTrains (false);
 		if (aID != Corporation.NO_ID) {
 			setupTrainRevenueFrame ();
 			setCorporationFrame ();
@@ -1071,6 +1073,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tGameManager = corporationList.getGameManager ();
 		tFrameOffset = tGameManager.getOffsetCorporationFrame ();
 		trainRevenueFrame.operateTrains (tFrameOffset);
+		setIsOperatingTrains (true);
+	}
+	
+	public void setIsOperatingTrains (boolean aIsOperatingTrains) {
+		isOperatingTrains = aIsOperatingTrains;
+	}
+	
+	public boolean isOperatingTrains () {
+		return isOperatingTrains;
 	}
 	
 	@Override
@@ -1509,6 +1520,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			System.err.println ("--> Failure to update State to Operated Trains");
 		}
 		corporationFrame.updateInfo ();	
+		setIsOperatingTrains (false);
 	}
 	
 	@Override
