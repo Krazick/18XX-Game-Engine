@@ -1791,7 +1791,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			trainRevenueFrame.setLocation (tFrameOffset);
 		}
 		trainRevenueFrame.updateInfo ();
-		trainRevenueFrame.disableAll (aTrainIndex);
+		trainRevenueFrame.disableAll ();
 		trainRevenueFrame.setVisible (true);
 	}
 	
