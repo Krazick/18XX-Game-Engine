@@ -527,12 +527,6 @@ public class Train implements Comparable<Object> {
 	}
 	
 	public boolean isOperating () {
-//		boolean tIsOperating = false;
-//		
-//		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-//			tIsOperating = operating;
-//		}
-		
 		return operating;
 	}
 	
