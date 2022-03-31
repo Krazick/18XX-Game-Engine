@@ -706,7 +706,7 @@ public class RouteInformation {
 
 	public void updateRevenueFrame () {
 		trainRevenueFrame.updateRevenues (this);
-		trainRevenueFrame.updateResetRouteButtons ();
+		trainRevenueFrame.updateAllFrameButtons ();
 	}
 
 	public void updateRevenueCenterInfo (int aCorpID, RouteSegment aLastRouteSegment, 
