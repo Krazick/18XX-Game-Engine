@@ -64,6 +64,12 @@ public class RouteInformation {
 		clearWarningMessage ();
 	}
 
+	public RouteInformation (RouteInformation aRouteInformation, String aRoundID, int aPhase) {
+		this (aRouteInformation.getTrain (), aRouteInformation.getTrainIndex (), aRouteInformation.getColor (),
+				aRoundID, aRouteInformation.getRegionBonus (), aRouteInformation.getSpecialBonus (), aPhase, 
+				aRouteInformation.getTrainCompany (), aRouteInformation.getTrainRevenueFrame ());
+	}
+	
 	public RouteInformation (Train aTrain, XMLNode aRouteNode) {
 		XMLNodeList tXMLNodeList;
 		String tTrainName, tProvidedTrainName;
@@ -168,6 +174,10 @@ public class RouteInformation {
 	
 	public void setTrainRevenueFrame (TrainRevenueFrame aTrainRevenueFrame) {
 		trainRevenueFrame = aTrainRevenueFrame;
+	}
+	
+	public TrainCompany getTrainCompany () {
+		return trainCompany;
 	}
 	
 	public TrainRevenueFrame getTrainRevenueFrame () {
