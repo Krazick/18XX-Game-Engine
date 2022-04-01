@@ -2,10 +2,13 @@ package ge18xx.train;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
+import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
+import ge18xx.map.HexMap;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ClearAllRoutesAction;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.GUI;
 
 import java.awt.Color;
@@ -432,19 +435,19 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 	
 	// Steps needed:
-	// 1. Clone the Previous Route into a new Current Route Object
-	// 2. Highlight the Current Route on the Map Frame, Tile by Tile, Track by Track
-	// 3. Fill the Train Revenue Frame with the Revenues for the Route
-	// 4. Create new RouteAction, with all of the Effects to allow all tiles, tracks, revenue centers to be filled
-	//    just as if they were selected tile by tile, track by track, center by center with the mouse
-	// 5. The RouteAction should not need "Cycle Route Effects", but every extendRouteEffect should be included 
-	//    in the single Route Action
-	// 6. Add the RouteAction
-	//		a. If this is a Network Game, this action should be sent to other Clients
-	// 7. Optional: Allow for route Extension, by selecting a cell, and code should find which end of the route
-	//    to Extend
-	// 8. Verify that none of the Track Segments on the Route has been marked as in-use (ie the Operator runs a
-	//    different train first manually, and then tried to Reuse a Route flagged for the train).
+	// ** 1. Clone the Previous Route into a new Current Route Object
+	// ** 2. Highlight the Current Route on the Map Frame, Tile by Tile, Track by Track
+	// ** 3. Fill the Train Revenue Frame with the Revenues for the Route
+	//    4. Create new RouteAction, with all of the Effects to allow all tiles, tracks, revenue centers to be filled
+	//       just as if they were selected tile by tile, track by track, center by center with the mouse
+	//    5. The RouteAction should not need "Cycle Route Effects", but every extendRouteEffect should be included 
+	//       in the single Route Action
+	//    6. Add the RouteAction
+	//		 a. If this is a Network Game, this action should be sent to other Clients
+	//    7. Optional: Allow for route Extension, by selecting a cell, and code should find which end of the route
+	//       to Extend
+	//    8. Verify that none of the Track Segments on the Route has been marked as in-use (ie the Operator runs a
+	//       different train first manually, and then tried to Reuse a Route flagged for the train).
 	
 	// If a Tile on the Route being re-used has been upgraded, then:
 	//    1. If this upgrade has a Revenue Center where the Revenue Value has increased, be sure use higher value
@@ -454,27 +457,51 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	// The Route must be validated to confirm it is open for the company to operate (not blocked by Station Markers)
 	
 	private void reuseTrainRoute (int aTrainIndex) {
+		Train tTrain;
+		
+		tTrain = trainCompany.getTrain (aTrainIndex);
+		setupNewRouteInformation (tTrain);
+		highlightRouteSegments (tTrain);
+	}
+	
+	private void highlightRouteSegments (Train aTrain) {
+		RouteInformation tRouteInformation;
+		MapFrame tMapFrame;
+		GameManager tGameManager;
+		HexMap tMap;
+		
+		tGameManager = trainCompany.getGameManager ();
+		tMapFrame = tGameManager.getMapFrame ();
+		tMap = tMapFrame.getMap ();
+		tRouteInformation = aTrain.getCurrentRouteInformation ();
+		tRouteInformation.highlightRouteSegments (tMap);
+	}
+	
+	private void setupNewRouteInformation (Train aTrain) {
 		RouteInformation tRouteInformation;
 		RouteInformation tRouteToReuse;
-		Train tTrain;
 		String tRoundID;
 		int tPhase;
 		PhaseInfo tPhaseInfo;
 		
-		tTrain = trainCompany.getTrain (aTrainIndex);
-		tRouteToReuse = tTrain.getPreviousRouteInformation ();
+		tRouteToReuse = aTrain.getPreviousRouteInformation ();
 		tRoundID = trainCompany.getOperatingRoundID ();
 		tPhaseInfo = trainCompany.getCurrentPhaseInfo ();
 		tPhase = tPhaseInfo.getName ();
 		tRouteInformation = new RouteInformation (tRouteToReuse, tRoundID, tPhase);
 		
-		System.out.println ("Reuse Route for Train Index " + aTrainIndex + " Old Round ID " + 
+		System.out.println ("Reuse Route for a " + aTrain.getName () + " Train, Old Round ID " + 
 					tRouteToReuse.getRoundID () + " Phase " + tRouteToReuse.getPhase () +
 					" New RoundID " + tRouteInformation.getRoundID () + " Phase " + tRouteInformation.getPhase ()
 					);
-
+		tRouteInformation.copyRouteSegments (tRouteToReuse);
+		System.out.println ("Old Route Segment:");
+		tRouteToReuse.printDetail ();
+		System.out.println ("New Route Segment:");
+		tRouteInformation.printDetail ();
+		aTrain.setCurrentRouteInformation (tRouteInformation);
 	}
-	
+
 	private void resetTrainRoute (int aTrainIndex) {
 		Train tTrain;
 		

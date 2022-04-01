@@ -7,6 +7,7 @@ import org.w3c.dom.NodeList;
 
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.TrainCompany;
+import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.RouteAction;
@@ -150,6 +151,19 @@ public class RouteInformation {
 		}
 	}
 	
+	public void copyRouteSegments (RouteInformation aRouteToCopyFrom) {
+		int tSegmentCount, tSegmentIndex;
+		RouteSegment tNewRouteSegment;
+		RouteSegment tOldSegment;
+		
+		tSegmentCount = aRouteToCopyFrom.getSegmentCount ();
+		for (tSegmentIndex = 0; tSegmentIndex < tSegmentCount; tSegmentIndex++) {
+			tOldSegment = aRouteToCopyFrom.getRouteSegment (tSegmentIndex);
+			tNewRouteSegment = new RouteSegment (tOldSegment);
+			addRouteSegment (tNewRouteSegment, RouteAction.NO_ROUTE_ACTION);
+		}
+	}
+	
 	public void loadRouteForTrain (XMLNode aRouteSegmentNode, ElementName aElementName, Train aTrain) {
 		XMLNodeList tXMLNodeList;
 		
@@ -171,6 +185,17 @@ public class RouteInformation {
 			
 		}
 	};
+	
+	public void highlightRouteSegments (HexMap aMap) {
+		int tSegmentCount, tSegmentIndex;
+		RouteSegment tRouteSegment;
+		
+		tSegmentCount = getSegmentCount ();
+		for (tSegmentIndex = 0; tSegmentIndex < tSegmentCount; tSegmentIndex++) {
+			tRouteSegment = getRouteSegment (tSegmentIndex);
+			tRouteSegment.setTrainOn (trainIndex + 1);
+		}
+	}
 	
 	public void setTrainRevenueFrame (TrainRevenueFrame aTrainRevenueFrame) {
 		trainRevenueFrame = aTrainRevenueFrame;

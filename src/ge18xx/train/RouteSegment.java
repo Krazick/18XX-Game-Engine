@@ -5,6 +5,7 @@ import org.w3c.dom.NodeList;
 
 import ge18xx.center.RevenueCenter;
 import ge18xx.game.Game_18XX;
+import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Gauge;
@@ -41,20 +42,33 @@ public class RouteSegment {
 	public RouteSegment (MapCell aMapCell) {
 		NodeInformation tNodeInformation1;
 		NodeInformation tNodeInformation2;
-
-		setMapCell (aMapCell);
-		setTile (aMapCell.getTile ());
-		setCost (0);
+		Tile tTile;
+		Gauge tGauge;
 		
+		tTile = aMapCell.getTile ();
+		tGauge = new Gauge ();
 		tNodeInformation1 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER);
-		setStartNode (tNodeInformation1);
-		
 		tNodeInformation2 = new NodeInformation (new Location (), false, false, false, 0, 0, RevenueCenter.NO_CENTER);
-		setEndNode (tNodeInformation2);
-		setGauge (new Gauge ());
+		setValues (aMapCell, tTile, 0, tNodeInformation1, tNodeInformation2, tGauge);
 		setLogger ();
 	}
 
+	public void setValues (MapCell aMapCell, Tile aTile, int aCost, NodeInformation aNode1, NodeInformation aNode2, 
+				Gauge aGauge) {
+		setMapCell (aMapCell);
+		setTile (aTile);
+		setCost (0);
+		
+		setStartNode (aNode1);
+		setEndNode (aNode2);
+		setGauge (aGauge);
+	}
+	
+	public RouteSegment (RouteSegment aSegmentToCopyFrom) {
+		setValues (aSegmentToCopyFrom.getMapCell (), aSegmentToCopyFrom.getTile (), aSegmentToCopyFrom.getCost (), 
+				aSegmentToCopyFrom.getStartNode (), aSegmentToCopyFrom.getEndNode (), aSegmentToCopyFrom.getGauge ());
+	}
+	
 	public RouteSegment (XMLNode aRouteSegmentNode) {
 		String tMapCellID;
 		int tTileNumber, tCost, tGaugeInt;
@@ -99,6 +113,10 @@ public class RouteSegment {
 		}
 	}
 	
+	private Gauge getGauge () {
+		return gauge;
+	}
+	
 	private void setGauge (Gauge aGauge) {
 		gauge = aGauge;
 	}
@@ -118,6 +136,33 @@ public class RouteSegment {
 	
 	public String getMapCellID () {
 		return mapCellID;
+	}
+	
+	public void highlightRouteSegment (HexMap aMap, int aTrainIndex) {
+//		MapCell tMapCell;
+//		String tMapCellID;
+//		Track tTrack;
+//		Location tStart, tEnd;
+
+//		tMapCellID = getMapCellID ();
+//		tMapCell = aMap.getMapCellForID (tMapCellID);
+//		tStart = getStartLocation ();
+//		tEnd = getEndLocation ();
+		
+//		tTrack = tMapCell.getTrackFromStartToEnd (tStart.getLocation (), tEnd.getLocation ());
+//		if (tTrack != Track.NO_TRACK) {
+//			System.out.println ("Track Found for " + tMapCellID + " Starting from " + tStart.getLocation () + " to " + tEnd.getLocation ());
+//		} else {
+//			tTrack = tMapCell.getTrackFromStartToEnd (tEnd.getLocation (), tStart.getLocation ());
+//			if (tTrack != Track.NO_TRACK) {
+//				System.out.println ("Track Found for " + tMapCellID + " Ending at " + tEnd.getLocation () + " Starting From " + tStart.getLocation ());
+//				setTrainOnTrack (tTrack, aTrainIndex);
+//			} else {
+//				System.out.println ("NO Track Found on " + tMapCellID + " Starting from " + tStart.getLocation () + " to " + tEnd.getLocation ());
+//				setTrainOnTrack (tTrack, aTrainIndex);
+//			}
+//		}
+
 	}
 	
 	public boolean validSegment () {
