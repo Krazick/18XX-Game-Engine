@@ -1042,6 +1042,7 @@ public class PlayerManager {
 	ParsingRoutineI playerParsingRoutine  = new ParsingRoutineIO ()  {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aPlayerNode) {
+			// Empty Stub for Interface Method
 			
 		}
 		
@@ -1051,6 +1052,12 @@ public class PlayerManager {
 
 			tPlayerName = aPlayerNode.getThisAttribute (AN_NAME);
 			addPlayer (tPlayerName);
+		}
+
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject1, Object aMetaObject2) {
+			// Empty Stub for Interface Method
+			
 		}
 	};
 

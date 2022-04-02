@@ -603,6 +603,13 @@ public class TrainPortfolio implements TrainHolderI {
 
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			// Empty Stub for Interface Method
+			
+		}
+
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject1, Object aMetaObject2) {
+			// Empty Stub for Interface Method
 			
 		}
 	};
@@ -640,28 +647,35 @@ public class TrainPortfolio implements TrainHolderI {
 	public void restoreTrain (XMLNode aTrainNode, int aTrainStatus, Train aTrain) {
 		aTrain.setStatus (aTrainStatus);
 		trains.add (aTrain);
-		loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE, aTrain);
-		loadRouteForTrain (aTrainNode, Train.EN_PREVIOUS_ROUTE, aTrain);
+		loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE);
+		loadRouteForTrain (aTrainNode, Train.EN_PREVIOUS_ROUTE);
 	}
 	
-	public void loadRouteForTrain (XMLNode aTrainNode, ElementName aElementName, Train aTrain) {
+	public void loadRouteForTrain (XMLNode aTrainNode, ElementName aElementName) {
 		XMLNodeList tXMLNodeList;
 		
-		tXMLNodeList = new XMLNodeList (trainRouteParsingRoutine, aTrain);
+		tXMLNodeList = new XMLNodeList (trainRouteParsingRoutine, this);
 		tXMLNodeList.parseXMLNodeList (aTrainNode, aElementName);
 	}
 	
 	ParsingRoutineIO trainRouteParsingRoutine  = new ParsingRoutineIO ()  {
 		@Override
-		public void foundItemMatchKey1 (XMLNode aRouteNode, Object aTrain) {
+		public void foundItemMatchKey1 (XMLNode aRouteNode, Object aTrain, Object aTrainPortfolio) {
 			Train tTrain;
+			TrainPortfolio tTrainPortfolio;
 			
 			tTrain = (Train) aTrain;
-			tTrain.loadRouteInformation (aRouteNode);
+			tTrainPortfolio = (TrainPortfolio) aTrainPortfolio;
+			tTrain.loadRouteInformation (aRouteNode, tTrain, tTrainPortfolio);
 		}
 
 		@Override
-		public void foundItemMatchKey1(XMLNode aChildNode) {
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			
+		}
+
+		@Override
+		public void foundItemMatchKey1(XMLNode aChildNode, Object aMetaObject) {
 			
 		}
 	};
@@ -677,6 +691,12 @@ public class TrainPortfolio implements TrainHolderI {
 
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			
+		}
+
+		@Override
+		public void foundItemMatchKey1(XMLNode aChildNode, Object aMetaObject1, Object aMetaObject2) {
+			// TODO Auto-generated method stub
 			
 		}
 	};

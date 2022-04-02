@@ -916,6 +916,13 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 		@Override
 		public void foundItemMatchKey1(XMLNode aChildNode) {
+			// Empty Stub for Interface Method
+			
+		}
+
+		@Override
+		public void foundItemMatchKey1(XMLNode aChildNode, Object aMetaObject1, Object aMetaObject2) {
+			// Empty Stub for Interface Method
 			
 		}
 	};
