@@ -10,7 +10,10 @@ import ge18xx.company.TrainCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
+import ge18xx.player.CashHolderI;
+import ge18xx.round.action.ActorI;
 import ge18xx.round.action.RouteAction;
+import ge18xx.round.action.StartRouteAction;
 import ge18xx.tiles.Track;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
@@ -58,7 +61,7 @@ public class RouteInformation {
 		setSpecialBonus (aSpecialBonus);
 		setTotalRevenue (0);
 		phase = aPhase;
-		trainCompany = aTrainCompany;
+		setTrainCompany(aTrainCompany);
 		setTrainRevenueFrame (aTrainRevenueFrame);
 		routeSegments = new ArrayList<RouteSegment> ();
 		revenueCenters = new ArrayList<RevenueCenter> ();
@@ -71,12 +74,15 @@ public class RouteInformation {
 				aRouteInformation.getTrainCompany (), aRouteInformation.getTrainRevenueFrame ());
 	}
 	
-	public RouteInformation (Train aTrain, XMLNode aRouteNode) {
+	public RouteInformation (Train aTrain, XMLNode aRouteNode, TrainPortfolio aTrainPortfolio) {
 		XMLNodeList tXMLNodeList;
 		String tTrainName, tProvidedTrainName;
 		int tPhase, tRegionBonus, tSpecialBonus, tTotalRevenue, tTrainIndex;
 		String tRoundID;
-
+		TrainRevenueFrame tTrainRevenueFrame;
+		TrainCompany tTrainCompany;
+		CashHolderI tTrainHolder;
+		
 		tTrainName = aRouteNode.getThisAttribute (Train.AN_NAME, Train.MISSING_NAME);
 		tRoundID = aRouteNode.getThisAttribute (AN_ROUND_ID);
 		tPhase = aRouteNode.getThisIntAttribute (AN_PHASE);
@@ -92,6 +98,13 @@ public class RouteInformation {
 			setRegionBonus (tRegionBonus);
 			setSpecialBonus (tSpecialBonus);
 			setTotalRevenue (tTotalRevenue);
+			tTrainHolder = aTrainPortfolio.portfolioHolder;
+			if (tTrainHolder.isATrainCompany ()) {
+				tTrainCompany = (TrainCompany) tTrainHolder;
+				tTrainRevenueFrame = tTrainCompany.getTrainRevenueFrame ();
+				setTrainCompany (tTrainCompany);
+				setTrainRevenueFrame (tTrainRevenueFrame);
+			}
 			phase = tPhase;
 			
 			routeSegments = new ArrayList<RouteSegment> ();
@@ -184,6 +197,11 @@ public class RouteInformation {
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			
 		}
+
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject1, Object aMetaObject2) {
+			
+		}
 	};
 	
 	public void highlightRouteSegments (HexMap aMap) {
@@ -196,8 +214,12 @@ public class RouteInformation {
 			tRouteSegment.setTrainOn (trainIndex + 1);
 		}
 	}
-	
-	public void setTrainRevenueFrame (TrainRevenueFrame aTrainRevenueFrame) {
+
+	private void setTrainCompany(TrainCompany aTrainCompany) {
+		trainCompany = aTrainCompany;
+	}
+
+	private void setTrainRevenueFrame (TrainRevenueFrame aTrainRevenueFrame) {
 		trainRevenueFrame = aTrainRevenueFrame;
 	}
 	
@@ -482,7 +504,6 @@ public class RouteInformation {
 		
 		return tRouteTownCount;
 	}
-	
 	
 	public boolean isRouteTooLong () {
 		boolean tRouteIsTooLong  = false;
@@ -1062,5 +1083,28 @@ public class RouteInformation {
 		for (RouteSegment tRouteSegment : routeSegments) {
 			tRouteSegment.fixLoadedRouteSegment (aMapFrame);
 		}
+	}
+	
+	public void addReuseRouteAction (Train aTrain) {
+		StartRouteAction tStartRouteAction;
+		RouteInformation tRouteInformation;
+		boolean tStartedRoute = false;
+		
+		tRouteInformation = aTrain.getCurrentRouteInformation ();
+		tStartRouteAction = new StartRouteAction (ActorI.ActionStates.OperatingRound, 
+					tRouteInformation.getRoundID (), trainCompany);
+		for (RouteSegment tRouteSegment : routeSegments) {
+			if (tStartedRoute) {
+				// AddNewRouteSegmentEffect
+				tStartRouteAction.addNewRouteSegmentEffect (trainCompany, trainIndex, tRouteSegment.getMapCell (), 
+						tRouteSegment.getStartLocation (), tRouteSegment.getEndLocation ());
+			} else {
+				// StartRouteEffect
+				tStartRouteAction.addStartRouteEffect (trainCompany, trainIndex, tRouteSegment.getMapCell (), 
+						tRouteSegment.getStartLocation (), tRouteSegment.getEndLocation ());
+				tStartedRoute = true;
+			}
+		}
+		trainCompany.addAction (tStartRouteAction);
 	}
 }

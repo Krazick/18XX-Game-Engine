@@ -458,10 +458,13 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	
 	private void reuseTrainRoute (int aTrainIndex) {
 		Train tTrain;
+		RouteInformation tCurrentRouteInformation;
 		
 		tTrain = trainCompany.getTrain (aTrainIndex);
 		setupNewRouteInformation (tTrain);
 		highlightRouteSegments (tTrain);
+		tCurrentRouteInformation = tTrain.getCurrentRouteInformation ();
+		tCurrentRouteInformation.addReuseRouteAction (tTrain);
 	}
 	
 	private void highlightRouteSegments (Train aTrain) {
@@ -490,15 +493,15 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tPhase = tPhaseInfo.getName ();
 		tRouteInformation = new RouteInformation (tRouteToReuse, tRoundID, tPhase);
 		
-		System.out.println ("Reuse Route for a " + aTrain.getName () + " Train, Old Round ID " + 
-					tRouteToReuse.getRoundID () + " Phase " + tRouteToReuse.getPhase () +
-					" New RoundID " + tRouteInformation.getRoundID () + " Phase " + tRouteInformation.getPhase ()
-					);
+//		System.out.println ("Reuse Route for a " + aTrain.getName () + " Train, Old Round ID " + 
+//					tRouteToReuse.getRoundID () + " Phase " + tRouteToReuse.getPhase () +
+//					" New RoundID " + tRouteInformation.getRoundID () + " Phase " + tRouteInformation.getPhase ()
+//					);
 		tRouteInformation.copyRouteSegments (tRouteToReuse);
-		System.out.println ("Old Route Segment:");
-		tRouteToReuse.printDetail ();
-		System.out.println ("New Route Segment:");
-		tRouteInformation.printDetail ();
+//		System.out.println ("Old Route Segment:");
+//		tRouteToReuse.printDetail ();
+//		System.out.println ("New Route Segment:");
+//		tRouteInformation.printDetail ();
 		aTrain.setCurrentRouteInformation (tRouteInformation);
 	}
 
@@ -1069,16 +1072,14 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		if (isValidIndex (aTrainIndex)) {
 			if (isYourCompany ()) {
 				tTrain = trainCompany.getTrain (aTrainIndex);
-				// Temporary until this routine built out
 				tPreviousRouteInformation = tTrain.getPreviousRouteInformation ();
-//				System.out.println ("For " + trainCompany.getAbbrev () + " Train Index " + aTrainIndex + " Size " + tTrain.getCityCount ());
 				if (tPreviousRouteInformation == RouteInformation.NO_ROUTE_INFORMATION) {
 					disableReuseRouteButton (aTrainIndex, "No Previous Route Found to use");
 				} else {
-//					System.out.println ("Previous Route Info Found for Train Index " + aTrainIndex + " Size " + 
-//							tPreviousRouteInformation.getRouteCityCount ());
 					enableReuseRouteButton (aTrainIndex, "Ready to use");
 				}
+			} else {
+				disableReuseRouteButton (aTrainIndex, NOT_YOUR_COMPANY);
 			}
 		}
 	}

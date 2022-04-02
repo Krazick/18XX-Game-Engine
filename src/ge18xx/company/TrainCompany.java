@@ -160,6 +160,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		trainRevenueFrame = new TrainRevenueFrame (this, tRevenueFrameTitle);
 	}
 	
+	public TrainRevenueFrame getTrainRevenueFrame () {
+		return trainRevenueFrame;
+	}
+	
 	public void floatCompany (int aInitialTreasury) {
 		int tRowIndex;
 		FloatCompanyAction tFloatCompanyAction;

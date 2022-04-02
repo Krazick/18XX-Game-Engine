@@ -548,12 +548,12 @@ public class Train implements Comparable<Object> {
 		}
 	}
 
-	public void loadRouteInformation (XMLNode aRouteNode) {
+	public void loadRouteInformation (XMLNode aRouteNode, Train aTrain, TrainPortfolio aTrainPortfolio) {
 		RouteInformation tRouteInformation;
 		String tNodeName;
 		
 		tNodeName = aRouteNode.getNodeName ();
-		tRouteInformation = new RouteInformation (this, aRouteNode);
+		tRouteInformation = new RouteInformation (this, aRouteNode, aTrainPortfolio);
 		if (tNodeName.equals (EN_CURRENT_ROUTE.getString ())) {
 			currentRouteInformation = tRouteInformation;
 		}
@@ -582,7 +582,7 @@ public class Train implements Comparable<Object> {
 		RouteAction tRouteAction;
 		
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-			currentRouteInformation.clearTrainOn ();
+//			currentRouteInformation.clearTrainOn ();
 		}
 		currentRouteInformation = new RouteInformation (this, aTrainIndex, tColor, aRoundID, tRegionBonus, tSpecialBonus, 
 				aPhase, aTrainCompany, aTrainRevenueFrame);
