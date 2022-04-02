@@ -1205,11 +1205,11 @@ public class JGameClient extends XMLFrame {
 	 */
 	
 	public static void scroll (JScrollPane aScrollPane, ScrollDirection aDirection) {
-	    JScrollBar tVerticalBar = aScrollPane.getVerticalScrollBar ();
+	    final JScrollBar tVerticalBar = aScrollPane.getVerticalScrollBar ();
 	    
 	    // If we want to scroll to the top, set this value to the minimum,
 	    // else to the maximum
-	    int tTopOrBottom = aDirection == ScrollDirection.UP ?
+	    final int tTopOrBottom = aDirection == ScrollDirection.UP ?
 	                      tVerticalBar.getMinimum () :
 	                      tVerticalBar.getMaximum ();
 

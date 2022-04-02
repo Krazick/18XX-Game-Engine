@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project 18XX-Game-Engine">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="${dir.buildfile}/.."/>
+    <property name="dir.jarfile" value="/Users/marksmith/Documents/18XX_Games"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/ge18XX.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="ge18xx.game.Game_18XX"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${dir.buildfile}/target/test-classes"/>
+            <fileset dir="${dir.buildfile}/target/classes"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.jupiter.api_5.8.1.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.jupiter.engine_5.8.1.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.jupiter.migrationsupport_5.8.1.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.jupiter.params_5.8.1.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.platform.commons_1.8.1.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.platform.engine_1.8.1.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.platform.launcher_1.8.1.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.platform.runner_1.8.1.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.platform.suite.api_1.8.1.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.platform.suite.engine_1.8.1.v20211028-1957.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.platform.suite.commons_1.8.1.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit.vintage.engine_5.8.1.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.opentest4j_1.2.0.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.apiguardian_1.1.2.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit_4.13.2.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/JARS/mockito-junit-jupiter-3.4.6.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/JARS/mockito-core-3.4.6.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/JARS/commons-text-1.9.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.17.2-bin/log4j-api-2.17.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.17.2-bin/log4j-core-2.17.2-tests.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.17.2-bin/log4j-core-2.17.2-javadoc.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.17.2-bin/log4j-core-2.17.2-sources.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.17.2-bin/log4j-core-2.17.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.17.2-bin/log4j-api-2.17.2-javadoc.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.17.2-bin/log4j-api-2.17.2-sources.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.17.2-bin/log4j-jul-2.17.2-javadoc.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.17.2-bin/log4j-jul-2.17.2-sources.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.17.2-bin/log4j-jul-2.17.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/mockito/mockito-core/3.4.6/mockito-core-3.4.6.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/net/bytebuddy/byte-buddy/1.10.13/byte-buddy-1.10.13.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/net/bytebuddy/byte-buddy-agent/1.10.13/byte-buddy-agent-1.10.13.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/objenesis/objenesis/2.6/objenesis-2.6.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/mockito/mockito-junit-jupiter/3.4.6/mockito-junit-jupiter-3.4.6.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.4.2/junit-jupiter-api-5.4.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/junit/platform/junit-platform-commons/1.4.2/junit-platform-commons-1.4.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/apache/logging/log4j/log4j-api/2.17.2/log4j-api-2.17.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/apache/logging/log4j/log4j-core/2.17.2/log4j-core-2.17.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/apache/commons/commons-text/1.9/commons-text-1.9.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.m2/repository/org/apache/commons/commons-lang3/3.11/commons-lang3-3.11.jar"/>
+        </jar>
+    </target>
+</project>
