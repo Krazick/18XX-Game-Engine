@@ -1,5 +1,7 @@
 package ge18xx.game;
 
+import java.io.File;
+
 import org.mockito.Mockito;
 
 import ge18xx.toplevel.PlayerInputFrame;
@@ -64,6 +66,7 @@ public class GameTestFactory {
 		GameManager mGameManager = Mockito.mock (GameManager.class);
 		
 		Mockito.when (mGameManager.getClientUserName ()).thenReturn (aClientName);
+		Mockito.when (mGameManager.getXMLBaseDirectory ()).thenReturn ("18XX XML Data" + File.separator);
 
 		return mGameManager;
 	}

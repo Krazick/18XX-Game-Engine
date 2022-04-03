@@ -1,6 +1,9 @@
 package ge18xx.network;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.net.ConnectException;
+import java.net.Socket;
 import java.net.SocketTimeoutException;
 
 public class ChatServerHandler extends ServerHandler {
@@ -10,6 +13,11 @@ public class ChatServerHandler extends ServerHandler {
 		super (aHost, aPort, aGameManager);
 	}
 	
+	public ChatServerHandler (Socket aServerSocket, BufferedReader aBufferedReader, PrintWriter aPrintWriter,
+			NetworkGameSupport aGameManager) {
+		super (aServerSocket, aBufferedReader, aPrintWriter, aGameManager);
+	}
+
 	public void initializeChat (JGameClient aJClient) {
 		jClient = aJClient;
 		

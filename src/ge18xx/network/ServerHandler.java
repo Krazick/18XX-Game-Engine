@@ -35,6 +35,15 @@ public abstract class ServerHandler implements Runnable {
 		setupLogger ();
 	}
 	
+	public ServerHandler (Socket aServerSocket, BufferedReader aBufferedReader, 
+						PrintWriter aPrintWriter, NetworkGameSupport aGameManager) {
+		setSocket (aServerSocket);
+		setInBufferedReader (aBufferedReader);
+		setOutPrintWriter (aPrintWriter);
+		gameManager = aGameManager;
+		setupLogger ();
+	}
+	
 	private void setupLogger () {
 		String tXMLBaseDir;
 		
@@ -70,7 +79,7 @@ public abstract class ServerHandler implements Runnable {
 		setContinueRunning (tContinueRunning);
 	}
 
-	private void establishSocketConnection ()
+	boolean establishSocketConnection ()
 			throws UnknownHostException, IOException, SocketException {
 		InetAddress tIPAddress;
 		
@@ -81,6 +90,8 @@ public abstract class ServerHandler implements Runnable {
         logger.info ("Socket Connection Established");
 		tSocket.setKeepAlive (true);
 		setValues (tSocket);
+		
+		return true;
 	}
 
 	protected void setContinueRunning (boolean aContinueRunning) {
@@ -95,10 +106,14 @@ public abstract class ServerHandler implements Runnable {
 		port = aPort;
 	}
 	
-	private void setValues (Socket aServerSocket) {
-		socket = aServerSocket;
+	public void setValues (Socket aServerSocket) {
+		setSocket (aServerSocket);
 		setupBufferedReader ();
 		setupPrintWriter ();
+	}
+	
+	public void setSocket (Socket aServerSocket) {
+		socket = aServerSocket;
 	}
 	
 	public void setName (String aName) {
@@ -106,23 +121,37 @@ public abstract class ServerHandler implements Runnable {
 	}
 	
 	private void setupBufferedReader () {
+		BufferedReader tBufferedReader;
+		
 		try {
 	        logger.info ("Attempting to setup Buffered Reader");
-			in = new BufferedReader (new InputStreamReader (socket.getInputStream ()));
+	        tBufferedReader = new BufferedReader (new InputStreamReader (socket.getInputStream ()));
+	        setInBufferedReader (tBufferedReader);
 			logger.info ("Successful Buffered Reader");
 		} catch (IOException tException) {
 			log ("IOException thrown when seting up Buffered Reader", tException);
 		}		
 	}
 	
+	public void setInBufferedReader (BufferedReader aBufferedReader) {
+		in = aBufferedReader;
+	}
+	
 	private void setupPrintWriter () {
+		PrintWriter tPrintWriter;
+		
 		try {
 	        logger.info ("Attempting to setup Print Writer");
-			out = new PrintWriter (socket.getOutputStream (), true);
+	        tPrintWriter = new PrintWriter (socket.getOutputStream (), true);
+	        setOutPrintWriter (tPrintWriter);
 			logger.info ("Successful Print Writer");
 		} catch (IOException tException) {
 			log ("IOException thrown when seting up PrintWriter", tException);
 		}		
+	}
+	
+	public void setOutPrintWriter (PrintWriter aPrintWriter) {
+		out = aPrintWriter;
 	}
 	
 	@Override
