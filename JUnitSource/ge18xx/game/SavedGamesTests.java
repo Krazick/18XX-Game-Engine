@@ -10,14 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.mockito.Mock;
-
 @DisplayName ("GE18XX Saved Games Tests")
 class SavedGamesTests {
 	SavedGames savedGames;
 	SavedGames noSavedGames;
 	SavedGames noMatchingSavedGames;
-	@Mock
 	GameManager mGameManager;
 
 	@BeforeEach
@@ -30,7 +27,10 @@ class SavedGamesTests {
 				"<Game gameID=\"2021-04-07-1748\" lastActionNumber=\"101\" players=\"Mark, Jeff\" status=\"ACTIVE\">" + 
 				"<Game gameID=\"2021-04-13-1214\" lastActionNumber=\"105\" players=\"Dave, Mark\" status=\"ACTIVE\">" + 
 				"</SavedGames>";
-
+		GameTestFactory tGameTestFactory;
+		
+		tGameTestFactory = new GameTestFactory ();
+		mGameManager = tGameTestFactory.buildGameManager ();
 		savedGames = new SavedGames (tXMLData, mGameManager);
 		noSavedGames = new SavedGames (tEmptyXMLData, mGameManager);
 		noMatchingSavedGames = new SavedGames (tNoMatchingSavedGames, mGameManager);

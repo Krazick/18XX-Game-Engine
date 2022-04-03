@@ -30,15 +30,31 @@ public class NetworkTestFactory {
 		PrintWriter mPrintWriter;		
 		
 		mGameManager = gameTestFactory.buildGameManagerMock ();
-		mServerSocket = buildServerSocketMock ();
-		mBufferedReader = buildBufferedReaderMock ();
-		mPrintWriter = buildPrintWriterMock ();
+		mServerSocket = buildMockServerSocket ();
+		mBufferedReader = buildMockBufferedReader ();
+		mPrintWriter = buildMockPrintWriter ();
 		tChatServerHandler = new ChatServerHandler (mServerSocket, mBufferedReader, mPrintWriter, mGameManager);
 		
 		return tChatServerHandler;
 	}
 
-	public Socket buildServerSocketMock () {
+	public ServerHandler buildMockServerHandler () throws ConnectException, SocketTimeoutException {
+		ServerHandler mServerHandler;
+		
+		mServerHandler = Mockito.mock(ServerHandler.class);
+		
+		return mServerHandler;
+	}
+
+	public ChatServerHandler buildMockChatServerHandler () throws ConnectException, SocketTimeoutException {
+		ChatServerHandler mChatServerHandler;
+		
+		mChatServerHandler = Mockito.mock(ChatServerHandler.class);
+		
+		return mChatServerHandler;
+	}
+	
+	public Socket buildMockServerSocket () {
 		Socket mServerSocket;
 		
 		mServerSocket = Mockito.mock (Socket.class);
@@ -46,7 +62,7 @@ public class NetworkTestFactory {
 		return mServerSocket;
 	}
 
-	public BufferedReader buildBufferedReaderMock () {
+	public BufferedReader buildMockBufferedReader () {
 		BufferedReader mBufferedReader;
 		
 		mBufferedReader = Mockito.mock (BufferedReader.class);
@@ -54,7 +70,7 @@ public class NetworkTestFactory {
 		return mBufferedReader;
 	}
 
-	public PrintWriter buildPrintWriterMock () {
+	public PrintWriter buildMockPrintWriter () {
 		PrintWriter mPrintWriter;
 		
 		mPrintWriter = Mockito.mock (PrintWriter.class);

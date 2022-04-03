@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -19,11 +18,10 @@ class GameSupportHandlerTests {
 
 	GameSupportHandler gameSupportHandler;
 	GameTestFactory testFactory;
+	NetworkTestFactory networkTestFactory;
 	JGameClient jGameClient;
 	String clientName;
-	
-	@Mock
-	ChatServerHandler mServerHandler;
+	ChatServerHandler mChatServerHandler;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -33,8 +31,10 @@ class GameSupportHandlerTests {
 		clientName = "GMTestBuster";
 		tGameManager = testFactory.buildGameManager (clientName);
 		jGameClient = new JGameClient ("JGameClient Testing Frame", tGameManager);
-
+		
 		gameSupportHandler = new GameSupportHandler (jGameClient);
+		networkTestFactory = new NetworkTestFactory (testFactory);
+		mChatServerHandler = networkTestFactory.buildMockChatServerHandler ();
 	}
 	
 	@Test
@@ -69,8 +69,8 @@ class GameSupportHandlerTests {
 		String tGoodRequest = "<GS gameID=\"2021-07-31-2005\"><ActionNumber requestNew=\"TRUE\"></GS>";
 		String tGoodResponse = "<GSResponse gameID=\"2021-07-31-2005\"><LastActionNumber requestNew=\"TRUE\"></GSResponse>";
 
-		Mockito.doReturn (false).when (mServerHandler).sendGameSupport (tGoodRequest);
-		jGameClient.setServerHandler (mServerHandler);
+		Mockito.doReturn (false).when (mChatServerHandler).sendGameSupport (tGoodRequest);
+		jGameClient.setServerHandler (mChatServerHandler);
 		gameSupportHandler.setResponse (tGoodResponse);
 		
 		assertEquals (tGoodResponse, gameSupportHandler.requestGameSupport (tGoodRequest));
@@ -84,8 +84,8 @@ class GameSupportHandlerTests {
 		String tGoodResponse = "<GSResponse gameID=\"2021-07-31-2005\"><LastActionNumber requestNew=\"TRUE\"></GSResponse>";
 		String tGameIDRequest = "Game Support <GS><GameIDRequest></GS>";
 		
-		Mockito.doReturn (false).when (mServerHandler).sendGameSupport (tGameIDRequest);
-		jGameClient.setServerHandler (mServerHandler);
+		Mockito.doReturn (false).when (mChatServerHandler).sendGameSupport (tGameIDRequest);
+		jGameClient.setServerHandler (mChatServerHandler);
 		gameSupportHandler.setResponse (tGoodResponse);
 		
 		assertEquals ("2021-07-31-2005", gameSupportHandler.retrieveGameID ());
