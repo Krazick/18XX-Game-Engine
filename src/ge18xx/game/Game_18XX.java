@@ -61,6 +61,9 @@ import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.Logger;
 
+
+// TODO -- Create an abstract Super Class that is "GameEngineFrame" that has non-specific objects
+// the Game_18XX Class that extends the GameEngineFrame, 
 public class Game_18XX extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private final String ENTER_USER_NAME = "Must Enter User Name";

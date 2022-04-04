@@ -77,6 +77,13 @@ import ge18xx.utilities.XMLNode;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
 
+// TODO -- Create an abstract 'GenericGameManager' Super Class that holds non-specific Game information like:
+//   GameInfo, PlayerManager, configFrames, PlayerInputFrame, frameInfo, and the other non-specific 
+//   objects flagged below. Move the methods that use only these objects to the super-class
+//
+// Also create a 'NetworkGameManager' Sub-class that implements the NetworkGameSupport objects and
+// methods into this sub-class
+
 public class GameManager extends Component implements NetworkGameSupport {
 	private static final long serialVersionUID = 1L;
 	public static final ElementName EN_CONFIG = new ElementName ("Config");
@@ -100,15 +107,21 @@ public class GameManager extends Component implements NetworkGameSupport {
 	Bank bank;
 	
 	ArrayList<XMLFrame> configFrames;
+	
 	// Various Frames the Game Manager tracks -- Consider adding to a "FrameManager" Class
-	AuctionFrame auctionFrame;
-	MapFrame mapFrame;
-	MarketFrame marketFrame;
-	CitiesFrame citiesFrame;
+	// These Frames for Companies, have the CorporationList
+	// TODO: Consider having an Array/List of CorporationLists, that tracks what type of Company
+	// it is, and has the Frame in the Corporation List
+	// 
 	PrivatesFrame privatesFrame;
 	CoalCompaniesFrame coalCompaniesFrame;
 	MinorCompaniesFrame minorCompaniesFrame;
 	ShareCompaniesFrame shareCompaniesFrame;
+	
+	AuctionFrame auctionFrame;
+	MapFrame mapFrame;
+	MarketFrame marketFrame;
+	CitiesFrame citiesFrame;
 	TileTrayFrame tileTrayFrame;
 	AuditFrame auditFrame;
 	TileDefinitionFrame tileDefinitionFrame;
@@ -124,6 +137,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	// BuyPrivateFrame (makeOffer for Private or Train)
 	
 	JGameClient networkJGameClient;
+	
+	// MORE Generic (non-game specific objects)
 	SavedGames networkSavedGames;
 	
 	JFileMChooser chooser;
