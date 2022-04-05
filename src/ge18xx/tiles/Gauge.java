@@ -23,6 +23,8 @@ public class Gauge implements Cloneable {
 	static final int OVERPASS = 9;
 	static final int MIN_GAUGE = NO_TYPE;
 	static final int MAX_GAUGE = OVERPASS;
+	
+	// TODO Make this an Enum, with Names, and Useable Track Flag
 	static final String NAMES [] = {"NO GAUGE", "NORMAL", "METER", "DUAL", "TUNNEL", "FERRY", "", "FERRY BASE", "METER BASE", "OVERPASS"};
 
 	int gauge;
@@ -113,6 +115,28 @@ public class Gauge implements Cloneable {
         }
 		
 		return color;
+	}
+	
+	/**
+	 * Test if a Gauge of a Track is useable or not. 
+	 * 
+	 * @return True if Gauge is (NORMAL, METER, DUAL, TUNNEL, or FERRY)
+	 */
+	public boolean useableGauge () {
+		boolean tUseableTrack;
+		
+		tUseableTrack = false;
+		switch (gauge) {
+		    case NORMAL_GAUGE:		/* Normal Gauge - Black */
+		    case METER_GAUGE:		/* Meter Gauge - Black [Dashed] */
+			case DUAL_GAUGE:		/* Dual Gauge - White */
+			case TUNNEL:			/* TUNNEL - Black [Dashed] */
+			case FERRY:				/* FERRY - Red [Dashed] */
+				tUseableTrack = true;
+				break;
+		}
+		
+		return tUseableTrack;
 	}
 	
 	public static int getGaugeFromName (String aName) {

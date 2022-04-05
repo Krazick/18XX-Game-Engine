@@ -641,6 +641,16 @@ public class RouteSegment {
 		return tPossibleEnd;
 	}
 
+	/**
+	 * This will cycle through the list of Tracks on the Tile, ignoring the unuseable Tracks to find the next
+	 * one that begins at the Start and does NOT End at the End. (ie we get back to the original track.
+	 * as long as it is not the same Track segment on the Current Index
+	 * 
+	 * @param aCurrentIndex The Index starting from 
+	 * @param aStartLocation The starting Location for the Current Track Segment
+	 * @param aEndLocation The ending Location for the Current Track Segment
+	 * @return the Next useable Track Segment.
+	 */
 	public Track getNextTrack (int aCurrentIndex, Location aStartLocation, Location aEndLocation) {
 		Track tNextTrack, tFoundTrack = Track.NO_TRACK;
 		int tNextIndex, tTrackCount;
@@ -656,17 +666,19 @@ public class RouteSegment {
 			tNextIndex = ((tNextIndex + 1) % tTrackCount);
 			tNextTrack = tile.getTrackByIndex (tNextIndex);
 			if (tNextTrack != Track.NO_TRACK) {
-				if (tNextTrack.startsAt (aStartLocation) ) {
-					if (tNextTrack.endsAt (aEndLocation)) {
-						tTestedAll = true;
-					} else {
-						tFoundTrack = tNextTrack;
-					}
-				} else if (tNextTrack.endsAt (aStartLocation)) {
-					if (tNextTrack.startsAt (aEndLocation)) {
-						tTestedAll = true;
-					} else {
-						tFoundTrack = tNextTrack;
+				if (tNextTrack.useableTrack ()) {
+					if (tNextTrack.startsAt (aStartLocation) ) {
+						if (tNextTrack.endsAt (aEndLocation)) {
+							tTestedAll = true;
+						} else {
+							tFoundTrack = tNextTrack;
+						}
+					} else if (tNextTrack.endsAt (aStartLocation)) {
+						if (tNextTrack.startsAt (aEndLocation)) {
+							tTestedAll = true;
+						} else {
+							tFoundTrack = tNextTrack;
+						}
 					}
 				}
 			}

@@ -170,12 +170,26 @@ public class Tracks implements Cloneable {
 		return tTrack;
 	}
 	
+	/**
+	 * Return the First Track from the specified side Location that has a useable Track
+	 * 
+	 * Note -- This is based upon the ordering of the Track Segments in the XML Track data for the 
+	 * Specified Tile. A Track is Useable if the Gauge is Useable.
+	 * 
+	 * @param aSideLocation The integer "Side" Location on the tile from which we need to find a Track Segment
+	 * @return The actual Track Object that is found, or "Track.NO_TRACK" Constant meaning there is no Track
+	 * 
+	 */
 	public Track getTrackFromSide (int aSideLocation) {
 		Track tTrack = Track.NO_TRACK;
 		
 		for (Track tSegment : segments) {
-			if (tSegment.isTrackToSide (aSideLocation)) {
-				tTrack = tSegment;
+			if (tSegment.useableTrack ()) {
+				if (tTrack == Track.NO_TRACK) {
+					if (tSegment.isTrackToSide (aSideLocation)) {
+						tTrack = tSegment;
+					}
+				}
 			}
 		}
 		

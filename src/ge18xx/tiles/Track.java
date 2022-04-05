@@ -83,6 +83,18 @@ public class Track implements Cloneable {
 		return tCanThisTrackExit;
 	}
 	
+	/**
+	 * 
+	 * Test if the Gauge of the Track Segment is Useable
+	 * 
+	 * @return True if the Gauge is useable by a Train or not ('Track' Segments can be OVERPASSes, 
+	 * or dashed components of a combination Track.
+	 * 
+	 */
+	public boolean useableTrack () {
+		return gauge.useableGauge ();
+	}
+	
 	public boolean cityAtLocation (Location location) {
 		boolean retValue;
 		
