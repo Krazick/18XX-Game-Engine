@@ -101,11 +101,18 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tAnyCanOperate;
 	}
 	
+	/**
+	 * Build the entire Company JPanel in the CorporationList
+	 * 
+	 * @param aAllCompanies TRUE to set Title "All TYPE Companies", 
+	 * 			FALSE to set Title "TYPE Companies in Operating Order"
+	 * @return the JPanel to add to the JFrame
+	 * 
+	 */
 	public JPanel buildCompanyJPanel (boolean aAllCompanies) {
 		JPanel tCompanyJPanel;
-		JLabel tLabel;
-		String tBoxLabel, tCorpLabel;
-		Border tCorpBorder;
+		String tBoxLabel;
+		JLabel tCorpInfoLabel;
 		
 		tBoxLabel = getThisTypeName () + " Companies";
 		if (aAllCompanies) {
@@ -119,12 +126,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		
 		sortByOperatingOrder ();
 		for (Corporation tCorporation : corporations) {
-			tCorpLabel = tCorporation.buildCorpInfoLabel ();
-			tCorpBorder = tCorporation.setupBorder ();
+			tCorpInfoLabel = tCorporation.buildCorpInfoJLabel ();
 			tCompanyJPanel.add (Box.createHorizontalStrut (10));
-			tLabel = new JLabel (tCorpLabel);
-			tLabel.setBorder (tCorpBorder);
-			tCompanyJPanel.add (tLabel);
+			tCompanyJPanel.add (tCorpInfoLabel);
 		}
 		
 		return tCompanyJPanel;

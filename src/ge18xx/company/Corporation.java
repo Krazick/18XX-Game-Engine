@@ -942,6 +942,23 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	// Private Company will Override
 	public void setDiscount (int aDiscount) { }
 	
+	/**
+	 * Build the generic Corporation Info Label to be added to the Company JPanel
+	 * 
+	 */
+	public JLabel buildCorpInfoJLabel () {
+		JLabel tLabel;
+		String tCorpLabel;
+		Border tCorpBorder;
+		
+		tCorpLabel = buildCorpInfoLabel ();
+		tCorpBorder = setupBorder ();
+		tLabel = new JLabel (tCorpLabel);
+		tLabel.setBorder (tCorpBorder);
+		
+		return tLabel;
+	}
+	
 	// Train Company and Private Company will Override
 	public String buildCorpInfoLabel () {
 		return ">> OVERRIDE buildCorpInfoLabel <<";
