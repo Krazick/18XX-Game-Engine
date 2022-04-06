@@ -354,8 +354,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	private Border setupOuterBorder () {
 		Border tOuterBorder;
+		int tThickness;
 		
-		tOuterBorder = BorderFactory.createLineBorder (bgColor, 2);
+		tThickness = 2;
+		if (isSoldOut ()) {
+			tThickness = 4;
+		}
+		tOuterBorder = BorderFactory.createLineBorder (bgColor, tThickness);
 		
 		return tOuterBorder;
 	}
