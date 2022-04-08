@@ -1391,7 +1391,13 @@ public class Portfolio implements CertificateHolderI {
 		
 		return tCountOfSelectedCertificates;
 	}
-	
+		
+	/**
+	 * Get cost of all Shares selected to be Bought
+	 * 
+	 * @return Total Cost of all Shares selected to be Bought
+	 * 
+	 */
 	public int getSelectedStocksCost () {
 		int tSelectedStockCost;
 		
@@ -1403,6 +1409,25 @@ public class Portfolio implements CertificateHolderI {
 		}
 		
 		return tSelectedStockCost;
+	}
+	
+	/**
+	 * Get cost of all Shares selected to be Sold
+	 * 
+	 * @return Total Cost of all Shares selected to be Sold
+	 * 
+	 */
+	public int getSelectedStocksSaleCost () {
+		int tSelectedStockSaleCost;
+		
+		tSelectedStockSaleCost = 0;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelectedToSell ()) {
+				tSelectedStockSaleCost += tCertificate.getCost ();
+			}
+		}
+		
+		return tSelectedStockSaleCost;
 	}
 	
 	public boolean hasSelectedStocksToSell () {
