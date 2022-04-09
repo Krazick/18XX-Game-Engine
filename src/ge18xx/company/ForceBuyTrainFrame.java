@@ -243,6 +243,16 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		return tCertificateToSell;
 	}
 	
+	private boolean allSelectedSharesSameSize () {
+		boolean allSelectedSharesSameSize;
+		Portfolio tPresidentPortfolio;
+		
+		tPresidentPortfolio = getPresidentPortfolio ();
+		allSelectedSharesSameSize = tPresidentPortfolio.allSelectedSharesSameSize ();
+		
+		return allSelectedSharesSameSize;
+	}
+	
 	private boolean tooManySharesSelectedToSell () {
 		boolean tTooManySharesSelectedToSell;
 		Certificate tCertificateToSell;
@@ -253,11 +263,14 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		tTooManySharesSelectedToSell = false;
 		tCertificateToSell = getACertificateToSell ();
 		tTotalSaleCost = getSelectedStocksSaleCost ();
+		// TODO -- Find the smallest percentage Share to be sold
 		tCertificateCost = tCertificateToSell.getCost ();
 		if (tTotalSaleCost > cashNeeded) {
 			tExcessCash = tTotalSaleCost - cashNeeded;
 			if (tExcessCash > tCertificateCost) {
-				tTooManySharesSelectedToSell = true;
+				if (allSelectedSharesSameSize ()) {
+					tTooManySharesSelectedToSell = true;
+				}
 			}
 		}
 		
