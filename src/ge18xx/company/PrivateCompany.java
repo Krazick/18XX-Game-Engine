@@ -318,7 +318,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public PortfolioHolderI getOwner () {
 		PortfolioHolderI tHolder;
 		
-		tHolder = Portfolio.NO_HOLDER;
+		tHolder = PortfolioHolderI.NO_HOLDER;
 		if (isOwned ()) {
 			return getPresident ();
 		}

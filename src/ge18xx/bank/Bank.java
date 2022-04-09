@@ -21,6 +21,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
+import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.player.StartPacketPortfolio;
 import ge18xx.round.action.BuyTrainAction;
@@ -319,7 +320,7 @@ public class Bank extends GameBank implements CashHolderI {
 		PortfolioHolderLoaderI tCurrentHolder;
 		
 		tCurrentHolder = startPacketFrame.getCurrentHolder (aLoadedCertificate);
-		if (tCurrentHolder == Portfolio.NO_HOLDER) {
+		if (tCurrentHolder == PortfolioHolderI.NO_HOLDER) {
 			tCurrentHolder = super.getCurrentHolder (aLoadedCertificate);
 		}
 

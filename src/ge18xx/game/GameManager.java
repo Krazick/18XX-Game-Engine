@@ -37,6 +37,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerFrame;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.Action;
@@ -837,7 +838,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		PortfolioHolderLoaderI tCurrentHolder;
 		
 		tCurrentHolder = bank.getCurrentHolder (aLoadedCertificate);
-		if (tCurrentHolder == Portfolio.NO_HOLDER) {
+		if (tCurrentHolder == PortfolioHolderI.NO_HOLDER) {
 			tCurrentHolder = bankPool.getCurrentHolder (aLoadedCertificate);
 		}
 

@@ -36,4 +36,6 @@ public interface PortfolioHolderI extends ActorI {
 
 	@Override
 	public boolean isABankPool ();
+	
+	public final static PortfolioHolderI NO_HOLDER = null;
 }

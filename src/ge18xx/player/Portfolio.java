@@ -60,7 +60,7 @@ public class Portfolio implements CertificateHolderI {
 	public final static AttributeName AN_COAL_INDEX = new AttributeName ("coalIndex");
 	public final static AttributeName AN_MINOR_INDEX = new AttributeName ("minorIndex");
 	public final static AttributeName AN_SHARE_INDEX = new AttributeName ("shareIndex");
-	public final static PortfolioHolderI NO_HOLDER = null;
+//	public final static PortfolioHolderI NO_HOLDER = null;
 	public final static Portfolio NO_PORTFOLIO = null;
 	public final static JPanel NO_PORTFOLIO_JPANEL = null;
 	public final static String NO_PORTFOLIO_LABEL = ">> NO PORTFOLIO <<";
@@ -80,7 +80,7 @@ public class Portfolio implements CertificateHolderI {
 	int privateIndex, coalIndex, minorIndex, shareIndex;
 	
 	public Portfolio () {
-		this (NO_HOLDER);
+		this (PortfolioHolderI.NO_HOLDER);
 	}
 	
 	public Portfolio (PortfolioHolderI aHolder) {
@@ -987,7 +987,7 @@ public class Portfolio implements CertificateHolderI {
 		CertificateHolderI tCertificateHolder;
 		PortfolioHolderI tPortfolioHolder;
 		
-		tPortfolioHolder = Portfolio.NO_HOLDER;
+		tPortfolioHolder = PortfolioHolderI.NO_HOLDER;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isPresidentShare ()) {
 				tCertificateHolder = tCertificate.getOwner ();
@@ -1028,7 +1028,7 @@ public class Portfolio implements CertificateHolderI {
 		PortfolioHolderI tPresident;
 		
 		tPresident = getPresident ();
-		if (tPresident == NO_HOLDER) {
+		if (tPresident == PortfolioHolderI.NO_HOLDER) {
 			tPresidentIsAPlayer = false;
 		} else {
 			tPresidentIsAPlayer = tPresident.isPlayer ();
@@ -1078,12 +1078,12 @@ public class Portfolio implements CertificateHolderI {
 			} else {
 				tCurrentHolder = tHolder.getCurrentHolder (tLoadedCertificate);
 			}
-			if (tCurrentHolder == NO_HOLDER) {
+			if (tCurrentHolder == PortfolioHolderI.NO_HOLDER) {
 				tBank = holder.getBank ();
 				tCurrentHolder = tBank.getStartPacketFrame ();
 			}
 			
-			if (tCurrentHolder != NO_HOLDER) {
+			if (tCurrentHolder != PortfolioHolderI.NO_HOLDER) {
 				tPortfolio = tCurrentHolder.getPortfolio ();
 				if (tPortfolio != NO_PORTFOLIO) {
 					tCertificate = tPortfolio.getCertificate (tLoadedCertificate.getCompanyAbbrev (), 
