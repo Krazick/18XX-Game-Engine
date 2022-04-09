@@ -24,10 +24,12 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	private static final String BUY_ACTION = "BuyTrain";
 	private static final String SELL_ACTION = "SellStock";
 	private static final String UNDO_SELL_ACTION = "UndoSellStock";
+	private static final String DECLARE_BANKRUPTCY_ACTION = "DeclareBankruptcy";
 	private static final long serialVersionUID = 1L;
 	JButton doSellButton;
 	JButton doBuyButton;
 	JButton undoButton;
+	JButton declareBankruptcyButton;
 	JPanel buttonJPanel;
 	JPanel infoJPanel;
 	JPanel mainJPanel;
@@ -165,6 +167,10 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		undoButton.setActionCommand (UNDO_SELL_ACTION);
 		undoButton.addActionListener (this);
 		buttonJPanel.add (undoButton);
+		declareBankruptcyButton = new JButton ("Declare Bankruptcy");
+		declareBankruptcyButton.setActionCommand (DECLARE_BANKRUPTCY_ACTION);
+		declareBankruptcyButton.addActionListener (this);
+		buttonJPanel.add (declareBankruptcyButton);
 	}
 
 	private void buildStockJPanel () {
@@ -197,6 +203,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		updateSellButton ();
 		updateBuyTrainButton ();
 		updateLiquidAssetLabel ();
+		updateDeclareBankruptcyButton ();
 	}
 	
 	private void updateTreasuryLabels () {
@@ -411,6 +418,17 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		}
 	}
 	
+	private void updateDeclareBankruptcyButton () {
+		System.out.println ("Liquid " + liquidAssetTotal + " Cash Needed " + cashNeeded);
+		if (liquidAssetTotal >= cashNeeded) {
+			declareBankruptcyButton.setEnabled (false);
+			declareBankruptcyButton.setToolTipText ("Have enough to buy Train");
+		} else {
+			declareBankruptcyButton.setEnabled (true);
+			declareBankruptcyButton.setToolTipText ("Does NOT have enough to buy Train");
+		}
+	}
+	
 	private boolean haveEnoughCash () {
 		boolean tHaveEnoughCash = false;
 		
@@ -430,9 +448,16 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		if (UNDO_SELL_ACTION.equals (aEvent.getActionCommand ())) {
 			undoSellStock ();
 		}
+		if (DECLARE_BANKRUPTCY_ACTION.equals (aEvent.getActionCommand ())) {
+			declareBankruptcy ();
+		}
 		updateButtons ();
 	}
 
+	private void declareBankruptcy () {
+		System.out.println (president.getName () + " is Declaring Bankruptcy for " + trainCompany.getName ());
+	}
+	
 	private void undoSellStock () {
 		trainCompany.undoAction ();
 		sellActionCount--;
