@@ -28,7 +28,6 @@ import ge18xx.player.CashHolderI;
 import ge18xx.player.ParPriceFrame;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
-import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.WinAuctionAction;
@@ -84,7 +83,7 @@ public class Certificate implements Comparable<Certificate> {
 	static final float X_LEFT_ALIGNMENT = 0.0f;
 	static final float X_CENTER_ALIGNMENT = 0.5f;
 	static final float X_RIGHT_ALIGNMENT = 1.0f;
-	static final CertificateHolderI NO_OWNER = null;
+//	static final CertificateHolderI NO_OWNER = null;
 	public static final String NO_PAR_PRICE = "???";
 	
 //	Border REDLINE_BORDER = BorderFactory.createLineBorder (Color.red);
@@ -99,7 +98,7 @@ public class Certificate implements Comparable<Certificate> {
 	Bidders bidders;
 	
 	public Certificate () {
-		this (Corporation.NO_CORPORATION, false, NO_PERCENTAGE, NO_OWNER);
+		this (Corporation.NO_CORPORATION, false, NO_PERCENTAGE, CertificateHolderI.NO_OWNER);
 	}
 	
 	public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage, CertificateHolderI aOwner) {
@@ -117,7 +116,7 @@ public class Certificate implements Comparable<Certificate> {
 			setCorporation (aCertificate.getCorporation ());
 			setOwner (aCertificate.getOwner ());	
 			checkBox = new JCheckBox ("EMPTY");
-			checkBox = FrameButton.NO_JCHECKBOX;
+			checkBox = GUI.NO_CHECK_BOX;
 			setFrameButton (checkBox, "");
 			parValuesCombo = null;
 			bidders = new Bidders (this);
@@ -170,8 +169,8 @@ public class Certificate implements Comparable<Certificate> {
 			allowedOwners = tAllowedOwners.split (",");
 		}
 		setCorporation (Corporation.NO_CORPORATION);
-		setOwner (NO_OWNER);
-		checkBox = FrameButton.NO_JCHECKBOX;
+		setOwner (CertificateHolderI.NO_OWNER);
+		checkBox = GUI.NO_CHECK_BOX;
 		setFrameButton (checkBox, "");
 		parValuesCombo = null;
 		bidders = new Bidders (this);
@@ -312,7 +311,7 @@ public class Certificate implements Comparable<Certificate> {
 				} else {
 					tEnabled = true;
 				}
-				if (checkBox == FrameButton.NO_JCHECKBOX) {
+				if (checkBox == GUI.NO_CHECK_BOX) {
 					checkBox = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);	
 					setFrameButton (checkBox, getCompanyAbbrev () + " Share");
 				} else {
@@ -738,7 +737,7 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public void clearSelection () {
-		if (checkBox != FrameButton.NO_JCHECKBOX) {
+		if (checkBox != GUI.NO_CHECK_BOX) {
 			checkBox.setSelected (false);
 		}
 	}
@@ -933,7 +932,7 @@ public class Certificate implements Comparable<Certificate> {
 	public String getOwnerName () {
 		String tOwnerName = NO_OWNER_NAME;
 		
-		if (owner != NO_OWNER) {
+		if (owner != CertificateHolderI.NO_OWNER) {
 			if (owner.isPlayer ()) {
 				tOwnerName = owner.getHolderName ();
 			} else if (owner.isCompany ()) {
@@ -1097,7 +1096,7 @@ public class Certificate implements Comparable<Certificate> {
 		tOwned = false;
 		if (owner != null) {
 			tHolder = owner.getPortfolioHolder ();
-			if (tHolder != Portfolio.NO_HOLDER) {
+			if (tHolder != PortfolioHolderI.NO_HOLDER) {
 				if ((tHolder .isAPlayer ()) || 
 					(tHolder.isACorporation ()) || 
 					(tHolder.isABankPool ())) {
@@ -1116,7 +1115,7 @@ public class Certificate implements Comparable<Certificate> {
 		tOwned = false;
 		if (owner != null) {
 			tHolder = owner.getPortfolioHolder ();
-			if (tHolder != Portfolio.NO_HOLDER) {
+			if (tHolder != PortfolioHolderI.NO_HOLDER) {
 				if (tHolder.isABankPool ()) {
 					tOwned = true;
 				}
@@ -1141,7 +1140,7 @@ public class Certificate implements Comparable<Certificate> {
 		tOwned = false;
 		if (owner != null) {
 			tHolder = owner.getPortfolioHolder ();
-			if (tHolder != Portfolio.NO_HOLDER) {
+			if (tHolder != PortfolioHolderI.NO_HOLDER) {
 				if ((tHolder.isAPlayer ()) || 
 					(tHolder.isACorporation ())) {
 					tOwned = true;
@@ -1164,7 +1163,7 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tIsSelected;
 		
 		tIsSelected = false;
-		if (checkBox != FrameButton.NO_JCHECKBOX) {
+		if (checkBox != GUI.NO_CHECK_BOX) {
 			tIsSelected = checkBox.isSelected ();
 		}
 		
@@ -1397,13 +1396,13 @@ public class Certificate implements Comparable<Certificate> {
 	
 	public void setOwner (CertificateHolderI aOwner) {
 		owner = aOwner;
-		if (checkBox != FrameButton.NO_JCHECKBOX) {
+		if (checkBox != GUI.NO_CHECK_BOX) {
 			checkBox.setSelected (false);
 		}
 	}
 
 	public void setStateCheckedButton (boolean aEnabledState, String aToolTip) {
-		if (checkBox != FrameButton.NO_JCHECKBOX) {
+		if (checkBox != GUI.NO_CHECK_BOX) {
 			checkBox.setEnabled (aEnabledState);
 			checkBox.setToolTipText (aToolTip);
 		}
