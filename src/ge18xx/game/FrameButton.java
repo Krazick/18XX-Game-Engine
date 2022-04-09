@@ -3,26 +3,25 @@ package ge18xx.game;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
+import ge18xx.utilities.GUI;
+
 public class FrameButton {
 	public final static FrameButton NO_FRAME_BUTTON = null;
-	public final static JButton NO_JBUTTON = null;
-	public final static JCheckBox NO_JCHECKBOX = null;
-	public final static String NO_GROUP_NAME = null;
-	public final String NO_TITLE = null;
+	public final static String NO_GROUP_NAME = GUI.NULL_STRING;
 	JButton jButton;
 	JCheckBox jCheckBox;
 	String groupName;
 	
 	public FrameButton (JButton aJButton) {
 		setJButton (aJButton);
-		setJCheckBox (NO_JCHECKBOX);
+		setJCheckBox (GUI.NO_CHECK_BOX);
 		setGroupName (NO_GROUP_NAME);
 	}
 
 	public FrameButton (JCheckBox aJCheckBox, String aGroupName) {
 		setJCheckBox (aJCheckBox);
 		setGroupName (aGroupName);
-		setJButton (NO_JBUTTON);
+		setJButton (GUI.NO_BUTTON);
 	}
 	
 	public void setCheckBox (JCheckBox aJCheckBox, String aGroupName) {
@@ -43,7 +42,7 @@ public class FrameButton {
 	}
 	
 	public boolean isJButton () {
-		return jButton != NO_JBUTTON;
+		return jButton != GUI.NO_BUTTON;
 	}
 	
 	public void setVisible (boolean aVisibleFlag) {
@@ -67,7 +66,7 @@ public class FrameButton {
 	}
 	
 	public boolean isJCheckBox () {
-		return jCheckBox != NO_JCHECKBOX;
+		return jCheckBox != GUI.NO_CHECK_BOX;
 	}
 	
 	public String getGroupName () {
@@ -75,7 +74,7 @@ public class FrameButton {
 	}
 	
 	public String getTitle () {
-		String tTitle = NO_TITLE;
+		String tTitle = GUI.NULL_STRING;
 		
 		if (isJButton ()) {
 			tTitle = jButton.getText ();
@@ -98,7 +97,7 @@ public class FrameButton {
 	}
 	
 	public String getToolTipText () {
-		String tToolTipText = NO_TITLE;
+		String tToolTipText = GUI.NO_TOOL_TIP;
 		
 		if (isJButton ()) {
 			tToolTipText = jButton.getToolTipText ();
