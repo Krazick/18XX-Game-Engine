@@ -93,7 +93,7 @@ public class Certificate implements Comparable<Certificate> {
 	int percentage;
 	CertificateHolderI owner;
 	String [] allowedOwners = null;
-	JCheckBox checkedButton;
+	JCheckBox checkBox;
 	FrameButton frameButton;
 	JComboBox<String> parValuesCombo;
 	Bidders bidders;
@@ -105,8 +105,8 @@ public class Certificate implements Comparable<Certificate> {
 	public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage, CertificateHolderI aOwner) {
 		setValues (aCorporation, aIsPresidentShare, aPercentage, aOwner);
 		parValuesCombo = null;
-		checkedButton = FrameButton.NO_JCHECKBOX;
-		setFrameButton (checkedButton, "");
+		checkBox = GUI.NO_CHECK_BOX;
+		setFrameButton (checkBox, "");
 	}
 	
 	public Certificate (Certificate aCertificate) {
@@ -116,9 +116,9 @@ public class Certificate implements Comparable<Certificate> {
 			allowedOwners = aCertificate.allowedOwners.clone ();
 			setCorporation (aCertificate.getCorporation ());
 			setOwner (aCertificate.getOwner ());	
-			checkedButton = new JCheckBox ("EMPTY");
-			checkedButton = FrameButton.NO_JCHECKBOX;
-			setFrameButton (checkedButton, "");
+			checkBox = new JCheckBox ("EMPTY");
+			checkBox = FrameButton.NO_JCHECKBOX;
+			setFrameButton (checkBox, "");
 			parValuesCombo = null;
 			bidders = new Bidders (this);
 		}
@@ -171,8 +171,8 @@ public class Certificate implements Comparable<Certificate> {
 		}
 		setCorporation (Corporation.NO_CORPORATION);
 		setOwner (NO_OWNER);
-		checkedButton = FrameButton.NO_JCHECKBOX;
-		setFrameButton (checkedButton, "");
+		checkBox = FrameButton.NO_JCHECKBOX;
+		setFrameButton (checkBox, "");
 		parValuesCombo = null;
 		bidders = new Bidders (this);
 	}
@@ -274,22 +274,22 @@ public class Certificate implements Comparable<Certificate> {
 				// TODO: non-1830 For 1835 with Minors, 1837 with Coal we cannot Sell them either, test for CanBeSold
 				if (isPresidentShare ()) {
 					if (canBeExchanged (aGameManager)) {
-						checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, true, GUI.NO_TOOL_TIP, aItemListener);
-						setFrameButton (checkedButton, getCompanyAbbrev () + " President Share");
-						tCertificateInfoJPanel.add (checkedButton);
+						checkBox = setupCheckedButton (Player.EXCHANGE_LABEL, true, GUI.NO_TOOL_TIP, aItemListener);
+						setFrameButton (checkBox, getCompanyAbbrev () + " President Share");
+						tCertificateInfoJPanel.add (checkBox);
 					} else {
-						checkedButton = setupCheckedButton (Player.EXCHANGE_LABEL, false, CANNOT_EXCHANGE_PRESIDENT, aItemListener);
-						setFrameButton (checkedButton, getCompanyAbbrev () + " President Share");
-						tCertificateInfoJPanel.add (checkedButton);						
+						checkBox = setupCheckedButton (Player.EXCHANGE_LABEL, false, CANNOT_EXCHANGE_PRESIDENT, aItemListener);
+						setFrameButton (checkBox, getCompanyAbbrev () + " President Share");
+						tCertificateInfoJPanel.add (checkBox);						
 					}
 				} else if (canBeSold (aGameManager)) {
-					checkedButton = setupCheckedButton (aCheckBoxLabel, true, GUI.NO_TOOL_TIP, aItemListener);
-					setFrameButton (checkedButton, getCompanyAbbrev () + " Share");
-					tCertificateInfoJPanel.add (checkedButton);
+					checkBox = setupCheckedButton (aCheckBoxLabel, true, GUI.NO_TOOL_TIP, aItemListener);
+					setFrameButton (checkBox, getCompanyAbbrev () + " Share");
+					tCertificateInfoJPanel.add (checkBox);
 				} else {
-					checkedButton = setupCheckedButton (aCheckBoxLabel, false, getReasonForNoSale (aGameManager), aItemListener);
-					setFrameButton (checkedButton, getCompanyAbbrev () + " Share");
-					tCertificateInfoJPanel.add (checkedButton);
+					checkBox = setupCheckedButton (aCheckBoxLabel, false, getReasonForNoSale (aGameManager), aItemListener);
+					setFrameButton (checkBox, getCompanyAbbrev () + " Share");
+					tCertificateInfoJPanel.add (checkBox);
 				}
 			}			
 		} else if (aCheckBoxLabel.equals (Player.BUY_LABEL) || aCheckBoxLabel.equals (Player.BUY_AT_PAR_LABEL)) {
@@ -312,13 +312,13 @@ public class Certificate implements Comparable<Certificate> {
 				} else {
 					tEnabled = true;
 				}
-				if (checkedButton == FrameButton.NO_JCHECKBOX) {
-					checkedButton = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);	
-					setFrameButton (checkedButton, getCompanyAbbrev () + " Share");
+				if (checkBox == FrameButton.NO_JCHECKBOX) {
+					checkBox = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);	
+					setFrameButton (checkBox, getCompanyAbbrev () + " Share");
 				} else {
 					updateCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);
 				}
-				tCertificateInfoJPanel.add (checkedButton);
+				tCertificateInfoJPanel.add (checkBox);
 			} else {
 				System.err.println ("Flagged Certificate cannot be Bought");
 			}
@@ -342,9 +342,9 @@ public class Certificate implements Comparable<Certificate> {
 				} else {
 					tEnabled = true;
 				}
-				checkedButton = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);					
-				setFrameButton (checkedButton, getCompanyAbbrev () + " Share");
-				tCertificateInfoJPanel.add (checkedButton);
+				checkBox = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);					
+				setFrameButton (checkBox, getCompanyAbbrev () + " Share");
+				tCertificateInfoJPanel.add (checkBox);
 			}
 		} else if (aCheckBoxLabel.equals ("")) {
 //			System.err.println ("CHECKBOX Label equal EMPTY String");
@@ -417,11 +417,11 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public void updateCheckedButton (String aLabel, boolean aEnabledState, String aToolTip, ItemListener aItemListener) {
-		checkedButton.setText (aLabel);
-		checkedButton.setEnabled (aEnabledState);
-		checkedButton.setToolTipText (aToolTip);
-		checkedButton.setSelected (false);
-		checkedButton.addItemListener (aItemListener);
+		checkBox.setText (aLabel);
+		checkBox.setEnabled (aEnabledState);
+		checkBox.setToolTipText (aToolTip);
+		checkBox.setSelected (false);
+		checkBox.addItemListener (aItemListener);
 	}
 	
 	public JCheckBox setupCheckedButton (String aLabel, boolean aEnabledState, String aToolTip, ItemListener aItemListener) {
@@ -561,13 +561,13 @@ public class Certificate implements Comparable<Certificate> {
 			tPrivateCertJPanel.add (tPresidentLabel);
 			tCheckboxLabel = "Buy";
 			if (aAvailableCash < tHalfValue) {
-				checkedButton = setupCheckedButton (tCheckboxLabel, false, "Not enough cash to buy at half price",  aItemListener);
-				setFrameButton (checkedButton, getCompanyAbbrev () + " Private");
-				tPrivateCertJPanel.add (checkedButton);
+				checkBox = setupCheckedButton (tCheckboxLabel, false, "Not enough cash to buy at half price",  aItemListener);
+				setFrameButton (checkBox, getCompanyAbbrev () + " Private");
+				tPrivateCertJPanel.add (checkBox);
 			} else if (corporation.canBuyPrivate ()) {
-				checkedButton = setupCheckedButton (tCheckboxLabel, true, GUI.NO_TOOL_TIP, aItemListener);
-				setFrameButton (checkedButton, getCompanyAbbrev () + " Private");
-				tPrivateCertJPanel.add (checkedButton);
+				checkBox = setupCheckedButton (tCheckboxLabel, true, GUI.NO_TOOL_TIP, aItemListener);
+				setFrameButton (checkBox, getCompanyAbbrev () + " Private");
+				tPrivateCertJPanel.add (checkBox);
 			}
 		} else {
 			tPrivateCertJPanel.add (tPresidentLabel);		
@@ -738,8 +738,8 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public void clearSelection () {
-		if (checkedButton != FrameButton.NO_JCHECKBOX) {
-			checkedButton.setSelected (false);
+		if (checkBox != FrameButton.NO_JCHECKBOX) {
+			checkBox.setSelected (false);
 		}
 	}
 
@@ -863,7 +863,7 @@ public class Certificate implements Comparable<Certificate> {
 	}
 	
 	public JCheckBox getCheckedButton () {
-		return checkedButton;
+		return checkBox;
 	}
 	
 	public JComboBox<String> getComboBox () {
@@ -1164,8 +1164,8 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tIsSelected;
 		
 		tIsSelected = false;
-		if (checkedButton != FrameButton.NO_JCHECKBOX) {
-			tIsSelected = checkedButton.isSelected ();
+		if (checkBox != FrameButton.NO_JCHECKBOX) {
+			tIsSelected = checkBox.isSelected ();
 		}
 		
 		return tIsSelected;
@@ -1176,7 +1176,7 @@ public class Certificate implements Comparable<Certificate> {
 		
 		tIsSelectedToBidOn = false;
 		if (isSelected ()) {
-			if (checkedButton.getText().equals (Player.BID_LABEL)) {
+			if (checkBox.getText().equals (Player.BID_LABEL)) {
 				tIsSelectedToBidOn = true;
 			}
 		}
@@ -1188,8 +1188,8 @@ public class Certificate implements Comparable<Certificate> {
 		
 		tIsSelectedToBuy = false;
 		if (isSelected ()) {
-			if (checkedButton.getText().equals (Player.BUY_LABEL) || 
-				checkedButton.getText ().equals (Player.BUY_AT_PAR_LABEL)) {
+			if (checkBox.getText().equals (Player.BUY_LABEL) || 
+				checkBox.getText ().equals (Player.BUY_AT_PAR_LABEL)) {
 				tIsSelectedToBuy = true;
 			}
 		}
@@ -1202,7 +1202,7 @@ public class Certificate implements Comparable<Certificate> {
 		
 		tIsSelectedToBid = false;
 		if (isSelected ()) {
-			if (checkedButton.getText().equals (Player.BID_LABEL)) {
+			if (checkBox.getText().equals (Player.BID_LABEL)) {
 				tIsSelectedToBid = true;
 			}
 		}
@@ -1215,7 +1215,7 @@ public class Certificate implements Comparable<Certificate> {
 		
 		tIsSelectedToExchange = false;
 		if (isSelected ()) {
-			if (checkedButton.getText().equals (Player.EXCHANGE_LABEL)) {
+			if (checkBox.getText().equals (Player.EXCHANGE_LABEL)) {
 				tIsSelectedToExchange = true;
 			}
 		}
@@ -1223,12 +1223,29 @@ public class Certificate implements Comparable<Certificate> {
 		return tIsSelectedToExchange;
 	}
 	
+	/**
+	 * Determine if the Certificate has a "SELL" Label on the CheckBox, with no regards to limits
+	 * @return TRUE if the Certificate has a "SELL" Label on the Checkbox
+	 */
+	public boolean canBeSold () {
+		boolean tHasSaleLabel;
+		
+		tHasSaleLabel = false;
+		if (checkBox != GUI.NO_CHECK_BOX) {
+			if (checkBox.getText().equals (Player.SELL_LABEL)) {
+				tHasSaleLabel = true;
+			}
+		}
+		
+		return tHasSaleLabel;
+	}
+	
 	public boolean isSelectedToSell () {
 		boolean tIsSelectedToSell;
 		
 		tIsSelectedToSell = false;
 		if (isSelected ()) {
-			if (checkedButton.getText().equals (Player.SELL_LABEL)) {
+			if (checkBox.getText().equals (Player.SELL_LABEL)) {
 				tIsSelectedToSell = true;
 			}
 		}
@@ -1380,15 +1397,15 @@ public class Certificate implements Comparable<Certificate> {
 	
 	public void setOwner (CertificateHolderI aOwner) {
 		owner = aOwner;
-		if (checkedButton != FrameButton.NO_JCHECKBOX) {
-			checkedButton.setSelected (false);
+		if (checkBox != FrameButton.NO_JCHECKBOX) {
+			checkBox.setSelected (false);
 		}
 	}
 
 	public void setStateCheckedButton (boolean aEnabledState, String aToolTip) {
-		if (checkedButton != FrameButton.NO_JCHECKBOX) {
-			checkedButton.setEnabled (aEnabledState);
-			checkedButton.setToolTipText (aToolTip);
+		if (checkBox != FrameButton.NO_JCHECKBOX) {
+			checkBox.setEnabled (aEnabledState);
+			checkBox.setToolTipText (aToolTip);
 		}
 	}
 	

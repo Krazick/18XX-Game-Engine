@@ -749,6 +749,19 @@ public class Portfolio implements CertificateHolderI {
 		return tCertificatesToBuy;
 	}
 	
+	public List<Certificate> getCertificatesCanBeSold () {
+		List<Certificate> tCertificatesToSell;
+		
+		tCertificatesToSell = new LinkedList<Certificate> ();
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.canBeSold ()) {
+				tCertificatesToSell.add (tCertificate);
+			}
+		}
+		
+		return tCertificatesToSell;
+	}
+
 	public List<Certificate> getCertificatesToSell () {
 		List<Certificate> tCertificatesToSell;
 		

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -35,6 +36,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	JLabel presidentTreasuryLabel;
 	JLabel totalTreasuryLabel;
 	JLabel cashNeededLabel;
+	JLabel totalLiquidAssetLabel;
 	JLabel frameLabel;
 	Train train;
 	TrainCompany trainCompany;
@@ -45,6 +47,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	int presidentTreasury;
 	int sellActionCount;
 	int cashNeeded;
+	int liquidAssetTotal;
 	
 	public ForceBuyTrainFrame (TrainCompany aBuyingCompany, Train aCheapestTrain) {
 		super ("Force Buy Train");
@@ -100,6 +103,11 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		updateCashNeeded ();
 		infoJPanel.add (cashNeededLabel);
 		infoJPanel.add (Box.createVerticalStrut (10));
+		
+		totalLiquidAssetLabel = new JLabel ("YYY");
+		infoJPanel.add (totalLiquidAssetLabel);
+		infoJPanel.add (Box.createVerticalStrut (10));
+		
 		tTrainPanel = train.buildCertificateInfoPanel ();
 		infoJPanel.add (tTrainPanel);
 		infoJPanel.add (Box.createVerticalStrut (10));
@@ -128,6 +136,18 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		}
 	}
 	
+	private void updateLiquidAssetLabel () {
+		int tLiquidAssetTotal;
+		
+		tLiquidAssetTotal = calculateTotalLiquidCertificateValue ();
+		setLiquidAssetTotal (tLiquidAssetTotal);
+		if (liquidAssetTotal > 0) {
+			totalLiquidAssetLabel.setText ("Total Saleable Certificates Value " + Bank.formatCash (liquidAssetTotal));
+		} else {
+			totalLiquidAssetLabel.setText ("No Certificates can be sold to generate cash");
+		}
+	}
+	
 	private void buildButtonJPanel () {
 		buttonJPanel = new JPanel ();
 		buttonJPanel.setLayout (new BoxLayout (buttonJPanel, BoxLayout.X_AXIS));
@@ -150,9 +170,9 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	private void buildStockJPanel () {
 		Portfolio tPresidentPortfolio;
 		
-		tPresidentPortfolio = getPresidentPortfolio();
-		stockCertificatesJPanel = tPresidentPortfolio.buildShareCertificateJPanel (Corporation.SHARE_COMPANY, "Sell", 
-						this, Player.NO_PLAYER, gameManager);
+		tPresidentPortfolio = getPresidentPortfolio ();
+		stockCertificatesJPanel = tPresidentPortfolio.buildShareCertificateJPanel (Corporation.SHARE_COMPANY, 
+						"Sell", this, Player.NO_PLAYER, gameManager);
 	}
 	
 	private void buildMainJPanel () {
@@ -176,6 +196,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		updateUndoButtion ();
 		updateSellButton ();
 		updateBuyTrainButton ();
+		updateLiquidAssetLabel ();
 	}
 	
 	private void updateTreasuryLabels () {
@@ -195,6 +216,25 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		}
 	}
 	
+	private void setLiquidAssetTotal (int aLiquidAssetTotal) {
+		liquidAssetTotal = aLiquidAssetTotal;
+	}
+	
+	private int calculateTotalLiquidCertificateValue () {
+		int tLiquidCertificateValue;
+		Portfolio tPresidentPortfolio;
+		List<Certificate> tCertificatesCanBeSold;
+		
+		tLiquidCertificateValue = 0;
+		tPresidentPortfolio = getPresidentPortfolio ();
+		tCertificatesCanBeSold = tPresidentPortfolio.getCertificatesCanBeSold ();
+		for (Certificate tCertificate : tCertificatesCanBeSold) {
+			tLiquidCertificateValue += tCertificate.getCost ();
+		}
+		
+		return tLiquidCertificateValue;
+	}
+	
 	private int getCountOfCertificatesForSale () {
 		Portfolio tPresidentPortfolio;
 		int tShareCount;
@@ -207,7 +247,9 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 
 	private Portfolio getPresidentPortfolio () {
 		Portfolio tPresidentPortfolio;
+		
 		tPresidentPortfolio = president.getPortfolio ();
+		
 		return tPresidentPortfolio;
 	}
 	
@@ -270,6 +312,11 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 			if (tExcessCash > tCertificateCost) {
 				if (allSelectedSharesSameSize ()) {
 					tTooManySharesSelectedToSell = true;
+				} else {
+					tTooManySharesSelectedToSell = true;
+					// TODO for 18XX games with non-President Share different sizes (20%, 5%, etc)
+					// Determine way to flag when a mix of sizes selected to be sold at once.
+					// For initial version, just allow this anyway.
 				}
 			}
 		}
