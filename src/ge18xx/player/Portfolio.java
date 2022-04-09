@@ -47,6 +47,12 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.border.Border;
 
+/**
+ * 
+ * Will store and Manage the Certificates owned by a PortfolioHolderI
+ * @author marksmith
+ *
+ */
 public class Portfolio implements CertificateHolderI {
 	public final static ElementName EN_PORTFOLIO = new ElementName ("Portfolio");
 	public final static ElementName EN_BIDDERS = new ElementName ("Bidders");
@@ -65,13 +71,13 @@ public class Portfolio implements CertificateHolderI {
 	public final static int NO_COMPONENT_INDEX = -1;
 	
 	/* These items are set once, no need to save/load */
-	PortfolioHolderI holder;
-	JPanel portfolioInfoJPanel;
+	protected JPanel portfolioInfoJPanel;
+	private PortfolioHolderI holder;
+	private final Border EMPTY_BORDER = BorderFactory.createEmptyBorder ();
 	
 	/* These items change during the Game, must be saved/loaded */
 	List<Certificate> certificates;
 	int privateIndex, coalIndex, minorIndex, shareIndex;
-	Border EMPTY_BORDER = BorderFactory.createEmptyBorder ();
 	
 	public Portfolio () {
 		this (NO_HOLDER);
@@ -360,11 +366,7 @@ public class Portfolio implements CertificateHolderI {
 			boolean aShares, String aSelectedButtonLabel, ItemListener aItemListener, GameManager aGameManager) {
 		JPanel tPrivateCertPanel, tCoalCertPanel, tMinorCertPanel, tShareCertPanel;
 		
-		portfolioInfoJPanel = new JPanel ();
-		portfolioInfoJPanel.setBorder (BorderFactory.createTitledBorder ("Portfolio"));
-		portfolioInfoJPanel.setLayout (new BoxLayout (portfolioInfoJPanel, BoxLayout.Y_AXIS));
-		portfolioInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		addJCAndVGlue (portfolioInfoJPanel, null);
+		buildPortfolioJPanel ("Portfolio");
 
 		if (aPrivates) {
 			tPrivateCertPanel = buildCertificateJPanel (tTitle, Corporation.PRIVATE_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
@@ -388,6 +390,17 @@ public class Portfolio implements CertificateHolderI {
 		}
 		
 		return portfolioInfoJPanel;
+	}
+
+	protected void buildPortfolioJPanel (String aTitle) {
+		BoxLayout tLayout;
+
+		portfolioInfoJPanel = new JPanel ();
+		portfolioInfoJPanel.setBorder (BorderFactory.createTitledBorder (aTitle));
+		tLayout = new BoxLayout (portfolioInfoJPanel, BoxLayout.Y_AXIS);
+		portfolioInfoJPanel.setLayout (tLayout);
+		portfolioInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		addJCAndVGlue (portfolioInfoJPanel, null);
 	}
 	
 	public void clearSelections () {
@@ -1391,7 +1404,36 @@ public class Portfolio implements CertificateHolderI {
 		
 		return tCountOfSelectedCertificates;
 	}
+	
+	/**
+	 * Review all Selected Shares for Sale to determine if all are the same Size
+	 * 
+	 * @return True if all Selected Shares are the same Size.
+	 * 
+	 */
+	public boolean allSelectedSharesSameSize () {
+		boolean tAllSelectedSharesSameSize;
+		int tPercentage;
+		int tFoundPercentage;
 		
+		tAllSelectedSharesSameSize = true;
+		tPercentage = 0;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelectedToSell ()) {
+				tFoundPercentage = tCertificate.getPercentage ();
+				if (tPercentage > 0) {
+					if (tFoundPercentage != tPercentage) {
+						tAllSelectedSharesSameSize = false;
+					}
+				} else {
+					tPercentage = tFoundPercentage;
+				}
+			}
+		}
+		
+		return tAllSelectedSharesSameSize;
+	}
+	
 	/**
 	 * Get cost of all Shares selected to be Bought
 	 * 
@@ -1430,6 +1472,12 @@ public class Portfolio implements CertificateHolderI {
 		return tSelectedStockSaleCost;
 	}
 	
+	/** 
+	 *  Determine if the player has selected any stocks to Sell
+	 *  
+	 * @return TRUE if at least one stock in the Portfolio has been selected to be sold
+	 * 
+	 */
 	public boolean hasSelectedStocksToSell () {
 		boolean tHasSelectedStocksToSell;
 		
