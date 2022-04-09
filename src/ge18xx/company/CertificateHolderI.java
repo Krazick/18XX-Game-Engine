@@ -39,4 +39,6 @@ public interface CertificateHolderI {
 	public boolean isPlayer ();
 	
 	public boolean isCompany ();
+	
+	static final CertificateHolderI NO_OWNER = null;
 }
