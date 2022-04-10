@@ -69,6 +69,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final String BUY_LABEL = "Buy";
 	public static final String BUY_AT_PAR_LABEL = "Buy at Par";
 	public static final String BID_LABEL = "Bid";
+	public static final String BUY_BID_LABEL = "Buy-Bid";
 	public static final String EXCHANGE_LABEL = "Exchange";
 	public static final int OWN_ZERO_PERCENT = 0;
 	public static final String NO_STOCK_TO_SELL = null;
@@ -1309,7 +1310,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		if (PlayerFrame.PASS.equals (aEvent.getActionCommand ())) {
 			passAction ();	
 		}
-		if (PlayerFrame.BUY_BID.equals (aEvent.getActionCommand ())) {
+		if (Player.BUY_BID_LABEL.equals (aEvent.getActionCommand ())) {
 			if (playerFrame.isBuyAction ()) {
 				buyAction ();
 			} else {
@@ -1319,10 +1320,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		if (PlayerFrame.DONE.equals (aEvent.getActionCommand ())) {
 			doneAction ();	
 		}
-		if (PlayerFrame.SELL.equals (aEvent.getActionCommand ())) {
+		if (SELL_LABEL.equals (aEvent.getActionCommand ())) {
 			sellAction ();	
 		}
-		if (PlayerFrame.EXCHANGE.equals(aEvent.getActionCommand ())) {
+		if (EXCHANGE_LABEL.equals(aEvent.getActionCommand ())) {
 			exchangeAction ();
 		}
 		if (PlayerFrame.UNDO.equals (aEvent.getActionCommand ())) {

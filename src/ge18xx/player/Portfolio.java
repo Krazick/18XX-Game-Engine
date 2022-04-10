@@ -60,7 +60,6 @@ public class Portfolio implements CertificateHolderI {
 	public final static AttributeName AN_COAL_INDEX = new AttributeName ("coalIndex");
 	public final static AttributeName AN_MINOR_INDEX = new AttributeName ("minorIndex");
 	public final static AttributeName AN_SHARE_INDEX = new AttributeName ("shareIndex");
-//	public final static PortfolioHolderI NO_HOLDER = null;
 	public final static Portfolio NO_PORTFOLIO = null;
 	public final static JPanel NO_PORTFOLIO_JPANEL = null;
 	public final static String NO_PORTFOLIO_LABEL = ">> NO PORTFOLIO <<";

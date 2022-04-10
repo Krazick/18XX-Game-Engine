@@ -39,11 +39,11 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
 	static final String PASS = "Pass";
-	static final String BUY = "Buy";
-	static final String BID = "Bid";
-	static final String BUY_BID = "Buy-Bid";
-	static final String SELL = "Sell";
-	static final String EXCHANGE = "Exchange";
+//	static final String BUY = "Buy";
+//	static final String BID = "Bid";
+//	static final String BUY_BID = "Buy-Bid";
+//	static final String SELL = "Sell";
+//	static final String EXCHANGE = "Exchange";
 	private static final long serialVersionUID = 1L;
 	JPanel playerAndBankJPanel;
 	JPanel bankJPanel;
@@ -197,9 +197,9 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		buttonJPanel = new JPanel ();
 
 		passButton = buildButton (PASS, PASS);
-		buyBidButton = buildButton (BUY_BID, BUY_BID);
-		sellButton = buildButton (SELL, SELL);
-		exchangeButton = buildButton (EXCHANGE, EXCHANGE);
+		buyBidButton = buildButton (Player.BUY_BID_LABEL, Player.BUY_BID_LABEL);
+		sellButton = buildButton (Player.SELL_LABEL, Player.SELL_LABEL);
+		exchangeButton = buildButton (Player.EXCHANGE_LABEL, Player.EXCHANGE_LABEL);
 		undoButton = buildButton (UNDO, UNDO);
 		explainButton = buildButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
 		
@@ -245,7 +245,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public boolean isBuyAction () {
 		boolean tIsBuyAction;
 		
-		tIsBuyAction = buyBidButton.getText().equals (BUY);
+		tIsBuyAction = buyBidButton.getText().equals (Player.BUY_LABEL);
 		
 		return tIsBuyAction;
 	}
@@ -716,12 +716,12 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				if (tCostToBuy <= 0) {
 					buyBidButton.setEnabled (false);
 					buyBidButton.setToolTipText ("No Par Price Selected Yet");
-					buyBidButton.setText (BUY);
+					buyBidButton.setText (Player.BUY_LABEL);
 					tNormalBuy = false;
 				} else if (tCostToBuy > player.getCash ()) {
 					buyBidButton.setEnabled (false);
 					buyBidButton.setToolTipText ("Does not have enough cash");
-					buyBidButton.setText (BUY);
+					buyBidButton.setText (Player.BUY_LABEL);
 					tNormalBuy = false;
 				}
 			}
@@ -744,7 +744,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			if ((tCountSelectedCosToBuy + tCountSelectedCosToBid) > 1) {
 				buyBidButton.setEnabled (false);
 				buyBidButton.setToolTipText ("Select only one Company's Stock to buy and/or bid on at a time");
-				buyBidButton.setText (BUY);
+				buyBidButton.setText (Player.BUY_LABEL);
 				enableSelectedButton (STOCK_SELECTED_FOR_BUY);
 			} else {
 				if (tCountSharesToBuy > 1) {
@@ -754,25 +754,25 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 							
 							buyBidButton.setEnabled (aStocksToBuy);
 							buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
-							buyBidButton.setText (BUY);
+							buyBidButton.setText (Player.BUY_LABEL);
 							enableSelectedButton (STOCK_SELECTED_FOR_BUY);
 						} else {
 							buyBidButton.setEnabled (false);
 							buyBidButton.setToolTipText ("Can only buy 1 Certificate for this company");
-							buyBidButton.setText (BUY);
+							buyBidButton.setText (Player.BUY_LABEL);
 							enableSelectedButton (STOCK_SELECTED_FOR_BUY);
 						
 						}
 					} else {
 						buyBidButton.setEnabled (aStocksToBuy);
 						buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
-						buyBidButton.setText (BUY);
+						buyBidButton.setText (Player.BUY_LABEL);
 						enableSelectedButton (STOCK_SELECTED_FOR_BUY);
 					}
 				} else {
 					buyBidButton.setEnabled (aStocksToBuy);
 					buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
-					buyBidButton.setText (BUY);
+					buyBidButton.setText (Player.BUY_LABEL);
 					enableSelectedButton (STOCK_SELECTED_FOR_BUY);
 				}
 			}
@@ -780,17 +780,17 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			if (tCountSelectedCosToBid > 1) {
 				buyBidButton.setEnabled (false);
 				buyBidButton.setToolTipText ("Select only one Company's Stock to bid on at a time");
-				buyBidButton.setText (BID);
+				buyBidButton.setText (Player.BID_LABEL);
 				enableSelectedButton (STOCK_SELECTED_FOR_BID);
 			} else if (aPrivateToBidOn) {
 				buyBidButton.setEnabled (aPrivateToBidOn);
 				buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BID);
-				buyBidButton.setText (BID);
+				buyBidButton.setText (Player.BID_LABEL);
 				enableSelectedButton (STOCK_SELECTED_FOR_BID);
 			} else {
 				buyBidButton.setEnabled (aStocksToBuy);
 				buyBidButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE2);
-				buyBidButton.setText (BUY_BID);
+				buyBidButton.setText (Player.BUY_BID_LABEL);
 				enableAllStartPacketButtons ("");
 			}
 		}
