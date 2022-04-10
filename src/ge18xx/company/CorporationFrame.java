@@ -49,7 +49,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String PAY_FULL_DIVIDEND = "Pay Full Dividend";
 	static final String PAY_HALF_DIVIDEND = "Pay Half Dividend";
 	static final String PAY_NO_DIVIDEND = "Pay No Dividend";
-	static final String BUY_TRAIN = "Buy Train";
+	public static final String BUY_TRAIN = "Buy Train";
 	static final String OFFER_TO_BUY_TRAIN = "Offer to Buy Train";
 	static final String FORCE_BUY_TRAIN = "Force Buy Train";
 	static final String BUY_PRIVATE = "Buy Private";
