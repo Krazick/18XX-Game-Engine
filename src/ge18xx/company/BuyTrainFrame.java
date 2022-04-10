@@ -49,7 +49,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 	int buyingTrainCompanyTreasury, remainingTreasury;
 	
 	public BuyTrainFrame (TrainCompany aBuyingCompany, TrainHolderI aCurrentOwner, Train aSelectedTrain) {
-		super ("Buy Train");
+		super (CorporationFrame.BUY_TRAIN);
 
 		trainCompany = aBuyingCompany;
 		train = aSelectedTrain;
@@ -117,7 +117,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		offerButtonPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		
 		doSetPriceButton = buildButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
-		doBuyButton = buildButton ("Buy Train", BUY_ACTION);
+		doBuyButton = buildButton (CorporationFrame.BUY_TRAIN, BUY_ACTION);
 		offerButtonPanel.add (doSetPriceButton);
 		offerButtonPanel.add (Box.createHorizontalStrut (10));
 		offerButtonPanel.add (doBuyButton);

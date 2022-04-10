@@ -154,16 +154,16 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		buttonJPanel = new JPanel ();
 		buttonJPanel.setLayout (new BoxLayout (buttonJPanel, BoxLayout.X_AXIS));
 		
-		doBuyButton = new JButton ("Buy Train");
+		doBuyButton = new JButton (CorporationFrame.BUY_TRAIN);
 		doBuyButton.setActionCommand (BUY_ACTION);
 		doBuyButton.addActionListener (this);
 		buttonJPanel.add (doBuyButton);
-		doSellButton = new JButton ("Sell");
+		doSellButton = new JButton (Player.SELL_LABEL);
 		doSellButton.setActionCommand (SELL_ACTION);
 		doSellButton.setEnabled (false);
 		doSellButton.addActionListener (this);
 		buttonJPanel.add (doSellButton);
-		undoButton = new JButton ("Undo Sell");
+		undoButton = new JButton ("Undo " + Player.SELL_LABEL);
 		undoButton.setActionCommand (UNDO_SELL_ACTION);
 		undoButton.addActionListener (this);
 		buttonJPanel.add (undoButton);
@@ -178,7 +178,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		
 		tPresidentPortfolio = getPresidentPortfolio ();
 		stockCertificatesJPanel = tPresidentPortfolio.buildShareCertificateJPanel (Corporation.SHARE_COMPANY, 
-						"Sell", this, Player.NO_PLAYER, gameManager);
+						Player.SELL_LABEL, this, Player.NO_PLAYER, gameManager);
 	}
 	
 	private void buildMainJPanel () {
@@ -231,12 +231,34 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		int tLiquidCertificateValue;
 		Portfolio tPresidentPortfolio;
 		List<Certificate> tCertificatesCanBeSold;
+		int tPresidentPercent;
+		int tNextPresidentPercent;
+		int tCanSellPercent;
+		int tCanSellCount;
+		int tSharePercent = 10;	// Should determine minumum Share Percent for Company.
+		int tCurrentCorpCounted;
 		
 		tLiquidCertificateValue = 0;
 		tPresidentPortfolio = getPresidentPortfolio ();
 		tCertificatesCanBeSold = tPresidentPortfolio.getCertificatesCanBeSold ();
+		
+		tPresidentPercent = trainCompany.getPresidentPercent ();
+		tNextPresidentPercent = trainCompany.getNextPresidentPercent ();
+		tCanSellPercent = (tPresidentPercent - tNextPresidentPercent);
+		tCanSellCount = tCanSellPercent/tSharePercent;
+		tCurrentCorpCounted = 0;
+		
 		for (Certificate tCertificate : tCertificatesCanBeSold) {
-			tLiquidCertificateValue += tCertificate.getCost ();
+			if (tCertificate.getCompanyAbbrev().equals (trainCompany.getAbbrev ())) {
+				if (tCurrentCorpCounted < tCanSellCount) {
+					tLiquidCertificateValue += tCertificate.getCost ();
+					tCurrentCorpCounted++;
+					System.out.println ("Can Sell " + tSharePercent + "% of " + trainCompany.getAbbrev () +
+							" for " + Bank.formatCash (tCertificate.getCost ()));
+				}
+			} else {
+				tLiquidCertificateValue += tCertificate.getCost ();
+			}
 		}
 		
 		return tLiquidCertificateValue;
@@ -355,7 +377,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		String tButtonLabel;
 		String tSharesInfo;
 		
-		tButtonLabel = "Sell";
+		tButtonLabel = Player.SELL_LABEL;
 		if (haveEnoughCash ()) {
 			doSellButton.setEnabled (false);
 			tToolTip = "Enough cash to buy the Train, can't sell stock";
@@ -378,7 +400,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 				doSellButton.setEnabled (true);
 				tToolTip = "";
 				tSharesInfo = buildSharesInfo ();
-				tButtonLabel = "Sell " + tSharesInfo;
+				tButtonLabel = tButtonLabel + " " + tSharesInfo;
 			}
 			
 		} else {
