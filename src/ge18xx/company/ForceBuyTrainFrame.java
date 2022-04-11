@@ -262,7 +262,9 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		int tSharePercent = 10;	// Should determine minumum Share Percent for Company.
 		int tCurrentCorpCounted;
 		Set<String> tReasons;
-		String tReason;
+		String tReason, tAllReasons;
+		String tPreviousAbbrev, tCurrentAbbrev, tTrainCoAbbrev;
+		int tSellLimit, tCertCount;
 		
 		tLiquidCertificateValue = 0;
 		tPresidentPortfolio = getPresidentPortfolio ();
@@ -273,48 +275,62 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		tCanSellPercent = (tPresidentPercent - tNextPresidentPercent);
 		tCanSellCount = tCanSellPercent/tSharePercent;
 		tCurrentCorpCounted = 0;
-		clearSaleLimitReasons ();
 		tReasons = new HashSet<String> ();
+		tTrainCoAbbrev = trainCompany.getAbbrev ();
 		
+		// Determine Sale Limits for Certificates from trainCompany, limited by Next President Holdings
 		for (Certificate tCertificate : tCertificatesCanBeSold) {
-			if (tCertificate.getCompanyAbbrev ().equals (trainCompany.getAbbrev ())) {
+			if (tCertificate.getCompanyAbbrev ().equals (tTrainCoAbbrev)) {
 				if (tCurrentCorpCounted < tCanSellCount) {
 					tLiquidCertificateValue += tCertificate.getCost ();
 					tCurrentCorpCounted++;
 				} else {
 					tReason = trainCompany.getNextPresidentName () + " has " + tNextPresidentPercent + 
-							"% of " + trainCompany.getAbbrev () + ", limits Sale to " + tCanSellPercent + "%";
+							"% of " + tTrainCoAbbrev + ", limits Sale to " + tCanSellPercent + "%";
 					tReasons.add (tReason);
 				}
-			} else {
-				tLiquidCertificateValue += tCertificate.getCost ();
 			}
 		}
 		
-		for (String tAReason : tReasons) {
-			addSaleLimitReason (tAReason);
+		// Determine Sale Limits for Certificates from other Companies, limited by Bank Pool Limits
+		
+		tPreviousAbbrev = "";
+		tCertCount = 0;
+		tSellLimit = 9;
+		for (Certificate tCertificate : tCertificatesCanBeSold) {
+			tCurrentAbbrev = tCertificate.getCompanyAbbrev ();
+			if (! tCurrentAbbrev.equals (tTrainCoAbbrev)) {
+				if (! tCurrentAbbrev.equals (tPreviousAbbrev)) {
+					tSellLimit = tCertificate.sellLimit ();
+					tCertCount = 0;
+					tPreviousAbbrev = tCurrentAbbrev;
+				}
+				if (tCertCount < tSellLimit) {
+					tLiquidCertificateValue += tCertificate.getCost ();
+					tCertCount++;
+				} else {
+					tReason = "Bank Pool can only hold " + tSellLimit + " more " + tCurrentAbbrev + 
+							" Certificates";
+					tReasons.add (tReason);
+				}
+			}
 		}
+		
+		tAllReasons = "";
+		for (String tAReason : tReasons) {
+			if (tAllReasons.length () > 0) {
+				tAllReasons += "<br>";
+			}
+			tAllReasons += tAReason;
+		}
+		tAllReasons = "<html>" + tAllReasons + "</html>";
+		setSaleLimitReasons (tAllReasons);
 		
 		return tLiquidCertificateValue;
 	}
 	
-	private void clearSaleLimitReasons () {
-		saleLimitReasons.setText ("");
-	}
-	
-	private void addSaleLimitReason (String aReason) {
-		String tCurrentLabel;
-		
-		if (aReason != null) {
-			tCurrentLabel = saleLimitReasons.getText ();
-			if (tCurrentLabel != null) {
-				if (tCurrentLabel.length () > 0) {
-					tCurrentLabel += "<br>";
-				}
-				tCurrentLabel += aReason;
-				saleLimitReasons.setText (tCurrentLabel);
-			}
-		}
+	private void setSaleLimitReasons (String aSaleLimitReasons) {
+		saleLimitReasons.setText (aSaleLimitReasons);
 	}
 		
 	private int getCountOfCertificatesForSale () {
