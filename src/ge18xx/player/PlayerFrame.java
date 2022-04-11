@@ -39,11 +39,6 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
 	static final String PASS = "Pass";
-//	static final String BUY = "Buy";
-//	static final String BID = "Bid";
-//	static final String BUY_BID = "Buy-Bid";
-//	static final String SELL = "Sell";
-//	static final String EXCHANGE = "Exchange";
 	private static final long serialVersionUID = 1L;
 	JPanel playerAndBankJPanel;
 	JPanel bankJPanel;

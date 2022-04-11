@@ -77,7 +77,7 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		
 		doSetPriceButton = buildButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
 		privatePanel.add (doSetPriceButton);
-		doBuyButton = buildButton ("Buy Private", BUY_ACTION);
+		doBuyButton = buildButton (CorporationFrame.BUY_PRIVATE, BUY_ACTION);
 		
 		privatePanel.add (doBuyButton);
 		setCorporationTreasuryLabel ();
