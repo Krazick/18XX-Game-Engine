@@ -967,6 +967,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int getNextPresidentPercent () {
 		return corporationCertificates.getNextPresidentPercent (this);
 	}
+	public String getNextPresidentName () {
+		return corporationCertificates.getNextPresidentName (this);
+	}
 
 	public int getPresidentPercent () {
 		return corporationCertificates.getPresidentPercent (this);
