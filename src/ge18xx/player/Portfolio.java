@@ -982,6 +982,44 @@ public class Portfolio implements CertificateHolderI {
 		return tNextPresidentPercent;
 	}
 	
+	public String getNextPresidentName (Corporation aCorporation) {
+		String tCertificateOwnerName, tNextName, tPresidentName;
+		PortfolioHolderI tPresident;
+		int tNextPresidentPercent;
+		int tPercent;
+		String tNextPresidentName;
+
+		tNextName = "";
+		tPresident = getPresident ();
+		tPresidentName = tPresident.getName ();
+		tNextPresidentPercent = 0;
+		tPercent = 0;
+		sortByOwners ();
+		tNextPresidentName = "";
+		
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isOwned ()) {
+				tCertificateOwnerName = tCertificate.getOwnerName ();
+				if (! tCertificateOwnerName.equals (tPresidentName)) {
+					if (tCertificateOwnerName.equals (tNextName)) {
+						tPercent += tCertificate.getPercentage ();
+					} else {
+						if (tPercent > tNextPresidentPercent) {
+							tNextPresidentPercent = tPercent;
+						}
+						tPercent = tCertificate.getPercentage ();
+					}
+				}
+				tNextName = tCertificateOwnerName;
+			}
+		}
+		if (tPercent > tNextPresidentPercent) {
+			tNextPresidentName = tNextName;
+		}
+		
+		return tNextPresidentName;
+	}
+	
 	public PortfolioHolderI getPresident () {
 		CertificateHolderI tCertificateHolder;
 		PortfolioHolderI tPortfolioHolder;
