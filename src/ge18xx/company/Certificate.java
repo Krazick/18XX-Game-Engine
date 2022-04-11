@@ -176,6 +176,23 @@ public class Certificate implements Comparable<Certificate> {
 		bidders = new Bidders (this);
 	}
 	
+	public int sellLimit () {
+		int tSellLimit;
+		int tBankPoolShareLimit, tBankPoolShareCount;
+		GameManager tGameManager;
+		GameInfo tGameInfo;
+		BankPool tBankPool;
+		
+		tGameManager = corporation.getGameManager ();
+		tBankPool = tGameManager.getBankPool ();
+		tGameInfo = tGameManager.getActiveGame ();
+		tBankPoolShareLimit = tGameInfo.getBankPoolShareLimit ();
+		tBankPoolShareCount = tBankPool.getCertificateCountFor (corporation);
+		tSellLimit = tBankPoolShareLimit - tBankPoolShareCount;
+		
+		return tSellLimit;
+	}
+	
 	public boolean bankPoolAtLimit (GameManager aGameManager) {
 		boolean tBankPoolAtLimit;
 		BankPool tBankPool;
