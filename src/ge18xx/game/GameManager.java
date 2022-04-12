@@ -2423,6 +2423,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return bank.isBroken ();
 	}
 	
+	public void declareBankruptcy (String aCompanyAbbrev) {
+		System.out.println ("Game Manager set to Bankruptcy Declared by " + aCompanyAbbrev);
+		
+	}
+	
 	public void disconnect () {
 		if (isNetworkGame ()) {
 			networkJGameClient.disconnect ();
