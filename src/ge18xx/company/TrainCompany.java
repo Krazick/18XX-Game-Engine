@@ -150,6 +150,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		setCorporationFrame ();
 	}
 	
+	public void declareBankruptcy () {
+		declareBankruptcyAction ();
+	}
+	
 	public void setupTrainRevenueFrame () {
 		String tRevenueFrameTitle;
 		String tClientName;
