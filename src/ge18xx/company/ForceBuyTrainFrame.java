@@ -91,6 +91,8 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		tCompanyTreasury = trainCompany.getCash ();
 		infoJPanel = new JPanel ();
 		infoJPanel.setLayout (new BoxLayout (infoJPanel, BoxLayout.Y_AXIS));
+		infoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		
 		infoJPanel.add (Box.createVerticalStrut (10));
 		frameLabel = new JLabel ("Force Buy Train for " + trainCompany.getAbbrev ());
 		addLabelAndSpace (frameLabel);
@@ -113,7 +115,6 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		tTrainPanel = train.buildCertificateInfoPanel ();
 		infoJPanel.add (tTrainPanel);
 		infoJPanel.add (Box.createVerticalStrut (10));
-		infoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 	}
 
 	private void addLabelAndSpace (JLabel aLabelToAdd) {

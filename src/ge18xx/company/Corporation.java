@@ -1809,11 +1809,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	// Overriden in Train Company
-	public JPanel buildPortfolioTrainsJPanel (CorporationFrame corporationFrame2, 
+	public JPanel buildPortfolioTrainsJPanel (CorporationFrame aCorporationFrame, 
 			GameManager aGameManager, boolean aFullTrainPortfolio, 
 			boolean aCanBuyTrain, String aDisableToolTipReason, 
 			Corporation aBuyingCorporation) {
-		return null;
+		return GUI.NO_PANEL;
 	}
 	
 	public TrainHolderI getLocalSelectedTrainHolder () {

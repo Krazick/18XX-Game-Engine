@@ -39,6 +39,7 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ItemListener;
 import java.awt.Point;
 
@@ -387,13 +388,17 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 //	@Override
-	public JPanel buildPortfolioTrainsJPanel (CorporationFrame aItemListener, 
+//	public JPanel buildPortfolioTrainsJPanel (CorporationFrame corporationFrame, 
+//			GameManager aGameManager, boolean aFullTrainPortfolio, 
+//			boolean aCanBuyTrain, String aDisableToolTipReason, 
+//			Corporation aBuyingCorporation) {
+
+	public JPanel buildPortfolioTrainsJPanel (CorporationFrame aCorporationFrame, 
 			GameManager aGameManager, boolean aFullTrainPortfolio, 
 			boolean aCanBuyTrain, String aDisableToolTipReason, 
 			Corporation aBuyingCorporation, int aTokenCount) {
 		JPanel tTrainInfoJPanel;
 		JPanel tCorpJPanel;
-		JLabel tCorpAbbrev, tPresidentLabel, tStateLabel, tTreasuryLabel, tTokensLabel;
 		Border tBorder;
 		String tPresident, tBuyingPresident;
 		String tActionLabel;
@@ -405,27 +410,23 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		tCorpJPanel = new JPanel ();
 		tCorpJPanel.setLayout (new BoxLayout (tCorpJPanel, BoxLayout.Y_AXIS));
+		tCorpJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		tCorpJPanel.setBorder (tBorder);
-
-		tCorpAbbrev = new JLabel (getAbbrev ());
-		tStateLabel = new JLabel ("State: " + getStatusName ());
-		tTreasuryLabel = new JLabel ("Treasury: " + Bank.formatCash (treasury));
-		tTokensLabel = new JLabel ("Tokens: " + aTokenCount);
+		
 		if (! isPlayerOwned ()) {
 			tPresident = "Bank";
 		}
-		tPresidentLabel = new JLabel ("Prez: " + tPresident);
-		tCorpJPanel.add (tCorpAbbrev);
-		tCorpJPanel.add (tStateLabel);
-		tCorpJPanel.add (tPresidentLabel);
-		tCorpJPanel.add (tTreasuryLabel);
-		tCorpJPanel.add (tTokensLabel);
+		addLabel (tCorpJPanel, getAbbrev ());
+		addLabel (tCorpJPanel, "State: " + getStatusName ());
+		addLabel (tCorpJPanel, "Treasury: " + Bank.formatCash (treasury));
+		addLabel (tCorpJPanel, "Tokens: " + aTokenCount);
+		addLabel (tCorpJPanel, "Prez: " + tPresident);
 		if (canOperate ()) {
-			tCorpJPanel.add (new JLabel ("Revenue: " + getFormattedThisRevenue ()));
+			addLabel (tCorpJPanel, "Revenue: " + getFormattedThisRevenue ());
 		}
 		
 		if (trainPortfolio != TrainPortfolio.NO_TRAIN_PORTFOLIO) {
-			tTrainInfoJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, this, 
+			tTrainInfoJPanel = trainPortfolio.buildPortfolioJPanel (aCorporationFrame, this, 
 					aGameManager, tActionLabel, aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason);
 			tCorpJPanel.add (tTrainInfoJPanel);	
 		}
@@ -433,6 +434,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCorpJPanel;
 	}
 
+	private void addLabel (JPanel aCorpJPanel, String aString) {
+		JLabel tLabel;
+		
+		tLabel = new JLabel (aString);
+		aCorpJPanel.add (tLabel);
+	}
+	
 	public JPanel buildCertPortfolioInfoJPanel (ItemListener aItemListener) {
 		JPanel tCertPortfolioInfoJPanel;
 		JPanel tTrainPortfolioInfoJPanel;
