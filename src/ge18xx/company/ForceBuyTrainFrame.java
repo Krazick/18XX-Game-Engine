@@ -1,5 +1,6 @@
 package ge18xx.company;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -92,29 +93,18 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		infoJPanel.setLayout (new BoxLayout (infoJPanel, BoxLayout.Y_AXIS));
 		infoJPanel.add (Box.createVerticalStrut (10));
 		frameLabel = new JLabel ("Force Buy Train for " + trainCompany.getAbbrev ());
-//		infoJPanel.add (frameLabel);
-//		infoJPanel.add (Box.createVerticalStrut (10));
 		addLabelAndSpace (frameLabel);
 		corporationTreasuryLabel = new JLabel ("Treasury: " + Bank.formatCash (tCompanyTreasury));
-//		infoJPanel.add (corporationTreasuryLabel);
-//		infoJPanel.add (Box.createVerticalStrut (10));
 		addLabelAndSpace (corporationTreasuryLabel);
 		tPresidentLabel = new JLabel ("President: " + president.getName ());
-//		infoJPanel.add (tPresidentLabel);
-//		infoJPanel.add (Box.createVerticalStrut (10));
 		addLabelAndSpace (tPresidentLabel);
 		presidentTreasuryLabel = new JLabel ("President Treasury: " + Bank.formatCash (presidentTreasury));
-//		infoJPanel.add (presidentTreasuryLabel);
-//		infoJPanel.add (Box.createVerticalStrut (10));
 		addLabelAndSpace (presidentTreasuryLabel);
 		totalTreasuryLabel = new JLabel ("Total Treasury: " + Bank.formatCash (presidentTreasury + tCompanyTreasury));
-//		infoJPanel.add (totalTreasuryLabel);
-//		infoJPanel.add (Box.createVerticalStrut (10));
 		addLabelAndSpace (totalTreasuryLabel);
 		cashNeededLabel = new JLabel ("XXX");
 		updateCashNeeded ();
-		addLabelAndSpace (cashNeededLabel);
-		
+		addLabelAndSpace (cashNeededLabel);	
 		totalLiquidAssetLabel = new JLabel ("YYY");
 		addLabelAndSpace (totalLiquidAssetLabel);
 		saleLimitReasons = new JLabel ("");
@@ -123,9 +113,11 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		tTrainPanel = train.buildCertificateInfoPanel ();
 		infoJPanel.add (tTrainPanel);
 		infoJPanel.add (Box.createVerticalStrut (10));
+		infoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 	}
 
 	private void addLabelAndSpace (JLabel aLabelToAdd) {
+		infoJPanel.add (Box.createHorizontalStrut (50));
 		infoJPanel.add (aLabelToAdd);
 		infoJPanel.add (Box.createVerticalStrut (10));
 	}
@@ -255,49 +247,44 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		int tLiquidCertificateValue;
 		Portfolio tPresidentPortfolio;
 		List<Certificate> tCertificatesCanBeSold;
-		int tPresidentPercent;
-		int tNextPresidentPercent;
-		int tCanSellPercent;
-		int tCanSellCount;
-		int tSharePercent = 10;	// Should determine minumum Share Percent for Company.
-		int tCurrentCorpCounted;
 		Set<String> tReasons;
-		String tReason, tAllReasons;
-		String tPreviousAbbrev, tCurrentAbbrev, tTrainCoAbbrev;
-		int tSellLimit, tCertCount;
+		String tAllReasons;
 		
 		tLiquidCertificateValue = 0;
 		tPresidentPortfolio = getPresidentPortfolio ();
 		tCertificatesCanBeSold = tPresidentPortfolio.getCertificatesCanBeSold ();
-		
-		tPresidentPercent = trainCompany.getPresidentPercent ();
-		tNextPresidentPercent = trainCompany.getNextPresidentPercent ();
-		tCanSellPercent = (tPresidentPercent - tNextPresidentPercent);
-		tCanSellCount = tCanSellPercent/tSharePercent;
-		tCurrentCorpCounted = 0;
 		tReasons = new HashSet<String> ();
-		tTrainCoAbbrev = trainCompany.getAbbrev ();
 		
-		// Determine Sale Limits for Certificates from trainCompany, limited by Next President Holdings
-		for (Certificate tCertificate : tCertificatesCanBeSold) {
-			if (tCertificate.getCompanyAbbrev ().equals (tTrainCoAbbrev)) {
-				if (tCurrentCorpCounted < tCanSellCount) {
-					tLiquidCertificateValue += tCertificate.getCost ();
-					tCurrentCorpCounted++;
-				} else {
-					tReason = trainCompany.getNextPresidentName () + " has " + tNextPresidentPercent + 
-							"% of " + tTrainCoAbbrev + ", limits Sale to " + tCanSellPercent + "%";
-					tReasons.add (tReason);
-				}
-			}
+		tLiquidCertificateValue += calculateCurrentLiquidStock (tCertificatesCanBeSold, tReasons);
+		
+		tLiquidCertificateValue += calculateOtherLiquidStock (tCertificatesCanBeSold, tReasons);
+		
+		tAllReasons = "";
+		for (String tAReason : tReasons) {
+			tAllReasons += "<li>" + tAReason + "</li>";
 		}
+		tAllReasons = "<html><ul>" + tAllReasons + "</ul></html>";
+		setSaleLimitReasons (tAllReasons);
 		
+		return tLiquidCertificateValue;
+	}
+
+	private int calculateOtherLiquidStock (List<Certificate> aCertificatesCanBeSold, Set<String> aResons) {
+		String tReason;
+		String tPreviousAbbrev;
+		String tCurrentAbbrev;
+		String tTrainCoAbbrev;
+		int tSellLimit;
+		int tCertCount;
+		int tLiquidCertificateValue;
 		// Determine Sale Limits for Certificates from other Companies, limited by Bank Pool Limits
 		
+		tTrainCoAbbrev = trainCompany.getAbbrev ();
 		tPreviousAbbrev = "";
 		tCertCount = 0;
 		tSellLimit = 9;
-		for (Certificate tCertificate : tCertificatesCanBeSold) {
+		tLiquidCertificateValue = 0;
+		for (Certificate tCertificate : aCertificatesCanBeSold) {
 			tCurrentAbbrev = tCertificate.getCompanyAbbrev ();
 			if (! tCurrentAbbrev.equals (tTrainCoAbbrev)) {
 				if (! tCurrentAbbrev.equals (tPreviousAbbrev)) {
@@ -311,21 +298,50 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 				} else {
 					tReason = "Bank Pool can only hold " + tSellLimit + " more " + tCurrentAbbrev + 
 							" Certificates";
-					tReasons.add (tReason);
+					aResons.add (tReason);
 				}
 			}
 		}
 		
-		tAllReasons = "";
-		for (String tAReason : tReasons) {
-			if (tAllReasons.length () > 0) {
-				tAllReasons += "<br>";
-			}
-			tAllReasons += tAReason;
-		}
-		tAllReasons = "<html>" + tAllReasons + "</html>";
-		setSaleLimitReasons (tAllReasons);
+		return tLiquidCertificateValue;
+	}
+	
+	private int calculateCurrentLiquidStock (List<Certificate> aCertificatesCanBeSold, Set<String> aReasons) {
+		String tTrainCoAbbrev;
+		String tReason;
+		int tCanSellPercent;
+		int tCanSellCount;
+		int tCurrentCorpCounted;
+		int tLiquidCertificateValue;
+		int tNextPresidentPercent;
+		int tSharePercent = 10;	// Should determine minumum Share Percent for Company.
+		int tPresidentPercent;
 		
+		tTrainCoAbbrev = trainCompany.getAbbrev ();
+		tLiquidCertificateValue = 0;
+		tPresidentPercent = trainCompany.getPresidentPercent ();
+		tNextPresidentPercent = trainCompany.getNextPresidentPercent ();
+		tCanSellPercent = (tPresidentPercent - tNextPresidentPercent);
+		tCanSellCount = tCanSellPercent/tSharePercent;
+		tCurrentCorpCounted = 0;
+		tCanSellCount = tCanSellPercent/tSharePercent;
+		tCanSellPercent = 0;
+		tNextPresidentPercent = 0;
+		
+		// Determine Sale Limits for Certificates from trainCompany, limited by Next President Holdings
+		for (Certificate tCertificate : aCertificatesCanBeSold) {
+			if (tCertificate.getCompanyAbbrev ().equals (tTrainCoAbbrev)) {
+				if (tCurrentCorpCounted < tCanSellCount) {
+					tLiquidCertificateValue += tCertificate.getCost ();
+					tCurrentCorpCounted++;
+				} else {
+					tReason = trainCompany.getNextPresidentName () + " has " + tNextPresidentPercent + 
+							"% of " + tTrainCoAbbrev + ", limits Sale to " + tCanSellPercent + "%";
+					aReasons.add (tReason);
+				}
+			}
+		}
+
 		return tLiquidCertificateValue;
 	}
 	
