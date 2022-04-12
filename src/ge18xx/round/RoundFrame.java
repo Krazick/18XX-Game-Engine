@@ -229,6 +229,8 @@ public class RoundFrame extends XMLFrame {
 		tGameState = "Current Game State: ";
 		if (roundManager.bankIsBroken ()) {
 			tGameState += "BANK BROKEN";
+		} else if (roundManager.isBankrupt ()) {
+			tGameState += "BANKRUPT";
 		} else {
 			tGameState += "PLAYING";
 		}
