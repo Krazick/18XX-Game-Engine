@@ -220,6 +220,14 @@ public class RoundManager implements ActionListener {
 		gameManager.clearAllAuctionStates ();
 	}
 	
+	public void declareBankuptcyAction (Corporation aCorporation) {
+		clearAllPlayerSelections ();
+		currentRoundType = ActorI.ActionStates.Bankrupt;
+		updateRoundFrame ();
+		roundFrame.toTheFront ();
+		gameManager.resetRoundFrameBackgrounds ();
+	}
+	
 	public void doneAction (Corporation aCorporation) {
 		clearAllPlayerSelections ();
 		updateRoundFrame ();
@@ -506,6 +514,8 @@ public class RoundManager implements ActionListener {
 			tRoundType = getORType ();
 		} else if (currentRoundType == ActorI.ActionStates.AuctionRound) {
 			tRoundType = getARType ();
+		} else if (currentRoundType == ActorI.ActionStates.Bankrupt) {
+			tRoundType = "BANKRUPT";
 		} else {
 			tRoundType = "UNKOWN";
 		}
@@ -572,6 +582,10 @@ public class RoundManager implements ActionListener {
 	
 	public boolean isStockRound () {
 		return (currentRoundType == ActorI.ActionStates.StockRound);
+	}
+	
+	public boolean isBankrupt () {
+		return (currentRoundType == ActorI.ActionStates.Bankrupt);
 	}
 	
 	public boolean isLastOR () {
