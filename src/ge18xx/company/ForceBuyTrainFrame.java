@@ -74,6 +74,23 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
 		setVisible (true);
 	}
+	
+	private void buildMainJPanel () {
+		mainJPanel = new JPanel ();
+		mainJPanel.setLayout (new BoxLayout (mainJPanel, BoxLayout.Y_AXIS));
+		updateMainJPanel ();
+	}
+	
+	private void updateMainJPanel () {
+		mainJPanel.removeAll ();
+		buildInfoJPanel ();
+		buildStockJPanel ();
+		buildButtonJPanel ();
+
+		mainJPanel.add (infoJPanel);
+		mainJPanel.add (stockCertificatesJPanel);
+		mainJPanel.add (buttonJPanel);		
+	}
 
 	private void buildInfoJPanel () {
 		JLabel tPresidentLabel;
@@ -185,23 +202,6 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		tPresidentPortfolio = getPresidentPortfolio ();
 		stockCertificatesJPanel = tPresidentPortfolio.buildShareCertificateJPanel (Corporation.SHARE_COMPANY, 
 						Player.SELL_LABEL, this, Player.NO_PLAYER, gameManager);
-	}
-	
-	private void buildMainJPanel () {
-		mainJPanel = new JPanel ();
-		mainJPanel.setLayout (new BoxLayout (mainJPanel, BoxLayout.Y_AXIS));
-		updateMainJPanel ();
-	}
-	
-	private void updateMainJPanel () {
-		mainJPanel.removeAll ();
-		buildInfoJPanel ();
-		buildStockJPanel ();
-		buildButtonJPanel ();
-
-		mainJPanel.add (infoJPanel);
-		mainJPanel.add (stockCertificatesJPanel);
-		mainJPanel.add (buttonJPanel);		
 	}
 	
 	private void updateButtons () {
@@ -569,7 +569,9 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	}
 	
 	private void declareBankruptcy () {
+		cancelForceTrainBuy ();
 		System.out.println (president.getName () + " is Declaring Bankruptcy for " + trainCompany.getName ());
+		trainCompany.declareBankruptcy ();
 	}
 	
 	private void undoSellStock () {
