@@ -298,6 +298,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 	}
 	
+	public void declareBankuptcyAction (Corporation aCorporation) {
+		roundManager.declareBankuptcyAction (aCorporation);
+	}
+	
 	public void doneAction (Corporation aCorporation) {
 		roundManager.doneAction (aCorporation);
 	}
