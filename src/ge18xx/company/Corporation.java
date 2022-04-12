@@ -36,6 +36,7 @@ import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.round.OperatingRound;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.DeclareBankruptcyAction;
 import ge18xx.round.action.DoneCorpAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.TransferOwnershipAction;
@@ -612,6 +613,26 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	
 	public void prepareCorporation () {
 		System.out.println ("Ready to Prepare Corporation  for Operating -- OVERRIDDING SHOULD HANDLE");
+	}
+	
+	public void declareBankruptcyAction () {
+		DeclareBankruptcyAction tDeclareBankruptcyAction;
+		ActorI.ActionStates tCurrentStatus, tNewStatus;
+		OperatingRound tOperatingRound;
+		String tOperatingRoundID;
+		
+		tCurrentStatus = status;
+		resetStatus (ActorI.ActionStates.Bankrupt);
+		tNewStatus = status;
+		tOperatingRoundID = getOperatingRoundID ();
+		tDeclareBankruptcyAction = new DeclareBankruptcyAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
+		tDeclareBankruptcyAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
+		tDeclareBankruptcyAction.addClearTrainsFromMapEffect (this);
+		tOperatingRound = corporationList.getOperatingRound ();
+		tOperatingRound.addAction (tDeclareBankruptcyAction);
+		corporationList.declareBankuptcyAction (this);
+		clearTrainsFromMap ();
+		hideFrame ();
 	}
 	
 	public void doneAction () {
