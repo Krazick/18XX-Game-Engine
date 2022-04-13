@@ -86,6 +86,8 @@ import org.w3c.dom.NodeList;
 // methods into this sub-class
 
 public class GameManager extends Component implements NetworkGameSupport {
+	
+	// Static Constants
 	private static final long serialVersionUID = 1L;
 	public static final ElementName EN_CONFIG = new ElementName ("Config");
 	public static final ElementName EN_SAVEGAMEDIR = new ElementName ("SaveGameDir");
@@ -99,6 +101,25 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final String AUTO_SAVES_DIR = "autoSaves";
 	public static final GameManager NO_GAME_MANAGER = null;
 	public static final String EMPTY_GAME_ID = "";
+	
+	// Generic (non-game specific objects)
+	ArrayList<XMLFrame> configFrames;
+	SavedGames networkSavedGames;
+	JFileMChooser chooser;
+	File saveFile;
+	File autoSaveFile;
+	File loadSavedFile;
+	String autoSaveFileName;
+	String clientUserName;
+	String gameID;
+	Config configData;
+	boolean gameChangedSinceSave;
+	boolean gameStarted;
+	boolean gameEnding;
+	Logger logger;
+	String userDir;
+
+	// 18XX Game Specific Objects
 	Game_18XX game18XXFrame;
 	GameInfo activeGame;
 	PlayerManager playerManager;
@@ -106,8 +127,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	PhaseManager phaseManager;
 	BankPool bankPool;
 	Bank bank;
-	
-	ArrayList<XMLFrame> configFrames;
 	
 	// Various Frames the Game Manager tracks -- Consider adding to a "FrameManager" Class
 	// These Frames for Companies, have the CorporationList
@@ -137,28 +156,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	// EmergencyBuyTrainFrame
 	// BuyPrivateFrame (makeOffer for Private or Train)
 	
+	// Network Game Objects
 	JGameClient networkJGameClient;
-	
-	// MORE Generic (non-game specific objects)
-	SavedGames networkSavedGames;
-	
-	JFileMChooser chooser;
-	File saveFile;
-	File autoSaveFile;
-	File loadSavedFile;
-	String autoSaveFileName;
-	String clientUserName;
-	String gameID;
-	Config configData;
-	
 	boolean notifyNetwork;
 	boolean applyingNetworkAction;
-	boolean gameChangedSinceSave;
-	boolean gameStarted;
-	boolean gameEnding;
-	Logger logger;
-	String userDir;
-	
+
 	public GameManager () {
 		setUserDir ();
 		setDefaults ();
@@ -166,16 +168,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public GameManager (Game_18XX aGame_18XX_Frame, String aClientUserName) {
 		storeAllFrames (aGame_18XX_Frame);
+		setClientUserName (aClientUserName);
+		setDefaults ();
+		logger = game18XXFrame.getLogger ();
+		setUserDir ();
 		setGame (GameInfo.NO_GAME_INFO);
+		
 		setBankPool (BankPool.NO_BANK_POOL);
 		setBank (Bank.NO_BANK_CASH);
 		setPlayerManager (PlayerManager.NO_PLAYER_MANAGER);
 		setPhaseManager (PhaseManager.NO_PHASE_MANAGER);
-		setClientUserName (aClientUserName);
-		setDefaults ();
 		loadConfig ();
-		logger = game18XXFrame.getLogger ();
-		setUserDir ();
 	}
 
 	@Override
@@ -184,8 +187,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	private void storeAllFrames (Game_18XX aGame_18XX_Frame) {
-		game18XXFrame = aGame_18XX_Frame;
 		configFrames = new ArrayList<XMLFrame> ();		
+		game18XXFrame = aGame_18XX_Frame;
+		setPlayerInputFrame (PlayerInputFrame.NO_PLAYER_INPUT_FRAME);
+		setFrameInfoFrame (XMLFrame.NO_XML_FRAME);
+
 		setMapFrame (XMLFrame.NO_XML_FRAME);
 		setCitiesFrame (XMLFrame.NO_XML_FRAME);
 		setPrivatesFrame (XMLFrame.NO_XML_FRAME);
@@ -193,9 +199,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setShareCompaniesFrame (XMLFrame.NO_XML_FRAME);
 		setTileTrayFrame (XMLFrame.NO_XML_FRAME);
 		setTileDefinitionFrame (XMLFrame.NO_XML_FRAME);
-		setPlayerInputFrame (PlayerInputFrame.NO_PLAYER_INPUT_FRAME);
 		setAuditFrame (XMLFrame.NO_XML_FRAME);
-		setFrameInfoFrame (XMLFrame.NO_XML_FRAME);
 	}
 
 	private void setUserDir () {

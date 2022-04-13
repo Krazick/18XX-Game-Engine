@@ -57,6 +57,7 @@ public class Escrow implements CashHolderI {
 	}
 	
 	ParsingRoutineIO certificateParsingRoutine  = new ParsingRoutineIO () {
+		
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			// Empty Stub for Interface Method
@@ -82,12 +83,6 @@ public class Escrow implements CashHolderI {
 			} else {
 				tCertificate.addBiddersInfo (aCertificateNode);
 			}
-		}
-
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject1, Object aMetaObject2) {
-			// Empty Stub for Interface Method
-			
 		}
 	};
 

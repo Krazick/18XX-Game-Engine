@@ -14,6 +14,7 @@ import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.ParsingRoutineIO;
+import ge18xx.utilities.ParsingRoutineIOO;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -593,13 +594,6 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 	
 	ParsingRoutineI trainPortfolioParsingRoutine  = new ParsingRoutineIO ()  {
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode, Object aBank) {
-			Bank tBank;
-			
-			tBank = (Bank) aBank;
-			loadTrainPortfolioFromBank (aChildNode, tBank);
-		}
 
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
@@ -608,9 +602,11 @@ public class TrainPortfolio implements TrainHolderI {
 		}
 
 		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject1, Object aMetaObject2) {
-			// Empty Stub for Interface Method
+		public void foundItemMatchKey1 (XMLNode aChildNode, Object aBank) {
+			Bank tBank;
 			
+			tBank = (Bank) aBank;
+			loadTrainPortfolioFromBank (aChildNode, tBank);
 		}
 	};
 
@@ -647,18 +643,29 @@ public class TrainPortfolio implements TrainHolderI {
 	public void restoreTrain (XMLNode aTrainNode, int aTrainStatus, Train aTrain) {
 		aTrain.setStatus (aTrainStatus);
 		trains.add (aTrain);
-		loadRouteForTrain (aTrainNode, Train.EN_CURRENT_ROUTE);
-		loadRouteForTrain (aTrainNode, Train.EN_PREVIOUS_ROUTE);
+		loadRouteForTrain (aTrain, aTrainNode, Train.EN_CURRENT_ROUTE);
+		loadRouteForTrain (aTrain, aTrainNode, Train.EN_PREVIOUS_ROUTE);
 	}
 	
-	public void loadRouteForTrain (XMLNode aTrainNode, ElementName aElementName) {
+	public void loadRouteForTrain (Train aTrain, XMLNode aTrainNode, ElementName aElementName) {
 		XMLNodeList tXMLNodeList;
 		
-		tXMLNodeList = new XMLNodeList (trainRouteParsingRoutine, this);
+		tXMLNodeList = new XMLNodeList (trainRouteParsingRoutine, aTrain, this);
 		tXMLNodeList.parseXMLNodeList (aTrainNode, aElementName);
 	}
 	
-	ParsingRoutineIO trainRouteParsingRoutine  = new ParsingRoutineIO ()  {
+	ParsingRoutineIOO trainRouteParsingRoutine  = new ParsingRoutineIOO ()  {
+
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			System.err.println ("Found Node, but no Objects sent back");
+		}
+
+		@Override
+		public void foundItemMatchKey1(XMLNode aChildNode, Object aMetaObject) {
+			System.err.println ("Found Node, but only one Object sent back");	
+		}
+		
 		@Override
 		public void foundItemMatchKey1 (XMLNode aRouteNode, Object aTrain, Object aTrainPortfolio) {
 			Train tTrain;
@@ -667,16 +674,6 @@ public class TrainPortfolio implements TrainHolderI {
 			tTrain = (Train) aTrain;
 			tTrainPortfolio = (TrainPortfolio) aTrainPortfolio;
 			tTrain.loadRouteInformation (aRouteNode, tTrain, tTrainPortfolio);
-		}
-
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			
-		}
-
-		@Override
-		public void foundItemMatchKey1(XMLNode aChildNode, Object aMetaObject) {
-			
 		}
 	};
 	
@@ -691,12 +688,6 @@ public class TrainPortfolio implements TrainHolderI {
 
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			
-		}
-
-		@Override
-		public void foundItemMatchKey1(XMLNode aChildNode, Object aMetaObject1, Object aMetaObject2) {
-			// TODO Auto-generated method stub
 			
 		}
 	};

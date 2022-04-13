@@ -185,13 +185,6 @@ public class RouteInformation {
 	}
 
 	ParsingRoutineIO routeSegmentsParsingRoutine  = new ParsingRoutineIO ()  {
-		@Override
-		public void foundItemMatchKey1 (XMLNode aRouteSegmentNode, Object aRouteInformation) {
-			RouteInformation tRouteInformation;
-			
-			tRouteInformation = (RouteInformation) aRouteInformation;
-			loadRouteSegments (tRouteInformation, aRouteSegmentNode);
-		}
 
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
@@ -199,8 +192,11 @@ public class RouteInformation {
 		}
 
 		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject1, Object aMetaObject2) {
+		public void foundItemMatchKey1 (XMLNode aRouteSegmentNode, Object aRouteInformation) {
+			RouteInformation tRouteInformation;
 			
+			tRouteInformation = (RouteInformation) aRouteInformation;
+			loadRouteSegments (tRouteInformation, aRouteSegmentNode);
 		}
 	};
 	

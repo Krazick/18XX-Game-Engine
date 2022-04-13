@@ -5,6 +5,5 @@ public interface ParsingRoutineIO extends ParsingRoutineI {
 	 * Passed in */
 	
 	public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject);
-	public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject1, Object aMetaObject2);
 
 }

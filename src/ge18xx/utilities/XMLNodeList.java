@@ -3,19 +3,26 @@ package ge18xx.utilities;
 import org.w3c.dom.NodeList;
 
 public class XMLNodeList {
+	private static Object NO_OBJECT = null;
 	/* Supporting parsing an XML Node's Children -- Look for a specific Element Name and call the Parsing 
 	 * Routine back 'foundItemMatch' with the Child Node that matches
 	 */
 	private ParsingRoutineI parsingRoutineI;
-	private Object metaObject;
+	private Object metaObject1;
+	private Object metaObject2;
 	
 	public XMLNodeList (ParsingRoutineI aParsingRoutine) {
-		this (aParsingRoutine, null);
+		this (aParsingRoutine, NO_OBJECT);
 	}
 	
-	public XMLNodeList (ParsingRoutineI aParsingRoutine, Object aMetaObject) {
+	public XMLNodeList (ParsingRoutineI aParsingRoutine, Object aMetaObject1) {
+		this (aParsingRoutine, aMetaObject1, NO_OBJECT);
+	}
+	
+	public XMLNodeList (ParsingRoutineI aParsingRoutine, Object aMetaObject1, Object aMetaObject2) {
 		parsingRoutineI = aParsingRoutine;
-		metaObject = aMetaObject;
+		metaObject1 = aMetaObject1;
+		metaObject2 = aMetaObject2;
 	}
 	
 	public int getChildCount (XMLNode aNode, ElementName aThisChildName) {
@@ -41,32 +48,36 @@ public class XMLNodeList {
 
 	private void testAndCallback1 (XMLNode aNode, String aThisChildName) {
 		String tChildName;
-		ParsingRoutineIO tParsingRoutine;
+		ParsingRoutineIO tParsingRoutineIO;
+		ParsingRoutineIOO tParsingRoutineIOO;
 		
 		tChildName = aNode.getNodeName ();
 		if (tChildName.equals (aThisChildName)) {
-			if (metaObject == null) {
+			if (metaObject1 == NO_OBJECT) {
 				parsingRoutineI.foundItemMatchKey1 (aNode);
+			} else if (metaObject2 == NO_OBJECT){
+				tParsingRoutineIO = (ParsingRoutineIO) parsingRoutineI;
+				tParsingRoutineIO.foundItemMatchKey1 (aNode, metaObject1);
 			} else {
-				tParsingRoutine = (ParsingRoutineIO) parsingRoutineI;
-				tParsingRoutine.foundItemMatchKey1 (aNode, metaObject);
+				tParsingRoutineIOO = (ParsingRoutineIOO) parsingRoutineI;
+				tParsingRoutineIOO.foundItemMatchKey1 (aNode, metaObject1, metaObject2);
 			}
 		}
 	}
 	
 	private void testAndCallback2 (XMLNode aNode, String aThisChildName) {
 		String tChildName;
-		ParsingRoutine2IO tParsingRoutine2IO;
 		ParsingRoutine2I tParsingRoutine2I;
+		ParsingRoutine2IO tParsingRoutine2IO;
 		
 		tChildName = aNode.getNodeName ();
 		if (tChildName.equals (aThisChildName)) {
-			if (metaObject == null) {
+			if (metaObject1 == NO_OBJECT) {
 				tParsingRoutine2I = (ParsingRoutine2I) parsingRoutineI;
 				tParsingRoutine2I.foundItemMatchKey2 (aNode);
 			} else {
 				tParsingRoutine2IO = (ParsingRoutine2IO) parsingRoutineI;
-				tParsingRoutine2IO.foundItemMatchKey2 (aNode, metaObject);
+				tParsingRoutine2IO.foundItemMatchKey2 (aNode, metaObject1);
 			}
 		}
 	}
