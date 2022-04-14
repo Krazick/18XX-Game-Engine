@@ -827,7 +827,11 @@ public class PlayerManager {
 				tNewPresident = findPlayerWithMost ((ShareCompany) tCorporation, aPlayer);
 				aPlayer.setExchangedPrezShare (tCorporationAbbrev);
 				
-				tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundType (),stockRound.getID (), aPlayer);
+				tExchangeStockAction = new ExchangeStockAction (stockRound.getRoundType (),
+						stockRound.getID (), aPlayer);
+				if (gameManager.isOperatingRound ()) {
+					tExchangeStockAction.setChainToPrevious (true);
+				}
 				tExchangeStockAction.addExchangePrezShareEffect (tCorporationAbbrev);
 				exchangePresidentCertificate ((ShareCompany) tCorporation, aPlayer, tNewPresident, tExchangeStockAction);
 				addAction (tExchangeStockAction);
@@ -1154,6 +1158,10 @@ public class PlayerManager {
 		System.out.println ("==== All Players Information FINISHED ====");
 	}
 	
+	public boolean isOperatingRound () {
+		return gameManager.isOperatingRound ();
+	}
+	
 	public void sellAction (Player aPlayer) {
 		SellStockAction tSellStockAction;
 		Player.ActionStates tOldState, tNewState;
@@ -1172,7 +1180,7 @@ public class PlayerManager {
 		Player tCurrentPresident, tNewPresident;
 		boolean tForceSell, tNormalSale;
 		
-		if (gameManager.isOperatingRound ()) {
+		if (isOperatingRound ()) {
 			tForceSell = true;
 			tNormalSale = false;
 		} else if (aPlayer.sells ()) {
@@ -1189,6 +1197,7 @@ public class PlayerManager {
 			tSellStockAction = new SellStockAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
 			if (tForceSell) {
 				aPlayer.setPrimaryActionState (tOldState);
+				tSellStockAction.setChainToPrevious (true);
 			}
 			tNewState = aPlayer.getPrimaryActionState ();
 			tCertificatesToSell = aPlayer.getCertificatesToSell ();
