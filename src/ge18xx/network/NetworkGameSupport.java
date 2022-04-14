@@ -5,6 +5,7 @@ import java.awt.Point;
 import org.apache.logging.log4j.Logger;
 
 import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.FileUtils;
 
 public interface NetworkGameSupport {
 	public final String NO_NAME = "";
@@ -32,7 +33,8 @@ public interface NetworkGameSupport {
 	public void loadAutoSavedGame (String autoSaveFileName);
 	public String getGEVersion ();
 	public void updateDisconnectButton ();
-
+	public FileUtils getFileUtils ();
+	
 	// Needs specific ge18xx XMLFrame Imports
 	
 	public void addNewFrame (XMLFrame jGameClient);
