@@ -206,7 +206,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		boolean tCanDoAction;
 		
 		tCanDoAction = false;
-		if (primaryActionState == ActionStates.Pass){
+		if (playerManager.isOperatingRound ()) {
+			
+		} else if (primaryActionState == ActionStates.Pass){
 			System.err.println ("Player has passed, can't Act");
 		} else {
 			tCanDoAction = true;
@@ -220,7 +222,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		boolean tCanDoAction;
 		
 		tCanDoAction = false;
-		if (primaryActionState == ActionStates.Pass){
+		if (playerManager.isOperatingRound ()) {
+			
+		} else if(primaryActionState == ActionStates.Pass){
 			System.err.println ("Player has passed, can't Act");
 		} else {
 			tCanDoAction = true;
@@ -721,9 +725,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		
 		tHasLessThanPresident = true;
 		tShareCompany = playerManager.getShareCompany (aCompanyAbbrev);
-		if (tShareCompany.equals (Corporation.NO_CORPORATION)) {
-			System.err.println ("Share Company with abbrev " + aCompanyAbbrev + " could not be found");
-		} else {
+		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tCurrentPlayerHasXPercent = getPercentOwnedOf (tShareCompany);
 			tPresidentOf =  (Player) tShareCompany.getPresident ();
 			tPresidentHasXPercent = tPresidentOf.getPercentOwnedOf (tShareCompany);
