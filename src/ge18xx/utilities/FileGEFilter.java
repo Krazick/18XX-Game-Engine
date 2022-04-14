@@ -4,17 +4,24 @@ import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
-public class File18XXFilter extends FileFilter {
-
+public class FileGEFilter extends FileFilter {
+	String description;
+	FileUtils fileUtils;
+	
+	public FileGEFilter (String aDescription, FileUtils aFileUtils) {
+		description = aDescription;
+		fileUtils = aFileUtils;
+	}
+	
 	@Override
 	public boolean accept (File aFile) {
 	    if (aFile.isDirectory ()) {
 	        return true;
 	    }
 
-	    String tExtension = FileUtils.getExtension (aFile);
+	    String tExtension = fileUtils.getExtension (aFile);
 	    if (tExtension != null) {
-	        if (tExtension.equals (FileUtils.xml)) {
+	        if (tExtension.equals (fileUtils.xml)) {
 	            return true;
 	        } else {
 	            return false;
@@ -25,8 +32,7 @@ public class File18XXFilter extends FileFilter {
 	}
 
 	@Override
-	public String getDescription() {
-		return "18XX Save Game - XML";
+	public String getDescription () {
+		return description;
 	}
-
 }
