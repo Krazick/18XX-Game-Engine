@@ -597,8 +597,7 @@ public class TrainPortfolio implements TrainHolderI {
 
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			// Empty Stub for Interface Method
-			
+			System.err.println ("Found Node, but no Objects sent back");
 		}
 
 		@Override
@@ -617,6 +616,22 @@ public class TrainPortfolio implements TrainHolderI {
 		tXMLNodeList.parseXMLNodeList (aTrainNode, Train.EN_TRAIN);
 	}
 	
+	ParsingRoutineIO trainParsingRoutine  = new ParsingRoutineIO ()  {
+
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			System.err.println ("Found Node, but no Objects sent back");
+		}
+
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode, Object aBank) {
+			Bank tBank;
+			
+			tBank = (Bank) aBank;
+			loadTrainFromBank (aChildNode, tBank);
+		}
+	};
+
 	public void loadTrainFromBank (XMLNode aTrainNode, Bank aBank) {
 		String tTrainName;
 		int tTrainStatus;
@@ -662,7 +677,7 @@ public class TrainPortfolio implements TrainHolderI {
 		}
 
 		@Override
-		public void foundItemMatchKey1(XMLNode aChildNode, Object aMetaObject) {
+		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
 			System.err.println ("Found Node, but only one Object sent back");	
 		}
 		
@@ -674,21 +689,6 @@ public class TrainPortfolio implements TrainHolderI {
 			tTrain = (Train) aTrain;
 			tTrainPortfolio = (TrainPortfolio) aTrainPortfolio;
 			tTrain.loadRouteInformation (aRouteNode, tTrain, tTrainPortfolio);
-		}
-	};
-	
-	ParsingRoutineI trainParsingRoutine  = new ParsingRoutineIO ()  {
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode, Object aBank) {
-			Bank tBank;
-			
-			tBank = (Bank) aBank;
-			loadTrainFromBank (aChildNode, tBank);
-		}
-
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			
 		}
 	};
 	
