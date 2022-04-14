@@ -1387,6 +1387,18 @@ public class Portfolio implements CertificateHolderI {
 		return tHasSelectedStockToBid;
 	}
 	
+	public Certificate getSelectedStockToExchange () {
+		Certificate tCertificateToExchange = Certificate.NO_CERTIFICATE;
+		
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelectedToExchange ()) {
+				tCertificateToExchange = tCertificate;
+			}
+		}
+
+		return tCertificateToExchange;
+	}
+	
 	public Certificate getSelectedStockToSell () {
 		Certificate tCertificateToSell = Certificate.NO_CERTIFICATE;
 		
