@@ -27,10 +27,12 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	private static final String BUY_ACTION = "BuyTrain";
 	private static final String CANCEL_ACTION = "Cancel";
 	private static final String SELL_ACTION = "SellStock";
-	private static final String UNDO_SELL_ACTION = "UndoSellStock";
+	private static final String EXCHANGE_ACTION = "Exchange";
+	private static final String UNDO_ACTION = "Undo";
 	private static final String DECLARE_BANKRUPTCY_ACTION = "DeclareBankruptcy";
 	private static final long serialVersionUID = 1L;
 	JButton doSellButton;
+	JButton exchangeButton;
 	JButton doBuyButton;
 	JButton undoButton;
 	JButton declareBankruptcyButton;
@@ -53,17 +55,19 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	GameManager gameManager;
 	int buyingTrainCompanyTreasury;
 	int presidentTreasury;
-	int sellActionCount;
+	int actionCount;
 	int cashNeeded;
 	int liquidAssetTotal;
+	ShareCompany exchangedCompany;
 	
 	public ForceBuyTrainFrame (TrainCompany aBuyingCompany, Train aCheapestTrain) {
 		super ("Force Buy Train");
 		
 		trainCompany = aBuyingCompany;
 		train = aCheapestTrain;
-		sellActionCount = 0;
-		
+		actionCount = 0;
+		setExchangedCompany (ShareCompany.NO_SHARE_COMPANY);
+
 		buildMainJPanel ();
 
 		add (mainJPanel);
@@ -175,12 +179,17 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		}
 	}
 	
+	private void setExchangedCompany (ShareCompany aShareCompany) {
+		exchangedCompany = aShareCompany;
+	}
+	
 	private void buildButtonJPanel () {
 		buttonJPanel = new JPanel ();
 		buttonJPanel.setLayout (new BoxLayout (buttonJPanel, BoxLayout.X_AXIS));
 		doBuyButton = setupButton (CorporationFrame.BUY_TRAIN, BUY_ACTION);
 		doSellButton = setupButton (Player.SELL_LABEL, SELL_ACTION);
-		undoButton = setupButton ("Undo " + Player.SELL_LABEL, UNDO_SELL_ACTION);
+		exchangeButton = setupButton (Player.EXCHANGE_LABEL, EXCHANGE_ACTION);
+		undoButton = setupButton ("Undo", UNDO_ACTION);
 		declareBankruptcyButton = setupButton ("Declare Bankruptcy", DECLARE_BANKRUPTCY_ACTION);
 		cancelButton = setupButton ("Cancel", CANCEL_ACTION);
 	}
@@ -207,6 +216,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	private void updateButtons () {
 		updateUndoButtion ();
 		updateSellButton ();
+		updateExchangeButton ();
 		updateBuyTrainButton ();
 		updateLiquidAssetLabel ();
 		updateDeclareBankruptcyButton ();
@@ -220,7 +230,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	}
 	
 	private void updateCancelButton () {
-		if (sellActionCount == 0) {
+		if (actionCount == 0) {
 			cancelButton.setEnabled (true);
 			cancelButton.setToolTipText ("Cancel Force Train Buy, and Close window");
 		} else {
@@ -231,7 +241,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	
 	private void updateUndoButtion () {
 		
-		if (sellActionCount == 0) {
+		if (actionCount == 0) {
 			undoButton.setEnabled (false);
 			undoButton.setToolTipText ("No Stock Sell Actions to undo. Close Window to undo previous OR Action");
 		} else {
@@ -278,6 +288,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		int tSellLimit;
 		int tCertCount;
 		int tLiquidCertificateValue;
+		int tBankPoolShareLimit;
 		// Determine Sale Limits for Certificates from other Companies, limited by Bank Pool Limits
 		
 		tTrainCoAbbrev = trainCompany.getAbbrev ();
@@ -297,8 +308,17 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 					tLiquidCertificateValue += tCertificate.getCost ();
 					tCertCount++;
 				} else {
-					tReason = "Bank Pool can only hold " + tSellLimit + " more " + tCurrentAbbrev + 
-							" Certificates";
+					if (tSellLimit > 0) {
+						tReason = "Bank Pool can only hold " + tSellLimit + " more " + tCurrentAbbrev + 
+								" Certificate";
+						if (tSellLimit > 1) {
+							tReason += "s";
+						}
+					} else {
+						tBankPoolShareLimit = tCertificate.getBankPoolShareLimit (gameManager);
+						tReason = "Bank Pool has reached the limit of " + tBankPoolShareLimit + 
+								" Certificates of " + tCertificate.getCompanyAbbrev ();
+					}
 					aResons.add (tReason);
 				}
 			}
@@ -336,9 +356,11 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 					tLiquidCertificateValue += tCertificate.getCost ();
 					tCurrentCorpCounted++;
 				} else {
-					tReason = trainCompany.getNextPresidentName () + " has " + tNextPresidentPercent + 
+					if (tNextPresidentPercent > 0) {
+						tReason = trainCompany.getNextPresidentName () + " has " + tNextPresidentPercent + 
 							"% of " + tTrainCoAbbrev + ", limits Sale to " + tCanSellPercent + "%";
-					aReasons.add (tReason);
+						aReasons.add (tReason);
+					}
 				}
 			}
 		}
@@ -388,6 +410,28 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		}
 
 		return tHasSelectedStocksToSell;
+	}
+	
+	private boolean hasSelectedPrezToExchange () {
+		boolean tHasSelectedPrezToExchange = false;
+		Portfolio tPresidentPortfolio;
+		
+		tPresidentPortfolio = getPresidentPortfolio ();
+		if (tPresidentPortfolio.hasSelectedPrezToExchange ()) {
+			tHasSelectedPrezToExchange = true;
+		}
+
+		return tHasSelectedPrezToExchange;
+	}
+	
+	private Certificate getCertificateToExchange () {
+		Certificate tCertificateToSell;
+		Portfolio tPresidentPortfolio;
+		
+		tPresidentPortfolio = getPresidentPortfolio ();
+		tCertificateToSell = tPresidentPortfolio.getSelectedStockToExchange ();
+		
+		return tCertificateToSell;
 	}
 	
 	private Certificate getACertificateToSell () {
@@ -483,10 +527,29 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 				tToolTip = "Cannot sell all selected Shares - Operating " + 
 						trainCompany.getAbbrev () + " must buy Train, cannot sell out Presidency";
 			} else {
-				doSellButton.setEnabled (true);
-				tToolTip = "";
-				tSharesInfo = buildSharesInfo ();
-				tButtonLabel = tButtonLabel + " " + tSharesInfo;
+				Certificate tCertificateToSell;
+				String tAbbrevSelected;
+				boolean tOKtoSell;
+				
+				tCertificateToSell = getACertificateToSell ();
+				tAbbrevSelected = tCertificateToSell.getCompanyAbbrev();
+
+				if (exchangedCompany == ShareCompany.NO_SHARE_COMPANY) {
+					tOKtoSell = true;
+				} else  if (tAbbrevSelected.equals (exchangedCompany.getAbbrev ())) {
+					tOKtoSell = true;
+				} else {
+					tOKtoSell = false;
+				}
+				if (tOKtoSell) {
+					doSellButton.setEnabled (true);
+					tToolTip = "";
+					tSharesInfo = buildSharesInfo ();
+					tButtonLabel = tButtonLabel + " " + tSharesInfo;
+				} else {
+					doSellButton.setEnabled (false);
+					tToolTip = getMustSellToolTip ();
+				}
 			}
 			
 		} else {
@@ -516,14 +579,66 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		return tShareInfo;
 	}
 	
+	private boolean mustSellStock () {
+		boolean tMustSellStock;
+		String tExchangedShare;
+
+		tMustSellStock = false;
+		tExchangedShare = president.hasExchangedShare ();
+		if (! president.hasLessThanPresident (tExchangedShare)) {
+			tMustSellStock = true;
+		}
+		
+		return tMustSellStock;
+	}
+	
+	private void updateExchangeButton () {
+		String tToolTip;
+		
+		if (mustSellStock ()) {
+			exchangeButton.setEnabled (false);
+			tToolTip = getMustSellToolTip ();	
+		} else if (hasSelectedPrezToExchange ()) {
+			exchangeButton.setEnabled (true);
+			tToolTip = "";
+		} else {
+			exchangeButton.setEnabled (false);
+			tToolTip = "No President Share selected to Exchange";
+		}
+		exchangeButton.setToolTipText (tToolTip);
+	}
+
+	private String getMustSellToolTip () {
+		String tToolTip;
+		int tCurrentPresidentPercent;
+		int tNewPresidentPercent;
+		int tMustSellPercent;
+		Portfolio tPresidentPortfolio;
+		
+		tPresidentPortfolio = getPresidentPortfolio ();
+		tCurrentPresidentPercent = tPresidentPortfolio.getPercentageFor (exchangedCompany);
+		tNewPresidentPercent = exchangedCompany.getPresidentPercent ();
+		tMustSellPercent = (tCurrentPresidentPercent - tNewPresidentPercent) + 1;
+		tToolTip = "Must sell at least " + tMustSellPercent + "% of " + exchangedCompany.getAbbrev ();
+		
+		return tToolTip;
+	}
+	
 	private void updateBuyTrainButton () {
-		if (haveEnoughCash ()) {
+		String tToolTip;
+		
+		if (mustSellStock ()) {
+			doBuyButton.setEnabled (false);
+			tToolTip = getMustSellToolTip ();	
+		} else if (haveEnoughCash ()) {
 			doBuyButton.setEnabled (true);
-			doBuyButton.setToolTipText ("Can Force Buy Train");
+			tToolTip = "Can Force Buy Train";
 		} else {
 			doBuyButton.setEnabled (false);
-			doBuyButton.setToolTipText ("Not Enough cash to buy Train");
+			tToolTip = "Not Enough cash to buy Train";
 		}
+		
+		doBuyButton.setToolTipText (tToolTip);
 	}
 	
 	private void updateDeclareBankruptcyButton () {
@@ -552,8 +667,11 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		if (SELL_ACTION.equals (aEvent.getActionCommand ())) {
 			sellStock ();
 		}
-		if (UNDO_SELL_ACTION.equals (aEvent.getActionCommand ())) {
-			undoSellStock ();
+		if (EXCHANGE_ACTION.equals (aEvent.getActionCommand ())) {
+			exchangeStock ();
+		}
+		if (UNDO_ACTION.equals (aEvent.getActionCommand ())) {
+			undoAction ();
 		}
 		if (DECLARE_BANKRUPTCY_ACTION.equals (aEvent.getActionCommand ())) {
 			declareBankruptcy ();
@@ -574,16 +692,30 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		trainCompany.declareBankruptcy ();
 	}
 	
-	private void undoSellStock () {
+	private void undoAction () {
 		trainCompany.undoAction ();
-		sellActionCount--;
-		refreshFrame ();
+		actionCount--;
+		setVisible (false);
 	}
 
 	private void sellStock () {
-		++sellActionCount;
+		++actionCount;
 		president.sellAction ();
+		if (! mustSellStock ()) {
+			setExchangedCompany (ShareCompany.NO_SHARE_COMPANY);
+		}
+		refreshFrame ();
+	}
+
+	private void exchangeStock () {
+		ShareCompany tShareCompany;
+		Certificate tCertificateToExchange;
 		
+		tCertificateToExchange = getCertificateToExchange ();
+		tShareCompany = tCertificateToExchange.getShareCompany ();
+		++actionCount;
+		setExchangedCompany (tShareCompany);
+		president.exchangeAction ();
 		refreshFrame ();
 	}
 
