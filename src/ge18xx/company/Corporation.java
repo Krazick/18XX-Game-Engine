@@ -2089,4 +2089,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public boolean isLoading () {
 		return corporationList.isLoading ();
 	}
+	
+	public Action getLastAction () {
+		Action tLastAction;
+		
+		tLastAction = corporationList.getLastAction ();
+		
+		return tLastAction;
+	}
 }

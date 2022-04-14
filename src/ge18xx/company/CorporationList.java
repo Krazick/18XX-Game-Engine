@@ -1274,4 +1274,13 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public boolean isLoading () {
 		return roundManager.isLoading ();
 	}
+	
+	public Action getLastAction () {
+		Action tLastAction;
+		
+		tLastAction = roundManager.getLastAction ();
+		
+		return tLastAction;
+	}
+
 }
