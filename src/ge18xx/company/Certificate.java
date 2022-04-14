@@ -176,33 +176,57 @@ public class Certificate implements Comparable<Certificate> {
 		bidders = new Bidders (this);
 	}
 	
+	/** 
+	 * 
+	 * Retrieve current Game's Bank Pool Sell Limit as number of Certificates
+	 * 
+	 * @param aGameManager Current Game's GameManager
+	 * @return the Bank Pool Share Limit
+	 * 
+	 */
+	// TODO Update to use a % Limit instead of Certificate Limit
 	public int sellLimit () {
 		int tSellLimit;
 		int tBankPoolShareLimit, tBankPoolShareCount;
 		GameManager tGameManager;
-		GameInfo tGameInfo;
 		BankPool tBankPool;
 		
 		tGameManager = corporation.getGameManager ();
 		tBankPool = tGameManager.getBankPool ();
-		tGameInfo = tGameManager.getActiveGame ();
-		tBankPoolShareLimit = tGameInfo.getBankPoolShareLimit ();
+		tBankPoolShareLimit = getBankPoolShareLimit (tGameManager);
 		tBankPoolShareCount = tBankPool.getCertificateCountFor (corporation);
 		tSellLimit = tBankPoolShareLimit - tBankPoolShareCount;
 		
 		return tSellLimit;
 	}
 	
+	/** 
+	 * 
+	 * Retrieve current Game's Bank Pool Share Limit
+	 * 
+	 * @param aGameManager Current Game's GameManager
+	 * @return the Bank Pool Share Limit
+	 * 
+	 */
+	// TODO Update to use a % Limit instead of Certificate Limit
+	public int getBankPoolShareLimit (GameManager aGameManager) {
+		int tBankPoolShareLimit;
+		GameInfo tGameInfo;
+		
+		tGameInfo = aGameManager.getActiveGame ();
+		tBankPoolShareLimit = tGameInfo.getBankPoolShareLimit ();
+		
+		return tBankPoolShareLimit;
+	}
+	
 	public boolean bankPoolAtLimit (GameManager aGameManager) {
 		boolean tBankPoolAtLimit;
 		BankPool tBankPool;
-		GameInfo tGameInfo;
 		int tBankPoolShareLimit, tBankPoolShareCount;
 		
 		tBankPoolAtLimit = false;
 		tBankPool = aGameManager.getBankPool ();
-		tGameInfo = aGameManager.getActiveGame ();
-		tBankPoolShareLimit = tGameInfo.getBankPoolShareLimit ();
+		tBankPoolShareLimit = getBankPoolShareLimit (aGameManager);
 		tBankPoolShareCount = tBankPool.getCertificateCountFor (corporation);
 		if (tBankPoolShareCount >= tBankPoolShareLimit) {
 			tBankPoolAtLimit = true;
