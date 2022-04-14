@@ -580,7 +580,8 @@ public class Train implements Comparable<Object> {
 		RouteSegment tRouteSegment;
 		int tCorpID;
 		RouteAction tRouteAction;
-		
+		NodeInformation tEndNode;
+	
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 //			currentRouteInformation.clearTrainOn ();
 		}
@@ -591,7 +592,14 @@ public class Train implements Comparable<Object> {
 		tRouteAction = RouteAction.NO_ROUTE_ACTION;
 		tRevenueCenter = aMapCell.getCenterAtLocation (aStartLocation);
 		currentRouteInformation.setStartSegment (tRouteSegment, tRevenueCenter, aPhase, tCorpID);
-		currentRouteInformation.extendRouteInformation (tRouteSegment, aPhase, tCorpID, tRouteAction);
+		if (aEndLocation != Location.NO_LOC) {
+			tRevenueCenter = aMapCell.getRevenueCenterAt (aEndLocation);
+			tEndNode = currentRouteInformation.buildNodeInformation (tRevenueCenter, aEndLocation, 
+							aPhase, tCorpID);
+			tRouteSegment.setEndNode (tEndNode);
+		}
+		tRevenueCenter = aMapCell.getRevenueCenterAt (aEndLocation);
+		currentRouteInformation.addTheRouteSegment (tRouteSegment, tRouteAction);
 		tRouteStarted = true;
 		
 		return tRouteStarted;
