@@ -68,7 +68,7 @@ import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.File18XXFilter;
+import ge18xx.utilities.FileGEFilter;
 import ge18xx.utilities.FileUtils;
 import ge18xx.utilities.JFileMChooser;
 import ge18xx.utilities.XMLDocument;
@@ -118,6 +118,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	boolean gameEnding;
 	Logger logger;
 	String userDir;
+	FileUtils fileUtils;
+	FileGEFilter fileGEFilter;
 
 	// 18XX Game Specific Objects
 	Game_18XX game18XXFrame;
@@ -167,6 +169,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	public GameManager (Game_18XX aGame_18XX_Frame, String aClientUserName) {
+		fileUtils = new FileUtils ("18xx.");
+		fileGEFilter = new FileGEFilter ("18XX Save Game - XML", fileUtils);
 		storeAllFrames (aGame_18XX_Frame);
 		setClientUserName (aClientUserName);
 		setDefaults ();
@@ -181,6 +185,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		loadConfig ();
 	}
 
+	@Override
+	public FileUtils getFileUtils () {
+		return fileUtils;
+	}
+	
 	@Override
 	public Logger getLogger () {
 		return logger;
@@ -1114,7 +1123,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tAutoSaveFileName = tDirectoryName + File.separator + getGameName () + "." + clientUserName;
 	
 		}
-		tAutoSaveFileName += ".save" + FileUtils.xml;
+		tAutoSaveFileName += ".save" + fileUtils.xml;
 		
 		return tAutoSaveFileName;
 	}
@@ -1129,12 +1138,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	private File getSelectedFile (File aDirectory, JFileMChooser aChooser, boolean aSaveFile) {
 		File tSelectedFile = null;
-		File18XXFilter tFileFilter = new File18XXFilter ();
+//		FileGEFilter tFileFilter = new FileGEFilter ("18XX Save Game - XML");
 		int tResult;
 		boolean tNotChosenYet = true;
 		File tDirectory = aDirectory;
 		
-		aChooser.addChoosableFileFilter (tFileFilter);
+		aChooser.addChoosableFileFilter (fileGEFilter);
 		aChooser.setAcceptAllFileFilterUsed (true);
 		aChooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
 		
@@ -1604,8 +1613,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 			if (saveFile != null) {
 				tFileName = saveFile.getName ();
-				if (! tFileName.endsWith (FileUtils.xml)) {
-					saveFile = new File (saveFile.getAbsoluteFile () + "." + FileUtils.xml);
+				if (! tFileName.endsWith (fileUtils.xml)) {
+					saveFile = new File (saveFile.getAbsoluteFile () + "." + fileUtils.xml);
 				}
 				saveGame ();
 				setGameChanged (false);
@@ -1619,17 +1628,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	private void setupChooser (File aSaveDirectory) {
 		Point tNewPoint;
-		File18XXFilter tFileFilter = new File18XXFilter ();
 		
 		tNewPoint = getOffsetGEFrame ();
 		chooser = new JFileMChooser ();
 		chooser.setMLocation (tNewPoint);
 		chooser.setDialogTitle ("Save 18XX Game File");
 		chooser.setCurrentDirectory (aSaveDirectory);
-		chooser.addChoosableFileFilter (tFileFilter);
+		chooser.addChoosableFileFilter (fileGEFilter);
 		chooser.setAcceptAllFileFilterUsed (true);
 		chooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
-		chooser.setSelectedFile (new File ("SaveGame." + FileUtils.xml));
+		chooser.setSelectedFile (new File ("SaveGame." + fileUtils.xml));
 	}
 	
 	public void setCitiesFrame (XMLFrame aXMLFrame) {

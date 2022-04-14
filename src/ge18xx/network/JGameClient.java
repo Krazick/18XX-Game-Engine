@@ -1312,11 +1312,13 @@ public class JGameClient extends XMLFrame {
 		String tSelectedGame;
 		String [] tSelectedParts;
 		String tNewSaveGameFile;
+		FileUtils tFileUtils;
 		
+		tFileUtils = gameManager.getFileUtils ();
 		tSelectedGame = savedGamesList.getSelectedValue ();
 		tSelectedParts = tSelectedGame.split (" : ");
 		tNewSaveGameFile = tSelectedParts [1] + "." + tSelectedParts [2] + "." +
-				gameManager.getClientUserName () + ".save" + FileUtils.xml;
+				gameManager.getClientUserName () + ".save" + tFileUtils.xml;
 		if (! tNewSaveGameFile.equals (autoSaveFileName)) {
 			System.out.println ("Selected Saved Game is [" + tSelectedGame + "]");
 			System.out.println (" Part 0 [" + tSelectedParts [0] + "]" + 
