@@ -164,19 +164,22 @@ public class GameManager extends Component implements NetworkGameSupport {
 	boolean applyingNetworkAction;
 
 	public GameManager () {
+		fileUtils = new FileUtils ("18xx.");
+		fileGEFilter = new FileGEFilter ("18XX Save Game - XML", fileUtils);
 		setUserDir ();
 		setDefaults ();
+		setGame (GameInfo.NO_GAME_INFO);
+	}
+	
+	public GameManager (String aClientUserName) {
+		this ();
+		setClientUserName (aClientUserName);		
 	}
 	
 	public GameManager (Game_18XX aGame_18XX_Frame, String aClientUserName) {
-		fileUtils = new FileUtils ("18xx.");
-		fileGEFilter = new FileGEFilter ("18XX Save Game - XML", fileUtils);
+		this (aClientUserName);
 		storeAllFrames (aGame_18XX_Frame);
-		setClientUserName (aClientUserName);
-		setDefaults ();
 		logger = game18XXFrame.getLogger ();
-		setUserDir ();
-		setGame (GameInfo.NO_GAME_INFO);
 		
 		setBankPool (BankPool.NO_BANK_POOL);
 		setBank (Bank.NO_BANK_CASH);
