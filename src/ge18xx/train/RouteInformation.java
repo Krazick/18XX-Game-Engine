@@ -1002,7 +1002,7 @@ public class RouteInformation {
 		boolean tHasRevenueCenter;
 		int tRevenue;
 		int tBonus;
-		Location tStartLocation;
+		Location tLocation;
 		NodeInformation tNode;
 		
 		if (aRevenueCenter == RevenueCenter.NO_CENTER) {
@@ -1010,7 +1010,7 @@ public class RouteInformation {
 			tOpenFlow = true;
 			tHasRevenueCenter = false;
 			tRevenue = 0;
-			tStartLocation = aLocation;
+			tLocation = aLocation;
 			tIsCity = false;
 		} else {
 			tCorpStation = aRevenueCenter.cityHasStation (aCorpID);
@@ -1030,12 +1030,12 @@ public class RouteInformation {
 				tOpenFlow = true;
 			}
 			tRevenue = aRevenueCenter.getRevenue (aPhase);
-			tStartLocation = aRevenueCenter.getLocation ();
+			tLocation = aRevenueCenter.getLocation ();
 		}
 		
 		tBonus = 0;		// TODO: If Selected City has Cattle, Port, etc that will add a Bonus, put that here
 		
-		tNode = new NodeInformation (tStartLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, 
+		tNode = new NodeInformation (tLocation, tCorpStation, tOpenFlow, tHasRevenueCenter, 
 				tRevenue, tBonus, aRevenueCenter);
 		
 		return tNode;
