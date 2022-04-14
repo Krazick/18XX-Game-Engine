@@ -13,7 +13,6 @@ import ge18xx.game.Game_18XX;
 //  Features have one specific Location within the Hex, unlike track segments that have a enter and exit point.
 //  Features will be an object within the Map Cells and the Tiles.
 
-
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.utilities.AttributeName;

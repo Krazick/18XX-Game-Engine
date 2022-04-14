@@ -9,7 +9,6 @@ package ge18xx.tiles;
 //
 // Feature that appears on a hex that has two locations associated with it (Track, Private Railway)
 
-
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 
