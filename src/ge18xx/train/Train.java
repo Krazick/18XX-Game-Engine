@@ -117,11 +117,6 @@ public class Train implements Comparable<Object> {
 			frameButton.setVisible (true);
 		}
 	}
-
-//	public void addRouteInformation (RouteInformation aRouteInformation) {
-//		setPreviousRouteInformation (currentRouteInformation);
-//		setCurrentRouteInformation  (aRouteInformation);
-//	}
 	
 	public void setCurrentRouteInformation (RouteInformation aRouteInformation) {
 		currentRouteInformation = aRouteInformation;

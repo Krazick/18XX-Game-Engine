@@ -478,6 +478,17 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers.get (aCenterIndex);
 	}
 	
+	public RevenueCenter getFirstRevenueCenter () {
+		RevenueCenter tRevenueCenter;
+		
+		tRevenueCenter = RevenueCenter.NO_CENTER;
+		if (getRevenueCenterCount () > 0) {
+			tRevenueCenter = centers.get (0);
+		}
+		
+		return tRevenueCenter;
+	}
+	
 	public String getRevenueValue (int aPhase) {
 		RevenueCenter tRevenueCenter;
 		int tRCIndex;

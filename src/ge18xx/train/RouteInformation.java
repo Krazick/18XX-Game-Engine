@@ -627,9 +627,33 @@ public class RouteInformation {
 		return tIsRouteLooped;
 	}
 	
+	public void updateReusedRoute (int aPhase) {
+		int tSegmentCount;
+		int tSegmentIndex;
+		RouteSegment tRouteSegment;
+		MapCell tMapCell;
+		int tNewTileNumber;
+		
+		tSegmentCount = getSegmentCount ();
+		for (tSegmentIndex = 0; tSegmentIndex < tSegmentCount; tSegmentIndex++) {
+			tRouteSegment = routeSegments.get (tSegmentIndex);
+			if (tRouteSegment.isTileUpdated ()) {
+				tMapCell = tRouteSegment.getMapCell ();
+				tNewTileNumber = tMapCell.getTileNumber ();
+				System.out.println ("Tile " + tRouteSegment.getTileNumber () + 
+						" was updated to " + tNewTileNumber + " on MapCell " + tMapCell.getCellID ());
+				tRouteSegment.updateTile ();
+				tRouteSegment.updateRevenues (aPhase);
+				tRouteSegment.printDetail ();
+			}
+		}
+	}
+	
 	private boolean isRouteOpen () {
-		boolean tIsRouteOpen = true, tIsSegmentRouteOpen;
-		int tSegmentCount, tSegmentIndex;
+		boolean tIsRouteOpen = true;
+		boolean tIsSegmentRouteOpen;
+		int tSegmentCount;
+		int tSegmentIndex;
 		RouteSegment tRouteSegment;
 		
 		tSegmentCount = getSegmentCount ();

@@ -35,11 +35,6 @@ public class NodeInformation {
 		setCorpStation (aCorpStation);
 		setLocation (aLocation);
 	}
-//	<RouteSegment cost="0" gauge="0" mapCellID="H18" tileNumber="59">
-//	<StartNode bonus="0" corpStation="false" hasRevenueCenter="true" location="16" openFlow="false" revenue="40"/>
-//	<EndNode bonus="0" corpStation="false" hasRevenueCenter="false" location="0" openFlow="true" revenue="0"/>
-//	</RouteSegment>
-
 	
 	public NodeInformation (XMLNode aNodeInfoNode) {
 		boolean tCorpStation, tHasRevenueCenter, tOpenFlow;
@@ -178,9 +173,9 @@ public class NodeInformation {
 		tDetail = "[" + getLocationInt ();
 		if (revenueCenter != null) {
 			tDetail += ": $" + revenue;
-			tDetail += " CS " + corpStation;
+			tDetail += " CorpStation " + corpStation;
 		}
-		tDetail +=  " OF " + openFlow + "]";
+		tDetail +=  " OpenFlow " + openFlow + "]";
 		
 		return tDetail;
 	}
@@ -221,10 +216,16 @@ public class NodeInformation {
 		
 		tRevenueCenter = tTile.getCenterAtLocation (location);
 		if (tRevenueCenter != RevenueCenter.NO_CENTER) {
-			setRevenueCenter (tRevenueCenter); 
+			setRevenueCenter (tRevenueCenter);
 		} else {
-			System.err.println ("Looking for Revenue Center at Location " + location.getLocation () + 
-					" on Tile " + tTile.getNumber () + " But not Found.");
+			tRevenueCenter = tTile.getFirstRevenueCenter ();
+			if (tRevenueCenter != RevenueCenter.NO_CENTER) {
+				setRevenueCenter (tRevenueCenter);
+				location = tRevenueCenter.getLocation ();
+			} else {
+				setRevenueCenter (tRevenueCenter);
+				setLocation (Location.NO_LOC);
+			}
 		}
 	}
 
@@ -236,6 +237,19 @@ public class NodeInformation {
 //	int revenue;			//	Revenue
 //	int bonus;				//	Bonus (for Cattle or Port)
 
+	public void updateNode (Tile aNewTile) {
+		// If this Location is a NOT a Side, need to update - ie No Revenue Centers on a Side
+		if (! isSide ()) {
+			fixRevenueCenter (aNewTile);
+		}
+	}
+	
+	public void updateRevenue (int aPhase) {
+		if (revenueCenter != RevenueCenter.NO_CENTER) {
+			setRevenue (revenueCenter.getRevenue (aPhase));
+		}
+	}
+	
 	public boolean isSame (NodeInformation aNode) {
 		boolean tIsSame = true;
 		

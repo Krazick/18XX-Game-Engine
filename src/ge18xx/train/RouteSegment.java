@@ -5,7 +5,6 @@ import org.w3c.dom.NodeList;
 
 import ge18xx.center.RevenueCenter;
 import ge18xx.game.Game_18XX;
-import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Gauge;
@@ -137,34 +136,7 @@ public class RouteSegment {
 	public String getMapCellID () {
 		return mapCellID;
 	}
-	
-	public void highlightRouteSegment (HexMap aMap, int aTrainIndex) {
-//		MapCell tMapCell;
-//		String tMapCellID;
-//		Track tTrack;
-//		Location tStart, tEnd;
-
-//		tMapCellID = getMapCellID ();
-//		tMapCell = aMap.getMapCellForID (tMapCellID);
-//		tStart = getStartLocation ();
-//		tEnd = getEndLocation ();
 		
-//		tTrack = tMapCell.getTrackFromStartToEnd (tStart.getLocation (), tEnd.getLocation ());
-//		if (tTrack != Track.NO_TRACK) {
-//			System.out.println ("Track Found for " + tMapCellID + " Starting from " + tStart.getLocation () + " to " + tEnd.getLocation ());
-//		} else {
-//			tTrack = tMapCell.getTrackFromStartToEnd (tEnd.getLocation (), tStart.getLocation ());
-//			if (tTrack != Track.NO_TRACK) {
-//				System.out.println ("Track Found for " + tMapCellID + " Ending at " + tEnd.getLocation () + " Starting From " + tStart.getLocation ());
-//				setTrainOnTrack (tTrack, aTrainIndex);
-//			} else {
-//				System.out.println ("NO Track Found on " + tMapCellID + " Starting from " + tStart.getLocation () + " to " + tEnd.getLocation ());
-//				setTrainOnTrack (tTrack, aTrainIndex);
-//			}
-//		}
-
-	}
-	
 	public boolean validSegment () {
 		boolean tValidSegment;
 		
@@ -482,6 +454,33 @@ public class RouteSegment {
 		return end;
 	}
 
+	public void updateRevenues (int aPhase) {
+		start.updateRevenue (aPhase);
+		end.updateRevenue (aPhase);
+	}
+	
+	public void updateTile () {
+		Tile tCurrentTile;
+		
+		tCurrentTile = mapCell.getTile ();
+		setTile (tCurrentTile);
+		start.updateNode (tCurrentTile);
+		end.updateNode (tCurrentTile);
+	}
+	
+	public boolean isTileUpdated () {
+		boolean tIsTileUpdated;
+		Tile tCurrentTile;
+		
+		tCurrentTile = mapCell.getTile ();
+		tIsTileUpdated = false;
+		if (tile.getNumber () != tCurrentTile.getNumber ()) {
+			tIsTileUpdated = true;
+		}
+		
+		return tIsTileUpdated;
+	}
+	
 	public boolean isSame (RouteSegment aRouteSegment) {
 		boolean tIsSame = true;
 		

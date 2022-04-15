@@ -491,17 +491,12 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tRoundID = trainCompany.getOperatingRoundID ();
 		tPhaseInfo = trainCompany.getCurrentPhaseInfo ();
 		tPhase = tPhaseInfo.getName ();
+		
+		tRouteToReuse.printDetail ();
 		tRouteInformation = new RouteInformation (tRouteToReuse, tRoundID, tPhase);
 		
-//		System.out.println ("Reuse Route for a " + aTrain.getName () + " Train, Old Round ID " + 
-//					tRouteToReuse.getRoundID () + " Phase " + tRouteToReuse.getPhase () +
-//					" New RoundID " + tRouteInformation.getRoundID () + " Phase " + tRouteInformation.getPhase ()
-//					);
 		tRouteInformation.copyRouteSegments (tRouteToReuse);
-//		System.out.println ("Old Route Segment:");
-//		tRouteToReuse.printDetail ();
-//		System.out.println ("New Route Segment:");
-//		tRouteInformation.printDetail ();
+		tRouteInformation.updateReusedRoute (tPhase);
 		aTrain.setCurrentRouteInformation (tRouteInformation);
 	}
 
