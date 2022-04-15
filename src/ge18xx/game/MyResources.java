@@ -16,8 +16,7 @@ public class MyResources extends ListResourceBundle {
 		return contents;
 	}
 	static final Object [][] contents = {
-		// LOCALIZE THIS
-			{"message", "18xx Game Engine"},
+		// Generic Resources
 			{"fileMenu", "File"},
 			{"editMenu", "Edit"},
 			{"newItem", "New"},
@@ -35,6 +34,8 @@ public class MyResources extends ListResourceBundle {
 			{"clearItem", "Clear"},
 			{"selectAllItem", "Select All"},
 			{"gameMenu", "Game"},
+		// Game Specific Resources
+			{"message", "18xx Game Engine"},
 			{"showMapItem", "Show Map"},
 			{"showMarketItem", "Show Market"},
 			{"showCitiesItem", "Show City List"},
@@ -48,6 +49,9 @@ public class MyResources extends ListResourceBundle {
 			{"showAuditFrameItem", "Show Audit Frame"},
 			{"showActionReportFrameItem", "Show Action Report Frame"},
 			{"frameTitle", "18XX Game Engine"},
-			{"version", "0.7.11 Beta"}
+			{"configDir", "18XX XML Data"},
+			{"iconImage", "images/GE18XX.png"},
+			{"GameSetXMLFile", "18xx Games.xml"},
+			{"version", "0.7.12 Beta"}
 	};
 }

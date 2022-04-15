@@ -66,19 +66,25 @@ import org.apache.logging.log4j.Logger;
 // the Game_18XX Class that extends the GameEngineFrame, 
 public class Game_18XX extends JFrame {
 	private static final long serialVersionUID = 1L;
+	
+	// Generic Game Engine Fields
 	private final String ENTER_USER_NAME = "Must Enter User Name";
 	protected ResourceBundle resbundle;
 	protected AboutBox aboutBox;
 	protected PrefPane prefs;
-	protected Action newAction, openAction, closeAction, saveAction, saveAsAction, saveConfigAction, 
-					 frameInfoAction, exitAction,
-					 undoAction, cutAction, copyAction, pasteAction, clearAction, selectAllAction;
-	protected Action selectGameAction, showMapAction, showMarketAction, showCitiesAction, showPrivatesAction;
+	protected JMenu fileMenu, gameMenu;
+	protected Action newAction, openAction, closeAction, saveAction, saveAsAction, saveConfigAction;
+	protected Action frameInfoAction, exitAction, undoAction, cutAction, copyAction;
+	protected Action pasteAction, clearAction, selectAllAction;
+	protected Action selectGameAction, showActionReportFrameAction, showPlayerInputAction;
+	
+	// Game18XX Specific Menu Actions
+	protected Action showMapAction, showMarketAction, showCitiesAction, showPrivatesAction;
 	protected Action showTileTrayAction, showCoalCompaniesAction, showMinorCompaniesAction;
 	protected Action showChatClientAction, showRoundFrameAction, showShareCompaniesAction;
-	protected Action showPlayerInputAction, showAuditFrameAction, showActionReportFrameAction;
-	protected JMenu fileMenu, gameMenu;
+	protected Action showAuditFrameAction;
 
+	// More Generic Game Engine Fields
 	GameManager gameManager;
 	PlayerInputFrame playerInputFrame;
 	JMenuBar mainMenuBar;	
@@ -107,15 +113,12 @@ public class Game_18XX extends JFrame {
 	
 	public Game_18XX (boolean aVisible) {
 		super ("");
-		String tTitle;
 		
 		// The ResourceBundle below contains all of the strings used in this
 		// application.  ResourceBundles are useful for localizing applications.
 		// New localities can be added by adding additional properties files.
-		resbundle = ResourceBundle.getBundle ("ge18xx.game.MyResources", Locale.getDefault ());
+		loadResourceBundle ("ge18xx");
 		
-		tTitle = resbundle.getString ("frameTitle");
-		setTitle (tTitle);
 		setApplicationIcon ();
 		
 		createActions ();
@@ -138,13 +141,25 @@ public class Game_18XX extends JFrame {
 		});
 		updateDisconnectButton ();
 	}
+
+	private void loadResourceBundle (String aGameEngineName) {
+		String tTitle;
+		
+		if (aGameEngineName.length () > 0) {
+			resbundle = ResourceBundle.getBundle (aGameEngineName + ".game.MyResources", Locale.getDefault ());
+			tTitle = resbundle.getString ("frameTitle");
+		} else {
+			tTitle = "Generic Game Engine";
+		}
+		setTitle (tTitle);
+	}
 	
     public void onExit () {
         int tConfirm;
         Logger tLogger;
         
         tConfirm = JOptionPane.showOptionDialog (
-        		null, "Are You Sure to Close the GE18XX?", 
+        		null, "Are You Sure to Close the " + getTitle () + "?", 
         		"Exit Confirmation", JOptionPane.YES_NO_OPTION, 
         		JOptionPane.QUESTION_MESSAGE, null, null, null);
         if (tConfirm == 0) {
@@ -170,7 +185,8 @@ public class Game_18XX extends JFrame {
 	    
 	    if (getLogger () == null) {
 	    	tAppVersion = getGEVersion ();
-	    	tXMLConfigFileDir = "18XX%20XML%20Data";
+//	    	tXMLConfigFileDir = "18XX%20XML%20Data";
+	    	tXMLConfigFileDir = resbundle.getString ("configDir");
 	    	loggerLookup.setupLogger (aUserName, aAppName, tAppVersion, tXMLConfigFileDir, 
 	    			ge18xx.game.Game_18XX.class);
 	    }
@@ -201,9 +217,10 @@ public class Game_18XX extends JFrame {
 	
 	@Override
 	public Image getIconImage () {
-		String tIconPath = "images/GE18XX.png";
+		String tIconPath;
 		ImageIcon tIcon;
 		
+		tIconPath = resbundle.getString ("iconImage");
         tIcon = new ImageIcon (tIconPath);
         iconImage = tIcon.getImage ();
         
@@ -395,13 +412,17 @@ public class Game_18XX extends JFrame {
 		prefs.setResizable (false);
 		prefs.setVisible (true);
 	}
-*/
+	 */
 	
-	public void addMenus() {
-		int tMenuItemCount, tMenuItemIndex;
-		int tMenuIndex;
-		
+	private void addMenus() {
 		mainMenuBar = new JMenuBar ();
+		setupFileMenu ();
+		setupGameMenu ();
+		
+		setJMenuBar (mainMenuBar);
+	}
+
+	private void setupFileMenu () {
 		fileMenu = new JMenu ("File");
 		newMenuItem = new JMenuItem (newAction);
 		disableNewMenuItem ();
@@ -426,7 +447,13 @@ public class Game_18XX extends JFrame {
 		exitMenuItem = new JMenuItem (exitAction);
 		fileMenu.add (exitMenuItem);
 		mainMenuBar.add (fileMenu);
+	}
 
+	private void setupGameMenu () {
+		int tMenuItemCount;
+		int tMenuItemIndex;
+		int tMenuIndex;
+		
 		gameMenu = new JMenu ("Game");
 		tMenuItemCount = 10;
 		gameMenuItems = new JMenuItem [tMenuItemCount];
@@ -447,8 +474,6 @@ public class Game_18XX extends JFrame {
 			gameMenu.add (gameMenuItems [tMenuItemIndex]);
 		}
 		mainMenuBar.add (gameMenu);
-		
-		setJMenuBar (mainMenuBar);
 	}
 	
 	private int addGameMenu (int aMenuIndex, Action aMenuAction) {
@@ -457,39 +482,48 @@ public class Game_18XX extends JFrame {
 		return (aMenuIndex + 1);
 	}
 	
-	public void createActions () {
-		int shortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask ();
+	private void createActions () {
+		int tShortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask ();
 
-		//Create actions that can be used by menus, buttons, toolbars, etc.
-		newAction = new newActionClass (resbundle.getString ("newItem"),
-				KeyStroke.getKeyStroke (KeyEvent.VK_N, shortcutKeyMask));
-		openAction = new openActionClass (resbundle.getString ("openItem"),
-				KeyStroke.getKeyStroke (KeyEvent.VK_O, shortcutKeyMask));
-		closeAction = new closeActionClass (resbundle.getString ("closeItem"),
-				KeyStroke.getKeyStroke (KeyEvent.VK_W, shortcutKeyMask));
-		saveAction = new saveActionClass (resbundle.getString ("saveItem"),
-				KeyStroke.getKeyStroke (KeyEvent.VK_S, shortcutKeyMask));
-		saveAsAction = new saveAsActionClass (resbundle.getString ("saveAsItem"));
-		saveConfigAction = new saveConfigActionClass (resbundle.getString ("saveConfigItem"));
-		frameInfoAction = new frameInfoActionClass (resbundle.getString ("frameInfoItem"));
-		exitAction = new exitActionClass (resbundle.getString ("exitItem"),
-				KeyStroke.getKeyStroke (KeyEvent.VK_Q, shortcutKeyMask));
-		
+		setupGenericActions (tShortcutKeyMask);
+		setupGameSpecificActions (tShortcutKeyMask);
+	}
+
+	private void setupGameSpecificActions (int aShortcutKeyMask) {
 		showMapAction = new showMapActionClass (resbundle.getString("showMapItem"),
-				KeyStroke.getKeyStroke (KeyEvent.VK_M, shortcutKeyMask));
+				KeyStroke.getKeyStroke (KeyEvent.VK_M, aShortcutKeyMask));
 		showMarketAction = new showMarketActionClass (resbundle.getString ("showMarketItem"),
-				KeyStroke.getKeyStroke (KeyEvent.VK_K, shortcutKeyMask));
+				KeyStroke.getKeyStroke (KeyEvent.VK_K, aShortcutKeyMask));
 		showCitiesAction = new showCitiesActionClass (resbundle.getString ("showCitiesItem"),
-				KeyStroke.getKeyStroke (KeyEvent.VK_L, shortcutKeyMask));
+				KeyStroke.getKeyStroke (KeyEvent.VK_L, aShortcutKeyMask));
 		showTileTrayAction = new showTileTrayActionClass (resbundle.getString ("showTileTrayItem"),
-				KeyStroke.getKeyStroke (KeyEvent.VK_T, shortcutKeyMask));
+				KeyStroke.getKeyStroke (KeyEvent.VK_T, aShortcutKeyMask));
 		showPrivatesAction = new showPrivatesActionClass (resbundle.getString ("showPrivatesItem"),
-				KeyStroke.getKeyStroke (KeyEvent.VK_P, shortcutKeyMask));
+				KeyStroke.getKeyStroke (KeyEvent.VK_P, aShortcutKeyMask));
 		showShareCompaniesAction = new showShareCompaniesActionClass (resbundle.getString ("showShareCompaniesItem"), null);
 		showChatClientAction = new showChatClientActionClass (resbundle.getString ("showChatClientItem"), null);
 		showRoundFrameAction = new showRoundFrameActionClass (resbundle.getString ("showRoundFrameItem"), null);
 		showAuditFrameAction = new showAuditFrameActionClass (resbundle.getString ("showAuditFrameItem"), null);
 		showActionReportFrameAction = new showActionReportFrameActionClass (resbundle.getString ("showActionReportFrameItem"), null);
+	}
+
+	private void setupGenericActions (int aShortcutKeyMask) {
+//		int tShortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask ();
+
+		//Create actions that can be used by menus, buttons, toolbars, etc.
+		newAction = new newActionClass (resbundle.getString ("newItem"),
+				KeyStroke.getKeyStroke (KeyEvent.VK_N, aShortcutKeyMask));
+		openAction = new openActionClass (resbundle.getString ("openItem"),
+				KeyStroke.getKeyStroke (KeyEvent.VK_O, aShortcutKeyMask));
+		closeAction = new closeActionClass (resbundle.getString ("closeItem"),
+				KeyStroke.getKeyStroke (KeyEvent.VK_W, aShortcutKeyMask));
+		saveAction = new saveActionClass (resbundle.getString ("saveItem"),
+				KeyStroke.getKeyStroke (KeyEvent.VK_S, aShortcutKeyMask));
+		saveAsAction = new saveAsActionClass (resbundle.getString ("saveAsItem"));
+		saveConfigAction = new saveConfigActionClass (resbundle.getString ("saveConfigItem"));
+		frameInfoAction = new frameInfoActionClass (resbundle.getString ("frameInfoItem"));
+		exitAction = new exitActionClass (resbundle.getString ("exitItem"),
+				KeyStroke.getKeyStroke (KeyEvent.VK_Q, aShortcutKeyMask));
 	}
 	
 	public void createGameSet () {
@@ -674,9 +708,11 @@ public class Game_18XX extends JFrame {
 	}
 	
 	public boolean loadGameSet () {
-		String tFileName = gameManager.getXMLBaseDirectory () + "18xx Games.xml";
+		String tFileName;
 		boolean tLoadedGameSet;
 		
+		tFileName = gameManager.getXMLBaseDirectory () + resbundle.getString ("GameSetXMLFile");
+				//"18xx Games.xml";
 		try {
 			createPlayerInputFrame ();
 			playerInputFrame.loadXML (tFileName, playerInputFrame.getGameSet ());
