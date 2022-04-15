@@ -631,22 +631,19 @@ public class RouteInformation {
 		int tSegmentCount;
 		int tSegmentIndex;
 		RouteSegment tRouteSegment;
-		MapCell tMapCell;
-		int tNewTileNumber;
 		
 		tSegmentCount = getSegmentCount ();
+		revenueCenters.clear ();
 		for (tSegmentIndex = 0; tSegmentIndex < tSegmentCount; tSegmentIndex++) {
 			tRouteSegment = routeSegments.get (tSegmentIndex);
 			if (tRouteSegment.isTileUpdated ()) {
-				tMapCell = tRouteSegment.getMapCell ();
-				tNewTileNumber = tMapCell.getTileNumber ();
-				System.out.println ("Tile " + tRouteSegment.getTileNumber () + 
-						" was updated to " + tNewTileNumber + " on MapCell " + tMapCell.getCellID ());
 				tRouteSegment.updateTile ();
 				tRouteSegment.updateRevenues (aPhase);
-				tRouteSegment.printDetail ();
 			}
+			addRevenueCenter (tRouteSegment);
 		}
+		calculateTotalRevenue ();
+		updateRevenueFrame ();
 	}
 	
 	private boolean isRouteOpen () {

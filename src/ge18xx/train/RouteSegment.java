@@ -454,6 +454,22 @@ public class RouteSegment {
 		return end;
 	}
 
+	public NodeInformation copyStartNode () {
+		NodeInformation tStartNode;
+		
+		tStartNode = start.copyNode ();
+		
+		return tStartNode;
+	}
+
+	public NodeInformation copyEndNode () {
+		NodeInformation tEndNode;
+		
+		tEndNode = end.copyNode ();
+		
+		return tEndNode;
+	}
+	
 	public void updateRevenues (int aPhase) {
 		start.updateRevenue (aPhase);
 		end.updateRevenue (aPhase);
@@ -714,10 +730,10 @@ public class RouteSegment {
 				tTrainNumber = tTrack.getTrainNumber ();
 				clearTrainOnTrack (tTrack);
 				
-				System.out.println ("Original [" + tOriginalStart.getLocation () + " to " +  tOriginalEnd.getLocation () +
-						"] UnRotated [" + tStartLocation.getLocation () + " to " +  tEndLocation.getLocation () + 
-						"] NextTrack [" + tNewStartLocation.getLocation () + " to " +  tNewEndLocation.getLocation () + 
-						"] NextTrack Rotated [" + tNewRotStart.getLocation () + " to " +  tNewRotEnd.getLocation () + "]");
+//				System.out.println ("Original [" + tOriginalStart.getLocation () + " to " +  tOriginalEnd.getLocation () +
+//						"] UnRotated [" + tStartLocation.getLocation () + " to " +  tEndLocation.getLocation () + 
+//						"] NextTrack [" + tNewStartLocation.getLocation () + " to " +  tNewEndLocation.getLocation () + 
+//						"] NextTrack Rotated [" + tNewRotStart.getLocation () + " to " +  tNewRotEnd.getLocation () + "]");
 				if (tOriginalStart.getLocation () == tNewStartLocation.getLocation ()) {
 					if (tOriginalStart.getLocation () == tNewRotEnd.getLocation ()) {
 						end.setLocation (tNewRotStart);

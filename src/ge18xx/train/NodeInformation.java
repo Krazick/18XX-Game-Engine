@@ -25,6 +25,25 @@ public class NodeInformation {
 	int revenue;			//	Revenue
 	int bonus;				//	Bonus (for Cattle or Port)
 	
+	public NodeInformation (boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter,
+				int aRevenue, int aBonus) {
+		this (Location.NO_LOC, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, RevenueCenter.NO_CENTER);
+	}
+
+	public NodeInformation copyNode () {
+		NodeInformation tNode;
+		Location tLocation;
+		RevenueCenter tRevenueCenter;
+		
+		tNode = new NodeInformation (corpStation, openFlow, hasRevenueCenter, revenue, bonus);
+		tRevenueCenter = revenueCenter.clone ();
+		tLocation = location.clone ();
+		tNode.setRevenueCenter (tRevenueCenter);
+		tNode.setLocation (tLocation);
+		
+		return tNode;
+	}
+
 	public NodeInformation (Location aLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter,
 				int aRevenue, int aBonus, RevenueCenter aRevenueCenter) {
 		setHasRevenueCenter (aHasRevenueCenter);
@@ -56,7 +75,7 @@ public class NodeInformation {
 		setCorpStation (tCorpStation);
 		setLocation (tLocation);
 	}
-
+	
 	public int getBonus () {
 		return bonus;
 	}

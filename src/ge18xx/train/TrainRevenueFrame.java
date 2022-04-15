@@ -418,8 +418,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	private void handleReuseRoute (ActionEvent aReuseRouteEvent) {
-		System.out.println ("Ready to handle Reuse Route");
-		
 		JButton tReuseRouteButton;
 		int tTrainIndex, tTrainCount;
 		
@@ -431,7 +429,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				trainCompany.exitSelectRouteMode ();
 			}
 		}
-
 	}
 	
 	// Steps needed:
@@ -492,7 +489,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tPhaseInfo = trainCompany.getCurrentPhaseInfo ();
 		tPhase = tPhaseInfo.getName ();
 		
-		tRouteToReuse.printDetail ();
 		tRouteInformation = new RouteInformation (tRouteToReuse, tRoundID, tPhase);
 		
 		tRouteInformation.copyRouteSegments (tRouteToReuse);
