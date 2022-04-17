@@ -166,6 +166,28 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 	
+	/**
+	 * Clear the Specified Train Number from the Entire Map
+	 * 
+	 * @param aTrainNumber The Train Number to clear
+	 */
+	public void clearTrain (int aTrainNumber) {
+		int rowIndex, colIndex, rowCount, colCount;
+		
+		rowCount = getRowCount ();
+		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+			colCount = getColCount (rowIndex);
+			for (colIndex = 0; colIndex < colCount; colIndex++) {
+				map [rowIndex] [colIndex].clearTrain (aTrainNumber);
+				map [rowIndex] [colIndex].clearTrainUsingSides (aTrainNumber);
+			}
+		}
+	}
+	
+	/**
+	 * Clear All Trains from All of the Map Cells on the Map. Will also Clear the Sides as well
+	 * 
+	 */
 	public void clearAllTrains () {
 		int rowIndex, colIndex, rowCount, colCount;
 		
@@ -174,7 +196,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			colCount = getColCount (rowIndex);
 			for (colIndex = 0; colIndex < colCount; colIndex++) {
 				map [rowIndex] [colIndex].clearAllTrains ();
-				map [rowIndex] [colIndex].clearTrainUsingSides ();
+				map [rowIndex] [colIndex].clearAllTrainsUsingSides ();
 			}
 		}
 	}

@@ -150,9 +150,25 @@ public class MapCell implements Comparator<Object> {
 		setTrainUsingSide (aSide, 0);
 	}
 	
-	public void clearTrainUsingSides () {
+	/**
+	 * Clear the Specified Train from all Sides of the Map Cell, if it matches
+	 * 
+	 * @param aTrainNumber The Train Number to Clear
+	 */
+	public void clearTrainUsingSides (int aTrainNumber) {
 		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
-			trainUsingSide [tSideIndex] = 0;
+			if (trainUsingSide [tSideIndex] == aTrainNumber) {
+				clearTrainUsingASide (tSideIndex);
+			}
+		}
+	}
+
+	/**
+	 * Clear ALL Trains from every side of the Map Cell
+	 */
+	public void clearAllTrainsUsingSides () {
+		for (int tSideIndex = 0; tSideIndex < 6; tSideIndex++) {
+			clearTrainUsingASide (tSideIndex);
 		}
 	}
 	
@@ -332,6 +348,21 @@ public class MapCell implements Comparator<Object> {
 		clearSelectedFeature2 ();
 	}
 	
+	/**
+	 * Clear the Specified Train from the Map Cell, if it has a Tile on it.
+	 * 
+	 * @param aTrainNumber The Train Number to Clear
+	 */
+	public void clearTrain (int aTrainNumber) {
+		if (isTileOnCell ()) {
+			tile.clearTrain (aTrainNumber);
+		}
+	}
+	
+	/**
+	 * Clear all Trains from the Map Cell, if it has a Tile on it.
+	 * 
+	 */
 	public void clearAllTrains () {
 		if (isTileOnCell ()) {
 			tile.clearAllTrains ();
@@ -1399,7 +1430,7 @@ public class MapCell implements Comparator<Object> {
 		startingTileNumber = Tile.NOT_A_TILE;
 		startingTile = false;
 		rebate = Rebate.NO_REBATE;
-		clearTrainUsingSides ();
+		clearAllTrainsUsingSides ();
     }
 	
 	public void setScale (int hexScale, Hex aHex) {
