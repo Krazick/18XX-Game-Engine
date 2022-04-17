@@ -799,6 +799,10 @@ public class TrainPortfolio implements TrainHolderI {
 		return tAvailableTrains;
 	}
 
+	/**
+	 * Will clear all of the currently selected Trains so they are NOT selected
+	 * 
+	 */
 	public void clearAllTrainSelections () {
 		for (Train tTrain : trains) {
 			if (tTrain.isSelected ()) {
