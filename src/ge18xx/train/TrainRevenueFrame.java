@@ -237,10 +237,12 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 	
 	public void updateNotificationLabel (String aNotification) {
-		if (aNotification.length () > 0) {
-			aNotification = "WARNING: " + aNotification;
+		if (aNotification != GUI.NULL_STRING) {
+			if (aNotification.length () > 0) {
+				aNotification = "WARNING: " + aNotification;
+			}
+			notificationLabel.setText (aNotification);
 		}
-		notificationLabel.setText (aNotification);
 	}
 	
 	public void setYourCompany (boolean aYourCompany) {
@@ -327,7 +329,15 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		
 		tRouteInformation = aTrain.getCurrentRouteInformation ();
 		if (tRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-			tRouteInformation.clearTrainFromMap ();
+			int tTrainIndex, tTrainCount;
+			
+			tTrainCount = trainCompany.getTrainCount ();
+			for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+				if (trainCompany.getTrain (tTrainIndex) == aTrain) {
+					trainCompany.clearTrainFromMap (tTrainIndex);
+				}
+			}
+//			tRouteInformation.clearTrainFromMap ();
 			aTrain.setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 		}
 		aTrain.setOperating (false);
@@ -411,7 +421,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tResetRouteButton.equals (resetRoutes [tTrainIndex])) {
 				resetTrainRoute (tTrainIndex);
-				trainCompany.exitSelectRouteMode ();
+//				trainCompany.exitSelectRouteMode ();
+				trainCompany.clearTrainFromMap (tTrainIndex);
 			}
 		}
 		updateAllFrameButtons ();
@@ -429,6 +440,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				trainCompany.exitSelectRouteMode ();
 			}
 		}
+		updateAllFrameButtons ();
 	}
 	
 	// Steps needed:
@@ -458,6 +470,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		RouteInformation tCurrentRouteInformation;
 		
 		tTrain = trainCompany.getTrain (aTrainIndex);
+		trainCompany.clearTrainFromMap (aTrainIndex);
+		tTrain.setOperating (true);
 		setupNewRouteInformation (tTrain);
 		highlightRouteSegments (tTrain);
 		tCurrentRouteInformation = tTrain.getCurrentRouteInformation ();
@@ -538,6 +552,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tRoundID = trainCompany.getOperatingRoundID ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tSelectRouteButton.equals (selectRoutes [tTrainIndex])) {
+				trainCompany.clearTrainFromMap (tTrainIndex);
 				tTrain = trainCompany.getTrain (tTrainIndex);
 				tTrain.clearRouteInformation ();
 				tRouteInformation = new RouteInformation (tTrain, tTrainIndex, tColor, tRoundID, tRegionBonus, tSpecialBonus, 
@@ -1066,8 +1081,10 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				tPreviousRouteInformation = tTrain.getPreviousRouteInformation ();
 				if (tPreviousRouteInformation == RouteInformation.NO_ROUTE_INFORMATION) {
 					disableReuseRouteButton (aTrainIndex, "No Previous Route Found to use");
-				} else {
+				} else if (tPreviousRouteInformation.canBeReused ()) {
 					enableReuseRouteButton (aTrainIndex, "Ready to use");
+				} else {
+					disableReuseRouteButton (aTrainIndex, "At least one Route Segment Track is in Use");
 				}
 			} else {
 				disableReuseRouteButton (aTrainIndex, NOT_YOUR_COMPANY);
