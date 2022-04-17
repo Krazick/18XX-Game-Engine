@@ -809,6 +809,11 @@ public class Track implements Cloneable {
 		return tTrackStroke;
 	}
 	
+	/**
+	 * Get the Current Train Number using this Track Segment
+	 * 
+	 * @return The Train Number using this Track
+	 */
 	public int getTrainNumber () {
 		return (trainNumberUsing);
 	}
