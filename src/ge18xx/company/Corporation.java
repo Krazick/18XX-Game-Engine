@@ -472,7 +472,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	// Train Company will override
-	public void clearTrainsFromMap () {
+	public void clearAllTrainsFromMap () {
 		System.err.println ("Trying to -CLEAR ALL TRAINS- Should be handled by Train Company");
 	}
 	
@@ -631,7 +631,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		tOperatingRound = corporationList.getOperatingRound ();
 		tOperatingRound.addAction (tDeclareBankruptcyAction);
 		corporationList.declareBankuptcyAction (this);
-		clearTrainsFromMap ();
+		clearAllTrainsFromMap ();
 		hideFrame ();
 	}
 	
@@ -655,7 +655,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			tOperatingRound.addAction (tDoneAction);
 			corporationList.doneAction (this);
 		}
-		clearTrainsFromMap ();
+		clearAllTrainsFromMap ();
 		hideFrame ();
 	}
 	
