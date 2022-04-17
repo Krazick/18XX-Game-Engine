@@ -478,6 +478,12 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers.get (aCenterIndex);
 	}
 	
+	/**
+	 * Find the RevenueCenter on the Tile that has a Track connecting to the Location provided
+	 * 
+	 * @param aOtherLocation The remote location that should have track connecting to this RevenueCenter
+	 * @return NO_CENTER if no RevenueCenter is found with track connecting to the location provided
+	 */
 	public RevenueCenter findRevenueCenterConnectingTo (int aOtherLocation) {
 		RevenueCenter tRevenueCenter;
 		RevenueCenter tFoundRevenueCenter;
