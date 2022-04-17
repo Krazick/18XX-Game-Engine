@@ -1105,12 +1105,27 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return isOperatingTrains;
 	}
 	
-	@Override
-	public void clearTrainsFromMap () {
+	/**
+	 * Clear the Specified Train from the Map
+	 * 
+	 * @param aTrainNumber The Train to clear from the Map, must Look for next index up
+	 */
+	public void clearTrainFromMap (int aTrainNumber) {
 		MapFrame tMapFrame;
 		
 		tMapFrame = corporationList.getMapFrame ();
-		tMapFrame.clearTrainsFromMap ();
+		tMapFrame.clearTrainFromMap (aTrainNumber + 1);
+	}
+	/**
+	 * Clear All trains from the Map
+	 * 
+	 */
+	@Override
+	public void clearAllTrainsFromMap () {
+		MapFrame tMapFrame;
+		
+		tMapFrame = corporationList.getMapFrame ();
+		tMapFrame.clearAllTrainsFromMap ();
 		trainRevenueFrame.clearAllTrainRoutes ();
 	}
 	
