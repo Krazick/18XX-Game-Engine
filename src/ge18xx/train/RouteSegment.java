@@ -435,8 +435,13 @@ public class RouteSegment {
 		return tSideLocation;
 	}
 	
+	/**
+	 * Get the specific Track on the Map Cell with the two specific end points
+	 * 
+	 * @return The Track found from the Start to the End on the Map Cell.
+	 */
 	public Track getTrack () {
-		Track tTrack = Track.NO_TRACK;
+		Track tTrack;
 		Location tStartLocation, tEndLocation;
 		
 		tStartLocation = start.getLocation ();
@@ -446,6 +451,21 @@ public class RouteSegment {
 		return tTrack;
 	}
 
+	/** 
+	 * Test if the Track for a specific Route Segment is currently in use
+	 * 
+	 * @return True If the Track connecting the two end points on the Map Cell is in use
+	 */
+	public boolean trackIsInUse () {
+		boolean tTrackIsInUse; 
+		Track tTrack;
+		
+		tTrack = getTrack ();
+		tTrackIsInUse = tTrack.isTrackUsed ();
+		
+		return tTrackIsInUse;
+	}
+	
 	public NodeInformation getStartNode () {
 		return start;
 	}
