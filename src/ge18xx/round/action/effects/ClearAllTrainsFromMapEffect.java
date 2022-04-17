@@ -52,7 +52,7 @@ public class ClearAllTrainsFromMapEffect extends Effect {
 		ActorI tActor;
 		
 		tMapFrame = aRoundManager.getMapFrame ();
-		tMapFrame.clearTrainsFromMap ();
+		tMapFrame.clearAllTrainsFromMap ();
 		tActor = getActor ();
 		if (tActor.isATrainCompany ()) {
 			tTrainCompany = (TrainCompany) tActor;
