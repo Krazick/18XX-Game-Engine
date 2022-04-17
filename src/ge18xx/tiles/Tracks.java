@@ -49,6 +49,23 @@ public class Tracks implements Cloneable {
 		return tCanAllTracksExit;
 	}
 	
+	/**
+	 * Clear the Specified Train Number on every Track on the Tile.
+	 *  
+	 * @param aTrainNumber the Train Number to test for on the Tracks
+	 */
+	public void clearTrain (int aTrainNumber) {
+		for (Track tSegment : segments) {
+			if (tSegment.getTrainNumber () == aTrainNumber) {
+				tSegment.clearTrainNumber ();
+			}
+		}
+	}
+	
+	/**
+	 * Clear the All Train Numbers on every Track on the Tile.
+	 *  
+	 */
 	public void clearAllTrains () {
 		for (Track tSegment : segments) {
 			tSegment.clearTrainNumber ();
