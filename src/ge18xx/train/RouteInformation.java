@@ -416,6 +416,19 @@ public class RouteInformation {
 		revenueCenters.removeAll (revenueCenters);
 	}
 
+	public boolean canBeReused () {
+		boolean tCanBeReused;
+		
+		tCanBeReused = true;
+		for (RouteSegment tRouteSegment : routeSegments) {
+			if (tRouteSegment.trackIsInUse ()) {
+				tCanBeReused = false;
+			}
+		}
+		
+		return tCanBeReused;
+	}
+	
 	public int getRevenueAt (int aRevenueCenterIndex) {
 		int tRevenue = 0;
 		RevenueCenter tRevenueCenter;
