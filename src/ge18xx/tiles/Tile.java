@@ -478,15 +478,28 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers.get (aCenterIndex);
 	}
 	
-	public RevenueCenter getFirstRevenueCenter () {
+	public RevenueCenter findRevenueCenterConnectingTo (int aOtherLocation) {
 		RevenueCenter tRevenueCenter;
+		RevenueCenter tFoundRevenueCenter;
+		int tLocation;
+		Track tTrack;
+		int tCenterIndex;
+		int tCenterCount;
 		
-		tRevenueCenter = RevenueCenter.NO_CENTER;
-		if (getRevenueCenterCount () > 0) {
-			tRevenueCenter = centers.get (0);
+		tFoundRevenueCenter = RevenueCenter.NO_CENTER;
+		tCenterCount = getRevenueCenterCount ();
+		if (tCenterCount > 0) {
+			for (tCenterIndex = 0; tCenterIndex < tCenterCount; tCenterIndex++) {
+				tRevenueCenter = centers.get (tCenterIndex);
+				tLocation = tRevenueCenter.getLocation ().getLocation ();
+				tTrack = tracks.getTrackFromStartToEnd (tLocation, aOtherLocation);
+				if (tTrack != Track.NO_TRACK) {
+					tFoundRevenueCenter = tRevenueCenter;
+				}
+			}
 		}
 		
-		return tRevenueCenter;
+		return tFoundRevenueCenter;
 	}
 	
 	public String getRevenueValue (int aPhase) {

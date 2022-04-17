@@ -480,8 +480,8 @@ public class RouteSegment {
 		
 		tCurrentTile = mapCell.getTile ();
 		setTile (tCurrentTile);
-		start.updateNode (tCurrentTile);
-		end.updateNode (tCurrentTile);
+		start.updateNode (tCurrentTile, end);
+		end.updateNode (tCurrentTile, start);
 	}
 	
 	public boolean isTileUpdated () {
@@ -810,13 +810,11 @@ public class RouteSegment {
 			if (tTileNumber == tileNumber) {
 				setTile (tTile);
 				if (start.hasRevenueCenter ()) {
-					start.fixRevenueCenter (tTile);
+					start.fixRevenueCenter (tTile, end);
 				}
 				if (end.hasRevenueCenter ()) {
-					end.fixRevenueCenter (tTile);
+					end.fixRevenueCenter (tTile, start);
 				}
-//			} else {
-//				logger.error ("Looking for Tile " + tileNumber + " found " + tTileNumber + " on MapCell " + mapCellID);
 			}
 		} else {
 			logger.error ("Looking for MapCell " + mapCellID + " Did not find it in the Map");
