@@ -150,6 +150,19 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return tracks.canAllTracksExit (aThisMapCell, aTileOrient);
 	}
 	
+	/**
+	 * Clear the Specified Train from all tracks on the Tile
+	 * 
+	 * @param aTrainNumber The Train Number to clear
+	 */
+	public void clearTrain (int aTrainNumber) {
+		tracks.clearTrain (aTrainNumber);
+	}
+	
+	/**
+	 * Clear All Trains from every Track on the Tile
+	 * 
+	 */
 	public void clearAllTrains () {
 		tracks.clearAllTrains ();
 	}
