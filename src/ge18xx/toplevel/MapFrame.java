@@ -261,7 +261,20 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		setPlaceTileMode (aTileMode);
 	}
 
-	public void clearTrainsFromMap () {
+	/**
+	 * Clear the Specified Train from the Map
+	 * 
+	 * @param aTrainNumber The Train Number to clear from the Map
+	 */
+	public void clearTrainFromMap (int aTrainNumber) {
+		map.clearTrain (aTrainNumber);
+	}
+	
+	/**
+	 * Clear all Trains from the Map
+	 * 
+	 */
+	public void clearAllTrainsFromMap () {
 		map.clearAllTrains ();
 		repaint ();
 	}
