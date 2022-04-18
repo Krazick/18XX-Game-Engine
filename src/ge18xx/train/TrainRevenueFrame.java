@@ -472,7 +472,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tTrain = trainCompany.getTrain (aTrainIndex);
 		trainCompany.clearTrainFromMap (aTrainIndex);
 		tTrain.setOperating (true);
-		setupNewRouteInformation (tTrain);
+		setupNewRouteInformation (tTrain, aTrainIndex);
 		highlightRouteSegments (tTrain);
 		tCurrentRouteInformation = tTrain.getCurrentRouteInformation ();
 		tCurrentRouteInformation.addReuseRouteAction (tTrain);
@@ -491,7 +491,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tRouteInformation.highlightRouteSegments (tMap);
 	}
 	
-	private void setupNewRouteInformation (Train aTrain) {
+	private void setupNewRouteInformation (Train aTrain, int aTrainIndex) {
 		RouteInformation tRouteInformation;
 		RouteInformation tRouteToReuse;
 		String tRoundID;
@@ -869,16 +869,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	public void updateInfo () {
 		String tTitleText;
 		String tTrainInfo;
-		int tTrainCount;
 		
-		tTrainCount = trainCompany.getTrainCount ();
-		if (tTrainCount == 0) {
-			tTrainInfo = "No Trains";
-		} else if (tTrainCount == 1) {
-			tTrainInfo = "1 Train";
-		} else {
-			tTrainInfo = tTrainCount + " Trains";
-		}
+		tTrainInfo = updateTrainInfo ();
 		tTitleText = "Train Revenue for " + trainCompany.getName () + " with " + tTrainInfo;
 		title.setText (tTitleText);
 		updatePresidentLabel ();
@@ -889,6 +881,25 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updateThisRevenueLabel ();
 		updateFrameSize ();
 		setFrameSetup (true);
+	}
+	
+	private String updateTrainInfo () {
+		String tTrainInfo;
+		int tTrainCount;
+		
+		tTrainCount = trainCompany.getTrainCount ();
+		if (tTrainCount == 0) {
+			tTrainInfo = "No Trains";
+		} else if (tTrainCount == 1) {
+			tTrainInfo = "1 Train";
+		} else {
+			tTrainInfo = tTrainCount + " Trains";
+		}
+		if (tTrainCount > 0) {
+			trainCompany.updateTrainIndexes ();
+		}
+		
+		return tTrainInfo;
 	}
 	
 	public void setFrameSetup (boolean aFrameSetup) {
