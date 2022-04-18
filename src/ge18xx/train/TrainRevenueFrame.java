@@ -1059,7 +1059,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		}
 	}
 	
-	public boolean totalRevenueIsZero (int aTrainIndex) {
+	private boolean totalRevenueIsZero (int aTrainIndex) {
 		boolean tTotalRevenueIsZero = false;
 		String tTotalRevenueForTrain;
 		
@@ -1082,7 +1082,13 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				if (tPreviousRouteInformation == RouteInformation.NO_ROUTE_INFORMATION) {
 					disableReuseRouteButton (aTrainIndex, "No Previous Route Found to use");
 				} else if (tPreviousRouteInformation.canBeReused ()) {
-					enableReuseRouteButton (aTrainIndex, "Ready to use");
+					if (anyTrainIsOperating ()) {
+						disableReuseRouteButton (aTrainIndex, "Another Train is Operating");
+					} else {
+						enableReuseRouteButton (aTrainIndex, "Ready to use");
+					}
+				} else if (tTrain.isOperating ()) {
+					disableReuseRouteButton (aTrainIndex, "This Train is already Operating");
 				} else {
 					disableReuseRouteButton (aTrainIndex, "At least one Route Segment Track is in Use");
 				}
@@ -1094,10 +1100,11 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	
 	/**
 	 *  This method will update the status for the ResetRoute Button for the Nth train owned by this Company
-	 * @param aTrainIndex
+	 *  
+	 * @param aTrainIndex To identify which button to update.
 	 */
 	
-	public void updateResetRouteButton (int aTrainIndex) {
+	private void updateResetRouteButton (int aTrainIndex) {
 		Train tTrain;
 		RouteInformation tRouteInformation;
 		
