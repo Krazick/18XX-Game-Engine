@@ -537,6 +537,22 @@ public class Train implements Comparable<Object> {
 		return PurchaseOffer.TRAIN_TYPE;
 	}
 
+	/**
+	 * Update the Train Index on the Current Route, and Previous Route for this Train. Required so that 
+	 * when a Company loses a Train (it was bought, rusted, or discarded) the Reuse Route will have updated
+	 * information for the remaining trains.
+	 * 
+	 * @param aTrainIndex The train index value to set to.
+	 */
+	public void updateTrainIndex (int aTrainIndex) {
+		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+			currentRouteInformation.setTrainIndex (aTrainIndex);
+		}
+		if (previousRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
+			previousRouteInformation.setTrainIndex (aTrainIndex);
+		}
+	}
+	
 	public void clearRouteInformation () {
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			currentRouteInformation.clear ();

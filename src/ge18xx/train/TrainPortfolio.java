@@ -934,6 +934,22 @@ public class TrainPortfolio implements TrainHolderI {
 		return tTrainInfo;
 	}
 
+	/**
+	 * Update the Train Indexes for all of the company's Trains.
+	 * 
+	 */
+	public void updateTrainIndexes () {
+		int tTrainIndex;
+		int tTrainCount;
+		Train tTrain;
+
+		tTrainCount = trains.size ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			tTrain = trains.get (tTrainIndex);
+			tTrain.updateTrainIndex (tTrainIndex);
+		}
+	}
+	
 	@Override
 	public boolean isATrainCompany () {
 		return portfolioHolder.isATrainCompany ();
