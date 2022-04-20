@@ -193,21 +193,21 @@ public class RouteSegment {
 		setStartNode (tNodeInformation);
 	}
 	
-	public void setStartNode (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
-				int aBonus, RevenueCenter aRevenueCenter) {
-		NodeInformation tNodeInformation;
-		
-		tNodeInformation = new NodeInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
-		setStartNode (tNodeInformation);
-	}
-	
-	public void setEndNode (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
-			int aBonus, RevenueCenter aRevenueCenter) {
-		NodeInformation tNodeInformation;
-		
-		tNodeInformation = new NodeInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
-		setEndNode (tNodeInformation);
-	}
+//	public void setStartNode (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
+//				int aBonus, RevenueCenter aRevenueCenter) {
+//		NodeInformation tNodeInformation;
+//		
+//		tNodeInformation = new NodeInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
+//		setStartNode (tNodeInformation);
+//	}
+//	
+//	public void setEndNode (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
+//			int aBonus, RevenueCenter aRevenueCenter) {
+//		NodeInformation tNodeInformation;
+//		
+//		tNodeInformation = new NodeInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
+//		setEndNode (tNodeInformation);
+//	}
 	
 	public void setEndNode (Location aEndLocation, int aPhase) {
 		NodeInformation tNodeInformation;
@@ -487,20 +487,16 @@ public class RouteSegment {
 		return end;
 	}
 
-	public NodeInformation copyStartNode () {
-		NodeInformation tStartNode;
-		
-		tStartNode = start.copyNode ();
-		
-		return tStartNode;
-	}
-
-	public NodeInformation copyEndNode () {
-		NodeInformation tEndNode;
-		
-		tEndNode = end.copyNode ();
-		
-		return tEndNode;
+	/**
+	 * Update both the Start Node, and then End Node for the Route Segment to be sure the route 
+	 * Open Flow flags are set correctly.
+	 * 
+	 * @param aRouteInformation The 'determineOpenFlow' method is in the RouteInformation Object
+	 * @param aCorpID The current Corporation ID needed to test for proper Token on a station
+	 */
+	public void updateOpenFlow (RouteInformation aRouteInformation, int aCorpID) {
+		start.updateOpenFlow (aRouteInformation, aCorpID);
+		end.updateOpenFlow (aRouteInformation, aCorpID);
 	}
 	
 	public void updateRevenues (int aPhase) {

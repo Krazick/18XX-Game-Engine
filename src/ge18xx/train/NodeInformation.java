@@ -30,19 +30,19 @@ public class NodeInformation {
 		this (Location.NO_LOC, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, RevenueCenter.NO_CENTER);
 	}
 
-	public NodeInformation copyNode () {
-		NodeInformation tNode;
-		Location tLocation;
-		RevenueCenter tRevenueCenter;
-		
-		tNode = new NodeInformation (corpStation, openFlow, hasRevenueCenter, revenue, bonus);
-		tRevenueCenter = revenueCenter.clone ();
-		tLocation = location.clone ();
-		tNode.setRevenueCenter (tRevenueCenter);
-		tNode.setLocation (tLocation);
-		
-		return tNode;
-	}
+//	public NodeInformation copyNode () {
+//		NodeInformation tNode;
+//		Location tLocation;
+//		RevenueCenter tRevenueCenter;
+//		
+//		tNode = new NodeInformation (corpStation, openFlow, hasRevenueCenter, revenue, bonus);
+//		tRevenueCenter = revenueCenter.clone ();
+//		tLocation = location.clone ();
+//		tNode.setRevenueCenter (tRevenueCenter);
+//		tNode.setLocation (tLocation);
+//		
+//		return tNode;
+//	}
 
 	public NodeInformation (Location aLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter,
 				int aRevenue, int aBonus, RevenueCenter aRevenueCenter) {
@@ -272,6 +272,25 @@ public class NodeInformation {
 		if (revenueCenter != RevenueCenter.NO_CENTER) {
 			setRevenue (revenueCenter.getRevenue (aPhase));
 		}
+	}
+	
+	/**
+	 * Update the Node for the Route Segment to be sure the route Open Flow flag is set correctly.
+	 * 
+	 * @param aRouteInformation The 'determineOpenFlow' method is in the RouteInformation Object
+	 * @param aCorpID The current Corporation ID needed to test for proper Token on a station
+	 */
+
+	public void updateOpenFlow (RouteInformation aRouteInformation, int aCorpID) {
+		boolean tIsOpenFlow;
+		boolean tCorpStation;
+		
+		tIsOpenFlow = true;
+		if (revenueCenter != RevenueCenter.NO_CENTER) {
+			tCorpStation = revenueCenter.cityHasStation (aCorpID);
+			tIsOpenFlow = aRouteInformation.determineOpenFlow (revenueCenter, tCorpStation);
+		}
+		setOpenFlow (tIsOpenFlow);	
 	}
 	
 	public boolean isSame (NodeInformation aNode) {

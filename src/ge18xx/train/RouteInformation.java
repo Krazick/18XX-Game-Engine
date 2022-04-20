@@ -640,7 +640,7 @@ public class RouteInformation {
 		return tIsRouteLooped;
 	}
 	
-	public void updateReusedRoute (int aPhase) {
+	public void updateReusedRoute (int aPhase, int aCorpID) {
 		int tSegmentCount;
 		int tSegmentIndex;
 		RouteSegment tRouteSegment;
@@ -649,10 +649,9 @@ public class RouteInformation {
 		revenueCenters.clear ();
 		for (tSegmentIndex = 0; tSegmentIndex < tSegmentCount; tSegmentIndex++) {
 			tRouteSegment = routeSegments.get (tSegmentIndex);
-			if (tRouteSegment.isTileUpdated ()) {
-				tRouteSegment.updateTile ();
-				tRouteSegment.updateRevenues (aPhase);
-			}
+			tRouteSegment.updateTile ();
+			tRouteSegment.updateRevenues (aPhase);
+			tRouteSegment.updateOpenFlow (this, aCorpID);
 			addRevenueCenter (tRouteSegment);
 		}
 		calculateTotalRevenue ();
@@ -1031,8 +1030,6 @@ public class RouteInformation {
 					int aPhase, int aCorpID) {
 		boolean tCorpStation;
 		boolean tOpenFlow;
-		boolean tIsCity;
-		boolean tIsDeadEnd;
 		boolean tHasRevenueCenter;
 		int tRevenue;
 		int tBonus;
@@ -1045,24 +1042,10 @@ public class RouteInformation {
 			tHasRevenueCenter = false;
 			tRevenue = 0;
 			tLocation = aLocation;
-			tIsCity = false;
 		} else {
-			tCorpStation = aRevenueCenter.cityHasStation (aCorpID);
-			tIsCity = aRevenueCenter.isCity ();
-			tIsDeadEnd = aRevenueCenter.isDeadEnd ();
 			tHasRevenueCenter = true;
-			if (tIsDeadEnd) {			// if a Dead-End City, no Flow beyond this.
-				tOpenFlow = false;
-			} else if (tIsCity) {	
-				if (tCorpStation) {		// If this is a City, and it has the Current Operating Company matches the Token
-										// Then can flow beyond
-					tOpenFlow = true;
-				} else { 				// If this is a City, then if there is an Open Station, Flow can continue
-					tOpenFlow = aRevenueCenter.isOpen ();
-				}
-			} else {					// If this is not a City, it is a Town, and Flow is allowed further
-				tOpenFlow = true;
-			}
+			tCorpStation = aRevenueCenter.cityHasStation (aCorpID);
+			tOpenFlow = determineOpenFlow (aRevenueCenter, tCorpStation);
 			tRevenue = aRevenueCenter.getRevenue (aPhase);
 			tLocation = aRevenueCenter.getLocation ();
 		}
@@ -1073,6 +1056,46 @@ public class RouteInformation {
 				tRevenue, tBonus, aRevenueCenter);
 		
 		return tNode;
+	}
+
+	/**
+	 * Determine if the Location is open to this Company to flow through. 
+	 * If the RevenueCenter provides is NO_CENTER -- YES
+	 * A Dead End -- NO
+	 * If not a City (no RevenueCenter, or a Town, or Double Town - YES
+	 * If a City, and it has the Corporation Station (passed in) -- YES
+	 * If a City, and it has an Open Station -- YES
+	 * Otherwise, it is blocked --- NO
+	 * 
+	 * @param aRevenueCenter The Revenue Center under consideration, 
+	 * @param aCorpStation - True is this corporation has a Station present
+	 * @return True if the the answer above is YES, otherwise FALSE
+	 */
+	public boolean determineOpenFlow (RevenueCenter aRevenueCenter, boolean aCorpStation) {
+		boolean tOpenFlow;
+		boolean tIsCity;
+		boolean tIsDeadEnd;
+		
+		if (aRevenueCenter == RevenueCenter.NO_CENTER) {
+			tOpenFlow = true;
+		} else {
+			tIsCity = aRevenueCenter.isCity ();
+			tIsDeadEnd = aRevenueCenter.isDeadEnd ();
+			if (tIsDeadEnd) {			// if a Dead-End City, no Flow beyond this.
+				tOpenFlow = false;
+			} else if (tIsCity) {	
+				if (aCorpStation) {		// If this is a City, and it has the Current Operating Company matches the Token
+										// Then can flow beyond
+					tOpenFlow = true;
+				} else { 				// If this is a City, then if there is an Open Station, Flow can continue
+					tOpenFlow = aRevenueCenter.isOpen ();
+				}
+			} else {					// If this is not a City, it is a Town, and Flow is allowed further
+				tOpenFlow = true;
+			}
+		}
+		
+		return tOpenFlow;
 	}
 
 	public int getPhase() {
