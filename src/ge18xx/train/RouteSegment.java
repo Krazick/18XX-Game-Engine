@@ -64,8 +64,17 @@ public class RouteSegment {
 	}
 	
 	public RouteSegment (RouteSegment aSegmentToCopyFrom) {
-		setValues (aSegmentToCopyFrom.getMapCell (), aSegmentToCopyFrom.getTile (), aSegmentToCopyFrom.getCost (), 
-				aSegmentToCopyFrom.getStartNode (), aSegmentToCopyFrom.getEndNode (), aSegmentToCopyFrom.getGauge ());
+		Tile tTile;
+		MapCell tMapCell;
+		
+		tMapCell = aSegmentToCopyFrom.getMapCell ();
+		tTile = aSegmentToCopyFrom.getTile ();
+		if (tTile == Tile.NO_TILE) {
+			tTile = tMapCell.getTile ();
+		}
+		setValues (tMapCell, tTile, aSegmentToCopyFrom.getCost (), aSegmentToCopyFrom.getStartNode (), 
+				aSegmentToCopyFrom.getEndNode (), aSegmentToCopyFrom.getGauge ());
+		fixTile (tMapCell);
 	}
 	
 	public RouteSegment (XMLNode aRouteSegmentNode) {
@@ -442,11 +451,11 @@ public class RouteSegment {
 	 */
 	public Track getTrack () {
 		Track tTrack;
-		Location tStartLocation, tEndLocation;
+		int tStartLoc, tEndLoc;
 		
-		tStartLocation = start.getLocation ();
-		tEndLocation = end.getLocation ();
-		tTrack = mapCell.getTrackFromStartToEnd (tStartLocation.getLocation (), tEndLocation.getLocation ());
+		tStartLoc = start.getLocationInt();
+		tEndLoc = end.getLocationInt ();
+		tTrack = mapCell.getTrackFromStartToEnd (tStartLoc, tEndLoc);
 		
 		return tTrack;
 	}
@@ -461,7 +470,11 @@ public class RouteSegment {
 		Track tTrack;
 		
 		tTrack = getTrack ();
-		tTrackIsInUse = tTrack.isTrackUsed ();
+		if (tTrack == Track.NO_TRACK) {
+			tTrackIsInUse = false;
+		} else {
+			tTrackIsInUse = tTrack.isTrackUsed ();
+		}
 		
 		return tTrackIsInUse;
 	}
@@ -497,11 +510,13 @@ public class RouteSegment {
 	
 	public void updateTile () {
 		Tile tCurrentTile;
+		int tOrientation;
 		
 		tCurrentTile = mapCell.getTile ();
+		tOrientation = mapCell.getTileOrient ();
 		setTile (tCurrentTile);
-		start.updateNode (tCurrentTile, end);
-		end.updateNode (tCurrentTile, start);
+		start.updateNode (tCurrentTile, end, tOrientation);
+		end.updateNode (tCurrentTile, start, tOrientation);
 	}
 	
 	public boolean isTileUpdated () {
@@ -819,25 +834,32 @@ public class RouteSegment {
 
 	public void fixLoadedRouteSegment (MapFrame aMapFrame) {
 		MapCell tMapCell;
-		Tile tTile;
-		int tTileNumber;
 		
 		tMapCell = aMapFrame.getMapCellForID (mapCellID);
 		if (tMapCell != MapCell.NO_MAP_CELL) {
 			setMapCell (tMapCell);
-			tTile = tMapCell.getTile ();
-			tTileNumber = tTile.getNumber ();
-			if (tTileNumber == tileNumber) {
-				setTile (tTile);
-				if (start.hasRevenueCenter ()) {
-					start.fixRevenueCenter (tTile, end);
-				}
-				if (end.hasRevenueCenter ()) {
-					end.fixRevenueCenter (tTile, start);
-				}
-			}
+			fixTile (tMapCell);
 		} else {
 			logger.error ("Looking for MapCell " + mapCellID + " Did not find it in the Map");
+		}
+	}
+
+	private void fixTile (MapCell aMapCell) {
+		Tile tTile;
+		int tTileNumber;
+		int tOrientation;
+		
+		tTile = aMapCell.getTile ();
+		tTileNumber = tTile.getNumber ();
+		if (tTileNumber == tileNumber) {
+			setTile (tTile);
+			tOrientation = mapCell.getTileOrient ();
+			if (start.hasRevenueCenter ()) {
+				start.fixRevenueCenter (tTile, end, tOrientation);
+			}
+			if (end.hasRevenueCenter ()) {
+				end.fixRevenueCenter (tTile, start, tOrientation);
+			}
 		}
 	}
 }
