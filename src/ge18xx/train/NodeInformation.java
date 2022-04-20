@@ -30,20 +30,6 @@ public class NodeInformation {
 		this (Location.NO_LOC, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, RevenueCenter.NO_CENTER);
 	}
 
-//	public NodeInformation copyNode () {
-//		NodeInformation tNode;
-//		Location tLocation;
-//		RevenueCenter tRevenueCenter;
-//		
-//		tNode = new NodeInformation (corpStation, openFlow, hasRevenueCenter, revenue, bonus);
-//		tRevenueCenter = revenueCenter.clone ();
-//		tLocation = location.clone ();
-//		tNode.setRevenueCenter (tRevenueCenter);
-//		tNode.setLocation (tLocation);
-//		
-//		return tNode;
-//	}
-
 	public NodeInformation (Location aLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter,
 				int aRevenue, int aBonus, RevenueCenter aRevenueCenter) {
 		setHasRevenueCenter (aHasRevenueCenter);
@@ -145,11 +131,16 @@ public class NodeInformation {
 		return tIsSide;
 	}
 	
+	/**
+	 * Determine if a NodeInformation Object has a Valid Location
+	 * 
+	 * @return True if there is a Location
+	 */
 	public boolean isValid () {
 		boolean tIsValid = false;
 		
 		if (location != null) {
-			if (location.getLocation() != Location.NO_LOCATION) {
+			if (location.getLocation () != Location.NO_LOCATION) {
 				tIsValid = true;
 			}
 		}
@@ -157,9 +148,12 @@ public class NodeInformation {
 		return tIsValid;
 	}
 
-	public void setHasRevenueCenter (boolean aHasRevenueCenter) {
+	private void setHasRevenueCenter (boolean aHasRevenueCenter) {
 		hasRevenueCenter = aHasRevenueCenter;
 	}
+	
+	// TODO -- Refactor to remove 'SetOpenFlow' tests here. The RouteSegment/RouteInformation should
+	// be taking care of this, they have the logic built in to validate with and without Corp Stations
 	
 	public void setRevenueCenter (RevenueCenter aRevenueCenter) {
 		revenueCenter = aRevenueCenter;
