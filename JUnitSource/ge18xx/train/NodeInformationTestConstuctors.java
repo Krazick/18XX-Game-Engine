@@ -187,8 +187,8 @@ class NodeInformationTestConstuctors {
 	@Test
 	@DisplayName ("Node Information for testing getDetail")
 	public void NodeInformationTestGetDetail () {
-		String tSideDetail = "[1 OF true]";
-		String tCenterDetail = "[50: $20 CS false OF true]";
+		String tSideDetail = "[1 OpenFlow true]";
+		String tCenterDetail = "[50: $20 CorpStation false OpenFlow true]";
 		
 		assertEquals (tSideDetail, nodeInformationSide.getDetail (), "Side Detail does not match the expected");
 		assertEquals (tCenterDetail, nodeInformationCenter.getDetail (), "Center Detail does not match the expected");
