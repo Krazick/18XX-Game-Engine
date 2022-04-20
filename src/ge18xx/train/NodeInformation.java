@@ -230,7 +230,7 @@ public class NodeInformation {
 		return tXMLElement;
 	}
 
-	public void fixRevenueCenter (Tile tTile, NodeInformation aOtherNode) {
+	public void fixRevenueCenter (Tile tTile, NodeInformation aOtherNode, int tOrientation) {
 		RevenueCenter tRevenueCenter;
 		Location tOtherLocation;
 		int tOtherLoc;
@@ -240,6 +240,7 @@ public class NodeInformation {
 			setRevenueCenter (tRevenueCenter);
 		} else {
 			tOtherLocation = aOtherNode.getLocation ();
+			tOtherLocation = tOtherLocation.unrotateLocation (tOrientation);
 			tOtherLoc = tOtherLocation.getLocation ();
 			tRevenueCenter = tTile.findRevenueCenterConnectingTo (tOtherLoc);
 			if (tRevenueCenter != RevenueCenter.NO_CENTER) {
@@ -260,10 +261,10 @@ public class NodeInformation {
 //	int revenue;			//	Revenue
 //	int bonus;				//	Bonus (for Cattle or Port)
 
-	public void updateNode (Tile aNewTile, NodeInformation aOtherNode) {
+	public void updateNode (Tile aNewTile, NodeInformation aOtherNode, int tOrientation) {
 		// If this Location is a NOT a Side, need to update - ie No Revenue Centers on a Side
 		if (! isSide ()) {
-			fixRevenueCenter (aNewTile, aOtherNode);
+			fixRevenueCenter (aNewTile, aOtherNode, tOrientation);
 		}
 	}
 	
