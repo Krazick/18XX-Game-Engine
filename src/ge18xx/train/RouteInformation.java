@@ -404,7 +404,7 @@ public class RouteInformation {
 		System.out.println ("----------- End Route Information Detail ----------");
 	}
 	
-	public void clearTrainFromMap () {
+	private void clearTrainFromMap () {
 		for (RouteSegment tRouteSegment : routeSegments) {
 			tRouteSegment.clearTrainOn ();
 		}
