@@ -286,6 +286,10 @@ public class Train implements Comparable<Object> {
 		return tResult;
 	}
 
+	public int getTrueCityCount () {
+		return cityCount;
+	}
+	
 	public int getCityCount () {
 		// TODO: KLUDGE to allow Diesel to run with Infinite LENGTH (max 15).
 		int tCityCountMax;

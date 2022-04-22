@@ -518,28 +518,36 @@ public class RouteInformation {
 		boolean tRouteIsTooLong  = false;
 		int tCityCount, tTownCount;
 		int tRouteCityCount, tRouteTownCount, tRouteRCCount;
+		int tTrueCityCount;
 		
-		tCityCount = train.getCityCount ();
-		tTownCount = train.getTownCount ();
-		if (routeSegments.size () == 0) {
+		tTrueCityCount = train.getTrueCityCount ();
+		
+		// If the True City Count is Infinite, it is never too long
+		if (tTrueCityCount == Train.INFINITE_COUNT) {
 			tRouteIsTooLong = false;
-		} else {
-			tRouteCityCount = getRouteCityCount ();
-			tRouteTownCount = getRouteTownCount ();
-			tRouteRCCount = tRouteCityCount + tRouteTownCount;
-			if (tTownCount == -1) {
-				if (tRouteRCCount > tCityCount) {
-					tRouteIsTooLong = true;
-				}
+		} else {		
+			tCityCount = train.getCityCount ();
+			tTownCount = train.getTownCount ();
+			if (routeSegments.size () == 0) {
+				tRouteIsTooLong = false;
 			} else {
-				if (tRouteCityCount > tCityCount) {
-					tRouteIsTooLong = true;
-				} 
-				if (tRouteTownCount > tTownCount) {
-					tRouteIsTooLong = true;
-				}
-				if (tRouteRCCount > (tCityCount + tTownCount)) {
-					tRouteIsTooLong = true;
+				tRouteCityCount = getRouteCityCount ();
+				tRouteTownCount = getRouteTownCount ();
+				tRouteRCCount = tRouteCityCount + tRouteTownCount;
+				if (tTownCount == -1) {
+					if (tRouteRCCount > tCityCount) {
+						tRouteIsTooLong = true;
+					}
+				} else {
+					if (tRouteCityCount > tCityCount) {
+						tRouteIsTooLong = true;
+					} 
+					if (tRouteTownCount > tTownCount) {
+						tRouteIsTooLong = true;
+					}
+					if (tRouteRCCount > (tCityCount + tTownCount)) {
+						tRouteIsTooLong = true;
+					}
 				}
 			}
 		}
