@@ -162,6 +162,11 @@ public class StockRound extends Round {
 	
 	public void prepareStockRound () {
 		clearAllSoldCompanies ();
+		// TODO -- for Complete Undo, this 'Clear' should be undone, so that when a Force Train Buy
+		// the player uses a Prez Stock Exchange that would require sale of stock of the company to 
+		// not be required after undo backs it out.
+		// Very rare situation that could be abused.
+		// Could have this effect be applied on 'setCurrentPlayer' method, with the ChangeStateAction
 		playerManager.clearAllExchangedShares ();
 		setCurrentPlayer (getPriorityIndex (), true);
 	}
