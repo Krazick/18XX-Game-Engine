@@ -108,7 +108,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		title = new JLabel ();
 		title.setAlignmentX (CENTER_ALIGNMENT);
 		updatePresidentLabel ();
-		allRevenuesJPanel = null;
+		allRevenuesJPanel = GUI.NO_PANEL;
 		setRevenueValues (aTrainCompany);
 		buildRevenuesJPanel ();
 		buildsButtonsJPanel ();
@@ -211,17 +211,18 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		allFramesJPanel.add (notificationLabel);
 		allFramesJPanel.add (Box.createVerticalStrut (10));
 		allFramesJPanel.add (buttonsJPanel);
+		allFramesJPanel.add (Box.createVerticalStrut (10));
 		add (allFramesJPanel);
 	}
 
 	private void buildsButtonsJPanel () {
 		FlowLayout tFlowLayout = new FlowLayout ();
 		
-		buttonsJPanel = new JPanel (tFlowLayout);
 		confirm = setupButton (CONFIRM_ALL_REVENUES, CONFIRM_ALL_REVENUES_ACTION);
-		buttonsJPanel.add (confirm);
-		
 		cancel = setupButton (CANCEL, CANCEL_ACTION);
+
+		buttonsJPanel = new JPanel (tFlowLayout);
+		buttonsJPanel.add (confirm);
 		buttonsJPanel.add (cancel);
 	}
 
@@ -623,7 +624,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	
 	private void buildRevenuesJPanel () {
 		int tTrainCount, tTrainIndex;
+		int tHeight, tWidth;
 		JPanel tTrainRevenueJPanel;
+		BoxLayout tLayoutY;
 		
 		tTrainCount = trainCompany.getTrainCount ();
 		
@@ -633,7 +636,10 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			allRevenuesJPanel.removeAll ();
 		}
 		allRevenuesJPanel.setAlignmentX (CENTER_ALIGNMENT);
+		tLayoutY = new BoxLayout (allRevenuesJPanel, BoxLayout.Y_AXIS);
+		allRevenuesJPanel.setLayout (tLayoutY);
 		
+		allRevenuesJPanel.add (Box.createVerticalStrut (5));
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tTrainIndex > 0) {
 				allRevenuesJPanel.add (Box.createVerticalStrut (10));
@@ -642,6 +648,10 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tTrainRevenueJPanel = buildTrainRevenueJPanel (tTrainIndex);
 			allRevenuesJPanel.add (tTrainRevenueJPanel);
 		}
+		allRevenuesJPanel.add (Box.createVerticalStrut (5));
+		tHeight = calculateTrainHeight ();
+		tWidth = calculateTrainWidth ();
+		allRevenuesJPanel.setSize (tHeight, tWidth);
 	}
 
 	private JPanel buildTrainRevenueJPanel (int aTrainIndex) {
@@ -660,52 +670,45 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tTrainRevenueJPanel = new JPanel ();
 		tLayoutX = new BoxLayout (tTrainRevenueJPanel, BoxLayout.X_AXIS);
 		tTrainRevenueJPanel.setLayout (tLayoutX);
+
 		tTrainLabel = new JLabel (tTrain.getName () + " Train #" + (aTrainIndex + 1));
-		tTrainRevenueJPanel.add (Box.createHorizontalStrut (10));
 		tTrainRevenueJPanel.add (tTrainLabel);
-		tTrainRevenueJPanel.add (Box.createHorizontalStrut (10));
 		buildRevenuesByTrain (aTrainIndex, tCityCount, tTrainRevenueJPanel);
 		totalRevenueByEachTrain [aTrainIndex] = new JLabel ("0");
 		tTrainRevenueJPanel.add (totalRevenueByEachTrain [aTrainIndex]);
-		tTrainRevenueJPanel.add (Box.createHorizontalStrut (5));
 		
 		selectRoutes [aTrainIndex] = setupButton (SELECT_ROUTE, SELECT_ROUTE_ACTION);
 		updateSelectRouteButton (aTrainIndex);
 		tTrainRevenueJPanel.add (selectRoutes [aTrainIndex]);
-		tTrainRevenueJPanel.add (Box.createHorizontalStrut (5));
 		resetRoutes [aTrainIndex] = setupButton (RESET_ROUTE, RESET_ROUTE_ACTION);
 		updateResetRouteButton (aTrainIndex);
 		tTrainRevenueJPanel.add (resetRoutes [aTrainIndex]);
-		tTrainRevenueJPanel.add (Box.createHorizontalStrut (5));
 		reuseRoutes [aTrainIndex] = setupButton (REUSE_ROUTE, REUSE_ROUTE_ACTION);
 		updateReuseRouteButton (aTrainIndex);
 		tTrainRevenueJPanel.add (reuseRoutes [aTrainIndex]);
-		tTrainRevenueJPanel.add (Box.createHorizontalStrut (10));
 		
 		return tTrainRevenueJPanel;
 	}
 
-	private void buildRevenuesByTrain (int aTrainIndex, int aCityCount, JPanel aTrainRevenueJPanel) {
-		int tCityIndex;
+	private void buildRevenuesByTrain (int aTrainIndex, int aCenterCount, JPanel aTrainRevenueJPanel) {
+		int tCenterIndex;
 		Dimension tTextFieldSize = new Dimension (30, 20);
 		
-		for (tCityIndex = 0; tCityIndex < aCityCount; tCityIndex++) {
-			revenuesByTrain [aTrainIndex] [tCityIndex] = new JFormattedTextField ();
-			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (0);
-			revenuesByTrain [aTrainIndex] [tCityIndex].setColumns (3);
-			revenuesByTrain [aTrainIndex] [tCityIndex].setHorizontalAlignment (JTextField.RIGHT);
-			revenuesByTrain [aTrainIndex] [tCityIndex].setMaximumSize (tTextFieldSize);
-			revenuesByTrain [aTrainIndex] [tCityIndex].setPreferredSize (tTextFieldSize);
-			revenuesByTrain [aTrainIndex] [tCityIndex].setMinimumSize (tTextFieldSize);
-			revenuesByTrain [aTrainIndex] [tCityIndex].addPropertyChangeListener ("value", this);
-			aTrainRevenueJPanel.add (revenuesByTrain [aTrainIndex] [tCityIndex]);
-			aTrainRevenueJPanel.add (Box.createHorizontalStrut (3));
-			if ((tCityIndex + 1) < aCityCount) {
+		for (tCenterIndex = 0; tCenterIndex < aCenterCount; tCenterIndex++) {
+			revenuesByTrain [aTrainIndex] [tCenterIndex] = new JFormattedTextField ();
+			revenuesByTrain [aTrainIndex] [tCenterIndex].setValue (0);
+			revenuesByTrain [aTrainIndex] [tCenterIndex].setColumns (3);
+			revenuesByTrain [aTrainIndex] [tCenterIndex].setHorizontalAlignment (JTextField.RIGHT);
+			revenuesByTrain [aTrainIndex] [tCenterIndex].setMaximumSize (tTextFieldSize);
+			revenuesByTrain [aTrainIndex] [tCenterIndex].setPreferredSize (tTextFieldSize);
+			revenuesByTrain [aTrainIndex] [tCenterIndex].setMinimumSize (tTextFieldSize);
+			revenuesByTrain [aTrainIndex] [tCenterIndex].addPropertyChangeListener ("value", this);
+			aTrainRevenueJPanel.add (revenuesByTrain [aTrainIndex] [tCenterIndex]);
+			if ((tCenterIndex + 1) < aCenterCount) {
 				aTrainRevenueJPanel.add (new JLabel ("+"));
 			} else {
 				aTrainRevenueJPanel.add (new JLabel ("="));
 			}
-			aTrainRevenueJPanel.add (Box.createHorizontalStrut (3));
 		}
 	}
 	
@@ -854,15 +857,31 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		return tTotalRevenue;
 	}
 	
-	public void updateFrameSize () {
-		int tTrainCount;
+	private int calculateTrainWidth () {
+		int tWidth;
 		int tMaxTrainSize;
-		int tWidth, tHeight;
+		
+		tMaxTrainSize = trainCompany.getMaxTrainSize ();
+		tWidth = 465 + (tMaxTrainSize * 40);
+		
+		return tWidth;
+	}
+	
+	private int calculateTrainHeight () {
+		int tHeight;
+		int tTrainCount;
 		
 		tTrainCount = trainCompany.getTrainCount ();
-		tMaxTrainSize = trainCompany.getMaxTrainSize ();
-		tWidth = 530 + tMaxTrainSize * 50;
-		tHeight = 200 + (tTrainCount * 57);
+		tHeight = tTrainCount * 35;
+		
+		return tHeight;
+	}
+	
+	public void updateFrameSize () {
+		int tWidth, tHeight;
+		
+		tWidth = calculateTrainWidth ();
+		tHeight = 225 + calculateTrainHeight ();
 		setSize (tWidth, tHeight);
 	}
 	
