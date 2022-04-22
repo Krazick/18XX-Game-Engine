@@ -249,33 +249,33 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		return player.canCompleteTurn ();
 	}
 	
-	public String getReasonForNotCompleting () {
-		String tReason;
-		String tCompanyAbbrev;
-		int tPercentMustSell;
-		int tExceedCount;
-		
-		tCompanyAbbrev = player.hasExchangedShare ();
-		tReason = ">>NONE<<";
-		if (tCompanyAbbrev != Corporation.NO_ABBREV) {
-			tPercentMustSell = player.getMustSellPercent (tCompanyAbbrev);
-			if (tPercentMustSell > 0) {
-				tReason = "Must Sell at least " + tPercentMustSell + "% of " + tCompanyAbbrev + " before completing due to Exchange";
-			}
-		} else {
-			tExceedCount = player.exceedsCertificateLimitBy ();
-			if (tExceedCount > 0) {
-				tReason = "Portfolio has " + tExceedCount + " too many certificates";
-			} else {
-				tCompanyAbbrev = player.exceedsAnyCorpShareLimit ();
-				if (tCompanyAbbrev != null) {
-					tReason = "Portfolio has too many shares of " + tCompanyAbbrev;
-				}
-			}
-		}
-		
-		return tReason;
-	}
+//	public String getReasonForNotCompleting () {
+//		String tReason;
+//		String tCompanyAbbrev;
+//		int tPercentMustSell;
+//		int tExceedCount;
+//		
+//		tCompanyAbbrev = player.hasExchangedShare ();
+//		tReason = ">>NONE<<";
+//		if (tCompanyAbbrev != Corporation.NO_ABBREV) {
+//			tPercentMustSell = player.getMustSellPercent (tCompanyAbbrev);
+//			if (tPercentMustSell > 0) {
+//				tReason = "Must Sell at least " + tPercentMustSell + "% of " + tCompanyAbbrev + " before completing due to Exchange";
+//			}
+//		} else {
+//			tExceedCount = player.exceedsCertificateLimitBy ();
+//			if (tExceedCount > 0) {
+//				tReason = "Portfolio has " + tExceedCount + " too many certificates";
+//			} else {
+//				tCompanyAbbrev = player.exceedsAnyCorpShareLimit ();
+//				if (tCompanyAbbrev != null) {
+//					tReason = "Portfolio has too many shares of " + tCompanyAbbrev;
+//				}
+//			}
+//		}
+//		
+//		return tReason;
+//	}
 
 	public boolean hasActed () {
 		return player.hasActed ();
@@ -434,13 +434,14 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	
 	public String getMustSellToolTip (Player aPlayer) {
 		String tStock;
-		String tToolTip = "";
+		String tToolTip;
 		int tPercentage, tCertificateCount;
 		
 		// Reason 1 from Exchange of President Share
 		// Reason 2 from Company Share Price leaving Market Region that allowed excess certificates
 		
 		tStock = aPlayer.hasExchangedShare ();
+		tToolTip = "";
 		if (tStock != Player.NO_STOCK_TO_SELL) {
 			tPercentage = aPlayer.getMustSellPercent (tStock);
 			tToolTip = "Must sell at least " + tPercentage + "% of " + tStock + " Share Company due to Exchange";
@@ -613,8 +614,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				passButton.setEnabled (aCanCompleteTurn);
 				passButton.setToolTipText ("Can complete player turn");
 			} else {
-				tToolTip = getReasonForNotCompleting ();
-				if (">>NONE<<".equals (tToolTip)) {
+				tToolTip = getMustSellToolTip (player);
+				if ("".equals (tToolTip)) {
 					passButton.setEnabled (true);
 					passButton.setToolTipText ("");
 				} else {
