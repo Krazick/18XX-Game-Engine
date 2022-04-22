@@ -203,6 +203,16 @@ public class PlayerManager {
 		}
 	}
 	
+	/**
+	 * Clear the Exchanged Shares for All Players
+	 * 
+	 */
+	public void clearAllExchangedShares () {
+		for (Player tPlayer : players) {
+			tPlayer.setExchangedPrezShare (Player.NO_STOCK_TO_SELL);
+		}
+	}
+		
 	public boolean didAnyoneBuy () {
 		boolean tDidAnyoneBuy;
 		
