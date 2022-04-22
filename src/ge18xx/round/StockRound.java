@@ -162,6 +162,7 @@ public class StockRound extends Round {
 	
 	public void prepareStockRound () {
 		clearAllSoldCompanies ();
+		playerManager.clearAllExchangedShares ();
 		setCurrentPlayer (getPriorityIndex (), true);
 	}
 	
