@@ -503,7 +503,7 @@ public class ActionManager {
 //		Once we are done applying these Actions, we then can reset this back to Notify
 		System.out.println ("----------- Finshed Handling Action, Latest Action Number is " + actionNumber + 
 				 " -------------");
-		gameManager.setRoundFrameBackgrounds ();
+//		gameManager.setFrameBackgrounds ();
 	}
 	
 	public void appendToJGameClient (Action aAction) {

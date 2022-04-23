@@ -95,7 +95,7 @@ public class RoundFrame extends XMLFrame {
 		add (roundScrollPane);
 		pack ();
 		resetBackgrounds ();
-		setStockRound (aGameName, roundManager.getStockRoundID ());
+		setStockRoundInfo (aGameName, roundManager.getStockRoundID ());
 	}
 
 	private void buildRoundJPanel () {
@@ -451,7 +451,7 @@ public class RoundFrame extends XMLFrame {
 		return currentRoundOf;
 	}
 	
-	public void setStockRound (String aGameName, int aRoundID) {
+	public void setStockRoundInfo (String aGameName, int aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
 		setCurrentPlayerText ();
@@ -658,6 +658,8 @@ public class RoundFrame extends XMLFrame {
 		updateAllPlayerJPanels ();
 		updateAllCorporationsBox ();
 		updatePassButton ();
+		setFrameBackgrounds ();
+		revalidate ();
 	}
 	
 	public void setFrameBackgrounds () {

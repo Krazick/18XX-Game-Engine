@@ -1080,7 +1080,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			createAuditFrame ();
 			applyConfigSettings ();
 			createFrameInfoFrame ();
-			setRoundFrameBackgrounds ();
+			setFrameBackgrounds ();
 		}
 	}
 	
@@ -1879,7 +1879,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void updateRoundFrame () {
 		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
 			roundManager.updateRoundFrame ();
-			setRoundFrameBackgrounds ();
 		}
 	}
 	
@@ -2396,8 +2395,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		auctionFrame.hideAuctionFrame ();
 	}
 
-	public void setRoundFrameBackgrounds () {
-		roundManager.setBackgrounds ();
+	public void setFrameBackgrounds () {
+		roundManager.setFrameBackgrounds ();
 	}
 	
 	public void resetRoundFrameBackgrounds () {
