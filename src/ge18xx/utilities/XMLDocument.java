@@ -18,6 +18,8 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 public class XMLDocument {
+	public static final Document NO_DOCUMENT = null;
+	public static final XMLDocument NO_XML_DOCUMENT = null;
 	Document document;
 	
 	public XMLDocument (Document aDocument) {
@@ -34,7 +36,7 @@ public class XMLDocument {
 			document = tDocBuilder.newDocument ();
 		} catch (ParserConfigurationException tException) {
 			System.err.println ("Caught Exception " + tException);
-			document = null;
+			document = NO_DOCUMENT;
 			tException.printStackTrace ();
 		}
 	}
@@ -49,7 +51,7 @@ public class XMLDocument {
 			document = tDocBuilder.parse (aFile);
 		} catch (Exception tException) {
 			System.err.println ("Caught Exception " + tException);
-			document = null;
+			document = NO_DOCUMENT;
 			tException.printStackTrace ();
 		}
 	}
@@ -64,7 +66,7 @@ public class XMLDocument {
 			document = tDocBuilder.parse (aFileName);
 		} catch (Exception tException) {
 			System.err.println ("Caught Exception " + tException);
-			document = null;
+			document = NO_DOCUMENT;
 			tException.printStackTrace ();
 		}
 	}
@@ -79,7 +81,7 @@ public class XMLDocument {
 			document = tDocBuilder.parse (new InputSource (new StringReader (aXMLString)));
 		} catch (Exception tException) {
 			System.err.println ("Caught Exception " + tException);
-			document = null;
+			document = NO_DOCUMENT;
 			tException.printStackTrace ();
 		}
 		
@@ -89,7 +91,7 @@ public class XMLDocument {
 	public boolean ValidDocument () {
 		boolean tValidDocument;
 		
-		if (document == null) {
+		if (document == NO_DOCUMENT) {
 			tValidDocument = false;
 		} else {
 			tValidDocument = true;
