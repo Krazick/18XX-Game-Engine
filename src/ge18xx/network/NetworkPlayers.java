@@ -34,8 +34,9 @@ public class NetworkPlayers {
 	}
 	
 	public void removePlayer (String aPlayerName) {
-		NetworkPlayer tNetworkPlayer = getNetworkPlayer (aPlayerName);
+		NetworkPlayer tNetworkPlayer;
 		
+		tNetworkPlayer = getNetworkPlayer (aPlayerName);
 		if (NetworkPlayer.validPlayerName  (aPlayerName)) {
 			playerList.removeElement (tNetworkPlayer);
 			gameManager.removeNetworkPlayer (aPlayerName);
@@ -94,8 +95,19 @@ public class NetworkPlayers {
 	}
 	
 	private void repaintJGameClient () {
-		JGameClient tJGameClient = gameManager.getNetworkJGameClient ();
+		JGameClient tJGameClient;
+		
+		tJGameClient = gameManager.getNetworkJGameClient ();
 		tJGameClient.repaint ();
+	}
+	
+	public void setPlayerActive (String aPlayerName, boolean aActive) {
+		NetworkPlayer tNetworkPlayer;
+		
+		if (NetworkPlayer.validPlayerName  (aPlayerName)) {
+			tNetworkPlayer = getNetworkPlayer (aPlayerName);
+			setPlayerActive (tNetworkPlayer, aActive);
+		}
 	}
 	
 	public void setPlayerReady (String aPlayerName, boolean aReady) {
@@ -104,6 +116,21 @@ public class NetworkPlayers {
 		if (NetworkPlayer.validPlayerName  (aPlayerName)) {
 			tNetworkPlayer = getNetworkPlayer (aPlayerName);
 			setPlayerReady (tNetworkPlayer, aReady);
+		}
+	}
+	
+	public void setPlayerActive (NetworkPlayer aNetworkPlayer, boolean aActive) {
+		aNetworkPlayer.setActive (aActive);
+		updatePlayerInList (aNetworkPlayer);
+		repaintJGameClient ();
+	}
+
+	private void updatePlayerInList (NetworkPlayer aNetworkPlayer) {
+		int tPlayerIndex;
+		
+		tPlayerIndex = getPlayerIndex (aNetworkPlayer.getName ());
+		if (tPlayerIndex >= 0) {
+			playerList.set (tPlayerIndex, aNetworkPlayer);
 		}
 	}
 	
@@ -124,6 +151,26 @@ public class NetworkPlayers {
 				setPlayerReady (tNetworkPlayer, aReady);
 			}
 		}
+	}
+	
+	public int getPlayerIndex (String aPlayerName) {
+		int tPlayerIndex, tPlayerCount, tFoundPlayerIndex;
+		NetworkPlayer tNetworkPlayer;
+		
+		tFoundPlayerIndex = -1;
+		tPlayerCount = playerList.size ();
+		if (aPlayerName != null) {
+			if (tPlayerCount > 0) {
+				for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
+					tNetworkPlayer = playerList.get(tPlayerIndex);
+					if (aPlayerName.equals (tNetworkPlayer.getName ())) {
+						tFoundPlayerIndex = tPlayerIndex;
+					}
+				}
+			}
+		}
+		
+		return tFoundPlayerIndex;
 	}
 	
 	public int getPlayerCount () {

@@ -641,6 +641,7 @@ public class JGameClient extends XMLFrame {
 			serverHandler.sendUserStart (tGameID);
 		}
 		startsGame ();
+		refreshPlayers ();
 		updateButtonGameStarted (startReadyButton);
 		updateButtonGameStarted (showSavedGames);
 	}
@@ -1128,6 +1129,17 @@ public class JGameClient extends XMLFrame {
 		if (networkPlayers.allPlayersAreReady ()) {
 			updateReadyButton (START_GAME, true, "Hit to Start Game");
 		}
+	}
+	
+	public void playerActive (String aPlayerName) {
+		int tIndex = aPlayerName.indexOf (aPlayerName);
+		String tPlayerName = aPlayerName;
+		
+		if (tIndex > 0) {
+			tPlayerName = aPlayerName.substring (0, tIndex);
+		}
+		
+		networkPlayers.setPlayerActive (tPlayerName, true);
 	}
 	
 	public void addLocalPlayer (String aLocalPlayer, boolean aAutoConnect) {

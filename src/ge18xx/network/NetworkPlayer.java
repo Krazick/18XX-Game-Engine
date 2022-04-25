@@ -6,34 +6,32 @@ public class NetworkPlayer {
 	String name;
 	boolean ready;
 	boolean afk;
+	boolean active;
 	
 	public NetworkPlayer (String aName) {
 		setName (aName);
+		setReady (false);
+		setAFK (false);
+		setActive (false);
 	}
 
 	@Override
 	public String toString () {
 		String tFullDisplay;
 		
-		tFullDisplay = getNameReady ();
+		tFullDisplay = getName ();
+		if (isActive ()) {
+			tFullDisplay += " [ACTIVE]";
+		} else if (isReady ()) {
+			tFullDisplay += " [READY]";
+		}
 		if (afk) {
 			tFullDisplay += " [AFK]";
 		}
 		
 		return tFullDisplay;
 	}
-	
-	public String getNameReady () {
-		String tDisplay;
 		
-		tDisplay = getName ();
-		if (isReady ()) {
-			tDisplay += " [READY]";
-		}
-		
-		return tDisplay;
-	}
-	
 	public void setName (String aName) {
 		if (validPlayerName (aName)) {
 			name = aName;
@@ -46,12 +44,20 @@ public class NetworkPlayer {
 		return name;
 	}
 	
+	public void setActive (boolean aActive) {
+		active = aActive;
+	}
+	
 	public void setReady (boolean aReady) {
 		ready = aReady;
 	}
 	
 	public boolean isReady () {
 		return ready;
+	}
+	
+	public boolean isActive () {
+		return active;
 	}
 	
 	public void setAFK (boolean aAFK) {

@@ -102,6 +102,9 @@ public class ChatServerHandler extends ServerHandler {
 		if (aShortened.contains ("[READY]")) {
 			jClient.playerReady (tName);
 		}
+		if (aShortened.contains ("[ACTIVE]")) {
+			jClient.playerActive (tName);
+		}
 		
 		return tMessage;
 	}
