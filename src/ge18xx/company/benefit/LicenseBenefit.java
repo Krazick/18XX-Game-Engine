@@ -11,8 +11,6 @@ import ge18xx.company.ShareCompany;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
-// license="true" licenseCost="50" mapCell="P17,P19" value="10"/>
-
 public class LicenseBenefit extends Benefit {
 	public final static String NAME = "License";
 	final static AttributeName AN_LICENSE = new AttributeName ("license");
@@ -90,17 +88,17 @@ public class LicenseBenefit extends Benefit {
 
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
-		JButton tPlacePortTokenButton;
+		JButton tBuyLicenseButton;
 
 		super.configure (aPrivateCompany, aButtonRow);
 		if (shouldConfigure ()) {
 			if (! hasButton ()) {
-				tPlacePortTokenButton = new JButton (getNewButtonLabel ());
-				setButton (tPlacePortTokenButton);
+				tBuyLicenseButton = new JButton (getNewButtonLabel ());
+				setButton (tBuyLicenseButton);
 				setButtonPanel (aButtonRow);
-				tPlacePortTokenButton.setActionCommand (CorporationFrame.BUY_LICENSE);
-				tPlacePortTokenButton.addActionListener (this);
-				aButtonRow.add (tPlacePortTokenButton);
+				tBuyLicenseButton.setActionCommand (CorporationFrame.BUY_LICENSE);
+				tBuyLicenseButton.addActionListener (this);
+				aButtonRow.add (tBuyLicenseButton);
 			}
 			updateButton ();
 		}
