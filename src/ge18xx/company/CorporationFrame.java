@@ -37,6 +37,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String PLACE_BASE_TILE = "Place Base Tile";
 	public static final String PLACE_TILE_PRIVATE = "Place Tile on Private Home";
 	public static final String PLACE_TOKEN_PRIVATE = "Place Token on Private Home";
+	public static final String PLACE_PORT_TOKEN = "Place Port Token";
+	public static final String PLACE_CATTLE_TOKEN = "Place Cattle Token";
+	public static final String BUY_LICENSE = "Buy License to use Private Home";
 	static final String PLACE_TOKEN = "Place Token";
 	static final String PLACE_BASE_TOKEN = "Place Base Token";
 	static final String IN_PLACE_TILE_MODE = "Already in Place Tile Mode";
