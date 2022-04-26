@@ -34,7 +34,7 @@ public interface CertificateHolderI {
 	
 	public boolean isBank ();
 	
-	public boolean isBankPool ();
+	public boolean isABankPool ();
 	
 	public boolean isPlayer ();
 	

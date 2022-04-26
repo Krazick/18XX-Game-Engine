@@ -33,14 +33,14 @@ public class BankPool extends GameBank {
 		super (NAME, aGameManager);
 	}
 
-	@Override
-	public boolean isBankPool () {
-		return true;
-	}
+//	@Override
+//	public boolean isBankPool () {
+//		return true;
+//	}
 	
 	@Override
 	public boolean isABankPool () {
-		return isBankPool ();
+		return true;
 	}
 	
 	@Override

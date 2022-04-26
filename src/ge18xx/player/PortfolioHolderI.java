@@ -22,7 +22,7 @@ public interface PortfolioHolderI extends ActorI {
 	
 	public boolean isBank ();
 	
-	public boolean isBankPool ();
+//	public boolean isBankPool ();
 	
 	public boolean isPlayer ();
 	

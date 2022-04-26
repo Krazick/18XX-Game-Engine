@@ -245,7 +245,7 @@ class CorporationBasicTests {
 		assertFalse (corporation.isGovtRailway ());
 		assertFalse (corporation.isShareCompany ());
 		assertFalse (corporation.isBank ());
-		assertFalse (corporation.isBankPool ());
+		assertFalse (corporation.isABankPool ());
 	}
 	
 	@Test

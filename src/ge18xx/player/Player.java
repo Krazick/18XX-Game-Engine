@@ -1011,10 +1011,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return false;
 	}
 	
-	@Override
-	public boolean isBankPool () {
-		return false;
-	}
+//	@Override
+//	public boolean isBankPool () {
+//		return false;
+//	}
 
 	public boolean isCurrentPlayer () {
 		Player tCurrentPlayer;

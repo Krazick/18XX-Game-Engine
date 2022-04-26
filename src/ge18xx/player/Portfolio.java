@@ -1607,8 +1607,8 @@ public class Portfolio implements CertificateHolderI {
 	}
 	
 	@Override
-	public boolean isBankPool () {
-		return holder.isBankPool ();
+	public boolean isABankPool () {
+		return holder.isABankPool ();
 	}
 
 	@Override

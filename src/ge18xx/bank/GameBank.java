@@ -290,10 +290,10 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return false;
 	}
 
-	@Override
-	public boolean isBankPool () {
-		return false;
-	}
+//	@Override
+//	public boolean isBankPool () {
+//		return false;
+//	}
 
 	@Override
 	public boolean isCompany () {

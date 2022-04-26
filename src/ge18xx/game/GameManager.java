@@ -104,7 +104,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	// Generic (non-game specific objects)
 	ArrayList<XMLFrame> configFrames;
-	SavedGames networkSavedGames;
 	JFileMChooser chooser;
 	File saveFile;
 	File autoSaveFile;
@@ -122,8 +121,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	FileGEFilter fileGEFilter;
 
 	// 18XX Game Specific Objects
-	Game_18XX game18XXFrame;
 	GameInfo activeGame;
+	Game_18XX game18XXFrame;
 	PlayerManager playerManager;
 	RoundManager roundManager;
 	PhaseManager phaseManager;
@@ -160,6 +159,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	// Network Game Objects
 	JGameClient networkJGameClient;
+	SavedGames networkSavedGames;
 	boolean notifyNetwork;
 	boolean applyingNetworkAction;
 
