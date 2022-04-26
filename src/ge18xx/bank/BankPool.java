@@ -32,11 +32,6 @@ public class BankPool extends GameBank {
 	public BankPool (GameManager aGameManager) {
 		super (NAME, aGameManager);
 	}
-
-//	@Override
-//	public boolean isBankPool () {
-//		return true;
-//	}
 	
 	@Override
 	public boolean isABankPool () {

@@ -336,16 +336,6 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return ActorI.ActionStates.Fixed.toString ();
 	}
 
-//	@Override
-//	public boolean isBank () {
-//		return true;
-//	}
-
-//	@Override
-//	public boolean isBankPool () {
-//		return false;
-//	}
-
 	@Override
 	public boolean isCompany () {
 		return false;
