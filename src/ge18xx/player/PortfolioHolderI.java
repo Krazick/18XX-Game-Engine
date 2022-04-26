@@ -20,9 +20,8 @@ public interface PortfolioHolderI extends ActorI {
 	
 	public void replacePortfolioInfo (JPanel aPortfolioJPanel);
 	
-	public boolean isBank ();
-	
-//	public boolean isBankPool ();
+	@Override
+	public boolean isABank ();
 	
 	public boolean isPlayer ();
 	

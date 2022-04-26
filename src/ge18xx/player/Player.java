@@ -1006,10 +1006,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerFrame.setVisible (false);
 	}
 	
-	@Override
-	public boolean isBank () {
-		return false;
-	}
+//	@Override
+//	public boolean isBank () {
+//		return false;
+//	}
 	
 //	@Override
 //	public boolean isBankPool () {

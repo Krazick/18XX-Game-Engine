@@ -364,7 +364,7 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 	
 	@Override
-	public boolean isBank () {
+	public boolean isABank () {
 		return true;
 	}
 	

@@ -32,7 +32,7 @@ public interface CertificateHolderI {
 	
 	public abstract boolean hasCertificateFor (Corporation aCorporation);
 	
-	public boolean isBank ();
+	public boolean isABank ();
 	
 	public boolean isABankPool ();
 	

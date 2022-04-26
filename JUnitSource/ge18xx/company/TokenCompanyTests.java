@@ -47,7 +47,7 @@ class TokenCompanyTests {
 		assertFalse (tokenCompany.isMinorCompany ());
 		assertFalse (tokenCompany.isGovtRailway ());
 		assertFalse (tokenCompany.isShareCompany ());
-		assertFalse (tokenCompany.isBank ());
+		assertFalse (tokenCompany.isABank ());
 		assertFalse (tokenCompany.isABankPool ());
 	}
 	

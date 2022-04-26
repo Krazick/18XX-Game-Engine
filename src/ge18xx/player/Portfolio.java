@@ -133,7 +133,7 @@ public class Portfolio implements CertificateHolderI {
 		tCertificateJPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		addJCAndHGlue (tCertificateJPanel, null);
 		
-		tIsBankPortfolioHolder = holder.isBank ();
+		tIsBankPortfolioHolder = holder.isABank ();
 		
 		for (Certificate tCertificate : certificates) {
 			tCertificateType = tCertificate.getCorpType ();
@@ -187,7 +187,7 @@ public class Portfolio implements CertificateHolderI {
 		JPanel tCorporationPanel;
 		boolean tIsBankPortfolioHolder;
 		
-		tIsBankPortfolioHolder = holder.isBank ();
+		tIsBankPortfolioHolder = holder.isABank ();
 		if (tIsBankPortfolioHolder) {
 			tCorporationPanel = buildCertJPanelForBank (aCorpType, aSelectedButtonLabel, aItemListener,
 					aPlayer, aGameManager);
@@ -1602,8 +1602,8 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	@Override
-	public boolean isBank () {
-		return holder.isBank ();
+	public boolean isABank () {
+		return holder.isABank ();
 	}
 	
 	@Override

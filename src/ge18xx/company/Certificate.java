@@ -674,7 +674,7 @@ public class Certificate implements Comparable<Certificate> {
 		// If there is no Par Price, and this Certificate is in the Bank, 
 		// Then it can be bought -- Will have to Choose Par Price when buying.
 			
-			if (owner.isBank ()) {
+			if (owner.isABank ()) {
 				tCanBeBought = true;
 			}
 		}

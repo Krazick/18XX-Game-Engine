@@ -1071,10 +1071,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tIsActive;
 	}
 	
-	@Override
-	public boolean isBank () {
-		return false;
-	}
+//	@Override
+//	public boolean isBank () {
+//		return false;
+//	}
 	
 //	@Override
 //	public boolean isBankPool () {
