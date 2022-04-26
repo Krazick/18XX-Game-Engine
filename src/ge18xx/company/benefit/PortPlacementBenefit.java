@@ -70,7 +70,7 @@ public class PortPlacementBenefit extends MapBenefit {
 		String tActionCommand;
 
 		tActionCommand = aEvent.getActionCommand ();
-		if (CorporationFrame.PLACE_TOKEN_PRIVATE.equals (tActionCommand)) {
+		if (CorporationFrame.PLACE_PORT_TOKEN.equals (tActionCommand)) {
 			handlePlacePortToken  ();
 		}
 	}
@@ -85,7 +85,7 @@ public class PortPlacementBenefit extends MapBenefit {
 				tPlacePortTokenButton = new JButton (getNewButtonLabel ());
 				setButton (tPlacePortTokenButton);
 				setButtonPanel (aButtonRow);
-				tPlacePortTokenButton.setActionCommand (CorporationFrame.PLACE_TOKEN_PRIVATE);
+				tPlacePortTokenButton.setActionCommand (CorporationFrame.PLACE_PORT_TOKEN);
 				tPlacePortTokenButton.addActionListener (this);
 				aButtonRow.add (tPlacePortTokenButton);
 			}
@@ -126,5 +126,4 @@ public class PortPlacementBenefit extends MapBenefit {
 			setToolTip ("All Good");
 		}
 	}
-
 }
