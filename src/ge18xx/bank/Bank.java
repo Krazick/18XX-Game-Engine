@@ -407,6 +407,14 @@ public class Bank extends GameBank implements CashHolderI {
 		trainPortfolio.loadTrainStatus (aTrainPortfolioNode);
 	}
 
+	public Train getNextAvailableTrain () {
+		Train tTrain;
+		
+		tTrain = trainPortfolio.getNextAvailableTrain ();
+		
+		return tTrain;
+	}
+	
 	/* When a Train is bought, check for More Trains to make available */
 	public void makeTrainsAvailable (Train aTrain, BuyTrainAction aBuyTrainAction) {
 		int tTrainOrder, tTrainOrderCount;
@@ -415,7 +423,7 @@ public class Bank extends GameBank implements CashHolderI {
 		String tTrainName;
 		Train tTrain;
 		
-		trainPortfolio = getTrainPortfolio ();
+//		trainPortfolio = getTrainPortfolio ();
 		tTrainOrder = aTrain.getOrder ();
 		tNextTrainOrder = aTrain.getOnFirstOrderAvailable ();
 		/* Check for an "On First" Attribute set and if it is, then handle it */

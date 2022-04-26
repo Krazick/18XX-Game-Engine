@@ -609,6 +609,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	
 	public void buyBankTrain (BuyTrainAction aBuyTrainAction) {
 		Train tTrain;
+		Train tNextAvailableTrain;
 		TrainHolderI tTrainHolder;
 		CashHolderI tCashHolder;
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
@@ -617,6 +618,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		GameManager tGameManager;
 		boolean tFirstTrainOfType;
 		
+		tGameManager = getGameManager ();
 		tTrain = getSelectedBankTrain ();
 		tTrainHolder = getSelectedTrainHolder ();
 		tCurrentStatus = status;
@@ -629,15 +631,16 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			aBuyTrainAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);			
 		}
 		if (closeOnTrainPurchase != NO_ID) {
-			tGameManager = getGameManager ();
 			tGameManager.closeCompany (closeOnTrainPurchase, (TransferOwnershipAction) aBuyTrainAction);
 		}
 		tFirstTrainOfType = false;
+		tNextAvailableTrain = Train.NO_TRAIN;
 		if (! tTrainHolder.isABankPool ()) {
 			if (tTrainHolder.isABank ()) {
 				tBank = (Bank) tTrainHolder;
 				tFirstTrainOfType = corporationList.isFirstTrainOfType (tTrain);
 				tBank.makeTrainsAvailable (tTrain, aBuyTrainAction);
+				tNextAvailableTrain = tBank.getNextAvailableTrain ();
 			}
 		}
 		addTrain (tTrain);
@@ -645,6 +648,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tTrainHolder.removeSelectedTrain ();
 		if (tFirstTrainOfType) {
 			corporationList.performPhaseChange (this, tTrain, aBuyTrainAction);
+		}
+		if (tNextAvailableTrain != Train.NO_TRAIN) {
+			if (! tNextAvailableTrain.getName ().equals (tTrain.getName ())) {
+				tGameManager.updateRoundFrameParPrices (tNextAvailableTrain.getName ());
+			}
 		}
 		addAction (aBuyTrainAction);
 		corporationFrame.updateInfo ();

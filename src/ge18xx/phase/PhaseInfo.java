@@ -31,6 +31,10 @@ public class PhaseInfo {
 	static final AttributeName AN_CLOSE_PRIVATE = new AttributeName ("closePrivate");
 	static final AttributeName AN_GOVERNMENT_CAN_FORM = new AttributeName ("governmentCanForm");
 	static final AttributeName AN_GOVERNMENT_MUST_FORM = new AttributeName ("governmentMustForm");
+	static final AttributeName AN_MIN_TO_FLOAT = new AttributeName ("minToFloat");
+	static final AttributeName AN_MIN_TO_FLOAT_LAST = new AttributeName ("minToFloatLast");
+	
+	static final int STANDARD_MIN_SHARES = 6;
 	static final int NO_LIMIT = 99;
 	public static final int NO_NAME = 0;
 	static final int NO_ROUNDS = 0;
@@ -43,6 +47,9 @@ public class PhaseInfo {
 	int trainLimit;
 	int minorTrainLimit;
 	int govtTrainLimit;
+	int minToFloat;		// Minimum number of Shares sold to Float the Company at time of Preparing Company
+	int minToFloatLast;	// Minimum number of Shares sold to Float the Company when last Train of Phase 
+						// has been Sold (ie when next train purchase triggers Phase Change)
 	boolean canBuyPrivate;
 	boolean canBuyTrain;
 	boolean closePrivates;
@@ -81,6 +88,33 @@ public class PhaseInfo {
 		tGovernmentMustForm = aCellNode.getThisBooleanAttribute (AN_GOVERNMENT_MUST_FORM);
 		setValues (tName, tSubName, tRounds, tTiles, tTrainLimit, tMinorTrainLimit, tGovTrainLimit, 
 				tOffBoard, tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tGovernmentCanForm, tGovernmentMustForm);
+		parseFloatMinValues (aCellNode);
+	}
+
+	// minToFloat="2" minToFloatLast="3" />
+	private void parseFloatMinValues (XMLNode aCellNode) {
+		int tValue;
+		
+		tValue = aCellNode.getThisIntAttribute(AN_MIN_TO_FLOAT, STANDARD_MIN_SHARES);
+		setMinToFloat  (tValue);
+		tValue = aCellNode.getThisIntAttribute(AN_MIN_TO_FLOAT_LAST, STANDARD_MIN_SHARES);
+		setMinToFloatLast (tValue);
+	}
+	
+	private void setMinToFloat (int aValue) {
+		minToFloat = aValue;
+	}
+	
+	private void setMinToFloatLast (int aValue) {
+		minToFloatLast = aValue;
+	}
+
+	public int getMinToFloat () {
+		return minToFloat;
+	}
+	
+	public int getMinToFloatLast () {
+		return minToFloatLast;
 	}
 	
 	// TODO: 1856 - Capitalization level changes based upon Phase -- NEED to Expand

@@ -212,4 +212,30 @@ public class PhaseManager {
 	public int getCurrentPhase () {
 		return currentPhase;
 	}
+	
+	public int getMinSharesToFloat (String aNextTrainName) {
+		PhaseInfo tPhaseInfo;
+		char tFirstChar;
+		int tMinToFloat;
+		int tMinToFloatLast;
+		int tMinSharesToFloat;
+		int tNextTrainSize;
+		
+		tPhaseInfo = getCurrentPhaseInfo ();
+		tMinToFloat = tPhaseInfo.getMinToFloat ();
+		tMinToFloatLast = tPhaseInfo.getMinToFloatLast ();
+		tMinSharesToFloat = tMinToFloat;
+		
+		if (aNextTrainName.length () > 0) {
+			tFirstChar = aNextTrainName.charAt (0);
+			if ((tFirstChar >= '0') && (tFirstChar <= '9')) {
+				tNextTrainSize = Integer.parseInt (String.valueOf (tFirstChar));
+				if (tMinToFloatLast == tNextTrainSize) {
+					tMinSharesToFloat = tMinToFloatLast;
+				}
+			}
+		} 
+			
+		return tMinSharesToFloat;
+	}
 }

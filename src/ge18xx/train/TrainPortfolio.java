@@ -786,6 +786,16 @@ public class TrainPortfolio implements TrainHolderI {
 		return tAvailableCount;
 	}
 	
+	public Train getNextAvailableTrain () {
+		Train tNextAvailableTrain;
+		Train tAvailableTrains [];
+		
+		tAvailableTrains = getAvailableTrains ();
+		tNextAvailableTrain = tAvailableTrains [0];
+		
+		return tNextAvailableTrain;
+	}
+	
 	public Train [] getAvailableTrains () {
 		Train [] tAvailableTrains = new Train [getAvailableCount ()];
 		int tIndex = 0;

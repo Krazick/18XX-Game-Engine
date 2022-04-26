@@ -73,6 +73,7 @@ public class RoundFrame extends XMLFrame {
 	JLabel totalCashLabel;
 	JLabel parPriceLabel;
 	JLabel gameStateLabel;
+	List<JLabel> minStartup = new LinkedList<JLabel> ();
 	List<JLabel> parPrices = new LinkedList<JLabel> ();
 	List<JLabel> companiesAtPar = new LinkedList<JLabel> ();
 	List<JPanel> parPriceLineJPanels = new LinkedList<JPanel> ();
@@ -145,43 +146,70 @@ public class RoundFrame extends XMLFrame {
 	}
 	
 	private void buildParPrices () {
-		int tParPriceCount, tParPriceIndex, tPrice;
-		JPanel tParPriceLinePanel;
-		Integer [] tParPrices;
-		GameManager tGameManager;
-		String tPrices [];
 		Border tBorder1, tBorder2;
-		
-		tGameManager = roundManager.getGameManager ();
-		tParPrices = tGameManager.getAllStartCells ();
-		tParPriceCount = tParPrices.length;
-		
+				
 		parPricesJPanel = new JPanel ();
 		parPricesJPanel.setLayout (new BoxLayout (parPricesJPanel, BoxLayout.Y_AXIS));
 		tBorder1 = BorderFactory.createLineBorder (Color.BLACK);
 		tBorder2 = BorderFactory.createTitledBorder (tBorder1, "Par Prices", TitledBorder.CENTER, TitledBorder.TOP);
 		parPricesJPanel.setBorder (tBorder2);
 		
-		tPrices = new String [tParPriceCount];
-		for (tParPriceIndex = 0; tParPriceIndex < tParPriceCount; tParPriceIndex++) {
-			tPrice = tParPrices [tParPriceIndex].intValue ();
+		updateParPrices ("");
+	}
+
+	public void updateParPrices (String aNextTrainName) {
+		GameManager tGameManager;
+		int aParPriceCount;
+		Integer aParPrices [];
+		int tMinToFloat;
+		int tParPriceIndex;
+		int tPrice;
+		int tMinStartupCash;
+		JPanel tParPriceLinePanel;
+		String[] tPrices;
+		String[] tMinStartup;
+		
+		parPriceLineJPanels.clear ();
+		parPricesJPanel.removeAll ();
+		tGameManager = roundManager.getGameManager ();
+		aParPrices = tGameManager.getAllStartCells ();
+		aParPriceCount = aParPrices.length;
+		tMinToFloat = tGameManager.getMinSharesToFloat (aNextTrainName);
+
+		tPrices = new String [aParPriceCount];
+		tMinStartup = new String [aParPriceCount];
+		for (tParPriceIndex = 0; tParPriceIndex < aParPriceCount; tParPriceIndex++) {
+			tPrice = aParPrices [tParPriceIndex].intValue ();
 			tPrices [tParPriceIndex] = Bank.formatCash (tPrice);
 			parPrices.add (new JLabel (tPrices [tParPriceIndex]));
 			companiesAtPar.add (new JLabel (""));
 			
+			tMinStartupCash = tMinToFloat * tPrice;
+			tMinStartup [tParPriceIndex] = "[" + tMinToFloat + 
+					" / " + Bank.formatCash(tMinStartupCash) + "]";
+			minStartup.add (new JLabel (tMinStartup [tParPriceIndex]));
+			
 			tParPriceLinePanel = new JPanel ();
 			tParPriceLinePanel.setLayout (new BoxLayout (tParPriceLinePanel, BoxLayout.X_AXIS));
-			tParPriceLinePanel.add (Box.createHorizontalStrut (20));
+			tParPriceLinePanel.add (Box.createHorizontalStrut (10));
+			tParPriceLinePanel.add (minStartup.get (tParPriceIndex));
+			
+			tParPriceLinePanel.add (Box.createHorizontalStrut (10));
 			tParPriceLinePanel.add (parPrices.get (tParPriceIndex));
 			tParPriceLinePanel.add (Box.createHorizontalStrut (10));
 			tParPriceLinePanel.add (companiesAtPar.get (tParPriceIndex));
-			tParPriceLinePanel.add (Box.createHorizontalStrut (20));
+			tParPriceLinePanel.add (Box.createHorizontalStrut (10));
 			parPriceLineJPanels.add (tParPriceLinePanel);
 			parPricesJPanel.add (parPriceLineJPanels.get (tParPriceIndex));
 		}
 		updateParPrices ();
 	}
 
+
+//	public void updateParPrices (String aNextTrainName) {
+//		System.out.println ("Ready to update Par Prices with Train " + aNextTrainName);
+//	}
+//
 	private void buildRoundInfoJPanel () {
 		int tTotalCash;
 		String tGameState;
@@ -264,7 +292,7 @@ public class RoundFrame extends XMLFrame {
 		tBankPoolTrainSummary = getTrainSummary (tBankPool);
 		
 		tBank = roundManager.getBank ();
-		tBankTrainSummary  = getTrainSummary (tBank);
+		tBankTrainSummary = getTrainSummary (tBank);
 		tFullTrainSummary = tBankPoolTrainSummary +  NEWLINE + tBankTrainSummary;
 		
 		trainSummary.setText (tFullTrainSummary);

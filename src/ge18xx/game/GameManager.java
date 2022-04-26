@@ -520,6 +520,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
+	public int getMinSharesToFloat (String aNextTrainName) {
+		return phaseManager.getMinSharesToFloat (aNextTrainName);
+	}
+	
 	public Integer [] getAllStartCells () {
 		Market tMarket;
 		
@@ -1490,6 +1494,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		repaintTileTrayFrame ();
 	}
 
+	public void updateRoundFrameParPrices (String aNextTrainName) {
+		roundManager.updateParPrices (aNextTrainName);
+	}
+	
 	public void repaintTileTrayFrame () {
 		tileTrayFrame.repaint ();
 	}
