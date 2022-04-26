@@ -264,17 +264,23 @@
 		</PlayerInfo>
 		<Phases>
 			<Phase name="1" subName="1" rounds="1" tiles="Yellow"
-				trainLimit="4" offBoard="Low" />
+				trainLimit="4" offBoard="Low" 
+				minToFloat="2" minToFloatLast="3" />
 			<Phase name="2" subName="1" rounds="2" tiles="Yellow,Green"
-				canBuyTrain="true" canBuyPrivate="true" trainLimit="4" offBoard="Low" />
+				canBuyTrain="true" canBuyPrivate="true" trainLimit="4" offBoard="Low" 
+				minToFloat="3" minToFloatLast="4" />
 			<Phase name="3" subName="1" rounds="2" tiles="Yellow,Green"
-				canBuyTrain="true" canBuyPrivate="true" trainLimit="3" offBoard="Low" />
+				canBuyTrain="true" canBuyPrivate="true" trainLimit="3" offBoard="Low" 
+				minToFloat="4" minToFloatLast="5" />
 			<Phase name="4" subName="1" rounds="3" tiles="Yellow,Green,Brown"
-				canBuyTrain="true" closePrivate="true" trainLimit="2" offBoard="Mid" />
+				canBuyTrain="true" closePrivate="true" trainLimit="2" offBoard="Mid" 
+				minToFloat="5" minToFloatLast="6" />
 			<Phase name="5" subName="1" rounds="3" tiles="Yellow,Green,Brown,Grey"
-				canBuyTrain="true" trainLimit="2" offBoard="Mid" />
+				canBuyTrain="true" trainLimit="2" offBoard="Mid" 
+				minToFloat="6" />
 			<Phase name="6" subName="1" rounds="3" tiles="Yellow,Green,Brown,Grey"
-				canBuyTrain="true" trainLimit="2" offBoard="High" />
+				canBuyTrain="true" trainLimit="2" offBoard="High" 
+				minToFloat="6" />
 		</Phases>
 		<Trains>
 			<Train name="2" order="1" revenueCenters="2" quantity="9" price="100" 
