@@ -9,7 +9,7 @@ public enum MarketRegion {
 	Green (false, true, false, false, Color.GREEN, Color.BLACK), 
 	Brown (false, true, false, true, new Color (139, 69, 19), Color.WHITE), 
 	Ledge (false, false, true, false, Color.WHITE, Color.BLACK), 
-	Closed (true, false, false, false, Color.DARK_GRAY, Color.BLACK), 
+	Closed (true, false, true, false, Color.DARK_GRAY, Color.BLACK), 
 	Start (false, false, true, false, Color.WHITE, Color.BLACK), 
 	Unused (false, false, false, false, Color.WHITE, Color.BLACK);
 
@@ -75,7 +75,7 @@ public enum MarketRegion {
 		if (getExceedPlayerCorpShareLimit ()) {
 			tToolTip += "Player can exceed Corporaiton Share Limit<br>";
 		}
-		if (!getCountAgainstCertificateLimit ()) {
+		if (! getCountAgainstCertificateLimit ()) {
 			tToolTip += "Does not count against Player Certificate Limit<br>";
 		}
 		if (getNotCountAsBuy ()) {

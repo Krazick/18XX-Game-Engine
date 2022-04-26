@@ -630,6 +630,8 @@ public class MarketCell {
 			}
 			tTip += marketRegion.getToolTip ();
 			tTip += "</html>";
+		} else {
+			tTip = "<html>" + marketRegion.getToolTip () + "</html>";
 		}
 		
 		return tTip;
