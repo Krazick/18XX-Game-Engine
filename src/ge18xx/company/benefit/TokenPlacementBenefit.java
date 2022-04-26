@@ -161,7 +161,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 		tOwningCompany = getOwningCompany ();
 		tBenefitInUse = tOwningCompany.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
-		if ((tBenefitInUse.realBenefit ()) && (! NAME.equals(tBenefitInUseName))) {
+		if ((tBenefitInUse.realBenefit ()) && (! NAME.equals (tBenefitInUseName))) {
 			disableButton ();
 			setToolTip ("Another Benefit is currently in Use");
 		} else if (! hasTile ()) {
