@@ -637,8 +637,8 @@ public class RoundManager implements ActionListener {
 		return gameManager.gameHasPrivates ();
 	}
 
-	public void updateParPrices (String aNextTrainName) {
-		roundFrame.updateParPrices (aNextTrainName);
+	public void updateParPrices () {
+		roundFrame.updateParPrices ();
 	}
 
 	public boolean mapVisible () {

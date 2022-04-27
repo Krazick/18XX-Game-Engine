@@ -520,8 +520,18 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
-	public int getMinSharesToFloat (String aNextTrainName) {
-		return phaseManager.getMinSharesToFloat (aNextTrainName);
+	/**
+	 * Get the Minimum Number of Shares that must be sold to allow a Company to Float
+	 * 
+	 * @return the Minimum Number of Shares needed to float
+	 */
+	public int getMinSharesToFloat () {
+		String tNextTrainName;
+		Train tTrain;
+		
+		tTrain = bank.getNextAvailableTrain ();
+		tNextTrainName = tTrain.getName ();
+		return phaseManager.getMinSharesToFloat (tNextTrainName);
 	}
 	
 	public Integer [] getAllStartCells () {
@@ -1494,8 +1504,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		repaintTileTrayFrame ();
 	}
 
-	public void updateRoundFrameParPrices (String aNextTrainName) {
-		roundManager.updateParPrices (aNextTrainName);
+	public void updateRoundFrameParPrices () {
+		roundManager.updateParPrices ();
 	}
 	
 	public void repaintTileTrayFrame () {

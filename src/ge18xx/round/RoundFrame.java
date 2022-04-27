@@ -154,10 +154,10 @@ public class RoundFrame extends XMLFrame {
 		tBorder2 = BorderFactory.createTitledBorder (tBorder1, "Par Prices", TitledBorder.CENTER, TitledBorder.TOP);
 		parPricesJPanel.setBorder (tBorder2);
 		
-		updateParPrices ("");
+		updateParPrices ();
 	}
 
-	public void updateParPrices (String aNextTrainName) {
+	public void updateParPrices () {
 		GameManager tGameManager;
 		int aParPriceCount;
 		Integer aParPrices [];
@@ -174,7 +174,7 @@ public class RoundFrame extends XMLFrame {
 		tGameManager = roundManager.getGameManager ();
 		aParPrices = tGameManager.getAllStartCells ();
 		aParPriceCount = aParPrices.length;
-		tMinToFloat = tGameManager.getMinSharesToFloat (aNextTrainName);
+		tMinToFloat = tGameManager.getMinSharesToFloat ();
 
 		tPrices = new String [aParPriceCount];
 		tMinStartup = new String [aParPriceCount];
@@ -202,14 +202,9 @@ public class RoundFrame extends XMLFrame {
 			parPriceLineJPanels.add (tParPriceLinePanel);
 			parPricesJPanel.add (parPriceLineJPanels.get (tParPriceIndex));
 		}
-		updateParPrices ();
+		updateJustParPrices ();
 	}
 
-
-//	public void updateParPrices (String aNextTrainName) {
-//		System.out.println ("Ready to update Par Prices with Train " + aNextTrainName);
-//	}
-//
 	private void buildRoundInfoJPanel () {
 		int tTotalCash;
 		String tGameState;
@@ -602,7 +597,7 @@ public class RoundFrame extends XMLFrame {
 		revalidate ();
 	}
 	
-	public void updateParPrices () {
+	public void updateJustParPrices () {
 		OperatingRound tOperatingRound;
 		int tCorporationCount, tCorporationIndex;
 		int tPriceCount, tPriceIndex;
