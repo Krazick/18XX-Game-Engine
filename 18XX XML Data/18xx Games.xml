@@ -191,7 +191,8 @@
 	<GameInfo id="4" name="1856" Subtitle="Railroading in Upper Canada from 1856" minPlayers="3" maxPlayers="6"
 		bankTotal="12000" currencyFormat="$ ###,###" designers="Bill Dixon (Canada)"
 		location="Southern Ontario, Canada" producers="Mayfair Games (US)"
-		releaseDate="1995" privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
+		releaseDate="1995" privates="true" minors="false" coals="false" shares="true" 
+		bankPoolShareLimit="5" playerShareLimit="6" partialCapitalization="true">
 		<PlayerInfo>
 			<Player numPlayers="3" startingCash="500" certificateLimit="20" />
 			<Player numPlayers="4" startingCash="375" certificateLimit="16" />
@@ -283,13 +284,13 @@
 				minToFloat="6" />
 		</Phases>
 		<Trains>
-			<Train name="2" order="1" revenueCenters="2" quantity="9" price="100" 
+			<Train name="2" order="1" revenueCenters="2" quantity="6" price="100" 
 				onLast="2" />
-			<Train name="3" order="2" revenueCenters="3" quantity="4" price="225"
+			<Train name="3" order="2" revenueCenters="3" quantity="5" price="225"
 				onLast="3" triggerPhase="2.1" tileInfo="Green" />
-			<Train name="4" order="3" revenueCenters="4" quantity="3" price="350"
+			<Train name="4" order="3" revenueCenters="4" quantity="4" price="350"
 				onLast="4" triggerPhase="3.1" rust="2" />
-			<Train name="5" order="4" revenueCenters="5" quantity="2" price="550"
+			<Train name="5" order="4" revenueCenters="5" quantity="3" price="550"
 				onLast="5" triggerPhase="4.1" tileInfo="Brown" />
 			<Train name="6" order="5" revenueCenters="6" quantity="2" price="700"
 				onFirst="6" triggerPhase="5.1" rust="3" tileInfo="Grey" />
