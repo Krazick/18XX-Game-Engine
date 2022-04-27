@@ -47,6 +47,7 @@ public class PhaseInfo {
 	int trainLimit;
 	int minorTrainLimit;
 	int govtTrainLimit;
+	int willFloat;
 	int minToFloat;		// Minimum number of Shares sold to Float the Company at time of Preparing Company
 	int minToFloatLast;	// Minimum number of Shares sold to Float the Company when last Train of Phase 
 						// has been Sold (ie when next train purchase triggers Phase Change)
@@ -104,7 +105,7 @@ public class PhaseInfo {
 	private void setMinToFloat (int aValue) {
 		minToFloat = aValue;
 	}
-	
+
 	private void setMinToFloatLast (int aValue) {
 		minToFloatLast = aValue;
 	}
@@ -115,6 +116,14 @@ public class PhaseInfo {
 	
 	public int getMinToFloatLast () {
 		return minToFloatLast;
+	}
+	
+	public int getWillFloat () {
+		return willFloat;
+	}
+	
+	public int getWillFloatPercent () {
+		return willFloat * 10;
 	}
 	
 	// TODO: 1856 - Capitalization level changes based upon Phase -- NEED to Expand
@@ -219,6 +228,7 @@ public class PhaseInfo {
 		closePrivates = aClosePrivates;
 		governmentCanForm = aGovernmentCanForm;
 		governmentMustForm = aGovernmentMustForm;
+		willFloat = 6;
 	}
 
 	public boolean canBuyTrainInPhase () {
