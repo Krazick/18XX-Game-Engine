@@ -676,12 +676,18 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationList.getCurrentRoundOf ();
 	}
 	
-//	public int getCurrentOR () {
-//		return corporationList.getCurrentOR ();
-//	}
-
 	public String getOperatingRoundID () {
 		return corporationList.getOperatingRoundID ();
+	}
+
+	public int getWillFloatPercent () {
+		PhaseInfo tPhaseInfo;
+		int tWillFloatPercent;
+		
+		tPhaseInfo = corporationList.getCurrentPhaseInfo ();
+		tWillFloatPercent = tPhaseInfo.getWillFloatPercent ();
+		
+		return tWillFloatPercent;
 	}
 	
 	// Train Company will Override
