@@ -78,6 +78,7 @@ public class GameInfo {
 	boolean hasCoals;
 	boolean hasShares;
 	boolean canPayHalfDividend;
+	boolean partialCapitalization;
 	int bankPoolShareLimit; // Limit on # of shares in Bank Pool
 	int playerShareLimit; // Limit on # of shares a Player may Hold
 	TrainInfo trains [];
