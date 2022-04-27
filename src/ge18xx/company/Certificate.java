@@ -1465,22 +1465,35 @@ public class Certificate implements Comparable<Certificate> {
 		ActorI.ActionStates tState;
 		ActorI.ActionStates tNewState;
 		ShareCompany tShareCompany;
+		int tWillFloatPercent;
 		
 		tState = corporation.getActionStatus ();
 		tNewState = tState;
+		tWillFloatPercent = corporation.getWillFloatPercent ();
 		if (tState == ActorI.ActionStates.Unowned) {
 			tNewState = ActorI.ActionStates.Owned;
 		} else if ((tState == ActorI.ActionStates.Owned) || (tState == ActorI.ActionStates.MayFloat)) {
 			if (corporation.isAShareCompany ()) {
 				tShareCompany = (ShareCompany) corporation;
-				if (tShareCompany.getPlayerOrCorpOwnedPercentage () >= 60) {
+				if (tShareCompany.getPlayerOrCorpOwnedPercentage () >= tWillFloatPercent) {
 					tNewState = ActorI.ActionStates.WillFloat;
+				} else {
+					tNewState = updateToMayFloat (tState);
 				}
+				
 			}
 		}
 		if (tNewState != tState) {
 			corporation.setStatus (tNewState);
 		}
+	}
+	
+	private ActorI.ActionStates updateToMayFloat (ActorI.ActionStates aCurrentState) {
+		ActorI.ActionStates tNewState;
+		
+		tNewState = aCurrentState;
+		
+		return tNewState;
 	}
 	
 	public boolean updateParValuesComboBox (JComboBox<String> aParValuesCombo, Integer [] aParValues, int aPlayerCash) {
