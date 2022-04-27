@@ -49,6 +49,8 @@ public class GameInfo {
 	final AttributeName AN_PRODUCERS = new AttributeName ("producers");
 	final AttributeName AN_RELEASE_DATE = new AttributeName ("releaseDate");
 	final AttributeName AN_CAN_PAY_HALF = new AttributeName ("canPayHalfDividend");
+	final AttributeName AN_PARITAL_CAPITAL = new AttributeName ("partialCapitalization");
+	
 	static final int NO_GAME_ID = 0;
 	static final String NO_NAME = "<NONE>";
 	static final int NO_MIN_PLAYERS = 0;
@@ -133,6 +135,7 @@ public class GameInfo {
 		tHasCoals = aCellNode.getThisBooleanAttribute (AN_COALS);
 		tHasShares = aCellNode.getThisBooleanAttribute (AN_SHARES);
 		canPayHalfDividend = aCellNode.getThisBooleanAttribute (AN_CAN_PAY_HALF);
+		partialCapitalization = aCellNode.getThisBooleanAttribute (AN_PARITAL_CAPITAL);
 		
 		setGameID (tGameID);
 		setValues (tID, tName, tMinPlayers, tMaxPlayers, tBankTotal, tCurrencyFormat);
@@ -251,6 +254,10 @@ public class GameInfo {
 	
 	public int getBankTotal () {
 		return bankTotal;
+	}
+	
+	public boolean fullCapitalization () {
+		return ! partialCapitalization;
 	}
 	
 	public int getCertificateLimit (int aNumPlayers) {
