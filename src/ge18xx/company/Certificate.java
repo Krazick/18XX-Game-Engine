@@ -1461,6 +1461,10 @@ public class Certificate implements Comparable<Certificate> {
 		corporation.sortCorporationCertificates ();
 	}
 	
+	/**
+	 * Update the Status of the Corporation Ownership to Owned, May Float or Will Float based on game rules
+	 * 
+	 */
 	public void updateCorporationOwnership () {
 		ActorI.ActionStates tState;
 		ActorI.ActionStates tNewState;
@@ -1472,13 +1476,14 @@ public class Certificate implements Comparable<Certificate> {
 		tWillFloatPercent = corporation.getWillFloatPercent ();
 		if (tState == ActorI.ActionStates.Unowned) {
 			tNewState = ActorI.ActionStates.Owned;
+			tNewState = updateToMayFloat (tNewState);
 		} else if ((tState == ActorI.ActionStates.Owned) || (tState == ActorI.ActionStates.MayFloat)) {
 			if (corporation.isAShareCompany ()) {
 				tShareCompany = (ShareCompany) corporation;
 				if (tShareCompany.getPlayerOrCorpOwnedPercentage () >= tWillFloatPercent) {
 					tNewState = ActorI.ActionStates.WillFloat;
 				} else {
-					tNewState = updateToMayFloat (tState);
+					tNewState = updateToMayFloat (tNewState);
 				}
 				
 			}
@@ -1490,8 +1495,16 @@ public class Certificate implements Comparable<Certificate> {
 	
 	private ActorI.ActionStates updateToMayFloat (ActorI.ActionStates aCurrentState) {
 		ActorI.ActionStates tNewState;
+		int tSharesSold;
+		int tMinSharesToFloat;
 		
-		tNewState = aCurrentState;
+		tMinSharesToFloat = corporation.getMinSharesToFloat ();
+		tSharesSold = corporation.getPercentOwned () / 10;
+		if (tSharesSold >= tMinSharesToFloat) {
+			tNewState = ActorI.ActionStates.MayFloat;
+		} else {
+			tNewState = aCurrentState;
+		}
 		
 		return tNewState;
 	}
