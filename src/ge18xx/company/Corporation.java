@@ -680,6 +680,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationList.getOperatingRoundID ();
 	}
 
+	public int getMinSharesToFloat () {
+		int tMinSharesToFloat;
+		
+		tMinSharesToFloat = corporationList.getMinSharesToFloat ();
+		
+		return tMinSharesToFloat;
+	}
+	
 	public int getWillFloatPercent () {
 		PhaseInfo tPhaseInfo;
 		int tWillFloatPercent;
@@ -1032,10 +1040,22 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationCertificates.getPresidentCertificate ();
 	}
 	
+	/**
+	 * Percentage of Shares Sold from Bank
+	 * 
+	 * @return int value of % shares sold (up to 100)
+	 */
+
 	public int getPercentOwned () {
 		return corporationCertificates.getPercentOwned ();
 	}
 
+	/**
+	 * Base class to get the Share Price of the Company. Will be Overridden by the ShareCompany Class
+	 * 
+	 * @return This will always return NO_COST (ie Zero -0-) since the ShareCompany needs to provide this value
+	 */
+	
 	public int getSharePrice () {
 		return NO_COST;
 	}
@@ -1398,6 +1418,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			}
 		} else if (status == ActorI.ActionStates.MayFloat) {
 			if ((aStatus == ActorI.ActionStates.Owned) || 
+				(aStatus == ActorI.ActionStates.WillFloat) ||
 				(aStatus == ActorI.ActionStates.NotOperated)) {
 				status = aStatus;
 				tStatusUpdated = true;
