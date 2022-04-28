@@ -420,6 +420,15 @@ public class RoundManager implements ActionListener {
 		return operatingRound.getOwnerWhoWillOperate ();
 	}
 	
+	/**
+	 * Get the Minimum Number of Shares to Float the company
+	 * 
+	 * @return return the Minimum Number of Shares
+	 */
+	public int getMinSharesToFloat () {
+		return gameManager.getMinSharesToFloat ();
+	}
+	
 	public PhaseInfo getCurrentPhaseInfo () {
 		PhaseManager tPhaseManager;
 		PhaseInfo tPhaseInfo;
