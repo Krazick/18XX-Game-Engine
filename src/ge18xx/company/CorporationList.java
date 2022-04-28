@@ -588,6 +588,14 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return roundManager.getCurrentPhaseInfo ();
 	}
 
+	public int getMinSharesToFloat () {
+		int tMinSharesToFloat;
+		
+		tMinSharesToFloat = roundManager.getMinSharesToFloat ();
+		
+		return tMinSharesToFloat;
+	}
+	
 	public int getRowIndex (Corporation aCorporation) {
 		int tRowIndex, tRowIndexFound;
 		
