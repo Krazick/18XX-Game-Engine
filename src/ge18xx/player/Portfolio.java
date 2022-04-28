@@ -1184,6 +1184,12 @@ public class Portfolio implements CertificateHolderI {
 		return tPercentage;
 	}
 	
+	/**
+	 * Percentage of Shares Sold from Bank
+	 * 
+	 * @return int value of % shares sold (up to 100)
+	 */
+	
 	public int getPercentOwned () {
 		int tPercentOwned;
 		
