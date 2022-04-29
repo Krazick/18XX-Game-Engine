@@ -531,6 +531,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 		tTrain = bank.getNextAvailableTrain ();
 		tNextTrainName = tTrain.getName ();
+		
 		return phaseManager.getMinSharesToFloat (tNextTrainName);
 	}
 	
