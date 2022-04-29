@@ -108,4 +108,19 @@ public class CompanyTestFactory {
 		return aShareCompany;
 	}
 
+	public ShareCompany buildShareCompanyMock (String aClientName) {
+		ShareCompany mShareCompany = Mockito.mock (ShareCompany.class);
+		
+		Mockito.when (mShareCompany.getAbbrev ()).thenReturn ("MSC");
+
+		return mShareCompany;
+	}
+
+	public PrivateCompany buildPrivateCompanyMock (String aClientName) {
+		PrivateCompany mPrivateCompany = Mockito.mock (PrivateCompany.class);
+		
+		Mockito.when (mPrivateCompany.getAbbrev ()).thenReturn ("MPC");
+
+		return mPrivateCompany;
+	}
 }
