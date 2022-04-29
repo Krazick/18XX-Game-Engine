@@ -15,6 +15,7 @@ import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
+import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
@@ -24,16 +25,17 @@ import ge18xx.round.action.ActorI;
 class TransferOwnershipEffectTestConstructor {
 	TransferOwnershipEffect effectAlpha;
 	TransferOwnershipEffect effectBeta;
-	ShareCompany actorBeta;
-	ShareCompany actorGamma;
+	ShareCompany companyBeta;
+	ShareCompany companyGamma;
 	Player playerActorAlpha;
 	Player playerActorDelta;
 	GameManager mGameManager;
+	PhaseInfo mPhaseInfo = Mockito.mock (PhaseInfo.class);
 	PlayerManager playerManager;
 	GameTestFactory testFactory;
 	CompanyTestFactory companyTestFactory;
 	Certificate certificate;
-
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		String tClientName, tPlayer2Name, tPlayer3Name;
@@ -53,11 +55,17 @@ class TransferOwnershipEffectTestConstructor {
 		effectAlpha = new TransferOwnershipEffect ();
 		playerActorAlpha = new Player (tPlayer2Name, playerManager, 0);
 		playerActorDelta = new Player (tPlayer3Name, playerManager, 0);
-		actorBeta = companyTestFactory.buildAShareCompany (1);
-		actorGamma = companyTestFactory.buildAShareCompany (2);
+		
+		companyBeta = companyTestFactory.buildAShareCompany (1);
+		Mockito.when (mPhaseInfo.getWillFloatPercent ()).thenReturn (60);
+		Mockito.when (companyBeta.getMinSharesToFloat ()).thenReturn (6);
+		Mockito.when (companyBeta.getCurrentPhaseInfo ()).thenReturn (mPhaseInfo);
+//		Mockito.when (companyBeta.getPercentOwned ()).thenReturn (20);
+		
+		companyGamma = companyTestFactory.buildAShareCompany (2);
 		tPortfolioAlpha = playerActorAlpha.getPortfolio ();
 		
-		certificate = new Certificate (actorBeta, true, 20, tPortfolioAlpha);
+		certificate = new Certificate (companyBeta, true, 20, tPortfolioAlpha);
 		tPortfolioAlpha.addCertificate (certificate);
 		effectBeta = new TransferOwnershipEffect (playerActorAlpha, certificate, playerActorDelta);
 	}
