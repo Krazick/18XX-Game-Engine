@@ -203,20 +203,17 @@ public class OperatingRound extends Round {
 	public int getNextToOperate () {
 		int tNextShareToOperate;
 		ShareCompany tShareCompany;
-		int tTreasury, tCapitalizationAmount;
+		int tStartingTreasury;
 	
-		// TODO: 1837 - (Austria) Need to check for Coal Companies and Minor Companies BEFORE Share Companies
+		// TODO: 1835 - Need to check for Minor Companies BEFORE Share Companies
 		
 		tNextShareToOperate = shareCompanies.getNextToOperate ();
 		tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate); 
-		// TODO: 1856 - test against "May Float" State, not just "Will Float" State
 		if (tShareCompany.shouldFloat ()) {
-			tCapitalizationAmount = tShareCompany.getCapitalizationAmount ();
-			tTreasury = tCapitalizationAmount * tShareCompany.getParPrice ();
-			tShareCompany.floatCompany (tTreasury);
+			tStartingTreasury = tShareCompany.calculateStartingTreasury ();
+			tShareCompany.floatCompany (tStartingTreasury);
 		}
 		
-		// TODO: non-1830 For "Partial Capitalization" need to see if more Shares have been sold and add that capitalization  -- Maybe as part of Buy Share during Stock Round?
 		return tNextShareToOperate;
 	}
 	
