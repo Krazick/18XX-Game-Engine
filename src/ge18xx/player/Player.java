@@ -378,6 +378,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setBidShare (false);
 		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
 			playerManager.updateRFPlayerLabel (this);
+			playerManager.updateRoundWindow ();
 		}
 		if (playerFrame != PlayerFrame.NO_XML_FRAME) {
 			playerFrame.setPassButton ();

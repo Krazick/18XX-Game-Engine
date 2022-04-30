@@ -776,8 +776,6 @@ public class RoundManager implements ActionListener {
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 			operatingRound.sortByOperatingOrder ();
 
-//			roundFrame.updatePhaseLabel ();
-			
 			if (isStockRound ()) {
 				updateAllCorporationsBox ();
 				roundFrame.setStockRoundInfo (gameName, stockRound.getIDPart1 ());
@@ -793,7 +791,6 @@ public class RoundManager implements ActionListener {
 			tPlayerManager = gameManager.getPlayerManager ();
 			tPlayerManager.updateAllRFPlayerLabels ();
 			roundFrame.updateAll ();
-//			roundFrame.revalidate ();
 		}
 	}
 	
