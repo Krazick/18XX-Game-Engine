@@ -40,6 +40,11 @@ class CorporationBasicTests {
 		protected boolean choiceForBaseToken () {
 			return false;
 		}
+
+		@Override
+		public int calculateStartingTreasury () {
+			return 0;
+		}
 	}
 	
 	CorporationConcrete corporation;
