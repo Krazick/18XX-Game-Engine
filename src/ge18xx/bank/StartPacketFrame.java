@@ -278,9 +278,6 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 					tNextShareHasBids = tCertificate.hasBidders ();
 				}
 			}
-			if (tCertificate == Certificate.NO_CERTIFICATE) {
-				System.err.println ("Next Share to in Start Packet Row " + tFirstActiveRow + " with count " + tCurrentRowsCount + " NOT FOUND");
-			}
 		}
 		
 		return tNextShareHasBids;
