@@ -100,4 +100,9 @@ public class CoalCompany extends TrainCompany {
 	public int getCurrentValue () {
 		return getValue ();
 	}
+
+	@Override
+	public int calculateStartingTreasury () {
+		return value;
+	}
 }

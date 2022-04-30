@@ -167,14 +167,31 @@ public class ShareCompany extends TokenCompany {
 	}
 	
 	@Override
-	public int getCapitalizationAmount () {
+	public int calculateStartingTreasury () {
+		int tStartingTreasury;
 		int tCapitalizationAmount;
 		
-		tCapitalizationAmount = super.getCapitalizationAmount ();
-		if (corporationList.doPartialCapitalization ()) {
-			System.out.println ("Should do Partial Capitalization for " + abbrev);
-			// NOTE -- 1856 in early Phases, will do Partial Capitalization based on Shares Sold
-		}
+		tCapitalizationAmount = getCapitalizationLevel ();
+		tStartingTreasury = tCapitalizationAmount * getParPrice ();
+
+		return tStartingTreasury;
+	}
+	
+	@Override
+	public int getCapitalizationLevel (int aSharesSold) {
+		return getCapitalizationLevel ();
+	}
+	
+	private int getCapitalizationLevel () {
+		int tCapitalizationAmount;
+		int tSharesSold;
+		
+		tSharesSold = getSharesSold ();
+		tCapitalizationAmount = super.getCapitalizationLevel (tSharesSold);
+//		if (corporationList.doPartialCapitalization ()) {
+//			System.out.println ("Should do Partial Capitalization for " + abbrev);
+//			// NOTE -- 1856 in early Phases, will do Partial Capitalization based on Shares Sold
+//		}
 		
 		return tCapitalizationAmount;
 	}
@@ -439,13 +456,30 @@ public class ShareCompany extends TokenCompany {
 		setValues (aDestination, aLoanCount, aStartCell);
 	}
 	
+	private int getSharesSold () {
+		int tSharesSold;
+		
+		tSharesSold = getOwnedPercentage ()/ 10;
+		
+		return tSharesSold;
+	}
+	
 	public boolean shouldFloat () {
 		boolean tShouldFloat;
+		int tMinSharesToFloat;
+		int tSharesSold;
 		
 		if (status == ActorI.ActionStates.WillFloat) {
 			tShouldFloat = true;
-		} else {		
-			// TODO: 1856 - Test for a state of "MayFloat" against the number sold compared to first available train
+		} else if (status == ActorI.ActionStates.MayFloat) {
+			tMinSharesToFloat = getMinSharesToFloat ();
+			tSharesSold = getSharesSold ();
+			if (tSharesSold >= tMinSharesToFloat) {
+				tShouldFloat = true;
+			} else {
+				tShouldFloat = false;
+			}
+		} else {
 			tShouldFloat = false;
 		}
 		

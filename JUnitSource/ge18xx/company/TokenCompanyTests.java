@@ -23,6 +23,11 @@ class TokenCompanyTests {
 		public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
 			return null;
 		}
+
+		@Override
+		public int calculateStartingTreasury() {
+			return 0;
+		}
 	}
 
 	TokenCompanyConcrete tokenCompany;

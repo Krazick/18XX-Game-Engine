@@ -449,4 +449,9 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public int getCurrentValue () {
 		return getValue ();
 	}
+
+	@Override
+	public int calculateStartingTreasury() {
+		return 0;
+	}
 }
