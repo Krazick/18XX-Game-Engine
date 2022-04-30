@@ -784,13 +784,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tBidderCount;
 	}
 
-	public int getCapitalizationAmount () {
-		int tCapitalizationAmount;
+	public abstract int calculateStartingTreasury ();
+	
+	public int getCapitalizationLevel (int aSharesSold) {
+		int tCapitalizationLevel;
 		
-		// TODO: non-1830 Need to adjust for 1856 and others (maybe)
-		tCapitalizationAmount = 10;
-
-		return tCapitalizationAmount;
+		tCapitalizationLevel = corporationList.getCapitalizationLevel (aSharesSold);
+		
+		return tCapitalizationLevel;
 	}
 
 	public Certificate getIPOCertificate (int aPercentage, boolean aPresidentShare) {
@@ -950,7 +951,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public int getOwnedPercentage () {
-		return corporationCertificates.getCertificatePercentageFor (abbrev);
+		return corporationCertificates.getPercentOwned ();
 	}
 	
 	public PhaseInfo getCurrentPhaseInfo () {

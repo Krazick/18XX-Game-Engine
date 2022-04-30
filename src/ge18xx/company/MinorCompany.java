@@ -146,4 +146,9 @@ public class MinorCompany extends TokenCompany {
 	public int getCurrentValue () {
 		return getValue ();
 	}
+
+	@Override
+	public int calculateStartingTreasury () {
+		return value;
+	}
 }
