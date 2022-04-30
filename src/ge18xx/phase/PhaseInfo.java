@@ -33,6 +33,7 @@ public class PhaseInfo {
 	static final AttributeName AN_GOVERNMENT_MUST_FORM = new AttributeName ("governmentMustForm");
 	static final AttributeName AN_MIN_TO_FLOAT = new AttributeName ("minToFloat");
 	static final AttributeName AN_MIN_TO_FLOAT_LAST = new AttributeName ("minToFloatLast");
+	static final AttributeName AN_CAPITALIZATION = new AttributeName ("capitalization");
 	
 	static final int STANDARD_MIN_SHARES = 6;
 	static final int NO_LIMIT = 99;
@@ -51,6 +52,7 @@ public class PhaseInfo {
 	int minToFloat;		// Minimum number of Shares sold to Float the Company at time of Preparing Company
 	int minToFloatLast;	// Minimum number of Shares sold to Float the Company when last Train of Phase 
 						// has been Sold (ie when next train purchase triggers Phase Change)
+	String capitalization;
 	boolean canBuyPrivate;
 	boolean canBuyTrain;
 	boolean closePrivates;
@@ -95,11 +97,18 @@ public class PhaseInfo {
 	// minToFloat="2" minToFloatLast="3" />
 	private void parseFloatMinValues (XMLNode aCellNode) {
 		int tValue;
+		String tCapitalization;
 		
 		tValue = aCellNode.getThisIntAttribute(AN_MIN_TO_FLOAT, STANDARD_MIN_SHARES);
 		setMinToFloat  (tValue);
 		tValue = aCellNode.getThisIntAttribute(AN_MIN_TO_FLOAT_LAST, STANDARD_MIN_SHARES);
 		setMinToFloatLast (tValue);
+		tCapitalization = aCellNode.getThisAttribute (AN_CAPITALIZATION, "FULL");
+		setCapitalization (tCapitalization);
+	}
+	
+	private void setCapitalization (String aCapitalization) {
+		capitalization = aCapitalization;
 	}
 	
 	private void setMinToFloat (int aValue) {
@@ -127,6 +136,19 @@ public class PhaseInfo {
 	}
 	
 	// TODO: 1856 - Capitalization level changes based upon Phase -- NEED to Expand
+	public int getCapitalizationLevel (int aSharesSold) {
+		int tCapitalizationLevel;
+		
+		if (capitalization.equals ("FULL")) {
+			tCapitalizationLevel = 10;
+		} else if (capitalization.equals ("min_Shares_Sold_5")) {
+			tCapitalizationLevel = Math.min (5, aSharesSold);
+		} else {
+			tCapitalizationLevel = 1;
+		}
+		
+		return tCapitalizationLevel;
+	}
 	
 	public boolean doPartialCapitalization () {
 		return false;
