@@ -486,7 +486,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	
 	public void close () {
 		if (! updateStatus (ActorI.ActionStates.Closed)) {
-			System.err.println ("--> Failure to update State to Closed <--");
+			System.err.println ("ZZZ--> Failure to update State to Closed <--");
 		}
 	}
 	
@@ -556,7 +556,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				}
 			}
 		} else {
-			System.err.println ("--> Failure to update State to Closed <--");
+			System.err.println ("XXX--> Failure to update State to Closed <--");
 		}
 	}
 	
@@ -852,8 +852,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	
 	public String getDoLabel () {
 		String tLabel;
+		String tActionVerb;
 		
-		tLabel = getPresidentName () + " will operate " + getName ();
+		if (status == ActorI.ActionStates.MayFloat) {
+			tActionVerb = " may operate ";
+		} else {
+			tActionVerb = " will operate ";
+		}
+		tLabel = getPresidentName () + tActionVerb + getName ();
 		
 		return tLabel;
 	}
