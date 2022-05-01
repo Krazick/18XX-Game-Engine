@@ -180,41 +180,58 @@ public class OperatingRound extends Round {
 	
 	public boolean companyStartedOperating () {
 		int tNextShareToOperate;
+		boolean tCompanyStartedOperating;
 		
-		tNextShareToOperate = getNextToOperate ();
+		tNextShareToOperate = getNextShareToOperate ();
 		
-		return shareCompanies.companyStartedOperating (tNextShareToOperate);
+		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX ) {
+			tCompanyStartedOperating = shareCompanies.companyStartedOperating (tNextShareToOperate);
+		} else {
+			tCompanyStartedOperating = false;
+		}
+		
+		return tCompanyStartedOperating;
 	}
 	
 	public void prepareCorporation () {
 		int tNextShareToOperate;
 		
-		tNextShareToOperate = getNextToOperate ();
-		shareCompanies.prepareCorporation (tNextShareToOperate);		
+		tNextShareToOperate = getNextShareToOperate ();
+		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX ) {
+			shareCompanies.prepareCorporation (tNextShareToOperate);
+		}
 	}
 	
 	public void showCurrentCompanyFrame () {
 		int tNextShareToOperate;
 		
-		tNextShareToOperate = getNextToOperate ();
-		shareCompanies.showCompanyFrame (tNextShareToOperate);
+		tNextShareToOperate = getNextShareToOperate ();
+		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX ) {
+			shareCompanies.showCompanyFrame (tNextShareToOperate);
+		}
 	}
 	
-	public int getNextToOperate () {
-		int tNextShareToOperate;
+	public int getNextShareToOperate () {
+		int tNextShareIndexToOperate;
 		ShareCompany tShareCompany;
 		int tStartingTreasury;
 	
 		// TODO: 1835 - Need to check for Minor Companies BEFORE Share Companies
 		
-		tNextShareToOperate = shareCompanies.getNextToOperate ();
-		tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate); 
-		if (tShareCompany.shouldFloat ()) {
-			tStartingTreasury = tShareCompany.calculateStartingTreasury ();
-			tShareCompany.floatCompany (tStartingTreasury);
+		tNextShareIndexToOperate = shareCompanies.getNextToOperate ();
+		if (tNextShareIndexToOperate != CorporationList.NO_CORPORATION_INDEX) {
+			tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareIndexToOperate);
+			if (! tShareCompany.hasFloated ()) {
+				if (tShareCompany.shouldFloat ()) {
+					tStartingTreasury = tShareCompany.calculateStartingTreasury ();
+					tShareCompany.floatCompany (tStartingTreasury);
+				} else {
+					tNextShareIndexToOperate = CorporationList.NO_CORPORATION_INDEX;
+				}
+			}
 		}
 		
-		return tNextShareToOperate;
+		return tNextShareIndexToOperate;
 	}
 	
 	public void updateCurrentCompanyFrame () {
@@ -222,7 +239,7 @@ public class OperatingRound extends Round {
 		ShareCompany tShareCompany;
 		
 		// Need for every time a Company Operates, to be sure to provide capitalization
-		tNextShareToOperate = getNextToOperate ();
+		tNextShareToOperate = getNextShareToOperate ();
 		tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate); 
 		tShareCompany.updateFrameInfo ();
 	}
