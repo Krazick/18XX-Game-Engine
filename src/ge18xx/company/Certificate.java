@@ -1499,13 +1499,14 @@ public class Certificate implements Comparable<Certificate> {
 		int tMinSharesToFloat;
 		int tPercentOwned;
 		
-		tMinSharesToFloat = corporation.getMinSharesToFloat ();
-		tPercentOwned = corporation.getPercentOwned ();
-		tSharesSold =  tPercentOwned / 10;
-		if (tSharesSold >= tMinSharesToFloat) {
-			tNewState = ActorI.ActionStates.MayFloat;
-		} else {
-			tNewState = aCurrentState;
+		tNewState = aCurrentState;
+		if (corporation.isAShareCompany ()) {
+			tMinSharesToFloat = corporation.getMinSharesToFloat ();
+			tPercentOwned = corporation.getPercentOwned ();
+			tSharesSold =  tPercentOwned / 10;
+			if (tSharesSold >= tMinSharesToFloat) {
+				tNewState = ActorI.ActionStates.MayFloat;
+			}
 		}
 		
 		return tNewState;
