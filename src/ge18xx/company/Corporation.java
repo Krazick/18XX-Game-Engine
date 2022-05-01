@@ -486,7 +486,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	
 	public void close () {
 		if (! updateStatus (ActorI.ActionStates.Closed)) {
-			System.err.println ("ZZZ--> Failure to update State to Closed <--");
+			System.err.println ("ZZZ--> Failure to update " + getName () + " to a Closed State <--");
 		}
 	}
 	
@@ -508,7 +508,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		Portfolio tClosedPortfolio;
 		Portfolio tOwnerPortfolio;
 
-		aBank = corporationList.getBank ();
+//		aBank = corporationList.getBank ();
 		tClosedPortfolio = aBank.getClosedPortfolio ();
 		if (aCertificateCount > 0) {
 			for (int tIndex = 0; tIndex < aCertificateCount; tIndex++) {
@@ -556,7 +556,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				}
 			}
 		} else {
-			System.err.println ("XXX--> Failure to update State to Closed <--");
+			System.err.println ("XXX--> Failure to update Corp " + getName () + " State to Closed <--");
 		}
 	}
 	
@@ -590,10 +590,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		
 		tDidOperateTrain = false;
 		if ((status == ActorI.ActionStates.OperatedTrain))  {
-//			(status == ActorI.ActionStates.HoldDividend) ||
-//			(status == ActorI.ActionStates.HalfDividend) ||
-//			(status == ActorI.ActionStates.FullDividend) ||
-//			(status == ActorI.ActionStates.BoughtTrain)) {
 			tDidOperateTrain = true;
 		}
 
@@ -1417,11 +1413,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			status = aStatus;
 			tStatusUpdated = true;
 		} else if (status == ActorI.ActionStates.Owned) {
-			if ((aStatus == ActorI.ActionStates.MayFloat) || 
-				(aStatus == ActorI.ActionStates.WillFloat) ||
-				(aStatus == ActorI.ActionStates.Closed)) {
-				status = aStatus;
-				tStatusUpdated = true;
+			if (isAShareCompany ()) {
+				if ((aStatus == ActorI.ActionStates.MayFloat) ||
+					(aStatus == ActorI.ActionStates.WillFloat) ||
+					(aStatus == ActorI.ActionStates.Closed)) {
+					status = aStatus;
+					tStatusUpdated = true;
+				}
 			}
 		} else if (status == ActorI.ActionStates.MayFloat) {
 			if ((aStatus == ActorI.ActionStates.Owned) || 
