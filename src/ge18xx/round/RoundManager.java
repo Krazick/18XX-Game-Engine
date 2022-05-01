@@ -945,7 +945,9 @@ public class RoundManager implements ActionListener {
 			passStockAction ();
 			updateAllCorporationsBox ();
 		}
-
+		if (operatingRoundIsDone ()) {
+			endOperatingRound ();
+		}
 	}
 	public boolean applyingAction () {
 		return gameManager.applyingAction ();
