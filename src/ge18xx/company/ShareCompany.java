@@ -342,6 +342,7 @@ public class ShareCompany extends TokenCompany {
 		boolean tHasFloated;
 		
 		if ((status == ActorI.ActionStates.Unowned) ||
+			(status == ActorI.ActionStates.Closed) ||
 			(status == ActorI.ActionStates.Owned) ||
 			(status == ActorI.ActionStates.MayFloat) ||
 			(status == ActorI.ActionStates.WillFloat)) {
@@ -477,6 +478,8 @@ public class ShareCompany extends TokenCompany {
 			if (tSharesSold >= tMinSharesToFloat) {
 				tShouldFloat = true;
 			} else {
+				setStatus (ActorI.ActionStates.Owned);
+				corporationList.updateRoundFrame ();
 				tShouldFloat = false;
 			}
 		} else {
