@@ -33,11 +33,13 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	protected TrainPortfolio trainPortfolio;
 
 	public GameBank (String aName, GameManager aGameManager) {
+		Bank tBank;
+		
+		gameManager = aGameManager;
 		name = aName;
 		portfolio = new Portfolio (this);
 		trainPortfolio = new TrainPortfolio ();
-		gameManager = aGameManager;
-		Bank tBank = aGameManager.getBank ();
+		tBank = aGameManager.getBank ();
 		trainPortfolio.setPortfolioHolder (tBank);
 	}
 
