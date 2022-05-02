@@ -67,6 +67,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public static final AttributeName AN_HOMECELL2 = new AttributeName ("homeCell2");
 	public static final AttributeName AN_CORP_STATUS = new AttributeName ("status");
 	public static final AttributeName AN_GOVT_RAILWAY = new AttributeName ("govtRailway");
+	public static final AttributeName AN_FORMATION_PHASE = new AttributeName ("formationPhase");
+	public static final AttributeName AN_FORMATION_REQUIREMENT = new AttributeName ("formationRequirement");
+	public static final AttributeName AN_FORMATION_MADATORY_PHASE = new AttributeName ("formationMandatoryPhase");
 	public static final String NO_NOTE = "";
 	public static final String NO_REASON = ">>NO REASON<<";
 	public static final String NO_PRESIDENT = "";
@@ -77,6 +80,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public static final String MINOR_COMPANY = "Minor";
 	public static final String SHARE_COMPANY = "Share";
 	public static final String NO_NAME = ActorI.NO_NAME;
+	public static final String FORMATION_PHASE1 = "1";
 	public static final int NO_ID = 0;
 	public static final Corporation NO_CORPORATION = null;
 	static final String enum_closed = ActionStates.Closed.toString ();
@@ -94,6 +98,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	String abbrev;
 	String homeCityGrid1;
 	String homeCityGrid2;
+	String formationPhase;
+	String formationRequirement;
+	String formationManadatoryPhase;
 	MapCell homeCity1;
 	Location homeLocation1;
 	MapCell homeCity2;
@@ -145,6 +152,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		homeCityGrid2 = aXMLNode.getThisAttribute (AN_HOMECELL2);
 		tLocation = aXMLNode.getThisIntAttribute (Location.AN_HOME_LOCATION2, Location.NO_LOCATION);
 		homeLocation2 = new Location (tLocation);
+		loadFormationInfo (aXMLNode);
 		
 		setStatus (aXMLNode);
 				
@@ -155,6 +163,19 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		setBenefitInUse (tBenefitInUse);
 	}
 
+	private void loadFormationInfo (XMLNode aXMLNode) {
+		String tFormationPhase;
+		String tFormationRequirement;
+		String tFormationManadatoryPhase;
+		
+		tFormationPhase = aXMLNode.getThisAttribute (AN_FORMATION_PHASE, FORMATION_PHASE1);
+		formationPhase = tFormationPhase;
+		tFormationRequirement = aXMLNode.getThisAttribute (AN_FORMATION_REQUIREMENT, NO_NAME_STRING);
+		formationRequirement = tFormationRequirement;
+		tFormationManadatoryPhase = aXMLNode.getThisAttribute (AN_FORMATION_MADATORY_PHASE, NO_NAME_STRING);
+		formationManadatoryPhase = tFormationManadatoryPhase;
+	}
+	
 	public void setBenefitInUse (Benefit aBenefitInUse) {
 		benefitInUse = aBenefitInUse;
 	}
@@ -163,12 +184,31 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return benefitInUse;
 	}
 	
+	public String getFormationPhase () {
+		return formationPhase;
+	}
+	
+	public String getFormationRequirement () {
+		return formationRequirement;
+	}
+	
+	public String getFormationManadatoryPhase  () {
+		return formationManadatoryPhase;
+	}
+	
 	private void setStatus (XMLNode aXMLNode) {
 		String tStatus;
+		String tUnowned;
 		ActorI.ActionStates tActionStatus;
 		GenericActor tGenericActor;
 		
-		tStatus = aXMLNode.getThisAttribute (AN_CORP_STATUS, ActorI.ActionStates.Unowned.toString ());
+		tUnowned = ActorI.ActionStates.Unowned.toString ();
+		tStatus = aXMLNode.getThisAttribute (AN_CORP_STATUS, tUnowned);
+		if (tStatus.equals (tUnowned)) {
+			if (! formationPhase.equals (FORMATION_PHASE1)) {
+				tStatus = ActorI.ActionStates.Unformed.toString ();
+			}
+		}
 		tGenericActor = new GenericActor ();
 		tActionStatus = tGenericActor.getCorporationActionState (tStatus);
 		setStatus (tActionStatus);
@@ -1421,6 +1461,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 					tStatusUpdated = true;
 				}
 			}
+		} else if (status == ActorI.ActionStates.Unformed) {
+			if ((aStatus == ActorI.ActionStates.Owned) ||
+				(aStatus == ActorI.ActionStates.Closed)) {
+				status = aStatus;
+				tStatusUpdated = true;
+			}		
 		} else if (status == ActorI.ActionStates.MayFloat) {
 			if ((aStatus == ActorI.ActionStates.Owned) || 
 				(aStatus == ActorI.ActionStates.WillFloat) ||
