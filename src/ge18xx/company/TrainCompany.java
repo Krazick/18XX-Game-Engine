@@ -656,6 +656,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 		addAction (aBuyTrainAction);
 		corporationFrame.updateInfo ();
+		tGameManager.updateRoundFrameParPrices ();
 	}
 	
 	@Override
