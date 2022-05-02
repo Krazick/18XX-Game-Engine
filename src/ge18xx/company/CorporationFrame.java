@@ -190,7 +190,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		corporationAllInfoJPanel.add (corporationInfoJPanel);
 		corporationAllInfoJPanel.add (Box.createRigidArea (tMinSize));
 		if (corporation.isATrainCompany ()) {
-			corporationAllInfoJPanel.add (certJPanel);
+			// If the Corporation is not Formed, there is no CertJPanel, so don't add it
+			// TODO  1856 and 1835, May need to adjust code to add the newly formed CGR,
+			// or Prussian in later stages of the game.
+			if (certJPanel != GUI.NO_PANEL) {
+				corporationAllInfoJPanel.add (certJPanel);
+			}
 		}
 	}
 	
