@@ -50,8 +50,9 @@ public interface ActorI {
 		StationLaid ("Station Laid"), TileAndStationLaid ("Tile and Station Laid"), 
 		OperatedTrain ("Operated Train"), HoldDividend ("No Dividend Paid"), 
 		HalfDividend ("Half Dividend Paid"), FullDividend ("Full Dividend Paid"), 
-		BoughtTrain ("Bought Train"), Operated ("Operated"), WaitingResponse ("Waiting for Response"),
-		Fixed ("Fixed"), NoState ("No State"), Bankrupt ("Bankrupt")	;
+		BoughtTrain ("Bought Train"), Operated ("Operated"), 
+		Unformed ("Unformed"), WaitingResponse ("Waiting for Response"),
+		Fixed ("Fixed"), NoState ("No State"), Bankrupt ("Bankrupt");
 		
 		private String enumString;
 		private String enumAbbrev;
