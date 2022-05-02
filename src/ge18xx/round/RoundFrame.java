@@ -89,20 +89,17 @@ public class RoundFrame extends XMLFrame {
 		defaultColor = UIManager.getColor ("Panel.background");
 		roundManager = aRoundManager;
 		logger = roundManager.getLogger ();
+		padding1 = 10;
+		padding2 = 5;
 		
 		buildRoundJPanel ();
 		
-		roundScrollPane = new JScrollPane (roundJPanel);
-		add (roundScrollPane);
 		pack ();
 		resetBackgrounds ();
 		setStockRoundInfo (aGameName, roundManager.getStockRoundID ());
 	}
 
 	private void buildRoundJPanel () {
-		padding1 = 10;
-		padding2 = 5;
-		
 		roundJPanel = new JPanel ();
 		roundJPanel.setLayout (new BoxLayout (roundJPanel, BoxLayout.Y_AXIS));
 		roundJPanel.setBorder (BorderFactory.createEmptyBorder (padding1, padding1, padding1, padding1));
@@ -122,6 +119,9 @@ public class RoundFrame extends XMLFrame {
 		buildButtonsJPanel();
 		roundJPanel.add (buttonsJPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
+		
+		roundScrollPane = new JScrollPane (roundJPanel);
+		add (roundScrollPane);
 	}
 
 	private void buildHeaderJPanel () {
