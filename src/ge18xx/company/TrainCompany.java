@@ -693,7 +693,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public boolean canOperate () {
 		boolean tCanOperate;
 		
-		if (didOperate () || isClosed ()) {
+		if (didOperate () || isClosed () || ! isFormed ()) {
 			tCanOperate = false;			
 		} else {
 			if ((status == ActorI.ActionStates.WillFloat) || 
