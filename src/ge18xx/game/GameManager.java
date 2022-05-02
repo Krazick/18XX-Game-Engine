@@ -1156,7 +1156,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	private File getSelectedFile (File aDirectory, JFileMChooser aChooser, boolean aSaveFile) {
 		File tSelectedFile = null;
-//		FileGEFilter tFileFilter = new FileGEFilter ("18XX Save Game - XML");
 		int tResult;
 		boolean tNotChosenYet = true;
 		File tDirectory = aDirectory;
