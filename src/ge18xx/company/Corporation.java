@@ -1133,7 +1133,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tIsActive;
 		
 		tIsActive = true;
-		if (isClosed () || (getPercentOwned () == 0)) {
+		if (isClosed () || ! isFormed () || (getPercentOwned () == 0)) {
 			tIsActive = false;
 		}
 		
@@ -1262,6 +1262,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return (status == ActorI.ActionStates.Unowned);
 	}
 
+	public boolean isFormed () {
+		return ! (status == ActorI.ActionStates.Unformed);
+	}
+	
 	// Train Company will override
 	public void payFullDividend () {
 		System.err.println ("Trying to -PAY FULL DIVIDEND- Should be handled by Train Company");
@@ -1456,6 +1460,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			if (isAShareCompany ()) {
 				if ((aStatus == ActorI.ActionStates.MayFloat) ||
 					(aStatus == ActorI.ActionStates.WillFloat) ||
+					(aStatus == ActorI.ActionStates.Closed)) {
+					status = aStatus;
+					tStatusUpdated = true;
+				}
+			} else {
+				if ((aStatus == ActorI.ActionStates.WillFloat) ||
 					(aStatus == ActorI.ActionStates.Closed)) {
 					status = aStatus;
 					tStatusUpdated = true;
