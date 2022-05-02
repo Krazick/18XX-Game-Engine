@@ -278,6 +278,7 @@ public class Portfolio implements CertificateHolderI {
 		JPanel tScrollableCorpJPanel;
 		Certificate tCertificateToShow;
 		Corporation tCorporationToShow;
+		Corporation tCorporationForCert;
 		int tCount, tCertCount,tCertTotalPercent;
 		String tCertificateType, tPrevShareCorpAbbrev, tShareCorpAbbrev;
 		boolean tIsBankPortfolioHolder = true;
@@ -293,32 +294,35 @@ public class Portfolio implements CertificateHolderI {
 		for (Certificate tCertificate : certificates) {
 			tCertificateType = tCertificate.getCorpType ();
 			if (tCertificateType.equals (aCorpType)) {
-				tCertCount = getCertificateCountFor (tCertificate.getCorporation ());
-				tCertTotalPercent = getCertificatePercentageFor (tCertificate.getCorporation ());
-				tCount++;
-				tShareCorpAbbrev = tCertificate.getCompanyAbbrev ();
-				if (! tShareCorpAbbrev.equals (tPrevShareCorpAbbrev)) {
-					tCertificateToShow = tCertificate;
-					// Want to be sure to show the President's Certificate FIRST to buy, if the Bank has it. 
-					// The Sort Certificates has trouble placing the President Certificate in Proper order on the Undo.
-					tCorporationToShow = tCertificateToShow.getCorporation ();
-					if (containsPresidentShareOf (tCorporationToShow)) {
-						tCertificateToShow = getPresidentCertificate (tCorporationToShow);
+				tCorporationForCert = tCertificate.getCorporation ();
+				if (tCorporationForCert.isFormed ()) {
+					tCertCount = getCertificateCountFor (tCorporationForCert);
+					tCertTotalPercent = getCertificatePercentageFor (tCorporationForCert);
+					tCount++;
+					tShareCorpAbbrev = tCertificate.getCompanyAbbrev ();
+					if (! tShareCorpAbbrev.equals (tPrevShareCorpAbbrev)) {
+						tCertificateToShow = tCertificate;
+						// Want to be sure to show the President's Certificate FIRST to buy, if the Bank has it. 
+						// The Sort Certificates has trouble placing the President Certificate in Proper order on the Undo.
+						tCorporationToShow = tCertificateToShow.getCorporation ();
+						if (containsPresidentShareOf (tCorporationToShow)) {
+							tCertificateToShow = getPresidentCertificate (tCorporationToShow);
+						}
+						tAllCertificatesJPanel = setupAllCertJPanel ();
+						tCertificateInfoJPanel = tCertificateToShow.buildCertificateInfoJPanel (aSelectedButtonLabel, 
+								aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
+						tAllCertificatesJPanel.add (tCertificateInfoJPanel);
+						tAllCertificatesJPanel.add (Box.createHorizontalStrut (3));
+						
+						tOtherCertificatesInfoJPanel = buildCompactCertInfoJPanel (tShareCorpAbbrev, tCertCount, 
+								tCertTotalPercent);
+						tAllCertificatesJPanel.add (Box.createHorizontalStrut (3));
+						tAllCertificatesJPanel.add (tOtherCertificatesInfoJPanel);
+						tAllCertificatesJPanel.add (Box.createHorizontalGlue ());
+	
+						addJCAndVGlue (tCorporationJPanel, tAllCertificatesJPanel);
+						tPrevShareCorpAbbrev = tShareCorpAbbrev;
 					}
-					tAllCertificatesJPanel = setupAllCertJPanel ();
-					tCertificateInfoJPanel = tCertificateToShow.buildCertificateInfoJPanel (aSelectedButtonLabel, 
-							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
-					tAllCertificatesJPanel.add (tCertificateInfoJPanel);
-					tAllCertificatesJPanel.add (Box.createHorizontalStrut (3));
-					
-					tOtherCertificatesInfoJPanel = buildCompactCertInfoJPanel (tShareCorpAbbrev, tCertCount, 
-							tCertTotalPercent);
-					tAllCertificatesJPanel.add (Box.createHorizontalStrut (3));
-					tAllCertificatesJPanel.add (tOtherCertificatesInfoJPanel);
-					tAllCertificatesJPanel.add (Box.createHorizontalGlue ());
-
-					addJCAndVGlue (tCorporationJPanel, tAllCertificatesJPanel);
-					tPrevShareCorpAbbrev = tShareCorpAbbrev;
 				}
 			}
 		}
