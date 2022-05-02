@@ -115,7 +115,7 @@
 			allowedOwners="IPO,Player,BankPool" />
 	</Share>
 	<Share id="1810" name="PreuBische Eisenbahn" abbrev="PR" bgColor="Black" startPrice="3,8" 
-		fgColor="White" tokens="3" formationPhase="2.3" formationRequirement="MinorID2-Option"
+		fgColor="White" tokens="3" formationPhase="2.3" formationRequirement="MinorID 1702 Optional"
 		formationMandatoryPhase="2.4">
 		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
 		<Certificate director="NO" percentage="10" quantity="8"
