@@ -21,6 +21,7 @@ import ge18xx.tiles.Track;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -46,7 +47,7 @@ public class Train implements Comparable<Object> {
 	final static AttributeName AN_TOWN_COUNT = new AttributeName ("townCount");
 	final static AttributeName AN_PRICE = new AttributeName ("price");
 	final static AttributeName AN_STATUS = new AttributeName ("status");
-	public static final JCheckBox NO_ACTION_CHECKBOX = null;
+//	public static final JCheckBox NO_ACTION_CHECKBOX = null;
 	public static final Train NO_TRAIN = null;
 	public static final int NO_ORDER = -1;
 	public static final int INFINITE_COUNT = 9999;
@@ -97,7 +98,7 @@ public class Train implements Comparable<Object> {
 	}
 	
 	private void setFrameButton (JCheckBox aJCheckBox, String aGroupName) {
-		if (aJCheckBox != null) {
+		if (aJCheckBox != GUI.NO_CHECK_BOX) {
 			frameButton = new FrameButton (aJCheckBox, aGroupName);
 		}
 	}
@@ -158,7 +159,7 @@ public class Train implements Comparable<Object> {
 		
 		tCertificateInfoPanel = buildCertificateInfoPanel ();
 		if (aActionLabel != null) {
-			if (actionCheckbox == NO_ACTION_CHECKBOX) {
+			if (actionCheckbox == GUI.NO_CHECK_BOX) {
 				actionCheckbox = new JCheckBox (aActionLabel);
 				setFrameButton (actionCheckbox, getFullName ());
 			} else {
@@ -248,7 +249,7 @@ public class Train implements Comparable<Object> {
 	}
 
 	public void clearActionCheckbox (String aActionLabel, String aActionToolTip) {
-		if (actionCheckbox == NO_ACTION_CHECKBOX) {
+		if (actionCheckbox == GUI.NO_CHECK_BOX) {
 			actionCheckbox = new JCheckBox (aActionLabel);
 			if (frameButton == FrameButton.NO_FRAME_BUTTON) {
 				frameButton = new FrameButton (actionCheckbox, getFullName ());
@@ -264,13 +265,13 @@ public class Train implements Comparable<Object> {
 	}
 	
 	public void setSelection () {
-		if (actionCheckbox != NO_ACTION_CHECKBOX) {
+		if (actionCheckbox != GUI.NO_CHECK_BOX) {
 			actionCheckbox.setSelected (true);
 		}
 	}
 	
 	public void clearSelection () {
-		if (actionCheckbox != NO_ACTION_CHECKBOX) {
+		if (actionCheckbox != GUI.NO_CHECK_BOX) {
 			actionCheckbox.setSelected (false);
 		}
 	}
@@ -465,7 +466,7 @@ public class Train implements Comparable<Object> {
 	public boolean isSelected () {
 		boolean tIsSelected;
 		
-		if (actionCheckbox == NO_ACTION_CHECKBOX) {
+		if (actionCheckbox == GUI.NO_CHECK_BOX) {
 			tIsSelected = false;
 		} else {
 			tIsSelected = actionCheckbox.isSelected ();
