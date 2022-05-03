@@ -20,7 +20,7 @@ public class FileGEFilter extends FileFilter {
 	    }
 
 	    String tExtension = fileUtils.getExtension (aFile);
-	    if (tExtension != null) {
+	    if (tExtension != GUI.NULL_STRING) {
 	        if (tExtension.equals (fileUtils.xml)) {
 	            return true;
 	        } else {
