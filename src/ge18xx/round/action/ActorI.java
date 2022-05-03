@@ -40,9 +40,11 @@ public interface ActorI {
 		SoldDone ("Sold and Done"), BoughtSoldDone ("Bought, Sold and Done"), 
 		Bid ("Bid"), BidDone ("Bid and Done"),								
 		Bidder ("Bidder"), AuctionPass ("Auction Passed"), 					// Player Auction States
-		AuctionRaise ("Auction Raised"), NotBidder ("Not a Bidder"),		
+		AuctionRaise ("Auction Raised"), NotBidder ("Not a Bidder"),
+		
 		NoRound ("No Round", "NR"), StockRound ("Stock Round", "SR"), 					// Round States
 		OperatingRound ("Operating Round", "OR"), AuctionRound ("Auction Round", "AR"),	
+		
 		Unowned ("Unowned"), Owned ("Owned"), Closed ("Closed"), 			// Corporation States
 		MayFloat ("May Float"), WillFloat ("Will Float"), NotOperated ("Not Operated"),			
 		StartedOperations ("Started Operating"), TileLaid ("Tile Laid"), 
