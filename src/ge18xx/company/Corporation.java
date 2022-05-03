@@ -1411,11 +1411,23 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		}
 	}
 
+	/**
+	 * Set the Company's HomeCity1 and HomeLocation1 to the provided parameters
+	 * 
+	 * @param aHomeCity the MapCell that is the First Home of the Company
+	 * @param aHomeLocation the Location within the MapCell for the Home of the Company
+	 */
 	public void setHome1 (MapCell aHomeCity, Location aHomeLocation) {
 		homeCity1 = aHomeCity;
 		homeLocation1 = aHomeLocation;
 	}
 	
+	/**
+	 * Set the Company's HomeCity2 and HomeLocation1 to the provided parameters
+	 * 
+	 * @param aHomeCity the MapCell that is the Second Home of the Company
+	 * @param aHomeLocation the Location within the MapCell for the Home of the Company
+	 */
 	public void setHome2 (MapCell aHomeCity, Location aHomeLocation) {
 		homeCity2 = aHomeCity;
 		homeLocation2 = aHomeLocation;
@@ -1434,27 +1446,55 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		resetStatus (aStatus);
 	}
 	
+	/**
+	 * Force Reset the Corporation Status to the provided Status -- NO Checks to see if valid. Will also update
+	 * The Frame Information
+	 * 
+	 * @param aStatus The new status value to set.
+	 */
 	public void resetStatus (ActorI.ActionStates aStatus) {
-		status = aStatus;
+		forceSetStatus (aStatus);
 		updateFrameInfo ();
 	}
 	
+	/**
+	 * Force Set the Corporation Status to the provided Status -- NO Checks to see if valid. To allow for 
+	 * Unit Testing.
+	 * 
+	 * @param aStatus The new status value to set.
+	 */
+	protected void forceSetStatus (ActorI.ActionStates aStatus) {
+		status = aStatus;
+	}
+	
+	/** 
+	 * Set the Company Status to the Provided Status if the current Status is NO_STATE, or if it is Unowned
+	 * Otherwise, call the updateStatus method to update if allowed.
+	 * 
+	 * @param aStatus The New Status to set the Company Status to.
+	 */
 	public void setStatus (ActorI.ActionStates aStatus) {
 		if (status == ActorI.NO_STATE) {
-			status = aStatus;
+			forceSetStatus (aStatus);
 		} else if (status == ActorI.ActionStates.Unowned) {
-			status = aStatus;
+			forceSetStatus (aStatus);
 		} else {
 			updateStatus (aStatus);
 		}
 	}
 	
+	/**
+	 * Update the Status of the Company to the provided Status, if it is allowed from the current state
+	 * 
+	 * @param aStatus The desired new Status
+	 * @return True if the status was updated, false if the update failed due to bad target status
+	 */
 	public boolean updateStatus (ActorI.ActionStates aStatus) {
 		boolean tStatusUpdated;
 		
 		tStatusUpdated = false;
 		if (aStatus == ActorI.ActionStates.WaitingResponse) {
-			status = aStatus;
+			forceSetStatus (aStatus);
 			tStatusUpdated = true;
 		} else if (status == ActorI.ActionStates.Owned) {
 			if (isAShareCompany ()) {
@@ -1490,7 +1530,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.NotOperated) {
-			if (aStatus == ActorI.ActionStates.StartedOperations) {
+			if ((aStatus == ActorI.ActionStates.StartedOperations)  ||
+				(aStatus == ActorI.ActionStates.Closed)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
@@ -1574,6 +1615,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			}
 		} else if ((status == ActorI.ActionStates.BoughtTrain)) {
 			if (aStatus == ActorI.ActionStates.Operated) {
+				status = aStatus;
+				tStatusUpdated = true;
+			}
+		} else if (status == ActorI.ActionStates.Operated) {
+			if (aStatus == ActorI.ActionStates.Closed) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
