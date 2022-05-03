@@ -66,9 +66,9 @@ public class XMLTransformer {
 	        if (node.getNodeValue () == null) {
 	            buff.append ("/>");
 	        } else {
-	            buff.append (node.getNodeValue());
+	            buff.append (node.getNodeValue ());
 	            buff.append ("</")
-	                .append (namespace(node.getNodeName(), withoutNamespaces))
+	                .append (namespace (node.getNodeName (), withoutNamespaces))
 	                .append (">");
 	        }
 
@@ -77,7 +77,7 @@ public class XMLTransformer {
 
 	    if (endTag) {
 	        buff.append ("</")
-	            .append (namespace(node.getNodeName(), withoutNamespaces))
+	            .append (namespace (node.getNodeName (), withoutNamespaces))
 	            .append (">");
 	    }
 	}
