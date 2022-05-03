@@ -3,7 +3,7 @@ package ge18xx.utilities;
 import java.io.File;
 
 public class FileUtils {
-	private  String GE_extension;
+	private String GE_extension;
 	public String xml;
 	
 	public FileUtils (String aExtension) {
@@ -15,7 +15,7 @@ public class FileUtils {
 	 * Get the extension of a file.
 	 */  
 	public String getExtension (File aFile) {
-	    String tExtension = null;
+	    String tExtension = GUI.NULL_STRING;
 	    String s = aFile.getName ();
 	    int i = s.lastIndexOf ('.' + GE_extension);
 	

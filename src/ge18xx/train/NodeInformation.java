@@ -139,7 +139,7 @@ public class NodeInformation {
 	public boolean isValid () {
 		boolean tIsValid = false;
 		
-		if (location != null) {
+		if (location != Location.NO_LOC) {
 			if (location.getLocation () != Location.NO_LOCATION) {
 				tIsValid = true;
 			}
@@ -184,7 +184,7 @@ public class NodeInformation {
 		String tDetail;
 		
 		tDetail = "[" + getLocationInt ();
-		if (revenueCenter != null) {
+		if (revenueCenter != RevenueCenter.NO_CENTER) {
 			tDetail += ": $" + revenue;
 			tDetail += " CorpStation " + corpStation;
 		}
