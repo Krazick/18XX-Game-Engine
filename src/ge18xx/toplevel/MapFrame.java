@@ -803,6 +803,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		String tCellID;
 		Location tLocation;
 		
+		tMapCell = MapCell.NO_MAP_CELL;
 		if (aCorporationList != CorporationList.NO_CORPORATION_LIST) {
 			tMaxCorporations = aCorporationList.getRowCount ();
 			if (tMaxCorporations > 0) {
@@ -811,7 +812,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					tCellID = tCorporation.getHomeCityGrid1 ();
 					tLocation = tCorporation.getHomeLocation1 ();
 					tMapCell = map.getMapCellForID (tCellID);
-					if (tMapCell != null) {
+					if (tMapCell != MapCell.NO_MAP_CELL) {
 						tCorporation.setHome1 (tMapCell, tLocation);
 						tMapCell.setCorporation (tCorporation, tLocation);
 					}
@@ -821,7 +822,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						if (tCellID != Corporation.NO_NAME_STRING) {
 							tMapCell = map.getMapCellForID (tCellID);
 						}
-						if (tMapCell != null) {
+						if (tMapCell != MapCell.NO_MAP_CELL) {
 							tCorporation.setHome2 (tMapCell, tLocation);
 							tMapCell.setCorporation (tCorporation, tLocation);
 						}
@@ -834,7 +835,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 								tCellID = tShareCompany.getDestination ();
 								if (tCellID != Corporation.NO_NAME_STRING) {
 									tMapCell = map.getMapCellForID (tCellID);
-									if (tMapCell != null) {
+									if (tMapCell != MapCell.NO_MAP_CELL) {
 										tShareCompany.setDestination (tMapCell, tLocation);
 										tMapCell.setCorporation (tShareCompany, tLocation);
 									}
@@ -869,7 +870,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			putTileButton.setToolTipText (NOT_PLACE_TILE_MODE);
 			
 			tSelectedMapCell = map.getSelectedMapCell ();
-			if (tSelectedMapCell != null) {
+			if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 				tSelectedMapCell.lockTileOrientation ();
 			}
 		}
