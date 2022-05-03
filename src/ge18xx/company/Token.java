@@ -53,7 +53,7 @@ public class Token {
 	public XMLElement getTokenElement (XMLDocument aXMLDocument) {
 		XMLElement tTokenElement;
 		
-		tTokenElement = aXMLDocument.createElement(EN_TOKEN);
+		tTokenElement = aXMLDocument.createElement (EN_TOKEN);
 		tTokenElement.setAttribute (Corporation.AN_ABBREV, getCorporationAbbrev ());
 		
 		return tTokenElement;
