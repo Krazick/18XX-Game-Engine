@@ -429,7 +429,7 @@ public class TrainPortfolio implements TrainHolderI {
 		String tNameAndQuantity, tName;
 		String tNames [];
 		int tQuantities [];
-		int tIndex1, tCount1, tIndex2, tCount2;;
+		int tIndex1, tCount1, tIndex2, tCount2;
 		Train tTrain;
 		boolean tFoundTrain, tAddTrain;
 		
