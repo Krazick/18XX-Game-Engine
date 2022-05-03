@@ -16,6 +16,7 @@ import org.w3c.dom.NodeList;
 public class XMLNode {
 	public static final String XML_TEXT_TAG = "#text";
 	public static final XMLNode NO_NODE = null;
+	public static final String NO_VALUE = GUI.NULL_STRING;
 	Node node;
 	
 	public XMLNode (Node aNode) {
@@ -39,7 +40,7 @@ public class XMLNode {
 	}
 	
 	public String getThisAttribute (AttributeName aAttributeName) {
-		String tAttributeValue = null;
+		String tAttributeValue = NO_VALUE;
 		String tAttributeName;
 		
 		if (aAttributeName.hasValue ()) {
@@ -64,7 +65,7 @@ public class XMLNode {
 	
 	/* PRIVATE */
 	private String getThisAttribute (String aAttributeName) {
-		String tAttributeValue = null;
+		String tAttributeValue = NO_VALUE;
 		NamedNodeMap tAttributesNNM;
 		Attr tAttribute;
 		int tAttributeCount;
@@ -86,7 +87,7 @@ public class XMLNode {
 	private String getThisAttribute (String aAttributeName, String aDefaultValue) {
 		String tValue = getThisAttribute (aAttributeName);
 		
-		if (tValue == null) {
+		if (tValue == NO_VALUE) {
 			return aDefaultValue;
 		} else {
 			return tValue;
@@ -111,7 +112,7 @@ public class XMLNode {
 		String tValue = getThisAttribute (aAttributeName);
 		boolean retValue = false;
 		
-		if (tValue == null) {
+		if (tValue == NO_VALUE) {
 			retValue = false;
 		} else if ((tValue.equals ("TRUE")) || (tValue.equals ("true")) ||
 				   (tValue.equals ("True")) || (tValue.equals ("T")) || (tValue.equals ("t")) ||
@@ -157,7 +158,7 @@ public class XMLNode {
 	private int getThisIntAttribute (String aAttributeName, int aDefaultValue) {
 		String tValue = getThisAttribute (aAttributeName);
 		
-		if (tValue == null) {
+		if (tValue == NO_VALUE) {
 			return aDefaultValue;
 		} else {
 			return Integer.parseInt (tValue);
