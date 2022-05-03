@@ -1433,7 +1433,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		homeLocation2 = aHomeLocation;
 	}
 	
-	public void setName (String aName) {
+	protected void setName (String aName) {
 		name = aName;
 	}
 	
