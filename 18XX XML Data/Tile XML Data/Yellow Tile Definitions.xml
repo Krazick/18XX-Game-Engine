@@ -2,7 +2,7 @@
 <TileDefinitions 
 xmlns="https://krazick.github.io"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="https://krazick.github.io/18XX-Game-Engine-XML/public/18XXTiles.xsd"
+xsi:schemaLocation="https://krazick.github.io/18XX-Game-Engine-XML/public/18XX-Tiles.xsd"
 color="Yellow">
 	<Tile number="1" type="Yellow">
 		<Track enter="0" exit="29" gauge="NORMAL" />
