@@ -7,7 +7,7 @@
     <property name="dir.workspace" value="${dir.buildfile}/.."/>
     <property name="dir.jarfile" value="/Users/marksmith/Documents/18XX_Games"/>
     <target name="create_run_jar">
-        <jar destfile="${dir.jarfile}/ge18XXv2.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="${dir.jarfile}/ge18XX.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="ge18xx.game.Game_18XX"/>
                 <attribute name="Class-Path" value="."/>
