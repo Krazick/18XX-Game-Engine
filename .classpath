@@ -16,6 +16,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Mockito"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/log4j"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
