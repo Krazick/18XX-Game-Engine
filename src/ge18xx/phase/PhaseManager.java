@@ -70,7 +70,7 @@ public class PhaseManager {
 		PhaseInfo tPhaseInfo;
 
 		tPhaseInfo = PhaseInfo.NO_PHASE_INFO;
-		if (phases != PhaseInfo.NO_PHASE_INFO) {
+		if (phases != NO_PHASES) {
 			if ((aIndex >= 0) && (aIndex <= phases.size ())) {
 				tPhaseInfo = phases.get (aIndex);
 			}
