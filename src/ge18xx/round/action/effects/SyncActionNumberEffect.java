@@ -10,8 +10,8 @@ public class SyncActionNumberEffect extends Effect {
 	public final static String NAME = "Sync Action Number";
 	final static AttributeName AN_NEW_ACTION_NUMBER = new AttributeName ("newActionNumber");
 	int newActionNumber;
-	
-	public SyncActionNumberEffect() {
+
+	public SyncActionNumberEffect () {
 		super (NAME);
 	}
 
@@ -19,7 +19,7 @@ public class SyncActionNumberEffect extends Effect {
 		super (aName);
 		setName (NAME);
 	}
-	
+
 	public SyncActionNumberEffect (ActorI aActor, int aNewActionNumber) {
 		super (NAME, aActor);
 		setNewActionNumber (aNewActionNumber);
@@ -28,7 +28,7 @@ public class SyncActionNumberEffect extends Effect {
 	public SyncActionNumberEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		int tNewActionNumber;
-		
+
 		tNewActionNumber = aEffectNode.getThisIntAttribute (AN_NEW_ACTION_NUMBER);
 		setNewActionNumber (tNewActionNumber);
 	}
@@ -36,24 +36,24 @@ public class SyncActionNumberEffect extends Effect {
 	private void setNewActionNumber (int aNewActionNumber) {
 		newActionNumber = aNewActionNumber;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " to " + newActionNumber + ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		
+
 		aRoundManager.setActionNumber (newActionNumber);
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 	}
 

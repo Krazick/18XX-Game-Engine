@@ -17,25 +17,25 @@ import java.awt.Point;
 public class Feature2 extends Feature {
 	public static final Feature2 NO_FEATURE2 = null;
 	Location location2;
-	
+
 	public Feature2 () {
 		super (Location.NO_LOCATION);
 		setLocation2 (Location.NO_LOCATION);
 	}
-	
+
 	public Feature2 (Location aLocation1, Location aLocation2) {
 		setLocation (aLocation1);
 		setLocation2 (aLocation2);
 	}
-	
+
 	public Feature2 (int aLocation1, int aLocation2) {
 		setLocation (new Location (aLocation1));
 		setLocation2 (new Location (aLocation2));
 	}
-	
+
 	public boolean bothLocationsSet () {
 		boolean tBothLocationsSet;
-		
+
 		if (isNoLocation ()) {
 			tBothLocationsSet = false;
 		} else {
@@ -45,34 +45,34 @@ public class Feature2 extends Feature {
 				tBothLocationsSet = true;
 			}
 		}
-		
+
 		return tBothLocationsSet;
 	}
-	
+
 	public Point calcCenter2 (Hex aHex) {
 		return location2.calcCenter (aHex);
 	}
-	
+
 	public Location getLocation2 () {
 		return location2;
 	}
-	
+
 	public int getLocation2ToInt () {
 		return location2.getLocation ();
 	}
-	
+
 	public boolean isAtLocation2 (Location aLocation) {
 		return (location2.getLocation () == aLocation.getLocation ());
 	}
-	
+
 	public boolean isCenterLocation2 () {
 		return location2.isCenterLocation ();
 	}
-	
+
 	public boolean isDeadEnd2 () {
 		return location2.isDeadEnd ();
 	}
-	
+
 	public boolean isNoLocation2 () {
 		if (location2 == Location.NO_LOC) {
 			return true;
@@ -86,11 +86,11 @@ public class Feature2 extends Feature {
 		super.printlog ();
 		location2.printlog ();
 	}
-	
+
 	public void setLocation2 (Location aLocation2) {
 		location2 = aLocation2;
 	}
-	
+
 	public void setLocation2 (int aLocation2) {
 		location2 = new Location (aLocation2);
 	}

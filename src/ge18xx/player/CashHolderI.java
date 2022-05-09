@@ -13,8 +13,8 @@ import ge18xx.round.action.ActorI;
 public interface CashHolderI extends ActorI {
 
 	public abstract void addCash (int aAmount);
-	
+
 	public abstract int getCash ();
-	
+
 	public abstract void transferCashTo (CashHolderI aToCashHolder, int aAmount);
 }

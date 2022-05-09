@@ -19,55 +19,53 @@ class Movement {
 	int rowAdjust, colAdjust;
 	final static AttributeName AN_ROW_ADJUST = new AttributeName ("rowAdjust");
 	final static AttributeName AN_COL_ADJUST = new AttributeName ("colAdjust");
-	
+
 	public Movement () {
 		this (0, 0);
 	}
-	
+
 	public Movement (int aRowAdjust, int aColAdjust) {
 		setValues (aRowAdjust, aColAdjust);
 	}
-	
+
 	public Movement (XMLNode aChildNode) {
-		this (aChildNode.getThisIntAttribute (AN_ROW_ADJUST),
-				aChildNode.getThisIntAttribute (AN_COL_ADJUST));
+		this (aChildNode.getThisIntAttribute (AN_ROW_ADJUST), aChildNode.getThisIntAttribute (AN_COL_ADJUST));
 	}
-	
+
 	public XMLElement createElement (XMLDocument aXMLDocument, ElementName aElementName) {
 		XMLElement tXMLElement;
-		
+
 		tXMLElement = aXMLDocument.createElement (aElementName);
 		tXMLElement.setAttribute (AN_ROW_ADJUST, rowAdjust);
 		tXMLElement.setAttribute (AN_COL_ADJUST, colAdjust);
-		
+
 		return tXMLElement;
 	}
-	
+
 	public void setValues (int aRowAdjust, int aColAdjust) {
 		rowAdjust = aRowAdjust;
-		colAdjust = aColAdjust;	
+		colAdjust = aColAdjust;
 	}
-	
+
 	public boolean equals (Movement aMovement) {
-		if ((aMovement.getRowAdjustment () == rowAdjust) && 
-			(aMovement.getColAdjustment () == colAdjust)) {
+		if ((aMovement.getRowAdjustment () == rowAdjust) && (aMovement.getColAdjustment () == colAdjust)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	public int getColAdjustment () {
 		return colAdjust;
 	}
-	
+
 	public int getRowAdjustment () {
 		return rowAdjust;
 	}
-	
+
 	public int getMoveNeighbor () {
 		int neighbor;
-		
+
 		neighbor = MarketCell.NEIGHBOR_NONE;
 		if ((rowAdjust == 1) && (colAdjust == 0)) {
 			neighbor = MarketCell.NEIGHBOR_DOWN;
@@ -84,7 +82,7 @@ class Movement {
 		if ((rowAdjust == 1) && (colAdjust == 1)) {
 			neighbor = MarketCell.NEIGHBOR_DOWN_RIGHT;
 		}
-		
+
 		return neighbor;
 	}
 }

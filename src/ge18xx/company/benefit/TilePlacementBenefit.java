@@ -21,22 +21,22 @@ public class TilePlacementBenefit extends MapBenefit {
 
 	public TilePlacementBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
-		
+
 		boolean tExtraTilePlacement;
-		
+
 		tExtraTilePlacement = aXMLNode.getThisBooleanAttribute (AN_EXTRA);
 		setExtraTilePlacement (tExtraTilePlacement);
 		setName (NAME);
 	}
-	
+
 	private void setExtraTilePlacement (boolean aExtraTilePlacement) {
 		extraTilePlacement = aExtraTilePlacement;
 	}
-	
+
 	@Override
 	public String getName () {
 		String tName;
-		
+
 		tName = super.getName ();
 		if (extraTilePlacement) {
 			tName = "Extra " + tName;
@@ -44,26 +44,26 @@ public class TilePlacementBenefit extends MapBenefit {
 		if (getCost () == 0) {
 			tName = "Free " + tName;
 		}
-		
+
 		return tName;
 	}
 
 	@Override
 	public String getNewButtonLabel () {
 		String tNewButtonText;
-		
+
 		tNewButtonText = "Place Tile on " + privateCompany.getAbbrev () + " Home";
-		
+
 		return tNewButtonText;
 	}
-	
+
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		JButton tPlaceTileButton;
-		
+
 		super.configure (aPrivateCompany, aButtonRow);
 		if (shouldConfigure ()) {
-			if (! hasButton ()) {
+			if (!hasButton ()) {
 				tPlaceTileButton = new JButton (getNewButtonLabel ());
 				setButton (tPlaceTileButton);
 				setButtonPanel (aButtonRow);
@@ -74,39 +74,39 @@ public class TilePlacementBenefit extends MapBenefit {
 			updateButton ();
 		}
 	}
-	
+
 	@Override
 	public void updateButton () {
 		if (hasTile ()) {
 			hideButton ();
 			setToolTip ("MapCell already has Tile");
-		} else if (! isTileAvailable ()) {
+		} else if (!isTileAvailable ()) {
 			disableButton ();
 			setToolTip ("No Tile available to place on MapCell");
-		} else if (! ownerHasEnoughCash ()) {
+		} else if (!ownerHasEnoughCash ()) {
 			disableButton ();
 			setToolTip ("Owner does not have enough cash to pay for Tile");
-		} else if (! ownerLaidTile ()) {
+		} else if (!ownerLaidTile ()) {
 			enableButton ();
-			setToolTip ("");			
+			setToolTip ("");
 		} else {
 			if (extraTilePlacement) {
 				enableButton ();
-				setToolTip ("");			
+				setToolTip ("");
 			} else {
 				disableButton ();
 				setToolTip ("Owner has already laid or upgraded a Tile");
 			}
 		}
 	}
-	
+
 	private boolean ownerHasEnoughCash () {
 		boolean tOwnerHasEnoughCash = false;
 		ShareCompany tShareCompany;
 		HexMap tMap;
 		MapCell tMapCell;
 		int tCost;
-		
+
 		tShareCompany = getOwningCompany ();
 		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tMap = getMap ();
@@ -116,34 +116,34 @@ public class TilePlacementBenefit extends MapBenefit {
 				tOwnerHasEnoughCash = true;
 			}
 		}
-		
+
 		return tOwnerHasEnoughCash;
 	}
-	
+
 	private boolean ownerLaidTile () {
 		boolean tOwnerLaidTile = false;
 		ShareCompany tShareCompany;
-		
-		tShareCompany = getOwningCompany  ();
+
+		tShareCompany = getOwningCompany ();
 		if (tShareCompany != Corporation.NO_CORPORATION) {
 			if (tShareCompany.hasLaidTile ()) {
 				tOwnerLaidTile = true;
 			}
 		}
-		
+
 		return tOwnerLaidTile;
 	}
-	
+
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
-		
+
 		tActionCommand = aEvent.getActionCommand ();
 		if (CorporationFrame.PLACE_TILE_PRIVATE.equals (tActionCommand)) {
-			handlePlaceTile  ();
+			handlePlaceTile ();
 		}
 	}
-	
+
 	@Override
 	public boolean isAExtraTilePlacement () {
 		return extraTilePlacement;
@@ -153,10 +153,10 @@ public class TilePlacementBenefit extends MapBenefit {
 		HexMap tMap;
 		MapCell tMapCell;
 		ShareCompany tOwningCompany;
-		
-		tOwningCompany = getOwningCompany ();		
+
+		tOwningCompany = getOwningCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
-		
+
 		tOwningCompany.handlePlaceTile ();
 		tMap = getMap ();
 		tMap.clearAllSelected ();
@@ -167,20 +167,21 @@ public class TilePlacementBenefit extends MapBenefit {
 			tMap.toggleSelectedMapCell (tMapCell);
 		}
 	}
-	
+
 	@Override
 	public boolean realBenefit () {
 		return true;
 	}
-	
+
 	@Override
 	public void abortUse () {
 		resetBenefitInUse ();
 	}
-	
-	// If this is an Extra Tile Placement Benefit, we DO NOT want to Change the State
+
+	// If this is an Extra Tile Placement Benefit, we DO NOT want to Change the
+	// State
 	@Override
 	public boolean changeState () {
-		return ! extraTilePlacement;
+		return !extraTilePlacement;
 	}
 }

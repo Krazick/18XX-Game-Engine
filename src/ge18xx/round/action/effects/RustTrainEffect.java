@@ -16,7 +16,7 @@ public class RustTrainEffect extends TransferTrainEffect {
 	final static AttributeName AN_TRAIN_STATUS = new AttributeName ("trainStatus");
 	public final static String NAME = "Rust Train";
 	int oldTrainStatus;
-	
+
 	public RustTrainEffect () {
 		super ();
 		setName (NAME);
@@ -31,26 +31,26 @@ public class RustTrainEffect extends TransferTrainEffect {
 	public RustTrainEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		int tTrainStatus;
-		
+
 		tTrainStatus = aEffectNode.getThisIntAttribute (AN_TRAIN_STATUS);
 		setName (NAME);
 		setOldTrainStatus (tTrainStatus);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_TRAIN_STATUS, oldTrainStatus);
-	
+
 		return tEffectElement;
 	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tTrainName, tActorName, tToActorName;
-		
+
 		if (train != Train.NO_TRAIN) {
 			tTrainName = train.getName ();
 		} else {
@@ -59,25 +59,25 @@ public class RustTrainEffect extends TransferTrainEffect {
 		tActorName = actor.getName ();
 		tToActorName = toActor.getName ();
 
-		return (REPORT_PREFIX + name + " named " + tTrainName + " from " + tActorName +
-				" placing it into the Rusted Portfolio held by the " + tToActorName + ".");
+		return (REPORT_PREFIX + name + " named " + tTrainName + " from " + tActorName
+				+ " placing it into the Rusted Portfolio held by the " + tToActorName + ".");
 	}
 
 	public int getOldTrainStatus () {
 		return oldTrainStatus;
 	}
-	
+
 	public void setOldTrainStatus (int aOldTrainStatus) {
 		oldTrainStatus = aOldTrainStatus;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		Bank tBank;
 		boolean tEffectApplied = false;
 		TrainPortfolio tToTrainPortfolio;
 		TrainHolderI tFromHolder;
-		
+
 		tBank = (Bank) toActor;
 		tToTrainPortfolio = tBank.getRustedTrainPortfolio ();
 		train.setStatus (Train.RUSTED);
@@ -88,13 +88,13 @@ public class RustTrainEffect extends TransferTrainEffect {
 
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		TrainHolderI tToHolder, tFromHolder;
 		TrainPortfolio tToTrainPortfolio;
-		
+
 		tEffectUndone = false;
 		tToHolder = (TrainHolderI) toActor;
 		tToTrainPortfolio = tToHolder.getTrainPortfolio ();
@@ -104,7 +104,7 @@ public class RustTrainEffect extends TransferTrainEffect {
 		tFromHolder = (TrainHolderI) actor;
 		tFromHolder.addTrain (train);
 		tEffectUndone = true;
-		
+
 		return tEffectUndone;
 	}
 }

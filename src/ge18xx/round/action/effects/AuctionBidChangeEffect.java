@@ -21,25 +21,25 @@ public class AuctionBidChangeEffect extends Effect {
 	private int oldBid;
 	private int newBid;
 	private Certificate certificate;
-	
+
 	public AuctionBidChangeEffect () {
 		super ();
 		setName (NAME);
 	}
-	
+
 	public AuctionBidChangeEffect (ActorI aActor, int aOldBid, int aNewBid, Certificate aCertificate) {
 		super (NAME, aActor);
 		oldBid = aOldBid;
 		newBid = aNewBid;
 		certificate = aCertificate;
 	}
-	
+
 	public AuctionBidChangeEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		String tCompanyAbbrev;
 		boolean tIsPresident;
 		int tPercentage;
-		
+
 		tCompanyAbbrev = aEffectNode.getThisAttribute (AN_COMPANY_ABBREV);
 		tIsPresident = aEffectNode.getThisBooleanAttribute (AN_IS_PRESIDENT);
 		tPercentage = aEffectNode.getThisIntAttribute (AN_PERCENTAGE);
@@ -47,31 +47,32 @@ public class AuctionBidChangeEffect extends Effect {
 		newBid = aEffectNode.getThisIntAttribute (AN_NEW_BID);
 		certificate = aGameManager.getCertificate (tCompanyAbbrev, tPercentage, tIsPresident);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_COMPANY_ABBREV, certificate.getCompanyAbbrev ());
 		tEffectElement.setAttribute (AN_IS_PRESIDENT, certificate.isPresidentShare ());
 		tEffectElement.setAttribute (AN_PERCENTAGE, certificate.getPercentage ());
 		tEffectElement.setAttribute (AN_OLD_BID, oldBid);
 		tEffectElement.setAttribute (AN_NEW_BID, newBid);
-	
+
 		return tEffectElement;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		Player tPlayer;
-		
+
 		tPlayer = (Player) getActor ();
 
-		return (REPORT_PREFIX + name + " for " + 
-				tPlayer.getName () + " Company Abbrev " + certificate.getCompanyAbbrev () + " Old Bid " + Bank.formatCash (oldBid) + " New Bid " + Bank.formatCash (newBid)  + ".");
+		return (REPORT_PREFIX + name + " for " + tPlayer.getName () + " Company Abbrev "
+				+ certificate.getCompanyAbbrev () + " Old Bid " + Bank.formatCash (oldBid) + " New Bid "
+				+ Bank.formatCash (newBid) + ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
@@ -80,13 +81,13 @@ public class AuctionBidChangeEffect extends Effect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		
+
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			int tBidderCount;
 			Player tBidder;
 			Player tPlayer = (Player) actor;
-			
+
 			tBidderCount = certificate.getNumberOfBidders ();
 			if (tBidderCount > 0) {
 				for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
@@ -102,17 +103,17 @@ public class AuctionBidChangeEffect extends Effect {
 
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-		
+
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			int tBidderCount;
 			Player tBidder;
 			Player tPlayer = (Player) actor;
-			
+
 			tBidderCount = certificate.getNumberOfBidders ();
 			if (tBidderCount > 0) {
 				for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
@@ -120,10 +121,11 @@ public class AuctionBidChangeEffect extends Effect {
 					if (tBidder.getName ().equals (tPlayer.getName ())) {
 						certificate.setBidAt (tBidderIndex, oldBid);
 						tEffectUndone = true;
-						System.out.println ("Reset Bid for " + tPlayer.getName () + " for " + certificate.getCompanyAbbrev () + " to " + oldBid + " from " + newBid);
+						System.out.println ("Reset Bid for " + tPlayer.getName () + " for "
+								+ certificate.getCompanyAbbrev () + " to " + oldBid + " from " + newBid);
 					}
 				}
-				
+
 			}
 		}
 
@@ -133,11 +135,11 @@ public class AuctionBidChangeEffect extends Effect {
 	public int getOldBid () {
 		return oldBid;
 	}
-	
+
 	public int getNewBid () {
 		return newBid;
 	}
-	
+
 	public Certificate getCertificate () {
 		return certificate;
 	}

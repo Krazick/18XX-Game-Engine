@@ -19,18 +19,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-
 public class TableFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
 
 	public TableFrame (String aFrameName, String aGameName) {
 		super (aFrameName, aGameName);
 	}
-	
+
 	public void setScrollPane (JTable aTable, int aWidth, int aHeight, int aBorder) {
 		JScrollPane tScrollPane;
 		JPanel tPanel;
-		
+
 		aTable.setDefaultRenderer (Color.class, new ColorRenderer (true));
 		tScrollPane = new JScrollPane ();
 		tScrollPane.setViewportView (aTable);
@@ -41,11 +40,11 @@ public class TableFrame extends XMLFrame {
 		tPanel.setBorder (BorderFactory.createEmptyBorder (aBorder, aBorder, aBorder, aBorder));
 		add (tPanel);
 	}
-	
+
 	public void setScrollPane (JTable aTable, int aWidth, int aHeight) {
 		setScrollPane (aTable, aWidth, aHeight, 20);
 	}
-	
+
 	public void setScrollPane (JTable aTable) {
 		setScrollPane (aTable, 500, 300, 20);
 	}

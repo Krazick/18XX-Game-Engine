@@ -17,7 +17,7 @@ public class ClearAllTrainsFromMapEffect extends Effect {
 		super ();
 		setName (NAME);
 	}
-	
+
 	public ClearAllTrainsFromMapEffect (ActorI aActor) {
 		super (NAME, aActor);
 	}
@@ -29,16 +29,16 @@ public class ClearAllTrainsFromMapEffect extends Effect {
 	public ClearAllTrainsFromMapEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		Corporation tCorporation;
-		
+
 		tCorporation = (Corporation) getActor ();
 
 		return (REPORT_PREFIX + name + " for " + tCorporation.getAbbrev () + ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
@@ -50,7 +50,7 @@ public class ClearAllTrainsFromMapEffect extends Effect {
 		MapFrame tMapFrame;
 		TrainCompany tTrainCompany;
 		ActorI tActor;
-		
+
 		tMapFrame = aRoundManager.getMapFrame ();
 		tMapFrame.clearAllTrainsFromMap ();
 		tActor = getActor ();
@@ -59,10 +59,10 @@ public class ClearAllTrainsFromMapEffect extends Effect {
 			tTrainCompany.closeTrainRevenueFrame ();
 		}
 		tEffectApplied = true;
-	
+
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		return true;

@@ -24,11 +24,11 @@ public class AuctionPassEffect extends AuctionStateChangeEffect {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		
+
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			Player tPlayer = (Player) actor;

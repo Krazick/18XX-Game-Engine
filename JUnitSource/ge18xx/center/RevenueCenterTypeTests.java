@@ -32,9 +32,9 @@ class RevenueCenterTypeTests {
 	RevenueCenterType bypassCity;
 	RevenueCenterType dotTown;
 	RevenueCenterType privateRailwayPoint;
-	
+
 	@BeforeEach
-	public void setUp() throws Exception {
+	public void setUp () throws Exception {
 		noRevenueCenter = new RevenueCenterType ();
 		smallTown = new RevenueCenterType (RevenueCenterType.SMALL_TOWN);
 		twoSmallTowns = new RevenueCenterType (RevenueCenterType.TWO_SMALL_TOWNS);
@@ -57,16 +57,17 @@ class RevenueCenterTypeTests {
 	}
 
 	@AfterEach
-	public void tearDown() throws Exception {
+	public void tearDown () throws Exception {
 	}
 
 	private void testRCEqualsMaxStations (int aExpectedValue, RevenueCenterType aRevenueCenterType) {
-		assertEquals (aExpectedValue, aRevenueCenterType.getMaxStations(), "Max Station Result for [" + aRevenueCenterType.getName() + "]");
+		assertEquals (aExpectedValue, aRevenueCenterType.getMaxStations (),
+				"Max Station Result for [" + aRevenueCenterType.getName () + "]");
 	}
-	
+
 	@Test
 	@DisplayName ("Verify Maximum Stations per Revenue Center Type")
-	public void testMaxStationCounts() {
+	public void testMaxStationCounts () {
 		testRCEqualsMaxStations (0, noRevenueCenter);
 		testRCEqualsMaxStations (0, privateRailwayPoint);
 		testRCEqualsMaxStations (0, smallTown);
@@ -87,14 +88,15 @@ class RevenueCenterTypeTests {
 		testRCEqualsMaxStations (5, fiveCities);
 		testRCEqualsMaxStations (6, sixCities);
 	}
-	
+
 	private void testRCEqualsStationCounts (int aExpectedValue, RevenueCenterType aRevenueCenterType) {
-		assertEquals (aExpectedValue, aRevenueCenterType.getStationCount(), "Station Counts Result for [" + aRevenueCenterType.getName() + "]");
+		assertEquals (aExpectedValue, aRevenueCenterType.getStationCount (),
+				"Station Counts Result for [" + aRevenueCenterType.getName () + "]");
 	}
 
 	@Test
 	@DisplayName ("Verify Station Counts per Revenue Center Types")
-	public void testStationCounts() {
+	public void testStationCounts () {
 		testRCEqualsStationCounts (0, noRevenueCenter);
 		testRCEqualsStationCounts (0, privateRailwayPoint);
 		testRCEqualsStationCounts (0, smallTown);
@@ -115,14 +117,15 @@ class RevenueCenterTypeTests {
 		testRCEqualsStationCounts (1, fiveCities);
 		testRCEqualsStationCounts (1, sixCities);
 	}
-	
+
 	private void testRCEqualsCenterCounts (int aExpectedValue, RevenueCenterType aRevenueCenterType) {
-		assertEquals (aExpectedValue, aRevenueCenterType.getCenterCount(), "Center Counts Result for [" + aRevenueCenterType.getName() + "]");
+		assertEquals (aExpectedValue, aRevenueCenterType.getCenterCount (),
+				"Center Counts Result for [" + aRevenueCenterType.getName () + "]");
 	}
 
 	@Test
 	@DisplayName ("Verify Center Counts per Revenue Center Types")
-	public void testCenterCounts() {
+	public void testCenterCounts () {
 		testRCEqualsCenterCounts (0, noRevenueCenter);
 		testRCEqualsCenterCounts (0, privateRailwayPoint);
 		testRCEqualsCenterCounts (1, smallTown);
@@ -142,18 +145,20 @@ class RevenueCenterTypeTests {
 		testRCEqualsCenterCounts (5, fiveCities);
 		testRCEqualsCenterCounts (6, sixCities);
 	}
-	
+
 	private void testRCBooleanCanPlaceStation (boolean aExpectedValue, RevenueCenterType aRevenueCenterType) {
 		if (aExpectedValue) {
-			assertTrue (aRevenueCenterType.canPlaceStation(), "Can Place Station Result for [" + aRevenueCenterType.getName() + "]");
+			assertTrue (aRevenueCenterType.canPlaceStation (),
+					"Can Place Station Result for [" + aRevenueCenterType.getName () + "]");
 		} else {
-			assertFalse (aRevenueCenterType.canPlaceStation(), "Cannot Place Station Result for [" + aRevenueCenterType.getName() + "]");
+			assertFalse (aRevenueCenterType.canPlaceStation (),
+					"Cannot Place Station Result for [" + aRevenueCenterType.getName () + "]");
 		}
 	}
 
 	@Test
 	@DisplayName ("Verify can place Station (or not) per Revenue Center Types")
-	public void testCanPlaceStation() {
+	public void testCanPlaceStation () {
 		testRCBooleanCanPlaceStation (false, noRevenueCenter);
 		testRCBooleanCanPlaceStation (false, privateRailwayPoint);
 		testRCBooleanCanPlaceStation (false, smallTown);
@@ -174,18 +179,18 @@ class RevenueCenterTypeTests {
 		testRCBooleanCanPlaceStation (true, fiveCities);
 		testRCBooleanCanPlaceStation (true, sixCities);
 	}
-	
+
 	private void testRCBooleanIsCity (boolean aExpectedValue, RevenueCenterType aRevenueCenterType) {
 		if (aExpectedValue) {
-			assertTrue (aRevenueCenterType.isCity(), "Is A City Result for [" + aRevenueCenterType.getName() + "]");
+			assertTrue (aRevenueCenterType.isCity (), "Is A City Result for [" + aRevenueCenterType.getName () + "]");
 		} else {
-			assertFalse (aRevenueCenterType.isCity(), "Is A City Result for [" + aRevenueCenterType.getName() + "]");
+			assertFalse (aRevenueCenterType.isCity (), "Is A City Result for [" + aRevenueCenterType.getName () + "]");
 		}
 	}
 
 	@Test
 	@DisplayName ("Verify if this is a City (or not) per Revenue Center Types")
-	public void testIsCity() {
+	public void testIsCity () {
 		testRCBooleanIsCity (false, noRevenueCenter);
 		testRCBooleanIsCity (false, privateRailwayPoint);
 		testRCBooleanIsCity (false, smallTown);
@@ -206,18 +211,20 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsCity (true, fiveCities);
 		testRCBooleanIsCity (true, sixCities);
 	}
-	
+
 	private void testRCBooleanIsDotTown (boolean aExpectedValue, RevenueCenterType aRevenueCenterType) {
 		if (aExpectedValue) {
-			assertTrue (aRevenueCenterType.isDotTown(), "Is Dot Town Result for [" + aRevenueCenterType.getName() + "]");
+			assertTrue (aRevenueCenterType.isDotTown (),
+					"Is Dot Town Result for [" + aRevenueCenterType.getName () + "]");
 		} else {
-			assertFalse (aRevenueCenterType.isDotTown(), "Is Not Dot Town Result for [" + aRevenueCenterType.getName() + "]");
+			assertFalse (aRevenueCenterType.isDotTown (),
+					"Is Not Dot Town Result for [" + aRevenueCenterType.getName () + "]");
 		}
 	}
 
 	@Test
 	@DisplayName ("Verify Center is a Dot Town (or not) per Revenue Center Types")
-	public void testIsDotTown() {
+	public void testIsDotTown () {
 		testRCBooleanIsDotTown (false, noRevenueCenter);
 		testRCBooleanIsDotTown (false, privateRailwayPoint);
 		testRCBooleanIsDotTown (false, smallTown);
@@ -238,18 +245,20 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsDotTown (false, fiveCities);
 		testRCBooleanIsDotTown (false, sixCities);
 	}
-	
+
 	private void testRCBooleanIsCityOrTown (boolean aExpectedValue, RevenueCenterType aRevenueCenterType) {
 		if (aExpectedValue) {
-			assertTrue (aRevenueCenterType.cityOrTown(), "Is a City or Town Result for [" + aRevenueCenterType.getName() + "]");
+			assertTrue (aRevenueCenterType.cityOrTown (),
+					"Is a City or Town Result for [" + aRevenueCenterType.getName () + "]");
 		} else {
-			assertFalse (aRevenueCenterType.cityOrTown(), "Is not a City or Town Result for [" + aRevenueCenterType.getName() + "]");
+			assertFalse (aRevenueCenterType.cityOrTown (),
+					"Is not a City or Town Result for [" + aRevenueCenterType.getName () + "]");
 		}
 	}
 
 	@Test
 	@DisplayName ("Verify Center is a City or a Town per Revenue Center Types")
-	public void testIsCityOrTown() {
+	public void testIsCityOrTown () {
 		testRCBooleanIsCityOrTown (false, noRevenueCenter);
 		testRCBooleanIsCityOrTown (true, privateRailwayPoint);
 		testRCBooleanIsCityOrTown (true, smallTown);
@@ -270,18 +279,20 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsCityOrTown (true, fiveCities);
 		testRCBooleanIsCityOrTown (true, sixCities);
 	}
-	
+
 	private void testRCBooleanIsDestination (boolean aExpectedValue, RevenueCenterType aRevenueCenterType) {
 		if (aExpectedValue) {
-			assertTrue (aRevenueCenterType.isDestination(), "Is a Destination Result for [" + aRevenueCenterType.getName() + "]");
+			assertTrue (aRevenueCenterType.isDestination (),
+					"Is a Destination Result for [" + aRevenueCenterType.getName () + "]");
 		} else {
-			assertFalse (aRevenueCenterType.isDestination(), "Is not a Destination Result for [" + aRevenueCenterType.getName() + "]");
+			assertFalse (aRevenueCenterType.isDestination (),
+					"Is not a Destination Result for [" + aRevenueCenterType.getName () + "]");
 		}
 	}
 
 	@Test
 	@DisplayName ("Verify Center is a Destination per Revenue Center Types")
-	public void testIsDestination() {
+	public void testIsDestination () {
 		testRCBooleanIsDestination (false, noRevenueCenter);
 		testRCBooleanIsDestination (false, privateRailwayPoint);
 		testRCBooleanIsDestination (false, smallTown);
@@ -302,18 +313,20 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsDestination (false, fiveCities);
 		testRCBooleanIsDestination (false, sixCities);
 	}
-	
+
 	private void testRCBooleanIsPrivateRailway (boolean aExpectedValue, RevenueCenterType aRevenueCenterType) {
 		if (aExpectedValue) {
-			assertTrue (aRevenueCenterType.isPrivateRailway(), "Is a Private Railway Result for [" + aRevenueCenterType.getName() + "]");
+			assertTrue (aRevenueCenterType.isPrivateRailway (),
+					"Is a Private Railway Result for [" + aRevenueCenterType.getName () + "]");
 		} else {
-			assertFalse (aRevenueCenterType.isPrivateRailway(), "Is not a Private Railway Result for [" + aRevenueCenterType.getName() + "]");
+			assertFalse (aRevenueCenterType.isPrivateRailway (),
+					"Is not a Private Railway Result for [" + aRevenueCenterType.getName () + "]");
 		}
 	}
 
 	@Test
 	@DisplayName ("Verify Center is a Private Railway per Revenue Center Types")
-	public void testIsPrivateRailway() {
+	public void testIsPrivateRailway () {
 		testRCBooleanIsPrivateRailway (false, noRevenueCenter);
 		testRCBooleanIsPrivateRailway (true, privateRailwayPoint);
 		testRCBooleanIsPrivateRailway (false, smallTown);
@@ -334,18 +347,19 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsPrivateRailway (false, fiveCities);
 		testRCBooleanIsPrivateRailway (false, sixCities);
 	}
-	
+
 	private void testRCBooleanIsTown (boolean aExpectedValue, RevenueCenterType aRevenueCenterType) {
 		if (aExpectedValue) {
-			assertTrue (aRevenueCenterType.isTown(), "Is a Town Result for [" + aRevenueCenterType.getName() + "]");
+			assertTrue (aRevenueCenterType.isTown (), "Is a Town Result for [" + aRevenueCenterType.getName () + "]");
 		} else {
-			assertFalse (aRevenueCenterType.isTown(), "Is not a Town Result for [" + aRevenueCenterType.getName() + "]");
+			assertFalse (aRevenueCenterType.isTown (),
+					"Is not a Town Result for [" + aRevenueCenterType.getName () + "]");
 		}
 	}
 
 	@Test
 	@DisplayName ("Verify Center is a Town (Single, Two Small, or Dot) per Revenue Center Types")
-	public void testIsTown() {
+	public void testIsTown () {
 		testRCBooleanIsTown (false, noRevenueCenter);
 		testRCBooleanIsTown (false, privateRailwayPoint);
 		testRCBooleanIsTown (true, smallTown);
@@ -366,18 +380,20 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsTown (false, fiveCities);
 		testRCBooleanIsTown (false, sixCities);
 	}
-	
+
 	private void testRCBooleanIsTwoTowns (boolean aExpectedValue, RevenueCenterType aRevenueCenterType) {
 		if (aExpectedValue) {
-			assertTrue (aRevenueCenterType.isTwoTowns(), "Is Two Towns Result for [" + aRevenueCenterType.getName() + "]");
+			assertTrue (aRevenueCenterType.isTwoTowns (),
+					"Is Two Towns Result for [" + aRevenueCenterType.getName () + "]");
 		} else {
-			assertFalse (aRevenueCenterType.isTwoTowns(), "Is not Two Towns Result for [" + aRevenueCenterType.getName() + "]");
+			assertFalse (aRevenueCenterType.isTwoTowns (),
+					"Is not Two Towns Result for [" + aRevenueCenterType.getName () + "]");
 		}
 	}
 
 	@Test
 	@DisplayName ("Verify Center is a Double Small Town per Revenue Center Types")
-	public void testIsTwoTowns() {
+	public void testIsTwoTowns () {
 		testRCBooleanIsTwoTowns (false, noRevenueCenter);
 		testRCBooleanIsTwoTowns (false, privateRailwayPoint);
 		testRCBooleanIsTwoTowns (false, smallTown);
@@ -398,18 +414,20 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsTwoTowns (false, fiveCities);
 		testRCBooleanIsTwoTowns (false, sixCities);
 	}
-	
+
 	private void testRCBooleanIsCityFromName (boolean aExpectedValue, RevenueCenterType aRevenueCenterType) {
 		if (aExpectedValue) {
-			assertTrue (RevenueCenterType.isCity (aRevenueCenterType.getName ()), "Is is City from Name Result for [" + aRevenueCenterType.getName() + "]");
+			assertTrue (RevenueCenterType.isCity (aRevenueCenterType.getName ()),
+					"Is is City from Name Result for [" + aRevenueCenterType.getName () + "]");
 		} else {
-			assertFalse (RevenueCenterType.isCity (aRevenueCenterType.getName ()), "Is not City from Name  Result for [" + aRevenueCenterType.getName() + "]");
+			assertFalse (RevenueCenterType.isCity (aRevenueCenterType.getName ()),
+					"Is not City from Name  Result for [" + aRevenueCenterType.getName () + "]");
 		}
 	}
 
 	@Test
 	@DisplayName ("Verify Center is a City from the Name per Revenue Center Types")
-	public void testIsCityFromName() {
+	public void testIsCityFromName () {
 		testRCBooleanIsCityFromName (false, noRevenueCenter);
 		testRCBooleanIsCityFromName (false, privateRailwayPoint);
 		testRCBooleanIsCityFromName (false, smallTown);
@@ -430,45 +448,46 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsCityFromName (true, fiveCities);
 		testRCBooleanIsCityFromName (true, sixCities);
 	}
-	
+
 	@Test
 	@DisplayName ("Verify  Static Methods of Is Dot Towm Is Town")
 	public void testRCTwithStrings () {
-		assertTrue (RevenueCenterType.isDotTown("Dot Town"), "Is Dot Town String Result ");
-		assertFalse (RevenueCenterType.isDotTown("Two Towns"), "Is Not Dot Town String Result ");
+		assertTrue (RevenueCenterType.isDotTown ("Dot Town"), "Is Dot Town String Result ");
+		assertFalse (RevenueCenterType.isDotTown ("Two Towns"), "Is Not Dot Town String Result ");
 
-		assertTrue (RevenueCenterType.isTown("Small Town"), "Is Town String Result ");
-		assertTrue (RevenueCenterType.isTown("Two Small Towns"), "Is Two Town String Result ");
-		assertTrue (RevenueCenterType.isTown("Dot Town"), "Is Dot Town String Result ");
-		assertFalse (RevenueCenterType.isTown("City"), "Is Not Town String Result ");
+		assertTrue (RevenueCenterType.isTown ("Small Town"), "Is Town String Result ");
+		assertTrue (RevenueCenterType.isTown ("Two Small Towns"), "Is Two Town String Result ");
+		assertTrue (RevenueCenterType.isTown ("Dot Town"), "Is Dot Town String Result ");
+		assertFalse (RevenueCenterType.isTown ("City"), "Is Not Town String Result ");
 	}
-	
+
 	@Test
 	@DisplayName ("Verify 'Set Type' Method is properly updated")
 	public void testSetType () {
 		RevenueCenterType revenueCenterType1;
 		RevenueCenterType revenueCenterType2;
 		RevenueCenterType revenueCenterType3;
-		
+
 		revenueCenterType1 = new RevenueCenterType (RevenueCenterType.SINGLE_CITY);
 		revenueCenterType2 = new RevenueCenterType (RevenueCenterType.SINGLE_CITY);
 		revenueCenterType3 = new RevenueCenterType (RevenueCenterType.SINGLE_CITY);
-		
-		revenueCenterType1.setType(RevenueCenterType.DOUBLE_CITY);
-		assertEquals ("Double City", revenueCenterType1.getName(), "Set Type to Double City");
-		
-		revenueCenterType2.setType(-1);
-		assertEquals ("No Revenue Center", revenueCenterType2.getName(), "Set Type to -1, reset to No Revenue Center");
-		
-		revenueCenterType3.setType(200);
-		assertEquals ("No Revenue Center", revenueCenterType3.getName(), "Set Type to 200, reset to No Revenue Center ");
+
+		revenueCenterType1.setType (RevenueCenterType.DOUBLE_CITY);
+		assertEquals ("Double City", revenueCenterType1.getName (), "Set Type to Double City");
+
+		revenueCenterType2.setType (-1);
+		assertEquals ("No Revenue Center", revenueCenterType2.getName (), "Set Type to -1, reset to No Revenue Center");
+
+		revenueCenterType3.setType (200);
+		assertEquals ("No Revenue Center", revenueCenterType3.getName (),
+				"Set Type to 200, reset to No Revenue Center ");
 	}
-	
+
 	private void testRCIntTypeFromName (int aExpectedValue, RevenueCenterType aRevenueCenterType) {
-		assertEquals (aExpectedValue, aRevenueCenterType.getTypeFromName (aRevenueCenterType.getName ()), 
+		assertEquals (aExpectedValue, aRevenueCenterType.getTypeFromName (aRevenueCenterType.getName ()),
 				"Is it Type From Name Result for [" + aRevenueCenterType.getName () + "]");
 	}
-	
+
 	@Test
 	@DisplayName ("Verify Types by Name per Revenue Center Types")
 	public void testGetTypeFromName () {
@@ -492,21 +511,23 @@ class RevenueCenterTypeTests {
 		testRCIntTypeFromName (17, dotTown);
 		testRCIntTypeFromName (18, privateRailwayPoint);
 	}
-	
+
 	@Test
 	@DisplayName ("Verify Creation of Revenue Centers by Name")
 	public void testConstructorWithName () {
 		RevenueCenterType aRevenueCenter1 = new RevenueCenterType ("Single City");
 		assertEquals (3, aRevenueCenter1.getType (), "Created Revenue Center Type with String [Single City]");
 		RevenueCenterType aRevenueCenter2 = new RevenueCenterType ("BAD Revenue Center Type Name");
-		assertNotEquals (3, aRevenueCenter2.getType (), "Created Revenue Center Type with String [BAD RevenueCenterType Name]");
-		assertEquals (0, aRevenueCenter2.getType (),"Created Revenue Center Type with String [BAD RevenueCenterType Name]");
+		assertNotEquals (3, aRevenueCenter2.getType (),
+				"Created Revenue Center Type with String [BAD RevenueCenterType Name]");
+		assertEquals (0, aRevenueCenter2.getType (),
+				"Created Revenue Center Type with String [BAD RevenueCenterType Name]");
 	}
-	
+
 	@Test
 	@DisplayName ("Verify Closing Revenue Center Types")
 	public void testCloningRevenueCenterType () {
-		RevenueCenterType aRevenueCenterType = singleCity.clone();
+		RevenueCenterType aRevenueCenterType = singleCity.clone ();
 		String tName = aRevenueCenterType.getName ();
 		assertEquals ("Single City", tName, "Created Revenue Center Type by Cloning ");
 	}

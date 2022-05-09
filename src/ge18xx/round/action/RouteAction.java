@@ -21,7 +21,7 @@ public class RouteAction extends Action {
 	}
 
 	public RouteAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
-		super(aRoundType, aRoundID, aActor);
+		super (aRoundType, aRoundID, aActor);
 	}
 
 	public RouteAction (XMLNode aActionNode, GameManager aGameManager) {
@@ -31,27 +31,26 @@ public class RouteAction extends Action {
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
+
 		tSimpleActionReport = actor.getName () + " Updated a Route for a Train.";
-		
+
 		return tSimpleActionReport;
 	}
 
-	public void addNewRouteSegmentEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, 
-			Location aStartLocation, Location aEndLocation) {
+	public void addNewRouteSegmentEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+			Location aEndLocation) {
 		AddNewRouteSegmentEffect tNewRouteSegmentEffect;
-		
-		tNewRouteSegmentEffect = new AddNewRouteSegmentEffect (aActor, aTrainIndex, aMapCell, 
-				aStartLocation, aEndLocation);
+
+		tNewRouteSegmentEffect = new AddNewRouteSegmentEffect (aActor, aTrainIndex, aMapCell, aStartLocation,
+				aEndLocation);
 		addEffect (tNewRouteSegmentEffect);
 	}
 
-	public void addSetNewEndPointEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, 
-			Location aStartLocation, Location aEndLocation) {
+	public void addSetNewEndPointEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+			Location aEndLocation) {
 		SetNewEndPointEffect tSetNewEndPointEffect;
-		
-		tSetNewEndPointEffect = new SetNewEndPointEffect (aActor, aTrainIndex, aMapCell, 
-				aStartLocation, aEndLocation);
+
+		tSetNewEndPointEffect = new SetNewEndPointEffect (aActor, aTrainIndex, aMapCell, aStartLocation, aEndLocation);
 		addEffect (tSetNewEndPointEffect);
 	}
 }

@@ -18,34 +18,34 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 		setName (NAME);
 	}
 
-	public PayFullDividendAction (ActionStates aRoundType, String aRoundID,
-			ActorI aActor) {
+	public PayFullDividendAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
 
 	public PayFullDividendAction (XMLNode aActionNode, GameManager aGameManager) {
-		super(aActionNode, aGameManager);
+		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
-	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState, ActorI.ActionStates aNewState) {
+	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
+			ActorI.ActionStates aNewState) {
 		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
 
 		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
 		addEffect (tChangeCorporationStatusEffect);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
 		int tCashAmount;
 		String tReceiverName;
 		CashTransferEffect tCashTransferEffect;
-		
+
 		tSimpleActionReport = actor.getAbbrev () + " paid Full Dividend.";
-		
+
 		for (Effect tEffect : effects) {
 			if (tEffect instanceof CashTransferEffect) {
 				tCashTransferEffect = (CashTransferEffect) tEffect;
@@ -57,20 +57,20 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 
 		return tSimpleActionReport;
 	}
-	
+
 	@Override
 	public boolean applyAction (RoundManager aRoundManager) {
 		boolean tActionApplied = false;
 		GameManager tGameManager;
 		TrainCompany tTrainCompany;
-		
+
 		tActionApplied = super.applyAction (aRoundManager);
 		tGameManager = aRoundManager.getGameManager ();
 		if (tGameManager.isNetworkGame ()) {
 			tTrainCompany = (TrainCompany) tGameManager.getOperatingCompany ();
 			tTrainCompany.hideTrainRevenueFrame ();
 		}
-		
+
 		return tActionApplied;
 	}
 }

@@ -16,7 +16,7 @@ public class ChangeRoundIDEffect extends Effect {
 	public final static String NO_ID = null;
 	String oldRoundID;
 	String newRoundID;
-	
+
 	public ChangeRoundIDEffect () {
 		super ();
 		setName (NAME);
@@ -35,7 +35,7 @@ public class ChangeRoundIDEffect extends Effect {
 
 		String tOldRoundID;
 		String tNewRoundID;
-		
+
 		tOldRoundID = aEffectNode.getThisAttribute (AN_OLD_ROUND_ID);
 		setOldRoundID (tOldRoundID);
 		tNewRoundID = aEffectNode.getThisAttribute (AN_NEW_ROUND_ID);
@@ -53,19 +53,19 @@ public class ChangeRoundIDEffect extends Effect {
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_OLD_ROUND_ID, getOldRoundID ());
 		tEffectElement.setAttribute (AN_NEW_ROUND_ID, getNewRoundID ());
-	
+
 		return tEffectElement;
 	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " of " +  actor.getName () + " from " + oldRoundID + " to " + newRoundID + ".");
+		return (REPORT_PREFIX + name + " of " + actor.getName () + " from " + oldRoundID + " to " + newRoundID + ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
@@ -74,16 +74,16 @@ public class ChangeRoundIDEffect extends Effect {
 	public void setOldRoundID (String aRoundID) {
 		oldRoundID = aRoundID;
 	}
-	
+
 	public void setNewRoundID (String aNewRoundID) {
 		newRoundID = aNewRoundID;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Round tRound;
-		
+
 		tEffectApplied = false;
 		System.out.println ("Apply " + name + " of " + newRoundID + " to " + actor.getName ());
 		tRound = aRoundManager.getRoundByTypeName (actor.getName ());
@@ -94,15 +94,15 @@ public class ChangeRoundIDEffect extends Effect {
 			aRoundManager.setCurrentOR (tRound.getIDPart2 ());
 			tEffectApplied = true;
 		}
-		
+
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Round tRound;
-		
+
 		tEffectUndone = false;
 		System.out.println ("Undo " + name + " of " + oldRoundID + " from " + actor.getName ());
 		tRound = aRoundManager.getRoundByTypeName (actor.getName ());
@@ -112,7 +112,7 @@ public class ChangeRoundIDEffect extends Effect {
 			tRound.setID (oldRoundID);
 			tEffectUndone = true;
 		}
-		
+
 		return tEffectUndone;
 	}
 }

@@ -25,27 +25,27 @@ public class SetParValueAction extends Action {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	public void addSetParValueEffect (ActorI aActor, ShareCompany aShareCompany, int aParPrice) {
 		SetParValueEffect tSetParValueEffect;
-		
+
 		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice);
 		addEffect (tSetParValueEffect);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
-		tSimpleActionReport = actor.getName () + " set Par Value for " + getCompanyAbbrev () + 
-				" at " + Bank.formatCash (getParValue ()) + ".";
-		
+
+		tSimpleActionReport = actor.getName () + " set Par Value for " + getCompanyAbbrev () + " at "
+				+ Bank.formatCash (getParValue ()) + ".";
+
 		return tSimpleActionReport;
 	}
-	
+
 	public int getParValue () {
 		int tParValue = -1;
-		
+
 		for (Effect tEffect : effects) {
 			if (tParValue == -1) {
 				if (tEffect instanceof SetParValueEffect) {
@@ -53,13 +53,13 @@ public class SetParValueAction extends Action {
 				}
 			}
 		}
-		
+
 		return tParValue;
 	}
 
 	public String getCompanyAbbrev () {
 		String tCompanyAbbrev = "";
-		
+
 		for (Effect tEffect : effects) {
 			if (tCompanyAbbrev.equals ("")) {
 				if (tEffect instanceof SetParValueEffect) {
@@ -67,7 +67,7 @@ public class SetParValueAction extends Action {
 				}
 			}
 		}
-		
+
 		return tCompanyAbbrev;
 	}
 }

@@ -43,18 +43,18 @@ class ChangeMapEffectTests {
 	MapCell mapCell1;
 	MapCell mapCell2;
 	MapBenefit mapBenefit;
-	
+
 	@BeforeEach
 	void setUp () throws Exception {
 		String tClientName;
 		UtilitiesTestFactory tUtilitiesTestFactory;
-		
+
 		tClientName = "TFBuster";
 		gameTestFactory = new GameTestFactory ();
 		companyTestFactory = new CompanyTestFactory (gameTestFactory);
 		tUtilitiesTestFactory = companyTestFactory.getUtilitiesTestFactory ();
 		benefitTestFactory = new BenefitTestFactory (tUtilitiesTestFactory);
-		gameManager =  gameTestFactory.buildGameManager (tClientName);
+		gameManager = gameTestFactory.buildGameManager (tClientName);
 		sharePenn = companyTestFactory.buildAShareCompany (1);
 		shareBnO = companyTestFactory.buildAShareCompany (2);
 		privateSV = companyTestFactory.buildAPrivateCompany (1);
@@ -77,7 +77,7 @@ class ChangeMapEffectTests {
 		assertEquals ("B2", effectBeta.getMapCellID ());
 		assertEquals (mapCell2, effectAlpha.getMapCell (mHexMap));
 	}
-	
+
 	@Test
 	@DisplayName ("Benefit used by ChangeMapEffect Tests")
 	void benefitMapEffectTests () {
@@ -88,14 +88,14 @@ class ChangeMapEffectTests {
 		assertEquals ("Map", effectGamma.getBenefitName ());
 		assertEquals ("TEST-C&SL", effectGamma.getBenefitPrivateAbbrev ());
 	}
-	
+
 	@Test
 	@DisplayName ("Using RoundManager Test")
 	void useOfRoundManagerTests () {
 		RoundManager tRoundManager;
 		RoundTestFactory tRoundTestFactory;
 		String tEffectReport;
-		
+
 		tRoundTestFactory = new RoundTestFactory ();
 		tRoundManager = tRoundTestFactory.buildRoundManager ();
 		tEffectReport = effectAlpha.getEffectReport (tRoundManager);

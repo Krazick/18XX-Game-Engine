@@ -48,15 +48,15 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	private static final String LOAD_GAME = "Load Local Game";
 	private static final String REASON_WRONG_PLAYER_COUNT = "Either too many, or too few Players for this game";
 	private static final String REASON_NO_NEW_GAME = "Must select Game before you can start";
-	GameInfo gameInfo [];
+	GameInfo gameInfo[];
 	PlayerInputFrame playerInputFrame;
 	JPanel gameJPanel;
 	JPanel gameInfoJPanel;
 	JPanel descAndOptionsJPanel;
 	JPanel listAndButtonJPanel;
 	ButtonGroup gameButtons;
-	JRadioButton gameRadioButtons [];
-	JCheckBox gameOptions [];
+	JRadioButton gameRadioButtons[];
+	JCheckBox gameOptions[];
 	JButton newGameButton;
 	JButton networkGameButton;
 	JButton loadGameButton;
@@ -64,28 +64,28 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	JLabel gameDescriptionLabel;
 	int selectedGameIndex;
 	int gameIndex;
-	
+
 	public GameSet (PlayerInputFrame aPlayerInputFrame) {
 		gameInfo = GameInfo.NO_GAMES;
 		setSelectedGame (NO_GAME_SELECTED);
 		gameInfoJPanel = new JPanel ();
 		setPlayerInputFrame (aPlayerInputFrame);
 	}
-	
+
 	public void setSelectedGameIndex (int aSelectedGameIndex) {
 		gameRadioButtons [aSelectedGameIndex].setSelected (true);
 		setSelectedGame (aSelectedGameIndex);
 	}
-	
+
 	public void setSelectedGame (int aSelectedGameIndex) {
 		selectedGameIndex = aSelectedGameIndex;
 	}
-	
+
 	@Override
 	public void actionPerformed (ActionEvent e) {
 		String tActionName;
 		int tGameIndex;
-		
+
 		if (gameInfo != GameInfo.NO_GAMES) {
 			tActionName = e.getActionCommand ();
 			tGameIndex = getSelectedGameIndex ();
@@ -95,7 +95,8 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			} else if (NETWORK_GAME.equals (tActionName)) {
 				handleNetworkGameConnect ();
 			} else if (NEW_GAME.equals (tActionName)) {
-				playerInputFrame.handleHotseatGameStart (gameInfo [selectedGameIndex]);;
+				playerInputFrame.handleHotseatGameStart (gameInfo [selectedGameIndex]);
+				;
 			} else {
 				handleGameSelection (tGameIndex, true);
 			}
@@ -104,7 +105,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 
 	public void handleGameSelection (int aGameIndex, boolean aNotify) {
 		JGameClient tJGameClient;
-		
+
 		setSelectedGame (aGameIndex);
 		gameRadioButtons [aGameIndex].setSelected (true);
 		showDescriptionAndOptions (aGameIndex);
@@ -115,12 +116,12 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		}
 		playerInputFrame.pack ();
 	}
-	
+
 	private void handleNetworkGameConnect () {
 		GameManager tGameManager;
 		JGameClient tNetworkGameJClient;
 		String tPlayerName;
-		
+
 		tGameManager = playerInputFrame.getGameManager ();
 		tPlayerName = tGameManager.getClientUserName ();
 		playerInputFrame.clearOtherPlayers (tPlayerName);
@@ -132,11 +133,11 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		tNetworkGameJClient.addGamePanel (gameJPanel);
 		playerInputFrame.setVisible (false);
 	}
-	
+
 	public void addGameInfo (JPanel aGamePanel) {
 		JPanel tGamesJPanel;
 		int tGameCount;
-		
+
 		if (gameInfo != GameInfo.NO_GAMES) {
 			gameInfoJPanel = new JPanel ();
 			gameJPanel = aGamePanel;
@@ -146,24 +147,24 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			tGamesJPanel = new JPanel ();
 			tGamesJPanel.setLayout (new BoxLayout (tGamesJPanel, BoxLayout.Y_AXIS));
 			buildGameButtons (tGamesJPanel, tGameCount);
-			
+
 			listAndButtonJPanel = new JPanel ();
 			listAndButtonJPanel.setLayout (new BoxLayout (listAndButtonJPanel, BoxLayout.Y_AXIS));
 			listAndButtonJPanel.add (tGamesJPanel);
-			
+
 			networkGameButton = new JButton ();
 			setupButton (networkGameButton, NETWORK_GAME);
-			
+
 			newGameButton = new JButton ();
 			setupButton (newGameButton, NEW_GAME);
 			setEnabledGameButtons (false, REASON_NO_NEW_GAME);
-			
+
 			loadGameButton = new JButton ();
 			setupButton (loadGameButton, LOAD_GAME);
-			
+
 			gameJPanel.add (listAndButtonJPanel);
 			gameJPanel.add (Box.createVerticalStrut (10));
-			
+
 			showDescriptionAndOptions (NO_GAME_SELECTED);
 		}
 	}
@@ -171,12 +172,11 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	private void buildGameButtons (JPanel aBoxOfGamesJPanel, int aGameCount) {
 		int tIndex;
 		String tGameName;
-		
+
 		gameButtons = new ButtonGroup ();
-		for (tIndex = 0; tIndex < aGameCount; tIndex++ ) {
-			tGameName = "<html><body>" + gameInfo [tIndex].getName () + 
-					" <i>(" + gameInfo [tIndex].getMinPlayers () + "-" + 
-					gameInfo [tIndex].getMaxPlayers () + " Players)</i></body></html>";
+		for (tIndex = 0; tIndex < aGameCount; tIndex++) {
+			tGameName = "<html><body>" + gameInfo [tIndex].getName () + " <i>(" + gameInfo [tIndex].getMinPlayers ()
+					+ "-" + gameInfo [tIndex].getMaxPlayers () + " Players)</i></body></html>";
 			gameRadioButtons [tIndex] = new JRadioButton (tGameName);
 			gameRadioButtons [tIndex].setEnabled (false);
 			gameRadioButtons [tIndex].setToolTipText (REASON_WRONG_PLAYER_COUNT);
@@ -194,28 +194,28 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		aButton.addActionListener (this);
 		listAndButtonJPanel.add (aButton);
 	}
-	
+
 	public void removeGamePanelButtons () {
 		listAndButtonJPanel.remove (networkGameButton);
 		listAndButtonJPanel.remove (newGameButton);
 		listAndButtonJPanel.remove (loadGameButton);
 	}
-	
+
 	public boolean gameIsSelected () {
 		boolean tGameIsSelected;
-		
+
 		tGameIsSelected = false;
 		if (selectedGameIndex != NO_GAME_SELECTED) {
 			tGameIsSelected = true;
 		}
-		
+
 		return tGameIsSelected;
 	}
-	
+
 	public GameInfo getGameByName (String aName) {
 		int tIndex, tGameCount;
 		GameInfo tFoundGame;
-		
+
 		tGameCount = gameInfo.length;
 		tFoundGame = GameInfo.NO_GAME_INFO;
 		if ((tGameCount > 0) && (aName != null)) {
@@ -225,13 +225,13 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 				}
 			}
 		}
-		
+
 		return tFoundGame;
 	}
-	
+
 	public int getSelectedGameIndex () {
 		int tIndex, tGameCount, tFoundGame;
-		
+
 		tGameCount = gameInfo.length;
 		tFoundGame = NO_GAME_SELECTED;
 		for (tIndex = 0; tIndex < tGameCount; tIndex++) {
@@ -239,41 +239,42 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 				tFoundGame = tIndex;
 			}
 		}
-		
+
 		return tFoundGame;
 	}
-	
+
 	public GameInfo getSelectedGame () {
 		GameInfo tGameInfo;
 		int tIndex;
-		
+
 		if (gameIsSelected ()) {
 			tIndex = getSelectedGameIndex ();
 			tGameInfo = gameInfo [tIndex];
 		} else {
-			tGameInfo = GameInfo.NO_GAME_INFO;;
+			tGameInfo = GameInfo.NO_GAME_INFO;
+			;
 		}
-		
+
 		return tGameInfo;
 	}
-	
+
 	public String getSelectedGameName () {
 		int tIndex;
 		String tGameName = "";
-		
+
 		if (gameIsSelected ()) {
 			tIndex = getSelectedGameIndex ();
 			tGameName = gameInfo [tIndex].getName ();
 		}
-		
+
 		return tGameName;
 	}
-	
+
 	@Override
 	public String getTypeName () {
 		return "Game Set";
 	}
-	
+
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
 		Object tSource = aItemEvent.getItemSelectable ();
@@ -281,7 +282,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		Option tOption;
 		GameInfo tGameInfo;
 		boolean tIsSelected;
-		
+
 		tIndex = 0;
 		tGameInfo = getSelectedGame ();
 		for (Object tObject : gameOptions) {
@@ -293,26 +294,26 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			tIndex++;
 		}
 	}
-	
+
 	public void clearAllSelectedGames () {
 		gameButtons.clearSelection ();
 	}
-	
+
 	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNode tXMLGameSetRoot;
-		
+
 		tXMLGameSetRoot = aXMLDocument.getDocumentElement ();
 		ParseGameConfig (tXMLGameSetRoot);
 	}
-	
+
 	public void ParseGameConfig (XMLNode aCellNode) {
 		XMLNodeList tXMLNodeList;
 		NodeList tChildren;
 		XMLNode tChildNode;
 		String tChildName;
 		int tChildrenCount, tIndex;
-		
+
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
@@ -321,7 +322,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			if (EN_GAMES.equals (tChildName)) {
 				int tGameCount;
 				tXMLNodeList = new XMLNodeList (gameInfoParsingRoutine);
-				
+
 				tGameCount = tXMLNodeList.getChildCount (tChildNode, GameInfo.EN_GAME_INFO);
 				gameInfo = new GameInfo [tGameCount];
 				gameIndex = 0;
@@ -330,7 +331,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		}
 	}
 
-	ParsingRoutineI gameInfoParsingRoutine  = new ParsingRoutineI ()  {
+	ParsingRoutineI gameInfoParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			gameInfo [gameIndex] = new GameInfo (aChildNode);
@@ -343,18 +344,18 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	}
 
 	public void handleGameOptions (String aOptions) {
-		
+
 	}
 
 	private void setEnabledGameButtons (boolean aState, String aToolTipText) {
 		newGameButton.setEnabled (aState);
 		newGameButton.setToolTipText (aToolTipText);
 	}
-	
+
 	public void setPlayerInputFrame (PlayerInputFrame aPlayerInputFrame) {
 		playerInputFrame = aPlayerInputFrame;
 	}
-	
+
 	public void setGameRadioButtons (int aCurrentPlayerCount) {
 		int tIndex, tGameCount;
 
@@ -380,13 +381,13 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			}
 		}
 	}
-	
+
 	private void showDescriptionAndOptions (int aIndex) {
 		String tDescription;
 		int tOptionCount, tOptionIndex;
 		Option tOption;
 		String tOptionName;
-		
+
 		if (descAndOptionsJPanel == GUI.NO_PANEL) {
 			descAndOptionsJPanel = new JPanel ();
 			descAndOptionsJPanel.setLayout (new BoxLayout (descAndOptionsJPanel, BoxLayout.Y_AXIS));
@@ -404,7 +405,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		} else {
 			tDescription = gameInfo [aIndex].getHTMLDescription ();
 			gameDescriptionLabel.setText (tDescription);
-			descAndOptionsJPanel.add (gameDescriptionLabel);			
+			descAndOptionsJPanel.add (gameDescriptionLabel);
 			tOptionCount = gameInfo [aIndex].getOptionCount ();
 			gameOptions = new JCheckBox [tOptionCount];
 			for (tOptionIndex = 0; tOptionIndex < tOptionCount; tOptionIndex++) {

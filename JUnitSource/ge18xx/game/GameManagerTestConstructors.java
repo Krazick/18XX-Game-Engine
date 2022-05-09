@@ -16,7 +16,7 @@ import ge18xx.toplevel.PlayerInputFrame;
 @DisplayName ("Game Manager Constructor Tests")
 class GameManagerTestConstructors {
 	GameTestFactory testFactory;
-	
+
 	@BeforeEach
 	void setUp () throws Exception {
 		testFactory = new GameTestFactory ();
@@ -30,7 +30,7 @@ class GameManagerTestConstructors {
 	@DisplayName ("Test Constructor with no Args")
 	void constructorNoArgsTest () {
 		GameManager tGameManager;
-		
+
 		tGameManager = new GameManager ();
 		assertNotNull (tGameManager);
 	}
@@ -40,48 +40,48 @@ class GameManagerTestConstructors {
 	void constructorTwoArgsTest () {
 		GameManager tGameManager;
 		String tClientName, tConfigFileName;
-		
+
 		tClientName = "GMTestBuster";
 		tConfigFileName = "ge18xx." + tClientName + ".cfg.xml";
 		tGameManager = testFactory.buildGameManager (tClientName);
-		
+
 		assertEquals (tClientName, tGameManager.getClientUserName ());
 		assertNull (tGameManager.getRoundManager ());
 		assertNull (tGameManager.getPlayerManager ());
 		assertNull (tGameManager.getPhaseManager ());
 		assertNull (tGameManager.getMapFrame ());
 		assertNull (tGameManager.getBankPool ());
-		
+
 		assertNotNull (tGameManager.getBank ());
-		
+
 		assertEquals (false, tGameManager.isNetworkGame ());
-		
+
 		assertEquals (tConfigFileName, tGameManager.getConfigFileName ());
 	}
-	
+
 	@Test
-	@DisplayName ("Test Game Initiation") 
+	@DisplayName ("Test Game Initiation")
 	void gameInitiationTest () {
 		GameManager tGameManager;
 		String tClientName;
 		GameInfo tGameInfo;
 		PlayerInputFrame mPlayerInputFrame;
-		
+
 		tClientName = "TGIBuster";
 
 		tGameManager = testFactory.buildGameManager (tClientName);
 		tGameInfo = testFactory.buildGameInfo ();
-		
+
 		assertEquals ("<NONE>", tGameManager.getGameName ());
 		assertEquals ("<NONE>", tGameManager.getActiveGameName ());
 		assertEquals ("1830TEST", tGameInfo.getName ());
 		assertEquals ("<NONE>", tGameManager.getFileName ("Market"));
 		assertFalse (tGameManager.gameIsStarted ());
-		
+
 		mPlayerInputFrame = testFactory.buildPIFMock ();
 		tGameManager.setPlayerInputFrame (mPlayerInputFrame);
 		tGameManager.initiateGame (tGameInfo);
-		
+
 		assertTrue (tGameManager.gameIsStarted ());
 		assertEquals ("1830TEST", tGameManager.getGameName ());
 		assertEquals ("1830TEST", tGameManager.getActiveGameName ());
@@ -91,7 +91,7 @@ class GameManagerTestConstructors {
 		assertEquals (6, tGameManager.getCountOfOpenPrivates ());
 		assertEquals ("1830 XML Data/1830 Map.xml", tGameManager.getMapFileName ());
 		assertEquals ("1830 XML Data/1830 Map.xml", tGameManager.getFileName ("map"));
-		
+
 		assertNull (tGameManager.getGameFrameConfig ());
 	}
 }

@@ -29,14 +29,14 @@ class ToEffectTestConstructor {
 	GameTestFactory testFactory;
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp () throws Exception {
 		String tClientName, tPlayer2Name, tPlayer3Name;
-		
+
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterBeta";
 		tPlayer3Name = "ToEffectTesterGamma";
 		testFactory = new GameTestFactory ();
-		mGameManager =  testFactory.buildGameManagerMock (tClientName);
+		mGameManager = testFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasCoals ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
@@ -54,34 +54,35 @@ class ToEffectTestConstructor {
 	void simpleConstructorTests () {
 		Player tFoundPlayer;
 		Player tFoundToPlayer;
-		
+
 		assertFalse (effectAlpha.actorIsSet (), "Actor is Set");
 		assertTrue (effectBeta.actorIsSet (), "Actor is not Set");
 		assertEquals (GENERIC_TO_EFFECT, effectBeta.getName ());
 		assertEquals ("ToEffectTesterBeta", effectBeta.getActorName ());
 		assertEquals ("ToEffectTesterGamma", effectBeta.getToActorName ());
-		
+
 		tFoundPlayer = (Player) effectBeta.getActor ();
 		tFoundToPlayer = (Player) effectBeta.getToActor ();
 		assertEquals ("ToEffectTesterBeta", tFoundPlayer.getName ());
-		assertEquals ("--Effect: " + GENERIC_TO_EFFECT +" for ToEffectTesterBeta to ToEffectTesterGamma.", effectBeta.getEffectReport (null));
+		assertEquals ("--Effect: " + GENERIC_TO_EFFECT + " for ToEffectTesterBeta to ToEffectTesterGamma.",
+				effectBeta.getEffectReport (null));
 		assertNotNull (effectBeta.getToActorName ());
 		assertEquals ("ToEffectTesterGamma", effectBeta.getToActorName ());
 		assertEquals ("ToEffectTesterGamma", tFoundToPlayer.getName ());
-	
+
 		assertFalse (effectBeta.isToActor ("ToEffectTesterBeta"));
 		assertTrue (effectBeta.isToActor ("ToEffectTesterGamma"));
-		
+
 		assertTrue (effectBeta.undoEffect (RoundManager.NO_ROUND_MANAGER));
 		assertFalse (effectBeta.wasNewStateAuction ());
 		assertFalse (effectBeta.applyEffect (RoundManager.NO_ROUND_MANAGER));
 	}
-	
+
 	@Test
 	@DisplayName ("ToEffect Tests for toActor")
 	void toActorTests () {
 		assertEquals (effectBeta.getToActor (), actorGamma);
-	
+
 	}
 
 }

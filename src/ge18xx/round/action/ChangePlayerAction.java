@@ -9,7 +9,7 @@ import ge18xx.utilities.XMLNode;
 
 public class ChangePlayerAction extends Action {
 	public final static String NAME = "Change Player";
-	
+
 	public ChangePlayerAction () {
 		this (NAME);
 	}
@@ -34,12 +34,12 @@ public class ChangePlayerAction extends Action {
 		tNewCurrentPlayerEffect = new NewCurrentPlayerEffect (aPlayer, aCurrentPlayerIndex, aNextPlayerIndex);
 		addEffect (tNewCurrentPlayerEffect);
 	}
-	
+
 	public String getNewPlayerName () {
 		String tNewPlayerName = Player.NO_PLAYER_NAME;
 		int tNewPlayerIndex;
 		NewCurrentPlayerEffect tNewCurrentPlayerEffect;
-		
+
 		for (Effect tEffect : effects) {
 			if (tNewPlayerName.equals (Player.NO_PLAYER_NAME)) {
 				if (tEffect instanceof NewCurrentPlayerEffect) {
@@ -49,7 +49,7 @@ public class ChangePlayerAction extends Action {
 				}
 			}
 		}
-		
+
 		return tNewPlayerName;
 	}
 }

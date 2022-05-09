@@ -27,8 +27,9 @@ public class DeclareBankruptcyAction extends Action {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-	
-	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState, ActorI.ActionStates aNewState) {
+
+	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
+			ActorI.ActionStates aNewState) {
 		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
 
 		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
@@ -37,17 +38,17 @@ public class DeclareBankruptcyAction extends Action {
 
 	public void addClearTrainsFromMapEffect (Corporation aCorporation) {
 		ClearAllTrainsFromMapEffect tClearTrainsFromMapEffect;
-		
+
 		tClearTrainsFromMapEffect = new ClearAllTrainsFromMapEffect (aCorporation);
 		addEffect (tClearTrainsFromMapEffect);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
+
 		tSimpleActionReport = actor.getName () + " Declared Bankruptcy.";
-		
+
 		return tSimpleActionReport;
 	}
 

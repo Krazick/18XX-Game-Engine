@@ -14,38 +14,38 @@ public class Bidder implements ActorI {
 	CashHolderI cashHolder;
 	int amount;
 	ActionStates auctionActionState;
-	
+
 	public Bidder (CashHolderI aBidder, int aAmount) {
 		cashHolder = aBidder;
 		setAmount (aAmount);
 		auctionActionState = ActorI.ActionStates.AuctionRaise;
 	}
-	
+
 	public CashHolderI getCashHolder () {
 		return cashHolder;
 	}
-	
+
 	public int getAmount () {
 		return amount;
 	}
-	
+
 	public void setAmount (int aAmount) {
 		amount = aAmount;
 	}
-	
+
 	@Override
 	public String getName () {
 		return cashHolder.getName ();
 	}
-	
+
 	@Override
 	public String getStateName () {
 		return auctionActionState.toString ();
 	}
-	
+
 	public XMLElement getElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_BIDDER);
 		tXMLElement.setAttribute (AN_CASH, amount);
 		tXMLElement.setAttribute (AN_NAME, cashHolder.getName ());
@@ -56,14 +56,14 @@ public class Bidder implements ActorI {
 	public boolean hasPassed () {
 		return (auctionActionState == ActorI.ActionStates.AuctionPass);
 	}
-	
+
 	public void passBid () {
 		setAuctionActionState (ActorI.ActionStates.AuctionPass);
 	}
-	
+
 	public void raiseBid (Certificate aCertificate, int aRaise) {
 		Player tPlayer = (Player) cashHolder;
-		
+
 		setAmount (amount + aRaise);
 		tPlayer.raiseBid (aCertificate, aRaise);
 		setAuctionActionState (ActorI.ActionStates.AuctionRaise);
@@ -77,7 +77,7 @@ public class Bidder implements ActorI {
 	public boolean isAPrivateCompany () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isAPlayer () {
 		return false;
@@ -87,7 +87,7 @@ public class Bidder implements ActorI {
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		// Nothing to do for the Bidder State
 	}
-	
+
 	@Override
 	public boolean isAStockRound () {
 		return false;
@@ -102,7 +102,7 @@ public class Bidder implements ActorI {
 	public boolean isABank () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isABankPool () {
 		return false;

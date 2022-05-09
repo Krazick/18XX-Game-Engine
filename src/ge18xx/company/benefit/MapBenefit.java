@@ -22,14 +22,14 @@ public class MapBenefit extends Benefit {
 	String mapCellID;
 	int cost;
 	boolean sameTurn;
-	
+
 	public MapBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
-		
+
 		String tMapCellID;
 		int tCost;
 		boolean tSameTurn;
-		
+
 		tMapCellID = aXMLNode.getThisAttribute (AN_MAPCELL);
 		tCost = aXMLNode.getThisIntAttribute (AN_COST);
 		tSameTurn = aXMLNode.getThisBooleanAttribute (AN_SAME_TURN);
@@ -38,11 +38,11 @@ public class MapBenefit extends Benefit {
 		setSameTurn (tSameTurn);
 		setName (NAME);
 	}
-	
+
 	public void setSameTurn (boolean aSameTurn) {
 		sameTurn = aSameTurn;
 	}
-	
+
 	public void setMapCellID (String aMapCellID) {
 		mapCellID = aMapCellID;
 	}
@@ -50,16 +50,16 @@ public class MapBenefit extends Benefit {
 	public void setCost (int aCost) {
 		cost = aCost;
 	}
-	
+
 	public String getMapCellID () {
 		return mapCellID;
 	}
-	
+
 	@Override
 	public int getCost () {
 		return cost;
 	}
-	
+
 	public boolean getSameTurn () {
 		return sameTurn;
 	}
@@ -73,14 +73,14 @@ public class MapBenefit extends Benefit {
 		MapFrame tMapFrame;
 		GameManager tGameManager;
 		HexMap tMap;
-		
+
 		tGameManager = privateCompany.getGameManager ();
 		tMapFrame = tGameManager.getMapFrame ();
 		tMap = tMapFrame.getMap ();
-		
+
 		return tMap;
 	}
-	
+
 	protected boolean isTileAvailable () {
 		HexMap tMap;
 		MapCell tMapCell;
@@ -89,53 +89,53 @@ public class MapBenefit extends Benefit {
 		tMap = getMap ();
 		tMapCell = getMapCell (tMap);
 		tTileIsAvailable = tMap.isTileAvailableForMapCell (tMapCell);
-		
+
 		return tTileIsAvailable;
 	}
-	
+
 	protected boolean hasTile () {
 		boolean tHasTile = false;
 		MapCell tMapCell;
-		
+
 		tMapCell = getMapCell ();
 		if (tMapCell.isTileOnCell ()) {
 			tHasTile = true;
 		}
-		
+
 		return tHasTile;
 	}
-	
+
 	protected MapCell getMapCell () {
 		HexMap tMap;
-		
+
 		tMap = getMap ();
-		
+
 		return getMapCell (tMap);
 	}
-	
+
 	protected MapCell getMapCell (HexMap aMap) {
 		return aMap.getMapCellForID (mapCellID);
 	}
-	
+
 	public void resetBenefitInUse () {
 		Corporation tOwningCompany;
-		
+
 		if (privateCompany != PrivateCompany.NO_PRIVATE_COMPANY) {
 			tOwningCompany = (Corporation) privateCompany.getOwner ();
 			tOwningCompany.setBenefitInUse (previousBenefitInUse);
 		}
 	}
-	
+
 	@Override
 	public void completeBenefitInUse () {
 		super.completeBenefitInUse ();
-		
+
 		Corporation tOwningCompany;
 		CloseCompanyAction tCloseCompanyAction;
 		GameManager tGameManager;
 		RoundManager tRoundManager;
 		String tRoundID;
-		
+
 		resetBenefitInUse ();
 		tOwningCompany = (Corporation) privateCompany.getOwner ();
 		if (closeOnUse) {
@@ -148,23 +148,23 @@ public class MapBenefit extends Benefit {
 		}
 		tOwningCompany.updateFrameInfo ();
 	}
-	
+
 	@Override
 	protected XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLBenefitElement;
-		
+
 		tXMLBenefitElement = super.getCorporationStateElement (aXMLDocument);
 		tXMLBenefitElement.setAttribute (AN_MAPCELL, mapCellID);
-		
+
 		return tXMLBenefitElement;
 	}
-	
+
 	@Override
 	protected Benefit findMatchedBenefit (XMLNode aBenefitNode) {
 		Benefit tMatchedBenefit = NO_BENEFIT;
 		Benefit tMatchedNameBenefit;
 		String tMapCellID;
-		
+
 		tMatchedNameBenefit = super.findMatchedBenefit (aBenefitNode);
 		if (tMatchedNameBenefit != NO_BENEFIT) {
 			tMapCellID = aBenefitNode.getThisAttribute (AN_MAPCELL);
@@ -174,7 +174,7 @@ public class MapBenefit extends Benefit {
 				}
 			}
 		}
-		
+
 		return tMatchedBenefit;
 	}
 }

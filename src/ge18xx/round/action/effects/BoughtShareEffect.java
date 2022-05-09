@@ -11,7 +11,7 @@ import ge18xx.utilities.XMLDocument;
 
 public class BoughtShareEffect extends Effect {
 	public final static String NAME = "Bought Share";
-	
+
 	public BoughtShareEffect () {
 		super ();
 		setName (NAME);
@@ -29,13 +29,13 @@ public class BoughtShareEffect extends Effect {
 	public boolean getBoughtShare () {
 		return true;
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_ACTOR_NAME);
-	
+
 		return tEffectElement;
 	}
 
@@ -43,39 +43,39 @@ public class BoughtShareEffect extends Effect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + actor.getName () + " " + name + " a share of stock this Stock Round.");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Player tPlayer;
-		
+
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
 			tPlayer.setBoughtShare (true);
 			tEffectApplied = true;
 		}
-		
+
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Player tPlayer;
-		
+
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
 			tPlayer.setBoughtShare (false);
 			tEffectUndone = true;
 		}
-		
+
 		return tEffectUndone;
 	}
 }

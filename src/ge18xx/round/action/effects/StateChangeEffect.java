@@ -18,7 +18,7 @@ public class StateChangeEffect extends Effect {
 	final static AttributeName AN_NEW_STATE = new AttributeName ("newState");
 	ActorI.ActionStates previousState;
 	ActorI.ActionStates newState;
-	
+
 	public StateChangeEffect () {
 		super (NAME);
 		setPreviousState (ActorI.ActionStates.NoAction);
@@ -33,11 +33,11 @@ public class StateChangeEffect extends Effect {
 
 	public StateChangeEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		
+
 		String tPreviousStateName, tNewStateName;
 		ActorI.ActionStates tPreviousState, tNewState;
 		GenericActor tGenericActor;
-		
+
 		tPreviousStateName = aEffectNode.getThisAttribute (AN_PREVIOUS_STATE);
 		tNewStateName = aEffectNode.getThisAttribute (AN_NEW_STATE);
 		tGenericActor = new GenericActor ();
@@ -46,57 +46,54 @@ public class StateChangeEffect extends Effect {
 		setPreviousState (tPreviousState);
 		setNewState (tNewState);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_PREVIOUS_STATE, previousState.toString ());
 		tEffectElement.setAttribute (AN_NEW_STATE, newState.toString ());
-	
+
 		return tEffectElement;
 	}
 
 	public ActorI.ActionStates getNewState () {
 		return newState;
 	}
-	
+
 	public ActorI.ActionStates getPreviousState () {
 		return previousState;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tEffectReport;
-		
+
 		tEffectReport = REPORT_PREFIX + name;
-		
+
 		if (actor != ActorI.NO_ACTOR) {
 			if (actor.isAPlayer ()) {
-				tEffectReport += " for " + actor.getName () + " from " + previousState + 
-						" to " + newState + ".";
+				tEffectReport += " for " + actor.getName () + " from " + previousState + " to " + newState + ".";
 			} else if (actor.isAOperatingRound () || actor.isAStockRound ()) {
-				tEffectReport += " from " + previousState +  " to " + newState + ".";
+				tEffectReport += " from " + previousState + " to " + newState + ".";
 			} else if (actor.isACorporation ()) {
-				tEffectReport += " for " + actor.getName () + " from " + previousState + 
-						" to " + newState + ".";
+				tEffectReport += " for " + actor.getName () + " from " + previousState + " to " + newState + ".";
 			} else {
-				tEffectReport += " for " + actor.getName () + " from " + previousState + 
-						" to " + newState + ". ***";
+				tEffectReport += " for " + actor.getName () + " from " + previousState + " to " + newState + ". ***";
 			}
 		} else {
 			tEffectReport += " Actor within Action is not defined";
 		}
-		
+
 		return tEffectReport;
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
-	
+
 	public void setNewState (ActorI.ActionStates aNewState) {
 		newState = aNewState;
 	}
@@ -104,12 +101,12 @@ public class StateChangeEffect extends Effect {
 	public void setPreviousState (ActorI.ActionStates aPreviousState) {
 		previousState = aPreviousState;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		boolean tNewAuctionAction = false;
-		
+
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			Player tPlayer = (Player) actor;
@@ -128,32 +125,32 @@ public class StateChangeEffect extends Effect {
 			}
 		} else if (actor.isABank ()) {
 			if (actor instanceof StartPacketFrame) {
-				
+
 			}
 		} else if (actor.isACorporation ()) {
-			
+
 		}
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-		
+
 		tEffectUndone = false;
-		System.out.println ("--- Actor " + actor.getName () + " State " + actor.getStateName ()+ " BEFORE UNDO");
+		System.out.println ("--- Actor " + actor.getName () + " State " + actor.getStateName () + " BEFORE UNDO");
 		actor.resetPrimaryActionState (previousState);
-		System.out.println ("--- Actor " + actor.getName () + " State " + actor.getStateName ()+ " AFTER UNDO");
+		System.out.println ("--- Actor " + actor.getName () + " State " + actor.getStateName () + " AFTER UNDO");
 		tEffectUndone = true;
-		if (actor.isAPlayer () ) {
+		if (actor.isAPlayer ()) {
 			Player tPlayer = (Player) actor;
 			StockRound tStockRound = aRoundManager.getStockRound ();
 			tStockRound.updateRFPlayerLabel (tPlayer);
 		}
-		
+
 		return tEffectUndone;
 	}
 
@@ -161,15 +158,15 @@ public class StateChangeEffect extends Effect {
 	public boolean wasNewStateAuction () {
 		return (newState.equals (ActorI.ActionStates.AuctionRound));
 	}
-	
+
 	@Override
 	public boolean nullEffect () {
 		boolean tNullEffect = false;
-		
+
 		if (previousState.equals (newState)) {
 			tNullEffect = true;
 		}
-		
+
 		return tNullEffect;
 	}
 }

@@ -34,19 +34,19 @@ public class PreparedCorporationAction extends ChangeStateAction {
 		tUpdateLastRevenueEffect = new UpdateLastRevenueEffect (aActor, aNewLastRevenue, aOldLastRevenue);
 		addEffect (tUpdateLastRevenueEffect);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
+
 		tSimpleActionReport = actor.getName () + " " + name + " set to state of " + getNewCorpState () + ".";
-		
+
 		return tSimpleActionReport;
 	}
 
 	public int getNewLastRevenue () {
 		int tNewLastRevenue = 0;
-		
+
 		for (Effect tEffect : effects) {
 			if (tNewLastRevenue == 0) {
 				if (tEffect instanceof UpdateLastRevenueEffect) {
@@ -54,13 +54,13 @@ public class PreparedCorporationAction extends ChangeStateAction {
 				}
 			}
 		}
-		
+
 		return tNewLastRevenue;
 	}
 
 	public int getOldLastRevenue () {
 		int tOldLastRevenue = 0;
-		
+
 		for (Effect tEffect : effects) {
 			if (tOldLastRevenue == 0) {
 				if (tEffect instanceof UpdateLastRevenueEffect) {
@@ -68,7 +68,7 @@ public class PreparedCorporationAction extends ChangeStateAction {
 				}
 			}
 		}
-		
+
 		return tOldLastRevenue;
 	}
 }

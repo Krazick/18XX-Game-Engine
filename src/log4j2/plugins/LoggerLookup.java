@@ -13,7 +13,7 @@ public class LoggerLookup implements StrLookup {
 	private static String userName = "NONAME";
 	private static String appName = "NOAPP";
 	public static Logger logger;
-	
+
 	public static void setAppName (String aAppName) {
 		appName = aAppName;
 	}
@@ -21,72 +21,70 @@ public class LoggerLookup implements StrLookup {
 	public static void setUserName (String aUserName) {
 		userName = aUserName;
 	}
-	
-	public String getLookupValue (String key) {
-    	String tLookupValue = "NONE";
-    	
-    	if (key.equals ("userName")) {
-    		tLookupValue = userName;
-    	} else if (key.equals ("appName")) {
-    		tLookupValue = appName;
-    	}
-    	
-        return tLookupValue;
-	}
-	
-    @Override
-    public String lookup (String key) {
-        return getLookupValue (key);
-    }
 
-    @Override
-    public String lookup (LogEvent event, String key) {
-        return this.lookup (key);
-    }
-    
-    public Logger getLogger () {
-    	return logger;
-    }
-    
-    public static Logger getLoggerX () {
-    	return logger;
-    }
-   
-    public void setupLogger (String aUserName, String aAppName, String aAppVersion, 
-    		String aConfigDir, Class<?> aClass) {
+	public String getLookupValue (String key) {
+		String tLookupValue = "NONE";
+
+		if (key.equals ("userName")) {
+			tLookupValue = userName;
+		} else if (key.equals ("appName")) {
+			tLookupValue = appName;
+		}
+
+		return tLookupValue;
+	}
+
+	@Override
+	public String lookup (String key) {
+		return getLookupValue (key);
+	}
+
+	@Override
+	public String lookup (LogEvent event, String key) {
+		return this.lookup (key);
+	}
+
+	public Logger getLogger () {
+		return logger;
+	}
+
+	public static Logger getLoggerX () {
+		return logger;
+	}
+
+	public void setupLogger (String aUserName, String aAppName, String aAppVersion, String aConfigDir,
+			Class<?> aClass) {
 		String tXMLConfigFile;
 
 		LoggerLookup.setUserName (aUserName);
 		LoggerLookup.setAppName (aAppName);
-	    tXMLConfigFile = aConfigDir + File.separator + "log4j2.xml";
+		tXMLConfigFile = aConfigDir + File.separator + "log4j2.xml";
 		System.setProperty ("log4j.configurationFile", tXMLConfigFile);
 		logger = LogManager.getLogger (aClass);
 		logBasicInfo (aUserName, aAppName, aAppVersion);
-    }
-    
+	}
 
 	private void logBasicInfo (String aUserName, String aAppName, String aAppVersion) {
-	    String tJavaVersion = System.getProperty ("java.version");
-	    String tOSName = System.getProperty ("os.name");
-	    String tOSVersion = System.getProperty ("os.version");
-	    String tLog4JVersion;
-	    
+		String tJavaVersion = System.getProperty ("java.version");
+		String tOSName = System.getProperty ("os.name");
+		String tOSVersion = System.getProperty ("os.version");
+		String tLog4JVersion;
+
 		tLog4JVersion = getLog4JVersion ();
 		logger.info ("Application: " + aAppName + ", Version " + aAppVersion + " Client " + aUserName);
-		logger.info ("Java Version " + tJavaVersion + 
-					" OS Name " + tOSName + " OS Version " + tOSVersion);
+		logger.info ("Java Version " + tJavaVersion + " OS Name " + tOSName + " OS Version " + tOSVersion);
 		logger.info ("Log4J2 LogManager Version " + tLog4JVersion);
 	}
-	
+
 	private String getLog4JVersion () {
 		String tLog4JVersion = "NOT FOUND";
-		
+
 		try {
 			tLog4JVersion = org.apache.logging.log4j.LogManager.class.getPackage ().getImplementationVersion ();
 		} catch (Exception e) {
 			System.err.println ("Exception Thrown trying to get Log4J Version -- OOPS");
 		}
-		
+
 		return tLog4JVersion;
 	}
 

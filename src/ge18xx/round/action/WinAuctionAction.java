@@ -47,36 +47,36 @@ public class WinAuctionAction extends BuyStockAction {
 		tRemoveEscrowEffect = new RemoveEscrowEffect (aActor, aEscrow);
 		addEffect (tRemoveEscrowEffect);
 	}
-	
+
 	public void addRemoveAllBidsEffect (ActorI aActor, Certificate aCertificate) {
 		RemoveAllBids tRemoveAllBids;
 
 		tRemoveAllBids = new RemoveAllBids (aActor, aCertificate);
 		addEffect (tRemoveAllBids);
 	}
-	
+
 	public void addFinishAuctionEffect (ActorI aActor) {
 		FinishAuctionEffect tFinishAuctionEffect;
 
 		tFinishAuctionEffect = new FinishAuctionEffect (aActor);
 		addEffect (tFinishAuctionEffect);
 	}
-	
+
 	@Override
 	public int getEffectCredit (String aActorName) {
 		int tCredit = 0;
 		RefundEscrowEffect tRefundEscrowEffect;
-		
-		for (Effect tEffect: effects) {
+
+		for (Effect tEffect : effects) {
 			if (tCredit == 0) {
 				if (tEffect instanceof RefundEscrowEffect) {
 					tRefundEscrowEffect = (RefundEscrowEffect) tEffect;
-					
+
 					tCredit = tRefundEscrowEffect.getEffectCredit (aActorName);
 				}
 			}
 		}
-		
+
 		return tCredit;
 	}
 
@@ -87,11 +87,10 @@ public class WinAuctionAction extends BuyStockAction {
 		RefundEscrowEffect tRefundEscrowEffect;
 		int tCredit;
 
-		for (Effect tEffect: effects) {
+		for (Effect tEffect : effects) {
 			tActorName = tEffect.getActorName ();
 			tToActorName = tEffect.getToActorName ();
-			if ( (aActorName.equals (tActorName)) ||
-				  (aActorName.equals (tToActorName )) ) {
+			if ((aActorName.equals (tActorName)) || (aActorName.equals (tToActorName))) {
 				if ((tEffect instanceof RefundEscrowEffect)) {
 					tRefundEscrowEffect = (RefundEscrowEffect) tEffect;
 					tCredit = tRefundEscrowEffect.getEffectCredit (aActorName);
@@ -99,31 +98,31 @@ public class WinAuctionAction extends BuyStockAction {
 				}
 			}
 		}
-		
+
 		return tRefundReport;
 	}
-	
+
 	@Override
 	public String getAuctionWinner () {
 		String aAuctionWinner = ActorI.NO_NAME;
 		TransferOwnershipEffect tTransferOwnershipEffect;
-		
-		for (Effect tEffect: effects) {
+
+		for (Effect tEffect : effects) {
 			if (tEffect instanceof TransferOwnershipEffect) {
 				tTransferOwnershipEffect = (TransferOwnershipEffect) tEffect;
 				aAuctionWinner = tTransferOwnershipEffect.getToActorName ();
 			}
 		}
-		
+
 		return aAuctionWinner;
 	}
-	
+
 	@Override
 	public boolean applyAction (RoundManager aRoundManager) {
 		boolean tActionApplied = false;
 		GameManager tGameManager;
 		PlayerFrame tPlayerFrame;
-		
+
 		tActionApplied = super.applyAction (aRoundManager);
 		tGameManager = aRoundManager.getGameManager ();
 		if (tGameManager.isNetworkGame ()) {
@@ -133,7 +132,7 @@ public class WinAuctionAction extends BuyStockAction {
 				tPlayerFrame.setDoneButton ();
 			}
 		}
-		
+
 		return tActionApplied;
 	}
 }

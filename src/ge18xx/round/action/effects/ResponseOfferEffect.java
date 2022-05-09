@@ -29,10 +29,10 @@ public class ResponseOfferEffect extends ToEffect {
 		super (aName);
 	}
 
-	public ResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, 
-				String aItemType, String aItemName) {
+	public ResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType,
+			String aItemName) {
 		super (NAME, aFromActor, aToActor);
-		
+
 		setResponse (aResponse);
 		setItemType (aItemType);
 		setItemName (aItemName);
@@ -41,9 +41,9 @@ public class ResponseOfferEffect extends ToEffect {
 	public ResponseOfferEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
-		
+
 		boolean tResponse;
-		
+
 		String tItemType, tItemName;
 		tItemType = aEffectNode.getThisAttribute (AN_ITEM_TYPE);
 		tItemName = aEffectNode.getThisAttribute (AN_ITEM_NAME);
@@ -56,23 +56,23 @@ public class ResponseOfferEffect extends ToEffect {
 	public String getItemType () {
 		return itemType;
 	}
-	
+
 	public String getItemName () {
 		return itemName;
 	}
-	
+
 	public void setItemType (String aItemType) {
 		itemType = aItemType;
 	}
-	
+
 	public void setItemName (String aItemName) {
 		itemName = aItemName;
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_RESPONSE, getResponse ());
 		tEffectElement.setAttribute (AN_ITEM_TYPE, getItemType ());
@@ -88,7 +88,7 @@ public class ResponseOfferEffect extends ToEffect {
 		String tToActorName = "NULL";
 		String tWho, tItem;
 		Corporation tCorporation;
-		
+
 		if (response) {
 			tTextResponse = "Accepted";
 		} else {
@@ -104,12 +104,12 @@ public class ResponseOfferEffect extends ToEffect {
 			tWho = actor.getName ();
 		}
 		tItem = " to buy " + itemName + " " + itemType;
-		tFullReport = REPORT_PREFIX + " The offer from " + tToActorName + tItem + " sent to " + 
-				tWho + " was " + tTextResponse;
-		
+		tFullReport = REPORT_PREFIX + " The offer from " + tToActorName + tItem + " sent to " + tWho + " was "
+				+ tTextResponse;
+
 		return tFullReport;
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
@@ -118,11 +118,11 @@ public class ResponseOfferEffect extends ToEffect {
 	public void setResponse (boolean aResponse) {
 		response = aResponse;
 	}
-	
+
 	public boolean getResponse () {
 		return response;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
@@ -132,20 +132,20 @@ public class ResponseOfferEffect extends ToEffect {
 		ShareCompany tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		ActorI.ActionStates tOldStatus;
 		PurchaseOffer tPurchaseOffer;
-	
+
 		tEffectApplied = false;
 		System.out.println ("Ready to handle the Response to the Purchase offer");
-		
+
 		tClientUserName = aRoundManager.getClientUserName ();
 		tToActorName = ((Corporation) getToActor ()).getPresidentName ();
 		if (getActor ().isACorporation ()) {
 			tTrainCompany = (TrainCompany) getToActor ();
 		} else {
-			System.out.println ("Actor is not a Corporation [" + tToActorName + 
-					"], probably a Player (Offer to buy a Private)");
+			System.out.println (
+					"Actor is not a Corporation [" + tToActorName + "], probably a Player (Offer to buy a Private)");
 			tShareCompany = (ShareCompany) getToActor ();
 		}
-		
+
 		if (tClientUserName.equals (tToActorName)) {
 			if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
 				if (tTrainCompany.getStatus ().equals (ActorI.ActionStates.WaitingResponse)) {
@@ -158,12 +158,12 @@ public class ResponseOfferEffect extends ToEffect {
 					} else {
 						System.out.println ("Offer was Rejected");
 						tTrainCompany.handleRejectOffer (aRoundManager);
-					}			
+					}
 					tEffectApplied = true;
 				} else {
-					System.err.println ("Train Company " + tTrainCompany.getAbbrev () + 
-							" is not in Waiting Response State, it is in " + tTrainCompany.getStateName ());
-				}	
+					System.err.println ("Train Company " + tTrainCompany.getAbbrev ()
+							+ " is not in Waiting Response State, it is in " + tTrainCompany.getStateName ());
+				}
 			} else if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
 				if (tShareCompany.getStatus ().equals (ActorI.ActionStates.WaitingResponse)) {
 					tPurchaseOffer = tShareCompany.getPurchaseOffer ();
@@ -175,9 +175,9 @@ public class ResponseOfferEffect extends ToEffect {
 					} else {
 						System.out.println ("Offer was Rejected");
 						tShareCompany.handleRejectOfferPrivate (aRoundManager);
-					}			
+					}
 					tEffectApplied = true;
-				
+
 				}
 			} else {
 				System.err.println ("To Actor " + tToActorName + " Not flagged as Corporation");
@@ -185,19 +185,19 @@ public class ResponseOfferEffect extends ToEffect {
 		} else {
 			System.out.println ("The ToActor is " + tToActorName + " is not the Client User of " + tClientUserName);
 		}
-		
+
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-		
+
 		// For a Offer Response, no actual change to the state of the game was Applied
 		// Therefore there is nothing to undo.
-		
+
 		tEffectUndone = true;
-		
+
 		return tEffectUndone;
 	}
 }

@@ -29,7 +29,7 @@ public class ClearAllRoutesAction extends RouteAction {
 
 	public void addClearAllTrainsFromMapEffect (Corporation aCorporation) {
 		ClearAllTrainsFromMapEffect tClearAllTrainsFromMapEffect;
-		
+
 		tClearAllTrainsFromMapEffect = new ClearAllTrainsFromMapEffect (aCorporation);
 		addEffect (tClearAllTrainsFromMapEffect);
 	}
@@ -37,9 +37,9 @@ public class ClearAllRoutesAction extends RouteAction {
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
+
 		tSimpleActionReport = actor.getName () + " Cleared all Routes from the Map.";
-		
+
 		return tSimpleActionReport;
 	}
 

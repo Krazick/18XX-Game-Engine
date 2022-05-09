@@ -23,28 +23,28 @@ public class File18XX {
 	static final String NO_TYPE = "<NO TYPE>";
 	String name;
 	String type;
-	
+
 	public File18XX () {
 		setValue (NO_NAME, NO_TYPE);
 	}
-	
+
 	public File18XX (XMLNode aCellNode) {
 		String tName;
 		String tType;
-		
+
 		tType = aCellNode.getThisAttribute (AN_TYPE);
 		tName = aCellNode.getThisAttribute (AN_NAME);
 		setValue (tName, tType);
 	}
-	
+
 	public String getName () {
 		return name;
 	}
-	
+
 	public String getType () {
 		return type;
 	}
-	
+
 	private void setValue (String aName, String aType) {
 		name = aName;
 		type = aType;

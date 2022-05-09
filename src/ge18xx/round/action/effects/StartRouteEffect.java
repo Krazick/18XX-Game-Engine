@@ -25,14 +25,15 @@ public class StartRouteEffect extends ChangeRouteEffect {
 		super (aName, aActor);
 	}
 
-	public StartRouteEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation) {
+	public StartRouteEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+			Location aEndLocation) {
 		super (NAME, aActor);
 		setTrainIndex (aTrainIndex);
 		setMapCell (aMapCell);
 		setStartLocation (aStartLocation);
 		setEndLocation (aEndLocation);
 	}
-	
+
 	public StartRouteEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 	}
@@ -42,7 +43,7 @@ public class StartRouteEffect extends ChangeRouteEffect {
 		boolean tEffectApplied;
 		TrainCompany tTrainCompany;
 		Corporation tCompany;
-		
+
 		tEffectApplied = false;
 		if (actor.isACorporation ()) {
 			tCompany = (Corporation) actor;
@@ -51,7 +52,7 @@ public class StartRouteEffect extends ChangeRouteEffect {
 				tEffectApplied = tTrainCompany.startRouteInformation (trainIndex, mapCell, startLocation, endLocation);
 			}
 		}
-		
+
 		return tEffectApplied;
 	}
 
@@ -60,7 +61,7 @@ public class StartRouteEffect extends ChangeRouteEffect {
 		TrainCompany tTrainCompany;
 		Corporation tCompany;
 		Train tTrain;
-		
+
 		if (actor.isACorporation ()) {
 			tCompany = (Corporation) actor;
 			if (tCompany.isATrainCompany ()) {
@@ -70,7 +71,7 @@ public class StartRouteEffect extends ChangeRouteEffect {
 				aRoundManager.repaintMapFrame ();
 			}
 		}
-		
+
 		return true;
 	}
 }

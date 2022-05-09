@@ -32,40 +32,37 @@ public class BankPool extends GameBank {
 	public BankPool (GameManager aGameManager) {
 		super (NAME, aGameManager);
 	}
-	
+
 	@Override
 	public boolean isABankPool () {
 		return true;
 	}
-	
+
 	@Override
-	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, 
-			GameManager aGameManager) {
-		return buildPortfolioInfoJPanel (aItemListener, aPlayer, aGameManager, 
-				Player.BUY_LABEL);
+	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
+		return buildPortfolioInfoJPanel (aItemListener, aPlayer, aGameManager, Player.BUY_LABEL);
 	}
 
 	public XMLElement getBankPoolStateElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement, tTrainPortfolioElements, tStockPortfolioElements;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_BANK_POOL_STATE);
 		tStockPortfolioElements = getPortfolioElements (aXMLDocument);
 		tXMLElement.appendChild (tStockPortfolioElements);
 		tTrainPortfolioElements = getTrainPortfolioElements (aXMLDocument);
 		tXMLElement.appendChild (tTrainPortfolioElements);
-		
+
 		return tXMLElement;
 	}
-	
+
 	public void loadBankPoolState (XMLNode aBankPoolNode) {
 		XMLNodeList tXMLNodeList;
-		
+
 		tXMLNodeList = new XMLNodeList (bankPoolParsingRoutine);
-		tXMLNodeList.parseXMLNodeList (aBankPoolNode, Portfolio.EN_PORTFOLIO, 
-				TrainPortfolio.EN_TRAIN_PORTFOLIO);
+		tXMLNodeList.parseXMLNodeList (aBankPoolNode, Portfolio.EN_PORTFOLIO, TrainPortfolio.EN_TRAIN_PORTFOLIO);
 	}
-	
-	ParsingRoutineI bankPoolParsingRoutine  = new ParsingRoutine2I ()  {
+
+	ParsingRoutineI bankPoolParsingRoutine = new ParsingRoutine2I () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			loadPortfolio (aChildNode);
@@ -76,7 +73,7 @@ public class BankPool extends GameBank {
 			loadTrainPortfolio (aChildNode);
 		}
 	};
-	
+
 	@Override
 	public String getAbbrev () {
 		return NAME;

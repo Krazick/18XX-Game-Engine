@@ -19,14 +19,14 @@ public class PortPlacementBenefit extends MapBenefit {
 	String tokenType;
 	boolean tokenPlacement;
 	int tokenBonus;
-	
+
 	public PortPlacementBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
-		
+
 		String tTokenType;
 		boolean tTokenPlacement;
 		int tTokenBonus;
-		
+
 		tTokenType = aXMLNode.getThisAttribute (AN_TOKEN_TYPE);
 		tTokenPlacement = aXMLNode.getThisBooleanAttribute (AN_TOKEN_PLACEMENT);
 		tTokenBonus = aXMLNode.getThisIntAttribute (AN_TOKEN_BONUS);
@@ -39,23 +39,23 @@ public class PortPlacementBenefit extends MapBenefit {
 	public void setTokenType (String aTokenType) {
 		tokenType = aTokenType;
 	}
-	
+
 	public void setTokenPlacement (boolean aTokenPlacement) {
 		tokenPlacement = aTokenPlacement;
 	}
-	
+
 	public void setTokenBonus (int aTokenBonus) {
 		tokenBonus = aTokenBonus;
 	}
-	
+
 	public String getTokenType () {
 		return tokenType;
 	}
-	
+
 	public boolean getTokenPlacement () {
 		return tokenPlacement;
 	}
-	
+
 	public int getTokenBonus () {
 		return tokenBonus;
 	}
@@ -71,7 +71,7 @@ public class PortPlacementBenefit extends MapBenefit {
 
 		tActionCommand = aEvent.getActionCommand ();
 		if (CorporationFrame.PLACE_PORT_TOKEN.equals (tActionCommand)) {
-			handlePlacePortToken  ();
+			handlePlacePortToken ();
 		}
 	}
 
@@ -81,7 +81,7 @@ public class PortPlacementBenefit extends MapBenefit {
 
 		super.configure (aPrivateCompany, aButtonRow);
 		if (shouldConfigure ()) {
-			if (! hasButton ()) {
+			if (!hasButton ()) {
 				tPlacePortTokenButton = new JButton (getNewButtonLabel ());
 				setButton (tPlacePortTokenButton);
 				setButtonPanel (aButtonRow);
@@ -96,7 +96,7 @@ public class PortPlacementBenefit extends MapBenefit {
 	private void handlePlacePortToken () {
 		System.out.println ("Ready to place Port Token");
 	}
-	
+
 	@Override
 	public String getNewButtonLabel () {
 		String tNewButtonText;
@@ -105,7 +105,7 @@ public class PortPlacementBenefit extends MapBenefit {
 
 		return tNewButtonText;
 	}
-	
+
 	@Override
 	public void updateButton () {
 		ShareCompany tOwningCompany;
@@ -115,10 +115,10 @@ public class PortPlacementBenefit extends MapBenefit {
 		tOwningCompany = getOwningCompany ();
 		tBenefitInUse = tOwningCompany.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
-		if ((tBenefitInUse.realBenefit ()) && (! NAME.equals (tBenefitInUseName))) {
+		if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
 			disableButton ();
 			setToolTip ("Another Benefit is currently in Use");
-		} else if (! hasTile ()) {
+		} else if (!hasTile ()) {
 			disableButton ();
 			setToolTip ("No Tile on the MapCell, can't place Port Token");
 		} else {

@@ -35,18 +35,18 @@ class TransferOwnershipEffectTestConstructor {
 	GameTestFactory testFactory;
 	CompanyTestFactory companyTestFactory;
 	Certificate certificate;
-	
+
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp () throws Exception {
 		String tClientName, tPlayer2Name, tPlayer3Name;
 		Portfolio tPortfolioAlpha;
-		
+
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterAlpha";
 		tPlayer3Name = "ToEffectTesterDelta";
 		testFactory = new GameTestFactory ();
 		companyTestFactory = new CompanyTestFactory (testFactory);
-		mGameManager =  testFactory.buildGameManagerMock (tClientName);
+		mGameManager = testFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasCoals ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
@@ -55,16 +55,16 @@ class TransferOwnershipEffectTestConstructor {
 		effectAlpha = new TransferOwnershipEffect ();
 		playerActorAlpha = new Player (tPlayer2Name, playerManager, 0);
 		playerActorDelta = new Player (tPlayer3Name, playerManager, 0);
-		
+
 		companyBeta = companyTestFactory.buildAShareCompany (1);
 		Mockito.when (mPhaseInfo.getWillFloatPercent ()).thenReturn (60);
 		Mockito.when (companyBeta.getMinSharesToFloat ()).thenReturn (6);
 		Mockito.when (companyBeta.getCurrentPhaseInfo ()).thenReturn (mPhaseInfo);
 //		Mockito.when (companyBeta.getPercentOwned ()).thenReturn (20);
-		
+
 		companyGamma = companyTestFactory.buildAShareCompany (2);
 		tPortfolioAlpha = playerActorAlpha.getPortfolio ();
-		
+
 		certificate = new Certificate (companyBeta, true, 20, tPortfolioAlpha);
 		tPortfolioAlpha.addCertificate (certificate);
 		effectBeta = new TransferOwnershipEffect (playerActorAlpha, certificate, playerActorDelta);
@@ -72,21 +72,21 @@ class TransferOwnershipEffectTestConstructor {
 
 	@Test
 	@DisplayName ("Simple Constructor Tests")
-	void test() {
+	void test () {
 		Player tFoundPlayer;
 		Player tFoundToPlayer;
 		Certificate tCertificate;
 		String tReportResult = "--Effect: Transfer Ownership of 20% of TPRR from ToEffectTesterAlpha to ToEffectTesterDelta.";
-		
+
 		assertEquals ("TPRR", certificate.getCompanyAbbrev ());
 		assertFalse (effectAlpha.actorIsSet (), "Actor is Set");
 		assertEquals (ActorI.NO_NAME, effectAlpha.getToActorName ());
-		
+
 		assertTrue (effectBeta.actorIsSet (), "Actor is not Set");
 		assertEquals ("Transfer Ownership", effectBeta.getName ());
 		assertEquals ("ToEffectTesterAlpha", effectBeta.getActorName ());
 		assertEquals ("ToEffectTesterDelta", effectBeta.getToActorName ());
-		
+
 		tFoundPlayer = (Player) effectBeta.getActor ();
 		tFoundToPlayer = (Player) effectBeta.getToActor ();
 		assertEquals ("ToEffectTesterAlpha", tFoundPlayer.getName ());
@@ -94,11 +94,11 @@ class TransferOwnershipEffectTestConstructor {
 		assertNotNull (effectBeta.getToActorName ());
 		assertEquals ("ToEffectTesterDelta", effectBeta.getToActorName ());
 		assertEquals ("ToEffectTesterDelta", tFoundToPlayer.getName ());
-	
+
 		tCertificate = effectBeta.getCertificate ();
 		assertEquals ("TPRR", tCertificate.getCompanyAbbrev ());
 		assertEquals ("TPRR", effectBeta.getCompanyAbbrev ());
-		
+
 		assertTrue (effectBeta.applyEffect (null));
 		assertFalse (effectBeta.wasNewStateAuction ());
 		assertTrue (effectBeta.undoEffect (null));

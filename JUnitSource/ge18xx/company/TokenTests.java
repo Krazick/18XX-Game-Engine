@@ -21,7 +21,7 @@ class TokenTests {
 	TokenCompany mCompany2;
 	String mockAbbrev, mockStatus;
 	Token token1;
-	
+
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -32,11 +32,11 @@ class TokenTests {
 		tMockCoID = 5001;
 		mCompany = Mockito.mock (TokenCompany.class);
 		Mockito.when (mCompany.getID ()).thenReturn (tMockCoID);
-		
+
 		tMockCoID = 5002;
 		mCompany2 = Mockito.mock (TokenCompany.class);
 		Mockito.when (mCompany2.getID ()).thenReturn (tMockCoID);
-		
+
 		token1 = new Token (mCompany);
 	}
 
@@ -52,46 +52,46 @@ class TokenTests {
 	class TestTokenCreation {
 		@Test
 		@DisplayName ("With No Argument")
-		public void testToken() {
+		public void testToken () {
 			Token tToken;
-			
+
 			tToken = new Token ();
 			assertEquals (TokenCompany.NO_TOKEN_COMPANY, tToken.getWhichCompany ());
 		}
-	
+
 		@Test
 		@DisplayName ("With a Mocked Company")
 		public void testGetCorporationIDFromToken () {
 			assertEquals (5001, token1.getCorporationID ());
 			assertEquals (mCompany, token1.getWhichCompany ());
 		}
-		
+
 		@Test
 		@DisplayName ("With a Token and Mocked Company")
 		public void testToken2 () {
 			Token tToken2;
-			
+
 			mockAbbrev = "MCA";
 			mockStatus = "Operated";
 			Mockito.when (mCompany.getAbbrev ()).thenReturn (mockAbbrev);
 			Mockito.when (mCompany.getStatusName ()).thenReturn (mockStatus);
-			
+
 			tToken2 = new Token (token1);
 			assertEquals ("MCA", tToken2.getCorporationAbbrev ());
 			assertEquals (5001, tToken2.getCorporationID ());
 			assertEquals ("Operated", tToken2.getCorporationStatus ());
 		}
 	}
-	
+
 	@Nested
 	@DisplayName ("Test Comparing Tokens")
 	class TestComparingTokens {
 		@Test
 		@DisplayName ("Based on (Not Same) Company")
-		public void testToken3 () {	
+		public void testToken3 () {
 			String tMockAbbrev2, tMockStatus2;
 			Token tToken2;
-			
+
 			mockAbbrev = "MCA";
 			mockStatus = "Operated";
 			Mockito.when (mCompany.getAbbrev ()).thenReturn (mockAbbrev);
@@ -100,24 +100,24 @@ class TokenTests {
 			tMockStatus2 = "TileLaid";
 			Mockito.when (mCompany2.getAbbrev ()).thenReturn (tMockAbbrev2);
 			Mockito.when (mCompany2.getStatusName ()).thenReturn (tMockStatus2);
-			
+
 			tToken2 = new Token (mCompany2);
-			
+
 			assertFalse (token1.isSameCompany (tToken2));
 			assertFalse (token1.isCorporationAbbrev (tMockAbbrev2));
 		}
-	
+
 		@Test
 		@DisplayName ("Based on (Same) Company")
-		public void testToken4 () {	
+		public void testToken4 () {
 			String tMockAbbrev;
 			Token tToken2;
-			
+
 			tMockAbbrev = "MCA";
 			Mockito.when (mCompany.getAbbrev ()).thenReturn (tMockAbbrev);
-			
+
 			tToken2 = new Token (mCompany);
-			
+
 			assertTrue (token1.isSameCompany (tToken2));
 			assertTrue (token1.isCorporationAbbrev (tMockAbbrev));
 		}

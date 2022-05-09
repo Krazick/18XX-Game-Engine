@@ -7,7 +7,7 @@ import ge18xx.tiles.Feature2;
 import ge18xx.utilities.XMLNode;
 
 public class PrivateRailwayCenter extends RevenueCenter {
-	
+
 	public PrivateRailwayCenter (XMLNode aNode) {
 		super (aNode);
 	}
@@ -18,8 +18,8 @@ public class PrivateRailwayCenter extends RevenueCenter {
 	}
 
 	@Override
-	public void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex,
-			boolean onTile, Feature2 aSelectedFeature) {
+	public void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile,
+			Feature2 aSelectedFeature) {
 		if (cityInfo != CityInfo.NO_CITY_INFO) {
 			cityInfo.drawPrivateRailway (g, Xc, Yc, aHex);
 		}

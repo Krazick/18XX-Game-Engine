@@ -44,33 +44,34 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	int id;
 	String name;
 	Revenues revenues;
-	RevenueCenterType type; 
+	RevenueCenterType type;
 	CityInfo cityInfo;
-	boolean selectedForTrain [] = new boolean [MAX_TRAIN_COUNT];
+	boolean selectedForTrain[] = new boolean [MAX_TRAIN_COUNT];
 	TileType tileType;
 
 	public RevenueCenter () {
 		TileType noTileType;
 
 		noTileType = new TileType ();
-		
+
 		setValues (RevenueCenterType.NO_REVENUE_CENTER, NO_ID, Location.NO_LOCATION, NO_NAME, NO_VALUE);
 		setTileType (noTileType);
 	}
-	
+
 	public RevenueCenter (int aType, int aID, int aLocation, String aName, int aValue, TileType aTileType) {
 		setValues (aType, aID, aLocation, aName, aValue);
 		setTileType (aTileType);
 	}
-	
-	public RevenueCenter (RevenueCenterType aRCType, int aID, int aLocation, String aName, int aValue, TileType aTileType) {
+
+	public RevenueCenter (RevenueCenterType aRCType, int aID, int aLocation, String aName, int aValue,
+			TileType aTileType) {
 		setValues (aRCType, aID, aLocation, aName, aValue);
 		setTileType (aTileType);
 	}
 
 	public RevenueCenter (RevenueCenter aRC) {
 		int tRevenueCount;
-		
+
 		tRevenueCount = aRC.getRevenueCount ();
 		if (tRevenueCount == 1) {
 			setValues (aRC.type, aRC.id, aRC.getLocationToInt (), aRC.name, aRC.getRevenue (Revenue.ALL_PHASES));
@@ -80,7 +81,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		setRevenueLocation (aRC.revenues.getLocation ());
 		setTileType (aRC.getTileType ());
 	}
-	
+
 	public RevenueCenter (XMLNode aNode) {
 		NodeList tChildren;
 		XMLNode tChildNode;
@@ -89,7 +90,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		int tID, tLocation;
 		int tChildrenCount, tChildrenIndex;
 		RevenueCenterType tRevenueCenterType;
-		
+
 		tRevenueCenterTypeName = aNode.getThisAttribute (AN_TYPE);
 		if (tRevenueCenterTypeName == RevenueCenterType.NO_REVENUE_CENTER_TYPE_NAME) {
 			tRevenueCenterType = RevenueCenterType.NO_REVENUE_CENTER_TYPE;
@@ -116,11 +117,11 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 			}
 		}
 	}
-	
+
 	public void addRevenue (int aValue, int aPhase) {
 		revenues.addRevenue (aValue, aPhase);
 	}
-	
+
 	public void appendTokensState (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
 		/* Revenue Center will never have a Token to Append */
 	}
@@ -129,19 +130,19 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public boolean bleedThroughJustStarting () {
 		return false;
 	}
-	
+
 	public boolean canPlaceStation () {
 		return (false);
 	}
-	
+
 	public boolean cityHasStation (int aCorpID) {
 		return false;
 	}
-	
+
 	public void appendCorporationBase (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
 		XMLElement tCorporationBaseElement;
 		String tCorporationAbbrev;
-		
+
 		tCorporationBaseElement = aXMLDocument.createElement (EN_CORPORATE_BASE);
 		tCorporationAbbrev = cityInfo.getCorporationAbbrev ();
 		if (tCorporationAbbrev != Corporation.NO_ABBREV) {
@@ -152,10 +153,10 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 			}
 		}
 	}
-	
+
 	public boolean hasAnyCorporationBase () {
 		boolean tHasAnyStation = false;
-		
+
 		tHasAnyStation = cityInfo.isCorporationBase ();
 
 		return tHasAnyStation;
@@ -164,39 +165,39 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public boolean cityHasAnyStation () {
 		return false;
 	}
-	
+
 	public boolean cityHasStation (Token aToken) {
 		return false;
 	}
-	
+
 	public void clearAllSelected () {
 		int tIndex;
-		
+
 		for (tIndex = 0; tIndex < MAX_TRAIN_COUNT; tIndex++) {
 			setSelected (false, tIndex);
 		}
 	}
-	
+
 	public void clearCityInfoCorporation () {
 		cityInfo.clearCorporation ();
 	}
-	
+
 	public void clearCityInfoCorporation (Corporation aCorporation) {
 		cityInfo.clearCorporation (aCorporation);
 	}
-	
+
 	public void clearCityInfoMapCell () {
 		cityInfo.clearMapCell ();
 	}
-	
+
 	public void clearCityInfoRevenueCenter () {
 		cityInfo.clearRevenueCenter ();
 	}
-	
+
 	public void clearCorporation () {
 		cityInfo.clearCorporation ();
 	}
-	
+
 	@Override
 	public RevenueCenter clone () {
 		RevenueCenter tRevenueCenter = (RevenueCenter) super.clone ();
@@ -208,20 +209,20 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		for (int tTrainIndex = 0; tTrainIndex < MAX_TRAIN_COUNT; tTrainIndex++) {
 			tRevenueCenter.selectedForTrain [tTrainIndex] = selectedForTrain [tTrainIndex];
 		}
-	
+
 		return tRevenueCenter;
 	}
-	
+
 	public boolean containingPoint (Point aPoint, Hex aHex, int XCenter, int YCenter, int aTileOrient) {
 		boolean tContainingPoint = false;
-		
+
 		return tContainingPoint;
 	}
-	
+
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tRevenueElement;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_REVENUE_CENTER);
 		tXMLElement.setAttribute (AN_TYPE, type.getName ());
 		tXMLElement.setAttribute (AN_ID, id);
@@ -233,15 +234,15 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 				tXMLElement.appendChild (tRevenueElement);
 			}
 		}
-		
+
 		return tXMLElement;
 	}
-	
+
 	public void draw (Graphics g, int Xc, int Yc, Hex aHex, boolean onTile, Feature2 aSelectedFeature) {
 		draw (g, Xc, Yc, NO_ROTATION, aHex, onTile, aSelectedFeature);
 		drawName (g, Xc, Yc, aHex);
 	}
-	
+
 	public void drawCorporationBase (Graphics g, int X1, int Y1, int width, int height) {
 		if (isCorporationBase ()) {
 			if (type.isDestination ()) {
@@ -251,31 +252,31 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 			}
 		}
 	}
-	
+
 	public void drawName (Graphics g, int Xc, int Yc, Hex aHex) {
 		if (cityInfo != CityInfo.NO_CITY_INFO) {
 //			cityInfo.drawName (g, Xc, Yc, aHex);
 		}
 	}
-	
+
 	public void drawValue (Graphics g, int Xc, int Yc, Hex aHex, int aTileOrient) {
 		revenues.draw (g, Xc, Yc, aHex, aTileOrient, tileType);
 	}
-	
+
 	public String getCIName () {
 		String tCityInfoName = NO_NAME;
-		
+
 		if (cityInfo != CityInfo.NO_CITY_INFO) {
 			tCityInfoName = cityInfo.getName ();
 		}
-		
+
 		return tCityInfoName;
 	}
-	
+
 	public CityInfo getCityInfo () {
 		return cityInfo;
 	}
-	
+
 	public String getCityName () {
 		if (cityInfo != CityInfo.NO_CITY_INFO) {
 			return cityInfo.getName ();
@@ -283,11 +284,11 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 			return null;
 		}
 	}
-	
+
 	public int getCenterCount () {
 		return (type.getCenterCount ());
 	}
-	
+
 	public TokenCompany getTokenCorporation () {
 		if (cityInfo == CityInfo.NO_CITY_INFO) {
 			return TokenCompany.NO_TOKEN_COMPANY;
@@ -295,7 +296,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 			return cityInfo.getTokenCorporation ();
 		}
 	}
-	
+
 	public Corporation getCorporation () {
 		if (cityInfo == CityInfo.NO_CITY_INFO) {
 			return Corporation.NO_CORPORATION;
@@ -303,131 +304,131 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 			return cityInfo.getCorporation ();
 		}
 	}
-	
+
 	public String getDestCompanyAbbrev () {
 		String tAbbrev = null;
-		
+
 		if (isCorporationBase ()) {
 			if (type.isDestination ()) {
 				tAbbrev = cityInfo.getCorporationAbbrev ();
 			}
 		}
-		
+
 		return tAbbrev;
 	}
-	
+
 	public String getHomeCompanyAbbrev () {
 		String tAbbrev = null;
-		
+
 		if (isCorporationBase ()) {
-			if (! type.isDestination ()) {
+			if (!type.isDestination ()) {
 				tAbbrev = cityInfo.getCorporationAbbrev ();
 			}
 		}
-		
+
 		return tAbbrev;
 	}
-	
+
 	public int getHomeCompanyID () {
 		int tCompanyID = 0;
-		
+
 		if (isCorporationBase ()) {
 			tCompanyID = cityInfo.getCorporationID ();
 		}
-		
+
 		return tCompanyID;
 	}
-	
+
 	public int getID () {
 		return id;
 	}
-	
+
 	public String getIDToString () {
 		return (new Integer (id).toString ());
 	}
-	
+
 	public String getName () {
 		return name;
 	}
-	
+
 	public int getRevenueLocation () {
 		return revenues.getLocationToInt ();
 	}
-	
+
 	public int getRevenue (int aPhase) {
 		return (revenues.getValue (aPhase));
 	}
-	
+
 	public Revenues getRevenues () {
 		return revenues;
 	}
-	
+
 	public String getRevenueToString (int aPhase) {
 		return (new Integer (revenues.getValue (aPhase)).toString ());
 	}
-	
+
 	public String getRevenueToString () {
 		return (new Integer (revenues.getValue ()).toString ());
 	}
-	
+
 	public int getRevenueCount () {
 		return (revenues.getRevenueCount ());
 	}
-	
+
 	public boolean getSelected (int aIndex) {
 		return selectedForTrain [aIndex];
 	}
-	
+
 	public TileType getTileType () {
 		return tileType;
 	}
-	
+
 	public RevenueCenterType getRevenueCenterType () {
 		return (type);
 	}
-	
+
 	public int getTypeToInt () {
 		return (type.getType ());
 	}
-		
+
 	public boolean isCity () {
 		return type.isCity ();
 	}
-	
+
 	public boolean isCityInfoAvailable () {
 		return (cityInfo != CityInfo.NO_CITY_INFO);
 	}
-	
+
 	public boolean isCorporationBase () {
 		boolean tIsCorporationBase;
-		
+
 		if (isCityInfoAvailable ()) {
 			tIsCorporationBase = cityInfo.isCorporationBase ();
 		} else {
 			tIsCorporationBase = false;
 		}
-		
+
 		return tIsCorporationBase;
 	}
-	
+
 	public boolean isDestination () {
 		return type.isDestination ();
 	}
-	
+
 	public boolean isTown () {
 		return type.isTown ();
 	}
-	
+
 	public boolean isDotTown () {
 		return type.isDotTown ();
 	}
-	
+
 	public boolean isSingleSelected (Location aLocation, Feature2 aSelectedFeature) {
 		Location tFeatureLocation;
 		int tLocationInt;
 		int tFeatureLocationInt;
 		boolean tIsSingleSelected;
-		
+
 		if (aSelectedFeature.isNoLocation ()) {
 			tIsSingleSelected = false;
 		} else {
@@ -448,10 +449,10 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 				tIsSingleSelected = false;
 			}
 		}
-		
+
 		return tIsSingleSelected;
 	}
-	
+
 	public void loadStationsStates (XMLNode aMapCellNode) {
 		/* Should not get here... can only load Stations onto City Revenue Center */
 	}
@@ -459,58 +460,58 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public boolean mapCellHasStation (Token aToken) {
 		return cityInfo.mapCellHasStation (aToken);
 	}
-	
+
 	@Override
 	public void printlog () {
 		System.out.println ("Revenue Center id " + id + " Name " + name);
 		super.printlog ();
-		cityInfo.printCityInfo();
+		cityInfo.printCityInfo ();
 	}
-	
+
 	public void setCityInfo (CityInfo aCityInfo) {
 		cityInfo = aCityInfo.clone ();
 	}
-	
+
 	public void setCorporation (Corporation aCorporation) {
 		setupCityInfo ();
 		cityInfo.setCorporation (aCorporation, this);
 	}
-	
+
 	public void setMapCell (MapCell aMapCell) {
 		setupCityInfo ();
 		cityInfo.setMapCell (aMapCell);
 	}
-	
+
 	public void setupCityInfo () {
 		if (cityInfo == CityInfo.NO_CITY_INFO) {
 			cityInfo = new CityInfo ();
 		}
 	}
-	
+
 	public void setRevenueLocation (int aLocation) {
 		revenues.setLocation (aLocation);
 	}
-	
+
 	public void setRevenueLocation (Location aLocation) {
 		revenues.setLocation (aLocation);
 	}
-	
+
 	public void setRevenues (Revenues aRevenues) {
 		revenues = aRevenues;
 	}
-	
+
 	public void setSelected (boolean aSelectedState, int aIndex) {
 		selectedForTrain [aIndex] = aSelectedState;
 	}
-	
+
 	public boolean setStation (Token aStation) {
 		return (false);
 	}
-	
+
 	public boolean setStation (int aIndex, Token aStation) {
 		return (false);
 	}
-	
+
 	public void setTileType (TileType aTileType) {
 		tileType = aTileType;
 	}
@@ -518,26 +519,26 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public void setValues (int aType, int aID, int aLocation, String aName, Revenues aRevenues) {
 		setValues (new RevenueCenterType (aType), aID, aLocation, aName, aRevenues);
 	}
-	
+
 	public void setValues (int aType, int aID, int aLocation, String aName, int aValue) {
 		setValues (new RevenueCenterType (aType), aID, aLocation, aName, aValue, Revenue.ALL_PHASES);
 	}
-	
+
 	public void setValues (int aType, int aID, int aLocation, String aName, int aValue, int aPhase) {
 		setValues (new RevenueCenterType (aType), aID, aLocation, aName, aValue, aPhase);
 	}
-	
+
 	public void setValues (RevenueCenterType aType, int aID, int aLocation, String aName, int aValue) {
 		setValues (aType, aID, aLocation, aName, aValue, Revenue.ALL_PHASES);
 	}
-	
+
 	public void setValues (RevenueCenterType aType, int aID, int aLocation, String aName, int aValue, int aPhase) {
 		Revenues tRevenues;
-		
+
 		tRevenues = new Revenues (aValue, Location.CENTER_CITY_LOC, aPhase);
 		setValues (aType, aID, aLocation, aName, tRevenues);
 	}
-	
+
 	public void setValues (RevenueCenterType aType, int aID, int aLocation, String aName, Revenues aRevenues) {
 		revenues = new Revenues (aRevenues);
 		type = aType;
@@ -548,25 +549,25 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		cityInfo.setRevenueCenter (this);
 		clearAllSelected ();
 	}
-	
+
 	public void toggleSelected (int aIndex) {
-		setSelected (! selectedForTrain [aIndex], aIndex);
+		setSelected (!selectedForTrain [aIndex], aIndex);
 	}
 
 	public String getToolTip () {
 		String tToolTip = "";
-		
+
 		if (type.isPrivateRailway ()) {
 			tToolTip = "Private Railway: " + name + "<br>";
 		}
 
 		return tToolTip;
 	}
-	
+
 	public String getTokenToolTip () {
 		return "";
 	}
-	
+
 	@Override
 	public boolean isOpen () {
 		return false;
@@ -574,23 +575,26 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 
 	public XMLElement getElement (XMLDocument aXMLDocument, ElementName aElementName) {
 		XMLElement tXMLElement;
-		
+
 		tXMLElement = aXMLDocument.createElement (aElementName);
 		tXMLElement.setAttribute (Location.AN_LOCATION, getLocationToInt ());
-		
+
 		return tXMLElement;
 	}
-	
+
 	public boolean withBaseForCorp (Corporation aCorporation) {
 		boolean tBaseForCorp = false;
-		
+
 		tBaseForCorp = cityInfo.withBaseForCorp (aCorporation);
-		
+
 		return tBaseForCorp;
 	}
 
 	// ABSTRACT Methods that should be overloaded by the sub-classes
 	public abstract boolean cityOrTown ();
-	public abstract void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile, Feature2 aSelectedFeature);
+
+	public abstract void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile,
+			Feature2 aSelectedFeature);
+
 	public abstract boolean cityHasOpenStation ();
 }

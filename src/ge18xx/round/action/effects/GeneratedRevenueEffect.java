@@ -16,7 +16,7 @@ public class GeneratedRevenueEffect extends Effect {
 	final static AttributeName AN_TRAIN_COUNT = new AttributeName ("trainCount");
 	int trainCount;
 	int revenue;
-	
+
 	public GeneratedRevenueEffect () {
 		this (NAME);
 	}
@@ -34,67 +34,67 @@ public class GeneratedRevenueEffect extends Effect {
 	public GeneratedRevenueEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		int tRevenue, tTrainCount;
-		
+
 		tRevenue = aEffectNode.getThisIntAttribute (AN_REVENUE);
 		tTrainCount = aEffectNode.getThisIntAttribute (AN_TRAIN_COUNT);
 		setRevenue (tRevenue);
 		setTrainCount (tTrainCount);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_REVENUE, getRevenue ());
 		tEffectElement.setAttribute (AN_TRAIN_COUNT, getTrainCount ());
-	
+
 		return tEffectElement;
 	}
 
 	public void setRevenue (int aRevenue) {
 		revenue = aRevenue;
 	}
-	
+
 	public void setTrainCount (int aTrainCount) {
 		trainCount = aTrainCount;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tTrainsUsed;
-		
+
 		tTrainsUsed = trainCount + " train";
 		if (trainCount > 1) {
 			tTrainsUsed += "s";
 		}
-		
-		return (REPORT_PREFIX + name + " of " + Bank.formatCash (revenue) +
-				" with " + tTrainsUsed + " for " + getActorName () + ".");
+
+		return (REPORT_PREFIX + name + " of " + Bank.formatCash (revenue) + " with " + tTrainsUsed + " for "
+				+ getActorName () + ".");
 	}
-	
+
 	public int getRevenue () {
 		return revenue;
 	}
-	
+
 	public int getTrainCount () {
 		return trainCount;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		TrainCompany tOperatingCompany;
-		
+
 		tEffectApplied = false;
 		tOperatingCompany = (TrainCompany) aRoundManager.getOperatingCompany ();
 		tOperatingCompany.setThisRevenue (revenue);
 		tOperatingCompany.closeTrainRevenueFrame ();
 		aRoundManager.updateAllCorporationsBox ();
-		
+
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		return true;

@@ -36,11 +36,11 @@ public class RemoveEscrowEffect extends Effect {
 		this (NAME, aActor);
 		setEscrow (aEscrow);
 	}
-	
+
 	public RemoveEscrowEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
-		
+
 		String tCertificateName;
 		Certificate tCertificate;
 		int tCash;
@@ -50,45 +50,44 @@ public class RemoveEscrowEffect extends Effect {
 		tCash = aEffectNode.getThisIntAttribute (AN_ESCROW_TO_PLAYER_CASH);
 		escrow = new Escrow (tCertificate, tCash);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 		String tCompanyAbbrev;
 		int tCash;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tCompanyAbbrev = escrow.getCompanyAbbrev ();
 		tCash = escrow.getCash ();
 		tEffectElement.setAttribute (AN_ESCROW_TO_PLAYER_COMPANY, tCompanyAbbrev);
 		tEffectElement.setAttribute (AN_ESCROW_TO_PLAYER_CASH, tCash);
-	
+
 		return tEffectElement;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + escrow.getCompanyAbbrev() + 
-				" made by " +  actor.getName () + 
-				" Amount of " + Bank.formatCash (escrow.getCash ()) + ".");
+		return (REPORT_PREFIX + name + " for " + escrow.getCompanyAbbrev () + " made by " + actor.getName ()
+				+ " Amount of " + Bank.formatCash (escrow.getCash ()) + ".");
 	}
 
 	public void setEscrow (Escrow aEscrow) {
 		escrow = aEscrow;
 	}
-	
+
 	public Escrow getEscrow () {
 		return escrow;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied = false;
 		EscrowHolderI tHolder = (EscrowHolderI) actor;
-		
+
 		tHolder.removeEscrow (escrow, Escrows.ESCROW_CLOSE_MATCH);
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 	}
 

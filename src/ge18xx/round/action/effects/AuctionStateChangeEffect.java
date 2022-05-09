@@ -20,14 +20,14 @@ public class AuctionStateChangeEffect extends StateChangeEffect {
 		super (aActor, aPreviousState, aNewState);
 		setName (NAME);
 	}
-	
+
 	public AuctionStateChangeEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		
+
 		String tPreviousStateName, tNewStateName;
 		ActorI.ActionStates tPreviousState, tNewState;
 		GenericActor tGenericActor;
-		
+
 		tPreviousStateName = aEffectNode.getThisAttribute (AN_PREVIOUS_STATE);
 		tNewStateName = aEffectNode.getThisAttribute (AN_NEW_STATE);
 		tGenericActor = new GenericActor ();
@@ -36,12 +36,12 @@ public class AuctionStateChangeEffect extends StateChangeEffect {
 		setPreviousState (tPreviousState);
 		setNewState (tNewState);
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Player tPlayer;
-		
+
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
@@ -52,12 +52,12 @@ public class AuctionStateChangeEffect extends StateChangeEffect {
 
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Player tPlayer;
-		
+
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;

@@ -109,53 +109,59 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	CorporationFrame corporationFrame;
 	CorporationList corporationList;
 	Benefit benefitInUse;
-	Portfolio portfolio;   // All Certificates Owned by the Corporation (Privates, Minors, it's own, and others)
-			// Use this portfolio to find what this company can sell.
-	Portfolio corporationCertificates; // A copy of all of this Corporation's Certificates -- regardless of who owns them.
-			// Use this portfolio to pay-out dividends -- to the owners. It goes in here once, and never leaves.
-	
+	Portfolio portfolio; // All Certificates Owned by the Corporation (Privates, Minors, it's own, and
+							// others)
+	// Use this portfolio to find what this company can sell.
+	Portfolio corporationCertificates; // A copy of all of this Corporation's Certificates -- regardless of who owns
+										// them.
+	// Use this portfolio to pay-out dividends -- to the owners. It goes in here
+	// once, and never leaves.
+
 	public Corporation () {
 		this (NO_ID, NO_NAME);
 	}
-	
+
 	public Corporation (int aID, String aName) {
-		this (aID, aName, NO_ABBREV, MapCell.NO_MAP_CELL, Location.NO_LOC, MapCell.NO_MAP_CELL, 
-				Location.NO_LOC, ActorI.ActionStates.Unowned, false);
+		this (aID, aName, NO_ABBREV, MapCell.NO_MAP_CELL, Location.NO_LOC, MapCell.NO_MAP_CELL, Location.NO_LOC,
+				ActorI.ActionStates.Unowned, false);
 	}
-	
-	public Corporation (int aID, String aName, String aAbbrev, MapCell aHomeCity1, Location aHomeLocation1, 
+
+	public Corporation (int aID, String aName, String aAbbrev, MapCell aHomeCity1, Location aHomeLocation1,
 			MapCell aHomeCity2, Location aHomeLocation2, ActorI.ActionStates aStatus, boolean aGovtRailway) {
 		setValues (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aStatus, aGovtRailway);
 	}
-	
-	/* Parse Corporation Node from XML Node - For Initial Load from Data file of Corporations*/
+
+	/*
+	 * Parse Corporation Node from XML Node - For Initial Load from Data file of
+	 * Corporations
+	 */
 	public Corporation (XMLNode aXMLNode, CorporationList aCorporationList) {
 		int tLocation;
 		XMLNodeList tXMLNodeList;
 		String tName, tAbbrev;
 		Benefit tBenefitInUse;
-		
+
 		corporationCertificates = new Portfolio (this);
 		portfolio = new Portfolio (this);
 		id = aXMLNode.getThisIntAttribute (AN_ID);
-		
+
 		tName = aXMLNode.getThisAttribute (AN_NAME);
 		setName (tName);
-		
+
 		tAbbrev = aXMLNode.getThisAttribute (AN_ABBREV);
 		setAbbrev (tAbbrev);
 
 		homeCityGrid1 = aXMLNode.getThisAttribute (AN_HOMECELL1);
 		tLocation = aXMLNode.getThisIntAttribute (Location.AN_HOME_LOCATION1);
 		homeLocation1 = new Location (tLocation);
-		
+
 		homeCityGrid2 = aXMLNode.getThisAttribute (AN_HOMECELL2);
 		tLocation = aXMLNode.getThisIntAttribute (Location.AN_HOME_LOCATION2, Location.NO_LOCATION);
 		homeLocation2 = new Location (tLocation);
 		loadFormationInfo (aXMLNode);
-		
+
 		setStatus (aXMLNode);
-				
+
 		tXMLNodeList = new XMLNodeList (this);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, Certificate.EN_CERTIFICATE, Benefits.EN_BENEFITS);
 		setCorporationList (aCorporationList);
@@ -167,7 +173,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		String tFormationPhase;
 		String tFormationRequirement;
 		String tFormationManadatoryPhase;
-		
+
 		tFormationPhase = aXMLNode.getThisAttribute (AN_FORMATION_PHASE, FORMATION_PHASE1);
 		formationPhase = tFormationPhase;
 		tFormationRequirement = aXMLNode.getThisAttribute (AN_FORMATION_REQUIREMENT, NO_NAME_STRING);
@@ -175,37 +181,37 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		tFormationManadatoryPhase = aXMLNode.getThisAttribute (AN_FORMATION_MADATORY_PHASE, NO_NAME_STRING);
 		formationManadatoryPhase = tFormationManadatoryPhase;
 	}
-	
+
 	public void setBenefitInUse (Benefit aBenefitInUse) {
 		benefitInUse = aBenefitInUse;
 	}
-	
+
 	public Benefit getBenefitInUse () {
 		return benefitInUse;
 	}
-	
+
 	public String getFormationPhase () {
 		return formationPhase;
 	}
-	
+
 	public String getFormationRequirement () {
 		return formationRequirement;
 	}
-	
-	public String getFormationManadatoryPhase  () {
+
+	public String getFormationManadatoryPhase () {
 		return formationManadatoryPhase;
 	}
-	
+
 	private void setStatus (XMLNode aXMLNode) {
 		String tStatus;
 		String tUnowned;
 		ActorI.ActionStates tActionStatus;
 		GenericActor tGenericActor;
-		
+
 		tUnowned = ActorI.ActionStates.Unowned.toString ();
 		tStatus = aXMLNode.getThisAttribute (AN_CORP_STATUS, tUnowned);
 		if (tStatus.equals (tUnowned)) {
-			if (! formationPhase.equals (FORMATION_PHASE1)) {
+			if (!formationPhase.equals (FORMATION_PHASE1)) {
 				tStatus = ActorI.ActionStates.Unformed.toString ();
 			}
 		}
@@ -213,13 +219,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		tActionStatus = tGenericActor.getCorporationActionState (tStatus);
 		setStatus (tActionStatus);
 	}
-		
+
 	@Override
 	public void foundItemMatchKey1 (XMLNode aChildNode) {
 		Certificate tCertificate;
 		int tCertificateQuantity;
 		int tQtyIndex;
-		
+
 		tCertificate = new Certificate (aChildNode);
 		tCertificate.setCorporation (this);
 		tCertificateQuantity = aChildNode.getThisIntAttribute (AN_QUANTITY, 1);
@@ -230,14 +236,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			corporationCertificates.addCertificate (tCertificate);
 		}
 	}
-		
+
 	public void addAction (Action aAction) {
 		corporationList.addAction (aAction);
 	}
 
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
-		
+
 		aCorporationList.addDataElement (getID (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getName (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getAbbrev (), aRowIndex, tCurrentColumn++);
@@ -247,13 +253,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		aCorporationList.addDataElement (getHomeLocation1Int (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getHomeCityGrid2 (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getHomeLocation2Int (), aRowIndex, tCurrentColumn++);
-		
+
 		return tCurrentColumn;
 	}
-	
+
 	public int addAllHeaders (CorporationList aCorporationList, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
-		
+
 		aCorporationList.addHeader ("ID", tCurrentColumn++);
 		tCurrentColumn = addShortHeaders (aCorporationList, tCurrentColumn);
 		aCorporationList.addHeader ("Type", tCurrentColumn++);
@@ -261,25 +267,25 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		aCorporationList.addHeader ("Home Loc 1", tCurrentColumn++);
 		aCorporationList.addHeader ("Home Cell 2", tCurrentColumn++);
 		aCorporationList.addHeader ("Home Loc 2", tCurrentColumn++);
-		
+
 		return tCurrentColumn;
 	}
-	
+
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
 	}
-	
+
 	public int addShortHeaders (CorporationList aCorporationList, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
-		
+
 		aCorporationList.addHeader ("Corporation Name", tCurrentColumn++);
 		aCorporationList.addHeader ("Abbreviation", tCurrentColumn++);
 		aCorporationList.addHeader ("Status", tCurrentColumn++);
-		
+
 		return tCurrentColumn;
 	}
-	
+
 	public abstract JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash);
 
 	public JPanel buildPortfolioJPanel (ItemListener aItemListener, GameManager aGameManager) {
@@ -287,7 +293,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		JPanel tPortfolioInfoJPanel;
 		JPanel tCertsPanel;
 		String tTitle;
-		
+
 		tPortfolioInfoJPanel = new JPanel ();
 		if (portfolio == Portfolio.NO_PORTFOLIO) {
 			tLabel = new JLabel (Portfolio.NO_PORTFOLIO_LABEL);
@@ -295,83 +301,83 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		} else {
 			if (portfolio.getCertificateTotalCount () == 0) {
 				tLabel = new JLabel (Portfolio.NO_CERTIFICATES);
-				tPortfolioInfoJPanel.add (tLabel);				
+				tPortfolioInfoJPanel.add (tLabel);
 			} else {
 				tTitle = "Privates";
-				tCertsPanel = portfolio.buildPortfolioJPanel (tTitle, true, false, false, false, "", 
-						aItemListener, aGameManager);
+				tCertsPanel = portfolio.buildPortfolioJPanel (tTitle, true, false, false, false, "", aItemListener,
+						aGameManager);
 				tPortfolioInfoJPanel.add (tCertsPanel);
 			}
 		}
-		
+
 		return tPortfolioInfoJPanel;
 	}
-	
+
 	// Token Company will Override
 	public JLabel buildTokenLabel () {
 		return GUI.NO_LABEL;
 	}
-	
+
 	// Share Company will Override
 	public void buyPrivate (boolean tVisible) {
 		System.err.println ("Trying to -BUY PRIVATE- Should be handled by Share Company");
 	}
-	
+
 	// Train Company will Override
 	public void buyTrain () {
 		System.err.println ("Trying to -BUY TRAIN- Should be handled by Train Company");
 	}
-	
+
 	public void clearOperatedStatus () {
 		if (status == ActorI.ActionStates.Operated) {
 			status = ActorI.ActionStates.NotOperated;
 		}
 	}
-	
+
 	// Corporation Types will Override
 	public void clearCertificateSelections () {
 		corporationCertificates.clearSelections ();
 	}
-	
+
 	// Override in Train Company
 	public Color getFgColor () {
 		return Color.WHITE;
 	}
-	
+
 	// Override in Train Company
 	public Color getBgColor () {
 		return Color.BLACK;
 	}
-	
+
 	public TrainHolderI getOtherSelectedTrainHolder () {
 		TrainHolderI tGetOtherSelectedTrainHolder = TrainPortfolio.NO_TRAIN_HOLDER;
-		
+
 		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tGetOtherSelectedTrainHolder = corporationList.getOtherSelectedTrainHolder (abbrev);
 		}
-		
+
 		return tGetOtherSelectedTrainHolder;
 	}
-	
+
 	public int getSelectedTrainCount () {
 		int tGetSelectedTrainCount;
-		
+
 		tGetSelectedTrainCount = 0;
 		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tGetSelectedTrainCount = corporationList.getSelectedTrainCount (abbrev);
 		}
-		
+
 		return tGetSelectedTrainCount;
 	}
-	
+
 	public boolean isSelectedTrainItem (Object aItem) {
 		boolean tIsSelectedTrainItem;
-		
+
 		tIsSelectedTrainItem = false;
 		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tIsSelectedTrainItem = corporationList.isSelectedTrainItem (abbrev, aItem);
 		}
-		
+
 		return tIsSelectedTrainItem;
 	}
 
@@ -379,22 +385,22 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public String getTokenLabel () {
 		return null;
 	}
-	
+
 	public boolean canPayHalfDividend () {
 		boolean tCanPayHalfDividend;
-		
+
 		tCanPayHalfDividend = false;
 		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tCanPayHalfDividend = corporationList.canPayHalfDividend ();
 		}
-		
+
 		return tCanPayHalfDividend;
 	}
-	
+
 	public boolean canLayTile () {
 		return false;
 	}
-	
+
 	// Token Company will Override
 	public boolean canLayToken () {
 		return false;
@@ -409,75 +415,75 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public boolean canPayDividend () {
 		return false;
 	}
-	
+
 	public boolean canBuyPrivate () {
 		boolean tCanBuyPrivate;
-		
+
 		tCanBuyPrivate = false;
 		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tCanBuyPrivate = corporationList.canBuyPrivate ();
 		}
-		
+
 		return tCanBuyPrivate;
 	}
-	
+
 	// Train Company will override
 	public boolean canBuyTrain () {
 		return false;
 	}
-	
+
 	// Train Company will override
 	public boolean trainIsSelected () {
 		return false;
 	}
-	
+
 	public void clearBankSelections () {
 		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			corporationList.clearBankSelections ();
 		}
 	}
-	
+
 	public boolean gameHasPrivates () {
 		boolean tGameHasPrivates;
-		
+
 		tGameHasPrivates = false;
 		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
-			tGameHasPrivates =  corporationList.gameHasPrivates ();
+			tGameHasPrivates = corporationList.gameHasPrivates ();
 		}
-		
+
 		return tGameHasPrivates;
 	}
-	
+
 	public String getOperatingOwnerName () {
 		String tGetOperatingOwnerName = null;
-		
+
 		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
 			tGetOperatingOwnerName = corporationList.getOperatingOwnerName ();
 		}
-		
+
 		return tGetOperatingOwnerName;
 	}
-	
+
 	public String getFormattedLastRevenue () {
 		return Bank.formatCash (getLastRevenue ());
 	}
-	
+
 	public String getFormattedThisRevenue () {
 		return Bank.formatCash (getThisRevenue ());
 	}
-	
+
 	public int getLastRevenue () {
-		return TrainCompany.NO_REVENUE_GENERATED; 
+		return TrainCompany.NO_REVENUE_GENERATED;
 	}
-	
+
 	// Train Company will override
 	public boolean dividendsHandled () {
-		return false; 
+		return false;
 	}
-	
+
 	public String commonReason () {
 		String tReason;
-		
+
 		tReason = ">> NO REASON <<";
 		if (status == ActorI.ActionStates.OperatedTrain) {
 			tReason = "Already Operated Train";
@@ -497,15 +503,15 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		if (status == ActorI.ActionStates.Operated) {
 			tReason = "Company completed Operations";
 		}
-		
+
 		return tReason;
 	}
-	
+
 	// Train Company will override
-	public void operateTrains () { 
+	public void operateTrains () {
 		System.err.println ("Trying to -OPERATE TRAINS- Should be handled by Train Company");
 	}
-	
+
 	// Train Company will override
 	public void handleResetAllRoutes () {
 		System.err.println ("Trying to -RESET ALL ROUTES- Should be handled by Train Company");
@@ -515,33 +521,33 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public void clearAllTrainsFromMap () {
 		System.err.println ("Trying to -CLEAR ALL TRAINS- Should be handled by Train Company");
 	}
-	
+
 	public void repaintMapFrame () {
 		corporationList.repaintMapFrame ();
 	}
-	
-	public int getThisRevenue () { 
-		return TrainCompany.NO_REVENUE_GENERATED; 
+
+	public int getThisRevenue () {
+		return TrainCompany.NO_REVENUE_GENERATED;
 	}
-	
+
 	public void close () {
-		if (! updateStatus (ActorI.ActionStates.Closed)) {
+		if (!updateStatus (ActorI.ActionStates.Closed)) {
 			System.err.println ("ZZZ--> Failure to update " + getName () + " to a Closed State <--");
 		}
 	}
-	
-	// TODO: Build Unit Tests for forceClose methods, 
+
+	// TODO: Build Unit Tests for forceClose methods,
 	// Refactor out tBank Calls.
-	
+
 	public void forceClose () {
 		Bank tBank;
 		int tCertificateCount;
-		
+
 		tBank = corporationList.getBank ();
 		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
 		forceClose (tCertificateCount, tBank);
 	}
-	
+
 	public void forceClose (int aCertificateCount, Bank aBank) {
 		Certificate tCertificate;
 		CertificateHolderI tCertificateHolder;
@@ -559,11 +565,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			}
 		}
 	}
-	
+
 	public void removeBenefitButtons () {
-		
+
 	}
-	
+
 	public void close (TransferOwnershipAction aTransferOwnershipAction) {
 		Certificate tCertificate;
 		CertificateHolderI tCertificateHolder;
@@ -573,9 +579,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		int tCertificateCount;
 		ActorI.ActionStates tOldState, tNewState;
 		Portfolio tClosedPortfolio;
-		
+
 		tOldState = getActionStatus ();
-		
+
 		if (tOldState.equals (ActorI.ActionStates.Closed)) {
 			System.err.println ("The Corporation " + name + " is already Closed... don't need to close again");
 		} else if (updateStatus (ActorI.ActionStates.Closed)) {
@@ -599,69 +605,65 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			System.err.println ("XXX--> Failure to update Corp " + getName () + " State to Closed <--");
 		}
 	}
-	
+
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		return aXMLDocument.createElement (EN_CORPORATION);
 	}
-	
+
 	public boolean didPartiallyOperate () {
 		boolean tDidPartiallyOperate;
-		
+
 		tDidPartiallyOperate = false;
-		if ((status == ActorI.ActionStates.TileLaid) ||
-			(status == ActorI.ActionStates.Tile2Laid) ||
-			(status == ActorI.ActionStates.TileUpgraded) ||
-			(status == ActorI.ActionStates.StationLaid) ||
-			(status == ActorI.ActionStates.TileAndStationLaid) ||
-			(status == ActorI.ActionStates.OperatedTrain) ||
-			(status == ActorI.ActionStates.HoldDividend) ||
-			(status == ActorI.ActionStates.HalfDividend) ||
-			(status == ActorI.ActionStates.FullDividend) ||
-			(status == ActorI.ActionStates.WaitingResponse) ||
-			(status == ActorI.ActionStates.BoughtTrain)) {
+		if ((status == ActorI.ActionStates.TileLaid) || (status == ActorI.ActionStates.Tile2Laid)
+				|| (status == ActorI.ActionStates.TileUpgraded) || (status == ActorI.ActionStates.StationLaid)
+				|| (status == ActorI.ActionStates.TileAndStationLaid) || (status == ActorI.ActionStates.OperatedTrain)
+				|| (status == ActorI.ActionStates.HoldDividend) || (status == ActorI.ActionStates.HalfDividend)
+				|| (status == ActorI.ActionStates.FullDividend) || (status == ActorI.ActionStates.WaitingResponse)
+				|| (status == ActorI.ActionStates.BoughtTrain)) {
 			tDidPartiallyOperate = true;
 		}
-			
+
 		return tDidPartiallyOperate;
 	}
-	
+
 	public boolean didOperateTrain () {
 		boolean tDidOperateTrain;
-		
+
 		tDidOperateTrain = false;
-		if ((status == ActorI.ActionStates.OperatedTrain))  {
+		if ((status == ActorI.ActionStates.OperatedTrain)) {
 			tDidOperateTrain = true;
 		}
 
 		return tDidOperateTrain;
 	}
-	
-	public boolean didOperate () { 
+
+	public boolean didOperate () {
 		boolean tDidOperate;
-		
+
 		tDidOperate = false;
 		if (status == ActorI.ActionStates.Operated) {
 			tDidOperate = true;
 		}
-		
+
 		return tDidOperate;
 	}
-	
+
 	public void prepareCorporation () {
 		System.out.println ("Ready to Prepare Corporation  for Operating -- OVERRIDDING SHOULD HANDLE");
 	}
-	
+
 	public void declareBankruptcyAction () {
 		DeclareBankruptcyAction tDeclareBankruptcyAction;
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
 		OperatingRound tOperatingRound;
 		String tOperatingRoundID;
-		
+
 		tCurrentStatus = status;
 		resetStatus (ActorI.ActionStates.Bankrupt);
 		tNewStatus = status;
 		tOperatingRoundID = getOperatingRoundID ();
-		tDeclareBankruptcyAction = new DeclareBankruptcyAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
+		tDeclareBankruptcyAction = new DeclareBankruptcyAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
+				this);
 		tDeclareBankruptcyAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 		tDeclareBankruptcyAction.addClearTrainsFromMapEffect (this);
 		tOperatingRound = corporationList.getOperatingRound ();
@@ -670,14 +672,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		clearAllTrainsFromMap ();
 		hideFrame ();
 	}
-	
+
 	public void doneAction () {
 		boolean tStatusUpdated;
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
 		DoneCorpAction tDoneAction;
 		OperatingRound tOperatingRound;
 		String tOperatingRoundID;
-		
+
 		tCurrentStatus = status;
 		tStatusUpdated = updateStatus (ActorI.ActionStates.Operated);
 		if (tStatusUpdated) {
@@ -694,7 +696,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		clearAllTrainsFromMap ();
 		hideFrame ();
 	}
-	
+
 	// Train Company will override
 	public int getCash () {
 		return 0;
@@ -703,137 +705,135 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int getRevenue () {
 		return 0;
 	}
-	
+
 	public CorporationFrame getCorporationFrame () {
 		return corporationFrame;
 	}
-	
+
 	public String getCurrentRoundOf () {
 		return corporationList.getCurrentRoundOf ();
 	}
-	
+
 	public String getOperatingRoundID () {
 		return corporationList.getOperatingRoundID ();
 	}
 
 	public int getMinSharesToFloat () {
 		int tMinSharesToFloat;
-		
+
 		tMinSharesToFloat = corporationList.getMinSharesToFloat ();
-		
+
 		return tMinSharesToFloat;
 	}
-	
+
 	public int getWillFloatPercent () {
 		PhaseInfo tPhaseInfo;
 		int tWillFloatPercent;
-		
+
 		tPhaseInfo = corporationList.getCurrentPhaseInfo ();
 		tWillFloatPercent = tPhaseInfo.getWillFloatPercent ();
-		
+
 		return tWillFloatPercent;
 	}
-	
+
 	// Train Company will Override
 	public void enterPlaceTileMode () {
 		System.err.println ("Trying to Enter Place Tile Mode as Corporation - WRONG");
 	}
-	
+
 	// Token Company will Override
 	public void enterPlaceTokenMode () {
 		System.err.println ("Trying to Enter Place Token Mode as Corporation - WRONG");
 	}
-	
+
 	// Train Company will Override
-	public void tileWasPlaced (MapCell aMapCell, Tile aTile, int aOrientation, 
-			Tile aPreviousTile, int aPreviousTileOrientation, 
-			String aPreviousTokens, String aPreviousBases) {
+	public void tileWasPlaced (MapCell aMapCell, Tile aTile, int aOrientation, Tile aPreviousTile,
+			int aPreviousTileOrientation, String aPreviousTokens, String aPreviousBases) {
 		System.err.println ("Trying to Verify Placed Tile as Corporation - WRONG");
 	}
-	
+
 	// Token Company will Override
-	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex,
-			boolean aAddLayTokenAction) {
+	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, boolean aAddLayTokenAction) {
 		System.err.println ("Trying to Verify Place Token as Corporation - WRONG");
 	}
-	
+
 	// Token Company will Override
 	public boolean haveLaidAllBaseTokens () {
 		return false;
 	}
-	
+
 	// Token Company will Override
 	public boolean canLayBaseToken () {
 		return false;
 	}
-	
+
 	// Train Company will Override
 	public boolean hasTrainOfType (Train aTrain) {
 		return false;
 	}
-	
+
 	public void printCorporationInfo () {
 		System.out.println ("Printing Corporation Info for " + getName ());
 	}
-	
+
 	// For the Corporation List Columns
 	public int fieldCount () {
 		return 9;
 	}
-	
+
 	public boolean gameHasLoans () {
-		return false; 
+		return false;
 		// TODO: non-1830 Expand to check Game Info to see if Loans are in game
 	}
-	
+
 	@Override
 	public String getAbbrev () {
 		return abbrev;
 	}
-	
+
 	public ActionStates getActionStatus () {
 		return status;
 	}
-	
+
 	@Override
 	public Bank getBank () {
 		return corporationList.getBank ();
 	}
-	
+
 	public BankPool getBankPool () {
 		return corporationList.getBankPool ();
 	}
-	
+
 	public String getBidderNames () {
 		String tBidderNames;
-		
+
 		tBidderNames = corporationCertificates.getBidderNames ();
-		
+
 		return tBidderNames;
 	}
-	
+
 	public int getBidderCount () {
 		int tBidderCount;
-		
+
 		tBidderCount = corporationCertificates.getBidderCount ();
-		
+
 		return tBidderCount;
 	}
 
 	public abstract int calculateStartingTreasury ();
-	
+
 	public int getCapitalizationLevel (int aSharesSold) {
 		int tCapitalizationLevel;
-		
+
 		tCapitalizationLevel = corporationList.getCapitalizationLevel (aSharesSold);
-		
+
 		return tCapitalizationLevel;
 	}
 
 	public Certificate getIPOCertificate (int aPercentage, boolean aPresidentShare) {
 		return corporationCertificates.getIPOCertificate (aPercentage, aPresidentShare);
 	}
-	
+
 	public Certificate getCertificate (int aPercentage, boolean aPresidentShare) {
 		return corporationCertificates.getCertificate (aPercentage, aPresidentShare);
 	}
@@ -841,29 +841,29 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int getCorporationCertificateCount () {
 		return corporationCertificates.getCertificateCountAgainstLimit ();
 	}
-	
+
 	public Certificate getCorporationCertificate (int aIndex) {
 		return corporationCertificates.getCertificate (aIndex);
 	}
-	
+
 	/* Add to XML Element Corporation Specific Information -- For Save File */
 	public void getCorporationStateElement (XMLElement aXMLCorporationState) {
 		aXMLCorporationState.setAttribute (AN_ABBREV, getAbbrev ());
 		aXMLCorporationState.setAttribute (AN_CORP_STATUS, getStatusName ());
 	}
-	
+
 	public XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLCorporationState;
-		
+
 		tXMLCorporationState = aXMLDocument.createElement (EN_CORPORATION);
 		tXMLCorporationState.setAttribute (AN_CORP_STATUS, getStatusName ());
 
 		return tXMLCorporationState;
 	}
-	
+
 	public void appendOtherElements (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		XMLElement tPortfolioElements;
-		
+
 		tPortfolioElements = portfolio.getElements (aXMLDocument);
 		aXMLCorporationState.appendChild (tPortfolioElements);
 	}
@@ -871,12 +871,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int getCountOfSelectedCertificates () {
 		return corporationCertificates.getCountOfCertificatesForBuy ();
 	}
-	
+
 	// Share Company will Override
 	public int getCountOfSelectedPrivates () {
 		return 0;
 	}
-	
+
 	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		return portfolio.getCurrentHolder (aLoadedCertificate);
@@ -885,33 +885,33 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int getCurrentValue () {
 		return NO_COST;
 	}
-	
+
 	public String getDoLabel () {
 		String tLabel;
 		String tActionVerb;
-		
+
 		if (status == ActorI.ActionStates.MayFloat) {
 			tActionVerb = " may operate ";
 		} else {
 			tActionVerb = " will operate ";
 		}
 		tLabel = getPresidentName () + tActionVerb + getName ();
-		
+
 		return tLabel;
 	}
-	
+
 	public String getOperatingLabel () {
 		String tLabel;
-		
+
 		tLabel = getPresidentName () + " is operating " + getName ();
-		
+
 		return tLabel;
 	}
 
 	public ElementName getElementName () {
 		return EN_CORPORATION;
 	}
-	
+
 	// Train Company will override
 	public int getFullShareDividend () {
 		return 0;
@@ -920,15 +920,15 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int getID () {
 		return id;
 	}
-	
+
 	public String getIDToString () {
 		return (new Integer (id).toString ());
 	}
-	
+
 	public GameManager getGameManager () {
 		return corporationList.getGameManager ();
 	}
-	
+
 	// Train Company will override
 	public int getHalfShareDividend () {
 		return 0;
@@ -941,7 +941,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			return homeCityGrid1; // Should get from homeCity1.getID ();
 		}
 	}
-	
+
 	public String getHomeCityGrid2 () {
 		if (homeCityGrid2 == NO_HOME_GRID) {
 			return NO_NAME_STRING;
@@ -949,23 +949,23 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			return homeCityGrid2; // Should get from homeCity2.getID ();
 		}
 	}
-	
+
 	public MapCell getHomeCity1 () {
 		return homeCity1;
 	}
-	
+
 	public MapCell getHomeCity2 () {
 		return homeCity2;
 	}
-	
+
 	public Location getHomeLocation1 () {
 		return homeLocation1;
 	}
-	
+
 	public Location getHomeLocation2 () {
 		return homeLocation2;
 	}
-	
+
 	public int getHomeLocation1Int () {
 		if (homeLocation1 == Location.NO_LOC) {
 			return NO_NAME_INT;
@@ -973,7 +973,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			return homeLocation1.getLocation ();
 		}
 	}
-	
+
 	public int getHomeLocation2Int () {
 		if (homeLocation2 == Location.NO_LOC) {
 			return NO_NAME_INT;
@@ -981,7 +981,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			return homeLocation2.getLocation ();
 		}
 	}
-	
+
 	// TokenCompany will Override
 	public MapToken getMapToken () {
 		return null;
@@ -995,31 +995,35 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int getOwnedPercentage () {
 		return corporationCertificates.getPercentOwned ();
 	}
-	
+
 	public PhaseInfo getCurrentPhaseInfo () {
 		return corporationList.getCurrentPhaseInfo ();
 	}
-	
-	// Corporation by default have no Discount. Privates Can, if they are Must Sell and all have passed
+
+	// Corporation by default have no Discount. Privates Can, if they are Must Sell
+	// and all have passed
 	// Private Company will Override
 	public int getDiscount () {
 		return 0;
 	}
-	
-	// Basic Must Sell is false. Only with a Private that has this attribute is this overridden
+
+	// Basic Must Sell is false. Only with a Private that has this attribute is this
+	// overridden
 	// Private Company will Override
 	public boolean getMustSell () {
 		return false;
 	}
-	
+
 	// Basic Increase Discount -- only needed on Private Override.
 	// Private Company will Override
-	public void increaseDiscount () { }
+	public void increaseDiscount () {
+	}
 
 	// Basic Set Discount -- only needed on Private Override and XML Load
 	// Private Company will Override
-	public void setDiscount (int aDiscount) { }
-	
+	public void setDiscount (int aDiscount) {
+	}
+
 	/**
 	 * Build the generic Corporation Info Label to be added to the Company JPanel
 	 * 
@@ -1028,23 +1032,24 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		JLabel tLabel;
 		String tCorpLabel;
 		Border tCorpBorder;
-		
+
 		tCorpLabel = buildCorpInfoLabel ();
 		tCorpBorder = setupBorder ();
 		tLabel = new JLabel (tCorpLabel);
 		tLabel.setBorder (tCorpBorder);
-		
+
 		return tLabel;
 	}
-	
+
 	// Train Company and Private Company will Override
 	public String buildCorpInfoLabel () {
 		return ">> OVERRIDE buildCorpInfoLabel <<";
 	}
-	
+
 	public int getNextPresidentPercent () {
 		return corporationCertificates.getNextPresidentPercent (this);
 	}
+
 	public String getNextPresidentName () {
 		return corporationCertificates.getNextPresidentName (this);
 	}
@@ -1060,7 +1065,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int getPlayerOrCorpOwnedPercentage () {
 		return corporationCertificates.getPlayerOrCorpOwnedPercentageFor (this);
 	}
-	
+
 	@Override
 	public Portfolio getPortfolio () {
 		return portfolio;
@@ -1074,7 +1079,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public String getPresidentName () {
 		return corporationCertificates.getPresidentName ();
 	}
-	
+
 	public PortfolioHolderI getPresident () {
 		return corporationCertificates.getPresident ();
 	}
@@ -1082,7 +1087,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public Certificate getPresidentCertificate () {
 		return corporationCertificates.getPresidentCertificate ();
 	}
-	
+
 	/**
 	 * Percentage of Shares Sold from Bank
 	 * 
@@ -1094,124 +1099,126 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	/**
-	 * Base class to get the Share Price of the Company. Will be Overridden by the ShareCompany Class
+	 * Base class to get the Share Price of the Company. Will be Overridden by the
+	 * ShareCompany Class
 	 * 
-	 * @return This will always return NO_COST (ie Zero -0-) since the ShareCompany needs to provide this value
+	 * @return This will always return NO_COST (ie Zero -0-) since the ShareCompany
+	 *         needs to provide this value
 	 */
-	
+
 	public int getSharePrice () {
 		return NO_COST;
 	}
-	
+
 	public ActorI.ActionStates getStatus () {
 		return status;
 	}
-	
+
 	public String getStatusName () {
 		return getStateName ();
 	}
-	
+
 	@Override
 	public String getStateName () {
 		return status.toString ();
 	}
-	
+
 	public String getType () {
 		return CORPORATION;
 	}
-	
+
 	// Token Company will Override
 	public boolean haveMoneyForToken () {
 		return false;
 	}
-	
+
 	public void hideFrame () {
 		corporationFrame.setVisible (false);
 	}
-	
+
 	public boolean isActive () {
 		boolean tIsActive;
-		
+
 		tIsActive = true;
-		if (isClosed () || ! isFormed () || (getPercentOwned () == 0)) {
+		if (isClosed () || !isFormed () || (getPercentOwned () == 0)) {
 			tIsActive = false;
 		}
-		
+
 		return tIsActive;
 	}
-	
+
 	public boolean isClosed () {
 		return (status == ActorI.ActionStates.Closed);
 	}
-	
+
 	public boolean isStationLaid () {
 		return (status == ActorI.ActionStates.StationLaid);
 	}
-	
+
 	public boolean isPlayerOwned () {
 		boolean tPresidentIsAPlayer;
-		
+
 		if (isClosed ()) {
 			tPresidentIsAPlayer = false;
 		} else {
 			tPresidentIsAPlayer = corporationCertificates.isPresidentAPlayer ();
 		}
-		
+
 		return tPresidentIsAPlayer;
 	}
-	
-	// Private Company will override	
+
+	// Private Company will override
 	@Override
 	public boolean isAPrivateCompany () {
 		return false;
 	}
-	
+
 	// Coal Company will override
 	public boolean isACoalCompany () {
 		return false;
 	}
-	
+
 	// Train Company will override
 	@Override
 	public boolean isATrainCompany () {
 		return false;
 	}
-	
+
 	// Minor Company will override
 	public boolean isAMinorCompany () {
 		return false;
 	}
-	
+
 	// Token Company will override
 	public boolean isATokenCompany () {
 		return false;
 	}
-	
+
 	// Share Company will override
 	public boolean isAShareCompany () {
 		return false;
 	}
-	
+
 	// Share Company will override
 	@Override
 	public boolean isABankPool () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isCompany () {
 		return true;
 	}
-	
+
 	public boolean isGovtRailway () {
 		return govtRailway;
 	}
-	
+
 	// Minor Company will override
 	public boolean isMinorCompany () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isPlayer () {
 		return false;
@@ -1220,41 +1227,41 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public boolean isSelectedForBuy () {
 		return corporationCertificates.isSelectedForBuy ();
 	}
-	
+
 	// Share Company will override
 	public boolean isShareCompany () {
 		return false;
 	}
-	
+
 	public boolean isSoldOut () {
 		boolean isSoldOut;
 		int tPercentOwned;
-		
+
 		isSoldOut = false;
-		
-		if (! isClosed ()) {
+
+		if (!isClosed ()) {
 			tPercentOwned = getPlayerOrCorpOwnedPercentage ();
 			if (tPercentOwned == 100) {
 				isSoldOut = true;
 			}
 		}
-		
+
 		return isSoldOut;
 	}
-	
+
 	public void removeAllBids () {
 		corporationCertificates.removeAllBids ();
 	}
 
 	public boolean doesOwn (PrivateCompany aPrivateCompany) {
 		boolean tDoesOwn = portfolio.containsPresidentShareOf (aPrivateCompany);
-		
+
 		return tDoesOwn;
 	}
 
 	public boolean doesNotOwn (PrivateCompany aPrivateCompany) {
-		boolean tDoesNotOwn = ! portfolio.containsPresidentShareOf (aPrivateCompany);
-		
+		boolean tDoesNotOwn = !portfolio.containsPresidentShareOf (aPrivateCompany);
+
 		return tDoesNotOwn;
 	}
 
@@ -1263,44 +1270,44 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public boolean isFormed () {
-		return ! (status == ActorI.ActionStates.Unformed);
+		return !(status == ActorI.ActionStates.Unformed);
 	}
-	
+
 	// Train Company will override
 	public void payFullDividend () {
 		System.err.println ("Trying to -PAY FULL DIVIDEND- Should be handled by Train Company");
 	}
-	
+
 	// Train Company will override
 	public void payNoDividend () {
 		System.err.println ("Trying to -PAY NO DIVIDEND- Should be handled by Train Company");
 	}
-	
+
 	// Train Company will override
 	public String reasonForNoTileLay () {
 		return "Corporation cannot lay Tile - Only Train Companies";
 	}
-	
+
 	// Token Company will override
 	public String reasonForNoTokenLay () {
 		return "Corporation cannot lay Token - Only Token Companies";
 	}
-	
+
 	// Train Company will override
 	public String reasonForNoTrainOperation () {
 		return "Corporation cannot Operate Trains - Only Train Companies";
 	}
-	
+
 	// Share Company will override
 	public String reasonForNoBuyPrivate () {
 		return "Corporation cannot Buy Privates - Only Share Companies";
 	}
-	
+
 	// Train Company will override
 	public String reasonForNoDividendPayment () {
 		return "Corporation has made no Revenues - No money to pay Dividends";
 	}
-	
+
 	// Train Company will override
 	public String reasonForNoBuyTrain () {
 		return "Corporation cannot buy Trains - Only Train Companies";
@@ -1314,7 +1321,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public void showFrame () {
 		Point tNewPoint;
 
-		if (! corporationFrame.isVisible ()) {
+		if (!corporationFrame.isVisible ()) {
 			updateFrameInfo ();
 			tNewPoint = corporationList.getOffsetRoundFrame ();
 			corporationFrame.setLocation (tNewPoint);
@@ -1322,57 +1329,57 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		}
 		corporationFrame.toTheFront ();
 	}
-	
+
 	public void showMap () {
-		if (! mapVisible ()) {
+		if (!mapVisible ()) {
 			corporationList.showMap ();
 		}
 		corporationList.bringMapToFront ();
 	}
-	
+
 	public void showTileTray () {
-		if (! tileTrayVisible ()) {
+		if (!tileTrayVisible ()) {
 			corporationList.showTileTray ();
 		}
 	}
-	
+
 	public void updateFrameInfo () {
 		if (corporationFrame != XMLFrame.NO_XML_FRAME) {
 			corporationFrame.updateInfo ();
 		}
 	}
-	
+
 	public void loadStatus (XMLNode aXMLNode) {
 		String tLoadedStatus, tCurrentStatus;
 		ActorI.ActionStates tLoadedState;
 		GenericActor tGenericActor;
-		
+
 		tLoadedStatus = aXMLNode.getThisAttribute (AN_CORP_STATUS);
 		tCurrentStatus = getStatusName ();
-		if (! tLoadedStatus.equals (tCurrentStatus)) {
+		if (!tLoadedStatus.equals (tCurrentStatus)) {
 			tGenericActor = new GenericActor ();
 			tLoadedState = tGenericActor.getCorporationActionState (tLoadedStatus);
 			resetStatus (tLoadedState);
 		}
 		loadStates (aXMLNode);
 	}
-	
+
 	public void loadStates (XMLNode aXMLNode) {
 		// Override with Train Company and Private Company
 	}
-	
+
 	public boolean mapVisible () {
 		return corporationList.mapVisible ();
 	}
-	
+
 	public boolean tileTrayVisible () {
 		return corporationList.tileTrayVisible ();
 	}
-	
+
 	@Override
 	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
 		// Note -- Will need to activate when CorporationFrame is built
-		//	corporationFrame.replacePortfolioInfo (aPortfolioInfoJPanel);
+		// corporationFrame.replacePortfolioInfo (aPortfolioInfoJPanel);
 	}
 
 	public void printOwnershipReport () {
@@ -1381,26 +1388,26 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		System.out.println ("What this Corporation Owns");
 		portfolio.printPortfolioInfo ();
 	}
-	
+
 	public void printReport () {
 		System.out.println ("ID: " + id + " Name [" + name + "] Abbrev [" + abbrev + "]");
 		System.out.println ("President Share Holder Name is: " + getPresidentName ());
 		printOwnershipReport ();
 	}
-	
+
 	public void setAbbrev (String aAbbrev) {
 		abbrev = aAbbrev;
 	}
-	
+
 	public void setCorporationList (CorporationList aCorporationList) {
 		corporationList = aCorporationList;
 	}
-	
+
 	public void setCorporationFrame () {
 		String tFullTitle;
 		GameManager tGameManager;
 		boolean tIsNetworkGame;
-		
+
 		if (isATrainCompany ()) {
 			tGameManager = corporationList.getGameManager ();
 			tIsNetworkGame = tGameManager.isNetworkGame ();
@@ -1414,29 +1421,31 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	/**
 	 * Set the Company's HomeCity1 and HomeLocation1 to the provided parameters
 	 * 
-	 * @param aHomeCity the MapCell that is the First Home of the Company
-	 * @param aHomeLocation the Location within the MapCell for the Home of the Company
+	 * @param aHomeCity     the MapCell that is the First Home of the Company
+	 * @param aHomeLocation the Location within the MapCell for the Home of the
+	 *                      Company
 	 */
 	public void setHome1 (MapCell aHomeCity, Location aHomeLocation) {
 		homeCity1 = aHomeCity;
 		homeLocation1 = aHomeLocation;
 	}
-	
+
 	/**
 	 * Set the Company's HomeCity2 and HomeLocation1 to the provided parameters
 	 * 
-	 * @param aHomeCity the MapCell that is the Second Home of the Company
-	 * @param aHomeLocation the Location within the MapCell for the Home of the Company
+	 * @param aHomeCity     the MapCell that is the Second Home of the Company
+	 * @param aHomeLocation the Location within the MapCell for the Home of the
+	 *                      Company
 	 */
 	public void setHome2 (MapCell aHomeCity, Location aHomeLocation) {
 		homeCity2 = aHomeCity;
 		homeLocation2 = aHomeLocation;
 	}
-	
+
 	protected void setName (String aName) {
 		name = aName;
 	}
-	
+
 	@Override
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		setPrimaryActionState (aPrimaryActionState);
@@ -1445,10 +1454,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public void setPrimaryActionState (ActorI.ActionStates aStatus) {
 		resetStatus (aStatus);
 	}
-	
+
 	/**
-	 * Force Reset the Corporation Status to the provided Status -- NO Checks to see if valid. Will also update
-	 * The Frame Information
+	 * Force Reset the Corporation Status to the provided Status -- NO Checks to see
+	 * if valid. Will also update The Frame Information
 	 * 
 	 * @param aStatus The new status value to set.
 	 */
@@ -1456,20 +1465,21 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		forceSetStatus (aStatus);
 		updateFrameInfo ();
 	}
-	
+
 	/**
-	 * Force Set the Corporation Status to the provided Status -- NO Checks to see if valid. To allow for 
-	 * Unit Testing.
+	 * Force Set the Corporation Status to the provided Status -- NO Checks to see
+	 * if valid. To allow for Unit Testing.
 	 * 
 	 * @param aStatus The new status value to set.
 	 */
 	protected void forceSetStatus (ActorI.ActionStates aStatus) {
 		status = aStatus;
 	}
-	
-	/** 
-	 * Set the Company Status to the Provided Status if the current Status is NO_STATE, or if it is Unowned
-	 * Otherwise, call the updateStatus method to update if allowed.
+
+	/**
+	 * Set the Company Status to the Provided Status if the current Status is
+	 * NO_STATE, or if it is Unowned Otherwise, call the updateStatus method to
+	 * update if allowed.
 	 * 
 	 * @param aStatus The New Status to set the Company Status to.
 	 */
@@ -1482,45 +1492,43 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			updateStatus (aStatus);
 		}
 	}
-	
+
 	/**
-	 * Update the Status of the Company to the provided Status, if it is allowed from the current state
+	 * Update the Status of the Company to the provided Status, if it is allowed
+	 * from the current state
 	 * 
 	 * @param aStatus The desired new Status
-	 * @return True if the status was updated, false if the update failed due to bad target status
+	 * @return True if the status was updated, false if the update failed due to bad
+	 *         target status
 	 */
 	public boolean updateStatus (ActorI.ActionStates aStatus) {
 		boolean tStatusUpdated;
-		
+
 		tStatusUpdated = false;
 		if (aStatus == ActorI.ActionStates.WaitingResponse) {
 			forceSetStatus (aStatus);
 			tStatusUpdated = true;
 		} else if (status == ActorI.ActionStates.Owned) {
 			if (isAShareCompany ()) {
-				if ((aStatus == ActorI.ActionStates.MayFloat) ||
-					(aStatus == ActorI.ActionStates.WillFloat) ||
-					(aStatus == ActorI.ActionStates.Closed)) {
+				if ((aStatus == ActorI.ActionStates.MayFloat) || (aStatus == ActorI.ActionStates.WillFloat)
+						|| (aStatus == ActorI.ActionStates.Closed)) {
 					status = aStatus;
 					tStatusUpdated = true;
 				}
 			} else {
-				if ((aStatus == ActorI.ActionStates.WillFloat) ||
-					(aStatus == ActorI.ActionStates.Closed)) {
+				if ((aStatus == ActorI.ActionStates.WillFloat) || (aStatus == ActorI.ActionStates.Closed)) {
 					status = aStatus;
 					tStatusUpdated = true;
 				}
 			}
 		} else if (status == ActorI.ActionStates.Unformed) {
-			if ((aStatus == ActorI.ActionStates.Owned) ||
-				(aStatus == ActorI.ActionStates.Closed)) {
+			if ((aStatus == ActorI.ActionStates.Owned) || (aStatus == ActorI.ActionStates.Closed)) {
 				status = aStatus;
 				tStatusUpdated = true;
-			}		
+			}
 		} else if (status == ActorI.ActionStates.MayFloat) {
-			if ((aStatus == ActorI.ActionStates.Owned) || 
-				(aStatus == ActorI.ActionStates.WillFloat) ||
-				(aStatus == ActorI.ActionStates.NotOperated)) {
+			if ((aStatus == ActorI.ActionStates.Owned) || (aStatus == ActorI.ActionStates.WillFloat)
+					|| (aStatus == ActorI.ActionStates.NotOperated)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
@@ -1530,86 +1538,66 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.NotOperated) {
-			if ((aStatus == ActorI.ActionStates.StartedOperations)  ||
-				(aStatus == ActorI.ActionStates.Closed)) {
+			if ((aStatus == ActorI.ActionStates.StartedOperations) || (aStatus == ActorI.ActionStates.Closed)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.StartedOperations) {
-			if ((aStatus == ActorI.ActionStates.TileLaid) || 
-				(aStatus == ActorI.ActionStates.TileUpgraded) ||
-				(aStatus == ActorI.ActionStates.StationLaid) ||
-				(aStatus == ActorI.ActionStates.OperatedTrain) ||
-				(aStatus == ActorI.ActionStates.HoldDividend) ||
-				(aStatus == ActorI.ActionStates.HalfDividend) ||
-				(aStatus == ActorI.ActionStates.FullDividend)) {
+			if ((aStatus == ActorI.ActionStates.TileLaid) || (aStatus == ActorI.ActionStates.TileUpgraded)
+					|| (aStatus == ActorI.ActionStates.StationLaid) || (aStatus == ActorI.ActionStates.OperatedTrain)
+					|| (aStatus == ActorI.ActionStates.HoldDividend) || (aStatus == ActorI.ActionStates.HalfDividend)
+					|| (aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.Tile2Laid) {
-			if (aStatus == ActorI.ActionStates.StationLaid) { 
+			if (aStatus == ActorI.ActionStates.StationLaid) {
 				status = ActorI.ActionStates.TileAndStationLaid;
 				tStatusUpdated = true;
-			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) ||
-				(aStatus == ActorI.ActionStates.HoldDividend) ||
-				(aStatus == ActorI.ActionStates.HalfDividend) ||
-				(aStatus == ActorI.ActionStates.FullDividend)) { 
+			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) || (aStatus == ActorI.ActionStates.HoldDividend)
+					|| (aStatus == ActorI.ActionStates.HalfDividend) || (aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.TileLaid) {
-			if ((aStatus == ActorI.ActionStates.Tile2Laid) || 
-				(aStatus == ActorI.ActionStates.StationLaid) ||
-				(aStatus == ActorI.ActionStates.TileAndStationLaid) ||
-				(aStatus == ActorI.ActionStates.OperatedTrain) ||
-				(aStatus == ActorI.ActionStates.HoldDividend) ||
-				(aStatus == ActorI.ActionStates.HalfDividend) ||
-				(aStatus == ActorI.ActionStates.FullDividend)) {
+			if ((aStatus == ActorI.ActionStates.Tile2Laid) || (aStatus == ActorI.ActionStates.StationLaid)
+					|| (aStatus == ActorI.ActionStates.TileAndStationLaid)
+					|| (aStatus == ActorI.ActionStates.OperatedTrain) || (aStatus == ActorI.ActionStates.HoldDividend)
+					|| (aStatus == ActorI.ActionStates.HalfDividend) || (aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.TileAndStationLaid) {
 			if (aStatus == ActorI.ActionStates.StationLaid) {
 				tStatusUpdated = true;
-			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) ||
-				(aStatus == ActorI.ActionStates.HoldDividend) ||
-				(aStatus == ActorI.ActionStates.HalfDividend) ||
-				(aStatus == ActorI.ActionStates.FullDividend)) { 
+			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) || (aStatus == ActorI.ActionStates.HoldDividend)
+					|| (aStatus == ActorI.ActionStates.HalfDividend) || (aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.StationLaid) {
-			if ((aStatus == ActorI.ActionStates.TileAndStationLaid) ||
-				(aStatus == ActorI.ActionStates.StationLaid) ||
-				(aStatus == ActorI.ActionStates.OperatedTrain) ||
-				(aStatus == ActorI.ActionStates.HoldDividend) ||
-				(aStatus == ActorI.ActionStates.HalfDividend) ||
-				(aStatus == ActorI.ActionStates.FullDividend)) {
+			if ((aStatus == ActorI.ActionStates.TileAndStationLaid) || (aStatus == ActorI.ActionStates.StationLaid)
+					|| (aStatus == ActorI.ActionStates.OperatedTrain) || (aStatus == ActorI.ActionStates.HoldDividend)
+					|| (aStatus == ActorI.ActionStates.HalfDividend) || (aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.TileUpgraded) {
-			if ((aStatus == ActorI.ActionStates.StationLaid) ||
-				(aStatus == ActorI.ActionStates.TileAndStationLaid) ||
-				(aStatus == ActorI.ActionStates.OperatedTrain) ||
-				(aStatus == ActorI.ActionStates.HoldDividend) ||
-				(aStatus == ActorI.ActionStates.HalfDividend) ||
-				(aStatus == ActorI.ActionStates.FullDividend)) {
+			if ((aStatus == ActorI.ActionStates.StationLaid) || (aStatus == ActorI.ActionStates.TileAndStationLaid)
+					|| (aStatus == ActorI.ActionStates.OperatedTrain) || (aStatus == ActorI.ActionStates.HoldDividend)
+					|| (aStatus == ActorI.ActionStates.HalfDividend) || (aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.OperatedTrain) {
-			if ((aStatus == ActorI.ActionStates.HoldDividend) ||
-				(aStatus == ActorI.ActionStates.HalfDividend) ||
-				(aStatus == ActorI.ActionStates.FullDividend)) {
+			if ((aStatus == ActorI.ActionStates.HoldDividend) || (aStatus == ActorI.ActionStates.HalfDividend)
+					|| (aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
-		} else if ((status == ActorI.ActionStates.HoldDividend) ||
-					(status == ActorI.ActionStates.HalfDividend) || 
-					(status == ActorI.ActionStates.FullDividend)) {
-			if ((aStatus == ActorI.ActionStates.BoughtTrain) ||
-				(aStatus == ActorI.ActionStates.Operated)) {
+		} else if ((status == ActorI.ActionStates.HoldDividend) || (status == ActorI.ActionStates.HalfDividend)
+				|| (status == ActorI.ActionStates.FullDividend)) {
+			if ((aStatus == ActorI.ActionStates.BoughtTrain) || (aStatus == ActorI.ActionStates.Operated)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
@@ -1624,20 +1612,19 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				tStatusUpdated = true;
 			}
 		}
-		
+
 //		ActorI.ActionStates -- CorporationStates
 //
 //		Unowned, Owned, Closed, MayFloat, WillFloat, NotOperated,
 //		StartedOperations, TileLaid, Tile2Laid, TileUpgraded, 
 //		StationLaid, TileAndStationLaid, OperatedTrain, HoldDividend, 
 //		HalfDividend, FullDividend, BoughtTrain, Operated, WaitingResponse
-		
+
 		return tStatusUpdated;
 	}
-	
-	private void setValues (int aID, String aName, String aAbbrev, MapCell aHomeCity1, 
-			Location aHomeLocation1, MapCell aHomeCity2, Location aHomeLocation2, 
-			ActorI.ActionStates aStatus, boolean aGovtRailway) {
+
+	private void setValues (int aID, String aName, String aAbbrev, MapCell aHomeCity1, Location aHomeLocation1,
+			MapCell aHomeCity2, Location aHomeLocation2, ActorI.ActionStates aStatus, boolean aGovtRailway) {
 		corporationCertificates = new Portfolio (this);
 		id = aID;
 		setName (aName);
@@ -1647,63 +1634,59 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		setStatus (aStatus);
 		govtRailway = aGovtRailway;
 	}
-	
+
 	public boolean canOperate () {
 		boolean tCanOperate;
-		
+
 		tCanOperate = true;
-		if ((status == ActorI.ActionStates.Closed) ||
-			(status == ActorI.ActionStates.Unowned) || 
-			(status == ActorI.ActionStates.Owned)) {
+		if ((status == ActorI.ActionStates.Closed) || (status == ActorI.ActionStates.Unowned)
+				|| (status == ActorI.ActionStates.Owned)) {
 			tCanOperate = false;
 		}
-		
+
 		return tCanOperate;
 	}
-	
+
 	public boolean isOperating () {
 		boolean isOperating;
-		
+
 		isOperating = true;
-		if ((status == ActorI.ActionStates.Closed) ||
-			(status == ActorI.ActionStates.Unowned) || 
-			(status == ActorI.ActionStates.WillFloat) || 
-			(status == ActorI.ActionStates.MayFloat) || 
-			(status == ActorI.ActionStates.Owned) ||
-			(status == ActorI.ActionStates.Operated) ||
-			(status == ActorI.ActionStates.NotOperated)) {
+		if ((status == ActorI.ActionStates.Closed) || (status == ActorI.ActionStates.Unowned)
+				|| (status == ActorI.ActionStates.WillFloat) || (status == ActorI.ActionStates.MayFloat)
+				|| (status == ActorI.ActionStates.Owned) || (status == ActorI.ActionStates.Operated)
+				|| (status == ActorI.ActionStates.NotOperated)) {
 			isOperating = false;
 		}
-		
+
 		return isOperating;
 	}
-	
+
 	public boolean shouldOperate () {
 		boolean tShouldOperate;
-		
+
 		tShouldOperate = true;
-		if ((status == ActorI.ActionStates.Closed) ||
-			(status == ActorI.ActionStates.Unowned) || 
-			(status == ActorI.ActionStates.Owned) || 
-			(status == ActorI.ActionStates.Operated)) {
+		if ((status == ActorI.ActionStates.Closed) || (status == ActorI.ActionStates.Unowned)
+				|| (status == ActorI.ActionStates.Owned) || (status == ActorI.ActionStates.Operated)) {
 			tShouldOperate = false;
 		}
-		
+
 		return tShouldOperate;
 	}
 
 	public void sortCorporationCertificates () {
 		corporationCertificates.sortByOwners ();
 	}
-	
+
 	public void undoAction () {
 		corporationList.undoAction ();
-		/* Need to test if the state of the company should leave the window open or not */
+		/*
+		 * Need to test if the state of the company should leave the window open or not
+		 */
 		if (status == ActorI.ActionStates.NotOperated) {
 			hideFrame ();
 		}
 	}
-	
+
 	public void updateOwnerPortfolios () {
 		corporationCertificates.updateCertificateOwnersInfo ();
 	}
@@ -1713,15 +1696,15 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int compareTo (Corporation aCorporation) {
 		return compareID (aCorporation);
 	}
-	
+
 	public int compareID (Corporation aCorporation) {
 		return id - aCorporation.getID ();
 	}
-	
+
 	public int compareActive (Corporation aCorporation) {
 		boolean tIsActive1, tIsActive2;
 		int tCompareActive;
-		
+
 		tIsActive1 = isActive ();
 		tIsActive2 = aCorporation.isActive ();
 		tCompareActive = 0;
@@ -1736,13 +1719,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		} else {
 			tCompareActive = 0;
 		}
-		
+
 		return tCompareActive;
 	}
-	
+
 	public int comparePartiallyOperated (Corporation aCorporation) {
 		int tComparePartiallyOperated;
-		
+
 		if (didPartiallyOperate ()) {
 			tComparePartiallyOperated = SORT_CO1_BEFORE_CO2;
 		} else if (aCorporation.didPartiallyOperate ()) {
@@ -1750,15 +1733,15 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		} else {
 			tComparePartiallyOperated = 0;
 		}
-		
+
 		return tComparePartiallyOperated;
 	}
-	
+
 	public int compareCanOperate (Corporation aCorporation) {
 		boolean tCanOperate1, tCanOperate2;
 		int tCompareCanOperate;
 		TrainCompany tCompany1, tCompany2;
-		
+
 		if (this.isAShareCompany ()) {
 			tCompany1 = (TrainCompany) this;
 			tCompany2 = (TrainCompany) aCorporation;
@@ -1779,14 +1762,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		} else {
 			tCompareCanOperate = 0;
 		}
-		
+
 		return tCompareCanOperate;
 	}
 
 	public int compareClosed (Corporation aCorporation) {
 		boolean tIsClosed1, tIsClosed2;
 		int tCompareClosed;
-		
+
 		tIsClosed1 = isClosed ();
 		tIsClosed2 = aCorporation.isClosed ();
 		tCompareClosed = 0;
@@ -1801,23 +1784,22 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		} else {
 			tCompareClosed = 0;
 		}
-		
+
 		return tCompareClosed;
 	}
-	
+
 	public int compareMarketCellLtoR (Corporation aCorporation) {
 		ShareCompany tShare1, tShare2;
 		MarketCell tMarketCell1, tMarketCell2;
 		int tCompareMarketCellLtoR;
-		
+
 		tShare1 = (ShareCompany) this;
 		tShare2 = (ShareCompany) aCorporation;
 		tMarketCell1 = tShare1.getSharePriceMarketCell ();
 		tMarketCell2 = tShare2.getSharePriceMarketCell ();
 		tCompareMarketCellLtoR = 0;
-		
-		if ((tMarketCell1 != MarketCell.NO_MARKET_CELL) && 
-			(tMarketCell2 != MarketCell.NO_MARKET_CELL)) {
+
+		if ((tMarketCell1 != MarketCell.NO_MARKET_CELL) && (tMarketCell2 != MarketCell.NO_MARKET_CELL)) {
 			if (tMarketCell1 != tMarketCell2) {
 				if (tMarketCell1.isRightOf (tMarketCell2)) {
 					tCompareMarketCellLtoR = SORT_CO2_BEFORE_CO1;
@@ -1831,20 +1813,19 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 		return tCompareMarketCellLtoR;
 	}
-	
+
 	public int compareMarketCellDtoU (Corporation aCorporation) {
 		ShareCompany tShare1, tShare2;
 		MarketCell tMarketCell1, tMarketCell2;
 		int tCompareMarketCellDtoU;
-		
+
 		tShare1 = (ShareCompany) this;
 		tShare2 = (ShareCompany) aCorporation;
 		tMarketCell1 = tShare1.getSharePriceMarketCell ();
 		tMarketCell2 = tShare2.getSharePriceMarketCell ();
 		tCompareMarketCellDtoU = 0;
-		
-		if ((tMarketCell1 != MarketCell.NO_MARKET_CELL) && 
-			(tMarketCell2 != MarketCell.NO_MARKET_CELL)) {
+
+		if ((tMarketCell1 != MarketCell.NO_MARKET_CELL) && (tMarketCell2 != MarketCell.NO_MARKET_CELL)) {
 			if (tMarketCell1 != tMarketCell2) {
 				if (tMarketCell1.isAbove (tMarketCell2)) {
 					tCompareMarketCellDtoU = SORT_CO2_BEFORE_CO1;
@@ -1858,25 +1839,24 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 		return tCompareMarketCellDtoU;
 	}
-	
+
 	public int compareShare (Corporation aCorporation) {
 		int tCompareShare;
-		
-		if ((this.isAShareCompany ()) && 
-			(aCorporation.isAShareCompany ())) {
+
+		if ((this.isAShareCompany ()) && (aCorporation.isAShareCompany ())) {
 			tCompareShare = 0;
 		} else {
 			tCompareShare = compareID (aCorporation);
 		}
-		
+
 		return tCompareShare;
 	}
-	
+
 	public int compareStackLocation (Corporation aCorporation) {
 		ShareCompany tShare;
 		MarketCell tMarketCell;
 		int tCompareStackLocation;
-		
+
 		tShare = (ShareCompany) this;
 		tMarketCell = tShare.getSharePriceMarketCell ();
 		if (tMarketCell != MarketCell.NO_SHARE_PRICE) {
@@ -1884,15 +1864,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		} else {
 			tCompareStackLocation = 0;
 		}
-		
+
 		return tCompareStackLocation;
 	}
-	
+
 	public int comparePrice (Corporation aCorporation) {
 		int tPriceDiff;
-		
-		if ((aCorporation.getSharePrice () == NO_COST) && 
-			(getSharePrice () == NO_COST)) {
+
+		if ((aCorporation.getSharePrice () == NO_COST) && (getSharePrice () == NO_COST)) {
 			tPriceDiff = 0;
 		} else if (aCorporation.getSharePrice () == NO_COST) {
 			tPriceDiff = SORT_CO1_BEFORE_CO2;
@@ -1901,19 +1880,18 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		} else {
 			tPriceDiff = aCorporation.getSharePrice () - getSharePrice ();
 		}
-		
+
 		return tPriceDiff;
 	}
-	
-	public static Comparator<Corporation> CorporationOperatingOrderComparator 
-    			= new Comparator<Corporation>() {
-		
+
+	public static Comparator<Corporation> CorporationOperatingOrderComparator = new Comparator<Corporation> () {
+
 		@Override
 		public int compare (Corporation aCorporation1, Corporation aCorporation2) {
 			int tOperatingOrderValue, tClosedCompare;
-			
+
 			tOperatingOrderValue = aCorporation1.compareActive (aCorporation2);
-			if (tOperatingOrderValue == 0) {	// Both Companies are Active
+			if (tOperatingOrderValue == 0) { // Both Companies are Active
 				tOperatingOrderValue = aCorporation1.comparePartiallyOperated (aCorporation2);
 				if (tOperatingOrderValue == 0) { // Both Companies can Operate
 					tOperatingOrderValue = aCorporation1.compareCanOperate (aCorporation2);
@@ -1939,12 +1917,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 					tOperatingOrderValue = tClosedCompare;
 				}
 			}
-			
+
 			if (tOperatingOrderValue == 0) {
 				tOperatingOrderValue = aCorporation1.compareID (aCorporation2);
 			}
-			
-			//ascending order
+
+			// ascending order
 			return tOperatingOrderValue;
 		}
 	};
@@ -1954,26 +1932,26 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	// Overriden in Train Company
-	public JPanel buildPortfolioTrainsJPanel (CorporationFrame aCorporationFrame, 
-			GameManager aGameManager, boolean aFullTrainPortfolio, 
-			boolean aCanBuyTrain, String aDisableToolTipReason, 
+	public JPanel buildPortfolioTrainsJPanel (CorporationFrame aCorporationFrame, GameManager aGameManager,
+			boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason,
 			Corporation aBuyingCorporation) {
 		return GUI.NO_PANEL;
 	}
-	
+
 	public TrainHolderI getLocalSelectedTrainHolder () {
 		return TrainPortfolio.NO_TRAIN_HOLDER;
 	}
 
-	// From here to end loading the Privates owned by a Corporation when Loading a Saved Game
+	// From here to end loading the Privates owned by a Corporation when Loading a
+	// Saved Game
 	public void loadPortfolio (XMLNode aXMLNode) {
 		XMLNodeList tXMLNodeList;
-		
+
 		tXMLNodeList = new XMLNodeList (portfolioParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, Portfolio.EN_PORTFOLIO);
 	}
 
-	ParsingRoutineI portfolioParsingRoutine  = new ParsingRoutineI ()  {
+	ParsingRoutineI portfolioParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			portfolio.loadPortfolio (aChildNode);
@@ -1992,24 +1970,24 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	// Train Company will Override these
 	public void setMustBuyTrain (boolean b) {
 	}
-	
+
 	public boolean mustBuyTrain () {
 		return false;
 	}
-	
+
 	public boolean mustBuyTrainNow () {
 		return false;
 	}
-	
+
 	public boolean hasNoTrain () {
 		return true;
 	}
 
 	public boolean canBuyTrainInPhase () {
 		boolean tCanBuyTrainInPhase;
-		
+
 		tCanBuyTrainInPhase = corporationList.canBuyTrainInPhase ();
-		
+
 		return tCanBuyTrainInPhase;
 	}
 
@@ -2023,7 +2001,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	public Border setupBorder () {
 		Border tCorpBorder;
-		
+
 		tCorpBorder = BorderFactory.createLineBorder (Color.black, 1);
 
 		return tCorpBorder;
@@ -2033,7 +2011,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public boolean isAPlayer () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isAStockRound () {
 		return false;
@@ -2043,7 +2021,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public boolean isAOperatingRound () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isABank () {
 		return false;
@@ -2053,7 +2031,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public boolean isACorporation () {
 		return true;
 	}
-	
+
 	public String getNote () {
 		return NO_NOTE;
 	}
@@ -2062,46 +2040,46 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		corporationFrame.revalidate ();
 		corporationFrame.repaint ();
 	}
-	
+
 	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
 		boolean tIsTileAvailableForMapCell;
-		
+
 		tIsTileAvailableForMapCell = aMapCell.isTileAvailableForMapCell ();
-		
+
 		return tIsTileAvailableForMapCell;
 	}
-	
+
 	public boolean homeMapCell1HasTile () {
 		boolean tHomeMapCellHasTile;
-		
+
 		tHomeMapCellHasTile = false;
 		if (homeCity1 != MapCell.NO_MAP_CELL) {
 			tHomeMapCellHasTile = homeCity1.isTileOnCell ();
 		} else {
 			System.err.println ("Home City 1 Map Cell is NOT SET -- PROBLEM!");
 		}
-		
+
 		return tHomeMapCellHasTile;
 	}
-	
+
 	public boolean homeMapCell2HasTile () {
 		boolean tHomeMapCellHasTile;
-		
+
 		tHomeMapCellHasTile = false;
 		if (homeCity2 != MapCell.NO_MAP_CELL) {
 			tHomeMapCellHasTile = homeCity2.isTileOnCell ();
 		} else {
 			tHomeMapCellHasTile = true;
 		}
-		
+
 		return tHomeMapCellHasTile;
 	}
 
 	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
 //		Override in Train Company Class
-		
+
 	}
-	
+
 	public void exitSelectRouteMode () {
 //		Override in Train Company Class
 	}
@@ -2122,15 +2100,15 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	public boolean isWaitingForResponse () {
 		boolean tIsWaitingForResponse;
-		
+
 		tIsWaitingForResponse = false;
 		if (status.equals (ActorI.ActionStates.WaitingResponse)) {
 			tIsWaitingForResponse = true;
 		}
-		
+
 		return tIsWaitingForResponse;
 	}
-	
+
 	public void setTestingFlag (boolean aGameTestFlag) {
 		gameTestFlag = aGameTestFlag;
 	}
@@ -2138,43 +2116,43 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public boolean isATestGame () {
 		return gameTestFlag;
 	}
-	
+
 	public void placeBaseTokens () {
 		// Override in Token Company Class
 	}
 
-	public int getCostToLayToken(MapCell tMapCell) {
+	public int getCostToLayToken (MapCell tMapCell) {
 		// Override in Token Company Class
 		return 0;
 	}
 
-	public PrivateCompany getSelectedPrivateToBuy() {
+	public PrivateCompany getSelectedPrivateToBuy () {
 		// Override in Share Company Class
 		return null;
 	}
 
 	public CashHolderI getCashHolderByName (String aCashHolderName) {
 		CashHolderI tCashHolder;
-		
+
 		tCashHolder = corporationList.getCashHolderByName (aCashHolderName);
-		
+
 		return tCashHolder;
 	}
 
 	public void handlePlaceTile () {
 		corporationFrame.handlePlaceTile ();
 	}
-	
+
 	public boolean hasPlacedAnyStation () {
 		boolean tHasPlacedAnyStation = false;
 		MapFrame tMapFrame;
-		
+
 		tMapFrame = corporationList.getMapFrame ();
 		tHasPlacedAnyStation = tMapFrame.hasStation (getID ());
-		
+
 		return tHasPlacedAnyStation;
 	}
-	
+
 	protected void configurePrivateBenefitButtons (JPanel aButtonRow) {
 		removeAllBenefitButtons (aButtonRow);
 		portfolio.configurePrivateCompanyBenefitButtons (aButtonRow);
@@ -2184,7 +2162,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		CorporationList tPrivates;
 		PrivateCompany tPrivate;
 		int tCount, tIndex;
-		
+
 		tPrivates = corporationList.getPrivates ();
 		tCount = tPrivates.getCountOfOpen ();
 		if (tCount > 0) {
@@ -2196,11 +2174,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			}
 		}
 	}
-	
+
 	public void fillCorporationTrains (ButtonsInfoFrame aButtonsInfoFrame) {
-		
+
 	}
-	
+
 	@Override
 	public abstract void completeBenefitInUse ();
 
@@ -2213,12 +2191,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public boolean isLoading () {
 		return corporationList.isLoading ();
 	}
-	
+
 	public Action getLastAction () {
 		Action tLastAction;
-		
+
 		tLastAction = corporationList.getLastAction ();
-		
+
 		return tLastAction;
 	}
 }

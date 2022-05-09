@@ -3,11 +3,11 @@ package ge18xx.utilities;
 public class NoSpaceString {
 	public final String NULL_STRING = GUI.NULL_STRING;
 	String string;
-	
+
 	NoSpaceString () {
 		string = NULL_STRING;
 	}
-	
+
 	NoSpaceString (String aString) {
 		if (aString == NULL_STRING) {
 			string = aString;
@@ -21,14 +21,14 @@ public class NoSpaceString {
 			}
 		}
 	}
-	
+
 	public boolean hasValue () {
 		return (string != NULL_STRING);
 	}
-	
+
 	public boolean equals (String aString) {
 		boolean tEquals;
-		
+
 		if (hasValue ()) {
 			if (aString == NULL_STRING) {
 				tEquals = false;
@@ -38,14 +38,14 @@ public class NoSpaceString {
 		} else {
 			tEquals = false;
 		}
-		
+
 		return tEquals;
 	}
-	
+
 	public String getString () {
 		return string;
 	}
-	
+
 	@Override
 	public String toString () {
 		return getString ();

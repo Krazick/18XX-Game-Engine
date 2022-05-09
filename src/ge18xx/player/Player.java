@@ -74,11 +74,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final int OWN_ZERO_PERCENT = 0;
 	public static final String NO_STOCK_TO_SELL = null;
 	private final String DELIMITER = ",";
-	/* These attributes are set once, and never change, but are needed for game use */
+	/*
+	 * These attributes are set once, and never change, but are needed for game use
+	 */
 	PlayerManager playerManager;
 	String name;
 	PlayerFrame playerFrame;
-	// TODO Should not need to store these in this class, fetch from Game Manager if needed
+	// TODO Should not need to store these in this class, fetch from Game Manager if
+	// needed
 	boolean gameHasPrivates;
 	boolean gameHasCoals;
 	boolean gameHasMinors;
@@ -92,7 +95,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	JPanel playerJPanel = GUI.NO_PANEL;
 	Logger logger;
 	Benefit benefitInUse;
-	
+
 	/* These attributes below change during the game, need to save/load them */
 	int treasury;
 	Escrows escrows;
@@ -101,18 +104,18 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	Portfolio portfolio;
 	String exchangedPrezShare;
 	SoldCompanies soldCompanies;
-		
+
 	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
 		GameManager tGameManager;
-		
+
 		tGameManager = aPlayerManager.getGameManager ();
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, tGameManager);
 		setGameHasCompanies (tGameManager);
 	}
-	
+
 	public void setGameHasCompanies (GameManager aGameManager) {
 		boolean tHasPrivates, tHasCoals, tHasMinors, tHasShares;
-		
+
 		tHasPrivates = aGameManager.gameHasPrivates ();
 		tHasCoals = aGameManager.gameHasCoals ();
 		tHasMinors = aGameManager.gameHasMinors ();
@@ -122,15 +125,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setGameHasMinors (tHasMinors);
 		setGameHasShares (tHasShares);
 	}
-		
-	private void buildPlayer (String aName, PlayerManager aPlayerManager, int aCertificateLimit, 
-				GameManager aGameManager) {
+
+	private void buildPlayer (String aName, PlayerManager aPlayerManager, int aCertificateLimit,
+			GameManager aGameManager) {
 		Benefit tBenefitInUse;
-		
+
 		/* Save the Player Name -- ONCE */
 		name = aName;
 		logger = aGameManager.getLogger ();
-		
+
 		/* Set Variables that change during the game, that must be saved/loaded */
 		treasury = 0;
 		portfolio = new Portfolio (this);
@@ -144,14 +147,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		escrows = new Escrows (this);
 		tBenefitInUse = new FakeBenefit ();
 		setBenefitInUse (tBenefitInUse);
-		
+
 		playerManager = aPlayerManager;
 		buildPlayerFrame (aGameManager);
 	}
 
 	private void buildPlayerFrame (GameManager aGameManager) {
 		String tFullTitle;
-		
+
 		tFullTitle = aGameManager.createFrameTitle ("Player");
 		playerFrame = new PlayerFrame (tFullTitle, this, aGameManager);
 		aGameManager.addNewFrame (playerFrame);
@@ -161,35 +164,35 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void setBenefitInUse (Benefit aBenefitInUse) {
 		benefitInUse = aBenefitInUse;
 	}
-	
+
 	public Benefit getBenefitInUse () {
 		return benefitInUse;
 	}
-	
+
 	protected void addPrivateBenefitButtons (JPanel aButtonRow) {
 		portfolio.configurePrivatePlayerBenefitButtons (aButtonRow);
 	}
 
 	@Override
 	public void completeBenefitInUse () {
-		
+
 	}
 
 	public void setTriggeredAuction (boolean aTriggeredAuction) {
 		triggeredAuction = aTriggeredAuction;
 	}
-	
+
 	public boolean getTriggeredAuction () {
 		return triggeredAuction;
 	}
-	
+
 	public void setBoughtShare (boolean aBoughtShare) {
 		boughtShare = aBoughtShare;
 		if (boughtShare) {
 			primaryActionState = ActionStates.Bought;
 		}
 	}
-	
+
 	public void setBidShare (boolean aBidShare) {
 		bidShare = aBidShare;
 		if (bidShare) {
@@ -197,92 +200,92 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			primaryActionState = ActionStates.Bid;
 		}
 	}
-	
+
 	public void setExchangedPrezShare (String aExchangedShare) {
 		exchangedPrezShare = aExchangedShare;
 	}
-	
+
 	public boolean sells () {
 		boolean tCanDoAction;
-		
+
 		tCanDoAction = false;
 		if (playerManager.isOperatingRound ()) {
-			
-		} else if (primaryActionState == ActionStates.Pass){
+
+		} else if (primaryActionState == ActionStates.Pass) {
 			System.err.println ("Player has passed, can't Act");
 		} else {
 			tCanDoAction = true;
 			primaryActionState = ActionStates.Sold;
 		}
-		
+
 		return tCanDoAction;
 	}
-	
+
 	public boolean acts () {
 		boolean tCanDoAction;
-		
+
 		tCanDoAction = false;
 		if (playerManager.isOperatingRound ()) {
-			
-		} else if(primaryActionState == ActionStates.Pass){
+
+		} else if (primaryActionState == ActionStates.Pass) {
 			System.err.println ("Player has passed, can't Act");
 		} else {
 			tCanDoAction = true;
 			primaryActionState = ActionStates.Acted;
 			playerFrame.setDoneButton ();
 		}
-		
+
 		return tCanDoAction;
 	}
-	
+
 	@Override
 	public void addCash (int aAmount) {
 		treasury += aAmount;
 		playerFrame.setCashLabel ();
 	}
-	
+
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
 		playerFrame.updateCertificateInfo ();
 	}
-	
+
 	public void bringPlayerFrameToFront () {
 		playerFrame.toTheFront ();
 	}
-	
+
 	public void addSoldCompanies (String aCompanyAbbrev) {
 		soldCompanies.addSoldCompanies (aCompanyAbbrev);
 	}
 
 	public JPanel buildPortfolioJPanel (ItemListener aItemListener) {
 		GameManager tGameManager;
-		String tTitle; 
-		
+		String tTitle;
+
 		tGameManager = playerManager.getGameManager ();
 		tTitle = "Privates";
-		
-		return portfolio.buildPortfolioJPanel (tTitle, gameHasPrivates, gameHasCoals, gameHasMinors, 
-				gameHasShares, SELL_LABEL, aItemListener, tGameManager);
+
+		return portfolio.buildPortfolioJPanel (tTitle, gameHasPrivates, gameHasCoals, gameHasMinors, gameHasShares,
+				SELL_LABEL, aItemListener, tGameManager);
 	}
 
 	public boolean atCertLimit () {
 		boolean tAtCertLimit = false;
 		int tCertificateCount, tCertificateLimit;
-		
+
 		tCertificateCount = getCertificateCount ();
 		tCertificateLimit = getCertificateLimit ();
 		if (tCertificateCount >= tCertificateLimit) {
 			tAtCertLimit = true;
 		}
-		
+
 		return tAtCertLimit;
 	}
-	
+
 	public boolean canCompleteTurn () {
 		boolean tCanCompleteTurn;
 		String tShareCompanyThatExceeds;
-		
+
 		tCanCompleteTurn = true;
 		if (exchangedPrezShare != NO_STOCK_TO_SELL) {
 			tCanCompleteTurn = false;
@@ -294,26 +297,26 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 				tCanCompleteTurn = false;
 			}
 		}
-		
+
 		return tCanCompleteTurn;
 	}
 
 	public void clearAllSelections () {
 		portfolio.clearSelections ();
 	}
-	
+
 	public void clearAllSoldCompanies () {
 		soldCompanies.clearAllSoldCompanies ();
 	}
-	
+
 	public int exceedsCertificateLimitBy () {
 		int tExceedsCertificateLimit;
-		
+
 		tExceedsCertificateLimit = getCertificateCount () - getCertificateLimit ();
-		
+
 		return tExceedsCertificateLimit;
 	}
-	
+
 	public String exceedsAnyCorpShareLimit () {
 		String tExceedsThisCorpLimit;
 		String tShareCompanyAbbrev;
@@ -322,32 +325,30 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		Corporation tCorporation;
 		GameManager tGameManager;
 		CorporationList tShareCompanies;
-		
+
 		tExceedsThisCorpLimit = NO_STOCK_TO_SELL;
 		tGameManager = playerManager.getGameManager ();
 		tShareCompanies = tGameManager.getShareCompanies ();
 		tCorporationCount = tShareCompanies.getCorporationCount ();
-		for (tCorporationIndex = 0; 
-				(tCorporationIndex < tCorporationCount) && 
-				(tExceedsThisCorpLimit == NO_STOCK_TO_SELL); 
-				tCorporationIndex++) {
+		for (tCorporationIndex = 0; (tCorporationIndex < tCorporationCount)
+				&& (tExceedsThisCorpLimit == NO_STOCK_TO_SELL); tCorporationIndex++) {
 			tCorporation = tShareCompanies.getCorporation (tCorporationIndex);
 			tShareCompanyAbbrev = tCorporation.getAbbrev ();
 			if (exceedsShareLimit (tShareCompanyAbbrev)) {
 				tExceedsThisCorpLimit = tShareCompanyAbbrev;
 			}
 		}
-		
+
 		return tExceedsThisCorpLimit;
 	}
-	
+
 	public boolean finishAuction (Certificate aCertificateToBuy, boolean aCreateNewAuctionAction) {
 		boolean tNextShareHasBids;
 		WinAuctionAction tWinAuctionAction;
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
 		List<Certificate> tCertificatesToBuy;
-		
+
 		tRoundType = ActorI.ActionStates.AuctionRound;
 		tRoundID = "1";
 
@@ -356,18 +357,18 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tWinAuctionAction = new WinAuctionAction (tRoundType, tRoundID, this);
 		tCertificatesToBuy = new LinkedList<Certificate> ();
 		tCertificatesToBuy.add (aCertificateToBuy);
-		tWinAuctionAction = (WinAuctionAction) playerManager.buyAction (this, tCertificatesToBuy, 
+		tWinAuctionAction = (WinAuctionAction) playerManager.buyAction (this, tCertificatesToBuy,
 				PlayerManager.STOCK_BUY_IN.AuctionRound, tWinAuctionAction);
 		aCertificateToBuy.refundBids (tWinAuctionAction);
 		tWinAuctionAction.addRemoveAllBidsEffect (this, aCertificateToBuy);
 		tWinAuctionAction.addFinishAuctionEffect (this);
-		
-		playerManager.addAction (tWinAuctionAction);		
+
+		playerManager.addAction (tWinAuctionAction);
 		playerManager.finishAuction (tNextShareHasBids, aCreateNewAuctionAction);
-		
+
 		return tNextShareHasBids;
 	}
-	
+
 	public void clearAuctionActionState () {
 		setAuctionActionState (ActionStates.NoAction);
 	}
@@ -385,35 +386,35 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			playerFrame.updatePortfolioInfo ();
 		}
 	}
-	
+
 	public boolean exceedsShareLimit (String aCompanyAbbrev) {
 		boolean tExceedsShareLimit;
 		int tPlayerShareLimit;
 		int tPlayerOwnedPercentage;
-		
+
 		tPlayerShareLimit = getShareLimit (aCompanyAbbrev);
 		tPlayerOwnedPercentage = portfolio.getCertificatePercentageFor (aCompanyAbbrev);
-		tExceedsShareLimit = (tPlayerOwnedPercentage > tPlayerShareLimit*10);
-		
+		tExceedsShareLimit = (tPlayerOwnedPercentage > tPlayerShareLimit * 10);
+
 		return tExceedsShareLimit;
 	}
 
 	public boolean gameHasCoals () {
 		return gameHasCoals;
 	}
-	
+
 	public boolean gameHasMinors () {
 		return gameHasMinors;
 	}
-	
+
 	public boolean gameHasPrivates () {
 		return gameHasPrivates;
 	}
-	
+
 	public boolean gameHasShares () {
 		return gameHasShares;
 	}
-	
+
 	public ActionStates getAuctionActionState () {
 		return auctionActionState;
 	}
@@ -422,35 +423,35 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public Bank getBank () {
 		return playerManager.getBank ();
 	}
-	
+
 	public BankPool getBankPool () {
 		return playerManager.getBankPool ();
 	}
-	
+
 	@Override
 	public int getCash () {
 		return treasury;
 	}
-	
+
 	public int getCertificateCount () {
 		int tCertificateCount;
-		
+
 		if (portfolio == Portfolio.NO_PORTFOLIO) {
 			tCertificateCount = 0;
 		} else {
 			tCertificateCount = portfolio.getCertificateCountAgainstLimit ();
 		}
-		
+
 		return tCertificateCount;
 	}
-	
+
 	public int getCertificateLimit () {
 		return certificateLimit;
 	}
-	
+
 	public int getCertificateTotalCount () {
 		int tCertificateCount;
-		
+
 		if (portfolio == Portfolio.NO_PORTFOLIO) {
 			tCertificateCount = 0;
 		} else {
@@ -458,41 +459,41 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 		return tCertificateCount;
 	}
-	
+
 	public List<Certificate> getCertificatesToSell () {
 		List<Certificate> tCertificatesToSell;
-		
+
 		tCertificatesToSell = portfolio.getCertificatesToSell ();
-		
+
 		return tCertificatesToSell;
 	}
-	
+
 	public List<Certificate> getCertificatesToBuy () {
 		List<Certificate> tCertificatesToBuy;
 
 		tCertificatesToBuy = playerManager.getCertificatesToBuy ();
-		
+
 		return tCertificatesToBuy;
 	}
 
 	public Certificate getCertificateToExchange () {
 		return portfolio.getCertificateToExchange ();
 	}
-	
+
 	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
-		
+
 		tCurrentHolder = playerManager.getCurrentHolder (aLoadedCertificate);
-		
+
 		return tCurrentHolder;
 	}
-	
+
 	@Override
 	public void printAllEscrows () {
 		escrows.printAllEscrows ();
 	}
-	
+
 	public Escrow getEscrowMatching (String aEscrowName) {
 		return escrows.getEscrowMatching (aEscrowName);
 	}
@@ -500,69 +501,68 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public Escrow getEscrowFor (Certificate aCertificate) {
 		return escrows.getEscrowFor (aCertificate);
 	}
-	
-	
+
 	public Escrow getEscrowAt (int aEscrowIndex) {
 		return escrows.getEscrowAt (aEscrowIndex);
 	}
-	
+
 	public int getEscrowCount () {
 		int tEscrowCount;
-		
+
 		tEscrowCount = 0;
 		if (escrows != Escrows.NO_ESCROWS) {
 			tEscrowCount = escrows.getEscrowCount ();
 		}
-		
+
 		return tEscrowCount;
 	}
-	
+
 	public int getTotalEscrow () {
 		int tTotalEscrow;
-		
+
 		tTotalEscrow = 0;
 		if (escrows != Escrows.NO_ESCROWS) {
 			tTotalEscrow = escrows.getTotalEscrow ();
 		}
-		
+
 		return tTotalEscrow;
 	}
-	
+
 	public GameManager getGameManager () {
 		return playerManager.getGameManager ();
 	}
-	
+
 	@Override
 	public String getName () {
 		return name;
 	}
-	
+
 	public int getPercentOwnedOf (Corporation aCorporation) {
 		int tPercentOwned;
-	
+
 		tPercentOwned = portfolio.getCertificatePercentageFor (aCorporation);
-		
+
 		return tPercentOwned;
 	}
-	
+
 	public PlayerFrame getPlayerFrame () {
 		return playerFrame;
 	}
-	
+
 	public XMLElement getPlayerElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_PLAYER);
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_PLAYER_INDEX, playerManager.getPlayerIndex (this));
-		
+
 		return tXMLElement;
 	}
-	
+
 	public XMLElement getPlayerStateElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement, tXMLPortofolioElements, tXMLEscrows;
 		String tCompaniesSold;
-		
+
 		tCompaniesSold = soldCompanies.toString (DELIMITER);
 		tXMLElement = getPlayerElement (aXMLDocument);
 		tXMLElement.setAttribute (AN_CASH, treasury);
@@ -577,53 +577,53 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.appendChild (tXMLPortofolioElements);
 		tXMLEscrows = escrows.getEscrowXML (aXMLDocument);
 		tXMLElement.appendChild (tXMLEscrows);
-		
+
 		return tXMLElement;
 	}
-	
+
 	@Override
 	public String getStateName () {
 		return primaryActionState.toString ();
 	}
-	
+
 	@Override
 	public Portfolio getPortfolio () {
 		return portfolio;
 	}
-	
+
 	@Override
 	public Player getPortfolioHolder () {
 		return this;
 	}
-	
+
 	public Certificate getPresidentCertificateFor (Corporation aCorporation) {
 		return portfolio.getPresidentCertificate (aCorporation);
 	}
-	
+
 	public Certificate getNonPresidentCertificateFor (Corporation aCorporation) {
 		return portfolio.getNonPresidentCertificate (aCorporation);
 	}
-	
+
 	public ActionStates getPrimaryActionState () {
 		return primaryActionState;
 	}
-	
+
 	public int getPortfolioValue () {
 		return portfolio.getPortfolioValue ();
 	}
-	
+
 	public JLabel getRFPlayerLabel () {
 		return rfPlayerLabel;
 	}
-	
+
 	public String getRFPlayerLabelText () {
 		String tText;
-		
+
 		tText = ">>NO LABEL<<";
 		if (rfPlayerLabel != null) {
 			tText = rfPlayerLabel.getText ();
 		}
-		
+
 		return tText;
 	}
 
@@ -632,7 +632,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		ShareCompany tShareCompany;
 		Player tPresidentOf;
 		int tCurrentPlayerHasXPercent, tPresidentHasXPercent;
-		
+
 		tMustSellPercent = 0;
 		tShareCompany = playerManager.getShareCompany (aCompanyAbbrev);
 		if (tShareCompany == Corporation.NO_CORPORATION) {
@@ -643,22 +643,22 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			tPresidentHasXPercent = tPresidentOf.getPercentOwnedOf (tShareCompany);
 			tMustSellPercent = 1 + tCurrentPlayerHasXPercent - tPresidentHasXPercent;
 		}
-		
+
 		return tMustSellPercent;
 	}
-	
+
 	public Player getNextPossiblePrez (String aCompanyAbbrev) {
 		Player tNextPossiblePrez = NO_PLAYER;
 		ShareCompany tShareCompany;
-		
+
 		tShareCompany = playerManager.getShareCompany (aCompanyAbbrev);
 		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tNextPossiblePrez = playerManager.findPlayerWithMost (tShareCompany, this);
 		}
-		
+
 		return tNextPossiblePrez;
 	}
-	
+
 	public int getShareLimit (String aCompanyAbbrev) {
 		int tPlayerShareLimit;
 		MarketCell tMarketCell;
@@ -676,63 +676,62 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 				}
 			}
 		}
-		
+
 		return tPlayerShareLimit;
 	}
-	
+
 	public boolean hasActionsToUndo () {
 		boolean tActionsToUndo;
-		
+
 		if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 			tActionsToUndo = false;
 		} else {
 			tActionsToUndo = playerManager.hasActionsToUndo ();
 		}
-		
+
 		return tActionsToUndo;
 	}
-	
+
 	public boolean hasActed () {
 		boolean tHasActed = true;
 
-		// If the Primary Action State for the Player is NoAction or Pass, 
+		// If the Primary Action State for the Player is NoAction or Pass,
 		// the Player has NOT Acted, otherwise the Player Has Acted
-		
-		if ((primaryActionState == ActionStates.NoAction) ||
-			(primaryActionState == ActionStates.Pass)) {
+
+		if ((primaryActionState == ActionStates.NoAction) || (primaryActionState == ActionStates.Pass)) {
 			tHasActed = false;
 		}
-		
-		return tHasActed; 
+
+		return tHasActed;
 	}
-	
+
 	public boolean hasBoughtShare () {
 		return boughtShare;
 	}
-	
+
 	public boolean hasBid () {
 		return bidShare;
 	}
-	
+
 	public String hasExchangedShare () {
 		return exchangedPrezShare;
 	}
-	
+
 	public boolean hasLessThanPresident (String aCompanyAbbrev) {
 		boolean tHasLessThanPresident;
 		ShareCompany tShareCompany;
 		Player tPresidentOf;
 		int tCurrentPlayerHasXPercent, tPresidentHasXPercent;
-		
+
 		tHasLessThanPresident = true;
 		tShareCompany = playerManager.getShareCompany (aCompanyAbbrev);
 		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tCurrentPlayerHasXPercent = getPercentOwnedOf (tShareCompany);
-			tPresidentOf =  (Player) tShareCompany.getPresident ();
+			tPresidentOf = (Player) tShareCompany.getPresident ();
 			tPresidentHasXPercent = tPresidentOf.getPercentOwnedOf (tShareCompany);
 			tHasLessThanPresident = (tCurrentPlayerHasXPercent < tPresidentHasXPercent);
 		}
-		
+
 		return tHasLessThanPresident;
 	}
 
@@ -740,81 +739,82 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		boolean tHasMaxShares;
 		int tPlayerShareLimit;
 		int tPlayerOwnedPercentage;
-		
+
 		tHasMaxShares = false;
 		tPlayerShareLimit = getShareLimit (aCompanyAbbrev);
 
 		if (tPlayerShareLimit < 10) {
 			tPlayerOwnedPercentage = portfolio.getCertificatePercentageFor (aCompanyAbbrev);
-			if (tPlayerOwnedPercentage >= tPlayerShareLimit*10) {
+			if (tPlayerOwnedPercentage >= tPlayerShareLimit * 10) {
 				tHasMaxShares = true;
 			}
 		}
-		
+
 		return tHasMaxShares;
 	}
-	
+
 	public boolean hasMustBuyCertificate () {
 		return playerManager.hasMustBuyCertificate ();
 	}
-	
+
 	public boolean hasPassed () {
 		return primaryActionState == ActionStates.Pass;
 	}
-	
+
 	public boolean hasPassedInAuction () {
 		return auctionActionState == ActionStates.AuctionPass;
 	}
-	
+
 	public boolean hasSelectedOneToExchange () {
 		return portfolio.hasSelectedOneToExchange ();
 	}
-	
+
 	public boolean hasSelectedPrezToExchange () {
 		boolean tHasSelectedPrezToExchange;
-		
+
 		tHasSelectedPrezToExchange = portfolio.hasSelectedPrezToExchange ();
-		
+
 		return tHasSelectedPrezToExchange;
 	}
-	
+
 	public boolean hasSelectedPrivateOrMinorToExchange () {
 		boolean tHasSelectedPrivateOrMinorToExchange;
-		
+
 		tHasSelectedPrivateOrMinorToExchange = portfolio.hasSelectedPrivateOrMinorToExchange ();
-		
+
 		return tHasSelectedPrivateOrMinorToExchange;
 	}
 
 	public String getSelectedCompanyAbbrev () {
 		String tSelectedCompanyAbbrev;
-		
+
 		tSelectedCompanyAbbrev = portfolio.getSelectedCompanyAbbrev ();
-		
+
 		return tSelectedCompanyAbbrev;
 	}
-	
+
 	public int getSelectedPercent () {
 		int tSelectedPercent;
-		
+
 		tSelectedPercent = portfolio.getSelectedPercent ();
-		
+
 		return tSelectedPercent;
 	}
-	
+
 	public boolean hasSelectedSameStocksToSell () {
 		boolean tHasSelectedSameStocksToSell;
-	
+
 		tHasSelectedSameStocksToSell = portfolio.AreAllSelectedStocksSameCorporation ();
-		
+
 		return tHasSelectedSameStocksToSell;
 	}
-	
+
 	public boolean hasSelectedPrivateToBidOn () {
-		boolean tHasSelectedPrivateToBidOn = false;;
+		boolean tHasSelectedPrivateToBidOn = false;
+		;
 		Bank tBank;
 		StartPacketPortfolio tStartPacketPortfolio;
-		
+
 		tBank = getBank ();
 		if (tBank != Bank.NO_BANK) {
 			tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
@@ -822,71 +822,71 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 				tHasSelectedPrivateToBidOn = tStartPacketPortfolio.hasSelectedPrivateToBidOn ();
 			}
 		}
-		
+
 		return tHasSelectedPrivateToBidOn;
 	}
-	
+
 	public boolean hasSelectedStockToBuy () {
 		boolean tHasSelectedStockToBuy;
 		Bank tBank;
 		BankPool tBankPool;
 		Portfolio tBankPortfolio, tBankPoolPortfolio;
 		StartPacketPortfolio tStartPacketPortfolio;
-		
+
 		tBank = playerManager.getBank ();
 		tBankPortfolio = tBank.getPortfolio ();
 		tHasSelectedStockToBuy = tBankPortfolio.hasSelectedStockToBuy ();
-		if (! tHasSelectedStockToBuy) {
+		if (!tHasSelectedStockToBuy) {
 			tBankPool = playerManager.getBankPool ();
 			if (tBankPool != BankPool.NO_BANK_POOL) {
 				tBankPoolPortfolio = tBankPool.getPortfolio ();
 				tHasSelectedStockToBuy = tBankPoolPortfolio.hasSelectedStockToBuy ();
 			}
 		}
-		if (! tHasSelectedStockToBuy) {
+		if (!tHasSelectedStockToBuy) {
 			tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
 			if (tStartPacketPortfolio != StartPacketPortfolio.NO_START_PACKET) {
 				tHasSelectedStockToBuy = tStartPacketPortfolio.hasSelectedStockToBuy ();
 			}
 		}
-		
+
 		return tHasSelectedStockToBuy;
 	}
-	
+
 	public boolean hasSelectedStockToBid (Bank aBank) {
 		boolean tHasSelectedStockToBid;
 		Bank tBank;
 		BankPool tBankPool;
 		Portfolio tBankPortfolio, tBankPoolPortfolio;
 		StartPacketPortfolio tStartPacketPortfolio;
-		
+
 		tBank = playerManager.getBank ();
 		tBankPortfolio = tBank.getPortfolio ();
 		tHasSelectedStockToBid = tBankPortfolio.hasSelectedStockToBid ();
-		if (! tHasSelectedStockToBid) {
+		if (!tHasSelectedStockToBid) {
 			tBankPool = playerManager.getBankPool ();
 			if (tBankPool != BankPool.NO_BANK_POOL) {
 				tBankPoolPortfolio = tBankPool.getPortfolio ();
 				tHasSelectedStockToBid = tBankPoolPortfolio.hasSelectedStockToBid ();
 			}
 		}
-		if (! tHasSelectedStockToBid) {
+		if (!tHasSelectedStockToBid) {
 			tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
 			if (tStartPacketPortfolio != StartPacketPortfolio.NO_START_PACKET) {
 				tHasSelectedStockToBid = tStartPacketPortfolio.hasSelectedStockToBid ();
 			}
 		}
-		
+
 		return tHasSelectedStockToBid;
 	}
-	
+
 	public int getCountSelectedCosToBuy () {
 		int tCountSelectedCosToBuy = 0;
 		Bank tBank;
 		BankPool tBankPool;
 		Portfolio tBankPortfolio, tBankPoolPortfolio;
 		StartPacketPortfolio tStartPacketPortfolio;
-		
+
 		tBank = getBank ();
 		if (hasSelectedStockToBuy ()) {
 			tBankPortfolio = tBank.getPortfolio ();
@@ -897,17 +897,17 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			tBankPoolPortfolio = tBankPool.getPortfolio ();
 			tCountSelectedCosToBuy += tBankPoolPortfolio.getCountSelectedCosToBuy ();
 		}
-		
+
 		return tCountSelectedCosToBuy;
 	}
-	
+
 	public int getCountSelectedCosToBid () {
 		int tCountSelectedCosToBid = 0;
 		Bank tBank;
 		BankPool tBankPool;
 		Portfolio tBankPortfolio, tBankPoolPortfolio;
 		StartPacketPortfolio tStartPacketPortfolio;
-		
+
 		tBank = getBank ();
 		if (hasSelectedStockToBid (tBank)) {
 			tBankPortfolio = tBank.getPortfolio ();
@@ -918,17 +918,17 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			tBankPoolPortfolio = tBankPool.getPortfolio ();
 			tCountSelectedCosToBid += tBankPoolPortfolio.getCountSelectedCosToBid ();
 		}
-		
+
 		return tCountSelectedCosToBid;
 	}
-	
+
 	public int getCountSelectedCertificatesToBuy () {
 		int tCountSelectedCertificatesToBuy = 0;
 		Bank tBank;
 		BankPool tBankPool;
 		Portfolio tBankPortfolio, tBankPoolPortfolio;
 		StartPacketPortfolio tStartPacketPortfolio;
-		
+
 		tBank = getBank ();
 		if (hasSelectedStockToBuy ()) {
 			tBankPortfolio = tBank.getPortfolio ();
@@ -939,31 +939,31 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			tBankPoolPortfolio = tBankPool.getPortfolio ();
 			tCountSelectedCertificatesToBuy += tBankPoolPortfolio.getCountSelectedCertificatesToBuy ();
 		}
-		
+
 		return tCountSelectedCertificatesToBuy;
-		
+
 	}
-	
+
 	public Certificate getSelectedCertificateToBuy () {
 		Certificate tCertificate;
 		BankPool tBankPool;
-		
+
 		tCertificate = Certificate.NO_CERTIFICATE;
 		tBankPool = getBankPool ();
 		if (hasSelectedStockToBuy ()) {
 			tCertificate = tBankPool.getCertificateToBuy ();
 		}
-		
+
 		return tCertificate;
 	}
-	
+
 	public int getCostSelectedStockToBuy () {
 		int tSelectedStockToBuyCost;
 		Bank tBank;
 		BankPool tBankPool;
 		Portfolio tBankPortfolio, tBankPoolPortfolio;
 		StartPacketPortfolio tStartPacketPortfolio;
-		
+
 		tSelectedStockToBuyCost = 0;
 		tBank = getBank ();
 		if (hasSelectedStockToBuy ()) {
@@ -979,23 +979,23 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 				tSelectedStockToBuyCost = tStartPacketPortfolio.getSelectedStocksCost ();
 			}
 		}
-		
+
 		return tSelectedStockToBuyCost;
 	}
-	
+
 	public boolean hasSelectedStocksToSell () {
 		boolean tHasSelectedStocksToSell;
-		
+
 		tHasSelectedStocksToSell = portfolio.hasSelectedStocksToSell ();
-		
+
 		return tHasSelectedStocksToSell;
 	}
-	
+
 	public boolean hasShareCompanyStocks () {
 		boolean tHasShareCompanyStocks;
-		
+
 		tHasShareCompanyStocks = portfolio.hasShareCompanyStocks ();
-		
+
 		return tHasShareCompanyStocks;
 	}
 
@@ -1009,22 +1009,22 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public boolean isCurrentPlayer () {
 		Player tCurrentPlayer;
-		
+
 		tCurrentPlayer = playerManager.getCurrentPlayer ();
-		
-		return this.equals(tCurrentPlayer);
+
+		return this.equals (tCurrentPlayer);
 	}
 
 	@Override
 	public boolean isPlayer () {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isCompany () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isAPrivateCompany () {
 		return false;
@@ -1033,15 +1033,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public boolean isPresidentOf (Corporation aCorporation) {
 		return portfolio.containsPresidentShareOf (aCorporation);
 	}
-	
+
 	public void loadState (XMLNode aPlayerNode) {
 		String tState;
 		String tSoldCompanies;
 		XMLNodeList tXMLPortfolioNodeList;
 		GenericActor tGenericActor;
-		
+
 		// Need to remove any Cash the Player has before setting it.
-		
+
 		treasury = aPlayerNode.getThisIntAttribute (Player.AN_CASH);
 		boughtShare = aPlayerNode.getThisBooleanAttribute (AN_BOUGHT_SHARE);
 		tState = aPlayerNode.getThisAttribute (AN_PRIMARY_STATE);
@@ -1059,8 +1059,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLPortfolioNodeList.parseXMLNodeList (aPlayerNode, Portfolio.EN_PORTFOLIO);
 		escrows.loadEscrowState (aPlayerNode);
 	}
-	
-	ParsingRoutineI portfolioParsingRoutine  = new ParsingRoutineI ()  {
+
+	ParsingRoutineI portfolioParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			portfolio.loadPortfolio (aChildNode);
@@ -1070,7 +1070,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void bidAction () {
 		playerManager.bidAction (this);
 	}
-	
+
 	public void buyAction () {
 		boolean tNextShareHasBids;
 		Certificate tCertificate;
@@ -1079,106 +1079,106 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		String tRoundID;
 		BuyStockAction tBuyStockAction;
 		boolean tCreateNewAuctionAction = true;
-		
+
 		tCertificatesToBuy = playerManager.getCertificatesToBuy ();
 		tCertificate = tCertificatesToBuy.get (0);
 		tRoundType = ActorI.ActionStates.StockRound;
 		tRoundID = playerManager.getStockRoundID ();
 
 		tNextShareHasBids = playerManager.nextShareHasBids (tCertificate);
-		
+
 		tBuyStockAction = new BuyStockAction (tRoundType, tRoundID, this);
-		tBuyStockAction = playerManager.buyAction (this, tCertificatesToBuy, 
-				PlayerManager.STOCK_BUY_IN.StockRound, tBuyStockAction);
+		tBuyStockAction = playerManager.buyAction (this, tCertificatesToBuy, PlayerManager.STOCK_BUY_IN.StockRound,
+				tBuyStockAction);
 		playerManager.addAction (tBuyStockAction);
-		
+
 		if (tNextShareHasBids) {
-			setTriggeredAuction (true);	// Set the Triggered Auction Flag.
+			setTriggeredAuction (true); // Set the Triggered Auction Flag.
 			playerManager.startAuctionRound (tCreateNewAuctionAction);
 		}
 
 		playerFrame.updateButtons ();
 	}
-	
+
 	public void doneAction () {
 		playerManager.doneAction (this);
 		hidePlayerFrame ();
 	}
-	
+
 	public void exchangeAction () {
 		playerManager.exchangeAction (this);
 	}
-	
+
 	public void exchangeCertificate (Certificate aCertificate) {
 		playerManager.exchangeCertificate (this, aCertificate);
 	}
-	
+
 	public void sellAction () {
 		playerManager.sellAction (this);
 	}
-	
+
 	public void undoAction () {
 		playerManager.undoAction (this);
 	}
-	
+
 	public void passAction () {
 		playerManager.passAction (this);
 		hidePlayerFrame ();
 	}
-	
+
 	public void passAuctionAction () {
 		playerManager.passAuctionAction (this);
 	}
-	
+
 	public boolean passes () {
 		boolean tCanPass;
-		
+
 		tCanPass = false;
-		if (primaryActionState == ActionStates.NoAction) { 
+		if (primaryActionState == ActionStates.NoAction) {
 			primaryActionState = ActionStates.Pass;
 			tCanPass = true;
 		} else {
 			System.err.println ("Player has acted already, can't Pass");
 		}
-		
+
 		return tCanPass;
 	}
-	
+
 	public boolean canPassAuction () {
 		boolean tCanPass;
-		
+
 		tCanPass = false;
-		if (auctionActionState == ActionStates.NoAction) { 
+		if (auctionActionState == ActionStates.NoAction) {
 			setAuctionActionState (ActionStates.AuctionPass);
 			tCanPass = true;
 		} else {
-			System.err.println ("Player has acted in Auction already, can't Pass");			
+			System.err.println ("Player has acted in Auction already, can't Pass");
 		}
-		
+
 		return tCanPass;
 	}
-	
+
 	public void printPlayerInfo () {
 		printPlayerStateInfo ();
 		System.out.println ("Bought Share State is " + boughtShare);
 		System.out.println ("Bid on Share State is " + bidShare);
-		
+
 		escrows.printAllEscrows ();
 		soldCompanies.printInfo ();
 		portfolio.printPortfolioInfo ();
 	}
-	
+
 	public void printPlayerStateInfo () {
 		System.out.println ("Player " + name + " cash " + Bank.formatCash (treasury));
 		System.out.println ("Primary Action State [" + primaryActionState.toString () + "]");
 		System.out.println ("Auction Action State [" + auctionActionState.toString () + "]");
 	}
-	
+
 	@Override
 	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
 		playerFrame.replacePortfolioInfo (aPortfolioInfoJPanel);
 	}
-	
+
 	public void setAuctionActionState (ActionStates aAuctionActionState) {
 		auctionActionState = aAuctionActionState;
 	}
@@ -1186,15 +1186,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void setCertificateLimit (int aCertificateLimit) {
 		certificateLimit = aCertificateLimit;
 	}
-	
+
 	public void setGameHasCoals (boolean aCoals) {
 		gameHasCoals = aCoals;
 	}
-	
+
 	public void setGameHasMinors (boolean aMinors) {
 		gameHasMinors = aMinors;
 	}
-	
+
 	public void setGameHasPrivates (boolean aPrivates) {
 		gameHasPrivates = aPrivates;
 	}
@@ -1206,12 +1206,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void setName (String aName) {
 		name = aName;
 	}
-	
+
 	@Override
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		setPrimaryActionState (aPrimaryActionState);
 	}
-	
+
 	public void setPrimaryActionState (ActionStates aPrimaryActionState) {
 		if (aPrimaryActionState == ActionStates.NoAction) {
 			clearPrimaryActionState ();
@@ -1227,11 +1227,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			rfPlayerLabel.setText (aText);
 		}
 	}
-	
+
 	public void showPlayerFrame () {
 		Point tOffsetRoundFramePoint;
-		
-		if (! playerFrame.isLocationFixed ()) {
+
+		if (!playerFrame.isLocationFixed ()) {
 			tOffsetRoundFramePoint = getOffsetRoundFramePoint ();
 			playerFrame.setLocation (tOffsetRoundFramePoint);
 			playerFrame.setLocationFixed (true);
@@ -1241,7 +1241,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerFrame.setVisible (true);
 		playerFrame.setEnabled (true);
 	}
-	
+
 	public void refundEscrow (Certificate aCertificate, int aBidAmount, WinAuctionAction aWinAuctionAction) {
 		escrows.refundEscrow (aCertificate, aBidAmount, aWinAuctionAction);
 	}
@@ -1249,7 +1249,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void removeAllEscrows () {
 		escrows.removeAllEscrows ();
 	}
-	
+
 	public Escrow getMatchingEscrow (String aActorName) {
 		return escrows.getMatchingEscrow (aActorName);
 	}
@@ -1257,51 +1257,51 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public Escrow getMatchingEscrow (Certificate aCertificate) {
 		return escrows.getMatchingEscrow (aCertificate);
 	}
-	
+
 	public Escrow addEmptyEscrow (String aName) {
 		return escrows.addEmptyEscrow (aName);
 	}
-	
+
 	@Override
 	public Escrow addEscrowInfo (Certificate aCertificate, int aAmount) {
-		return  escrows.addEscrowInfo (aCertificate, aAmount);
+		return escrows.addEscrowInfo (aCertificate, aAmount);
 	}
-	
+
 	public void removeEscrow (Escrow aEscrow) {
 		escrows.removeEscrow (aEscrow, Escrows.ESCROW_EXACT_MATCH);
 	}
-	
+
 	@Override
 	public void removeEscrow (Escrow aEscrow, boolean aMatchCriteria) {
 		escrows.removeEscrow (aEscrow, aMatchCriteria);
 	}
-	
+
 	public void raiseBid (Certificate aCertificate, int aRaise) {
 		escrows.raiseBid (aCertificate, aRaise);
 	}
-	
+
 	@Override
 	public void transferCashTo (CashHolderI aToHolder, int aAmount) {
 		aToHolder.addCash (aAmount);
 		addCash (-aAmount);
 	}
-	
+
 	public void addSoldCompany (String aCompanyAbbrev) {
 		soldCompanies.addSoldCompanies (aCompanyAbbrev);
 	}
-	
+
 	public void undoSoldCompany (String aCompanyAbbrev) {
 		soldCompanies.undoSoldCompany (aCompanyAbbrev);
 	}
-	
+
 	public void undoClearSoldCompany (String aSoldCompanies) {
 		soldCompanies.undoClearSoldCompany (DELIMITER, aSoldCompanies);
 	}
-	
+
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		if (PlayerFrame.PASS.equals (aEvent.getActionCommand ())) {
-			passAction ();	
+			passAction ();
 		}
 		if (Player.BUY_BID_LABEL.equals (aEvent.getActionCommand ())) {
 			if (playerFrame.isBuyAction ()) {
@@ -1311,37 +1311,37 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			}
 		}
 		if (PlayerFrame.DONE.equals (aEvent.getActionCommand ())) {
-			doneAction ();	
+			doneAction ();
 		}
 		if (SELL_LABEL.equals (aEvent.getActionCommand ())) {
-			sellAction ();	
+			sellAction ();
 		}
-		if (EXCHANGE_LABEL.equals(aEvent.getActionCommand ())) {
+		if (EXCHANGE_LABEL.equals (aEvent.getActionCommand ())) {
 			exchangeAction ();
 		}
 		if (PlayerFrame.UNDO.equals (aEvent.getActionCommand ())) {
-			undoAction ();	
+			undoAction ();
 		}
 		if (ButtonsInfoFrame.EXPLAIN.equals (aEvent.getActionCommand ())) {
-			playerFrame.handleExplainButtons ();	
+			playerFrame.handleExplainButtons ();
 		}
 		playerManager.updateRoundWindow ();
 	}
-	
+
 	public void updatePlayerJPanel () {
 		playerManager.updateRFPlayerLabel (this);
 	}
-		
+
 	public void updatePortfolioInfo () {
 		playerFrame.updatePortfolioInfo ();
 		playerFrame.setPortfolioValueLabel ();
 	}
-	
+
 	public void updatePlayerInfo () {
 		GameManager tGameManager;
-		
+
 		tGameManager = playerManager.getGameManager ();
-		
+
 		playerFrame.updatePlayerInfo (tGameManager);
 	}
 
@@ -1349,11 +1349,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public String getAbbrev () {
 		return getName ();
 	}
-	
+
 	public void buildPlayerLabel (int aPriorityPlayerIndex, int aPlayerIndex) {
 		String tPlayerLabelText;
 		String tPlayerState;
-		
+
 		tPlayerLabelText = getName ();
 		if (aPriorityPlayerIndex == aPlayerIndex) {
 			tPlayerLabelText += " [PRIORITY]";
@@ -1368,10 +1368,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 		setRFPlayerLabel (tPlayerLabelText);
 	}
-	
+
 	public void updateCashLabel () {
 		String tCashText;
-		
+
 		tCashText = "Cash: " + Bank.formatCash (getCash ());
 		if (cashLabel == GUI.NO_LABEL) {
 			cashLabel = new JLabel (tCashText);
@@ -1379,11 +1379,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			cashLabel.setText (tCashText);
 		}
 	}
-	
+
 	public int getTotalValue () {
 		return (getCash () + getPortfolioValue () + escrows.getTotalEscrow ());
 	}
-	
+
 	public JPanel buildAPlayerJPanel (int aPriorityPlayerIndex, int aPlayerIndex) {
 		if (playerJPanel == GUI.NO_PANEL) {
 			playerJPanel = new JPanel ();
@@ -1392,7 +1392,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			playerJPanel.removeAll ();
 		}
 		updateAPlayerJPanel (aPriorityPlayerIndex, aPlayerIndex);
-		
+
 		return playerJPanel;
 	}
 
@@ -1401,22 +1401,22 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		JLabel tCertCountLabel;
 		JLabel tTotalValueLabel;
 		JLabel tSoldCompanies;
-		
+
 		buildPlayerLabel (aPriorityPlayerIndex, aPlayerIndex);
 		playerJPanel.add (rfPlayerLabel);
 		updateCashLabel ();
 		playerJPanel.add (cashLabel);
-		
+
 		if (escrows.getEscrowCount () > 0) {
 			playerJPanel.add (escrows.getEscrowLabel ());
 		}
-		
+
 		tTotalValueLabel = new JLabel ("Total Value: " + Bank.formatCash (getTotalValue ()));
 		playerJPanel.add (tTotalValueLabel);
 
 		tCertCountLabel = new JLabel (buildCertCountInfo ("Certificates "));
 		playerJPanel.add (tCertCountLabel);
-		tOwnershipPanel  = portfolio.buildOwnershipPanel ();
+		tOwnershipPanel = portfolio.buildOwnershipPanel ();
 		if (tOwnershipPanel != Portfolio.NO_PORTFOLIO_JPANEL) {
 			playerJPanel.add (tOwnershipPanel);
 		}
@@ -1428,13 +1428,13 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerJPanel.repaint ();
 		playerJPanel.revalidate ();
 	}
-	
+
 	public String buildCertCountInfo (String aPrefix) {
 		int tCertificateCount;
 		int tCertificateLimit;
 		int tCertificateTotalCount;
 		String tLabel;
-		
+
 		tCertificateCount = getCertificateCount ();
 		tCertificateLimit = getCertificateLimit ();
 		tCertificateTotalCount = getCertificateTotalCount ();
@@ -1443,10 +1443,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			tLabel += " (" + tCertificateTotalCount + ")";
 		}
 		tLabel += " of " + tCertificateLimit;
-		
+
 		return tLabel;
 	}
-	
+
 	@Override
 	public boolean isAPlayer () {
 		return true;
@@ -1454,25 +1454,25 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public boolean isParPriceFrameActive () {
 		boolean tIsParPriceFrameActive = false;
-		
+
 		tIsParPriceFrameActive = playerManager.isParPriceFrameActive ();
-		
+
 		return tIsParPriceFrameActive;
 	}
-	
+
 	public boolean willSaleOverfillBankPool () {
 		boolean tWillSaleOverfillBankPool = false;
 		Certificate tASelectedCertificate;
 		int tSelectedPercentage;
 		Corporation tCorporation;
-		
+
 		if (hasSelectedStocksToSell ()) {
 			tSelectedPercentage = portfolio.getPercentOfCertificatesForSale ();
 			tASelectedCertificate = portfolio.getSelectedStockToSell ();
 			tCorporation = tASelectedCertificate.getCorporation ();
 			tWillSaleOverfillBankPool = willOverfillBankPool (tSelectedPercentage, tCorporation);
 		}
-		
+
 		return tWillSaleOverfillBankPool;
 	}
 
@@ -1482,7 +1482,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		int tBankPoolPercentageLimit;
 		BankPool tBankPool;
 		int tBankPoolPercentage;
-		
+
 		tGameManager = playerManager.getGameManager ();
 		tBankPoolPercentageLimit = tGameManager.getBankPoolPercentageLimit ();
 		tBankPool = tGameManager.getBankPool ();
@@ -1490,10 +1490,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		if ((aPercentage + tBankPoolPercentage) > tBankPoolPercentageLimit) {
 			tWillSaleOverfillBankPool = true;
 		}
-		
+
 		return tWillSaleOverfillBankPool;
 	}
-	
+
 	@Override
 	public boolean isAStockRound () {
 		return false;
@@ -1507,7 +1507,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void applyAuctionPass () {
 		Escrow tCheapestEscrow = escrows.getCheapestEscrow ();
 		Certificate tCertificate = tCheapestEscrow.getCertificate ();
-		
+
 		tCertificate.setAsPassForBidder (this);
 		setAuctionActionState (ActorI.ActionStates.AuctionPass);
 	}
@@ -1516,7 +1516,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public boolean isABank () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isABankPool () {
 		return false;
@@ -1532,7 +1532,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return false;
 	}
 
-	public Point getOffsetRoundFramePoint() {
+	public Point getOffsetRoundFramePoint () {
 		return playerManager.getOffsetRoundFramePoint ();
 	}
 
@@ -1543,12 +1543,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public boolean isLastActionComplete () {
 		return playerManager.isLastActionComplete ();
 	}
-	
+
 	public String getClientName () {
 		String tClientName;
-		
+
 		tClientName = playerManager.getClientUserName ();
-		
+
 		return tClientName;
 	}
 }

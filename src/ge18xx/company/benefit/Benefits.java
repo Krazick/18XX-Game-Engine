@@ -21,12 +21,12 @@ public class Benefits {
 	public final static ElementName EN_BENEFITS = new ElementName ("Benefits");
 	public final static Benefits NO_BENEFITS = null;
 	List<Benefit> benefits;
-	
+
 	public Benefits (XMLNode aBenefitsNode, Corporation aCorporation) {
-		benefits = new LinkedList<Benefit> ();	
+		benefits = new LinkedList<Benefit> ();
 		parseBenefits (aBenefitsNode, aCorporation);
 	}
-	
+
 	private void parseBenefits (XMLNode aBenefitsNode, Corporation aCorporation) {
 		XMLNode tBenefitNode;
 		NodeList tBenefitChildren;
@@ -44,7 +44,8 @@ public class Benefits {
 				tBenefitNode = new XMLNode (tBenefitChildren.item (tBenefitIndex));
 				tBenefitNodeName = tBenefitNode.getNodeName ();
 				if (Benefit.EN_BENEFIT.equals (tBenefitNodeName)) {
-					// Use Reflections to identify the OptionEffect to create, and call the constructor with the XMLNode and Game Manager
+					// Use Reflections to identify the OptionEffect to create, and call the
+					// constructor with the XMLNode and Game Manager
 					tClassName = tBenefitNode.getThisAttribute (Benefit.AN_CLASS);
 					tBenefitToLoad = Class.forName (tClassName);
 					tBenefitConstructor = tBenefitToLoad.getConstructor (tBenefitNode.getClass ());
@@ -52,7 +53,7 @@ public class Benefits {
 					tBenefit.setCorporation (aCorporation);
 					addBenefit (tBenefit);
 				}
-			}			
+			}
 		} catch (Exception tException) {
 			System.err.println ("Caught Exception with message ");
 			tException.printStackTrace ();
@@ -69,7 +70,7 @@ public class Benefits {
 		XMLNode tBenefitNode;
 		NodeList tBenefitChildren;
 		Benefit tMatchedBenefit;
-	
+
 		tBenefitChildren = aBenefitsNode.getChildNodes ();
 		tBenefitNodeCount = tBenefitChildren.getLength ();
 		try {
@@ -91,23 +92,23 @@ public class Benefits {
 
 	protected Benefit findMatchedBenefit (XMLNode aBenefitNode) {
 		Benefit tMatchedBenefit = Benefit.NO_BENEFIT;
-		
+
 		for (Benefit tBenefit : benefits) {
 			if (tMatchedBenefit == Benefit.NO_BENEFIT) {
 				tMatchedBenefit = tBenefit.findMatchedBenefit (aBenefitNode);
 			}
 		}
-		
+
 		return tMatchedBenefit;
 	}
-	
+
 	public JButton findButtonFor (JPanel aButtonRow, String aButtonLabel) {
 		JButton tThisButton;
 		JButton tFoundButton = Benefit.NO_BUTTON;
 		Component tComponent;
 		String tButtonText;
 		int tComponentCount, tComponentIndex;
-		
+
 		tComponentCount = aButtonRow.getComponentCount ();
 		if (tComponentCount > 0) {
 			for (tComponentIndex = 0; tComponentIndex < tComponentCount; tComponentIndex++) {
@@ -121,93 +122,93 @@ public class Benefits {
 				}
 			}
 		}
-		
+
 		return tFoundButton;
 	}
 
 	public boolean hasButtonFor (JPanel aButtonRow, String aButtonLabel) {
 		boolean tHasButtonFor = false;
 		JButton tThisButton;
-		
+
 		tThisButton = findButtonFor (aButtonRow, aButtonLabel);
 		if (tThisButton != Benefit.NO_BUTTON) {
 			tHasButtonFor = true;
 		}
-				
+
 		return tHasButtonFor;
 	}
-	
+
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		for (Benefit tBenefit : benefits) {
 			tBenefit.configure (aPrivateCompany, aButtonRow);
 		}
 	}
-	
-	public void removeBenefitButtons  () {
+
+	public void removeBenefitButtons () {
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit.isActivePlayerBenefit ()) {
 				tBenefit.removeButton ();
 			}
 		}
 	}
-	
-	public void removeBenefitButtons  (JPanel aButtonRow) {
+
+	public void removeBenefitButtons (JPanel aButtonRow) {
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit.isActiveCompanyBenefit ()) {
 				tBenefit.removeButton (aButtonRow);
 			}
 		}
 	}
-	
+
 	public boolean hasActiveCompanyBenefits () {
 		boolean tHasActiveCompanyBenefits = false;
-		
+
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit.isActiveCompanyBenefit ()) {
 				tHasActiveCompanyBenefits = true;
 			}
 		}
-		
+
 		return tHasActiveCompanyBenefits;
 	}
-	
+
 	public boolean hasActivePlayerBenefits () {
 		boolean tHasActivePlayerBenefits = false;
-		
+
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit.isActivePlayerBenefit ()) {
 				tHasActivePlayerBenefits = true;
 			}
 		}
-		
+
 		return tHasActivePlayerBenefits;
 	}
-	
+
 	public int getCount () {
 		return benefits.size ();
 	}
-	
+
 	public XMLElement getBenefitsStateElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement, tXMLBenefitElement;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_BENEFITS);
 		for (Benefit tBenefit : benefits) {
 			tXMLBenefitElement = tBenefit.getCorporationStateElement (aXMLDocument);
 			tXMLElement.appendChild (tXMLBenefitElement);
 		}
-		
+
 		return tXMLElement;
 	}
 
 	public Benefit findBenefit (String aBenefitName) {
 		Benefit tFoundBenefit = Benefit.NO_BENEFIT;
-		
+
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit.getName ().equals (aBenefitName)) {
 				tFoundBenefit = tBenefit;
 			}
 		}
-		
+
 		return tFoundBenefit;
 	}
 }

@@ -29,18 +29,17 @@ public class PurchaseOfferAction extends QueryActorAction {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-	
-	public void addPurchaseOfferEffect (ActorI aFromActor, ActorI aToActor, 
-			int aCashAmount, String aItemType, String aItemName) {
+
+	public void addPurchaseOfferEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount, String aItemType,
+			String aItemName) {
 		PurchaseOfferEffect tPurchaseOfferEffect;
-		
-		tPurchaseOfferEffect = new PurchaseOfferEffect (aFromActor, aToActor, 
-				aCashAmount, aItemType, aItemName);
+
+		tPurchaseOfferEffect = new PurchaseOfferEffect (aFromActor, aToActor, aCashAmount, aItemType, aItemName);
 		addEffect (tPurchaseOfferEffect);
 	}
 
-	public void addChangeCorporationStatusEffect (ActorI aActor, 
-			ActorI.ActionStates aOldStatus, ActorI.ActionStates aNewStatus) {
+	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aOldStatus,
+			ActorI.ActionStates aNewStatus) {
 		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
 
 		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aOldStatus, aNewStatus);
@@ -51,32 +50,29 @@ public class PurchaseOfferAction extends QueryActorAction {
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
 		String tFromActorName;
-		
+
 		tFromActorName = getToActorName ();
-		tSimpleActionReport = actor.getName () + getPresidentName () +
-				" offered to buy " + 
-				getItemName () + " " + getItemType () +
-				" for " + Bank.formatCash (getCashAmount ()) + " from " + tFromActorName +
-				".";
-		
+		tSimpleActionReport = actor.getName () + getPresidentName () + " offered to buy " + getItemName () + " "
+				+ getItemType () + " for " + Bank.formatCash (getCashAmount ()) + " from " + tFromActorName + ".";
+
 		return tSimpleActionReport;
 	}
-	
+
 	private String getPresidentName () {
 		String tPresidentName = "";
 		Corporation tCorporation;
-		
+
 		if (actor.isACorporation ()) {
 			tCorporation = (Corporation) actor;
 			tPresidentName = " (" + tCorporation.getPresidentName () + ")";
 		}
-		
+
 		return tPresidentName;
 	}
-	
+
 	public int getCashAmount () {
 		int tCashAmount = -1;
-		
+
 		for (Effect tEffect : effects) {
 			if (tCashAmount == -1) {
 				if (tEffect instanceof PurchaseOfferEffect) {
@@ -84,13 +80,13 @@ public class PurchaseOfferAction extends QueryActorAction {
 				}
 			}
 		}
-		
+
 		return tCashAmount;
 	}
 
 	private String getItemName () {
 		String tItemName = "";
-		
+
 		for (Effect tEffect : effects) {
 			if (tItemName.equals ("")) {
 				if (tEffect instanceof PurchaseOfferEffect) {
@@ -104,7 +100,7 @@ public class PurchaseOfferAction extends QueryActorAction {
 
 	private String getItemType () {
 		String tItemType = "";
-		
+
 		for (Effect tEffect : effects) {
 			if (tItemType.equals ("")) {
 				if (tEffect instanceof PurchaseOfferEffect) {
@@ -118,7 +114,7 @@ public class PurchaseOfferAction extends QueryActorAction {
 
 	private String getToActorName () {
 		String tFromActorName = "";
-		
+
 		for (Effect tEffect : effects) {
 			if (tFromActorName.equals ("")) {
 				if (tEffect instanceof PurchaseOfferEffect) {

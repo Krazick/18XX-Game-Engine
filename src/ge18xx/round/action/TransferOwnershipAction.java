@@ -11,7 +11,7 @@ import ge18xx.utilities.XMLNode;
 
 public class TransferOwnershipAction extends CashTransferAction {
 	public final static String NAME = "Transfer Ownership";
-	
+
 	public TransferOwnershipAction () {
 		this (NAME);
 	}
@@ -19,48 +19,49 @@ public class TransferOwnershipAction extends CashTransferAction {
 	public TransferOwnershipAction (String aName) {
 		super (aName);
 	}
-	
+
 	public TransferOwnershipAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
-	
+
 	public TransferOwnershipAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-	
-	public void addCloseCorporationEffect (Corporation aCorporation, ActorI.ActionStates aOldState, ActorI.ActionStates aNewState) {
+
+	public void addCloseCorporationEffect (Corporation aCorporation, ActorI.ActionStates aOldState,
+			ActorI.ActionStates aNewState) {
 		CloseCorporationEffect tCloseCorporationEffect;
-		
+
 		tCloseCorporationEffect = new CloseCorporationEffect (aCorporation, aOldState, aNewState);
 		addEffect (tCloseCorporationEffect);
 	}
 
 	public void addTransferOwnershipEffect (ActorI afromActor, Certificate aCertificate, ActorI aToActor) {
 		TransferOwnershipEffect tTransferOwnershipEffect;
-		
+
 		tTransferOwnershipEffect = new TransferOwnershipEffect (afromActor, aCertificate, aToActor);
 		addEffect (tTransferOwnershipEffect);
 	}
-	
+
 	private String getFromActorName () {
 		String tFromActorName;
-		
+
 		tFromActorName = ActorI.NO_NAME;
 		for (Effect tEffect : effects) {
 			if (tEffect instanceof TransferOwnershipEffect) {
 				tFromActorName = ((TransferOwnershipEffect) tEffect).getActorName ();
 			}
-			
+
 		}
-		
+
 		return tFromActorName;
 	}
-	
+
 	public String getCompanyAbbrev () {
 		String tCompanyAbbrev = "";
-		
+
 		for (Effect tEffect : effects) {
 			if (tCompanyAbbrev.equals ("")) {
 				if (tEffect instanceof TransferOwnershipEffect) {
@@ -68,70 +69,70 @@ public class TransferOwnershipAction extends CashTransferAction {
 				}
 			}
 		}
-		
+
 		return tCompanyAbbrev;
 	}
-	
+
 	protected int getShareCountTransferred () {
 		int tShareCountTransferred = 0;
-		
+
 		for (Effect tEffect : effects) {
 			if (tEffect instanceof TransferOwnershipEffect) {
 				tShareCountTransferred++;
 			}
 		}
-		
+
 		return tShareCountTransferred;
 	}
-	
+
 	protected int getSharePercentageTransferred () {
 		int tSharePercentage = 0;
 		Certificate tCertificate;
-		
+
 		for (Effect tEffect : effects) {
 			if (tEffect instanceof TransferOwnershipEffect) {
 				tCertificate = ((TransferOwnershipEffect) tEffect).getCertificate ();
 				tSharePercentage += tCertificate.getPercentage ();
 			}
 		}
-		
+
 		return tSharePercentage;
 	}
-	
+
 	protected boolean isPresidentTransferred () {
 		boolean tIsPresident = false;
 		Certificate tCertificate;
-		
+
 		for (Effect tEffect : effects) {
-			if ((tEffect instanceof TransferOwnershipEffect) && (! tIsPresident)) {
+			if ((tEffect instanceof TransferOwnershipEffect) && (!tIsPresident)) {
 				tCertificate = ((TransferOwnershipEffect) tEffect).getCertificate ();
 				tIsPresident = tCertificate.isPresidentShare ();
 			}
 		}
-		
+
 		return tIsPresident;
 	}
-	
+
 	protected boolean isPrivateTransferred () {
 		boolean tIsPrivateTransferred = false;
 		Certificate tCertificate;
-		
+
 		for (Effect tEffect : effects) {
-			if ((tEffect instanceof TransferOwnershipEffect) && (! tIsPrivateTransferred)) {
+			if ((tEffect instanceof TransferOwnershipEffect) && (!tIsPrivateTransferred)) {
 				tCertificate = ((TransferOwnershipEffect) tEffect).getCertificate ();
 				tIsPrivateTransferred = tCertificate.isPrivateCompany ();
 			}
 		}
-		
+
 		return tIsPrivateTransferred;
 	}
-	
+
 	protected String getBuySaleSimpleReport (String aVerb1, String aVerb2) {
 		String tShareCountTransferred, tSimpleActionReport;
 		int tCount, tTotalPrice, tSharePrice, tSharePercentage;
 		boolean tIsPresident, tIsPrivate;
 		String tFullShareDescription, tPrice, tFromActorName;
-		
+
 		tCount = getShareCountTransferred ();
 		tSharePercentage = getSharePercentageTransferred ();
 		tShareCountTransferred = tCount + " Share";
@@ -139,7 +140,7 @@ public class TransferOwnershipAction extends CashTransferAction {
 			tShareCountTransferred += "s";
 		}
 		tTotalPrice = getCashAmount ();
-		tSharePrice = (10 * tTotalPrice)/tSharePercentage;
+		tSharePrice = (10 * tTotalPrice) / tSharePercentage;
 		tIsPresident = isPresidentTransferred ();
 		tIsPrivate = isPrivateTransferred ();
 		tFromActorName = getFromActorName ();
@@ -151,13 +152,12 @@ public class TransferOwnershipAction extends CashTransferAction {
 			if (tIsPresident) {
 				tFullShareDescription += " (President Share)";
 			}
-			tPrice = " for " + Bank.formatCash (tSharePrice) + " per share from " + tFromActorName + "." +
-					" Total " + aVerb2 + " price of " + Bank.formatCash (tTotalPrice) + ".";
+			tPrice = " for " + Bank.formatCash (tSharePrice) + " per share from " + tFromActorName + "." + " Total "
+					+ aVerb2 + " price of " + Bank.formatCash (tTotalPrice) + ".";
 		}
-		
-		tSimpleActionReport = actor.getName () + " " + aVerb1 + " " + 
-				tFullShareDescription + tPrice;
-		
+
+		tSimpleActionReport = actor.getName () + " " + aVerb1 + " " + tFullShareDescription + tPrice;
+
 		return tSimpleActionReport;
 	}
 }

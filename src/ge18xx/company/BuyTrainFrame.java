@@ -47,7 +47,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 	JLabel ownerTreasuryLabel;
 	JLabel frameLabel;
 	int buyingTrainCompanyTreasury, remainingTreasury;
-	
+
 	public BuyTrainFrame (TrainCompany aBuyingCompany, TrainHolderI aCurrentOwner, Train aSelectedTrain) {
 		super (CorporationFrame.BUY_TRAIN);
 
@@ -63,7 +63,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		trainPanel.setBorder (new EmptyBorder (10, 10, 10, 10));
 		trainPanel.setLayout (new BoxLayout (trainPanel, BoxLayout.Y_AXIS));
 		trainPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		
+
 		trainPanel.add (Box.createVerticalStrut (10));
 		frameLabel = new JLabel ("Choose Buy Price");
 		frameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
@@ -74,13 +74,13 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		setOfferTopPanel ();
 		trainPanel.add (offerPricePanel);
 		trainPanel.add (Box.createVerticalStrut (10));
-		
+
 		ownerTreasuryLabel = new JLabel ("Owner");
 		setOwnerTreasuryLabel ();
 		ownerTreasuryLabel.setAlignmentX (CENTER_ALIGNMENT);
 		trainPanel.add (ownerTreasuryLabel);
 		trainPanel.add (Box.createVerticalStrut (10));
-		
+
 		setOfferButtonPanel ();
 		trainPanel.add (offerButtonPanel);
 		add (trainPanel);
@@ -89,8 +89,8 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		setSize (520, 170);
 		setVisible (false);
 	}
-	
-	private void setOfferTopPanel () {		
+
+	private void setOfferTopPanel () {
 		priceField = new JTextField ();
 		corporationTreasuryLabel = new JLabel ("Corporation");
 		setCorporationTreasuryLabel ();
@@ -98,13 +98,13 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		offerPricePanel.add (Box.createVerticalStrut (10));
 		offerPricePanel.setLayout (new BoxLayout (offerPricePanel, BoxLayout.X_AXIS));
 		offerPricePanel.setAlignmentY (Component.CENTER_ALIGNMENT);
-		
+
 		priceField.setText ("0");
-		priceField.setPreferredSize ( new Dimension ( 80, 24 ) );
-		priceField.setMaximumSize ( new Dimension ( 100, 24 ) );
+		priceField.setPreferredSize (new Dimension (80, 24));
+		priceField.setMaximumSize (new Dimension (100, 24));
 		priceField.setAlignmentX (Component.RIGHT_ALIGNMENT);
-		priceField.setColumns (4); //get some space
-		
+		priceField.setColumns (4); // get some space
+
 		offerPricePanel.add (priceField);
 		offerPricePanel.add (Box.createHorizontalStrut (10));
 		offerPricePanel.add (corporationTreasuryLabel);
@@ -115,7 +115,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		offerButtonPanel = new JPanel ();
 		offerButtonPanel.setLayout (new BoxLayout (offerButtonPanel, BoxLayout.X_AXIS));
 		offerButtonPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
-		
+
 		doSetPriceButton = buildButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
 		doBuyButton = buildButton (CorporationFrame.BUY_TRAIN, BUY_ACTION);
 		offerButtonPanel.add (doSetPriceButton);
@@ -127,7 +127,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 	private int getPrice () {
 		String tPrice;
 		int tGetPrice;
-		
+
 		tPrice = priceField.getText ();
 		if (tPrice.startsWith ("$")) {
 			tPrice = tPrice.substring (1);
@@ -143,15 +143,15 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 				priceField.setText ("0");
 			}
 		}
-		
+
 		return tGetPrice;
 	}
-	
+
 	@Override
 	public void requestFocus () {
 		priceField.requestFocus ();
 	}
-	
+
 	private void setBuyButtonText () {
 		if (corporationsHaveSamePresident ()) {
 			doBuyButton.setText ("Buy Train for " + Bank.formatCash (getPrice ()));
@@ -159,23 +159,23 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 			doBuyButton.setText ("Offer to Buy Train for " + Bank.formatCash (getPrice ()));
 		}
 	}
-	
+
 	private void setCorporationTreasuryLabel () {
 		remainingTreasury = buyingTrainCompanyTreasury - getPrice ();
-		corporationTreasuryLabel.setText (trainCompany.getName () + " will have " + 
-				Bank.formatCash (remainingTreasury) + " after purchase.\n");		
+		corporationTreasuryLabel.setText (
+				trainCompany.getName () + " will have " + Bank.formatCash (remainingTreasury) + " after purchase.\n");
 	}
-	
+
 	public void setDefaultPrice () {
 		setPrice (1);
 	}
-	
+
 	public void setOwnerTreasuryLabel () {
 		String tOwnerName = "NO OWNER";
 		String tPresidentName = "NO PRESIDENT";
 		int tTreasury = 0;
 		String tLabel;
-		
+
 		if (train != Train.NO_TRAIN) {
 			if (currentOwner != Corporation.NO_CORPORATION) {
 				tPresidentName = currentOwner.getPresidentName ();
@@ -186,20 +186,20 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		tLabel = "Prez: " + tPresidentName + " of " + tOwnerName + " Treasury After " + Bank.formatCash (tTreasury);
 		ownerTreasuryLabel.setText (tLabel);
 	}
-	
+
 	public void setPrice (int aPrice) {
 		priceField.setText (aPrice + "");
 		setBuyButtonText ();
 	}
-	
+
 	public JButton buildButton (String aButtonLabel, String aActionCommand) {
 		JButton tActionButton;
-		
+
 		tActionButton = new JButton (aButtonLabel);
 		tActionButton.setAlignmentX (CENTER_ALIGNMENT);
 		tActionButton.setActionCommand (aActionCommand);
 		tActionButton.addActionListener (this);
-		
+
 		return tActionButton;
 	}
 
@@ -209,7 +209,7 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		boolean tGoodPrice;
 		String tReasonForBad;
 		String tActionCommand;
-		
+
 		tActionCommand = e.getActionCommand ();
 		if (tActionCommand == SET_BUY_PRICE_ACTION) {
 			tPrice = getPrice ();
@@ -249,19 +249,19 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 	private boolean samePresident (TrainCompany aOwningTrainCompany) {
 		boolean tSamePresident = false;
 		String tPresidentName, tOwningPresidentName;
-		
+
 		tOwningPresidentName = aOwningTrainCompany.getPresidentName ();
 		tPresidentName = trainCompany.getPresidentName ();
 		if (tOwningPresidentName.equals (tPresidentName)) {
 			tSamePresident = true;
 		}
-		
+
 		return tSamePresident;
 	}
-	
+
 	private boolean needToMakeOffer (TrainCompany aOwningTrainCompany) {
 		boolean tNeedToMakeOffer = true;
-		
+
 		if (gameManager.isNetworkGame ()) {
 			if (samePresident (aOwningTrainCompany)) {
 				tNeedToMakeOffer = false;
@@ -269,16 +269,16 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		} else {
 			tNeedToMakeOffer = false;
 		}
-		
+
 		return tNeedToMakeOffer;
 	}
-	
+
 	private void buyTrain () {
 		TrainCompany tOwningTrainCompany;
 		int tCashValue;
 		BuyTrainAction tBuyTrainAction;
 		CorporationFrame tCorporationFrame;
-		
+
 		if (train != Train.NO_TRAIN) {
 			tCashValue = getPrice ();
 			tOwningTrainCompany = (TrainCompany) (currentOwner);
@@ -288,8 +288,8 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 					tCorporationFrame.waitForResponse ();
 				}
 			} else {
-				tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, 
-						operatingRoundID, trainCompany);
+				tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, operatingRoundID,
+						trainCompany);
 				trainCompany.transferCashTo (tOwningTrainCompany, tCashValue);
 				tBuyTrainAction.addCashTransferEffect (trainCompany, tOwningTrainCompany, tCashValue);
 				trainCompany.doFinalTrainBuySteps (tOwningTrainCompany, train, tBuyTrainAction);
@@ -298,37 +298,35 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 			}
 		}
 	}
-	
+
 	public boolean makePurchaseOffer (TrainCompany aOwningTrainCompany) {
 		PurchaseOfferAction tPurchaseOfferAction;
 		PurchaseOffer tPurchaseOffer;
 		ActorI.ActionStates tOldState, tNewState;
 		boolean tOfferMade = true;
-		
-		tPurchaseOffer = new PurchaseOffer (train.getName (), train.getType (),
-				train, PrivateCompany.NO_PRIVATE_COMPANY,
-				trainCompany.getAbbrev (), aOwningTrainCompany.getAbbrev (), 
+
+		tPurchaseOffer = new PurchaseOffer (train.getName (), train.getType (), train,
+				PrivateCompany.NO_PRIVATE_COMPANY, trainCompany.getAbbrev (), aOwningTrainCompany.getAbbrev (),
 				getPrice (), trainCompany.getActionStatus ());
 		tOldState = trainCompany.getStatus ();
 		trainCompany.setPurchaseOffer (tPurchaseOffer);
-		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound,
-				operatingRoundID, trainCompany);
-		tPurchaseOfferAction.addPurchaseOfferEffect (trainCompany, aOwningTrainCompany, 
-				getPrice (), train.getType (), train.getName ());
-		
+		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound, operatingRoundID,
+				trainCompany);
+		tPurchaseOfferAction.addPurchaseOfferEffect (trainCompany, aOwningTrainCompany, getPrice (), train.getType (),
+				train.getName ());
+
 		trainCompany.setStatus (ActorI.ActionStates.WaitingResponse);
 		tNewState = trainCompany.getStatus ();
 		tPurchaseOfferAction.addChangeCorporationStatusEffect (trainCompany, tOldState, tNewState);
 		trainCompany.addAction (tPurchaseOfferAction);
-		
+
 		return tOfferMade;
 	}
-	
-	public void doFinalTrainBuySteps (TrainCompany aOwningTrainCompany, 
-			Train aTrain, BuyTrainAction aBuyTrainAction) {
+
+	public void doFinalTrainBuySteps (TrainCompany aOwningTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction) {
 		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
 		TrainPortfolio tCompanyPortfolio, tOwningPortfolio;
-		
+
 		tCompanyPortfolio = trainCompany.getTrainPortfolio ();
 		tOwningPortfolio = aOwningTrainCompany.getTrainPortfolio ();
 		tCompanyPortfolio.addTrain (aTrain);
@@ -338,45 +336,45 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		tCurrentCorporationStatus = trainCompany.getStatus ();
 		trainCompany.updateStatus (ActorI.ActionStates.BoughtTrain);
 		tNewCorporationStatus = trainCompany.getStatus ();
-		// TODO: possible issue when Buying a Train Between Companies, not saving the train properly in the Effect
+		// TODO: possible issue when Buying a Train Between Companies, not saving the
+		// train properly in the Effect
 		aBuyTrainAction.addTransferTrainEffect (aOwningTrainCompany, aTrain, trainCompany);
 		if (tCurrentCorporationStatus != tNewCorporationStatus) {
-			aBuyTrainAction.addChangeCorporationStatusEffect (trainCompany, 
-					tCurrentCorporationStatus, tNewCorporationStatus);
+			aBuyTrainAction.addChangeCorporationStatusEffect (trainCompany, tCurrentCorporationStatus,
+					tNewCorporationStatus);
 		}
 	}
 
 	@Override
 	public void stateChanged (ChangeEvent e) {
-	    setCorporationTreasuryLabel ();
+		setCorporationTreasuryLabel ();
 	}
-	
+
 	@Override
 	public void propertyChange (PropertyChangeEvent e) {
 		setCorporationTreasuryLabel ();
 	}
-	
+
 	private boolean corporationsHaveSamePresident () {
 		boolean tCorporationsHaveSamePresident = false;
 		String tTrainPresidentName;
 		String tOwnerPresidentName;
-		
-		if ((trainCompany != Corporation.NO_ACTOR) &&
-			(currentOwner != Corporation.NO_ACTOR)) {
+
+		if ((trainCompany != Corporation.NO_ACTOR) && (currentOwner != Corporation.NO_ACTOR)) {
 			tTrainPresidentName = trainCompany.getPresidentName ();
 			tOwnerPresidentName = currentOwner.getPresidentName ();
 			if (tTrainPresidentName.equals (tOwnerPresidentName)) {
 				tCorporationsHaveSamePresident = true;
 			}
 		}
-		
+
 		return tCorporationsHaveSamePresident;
 	}
-	
+
 	public void updateInfo (Train aTrain) {
 		int tLowPrice, tHighPrice;
 		Point tNewPoint;
-		
+
 		train = aTrain;
 		setDefaultPrice ();
 		tLowPrice = 1;
@@ -385,10 +383,10 @@ public class BuyTrainFrame extends JFrame implements ActionListener, ChangeListe
 		operatingRoundID = trainCompany.getOperatingRoundID ();
 		setCorporationTreasuryLabel ();
 		setOwnerTreasuryLabel ();
-		
-		frameLabel.setText (trainCompany.getPresidentName () + ", choose Buy Price for " + 
-				train.getName () + " from " +  currentOwner.getName () + 
-				" Range [" + Bank.formatCash (tLowPrice) + " to " + Bank.formatCash (tHighPrice) + "]");
+
+		frameLabel.setText (trainCompany.getPresidentName () + ", choose Buy Price for " + train.getName () + " from "
+				+ currentOwner.getName () + " Range [" + Bank.formatCash (tLowPrice) + " to "
+				+ Bank.formatCash (tHighPrice) + "]");
 		frameLabel.setAlignmentX (CENTER_ALIGNMENT);
 		tNewPoint = gameManager.getOffsetCorporationFrame ();
 		setLocation (tNewPoint);

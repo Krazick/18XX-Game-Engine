@@ -50,6 +50,7 @@ import javax.swing.border.Border;
 /**
  * 
  * Will store and Manage the Certificates owned by a PortfolioHolderI
+ * 
  * @author marksmith
  *
  */
@@ -68,20 +69,20 @@ public class Portfolio implements CertificateHolderI {
 	public final static String NO_NAME_STRING = "<NONE>";
 	public final static XMLElement NO_BIDDERS = null;
 	public final static int NO_COMPONENT_INDEX = -1;
-	
+
 	/* These items are set once, no need to save/load */
 	protected JPanel portfolioInfoJPanel;
 	private PortfolioHolderI holder;
 	private final Border EMPTY_BORDER = BorderFactory.createEmptyBorder ();
-	
+
 	/* These items change during the Game, must be saved/loaded */
 	List<Certificate> certificates;
 	int privateIndex, coalIndex, minorIndex, shareIndex;
-	
+
 	public Portfolio () {
 		this (PortfolioHolderI.NO_HOLDER);
 	}
-	
+
 	public Portfolio (PortfolioHolderI aHolder) {
 		certificates = new LinkedList<Certificate> ();
 		setHolder (aHolder);
@@ -90,7 +91,7 @@ public class Portfolio implements CertificateHolderI {
 		minorIndex = NO_COMPONENT_INDEX;
 		shareIndex = NO_COMPONENT_INDEX;
 	}
-	
+
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		aCertificate.setOwner (this);
@@ -116,14 +117,14 @@ public class Portfolio implements CertificateHolderI {
 		}
 	}
 
-	public JPanel buildCertificateJPanel (String tTitle, String aCorpType, String aSelectedButtonLabel, 
+	public JPanel buildCertificateJPanel (String tTitle, String aCorpType, String aSelectedButtonLabel,
 			ItemListener aItemListener, GameManager aGameManager) {
 		JPanel tCertificateJPanel;
 		JPanel tCertificateInfoJPanel;
 		int tCount;
 		String tCertificateType;
 		boolean tIsBankPortfolioHolder;
-		
+
 		tCount = 0;
 		tCertificateJPanel = new JPanel ();
 		if (tTitle != null) {
@@ -132,75 +133,75 @@ public class Portfolio implements CertificateHolderI {
 		tCertificateJPanel.setLayout (new BoxLayout (tCertificateJPanel, BoxLayout.X_AXIS));
 		tCertificateJPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		addJCAndHGlue (tCertificateJPanel, null);
-		
+
 		tIsBankPortfolioHolder = holder.isABank ();
-		
+
 		for (Certificate tCertificate : certificates) {
 			tCertificateType = tCertificate.getCorpType ();
 			if (tCertificateType.equals (aCorpType)) {
 				tCount++;
-				tCertificateInfoJPanel = tCertificate.buildCertificateInfoJPanel (aSelectedButtonLabel, 
-						aItemListener, tIsBankPortfolioHolder, Player.NO_PLAYER, aGameManager);
+				tCertificateInfoJPanel = tCertificate.buildCertificateInfoJPanel (aSelectedButtonLabel, aItemListener,
+						tIsBankPortfolioHolder, Player.NO_PLAYER, aGameManager);
 				addJCAndHGlue (tCertificateJPanel, tCertificateInfoJPanel);
 			}
 		}
-		
+
 		buildIfNoCertificates (tCertificateJPanel, tCount);
-		
+
 		return tCertificateJPanel;
 	}
 
 	private void buildIfNoCertificates (JPanel aCertificateJPanel, int aCount) {
 		JPanel tNoCertificateJPanel;
-		
+
 		if (aCount == 0) {
 			tNoCertificateJPanel = buildNoCertificatesPanel ();
 			addJCAndHGlue (aCertificateJPanel, tNoCertificateJPanel);
 		}
 	}
-	
+
 	public JPanel buildCompactCertInfoJPanel (String aCompanyAbbrev, int aCertCount, int aCertTotalPercent) {
 		JPanel tCertificateCompactPanel;
 		String tCertInfo;
 		JLabel tLabel;
-		
+
 		tCertificateCompactPanel = new JPanel ();
 		tCertificateCompactPanel.setLayout (new BoxLayout (tCertificateCompactPanel, BoxLayout.Y_AXIS));
 		tCertificateCompactPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		tCertInfo = compactCertInfo (aCompanyAbbrev, aCertCount, aCertTotalPercent); 
+		tCertInfo = compactCertInfo (aCompanyAbbrev, aCertCount, aCertTotalPercent);
 		tLabel = new JLabel (tCertInfo);
 		tCertificateCompactPanel.add (tLabel);
-		
+
 		return tCertificateCompactPanel;
 	}
 
 	private String compactCertInfo (String aCompanyAbbrev, int aCertCount, int aCertTotalPercent) {
 		String tCertInfo;
-		
+
 		tCertInfo = aCompanyAbbrev + " (" + aCertCount + "/" + aCertTotalPercent + "%)";
-		
+
 		return tCertInfo;
 	}
 
-	public JPanel buildShareCertificateJPanel (String aCorpType, String aSelectedButtonLabel, 
-				ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
+	public JPanel buildShareCertificateJPanel (String aCorpType, String aSelectedButtonLabel,
+			ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
 		JPanel tCorporationPanel;
 		boolean tIsBankPortfolioHolder;
-		
+
 		tIsBankPortfolioHolder = holder.isABank ();
 		if (tIsBankPortfolioHolder) {
-			tCorporationPanel = buildCertJPanelForBank (aCorpType, aSelectedButtonLabel, aItemListener,
-					aPlayer, aGameManager);
+			tCorporationPanel = buildCertJPanelForBank (aCorpType, aSelectedButtonLabel, aItemListener, aPlayer,
+					aGameManager);
 		} else {
-			tCorporationPanel = buildCertJPanelForPlayer (aCorpType, aSelectedButtonLabel, aItemListener,
-					aPlayer, aGameManager);
+			tCorporationPanel = buildCertJPanelForPlayer (aCorpType, aSelectedButtonLabel, aItemListener, aPlayer,
+					aGameManager);
 		}
-		
+
 		return tCorporationPanel;
 	}
 
-	public JPanel buildCertJPanelForPlayer (String aCorpType, String aSelectedButtonLabel, 
-			ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
+	public JPanel buildCertJPanelForPlayer (String aCorpType, String aSelectedButtonLabel, ItemListener aItemListener,
+			Player aPlayer, GameManager aGameManager) {
 		JPanel tAllCertificatesJPanel;
 		JPanel tCertificateInfoJPanel;
 		JPanel tCorporationJPanel;
@@ -211,32 +212,34 @@ public class Portfolio implements CertificateHolderI {
 		String tCertificateType, tPrevShareCorpAbbrev, tShareCorpAbbrev;
 		boolean tIsBankPortfolioHolder = false;
 		JScrollPane tCorporationScrollPane;
-		
+
 		tCount = 0;
 		tScrollableCorpJPanel = buildEmptyCorpJPanel (aCorpType);
 		tCorporationJPanel = buildEmptyCorpJPanel (null);
 		tPrevShareCorpAbbrev = NO_COMPANY_YET;
 		tAllCertificatesJPanel = null;
-		
+
 		for (Certificate tCertificate : certificates) {
 			tCertificateType = tCertificate.getCorpType ();
 			if (tCertificateType.equals (aCorpType)) {
 				tCount++;
 				tShareCorpAbbrev = tCertificate.getCompanyAbbrev ();
 				if (tShareCorpAbbrev.equals (tPrevShareCorpAbbrev)) {
-					tCertificateInfoJPanel = tCertificate.buildCertificateInfoJPanel (aSelectedButtonLabel, 
+					tCertificateInfoJPanel = tCertificate.buildCertificateInfoJPanel (aSelectedButtonLabel,
 							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
 					addJCAndHGlue (tAllCertificatesJPanel, tCertificateInfoJPanel);
 				} else {
 					tCertificateToShow = tCertificate;
-					// Want to be sure to show the President's Certificate FIRST to buy, if the Bank has it. 
-					// The Sort Certificates has trouble placing the President Certificate in Proper order on the Undo.
+					// Want to be sure to show the President's Certificate FIRST to buy, if the Bank
+					// has it.
+					// The Sort Certificates has trouble placing the President Certificate in Proper
+					// order on the Undo.
 					tCorporationToShow = tCertificateToShow.getCorporation ();
 					if (containsPresidentShareOf (tCorporationToShow)) {
 						tCertificateToShow = getPresidentCertificate (tCorporationToShow);
 					}
 					tAllCertificatesJPanel = setupAllCertJPanel ();
-					tCertificateInfoJPanel = tCertificateToShow.buildCertificateInfoJPanel (aSelectedButtonLabel, 
+					tCertificateInfoJPanel = tCertificateToShow.buildCertificateInfoJPanel (aSelectedButtonLabel,
 							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
 					addJCAndHGlue (tAllCertificatesJPanel, tCertificateInfoJPanel);
 					addJCAndVGlue (tCorporationJPanel, tAllCertificatesJPanel);
@@ -256,20 +259,18 @@ public class Portfolio implements CertificateHolderI {
 
 	public JPanel setupAllCertJPanel () {
 		JPanel tAllCertificatesPanel;
-		
+
 		tAllCertificatesPanel = new JPanel ();
 		tAllCertificatesPanel.setLayout (new BoxLayout (tAllCertificatesPanel, BoxLayout.X_AXIS));
 		tAllCertificatesPanel.setBorder (EMPTY_BORDER);
 		tAllCertificatesPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		addJCAndHGlue (tAllCertificatesPanel, null);
-		
+
 		return tAllCertificatesPanel;
 	}
-	
-	public JPanel buildCertJPanelForBank (String aCorpType, String aSelectedButtonLabel, 
-			ItemListener aItemListener, 
-			Player aPlayer, 
-			GameManager aGameManager) {
+
+	public JPanel buildCertJPanelForBank (String aCorpType, String aSelectedButtonLabel, ItemListener aItemListener,
+			Player aPlayer, GameManager aGameManager) {
 		JPanel tAllCertificatesJPanel;
 		JScrollPane tCorporationScrollPane;
 		JPanel tCertificateInfoJPanel;
@@ -279,10 +280,10 @@ public class Portfolio implements CertificateHolderI {
 		Certificate tCertificateToShow;
 		Corporation tCorporationToShow;
 		Corporation tCorporationForCert;
-		int tCount, tCertCount,tCertTotalPercent;
+		int tCount, tCertCount, tCertTotalPercent;
 		String tCertificateType, tPrevShareCorpAbbrev, tShareCorpAbbrev;
 		boolean tIsBankPortfolioHolder = true;
-		
+
 		tCount = 0;
 		tCertCount = 0;
 		tCertTotalPercent = 0;
@@ -290,7 +291,7 @@ public class Portfolio implements CertificateHolderI {
 		tCorporationJPanel = buildEmptyCorpJPanel (null);
 		tPrevShareCorpAbbrev = NO_COMPANY_YET;
 		tAllCertificatesJPanel = null;
-		
+
 		for (Certificate tCertificate : certificates) {
 			tCertificateType = tCertificate.getCorpType ();
 			if (tCertificateType.equals (aCorpType)) {
@@ -300,26 +301,28 @@ public class Portfolio implements CertificateHolderI {
 					tCertTotalPercent = getCertificatePercentageFor (tCorporationForCert);
 					tCount++;
 					tShareCorpAbbrev = tCertificate.getCompanyAbbrev ();
-					if (! tShareCorpAbbrev.equals (tPrevShareCorpAbbrev)) {
+					if (!tShareCorpAbbrev.equals (tPrevShareCorpAbbrev)) {
 						tCertificateToShow = tCertificate;
-						// Want to be sure to show the President's Certificate FIRST to buy, if the Bank has it. 
-						// The Sort Certificates has trouble placing the President Certificate in Proper order on the Undo.
+						// Want to be sure to show the President's Certificate FIRST to buy, if the Bank
+						// has it.
+						// The Sort Certificates has trouble placing the President Certificate in Proper
+						// order on the Undo.
 						tCorporationToShow = tCertificateToShow.getCorporation ();
 						if (containsPresidentShareOf (tCorporationToShow)) {
 							tCertificateToShow = getPresidentCertificate (tCorporationToShow);
 						}
 						tAllCertificatesJPanel = setupAllCertJPanel ();
-						tCertificateInfoJPanel = tCertificateToShow.buildCertificateInfoJPanel (aSelectedButtonLabel, 
+						tCertificateInfoJPanel = tCertificateToShow.buildCertificateInfoJPanel (aSelectedButtonLabel,
 								aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
 						tAllCertificatesJPanel.add (tCertificateInfoJPanel);
 						tAllCertificatesJPanel.add (Box.createHorizontalStrut (3));
-						
-						tOtherCertificatesInfoJPanel = buildCompactCertInfoJPanel (tShareCorpAbbrev, tCertCount, 
+
+						tOtherCertificatesInfoJPanel = buildCompactCertInfoJPanel (tShareCorpAbbrev, tCertCount,
 								tCertTotalPercent);
 						tAllCertificatesJPanel.add (Box.createHorizontalStrut (3));
 						tAllCertificatesJPanel.add (tOtherCertificatesInfoJPanel);
 						tAllCertificatesJPanel.add (Box.createHorizontalGlue ());
-	
+
 						addJCAndVGlue (tCorporationJPanel, tAllCertificatesJPanel);
 						tPrevShareCorpAbbrev = tShareCorpAbbrev;
 					}
@@ -332,13 +335,13 @@ public class Portfolio implements CertificateHolderI {
 		tCorporationScrollPane.setLayout (new ScrollPaneLayout ());
 		tCorporationScrollPane.setBorder (EMPTY_BORDER);
 		addJCAndVGlue (tScrollableCorpJPanel, tCorporationScrollPane);
-		
+
 		return tScrollableCorpJPanel;
 	}
 
 	private JPanel buildEmptyCorpJPanel (String aCorpType) {
 		JPanel tCorporationPanel;
-		
+
 		tCorporationPanel = new JPanel ();
 		tCorporationPanel.setLayout (new BoxLayout (tCorporationPanel, BoxLayout.Y_AXIS));
 		if (aCorpType != null) {
@@ -346,52 +349,58 @@ public class Portfolio implements CertificateHolderI {
 		}
 		tCorporationPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		addJCAndHGlue (tCorporationPanel, null);
-		
+
 		return tCorporationPanel;
 	}
 
 	private JPanel buildNoCertificatesPanel () {
 		JPanel tNoCertificatesPanel;
 		JLabel tLabel;
-		
+
 		tLabel = new JLabel (NO_CERTIFICATES);
 		tNoCertificatesPanel = setupAllCertJPanel ();
 		addJCAndHGlue (tNoCertificatesPanel, tLabel);
-		
+
 		return tNoCertificatesPanel;
 	}
 
 	// TODO: Don't have the 'aPrivates, aCoals, aMinors, aShares' passed in here.
-	// Have this routine request this routine cycle through each Company type possible,
-	// (Found via GameManager), building a separate CertPanel with the specific type, and add it
-	// to the portfolioInfoJPanel. 
-	public JPanel buildPortfolioJPanel (String tTitle, boolean aPrivates, boolean aCoals, boolean aMinors, 
+	// Have this routine request this routine cycle through each Company type
+	// possible,
+	// (Found via GameManager), building a separate CertPanel with the specific
+	// type, and add it
+	// to the portfolioInfoJPanel.
+	public JPanel buildPortfolioJPanel (String tTitle, boolean aPrivates, boolean aCoals, boolean aMinors,
 			boolean aShares, String aSelectedButtonLabel, ItemListener aItemListener, GameManager aGameManager) {
 		JPanel tPrivateCertPanel, tCoalCertPanel, tMinorCertPanel, tShareCertPanel;
-		
+
 		buildPortfolioJPanel ("Portfolio");
 
 		if (aPrivates) {
-			tPrivateCertPanel = buildCertificateJPanel (tTitle, Corporation.PRIVATE_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
+			tPrivateCertPanel = buildCertificateJPanel (tTitle, Corporation.PRIVATE_COMPANY, aSelectedButtonLabel,
+					aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tPrivateCertPanel);
 			privateIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 		if (aCoals) {
-			tCoalCertPanel = buildCertificateJPanel (tTitle, Corporation.COAL_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
+			tCoalCertPanel = buildCertificateJPanel (tTitle, Corporation.COAL_COMPANY, aSelectedButtonLabel,
+					aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tCoalCertPanel);
 			coalIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 		if (aMinors) {
-			tMinorCertPanel = buildCertificateJPanel (tTitle, Corporation.MINOR_COMPANY, aSelectedButtonLabel, aItemListener, aGameManager);
+			tMinorCertPanel = buildCertificateJPanel (tTitle, Corporation.MINOR_COMPANY, aSelectedButtonLabel,
+					aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tMinorCertPanel);
 			minorIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 		if (aShares) {
-			tShareCertPanel = buildShareCertificateJPanel (Corporation.SHARE_COMPANY, aSelectedButtonLabel, aItemListener, null, aGameManager);
+			tShareCertPanel = buildShareCertificateJPanel (Corporation.SHARE_COMPANY, aSelectedButtonLabel,
+					aItemListener, null, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tShareCertPanel);
 			shareIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
-		
+
 		return portfolioInfoJPanel;
 	}
 
@@ -405,16 +414,16 @@ public class Portfolio implements CertificateHolderI {
 		portfolioInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		addJCAndVGlue (portfolioInfoJPanel, null);
 	}
-	
+
 	public void clearSelections () {
 		for (Certificate tCertificate : certificates) {
 			tCertificate.clearSelection ();
 		}
 	}
-	
+
 	public boolean containsPresidentShareOf (Corporation aCorporation) {
 		boolean isPresidentOf;
-		
+
 		isPresidentOf = false;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isForThis (aCorporation)) {
@@ -423,25 +432,25 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-		
+
 		return isPresidentOf;
 	}
-	
+
 	public boolean noMustSellLeft () {
 		boolean tNoMustSellLeft = true;
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.getMustSell ()) {
 				tNoMustSellLeft = false;
 			}
 		}
-		
+
 		return tNoMustSellLeft;
 	}
-	
+
 	public void applyDiscount () {
 		boolean tDiscountApplied = false;
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.getMustSell () && !tDiscountApplied) {
 				tCertificate.applyDiscount ();
@@ -449,20 +458,21 @@ public class Portfolio implements CertificateHolderI {
 			}
 		}
 	}
-	
+
 	public boolean hasMustBuyCertificate () {
 		boolean tMustBuy = false;
 		Certificate tCertificate;
-		
+
 		// If the portfolio has no Certificates, there is no Must Buy
 		if (!certificates.isEmpty ()) {
 			tCertificate = certificates.get (0);
-			// If the first certificate in the portfolio has no Par Value (Cost == Discount) it is a Must Buy
+			// If the first certificate in the portfolio has no Par Value (Cost == Discount)
+			// it is a Must Buy
 			if (tCertificate.getParValue () == 0) {
 				tMustBuy = true;
 			}
 		}
-		
+
 		return tMustBuy;
 	}
 
@@ -470,52 +480,54 @@ public class Portfolio implements CertificateHolderI {
 		boolean tHasMustSell = false;
 		Certificate tCertificate;
 		Corporation tCorporation;
-		
+
 		// If the portfolio has no Certificates, there is no Must Buy
 		if (!certificates.isEmpty ()) {
 			tCertificate = certificates.get (0);
 			tCorporation = tCertificate.getCorporation ();
 			if (tCorporation.getMustSell ()) {
-			// If the first certificate in the portfolio has with the MustSell Flag this is what we return
+				// If the first certificate in the portfolio has with the MustSell Flag this is
+				// what we return
 				tHasMustSell = true;
 			}
 		}
-		
+
 		return tHasMustSell;
 	}
-	
+
 	public Certificate getMustSellCertificate () {
 		Certificate tCertificate;
 		Certificate tThisCertificate = Certificate.NO_CERTIFICATE;
 		Corporation tCorporation;
-		
+
 		// If the portfolio has no Certificates, there is no Must Buy
 		if (!certificates.isEmpty ()) {
 			tCertificate = certificates.get (0);
 			tCorporation = tCertificate.getCorporation ();
 			if (tCorporation.getMustSell ()) {
-			// If the first certificate in the portfolio has with the MustSell Flag this is what we return
+				// If the first certificate in the portfolio has with the MustSell Flag this is
+				// what we return
 				tThisCertificate = tCertificate;
 			}
 		}
-		
+
 		return tThisCertificate;
 	}
-	
+
 	@Override
 	public int getCertificateCountAgainstLimit () {
 		int tCertificatesThatCount;
-		
+
 		tCertificatesThatCount = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.countsAgainstCertificateLimit ()) {
 				tCertificatesThatCount++;
 			}
 		}
-		
+
 		return tCertificatesThatCount;
 	}
-	
+
 	public int getCertificateTotalCount () {
 		return certificates.size ();
 	}
@@ -523,7 +535,7 @@ public class Portfolio implements CertificateHolderI {
 	public Certificate getCertificateFor (Corporation aCorporation) {
 		Certificate tCertificate, tPortfolioCertificate;
 		int tIndex, tCertificateCount;
-		
+
 		tCertificate = Certificate.NO_CERTIFICATE;
 		tCertificateCount = certificates.size ();
 		for (tIndex = 0; (tIndex < tCertificateCount) && (tCertificate == Certificate.NO_CERTIFICATE); tIndex++) {
@@ -533,29 +545,29 @@ public class Portfolio implements CertificateHolderI {
 				certificates.remove (tIndex);
 			}
 		}
-		
+
 		return tCertificate;
 	}
 
 	@Override
 	public int getCertificateCountFor (Corporation aCorporation) {
 		int tCount;
-		
+
 		tCount = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isForThis (aCorporation)) {
 				tCount++;
 			}
 		}
-		
+
 		return tCount;
 	}
-	
+
 	@Override
 	public Certificate getCertificate (int aIndex) {
 		Certificate tCertificate;
 		int tCertificateCount;
-		
+
 		tCertificate = Certificate.NO_CERTIFICATE;
 		tCertificateCount = certificates.size ();
 		if (tCertificateCount > 0) {
@@ -563,86 +575,86 @@ public class Portfolio implements CertificateHolderI {
 				tCertificate = certificates.get (aIndex);
 			}
 		}
-		
+
 		return tCertificate;
 	}
-	
+
 	public Certificate getCertificate (Corporation aCorporation, int aPercentage) {
 		Certificate tThisCertificate;
-		
+
 		tThisCertificate = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (aCorporation.equals (tCertificate.getCorporation ())) {
-				if (tCertificate.getPercentage() == aPercentage) {
+				if (tCertificate.getPercentage () == aPercentage) {
 					tThisCertificate = tCertificate;
 				}
 			}
 		}
-		
+
 		return tThisCertificate;
 	}
-	
+
 	public Certificate getCertificate (String aAbbrev, int aPercentage, boolean isPresident) {
 		Certificate tThisCertificate;
-		
+
 		tThisCertificate = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.getCompanyAbbrev ().equals (aAbbrev)) {
-				if (tCertificate.getPercentage() == aPercentage) {
-					if (tCertificate.isPresidentShare() == isPresident) {
+				if (tCertificate.getPercentage () == aPercentage) {
+					if (tCertificate.isPresidentShare () == isPresident) {
 						tThisCertificate = tCertificate;
 					}
 				}
 			}
 		}
-		
+
 		return tThisCertificate;
 	}
-	
+
 	public Certificate getIPOCertificate (int aPercentage, boolean aPresidentShare) {
 		Certificate tThisCertificate;
-	
+
 		tThisCertificate = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (tThisCertificate == Certificate.NO_CERTIFICATE) {
 				if (aPercentage == tCertificate.getPercentage ()) {
 					if (aPresidentShare && tCertificate.isPresidentShare ()) {
 						tThisCertificate = tCertificate;
-					} else if (! aPresidentShare && ! tCertificate.isPresidentShare ()) {
+					} else if (!aPresidentShare && !tCertificate.isPresidentShare ()) {
 						tThisCertificate = tCertificate;
 					}
 					if (tThisCertificate != Certificate.NO_CERTIFICATE) {
-						if (! tThisCertificate.isOwnedByBank ()) {
+						if (!tThisCertificate.isOwnedByBank ()) {
 							tThisCertificate = Certificate.NO_CERTIFICATE;
 						}
 					}
 				}
 			}
 		}
-		
+
 		return tThisCertificate;
 	}
 
 	public Certificate getCertificate (int aPercentage, boolean aPresidentShare) {
 		Certificate tThisCertificate;
-	
+
 		tThisCertificate = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (aPercentage == tCertificate.getPercentage ()) {
 				if (aPresidentShare && tCertificate.isPresidentShare ()) {
 					tThisCertificate = tCertificate;
-				} else if (! aPresidentShare && ! tCertificate.isPresidentShare ()) {
+				} else if (!aPresidentShare && !tCertificate.isPresidentShare ()) {
 					tThisCertificate = tCertificate;
 				}
 			}
 		}
-		
+
 		return tThisCertificate;
 	}
 
 	public int getCertificatePercentageFor (String aCorpAbbrev) {
 		int tPercentage;
-		
+
 		tPercentage = 0;
 		for (Certificate tCertificate : certificates) {
 			/* Only worry if this is a Share Company */
@@ -652,27 +664,27 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-		
-		return tPercentage;		
+
+		return tPercentage;
 	}
-	
+
 	@Override
 	public int getCertificatePercentageFor (Corporation aCorporation) {
 		int tPercentage;
-		
+
 		tPercentage = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isForThis (aCorporation)) {
 				tPercentage += tCertificate.getPercentage ();
 			}
 		}
-		
+
 		return tPercentage;
 	}
-	
+
 	public int getBankPoolPercentage (Corporation aCorporation) {
 		int tPercentage;
-		
+
 		tPercentage = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isForThis (aCorporation)) {
@@ -681,13 +693,13 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-		
+
 		return tPercentage;
 	}
 
 	public int getPlayerOrCorpOwnedPercentageFor (Corporation aCorporation) {
 		int tPercentage;
-		
+
 		tPercentage = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isForThis (aCorporation)) {
@@ -696,139 +708,139 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-		
-		return tPercentage;		
+
+		return tPercentage;
 	}
 
 	public Certificate getCertificateToBidOn () {
 		Certificate tCertificateToBidOn;
-		
+
 		tCertificateToBidOn = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBidOn ()) {
 				tCertificateToBidOn = tCertificate;
 			}
 		}
-		
+
 		return tCertificateToBidOn;
 	}
 
 	public Certificate getCertificateToBuy () {
 		Certificate tCertificateToBuy;
-		
+
 		tCertificateToBuy = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBuy ()) {
 				tCertificateToBuy = tCertificate;
 			}
 		}
-		
+
 		return tCertificateToBuy;
 	}
-	
+
 	public Certificate getCertificateToExchange () {
 		Certificate tCertificateToExchange;
-	
+
 		tCertificateToExchange = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToExchange ()) {
 				tCertificateToExchange = tCertificate;
 			}
 		}
-		
+
 		return tCertificateToExchange;
 	}
-	
+
 	public List<Certificate> getCertificatesToBuy () {
 		List<Certificate> tCertificatesToBuy;
-		
+
 		tCertificatesToBuy = new LinkedList<Certificate> ();
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBuy ()) {
 				tCertificatesToBuy.add (tCertificate);
 			}
 		}
-		
+
 		return tCertificatesToBuy;
 	}
-	
+
 	public List<Certificate> getCertificatesCanBeSold () {
 		List<Certificate> tCertificatesToSell;
-		
+
 		tCertificatesToSell = new LinkedList<Certificate> ();
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.canBeSold ()) {
 				tCertificatesToSell.add (tCertificate);
 			}
 		}
-		
+
 		return tCertificatesToSell;
 	}
 
 	public List<Certificate> getCertificatesToSell () {
 		List<Certificate> tCertificatesToSell;
-		
+
 		tCertificatesToSell = new LinkedList<Certificate> ();
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToSell ()) {
 				tCertificatesToSell.add (tCertificate);
 			}
 		}
-		
+
 		return tCertificatesToSell;
 	}
-	
+
 	public int getPercentOfCertificatesForSale () {
 		int tPercentOfSelectedCertificates;
-		
+
 		tPercentOfSelectedCertificates = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToSell ()) {
 				tPercentOfSelectedCertificates += tCertificate.getPercentage ();
 			}
 		}
-		
+
 		return tPercentOfSelectedCertificates;
 	}
-	
+
 	public int getCountOfCertificatesForSale () {
 		int tCountOfSelectedCertificates;
-		
+
 		tCountOfSelectedCertificates = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToSell ()) {
 				tCountOfSelectedCertificates++;
 			}
 		}
-		
+
 		return tCountOfSelectedCertificates;
 	}
-	
+
 	public int getCountOfCertificatesForBuy () {
 		int tCountOfSelectedCertificates;
-		
+
 		tCountOfSelectedCertificates = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBuy ()) {
 				tCountOfSelectedCertificates++;
 			}
 		}
-		
+
 		return tCountOfSelectedCertificates;
 	}
-	
+
 	public XMLElement setRealAttributes (XMLElement aXMLElement, AttributeName aAttributeName, int aIndex) {
 		if (aIndex > 0) {
-			aXMLElement.setAttribute (aAttributeName,  aIndex);
+			aXMLElement.setAttribute (aAttributeName, aIndex);
 		}
-		
+
 		return aXMLElement;
 	}
-	
+
 	public XMLElement getElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tXMLCertificateElements;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_PORTFOLIO);
 		setRealAttributes (tXMLElement, AN_PRIVATE_INDEX, privateIndex);
 		setRealAttributes (tXMLElement, AN_COAL_INDEX, coalIndex);
@@ -838,43 +850,43 @@ public class Portfolio implements CertificateHolderI {
 			tXMLCertificateElements = tCertficate.getElement (aXMLDocument);
 			tXMLElement.appendChild (tXMLCertificateElements);
 		}
-		
+
 		return tXMLElement;
 	}
-	
+
 	public int getBidderCount () {
 		int tBidderCount = 0;
-		
+
 		for (Certificate tCertificate : certificates) {
 			tBidderCount += tCertificate.getNumberOfBidders ();
 		}
-		
+
 		return tBidderCount;
 	}
-	
+
 	public String getBidderNames () {
 		String tBidderNames = "";
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tBidderNames.length () > 0) {
 				tBidderNames += ", ";
 			}
 			tBidderNames += tCertificate.getBidderNames ();
 		}
-		
+
 		return tBidderNames;
 	}
-	
+
 	public int getHighestBid () {
 		int tHighestBid = 0;
-		
+
 		for (Certificate tCertificate : certificates) {
 			tHighestBid = tCertificate.getHighestBid ();
 		}
 
 		return tHighestBid;
 	}
-	
+
 	public XMLElement getBidders (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement = NO_BIDDERS;
 		XMLElement tXMLBidders;
@@ -888,44 +900,44 @@ public class Portfolio implements CertificateHolderI {
 				tXMLElement.appendChild (tXMLBidders);
 			}
 		}
-		
+
 		return tXMLElement;
 	}
-	
+
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
-		
+
 		tCurrentHolder = null;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.sameCertificate (aLoadedCertificate)) {
 				tCurrentHolder = (PortfolioHolderLoaderI) holder;
 			}
 		}
-		
+
 		return tCurrentHolder;
 	}
 
 	public String getSelectedCompanyAbbrev () {
 		String tSelectedCompanyAbbrev = "";
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelected ()) {
 				tSelectedCompanyAbbrev = tCertificate.getCompanyAbbrev ();
 			}
 		}
-		
+
 		return tSelectedCompanyAbbrev;
 	}
 
 	public int getSelectedPercent () {
 		int tSelectedPercent = 0;
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelected ()) {
 				tSelectedPercent += tCertificate.getPercentage ();
 			}
 		}
-		
+
 		return tSelectedPercent;
 	}
 
@@ -934,7 +946,7 @@ public class Portfolio implements CertificateHolderI {
 		String tPresidentName;
 		PortfolioHolderI tPresident;
 		int tPresidentPercent = 0;
-		
+
 		tPresident = getPresident ();
 		tPresidentName = tPresident.getName ();
 
@@ -946,7 +958,7 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-		
+
 		return tPresidentPercent;
 	}
 
@@ -962,11 +974,11 @@ public class Portfolio implements CertificateHolderI {
 		tNextPresidentPercent = 0;
 		tPercent = 0;
 		sortByOwners ();
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isOwned ()) {
 				tCertificateOwnerName = tCertificate.getOwnerName ();
-				if (! tCertificateOwnerName.equals (tPresidentName)) {
+				if (!tCertificateOwnerName.equals (tPresidentName)) {
 					if (tCertificateOwnerName.equals (tNextName)) {
 						tPercent += tCertificate.getPercentage ();
 					} else {
@@ -982,10 +994,10 @@ public class Portfolio implements CertificateHolderI {
 		if (tPercent > tNextPresidentPercent) {
 			tNextPresidentPercent = tPercent;
 		}
-		
+
 		return tNextPresidentPercent;
 	}
-	
+
 	public String getNextPresidentName (Corporation aCorporation) {
 		String tCertificateOwnerName, tNextName, tPresidentName;
 		PortfolioHolderI tPresident;
@@ -1000,11 +1012,11 @@ public class Portfolio implements CertificateHolderI {
 		tPercent = 0;
 		sortByOwners ();
 		tNextPresidentName = "";
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isOwned ()) {
 				tCertificateOwnerName = tCertificate.getOwnerName ();
-				if (! tCertificateOwnerName.equals (tPresidentName)) {
+				if (!tCertificateOwnerName.equals (tPresidentName)) {
 					if (tCertificateOwnerName.equals (tNextName)) {
 						tPercent += tCertificate.getPercentage ();
 					} else {
@@ -1020,14 +1032,14 @@ public class Portfolio implements CertificateHolderI {
 		if (tPercent > tNextPresidentPercent) {
 			tNextPresidentName = tNextName;
 		}
-		
+
 		return tNextPresidentName;
 	}
-	
+
 	public PortfolioHolderI getPresident () {
 		CertificateHolderI tCertificateHolder;
 		PortfolioHolderI tPortfolioHolder;
-		
+
 		tPortfolioHolder = PortfolioHolderI.NO_HOLDER;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isPresidentShare ()) {
@@ -1035,25 +1047,25 @@ public class Portfolio implements CertificateHolderI {
 				tPortfolioHolder = tCertificateHolder.getPortfolioHolder ();
 			}
 		}
-		
+
 		return tPortfolioHolder;
 	}
-	
+
 	public String getPresidentName () {
 		String tName = NO_NAME_STRING;
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isPresidentShare ()) {
 				tName = tCertificate.getOwnerName ();
 			}
 		}
-		
+
 		return tName;
 	}
 
 	public Certificate getPresidentCertificate () {
 		Certificate tPresidentCertificate;
-		
+
 		tPresidentCertificate = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isPresidentShare ()) {
@@ -1063,37 +1075,37 @@ public class Portfolio implements CertificateHolderI {
 
 		return tPresidentCertificate;
 	}
-	
+
 	public boolean isPresidentAPlayer () {
 		boolean tPresidentIsAPlayer;
 		PortfolioHolderI tPresident;
-		
+
 		tPresident = getPresident ();
 		if (tPresident == PortfolioHolderI.NO_HOLDER) {
 			tPresidentIsAPlayer = false;
 		} else {
 			tPresidentIsAPlayer = tPresident.isPlayer ();
 		}
-		
+
 		return tPresidentIsAPlayer;
 	}
-	
+
 	public boolean isSelectedForBuy () {
 		boolean tIsSelectedForBuy;
-		
+
 		tIsSelectedForBuy = false;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelected ()) {
 				tIsSelectedForBuy = true;
 			}
 		}
-		
+
 		return tIsSelectedForBuy;
 	}
 
 	public void loadPortfolio (XMLNode aXMLNode) {
 		XMLNodeList tXMLNodeList;
-		
+
 		privateIndex = aXMLNode.getThisIntAttribute (AN_PRIVATE_INDEX, NO_COMPONENT_INDEX);
 		coalIndex = aXMLNode.getThisIntAttribute (AN_COAL_INDEX, NO_COMPONENT_INDEX);
 		minorIndex = aXMLNode.getThisIntAttribute (AN_MINOR_INDEX, NO_COMPONENT_INDEX);
@@ -1101,8 +1113,8 @@ public class Portfolio implements CertificateHolderI {
 		tXMLNodeList = new XMLNodeList (certificateParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, Certificate.EN_CERTIFICATE);
 	}
-	
-	ParsingRoutineI certificateParsingRoutine  = new ParsingRoutineI ()  {
+
+	ParsingRoutineI certificateParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			LoadedCertificate tLoadedCertificate;
@@ -1111,7 +1123,7 @@ public class Portfolio implements CertificateHolderI {
 			Portfolio tPortfolio;
 			PortfolioHolderLoaderI tHolder;
 			Bank tBank;
-			
+
 			tLoadedCertificate = new LoadedCertificate (aChildNode);
 			tHolder = (PortfolioHolderLoaderI) holder;
 			if (tHolder.getName ().equals (BankPool.NAME)) {
@@ -1123,13 +1135,12 @@ public class Portfolio implements CertificateHolderI {
 				tBank = holder.getBank ();
 				tCurrentHolder = tBank.getStartPacketFrame ();
 			}
-			
+
 			if (tCurrentHolder != PortfolioHolderI.NO_HOLDER) {
 				tPortfolio = tCurrentHolder.getPortfolio ();
 				if (tPortfolio != NO_PORTFOLIO) {
-					tCertificate = tPortfolio.getCertificate (tLoadedCertificate.getCompanyAbbrev (), 
-							tLoadedCertificate.getPercentage (), 
-							tLoadedCertificate.getIsPresidentShare ());
+					tCertificate = tPortfolio.getCertificate (tLoadedCertificate.getCompanyAbbrev (),
+							tLoadedCertificate.getPercentage (), tLoadedCertificate.getIsPresidentShare ());
 					if (tCertificate != null) {
 						transferOneCertificateOwnership (tPortfolio, tCertificate);
 					}
@@ -1137,73 +1148,73 @@ public class Portfolio implements CertificateHolderI {
 			}
 		}
 	};
-	
+
 	public void setHolder (PortfolioHolderI aPortfolioHolder) {
 		holder = aPortfolioHolder;
 	}
-	
+
 	public PortfolioHolderI getHolder () {
 		return holder;
 	}
-	
+
 	@Override
 	public String getHolderAbbrev () {
 		String tHolderAbbrev;
-		
+
 		tHolderAbbrev = ">> NO HOLDER <<";
 		if (holder != null) {
 			tHolderAbbrev = holder.getAbbrev ();
 		}
-		
+
 		return tHolderAbbrev;
 	}
-	
+
 	@Override
 	public String getHolderName () {
 		String tHolderName;
-		
+
 		tHolderName = ">> NO HOLDER <<";
 		if (holder != null) {
 			tHolderName = holder.getName ();
 		}
-		
+
 		return tHolderName;
 	}
-	
+
 	@Override
 	public String getName () {
 		return "PORTFOLIO";
 	}
-	
+
 	public int getPercentageFor (Corporation aCorporation) {
 		int tPercentage;
-		
+
 		tPercentage = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isForThis (aCorporation)) {
 				tPercentage += tCertificate.getPercentage ();
 			}
 		}
-		
+
 		return tPercentage;
 	}
-	
+
 	/**
 	 * Percentage of Shares Sold from Bank
 	 * 
 	 * @return int value of % shares sold (up to 100)
 	 */
-	
+
 	public int getPercentOwned () {
 		int tPercentOwned;
-		
+
 		tPercentOwned = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isOwned ()) {
 				tPercentOwned += tCertificate.getPercentage ();
 			}
 		}
-		
+
 		return tPercentOwned;
 	}
 
@@ -1211,25 +1222,25 @@ public class Portfolio implements CertificateHolderI {
 	public PortfolioHolderI getPortfolioHolder () {
 		return holder;
 	}
-	
+
 	public int getPortfolioValue () {
 		int iValue;
-		
+
 		iValue = 0;
 		for (Certificate tCertificate : certificates) {
 			iValue += tCertificate.getValue ();
 		}
-		
+
 		return iValue;
 	}
-	
+
 	// Find the Corporation, in the Portfolio that matches this CorpID
 	// Used to search the Bank Portfolio to load the Start Packet
 	public Corporation getCorporationForID (int CorpID) {
 		Corporation tCorporation = Corporation.NO_CORPORATION;
 		Corporation tTestCorporation;
 		int tTestCorporationID;
-		
+
 		for (Certificate tCertificate : certificates) {
 			tTestCorporation = tCertificate.getCorporation ();
 			tTestCorporationID = tTestCorporation.getID ();
@@ -1237,22 +1248,22 @@ public class Portfolio implements CertificateHolderI {
 				tCorporation = tTestCorporation;
 			}
 		}
-		
+
 		return tCorporation;
 	}
-	
+
 	public Certificate getNonPresidentCertificate (Corporation aCorporation) {
 		Certificate tThisCertificate;
 
 		tThisCertificate = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isForThis (aCorporation)) {
-				if (! tCertificate.isPresidentShare ()) {
+				if (!tCertificate.isPresidentShare ()) {
 					tThisCertificate = tCertificate;
 				}
 			}
 		}
-	
+
 		return tThisCertificate;
 	}
 
@@ -1267,7 +1278,7 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-	
+
 		return tThisCertificate;
 	}
 
@@ -1275,40 +1286,39 @@ public class Portfolio implements CertificateHolderI {
 	public Certificate getThisCertificate (Certificate aCertificate) {
 		Certificate tCertificate, tPortfolioCertificate;
 		int tIndex, tCertificateCount;
-		
+
 		tCertificate = Certificate.NO_CERTIFICATE;
 		tCertificateCount = certificates.size ();
-		for (tIndex = 0; (tIndex < tCertificateCount) && 
-						(tCertificate == Certificate.NO_CERTIFICATE); tIndex++) {
+		for (tIndex = 0; (tIndex < tCertificateCount) && (tCertificate == Certificate.NO_CERTIFICATE); tIndex++) {
 			tPortfolioCertificate = certificates.get (tIndex);
 			if (tPortfolioCertificate == aCertificate) {
 				tCertificate = tPortfolioCertificate;
 				certificates.remove (tIndex);
 			}
 		}
-		
+
 		return tCertificate;
 	}
-	
+
 	@Override
 	public boolean hasCertificateFor (Corporation aCorporation) {
 		boolean tCertificateFound;
-		
+
 		tCertificateFound = false;
-		for (Certificate tCertificate : certificates)  {
+		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isForThis (aCorporation)) {
 				tCertificateFound = true;
 			}
 		}
-		
+
 		return tCertificateFound;
 	}
-	
+
 	public boolean hasSelectedPrivateOrMinorToExchange () {
 		boolean tHasSelectedPrivateOrMinorToExchange;
-		
+
 		tHasSelectedPrivateOrMinorToExchange = false;
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isPrivateCompany ()) {
 				if (tCertificate.isSelected ()) {
@@ -1316,14 +1326,14 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-		
+
 		return tHasSelectedPrivateOrMinorToExchange;
 	}
-	
+
 	public boolean hasSelectedOneToExchange () {
 		boolean tHasSelectedOneToExchange;
 		int tSelectedCount = 0;
-		
+
 		tHasSelectedOneToExchange = false;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isShareCompany ()) {
@@ -1335,13 +1345,13 @@ public class Portfolio implements CertificateHolderI {
 		if (tSelectedCount == 1) {
 			tHasSelectedOneToExchange = true;
 		}
-		
+
 		return tHasSelectedOneToExchange;
 	}
 
 	public boolean hasSelectedPrezToExchange () {
 		boolean tHasSelectedPrezToExchange;
-		
+
 		tHasSelectedPrezToExchange = false;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isShareCompany ()) {
@@ -1352,13 +1362,13 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-		
+
 		return tHasSelectedPrezToExchange;
 	}
 
 	public boolean hasSelectedPrivateToBidOn () {
 		boolean tHasSelectedPrivateToBidOn;
-		
+
 		tHasSelectedPrivateToBidOn = false;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isPrivateCompany ()) {
@@ -1367,39 +1377,39 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-		
+
 		return tHasSelectedPrivateToBidOn;
 	}
-	
+
 	public boolean hasSelectedStockToBuy () {
 		boolean tHasSelectedStockToBuy;
-		
+
 		tHasSelectedStockToBuy = false;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBuy ()) {
 				tHasSelectedStockToBuy = true;
 			}
 		}
-	
+
 		return tHasSelectedStockToBuy;
 	}
-	
+
 	public boolean hasSelectedStockToBid () {
 		boolean tHasSelectedStockToBid;
-		
+
 		tHasSelectedStockToBid = false;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBid ()) {
 				tHasSelectedStockToBid = true;
 			}
 		}
-	
+
 		return tHasSelectedStockToBid;
 	}
-	
+
 	public Certificate getSelectedStockToExchange () {
 		Certificate tCertificateToExchange = Certificate.NO_CERTIFICATE;
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToExchange ()) {
 				tCertificateToExchange = tCertificate;
@@ -1408,10 +1418,10 @@ public class Portfolio implements CertificateHolderI {
 
 		return tCertificateToExchange;
 	}
-	
+
 	public Certificate getSelectedStockToSell () {
 		Certificate tCertificateToSell = Certificate.NO_CERTIFICATE;
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToSell ()) {
 				tCertificateToSell = tCertificate;
@@ -1420,16 +1430,16 @@ public class Portfolio implements CertificateHolderI {
 
 		return tCertificateToSell;
 	}
-	
+
 	public int getCountSelectedCosToBuy () {
 		int tCountSelectedCosToBuy = 0;
 		String tCoAbbrev, tPrevCoAbbrev;
-		
+
 		tPrevCoAbbrev = "";
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBuy ()) {
 				tCoAbbrev = tCertificate.getCompanyAbbrev ();
-				if (! (tCoAbbrev.equals (tPrevCoAbbrev))) {
+				if (!(tCoAbbrev.equals (tPrevCoAbbrev))) {
 					tCountSelectedCosToBuy++;
 					tPrevCoAbbrev = tCoAbbrev;
 				}
@@ -1438,10 +1448,10 @@ public class Portfolio implements CertificateHolderI {
 
 		return tCountSelectedCosToBuy;
 	}
-	
+
 	public int getCountSelectedCosToBid () {
 		int tCountSelectedCosToBid = 0;
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBid ()) {
 				tCountSelectedCosToBid++;
@@ -1450,33 +1460,33 @@ public class Portfolio implements CertificateHolderI {
 
 		return tCountSelectedCosToBid;
 	}
-	
+
 	public Certificate getASelectedCertificatesToBuy () {
 		Certificate tSelectedCertificate;
-		
+
 		tSelectedCertificate = Certificate.NO_CERTIFICATE;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBuy ()) {
 				tSelectedCertificate = tCertificate;
 			}
 		}
-		
+
 		return tSelectedCertificate;
 	}
-	
+
 	public int getCountSelectedCertificatesToBuy () {
 		int tCountOfSelectedCertificates;
-		
+
 		tCountOfSelectedCertificates = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBuy ()) {
 				tCountOfSelectedCertificates++;
 			}
 		}
-		
+
 		return tCountOfSelectedCertificates;
 	}
-	
+
 	/**
 	 * Review all Selected Shares for Sale to determine if all are the same Size
 	 * 
@@ -1487,7 +1497,7 @@ public class Portfolio implements CertificateHolderI {
 		boolean tAllSelectedSharesSameSize;
 		int tPercentage;
 		int tFoundPercentage;
-		
+
 		tAllSelectedSharesSameSize = true;
 		tPercentage = 0;
 		for (Certificate tCertificate : certificates) {
@@ -1502,10 +1512,10 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-		
+
 		return tAllSelectedSharesSameSize;
 	}
-	
+
 	/**
 	 * Get cost of all Shares selected to be Bought
 	 * 
@@ -1514,17 +1524,17 @@ public class Portfolio implements CertificateHolderI {
 	 */
 	public int getSelectedStocksCost () {
 		int tSelectedStockCost;
-		
+
 		tSelectedStockCost = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBuy ()) {
 				tSelectedStockCost += tCertificate.getCost ();
 			}
 		}
-		
+
 		return tSelectedStockCost;
 	}
-	
+
 	/**
 	 * Get cost of all Shares selected to be Sold
 	 * 
@@ -1533,40 +1543,41 @@ public class Portfolio implements CertificateHolderI {
 	 */
 	public int getSelectedStocksSaleCost () {
 		int tSelectedStockSaleCost;
-		
+
 		tSelectedStockSaleCost = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToSell ()) {
 				tSelectedStockSaleCost += tCertificate.getCost ();
 			}
 		}
-		
+
 		return tSelectedStockSaleCost;
 	}
-	
-	/** 
-	 *  Determine if the player has selected any stocks to Sell
-	 *  
-	 * @return TRUE if at least one stock in the Portfolio has been selected to be sold
+
+	/**
+	 * Determine if the player has selected any stocks to Sell
+	 * 
+	 * @return TRUE if at least one stock in the Portfolio has been selected to be
+	 *         sold
 	 * 
 	 */
 	public boolean hasSelectedStocksToSell () {
 		boolean tHasSelectedStocksToSell;
-		
+
 		tHasSelectedStocksToSell = false;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToSell ()) {
 				tHasSelectedStocksToSell = true;
 			}
 		}
-		
+
 		return tHasSelectedStocksToSell;
 	}
-	
+
 	public boolean AreAllSelectedStocksSameCorporation () {
 		boolean tAreAllSelectedStocksSameCorporation;
 		Corporation tCorporation, tPreviousCorporation;
-		
+
 		tAreAllSelectedStocksSameCorporation = true;
 		tPreviousCorporation = Corporation.NO_CORPORATION;
 		for (Certificate tCertificate : certificates) {
@@ -1580,14 +1591,14 @@ public class Portfolio implements CertificateHolderI {
 				tPreviousCorporation = tCorporation;
 			}
 		}
-		
+
 		return tAreAllSelectedStocksSameCorporation;
 	}
-	
+
 	public boolean hasShareCompanyStocks () {
 		boolean tHasShareCompanyStocks;
 		Corporation tCorporation;
-		
+
 		tHasShareCompanyStocks = false;
 		for (Certificate tCertificate : certificates) {
 			tCorporation = tCertificate.getCorporation ();
@@ -1595,19 +1606,19 @@ public class Portfolio implements CertificateHolderI {
 				tHasShareCompanyStocks = true;
 			}
 		}
-		
+
 		return tHasShareCompanyStocks;
 	}
-	
+
 	public boolean hasThisCertificate (Certificate aThisCertificate) {
 		boolean tHasThisCertificate = false;
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (aThisCertificate == tCertificate) {
 				tHasThisCertificate = true;
 			}
 		}
-	
+
 		return tHasThisCertificate;
 	}
 
@@ -1615,7 +1626,7 @@ public class Portfolio implements CertificateHolderI {
 	public boolean isABank () {
 		return holder.isABank ();
 	}
-	
+
 	@Override
 	public boolean isABankPool () {
 		return holder.isABankPool ();
@@ -1625,11 +1636,11 @@ public class Portfolio implements CertificateHolderI {
 	public boolean isCompany () {
 		return holder.isCompany ();
 	}
-	
+
 	public boolean isEmpty () {
 		return certificates.isEmpty ();
 	}
-	
+
 	@Override
 	public boolean isPlayer () {
 		return holder.isPlayer ();
@@ -1637,7 +1648,7 @@ public class Portfolio implements CertificateHolderI {
 
 	public void printCompactPortfolioInfo () {
 		String tCompanyName, tPreviousName;
-		
+
 		System.out.println ("Portfolio:");
 		if (certificates.size () == 0) {
 			System.out.print (">> NO CERTIFICATES IN PORTFOLIO <<");
@@ -1666,7 +1677,7 @@ public class Portfolio implements CertificateHolderI {
 		}
 		System.out.println ("Total Portfolio Value: " + getPortfolioValue ());
 	}
-	
+
 	static final Comparator<Certificate> orderByOwner = new Comparator<Certificate> () {
 		@Override
 		public int compare (Certificate aCertificate1, Certificate aCertificate2) {
@@ -1674,10 +1685,10 @@ public class Portfolio implements CertificateHolderI {
 			String tOwner2;
 			int tSortOrder;
 			int tCert1Percentage, tCert2Percentage;
-			
+
 			tOwner1 = aCertificate1.getOwnerName ();
 			tOwner2 = aCertificate2.getOwnerName ();
-			
+
 			tSortOrder = tOwner1.compareTo (tOwner2);
 			if (tSortOrder == 0) {
 				tCert1Percentage = aCertificate1.getPercentage ();
@@ -1688,11 +1699,11 @@ public class Portfolio implements CertificateHolderI {
 					tSortOrder = 1;
 				}
 			}
-			
+
 			return (tSortOrder);
 		}
 	};
-	
+
 	public void removeAllBids () {
 		for (Certificate tCertificate : certificates) {
 			tCertificate.removeAllBids ();
@@ -1709,7 +1720,7 @@ public class Portfolio implements CertificateHolderI {
 		String tCompanyAbbrev;
 		int tPercentage;
 		boolean tIsPresident;
-		
+
 		tTransferGood = false;
 		if (aFromPortfolio != NO_PORTFOLIO) {
 			if (aCertificate != Certificate.NO_CERTIFICATE) {
@@ -1725,13 +1736,14 @@ public class Portfolio implements CertificateHolderI {
 					tCertificate.resetFrameButton ();
 					tTransferGood = true;
 					if (tIsPresident) {
-						if (! tCertificate.isATestGame ()) {
+						if (!tCertificate.isATestGame ()) {
 							notifyPresidentChange (aFromPortfolio, tCertificate);
 						}
 					}
 				} else {
 					System.err.println ("Transfer Certificate Failed since the Certificate could not be found");
-					System.err.println ("Looking for " + tCompanyAbbrev + " " + tPercentage + "% as President " + tIsPresident);
+					System.err.println (
+							"Looking for " + tCompanyAbbrev + " " + tPercentage + "% as President " + tIsPresident);
 					System.err.println ("From the Portfolio of " + aFromPortfolio.getName ());
 				}
 			} else {
@@ -1740,10 +1752,10 @@ public class Portfolio implements CertificateHolderI {
 		} else {
 			System.err.println ("Transfer Certificate Failed since From Portfolio is Null");
 		}
-		
+
 		return tTransferGood;
 	}
-	
+
 	private void notifyPresidentChange (Portfolio aFromPortfolio, Certificate aCertificate) {
 		PlayerFrame tPlayerFrame;
 		Player tPlayer;
@@ -1751,36 +1763,36 @@ public class Portfolio implements CertificateHolderI {
 		String tClientName;
 		String tPlayerName;
 		String tHolderName;
-		
-		if (! aCertificate.isLoading ()) {
-			if (! aCertificate.isPrivateCompany ()) {
+
+		if (!aCertificate.isLoading ()) {
+			if (!aCertificate.isPrivateCompany ()) {
 				if (holder.isAPlayer ()) {
 					tPlayer = (Player) holder;
 					tClientName = tPlayer.getClientName ();
 					tPlayerName = tPlayer.getName ();
 					tHolderName = aFromPortfolio.getHolderName ();
-					if (! tClientName.equals (tPlayerName)) {
+					if (!tClientName.equals (tPlayerName)) {
 						tPlayerFrame = tPlayer.getPlayerFrame ();
 						tMessage = tPlayerName;
 						if (Bank.NAME.equals (tHolderName)) {
-							tMessage += " received the President Share of " + aCertificate.getCompanyAbbrev () + 
-									" from the Bank";
+							tMessage += " received the President Share of " + aCertificate.getCompanyAbbrev ()
+									+ " from the Bank";
 						} else {
-							tMessage += " obtained the Presidency of " + aCertificate.getCompanyAbbrev () + " from " +
-									tHolderName;
+							tMessage += " obtained the Presidency of " + aCertificate.getCompanyAbbrev () + " from "
+									+ tHolderName;
 						}
-						JOptionPane.showMessageDialog (tPlayerFrame, tMessage, "Change of President", 
+						JOptionPane.showMessageDialog (tPlayerFrame, tMessage, "Change of President",
 								JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}
 		}
 	}
-	
+
 	public boolean transferOwnership (Portfolio aFromPortfolio, Corporation aCorporation) {
 		boolean tTransferGood;
 		Certificate tCertificate;
-		
+
 		tTransferGood = false;
 		if (aFromPortfolio != NO_PORTFOLIO) {
 			if (aCorporation != Corporation.NO_CORPORATION) {
@@ -1793,17 +1805,16 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-		
+
 		return tTransferGood;
 	}
-	
-	
+
 	public void updateCertificateOwnersInfo () {
 		CertificateHolderI tCertificateHolder;
 		PortfolioHolderI tPortfolioHolder;
 		Player tPlayerOwner;
 		Player tPreviousPlayerOwner;
-		
+
 		tPreviousPlayerOwner = Player.NO_PLAYER;
 		for (Certificate tCertificate : certificates) {
 			tCertificateHolder = tCertificate.getOwner ();
@@ -1819,7 +1830,7 @@ public class Portfolio implements CertificateHolderI {
 			}
 		}
 	}
-	
+
 	public boolean itemStateChanged (ItemEvent aItemEvent, PlayerFrame aPlayerFrame) {
 		JCheckBox tCheckedButton;
 		JComboBox<String> tComboBox;
@@ -1827,7 +1838,7 @@ public class Portfolio implements CertificateHolderI {
 		boolean tIsSelected, tHandled;
 		Object tSourceButton = aItemEvent.getItemSelectable ();
 		Object tSourceItem = aItemEvent.getItem ();
-		
+
 		tHandled = false;
 		for (Certificate tCertificate : certificates) {
 			tCheckedButton = tCertificate.getCheckedButton ();
@@ -1847,18 +1858,18 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-		
+
 		return tHandled;
 	}
 
 	private String buildAbbrevAndType (String aAbbrev, String aType) {
 		String tAbbrevAndType;
-		
+
 		tAbbrevAndType = aAbbrev + aType;
-		
+
 		return tAbbrevAndType;
 	}
-	
+
 	public JPanel buildOwnershipPanel () {
 		JPanel tOwnershipPanel = NO_PORTFOLIO_JPANEL;
 		JLabel tCertificateOwnershipLabel;
@@ -1870,13 +1881,13 @@ public class Portfolio implements CertificateHolderI {
 		Border tCorporateColorBorder;
 		Corporation tCorporation;
 		String tType;
-		
+
 		if (certificates.size () > 0) {
 			tOwnershipPanel = new JPanel ();
 			tOwnershipPanel.setLayout (new BoxLayout (tOwnershipPanel, BoxLayout.Y_AXIS));
 
 			tPortfolioSummary = new LinkedList<PortfolioSummary> ();
-			for (Certificate tCertificate : certificates) {				
+			for (Certificate tCertificate : certificates) {
 				tType = PortfolioSummary.SHARE_CORP_TYPE;
 				tAbbrev = tCertificate.getCompanyAbbrev ();
 				if (tAbbrev.length () < 4) {
@@ -1895,10 +1906,11 @@ public class Portfolio implements CertificateHolderI {
 				tIsPresident = tCertificate.isPresidentShare ();
 				tHandledCertificate = false;
 				for (PortfolioSummary tASingleSummary : tPortfolioSummary) {
-					// Test with both Abbrev and Type, to be sure to show B&O Private the B&O Share Company Certs when owned by
+					// Test with both Abbrev and Type, to be sure to show B&O Private the B&O Share
+					// Company Certs when owned by
 					// the same player
 					tAbbrevAndType2 = buildAbbrevAndType (tASingleSummary.getAbbrev (), tASingleSummary.getType ());
-					
+
 					if (tAbbrevAndType1.equals (tAbbrevAndType2)) {
 						tASingleSummary.addCount (tCount);
 						tASingleSummary.addPercentage (tPercentage);
@@ -1906,11 +1918,12 @@ public class Portfolio implements CertificateHolderI {
 						tHandledCertificate = true;
 					}
 				}
-				if (! tHandledCertificate) {
+				if (!tHandledCertificate) {
 					tCorporation = tCertificate.getCorporation ();
 					tCorporateColorBorder = tCorporation.setupBorder ();
 					tNote = tCorporation.getNote ();
-					tASummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tIsPresident, tCorporateColorBorder, tNote);
+					tASummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tIsPresident,
+							tCorporateColorBorder, tNote);
 					tPortfolioSummary.add (tASummary);
 				}
 			}
@@ -1925,13 +1938,13 @@ public class Portfolio implements CertificateHolderI {
 				tOwnershipPanel.add (tCertificateOwnershipLabel);
 			}
 		}
-		
+
 		return tOwnershipPanel;
 	}
-	
+
 	public void configurePrivateCompanyBenefitButtons (JPanel aButtonRow) {
 		PrivateCompany tPrivateCompany;
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isPrivateCompany ()) {
 				tPrivateCompany = (PrivateCompany) tCertificate.getCorporation ();
@@ -1941,10 +1954,10 @@ public class Portfolio implements CertificateHolderI {
 			}
 		}
 	}
-	
+
 	public void configurePrivatePlayerBenefitButtons (JPanel aButtonRow) {
 		PrivateCompany tPrivateCompany;
-		
+
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isPrivateCompany ()) {
 				tPrivateCompany = (PrivateCompany) tCertificate.getCorporation ();
@@ -1958,26 +1971,26 @@ public class Portfolio implements CertificateHolderI {
 	public int getSmallestSharePercentage () {
 		int tSmallestSharePercentage = 100;
 		int tCertificatePercentage;
-		
+
 		for (Certificate tCertificate : certificates) {
 			tCertificatePercentage = tCertificate.getPercentage ();
 			if (tCertificatePercentage < tSmallestSharePercentage) {
 				tSmallestSharePercentage = tCertificatePercentage;
 			}
 		}
-		
+
 		return tSmallestSharePercentage;
 	}
-	
+
 	public FrameButton getFrameButtonAt (int aIndex) {
 		FrameButton tFrameButton = FrameButton.NO_FRAME_BUTTON;
 		Certificate tCertificate;
-		
+
 		tCertificate = certificates.get (aIndex);
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tFrameButton = tCertificate.getFrameButton ();
 		}
-		
+
 		return tFrameButton;
 	}
 }

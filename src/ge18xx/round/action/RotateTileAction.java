@@ -30,23 +30,23 @@ public class RotateTileAction extends LayTileAction {
 		setName (NAME);
 		setChainToPrevious (true);
 	}
-	
-	public void addRotateTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
-			int aNewOrientation, int aPreviousOrientation, String aTokens, String aBases) {
+
+	public void addRotateTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aNewOrientation,
+			int aPreviousOrientation, String aTokens, String aBases) {
 		RotateTileEffect tRotateTileEffect;
 
-		tRotateTileEffect = new RotateTileEffect (aActor, aMapCell, aTile, 
-				aNewOrientation, aPreviousOrientation, aTokens, aBases);
+		tRotateTileEffect = new RotateTileEffect (aActor, aMapCell, aTile, aNewOrientation, aPreviousOrientation,
+				aTokens, aBases);
 		addEffect (tRotateTileEffect);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
-		tSimpleActionReport = actor.getName () + " rotate Tile " + getTileNumber () + 
-				" to Orientation of " + getOrientation () + ".";
-		
+
+		tSimpleActionReport = actor.getName () + " rotate Tile " + getTileNumber () + " to Orientation of "
+				+ getOrientation () + ".";
+
 		return tSimpleActionReport;
 	}
 }

@@ -32,62 +32,62 @@ public class RevenueCenterType implements Cloneable {
 	public static final int PRIVATE_RAILWAY_POINT = 18;
 	public static final int MIN_REVENUE_CENTER_TYPE = NO_REVENUE_CENTER;
 	public static final int MAX_REVENUE_CENTER_TYPE = PRIVATE_RAILWAY_POINT;
-	static final String NAMES [] = {"No Revenue Center", "Small Town", "Two Small Towns", "Single City", 
-		"Two Cities", "Three Cities", "Four Cities", "Five Cities", "Six Cities", "Double City", "Triple City", 
-		"Quad City", "Two Double Cities", "Dead-End City", "Dead-End Only City", "Bypass City", 
-		"Destination City", "Dot Town", "Private Railway"};
-	
+	static final String NAMES[] = { "No Revenue Center", "Small Town", "Two Small Towns", "Single City", "Two Cities",
+			"Three Cities", "Four Cities", "Five Cities", "Six Cities", "Double City", "Triple City", "Quad City",
+			"Two Double Cities", "Dead-End City", "Dead-End Only City", "Bypass City", "Destination City", "Dot Town",
+			"Private Railway" };
+
 	int type;
-	
+
 	public RevenueCenterType () {
 		setType (NO_REVENUE_CENTER);
 	}
-	
+
 	public RevenueCenterType (int aType) {
 		setType (aType);
 	}
-	
+
 	public RevenueCenterType (String aTypeName) {
 		setType (getTypeFromName (aTypeName));
 	}
-	
+
 	public boolean canPlaceStation () {
 		boolean canPlaceStation = false;
-		
+
 		switch (type) {
 //			case NO_REVENUE_CENTER:
-			case SMALL_TOWN:
-			case TWO_SMALL_TOWNS:
-        		case DOT_TOWN:
-			case DESTINATION_CITY:
-			case PRIVATE_RAILWAY_POINT:
-				canPlaceStation = false;
-				break;
-				
-			case SINGLE_CITY:
-			case TWO_CITIES:
-			case THREE_CITIES:
-			case FOUR_CITIES:
-			case FIVE_CITIES:
-			case SIX_CITIES:
-			case DOUBLE_CITY:
-			case TRIPLE_CITY:
-			case QUAD_CITY:
-			case TWO_DOUBLE_CITIES:
-			case DEAD_END_CITY:
-			case DEAD_END_ONLY_CITY:
-			case BYPASS_CITY:
-				canPlaceStation = true;
-				break;
-			default:
-				canPlaceStation = false;
-				break;
-				
+		case SMALL_TOWN:
+		case TWO_SMALL_TOWNS:
+		case DOT_TOWN:
+		case DESTINATION_CITY:
+		case PRIVATE_RAILWAY_POINT:
+			canPlaceStation = false;
+			break;
+
+		case SINGLE_CITY:
+		case TWO_CITIES:
+		case THREE_CITIES:
+		case FOUR_CITIES:
+		case FIVE_CITIES:
+		case SIX_CITIES:
+		case DOUBLE_CITY:
+		case TRIPLE_CITY:
+		case QUAD_CITY:
+		case TWO_DOUBLE_CITIES:
+		case DEAD_END_CITY:
+		case DEAD_END_ONLY_CITY:
+		case BYPASS_CITY:
+			canPlaceStation = true;
+			break;
+		default:
+			canPlaceStation = false;
+			break;
+
 		}
-		
+
 		return (canPlaceStation);
 	}
-	
+
 	public boolean cityOrTown () {
 		if (type == NO_REVENUE_CENTER) {
 			return (false);
@@ -95,152 +95,152 @@ public class RevenueCenterType implements Cloneable {
 			return (true);
 		}
 	}
-	
+
 	@Override
 	public RevenueCenterType clone () {
 		try {
 			RevenueCenterType tRCT = (RevenueCenterType) super.clone ();
 			tRCT.type = type;
-			
+
 			return tRCT;
 		} catch (CloneNotSupportedException e) {
 			throw new Error ("RevenueCenterType.clone Not Supported Exception");
 		}
 	}
-	
+
 	public int getCenterCount () {
 		int count = 0;
-		
+
 		switch (type) {
-			case SMALL_TOWN:
-			case DOT_TOWN:
-			case DEAD_END_CITY:
-			case BYPASS_CITY:
-			case DEAD_END_ONLY_CITY:
-				count = 1;
-				break;
-				
-			case TWO_SMALL_TOWNS:
-				count = 2;
-				break;
-				
-			default:
-				count = getMaxStations ();
-				break;
+		case SMALL_TOWN:
+		case DOT_TOWN:
+		case DEAD_END_CITY:
+		case BYPASS_CITY:
+		case DEAD_END_ONLY_CITY:
+			count = 1;
+			break;
+
+		case TWO_SMALL_TOWNS:
+			count = 2;
+			break;
+
+		default:
+			count = getMaxStations ();
+			break;
 		}
-		
+
 		return count;
 	}
-	
+
 	public int getMaxStations () {
 		int aMaxStationCount;
-		
+
 		switch (type) {
-			case SMALL_TOWN:
-			case TWO_SMALL_TOWNS:
-			case DOT_TOWN:
-			case PRIVATE_RAILWAY_POINT:
-				aMaxStationCount = 0;
-				break;
-				
-			case DESTINATION_CITY:
-			case SINGLE_CITY:
-				aMaxStationCount = 1;
-				break;
-				
-			case DEAD_END_CITY:
-			case BYPASS_CITY:
-			case DEAD_END_ONLY_CITY:
-        			aMaxStationCount = 0;
-        			break;
-				
-			case TWO_CITIES:
-			case DOUBLE_CITY:
-        			aMaxStationCount = 2;
-        			break;
-				
-			case THREE_CITIES:
-			case TRIPLE_CITY:
-        			aMaxStationCount = 3;
-        			break;
-				
-			case FOUR_CITIES:
-			case QUAD_CITY:
-			case TWO_DOUBLE_CITIES:
-				aMaxStationCount = 4;
-				break;
-				
-			case FIVE_CITIES:
-				aMaxStationCount = 5;
-				break;
-				
-			case SIX_CITIES:
-				aMaxStationCount = 6;
-				break;
-				
-       		default:
-       			aMaxStationCount = 0;
-        }
-		
+		case SMALL_TOWN:
+		case TWO_SMALL_TOWNS:
+		case DOT_TOWN:
+		case PRIVATE_RAILWAY_POINT:
+			aMaxStationCount = 0;
+			break;
+
+		case DESTINATION_CITY:
+		case SINGLE_CITY:
+			aMaxStationCount = 1;
+			break;
+
+		case DEAD_END_CITY:
+		case BYPASS_CITY:
+		case DEAD_END_ONLY_CITY:
+			aMaxStationCount = 0;
+			break;
+
+		case TWO_CITIES:
+		case DOUBLE_CITY:
+			aMaxStationCount = 2;
+			break;
+
+		case THREE_CITIES:
+		case TRIPLE_CITY:
+			aMaxStationCount = 3;
+			break;
+
+		case FOUR_CITIES:
+		case QUAD_CITY:
+		case TWO_DOUBLE_CITIES:
+			aMaxStationCount = 4;
+			break;
+
+		case FIVE_CITIES:
+			aMaxStationCount = 5;
+			break;
+
+		case SIX_CITIES:
+			aMaxStationCount = 6;
+			break;
+
+		default:
+			aMaxStationCount = 0;
+		}
+
 		return aMaxStationCount;
 	}
-	
+
 	public String getName () {
 		return NAMES [type];
 	}
-	
+
 	public int getStationCount () {
 		int tStationCount;
-		
+
 		switch (type) {
-			case SMALL_TOWN:
-			case DOT_TOWN:
-			case DEAD_END_CITY:
-			case BYPASS_CITY:
-			case DEAD_END_ONLY_CITY:
-			case TWO_SMALL_TOWNS:
-			case PRIVATE_RAILWAY_POINT:
-				tStationCount = 0;
-				break;
-				
-			case SINGLE_CITY:
-			case TWO_CITIES:
-			case THREE_CITIES:
-			case FOUR_CITIES:
-			case FIVE_CITIES:
-			case SIX_CITIES:
-				tStationCount = 1;
-				break;
-				
-			case DOUBLE_CITY:
-			case TWO_DOUBLE_CITIES:
-				tStationCount = 2;
-				break;
-				
-			case TRIPLE_CITY:
-				tStationCount = 3;
-				break;
-				
-			case QUAD_CITY:
-				tStationCount = 4;
-				break;
-				
-			default:
-				tStationCount = 0;
-				break;
+		case SMALL_TOWN:
+		case DOT_TOWN:
+		case DEAD_END_CITY:
+		case BYPASS_CITY:
+		case DEAD_END_ONLY_CITY:
+		case TWO_SMALL_TOWNS:
+		case PRIVATE_RAILWAY_POINT:
+			tStationCount = 0;
+			break;
+
+		case SINGLE_CITY:
+		case TWO_CITIES:
+		case THREE_CITIES:
+		case FOUR_CITIES:
+		case FIVE_CITIES:
+		case SIX_CITIES:
+			tStationCount = 1;
+			break;
+
+		case DOUBLE_CITY:
+		case TWO_DOUBLE_CITIES:
+			tStationCount = 2;
+			break;
+
+		case TRIPLE_CITY:
+			tStationCount = 3;
+			break;
+
+		case QUAD_CITY:
+			tStationCount = 4;
+			break;
+
+		default:
+			tStationCount = 0;
+			break;
 		}
-		
+
 		return tStationCount;
 	}
-	
+
 	public int getType () {
 		return type;
 	}
-	
+
 	public int getTypeFromName (String aName) {
 		int index;
 		int thisType = NO_REVENUE_CENTER;
-		
+
 		for (index = MIN_REVENUE_CENTER_TYPE; index <= MAX_REVENUE_CENTER_TYPE; index++) {
 			if (thisType == NO_REVENUE_CENTER) {
 				if (aName.equals (NAMES [index])) {
@@ -248,10 +248,10 @@ public class RevenueCenterType implements Cloneable {
 				}
 			}
 		}
-		
+
 		return thisType;
 	}
-	
+
 	public boolean isCity () {
 		if ((type >= SINGLE_CITY) && (type <= DESTINATION_CITY)) {
 			return (true);
@@ -259,32 +259,24 @@ public class RevenueCenterType implements Cloneable {
 			return (false);
 		}
 	}
-	
+
 	static public boolean isCity (String aType) {
-		if (aType.equals ("Single City") || 
-			aType.equals ("Double City") ||
-			aType.equals ("Two Cities") ||  
-			aType.equals ("Three Cities") ||  
-			aType.equals ("Four Cities") || 
-			aType.equals ("Five Cities") || 
-			aType.equals ("Six Cities") || 
-			aType.equals ("Triple City") || 
-			aType.equals ("Quad City") || 
-			aType.equals ("Two Double Cities") || 
-			aType.equals ("Dead-End City") || 
-			aType.equals ("Dead-End Only City") || 
-			aType.equals ("Bypass City") || 
-			aType.equals ("Destination City")) {
+		if (aType.equals ("Single City") || aType.equals ("Double City") || aType.equals ("Two Cities")
+				|| aType.equals ("Three Cities") || aType.equals ("Four Cities") || aType.equals ("Five Cities")
+				|| aType.equals ("Six Cities") || aType.equals ("Triple City") || aType.equals ("Quad City")
+				|| aType.equals ("Two Double Cities") || aType.equals ("Dead-End City")
+				|| aType.equals ("Dead-End Only City") || aType.equals ("Bypass City")
+				|| aType.equals ("Destination City")) {
 			return (true);
 		} else {
 			return (false);
 		}
 	}
-	
+
 	public boolean isDestination () {
 		return (type == DESTINATION_CITY);
 	}
-	
+
 	public boolean isDotTown () {
 		if (type == DOT_TOWN) {
 			return (true);
@@ -292,7 +284,7 @@ public class RevenueCenterType implements Cloneable {
 			return (false);
 		}
 	}
-	
+
 	static public boolean isDotTown (String aType) {
 		if (aType.equals ("Dot Town")) {
 			return (true);
@@ -300,11 +292,11 @@ public class RevenueCenterType implements Cloneable {
 			return (false);
 		}
 	}
-	
+
 	public boolean isPrivateRailway () {
 		return (type == PRIVATE_RAILWAY_POINT);
 	}
-	
+
 	public boolean isTown () {
 		if ((type == SMALL_TOWN) || (type == TWO_SMALL_TOWNS) || (type == DOT_TOWN)) {
 			return (true);
@@ -312,7 +304,7 @@ public class RevenueCenterType implements Cloneable {
 			return (false);
 		}
 	}
-	
+
 	static public boolean isTown (String aType) {
 		if (aType.equals ("Small Town") || aType.equals ("Two Small Towns") || aType.equals ("Dot Town")) {
 			return (true);
@@ -328,7 +320,7 @@ public class RevenueCenterType implements Cloneable {
 			return (false);
 		}
 	}
-	
+
 	public void setType (int aType) {
 		if ((aType >= MIN_REVENUE_CENTER_TYPE) && (aType <= MAX_REVENUE_CENTER_TYPE)) {
 			type = aType;

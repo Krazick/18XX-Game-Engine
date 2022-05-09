@@ -9,7 +9,7 @@ import ge18xx.utilities.XMLNode;
 public class ClearExchangePrezShareEffect extends ExchangePrezShareEffect {
 	public final static String NAME = "Clear Exchange President Share";
 	final static String AN_CLEAR_EXCHANGE_PREZ = "ClearExchangedPrez";
-	
+
 	public ClearExchangePrezShareEffect () {
 		super ();
 		setName (NAME);
@@ -20,19 +20,19 @@ public class ClearExchangePrezShareEffect extends ExchangePrezShareEffect {
 	}
 
 	public ClearExchangePrezShareEffect (XMLNode aEffectNode, GameManager aGameManager) {
-		super (aEffectNode, aGameManager);	
+		super (aEffectNode, aGameManager);
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Player tPlayer;
-		
+
 		tEffectApplied = false;
 		tPlayer = (Player) actor;
 		tPlayer.setExchangedPrezShare (null);
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 	}
 
@@ -40,12 +40,12 @@ public class ClearExchangePrezShareEffect extends ExchangePrezShareEffect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Player tPlayer;
-		
+
 		tEffectUndone = false;
 		tPlayer = (Player) actor;
 		tPlayer.setExchangedPrezShare (corporationAbbrev);
 		tEffectUndone = true;
-		
+
 		return tEffectUndone;
 	}
 }

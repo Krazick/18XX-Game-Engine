@@ -26,7 +26,7 @@ public abstract class Round implements ActorI {
 	int idPart1;
 	int idPart2;
 	RoundManager roundManager;
-	
+
 	public Round (RoundManager aRoundManager) {
 		setID (NO_ID, NO_ID);
 		setRoundManager (aRoundManager);
@@ -35,60 +35,60 @@ public abstract class Round implements ActorI {
 	public void addAction (Action aAction) {
 		roundManager.addAction (aAction);
 	}
-	
+
 	public void clearAllAuctionStates () {
 		roundManager.clearAllAuctionStates ();
 	}
-	
+
 	public ActionManager getActionManager () {
 		return roundManager.getActionManager ();
 	}
-	
+
 	public Bank getBank () {
 		return roundManager.getBank ();
 	}
-	
+
 	public BankPool getBankPool () {
 		return roundManager.getBankPool ();
 	}
-	
+
 	public Portfolio getBankPoolPortfolio () {
 		return roundManager.getBankPoolPortfolio ();
 	}
-	
+
 	public Certificate getCertificateToBuy () {
 		return roundManager.getCertificateToBuy ();
 	}
-	
+
 	public List<Certificate> getCertificatesToBuy () {
 		List<Certificate> tCertificatesToBuy;
 
 		tCertificatesToBuy = roundManager.getCertificatesToBuy ();
-		
+
 		return tCertificatesToBuy;
 	}
 
 	public Certificate getCertificateToBidOn () {
 		return roundManager.getCertificateToBidOn ();
 	}
-	
+
 	public GameManager getGameManager () {
 		return roundManager.getGameManager ();
 	}
-	
+
 	public int getIDPart1 () {
 		return idPart1;
 	}
-	
+
 	public int getIDPart2 () {
 		return idPart2;
 	}
-	
+
 	public String getID () {
 		String tID;
-		
+
 		tID = idPart1 + "." + idPart2;
-		
+
 		return tID;
 	}
 
@@ -99,45 +99,45 @@ public abstract class Round implements ActorI {
 	public PhaseManager getPhaseManager () {
 		return roundManager.getPhaseManager ();
 	}
-	
+
 	public RoundManager getRoundManager () {
 		return roundManager;
 	}
-	
+
 	public ActorI.ActionStates getRoundType () {
 		return ActorI.ActionStates.NoRound;
 	}
-	
+
 	@Override
 	public String getStateName () {
 		return getRoundType ().toString ();
 	}
-	
+
 	public String getType () {
 		return "Round";
 	}
-	
+
 	public boolean hasActionsToUndo () {
 		return roundManager.hasActionsToUndo ();
 	}
-	
+
 	public void loadRound (XMLNode aRoundNode) {
 		idPart1 = aRoundNode.getThisIntAttribute (AN_ROUND_PART1);
 		idPart2 = aRoundNode.getThisIntAttribute (AN_ROUND_PART2);
 	}
-		
+
 	public boolean roundIsDone () {
 		return false;
 	}
-	
+
 	public void printBriefActionReport () {
 		roundManager.printBriefActionReport ();
 	}
 
 	public void setID (String aID) {
-		String tIDs [];
+		String tIDs[];
 		int tID1, tID2;
-		
+
 		tIDs = aID.split ("\\.");
 		tID1 = Integer.parseInt (tIDs [0]);
 		if (tIDs.length == 2) {
@@ -147,25 +147,25 @@ public abstract class Round implements ActorI {
 		}
 		setID (tID1, tID2);
 	}
-	
+
 	public void setID (int aIDPart1, int aIDPart2) {
 		idPart1 = aIDPart1;
 		setIDPart2 (aIDPart2);
 	}
-	
+
 	public void setIDPart2 (int aIDPart2) {
 		idPart2 = aIDPart2;
 	}
-	
+
 	public void setPrimaryActionState (ActorI.ActionStates aPreviousState) {
 		if (aPreviousState == ActorI.ActionStates.StockRound) {
 			startStockRound ();
 		}
 		if (aPreviousState == ActorI.ActionStates.OperatingRound) {
 			startOperatingRound ();
-		}		
+		}
 	}
-	
+
 	@Override
 	public void resetPrimaryActionState (ActorI.ActionStates aPreviousState) {
 		if (aPreviousState == ActorI.ActionStates.StockRound) {
@@ -184,7 +184,7 @@ public abstract class Round implements ActorI {
 	public void setRoundManager (RoundManager aRoundManager) {
 		roundManager = aRoundManager;
 	}
-	
+
 	public void resetOperatingRound () {
 		roundManager.resetOperatingRound (idPart1, idPart2);
 	}
@@ -192,17 +192,17 @@ public abstract class Round implements ActorI {
 	public void resumeStockRound () {
 		roundManager.resumeStockRound (idPart1);
 	}
-	
+
 	public void startAuctionRound (boolean aCreateNewAuctionAction) {
 		roundManager.startAuctionRound (aCreateNewAuctionAction);
 	}
-	
+
 	public boolean startOperatingRound () {
 		roundManager.startOperatingRound ();
-		
+
 		return true;
 	}
-	
+
 	public String getClientUserName () {
 		return roundManager.getClientUserName ();
 	}
@@ -214,7 +214,7 @@ public abstract class Round implements ActorI {
 	public void startStockRound () {
 		roundManager.startStockRound ();
 	}
-	
+
 	public boolean undoLastAction () {
 		return roundManager.undoLastAction ();
 	}
@@ -226,21 +226,21 @@ public abstract class Round implements ActorI {
 	public void updateAllFrames () {
 		roundManager.updateAllFrames ();
 	}
-	
+
 	@Override
 	public String getName () {
 		return NAME;
 	}
-	
+
 	public boolean wasLastActionStartAuction () {
 		return roundManager.wasLastActionStartAuction ();
 	}
-	
+
 	@Override
 	public boolean isAPlayer () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isAPrivateCompany () {
 		return false;
@@ -260,7 +260,7 @@ public abstract class Round implements ActorI {
 	public boolean isABank () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isABankPool () {
 		return false;
@@ -270,12 +270,12 @@ public abstract class Round implements ActorI {
 	public boolean isACorporation () {
 		return false;
 	}
-	
+
 	@Override
 	public String getAbbrev () {
 		return getName ();
 	}
-	
+
 	public boolean isActor (String aActorName) {
 		return getName ().equals (aActorName);
 	}

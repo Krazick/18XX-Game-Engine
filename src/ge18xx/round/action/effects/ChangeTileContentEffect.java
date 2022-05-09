@@ -18,7 +18,7 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 	public static final String NAME = "Change Tile Contents";
 	final static AttributeName AN_TOKENS = new AttributeName ("tokens");
 	final static AttributeName AN_BASES = new AttributeName ("bases");
-	
+
 	String tokens;
 	String bases;
 
@@ -29,16 +29,16 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 	public ChangeTileContentEffect (String aName) {
 		super (aName);
 	}
-	
-	public ChangeTileContentEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
-			int aOrientation, String aTokens, String aBases) {
+
+	public ChangeTileContentEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aTokens,
+			String aBases) {
 		this (aActor, aMapCell, aTile, aOrientation, aTokens, aBases, NO_BENEFIT_IN_USE);
 	}
 
-	public ChangeTileContentEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
-			int aOrientation, String aTokens, String aBases, Benefit aBenefitInUse) {
+	public ChangeTileContentEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aTokens,
+			String aBases, Benefit aBenefitInUse) {
 		super (aActor, aMapCell, aTile, aOrientation, aBenefitInUse);
-				
+
 		setName (NAME);
 		setTokens (aTokens);
 		setBases (aBases);
@@ -48,32 +48,32 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 		String tTokens, tBases;
-		
+
 		tTokens = aEffectNode.getThisAttribute (AN_TOKENS);
 		tBases = aEffectNode.getThisAttribute (AN_BASES);
 		setTokens (tTokens);
 		setBases (tBases);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_TOKENS, getTokens ());
 		tEffectElement.setAttribute (AN_BASES, getBases ());
-		
+
 		return tEffectElement;
 	}
 
 	public String getBases () {
 		return bases;
 	}
-	
+
 	public String getTokens () {
 		return tokens;
 	}
-	
+
 	public void setBases (String aBases) {
 		bases = aBases;
 	}
@@ -89,9 +89,9 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		int tStationIndex, tCityIndex;
 		ShareCompany tShareCompany;
 		String tTheTokens;
-		
+
 		tTheTokens = getTokens ();
-		if (! (Tile.NO_TOKENS.equals (tTheTokens))) {
+		if (!(Tile.NO_TOKENS.equals (tTheTokens))) {
 			tTokens = tTheTokens.split (";");
 			// Format for Tokens are "CompanyAbbrev,StationIndex,CityIndex"
 			for (String tAToken : tTokens) {
@@ -99,13 +99,13 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 				tAbbrev = tTokenInfo [0];
 				tStationIndex = Integer.parseInt (tTokenInfo [1]);
 				tCityIndex = Integer.parseInt (tTokenInfo [2]);
-				tShareCompany = aRoundManager.getShareCompany(tAbbrev);
+				tShareCompany = aRoundManager.getShareCompany (tAbbrev);
 				aMapCell.returnStation (tShareCompany);
 				aMapCell.setStationAt (tShareCompany, tStationIndex, tCityIndex);
 			}
 		}
 	}
-	
+
 	public void applyBases (RoundManager aRoundManager, MapCell aMapCell) {
 		String [] tBases;
 		String [] tBaseInfo;
@@ -116,10 +116,10 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		Location tLocation;
 		String tTheBases;
 		Tile tTile;
-		
+
 		tTile = aMapCell.getTile ();
 		tTheBases = getBases ();
-		if (! (Tile.NO_BASES.equals (tTheBases))) {
+		if (!(Tile.NO_BASES.equals (tTheBases))) {
 			tBases = tTheBases.split (";");
 			// Format for Bases are "CompanyAbbrev,CityIndex"
 			for (String tAPreviousBase : tBases) {

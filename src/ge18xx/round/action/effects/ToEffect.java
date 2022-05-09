@@ -31,17 +31,17 @@ public class ToEffect extends Effect {
 		super (aEffectNode, aGameManager);
 		String tToActorName;
 		ActorI tToActor;
-		
+
 		tToActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
 		tToActor = aGameManager.getActor (tToActorName);
 		setToActor (tToActor);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 		String tActorName;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		if (toActor.isACorporation ()) {
 			tActorName = ((Corporation) toActor).getAbbrev ();
@@ -49,46 +49,46 @@ public class ToEffect extends Effect {
 			tActorName = getToActorName ();
 		}
 		tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, tActorName);
-	
+
 		return tEffectElement;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " for " + getActorName () + " to " + getToActorName () + ".");
 	}
-	
+
 	public ActorI getToActor () {
 		return toActor;
 	}
-	
+
 	public void setToActor (ActorI aToActor) {
 		toActor = aToActor;
 	}
-	
+
 	@Override
 	public String getToActorName () {
 		String tActorName = ActorI.NO_NAME;
-		
+
 		if (toActor != NO_TO_ACTOR) {
 			tActorName = toActor.getName ();
 		}
-		
+
 		return tActorName;
 	}
-	
+
 	public boolean isToActor (String aActorName) {
 		boolean tIsToActor = false;
-		
+
 		if (toActor != NO_TO_ACTOR) {
 			if (toActor.getName ().equals (aActorName)) {
 				tIsToActor = true;
 			}
 		}
-		
+
 		return tIsToActor;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		return true;

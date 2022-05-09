@@ -26,12 +26,12 @@ class RoundManagerTestConstructors {
 	GameTestFactory gameTestFactory;
 	RoundTestFactory roundTestFactory;
 	RoundManager roundManager;
-	
+
 	@BeforeEach
 	void setUp () throws Exception {
 		String tClientName;
 		PlayerInputFrame mPlayerInputFrame;
-		
+
 		tClientName = "RMTestBuster";
 		gameTestFactory = new GameTestFactory ();
 		gameManager = gameTestFactory.buildGameManager (tClientName);
@@ -53,7 +53,7 @@ class RoundManagerTestConstructors {
 	}
 
 	@Test
-	@DisplayName ("Test Clear Methods") 
+	@DisplayName ("Test Clear Methods")
 	void clearMethodTests () {
 		Mockito.doNothing ().when (mGameManager).clearAllPlayerSelections ();
 		Mockito.doNothing ().when (mGameManager).clearBankSelections ();
@@ -67,7 +67,7 @@ class RoundManagerTestConstructors {
 		roundManager.clearAllAuctionStates ();
 		Mockito.verify (mGameManager, times (1)).clearAllAuctionStates ();
 	}
-	
+
 	@Test
 	@DisplayName ("Test Boolean Methods")
 	void booleanMethodTests () {
@@ -83,21 +83,21 @@ class RoundManagerTestConstructors {
 		assertFalse (roundManager.isStockRound ());
 		assertFalse (roundManager.isOperatingRound ());
 	}
-	
+
 	@Test
 	@DisplayName ("Test Set and Get Methods")
 	void setAndGetMethodTests () {
-		roundManager.setRoundType(ActorI.ActionStates.StockRound);
+		roundManager.setRoundType (ActorI.ActionStates.StockRound);
 		assertEquals ("Stock Round", roundManager.getCurrentRoundType ().toString ());
 		assertTrue (roundManager.isStockRound ());
-		roundManager.setRoundType(ActorI.ActionStates.AuctionRound);
+		roundManager.setRoundType (ActorI.ActionStates.AuctionRound);
 		assertEquals ("Auction Round", roundManager.getCurrentRoundType ().toString ());
 		assertTrue (roundManager.isAuctionRound ());
-		roundManager.setRoundType(ActorI.ActionStates.OperatingRound);
+		roundManager.setRoundType (ActorI.ActionStates.OperatingRound);
 		assertEquals ("Operating Round", roundManager.getCurrentRoundType ().toString ());
 		assertTrue (roundManager.isOperatingRound ());
 	}
-	
+
 	@Test
 	@DisplayName ("Test getActor Method")
 	void getActorMethodTests () {
@@ -107,7 +107,7 @@ class RoundManagerTestConstructors {
 		StockRound tStockRound;
 		OperatingRound tOperatingRound;
 		AuctionRound tAuctionRound;
-		
+
 		tPlayerTestFactory = new PlayerTestFactory (gameManager);
 		tPlayerManager = tPlayerTestFactory.buildPlayerManager ();
 		tStockRound = roundTestFactory.buildStockRound (tPlayerManager, roundManager);
@@ -116,21 +116,20 @@ class RoundManagerTestConstructors {
 		roundManager.setAuctionRound (tAuctionRound);
 		tOperatingRound = roundTestFactory.buildOperatingRound (roundManager);
 		roundManager.setOperatingRound (tOperatingRound);
-		
+
 		roundManager.setRoundType (ActorI.ActionStates.StockRound);
 		tActor = roundManager.getActor ("Stock Round");
 		assertTrue (tActor.isAStockRound ());
-		
+
 		roundManager.setRoundType (ActorI.ActionStates.AuctionRound);
 		tActor = roundManager.getActor ("Auction Round");
 		assertEquals (tAuctionRound, tActor);
-		
-		
+
 		roundManager.setRoundType (ActorI.ActionStates.OperatingRound);
 		tActor = roundManager.getActor ("Operating Round");
 		assertTrue (tActor.isAOperatingRound ());
 
-		tActor = roundManager.getActor("RoundManager Tester");
+		tActor = roundManager.getActor ("RoundManager Tester");
 		assertNull (tActor);
 	}
 }

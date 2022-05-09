@@ -17,7 +17,7 @@ public class RemoveAllBids extends Effect {
 	String companyAbbrev;
 	int percentage;
 	boolean isPresident;
-	
+
 	public RemoveAllBids () {
 		this (NAME);
 	}
@@ -29,14 +29,14 @@ public class RemoveAllBids extends Effect {
 	public RemoveAllBids (ActorI aActor, Certificate aCertificate) {
 		this (NAME, aActor, aCertificate);
 	}
-	
+
 	public RemoveAllBids (String aName, ActorI aActor, Certificate aCertificate) {
 		super (aName, aActor);
-		
+
 		String tCompanyAbbrev = aCertificate.getCompanyAbbrev ();
 		int tPercentage = aCertificate.getPercentage ();
 		boolean tIsPresident = aCertificate.isPresidentShare ();
-		
+
 		setCompanyAbbrev (tCompanyAbbrev);
 		setPercentage (tPercentage);
 		setIsPresident (tIsPresident);
@@ -45,11 +45,11 @@ public class RemoveAllBids extends Effect {
 	public RemoveAllBids (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
-		
+
 		String tCompanyAbbrev;
 		int tPercentage;
 		boolean tIsPresident;
-		
+
 		tCompanyAbbrev = aEffectNode.getThisAttribute (AN_COMPANY_ABBREV);
 		tPercentage = aEffectNode.getThisIntAttribute (AN_PERCENTAGE);
 		tIsPresident = aEffectNode.getThisBooleanAttribute (AN_IS_PRESIDENT);
@@ -57,16 +57,16 @@ public class RemoveAllBids extends Effect {
 		setPercentage (tPercentage);
 		setIsPresident (tIsPresident);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_COMPANY_ABBREV, getCompanyAbbrev ());
 		tEffectElement.setAttribute (AN_PERCENTAGE, getPercentage ());
 		tEffectElement.setAttribute (AN_IS_PRESIDENT, isPresident ());
-	
+
 		return tEffectElement;
 	}
 
@@ -77,11 +77,11 @@ public class RemoveAllBids extends Effect {
 	private boolean isPresident () {
 		return isPresident;
 	}
-	
+
 	private int getPercentage () {
 		return percentage;
 	}
-	
+
 	private void setIsPresident (boolean aIsPresident) {
 		isPresident = aIsPresident;
 	}
@@ -93,18 +93,18 @@ public class RemoveAllBids extends Effect {
 	private void setCompanyAbbrev (String aCorporationAbbrev) {
 		companyAbbrev = aCorporationAbbrev;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		Certificate tCertificate;
 		boolean tEffectApplied = false;
-		
+
 		tCertificate = aRoundManager.getCertificate (getCompanyAbbrev (), getPercentage (), isPresident ());
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tCertificate.removeAllBids ();
 			tEffectApplied = true;
 		}
-		
+
 		return tEffectApplied;
 	}
 

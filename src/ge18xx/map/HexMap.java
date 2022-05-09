@@ -66,17 +66,17 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public static final boolean DONT_ADD_ACTION = false;
 	public static final boolean DO_ADD_ACTION = true;
 	private static final long serialVersionUID = 1L;
-	MapCell map [] [];
+	MapCell map[][];
 	Hex hex;
 	TileSet tileSet;
 	MapFrame mapFrame;
 	boolean tilePlaced;
 	boolean placeTileMode;
-	boolean singleMapCellSelect;	// Set true if in mode to select a SINGLE Hex Map Cell, selecting a different
-								// should unselect ALL and leave only the single map cell selected.
+	boolean singleMapCellSelect; // Set true if in mode to select a SINGLE Hex Map Cell, selecting a different
+	// should unselect ALL and leave only the single map cell selected.
 	boolean selectRevenueCenter;
 	boolean selectTrackSegment;
-	
+
 	public HexMap (MapFrame aMapFrame) {
 		mapFrame = aMapFrame;
 		hex = Hex.NO_HEX;
@@ -86,23 +86,23 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		setBackground (Color.white);
 		setSingleMapCellSelect (false);
 	}
-	
+
 	public int getCurrentPhase () {
 		return mapFrame.getCurrentPhase ();
 	}
-	
+
 	public void CalcGridCenters () {
-        int rowIndex, colIndex, Xc, Yc, toggle, temp_2DLR, temp_DUP_dwidth;
+		int rowIndex, colIndex, Xc, Yc, toggle, temp_2DLR, temp_DUP_dwidth;
 		int rowCount;
 		int colCount;
-		
+
 		if (Hex.getDirection ()) {
 			temp_2DLR = hex.getDisplaceLeftRight () + hex.getDisplaceLeftRight ();
 			temp_DUP_dwidth = hex.getDisplaceUpDown () + Hex.getWidth ();
-			rowCount = getRowCount();
-			
+			rowCount = getRowCount ();
+
 			Yc = 0 - temp_DUP_dwidth + hex.getIntDWidth ();
-			if (new Double(rowCount/2).intValue() * 2 == rowCount) {
+			if (new Double (rowCount / 2).intValue () * 2 == rowCount) {
 				toggle = 0;
 			} else {
 				toggle = 1;
@@ -113,7 +113,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				} else {
 					Xc = 0;
 				}
- 				Yc += temp_DUP_dwidth;
+				Yc += temp_DUP_dwidth;
 				colCount = getColCount (rowIndex);
 				for (colIndex = 0; colIndex < colCount; colIndex++) {
 					Xc += temp_2DLR;
@@ -124,14 +124,14 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 					}
 				}
 				toggle = 1 - toggle;
-			}			
+			}
 		} else {
 			Xc = 0 - hex.getDisplaceUpDown ();
 			toggle = 1;
 			temp_2DLR = hex.getDisplaceLeftRight () + hex.getDisplaceLeftRight ();
 			temp_DUP_dwidth = hex.getDisplaceUpDown () + Hex.getWidth ();
-			rowCount = getRowCount();
-			
+			rowCount = getRowCount ();
+
 			for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 				Yc = 0 - hex.getDisplaceLeftRight () * toggle;
 				Xc += temp_DUP_dwidth;
@@ -146,13 +146,13 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 				toggle = 1 - toggle;
 			}
-			
+
 		}
-    }
-	
+	}
+
 	public void clearAllSelected () {
 		int rowIndex, colIndex, rowCount, colCount;
-		
+
 		rowCount = getRowCount ();
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 			colCount = getColCount (rowIndex);
@@ -165,7 +165,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tileSet.clearAllPlayable ();
 		}
 	}
-	
+
 	/**
 	 * Clear the Specified Train Number from the Entire Map
 	 * 
@@ -173,7 +173,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	 */
 	public void clearTrain (int aTrainNumber) {
 		int rowIndex, colIndex, rowCount, colCount;
-		
+
 		rowCount = getRowCount ();
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 			colCount = getColCount (rowIndex);
@@ -183,14 +183,15 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 		}
 	}
-	
+
 	/**
-	 * Clear All Trains from All of the Map Cells on the Map. Will also Clear the Sides as well
+	 * Clear All Trains from All of the Map Cells on the Map. Will also Clear the
+	 * Sides as well
 	 * 
 	 */
 	public void clearAllTrains () {
 		int rowIndex, colIndex, rowCount, colCount;
-		
+
 		rowCount = getRowCount ();
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 			colCount = getColCount (rowIndex);
@@ -200,21 +201,21 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 		}
 	}
-	
+
 	public boolean hasStation (int aCorpID) {
 		int rowIndex, colIndex, rowCount, colCount;
 		boolean tHasStation = false;
-		
+
 		rowCount = getRowCount ();
-		for (rowIndex = 0; (rowIndex < rowCount) && ! tHasStation ; rowIndex++) {
+		for (rowIndex = 0; (rowIndex < rowCount) && !tHasStation; rowIndex++) {
 			colCount = getColCount (rowIndex);
-			for (colIndex = 0; (colIndex < colCount) && ! tHasStation ; colIndex++) {
+			for (colIndex = 0; (colIndex < colCount) && !tHasStation; colIndex++) {
 				if (map [rowIndex] [colIndex].hasStation (aCorpID)) {
 					tHasStation = true;
 				}
 			}
 		}
-		
+
 		return tHasStation;
 	}
 
@@ -223,7 +224,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		XMLElement tCellElement;
 		XMLElement tRowElement;
 		int tRowIndex, tColIndex, tRowCount, tColCount, tMaxColCount;
-		
+
 		tElement = aXMLDocument.createElement (EN_MAP);
 		tRowCount = getRowCount ();
 		tMaxColCount = getMaxColCount ();
@@ -239,35 +240,34 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 			tElement.appendChild (tRowElement);
 		}
-		
-		return tElement;		
+
+		return tElement;
 	}
-	
-	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell,
-								boolean aAddLayTokenAtion) {
+
+	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell, boolean aAddLayTokenAtion) {
 		mapFrame.putMapTokenDown (aCorporation, aCity, aMapCell, aAddLayTokenAtion);
 	}
-	
+
 	public int getColCount (int thisRow) {
 		if (map == MapCell.NO_MAP_CELLS) {
 			return 0;
-		} 
-		
+		}
+
 		return (map [thisRow].length);
 	}
-	
+
 	public int getHexWidth () {
 		return (Hex.getWidth ());
 	}
-	
+
 	public int getHexHeight () {
 		return (hex.getYd () * 2);
 	}
-	
+
 	public int getHexYd () {
 		return (hex.getYd ());
 	}
-	
+
 	private String [] getIDs (String aID) {
 		String [] theIDs = null;
 		String [] tempIDs = null;
@@ -278,7 +278,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tMatchIndex;
 		int tIndex;
 		int tSize;
-		
+
 		if (aID != null) {
 			if (aID.equals ("A")) {
 				theIDs = tUpperAlpha.split (":");
@@ -293,7 +293,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tLowerAlpha = "zz:" + tLowerAlpha;
 				theIDs = tLowerAlpha.split (":");
 			} else {
-				// If not match the first character, try matching against another, and reverse the array sent back.
+				// If not match the first character, try matching against another, and reverse
+				// the array sent back.
 				tMatchIndex = tUpperAlpha.indexOf (aID) + 1;
 				if (tMatchIndex > 0) {
 					tempAlpha = tUpperAlpha.substring (0, tMatchIndex);
@@ -315,26 +316,26 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		} else {
 			theIDs = tLowerAlpha.split (":");
 		}
-		
+
 		return theIDs;
 	}
-	
+
 	public MapCell getMapCell (int aRow, int aCol) {
 		MapCell tMapCell = null;
-		
+
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
 				tMapCell = map [aRow] [aCol];
 			}
 		}
-		
+
 		return tMapCell;
 	}
-	
+
 	public MapCell getMapCellContainingPoint (Point2D.Double aPoint) {
 		int tRowIndex, tColIndex, tRowCount, tColCount;
 		MapCell tFoundMapCell = MapCell.NO_MAP_CELL;
-		
+
 		tRowCount = getRowCount ();
 		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
@@ -344,15 +345,15 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 			}
 		}
-		
+
 		return tFoundMapCell;
 	}
-	
+
 	public XMLElement getMapStateElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement, tXMLMapCellElement;
 		int tRowIndex, tColIndex, tRowCount, tColCount;
 		MapCell tMapCell;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_MAP);
 		tRowCount = getRowCount ();
 		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
@@ -369,14 +370,14 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 			}
 		}
-		
+
 		return tXMLElement;
 	}
-	
+
 	public MapCell getMapCellContainingPoint (Point aPoint) {
 		int tRowIndex, tColIndex, tRowCount, tColCount;
 		MapCell tFoundMapCell = MapCell.NO_MAP_CELL;
-		
+
 		tRowCount = getRowCount ();
 		for (tRowIndex = 0; (tRowIndex < tRowCount) && (tFoundMapCell == MapCell.NO_MAP_CELL); tRowIndex++) {
 			tColCount = getColCount (tRowIndex);
@@ -386,16 +387,16 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 			}
 		}
-		
+
 		return tFoundMapCell;
 	}
-	
+
 	public MapCell getMapCellForID (String aID) {
 		int rowIndex, colIndex, rowCount, colCount;
 		MapCell foundMapCell = MapCell.NO_MAP_CELL;
-		
+
 		if (aID != null) {
-			if (! aID.equals ("")) {
+			if (!aID.equals ("")) {
 				rowCount = getRowCount ();
 				for (rowIndex = 0; (rowIndex < rowCount) && (foundMapCell == MapCell.NO_MAP_CELL); rowIndex++) {
 					colCount = getColCount (rowIndex);
@@ -407,14 +408,14 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 			}
 		}
-		
+
 		return foundMapCell;
 	}
-	
+
 	public int getMaxColCount () {
 		int index, maxColCount, thisColCount;
 		int tRowCount;
-		
+
 		maxColCount = getColCount (0);
 		if (maxColCount > 0) {
 			tRowCount = getRowCount ();
@@ -425,116 +426,115 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 			}
 		}
-		
+
 		return maxColCount;
 	}
-	
+
 	public int getMaxWidth () {
 		int tMaxWidth = getMaxColCount () * getHexWidth ();
 		return tMaxWidth;
 	}
-	
+
 	public int getMaxHeight () {
 		int tMaxHeight = getMaxRowCount () * getHexHeight ();
 		return tMaxHeight;
 	}
-	
+
 	public int getMaxRowCount () {
 		return (getRowCount ());
 	}
-	
+
 	public int getMaxX () {
 		int maxRow;
 		int maxCol;
 		int maxX;
 		int maxX1, maxX2;
-		
+
 		if (map == MapCell.NO_MAP_CELLS) {
 			maxX = 0;
 		} else {
 			maxRow = getMaxRowCount ();
-			if (map [maxRow - 1][0] == MapCell.NO_MAP_CELL) {
+			if (map [maxRow - 1] [0] == MapCell.NO_MAP_CELL) {
 				maxX = 0;
 			} else {
-				if (map [0][0].getMapDirection ()) {
+				if (map [0] [0].getMapDirection ()) {
 					maxCol = getMaxColCount ();
-					maxX1 = map [0][maxCol - 1].getXCenter () + hex.rightEdgeDisplacement ();
-					maxX2 = map [0][maxCol - 2
-						].getXCenter() + hex.rightEdgeDisplacement ();
+					maxX1 = map [0] [maxCol - 1].getXCenter () + hex.rightEdgeDisplacement ();
+					maxX2 = map [0] [maxCol - 2].getXCenter () + hex.rightEdgeDisplacement ();
 					if (maxX1 > maxX2) {
 						maxX = maxX1;
 					} else {
 						maxX = maxX2;
 					}
 				} else {
-					maxX = map [maxRow - 1][0].getXCenter() + hex.rightEdgeDisplacement ();
+					maxX = map [maxRow - 1] [0].getXCenter () + hex.rightEdgeDisplacement ();
 				}
 			}
 		}
-		
+
 		return (maxX + 3);
 	}
-	
+
 	public int getMaxY () {
 		int maxY;
 		int maxRow;
 		int maxCol;
-		
+
 		if (map == MapCell.NO_MAP_CELLS) {
 			maxY = 0;
 		} else {
 			maxRow = getMaxRowCount ();
 			maxCol = getMaxColCount ();
-			if (map [1][maxCol - 1] == MapCell.NO_MAP_CELL) {
+			if (map [1] [maxCol - 1] == MapCell.NO_MAP_CELL) {
 				maxY = 0;
 			} else {
-				if (map [0][0].getMapDirection ()) {
-					maxY = map [0][0].getYCenter () + hex.bottomEdgeDisplacement ();
+				if (map [0] [0].getMapDirection ()) {
+					maxY = map [0] [0].getYCenter () + hex.bottomEdgeDisplacement ();
 				} else {
 					if (maxRow > 0) {
-						maxY = map [1][maxCol - 1].getYCenter () + hex.bottomEdgeDisplacement ();
+						maxY = map [1] [maxCol - 1].getYCenter () + hex.bottomEdgeDisplacement ();
 					} else {
-						maxY = map [0][maxCol - 1].getYCenter () + hex.bottomEdgeDisplacement ();
+						maxY = map [0] [maxCol - 1].getYCenter () + hex.bottomEdgeDisplacement ();
 					}
 				}
 			}
 		}
-		
+
 		return (maxY + 3);
 	}
-	
+
 	public int getMinX () {
 		int minX = 0;
-		
+
 		return minX;
 	}
-	
+
 	public int getMinY () {
 		int minY = 0;
-		
+
 		return minY;
 	}
-	
+
 	public int getRevenueCenterID (int aRow, int aCol) {
 		int tRevenueCenterID = RevenueCenter.NO_ID;
-		
+
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
 				tRevenueCenterID = map [aRow] [aCol].getRevenueCenterID ();
 			}
 		}
-		
+
 		return tRevenueCenterID;
 	}
-	
+
 	public int getRowCount () {
 		if (map == MapCell.NO_MAP_CELLS) {
 			return 0;
 		}
-		
+
 		return map.length;
 	}
-	
+
 	public TokenCompany getTokenCompany (String aAbbrev) {
 		return mapFrame.getTokenCompany (aAbbrev);
 	}
@@ -542,7 +542,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public MapCell getSelectedMapCell () {
 		int rowIndex, colIndex, rowCount, colCount;
 		MapCell foundMapCell = MapCell.NO_MAP_CELL;
-		
+
 		rowCount = getRowCount ();
 		for (rowIndex = 0; (rowIndex < rowCount) && (foundMapCell == MapCell.NO_MAP_CELL); rowIndex++) {
 			colCount = getColCount (rowIndex);
@@ -552,43 +552,43 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 			}
 		}
-		
+
 		return foundMapCell;
 	}
-	
+
 	public boolean getSelectRevenueCenter () {
 		return selectRevenueCenter;
 	}
-	
+
 	public boolean getSelectTrackSegment () {
 		return selectTrackSegment;
 	}
-	
+
 	public Terrain getTerrain () {
-		return map [0][0].getBaseTerrain ();
+		return map [0] [0].getBaseTerrain ();
 	}
-	
+
 	public int getTileNumber (int aRow, int aCol) {
 		int tTileNumber = 0;
-		
+
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
-				tTileNumber = map [aRow][aCol].getTileNumber ();
+				tTileNumber = map [aRow] [aCol].getTileNumber ();
 			}
 		}
-		
+
 		return tTileNumber;
 	}
-	
+
 	@Override
 	public String getTypeName () {
 		return "Map";
 	}
-	
+
 	public void handleSelectRevenueCenter (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell, Point aPoint) {
 		City tSelectedCity = City.NO_CITY;
 		RevenueCenter tSelectedRevenueCenter = RevenueCenter.NO_CENTER;
-		
+
 		if (aPreviousSelectedMapCell != MapCell.NO_MAP_CELL) {
 			aPreviousSelectedMapCell.clearSelected ();
 		}
@@ -610,32 +610,32 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 			}
 		}
-		
+
 	}
-	
+
 	public void handleSingleMapCellSelect (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell) {
-		
+
 		if (aPreviousSelectedMapCell == MapCell.NO_MAP_CELL) {
 			toggleSelectedMapCell (aSelectedMapCell);
 		} else {
 			if (aSelectedMapCell != MapCell.NO_MAP_CELL) {
 				if (aPreviousSelectedMapCell == aSelectedMapCell) {
 					if (aSelectedMapCell.isTileOnCell ()) {
-						//	Tile is on Cell. Check if Locked Orientation.
-						if (! aSelectedMapCell.isTileOrientationLocked ()) {
-							//	Tile Orientation is not locked, time to Rotate in place
-							rotateTileInPlace (aSelectedMapCell, DO_ADD_ACTION);				
+						// Tile is on Cell. Check if Locked Orientation.
+						if (!aSelectedMapCell.isTileOrientationLocked ()) {
+							// Tile Orientation is not locked, time to Rotate in place
+							rotateTileInPlace (aSelectedMapCell, DO_ADD_ACTION);
 						} else {
-							//	Tile Orientation is locked, Toggle Cell selection
+							// Tile Orientation is locked, Toggle Cell selection
 							toggleSelectedMapCell (aSelectedMapCell);
 						}
 					} else {
-						//	No Tile on Cell, Toggle Selection
+						// No Tile on Cell, Toggle Selection
 						toggleSelectedMapCell (aSelectedMapCell);
 					}
 				} else {
-					System.out.println ("Previous Map Cell " + aPreviousSelectedMapCell.getID () + 
-							" New Map Cell " + aSelectedMapCell.getID () + " Tile Was Placed " + wasTilePlaced ());
+					System.out.println ("Previous Map Cell " + aPreviousSelectedMapCell.getID () + " New Map Cell "
+							+ aSelectedMapCell.getID () + " Tile Was Placed " + wasTilePlaced ());
 					if (aSelectedMapCell.isSelectable ()) {
 						aPreviousSelectedMapCell.lockTileOrientation ();
 						toggleSelectedMapCell (aPreviousSelectedMapCell);
@@ -647,7 +647,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 		}
 	}
-	
+
 	public void rotateTileInPlace (MapCell aThisMapCell, boolean aAddAction) {
 		boolean tCanAllTracksExit;
 		int tTileOrient, tCountOfRotations, tPossible;
@@ -659,7 +659,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		RoundManager tRoundManager;
 		Corporation tOperatingCompany;
 		String tTokens, tBases;
-		
+
 		tCountOfRotations = aThisMapCell.getCountofAllowedRotations ();
 		if (tCountOfRotations > 1) {
 			tTile = aThisMapCell.getTile ();
@@ -667,7 +667,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tPreviousOrientation = tPossible;
 			tSteps = 0;
 			tCanAllTracksExit = false;
-			for (tTileOrient = 0; ((! tCanAllTracksExit) && (tTileOrient < 6)); tTileOrient++) {
+			for (tTileOrient = 0; ((!tCanAllTracksExit) && (tTileOrient < 6)); tTileOrient++) {
 				tPossible = (tPossible + 1) % 6;
 				tSteps++;
 				if (aThisMapCell.getAllowedRotation (tPossible)) {
@@ -685,57 +685,57 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tGameManager = mapFrame.getGameManager ();
 				tRoundManager = tGameManager.getRoundManager ();
 				tOperatingCompany = tRoundManager.getOperatingCompany ();
-				tRotateTileAction = new RotateTileAction (ActorI.ActionStates.OperatingRound, 
+				tRotateTileAction = new RotateTileAction (ActorI.ActionStates.OperatingRound,
 						tRoundManager.getOperatingRoundID (), tOperatingCompany);
 				tTokens = tTile.getPlacedTokens ();
 				tBases = tTile.getCorporationBases ();
-				tRotateTileAction.addRotateTileEffect (tOperatingCompany, aThisMapCell, 
-						tTile, tNewOrientation, tPreviousOrientation, tTokens, tBases);
+				tRotateTileAction.addRotateTileEffect (tOperatingCompany, aThisMapCell, tTile, tNewOrientation,
+						tPreviousOrientation, tTokens, tBases);
 				tRoundManager.addAction (tRotateTileAction);
 			}
 		} else {
 			System.err.println ("Only ONE Allowed Rotations have been identified for the Tile on this MapCell");
 		}
 	}
-	
+
 	public boolean inColRange (int aRow, int aCol) {
 		if (inRowRange (aRow)) {
-			return ((aCol >= 0) && (aCol < getColCount(aRow)));
+			return ((aCol >= 0) && (aCol < getColCount (aRow)));
 		} else {
 			return false;
 		}
 	}
-	
+
 	public boolean inRowRange (int aRow) {
-		return ((aRow >= 0) && (aRow < getRowCount()));
+		return ((aRow >= 0) && (aRow < getRowCount ()));
 	}
-	
+
 	public boolean inRowColRanges (int aRow, int aCol) {
 		boolean tInRowColRanges = false;
-		
+
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
 				tInRowColRanges = true;
 			}
 		}
-		
+
 		return tInRowColRanges;
 	}
-	
+
 	public boolean isTileOnCell (int aRow, int aCol) {
 		boolean tileFound = false;
-		
+
 		if (inRowColRanges (aRow, aCol)) {
 			tileFound = map [aRow] [aCol].isTileOnCell ();
 		}
-		
-		return tileFound;		
+
+		return tileFound;
 	}
-	
+
 	public Tile getTileFromTileSet (int aTileNumber) {
 		Tile tTile;
 		GameTile tGameTile;
-		
+
 		tTile = Tile.NO_TILE;
 		tGameTile = tileSet.getGameTile (aTileNumber);
 		if (tGameTile != GameTile.NO_GAME_TILE) {
@@ -743,16 +743,16 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		} else {
 			System.err.println ("Did not find the Game Tile with # " + aTileNumber);
 		}
-		
+
 		return tTile;
 	}
-	
+
 	public void loadMapCellState (XMLNode aMapCellNode) {
 		int tCol, tRow, tTileOrientation, tTileNumber;
 		int tDefaultTileNumber;
 		Tile tTile;
 		Tile tCurrentTile;
-		
+
 		tCol = aMapCellNode.getThisIntAttribute (AN_COL);
 		tRow = aMapCellNode.getThisIntAttribute (AN_ROW);
 		tTileOrientation = aMapCellNode.getThisIntAttribute (MapCell.AN_ORIENTATION);
@@ -763,7 +763,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 					tDefaultTileNumber = map [tRow] [tCol].getTileNumber ();
 					if (tDefaultTileNumber != tTileNumber) {
 						tTile = getTileFromTileSet (tTileNumber);
-						if (tTile != Tile.NO_TILE) { 
+						if (tTile != Tile.NO_TILE) {
 							tCurrentTile = map [tRow] [tCol].getTile ();
 							map [tRow] [tCol].putTile (tTile, tTileOrientation);
 							restoreTile (tCurrentTile);
@@ -785,9 +785,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 		}
 	}
-	
-	private boolean loadXMLRow (XMLNode aRowNode, int aTerrainCost [], int aTerrainType [], int aCols, 
-								int aDefaultTerrainType, String [] theRowIDs, String [] theColIDs) throws IOException {
+
+	private boolean loadXMLRow (XMLNode aRowNode, int aTerrainCost[], int aTerrainType[], int aCols,
+			int aDefaultTerrainType, String [] theRowIDs, String [] theColIDs) throws IOException {
 		NodeList tChildren;
 		XMLNode tChildNode;
 		String tChildName;
@@ -799,17 +799,17 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		boolean evenRow;
 		String tID;
 		boolean tGoodLoad = true;
-		
+
 		tRowIndex = aRowNode.getThisIntAttribute (AN_INDEX);
 		tChildren = aRowNode.getChildNodes ();
-        tChildrenCount = tChildren.getLength ();
+		tChildrenCount = tChildren.getLength ();
 		tColIndex = aRowNode.getThisIntAttribute (AN_START_COL);
 		if (tColIndex != 0) {
 			for (index = 0; index < tColIndex; index++) {
 				map [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
 			}
 		}
-		if (((int) (tRowIndex/2)) * 2 == tRowIndex) {
+		if (((int) (tRowIndex / 2)) * 2 == tRowIndex) {
 			evenRow = true;
 			tOddRow = 0;
 		} else {
@@ -838,8 +838,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			for (index = tColIndex; index < aCols; index++) {
 				map [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
 			}
-		} 
-		
+		}
+
 		for (index = 0; index < aCols; index++) {
 			if (index > 0) {
 				map [tRowIndex] [index].setNeighbor (0, map [tRowIndex] [index - 1]);
@@ -858,11 +858,11 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 			}
 		}
-		
-		if (! tGoodLoad) {
+
+		if (!tGoodLoad) {
 			System.err.println ("Bad Load on Row [" + tRowIndex + "].");
 		}
-		
+
 		return tGoodLoad;
 	}
 
@@ -884,13 +884,13 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		String tFillColor = "black";
 		String tRowStartID;
 		String tColStartID;
-		String theRowIDs [];
-		String theColIDs [];
+		String theRowIDs[];
+		String theColIDs[];
 		boolean tLoadedRow;
-		int tTerrainType [] = new int [15];
-		int tTerrainCost [] = new int [15];
+		int tTerrainType[] = new int [15];
+		int tTerrainCost[] = new int [15];
 		int tDefaultHexSize;
-		
+
 		tXMLMapRoot = aXMLDocument.getDocumentElement ();
 		tCols = tXMLMapRoot.getThisIntAttribute (AN_COLS);
 		tRows = tXMLMapRoot.getThisIntAttribute (AN_ROWS);
@@ -904,9 +904,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tFillColor = tXMLMapRoot.getThisAttribute (AN_FILL_COLOR);
 		tRowStartID = tXMLMapRoot.getThisAttribute (AN_ROW_START);
 		tColStartID = tXMLMapRoot.getThisAttribute (AN_COL_START);
-		
+
 		mapFrame.setDefaults (tXMLMapRoot);
-		
+
 		theRowIDs = getIDs (tRowStartID);
 		theColIDs = getIDs (tColStartID);
 		map = new MapCell [tRows] [tCols];
@@ -918,13 +918,13 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tDefaultHexSize = 8;
 		}
 		setHexScale (tDefaultHexSize);
-		
-        CalcGridCenters ();
-        
+
+		CalcGridCenters ();
+
 		tChildren = tXMLMapRoot.getChildNodes ();
-        tChildrenCount = tChildren.getLength ();
+		tChildrenCount = tChildren.getLength ();
 		tTCTIndex = 0;
-        for (index = 0; index < tChildrenCount; index++) {
+		for (index = 0; index < tChildrenCount; index++) {
 			tChildNode = new XMLNode (tChildren.item (index));
 			tChildName = tChildNode.getNodeName ();
 			if (Terrain.EN_TERRAIN_COSTS.equals (tChildName)) {
@@ -941,26 +941,29 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 					}
 				}
 			} else if (EN_ROW.equals (tChildName)) {
-				tLoadedRow = loadXMLRow (tChildNode, tTerrainCost, tTerrainType, tCols, tDefaultTerrainType, theRowIDs, theColIDs);
-				if (! tLoadedRow) {
+				tLoadedRow = loadXMLRow (tChildNode, tTerrainCost, tTerrainType, tCols, tDefaultTerrainType, theRowIDs,
+						theColIDs);
+				if (!tLoadedRow) {
 					System.err.println ("Found too many columns to Load on Row.");
 				}
 			}
 		}
-		
+
 		setSingleMapCellSelect (false);
 		setMapSize ();
 		mapFrame.setDefaultFrameInfo ();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
+	 * @see
+	 * java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mouseDragged (MouseEvent arg0) {}
-	
+	public void mouseDragged (MouseEvent arg0) {
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -969,8 +972,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	@Override
 	public void mouseMoved (MouseEvent arg0) {
 		MapCell tMapCell;
-		
-		Point tPoint = arg0.getPoint();
+
+		Point tPoint = arg0.getPoint ();
 		tMapCell = getMapCellContainingPoint (tPoint);
 		if (tMapCell == MapCell.NO_MAP_CELL) {
 			setToolTipText ("***");
@@ -978,36 +981,39 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			setToolTipText (tMapCell.getToolTip ());
 		}
 	}
-	
-    @Override
+
+	@Override
 	public void mouseClicked (MouseEvent e) {
 //    	handleClick (e);
 	}
-    
+
 	public void redrawMap () {
 		revalidate ();
 		repaint ();
 	}
-	
-    @Override
-	public void mouseEntered (MouseEvent e) {}
-	
-    @Override
-	public void mouseExited (MouseEvent e) {}
-	
-    @Override
-	public void mousePressed (MouseEvent e) {}
-	
-    @Override
+
+	@Override
+	public void mouseEntered (MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited (MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed (MouseEvent e) {
+	}
+
+	@Override
 	public void mouseReleased (MouseEvent e) {
-    	handleClick (e);
-    }
-	
-    public void handleClick (MouseEvent aMouseEvent) {
+		handleClick (e);
+	}
+
+	public void handleClick (MouseEvent aMouseEvent) {
 		Point tPoint;
 		MapCell tSelectedMapCell;
 		MapCell tPreviousSelectedMapCell;
-		
+
 		tPoint = aMouseEvent.getPoint ();
 		tSelectedMapCell = getMapCellContainingPoint (tPoint);
 		tPreviousSelectedMapCell = getSelectedMapCell ();
@@ -1021,16 +1027,16 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				toggleSelectedMapCell (tSelectedMapCell);
 			}
 		}
-		
+
 		redrawMap ();
-    }
-    
+	}
+
 	@Override
 	public void paintComponent (Graphics g) {
-        int rowIndex, colIndex;
+		int rowIndex, colIndex;
 		int rowCount;
 		int colCount;
-		
+
 		rowCount = getRowCount ();
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 			colCount = getColCount (rowIndex);
@@ -1039,7 +1045,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 		}
 	}
-		
+
 	public void putTile (int aRow, int aCol, Tile aTile) {
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
@@ -1047,7 +1053,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 		}
 	}
-	
+
 	public void putStartingTile (int aRow, int aCol, Tile aTile) {
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
@@ -1056,7 +1062,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 		}
 	}
-	
+
 	public void setCityInfoXX (int aRow, int aCol, CityInfo aCityInfo) {
 		if (inRowRange (aRow)) {
 			if (inColRange (aRow, aCol)) {
@@ -1064,40 +1070,40 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 		}
 	}
-	
+
 	public void setMapSize () {
 		int maxX, maxY;
-		
+
 		maxX = getMaxX ();
 		maxY = getMaxY ();
 		setPreferredSize (new Dimension (maxX, maxY));
 	}
-	
+
 	public void setPlaceTileMode (boolean aMode) {
 		placeTileMode = aMode;
 	}
-	
+
 	public void setSingleMapCellSelect (boolean aSelectState) {
 		singleMapCellSelect = aSelectState;
 		clearAllSelected ();
 	}
-	
+
 	public void setSelectRevenueCenter (boolean aSelectState) {
 		selectRevenueCenter = aSelectState;
 	}
-	
+
 	public void setSelectTrackSegment (boolean aSelectState) {
 		selectTrackSegment = aSelectState;
 	}
-		
+
 	public void setTileSet (TileSet aTileSet) {
 		tileSet = aTileSet;
 	}
-	
+
 	public int getHexScale () {
 		return Hex.getScale ();
 	}
-	
+
 	public void setHexScale (int aScale) {
 		hex.setScale (aScale);
 		if (map != MapCell.NO_MAP_CELLS) {
@@ -1107,21 +1113,21 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 		tileSet.setScale (aScale);
 	}
-	
+
 	/** Listen to the slider. */
-    @Override
+	@Override
 	public void stateChanged (ChangeEvent aEvent) {
-        JSlider tSource;
-        
-        tSource = (JSlider) aEvent.getSource();
-        if (! tSource.getValueIsAdjusting ()) {
-            int hexScale = (int) tSource.getValue ();
-            setHexScale (hexScale);
-        }
-    }
-	
+		JSlider tSource;
+
+		tSource = (JSlider) aEvent.getSource ();
+		if (!tSource.getValueIsAdjusting ()) {
+			int hexScale = (int) tSource.getValue ();
+			setHexScale (hexScale);
+		}
+	}
+
 	public void toggleSelectedMapCell (MapCell aSelectedMapCell) {
-		if (! wasTilePlaced ()) {		// If in Tile Place Mode, and a Tile was put down, but not Exited, do nothing
+		if (!wasTilePlaced ()) { // If in Tile Place Mode, and a Tile was put down, but not Exited, do nothing
 			if (aSelectedMapCell != MapCell.NO_MAP_CELL) {
 				if (aSelectedMapCell.isSelectable ()) {
 					aSelectedMapCell.toggleSelected ();
@@ -1147,7 +1153,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		String tBaseCityName;
 		Tile tTile;
 		GameTile tGameTile;
-		
+
 		tTileName = getTileName (aSelectedMapCell);
 		tBaseCityName = getBaseCityName (aSelectedMapCell);
 		if (aSelectedMapCell.isTileOnCell ()) {
@@ -1173,26 +1179,26 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	public String getBaseCityName (MapCell aMapCell) {
 		String tBaseCityName;
-		
+
 		tBaseCityName = aMapCell.getCityName ();
 		if (tBaseCityName == Centers.NO_CITY_NAME) {
 			tBaseCityName = "";
 		}
-		
+
 		return tBaseCityName;
 	}
 
 	public String getTileName (MapCell aMapCell) {
 		String tTileName;
-		
+
 		tTileName = aMapCell.getName ();
 		if (tTileName == null) {
 			tTileName = "";
 		}
-		
+
 		return tTileName;
 	}
-	
+
 	public boolean isTileAvailableForMapCell (MapCell aMapCell) {
 		boolean tIsTileAvailableForMapCell = true;
 		Tile tTile;
@@ -1203,7 +1209,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tAvailableCount = 0;
 		String tBaseTileName;
 		String tBaseCityName;
-	
+
 		tTileName = getTileName (aMapCell);
 		tBaseCityName = getBaseCityName (aMapCell);
 		if (aMapCell.isTileOnCell ()) {
@@ -1224,31 +1230,30 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 			}
 		}
-		
+
 		if (tAvailableCount == 0) {
 			tIsTileAvailableForMapCell = false;
 		}
-		
+
 		return tIsTileAvailableForMapCell;
 	}
-	
 
 	public void toggleSelectedRevenueCenter (RevenueCenter aSelectedRevenueCenter, MapCell aMapCell) {
 		City tSelectedCity = City.NO_CITY;
-		
+
 		if (aSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
 			aSelectedRevenueCenter.toggleSelected (0);
 			if (aSelectedRevenueCenter instanceof City) {
-				tSelectedCity =  (City) aSelectedRevenueCenter;
+				tSelectedCity = (City) aSelectedRevenueCenter;
 			}
 		}
 		mapFrame.updatePutTokenButton (tSelectedCity, aMapCell);
 	}
-	
+
 	public void putTileDown () {
 		MapCell tSelectedMapCell;
 		boolean tTilePlaced;
-		
+
 		tSelectedMapCell = getSelectedMapCell ();
 		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
 			System.err.println ("Put Tile Down Button Selected, no Map Cell Selected from Frame");
@@ -1257,27 +1262,27 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			setTilePlaced (tTilePlaced);
 		}
 	}
-	
+
 	public void setTilePlaced (boolean aTilePlaced) {
 		tilePlaced = aTilePlaced;
 	}
-	
+
 	public boolean wasTilePlaced () {
 		return tilePlaced;
 	}
 
 	public void pickupTile () {
 		MapCell tSelectedMapCell;
-		
+
 		tSelectedMapCell = getSelectedMapCell ();
 		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
 			System.err.println ("Pickup Tile Button Selected, no Map Cell Selected from Frame");
 		} else {
 			tSelectedMapCell.pickupTile (tileSet);
 			setTilePlaced (false);
-		}		
+		}
 	}
-	
+
 	public void upgradeTile (MapCell aCurrentMapCell, Tile aNewTile) {
 		aCurrentMapCell.upgradeTile (tileSet, aNewTile);
 		redrawMap ();
@@ -1286,16 +1291,17 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public void restoreTile (Tile aCurrentTile) {
 		GameTile tCurrentGameTile;
 		int tCurrentTileNumber = aCurrentTile.getNumber ();
-		
-		// Remove Tile from Map Cell, Clear all City Info and Stations, and place it back on TileSet
+
+		// Remove Tile from Map Cell, Clear all City Info and Stations, and place it
+		// back on TileSet
 		tCurrentGameTile = tileSet.getGameTile (tCurrentTileNumber);
 		aCurrentTile.clearAll ();
-		tCurrentGameTile.pushTile (aCurrentTile);	
+		tCurrentGameTile.pushTile (aCurrentTile);
 	}
-	
+
 	@Override
 	public void foundItemMatchKey1 (XMLNode aChildNode) {
-		
+
 	}
 
 	public Corporation getCorporation (String aCorporationAbbrev) {

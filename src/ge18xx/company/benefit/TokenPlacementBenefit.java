@@ -36,7 +36,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 
 		tActionCommand = aEvent.getActionCommand ();
 		if (CorporationFrame.PLACE_TOKEN_PRIVATE.equals (tActionCommand)) {
-			handlePlaceToken  ();
+			handlePlaceToken ();
 		}
 	}
 
@@ -51,7 +51,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 
 		super.configure (aPrivateCompany, aButtonRow);
 		if (shouldConfigure ()) {
-			if (! hasButton ()) {
+			if (!hasButton ()) {
 				tPlaceTokenButton = new JButton (getNewButtonLabel ());
 				setButton (tPlaceTokenButton);
 				setButtonPanel (aButtonRow);
@@ -161,16 +161,16 @@ public class TokenPlacementBenefit extends MapBenefit {
 		tOwningCompany = getOwningCompany ();
 		tBenefitInUse = tOwningCompany.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
-		if ((tBenefitInUse.realBenefit ()) && (! NAME.equals (tBenefitInUseName))) {
+		if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
 			disableButton ();
 			setToolTip ("Another Benefit is currently in Use");
-		} else if (! hasTile ()) {
+		} else if (!hasTile ()) {
 			disableButton ();
 			setToolTip ("No Tile on the MapCell, can't place Station");
 		} else if (hasTokenOnTile ()) {
 			hideButton ();
 			setToolTip ("Company has Station on Tile already");
-		} else if (! hasTokens ()) {
+		} else if (!hasTokens ()) {
 			disableButton ();
 			setToolTip ("Company has no Tokens, can't place Station");
 		} else {

@@ -27,14 +27,14 @@ class CashTransferEffectTestConstructor {
 	int cashAmount;
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp () throws Exception {
 		String tClientName, tPlayer2Name, tPlayer3Name;
-		
+
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterBeta";
 		tPlayer3Name = "ToEffectTesterGamma";
 		testFactory = new GameTestFactory ();
-		mGameManager =  testFactory.buildGameManagerMock (tClientName);
+		mGameManager = testFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasCoals ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
@@ -59,7 +59,7 @@ class CashTransferEffectTestConstructor {
 		assertEquals ("Cash Transfer", effectBeta.getName ());
 		assertEquals ("ToEffectTesterBeta", effectBeta.getActorName ());
 		assertEquals ("ToEffectTesterGamma", effectBeta.getToActorName ());
-		
+
 		tFoundPlayer = (Player) effectBeta.getActor ();
 		tFoundToPlayer = (Player) effectBeta.getToActor ();
 		assertEquals ("ToEffectTesterBeta", tFoundPlayer.getName ());
@@ -68,7 +68,7 @@ class CashTransferEffectTestConstructor {
 		assertEquals ("ToEffectTesterGamma", effectBeta.getToActorName ());
 		assertEquals ("ToEffectTesterGamma", tFoundToPlayer.getName ());
 		assertEquals (100, effectBeta.getCash ());
-	
+
 		assertTrue (effectBeta.undoEffect (null));
 		assertFalse (effectBeta.wasNewStateAuction ());
 		assertTrue (effectBeta.applyEffect (null));
@@ -89,7 +89,7 @@ class CashTransferEffectTestConstructor {
 		assertEquals (-100, actorBeta.getCash ());
 		assertEquals (100, actorGamma.getCash ());
 	}
-	
+
 	@Test
 	@DisplayName ("CashTransferEffect Test Credit and Debit")
 	void simpleCreditDebitTests () {

@@ -16,7 +16,7 @@ public class UpdateLastRevenueEffect extends Effect {
 	final static AttributeName AN_NEW_LAST_REVENUE = new AttributeName ("newLastRevenue");
 	int oldLastRevenue;
 	int newLastRevenue;
-	
+
 	public UpdateLastRevenueEffect () {
 		this (NAME);
 	}
@@ -34,72 +34,72 @@ public class UpdateLastRevenueEffect extends Effect {
 	public UpdateLastRevenueEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		int aOldLastRevenue, aNewLastRevenue;
-		
+
 		aOldLastRevenue = aEffectNode.getThisIntAttribute (AN_OLD_LAST_REVENUE);
 		aNewLastRevenue = aEffectNode.getThisIntAttribute (AN_NEW_LAST_REVENUE);
 		setNewLastRevenue (aNewLastRevenue);
 		setOldLastRevenue (aOldLastRevenue);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_OLD_LAST_REVENUE, getOldLastRevenue ());
 		tEffectElement.setAttribute (AN_NEW_LAST_REVENUE, getNewLastRevenue ());
-	
+
 		return tEffectElement;
 	}
 
 	public void setOldLastRevenue (int aRevenue) {
 		oldLastRevenue = aRevenue;
 	}
-	
+
 	public void setNewLastRevenue (int aRevenue) {
 		newLastRevenue = aRevenue;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " of " + Bank.formatCash (oldLastRevenue) +
-				" with " + newLastRevenue + " for " + getActorName () + ".");
+		return (REPORT_PREFIX + name + " of " + Bank.formatCash (oldLastRevenue) + " with " + newLastRevenue + " for "
+				+ getActorName () + ".");
 	}
-	
+
 	public int getOldLastRevenue () {
 		return oldLastRevenue;
 	}
-	
+
 	public int getNewLastRevenue () {
 		return newLastRevenue;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		TrainCompany tOperatingCompany;
-		
+
 		tEffectApplied = false;
 		tOperatingCompany = (TrainCompany) aRoundManager.getOperatingCompany ();
 		tOperatingCompany.setLastRevenue (newLastRevenue);
 		aRoundManager.updateAllCorporationsBox ();
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		TrainCompany tTrainCompany;
-		
+
 		tEffectUndone = false;
 		tTrainCompany = (TrainCompany) getActor ();
 		tTrainCompany.setLastRevenue (oldLastRevenue);
 		aRoundManager.updateAllCorporationsBox ();
 
 		tEffectUndone = true;
-		
+
 		return tEffectUndone;
 
 	}

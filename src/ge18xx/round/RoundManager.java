@@ -56,7 +56,7 @@ public class RoundManager implements ActionListener {
 	public final static AttributeName AN_ON_STOCK_ROUND = new AttributeName ("onStockRound");
 	public final static AttributeName AN_CURRENT_ROUND_TYPE = new AttributeName ("currentRoundType");
 	public final static RoundManager NO_ROUND_MANAGER = null;
-	
+
 	GameManager gameManager;
 	PlayerManager playerManager;
 	StockRound stockRound;
@@ -70,23 +70,23 @@ public class RoundManager implements ActionListener {
 	RoundFrame roundFrame;
 	String gameName;
 	Logger logger;
-	
+
 	public RoundManager (GameManager aGameManager, PlayerManager aPlayerManager) {
 		setManagers (aGameManager, aPlayerManager);
 		logger = gameManager.getLogger ();
 	}
-	
+
 	public Logger getLogger () {
 		return logger;
 	}
-	
-	public void initiateGame (CorporationList aPrivates, CorporationList aCoals, 
-							CorporationList aMinors, CorporationList aShares) {
-		
+
+	public void initiateGame (CorporationList aPrivates, CorporationList aCoals, CorporationList aMinors,
+			CorporationList aShares) {
+
 		setRounds (aPrivates, aCoals, aMinors, aShares);
 		setOtherRoundInfo ();
 		setRoundToStockRound (1);
-		
+
 		stockRound.setStartingPlayer ();
 	}
 
@@ -94,7 +94,7 @@ public class RoundManager implements ActionListener {
 		showFrame ();
 		actionManager.showActionReportFrame ();
 	}
-	
+
 	public void setManagers (GameManager aGameManager, PlayerManager aPlayerManager) {
 		if (gameManager == GameManager.NO_GAME_MANAGER) {
 			setGameManager (aGameManager);
@@ -106,22 +106,22 @@ public class RoundManager implements ActionListener {
 			setActionManager (new ActionManager (this));
 		}
 	}
-	
+
 	public void setGameManager (GameManager aGameManager) {
 		gameManager = aGameManager;
 	}
-	
+
 	public void setPlayerManager (PlayerManager aPlayerManager) {
 		playerManager = aPlayerManager;
 	}
-	
+
 	public void setActionManager (ActionManager aActionManager) {
 		actionManager = aActionManager;
 	}
-	
-	public void setRounds (CorporationList aPrivates, CorporationList aCoals, 
-							CorporationList aMinors, CorporationList aShares) {
-		
+
+	public void setRounds (CorporationList aPrivates, CorporationList aCoals, CorporationList aMinors,
+			CorporationList aShares) {
+
 		if (stockRound == StockRound.NO_STOCK_ROUND) {
 			setStockRound (new StockRound (playerManager, this));
 		}
@@ -133,19 +133,19 @@ public class RoundManager implements ActionListener {
 			setOperatingRound (new OperatingRound (this, aPrivates, aCoals, aMinors, aShares));
 		}
 	}
-	
+
 	public void setOperatingRound (OperatingRound aOperatingRound) {
 		operatingRound = aOperatingRound;
 	}
-	
+
 	public void setStockRound (StockRound aStockRound) {
 		stockRound = aStockRound;
 	}
-	
+
 	public void setAuctionRound (AuctionRound aAuctionRound) {
 		auctionRound = aAuctionRound;
 	}
-	
+
 	public void addPrivateToAuction () {
 		gameManager.addPrivateToAuction ();
 	}
@@ -153,10 +153,10 @@ public class RoundManager implements ActionListener {
 	public void setAuctionFrameLocation () {
 		gameManager.setAuctionFrameLocation ();
 	}
-	
+
 	public void setOtherRoundInfo () {
 		String tFullTitle;
-		
+
 		gameName = gameManager.getActiveGameName ();
 		tFullTitle = gameManager.createFrameTitle ("Round");
 		setRoundFrame (new RoundFrame (tFullTitle, this, gameName));
@@ -167,44 +167,47 @@ public class RoundManager implements ActionListener {
 		addedOR = false;
 		setRoundType (ActorI.ActionStates.StockRound);
 	}
-	
+
 	public RoundFrame getRoundFrame () {
 		return roundFrame;
 	}
-	
+
 	public void setRoundFrame (RoundFrame aRoundFrame) {
 		roundFrame = aRoundFrame;
 	}
-	
+
 	public void setRoundType (ActorI.ActionStates aNewRoundType) {
 		currentRoundType = aNewRoundType;
 	}
-	
+
 	public void addAction (Action aAction) {
-		// If applying a Network Action, we do -NOT- Need to add the Action again. This will double-up the Actions, and
-		// During a Reload and Saved Network Game, this messes up the lastAction Number locally.
-		if (! gameManager.applyingAction ()) {
+		// If applying a Network Action, we do -NOT- Need to add the Action again. This
+		// will double-up the Actions, and
+		// During a Reload and Saved Network Game, this messes up the lastAction Number
+		// locally.
+		if (!gameManager.applyingAction ()) {
 			actionManager.addAction (aAction);
 		}
-		// If this does NOT Chain to a Previous Action, Do an Auto save... Don't need extra overhead.
-		if (! aAction.getChainToPrevious ()) {
+		// If this does NOT Chain to a Previous Action, Do an Auto save... Don't need
+		// extra overhead.
+		if (!aAction.getChainToPrevious ()) {
 			gameManager.autoSaveGame ();
 		}
 		gameManager.setGameChanged (true);
 	}
-	
+
 	public void addOR () {
 		if (addedOR == false) {
 			operatingRoundCount++;
-			addedOR = true; 
+			addedOR = true;
 		}
 	}
-	
+
 	public JPanel buildPrivatesForPurchaseJPanel (ItemListener aItemListener, int aAvailableCash) {
 		JPanel tPrivatesJPanel;
-		
+
 		tPrivatesJPanel = gameManager.buildPrivatesForPurchaseJPanel (aItemListener, aAvailableCash);
-		
+
 		return tPrivatesJPanel;
 	}
 
@@ -215,11 +218,11 @@ public class RoundManager implements ActionListener {
 	public void clearBankSelections () {
 		gameManager.clearBankSelections ();
 	}
-	
+
 	public void clearAllAuctionStates () {
 		gameManager.clearAllAuctionStates ();
 	}
-	
+
 	public void declareBankuptcyAction (Corporation aCorporation) {
 		clearAllPlayerSelections ();
 		currentRoundType = ActorI.ActionStates.Bankrupt;
@@ -227,7 +230,7 @@ public class RoundManager implements ActionListener {
 		roundFrame.toTheFront ();
 		gameManager.resetRoundFrameBackgrounds ();
 	}
-	
+
 	public void doneAction (Corporation aCorporation) {
 		clearAllPlayerSelections ();
 		gameManager.resetRoundFrameBackgrounds ();
@@ -253,7 +256,7 @@ public class RoundManager implements ActionListener {
 	public void enterPlaceTileMode () {
 		gameManager.enterPlaceTileMode ();
 	}
-	
+
 	public void enterPlaceTokenMode () {
 		gameManager.enterPlaceTokenMode ();
 	}
@@ -265,27 +268,27 @@ public class RoundManager implements ActionListener {
 	public void exitSelectRouteMode () {
 		gameManager.exitSelectRouteMode ();
 	}
-	
+
 	public void fullOwnershipAdjustment () {
 		gameManager.fullOwnershipAdjustment ();
 		roundFrame.updateAllCorporationsBox ();
 	}
-	
+
 	public void setButtonLabel (String aActionButtonLabel) {
 		roundFrame.updateButtonText (aActionButtonLabel);
 	}
-	
+
 	public XMLElement getActionElements (XMLDocument aXMLDocument) {
 		return actionManager.getActionElements (aXMLDocument);
 	}
-	
+
 	public ActionManager getActionManager () {
 		return actionManager;
 	}
-	
+
 	public ActorI getActor (String aActorName) {
 		ActorI tActor;
-		
+
 		tActor = ActorI.NO_ACTOR;
 		if (stockRound.isActor (aActorName)) {
 			tActor = stockRound;
@@ -294,30 +297,30 @@ public class RoundManager implements ActionListener {
 		} else if (auctionRound.isActor (aActorName)) {
 			tActor = auctionRound;
 		}
-		
+
 		return tActor;
 	}
-	
+
 	public Round getRoundByTypeName (String aActorName) {
 		Round tRound;
-		
+
 		tRound = (Round) getActor (aActorName);
-	
+
 		return tRound;
 	}
-	
+
 	public AuctionRound getAuctionRound () {
 		return auctionRound;
 	}
-	
+
 	public Bank getBank () {
 		return gameManager.getBank ();
 	}
-	
+
 	public BankPool getBankPool () {
 		return gameManager.getBankPool ();
 	}
-	
+
 	public Portfolio getBankPoolPortfolio () {
 		return gameManager.getBankPoolPortfolio ();
 	}
@@ -325,11 +328,11 @@ public class RoundManager implements ActionListener {
 	public Certificate getCertificate (String aCompanyAbbrev, int aPercentage, boolean aPresidentShare) {
 		return gameManager.getCertificate (aCompanyAbbrev, aPercentage, aPresidentShare);
 	}
-	
+
 	public Certificate getCertificateToBidOn () {
 		Certificate tCertificateToBidOn;
 		GameBank tBank;
-		
+
 		tBank = getBank ();
 		tCertificateToBidOn = tBank.getCertificateToBidOn ();
 
@@ -340,23 +343,23 @@ public class RoundManager implements ActionListener {
 		Certificate tCertificateToBuy;
 		GameBank tBank;
 		BankPool tBankPool;
-		
+
 		tBank = getBank ();
 		tCertificateToBuy = tBank.getCertificateToBuy ();
 		if (tCertificateToBuy == Certificate.NO_CERTIFICATE) {
 			tBankPool = getBankPool ();
 			tCertificateToBuy = tBankPool.getCertificateToBuy ();
 		}
-		
+
 		return tCertificateToBuy;
 	}
-	
+
 	public List<Certificate> getCertificatesToBuy () {
 		List<Certificate> tCertificatesToBuy;
 		BankPool tBankPool;
 		Bank tBank;
 		Certificate tCertificateToBuy;
-		
+
 		tBankPool = getBankPool ();
 		tCertificatesToBuy = tBankPool.getCertificatesToBuy ();
 		tBank = getBank ();
@@ -364,62 +367,62 @@ public class RoundManager implements ActionListener {
 		if (tCertificateToBuy != Certificate.NO_CERTIFICATE) {
 			tCertificatesToBuy.add (tCertificateToBuy);
 		}
-		
+
 		return tCertificatesToBuy;
 	}
 
 	public int getCountOfSelectedPrivates () {
 		return gameManager.getCountOfSelectedPrivates ();
 	}
-	
+
 	public Escrow getEscrowMatching (String aEscrowName) {
 		return gameManager.getEscrowMatching (aEscrowName);
 	}
-	
+
 	public String getCurrentRoundOf () {
 		return roundFrame.getCurrentRoundOf ();
 	}
-		
+
 	public ActorI.ActionStates getCurrentRoundType () {
 		return currentRoundType;
 	}
-	
+
 	public HexMap getGameMap () {
 		return gameManager.getGameMap ();
 	}
-	
+
 	public GameManager getGameManager () {
 		return gameManager;
 	}
-	
+
 	public String getGameName () {
 		return gameName;
 	}
-	
+
 	public Action getLastAction () {
 		return actionManager.getLastAction ();
 	}
-	
+
 	public Market getMarket () {
 		return gameManager.getMarket ();
 	}
-	
+
 	public int getOperatingRoundCount () {
 		return operatingRoundCount;
 	}
-	
+
 	public OperatingRound getOperatingRound () {
 		return operatingRound;
 	}
-	
+
 	public String getOperatingOwnerName () {
 		return operatingRound.getOperatingOwnerName ();
 	}
-	
+
 	public String getOwnerWhoWillOperate () {
 		return operatingRound.getOwnerWhoWillOperate ();
 	}
-	
+
 	/**
 	 * Get the Minimum Number of Shares to Float the company
 	 * 
@@ -428,11 +431,11 @@ public class RoundManager implements ActionListener {
 	public int getMinSharesToFloat () {
 		return gameManager.getMinSharesToFloat ();
 	}
-	
+
 	public PhaseInfo getCurrentPhaseInfo () {
 		PhaseManager tPhaseManager;
 		PhaseInfo tPhaseInfo;
-		
+
 		tPhaseManager = PhaseManager.NO_PHASE_MANAGER;
 		if (gameManager != GameManager.NO_GAME_MANAGER) {
 			tPhaseManager = gameManager.getPhaseManager ();
@@ -440,33 +443,33 @@ public class RoundManager implements ActionListener {
 		} else {
 			tPhaseInfo = PhaseInfo.NO_PHASE_INFO;
 		}
-		
+
 		return tPhaseInfo;
 	}
 
 	public int getOperatingRoundID1 () {
 		return operatingRound.getIDPart1 ();
 	}
-	
+
 	public int getOperatingRoundID2 () {
 		return operatingRound.getIDPart2 ();
 	}
-	
+
 	public String getOperatingRoundID () {
 		return operatingRound.getID ();
 	}
-	
+
 	public PhaseManager getPhaseManager () {
 		return gameManager.getPhaseManager ();
 	}
-	
+
 	public PlayerManager getPlayerManager () {
 		return stockRound.getPlayerManager ();
 	}
-	
+
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement, tXMLStockElement, tXMLOperatingElement;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_ROUNDS);
 		tXMLElement.setAttribute (AN_CURRENT_OR, currentOR);
 		tXMLElement.setAttribute (AN_OR_COUNT, operatingRoundCount);
@@ -474,49 +477,49 @@ public class RoundManager implements ActionListener {
 		tXMLElement.setAttribute (AN_CURRENT_ROUND_TYPE, getCurrentRoundType ().toString ());
 		tXMLStockElement = stockRound.getRoundState (aXMLDocument);
 		tXMLElement.appendChild (tXMLStockElement);
-		
+
 		tXMLOperatingElement = operatingRound.getRoundState (aXMLDocument);
 		tXMLElement.appendChild (tXMLOperatingElement);
-	
+
 		return tXMLElement;
 	}
-	
+
 	public String getARType () {
 		String tRoundType;
-	
+
 		tRoundType = ">>NO Auction Round Set<<";
 		if (auctionRound != AuctionRound.NO_AUCTION_ROUND) {
 			tRoundType = auctionRound.getType ();
 		}
-	
+
 		return tRoundType;
 	}
 
 	public String getORType () {
 		String tRoundType;
-		
+
 		tRoundType = ">>NO Operating Round Set<<";
 		if (operatingRound != OperatingRound.NO_OPERATING_ROUND) {
 			tRoundType = operatingRound.getType ();
 		}
-		
+
 		return tRoundType;
 	}
-		
+
 	public String getSRType () {
 		String tRoundType;
-		
+
 		tRoundType = ">>NO Stock Round Set<<";
 		if (stockRound != StockRound.NO_STOCK_ROUND) {
 			tRoundType = stockRound.getType ();
 		}
-		
+
 		return tRoundType;
 	}
-	
+
 	public String getRoundType () {
 		String tRoundType;
-		
+
 		if (currentRoundType == ActorI.ActionStates.StockRound) {
 			tRoundType = getSRType ();
 		} else if (currentRoundType == ActorI.ActionStates.OperatingRound) {
@@ -528,10 +531,10 @@ public class RoundManager implements ActionListener {
 		} else {
 			tRoundType = "UNKOWN";
 		}
-		
+
 		return tRoundType;
 	}
-	
+
 	public PrivateCompany getSelectedPrivateCompanyToBuy () {
 		return gameManager.getSelectedPrivateCompanyToBuy ();
 	}
@@ -539,15 +542,15 @@ public class RoundManager implements ActionListener {
 	public StockRound getStockRound () {
 		return stockRound;
 	}
-	
+
 	public int getStockRoundID () {
 		return stockRound.getIDPart1 ();
 	}
-	
+
 	public TileSet getTileSet () {
 		return gameManager.getTileSet ();
 	}
-	
+
 	public int getMinorTrainLimit () {
 		return gameManager.getMinorTrainLimit ();
 	}
@@ -559,22 +562,22 @@ public class RoundManager implements ActionListener {
 	public boolean hasActionsToUndo () {
 		return actionManager.hasActionsToUndo ();
 	}
-	
+
 	public boolean hasAddedOR () {
 		return addedOR;
 	}
-	
+
 	public int incrementRoundIDPart1 (Round aRound) {
 		int tIDPart1;
-		
+
 		tIDPart1 = aRound.getIDPart1 () + 1;
-		
+
 		return tIDPart1;
 	}
-	
+
 	public void incrementStockRound () {
 		int tIDPart1, tIDPart2;
-		
+
 		tIDPart1 = incrementRoundIDPart1 (stockRound);
 		tIDPart2 = stockRound.getIDPart2 ();
 		stockRound.setID (tIDPart1, tIDPart2);
@@ -584,56 +587,55 @@ public class RoundManager implements ActionListener {
 	public boolean isAuctionRound () {
 		return (currentRoundType == ActorI.ActionStates.AuctionRound);
 	}
-	
+
 	public boolean isOperatingRound () {
 		return (currentRoundType == ActorI.ActionStates.OperatingRound);
 	}
-	
+
 	public boolean isStockRound () {
 		return (currentRoundType == ActorI.ActionStates.StockRound);
 	}
-	
+
 	public boolean isBankrupt () {
 		return (currentRoundType == ActorI.ActionStates.Bankrupt);
 	}
-	
+
 	public boolean isLastOR () {
 		return (currentOR == operatingRoundCount);
 	}
-	
+
 	public void loadActions (XMLNode aActionsNode, GameManager aGameManager) {
 		actionManager.loadActions (aActionsNode, aGameManager);
 	}
-	
+
 	public void loadRoundStates (XMLNode aRoundStateNode) {
 		XMLNodeList tXMLNodeList;
 		String tRoundType;
 		GenericActor tGenericActor;
-		
+
 		currentOR = aRoundStateNode.getThisIntAttribute (AN_CURRENT_OR);
 		operatingRoundCount = aRoundStateNode.getThisIntAttribute (AN_OR_COUNT);
 		addedOR = aRoundStateNode.getThisBooleanAttribute (AN_ADDED_OR);
 		tRoundType = aRoundStateNode.getThisAttribute (AN_CURRENT_ROUND_TYPE);
 		tGenericActor = new GenericActor ();
 		currentRoundType = tGenericActor.getRoundType (tRoundType);
-		
+
 		tXMLNodeList = new XMLNodeList (roundParsingRoutine);
-		tXMLNodeList.parseXMLNodeList (aRoundStateNode, StockRound.EN_STOCK_ROUND, 
-				OperatingRound.EN_OPERATING_ROUND);
+		tXMLNodeList.parseXMLNodeList (aRoundStateNode, StockRound.EN_STOCK_ROUND, OperatingRound.EN_OPERATING_ROUND);
 	}
-	
-	ParsingRoutine2I roundParsingRoutine  = new ParsingRoutine2I ()  {
+
+	ParsingRoutine2I roundParsingRoutine = new ParsingRoutine2I () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aRoundNode) {
 			stockRound.loadRound (aRoundNode);
 		}
-		
+
 		@Override
 		public void foundItemMatchKey2 (XMLNode aRoundNode) {
 			operatingRound.loadRound (aRoundNode);
 		}
 	};
-	
+
 	public boolean doPartialCapitalization () {
 		return gameManager.doPartialCapitalization ();
 	}
@@ -641,7 +643,7 @@ public class RoundManager implements ActionListener {
 	public boolean canBuyPrivate () {
 		return gameManager.canBuyPrivate ();
 	}
-	
+
 	public boolean gameHasPrivates () {
 		return gameManager.gameHasPrivates ();
 	}
@@ -653,7 +655,7 @@ public class RoundManager implements ActionListener {
 	public boolean mapVisible () {
 		return gameManager.mapVisible ();
 	}
-	
+
 	public void repaintMapFrame () {
 		gameManager.repaintMapFrame ();
 	}
@@ -661,11 +663,11 @@ public class RoundManager implements ActionListener {
 	public boolean tileTrayVisible () {
 		return gameManager.tileTrayVisible ();
 	}
-	
+
 	public void performPhaseChange (TrainCompany aTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction) {
 		gameManager.performPhaseChange (aTrainCompany, aTrain, aBuyTrainAction);
 	}
-	
+
 	public void revalidateTileTrayFrame () {
 		gameManager.repaintTileTrayFrame ();
 	}
@@ -673,7 +675,7 @@ public class RoundManager implements ActionListener {
 	public void printBriefActionReport () {
 		actionManager.briefActionReport ();
 	}
-	
+
 	public void printRoundInfo () {
 		System.out.println ("Round Manager Information Report");
 		System.out.println ("Currently this is a " + currentRoundType);
@@ -681,18 +683,18 @@ public class RoundManager implements ActionListener {
 		stockRound.printRoundInfo ();
 		operatingRound.printRoundInfo ();
 	}
-	
+
 	public void setAddedOR (boolean aAddedOR) {
 		addedOR = aAddedOR;
 	}
-	
+
 	public void setCurrentOR (int aCurrentOR) {
 		currentOR = aCurrentOR;
 	}
-	
+
 	public void setCurrentPlayerLabel () {
 		String tPlayerName;
-		
+
 		if (isStockRound ()) {
 			if (stockRound != StockRound.NO_STOCK_ROUND) {
 				tPlayerName = stockRound.getCurrentPlayerName ();
@@ -703,12 +705,12 @@ public class RoundManager implements ActionListener {
 			}
 		}
 	}
-	
+
 	public void setRoundToOperatingRound (int aRoundIDPart1, int aRoundIDPart2) {
 		String tOldOperatingRoundID, tNewOperatingRoundID;
 		Round tCurrentRound;
 		boolean tCreateNewAction = true;
-		
+
 		if (aRoundIDPart2 == 1) {
 			setOperatingRoundCount ();
 			tCurrentRound = stockRound;
@@ -719,8 +721,8 @@ public class RoundManager implements ActionListener {
 		setCurrentOR (aRoundIDPart2);
 		operatingRound.setID (aRoundIDPart1, currentOR);
 		tNewOperatingRoundID = operatingRound.getID ();
-		changeRound (tCurrentRound, ActorI.ActionStates.OperatingRound, operatingRound, 
-				tOldOperatingRoundID, tNewOperatingRoundID, tCreateNewAction);		
+		changeRound (tCurrentRound, ActorI.ActionStates.OperatingRound, operatingRound, tOldOperatingRoundID,
+				tNewOperatingRoundID, tCreateNewAction);
 		roundFrame.setOperatingRound (gameName, aRoundIDPart1, currentOR, operatingRoundCount);
 		revalidateRoundFrame ();
 	}
@@ -729,37 +731,37 @@ public class RoundManager implements ActionListener {
 		int tOperatingRoundsCount;
 		PhaseInfo tCurrentPhase;
 		PhaseManager tPhaseManager;
-		
+
 		tPhaseManager = gameManager.getPhaseManager ();
 		tCurrentPhase = tPhaseManager.getCurrentPhaseInfo ();
 		tOperatingRoundsCount = tCurrentPhase.getOperatingRoundsCount ();
 		setORCount (tOperatingRoundsCount);
 		revalidateRoundFrame ();
 	}
-	
+
 	public void setORCount (int aORCount) {
 		operatingRoundCount = aORCount;
 	}
 
 	public void revalidateRoundFrame () {
 		roundFrame.repaint ();
-		roundFrame.revalidate ();	
+		roundFrame.revalidate ();
 	}
-	
-	public void changeRound (Round aCurrentRound, ActorI.ActionStates aNewRoundType, 
-			Round aNewRound, String aOldRoundID, String aNewRoundID, boolean aCreateNewAction) {
+
+	public void changeRound (Round aCurrentRound, ActorI.ActionStates aNewRoundType, Round aNewRound,
+			String aOldRoundID, String aNewRoundID, boolean aCreateNewAction) {
 		ActorI.ActionStates tCurrentRoundType, tNewRoundType;
 		ChangeRoundAction tChangeRoundAction;
 		String tRoundID;
-		
+
 		tRoundID = aCurrentRound.getID ();
 		tCurrentRoundType = getCurrentRoundType ();
 		setRoundType (aNewRoundType);
 		tNewRoundType = getCurrentRoundType ();
 
-		if (! applyingAction ()) {
+		if (!applyingAction ()) {
 			if (aCreateNewAction) {
-				if (! tRoundID.equals ("0.0")) {
+				if (!tRoundID.equals ("0.0")) {
 					tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, tRoundID, aCurrentRound);
 					tChangeRoundAction.addStateChangeEffect (aCurrentRound, tCurrentRoundType, tNewRoundType);
 					tChangeRoundAction.addChangeRoundIDEffect (aNewRound, aOldRoundID, aNewRoundID);
@@ -769,10 +771,10 @@ public class RoundManager implements ActionListener {
 			}
 		}
 	}
-	
+
 	public void updateRoundFrame () {
 		PlayerManager tPlayerManager;
-		
+
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 			operatingRound.sortByOperatingOrder ();
 
@@ -793,57 +795,57 @@ public class RoundManager implements ActionListener {
 			roundFrame.updateAll ();
 		}
 	}
-	
+
 	public void setRoundToStockRound (int aRoundIDPart1) {
 		String tOldRoundID, tNewRoundID;
 		boolean tCreateNewAction = true;
-		
+
 		tOldRoundID = stockRound.getID ();
 		stockRound.setID (aRoundIDPart1, 1);
 		tNewRoundID = stockRound.getID ();
-		changeRound (operatingRound, ActorI.ActionStates.StockRound, stockRound, 
-				tOldRoundID, tNewRoundID, tCreateNewAction);
-		
+		changeRound (operatingRound, ActorI.ActionStates.StockRound, stockRound, tOldRoundID, tNewRoundID,
+				tCreateNewAction);
+
 		stockRound.clearAllPlayerPasses ();
-		
+
 		roundFrame.setStockRoundInfo (gameName, aRoundIDPart1);
 	}
 
 	public void setRoundToAuctionRound (boolean aCreateNewAuctionAction) {
 		String tOldRoundID, tNewRoundID;
-		
+
 		tOldRoundID = auctionRound.getID ();
 		tNewRoundID = incrementRoundIDPart1 (auctionRound) + "";
 		auctionRound.setID (tOldRoundID);
-		changeRound (stockRound, ActorI.ActionStates.AuctionRound, auctionRound, 
-				tOldRoundID, tNewRoundID, aCreateNewAuctionAction);
+		changeRound (stockRound, ActorI.ActionStates.AuctionRound, auctionRound, tOldRoundID, tNewRoundID,
+				aCreateNewAuctionAction);
 		roundFrame.setAuctionRound (gameName, 1);
 	}
 
 	public void showFrame () {
 		roundFrame.setVisible (true);
 	}
-	
+
 	public void showAuctionFrame () {
 		auctionRound.showAuctionFrame ();
 	}
-	
+
 	public void showCurrentPlayerFrame () {
 		stockRound.showCurrentPlayerFrame ();
 	}
-	
+
 	public boolean companyStartedOperating () {
 		return operatingRound.companyStartedOperating ();
 	}
-	
+
 	public void prepareCorporation () {
 		operatingRound.prepareCorporation ();
 	}
-	
+
 	public void showCurrentCompanyFrame () {
 		operatingRound.showCurrentCompanyFrame ();
 	}
-	
+
 	public void showMap () {
 		gameManager.showMap ();
 	}
@@ -851,38 +853,39 @@ public class RoundManager implements ActionListener {
 	public void bringMapToFront () {
 		gameManager.bringMapToFront ();
 	}
-	
+
 	public void showTileTray () {
 		gameManager.showTileTray ();
 	}
-	
+
 	public void bringTileTrayToFront () {
 		gameManager.bringTileTrayToFront ();
 	}
-	
+
 	public void resetOperatingRound (int aRoundIDPart1, int aRoundIDPart2) {
 		setRoundType (ActorI.ActionStates.OperatingRound);
 		roundFrame.setOperatingRound (gameName, aRoundIDPart1, currentOR, operatingRoundCount);
 	}
-	
+
 	public void resumeStockRound (int aRoundIDPart1) {
 		setRoundType (ActorI.ActionStates.StockRound);
 		roundFrame.setStockRoundInfo (gameName, aRoundIDPart1);
 	}
-	
+
 	public void startAuctionRound (boolean aCreateNewAuctionAction) {
 		setRoundToAuctionRound (aCreateNewAuctionAction);
 		auctionRound.startAuctionRound ();
 		roundFrame.updatePassButton ();
 	}
-	
+
 	public void startOperatingRound () {
 		int tIDPart1, tIDPart2;
-		
+
 		tIDPart1 = incrementRoundIDPart1 (operatingRound);
 		tIDPart2 = 1;
 		setRoundToOperatingRound (tIDPart1, tIDPart2);
-		// If no Minor, Coal of Share company operates, the Operating Round failed to start, 
+		// If no Minor, Coal of Share company operates, the Operating Round failed to
+		// start,
 		// Revenues were paid by Private Companies
 		// Need to simply restart Stock Round
 		if (operatingRound.startOperatingRound ()) {
@@ -891,22 +894,23 @@ public class RoundManager implements ActionListener {
 			startStockRound ();
 		}
 	}
-	
+
 	public void endOperatingRound () {
 		// If this is the LastOR, go back to Stock Round
 		if (isLastOR ()) {
 			startStockRound ();
 		} else {
-			// Otherwise, we need to go to another Operating Round, incrementing from the current OR.
+			// Otherwise, we need to go to another Operating Round, incrementing from the
+			// current OR.
 			int tIDPart1 = operatingRound.getIDPart1 ();
 			setRoundToOperatingRound (tIDPart1, currentOR + 1);
 			operatingRound.startOperatingRound ();
 		}
 	}
-	
+
 	public void startStockRound () {
 		int tIDPart1;
-		
+
 		if (bankIsBroken ()) {
 			System.out.println ("GAME OVER -- Bank is Broken, Don't do any more Stock Rounds");
 		}
@@ -916,7 +920,7 @@ public class RoundManager implements ActionListener {
 		stockRound.prepareStockRound ();
 		roundFrame.updateAll ();
 	}
-	
+
 	public boolean bankIsBroken () {
 		return gameManager.bankIsBroken ();
 	}
@@ -924,7 +928,7 @@ public class RoundManager implements ActionListener {
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		if (RoundFrame.CORPORATION_ACTION.equals (aEvent.getActionCommand ())) {
-			if (! companyStartedOperating ()) {
+			if (!companyStartedOperating ()) {
 				logger.info ("Corporation Action for Operation Round selected");
 				prepareCorporation ();
 			}
@@ -951,22 +955,23 @@ public class RoundManager implements ActionListener {
 			}
 		}
 	}
+
 	public boolean applyingAction () {
 		return gameManager.applyingAction ();
 	}
-	
+
 	public boolean canStartOperatingRound () {
 		return gameManager.canStartOperatingRound ();
 	}
-	
+
 	public boolean stockRoundIsDone () {
 		return stockRound.roundIsDone ();
 	}
-	
+
 	public boolean operatingRoundIsDone () {
 		return operatingRound.roundIsDone ();
 	}
-	
+
 	public boolean undoLastAction () {
 		return actionManager.undoLastAction (this);
 	}
@@ -974,40 +979,40 @@ public class RoundManager implements ActionListener {
 	public void updateCurrentCompanyFrame () {
 		operatingRound.updateCurrentCompanyFrame ();
 	}
-	
+
 	public void updateAllCorporationsBox () {
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 			roundFrame.updateAllCorporationsBox ();
 		}
 	}
-	
+
 	public void updateAllRFPlayers () {
 		playerManager.updateAllRFPlayerLabels ();
 	}
-	
+
 	public void updateRFPlayerLabel (Player aPlayer, int aPriorityPlayerIndex, int aPlayerIndex) {
 		if (aPlayer != Player.NO_PLAYER) {
 			aPlayer.buildAPlayerJPanel (aPriorityPlayerIndex, aPlayerIndex);
 		}
 	}
-	
+
 	public void updateAllFrames () {
 		gameManager.updateAllFrames ();
 	}
-	
+
 	public boolean wasLastActionStartAuction () {
 		return actionManager.wasLastActionStartAuction ();
 	}
-	
+
 	public void sendToReportFrame (String aReport) {
 		actionManager.sendToReportFrame (aReport);
 	}
 
 	public boolean canBuyTrainInPhase () {
 		boolean tCanBuyTrainInPhase;
-		
+
 		tCanBuyTrainInPhase = gameManager.canBuyTrainInPhase ();
-		
+
 		return tCanBuyTrainInPhase;
 	}
 
@@ -1017,17 +1022,17 @@ public class RoundManager implements ActionListener {
 
 	public void updateOperatingCorporationFrame () {
 		Corporation tOperatingCorporation;
-		
+
 		tOperatingCorporation = getOperatingCompany ();
 		if (tOperatingCorporation != Corporation.NO_CORPORATION) {
 			tOperatingCorporation.updateFrameInfo ();
 		}
 	}
-	
+
 	public void handleNetworkAction (XMLNode aXMLActionNode) {
 		actionManager.handleNetworkAction (aXMLActionNode);
 	}
-	
+
 	public void revalidateAuctionFrame () {
 		gameManager.revalidateAuctionFrame ();
 	}
@@ -1047,20 +1052,20 @@ public class RoundManager implements ActionListener {
 	public void printAllPlayersInfo () {
 		gameManager.printAllPlayersInfo ();
 	}
-	
+
 	public boolean getNotifyNetwork () {
 		return gameManager.getNotifyNetwork ();
 	}
-	
+
 	public void showRoundFrame () {
 		roundFrame.setVisible (true);
 	}
 
 	public ShareCompany getShareCompany (String aCompanyAbbrev) {
 		ShareCompany tShareCompany;
-		
+
 		tShareCompany = gameManager.getShareCompany (aCompanyAbbrev);
-		
+
 		return tShareCompany;
 	}
 
@@ -1070,11 +1075,11 @@ public class RoundManager implements ActionListener {
 
 	public void updateActionLabel (ShareCompany aShareCompany) {
 		String tDoActionLabel = "DO THIS COMPANY";
-		
+
 		if (aShareCompany.shouldOperate ()) {
-			tDoActionLabel = aShareCompany.getDoLabel ();			
-		} 
-		if (aShareCompany.isOperating()) {
+			tDoActionLabel = aShareCompany.getDoLabel ();
+		}
+		if (aShareCompany.isOperating ()) {
 			tDoActionLabel = aShareCompany.getOperatingLabel ();
 		}
 		setButtonLabel (tDoActionLabel);
@@ -1092,11 +1097,11 @@ public class RoundManager implements ActionListener {
 	public void enableActionButton (boolean aEnableActionButton) {
 		roundFrame.enableActionButton (aEnableActionButton);
 	}
-	
+
 	public int getTotalCash () {
 		return gameManager.getTotalCash ();
 	}
-	
+
 	public void fillAuditFrame (AuditFrame aAuditFrame, String aActorName) {
 		actionManager.fillAuditFrame (aAuditFrame, aActorName);
 	}
@@ -1107,24 +1112,24 @@ public class RoundManager implements ActionListener {
 
 	public void hideTrainRevenueFrame () {
 	}
-	
+
 	public void showGEFrame () {
 		gameManager.showGEFrame ();
 	}
-	
+
 	public void showActionReportFrame () {
 		actionManager.showActionReportFrame ();
 	}
-	
+
 	public Point getOffsetRoundFrame () {
 		Point tNewPoint;
 
 		tNewPoint = roundFrame.getOffsetFrame ();
-		
+
 		return tNewPoint;
 	}
 
-	public MapFrame getMapFrame() {
+	public MapFrame getMapFrame () {
 		return gameManager.getMapFrame ();
 	}
 
@@ -1139,21 +1144,21 @@ public class RoundManager implements ActionListener {
 	public CashHolderI getCashHolderByName (String aCashHolderName) {
 		CashHolderI tCashHolder;
 		ActorI tBidderActorI;
-		
+
 		tBidderActorI = gameManager.getActor (aCashHolderName);
 		tCashHolder = (CashHolderI) tBidderActorI;
-		
+
 		return tCashHolder;
 	}
 
 	public boolean isLastActionComplete () {
 		return actionManager.isLastActionComplete ();
 	}
-	
+
 	public void setFrameBackgrounds () {
 		roundFrame.setFrameBackgrounds ();
 	}
-	
+
 	public void resetBackgrounds () {
 		roundFrame.resetBackgrounds ();
 	}

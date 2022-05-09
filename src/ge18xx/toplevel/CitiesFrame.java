@@ -17,20 +17,20 @@ import javax.swing.JTable;
 public class CitiesFrame extends TableFrame {
 	private static final long serialVersionUID = 1L;
 	CityList cities;
-	
+
 	public CitiesFrame (String aFrameName, String aGameName) {
 		super (aFrameName, aGameName);
 		JTable tTable;
-		
+
 		cities = new CityList ();
 		tTable = cities.getJTable ();
 		setScrollPane (tTable);
 	}
-	
+
 	public XMLElement createCitiesListDefinitions (XMLDocument aXMLDocument) {
 		return (cities.createElement (aXMLDocument));
 	}
-	
+
 	public CityList getCities () {
 		return cities;
 	}

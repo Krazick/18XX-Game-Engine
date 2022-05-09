@@ -15,7 +15,7 @@ public class CashInfoEffect extends CashTransferEffect {
 	public CashInfoEffect (String aName) {
 		super (aName);
 	}
-	
+
 	public CashInfoEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount) {
 		super (aFromActor, aToActor, aCashAmount);
 		setName (NAME);
@@ -25,16 +25,16 @@ public class CashInfoEffect extends CashTransferEffect {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	// Don't need to actually Apply or Undo this because this is more just to Hold
 	// the Cash and Target Actor for the Proposed offer.
 	// Therefore override the CashTransfer Apply and Undo Effect Methods
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		return true;

@@ -35,10 +35,10 @@ public class ActionManager {
 	private final static Pattern ACTION_NUMBER_PATTERN = Pattern.compile (ACTION_NUMBER_RESPONSE);
 	public static final ElementName EN_REMOVE_ACTION = new ElementName ("RemoveAction");
 	Logger logger;
-	
+
 	public ActionManager (RoundManager aRoundManager) {
 		String tFullTitle;
-		
+
 		roundManager = aRoundManager;
 		gameManager = roundManager.getGameManager ();
 		tFullTitle = gameManager.createFrameTitle ("Action Report");
@@ -49,40 +49,40 @@ public class ActionManager {
 		setActionNumber (DEFAULT_ACTION_NUMBER);
 		logger = Game_18XX.getLoggerX ();
 	}
-	
+
 	public void setActionNumber (int aNumber) {
 		String tReportActionNumber;
-		
+
 		tReportActionNumber = "Change Action Number from " + actionNumber + " to " + aNumber + "\n";
-		
+
 		actionNumber = aNumber;
 		actionReportFrame.append (tReportActionNumber);
 	}
-	
+
 	public int getActionNumber () {
 		return actionNumber;
 	}
-	
+
 	public int getLastActionNumber () {
 		int tLastActionNumber;
 		Action tLastAction;
-		
+
 		tLastAction = getLastAction ();
 		tLastActionNumber = tLastAction.getNumber ();
-		
+
 		return tLastActionNumber;
 	}
-	
+
 	public int getActionNumberFrom (String aResponse) {
 		Matcher tMatcher = ACTION_NUMBER_PATTERN.matcher (aResponse);
 		String tFoundNewNumber = "NOID";
 		int tNewNumber = 0;
-		
+
 		if (tMatcher.find ()) {
 			tFoundNewNumber = tMatcher.group (1);
 			tNewNumber = Integer.parseInt (tFoundNewNumber);
 		}
-		
+
 		return tNewNumber;
 	}
 
@@ -90,7 +90,7 @@ public class ActionManager {
 		String tReportActionNumber;
 		String tActionNumberString;
 		int tNewActionNumber;
-		
+
 		if (gameManager.isNetworkGame ()) {
 			tActionNumberString = gameManager.requestGameSupport (JGameClient.REQUEST_ACTION_NUMBER);
 			tNewActionNumber = getActionNumberFrom (tActionNumberString);
@@ -101,7 +101,7 @@ public class ActionManager {
 				actionNumber++;
 				tReportActionNumber = "FAILED to retrieve New Action Number from Game Server\n";
 			}
-			
+
 			actionReportFrame.append (tReportActionNumber);
 		} else {
 			tReportActionNumber = "Increment Action Number from " + actionNumber + " to " + (actionNumber + 1) + "\n";
@@ -109,46 +109,46 @@ public class ActionManager {
 			actionReportFrame.append (tReportActionNumber);
 		}
 	}
-	
+
 	public void actionReport () {
 		System.out.println ("<---------------------------\nAction Report");
-		for (Action tAction: actions) {
+		for (Action tAction : actions) {
 			System.out.println (tAction.getActionReport (roundManager));
 		}
 		System.out.println ("<---------------------------");
 	}
-	
+
 	public void appendAllActions () {
-		for (Action tAction: actions) {
+		for (Action tAction : actions) {
 			appendToReportFrame (tAction);
 		}
 	}
 
 	public void sendToReportFrame (String aReport) {
 		String tReport = "\n----------------------" + aReport + "\n----------------------";
-		
+
 		actionReportFrame.append (tReport);
 	}
-	
+
 	private void appendToReportFrame (Action aAction) {
 		String tActionReport;
-		
+
 		tActionReport = aAction.getActionReport (roundManager);
 		actionReportFrame.append (tActionReport);
 	}
-	
+
 	public void addAction (Action aAction) {
 		boolean tAllNullEffects;
-		
+
 		tAllNullEffects = aAction.allNullEffects ();
 		if (tAllNullEffects) {
-			logger.debug (aAction.getBriefActionReport () + " All Null Effects " + 
-					tAllNullEffects + " Last Action Number " + actionNumber);
+			logger.debug (aAction.getBriefActionReport () + " All Null Effects " + tAllNullEffects
+					+ " Last Action Number " + actionNumber);
 		} else {
 			setNewActionNumber (aAction);
 			setAuditAttributes (aAction);
-			logger.info ("Local Action # " + actionNumber + " Name " + aAction.getName () + 
-					" From " + aAction.getActorName ());
+			logger.info ("Local Action # " + actionNumber + " Name " + aAction.getName () + " From "
+					+ aAction.getActorName ());
 			justAddAction (aAction);
 		}
 	}
@@ -163,31 +163,31 @@ public class ActionManager {
 		// The action back out to the remote client causing an Infinite Loop
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			tXMLFormat = aAction.getXMLFormat (JGameClient.EN_GAME_ACTIVITY);
-			tXMLFormat = tXMLFormat.replaceAll ("\n","");
+			tXMLFormat = tXMLFormat.replaceAll ("\n", "");
 			sendGameActivity (tXMLFormat, false);
 			appendToJGameClient (aAction);
-		}	
+		}
 	}
-	
+
 	private void setAuditAttributes (Action aAction) {
 		int tTotalCash;
-		
+
 		tTotalCash = gameManager.getTotalCash ();
 		aAction.setTotalCash (tTotalCash);
 	}
-	
+
 	private void setNewActionNumber (Action aAction) {
 		int tActionNumber;
-		
+
 		generateNewActionNumber ();
 		tActionNumber = getActionNumber ();
 		aAction.setNumber (tActionNumber);
 	}
-	
+
 	public void briefActionReport () {
 		int tActionCount;
 		String tBriefReport;
-		
+
 		tActionCount = getActionCount ();
 		if (tActionCount == 1) {
 			tBriefReport = "There is ONE Action.";
@@ -195,14 +195,14 @@ public class ActionManager {
 			tBriefReport = "There are " + getActionCount () + " Actions.";
 		}
 		System.out.println (tBriefReport);
-		for (Action tAction: actions) {
+		for (Action tAction : actions) {
 			System.out.println (tAction.getBriefActionReport ());
 		}
 	}
-	
+
 	public XMLElement getActionElements (XMLDocument aXMLDocument) {
 		XMLElement tElements, tActionElement;
-		
+
 		tElements = aXMLDocument.createElement (Action.EN_ACTIONS);
 		for (Action tAction : actions) {
 			tActionElement = tAction.getActionElement (aXMLDocument);
@@ -211,11 +211,11 @@ public class ActionManager {
 
 		return tElements;
 	}
-	
+
 	public Action getActionAt (int aIndex) {
 		Action tAction;
 		int tActionCount;
-		
+
 		tAction = Action.NO_ACTION;
 		tActionCount = getActionCount ();
 		if (tActionCount > 0) {
@@ -223,37 +223,37 @@ public class ActionManager {
 				tAction = actions.get (aIndex);
 			}
 		}
-		
+
 		return tAction;
 	}
-	
+
 	public int getActionCount () {
 		return actions.size ();
 	}
-	
+
 	public Action getLastAction () {
 		Action tAction;
 		int tLastActionID;
-		
+
 		tAction = Action.NO_ACTION;
-		if (! actions.isEmpty ()) {
+		if (!actions.isEmpty ()) {
 			tLastActionID = getActionCount () - 1;
 			tAction = actions.get (tLastActionID);
 		}
-		
+
 		return tAction;
 	}
-	
+
 	public boolean hasActionsToUndo () {
-		return ! actions.isEmpty ();
+		return !actions.isEmpty ();
 	}
-	
+
 	public void loadActions (XMLNode aActionsNode, GameManager aGameManager) {
 		XMLNode tActionNode;
 		NodeList tActionChildren;
 		int tActionNodeCount, tActionIndex, tActionNumber;
 		Action tAction;
-		
+
 		tActionChildren = aActionsNode.getChildNodes ();
 		tActionNodeCount = tActionChildren.getLength ();
 		tActionNumber = 0;
@@ -281,33 +281,34 @@ public class ActionManager {
 		Action tAction = Action.NO_ACTION;
 		Class<?> tActionToLoad;
 		Constructor<?> tActionConstructor;
-		
+
 		tANodeName = tActionNode.getNodeName ();
 		if (Action.EN_ACTION.equals (tANodeName)) {
-			// Use Reflections to identify the Action and call the constructor with the XMLNode and the Game Manager
+			// Use Reflections to identify the Action and call the constructor with the
+			// XMLNode and the Game Manager
 			tClassName = tActionNode.getThisAttribute (Action.AN_CLASS);
 			tActionToLoad = Class.forName (tClassName);
 			tActionConstructor = tActionToLoad.getConstructor (tActionNode.getClass (), aGameManager.getClass ());
 			tAction = (Action) tActionConstructor.newInstance (tActionNode, aGameManager);
 		}
-		
+
 		return tAction;
 	}
-	
+
 	public void removeLastAction () {
 		Action tLastAction;
-		
+
 		tLastAction = getLastAction ();
 		removeActionFromNetwork (tLastAction);
 		actions.remove (actions.size () - 1);
-		
+
 		resetLastActionNumber ();
 	}
 
 	private void resetLastActionNumber () {
 		int tLastActionNumber;
 		Action tLastAction;
-		
+
 		tLastAction = getLastAction ();
 		if (tLastAction == Action.NO_ACTION) {
 			tLastActionNumber = DEFAULT_ACTION_NUMBER;
@@ -316,19 +317,19 @@ public class ActionManager {
 		}
 		setActionNumber (tLastActionNumber);
 	}
-	
+
 	public void removeActionFromNetwork (Action aActionToRemove) {
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			actionsToRemove.add (aActionToRemove);
 			// Queue up the Action to remove from Network, after all are Undone.
 		}
 	}
-	
+
 	public void printLastXActions (List<Action> aActions, int aCount) {
 		int tActionCount;
 		Action tActionToPrint;
 		int tPrintedCount = 0;
-		
+
 		tActionCount = aActions.size ();
 		if (tActionCount > 0) {
 			for (int tIndex = tActionCount; (tIndex > 0) && (tPrintedCount < aCount); tIndex--, tPrintedCount++) {
@@ -339,23 +340,23 @@ public class ActionManager {
 			System.out.println ("$$$ No Actions in list to print");
 		}
 	}
-	
+
 	public void removeUndoneActionsFromNetwork () {
 		String tRemoveActionXML;
 		int tActionNumberToRemove;
-		
+
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			for (Action tActionToRemove : actionsToRemove) {
 				tActionNumberToRemove = tActionToRemove.getNumber ();
-				tRemoveActionXML = "<" + EN_REMOVE_ACTION + " " + Action.AN_NUMBER + "=\"" + 
-									tActionNumberToRemove + "\"/>";
+				tRemoveActionXML = "<" + EN_REMOVE_ACTION + " " + Action.AN_NUMBER + "=\"" + tActionNumberToRemove
+						+ "\"/>";
 				sendGameActivity (tRemoveActionXML, true);
 			}
 		}
 		resetLastActionNumber ();
 		actionsToRemove.clear ();
 	}
-	
+
 	public boolean undoLastActionNetwork () {
 		String tXMLFormat;
 		Action tUndoAction, tLastAction;
@@ -363,7 +364,7 @@ public class ActionManager {
 		ActionStates tRoundType;
 		String tRoundID;
 		boolean tLastActionUndone = true;
-		
+
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			tLastAction = getLastAction ();
 			tActor = tLastAction.getActor ();
@@ -373,9 +374,9 @@ public class ActionManager {
 			setNewActionNumber (tUndoAction);
 			tXMLFormat = tUndoAction.getXMLFormat (JGameClient.EN_GAME_ACTIVITY);
 			sendGameActivity (tXMLFormat, false);
-			removeActionFromNetwork (tUndoAction);	// Queue up Undo to be removed from Network 
+			removeActionFromNetwork (tUndoAction); // Queue up Undo to be removed from Network
 			appendToJGameClient (tUndoAction);
-		}	
+		}
 
 		return tLastActionUndone;
 	}
@@ -383,25 +384,25 @@ public class ActionManager {
 	public void sendGameActivity (String aXMLFormat, boolean aWrap) {
 		JGameClient tNetworkJGameClient;
 		String tXMLFormat;
-		
-		tXMLFormat = aXMLFormat.replaceAll ("\n","");
+
+		tXMLFormat = aXMLFormat.replaceAll ("\n", "");
 		tNetworkJGameClient = gameManager.getNetworkJGameClient ();
 		if (aWrap) {
 			tXMLFormat = tNetworkJGameClient.wrapWithGA (tXMLFormat);
 		}
 		tNetworkJGameClient.sendGameActivity (tXMLFormat);
 	}
-	
+
 	// This is called on Local Client Issuing the Undo Action
 	public boolean undoLastAction (RoundManager aRoundManager) {
 		boolean tLastActionUndone;
-		
+
 		tLastActionUndone = undoLastAction (aRoundManager, true);
 		removeUndoneActionsFromNetwork ();
-		
+
 		return tLastActionUndone;
 	}
-	
+
 	public boolean undoLastAction (RoundManager aRoundManager, boolean aNotifyNetwork) {
 		boolean tLastActionUndone;
 		Action tLastAction;
@@ -420,17 +421,17 @@ public class ActionManager {
 			}
 		}
 		aRoundManager.updateAllFrames ();
-		
+
 		return tLastActionUndone;
 	}
-	
+
 	public boolean wasLastActionStartAuction () {
 		Action tLastAction;
 		boolean tWasLastActionStartAuction = false;
 
 		tLastAction = getLastAction ();
 		tWasLastActionStartAuction = tLastAction.wasLastActionStartAuction ();
-		
+
 		return tWasLastActionStartAuction;
 	}
 
@@ -441,53 +442,56 @@ public class ActionManager {
 	public boolean isSyncActionNumber (Action aAction) {
 		return (aAction instanceof SyncActionNumber);
 	}
-		
+
 	public void handleNetworkAction (XMLNode aActionNode) {
 		Action tAction;
 		int tExpectedActionNumber, tThisActionNumber;
 		String tActionFailureMessage;
-		
-		// When handling incomming Network Actions, we DO NOT want to notify other clients
+
+		// When handling incomming Network Actions, we DO NOT want to notify other
+		// clients
 		// that they should apply these Actions (one of them is sending it to us)
-		// We end up getting into an Infinite Loop between two separate clients 
-		gameManager.setNotifyNetwork (false); 
+		// We end up getting into an Infinite Loop between two separate clients
+		gameManager.setNotifyNetwork (false);
 		try {
 			tAction = getAction (gameManager, aActionNode);
 			if (tAction != Action.NO_ACTION) {
 				tExpectedActionNumber = actionNumber + 1;
 				tThisActionNumber = tAction.getNumber ();
-				
-				System.out.println ("----------- Action Number " + actionNumber + 
-						" Received " + tThisActionNumber + " -------------");
+
+				System.out.println ("----------- Action Number " + actionNumber + " Received " + tThisActionNumber
+						+ " -------------");
 				tAction.printActionReport (roundManager);
 				if (isSyncActionNumber (tAction)) {
 					setActionNumber (tThisActionNumber);
 					justAddAction (tAction);
 				} else {
-					if ((tThisActionNumber < STARTING_ACTION_NUMBER) ||
-							(tThisActionNumber > tExpectedActionNumber) ||
-						(tThisActionNumber == tExpectedActionNumber)) {
-						System.out.println ("\nReceived Action Number " + tThisActionNumber + 
-								" the Expected Action Number is " + tExpectedActionNumber + " Processing\n");
+					if ((tThisActionNumber < STARTING_ACTION_NUMBER) || (tThisActionNumber > tExpectedActionNumber)
+							|| (tThisActionNumber == tExpectedActionNumber)) {
+						System.out.println ("\nReceived Action Number " + tThisActionNumber
+								+ " the Expected Action Number is " + tExpectedActionNumber + " Processing\n");
 						if (tThisActionNumber == tExpectedActionNumber) {
 							setActionNumber (tExpectedActionNumber);
 						}
 						actions.add (tAction);
-						logger.info ("Network Action # " + actionNumber + " Name " + tAction.getName () + " From " + tAction.getActor ().getName ());
+						logger.info ("Network Action # " + actionNumber + " Name " + tAction.getName () + " From "
+								+ tAction.getActor ().getName ());
 						applyAction (tAction);
 						gameManager.autoSaveGame ();
-						// Add the Report of the Action Applied to the Action Frame, and the JGameClient Game Activity Frame
+						// Add the Report of the Action Applied to the Action Frame, and the JGameClient
+						// Game Activity Frame
 						appendToReportFrame (tAction);
 						appendToJGameClient (tAction);
 					} else if (tThisActionNumber <= actionNumber) {
-						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
-								" Current Action Number " + actionNumber +
-								" is before the Expected Action Number of " + tExpectedActionNumber + " IGNORING\n";
+						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber
+								+ " Current Action Number " + actionNumber + " is before the Expected Action Number of "
+								+ tExpectedActionNumber + " IGNORING\n";
 						logger.error (tActionFailureMessage);
 						actionReportFrame.append (tActionFailureMessage);
 					} else {
-						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber + 
-								" is not the Expected Action Number of " + tExpectedActionNumber + " This should have Matched\n";
+						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber
+								+ " is not the Expected Action Number of " + tExpectedActionNumber
+								+ " This should have Matched\n";
 						logger.error (tActionFailureMessage);
 					}
 				}
@@ -501,29 +505,30 @@ public class ActionManager {
 		}
 		gameManager.setNotifyNetwork (true);
 //		Once we are done applying these Actions, we then can reset this back to Notify
-		System.out.println ("----------- Finshed Handling Action, Latest Action Number is " + actionNumber + 
-				 " -------------");
+		System.out.println (
+				"----------- Finshed Handling Action, Latest Action Number is " + actionNumber + " -------------");
 //		gameManager.setFrameBackgrounds ();
 	}
-	
+
 	public void appendToJGameClient (Action aAction) {
 		GameManager tGameManager;
 		String tSimpleActionReport;
-		
+
 		tGameManager = roundManager.getGameManager ();
 		tSimpleActionReport = aAction.getSimpleActionReport ();
-		if (! tSimpleActionReport.equals ("")) {
+		if (!tSimpleActionReport.equals ("")) {
 			tGameManager.appendToGameActivity (tSimpleActionReport);
 		}
 	}
-	
+
 	public boolean applyAction (Action aAction) {
 		boolean tActionApplied;
 		int tActionNumber;
-		
+
 		tActionApplied = aAction.applyAction (roundManager);
 		if (aAction instanceof UndoLastAction) {
-			// If this is an UndoLastAction, we don't want to adjust the Action Number, this is 
+			// If this is an UndoLastAction, we don't want to adjust the Action Number, this
+			// is
 			// handled for undoing the chain of actions.
 		} else {
 			tActionNumber = aAction.getNumber ();
@@ -532,22 +537,22 @@ public class ActionManager {
 			}
 		}
 		roundManager.updateRoundFrame ();
-		
+
 		return tActionApplied;
 	}
 
 	public void showActionReportFrame () {
 		actionReportFrame.setVisible (true);
 	}
-	
+
 	public void fillAuditFrame (AuditFrame aAuditFrame, String aActorName) {
 		int tTotalActionCount, tActionIndex;
 		Action tAction;
 		String tActionEventDescription, tActionName;
 		int tDebit, tCredit, tActionNumber, tFoundActionCount;
 		String tRoundID;
-		
-		if (aActorName != ActorI.NO_NAME) { 
+
+		if (aActorName != ActorI.NO_NAME) {
 			tTotalActionCount = actions.size ();
 			if (tTotalActionCount > 0) {
 				tFoundActionCount = 0;
@@ -558,10 +563,10 @@ public class ActionManager {
 						tActionName = tAction.getName ();
 						if (tAction.hasRefundEscrowEffect (aActorName)) {
 							tFoundActionCount++;
-							handleAuctionReporting (aAuditFrame, aActorName, tAction, tActionName, tActionNumber);		
+							handleAuctionReporting (aAuditFrame, aActorName, tAction, tActionName, tActionNumber);
 						} else if (tAction.effectsForActorAreCash (aActorName)) {
 							tFoundActionCount++;
-							
+
 							tActionEventDescription = tActionName + ": " + tAction.getSimpleActionReport ();
 							tDebit = tAction.getEffectDebit (aActorName);
 							tCredit = tAction.getEffectCredit (aActorName);
@@ -570,7 +575,8 @@ public class ActionManager {
 						}
 					}
 				}
-				logger.info ("Examined " + tActionIndex + " Actions found " + tFoundActionCount + " Actions for " + aActorName);
+				logger.info ("Examined " + tActionIndex + " Actions found " + tFoundActionCount + " Actions for "
+						+ aActorName);
 			}
 		}
 	}
@@ -582,7 +588,7 @@ public class ActionManager {
 		int tCredit;
 		String tRoundID;
 		String tAuctionWinner;
-		
+
 		tActionEventDescription = aActionName + ": " + aAction.getSimpleActionReport (aActorName);
 		tDebit = 0;
 		tCredit = aAction.getEffectCredit (aActorName);
@@ -598,13 +604,13 @@ public class ActionManager {
 	public boolean isLastActionComplete () {
 		boolean tIsLastActionComplete = true;
 //		String tLastActionComplete;
-		
+
 		if (gameManager.isNetworkGame ()) {
 //			tLastActionComplete = gameManager.requestGameSupport (JGameClient.REQUEST_LAST_ACTION_COMPLETE);
 		} else {
 			tIsLastActionComplete = true;
 		}
-		
+
 		return tIsLastActionComplete;
 	}
 }

@@ -15,11 +15,11 @@ public class ShowFrameEffect extends Effect {
 	final static AttributeName AN_JFRAME_TITLE = new AttributeName ("jFrameTitle");
 	public final static JFrame NO_JFRAME = null;
 	JFrame jFrame;
-	
+
 	public ShowFrameEffect () {
 		this (NAME, ActorI.NO_ACTOR);
 	}
-	
+
 	public ShowFrameEffect (String aName, ActorI aActor) {
 		this (aName, aActor, NO_JFRAME);
 	}
@@ -27,12 +27,12 @@ public class ShowFrameEffect extends Effect {
 	public ShowFrameEffect (ActorI aActor, JFrame aJFrame) {
 		this (NAME, aActor, aJFrame);
 	}
-	
+
 	public ShowFrameEffect (String aName, ActorI aActor, JFrame aJFrame) {
 		super (aName, aActor);
 		setJFrame (aJFrame);
 	}
-	
+
 	public ShowFrameEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
@@ -45,28 +45,28 @@ public class ShowFrameEffect extends Effect {
 	private void setJFrame (JFrame aJFrame) {
 		jFrame = aJFrame;
 	}
-	
+
 	public JFrame getJFrame () {
 		return jFrame;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied = false;
-		
+
 		jFrame.setVisible (true);
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_JFRAME_TITLE, jFrame.getTitle ());
-		
+
 		return tEffectElement;
 	}
 
@@ -74,7 +74,7 @@ public class ShowFrameEffect extends Effect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " for " + actor.getName () + " Show " + jFrame.getTitle () + ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));

@@ -24,13 +24,13 @@ public class QueryActorAction extends Action {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
+
 		tSimpleActionReport = actor.getName () + " has generated a Query Action.";
-		
+
 		return tSimpleActionReport;
 	}
 }

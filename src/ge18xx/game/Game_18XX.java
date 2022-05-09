@@ -61,12 +61,11 @@ import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.Logger;
 
-
 // TODO -- Create an abstract Super Class that is "GameEngineFrame" that has non-specific objects
 // the Game_18XX Class that extends the GameEngineFrame, 
 public class Game_18XX extends JFrame {
 	private static final long serialVersionUID = 1L;
-	
+
 	// Generic Game Engine Fields
 	private final String ENTER_USER_NAME = "Must Enter User Name";
 	protected ResourceBundle resbundle;
@@ -77,7 +76,7 @@ public class Game_18XX extends JFrame {
 	protected Action frameInfoAction, exitAction, undoAction, cutAction, copyAction;
 	protected Action pasteAction, clearAction, selectAllAction;
 	protected Action selectGameAction, showActionReportFrameAction, showPlayerInputAction;
-	
+
 	// Game18XX Specific Menu Actions
 	protected Action showMapAction, showMarketAction, showCitiesAction, showPrivatesAction;
 	protected Action showTileTrayAction, showCoalCompaniesAction, showMinorCompaniesAction;
@@ -87,8 +86,8 @@ public class Game_18XX extends JFrame {
 	// More Generic Game Engine Fields
 	GameManager gameManager;
 	PlayerInputFrame playerInputFrame;
-	JMenuBar mainMenuBar;	
-	JMenuItem gameMenuItems [];
+	JMenuBar mainMenuBar;
+	JMenuItem gameMenuItems[];
 	JMenuItem newMenuItem;
 	JMenuItem openMenuItem;
 	JMenuItem closeMenuItem;
@@ -106,32 +105,32 @@ public class Game_18XX extends JFrame {
 	LoggerLookup loggerLookup = new LoggerLookup ();
 	String userDir = System.getProperty ("user.dir");
 	Image iconImage;
-	
+
 	public Game_18XX () {
 		this (true);
 	}
-	
+
 	public Game_18XX (boolean aVisible) {
 		super ("");
-		
+
 		// The ResourceBundle below contains all of the strings used in this
-		// application.  ResourceBundles are useful for localizing applications.
+		// application. ResourceBundles are useful for localizing applications.
 		// New localities can be added by adding additional properties files.
 		loadResourceBundle ("ge18xx");
-		
+
 		setApplicationIcon ();
-		
+
 		createActions ();
 		addMenus ();
-		
+
 		setSize (385, 260);
 		setLocation (100, 100);
 		setFrameContents ();
 		setupFrameActions ();
 		toFront ();
 		setVisible (aVisible);
-		
-		playWhistle();
+
+		playWhistle ();
 
 		addWindowListener (new WindowAdapter () {
 			@Override
@@ -144,7 +143,7 @@ public class Game_18XX extends JFrame {
 
 	private void loadResourceBundle (String aGameEngineName) {
 		String tTitle;
-		
+
 		if (aGameEngineName.length () > 0) {
 			resbundle = ResourceBundle.getBundle (aGameEngineName + ".game.MyResources", Locale.getDefault ());
 			tTitle = resbundle.getString ("frameTitle");
@@ -153,45 +152,42 @@ public class Game_18XX extends JFrame {
 		}
 		setTitle (tTitle);
 	}
-	
-    public void onExit () {
-        int tConfirm;
-        Logger tLogger;
-        
-        tConfirm = JOptionPane.showOptionDialog (
-        		null, "Are You Sure to Close the " + getTitle () + "?", 
-        		"Exit Confirmation", JOptionPane.YES_NO_OPTION, 
-        		JOptionPane.QUESTION_MESSAGE, null, null, null);
-        if (tConfirm == 0) {
-        	tLogger = loggerLookup.getLogger ();
-        	if (tLogger != null) {
-        		tLogger.info ("EXITING Game Engine");
-        	}
-        	disconnect ();
-        	System.exit (0);
-        }
-    }
+
+	public void onExit () {
+		int tConfirm;
+		Logger tLogger;
+
+		tConfirm = JOptionPane.showOptionDialog (null, "Are You Sure to Close the " + getTitle () + "?",
+				"Exit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+		if (tConfirm == 0) {
+			tLogger = loggerLookup.getLogger ();
+			if (tLogger != null) {
+				tLogger.info ("EXITING Game Engine");
+			}
+			disconnect ();
+			System.exit (0);
+		}
+	}
 
 	private void playWhistle () {
 		Sound tSound;
-		
+
 		tSound = new Sound ();
 		tSound.playSoundClip (tSound.WHISTLE);
 	}
-		
+
 	public void setupLogger (String aUserName, String aAppName) {
-	    String tAppVersion;
-	    String tXMLConfigFileDir;
-	    
-	    if (getLogger () == null) {
-	    	tAppVersion = getGEVersion ();
+		String tAppVersion;
+		String tXMLConfigFileDir;
+
+		if (getLogger () == null) {
+			tAppVersion = getGEVersion ();
 //	    	tXMLConfigFileDir = "18XX%20XML%20Data";
-	    	tXMLConfigFileDir = resbundle.getString ("configDir");
-	    	loggerLookup.setupLogger (aUserName, aAppName, tAppVersion, tXMLConfigFileDir, 
-	    			ge18xx.game.Game_18XX.class);
-	    }
+			tXMLConfigFileDir = resbundle.getString ("configDir");
+			loggerLookup.setupLogger (aUserName, aAppName, tAppVersion, tXMLConfigFileDir, ge18xx.game.Game_18XX.class);
+		}
 	}
-	
+
 	public String getGEVersion () {
 		return resbundle.getString ("version");
 	}
@@ -199,43 +195,43 @@ public class Game_18XX extends JFrame {
 	public String getUserDir () {
 		return userDir;
 	}
-	
+
 	public Logger getLogger () {
 		return loggerLookup.getLogger ();
 	}
-	
+
 	public static Logger getLoggerX () {
 		return LoggerLookup.getLoggerX ();
 	}
-	
+
 	private void setApplicationIcon () {
 		// This will set the GE18XX Frame Icon (when it is minimized)
 		// For Mac on the Dock even, but not the Application Level Icon.
 		iconImage = getIconImage ();
-        setIconImage (iconImage);
+		setIconImage (iconImage);
 	}
-	
+
 	@Override
 	public Image getIconImage () {
 		String tIconPath;
 		ImageIcon tIcon;
-		
+
 		tIconPath = resbundle.getString ("iconImage");
-        tIcon = new ImageIcon (tIconPath);
-        iconImage = tIcon.getImage ();
-        
+		tIcon = new ImageIcon (tIconPath);
+		iconImage = tIcon.getImage ();
+
 		return iconImage;
 	}
-	
+
 	public void setGameManager (GameManager aGameManager) {
 		gameManager = aGameManager;
 	}
-	
+
 	private void setupAutoSavesAndLogDirectory () {
 		String tAutoSavesDirName;
 		String tAutoSavesLogDirName;
 		String tAutoSavesNetwork;
-		
+
 		tAutoSavesDirName = "autoSaves";
 		createDirectory (tAutoSavesDirName);
 		tAutoSavesLogDirName = tAutoSavesDirName + File.separator + "logs";
@@ -243,13 +239,13 @@ public class Game_18XX extends JFrame {
 		tAutoSavesNetwork = tAutoSavesDirName + File.separator + "network";
 		createDirectory (tAutoSavesNetwork);
 	}
-	
+
 	private void createDirectory (String tDirectoryName) {
-	    File tDirectory = new File (tDirectoryName);
-	    
-	    if (! tDirectory.exists ()){
-	    	tDirectory.mkdir ();
-	    }
+		File tDirectory = new File (tDirectoryName);
+
+		if (!tDirectory.exists ()) {
+			tDirectory.mkdir ();
+		}
 	}
 
 	private void setupNewGameManager () {
@@ -261,59 +257,59 @@ public class Game_18XX extends JFrame {
 			setGameManager (new GameManager (this, tClientName));
 			enableGameStartItems ();
 			newGameButton.requestFocusInWindow ();
-		} else if (! (tClientName.equals (""))) {
+		} else if (!(tClientName.equals (""))) {
 			clientUserName.setText ("INVALID NAME");
 			clientUserName.requestFocusInWindow ();
-		}		
+		}
 	}
-	
+
 	private void setupFrameActions () {
-		clientUserName.addFocusListener(new FocusAdapter() {
+		clientUserName.addFocusListener (new FocusAdapter () {
 			@Override
 			public void focusLost (FocusEvent aEvent) {
 				Object tEventObject = aEvent.getSource ();
-				
+
 				if (tEventObject instanceof JTextField) {
 					setupNewGameManager ();
 				}
 			}
 		});
-		
-		clientUserName.addKeyListener (new KeyAdapter() {
+
+		clientUserName.addKeyListener (new KeyAdapter () {
 			@Override
 			public void keyReleased (KeyEvent e) {
 				enableGameStartItems ();
 			}
 		});
-	
-		newGameButton.addActionListener (new ActionListener() {
+
+		newGameButton.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aEvent) {
 				newGame ();
 			}
 		});
-		
-		newGameButton.addKeyListener (new KeyAdapter() {
+
+		newGameButton.addKeyListener (new KeyAdapter () {
 			@Override
 			public void keyReleased (KeyEvent e) {
-				if (e.getKeyCode () == KeyEvent.VK_ENTER){
+				if (e.getKeyCode () == KeyEvent.VK_ENTER) {
 					newGame ();
-				 }
+				}
 			}
 		});
-		
-		quitButton.addActionListener (new ActionListener() {
+
+		quitButton.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aEvent) {
 				onExit ();
 			}
 		});
-		
+
 		disconnectButton.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 				String tAction = aActionEvent.getActionCommand ();
-				
+
 				if (JGameClient.DISCONNECT.equals (tAction)) {
 					disconnect ();
 				}
@@ -321,78 +317,57 @@ public class Game_18XX extends JFrame {
 		});
 
 	}
-	
+
 	private void disconnect () {
 		if (gameManager != GameManager.NO_GAME_MANAGER) {
 			gameManager.disconnect ();
-		}	
+		}
 	}
-	
+
 	private void setFrameContents () {
 		JLabel tGameEngineTitle = new JLabel ("Game Engine Title");
 		tGameEngineTitle.setText (resbundle.getString ("message"));
 		tGameEngineTitle.setFont (new Font ("Lucida Grande", Font.BOLD, 24));
 		tGameEngineTitle.setHorizontalAlignment (SwingConstants.CENTER);
-		
+
 		JLabel tGameEngineVersion = new JLabel ("Version: X.X");
 		tGameEngineVersion.setText ("V " + getGEVersion ());
 		tGameEngineVersion.setHorizontalAlignment (SwingConstants.CENTER);
 		tGameEngineVersion.setFont (new Font ("Lucida Grande", Font.PLAIN, 20));
-		
+
 		JLabel tClientLabel = new JLabel ("Client User Name:");
-		
+
 		clientUserName = new JTextField ();
 		clientUserName.setColumns (10);
 		clientUserName.setEnabled (true);
-		
+
 		newGameButton = new JButton (OK_TEXT);
-		quitButton = new JButton(QUIT_TEXT);
+		quitButton = new JButton (QUIT_TEXT);
 		disconnectButton = new JButton (JGameClient.DISCONNECT);
-		
+
 		GroupLayout groupLayout = new GroupLayout (getContentPane ());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(114)
-							.addComponent(tGameEngineVersion))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(55)
-							.addComponent(tGameEngineTitle))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(57)
-							.addComponent(tClientLabel)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(clientUserName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(20)
-							.addComponent(newGameButton)
-							.addGap(20)
-							.addComponent(quitButton)
-							.addGap(20)
-							.addComponent(disconnectButton)
-								))
-					.addContainerGap(11, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(34)
-					.addComponent(tGameEngineTitle)
-					.addGap(18)
-					.addComponent(tGameEngineVersion)
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(tClientLabel)
-						.addComponent(clientUserName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(newGameButton)
-						.addComponent(quitButton)
-						.addComponent(disconnectButton))
-					.addContainerGap(12, Short.MAX_VALUE))
-		);
+		groupLayout.setHorizontalGroup (groupLayout.createParallelGroup (Alignment.LEADING).addGroup (groupLayout
+				.createSequentialGroup ()
+				.addGroup (groupLayout.createParallelGroup (Alignment.LEADING)
+						.addGroup (groupLayout.createSequentialGroup ().addGap (114).addComponent (tGameEngineVersion))
+						.addGroup (groupLayout.createSequentialGroup ().addGap (55).addComponent (tGameEngineTitle))
+						.addGroup (groupLayout.createSequentialGroup ().addGap (57).addComponent (tClientLabel)
+								.addPreferredGap (ComponentPlacement.UNRELATED).addComponent (clientUserName,
+										GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addGroup (groupLayout.createSequentialGroup ().addGap (20).addComponent (newGameButton)
+								.addGap (20).addComponent (quitButton).addGap (20).addComponent (disconnectButton)))
+				.addContainerGap (11, Short.MAX_VALUE)));
+		groupLayout.setVerticalGroup (groupLayout.createParallelGroup (Alignment.LEADING)
+				.addGroup (groupLayout.createSequentialGroup ().addGap (34).addComponent (tGameEngineTitle).addGap (18)
+						.addComponent (tGameEngineVersion).addGap (18)
+						.addGroup (groupLayout.createParallelGroup (Alignment.BASELINE).addComponent (tClientLabel)
+								.addComponent (clientUserName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap (ComponentPlacement.UNRELATED)
+						.addGroup (groupLayout.createParallelGroup (Alignment.BASELINE).addComponent (newGameButton)
+								.addComponent (quitButton).addComponent (disconnectButton))
+						.addContainerGap (12, Short.MAX_VALUE)));
 		disableGameButtons ();
 		getContentPane ().setLayout (groupLayout);
 	}
@@ -403,22 +378,18 @@ public class Game_18XX extends JFrame {
 	}
 
 	/*
-	public void about (ApplicationEvent e) {
-		aboutBox.setResizable (false);
-		aboutBox.setVisible (true);
-	}
-
-	public void preferences (ApplicationEvent e) {
-		prefs.setResizable (false);
-		prefs.setVisible (true);
-	}
+	 * public void about (ApplicationEvent e) { aboutBox.setResizable (false);
+	 * aboutBox.setVisible (true); }
+	 * 
+	 * public void preferences (ApplicationEvent e) { prefs.setResizable (false);
+	 * prefs.setVisible (true); }
 	 */
-	
-	private void addMenus() {
+
+	private void addMenus () {
 		mainMenuBar = new JMenuBar ();
 		setupFileMenu ();
 		setupGameMenu ();
-		
+
 		setJMenuBar (mainMenuBar);
 	}
 
@@ -453,7 +424,7 @@ public class Game_18XX extends JFrame {
 		int tMenuItemCount;
 		int tMenuItemIndex;
 		int tMenuIndex;
-		
+
 		gameMenu = new JMenu ("Game");
 		tMenuItemCount = 10;
 		gameMenuItems = new JMenuItem [tMenuItemCount];
@@ -468,20 +439,20 @@ public class Game_18XX extends JFrame {
 		tMenuIndex = addGameMenu (tMenuIndex, showRoundFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showAuditFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showActionReportFrameAction);
-		
+
 		for (tMenuItemIndex = 0; tMenuItemIndex < tMenuItemCount; tMenuItemIndex++) {
 			gameMenuItems [tMenuItemIndex].setEnabled (false);
 			gameMenu.add (gameMenuItems [tMenuItemIndex]);
 		}
 		mainMenuBar.add (gameMenu);
 	}
-	
+
 	private int addGameMenu (int aMenuIndex, Action aMenuAction) {
 		gameMenuItems [aMenuIndex] = new JMenuItem (aMenuAction);
-		
+
 		return (aMenuIndex + 1);
 	}
-	
+
 	private void createActions () {
 		int tShortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask ();
 
@@ -490,7 +461,7 @@ public class Game_18XX extends JFrame {
 	}
 
 	private void setupGameSpecificActions (int aShortcutKeyMask) {
-		showMapAction = new showMapActionClass (resbundle.getString("showMapItem"),
+		showMapAction = new showMapActionClass (resbundle.getString ("showMapItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_M, aShortcutKeyMask));
 		showMarketAction = new showMarketActionClass (resbundle.getString ("showMarketItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_K, aShortcutKeyMask));
@@ -500,17 +471,19 @@ public class Game_18XX extends JFrame {
 				KeyStroke.getKeyStroke (KeyEvent.VK_T, aShortcutKeyMask));
 		showPrivatesAction = new showPrivatesActionClass (resbundle.getString ("showPrivatesItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_P, aShortcutKeyMask));
-		showShareCompaniesAction = new showShareCompaniesActionClass (resbundle.getString ("showShareCompaniesItem"), null);
+		showShareCompaniesAction = new showShareCompaniesActionClass (resbundle.getString ("showShareCompaniesItem"),
+				null);
 		showChatClientAction = new showChatClientActionClass (resbundle.getString ("showChatClientItem"), null);
 		showRoundFrameAction = new showRoundFrameActionClass (resbundle.getString ("showRoundFrameItem"), null);
 		showAuditFrameAction = new showAuditFrameActionClass (resbundle.getString ("showAuditFrameItem"), null);
-		showActionReportFrameAction = new showActionReportFrameActionClass (resbundle.getString ("showActionReportFrameItem"), null);
+		showActionReportFrameAction = new showActionReportFrameActionClass (
+				resbundle.getString ("showActionReportFrameItem"), null);
 	}
 
 	private void setupGenericActions (int aShortcutKeyMask) {
 //		int tShortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask ();
 
-		//Create actions that can be used by menus, buttons, toolbars, etc.
+		// Create actions that can be used by menus, buttons, toolbars, etc.
 		newAction = new newActionClass (resbundle.getString ("newItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_N, aShortcutKeyMask));
 		openAction = new openActionClass (resbundle.getString ("openItem"),
@@ -525,7 +498,7 @@ public class Game_18XX extends JFrame {
 		exitAction = new exitActionClass (resbundle.getString ("exitItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_Q, aShortcutKeyMask));
 	}
-	
+
 	public void createGameSet () {
 		if (loadGameSet ()) {
 			playerInputFrame.addGameInfo ();
@@ -534,12 +507,12 @@ public class Game_18XX extends JFrame {
 
 	public void createPlayerInputFrame () {
 		Point tNewPoint;
-		
+
 		if (playerInputFrame == XMLFrame.NO_XML_FRAME) {
 			playerInputFrame = new PlayerInputFrame ("Enter Player Information", gameManager);
 			tNewPoint = getOffsetGEFrame ();
 			playerInputFrame.setLocation (tNewPoint);
-			createGameSet ();	
+			createGameSet ();
 		}
 	}
 
@@ -547,33 +520,33 @@ public class Game_18XX extends JFrame {
 		Point tGEFramePoint, tNewPoint;
 		double tX, tY;
 		int tNewX, tNewY;
-		
+
 		tGEFramePoint = getLocation ();
 		tX = tGEFramePoint.getX ();
 		tY = tGEFramePoint.getY ();
 		tNewX = (int) tX + 100;
 		tNewY = (int) tY + 100;
 		tNewPoint = new Point (tNewX, tNewY);
-		
+
 		return tNewPoint;
 	}
 
 	public void disableNewMenuItem () {
 		newMenuItem.setEnabled (false);
 	}
-	
+
 	public void disableOpenMenuItem () {
 		openMenuItem.setEnabled (false);
 	}
-	
+
 	public void disableCloseMenuItem () {
 		closeMenuItem.setEnabled (false);
 	}
-	
+
 	public void disableSaveMenuItem () {
 		saveMenuItem.setEnabled (false);
 	}
-	
+
 	public void disableSaveAsMenuItem () {
 		saveAsMenuItem.setEnabled (false);
 	}
@@ -581,19 +554,19 @@ public class Game_18XX extends JFrame {
 	public void disableSaveConfigMenuItem () {
 		saveConfigMenuItem.setEnabled (false);
 	}
-	
+
 	public void disableFrameInfoMenuItem () {
 		frameInfoMenuItem.setEnabled (false);
 	}
-	
+
 	public void updateDisconnectButton () {
 		if (gameManager == GameManager.NO_GAME_MANAGER) {
 			disconnectButton.setEnabled (false);
 			disconnectButton.setToolTipText ("No Game Initialized yet");
-		} else if (! gameManager.isNetworkGame ()) {
+		} else if (!gameManager.isNetworkGame ()) {
 			disconnectButton.setEnabled (false);
 			disconnectButton.setToolTipText ("Not a Network Game");
-		} else if (gameManager.isConnected ()){
+		} else if (gameManager.isConnected ()) {
 			disconnectButton.setEnabled (true);
 			disconnectButton.setToolTipText ("Will Disconnect from Network Connect");
 		} else {
@@ -601,12 +574,12 @@ public class Game_18XX extends JFrame {
 			disconnectButton.setToolTipText ("Not Connected to a Network Game");
 		}
 	}
-	
+
 	public void disableGameButtons () {
 		newGameButton.setEnabled (false);
 		newGameButton.setToolTipText (ENTER_USER_NAME);
 	}
-	
+
 	public void disableGameStartItems () {
 		disableNewMenuItem ();
 		disableOpenMenuItem ();
@@ -614,7 +587,7 @@ public class Game_18XX extends JFrame {
 		disableGameButtons ();
 		clientUserName.setEnabled (false);
 	}
-	
+
 	public void enableGameStartItems () {
 		enableNewMenuItem ();
 		enableOpenMenuItem ();
@@ -622,7 +595,7 @@ public class Game_18XX extends JFrame {
 		newGameButton.setToolTipText (GUI.NO_TOOL_TIP);
 		clientUserName.setEnabled (true);
 	}
-	
+
 	public void enableGameMenuItems () {
 		int tMenuItemIndex, tMenuItemCount;
 		String tCoalMenuText = resbundle.getString ("showCoalsItem");
@@ -631,7 +604,7 @@ public class Game_18XX extends JFrame {
 		String tChatClientText = resbundle.getString ("showChatClientItem");
 		String tMenuText;
 		boolean tEnableMenuItem;
-		
+
 		tMenuItemCount = gameMenuItems.length;
 		for (tMenuItemIndex = 0; tMenuItemIndex < tMenuItemCount; tMenuItemIndex++) {
 			tMenuText = gameMenuItems [tMenuItemIndex].getText ();
@@ -665,23 +638,23 @@ public class Game_18XX extends JFrame {
 			gameMenuItems [tMenuItemIndex].setEnabled (tEnableMenuItem);
 		}
 	}
-	
+
 	public void enableNewMenuItem () {
 		newMenuItem.setEnabled (true);
 	}
-	
+
 	public void enableOpenMenuItem () {
 		openMenuItem.setEnabled (true);
 	}
-	
+
 	public void enableCloseMenuItem () {
 		closeMenuItem.setEnabled (true);
 	}
-	
+
 	public void enableSaveMenuItem () {
 		saveMenuItem.setEnabled (true);
 	}
-	
+
 	public void enableSaveAsMenuItem () {
 		saveAsMenuItem.setEnabled (true);
 	}
@@ -700,19 +673,19 @@ public class Game_18XX extends JFrame {
 		enableSaveConfigMenuItem ();
 		enableFrameInfoMenuItem ();
 	}
-	
+
 	public void initiateGame () {
 		disableGameStartItems ();
 		enableGameMenuItems ();
 		enableSaveMenuItems ();
 	}
-	
+
 	public boolean loadGameSet () {
 		String tFileName;
 		boolean tLoadedGameSet;
-		
+
 		tFileName = gameManager.getXMLBaseDirectory () + resbundle.getString ("GameSetXMLFile");
-				//"18xx Games.xml";
+		// "18xx Games.xml";
 		try {
 			createPlayerInputFrame ();
 			playerInputFrame.loadXML (tFileName, playerInputFrame.getGameSet ());
@@ -720,7 +693,7 @@ public class Game_18XX extends JFrame {
 		} catch (IOException tException) {
 			System.err.println ("Caught Exception " + tException);
 			tLoadedGameSet = false;
-		} 
+		}
 
 		return tLoadedGameSet;
 	}
@@ -732,13 +705,13 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showMap ();
 		}
 	}
-	
+
 	public class showMarketActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -746,7 +719,7 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showMarket ();
@@ -760,13 +733,13 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showCities ();
 		}
 	}
-	
+
 	public class showTileTrayActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -774,13 +747,13 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showTileTray ();
 		}
 	}
-	
+
 	public class showPrivatesActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -788,7 +761,7 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showPrivateCompanies ();
@@ -802,13 +775,13 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showMinorCompanies ();
 		}
 	}
-	
+
 	public class showShareCompaniesActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -816,13 +789,13 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showShareCompanies ();
 		}
 	}
-	
+
 	public class showChatClientActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -830,13 +803,13 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showChatClient ();
 		}
 	}
-	
+
 	public class showRoundFrameActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -844,13 +817,13 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showRoundFrame ();
 		}
 	}
-	
+
 	public class showAuditFrameActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -858,13 +831,13 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showAuditFrame ();
 		}
 	}
-	
+
 	public class showActionReportFrameActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -872,21 +845,21 @@ public class Game_18XX extends JFrame {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showActionReportFrame ();
 		}
 	}
-	
+
 	public class newActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
-		
+
 		public newActionClass (String text, KeyStroke shortcut) {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			newGame ();
@@ -895,104 +868,104 @@ public class Game_18XX extends JFrame {
 
 	public void newGame () {
 		createPlayerInputFrame ();
-		playerInputFrame.setVisible (true);		
+		playerInputFrame.setVisible (true);
 	}
-	
+
 	public void loadGame () {
 		createPlayerInputFrame ();
-		gameManager.loadSavedGame ();		
+		gameManager.loadSavedGame ();
 	}
-	
+
 	public class openActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
-		
+
 		public openActionClass (String text, KeyStroke shortcut) {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			loadGame ();
 		}
 	}
-	
+
 	public class closeActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
-		
+
 		public closeActionClass (String text, KeyStroke shortcut) {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			System.out.println ("Close...");
 		}
 	}
-	
+
 	public class exitActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
-		
+
 		public exitActionClass (String text, KeyStroke shortcut) {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
-			System.out.println("EXITING THE APP");
+			System.out.println ("EXITING THE APP");
 			onExit ();
 		}
 	}
-	
+
 	public class saveActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
-		
+
 		public saveActionClass (String text, KeyStroke shortcut) {
 			super (text);
 			putValue (ACCELERATOR_KEY, shortcut);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.saveAGame (true);
 		}
 	}
-	
+
 	public class saveAsActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
-		
+
 		public saveAsActionClass (String text) {
 			super (text);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.saveAGame (false);
 		}
 	}
-	
+
 	public class saveConfigActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
-		
+
 		public saveConfigActionClass (String text) {
 			super (text);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.saveConfig (false);
 		}
 	}
-	
+
 	public class frameInfoActionClass extends AbstractAction {
 		private static final long serialVersionUID = 1L;
-		
+
 		public frameInfoActionClass (String text) {
 			super (text);
 		}
-		
+
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showFrameInfo ();
@@ -1001,7 +974,7 @@ public class Game_18XX extends JFrame {
 
 	private static void setupForMac () {
 		boolean tIsMacOS = false;
-				
+
 		String tOSName = System.getProperty ("os.name");
 		tIsMacOS = tOSName.contains ("Mac OS");
 
@@ -1013,9 +986,9 @@ public class Game_18XX extends JFrame {
 		}
 	}
 
-	public static void main (String aArgs []) {
+	public static void main (String aArgs[]) {
 		setupForMac ();
 
 		new Game_18XX ();
-	 }
+	}
 }

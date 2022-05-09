@@ -17,7 +17,7 @@ import ge18xx.utilities.XMLNode;
 public class BidStockAction extends CashTransferAction {
 	public final static String NAME = "Bid on Stock";
 
-	public BidStockAction() {
+	public BidStockAction () {
 		super ();
 		setName (NAME);
 	}
@@ -38,8 +38,7 @@ public class BidStockAction extends CashTransferAction {
 		tBidShareEffect = new BidShareEffect (aActor);
 		addEffect (tBidShareEffect);
 	}
-	
-	
+
 	@Override
 	public void addCashTransferEffect (CashHolderI aFromCashHolder, CashHolderI aToCashHolder, int aCashAmount) {
 		EscrowCashTransferEffect tEscrowCashTransferEffect;
@@ -50,29 +49,29 @@ public class BidStockAction extends CashTransferAction {
 
 	public void addBidToCertificateEffect (ActorI aActor, Certificate aCertificate, int aBidAmount) {
 		BidToCertificateEffect tBidToCertificateEffect;
-		
+
 		tBidToCertificateEffect = new BidToCertificateEffect (aActor, aCertificate, aBidAmount);
 		addEffect (tBidToCertificateEffect);
 	}
-	
-	public void addAuctionStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState, 
+
+	public void addAuctionStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState,
 			ActorI.ActionStates aNewState) {
 		AuctionStateChangeEffect tAuctionStateChangeEffect;
 
 		tAuctionStateChangeEffect = new AuctionStateChangeEffect (aActor, aOldState, aNewState);
 		addEffect (tAuctionStateChangeEffect);
 	}
-	
+
 	public void addEscrowToPlayerEffect (ActorI aActor, Escrow aEscrow) {
 		EscrowToPlayerEffect tEscrowToPlayerEffect;
-		
+
 		tEscrowToPlayerEffect = new EscrowToPlayerEffect (aActor, aEscrow);
 		addEffect (tEscrowToPlayerEffect);
 	}
-	
+
 	public String getCompanyAbbrev () {
 		String tCompanyAbbrev = "";
-		
+
 		for (Effect tEffect : effects) {
 			if (tCompanyAbbrev.equals ("")) {
 				if (tEffect instanceof BidToCertificateEffect) {
@@ -80,17 +79,17 @@ public class BidStockAction extends CashTransferAction {
 				}
 			}
 		}
-		
+
 		return tCompanyAbbrev;
 	}
 
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
-		tSimpleActionReport = actor.getName () + " bid " + Bank.formatCash (getCashAmount ()) +
-				" on " + getCompanyAbbrev () + ".";
-		
+
+		tSimpleActionReport = actor.getName () + " bid " + Bank.formatCash (getCashAmount ()) + " on "
+				+ getCompanyAbbrev () + ".";
+
 		return tSimpleActionReport;
 	}
 }

@@ -27,7 +27,7 @@ public class ClearSoldCompanyEffect extends Effect {
 	public ClearSoldCompanyEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		String tSoldCompanies;
-		
+
 		tSoldCompanies = aEffectNode.getThisAttribute (AN_SOLD_COMPANIES);
 		setCompanies (tSoldCompanies);
 	}
@@ -35,20 +35,20 @@ public class ClearSoldCompanyEffect extends Effect {
 	private void setCompanies (String aSoldCompanies) {
 		soldCompanies = aSoldCompanies;
 	}
-	
+
 	public String getCompanyAbbrev () {
 		return soldCompanies;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		Player tPlayer;
-		
+
 		tPlayer = (Player) getActor ();
 
 		return (REPORT_PREFIX + name + " for " + tPlayer.getName () + ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
@@ -58,23 +58,23 @@ public class ClearSoldCompanyEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Player tPlayer;
-		
+
 		tPlayer = (Player) getActor ();
 		tPlayer.undoSoldCompany (soldCompanies);
 		tEffectApplied = true;
-	
+
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Player tPlayer;
-		
+
 		tPlayer = (Player) getActor ();
 		tPlayer.undoClearSoldCompany (soldCompanies);
 		tEffectUndone = true;
-	
+
 		return tEffectUndone;
 	}
 }

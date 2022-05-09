@@ -1,4 +1,5 @@
 package ge18xx.player;
+
 import ge18xx.phase.PhaseInfo;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
@@ -28,15 +29,15 @@ public class PlayerInfo {
 	int certificateLimit;
 	String phases;
 	int companyCount;
-	
+
 	public PlayerInfo () {
 		setValues (NO_PLAYERS, NO_CASH, NO_LIMIT, ALL_PHASES, NO_COMPANIES);
 	}
-	
+
 	public PlayerInfo (XMLNode aCellNode) {
 		int tNumPlayers, tStartingCash, tCertificateLimit, tCompanyCount;
 		String tPhases;
-		
+
 		tNumPlayers = aCellNode.getThisIntAttribute (AN_NUM_PLAYERS);
 		tStartingCash = aCellNode.getThisIntAttribute (AN_STARTING_CASH);
 		tCertificateLimit = aCellNode.getThisIntAttribute (AN_CERTIFICATE_LIMIT);
@@ -44,20 +45,21 @@ public class PlayerInfo {
 		tPhases = aCellNode.getThisAttribute (PhaseInfo.AN_PHASES, ALL_PHASES);
 		setValues (tNumPlayers, tStartingCash, tCertificateLimit, tPhases, tCompanyCount);
 	}
-	
+
 	public int getCertificateLimit () {
 		return certificateLimit;
 	}
-	
+
 	public int getNumPlayers () {
 		return numberPlayers;
 	}
-	
+
 	public int getStartingCash () {
 		return startingCash;
 	}
-	
-	public void setValues (int aNumPlayers, int aStartingCash, int aCertificateLimit, String aPhases, int aCompanyCount) {
+
+	public void setValues (int aNumPlayers, int aStartingCash, int aCertificateLimit, String aPhases,
+			int aCompanyCount) {
 		numberPlayers = aNumPlayers;
 		startingCash = aStartingCash;
 		certificateLimit = aCertificateLimit;

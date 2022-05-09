@@ -42,40 +42,40 @@ public class TrainPortfolio implements TrainHolderI {
 	private final static ArrayList<Train> NO_TRAINS = null;
 	ArrayList<Train> trains;
 	CashHolderI portfolioHolder;
-	
+
 	public TrainPortfolio () {
 		trains = new ArrayList<Train> ();
 	}
-	
+
 	public TrainPortfolio (CashHolderI aPortfolioHolder) {
 		trains = new ArrayList<Train> ();
 		setPortfolioHolder (aPortfolioHolder);
 	}
-	
+
 	public void setPortfolioHolder (CashHolderI aPortfolioHolder) {
 		portfolioHolder = aPortfolioHolder;
 	}
-	
+
 	public String getPortfolioHolderAbbrev () {
 		String tHolderName = "NONE";
-		
+
 		if (portfolioHolder != CashHolderI.NO_ACTOR) {
 			tHolderName = portfolioHolder.getAbbrev ();
 		}
-		
+
 		return tHolderName;
 	}
-	
+
 	public String getPortfolioHolderName () {
 		String tHolderName = "NONE";
-		
+
 		if (portfolioHolder != CashHolderI.NO_ACTOR) {
 			tHolderName = portfolioHolder.getName ();
 		}
-		
+
 		return tHolderName;
 	}
-	
+
 	@Override
 	public void addTrain (Train aTrain) {
 		trains.add (aTrain);
@@ -85,18 +85,17 @@ public class TrainPortfolio implements TrainHolderI {
 	public FrameButton getFrameButtonAt (int aIndex) {
 		FrameButton tFrameButton = FrameButton.NO_FRAME_BUTTON;
 		Train tTrain;
-		
+
 		tTrain = trains.get (aIndex);
 		if (tTrain != Train.NO_TRAIN) {
 			tFrameButton = tTrain.getFrameButton ();
 		}
-		
+
 		return tFrameButton;
 	}
-	
-	public JPanel buildPortfolioJPanel (ItemListener aItemListener, Corporation aCorporation, 
-			GameManager aGameManager, String aActionLabel, boolean aFullvsCompact,
-			boolean aEnableAction, String aDisableReason) {
+
+	public JPanel buildPortfolioJPanel (ItemListener aItemListener, Corporation aCorporation, GameManager aGameManager,
+			String aActionLabel, boolean aFullvsCompact, boolean aEnableAction, String aDisableReason) {
 		JPanel tPortfolioJPanel;
 		JPanel tTrainCertJPanel;
 		JLabel tLabel;
@@ -109,7 +108,7 @@ public class TrainPortfolio implements TrainHolderI {
 		boolean tCanBeUpgraded;
 		TrainCompany tTrainCompany;
 		Train [] tBankAvailableTrains = aGameManager.getBankAvailableTrains ();
-		
+
 		tPortfolioJPanel = new JPanel ();
 		tPortfolioJPanel.add (Box.createHorizontalStrut (10));
 		if (trains.isEmpty ()) {
@@ -151,7 +150,7 @@ public class TrainPortfolio implements TrainHolderI {
 							tActionToolTip = aDisableReason;
 						}
 					}
-					if (aCorporation.getName ().equals (portfolioHolder.getName ()))  {
+					if (aCorporation.getName ().equals (portfolioHolder.getName ())) {
 					} else {
 						if (aCorporation.isATrainCompany ()) {
 							tTrainCompany = (TrainCompany) aCorporation;
@@ -166,8 +165,8 @@ public class TrainPortfolio implements TrainHolderI {
 						}
 					}
 				}
-				tTrainCertJPanel = tTrain.buildCertificateInfoJPanel (aItemListener, tActionLabel, 
-						tActionEnabled, tActionToolTip);
+				tTrainCertJPanel = tTrain.buildCertificateInfoJPanel (aItemListener, tActionLabel, tActionEnabled,
+						tActionToolTip);
 				if (aFullvsCompact == COMPACT_TRAIN_PORTFOLIO) {
 					if (tTrainQuantity > 1) {
 						tLabelText = "<br>" + (tTrainQuantity - 1) + " More<br>" + tTrainName + " Train";
@@ -181,20 +180,20 @@ public class TrainPortfolio implements TrainHolderI {
 						tLabelText = "";
 					}
 					tLabel = new JLabel ("<html>" + tLabelText + "</html>");
-				
+
 					if (tTrainQuantity > 0) {
 						tTrainCertJPanel.add (tLabel);
 					}
-					tTrainIndex += tTrainQuantity - 1;	
+					tTrainIndex += tTrainQuantity - 1;
 				}
-				
+
 				tPortfolioJPanel.add (tTrainCertJPanel);
-			}			
+			}
 		}
-		
+
 		return tPortfolioJPanel;
 	}
-	
+
 	public void clearSelections () {
 		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
@@ -202,10 +201,10 @@ public class TrainPortfolio implements TrainHolderI {
 			}
 		}
 	}
-	
+
 	public int countTrainsOfThisOrder (int aOrder) {
 		int tCountOfTrains;
-		
+
 		tCountOfTrains = 0;
 		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
@@ -214,18 +213,18 @@ public class TrainPortfolio implements TrainHolderI {
 				}
 			}
 		}
-		
+
 		return tCountOfTrains;
 	}
-	
+
 	@Override
-	public CashHolderI getCashHolder() {
+	public CashHolderI getCashHolder () {
 		return (CashHolderI) CashHolderI.NO_ACTOR;
 	}
-	
+
 	public boolean anyTrainIsOperating () {
 		boolean tAnyTrainIsOperating = false;
-		
+
 		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
 				if (tTrain.isOperating ()) {
@@ -233,16 +232,16 @@ public class TrainPortfolio implements TrainHolderI {
 				}
 			}
 		}
-		
+
 		return tAnyTrainIsOperating;
 	}
-	
+
 	public String getTrainList () {
 		String tTrainList = "NO TRAINS";
 		int tTrainIndex = 0;
 		int tTrainLimit;
 		int tIndex;
-		
+
 		tTrainLimit = getTrainLimit ();
 		if (trains.size () > 0) {
 			tTrainList = "Trains (";
@@ -260,13 +259,13 @@ public class TrainPortfolio implements TrainHolderI {
 			}
 			tTrainList += ")";
 		}
-		
+
 		return tTrainList;
 	}
-	
+
 	public Train getCheapestTrain () {
 		Train tCheapestTrain;
-		
+
 		tCheapestTrain = Train.NO_TRAIN;
 		for (Train tTrain : trains) {
 			if (tCheapestTrain == Train.NO_TRAIN) {
@@ -277,41 +276,40 @@ public class TrainPortfolio implements TrainHolderI {
 				}
 			}
 		}
-		
+
 		return tCheapestTrain;
 	}
-	
+
 	public XMLElement getElements (XMLDocument aXMLDocument) {
 		return getElements (aXMLDocument, EN_TRAIN_PORTFOLIO);
 	}
-	
+
 	public XMLElement getElements (XMLDocument aXMLDocument, ElementName aElementName) {
 		XMLElement tXMLElement;
 		XMLElement tXMLTrainElements;
-		
+
 		tXMLElement = aXMLDocument.createElement (aElementName);
 		for (Train tTrain : trains) {
 			tXMLTrainElements = tTrain.getElement (aXMLDocument);
 			tXMLElement.appendChild (tXMLTrainElements);
 		}
-		
+
 		return tXMLElement;
 	}
-
 
 	@Override
 	public String getName () {
 		return "Train Portfolio";
 	}
-	
+
 	public XMLElement getRustedElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tXMLRustedTrains;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_RUSTED_TRAIN_PORTFOLIO);
 		tXMLRustedTrains = getElements (aXMLDocument, EN_TRAIN_PORTFOLIO);
 		tXMLElement.appendChild (tXMLRustedTrains);
-		
+
 		return tXMLElement;
 	}
 
@@ -319,10 +317,10 @@ public class TrainPortfolio implements TrainHolderI {
 	public int getLocalSelectedTrainCount () {
 		return getSelectedCount ();
 	}
-	
+
 	public int getSelectedCount () {
 		int tCount;
-		
+
 		tCount = 0;
 		if (trains != null) {
 			for (Train tTrain : trains) {
@@ -331,14 +329,14 @@ public class TrainPortfolio implements TrainHolderI {
 				}
 			}
 		}
-		
+
 		return tCount;
 	}
-	
+
 	@Override
 	public Train getSelectedTrain () {
 		Train tSelectedTrain;
-	
+
 		tSelectedTrain = Train.NO_TRAIN;
 		if (trains != null) {
 			for (Train tTrain : trains) {
@@ -347,40 +345,40 @@ public class TrainPortfolio implements TrainHolderI {
 				}
 			}
 		}
-		
+
 		return tSelectedTrain;
 	}
-	
+
 	public int getTrainCount () {
 		return trains.size ();
 	}
-	
+
 	public boolean hasNoTrain () {
 		return (getTrainCount () == 0);
 	}
 
 	public Train getTrainOfOrder (int aOrder) {
 		Train tTrainOfOrder;
-		
-		tTrainOfOrder = Train.NO_TRAIN;			
-		
-		if (! trains.isEmpty ()) {
+
+		tTrainOfOrder = Train.NO_TRAIN;
+
+		if (!trains.isEmpty ()) {
 			for (Train tTrain : trains) {
 				if (tTrain.getOrder () == aOrder) {
 					tTrainOfOrder = tTrain;
 				}
 			}
 		}
-		
+
 		return tTrainOfOrder;
 	}
-	
+
 	@Override
 	public Train getTrain (String aName) {
 		Train tTrain;
 		int tIndex, tCount;
 		String tTrainName;
-		
+
 		tTrain = Train.NO_TRAIN;
 		tCount = getTrainCount ();
 		if (tCount > 0) {
@@ -391,13 +389,13 @@ public class TrainPortfolio implements TrainHolderI {
 				}
 			}
 		}
-		
+
 		return tTrain;
 	}
 
 	public Train getTrainAt (int aIndex) {
 		Train tTrain;
-		
+
 		if (trains.isEmpty ()) {
 			tTrain = Train.NO_TRAIN;
 		} else {
@@ -407,32 +405,32 @@ public class TrainPortfolio implements TrainHolderI {
 				tTrain = Train.NO_TRAIN;
 			}
 		}
-			
+
 		return tTrain;
 	}
-	
+
 	public String getTrainAndQty (String aName, int aQty) {
 		String tNameAndQty;
-		
+
 		tNameAndQty = aName;
 		if (aQty == TrainInfo.UNLIMITED_TRAINS) {
 			tNameAndQty += " (" + TrainInfo.UNLIMITED + ")";
 		} else {
 			tNameAndQty += " (" + aQty + ")";
 		}
-		
+
 		return tNameAndQty;
 	}
 
 	@Override
 	public String getTrainNameAndQty (String aStatus) {
 		String tNameAndQuantity, tName;
-		String tNames [];
-		int tQuantities [];
+		String tNames[];
+		int tQuantities[];
 		int tIndex1, tCount1, tIndex2, tCount2;
 		Train tTrain;
 		boolean tFoundTrain, tAddTrain;
-		
+
 		tCount1 = getTrainCount ();
 		tNameAndQuantity = "";
 		if (tCount1 > 0) {
@@ -493,20 +491,20 @@ public class TrainPortfolio implements TrainHolderI {
 				}
 			}
 		}
-		
+
 		return tNameAndQuantity;
 	}
-	
+
 	@Override
 	public TrainPortfolio getTrainPortfolio () {
 		return this;
 	}
-	
+
 	@Override
 	public int getTrainQuantity (String aName) {
 		int tTrainQuantity, tCount, tIndex;
 		String tTrainName;
-		
+
 		tTrainQuantity = 0;
 		tCount = getTrainCount ();
 		if (tCount > 0) {
@@ -517,13 +515,13 @@ public class TrainPortfolio implements TrainHolderI {
 				}
 			}
 		}
-		
+
 		return tTrainQuantity;
 	}
 
 	public int getTrainStatusForOrder (int aOrder) {
 		int tTrainStatusForOrder;
-		
+
 		tTrainStatusForOrder = Train.NO_ORDER;
 		if (trains != null) {
 			for (Train tTrain : trains) {
@@ -532,51 +530,51 @@ public class TrainPortfolio implements TrainHolderI {
 				}
 			}
 		}
-		
+
 		return tTrainStatusForOrder;
 	}
 
 	@Override
 	public boolean hasTrainNamed (String aTrainName) {
 		boolean tHasTrain;
-		
+
 		tHasTrain = false;
 		for (Train tTrain : trains) {
 			if (tTrain.getName ().equals (aTrainName)) {
 				tHasTrain = true;
 			}
 		}
-		
+
 		return tHasTrain;
 	}
-	
+
 	public boolean isSelectedItem (Object aItem) {
 		boolean tIsSelectedItem;
-		
+
 		tIsSelectedItem = false;
 		for (Train tTrain : trains) {
 			if (tTrain.isThisCheckBox (aItem)) {
 				tIsSelectedItem = true;
 			}
 		}
-		
+
 		return tIsSelectedItem;
 	}
 
 	public void loadTrainStatus (XMLNode aXMLNode) {
 		XMLNodeList tXMLNodeList;
-		
+
 		tXMLNodeList = new XMLNodeList (trainStatusParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, Train.EN_TRAIN);
 	}
-	
-	ParsingRoutineI trainStatusParsingRoutine  = new ParsingRoutineI ()  {
+
+	ParsingRoutineI trainStatusParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aTrainNode) {
 			String tTrainName;
 			int tTrainStatus, tTrainOrder;
 			Train tTrain;
-			
+
 			tTrainName = aTrainNode.getThisAttribute (Train.AN_NAME);
 			tTrainStatus = aTrainNode.getThisIntAttribute (Train.AN_STATUS);
 			tTrain = getTrain (tTrainName);
@@ -585,15 +583,15 @@ public class TrainPortfolio implements TrainHolderI {
 			tTrain.setStatus (tTrainStatus);
 		}
 	};
-		
+
 	public void loadTrainPortfolio (XMLNode aXMLNode, Bank aBank) {
 		XMLNodeList tXMLNodeList;
-		
+
 		tXMLNodeList = new XMLNodeList (trainPortfolioParsingRoutine, aBank);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, EN_TRAIN_PORTFOLIO);
 	}
-	
-	ParsingRoutineI trainPortfolioParsingRoutine  = new ParsingRoutineIO ()  {
+
+	ParsingRoutineI trainPortfolioParsingRoutine = new ParsingRoutineIO () {
 
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
@@ -603,20 +601,20 @@ public class TrainPortfolio implements TrainHolderI {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode, Object aBank) {
 			Bank tBank;
-			
+
 			tBank = (Bank) aBank;
 			loadTrainPortfolioFromBank (aChildNode, tBank);
 		}
 	};
 
-	public void loadTrainPortfolioFromBank (XMLNode aTrainNode, Bank aBank) {	
+	public void loadTrainPortfolioFromBank (XMLNode aTrainNode, Bank aBank) {
 		XMLNodeList tXMLNodeList;
-		
+
 		tXMLNodeList = new XMLNodeList (trainParsingRoutine, aBank);
 		tXMLNodeList.parseXMLNodeList (aTrainNode, Train.EN_TRAIN);
 	}
-	
-	ParsingRoutineIO trainParsingRoutine  = new ParsingRoutineIO ()  {
+
+	ParsingRoutineIO trainParsingRoutine = new ParsingRoutineIO () {
 
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
@@ -626,7 +624,7 @@ public class TrainPortfolio implements TrainHolderI {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode, Object aBank) {
 			Bank tBank;
-			
+
 			tBank = (Bank) aBank;
 			loadTrainFromBank (aChildNode, tBank);
 		}
@@ -636,7 +634,7 @@ public class TrainPortfolio implements TrainHolderI {
 		String tTrainName;
 		int tTrainStatus;
 		Train tTrain;
-		
+
 		tTrainName = aTrainNode.getThisAttribute (Train.AN_NAME);
 		tTrainStatus = aTrainNode.getThisIntAttribute (Train.AN_STATUS);
 		tTrain = aBank.getTrain (tTrainName);
@@ -649,8 +647,8 @@ public class TrainPortfolio implements TrainHolderI {
 				aBank.removeRustedTrain (tTrainName);
 				restoreTrain (aTrainNode, tTrainStatus, tTrain);
 			} else {
-				System.err.println ("Trying to load a " + tTrainName + 
-						" Not found in the Bank, Status should be " + tTrainStatus);
+				System.err.println (
+						"Trying to load a " + tTrainName + " Not found in the Bank, Status should be " + tTrainStatus);
 			}
 		}
 	}
@@ -661,15 +659,15 @@ public class TrainPortfolio implements TrainHolderI {
 		loadRouteForTrain (aTrain, aTrainNode, Train.EN_CURRENT_ROUTE);
 		loadRouteForTrain (aTrain, aTrainNode, Train.EN_PREVIOUS_ROUTE);
 	}
-	
+
 	public void loadRouteForTrain (Train aTrain, XMLNode aTrainNode, ElementName aElementName) {
 		XMLNodeList tXMLNodeList;
-		
+
 		tXMLNodeList = new XMLNodeList (trainRouteParsingRoutine, aTrain, this);
 		tXMLNodeList.parseXMLNodeList (aTrainNode, aElementName);
 	}
-	
-	ParsingRoutineIOO trainRouteParsingRoutine  = new ParsingRoutineIOO ()  {
+
+	ParsingRoutineIOO trainRouteParsingRoutine = new ParsingRoutineIOO () {
 
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
@@ -678,26 +676,26 @@ public class TrainPortfolio implements TrainHolderI {
 
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
-			System.err.println ("Found Node, but only one Object sent back");	
+			System.err.println ("Found Node, but only one Object sent back");
 		}
-		
+
 		@Override
 		public void foundItemMatchKey1 (XMLNode aRouteNode, Object aTrain, Object aTrainPortfolio) {
 			Train tTrain;
 			TrainPortfolio tTrainPortfolio;
-			
+
 			tTrain = (Train) aTrain;
 			tTrainPortfolio = (TrainPortfolio) aTrainPortfolio;
 			tTrain.loadRouteInformation (aRouteNode, tTrain, tTrainPortfolio);
 		}
 	};
-	
+
 	@Override
 	public boolean removeSelectedTrain () {
 		boolean tTrainRemoved;
 		int tIndex, tCount;
 		Train tTrain;
-		
+
 		tCount = getTrainCount ();
 		tTrainRemoved = false;
 		if (tCount > 0) {
@@ -707,42 +705,42 @@ public class TrainPortfolio implements TrainHolderI {
 					if (!(tTrain.isUnlimitedQuantity ())) {
 						trains.remove (tIndex);
 						tTrainRemoved = true;
-					} 
+					}
 				}
 			}
 		}
-		
+
 		return tTrainRemoved;
 	}
-	
+
 	@Override
 	public boolean removeTrain (String aTrainName) {
 		boolean tTrainRemoved;
 		int tIndex, tCount;
 		Train tTrain;
-		
+
 		tCount = getTrainCount ();
 		tTrainRemoved = false;
 		if (tCount > 0) {
 			for (tIndex = 0; (tIndex < tCount) && (tTrainRemoved == false); tIndex++) {
 				tTrain = trains.get (tIndex);
-				if (tTrain.getName ().equals(aTrainName)) {
+				if (tTrain.getName ().equals (aTrainName)) {
 					if (!(tTrain.isUnlimitedQuantity ())) {
 						trains.remove (tIndex);
 						tTrainRemoved = true;
-					} 
+					}
 				}
 			}
 		}
-		
+
 		return tTrainRemoved;
 	}
 
-	public void rustAllTrainsNamed (String aTrainName, TrainPortfolio aRustedTrainPortfolio, 
-			ActorI aCurrentHolder, Bank aBank, BuyTrainAction aBuyTrainAction) {
+	public void rustAllTrainsNamed (String aTrainName, TrainPortfolio aRustedTrainPortfolio, ActorI aCurrentHolder,
+			Bank aBank, BuyTrainAction aBuyTrainAction) {
 		Train tTrain;
 		int tCurrentTrainStatus;
-		
+
 		while (hasTrainNamed (aTrainName)) {
 			tTrain = getTrain (aTrainName);
 			tCurrentTrainStatus = tTrain.getStatus ();
@@ -752,7 +750,7 @@ public class TrainPortfolio implements TrainHolderI {
 			aBuyTrainAction.addRustTrainEffect (aCurrentHolder, tTrain, aBank, tCurrentTrainStatus);
 		}
 	}
-	
+
 	public void setTrainsAvailableStatus (int aOrder, int aTrainStatus) {
 		if (trains != null) {
 			for (Train tTrain : trains) {
@@ -762,22 +760,22 @@ public class TrainPortfolio implements TrainHolderI {
 			}
 		}
 	}
-	
+
 	public void setTrainsUnAvailable (int aOrder) {
 		setTrainsAvailableStatus (aOrder, Train.NOT_AVAILABLE);
 	}
-	
+
 	public void setTrainsAvailable (int aOrder) {
 		setTrainsAvailableStatus (aOrder, Train.AVAILABLE_FOR_PURCHASE);
 	}
-	
+
 	public void setTrainsStatus (int aOrder, int aStatus) {
 		setTrainsAvailableStatus (aOrder, aStatus);
 	}
 
 	public int getAvailableCount () {
 		int tAvailableCount = 0;
-		
+
 		for (Train tTrain : trains) {
 			if (tTrain.isAvailableForPurchase ()) {
 				tAvailableCount++;
@@ -785,27 +783,27 @@ public class TrainPortfolio implements TrainHolderI {
 		}
 		return tAvailableCount;
 	}
-	
+
 	public Train getNextAvailableTrain () {
 		Train tNextAvailableTrain;
-		Train tAvailableTrains [];
-		
+		Train tAvailableTrains[];
+
 		tAvailableTrains = getAvailableTrains ();
 		tNextAvailableTrain = tAvailableTrains [0];
-		
+
 		return tNextAvailableTrain;
 	}
-	
+
 	public Train [] getAvailableTrains () {
 		Train [] tAvailableTrains = new Train [getAvailableCount ()];
 		int tIndex = 0;
-		
+
 		for (Train tTrain : trains) {
 			if (tTrain.isAvailableForPurchase ()) {
 				tAvailableTrains [tIndex++] = tTrain;
 			}
 		}
-		
+
 		return tAvailableTrains;
 	}
 
@@ -824,64 +822,65 @@ public class TrainPortfolio implements TrainHolderI {
 	public int getMaxTrainSize () {
 		int tMaxTrainSize = 2;
 		int tTrainSize;
-		
+
 		for (Train tTrain : trains) {
 			tTrainSize = tTrain.getCityCount ();
 			if (tTrainSize > tMaxTrainSize) {
 				tMaxTrainSize = tTrainSize;
 			}
 		}
-		
+
 		return tMaxTrainSize;
 	}
 
 	public void fixLoadedRoutes (MapFrame aMapFrame) {
 		for (Train tTrain : trains) {
 			tTrain.fixLoadedRoutes (aMapFrame);
-		}	
+		}
 	}
 
 	public boolean startRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
-			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany,
+			TrainRevenueFrame aTrainRevenueFrame) {
 		Train tTrain;
 		boolean tRouteStarted = false;
-		
+
 		tTrain = trains.get (aTrainIndex);
 		if (tTrain != Train.NO_TRAIN) {
-			tRouteStarted = tTrain.startRouteInformation (aTrainIndex, aMapCell, aStartLocation, aEndLocation, aRoundID, aPhase, 
-					aTrainCompany, aTrainRevenueFrame);
+			tRouteStarted = tTrain.startRouteInformation (aTrainIndex, aMapCell, aStartLocation, aEndLocation, aRoundID,
+					aPhase, aTrainCompany, aTrainRevenueFrame);
 		}
-		
+
 		return tRouteStarted;
 	}
-	
+
 	public boolean extendRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
-			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany,
+			TrainRevenueFrame aTrainRevenueFrame) {
 		Train tTrain;
 		boolean tRouteExtended = false;
-		
+
 		tTrain = trains.get (aTrainIndex);
 		if (tTrain != Train.NO_TRAIN) {
-			tRouteExtended = tTrain.extendRouteInformation (aTrainIndex, aMapCell, aStartLocation, aEndLocation, aRoundID, aPhase, 
-					aTrainCompany, aTrainRevenueFrame);
+			tRouteExtended = tTrain.extendRouteInformation (aTrainIndex, aMapCell, aStartLocation, aEndLocation,
+					aRoundID, aPhase, aTrainCompany, aTrainRevenueFrame);
 		}
-		
+
 		return tRouteExtended;
-		
+
 	}
-	
-	public boolean setNewEndPoint (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
-							Location aEndLocation, String aRoundID, int aPhase, 
-							TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+
+	public boolean setNewEndPoint (int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation,
+			String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
 		Train tTrain;
 		boolean tRouteStarted = false;
-		
+
 		tTrain = trains.get (aTrainIndex);
 		if (tTrain != Train.NO_TRAIN) {
-			tRouteStarted = tTrain.setNewEndPoint (aTrainIndex, aMapCell, aStartLocation, aEndLocation, aRoundID, aPhase, 
-					aTrainCompany, aTrainRevenueFrame);
+			tRouteStarted = tTrain.setNewEndPoint (aTrainIndex, aMapCell, aStartLocation, aEndLocation, aRoundID,
+					aPhase, aTrainCompany, aTrainRevenueFrame);
 		}
-		
+
 		return tRouteStarted;
 	}
 
@@ -895,10 +894,10 @@ public class TrainPortfolio implements TrainHolderI {
 		int tCount = 0;
 		String tRustInfo = TrainInfo.NO_RUST;
 		String tTileInfo = Train.NO_TILE_INFO;
-		
+
 		for (Train tTrain : trains) {
 			tCurrentName = tTrain.getName ();
-			if (! tCurrentName.equals (tPreviousName)) {
+			if (!tCurrentName.equals (tPreviousName)) {
 				if (tCount > 0) {
 					tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tRustInfo, tTileInfo);
 					tTrainSummary += tTrainInfo;
@@ -920,18 +919,17 @@ public class TrainPortfolio implements TrainHolderI {
 			tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tRustInfo, tTileInfo);
 			tTrainSummary += tTrainInfo;
 		}
-		
+
 		return tTrainSummary;
 	}
 
-	public String buildTrainInfo (String aPreviousName, String aCost, int aCount, String aRustInfo,
-								String aTileInfo) {
+	public String buildTrainInfo (String aPreviousName, String aCost, int aCount, String aRustInfo, String aTileInfo) {
 		String tTrainInfo;
 		String tRustTileInfo;
-		
+
 		tRustTileInfo = aRustInfo;
-		if (! aTileInfo.equals (Train.NO_TILE_INFO)) {
-			if (! tRustTileInfo.equals (TrainInfo.NO_RUST)) {
+		if (!aTileInfo.equals (Train.NO_TILE_INFO)) {
+			if (!tRustTileInfo.equals (TrainInfo.NO_RUST)) {
 				tRustTileInfo += " and ";
 			}
 			tRustTileInfo += aTileInfo;
@@ -940,7 +938,7 @@ public class TrainPortfolio implements TrainHolderI {
 			tRustTileInfo = " ( " + tRustTileInfo + " )";
 		}
 		tTrainInfo = aPreviousName + " Train QTY: " + aCount + " " + aCost + tRustTileInfo + NEWLINE;
-		
+
 		return tTrainInfo;
 	}
 
@@ -959,17 +957,17 @@ public class TrainPortfolio implements TrainHolderI {
 			tTrain.updateTrainIndex (tTrainIndex);
 		}
 	}
-	
+
 	@Override
 	public boolean isATrainCompany () {
 		return portfolioHolder.isATrainCompany ();
 	}
-	
+
 	@Override
 	public boolean isACorporation () {
 		return portfolioHolder.isACorporation ();
 	}
-	
+
 	@Override
 	public boolean isABank () {
 		return portfolioHolder.isABank ();
@@ -979,17 +977,17 @@ public class TrainPortfolio implements TrainHolderI {
 	public boolean isABankPool () {
 		return portfolioHolder.isABankPool ();
 	}
-	
+
 	@Override
-	public int getTrainLimit() {
+	public int getTrainLimit () {
 		TrainCompany tTrainCompany;
 		int tTrainLimit = 0;
-		
+
 		if (isATrainCompany ()) {
 			tTrainCompany = (TrainCompany) portfolioHolder;
 			tTrainLimit = tTrainCompany.getTrainLimit ();
 		}
-		
+
 		return tTrainLimit;
 	}
 

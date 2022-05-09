@@ -22,34 +22,34 @@ public abstract class InformationTable extends JPanel {
 	String [] headers;
 	JTable table;
 	TableModel18XX tm18xx;
-	
+
 	public InformationTable () {
 		super ();
 	}
-	
+
 	public boolean addDataElement (Object aData, int aRowIndex, int aColIndex) {
 		return tm18xx.addDataElement (aData, aRowIndex, aColIndex);
 	}
-	
+
 	public boolean addHeader (String aHeader, int aColIndex) {
 		return tm18xx.addHeader (aHeader, aColIndex);
 	}
-	
+
 	public int getColCount () {
 		return tm18xx.getColumnCount ();
 	}
-	
+
 	public JTable getJTable () {
 		table = new JTable ();
-        table.setPreferredScrollableViewportSize (new Dimension (500, 70));
-		
+		table.setPreferredScrollableViewportSize (new Dimension (500, 70));
+
 		return table;
 	}
-	
+
 	public int getRowCount () {
 		return tm18xx.getRowCount ();
 	}
-	
+
 	public String getTypeName () {
 		return "Information List";
 	}
@@ -62,15 +62,15 @@ public abstract class InformationTable extends JPanel {
 			return false;
 		}
 	}
-	
+
 	public int maxColCount () {
 		return 0;
 	}
-	
+
 	public int maxRowCount () {
 		return 0;
 	}
-	
+
 	public void setModel () {
 		table.setModel (tm18xx);
 	}

@@ -22,7 +22,7 @@ class TileNameTests {
 	void test () {
 		TileName tTileName1;
 		TileName tTileName2;
-		
+
 		tTileName1 = new TileName ();
 		assertEquals (null, tTileName1.getName (), "Constructor with no Args ");
 		tTileName1 = new TileName ("San Diego");
@@ -32,7 +32,7 @@ class TileNameTests {
 		tTileName1 = new TileName ("Seattle", 20);
 		assertEquals ("San Diego", tTileName2.getName (), "Clone Tile Name 2");
 		assertEquals ("Seattle", tTileName1.getName (), "Constructor 2 Args");
-		
+
 		tTileName2.printlog ();
 	}
 

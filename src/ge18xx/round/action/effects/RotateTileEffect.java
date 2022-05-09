@@ -24,8 +24,8 @@ public class RotateTileEffect extends LayTileEffect {
 		super (aName);
 	}
 
-	public RotateTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
-			int aNewOrientation, int aPreviousOrientation, String aTokens, String aBases) {
+	public RotateTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aNewOrientation, int aPreviousOrientation,
+			String aTokens, String aBases) {
 		super (aActor, aMapCell, aTile, aNewOrientation, aTokens, aBases);
 		setName (NAME);
 		setPreviousOrientation (aPreviousOrientation);
@@ -55,7 +55,7 @@ public class RotateTileEffect extends LayTileEffect {
 		TileSet tTileSet;
 //		int tNewOrientation;
 //		int tCurrentOrientation;
-		
+
 		tEffectApplied = false;
 		tTileSet = aRoundManager.getTileSet ();
 		tGameMap = aRoundManager.getGameMap ();
@@ -71,7 +71,7 @@ public class RotateTileEffect extends LayTileEffect {
 				System.err.println ("Tile Allowed Rotation is " + tPossibleRotation);
 			}
 		}
-		
+
 		return tEffectApplied;
 	}
 
@@ -79,7 +79,7 @@ public class RotateTileEffect extends LayTileEffect {
 			HexMap aGameMap) {
 		int tNewOrientation;
 		int tCurrentOrientation;
-		
+
 		tCurrentOrientation = aMapCell.getTileOrient ();
 		aMapCell.setTileOrientationLocked (false);
 		if (tCurrentOrientation == orientation) {
@@ -89,7 +89,8 @@ public class RotateTileEffect extends LayTileEffect {
 			aMapCell.setTileOrient (orientation);
 			tNewOrientation = aMapCell.getTileOrient ();
 			if (tNewOrientation != orientation) {
-				System.err.println ("Tile was supposed to be Rotated to " + orientation + " which is NOT the same as current " + tNewOrientation );
+				System.err.println ("Tile was supposed to be Rotated to " + orientation
+						+ " which is NOT the same as current " + tNewOrientation);
 			} else {
 				applyTokens (aRoundManager, aMapCell);
 				applyBases (aRoundManager, aMapCell);
@@ -98,10 +99,10 @@ public class RotateTileEffect extends LayTileEffect {
 		}
 		aMapCell.setTileOrientationLocked (true);
 		aGameMap.redrawMap ();
-		
+
 		return aEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
@@ -121,7 +122,7 @@ public class RotateTileEffect extends LayTileEffect {
 			tGameMap.redrawMap ();
 			tEffectUndone = true;
 		}
-		
+
 		return tEffectUndone;
 	}
 }

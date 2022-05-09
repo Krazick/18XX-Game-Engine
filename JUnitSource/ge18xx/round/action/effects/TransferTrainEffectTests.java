@@ -32,13 +32,13 @@ class TransferTrainEffectTests {
 	Train train;
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp () throws Exception {
 		String tClientName;
-		
+
 		tClientName = "TFBuster";
 		testFactory = new GameTestFactory ();
 		companyTestFactory = new CompanyTestFactory (testFactory);
-		gameManager =  testFactory.buildGameManager (tClientName);
+		gameManager = testFactory.buildGameManager (tClientName);
 		playerManager = new PlayerManager (gameManager);
 		effectAlpha = new TransferTrainEffect ();
 		actorBeta = companyTestFactory.buildAShareCompany (1);
@@ -50,14 +50,14 @@ class TransferTrainEffectTests {
 
 	@Test
 	@DisplayName ("Simple Constructor Tests")
-	void test() {
+	void test () {
 		String tReportResult = "--Effect: Transfer Train named Test2 from TestPennsylvania to Test Baltimore and Ohio.";
 		ShareCompany tShareActor;
 		ShareCompany tToShareActor;
 
 		assertFalse (effectAlpha.actorIsSet (), "Actor is Set");
 		assertEquals (ActorI.NO_NAME, effectAlpha.getToActorName ());
-		
+
 		assertTrue (effectBeta.actorIsSet (), "Actor is not Set");
 		assertEquals ("Transfer Train", effectBeta.getName ());
 		assertEquals ("TestPennsylvania", effectBeta.getActorName ());
@@ -70,7 +70,7 @@ class TransferTrainEffectTests {
 		assertNotNull (effectBeta.getToActorName ());
 		assertEquals ("Test Baltimore and Ohio", effectBeta.getToActorName ());
 		assertEquals ("Test Baltimore and Ohio", tToShareActor.getName ());
-		
+
 		assertNull (actorZeta);
 	}
 }

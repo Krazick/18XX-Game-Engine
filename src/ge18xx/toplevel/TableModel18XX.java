@@ -14,10 +14,10 @@ public class TableModel18XX extends AbstractTableModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String[] headers;
-    private Object[][] data;
+	private String [] headers;
+	private Object [] [] data;
 	int rowCount, colCount;
-	
+
 	public TableModel18XX (int aRowCount, int aColCount) {
 		data = new Object [aRowCount] [aColCount];
 		headers = new String [aColCount];
@@ -27,34 +27,34 @@ public class TableModel18XX extends AbstractTableModel {
 
 	public boolean addDataElement (Object aData, int aRowIndex, int aColIndex) {
 		boolean tGoodAdd = false;
-		
+
 		if ((aRowIndex >= 0) && (aRowIndex < rowCount)) {
 			if ((aColIndex >= 0) && (aColIndex < colCount)) {
 				setValueAt (aData, aRowIndex, aColIndex);
 				tGoodAdd = true;
 			}
 		}
-		
+
 		return tGoodAdd;
 	}
-	
+
 	public boolean addHeader (String aHeader, int aColIndex) {
 		boolean tGoodAdd;
-		
+
 		if ((aColIndex >= 0) && (aColIndex <= colCount)) {
 			headers [aColIndex] = aHeader;
 			tGoodAdd = true;
 		} else {
 			tGoodAdd = false;
 		}
-		
+
 		return tGoodAdd;
 	}
-	
-    @Override
+
+	@Override
 	public Class<?> getColumnClass (int col) {
 		Object tValueAt;
-		
+
 		if ((col >= 0) && (col < colCount)) {
 			tValueAt = getValueAt (0, col);
 			if (tValueAt != null) {
@@ -65,28 +65,28 @@ public class TableModel18XX extends AbstractTableModel {
 		} else {
 			return "DUMMY".getClass ();
 		}
-    }
-	
-    @Override
+	}
+
+	@Override
 	public int getColumnCount () {
-        return headers.length;
-    }
-	
-    @Override
+		return headers.length;
+	}
+
+	@Override
 	public String getColumnName (int col) {
 		if ((col >= 0) && (col < colCount)) {
 			return headers [col];
 		} else {
 			return "";
 		}
-    }
-	
-    @Override
+	}
+
+	@Override
 	public int getRowCount () {
-        return data.length;
-    }
-	
-    @Override
+		return data.length;
+	}
+
+	@Override
 	public Object getValueAt (int row, int col) {
 		if ((row >= 0) && (row < rowCount)) {
 			if ((col >= 0) && (col < colCount)) {
@@ -101,30 +101,28 @@ public class TableModel18XX extends AbstractTableModel {
 		} else {
 			return "";
 		}
-    }
-	
-    /*
-     * Don't need to implement this method unless your table's
-     * editable.
-     */
-    @Override
+	}
+
+	/*
+	 * Don't need to implement this method unless your table's editable.
+	 */
+	@Override
 	public boolean isCellEditable (int row, int col) {
-        //Note that the data/cell address is constant,
-        //no matter where the cell appears onscreen.
-        if (col < 2) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-	
-    /*
-     * Don't need to implement this method unless your table's
-     * data can change.
-     */
-    @Override
+		// Note that the data/cell address is constant,
+		// no matter where the cell appears onscreen.
+		if (col < 2) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/*
+	 * Don't need to implement this method unless your table's data can change.
+	 */
+	@Override
 	public void setValueAt (Object value, int row, int col) {
-        data [row] [col] = value;
-        fireTableCellUpdated (row, col);
-    }
+		data [row] [col] = value;
+		fireTableCellUpdated (row, col);
+	}
 }

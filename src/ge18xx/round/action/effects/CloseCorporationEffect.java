@@ -22,11 +22,11 @@ public class CloseCorporationEffect extends ChangeCorporationStatusEffect {
 	public CloseCorporationEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tActorFullName;
-		
+
 		tActorFullName = actor.getName ();
 		if (actor.isAPrivateCompany ()) {
 			tActorFullName = tActorFullName + " (Private)";

@@ -16,9 +16,9 @@ class CorporationStatusUpdateTests {
 	PrivateCompany gammaPrivateCompany;
 	MinorCompany deltaMinorCompany;
 	CompanyTestFactory companyTestFactory;
-	
+
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp () throws Exception {
 		companyTestFactory = new CompanyTestFactory ();
 		alphaShareCompany = companyTestFactory.buildAShareCompany (1);
 		betaShareCompany = companyTestFactory.buildAShareCompany (2);
@@ -31,17 +31,17 @@ class CorporationStatusUpdateTests {
 	void testUpdatingUnownedStatus () {
 		assertEquals ("Unowned", alphaShareCompany.getStatusName ());
 		alphaShareCompany.setStatus (ActorI.ActionStates.Owned);
-		
+
 		assertEquals ("Owned", alphaShareCompany.getStatusName ());
 		betaShareCompany.setStatus (ActorI.ActionStates.Unformed);
 		assertEquals ("Unformed", betaShareCompany.getStatusName ());
-		
+
 		assertEquals ("Unowned", gammaPrivateCompany.getStatusName ());
 		gammaPrivateCompany.setStatus (ActorI.ActionStates.Owned);
 		assertEquals ("Owned", gammaPrivateCompany.getStatusName ());
 
 	}
-	
+
 	@Test
 	@DisplayName ("Update Status from Owned to next State")
 	void testUpdatingOwnedStatus () {
@@ -51,11 +51,11 @@ class CorporationStatusUpdateTests {
 		betaShareCompany.setStatus (ActorI.ActionStates.Owned);
 		betaShareCompany.setStatus (ActorI.ActionStates.MayFloat);
 		assertEquals ("May Float", betaShareCompany.getStatusName ());
-		
+
 		alphaShareCompany.forceSetStatus (ActorI.ActionStates.Owned);
 		alphaShareCompany.setStatus (ActorI.ActionStates.WillFloat);
 		assertEquals ("Will Float", alphaShareCompany.getStatusName ());
-		
+
 		betaShareCompany.forceSetStatus (ActorI.ActionStates.Owned);
 		betaShareCompany.setStatus (ActorI.ActionStates.Closed);
 		assertEquals ("Closed", betaShareCompany.getStatusName ());
@@ -63,7 +63,7 @@ class CorporationStatusUpdateTests {
 		alphaShareCompany.forceSetStatus (ActorI.ActionStates.Owned);
 		alphaShareCompany.setStatus (ActorI.ActionStates.NotOperated);
 		assertNotEquals ("Not Operated", alphaShareCompany.getStatusName ());
-		
+
 		gammaPrivateCompany.setStatus (ActorI.ActionStates.Owned);
 		gammaPrivateCompany.setStatus (ActorI.ActionStates.Closed);
 		assertEquals ("Closed", gammaPrivateCompany.getStatusName ());
@@ -75,7 +75,7 @@ class CorporationStatusUpdateTests {
 		deltaMinorCompany.forceSetStatus (ActorI.ActionStates.Owned);
 		deltaMinorCompany.setStatus (ActorI.ActionStates.WillFloat);
 		assertEquals ("Will Float", deltaMinorCompany.getStatusName ());
-		
+
 		deltaMinorCompany.forceSetStatus (ActorI.ActionStates.Owned);
 		deltaMinorCompany.setStatus (ActorI.ActionStates.NotOperated);
 		assertNotEquals ("Not Operated", deltaMinorCompany.getStatusName ());

@@ -13,7 +13,7 @@ public class SetHasLaidTileEffect extends Effect {
 	public final static String NAME = "Set Has Laid Tile";
 	final static AttributeName AN_HAS_LAID_TILE = new AttributeName ("hasLaidTile");
 	boolean hasLaidTile;
-	
+
 	public SetHasLaidTileEffect () {
 		super ();
 		setName (NAME);
@@ -26,7 +26,7 @@ public class SetHasLaidTileEffect extends Effect {
 	public SetHasLaidTileEffect (String aName, ActorI aActor) {
 		super (aName, aActor);
 	}
-	
+
 	public SetHasLaidTileEffect (ActorI aActor, boolean aHasLaidTile) {
 		super (NAME, aActor);
 		setHasLaidTile (aHasLaidTile);
@@ -36,41 +36,40 @@ public class SetHasLaidTileEffect extends Effect {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_HAS_LAID_TILE, hasLaidTile);
-		
+
 		return tEffectElement;
 	}
 
 	public void setHasLaidTile (boolean aHasLaidTile) {
 		hasLaidTile = aHasLaidTile;
 	}
-	
+
 	public boolean getHasLaidTile () {
 		return hasLaidTile;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " +  actor.getName () + ".");
+		return (REPORT_PREFIX + name + " for " + actor.getName () + ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
-	
 
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		TrainCompany tTrainCompany;
-		
+
 		tEffectApplied = false;
 		if (actor.isATrainCompany ()) {
 			tTrainCompany = (TrainCompany) actor;
@@ -85,7 +84,7 @@ public class SetHasLaidTileEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		TrainCompany tTrainCompany;
-		
+
 		tEffectUndone = false;
 		if (actor.isATrainCompany ()) {
 			tTrainCompany = (TrainCompany) actor;

@@ -25,17 +25,17 @@ public class Bidders {
 		bidders = new LinkedList<Bidder> ();
 		certificate = aCertificate;
 	}
-	
+
 	public void addBidderInfo (CashHolderI aCashHolder, int aAmount) {
 		Bidder tBidder;
-		
+
 		tBidder = new Bidder (aCashHolder, aAmount);
 		bidders.add (tBidder);
 	}
-	
+
 	public boolean hasBidOnThisCert (Player aPlayer) {
 		String tPlayerName;
-		
+
 		tPlayerName = aPlayer.getName ();
 		return hasBidOnThisCert (tPlayerName);
 	}
@@ -44,42 +44,42 @@ public class Bidders {
 		boolean tPlayerAlreadyBid = false;
 		int tBidderCount;
 		CashHolderI tThisBidder;
-		
+
 		tBidderCount = bidders.size ();
 		if (tBidderCount > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
 				tThisBidder = getCashHolderAt (tBidderIndex);
-				
+
 				if (aPlayerName.equals (tThisBidder.getName ())) {
 					tPlayerAlreadyBid = true;
 				}
 			}
 		}
-		
+
 		return tPlayerAlreadyBid;
 	}
-	
+
 	public int getNumberOfBidders () {
 		return bidders.size ();
 	}
-	
+
 	public String getBidderNames () {
 		String tBidderNames = "";
-		
+
 		for (Bidder tBidder : bidders) {
-			if (tBidderNames.length() > 0) {
+			if (tBidderNames.length () > 0) {
 				tBidderNames += ", ";
 			}
 			tBidderNames += tBidder.getName ();
 		}
-		
+
 		return tBidderNames;
 	}
 
 	public XMLElement getOnlyBiddersElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLBidders = NO_BIDDERS;
 		XMLElement tXMLBidderElement;
-		
+
 		if (bidders.size () > 0) {
 			tXMLBidders = aXMLDocument.createElement (EN_BIDDERS);
 			for (Bidder tBidder : bidders) {
@@ -87,41 +87,41 @@ public class Bidders {
 				tXMLBidders.appendChild (tXMLBidderElement);
 			}
 		}
-		
+
 		return tXMLBidders;
 	}
-	
+
 	public Bidder getBidderAt (int aIndex) {
 		return bidders.get (aIndex);
 	}
-	
+
 	public CashHolderI getCashHolderAt (int aIndex) {
 		Bidder tBidder;
 		CashHolderI tCashHolder;
-		
+
 		if (bidders.size () > 0) {
 			tBidder = bidders.get (aIndex);
 			tCashHolder = tBidder.getCashHolder ();
 		} else {
 			tCashHolder = (CashHolderI) ActorI.NO_ACTOR;
 		}
-		
+
 		return tCashHolder;
 	}
-	
+
 	public int getBidAt (int aIndex) {
 		Bidder tBidder;
-		
+
 		tBidder = bidders.get (aIndex);
-		
+
 		return tBidder.getAmount ();
 	}
-	
+
 	public int getHighestBid () {
 		int tHighestBid = certificate.getValue ();
 		int tNumberOfBidders = getNumberOfBidders ();
 		int tBidAt;
-		
+
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidAt = getBidAt (tBidderIndex);
@@ -130,16 +130,16 @@ public class Bidders {
 				}
 			}
 		}
-		
+
 		return tHighestBid;
 	}
-	
+
 	public int getLowestBidderIndex () {
 		int tLowestBid = certificate.getValue ();
 		int tNumberOfBidders = getNumberOfBidders ();
 		int tBidAt;
 		int tLowestBidderIndex = NO_BIDDER;
-		
+
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidAt = getBidAt (tBidderIndex);
@@ -149,7 +149,7 @@ public class Bidders {
 				}
 			}
 		}
-		
+
 		return tLowestBidderIndex;
 	}
 
@@ -158,7 +158,7 @@ public class Bidders {
 		int tNumberOfBidders = getNumberOfBidders ();
 		int tBidAt;
 		int tHighestBidderIndex = NO_BIDDER;
-		
+
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidAt = getBidAt (tBidderIndex);
@@ -168,28 +168,28 @@ public class Bidders {
 				}
 			}
 		}
-		
+
 		return tHighestBidderIndex;
 	}
-	
+
 	public int getRaiseAmount (int aBidderIndex) {
 		int tRaiseAmount;
 		int tCurrentBid = getBidAt (aBidderIndex);
 		int tHighestBid = getHighestBid ();
-		
+
 		tRaiseAmount = (tHighestBid + PlayerManager.BID_INCREMENT) - tCurrentBid;
-		
+
 		return tRaiseAmount;
 	}
-	
+
 	public boolean hasBidders () {
 		return (bidders.size () > 0);
 	}
-	
+
 	public boolean haveOnlyOneBidderLeft () {
 		boolean tHaveOnlyOneBidderLeft = false;
 		int tBidderPassCount = 0;
-		
+
 		if (getNumberOfBidders () > 1) {
 			for (Bidder tBidder : bidders) {
 				if (tBidder.hasPassed ()) {
@@ -199,19 +199,19 @@ public class Bidders {
 			if ((tBidderPassCount + 1) == getNumberOfBidders ()) {
 				tHaveOnlyOneBidderLeft = true;
 			}
-			
+
 		} else {
 			tHaveOnlyOneBidderLeft = true;
 		}
-		
+
 		return tHaveOnlyOneBidderLeft;
 	}
-	
+
 	public void removeBidder (CashHolderI aCashHolder) {
 		int tNumberOfBidders = getNumberOfBidders ();
 		CashHolderI tBidder;
 		Player tPlayer;
-		
+
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidder = getCashHolderAt (tBidderIndex);
@@ -223,19 +223,19 @@ public class Bidders {
 			}
 		}
 	}
-	
+
 	public void passBidFor (int aBidderIndex) {
 		Bidder tBidder = bidders.get (aBidderIndex);
 		tBidder.passBid ();
 	}
-	
+
 	public void raiseBidFor (int aBidderIndex) {
 		int tRaiseAmount = getRaiseAmount (aBidderIndex);
 		Bidder tBidder = bidders.get (aBidderIndex);
-		
+
 		tBidder.raiseBid (certificate, tRaiseAmount);
 	}
-	
+
 	public void refundBids (WinAuctionAction aWinAuctionAction) {
 		int tNumberOfBidders = getNumberOfBidders ();
 		int tBid;
@@ -251,18 +251,18 @@ public class Bidders {
 			}
 		}
 	}
-	
+
 	public void removeAllBids () {
 		int tNumberOfBidders = getNumberOfBidders ();
-		
+
 		if (tNumberOfBidders > 0) {
 			bidders.clear ();
 		}
 	}
-	
+
 	public void setBidAt (int aIndex, int aAmount) {
 		Bidder tBidder;
-		
+
 		tBidder = bidders.get (aIndex);
 		tBidder.setAmount (aAmount);
 	}
@@ -270,7 +270,7 @@ public class Bidders {
 	public void setBiddersAsRaiseBid () {
 		int tNumberOfBidders = getNumberOfBidders ();
 		Player tBidder;
-		
+
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidder = (Player) getCashHolderAt (0);
@@ -284,7 +284,7 @@ public class Bidders {
 		Player tBidder;
 		Bidder tAsBidder;
 		int tBidderIndex;
-		
+
 		if (tNumberOfBidders > 0) {
 			for (tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tAsBidder = bidders.get (tBidderIndex);
@@ -300,11 +300,11 @@ public class Bidders {
 	public int getCount () {
 		return bidders.size ();
 	}
-	
+
 	public void printAllBidderEscrows () {
 		int tNumberOfBidders = getNumberOfBidders ();
 		Player tBidder;
-		
+
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidder = (Player) getCashHolderAt (tBidderIndex);
@@ -313,38 +313,38 @@ public class Bidders {
 			}
 		}
 	}
-	
-	public int getTotalEscrows() {
+
+	public int getTotalEscrows () {
 		int tTotalEscrows = 0;
 		int tBidderCount;
-	
+
 		tBidderCount = bidders.size ();
 		if (tBidderCount > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
 				tTotalEscrows += getBidAt (tBidderIndex);
 			}
 		}
-		
+
 		return tTotalEscrows;
 	}
-	
+
 	public void addBidderInfo (XMLNode aBiddersNode) {
 		XMLNodeList tXMLBiddersNodeList;
-		
+
 		tXMLBiddersNodeList = new XMLNodeList (bidderParsingRoutine);
 		tXMLBiddersNodeList.parseXMLNodeList (aBiddersNode, Bidder.EN_BIDDER);
 	}
-			
-	ParsingRoutineI bidderParsingRoutine  = new ParsingRoutineI ()  {
+
+	ParsingRoutineI bidderParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aBidderNode) {
 			String tBidderName;
 			int tCash;
 			CashHolderI tCashHolder;
-			
+
 			tBidderName = aBidderNode.getThisAttribute (Bidder.AN_NAME);
 			tCash = aBidderNode.getThisIntAttribute (Bidder.AN_CASH);
-			if (! hasBidOnThisCert (tBidderName)) {
+			if (!hasBidOnThisCert (tBidderName)) {
 				tCashHolder = certificate.getCashHolderByName (tBidderName);
 				if (tCashHolder != ActorI.NO_ACTOR) {
 					addBidderInfo (tCashHolder, tCash);

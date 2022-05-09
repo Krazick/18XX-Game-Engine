@@ -14,21 +14,21 @@ public class GameSupportHandler {
 	private final static Pattern GS_WITH_GAME_ID_PATTERN = Pattern.compile (GS_WITH_GAME_ID);
 	private final static String GSR_WITH_GAME_ID = "<" + GS_RESPONSE_TAG + " gameID=\"" + GAME_ID + "\">";
 	private final static Pattern GSR_WITH_GAME_ID_PATTERN = Pattern.compile (GSR_WITH_GAME_ID);
-	
+
 	public GameSupportHandler (JGameClient aJGameClient) {
 		setWaitingForResponse (false);
 		setResponse ("");
 		setJGameClient (aJGameClient);
 	}
-	
+
 	private void setJGameClient (JGameClient aJGameClient) {
 		jGameClient = aJGameClient;
 	}
-	
+
 	public void setWaitingForResponse (boolean aWaiting) {
 		waitingForResponse = aWaiting;
 	}
-	
+
 	public void setResponse (String aResponse) {
 		response = aResponse;
 	}
@@ -36,31 +36,31 @@ public class GameSupportHandler {
 	public boolean waiting () {
 		return waitingForResponse;
 	}
-	
+
 	public String getResponse () {
 		return response;
 	}
-	
+
 	public void handleGSResponse (String aGSResponse) {
 		setResponse (aGSResponse);
 		setWaitingForResponse (false);
 	}
-	
+
 	public void holdRequestTillReady () {
 		while (waitingForResponse) {
 			try {
 				Thread.sleep (waitTime + 1);
 			} catch (InterruptedException e) {
 				System.err.println ("Waiting for the Response to Clear - Exception");
-				e.printStackTrace();
+				e.printStackTrace ();
 			}
 		}
 	}
-	
+
 	public String requestGameSupport (String aRequest) {
 		ServerHandler tServerHandler;
 		boolean tWaitForResponse = true;
-		
+
 		holdRequestTillReady ();
 		setWaitingForResponse (tWaitForResponse);
 		tServerHandler = jGameClient.getServerHandler ();
@@ -73,42 +73,41 @@ public class GameSupportHandler {
 				e.printStackTrace ();
 			}
 		}
-		
+
 		return response;
 	}
-	
+
 	public String getGameIDFromRequest (String aRequest) {
 		Matcher tMatcher = GS_WITH_GAME_ID_PATTERN.matcher (aRequest);
 		String tFoundGameID = JGameClient.NO_GAME_ID;
-		
+
 		if (tMatcher.find ()) {
 			tFoundGameID = tMatcher.group (1);
 		}
-		
+
 		return tFoundGameID;
 	}
 
-	
 	public String getGameIDFromNetworkResponse (String aResponse) {
 		Matcher tMatcher = GSR_WITH_GAME_ID_PATTERN.matcher (aResponse);
 		String tFoundGameID = JGameClient.NO_GAME_ID;
-		
+
 		if (tMatcher.find ()) {
 			tFoundGameID = tMatcher.group (1);
 		}
-		
+
 		return tFoundGameID;
 	}
-	
+
 	public String retrieveGameID () {
 		String tGameIDRequest;
 		String tGameID;
 		String tResponse;
-		
+
 		tGameIDRequest = JGameClient.GAME_SUPPORT_PREFIX + " <GS><GameIDRequest></GS>";
 		tResponse = requestGameSupport (tGameIDRequest);
 		tGameID = getGameIDFromNetworkResponse (tResponse);
-		
+
 		return tGameID;
 	}
 }

@@ -36,19 +36,19 @@ class ResponseOfferEffectTestConstructor {
 	Certificate certificate;
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp () throws Exception {
 		String tClientName, tPlayer2Name, tPlayer3Name;
 		Portfolio tPortfolioAlpha;
 		boolean tResponse;
 		String tItemType;
 		String tItemName;
-		
+
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterAlpha";
 		tPlayer3Name = "ToEffectTesterDelta";
 		testFactory = new GameTestFactory ();
 		companyTestFactory = new CompanyTestFactory (testFactory);
-		mGameManager =  testFactory.buildGameManagerMock (tClientName);
+		mGameManager = testFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasCoals ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
@@ -60,7 +60,7 @@ class ResponseOfferEffectTestConstructor {
 		companyBeta = companyTestFactory.buildAShareCompany (1);
 		companyGamma = companyTestFactory.buildAShareCompany (2);
 		tPortfolioAlpha = playerActorAlpha.getPortfolio ();
-		
+
 		certificate = new Certificate (companyBeta, true, 20, tPortfolioAlpha);
 		tPortfolioAlpha.addCertificate (certificate);
 		effectAlpha = new ResponseOfferEffect ();
@@ -78,21 +78,21 @@ class ResponseOfferEffectTestConstructor {
 	@DisplayName ("Simple Response to Offer Tests")
 	void simpleResponseToOfferTests () {
 		Player tFoundPlayer;
-		
+
 		assertFalse (effectAlpha.actorIsSet (), "Actor is Set");
 		assertTrue (effectBeta.actorIsSet (), "Actor is not Set");
 		assertEquals ("Response To Offer", effectBeta.getName ());
 		assertEquals ("ToEffectTesterAlpha", effectBeta.getActorName ());
 		assertEquals ("ToEffectTesterDelta", effectBeta.getToActorName ());
-		
+
 		assertTrue (effectBeta.getResponse ());
 		assertEquals ("Stock", effectBeta.getItemType ());
 		assertEquals ("TestPennsylvania", effectBeta.getItemName ());
-		
+
 		tFoundPlayer = (Player) effectBeta.getToActor ();
 		assertEquals ("ToEffectTesterDelta", tFoundPlayer.getName ());
 	}
-	
+
 	@Test
 	@DisplayName ("Reports from Response to Offer Tests")
 	void reportsFromResponseToOfferTests () {
@@ -100,13 +100,13 @@ class ResponseOfferEffectTestConstructor {
 		String tReportResponseFalse = "--Effect:  The offer from ToEffectTesterDelta to buy TestPennsylvania Stock sent to ToEffectTesterAlpha was Rejected";
 		String tReportResponseNoTO = "--Effect:  The offer from NULL to buy TestPennsylvania Stock sent to ToEffectTesterAlpha was Rejected";
 		String tReportResponseEpsilon = "--Effect:  The offer from ToEffectTesterDelta to buy TestPennsylvania Stock sent to  President of TestPennsylvania (TPRR) was Rejected";
-		
+
 		assertEquals (tReportResponseTrue, effectBeta.getEffectReport (null));
 		assertEquals (tReportResponseFalse, effectChi.getEffectReport (null));
-		
+
 		effectChi.setToActor (Corporation.NO_ACTOR);
 		assertEquals (tReportResponseNoTO, effectChi.getEffectReport (null));
-		
+
 		assertEquals (tReportResponseEpsilon, effectEpsilon.getEffectReport (null));
 	}
 

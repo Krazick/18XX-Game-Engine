@@ -21,14 +21,14 @@ public class FloatCompanyAction extends CashTransferAction {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
-		tSimpleActionReport = actor.getName () + " was floated and obtained "  + 
-				 Bank.formatCash (getCashAmount ()) + " in starting Capital from the Bank.";
-		
+
+		tSimpleActionReport = actor.getName () + " was floated and obtained " + Bank.formatCash (getCashAmount ())
+				+ " in starting Capital from the Bank.";
+
 		return tSimpleActionReport;
 	}
 }

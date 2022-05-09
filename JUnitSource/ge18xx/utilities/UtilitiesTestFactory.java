@@ -6,18 +6,18 @@ public class UtilitiesTestFactory {
 	public UtilitiesTestFactory () {
 		theXMLDocument = new XMLDocument ();
 	}
-	
+
 	public XMLNode constructXMLNode (String aXMLText) {
 		XMLNode tXMLNode;
-		
+
 		theXMLDocument = theXMLDocument.ParseXMLString (aXMLText);
-		
+
 		if (theXMLDocument.ValidDocument ()) {
 			tXMLNode = theXMLDocument.getDocumentElement ();
 		} else {
 			tXMLNode = XMLNode.NO_NODE;
 		}
-		
+
 		return tXMLNode;
 	}
 

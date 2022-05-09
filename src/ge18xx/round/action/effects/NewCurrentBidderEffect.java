@@ -8,7 +8,7 @@ import ge18xx.utilities.XMLNode;
 
 public class NewCurrentBidderEffect extends ChangePlayerEffect {
 	public final static String NAME = "New Current Bidder";
-	
+
 	public NewCurrentBidderEffect (ActorI aActor, int aPreviousBidder, int aNewBidder) {
 		super (aActor, aPreviousBidder, aNewBidder);
 		setName (NAME);
@@ -17,7 +17,7 @@ public class NewCurrentBidderEffect extends ChangePlayerEffect {
 	public NewCurrentBidderEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
@@ -30,7 +30,7 @@ public class NewCurrentBidderEffect extends ChangePlayerEffect {
 		tAuctionRound.setNewBidderJPanelColor (newPlayerIndex);
 		tAuctionRound.updateBidderJPanels ();
 		tAuctionRound.showAuctionFrame ();
-		
+
 		return tEffectApplied;
 	}
 

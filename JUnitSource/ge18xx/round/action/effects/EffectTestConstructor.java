@@ -30,15 +30,15 @@ class EffectTestConstructor {
 	PlayerManager playerManager;
 	private String GENERIC_EFFECT = "Generic";
 	GameTestFactory testFactory;
-	
+
 	@BeforeEach
 	void setUp () throws Exception {
 		String tClientName, tPlayer2Name;
-		
+
 		tClientName = "TFBuster";
 		tPlayer2Name = "EffectTesterBeta";
 		testFactory = new GameTestFactory ();
-		mGameManager =  testFactory.buildGameManagerMock (tClientName);
+		mGameManager = testFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasCoals ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
@@ -54,17 +54,17 @@ class EffectTestConstructor {
 	@DisplayName ("Simple Effect Tests")
 	void simpleConstructorTests () {
 		Player tFoundPlayer;
-		
+
 		assertFalse (effectAlpha.actorIsSet (), "Actor is Set");
 		assertTrue (effectBeta.actorIsSet (), "Actor is not Set");
 		assertEquals (GENERIC_EFFECT, effectBeta.getName ());
 		assertEquals ("EffectTesterBeta", effectBeta.getActorName ());
-		
+
 		tFoundPlayer = (Player) effectBeta.getActor ();
 		assertEquals ("EffectTesterBeta", tFoundPlayer.getName ());
 		assertEquals ("--Effect: Generic for EffectTesterBeta to TFBuster.", effectBeta.getEffectReport (null));
 		assertEquals (effectBeta.getToActorName (), "TFBuster");
-		
+
 		assertTrue (effectBeta.undoEffect (RoundManager.NO_ROUND_MANAGER));
 		assertFalse (effectBeta.wasNewStateAuction ());
 		assertFalse (effectBeta.applyEffect (RoundManager.NO_ROUND_MANAGER));
@@ -79,20 +79,20 @@ class EffectTestConstructor {
 		XMLElement tXMLElement, tFullElement;
 		String tXMLFormatted;
 		String tExpected = "";
-		
+
 		tXMLDocument = new XMLDocument ();
-		tFullElement = tXMLDocument.createElement (tEN_TEST); 
+		tFullElement = tXMLDocument.createElement (tEN_TEST);
 		tXMLElement = effectBeta.getEffectElement (tXMLDocument, tAN_TEST);
-		tFullElement.appendChild (tXMLElement); 
+		tFullElement.appendChild (tXMLElement);
 		tXMLDocument.appendChild (tFullElement);
 		tXMLFormatted = tXMLDocument.toString ();
 		tExpected += "<EnTest>\n";
 		tExpected += "<Effect class=\"ge18xx.round.action.effects.ToEffect\" fromActor=\"EffectTesterBeta\" isAPrivate=\"false\" name=\"Generic\" toActor=\"TFBuster\"/>\n";
 		tExpected += "</EnTest>\n";
-		
+
 		assertEquals (tExpected, tXMLFormatted);
 	}
-	
+
 	@Test
 	@DisplayName ("Test Benefit Aspects")
 	void testBenefitAspects () {
@@ -100,21 +100,21 @@ class EffectTestConstructor {
 		effectBeta.setBenefitName ("Test Benefit");
 		effectBeta.setBenefitPrivateAbbrev ("TPA");
 		effectBeta.setBenefitUsed (false);
-		
+
 		assertEquals ("Test Benefit", effectBeta.getBenefitName ());
 		assertEquals ("TPA", effectBeta.getBenefitPrivateAbbrev ());
 		assertEquals ("Test Benefit Benefit from TPA.", effectBeta.getBenefitEffectReport ());
 		effectBeta.setBenefitUsed (true);
 		assertEquals ("Used Test Benefit Benefit from TPA.", effectBeta.getBenefitEffectReport ());
 	}
-	
+
 	@Test
 	@DisplayName ("Using RoundManager Test")
 	void useOfRoundManagerTests () {
 		RoundManager tRoundManager;
 		RoundTestFactory tRoundTestFactory;
 		String tEffectReport;
-		
+
 		tRoundTestFactory = new RoundTestFactory ();
 		tRoundManager = tRoundTestFactory.buildRoundManager ();
 		tEffectReport = effectBeta.getEffectReport (tRoundManager);

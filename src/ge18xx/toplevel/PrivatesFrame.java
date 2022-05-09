@@ -25,21 +25,21 @@ public class PrivatesFrame extends CorporationTableFrame {
 	public static final PrivatesFrame NO_PRIVATES_FRAME = null;
 	public static final ElementName EN_PRIVATES = new ElementName (BASE_TYPE + "s");
 	private static final long serialVersionUID = 1L;
-	
+
 	public PrivatesFrame (String aFrameName, RoundManager aRoundManager) {
 		super (aFrameName, CorporationList.TYPE_NAMES [0], aRoundManager);
 	}
-	
+
 	@Override
 	public boolean anyPrivatesUnowned () {
 		return companies.anyPrivatesUnowned ();
 	}
-	
+
 	@Override
 	public void applyCloseToPrivates () {
 		companies.applyClose ();
 	}
-	
+
 	@Override
 	public void removeAllBids () {
 		companies.removeAllBids ();
@@ -47,10 +47,9 @@ public class PrivatesFrame extends CorporationTableFrame {
 
 	public JPanel buildPrivatesForPurchaseJPanel (ItemListener aItemListener, int aAvailableCash) {
 		JPanel tPrivatesJPanel;
-		
-		tPrivatesJPanel = companies.buildCompaniesForPurchaseJPanel (aItemListener, 
-				BASE_TYPE, aAvailableCash);
-		
+
+		tPrivatesJPanel = companies.buildCompaniesForPurchaseJPanel (aItemListener, BASE_TYPE, aAvailableCash);
+
 		return tPrivatesJPanel;
 	}
 
@@ -58,7 +57,7 @@ public class PrivatesFrame extends CorporationTableFrame {
 	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
 		return (super.getCorporationStateElements (aXMLDocument, EN_PRIVATES));
 	}
-	
+
 	public boolean gameHasPrivates () {
 		if (getCountOfCompanies () > 0) {
 			return true;
@@ -69,13 +68,13 @@ public class PrivatesFrame extends CorporationTableFrame {
 
 	public int getTotalEscrow () {
 		int tTotalEscrow = 0;
-		
+
 		tTotalEscrow = companies.getTotalEscrow ();
-		
+
 		return tTotalEscrow;
 	}
 
-	public Benefit findBenefit (String aBenefitName) {	
+	public Benefit findBenefit (String aBenefitName) {
 		return companies.findBenefit (aBenefitName);
 	}
 }

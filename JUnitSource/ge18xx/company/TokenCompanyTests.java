@@ -25,13 +25,13 @@ class TokenCompanyTests {
 		}
 
 		@Override
-		public int calculateStartingTreasury() {
+		public int calculateStartingTreasury () {
 			return 0;
 		}
 	}
 
 	TokenCompanyConcrete tokenCompany;
-	
+
 	@BeforeEach
 	void setUp () throws Exception {
 		tokenCompany = new TokenCompanyConcrete ();
@@ -55,19 +55,19 @@ class TokenCompanyTests {
 		assertFalse (tokenCompany.isABank ());
 		assertFalse (tokenCompany.isABankPool ());
 	}
-	
+
 	@Test
 	@DisplayName ("Valid for CanLayToken Method")
-	void testCanLayToken () {	
+	void testCanLayToken () {
 		MapToken tMapToken;
-		
+
 		tMapToken = new MapToken ();
 		tokenCompany.setAbbrev ("TRC");
 		tokenCompany.setName ("Token Railway Company");
-		
+
 		tokenCompany.resetStatus (ActorI.ActionStates.StartedOperations);
 		assertFalse (tokenCompany.canLayToken ());
-		
+
 		tokenCompany.addMapToken (tMapToken);
 		tokenCompany.addMapToken (tMapToken);
 		assertEquals ("Token Count: 2", tokenCompany.getTokenLabel ());
@@ -75,16 +75,16 @@ class TokenCompanyTests {
 		assertEquals (2, tokenCompany.getTokenCount ());
 		tokenCompany.resetStatus (ActorI.ActionStates.Unowned);
 		assertFalse (tokenCompany.canLayToken ());
-		
+
 		tokenCompany.resetStatus (ActorI.ActionStates.StartedOperations);
 		assertTrue (tokenCompany.canLayToken ());
-		
+
 		tokenCompany.resetStatus (ActorI.ActionStates.Operated);
 		assertFalse (tokenCompany.canLayToken ());
-		
+
 		tokenCompany.resetStatus (ActorI.ActionStates.StationLaid);
 		assertTrue (tokenCompany.canLayToken ());
-		
+
 		tokenCompany.resetStatus (ActorI.ActionStates.TileLaid);
 		assertTrue (tokenCompany.canLayToken ());
 

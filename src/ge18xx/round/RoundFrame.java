@@ -82,18 +82,18 @@ public class RoundFrame extends XMLFrame {
 	int padding1;
 	int padding2;
 	String currentRoundOf;
-	
+
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, String aGameName) {
 		super (aFrameName, aGameName);
-		
+
 		defaultColor = UIManager.getColor ("Panel.background");
 		roundManager = aRoundManager;
 		logger = roundManager.getLogger ();
 		padding1 = 10;
 		padding2 = 5;
-		
+
 		buildRoundJPanel ();
-		
+
 		pack ();
 		resetBackgrounds ();
 		setStockRoundInfo (aGameName, roundManager.getStockRoundID ());
@@ -103,11 +103,11 @@ public class RoundFrame extends XMLFrame {
 		roundJPanel = new JPanel ();
 		roundJPanel.setLayout (new BoxLayout (roundJPanel, BoxLayout.Y_AXIS));
 		roundJPanel.setBorder (BorderFactory.createEmptyBorder (padding1, padding1, padding1, padding1));
-		
-		buildHeaderJPanel();
+
+		buildHeaderJPanel ();
 		roundJPanel.add (headerJPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
-		
+
 		buildPlayersJPanel ();
 		roundJPanel.add (playersJPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
@@ -115,11 +115,11 @@ public class RoundFrame extends XMLFrame {
 		buildAllCorporationsJPanel ();
 		roundJPanel.add (allCorporationsJPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
-		
-		buildButtonsJPanel();
+
+		buildButtonsJPanel ();
 		roundJPanel.add (buttonsJPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
-		
+
 		roundScrollPane = new JScrollPane (roundJPanel);
 		add (roundScrollPane);
 	}
@@ -144,31 +144,31 @@ public class RoundFrame extends XMLFrame {
 		headerJPanel.add (trainSummaryJPanel);
 		headerJPanel.add (Box.createHorizontalStrut (20));
 	}
-	
+
 	private void buildParPrices () {
 		Border tBorder1, tBorder2;
-				
+
 		parPricesJPanel = new JPanel ();
 		parPricesJPanel.setLayout (new BoxLayout (parPricesJPanel, BoxLayout.Y_AXIS));
 		tBorder1 = BorderFactory.createLineBorder (Color.BLACK);
 		tBorder2 = BorderFactory.createTitledBorder (tBorder1, "Par Prices", TitledBorder.CENTER, TitledBorder.TOP);
 		parPricesJPanel.setBorder (tBorder2);
-		
+
 		updateParPrices ();
 	}
 
 	public void updateParPrices () {
 		GameManager tGameManager;
 		int aParPriceCount;
-		Integer aParPrices [];
+		Integer aParPrices[];
 		int tMinToFloat;
 		int tParPriceIndex;
 		int tPrice;
 		int tMinStartupCash;
 		JPanel tParPriceLinePanel;
-		String[] tPrices;
-		String[] tMinStartup;
-		
+		String [] tPrices;
+		String [] tMinStartup;
+
 		parPriceLineJPanels.clear ();
 		parPricesJPanel.removeAll ();
 		tGameManager = roundManager.getGameManager ();
@@ -183,17 +183,16 @@ public class RoundFrame extends XMLFrame {
 			tPrices [tParPriceIndex] = Bank.formatCash (tPrice);
 			parPrices.add (new JLabel (tPrices [tParPriceIndex]));
 			companiesAtPar.add (new JLabel (""));
-			
+
 			tMinStartupCash = tMinToFloat * tPrice;
-			tMinStartup [tParPriceIndex] = "[" + tMinToFloat + 
-					" / " + Bank.formatCash(tMinStartupCash) + "]";
+			tMinStartup [tParPriceIndex] = "[" + tMinToFloat + " / " + Bank.formatCash (tMinStartupCash) + "]";
 			minStartup.add (new JLabel (tMinStartup [tParPriceIndex]));
-			
+
 			tParPriceLinePanel = new JPanel ();
 			tParPriceLinePanel.setLayout (new BoxLayout (tParPriceLinePanel, BoxLayout.X_AXIS));
 			tParPriceLinePanel.add (Box.createHorizontalStrut (10));
 			tParPriceLinePanel.add (minStartup.get (tParPriceIndex));
-			
+
 			tParPriceLinePanel.add (Box.createHorizontalStrut (10));
 			tParPriceLinePanel.add (parPrices.get (tParPriceIndex));
 			tParPriceLinePanel.add (Box.createHorizontalStrut (10));
@@ -210,28 +209,28 @@ public class RoundFrame extends XMLFrame {
 		String tGameState;
 		Bank tBank;
 		JLabel tBankCashLabel;
-		
+
 		frameLabel = new JLabel ("Round");
 		frameLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		roundInfoJPanel = new JPanel ();
 		roundInfoJPanel.setLayout (new BoxLayout (roundInfoJPanel, BoxLayout.Y_AXIS));
-		roundInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);	
+		roundInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		roundInfoJPanel.add (Box.createVerticalStrut (10));
 		roundInfoJPanel.add (frameLabel);
 		roundInfoJPanel.add (Box.createVerticalStrut (10));
-		
+
 		tBank = roundManager.getBank ();
 		tBank.updateBankCashLabel ();
 		tBankCashLabel = tBank.getBankCashLabel ();
 		tBankCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		roundInfoJPanel.add (tBankCashLabel);
 		roundInfoJPanel.add (Box.createVerticalStrut (10));
-		
+
 		tTotalCash = roundManager.getTotalCash ();
 		totalCashLabel = new JLabel ("Total Cash: " + Bank.formatCash (tTotalCash));
 		totalCashLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		roundInfoJPanel.add (totalCashLabel);
-		
+
 		tGameState = buildGameState ();
 		gameStateLabel = new JLabel (tGameState);
 		gameStateLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
@@ -248,7 +247,7 @@ public class RoundFrame extends XMLFrame {
 
 	private String buildGameState () {
 		String tGameState;
-		
+
 		tGameState = "Current Game State: ";
 		if (roundManager.bankIsBroken ()) {
 			tGameState += "BANK BROKEN";
@@ -260,7 +259,7 @@ public class RoundFrame extends XMLFrame {
 
 		return tGameState;
 	}
-	
+
 	private void buildTrainSummary () {
 		Border tBorder1, tBorder2;
 
@@ -275,35 +274,35 @@ public class RoundFrame extends XMLFrame {
 		trainSummaryJPanel.add (trainSummary);
 		trainSummaryJPanel.add (Box.createHorizontalStrut (10));
 	}
-	
+
 	private void updateTrainSummary () {
 		String tFullTrainSummary;
 		String tBankPoolTrainSummary;
 		String tBankTrainSummary;
 		Bank tBank;
 		BankPool tBankPool;
-		
+
 		tBankPool = roundManager.getBankPool ();
 		tBankPoolTrainSummary = getTrainSummary (tBankPool);
-		
+
 		tBank = roundManager.getBank ();
 		tBankTrainSummary = getTrainSummary (tBank);
-		tFullTrainSummary = tBankPoolTrainSummary +  NEWLINE + tBankTrainSummary;
-		
+		tFullTrainSummary = tBankPoolTrainSummary + NEWLINE + tBankTrainSummary;
+
 		trainSummary.setText (tFullTrainSummary);
 		trainSummary.setBackground (defaultColor);
 	}
 
 	public String getTrainSummary (GameBank aBankWithTrains) {
 		String tBankTrainSummary = "";
-		
+
 		if (aBankWithTrains.hasAnyTrains ()) {
 			tBankTrainSummary = aBankWithTrains.getName () + NEWLINE + NEWLINE + aBankWithTrains.getTrainSummary ();
 		}
-		
+
 		return tBankTrainSummary;
 	}
-	
+
 	private void buildPlayersJPanel () {
 		playersJPanel = new JPanel ();
 		playersJPanel.setBorder (BorderFactory.createTitledBorder (PLAYER_JPANEL_LABEL));
@@ -342,26 +341,26 @@ public class RoundFrame extends XMLFrame {
 			}
 		}
 	}
-	
+
 	private int getClientIndex (int aPlayerCount, StockRound aStockRound) {
 		int tClientIndex = 0;
 		int tPlayerIndex;
 		String tClientName, tPlayerName;
 		Player tPlayer;
-		
+
 		tClientName = roundManager.getClientUserName ();
-		
+
 		for (tPlayerIndex = 0; tPlayerIndex < aPlayerCount; tPlayerIndex++) {
 			tPlayer = aStockRound.getPlayerAtIndex (tPlayerIndex);
 			tPlayerName = tPlayer.getName ();
-			if (tPlayerName.equals(tClientName)) {
+			if (tPlayerName.equals (tClientName)) {
 				tClientIndex = tPlayerIndex;
 			}
 		}
-		
+
 		return tClientIndex;
 	}
-	
+
 	private void updateCurrentPlayerText () {
 		int tPlayerIndex;
 		Player tPlayer;
@@ -375,7 +374,7 @@ public class RoundFrame extends XMLFrame {
 			tPlayer = tStockRound.getPlayerAtIndex (tPlayerIndex);
 			if (tCurrentPlayer == tPlayerIndex) {
 				setCurrentPlayerText (tPlayer.getName ());
-			} 
+			}
 		}
 	}
 
@@ -391,50 +390,50 @@ public class RoundFrame extends XMLFrame {
 
 		doButton = setupButton (PLAYER_DO_STOCK, PLAYER_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		passButton = setupButton (PASS_STOCK_TEXT, PASS_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT);
-		showGameEngineFrameButton = setupButton ("Show Game Engine Frame", SHOW_GE_FRAME_ACTION, roundManager, 
-					Component.CENTER_ALIGNMENT);
-		
+		showGameEngineFrameButton = setupButton ("Show Game Engine Frame", SHOW_GE_FRAME_ACTION, roundManager,
+				Component.CENTER_ALIGNMENT);
+
 		buttonsJPanel.add (doButton);
-		buttonsJPanel.add (Box.createHorizontalStrut(20));
+		buttonsJPanel.add (Box.createHorizontalStrut (20));
 		buttonsJPanel.add (passButton);
-		buttonsJPanel.add (Box.createHorizontalStrut(20));
+		buttonsJPanel.add (Box.createHorizontalStrut (20));
 		buttonsJPanel.add (showGameEngineFrameButton);
-		
+
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
 	}
-	
+
 	private void updateDoButton (String aButtonLabel, String aActionCommand) {
 		updateButtonText (aButtonLabel);
 		doButton.setActionCommand (aActionCommand);
 	}
-	
+
 	public JButton setupButton (String aLabel, String aAction, ActionListener aListener, float aAlignment) {
 		JButton tButton;
-		
+
 		tButton = new JButton (aLabel);
 		tButton.setActionCommand (aAction);
 		tButton.addActionListener (aListener);
 		tButton.setAlignmentX (aAlignment);
-		
+
 		return tButton;
 	}
-	
+
 	public void setCurrentPlayerText () {
 		String tPlayerName = getCurrentPlayerName ();
-		
+
 		setCurrentPlayerText (tPlayerName);
 	}
-	
+
 	public String getCurrentPlayerName () {
 		StockRound tStockRound;
 		String tPlayerName;
 
 		tStockRound = roundManager.getStockRound ();
 		tPlayerName = tStockRound.getCurrentPlayerName ();
-		
+
 		return tPlayerName;
 	}
-	
+
 	public void setCurrentPlayerText (String aPlayerName) {
 		if (passButton != GUI.NO_BUTTON) {
 			passButton.setText (aPlayerName + " " + PASS_STOCK_TEXT);
@@ -446,12 +445,12 @@ public class RoundFrame extends XMLFrame {
 
 	public void setFrameLabel (String aGameName, String aIDLabel) {
 		String tRoundType;
-		
+
 		tRoundType = roundManager.getRoundType ();
 		frameLabel.setText (aGameName + " " + tRoundType + aIDLabel);
 		revalidate ();
 	}
-	
+
 	public void setAuctionRound (String aGameName, int aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
 		updateDoButton (PLAYER_DO_AUCTION, PLAYER_AUCTION_ACTION);
@@ -469,11 +468,11 @@ public class RoundFrame extends XMLFrame {
 	private void setCurrentRoundOf (int aCurrentOR, int aMaxOR) {
 		currentRoundOf = aCurrentOR + " of " + aMaxOR;
 	}
-	
+
 	public String getCurrentRoundOf () {
 		return currentRoundOf;
 	}
-	
+
 	public void setStockRoundInfo (String aGameName, int aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
@@ -481,16 +480,16 @@ public class RoundFrame extends XMLFrame {
 		updateTotalCashLabel ();
 		updatePassButton ();
 	}
-	
+
 	public void updatePassButton () {
 		String tClientUserName, tCurrentPlayerName;
 		GameManager tGameManager;
-		
+
 		if (passButton != GUI.NO_BUTTON) {
 			if (roundManager.isOperatingRound ()) {
 				disablePassButton (IS_OPERATING_ROUND);
 			} else if (roundManager.isAuctionRound ()) {
-				disablePassButton (IS_AUCTION_ROUND);		
+				disablePassButton (IS_AUCTION_ROUND);
 			} else {
 				tGameManager = roundManager.getGameManager ();
 				if (tGameManager.isNetworkGame ()) {
@@ -512,7 +511,7 @@ public class RoundFrame extends XMLFrame {
 		PlayerFrame tPlayerFrame;
 		Player tCurrentPlayer;
 		String tToolTip;
-		
+
 		tPlayerFrame = aGameManager.getCurrentPlayerFrame ();
 		tCurrentPlayer = aGameManager.getCurrentPlayer ();
 		if (tPlayerFrame.hasMustBuyCertificate ()) {
@@ -528,11 +527,11 @@ public class RoundFrame extends XMLFrame {
 			enablePassButton ();
 		}
 	}
-	
+
 	public void setActionForCurrentPlayer () {
 		String tClientUserName, tCurrentPlayerName;
 		GameManager tGameManager;
-		
+
 		tGameManager = roundManager.getGameManager ();
 		if (doButton != GUI.NO_BUTTON) {
 			if (tGameManager.isNetworkGame ()) {
@@ -545,10 +544,10 @@ public class RoundFrame extends XMLFrame {
 					doButton.setEnabled (false);
 					doButton.setToolTipText (NOT_YOUR_TURN);
 				}
-			}			
+			}
 		}
 	}
-	
+
 	public void updateButtonText (String aNewLabel) {
 		if (doButton != GUI.NO_BUTTON) {
 			doButton.setText (aNewLabel);
@@ -578,7 +577,7 @@ public class RoundFrame extends XMLFrame {
 			allCorporationsJPanel.add (tCompanyJPanel);
 			allCorporationsJPanel.add (Box.createVerticalStrut (10));
 		}
-		
+
 		tCorporationCount = tOperatingRound.getMinorCompanyCount ();
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getMinorCompanies ();
@@ -586,7 +585,7 @@ public class RoundFrame extends XMLFrame {
 			allCorporationsJPanel.add (tCompanyJPanel);
 			allCorporationsJPanel.add (Box.createVerticalStrut (10));
 		}
-		
+
 		tCorporationCount = tOperatingRound.getShareCompanyCount ();
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getShareCompanies ();
@@ -596,7 +595,7 @@ public class RoundFrame extends XMLFrame {
 		}
 		revalidate ();
 	}
-	
+
 	public void updateJustParPrices () {
 		OperatingRound tOperatingRound;
 		int tCorporationCount, tCorporationIndex;
@@ -605,11 +604,11 @@ public class RoundFrame extends XMLFrame {
 		String tPriceLabel;
 		String tParPrice;
 		ShareCompany tShareCompany;
-		String tCompaniesAtPrice [];
-		
-		tOperatingRound = roundManager.getOperatingRound ();		
+		String tCompaniesAtPrice[];
+
+		tOperatingRound = roundManager.getOperatingRound ();
 		tCorporationCount = tOperatingRound.getShareCompanyCount ();
-		
+
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getShareCompanies ();
 			tPriceCount = companiesAtPar.size ();
@@ -637,14 +636,14 @@ public class RoundFrame extends XMLFrame {
 		}
 		revalidate ();
 	}
-	
+
 	public void updatePhaseLabel () {
 		PhaseManager tPhaseManager;
 		PhaseInfo tCurrentPhaseInfo;
-		
+
 		tPhaseManager = roundManager.getPhaseManager ();
 		tCurrentPhaseInfo = tPhaseManager.getCurrentPhaseInfo ();
-		
+
 		phaseLabel.setText ("Current Game Phase is " + tCurrentPhaseInfo.getFullName ());
 	}
 
@@ -657,21 +656,21 @@ public class RoundFrame extends XMLFrame {
 		}
 		revalidate ();
 	}
-	
+
 	private void updateTotalCashLabel () {
 		int tTotalCash;
-		
+
 		tTotalCash = roundManager.getTotalCash ();
 		totalCashLabel.setText ("Total Cash: " + Bank.formatCash (tTotalCash));
 	}
-	
+
 	private void updateGameStateLabel () {
 		String tGameState;
-		
+
 		tGameState = buildGameState ();
 		gameStateLabel.setText (tGameState);
 	}
-	
+
 	public void updateAll () {
 		updateParPrices ();
 		updateTotalCashLabel ();
@@ -684,12 +683,12 @@ public class RoundFrame extends XMLFrame {
 		setFrameBackgrounds ();
 		revalidate ();
 	}
-	
+
 	public void setFrameBackgrounds () {
 		GameManager tGameManager;
 		String tClientUserName, tCurrentPlayerName;
 		String tOperatingOwnerName;
-		
+
 		tGameManager = roundManager.getGameManager ();
 		resetBackgrounds ();
 		if (tGameManager.isNetworkGame ()) {
@@ -699,7 +698,7 @@ public class RoundFrame extends XMLFrame {
 				if (tCurrentPlayerName.equals (tClientUserName)) {
 					setAlertBackgrounds ();
 				}
-			} else if (roundManager.isOperatingRound () ) {
+			} else if (roundManager.isOperatingRound ()) {
 				tOperatingOwnerName = roundManager.getOwnerWhoWillOperate ();
 				if (tOperatingOwnerName != Corporation.NO_NAME) {
 					if (tOperatingOwnerName.equals (tClientUserName)) {
@@ -712,16 +711,16 @@ public class RoundFrame extends XMLFrame {
 
 	public void setAlertBackgrounds () {
 		Color tAlertColor = Color.ORANGE;
-		
+
 		setAllBackgrounds (tAlertColor);
 	}
-	
+
 	public void resetBackgrounds () {
 		setAllBackgrounds (defaultColor);
 	}
-	
+
 	private void setAllBackgrounds (Color aBackgroundColor) {
-		getContentPane ().setBackground (aBackgroundColor);	
+		getContentPane ().setBackground (aBackgroundColor);
 		setPanelBackground (headerJPanel, aBackgroundColor);
 		setPanelBackground (parPricesJPanel, aBackgroundColor);
 		setPanelBackground (trainSummaryJPanel, aBackgroundColor);
@@ -729,19 +728,20 @@ public class RoundFrame extends XMLFrame {
 		setPanelBackground (roundJPanel, aBackgroundColor);
 
 	}
+
 	private void setPanelBackground (JPanel aJPanel, Color aBackgroundColor) {
 		if (aJPanel != GUI.NO_PANEL) {
 			aJPanel.setBackground (aBackgroundColor);
 		}
 	}
-	
+
 	private void disablePassButton (String aToolTip) {
 		if (passButton != GUI.NO_BUTTON) {
 			passButton.setEnabled (false);
 			passButton.setToolTipText (aToolTip);
 		}
 	}
-	
+
 	private void enablePassButton () {
 		if (passButton != GUI.NO_BUTTON) {
 			passButton.setEnabled (true);

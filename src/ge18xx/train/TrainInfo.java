@@ -55,21 +55,20 @@ public class TrainInfo {
 	String tradeInTrains;
 	int onFirstOrderAvailable;
 	int onLastOrderAvailable;
-	
+
 	public TrainInfo () {
 		train = new Train ();
-		setValues (NO_TRAINS, NO_PHASE, NO_PHASE, NO_RUST, NO_DISCOUNT, NO_TRADE_INS, 
-				Train.NO_ORDER, Train.NO_ORDER, Train.NO_TILE_INFO);
+		setValues (NO_TRAINS, NO_PHASE, NO_PHASE, NO_RUST, NO_DISCOUNT, NO_TRADE_INS, Train.NO_ORDER, Train.NO_ORDER,
+				Train.NO_TILE_INFO);
 	}
-	
+
 	public TrainInfo (TrainInfo aTrainInfo) {
 		train = new Train (aTrainInfo.train);
-		setValues (aTrainInfo.quantity, aTrainInfo.triggerMainPhase, aTrainInfo.triggerMinorPhase,
-				aTrainInfo.rust, aTrainInfo.discountPrice, aTrainInfo.tradeInTrains,
-				aTrainInfo.onFirstOrderAvailable, aTrainInfo.onLastOrderAvailable, 
-				aTrainInfo.tileInfo);
+		setValues (aTrainInfo.quantity, aTrainInfo.triggerMainPhase, aTrainInfo.triggerMinorPhase, aTrainInfo.rust,
+				aTrainInfo.discountPrice, aTrainInfo.tradeInTrains, aTrainInfo.onFirstOrderAvailable,
+				aTrainInfo.onLastOrderAvailable, aTrainInfo.tileInfo);
 	}
-	
+
 	public TrainInfo (XMLNode aCellNode) {
 		String tRust;
 		int tQuantity, tTriggerMainPhase, tTriggerMinorPhase;
@@ -80,7 +79,7 @@ public class TrainInfo {
 		int tPrice, tDiscountPrice, tGauge, tOrder, tOnFirstOrderAvailable, tOnLastOrderAvailable;
 		String tTradeInTrains;
 		String [] tSplit = null;
-		
+
 		tName = aCellNode.getThisAttribute (AN_NAME);
 		tOrder = aCellNode.getThisIntAttribute (AN_ORDER, Train.NO_ORDER);
 		tRevenueCenters = aCellNode.getThisAttribute (AN_REVENUE_CENTERS);
@@ -100,7 +99,7 @@ public class TrainInfo {
 		tQuantity = aCellNode.getThisIntAttribute (AN_QUANTITY);
 		tPrice = aCellNode.getThisIntAttribute (AN_PRICE);
 		tTriggerPhase = aCellNode.getThisAttribute (AN_TRIGGER_PHASE, START_PHASE);
-		tSplit = tTriggerPhase.split ("\\.");	// Split uses Reg-ex, so the . needs escaping -- twice
+		tSplit = tTriggerPhase.split ("\\."); // Split uses Reg-ex, so the . needs escaping -- twice
 		tTriggerMainPhase = Integer.parseInt (tSplit [0]);
 		tTriggerMinorPhase = Integer.parseInt (tSplit [1]);
 		tDiscountPrice = aCellNode.getThisIntAttribute (AN_DISCOUNT_PRICE, NO_DISCOUNT);
@@ -115,18 +114,18 @@ public class TrainInfo {
 		tOnFirstOrderAvailable = aCellNode.getThisIntAttribute (AN_ON_FIRST, Train.NO_ORDER);
 		tOnLastOrderAvailable = aCellNode.getThisIntAttribute (AN_ON_LAST, Train.NO_ORDER);
 		train = new Train (tName, tOrder, tGauge, tMajorCount, tMinorCount, tPrice);
-		setValues (tQuantity, tTriggerMainPhase, tTriggerMinorPhase, tRust, tDiscountPrice, tTradeInTrains, 
+		setValues (tQuantity, tTriggerMainPhase, tTriggerMinorPhase, tRust, tDiscountPrice, tTradeInTrains,
 				tOnFirstOrderAvailable, tOnLastOrderAvailable, tTileInfo);
 	}
-	
+
 	public String getName () {
 		return train.getName ();
 	}
-	
+
 	public int getDiscount () {
 		return discountPrice;
 	}
-	
+
 	public int getPrice () {
 		return train.getPrice ();
 	}
@@ -134,28 +133,28 @@ public class TrainInfo {
 	public int getQuantity () {
 		return quantity;
 	}
-	
+
 	public String getRust () {
 		return rust;
 	}
-	
+
 	public String getTileInfo () {
 		return tileInfo;
 	}
-	
+
 	public Train getTrain () {
 		return train;
 	}
-	
+
 	public XMLElement getTrainInfoElement (XMLDocument aXMLDocument) {
 		XMLElement tElement;
 		int tTownCount;
-		
+
 		tElement = aXMLDocument.createElement (EN_TRAIN_INFO);
 		tElement.setAttribute (AN_NAME, train.getName ());
 		tElement.setAttribute (AN_REVENUE_CENTERS, train.getCityCount ());
 		tTownCount = train.getTownCount ();
-		if (tTownCount != Train.NO_RC_COUNT){
+		if (tTownCount != Train.NO_RC_COUNT) {
 			tElement.setAttribute (AN_TOWN_REVENUE_CENTERS, tTownCount);
 		}
 		tElement.setAttribute (AN_QUANTITY, quantity);
@@ -165,67 +164,67 @@ public class TrainInfo {
 			tElement.setAttribute (AN_DISCOUNT_PRICE, discountPrice);
 			tElement.setAttribute (AN_TRADE_IN_TRAINS, tradeInTrains);
 		}
-		if (! rust.equals (NO_RUST)) {
+		if (!rust.equals (NO_RUST)) {
 			tElement.setAttribute (AN_RUST, rust);
 		}
-		if (! tileInfo.equals (Train.NO_TILE_INFO)) {
+		if (!tileInfo.equals (Train.NO_TILE_INFO)) {
 			tElement.setAttribute (AN_TILE_INFO, tileInfo);
 		}
-		
+
 		return tElement;
 	}
-	
+
 	public int getTriggerMainPhase () {
 		return triggerMainPhase;
 	}
-	
+
 	public int getTriggerMinorPhase () {
 		return triggerMinorPhase;
 	}
-	
+
 	public String getTriggerPhase () {
 		return triggerMainPhase + "." + triggerMinorPhase;
 	}
-	
+
 	public int getOnFirstOrderAvailable () {
 		return onFirstOrderAvailable;
 	}
-	
+
 	public int getOnLastOrderAvailable () {
 		return onLastOrderAvailable;
 	}
-	
+
 	public boolean isStartPhase () {
 		boolean tStartPhase;
-		
+
 		if ((triggerMainPhase == 1) && (triggerMinorPhase == 1)) {
 			tStartPhase = true;
 		} else {
 			tStartPhase = false;
 		}
-		
+
 		return tStartPhase;
 	}
-	
+
 	public boolean canBeUpgradedFrom (String aTradeInPossible) {
 		boolean tCanBeUpgradedFrom = false;
-		
+
 		if (tradeInTrains.contains (aTradeInPossible)) {
 			tCanBeUpgradedFrom = true;
 		}
-		
+
 		return tCanBeUpgradedFrom;
 	}
-	
+
 	public boolean isUnlimitedQuantity () {
 		return unlimited_quantity;
 	}
-	
+
 	public void setUnlimited () {
 		unlimited_quantity = true;
 	}
-	
-	public void setValues (int aQuantity, int aTriggerMajorPhase, int aTriggerMinorPhase, String aRust, 
+
+	public void setValues (int aQuantity, int aTriggerMajorPhase, int aTriggerMinorPhase, String aRust,
 			int aDiscountPrice, String aTradeInTrains, int aOnFirstOrderAvailable, int aOnLastOrderAvailable,
 			String aTileInfo) {
 		quantity = aQuantity;

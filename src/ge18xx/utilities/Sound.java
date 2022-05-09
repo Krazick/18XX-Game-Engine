@@ -19,7 +19,7 @@ public class Sound {
 	public String CHUG = "chug.wav";
 	Logger logger;
 	private final static Clip NO_CLIP = null;
-	
+
 	public Sound () {
 		logger = Game_18XX.getLoggerX ();
 	}
@@ -33,24 +33,24 @@ public class Sound {
 
 	public void playSound (String aSoundFileName) {
 		Clip tClip;
-		
+
 		try {
 			tClip = loadClip (aSoundFileName);
 			setVolume (0.15f, tClip);
 			if (tClip != NO_CLIP) {
-				tClip.start ( );
+				tClip.start ();
 			}
-		} catch (Exception ex) {  
+		} catch (Exception ex) {
 			logger.error ("Exception Thrown");
 			ex.printStackTrace ();
 		}
 	}
-	
+
 	private Clip loadClip (String aSoundFileName) {
 		File tAudioFile;
 		AudioInputStream tAudioStream;
 		Clip tClip = NO_CLIP;
-		
+
 		try {
 			tAudioFile = new File (aSoundFileName);
 			tAudioStream = AudioSystem.getAudioInputStream (tAudioFile);
@@ -62,25 +62,25 @@ public class Sound {
 			logger.error ("IO Exception Thrown", eException);
 		} catch (LineUnavailableException eException) {
 			logger.error ("Line Unavailable Exception Thrown", eException);
-		}			
+		}
 
 		return tClip;
 	}
-	
+
 	public float getVolume (Clip aClip) {
-	    FloatControl tGainControl;
-	    
-	    tGainControl = (FloatControl) aClip.getControl (FloatControl.Type.MASTER_GAIN);        
-	    return (float) Math.pow (10f, tGainControl.getValue () / 20f);
+		FloatControl tGainControl;
+
+		tGainControl = (FloatControl) aClip.getControl (FloatControl.Type.MASTER_GAIN);
+		return (float) Math.pow (10f, tGainControl.getValue () / 20f);
 	}
 
 	public void setVolume (float volume, Clip aClip) {
 		FloatControl tGainControl;
-		
-	    if ((volume < 0f) || (volume > 1f))
-	        throw new IllegalArgumentException ("Volume not valid: " + volume);
-	    
-	    tGainControl = (FloatControl) aClip.getControl (FloatControl.Type.MASTER_GAIN);        
-	    tGainControl.setValue(20f * (float) Math.log10 (volume));
+
+		if ((volume < 0f) || (volume > 1f))
+			throw new IllegalArgumentException ("Volume not valid: " + volume);
+
+		tGainControl = (FloatControl) aClip.getControl (FloatControl.Type.MASTER_GAIN);
+		tGainControl.setValue (20f * (float) Math.log10 (volume));
 	}
 }

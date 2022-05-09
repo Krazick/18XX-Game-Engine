@@ -8,20 +8,20 @@ import ge18xx.utilities.XMLNode;
 
 public class ChangeMapAction extends CashTransferAction {
 	public final static String NAME = "Change Map";
-	
+
 	public ChangeMapAction () {
 		this (NAME);
 	}
-	
+
 	public ChangeMapAction (String aName) {
 		super (aName);
 	}
-	
+
 	public ChangeMapAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
-	
+
 	public ChangeMapAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
@@ -35,7 +35,8 @@ public class ChangeMapAction extends CashTransferAction {
 	}
 
 	@Override
-	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState, ActorI.ActionStates aNewState) {
+	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
+			ActorI.ActionStates aNewState) {
 		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
 
 		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);

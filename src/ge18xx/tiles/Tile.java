@@ -44,8 +44,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public static final Tile NO_TILE = null;
 	public static final String NO_BASES = "";
 	public static final String NO_TOKENS = "";
-    public static final int NOT_A_TILE = 0;
-    static final int NO_TRACK = 0;
+	public static final int NOT_A_TILE = 0;
+	static final int NO_TRACK = 0;
 	static final int NO_STATION = 0;
 	static final int NO_RC_ID = -1;
 	static final boolean ON_TILE = true;
@@ -56,7 +56,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	TileType type;
 	Tracks tracks;
 	Centers centers;
-	
+
 	public Tile () {
 		this (NOT_A_TILE, TileType.NO_TYPE);
 	}
@@ -64,16 +64,16 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public Tile (int aNumber, int aType) {
 		this (aNumber, TileName.NO_NAME, aType);
 	}
-	
+
 	public Tile (int aNumber, String aName, int aType) {
 		centers = new Centers ();
 		setValues (aNumber, aName, aType);
 	}
-	
+
 	public Tile (Tile aTile) {
 		int tLocation;
 		Centers tCenters;
-		
+
 		setValues (aTile.getNumber (), aTile.getName (), aTile.getTypeInt ());
 		tLocation = aTile.getTileNameLocation ();
 		setTileNameLocation (tLocation);
@@ -81,13 +81,13 @@ public class Tile implements Comparable<Object>, Cloneable {
 		centers = new Centers (tCenters, this);
 		tracks = aTile.tracks.clone ();
 	}
-	
+
 	public Tile (XMLNode aNode) {
 		int tNumber, tTileTypeID;
 		boolean tFixed;
 		String tType;
 		XMLNodeList tXMLNodeList;
-		
+
 		tracks = new Tracks ();
 		centers = new Centers ();
 		tNumber = aNode.getThisIntAttribute (AN_NUMBER);
@@ -101,45 +101,45 @@ public class Tile implements Comparable<Object>, Cloneable {
 		centers.setTileType (type);
 		type.setFixed (tFixed);
 	}
-	
+
 	public Track getTrackFromStartToEnd (int aStartLocation, int aEndLocation) {
 		Track tTrack;
-		
+
 		tTrack = tracks.getTrackFromStartToEnd (aStartLocation, aEndLocation);
-		
+
 		return tTrack;
 	}
-	
+
 	public Track getTrackFromSide (int aSideLocation) {
 		Track tTrack;
-		
+
 		tTrack = tracks.getTrackFromSide (aSideLocation);
-		
+
 		return tTrack;
 	}
-	
+
 	public boolean addTrack (Track aTrack) {
 		return tracks.add (aTrack);
 	}
-	
+
 	public boolean addTrack (int aEnter, int aExit, int aGaugeType) {
 		Gauge baseGauge;
 		Gauge tGauge = new Gauge (aGaugeType);
-		
+
 		baseGauge = tGauge.getBaseGauge ();
 		if (baseGauge != null) {
 			addTrack (new Track (aEnter, aExit, baseGauge));
 		}
-		
+
 		return addTrack (new Track (aEnter, aExit, tGauge));
 	}
-	
+
 	public void appendTokensState (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
 		if (hasCenters ()) {
 			centers.appendTokensState (aXMLDocument, aMapCellElement);
 		}
 	}
-	
+
 	public void appendCorporationBases (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
 		if (hasCenters ()) {
 			centers.appendCorporationBases (aXMLDocument, aMapCellElement);
@@ -149,7 +149,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public boolean canAllTracksExit (MapCell aThisMapCell, int aTileOrient) {
 		return tracks.canAllTracksExit (aThisMapCell, aTileOrient);
 	}
-	
+
 	/**
 	 * Clear the Specified Train from all tracks on the Tile
 	 * 
@@ -158,7 +158,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public void clearTrain (int aTrainNumber) {
 		tracks.clearTrain (aTrainNumber);
 	}
-	
+
 	/**
 	 * Clear All Trains from every Track on the Tile
 	 * 
@@ -166,23 +166,23 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public void clearAllTrains () {
 		tracks.clearAllTrains ();
 	}
-	
+
 	public boolean canDeadEndTrack () {
 		return type.canDeadEndTrack ();
 	}
-	
+
 	public boolean cityOnTile () {
 		RevenueCenter rc = getRevenueCenter (0);
-		
+
 		return rc.canPlaceStation ();
 	}
-	
+
 	public boolean cityOrTownOnTile () {
 		RevenueCenter rc = getRevenueCenter (0);
-		
+
 		return rc.cityOrTown ();
 	}
-	
+
 	public void clearAll () {
 		clearAllCityInfoCorporations ();
 		clearAllCityInfoMapCells ();
@@ -190,39 +190,39 @@ public class Tile implements Comparable<Object>, Cloneable {
 		clearAllStations ();
 		clearAllTrains ();
 	}
-	
+
 	private void clearAllCityInfoCorporations () {
 		centers.clearAllCityInfoCorporations ();
 	}
-	
+
 	private void clearAllCityInfoMapCells () {
 		centers.clearAllCityInfoMapCells ();
 	}
-	
+
 	private void clearAllCityInfoRevenueCenters () {
 		centers.clearAllCityInfoRevenueCenters ();
 	}
-	
+
 	public void clearAllStations () {
 		centers.clearAllStations ();
 	}
-	
+
 	public void returnStation (TokenCompany aTokenCompany) {
 		centers.returnStation (aTokenCompany);
 	}
-	
+
 	public void clearStation (int aCorporationId) {
 		centers.clearStation (aCorporationId);
 	}
-	
+
 	public void clearCorporation (Corporation aCorporation) {
 		centers.clearCityInfoCorporation (aCorporation);
 	}
-	
+
 	public MapToken getMapTokenFor (int aCorporationID) {
 		return centers.getMapTokenFor (aCorporationID);
 	}
-	
+
 	@Override
 	public Tile clone () {
 		try {
@@ -238,30 +238,30 @@ public class Tile implements Comparable<Object>, Cloneable {
 			tTile.type = type.clone ();
 			tTile.tracks = tracks.clone ();
 			tTile.centers = centers.clone ();
-			
+
 			return tTile;
 		} catch (CloneNotSupportedException e) {
 			throw new Error ("Tile.clone Not Supported Exception");
 		}
 	}
-	
+
 	@Override
 	public int compareTo (Object oTile) throws ClassCastException {
 		if (!(oTile instanceof Tile)) {
 			throw new ClassCastException ("A Tile object expected.");
 		}
 		int oNumber = ((Tile) oTile).getNumber ();
-		
+
 		return this.number - oNumber;
 	}
-	
+
 	public void returnTokens () {
 		int tCityCenterCount, tCityCenterIndex, tStationIndex;
 		RevenueCenter tRevenueCenter;
 		City tCity;
 		MapToken tMapToken;
 		TokenCompany tTokenCompany;
-		
+
 		tCityCenterCount = getCityCenterCount ();
 		if (tCityCenterCount > 0) {
 			for (tCityCenterIndex = 0; tCityCenterIndex < tCityCenterCount; tCityCenterIndex++) {
@@ -273,9 +273,11 @@ public class Tile implements Comparable<Object>, Cloneable {
 							tMapToken = tCity.getToken (tStationIndex);
 							if (tMapToken != MapToken.NO_MAP_TOKEN) {
 								tTokenCompany = tMapToken.getWhichCompany ();
-								System.out.println ("Returning Token for " + tTokenCompany.getAbbrev () + " count before " + tTokenCompany.getTokenCount ());
+								System.out.println ("Returning Token for " + tTokenCompany.getAbbrev ()
+										+ " count before " + tTokenCompany.getTokenCount ());
 								tTokenCompany.addMapToken (tMapToken);
-								System.out.println ("Returning Token for " + tTokenCompany.getAbbrev () + " count now " + tTokenCompany.getTokenCount ());
+								System.out.println ("Returning Token for " + tTokenCompany.getAbbrev () + " count now "
+										+ tTokenCompany.getTokenCount ());
 							}
 						}
 					}
@@ -284,13 +286,13 @@ public class Tile implements Comparable<Object>, Cloneable {
 		}
 
 	}
-	
+
 	public int getCorporationBaseCount () {
 		int tBaseCount = 0;
 		int tCityCenterCount, tCityIndex;
 		RevenueCenter tRevenueCenter;
 		City tCity;
-		
+
 		tCityCenterCount = getCityCenterCount ();
 		if (tCityCenterCount > 0) {
 			for (tCityIndex = 0; tCityIndex < tCityCenterCount; tCityIndex++) {
@@ -303,17 +305,17 @@ public class Tile implements Comparable<Object>, Cloneable {
 				}
 			}
 		}
-		
+
 		return tBaseCount;
 	}
-	
+
 	public String getCorporationBases () {
 		String tCorporationBases = NO_BASES, tCorporationBase;
 		int tCityCenterCount, tCityIndex;
 		RevenueCenter tRevenueCenter;
 		City tCity;
 		String tAbbrev;
-		
+
 		tCityCenterCount = getCityCenterCount ();
 		if (tCityCenterCount > 0) {
 			for (tCityIndex = 0; tCityIndex < tCityCenterCount; tCityIndex++) {
@@ -331,22 +333,22 @@ public class Tile implements Comparable<Object>, Cloneable {
 				}
 			}
 		}
-		
+
 		return tCorporationBases;
 	}
 
 	public City getCityAt (int aCityIndex) {
 		City tCity = City.NO_CITY;
 		int tCityCenterCount;
-		
+
 		tCityCenterCount = getCityCenterCount ();
 		if (tCityCenterCount > 0) {
 			tCity = (City) getRevenueCenter (aCityIndex);
 		}
-		
+
 		return tCity;
 	}
-	
+
 	public String getPlacedTokens () {
 		String tPlacedTokens = NO_TOKENS, tAPlacedToken;
 		int tCityCenterCount, tCityCenterIndex, tStationIndex;
@@ -354,7 +356,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		City tCity;
 		MapToken tMapToken;
 		String tAbbrev;
-		
+
 		tCityCenterCount = getCityCenterCount ();
 		if (tCityCenterCount > 0) {
 			for (tCityCenterIndex = 0; tCityCenterIndex < tCityCenterCount; tCityCenterIndex++) {
@@ -377,10 +379,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 				}
 			}
 		}
-		
+
 		return tPlacedTokens;
 	}
-		
+
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tElement;
 		XMLElement tTrackElement;
@@ -389,7 +391,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		int tIndex;
 		int tTrackCount;
 		int tCenterCount;
-		
+
 		tElement = aXMLDocument.createElement (EN_TILE);
 		tElement.setAttribute (AN_NUMBER, number);
 		tElement.setAttribute (AN_TYPE, getTypeName ());
@@ -397,7 +399,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		if (tNameElement != null) {
 			tElement.appendChild (tNameElement);
 		}
-		
+
 		tTrackCount = tracks.size ();
 		if (tTrackCount > 0) {
 			for (tIndex = 0; tIndex < tTrackCount; tIndex++) {
@@ -405,7 +407,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 				tElement.appendChild (tTrackElement);
 			}
 		}
-		
+
 		tCenterCount = centers.size ();
 		if (tCenterCount > 0) {
 			for (tIndex = 0; tIndex < tCenterCount; tIndex++) {
@@ -413,56 +415,56 @@ public class Tile implements Comparable<Object>, Cloneable {
 				tElement.appendChild (tCenterElement);
 			}
 		}
-		
+
 		return tElement;
 	}
-	
+
 	public void drawName (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex) {
 		if (name != null) {
 			name.draw (g, Xc, Yc, aTileOrient, aHex);
 		}
 	}
-	
+
 	public boolean isFixedTile () {
 		return type.isFixed ();
 	}
-	
+
 	public boolean isTrackOnSide (int aSide) {
 		return tracks.isTrackOnSide (aSide);
 	}
-	
+
 	public boolean isTrackToSide (int aSide) {
 		return tracks.isTrackToSide (aSide);
 	}
-	
+
 	public RevenueCenter getCenterAtLocation (Location aLocation) {
 		return centers.getCenterAtLocation (aLocation);
 	}
-	
+
 	public RevenueCenter getRCWithBaseForCorp (Corporation aCorporation) {
 		return centers.getRCWithBaseForCorp (aCorporation);
 	}
-	
+
 	public RevenueCenter getCenterAtLocation (int aLocation) {
 		return centers.getCenterAtLocation (aLocation);
 	}
-	
+
 	public int getCenterCount () {
 		return centers.getCenterCount ();
 	}
-	
+
 	public int getCityCenterCount () {
 		return centers.getCityCenterCount ();
 	}
-	
+
 	public Centers getCenters () {
 		return centers;
 	}
-	
+
 	public Color getColor () {
-		return (type.getColor());
+		return (type.getColor ());
 	}
-	
+
 	public String getName () {
 		if (name == TileName.NO_TILE_NAME) {
 			return TileName.NO_NAME2;
@@ -470,32 +472,35 @@ public class Tile implements Comparable<Object>, Cloneable {
 			return (name.getName ());
 		}
 	}
-	
+
 	public int getNumber () {
 		return (number);
 	}
-	
+
 	public String getNumberToString () {
 		return (new Integer (number).toString ());
 	}
-	
+
 	public RevenueCenter getRCContainingPoint (Point aPoint, Hex aHex, int XCenter, int YCenter, int aTileOrient) {
 		return centers.getRCContainingPoint (aPoint, aHex, XCenter, YCenter, aTileOrient);
 	}
-	
+
 	public int getRevenueCenterCount () {
 		return centers.size ();
 	}
-	
+
 	public RevenueCenter getRevenueCenter (int aCenterIndex) {
 		return centers.get (aCenterIndex);
 	}
-	
+
 	/**
-	 * Find the RevenueCenter on the Tile that has a Track connecting to the Location provided
+	 * Find the RevenueCenter on the Tile that has a Track connecting to the
+	 * Location provided
 	 * 
-	 * @param aOtherLocation The remote location that should have track connecting to this RevenueCenter
-	 * @return NO_CENTER if no RevenueCenter is found with track connecting to the location provided
+	 * @param aOtherLocation The remote location that should have track connecting
+	 *                       to this RevenueCenter
+	 * @return NO_CENTER if no RevenueCenter is found with track connecting to the
+	 *         location provided
 	 */
 	public RevenueCenter findRevenueCenterConnectingTo (int aOtherLocation) {
 		RevenueCenter tRevenueCenter;
@@ -504,7 +509,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		Track tTrack;
 		int tCenterIndex;
 		int tCenterCount;
-		
+
 		tFoundRevenueCenter = RevenueCenter.NO_CENTER;
 		tCenterCount = getRevenueCenterCount ();
 		if (tCenterCount > 0) {
@@ -517,15 +522,15 @@ public class Tile implements Comparable<Object>, Cloneable {
 				}
 			}
 		}
-		
+
 		return tFoundRevenueCenter;
 	}
-	
+
 	public String getRevenueValue (int aPhase) {
 		RevenueCenter tRevenueCenter;
 		int tRCIndex;
 		String tRevenueValue = "";
-		
+
 		for (tRCIndex = 0; tRCIndex < getRevenueCenterCount (); tRCIndex++) {
 			if (tRevenueValue.equals ("")) {
 				tRevenueCenter = getRevenueCenter (tRCIndex);
@@ -534,93 +539,93 @@ public class Tile implements Comparable<Object>, Cloneable {
 				}
 			}
 		}
-		
+
 		return tRevenueValue;
 	}
-	
+
 	public RevenueCenter getSelectedRevenueCenter (Feature2 aSelectedFeature2, int aTileOrient) {
 		RevenueCenter tRevenueCenter;
-		
+
 		if (hasCenters ()) {
 			tRevenueCenter = centers.getSelectedRevenueCenter (aSelectedFeature2, aTileOrient);
 		} else {
 			tRevenueCenter = RevenueCenter.NO_CENTER;
 		}
-		
+
 		return tRevenueCenter;
 	}
-	
+
 	public int getTileNameLocation () {
 		int tLocation = Location.NO_LOCATION;
-		
+
 		if (name != TileName.NO_TILE_NAME) {
 			tLocation = name.getLocationToInt ();
 		}
-		
+
 		return tLocation;
 	}
-	
+
 	public TileName getTileName () {
 		return name;
 	}
-	
+
 	public int getTileType () {
 		return type.getType ();
 	}
-	
+
 	public TileType getTheTileType () {
 		return type;
 	}
-	
+
 	public String getToolTip (int aPhase) {
 		String tTip = "";
-		
+
 		tTip += "Tile: " + getTypeName () + " " + getNumberToString () + "<br>";
 		tTip += "Revenue: " + getRevenueValue (aPhase) + "<br>";
 		if (hasCenters ()) {
 			tTip += centers.getToolTip ();
 		}
 		tTip += tracks.getToolTip ();
-		
+
 		return tTip;
 	}
-	
+
 	public TileType getType () {
 		return type;
 	}
-	
+
 	public int getTypeCount () {
 		return centers.getTypeCount ();
 	}
-	
+
 	public int getTypeInt () {
 		return type.getType ();
 	}
-	
+
 	public String getTypeName () {
-		return type.getName();
+		return type.getName ();
 	}
-	
+
 	public int getX () {
 		return XCenter;
 	}
-	
+
 	public int getY () {
 		return YCenter;
 	}
-	
+
 	private boolean hasCenters () {
 		boolean tHasCenters = false;
-		
+
 		if (centers != null) {
 			if (centers.size () > 0) {
 				tHasCenters = true;
 			}
 		}
-		
+
 		return tHasCenters;
 	}
-	
+
 	public boolean hasAnyStation () {
 		if (hasCenters ()) {
 			return centers.hasAnyStation ();
@@ -628,7 +633,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 			return false;
 		}
 	}
-	
+
 	public boolean hasAnyCorporationBase () {
 		if (hasCenters ()) {
 			return centers.hasAnyCorporationBase ();
@@ -644,7 +649,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 			return false;
 		}
 	}
-	
+
 	public boolean hasStation (int aCorpID) {
 		if (hasCenters ()) {
 			return centers.hasStation (aCorpID);
@@ -652,7 +657,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 			return false;
 		}
 	}
-	
+
 	public int getStationIndex (int aCorpID) {
 		if (hasCenters ())
 			return centers.getStationIndex (aCorpID);
@@ -660,7 +665,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 			return Centers.UNSPECIFIED_ID;
 		}
 	}
-	
+
 	public void loadStationsStates (XMLNode aMapCellNode) {
 		if (hasCenters ()) {
 			centers.loadStationsStates (aMapCellNode);
@@ -669,22 +674,22 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 	public void paintComponent (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, Feature2 aSelectedFeature) {
 		int tOldX, tOldY;
-		
+
 		tOldX = getX ();
 		tOldY = getY ();
 		setXY (Xc, Yc);
 		paintComponent (g, aTileOrient, aHex, aSelectedFeature);
 		setXY (tOldX, tOldY);
 	}
-	
+
 	public void paintComponent (Graphics g, Hex aHex) {
 		paintComponent (g, 0, aHex, new Feature2 ());
 	}
-	
+
 	public void paintComponent (Graphics g, int aTileOrient, Hex aHex, Feature2 aSelectedFeature) {
 		Color tHexColor = type.getColor ();
 		aHex.paintHex (g, XCenter, YCenter, tHexColor);
-		
+
 		tracks.draw (g, XCenter, YCenter, aTileOrient, aHex, tHexColor, aSelectedFeature);
 		centers.draw (g, XCenter, YCenter, aTileOrient, aHex, ON_TILE, aSelectedFeature);
 
@@ -692,7 +697,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 			name.draw (g, XCenter, YCenter, aTileOrient, aHex);
 		}
 	}
-	
+
 	public void printlog () {
 		System.out.println ("Tile Number " + number);
 		if (name != null) {
@@ -706,26 +711,26 @@ public class Tile implements Comparable<Object>, Cloneable {
 		System.out.print ("Tile ");
 		centers.printlog ();
 	}
-	
+
 	public void setCorporationBase (Corporation aBaseCorporation, Location aNewCityLocation) {
 		centers.setCorporationBase (aBaseCorporation, aNewCityLocation);
 	}
-	
+
 	public void setCityInfo (CityInfo aCityInfo) {
 		if (aCityInfo != null) {
 			centers.setCityInfo (aCityInfo);
 		}
 	}
-	
+
 	public void setMapCell (MapCell aMapCell) {
 		centers.setMapCell (aMapCell);
 	}
-	
+
 	public void setRevenueCenters (Centers aCenters) {
 		int tCenterCount, tCenterIndex;
 		RevenueCenter tRevenueCenter, tTileRevenueCenter;
 		Corporation tCorporation;
-		
+
 		tCenterCount = aCenters.size ();
 		if (tCenterCount > 0) {
 			for (tCenterIndex = 0; tCenterIndex < tCenterCount; tCenterIndex++) {
@@ -740,7 +745,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public boolean setRevenueLocation (int aCenterID, int aLocation) {
 		RevenueCenter tRevenueCenter;
 		boolean tAdded;
-		
+
 		if (centers.isEmpty ()) {
 			tAdded = false;
 		} else {
@@ -748,47 +753,47 @@ public class Tile implements Comparable<Object>, Cloneable {
 			tRevenueCenter.setRevenueLocation (aLocation);
 			tAdded = true;
 		}
-		
+
 		return tAdded;
 	}
 
 	public boolean setStation (Token aStation) {
 		return (setStation (aStation, 0));
 	}
-	
+
 	public boolean setStation (Token aStation, int aIndex) {
 		RevenueCenter rc = getRevenueCenter (aIndex);
-		
+
 		return (rc.setStation (aStation));
 	}
-	
+
 	public void setTileNameLocation (int aLocation) {
 		if (name != null) {
 			name.setLocation (aLocation);
 		}
 	}
-	
+
 	public void setValues (int aNumber, String aName, int aType) {
 		tracks = new Tracks ();
 		setValues (aNumber, aType);
 		name = new TileName (aName);
 	}
-	
+
 	public void setValues (int aNumber, int aType) {
 		number = aNumber;
 		type = new TileType (aType, false);
 	}
-	
+
 	public void setXY (int aXc, int aYc) {
 		XCenter = aXc;
 		YCenter = aYc;
 	}
-	
+
 	public boolean stationsOnTile () {
 		return hasAnyStation ();
 	}
-	
-	ParsingRoutine3I tileParsingRoutine  = new ParsingRoutine3I ()  {
+
+	ParsingRoutine3I tileParsingRoutine = new ParsingRoutine3I () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			name = new TileName (aChildNode);
@@ -797,16 +802,16 @@ public class Tile implements Comparable<Object>, Cloneable {
 		@Override
 		public void foundItemMatchKey2 (XMLNode aChildNode) {
 			Track tSegment;
-			
+
 			tSegment = new Track (aChildNode);
 			tracks.add (tSegment);
 		}
-		
+
 		@Override
 		public void foundItemMatchKey3 (XMLNode aChildNode) {
 			String tRCType;
 			RevenueCenter tCenter;
-			
+
 			tRCType = aChildNode.getThisAttribute (AN_TYPE);
 			if (RevenueCenterType.isDotTown (tRCType)) {
 				tCenter = new Town (aChildNode);
@@ -820,11 +825,11 @@ public class Tile implements Comparable<Object>, Cloneable {
 			centers.add (tCenter);
 		}
 	};
-	
+
 	public void swapTokens (MapCell aMapCell) {
 		MapToken tMapToken0, tMapToken1;
 		City tCity0, tCity1;
-		
+
 		if (getCenterCount () == 2) {
 			if (hasAnyStation ()) {
 				tCity0 = (City) centers.get (0);
@@ -834,14 +839,14 @@ public class Tile implements Comparable<Object>, Cloneable {
 				if (tMapToken0 != MapToken.NO_MAP_TOKEN) {
 					tMapToken0.printlog ();
 				}
-				if (tMapToken1 != MapToken.NO_MAP_TOKEN) { 
+				if (tMapToken1 != MapToken.NO_MAP_TOKEN) {
 					tMapToken1.printlog ();
 				}
 				centers.clearAllStations ();
 				if (tMapToken1 != MapToken.NO_MAP_TOKEN) {
 					tCity0.placeStation (tMapToken1, aMapCell);
 				}
-				if (tMapToken0 != MapToken.NO_MAP_TOKEN) { 
+				if (tMapToken0 != MapToken.NO_MAP_TOKEN) {
 					tCity1.placeStation (tMapToken0, aMapCell);
 				}
 			}
@@ -852,35 +857,34 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers.hasTown ();
 	}
 
-
 	public Track getConnectingTrackBetween (Location aThisLocation, Location aThatLocation) {
 		Track tTrack;
 		int tStartLocation, tEndLocation;
-		
+
 		tStartLocation = aThisLocation.getLocation ();
 		tEndLocation = aThatLocation.getLocation ();
 
 		tTrack = tracks.getTrackFromStartToEnd (tStartLocation, tEndLocation);
-		
+
 		return tTrack;
 	}
-	
+
 	public boolean hasConnectingTrackBetween (Location aThisLocation, Location aThatLocation) {
 		boolean tHasConnectingTrackBetween = true;
 		Track tTrack;
-		
+
 		tTrack = getConnectingTrackBetween (aThisLocation, aThatLocation);
-		if (tTrack == Track.NO_TRACK)  {
+		if (tTrack == Track.NO_TRACK) {
 			tHasConnectingTrackBetween = false;
 		}
-		
+
 		return tHasConnectingTrackBetween;
 	}
 
 	public boolean isSideUsed (Location aSide) {
 		boolean tIsSideUsed = false;
 		Track tTrack;
-		
+
 		for (int tTrackIndex = 0; tTrackIndex < tracks.size (); tTrackIndex++) {
 			tTrack = tracks.get (tTrackIndex);
 			if (tTrack.isTrackToSide (aSide.getLocation ())) {
@@ -889,59 +893,59 @@ public class Tile implements Comparable<Object>, Cloneable {
 				}
 			}
 		}
-		
+
 		return tIsSideUsed;
 	}
 
 	public Gauge getGauge (Location aThisLocation, Location aThatLocation) {
 		Gauge tGauge = new Gauge ();
 		Track tTrack;
-		
+
 		tTrack = getConnectingTrackBetween (aThisLocation, aThatLocation);
-			if (tTrack == Track.NO_TRACK)  {
-				tGauge = tTrack.getGauge ();
-			}
+		if (tTrack == Track.NO_TRACK) {
+			tGauge = tTrack.getGauge ();
+		}
 
 		return tGauge;
 	}
 
 	public int getTrackCount () {
 		int tTrackCount = 0;
-		
+
 		tTrackCount = tracks.size ();
-		
+
 		return tTrackCount;
 	}
 
 	public int getTrackCountFromSide (Location aLocation) {
 		int tTrackCount = 0;
-		
+
 		tTrackCount = tracks.getTrackCountFromSide (aLocation);
-		
+
 		return tTrackCount;
 	}
 
 	public int getTrackIndexBetween (Location aStartLocation, Location aEndLocation) {
 		int tTrackIndex;
-		
+
 		tTrackIndex = tracks.getTrackIndexBetween (aStartLocation, aEndLocation);
-		
+
 		return tTrackIndex;
 	}
-	
+
 	public Track getTrackByIndex (int aNextTrackIndex) {
 		Track tTrack;
-		
+
 		tTrack = tracks.getTrack (aNextTrackIndex);
-		
+
 		return tTrack;
 	}
 
 	public Track getTrackFromStartByIndex (Location aStartLocation, int aNextTrackIndex) {
 		Track tTrack;
-		
+
 		tTrack = tracks.getTrackFromStartByIndex (aStartLocation, aNextTrackIndex);
-		
+
 		return tTrack;
 	}
 

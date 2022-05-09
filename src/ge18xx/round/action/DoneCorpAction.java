@@ -11,14 +11,14 @@ import ge18xx.utilities.XMLNode;
 public class DoneCorpAction extends Action {
 	public final static String NAME = "Done";
 
-	public DoneCorpAction() {
+	public DoneCorpAction () {
 		this (NAME);
 	}
 
 	public DoneCorpAction (String aName) {
 		super (aName);
 	}
-	
+
 	public DoneCorpAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
@@ -31,12 +31,13 @@ public class DoneCorpAction extends Action {
 
 	public void addNewActingCorpEffect (Corporation aCorporation) {
 		EndCorpActionsEffect tEndCorpActionsEffect;
-		
+
 		tEndCorpActionsEffect = new EndCorpActionsEffect (aCorporation);
 		addEffect (tEndCorpActionsEffect);
 	}
-	
-	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState, ActorI.ActionStates aNewState) {
+
+	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
+			ActorI.ActionStates aNewState) {
 		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
 
 		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
@@ -45,17 +46,17 @@ public class DoneCorpAction extends Action {
 
 	public void addClearTrainsFromMapEffect (Corporation aCorporation) {
 		ClearAllTrainsFromMapEffect tClearTrainsFromMapEffect;
-		
+
 		tClearTrainsFromMapEffect = new ClearAllTrainsFromMapEffect (aCorporation);
 		addEffect (tClearTrainsFromMapEffect);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
+
 		tSimpleActionReport = actor.getName () + " completed Operations.";
-		
+
 		return tSimpleActionReport;
 	}
 }

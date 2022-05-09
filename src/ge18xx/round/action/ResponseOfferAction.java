@@ -25,22 +25,21 @@ public class ResponseOfferAction extends QueryActorAction {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
+
 		tSimpleActionReport = actor.getName () + " has responded to a Query Action.";
-		
+
 		return tSimpleActionReport;
 	}
 
-	public void addResponseOfferEffect (ActorI aFromActor, ActorI aToActor, 
-			boolean aResponse, String aItemType, String aItemName) {
+	public void addResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType,
+			String aItemName) {
 		ResponseOfferEffect tOfferResponseEffect;
-		
-		tOfferResponseEffect = new ResponseOfferEffect (aFromActor, aToActor, 
-				aResponse, aItemType, aItemName);
+
+		tOfferResponseEffect = new ResponseOfferEffect (aFromActor, aToActor, aResponse, aItemType, aItemName);
 		addEffect (tOfferResponseEffect);
 	}
 

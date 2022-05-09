@@ -18,7 +18,7 @@ public class SetParValueEffect extends Effect {
 	final static AttributeName AN_PAR_VALUE = new AttributeName ("parValue");
 	int parValue;
 	String companyAbbrev;
-	
+
 	public SetParValueEffect () {
 		super ();
 		setName (NAME);
@@ -32,41 +32,41 @@ public class SetParValueEffect extends Effect {
 
 	public SetParValueEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		
+
 		String tCompanyAbbrev;
 		int tParValue;
-		
+
 		tCompanyAbbrev = aEffectNode.getThisAttribute (AN_COMPANY_ABBREV);
 		tParValue = aEffectNode.getThisIntAttribute (AN_PAR_VALUE);
 		setCompanyAbbrev (tCompanyAbbrev);
 		setParValue (tParValue);
 	}
-	
+
 	public String getCompanyAbbrev () {
 		return companyAbbrev;
 	}
-	
+
 	public int getParValue () {
 		return parValue;
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_COMPANY_ABBREV, companyAbbrev);
 		tEffectElement.setAttribute (AN_PAR_VALUE, getParValue ());
-	
+
 		return tEffectElement;
 	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + actor.getName () +" sets " + name + " for " + companyAbbrev + 
-				" to $ " + parValue + ".");
+		return (REPORT_PREFIX + actor.getName () + " sets " + name + " for " + companyAbbrev + " to $ " + parValue
+				+ ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
@@ -75,16 +75,16 @@ public class SetParValueEffect extends Effect {
 	public void setCompanyAbbrev (String aCompanyAbbrev) {
 		companyAbbrev = aCompanyAbbrev;
 	}
-	
+
 	public void setParValue (int aParValue) {
 		parValue = aParValue;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		ShareCompany tShareCompany;
-		
+
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			tShareCompany = aRoundManager.getShareCompany (companyAbbrev);
@@ -102,7 +102,7 @@ public class SetParValueEffect extends Effect {
 		ShareCompany tShareCompany;
 		Token tToken;
 		Market tMarket;
-		
+
 		tEffectUndone = false;
 		tMarket = aRoundManager.getMarket ();
 		if (actor.isAPlayer ()) {

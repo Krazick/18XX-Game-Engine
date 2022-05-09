@@ -28,7 +28,7 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 		super (aFrameName, aGameManager.getGameName ());
 		configFrames = aGameManager.getConfigFrames ();
 		gameManager = aGameManager;
-		
+
 		allJFramesJPanel = new JPanel ();
 		allJFramesJPanel.setLayout (new BoxLayout (allJFramesJPanel, BoxLayout.Y_AXIS));
 		infoJPanels = new ArrayList<JPanel> ();
@@ -38,11 +38,11 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 		fillFrames ();
 		add (allJFramesJPanel);
 	}
-	
+
 	public void fillFrames () {
 		boolean tAddVerticalGlue = false;
 		JPanel tOneFrameJPanel;
-		
+
 		allJFramesJPanel.add (Box.createVerticalStrut (10));
 		for (XMLFrame tXMLFrame : configFrames) {
 			if (tAddVerticalGlue) {
@@ -59,22 +59,22 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 		}
 		allJFramesJPanel.add (Box.createVerticalStrut (10));
 	}
-	
+
 	public JPanel buildOneFrameJPanel (XMLFrame aXMLFrame) {
 		FrameInfo tFrameInfo;
 		JButton tResetButton;
 		JLabel tLabel;
 		JPanel tOneFrameJPanel = null;
 		String tFrameName;
-		
+
 		tFrameInfo = new FrameInfo (aXMLFrame);
-		
+
 		if (tFrameInfo.getHeight () > 0) {
 			tResetButton = new JButton ("Reset");
 			tOneFrameJPanel = new JPanel ();
 			tOneFrameJPanel.setLayout (new BoxLayout (tOneFrameJPanel, BoxLayout.X_AXIS));
 			tOneFrameJPanel.add (Box.createHorizontalStrut (10));
-	
+
 			tFrameName = tFrameInfo.getName ();
 			tLabel = new JLabel (tFrameName);
 			tOneFrameJPanel.add (tLabel);
@@ -91,14 +91,14 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 			tLabel = new JLabel (tFrameInfo.getWidthStr ());
 			tOneFrameJPanel.add (tLabel);
 			tOneFrameJPanel.add (Box.createHorizontalGlue ());
-			
+
 			tResetButton.setActionCommand (RESET_START + tFrameName);
 			tResetButton.addActionListener (this);
-			
+
 			tOneFrameJPanel.add (tResetButton);
 			tOneFrameJPanel.add (Box.createHorizontalStrut (10));
 		}
-		
+
 		return tOneFrameJPanel;
 
 	}
@@ -107,23 +107,22 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
 		String tFrameName;
-		
+
 		tActionCommand = aEvent.getActionCommand ();
 		if (tActionCommand.startsWith (RESET_START)) {
 			tFrameName = tActionCommand.substring (RESET_START.length ());
 			handleFrameReset (tFrameName);
 		}
 	}
-	
+
 	public void handleFrameReset (String aFrameName) {
 		XMLFrame tFoundXMLFrame;
-		
+
 		System.out.println ("Reset Button selected for [" + aFrameName + "]");
 		tFoundXMLFrame = getFrameNamed (aFrameName);
 		if (tFoundXMLFrame != XMLFrame.NO_XML_FRAME) {
-			System.out.println ("Found Frame with X = " + 
-						tFoundXMLFrame.getLocation ().x + " and Y = " +
-						tFoundXMLFrame.getLocation ().y);
+			System.out.println ("Found Frame with X = " + tFoundXMLFrame.getLocation ().x + " and Y = "
+					+ tFoundXMLFrame.getLocation ().y);
 			System.out.println ("Default X " + tFoundXMLFrame.getDefaultXLocation ());
 			System.out.println ("Default Y " + tFoundXMLFrame.getDefaultYLocation ());
 			tFoundXMLFrame.setLocation (100, 100);
@@ -131,16 +130,16 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 //			gameManager.showFrame (tFoundXMLFrame);
 		}
 	}
-	
+
 	public XMLFrame getFrameNamed (String aFrameName) {
 		XMLFrame tFoundXMLFrame = XMLFrame.NO_XML_FRAME;
-		
+
 		for (XMLFrame tXMLFrame : configFrames) {
 			if (tXMLFrame.extractFrameName ().equals (aFrameName)) {
 				tFoundXMLFrame = tXMLFrame;
 			}
 		}
-		
+
 		return tFoundXMLFrame;
 	}
 }

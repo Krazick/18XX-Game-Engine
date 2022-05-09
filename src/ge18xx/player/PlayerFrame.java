@@ -46,7 +46,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	JPanel buttonJPanel;
 	JPanel playerInfoJPanel;
 	JPanel portfolioInfoJPanel;
-	
+
 	JLabel playerCash;
 	JLabel playerCertificateCount;
 	JLabel playerPassed;
@@ -66,13 +66,14 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	Player player;
 	int portfolioInfoIndex;
 	boolean locationFixed;
-	
+
 	public PlayerFrame (String aFrameName, Player aPlayer, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getActiveGameName ());
-		
+
 		if (aPlayer != Player.NO_PLAYER) {
 			player = aPlayer;
-			buttonsInfoFrame = new ButtonsInfoFrame (player.getName () + " Player Frame Info for Buttons", aGameManager);
+			buttonsInfoFrame = new ButtonsInfoFrame (player.getName () + " Player Frame Info for Buttons",
+					aGameManager);
 			buildPlayerAndBankJPanel ();
 			add (playerAndBankJPanel);
 			setLocationFixed (false);
@@ -83,31 +84,31 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	private void buildPlayerAndBankJPanel () {
 		playerAndBankJPanel = new JPanel ();
 		playerAndBankJPanel.setLayout (new BoxLayout (playerAndBankJPanel, BoxLayout.X_AXIS));
-		
+
 		playerAndBankJPanel.add (Box.createHorizontalStrut (20));
 		buildPlayerJPanel ();
 		playerAndBankJPanel.add (playerJPanel);
 		playerAndBankJPanel.add (Box.createHorizontalGlue ());
-		
+
 		bankJPanel = new JPanel ();
 		bankJPanel.setLayout (new BoxLayout (bankJPanel, BoxLayout.Y_AXIS));
 		playerAndBankJPanel.add (bankJPanel);
-		playerAndBankJPanel.add(Box.createHorizontalStrut (20));
+		playerAndBankJPanel.add (Box.createHorizontalStrut (20));
 	}
 
 	private void buildPlayerJPanel () {
 		playerJPanel = new JPanel ();
 		playerJPanel.setLayout (new BoxLayout (playerJPanel, BoxLayout.Y_AXIS));
 		playerJPanel.add (Box.createVerticalStrut (10));
-		
+
 		buildPlayerInfoPanel ();
-		
+
 		playerJPanel.add (playerInfoJPanel);
 		playerJPanel.add (Box.createVerticalStrut (10));
-		
+
 		buildButtonJPanel ();
 		playerJPanel.add (buttonJPanel);
-		
+
 		portfolioInfoIndex = 5;
 		updatePortfolioInfo ();
 	}
@@ -117,31 +118,31 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		playerInfoJPanel.setBorder (BorderFactory.createTitledBorder ("Information For " + player.getName ()));
 		playerInfoJPanel.setLayout (new BoxLayout (playerInfoJPanel, BoxLayout.X_AXIS));
 		playerInfoJPanel.setAlignmentX (CENTER_ALIGNMENT);
-		
+
 		addPlayerInfoJPanelLabel (null);
 		playerCash = new JLabel ("");
 		addPlayerInfoJPanelLabel (playerCash);
 		setCashLabel ();
-		
+
 		playerCertificateCount = new JLabel ("");
 		addPlayerInfoJPanelLabel (playerCertificateCount);
 		setCertificateCountLabel ();
-		
+
 		playerBidAndEscrow = new JLabel ("");
 		updateBidAndEscrow ();
 		playerInfoJPanel.add (playerBidAndEscrow);
 
 		playerPortfolioLabel = new JLabel ("");
 		addPlayerInfoJPanelLabel (playerPortfolioLabel);
-		
+
 		playerTotalValue = new JLabel ("");
 		addPlayerInfoJPanelLabel (playerTotalValue);
 	}
-	
+
 	private void updateBidAndEscrow () {
 		int tBidCount, tEscrowTotal;
 		String tBidCountText;
-		
+
 		tBidCount = player.getEscrowCount ();
 		if (tBidCount > 0) {
 			if (tBidCount == 1) {
@@ -150,20 +151,20 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				tBidCountText = "Bids: " + tBidCount;
 			}
 			tEscrowTotal = player.getTotalEscrow ();
-			playerBidAndEscrow.setText (tBidCountText + " Total Escrow: " + Bank.formatCash(tEscrowTotal) + " ");
+			playerBidAndEscrow.setText (tBidCountText + " Total Escrow: " + Bank.formatCash (tEscrowTotal) + " ");
 		} else {
 			playerBidAndEscrow.setText ("");
 		}
 	}
-	
+
 	public boolean isLocationFixed () {
 		return locationFixed;
 	}
-	
+
 	public void setLocationFixed (boolean aLocationFixed) {
 		locationFixed = aLocationFixed;
 	}
-	
+
 	private void addPlayerInfoJPanelLabel (JLabel aLabel) {
 		Dimension tMinSize = new Dimension (10, 20);
 		Dimension tPrefSize = new Dimension (15, 20);
@@ -172,19 +173,19 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		if (aLabel != null) {
 			playerInfoJPanel.add (aLabel);
 		}
-		playerInfoJPanel.add (new Box.Filler (tMinSize, tPrefSize, tMaxSize));		
+		playerInfoJPanel.add (new Box.Filler (tMinSize, tPrefSize, tMaxSize));
 	}
-	
+
 	private JButton buildButton (String aButtonLabel, String aButtonAction) {
 		JButton tActionButton;
-		
+
 		tActionButton = new JButton (aButtonLabel);
 		tActionButton.setAlignmentX (CENTER_ALIGNMENT);
 		tActionButton.setActionCommand (aButtonAction);
 		tActionButton.addActionListener (player);
-		
+
 		buttonsInfoFrame.addButton (tActionButton);
-		
+
 		return tActionButton;
 	}
 
@@ -197,7 +198,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		exchangeButton = buildButton (Player.EXCHANGE_LABEL, Player.EXCHANGE_LABEL);
 		undoButton = buildButton (UNDO, UNDO);
 		explainButton = buildButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
-		
+
 		buttonJPanel.add (passButton);
 		buttonJPanel.add (buyBidButton);
 		buttonJPanel.add (sellButton);
@@ -205,25 +206,25 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		buttonJPanel.add (undoButton);
 		buttonJPanel.add (explainButton);
 	}
-	
+
 	private void updateBankJPanel (GameManager aGameManager) {
 		Bank tBank;
 		BankPool tBankPool;
 		JPanel tBPPortfolioJPanel;
 		JPanel tBankPortfolioJPanel;
 		JPanel tStartPacketPortfolioJPanel;
-		
+
 		tBank = player.getBank ();
 		tBankPool = player.getBankPool ();
-		
+
 		bankJPanel.removeAll ();
 		if (tBank.isStartPacketPortfolioEmpty ()) {
 			tBPPortfolioJPanel = tBankPool.buildPortfolioInfoJPanel (this, player, aGameManager);
-			
+
 			bankJPanel.add (Box.createVerticalGlue ());
 			bankJPanel.add (tBPPortfolioJPanel);
 			bankJPanel.add (Box.createVerticalGlue ());
-			
+
 			tBankPortfolioJPanel = tBank.buildPortfolioInfoJPanel (this, player, aGameManager);
 			bankJPanel.add (tBankPortfolioJPanel);
 			bankJPanel.add (Box.createVerticalGlue ());
@@ -236,19 +237,19 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		bankJPanel.repaint ();
 		bankJPanel.revalidate ();
 	}
-	
+
 	public boolean isBuyAction () {
 		boolean tIsBuyAction;
-		
-		tIsBuyAction = buyBidButton.getText().equals (Player.BUY_LABEL);
-		
+
+		tIsBuyAction = buyBidButton.getText ().equals (Player.BUY_LABEL);
+
 		return tIsBuyAction;
 	}
-	
+
 	public boolean canCompleteTurn () {
 		return player.canCompleteTurn ();
 	}
-	
+
 //	public String getReasonForNotCompleting () {
 //		String tReason;
 //		String tCompanyAbbrev;
@@ -280,38 +281,38 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public boolean hasActed () {
 		return player.hasActed ();
 	}
-	
+
 	public boolean hasActionsToUndo () {
 		return player.hasActionsToUndo ();
 	}
-	
+
 	public boolean hasMustBuyCertificate () {
 		return player.hasMustBuyCertificate ();
 	}
-	
+
 	public boolean hasSelectedPrivateOrMinorToExchange () {
 		return player.hasSelectedPrivateOrMinorToExchange ();
 	}
-	
+
 	public boolean hasSelectedPrivateToBidOn () {
 		return player.hasSelectedPrivateToBidOn ();
 	}
-	
+
 	public boolean hasSelectedSameStocksToSell () {
 		boolean tHasSelectedSameStocksToSell;
-		
+
 		tHasSelectedSameStocksToSell = false;
-		
+
 		if (player.hasShareCompanyStocks ()) {
 			tHasSelectedSameStocksToSell = player.hasSelectedSameStocksToSell ();
 		}
-		
+
 		return tHasSelectedSameStocksToSell;
 	}
-	
+
 	public boolean willSaleOverfillBankPool () {
 		boolean tWillSaleOverfillBankPool = false;
-		
+
 		tWillSaleOverfillBankPool = player.willSaleOverfillBankPool ();
 
 		return tWillSaleOverfillBankPool;
@@ -319,75 +320,77 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 	public boolean hasSelectedStocksToSell () {
 		boolean tSelectedStocksToSell;
-		
+
 		tSelectedStocksToSell = false;
-		
-		// Note -- If Player has no Share Company Stocks, nothing to sell -- Only Share Company stocks can be sold
+
+		// Note -- If Player has no Share Company Stocks, nothing to sell -- Only Share
+		// Company stocks can be sold
 		if (player.hasShareCompanyStocks ()) {
-			// need to examine to see if any shares are selected to sell from the player			
+			// need to examine to see if any shares are selected to sell from the player
 			tSelectedStocksToSell = player.hasSelectedStocksToSell ();
 		}
-		
+
 		return tSelectedStocksToSell;
 	}
-	
+
 	public boolean hasSelectedOneToExchange () {
 		return player.hasSelectedOneToExchange ();
 	}
-	
+
 	public boolean hasSelectedPrezToExchange () {
 		return player.hasSelectedPrezToExchange ();
 	}
-	
+
 	public boolean hasSelectedStocksToBuy () {
 		boolean tSelectedStocksToBuy = false;
 		Bank tBank;
-		
+
 		tBank = player.getBank ();
-		if (tBank != Bank.NO_BANK) { 
+		if (tBank != Bank.NO_BANK) {
 			tSelectedStocksToBuy = player.hasSelectedStockToBuy ();
 		} else {
 			System.err.println ("Player has failed to retrieve the Bank");
 		}
-		// Need to examine if any shares have been selected to Buy from Bank Pool or Bank
-		
+		// Need to examine if any shares have been selected to Buy from Bank Pool or
+		// Bank
+
 		return tSelectedStocksToBuy;
 	}
-	
+
 	public int getCountSelectedCosToBuy () {
 		return player.getCountSelectedCosToBuy ();
 	}
-	
+
 	public int getCountSelectedCosToBid () {
 		return player.getCountSelectedCosToBid ();
 	}
 
 	public int getCostSelectedStocksToBuy () {
 		int tSelectedStocksToBuyCost;
-		
+
 		tSelectedStocksToBuyCost = player.getCostSelectedStockToBuy ();
-		
+
 		return tSelectedStocksToBuyCost;
 	}
-	
+
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
 		Portfolio tPortfolio;
 		boolean tHandled;
 		Bank tBank;
-		
+
 		tPortfolio = player.getPortfolio ();
 		tHandled = tPortfolio.itemStateChanged (aItemEvent, this);
-		
-		if (! tHandled) {
-			 tBank = player.getBank ();
-			 tPortfolio = tBank.getPortfolio ();
-			 tHandled = tPortfolio.itemStateChanged (aItemEvent, this);
-			 
-			 if (! tHandled) {
-				 tPortfolio = tBank.getStartPacketPortfolio ();
-				 tHandled = tPortfolio.itemStateChanged (aItemEvent, this);
-			 }
+
+		if (!tHandled) {
+			tBank = player.getBank ();
+			tPortfolio = tBank.getPortfolio ();
+			tHandled = tPortfolio.itemStateChanged (aItemEvent, this);
+
+			if (!tHandled) {
+				tPortfolio = tBank.getStartPacketPortfolio ();
+				tHandled = tPortfolio.itemStateChanged (aItemEvent, this);
+			}
 		}
 		updateButtons ();
 	}
@@ -406,7 +409,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 	public void setCashLabel () {
 		int tCashValue;
-		
+
 		tCashValue = 0;
 		if (player != Player.NO_PLAYER) {
 			tCashValue = player.getCash ();
@@ -414,10 +417,10 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		playerCash.setText ("Cash: " + Bank.formatCash (tCashValue));
 		setTotalValueLabel ();
 	}
-	
+
 	public void setCertificateCountLabel () {
 		String tLabel;
-		
+
 		if (player != Player.NO_PLAYER) {
 			tLabel = player.buildCertCountInfo ("Certificate count: ");
 			playerCertificateCount.setText (tLabel);
@@ -427,19 +430,20 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public void setDoneButton () {
 		updatePassDoneButton (DONE, DONE);
 	}
-	
+
 	public void setPassButton () {
 		updatePassDoneButton (PASS, PASS);
 	}
-	
+
 	public String getMustSellToolTip (Player aPlayer) {
 		String tStock;
 		String tToolTip;
 		int tPercentage, tCertificateCount;
-		
+
 		// Reason 1 from Exchange of President Share
-		// Reason 2 from Company Share Price leaving Market Region that allowed excess certificates
-		
+		// Reason 2 from Company Share Price leaving Market Region that allowed excess
+		// certificates
+
 		tStock = aPlayer.hasExchangedShare ();
 		tToolTip = "";
 		if (tStock != Player.NO_STOCK_TO_SELL) {
@@ -448,49 +452,50 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		} else {
 			tStock = aPlayer.exceedsAnyCorpShareLimit ();
 			if (tStock != Player.NO_STOCK_TO_SELL) {
-				tToolTip = "Must sell stock in " + tStock + 
-						" to get to within Share Limit, or to have Stock return to Orange or Brown Zone";
+				tToolTip = "Must sell stock in " + tStock
+						+ " to get to within Share Limit, or to have Stock return to Orange or Brown Zone";
 			} else {
 				tCertificateCount = aPlayer.exceedsCertificateLimitBy ();
 				if (tCertificateCount > 0) {
-					tToolTip = "Player over Certificate Limit by " + tCertificateCount + ". Must sell Certificates to reach Limit";
+					tToolTip = "Player over Certificate Limit by " + tCertificateCount
+							+ ". Must sell Certificates to reach Limit";
 				}
 			}
 		}
-		
+
 		return tToolTip;
 	}
-	
+
 	public boolean mustSellStock () {
 		boolean tMustSellStock = false;
 		String tStockToSell;
-		
+
 		tStockToSell = player.hasExchangedShare ();
 		if (tStockToSell != Player.NO_STOCK_TO_SELL) {
 			tMustSellStock = true;
 		} else if (player.exceedsAnyCorpShareLimit () != Player.NO_STOCK_TO_SELL) {
-			tMustSellStock = true;		
+			tMustSellStock = true;
 		} else if (player.exceedsCertificateLimitBy () > 0) {
 			tMustSellStock = true;
 		}
-		
+
 		return tMustSellStock;
 	}
-	
+
 	private void setCannotPass () {
 		passButton.setEnabled (false);
 		passButton.setToolTipText (MUST_BUY_PRIVATE);
 		disableAllStartPacketButtons (MUST_BUY_PRIVATE);
 		enableMustBuyPrivateButton ();
 	}
-	
+
 	public void setPortfolioInfoJPanel (JPanel aPortfolioInfoJPanel) {
 		portfolioInfoJPanel = aPortfolioInfoJPanel;
 	}
-	
+
 	public void setPortfolioValueLabel () {
 		int tPortfolioValue;
-		
+
 		tPortfolioValue = 0;
 		if (player != Player.NO_PLAYER) {
 			tPortfolioValue = player.getPortfolioValue ();
@@ -498,13 +503,13 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		playerPortfolioLabel.setText ("Portfolio Value: " + Bank.formatCash (tPortfolioValue));
 		setTotalValueLabel ();
 	}
-	
+
 	public void setTotalValueLabel () {
 		int tPortfolioValue;
 		int tCashValue;
 		int tTotalValue;
 		int tEscrowValue;
-		
+
 		if (playerTotalValue != null) {
 			tPortfolioValue = 0;
 			tCashValue = 0;
@@ -523,17 +528,17 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		setCashLabel ();
 		updateCertificateInfo ();
 		updatePortfolioInfo ();
-		setPortfolioValueLabel();
+		setPortfolioValueLabel ();
 		updateBankJPanel (aGameManager);
 		updateButtons ();
 	}
-	
+
 	public void updateButtons () {
 		boolean tStocksToSell, tActionsToUndo, tStocksToSellSame;
 		boolean tPrezToExchange, tCanCompleteTurn, tPrivateOrMinorToExchange;
 		boolean tStocksToSellOverfill, tMustBuy;
 		boolean tHasSelectedOneToExchange;
-		
+
 		tMustBuy = hasMustBuyCertificate ();
 		tStocksToSell = hasSelectedStocksToSell ();
 		tStocksToSellSame = hasSelectedSameStocksToSell ();
@@ -545,14 +550,14 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tHasSelectedOneToExchange = hasSelectedOneToExchange ();
 		tPrivateOrMinorToExchange = hasSelectedPrivateOrMinorToExchange ();
 		tCanCompleteTurn = canCompleteTurn ();
-		
+
 		updatePassButton (tCanCompleteTurn, tMustBuy);
 		updateSellButton (tStocksToSell, tStocksToSellSame, tStocksToSellOverfill, tPrezToExchange);
 		updateBuyButton (canBuy);
 //		updateBuyBidButton (tStocksToBuy, tPrivateToBidOn);
 		updateExchangeButton (tPrezToExchange, tPrivateOrMinorToExchange, tHasSelectedOneToExchange);
 		updateUndoButton (tActionsToUndo);
-		
+
 		if (hasActed ()) {
 			setDoneButton ();
 			disableAllStartPacketButtons ("Already acted");
@@ -561,10 +566,10 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		}
 		player.addPrivateBenefitButtons (buttonJPanel);
 	}
-	
+
 	private void updatePassDoneButton (String tLabel, String tAction) {
 		String tToolTip;
-		
+
 		passButton.setText (tLabel);
 		passButton.setActionCommand (tAction);
 		if (hasSelectedStocksToBuy ()) {
@@ -582,19 +587,19 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		} else if (hasSelectedPrivateOrMinorToExchange ()) {
 			passButton.setEnabled (false);
 			passButton.setToolTipText (PRIVATE_SELECTED_FOR_EXCHANGE);
-		} else if (player.isParPriceFrameActive () ) {
+		} else if (player.isParPriceFrameActive ()) {
 			passButton.setEnabled (false);
 			passButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);
 		} else if (player.isAuctionRound ()) {
 			passButton.setEnabled (false);
-			passButton.setToolTipText ("Auction Round must complete first");	
-		} else if (! player.isLastActionComplete () ) {
+			passButton.setToolTipText ("Auction Round must complete first");
+		} else if (!player.isLastActionComplete ()) {
 			passButton.setEnabled (false);
-			passButton.setToolTipText ("Last Action must be completed first");	
+			passButton.setToolTipText ("Last Action must be completed first");
 		} else if (mustSellStock ()) {
 			tToolTip = getMustSellToolTip (player);
 			passButton.setEnabled (false);
-			passButton.setToolTipText (tToolTip);		
+			passButton.setToolTipText (tToolTip);
 		} else if (hasMustBuyCertificate ()) {
 			setCannotPass ();
 		} else {
@@ -605,7 +610,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 	private void updatePassButton (boolean aCanCompleteTurn, boolean aMustBuy) {
 		String tToolTip;
-		
+
 		// If there is a Must Buy -- Cannot Do a Pass, or a Bid -- disable these
 		if (aMustBuy) {
 			setCannotPass ();
@@ -627,11 +632,11 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	private void updateSellButton (boolean aStocksToSell, boolean aStocksToSellSame, boolean aStocksToSellOverfill,
-					boolean aPrezToExchange) {
+			boolean aPrezToExchange) {
 		if (aStocksToSell) {
 			if (aPrezToExchange) {
 				sellButton.setEnabled (false);
-				sellButton.setToolTipText ("Must Exchange President Share before selecting stock to sell");				
+				sellButton.setToolTipText ("Must Exchange President Share before selecting stock to sell");
 			} else if (aStocksToSellOverfill) {
 				sellButton.setEnabled (false);
 				sellButton.setToolTipText ("Stocks selected to be Sold will Overfill BankPool");
@@ -640,7 +645,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				sellButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
 			} else {
 				sellButton.setEnabled (aStocksToSellSame);
-				sellButton.setToolTipText ("Stocks selected to sell are different companies, sell one company stock at a time");
+				sellButton.setToolTipText (
+						"Stocks selected to sell are different companies, sell one company stock at a time");
 			}
 		} else {
 			sellButton.setEnabled (aStocksToSell);
@@ -649,17 +655,18 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	private void updateExchangeButton (boolean aPrezToExchange, boolean aPrivateOrMinorToExchange,
-										boolean tHasSelectedOneToExchange) {
+			boolean tHasSelectedOneToExchange) {
 		boolean tCanBankHoldStock = false;
-		
+
 		if (tHasSelectedOneToExchange) {
 			if (aPrezToExchange) {
 				tCanBankHoldStock = canBankHoldStock ();
 			}
-			
+
 			exchangeButton.setEnabled (tCanBankHoldStock || aPrivateOrMinorToExchange);
-			if (! tCanBankHoldStock) {
-				exchangeButton.setToolTipText ("The Bank Pool cannot hold minimum % of stock required to lose Presidency");			
+			if (!tCanBankHoldStock) {
+				exchangeButton
+						.setToolTipText ("The Bank Pool cannot hold minimum % of stock required to lose Presidency");
 			} else if (aPrezToExchange) {
 				exchangeButton.setToolTipText ("There is one President's Share Selected to Exchange");
 			} else if (aPrivateOrMinorToExchange) {
@@ -683,7 +690,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		int tNextPrezPercent;
 		int tMustSellSharePercentage;
 		int tSmallestSharePercentage;
-		
+
 		tCertificate = player.getCertificateToExchange ();
 		tCorporation = tCertificate.getCorporation ();
 		tCompanyAbbrev = tCertificate.getCompanyAbbrev ();
@@ -691,17 +698,17 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tCurrentPlayerPercent = player.getPercentOwnedOf (tCorporation);
 		tNextPrezPercent = tNextPossiblePrez.getPercentOwnedOf (tCorporation);
 		tSmallestSharePercentage = tCorporation.getSmallestSharePercentage ();
-		tMustSellSharePercentage = tCurrentPlayerPercent - tNextPrezPercent + tSmallestSharePercentage; 
-		tCanBankHoldStock = ! player.willOverfillBankPool (tMustSellSharePercentage, tCorporation);
-		 
+		tMustSellSharePercentage = tCurrentPlayerPercent - tNextPrezPercent + tSmallestSharePercentage;
+		tCanBankHoldStock = !player.willOverfillBankPool (tMustSellSharePercentage, tCorporation);
+
 		return tCanBankHoldStock;
 	}
-	
+
 	public void updateBuyButton (boolean aCanBuy) {
 		boolean tStocksToBuy, tPrivateToBidOn;
 		boolean tNormalBuy = true;
 		int tCostToBuy;
-		
+
 		tStocksToBuy = hasSelectedStocksToBuy ();
 		tPrivateToBidOn = hasSelectedPrivateToBidOn ();
 		if (tPrivateToBidOn) {
@@ -726,13 +733,13 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			updateBuyBidButton (tStocksToBuy, tPrivateToBidOn);
 		}
 	}
-	
+
 	private void updateBuyBidButton (boolean aStocksToBuy, boolean aPrivateToBidOn) {
 		int tCountSelectedCosToBuy;
 		int tCountSelectedCosToBid;
 		int tCountSharesToBuy;
 		Certificate tCertificate;
-		
+
 		tCountSelectedCosToBuy = getCountSelectedCosToBuy ();
 		tCountSelectedCosToBid = getCountSelectedCosToBid ();
 		tCountSharesToBuy = player.getCountSelectedCertificatesToBuy ();
@@ -747,7 +754,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 					tCertificate = player.getSelectedCertificateToBuy ();
 					if (tCertificate != Certificate.NO_CERTIFICATE) {
 						if (tCertificate.canBuyMultiple ()) {
-							
+
 							buyBidButton.setEnabled (aStocksToBuy);
 							buyBidButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
 							buyBidButton.setText (Player.BUY_LABEL);
@@ -757,7 +764,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 							buyBidButton.setToolTipText ("Can only buy 1 Certificate for this company");
 							buyBidButton.setText (Player.BUY_LABEL);
 							enableSelectedButton (STOCK_SELECTED_FOR_BUY);
-						
+
 						}
 					} else {
 						buyBidButton.setEnabled (aStocksToBuy);
@@ -800,59 +807,59 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			undoButton.setToolTipText ("No Actions to Undo");
 		}
 	}
-	
+
 	public void updateCertificateInfo () {
 		setCertificateCountLabel ();
 		updatePortfolioInfo ();
 		updateBidAndEscrow ();
 	}
-	
+
 	private void enableAllStartPacketButtons (String aToolTip) {
 		StartPacketFrame tStartPacketFrame;
 		Bank tBank;
-		
+
 		if (player.isCurrentPlayer ()) {
 			tBank = player.getBank ();
-			if (! tBank.isStartPacketPortfolioEmpty ()) {
+			if (!tBank.isStartPacketPortfolioEmpty ()) {
 				tStartPacketFrame = tBank.getStartPacketFrame ();
 				tStartPacketFrame.enableAllCheckedButtons (aToolTip, player);
 			}
 		}
 	}
-	
+
 	private void enableMustBuyPrivateButton () {
 		StartPacketFrame tStartPacketFrame;
 		Bank tBank;
-		
+
 		if (player.isCurrentPlayer ()) {
 			tBank = player.getBank ();
-			if (! tBank.isStartPacketPortfolioEmpty ()) {
+			if (!tBank.isStartPacketPortfolioEmpty ()) {
 				tStartPacketFrame = tBank.getStartPacketFrame ();
 				tStartPacketFrame.enableMustBuyPrivateButton ();
 			}
 		}
 	}
-	
+
 	private void disableAllStartPacketButtons (String aToolTip) {
 		StartPacketFrame tStartPacketFrame;
 		Bank tBank;
-		
+
 		if (player.isCurrentPlayer ()) {
 			tBank = player.getBank ();
-			if (! tBank.isStartPacketPortfolioEmpty ()) {
+			if (!tBank.isStartPacketPortfolioEmpty ()) {
 				tStartPacketFrame = tBank.getStartPacketFrame ();
 				tStartPacketFrame.disbleAllCheckedButtons (aToolTip);
 			}
 		}
 	}
-	
+
 	private void enableSelectedButton (String aToolTip) {
 		StartPacketFrame tStartPacketFrame;
 		Bank tBank;
-		
+
 		if (player.isCurrentPlayer ()) {
 			tBank = player.getBank ();
-			if (! tBank.isStartPacketPortfolioEmpty ()) {
+			if (!tBank.isStartPacketPortfolioEmpty ()) {
 				tStartPacketFrame = tBank.getStartPacketFrame ();
 				tStartPacketFrame.enableSelectedButton (aToolTip);
 			}
@@ -861,24 +868,24 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 	public void updatePortfolioInfo () {
 		JPanel tPortfolioInfoJPanel;
-		
+
 		tPortfolioInfoJPanel = player.buildPortfolioJPanel (this);
 		replacePortfolioInfo (tPortfolioInfoJPanel);
 		setTotalValueLabel ();
 	}
-	
+
 	public void handleExplainButtons () {
 		Point tNewPoint;
 		GameManager tGameManager;
 		Portfolio tPortfolio;
 		Bank tBank;
 		StartPacketFrame tStartPacketFrame;
-		
+
 		tGameManager = player.getGameManager ();
 		tNewPoint = tGameManager.getOffsetPlayerFrame ();
 		tPortfolio = player.getPortfolio ();
 		buttonsInfoFrame.prepareExplainButtons (tPortfolio);
-		
+
 		tBank = tGameManager.getBank ();
 		tStartPacketFrame = tBank.getStartPacketFrame ();
 		if (tStartPacketFrame.isStartPacketPortfolioEmpty ()) {
@@ -889,7 +896,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		}
 		tPortfolio = tGameManager.getBankPoolPortfolio ();
 		buttonsInfoFrame.fillWithCheckBoxes (tPortfolio, "Bank Pool");
-		
+
 		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}
 }

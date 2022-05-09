@@ -34,18 +34,18 @@ public class OptionEffect {
 	TrainInfo train;
 	int quantity;
 	boolean state;
-	
+
 	public OptionEffect () {
 		setValue (NO_NAME, NO_NAME, NO_QUANTITY, NO_NAME, NO_NAME);
 	}
-	
+
 	public OptionEffect (XMLNode aCellNode) {
 		String tName, tTrainName, tPhaseName, tCellName;
 		int tQuantity, tTrainCount, tIndex;
 		NodeList tTrainChildren;
 		XMLNode tTrainNode;
 		String tTrainChildName;
-		
+
 		tName = aCellNode.getThisAttribute (AN_NAME);
 		if (tName.equals (SET_TRAIN_QUANTITY)) {
 			tTrainName = aCellNode.getThisAttribute (AN_EFFECT_NAME);
@@ -68,7 +68,7 @@ public class OptionEffect {
 				tTrainNode = new XMLNode (tTrainChildren.item (tIndex));
 				tTrainChildName = tTrainNode.getNodeName ();
 				if ("Train".equals (tTrainChildName)) {
-					train = new TrainInfo (tTrainNode);						
+					train = new TrainInfo (tTrainNode);
 				}
 			}
 		} else if (tName.equals (MUST_BUY_TRAIN)) {
@@ -77,15 +77,15 @@ public class OptionEffect {
 			setValue (tName, NO_NAME, NO_QUANTITY, NO_NAME, NO_NAME);
 		}
 	}
-	
+
 	public String getCellName () {
 		return cellName;
 	}
-	
+
 	public boolean getState () {
 		return state;
 	}
-	
+
 	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement, tTrainElement;
 
@@ -112,36 +112,36 @@ public class OptionEffect {
 		if (name.equals (MUST_BUY_TRAIN)) {
 			tXMLElement.setAttribute (AN_MUST_BUY_TRAIN, state);
 		}
-		
+
 		return tXMLElement;
 	}
-	
+
 	public String getName () {
 		return name;
 	}
-	
+
 	public String getPhaseName () {
 		return phaseName;
 	}
-	
+
 	public int getQuantity () {
 		return quantity;
 	}
-	
+
 	public TrainInfo getTrainInfo () {
 		return train;
 	}
-	
+
 	public String getTrainName () {
 		return actorName;
 	}
-	
+
 	private void setValue (String aEffectName, String aActorName, boolean aState) {
 		name = aEffectName;
 		actorName = aActorName;
 		state = aState;
 	}
-	
+
 	private void setValue (String aEffectName, String aActorName, int aQuantity, String aPhaseName, String aCellName) {
 		name = aEffectName;
 		actorName = aActorName;

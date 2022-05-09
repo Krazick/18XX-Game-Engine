@@ -32,63 +32,63 @@ public class EscrowToPlayerEffect extends Effect {
 	public EscrowToPlayerEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
-		
+
 		String tCertificateName;
 		Certificate tCertificate;
 		int tCash;
-		
+
 		tCertificateName = aEffectNode.getThisAttribute (AN_ESCROW_TO_PLAYER_COMPANY);
 		tCertificate = aGameManager.getCertificate (tCertificateName, 100, true);
 		tCash = aEffectNode.getThisIntAttribute (AN_ESCROW_TO_PLAYER_CASH);
-		escrow = new Escrow (tCertificate, tCash);		
+		escrow = new Escrow (tCertificate, tCash);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 		String tCompanyAbbrev;
 		int tCash;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tCompanyAbbrev = escrow.getCompanyAbbrev ();
 		tCash = escrow.getCash ();
 		tEffectElement.setAttribute (AN_ESCROW_TO_PLAYER_COMPANY, tCompanyAbbrev);
 		tEffectElement.setAttribute (AN_ESCROW_TO_PLAYER_CASH, tCash);
-	
+
 		return tEffectElement;
 	}
 
 	public Escrow getEscrow () {
 		return escrow;
 	}
-	
+
 	public void setEscrow (Escrow aEscrow) {
 		escrow = aEscrow;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + escrow.getCompanyAbbrev() + " made by "+  actor.getName () + ".");
+		return (REPORT_PREFIX + name + " for " + escrow.getCompanyAbbrev () + " made by " + actor.getName () + ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApply;
 		EscrowHolderI tEscrowHolder;
 		Certificate tCertificate;
 		int tCash;
-		
+
 		tCertificate = escrow.getCertificate ();
 		tCash = escrow.getCash ();
 		tEscrowHolder = (EscrowHolderI) actor;
 		tEscrowHolder.addEscrowInfo (tCertificate, tCash);
 		tEffectApply = true;
-		
+
 		return tEffectApply;
 	}
 
@@ -96,12 +96,12 @@ public class EscrowToPlayerEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Player tPlayer;
-		
+
 		tEffectUndone = false;
 		tPlayer = (Player) actor;
 		tPlayer.removeEscrow (escrow);
 		tEffectUndone = true;
-		
+
 		return tEffectUndone;
 	}
 }

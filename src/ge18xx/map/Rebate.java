@@ -24,37 +24,37 @@ public class Rebate extends Feature {
 	public static final Rebate NO_REBATE = null;
 	static final int NO_REBATE_VALUE = 0;
 	int amount;
-	
+
 	public Rebate () {
 		this (NO_REBATE_VALUE);
 	}
-	
+
 	public Rebate (int aAmount) {
 		this (aAmount, Location.CENTER_CITY_LOC);
 	}
-	
+
 	public Rebate (int aAmount, int aLocation) {
 		super (aLocation);
 		amount = aAmount;
 	}
-	
+
 	public Rebate (XMLNode aNode) {
 		int tValue, tLocation;
-		
+
 		tValue = aNode.getThisIntAttribute (AN_VALUE);
 		tLocation = aNode.getThisIntAttribute (Location.AN_LOCATION, Location.CENTER_CITY_LOC);
 		amount = tValue;
 		setLocation (tLocation);
 	}
-	
+
 	public void draw (Graphics g, int Xc, int Yc, Hex aHex) {
 		String tRebate;
 		Point tDisplace;
 		int tXc, tYc, tXUL, tYUL;
 		int tWidth, tHeight;
-		Font tNewFont;	
+		Font tNewFont;
 		Font tCurrentFont;
-		
+
 		tRebate = getAmountToString ();
 		if (tRebate != null) {
 			tRebate = "(" + tRebate + ")";
@@ -66,30 +66,30 @@ public class Rebate extends Feature {
 			tYc = Yc + tDisplace.y;
 			tWidth = g.getFontMetrics ().stringWidth (tRebate);
 			tHeight = g.getFontMetrics ().getHeight ();
-			tXUL = tXc - tWidth/2;
-			tYUL = tYc - tHeight/2;
+			tXUL = tXc - tWidth / 2;
+			tYUL = tYc - tHeight / 2;
 			g.setColor (Color.black);
 			g.drawString (tRebate, tXUL, tYUL);
 			g.setFont (tCurrentFont);
 		}
 	}
-	
+
 	public int getAmount () {
 		return amount;
 	}
-	
+
 	public String getAmountToString () {
 		String tRebate;
-		
+
 		if (amount > 0) {
 			tRebate = new Integer (amount).toString ();
 		} else {
 			tRebate = null;
 		}
-		
+
 		return (tRebate);
 	}
-	
+
 	public void setValues (int aAmount, int aLocation) {
 		setLocation (aLocation);
 		amount = aAmount;

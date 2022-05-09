@@ -29,15 +29,16 @@ public class TileTrayFrame extends XMLFrame {
 	TileSet tileSet;
 	GameManager gameManager;
 	JScrollPane scrollPane;
-	
+
 	public TileTrayFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getActiveGameName ());
-		
+
 		buildTileTrayScrollPanel ();
-		
+
 		// Width - 92 pixels for each tile, Multiply by # TILES/ROW
 		// Height - 115 Pixels per Row
-		// Count types of tiles, and divide by TILES/ROW, round up, to get how many rows need to show
+		// Count types of tiles, and divide by TILES/ROW, round up, to get how many rows
+		// need to show
 		// Should change based upon phase (and tiles available/to be shown)
 //		tNumRows = 4;  
 //		tWidth = TILE_WIDTH * TileSet.TILES_PER_ROW;
@@ -45,33 +46,31 @@ public class TileTrayFrame extends XMLFrame {
 //		tDimension = new Dimension (tWidth, tHeight);
 //		
 //		setScrollPanePSize (tDimension);
-		
+
 		gameManager = aGameManager;
 	}
-	
+
 	private void buildTileTrayScrollPanel () {
 		tileSet = new TileSet (this);
-        scrollPane = new JScrollPane ();
+		scrollPane = new JScrollPane ();
 		scrollPane.setViewportView (tileSet);
-		scrollPane.setHorizontalScrollBarPolicy(
-			    JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane.setVerticalScrollBarPolicy(
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy (JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setVerticalScrollBarPolicy (JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		add (scrollPane, BorderLayout.CENTER);
 	}
 
 	public boolean addTile (Tile aTile, int aTotalCount) {
 		return tileSet.addTile (aTile, aTotalCount);
 	}
-	
+
 	public void copyTileDefinitions (TileSet aTileDefinitions) {
 		tileSet.copyTileDefinitions (aTileDefinitions);
 	}
-	
+
 	public XMLElement createTileDefinitions (XMLDocument aXMLDocument) {
 		return (tileSet.createAllTileDefinitions (aXMLDocument));
 	}
-	
+
 	public Tile getTile (int aTileNumber) {
 		if (tileSet == TileSet.NO_TILE_SET) {
 			return null;
@@ -79,7 +78,7 @@ public class TileTrayFrame extends XMLFrame {
 			return tileSet.getTile (aTileNumber);
 		}
 	}
-	
+
 	public TileSet getTileSet () {
 		return tileSet;
 	}
@@ -87,19 +86,19 @@ public class TileTrayFrame extends XMLFrame {
 	public TileType getTileType () {
 		return tileSet.getTileType ();
 	}
-	
+
 	public void notifyMapFrame () {
 		gameManager.notifyMapFrame ();
 	}
-	
+
 	public void bringMapToFront () {
 		gameManager.bringMapToFront ();
 	}
-	
+
 	public void setTraySize () {
 		tileSet.setTraySize ();
 	}
-	
+
 	public void setValues (String aSetName) {
 		tileSet.setValues (aSetName);
 	}
@@ -108,15 +107,15 @@ public class TileTrayFrame extends XMLFrame {
 		boolean tUpgradeAllowed = true;
 		TileType tTileType = aUpgradeGameTile.getTheTileType ();
 		String tTileColor = tTileType.getName ();
-		
+
 		tUpgradeAllowed = gameManager.isUpgradeAllowed (tTileColor);
-		
+
 		return tUpgradeAllowed;
 	}
 
-	public void setScrollPanePSize(Dimension tNewDimension) {
+	public void setScrollPanePSize (Dimension tNewDimension) {
 		scrollPane.setPreferredSize (tNewDimension);
-        scrollPane.setVerticalScrollBarPolicy (ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setHorizontalScrollBarPolicy (ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
- 	}
+		scrollPane.setVerticalScrollBarPolicy (ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy (ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+	}
 }

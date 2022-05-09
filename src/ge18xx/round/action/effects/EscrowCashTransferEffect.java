@@ -26,12 +26,12 @@ public class EscrowCashTransferEffect extends CashTransferEffect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		
+
 		// The creation of the Escrow completes the Cash Transfer.
 		// Therefore there is no need to have a Network Game apply this effect
 		// To the receiving client
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 	}
 }

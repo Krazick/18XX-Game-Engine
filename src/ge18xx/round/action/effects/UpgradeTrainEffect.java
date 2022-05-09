@@ -17,31 +17,29 @@ public class UpgradeTrainEffect extends TransferTrainEffect {
 		setName (NAME);
 	}
 
-	public UpgradeTrainEffect (ActorI aFromActor, Train aTrain,
-			ActorI aToActor) {
+	public UpgradeTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor) {
 		super (aFromActor, aTrain, aToActor);
 		setName (NAME);
 	}
 
-	public UpgradeTrainEffect (XMLNode aEffectNode,
-			GameManager aGameManager) {
+	public UpgradeTrainEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
-	
+
 		return tEffectElement;
 	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " named " + train.getName () + " from " + actor.getName () + 
-				" into the Bank Pool Train Portfolio due to Upgrading this train.");
+		return (REPORT_PREFIX + name + " named " + train.getName () + " from " + actor.getName ()
+				+ " into the Bank Pool Train Portfolio due to Upgrading this train.");
 	}
 
 }

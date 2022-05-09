@@ -75,7 +75,7 @@ public class Train implements Comparable<Object> {
 	boolean operating;
 	RouteInformation currentRouteInformation;
 	RouteInformation previousRouteInformation;
-	
+
 	public Train () {
 		Gauge no_gauge = new Gauge ();
 		setValues ("", NO_ORDER, no_gauge, NO_RC_COUNT, NO_RC_COUNT, NO_PRICE);
@@ -84,61 +84,61 @@ public class Train implements Comparable<Object> {
 	public Train (String aName, int aOrder, int aGaugeType, int aMajorCity, int aPrice) {
 		Gauge tGauge = new Gauge (aGaugeType);
 		setValues (aName, aOrder, tGauge, aMajorCity, NO_RC_COUNT, aPrice);
-	} 
-	
+	}
+
 	public Train (String aName, int aOrder, int aGaugeType, int aMajorCity, int aMinorCity, int aPrice) {
 		Gauge tGauge = new Gauge (aGaugeType);
 		setValues (aName, aOrder, tGauge, aMajorCity, aMinorCity, aPrice);
 	}
-	
+
 	public Train (Train aTrain) {
 		this (aTrain.name, aTrain.order, aTrain.gauge.getType (), aTrain.cityCount, aTrain.townCount, aTrain.price);
 		setStatus (aTrain.getStatus ());
 		setTrainInfo (aTrain.getTrainInfo ());
 	}
-	
+
 	private void setFrameButton (JCheckBox aJCheckBox, String aGroupName) {
 		if (aJCheckBox != GUI.NO_CHECK_BOX) {
 			frameButton = new FrameButton (aJCheckBox, aGroupName);
 		}
 	}
-	
+
 	public FrameButton getFrameButton () {
 		return frameButton;
 	}
-	
+
 	public void clearFrameButton () {
 		if (frameButton != FrameButton.NO_FRAME_BUTTON) {
 			frameButton.setVisible (false);
 		}
 	}
-	
+
 	public void resetFrameButton () {
 		if (frameButton != FrameButton.NO_FRAME_BUTTON) {
 			frameButton.setVisible (true);
 		}
 	}
-	
+
 	public void setCurrentRouteInformation (RouteInformation aRouteInformation) {
 		currentRouteInformation = aRouteInformation;
 	}
-	
+
 	public void setPreviousRouteInformation (RouteInformation aRouteInformation) {
 		previousRouteInformation = aRouteInformation;
 	}
-	
+
 	public RouteInformation getCurrentRouteInformation () {
 		return currentRouteInformation;
 	}
-	
+
 	public RouteInformation getPreviousRouteInformation () {
 		return previousRouteInformation;
 	}
-	
+
 	public JPanel buildCertificateInfoPanel () {
 		JPanel tCertificateInfoPanel;
 		Border tCertInfoBorder;
-		
+
 		tCertificateInfoPanel = new JPanel ();
 		tCertificateInfoPanel.setLayout (new BoxLayout (tCertificateInfoPanel, BoxLayout.Y_AXIS));
 		tCertInfoBorder = setupBorder ();
@@ -148,15 +148,15 @@ public class Train implements Comparable<Object> {
 
 		return tCertificateInfoPanel;
 	}
-	
+
 	private String getFullName () {
 		return name + " Train";
 	}
-	
-	public JPanel buildCertificateInfoJPanel (ItemListener aItemListener, String aActionLabel,
-					boolean aActionEnabled, String aActionToolTip) {
+
+	public JPanel buildCertificateInfoJPanel (ItemListener aItemListener, String aActionLabel, boolean aActionEnabled,
+			String aActionToolTip) {
 		JPanel tCertificateInfoPanel;
-		
+
 		tCertificateInfoPanel = buildCertificateInfoPanel ();
 		if (aActionLabel != null) {
 			if (actionCheckbox == GUI.NO_CHECK_BOX) {
@@ -172,7 +172,7 @@ public class Train implements Comparable<Object> {
 		} else {
 			clearActionCheckbox (aActionLabel, aActionToolTip);
 		}
-		
+
 		return tCertificateInfoPanel;
 	}
 
@@ -181,32 +181,32 @@ public class Train implements Comparable<Object> {
 		Border tInnerBorder;
 		Border tOuterBorder;
 		Color tInnerColor;
-		
+
 		tInnerColor = new Color (237, 237, 237);
 		tInnerBorder = BorderFactory.createLineBorder (tInnerColor, 5);
 		tOuterBorder = BorderFactory.createLineBorder (Color.black, 1);
 		tCertInfoBorder = BorderFactory.createCompoundBorder (tOuterBorder, tInnerBorder);
-		
+
 		return tCertInfoBorder;
 	}
 
 	public int getDiscountCost () {
 		return trainInfo.getDiscount ();
 	}
-	
+
 	public void applyDiscount (Train aTradeInTrain) {
 		String tCostLabel;
-		
+
 		tCostLabel = "Discounted Cost " + Bank.formatCash (getDiscountCost ());
 		costLabel.setText (tCostLabel);
 		setPrice (getDiscountCost ());
 	}
-	
+
 	public boolean removeDiscount () {
 		String tCostLabel;
 		boolean tDiscountRemoved = false;
-		
-		// during initial game setup, costLabel is not created yet, so don't have 
+
+		// during initial game setup, costLabel is not created yet, so don't have
 		// cost labels (or trains) to discount yet
 		if (costLabel != null) {
 			tDiscountRemoved = (trainInfo.getPrice () != price);
@@ -217,29 +217,29 @@ public class Train implements Comparable<Object> {
 				actionCheckbox.setSelected (false);
 			}
 		}
-		
+
 		return tDiscountRemoved;
 	}
-	
+
 	private void setCostLabel (JPanel aCertificateInfoPanel, int aPrice) {
 		String tCostLabel;
-		
+
 		tCostLabel = "Cost " + Bank.formatCash (aPrice);
 		costLabel = new JLabel (tCostLabel);
 		aCertificateInfoPanel.add (costLabel);
 	}
-	
+
 	public boolean canBeUpgradedFrom (String aTradeInPossible) {
 		boolean tCanBeUpgradedFrom = false;
-		
+
 		tCanBeUpgradedFrom = trainInfo.canBeUpgradedFrom (aTradeInPossible);
-		
+
 		return tCanBeUpgradedFrom;
 	}
-	
+
 	public boolean canUpgrade (Train [] aAvailableTrains) {
 		boolean tCanUpgrade = false;
-		
+
 		for (Train tAvailableTrain : aAvailableTrains) {
 			if (tAvailableTrain.canBeUpgradedFrom (name)) {
 				tCanUpgrade = true;
@@ -263,86 +263,86 @@ public class Train implements Comparable<Object> {
 		actionCheckbox.setToolTipText (aActionToolTip);
 		clearSelection ();
 	}
-	
+
 	public void setSelection () {
 		if (actionCheckbox != GUI.NO_CHECK_BOX) {
 			actionCheckbox.setSelected (true);
 		}
 	}
-	
+
 	public void clearSelection () {
 		if (actionCheckbox != GUI.NO_CHECK_BOX) {
 			actionCheckbox.setSelected (false);
 		}
 	}
-	
+
 	@Override
 	public int compareTo (Object aTrain) throws ClassCastException {
 		int tResult;
-		
+
 		if (!(aTrain instanceof Train))
 			throw new ClassCastException ("A Train object expected.");
-		tResult =  order - ((Train) aTrain).order;
-		
+		tResult = order - ((Train) aTrain).order;
+
 		return tResult;
 	}
 
 	public int getTrueCityCount () {
 		return cityCount;
 	}
-	
+
 	public int getCityCount () {
 		// TODO: KLUDGE to allow Diesel to run with Infinite LENGTH (max 15).
 		int tCityCountMax;
-		
+
 		tCityCountMax = cityCount;
 		if (tCityCountMax > 15) {
 			tCityCountMax = 15;
 		}
-		
+
 		return tCityCountMax;
 	}
-	
+
 	public Color getColor (int aTrainNumber) {
 		Color color;
-		
+
 		switch (aTrainNumber) {
-            case (1):		
-				color = Color.green;
-				break;
-				
-            case (2):		
-				color = Color.orange;
-				break;
-					
-			case (3):		
-				color = Color.red;
-				break;
-						
-			case (4):		
-				color = Color.magenta;
-				break;
-				
-			case (5):		
-				color = Color.cyan;
-				break;
-				
-			case (6):		
-				color = Color.pink;
-				break;
-				
-			default:		
-				color = Color.black;
-				break;
-        }
-		
+		case (1):
+			color = Color.green;
+			break;
+
+		case (2):
+			color = Color.orange;
+			break;
+
+		case (3):
+			color = Color.red;
+			break;
+
+		case (4):
+			color = Color.magenta;
+			break;
+
+		case (5):
+			color = Color.cyan;
+			break;
+
+		case (6):
+			color = Color.pink;
+			break;
+
+		default:
+			color = Color.black;
+			break;
+		}
+
 		return color;
 	}
 
 	public XMLElement getElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tXMLCurrentRouteInfoElement, tPreviousRouteInfoElement;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_TRAIN);
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_STATUS, status);
@@ -358,77 +358,77 @@ public class Train implements Comparable<Object> {
 				tXMLElement.appendChild (tPreviousRouteInfoElement);
 			}
 		}
-		
+
 		return tXMLElement;
 	}
-	
+
 	public boolean isCurrentRouteValid () {
 		boolean tIsCurrrentRouteValid = true;
-		
+
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			if (currentRouteInformation.isValidRoute () < 0) {
 				tIsCurrrentRouteValid = false;
 			}
 		}
-		
+
 		return tIsCurrrentRouteValid;
 	}
-	
+
 	public String getName () {
 		return name;
 	}
-	
+
 	public int getOrder () {
 		return order;
 	}
-	
+
 	public int getOnFirstOrderAvailable () {
 		return trainInfo.getOnFirstOrderAvailable ();
 	}
-	
+
 	public int getOnLastOrderAvailable () {
 		return trainInfo.getOnLastOrderAvailable ();
 	}
-	
+
 	public int getPrice () {
 		return price;
 	}
-	
+
 	public String getRust () {
 		return trainInfo.getRust ();
 	}
-	
+
 	public String getRustInfo () {
 		String tRustInfo;
-		
+
 		tRustInfo = getRust ();
-		if (! tRustInfo.equals (TrainInfo.NO_RUST)) {
+		if (!tRustInfo.equals (TrainInfo.NO_RUST)) {
 			tRustInfo = "Rust " + tRustInfo + " Trains";
 		}
-		
+
 		return tRustInfo;
 	}
-	
+
 	public String getTileInfo () {
 		String tTileInfo;
-		
+
 		tTileInfo = trainInfo.getTileInfo ();
-		if (! tTileInfo.equals (Train.NO_TILE_INFO)) {
+		if (!tTileInfo.equals (Train.NO_TILE_INFO)) {
 			tTileInfo = tTileInfo + " Tiles Available";
 		}
-		
+
 		return tTileInfo;
 	}
-	
+
 	public int getStatus () {
 		return status;
 	}
-	
+
 	static public String getNameOfStatus (int aStatusValue) {
 		String tNameOfStatus;
-		
+
 		// TODO: update the TrainStatusValue to be an Enum, and get name from the Enum
-		
+
 		tNameOfStatus = "No Train Status";
 		if (aStatusValue == NOT_AVAILABLE) {
 			tNameOfStatus = "Not Available for Purchase";
@@ -442,39 +442,39 @@ public class Train implements Comparable<Object> {
 
 		return tNameOfStatus;
 	}
-	
+
 	public int getTownCount () {
 		return townCount;
 	}
-	
+
 	public TrainInfo getTrainInfo () {
 		return trainInfo;
 	}
-	
+
 	public boolean isAvailableForPurchase () {
 		return (status == AVAILABLE_FOR_PURCHASE);
 	}
-	
+
 	public boolean isNotAvailable () {
 		return (status == NOT_AVAILABLE);
 	}
-	
+
 	public boolean isRusted () {
 		return (status == RUSTED);
 	}
-	
+
 	public boolean isSelected () {
 		boolean tIsSelected;
-		
+
 		if (actionCheckbox == GUI.NO_CHECK_BOX) {
 			tIsSelected = false;
 		} else {
 			tIsSelected = actionCheckbox.isSelected ();
 		}
-		
+
 		return tIsSelected;
 	}
-	
+
 	public boolean isThisCheckBox (Object aCheckBox) {
 		return (actionCheckbox == aCheckBox);
 	}
@@ -482,31 +482,31 @@ public class Train implements Comparable<Object> {
 	public boolean isTrainThisOrder (int aOrder) {
 		return (order == aOrder);
 	}
-	
+
 	public boolean isUnlimitedQuantity () {
 		return trainInfo.isUnlimitedQuantity ();
 	}
-	
+
 	public void rust () {
 		setStatus (RUSTED);
 	}
-	
+
 	public void setPrice (int aPrice) {
 		price = aPrice;
 	}
-	
+
 	public void setStatus (int aStatus) {
 		status = aStatus;
 	}
-	
+
 	public void setTrainInfo (TrainInfo aTrainInfo) {
 		trainInfo = aTrainInfo;
 	}
-	
+
 	public void setUnlimitedQuantity () {
 		trainInfo.setUnlimited ();
 	}
-	
+
 	public void setValues (String aName, int aOrder, Gauge aGauge, int aMajorCity, int aMinorCity, int aPrice) {
 		gauge = aGauge;
 		order = aOrder;
@@ -521,19 +521,19 @@ public class Train implements Comparable<Object> {
 		setPreviousRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 		setOperating (false);
 	}
-	
+
 	public void setOperating (boolean aOperating) {
 		operating = aOperating;
 	}
-	
+
 	public boolean isOperating () {
 		return operating;
 	}
-	
+
 	public boolean hasOperated () {
 		return currentRouteInformation.hasOperated ();
 	}
-	
+
 	public boolean willRustAfterNextOR () {
 		return (status == RUST_AFTER_NEXT_OR);
 	}
@@ -543,9 +543,10 @@ public class Train implements Comparable<Object> {
 	}
 
 	/**
-	 * Update the Train Index on the Current Route, and Previous Route for this Train. Required so that 
-	 * when a Company loses a Train (it was bought, rusted, or discarded) the Reuse Route will have updated
-	 * information for the remaining trains.
+	 * Update the Train Index on the Current Route, and Previous Route for this
+	 * Train. Required so that when a Company loses a Train (it was bought, rusted,
+	 * or discarded) the Reuse Route will have updated information for the remaining
+	 * trains.
 	 * 
 	 * @param aTrainIndex The train index value to set to.
 	 */
@@ -557,7 +558,7 @@ public class Train implements Comparable<Object> {
 			previousRouteInformation.setTrainIndex (aTrainIndex);
 		}
 	}
-	
+
 	public void clearRouteInformation () {
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			currentRouteInformation.clear ();
@@ -567,7 +568,7 @@ public class Train implements Comparable<Object> {
 	public void loadRouteInformation (XMLNode aRouteNode, Train aTrain, TrainPortfolio aTrainPortfolio) {
 		RouteInformation tRouteInformation;
 		String tNodeName;
-		
+
 		tNodeName = aRouteNode.getNodeName ();
 		tRouteInformation = new RouteInformation (this, aRouteNode, aTrainPortfolio);
 		if (tNodeName.equals (EN_CURRENT_ROUTE.getString ())) {
@@ -588,7 +589,8 @@ public class Train implements Comparable<Object> {
 	}
 
 	public boolean startRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
-			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany,
+			TrainRevenueFrame aTrainRevenueFrame) {
 		boolean tRouteStarted = false;
 		Color tColor = Color.BLUE;
 		int tRegionBonus = 0, tSpecialBonus = 0;
@@ -597,12 +599,12 @@ public class Train implements Comparable<Object> {
 		int tCorpID;
 		RouteAction tRouteAction;
 		NodeInformation tEndNode;
-	
+
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 //			currentRouteInformation.clearTrainOn ();
 		}
-		currentRouteInformation = new RouteInformation (this, aTrainIndex, tColor, aRoundID, tRegionBonus, tSpecialBonus, 
-				aPhase, aTrainCompany, aTrainRevenueFrame);
+		currentRouteInformation = new RouteInformation (this, aTrainIndex, tColor, aRoundID, tRegionBonus,
+				tSpecialBonus, aPhase, aTrainCompany, aTrainRevenueFrame);
 		tRouteSegment = new RouteSegment (aMapCell);
 		tCorpID = aTrainCompany.getID ();
 		tRouteAction = RouteAction.NO_ROUTE_ACTION;
@@ -610,57 +612,55 @@ public class Train implements Comparable<Object> {
 		currentRouteInformation.setStartSegment (tRouteSegment, tRevenueCenter, aPhase, tCorpID);
 		if (aEndLocation != Location.NO_LOC) {
 			tRevenueCenter = aMapCell.getRevenueCenterAt (aEndLocation);
-			tEndNode = currentRouteInformation.buildNodeInformation (tRevenueCenter, aEndLocation, 
-							aPhase, tCorpID);
+			tEndNode = currentRouteInformation.buildNodeInformation (tRevenueCenter, aEndLocation, aPhase, tCorpID);
 			tRouteSegment.setEndNode (tEndNode);
 		}
 		tRevenueCenter = aMapCell.getRevenueCenterAt (aEndLocation);
 		currentRouteInformation.addTheRouteSegment (tRouteSegment, tRouteAction);
 		tRouteStarted = true;
-		
+
 		return tRouteStarted;
 	}
-	
+
 	public boolean extendRouteInformation (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
-			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany,
+			TrainRevenueFrame aTrainRevenueFrame) {
 		boolean tRouteExtended = false;
 		RouteSegment tRouteSegment;
 		int tCorpID;
 		RouteAction tRouteAction;
 		NodeInformation tStartNode, tEndNode;
 		RevenueCenter tRevenueCenter;
-		
+
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			tCorpID = aTrainCompany.getID ();
 			tRouteSegment = new RouteSegment (aMapCell);
 			tRevenueCenter = aMapCell.getRevenueCenterAt (aStartLocation);
-			tStartNode = currentRouteInformation.buildNodeInformation (tRevenueCenter, aStartLocation, 
-							aPhase, tCorpID);
+			tStartNode = currentRouteInformation.buildNodeInformation (tRevenueCenter, aStartLocation, aPhase, tCorpID);
 			tRouteSegment.setStartNode (tStartNode);
-			
+
 			tRevenueCenter = aMapCell.getRevenueCenterAt (aEndLocation);
-			tEndNode = currentRouteInformation.buildNodeInformation (tRevenueCenter, aEndLocation, 
-							aPhase, tCorpID);
+			tEndNode = currentRouteInformation.buildNodeInformation (tRevenueCenter, aEndLocation, aPhase, tCorpID);
 			tRouteSegment.setEndNode (tEndNode);
 
 			tCorpID = aTrainCompany.getID ();
 			tRouteAction = RouteAction.NO_ROUTE_ACTION;
 			currentRouteInformation.addTheRouteSegment (tRouteSegment, tRouteAction);
 			tRouteExtended = true;
-		} 
-		
+		}
+
 		return tRouteExtended;
-		
+
 	}
-	
-	public boolean setNewEndPoint (int aTrainIndex, MapCell aMapCell, Location aStartLocation,
-			Location aEndLocation, String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
+
+	public boolean setNewEndPoint (int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation,
+			String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
 		RouteSegment tPreviousRouteSegment;
 		boolean tSetNewEndPoint;
 		int tPreviousEndLocation, tPreviousStartLocation;
 		Location tPreviousEnd;
 		Track tOldTrack, tNewTrack;
-		
+
 		if (currentRouteInformation == RouteInformation.NO_ROUTE_INFORMATION) {
 			tSetNewEndPoint = false;
 		} else {
@@ -668,23 +668,23 @@ public class Train implements Comparable<Object> {
 			tPreviousStartLocation = tPreviousRouteSegment.getStartLocationInt ();
 			tPreviousEnd = tPreviousRouteSegment.getEndLocation ();
 			tPreviousEndLocation = tPreviousEnd.getLocation ();
-			
+
 			if (tPreviousEndLocation == Location.NO_LOCATION) {
 				tPreviousEndLocation = aEndLocation.getLocation ();
 			}
 			tOldTrack = aMapCell.getTrackFromStartToEnd (tPreviousStartLocation, tPreviousEndLocation);
 			tNewTrack = aMapCell.getTrackFromStartToEnd (aStartLocation.getLocation (), aEndLocation.getLocation ());
 			tPreviousRouteSegment.setEndNode (aEndLocation, aPhase);
-			
+
 			currentRouteInformation.swapTrackHighlights (aTrainIndex, tOldTrack, tNewTrack);
-	
-			currentRouteInformation.updateRevenueCenterInfo (aTrainCompany.getID (), tPreviousRouteSegment, 
-								aEndLocation, tPreviousEnd);
+
+			currentRouteInformation.updateRevenueCenterInfo (aTrainCompany.getID (), tPreviousRouteSegment,
+					aEndLocation, tPreviousEnd);
 			currentRouteInformation.updateRevenueFrame ();
-	
+
 			tSetNewEndPoint = true;
 		}
-		
+
 		return tSetNewEndPoint;
 	}
 }

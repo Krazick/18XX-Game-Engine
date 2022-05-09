@@ -22,14 +22,14 @@ public class LicenseBenefit extends Benefit {
 	String mapCellIDs;
 	int value;
 
-	public LicenseBenefit(XMLNode aXMLNode) {
+	public LicenseBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
-		
+
 		String tMapCellIDs;
 		boolean tLicense;
 		int tLicenseValue;
 		int tLicenseCost;
-		
+
 		tLicense = aXMLNode.getThisBooleanAttribute (AN_LICENSE);
 		tLicenseCost = aXMLNode.getThisIntAttribute (AN_LICENSE_COST);
 		tMapCellIDs = aXMLNode.getThisAttribute (AN_MAP_CELL);
@@ -45,27 +45,27 @@ public class LicenseBenefit extends Benefit {
 	public void setLicense (boolean aLicense) {
 		license = aLicense;
 	}
-	
+
 	public void setLicenseCost (int aLicenseCost) {
 		licenseCost = aLicenseCost;
 	}
-	
+
 	public void setMapCellIDs (String aMapCellIDs) {
 		mapCellIDs = aMapCellIDs;
 	}
-	
+
 	public void setLicenseValue (int aLicenseValue) {
 		value = aLicenseValue;
 	}
-	
+
 	public int getLicenseCost () {
 		return licenseCost;
 	}
-	
+
 	public int getLicenseValue () {
 		return value;
 	}
-	
+
 	@Override
 	public int getCost () {
 		return licenseCost;
@@ -82,7 +82,7 @@ public class LicenseBenefit extends Benefit {
 
 		tActionCommand = aEvent.getActionCommand ();
 		if (CorporationFrame.BUY_LICENSE.equals (tActionCommand)) {
-			handleBuyLicense  ();
+			handleBuyLicense ();
 		}
 	}
 
@@ -92,7 +92,7 @@ public class LicenseBenefit extends Benefit {
 
 		super.configure (aPrivateCompany, aButtonRow);
 		if (shouldConfigure ()) {
-			if (! hasButton ()) {
+			if (!hasButton ()) {
 				tBuyLicenseButton = new JButton (getNewButtonLabel ());
 				setButton (tBuyLicenseButton);
 				setButtonPanel (aButtonRow);
@@ -107,7 +107,7 @@ public class LicenseBenefit extends Benefit {
 	private void handleBuyLicense () {
 		System.out.println ("Ready to Buy License for " + privateCompany.getAbbrev ());
 	}
-	
+
 	@Override
 	public String getNewButtonLabel () {
 		String tNewButtonText;
@@ -116,7 +116,7 @@ public class LicenseBenefit extends Benefit {
 
 		return tNewButtonText;
 	}
-	
+
 	@Override
 	public void updateButton () {
 		ShareCompany tOwningCompany;
@@ -126,7 +126,7 @@ public class LicenseBenefit extends Benefit {
 		tOwningCompany = getOwningCompany ();
 		tBenefitInUse = tOwningCompany.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
-		if ((tBenefitInUse.realBenefit ()) && (! NAME.equals (tBenefitInUseName))) {
+		if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
 			disableButton ();
 			setToolTip ("Another Benefit is currently in Use");
 		} else {

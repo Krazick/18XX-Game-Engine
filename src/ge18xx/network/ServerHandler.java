@@ -17,8 +17,8 @@ import org.apache.logging.log4j.Logger;
 
 public abstract class ServerHandler implements Runnable {
 	public final static ServerHandler NO_SERVER_HANDLER = null;
-    private final static int DefaultTimeout = 12000;
-    private final static int DefaultSleep = 60000;
+	private final static int DefaultTimeout = 12000;
+	private final static int DefaultSleep = 60000;
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
@@ -28,41 +28,42 @@ public abstract class ServerHandler implements Runnable {
 	private int port;
 	private Logger logger;
 	private NetworkGameSupport gameManager;
-	
+
 	public ServerHandler (Socket aServerSocket, NetworkGameSupport aGameManager) {
 		setValues (aServerSocket);
 		gameManager = aGameManager;
 		setupLogger ();
 	}
-	
-	public ServerHandler (Socket aServerSocket, BufferedReader aBufferedReader, 
-						PrintWriter aPrintWriter, NetworkGameSupport aGameManager) {
+
+	public ServerHandler (Socket aServerSocket, BufferedReader aBufferedReader, PrintWriter aPrintWriter,
+			NetworkGameSupport aGameManager) {
 		setSocket (aServerSocket);
 		setInBufferedReader (aBufferedReader);
 		setOutPrintWriter (aPrintWriter);
 		gameManager = aGameManager;
 		setupLogger ();
 	}
-	
+
 	private void setupLogger () {
 		String tXMLBaseDir;
-		
+
 		tXMLBaseDir = gameManager.getXMLBaseDirectory ();
 		System.setProperty ("log4j.configurationFile", tXMLBaseDir + "log4j2.xml");
 		logger = LogManager.getLogger (ServerHandler.class);
 		logger.info ("Logger setup in Server Handler");
 	}
 
-	public ServerHandler (String aHost, int aPort, NetworkGameSupport aGameManager) throws ConnectException, SocketTimeoutException {
+	public ServerHandler (String aHost, int aPort, NetworkGameSupport aGameManager)
+			throws ConnectException, SocketTimeoutException {
 		boolean tContinueRunning = false;
-		
+
 		gameManager = aGameManager;
 		setupLogger ();
 		try {
-            // Connect to socket by host, port, and with specified timeout.
+			// Connect to socket by host, port, and with specified timeout.
 			setHost (aHost);
 			setPort (aPort);
-            establishSocketConnection ();
+			establishSocketConnection ();
 			tContinueRunning = true;
 		} catch (UnknownHostException tException) {
 			log ("Unkown Host Exception thrown when creating Socket to Server", tException);
@@ -75,22 +76,21 @@ public abstract class ServerHandler implements Runnable {
 		} catch (IOException tException) {
 			log ("IOException thrown when creating Socket to Server", tException);
 		}
-		
+
 		setContinueRunning (tContinueRunning);
 	}
 
-	boolean establishSocketConnection ()
-			throws UnknownHostException, IOException, SocketException {
+	boolean establishSocketConnection () throws UnknownHostException, IOException, SocketException {
 		InetAddress tIPAddress;
-		
-        Socket tSocket = new Socket ();
-        tIPAddress = InetAddress.getByName (host);
-        logger.info ("Attempting Socket Connection to Host " + host + " using IP " + tIPAddress + " Port " + port);
+
+		Socket tSocket = new Socket ();
+		tIPAddress = InetAddress.getByName (host);
+		logger.info ("Attempting Socket Connection to Host " + host + " using IP " + tIPAddress + " Port " + port);
 		tSocket.connect (new InetSocketAddress (tIPAddress, port), DefaultTimeout);
-        logger.info ("Socket Connection Established");
+		logger.info ("Socket Connection Established");
 		tSocket.setKeepAlive (true);
 		setValues (tSocket);
-		
+
 		return true;
 	}
 
@@ -101,64 +101,64 @@ public abstract class ServerHandler implements Runnable {
 	private void setHost (String aHost) {
 		host = aHost;
 	}
-	
+
 	private void setPort (int aPort) {
 		port = aPort;
 	}
-	
+
 	public void setValues (Socket aServerSocket) {
 		setSocket (aServerSocket);
 		setupBufferedReader ();
 		setupPrintWriter ();
 	}
-	
+
 	public void setSocket (Socket aServerSocket) {
 		socket = aServerSocket;
 	}
-	
+
 	public void setName (String aName) {
 		name = aName;
 	}
-	
+
 	private void setupBufferedReader () {
 		BufferedReader tBufferedReader;
-		
+
 		try {
-	        logger.info ("Attempting to setup Buffered Reader");
-	        tBufferedReader = new BufferedReader (new InputStreamReader (socket.getInputStream ()));
-	        setInBufferedReader (tBufferedReader);
+			logger.info ("Attempting to setup Buffered Reader");
+			tBufferedReader = new BufferedReader (new InputStreamReader (socket.getInputStream ()));
+			setInBufferedReader (tBufferedReader);
 			logger.info ("Successful Buffered Reader");
 		} catch (IOException tException) {
 			log ("IOException thrown when seting up Buffered Reader", tException);
-		}		
+		}
 	}
-	
+
 	public void setInBufferedReader (BufferedReader aBufferedReader) {
 		in = aBufferedReader;
 	}
-	
+
 	private void setupPrintWriter () {
 		PrintWriter tPrintWriter;
-		
+
 		try {
-	        logger.info ("Attempting to setup Print Writer");
-	        tPrintWriter = new PrintWriter (socket.getOutputStream (), true);
-	        setOutPrintWriter (tPrintWriter);
+			logger.info ("Attempting to setup Print Writer");
+			tPrintWriter = new PrintWriter (socket.getOutputStream (), true);
+			setOutPrintWriter (tPrintWriter);
 			logger.info ("Successful Print Writer");
 		} catch (IOException tException) {
 			log ("IOException thrown when seting up PrintWriter", tException);
-		}		
+		}
 	}
-	
+
 	public void setOutPrintWriter (PrintWriter aPrintWriter) {
 		out = aPrintWriter;
 	}
-	
+
 	@Override
 	public void run () {
 		String tString;
 		int tRetryCount;
-		
+
 		tRetryCount = 3;
 		while (tRetryCount > 0) {
 			if (in != null) {
@@ -174,12 +174,10 @@ public abstract class ServerHandler implements Runnable {
 						}
 					}
 				} catch (SocketTimeoutException tException1) {
-					log ("Socket Timeout Exception when reading from Server. Retry Count " + 
-							tRetryCount, tException1);
+					log ("Socket Timeout Exception when reading from Server. Retry Count " + tRetryCount, tException1);
 				} catch (IOException tException2) {
-					log ("IOException thrown when Reading from Server. Retry Count " + 
-							tRetryCount, tException2);
-				}		
+					log ("IOException thrown when Reading from Server. Retry Count " + tRetryCount, tException2);
+				}
 			}
 			try {
 				Thread.sleep (DefaultSleep);
@@ -197,12 +195,12 @@ public abstract class ServerHandler implements Runnable {
 		}
 		closeAll ();
 	}
-	
+
 	protected abstract void startHeartbeat ();
-	
+
 	private boolean tryReConnect () {
 		boolean tContinue;
-		
+
 		try {
 			Thread.sleep (10000);
 			logger.warn ("Attempting once to Reconnect to the Server");
@@ -211,28 +209,28 @@ public abstract class ServerHandler implements Runnable {
 			establishSocketConnection ();
 			logger.warn ("Success on creating a new Socket to the Server");
 			handleChatReconnect ();
-			tContinue = true;	
+			tContinue = true;
 		} catch (Exception tException) {
 			String message = "ReConnect not successful " + tException.getMessage ();
 			log (message, tException);
-			tContinue = false;	
+			tContinue = false;
 		}
-		
+
 		return tContinue;
 	}
-	
+
 	public boolean isConnected () {
 		return continueRunning;
 	}
-	
-	// Abstract Classes to handle Content from the Server -- 
+
+	// Abstract Classes to handle Content from the Server --
 
 	protected abstract void handleServerMessage (String tString);
 
 	protected abstract void handleServerCommands (String aString);
-	
+
 	// Generate Client Requests to the Server ---
-	
+
 	public void println (String tString) {
 		if (out != null) {
 			tString = tString.replaceAll ("\r", "").replaceAll ("\n", "");
@@ -241,12 +239,12 @@ public abstract class ServerHandler implements Runnable {
 	}
 
 	// --- End of Client Requests to the Server
-	
-    private void log (String aMessage, Exception aException) {
+
+	private void log (String aMessage, Exception aException) {
 		System.err.println (aMessage);
 		aException.printStackTrace ();
 		logger.error (aMessage, aException);
-    }
+	}
 
 	public void closeAll () {
 		continueRunning = false;
@@ -263,7 +261,7 @@ public abstract class ServerHandler implements Runnable {
 				socket.close ();
 			} catch (IOException tException) {
 				log ("IOException thrown when Closing Socket", tException);
-			}		
+			}
 		}
 	}
 
@@ -272,7 +270,7 @@ public abstract class ServerHandler implements Runnable {
 		println ("stop");
 		closeAll ();
 	}
-	
+
 	protected abstract void handleChatReconnect ();
 
 	protected abstract boolean sendGameSupport (String aRequest);

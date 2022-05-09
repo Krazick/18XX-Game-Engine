@@ -35,7 +35,7 @@ class NoSpaceStringTests {
 		noSpaceString3 = new NoSpaceString (null);
 		noSpaceString4 = new NoSpaceString ("Alpha");
 		noSpaceString5 = new NoSpaceString ("");
-		noSpaceString6 = new NoSpaceString ("Test with Space");	
+		noSpaceString6 = new NoSpaceString ("Test with Space");
 	}
 
 	/**
@@ -45,10 +45,9 @@ class NoSpaceStringTests {
 	void tearDown () throws Exception {
 	}
 
-	
 	@Test
 	@DisplayName ("Test No Space String Constructors")
-	public void testNoSpaceConstructors() {	
+	public void testNoSpaceConstructors () {
 		assertFalse (noSpaceString1.hasValue ());
 		assertTrue (noSpaceString2.hasValue ());
 		assertFalse (noSpaceString3.hasValue ());
@@ -57,28 +56,28 @@ class NoSpaceStringTests {
 		assertFalse (noSpaceString6.hasValue ());
 	}
 
-	@Test 
+	@Test
 	@DisplayName ("Test No Space Get Methods")
 	public void testNoSpaceGetMethods () {
-		assertNotNull(noSpaceString2.toString());
-		assertNotNull(noSpaceString2.toString());
-		assertNull(noSpaceString1.getString());
-		assertNull(noSpaceString1.toString());
-		
+		assertNotNull (noSpaceString2.toString ());
+		assertNotNull (noSpaceString2.toString ());
+		assertNull (noSpaceString1.getString ());
+		assertNull (noSpaceString1.toString ());
+
 		assertEquals ("AlphaBeta", noSpaceString2.getString ());
 		assertEquals ("AlphaBeta", noSpaceString2.toString ());
 		assertNotEquals ("NotThisText", noSpaceString2.getString ());
 		assertNotEquals ("NotThisText", noSpaceString2.toString ());
-		
+
 	}
-	
+
 	@Test
 	@DisplayName ("Test No Space Equals Methods")
 	public void testNoSpaceEquals () {
-		assertFalse(noSpaceString1.equals("AlphaBeta"));
-		assertFalse(noSpaceString2.equals("Alpha"));
-		assertTrue(noSpaceString2.equals("AlphaBeta"));
-		assertFalse(noSpaceString2.equals(null));
+		assertFalse (noSpaceString1.equals ("AlphaBeta"));
+		assertFalse (noSpaceString2.equals ("Alpha"));
+		assertTrue (noSpaceString2.equals ("AlphaBeta"));
+		assertFalse (noSpaceString2.equals (null));
 	}
 
 }

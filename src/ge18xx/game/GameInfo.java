@@ -50,7 +50,7 @@ public class GameInfo {
 	final AttributeName AN_RELEASE_DATE = new AttributeName ("releaseDate");
 	final AttributeName AN_CAN_PAY_HALF = new AttributeName ("canPayHalfDividend");
 	final AttributeName AN_PARITAL_CAPITAL = new AttributeName ("partialCapitalization");
-	
+
 	static final int NO_GAME_ID = 0;
 	static final String NO_NAME = "<NONE>";
 	static final int NO_MIN_PLAYERS = 0;
@@ -60,9 +60,9 @@ public class GameInfo {
 	static final int NO_BANK_SHARE_LIMIT = 9;
 	static final String NO_FORMAT = "<NONE>";
 	static final TrainInfo [] NO_TRAINS = null;
-	
-	boolean gameTestFlag = false;  // For marking this Game info as Test for JUNIT Purposes ONLY
-	
+
+	boolean gameTestFlag = false; // For marking this Game info as Test for JUNIT Purposes ONLY
+
 	int id;
 	String gameID;
 	String name;
@@ -83,18 +83,18 @@ public class GameInfo {
 	boolean partialCapitalization;
 	int bankPoolShareLimit; // Limit on # of shares in Bank Pool
 	int playerShareLimit; // Limit on # of shares a Player may Hold
-	TrainInfo trains [];
-	PlayerInfo players [];
+	TrainInfo trains[];
+	PlayerInfo players[];
 	PhaseManager phaseManager;
-	Option options [];
-	File18XX files [];
-	
+	Option options[];
+	File18XX files[];
+
 	/* Used in Parsing Call back Functions only */
 	int fileIndex;
 	int optionIndex;
 	int playerIndex;
 	int trainIndex;
-	
+
 	public GameInfo () {
 		trains = NO_TRAINS;
 		setValues (NO_GAME_ID, NO_NAME, NO_MIN_PLAYERS, NO_MAX_PLAYERS, NO_BANK_TOTAL, NO_FORMAT);
@@ -103,7 +103,7 @@ public class GameInfo {
 		setPlayerShareLimit (NO_SHARE_LIMIT);
 		setHasCompanies (false, false, false, false);
 	}
-	
+
 	public GameInfo (XMLNode aCellNode) {
 		XMLNodeList tXMLNodeList;
 		NodeList tChildren;
@@ -129,14 +129,14 @@ public class GameInfo {
 		tDesigners = aCellNode.getThisAttribute (AN_DESIGNERS);
 		tProducers = aCellNode.getThisAttribute (AN_PRODUCERS);
 		tReleaseDate = aCellNode.getThisAttribute (AN_RELEASE_DATE);
-	
+
 		tHasPrivates = aCellNode.getThisBooleanAttribute (AN_PRIVATES);
 		tHasMinors = aCellNode.getThisBooleanAttribute (AN_MINORS);
 		tHasCoals = aCellNode.getThisBooleanAttribute (AN_COALS);
 		tHasShares = aCellNode.getThisBooleanAttribute (AN_SHARES);
 		canPayHalfDividend = aCellNode.getThisBooleanAttribute (AN_CAN_PAY_HALF);
 		partialCapitalization = aCellNode.getThisBooleanAttribute (AN_PARITAL_CAPITAL);
-		
+
 		setGameID (tGameID);
 		setValues (tID, tName, tMinPlayers, tMaxPlayers, tBankTotal, tCurrencyFormat);
 		setOtherValues (tSubTitle, tLocation, tDesigners, tProducers, tReleaseDate);
@@ -146,7 +146,7 @@ public class GameInfo {
 		tPlayerShareLimit = aCellNode.getThisIntAttribute (AN_PLAYER_SHARE_LIMIT);
 		setBankPoolShareLimit (tBankPoolShareLimit);
 		setPlayerShareLimit (tPlayerShareLimit);
-		
+
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
@@ -157,17 +157,17 @@ public class GameInfo {
 				tPlayerCount = tXMLNodeList.getChildCount (tChildNode, Player.EN_PLAYER);
 				players = new PlayerInfo [tPlayerCount];
 				playerIndex = 0;
-				tXMLNodeList.parseXMLNodeList (tChildNode, Player.EN_PLAYER);				
+				tXMLNodeList.parseXMLNodeList (tChildNode, Player.EN_PLAYER);
 			} else if (PhaseInfo.EN_PHASES.equals (tChildName)) {
 				tXMLNodeList = new XMLNodeList (phasesParsingRoutine);
 				phaseManager = new PhaseManager ();
-				tXMLNodeList.parseXMLNodeList (tChildNode, PhaseInfo.EN_PHASE);				
+				tXMLNodeList.parseXMLNodeList (tChildNode, PhaseInfo.EN_PHASE);
 			} else if (TrainInfo.EN_TRAINS_INFO.equals (tChildName)) {
 				tXMLNodeList = new XMLNodeList (trainsParsingRoutine);
 				tTrainCount = tXMLNodeList.getChildCount (tChildNode, TrainInfo.EN_TRAIN_INFO);
 				trains = new TrainInfo [tTrainCount];
 				trainIndex = 0;
-				tXMLNodeList.parseXMLNodeList (tChildNode, TrainInfo.EN_TRAIN_INFO);				
+				tXMLNodeList.parseXMLNodeList (tChildNode, TrainInfo.EN_TRAIN_INFO);
 			} else if (Option.EN_OPTIONS.equals (tChildName)) {
 				tXMLNodeList = new XMLNodeList (optionsParsingRoutine);
 				tOptionCount = tXMLNodeList.getChildCount (tChildNode, Option.EN_OPTION);
@@ -183,87 +183,87 @@ public class GameInfo {
 			}
 		}
 	}
-	
-	ParsingRoutineI playersParsingRoutine  = new ParsingRoutineI ()  {
+
+	ParsingRoutineI playersParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			players [playerIndex++] = new PlayerInfo (aChildNode);	
+			players [playerIndex++] = new PlayerInfo (aChildNode);
 		}
 	};
-	
-	ParsingRoutineI phasesParsingRoutine  = new ParsingRoutineI ()  {
+
+	ParsingRoutineI phasesParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			PhaseInfo tPhase;
-			
+
 			tPhase = new PhaseInfo (aChildNode);
 			phaseManager.addPhase (tPhase);
 		}
 	};
-	
-	ParsingRoutineI trainsParsingRoutine  = new ParsingRoutineI ()  {
+
+	ParsingRoutineI trainsParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			trains [trainIndex++] = new TrainInfo (aChildNode);	
+			trains [trainIndex++] = new TrainInfo (aChildNode);
 		}
 	};
-	
-	ParsingRoutineI optionsParsingRoutine  = new ParsingRoutineI ()  {
+
+	ParsingRoutineI optionsParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			options [optionIndex++] = new Option (aChildNode);	
+			options [optionIndex++] = new Option (aChildNode);
 		}
 	};
-	
-	ParsingRoutineI file18XXNameParsingRoutine  = new ParsingRoutineI ()  {
+
+	ParsingRoutineI file18XXNameParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			files [fileIndex++] = new File18XX (aChildNode);	
+			files [fileIndex++] = new File18XX (aChildNode);
 		}
 	};
-	
+
 	public boolean canPayHalfDividend () {
 		return canPayHalfDividend;
 	}
 
 	public boolean canPlayWithXPlayers (int aNumPlayers) {
 		boolean tCanPlay;
-		
+
 		tCanPlay = false;
 		if ((aNumPlayers >= minPlayers) && (aNumPlayers <= maxPlayers)) {
 			tCanPlay = true;
 		}
-		
+
 		return tCanPlay;
 	}
-	
+
 	public boolean canSellPresidentShare () {
 		boolean tCanSellPresidentShare;
-		
+
 		tCanSellPresidentShare = false;
 		if (bankPoolShareLimit == NO_BANK_SHARE_LIMIT) {
 			tCanSellPresidentShare = true;
 		}
-		
+
 		return tCanSellPresidentShare;
 	}
-	
+
 	public int getBankPoolShareLimit () {
 		return bankPoolShareLimit;
 	}
-	
+
 	public int getBankTotal () {
 		return bankTotal;
 	}
-	
+
 	public boolean fullCapitalization () {
-		return ! partialCapitalization;
+		return !partialCapitalization;
 	}
-	
+
 	public int getCertificateLimit (int aNumPlayers) {
 		int tCertificateLimit;
 		int tIndex, tPlayerInfoCount;
-		
+
 		tCertificateLimit = 0;
 		if (canPlayWithXPlayers (aNumPlayers)) {
 //		if ((aNumPlayers >= minPlayers) && (aNumPlayers <= maxPlayers)) {
@@ -274,18 +274,18 @@ public class GameInfo {
 				}
 			}
 		}
-		
+
 		return tCertificateLimit;
 	}
 
 	public String getCurrencyFormat () {
 		return currencyFormat;
 	}
-	
+
 	public String getFileNameFor (String aType) {
 		String tFileName;
 		int tIndex, tFileCount;
-		
+
 		tFileName = NO_NAME;
 		tFileCount = files.length;
 		if (tFileCount > 0) {
@@ -297,14 +297,14 @@ public class GameInfo {
 		}
 		return tFileName;
 	}
-	
+
 	public String getGameID () {
 		return gameID;
 	}
-	
+
 	public XMLElement getGameInfoElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement, tGameOptions, tGameOption;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_GAME_INFO);
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_GAME_ID, gameID);
@@ -318,7 +318,7 @@ public class GameInfo {
 			}
 			tXMLElement.appendChild (tGameOptions);
 		}
-		
+
 		return tXMLElement;
 	}
 
@@ -328,7 +328,7 @@ public class GameInfo {
 
 	public String getHTMLDescription () {
 		String tHTMLDescription;
-		
+
 		tHTMLDescription = "<html><body><h3>" + name;
 		if (subTitle != null) {
 			if (!(subTitle.equals (NO_NAME))) {
@@ -339,26 +339,26 @@ public class GameInfo {
 		tHTMLDescription += "<p>Setting is " + location + "</p>";
 		tHTMLDescription += "<p>&copy;" + releaseDate + " by " + producers + "</p>";
 		tHTMLDescription += "<p>Designed by: " + designers + "</p><br/></body></html>";
-		
+
 		return tHTMLDescription;
 	}
-	
+
 	public int getID () {
 		return id;
 	}
-	
+
 	public int getMaxPlayers () {
 		return maxPlayers;
 	}
-	
+
 	public int getMinPlayers () {
 		return minPlayers;
 	}
-	
+
 	public String getName () {
 		return name;
 	}
-	
+
 	public int getOptionCount () {
 		if (options == Option.NO_OPTIONS) {
 			return 0;
@@ -366,7 +366,7 @@ public class GameInfo {
 			return options.length;
 		}
 	}
-	
+
 	public Option getOptionIndex (int aIndex) {
 		if (options == Option.NO_OPTIONS) {
 			return Option.NO_OPTION;
@@ -376,11 +376,11 @@ public class GameInfo {
 			return options [aIndex];
 		}
 	}
-	
+
 	public PhaseManager getPhaseManager () {
 		return phaseManager;
 	}
-	
+
 	public int getPlayerShareLimit () {
 		return playerShareLimit;
 	}
@@ -388,7 +388,7 @@ public class GameInfo {
 	public int getStartingCash (int aNumPlayers) {
 		int tStartingCash;
 		int tIndex, tPlayerInfoCount;
-		
+
 		tStartingCash = 0;
 		if (canPlayWithXPlayers (aNumPlayers)) {
 //		if ((aNumPlayers >= minPlayers) && (aNumPlayers <= maxPlayers)) {
@@ -399,37 +399,37 @@ public class GameInfo {
 				}
 			}
 		}
-		
+
 		return tStartingCash;
 	}
-	
+
 	public int getTrainCount () {
 		return trains.length;
 	}
-	
+
 	public TrainInfo getTrainInfo (int aIndex) {
 		return trains [aIndex];
 	}
-	
+
 	public boolean hasCoals () {
 		return hasCoals;
 	}
-	
+
 	public boolean hasMinors () {
 		return hasMinors;
 	}
-	
+
 	public boolean hasPrivates () {
 		return hasPrivates;
 	}
-	
+
 	public boolean hasShares () {
 		return hasShares;
 	}
 
 	public void printGameInfo () {
 		int tIndex;
-		
+
 		System.out.println ("Title: " + name);
 		System.out.println ("SubTitle: " + subTitle);
 		System.out.println ("Location: " + location);
@@ -438,11 +438,11 @@ public class GameInfo {
 		System.out.println ("Bank Total: " + bankTotal);
 		System.out.println ("Currency Format: " + currencyFormat);
 		for (tIndex = 0; tIndex < players.length; tIndex++) {
-			System.out.println ("For " + players [tIndex].getNumPlayers () + 
-					" Players Starting Cash is " + players [tIndex].getStartingCash ());
+			System.out.println ("For " + players [tIndex].getNumPlayers () + " Players Starting Cash is "
+					+ players [tIndex].getStartingCash ());
 		}
 	}
-	
+
 	public void setBankPoolShareLimit (int aBankPoolShareLimit) {
 		bankPoolShareLimit = aBankPoolShareLimit;
 	}
@@ -450,7 +450,7 @@ public class GameInfo {
 	public void setGameID (String aGameID) {
 		gameID = aGameID;
 	}
-	
+
 	public void setHasCompanies (boolean aHasPrivates, boolean aHasMinors, boolean aHasCoals, boolean aHasShares) {
 		hasPrivates = aHasPrivates;
 		hasMinors = aHasMinors;
@@ -458,18 +458,19 @@ public class GameInfo {
 		hasShares = aHasShares;
 	}
 
-	public void setOtherValues (String aSubTitle, String aLocation, String aDesigners, String aProducers, String aReleaseDate) {
+	public void setOtherValues (String aSubTitle, String aLocation, String aDesigners, String aProducers,
+			String aReleaseDate) {
 		subTitle = aSubTitle;
 		location = aLocation;
 		designers = aDesigners;
 		producers = aProducers;
 		releaseDate = aReleaseDate;
 	}
-	
+
 	public void setPlayerShareLimit (int aPlayerShareLimit) {
 		playerShareLimit = aPlayerShareLimit;
 	}
-	
+
 	public void setupOptions (GameManager aGameManager) {
 		int tEffectCount, tEffectIndex;
 		OptionEffect tEffect;
@@ -479,7 +480,7 @@ public class GameInfo {
 		int tTrainIndex;
 		Bank tBank;
 		CorporationList tCorporationList;
-		
+
 		if (options != Option.NO_OPTIONS) {
 			if (options.length > 0) {
 				tBank = aGameManager.getBank ();
@@ -507,7 +508,8 @@ public class GameInfo {
 										if (tQuantity > tFoundQuantity) {
 											tAddThisMany = tQuantity - tFoundQuantity;
 											for (tTrainIndex = 0; tTrainIndex < tAddThisMany; tTrainIndex++) {
-												System.out.println ("Train " + tTrain.getName () + " adding " + tAddThisMany);
+												System.out.println (
+														"Train " + tTrain.getName () + " adding " + tAddThisMany);
 												tNewTrain = new Train (tTrain);
 												tBank.addTrain (tNewTrain);
 											}
@@ -518,7 +520,7 @@ public class GameInfo {
 											}
 										}
 									}
-								}						
+								}
 							}
 						}
 					}
@@ -526,7 +528,7 @@ public class GameInfo {
 			}
 		}
 	}
-	
+
 	public void setValues (int aID, String aName, int aMinPlayers, int aMaxPlayers, int aBankTotal, String aFormat) {
 		id = aID;
 		name = aName;
@@ -539,7 +541,7 @@ public class GameInfo {
 	public boolean isATestGame () {
 		return gameTestFlag;
 	}
-	
+
 	public void setTestingFlag (boolean aGameTestFlag) {
 		gameTestFlag = aGameTestFlag;
 	}

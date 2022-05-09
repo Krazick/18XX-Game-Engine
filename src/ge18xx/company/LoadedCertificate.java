@@ -18,27 +18,27 @@ public class LoadedCertificate {
 		setPercentage (aXMLNode.getThisIntAttribute (Certificate.AN_PERCENTAGE));
 		setCompanyAbbrev (aXMLNode.getThisAttribute (Corporation.AN_ABBREV));
 	}
-	
+
 	public boolean getIsPresidentShare () {
 		return isPresidentShare;
 	}
-	
+
 	public int getPercentage () {
 		return percentage;
 	}
-	
+
 	public String getCompanyAbbrev () {
 		return companyAbbrev;
 	}
-	
+
 	private void setIsPresidentShare (boolean aIsPresidentShare) {
 		isPresidentShare = aIsPresidentShare;
 	}
-	
+
 	private void setPercentage (int aPercentage) {
 		percentage = aPercentage;
 	}
-	
+
 	private void setCompanyAbbrev (String aCompanyAbbrev) {
 		companyAbbrev = aCompanyAbbrev;
 	}

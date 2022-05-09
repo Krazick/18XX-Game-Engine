@@ -29,17 +29,18 @@ public class AddNewRouteSegmentEffect extends ChangeRouteEffect {
 		setName (NAME);
 	}
 
-	public AddNewRouteSegmentEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation) {
+	public AddNewRouteSegmentEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+			Location aEndLocation) {
 		super (aActor, aTrainIndex, aMapCell, aStartLocation, aEndLocation);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Corporation tCompany;
 		TrainCompany tTrainCompany;
-		
+
 		tEffectApplied = true;
 		if (actor.isACorporation ()) {
 			tCompany = (Corporation) actor;
@@ -48,13 +49,13 @@ public class AddNewRouteSegmentEffect extends ChangeRouteEffect {
 				tEffectApplied = tTrainCompany.extendRouteInformation (trainIndex, mapCell, startLocation, endLocation);
 			}
 		}
-		
+
 		return tEffectApplied;
 	}
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
-	// Don't need to undo this effect, just accept
+		// Don't need to undo this effect, just accept
 		return true;
 	}
 }

@@ -12,35 +12,33 @@ import ge18xx.utilities.XMLNode;
 public class DiscardExcessTrainEffect extends TransferTrainEffect {
 	public final static String NAME = "Discard Excess Train";
 
-	public DiscardExcessTrainEffect() {
+	public DiscardExcessTrainEffect () {
 		super ();
 		setName (NAME);
 	}
 
-	public DiscardExcessTrainEffect(ActorI aFromActor, Train aTrain,
-			ActorI aToActor) {
+	public DiscardExcessTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor) {
 		super (aFromActor, aTrain, aToActor);
 		setName (NAME);
 	}
 
-	public DiscardExcessTrainEffect(XMLNode aEffectNode,
-			GameManager aGameManager) {
+	public DiscardExcessTrainEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
-	
+
 		return tEffectElement;
 	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " named " + train.getName () + " from " + actor.getName () + 
-				" into the Bank Pool Train Portfolio due to reduction on Train Limit.");
+		return (REPORT_PREFIX + name + " named " + train.getName () + " from " + actor.getName ()
+				+ " into the Bank Pool Train Portfolio due to reduction on Train Limit.");
 	}
 }

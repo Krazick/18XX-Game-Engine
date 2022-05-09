@@ -15,7 +15,7 @@ public class CoalCompaniesFrame extends CorporationTableFrame {
 	public static final CoalCompaniesFrame NO_COAL_COMPANIES_FRAME = null;
 	public static final ElementName EN_COALS = new ElementName (BASE_TYPE + "s");
 	private static final long serialVersionUID = 1L;
-	
+
 	public CoalCompaniesFrame (String aFrameName, RoundManager aRoundManager) {
 		super (aFrameName, CorporationList.TYPE_NAMES [1], aRoundManager);
 	}

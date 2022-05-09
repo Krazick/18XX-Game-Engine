@@ -23,12 +23,12 @@ public class PhaseManager {
 	final static AttributeName AN_CURRENT_PHASE = new AttributeName ("currentPhase");
 	List<PhaseInfo> phases;
 	int currentPhase;
-	
+
 	public PhaseManager () {
 		phases = new LinkedList<PhaseInfo> ();
 		setCurrentPhase (NO_PHASE);
 	}
-	
+
 	public void addPhase (PhaseInfo aPhase) {
 		if (phases == NO_PHASES) {
 			System.err.println ("Phases Linked List not Initialized");
@@ -36,77 +36,77 @@ public class PhaseManager {
 			phases.add (aPhase);
 		}
 	}
-	
+
 	public boolean doPartialCapitalization () {
 		return getCurrentPhaseInfo ().doPartialCapitalization ();
 	}
-	
+
 	public boolean canBuyPrivate () {
 		PhaseInfo tPhaseInfo;
 		boolean tCanBuyPrivate;
-		
+
 		tCanBuyPrivate = false;
 		tPhaseInfo = getCurrentPhaseInfo ();
 		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
 			tCanBuyPrivate = tPhaseInfo.getCanBuyPrivate ();
 		}
-		
+
 		return tCanBuyPrivate;
 	}
-	
+
 	public PhaseInfo getCurrentPhaseInfo () {
 		PhaseInfo tPhaseInfo;
-		
+
 		if (currentPhase == NO_PHASE) {
 			tPhaseInfo = PhaseInfo.NO_PHASE_INFO;
 		} else {
 			tPhaseInfo = phases.get (currentPhase);
 		}
-		
+
 		return tPhaseInfo;
 	}
-	
+
 	public PhaseInfo getPhaseInfo (int aIndex) {
 		PhaseInfo tPhaseInfo;
-		
+
 		tPhaseInfo = PhaseInfo.NO_PHASE_INFO;
 		if (phases != PhaseInfo.NO_PHASE_INFO) {
 			if ((aIndex >= 0) && (aIndex <= phases.size ())) {
 				tPhaseInfo = phases.get (aIndex);
 			}
 		}
-		
+
 		return tPhaseInfo;
 	}
-	
+
 	public XMLElement getPhaseElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_PHASE);
 		tXMLElement.setAttribute (AN_CURRENT_PHASE, currentPhase);
 
 		return tXMLElement;
 	}
-	
+
 	public void loadPhase (XMLNode aXMLNode) {
 		currentPhase = aXMLNode.getThisIntAttribute (AN_CURRENT_PHASE);
 	}
-	
+
 	public String getCurrentOffBoard () {
 		String tCurrentOffBoard = "";
-		PhaseInfo tCurrentPhaseInfo = getCurrentPhaseInfo ();		
+		PhaseInfo tCurrentPhaseInfo = getCurrentPhaseInfo ();
 
 		if (tCurrentPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
 			tCurrentOffBoard = tCurrentPhaseInfo.getOffBoard ();
 		}
-		
+
 		return tCurrentOffBoard;
 	}
-	
+
 	public int getPhaseIndex (String aFullPhaseName) {
 		int tMatchingPhaseIndex, tPhaseIndex;
 		PhaseInfo tPhaseInfo;
-		
+
 		tMatchingPhaseIndex = NO_PHASE;
 		for (tPhaseIndex = 0; tPhaseIndex < phases.size (); tPhaseIndex++) {
 			tPhaseInfo = phases.get (tPhaseIndex);
@@ -114,51 +114,52 @@ public class PhaseManager {
 				tMatchingPhaseIndex = tPhaseIndex;
 			}
 		}
-		
+
 		return tMatchingPhaseIndex;
 	}
-	
+
 	public int getMinorTrainLimit () {
 		PhaseInfo tPhaseInfo;
-		
+
 		tPhaseInfo = getCurrentPhaseInfo ();
-		
+
 		return tPhaseInfo.getMinorTrainLimit ();
 	}
-	
+
 	public int getTrainLimit (boolean aGovtRailway) {
 		PhaseInfo tPhaseInfo;
 		int tTrainLimit;
-		
+
 		tPhaseInfo = getCurrentPhaseInfo ();
-		
+
 		if (aGovtRailway) {
 			tTrainLimit = tPhaseInfo.getGovtTrainLimit ();
 		} else {
 			tTrainLimit = tPhaseInfo.getTrainLimit ();
 		}
-		
+
 		return tTrainLimit;
 	}
 
-	public void performPhaseChange (TrainCompany aTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction, Bank aBank) {
+	public void performPhaseChange (TrainCompany aTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction,
+			Bank aBank) {
 		TrainInfo tTrainInfo;
 		PhaseInfo tCurrentPhase;
 		int tPhaseIndex;
 		int tOldPhaseIndex;
 		String tRustTrainName;
-		
+
 		tTrainInfo = aTrain.getTrainInfo ();
 		tCurrentPhase = getCurrentPhaseInfo ();
-		if (! (tCurrentPhase.getFullName ().equals (tTrainInfo.getTriggerPhase ()))) {
+		if (!(tCurrentPhase.getFullName ().equals (tTrainInfo.getTriggerPhase ()))) {
 			tOldPhaseIndex = currentPhase;
 			tPhaseIndex = getPhaseIndex (tTrainInfo.getTriggerPhase ());
 			setCurrentPhase (tPhaseIndex);
 			tCurrentPhase = getCurrentPhaseInfo ();
 			aBuyTrainAction.addPhaseChangeEffect (aTrainCompany, tOldPhaseIndex, tPhaseIndex);
-			
+
 			tRustTrainName = aTrain.getRust ();
-			if (! tRustTrainName.equals (TrainInfo.NO_RUST)) {
+			if (!tRustTrainName.equals (TrainInfo.NO_RUST)) {
 				aBank.rustAllTrainsNamed (tRustTrainName, aBuyTrainAction);
 			}
 			aBank.discardExcessTrains (aBuyTrainAction);
@@ -167,18 +168,18 @@ public class PhaseManager {
 			}
 		}
 	}
-	
+
 	public void printAllPhaseInfos () {
 		int tPhaseIndex;
 		PhaseInfo tPhaseInfo;
-		
+
 		for (tPhaseIndex = 0; tPhaseIndex < phases.size (); tPhaseIndex++) {
 			System.out.println ("----> Phase Index " + tPhaseIndex);
 			tPhaseInfo = phases.get (tPhaseIndex);
 			tPhaseInfo.printPhaseInfo ();
 		}
 	}
-	
+
 	public void setCurrentPhase (int aIndex) {
 		if ((aIndex < NO_PHASE) || (aIndex > phases.size ())) {
 			System.err.println ("Trying to set Current Phase Index out of range " + aIndex);
@@ -190,29 +191,29 @@ public class PhaseManager {
 	public boolean canBuyTrainInPhase () {
 		boolean tCanBuyTrainInPhase = false;
 		PhaseInfo tPhaseInfo;
-		
+
 		tPhaseInfo = getCurrentPhaseInfo ();
 		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
 			tCanBuyTrainInPhase = tPhaseInfo.canBuyTrainInPhase ();
 		}
-		
+
 		return tCanBuyTrainInPhase;
 	}
 
 	public boolean isUpgradeAllowed (String aTileColor) {
 		PhaseInfo tCurrentPhaseInfo;
 		boolean tUpgradeAllowed = true;
-		
+
 		tCurrentPhaseInfo = getCurrentPhaseInfo ();
 		tUpgradeAllowed = tCurrentPhaseInfo.isUpgradeAllowed (aTileColor);
-		
+
 		return tUpgradeAllowed;
 	}
 
 	public int getCurrentPhase () {
 		return currentPhase;
 	}
-	
+
 	public int getMinSharesToFloat (String aNextTrainName) {
 		PhaseInfo tPhaseInfo;
 		char tFirstChar;
@@ -220,12 +221,12 @@ public class PhaseManager {
 		int tMinToFloatLast;
 		int tMinSharesToFloat;
 		int tNextTrainSize;
-		
+
 		tPhaseInfo = getCurrentPhaseInfo ();
 		tMinToFloat = tPhaseInfo.getMinToFloat ();
 		tMinToFloatLast = tPhaseInfo.getMinToFloatLast ();
 		tMinSharesToFloat = tMinToFloat;
-		
+
 		if (aNextTrainName.length () > 0) {
 			tFirstChar = aNextTrainName.charAt (0);
 			if ((tFirstChar >= '0') && (tFirstChar <= '9')) {
@@ -234,8 +235,8 @@ public class PhaseManager {
 					tMinSharesToFloat = tMinToFloatLast;
 				}
 			}
-		} 
-			
+		}
+
 		return tMinSharesToFloat;
 	}
 }

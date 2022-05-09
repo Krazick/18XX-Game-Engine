@@ -15,9 +15,9 @@ public class PortfolioSummary {
 	public final static String COAL_CORP_TYPE = "Coal";
 	public final static String SHARE_CORP_TYPE = "Share";
 	public final static Border NO_BORDER = null;
-	
-	PortfolioSummary (String aAbbrev, String aType, int aCount, int aPercentage, 
-			boolean aIsPresident, Border aCorporateColorBorder, String aNote) {
+
+	PortfolioSummary (String aAbbrev, String aType, int aCount, int aPercentage, boolean aIsPresident,
+			Border aCorporateColorBorder, String aNote) {
 		abbrev = aAbbrev;
 		count = aCount;
 		percentage = aPercentage;
@@ -30,48 +30,48 @@ public class PortfolioSummary {
 		note = aNote;
 		type = aType;
 	}
-	
+
 	public String getAbbrev () {
 		return abbrev;
 	}
-	
+
 	public int getCount () {
 		return count;
 	}
-	
+
 	public int getPrecentage () {
 		return percentage;
 	}
-	
+
 	public String getType () {
 		return type;
 	}
-	
+
 	public boolean isPresident () {
 		return isPresident;
 	}
-	
+
 	public Border getCorporateColorBorder () {
 		return corporateColorBorder;
 	}
-	
+
 	public void addCount (int aCount) {
 		count += aCount;
 	}
-	
+
 	public void addPercentage (int aPercentage) {
 		percentage += aPercentage;
 	}
-	
+
 	public void setIsPresident (boolean aIsPresident) {
 		if (aIsPresident) {
 			isPresident = aIsPresident;
 		}
 	}
-	
+
 	public String getSummary () {
 		String tOwnershipLabel;
-		
+
 		tOwnershipLabel = getAbbrev () + "&nbsp;";
 		if (PRIVATE_CORP_TYPE.equals (type)) {
 			tOwnershipLabel += type + " 1 Prez Cert";
@@ -87,7 +87,7 @@ public class PortfolioSummary {
 			}
 		}
 		tOwnershipLabel = "<html>" + tOwnershipLabel + "</html>";
-		
+
 		return tOwnershipLabel;
 	}
 

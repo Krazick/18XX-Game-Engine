@@ -25,8 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeListener, 
-		PropertyChangeListener {
+public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeListener, PropertyChangeListener {
 	private static final String SET_BUY_PRICE_ACTION = "SetBuyPrice";
 	private static final String BUY_ACTION = "BuyPrivate";
 
@@ -46,10 +45,10 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 	JLabel ownerTreasuryLabel;
 	JLabel frameLabel;
 	int shareTreasury, remainingTreasury;
-	
+
 	public BuyPrivateFrame (ShareCompany aShareCompany) {
 		super ("Buy Private Company");
-		
+
 		shareCompany = aShareCompany;
 		gameManager = shareCompany.getGameManager ();
 		privatePanel = new JPanel ();
@@ -65,34 +64,34 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		privatePanel.add (Box.createVerticalStrut (10));
 		privatePanel.add (priceField);
 		privatePanel.add (Box.createVerticalStrut (10));
-		
+
 		shareTreasury = shareCompany.getTreasury ();
 		corporationTreasuryLabel = new JLabel ("Corporation");
 		privatePanel.add (corporationTreasuryLabel);
-		
+
 		ownerTreasuryLabel = new JLabel ("Owner");
 		setOwnerTreasuryLabel ();
 		privatePanel.add (ownerTreasuryLabel);
 		privatePanel.add (Box.createVerticalStrut (10));
-		
+
 		doSetPriceButton = buildButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
 		privatePanel.add (doSetPriceButton);
 		doBuyButton = buildButton (CorporationFrame.BUY_PRIVATE, BUY_ACTION);
-		
+
 		privatePanel.add (doBuyButton);
 		setCorporationTreasuryLabel ();
-		
+
 		add (privatePanel);
 
 		pack ();
 		setSize (500, 150);
 		setVisible (false);
 	}
-	
+
 	private int getPrice () {
 		String tPrice;
 		int tGetPrice;
-		
+
 		tPrice = priceField.getText ();
 		if (tPrice.startsWith ("$")) {
 			tPrice = tPrice.substring (1);
@@ -108,67 +107,67 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 				priceField.setText ("0");
 			}
 		}
-		
+
 		return tGetPrice;
 	}
-	
+
 	@Override
 	public void requestFocus () {
 		priceField.requestFocus ();
 	}
-	
+
 	private void setBuyButtonText () {
 		doBuyButton.setText ("Buy Private for " + Bank.formatCash (getPrice ()));
 	}
-	
+
 	private void setCorporationTreasuryLabel () {
 		remainingTreasury = shareTreasury - getPrice ();
-		corporationTreasuryLabel.setText (shareCompany.getName () + " will have " + 
-				Bank.formatCash (remainingTreasury) + " after purchase.\n");		
+		corporationTreasuryLabel.setText (
+				shareCompany.getName () + " will have " + Bank.formatCash (remainingTreasury) + " after purchase.\n");
 	}
-	
+
 	public void setDefaultPrice () {
 		int tDefaultValue;
-		
+
 		tDefaultValue = certificate.getValue ();
 		if (tDefaultValue > shareTreasury) {
 			tDefaultValue = shareTreasury;
 		}
 		setPrice (tDefaultValue);
 	}
-	
+
 	public void setOwnerTreasuryLabel () {
 		Player tPlayer;
 		CertificateHolderI tCertificateHolder;
 		String tTreasury = "No Owner";
 		int tPlayerCashAfter;
-		
+
 		if (certificate != Certificate.NO_CERTIFICATE) {
 			tCertificateHolder = certificate.getOwner ();
 			if (tCertificateHolder.isPlayer ()) {
 				tPlayer = (Player) tCertificateHolder.getPortfolioHolder ();
 				tPlayerCashAfter = tPlayer.getCash () + getPrice ();
-				tTreasury = tPlayer.getName () + " will have " + 
-						Bank.formatCash (tPlayerCashAfter) + " after purchase.\n";
-				
+				tTreasury = tPlayer.getName () + " will have " + Bank.formatCash (tPlayerCashAfter)
+						+ " after purchase.\n";
+
 			}
 		}
 		ownerTreasuryLabel.setText (tTreasury);
 	}
-	
+
 	public void setPrice (int aPrice) {
 		priceField.setText (aPrice + "");
 		setBuyButtonText ();
 	}
-	
+
 	public JButton buildButton (String aButtonLabel, String aActionCommand) {
 		JButton tButton;
-		
+
 		tButton = new JButton (aButtonLabel);
 		tButton.setAlignmentX (CENTER_ALIGNMENT);
 		tButton.setActionCommand (aActionCommand);
 		tButton.addActionListener (this);
-		
+
 		return tButton;
 	}
 
@@ -180,9 +179,9 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		if (certificate == Certificate.NO_CERTIFICATE) {
 			tValue = 0;
 		} else {
-			tValue = certificate.getValue ();			
+			tValue = certificate.getValue ();
 		}
-		tLowPrice = tValue/2;
+		tLowPrice = tValue / 2;
 		tHighPrice = tValue * 2;
 
 		tGoodPrice = true;
@@ -196,14 +195,14 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 
 		return tGoodPrice;
 	}
-	
+
 	public String getReasonForBad () {
 		String tReasonForBad;
 		int tPrice, tValue, tLowPrice, tHighPrice;
-		
+
 		tPrice = getPrice ();
 		tValue = certificate.getValue ();
-		tLowPrice = tValue/2;
+		tLowPrice = tValue / 2;
 		tHighPrice = tValue * 2;
 
 		tReasonForBad = "Ready for Purchase";
@@ -217,13 +216,13 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 
 		return tReasonForBad;
 	}
-	
+
 	@Override
 	public void actionPerformed (ActionEvent e) {
 		boolean tGoodPrice;
 		String tReasonForBad;
 		String tActionCommand;
-		
+
 		tActionCommand = e.getActionCommand ();
 		if (tActionCommand == SET_BUY_PRICE_ACTION) {
 			tGoodPrice = isGoodPrice ();
@@ -239,23 +238,23 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 			setVisible (false);
 		}
 	}
-	
+
 	private boolean samePresident (Player aOwningPlayer) {
 		boolean tSamePresident = false;
 		String tPresidentName, tOwningPresidentName;
-		
+
 		tOwningPresidentName = aOwningPlayer.getName ();
 		tPresidentName = shareCompany.getPresidentName ();
-		if (tOwningPresidentName.equals(tPresidentName)) {
+		if (tOwningPresidentName.equals (tPresidentName)) {
 			tSamePresident = true;
 		}
-		
+
 		return tSamePresident;
 	}
-	
+
 	private boolean needToMakeOffer (Player aOwningPlayer) {
 		boolean tNeedToMakeOffer = true;
-		
+
 		if (gameManager.isNetworkGame ()) {
 			if (samePresident (aOwningPlayer)) {
 				tNeedToMakeOffer = false;
@@ -263,7 +262,7 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		} else {
 			tNeedToMakeOffer = false;
 		}
-		
+
 		return tNeedToMakeOffer;
 	}
 
@@ -271,7 +270,7 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		CertificateHolderI tCertificateHolder;
 		Player tOwningPlayer;
 		CorporationFrame tCorporationFrame;
-		
+
 		if (certificate != Certificate.NO_CERTIFICATE) {
 			tCertificateHolder = certificate.getOwner ();
 			if (tCertificateHolder.isPlayer ()) {
@@ -294,9 +293,8 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		Portfolio tPlayerPortfolio;
 		BuyStockAction tBuyStockAction;
 		CorporationFrame tCorporationFrame;
-		
-		tBuyStockAction = new BuyStockAction (ActorI.ActionStates.OperatingRound, 
-				operatingRoundID, shareCompany);
+
+		tBuyStockAction = new BuyStockAction (ActorI.ActionStates.OperatingRound, operatingRoundID, shareCompany);
 		tCashValue = getPrice ();
 		shareCompany.transferCashTo (aOwningPlayer, tCashValue);
 		tBuyStockAction.addCashTransferEffect (shareCompany, aOwningPlayer, tCashValue);
@@ -308,73 +306,71 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		tCorporationFrame = shareCompany.getCorporationFrame ();
 		tCorporationFrame.updateInfo ();
 	}
-	
+
 	private boolean makePurchaseOffer (Player aOwningPlayer) {
 		PurchaseOfferAction tPurchaseOfferAction;
 		PurchaseOffer tPurchaseOffer;
 		ActorI.ActionStates tOldState, tNewState;
 		boolean tOfferMade = true;
 		PrivateCompany tPrivateCompany;
-		
+
 		tOldState = shareCompany.getStatus ();
 		tPrivateCompany = (PrivateCompany) certificate.getCorporation ();
-		tPurchaseOffer = new PurchaseOffer (certificate.getCompanyName (), certificate.getCorpType (),
-				Train.NO_TRAIN, tPrivateCompany,
-				tPrivateCompany.getAbbrev (), aOwningPlayer.getName (), 
-				getPrice (), tOldState);
+		tPurchaseOffer = new PurchaseOffer (certificate.getCompanyName (), certificate.getCorpType (), Train.NO_TRAIN,
+				tPrivateCompany, tPrivateCompany.getAbbrev (), aOwningPlayer.getName (), getPrice (), tOldState);
 		shareCompany.setPurchaseOffer (tPurchaseOffer);
-		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound,
-				operatingRoundID, shareCompany);
-		tPurchaseOfferAction.addPurchaseOfferEffect (shareCompany, aOwningPlayer, 
-				getPrice (), certificate.getCorpType (), certificate.getCompanyAbbrev ());
-		
+		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound, operatingRoundID,
+				shareCompany);
+		tPurchaseOfferAction.addPurchaseOfferEffect (shareCompany, aOwningPlayer, getPrice (),
+				certificate.getCorpType (), certificate.getCompanyAbbrev ());
+
 		shareCompany.setStatus (ActorI.ActionStates.WaitingResponse);
 		tNewState = shareCompany.getStatus ();
 		tPurchaseOfferAction.addChangeCorporationStatusEffect (shareCompany, tOldState, tNewState);
 		shareCompany.addAction (tPurchaseOfferAction);
-		
+
 		return tOfferMade;
 	}
-	
-	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, 
-			Certificate aCertificate, BuyStockAction aBuyStockAction) {
+
+	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, Certificate aCertificate,
+			BuyStockAction aBuyStockAction) {
 		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
 		PortfolioHolderI tFromHolder, tToHolder;
 		PrivateCompany tPrivateCompany;
-		
+
 		tFromHolder = aFromPortfolio.getHolder ();
 		tToHolder = aToPortfolio.getHolder ();
 		tPrivateCompany = (PrivateCompany) aCertificate.getCorporation ();
 		tPrivateCompany.removeBenefitButtons ();
 		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
-		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate,  tToHolder);
+		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate, tToHolder);
 		tCurrentCorporationStatus = aCertificate.getCorporationStatus ();
 		aCertificate.updateCorporationOwnership ();
 		tNewCorporationStatus = aCertificate.getCorporationStatus ();
 		if (tCurrentCorporationStatus != tNewCorporationStatus) {
-			aBuyStockAction.addStateChangeEffect (aCertificate.getCorporation (), 
-					tCurrentCorporationStatus, tNewCorporationStatus);
+			aBuyStockAction.addStateChangeEffect (aCertificate.getCorporation (), tCurrentCorporationStatus,
+					tNewCorporationStatus);
 		}
 	}
 
 	@Override
 	public void stateChanged (ChangeEvent e) {
-	    setCorporationTreasuryLabel ();
+		setCorporationTreasuryLabel ();
 	}
-	
+
 	@Override
 	public void propertyChange (PropertyChangeEvent e) {
 		setCorporationTreasuryLabel ();
 	}
-	
+
 	public void updateInfo (Certificate aCertificate) {
 		int tLowPrice, tHighPrice, tCertPrice;
-		
+
 		shareTreasury = shareCompany.getTreasury ();
 		certificate = aCertificate;
 		tCertPrice = certificate.getValue ();
 		setDefaultPrice ();
-		tLowPrice = tCertPrice/2;
+		tLowPrice = tCertPrice / 2;
 		tHighPrice = tCertPrice * 2;
 		if (tHighPrice > shareTreasury) {
 			tHighPrice = shareTreasury;
@@ -382,9 +378,9 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		operatingRoundID = shareCompany.getOperatingRoundID ();
 		setCorporationTreasuryLabel ();
 		setOwnerTreasuryLabel ();
-		
-		frameLabel.setText (shareCompany.getPresidentName () + ", choose Buy Price for " + 
-				certificate.getCompanyAbbrev () + " from " + certificate.getOwnerName () + 
-				" Range [" + Bank.formatCash (tLowPrice) + " to " + Bank.formatCash (tHighPrice) + "]");
+
+		frameLabel.setText (shareCompany.getPresidentName () + ", choose Buy Price for "
+				+ certificate.getCompanyAbbrev () + " from " + certificate.getOwnerName () + " Range ["
+				+ Bank.formatCash (tLowPrice) + " to " + Bank.formatCash (tHighPrice) + "]");
 	}
 }

@@ -15,7 +15,7 @@ import ge18xx.utilities.XMLNode;
 
 public class LayTileEffect extends ChangeTileContentEffect {
 	public final static String NAME = "Lay Tile";
-	
+
 	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation) {
 		this (NAME);
 	}
@@ -23,9 +23,9 @@ public class LayTileEffect extends ChangeTileContentEffect {
 	public LayTileEffect (String aName) {
 		super (aName);
 	}
-	
-	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, 
-			String aTokens, String aBases) {
+
+	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aTokens,
+			String aBases) {
 		super (aActor, aMapCell, aTile, aOrientation, aTokens, aBases);
 		setName (NAME);
 	}
@@ -34,23 +34,23 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
-	
+
 		return tEffectElement;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tBenefitReport = getBenefitEffectReport ();
-		
-		return (REPORT_PREFIX + name + " #" + tileNumber + " with orientation " + orientation +
-				" by " + actor.getName () + " on MapCell " + mapCellID +
-				" New Tokens [ " + getTokens () + " ] New Bases [ " + getBases () + " ]." + tBenefitReport);
+
+		return (REPORT_PREFIX + name + " #" + tileNumber + " with orientation " + orientation + " by "
+				+ actor.getName () + " on MapCell " + mapCellID + " New Tokens [ " + getTokens () + " ] New Bases [ "
+				+ getBases () + " ]." + tBenefitReport);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		MapCell tMapCell;
 		HexMap tGameMap;
 		TileSet tTileSet;
-		
+
 		tEffectApplied = false;
 		tTileSet = aRoundManager.getTileSet ();
 		tGameMap = aRoundManager.getGameMap ();
@@ -75,7 +75,8 @@ public class LayTileEffect extends ChangeTileContentEffect {
 			tEffectApplied = true;
 			tTileSet.clearAllSelected ();
 		} else {
-			System.err.println ("Applying " + name + " by " + actor.getName () + " Fails since Tile Numbers don't match");
+			System.err
+					.println ("Applying " + name + " by " + actor.getName () + " Fails since Tile Numbers don't match");
 			System.err.println ("Effect Tile # " + tileNumber + " Map Cell Tile # " + tTile.getTileNumber ());
 		}
 
@@ -89,7 +90,7 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		MapCell tMapCell;
 		HexMap tGameMap;
 		TileSet tTileSet;
-		
+
 		tEffectUndone = false;
 		tTileSet = aRoundManager.getTileSet ();
 		tGameMap = aRoundManager.getGameMap ();
@@ -97,7 +98,7 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		tTile = tMapCell.getTile ();
 		// Undo if the Tile Number on the Cell matches
 		// OR if the tileNumber was 0, which means the tile was Upgraded,
-		//		and the RemoveTileEffect will restore that previous tile
+		// and the RemoveTileEffect will restore that previous tile
 		if (tTile != Tile.NO_TILE) {
 			if ((tTile.getNumber () == tileNumber) || (tileNumber == 0)) {
 				tTile.returnTokens ();
@@ -107,11 +108,12 @@ public class LayTileEffect extends ChangeTileContentEffect {
 				tGameMap.redrawMap ();
 				tEffectUndone = true;
 			} else {
-				System.err.println ("Undo " + name + " by " + actor.getName () + " Fails since Tile Numbers don't match");
+				System.err
+						.println ("Undo " + name + " by " + actor.getName () + " Fails since Tile Numbers don't match");
 				System.err.println ("Effect Tile # " + tileNumber + " Map Cell Tile # " + tTile.getNumber ());
-			}			
+			}
 		}
-		
+
 		return tEffectUndone;
 	}
 }

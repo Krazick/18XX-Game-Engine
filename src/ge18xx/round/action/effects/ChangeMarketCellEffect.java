@@ -24,7 +24,7 @@ public class ChangeMarketCellEffect extends Effect {
 	int newLocation;
 	String startCellCoordinates;
 	String newCellCoordinates;
-	
+
 	public ChangeMarketCellEffect () {
 		super (NAME);
 		setStartLocation (PlayerManager.NO_PLAYER_INDEX);
@@ -33,11 +33,12 @@ public class ChangeMarketCellEffect extends Effect {
 		setNewLocation (PlayerManager.NO_PLAYER_INDEX);
 	}
 
-	public ChangeMarketCellEffect (ActorI aActor, MarketCell aStartMarketCell, int aLocation, MarketCell aNewMarketCell, int aNewLocation) {
+	public ChangeMarketCellEffect (ActorI aActor, MarketCell aStartMarketCell, int aLocation, MarketCell aNewMarketCell,
+			int aNewLocation) {
 		super (NAME, aActor);
-		
+
 		String tStartCellCoordinates, tNewCellCoordinates;
-		
+
 		tStartCellCoordinates = aStartMarketCell.getCoordinates ();
 		tNewCellCoordinates = aNewMarketCell.getCoordinates ();
 		setStartLocation (aLocation);
@@ -50,7 +51,7 @@ public class ChangeMarketCellEffect extends Effect {
 		String tStartCellCoordinates, tNewCellCoordinates;
 		int tStartLocation, tNewLocation;
 		setName (NAME);
-		
+
 		tStartLocation = aEffectNode.getThisIntAttribute (AN_START_LOCATION);
 		tNewLocation = aEffectNode.getThisIntAttribute (AN_NEW_LOCATION);
 		tStartCellCoordinates = aEffectNode.getThisAttribute (AN_START_COORDINATES);
@@ -58,81 +59,81 @@ public class ChangeMarketCellEffect extends Effect {
 		setStartLocation (tStartLocation);
 		setNewLocation (tNewLocation);
 		setStartCellCoordinates (tStartCellCoordinates);
-		setNewCellCoordinates (tNewCellCoordinates);		
+		setNewCellCoordinates (tNewCellCoordinates);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_START_LOCATION, startLocation);
 		tEffectElement.setAttribute (AN_NEW_LOCATION, newLocation);
 		tEffectElement.setAttribute (AN_START_COORDINATES, startCellCoordinates);
 		tEffectElement.setAttribute (AN_NEW_COORDINATES, newCellCoordinates);
-	
+
 		return tEffectElement;
 	}
 
 	public int getStartLocation () {
 		return startLocation;
 	}
-	
+
 	public String getNewCellCoordinates () {
 		return newCellCoordinates;
 	}
-	
+
 	public String getStartCellCorodinates () {
 		return startCellCoordinates;
 	}
-	
+
 	public int getCellPrice (String aCellCoordinates, RoundManager aRoundManager) {
 		MarketCell tCell;
 		Market tMarket;
 		int tPrice;
-		
+
 		tMarket = aRoundManager.getMarket ();
 		tCell = tMarket.getMarketCellAtCoordinates (aCellCoordinates);
 		tPrice = tCell.getValue ();
-		
+
 		return tPrice;
 	}
-	
+
 	public int getNewCellPrice (RoundManager aRoundManager) {
 		int tNewPrice;
-		
+
 		tNewPrice = getCellPrice (newCellCoordinates, aRoundManager);
-		
+
 		return tNewPrice;
 	}
-	
+
 	public int getStartCellPrice (RoundManager aRoundManager) {
 		int tStartPrice;
-		
+
 		tStartPrice = getCellPrice (startCellCoordinates, aRoundManager);
-		
+
 		return tStartPrice;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		int tStartPrice;
 		int tNewPrice;
 		MarketCell tStartCell, tNewCell;
 		Market tMarket;
-		
+
 		tMarket = aRoundManager.getMarket ();
 		tStartCell = tMarket.getMarketCellAtCoordinates (startCellCoordinates);
 		tNewCell = tMarket.getMarketCellAtCoordinates (newCellCoordinates);
 		tStartPrice = tStartCell.getValue ();
 
 		tNewPrice = tNewCell.getValue ();
-		
-		return (REPORT_PREFIX + name + " for " + actor.getName () + " from " + 
-				startCellCoordinates + " (" + Bank.formatCash (tStartPrice) + ") location (" + startLocation + ") to " +
-				newCellCoordinates + " (" + Bank.formatCash (tNewPrice) + ").");
+
+		return (REPORT_PREFIX + name + " for " + actor.getName () + " from " + startCellCoordinates + " ("
+				+ Bank.formatCash (tStartPrice) + ") location (" + startLocation + ") to " + newCellCoordinates + " ("
+				+ Bank.formatCash (tNewPrice) + ").");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
@@ -141,23 +142,23 @@ public class ChangeMarketCellEffect extends Effect {
 	public void setStartLocation (int aStartLocation) {
 		startLocation = aStartLocation;
 	}
-	
+
 	public void setNewLocation (int aNewLocation) {
 		newLocation = aNewLocation;
 	}
-	
+
 	public int getNewLocation () {
 		return newLocation;
 	}
-	
+
 	public void setNewCellCoordinates (String aNewCellCoordinates) {
 		newCellCoordinates = aNewCellCoordinates;
 	}
-	
+
 	public void setStartCellCoordinates (String aStartCellCoordinates) {
 		startCellCoordinates = aStartCellCoordinates;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
@@ -166,7 +167,7 @@ public class ChangeMarketCellEffect extends Effect {
 		Token tToken;
 		ShareCompany tShareCompany;
 		String tCompanyAbbrev;
-		
+
 		tEffectApplied = true;
 		tMarket = aRoundManager.getMarket ();
 		tStartCell = tMarket.getMarketCellAtCoordinates (startCellCoordinates);
@@ -193,7 +194,7 @@ public class ChangeMarketCellEffect extends Effect {
 		Token tToken;
 		ShareCompany tShareCompany;
 		String tCompanyAbbrev;
-		
+
 		tEffectUndone = true;
 		tMarket = aRoundManager.getMarket ();
 		tStartCell = tMarket.getMarketCellAtCoordinates (startCellCoordinates);

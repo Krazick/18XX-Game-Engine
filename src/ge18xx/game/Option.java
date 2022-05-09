@@ -17,19 +17,19 @@ public class Option {
 	public static final ElementName EN_OPTION = new ElementName ("Option");
 	public static final ElementName EN_OPTIONS = new ElementName ("Options");
 	String title;
-	OptionEffect optionEffects [];
+	OptionEffect optionEffects[];
 	boolean enabled;
-	
+
 	public Option () {
 		setValue (NO_TITLE);
 	}
-	
+
 	public Option (XMLNode aCellNode) {
 		String tTitle, tChildName;
 		XMLNode tChildNode;
 		NodeList tChildren;
 		int tIndex, tChildrenCount, tEffectIndex;
-		
+
 		tTitle = aCellNode.getThisAttribute (AN_TITLE);
 		setValue (tTitle);
 		tChildren = aCellNode.getChildNodes ();
@@ -45,26 +45,26 @@ public class Option {
 		}
 
 	}
-	
+
 	public int getEffectCount () {
 		return optionEffects.length;
 	}
-	
+
 	public OptionEffect getEffectIndex (int aIndex) {
 		OptionEffect tEffect;
-		
-		if ((aIndex >= 0) && (aIndex < optionEffects.length)){
+
+		if ((aIndex >= 0) && (aIndex < optionEffects.length)) {
 			tEffect = optionEffects [aIndex];
 		} else {
 			tEffect = NO_OPTION_EFFECT;
 		}
-		
+
 		return tEffect;
 	}
-	
+
 	public XMLElement getOptionElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement, tOptionEffectElements, tOptionEffectElement;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_OPTION);
 		tXMLElement.setAttribute (AN_TITLE, title);
 		tOptionEffectElements = aXMLDocument.createElement (OptionEffect.EN_OPTION_EFFECTS);
@@ -75,22 +75,22 @@ public class Option {
 			}
 		}
 		tXMLElement.appendChild (tOptionEffectElements);
-		
+
 		return tXMLElement;
 	}
-	
+
 	public String getTitle () {
 		return title;
 	}
-	
+
 	public boolean isEnabled () {
 		return enabled;
 	}
-	
+
 	public void setEnabled (boolean aEnabled) {
 		enabled = aEnabled;
 	}
-	
+
 	private void setValue (String aTitle) {
 		title = aTitle;
 		setEnabled (false);

@@ -23,7 +23,7 @@ public class ChangeRouteEffect extends Effect {
 	Location startLocation;
 	Location endLocation;
 
-	public ChangeRouteEffect() {
+	public ChangeRouteEffect () {
 		super ();
 	}
 
@@ -42,7 +42,7 @@ public class ChangeRouteEffect extends Effect {
 		Location tStartLocation, tEndLocation;
 		MapCell tMapCell;
 		HexMap tMap;
-		
+
 		tMap = aGameManager.getGameMap ();
 		tMapCellID = aEffectNode.getThisAttribute (AN_MAP_CELL_ID);
 		tStartLocationInt = aEffectNode.getThisIntAttribute (AN_START_LOCATION);
@@ -58,24 +58,25 @@ public class ChangeRouteEffect extends Effect {
 		setEndLocation (tEndLocation);
 	}
 
-	public ChangeRouteEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation) {
+	public ChangeRouteEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+			Location aEndLocation) {
 		super (NAME, aActor);
 		setTrainIndex (aTrainIndex);
 		setMapCell (aMapCell);
 		setStartLocation (aStartLocation);
 		setEndLocation (aEndLocation);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_TRAIN_INDEX, trainIndex);
 		tEffectElement.setAttribute (AN_MAP_CELL_ID, mapCell.getID ());
 		tEffectElement.setAttribute (AN_START_LOCATION, startLocation.getLocation ());
 		tEffectElement.setAttribute (AN_END_LOCATION, endLocation.getLocation ());
-	
+
 		return tEffectElement;
 	}
 
@@ -110,18 +111,18 @@ public class ChangeRouteEffect extends Effect {
 	public Location getEndLocation () {
 		return endLocation;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tReport;
-		
-		tReport = REPORT_PREFIX + name + " for " + getActorName () + " for Train " + getTrainIndex () +
-				" on MapCell " + mapCell.getCellID () + " from Location " + startLocation.getLocation ();
+
+		tReport = REPORT_PREFIX + name + " for " + getActorName () + " for Train " + getTrainIndex () + " on MapCell "
+				+ mapCell.getCellID () + " from Location " + startLocation.getLocation ();
 		if (endLocation.getLocation () != Location.NO_LOCATION) {
 			tReport += " to Location " + endLocation.getLocation ();
 		}
 		tReport += ".";
-		
+
 		return tReport;
 	}
 
@@ -133,9 +134,9 @@ public class ChangeRouteEffect extends Effect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApply;
-		
+
 		tEffectApply = true;
-		
+
 		return tEffectApply;
 	}
 

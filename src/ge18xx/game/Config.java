@@ -20,18 +20,18 @@ public class Config {
 	GameManager gameManager;
 
 	public Config (GameManager aGameManager) {
-		gameManager = aGameManager;	
+		gameManager = aGameManager;
 		gameFrames = new ArrayList<GameFrameConfig> ();
 		setJustSaveGameDirectory ("");
 	}
-	
+
 	public Config (XMLNode aConfigNode, GameManager aGameManager) {
 		NodeList tChildren;
 		XMLNode tChildNode;
 		int tNodeCount, tNodeIndex;
 		GameFrameConfig tGameFrameConfig;
 		String tSaveGameDirName;
-		
+
 		gameManager = aGameManager;
 		tChildren = aConfigNode.getChildNodes ();
 		tNodeCount = tChildren.getLength ();
@@ -42,8 +42,8 @@ public class Config {
 				if (EN_FRAMES.equals (tChildNode.getNodeName ())) {
 					tGameFrameConfig = new GameFrameConfig (tChildNode);
 					gameFrames.add (tGameFrameConfig);
-				} else if (GameManager.EN_SAVEGAMEDIR.equals(tChildNode.getNodeName ())) {
-					tSaveGameDirName = tChildNode.getThisAttribute(GameManager.AN_NAME);
+				} else if (GameManager.EN_SAVEGAMEDIR.equals (tChildNode.getNodeName ())) {
+					tSaveGameDirName = tChildNode.getThisAttribute (GameManager.AN_NAME);
 					setJustSaveGameDirectory (tSaveGameDirName);
 				}
 			}
@@ -52,31 +52,31 @@ public class Config {
 			tException.printStackTrace ();
 		}
 	}
-	
+
 	public String getSaveGameDirectory () {
 		return saveGameDirectory;
 	}
-	
+
 	private void setJustSaveGameDirectory (String aSaveGameDirectory) {
 		saveGameDirectory = aSaveGameDirectory;
 	}
-	
+
 	public void setSaveGameDirectory (String aSaveGameDirectory) {
 		setJustSaveGameDirectory (aSaveGameDirectory);
 		gameManager.saveConfig (true);
 	}
-	
+
 	public int getGameFramesCount () {
 		return gameFrames.size ();
 	}
-	
+
 	public XMLElement getXMLFramesElement (XMLDocument aXMLDocument, int aGameIndex) {
 		int tGamesCount, tFrameCount, tFrameIndex;
 		XMLElement tXMLFramesElement = XMLElement.NO_XML_ELEMENT;
 		XMLElement tXMLFrameElement;
 		GameFrameConfig tGameFrameConfig;
 		String tGameName, tFrameName;
-		
+
 		tGamesCount = getGameFramesCount ();
 		if ((tGamesCount > 0) && (aGameIndex < tGamesCount)) {
 			tXMLFramesElement = aXMLDocument.createElement (EN_FRAMES);
@@ -92,23 +92,23 @@ public class Config {
 				}
 			}
 		}
-		
+
 		return tXMLFramesElement;
 	}
-	
+
 	public GameFrameConfig getGameFrameConfigFor (int aGameIndex) {
 		GameFrameConfig tGameFrameConfig = NO_GAME_FRAME;
-		
+
 		if ((getGameFramesCount () > 0) && (aGameIndex < getGameFramesCount ())) {
 			tGameFrameConfig = gameFrames.get (aGameIndex);
 		}
-		
+
 		return tGameFrameConfig;
 	}
-	
+
 	public GameFrameConfig getGameFrameConfigFor (String aGameName) {
 		GameFrameConfig tFoundGameFrameConfig = NO_GAME_FRAME;
-		
+
 		if (getGameFramesCount () > 0) {
 			for (GameFrameConfig tGameFrameConfig : gameFrames) {
 				if (tGameFrameConfig.getGameName ().equals (aGameName)) {
@@ -116,7 +116,7 @@ public class Config {
 				}
 			}
 		}
-		
+
 		return tFoundGameFrameConfig;
 	}
 }

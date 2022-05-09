@@ -16,7 +16,7 @@ public class PhaseChangeEffect extends Effect {
 	int previousPhaseIndex;
 	int newPhaseIndex;
 
-	public PhaseChangeEffect() {
+	public PhaseChangeEffect () {
 		super ();
 		setName (NAME);
 		setPreviousPhase (PhaseManager.NO_PHASE);
@@ -29,42 +29,42 @@ public class PhaseChangeEffect extends Effect {
 		setNewPhase (aNewStateIndex);
 	}
 
-	public PhaseChangeEffect(XMLNode aEffectNode, GameManager aGameManager) {
+	public PhaseChangeEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		
+
 		int tPreviousPhaseIndex, tNewPhaseIndex;
-		
+
 		tPreviousPhaseIndex = aEffectNode.getThisIntAttribute (AN_PREVIOUS_PHASE);
 		tNewPhaseIndex = aEffectNode.getThisIntAttribute (AN_NEW_PHASE);
 		setPreviousPhase (tPreviousPhaseIndex);
 		setNewPhase (tNewPhaseIndex);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_PREVIOUS_PHASE, previousPhaseIndex);
 		tEffectElement.setAttribute (AN_NEW_PHASE, newPhaseIndex);
-	
+
 		return tEffectElement;
 	}
 
 	public int getNewPhaseIndex () {
 		return newPhaseIndex;
 	}
-	
+
 	public int getPreviousPhaseIndex () {
 		return previousPhaseIndex;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " by " + actor.getName () + " from " + previousPhaseIndex + 
-				" to " + newPhaseIndex + ".");
+		return (REPORT_PREFIX + name + " by " + actor.getName () + " from " + previousPhaseIndex + " to "
+				+ newPhaseIndex + ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
@@ -73,16 +73,16 @@ public class PhaseChangeEffect extends Effect {
 	public void setPreviousPhase (int aPreviousPhaseIndex) {
 		previousPhaseIndex = aPreviousPhaseIndex;
 	}
-	
+
 	public void setNewPhase (int aNewPhaseIndex) {
 		newPhaseIndex = aNewPhaseIndex;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		PhaseManager tPhaseManager;
-		
+
 		tEffectApplied = false;
 		tPhaseManager = aRoundManager.getPhaseManager ();
 		tPhaseManager.setCurrentPhase (newPhaseIndex);
@@ -96,7 +96,7 @@ public class PhaseChangeEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		PhaseManager tPhaseManager;
-		
+
 		tEffectUndone = false;
 		tPhaseManager = aRoundManager.getPhaseManager ();
 		tPhaseManager.setCurrentPhase (previousPhaseIndex);

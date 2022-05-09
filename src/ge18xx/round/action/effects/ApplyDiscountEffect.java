@@ -19,7 +19,7 @@ public class ApplyDiscountEffect extends Effect {
 	String companyAbbrev;
 	int oldDiscount;
 	int newDiscount;
-	
+
 	public ApplyDiscountEffect () {
 		super ();
 		setCompanyAbbrev (Corporation.NO_NAME_STRING);
@@ -33,15 +33,15 @@ public class ApplyDiscountEffect extends Effect {
 		setOldDiscount (aOldDiscount);
 		setNewDiscount (aNewDiscount);
 	}
-	
+
 	public ApplyDiscountEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		
+
 		String tCompanyAbbrev;
 		Certificate tCertificate;
 		int tOldDiscount;
 		int tNewDiscount;
-		
+
 		tCompanyAbbrev = aEffectNode.getThisAttribute (AN_COMPANY_ABBREV);
 		tCertificate = aGameManager.getCertificate (tCompanyAbbrev, 100, true);
 		tOldDiscount = aEffectNode.getThisIntAttribute (AN_OLD_DISCOUNT);
@@ -49,10 +49,10 @@ public class ApplyDiscountEffect extends Effect {
 		setCompanyAbbrev (tCompanyAbbrev);
 		setOldDiscount (tOldDiscount);
 		setNewDiscount (tNewDiscount);
-	
+
 		tCertificate.setDiscount (tNewDiscount);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
@@ -61,71 +61,72 @@ public class ApplyDiscountEffect extends Effect {
 		tEffectElement.setAttribute (AN_COMPANY_ABBREV, companyAbbrev);
 		tEffectElement.setAttribute (AN_OLD_DISCOUNT, oldDiscount);
 		tEffectElement.setAttribute (AN_NEW_DISCOUNT, newDiscount);
-	
+
 		return tEffectElement;
 	}
 
 	public String getCompanyAbbrev () {
 		return companyAbbrev;
 	}
-	
+
 	public int getOldDiscount () {
 		return oldDiscount;
 	}
-	
+
 	public int getNewDiscount () {
 		return newDiscount;
 	}
-	
+
 	private void setCompanyAbbrev (String aCompanyAbbrev) {
 		companyAbbrev = aCompanyAbbrev;
 	}
-	
+
 	private void setOldDiscount (int aOldDiscount) {
 		oldDiscount = aOldDiscount;
 	}
-	
+
 	private void setNewDiscount (int aNewDiscount) {
 		newDiscount = aNewDiscount;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + companyAbbrev + " change Discount from " +  Bank.formatCash (oldDiscount) + " to "  +  Bank.formatCash (newDiscount) + ".");
+		return (REPORT_PREFIX + name + " for " + companyAbbrev + " change Discount from "
+				+ Bank.formatCash (oldDiscount) + " to " + Bank.formatCash (newDiscount) + ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Certificate tCertificate;
-		
+
 		tEffectApplied = false;
 		tCertificate = aRoundManager.getCertificate (companyAbbrev, 100, true);
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tCertificate.setDiscount (newDiscount);
 			tEffectApplied = true;
 		}
-		
+
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Certificate tCertificate;
-		
+
 		tEffectUndone = false;
 		tCertificate = aRoundManager.getCertificate (companyAbbrev, 100, true);
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tCertificate.setDiscount (oldDiscount);
 			tEffectUndone = true;
 		}
-		
+
 		return tEffectUndone;
 	}
 }

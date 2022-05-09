@@ -17,9 +17,9 @@ public class OperatingRound extends Round {
 	CorporationList coalCompanies;
 	CorporationList minorCompanies;
 	CorporationList shareCompanies;
-	
-	public OperatingRound (RoundManager aRoundManager, CorporationList aPrivates, CorporationList aCoals, 
-					CorporationList aMinors, CorporationList aShares) {
+
+	public OperatingRound (RoundManager aRoundManager, CorporationList aPrivates, CorporationList aCoals,
+			CorporationList aMinors, CorporationList aShares) {
 		super (aRoundManager);
 		setID (0, 0);
 		privateCompanies = aPrivates;
@@ -27,22 +27,22 @@ public class OperatingRound extends Round {
 		minorCompanies = aMinors;
 		shareCompanies = aShares;
 	}
-	
+
 	public boolean anyFloatedCompanies () {
 		boolean tAnyFloatedCompanies = false;
-		
+
 		tAnyFloatedCompanies = tAnyFloatedCompanies || coalCompanies.anyCanOperate ();
 		tAnyFloatedCompanies = tAnyFloatedCompanies || minorCompanies.anyCanOperate ();
 		tAnyFloatedCompanies = tAnyFloatedCompanies || shareCompanies.anyCanOperate ();
-		
+
 		return tAnyFloatedCompanies;
 	}
-	
+
 	@Override
 	public boolean startOperatingRound () {
 		boolean tStartedOperatingRound = true;
-		
-		if (! roundManager.applyingAction ()) {
+
+		if (!roundManager.applyingAction ()) {
 			payRevenues ();
 		}
 		if (anyFloatedCompanies ()) {
@@ -55,29 +55,30 @@ public class OperatingRound extends Round {
 		} else {
 			tStartedOperatingRound = false;
 		}
-		
+
 		return tStartedOperatingRound;
 	}
-	
+
 	public void updateActionLabel () {
 		ShareCompany tShareCompany;
 		int tNextShareToOperate;
 		int tCurrentlyOperating;
-		
-		// TODO: Test if Minor Companies, or Coal Companies need to operate Before Share Companies
+
+		// TODO: Test if Minor Companies, or Coal Companies need to operate Before Share
+		// Companies
 		tCurrentlyOperating = shareCompanies.getCurrentlyOperating ();
 		if (tCurrentlyOperating != CorporationList.NO_CORPORATION_INDEX) {
-			tShareCompany = (ShareCompany) shareCompanies.getCorporation (tCurrentlyOperating); 
+			tShareCompany = (ShareCompany) shareCompanies.getCorporation (tCurrentlyOperating);
 			roundManager.updateActionLabel (tShareCompany);
 		} else {
 			tNextShareToOperate = shareCompanies.getNextToOperate ();
 			if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
-				tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate); 
+				tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate);
 				roundManager.updateActionLabel (tShareCompany);
 			}
 		}
 	}
-	
+
 	public CorporationList getCoalCompanies () {
 		return coalCompanies;
 	}
@@ -85,7 +86,7 @@ public class OperatingRound extends Round {
 	public int getCoalCompanyCount () {
 		return coalCompanies.getRowCount ();
 	}
-	
+
 	public CorporationList getMinorCompanies () {
 		return minorCompanies;
 	}
@@ -93,7 +94,7 @@ public class OperatingRound extends Round {
 	public int getMinorCompanyCount () {
 		return minorCompanies.getRowCount ();
 	}
-	
+
 	@Override
 	public String getName () {
 		return NAME;
@@ -102,11 +103,11 @@ public class OperatingRound extends Round {
 	public String getOperatingOwnerName () {
 		return shareCompanies.getOperatingOwnerName ();
 	}
-	
+
 	public String getOwnerWhoWillOperate () {
 		return shareCompanies.getOwnerWhoWillOperate ();
 	}
-	
+
 	public CorporationList getPrivateCompanies () {
 		return privateCompanies;
 	}
@@ -114,12 +115,12 @@ public class OperatingRound extends Round {
 	public int getPrivateCompanyCount () {
 		return privateCompanies.getRowCount ();
 	}
-	
+
 	@Override
 	public ActorI.ActionStates getRoundType () {
 		return ActorI.ActionStates.OperatingRound;
 	}
-	
+
 	@Override
 	public String getStateName () {
 		return getRoundType ().toString ();
@@ -128,16 +129,16 @@ public class OperatingRound extends Round {
 	public int getShareCompanyCount () {
 		return shareCompanies.getRowCount ();
 	}
-	
+
 	public XMLElement getRoundState (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		
-		tXMLElement = aXMLDocument.createElement (EN_OPERATING_ROUND); 
+
+		tXMLElement = aXMLDocument.createElement (EN_OPERATING_ROUND);
 		setRoundAttributes (tXMLElement);
-		
+
 		return tXMLElement;
 	}
-	
+
 	@Override
 	public void loadRound (XMLNode aRoundNode) {
 		super.loadRound (aRoundNode);
@@ -146,82 +147,82 @@ public class OperatingRound extends Round {
 	public CorporationList getShareCompanies () {
 		return shareCompanies;
 	}
-	
+
 	public ShareCompany getShareCompanyIndex (int aIndex) {
-		return (ShareCompany) shareCompanies.getCorporation(aIndex);
+		return (ShareCompany) shareCompanies.getCorporation (aIndex);
 	}
-	
+
 	@Override
 	public String getType () {
 		return NAME;
 	}
-	
+
 	public void payRevenues () {
 		if (getPrivateCompanyCount () > 0) {
 			privateCompanies.payPrivateRevenues (getBank (), this);
 		}
 	}
-	
+
 	public void printRoundInfo () {
 		System.out.println (" Operating Round " + idPart1 + "." + idPart2);
 	}
-	
+
 	@Override
 	public boolean roundIsDone () {
 		boolean tRoundDone;
-		
+
 		tRoundDone = false;
 		if (shareCompanies != CorporationList.NO_CORPORATION_LIST) {
 			tRoundDone = shareCompanies.haveAllCompaniesOperated ();
 		}
-		
+
 		return tRoundDone;
 	}
-	
+
 	public boolean companyStartedOperating () {
 		int tNextShareToOperate;
 		boolean tCompanyStartedOperating;
-		
+
 		tNextShareToOperate = getNextShareToOperate ();
-		
-		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX ) {
+
+		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
 			tCompanyStartedOperating = shareCompanies.companyStartedOperating (tNextShareToOperate);
 		} else {
 			tCompanyStartedOperating = false;
 		}
-		
+
 		return tCompanyStartedOperating;
 	}
-	
+
 	public void prepareCorporation () {
 		int tNextShareToOperate;
-		
+
 		tNextShareToOperate = getNextShareToOperate ();
-		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX ) {
+		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
 			shareCompanies.prepareCorporation (tNextShareToOperate);
 		}
 	}
-	
+
 	public void showCurrentCompanyFrame () {
 		int tNextShareToOperate;
-		
+
 		tNextShareToOperate = getNextShareToOperate ();
-		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX ) {
+		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
 			shareCompanies.showCompanyFrame (tNextShareToOperate);
 		}
 	}
-	
+
 	public int getNextShareToOperate () {
 		int tNextShareIndexToOperate;
 		ShareCompany tShareCompany;
 		int tStartingTreasury;
-	
+
 		// TODO: 1835 - Need to check for Minor Companies BEFORE Share Companies
-		
+
 		tNextShareIndexToOperate = shareCompanies.getNextToOperate ();
 		if (tNextShareIndexToOperate != CorporationList.NO_CORPORATION_INDEX) {
 			tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareIndexToOperate);
-			if (! tShareCompany.hasFloated ()) {
+			if (!tShareCompany.hasFloated ()) {
 				if (tShareCompany.shouldFloat ()) {
 					tStartingTreasury = tShareCompany.calculateStartingTreasury ();
 					tShareCompany.floatCompany (tStartingTreasury);
@@ -230,23 +231,23 @@ public class OperatingRound extends Round {
 				}
 			}
 		}
-		
+
 		return tNextShareIndexToOperate;
 	}
-	
+
 	public void updateCurrentCompanyFrame () {
 		int tNextShareToOperate;
 		ShareCompany tShareCompany;
-		
+
 		// Need for every time a Company Operates, to be sure to provide capitalization
 		tNextShareToOperate = getNextShareToOperate ();
-		tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate); 
+		tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate);
 		tShareCompany.updateFrameInfo ();
 	}
 
 	public Corporation getOperatingCompany () {
 		Corporation tCorporation;
-		
+
 		tCorporation = shareCompanies.getOperatingCompany ();
 		if (tCorporation == Corporation.NO_CORPORATION) {
 			tCorporation = minorCompanies.getOperatingCompany ();
@@ -257,11 +258,11 @@ public class OperatingRound extends Round {
 
 		return tCorporation;
 	}
-	
+
 	public void sortByOperatingOrder () {
 		shareCompanies.sortByOperatingOrder ();
 	}
-	
+
 	@Override
 	public boolean isAOperatingRound () {
 		return true;
@@ -271,7 +272,7 @@ public class OperatingRound extends Round {
 	public boolean isATrainCompany () {
 		return false;
 	}
-	
+
 	@Override
 	public void completeBenefitInUse () {
 	}

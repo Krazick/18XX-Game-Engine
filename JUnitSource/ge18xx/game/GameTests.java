@@ -24,8 +24,8 @@ class GameTests {
 		String tAfterTruncation;
 		String tPattern = "^(.*) \\([A-Za-z][A-Za-z0-9_]*\\)$";
 		tFrameName = "1830 Action Report Frame (Z)";
-		
-		System.out.println ("Frame Title Before Truncating |" + tFrameName + "|");	
+
+		System.out.println ("Frame Title Before Truncating |" + tFrameName + "|");
 		if (tFrameName.matches (tPattern)) {
 			int tIndexLastSpace = tFrameName.lastIndexOf (" ");
 			tAfterTruncation = tFrameName.substring (0, tIndexLastSpace);
@@ -36,7 +36,7 @@ class GameTests {
 
 		tFrameName = "1830 Round Frame";
 
-		System.out.println ("Frame Title Before Truncating |" + tFrameName + "|");	
+		System.out.println ("Frame Title Before Truncating |" + tFrameName + "|");
 		if (tFrameName.matches (tPattern)) {
 			int tIndexLastSpace = tFrameName.lastIndexOf (" ");
 			tAfterTruncation = tFrameName.substring (0, tIndexLastSpace);

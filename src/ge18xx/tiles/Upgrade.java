@@ -27,15 +27,15 @@ public class Upgrade {
 	public static final Upgrade NO_UPGRADE = null;
 	static final int ANY_ROTATION = -1;
 	int toNumber;
-	int toRotations [];
-	int RCfrom [];
-	int RCto [];
-	int RCrotation [];
+	int toRotations[];
+	int RCfrom[];
+	int RCto[];
+	int RCrotation[];
 	String baseCityName;
-	
+
 	public Upgrade () {
 	}
-	
+
 	public Upgrade (XMLNode aNode) {
 		String [] tSplit = null;
 		String tRotations;
@@ -45,10 +45,10 @@ public class Upgrade {
 		int tIndex;
 		int tChildrenCount;
 		int tUpgradeCount, tUpgradeIndex;
-		
+
 		toNumber = aNode.getThisIntAttribute (AN_TO_NUMBER);
 		tRotations = aNode.getThisAttribute (AN_ROTATIONS);
-		tSplit = tRotations.split(",");
+		tSplit = tRotations.split (",");
 		toRotations = new int [tSplit.length];
 		for (tIndex = 0; tIndex < tSplit.length; tIndex++) {
 			toRotations [tIndex] = Integer.parseInt (tSplit [tIndex]);
@@ -56,7 +56,7 @@ public class Upgrade {
 		tChildren = aNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		if (tChildrenCount > 0) {
-			tUpgradeCount = tChildrenCount/2;
+			tUpgradeCount = tChildrenCount / 2;
 			tUpgradeIndex = 0;
 			RCfrom = new int [tUpgradeCount];
 			RCto = new int [tUpgradeCount];
@@ -79,15 +79,15 @@ public class Upgrade {
 			RCfrom = null;
 		}
 	}
-	
+
 	public String getBaseCityName () {
 		return baseCityName;
 	}
-	
+
 	public Location getToFromLocation (Location aFromLocation, int aRotation) {
 		int tFromLocation, tIndex;
 		Location tToLocation;
-		
+
 		tToLocation = Location.NO_LOC;
 		tFromLocation = aFromLocation.getLocation ();
 		for (tIndex = 0; (tIndex < RCfrom.length) && (tToLocation == Location.NO_LOC); tIndex++) {
@@ -95,64 +95,64 @@ public class Upgrade {
 				tToLocation = new Location (RCto [tIndex]);
 			}
 		}
-		
+
 		return tToLocation;
 	}
-	
+
 	public int getToFromIndex (int aFromLocation, int aRotation) {
 		int tIndex, tToIndex;
-		
+
 		tToIndex = Location.CENTER_CITY_LOC;
 		for (tIndex = 0; tIndex < RCfrom.length; tIndex++) {
 			if ((RCfrom [tIndex] == aFromLocation) && (RCrotation [tIndex] == aRotation)) {
 				tToIndex = RCto [tIndex];
 			}
 		}
-		
+
 		return tToIndex;
 	}
-	
+
 	public int getFromIndex (int aIndex) {
 		int tFrom = 0;
-		
+
 		if (RCfrom != null) {
 			if (aIndex > RCfrom.length) {
 				tFrom = RCfrom [aIndex];
 			}
 		}
-		
+
 		return tFrom;
 	}
-	
+
 	public int getRotation (int aIndex) {
 		int tRotation = 0;
-		
+
 		if (toRotations != null) {
 			if (aIndex < toRotations.length) {
 				tRotation = toRotations [aIndex];
 			}
 		}
-		
+
 		return tRotation;
 	}
-	
+
 	public int getRotationCount () {
 		return toRotations.length;
 	}
-	
+
 	public int getTileNumber () {
 		return toNumber;
 	}
-	
+
 	public int getToIndex (int aIndex) {
 		int tTo = 0;
-		
+
 		if (RCto != null) {
 			if (aIndex > RCto.length) {
 				tTo = RCto [aIndex];
 			}
 		}
-		
+
 		return tTo;
 	}
 }

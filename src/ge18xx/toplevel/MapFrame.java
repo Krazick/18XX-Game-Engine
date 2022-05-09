@@ -84,7 +84,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	CorporationList coalCos;
 	CorporationList minorCos;
 	CorporationList shareCos;
-	
+
 	boolean placeTileMode;
 	boolean placeTokenMode;
 	boolean selectRouteMode;
@@ -110,15 +110,15 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private String PUT_TOKEN = "PutToken";
 	JSlider hexScaleSlider;
 	Logger logger;
-	
+
 	public MapFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getActiveGameName ());
 
 		gameManager = aGameManager;
-				
+
 		buildMapScrollPanel ();
 		buildNorthPanel ();
-		
+
 		setPlaceTileMode (false);
 		setPlaceTokenMode (false);
 		setSelectRouteMode (false);
@@ -128,30 +128,30 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	private void buildMapScrollPanel () {
 		map = new HexMap (this);
-        scrollPane = new JScrollPane ();
+		scrollPane = new JScrollPane ();
 		scrollPane.setViewportView (map);
 		add (scrollPane, BorderLayout.CENTER);
 	}
 
 	private void buildNorthPanel () {
 		JPanel tNorthPanel;
-		
+
 		tNorthPanel = new JPanel ();
 		hexScaleSlider = new JSlider (JSlider.HORIZONTAL, 4, 16, 8);
 		hexScaleSlider.addChangeListener (map);
-		
-		//Turn on labels at major tick marks.
+
+		// Turn on labels at major tick marks.
 		hexScaleSlider.setMajorTickSpacing (4);
 		hexScaleSlider.setMinorTickSpacing (1);
 		hexScaleSlider.setPaintTicks (true);
 		hexScaleSlider.setPaintLabels (true);
 		tNorthPanel.add (hexScaleSlider);
-		
+
 		buildAllButtonsJPanel ();
-		
+
 		tNorthPanel.add (Box.createHorizontalGlue ());
 		tNorthPanel.add (allButtonsJPanel);
-		
+
 		selectRouteButton = new JButton ("Enter Select Route Mode");
 		selectRouteButton.addActionListener (this);
 		selectRouteButton.setActionCommand (SELECT_ROUTE_MODE);
@@ -159,14 +159,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		selectRouteButton.setToolTipText (NOT_OPERATING_TRAIN_MODE);
 		tNorthPanel.add (Box.createHorizontalGlue ());
 		tNorthPanel.add (selectRouteButton);
-		
+
 		add (tNorthPanel, BorderLayout.NORTH);
 	}
 
 	private void buildAllButtonsJPanel () {
 		allButtonsJPanel = new JPanel ();
 		allButtonsJPanel.setLayout (new BoxLayout (allButtonsJPanel, BoxLayout.Y_AXIS));
-		
+
 		buildTokenButtonsPanel ();
 		allButtonsJPanel.add (tokenButtons);
 		allButtonsJPanel.add (Box.createVerticalStrut (10));
@@ -177,7 +177,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	private void buildTileButtonsPanel () {
 		JLabel tLabelTileMode;
-		
+
 		tLabelTileMode = new JLabel ("Tile Mode");
 		tileButtons = new JPanel ();
 		tileButtons.setLayout (new BoxLayout (tileButtons, BoxLayout.X_AXIS));
@@ -192,34 +192,34 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		putTileButton.setToolTipText (NOT_PLACE_TILE_MODE);
 		tileButtons.add (putTileButton);
 		tileButtons.add (Box.createHorizontalStrut (10));
-		
+
 		pickupTileButton = new JButton ("Pickup");
 		pickupTileButton.addActionListener (this);
 		pickupTileButton.setActionCommand (PICKUP_TILE);
 		updatePickupTileButton (false, NOT_PLACE_TILE_MODE);
 		tileButtons.add (pickupTileButton);
 		tileButtons.add (Box.createHorizontalStrut (10));
-		
+
 		exitTileButton = new JButton ("Exit Mode");
 		exitTileButton.addActionListener (this);
 		exitTileButton.setActionCommand (COMPLETE_TILE_LAY);
 		exitTileButton.setEnabled (false);
 		exitTileButton.setToolTipText (NOT_PLACE_TILE_MODE);
-		
+
 		tileButtons.add (exitTileButton);
 		tileButtons.add (Box.createHorizontalStrut (10));
 	}
 
 	private void buildTokenButtonsPanel () {
 		JLabel tLabelTokenMode;
-		
+
 		tLabelTokenMode = new JLabel ("Token Mode");
 		tokenButtons = new JPanel ();
 		tokenButtons.setLayout (new BoxLayout (tokenButtons, BoxLayout.X_AXIS));
 		tokenButtons.setOpaque (true);
 		tokenButtons.add (tLabelTokenMode);
 		tokenButtons.add (Box.createHorizontalStrut (10));
-		
+
 		putTokenButton = new JButton ("Put Down");
 		putTokenButton.addActionListener (this);
 		putTokenButton.setActionCommand (PUT_TOKEN);
@@ -227,7 +227,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		putTokenButton.setToolTipText (NOT_PLACE_TOKEN_MODE);
 		tokenButtons.add (putTokenButton);
 		tokenButtons.add (Box.createHorizontalStrut (10));
-		
+
 		exitTokenButton = new JButton (CANCEL_MODE_LABEL);
 		exitTokenButton.addActionListener (this);
 		exitTokenButton.setActionCommand (CANCEL_TOKEN_MODE);
@@ -235,26 +235,26 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tokenButtons.add (exitTokenButton);
 		tokenButtons.add (Box.createHorizontalStrut (10));
 	}
-	
+
 	public GameManager getGameManager () {
 		return gameManager;
 	}
-	
+
 	@Override
 	public int getHexScale () {
 		return map.getHexScale ();
 	}
-	
+
 	public void setHexScaleSlider (int aScale) {
 		hexScaleSlider.setValue (aScale);
 	}
-	
+
 	@Override
 	public void setHexScale (int aScale) {
 		map.setHexScale (aScale);
 		setHexScaleSlider (aScale);
 	}
-	
+
 	private void setModes (boolean aTileMode, boolean aTokenMode, boolean aRouteMode) {
 		setSelectRouteMode (aRouteMode);
 		setPlaceTokenMode (aTokenMode);
@@ -270,7 +270,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		map.clearTrain (aTrainNumber);
 		repaint ();
 	}
-	
+
 	/**
 	 * Clear all Trains from the Map
 	 * 
@@ -279,20 +279,20 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		map.clearAllTrains ();
 		repaint ();
 	}
-	
+
 	public int getCurrentPhase () {
 		return gameManager.getCurrentPhase ();
 	}
-	
+
 	public void togglePlaceTileMode () {
-		setModes (! placeTileMode, false, false);
+		setModes (!placeTileMode, false, false);
 		map.setSingleMapCellSelect (placeTileMode);
 		tileSet.setSingleTileSelect (placeTileMode);
 		map.clearAllSelected ();
 	}
-	
+
 	public void togglePlaceTokenMode () {
-		setModes (false, ! placeTokenMode, false);
+		setModes (false, !placeTokenMode, false);
 		map.setSingleMapCellSelect (false);
 		map.clearAllSelected ();
 	}
@@ -301,19 +301,19 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		toggleSelectRouteMode ();
 		routeInformation = aRouteInformation;
 	}
-	
+
 	public void exitSelectRouteMode () {
 		setSelectRouteMode (false);
 		selectRouteButton.setEnabled (selectRouteMode);
 		map.clearAllSelected ();
 	}
-	
+
 	public void toggleSelectRouteMode () {
-		setSelectRouteMode (! selectRouteMode);
+		setSelectRouteMode (!selectRouteMode);
 		selectRouteButton.setEnabled (selectRouteMode);
 		map.clearAllSelected ();
 	}
-	
+
 	@Override
 	public void actionPerformed (ActionEvent aActionEvent) {
 		String tTheAction = aActionEvent.getActionCommand ();
@@ -350,10 +350,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private void setCompanyAbbrev (String aCompanyAbbrev) {
 		companyAbbrev = aCompanyAbbrev;
 	}
-	
+
 	private void pickupTile () {
 		Corporation tCorporation;
-		
+
 		tCorporation = getOperatingCompany ();
 		tCorporation.clearBankSelections ();
 		tCorporation.undoAction ();
@@ -371,7 +371,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		int tPreviousOrientation;
 		String tPreviousTokens;
 		String tPreviousBases;
-		
+
 		tMapCell = map.getSelectedMapCell ();
 		tPreviousTile = tMapCell.getTile ();
 		if (tPreviousTile != Tile.NO_TILE) {
@@ -390,55 +390,54 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			tTile = tMapCell.getTile ();
 			tOrientation = tMapCell.getTileOrient ();
-			tCorporation.tileWasPlaced (tMapCell, tTile, tOrientation, 
-					tPreviousTile, tPreviousOrientation, 
+			tCorporation.tileWasPlaced (tMapCell, tTile, tOrientation, tPreviousTile, tPreviousOrientation,
 					tPreviousTokens, tPreviousBases);
 		}
 		tileSet.clearAllSelected ();
 		updatePutTileButton ();
 		toTheFront ();
 	}
-	
+
 	private void completeBenefitInUse () {
 		Corporation tCorporation;
-		
+
 		tCorporation = getOperatingCompany ();
 		tCorporation.completeBenefitInUse ();
 	}
-	
+
 	private void updatePickupTileButton (boolean aEnabled, String aToolTip) {
 		pickupTileButton.setEnabled (aEnabled);
 		pickupTileButton.setToolTipText (aToolTip);
 	}
-	
+
 	public XMLElement createMapDefinitions (XMLDocument aXMLDocument) {
 		return (map.createElement (aXMLDocument));
 	}
-	
+
 	public HexMap getMap () {
 		return map;
 	}
-	
+
 	public XMLElement getMapStateElements (XMLDocument aXMLDocument) {
 		return (map.getMapStateElements (aXMLDocument));
 	}
-	
+
 	public int getMaxRowCount () {
 		return map.getMaxRowCount ();
 	}
-	
+
 	public int getMaxColCount () {
 		return map.getMaxColCount ();
 	}
-	
+
 	public Terrain getTerrain () {
 		return map.getTerrain ();
 	}
-	
+
 	public TrainCompany getOperatingTrainCompany () {
 		TrainCompany tTrainCompany = (TrainCompany) Corporation.NO_CORPORATION;
 		TrainCompany tCorporation;
-		
+
 		if (coalCos != CorporationList.NO_CORPORATION_LIST) {
 			tCorporation = coalCos.getOperatingTrainCompany ();
 			if (tCorporation != Corporation.NO_CORPORATION) {
@@ -457,14 +456,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				tTrainCompany = tCorporation;
 			}
 		}
-		
+
 		return tTrainCompany;
 	}
-	
+
 	public TokenCompany getTokenCompany (String aAbbrev) {
 		TokenCompany tTokenCompany;
 		Corporation tCorporation;
-		
+
 		tTokenCompany = TokenCompany.NO_TOKEN_COMPANY;
 		if (coalCos != CorporationList.NO_CORPORATION_LIST) {
 			tCorporation = coalCos.getCorporation (aAbbrev);
@@ -495,23 +494,23 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public boolean isPlaceTokenMode () {
 		return placeTokenMode;
 	}
-	
+
 	public boolean isPlaceTileMode () {
 		return placeTileMode;
 	}
-	
-	public  boolean isSelectRouteMode () {
+
+	public boolean isSelectRouteMode () {
 		return selectRouteMode;
 	}
-	
+
 	public void loadMapStates (XMLNode aMapNode) {
 		XMLNodeList tXMLNodeList;
 
 		tXMLNodeList = new XMLNodeList (mapStateParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aMapNode, MapCell.EN_MAP_CELL);
 	}
-	
-	ParsingRoutineI mapStateParsingRoutine  = new ParsingRoutineI ()  {
+
+	ParsingRoutineI mapStateParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aMapCellNode) {
 			map.loadMapCellState (aMapCellNode);
@@ -522,23 +521,23 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public boolean loadXML (String aXMLFileName, LoadableXMLI aLoadableObject) throws IOException {
 		boolean tXMLFileWasLoaded;
 		int tMaxWidth, tMaxHeight;
-		
+
 		tXMLFileWasLoaded = super.loadXML (aXMLFileName, aLoadableObject);
 		if (tXMLFileWasLoaded) {
 			setFixedMapTiles ();
 		}
 		tMaxWidth = map.getMaxWidth ();
 		tMaxHeight = map.getMaxHeight ();
-        scrollPane.setPreferredSize (new Dimension (tMaxWidth, tMaxHeight));
+		scrollPane.setPreferredSize (new Dimension (tMaxWidth, tMaxHeight));
 
 		return tXMLFileWasLoaded;
 	}
-	
+
 	public boolean loadXMLColorScheme (String aXMLFileName, LoadableXMLI aLoadableObject) throws IOException {
 		boolean tXMLFileWasLoaded;
-		
+
 		tXMLFileWasLoaded = super.loadXML (aXMLFileName, aLoadableObject);
-		
+
 		return tXMLFileWasLoaded;
 	}
 
@@ -546,7 +545,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		boolean tHasCityBeenSelected = false;
 		MapCell tSelectedMapCell;
 		RevenueCenter tSelectedRevenueCenter;
-		
+
 		tSelectedMapCell = map.getSelectedMapCell ();
 		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 			tSelectedRevenueCenter = tSelectedMapCell.getSelectedRevenueCenter ();
@@ -562,11 +561,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		putTokenDown (aCorporation);
 		togglePlaceTokenMode ();
 	}
-	
+
 	public void putTokenDown (Corporation aCorporation) {
 		MapCell tSelectedMapCell;
 		RevenueCenter tSelectedRevenueCenter;
-		
+
 		tSelectedMapCell = map.getSelectedMapCell ();
 		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 			tSelectedRevenueCenter = tSelectedMapCell.getSelectedRevenueCenter ();
@@ -577,14 +576,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			}
 		} else {
 			System.err.println ("No Map Cell Selected from Frame");
-		}		
+		}
 	}
 
-	public void putTokenDownHere (Corporation aCorporation, MapCell aMapCell, 
-								RevenueCenter aRevenueCenter) {
+	public void putTokenDownHere (Corporation aCorporation, MapCell aMapCell, RevenueCenter aRevenueCenter) {
 		City tSelectedCity;
 		boolean tCanPlaceToken;
-		
+
 		if (aCorporation != Corporation.NO_CORPORATION) {
 			setCompanyAbbrev (aCorporation.getAbbrev ());
 			if (aRevenueCenter != RevenueCenter.NO_CENTER) {
@@ -603,15 +601,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell, 
-								boolean aAddLayTokenAction) {
+	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell, boolean aAddLayTokenAction) {
 		Tile tTile;
 		MapToken tMapToken;
 		boolean tTokenPlaced;
 		Corporation tBaseCorporation;
 		int tRevenueCenterIndex;
 		int tCorporationID;
-		
+
 		tBaseCorporation = (Corporation) aCity.getTokenCorporation ();
 		tMapToken = aCorporation.getMapToken ();
 		if (tMapToken == MapToken.NO_MAP_TOKEN) {
@@ -626,7 +623,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				completeBenefitInUse ();
 				putTokenButton.setEnabled (false);
 				putTokenButton.setToolTipText (TOKEN_ALREADY_PLACED);
-				// If we have placed the Token and there was a Base Corporation Tile, clear out any other Bases for this Corporation from this Tile
+				// If we have placed the Token and there was a Base Corporation Tile, clear out
+				// any other Bases for this Corporation from this Tile
 				// Primarily for EIRE that starts with a choice of two spots in the Tile.
 				if (tBaseCorporation == aCorporation) {
 					tTile = aMapCell.getTile ();
@@ -640,17 +638,17 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			map.clearAllSelected ();
 		}
 	}
-	
+
 	public boolean hasStation (int aCorpID) {
 		return map.hasStation (aCorpID);
 	}
-	
+
 	public String canPlaceTokenToolTip (Corporation aCorporation, City aSelectedCity, MapCell aMapCell) {
 		String tCanPlaceTokenToolTip = "";
 		Corporation tBaseCorporation;
 		String tBaseAbbrev, tCorporationAbbrev;
 		int tCorporationID;
-		
+
 		tCorporationID = aCorporation.getID ();
 		if (aMapCell != MapCell.NO_MAP_CELL) {
 			if (aMapCell.hasStation (tCorporationID)) {
@@ -658,7 +656,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			} else if (aSelectedCity != City.NO_CITY) {
 				tBaseCorporation = (Corporation) aSelectedCity.getTokenCorporation ();
 				if (tBaseCorporation == Corporation.NO_CORPORATION) {
-					if (! hasFreeStation (aSelectedCity)) {
+					if (!hasFreeStation (aSelectedCity)) {
 						tCanPlaceTokenToolTip = "No Free Station on City";
 					}
 				} else {
@@ -670,13 +668,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						if (!hasFreeStation (aSelectedCity)) {
 							tCanPlaceTokenToolTip = NOT_BASE_CORPORATION;
 						}
-					} else if (! baseHasFreeStation (aSelectedCity)){
+					} else if (!baseHasFreeStation (aSelectedCity)) {
 						tCanPlaceTokenToolTip = "No Free Station on City";
 					}
 				}
 			}
 		}
-		
+
 		return tCanPlaceTokenToolTip;
 	}
 
@@ -685,7 +683,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		Corporation tBaseCorporation;
 		String tBaseAbbrev, tCorporationAbbrev;
 		int tCorporationID;
-		
+
 		tCorporationID = aCorporation.getID ();
 		if (aMapCell != MapCell.NO_MAP_CELL) {
 			if (aMapCell.hasStation (tCorporationID)) {
@@ -705,24 +703,24 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						if (hasFreeStation (aSelectedCity)) {
 							tCanPlaceToken = true;
 						}
-					} else if (baseHasFreeStation (aSelectedCity)){
+					} else if (baseHasFreeStation (aSelectedCity)) {
 						tCanPlaceToken = true;
 					}
 				}
 			}
 		}
-		
+
 		return tCanPlaceToken;
 	}
-	
+
 	private boolean hasFreeStation (City aCity) {
 		return aCity.getFreeStationCount () > 0;
 	}
-	
+
 	private boolean baseHasFreeStation (City aCity) {
 		return aCity.getFreeStationCount () > 1;
 	}
-	
+
 	public void setCityInfo (CityList aCityList) {
 		int rowIndex;
 		int colIndex;
@@ -731,7 +729,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		int tRevenueCenterID;
 		CityInfo tCityInfo;
 		MapCell tMapCell;
-		
+
 		if (aCityList != CityList.NO_CITY_LIST) {
 			maxRow = map.getRowCount ();
 			for (rowIndex = 0; rowIndex < maxRow; rowIndex++) {
@@ -750,15 +748,15 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			}
 		}
 	}
-	
+
 	public Corporation getOperatingCompany () {
 		Corporation tCorporation;
-		
+
 		tCorporation = gameManager.getOperatingCompany ();
 
 		return tCorporation;
 	}
-	
+
 	public void setCorporationList (CorporationList aCorporationList, ElementName aType) {
 		if (aType.equals (CorporationList.TYPE_NAMES [0])) {
 			privateCos = aCorporationList;
@@ -770,7 +768,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			shareCos = aCorporationList;
 		}
 	}
-	
+
 	public void setFixedMapTiles () {
 		int rowIndex;
 		int colIndex;
@@ -778,7 +776,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		int maxCol;
 		int tTileNumber;
 		Tile tTile;
-		
+
 		maxRow = map.getRowCount ();
 		for (rowIndex = 0; rowIndex < maxRow; rowIndex++) {
 			maxCol = map.getColCount (rowIndex);
@@ -793,7 +791,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			}
 		}
 	}
-	
+
 	public void setHomeCities (CorporationList aCorporationList) {
 		int tCorporationIndex;
 		int tMaxCorporations;
@@ -802,7 +800,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		ShareCompany tShareCompany;
 		String tCellID;
 		Location tLocation;
-		
+
 		tMapCell = MapCell.NO_MAP_CELL;
 		if (aCorporationList != CorporationList.NO_CORPORATION_LIST) {
 			tMaxCorporations = aCorporationList.getRowCount ();
@@ -818,7 +816,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					}
 					tCellID = tCorporation.getHomeCityGrid2 ();
 					tLocation = tCorporation.getHomeLocation2 ();
-					if (! tLocation.isNoLocation ()) {
+					if (!tLocation.isNoLocation ()) {
 						if (tCellID != Corporation.NO_NAME_STRING) {
 							tMapCell = map.getMapCellForID (tCellID);
 						}
@@ -831,7 +829,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						tShareCompany = (ShareCompany) tCorporation;
 						tLocation = tShareCompany.getDestinationLocation ();
 						if (tLocation != Location.NO_DESTINATION_LOCATION) {
-							if (! tLocation.isNoLocation ()) {
+							if (!tLocation.isNoLocation ()) {
 								tCellID = tShareCompany.getDestination ();
 								if (tCellID != Corporation.NO_NAME_STRING) {
 									tMapCell = map.getMapCellForID (tCellID);
@@ -847,7 +845,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			}
 		}
 	}
-	
+
 	public void setPlaceTileMode (boolean aMode) {
 		placeTileMode = aMode;
 
@@ -868,14 +866,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			MapCell tSelectedMapCell;
 			updatePickupTileButton (false, NOT_PLACE_TILE_MODE);
 			putTileButton.setToolTipText (NOT_PLACE_TILE_MODE);
-			
+
 			tSelectedMapCell = map.getSelectedMapCell ();
 			if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 				tSelectedMapCell.lockTileOrientation ();
 			}
 		}
 	}
-	
+
 	public void setPlaceTokenMode (boolean aMode) {
 		placeTokenMode = aMode;
 		exitTokenButton.setEnabled (aMode);
@@ -908,13 +906,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tileSet = aTileSet;
 		map.setTileSet (aTileSet);
 	}
-	
+
 	public void updatePutTokenButton (City aSelectedCity, MapCell aMapCell) {
 		boolean tCitySelected = hasCityBeenSelected ();
 		boolean tCanPlaceToken;
 		Corporation tCorporation;
 		String tToolTip;
-		
+
 		tCorporation = getOperatingTrainCompany ();
 		tCanPlaceToken = canPlaceToken (tCorporation, aSelectedCity, aMapCell);
 		if (tCanPlaceToken) {
@@ -930,11 +928,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			putTokenButton.setToolTipText (tToolTip);
 		}
 	}
-	
+
 	public boolean validUpgradeType (MapCell aMapCell, GameTile aGameTile) {
 		boolean tValidUpgradeType = false;
 		TileType tSelectedTileType;
-		
+
 		tSelectedTileType = aGameTile.getTheTileType ();
 		if (aMapCell.isTileOnCell ()) {
 			tSelectedTileType = aGameTile.getTheTileType ();
@@ -944,16 +942,16 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		} else {
 			if (aMapCell.pseudoYellowTile ()) {
 				if (tSelectedTileType.isSameType (TileType.GREEN)) {
-					tValidUpgradeType = true;							
+					tValidUpgradeType = true;
 				}
 			} else if (tSelectedTileType.isSameType (TileType.YELLOW)) {
-				tValidUpgradeType = true;		
+				tValidUpgradeType = true;
 			}
 		}
-		
-		return tValidUpgradeType;	
+
+		return tValidUpgradeType;
 	}
-	
+
 	public void updatePutTileButton () {
 		MapCell tMapCell;
 		GameTile tTile;
@@ -962,7 +960,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		TrainCompany tOperatingTrainCompany;
 		int tOperatingCompanyTreasury;
 		boolean tAnyAllowedRotation;
-		
+
 		tOperatingTrainCompany = getOperatingTrainCompany ();
 		if (tOperatingTrainCompany != Corporation.NO_CORPORATION) {
 			tOperatingCompanyTreasury = tOperatingTrainCompany.getCash ();
@@ -975,11 +973,12 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					tNewTile = tTile.getTile ();
 					tAnyAllowedRotation = tMapCell.anyAllowedRotation (tileSet, tNewTile);
 					if (tAnyAllowedRotation) {
-						if (! tMapCell.privatePreventsTileLay (privateCos, tOperatingTrainCompany)) {
+						if (!tMapCell.privatePreventsTileLay (privateCos, tOperatingTrainCompany)) {
 							tTileLayCost = tMapCell.getCostToLayTile (tNewTile);
-							// If there is a Tile Lay Cost, and the Company Treasury has enough cash we can move forward
+							// If there is a Tile Lay Cost, and the Company Treasury has enough cash we can
+							// move forward
 							if (tTileLayCost <= tOperatingCompanyTreasury) {
-								// And there is a Game Tile Selected -- Enable the Put Tile Button 
+								// And there is a Game Tile Selected -- Enable the Put Tile Button
 								if (tTile != GameTile.NO_GAME_TILE) {
 									if (validUpgradeType (tMapCell, tTile)) {
 										putTileButton.setEnabled (true);
@@ -992,16 +991,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 									putTileButton.setToolTipText (NO_TILE_SELECTED);
 								}
 							} else {
-								String tNotEnoughCash = String.format (NOT_ENOUGH_CASH, 
-										tOperatingTrainCompany.getAbbrev (), 
-										Bank.formatCash (tTileLayCost), 
+								String tNotEnoughCash = String.format (NOT_ENOUGH_CASH,
+										tOperatingTrainCompany.getAbbrev (), Bank.formatCash (tTileLayCost),
 										Bank.formatCash (tOperatingCompanyTreasury));
 								putTileButton.setToolTipText (tNotEnoughCash);
 							}
 						} else {
-							String tPrivateNotOwned = String.format (PRIVATE_NOT_OWNED, 
-									tOperatingTrainCompany.getAbbrev (),
-									tMapCell.getBasePrivateAbbrev (privateCos));
+							String tPrivateNotOwned = String.format (PRIVATE_NOT_OWNED,
+									tOperatingTrainCompany.getAbbrev (), tMapCell.getBasePrivateAbbrev (privateCos));
 							putTileButton.setToolTipText (tPrivateNotOwned);
 						}
 
@@ -1021,7 +1018,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			putTileButton.setToolTipText (NO_OPERATING_COMPANY);
 		}
 	}
-	
+
 	public void sendToReportFrame (String aReport) {
 		shareCos.sendToReportFrame (aReport);
 	}
@@ -1037,7 +1034,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		RoundManager tRoundManager;
 		ActionManager tActionManager;
 		Location tStartLocation, tEndLocation;
-		
+
 		tRouteSegment = new RouteSegment (aSelectedMapCell);
 		tCorpID = tCorporation.getID ();
 		tPhase = gameManager.getCurrentPhase ();
@@ -1051,10 +1048,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				tStartLocation = aSelectedRevenueCenter.getLocation ();
 				tEndLocation = new Location ();
 				tTrainIndex = routeInformation.getTrainIndex ();
-				tStartRouteAction.addStartRouteEffect (tCorporation, tTrainIndex, aSelectedMapCell, tStartLocation, tEndLocation);
+				tStartRouteAction.addStartRouteEffect (tCorporation, tTrainIndex, aSelectedMapCell, tStartLocation,
+						tEndLocation);
 				tRouteAction = tStartRouteAction;
 			} else {
-				logger.error("Need to Select a Revenue Center to start a new Route");
+				logger.error ("Need to Select a Revenue Center to start a new Route");
 			}
 		} else {
 			tRouteAction = new ExtendRouteAction (tRoundType, tRoundID, tCorporation);
@@ -1063,16 +1061,16 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		if (tRouteAction != RouteAction.NO_ROUTE_ACTION) {
 			routeInformation.setStartSegment (tRouteSegment, aSelectedRevenueCenter, tPhase, tCorpID);
 			routeInformation.extendRouteInformation (tRouteSegment, tPhase, tCorpID, tRouteAction);
-			
+
 			tActionManager.addAction (tRouteAction);
 		}
 	}
 
 	public MapCell getMapCellForID (String aMapCellID) {
 		MapCell tMapCell;
-		
+
 		tMapCell = map.getMapCellForID (aMapCellID);
-		
+
 		return tMapCell;
 	}
 

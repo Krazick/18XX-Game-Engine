@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ChatServerHandlerTests {
 	ChatServerHandler mChatServerHandler;
 	NetworkTestFactory networkTestFactory;
-	
+
 	@BeforeEach
 	void setUp () throws Exception {
 		networkTestFactory = new NetworkTestFactory ();
@@ -25,23 +25,26 @@ class ChatServerHandlerTests {
 		String tGameID_EMPTY_GAME_ID = "";
 		String tGameID_VALID_ID = "2021-11-22-1433";
 		String tXMLChild = "<XMLData>";
-		
-		assertEquals ("Game Support <GS><XMLData></GS>", mChatServerHandler.buildGameSupportXML (tGameID_EMPTY_GAME_ID, tXMLChild));
-		assertEquals ("Game Support <GS><XMLData></GS>", mChatServerHandler.buildGameSupportXML (tGameID_NO_ID, tXMLChild));
-		assertEquals ("Game Support <GS gameID=\"2021-11-22-1433\"><XMLData></GS>", mChatServerHandler.buildGameSupportXML (tGameID_VALID_ID, tXMLChild));
+
+		assertEquals ("Game Support <GS><XMLData></GS>",
+				mChatServerHandler.buildGameSupportXML (tGameID_EMPTY_GAME_ID, tXMLChild));
+		assertEquals ("Game Support <GS><XMLData></GS>",
+				mChatServerHandler.buildGameSupportXML (tGameID_NO_ID, tXMLChild));
+		assertEquals ("Game Support <GS gameID=\"2021-11-22-1433\"><XMLData></GS>",
+				mChatServerHandler.buildGameSupportXML (tGameID_VALID_ID, tXMLChild));
 
 	}
+
 	@Test
 	@DisplayName ("Test Valid Game ID")
 	void testValidGameID () {
 		String tGameID_NO_ID = "NOID";
 		String tGameID_EMPTY_GAME_ID = "";
 		String tGameID_VALID_ID = "2021-11-22-1433";
-		
+
 		assertFalse (mChatServerHandler.isValidGameID (tGameID_EMPTY_GAME_ID));
 		assertFalse (mChatServerHandler.isValidGameID (tGameID_NO_ID));
 		assertTrue (mChatServerHandler.isValidGameID (tGameID_VALID_ID));
 	}
-
 
 }

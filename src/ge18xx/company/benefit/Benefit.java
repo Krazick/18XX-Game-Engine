@@ -30,7 +30,7 @@ public abstract class Benefit implements ActionListener {
 	public final static Benefit NO_BENEFIT = null;
 	public final static String NO_BENEFIT_NAME = null;
 	public final static String NAME = "ABSTRACT";
-	
+
 	ActorI.ActorTypes actorType;
 	boolean closeOnUse;
 	boolean used;
@@ -40,40 +40,40 @@ public abstract class Benefit implements ActionListener {
 	PrivateCompany privateCompany;
 	Benefit previousBenefitInUse;
 	String name;
-	
+
 	public Benefit () {
 		setName (NAME);
 		setCloseOnUse (false);
 		setPassive (true);
 		setActorType (ActorI.ActorTypes.NO_TYPE.toString ());
-		setDefaults ();		
+		setDefaults ();
 	}
 
 	public void setName (String aName) {
 		name = aName;
 	}
-	
+
 	public String getBaseName () {
 		return name;
 	}
-	
+
 	public String getName () {
 		return name;
 	}
-	
-	private void setDefaults() {
+
+	private void setDefaults () {
 		setUsed (false);
 		setButton (NO_BUTTON);
 		setButtonPanel (NO_BUTTON_PANEL);
 		setPrivateCompany (PrivateCompany.NO_PRIVATE_COMPANY);
 		setPreviousBenefitInUse (NO_BENEFIT);
 	}
-	
+
 	public Benefit (XMLNode aXMLNode) {
 		boolean tClose;
 		boolean tPassive;
 		String tActorType;
-		
+
 		tActorType = aXMLNode.getThisAttribute (AN_ACTOR_TYPE);
 		tClose = aXMLNode.getThisBooleanAttribute (AN_CLOSE_ON_USE);
 		tPassive = aXMLNode.getThisBooleanAttribute (AN_PASSIVE);
@@ -82,31 +82,31 @@ public abstract class Benefit implements ActionListener {
 		setActorType (tActorType);
 		setDefaults ();
 	}
-	
+
 	protected void setPreviousBenefitInUse (Benefit aPreviousBenefitInUse) {
 		previousBenefitInUse = aPreviousBenefitInUse;
 	}
-	
+
 	public Benefit getPreviousBenefitInUse () {
 		return previousBenefitInUse;
 	}
-	
+
 	protected void capturePreviousBenefitInUse (Corporation aCorporation, Benefit aNewBenefit) {
 		Benefit tPreviousBenefitInUse;
-		
+
 		tPreviousBenefitInUse = aCorporation.getBenefitInUse ();
 		setPreviousBenefitInUse (tPreviousBenefitInUse);
 		aCorporation.setBenefitInUse (aNewBenefit);
 	}
-	
+
 	protected void setButtonPanel (JPanel aButtonPanel) {
 		buttonPanel = aButtonPanel;
 	}
-	
+
 	protected JPanel getButtonPanel () {
 		return buttonPanel;
 	}
-	
+
 	public void removeButton (JPanel aButtonRow) {
 		if (hasButton ()) {
 			removeButton ();
@@ -121,173 +121,173 @@ public abstract class Benefit implements ActionListener {
 			}
 		}
 	}
-	
+
 	public void updateButton () {
 		// Must update Button for Non-Passive Benefits by Overriding this Method
 	}
-	
+
 	public boolean isAExtraTilePlacement () {
 		return false;
 	}
-	
+
 	public void enableButton () {
 		button.setEnabled (true);
 	}
-	
+
 	public void disableButton () {
 		button.setEnabled (false);
 	}
-	
+
 	public void hideButton () {
 		button.setVisible (false);
 	}
-	
+
 	public void setToolTip (String aToolTip) {
 		button.setToolTipText (aToolTip);
 	}
-	
+
 	public void setCorporation (Corporation aCorporation) {
 		privateCompany = (PrivateCompany) aCorporation;
 	}
-	
+
 	public void setPrivateCompany (PrivateCompany aPrivateCompany) {
 		privateCompany = aPrivateCompany;
 	}
-	
+
 	public PrivateCompany getPrivateCompany () {
 		return privateCompany;
 	}
-	
+
 	protected ShareCompany getOwningCompany () {
 		ShareCompany tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
 		ActorI tOwner;
-		
+
 		tOwner = privateCompany.getOwner ();
 		if (tOwner.isACorporation ()) {
 			tShareCompany = (ShareCompany) tOwner;
 		}
-		
+
 		return tShareCompany;
 	}
-	
+
 	private void setActorType (String aActorType) {
 		actorType = ActorI.ActorTypes.fromString (aActorType);
 	}
-	
+
 	public void setButton (JButton aButton) {
 		button = aButton;
 	}
-	
+
 	public JButton getButton () {
 		return button;
 	}
-	
+
 	public boolean hasButton () {
 		boolean tHasButton = false;
-		
+
 		if (button != NO_BUTTON) {
 			tHasButton = true;
 		}
-		
+
 		return tHasButton;
 	}
-	
+
 	private void setPassive (boolean aPassive) {
 		passive = aPassive;
 	}
-	
+
 	public void undoUse () {
 		setUsed (false);
 		if (shouldConfigure ()) {
 			configure (privateCompany, buttonPanel);
 		}
 	}
-	
+
 	public void setUsed (boolean aUsed) {
 		used = aUsed;
 	}
-	
+
 	private void setCloseOnUse (boolean aCloseOnUse) {
 		closeOnUse = aCloseOnUse;
 	}
-	
+
 	public boolean used () {
 		return used;
 	}
-	
+
 	public boolean closeOnUse () {
 		return closeOnUse;
 	}
-	
+
 	public boolean passive () {
 		return passive;
 	}
-	
+
 	public boolean isActiveCompanyBenefit () {
 		boolean tIsActiveCompanyBenefit = false;
-		
-		if (isCompanyBenefit () && (! passive)) {
+
+		if (isCompanyBenefit () && (!passive)) {
 			tIsActiveCompanyBenefit = true;
 		}
-		
+
 		return tIsActiveCompanyBenefit;
 	}
-	
+
 	public boolean isActivePlayerBenefit () {
 		boolean tIsActivePlayerBenefit = false;
-		
-		if (isPlayerBenefit () && (! passive)) {
+
+		if (isPlayerBenefit () && (!passive)) {
 			tIsActivePlayerBenefit = true;
 		}
-		
+
 		return tIsActivePlayerBenefit;
 	}
-	
+
 	public abstract int getCost ();
-	
+
 	public boolean isCompanyBenefit () {
 		boolean tIsCompanyBenefit = false;
-		
+
 		if (actorType.compareTo (ActorI.ActorTypes.ShareCompany) == 0) {
 			tIsCompanyBenefit = true;
 		}
-		
+
 		return tIsCompanyBenefit;
 	}
-	
+
 	public boolean isPlayerBenefit () {
 		boolean tIsPlayerBenefit = false;
-		
+
 		if (actorType.compareTo (ActorI.ActorTypes.Player) == 0) {
 			tIsPlayerBenefit = true;
 		}
-		
+
 		return tIsPlayerBenefit;
 	}
-	
+
 	public boolean shouldConfigure () {
 		boolean tShouldConfigure = true;
-		
+
 		if (used || passive) {
 			tShouldConfigure = false;
 		}
-		
+
 		if (isPlayerBenefit ()) {
-			if ((! privateCompany.isPlayerOwned ())) {
+			if ((!privateCompany.isPlayerOwned ())) {
 				tShouldConfigure = false;
 			}
 		}
-		
+
 		return tShouldConfigure;
 	}
-	
+
 	public String getNewButtonLabel () {
 		// Should have sub-class override to build label for the type of Benefit
 		String tNewButtonText = "";
-		
+
 		return tNewButtonText;
 	}
-	
+
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		setPrivateCompany (aPrivateCompany);
 		// Should have sub-class override to configure for the type of Benefit
@@ -296,49 +296,49 @@ public abstract class Benefit implements ActionListener {
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 	}
-	
+
 	public boolean realBenefit () {
 		return true;
 	}
-	
+
 	public void abortUse () {
-		
+
 	}
-	
+
 	public void completeBenefitInUse () {
 		setUsed (true);
 		removeButton ();
 	}
-	
+
 	public boolean changeState () {
 		return true;
 	}
 
 	protected XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLBenefitElement;
-		
-		tXMLBenefitElement = aXMLDocument.createElement (EN_BENEFIT);		
+
+		tXMLBenefitElement = aXMLDocument.createElement (EN_BENEFIT);
 		tXMLBenefitElement.setAttribute (AN_USED, used);
 		tXMLBenefitElement.setAttribute (AN_NAME, getBaseName ());
-		
+
 		return tXMLBenefitElement;
 	}
-	
+
 	protected Benefit findMatchedBenefit (XMLNode aBenefitNode) {
 		Benefit tMatchedBenefit = NO_BENEFIT;
 		String tBenefitNodeName;
-		
+
 		tBenefitNodeName = aBenefitNode.getThisAttribute (AN_NAME);
 		if (tBenefitNodeName.equals (getBaseName ())) {
 			tMatchedBenefit = this;
 		}
-		
+
 		return tMatchedBenefit;
 	}
-	
+
 	public void updateState (XMLNode aBenefitNode) {
 		boolean tUsedState;
-		
+
 		tUsedState = aBenefitNode.getThisBooleanAttribute (AN_USED);
 		setUsed (tUsedState);
 	}

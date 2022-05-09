@@ -9,7 +9,7 @@ import ge18xx.utilities.XMLNode;
 
 public class NewPriorityPlayerEffect extends ChangePlayerEffect {
 	public final static String NAME = "Change Priority Player";
-	
+
 	public NewPriorityPlayerEffect (ActorI aActor, int aPreviousPlayer, int aNewPlayer) {
 		super (aActor, aPreviousPlayer, aNewPlayer);
 		setName (NAME);
@@ -18,14 +18,14 @@ public class NewPriorityPlayerEffect extends ChangePlayerEffect {
 	public NewPriorityPlayerEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Player tPreviousPlayer;
 		Player tNewPlayer;
 		StockRound tStockRound;
-		
+
 		tEffectApplied = true;
 		tStockRound = aRoundManager.getStockRound ();
 		tPreviousPlayer = tStockRound.getPlayerAtIndex (previousPlayerIndex);
@@ -33,7 +33,7 @@ public class NewPriorityPlayerEffect extends ChangePlayerEffect {
 		tStockRound.setPriorityPlayer (newPlayerIndex);
 		tStockRound.updateRFPlayerLabel (tPreviousPlayer);
 		tStockRound.updateRFPlayerLabel (tNewPlayer);
-		
+
 		return tEffectApplied;
 	}
 
@@ -43,7 +43,7 @@ public class NewPriorityPlayerEffect extends ChangePlayerEffect {
 		Player tPreviousPlayer;
 		Player tNewPlayer;
 		StockRound tStockRound;
-		
+
 		tEffectUndone = true;
 		tStockRound = aRoundManager.getStockRound ();
 		tPreviousPlayer = tStockRound.getPlayerAtIndex (previousPlayerIndex);
@@ -51,7 +51,7 @@ public class NewPriorityPlayerEffect extends ChangePlayerEffect {
 		tStockRound.setPriorityPlayer (previousPlayerIndex);
 		tStockRound.updateRFPlayerLabel (tPreviousPlayer);
 		tStockRound.updateRFPlayerLabel (tNewPlayer);
-		
+
 		return tEffectUndone;
 	}
 }

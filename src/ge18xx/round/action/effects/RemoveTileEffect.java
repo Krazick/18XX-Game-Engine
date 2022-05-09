@@ -21,8 +21,8 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		setName (NAME);
 	}
 
-	public RemoveTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
-			int aOrientation, String aPreviousTokens, String aPreviousBases) {
+	public RemoveTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aPreviousTokens,
+			String aPreviousBases) {
 		super (aActor, aMapCell, aTile, aOrientation, aPreviousTokens, aPreviousBases);
 		setName (NAME);
 	}
@@ -31,19 +31,19 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " #" + tileNumber + " with orientation " + orientation +
-				" by " + actor.getName () + " on MapCell " + mapCellID +
-				" Old Tokens [ " + getTokens () + " ] Old Bases [ " + getBases () + " ].");
+		return (REPORT_PREFIX + name + " #" + tileNumber + " with orientation " + orientation + " by "
+				+ actor.getName () + " on MapCell " + mapCellID + " Old Tokens [ " + getTokens () + " ] Old Bases [ "
+				+ getBases () + " ].");
 	}
 
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
@@ -51,19 +51,19 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		MapCell tMapCell;
 		HexMap tGameMap;
 		TileSet tTileSet;
-		
+
 		tEffectApplied = false;
 		tTileSet = aRoundManager.getTileSet ();
 		tGameMap = aRoundManager.getGameMap ();
 		tMapCell = getMapCell (tGameMap);
 		tTile = tMapCell.getTile ();
 		tTile.returnTokens ();
-		
+
 		tMapCell.removeTile ();
 		tMapCell.restoreTile (tTileSet, tTile);
 		tGameMap.redrawMap ();
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 	}
 
@@ -76,7 +76,7 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		TileSet tTileSet;
 		GameTile tGameTile;
 		int tTileNumber;
-		
+
 		tEffectUndone = false;
 		tTileSet = aRoundManager.getTileSet ();
 		tTileNumber = getTileNumber ();
@@ -90,7 +90,7 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		applyTokens (aRoundManager, tMapCell);
 		tGameMap.redrawMap ();
 		tEffectUndone = true;
-		
+
 		return tEffectUndone;
 	}
 }

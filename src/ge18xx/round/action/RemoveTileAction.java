@@ -10,7 +10,6 @@ import ge18xx.utilities.XMLNode;
 
 public class RemoveTileAction extends ChangeMapAction {
 	public final static String NAME = "Remove Tile";
-	
 
 	public RemoveTileAction () {
 		super ();
@@ -27,12 +26,12 @@ public class RemoveTileAction extends ChangeMapAction {
 		setName (NAME);
 	}
 
-	public void addTileRemoveEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
-			int aOrientation, String aPreviousTokens, String aPreviousBases) {
+	public void addTileRemoveEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation,
+			String aPreviousTokens, String aPreviousBases) {
 		ChangeTileEffect tTileRemoveEffect;
 
-		tTileRemoveEffect = new RemoveTileEffect (aActor, aMapCell, aTile, 
-				aOrientation, aPreviousTokens, aPreviousBases);
+		tTileRemoveEffect = new RemoveTileEffect (aActor, aMapCell, aTile, aOrientation, aPreviousTokens,
+				aPreviousBases);
 		addEffect (tTileRemoveEffect);
 	}
 

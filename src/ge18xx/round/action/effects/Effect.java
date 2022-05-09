@@ -41,11 +41,11 @@ public abstract class Effect {
 	Effect (String aName) {
 		this (aName, NO_ACTOR);
 	}
-	
+
 	Effect (String aName, ActorI aActor) {
 		this (aName, aActor, NO_BENEFIT_IN_USE);
 	}
-	
+
 	Effect (String aName, ActorI aActor, Benefit aBenefitInUse) {
 		PrivateCompany tPrivateCompany;
 
@@ -53,7 +53,7 @@ public abstract class Effect {
 		setActor (aActor);
 		if (aBenefitInUse == NO_BENEFIT_IN_USE) {
 			setNoBenefitInUse ();
-		} else  if (aBenefitInUse.realBenefit ()) {
+		} else if (aBenefitInUse.realBenefit ()) {
 			setBenefitName (aBenefitInUse.getName ());
 			tPrivateCompany = aBenefitInUse.getPrivateCompany ();
 			setBenefitPrivateAbbrev (tPrivateCompany.getAbbrev ());
@@ -66,7 +66,7 @@ public abstract class Effect {
 	protected void setBenefitUsed (boolean aBenefitUsed) {
 		benefitUsed = aBenefitUsed;
 	}
-	
+
 	protected void setBenefitPrivateAbbrev (String aAbbrev) {
 		benefitPrivateAbbrev = aAbbrev;
 	}
@@ -78,31 +78,31 @@ public abstract class Effect {
 	protected String getBenefitName () {
 		return benefitName;
 	}
-	
+
 	protected String getBenefitPrivateAbbrev () {
 		return benefitPrivateAbbrev;
 	}
-	
+
 	protected boolean getBenefitUsed () {
 		return benefitUsed;
 	}
-	
+
 	protected String getBenefitEffectReport () {
 		String tBenefitEffectReport = "";
 		String tUsed;
-		
+
 		if (benefitName.length () > 0) {
 			if (getBenefitUsed ()) {
 				tUsed = "Used ";
 			} else {
 				tUsed = "";
 			}
-			tBenefitEffectReport = tUsed  + benefitName + " Benefit from " + benefitPrivateAbbrev + ".";
+			tBenefitEffectReport = tUsed + benefitName + " Benefit from " + benefitPrivateAbbrev + ".";
 		}
-		
+
 		return tBenefitEffectReport;
 	}
-	
+
 	private void setNoBenefitInUse () {
 		setBenefitName ("");
 		setBenefitPrivateAbbrev ("");
@@ -115,14 +115,14 @@ public abstract class Effect {
 		boolean tIsAPrivate;
 		String tBenefitPrivateAbbrev, tBenefitName;
 		boolean tBenefitUsed;
-		
+
 		tEffectName = aEffectNode.getThisAttribute (AN_NAME);
 		tActorName = aEffectNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
 		tIsAPrivate = aEffectNode.getThisBooleanAttribute (AN_IS_A_PRIVATE);
 		if (tActorName == ActorI.NO_NAME) {
 			tActorName = aEffectNode.getThisAttribute (ActorI.AN_FROM_ACTOR_NAME);
 		}
-		
+
 		tActor = aGameManager.getActor (tActorName, tIsAPrivate);
 		if (tActor == ActorI.NO_ACTOR) {
 			System.err.println ("No Actor Found -- Looking for [" + tActorName + "]");
@@ -141,21 +141,21 @@ public abstract class Effect {
 			setBenefitUsed (tBenefitUsed);
 		}
 	}
-	
+
 	public boolean actorIsSet () {
 		boolean tActorSet = false;
-		
+
 		if (actor != NO_ACTOR) {
 			tActorSet = true;
 		}
-		
+
 		return tActorSet;
 	}
-	
+
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 		String tActorName;
-		
+
 		tEffectElement = aXMLDocument.createElement (EN_EFFECT);
 		tEffectElement.setAttribute (AN_CLASS, this.getClass ().getName ());
 		if (actor.isACorporation ()) {
@@ -166,7 +166,7 @@ public abstract class Effect {
 		tEffectElement.setAttribute (AN_NAME, getName ());
 		tEffectElement.setAttribute (aActorAN, tActorName);
 		tEffectElement.setAttribute (AN_IS_A_PRIVATE, isAPrivate);
-		
+
 		if (benefitName != Benefit.NO_BENEFIT_NAME) {
 			if (benefitName.length () > 0) {
 				tEffectElement.setAttribute (AN_BENEFIT_PRIVATE_ABBREV, getBenefitPrivateAbbrev ());
@@ -174,46 +174,46 @@ public abstract class Effect {
 				tEffectElement.setAttribute (AN_BENEFIT_USED, getBenefitUsed ());
 			}
 		}
-	
+
 		return tEffectElement;
 	}
-	
+
 	public String getName () {
 		return name;
 	}
-	
+
 	public ActorI getActor () {
 		return actor;
 	}
-	
+
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " for " + getActorName () + ".");
 	}
-	
+
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
-	
+
 	public void setName (String aName) {
 		name = aName;
 	}
-	
+
 	public void setActor (ActorI aActor) {
 		actor = aActor;
 		if (aActor != NO_ACTOR) {
 			isAPrivate = aActor.isAPrivateCompany ();
 		}
 	}
-	
+
 	public boolean isActor (String aActorName) {
 		boolean tIsActor = false;
-		
+
 		if (actor != NO_ACTOR) {
 			if (actor.getName ().equals (aActorName)) {
 				tIsActor = true;
 			}
 		}
-		
+
 		return tIsActor;
 	}
 
@@ -224,21 +224,21 @@ public abstract class Effect {
 	public String getActorName () {
 		return actor.getName ();
 	}
-	
+
 	public abstract boolean undoEffect (RoundManager aRoundManager);
-	
+
 	public boolean wasNewStateAuction () {
 		return false;
 	}
 
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		
+
 		tEffectApplied = false;
-		
+
 		return tEffectApplied;
 	}
-	
+
 	public boolean nullEffect () {
 		return false;
 	}

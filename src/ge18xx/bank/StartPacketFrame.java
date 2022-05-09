@@ -39,32 +39,32 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	GameManager gameManager;
 	JPanel portfolioInfoJPanel;
 	StartPacketPortfolio portfolio;
-	
+
 	public StartPacketFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getActiveGameName ());
 		setGameManager (aGameManager);
 		startPacketRows = new LinkedList<StartPacketRow> ();
 		portfolio = new StartPacketPortfolio (this);
 	}
-	
-	@Override	
+
+	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
 	}
-	
+
 	public JPanel buildStartPacketInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
 		JPanel tSPPortfolioJPanel;
 		JPanel tRowJPanel;
 		BoxLayout tSPLayout;
 		boolean tPreviousRowSoldOut;
 		String tSelectedButtonLabel;
-		
+
 		tSPPortfolioJPanel = new JPanel ();
 		tSPLayout = new BoxLayout (tSPPortfolioJPanel, BoxLayout.Y_AXIS);
 		tSPPortfolioJPanel.setLayout (tSPLayout);
 		tSPPortfolioJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		tPreviousRowSoldOut = true;
-		
+
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
 			if (tPreviousRowSoldOut) {
 				tSelectedButtonLabel = Player.BUY_LABEL;
@@ -72,8 +72,8 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 				tSelectedButtonLabel = Player.BID_LABEL;
 			}
 			if (tStartPacketRow.isRowNotSoldOut (portfolio)) {
-				tRowJPanel = tStartPacketRow.buildRowJPanel (tSelectedButtonLabel, 
-						aItemListener, aPlayer, aGameManager);
+				tRowJPanel = tStartPacketRow.buildRowJPanel (tSelectedButtonLabel, aItemListener, aPlayer,
+						aGameManager);
 				tSPPortfolioJPanel.add (Box.createVerticalGlue ());
 				tSPPortfolioJPanel.add (tRowJPanel);
 				tSPPortfolioJPanel.add (Box.createVerticalGlue ());
@@ -83,39 +83,39 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 
 		return tSPPortfolioJPanel;
 	}
-	
+
 	public int getStartPacketRowCount () {
 		return startPacketRows.size ();
 	}
-	
+
 	public StartPacketRow getStartPacketRowAt (int aIndex) {
 		return startPacketRows.get (aIndex);
 	}
-	
+
 	public boolean noMustSellLeft () {
 		return portfolio.noMustSellLeft ();
 	}
-	
+
 	public void applyDiscount () {
 		portfolio.applyDiscount ();
 	}
-	
+
 	public boolean hasMustBuyCertificate () {
 		return portfolio.hasMustBuyCertificate ();
 	}
-	
+
 	public boolean hasMustSell () {
 		return portfolio.hasMustSell ();
 	}
-	
+
 	public Certificate getMustSellCertificate () {
 		return portfolio.getMustSellCertificate ();
 	}
-	
+
 	public void clearSelections () {
 		portfolio.clearSelections ();
 	}
-	
+
 	public int getCertificateCount () {
 		return portfolio.getCertificateCountAgainstLimit ();
 	}
@@ -127,50 +127,51 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public Certificate getCertificateToBuy () {
 		return portfolio.getCertificateToBuy ();
 	}
-	
+
 	public Certificate getPrivateForAuction () {
 		Certificate tCertificateToAuction;
-		
+
 		tCertificateToAuction = Certificate.NO_CERTIFICATE;
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
 			if (tCertificateToAuction == Certificate.NO_CERTIFICATE) {
-				tCertificateToAuction = tStartPacketRow.getCertificateToAuction ();				
+				tCertificateToAuction = tStartPacketRow.getCertificateToAuction ();
 			}
 		}
-	
+
 		return tCertificateToAuction;
 	}
+
 	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
-		
+
 		tCurrentHolder = portfolio.getCurrentHolder (aLoadedCertificate);
 
 		return tCurrentHolder;
 	}
-	
+
 	public Certificate getFreeCertificateWithThisCertificate (Certificate aThisCertificate) {
 		Certificate tFreeCertificate;
-		
+
 		tFreeCertificate = Certificate.NO_CERTIFICATE;
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
 			if (tFreeCertificate == Certificate.NO_CERTIFICATE) {
-				tFreeCertificate = tStartPacketRow.getFreeCertificateWithThisCertificate (aThisCertificate);				
+				tFreeCertificate = tStartPacketRow.getFreeCertificateWithThisCertificate (aThisCertificate);
 			}
 		}
-	
+
 		return tFreeCertificate;
 	}
-	
+
 	@Override
 	public String getName () {
 		return getTypeName ();
 	}
-	
+
 	public StartPacketPortfolio getStartPacketPortfolio () {
 		return portfolio;
 	}
-	
+
 	@Override
 	public String getTypeName () {
 		return SP_NAME;
@@ -179,25 +180,25 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public boolean hasThisCertificate (Certificate aThisCertificate) {
 		return portfolio.hasThisCertificate (aThisCertificate);
 	}
-	
+
 	public boolean isStartPacketPortfolioEmpty () {
 		return portfolio.isEmpty ();
 	}
-	
+
 	public boolean loadStartPacketWithCertificates (Portfolio aBankPortfolio) {
 		boolean tAllCertsLoaded = true;
-		
+
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
 			tAllCertsLoaded &= tStartPacketRow.loadWithCertificates (aBankPortfolio, portfolio);
 		}
 		return tAllCertsLoaded;
 	}
-	
+
 	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNodeList tXMLNodeList;
 		XMLNode XMLStartPacketRoot;
-		
+
 		startPacketRows = new LinkedList<StartPacketRow> ();
 		XMLStartPacketRoot = aXMLDocument.getDocumentElement ();
 		tXMLNodeList = new XMLNodeList (startPacketParsingRoutine);
@@ -206,7 +207,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 			tStartPacketRow.setStartPacket (this);
 		}
 	}
-	
+
 	private int getActiveRowCount () {
 		int tActiveRowCount = 0;
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
@@ -214,35 +215,35 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 				tActiveRowCount++;
 			}
 		}
-		
+
 		return tActiveRowCount;
 	}
-	
+
 	private int getFirstActiveRow () {
 		int tFirstActiveRow = NO_ACTIVE_ROW;
-		
+
 		for (int tIndex = 0; tIndex < startPacketRows.size (); tIndex++) {
-			
-			StartPacketRow tStartPacketRow = startPacketRows.get(tIndex);
-			
+
+			StartPacketRow tStartPacketRow = startPacketRows.get (tIndex);
+
 			if (tStartPacketRow.isRowNotSoldOut (portfolio)) {
 				if (tFirstActiveRow == NO_ACTIVE_ROW) {
 					tFirstActiveRow = tIndex;
 				}
 			}
 		}
-	
+
 		return tFirstActiveRow;
 	}
-	
+
 	public boolean availableShareHasBids () {
 		return nextShareHasBids (0);
 	}
-	
+
 	public boolean nextShareHasBids () {
 		return nextShareHasBids (1);
 	}
-	
+
 	public boolean nextShareHasBids (int aRowAdjustment) {
 		int tCurrentRowsCount;
 		int tFirstActiveRow;
@@ -250,7 +251,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		Certificate tCertificate = Certificate.NO_CERTIFICATE;
 		StartPacketRow tCurrentPacketRow;
 		StartPacketRow tNextPacketRow;
-		
+
 		tCurrentRowsCount = getActiveRowCount ();
 		tFirstActiveRow = getFirstActiveRow ();
 
@@ -269,7 +270,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 						tCertificate = tCurrentPacketRow.getCertificateInRow (0);
 						tNextShareHasBids = tCertificate.hasBidders ();
 					}
-				}	
+				}
 			} else {
 				tCertificate = tCurrentPacketRow.getCertificateInRow (1);
 				if (tCertificate == Certificate.NO_CERTIFICATE) {
@@ -279,17 +280,17 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 				}
 			}
 		}
-		
+
 		return tNextShareHasBids;
 	}
-	
+
 	public void printStartPacket () {
 		System.out.println (SP_NAME);
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
 			tStartPacketRow.printStartPacketRow ();
 		}
 	}
-	
+
 	private void setGameManager (GameManager aGameManager) {
 		gameManager = aGameManager;
 	}
@@ -298,22 +299,22 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			XMLNodeList tXMLNodeList;
-		
+
 			tXMLNodeList = new XMLNodeList (itemParsingRoutine);
 			tXMLNodeList.parseXMLNodeList (aChildNode, EN_ITEM);
 		}
 	};
-	
+
 	ParsingRoutineI itemParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			StartPacketRow tStartPacketRow;
-			
+
 			tStartPacketRow = new StartPacketRow (aChildNode);
 			startPacketRows.add (tStartPacketRow);
 		}
 	};
-	
+
 	@Override
 	public void foundItemMatchKey1 (XMLNode aChildNode) {
 	}
@@ -327,7 +328,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public PortfolioHolderI getPortfolioHolder () {
 		return this;
 	}
-	
+
 	@Override
 	public String getStateName () {
 		return ActorI.ActionStates.Fixed.toString ();
@@ -337,7 +338,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public boolean isCompany () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isAPrivateCompany () {
 		return false;
@@ -350,34 +351,34 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 
 	@Override
 	public void replacePortfolioInfo (JPanel aPortfolioJPanel) {
-		
+
 	}
-	
+
 	public void enableMustBuyPrivateButton () {
 		boolean enableMustBuyPrivateButton = false;
-		
+
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
-			if (! enableMustBuyPrivateButton) {
+			if (!enableMustBuyPrivateButton) {
 				enableMustBuyPrivateButton = tStartPacketRow.enableMustBuyPrivateButton ();
 			}
 		}
 	}
-	
+
 	public void disbleAllCheckedButtons (String aToolTip) {
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
 			tStartPacketRow.disableAllCheckedButtons (aToolTip);
 		}
 	}
-	
+
 	public void enableAllCheckedButtons (String aToolTip, Player aPlayer) {
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
-			tStartPacketRow.enableAllCheckedButtons (aToolTip, aPlayer);			
+			tStartPacketRow.enableAllCheckedButtons (aToolTip, aPlayer);
 		}
 	}
-	
+
 	public void enableSelectedButton (String aToolTip) {
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
-			tStartPacketRow.enableSelectedButton (aToolTip);			
+			tStartPacketRow.enableSelectedButton (aToolTip);
 		}
 	}
 
@@ -395,12 +396,12 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		// Nothing to do for Start Packet Frame Class
 	}
-	
+
 	@Override
 	public boolean isAPlayer () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isAStockRound () {
 		return false;
@@ -423,13 +424,13 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 
 	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
 		Certificate tCertificate = Certificate.NO_CERTIFICATE;
-		
+
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
 			if (tCertificate == Certificate.NO_CERTIFICATE) {
 				tCertificate = tStartPacketRow.getMatchingCertificate (aAbbrev, aPercentage, aIsPresident);
 			}
 		}
-		
+
 		return tCertificate;
 	}
 
@@ -442,7 +443,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public boolean isATrainCompany () {
 		return false;
 	}
-	
+
 	@Override
 	public void completeBenefitInUse () {
 	}

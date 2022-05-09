@@ -14,10 +14,9 @@ public class PurchaseOffer {
 	Train train;
 	PrivateCompany privateCompany;
 	ActorI.ActionStates oldStatus;
-	
-	public PurchaseOffer (String aItemName, String aItemType, Train aTrain, 
-			PrivateCompany aPrivateCompany, String aFromActorName, 
-			String aToName, int aAmount, ActorI.ActionStates aOldState) {
+
+	public PurchaseOffer (String aItemName, String aItemType, Train aTrain, PrivateCompany aPrivateCompany,
+			String aFromActorName, String aToName, int aAmount, ActorI.ActionStates aOldState) {
 		if (TRAIN_TYPE.equals (aItemType)) {
 			setTrain (aTrain);
 		} else if (PRIVATE_TYPE.equals (aItemType)) {
@@ -32,88 +31,87 @@ public class PurchaseOffer {
 		setAmount (aAmount);
 		setOldState (aOldState);
 	}
-	
+
 	private void setTrain (Train aTrain) {
 		train = aTrain;
 	}
-	
+
 	private void setPrivateCompany (PrivateCompany aPrivateCompany) {
 		privateCompany = aPrivateCompany;
 	}
-	
+
 	private void setItemName (String aItemName) {
 		itemName = aItemName;
 	}
-	
+
 	private void setItemType (String aItemType) {
 		itemType = aItemType;
 	}
-	
+
 	private void setFromActorName (String aFromActorName) {
 		fromActorName = aFromActorName;
 	}
-	
+
 	private void setToName (String aToName) {
 		toName = aToName;
 	}
-	
+
 	private void setAmount (int aAmount) {
 		amount = aAmount;
 	}
-	
+
 	private void setOldState (ActorI.ActionStates aOldState) {
 		oldStatus = aOldState;
 	}
-	
+
 	public boolean isTrain () {
 		boolean tIsTrain = false;
-		
+
 		if (TRAIN_TYPE.equals (itemType)) {
 			tIsTrain = true;
 		} else {
 			tIsTrain = false;
 		}
-		
+
 		return tIsTrain;
 	}
-	
-	
+
 	public boolean isPrivateCompany () {
 		boolean tIsPrivateCompany = false;
-		
+
 		if (PRIVATE_TYPE.equals (itemType)) {
 			tIsPrivateCompany = true;
 		} else {
 			tIsPrivateCompany = false;
 		}
-		
+
 		return tIsPrivateCompany;
 	}
-	
+
 	public Train getTrain () {
 		return train;
 	}
-	
+
 	public PrivateCompany getPrivateCompany () {
 		return privateCompany;
 	}
-	
+
 	public String getItemName () {
 		return itemName;
 	}
-	
+
 	public String getItemType () {
 		return itemType;
 	}
-	
+
 	public String getFromActorName () {
 		return fromActorName;
 	}
-	
+
 	public String getToName () {
 		return toName;
 	}
-	
+
 	public int getAmount () {
 		return amount;
 	}

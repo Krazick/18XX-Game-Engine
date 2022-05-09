@@ -16,7 +16,7 @@ public class CashTransferEffect extends ToEffect {
 	final static AttributeName AN_CASH = new AttributeName ("cash");
 	public final static int NO_CASH = 0;
 	int cash;
-	
+
 	public CashTransferEffect () {
 		this (NAME);
 	}
@@ -26,7 +26,7 @@ public class CashTransferEffect extends ToEffect {
 		setCash (NO_CASH);
 		setToActor (ActorI.NO_ACTOR);
 	}
-	
+
 	public CashTransferEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount) {
 		super (NAME, aFromActor, aToActor);
 		setCash (aCashAmount);
@@ -35,9 +35,9 @@ public class CashTransferEffect extends ToEffect {
 	public CashTransferEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
-		
+
 		int tCashAmount;
-		
+
 		tCashAmount = aEffectNode.getThisIntAttribute (AN_CASH);
 		setCash (tCashAmount);
 	}
@@ -49,19 +49,19 @@ public class CashTransferEffect extends ToEffect {
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_CASH, getCash ());
-	
+
 		return tEffectElement;
 	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " of " + Bank.formatCash (cash) + 
-				" from " +  getActorName () + " to " +  getToActorName () + ".");
+		return (REPORT_PREFIX + name + " of " + Bank.formatCash (cash) + " from " + getActorName () + " to "
+				+ getToActorName () + ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
@@ -70,24 +70,24 @@ public class CashTransferEffect extends ToEffect {
 	public void setCash (int aCash) {
 		cash = aCash;
 	}
-	
+
 	public int getEffectDebit (String aActorName) {
 		int tDebit = AuditFrame.NO_DEBIT;
-		
+
 		if (isActor (aActorName)) {
 			tDebit = cash;
 		}
-		
+
 		return tDebit;
 	}
-	
+
 	public int getEffectCredit (String aActorName) {
 		int tCredit = AuditFrame.NO_CREDIT;
-		
+
 		if (isToActor (aActorName)) {
 			tCredit = cash;
 		}
-		
+
 		return tCredit;
 	}
 
@@ -95,13 +95,13 @@ public class CashTransferEffect extends ToEffect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		CashHolderI tToCashHolder, tFromCashHolder;
-		
+
 		tEffectApplied = false;
 		tToCashHolder = (CashHolderI) getToActor ();
 		tFromCashHolder = (CashHolderI) getActor ();
 		tFromCashHolder.transferCashTo (tToCashHolder, cash);
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 	}
 
@@ -109,13 +109,13 @@ public class CashTransferEffect extends ToEffect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		CashHolderI tToCashHolder, tFromCashHolder;
-		
+
 		tEffectUndone = false;
 		tToCashHolder = (CashHolderI) getToActor ();
 		tFromCashHolder = (CashHolderI) getActor ();
 		tFromCashHolder.transferCashTo (tToCashHolder, -cash);
 		tEffectUndone = true;
-		
+
 		return tEffectUndone;
 	}
 }

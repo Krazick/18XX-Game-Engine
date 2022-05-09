@@ -33,24 +33,24 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 	JPanel offerButtonPanel;
 	String itemType;
 	String itemName;
-	
-	public PurchaseOfferFrame (PurchaseOfferEffect aPurchaseOfferEffect, RoundManager aRoundManager,
-			String aItemType, String aItemName) {
+
+	public PurchaseOfferFrame (PurchaseOfferEffect aPurchaseOfferEffect, RoundManager aRoundManager, String aItemType,
+			String aItemName) {
 		super ("Purchase Offer");
-		
+
 		String tPlayerName;
 		Point tNewPoint;
-		
+
 		purchaseOfferEffect = aPurchaseOfferEffect;
 		roundManager = aRoundManager;
 		tPlayerName = aRoundManager.getClientUserName ();
 		setTitle ("Purchase Offer for " + tPlayerName);
-		
+
 		setOfferTopPanel (aPurchaseOfferEffect);
 		setOfferButtonPanel ();
-		
+
 		buildOfferPanel ();
-		
+
 		setItemType (aItemType);
 		setItemName (aItemName);
 		pack ();
@@ -74,15 +74,15 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 	public String getItemType () {
 		return itemType;
 	}
-	
+
 	public String getItemName () {
 		return itemName;
 	}
-	
+
 	public void setItemType (String aItemType) {
 		itemType = aItemType;
 	}
-	
+
 	public void setItemName (String aItemName) {
 		itemName = aItemName;
 	}
@@ -91,7 +91,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		offerButtonPanel = new JPanel ();
 		offerButtonPanel.setLayout (new BoxLayout (offerButtonPanel, BoxLayout.X_AXIS));
 		offerButtonPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
-		
+
 		acceptButton = buildButton (ACCEPT_OFFER, ACCEPT_OFFER);
 		rejectButton = buildButton (REJECT_OFFER, REJECT_OFFER);
 		offerButtonPanel.add (rejectButton);
@@ -107,14 +107,14 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		String tOffer2;
 		String tPresidentName;
 		Corporation tOperatingCompany;
-		
+
 		tOperatingCompany = roundManager.getOperatingCompany ();
 		tPresidentName = tOperatingCompany.getPresidentName ();
-		tOffer1 = "The President of " + aPurchaseOfferEffect.getActorName () + 
-				" (" + tPresidentName + ") offers to buy a ";
-		tOffer2 =  aPurchaseOfferEffect.getItemName () + " " + aPurchaseOfferEffect.getItemType () +
-				" for " + Bank.formatCash (aPurchaseOfferEffect.getCash ()) + " from " +
-				aPurchaseOfferEffect.getToActor ().getName () + ".";
+		tOffer1 = "The President of " + aPurchaseOfferEffect.getActorName () + " (" + tPresidentName
+				+ ") offers to buy a ";
+		tOffer2 = aPurchaseOfferEffect.getItemName () + " " + aPurchaseOfferEffect.getItemType () + " for "
+				+ Bank.formatCash (aPurchaseOfferEffect.getCash ()) + " from "
+				+ aPurchaseOfferEffect.getToActor ().getName () + ".";
 		tOfferLabel1 = new JLabel (tOffer1);
 		tOfferLabel2 = new JLabel (tOffer2);
 		tOfferLabel1.setAlignmentX (CENTER_ALIGNMENT);
@@ -133,7 +133,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed (ActionEvent e) {
 		String tActionCommand;
-		
+
 		tActionCommand = e.getActionCommand ();
 		if (tActionCommand.equals (ACCEPT_OFFER)) {
 			sendOfferResponseAction (true);
@@ -142,26 +142,27 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 			sendOfferResponseAction (false);
 		}
 	}
-	
+
 	public void sendOfferResponseAction (boolean aResponse) {
 		ResponseOfferAction tResponseOfferAction;
 		ActionStates tRoundType;
 		String tRoundID = "";
 		ActorI tToActor, tFromActor;
-		
+
 		tRoundType = roundManager.getCurrentRoundType ();
 		if (tRoundType == ActionStates.OperatingRound) {
 			tRoundID = roundManager.getOperatingRoundID ();
 		} else if (tRoundType == ActionStates.StockRound) {
 			tRoundID = "" + roundManager.getStockRoundID ();
 		}
-		
+
 		// Need to find the original Actor who sent the Purchase Offer, to send back to
-		
+
 		tToActor = purchaseOfferEffect.getActor ();
-		
-		// Need to find the current Actor (who was sent the Purchase offer) to state who it comes from
-		
+
+		// Need to find the current Actor (who was sent the Purchase offer) to state who
+		// it comes from
+
 		tFromActor = purchaseOfferEffect.getToActor ();
 		tResponseOfferAction = new ResponseOfferAction (tRoundType, tRoundID, tFromActor);
 		tResponseOfferAction.addResponseOfferEffect (tFromActor, tToActor, aResponse, itemType, itemName);
@@ -169,15 +170,15 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 
 		setVisible (false);
 	}
-	
+
 	public JButton buildButton (String aButtonLabel, String aActionCommand) {
 		JButton tActionButton;
-		
+
 		tActionButton = new JButton (aButtonLabel);
 		tActionButton.setAlignmentX (CENTER_ALIGNMENT);
 		tActionButton.setActionCommand (aActionCommand);
 		tActionButton.addActionListener (this);
-		
+
 		return tActionButton;
 	}
 }

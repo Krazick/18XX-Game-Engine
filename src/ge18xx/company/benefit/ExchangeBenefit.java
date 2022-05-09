@@ -19,14 +19,14 @@ public class ExchangeBenefit extends CertificateBenefit {
 		super (aXMLNode);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		super.configure (aPrivateCompany, aButtonRow);
 		JButton tExchangeButton;
-		
+
 		if (shouldConfigure ()) {
-			if (! hasButton ()) {
+			if (!hasButton ()) {
 				tExchangeButton = new JButton (getNewButtonLabel ());
 				setButton (tExchangeButton);
 				setButtonPanel (aButtonRow);
@@ -37,16 +37,16 @@ public class ExchangeBenefit extends CertificateBenefit {
 		}
 		updateButton ();
 	}
-	
+
 	@Override
 	public String getNewButtonLabel () {
 		String tNewButtonText;
 		Certificate tShareCertificate;
-		
+
 		tShareCertificate = getShareCertificate ();
-		tNewButtonText = "Exchange " + privateCompany.getAbbrev () + " for " + certificatePercentage + 
-				"% of " + tShareCertificate.getCompanyAbbrev ();
-		
+		tNewButtonText = "Exchange " + privateCompany.getAbbrev () + " for " + certificatePercentage + "% of "
+				+ tShareCertificate.getCompanyAbbrev ();
+
 		return tNewButtonText;
 	}
 
@@ -56,16 +56,16 @@ public class ExchangeBenefit extends CertificateBenefit {
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
 		PortfolioHolderI tHolder;
-		
+
 		tHolder = privateCompany.getOwner ();
 		if (tHolder.isAPlayer ()) {
 			tPlayer = (Player) tHolder;
 			tBenefitInUse = tPlayer.getBenefitInUse ();
 			tBenefitInUseName = tBenefitInUse.getName ();
-			if ((tBenefitInUse.realBenefit ()) && (! NAME.equals (tBenefitInUseName))) {
+			if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
 				disableButton ();
 				setToolTip ("Another Benefit is currently in Use");
-			} else if (! hasShareInBank ()) {
+			} else if (!hasShareInBank ()) {
 				disableButton ();
 				setToolTip ("Company has no Shares in Bank for Exchange.");
 			} else if (playerAtShareLimit ()) {
@@ -80,41 +80,41 @@ public class ExchangeBenefit extends CertificateBenefit {
 		Player tPlayer;
 		Certificate tCertificate;
 		String tShareAbbrev;
-		
+
 		tCertificate = getShareCertificate ();
 		tShareAbbrev = tCertificate.getCompanyAbbrev ();
 		tPlayer = (Player) privateCompany.getOwner ();
 		tPlayerAtShareLimit = tPlayer.hasMaxShares (tShareAbbrev);
-		
+
 		return tPlayerAtShareLimit;
 	}
-	
+
 	private boolean hasShareInBank () {
 		boolean tHasShareInBank = false;
 		Certificate tCertificate;
-		
+
 		tCertificate = getShareCertificate ();
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tHasShareInBank = true;
 		}
-		
+
 		return tHasShareInBank;
 	}
-	
+
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
-		
+
 		tActionCommand = aEvent.getActionCommand ();
 		if (PlayerFrame.EXCHANGE_PRIVATE.equals (tActionCommand)) {
-			handleExchangeCertificate  ();
+			handleExchangeCertificate ();
 		}
 	}
 
 	private void handleExchangeCertificate () {
 		Player tOwner;
 		Certificate tPrivateCertificate;
-		
+
 		tOwner = (Player) privateCompany.getOwner ();
 		tPrivateCertificate = privateCompany.getPresidentCertificate ();
 		System.out.println ("Handling Exchange of Certificate for " + tPrivateCertificate.getCompanyAbbrev ());

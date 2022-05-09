@@ -31,39 +31,39 @@ public class TileName extends Feature implements Cloneable {
 	public static String NO_NAME = null;
 	public static String NO_NAME2 = "";
 	String name;
-	
+
 	public TileName () {
 		this (NO_NAME);
 	}
-	
+
 	public TileName (String aName) {
 		this (aName, Location.NO_LOCATION);
 	}
-	
+
 	public TileName (String aName, int aLocation) {
 		setValues (aName, aLocation);
 	}
-	
+
 	public TileName (XMLNode aNode) {
 		String tName;
 		int tLocation;
-		
+
 		tName = aNode.getThisAttribute (AN_NAME);
 		tLocation = aNode.getThisIntAttribute (AN_LOCATION, Location.CENTER_CITY_LOC);
 		setValues (tName, tLocation);
 	}
-	
+
 	@Override
 	public TileName clone () {
 		TileName tTileName = (TileName) super.clone ();
 		tTileName.name = name;
-			
+
 		return tTileName;
 	}
-	
+
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tElement;
-		
+
 		if (name == NO_NAME) {
 			tElement = XMLElement.NO_XML_ELEMENT;
 		} else if (name.equals (NO_NAME2)) {
@@ -75,78 +75,78 @@ public class TileName extends Feature implements Cloneable {
 				tElement.setAttribute (AN_LOCATION, getLocationToString ());
 			}
 		}
-		
+
 		return tElement;
 	}
-	
+
 	public void draw (Graphics g, int X, int Y, Hex aHex) {
 		draw (g, X, Y, 0, aHex);
 	}
-	
+
 	public void draw (Graphics g, int X, int Y, int aTileOrient, Hex aHex) {
 		int width, height, X1, Y1;
 		Location tLocation;
 		Point xy;
 		Font tnewFont, tCurrentFont;
-		
-		if (! (name.equals (NO_NAME))) {
-			if (! (name.equals (NO_NAME2))) {
+
+		if (!(name.equals (NO_NAME))) {
+			if (!(name.equals (NO_NAME2))) {
 				tCurrentFont = g.getFont ();
 				tnewFont = new Font ("Dialog", Font.PLAIN, 10);
 				g.setFont (tnewFont);
 				width = g.getFontMetrics ().stringWidth (name);
 				height = g.getFontMetrics ().getHeight ();
 				if (location.isNoLocation ()) {
-					X1 = X - width/2;
-					Y1 = Y + height/2;
+					X1 = X - width / 2;
+					Y1 = Y + height / 2;
 				} else {
 					tLocation = location.rotateLocation (aTileOrient);
 					xy = tLocation.calcCenter (aHex);
-					X1 = X + xy.x - width/2;
-					Y1 = Y + xy.y + height/2;
+					X1 = X + xy.x - width / 2;
+					Y1 = Y + xy.y + height / 2;
 				}
-				
+
 				g.setColor (Color.black);
 				g.drawString (name, X1, Y1);
 				g.setFont (tCurrentFont);
 			}
 		}
 	}
-	
+
 	public String getName () {
 		return name;
 	}
-	
+
 	public boolean isNYTile () {
 		boolean tIsNYTile;
-		
+
 		tIsNYTile = false;
 		if (NY_NAME.equals (name)) {
 			tIsNYTile = true;
 		}
-		
+
 		return tIsNYTile;
 	}
-	
+
 	public boolean isOOTile () {
 		boolean tIsOOTile;
-		
+
 		tIsOOTile = false;
 		if (OO_NAME.equals (name)) {
 			tIsOOTile = true;
 		}
-		
+
 		return tIsOOTile;
 	}
-	
+
 	@Override
 	public void printlog () {
 		System.out.println ("Tile Name " + name);
 		super.printlog ();
 	}
-	
+
 	public void setValues (String aName, int aLocation) {
 		setLocation (aLocation);
-		name = aName;		
+		name = aName;
 	}
 }

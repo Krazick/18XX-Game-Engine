@@ -86,7 +86,7 @@ import org.w3c.dom.NodeList;
 // methods into this sub-class
 
 public class GameManager extends Component implements NetworkGameSupport {
-	
+
 	// Static Constants
 	private static final long serialVersionUID = 1L;
 	public static final ElementName EN_CONFIG = new ElementName ("Config");
@@ -101,7 +101,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final String AUTO_SAVES_DIR = "autoSaves";
 	public static final GameManager NO_GAME_MANAGER = null;
 	public static final String EMPTY_GAME_ID = "";
-	
+
 	// Generic (non-game specific objects)
 	ArrayList<XMLFrame> configFrames;
 	JFileMChooser chooser;
@@ -128,17 +128,19 @@ public class GameManager extends Component implements NetworkGameSupport {
 	PhaseManager phaseManager;
 	BankPool bankPool;
 	Bank bank;
-	
-	// Various Frames the Game Manager tracks -- Consider adding to a "FrameManager" Class
+
+	// Various Frames the Game Manager tracks -- Consider adding to a "FrameManager"
+	// Class
 	// These Frames for Companies, have the CorporationList
-	// TODO: Consider having an Array/List of CorporationLists, that tracks what type of Company
+	// TODO: Consider having an Array/List of CorporationLists, that tracks what
+	// type of Company
 	// it is, and has the Frame in the Corporation List
-	// 
+	//
 	PrivatesFrame privatesFrame;
 	CoalCompaniesFrame coalCompaniesFrame;
 	MinorCompaniesFrame minorCompaniesFrame;
 	ShareCompaniesFrame shareCompaniesFrame;
-	
+
 	AuctionFrame auctionFrame;
 	MapFrame mapFrame;
 	MarketFrame marketFrame;
@@ -148,7 +150,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	TileDefinitionFrame tileDefinitionFrame;
 	PlayerInputFrame playerInputFrame;
 	FrameInfoFrame frameInfoFrame;
-	
+
 	// Other Frames include:
 	// RoundFrame -- held by RoundManager
 	// TrainRevenueFrame -- held by TrainCompany
@@ -156,7 +158,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	// BuyTrainFrame
 	// EmergencyBuyTrainFrame
 	// BuyPrivateFrame (makeOffer for Private or Train)
-	
+
 	// Network Game Objects
 	JGameClient networkJGameClient;
 	SavedGames networkSavedGames;
@@ -170,17 +172,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setDefaults ();
 		setGame (GameInfo.NO_GAME_INFO);
 	}
-	
+
 	public GameManager (String aClientUserName) {
 		this ();
-		setClientUserName (aClientUserName);		
+		setClientUserName (aClientUserName);
 	}
-	
+
 	public GameManager (Game_18XX aGame_18XX_Frame, String aClientUserName) {
 		this (aClientUserName);
 		storeAllFrames (aGame_18XX_Frame);
 		logger = game18XXFrame.getLogger ();
-		
+
 		setBankPool (BankPool.NO_BANK_POOL);
 		setBank (Bank.NO_BANK_CASH);
 		setPlayerManager (PlayerManager.NO_PLAYER_MANAGER);
@@ -192,14 +194,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public FileUtils getFileUtils () {
 		return fileUtils;
 	}
-	
+
 	@Override
 	public Logger getLogger () {
 		return logger;
 	}
-	
+
 	private void storeAllFrames (Game_18XX aGame_18XX_Frame) {
-		configFrames = new ArrayList<XMLFrame> ();		
+		configFrames = new ArrayList<XMLFrame> ();
 		game18XXFrame = aGame_18XX_Frame;
 		setPlayerInputFrame (PlayerInputFrame.NO_PLAYER_INPUT_FRAME);
 		setFrameInfoFrame (XMLFrame.NO_XML_FRAME);
@@ -217,7 +219,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	private void setUserDir () {
 		userDir = System.getProperty ("user.dir");
 	}
-	
+
 	private void setDefaults () {
 		setLoadSavedFile (null);
 		saveFile = null;
@@ -228,31 +230,31 @@ public class GameManager extends Component implements NetworkGameSupport {
 		applyingNetworkAction = false;
 		gameID = EMPTY_GAME_ID;
 	}
-	
+
 	public String getUserDir () {
 		return userDir;
 	}
-	
+
 	public void setLoadSavedFile (File aLoadSavedFile) {
 		loadSavedFile = aLoadSavedFile;
 	}
-	
+
 	public JPanel buildPrivatesForPurchaseJPanel (ItemListener aItemListener, int aAvailableCash) {
 		JPanel tPrivatesJPanel;
-		
+
 		tPrivatesJPanel = privatesFrame.buildPrivatesForPurchaseJPanel (aItemListener, aAvailableCash);
-		
+
 		return tPrivatesJPanel;
 	}
 
 	public boolean canSellPresidentShare () {
 		return activeGame.canSellPresidentShare ();
 	}
-	
+
 	public boolean canBeExchanged (Corporation aCorporation) {
 		return playerManager.canBeExchanged (aCorporation);
 	}
-	
+
 	public boolean canPayHalfDividend () {
 		return activeGame.canPayHalfDividend ();
 	}
@@ -260,41 +262,41 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean canStartOperatingRound () {
 		return bank.canStartOperatingRound ();
 	}
-	
+
 	public void applyDiscount () {
 		bank.applyDiscount ();
 	}
-	
+
 	public void clearAllAuctionStates () {
 		playerManager.clearAllAuctionStates ();
 	}
-	
+
 	public void clearBankSelections () {
 		bank.clearSelections ();
 		bankPool.clearSelections ();
 	}
-	
+
 	public void clearCorpSelections () {
 		privatesFrame.clearSelections ();
 		coalCompaniesFrame.clearSelections ();
 		minorCompaniesFrame.clearSelections ();
-		shareCompaniesFrame.clearSelections ();	
+		shareCompaniesFrame.clearSelections ();
 	}
-	
+
 	public void clearAllPlayerSelections () {
 		playerManager.clearAllPlayerSelections ();
 	}
-	
+
 	public void closeCompany (int aCompanyID, TransferOwnershipAction aTransferOwnershipAction) {
 		privatesFrame.closeCompany (aCompanyID, aTransferOwnershipAction);
 	}
-	
+
 	private void createCities () {
 		String tXMLCitiesName;
 		String tActiveGameName;
 		String tFullFrameTitle;
 		CitiesFrame tCitiesFrame;
-		
+
 		if (gameIsStarted ()) {
 			tActiveGameName = getActiveGameName ();
 			tXMLCitiesName = getCitiesFileName ();
@@ -309,12 +311,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 	}
-	
+
 	private void createCoalCompanies () {
 		String tXMLCompaniesName;
 		String tFullFrameTitle;
 		CoalCompaniesFrame tCoalCompaniesFrame;
-		
+
 		if (gameIsStarted ()) {
 			tXMLCompaniesName = getCompaniesFileName ();
 			tXMLCompaniesName = getXMLBaseDirectory () + tXMLCompaniesName;
@@ -339,70 +341,70 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void setAuctionFrame (AuctionFrame aAuctionFrame) {
 		auctionFrame = aAuctionFrame;
 	}
-	
+
 	public String getPrivateAbbrevForAuction () {
 		Certificate tCertificate = bank.getPrivateForAuction ();
-		
+
 		return tCertificate.getCompanyAbbrev ();
 	}
-	
+
 	public void addPrivateToAuction () {
 		Certificate tCertificate = bank.getPrivateForAuction ();
-		
+
 		auctionFrame.addPrivateToAuction (tCertificate);
 	}
-	
+
 	@Override
 	public boolean gameStarted () {
 		return gameStarted;
 	}
-	
+
 	public String createFrameTitle (String aBaseName) {
 		String tFullTitle;
-		
+
 		tFullTitle = getActiveGameName () + " " + aBaseName + " Frame";
 		if (isNetworkGame ()) {
 			tFullTitle += " (" + clientUserName + ")";
 		}
-		
+
 		return tFullTitle;
 	}
-	
+
 	private void createAuditFrame () {
 		AuditFrame tAuditFrame;
 		String tFullTitle;
-		
+
 		if (gameIsStarted ()) {
 			tFullTitle = createFrameTitle ("Audit");
-		
+
 			tAuditFrame = new AuditFrame (tFullTitle, this);
 			setAuditFrame (tAuditFrame);
 		}
 	}
-	
+
 	public ArrayList<XMLFrame> getConfigFrames () {
 		return configFrames;
 	}
-	
+
 	private void createFrameInfoFrame () {
 		FrameInfoFrame tFrameInfoFrame;
 		String tFullTitle;
-		
+
 		if (gameIsStarted ()) {
 			tFullTitle = createFrameTitle ("Frame Info");
-		
+
 			tFrameInfoFrame = new FrameInfoFrame (tFullTitle, this);
 			setFrameInfoFrame (tFrameInfoFrame);
 		}
 	}
-	
+
 	private void createMap () {
 		String tXMLMapName;
 		String tBaseDir;
 		String tColorSchemeName;
 		String tFullTitle;
 		MapFrame tMapFrame;
-		
+
 		if (gameIsStarted ()) {
 			tBaseDir = getXMLBaseDirectory ();
 			tXMLMapName = getMapFileName ();
@@ -423,10 +425,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 			} catch (Exception tException) {
 				logger.error ("Problem Loading Color Scheme: " + tException);
 			}
-			
+
 			CorporationList tShareCompaniesList, tPrivatesCompaniesList, tMinorCompaniesList;
 //			CorporationList tCoalCompaniesList;
-			
+
 			tMapFrame.setCityInfo (citiesFrame.getCities ());
 			tPrivatesCompaniesList = privatesFrame.getCompanies ();
 //			tCoalCompaniesList = coalCompaniesFrame.getCompanies ();
@@ -439,14 +441,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tMapFrame.setHomeCities (tShareCompaniesList);
 			tMapFrame.setHomeCities (tMinorCompaniesList);
 			tMapFrame.setHomeCities (tPrivatesCompaniesList);
-		}	
+		}
 	}
-	
+
 	private void createMarket () {
 		String tXMLMarketName;
 		String tFullTitle;
 		MarketFrame tMarketFrame;
-		
+
 		if (gameIsStarted ()) {
 			tXMLMarketName = getMarketFileName ();
 			tXMLMarketName = getXMLBaseDirectory () + tXMLMarketName;
@@ -460,15 +462,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 	}
-	
+
 	private void createMinorCompanies () {
 		String tXMLCompaniesName;
 		MinorCompaniesFrame tMinorCompaniesFrame;
-		
+
 		if (gameIsStarted ()) {
 			tXMLCompaniesName = getCompaniesFileName ();
 			tXMLCompaniesName = getXMLBaseDirectory () + tXMLCompaniesName;
-			tMinorCompaniesFrame = new MinorCompaniesFrame (createFrameTitle (MinorCompaniesFrame.BASE_TITLE), roundManager);
+			tMinorCompaniesFrame = new MinorCompaniesFrame (createFrameTitle (MinorCompaniesFrame.BASE_TITLE),
+					roundManager);
 			setMinorCompaniesFrame (tMinorCompaniesFrame);
 			try {
 				tMinorCompaniesFrame.loadXML (tXMLCompaniesName, tMinorCompaniesFrame.getCompanies ());
@@ -477,11 +480,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 	}
-	
+
 	private void createPrivateCompanies () {
 		String tXMLCompaniesName;
 		PrivatesFrame tPrivatesFrame;
-		
+
 		if (gameIsStarted ()) {
 			tXMLCompaniesName = getCompaniesFileName ();
 			tXMLCompaniesName = getXMLBaseDirectory () + tXMLCompaniesName;
@@ -494,17 +497,18 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 	}
-	
+
 	private void createShareCompanies () {
 		String tXMLCompaniesName;
 		Integer [] tParValues;
 		Market tMarket;
 		ShareCompaniesFrame tShareCompaniesFrame;
-		
+
 		if (gameIsStarted ()) {
 			tXMLCompaniesName = getCompaniesFileName ();
 			tXMLCompaniesName = getXMLBaseDirectory () + tXMLCompaniesName;
-			tShareCompaniesFrame = new ShareCompaniesFrame (createFrameTitle (ShareCompaniesFrame.BASE_TITLE), roundManager);
+			tShareCompaniesFrame = new ShareCompaniesFrame (createFrameTitle (ShareCompaniesFrame.BASE_TITLE),
+					roundManager);
 			setShareCompaniesFrame (tShareCompaniesFrame);
 			try {
 				tShareCompaniesFrame.loadXML (tXMLCompaniesName, tShareCompaniesFrame.getCompanies ());
@@ -521,35 +525,36 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	/**
-	 * Get the Minimum Number of Shares that must be sold to allow a Company to Float
+	 * Get the Minimum Number of Shares that must be sold to allow a Company to
+	 * Float
 	 * 
 	 * @return the Minimum Number of Shares needed to float
 	 */
 	public int getMinSharesToFloat () {
 		String tNextTrainName;
 		Train tTrain;
-		
+
 		tTrain = bank.getNextAvailableTrain ();
 		tNextTrainName = tTrain.getName ();
-		
+
 		return phaseManager.getMinSharesToFloat (tNextTrainName);
 	}
-	
+
 	public Integer [] getAllStartCells () {
 		Market tMarket;
-		
+
 		tMarket = marketFrame.getMarket ();
-		
+
 		return tMarket.getAllStartCells ();
 	}
-	
+
 	private void createTileTray () {
 		String tXMLTileTrayName, tXMLTileDefinitionName;
 		String tActiveGameName, tBaseDirName;
-		String tAllTileSetNames [];
+		String tAllTileSetNames[];
 		TileTrayFrame tTileTrayFrame;
 		TileDefinitionFrame tTileDefinitionFrame;
-		
+
 		if (gameIsStarted ()) {
 			tActiveGameName = getActiveGameName ();
 			tBaseDirName = getXMLBaseDirectory ();
@@ -562,13 +567,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 			} catch (Exception tException) {
 				logger.error (tException);
 			}
-			
-			tTileDefinitionFrame = new TileDefinitionFrame (createFrameTitle (TileDefinitionFrame.BASE_TITLE), tTileTrayFrame, tActiveGameName);
+
+			tTileDefinitionFrame = new TileDefinitionFrame (createFrameTitle (TileDefinitionFrame.BASE_TITLE),
+					tTileTrayFrame, tActiveGameName);
 			setTileDefinitionFrame (tTileDefinitionFrame);
 			tAllTileSetNames = tTileDefinitionFrame.getAllTileSetNames ();
 			for (String tTileSetName : tAllTileSetNames) {
 				tXMLTileDefinitionName = tTileSetName + TileDefinitionFrame.TILE_SUFFIX_NAME;
-				tXMLTileDefinitionName = tBaseDirName + TileDefinitionFrame.TILE_DIRECTORY_NAME + tXMLTileDefinitionName;
+				tXMLTileDefinitionName = tBaseDirName + TileDefinitionFrame.TILE_DIRECTORY_NAME
+						+ tXMLTileDefinitionName;
 				try {
 					tTileDefinitionFrame.loadXML (tXMLTileDefinitionName, tTileDefinitionFrame.getTileSet ());
 				} catch (Exception tException) {
@@ -578,7 +585,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 	}
-	
+
 	public boolean doPartialCapitalization () {
 		return phaseManager.doPartialCapitalization ();
 	}
@@ -586,39 +593,39 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean canBuyPrivate () {
 		return phaseManager.canBuyPrivate ();
 	}
-	
+
 	public void enterPlaceTileMode () {
 		mapFrame.togglePlaceTileMode ();
 	}
-	
+
 	public void enterPlaceTokenMode () {
 		mapFrame.togglePlaceTokenMode ();
 	}
-	
-	public boolean isPlaceTileMode() {
+
+	public boolean isPlaceTileMode () {
 		return mapFrame.isPlaceTileMode ();
 	}
 
-	public boolean isPlaceTokenMode() {
+	public boolean isPlaceTokenMode () {
 		return mapFrame.isPlaceTokenMode ();
 	}
 
 	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
-		mapFrame.enterSelectRouteMode (aRouteInformation);		
+		mapFrame.enterSelectRouteMode (aRouteInformation);
 	}
 
 	public void exitSelectRouteMode () {
 		mapFrame.exitSelectRouteMode ();
 	}
-	
+
 	public void fullOwnershipAdjustment () {
 		marketFrame.fullOwnershipAdjustment (roundManager.getStockRound ());
 	}
-	
+
 	public boolean gameChanged () {
 		return gameChangedSinceSave;
 	}
-	
+
 	public boolean gameHasPrivates () {
 		return activeGame.hasPrivates ();
 	}
@@ -626,17 +633,19 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean gameHasCoals () {
 		return activeGame.hasCoals ();
 	}
+
 	public boolean gameHasMinors () {
 		return activeGame.hasMinors ();
 	}
+
 	public boolean gameHasShares () {
 		return activeGame.hasShares ();
 	}
-	
+
 	public boolean gameIsSaved () {
 		return (saveFile != null);
 	}
-	
+
 	public boolean gameIsStarted () {
 		return (activeGame != GameInfo.NO_GAME_INFO);
 	}
@@ -644,25 +653,25 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public GameInfo getActiveGame () {
 		return activeGame;
 	}
-	
+
 	public String getActiveGameName () {
 		String tName;
-		
+
 		tName = NO_GAME_NAME;
 		if (gameIsStarted ()) {
 			tName = activeGame.getName ();
 		}
-		
+
 		return tName;
 	}
 
 	public ActorI getActor (String aActorName) {
 		return getActor (aActorName, false);
 	}
-	
+
 	public ActorI getActor (String aActorName, boolean aLookingForPrivate) {
 		ActorI tActor;
-		
+
 		tActor = ActorI.NO_ACTOR;
 		if (aActorName == ActorI.NO_NAME) {
 			logger.error ("Actor Name IS NULL<-----");
@@ -676,62 +685,62 @@ public class GameManager extends Component implements NetworkGameSupport {
 			} else {
 				tActor = playerManager.getActor (aActorName);
 			}
-			
+
 			if (tActor == ActorI.NO_ACTOR) {
 				tActor = shareCompaniesFrame.getActor (aActorName);
 			}
-			
+
 			if (aLookingForPrivate || (tActor == ActorI.NO_ACTOR)) {
 				tActor = privatesFrame.getActor (aActorName);
 			}
-			
+
 			if (tActor == ActorI.NO_ACTOR) {
 				tActor = minorCompaniesFrame.getActor (aActorName);
 			}
-			
+
 			if (tActor == ActorI.NO_ACTOR) {
 				tActor = coalCompaniesFrame.getActor (aActorName);
 			}
-			
+
 			if (tActor == ActorI.NO_ACTOR) {
 				tActor = roundManager.getActor (aActorName);
 			}
 		}
-		
+
 		return tActor;
 	}
 
 	public Bank getBank () {
 		return bank;
 	}
-	
+
 	public BankPool getBankPool () {
 		return bankPool;
 	}
-	
+
 	public Portfolio getBankPortfolio () {
 		return bank.getPortfolio ();
 	}
-	
+
 	public Portfolio getBankPoolPortfolio () {
 		Portfolio tBankPoolPortfolio;
-		
+
 		tBankPoolPortfolio = bankPool.getPortfolio ();
-		
+
 		return tBankPoolPortfolio;
 	}
-	
+
 	public String getCitiesFileName () {
 		return getFileName (File18XX.CITIES_TYPE);
 	}
-	
+
 	public CitiesFrame getCitiesFrame () {
 		return citiesFrame;
 	}
-	
+
 	public Certificate getCertificate (String aCompanyAbbrev, int aPercentage, boolean aPresidentShare) {
 		Certificate tCertificate;
-		
+
 		tCertificate = privatesFrame.getCertificate (aCompanyAbbrev, aPercentage, aPresidentShare);
 		if (tCertificate == Certificate.NO_CERTIFICATE) {
 			tCertificate = minorCompaniesFrame.getCertificate (aCompanyAbbrev, aPercentage, aPresidentShare);
@@ -742,52 +751,52 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (tCertificate == Certificate.NO_CERTIFICATE) {
 			tCertificate = shareCompaniesFrame.getCertificate (aCompanyAbbrev, aPercentage, aPresidentShare);
 		}
-		
+
 		return tCertificate;
 	}
-	
+
 	public CorporationList getCoalCompanies () {
 		return coalCompaniesFrame.getCompanies ();
 	}
-	
+
 	public String getCompaniesFileName () {
 		return getFileName (File18XX.COMPANIES_TYPE);
 	}
 
 	public Corporation getCorporationByID (int aCorporationID) {
 		Corporation tCorporation;
-		
-		tCorporation = privatesFrame.getCorporationByID (aCorporationID); 
+
+		tCorporation = privatesFrame.getCorporationByID (aCorporationID);
 		if (tCorporation == Corporation.NO_CORPORATION) {
-			tCorporation = minorCompaniesFrame.getCorporationByID (aCorporationID); 
+			tCorporation = minorCompaniesFrame.getCorporationByID (aCorporationID);
 		}
 		if (tCorporation == Corporation.NO_CORPORATION) {
-			tCorporation = coalCompaniesFrame.getCorporationByID (aCorporationID); 
+			tCorporation = coalCompaniesFrame.getCorporationByID (aCorporationID);
 		}
 		if (tCorporation == Corporation.NO_CORPORATION) {
-			tCorporation = shareCompaniesFrame.getCorporationByID (aCorporationID); 
+			tCorporation = shareCompaniesFrame.getCorporationByID (aCorporationID);
 		}
-		
+
 		return tCorporation;
 	}
-	
+
 	public ActorI.ActionStates getCorporationState (String aCorpStateName) {
 		return shareCompaniesFrame.getCorporationState (aCorpStateName);
 	}
-	
+
 	public int getCountOfOpenPrivates () {
 		return privatesFrame.getCountOfOpenCompanies ();
 	}
-	
+
 	public int getCountOfPlayerOwnedPrivates () {
 		return privatesFrame.getCountOfPlayerOwnedCompanies ();
 	}
-	
+
 	public int getCountOfSelectedPrivates () {
 		return privatesFrame.getCountOfSelectedCertificates ();
 	}
-	
-	public String getCurrentOffBoard () { 
+
+	public String getCurrentOffBoard () {
 		return phaseManager.getCurrentOffBoard ();
 	}
 
@@ -798,7 +807,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public PrivateCompany getSelectedPrivateCompanyToBuy () {
 		Corporation tSelectedCorporation;
 		PrivateCompany tSelectedPrivateCompany;
-		
+
 		tSelectedCorporation = privatesFrame.getSelectedCorporation ();
 		if (tSelectedCorporation == Corporation.NO_CORPORATION) {
 			tSelectedPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
@@ -809,29 +818,29 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tSelectedPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
 			}
 		}
-		
+
 		return tSelectedPrivateCompany;
 	}
 
 	public CorporationList getPrivates () {
 		return privatesFrame.getCompanies ();
 	}
-	
+
 	public CorporationList getShareCompanies () {
 		return shareCompaniesFrame.getCompanies ();
 	}
-	
+
 	public ShareCompany getShareCompany (String aCompanyAbbrev) {
 		return shareCompaniesFrame.getShareCompany (aCompanyAbbrev);
 	}
-	
+
 	public int getCountOfCoals () {
 		int tCountOfCoals = 0;
-		
+
 		if (coalCompaniesFrame != CoalCompaniesFrame.NO_COAL_COMPANIES_FRAME) {
 			tCountOfCoals = coalCompaniesFrame.getCountOfCompanies ();
 		}
-		
+
 		return tCountOfCoals;
 	}
 
@@ -841,33 +850,33 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (minorCompaniesFrame != MinorCompaniesFrame.NO_MINORS_FRAME) {
 			tCountOfMinors = minorCompaniesFrame.getCountOfCompanies ();
 		}
-		
+
 		return tCountOfMinors;
 	}
 
 	public int getCountOfPrivates () {
 		int tCountOfPrivates = 0;
-		
+
 		if (privatesFrame != PrivatesFrame.NO_PRIVATES_FRAME) {
 			tCountOfPrivates = privatesFrame.getCountOfCompanies ();
 		}
-		
+
 		return tCountOfPrivates;
 	}
 
 	public int getCountOfShares () {
 		int tCountOfShares = 0;
-		
+
 		if (shareCompaniesFrame != ShareCompaniesFrame.NO_SHARES_FRAME) {
 			tCountOfShares = shareCompaniesFrame.getCountOfCompanies ();
 		}
-		
+
 		return tCountOfShares;
 	}
-	
+
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
-		
+
 		tCurrentHolder = bank.getCurrentHolder (aLoadedCertificate);
 		if (tCurrentHolder == PortfolioHolderI.NO_HOLDER) {
 			tCurrentHolder = bankPool.getCurrentHolder (aLoadedCertificate);
@@ -878,55 +887,55 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public String getFileName (String aType) {
 		String tFileName;
-		
+
 		tFileName = NO_FILE_NAME;
 		if (gameIsStarted ()) {
 			tFileName = activeGame.getFileNameFor (aType);
 		}
-		
+
 		return tFileName;
 	}
 
 	public String getGameName () {
 		String tGameName;
-		
+
 		if (activeGame == GameInfo.NO_GAME_INFO) {
 			tGameName = NO_GAME_NAME;
 		} else {
 			tGameName = activeGame.getGameName ();
 		}
-		
+
 		return tGameName;
 	}
 
 	public AuctionFrame getAuctionFrame () {
 		return auctionFrame;
 	}
-	
+
 	public AuditFrame getAuditFrame () {
 		return auditFrame;
 	}
-	
+
 	public MapFrame getMapFrame () {
 		return mapFrame;
 	}
-	
+
 	public HexMap getGameMap () {
 		return mapFrame.getMap ();
 	}
-	
+
 	public String getMapFileName () {
 		return getFileName (File18XX.MAP_TYPE);
 	}
-	
+
 	public Market getMarket () {
 		return marketFrame.getMarket ();
 	}
-	
+
 	public String getMarketFileName () {
 		return getFileName (File18XX.MARKET_TYPE);
 	}
-	
+
 	public MarketFrame getMarketFrame () {
 		return marketFrame;
 	}
@@ -934,27 +943,27 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public CorporationList getMinorCompanies () {
 		return minorCompaniesFrame.getCompanies ();
 	}
-	
+
 	public MinorCompaniesFrame getMinorCompaniesFrame () {
 		return minorCompaniesFrame;
 	}
-	
+
 	public PhaseManager getPhaseManager () {
 		return phaseManager;
 	}
-	
+
 	public PlayerInputFrame getPlayerInputFrame () {
 		return playerInputFrame;
 	}
-	
+
 	public PlayerManager getPlayerManager () {
 		return playerManager;
 	}
-	
+
 	public Player getCurrentPlayer () {
 		return playerManager.getCurrentPlayer ();
 	}
-	
+
 	public ActorI.ActionStates getPlayerState (String aState) {
 		return playerManager.getPlayerState (aState);
 	}
@@ -966,27 +975,27 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public RoundManager getRoundManager () {
 		return roundManager;
 	}
-	
+
 	public ActorI.ActionStates getRoundType (String aRoundTypeString) {
 		GenericActor tGenericActor;
-		
+
 		tGenericActor = new GenericActor ();
-		
+
 		return tGenericActor.getRoundType (aRoundTypeString);
 	}
-	
+
 	public ShareCompaniesFrame getShareCompaniesFrame () {
 		return shareCompaniesFrame;
 	}
-	
+
 	public Tile getTile (int aTileNumber) {
 		return tileTrayFrame.getTile (aTileNumber);
 	}
-	
+
 	public TileDefinitionFrame getTileDefinitionFrame () {
 		return tileDefinitionFrame;
 	}
-	
+
 	public String getTileSetFileName () {
 		return getFileName (File18XX.TILE_SET_TYPE);
 	}
@@ -994,7 +1003,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public TileSet getTileSet () {
 		return tileTrayFrame.getTileSet ();
 	}
-	
+
 	public TileTrayFrame getTileTrayFrame () {
 		return tileTrayFrame;
 	}
@@ -1002,11 +1011,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public Token getToken (String aCompanyAbbrev) {
 		return shareCompaniesFrame.getToken (aCompanyAbbrev);
 	}
-	
+
 	public int getMinorTrainLimit () {
 		return phaseManager.getMinorTrainLimit ();
 	}
-	
+
 	public int getTrainLimit (boolean aGovtRailway) {
 		return phaseManager.getTrainLimit (aGovtRailway);
 	}
@@ -1018,37 +1027,37 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public Train getTrain (String aTrainName) {
 		return bank.getTrain (aTrainName);
 	}
-	
+
 	@Override
 	public String getXMLBaseDirectory () {
 		String aBaseDirectory;
 
 		aBaseDirectory = "18XX XML Data" + File.separator;
-		
+
 		return aBaseDirectory;
 	}
 
 	public boolean hasMustBuyCertificate () {
 		return bank.hasMustBuyCertificate ();
 	}
-	
+
 	public boolean hasMustSell () {
 		return bank.hasMustSell ();
 	}
-	
+
 	public Certificate getMustSellCertificate () {
 		return bank.getMustSellCertificate ();
 	}
-	
+
 	@Override
 	public void initiateNetworkGame () {
 		initiateGame (playerInputFrame.getSelectedGame ());
 	}
-	
+
 	public void initiateGame (GameInfo aGameInfo) {
 		setGame (aGameInfo);
 		initiateGame ();
-		setNotifyNetwork (true);	
+		setNotifyNetwork (true);
 		// For Normal Start, we need to Notify Clients of Actions
 		// The Loading of a Save Game does it's own reset once the Load is complete
 	}
@@ -1060,7 +1069,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		CorporationList tShares;
 		PhaseManager tPhaseManager;
 		PlayerManager tPlayerManager;
-		
+
 		if (activeGame != GameInfo.NO_GAME_INFO) {
 			game18XXFrame.initiateGame ();
 			if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
@@ -1070,7 +1079,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			roundManager = new RoundManager (this, playerManager);
 			setupGamePieces ();
 			setGameChanged (true);
-			
+
 			setupBank ();
 			activeGame.setupOptions (this);
 			setupPlayers ();
@@ -1081,12 +1090,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tCoals = getCoalCompanies ();
 			tMinors = getMinorCompanies ();
 			tShares = getShareCompanies ();
-			
+
 			autoSaveFileName = constructAutoSaveFileName (AUTO_SAVES_DIR);
 			autoSaveFile = new File (autoSaveFileName);
-			
+
 			roundManager.initiateGame (tPrivates, tCoals, tMinors, tShares);
-			if (! activeGame.isATestGame ()) {
+			if (!activeGame.isATestGame ()) {
 				roundManager.showInitialFrames ();
 			}
 
@@ -1098,18 +1107,18 @@ public class GameManager extends Component implements NetworkGameSupport {
 			setFrameBackgrounds ();
 		}
 	}
-	
+
 	private void setBank (int aBank) {
 		bank = new Bank (aBank, this);
 	}
-	
+
 	private void setBankPool (BankPool aBankPool) {
 		bankPool = aBankPool;
 	}
 
 	private void setupBank () {
 		int tBankTotal;
-		
+
 		bankPool = new BankPool (this);
 		tBankTotal = getBankStartingCash ();
 		setBank (tBankTotal);
@@ -1121,36 +1130,36 @@ public class GameManager extends Component implements NetworkGameSupport {
 		int tPlayerCount;
 		int tPlayerStartingCash;
 		int tTotalPlayerCash;
-		
+
 		tBankStartingCash = activeGame.getBankTotal ();
 		tPlayerCount = playerManager.getPlayerCount ();
 		tPlayerStartingCash = activeGame.getStartingCash (tPlayerCount);
 		tTotalPlayerCash = tPlayerCount * tPlayerStartingCash;
 		tBankStartingCash -= tTotalPlayerCash;
-		
+
 		return tBankStartingCash;
 	}
-	
+
 	private String constructAutoSaveFileName (String tDirectoryName) {
 		String tAutoSaveFileName = "";
-		
+
 		if (isNetworkGame ()) {
-			tAutoSaveFileName = constructAutoSaveNetworkDir (tDirectoryName) + 
-					getGameName () + "." + getGameID () + "." + clientUserName;
+			tAutoSaveFileName = constructAutoSaveNetworkDir (tDirectoryName) + getGameName () + "." + getGameID () + "."
+					+ clientUserName;
 		} else {
 			tAutoSaveFileName = tDirectoryName + File.separator + getGameName () + "." + clientUserName;
-	
+
 		}
 		tAutoSaveFileName += ".save" + fileUtils.xml;
-		
+
 		return tAutoSaveFileName;
 	}
-	
+
 	private String constructAutoSaveNetworkDir (String tDirectoryName) {
 		String tASNDir;
-		
-		tASNDir = tDirectoryName + File.separator  + "network" + File.separator;
-		
+
+		tASNDir = tDirectoryName + File.separator + "network" + File.separator;
+
 		return tASNDir;
 	}
 
@@ -1159,11 +1168,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		int tResult;
 		boolean tNotChosenYet = true;
 		File tDirectory = aDirectory;
-		
+
 		aChooser.addChoosableFileFilter (fileGEFilter);
 		aChooser.setAcceptAllFileFilterUsed (true);
 		aChooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
-		
+
 		while (tNotChosenYet) {
 			aChooser.setCurrentDirectory (tDirectory);
 			if (aSaveFile) {
@@ -1183,23 +1192,23 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tNotChosenYet = false;
 			}
 		}
-		
+
 		return tSelectedFile;
 	}
-	
+
 	public int getStartingCash () {
 		int tStartingCash;
-		
+
 		tStartingCash = activeGame.getStartingCash (playerManager.getPlayerCount ());
-		
+
 		return tStartingCash;
 	}
-	
+
 	public void loadSavedGame () {
-		File tSaveDirectory, tNewSaveDirectory; 
+		File tSaveDirectory, tNewSaveDirectory;
 		String tSaveDirectoryPath;
 		Point tNewPoint;
-		
+
 		tNewPoint = getOffsetGEFrame ();
 		chooser = new JFileMChooser ();
 		chooser.setDialogTitle ("Find Saved Game File to Load");
@@ -1214,12 +1223,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 		chooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
 		chooser.setMLocation (tNewPoint);
 		setLoadSavedFile (getSelectedFile (tSaveDirectory, chooser, false));
-		
+
 		if (loadSavedFile != null) {
 			tNewSaveDirectory = chooser.getCurrentDirectory ();
 			if (!tSaveDirectory.equals (tNewSaveDirectory)) {
 				configData.setSaveGameDirectory (tNewSaveDirectory.toString ());
-			}		
+			}
 			loadSavedXMLFile ();
 			if (isOperatingRound ()) {
 				playerManager.hideAllPlayerFrames ();
@@ -1234,7 +1243,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tAutoSavesDir;
 		String tFullAutoSaveFilePath;
 		File tAutoSaveFile;
-		
+
 		tAutoSavesDir = constructAutoSaveNetworkDir (AUTO_SAVES_DIR);
 		tFullAutoSaveFilePath = tAutoSavesDir + File.separator + aSavedGameFile;
 		tAutoSaveFile = new File (tFullAutoSaveFilePath);
@@ -1244,21 +1253,21 @@ public class GameManager extends Component implements NetworkGameSupport {
 		updateRoundFrame ();
 		playerManager.hideAllPlayerFrames ();
 	}
-	
+
 	private void handleMissedActions () {
 		int tLastLocalAction;
 		int tLastNetworkAction;
 		int tNextActionNumber;
 		int tActionNumber;
 		String tNextAction;
-		
+
 		tLastLocalAction = roundManager.getLastActionNumber ();
 		tLastNetworkAction = networkJGameClient.getAutoSavedLastAction ();
 		if (tLastNetworkAction > tLastLocalAction) {
 			tNextActionNumber = tLastLocalAction + 1;
-			System.out.println ("Need to Retrieve Actions for " + getGameID () + 
-					" from " + tNextActionNumber + " to " + tLastNetworkAction);
-			
+			System.out.println ("Need to Retrieve Actions for " + getGameID () + " from " + tNextActionNumber + " to "
+					+ tLastNetworkAction);
+
 			for (tActionNumber = tNextActionNumber; tActionNumber <= tLastNetworkAction; tActionNumber++) {
 				tNextAction = networkJGameClient.fetchActionWithNumber (tActionNumber, getGameID ());
 				System.out.println ("Provided Action [" + tNextAction + "]");
@@ -1267,17 +1276,18 @@ public class GameManager extends Component implements NetworkGameSupport {
 		} else {
 			System.out.println ("Actions are Current at " + tLastNetworkAction);
 		}
-		
+
 	}
-	
+
 	private boolean loadSavedXMLFile () {
 		List<ActionStates> tAuctionStates;
 		boolean tGoodLoad = false;
-		
+
 		setNotifyNetwork (false);
 		if (loadXMLFile (loadSavedFile)) {
 			if (isNetworkGame ()) {
-				networkJGameClient.setGameIDonServer (gameID, roundManager.getLastActionNumber (), activeGame.getGameName ());
+				networkJGameClient.setGameIDonServer (gameID, roundManager.getLastActionNumber (),
+						activeGame.getGameName ());
 			}
 			/* Once a Game has been loaded, can enable both Save and Save As Menu Items */
 			game18XXFrame.disableGameStartItems ();
@@ -1287,36 +1297,38 @@ public class GameManager extends Component implements NetworkGameSupport {
 			roundManager.updateAllCorporationsBox ();
 			roundManager.setCurrentPlayerLabel ();
 			if (roundManager.isAuctionRound ()) {
-				// Save the Auction States since 'AddPrivateToAuction' will reset the Player Auction States Reset After adding the Private to Auction.
+				// Save the Auction States since 'AddPrivateToAuction' will reset the Player
+				// Auction States Reset After adding the Private to Auction.
 				tAuctionStates = playerManager.getPlayerAuctionStates ();
 				addPrivateToAuction ();
 				playerManager.resetPlayerAuctionStates (tAuctionStates);
 			}
 			bank.updateBankCashLabel ();
 			tGoodLoad = true;
-			logger.info ("Load of file " + loadSavedFile.getName () + " Succeeded." +
-					" Players [" + playerManager.getPlayersInOrder () + "]");
+			logger.info ("Load of file " + loadSavedFile.getName () + " Succeeded." + " Players ["
+					+ playerManager.getPlayersInOrder () + "]");
 		}
 		setNotifyNetwork (true);
-		
+
 		return tGoodLoad;
 	}
 
 	@Override
 	public void parseNetworkSavedGames (String aNetworkSavedGames) {
 		String tAutoSavesDir;
-		
+
 		networkSavedGames = new SavedGames (aNetworkSavedGames, this);
 		tAutoSavesDir = constructAutoSaveNetworkDir (AUTO_SAVES_DIR);
 		networkSavedGames.setAllLocalAutoSaveFound (tAutoSavesDir);
-		// TODO Have this method call build the Panel in this package (maybe part of SavedGames?)
-		// Call the JGameClient to set the networkSavedGamesPanel that is built. 
+		// TODO Have this method call build the Panel in this package (maybe part of
+		// SavedGames?)
+		// Call the JGameClient to set the networkSavedGamesPanel that is built.
 		networkJGameClient.buildNetworkSGPanel (networkSavedGames);
 	}
-	
+
 	public boolean loadXMLFile (File aSaveGame) {
 		boolean tXMLFileWasLoaded;
-		
+
 		if (aSaveGame != null) {
 			try {
 				XMLDocument tXMLDocument = new XMLDocument (aSaveGame);
@@ -1330,7 +1342,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			logger.error ("No File Object for XML Save Game");
 			tXMLFileWasLoaded = false;
 		}
-		
+
 		return tXMLFileWasLoaded;
 	}
 
@@ -1340,17 +1352,20 @@ public class GameManager extends Component implements NetworkGameSupport {
 		NodeList tChildren;
 		int tChildrenCount, tIndex;
 		boolean tGameIdentified = false, tPlayersLoaded = false, tGameInitiated = false;
-		
+
 		tLoadedSaveGame = false;
 		if (aXMLDocument.ValidDocument ()) {
-			playerManager = new PlayerManager (this); /* Create a new Player Manager - repeated openings, should not add players to an existing set */
+			playerManager = new PlayerManager (this); /*
+														 * Create a new Player Manager - repeated openings, should not
+														 * add players to an existing set
+														 */
 			activeGame = null;
-			
+
 			tXMLSaveGame = aXMLDocument.getDocumentElement ();
 			tChildren = tXMLSaveGame.getChildNodes ();
 			tChildrenCount = tChildren.getLength ();
 			for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
-				if (tGameIdentified && tPlayersLoaded && ! tGameInitiated) {
+				if (tGameIdentified && tPlayersLoaded && !tGameInitiated) {
 					initiateGame ();
 					tGameInitiated = true;
 				}
@@ -1368,17 +1383,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 		updateRoundFrame ();
-		
+
 		return tLoadedSaveGame;
 	}
 
 	private void parseChildNode (NodeList aChildren, int aIndex, boolean aGameInitiated) {
 		XMLNode tChildNode;
 		String tChildName;
-		
+
 		tChildNode = new XMLNode (aChildren.item (aIndex));
 		tChildName = tChildNode.getNodeName ();
-		if (! tChildName.equals (XMLNode.XML_TEXT_TAG)) {
+		if (!tChildName.equals (XMLNode.XML_TEXT_TAG)) {
 			if (JGameClient.EN_NETWORK_GAME.equals (tChildName)) {
 				if (networkJGameClient == JGameClient.NO_JGAME_CLIENT) {
 					loadNetworkJGameClient (tChildNode);
@@ -1403,7 +1418,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tSaveGameName;
 		GameSet tGameSet;
 		String tGameID;
-		
+
 		tGameSet = playerInputFrame.getGameSet ();
 		tSaveGameName = aChildNode.getThisAttribute (AN_NAME);
 		activeGame = tGameSet.getGameByName (tSaveGameName);
@@ -1453,15 +1468,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tServerIP;
 		int tServerPort;
 		JGameClient tNetworkJGameClient;
-		
+
 		tServerIP = tChildNode.getThisAttribute (JGameClient.AN_SERVER_IP);
 		tServerPort = tChildNode.getThisIntAttribute (JGameClient.AN_SERVER_PORT);
-		tNetworkJGameClient = new JGameClient (GameSet.CHAT_TITLE + " (" + clientUserName + ")", this, tServerIP, tServerPort);
+		tNetworkJGameClient = new JGameClient (GameSet.CHAT_TITLE + " (" + clientUserName + ")", this, tServerIP,
+				tServerPort);
 		tNetworkJGameClient.addLocalPlayer (clientUserName, true);
 		tNetworkJGameClient.addSPGameActivity ();
 		setNetworkJGameClient (tNetworkJGameClient);
 	}
-	
+
 	private void fixLoadedRoutes () {
 		if (minorCompaniesFrame != XMLFrame.NO_XML_FRAME) {
 			minorCompaniesFrame.fixLoadedRoutes (mapFrame);
@@ -1473,15 +1489,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 			shareCompaniesFrame.fixLoadedRoutes (mapFrame);
 		}
 	}
-	
+
 	private void cleanupLoadedPrivates () {
 		// After Loading a Save Game, need to do some cleanup steps:
-		// 1. If the Private is in a Closed State, close the Private (to remove from the Startup Packet)
-		// 2. If All of the Privates are Owned, then No auctions to do, no escrows or bids need to be saved:
-		//    a. Remove all Escrows entries added from all players
-		//    b. Remove all Bids from Private Certificates
+		// 1. If the Private is in a Closed State, close the Private (to remove from the
+		// Startup Packet)
+		// 2. If All of the Privates are Owned, then No auctions to do, no escrows or
+		// bids need to be saved:
+		// a. Remove all Escrows entries added from all players
+		// b. Remove all Bids from Private Certificates
 		privatesFrame.applyCloseToPrivates ();
-		if (! privatesFrame.anyPrivatesUnowned ()) {
+		if (!privatesFrame.anyPrivatesUnowned ()) {
 			privatesFrame.removeAllBids ();
 			playerManager.removeAllEscrows ();
 		}
@@ -1494,11 +1512,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void repaintMapFrame () {
 		mapFrame.repaint ();
 	}
-	
+
 	public void notifyMapFrame () {
 		mapFrame.updatePutTileButton ();
 	}
-	
+
 	public void performPhaseChange (TrainCompany aTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction) {
 		phaseManager.performPhaseChange (aTrainCompany, aTrain, aBuyTrainAction, bank);
 		repaintTileTrayFrame ();
@@ -1507,15 +1525,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void updateRoundFrameParPrices () {
 		roundManager.updateParPrices ();
 	}
-	
+
 	public void repaintTileTrayFrame () {
 		tileTrayFrame.repaint ();
 	}
-	
+
 	public boolean tileTrayVisible () {
 		return tileTrayFrame.isVisible ();
 	}
-	
+
 	@Override
 	public String getGEVersion () {
 		return game18XXFrame.getGEVersion ();
@@ -1524,52 +1542,52 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void saveGame () {
 		XMLDocument tXMLDocument;
 		XMLElement tXMLElement, tSaveGameElement;
-		
+
 		tXMLDocument = new XMLDocument ();
 		tSaveGameElement = tXMLDocument.createElement (EN_GAME);
 		tSaveGameElement.setAttribute (AN_GE_VERSION, getGEVersion ());
-		
+
 		if (isNetworkGame ()) {
 			tXMLElement = networkJGameClient.getNetworkElement (tXMLDocument);
 			tSaveGameElement.appendChild (tXMLElement);
 		}
-		
+
 		/* Save the Basic Game Information */
 		tXMLElement = activeGame.getGameInfoElement (tXMLDocument);
 		tSaveGameElement.appendChild (tXMLElement);
-		
+
 		/* Save the Player Names Information */
 		tXMLElement = playerManager.getPlayerElements (tXMLDocument);
 		tSaveGameElement.appendChild (tXMLElement);
-		
+
 		/* Save the Phase Index (Current Phase) */
 		tXMLElement = phaseManager.getPhaseElements (tXMLDocument);
 		tSaveGameElement.appendChild (tXMLElement);
-		
+
 		/* Save the Actions performed */
 		tXMLElement = roundManager.getActionElements (tXMLDocument);
 		tSaveGameElement.appendChild (tXMLElement);
-		
+
 		/* Save the Round Information, Stock and Operating */
 		tXMLElement = roundManager.getRoundState (tXMLDocument);
 		tSaveGameElement.appendChild (tXMLElement);
-		
+
 		/* Save the Player Status, Cash, Bids, and Portfolio */
 		tXMLElement = playerManager.getPlayerStateElements (tXMLDocument);
 		tSaveGameElement.appendChild (tXMLElement);
-		
+
 		/* Save the current Bank Balance, and Rusted Train Portfolio */
 		tXMLElement = bank.getBankStateElements (tXMLDocument);
 		tSaveGameElement.appendChild (tXMLElement);
-		
+
 		/* Save the Bank Pool Stock Portfolio and Train Portfolio */
 		tXMLElement = bankPool.getBankPoolStateElements (tXMLDocument);
 		tSaveGameElement.appendChild (tXMLElement);
-		
+
 		/* Save the Tokens on the Market */
 		tXMLElement = marketFrame.getMarketStateElements (tXMLDocument);
 		tSaveGameElement.appendChild (tXMLElement);
-		
+
 		/* Save the Privates, Minors, Coals, and Share Company Information */
 		appendCompanyFrameXML (tSaveGameElement, tXMLDocument, privatesFrame);
 		appendCompanyFrameXML (tSaveGameElement, tXMLDocument, minorCompaniesFrame);
@@ -1580,17 +1598,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 		/* Save The Tile Placements, Orientations, and Token Placements */
 		tXMLElement = mapFrame.getMapStateElements (tXMLDocument);
 		tSaveGameElement.appendChild (tXMLElement);
-		
+
 		// Append Save Game Element to Document just before outputing it.
 		tXMLDocument.appendChild (tSaveGameElement);
-		
+
 		tXMLDocument.outputXML (saveFile);
 	}
-	
-	public void appendCompanyFrameXML (XMLElement aSaveGameElement, XMLDocument aXMLDocument, 
+
+	public void appendCompanyFrameXML (XMLElement aSaveGameElement, XMLDocument aXMLDocument,
 			CorporationTableFrame aCorporationTableFrame) {
 		XMLElement tXMLElement;
-		
+
 		if (aCorporationTableFrame != CorporationTableFrame.NO_CORP_TABLE_FRAME) {
 			tXMLElement = aCorporationTableFrame.getCorporationStateElements (aXMLDocument);
 			if (tXMLElement != XMLElement.NO_XML_ELEMENT) {
@@ -1598,17 +1616,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 	}
-	
+
 	public void autoSaveGame () {
 		File tPriorSave = saveFile;
-		
+
 		saveFile = autoSaveFile;
 		if (gameStarted) {
 			saveGame ();
 		}
 		saveFile = tPriorSave;
 	}
-	
+
 	public void saveAGame (boolean aOverwriteFile) {
 		if (saveFile == null) {
 			aOverwriteFile = false;
@@ -1617,24 +1635,24 @@ public class GameManager extends Component implements NetworkGameSupport {
 			saveGame ();
 			setGameChanged (false);
 		} else {
-			
-			File tSaveDirectory; 
+
+			File tSaveDirectory;
 			String tFileName;
 			String tOriginalSaveGameDir, tNewSaveGameDir;
-			
+
 			tOriginalSaveGameDir = configData.getSaveGameDirectory ();
 			tSaveDirectory = new File (tOriginalSaveGameDir);
 			setupChooser (tSaveDirectory);
 			saveFile = getSelectedFile (tSaveDirectory, chooser, true);
 //			tSaveDirectory = chooser.getCurrentDirectory ();
 			tNewSaveGameDir = tSaveDirectory.getAbsolutePath ();
-			if (! tOriginalSaveGameDir.equals (tNewSaveGameDir)) {
+			if (!tOriginalSaveGameDir.equals (tNewSaveGameDir)) {
 				configData.setSaveGameDirectory (tNewSaveGameDir);
 				saveConfig (true);
 			}
 			if (saveFile != null) {
 				tFileName = saveFile.getName ();
-				if (! tFileName.endsWith (fileUtils.xml)) {
+				if (!tFileName.endsWith (fileUtils.xml)) {
 					saveFile = new File (saveFile.getAbsoluteFile () + "." + fileUtils.xml);
 				}
 				saveGame ();
@@ -1649,7 +1667,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	private void setupChooser (File aSaveDirectory) {
 		Point tNewPoint;
-		
+
 		tNewPoint = getOffsetGEFrame ();
 		chooser = new JFileMChooser ();
 		chooser.setMLocation (tNewPoint);
@@ -1660,32 +1678,32 @@ public class GameManager extends Component implements NetworkGameSupport {
 		chooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
 		chooser.setSelectedFile (new File ("SaveGame." + fileUtils.xml));
 	}
-	
+
 	public void setCitiesFrame (XMLFrame aXMLFrame) {
 		citiesFrame = (CitiesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
-	
+
 	public void setGame (GameInfo aGame) {
 		activeGame = aGame;
 		if (activeGame != GameInfo.NO_GAME_INFO) {
 			activeGame.setGameID (gameID);
 		}
 	}
-	
+
 	public void setGameChanged (boolean aFlag) {
 		gameChangedSinceSave = aFlag;
 	}
 
 	public void setParPrice (ShareCompany aShareCompany, int aParPrice) {
-		 marketFrame.setParPrice (aShareCompany, aParPrice);
-		 updateAllPlayerFrames ();
+		marketFrame.setParPrice (aShareCompany, aParPrice);
+		updateAllPlayerFrames ();
 	}
-	
+
 	public void setPhaseManager (PhaseManager aPhaseManager) {
 		phaseManager = aPhaseManager;
 	}
-	
+
 	public void setPlayerManager (PlayerManager aPlayerManager) {
 		playerManager = aPlayerManager;
 	}
@@ -1694,7 +1712,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		mapFrame = (MapFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
-	
+
 	private void setMarketFrame (XMLFrame aXMLFrame) {
 		marketFrame = (MarketFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
@@ -1704,12 +1722,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 		minorCompaniesFrame = (MinorCompaniesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
-	
+
 	public void setPlayerInputFrame (PlayerInputFrame aPlayerInputFrame) {
 		playerInputFrame = aPlayerInputFrame;
 		addNewFrame (playerInputFrame);
 	}
-	
+
 	private void setPrivatesFrame (XMLFrame aXMLFrame) {
 		privatesFrame = (PrivatesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
@@ -1729,17 +1747,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 		auditFrame = (AuditFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
-	
+
 	private void setFrameInfoFrame (XMLFrame aXMLFrame) {
 		frameInfoFrame = (FrameInfoFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
-	
+
 	private void setTileDefinitionFrame (XMLFrame aXMLFrame) {
 		tileDefinitionFrame = (TileDefinitionFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
 	}
-		
+
 	private void setupGamePieces () {
 		if (activeGame != GameInfo.NO_GAME_INFO) {
 			createMarket ();
@@ -1750,11 +1768,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 			createCities ();
 			createTileTray ();
 			createMap ();
-			
+
 			tileTrayFrame.setTraySize ();
 		}
 	}
-	
+
 	private void setupPlayers () {
 		Player tPlayer;
 		PlayerManager tPlayerManager;
@@ -1763,7 +1781,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		int tPlayerStartingCash;
 		int tPlayerCount;
 		int tCertificateLimit;
-		
+
 		if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 			tPlayerManager = new PlayerManager (this);
 			setPlayerManager (tPlayerManager);
@@ -1777,8 +1795,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 			bank.transferCashTo (tPlayer, tPlayerStartingCash);
 			playerManager.addPlayer (tPlayer);
 		}
-		
-		if (roundManager != RoundManager.NO_ROUND_MANAGER) {	
+
+		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
 			roundManager.updateAllCorporationsBox ();
 		}
 	}
@@ -1786,10 +1804,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void showCities () {
 		citiesFrame.showFrame ();
 	}
-	
+
 	public void setAuctionFrameLocation () {
 		Point tNewPoint = getOffsetPlayerFrame ();
-		
+
 		auctionFrame.setLocation (tNewPoint);
 	}
 
@@ -1806,60 +1824,60 @@ public class GameManager extends Component implements NetworkGameSupport {
 		CorporationFrame tCorporationFrame;
 		Corporation tOperatingCorporation;
 		Point tNewPoint;
-		
+
 		tOperatingCorporation = roundManager.getOperatingCompany ();
 		tCorporationFrame = tOperatingCorporation.getCorporationFrame ();
 		tNewPoint = tCorporationFrame.getOffsetFrame ();
-		
+
 		return tNewPoint;
 	}
-	
+
 	public Point getOffsetPlayerFrame () {
 		Point tNewPoint;
 		String tPlayerName;
-		
+
 		if (isNetworkGame ()) {
 			tPlayerName = clientUserName;
 		} else {
 			tPlayerName = playerManager.getCurrentPlayerName ();
 		}
 		tNewPoint = playerManager.getOffsetFrame (tPlayerName);
-		
+
 		return tNewPoint;
 	}
-	
+
 	public PlayerFrame getCurrentPlayerFrame () {
 		return playerManager.getCurrentPlayerFrame ();
 	}
-	
+
 	public void showMap () {
 		mapFrame.showFrame ();
 	}
-	
+
 	public void showAuctionFrame () {
 		auctionFrame.showFrame ();
 	}
-	
+
 	public void bringMarketToFront () {
 		marketFrame.toTheFront ();
 	}
-	
+
 	public void showMarket () {
 		marketFrame.showFrame ();
 	}
-	
+
 	public void showMinorCompanies () {
 		minorCompaniesFrame.showFrame ();
 	}
-	
+
 	public void showPrivateCompanies () {
 		privatesFrame.showFrame ();
 	}
-	
+
 	public void showShareCompanies () {
 		shareCompaniesFrame.showFrame ();
 	}
-	
+
 	public void showTileTray () {
 		tileTrayFrame.showFrame ();
 	}
@@ -1871,15 +1889,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void bringPlayerFrameToFront () {
 		playerManager.bringPlayerFrameToFront ();
 	}
-	
+
 	public void bringTileTrayToFront () {
 		tileTrayFrame.toTheFront ();
 	}
-	
+
 	public void sendToReportFrame (String aReport) {
 		roundManager.sendToReportFrame (aReport);
 	}
-	
+
 	public void updateAllFrames () {
 		updateRoundFrame ();
 		if (roundManager.getCurrentRoundType ().equals (ActorI.ActionStates.StockRound)) {
@@ -1893,20 +1911,20 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void updateAllPlayerFrames () {
 		playerManager.updateAllPlayerFrames ();
 	}
-	
+
 	public void updateRoundFrame () {
 		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
 			roundManager.updateRoundFrame ();
 		}
 	}
-	
+
 	// Get an Array of all Available Trains from Bank, and BankPool together
 	public Train [] getBankAvailableTrains () {
 		Train [] tBankAvailableTrains;
 		Train [] tBankPoolAvailableTrains;
 		Train [] tAvailableTrains;
 		int tIndex = 0, tBankCount = 0, tBankPoolCount = 0;
-		
+
 		if (bank != Bank.NO_BANK) {
 			tBankAvailableTrains = bank.getAvailableTrains ();
 			if (tBankAvailableTrains != null) {
@@ -1915,7 +1933,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		} else {
 			tBankAvailableTrains = null;
 		}
-		if (bankPool != BankPool.NO_BANK_POOL)  {
+		if (bankPool != BankPool.NO_BANK_POOL) {
 			tBankPoolAvailableTrains = bankPool.getAvailableTrains ();
 			if (tBankPoolAvailableTrains != null) {
 				tBankPoolCount = tBankPoolAvailableTrains.length;
@@ -1934,25 +1952,25 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tAvailableTrains [tIndex++] = tTrain;
 			}
 		}
-		
-		return tAvailableTrains; 
+
+		return tAvailableTrains;
 	}
 
 	public boolean canBuyTrainInPhase () {
 		boolean tCanBuyTrainInPhase;
-		
+
 		tCanBuyTrainInPhase = phaseManager.canBuyTrainInPhase ();
-		
+
 		return tCanBuyTrainInPhase;
 	}
 
 	public boolean isOperatingRound () {
 		boolean tIsOperatingRound = false;
-		
+
 		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
 			tIsOperatingRound = roundManager.isOperatingRound ();
 		}
-		
+
 		return tIsOperatingRound;
 	}
 
@@ -1975,12 +1993,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean isNetworkGame () {
 		return (networkJGameClient != JGameClient.NO_JGAME_CLIENT);
 	}
-	
+
 	public void setNetworkJGameClient (JGameClient aNetworkJGameClient) {
 		networkJGameClient = aNetworkJGameClient;
 		networkJGameClient.setFrameToConfigDetails (this);
 	}
-	
+
 	@Override
 	public JGameClient getNetworkJGameClient () {
 		return networkJGameClient;
@@ -1990,19 +2008,19 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public String getPlayersInOrder () {
 		return playerInputFrame.getPlayersInOrder ();
 	}
-	
+
 	@Override
 	public void randomizePlayerOrder () {
 		playerInputFrame.randomizePlayerOrder ();
 	}
-	
+
 	public void handleNetworkAction (String aNetworkAction) {
 		XMLDocument tXMLNetworkAction;
 		XMLNode tActionNode, tGSResponseNode;
 		NodeList tActionChildren;
 		String tNodeName, tActionNodeName;
 		int tActionNodeCount, tActionIndex;
-		
+
 		tXMLNetworkAction = new XMLDocument ();
 		tXMLNetworkAction = tXMLNetworkAction.ParseXMLString (aNetworkAction);
 		tGSResponseNode = tXMLNetworkAction.getDocumentElement ();
@@ -2019,13 +2037,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 						roundManager.handleNetworkAction (tActionNode);
 						applyingNetworkAction = false;
 					} else {
-		//				System.err.println ("Trying to handle a Server Game Activity, Node Named [" + tANodeName + "] no Round Manager created");
+						// System.err.println ("Trying to handle a Server Game Activity, Node Named [" +
+						// tANodeName + "] no Round Manager created");
 					}
 				}
 			}
 		}
 	}
-	
+
 	@Override
 	public void handleGameActivity (String aGameActivity) {
 		XMLDocument tXMLGameActivity;
@@ -2068,11 +2087,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 							roundManager.handleNetworkAction (tActionNode);
 							applyingNetworkAction = false;
 						} else {
-							logger.error ("Trying to handle a Server Game Activity, Node Named [" + tANodeName + "] no Round Manager set yet");
+							logger.error ("Trying to handle a Server Game Activity, Node Named [" + tANodeName
+									+ "] no Round Manager set yet");
 						}
 					} else if (ActionManager.EN_REMOVE_ACTION.equals (tANodeName)) {
 						// RemoveAction should be ignored
-					} else if (XMLNode.XML_TEXT_TAG.equals (tANodeName)){
+					} else if (XMLNode.XML_TEXT_TAG.equals (tANodeName)) {
 						// If a #text Node, ignore -- it is empty
 					} else {
 						logger.error ("Node Name is [" + tANodeName + "] which is Unrecognized");
@@ -2082,13 +2102,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 				logger.error (tException.getMessage (), tException);
 			}
 		}
-		
+
 	}
 
 	public boolean applyingAction () {
 		return applyingNetworkAction;
 	}
-	
+
 	@Override
 	public void updatePlayerCountLabel () {
 		playerInputFrame.updatePlayerCountLabel ();
@@ -2116,34 +2136,34 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void setClientUserName (String aClientUserName) {
 		clientUserName = aClientUserName;
 	}
-	
+
 	@Override
 	public String getClientUserName () {
 		return clientUserName;
 	}
-	
+
 	@Override
 	public String getGameID () {
 		return gameID;
 	}
-	
+
 	public boolean isNetworkAndIsThisClient (String aClientName) {
 		boolean tIsNetworkAndClient = true;
-		
+
 		if (isNetworkGame ()) {
-			if (! clientUserName.equals (aClientName)) {
+			if (!clientUserName.equals (aClientName)) {
 				tIsNetworkAndClient = false;
 			}
 		}
-		
+
 		return tIsNetworkAndClient;
 	}
-	
+
 	public void loadConfig () {
 		XMLDocument tXMLDocument = null;
 		String tConfigFileName;
 		File tConfigFile;
-		
+
 		tConfigFileName = getConfigFileName ();
 		tConfigFile = new File (tConfigFileName);
 		if (tConfigFile.exists ()) {
@@ -2163,42 +2183,42 @@ public class GameManager extends Component implements NetworkGameSupport {
 			configData = new Config (this);
 		}
 	}
-	
+
 	public void saveConfig (boolean aOverwriteFile) {
 		XMLDocument tXMLDocument;
 		File tConfigFile;
-		
+
 		tXMLDocument = createNewConfigDocument ();
 		tConfigFile = getConfigFile ();
 		tXMLDocument.outputXML (tConfigFile);
 	}
-	
+
 	public String getConfigFileName () {
 		return "ge18xx." + clientUserName + ".cfg.xml";
 	}
-	
+
 	public File getConfigFile () {
 		return new File (getConfigFileName ());
 	}
-	
+
 	@Override
 	public void addNewFrame (XMLFrame aXMLFrame) {
 		String tXMLFrameName;
-		
+
 		if (aXMLFrame != XMLFrame.NO_XML_FRAME) {
 			tXMLFrameName = aXMLFrame.getTitle ();
 			if (tXMLFrameName != null) {
-				if (! frameIsPresent (tXMLFrameName)) {
+				if (!frameIsPresent (tXMLFrameName)) {
 					configFrames.add (aXMLFrame);
 				}
 			}
 		}
 	}
-	
+
 	public boolean frameIsPresent (String aFrameName) {
 		boolean tFrameIsPresent = false;
 		String tSpecificFrameName;
-		
+
 		if (aFrameName != null) {
 			for (XMLFrame tSpecificFrame : configFrames) {
 				if (tSpecificFrame != XMLFrame.NO_XML_FRAME) {
@@ -2207,15 +2227,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 						tFrameIsPresent = true;
 					}
 				}
-			}			
+			}
 		}
 
 		return tFrameIsPresent;
 	}
-	
+
 	private void applyConfigSettings () {
 		GameFrameConfig tGameFrameConfig;
-		
+
 		tGameFrameConfig = getGameFrameConfig ();
 		if (tGameFrameConfig != Config.NO_GAME_FRAME) {
 			for (XMLFrame tXMLFrame : configFrames) {
@@ -2227,32 +2247,32 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public GameFrameConfig getGameFrameConfig () {
 		GameFrameConfig tGameFrameConfig;
 		String tGameName = getGameName ();
-		
+
 		tGameFrameConfig = configData.getGameFrameConfigFor (tGameName);
-		
+
 		return tGameFrameConfig;
 	}
-	
+
 	public String getVisibileConfig () {
 		return XMLFrame.getVisibileConfig ();
 	}
-	
+
 	public XMLDocument createNewConfigDocument () {
 		XMLElement tConfigElement, tFramesElement, tFrameElement, tSaveGameDirElement;
 		XMLDocument tXMLDocument;
 		int tGameCount, tGameIndex;
 		String tGameName;
 		String tActiveGameName;
-		
+
 		tXMLDocument = new XMLDocument ();
 		tConfigElement = tXMLDocument.createElement (EN_CONFIG);
-		
-		tSaveGameDirElement = tXMLDocument.createElement(EN_SAVEGAMEDIR);
+
+		tSaveGameDirElement = tXMLDocument.createElement (EN_SAVEGAMEDIR);
 		tSaveGameDirElement.setAttribute (AN_NAME, configData.getSaveGameDirectory ());
 		tConfigElement.appendChild (tSaveGameDirElement);
-		
+
 		tFramesElement = tXMLDocument.createElement (EN_FRAMES);
-		
+
 		if (activeGame == GameInfo.NO_GAME_INFO) {
 			tActiveGameName = "NONE";
 		} else {
@@ -2262,7 +2282,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		for (XMLFrame tXMLFrame : configFrames) {
 			if (tXMLFrame != XMLFrame.NO_XML_FRAME) {
-				// If the Height and Width are > 0, save it... otherwise it makes no sense since the 
+				// If the Height and Width are > 0, save it... otherwise it makes no sense since
+				// the
 				// Frame is not showing anything
 				if ((tXMLFrame.getHeight () > 0) && (tXMLFrame.getWidth () > 0)) {
 					tFrameElement = tXMLFrame.getXMLFrameElement (tXMLDocument);
@@ -2283,7 +2304,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 
 		tXMLDocument.appendChild (tConfigElement);
-		
+
 		return tXMLDocument;
 	}
 
@@ -2291,39 +2312,39 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public int getSelectedGameIndex () {
 		return playerInputFrame.getSelectedGameIndex ();
 	}
-	
+
 	@Override
 	public void resetGameID (String aGameID) {
 		if (gameID.equals (EMPTY_GAME_ID)) {
 			setGameID (aGameID);
 		}
 	}
-	
+
 	private void setGameID (String aGameID) {
 		gameID = aGameID;
 	}
-	
+
 	@Override
 	public void setSelectedGameIndex (int aGameIndex) {
 		playerInputFrame.setSelectedGameIndex (aGameIndex);
 	}
-	
+
 	public void appendToGameActivity (String aGameActivity) {
 		networkJGameClient.appendToGameActivity (aGameActivity);
 	}
 
 	public JFrame getJFrameName (String aJFrameTitle) {
 		JFrame tJFrame = null;
-		
+
 		if (aJFrameTitle != null) {
 			if (aJFrameTitle.equals (auctionFrame.getTitle ())) {
 				tJFrame = auctionFrame;
 			}
 		}
-		
+
 		return tJFrame;
 	}
-	
+
 	public void revalidateAuctionFrame () {
 		auctionFrame.revalidate ();
 	}
@@ -2341,11 +2362,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void printAllPlayersInfo () {
 		playerManager.printAllPlayersInfo ();
 	}
-	
+
 	public void setNotifyNetwork (boolean aNotifyNetwork) {
 		notifyNetwork = aNotifyNetwork;
 	}
-	
+
 	public boolean getNotifyNetwork () {
 		return notifyNetwork;
 	}
@@ -2353,17 +2374,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void showRoundFrame () {
 		roundManager.showRoundFrame ();
 	}
-	
+
 	public void showActionReportFrame () {
 		roundManager.showActionReportFrame ();
 	}
-	
+
 	public void showAuditFrame () {
 		String tActorName;
 		CorporationList tCompanies;
 		Corporation tCorporation;
 		Player tPlayer;
-		
+
 		if (playerManager.getPlayerCount () > 0) {
 			tPlayer = playerManager.getPlayer (0);
 			tActorName = tPlayer.getName ();
@@ -2376,11 +2397,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		auditFrame.refreshAuditTable (true);
 		auditFrame.setVisible (true);
 	}
-	
+
 	public void fillAuditFrame (String aActorName) {
 		roundManager.fillAuditFrame (auditFrame, aActorName);
 	}
-	
+
 	public void showChatClient () {
 		if (networkJGameClient != JGameClient.NO_JGAME_CLIENT) {
 			networkJGameClient.setVisible (true);
@@ -2395,7 +2416,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		int tTotalCash = 0;
 		int tBankCash, tAllPlayerCash, tAllCorpCash, tAllEscrows;
 		int tAllCoalCash, tAllMinorCash, tAllShareCash;
-		
+
 		tBankCash = bank.getCash ();
 		tAllEscrows = privatesFrame.getTotalEscrow ();
 		tAllPlayerCash = playerManager.getTotalPlayerCash ();
@@ -2403,9 +2424,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tAllMinorCash = minorCompaniesFrame.getTotalCorpCash ();
 		tAllShareCash = shareCompaniesFrame.getTotalCorpCash ();
 		tAllCorpCash = tAllCoalCash + tAllMinorCash + tAllShareCash;
-		
+
 		tTotalCash = tBankCash + tAllPlayerCash + tAllEscrows + tAllCorpCash;
-		
+
 		return tTotalCash;
 	}
 
@@ -2416,24 +2437,24 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void setFrameBackgrounds () {
 		roundManager.setFrameBackgrounds ();
 	}
-	
+
 	public void resetRoundFrameBackgrounds () {
 		roundManager.resetBackgrounds ();
 	}
-	
+
 	public boolean isClientCurrentPlayer () {
 		boolean tIsClientCurrentPlayer = false;
 		Player tCurrentPlayer, tClientPlayer;
-		
+
 		tClientPlayer = playerManager.getPlayer (clientUserName);
 		tCurrentPlayer = playerManager.getCurrentPlayer ();
 		if (tClientPlayer.equals (tCurrentPlayer)) {
 			tIsClientCurrentPlayer = true;
 		}
-		
+
 		return tIsClientCurrentPlayer;
 	}
-	
+
 	public boolean isAuctionRound () {
 		return roundManager.isAuctionRound ();
 	}
@@ -2454,28 +2475,28 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean bankIsBroken () {
 		return bank.isBroken ();
 	}
-	
+
 	public void declareBankruptcy (String aCompanyAbbrev) {
 		System.out.println ("Game Manager set to Bankruptcy Declared by " + aCompanyAbbrev);
-		
+
 	}
-	
+
 	public void disconnect () {
 		if (isNetworkGame ()) {
 			networkJGameClient.disconnect ();
 		}
 	}
-	
+
 	public boolean isConnected () {
 		boolean tIsConnected = false;
-		
+
 		if (isNetworkGame ()) {
 			tIsConnected = networkJGameClient.isConnected ();
 		}
 
 		return tIsConnected;
 	}
-	
+
 	@Override
 	public void updateDisconnectButton () {
 		game18XXFrame.updateDisconnectButton ();
@@ -2484,8 +2505,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public Image getIconImage () {
 		return game18XXFrame.getIconImage ();
 	}
-	
-	public void showFrameInfo () {	
+
+	public void showFrameInfo () {
 		if (frameInfoFrame != XMLFrame.NO_XML_FRAME) {
 			System.out.println ("Ready to show Frame Info Frame");
 			frameInfoFrame.setVisible (true);
@@ -2496,9 +2517,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public Benefit findBenefit (String aBenefitName) {
 		Benefit tBenefit;
-		
+
 		tBenefit = privatesFrame.findBenefit (aBenefitName);
-		
+
 		return tBenefit;
 	}
 }

@@ -29,7 +29,8 @@ public class StartRouteAction extends RouteAction {
 		setName (NAME);
 	}
 
-	public void addStartRouteEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation, Location aEndLocation) {
+	public void addStartRouteEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation,
+			Location aEndLocation) {
 		ChangeRouteEffect tStartRouteEffect;
 
 		tStartRouteEffect = new StartRouteEffect (aActor, aTrainIndex, aMapCell, aStartLocation, aEndLocation);
@@ -39,9 +40,9 @@ public class StartRouteAction extends RouteAction {
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
+
 		tSimpleActionReport = actor.getName () + " Started a Route for a Train.";
-		
+
 		return tSimpleActionReport;
 	}
 }

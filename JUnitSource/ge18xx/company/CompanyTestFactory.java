@@ -10,42 +10,39 @@ import ge18xx.utilities.XMLNode;
 public class CompanyTestFactory {
 	GameTestFactory gameTestFactory;
 	UtilitiesTestFactory utilitiesTestFactory;
-	
+
 	public CompanyTestFactory () {
 		gameTestFactory = new GameTestFactory ();
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
 	}
-	
+
 	public CompanyTestFactory (GameTestFactory aGameTestFactory) {
 		gameTestFactory = aGameTestFactory;
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
 	}
-	
+
 	public UtilitiesTestFactory getUtilitiesTestFactory () {
 		return utilitiesTestFactory;
 	}
-	
+
 	/**
-	 * Build a Private Company from XML Data for Testing Purposes. The CorporationList attached to Private Company
-	 * will be Mocked, and the GameManager attached to the Corporation List will be mocked, and returned
+	 * Build a Private Company from XML Data for Testing Purposes. The
+	 * CorporationList attached to Private Company will be Mocked, and the
+	 * GameManager attached to the Corporation List will be mocked, and returned
 	 * when requesting to 'getGameManager'
 	 * 
-	 * @param aCompanyIndex Use 1 for TestC&SL any other will return NO_PRIVATE_COMPANY
+	 * @param aCompanyIndex Use 1 for TestC&SL any other will return
+	 *                      NO_PRIVATE_COMPANY
 	 * @return a PrivateCompany for the one requested
 	 */
 	public PrivateCompany buildAPrivateCompany (int tCompanyIndex) {
-		String tPrivateCompany1TestXML =
-				"	<Private id=\"802\" name=\"TEST-Champlain &amp; St. Lawrence\" abbrev=\"TEST-C&amp;SL\" cost=\"40\" \n"
+		String tPrivateCompany1TestXML = "	<Private id=\"802\" name=\"TEST-Champlain &amp; St. Lawrence\" abbrev=\"TEST-C&amp;SL\" cost=\"40\" \n"
 				+ "		revenue=\"10\" homeCell1=\"B20\" homeLocation1=\"7\" homeLocation2=\"12\" \n"
 				+ "		note=\"A Corporation owning the C&amp;SL may lay a tile onC&amp;SL's hex even if this hex is not connected to the Corporation's Railhead. This free tile placement is in addition to the Corporation's tile placement — For this turn only the Corporation may play two tiles. The tile played on the C&amp;SL hex does not have to connect to any existing adjacent track.\"\n"
-				+ "		special=\"Free Tile Placement\">\n"
-				+ "		<Benefits>\n"
+				+ "		special=\"Free Tile Placement\">\n" + "		<Benefits>\n"
 				+ "			<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>\n"
-				+ "		</Benefits>\n"
-				+ "		<Certificate director=\"YES\" percentage=\"100\"\n"
-				+ "			allowedOwners=\"IPO,Player,Share\" />\n"
-				+ "	</Private>\n"
-				+ "";
+				+ "		</Benefits>\n" + "		<Certificate director=\"YES\" percentage=\"100\"\n"
+				+ "			allowedOwners=\"IPO,Player,Share\" />\n" + "	</Private>\n" + "";
 		PrivateCompany tPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
 		CorporationList mCorporationList = Mockito.mock (CorporationList.class);
 		GameManager mGameManager = gameTestFactory.buildGameManagerMock ();
@@ -54,46 +51,44 @@ public class CompanyTestFactory {
 		if (tCompanyIndex == 1) {
 			tPrivateCompany = constructPrivateCompany (tPrivateCompany1TestXML, tPrivateCompany, mCorporationList);
 		}
-		
+
 		return tPrivateCompany;
 	}
-	
-	private PrivateCompany constructPrivateCompany (String aPrivateCompanyTextXML, PrivateCompany aPrivateCompany, 
+
+	private PrivateCompany constructPrivateCompany (String aPrivateCompanyTextXML, PrivateCompany aPrivateCompany,
 			CorporationList mCorporationList) {
 		XMLNode tPrivateCompanyNode;
-		
+
 		tPrivateCompanyNode = utilitiesTestFactory.constructXMLNode (aPrivateCompanyTextXML);
 		if (tPrivateCompanyNode != XMLNode.NO_NODE) {
 			aPrivateCompany = new PrivateCompany (tPrivateCompanyNode, mCorporationList);
-			aPrivateCompany.setTestingFlag (true);			
+			aPrivateCompany.setTestingFlag (true);
 		}
-		
+
 		return aPrivateCompany;
 	}
 
 	/**
-	 * Build a Share Company from XML Data for Testing Purposes. The CorporationList attached to Share Company
-	 * will be Mocked, and the GameManager attached to the Corporation List will be mocked, and returned
-	 * when requesting to 'getGameManager'
+	 * Build a Share Company from XML Data for Testing Purposes. The CorporationList
+	 * attached to Share Company will be Mocked, and the GameManager attached to the
+	 * Corporation List will be mocked, and returned when requesting to
+	 * 'getGameManager'
 	 * 
-	 * @param aCompanyIndex Use 1 for TestPennsylvania and 2 for Test BnO, any other will return NO_SHARE_COMPANY
+	 * @param aCompanyIndex Use 1 for TestPennsylvania and 2 for Test BnO, any other
+	 *                      will return NO_SHARE_COMPANY
 	 * @return a ShareCompany for the one requested
 	 */
 	public ShareCompany buildAShareCompany (int aCompanyIndex) {
-		String tShareCompany1TestXML =
-				"<Share id=\"901\" name=\"TestPennsylvania\" abbrev=\"TPRR\" homeCell1=\"H12\" \n" +
-				"	homeLocation1=\"14\" bgColor=\"Dark Green\" fgColor=\"White\" tokens=\"4\"> \n" +
-				"	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n" +
-				"	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n" +
-				"		allowedOwners=\"IPO,Player,BankPool\" /> \n" +
-				"</Share>";
-		String tShareCompany2TestXML =
-				"<Share id=\"902\" name=\"Test Baltimore and Ohio\" abbrev=\"TBNO\" homeCell1=\"I15\" \n" +
-				"	homeLocation1=\"21\" bgColor=\"Deep Blue\" fgColor=\"White\" tokens=\"3\"> \n" +
-				"	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n" +
-				"	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n" +
-				"		allowedOwners=\"IPO,Player,BankPool\" /> \n" +
-				"</Share>";
+		String tShareCompany1TestXML = "<Share id=\"901\" name=\"TestPennsylvania\" abbrev=\"TPRR\" homeCell1=\"H12\" \n"
+				+ "	homeLocation1=\"14\" bgColor=\"Dark Green\" fgColor=\"White\" tokens=\"4\"> \n"
+				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
+				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
+				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
+		String tShareCompany2TestXML = "<Share id=\"902\" name=\"Test Baltimore and Ohio\" abbrev=\"TBNO\" homeCell1=\"I15\" \n"
+				+ "	homeLocation1=\"21\" bgColor=\"Deep Blue\" fgColor=\"White\" tokens=\"3\"> \n"
+				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
+				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
+				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
 
 		ShareCompany tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		CorporationList mCorporationList = Mockito.mock (CorporationList.class);
@@ -107,47 +102,45 @@ public class CompanyTestFactory {
 		} else {
 			tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		}
-		
+
 		return tShareCompany;
 	}
 
 	private ShareCompany constructShareCompany (String aShareCompanyTestXML, ShareCompany aShareCompany,
 			CorporationList mCorporationList) {
 		XMLNode tShareCompanyNode;
-		
+
 		tShareCompanyNode = utilitiesTestFactory.constructXMLNode (aShareCompanyTestXML);
 		if (tShareCompanyNode != XMLNode.NO_NODE) {
 			aShareCompany = new ShareCompany (tShareCompanyNode, mCorporationList);
-			aShareCompany.setTestingFlag (true);			
+			aShareCompany.setTestingFlag (true);
 		}
-		
+
 		return aShareCompany;
 	}
-	
+
 	/**
-	 * Build a Minor Company from XML Data for Testing Purposes. The CorporationList attached to Minor Company
-	 * will be Mocked, and the GameManager attached to the Corporation List will be mocked, and returned
-	 * when requesting to 'getGameManager'
+	 * Build a Minor Company from XML Data for Testing Purposes. The CorporationList
+	 * attached to Minor Company will be Mocked, and the GameManager attached to the
+	 * Corporation List will be mocked, and returned when requesting to
+	 * 'getGameManager'
 	 * 
-	 * @param aCompanyIndex Use 1 for TestBergisch-Markische Bahn and 
-	 * 				2 for TestBerline-Potsdamer Bahn, any other will return NO_MINOR_COMPANY
+	 * @param aCompanyIndex Use 1 for TestBergisch-Markische Bahn and 2 for
+	 *                      TestBerline-Potsdamer Bahn, any other will return
+	 *                      NO_MINOR_COMPANY
 	 * @return a MinorCompany for the one requested
 	 */
 	public MinorCompany buildAMinorCompany (int aCompanyIndex) {
-		String tMinorCompany1TestXML =
-				"<Minor id=\"1701\" name=\"TestBergisch-Markische Bahn\" abbrev=\"1\" cost=\"80\"\n"
+		String tMinorCompany1TestXML = "<Minor id=\"1701\" name=\"TestBergisch-Markische Bahn\" abbrev=\"1\" cost=\"80\"\n"
 				+ "		homeCell1=\"H2\" homeLocation1=\"15\" upgradeID=\"1810\" upgradePercentage=\"5\"\n"
 				+ "		bgColor=\"Black\" fgColor=\"White\" tokens=\"1\">\n"
 				+ "		<Certificate director=\"YES\" percentage=\"50\" allowedOwners=\"IPO,Player\" />\n"
-				+ "		<Certificate director=\"NO\" percentage=\"50\" allowedOwners=\"Minor\" />\n"
-				+ "	</Minor>";
-		String tMinorCompany2TestXML =
-				"<Minor id=\"1702\" name=\"TestBerline-Potsdamer Bahn\" abbrev=\"2\" cost=\"170\"\n"
+				+ "		<Certificate director=\"NO\" percentage=\"50\" allowedOwners=\"Minor\" />\n" + "	</Minor>";
+		String tMinorCompany2TestXML = "<Minor id=\"1702\" name=\"TestBerline-Potsdamer Bahn\" abbrev=\"2\" cost=\"170\"\n"
 				+ "		homeCell1=\"E19\" homeLocation1=\"6\" upgradeID=\"1810\" upgradePercentage=\"10\"\n"
 				+ "		bgColor=\"Black\" fgColor=\"White\" tokens=\"1\">\n"
 				+ "		<Certificate director=\"YES\" percentage=\"50\" allowedOwners=\"IPO,Player\" />\n"
-				+ "		<Certificate director=\"NO\" percentage=\"50\" allowedOwners=\"Minor\" />\n"
-				+ "	</Minor>";
+				+ "		<Certificate director=\"NO\" percentage=\"50\" allowedOwners=\"Minor\" />\n" + "	</Minor>";
 
 		MinorCompany tMinorCompany = MinorCompany.NO_MINOR_COMPANY;
 		CorporationList mCorporationList = Mockito.mock (CorporationList.class);
@@ -161,34 +154,34 @@ public class CompanyTestFactory {
 		} else {
 			tMinorCompany = MinorCompany.NO_MINOR_COMPANY;
 		}
-		
+
 		return tMinorCompany;
 	}
-	
+
 	private MinorCompany constructMinorCompany (String aMinorCompanyTestXML, MinorCompany aMinorCompany,
 			CorporationList mCorporationList) {
 		XMLNode tMinorCompanyNode;
-		
+
 		tMinorCompanyNode = utilitiesTestFactory.constructXMLNode (aMinorCompanyTestXML);
 		if (tMinorCompanyNode != XMLNode.NO_NODE) {
 			aMinorCompany = new MinorCompany (tMinorCompanyNode, mCorporationList);
-			aMinorCompany.setTestingFlag (true);			
+			aMinorCompany.setTestingFlag (true);
 		}
-		
+
 		return aMinorCompany;
 	}
 
 	public MinorCompany buildMinorCompanyMock (String aClientName) {
 		MinorCompany mMinorCompany = Mockito.mock (MinorCompany.class);
-		
+
 		Mockito.when (mMinorCompany.getAbbrev ()).thenReturn ("MSC");
 
 		return mMinorCompany;
 	}
-	
+
 	public ShareCompany buildShareCompanyMock (String aClientName) {
 		ShareCompany mShareCompany = Mockito.mock (ShareCompany.class);
-		
+
 		Mockito.when (mShareCompany.getAbbrev ()).thenReturn ("MSC");
 
 		return mShareCompany;
@@ -196,7 +189,7 @@ public class CompanyTestFactory {
 
 	public PrivateCompany buildPrivateCompanyMock (String aClientName) {
 		PrivateCompany mPrivateCompany = Mockito.mock (PrivateCompany.class);
-		
+
 		Mockito.when (mPrivateCompany.getAbbrev ()).thenReturn ("MPC");
 
 		return mPrivateCompany;

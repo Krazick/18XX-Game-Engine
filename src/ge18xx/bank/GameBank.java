@@ -34,7 +34,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 
 	public GameBank (String aName, GameManager aGameManager) {
 		Bank tBank;
-		
+
 		gameManager = aGameManager;
 		name = aName;
 		portfolio = new Portfolio (this);
@@ -52,49 +52,49 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public void addTrain (Train aTrain) {
 		trainPortfolio.addTrain (aTrain);
 	}
-	
+
 	public void clearSelections () {
 		portfolio.clearSelections ();
 		trainPortfolio.clearSelections ();
 	}
-	
+
 	public int getCertificatePercentageFor (Corporation aCorporation) {
 		int tCertificatePercentage;
-		
+
 		tCertificatePercentage = portfolio.getCertificatePercentageFor (aCorporation);
-		
+
 		return tCertificatePercentage;
 	}
-	
+
 	public int getCertificateCountFor (Corporation aCorporation) {
 		int tCertificateCount;
-		
+
 		tCertificateCount = portfolio.getCertificateCountFor (aCorporation);
-		
+
 		return tCertificateCount;
 	}
 
 	public Certificate getCertificateFromCorp (Corporation aCorporation) {
 		Certificate tCertificate;
-		
+
 		tCertificate = portfolio.getCertificateFor (aCorporation);
-		
+
 		return tCertificate;
 	}
 
 	public Certificate getCertificateToBidOn () {
 		Certificate tCertificateToBidOn;
-		
+
 		tCertificateToBidOn = portfolio.getCertificateToBidOn ();
-		
+
 		return tCertificateToBidOn;
 	}
-	
+
 	public Certificate getCertificateToBuy () {
 		Certificate tCertificateToBuy;
-		
+
 		tCertificateToBuy = portfolio.getCertificateToBuy ();
-		
+
 		return tCertificateToBuy;
 	}
 
@@ -102,28 +102,28 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		List<Certificate> tCertificatesToBuy;
 
 		tCertificatesToBuy = portfolio.getCertificatesToBuy ();
-		
+
 		return tCertificatesToBuy;
 	}
 
 	public Train getCheapestTrain () {
 		return trainPortfolio.getCheapestTrain ();
 	}
-	
+
 	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
-		
+
 		tCurrentHolder = portfolio.getCurrentHolder (aLoadedCertificate);
-		
+
 		return tCurrentHolder;
 	}
-	
+
 	public PortfolioHolderLoaderI getCurrentHolderGM (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
-		
+
 		tCurrentHolder = gameManager.getCurrentHolder (aLoadedCertificate);
-		
+
 		return tCurrentHolder;
 	}
 
@@ -136,83 +136,81 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public Portfolio getPortfolio () {
 		return portfolio;
 	}
-	
+
 	@Override
 	public String getStateName () {
 		return ActorI.ActionStates.Fixed.toString ();
 	}
-	
-	public JPanel buildTrainPortfolioInfoJPanel (ItemListener aItemListener, Corporation aCorporation, 
+
+	public JPanel buildTrainPortfolioInfoJPanel (ItemListener aItemListener, Corporation aCorporation,
 			GameManager aGameManager, boolean aCompact, boolean aEnableAction, String aDisableReason) {
 		JPanel tTrainJPanel;
 		JPanel tTrainPortfolioJPanel;
 		BoxLayout tLayout;
-		
+
 		tTrainJPanel = new JPanel ();
 		tTrainJPanel.setBorder (BorderFactory.createTitledBorder (name));
 		tLayout = new BoxLayout (tTrainJPanel, BoxLayout.X_AXIS);
 		tTrainJPanel.setLayout (tLayout);
-		tTrainPortfolioJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, aCorporation, 
-				aGameManager, TrainCompany.BUY_LABEL, aCompact, aEnableAction, aDisableReason);
+		tTrainPortfolioJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, aCorporation, aGameManager,
+				TrainCompany.BUY_LABEL, aCompact, aEnableAction, aDisableReason);
 		tTrainJPanel.add (Box.createVerticalGlue ());
 		tTrainJPanel.add (tTrainPortfolioJPanel);
 		tTrainJPanel.add (Box.createVerticalGlue ());
 
 		return tTrainJPanel;
 	}
-	
+
 	@Override
 	public Train getSelectedTrain () {
 		return trainPortfolio.getSelectedTrain ();
 	}
-	
+
 	public int getSelectedTrainCount () {
 		return trainPortfolio.getSelectedCount ();
 	}
-	
+
 	public boolean isSelectedTrainItem (Object aItem) {
 		return trainPortfolio.isSelectedItem (aItem);
 	}
-	
-	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, 
-			GameManager aGameManager) {
-		return buildPortfolioInfoJPanel (aItemListener, aPlayer, aGameManager, 
-				Player.BUY_AT_PAR_LABEL);
+
+	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
+		return buildPortfolioInfoJPanel (aItemListener, aPlayer, aGameManager, Player.BUY_AT_PAR_LABEL);
 	}
-	
-	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, 
-			GameManager aGameManager, String aCheckboxLabel) {
+
+	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager,
+			String aCheckboxLabel) {
 		JPanel tPortfolioJPanel;
 		JPanel tBankJPanel;
-		
+
 		tBankJPanel = new JPanel ();
 		tBankJPanel.setLayout (new BoxLayout (tBankJPanel, BoxLayout.X_AXIS));
 		tBankJPanel.setBorder (BorderFactory.createTitledBorder (name));
-		tPortfolioJPanel = portfolio.buildShareCertificateJPanel (Corporation.SHARE_COMPANY, 
-				aCheckboxLabel, aItemListener, aPlayer, aGameManager);
+		tPortfolioJPanel = portfolio.buildShareCertificateJPanel (Corporation.SHARE_COMPANY, aCheckboxLabel,
+				aItemListener, aPlayer, aGameManager);
 		tBankJPanel.add (Box.createVerticalGlue ());
 		tBankJPanel.add (tPortfolioJPanel);
 		tBankJPanel.add (Box.createVerticalGlue ());
-	
+
 		return tBankJPanel;
 	}
 
 	public XMLElement getPortfolioElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		
+
 		tXMLElement = portfolio.getElements (aXMLDocument);
-		
+
 		return tXMLElement;
 	}
 
 	public XMLElement getTrainPortfolioElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		
+
 		tXMLElement = trainPortfolio.getElements (aXMLDocument);
-		
+
 		return tXMLElement;
 	}
-	
+
 	@Override
 	public PortfolioHolderI getPortfolioHolder () {
 		return this;
@@ -221,14 +219,14 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public void loadPortfolio (XMLNode aPortfolioNode) {
 		portfolio.loadPortfolio (aPortfolioNode);
 	}
-	
+
 	public void loadTrainPortfolio (XMLNode aTrainPortfolioNode) {
 		Bank tBank;
-		
+
 		tBank = gameManager.getBank ();
 		trainPortfolio.loadTrainPortfolioFromBank (aTrainPortfolioNode, tBank);
 	}
-	
+
 	@Override
 	public int getLocalSelectedTrainCount () {
 		return trainPortfolio.getSelectedCount ();
@@ -248,7 +246,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public TrainPortfolio getTrainPortfolio () {
 		return trainPortfolio;
 	}
-	
+
 	@Override
 	public String getTrainNameAndQty (String aStatus) {
 		return trainPortfolio.getTrainNameAndQty (aStatus);
@@ -258,7 +256,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public boolean hasTrainNamed (String aName) {
 		return trainPortfolio.hasTrainNamed (aName);
 	}
-	
+
 	@Override
 	public boolean isAPrivateCompany () {
 		return false;
@@ -277,7 +275,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public boolean removeSelectedTrain () {
 		return trainPortfolio.removeSelectedTrain ();
 	}
-	
+
 	@Override
 	public boolean removeTrain (String aName) {
 		return trainPortfolio.removeTrain (aName);
@@ -311,7 +309,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public Bank getBank () {
 		return gameManager.getBank ();
 	}
-	
+
 	public Train [] getAvailableTrains () {
 		return trainPortfolio.getAvailableTrains ();
 	}
@@ -325,7 +323,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public boolean isAPlayer () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isAStockRound () {
 		return false;
@@ -345,18 +343,18 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public boolean isACorporation () {
 		return false;
 	}
-	
+
 	public String getTrainSummary () {
 		return trainPortfolio.getTrainSummary ();
 	}
-	
+
 	public boolean hasAnyTrains () {
 		boolean tHasAnyTrains = false;
-		
+
 		if (trainPortfolio.getTrainCount () > 0) {
 			tHasAnyTrains = true;
 		}
-		
+
 		return tHasAnyTrains;
 	}
 
@@ -369,7 +367,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public boolean isATrainCompany () {
 		return false;
 	}
-	
+
 	@Override
 	public void completeBenefitInUse () {
 	}

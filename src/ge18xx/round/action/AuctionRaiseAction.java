@@ -12,18 +12,18 @@ import ge18xx.round.action.effects.NewCurrentBidderEffect;
 import ge18xx.utilities.XMLNode;
 
 public class AuctionRaiseAction extends CashTransferAction {
-	public final static String NAME = "Auction Raise";	
+	public final static String NAME = "Auction Raise";
 
 	public AuctionRaiseAction () {
 		super ();
 		setName (NAME);
 	}
-	
+
 	public AuctionRaiseAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
-	
+
 	public AuctionRaiseAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
@@ -35,8 +35,8 @@ public class AuctionRaiseAction extends CashTransferAction {
 		tNewCurrentBidderEffect = new NewCurrentBidderEffect (aPlayer, aCurrentBidderIndex, aNextBidderIndex);
 		addEffect (tNewCurrentBidderEffect);
 	}
-	
-	public void addAuctionStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState, 
+
+	public void addAuctionStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState,
 			ActorI.ActionStates aNewState) {
 		AuctionStateChangeEffect tAuctionStateChangeEffect;
 
@@ -46,21 +46,21 @@ public class AuctionRaiseAction extends CashTransferAction {
 
 	public void addBidChangeEffect (ActorI aActor, int aOldBid, int aNewBid, Certificate aCertificate) {
 		AuctionBidChangeEffect tAuctionBidChangeEffect;
-		
+
 		tAuctionBidChangeEffect = new AuctionBidChangeEffect (aActor, aOldBid, aNewBid, aCertificate);
 		addEffect (tAuctionBidChangeEffect);
 	}
-	
+
 	public void addEscrowChangeEffect (ActorI aActor, int aOldEscrow, int aNewEscrow) {
 		EscrowChangeEffect tEscrowChangeEffect;
-		
+
 		tEscrowChangeEffect = new EscrowChangeEffect (aActor, aOldEscrow, aNewEscrow);
 		addEffect (tEscrowChangeEffect);
 	}
-	
+
 	public String getCompanyAbbrev () {
 		String tCompanyAbbrev = "";
-		
+
 		for (Effect tEffect : effects) {
 			if (tCompanyAbbrev.equals ("")) {
 				if (tEffect instanceof AuctionBidChangeEffect) {
@@ -68,10 +68,10 @@ public class AuctionRaiseAction extends CashTransferAction {
 				}
 			}
 		}
-		
+
 		return tCompanyAbbrev;
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
@@ -84,19 +84,19 @@ public class AuctionRaiseAction extends CashTransferAction {
 				}
 			}
 		}
-	
-		tSimpleActionReport = actor.getName () + " raised the bid by " + Bank.formatCash (getCashAmount ()) +
-				" to " + Bank.formatCash (tNewBid) + " for " + getCompanyAbbrev () + ".";
-		
+
+		tSimpleActionReport = actor.getName () + " raised the bid by " + Bank.formatCash (getCashAmount ()) + " to "
+				+ Bank.formatCash (tNewBid) + " for " + getCompanyAbbrev () + ".";
+
 		return tSimpleActionReport;
 	}
-	
+
 	@Override
 	public boolean applyAction (RoundManager aRoundManager) {
 		boolean tActionApplied = super.applyAction (aRoundManager);
-		
+
 		Certificate tCertificate = Certificate.NO_CERTIFICATE;
-		
+
 		for (Effect tEffect : effects) {
 			if (tCertificate == Certificate.NO_CERTIFICATE) {
 				if (tEffect instanceof AuctionBidChangeEffect) {
@@ -104,7 +104,7 @@ public class AuctionRaiseAction extends CashTransferAction {
 				}
 			}
 		}
-		
+
 		return tActionApplied;
 	}
 }

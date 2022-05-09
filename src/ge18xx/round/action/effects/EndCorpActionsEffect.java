@@ -11,7 +11,7 @@ import ge18xx.utilities.XMLNode;
 
 public class EndCorpActionsEffect extends Effect {
 	public final static String NAME = "End Corporation Actions";
-	
+
 	public EndCorpActionsEffect () {
 		super (NAME);
 	}
@@ -28,13 +28,13 @@ public class EndCorpActionsEffect extends Effect {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_ACTOR_NAME);
-		
+
 		return tEffectElement;
 	}
 
@@ -42,31 +42,31 @@ public class EndCorpActionsEffect extends Effect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + actor.getName () + " has Ended Operations.");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		
+
 		tEffectApplied = false;
 		if (actor.isACorporation ()) {
 			aRoundManager.doneAction ((Corporation) actor);
 			tEffectApplied = true;
 		}
-		
+
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-		
+
 		tEffectUndone = true;
-		
+
 		return tEffectUndone;
 	}
 

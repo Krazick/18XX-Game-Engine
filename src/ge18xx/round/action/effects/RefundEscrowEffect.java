@@ -22,13 +22,13 @@ public class RefundEscrowEffect extends CashTransferEffect {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		
+
 		tEffectApplied = super.applyEffect (aRoundManager);
-		
+
 		return tEffectApplied;
 	}
 }

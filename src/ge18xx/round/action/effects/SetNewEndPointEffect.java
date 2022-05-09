@@ -11,7 +11,7 @@ import ge18xx.utilities.XMLNode;
 
 public class SetNewEndPointEffect extends ChangeRouteEffect {
 	public static final String NAME = "Set New End Point Effect";
-	
+
 	public SetNewEndPointEffect () {
 		super (NAME);
 	}
@@ -40,7 +40,7 @@ public class SetNewEndPointEffect extends ChangeRouteEffect {
 		boolean tEffectApplied;
 		Corporation tCompany;
 		TrainCompany tTrainCompany;
-		
+
 		if (actor.isACorporation ()) {
 			tCompany = (Corporation) actor;
 			if (tCompany.isATrainCompany ()) {
@@ -50,19 +50,19 @@ public class SetNewEndPointEffect extends ChangeRouteEffect {
 		}
 
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 	}
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-			
+
 		tEffectUndone = false;
 		// TODO: Undo the setNewEndPoint Effect
-			
+
 		tEffectUndone = true;
-			
+
 		return tEffectUndone;
 	}
 

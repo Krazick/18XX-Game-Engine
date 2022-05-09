@@ -19,9 +19,9 @@ public class FinishAuctionEffect extends Effect {
 	public FinishAuctionEffect (ActorI aActor) {
 		this (NAME, aActor);
 	}
-	
+
 	public FinishAuctionEffect (String aName, ActorI aActor) {
-		super (aName, aActor);	
+		super (aName, aActor);
 	}
 
 	public FinishAuctionEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -32,11 +32,11 @@ public class FinishAuctionEffect extends Effect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied = false;
-		
+
 		GameManager tGameManager = aRoundManager.getGameManager ();
 		tGameManager.finishAuction (false);
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 	}
 

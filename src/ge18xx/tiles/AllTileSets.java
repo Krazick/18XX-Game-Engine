@@ -20,7 +20,7 @@ public class AllTileSets extends JLabel {
 	 */
 	private static final long serialVersionUID = 1L;
 	Set<TileSet> gameTileSets;
-	
+
 	public AllTileSets () {
 		gameTileSets = new HashSet<TileSet> ();
 	}
@@ -28,14 +28,14 @@ public class AllTileSets extends JLabel {
 	public boolean addTileSet (String aSetName) {
 		return gameTileSets.add (new TileSet (aSetName));
 	}
-	
+
 	public boolean addTile (Tile tile, int aTotalCount) {
 		String tTileTypeName = tile.getTypeName ();
 		Iterator<TileSet> iter = gameTileSets.iterator ();
 		TileSet tTileSet;
 		String tSetName;
 		boolean retValue = false;
-		
+
 		while (iter.hasNext () && !retValue) {
 			tTileSet = (TileSet) iter.next ();
 			tSetName = tTileSet.getName ();
@@ -43,7 +43,7 @@ public class AllTileSets extends JLabel {
 				retValue = tTileSet.addTile (tile, aTotalCount);
 			}
 		}
-		
+
 		return retValue;
 	}
 
@@ -52,7 +52,7 @@ public class AllTileSets extends JLabel {
 		TileSet tTileSet;
 		Tile tTile = Tile.NO_TILE;
 		boolean tFoundTile = false;
-		
+
 		if (aTileNumber != 0) {
 			while (iter.hasNext () && !tFoundTile) {
 				tTileSet = (TileSet) iter.next ();
@@ -62,11 +62,11 @@ public class AllTileSets extends JLabel {
 				}
 			}
 		}
-		
+
 		return tTile;
 	}
-	
+
 	public void setTraySize () {
-		
+
 	}
 }

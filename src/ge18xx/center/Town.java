@@ -23,26 +23,28 @@ public class Town extends RevenueCenter {
 	public static final Town NO_TOWN = null;
 
 	public Town () {
-		this (RevenueCenter.NO_VALUE, NO_ID, Location.NO_LOCATION, NO_NAME, RevenueCenterType.NO_REVENUE_CENTER, new TileType ());
+		this (RevenueCenter.NO_VALUE, NO_ID, Location.NO_LOCATION, NO_NAME, RevenueCenterType.NO_REVENUE_CENTER,
+				new TileType ());
 	}
-	
+
 	public Town (XMLNode aNode) {
 		super (aNode);
 	}
-	
+
 	public Town (Town aTown) {
-		this (aTown.type.getType (), aTown.id, aTown.location.getLocation (), aTown.name, aTown.getRevenue (Revenue.ALL_PHASES), aTown.getTileType ());
+		this (aTown.type.getType (), aTown.id, aTown.location.getLocation (), aTown.name,
+				aTown.getRevenue (Revenue.ALL_PHASES), aTown.getTileType ());
 		setRevenueLocation (aTown.revenues.getLocation ());
 	}
-	
+
 	public Town (int aType, int aID, int aValue, TileType aTileType) {
 		this (aType, aID, Location.NO_LOCATION, NO_NAME, aValue, aTileType);
 	}
-	
+
 	public Town (int aType, int aID, int aLocation, int aValue, TileType aTileType) {
 		this (aType, aID, aLocation, NO_NAME, aValue, aTileType);
 	}
-	
+
 	public Town (int aType, int aID, int aLocation, String aName, int aValue, TileType aTileType) {
 		super (aType, aID, aLocation, aName, aValue, aTileType);
 	}
@@ -50,24 +52,24 @@ public class Town extends RevenueCenter {
 	public Town (RevenueCenterType aRCType, int aID, int aLocation, String aName, int aValue, TileType aTileType) {
 		super (aRCType, aID, aLocation, aName, aValue, aTileType);
 	}
-	
+
 	@Override
 	public boolean cityOrTown () {
 		return (true);
 	}
-	
+
 	@Override
 	public boolean containingPoint (Point aPoint, Hex aHex, int Xc, int Yc, int aTileOrient) {
 		boolean tContainingPoint = false;
 		int X1, Y1, X2, Y2;
-		int townTemp = aHex.getCityWidth ()/3;
+		int townTemp = aHex.getCityWidth () / 3;
 		int width;
 		int height;
 		Point tDisplace;
 		Rectangle tRectangle;
-		
+
 		tDisplace = location.calcCenter (aHex);
-		
+
 		X1 = Xc - townTemp + tDisplace.x;
 		X2 = Xc + townTemp + tDisplace.x;
 		Y1 = Yc - townTemp + tDisplace.y;
@@ -76,21 +78,22 @@ public class Town extends RevenueCenter {
 		height = Y2 - Y1;
 		tRectangle = new Rectangle (X1, Y1, width, height);
 		tContainingPoint = tRectangle.contains (aPoint);
-		
+
 		return tContainingPoint;
 	}
-		
+
 	@Override
-	public void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile, Feature2 aSelectedFeature) {
+	public void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile,
+			Feature2 aSelectedFeature) {
 		int X1, Y1, X2, Y2;
 		int X3, Y3;
 		int width3, height3;
-		int townTemp = aHex.getCityWidth ()/3;
+		int townTemp = aHex.getCityWidth () / 3;
 		int width;
 		int height;
 		Point tDisplace;
 		Color aCityColor;
-		
+
 		aCityColor = Color.black;
 		tDisplace = location.calcCenter (aHex);
 
@@ -121,14 +124,14 @@ public class Town extends RevenueCenter {
 		g.setColor (Color.black);
 		drawValue (g, Xc, Yc, aHex, aTileOrient);
 	}
-	
+
 	@Override
-	public boolean isOpen() {
+	public boolean isOpen () {
 		return true;
 	}
 
 	@Override
-	public boolean cityHasOpenStation() {
+	public boolean cityHasOpenStation () {
 		return false;
 	}
 }

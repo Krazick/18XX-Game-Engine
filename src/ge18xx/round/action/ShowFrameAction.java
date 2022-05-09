@@ -9,7 +9,7 @@ import ge18xx.utilities.XMLNode;
 
 public class ShowFrameAction extends Action {
 	public final static String NAME = "Show Frame";
-	
+
 	public ShowFrameAction () {
 		super ();
 		setName (NAME);

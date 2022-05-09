@@ -22,28 +22,28 @@ class GameSupportHandlerTests {
 	JGameClient jGameClient;
 	String clientName;
 	ChatServerHandler mChatServerHandler;
-	
+
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp () throws Exception {
 		GameManager tGameManager;
-		
+
 		testFactory = new GameTestFactory ();
 		clientName = "GMTestBuster";
 		tGameManager = testFactory.buildGameManager (clientName);
 		jGameClient = new JGameClient ("JGameClient Testing Frame", tGameManager);
-		
+
 		gameSupportHandler = new GameSupportHandler (jGameClient);
 		networkTestFactory = new NetworkTestFactory (testFactory);
 		mChatServerHandler = networkTestFactory.buildMockChatServerHandler ();
 	}
-	
+
 	@Test
 	@DisplayName ("Test Retrieving Game ID from Request")
 	void getGameIDFromRequestTest () {
 		String tGoodRequest = "<GS gameID=\"2021-07-31-2005\"><ActionNumber requestNew=\"TRUE\"></GS>";
 		String tBadRequest = "<GS><LastActionNumber requestNew=\"TRUE\"></GS>";
 		String tFoundGameID;
-		
+
 		tFoundGameID = gameSupportHandler.getGameIDFromRequest (tGoodRequest);
 		assertEquals ("2021-07-31-2005", tFoundGameID);
 		tFoundGameID = gameSupportHandler.getGameIDFromRequest (tBadRequest);
@@ -56,13 +56,13 @@ class GameSupportHandlerTests {
 		String tGoodResponse = "<GSResponse gameID=\"2021-07-31-2005\"><LastActionNumber requestNew=\"TRUE\"></GSResponse>";
 		String tBadResponse = "<GSResponse><LastActionNumber requestNew=\"TRUE\"></GSResponse>";
 		String tFoundGameID;
-		
+
 		tFoundGameID = gameSupportHandler.getGameIDFromNetworkResponse (tGoodResponse);
 		assertEquals ("2021-07-31-2005", tFoundGameID);
 		tFoundGameID = gameSupportHandler.getGameIDFromNetworkResponse (tBadResponse);
 		assertEquals ("NOID", tFoundGameID);
 	}
-	
+
 	@Test
 	@DisplayName ("Test GameSupport to Mocked ServerHandler")
 	void requestGameSupportTest () {
@@ -72,23 +72,23 @@ class GameSupportHandlerTests {
 		Mockito.doReturn (false).when (mChatServerHandler).sendGameSupport (tGoodRequest);
 		jGameClient.setServerHandler (mChatServerHandler);
 		gameSupportHandler.setResponse (tGoodResponse);
-		
+
 		assertEquals (tGoodResponse, gameSupportHandler.requestGameSupport (tGoodRequest));
-		
+
 	}
-	
+
 	@Test
 	@DisplayName ("Test GameSupport to Mocked ServerHandler")
 	void retrieveGameIDviaGameSupportTest () {
 //		String tGoodRequest = "<GS gameID=\"2021-07-31-2005\"><ActionNumber requestNew=\"TRUE\"></GS>";
 		String tGoodResponse = "<GSResponse gameID=\"2021-07-31-2005\"><LastActionNumber requestNew=\"TRUE\"></GSResponse>";
 		String tGameIDRequest = "Game Support <GS><GameIDRequest></GS>";
-		
+
 		Mockito.doReturn (false).when (mChatServerHandler).sendGameSupport (tGameIDRequest);
 		jGameClient.setServerHandler (mChatServerHandler);
 		gameSupportHandler.setResponse (tGoodResponse);
-		
+
 		assertEquals ("2021-07-31-2005", gameSupportHandler.retrieveGameID ());
-		
+
 	}
 }

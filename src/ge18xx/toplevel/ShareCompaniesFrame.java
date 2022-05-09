@@ -41,58 +41,58 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 	JButton payDividendButton;
 	JButton holdDividendButton;
 	JButton allSoldOutButton;
-	JComboBox <String> companyCombo;
-	JComboBox <Integer> parValuesCombo;
+	JComboBox<String> companyCombo;
+	JComboBox<Integer> parValuesCombo;
 	Market market;
-	
+
 	public ShareCompaniesFrame (String aFrameName, RoundManager aRoundManager) {
 		super (aFrameName, CorporationList.TYPE_NAMES [3], aRoundManager);
 		JLabel tLabel;
-		
+
 		// Test Components
 		JPanel tNorthComponents = new JPanel ();
-		
-		companyCombo = new JComboBox <String> ();
+
+		companyCombo = new JComboBox<String> ();
 		tNorthComponents.add (companyCombo);
-		
+
 		tLabel = new JLabel ("Par Value");
 		tNorthComponents.add (tLabel);
-		
-		parValuesCombo = new JComboBox <Integer> ();
+
+		parValuesCombo = new JComboBox<Integer> ();
 		tNorthComponents.add (parValuesCombo);
-		
+
 		sellShareButton = new JButton ("Sell Share of Stock");
 		sellShareButton.addActionListener (this);
 		sellShareButton.setActionCommand ("SellShare");
 		tNorthComponents.add (sellShareButton);
-		
+
 		buyShareButton = new JButton ("Buy Share of Stock");
 		buyShareButton.addActionListener (this);
 		buyShareButton.setActionCommand ("BuyShare");
 		tNorthComponents.add (buyShareButton);
-		
+
 		payDividendButton = new JButton ("Pay Dividend");
 		payDividendButton.addActionListener (this);
 		payDividendButton.setActionCommand ("PayDividend");
 		tNorthComponents.add (payDividendButton);
-		
+
 		holdDividendButton = new JButton ("Hold Dividend");
 		holdDividendButton.addActionListener (this);
 		holdDividendButton.setActionCommand ("HoldDividend");
 		tNorthComponents.add (holdDividendButton);
-		
+
 		allSoldOutButton = new JButton ("All Sold Out");
 		allSoldOutButton.addActionListener (this);
 		allSoldOutButton.setActionCommand ("AllSoldOut");
 		tNorthComponents.add (allSoldOutButton);
-		
+
 		add (tNorthComponents, BorderLayout.NORTH);
 	}
-	
+
 	@Override
 	public void actionPerformed (ActionEvent e) {
 		String tTheAction = e.getActionCommand ();
-		
+
 		if ("SellShare".equals (tTheAction)) {
 			sellStockShare ();
 		}
@@ -114,7 +114,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		}
 		market.updateAllFrames ();
 	}
-	
+
 	// Test Method
 	public void allSoldOut () {
 		String tCompanyAbbrev;
@@ -122,7 +122,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		MarketCell tMarketCell;
 		MarketCell tNewMarketCell;
 		Token tToken;
-		
+
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
 		if (tShareCompany != Corporation.NO_CORPORATION) {
@@ -140,7 +140,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 			}
 		}
 	}
-	
+
 	// Test Method
 	public void buyShare () {
 		String tCompanyAbbrev;
@@ -151,14 +151,14 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		String tParPrice;
 		int tIParPrice;
 		int tRow, tCol;
-		
+
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
 		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tCurrentParPrice = tShareCompany.getParPrice ();
 			if (tCurrentParPrice == ShareCompany.NO_PAR_PRICE) {
 				tParPrice = (String) parValuesCombo.getSelectedItem ();
-				tIParPrice  = Integer.parseInt (tParPrice);
+				tIParPrice = Integer.parseInt (tParPrice);
 				setShareParPrice (tShareCompany, tIParPrice);
 			} else {
 				if (tShareCompany.hasStartCell ()) {
@@ -195,7 +195,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 	private void setShareParPrice (ShareCompany aShareCompany, int aParPrice) {
 		MarketCell tMarketCell;
 		Token tToken;
-		
+
 		tMarketCell = market.findStartCell (aParPrice);
 		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 			tToken = aShareCompany.getToken ();
@@ -207,11 +207,11 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 			tMarketCell.redrawMarket ();
 		}
 	}
-	
+
 	public XMLElement createShareCompaniesListDefinitions (XMLDocument aXMLDocument) {
 		return (super.createCompaniesListDefinitions (aXMLDocument));
 	}
-	
+
 	public ActorI.ActionStates getCorporationState (String aCorpStateName) {
 		return companies.getCorporationState (aCorpStateName);
 	}
@@ -223,42 +223,42 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 
 	public ShareCompany getShareCompany (String aCompanyAbbrev) {
 		ShareCompany tShareCompany;
-		
+
 		tShareCompany = (ShareCompany) companies.getCorporation (aCompanyAbbrev);
-		
+
 		return tShareCompany;
 	}
-	
+
 	public int getStockPrice () {
 		int tPrice;
 		ShareCompany tShareCompany;
-		
+
 		tPrice = ShareCompany.NO_PAR_PRICE;
 		tShareCompany = getSelectedShareCompany ();
 		if (tShareCompany != Corporation.NO_CORPORATION) {
 			tPrice = tShareCompany.getSharePrice ();
 		}
-		
+
 		return tPrice;
 	}
-	
+
 	public ShareCompany getSelectedShareCompany () {
 		ShareCompany tShareCompany;
 		String tCompanyAbbrev;
-		
+
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
 
 		return tShareCompany;
 	}
-	
+
 	public Token getToken (String aCompanyAbbrev) {
 		Token tToken;
 		ShareCompany tShareCompany;
-		
+
 		tShareCompany = (ShareCompany) companies.getCorporation (aCompanyAbbrev);
 		tToken = tShareCompany.getToken ();
-		
+
 		return tToken;
 	}
 
@@ -269,7 +269,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		MarketCell tMarketCell;
 		MarketCell tNewMarketCell;
 		Token tToken;
-		
+
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
 		if (tShareCompany != Corporation.NO_CORPORATION) {
@@ -295,7 +295,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		MarketCell tMarketCell;
 		MarketCell tNewMarketCell;
 		Token tToken;
-		
+
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
 		if (tShareCompany != Corporation.NO_CORPORATION) {
@@ -320,7 +320,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		MarketCell tMarketCell;
 		MarketCell tNewMarketCell;
 		Token tToken;
-		
+
 		tCompanyAbbrev = (String) companyCombo.getSelectedItem ();
 		tShareCompany = (ShareCompany) companies.getCorporation (tCompanyAbbrev);
 		if (tShareCompany != Corporation.NO_CORPORATION) {
@@ -338,33 +338,33 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 			}
 		}
 	}
-	
+
 	public void setMarket (Market aMarket) {
 		market = aMarket;
 	}
-	
+
 	public void setStartCells () {
 		ShareCompany tShareCompany;
 		int tIndex;
 		int tCorpCount;
-		
+
 		if (companies != CorporationList.NO_CORPORATION_LIST) {
 			tCorpCount = companies.getRowCount ();
 			if (tCorpCount > 0) {
 				for (tIndex = 0; tIndex < tCorpCount; tIndex++) {
-					tShareCompany = (ShareCompany) companies.getCorporation(tIndex);
-					tShareCompany.setStartCell  (market);
+					tShareCompany = (ShareCompany) companies.getCorporation (tIndex);
+					tShareCompany.setStartCell (market);
 				}
 			}
 		}
 	}
-	
+
 	public void updateCorpComboBox () {
 		int tIndex;
 		int tCorpCount;
 		Corporation tCorporation;
 		String tAbbrev;
-		
+
 		companyCombo.removeAllItems ();
 		if (companies != CorporationList.NO_CORPORATION_LIST) {
 			tCorpCount = companies.getRowCount ();
@@ -379,10 +379,10 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 			}
 		}
 	}
-	
-	public void updateParValuesComboBox (Integer[] tParValues) {
+
+	public void updateParValuesComboBox (Integer [] tParValues) {
 		int tIndex, tSize;
-		
+
 		if (tParValues != null) {
 			tSize = tParValues.length;
 			for (tIndex = 0; tIndex < tSize; tIndex++) {

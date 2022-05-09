@@ -34,26 +34,26 @@ public class OperatedTrainsAction extends ChangeStateAction {
 		tGeneratedRevenueEffect = new GeneratedRevenueEffect (aActor, aRevenue, aTrainCount);
 		addEffect (tGeneratedRevenueEffect);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
 		int tTrainCount;
-		
+
 		tTrainCount = getTrainCount ();
-		tSimpleActionReport = actor.getName () + " generated " + Bank.formatCash (getRevenue ()) + 
-				" from " + tTrainCount + " Train";
+		tSimpleActionReport = actor.getName () + " generated " + Bank.formatCash (getRevenue ()) + " from "
+				+ tTrainCount + " Train";
 		if (tTrainCount > 1) {
 			tSimpleActionReport += "s";
 		}
 		tSimpleActionReport += ".";
-		
+
 		return tSimpleActionReport;
 	}
 
 	public int getRevenue () {
 		int tRevenue = 0;
-		
+
 		for (Effect tEffect : effects) {
 			if (tRevenue == 0) {
 				if (tEffect instanceof GeneratedRevenueEffect) {
@@ -61,13 +61,13 @@ public class OperatedTrainsAction extends ChangeStateAction {
 				}
 			}
 		}
-		
+
 		return tRevenue;
 	}
-	
+
 	public int getTrainCount () {
 		int tTrainCount = 0;
-		
+
 		for (Effect tEffect : effects) {
 			if (tTrainCount == 0) {
 				if (tEffect instanceof GeneratedRevenueEffect) {
@@ -75,7 +75,7 @@ public class OperatedTrainsAction extends ChangeStateAction {
 				}
 			}
 		}
-		
+
 		return tTrainCount;
 	}
 }

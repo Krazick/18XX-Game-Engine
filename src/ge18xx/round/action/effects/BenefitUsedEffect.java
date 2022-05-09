@@ -14,7 +14,7 @@ public class BenefitUsedEffect extends Effect {
 	final static AttributeName AN_BENEFIT_NAME = new AttributeName ("name");
 	Benefit benefitInUse;
 	String benefitName;
-	
+
 	public BenefitUsedEffect () {
 		super ();
 		setName (NAME);
@@ -32,7 +32,7 @@ public class BenefitUsedEffect extends Effect {
 		super (NAME, aActor);
 		setBenefit (aBenefitInUse);
 	}
-	
+
 	public BenefitUsedEffect (String aName, ActorI aActor, Benefit aBenefitInUse) {
 		super (aName, aActor);
 
@@ -44,60 +44,60 @@ public class BenefitUsedEffect extends Effect {
 		setName (NAME);
 		String tBenefitName;
 		Benefit tBenefit;
-		
+
 		tBenefitName = aEffectNode.getThisAttribute (AN_BENEFIT_NAME);
 		tBenefit = aGameManager.findBenefit (tBenefitName);
 		setBenefit (tBenefit);
 	}
-	
+
 	protected void setBenefit (Benefit aBenefitInUse) {
 		benefitInUse = aBenefitInUse;
 		benefitName = aBenefitInUse.getName ();
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_BENEFIT_NAME, benefitName);
-		
+
 		return tEffectElement;
 	}
-	
+
 	@Override
 	public String getBenefitName () {
 		return benefitInUse.getName ();
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + benefitInUse.getPrivateCompany ().getAbbrev () + " " + 
-					getBenefitName () + " made by "+  actor.getName () + ".");
+		return (REPORT_PREFIX + name + " for " + benefitInUse.getPrivateCompany ().getAbbrev () + " "
+				+ getBenefitName () + " made by " + actor.getName () + ".");
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		
+
 		benefitInUse.setUsed (true);
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 	}
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-		
+
 		benefitInUse.undoUse ();
 		tEffectUndone = true;
-		
+
 		return tEffectUndone;
 	}
 }

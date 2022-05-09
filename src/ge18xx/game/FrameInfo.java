@@ -10,7 +10,7 @@ public class FrameInfo {
 	public static final AttributeName AN_WIDTH = new AttributeName ("width");
 	public static final AttributeName AN_HEIGHT = new AttributeName ("height");
 	public static final AttributeName AN_XLOCATION = new AttributeName ("xLocation");
-	public static final AttributeName AN_YLOCATION= new AttributeName ("yLocation");
+	public static final AttributeName AN_YLOCATION = new AttributeName ("yLocation");
 	public static final AttributeName AN_VISIBLE = new AttributeName ("visible");
 	public static final AttributeName AN_HEX_SCAKE = new AttributeName ("hexScale");
 	public static final FrameInfo NO_FRAME_INFO = null;
@@ -25,7 +25,7 @@ public class FrameInfo {
 
 	public FrameInfo (XMLFrame aXMLFrame) {
 		String tFrameName;
-		
+
 		height = aXMLFrame.getHeight ();
 		width = aXMLFrame.getWidth ();
 		xLocation = aXMLFrame.getLocation ().x;
@@ -41,18 +41,18 @@ public class FrameInfo {
 	public String extractFrameName (XMLFrame aXMLFrame) {
 		String tFrameName;
 		String tPattern = "^(.*) \\([A-Za-z][A-Za-z0-9_]*\\)$";
-		
+
 		tFrameName = aXMLFrame.getTitle ();
 		if (tFrameName.matches (tPattern)) {
 			int tIndexLastSpace = tFrameName.lastIndexOf (" ");
 			tFrameName = tFrameName.substring (0, tIndexLastSpace);
 		}
-		
+
 		return tFrameName;
 	}
-	
+
 	public XMLElement appendXMLFrameAttributes (XMLElement aXMLFrameElement) {
-		
+
 		aXMLFrameElement.setAttribute (AN_NAME, name);
 		aXMLFrameElement.setAttribute (AN_WIDTH, width);
 		aXMLFrameElement.setAttribute (AN_HEIGHT, height);
@@ -60,9 +60,9 @@ public class FrameInfo {
 		aXMLFrameElement.setAttribute (AN_YLOCATION, yLocation);
 		aXMLFrameElement.setAttribute (AN_VISIBLE, visible);
 		if (hexSize > 0) {
-			aXMLFrameElement.setAttribute (AN_HEX_SCAKE, hexSize);	
+			aXMLFrameElement.setAttribute (AN_HEX_SCAKE, hexSize);
 		}
-		
+
 		return aXMLFrameElement;
 	}
 
@@ -79,17 +79,17 @@ public class FrameInfo {
 	@Override
 	public String toString () {
 		String tFrameInfo;
-		
+
 		tFrameInfo = "Name: " + name + "\n";
 		tFrameInfo += "Width: " + width + "\n";
 		tFrameInfo += "Height: " + height + "\n";
-		tFrameInfo += "X-Location: " + xLocation  + "\n";
-		tFrameInfo += "Y-Location: " + yLocation+ "\n";
+		tFrameInfo += "X-Location: " + xLocation + "\n";
+		tFrameInfo += "Y-Location: " + yLocation + "\n";
 		tFrameInfo += "Visible: " + visible + "\n";
 
 		return tFrameInfo;
 	}
-	
+
 	public int getHeight () {
 		return height;
 	}
@@ -101,11 +101,11 @@ public class FrameInfo {
 	public String getHeightStr () {
 		return height + "";
 	}
-	
+
 	public String getWidthStr () {
 		return width + "";
 	}
-	
+
 	public int getXLocation () {
 		return xLocation;
 	}
@@ -113,7 +113,7 @@ public class FrameInfo {
 	public String getX () {
 		return xLocation + "";
 	}
-	
+
 	public int getYLocation () {
 		return yLocation;
 	}
@@ -121,15 +121,15 @@ public class FrameInfo {
 	public String getY () {
 		return yLocation + "";
 	}
-	
+
 	public boolean getVisible () {
 		return visible;
 	}
-	
+
 	public String getName () {
 		return name;
 	}
-	
+
 	public int getHexSize () {
 		return hexSize;
 	}

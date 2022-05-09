@@ -15,34 +15,34 @@ import ge18xx.utilities.XMLNode;
 
 public class BuyTrainAction extends TransferOwnershipAction {
 	public final static String NAME = "Buy Train";
-	
+
 	public BuyTrainAction () {
 		this (NAME);
 	}
-	
+
 	public BuyTrainAction (String aName) {
 		super (aName);
 	}
-	
+
 	public BuyTrainAction (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
-	
+
 	public BuyTrainAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
 
 	@Override
-	public void addChangeCorporationStatusEffect (ActorI aActor, 
-			ActorI.ActionStates aPreviousState, ActorI.ActionStates aNewState) {
+	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
+			ActorI.ActionStates aNewState) {
 		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
 
 		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
 		addEffect (tChangeCorporationStatusEffect);
 	}
-	
+
 	public void addDiscardExcessTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor) {
 		DiscardExcessTrainEffect tDiscardExcessTrainEffect;
 
@@ -56,7 +56,7 @@ public class BuyTrainAction extends TransferOwnershipAction {
 		tUpgradeTrainEffect = new UpgradeTrainEffect (aFromActor, aTrain, aToActor);
 		addEffect (tUpgradeTrainEffect);
 	}
-	
+
 	public void addPhaseChangeEffect (ActorI aActor, int aPreviousPhaseIndex, int aNewPhaseIndex) {
 		PhaseChangeEffect tPhaseChangeEffect;
 
@@ -66,11 +66,11 @@ public class BuyTrainAction extends TransferOwnershipAction {
 
 	public void addRustTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor, int aOldTrainStatus) {
 		RustTrainEffect tRustTrainEffect;
-		
+
 		tRustTrainEffect = new RustTrainEffect (aFromActor, aTrain, aToActor, aOldTrainStatus);
 		addEffect (tRustTrainEffect);
 	}
-	
+
 	public void addTransferTrainEffect (ActorI aFromActor, Train aTrain, ActorI aToActor) {
 		TransferTrainEffect tBoughtTrainEffect;
 
@@ -78,29 +78,28 @@ public class BuyTrainAction extends TransferOwnershipAction {
 		addEffect (tBoughtTrainEffect);
 	}
 
-	public void addTrainAvailableStatusEffect (ActorI aActor, String aTrainName, 
-			int aTrainOrder, int aOldTrainStatus, int aNewTrainStatus) {
+	public void addTrainAvailableStatusEffect (ActorI aActor, String aTrainName, int aTrainOrder, int aOldTrainStatus,
+			int aNewTrainStatus) {
 		ChangeTrainStatusEffect tChangeTrainStatusEffect;
-		
-		tChangeTrainStatusEffect = new ChangeTrainStatusEffect (aActor, aTrainName, 
-				aTrainOrder, aOldTrainStatus, aNewTrainStatus);
+
+		tChangeTrainStatusEffect = new ChangeTrainStatusEffect (aActor, aTrainName, aTrainOrder, aOldTrainStatus,
+				aNewTrainStatus);
 		addEffect (tChangeTrainStatusEffect);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-		
-		tSimpleActionReport = actor.getName () + " bought a " + getTrainBought () +
-				" Train for " + Bank.formatCash (getCashAmount ()) + " from " + 
-				getFromActorName () + ".";
-		
+
+		tSimpleActionReport = actor.getName () + " bought a " + getTrainBought () + " Train for "
+				+ Bank.formatCash (getCashAmount ()) + " from " + getFromActorName () + ".";
+
 		return tSimpleActionReport;
 	}
 
 	private String getFromActorName () {
 		String tFromActorName = "";
-		
+
 		for (Effect tEffect : effects) {
 			if (tFromActorName.equals ("")) {
 				if (tEffect instanceof TransferTrainEffect) {
@@ -111,10 +110,10 @@ public class BuyTrainAction extends TransferOwnershipAction {
 
 		return tFromActorName;
 	}
-	
+
 	private String getTrainBought () {
 		String tTrainName = "";
-		
+
 		for (Effect tEffect : effects) {
 			if (tTrainName.equals ("")) {
 				if (tEffect instanceof TransferTrainEffect) {

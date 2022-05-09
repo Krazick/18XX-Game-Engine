@@ -15,14 +15,14 @@ public class CertificateBenefit extends Benefit {
 	int corporationID;
 	int certificatePercentage;
 	boolean certificatePresident;
-	
+
 	public CertificateBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
-		
+
 		int tCorporationID;
 		int tCertificatePercentage;
 		boolean tCertificatePresident;
-		
+
 		tCorporationID = aXMLNode.getThisIntAttribute (AN_CORPORATION_ID);
 		tCertificatePercentage = aXMLNode.getThisIntAttribute (AN_CERTIFICATE_PERCENTAGE);
 		tCertificatePresident = aXMLNode.getThisBooleanAttribute (AN_CERTIFICATE_PRESIDENT);
@@ -47,11 +47,11 @@ public class CertificateBenefit extends Benefit {
 	public int getCertificatePercentage () {
 		return certificatePercentage;
 	}
-	
+
 	public int getCorporationID () {
 		return corporationID;
 	}
-	
+
 	public boolean getCertificatePresident () {
 		return certificatePresident;
 	}
@@ -60,19 +60,18 @@ public class CertificateBenefit extends Benefit {
 	public int getCost () {
 		return 0;
 	}
-	
 
 	public Certificate getShareCertificate () {
 		Certificate tShareCertificate = Certificate.NO_CERTIFICATE;
 		GameManager tGameManager;
 		CorporationList tShareCompanyList;
 		Corporation tShareCompany;
-		
+
 		tGameManager = privateCompany.getGameManager ();
 		tShareCompanyList = tGameManager.getShareCompanies ();
 		tShareCompany = tShareCompanyList.getCorporationByID (corporationID);
 		tShareCertificate = tShareCompany.getIPOCertificate (certificatePercentage, certificatePresident);
-		
+
 		return tShareCertificate;
 	}
 

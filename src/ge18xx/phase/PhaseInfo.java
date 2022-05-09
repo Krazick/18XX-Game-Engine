@@ -34,7 +34,7 @@ public class PhaseInfo {
 	static final AttributeName AN_MIN_TO_FLOAT = new AttributeName ("minToFloat");
 	static final AttributeName AN_MIN_TO_FLOAT_LAST = new AttributeName ("minToFloatLast");
 	static final AttributeName AN_CAPITALIZATION = new AttributeName ("capitalization");
-	
+
 	static final int STANDARD_MIN_SHARES = 6;
 	static final int NO_LIMIT = 99;
 	public static final int NO_NAME = 0;
@@ -44,13 +44,14 @@ public class PhaseInfo {
 	int name;
 	int subName;
 	int rounds;
-	String tiles [];
+	String tiles[];
 	int trainLimit;
 	int minorTrainLimit;
 	int govtTrainLimit;
 	int willFloat;
-	int minToFloat;		// Minimum number of Shares sold to Float the Company at time of Preparing Company
-	int minToFloatLast;	// Minimum number of Shares sold to Float the Company when last Train of Phase 
+	int minToFloat; // Minimum number of Shares sold to Float the Company at time of Preparing
+					// Company
+	int minToFloatLast; // Minimum number of Shares sold to Float the Company when last Train of Phase
 						// has been Sold (ie when next train purchase triggers Phase Change)
 	String capitalization;
 	boolean canBuyPrivate;
@@ -59,19 +60,19 @@ public class PhaseInfo {
 	boolean governmentCanForm;
 	boolean governmentMustForm;
 	String offBoard;
-	
+
 	public PhaseInfo () {
-		setValues (NO_NAME, NO_NAME, NO_ROUNDS, NO_TILES, NO_LIMIT, NO_LIMIT, NO_LIMIT, 
-				NO_OFF_BOARD, false, false, false, false, false);
+		setValues (NO_NAME, NO_NAME, NO_ROUNDS, NO_TILES, NO_LIMIT, NO_LIMIT, NO_LIMIT, NO_OFF_BOARD, false, false,
+				false, false, false);
 	}
-	
+
 	public PhaseInfo (XMLNode aCellNode) {
 		int tName, tSubName, tRounds, tTrainLimit, tMinorTrainLimit, tGovTrainLimit;
 		boolean tCanBuyPrivate, tClosePrivate, tGovernmentCanForm, tGovernmentMustForm;
 		boolean tCanBuyTrain;
 		String tOffBoard, tTileColors;
-		String tTiles [];
-		
+		String tTiles[];
+
 		tName = aCellNode.getThisIntAttribute (AN_NAME);
 		tSubName = aCellNode.getThisIntAttribute (AN_SUB_NAME);
 		tRounds = aCellNode.getThisIntAttribute (AN_ROUNDS);
@@ -89,8 +90,8 @@ public class PhaseInfo {
 		tClosePrivate = aCellNode.getThisBooleanAttribute (AN_CLOSE_PRIVATE);
 		tGovernmentCanForm = aCellNode.getThisBooleanAttribute (AN_GOVERNMENT_CAN_FORM);
 		tGovernmentMustForm = aCellNode.getThisBooleanAttribute (AN_GOVERNMENT_MUST_FORM);
-		setValues (tName, tSubName, tRounds, tTiles, tTrainLimit, tMinorTrainLimit, tGovTrainLimit, 
-				tOffBoard, tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tGovernmentCanForm, tGovernmentMustForm);
+		setValues (tName, tSubName, tRounds, tTiles, tTrainLimit, tMinorTrainLimit, tGovTrainLimit, tOffBoard,
+				tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tGovernmentCanForm, tGovernmentMustForm);
 		parseFloatMinValues (aCellNode);
 	}
 
@@ -98,19 +99,19 @@ public class PhaseInfo {
 	private void parseFloatMinValues (XMLNode aCellNode) {
 		int tValue;
 		String tCapitalization;
-		
-		tValue = aCellNode.getThisIntAttribute(AN_MIN_TO_FLOAT, STANDARD_MIN_SHARES);
-		setMinToFloat  (tValue);
-		tValue = aCellNode.getThisIntAttribute(AN_MIN_TO_FLOAT_LAST, STANDARD_MIN_SHARES);
+
+		tValue = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT, STANDARD_MIN_SHARES);
+		setMinToFloat (tValue);
+		tValue = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT_LAST, STANDARD_MIN_SHARES);
 		setMinToFloatLast (tValue);
 		tCapitalization = aCellNode.getThisAttribute (AN_CAPITALIZATION, "FULL");
 		setCapitalization (tCapitalization);
 	}
-	
+
 	private void setCapitalization (String aCapitalization) {
 		capitalization = aCapitalization;
 	}
-	
+
 	private void setMinToFloat (int aValue) {
 		minToFloat = aValue;
 	}
@@ -122,23 +123,23 @@ public class PhaseInfo {
 	public int getMinToFloat () {
 		return minToFloat;
 	}
-	
+
 	public int getMinToFloatLast () {
 		return minToFloatLast;
 	}
-	
+
 	public int getWillFloat () {
 		return willFloat;
 	}
-	
+
 	public int getWillFloatPercent () {
 		return willFloat * 10;
 	}
-	
+
 	// TODO: 1856 - Capitalization level changes based upon Phase -- NEED to Expand
 	public int getCapitalizationLevel (int aSharesSold) {
 		int tCapitalizationLevel;
-		
+
 		if (capitalization.equals ("FULL")) {
 			tCapitalizationLevel = 10;
 		} else if (capitalization.equals ("min_Shares_Sold_5")) {
@@ -146,78 +147,78 @@ public class PhaseInfo {
 		} else {
 			tCapitalizationLevel = 1;
 		}
-		
+
 		return tCapitalizationLevel;
 	}
-	
+
 	public boolean doPartialCapitalization () {
 		return false;
 	}
-	
+
 	public String getOffBoard () {
 		return offBoard;
 	}
-	
+
 	public int getOperatingRoundsCount () {
 		return rounds;
 	}
-	
+
 	public int getTrainLimit (boolean aGovtRailway) {
 		int tTrainLimit;
-		
+
 		if (aGovtRailway) {
 			tTrainLimit = getGovtTrainLimit ();
 		} else {
 			tTrainLimit = getTrainLimit ();
 		}
-		
+
 		return tTrainLimit;
 	}
-	
+
 	public int getGovtTrainLimit () {
 		return govtTrainLimit;
 	}
-	
+
 	public int getMinorTrainLimit () {
 		return minorTrainLimit;
 	}
-	
+
 	public int getTrainLimit () {
 		return trainLimit;
 	}
-	
+
 	public String getFullName () {
 		return name + "." + subName;
 	}
-	
+
 	public int getName () {
 		return name;
 	}
-	
+
 	public String getTiles () {
 		return String.join (", ", tiles);
 	}
-	
+
 	public int getSubName () {
 		return subName;
 	}
-	
+
 	public boolean getCanBuyPrivate () {
 		return canBuyPrivate;
 	}
-	
+
 	public boolean getClosePrivates () {
 		return closePrivates;
 	}
-	
+
 	public boolean getGovernmentCanForm () {
 		return governmentCanForm;
 	}
-	
+
 	public boolean getGovernmentMustForm () {
 		return governmentMustForm;
 	}
-	
+
 	public void printPhaseInfo () {
 		System.out.println ("Phase Name " + name);
 		System.out.println ("SubPhase Name " + subName);
@@ -233,10 +234,10 @@ public class PhaseInfo {
 		System.out.println ("Government Can Form " + governmentCanForm);
 		System.out.println ("Government Must Form " + governmentMustForm);
 	}
-	
-	public void setValues (int aName, int aSubName, int aRounds, String [] aTiles, 
-			int aTrainLimit, int aMinorTrainLimit, int aGovtTrainLimit, String aOffBoard, 
-			boolean aCanBuyPrivate, boolean aCanBuyTrain, boolean aClosePrivates, boolean aGovernmentCanForm, boolean aGovernmentMustForm) {
+
+	public void setValues (int aName, int aSubName, int aRounds, String [] aTiles, int aTrainLimit,
+			int aMinorTrainLimit, int aGovtTrainLimit, String aOffBoard, boolean aCanBuyPrivate, boolean aCanBuyTrain,
+			boolean aClosePrivates, boolean aGovernmentCanForm, boolean aGovernmentMustForm) {
 		name = aName;
 		subName = aSubName;
 		rounds = aRounds;
@@ -256,16 +257,16 @@ public class PhaseInfo {
 	public boolean canBuyTrainInPhase () {
 		return canBuyTrain;
 	}
-	
+
 	public boolean isUpgradeAllowed (String aTileColor) {
 		boolean tUpgradeAllowed = false;
-		
+
 		for (String tTileColor : tiles) {
 			if (tTileColor.equals (aTileColor)) {
 				tUpgradeAllowed = true;
 			}
 		}
-		
+
 		return tUpgradeAllowed;
 	}
 }

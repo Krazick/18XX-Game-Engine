@@ -24,13 +24,12 @@ public class ChangeTileEffect extends ChangeMapEffect {
 	public ChangeTileEffect (String aName) {
 		super (aName);
 	}
-	
-	public ChangeTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
-			int aOrientation) {
+
+	public ChangeTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation) {
 		this (aActor, aMapCell, aTile, aOrientation, NO_BENEFIT_IN_USE);
 	}
-	public ChangeTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, 
-			int aOrientation, Benefit aBenefitInUse) {
+
+	public ChangeTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, Benefit aBenefitInUse) {
 		super (aActor, aMapCell, aBenefitInUse);
 		setName (NAME);
 		setTileNumber (aTile.getNumber ());
@@ -44,7 +43,7 @@ public class ChangeTileEffect extends ChangeMapEffect {
 
 		tOrientation = aEffectNode.getThisIntAttribute (AN_TILE_ORIENTATION);
 		tTileNumber = aEffectNode.getThisIntAttribute (Tile.AN_TILE_NUMBER);
-		
+
 		setTileNumber (tTileNumber);
 		setOrientation (tOrientation);
 	}
@@ -60,18 +59,18 @@ public class ChangeTileEffect extends ChangeMapEffect {
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (Tile.AN_TILE_NUMBER, tileNumber);
 		tEffectElement.setAttribute (AN_TILE_ORIENTATION, orientation);
-	
+
 		return tEffectElement;
 	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " #" + tileNumber + " with orientation " + orientation +
-				" by " + actor.getName () + " on MapCell " + mapCellID);
+		return (REPORT_PREFIX + name + " #" + tileNumber + " with orientation " + orientation + " by "
+				+ actor.getName () + " on MapCell " + mapCellID);
 	}
 
 	@Override

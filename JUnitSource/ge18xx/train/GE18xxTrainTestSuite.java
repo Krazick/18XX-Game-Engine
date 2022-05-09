@@ -9,5 +9,4 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 @SelectPackages ("ge18xx.train")
 class GE18xxTrainTestSuite {
 
-
 }

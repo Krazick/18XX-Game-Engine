@@ -35,14 +35,14 @@ public class TransferOwnershipEffect extends ToEffect {
 
 	public TransferOwnershipEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		
+
 		String tCompanyAbbrev;
 		String tFromActorName;
 		ActorI tFromActor;
 		Certificate tCertificate;
 		int tPercentage;
 		boolean tPresidentShare;
-		
+
 		tCompanyAbbrev = aEffectNode.getThisAttribute (AN_COMPANY_ABBREV);
 		tFromActorName = aEffectNode.getThisAttribute (ActorI.AN_FROM_ACTOR_NAME);
 		tFromActor = aGameManager.getActor (tFromActorName);
@@ -56,35 +56,35 @@ public class TransferOwnershipEffect extends ToEffect {
 	public Certificate getCertificate () {
 		return certificate;
 	}
-	
+
 	public String getCompanyAbbrev () {
 		return certificate.getCompanyAbbrev ();
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_COMPANY_ABBREV, certificate.getCompanyAbbrev ());
 		tEffectElement.setAttribute (AN_PRESIDENT_SHARE, certificate.isPresidentShare ());
 		tEffectElement.setAttribute (AN_SHARE_PERCENT, certificate.getPercentage ());
-	
+
 		return tEffectElement;
 	}
-	
-	@Override 
+
+	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tEffectReport = "";
-		
+
 		tEffectReport += REPORT_PREFIX + name + " of ";
-		tEffectReport += certificate.getPercentage () + "% of " +  certificate.getCompanyAbbrev ();
-		tEffectReport += " from " +  getActorName ();
+		tEffectReport += certificate.getPercentage () + "% of " + certificate.getCompanyAbbrev ();
+		tEffectReport += " from " + getActorName ();
 		tEffectReport += " to " + getToActorName () + ".";
-		
+
 		return tEffectReport;
 	}
-	
+
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
@@ -93,13 +93,13 @@ public class TransferOwnershipEffect extends ToEffect {
 	public void setCertificate (Certificate aCertificate) {
 		certificate = aCertificate;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		PortfolioHolderI tFromHolder;
 		Portfolio tToPortfolio, tFromPortfolio;
-		
+
 		tEffectApplied = false;
 		tToPortfolio = getToPortfolio ();
 		tFromHolder = (PortfolioHolderI) getActor ();
@@ -107,7 +107,7 @@ public class TransferOwnershipEffect extends ToEffect {
 
 		tEffectApplied = tToPortfolio.transferOneCertificateOwnership (tFromPortfolio, certificate);
 		certificate.updateCorporationOwnership ();
-		
+
 		return tEffectApplied;
 	}
 
@@ -117,13 +117,14 @@ public class TransferOwnershipEffect extends ToEffect {
 		Corporation tCorporation;
 		Certificate tThisCertificate;
 		Bank tBank;
-		
+
 		tToHolder = (PortfolioHolderI) getToActor ();
 		tToPortfolio = tToHolder.getPortfolio ();
-		
-		// Test if the ToPortfolio has the Certificate. If this was a Close Corp Action, and the ToHolder 
+
+		// Test if the ToPortfolio has the Certificate. If this was a Close Corp Action,
+		// and the ToHolder
 		// is the Bank, need to get the Closed Portfolio from the Bank instead.
-		if (isToActor (Bank.NAME)){
+		if (isToActor (Bank.NAME)) {
 			tCorporation = certificate.getCorporation ();
 			tThisCertificate = tToPortfolio.getCertificate (tCorporation, certificate.getPercentage ());
 			if (tThisCertificate == Certificate.NO_CERTIFICATE) {
@@ -131,7 +132,7 @@ public class TransferOwnershipEffect extends ToEffect {
 				tToPortfolio = tBank.getClosedPortfolio ();
 			}
 		}
-		
+
 		return tToPortfolio;
 	}
 
@@ -140,15 +141,15 @@ public class TransferOwnershipEffect extends ToEffect {
 		boolean tEffectUndone;
 		PortfolioHolderI tFromHolder;
 		Portfolio tToPortfolio, tFromPortfolio;
-		
+
 		tEffectUndone = false;
 		tToPortfolio = getToPortfolio ();
 		certificate.resetFrameButton ();
 		tFromHolder = (PortfolioHolderI) getActor ();
 		tFromPortfolio = tFromHolder.getPortfolio ();
-		
+
 		tEffectUndone = tFromPortfolio.transferOneCertificateOwnership (tToPortfolio, certificate);
-		
+
 		return tEffectUndone;
 	}
 }

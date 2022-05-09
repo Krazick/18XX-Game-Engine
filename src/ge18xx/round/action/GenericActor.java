@@ -7,35 +7,36 @@ public class GenericActor implements ActorI {
 	}
 
 	@Override
-	public String getName() {
+	public String getName () {
 		return "Generic";
 	}
 
 	@Override
-	public String getStateName() {
+	public String getStateName () {
 		return ActionStates.Fixed.toString ();
 	}
-	
+
 	public ActionStates getState (String aState) {
 		ActionStates tState;
-		
-		tState = getPlayerState (aState) ;
+
+		tState = getPlayerState (aState);
 		if (tState == ActionStates.NoState) {
 			tState = getCorporationActionState (aState);
 		}
 		if (tState == ActionStates.NoState) {
 			tState = getRoundType (aState);
 		}
-		
+
 		return tState;
 	}
-	
-	// NoAction, Pass, Acted, Bought, Sold, 							// Player Primary States
-	// BoughtDone, BoughtSold, SoldDone, BoughtSoldDone, Bid, BidDone	// Player Alternate States
+
+	// NoAction, Pass, Acted, Bought, Sold, // Player Primary States
+	// BoughtDone, BoughtSold, SoldDone, BoughtSoldDone, Bid, BidDone // Player
+	// Alternate States
 
 	public ActionStates getPlayerState (String aState) {
 		ActionStates tPlayerState;
-		
+
 		tPlayerState = ActionStates.NoState;
 		if (aState.equals (ActionStates.NoAction.toString ())) {
 			tPlayerState = ActionStates.NoAction;
@@ -64,17 +65,17 @@ public class GenericActor implements ActorI {
 		} else if (aState.equals (ActionStates.NotBidder.toString ())) {
 			tPlayerState = ActionStates.NotBidder;
 		}
-	
+
 		return tPlayerState;
 	}
-	
+
 //	Unowned, Owned, Closed, MayFloat, WillFloat, NotOperated, StartedOperations		// Corporation States
 //	TileLaid, Tile2Laid, TileUpgraded, StationLaid, TileAndStationLaid, OperatedTrain, 
 //	HoldDividend, HalfDividend, FullDividend, BoughtTrain, Operated,
 
 	public ActorI.ActionStates getCorporationActionState (String aState) {
 		ActorI.ActionStates tCorporationState;
-	
+
 		tCorporationState = ActionStates.NoState;
 		if (aState.equals (ActionStates.Unowned.toString ())) {
 			tCorporationState = ActionStates.Unowned;
@@ -117,15 +118,15 @@ public class GenericActor implements ActorI {
 		} else if (aState.equals (ActionStates.Unformed.toString ())) {
 			tCorporationState = ActionStates.Unformed;
 		}
-		
+
 		return tCorporationState;
 	}
-	
+
 //	NoRound, StockRound, OperatingRound, AuctionRound,				// Round States
-	
+
 	public ActionStates getRoundType (String aState) {
 		ActionStates tRoundState;
-		
+
 		tRoundState = ActionStates.NoState;
 		if (aState.equals (ActionStates.NoRound.toString ())) {
 			tRoundState = ActionStates.NoRound;
@@ -136,36 +137,36 @@ public class GenericActor implements ActorI {
 		} else if (aState.equals (ActionStates.AuctionRound.toString ())) {
 			tRoundState = ActionStates.AuctionRound;
 		}
-		
+
 		return tRoundState;
 	}
-	
+
 	public ActionStates getRT (String aState) {
 		ActionStates tRoundState;
-		ActionStates [] tRoundStates = { ActionStates.NoRound, ActionStates.StockRound, 
-				ActionStates.OperatingRound, ActionStates.AuctionRound };
-		
+		ActionStates [] tRoundStates = { ActionStates.NoRound, ActionStates.StockRound, ActionStates.OperatingRound,
+				ActionStates.AuctionRound };
+
 		tRoundState = ActionStates.NoState;
 		for (int tIndex = 0; tIndex < tRoundStates.length; tIndex++) {
 			if (tRoundState == ActionStates.NoState) {
 				tRoundState = getMatchingActionState (aState, tRoundStates [tIndex]);
 			}
 		}
-		
+
 		return tRoundState;
 	}
-	
+
 	public ActionStates getMatchingActionState (String aStateName, ActionStates aActionState) {
 		ActionStates tActionState;
-		
+
 		tActionState = ActionStates.NoState;
 		if (aStateName.equals (aActionState.toString ())) {
 			tActionState = aActionState;
 		}
-		
+
 		return tActionState;
 	}
-	
+
 	@Override
 	public boolean isAPrivateCompany () {
 		return false;
@@ -175,7 +176,7 @@ public class GenericActor implements ActorI {
 	public boolean isAPlayer () {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isAStockRound () {
 		return false;
@@ -215,7 +216,7 @@ public class GenericActor implements ActorI {
 	public boolean isATrainCompany () {
 		return false;
 	}
-	
+
 	@Override
 	public void completeBenefitInUse () {
 	}

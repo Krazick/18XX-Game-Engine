@@ -12,7 +12,7 @@ public class FreeCertificateBenefit extends CertificateBenefit {
 		super (aXMLNode);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		super.configure (aPrivateCompany, aButtonRow);
