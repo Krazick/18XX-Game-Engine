@@ -6,8 +6,6 @@ import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
 import ge18xx.map.HexMap;
 import ge18xx.phase.PhaseInfo;
-import ge18xx.round.action.ActorI;
-import ge18xx.round.action.ClearAllRoutesAction;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.GUI;
 
@@ -309,19 +307,14 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		int tTrainIndex;
 		int tTrainCount;
 		Train tTrain;
-		ClearAllRoutesAction tClearRouteAction;
-		String tOperatingRoundID;
 
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			tTrain = trainCompany.getTrain (tTrainIndex);
-			clearRouteFromTrain (tTrain);
+			tTrain.setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
+			tTrain.setOperating (false);
 		}
-		tOperatingRoundID = trainCompany.getOperatingRoundID ();
-		tClearRouteAction = new ClearAllRoutesAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
-				trainCompany);
-		tClearRouteAction.addClearAllTrainsFromMapEffect (trainCompany);
-		trainCompany.addAction (tClearRouteAction);
+		trainCompany.clearAllTrainsFromMap ();
 		updateAllFrameButtons ();
 		trainCompany.repaintMapFrame ();
 	}
@@ -331,15 +324,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 		tRouteInformation = aTrain.getCurrentRouteInformation ();
 		if (tRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-			int tTrainIndex, tTrainCount;
-
-			tTrainCount = trainCompany.getTrainCount ();
-			for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
-				if (trainCompany.getTrain (tTrainIndex) == aTrain) {
-					trainCompany.clearTrainFromMap (tTrainIndex);
-				}
-			}
-//			tRouteInformation.clearTrainFromMap ();
+			System.out.println ("Going to clear the " + aTrain.getName () + " for " + trainCompany.getAbbrev () +
+					" from the Map. Called from clearRouteFromTrain.");
+			trainCompany.clearATrainFromMap (aTrain);
 			aTrain.setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 		}
 		aTrain.setOperating (false);
@@ -418,13 +405,12 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	private void handleResetRoute (ActionEvent aResetRouteEvent) {
 		JButton tResetRouteButton = (JButton) aResetRouteEvent.getSource ();
 		int tTrainIndex, tTrainCount;
-
+		
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tResetRouteButton.equals (resetRoutes [tTrainIndex])) {
 				resetTrainRoute (tTrainIndex);
-//				trainCompany.exitSelectRouteMode ();
-				trainCompany.clearTrainFromMap (tTrainIndex);
+				trainCompany.clearATrainFromMap (tTrainIndex, true);
 			}
 		}
 		updateAllFrameButtons ();
@@ -483,7 +469,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		RouteInformation tCurrentRouteInformation;
 
 		tTrain = trainCompany.getTrain (aTrainIndex);
-		trainCompany.clearTrainFromMap (aTrainIndex);
+		trainCompany.clearATrainFromMap (aTrainIndex, true);
 		tTrain.setOperating (true);
 		setupNewRouteInformation (tTrain, aTrainIndex);
 		highlightRouteSegments (tTrain);
@@ -565,7 +551,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tRoundID = trainCompany.getOperatingRoundID ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tSelectRouteButton.equals (selectRoutes [tTrainIndex])) {
-				trainCompany.clearTrainFromMap (tTrainIndex);
+				trainCompany.clearATrainFromMap (tTrainIndex, true);
 				tTrain = trainCompany.getTrain (tTrainIndex);
 				tTrain.clearRouteInformation ();
 				tRouteInformation = new RouteInformation (tTrain, tTrainIndex, tColor, tRoundID, tRegionBonus,
@@ -585,8 +571,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	/**
-	 * This returns the sum of all of the trains the company owns that have been
-	 * collected by the trains
+	 * This returns the sum of the revenues from all of the trains the company owns
 	 * 
 	 * @return the Total of all Trains revenues
 	 */

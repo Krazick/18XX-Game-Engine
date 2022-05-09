@@ -15,6 +15,8 @@ import ge18xx.round.OperatingRound;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
+import ge18xx.round.action.ClearATrainFromMapAction;
+import ge18xx.round.action.ClearAllRoutesAction;
 import ge18xx.round.action.FloatCompanyAction;
 import ge18xx.round.action.LayTileAction;
 import ge18xx.round.action.OperatedTrainsAction;
@@ -1113,14 +1115,42 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	/**
 	 * Clear the Specified Train from the Map
 	 * 
-	 * @param aTrainNumber The Train to clear from the Map, must Look for next index
-	 *                     up
+	 * @param aTrain the actual Train that should be cleared. Need to find index for the Train
 	 */
-	public void clearTrainFromMap (int aTrainNumber) {
+	public void clearATrainFromMap (Train aTrain) {
+		int tTrainCount, tTrainIndex;
+		
+		tTrainCount = getTrainCount ();
+		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
+			if (getTrain (tTrainIndex) == aTrain) {
+				System.out.println ("Found the Train, indexed as " + tTrainIndex);
+				clearATrainFromMap (tTrainIndex, true);
+			}
+		}
+	}
+	
+	/**
+	 * Clear the Specified Train from the Map
+	 * 
+	 * @param aTrainIndex The Train to clear from the Map, must Look for next index
+	 * @param aCreateAction Flag to specify if Action should be created
+	 *
+	 */
+	public void clearATrainFromMap (int aTrainIndex, boolean aCreateAction) {
 		MapFrame tMapFrame;
+		ClearATrainFromMapAction tClearATrainFromMapAction;
+		String tOperatingRoundID;
 
 		tMapFrame = corporationList.getMapFrame ();
-		tMapFrame.clearTrainFromMap (aTrainNumber + 1);
+		tMapFrame.clearTrainFromMap (aTrainIndex + 1);
+		if (aCreateAction) {
+			tOperatingRoundID = getOperatingRoundID ();
+			tClearATrainFromMapAction = new ClearATrainFromMapAction (ActorI.ActionStates.OperatingRound, 
+					tOperatingRoundID, this);
+			tClearATrainFromMapAction.addClearATrainFromMapEffect (this, aTrainIndex);
+			addAction (tClearATrainFromMapAction);
+		}
+
 	}
 
 	/**
@@ -1130,10 +1160,19 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void clearAllTrainsFromMap () {
 		MapFrame tMapFrame;
+		ClearAllRoutesAction tClearAllRoutesAction;
+		String tOperatingRoundID;
 
 		tMapFrame = corporationList.getMapFrame ();
 		tMapFrame.clearAllTrainsFromMap ();
-		trainRevenueFrame.clearAllTrainRoutes ();
+//		trainRevenueFrame.clearAllTrainRoutes ();
+		
+		tOperatingRoundID = getOperatingRoundID ();
+		tClearAllRoutesAction = new ClearAllRoutesAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
+				this);
+		tClearAllRoutesAction.addClearAllTrainsFromMapEffect (this);
+		addAction (tClearAllRoutesAction);
+
 	}
 
 	public void hideTrainRevenueFrame () {
