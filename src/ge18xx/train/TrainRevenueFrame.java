@@ -75,8 +75,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JLabel lastRevenueLabel;
 	JLabel thisRevenueLabel;
 	JLabel notificationLabel;
-	JButton confirm;
+	JButton confimAllRoutes;
 	JButton cancel;
+	JButton [] confirmRoutes;
 	JButton [] selectRoutes;
 	JButton [] resetRoutes;
 	JButton [] reuseRoutes;
@@ -115,6 +116,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 		revenuesByTrain = new JFormattedTextField [maxTrainCount] [maxStops];
 		totalRevenueByEachTrain = new JLabel [maxTrainCount];
+		confirmRoutes = new JButton [maxTrainCount];
 		selectRoutes = new JButton [maxTrainCount];
 		resetRoutes = new JButton [maxTrainCount];
 		reuseRoutes = new JButton [maxTrainCount];
@@ -216,11 +218,11 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	private void buildsButtonsJPanel () {
 		FlowLayout tFlowLayout = new FlowLayout ();
 
-		confirm = setupButton (CONFIRM_ALL_REVENUES, CONFIRM_ALL_REVENUES_ACTION);
+		confimAllRoutes = setupButton (CONFIRM_ALL_REVENUES, CONFIRM_ALL_REVENUES_ACTION);
 		cancel = setupButton (CANCEL, CANCEL_ACTION);
 
 		buttonsJPanel = new JPanel (tFlowLayout);
-		buttonsJPanel.add (confirm);
+		buttonsJPanel.add (confimAllRoutes);
 		buttonsJPanel.add (cancel);
 	}
 
@@ -384,18 +386,20 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	private void handleConfirmRoute (ActionEvent aConfirmRouteEvent) {
-		JButton tConfirmRouteButton = (JButton) aConfirmRouteEvent.getSource ();
+		JButton tConfirmRouteButton;
 		int tTrainIndex, tTrainCount;
 		Train tTrain;
 		RouteInformation tRouteInformation;
 
 		tTrainCount = trainCompany.getTrainCount ();
+		tConfirmRouteButton = (JButton) aConfirmRouteEvent.getSource ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
-			if (tConfirmRouteButton.equals (selectRoutes [tTrainIndex])) {
+			if (tConfirmRouteButton.equals (confirmRoutes [tTrainIndex])) {
 				tTrain = trainCompany.getTrain (tTrainIndex);
 				tRouteInformation = tTrain.getCurrentRouteInformation ();
 				fillRevenueForTrain (tRouteInformation, tTrain, tTrainIndex);
 				tTrain.setOperating (false);
+				showSelectRouteButton (tTrainIndex);
 				trainCompany.exitSelectRouteMode ();
 			}
 		}
@@ -677,8 +681,12 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		totalRevenueByEachTrain [aTrainIndex] = new JLabel ("0");
 		tTrainRevenueJPanel.add (totalRevenueByEachTrain [aTrainIndex]);
 
+		confirmRoutes [aTrainIndex] = setupButton (CONFIRM_ROUTE, CONFIRM_ROUTE_ACTION);
 		selectRoutes [aTrainIndex] = setupButton (SELECT_ROUTE, SELECT_ROUTE_ACTION);
+		updateConfirmRouteButton (aTrainIndex);
+		disableConfirmRouteButton (aTrainIndex, "Train Not Operating");
 		updateSelectRouteButton (aTrainIndex);
+		tTrainRevenueJPanel.add (confirmRoutes [aTrainIndex]);
 		tTrainRevenueJPanel.add (selectRoutes [aTrainIndex]);
 		resetRoutes [aTrainIndex] = setupButton (RESET_ROUTE, RESET_ROUTE_ACTION);
 		updateResetRouteButton (aTrainIndex);
@@ -738,7 +746,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		setVisible (true);
 	}
 
-	public boolean allRoutesValid () {
+	private boolean allRoutesValid () {
 		boolean tAllRoutesValid = true;
 		int tTrainIndex, tTrainCount;
 		Train tTrain;
@@ -768,7 +776,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		return tAllRevenuesValid;
 	}
 
-	public boolean isValidRevenue (int aTrainIndex, int aCityIndex) {
+	private boolean isValidRevenue (int aTrainIndex, int aCityIndex) {
 		boolean tIsValidRevenue = true;
 		JFormattedTextField tRevenueField;
 		Object tRevenueValue;
@@ -791,7 +799,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		return tIsValidRevenue;
 	}
 
-	public boolean multipleOfTen (int aValue) {
+	private boolean multipleOfTen (int aValue) {
 		boolean tMultipleOfTen = false;
 		int tOneTenth = aValue / 10;
 
@@ -877,7 +885,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		return tHeight;
 	}
 
-	public void updateFrameSize () {
+	private void updateFrameSize () {
 		int tWidth, tHeight;
 
 		tWidth = calculateTrainWidth ();
@@ -926,29 +934,53 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	public void udpateConfirmAllRoutesButton () {
-		if (confirm != null) {
+		if (confimAllRoutes != null) {
 			if (isYourCompany ()) {
 				if (anyTrainIsOperating ()) {
-					confirm.setEnabled (false);
-					confirm.setToolTipText ("A Train is Operating");
+					confimAllRoutes.setEnabled (false);
+					confimAllRoutes.setToolTipText ("A Train is Operating");
 				} else if (!allRoutesValid ()) {
-					confirm.setEnabled (false);
-					confirm.setToolTipText ("One or more Routes are Invalid");
+					confimAllRoutes.setEnabled (false);
+					confimAllRoutes.setToolTipText ("One or more Routes are Invalid");
 				} else if (!allTrainRevenuesAreValid ()) {
-					confirm.setEnabled (false);
-					confirm.setToolTipText ("One or more Revenues are Invalid");
+					confimAllRoutes.setEnabled (false);
+					confimAllRoutes.setToolTipText ("One or more Revenues are Invalid");
 				} else {
-					confirm.setEnabled (true);
-					confirm.setToolTipText ("Confirm that all Routes and Revenues are Accepted");
+					confimAllRoutes.setEnabled (true);
+					confimAllRoutes.setToolTipText ("Confirm that all Routes and Revenues are Accepted");
 				}
 			} else {
-				confirm.setEnabled (false);
-				confirm.setToolTipText (NOT_YOUR_COMPANY);
+				confimAllRoutes.setEnabled (false);
+				confimAllRoutes.setToolTipText (NOT_YOUR_COMPANY);
 			}
 		}
 	}
-
+	
 	public void updateSelectRouteButton (int aTrainIndex) {
+		Train tTrain;
+
+		if (isValidIndex (aTrainIndex)) {
+			showSelectRouteButton (aTrainIndex);
+			if (isYourCompany ()) {
+				tTrain = trainCompany.getTrain (aTrainIndex);
+				if (tTrain.isOperating ()) {
+					hideSelectRouteButton (aTrainIndex);
+				} else if (tTrain.hasRoute ()) {
+					disableSelectRouteButton (aTrainIndex, "Train has Operated, Reset Route to change");
+				} else if (anyTrainIsOperating ()) {
+					disableSelectRouteButton (aTrainIndex, "Another Train is Operating");
+				} else {
+					enableSelectRouteButton (aTrainIndex, "Select Route");
+				}
+			} else {
+				disableSelectRouteButton (aTrainIndex, NOT_YOUR_COMPANY);
+			}
+		} else {
+			logger.error ("TrainIndex of " + aTrainIndex + " is out of range");
+		}
+	}
+	
+	public void updateConfirmRouteButton (int aTrainIndex) {
 		Train tTrain;
 		RouteInformation tRouteInformation;
 		String tToolTip;
@@ -959,20 +991,20 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			if (isYourCompany ()) {
 				tTrain = trainCompany.getTrain (aTrainIndex);
 				if (tTrain.isOperating ()) {
+					hideSelectRouteButton (aTrainIndex);
 					tRouteInformation = tTrain.getCurrentRouteInformation ();
 					if (tRouteInformation == RouteInformation.NO_ROUTE_INFORMATION) {
-						enableSelectRouteButton (aTrainIndex, CONFIRM_ROUTE, CONFIRM_ROUTE_ACTION, "Confirm Route");
-						disableSelectRouteButton (aTrainIndex, "Route is not yet valid");
+						disableConfirmRouteButton (aTrainIndex, "No Route selected to be confirmed");
 					} else if (tRouteInformation.isRouteTooLong ()) {
 						tToolTip = "Route is Too Long. Max length is " + tTrain.getName ();
-						disableSelectRouteButton (aTrainIndex, tToolTip);
+						disableConfirmRouteButton (aTrainIndex, tToolTip);
 						updateNotificationLabel (tToolTip);
 					} else {
 						tRouteCode = tRouteInformation.isValidRoute ();
 						tWarningMessage = tRouteInformation.getWarningMessage ();
 						updateNotificationLabel (tWarningMessage);
 						if (tRouteCode == 1) {
-							enableSelectRouteButton (aTrainIndex, CONFIRM_ROUTE, CONFIRM_ROUTE_ACTION, "Confirm Route");
+							enableConfirmRouteButton (aTrainIndex, "Confirm Route");
 						} else {
 							tToolTip = "No Train for company, or other unspecified error";
 							switch (tRouteCode) {
@@ -989,17 +1021,17 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 								break;
 							case -5:
 								tToolTip = "Route is Blocked by other Corporation Stations";
-								updateNotificationLabel (tToolTip);
 								break;
 							}
-							disableSelectRouteButton (aTrainIndex, tToolTip);
+							updateNotificationLabel (tToolTip);
+							disableConfirmRouteButton (aTrainIndex, tToolTip);
 						}
 					}
 				} else {
 					if (anyTrainIsOperating ()) {
 						disableSelectRouteButton (aTrainIndex, "Another Train is Operating");
 					} else {
-						enableSelectRouteButton (aTrainIndex, SELECT_ROUTE, SELECT_ROUTE_ACTION, "Select Route");
+						enableSelectRouteButton (aTrainIndex, "Select Route");
 					}
 				}
 			} else {
@@ -1013,15 +1045,33 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	private boolean anyTrainIsOperating () {
 		return trainCompany.anyTrainIsOperating ();
 	}
+	
+	private void showSelectRouteButton (int aTrainIndex) {
+		selectRoutes [aTrainIndex].setVisible (true);
+		confirmRoutes [aTrainIndex].setVisible (false);
+	}
+
+	private void hideSelectRouteButton (int aTrainIndex) {
+		selectRoutes [aTrainIndex].setVisible (false);
+		confirmRoutes [aTrainIndex].setVisible (true);
+	}
+	
+	private void disableConfirmRouteButton (int aTrainIndex, String aToolTipText) {
+		confirmRoutes [aTrainIndex].setEnabled (false);
+		confirmRoutes [aTrainIndex].setToolTipText (aToolTipText);
+	}
+
+	private void enableConfirmRouteButton (int aTrainIndex, String aToolTipText) {
+		confirmRoutes [aTrainIndex].setEnabled (true);
+		confirmRoutes [aTrainIndex].setToolTipText (aToolTipText);
+	}
 
 	private void disableSelectRouteButton (int aTrainIndex, String aToolTipText) {
 		selectRoutes [aTrainIndex].setEnabled (false);
 		selectRoutes [aTrainIndex].setToolTipText (aToolTipText);
 	}
 
-	private void enableSelectRouteButton (int aTrainIndex, String aButtonLabel, String aAction, String aToolTipText) {
-		selectRoutes [aTrainIndex].setText (aButtonLabel);
-		selectRoutes [aTrainIndex].setActionCommand (aAction);
+	private void enableSelectRouteButton (int aTrainIndex, String aToolTipText) {
 		selectRoutes [aTrainIndex].setEnabled (true);
 		selectRoutes [aTrainIndex].setToolTipText (aToolTipText);
 	}
@@ -1052,18 +1102,29 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	public void updateAllFrameButtons () {
 		updateNotificationLabel (NO_NOTIFICATION);
+		updateConfirmRouteButtons ();
 		updateSelectRouteButtons ();
 		updateResetRouteButtons ();
 		updateReuseRouteButtons ();
 		udpateConfirmAllRoutesButton ();
 		updateCancelButton ();
 	}
+	
+	private void updateConfirmRouteButtons () {
+		int tTrainIndex;
+
+		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
+			if (confirmRoutes [tTrainIndex] != GUI.NO_BUTTON) {
+				updateConfirmRouteButton (tTrainIndex);
+			}
+		}
+	}
 
 	private void updateSelectRouteButtons () {
 		int tTrainIndex;
 
 		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
-			if (selectRoutes [tTrainIndex] != null) {
+			if (selectRoutes [tTrainIndex] != GUI.NO_BUTTON) {
 				updateSelectRouteButton (tTrainIndex);
 			}
 		}
@@ -1073,7 +1134,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		int tTrainIndex;
 
 		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
-			if (resetRoutes [tTrainIndex] != null) {
+			if (resetRoutes [tTrainIndex] != GUI.NO_BUTTON) {
 				updateResetRouteButton (tTrainIndex);
 			}
 		}
@@ -1083,7 +1144,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		int tTrainIndex;
 
 		for (tTrainIndex = 0; (tTrainIndex < trainCompany.getTrainCount ()); tTrainIndex++) {
-			if (reuseRoutes [tTrainIndex] != null) {
+			if (reuseRoutes [tTrainIndex] != GUI.NO_BUTTON) {
 				updateReuseRouteButton (tTrainIndex);
 			}
 		}
