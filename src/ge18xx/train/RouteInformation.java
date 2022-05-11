@@ -127,7 +127,7 @@ public class RouteInformation {
 		tValidRouteCode = isValidRoute ();
 		if (tValidRouteCode < 1) {
 			if (routeSegments.size () > 1) {
-				if (!isRouteTooLong ()) {
+				if (! isRouteTooLong ()) {
 					tHasOperated = true;
 				}
 			}
