@@ -563,6 +563,18 @@ public class Train implements Comparable<Object> {
 		}
 	}
 
+	/**
+	 * Clear the Current Route Information by setting it to NO_ROUTE_INFORMATION
+	 * 
+	 */
+	public void clearCurrentRoute () {
+		currentRouteInformation = RouteInformation.NO_ROUTE_INFORMATION;
+	}
+	
+	/**
+	 * Clear the Current RouteInformation by calling currentRouteInformation.clear, if it is set
+	 * 
+	 */
 	public void clearRouteInformation () {
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			currentRouteInformation.clear ();

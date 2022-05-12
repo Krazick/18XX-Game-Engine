@@ -194,6 +194,15 @@ public class TrainPortfolio implements TrainHolderI {
 		return tPortfolioJPanel;
 	}
 
+	public void clearCurrentRoutes () {
+		if (trains != NO_TRAINS) {
+			for (Train tTrain : trains) {
+				tTrain.clearCurrentRoute ();
+			}
+		}
+		
+	}
+	
 	public void clearSelections () {
 		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
