@@ -739,7 +739,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		setThisRevenue (trainCompany.getThisRevenue ());
 		setYourCompany (true);
 		updateInfo ();
-		if (!trainCompany.isOperatingTrains ()) {
+		if (! trainCompany.isOperatingTrains ()) {
 			clearAllRevenueValues ();
 		}
 		setLocation (aFrameOffset);
@@ -902,7 +902,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		title.setText (tTitleText);
 		updatePresidentLabel ();
 		updateLastRevenueLabel ();
-		if (!isVisible ()) {
+		if (! isVisible ()) {
 			buildRevenuesJPanel ();
 		}
 		updateThisRevenueLabel ();
