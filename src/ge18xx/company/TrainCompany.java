@@ -1092,6 +1092,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		tGameManager = corporationList.getGameManager ();
 		tFrameOffset = tGameManager.getOffsetCorporationFrame ();
+		trainPortfolio.clearCurrentRoutes ();
 		trainRevenueFrame.operateTrains (tFrameOffset);
 		setIsOperatingTrains (true);
 	}
