@@ -76,6 +76,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final String NO_REVENUE = "0";
 	static final int NO_COST = 0;
 	static final float LEFT_ALIGNMENT = 0.0f;
+	static final int INFINITE_PRICE = 99999;
 	String bgColorName;
 	String fgColorName;
 	Color bgColor;
@@ -247,7 +248,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		int tCurrentColumn = aStartColumn;
 
 		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
-		aCorporationList.addDataElement (getTreasury (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getCash (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getBgColorName (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getBgColor (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getFgColorName (), aRowIndex, tCurrentColumn++);
@@ -533,12 +534,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (tBankPoolTrain != Train.NO_TRAIN) {
 			tBankPoolTrainCost = tBankPoolTrain.getPrice ();
 		} else {
-			tBankPoolTrainCost = 99999;
+			tBankPoolTrainCost = INFINITE_PRICE;
 		}
 		if (tBankTrain != Train.NO_TRAIN) {
 			tBankTrainCost = tBankTrain.getPrice ();
 		} else {
-			tBankTrainCost = 99999;
+			tBankTrainCost = INFINITE_PRICE;
 		}
 		// TODO: Determine if BankPool Train and BankTrain cost is the same, which train
 		// to buy?
@@ -692,7 +693,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public boolean canOperate () {
 		boolean tCanOperate;
 
-		if (didOperate () || isClosed () || !isFormed ()) {
+		if (didOperate () || isClosed () || ! isFormed ()) {
 			tCanOperate = false;
 		} else {
 			if ((status == ActorI.ActionStates.WillFloat) || (status == ActorI.ActionStates.StartedOperations)) {
@@ -710,9 +711,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tOperateTrains;
 
 		tOperateTrains = false;
-		if ((status == ActorI.ActionStates.StartedOperations) || (status == ActorI.ActionStates.TileLaid)
-				|| (status == ActorI.ActionStates.Tile2Laid) || (status == ActorI.ActionStates.TileUpgraded)
-				|| (status == ActorI.ActionStates.TileAndStationLaid) || (status == ActorI.ActionStates.StationLaid)) {
+		if ((status == ActorI.ActionStates.StartedOperations) || (status == ActorI.ActionStates.TileLaid) || 
+			(status == ActorI.ActionStates.Tile2Laid) || (status == ActorI.ActionStates.TileUpgraded) || 
+			(status == ActorI.ActionStates.TileAndStationLaid) || (status == ActorI.ActionStates.StationLaid)) {
 			if (trainPortfolio.getTrainCount () > 0) {
 				tOperateTrains = true;
 			}
@@ -769,11 +770,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tDividendsHandled;
 
 		tDividendsHandled = false;
-		if ((status == ActorI.ActionStates.Closed) || (status == ActorI.ActionStates.Unowned)
-				|| (status == ActorI.ActionStates.Owned) || (status == ActorI.ActionStates.MayFloat)
-				|| (status == ActorI.ActionStates.WillFloat) || (status == ActorI.ActionStates.HoldDividend)
-				|| (status == ActorI.ActionStates.HalfDividend) || (status == ActorI.ActionStates.FullDividend)
-				|| (status == ActorI.ActionStates.BoughtTrain) || (status == ActorI.ActionStates.Operated)) {
+		if ((status == ActorI.ActionStates.Closed) || (status == ActorI.ActionStates.Unformed) ||
+			(status == ActorI.ActionStates.Unowned) || (status == ActorI.ActionStates.Owned) ||
+			(status == ActorI.ActionStates.MayFloat) || (status == ActorI.ActionStates.WillFloat) || 
+			(status == ActorI.ActionStates.HoldDividend) || (status == ActorI.ActionStates.HalfDividend) || 
+			(status == ActorI.ActionStates.FullDividend) || (status == ActorI.ActionStates.BoughtTrain) || 
+			(status == ActorI.ActionStates.Operated)) {
 			tDividendsHandled = true;
 		}
 
@@ -1059,9 +1061,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return trainPortfolio.getTrainQuantity (aName);
 	}
 
-	public int getTreasury () {
-		return treasury;
-	}
+//	public int getTreasury () {
+//		return treasury;
+//	}
 
 	public int getValue () {
 		return value;
