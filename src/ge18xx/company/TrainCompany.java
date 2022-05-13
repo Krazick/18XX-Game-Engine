@@ -1004,6 +1004,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tStatus;
 	}
 
+	/**
+	 * Find the Train at the specified index in the Train Portfolio, and return it
+	 * 
+	 * @param aIndex the Index for the Train to find
+	 * @return The Train at the specified index in the Train Portfolio
+	 */
 	public Train getTrain (int aIndex) {
 		return trainPortfolio.getTrainAt (aIndex);
 	}
@@ -1130,6 +1136,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 	
+	/**
+	 * Clear the Specified Train from the Map but not create an Action to send to others
+	 * 
+	 * @param aTrainIndex The Train to clear from the Map, must Look for next index
+	 * 
+	 */
+	public void clearATrainFromMap (int aTrainIndex) {
+		clearATrainFromMap (aTrainIndex, false);
+	}
 	/**
 	 * Clear the Specified Train from the Map
 	 * 
