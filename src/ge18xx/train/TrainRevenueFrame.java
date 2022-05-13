@@ -435,39 +435,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updateAllFrameButtons ();
 	}
 
-	// Steps needed:
-	// ** 1. Clone the Previous Route into a new Current Route Object
-	// ** 2. Highlight the Current Route on the Map Frame, Tile by Tile, Track by
-	// Track
-	// ** 3. Fill the Train Revenue Frame with the Revenues for the Route
-	// 4. Create new RouteAction, with all of the Effects to allow all tiles,
-	// tracks, revenue centers to be filled
-	// just as if they were selected tile by tile, track by track, center by center
-	// with the mouse
-	// 5. The RouteAction should not need "Cycle Route Effects", but every
-	// extendRouteEffect should be included
-	// in the single Route Action
-	// 6. Add the RouteAction
-	// a. If this is a Network Game, this action should be sent to other Clients
-	// 7. Optional: Allow for route Extension, by selecting a cell, and code should
-	// find which end of the route
-	// to Extend
-	// 8. Verify that none of the Track Segments on the Route has been marked as
-	// in-use (ie the Operator runs a
-	// different train first manually, and then tried to Reuse a Route flagged for
-	// the train).
-
-	// If a Tile on the Route being re-used has been upgraded, then:
-	// 1. If this upgrade has a Revenue Center where the Revenue Value has
-	// increased, be sure use higher value
-	// 2. If this upgrade has a Revenue Center where the Revenue Value is based on
-	// the Phase, be sure to apply
-	// The correct value for the current phase
-	// 3. If the Tile had a "down-graded" Revenue Center, to no Revenue Center,
-	// clear the Revenue Value
-	// The Route must be validated to confirm it is open for the company to operate
-	// (not blocked by Station Markers)
-
 	private void reuseTrainRoute (int aTrainIndex) {
 		Train tTrain;
 		RouteInformation tCurrentRouteInformation;
@@ -1245,7 +1212,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	/**
-	 * This method will disable All of the Buttons on the Frame
+	 * This method will disable All of the Buttons on the Frame, and set flag as NOT YOUR COMPANY
 	 * 
 	 */
 
