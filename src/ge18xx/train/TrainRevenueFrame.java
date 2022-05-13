@@ -555,7 +555,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tRoundID = trainCompany.getOperatingRoundID ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tSelectRouteButton.equals (selectRoutes [tTrainIndex])) {
-				trainCompany.clearATrainFromMap (tTrainIndex, true);
+				trainCompany.clearATrainFromMap (tTrainIndex);
 				tTrain = trainCompany.getTrain (tTrainIndex);
 				tTrain.clearRouteInformation ();
 				tRouteInformation = new RouteInformation (tTrain, tTrainIndex, tColor, tRoundID, tRegionBonus,
