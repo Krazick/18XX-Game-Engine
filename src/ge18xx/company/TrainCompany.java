@@ -248,7 +248,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		int tCurrentColumn = aStartColumn;
 
 		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
-		aCorporationList.addDataElement (getCash (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getTreasury (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getBgColorName (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getBgColor (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getFgColorName (), aRowIndex, tCurrentColumn++);
@@ -1061,9 +1061,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return trainPortfolio.getTrainQuantity (aName);
 	}
 
-//	public int getTreasury () {
-//		return treasury;
-//	}
+	public int getTreasury () {
+		return treasury;
+	}
 
 	public int getValue () {
 		return value;
