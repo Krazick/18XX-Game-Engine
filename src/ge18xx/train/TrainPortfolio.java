@@ -402,6 +402,14 @@ public class TrainPortfolio implements TrainHolderI {
 		return tTrain;
 	}
 
+	/**
+	 * Find the Train at the specified index, and return it. If there are no trains in the portfolio
+	 * return Train.NO_TRAIN. If the train index is after the last train in the 
+	 * portfolio, return Train.NO_TRAIN
+	 * 
+	 * @param aIndex the Index for the Train to find
+	 * @return The Train at the specified index
+	 */
 	public Train getTrainAt (int aIndex) {
 		Train tTrain;
 
