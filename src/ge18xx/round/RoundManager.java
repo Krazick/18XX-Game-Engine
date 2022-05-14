@@ -773,8 +773,6 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void updateRoundFrame () {
-		PlayerManager tPlayerManager;
-
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 			operatingRound.sortByOperatingOrder ();
 
@@ -790,8 +788,7 @@ public class RoundManager implements ActionListener {
 			if (isAuctionRound ()) {
 				roundFrame.setAuctionRound (gameName, auctionRound.getIDPart1 ());
 			}
-			tPlayerManager = gameManager.getPlayerManager ();
-			tPlayerManager.updateAllRFPlayerLabels ();
+//			System.out.println ("---- Round Manager Calling UpdateAll to Set Round Frame Backgrounds");
 			roundFrame.updateAll ();
 		}
 	}
@@ -1154,10 +1151,12 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void setFrameBackgrounds () {
+//		System.out.println ("========= Round Manager Setting Round Frame Set Backgrounds");
 		roundFrame.setFrameBackgrounds ();
 	}
 
 	public void resetBackgrounds () {
+//		System.out.println ("========= Round Manager Resetting Round Frame Backgrounds");
 		roundFrame.resetBackgrounds ();
 	}
 

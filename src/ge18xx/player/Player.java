@@ -1122,6 +1122,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public void passAction () {
+		playerManager.resetRoundFrameBackgrounds ();
 		playerManager.passAction (this);
 		hidePlayerFrame ();
 	}

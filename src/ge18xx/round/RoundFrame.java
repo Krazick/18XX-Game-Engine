@@ -95,7 +95,6 @@ public class RoundFrame extends XMLFrame {
 		buildRoundJPanel ();
 
 		pack ();
-		resetBackgrounds ();
 		setStockRoundInfo (aGameName, roundManager.getStockRoundID ());
 	}
 
@@ -680,6 +679,7 @@ public class RoundFrame extends XMLFrame {
 		updateAllPlayerJPanels ();
 		updateAllCorporationsBox ();
 		updatePassButton ();
+//		System.out.println ("========= Round Frane, UpdateAll Setting Round Frame Set Backgrounds");
 		setFrameBackgrounds ();
 		revalidate ();
 	}
@@ -690,19 +690,24 @@ public class RoundFrame extends XMLFrame {
 		String tOperatingOwnerName;
 
 		tGameManager = roundManager.getGameManager ();
-		resetBackgrounds ();
 		if (tGameManager.isNetworkGame ()) {
 			tClientUserName = tGameManager.getClientUserName ();
 			if (roundManager.isStockRound ()) {
 				tCurrentPlayerName = getCurrentPlayerName ();
 				if (tCurrentPlayerName.equals (tClientUserName)) {
+//					System.out.println ("*********** Stock Round, Round Frame Set Alert Backgrounds");
 					setAlertBackgrounds ();
+				} else {
+					resetBackgrounds ();
 				}
 			} else if (roundManager.isOperatingRound ()) {
 				tOperatingOwnerName = roundManager.getOwnerWhoWillOperate ();
 				if (tOperatingOwnerName != Corporation.NO_NAME) {
 					if (tOperatingOwnerName.equals (tClientUserName)) {
+//						System.out.println ("*********** Operating Round, Round Frame Set Alert Backgrounds");
 						setAlertBackgrounds ();
+					} else {
+						resetBackgrounds ();
 					}
 				}
 			}
@@ -712,10 +717,12 @@ public class RoundFrame extends XMLFrame {
 	public void setAlertBackgrounds () {
 		Color tAlertColor = Color.ORANGE;
 
+//		System.out.println ("*********** Round Frame Set Alert Backgrounds");
 		setAllBackgrounds (tAlertColor);
 	}
 
 	public void resetBackgrounds () {
+//		System.out.println ("*********** Round Frame Resetting Backgrounds");
 		setAllBackgrounds (defaultColor);
 	}
 
@@ -726,7 +733,6 @@ public class RoundFrame extends XMLFrame {
 		setPanelBackground (trainSummaryJPanel, aBackgroundColor);
 		setPanelBackground (buttonsJPanel, aBackgroundColor);
 		setPanelBackground (roundJPanel, aBackgroundColor);
-
 	}
 
 	private void setPanelBackground (JPanel aJPanel, Color aBackgroundColor) {

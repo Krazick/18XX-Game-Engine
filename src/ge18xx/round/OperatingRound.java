@@ -53,6 +53,7 @@ public class OperatingRound extends Round {
 		} else {
 			tStartedOperatingRound = false;
 		}
+//		System.out.println ("Operating Round -- Starting, call UpdateRoundFrame");
 		roundManager.updateRoundFrame ();
 
 		return tStartedOperatingRound;

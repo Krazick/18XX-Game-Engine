@@ -2435,10 +2435,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void setFrameBackgrounds () {
+//		System.out.println ("---- Game Manager Setting Round Frame Backgrounds");
 		roundManager.setFrameBackgrounds ();
 	}
 
 	public void resetRoundFrameBackgrounds () {
+//		System.out.println ("---- Game Manager Reset Round Frame Backgrounds");
 		roundManager.resetBackgrounds ();
 	}
 

@@ -1171,12 +1171,16 @@ public class PlayerManager {
 			} else {
 				moveToNextPlayer (tNextPlayerIndex);
 			}
-			gameManager.resetRoundFrameBackgrounds ();
 		} else {
 			System.err.println ("Player has acted in this Stock Round, cannot Pass");
 		}
 	}
 
+	public void resetRoundFrameBackgrounds () {
+		System.out.println ("---- PlayerManager Reset Round Frame Background");
+		gameManager.resetRoundFrameBackgrounds ();
+	}
+	
 	public void passAuctionAction (Player aPlayer) {
 		int tNextPlayerIndex;
 
