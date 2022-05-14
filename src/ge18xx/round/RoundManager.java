@@ -888,13 +888,11 @@ public class RoundManager implements ActionListener {
 		// start,
 		// Revenues were paid by Private Companies
 		// Need to simply restart Stock Round
-		if (operatingRound.startOperatingRound ()) {
-			roundFrame.updateAll ();
-		} else {
+		if (! operatingRound.startOperatingRound ()) {
 			startStockRound ();
 		}
 	}
-
+	
 	public void endOperatingRound () {
 		// If this is the LastOR, go back to Stock Round
 		if (isLastOR ()) {
@@ -963,10 +961,10 @@ public class RoundManager implements ActionListener {
 	public boolean canStartOperatingRound () {
 		return gameManager.canStartOperatingRound ();
 	}
-
-	public boolean stockRoundIsDone () {
-		return stockRound.roundIsDone ();
-	}
+//
+//	public boolean stockRoundIsDone () {
+//		return stockRound.roundIsDone ();
+//	}
 
 	public boolean operatingRoundIsDone () {
 		return operatingRound.roundIsDone ();
@@ -1073,17 +1071,17 @@ public class RoundManager implements ActionListener {
 		gameManager.setParPrice (aShareCompany, aParPrice);
 	}
 
-	public void updateActionLabel (ShareCompany aShareCompany) {
+	public void updateActionLabel (TrainCompany aTrainCompany) {
 		String tDoActionLabel = "DO THIS COMPANY";
 
-		if (aShareCompany.shouldOperate ()) {
-			tDoActionLabel = aShareCompany.getDoLabel ();
+		if (aTrainCompany.shouldOperate ()) {
+			tDoActionLabel = aTrainCompany.getDoLabel ();
 		}
-		if (aShareCompany.isOperating ()) {
-			tDoActionLabel = aShareCompany.getOperatingLabel ();
+		if (aTrainCompany.isOperating ()) {
+			tDoActionLabel = aTrainCompany.getOperatingLabel ();
 		}
 		setButtonLabel (tDoActionLabel);
-		if (isNetworkAndIsThisClient (aShareCompany.getPresidentName ())) {
+		if (isNetworkAndIsThisClient (aTrainCompany.getPresidentName ())) {
 			enableActionButton (true);
 		} else {
 			enableActionButton (false);

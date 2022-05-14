@@ -42,19 +42,18 @@ public class OperatingRound extends Round {
 	public boolean startOperatingRound () {
 		boolean tStartedOperatingRound = true;
 
-		if (!roundManager.applyingAction ()) {
+		if (! roundManager.applyingAction ()) {
 			payRevenues ();
 		}
 		if (anyFloatedCompanies ()) {
 			coalCompanies.clearOperatedStatus ();
 			minorCompanies.clearOperatedStatus ();
 			shareCompanies.clearOperatedStatus ();
-			// TODO: Test for Coal Companies and Minor Companies BEFORE Share Companies
-			roundManager.revalidateRoundFrame ();
 			updateActionLabel ();
 		} else {
 			tStartedOperatingRound = false;
 		}
+		roundManager.updateRoundFrame ();
 
 		return tStartedOperatingRound;
 	}
@@ -172,6 +171,10 @@ public class OperatingRound extends Round {
 		boolean tRoundDone;
 
 		tRoundDone = false;
+		
+		// TODO: Test if all Train Companies (if any) have Operated, not just Share Companies
+		// (test Minors - 1835 and Coal Companies (1837), etc.
+		
 		if (shareCompanies != CorporationList.NO_CORPORATION_LIST) {
 			tRoundDone = shareCompanies.haveAllCompaniesOperated ();
 		}
