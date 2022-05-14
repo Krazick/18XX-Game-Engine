@@ -886,6 +886,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return NO_COST;
 	}
 
+	/**
+	 * Create the "may operate", "will operate" label for the Action Button for this company
+	 * 
+	 * @return String with the full specification to set to the Action Button Label
+	 * 
+	 */
 	public String getDoLabel () {
 		String tLabel;
 		String tActionVerb;
@@ -895,19 +901,36 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		} else {
 			tActionVerb = " will operate ";
 		}
-		tLabel = getPresidentName () + tActionVerb + getName ();
+//		tLabel = getPresidentName () + tActionVerb + getName ();
+		tLabel = createButtonLabel (tActionVerb);
 
 		return tLabel;
 	}
+	
+	/**
+	 * Create the "is operating" label for the Action Button for this company
+	 * 
+	 * @return String with the full specification to set to the Action Button Label
+	 * 
+	 */
 
 	public String getOperatingLabel () {
 		String tLabel;
 
-		tLabel = getPresidentName () + " is operating " + getName ();
-
+//		tLabel = getPresidentName () + " is operating " + getName ();
+		tLabel = createButtonLabel ("is operating");
+		
 		return tLabel;
 	}
 
+	private String createButtonLabel (String aActionVerb) {
+		String tLabel;
+
+		tLabel = getPresidentName () + aActionVerb + getName ();
+
+		return tLabel;		
+	}
+	
 	public ElementName getElementName () {
 		return EN_CORPORATION;
 	}
