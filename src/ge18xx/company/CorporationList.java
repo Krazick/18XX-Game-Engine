@@ -662,12 +662,18 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return "Corporation List";
 	}
 
+	/**
+	 * Test if ALL of the Train Companies in this Corporation List have operated or not.
+	 * 
+	 * @return True if all Train Companies in this list have operated
+	 * 
+	 */
 	public boolean haveAllCompaniesOperated () {
 		boolean tAllCompaniesOperated;
 
 		tAllCompaniesOperated = true;
 		for (Corporation tCorporation : corporations) {
-			if (tCorporation.isAShareCompany ()) {
+			if (tCorporation.isATrainCompany ()) {
 				if (tCorporation.shouldOperate ()) {
 					tAllCompaniesOperated &= tCorporation.didOperate ();
 				}
