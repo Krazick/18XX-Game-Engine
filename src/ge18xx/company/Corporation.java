@@ -901,7 +901,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		} else {
 			tActionVerb = " will operate ";
 		}
-//		tLabel = getPresidentName () + tActionVerb + getName ();
 		tLabel = createButtonLabel (tActionVerb);
 
 		return tLabel;
@@ -917,8 +916,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public String getOperatingLabel () {
 		String tLabel;
 
-//		tLabel = getPresidentName () + " is operating " + getName ();
-		tLabel = createButtonLabel ("is operating");
+		tLabel = createButtonLabel (" is operating ");
 		
 		return tLabel;
 	}
