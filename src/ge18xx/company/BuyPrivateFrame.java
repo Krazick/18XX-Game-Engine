@@ -51,6 +51,17 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 
 		shareCompany = aShareCompany;
 		gameManager = shareCompany.getGameManager ();
+		buildPrivatePanel ();
+		setCorporationTreasuryLabel ();
+
+		add (privatePanel);
+
+		pack ();
+		setSize (500, 150);
+		setVisible (false);
+	}
+
+	private void buildPrivatePanel () {
 		privatePanel = new JPanel ();
 		privatePanel.add (Box.createVerticalStrut (10));
 		frameLabel = new JLabel ("Choose Buy Price");
@@ -65,7 +76,7 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		privatePanel.add (priceField);
 		privatePanel.add (Box.createVerticalStrut (10));
 
-		shareTreasury = shareCompany.getTreasury ();
+		shareTreasury = shareCompany.getTreasury (); 
 		corporationTreasuryLabel = new JLabel ("Corporation");
 		privatePanel.add (corporationTreasuryLabel);
 
@@ -79,13 +90,6 @@ public class BuyPrivateFrame extends JFrame implements ActionListener, ChangeLis
 		doBuyButton = buildButton (CorporationFrame.BUY_PRIVATE, BUY_ACTION);
 
 		privatePanel.add (doBuyButton);
-		setCorporationTreasuryLabel ();
-
-		add (privatePanel);
-
-		pack ();
-		setSize (500, 150);
-		setVisible (false);
 	}
 
 	private int getPrice () {
