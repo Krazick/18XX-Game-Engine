@@ -936,11 +936,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					if (tSelectedTrainToBuy.canBeUpgradedFrom (tSelectedTrainToUpgrade.getName ())) {
 						updateBuyTrainButton (true);
 					} else {
-						updateBuyTrainButton (false, "Must select Train from the Bank that Can be Upgraded to "
+						updateButton (buyTrainButton, false, "Must select Train from the Bank that Can be Upgraded to "
 								+ tSelectedTrainToBuy.getName ());
+//						updateBuyTrainButton (false, "Must select Train from the Bank that Can be Upgraded to "
+//								+ tSelectedTrainToBuy.getName ());
 					}
 				} else {
-					updateBuyTrainButton (false, "Must select Train from the Bank to Upgrade");
+					updateButton (buyTrainButton, false, "Must select Train from the Bank to Upgrade");
+//					updateBuyTrainButton (false, "Must select Train from the Bank to Upgrade");
 				}
 			} else {
 				updateBuyTrainButton (false);
@@ -975,18 +978,21 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void updateBuyTrainButton (boolean aEnable) {
-		String tToolTip = GUI.NO_TOOL_TIP;
+		String tToolTip;
 
-		if (!aEnable) {
+		if (aEnable) {
+			tToolTip = GUI.NO_TOOL_TIP;
+		} else {
 			tToolTip = corporation.reasonForNoBuyTrain ();
 		}
-		updateBuyTrainButton (aEnable, tToolTip);
+//		updateBuyTrainButton (aEnable, tToolTip);
+		updateButton (buyTrainButton, aEnable, tToolTip);
 	}
 
-	private void updateBuyTrainButton (boolean aEnable, String aToolTip) {
-		buyTrainButton.setEnabled (aEnable);
-		buyTrainButton.setToolTipText (aToolTip);
-	}
+//	private void updateBuyTrainButton (boolean aEnable, String aToolTip) {
+//		buyTrainButton.setEnabled (aEnable);
+//		buyTrainButton.setToolTipText (aToolTip);
+//	}
 
 	private void updatePlaceTokenButton () {
 		String tDisableToolTipReason;
@@ -1064,61 +1070,81 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void updateOperateTrainButton (int aTrainCount) {
-		String tDisableToolTipReason;
+		String tToolTip;
+		String tButtonLabel;
+		boolean tEnable;
 
 		if (aTrainCount > 1) {
-			operateTrainButton.setText (OPERATE_TRAINS);
+			tButtonLabel = OPERATE_TRAINS;
 		} else if (aTrainCount == 1) {
-			operateTrainButton.setText (OPERATE_TRAIN);
+			tButtonLabel = OPERATE_TRAIN;
 		} else {
-			operateTrainButton.setText (NO_TRAINS_TO_OPERATE);
+			tButtonLabel = NO_TRAINS_TO_OPERATE;
 		}
 		if (corporation.isPlaceTileMode () || corporation.isPlaceTokenMode ()) {
-			operateTrainButton.setEnabled (false);
-			operateTrainButton.setToolTipText (COMPLETE_TT_PLACEMENT);
+			tEnable = false;
+			tToolTip = COMPLETE_TT_PLACEMENT;
 		} else if (corporation.canOperateTrains ()) {
-			operateTrainButton.setEnabled (true);
-			operateTrainButton.setToolTipText (GUI.NO_TOOL_TIP);
+			tEnable = true;
+			tToolTip = GUI.NO_TOOL_TIP;
 		} else {
-			operateTrainButton.setEnabled (false);
-			tDisableToolTipReason = corporation.reasonForNoTrainOperation ();
-			operateTrainButton.setToolTipText (tDisableToolTipReason);
+			tEnable = false;
+			tToolTip = corporation.reasonForNoTrainOperation ();
 		}
+		updateButton (operateTrainButton, tEnable, tToolTip, tButtonLabel);
 	}
 
 	private void updateBuyPrivateButton () {
-		String tDisableToolTipReason;
-
-		updateBuyPrivateLabel ();
+		String tToolTipReason;
+		String tButtonLabel;
+		boolean tEnable;
+		
+		tButtonLabel = createBuyPrivateLabel ();
 		if (corporation.canBuyPrivate ()) {
 			if (corporation.getCountOfSelectedPrivates () == 1) {
-				buyPrivateButton.setEnabled (true);
+				tToolTipReason = GUI.NO_TOOL_TIP;
+				tEnable = true;
 			} else {
-				buyPrivateButton.setEnabled (false);
-				tDisableToolTipReason = "Must Select a Single Private to buy";
-				buyPrivateButton.setToolTipText (tDisableToolTipReason);
+				tEnable = false;
+				tToolTipReason = "Must Select a Single Private to buy";
 			}
 		} else {
-			buyPrivateButton.setEnabled (false);
-			tDisableToolTipReason = corporation.reasonForNoBuyPrivate ();
-			buyPrivateButton.setToolTipText (tDisableToolTipReason);
+			tEnable = false;
+			tToolTipReason = corporation.reasonForNoBuyPrivate ();
 		}
+		updateButton (buyPrivateButton, tEnable, tToolTipReason, tButtonLabel);
 	}
 
-	private void updateBuyPrivateLabel () {
+	private void updateButton (JButton aButton, boolean aEnable, String aToolTip) {
+		String tButtonLabel;
+		
+		tButtonLabel = aButton.getText ();
+		updateButton (aButton, aEnable, aToolTip, tButtonLabel);
+	}
+	
+	private void updateButton (JButton aButton, boolean aEnable, String aToolTip, String aButtonLabel) {
+		aButton.setEnabled (aEnable);
+		aButton.setToolTipText (aToolTip);
+		aButton.setText (aButtonLabel);
+	}
+	
+	private String createBuyPrivateLabel () {
 		PrivateCompany tPrivateCompany;
-		String tPrivatePrezName, tCorpPrezName;
-
+		String tPrivatePrezName;
+		String tCorpPrezName;
+		String tButtonLabel;
+		
 		tPrivateCompany = corporation.getSelectedPrivateToBuy ();
+		tButtonLabel = BUY_PRIVATE;
 		if (tPrivateCompany != PrivateCompany.NO_PRIVATE_COMPANY) {
 			tPrivatePrezName = tPrivateCompany.getPresidentName ();
 			tCorpPrezName = corporation.getPresidentName ();
-			if (tCorpPrezName.equals (tPrivatePrezName)) {
-				buyPrivateButton.setText (BUY_PRIVATE);
-			} else {
-				buyPrivateButton.setText (OFFER_TO_BUY_PRIVATE);
+			if (! tCorpPrezName.equals (tPrivatePrezName)) {
+				tButtonLabel = OFFER_TO_BUY_PRIVATE;
 			}
 		}
+		
+		return tButtonLabel;
 	}
 
 	public void updateInfo () {
@@ -1208,7 +1234,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
 		if (corporation.isWaitingForResponse ()) {
-			updateBuyTrainButton (false, "Waiting for Response from Purchase Offer");
+			updateButton (buyTrainButton, false, "Waiting for Response from Purchase Offer");
+//			updateBuyTrainButton (false, "Waiting for Response from Purchase Offer");
 		} else if (corporation.isOperating ()) {
 			updateBuyTrainButton ();
 			updateBuyPrivateButton ();
