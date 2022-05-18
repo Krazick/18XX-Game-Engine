@@ -49,8 +49,6 @@ public class ShareCompany extends TokenCompany {
 	String startCell;
 	int parPrice;
 	int loanCount;
-//	BuyPrivateFrame buyPrivateFrame;
-//	BuyItemFrame buyTrainFrame;
 
 	public ShareCompany () {
 		super ();
