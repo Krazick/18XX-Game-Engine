@@ -420,4 +420,15 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		setLocation (tNewPoint);
 		setVisible (true);
 	}
+
+	protected void updateButtons () {
+		String tBuyToolTip;
+		boolean tEnableBuyButton;
+		
+		tBuyToolTip = getBuyToolTip ();
+		tEnableBuyButton = priceIsGood ();
+		updateBuyButton (tEnableBuyButton, tBuyToolTip);
+		setBuyButtonText (currentOwner);
+		updateSetPriceButton (false, "Price Field has not changed");
+	}
 }

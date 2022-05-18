@@ -37,17 +37,10 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 	@Override
 	public void actionPerformed (ActionEvent e) {
 		String tActionCommand;
-		String tBuyToolTip;
-		boolean tEnableBuyButton;
 		
 		tActionCommand = e.getActionCommand ();
 		if (tActionCommand == SET_BUY_PRICE_ACTION) {
-			tBuyToolTip = getBuyToolTip ();
-			tEnableBuyButton = priceIsGood ();
-			updateBuyButton (tEnableBuyButton, tBuyToolTip);
-			setBuyButtonText (currentOwner);
-			updateSetPriceButton (false, "Price Field has not changed");
-			
+			updateButtons ();
 			updateBuyerInfo ();
 			updateSellerInfo ();
 		}
@@ -56,7 +49,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 			setVisible (false);
 		}
 	}
-	
+
 	protected void updateSellerInfo () {
 		String tOwnerName = "NO OWNER";
 		int tTreasury = 0;

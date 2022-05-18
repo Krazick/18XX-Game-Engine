@@ -32,17 +32,10 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 	@Override
 	public void actionPerformed (ActionEvent e) {
 		String tActionCommand;
-		String tBuyToolTip;
-		boolean tEnableBuyButton;
 		
 		tActionCommand = e.getActionCommand ();
 		if (tActionCommand.equals (SET_BUY_PRICE_ACTION)) {
-			tBuyToolTip = getBuyToolTip ();
-			tEnableBuyButton = priceIsGood ();
-			updateBuyButton (tEnableBuyButton, tBuyToolTip);
-			setBuyButtonText (currentOwner);
-			updateSetPriceButton (false, "Price Field has not changed");
-			
+			updateButtons ();
 			updateBuyerInfo ();
 			updateSellerInfo ();
 		}
