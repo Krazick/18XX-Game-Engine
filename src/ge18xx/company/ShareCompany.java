@@ -1,6 +1,5 @@
 package ge18xx.company;
 
-import java.awt.Point;
 import java.awt.event.ItemListener;
 
 import javax.swing.JPanel;
@@ -50,8 +49,8 @@ public class ShareCompany extends TokenCompany {
 	String startCell;
 	int parPrice;
 	int loanCount;
-	BuyPrivateFrame buyPrivateFrame;
-	BuyTrainFrame buyTrainFrame;
+//	BuyPrivateFrame buyPrivateFrame;
+//	BuyItemFrame buyTrainFrame;
 
 	public ShareCompany () {
 		super ();
@@ -114,20 +113,16 @@ public class ShareCompany extends TokenCompany {
 	@Override
 	public void buyPrivate (boolean tVisible) {
 		PrivateCompany tPrivateToBuy;
+		CertificateHolderI tCertificateHolder;
+		PortfolioHolderI tPrivateOwner;
 		Certificate tPresidentCertificate;
 		BuyPrivateFrame tBuyPrivateFrame;
-		GameManager tGameManager;
-		Point tCorpFrameOffset;
-
-		tGameManager = corporationList.getGameManager ();
-		tCorpFrameOffset = tGameManager.getOffsetCorporationFrame ();
 
 		tPrivateToBuy = getSelectedPrivateToBuy ();
 		tPresidentCertificate = getPresidentCertificate (tPrivateToBuy);
-		tBuyPrivateFrame = new BuyPrivateFrame (this);
-		tBuyPrivateFrame.updateInfo (tPresidentCertificate);
-		tBuyPrivateFrame.setLocation (tCorpFrameOffset);
-		tBuyPrivateFrame.setVisible (tVisible);
+		tCertificateHolder = tPresidentCertificate.getOwner ();
+		tPrivateOwner = tCertificateHolder.getPortfolioHolder ();
+		tBuyPrivateFrame = new BuyPrivateFrame (this, tPrivateOwner, tPresidentCertificate);
 		tBuyPrivateFrame.requestFocus ();
 	}
 

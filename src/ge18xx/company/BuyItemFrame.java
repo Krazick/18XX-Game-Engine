@@ -2,7 +2,10 @@ package ge18xx.company;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -12,8 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
@@ -21,7 +22,7 @@ import ge18xx.player.Player;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.GUI;
 
-public class BuyItemFrame extends JFrame implements ChangeListener {
+public class BuyItemFrame extends JFrame implements KeyListener {
 	protected static final String SET_BUY_PRICE_ACTION = "SetBuyPrice";
 	protected static final String BUY_ACTION = "Buy";
 	private static final long serialVersionUID = 1L;
@@ -34,22 +35,29 @@ public class BuyItemFrame extends JFrame implements ChangeListener {
 	JLabel range;
 	JLabel buyerInfo;
 	JLabel sellerInfo;
+	JTextField priceField;
 	int minPrice;
 	int maxPrice;
-	JTextField priceField;
+	TrainCompany trainCompany;
 	String itemName;
+	protected ActorI currentOwner;
 
-	
-	public BuyItemFrame (String aTitle) {
+	public BuyItemFrame (String aTitle, TrainCompany aTrainCompany) {
 		super (aTitle);
+		trainCompany = aTrainCompany;
 		description = new JLabel ("Description");
 		range = new JLabel ("Range");
 		buyerInfo = new JLabel ("Buyer info");
 		sellerInfo = new JLabel ("Seller info");
+		
 		buildRangePricePanel ();
 		buildButtonPanel ();
 		buildBuyItemPanel ();
 		add (buyItemPanel);
+		
+		pack ();
+		setSize (520, 170);
+		setVisible (false);
 	}
 
 	public void buildBuyItemPanel () {
@@ -76,13 +84,7 @@ public class BuyItemFrame extends JFrame implements ChangeListener {
 	public void buildRangePricePanel () {
 		JLabel tBuyPriceLabel;
 		
-		priceField = new JTextField ();
-		priceField.setPreferredSize (new Dimension (20, 24));
-		priceField.setMaximumSize (new Dimension (40, 24));
-		priceField.setAlignmentX (Component.RIGHT_ALIGNMENT);
-		priceField.setHorizontalAlignment (SwingConstants.RIGHT);
-		priceField.setColumns (3); 
-		
+		buildPriceField ();
 		tBuyPriceLabel = new JLabel ("Buy Price: ");
 		
 		rangePricePanel = new JPanel ();
@@ -93,6 +95,15 @@ public class BuyItemFrame extends JFrame implements ChangeListener {
 		rangePricePanel.add (tBuyPriceLabel);
 		rangePricePanel.add (Box.createHorizontalStrut (10));		
 		rangePricePanel.add (priceField);
+	}
+	 
+	@Override
+	public void requestFocus () {
+		priceField.requestFocus ();
+	}
+
+	public void setCurrentOwner (ActorI aCurrentOwner) {
+		currentOwner = aCurrentOwner;
 	}
 	
 	public void updateBuyItemPanel (String aItemName, String aDescription, 
@@ -120,19 +131,29 @@ public class BuyItemFrame extends JFrame implements ChangeListener {
 		itemName = aItemName;
 	}
 	
-	public void updateBuyerInfo (String aBuyerInfo) {
+	protected void updateBuyerInfo () {
+		String tBuyerInfo;
+		int tRemainingCash;
+		
+		tRemainingCash = trainCompany.getTreasury () - getPrice ();
+		tBuyerInfo = trainCompany.getName () + " will have " + Bank.formatCash (tRemainingCash) + 
+				" after purchase.";
+		updateBuyerInfo (tBuyerInfo);
+	}
+
+	protected void updateBuyerInfo (String aBuyerInfo) {
 		buyerInfo.setText (aBuyerInfo);
 	}
 	
-	public void updateSellerInfo (String aSellerInfo) {
+	protected void updateSellerInfo (String aSellerInfo) {
 		sellerInfo.setText (aSellerInfo);
 	}
 	
-	public void setMinPrice (int aMinPrice) {
+	protected void setMinPrice (int aMinPrice) {
 		minPrice = aMinPrice;
 	}
 	
-	public void setMaxPrice (int aMaxPrice) {
+	protected void setMaxPrice (int aMaxPrice) {
 		maxPrice = aMaxPrice;
 	}
 	
@@ -166,7 +187,18 @@ public class BuyItemFrame extends JFrame implements ChangeListener {
 		
 		return tRange;
 	}
-	
+
+	protected void setBuyButtonText (ActorI aCurrentOwner) {
+		String tBuyButtonText;
+		
+		if (samePresident (aCurrentOwner, trainCompany)) {
+			tBuyButtonText = "Buy " + itemName + " for " + Bank.formatCash (getPrice ());
+		} else {
+			tBuyButtonText = "Offer to Buy " + itemName + " for " + Bank.formatCash (getPrice ());
+		}
+		setBuyButtonText (tBuyButtonText);
+	}
+
 	public void setBuyButtonText (String aBuyButtonText) {
 		doBuyButton.setText (aBuyButtonText);
 	}
@@ -176,7 +208,11 @@ public class BuyItemFrame extends JFrame implements ChangeListener {
 	}
 	
 	public void updateSetPriceButton (boolean aEnable, String aToolTip) {
-		updateButton (doSetPriceButton, aEnable, aToolTip);
+		if (priceIsGood ()) {
+			updateButton (doSetPriceButton, aEnable, aToolTip);
+		} else {
+			updateButton (doSetPriceButton, false, getBuyToolTip ());
+		}
 	}
 	
 	public void updateButton (JButton aButton, boolean aEnable, String aToolTip) {
@@ -205,12 +241,6 @@ public class BuyItemFrame extends JFrame implements ChangeListener {
 		}
 
 		return tGetPrice;
-	}
-	
-	@Override
-	public void stateChanged (ChangeEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	protected boolean samePresident (ActorI aOwningActor, TrainCompany aBuyingTrainCompany) {
@@ -294,6 +324,8 @@ public class BuyItemFrame extends JFrame implements ChangeListener {
 
 		doSetPriceButton = buildButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
 		doBuyButton = buildButton (CorporationFrame.BUY_TRAIN, BUY_ACTION);
+		updateSetPriceButton (false, "Price Field has not changed");
+		
 		buttonPanel.add (doSetPriceButton);
 		buttonPanel.add (Box.createHorizontalStrut (10));
 		buttonPanel.add (doBuyButton);
@@ -319,12 +351,73 @@ public class BuyItemFrame extends JFrame implements ChangeListener {
 		aButton.addActionListener (aActionListener);		
 	}
 	
-	public void setDefaultPrice () {
+	protected void setDefaultPrice () {
 		setPrice (1);
 	}
 
 	public void setPrice (int aPrice) {
 		priceField.setText (aPrice + "");
 	}
+	
+	private void buildPriceField () {
+		priceField = new JTextField ();
+		priceField.setPreferredSize (new Dimension (20, 24));
+		priceField.setMaximumSize (new Dimension (40, 24));
+		priceField.setAlignmentX (Component.RIGHT_ALIGNMENT);
+		priceField.setHorizontalAlignment (SwingConstants.RIGHT);
+		priceField.setColumns (3);
+		priceField.addKeyListener (this);
+	}
+	
+	@Override
+	public void keyTyped (KeyEvent aKeyEvent) {
+		handleKeyEvent (aKeyEvent);
+	}
 
+	@Override
+	public void keyPressed (KeyEvent aKeyEvent) {
+		handleKeyEvent (aKeyEvent);
+	}
+
+	@Override
+	public void keyReleased (KeyEvent aKeyEvent) {
+		handleKeyEvent (aKeyEvent);
+	}
+	
+	private void handleKeyEvent (KeyEvent aKeyEvent) {
+		int tEventID;
+		
+		tEventID = aKeyEvent.getID ();
+		if (tEventID == KeyEvent.KEY_RELEASED) {
+			updateBuyButton (false, "Price Field has changed");
+			updateSetPriceButton (true, "Price Field has changed");
+		}
+	}
+
+	protected int getCurrentOwnerCash () {
+		TrainCompany tTrainCompany;
+		Player tPlayer;
+		int tCurrentOwnerCash;
+		
+		tCurrentOwnerCash = 0;
+		if (currentOwner.isAPlayer ()) {
+			tPlayer = (Player) currentOwner;
+			tCurrentOwnerCash = tPlayer.getCash ();
+		} else if (currentOwner.isATrainCompany ()) {
+			tTrainCompany = (TrainCompany) currentOwner;
+			tCurrentOwnerCash = tTrainCompany.getCash ();
+		}
+		
+		return tCurrentOwnerCash;
+	}
+	
+	protected void setFrameLocation () {
+		Point tNewPoint;
+		GameManager tGameManager;
+		
+		tGameManager = trainCompany.getGameManager ();
+		tNewPoint = tGameManager.getOffsetCorporationFrame ();
+		setLocation (tNewPoint);
+		setVisible (true);
+	}
 }

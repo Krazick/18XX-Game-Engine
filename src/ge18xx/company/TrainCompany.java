@@ -561,8 +561,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tTrainHolder = getSelectedTrainHolder ();
 		tTrainToBuy = tTrainHolder.getSelectedTrain ();
 		tBuyTrainFrame = new BuyTrainFrame (this, tTrainHolder, tTrainToBuy);
-		tBuyTrainFrame.updateInfo (tTrainToBuy);
-		tBuyTrainFrame.setVisible (true);
 		tBuyTrainFrame.requestFocus ();
 	}
 

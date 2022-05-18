@@ -1,23 +1,9 @@
 package ge18xx.company;
 
-//import java.awt.Component;
-//import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-//import javax.swing.Box;
-//import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-//import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
 
 import ge18xx.bank.Bank;
-import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.PurchaseOfferAction;
@@ -25,79 +11,22 @@ import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 
-public class BuyTrainFrame extends BuyItemFrame implements ActionListener, PropertyChangeListener {
+public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 	private static final String ITEM_NAME = "Train";
 	private static final long serialVersionUID = 1L;
-	JButton doSetPriceButton;
-	JButton doBuyButton;
 	Train train;
-	Corporation currentOwner;
-	JPanel trainPanel;
-	JPanel offerButtonPanel;
-	JPanel offerPricePanel;
-	TrainCompany trainCompany;
-	String operatingRoundID;
-	JLabel corporationTreasuryLabel;
-	JLabel ownerTreasuryLabel;
-	JLabel frameLabel;
-	int buyingTrainCompanyTreasury, remainingTreasury;
 
-	public BuyTrainFrame (TrainCompany aBuyingCompany, TrainHolderI aCurrentOwner, Train aSelectedTrain) {
-		super (CorporationFrame.BUY_TRAIN);
+	public BuyTrainFrame (TrainCompany aTrainCompany, TrainHolderI aCurrentOwner, Train aSelectedTrain) {
+		super (CorporationFrame.BUY_TRAIN, aTrainCompany);
 
 		setAllButtonListeners (this);
-		trainCompany = aBuyingCompany;
 		train = aSelectedTrain;
 		if (aCurrentOwner.isATrainCompany ()) {
-			currentOwner = (TrainCompany) aCurrentOwner;
+			setCurrentOwner ((TrainCompany) aCurrentOwner);
 		} else {
-			currentOwner = Corporation.NO_CORPORATION;
+			setCurrentOwner (Corporation.NO_CORPORATION);
 		}
-
-		pack ();
-		setSize (520, 170);
-		setVisible (false);
-	}
-
-	@Override
-	public void requestFocus () {
-		priceField.requestFocus ();
-	}
-
-	private void setBuyButtonText () {
-		String tBuyButtonText;
-		
-		if (samePresident (currentOwner, trainCompany)) {
-			tBuyButtonText = "Buy Train for " + Bank.formatCash (getPrice ());
-		} else {
-			tBuyButtonText = "Offer to Buy Train for " + Bank.formatCash (getPrice ());
-		}
-		setBuyButtonText (tBuyButtonText);
-	}
-
-	private void setCorporationTreasuryLabel () {
-		String tBuyerInfo;
-		
-		remainingTreasury = buyingTrainCompanyTreasury - getPrice ();
-		tBuyerInfo = trainCompany.getName () + " will have " + Bank.formatCash (remainingTreasury) + 
-				" after purchase.";
-		updateBuyerInfo (tBuyerInfo);
-	}
-
-	public void setOwnerTreasuryLabel () {
-		String tOwnerName = "NO OWNER";
-		int tTreasury = 0;
-		String tSellerInfo;
-		
-		if (train != Train.NO_TRAIN) {
-			if (currentOwner != Corporation.NO_CORPORATION) {
-				tOwnerName = currentOwner.getName ();
-				tTreasury = currentOwner.getCash () + getPrice ();
-			}
-		}
-		tSellerInfo =  tOwnerName + " Treasury will have " + Bank.formatCash (tTreasury) + 
-						" after purchase.";
-		updateSellerInfo (tSellerInfo);
+		updateInfo ();
 	}
 
 	@Override
@@ -111,10 +40,11 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener, Prope
 			tBuyToolTip = getBuyToolTip ();
 			tEnableBuyButton = priceIsGood ();
 			updateBuyButton (tEnableBuyButton, tBuyToolTip);
-			setBuyButtonText ();
+			setBuyButtonText (currentOwner);
+			updateSetPriceButton (false, "Price Field has not changed");
 			
-			setCorporationTreasuryLabel ();
-			setOwnerTreasuryLabel ();
+			updateBuyerInfo ();
+			updateSellerInfo ();
 		}
 		if (tActionCommand == BUY_ACTION) {
 			buyTrain ();
@@ -127,6 +57,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener, Prope
 		int tCashValue;
 		BuyTrainAction tBuyTrainAction;
 		CorporationFrame tCorporationFrame;
+		String tOperatingRoundID;
 
 		if (train != Train.NO_TRAIN) {
 			tCashValue = getPrice ();
@@ -137,7 +68,8 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener, Prope
 					tCorporationFrame.waitForResponse ();
 				}
 			} else {
-				tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, operatingRoundID,
+				tOperatingRoundID = trainCompany.getOperatingRoundID ();
+				tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 						trainCompany);
 				trainCompany.transferCashTo (tOwningTrainCompany, tCashValue);
 				tBuyTrainAction.addCashTransferEffect (trainCompany, tOwningTrainCompany, tCashValue);
@@ -153,13 +85,15 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener, Prope
 		PurchaseOffer tPurchaseOffer;
 		ActorI.ActionStates tOldState, tNewState;
 		boolean tOfferMade = true;
+		String tOperatingRoundID;
 
+		tOperatingRoundID = trainCompany.getOperatingRoundID ();
 		tPurchaseOffer = new PurchaseOffer (train.getName (), train.getType (), train,
 				PrivateCompany.NO_PRIVATE_COMPANY, trainCompany.getAbbrev (), aOwningTrainCompany.getAbbrev (),
 				getPrice (), trainCompany.getActionStatus ());
 		tOldState = trainCompany.getStatus ();
 		trainCompany.setPurchaseOffer (tPurchaseOffer);
-		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound, operatingRoundID,
+		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 				trainCompany);
 		tPurchaseOfferAction.addPurchaseOfferEffect (trainCompany, aOwningTrainCompany, getPrice (), train.getType (),
 				train.getName ());
@@ -194,36 +128,34 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener, Prope
 		}
 	}
 
-	@Override
-	public void stateChanged (ChangeEvent e) {
-		setCorporationTreasuryLabel ();
-	}
-
-	@Override
-	public void propertyChange (PropertyChangeEvent e) {
-		setCorporationTreasuryLabel ();
-	}
-
-	public void updateInfo (Train aTrain) {
+	public void updateInfo () {
 		int tLowPrice, tHighPrice;
-		Point tNewPoint;
 		String tDescription;
-		GameManager tGameManager;
 		
-		train = aTrain;
 		setDefaultPrice ();
-		buyingTrainCompanyTreasury = trainCompany.getTreasury ();
 		tLowPrice = 1;
-		tHighPrice = buyingTrainCompanyTreasury;
+		tHighPrice = trainCompany.getTreasury ();
 		tDescription = trainCompany.getPresidentName () + ", Choose Buy Price for " + 
 				train.getName () + " " + ITEM_NAME + " from " + currentOwner.getName ();
 		updateBuyItemPanel (ITEM_NAME, tDescription, tLowPrice, tHighPrice);
-		operatingRoundID = trainCompany.getOperatingRoundID ();
-		setCorporationTreasuryLabel ();
-		setOwnerTreasuryLabel ();
+		updateBuyerInfo ();
+		updateSellerInfo ();
+		setBuyButtonText (currentOwner);
 		
-		tGameManager = trainCompany.getGameManager ();
-		tNewPoint = tGameManager.getOffsetCorporationFrame ();
-		setLocation (tNewPoint);
+		setFrameLocation ();
+	}
+
+	protected void updateSellerInfo () {
+		String tOwnerName = "NO OWNER";
+		int tTreasury = 0;
+		String tSellerInfo;
+		
+		if (currentOwner != Corporation.NO_CORPORATION) {
+			tOwnerName = currentOwner.getName ();
+			tTreasury = getCurrentOwnerCash () + getPrice ();
+		}
+		tSellerInfo =  tOwnerName + " Treasury will have " + Bank.formatCash (tTreasury) + 
+						" after purchase.";
+		updateSellerInfo (tSellerInfo);
 	}
 }
