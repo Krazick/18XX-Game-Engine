@@ -4,8 +4,8 @@ import ge18xx.round.action.ActorI;
 import ge18xx.train.Train;
 
 public class PurchaseOffer {
-	public static final String TRAIN_TYPE = "Train";
-	public static final String PRIVATE_TYPE = "Private";
+	public static final String TRAIN_TYPE = Train.TYPE_NAME;
+	public static final String PRIVATE_TYPE = Corporation.PRIVATE_COMPANY;
 	String itemName;
 	String itemType;
 	String fromActorName;
