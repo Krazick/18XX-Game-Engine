@@ -50,7 +50,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		buyerInfo = new JLabel ("Buyer info");
 		sellerInfo = new JLabel ("Seller info");
 		
-		buildRangePricePanel ();
+		buildPriceRangePanel ();
 		buildButtonPanel ();
 		buildBuyItemPanel ();
 		add (buyItemPanel);
@@ -60,7 +60,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		setVisible (false);
 	}
 
-	public void buildBuyItemPanel () {
+	private void buildBuyItemPanel () {
 		if (buyItemPanel == GUI.NO_PANEL) {
 			buyItemPanel = new JPanel ();
 			buyItemPanel.setLayout (new BoxLayout (buyItemPanel, BoxLayout.Y_AXIS));
@@ -81,7 +81,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		}		
 	}
 	
-	public void buildRangePricePanel () {
+	private void buildPriceRangePanel () {
 		JLabel tBuyPriceLabel;
 		
 		buildPriceField ();
@@ -190,12 +190,14 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 
 	protected void setBuyButtonText (ActorI aCurrentOwner) {
 		String tBuyButtonText;
+		String tPrefix;
 		
 		if (samePresident (aCurrentOwner, trainCompany)) {
-			tBuyButtonText = "Buy " + itemName + " for " + Bank.formatCash (getPrice ());
+			tPrefix = "Buy ";
 		} else {
-			tBuyButtonText = "Offer to Buy " + itemName + " for " + Bank.formatCash (getPrice ());
+			tPrefix = "Offer to Buy ";
 		}
+		tBuyButtonText = tPrefix + itemName + " for " + Bank.formatCash (getPrice ());
 		setBuyButtonText (tBuyButtonText);
 	}
 
