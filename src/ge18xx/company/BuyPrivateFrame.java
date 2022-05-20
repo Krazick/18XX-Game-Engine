@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
-	private static final String ITEM_NAME = "Private";
 	private static final long serialVersionUID = 1L;
 	Certificate certificate;
 
@@ -93,8 +92,9 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		}
 		
 		tDescription = trainCompany.getPresidentName () + ", Choose Buy Price for " + 
-				certificate.getCompanyAbbrev () + " " + ITEM_NAME + " from " + currentOwner.getName ();
-		updateBuyItemPanel (ITEM_NAME, tDescription, tLowPrice, tHighPrice);
+				certificate.getCompanyAbbrev () + " " + PurchaseOffer.PRIVATE_TYPE + " from " + 
+				currentOwner.getName ();
+		updateBuyItemPanel (PurchaseOffer.PRIVATE_TYPE, tDescription, tLowPrice, tHighPrice);
 		updateBuyerInfo ();
 		updateSellerInfo ();
 		setBuyButtonText (currentOwner);
@@ -154,16 +154,18 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		PrivateCompany tPrivateCompany;
 		String tOperatingRoundID;
 		
-		tOperatingRoundID = trainCompany.getOperatingRoundID ();
-		tOldState = trainCompany.getStatus ();
 		tPrivateCompany = (PrivateCompany) certificate.getCorporation ();
 		tPurchaseOffer = new PurchaseOffer (certificate.getCompanyName (), certificate.getCorpType (), Train.NO_TRAIN,
-				tPrivateCompany, tPrivateCompany.getAbbrev (), aOwningPlayer.getName (), getPrice (), tOldState);
+				tPrivateCompany, tPrivateCompany.getAbbrev (), aOwningPlayer.getName (), getPrice (), trainCompany.getStatus ());
+
+		tOldState = trainCompany.getStatus ();
 		trainCompany.setPurchaseOffer (tPurchaseOffer);
+		
+		tOperatingRoundID = trainCompany.getOperatingRoundID ();
 		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 				trainCompany);
 		tPurchaseOfferAction.addPurchaseOfferEffect (trainCompany, aOwningPlayer, getPrice (),
-				certificate.getCorpType (), certificate.getCompanyAbbrev ());
+				PurchaseOffer.PRIVATE_TYPE, certificate.getCompanyAbbrev ());
 
 		trainCompany.setStatus (ActorI.ActionStates.WaitingResponse);
 		tNewState = trainCompany.getStatus ();

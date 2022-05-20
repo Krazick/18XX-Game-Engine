@@ -12,7 +12,6 @@ import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 
 public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
-	private static final String ITEM_NAME = "Train";
 	private static final long serialVersionUID = 1L;
 	Train train;
 
@@ -80,16 +79,19 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		boolean tOfferMade = true;
 		String tOperatingRoundID;
 
-		tOperatingRoundID = trainCompany.getOperatingRoundID ();
 		tPurchaseOffer = new PurchaseOffer (train.getName (), train.getType (), train,
 				PrivateCompany.NO_PRIVATE_COMPANY, trainCompany.getAbbrev (), aOwningTrainCompany.getAbbrev (),
-				getPrice (), trainCompany.getActionStatus ());
+				getPrice (), trainCompany.getStatus ());
+		
 		tOldState = trainCompany.getStatus ();
 		trainCompany.setPurchaseOffer (tPurchaseOffer);
+		
+		tOperatingRoundID = trainCompany.getOperatingRoundID ();
 		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 				trainCompany);
-		tPurchaseOfferAction.addPurchaseOfferEffect (trainCompany, aOwningTrainCompany, getPrice (), train.getType (),
-				train.getName ());
+		
+		tPurchaseOfferAction.addPurchaseOfferEffect (trainCompany, aOwningTrainCompany, getPrice (), 
+				PurchaseOffer.TRAIN_TYPE, train.getName ());
 
 		trainCompany.setStatus (ActorI.ActionStates.WaitingResponse);
 		tNewState = trainCompany.getStatus ();
@@ -105,6 +107,8 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 
 		tCompanyPortfolio = trainCompany.getTrainPortfolio ();
 		tOwningPortfolio = aOwningTrainCompany.getTrainPortfolio ();
+		aTrain.clearCurrentRoute ();
+		aTrain.clearPreviousRoute ();
 		tCompanyPortfolio.addTrain (aTrain);
 		tOwningPortfolio.removeSelectedTrain ();
 		tCompanyPortfolio.clearSelections ();
@@ -129,8 +133,8 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		tLowPrice = 1;
 		tHighPrice = trainCompany.getTreasury ();
 		tDescription = trainCompany.getPresidentName () + ", Choose Buy Price for " + 
-				train.getName () + " " + ITEM_NAME + " from " + currentOwner.getName ();
-		updateBuyItemPanel (ITEM_NAME, tDescription, tLowPrice, tHighPrice);
+				train.getName () + " " + PurchaseOffer.TRAIN_TYPE + " from " + currentOwner.getName ();
+		updateBuyItemPanel (PurchaseOffer.TRAIN_TYPE, tDescription, tLowPrice, tHighPrice);
 		updateBuyerInfo ();
 		updateSellerInfo ();
 		setBuyButtonText (currentOwner);
