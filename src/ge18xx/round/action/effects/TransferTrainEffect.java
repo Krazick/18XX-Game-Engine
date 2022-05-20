@@ -130,7 +130,8 @@ public class TransferTrainEffect extends ToEffect {
 
 		tEffectApplied = false;
 		tToTrainPortfolio = getToTrainPortfolio ();
-
+		train.clearCurrentRoute ();
+		train.clearPreviousRoute ();
 		tToTrainPortfolio.addTrain (train);
 		tFromHolder = (TrainHolderI) getActor ();
 		tFromHolder.removeTrain (getTrainName ());
@@ -149,6 +150,8 @@ public class TransferTrainEffect extends ToEffect {
 		tToTrainPortfolio = getToTrainPortfolio ();
 		tToTrainPortfolio.removeTrain (getTrainName ());
 		tFromHolder = (TrainHolderI) getActor ();
+		train.clearCurrentRoute ();
+		train.clearPreviousRoute ();
 		tFromHolder.addTrain (train);
 
 		tEffectUndone = true;
