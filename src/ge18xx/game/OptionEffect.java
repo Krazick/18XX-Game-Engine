@@ -2,6 +2,7 @@ package ge18xx.game;
 
 import org.w3c.dom.NodeList;
 
+import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -31,7 +32,7 @@ public class OptionEffect {
 	String actorName;
 	String phaseName;
 	String cellName;
-	TrainInfo train;
+	TrainInfo trainInfo;
 	int quantity;
 	boolean state;
 
@@ -67,8 +68,8 @@ public class OptionEffect {
 			for (tIndex = 0; tIndex < tTrainCount; tIndex++) {
 				tTrainNode = new XMLNode (tTrainChildren.item (tIndex));
 				tTrainChildName = tTrainNode.getNodeName ();
-				if ("Train".equals (tTrainChildName)) {
-					train = new TrainInfo (tTrainNode);
+				if (Train.TYPE_NAME.equals (tTrainChildName)) {
+					trainInfo = new TrainInfo (tTrainNode);
 				}
 			}
 		} else if (tName.equals (MUST_BUY_TRAIN)) {
@@ -102,8 +103,8 @@ public class OptionEffect {
 		if (phaseName != NO_NAME) {
 			tXMLElement.setAttribute (AN_PHASE_NAME, phaseName);
 		}
-		if (train != null) {
-			tTrainElement = train.getTrainInfoElement (aXMLDocument);
+		if (trainInfo != TrainInfo.NO_TRAIN_INFO) {
+			tTrainElement = trainInfo.getTrainInfoElement (aXMLDocument);
 			tXMLElement.appendChild (tTrainElement);
 		}
 		if (cellName != NO_NAME) {
@@ -129,7 +130,7 @@ public class OptionEffect {
 	}
 
 	public TrainInfo getTrainInfo () {
-		return train;
+		return trainInfo;
 	}
 
 	public String getTrainName () {
