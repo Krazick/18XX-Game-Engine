@@ -127,7 +127,7 @@ public class FrameButton {
 	}
 
 	public JButton getJButton () {
-		JButton tJButton = null;
+		JButton tJButton = GUI.NO_BUTTON;
 
 		if (isJButton ()) {
 			tJButton = jButton;
@@ -137,7 +137,7 @@ public class FrameButton {
 	}
 
 	public JCheckBox getJCheckBox () {
-		JCheckBox tJCheckBox = null;
+		JCheckBox tJCheckBox = GUI.NO_CHECK_BOX;
 
 		if (isJCheckBox ()) {
 			tJCheckBox = jCheckBox;
