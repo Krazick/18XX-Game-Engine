@@ -176,23 +176,15 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 	}
 
 	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, Certificate aCertificate,
-			BuyStockAction aBuyStockAction) {
-		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
-		PortfolioHolderI tFromHolder, tToHolder;
+										BuyStockAction aBuyStockAction) {
 		PrivateCompany tPrivateCompany;
-
-		tFromHolder = aFromPortfolio.getHolder ();
-		tToHolder = aToPortfolio.getHolder ();
+		ShareCompany tShareCompany;
+		
 		tPrivateCompany = (PrivateCompany) aCertificate.getCorporation ();
 		tPrivateCompany.removeBenefitButtons ();
-		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
-		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate, tToHolder);
-		tCurrentCorporationStatus = aCertificate.getCorporationStatus ();
-		aCertificate.updateCorporationOwnership ();
-		tNewCorporationStatus = aCertificate.getCorporationStatus ();
-		if (tCurrentCorporationStatus != tNewCorporationStatus) {
-			aBuyStockAction.addStateChangeEffect (aCertificate.getCorporation (), tCurrentCorporationStatus,
-					tNewCorporationStatus);
+		if (trainCompany.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) trainCompany;
+			tShareCompany.doFinalShareBuySteps (aToPortfolio, aFromPortfolio, certificate, aBuyStockAction);
 		}
 	}
 }

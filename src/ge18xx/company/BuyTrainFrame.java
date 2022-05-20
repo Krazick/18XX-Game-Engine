@@ -9,7 +9,6 @@ import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.PurchaseOfferAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
-import ge18xx.train.TrainPortfolio;
 
 public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -99,30 +98,6 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		trainCompany.addAction (tPurchaseOfferAction);
 
 		return tOfferMade;
-	}
-
-	public void doFinalTrainBuySteps (TrainCompany aOwningTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction) {
-		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
-		TrainPortfolio tCompanyPortfolio, tOwningPortfolio;
-
-		tCompanyPortfolio = trainCompany.getTrainPortfolio ();
-		tOwningPortfolio = aOwningTrainCompany.getTrainPortfolio ();
-		aTrain.clearCurrentRoute ();
-		aTrain.clearPreviousRoute ();
-		tCompanyPortfolio.addTrain (aTrain);
-		tOwningPortfolio.removeSelectedTrain ();
-		tCompanyPortfolio.clearSelections ();
-		tOwningPortfolio.clearSelections ();
-		tCurrentCorporationStatus = trainCompany.getStatus ();
-		trainCompany.updateStatus (ActorI.ActionStates.BoughtTrain);
-		tNewCorporationStatus = trainCompany.getStatus ();
-		// TODO: possible issue when Buying a Train Between Companies, not saving the
-		// train properly in the Effect
-		aBuyTrainAction.addTransferTrainEffect (aOwningTrainCompany, aTrain, trainCompany);
-		if (tCurrentCorporationStatus != tNewCorporationStatus) {
-			aBuyTrainAction.addChangeCorporationStatusEffect (trainCompany, tCurrentCorporationStatus,
-					tNewCorporationStatus);
-		}
 	}
 
 	public void updateInfo () {
