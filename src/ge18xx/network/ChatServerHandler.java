@@ -67,10 +67,12 @@ public class ChatServerHandler extends ServerHandler {
 				jClient.removePlayer (tName);
 			} else if (tShortened.endsWith (" is Ready to play the Game")) {
 				handlePlayerReady (tShortened);
+			} else if (tShortened.endsWith (" is Active in the Game")) {
+				handlePlayerActive (tShortened);
 			} else if (tShortened.endsWith (" Starts the Game")) {
 				jClient.startsGame ();
 			} else {
-				System.err.println ("Received Command that wasn't Matched [" + aCommand + "]");
+				System.err.println ("Received Command that wasn't Matched [" + tMessage + "]");
 			}
 			if (tAddToChat) {
 				appendToChat (tShortened);
@@ -83,6 +85,13 @@ public class ChatServerHandler extends ServerHandler {
 
 		tName = extractName (aShortened);
 		jClient.playerReady (tName);
+	}
+
+	private void handlePlayerActive (String aShortened) {
+		String tName;
+
+		tName = extractName (aShortened);
+		jClient.playerActive (tName);
 	}
 
 	private String handleJoined (String aShortened) {
@@ -181,22 +190,27 @@ public class ChatServerHandler extends ServerHandler {
 		return tIsValidGameID;
 	}
 
-	public void sendUserReady (String aGameID) {
-		String tGameSupportXML;
+	public void sendUserActive (String aGameID) {
+		sendUserUpdate (aGameID, "<Active>", "am active in");
+	}
 
-		tGameSupportXML = buildGameSupportXML (aGameID, "<Ready>");
-		println (tGameSupportXML);
-		jClient.appendToChat ("I am ready to play the Game", true);
+	public void sendUserReady (String aGameID) {
+		sendUserUpdate (aGameID, "<Ready>", "am ready to play");
 	}
 
 	public void sendUserStart (String aGameID) {
-		String tGameSupportXML;
-
-		tGameSupportXML = buildGameSupportXML (aGameID, "<Start>");
-		println (tGameSupportXML);
-		jClient.appendToChat ("I started the Game", true);
+		sendUserUpdate (aGameID, "<Start>", "started");
 	}
 
+	private void sendUserUpdate (String aGameID, String aStatus, String aChatVerb) {
+		String tGameSupportXML;
+
+		tGameSupportXML = buildGameSupportXML (aGameID, aStatus);
+		println (tGameSupportXML);
+		jClient.appendToChat ("I " + aChatVerb + " the Game", true);
+
+	}
+	
 	@Override
 	protected void handleChatReconnect () {
 		String tGameSupportXML;
