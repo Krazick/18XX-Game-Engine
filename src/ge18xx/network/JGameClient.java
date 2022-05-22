@@ -112,6 +112,7 @@ public class JGameClient extends XMLFrame {
 	private final String SHOW_ALL_GAMES = "SHOW ALL GAMES";
 	private final String SELECT_GAME = "SELECT GAME";
 	private final String READY_TO_PLAY = "READY";
+//	private final String ACTIVE = "ACTIVE";
 	private final String REFRESH = "REFRESH";
 	private final String AFK = "AFK";
 	private final String SEND = "SEND";
@@ -272,13 +273,13 @@ public class JGameClient extends XMLFrame {
 				String tAction = aActionEvent.getActionCommand ();
 
 				if (REFRESH.equals (tAction)) {
+//					backFromAFK ();
+//					networkPlayers.removeAllPlayers ();
+//					// Add myself to the list
+//					networkPlayers.addPlayer (playerName.getText ());
+//					// Request from the ServerHandler to add all of the other Players
+//					serverHandler.requestUserNameList ();
 					refreshPlayers ();
-					backFromAFK ();
-					networkPlayers.removeAllPlayers ();
-					// Add myself to the list
-					networkPlayers.addPlayer (playerName.getText ());
-					// Request from the ServerHandler to add all of the other Players
-					serverHandler.requestUserNameList ();
 				}
 			}
 		});
@@ -618,15 +619,18 @@ public class JGameClient extends XMLFrame {
 			serverHandler.sendUserStart (tGameID);
 		}
 		startsGame ();
-		refreshPlayers ();
-		updateButtonGameStarted (startReadyButton);
-		updateButtonGameStarted (showSavedGames);
+		updatePlayersAndButtons ();
 	}
 
 	public void startsGame () {
 		swapToGameActivity ();
 		gameStarted = true;
 		gameManager.initiateNetworkGame ();
+		updatePlayersAndButtons ();
+	}
+
+	private void updatePlayersAndButtons () {
+		refreshPlayers ();
 		updateButtonGameStarted (startReadyButton);
 		updateButtonGameStarted (showSavedGames);
 	}
@@ -1101,14 +1105,7 @@ public class JGameClient extends XMLFrame {
 	}
 
 	public void playerActive (String aPlayerName) {
-		int tIndex = aPlayerName.indexOf (aPlayerName);
-		String tPlayerName = aPlayerName;
-
-		if (tIndex > 0) {
-			tPlayerName = aPlayerName.substring (0, tIndex);
-		}
-
-		networkPlayers.setPlayerActive (tPlayerName, true);
+		networkPlayers.setPlayerActive (aPlayerName, true);
 	}
 
 	public void addLocalPlayer (String aLocalPlayer, boolean aAutoConnect) {
@@ -1313,6 +1310,8 @@ public class JGameClient extends XMLFrame {
 
 	public void loadAndStartGame () {
 		gameManager.loadAutoSavedGame (autoSaveFileName);
+		serverHandler.sendUserActive (getGameID ());
+		refreshPlayers ();
 		System.out.println ("Should have Game Manager Load the Network Game, and Start Playing " + "with Game ID ["
 				+ getGameID () + "]");
 		swapToGameActivity ();
