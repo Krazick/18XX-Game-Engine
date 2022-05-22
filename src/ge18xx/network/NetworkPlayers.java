@@ -106,7 +106,9 @@ public class NetworkPlayers {
 
 		if (NetworkPlayer.validPlayerName (aPlayerName)) {
 			tNetworkPlayer = getNetworkPlayer (aPlayerName);
-			setPlayerActive (tNetworkPlayer, aActive);
+			if (tNetworkPlayer != NetworkPlayer.NO_NETWORK_PLAYER) {
+				setPlayerActive (tNetworkPlayer, aActive);
+			}
 		}
 	}
 
