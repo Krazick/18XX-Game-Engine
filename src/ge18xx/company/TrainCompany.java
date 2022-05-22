@@ -67,7 +67,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public final static String NO_MONEY = "No money in the Treasury.";
 	public final static String REVENUES_NOT_GENERATED = "Train Revenues have not been generated yet.";
 	public final static String DIVIDENDS_ALREADY_HANDLED = "Dividend Payment already completed for the turn.";
-	public final static String DIVIDENDS_NOT_HANDLED = "Dividends have not been Handled.";
 	public final static String NO_TRAIN_SELECTED = "No train has been selected to be bought.";
 	public final static String SELECT_SINGLE_TRAIN = "Must select a single Train to be bought.";
 	public final static String OPERATED_NO_REVENUE = "Train Operated but no Revenue has been generated.";
@@ -1407,7 +1406,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tReasonForNoBuyTrain = GUI.NO_TOOL_TIP;
 			}
 		} else {
-			tReasonForNoBuyTrain = DIVIDENDS_NOT_HANDLED;
+			tReasonForNoBuyTrain = CorporationFrame.DIVIDENDS_NOT_HANDLED;
 		}
 
 		return tReasonForNoBuyTrain;
@@ -1801,6 +1800,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		tCompanyPortfolio = getTrainPortfolio ();
 		tOwningPortfolio = aOwningTrainCompany.getTrainPortfolio ();
+		aTrain.clearCurrentRoute ();
+		aTrain.clearPreviousRoute ();
 		tCompanyPortfolio.addTrain (aTrain);
 		tOwningPortfolio.removeSelectedTrain ();
 		tCompanyPortfolio.clearSelections ();
