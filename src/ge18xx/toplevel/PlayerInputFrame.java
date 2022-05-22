@@ -384,10 +384,10 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		tPlayerCount = getTFPlayerCount ();
 		if (!isAlreadyPresent (aPlayerName)) {
 			playerNames [tPlayerCount++].setText (aPlayerName);
+			logNewPlayer (aPlayerName);
 		}
 		setPlayerCount (tPlayerCount);
 		gameSet.setGameRadioButtons (tPlayerCount);
-		logNewPlayer (aPlayerName);
 	}
 
 	private void logNewPlayer (String aPlayerName) {
