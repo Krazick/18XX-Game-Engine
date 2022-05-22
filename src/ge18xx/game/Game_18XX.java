@@ -156,9 +156,11 @@ public class Game_18XX extends JFrame {
 	public void onExit () {
 		int tConfirm;
 		Logger tLogger;
+		String tQuestion;
+		
+		tQuestion = "Are You Sure to Exit the " + getTitle () + "?";
 
-		tConfirm = JOptionPane.showOptionDialog (null, "Are You Sure to Close the " + getTitle () + "?",
-				"Exit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+		tConfirm = JOptionPane.showConfirmDialog (this, tQuestion, "Exit Confirmation", JOptionPane.YES_NO_OPTION);
 		if (tConfirm == 0) {
 			tLogger = loggerLookup.getLogger ();
 			if (tLogger != null) {
