@@ -958,10 +958,6 @@ public class RoundManager implements ActionListener {
 	public boolean canStartOperatingRound () {
 		return gameManager.canStartOperatingRound ();
 	}
-//
-//	public boolean stockRoundIsDone () {
-//		return stockRound.roundIsDone ();
-//	}
 
 	public boolean operatingRoundIsDone () {
 		return operatingRound.roundIsDone ();
