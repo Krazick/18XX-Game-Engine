@@ -1171,22 +1171,25 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	/**
 	 * Clear All trains from the Map
 	 * 
+	 * @param aCreateAction Flag to specify if Action should be created
+	 * 
 	 */
 	@Override
-	public void clearAllTrainsFromMap () {
+	public void clearAllTrainsFromMap (boolean aCreateAction) {
 		MapFrame tMapFrame;
 		ClearAllRoutesAction tClearAllRoutesAction;
 		String tOperatingRoundID;
 
 		tMapFrame = corporationList.getMapFrame ();
 		tMapFrame.clearAllTrainsFromMap ();
-//		trainRevenueFrame.clearAllTrainRoutes ();
 		
-		tOperatingRoundID = getOperatingRoundID ();
-		tClearAllRoutesAction = new ClearAllRoutesAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
-				this);
-		tClearAllRoutesAction.addClearAllTrainsFromMapEffect (this);
-		addAction (tClearAllRoutesAction);
+		if (aCreateAction) {
+			tOperatingRoundID = getOperatingRoundID ();
+			tClearAllRoutesAction = new ClearAllRoutesAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
+					this);
+			tClearAllRoutesAction.addClearAllTrainsFromMapEffect (this);
+			addAction (tClearAllRoutesAction);
+		}
 
 	}
 

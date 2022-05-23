@@ -316,7 +316,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tTrain.setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 			tTrain.setOperating (false);
 		}
-		trainCompany.clearAllTrainsFromMap ();
+		trainCompany.clearAllTrainsFromMap (true);
 		updateAllFrameButtons ();
 		trainCompany.repaintMapFrame ();
 	}
