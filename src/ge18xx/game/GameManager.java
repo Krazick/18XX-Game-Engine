@@ -2033,9 +2033,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tActionNodeName = tActionNode.getNodeName ();
 				if (Action.EN_ACTION.equals (tActionNodeName)) {
 					if (roundManager != null) {
-						applyingNetworkAction = true;
+						setApplyingAction (true);
 						roundManager.handleNetworkAction (tActionNode);
-						applyingNetworkAction = false;
+						setApplyingAction (false);
 					} else {
 						// System.err.println ("Trying to handle a Server Game Activity, Node Named [" +
 						// tANodeName + "] no Round Manager created");
@@ -2083,9 +2083,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 						playerInputFrame.handleResetPlayerOrder (tPlayerOrder, tBroadcast);
 					} else if (Action.EN_ACTION.equals (tANodeName)) {
 						if (roundManager != RoundManager.NO_ROUND_MANAGER) {
-							applyingNetworkAction = true;
+							setApplyingAction (true);
 							roundManager.handleNetworkAction (tActionNode);
-							applyingNetworkAction = false;
+							setApplyingAction (false);
 						} else {
 							logger.error ("Trying to handle a Server Game Activity, Node Named [" + tANodeName
 									+ "] no Round Manager set yet");
@@ -2105,6 +2105,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	}
 
+	public void setApplyingAction (boolean aApplyingAction) {
+		applyingNetworkAction = aApplyingAction;
+	}
+	
 	public boolean applyingAction () {
 		return applyingNetworkAction;
 	}
