@@ -165,6 +165,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 
 		tFromActor = purchaseOfferEffect.getToActor ();
 		tResponseOfferAction = new ResponseOfferAction (tRoundType, tRoundID, tFromActor);
+		tResponseOfferAction.setChainToPrevious (true);
 		tResponseOfferAction.addResponseOfferEffect (tFromActor, tToActor, aResponse, itemType, itemName);
 		roundManager.addAction (tResponseOfferAction);
 
