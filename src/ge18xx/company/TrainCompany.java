@@ -1749,6 +1749,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		String tItemName, tItemType;
 		GameManager tGameManager;
 		boolean tCurrentNotify;
+		boolean tCurrentApplyingAction;
 
 		tGameManager = aRoundManager.getGameManager ();
 		tOperatingRoundID = aRoundManager.getOperatingRoundID ();
@@ -1774,8 +1775,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 							// for handling Response
 							// to when doing a purchase between players
 							tCurrentNotify = tGameManager.getNotifyNetwork ();
+							tCurrentApplyingAction = tGameManager.applyingAction ();
+							tGameManager.setApplyingAction (false);
 							tGameManager.setNotifyNetwork (true);
 							doFinalTrainBuySteps (tOwningTrainCompany, tTrain, tBuyTrainAction);
+							tGameManager.setApplyingAction (tCurrentApplyingAction);
 							tGameManager.setNotifyNetwork (tCurrentNotify);
 						} else {
 							System.err.println ("Purchase Offer's Item Name " + tItemName
