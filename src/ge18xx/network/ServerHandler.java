@@ -26,7 +26,7 @@ public abstract class ServerHandler implements Runnable {
 	protected String name;
 	private String host;
 	private int port;
-	private Logger logger;
+	protected Logger logger;
 	private NetworkGameSupport gameManager;
 
 	public ServerHandler (Socket aServerSocket, NetworkGameSupport aGameManager) {
