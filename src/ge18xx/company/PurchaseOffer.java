@@ -6,6 +6,11 @@ import ge18xx.train.Train;
 public class PurchaseOffer {
 	public static final String TRAIN_TYPE = Train.TYPE_NAME;
 	public static final String PRIVATE_TYPE = Corporation.PRIVATE_COMPANY;
+	public static final String NONE = "None";
+	public static final String ACCEPTED = "Accepted";
+	public static final String PENDING = "Pending";
+	public static final String REJECTED = "Rejected";
+	public static final String PROCESSED = "Processed";
 	String itemName;
 	String itemType;
 	String fromActorName;
@@ -14,6 +19,8 @@ public class PurchaseOffer {
 	Train train;
 	PrivateCompany privateCompany;
 	ActorI.ActionStates oldStatus;
+	// TODO Convert to an ENUM with options on Status.
+	String status;
 
 	public PurchaseOffer (String aItemName, String aItemType, Train aTrain, PrivateCompany aPrivateCompany,
 			String aFromActorName, String aToName, int aAmount, ActorI.ActionStates aOldState) {
@@ -30,8 +37,46 @@ public class PurchaseOffer {
 		setToName (aToName);
 		setAmount (aAmount);
 		setOldState (aOldState);
+		setStatus (PENDING);
 	}
 
+	public void setStatus (String aStatus) {
+		status = aStatus;
+	}
+	
+	public boolean wasAccepted () {
+		boolean tWasAccepted;
+	
+		tWasAccepted = false;
+		if (status.equals (ACCEPTED)) {
+			tWasAccepted = true;
+		}
+		
+		return tWasAccepted;
+	}
+	
+	public boolean wasRejected () {
+		boolean tWasRejected;
+	
+		tWasRejected = false;
+		if (status.equals (REJECTED)) {
+			tWasRejected = true;
+		}
+		
+		return tWasRejected;
+	}
+	
+	public boolean isPending () {
+		boolean tIsPending;
+		
+		tIsPending = false;
+		if (status.equals (PENDING)) {
+			tIsPending = true;
+		}
+		
+		return tIsPending;
+	}
+	
 	private void setTrain (Train aTrain) {
 		train = aTrain;
 	}
