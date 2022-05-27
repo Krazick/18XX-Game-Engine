@@ -40,6 +40,7 @@ public class ChatServerHandler extends ServerHandler {
 		String tName, tShortened;
 		boolean tAddToChat;
 
+		logger.info ("Handling Server Commands [" + aCommand + "]");
 		if (tMessage.startsWith ("Server: ")) {
 			tShortened = tMessage.substring (8);
 			tAddToChat = true;
