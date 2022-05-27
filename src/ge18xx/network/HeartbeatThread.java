@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ge18xx.game.GameManager;
+
 public class HeartbeatThread implements Runnable {
 	private Logger logger;
 	final Level HEARTBEAT = Level.forName ("HEARTBEAT", 550);
@@ -89,7 +91,7 @@ public class HeartbeatThread implements Runnable {
 		long tAverage;
 		String tMessage;
 
-		tDifference = startTime.until (responseTime, ChronoUnit.MILLIS) - GameSupportHandler.waitTime;
+		tDifference = startTime.until (responseTime, ChronoUnit.MILLIS) - GameManager.WAIT_TIME;
 		totalResponseTime += tDifference;
 		tAverage = totalResponseTime / aCounter;
 		tMessage = "Thread cycle " + aCounter + " Start Time " + hmssFormat.format (startTime) + " Response Time "
