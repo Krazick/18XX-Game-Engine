@@ -63,6 +63,8 @@ import javax.swing.ScrollPaneLayout;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import org.apache.logging.log4j.Logger;
+
 //  Should be able to specify this as a Generic Class, where the TYPE extends Corporation
 
 public class CorporationList extends InformationTable implements LoadableXMLI, ParsingRoutineI {
@@ -85,6 +87,14 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		roundManager = aRoundManager;
 	}
 
+	public Logger getLogger () {
+		Logger tLogger;
+		
+		tLogger = roundManager.getLogger ();
+		
+		return tLogger;
+	}
+	
 	public void addAction (Action aAction) {
 		roundManager.addAction (aAction);
 	}
