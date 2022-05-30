@@ -1235,7 +1235,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void itemStateChanged (ItemEvent aItemEvent) {
 		if (corporation.isWaitingForResponse ()) {
 			updateButton (buyTrainButton, false, "Waiting for Response from Purchase Offer");
-//			updateBuyTrainButton (false, "Waiting for Response from Purchase Offer");
 		} else if (corporation.isOperating ()) {
 			updateBuyTrainButton ();
 			updateBuyPrivateButton ();
@@ -1243,9 +1242,22 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 
+	/**
+	 * When the Corporation has need to wait for a Response from a Network Player, State is ActorI.ActionStates.WaitingResponse
+	 * Put this thread to sleep, in 2 second chunks
+	 * 
+	 */
 	public void waitForResponse () {
-		System.out.println ("Time to Disable Everything while waiting for Response -  New State ["
-				+ corporation.getStateName () + "]");
+		int tWaitTime = 2000; // Wait for 2 Seconds before testing if a Response came back
+		
 		updateInfo ();
+		while (corporation.isWaitingForResponse ()) {
+			try {
+				Thread.sleep (tWaitTime);
+			} catch (InterruptedException e) {
+				System.err.println ("Waiting for the Response to Clear - Exception");
+				e.printStackTrace ();
+			}
+		}
 	}
 }
