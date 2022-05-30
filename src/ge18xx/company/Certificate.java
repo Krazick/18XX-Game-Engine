@@ -1495,7 +1495,6 @@ public class Certificate implements Comparable<Certificate> {
 				} else {
 					tNewState = updateToMayFloat (tNewState);
 				}
-
 			}
 		}
 		if (tNewState != tState) {

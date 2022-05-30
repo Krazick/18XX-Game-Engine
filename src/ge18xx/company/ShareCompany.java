@@ -528,6 +528,9 @@ public class ShareCompany extends TokenCompany {
 		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
 		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate, tToHolder);
 		tCurrentCorporationStatus = aCertificate.getCorporationStatus ();
+		
+		// TODO: If buying Private into a Share Company, we don't need to change the Corporation State
+
 		aCertificate.updateCorporationOwnership ();
 		tNewCorporationStatus = aCertificate.getCorporationStatus ();
 		if (tCurrentCorporationStatus != tNewCorporationStatus) {

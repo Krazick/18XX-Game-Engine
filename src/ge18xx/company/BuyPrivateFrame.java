@@ -154,6 +154,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		tCorporationFrame.updateInfo ();
 	}
 
+	// TODO: Look at pushing this up to BuyItemFrame
 	private PurchaseOffer makePurchaseOffer (Player aOwningPlayer) {
 		PurchaseOfferAction tPurchaseOfferAction;
 		PurchaseOffer tPurchaseOffer;

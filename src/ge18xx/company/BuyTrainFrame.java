@@ -88,6 +88,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		tCorporationFrame.updateInfo ();
 	}
 
+	// TODO: Look at pushing this up to BuyItemFrame
 	public PurchaseOffer makePurchaseOffer (TrainCompany aOwningTrainCompany) {
 		PurchaseOfferAction tPurchaseOfferAction;
 		PurchaseOffer tPurchaseOffer;

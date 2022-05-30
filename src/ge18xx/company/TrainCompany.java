@@ -148,6 +148,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		closeOnTrainPurchase = aChildNode.getThisIntAttribute (AN_CLOSE_ON_TRAIN_PURCHASE, NO_ID);
 		setupTrainRevenueFrame ();
 		setCorporationFrame ();
+		// TODO: Parse out PurchaseOffer Element if present
 	}
 
 	public void declareBankruptcy () {

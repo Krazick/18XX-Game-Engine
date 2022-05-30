@@ -143,6 +143,7 @@ public class ResponseOfferEffect extends ToEffect {
 		tEffectApplied = false;
 		System.out.println ("Ready to handle the Response to the Purchase offer");
 
+		// TODO: Major refactoring of this class... here on down, it is very busy
 		tClientUserName = aRoundManager.getClientUserName ();
 		tToActor = getToActor ();
 		tFromActor = getActor ();
