@@ -46,36 +46,52 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 	private void buyTrain () {
 		TrainCompany tOwningTrainCompany;
 		int tCashValue;
-		BuyTrainAction tBuyTrainAction;
 		CorporationFrame tCorporationFrame;
-		String tOperatingRoundID;
-
+		PurchaseOffer tPurchaseOffer;
+		
 		if (train != Train.NO_TRAIN) {
 			tCashValue = getPrice ();
 			tOwningTrainCompany = (TrainCompany) (currentOwner);
 			if (needToMakeOffer (tOwningTrainCompany, trainCompany)) {
-				if (makePurchaseOffer (tOwningTrainCompany)) {
-					tCorporationFrame = trainCompany.getCorporationFrame ();
-					tCorporationFrame.waitForResponse ();
-				}
-			} else {
-				tOperatingRoundID = trainCompany.getOperatingRoundID ();
-				tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
-						trainCompany);
-				trainCompany.transferCashTo (tOwningTrainCompany, tCashValue);
-				tBuyTrainAction.addCashTransferEffect (trainCompany, tOwningTrainCompany, tCashValue);
-				trainCompany.doFinalTrainBuySteps (tOwningTrainCompany, train, tBuyTrainAction);
+				tPurchaseOffer = makePurchaseOffer (tOwningTrainCompany);
+				
 				tCorporationFrame = trainCompany.getCorporationFrame ();
-				tCorporationFrame.updateInfo ();
+				// TODO Disable Buttons on BuyItemFrame, add Status Message (Waiting for Response to offer)
+				tCorporationFrame.waitForResponse ();
+				System.out.println ("Response Received for Buy Train");
+				// Once a Response is received, examine for Accept or Reject of the Purchase Offer
+				// If Accept, perform the Buy Train
+				if (tPurchaseOffer.wasAccepted ()) {
+					buyTrain (tOwningTrainCompany, tCashValue, true);	
+				} else {
+					System.out.println ("Purchase Offer was Rejected");
+				}
+			
+			} else {
+				buyTrain (tOwningTrainCompany, tCashValue, false);
 			}
 		}
 	}
 
-	public boolean makePurchaseOffer (TrainCompany aOwningTrainCompany) {
+	private void buyTrain (TrainCompany aOwningTrainCompany, int aCashValue, boolean aChainToPrevious) {
+		BuyTrainAction tBuyTrainAction;
+		CorporationFrame tCorporationFrame;
+		String tOperatingRoundID;
+		tOperatingRoundID = trainCompany.getOperatingRoundID ();
+		tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
+				trainCompany);
+		tBuyTrainAction.setChainToPrevious (aChainToPrevious);
+		trainCompany.transferCashTo (aOwningTrainCompany, aCashValue);
+		tBuyTrainAction.addCashTransferEffect (trainCompany, aOwningTrainCompany, aCashValue);
+		trainCompany.doFinalTrainBuySteps (aOwningTrainCompany, train, tBuyTrainAction);
+		tCorporationFrame = trainCompany.getCorporationFrame ();
+		tCorporationFrame.updateInfo ();
+	}
+
+	public PurchaseOffer makePurchaseOffer (TrainCompany aOwningTrainCompany) {
 		PurchaseOfferAction tPurchaseOfferAction;
 		PurchaseOffer tPurchaseOffer;
 		ActorI.ActionStates tOldState, tNewState;
-		boolean tOfferMade = true;
 		String tOperatingRoundID;
 
 		tPurchaseOffer = new PurchaseOffer (train.getName (), train.getType (), train,
@@ -97,7 +113,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		tPurchaseOfferAction.addChangeCorporationStatusEffect (trainCompany, tOldState, tNewState);
 		trainCompany.addAction (tPurchaseOfferAction);
 
-		return tOfferMade;
+		return tPurchaseOffer;
 	}
 
 	public void updateInfo () {
