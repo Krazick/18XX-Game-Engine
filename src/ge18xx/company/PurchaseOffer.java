@@ -1,9 +1,28 @@
 package ge18xx.company;
 
+import org.w3c.dom.NodeList;
+
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.GenericActor;
 import ge18xx.train.Train;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
 
 public class PurchaseOffer {
+	public static final PurchaseOffer NO_PURCHASE_OFFER = null;
+	public static final ElementName EN_PURCHASE_OFFER = new ElementName ("PurchaseOffer");
+	public static final AttributeName AN_ITEM_NAME = new AttributeName ("itemName");
+	public static final AttributeName AN_ITEM_TYPE = new AttributeName ("itemType");
+	public static final AttributeName AN_FROM_ACTOR_NAME = new AttributeName ("fromActorName");
+	public static final AttributeName AN_TO_ACTOR_NAME = new AttributeName ("toActorName");
+	public static final AttributeName AN_AMOUNT = new AttributeName ("amount");
+	public static final AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");
+	public static final AttributeName AN_PRIVATE_ABBREV = new AttributeName ("privateAbbrev");
+	public static final AttributeName AN_OLD_STATUS = new AttributeName ("oldStatus");
+	public static final AttributeName AN_STATUS = new AttributeName ("status");
 	public static final String TRAIN_TYPE = Train.TYPE_NAME;
 	public static final String PRIVATE_TYPE = Corporation.PRIVATE_COMPANY;
 	public static final String NONE = "None";
@@ -14,7 +33,7 @@ public class PurchaseOffer {
 	String itemName;
 	String itemType;
 	String fromActorName;
-	String toName;
+	String toActorName;
 	int amount;
 	Train train;
 	PrivateCompany privateCompany;
@@ -38,6 +57,76 @@ public class PurchaseOffer {
 		setAmount (aAmount);
 		setOldState (aOldState);
 		setStatus (PENDING);
+	}
+
+	public PurchaseOffer (XMLNode aChildNode) {
+		XMLNode tPONode;
+		NodeList tPurchaseOfferList;
+		int tPOCount, tPOIndex;
+		String tItemName;
+		String tItemType;
+		String tFromActorName;
+		String tToActorName;
+		int tAmount;
+		String tOldStateName;
+		ActorI.ActionStates tOldState;	
+		GenericActor tGenericActor;
+		String tStatus;
+		String tTrainName;
+		String tPrivateAbbrev;
+
+		tPurchaseOfferList = aChildNode.getChildNodes ();
+		tPOCount = tPurchaseOfferList.getLength ();
+		for (tPOIndex = 0; tPOIndex < tPOCount; tPOIndex++) {
+			tPONode = new XMLNode (tPurchaseOfferList.item (tPOIndex));
+			tItemName = tPONode.getThisAttribute (AN_ITEM_NAME);
+			tItemType = tPONode.getThisAttribute (AN_ITEM_TYPE);
+			tFromActorName = tPONode.getThisAttribute (AN_FROM_ACTOR_NAME);
+			tToActorName = tPONode.getThisAttribute (AN_TO_ACTOR_NAME);
+			tAmount = tPONode.getThisIntAttribute (AN_AMOUNT);
+			tOldStateName = tPONode.getThisAttribute (AN_OLD_STATUS);
+			tStatus = tPONode.getThisAttribute (AN_STATUS);
+			tTrainName = tPONode.getThisAttribute (AN_TRAIN_NAME);
+			tPrivateAbbrev = tPONode.getThisAttribute (AN_PRIVATE_ABBREV);
+			setItemName (tItemName);
+			setItemType (tItemType);
+			setFromActorName (tFromActorName);
+			setToName (tToActorName);
+			setAmount (tAmount);
+			
+			tGenericActor = new GenericActor ();
+			tOldState = tGenericActor.getCorporationActionState (tOldStateName);
+			setOldState (tOldState);
+			setStatus (tStatus);
+			System.out.println ("Train Name [" + tTrainName + "] Private Abbrev [" + tPrivateAbbrev + "]");
+		}
+	}
+	
+	public XMLElement getElements (XMLDocument aXMLDocument) {
+		return getElements (aXMLDocument, EN_PURCHASE_OFFER);
+	}
+
+	public XMLElement getElements (XMLDocument aXMLDocument, ElementName aElementName) {
+		XMLElement tXMLElement;
+		
+		tXMLElement = aXMLDocument.createElement (aElementName);
+		tXMLElement.setAttribute (AN_ITEM_NAME, itemName);
+		tXMLElement.setAttribute (AN_ITEM_TYPE, itemType);
+		tXMLElement.setAttribute (AN_ITEM_NAME, fromActorName);
+		tXMLElement.setAttribute (AN_FROM_ACTOR_NAME, fromActorName);
+		tXMLElement.setAttribute (AN_TO_ACTOR_NAME, toActorName);
+		tXMLElement.setAttribute (AN_AMOUNT, amount);
+		if (train != Train.NO_TRAIN) {
+			tXMLElement.setAttribute (AN_TRAIN_NAME, train.getName ());
+		}
+		if (privateCompany != PrivateCompany.NO_PRIVATE_COMPANY) {
+			tXMLElement.setAttribute (AN_PRIVATE_ABBREV, privateCompany.getAbbrev ());
+			// TODO -- When loading need to get the Private Company for the given Name, and attach to the Purchase Offer
+		}
+		tXMLElement.setAttribute (AN_OLD_STATUS, oldStatus.toString ());
+		tXMLElement.setAttribute (AN_STATUS, status);
+
+		return tXMLElement;
 	}
 
 	public void setStatus (String aStatus) {
@@ -98,7 +187,7 @@ public class PurchaseOffer {
 	}
 
 	private void setToName (String aToName) {
-		toName = aToName;
+		toActorName = aToName;
 	}
 
 	private void setAmount (int aAmount) {
@@ -154,7 +243,7 @@ public class PurchaseOffer {
 	}
 
 	public String getToName () {
-		return toName;
+		return toActorName;
 	}
 
 	public int getAmount () {
