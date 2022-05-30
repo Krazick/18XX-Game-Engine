@@ -278,7 +278,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void appendOtherElements (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		XMLElement tTrainPortfolioElements;
-
+		XMLElement tPurchaseOfferElements;
+		
 		aXMLCorporationState.setAttribute (AN_LAST_REVENUE, getLastRevenue ());
 		aXMLCorporationState.setAttribute (AN_THIS_REVENUE, getThisRevenue ());
 		aXMLCorporationState.setAttribute (AN_MUST_BUY_TRAIN, mustBuyTrain ());
@@ -287,6 +288,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			aXMLCorporationState.appendChild (tTrainPortfolioElements);
 		}
 		super.appendOtherElements (aXMLCorporationState, aXMLDocument);
+		if (purchaseOffer != PurchaseOffer.NO_PURCHASE_OFFER) {
+			tPurchaseOfferElements = purchaseOffer.getElements (aXMLDocument);
+			aXMLCorporationState.appendChild (tPurchaseOfferElements);
+		}
 	}
 
 	@Override
@@ -1728,14 +1733,19 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return purchaseOffer;
 	}
 
-	public void handleRejectOffer (RoundManager aRoundManager) {
+	public void handleRejectOffer () {
 		CorporationFrame tCorporationFrame;
 
 		corporationList.clearTrainSelections ();
 		tCorporationFrame = getCorporationFrame ();
 		tCorporationFrame.updateInfo ();
+		purchaseOffer.setStatus (PurchaseOffer.REJECTED);
 	}
-
+	
+	public void setAcceptOffer () {
+		purchaseOffer.setStatus (PurchaseOffer.ACCEPTED);
+	}
+	
 	public void handleAcceptOffer (RoundManager aRoundManager) {
 		BuyTrainAction tBuyTrainAction;
 		TrainCompany tOwningTrainCompany;
