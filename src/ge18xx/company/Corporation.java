@@ -18,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import org.apache.logging.log4j.Logger;
+
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.benefit.Benefit;
@@ -182,6 +184,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		formationManadatoryPhase = tFormationManadatoryPhase;
 	}
 
+	public Logger getLogger () {
+		Logger tLogger;
+		
+		tLogger = corporationList.getLogger ();
+		
+		return tLogger;
+	}
+	
 	public void setBenefitInUse (Benefit aBenefitInUse) {
 		benefitInUse = aBenefitInUse;
 	}
