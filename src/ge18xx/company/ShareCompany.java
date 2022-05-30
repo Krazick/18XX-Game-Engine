@@ -12,7 +12,6 @@ import ge18xx.market.MarketCell;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
-import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
 import ge18xx.round.action.PayFullDividendAction;
@@ -483,59 +482,12 @@ public class ShareCompany extends TokenCompany {
 		return tShouldFloat;
 	}
 
-	public void handleRejectOfferPrivate (RoundManager aRoundManager) {
+	public void handleRejectOfferPrivate () {
 		CorporationFrame tCorporationFrame;
 
 		corporationList.clearPrivateSelections ();
 		tCorporationFrame = getCorporationFrame ();
 		tCorporationFrame.updateInfo ();
-	}
-
-	public void handleAcceptOfferPrivate (RoundManager aRoundManager) {
-		Player tOwningPlayer;
-		ActorI tActorOfferSentTo;
-		int tCashValue;
-		PrivateCompany tPrivateCompany;
-		CorporationFrame tCorporationFrame;
-		String tActorToName;
-		String tItemName, tItemType;
-		GameManager tGameManager;
-
-		tGameManager = aRoundManager.getGameManager ();
-		tCashValue = purchaseOffer.getAmount ();
-		tActorToName = purchaseOffer.getToName ();
-		tActorOfferSentTo = tGameManager.getActor (tActorToName);
-		if (tActorOfferSentTo.isAPlayer ()) {
-			tOwningPlayer = (Player) tActorOfferSentTo;
-			if (tOwningPlayer.isAPlayer ()) {
-				tCorporationFrame = getCorporationFrame ();
-				tItemType = purchaseOffer.getItemType ();
-				tItemName = purchaseOffer.getItemName ();
-				System.out.println ("Received approval for buying the " + tItemName + " " + tItemType);
-				tPrivateCompany = purchaseOffer.getPrivateCompany ();
-				if (tPrivateCompany != PrivateCompany.NO_PRIVATE_COMPANY) {
-					if (tPrivateCompany.getType ().equals (tItemType)) {
-						if (tPrivateCompany.getName ().equals (tItemName)) {
-							System.out.println ("Almost Ready to buy " + tItemName + " " + tItemType);
-							buyPrivateCompany (tOwningPlayer, tPrivateCompany, tCashValue);
-						} else {
-							System.err.println ("Purchase Offer's Item Name " + tItemName
-									+ " does not match Selected Item Name " + tPrivateCompany.getName ());
-						}
-					} else {
-						System.err.println ("Purchase Offer's Item Type " + tItemType
-								+ " does not match Selected Item Type " + tPrivateCompany.getType ());
-					}
-					tCorporationFrame.updateInfo ();
-				} else {
-					System.err.println ("Private Company Selected to buy not found (NULL)");
-				}
-			} else {
-				System.err.println ("Company " + tActorToName + " is not a Share Company");
-			}
-		} else {
-			System.out.println ("Actor " + tActorToName + " is not a Corporation - Likely Player");
-		}
 	}
 
 	public void buyPrivateCompany (Player aOwningPlayer, PrivateCompany aPrivateCompany, int aCashValue) {
