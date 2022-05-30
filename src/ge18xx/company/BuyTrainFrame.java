@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import ge18xx.bank.Bank;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
-import ge18xx.round.action.PurchaseOfferAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 
@@ -53,18 +52,19 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 			tCashValue = getPrice ();
 			tOwningTrainCompany = (TrainCompany) (currentOwner);
 			if (needToMakeOffer (tOwningTrainCompany, trainCompany)) {
-				tPurchaseOffer = makePurchaseOffer (tOwningTrainCompany);
+				tPurchaseOffer = makePurchaseOffer (tOwningTrainCompany, Certificate.NO_CERTIFICATE, train);
+				setVisible (false);
 				
-				tCorporationFrame = trainCompany.getCorporationFrame ();
-				// TODO Disable Buttons on BuyItemFrame, add Status Message (Waiting for Response to offer)
+				tCorporationFrame = trainCompany.getCorporationFrame ();				
 				tCorporationFrame.waitForResponse ();
-				System.out.println ("Response Received for Buy Train");
+				
 				// Once a Response is received, examine for Accept or Reject of the Purchase Offer
 				// If Accept, perform the Buy Train
 				if (tPurchaseOffer.wasAccepted ()) {
 					buyTrain (tOwningTrainCompany, tCashValue, true);	
 				} else {
-					System.out.println ("Purchase Offer was Rejected");
+					// TODO: Notify with Dialog the Offer was Rejected
+					System.out.println ("Purchase Offer for Train was Rejected");
 				}
 			
 			} else {
@@ -88,36 +88,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		tCorporationFrame.updateInfo ();
 	}
 
-	// TODO: Look at pushing this up to BuyItemFrame
-	public PurchaseOffer makePurchaseOffer (TrainCompany aOwningTrainCompany) {
-		PurchaseOfferAction tPurchaseOfferAction;
-		PurchaseOffer tPurchaseOffer;
-		ActorI.ActionStates tOldState, tNewState;
-		String tOperatingRoundID;
-
-		tPurchaseOffer = new PurchaseOffer (train.getName (), train.getType (), train,
-				PrivateCompany.NO_PRIVATE_COMPANY, trainCompany.getAbbrev (), aOwningTrainCompany.getAbbrev (),
-				getPrice (), trainCompany.getStatus ());
-		
-		tOldState = trainCompany.getStatus ();
-		trainCompany.setPurchaseOffer (tPurchaseOffer);
-		
-		tOperatingRoundID = trainCompany.getOperatingRoundID ();
-		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
-				trainCompany);
-		
-		tPurchaseOfferAction.addPurchaseOfferEffect (trainCompany, aOwningTrainCompany, getPrice (), 
-				PurchaseOffer.TRAIN_TYPE, train.getName ());
-
-		trainCompany.setStatus (ActorI.ActionStates.WaitingResponse);
-		tNewState = trainCompany.getStatus ();
-		tPurchaseOfferAction.addChangeCorporationStatusEffect (trainCompany, tOldState, tNewState);
-		trainCompany.addAction (tPurchaseOfferAction);
-
-		return tPurchaseOffer;
-	}
-
-	public void updateInfo () {
+	private void updateInfo () {
 		int tLowPrice, tHighPrice;
 		String tDescription;
 		
@@ -126,15 +97,11 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		tHighPrice = trainCompany.getTreasury ();
 		tDescription = trainCompany.getPresidentName () + ", Choose Buy Price for " + 
 				train.getName () + " " + PurchaseOffer.TRAIN_TYPE + " from " + currentOwner.getName ();
-		updateBuyItemPanel (PurchaseOffer.TRAIN_TYPE, tDescription, tLowPrice, tHighPrice);
-		updateBuyerInfo ();
 		updateSellerInfo ();
-		setBuyButtonText (currentOwner);
-		
-		setFrameLocation ();
+		updateInfo (PurchaseOffer.TRAIN_TYPE, tLowPrice, tHighPrice, tDescription);
 	}
 
-	protected void updateSellerInfo () {
+	private void updateSellerInfo () {
 		String tOwnerName = "NO OWNER";
 		int tTreasury = 0;
 		String tSellerInfo;

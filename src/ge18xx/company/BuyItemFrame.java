@@ -20,6 +20,8 @@ import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.PurchaseOfferAction;
+import ge18xx.train.Train;
 import ge18xx.utilities.GUI;
 
 public class BuyItemFrame extends JFrame implements KeyListener {
@@ -271,6 +273,46 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		return tSamePresident;
 	}
 
+	protected PurchaseOffer makePurchaseOffer (ActorI aItemOwner, Certificate aCertificate, Train aTrain) {
+		PurchaseOfferAction tPurchaseOfferAction;
+		PurchaseOffer tPurchaseOffer;
+		ActorI.ActionStates tOldState, tNewState;
+		Train tTrain;
+		PrivateCompany tPrivateCompany;
+		String tOperatingRoundID;
+		String tItemName;
+		String tItemType;
+		
+		if (aCertificate != Certificate.NO_CERTIFICATE) {
+			tPrivateCompany = (PrivateCompany) aCertificate.getCorporation ();
+			tItemName = tPrivateCompany.getAbbrev ();
+			tItemType = aCertificate.getCorpType ();
+			tTrain = Train.NO_TRAIN;
+		} else {
+			tPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
+			tItemName = aTrain.getName ();
+			tItemType = aTrain.getType ();
+			tTrain = aTrain;
+		}
+		tPurchaseOffer = new PurchaseOffer (tItemName, tItemType, tTrain, tPrivateCompany, tItemName, 
+				aItemOwner.getName (), getPrice (), trainCompany.getStatus ());
+
+		tOldState = trainCompany.getStatus ();
+		trainCompany.setPurchaseOffer (tPurchaseOffer);
+		
+		tOperatingRoundID = trainCompany.getOperatingRoundID ();
+		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
+				trainCompany);
+		tPurchaseOfferAction.addPurchaseOfferEffect (trainCompany, aItemOwner, getPrice (), tItemType, tItemName);
+
+		trainCompany.setStatus (ActorI.ActionStates.WaitingResponse);
+		tNewState = trainCompany.getStatus ();
+		tPurchaseOfferAction.addChangeCorporationStatusEffect (trainCompany, tOldState, tNewState);
+		trainCompany.addAction (tPurchaseOfferAction);
+
+		return tPurchaseOffer;
+	}
+
 	protected boolean needToMakeOffer (ActorI aOwningActor, TrainCompany aBuyingCompany) {
 		boolean tNeedToMakeOffer = true;
 		GameManager tGameManager;
@@ -432,5 +474,12 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		updateBuyButton (tEnableBuyButton, tBuyToolTip);
 		setBuyButtonText (currentOwner);
 		updateSetPriceButton (false, "Price Field has not changed");
+	}
+
+	protected void updateInfo (String aItemType, int aLowPrice, int aHighPrice, String aDescription) {
+		updateBuyItemPanel (aItemType, aDescription, aLowPrice, aHighPrice);
+		updateBuyerInfo ();
+		setBuyButtonText (currentOwner);	
+		setFrameLocation ();
 	}
 }
