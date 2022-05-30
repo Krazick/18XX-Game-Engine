@@ -60,6 +60,9 @@ public class BoughtShareEffect extends Effect {
 			tPlayer.setBoughtShare (true);
 			tEffectApplied = true;
 		}
+		if (actor.isACorporation ()) {
+			tEffectApplied = true;
+		}
 
 		return tEffectApplied;
 	}
