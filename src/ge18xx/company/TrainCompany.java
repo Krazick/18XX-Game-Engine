@@ -1012,13 +1012,19 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	/**
 	 * Find the Train at the specified index in the Train Portfolio, and return it
 	 * 
-	 * @param aIndex the Index for the Train to find
+	 * @param aIndex The Index for the Train to find
 	 * @return The Train at the specified index in the Train Portfolio
 	 */
 	public Train getTrain (int aIndex) {
 		return trainPortfolio.getTrainAt (aIndex);
 	}
 
+	/**
+	 * Find the Train at the specified index in the Train Portfolio, and return it
+	 * 
+	 * @param aName The name for the Train to find
+	 * @return The Train at the specified index in the Train Portfolio
+	 */
 	@Override
 	public Train getTrain (String aName) {
 		return trainPortfolio.getTrain (aName);
