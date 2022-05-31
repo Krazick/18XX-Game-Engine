@@ -20,6 +20,7 @@ public class TransferTrainEffect extends ToEffect {
 	final static AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
 	public final static String NAME = "Transfer Train";
 	Train train;
+	String trainName;	// Need to save in case the Train is not found where expected
 
 	public TransferTrainEffect () {
 		super ();
@@ -49,6 +50,7 @@ public class TransferTrainEffect extends ToEffect {
 		setActor (tFromActor);
 
 		tTrainName = aEffectNode.getThisAttribute (AN_TRAIN_NAME);
+		trainName = tTrainName;			// Save it for Post Parse if needed
 		setTrain (null);
 		if (tFromActor.isABankPool ()) {
 			tTrain = aGameManager.getBankPoolTrain (tTrainName);
