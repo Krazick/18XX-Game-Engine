@@ -108,27 +108,6 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		currentOwner = aCurrentOwner;
 	}
 	
-	public void updateBuyItemPanel (String aItemName, String aDescription, 
-					int aMinPrice, int aMaxPrice) {
-		updateBuyItemPanel (aItemName, aDescription, aMinPrice, aMaxPrice, "", "");
-	}
-	
-	public void updateBuyItemPanel (String aItemName, String aDescription, 
-					int aMinPrice, int aMaxPrice, String aBuyerInfo, String aSellerInfo) {
-		String tRange;
-		
-		if (validRange (aMinPrice, aMaxPrice)) {
-			setItemName (aItemName);
-			description.setText (aDescription);
-			setMinPrice (aMinPrice);
-			setMaxPrice (aMaxPrice);
-			tRange = generateRange ();
-			range.setText (tRange);
-			updateBuyerInfo (aBuyerInfo);
-			updateSellerInfo (aSellerInfo);
-		}
-	}
-	
 	public void setItemName (String aItemName) {
 		itemName = aItemName;
 	}
@@ -482,4 +461,19 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		setBuyButtonText (currentOwner);	
 		setFrameLocation ();
 	}
+	
+	public void updateBuyItemPanel (String aItemName, String aDescription, 
+					int aMinPrice, int aMaxPrice) {
+		String tRange;
+		
+		if (validRange (aMinPrice, aMaxPrice)) {
+			setItemName (aItemName);
+			description.setText (aDescription);
+			setMinPrice (aMinPrice);
+			setMaxPrice (aMaxPrice);
+			tRange = generateRange ();
+			range.setText (tRange);
+		}
+	}
+
 }
