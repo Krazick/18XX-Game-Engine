@@ -127,6 +127,7 @@ public class Action {
 					}
 				}
 			}
+			postParse ();
 		} catch (ClassNotFoundException tException) {
 			System.err.println (
 					"Could not find Class for Effect " + tClassName + " due to Rename and using old Save Game");
@@ -136,6 +137,12 @@ public class Action {
 		}
 	}
 
+	private void postParse () {
+		for (Effect tEffect : effects) {
+			tEffect.postParse (actor);
+		}
+	}
+	
 	public void setNumber (int aNumber) {
 		number = aNumber;
 	}
