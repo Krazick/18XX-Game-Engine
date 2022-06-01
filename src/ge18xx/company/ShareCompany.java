@@ -180,9 +180,9 @@ public class ShareCompany extends TokenCompany {
 
 		tSharesSold = getSharesSold ();
 		tCapitalizationAmount = super.getCapitalizationLevel (tSharesSold);
-//		if (corporationList.doPartialCapitalization ()) {
-//			System.out.println ("Should do Partial Capitalization for " + abbrev);
-//			// NOTE -- 1856 in early Phases, will do Partial Capitalization based on Shares Sold
+//		if (corporationList.doIncrementalCapitalization ()) {
+//			System.out.println ("Should do Incremental Capitalization for " + abbrev);
+//			// NOTE -- 1856 in early Phases, will do Incremental Capitalization based on Shares Sold
 //		}
 
 		return tCapitalizationAmount;

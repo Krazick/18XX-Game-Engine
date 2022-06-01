@@ -37,8 +37,8 @@ public class PhaseManager {
 		}
 	}
 
-	public boolean doPartialCapitalization () {
-		return getCurrentPhaseInfo ().doPartialCapitalization ();
+	public boolean doIncrementalCapitalization () {
+		return getCurrentPhaseInfo ().doIncrementalCapitalization ();
 	}
 
 	public boolean canBuyPrivate () {

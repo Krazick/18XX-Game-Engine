@@ -586,8 +586,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
-	public boolean doPartialCapitalization () {
-		return phaseManager.doPartialCapitalization ();
+	public boolean doIncrementalCapitalization () {
+		return phaseManager.doIncrementalCapitalization ();
 	}
 
 	public boolean canBuyPrivate () {

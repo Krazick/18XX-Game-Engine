@@ -151,7 +151,7 @@ public class PhaseInfo {
 		return tCapitalizationLevel;
 	}
 
-	public boolean doPartialCapitalization () {
+	public boolean doIncrementalCapitalization () {
 		return false;
 	}
 
