@@ -242,6 +242,22 @@ public class ShareCompany extends TokenCompany {
 		return destinationLocation;
 	}
 
+	/**
+	 * Determines if there are any outstanding Loans
+	 * 
+	 * @return True if there are any outstanding loans (Loan Count > 0)
+	 * 
+	 */
+	public boolean hasOutstandingLoans () {
+		return (loanCount > 0);
+	}
+	
+	/**
+	 * Return the Count of the Loans the company has outstanding
+	 * 
+	 * @return Total number of Loans that are outstanding
+	 */
+	@Override
 	public int getLoanCount () {
 		return loanCount;
 	}
