@@ -1541,25 +1541,29 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			tStatusUpdated = true;
 		} else if (status == ActorI.ActionStates.Owned) {
 			if (isAShareCompany ()) {
-				if ((aStatus == ActorI.ActionStates.MayFloat) || (aStatus == ActorI.ActionStates.WillFloat)
-						|| (aStatus == ActorI.ActionStates.Closed)) {
+				if ((aStatus == ActorI.ActionStates.MayFloat) || 
+					(aStatus == ActorI.ActionStates.WillFloat) ||
+					(aStatus == ActorI.ActionStates.Closed)) {
 					status = aStatus;
 					tStatusUpdated = true;
 				}
 			} else {
-				if ((aStatus == ActorI.ActionStates.WillFloat) || (aStatus == ActorI.ActionStates.Closed)) {
+				if ((aStatus == ActorI.ActionStates.WillFloat) || 
+					(aStatus == ActorI.ActionStates.Closed)) {
 					status = aStatus;
 					tStatusUpdated = true;
 				}
 			}
 		} else if (status == ActorI.ActionStates.Unformed) {
-			if ((aStatus == ActorI.ActionStates.Owned) || (aStatus == ActorI.ActionStates.Closed)) {
+			if ((aStatus == ActorI.ActionStates.Owned) || 
+				(aStatus == ActorI.ActionStates.Closed)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.MayFloat) {
-			if ((aStatus == ActorI.ActionStates.Owned) || (aStatus == ActorI.ActionStates.WillFloat)
-					|| (aStatus == ActorI.ActionStates.NotOperated)) {
+			if ((aStatus == ActorI.ActionStates.Owned) || 
+				(aStatus == ActorI.ActionStates.WillFloat) ||
+				(aStatus == ActorI.ActionStates.NotOperated)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
@@ -1569,15 +1573,19 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.NotOperated) {
-			if ((aStatus == ActorI.ActionStates.StartedOperations) || (aStatus == ActorI.ActionStates.Closed)) {
+			if ((aStatus == ActorI.ActionStates.StartedOperations) || 
+				(aStatus == ActorI.ActionStates.Closed)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.StartedOperations) {
-			if ((aStatus == ActorI.ActionStates.TileLaid) || (aStatus == ActorI.ActionStates.TileUpgraded)
-					|| (aStatus == ActorI.ActionStates.StationLaid) || (aStatus == ActorI.ActionStates.OperatedTrain)
-					|| (aStatus == ActorI.ActionStates.HoldDividend) || (aStatus == ActorI.ActionStates.HalfDividend)
-					|| (aStatus == ActorI.ActionStates.FullDividend)) {
+			if ((aStatus == ActorI.ActionStates.TileLaid) || 
+				(aStatus == ActorI.ActionStates.TileUpgraded) ||
+				(aStatus == ActorI.ActionStates.StationLaid) || 
+				(aStatus == ActorI.ActionStates.OperatedTrain) ||
+				(aStatus == ActorI.ActionStates.HoldDividend) || 
+				(aStatus == ActorI.ActionStates.HalfDividend) ||
+				(aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
@@ -1585,50 +1593,66 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			if (aStatus == ActorI.ActionStates.StationLaid) {
 				status = ActorI.ActionStates.TileAndStationLaid;
 				tStatusUpdated = true;
-			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) || (aStatus == ActorI.ActionStates.HoldDividend)
-					|| (aStatus == ActorI.ActionStates.HalfDividend) || (aStatus == ActorI.ActionStates.FullDividend)) {
+			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) || 
+						(aStatus == ActorI.ActionStates.HoldDividend) ||
+						(aStatus == ActorI.ActionStates.HalfDividend) || 
+						(aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.TileLaid) {
-			if ((aStatus == ActorI.ActionStates.Tile2Laid) || (aStatus == ActorI.ActionStates.StationLaid)
-					|| (aStatus == ActorI.ActionStates.TileAndStationLaid)
-					|| (aStatus == ActorI.ActionStates.OperatedTrain) || (aStatus == ActorI.ActionStates.HoldDividend)
-					|| (aStatus == ActorI.ActionStates.HalfDividend) || (aStatus == ActorI.ActionStates.FullDividend)) {
+			if ((aStatus == ActorI.ActionStates.Tile2Laid) || 
+				(aStatus == ActorI.ActionStates.StationLaid) ||
+				(aStatus == ActorI.ActionStates.TileAndStationLaid) ||
+				(aStatus == ActorI.ActionStates.OperatedTrain) || 
+				(aStatus == ActorI.ActionStates.HoldDividend) ||
+				(aStatus == ActorI.ActionStates.HalfDividend) || 
+				(aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.TileAndStationLaid) {
 			if (aStatus == ActorI.ActionStates.StationLaid) {
 				tStatusUpdated = true;
-			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) || (aStatus == ActorI.ActionStates.HoldDividend)
-					|| (aStatus == ActorI.ActionStates.HalfDividend) || (aStatus == ActorI.ActionStates.FullDividend)) {
+			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) || 
+						(aStatus == ActorI.ActionStates.HoldDividend) ||
+						(aStatus == ActorI.ActionStates.HalfDividend) || 
+						(aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.StationLaid) {
-			if ((aStatus == ActorI.ActionStates.TileAndStationLaid) || (aStatus == ActorI.ActionStates.StationLaid)
-					|| (aStatus == ActorI.ActionStates.OperatedTrain) || (aStatus == ActorI.ActionStates.HoldDividend)
-					|| (aStatus == ActorI.ActionStates.HalfDividend) || (aStatus == ActorI.ActionStates.FullDividend)) {
+			if ((aStatus == ActorI.ActionStates.TileAndStationLaid) || 
+				(aStatus == ActorI.ActionStates.StationLaid) ||
+				(aStatus == ActorI.ActionStates.OperatedTrain) || 
+				(aStatus == ActorI.ActionStates.HoldDividend) ||
+				(aStatus == ActorI.ActionStates.HalfDividend) || 
+				(aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.TileUpgraded) {
-			if ((aStatus == ActorI.ActionStates.StationLaid) || (aStatus == ActorI.ActionStates.TileAndStationLaid)
-					|| (aStatus == ActorI.ActionStates.OperatedTrain) || (aStatus == ActorI.ActionStates.HoldDividend)
-					|| (aStatus == ActorI.ActionStates.HalfDividend) || (aStatus == ActorI.ActionStates.FullDividend)) {
+			if ((aStatus == ActorI.ActionStates.StationLaid) || 
+				(aStatus == ActorI.ActionStates.TileAndStationLaid) ||
+				(aStatus == ActorI.ActionStates.OperatedTrain) || 
+				(aStatus == ActorI.ActionStates.HoldDividend) ||
+				(aStatus == ActorI.ActionStates.HalfDividend) || 
+				(aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.OperatedTrain) {
-			if ((aStatus == ActorI.ActionStates.HoldDividend) || (aStatus == ActorI.ActionStates.HalfDividend)
-					|| (aStatus == ActorI.ActionStates.FullDividend)) {
+			if ((aStatus == ActorI.ActionStates.HoldDividend) || 
+				(aStatus == ActorI.ActionStates.HalfDividend) ||
+				(aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
-		} else if ((status == ActorI.ActionStates.HoldDividend) || (status == ActorI.ActionStates.HalfDividend)
-				|| (status == ActorI.ActionStates.FullDividend)) {
-			if ((aStatus == ActorI.ActionStates.BoughtTrain) || (aStatus == ActorI.ActionStates.Operated)) {
+		} else if ((status == ActorI.ActionStates.HoldDividend) || 
+					(status == ActorI.ActionStates.HalfDividend) ||
+					(status == ActorI.ActionStates.FullDividend)) {
+			if ((aStatus == ActorI.ActionStates.BoughtTrain) || 
+				(aStatus == ActorI.ActionStates.Operated)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
@@ -1643,13 +1667,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				tStatusUpdated = true;
 			}
 		}
-
-//		ActorI.ActionStates -- CorporationStates
-//
-//		Unowned, Owned, Closed, MayFloat, WillFloat, NotOperated,
-//		StartedOperations, TileLaid, Tile2Laid, TileUpgraded, 
-//		StationLaid, TileAndStationLaid, OperatedTrain, HoldDividend, 
-//		HalfDividend, FullDividend, BoughtTrain, Operated, WaitingResponse
 
 		return tStatusUpdated;
 	}
@@ -1670,8 +1687,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tCanOperate;
 
 		tCanOperate = true;
-		if ((status == ActorI.ActionStates.Closed) || (status == ActorI.ActionStates.Unowned)
-				|| (status == ActorI.ActionStates.Owned)) {
+		if ((status == ActorI.ActionStates.Closed) || 
+			(status == ActorI.ActionStates.Unowned) ||
+			(status == ActorI.ActionStates.Owned) ||
+			(status == ActorI.ActionStates.Unformed)) {
 			tCanOperate = false;
 		}
 
@@ -1682,10 +1701,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean isOperating;
 
 		isOperating = true;
-		if ((status == ActorI.ActionStates.Closed) || (status == ActorI.ActionStates.Unowned)
-				|| (status == ActorI.ActionStates.WillFloat) || (status == ActorI.ActionStates.MayFloat)
-				|| (status == ActorI.ActionStates.Owned) || (status == ActorI.ActionStates.Operated)
-				|| (status == ActorI.ActionStates.NotOperated)) {
+		if ((status == ActorI.ActionStates.Closed) || 
+			(status == ActorI.ActionStates.Unowned) ||
+			(status == ActorI.ActionStates.WillFloat) || 
+			(status == ActorI.ActionStates.MayFloat) ||
+			(status == ActorI.ActionStates.Owned) || 
+			(status == ActorI.ActionStates.Operated) ||
+			(status == ActorI.ActionStates.NotOperated) || 
+			(status == ActorI.ActionStates.Unformed)) {
 			isOperating = false;
 		}
 
@@ -1696,8 +1719,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tShouldOperate;
 
 		tShouldOperate = true;
-		if ((status == ActorI.ActionStates.Closed) || (status == ActorI.ActionStates.Unowned)
-				|| (status == ActorI.ActionStates.Owned) || (status == ActorI.ActionStates.Operated)) {
+		if ((status == ActorI.ActionStates.Closed) || 
+			(status == ActorI.ActionStates.Unowned) ||
+			(status == ActorI.ActionStates.Owned) || 
+			(status == ActorI.ActionStates.Operated) ||
+			(status == ActorI.ActionStates.Unformed)) {
 			tShouldOperate = false;
 		}
 
