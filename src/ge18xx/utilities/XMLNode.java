@@ -94,7 +94,12 @@ public class XMLNode {
 		}
 	}
 
-	/* Parse out a Boolean Attribute, return -false- if attribute is not found */
+	/**
+	 * Parse out a Boolean Attribute, return -false- if attribute is not found
+	 * 
+	 * @param aAttributeName The AttributeName to be found
+	 * @return TRUE if the attribute Exists, and has value of TRUE, otherwise FALSE
+	 */
 	public boolean getThisBooleanAttribute (AttributeName aAttributeName) {
 		boolean tAttributeValue = false;
 		String tAttributeName;
