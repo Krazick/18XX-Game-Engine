@@ -630,6 +630,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return activeGame.hasPrivates ();
 	}
 
+	public boolean gameHasLoans () {
+		return activeGame.gameHasLoans ();
+	}
+
 	public boolean gameHasCoals () {
 		return activeGame.hasCoals ();
 	}

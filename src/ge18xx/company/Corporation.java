@@ -792,8 +792,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public boolean gameHasLoans () {
-		return false;
-		// TODO: non-1830 Expand to check Game Info to see if Loans are in game
+		return corporationList.gameHasLoans ();
 	}
 
 	@Override
@@ -1534,7 +1533,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	 */
 	public boolean updateStatus (ActorI.ActionStates aStatus) {
 		boolean tStatusUpdated;
-
+		
 		tStatusUpdated = false;
 		if (aStatus == ActorI.ActionStates.WaitingResponse) {
 			forceSetStatus (aStatus);
@@ -1642,9 +1641,15 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				tStatusUpdated = true;
 			}
 		} else if (status == ActorI.ActionStates.OperatedTrain) {
-			if ((aStatus == ActorI.ActionStates.HoldDividend) || 
-				(aStatus == ActorI.ActionStates.HalfDividend) ||
-				(aStatus == ActorI.ActionStates.FullDividend)) {
+			if (gameHasLoans () && needToHandleLoans ()) {
+
+				if (aStatus == ActorI.ActionStates.HandleLoanInterest) {
+					status = aStatus;
+					tStatusUpdated = true;
+				}
+			} else if ((aStatus == ActorI.ActionStates.HoldDividend) || 
+						(aStatus == ActorI.ActionStates.HalfDividend) ||
+						(aStatus == ActorI.ActionStates.FullDividend)) {
 				status = aStatus;
 				tStatusUpdated = true;
 			}
@@ -1671,6 +1676,21 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tStatusUpdated;
 	}
 
+	public boolean needToHandleLoans () {
+		ShareCompany tShareCompany;
+		boolean tNeedToHandleLoans;
+		
+		tNeedToHandleLoans = false;
+		if (isAShareCompany ()) {
+			tShareCompany = (ShareCompany) this;
+			if (tShareCompany.getLoanCount () > 0) {
+				tNeedToHandleLoans = true;
+			}
+		}
+		
+		return tNeedToHandleLoans;
+	}
+	
 	private void setValues (int aID, String aName, String aAbbrev, MapCell aHomeCity1, Location aHomeLocation1,
 			MapCell aHomeCity2, Location aHomeLocation2, ActorI.ActionStates aStatus, boolean aGovtRailway) {
 		corporationCertificates = new Portfolio (this);

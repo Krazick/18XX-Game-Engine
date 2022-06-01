@@ -648,6 +648,10 @@ public class RoundManager implements ActionListener {
 		return gameManager.gameHasPrivates ();
 	}
 
+	public boolean gameHasLoans () {
+		return gameManager.gameHasLoans ();
+	}
+
 	public void updateParPrices () {
 		roundFrame.updateParPrices ();
 	}

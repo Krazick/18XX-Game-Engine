@@ -33,6 +33,7 @@ public class GameInfo {
 	static final AttributeName AN_ID = new AttributeName ("id");
 	static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");
+	final AttributeName AN_LOANS = new AttributeName ("loans");
 	final AttributeName AN_PRIVATES = new AttributeName ("privates");
 	final AttributeName AN_MINORS = new AttributeName ("minors");
 	final AttributeName AN_COALS = new AttributeName ("coals");
@@ -79,6 +80,7 @@ public class GameInfo {
 	boolean hasCoals;
 	boolean hasShares;
 	boolean canPayHalfDividend;
+	boolean loans;
 	int bankPoolShareLimit; // Limit on # of shares in Bank Pool
 	int playerShareLimit; // Limit on # of shares a Player may Hold
 	TrainInfo trains[];
@@ -114,6 +116,7 @@ public class GameInfo {
 		int tTrainCount, tPlayerCount;
 		int tBankPoolShareLimit, tPlayerShareLimit;
 		boolean tHasPrivates, tHasMinors, tHasCoals, tHasShares;
+		boolean tLoans;
 
 		tGameID = aCellNode.getThisAttribute (AN_GAME_ID);
 		tID = aCellNode.getThisIntAttribute (AN_ID);
@@ -129,6 +132,7 @@ public class GameInfo {
 		tReleaseDate = aCellNode.getThisAttribute (AN_RELEASE_DATE);
 
 		tHasPrivates = aCellNode.getThisBooleanAttribute (AN_PRIVATES);
+		tLoans = aCellNode.getThisBooleanAttribute (AN_LOANS);
 		tHasMinors = aCellNode.getThisBooleanAttribute (AN_MINORS);
 		tHasCoals = aCellNode.getThisBooleanAttribute (AN_COALS);
 		tHasShares = aCellNode.getThisBooleanAttribute (AN_SHARES);
@@ -138,7 +142,8 @@ public class GameInfo {
 		setValues (tID, tName, tMinPlayers, tMaxPlayers, tBankTotal, tCurrencyFormat);
 		setOtherValues (tSubTitle, tLocation, tDesigners, tProducers, tReleaseDate);
 		setHasCompanies (tHasPrivates, tHasMinors, tHasCoals, tHasShares);
-
+		setLoans (tLoans);
+		
 		tBankPoolShareLimit = aCellNode.getThisIntAttribute (AN_BANK_POOL_SHARE_LIMIT);
 		tPlayerShareLimit = aCellNode.getThisIntAttribute (AN_PLAYER_SHARE_LIMIT);
 		setBankPoolShareLimit (tBankPoolShareLimit);
@@ -415,6 +420,10 @@ public class GameInfo {
 		return hasPrivates;
 	}
 
+	public boolean gameHasLoans () {
+		return loans;
+	}
+	
 	public boolean hasShares () {
 		return hasShares;
 	}
@@ -443,6 +452,10 @@ public class GameInfo {
 		gameID = aGameID;
 	}
 
+	public void setLoans (boolean tLoans) {
+		loans = tLoans;
+	}
+	
 	public void setHasCompanies (boolean aHasPrivates, boolean aHasMinors, boolean aHasCoals, boolean aHasShares) {
 		hasPrivates = aHasPrivates;
 		hasMinors = aHasMinors;

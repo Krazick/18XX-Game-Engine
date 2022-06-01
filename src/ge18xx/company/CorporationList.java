@@ -337,6 +337,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public boolean gameHasPrivates () {
 		return roundManager.gameHasPrivates ();
 	}
+	
+	public boolean gameHasLoans () {
+		return roundManager.gameHasLoans ();
+	}
 
 	public boolean anyPrivatesUnowned () {
 		boolean tAnyPrivatesUnowned = false;
