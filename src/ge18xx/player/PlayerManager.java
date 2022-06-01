@@ -1177,7 +1177,6 @@ public class PlayerManager {
 	}
 
 	public void resetRoundFrameBackgrounds () {
-		System.out.println ("---- PlayerManager Reset Round Frame Background");
 		gameManager.resetRoundFrameBackgrounds ();
 	}
 	
