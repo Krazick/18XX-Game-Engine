@@ -49,7 +49,6 @@ public class GameInfo {
 	final AttributeName AN_PRODUCERS = new AttributeName ("producers");
 	final AttributeName AN_RELEASE_DATE = new AttributeName ("releaseDate");
 	final AttributeName AN_CAN_PAY_HALF = new AttributeName ("canPayHalfDividend");
-	final AttributeName AN_PARITAL_CAPITAL = new AttributeName ("partialCapitalization");
 
 	static final int NO_GAME_ID = 0;
 	static final String NO_NAME = "<NONE>";
@@ -80,7 +79,6 @@ public class GameInfo {
 	boolean hasCoals;
 	boolean hasShares;
 	boolean canPayHalfDividend;
-	boolean partialCapitalization;
 	int bankPoolShareLimit; // Limit on # of shares in Bank Pool
 	int playerShareLimit; // Limit on # of shares a Player may Hold
 	TrainInfo trains[];
@@ -135,7 +133,6 @@ public class GameInfo {
 		tHasCoals = aCellNode.getThisBooleanAttribute (AN_COALS);
 		tHasShares = aCellNode.getThisBooleanAttribute (AN_SHARES);
 		canPayHalfDividend = aCellNode.getThisBooleanAttribute (AN_CAN_PAY_HALF);
-		partialCapitalization = aCellNode.getThisBooleanAttribute (AN_PARITAL_CAPITAL);
 
 		setGameID (tGameID);
 		setValues (tID, tName, tMinPlayers, tMaxPlayers, tBankTotal, tCurrencyFormat);
@@ -256,17 +253,12 @@ public class GameInfo {
 		return bankTotal;
 	}
 
-	public boolean fullCapitalization () {
-		return !partialCapitalization;
-	}
-
 	public int getCertificateLimit (int aNumPlayers) {
 		int tCertificateLimit;
 		int tIndex, tPlayerInfoCount;
 
 		tCertificateLimit = 0;
 		if (canPlayWithXPlayers (aNumPlayers)) {
-//		if ((aNumPlayers >= minPlayers) && (aNumPlayers <= maxPlayers)) {
 			tPlayerInfoCount = players.length;
 			for (tIndex = 0; (tIndex < tPlayerInfoCount) && (tCertificateLimit == 0); tIndex++) {
 				if (aNumPlayers == players [tIndex].getNumPlayers ()) {
