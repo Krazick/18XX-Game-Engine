@@ -53,11 +53,15 @@ public interface ActorI {
 
 		Unowned ("Unowned"), Owned ("Owned"), Closed ("Closed"), // Corporation States
 		MayFloat ("May Float"), WillFloat ("Will Float"), NotOperated ("Not Operated"),
-		StartedOperations ("Started Operating"), TileLaid ("Tile Laid"), Tile2Laid ("Second Tile Laid"),
-		TileUpgraded ("Tile Upgraded"), StationLaid ("Station Laid"), TileAndStationLaid ("Tile and Station Laid"),
-		OperatedTrain ("Operated Train"), HoldDividend ("No Dividend Paid"), HalfDividend ("Half Dividend Paid"),
-		FullDividend ("Full Dividend Paid"), BoughtTrain ("Bought Train"), Operated ("Operated"), Unformed ("Unformed"),
-		WaitingResponse ("Waiting for Response"), Fixed ("Fixed"), NoState ("No State"), Bankrupt ("Bankrupt");
+		StartedOperations ("Started Operating"), TileLaid ("Tile Laid"), 
+		Tile2Laid ("Second Tile Laid"), TileUpgraded ("Tile Upgraded"), 
+		StationLaid ("Station Laid"), TileAndStationLaid ("Tile and Station Laid"),
+		OperatedTrain ("Operated Train"), HandleLoanInterest ("Handle Loan Interest"),
+		HoldDividend ("No Dividend Paid"), HalfDividend ("Half Dividend Paid"),
+		FullDividend ("Full Dividend Paid"), BoughtTrain ("Bought Train"), 
+		Operated ("Operated"), Unformed ("Unformed"),
+		WaitingResponse ("Waiting for Response"), Fixed ("Fixed"), 
+		NoState ("No State"), Bankrupt ("Bankrupt");
 
 		private String enumString;
 		private String enumAbbrev;
