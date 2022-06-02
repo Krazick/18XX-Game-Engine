@@ -34,6 +34,7 @@ public class ShareCompany extends TokenCompany {
 	public static final ElementName EN_SHARE_COMPANY = new ElementName ("ShareCompany");
 	static final AttributeName AN_PAR_PRICE = new AttributeName ("parPrice");
 	static final AttributeName AN_LOAN_COUNT = new AttributeName ("loanCount");
+	static final AttributeName AN_LOAN_TAKEN = new AttributeName ("loanTaken");
 	static final AttributeName AN_DESTINATION = new AttributeName ("destination");
 	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	static final AttributeName AN_START_PRICE = new AttributeName ("startPrice");
@@ -48,11 +49,12 @@ public class ShareCompany extends TokenCompany {
 	String startCell;
 	int parPrice;
 	int loanCount;
+	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
 
 	public ShareCompany () {
 		super ();
 		setNoPrice ();
-		setValues (NO_PAR_PRICE, MarketCell.NO_SHARE_PRICE, MapCell.NO_DESTINATION, NO_LOANS, NO_START_CELL);
+		setValues (NO_PAR_PRICE, MarketCell.NO_SHARE_PRICE, MapCell.NO_DESTINATION, NO_LOANS, false, NO_START_CELL);
 	}
 
 	public ShareCompany (XMLNode aChildNode, CorporationList aCorporationList) {
@@ -60,14 +62,18 @@ public class ShareCompany extends TokenCompany {
 		int tDestLocation;
 		String tStartCell;
 		int tParPrice;
-
+		int tLoanCount;
+		boolean tLoanTaken;
+		
 		destinationLabel = aChildNode.getThisAttribute (AN_DESTINATION);
 		tDestLocation = aChildNode.getThisIntAttribute (AN_DESTINATION_LOCATION, Location.NO_LOCATION);
 		destinationLocation = new Location (tDestLocation);
 		tStartCell = aChildNode.getThisAttribute (AN_START_PRICE, NO_START_CELL);
 		tParPrice = aChildNode.getThisIntAttribute (AN_PAR_PRICE, NO_PAR_PRICE);
+		tLoanCount = aChildNode.getThisIntAttribute (AN_LOAN_COUNT, NO_LOANS);
+		tLoanTaken = aChildNode.getThisBooleanAttribute (AN_LOAN_TAKEN);
 		setNoPrice ();
-		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, MapCell.NO_DESTINATION, NO_LOANS, tStartCell);
+		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, MapCell.NO_DESTINATION, tLoanCount, tLoanTaken, tStartCell);
 	}
 
 	@Override
@@ -211,17 +217,15 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	/*
-	 * Fill In the XML Element with Par Price, and Loan Count, and call super's
+	 * Fill In the XML Element with Par Price, and Loan Count, Loan Taken, and call super's
 	 * routine
 	 */
 	@Override
 	public void getCorporationStateElement (XMLElement aXMLCorporationState) {
-		int tLoanCount;
-
 		aXMLCorporationState.setAttribute (AN_PAR_PRICE, getParPrice ());
-		tLoanCount = getLoanCount ();
-		if (tLoanCount > 0) {
-			aXMLCorporationState.setAttribute (AN_LOAN_COUNT, tLoanCount);
+		if (gameHasLoans ()) {
+			aXMLCorporationState.setAttribute (AN_LOAN_COUNT, loanCount);
+			aXMLCorporationState.setAttribute (AN_LOAN_TAKEN, loanTaken);
 		}
 		super.getCorporationStateElement (aXMLCorporationState);
 	}
@@ -248,6 +252,7 @@ public class ShareCompany extends TokenCompany {
 	 * @return True if there are any outstanding loans (Loan Count > 0)
 	 * 
 	 */
+	@Override
 	public boolean hasOutstandingLoans () {
 		return (loanCount > 0);
 	}
@@ -260,6 +265,47 @@ public class ShareCompany extends TokenCompany {
 	@Override
 	public int getLoanCount () {
 		return loanCount;
+	}
+
+	/**
+	 * Handle the Process of getting a Loan for this Company, add one to the LoanCount,
+	 * transfer the cash from the bank to the company treasury, create the action to document this,
+	 * and add the action.
+	 * 
+	 */
+	@Override
+	public void getLoan () {
+		int tNewLoanCount;
+		
+		tNewLoanCount = loanCount + 1;
+		System.out.println ("Getting a Loan (" + loanCount + " up to " + tNewLoanCount + ")");
+		setLoanCount (tNewLoanCount);
+//		corporationFrame.updateTTODButtons ();
+//		corporationFrame.repaint ();
+//		corporationFrame.revalidate ();
+	}
+
+	/**
+	 * Handle the Process of paying back a Loan for this Company, deduct one to the LoanCount,
+	 * transfer the cash from the company treasury to the bank, create the action to document this,
+	 * and add the action.
+	 * 
+	 */
+	@Override
+	public void paybackLoan () {
+		int tNewLoanCount;
+		
+		if (loanCount < 1) {
+			System.err.println ("There are no Loans to payback");
+		} else {
+			tNewLoanCount = loanCount - 1;
+			System.out.println ("Payback a Loan (" + loanCount + " up to " + tNewLoanCount + ")");
+			setLoanCount (tNewLoanCount);
+			System.out.println ("Payback Loan Action");
+		}
+//		corporationFrame.updateTTODButtons ();
+//		corporationFrame.repaint ();
+//		corporationFrame.revalidate ();
 	}
 
 	public int getParPrice () {
@@ -410,6 +456,14 @@ public class ShareCompany extends TokenCompany {
 		loanCount = aLoanCount;
 	}
 
+	public void setLoanTaken (boolean aLoanTaken) {
+		loanTaken = aLoanTaken;
+	}
+
+	public boolean loanTaken () {
+		return loanTaken;
+	}
+	
 	public void setNoPrice () {
 		setParPrice (NO_PAR_PRICE);
 		setSharePrice (MarketCell.NO_SHARE_PRICE);
@@ -453,17 +507,18 @@ public class ShareCompany extends TokenCompany {
 		}
 	}
 
-	private void setValues (MapCell aDestination, int aLoanCount, String aStartCell) {
+	private void setValues (MapCell aDestination, int aLoanCount, boolean aLoanTaken, String aStartCell) {
 		setDestination (aDestination, Location.NO_DESTINATION_LOCATION);
 		setLoanCount (aLoanCount);
+		setLoanTaken (aLoanTaken);
 		startCell = aStartCell;
 	}
 
 	private void setValues (int aParPrice, MarketCell aSharePrice, MapCell aDestination, int aLoanCount,
-			String aStartCell) {
+			boolean aLoanTaken, String aStartCell) {
 		setSharePrice (aSharePrice);
 		setParPrice (aParPrice);
-		setValues (aDestination, aLoanCount, aStartCell);
+		setValues (aDestination, aLoanCount, aLoanTaken, aStartCell);
 	}
 
 	private int getSharesSold () {
