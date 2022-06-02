@@ -2,7 +2,6 @@ package ge18xx.round.action.effects;
 
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
-import ge18xx.player.CashHolderI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
@@ -86,10 +85,12 @@ public class UpdateLoanCountEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		ShareCompany tShareCompany;
-
+		ActorI tActor;
+		
 		tEffectApplied = false;
-		if (actor.isAShareCompany ()) {
-			tShareCompany = (ShareCompany) getActor ();
+		tActor = getActor ();
+		if (tActor.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) tActor;
 			tShareCompany.setLoanCount (newLoanCount);
 			tEffectApplied = true;
 		}
@@ -101,10 +102,12 @@ public class UpdateLoanCountEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		ShareCompany tShareCompany;
+		ActorI tActor;
 		
 		tEffectUndone = false;
+		tActor = getActor ();
 		if (actor.isAShareCompany ()) {
-			tShareCompany = (ShareCompany) getActor ();
+			tShareCompany = (ShareCompany) tActor;
 			tShareCompany.setLoanCount (oldLoanCount);
 			tEffectUndone = true;
 		}

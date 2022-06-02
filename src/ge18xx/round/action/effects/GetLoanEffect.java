@@ -83,10 +83,12 @@ public class GetLoanEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		ShareCompany tShareCompany;
-
+		ActorI tActor;
+		
 		tEffectApplied = false;
-		if (actor.isAShareCompany ()) {
-			tShareCompany = (ShareCompany) getActor ();
+		tActor = getActor ();
+		if (tActor.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) tActor;
 			tShareCompany.setLoanTaken (newLoanTaken);
 			tEffectApplied = true;
 		}
@@ -98,10 +100,12 @@ public class GetLoanEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		ShareCompany tShareCompany;
+		ActorI tActor;
 		
 		tEffectUndone = false;
-		if (actor.isAShareCompany ()) {
-			tShareCompany = (ShareCompany) actor;
+		tActor = getActor ();
+		if (tActor.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) tActor;
 			tShareCompany.setLoanTaken (oldLoanTaken);
 			tEffectUndone = true;
 		}
