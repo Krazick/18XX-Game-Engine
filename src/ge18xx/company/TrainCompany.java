@@ -1720,18 +1720,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tBankPool.clearSelections ();
 	}
 
-	@Override
-	public void getLoan () {
-		// TODO: 1856 - Handle Getting Loans from the Bank
-		System.out.println ("Get Loan Action");
-	}
-
-	@Override
-	public void paybackLoan () {
-		// TODO: 1856 - Handle Paying Back Loans to the Bank
-		System.out.println ("Payback Loan Action");
-	}
-
 	public void setPurchaseOffer (PurchaseOffer aPurchaseOffer) {
 		purchaseOffer = aPurchaseOffer;
 	}
