@@ -257,11 +257,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return trainPortfolio.hasTrainNamed (aName);
 	}
 
-	@Override
-	public boolean isAPrivateCompany () {
-		return false;
-	}
-
 	public void printBankInfo () {
 		System.out.print (name);
 		System.out.println ("Owned Trains [" + getTrainNameAndQty (TrainPortfolio.ALL_TRAINS) + "]");
@@ -290,10 +285,10 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return false;
 	}
 
-	@Override
-	public boolean isPlayer () {
-		return false;
-	}
+//	@Override
+//	public boolean isPlayer () {
+//		return false;
+//	}
 
 	@Override
 	public CashHolderI getCashHolder () {
@@ -355,6 +350,11 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 
 	@Override
 	public boolean isACorporation () {
+		return false;
+	}
+
+	@Override
+	public boolean isAPrivateCompany () {
 		return false;
 	}
 

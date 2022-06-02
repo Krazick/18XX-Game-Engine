@@ -335,21 +335,6 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	}
 
 	@Override
-	public boolean isCompany () {
-		return false;
-	}
-
-	@Override
-	public boolean isAPrivateCompany () {
-		return false;
-	}
-
-	@Override
-	public boolean isPlayer () {
-		return false;
-	}
-
-	@Override
 	public void replacePortfolioInfo (JPanel aPortfolioJPanel) {
 
 	}
@@ -435,7 +420,17 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	}
 
 	@Override
+	public boolean isCompany () {
+		return false;
+	}
+
+	@Override
 	public boolean isACorporation () {
+		return false;
+	}
+
+	@Override
+	public boolean isAPrivateCompany () {
 		return false;
 	}
 

@@ -478,11 +478,6 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	@Override
-	public boolean isShareCompany () {
-		return true;
-	}
-
-	@Override
 	public void loadStatus (XMLNode aXMLNode) {
 		super.loadStatus (aXMLNode);
 		setParPrice (aXMLNode.getThisIntAttribute (AN_PAR_PRICE));

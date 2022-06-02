@@ -23,7 +23,11 @@ public interface PortfolioHolderI extends ActorI {
 	@Override
 	public boolean isABank ();
 
-	public boolean isPlayer ();
+	@Override
+	public boolean isABankPool ();
+
+	@Override
+	public boolean isAPlayer ();
 
 	public boolean isCompany ();
 
@@ -32,9 +36,6 @@ public interface PortfolioHolderI extends ActorI {
 
 	@Override
 	public String getAbbrev ();
-
-	@Override
-	public boolean isABankPool ();
 
 	public final static PortfolioHolderI NO_HOLDER = null;
 }

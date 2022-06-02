@@ -23,7 +23,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		
 		setAllButtonListeners (this);
 		certificate = aCertificate;
-		if (aOwner.isPlayer ()) {
+		if (aOwner.isAPlayer ()) {
 			tPlayer = (Player) aOwner;
 			setCurrentOwner (tPlayer);
 		} else {
@@ -105,7 +105,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		
 		if (certificate != Certificate.NO_CERTIFICATE) {
 			tCertificateHolder = certificate.getOwner ();
-			if (tCertificateHolder.isPlayer ()) {
+			if (tCertificateHolder.isAPlayer ()) {
 				tOwningPlayer = (Player) (tCertificateHolder.getPortfolioHolder ());
 				if (needToMakeOffer (tOwningPlayer, trainCompany)) {
 					tPurchaseOffer = makePurchaseOffer (tOwningPlayer, certificate, Train.NO_TRAIN);

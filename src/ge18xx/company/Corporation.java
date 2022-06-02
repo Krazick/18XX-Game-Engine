@@ -1206,6 +1206,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tPresidentIsAPlayer;
 	}
 
+	public boolean isSelectedForBuy () {
+		return corporationCertificates.isSelectedForBuy ();
+	}
+
 	// Private Company will override
 	@Override
 	public boolean isAPrivateCompany () {
@@ -1258,20 +1262,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public boolean isMinorCompany () {
 		return false;
 	}
-
-	@Override
-	public boolean isPlayer () {
-		return false;
-	}
-
-	public boolean isSelectedForBuy () {
-		return corporationCertificates.isSelectedForBuy ();
-	}
-
-	// Share Company will override
-	public boolean isShareCompany () {
-		return false;
-	}
+//
+//	// Share Company will override
+//	public boolean isShareCompany () {
+//		return false;
+//	}
 
 	public boolean isSoldOut () {
 		boolean isSoldOut;

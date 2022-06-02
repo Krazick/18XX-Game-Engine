@@ -494,7 +494,7 @@ public class Certificate implements Comparable<Certificate> {
 		Color tInnerColor;
 
 		tInnerColor = new Color (237, 237, 237);
-		if (corporation.isShareCompany ()) {
+		if (corporation.isAShareCompany ()) {
 			tRegionColor = getRegionColor ();
 			tRegionBorder = BorderFactory.createLineBorder (tRegionColor, 3);
 			tCorporateColorBorder = getCorporateBorder ();
@@ -819,7 +819,7 @@ public class Certificate implements Comparable<Certificate> {
 		int iSharePrice;
 
 		iValue = 0;
-		if (corporation.isShareCompany ()) {
+		if (corporation.isAShareCompany ()) {
 			iSharePrice = getSharePrice ();
 			iValue = calcCertificateValue (iSharePrice);
 		} else if (corporation.isAPrivateCompany ()) {
@@ -984,7 +984,7 @@ public class Certificate implements Comparable<Certificate> {
 		String tOwnerName = NO_OWNER_NAME;
 
 		if (owner != CertificateHolderI.NO_OWNER) {
-			if (owner.isPlayer ()) {
+			if (owner.isAPlayer ()) {
 				tOwnerName = owner.getHolderName ();
 			} else if (owner.isCompany ()) {
 				tOwnerName = owner.getHolderAbbrev ();
@@ -1034,7 +1034,7 @@ public class Certificate implements Comparable<Certificate> {
 		float fSinglePercentPrice;
 
 		iValue = 0;
-		if (corporation.isShareCompany ()) {
+		if (corporation.isAShareCompany ()) {
 			iParPrice = getParPrice ();
 			fSinglePercentPrice = (float) iParPrice / 10;
 			iValue = (int) (fSinglePercentPrice * percentage);
@@ -1054,7 +1054,7 @@ public class Certificate implements Comparable<Certificate> {
 		Color tColor;
 
 		tColor = Color.white;
-		if (corporation.isShareCompany ()) {
+		if (corporation.isAShareCompany ()) {
 			ShareCompany tShare = (ShareCompany) corporation;
 			MarketCell tMarketCell = tShare.getSharePriceMarketCell ();
 			if (tMarketCell != MarketCell.NO_MARKET_CELL) {
@@ -1082,7 +1082,7 @@ public class Certificate implements Comparable<Certificate> {
 		int tSharePrice;
 
 		tSharePrice = 0;
-		if (corporation.isShareCompany ()) {
+		if (corporation.isAShareCompany ()) {
 			ShareCompany tShare = (ShareCompany) corporation;
 
 			tSharePrice = tShare.getSharePrice ();
@@ -1115,7 +1115,7 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tHasParPrice;
 		ShareCompany tShareCompany;
 
-		if (corporation.isShareCompany ()) {
+		if (corporation.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) corporation;
 			tHasParPrice = tShareCompany.hasParPrice ();
 		} else {
@@ -1317,7 +1317,7 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public boolean isShareCompany () {
-		return corporation.isShareCompany ();
+		return corporation.isAShareCompany ();
 	}
 
 	public void printCertificateInfo () {

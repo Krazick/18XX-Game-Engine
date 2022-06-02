@@ -303,7 +303,7 @@ public class CityInfo implements Cloneable {
 		boolean tIsCorporationBase = false;
 
 		if (corporation != Corporation.NO_CORPORATION) {
-			if (corporation.isShareCompany ()) {
+			if (corporation.isAShareCompany ()) {
 				tIsCorporationBase = true;
 			}
 		}

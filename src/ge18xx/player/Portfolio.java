@@ -1084,7 +1084,7 @@ public class Portfolio implements CertificateHolderI {
 		if (tPresident == PortfolioHolderI.NO_HOLDER) {
 			tPresidentIsAPlayer = false;
 		} else {
-			tPresidentIsAPlayer = tPresident.isPlayer ();
+			tPresidentIsAPlayer = tPresident.isAPlayer ();
 		}
 
 		return tPresidentIsAPlayer;
@@ -1642,8 +1642,8 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	@Override
-	public boolean isPlayer () {
-		return holder.isPlayer ();
+	public boolean isAPlayer () {
+		return holder.isAPlayer ();
 	}
 
 	public void printCompactPortfolioInfo () {

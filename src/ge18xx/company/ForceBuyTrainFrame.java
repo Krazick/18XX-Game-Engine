@@ -103,7 +103,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		int tCompanyTreasury;
 
 		tPortfolioHolder = trainCompany.getPresident ();
-		if (tPortfolioHolder.isPlayer ()) {
+		if (tPortfolioHolder.isAPlayer ()) {
 			president = (Player) tPortfolioHolder;
 		}
 		presidentTreasury = president.getCash ();

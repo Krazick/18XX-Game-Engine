@@ -852,7 +852,7 @@ public class PlayerManager {
 
 		if (aCertificate != Certificate.NO_CERTIFICATE) {
 			tCorporation = aCertificate.getCorporation ();
-			if (tCorporation.isShareCompany ()) {
+			if (tCorporation.isAShareCompany ()) {
 				aPlayer.acts (); // Simply set the fact that the Player has acted. This does not require that he
 									// has not
 				tCorporationAbbrev = tCorporation.getAbbrev ();

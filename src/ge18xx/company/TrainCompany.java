@@ -1279,7 +1279,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			 * If a Share Company -- Adjust the Market Cell regardless of how much dividend
 			 * is paid
 			 */
-			if (isShareCompany ()) {
+			if (isAShareCompany ()) {
 				tShareCompany = (ShareCompany) this;
 				tShareCompany.payNoDividendAdjustment (tPayNoDividendAction);
 			}
@@ -1320,7 +1320,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 			// If a Share Company -- Adjust the Market Cell regardless of how much dividend
 			// is paid
-			if (isShareCompany ()) {
+			if (isAShareCompany ()) {
 				tShareCompany = (ShareCompany) this;
 				tShareCompany.payFullDividendAdjustment (tPayFullDividendAction);
 			}

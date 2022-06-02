@@ -1015,21 +1015,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return this.equals (tCurrentPlayer);
 	}
 
-	@Override
-	public boolean isPlayer () {
-		return true;
-	}
-
-	@Override
-	public boolean isCompany () {
-		return false;
-	}
-
-	@Override
-	public boolean isAPrivateCompany () {
-		return false;
-	}
-
 	public boolean isPresidentOf (Corporation aCorporation) {
 		return portfolio.containsPresidentShareOf (aCorporation);
 	}
@@ -1511,6 +1496,16 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 		tCertificate.setAsPassForBidder (this);
 		setAuctionActionState (ActorI.ActionStates.AuctionPass);
+	}
+
+	@Override
+	public boolean isCompany () {
+		return false;
+	}
+
+	@Override
+	public boolean isAPrivateCompany () {
+		return false;
 	}
 
 	@Override
