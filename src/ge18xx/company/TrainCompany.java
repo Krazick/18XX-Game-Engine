@@ -195,13 +195,18 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		corporationList.addAction (tFloatCompanyAction);
 	}
 
+	/**
+	 * Prepare the Corporation for operations.
+	 * 
+	 */
 	@Override
 	public void prepareCorporation () {
 		PreparedCorporationAction tPreparedCorporationAction;
 		String tOperatingRoundID;
 		ActorI.ActionStates tPreviousStatus, tNewStatus;
 		int tCurrentRevenue, tPreviousRevenue;
-
+		ShareCompany tShareCompany;
+		
 		tPreviousStatus = getActionStatus ();
 		updateStatus (ActorI.ActionStates.StartedOperations);
 		tNewStatus = getActionStatus ();
@@ -218,6 +223,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		setThisRevenue (NO_REVENUE_GENERATED);
 		if (tCurrentRevenue != tPreviousRevenue) {
 			tPreparedCorporationAction.addUpdateLastRevenueEffect (this, thisRevenue, lastRevenue);
+		}
+		if (this.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) this;
+			if (tShareCompany.wasLoanTaken ()) {
+				tShareCompany.setLoanTaken (false);
+				tPreparedCorporationAction.addGetLoanEffect (this, true, false);
+			}
 		}
 		tPreparedCorporationAction.setChainToPrevious (true);
 		addAction (tPreparedCorporationAction);
