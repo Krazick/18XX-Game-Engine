@@ -1542,8 +1542,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return playerManager.getOffsetRoundFramePoint ();
 	}
 
-	public boolean isAuctionRound () {
-		return playerManager.isAuctionRound ();
+	public boolean isAAuctionRound () {
+		return playerManager.isAAuctionRound ();
 	}
 
 	public boolean isLastActionComplete () {

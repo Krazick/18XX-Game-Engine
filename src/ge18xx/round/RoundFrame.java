@@ -487,7 +487,7 @@ public class RoundFrame extends XMLFrame {
 		if (passButton != GUI.NO_BUTTON) {
 			if (roundManager.isOperatingRound ()) {
 				disablePassButton (IS_OPERATING_ROUND);
-			} else if (roundManager.isAuctionRound ()) {
+			} else if (roundManager.isAAuctionRound ()) {
 				disablePassButton (IS_AUCTION_ROUND);
 			} else {
 				tGameManager = roundManager.getGameManager ();

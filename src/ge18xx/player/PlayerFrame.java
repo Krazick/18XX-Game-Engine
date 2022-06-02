@@ -590,7 +590,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		} else if (player.isParPriceFrameActive ()) {
 			passButton.setEnabled (false);
 			passButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);
-		} else if (player.isAuctionRound ()) {
+		} else if (player.isAAuctionRound ()) {
 			passButton.setEnabled (false);
 			passButton.setToolTipText ("Auction Round must complete first");
 		} else if (!player.isLastActionComplete ()) {

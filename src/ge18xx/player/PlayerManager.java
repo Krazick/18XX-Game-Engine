@@ -1498,8 +1498,8 @@ public class PlayerManager {
 		return gameManager.getOffsetRoundFrame ();
 	}
 
-	public boolean isAuctionRound () {
-		return gameManager.isAuctionRound ();
+	public boolean isAAuctionRound () {
+		return gameManager.isAAuctionRound ();
 	}
 
 	public boolean isLastActionComplete () {

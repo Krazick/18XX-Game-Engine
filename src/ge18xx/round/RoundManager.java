@@ -584,7 +584,7 @@ public class RoundManager implements ActionListener {
 		roundFrame.setFrameLabel (gameName, " " + tIDPart1);
 	}
 
-	public boolean isAuctionRound () {
+	public boolean isAAuctionRound () {
 		return (currentRoundType == ActorI.ActionStates.AuctionRound);
 	}
 
@@ -789,7 +789,7 @@ public class RoundManager implements ActionListener {
 				updateOperatingCorporationFrame ();
 				operatingRound.updateActionLabel ();
 			}
-			if (isAuctionRound ()) {
+			if (isAAuctionRound ()) {
 				roundFrame.setAuctionRound (gameName, auctionRound.getIDPart1 ());
 			}
 //			System.out.println ("---- Round Manager Calling UpdateAll to Set Round Frame Backgrounds");

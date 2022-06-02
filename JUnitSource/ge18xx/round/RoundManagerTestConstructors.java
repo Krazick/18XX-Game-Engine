@@ -79,7 +79,7 @@ class RoundManagerTestConstructors {
 		assertFalse (roundManager.isPlaceTileMode ());
 		assertFalse (roundManager.isPlaceTokenMode ());
 		assertFalse (roundManager.canPayHalfDividend ());
-		assertFalse (roundManager.isAuctionRound ());
+		assertFalse (roundManager.isAAuctionRound ());
 		assertFalse (roundManager.isStockRound ());
 		assertFalse (roundManager.isOperatingRound ());
 	}
@@ -92,7 +92,7 @@ class RoundManagerTestConstructors {
 		assertTrue (roundManager.isStockRound ());
 		roundManager.setRoundType (ActorI.ActionStates.AuctionRound);
 		assertEquals ("Auction Round", roundManager.getCurrentRoundType ().toString ());
-		assertTrue (roundManager.isAuctionRound ());
+		assertTrue (roundManager.isAAuctionRound ());
 		roundManager.setRoundType (ActorI.ActionStates.OperatingRound);
 		assertEquals ("Operating Round", roundManager.getCurrentRoundType ().toString ());
 		assertTrue (roundManager.isOperatingRound ());

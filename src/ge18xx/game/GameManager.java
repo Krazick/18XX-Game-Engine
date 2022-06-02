@@ -1300,7 +1300,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			playerManager.updateAllRFPlayerLabels ();
 			roundManager.updateAllCorporationsBox ();
 			roundManager.setCurrentPlayerLabel ();
-			if (roundManager.isAuctionRound ()) {
+			if (roundManager.isAAuctionRound ()) {
 				// Save the Auction States since 'AddPrivateToAuction' will reset the Player
 				// Auction States Reset After adding the Private to Auction.
 				tAuctionStates = playerManager.getPlayerAuctionStates ();
@@ -2463,8 +2463,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tIsClientCurrentPlayer;
 	}
 
-	public boolean isAuctionRound () {
-		return roundManager.isAuctionRound ();
+	public boolean isAAuctionRound () {
+		return roundManager.isAAuctionRound ();
 	}
 
 	public void showGEFrame () {
