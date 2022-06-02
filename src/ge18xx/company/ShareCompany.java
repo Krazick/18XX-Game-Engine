@@ -330,7 +330,6 @@ public class ShareCompany extends TokenCompany {
 		tGetLoanAction.addGetLoanEffect (this, loanTaken, tNewLoanTaken);
 		tGetLoanAction.addUpdateLoanCountEffect (this, loanCount, tNewLoanCount);
 		tGetLoanAction.addCashTransferEffect (tBank, this, tLoanAmount);
-		tGetLoanAction.setChainToPrevious (true);
 
 		tBank.transferCashTo (this, tLoanAmount);
 		setLoanCount (tNewLoanCount);
