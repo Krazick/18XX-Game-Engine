@@ -397,6 +397,18 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		// Nothing to do for Start Packet Frame Class
 	}
 
+	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
+		Certificate tCertificate = Certificate.NO_CERTIFICATE;
+
+		for (StartPacketRow tStartPacketRow : startPacketRows) {
+			if (tCertificate == Certificate.NO_CERTIFICATE) {
+				tCertificate = tStartPacketRow.getMatchingCertificate (aAbbrev, aPercentage, aIsPresident);
+			}
+		}
+
+		return tCertificate;
+	}
+
 	@Override
 	public boolean isAPlayer () {
 		return false;
@@ -418,29 +430,22 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	}
 
 	@Override
-	public boolean isACorporation () {
-		return false;
-	}
-
-	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
-		Certificate tCertificate = Certificate.NO_CERTIFICATE;
-
-		for (StartPacketRow tStartPacketRow : startPacketRows) {
-			if (tCertificate == Certificate.NO_CERTIFICATE) {
-				tCertificate = tStartPacketRow.getMatchingCertificate (aAbbrev, aPercentage, aIsPresident);
-			}
-		}
-
-		return tCertificate;
-	}
-
-	@Override
 	public boolean isABankPool () {
 		return false;
 	}
 
 	@Override
+	public boolean isACorporation () {
+		return false;
+	}
+
+	@Override
 	public boolean isATrainCompany () {
+		return false;
+	}
+
+	@Override
+	public boolean isAShareCompany () {
 		return false;
 	}
 

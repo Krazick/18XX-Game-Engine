@@ -319,6 +319,20 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		// Nothing to do for the GameBank Class
 	}
 
+	public String getTrainSummary () {
+		return trainPortfolio.getTrainSummary ();
+	}
+
+	public boolean hasAnyTrains () {
+		boolean tHasAnyTrains = false;
+
+		if (trainPortfolio.getTrainCount () > 0) {
+			tHasAnyTrains = true;
+		}
+
+		return tHasAnyTrains;
+	}
+
 	@Override
 	public boolean isAPlayer () {
 		return false;
@@ -344,20 +358,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return false;
 	}
 
-	public String getTrainSummary () {
-		return trainPortfolio.getTrainSummary ();
-	}
-
-	public boolean hasAnyTrains () {
-		boolean tHasAnyTrains = false;
-
-		if (trainPortfolio.getTrainCount () > 0) {
-			tHasAnyTrains = true;
-		}
-
-		return tHasAnyTrains;
-	}
-
 	@Override
 	public boolean isABankPool () {
 		return false;
@@ -365,6 +365,11 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 
 	@Override
 	public boolean isATrainCompany () {
+		return false;
+	}
+
+	@Override
+	public boolean isAShareCompany () {
 		return false;
 	}
 
