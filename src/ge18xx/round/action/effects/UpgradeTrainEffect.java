@@ -41,5 +41,4 @@ public class UpgradeTrainEffect extends TransferTrainEffect {
 		return (REPORT_PREFIX + name + " named " + train.getName () + " from " + actor.getName ()
 				+ " into the Bank Pool Train Portfolio due to Upgrading this train.");
 	}
-
 }
