@@ -4,6 +4,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JPanel;
 
+import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -12,8 +13,10 @@ import ge18xx.market.MarketCell;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
+import ge18xx.round.OperatingRound;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
+import ge18xx.round.action.GetLoanAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.utilities.AttributeName;
@@ -42,6 +45,8 @@ public class ShareCompany extends TokenCompany {
 	public static final int NO_PAR_PRICE = -1;
 	public static ShareCompany NO_SHARE_COMPANY = null;
 	static final int NO_LOANS = 0;
+	int loanAmount = 100;
+	int loanInterest = 10;
 	MarketCell sharePrice;
 	MapCell destination;
 	Location destinationLocation;
@@ -247,6 +252,34 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	/**
+	 * Flag if the Corporation has taken a loan in this Operating Round.
+	 * 
+	 */
+	@Override
+	public boolean wasLoanTaken () {
+		return loanTaken;
+	}
+	
+	/**
+	 * Based upon the corporation state, determine if the Loan Interest has been handled. Needed to determine loan amount for new Loans
+	 * 
+	 * @return TRUE if we have moved beyond the Loan Interest Handling State
+	 */
+	@Override
+	public boolean loanInterestHandled () {
+		boolean tLoanInterestHandled;
+		
+		tLoanInterestHandled = false;
+		if ((status == ActorI.ActionStates.HoldDividend) || (status == ActorI.ActionStates.HalfDividend) || 
+			(status == ActorI.ActionStates.FullDividend) || (status == ActorI.ActionStates.BoughtTrain) || 
+			(status == ActorI.ActionStates.Operated)) {
+			tLoanInterestHandled = true;
+		}
+		
+		return tLoanInterestHandled;
+	}
+	
+	/**
 	 * Determines if there are any outstanding Loans
 	 * 
 	 * @return True if there are any outstanding loans (Loan Count > 0)
@@ -275,14 +308,34 @@ public class ShareCompany extends TokenCompany {
 	 */
 	@Override
 	public void getLoan () {
+		boolean tNewLoanTaken;
 		int tNewLoanCount;
+		int tLoanAmount;
+		Bank tBank;
+		GetLoanAction tGetLoanAction;
+		OperatingRound tOperatingRound;
 		
 		tNewLoanCount = loanCount + 1;
 		System.out.println ("Getting a Loan (" + loanCount + " up to " + tNewLoanCount + ")");
+		tBank = corporationList.getBank ();
+		if (loanInterestHandled ()) {
+			tLoanAmount = loanAmount - loanInterest;
+		} else {
+			tLoanAmount = loanAmount;
+		}
+
+		tNewLoanTaken = true;
+		tOperatingRound = corporationList.getOperatingRound ();
+		tGetLoanAction = new GetLoanAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
+		tGetLoanAction.addGetLoanEffect (this, loanTaken, tNewLoanTaken);
+		tGetLoanAction.addUpdateLoanCountEffect (this, loanCount, tNewLoanCount);
+		tGetLoanAction.addCashTransferEffect (tBank, this, tLoanAmount);
+		tGetLoanAction.setChainToPrevious (true);
+
+		tBank.transferCashTo (this, tLoanAmount);
 		setLoanCount (tNewLoanCount);
-//		corporationFrame.updateTTODButtons ();
-//		corporationFrame.repaint ();
-//		corporationFrame.revalidate ();
+		setLoanTaken (tNewLoanTaken);
+		corporationList.addAction (tGetLoanAction);
 	}
 
 	/**
@@ -303,9 +356,6 @@ public class ShareCompany extends TokenCompany {
 			setLoanCount (tNewLoanCount);
 			System.out.println ("Payback Loan Action");
 		}
-//		corporationFrame.updateTTODButtons ();
-//		corporationFrame.repaint ();
-//		corporationFrame.revalidate ();
 	}
 
 	public int getParPrice () {
