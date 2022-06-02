@@ -490,6 +490,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public boolean dividendsHandled () {
 		return false;
 	}
+	
+	// Share Company will override
+	public boolean loanInterestHandled () {
+		return false;
+	}
 
 	public String commonReason () {
 		String tReason;
@@ -656,6 +661,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		}
 
 		return tDidOperate;
+	}
+	
+	public boolean wasLoanTaken () {
+		return false;
 	}
 
 	public void prepareCorporation () {
