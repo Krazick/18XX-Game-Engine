@@ -60,6 +60,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String OFFER_TO_BUY_PRIVATE = "Offer to Buy Private";
 	static final String MUST_LAY_BASE_TOKEN = "Must lay Base Token(s) before Tile Lay";
 	static final String DIVIDENDS_NOT_HANDLED = "Dividends have not been handled yet";
+	static final String TRAIN_SELECTED = "Train has been Selected for Purchase";
+	static final String PRIVATE_SELECTED = "Private has been Selected for Purchase";
+	static final String MUST_BUY_TRAIN = "Corporation must buy a Train";
+	static final String NO_CORPORATION_LOANS = "Corporation has no Loans";
 	static final String GET_LOAN = "Get Loan";
 	static final String PAYBACK_LOAN = "Payback Loan";
 	static final String DONE = "Done";
@@ -84,6 +88,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	JLabel allowedTilesLabel;
 	JLabel roundInfoLabel;
 	JLabel lastRevenueLabel;
+	JLabel loanCountLabel;
 	JButton showMapButton;
 	JButton placeBaseTileButton;
 	JButton placeTileButton;
@@ -106,7 +111,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	public CorporationFrame (String aFrameName, Corporation aCorporation, boolean aIsNetworkGame) {
 		super (((aCorporation != Corporation.NO_CORPORATION) ? aCorporation.getName () + " " : "") + aFrameName);
-		JPanel tTopBoxes;
 		GameManager tGameManager;
 
 		certJPanel = GUI.NO_PANEL;
@@ -119,44 +123,51 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 			buildCorporationAllInfoJPanel ();
 
-			tTopBoxes = buildTopBoxes ();
-
-			corporationJPanel = new JPanel ();
-			corporationJPanel.setLayout (new BoxLayout (corporationJPanel, BoxLayout.Y_AXIS));
-			corporationJPanel.add (Box.createVerticalStrut (20));
-			corporationJPanel.add (tTopBoxes);
-			corporationJPanel.add (Box.createVerticalStrut (10));
-			createActionButtonJPanel ();
-			corporationJPanel.add (buttonsJPanel);
-			corporationJPanel.add (Box.createVerticalStrut (10));
-
-			if (corporation.gameHasPrivates ()) {
-				if (corporation.isAShareCompany ()) {
-					privatesBox = new JPanel ();
-					privatesBox.setLayout (new BoxLayout (privatesBox, BoxLayout.Y_AXIS));
-					corporationJPanel.add (privatesBox);
-					corporationJPanel.add (Box.createVerticalStrut (10));
-				}
-			}
-
-			// Set up Bank Pool and Bank Box for Train Certificates - But only for Train
-			// Companies
-
-			if (corporation.isATrainCompany ()) {
-				otherCorpsJPanel = new JPanel ();
-				otherCorpsJPanel.setLayout (new BoxLayout (otherCorpsJPanel, BoxLayout.Y_AXIS));
-				corporationJPanel.add (otherCorpsJPanel);
-				corporationJPanel.add (Box.createVerticalStrut (10));
-				bankJPanel = new JPanel ();
-				bankJPanel.setLayout (new BoxLayout (bankJPanel, BoxLayout.X_AXIS));
-				corporationJPanel.add (bankJPanel);
-				corporationJPanel.add (Box.createVerticalStrut (10));
-			}
-			add (corporationJPanel);
+			buildCorporationJPanel ();
+			
 			setSize (900, 800);
 			setIsNetworkGame (aIsNetworkGame);
 			updateUndoButton ();
 		}
+	}
+
+	private void buildCorporationJPanel () {
+		JPanel tTopBoxes;
+		
+		tTopBoxes = buildTopBoxes ();
+
+		corporationJPanel = new JPanel ();
+		corporationJPanel.setLayout (new BoxLayout (corporationJPanel, BoxLayout.Y_AXIS));
+		corporationJPanel.add (Box.createVerticalStrut (20));
+		corporationJPanel.add (tTopBoxes);
+		corporationJPanel.add (Box.createVerticalStrut (10));
+		createActionButtonJPanel ();
+		corporationJPanel.add (buttonsJPanel);
+		corporationJPanel.add (Box.createVerticalStrut (10));
+
+		if (corporation.gameHasPrivates ()) {
+			if (corporation.isAShareCompany ()) {
+				privatesBox = new JPanel ();
+				privatesBox.setLayout (new BoxLayout (privatesBox, BoxLayout.Y_AXIS));
+				corporationJPanel.add (privatesBox);
+				corporationJPanel.add (Box.createVerticalStrut (10));
+			}
+		}
+
+		// Set up Bank Pool and Bank Box for Train Certificates - But only for Train
+		// Companies
+
+		if (corporation.isATrainCompany ()) {
+			otherCorpsJPanel = new JPanel ();
+			otherCorpsJPanel.setLayout (new BoxLayout (otherCorpsJPanel, BoxLayout.Y_AXIS));
+			corporationJPanel.add (otherCorpsJPanel);
+			corporationJPanel.add (Box.createVerticalStrut (10));
+			bankJPanel = new JPanel ();
+			bankJPanel.setLayout (new BoxLayout (bankJPanel, BoxLayout.X_AXIS));
+			corporationJPanel.add (bankJPanel);
+			corporationJPanel.add (Box.createVerticalStrut (10));
+		}
+		add (corporationJPanel);
 	}
 
 	private JPanel buildTopBoxes () {
@@ -176,7 +187,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void buildCorporationAllInfoJPanel () {
-		Dimension tMinSize = new Dimension (20, 10);
+		Dimension tMinSize = new Dimension (10, 10);
 
 		corporationAllInfoJPanel = new JPanel ();
 		corporationAllInfoJPanel.setLayout (new BoxLayout (corporationAllInfoJPanel, BoxLayout.Y_AXIS));
@@ -200,34 +211,40 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 
-	private void buildCorporationInfoJPanel (Dimension tMinSize) {
+	private void buildCorporationInfoJPanel (Dimension aMinSize) {
 		corporationInfoJPanel = new JPanel ();
 		corporationInfoJPanel.setLayout (new BoxLayout (corporationInfoJPanel, BoxLayout.X_AXIS));
 		corporationInfoJPanel.setAlignmentX (CENTER_ALIGNMENT);
 		statusLabel = new JLabel ("");
-		corporationInfoJPanel.add (Box.createRigidArea (tMinSize));
+		corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 		corporationInfoJPanel.add (statusLabel);
-		corporationInfoJPanel.add (Box.createRigidArea (tMinSize));
+		corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 		setStatusLabel ();
 		if (corporation.isActive ()) {
 			presidentLabel = new JLabel ("");
 			corporationInfoJPanel.add (presidentLabel);
 			setPresidentLabel ();
-			corporationInfoJPanel.add (Box.createRigidArea (tMinSize));
+			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 			treasuryLabel = new JLabel ("");
 			corporationInfoJPanel.add (treasuryLabel);
 			setTreasuryLabel ();
 			tokenLabel = corporation.buildTokenLabel ();
 			if (tokenLabel != GUI.NO_LABEL) {
-				corporationInfoJPanel.add (Box.createRigidArea (tMinSize));
+				corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 				corporationInfoJPanel.add (tokenLabel);
 				setTokenLabel ();
 			}
-			corporationInfoJPanel.add (Box.createRigidArea (tMinSize));
+			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 			lastRevenueLabel = new JLabel ("");
 			corporationInfoJPanel.add (lastRevenueLabel);
 			setLastRevenueLabel ();
-			corporationInfoJPanel.add (Box.createRigidArea (tMinSize));
+			if (corporation.gameHasLoans ()) {
+				loanCountLabel = new JLabel ("");
+				corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
+				corporationInfoJPanel.add (loanCountLabel);
+				setLoanCountLabel ();
+			}
+			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 			fillCertPortfolioJPanel ();
 		}
 	}
@@ -575,6 +592,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		lastRevenueLabel.setText ("Last Revenue: " + corporation.getFormattedLastRevenue ());
 	}
 
+	public void setLoanCountLabel () {
+		lastRevenueLabel.setText ("Loan Count: " + corporation.getLoanCount ());
+	}
+	
 	public void setPhaseInfo () {
 		PhaseInfo tPhaseInfo;
 		String tCurrentRoundOf;
@@ -642,41 +663,84 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updatePlaceTileButton ();
 		updatePlaceTokenButton ();
 		updateOperateTrainButton (tTrainCount);
+		if (corporation.gameHasLoans ()) {
+			updateGetLoanButton ();
+			updatePaybackLoanButton ();
+		}
 		updatePayFullDividendButton ();
 		updatePayHalfDividendButton (tTrainCount);
 		updatePayNoDividendButton (tTrainCount);
 	}
 
+	private void updateGetLoanButton () {
+		
+	}
+	
+	private void updatePaybackLoanButton () {
+		String tToolTip;
+		ShareCompany tShareCompany;
+		
+		if (corporation.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) corporation;
+			if (! tShareCompany.hasOutstandingLoans ()) {
+				paybackLoanButton.setEnabled (false);
+				tToolTip = NO_CORPORATION_LOANS;
+			} else if (!corporation.dividendsHandled ()) {
+				paybackLoanButton.setEnabled (false);
+				tToolTip = DIVIDENDS_NOT_HANDLED;
+			} else if (corporation.getSelectedTrainCount () > 0) {
+				paybackLoanButton.setEnabled (false);
+				tToolTip = TRAIN_SELECTED;
+			} else if (corporation.getCountOfSelectedPrivates () > 0) {
+				paybackLoanButton.setEnabled (false);
+				tToolTip = PRIVATE_SELECTED;
+			} else if (corporation.mustBuyTrainNow ()) {
+				paybackLoanButton.setEnabled (false);
+				tToolTip = MUST_BUY_TRAIN;
+			} else {
+				paybackLoanButton.setEnabled (true);
+				tToolTip = GUI.NO_TOOL_TIP;
+			}
+		} else {
+			paybackLoanButton.setEnabled (false);
+			tToolTip = NO_CORPORATION_LOANS;
+		}
+		paybackLoanButton.setToolTipText (tToolTip);
+	}
+	
 	private void updatePayHalfDividendButton (int aTrainCount) {
 		String tToolTip;
 
+		tToolTip = "Status is " + corporation.getStatusName ();
 		if (corporation.isWaitingForResponse ()) {
 			payHalfDividendButton.setEnabled (false);
 			tToolTip = "Waiting for Response";
-			payHalfDividendButton.setToolTipText (tToolTip);
+//			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if (corporation.isPlaceTileMode ()) {
 			payHalfDividendButton.setEnabled (false);
 			tToolTip = IN_PLACE_TILE_MODE;
-			payHalfDividendButton.setToolTipText (tToolTip);
+//			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if (corporation.isPlaceTokenMode ()) {
 			payHalfDividendButton.setEnabled (false);
 			tToolTip = IN_TOKEN_MODE;
-			payHalfDividendButton.setToolTipText (tToolTip);
+//			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if ((aTrainCount > 0) && (corporation.getThisRevenue () == TrainCompany.NO_REVENUE_GENERATED)) {
 			payHalfDividendButton.setEnabled (false);
 			tToolTip = "No Dividends calculated yet";
-			payHalfDividendButton.setToolTipText (tToolTip);
+//			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if (corporation.canPayDividend ()) {
 			payHalfDividendButton.setEnabled (true);
 			payHalfDividendButton
 					.setText ("Pay " + Bank.formatCash (corporation.getHalfShareDividend ()) + " per Share");
 			tToolTip = GUI.NO_TOOL_TIP;
-			payHalfDividendButton.setToolTipText (tToolTip);
+//			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if (corporation.dividendsHandled ()) {
 			payHalfDividendButton.setEnabled (false);
-			tToolTip = corporation.reasonForNoDividendOptions ();
-			payHalfDividendButton.setToolTipText (tToolTip);
+//			tToolTip = corporation.reasonForNoDividendOptions ();
+		} else {
+			tToolTip = "After Checking, Status is " + corporation.getStatusName ();
 		}
+		payHalfDividendButton.setToolTipText (tToolTip);
 	}
 
 	private void updatePayNoDividendButton (int aTrainCount) {
@@ -688,47 +752,47 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				if (corporation.isStationLaid ()) {
 					payNoDividendButton.setEnabled (true);
 					tToolTip = "Base Token was Skippped due to missing Tile.";
-					payNoDividendButton.setToolTipText (tToolTip);
+//					payNoDividendButton.setToolTipText (tToolTip);
 				} else if (corporation.canLayBaseToken ()) {
 					payNoDividendButton.setEnabled (false);
 					tToolTip = "Base Token must be laid first.";
-					payNoDividendButton.setToolTipText (tToolTip);
+//					payNoDividendButton.setToolTipText (tToolTip);
 				} else if (corporation.dividendsHandled ()) {
 					payNoDividendButton.setEnabled (false);
 					tToolTip = corporation.reasonForNoDividendPayment ();
-					payNoDividendButton.setToolTipText (tToolTip);
+//					payNoDividendButton.setToolTipText (tToolTip);
 				} else {
 					payNoDividendButton.setEnabled (true);
 					tToolTip = "Base Token was Skippped due to missing Tile.";
-					payNoDividendButton.setToolTipText (tToolTip);
+//					payNoDividendButton.setToolTipText (tToolTip);
 				}
 			} else if (corporation.isPlaceTileMode ()) {
 				payNoDividendButton.setEnabled (false);
 				tToolTip = IN_PLACE_TILE_MODE;
-				payNoDividendButton.setToolTipText (tToolTip);
+//				payNoDividendButton.setToolTipText (tToolTip);
 			} else if (corporation.isPlaceTokenMode ()) {
 				payNoDividendButton.setEnabled (false);
 				tToolTip = IN_TOKEN_MODE;
-				payNoDividendButton.setToolTipText (tToolTip);
+//				payNoDividendButton.setToolTipText (tToolTip);
 			} else if (corporation.dividendsHandled ()) {
 				payNoDividendButton.setEnabled (false);
 				tToolTip = corporation.reasonForNoDividendPayment ();
-				payNoDividendButton.setToolTipText (tToolTip);
+//				payNoDividendButton.setToolTipText (tToolTip);
 			} else if (aTrainCount == 0) {
 				payNoDividendButton.setEnabled (true);
 				tToolTip = GUI.NO_TOOL_TIP;
-				payNoDividendButton.setToolTipText (tToolTip);
+//				payNoDividendButton.setToolTipText (tToolTip);
 			} else if (corporation.canPayDividend ()) {
 				payNoDividendButton.setEnabled (true);
 				payNoDividendButton
 						.setText ("Hold " + Bank.formatCash (corporation.getThisRevenue ()) + " in Treasury");
 				tToolTip = GUI.NO_TOOL_TIP;
-				payNoDividendButton.setToolTipText (tToolTip);
+//				payNoDividendButton.setToolTipText (tToolTip);
 			} else if ((aTrainCount > 0) && (corporation.didOperateTrain ())) {
 				if (corporation.getThisRevenue () == 0) {
 					payNoDividendButton.setEnabled (true);
 					tToolTip = GUI.NO_TOOL_TIP;
-					payNoDividendButton.setToolTipText (tToolTip);
+//					payNoDividendButton.setToolTipText (tToolTip);
 				} else {
 					payNoDividendButton.setEnabled (false);
 					if (aTrainCount == 1) {
@@ -736,18 +800,18 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					} else {
 						tToolTip = "Must Operate the Trains (QTY: " + aTrainCount + ") first.";
 					}
-					payNoDividendButton.setToolTipText (tToolTip);
+//					payNoDividendButton.setToolTipText (tToolTip);
 				}
 			} else {
 				payNoDividendButton.setEnabled (false);
 				tToolTip = corporation.reasonForNoDividendOptions ();
-				payNoDividendButton.setToolTipText (tToolTip);
+//				payNoDividendButton.setToolTipText (tToolTip);
 			}
 		} else {
 			payNoDividendButton.setEnabled (false);
 			tToolTip = "Waiting for Response";
-			payNoDividendButton.setToolTipText (tToolTip);
 		}
+		payNoDividendButton.setToolTipText (tToolTip);
 	}
 
 	private void updatePayFullDividendButton () {
@@ -756,13 +820,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (corporation.isPlaceTileMode ()) {
 			payFullDividendButton.setEnabled (false);
 			tToolTip = IN_PLACE_TILE_MODE;
-//			payFullDividendButton.setToolTipText (tToolTip);				
 		} else if (corporation.canPayDividend ()) {
 			payFullDividendButton.setEnabled (true);
 			payFullDividendButton
 					.setText ("Pay " + Bank.formatCash (corporation.getFullShareDividend ()) + " per Share");
 			tToolTip = GUI.NO_TOOL_TIP;
-//			payFullDividendButton.setToolTipText (GUI.NO_TOOL_TIP);
 		} else {
 			payFullDividendButton.setText (PAY_FULL_DIVIDEND);
 			payFullDividendButton.setEnabled (false);
@@ -796,24 +858,19 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			if (corporation.isPlaceTileMode ()) {
 				aTileButton.setEnabled (false);
 				tToolTip = IN_PLACE_TILE_MODE;
-//				aTileButton.setToolTipText (tToolTip);				
 			} else if (corporation.isPlaceTokenMode ()) {
 				aTileButton.setEnabled (false);
 				tToolTip = IN_TOKEN_MODE;
-//				aTileButton.setToolTipText (tToolTip);				
 			} else if (corporation.canLayBaseToken ()) {
 				aTileButton.setEnabled (false);
 				tToolTip = MUST_LAY_BASE_TOKEN;
-//				aTileButton.setToolTipText (MUST_LAY_BASE_TOKEN);
 			} else {
 				aTileButton.setEnabled (true);
 				tToolTip = GUI.NO_TOOL_TIP;
-//				aTileButton.setToolTipText (GUI.NO_TOOL_TIP);
 			}
 		} else {
 			aTileButton.setEnabled (false);
 			tToolTip = corporation.reasonForNoTileLay ();
-//			aTileButton.setToolTipText (tToolTip);
 		}
 		aTileButton.setToolTipText (tToolTip);
 	}
@@ -824,19 +881,15 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (!corporation.dividendsHandled ()) {
 			doneButton.setEnabled (false);
 			tToolTip = DIVIDENDS_NOT_HANDLED;
-//			doneButton.setToolTipText (tToolTip);
 		} else if (corporation.getSelectedTrainCount () > 0) {
 			doneButton.setEnabled (false);
-			tToolTip = "Train has been Selected for Purchase";
-//			doneButton.setToolTipText (tToolTip);
+			tToolTip = TRAIN_SELECTED;
 		} else if (corporation.getCountOfSelectedPrivates () > 0) {
 			doneButton.setEnabled (false);
-			tToolTip = "Private has been Selected for Purchase";
-//			doneButton.setToolTipText (tToolTip);
+			tToolTip = PRIVATE_SELECTED;
 		} else if (corporation.mustBuyTrainNow ()) {
 			doneButton.setEnabled (false);
-			tToolTip = "Corporation must buy a Train";
-//			doneButton.setToolTipText (tToolTip);
+			tToolTip = MUST_BUY_TRAIN;
 		} else {
 			doneButton.setEnabled (true);
 			tToolTip = GUI.NO_TOOL_TIP;
@@ -1154,6 +1207,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		setTreasuryLabel ();
 		setTokenLabel ();
 		setLastRevenueLabel ();
+		if (corporation.gameHasLoans ()) {
+			setLoanCountLabel ();
+		}
 		updateBuyableItems ();
 		updateCFButtons ();
 		revalidate ();
