@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -78,12 +79,18 @@ public class GetLoanEffect extends Effect {
 		return (REPORT_PREFIX + name + " for "  + actor.getName () + " changed from " + oldLoanTaken + " to " + newLoanTaken + ".");
 	}
 
-
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
-		System.out.println ("Undo the " + name + " for " + actor.getName ());
+		boolean tEffectUndone;
+		ShareCompany tShareCompany;
 		
-		return false;
+		tEffectUndone = false;
+		if (actor.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) actor;
+			tShareCompany.setLoanTaken (oldLoanTaken);
+			tEffectUndone = true;
+		}
+		
+		return tEffectUndone;
 	}
-
 }

@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -82,10 +83,16 @@ public class UpdateLoanCountEffect extends Effect {
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
-
-		System.out.println ("Undo the " + name + " for " + actor.getName ());
+		boolean tEffectUndone;
+		ShareCompany tShareCompany;
 		
-		return false;
+		tEffectUndone = false;
+		if (actor.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) actor;
+			tShareCompany.setLoanCount (oldLoanCount);
+			tEffectUndone = true;
+		}
+		
+		return tEffectUndone;
 	}
-
 }
