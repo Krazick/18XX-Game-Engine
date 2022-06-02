@@ -278,6 +278,11 @@ public class OperatingRound extends Round {
 	}
 
 	@Override
+	public boolean isAShareCompany () {
+		return false;
+	}
+
+	@Override
 	public void completeBenefitInUse () {
 	}
 }

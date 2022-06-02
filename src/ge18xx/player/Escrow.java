@@ -177,8 +177,14 @@ public class Escrow implements CashHolderI {
 	}
 
 	@Override
-	public boolean isAPrivateCompany () {
-		return false;
+	public String getAbbrev () {
+		return getName ();
+	}
+
+	public void printInfo (String aHolderName) {
+		System.out.println ("+++Escrow Holder: " + aHolderName + " Escrow Name " + name + " Cert for "
+				+ certificate.getCompanyAbbrev () + " Amount " + Bank.formatCash (cash));
+
 	}
 
 	@Override
@@ -212,18 +218,17 @@ public class Escrow implements CashHolderI {
 	}
 
 	@Override
-	public String getAbbrev () {
-		return getName ();
-	}
-
-	public void printInfo (String aHolderName) {
-		System.out.println ("+++Escrow Holder: " + aHolderName + " Escrow Name " + name + " Cert for "
-				+ certificate.getCompanyAbbrev () + " Amount " + Bank.formatCash (cash));
-
+	public boolean isAPrivateCompany () {
+		return false;
 	}
 
 	@Override
 	public boolean isATrainCompany () {
+		return false;
+	}
+
+	@Override
+	public boolean isAShareCompany () {
 		return false;
 	}
 

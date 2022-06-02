@@ -74,18 +74,13 @@ public class Bidder implements ActorI {
 	}
 
 	@Override
-	public boolean isAPrivateCompany () {
-		return false;
+	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
+		// Nothing to do for the Bidder State
 	}
 
 	@Override
 	public boolean isAPlayer () {
 		return false;
-	}
-
-	@Override
-	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
-		// Nothing to do for the Bidder State
 	}
 
 	@Override
@@ -109,12 +104,22 @@ public class Bidder implements ActorI {
 	}
 
 	@Override
+	public boolean isACorporation () {
+		return false;
+	}
+
+	@Override
+	public boolean isAPrivateCompany () {
+		return false;
+	}
+
+	@Override
 	public boolean isATrainCompany () {
 		return false;
 	}
 
 	@Override
-	public boolean isACorporation () {
+	public boolean isAShareCompany () {
 		return false;
 	}
 

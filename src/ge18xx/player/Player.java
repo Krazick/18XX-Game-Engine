@@ -1524,12 +1524,17 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	@Override
+	public boolean isACorporation () {
+		return false;
+	}
+
+	@Override
 	public boolean isATrainCompany () {
 		return false;
 	}
 
 	@Override
-	public boolean isACorporation () {
+	public boolean isAShareCompany () {
 		return false;
 	}
 
