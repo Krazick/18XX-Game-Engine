@@ -1653,6 +1653,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				status = aStatus;
 				tStatusUpdated = true;
 			}
+		} else if (status == ActorI.ActionStates.HandleLoanInterest) {
+			if ((aStatus == ActorI.ActionStates.HoldDividend) || 
+				(aStatus == ActorI.ActionStates.HalfDividend) ||
+				(aStatus == ActorI.ActionStates.FullDividend)) {
+				status = aStatus;
+				tStatusUpdated = true;
+			}
 		} else if ((status == ActorI.ActionStates.HoldDividend) || 
 					(status == ActorI.ActionStates.HalfDividend) ||
 					(status == ActorI.ActionStates.FullDividend)) {
@@ -1676,16 +1683,41 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tStatusUpdated;
 	}
 
+	/**
+	 * Default Corporation will not have any outstanding loans. The Share Company must override this method.
+	 * 
+	 * @return Always return 0
+	 */
+	public int getLoanCount () {
+		return 0;
+	}
+
+	/**
+	 * Default Corporation will not have any outstanding loans. The Share Company must override this method.
+	 * 
+	 * @return Always return FALSE
+	 */
+	public boolean hasOutstandingLoans () {
+		return false;
+	}
+	
+	/**
+	 * Will test if this corporation has loans that must be handled. The Share Company sub-class method
+	 * hasOutstandingLoans will be called (hopefully without needing to cast it.
+	 * 
+	 * @return TRUE if this is a ShareCompany that has at least one Outstanding Loan, otherwise FALSE
+	 */
 	public boolean needToHandleLoans () {
-		ShareCompany tShareCompany;
+//		ShareCompany tShareCompany;
 		boolean tNeedToHandleLoans;
 		
 		tNeedToHandleLoans = false;
 		if (isAShareCompany ()) {
-			tShareCompany = (ShareCompany) this;
-			if (tShareCompany.getLoanCount () > 0) {
-				tNeedToHandleLoans = true;
-			}
+//			tShareCompany = (ShareCompany) this;
+//			if (tShareCompany.hasOutstandingLoans ()) {
+//				tNeedToHandleLoans = true;
+//			}
+			tNeedToHandleLoans = hasOutstandingLoans ();
 		}
 		
 		return tNeedToHandleLoans;
@@ -2068,12 +2100,20 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tCanBuyTrainInPhase;
 	}
 
-	// Train Company will Override
+	/**
+	 * Base method to get a Loan for the Company. The Share company will Override 
+	 */
+	// Share Company will Override
 	public void getLoan () {
+		
 	}
 
-	// Train Company will Override
+	/**
+	 * Base method to handle paying back a Loan for the Company. The Share company will Override 
+	 */
+	// Share Company will Override
 	public void paybackLoan () {
+		
 	}
 
 	public Border setupBorder () {
