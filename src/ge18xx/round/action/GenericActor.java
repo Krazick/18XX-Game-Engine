@@ -218,6 +218,11 @@ public class GenericActor implements ActorI {
 	}
 
 	@Override
+	public boolean isAShareCompany () {
+		return false;
+	}
+
+	@Override
 	public void completeBenefitInUse () {
 	}
 }

@@ -98,7 +98,7 @@ public interface ActorI {
 	public boolean isAPrivateCompany ();
 
 	public boolean isAPlayer ();
-
+	
 	public boolean isAStockRound ();
 
 	public boolean isAOperatingRound ();
@@ -110,6 +110,8 @@ public interface ActorI {
 	public boolean isACorporation ();
 
 	public boolean isATrainCompany ();
+
+	public boolean isAShareCompany ();
 
 	public void completeBenefitInUse ();
 }

@@ -976,26 +976,6 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	@Override
-	public boolean isATrainCompany () {
-		return portfolioHolder.isATrainCompany ();
-	}
-
-	@Override
-	public boolean isACorporation () {
-		return portfolioHolder.isACorporation ();
-	}
-
-	@Override
-	public boolean isABank () {
-		return portfolioHolder.isABank ();
-	}
-
-	@Override
-	public boolean isABankPool () {
-		return portfolioHolder.isABankPool ();
-	}
-
-	@Override
 	public int getTrainLimit () {
 		TrainCompany tTrainCompany;
 		int tTrainLimit = 0;
@@ -1020,6 +1000,31 @@ public class TrainPortfolio implements TrainHolderI {
 
 	@Override
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
+	}
+
+	@Override
+	public boolean isABank () {
+		return portfolioHolder.isABank ();
+	}
+
+	@Override
+	public boolean isABankPool () {
+		return portfolioHolder.isABankPool ();
+	}
+
+	@Override
+	public boolean isACorporation () {
+		return portfolioHolder.isACorporation ();
+	}
+
+	@Override
+	public boolean isATrainCompany () {
+		return portfolioHolder.isATrainCompany ();
+	}
+
+	@Override
+	public boolean isAShareCompany () {
+		return portfolioHolder.isAShareCompany ();
 	}
 
 	@Override

@@ -1234,6 +1234,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	// Share Company will override
+	@Override
 	public boolean isAShareCompany () {
 		return false;
 	}
