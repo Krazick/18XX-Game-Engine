@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.GetLoanEffect;
 import ge18xx.round.action.effects.UpdateLastRevenueEffect;
 import ge18xx.utilities.XMLNode;
 
@@ -33,6 +34,13 @@ public class PreparedCorporationAction extends ChangeStateAction {
 
 		tUpdateLastRevenueEffect = new UpdateLastRevenueEffect (aActor, aNewLastRevenue, aOldLastRevenue);
 		addEffect (tUpdateLastRevenueEffect);
+	}
+
+	public void addGetLoanEffect (ActorI aActor, boolean aOldLoanTaken, boolean aNewLoanTaken) {
+		GetLoanEffect tGetLoanEffect;
+
+		tGetLoanEffect = new GetLoanEffect (aActor, aOldLoanTaken, aNewLoanTaken);
+		addEffect (tGetLoanEffect);
 	}
 
 	@Override
