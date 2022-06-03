@@ -56,7 +56,7 @@ public interface ActorI {
 		StartedOperations ("Started Operating"), TileLaid ("Tile Laid"), 
 		Tile2Laid ("Second Tile Laid"), TileUpgraded ("Tile Upgraded"), 
 		StationLaid ("Station Laid"), TileAndStationLaid ("Tile and Station Laid"),
-		OperatedTrain ("Operated Train"), HandleLoanInterest ("Handle Loan Interest"),
+		OperatedTrain ("Operated Train"), HandledLoanInterest ("Handled Loan Interest"),
 		HoldDividend ("No Dividend Paid"), HalfDividend ("Half Dividend Paid"),
 		FullDividend ("Full Dividend Paid"), BoughtTrain ("Bought Train"), 
 		Operated ("Operated"), Unformed ("Unformed"),
