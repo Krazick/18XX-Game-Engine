@@ -446,6 +446,16 @@ public class RoundManager implements ActionListener {
 
 		return tPhaseInfo;
 	}
+	
+	public int getCapitalizationLevel (int aSharesSold) {
+		PhaseInfo tPhaseInfo;
+		int tCapitalizationLevel;
+
+		tPhaseInfo = getCurrentPhaseInfo ();
+		tCapitalizationLevel = tPhaseInfo.getCapitalizationLevel (aSharesSold);
+
+		return tCapitalizationLevel;
+	}
 
 	public int getOperatingRoundID1 () {
 		return operatingRound.getIDPart1 ();
