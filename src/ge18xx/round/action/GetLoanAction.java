@@ -50,5 +50,4 @@ public class GetLoanAction extends CashTransferAction {
 
 		return tSimpleActionReport;
 	}
-
 }
