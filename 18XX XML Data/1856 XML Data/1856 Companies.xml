@@ -73,7 +73,7 @@
 	</Share>
 	<Share id="1503" name="Canadian Pacific Railway" abbrev="CPR"
 		homeCell1="M4" homeLocation1="50" destination="N11"
-		destinationLocation="8" bgColor="153,51,204" fgColor="Black" tokens="4">
+		destinationLocation="8" bgColor="153,51,204" fgColor="White" tokens="4">
 		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
 		<Certificate director="NO" percentage="10" quantity="8"
 			allowedOwners="IPO,Player,BankPool" />
