@@ -94,7 +94,7 @@
 	</Share>
 	<Share id="1506" name="Great Western Railway" abbrev="GW"
 		homeCell1="F15" homeLocation1="50" destination="A20"
-		destinationLocation="14" bgColor="153,102,102" fgColor="Black" tokens="4">
+		destinationLocation="14" bgColor="153,102,102" fgColor="White" tokens="4">
 		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
 		<Certificate director="NO" percentage="10" quantity="8"
 			allowedOwners="IPO,Player,BankPool" />
