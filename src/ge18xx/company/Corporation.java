@@ -93,6 +93,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	static final int NO_NAME_INT = -1;
 	static final int SORT_CO1_BEFORE_CO2 = -100;
 	static final int SORT_CO2_BEFORE_CO1 = 100;
+	int loanAmount = 100;
+	int loanInterest = 10;
 	boolean gameTestFlag = false;
 	boolean govtRailway;
 	int id;
@@ -426,6 +428,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return false;
 	}
 
+	// Train Company will override
+	public boolean didOperateTrains () {
+		return false;
+	}
+	
 	public boolean canBuyPrivate () {
 		boolean tCanBuyPrivate;
 
@@ -1687,6 +1694,24 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 		return tStatusUpdated;
 	}
+	
+	/**
+	 * Default Corporation knows how big a loan can be.
+	 * 
+	 * @return The amount of the Loan
+	 */
+	public int getLoanAmount () {
+		return loanAmount;
+	}
+	
+	/**
+	 * Default Corporation will know how much interest must be paid per loan
+	 * 
+	 * @return The amount of the Loan
+	 */
+	public int getLoanInterest () {
+		return loanInterest;
+	}
 
 	/**
 	 * Default Corporation will not have any outstanding loans. The Share Company must override this method.
@@ -2114,13 +2139,21 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	/**
-	 * Base method to handle paying back a Loan for the Company. The Share company will Override 
+	 * Base method to handle Redeeming (Paying back) a Loan for the Company. The Share company will Override 
 	 */
 	// Share Company will Override
-	public void paybackLoan () {
+	public void redeemLoan () {
 		
 	}
 
+	/**
+	 * Base method to handle Interest Payment for a Loan for the Company. The Share company will Override 
+	 */
+	// Share Company will Override
+	public void payLoanInterest () {
+		
+	}
+	
 	public Border setupBorder () {
 		Border tCorpBorder;
 
