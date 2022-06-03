@@ -18,6 +18,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
 import ge18xx.round.action.GetLoanAction;
 import ge18xx.round.action.PayFullDividendAction;
+import ge18xx.round.action.PayLoanInterestAction;
 import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.RedeemLoanAction;
 import ge18xx.utilities.AttributeName;
@@ -269,8 +270,11 @@ public class ShareCompany extends TokenCompany {
 		boolean tLoanInterestHandled;
 		
 		tLoanInterestHandled = false;
-		if ((status == ActorI.ActionStates.HoldDividend) || (status == ActorI.ActionStates.HalfDividend) || 
-			(status == ActorI.ActionStates.FullDividend) || (status == ActorI.ActionStates.BoughtTrain) || 
+		if ((status == ActorI.ActionStates.HandledLoanInterest) || 
+			(status == ActorI.ActionStates.HoldDividend) || 
+			(status == ActorI.ActionStates.HalfDividend) || 
+			(status == ActorI.ActionStates.FullDividend) || 
+			(status == ActorI.ActionStates.BoughtTrain) || 
 			(status == ActorI.ActionStates.Operated)) {
 			tLoanInterestHandled = true;
 		}
@@ -338,10 +342,35 @@ public class ShareCompany extends TokenCompany {
 
 	/**
 	 * Base method to handle Interest Payment for a Loan for the Company. 
+	 * 
 	 */
 	@Override
 	public void payLoanInterest () {
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		int tLoanCount;
+		int tInterestPayment;
+		PayLoanInterestAction tPayLoanInterestAction;
+		OperatingRound tOperatingRound;
+		Bank tBank;
+		
 		System.out.println ("Pay Loan interest on " + loanCount + " Loans.");
+		tOldState = getStatus ();
+		tLoanCount = getLoanCount ();
+		tInterestPayment = tLoanCount * getLoanInterest ();
+		tBank = corporationList.getBank ();
+		if (tInterestPayment <= getCash ()) {
+			if (updateStatus (ActorI.ActionStates.HandledLoanInterest)) {
+				tNewState = getStatus ();
+				tOperatingRound = corporationList.getOperatingRound ();
+				tPayLoanInterestAction = new PayLoanInterestAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
+				tPayLoanInterestAction.addCashTransferEffect (this, tBank, tInterestPayment);
+				tPayLoanInterestAction.addChangeCorporationStatusEffect (this, tOldState, tNewState);
+				transferCashTo (tBank, tInterestPayment);
+			}
+		} else {
+			System.err.println ("Need " + Bank.formatCash (tInterestPayment) + " needed to may Loan Payment on " + tLoanCount + " Loans.");
+		}
 	}
 
 	/**
@@ -380,9 +409,9 @@ public class ShareCompany extends TokenCompany {
 				tRedeemLoanAction = new RedeemLoanAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
 				tRedeemLoanAction.addRedeemLoanEffect (this);
 				tRedeemLoanAction.addUpdateLoanCountEffect (this, loanCount, tNewLoanCount);
-				tRedeemLoanAction.addCashTransferEffect (tBank, this, tLoanAmount);
+				tRedeemLoanAction.addCashTransferEffect (this, tBank, tLoanAmount);
 		
-				tBank.transferCashTo (this, -tLoanAmount);
+				transferCashTo (tBank, tLoanAmount);
 				setLoanCount (tNewLoanCount);
 				corporationList.addAction (tRedeemLoanAction);
 		
