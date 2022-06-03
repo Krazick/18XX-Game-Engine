@@ -742,7 +742,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tCanPayDividend;
 
 		tCanPayDividend = false;
-		if (status == ActorI.ActionStates.OperatedTrain) {
+		if (didOperateTrains ()) {
 			if (thisRevenue > 0) {
 				tCanPayDividend = true;
 			}
@@ -751,6 +751,18 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCanPayDividend;
 	}
 
+	@Override
+	public boolean didOperateTrains () {
+		boolean tDidOperateTrains;
+		
+		tDidOperateTrains = false;
+		if (status == ActorI.ActionStates.OperatedTrain) {
+			tDidOperateTrains = true;
+		}
+		
+		return tDidOperateTrains;
+	}
+	
 	@Override
 	public boolean didOperate () {
 		return (status == ActorI.ActionStates.Operated);
