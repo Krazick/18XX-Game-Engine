@@ -72,8 +72,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public final static ElementName EN_CORPORATIONS = new ElementName ("Corporations");
 	public static final int NO_CORPORATION_INDEX = -1;
 	public static final CorporationList NO_CORPORATION_LIST = null;
-	public static final ElementName TYPE_NAMES[] = { new ElementName (Corporation.PRIVATE_COMPANY),
-			new ElementName (Corporation.COAL_COMPANY), new ElementName (Corporation.MINOR_COMPANY),
+	public static final ElementName TYPE_NAMES[] = { 
+			new ElementName (Corporation.PRIVATE_COMPANY),
+			new ElementName (Corporation.COAL_COMPANY), 
+			new ElementName (Corporation.MINOR_COMPANY),
 			new ElementName (Corporation.SHARE_COMPANY) };
 	List<Corporation> corporations;
 	ElementName typeName;
@@ -85,14 +87,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		corporations = new LinkedList<Corporation> ();
 		setTypeName (aTypeName);
 		roundManager = aRoundManager;
-	}
-
-	public Logger getLogger () {
-		Logger tLogger;
-		
-		tLogger = roundManager.getLogger ();
-		
-		return tLogger;
 	}
 	
 	public void addAction (Action aAction) {
@@ -183,14 +177,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tPrivatesJPanel;
 	}
 
-	public JPanel buildPrivatesForPurchaseJPanel (ItemListener aItemListener, int aAvailableCash) {
-		JPanel tPrivatesJPanel;
-
-		tPrivatesJPanel = roundManager.buildPrivatesForPurchaseJPanel (aItemListener, aAvailableCash);
-
-		return tPrivatesJPanel;
-	}
-
 	public String getOperatingOwnerName () {
 		String tOwnerName = ActorI.NO_NAME;
 
@@ -223,18 +209,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 
 		return tOwnerName;
-	}
-
-	public boolean canBuyPrivate () {
-		return roundManager.canBuyPrivate ();
-	}
-
-	public boolean canPayHalfDividend () {
-		return roundManager.canPayHalfDividend ();
-	}
-
-	public void clearBankSelections () {
-		roundManager.clearBankSelections ();
 	}
 
 	public void clearSelections () {
@@ -306,42 +280,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 	}
 
-	public void declareBankuptcyAction (Corporation aCorporation) {
-		roundManager.declareBankuptcyAction (aCorporation);
-	}
-
-	public void doneAction (Corporation aCorporation) {
-		roundManager.doneAction (aCorporation);
-	}
-
-	public boolean doIncrementalCapitalization () {
-		return roundManager.doIncrementalCapitalization ();
-	}
-
-	public void enterPlaceTileMode () {
-		roundManager.enterPlaceTileMode ();
-	}
-
-	public void enterPlaceTokenMode () {
-		roundManager.enterPlaceTokenMode ();
-	}
-
-	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
-		roundManager.enterSelectRouteMode (aRouteInformation);
-	}
-
-	public void exitSelectRouteMode () {
-		roundManager.exitSelectRouteMode ();
-	}
-
-	public boolean gameHasPrivates () {
-		return roundManager.gameHasPrivates ();
-	}
-	
-	public boolean gameHasLoans () {
-		return roundManager.gameHasLoans ();
-	}
-
 	public boolean anyPrivatesUnowned () {
 		boolean tAnyPrivatesUnowned = false;
 
@@ -390,14 +328,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tActor;
 	}
 
-	public Bank getBank () {
-		return roundManager.getBank ();
-	}
-
-	public BankPool getBankPool () {
-		return roundManager.getBankPool ();
-	}
-
 	public int getCountOfSelectedCertificates () {
 		int tCountOfSelectedCertificates;
 
@@ -407,18 +337,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 
 		return tCountOfSelectedCertificates;
-	}
-
-	public int getCountOfSelectedPrivates () {
-		return roundManager.getCountOfSelectedPrivates ();
-	}
-
-	public GameManager getGameManager () {
-		return roundManager.getGameManager ();
-	}
-
-	public Point getOffsetRoundFrame () {
-		return roundManager.getOffsetRoundFrame ();
 	}
 
 	public Certificate getCertificate (String aCompanyAbbrev, int aPercentage, boolean aPresidentShare) {
@@ -584,39 +502,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tNextToOperate;
 	}
 
-	public OperatingRound getOperatingRound () {
-		return roundManager.getOperatingRound ();
-	}
-
-	public String getCurrentRoundOf () {
-		return roundManager.getCurrentRoundOf ();
-	}
-
-	public String getOperatingRoundID () {
-		return roundManager.getOperatingRoundID ();
-	}
-
-	public PhaseInfo getCurrentPhaseInfo () {
-		return roundManager.getCurrentPhaseInfo ();
-	}
-
-	public int getMinSharesToFloat () {
-		int tMinSharesToFloat;
-
-		tMinSharesToFloat = roundManager.getMinSharesToFloat ();
-
-		return tMinSharesToFloat;
-	}
-
-	public int getCapitalizationLevel (int aSharesSold) {
-		PhaseInfo tPhaseInfo;
-		int tCapitalizationLevel;
-
-		tPhaseInfo = roundManager.getCurrentPhaseInfo ();
-		tCapitalizationLevel = tPhaseInfo.getCapitalizationLevel (aSharesSold);
-
-		return tCapitalizationLevel;
-	}
 
 	public int getRowIndex (Corporation aCorporation) {
 		int tRowIndex, tRowIndexFound;
@@ -966,10 +851,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public void foundItemMatchKey1 (XMLNode aChildNode) {
 	}
 
-	public void sendToReportFrame (String aReport) {
-		roundManager.sendToReportFrame (aReport);
-	}
-
 	public JPanel buildFullCorpsJPanel (CorporationFrame aCorporationFrame, Corporation aBuyingCorporation,
 			GameManager aGameManager, boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason) {
 		JPanel tFullCorpsJPanel;
@@ -1066,7 +947,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 	private Border setupOuterBorder (Color aFgColor, Color aBgColor) {
 		Border tOuterBorder;
+		
 		tOuterBorder = BorderFactory.createLineBorder (aBgColor, 2);
+		
 		return tOuterBorder;
 	}
 
@@ -1134,22 +1017,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tTrainHolder;
 	}
 
-	public Train getOtherSelectedTrain (String aCurrentAbbrev) {
-		Train tTrain = Train.NO_TRAIN;
-
-		System.err.println ("Ready to get the Train selected for buying");
-
-		return tTrain;
-	}
-
-	public boolean canBuyTrainInPhase () {
-		boolean tCanBuyTrainInPhase;
-
-		tCanBuyTrainInPhase = roundManager.canBuyTrainInPhase ();
-
-		return tCanBuyTrainInPhase;
-	}
-
 	public TrainCompany getOperatingTrainCompany () {
 		TrainCompany tTrainCompany = (TrainCompany) Corporation.NO_CORPORATION;
 
@@ -1193,12 +1060,11 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 						tPrivateCompany = (PrivateCompany) tCorporation;
 					}
 				}
-				if ((tHomeCity2 != MapCell.NO_MAP_CELL)
-						&& (tPrivateCompany == (PrivateCompany) Corporation.NO_CORPORATION)) {
+				if ((tHomeCity2 != MapCell.NO_MAP_CELL) && 
+					(tPrivateCompany == (PrivateCompany) Corporation.NO_CORPORATION)) {
 					if (tHomeCity2 == aMapCell) {
 						tPrivateCompany = (PrivateCompany) tCorporation;
 					}
-
 				}
 			}
 		}
@@ -1244,14 +1110,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tTotalEscrow;
 	}
 
-	public boolean isPlaceTileMode () {
-		return roundManager.isPlaceTileMode ();
-	}
-
-	public boolean isPlaceTokenMode () {
-		return roundManager.isPlaceTokenMode ();
-	}
-
 	public void clearTrainSelections () {
 		TrainCompany tTrainCompany;
 
@@ -1266,18 +1124,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public void clearPrivateSelections () {
 		// TODO Need to walk through the Privates, and clear all Selections
 
-	}
-
-	public MapFrame getMapFrame () {
-		return roundManager.getMapFrame ();
-	}
-
-	public CashHolderI getCashHolderByName (String aCashHolderName) {
-		CashHolderI tCashHolder;
-
-		tCashHolder = roundManager.getCashHolderByName (aCashHolderName);
-
-		return tCashHolder;
 	}
 
 	public Benefit findBenefit (String aBenefitName) {
@@ -1296,24 +1142,146 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tFoundBenefit;
 	}
 
-	public CorporationList getPrivates () {
-		return roundManager.getPrivates ();
+	// Pass method calls over to Round Manager
+
+	public JPanel buildPrivatesForPurchaseJPanel (ItemListener aItemListener, int aAvailableCash) {
+		return roundManager.buildPrivatesForPurchaseJPanel (aItemListener, aAvailableCash);
 	}
 
-	public void updateRoundFrame () {
-		roundManager.updateRoundFrame ();
+	public boolean canBuyPrivate () {
+		return roundManager.canBuyPrivate ();
+	}
+
+	public boolean canBuyTrainInPhase () {
+		return roundManager.canBuyTrainInPhase ();
+	}
+
+	public boolean canPayHalfDividend () {
+		return roundManager.canPayHalfDividend ();
+	}
+
+	public void clearBankSelections () {
+		roundManager.clearBankSelections ();
+	}
+
+	public void declareBankuptcyAction (Corporation aCorporation) {
+		roundManager.declareBankuptcyAction (aCorporation);
+	}
+
+	public void doneAction (Corporation aCorporation) {
+		roundManager.doneAction (aCorporation);
+	}
+
+	public boolean doIncrementalCapitalization () {
+		return roundManager.doIncrementalCapitalization ();
+	}
+
+	public void enterPlaceTileMode () {
+		roundManager.enterPlaceTileMode ();
+	}
+
+	public void enterPlaceTokenMode () {
+		roundManager.enterPlaceTokenMode ();
+	}
+
+	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
+		roundManager.enterSelectRouteMode (aRouteInformation);
+	}
+
+	public void exitSelectRouteMode () {
+		roundManager.exitSelectRouteMode ();
+	}
+
+	public boolean gameHasPrivates () {
+		return roundManager.gameHasPrivates ();
+	}
+	
+	public boolean gameHasLoans () {
+		return roundManager.gameHasLoans ();
+	}
+
+	public Bank getBank () {
+		return roundManager.getBank ();
+	}
+
+	public BankPool getBankPool () {
+		return roundManager.getBankPool ();
+	}
+	
+	public int getCapitalizationLevel (int aSharesSold) {
+		return roundManager.getCapitalizationLevel (aSharesSold);
+	}
+
+	public CashHolderI getCashHolderByName (String aCashHolderName) {
+		return roundManager.getCashHolderByName (aCashHolderName);
+	}
+
+	public int getCountOfSelectedPrivates () {
+		return roundManager.getCountOfSelectedPrivates ();
+	}
+
+	public PhaseInfo getCurrentPhaseInfo () {
+		return roundManager.getCurrentPhaseInfo ();
+	}
+
+	public String getCurrentRoundOf () {
+		return roundManager.getCurrentRoundOf ();
+	}
+
+	public GameManager getGameManager () {
+		return roundManager.getGameManager ();
+	}
+
+	public Action getLastAction () {
+		return roundManager.getLastAction ();
+	}
+
+	public Logger getLogger () {
+		return roundManager.getLogger ();
+	}
+
+	public MapFrame getMapFrame () {
+		return roundManager.getMapFrame ();
+	}
+
+	public int getMinSharesToFloat () {
+		return roundManager.getMinSharesToFloat ();
+	}
+
+	public Point getOffsetRoundFrame () {
+		return roundManager.getOffsetRoundFrame ();
+	}
+
+	public OperatingRound getOperatingRound () {
+		return roundManager.getOperatingRound ();
+	}
+
+	public String getOperatingRoundID () {
+		return roundManager.getOperatingRoundID ();
+	}
+
+	public CorporationList getPrivates () {
+		return roundManager.getPrivates ();
 	}
 
 	public boolean isLoading () {
 		return roundManager.isLoading ();
 	}
 
-	public Action getLastAction () {
-		Action tLastAction;
+	public boolean isPlaceTileMode () {
+		return roundManager.isPlaceTileMode ();
+	}
 
-		tLastAction = roundManager.getLastAction ();
+	public boolean isPlaceTokenMode () {
+		return roundManager.isPlaceTokenMode ();
+	}
 
-		return tLastAction;
+	public void sendToReportFrame (String aReport) {
+		roundManager.sendToReportFrame (aReport);
+	}
+
+	public void updateRoundFrame () {
+		roundManager.updateRoundFrame ();
 	}
 
 }
