@@ -65,7 +65,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String MUST_BUY_TRAIN = "Corporation must buy a Train";
 	static final String NO_CORPORATION_LOANS = "Corporation has no Loans";
 	static final String GET_LOAN = "Get Loan";
-	static final String PAYBACK_LOAN = "Payback Loan";
+	static final String REDEEM_LOAN = "Redeem Loan";
+	static final String PAY_LOAN_INTEREST = "Pay Loan Interest";
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
 	private static final long serialVersionUID = 1L;
@@ -101,7 +102,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	JButton buyTrainForceButton;
 	JButton buyPrivateButton;
 	JButton getLoanButton;
-	JButton paybackLoanButton;
+	JButton redeemLoanButton;
+	JButton payLoanInterestButton;
 	JButton doneButton;
 	JButton undoButton;
 	JButton explainButton;
@@ -370,8 +372,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (GET_LOAN.equals (tCommand)) {
 			corporation.getLoan ();
 		}
-		if (PAYBACK_LOAN.equals (tCommand)) {
-			corporation.paybackLoan ();
+		if (PAY_LOAN_INTEREST.equals (tCommand)) {
+			corporation.payLoanInterest ();
+		}
+		if (REDEEM_LOAN.equals (tCommand)) {
+			corporation.redeemLoan ();
 		}
 		if (DONE.equals (tCommand)) {
 			corporation.doneAction ();
@@ -443,7 +448,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		buyPrivateButton = setupButton (BUY_PRIVATE, BUY_PRIVATE);
 		if (corporation.gameHasLoans ()) {
 			getLoanButton = setupButton (GET_LOAN, GET_LOAN);
-			paybackLoanButton = setupButton (PAYBACK_LOAN, PAYBACK_LOAN);
+			payLoanInterestButton = setupButton (PAY_LOAN_INTEREST, PAY_LOAN_INTEREST);
+			redeemLoanButton = setupButton (REDEEM_LOAN, REDEEM_LOAN);
 		}
 		explainButton = setupButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
 		addButtons ();
@@ -457,6 +463,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addButton (placeTileButton);
 		addButton (placeTokenButton);
 		addButton (operateTrainButton);
+		if (corporation.gameHasLoans ()) {
+			addButton (payLoanInterestButton);
+		}
 		addButton (payNoDividendButton);
 		if (corporation.canPayHalfDividend ()) {
 			addButton (payHalfDividendButton);
@@ -469,7 +478,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 		if (corporation.gameHasLoans ()) {
 			addButton (getLoanButton);
-			addButton (paybackLoanButton);
+			addButton (redeemLoanButton);
 		}
 		addButton (doneButton);
 		addButton (undoButton);
@@ -665,7 +674,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateOperateTrainButton (tTrainCount);
 		if (corporation.gameHasLoans ()) {
 			updateGetLoanButton ();
-			updatePaybackLoanButton ();
+			updatePayLoanInterestButton ();
+			updateRedeemLoanButton ();
 		}
 		updatePayFullDividendButton ();
 		updatePayHalfDividendButton (tTrainCount);
@@ -673,39 +683,87 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void updateGetLoanButton () {
+		String tToolTip;
+		int tSharesOwned;
+		int tLoanCount;
+		int tLoanAmount;
+		int tLoanInterest;
 		
+		tSharesOwned = corporation.getPercentOwned ()/ 10;
+		tLoanCount = corporation.getLoanCount ();
+		tLoanAmount = corporation.getLoanAmount ();
+		tLoanInterest = corporation.getLoanInterest ();
+		if (corporation.wasLoanTaken ()) {
+			getLoanButton.setEnabled (false);
+			tToolTip = "Only one Loan can be taken per Operating Round";
+		} if (tSharesOwned < tLoanCount) {
+			getLoanButton.setEnabled (false);
+			tToolTip = "Company has " + tSharesOwned + " Shares owned by Players, and has " + tLoanCount + 
+					" Loans outstanding. Can't take out any more.";
+		} else {
+			getLoanButton.setEnabled (true);
+			tToolTip = "Can take out Loan of " + Bank.formatCash (tLoanAmount) + ". Interest is " + 
+						Bank.formatCash (tLoanInterest) + " per Operating Round.";
+		}
+		getLoanButton.setToolTipText (tToolTip);
 	}
 	
-	private void updatePaybackLoanButton () {
+	private void updatePayLoanInterestButton () {
+		String tToolTip;
+		int tLoanCount;
+		int tLoanPaymentDue;
+		int tLoanInterest;
+		
+		tLoanCount = corporation.getLoanCount ();
+		tLoanInterest = corporation.getLoanInterest ();
+		tLoanPaymentDue = tLoanCount * tLoanInterest;
+		tToolTip = GUI.NO_TOOL_TIP;
+		if (tLoanCount == 0) {
+			payLoanInterestButton.setEnabled (false);
+			tToolTip = "Company has no Loans, so there is no Interest Due.";
+		} else if (corporation.didOperateTrains ()){
+			payLoanInterestButton.setEnabled (true);
+			tToolTip = "Company has " + tLoanCount + " outstanding Loans, and owes " + Bank.formatCash (tLoanPaymentDue);
+		} else if (corporation.hasNoTrain ()) {
+			payLoanInterestButton.setEnabled (true);
+			tToolTip = "Company has " + tLoanCount + " outstanding Loans, and owes " + Bank.formatCash (tLoanPaymentDue);			
+		} else {
+			payLoanInterestButton.setEnabled (false);
+			tToolTip = "Not Time to pay Loan Interest";
+		}
+		payLoanInterestButton.setToolTipText (tToolTip);
+	}
+	
+	private void updateRedeemLoanButton () {
 		String tToolTip;
 		ShareCompany tShareCompany;
 		
 		if (corporation.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) corporation;
 			if (! tShareCompany.hasOutstandingLoans ()) {
-				paybackLoanButton.setEnabled (false);
+				redeemLoanButton.setEnabled (false);
 				tToolTip = NO_CORPORATION_LOANS;
 			} else if (!corporation.dividendsHandled ()) {
-				paybackLoanButton.setEnabled (false);
+				redeemLoanButton.setEnabled (false);
 				tToolTip = DIVIDENDS_NOT_HANDLED;
 			} else if (corporation.getSelectedTrainCount () > 0) {
-				paybackLoanButton.setEnabled (false);
+				redeemLoanButton.setEnabled (false);
 				tToolTip = TRAIN_SELECTED;
 			} else if (corporation.getCountOfSelectedPrivates () > 0) {
-				paybackLoanButton.setEnabled (false);
+				redeemLoanButton.setEnabled (false);
 				tToolTip = PRIVATE_SELECTED;
 			} else if (corporation.mustBuyTrainNow ()) {
-				paybackLoanButton.setEnabled (false);
+				redeemLoanButton.setEnabled (false);
 				tToolTip = MUST_BUY_TRAIN;
 			} else {
-				paybackLoanButton.setEnabled (true);
+				redeemLoanButton.setEnabled (true);
 				tToolTip = GUI.NO_TOOL_TIP;
 			}
 		} else {
-			paybackLoanButton.setEnabled (false);
+			redeemLoanButton.setEnabled (false);
 			tToolTip = NO_CORPORATION_LOANS;
 		}
-		paybackLoanButton.setToolTipText (tToolTip);
+		redeemLoanButton.setToolTipText (tToolTip);
 	}
 	
 	private void updatePayHalfDividendButton (int aTrainCount) {
