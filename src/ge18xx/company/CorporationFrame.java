@@ -63,6 +63,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String TRAIN_SELECTED = "Train has been Selected for Purchase";
 	static final String PRIVATE_SELECTED = "Private has been Selected for Purchase";
 	static final String MUST_BUY_TRAIN = "Corporation must buy a Train";
+	static final String MUST_PAY_INTEREST = "Must Pay Interest on outstanding loans before handling dividends.";
 	static final String NO_CORPORATION_LOANS = "Corporation has no Loans";
 	static final String GET_LOAN = "Get Loan";
 	static final String REDEEM_LOAN = "Redeem Loan";
@@ -696,7 +697,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (corporation.wasLoanTaken ()) {
 			getLoanButton.setEnabled (false);
 			tToolTip = "Only one Loan can be taken per Operating Round";
-		} if (tSharesOwned < tLoanCount) {
+		} else if (tSharesOwned < tLoanCount) {
 			getLoanButton.setEnabled (false);
 			tToolTip = "Company has " + tSharesOwned + " Shares owned by Players, and has " + tLoanCount + 
 					" Loans outstanding. Can't take out any more.";
@@ -773,84 +774,92 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (corporation.isWaitingForResponse ()) {
 			payHalfDividendButton.setEnabled (false);
 			tToolTip = "Waiting for Response";
-//			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if (corporation.isPlaceTileMode ()) {
 			payHalfDividendButton.setEnabled (false);
 			tToolTip = IN_PLACE_TILE_MODE;
-//			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if (corporation.isPlaceTokenMode ()) {
 			payHalfDividendButton.setEnabled (false);
 			tToolTip = IN_TOKEN_MODE;
-//			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if ((aTrainCount > 0) && (corporation.getThisRevenue () == TrainCompany.NO_REVENUE_GENERATED)) {
 			payHalfDividendButton.setEnabled (false);
 			tToolTip = "No Dividends calculated yet";
-//			payHalfDividendButton.setToolTipText (tToolTip);
+		} else if (mustPayInterest ()) {
+			payHalfDividendButton.setEnabled (false);
+			tToolTip = MUST_PAY_INTEREST;
 		} else if (corporation.canPayDividend ()) {
 			payHalfDividendButton.setEnabled (true);
 			payHalfDividendButton
 					.setText ("Pay " + Bank.formatCash (corporation.getHalfShareDividend ()) + " per Share");
 			tToolTip = GUI.NO_TOOL_TIP;
-//			payHalfDividendButton.setToolTipText (tToolTip);
 		} else if (corporation.dividendsHandled ()) {
 			payHalfDividendButton.setEnabled (false);
-//			tToolTip = corporation.reasonForNoDividendOptions ();
 		} else {
 			tToolTip = "After Checking, Status is " + corporation.getStatusName ();
 		}
 		payHalfDividendButton.setToolTipText (tToolTip);
 	}
 
+	private boolean mustPayInterest () {
+		boolean tMustPayInterest;
+		
+		if (corporation.gameHasLoans ()) {
+			if (corporation.loanInterestHandled ()) {
+				tMustPayInterest = false;
+			} else if (corporation.getLoanCount () == 0) {
+				tMustPayInterest = false;
+			} else {
+				tMustPayInterest = true;
+			}
+		} else {
+			tMustPayInterest = false;
+		}
+		
+		return tMustPayInterest;
+	}
+	
 	private void updatePayNoDividendButton (int aTrainCount) {
 		String tToolTip;
 
 		if (!corporation.isWaitingForResponse ()) {
 			payNoDividendButton.setText ("Pay No Dividend");
-			if (!corporation.haveLaidAllBaseTokens ()) {
+			if (mustPayInterest ()) {
+				payNoDividendButton.setEnabled (false);
+				tToolTip = MUST_PAY_INTEREST;
+			} else if (!corporation.haveLaidAllBaseTokens ()) {
 				if (corporation.isStationLaid ()) {
 					payNoDividendButton.setEnabled (true);
 					tToolTip = "Base Token was Skippped due to missing Tile.";
-//					payNoDividendButton.setToolTipText (tToolTip);
 				} else if (corporation.canLayBaseToken ()) {
 					payNoDividendButton.setEnabled (false);
 					tToolTip = "Base Token must be laid first.";
-//					payNoDividendButton.setToolTipText (tToolTip);
 				} else if (corporation.dividendsHandled ()) {
 					payNoDividendButton.setEnabled (false);
 					tToolTip = corporation.reasonForNoDividendPayment ();
-//					payNoDividendButton.setToolTipText (tToolTip);
 				} else {
 					payNoDividendButton.setEnabled (true);
 					tToolTip = "Base Token was Skippped due to missing Tile.";
-//					payNoDividendButton.setToolTipText (tToolTip);
 				}
 			} else if (corporation.isPlaceTileMode ()) {
 				payNoDividendButton.setEnabled (false);
 				tToolTip = IN_PLACE_TILE_MODE;
-//				payNoDividendButton.setToolTipText (tToolTip);
 			} else if (corporation.isPlaceTokenMode ()) {
 				payNoDividendButton.setEnabled (false);
 				tToolTip = IN_TOKEN_MODE;
-//				payNoDividendButton.setToolTipText (tToolTip);
 			} else if (corporation.dividendsHandled ()) {
 				payNoDividendButton.setEnabled (false);
 				tToolTip = corporation.reasonForNoDividendPayment ();
-//				payNoDividendButton.setToolTipText (tToolTip);
 			} else if (aTrainCount == 0) {
 				payNoDividendButton.setEnabled (true);
 				tToolTip = GUI.NO_TOOL_TIP;
-//				payNoDividendButton.setToolTipText (tToolTip);
 			} else if (corporation.canPayDividend ()) {
 				payNoDividendButton.setEnabled (true);
 				payNoDividendButton
 						.setText ("Hold " + Bank.formatCash (corporation.getThisRevenue ()) + " in Treasury");
 				tToolTip = GUI.NO_TOOL_TIP;
-//				payNoDividendButton.setToolTipText (tToolTip);
 			} else if ((aTrainCount > 0) && (corporation.didOperateTrain ())) {
 				if (corporation.getThisRevenue () == 0) {
 					payNoDividendButton.setEnabled (true);
 					tToolTip = GUI.NO_TOOL_TIP;
-//					payNoDividendButton.setToolTipText (tToolTip);
 				} else {
 					payNoDividendButton.setEnabled (false);
 					if (aTrainCount == 1) {
@@ -858,12 +867,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					} else {
 						tToolTip = "Must Operate the Trains (QTY: " + aTrainCount + ") first.";
 					}
-//					payNoDividendButton.setToolTipText (tToolTip);
 				}
 			} else {
 				payNoDividendButton.setEnabled (false);
 				tToolTip = corporation.reasonForNoDividendOptions ();
-//				payNoDividendButton.setToolTipText (tToolTip);
 			}
 		} else {
 			payNoDividendButton.setEnabled (false);
@@ -878,6 +885,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (corporation.isPlaceTileMode ()) {
 			payFullDividendButton.setEnabled (false);
 			tToolTip = IN_PLACE_TILE_MODE;
+		} else if (mustPayInterest ()) {
+			payFullDividendButton.setEnabled (false);
+			tToolTip = MUST_PAY_INTEREST;
 		} else if (corporation.canPayDividend ()) {
 			payFullDividendButton.setEnabled (true);
 			payFullDividendButton
