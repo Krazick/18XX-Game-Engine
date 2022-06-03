@@ -1019,10 +1019,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	public void sendToReportFrame (String aReport) {
-		shareCos.sendToReportFrame (aReport);
-	}
-
 	public void handleSelectedRouteRC (MapCell aSelectedMapCell, RevenueCenter aSelectedRevenueCenter) {
 		RouteSegment tRouteSegment;
 		Corporation tCorporation = getOperatingCompany ();

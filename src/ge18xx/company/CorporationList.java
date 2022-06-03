@@ -1260,10 +1260,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		roundManager.repaintMapFrame ();
 	}
 
-	public void sendToReportFrame (String aReport) {
-		roundManager.sendToReportFrame (aReport);
-	}
-
 	public void showMap () {
 		roundManager.showMap ();
 	}
