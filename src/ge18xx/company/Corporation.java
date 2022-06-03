@@ -1594,6 +1594,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				(aStatus == ActorI.ActionStates.TileUpgraded) ||
 				(aStatus == ActorI.ActionStates.StationLaid) || 
 				(aStatus == ActorI.ActionStates.OperatedTrain) ||
+				(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
 				(aStatus == ActorI.ActionStates.HoldDividend) || 
 				(aStatus == ActorI.ActionStates.HalfDividend) ||
 				(aStatus == ActorI.ActionStates.FullDividend)) {
@@ -1605,6 +1606,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				status = ActorI.ActionStates.TileAndStationLaid;
 				tStatusUpdated = true;
 			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) || 
+						(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
 						(aStatus == ActorI.ActionStates.HoldDividend) ||
 						(aStatus == ActorI.ActionStates.HalfDividend) || 
 						(aStatus == ActorI.ActionStates.FullDividend)) {
@@ -1616,6 +1618,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				(aStatus == ActorI.ActionStates.StationLaid) ||
 				(aStatus == ActorI.ActionStates.TileAndStationLaid) ||
 				(aStatus == ActorI.ActionStates.OperatedTrain) || 
+				(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
 				(aStatus == ActorI.ActionStates.HoldDividend) ||
 				(aStatus == ActorI.ActionStates.HalfDividend) || 
 				(aStatus == ActorI.ActionStates.FullDividend)) {
@@ -1626,6 +1629,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			if (aStatus == ActorI.ActionStates.StationLaid) {
 				tStatusUpdated = true;
 			} else if ((aStatus == ActorI.ActionStates.OperatedTrain) || 
+						(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
 						(aStatus == ActorI.ActionStates.HoldDividend) ||
 						(aStatus == ActorI.ActionStates.HalfDividend) || 
 						(aStatus == ActorI.ActionStates.FullDividend)) {
@@ -1636,6 +1640,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			if ((aStatus == ActorI.ActionStates.TileAndStationLaid) || 
 				(aStatus == ActorI.ActionStates.StationLaid) ||
 				(aStatus == ActorI.ActionStates.OperatedTrain) || 
+				(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
 				(aStatus == ActorI.ActionStates.HoldDividend) ||
 				(aStatus == ActorI.ActionStates.HalfDividend) || 
 				(aStatus == ActorI.ActionStates.FullDividend)) {
@@ -1646,6 +1651,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			if ((aStatus == ActorI.ActionStates.StationLaid) || 
 				(aStatus == ActorI.ActionStates.TileAndStationLaid) ||
 				(aStatus == ActorI.ActionStates.OperatedTrain) || 
+				(aStatus == ActorI.ActionStates.HandledLoanInterest) ||
 				(aStatus == ActorI.ActionStates.HoldDividend) ||
 				(aStatus == ActorI.ActionStates.HalfDividend) || 
 				(aStatus == ActorI.ActionStates.FullDividend)) {
@@ -1655,7 +1661,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		} else if (status == ActorI.ActionStates.OperatedTrain) {
 			if (gameHasLoans () && needToHandleLoans ()) {
 
-				if (aStatus == ActorI.ActionStates.HandleLoanInterest) {
+				if (aStatus == ActorI.ActionStates.HandledLoanInterest) {
 					status = aStatus;
 					tStatusUpdated = true;
 				}
@@ -1665,7 +1671,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				status = aStatus;
 				tStatusUpdated = true;
 			}
-		} else if (status == ActorI.ActionStates.HandleLoanInterest) {
+		} else if (status == ActorI.ActionStates.HandledLoanInterest) {
 			if ((aStatus == ActorI.ActionStates.HoldDividend) || 
 				(aStatus == ActorI.ActionStates.HalfDividend) ||
 				(aStatus == ActorI.ActionStates.FullDividend)) {
