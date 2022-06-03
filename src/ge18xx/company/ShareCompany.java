@@ -19,6 +19,7 @@ import ge18xx.round.action.BuyStockAction;
 import ge18xx.round.action.GetLoanAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayNoDividendAction;
+import ge18xx.round.action.RedeemLoanAction;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -45,8 +46,6 @@ public class ShareCompany extends TokenCompany {
 	public static final int NO_PAR_PRICE = -1;
 	public static ShareCompany NO_SHARE_COMPANY = null;
 	static final int NO_LOANS = 0;
-	int loanAmount = 100;
-	int loanInterest = 10;
 	MarketCell sharePrice;
 	MapCell destination;
 	Location destinationLocation;
@@ -338,25 +337,65 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	/**
-	 * Handle the Process of paying back a Loan for this Company, deduct one to the LoanCount,
+	 * Base method to handle Interest Payment for a Loan for the Company. 
+	 */
+	@Override
+	public void payLoanInterest () {
+		System.out.println ("Pay Loan interest on " + loanCount + " Loans.");
+	}
+
+	/**
+	 * Handle the Process of Redeeming (paying back) a Loan for this Company, deduct one to the LoanCount,
 	 * transfer the cash from the company treasury to the bank, create the action to document this,
-	 * and add the action.
+	 * and add the action. If a Company does not have enough cash, need to expand this get this from
+	 * the company President, and possible Force Stock Sale to raise the Cash.
 	 * 
 	 */
 	@Override
-	public void paybackLoan () {
-		int tNewLoanCount;
-		
+	public void redeemLoan () {
+
 		if (loanCount < 1) {
-			System.err.println ("There are no Loans to payback");
+			System.err.println ("There are no Loans to Redeem");
 		} else {
-			tNewLoanCount = loanCount - 1;
-			System.out.println ("Payback a Loan (" + loanCount + " up to " + tNewLoanCount + ")");
-			setLoanCount (tNewLoanCount);
-			System.out.println ("Payback Loan Action");
+			redeemLoans (1);
 		}
 	}
 
+	private void redeemLoans (int aLoanCount) {
+		int tNewLoanCount;
+		int tLoanAmount;
+		RedeemLoanAction tRedeemLoanAction;
+		Bank tBank;
+		OperatingRound tOperatingRound;
+		
+		if (loanCount < aLoanCount) {
+			System.err.println ("Asked to repay " + aLoanCount + " however the company only has " + loanCount + " outstanding loans.");
+		} else {
+			tNewLoanCount = loanCount - aLoanCount;
+			tLoanAmount = loanAmount * aLoanCount;
+			
+			if (getCash () >= tLoanAmount) {
+				tBank = corporationList.getBank ();
+				tOperatingRound = corporationList.getOperatingRound ();
+				tRedeemLoanAction = new RedeemLoanAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
+				tRedeemLoanAction.addRedeemLoanEffect (this);
+				tRedeemLoanAction.addUpdateLoanCountEffect (this, loanCount, tNewLoanCount);
+				tRedeemLoanAction.addCashTransferEffect (tBank, this, tLoanAmount);
+		
+				tBank.transferCashTo (this, -tLoanAmount);
+				setLoanCount (tNewLoanCount);
+				corporationList.addAction (tRedeemLoanAction);
+		
+				System.out.println ("Redeem a Loan (" + loanCount + " up to " + tNewLoanCount + ")");
+				setLoanCount (tNewLoanCount);
+			} else {
+				System.err.println ("Asked to replay " + Bank.formatCash (tLoanAmount) +
+						" however, the company only has " + Bank.formatCash (getCash ()) + " available.");
+				// TODO: Add in Emergency Fund Raising, from President, and possible Forced Stock Sale
+			}
+		}
+	}
+	
 	public int getParPrice () {
 		return parPrice;
 	}
