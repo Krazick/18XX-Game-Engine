@@ -88,10 +88,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		setTypeName (aTypeName);
 		roundManager = aRoundManager;
 	}
-	
-	public void addAction (Action aAction) {
-		roundManager.addAction (aAction);
-	}
 
 	public boolean anyCanOperate () {
 		boolean tAnyCanOperate = false;
@@ -527,14 +523,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return typeName.getString ();
 	}
 
-	public int getMinorTrainLimit () {
-		return roundManager.getMinorTrainLimit ();
-	}
-
-	public int getTrainLimit (boolean aGovtRailway) {
-		return roundManager.getTrainLimit (aGovtRailway);
-	}
-
 	public RoundManager getRoundManager () {
 		return roundManager;
 	}
@@ -550,10 +538,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 
 		return tSelectedCorporation;
-	}
-
-	public PrivateCompany getSelectedPrivateCompanyToBuy () {
-		return roundManager.getSelectedPrivateCompanyToBuy ();
 	}
 
 	@Override
@@ -685,26 +669,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		loadJTable ();
 	}
 
-	public boolean mapVisible () {
-		return roundManager.mapVisible ();
-	}
-
-	public void repaintMapFrame () {
-		roundManager.repaintMapFrame ();
-	}
-
 	public void closeAll (BuyTrainAction aBuyTrainAction) {
 		for (Corporation tCorporation : corporations) {
 			tCorporation.close (aBuyTrainAction);
 		}
-	}
-
-	public void performPhaseChange (TrainCompany aTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction) {
-		roundManager.performPhaseChange (aTrainCompany, aTrain, aBuyTrainAction);
-	}
-
-	public boolean tileTrayVisible () {
-		return roundManager.tileTrayVisible ();
 	}
 
 	// Payment to Privates -- Single Owner (Player or Corporation)
@@ -792,26 +760,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 		tCorporation = corporations.get (aIndex);
 		tCorporation.showFrame ();
-	}
-
-	public void showMap () {
-		roundManager.showMap ();
-	}
-
-	public void bringMapToFront () {
-		roundManager.bringMapToFront ();
-	}
-
-	public void showTileTray () {
-		roundManager.showTileTray ();
-	}
-
-	public void bringTileTrayToFront () {
-		roundManager.bringTileTrayToFront ();
-	}
-
-	public void undoAction () {
-		roundManager.undoLastAction ();
 	}
 
 	ParsingRoutineI corporationListParsingRoutine = new ParsingRoutineIO () {
@@ -1143,6 +1091,18 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	// Pass method calls over to Round Manager
+	
+	public void addAction (Action aAction) {
+		roundManager.addAction (aAction);
+	}
+
+	public void bringMapToFront () {
+		roundManager.bringMapToFront ();
+	}
+
+	public void bringTileTrayToFront () {
+		roundManager.bringTileTrayToFront ();
+	}
 
 	public JPanel buildPrivatesForPurchaseJPanel (ItemListener aItemListener, int aAvailableCash) {
 		return roundManager.buildPrivatesForPurchaseJPanel (aItemListener, aAvailableCash);
@@ -1248,6 +1208,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return roundManager.getMinSharesToFloat ();
 	}
 
+	public int getMinorTrainLimit () {
+		return roundManager.getMinorTrainLimit ();
+	}
+
 	public Point getOffsetRoundFrame () {
 		return roundManager.getOffsetRoundFrame ();
 	}
@@ -1264,6 +1228,14 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return roundManager.getPrivates ();
 	}
 
+	public PrivateCompany getSelectedPrivateCompanyToBuy () {
+		return roundManager.getSelectedPrivateCompanyToBuy ();
+	}
+
+	public int getTrainLimit (boolean aGovtRailway) {
+		return roundManager.getTrainLimit (aGovtRailway);
+	}
+
 	public boolean isLoading () {
 		return roundManager.isLoading ();
 	}
@@ -1276,12 +1248,39 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return roundManager.isPlaceTokenMode ();
 	}
 
+	public boolean mapVisible () {
+		return roundManager.mapVisible ();
+	}
+
+	public void performPhaseChange (TrainCompany aTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction) {
+		roundManager.performPhaseChange (aTrainCompany, aTrain, aBuyTrainAction);
+	}
+
+	public void repaintMapFrame () {
+		roundManager.repaintMapFrame ();
+	}
+
 	public void sendToReportFrame (String aReport) {
 		roundManager.sendToReportFrame (aReport);
+	}
+
+	public void showMap () {
+		roundManager.showMap ();
+	}
+
+	public void showTileTray () {
+		roundManager.showTileTray ();
+	}
+
+	public boolean tileTrayVisible () {
+		return roundManager.tileTrayVisible ();
+	}
+
+	public void undoAction () {
+		roundManager.undoLastAction ();
 	}
 
 	public void updateRoundFrame () {
 		roundManager.updateRoundFrame ();
 	}
-
 }
