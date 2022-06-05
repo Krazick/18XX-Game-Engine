@@ -364,7 +364,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public TrainHolderI getOtherSelectedTrainHolder () {
 		TrainHolderI tGetOtherSelectedTrainHolder = TrainPortfolio.NO_TRAIN_HOLDER;
 
-		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
+		if (corpListValid ()) {
 			tGetOtherSelectedTrainHolder = corporationList.getOtherSelectedTrainHolder (abbrev);
 		}
 
@@ -375,7 +375,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		int tGetSelectedTrainCount;
 
 		tGetSelectedTrainCount = 0;
-		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
+		if (corpListValid ()) {
 			tGetSelectedTrainCount = corporationList.getSelectedTrainCount (abbrev);
 		}
 
@@ -386,7 +386,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tIsSelectedTrainItem;
 
 		tIsSelectedTrainItem = false;
-		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
+		if (corpListValid ()) {
 			tIsSelectedTrainItem = corporationList.isSelectedTrainItem (abbrev, aItem);
 		}
 
@@ -402,7 +402,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tCanPayHalfDividend;
 
 		tCanPayHalfDividend = false;
-		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
+		if (corpListValid ()) {
 			tCanPayHalfDividend = corporationList.canPayHalfDividend ();
 		}
 
@@ -437,7 +437,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tCanBuyPrivate;
 
 		tCanBuyPrivate = false;
-		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
+		if (corpListValid ()) {
 			tCanBuyPrivate = corporationList.canBuyPrivate ();
 		}
 
@@ -455,7 +455,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public void clearBankSelections () {
-		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
+		if (corpListValid ()) {
 			corporationList.clearBankSelections ();
 		}
 	}
@@ -464,7 +464,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tGameHasPrivates;
 
 		tGameHasPrivates = false;
-		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
+		if (corpListValid ()) {
 			tGameHasPrivates = corporationList.gameHasPrivates ();
 		}
 
@@ -472,13 +472,18 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public String getOperatingOwnerName () {
-		String tGetOperatingOwnerName = null;
+		String tGetOperatingOwnerName;
 
-		if (corporationList != CorporationList.NO_CORPORATION_LIST) {
+		tGetOperatingOwnerName = ActorI.NO_NAME;
+		if (corpListValid ()) {
 			tGetOperatingOwnerName = corporationList.getOperatingOwnerName ();
 		}
 
 		return tGetOperatingOwnerName;
+	}
+
+	private boolean corpListValid () {
+		return corporationList != CorporationList.NO_CORPORATION_LIST;
 	}
 
 	public String getFormattedLastRevenue () {
@@ -576,7 +581,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		Portfolio tClosedPortfolio;
 		Portfolio tOwnerPortfolio;
 
-//		aBank = corporationList.getBank ();
 		tClosedPortfolio = aBank.getClosedPortfolio ();
 		if (aCertificateCount > 0) {
 			for (int tIndex = 0; tIndex < aCertificateCount; tIndex++) {
@@ -589,7 +593,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public void removeBenefitButtons () {
-
+		System.err.println ("The basic Corporation should not need to remove Benefit Buttons.");
 	}
 
 	public void close (TransferOwnershipAction aTransferOwnershipAction) {
@@ -636,12 +640,17 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tDidPartiallyOperate;
 
 		tDidPartiallyOperate = false;
-		if ((status == ActorI.ActionStates.TileLaid) || (status == ActorI.ActionStates.Tile2Laid)
-				|| (status == ActorI.ActionStates.TileUpgraded) || (status == ActorI.ActionStates.StationLaid)
-				|| (status == ActorI.ActionStates.TileAndStationLaid) || (status == ActorI.ActionStates.OperatedTrain)
-				|| (status == ActorI.ActionStates.HoldDividend) || (status == ActorI.ActionStates.HalfDividend)
-				|| (status == ActorI.ActionStates.FullDividend) || (status == ActorI.ActionStates.WaitingResponse)
-				|| (status == ActorI.ActionStates.BoughtTrain)) {
+		if ((status == ActorI.ActionStates.TileLaid) || 
+			(status == ActorI.ActionStates.Tile2Laid) || 
+			(status == ActorI.ActionStates.TileUpgraded) || 
+			(status == ActorI.ActionStates.StationLaid) || 
+			(status == ActorI.ActionStates.TileAndStationLaid) || 
+			(status == ActorI.ActionStates.OperatedTrain) || 
+			(status == ActorI.ActionStates.HoldDividend) || 
+			(status == ActorI.ActionStates.HalfDividend) || 
+			(status == ActorI.ActionStates.FullDividend) || 
+			(status == ActorI.ActionStates.WaitingResponse) || 
+			(status == ActorI.ActionStates.BoughtTrain)) {
 			tDidPartiallyOperate = true;
 		}
 
@@ -752,6 +761,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tMinSharesToFloat;
 	}
 
+	// TODO: Push this method content up to CorporationList
+	
 	public int getWillFloatPercent () {
 		PhaseInfo tPhaseInfo;
 		int tWillFloatPercent;
@@ -807,6 +818,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return 9;
 	}
 
+	// TODO Reorder methods with single call to corporationList together
 	public boolean gameHasLoans () {
 		return corporationList.gameHasLoans ();
 	}
@@ -855,6 +867,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tCapitalizationLevel;
 	}
 
+	// TODO Reorder methods with single call to corporationCertificates together 
 	public Certificate getIPOCertificate (int aPercentage, boolean aPresidentShare) {
 		return corporationCertificates.getIPOCertificate (aPercentage, aPresidentShare);
 	}
@@ -1072,6 +1085,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	/**
 	 * Build the generic Corporation Info Label to be added to the Company JPanel
+	 * 
+	 * @return The constructed JLabel with the Corporation Info
 	 * 
 	 */
 	public JLabel buildCorpInfoJLabel () {
