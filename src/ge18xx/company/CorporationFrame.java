@@ -387,7 +387,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporation.clearBankSelections ();
 			corporation.undoAction ();
 		}
-		if (ButtonsInfoFrame.EXPLAIN.equals (aEvent.getActionCommand ())) {
+		if (ButtonsInfoFrame.EXPLAIN.equals (tCommand)) {
 			handleExplainButtons ();
 		}
 		updateInfo ();
