@@ -125,7 +125,7 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	private void setFrameButton (JCheckBox aJCheckBox, String aGroupName) {
-		if (aJCheckBox != null) {
+		if (aJCheckBox != GUI.NO_CHECK_BOX) {
 			frameButton = new FrameButton (aJCheckBox, aGroupName);
 		}
 	}
@@ -249,6 +249,7 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tPlayerHasSoldThisCompany, tPlayerHasMaxShares, tPlayerHasBoughtShare;
 		boolean tHasMustBuyCertificate, tPlayerAtCertLimit;
 		String tCompanyAbbrev;
+		String tGroupName;
 		Integer [] tParValues;
 
 		if (aPlayer != Player.NO_PLAYER) {
@@ -315,26 +316,30 @@ public class Certificate implements Comparable<Certificate> {
 				// Only if it is a Share Company, can it be Sold
 				// TODO: non-1830 For 1835 with Minors, 1837 with Coal we cannot Sell them
 				// either, test for CanBeSold
+				tGroupName = getCompanyAbbrev () + " Share";
 				if (isPresidentShare ()) {
+					tGroupName = getCompanyAbbrev () + " President Share";
 					if (canBeExchanged (aGameManager)) {
 						checkBox = setupCheckedButton (Player.EXCHANGE_LABEL, true, GUI.NO_TOOL_TIP, aItemListener);
-						setFrameButton (checkBox, getCompanyAbbrev () + " President Share");
-						tCertificateInfoJPanel.add (checkBox);
 					} else {
+						// TODO -- Find the Reason cannot Exchange:
+						// No other player owns at least 20%, Company hasn't operated yet, Bank Pool cannot hold enough
+						// 
 						checkBox = setupCheckedButton (Player.EXCHANGE_LABEL, false, CANNOT_EXCHANGE_PRESIDENT,
 								aItemListener);
-						setFrameButton (checkBox, getCompanyAbbrev () + " President Share");
-						tCertificateInfoJPanel.add (checkBox);
 					}
 				} else if (canBeSold (aGameManager)) {
 					checkBox = setupCheckedButton (aCheckBoxLabel, true, GUI.NO_TOOL_TIP, aItemListener);
-					setFrameButton (checkBox, getCompanyAbbrev () + " Share");
-					tCertificateInfoJPanel.add (checkBox);
 				} else {
 					checkBox = setupCheckedButton (aCheckBoxLabel, false, getReasonForNoSale (aGameManager),
 							aItemListener);
-					setFrameButton (checkBox, getCompanyAbbrev () + " Share");
-					tCertificateInfoJPanel.add (checkBox);
+				}
+				setFrameButton (checkBox, tGroupName);
+				tCertificateInfoJPanel.add (checkBox);
+			} else {
+				// If the CheckBox is created, set it to invisible (don't want it on Explain Table)
+				if (checkBox != GUI.NO_CHECK_BOX) {
+					checkBox.setVisible (false);
 				}
 			}
 		} else if (aCheckBoxLabel.equals (Player.BUY_LABEL) || aCheckBoxLabel.equals (Player.BUY_AT_PAR_LABEL)) {
@@ -699,7 +704,7 @@ public class Certificate implements Comparable<Certificate> {
 		// Only a Share Company Stock Share can be Exchanged
 		if (isShareCompany ()) {
 
-			// Company must have Operated before Exchange can ha
+			// Company must have Operated before Exchange can happen
 			if (didOperate ()) {
 				// Can Exchange only if there is a Par Price for the Company
 				if (hasParPrice ()) {
