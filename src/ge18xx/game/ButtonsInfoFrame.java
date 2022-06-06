@@ -31,7 +31,7 @@ public class ButtonsInfoFrame extends TableFrame {
 	public static final String EXPLAIN = "Explain";
 	private static final long serialVersionUID = 1L;
 	private ArrayList<FrameButton> frameButtons;
-	DefaultTableModel buttonModel = new DefaultTableModel (0, 0);
+	DefaultTableModel buttonModel;
 	JPanel allButtonInfoJPanel;
 	JTable buttonsTable;
 	int colWidths[] = { 30, 320, 100, 700 };
@@ -42,6 +42,20 @@ public class ButtonsInfoFrame extends TableFrame {
 		super (aFrameName, aGameManager.getGameName ());
 		frameButtons = new ArrayList<FrameButton> ();
 
+		buttonModel = new DefaultTableModel (0, 0) {
+		    private static final long serialVersionUID = 1L;
+
+		    /**
+		     * Set so that no Cell in the Table can be edited.
+		     * 
+		     */
+			@Override
+		    public boolean isCellEditable (int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
+		
 		allButtonInfoJPanel = new JPanel ();
 		allButtonInfoJPanel.setLayout (new BoxLayout (allButtonInfoJPanel, BoxLayout.Y_AXIS));
 
@@ -90,6 +104,7 @@ public class ButtonsInfoFrame extends TableFrame {
 
 		for (int tIndex = 0; tIndex < colWidths.length; tIndex++) {
 			tColumnModel.getColumn (tIndex).setMaxWidth (colWidths [tIndex]);
+
 		}
 		buttonsTable.setAutoResizeMode (JTable.AUTO_RESIZE_ALL_COLUMNS);
 
@@ -137,12 +152,27 @@ public class ButtonsInfoFrame extends TableFrame {
 			if (tCount > 0) {
 				for (tIndex = 0; tIndex < tCount; tIndex++) {
 					tFrameButton = aPortfolio.getFrameButtonAt (tIndex);
-					addCheckboxFrameButton (tFrameButton, aHolderName);
+					if (buttonValidAndVisible (tFrameButton)) {
+						addCheckboxFrameButton (tFrameButton, aHolderName);
+					}
 				}
 			}
 		}
 	}
 
+	private boolean buttonValidAndVisible (FrameButton aFrameButton) {
+		boolean tButtonValidAndVisible;
+		
+		tButtonValidAndVisible = false;
+		if (aFrameButton != FrameButton.NO_FRAME_BUTTON) {
+			if (aFrameButton.isVisible ()) {
+				tButtonValidAndVisible = true;
+			}
+		}
+		
+		return tButtonValidAndVisible;
+	}
+	
 	public void fillWithPrivateCheckBoxes (Portfolio aPortfolio, String aHolderName) {
 		int tCount, tIndex;
 		FrameButton tFrameButton;
@@ -155,7 +185,9 @@ public class ButtonsInfoFrame extends TableFrame {
 					tCertificate = aPortfolio.getCertificate (tIndex);
 					if (tCertificate.isPrivateCompany ()) {
 						tFrameButton = tCertificate.getFrameButton ();
-						addCheckboxFrameButton (tFrameButton, aHolderName);
+						if (buttonValidAndVisible (tFrameButton)) {
+							addCheckboxFrameButton (tFrameButton, aHolderName);
+						}
 					}
 				}
 			}
@@ -184,7 +216,9 @@ public class ButtonsInfoFrame extends TableFrame {
 			if (tCount > 0) {
 				for (tIndex = 0; tIndex < tCount; tIndex++) {
 					tFrameButton = aStartPacketRow.getFrameButtonInRow (tIndex);
-					addRow (tFrameButton);
+					if (buttonValidAndVisible (tFrameButton)) {
+						addRow (tFrameButton);
+					}
 				}
 			}
 		}
@@ -201,7 +235,9 @@ public class ButtonsInfoFrame extends TableFrame {
 			if (tCount > 0) {
 				for (tIndex = 0; tIndex < tCount; tIndex++) {
 					tFrameButton = aTrainPortfolio.getFrameButtonAt (tIndex);
-					addCheckboxFrameButton (tFrameButton, tPortfolioOwner);
+					if (buttonValidAndVisible (tFrameButton)) {
+						addCheckboxFrameButton (tFrameButton, tPortfolioOwner);
+					}
 				}
 			}
 		}
