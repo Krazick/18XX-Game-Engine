@@ -318,6 +318,9 @@ public class Action {
 		for (Effect tEffect : effects) {
 			System.out.println ("Trying to Undo " + name + " Effect: " + tEffect.getName ());
 			tEffectUndone = tEffect.undoEffect (aRoundManager);
+			if (! tEffectUndone) {
+				aRoundManager.sendToReportFrame ("Undoing Action " + name + " Effect: " + tEffect.getName () + " FAILED");
+			}
 			tActionUndone &= tEffectUndone;
 		}
 
