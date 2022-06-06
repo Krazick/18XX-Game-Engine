@@ -1221,6 +1221,8 @@ public class PlayerManager {
 		Player tCurrentPresident, tNewPresident;
 		boolean tForceSell, tNormalSale;
 
+		// Get State before acting for saving in the Action Stack.
+		tOldState = aPlayer.getPrimaryActionState ();
 		if (isOperatingRound ()) {
 			tForceSell = true;
 			tNormalSale = false;
@@ -1231,8 +1233,6 @@ public class PlayerManager {
 			tForceSell = false;
 			tNormalSale = false;
 		}
-		// Get State before acting for saving in the Action Stack.
-		tOldState = aPlayer.getPrimaryActionState ();
 
 		if (tForceSell || tNormalSale) {
 			tSellStockAction = new SellStockAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
