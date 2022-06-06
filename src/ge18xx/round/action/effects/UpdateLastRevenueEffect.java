@@ -62,8 +62,24 @@ public class UpdateLastRevenueEffect extends Effect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " of " + Bank.formatCash (oldLastRevenue) + " with " + newLastRevenue + " for "
-				+ getActorName () + ".");
+		String tReport;
+		String tOldValue;
+		String tNewValue;
+		
+		if (oldLastRevenue >= 0) {
+			tOldValue = Bank.formatCash (oldLastRevenue);
+		} else {
+			tOldValue = " NO Previous Last Revenue Value";
+		}
+
+		if (newLastRevenue >= 0) {
+			tNewValue = Bank.formatCash (newLastRevenue);
+		} else {
+			tNewValue = "NO Last Revenue Value";
+		}
+		tReport =  REPORT_PREFIX + name + " of " + tOldValue + " with " + tNewValue + " for " + getActorName () + ".";
+		
+		return tReport;
 	}
 
 	public int getOldLastRevenue () {
