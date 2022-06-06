@@ -250,34 +250,6 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		return player.canCompleteTurn ();
 	}
 
-//	public String getReasonForNotCompleting () {
-//		String tReason;
-//		String tCompanyAbbrev;
-//		int tPercentMustSell;
-//		int tExceedCount;
-//		
-//		tCompanyAbbrev = player.hasExchangedShare ();
-//		tReason = ">>NONE<<";
-//		if (tCompanyAbbrev != Corporation.NO_ABBREV) {
-//			tPercentMustSell = player.getMustSellPercent (tCompanyAbbrev);
-//			if (tPercentMustSell > 0) {
-//				tReason = "Must Sell at least " + tPercentMustSell + "% of " + tCompanyAbbrev + " before completing due to Exchange";
-//			}
-//		} else {
-//			tExceedCount = player.exceedsCertificateLimitBy ();
-//			if (tExceedCount > 0) {
-//				tReason = "Portfolio has " + tExceedCount + " too many certificates";
-//			} else {
-//				tCompanyAbbrev = player.exceedsAnyCorpShareLimit ();
-//				if (tCompanyAbbrev != null) {
-//					tReason = "Portfolio has too many shares of " + tCompanyAbbrev;
-//				}
-//			}
-//		}
-//		
-//		return tReason;
-//	}
-
 	public boolean hasActed () {
 		return player.hasActed ();
 	}
@@ -311,11 +283,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	public boolean willSaleOverfillBankPool () {
-		boolean tWillSaleOverfillBankPool = false;
-
-		tWillSaleOverfillBankPool = player.willSaleOverfillBankPool ();
-
-		return tWillSaleOverfillBankPool;
+		return player.willSaleOverfillBankPool ();
 	}
 
 	public boolean hasSelectedStocksToSell () {
