@@ -1983,9 +1983,10 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public FrameButton getFrameButtonAt (int aIndex) {
-		FrameButton tFrameButton = FrameButton.NO_FRAME_BUTTON;
+		FrameButton tFrameButton;
 		Certificate tCertificate;
 
+		tFrameButton = FrameButton.NO_FRAME_BUTTON;
 		tCertificate = certificates.get (aIndex);
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tFrameButton = tCertificate.getFrameButton ();
