@@ -1286,29 +1286,33 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
-		if (PlayerFrame.PASS.equals (aEvent.getActionCommand ())) {
+		String tActionCommand;
+		
+		tActionCommand = aEvent.getActionCommand ();
+		
+		if (PlayerFrame.PASS.equals (tActionCommand)) {
 			passAction ();
 		}
-		if (Player.BUY_BID_LABEL.equals (aEvent.getActionCommand ())) {
+		if (Player.BUY_BID_LABEL.equals (tActionCommand)) {
 			if (playerFrame.isBuyAction ()) {
 				buyAction ();
 			} else {
 				bidAction ();
 			}
 		}
-		if (PlayerFrame.DONE.equals (aEvent.getActionCommand ())) {
+		if (PlayerFrame.DONE.equals (tActionCommand)) {
 			doneAction ();
 		}
-		if (SELL_LABEL.equals (aEvent.getActionCommand ())) {
+		if (SELL_LABEL.equals (tActionCommand)) {
 			sellAction ();
 		}
-		if (EXCHANGE_LABEL.equals (aEvent.getActionCommand ())) {
+		if (EXCHANGE_LABEL.equals (tActionCommand)) {
 			exchangeAction ();
 		}
-		if (PlayerFrame.UNDO.equals (aEvent.getActionCommand ())) {
+		if (PlayerFrame.UNDO.equals (tActionCommand)) {
 			undoAction ();
 		}
-		if (ButtonsInfoFrame.EXPLAIN.equals (aEvent.getActionCommand ())) {
+		if (ButtonsInfoFrame.EXPLAIN.equals (tActionCommand)) {
 			playerFrame.handleExplainButtons ();
 		}
 		playerManager.updateRoundWindow ();
