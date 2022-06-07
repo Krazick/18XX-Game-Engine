@@ -145,9 +145,15 @@ public class Benefits {
 	}
 
 	public void removeBenefitButtons () {
+		JPanel tButtonRow;
+		
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit.isActivePlayerBenefit ()) {
 				tBenefit.removeButton ();
+			}
+			if (tBenefit.isActiveCompanyBenefit ()) {
+				tButtonRow = tBenefit.getButtonPanel ();
+				tBenefit.removeButton (tButtonRow);
 			}
 		}
 	}
