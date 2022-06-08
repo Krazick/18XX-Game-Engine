@@ -145,11 +145,14 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		benefits.removeBenefitButtons (aButtonRow);
 	}
 
+	/** 
+	 * Remove the Benefit Buttons (if any) that have Active Player Benefits or Active Company Benefits
+	 * from the Player Frame, or Corporate Benefit Frames Respectively.
+	 * 
+	 */
 	@Override
 	public void removeBenefitButtons () {
-		if (hasActivePlayerBenefits ()) {
-			benefits.removeBenefitButtons ();
-		} else if (hasActiveCompanyBenefits ()) {
+		if (hasActivePlayerBenefits ()|| hasActiveCompanyBenefits ()) {
 			benefits.removeBenefitButtons ();
 		}
 	}
