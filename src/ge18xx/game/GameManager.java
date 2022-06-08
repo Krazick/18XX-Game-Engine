@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -107,8 +108,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 	JFileMChooser chooser;
 	File saveFile;
 	File autoSaveFile;
+	File autoSaveActionReportFile;
 	File loadSavedFile;
 	String autoSaveFileName;
+	String autoSaveActionReportFileName;
 	String clientUserName;
 	String gameID;
 	Config configData;
@@ -224,6 +227,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setLoadSavedFile (null);
 		saveFile = null;
 		autoSaveFile = null;
+		autoSaveActionReportFileName = null;
 		gameStarted = false;
 		gameEnding = false;
 		notifyNetwork = false;
@@ -1096,8 +1100,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tShares = getShareCompanies ();
 
 			autoSaveFileName = constructAutoSaveFileName (AUTO_SAVES_DIR);
+			autoSaveActionReportFileName = this.constructASARFileName (AUTO_SAVES_DIR, ".action");
 			autoSaveFile = new File (autoSaveFileName);
-
+			autoSaveActionReportFile = new File (autoSaveActionReportFileName);
+			
 			roundManager.initiateGame (tPrivates, tCoals, tMinors, tShares);
 			if (!activeGame.isATestGame ()) {
 				roundManager.showInitialFrames ();
@@ -1144,17 +1150,25 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tBankStartingCash;
 	}
 
-	private String constructAutoSaveFileName (String tDirectoryName) {
+	private String constructAutoSaveFileName (String aDirectoryName) {
+		String tAutoSaveFileName;
+
+		tAutoSaveFileName = constructASARFileName (aDirectoryName, ".save");
+
+		return tAutoSaveFileName;
+	}
+
+	private String constructASARFileName (String aDirectoryName, String aSuffix) {
 		String tAutoSaveFileName = "";
 
 		if (isNetworkGame ()) {
-			tAutoSaveFileName = constructAutoSaveNetworkDir (tDirectoryName) + getGameName () + "." + getGameID () + "."
+			tAutoSaveFileName = constructAutoSaveNetworkDir (aDirectoryName) + getGameName () + "." + getGameID () + "."
 					+ clientUserName;
 		} else {
-			tAutoSaveFileName = tDirectoryName + File.separator + getGameName () + "." + clientUserName;
+			tAutoSaveFileName = aDirectoryName + File.separator + getGameName () + "." + clientUserName;
 
 		}
-		tAutoSaveFileName += ".save" + fileUtils.xml;
+		tAutoSaveFileName += aSuffix + fileUtils.xml;
 
 		return tAutoSaveFileName;
 	}
@@ -1546,7 +1560,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void saveGame () {
 		XMLDocument tXMLDocument;
 		XMLElement tXMLElement, tSaveGameElement;
-
+		String tFullActionReport;
+		
 		tXMLDocument = new XMLDocument ();
 		tSaveGameElement = tXMLDocument.createElement (EN_GAME);
 		tSaveGameElement.setAttribute (AN_GE_VERSION, getGEVersion ());
@@ -1607,6 +1622,21 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tXMLDocument.appendChild (tSaveGameElement);
 
 		tXMLDocument.outputXML (saveFile);
+		
+		tFullActionReport = roundManager.getFullActionReport ();
+		outputToFile (tFullActionReport, autoSaveActionReportFile);
+	}
+
+	public void outputToFile (String aReport, File aFile) {
+
+		try {
+			FileWriter tFWout = new FileWriter (aFile);
+			tFWout.write (aReport);
+			tFWout.close ();
+		} catch (Exception tException) {
+			System.err.println (tException);
+			tException.printStackTrace ();
+		}
 	}
 
 	public void appendCompanyFrameXML (XMLElement aSaveGameElement, XMLDocument aXMLDocument,
