@@ -56,7 +56,7 @@ public class ActionManager {
 		tReportActionNumber = "Change Action Number from " + actionNumber + " to " + aNumber + "\n";
 
 		actionNumber = aNumber;
-		actionReportFrame.append (tReportActionNumber);
+		appendReport (tReportActionNumber);
 	}
 
 	public int getActionNumber () {
@@ -97,16 +97,15 @@ public class ActionManager {
 			if (tNewActionNumber > 0) {
 				actionNumber = tNewActionNumber;
 				tReportActionNumber = "Retrieved New Action Number " + actionNumber + " from Game Server\n";
+				appendReport (tReportActionNumber);
 			} else {
 				actionNumber++;
 				tReportActionNumber = "FAILED to retrieve New Action Number from Game Server\n";
+				appendErrorReport (tActionNumberString);
 			}
-
-			actionReportFrame.append (tReportActionNumber);
 		} else {
 			tReportActionNumber = "Increment Action Number from " + actionNumber + " to " + (actionNumber + 1) + "\n";
 			actionNumber++;
-			actionReportFrame.append (tReportActionNumber);
 		}
 	}
 
@@ -120,21 +119,51 @@ public class ActionManager {
 
 	public void appendAllActions () {
 		for (Action tAction : actions) {
-			appendToReportFrame (tAction);
+			appendActionReport (tAction);
 		}
 	}
 
-	public void sendToReportFrame (String aReport) {
+	/**
+	 * Append Report String to Action Report Frame with a Line Border on Top and Bottom
+	 * 
+	 * @param aReport String Text to append to the end of the Action Report Frame
+	 * 
+	 */
+	public void appendBorderedReport (String aReport) {
 		String tReport = "\n----------------------" + aReport + "\n----------------------";
 
-		actionReportFrame.append (tReport);
+		appendReport (tReport);
+	}
+	
+	/**
+	 * Append Report String to Action Report Frame
+	 * 
+	 * @param aReport String Text to append to the end of the Action Report Frame
+	 * 
+	 */
+	public void appendReport (String aReport) {
+		actionReportFrame.append (aReport);
 	}
 
-	private void appendToReportFrame (Action aAction) {
+	/**
+	 * Append Error Report String to Action Report Frame as an Error
+	 * 
+	 * @param aErrorReport String Text to append as an Error to the end of the Action Report Frame
+	 * 
+	 */
+	public void appendErrorReport (String aErrorReport) {
+		actionReportFrame.appendErrorReport (aErrorReport);
+	}
+
+	public String getFullActionReport () {
+		return actionReportFrame.getText ();
+	}
+	
+	private void appendActionReport (Action aAction) {
 		String tActionReport;
 
 		tActionReport = aAction.getActionReport (roundManager);
-		actionReportFrame.append (tActionReport);
+		appendReport (tActionReport);
 	}
 
 	public void addAction (Action aAction) {
@@ -157,7 +186,7 @@ public class ActionManager {
 		String tXMLFormat;
 
 		actions.add (aAction);
-		appendToReportFrame (aAction);
+		appendActionReport (aAction);
 		// Note the 'getNotifyNetwork' in the Game Manager should be tested
 		// To prevent Applying Actions from a remote client would also send
 		// The action back out to the remote client causing an Infinite Loop
@@ -408,7 +437,7 @@ public class ActionManager {
 		Action tLastAction;
 
 		tLastAction = getLastAction ();
-		actionReportFrame.append ("\nUNDOING: " + tLastAction.getBriefActionReport ());
+		appendReport ("\nUNDOING: " + tLastAction.getBriefActionReport ());
 		tLastAction.printBriefActionReport ();
 		tLastActionUndone = tLastAction.undoAction (aRoundManager);
 		if (aNotifyNetwork) {
@@ -433,10 +462,6 @@ public class ActionManager {
 		tWasLastActionStartAuction = tLastAction.wasLastActionStartAuction ();
 
 		return tWasLastActionStartAuction;
-	}
-
-	public void appendAction (String aGameActivity) {
-		actionReportFrame.append (aGameActivity);
 	}
 
 	public boolean isSyncActionNumber (Action aAction) {
@@ -480,14 +505,14 @@ public class ActionManager {
 						gameManager.autoSaveGame ();
 						// Add the Report of the Action Applied to the Action Frame, and the JGameClient
 						// Game Activity Frame
-						appendToReportFrame (tAction);
+						appendActionReport (tAction);
 						appendToJGameClient (tAction);
 					} else if (tThisActionNumber <= actionNumber) {
 						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber
 								+ " Current Action Number " + actionNumber + " is before the Expected Action Number of "
 								+ tExpectedActionNumber + " IGNORING\n";
 						logger.error (tActionFailureMessage);
-						actionReportFrame.append (tActionFailureMessage);
+						appendReport (tActionFailureMessage);
 					} else {
 						tActionFailureMessage = "\nReceived Action Number " + tThisActionNumber
 								+ " is not the Expected Action Number of " + tExpectedActionNumber
@@ -528,8 +553,7 @@ public class ActionManager {
 		tActionApplied = aAction.applyAction (roundManager);
 		if (aAction instanceof UndoLastAction) {
 			// If this is an UndoLastAction, we don't want to adjust the Action Number, this
-			// is
-			// handled for undoing the chain of actions.
+			// is handled for undoing the chain of actions.
 		} else {
 			tActionNumber = aAction.getNumber ();
 			if (tActionNumber > actionNumber) {
