@@ -12,6 +12,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -25,8 +26,7 @@ public abstract class Benefit implements ActionListener {
 	public final static AttributeName AN_CLOSE_ON_USE = new AttributeName ("closeOnUse");
 	public final static AttributeName AN_PASSIVE = new AttributeName ("passive");
 	public final static AttributeName AN_ACTOR_TYPE = new AttributeName ("actorType");
-	public final static JButton NO_BUTTON = null;
-	public final static JPanel NO_BUTTON_PANEL = null;
+	public final static JPanel NO_BUTTON_PANEL = GUI.NO_PANEL;
 	public final static Benefit NO_BENEFIT = null;
 	public final static String NO_BENEFIT_NAME = null;
 	public final static String NAME = "ABSTRACT";
@@ -63,7 +63,7 @@ public abstract class Benefit implements ActionListener {
 
 	private void setDefaults () {
 		setUsed (false);
-		setButton (NO_BUTTON);
+		setButton (GUI.NO_BUTTON);
 		setButtonPanel (NO_BUTTON_PANEL);
 		setPrivateCompany (PrivateCompany.NO_PRIVATE_COMPANY);
 		setPreviousBenefitInUse (NO_BENEFIT);
@@ -115,9 +115,9 @@ public abstract class Benefit implements ActionListener {
 
 	protected void removeButton () {
 		if (buttonPanel != NO_BUTTON_PANEL) {
-			if (button != NO_BUTTON) {
+			if (button != GUI.NO_BUTTON) {
 				buttonPanel.remove (button);
-				setButton (NO_BUTTON);
+				setButton (GUI.NO_BUTTON);
 			}
 		}
 	}
@@ -185,7 +185,7 @@ public abstract class Benefit implements ActionListener {
 	public boolean hasButton () {
 		boolean tHasButton = false;
 
-		if (button != NO_BUTTON) {
+		if (button != GUI.NO_BUTTON) {
 			tHasButton = true;
 		}
 

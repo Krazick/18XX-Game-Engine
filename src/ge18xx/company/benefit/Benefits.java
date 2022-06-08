@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -104,7 +105,7 @@ public class Benefits {
 
 	public JButton findButtonFor (JPanel aButtonRow, String aButtonLabel) {
 		JButton tThisButton;
-		JButton tFoundButton = Benefit.NO_BUTTON;
+		JButton tFoundButton = GUI.NO_BUTTON;
 		Component tComponent;
 		String tButtonText;
 		int tComponentCount, tComponentIndex;
@@ -131,7 +132,7 @@ public class Benefits {
 		JButton tThisButton;
 
 		tThisButton = findButtonFor (aButtonRow, aButtonLabel);
-		if (tThisButton != Benefit.NO_BUTTON) {
+		if (tThisButton != GUI.NO_BUTTON) {
 			tHasButtonFor = true;
 		}
 
