@@ -313,19 +313,36 @@ public class Action {
 
 	public boolean undoAction (RoundManager aRoundManager) {
 		boolean tActionUndone, tEffectUndone;
-
+		String tErrorReport;
+		String tReport;
+		int tErrorCount;
+		int tEffectsUndoneCount;
+		
 		tActionUndone = true;
+		tErrorCount = 0;
+		tEffectsUndoneCount = 0;
 		for (Effect tEffect : effects) {
 			System.out.println ("Trying to Undo " + name + " Effect: " + tEffect.getName ());
 			tEffectUndone = tEffect.undoEffect (aRoundManager);
-			if (! tEffectUndone) {
-				aRoundManager.sendToReportFrame ("Undoing Action " + name + " Effect: " + tEffect.getName () + " FAILED");
+			if (tEffectUndone) {
+				tEffectsUndoneCount++;
+			} else {
+				tErrorReport = "Undoing Action " + name + " Effect: " + tEffect.getName () + " FAILED";
+				aRoundManager.appendErrorReport (tErrorReport);
+				tErrorCount++;
 			}
 			tActionUndone &= tEffectUndone;
 		}
 
 		aRoundManager.updateAllCorporationsBox ();
-
+		if (tActionUndone) {
+			tReport = "There were " + tEffectsUndoneCount + " Effects that were successfully Undone";
+			aRoundManager.appendReport (tReport);
+		} else {
+			tErrorReport = "There were " + tErrorCount + " Effects that Failed the Undo Action Steps";
+			aRoundManager.appendErrorReport (tErrorReport);
+		}
+		
 		return tActionUndone;
 	}
 
@@ -335,7 +352,8 @@ public class Action {
 
 	public boolean applyAction (RoundManager aRoundManager) {
 		boolean tActionApplied, tEffectApplied;
-
+		String tErrorReport;
+		
 		tActionApplied = true;
 		for (Effect tEffect : effects) {
 			tEffectApplied = tEffect.applyEffect (aRoundManager);
@@ -344,9 +362,10 @@ public class Action {
 				System.out.println ("Tried to Apply a |" + name + "|, Effect " + tEffect.getName ()
 						+ " EffectApplied Flag " + tEffectApplied);
 			} else {
-				System.err.println ("Tried to Apply a |" + name + "|, Effect " + tEffect.getName ()
-						+ " EffectApplied Flag " + tEffectApplied);
-
+				tErrorReport = "Tried to Apply a |" + name + "|, Effect " + tEffect.getName ()
+						+ " EffectApplied Flag " + tEffectApplied;
+				System.err.println (tErrorReport);
+				aRoundManager.appendErrorReport (tErrorReport);
 			}
 		}
 
