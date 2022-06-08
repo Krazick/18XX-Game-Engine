@@ -595,6 +595,16 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public void removeBenefitButtons () {
 		System.err.println ("The basic Corporation should not need to remove Benefit Buttons.");
 	}
+	
+	/**
+	 * Append Error Report String to Action Report Frame as an Error
+	 * 
+	 * @param aErrorReport String Text to append as an Error to the end of the Action Report Frame
+	 * 
+	 */
+	public void appendErrorReport (String aErrorReport) {
+		corporationList.appendErrorReport (aErrorReport);
+	}
 
 	public void close (TransferOwnershipAction aTransferOwnershipAction) {
 		Certificate tCertificate;
@@ -609,7 +619,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		tOldState = getActionStatus ();
 
 		if (tOldState.equals (ActorI.ActionStates.Closed)) {
-			System.err.println ("The Corporation " + name + " is already Closed... don't need to close again");
+			appendErrorReport ("The Corporation " + name + " is already Closed... don't need to close again");
 		} else if (updateStatus (ActorI.ActionStates.Closed)) {
 			tNewState = getActionStatus ();
 			tBank = corporationList.getBank ();
