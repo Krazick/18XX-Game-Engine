@@ -1095,7 +1095,17 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public void addAction (Action aAction) {
 		roundManager.addAction (aAction);
 	}
-
+	
+	/**
+	 * Append Error Report String to Action Report Frame as an Error
+	 * 
+	 * @param aErrorReport String Text to append as an Error to the end of the Action Report Frame
+	 * 
+	 */
+	public void appendErrorReport (String aReport) {
+		roundManager.appendErrorReport (aReport);
+	}
+	
 	public void bringMapToFront () {
 		roundManager.bringMapToFront ();
 	}
@@ -1279,4 +1289,5 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public void updateRoundFrame () {
 		roundManager.updateRoundFrame ();
 	}
+	
 }
