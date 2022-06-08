@@ -196,6 +196,30 @@ public class RoundManager implements ActionListener {
 		gameManager.setGameChanged (true);
 	}
 
+	/**
+	 * Append Report String to Action Report Frame
+	 * 
+	 * @param aReport String Text to append to the end of the Action Report Frame
+	 * 
+	 */
+	public void appendReport (String aReport) {
+		actionManager.appendReport (aReport);
+	}
+
+	/**
+	 * Append Error Report String to Action Report Frame as an Error
+	 * 
+	 * @param aErrorReport String Text to append as an Error to the end of the Action Report Frame
+	 * 
+	 */
+	public void appendErrorReport (String aReport) {
+		actionManager.appendErrorReport (aReport);
+	}
+	
+	public String getFullActionReport () {
+		return actionManager.getFullActionReport ();
+	}
+	
 	public void addOR () {
 		if (addedOR == false) {
 			operatingRoundCount++;
@@ -1010,7 +1034,7 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void sendToReportFrame (String aReport) {
-		actionManager.sendToReportFrame (aReport);
+		actionManager.appendBorderedReport (aReport);
 	}
 
 	public boolean canBuyTrainInPhase () {
