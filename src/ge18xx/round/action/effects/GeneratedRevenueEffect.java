@@ -91,7 +91,8 @@ public class GeneratedRevenueEffect extends Effect {
 		tOperatingCompany.setThisRevenue (revenue);
 		tOperatingCompany.closeTrainRevenueFrame ();
 		aRoundManager.updateAllCorporationsBox ();
-
+		tEffectApplied = true;
+		
 		return tEffectApplied;
 	}
 
