@@ -53,7 +53,7 @@ public class ActionManager {
 	public void setActionNumber (int aNumber) {
 		String tReportActionNumber;
 
-		tReportActionNumber = "Change Action Number from " + actionNumber + " to " + aNumber + "\n";
+		tReportActionNumber = "\nChange Action Number from " + actionNumber + " to " + aNumber + "\n";
 
 		actionNumber = aNumber;
 		appendReport (tReportActionNumber);
@@ -162,7 +162,7 @@ public class ActionManager {
 	private void appendActionReport (Action aAction) {
 		String tActionReport;
 
-		tActionReport = aAction.getActionReport (roundManager);
+		tActionReport = "\n" + aAction.getActionReport (roundManager);
 		appendReport (tActionReport);
 	}
 
@@ -437,7 +437,7 @@ public class ActionManager {
 		Action tLastAction;
 
 		tLastAction = getLastAction ();
-		appendReport ("\nUNDOING: " + tLastAction.getBriefActionReport ());
+		appendReport ("\nUNDOING: " + tLastAction.getBriefActionReport () + "\n");
 		tLastAction.printBriefActionReport ();
 		tLastActionUndone = tLastAction.undoAction (aRoundManager);
 		if (aNotifyNetwork) {
@@ -518,6 +518,7 @@ public class ActionManager {
 								+ " is not the Expected Action Number of " + tExpectedActionNumber
 								+ " This should have Matched\n";
 						logger.error (tActionFailureMessage);
+						appendReport (tActionFailureMessage);
 					}
 				}
 			} else {
