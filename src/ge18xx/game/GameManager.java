@@ -1100,7 +1100,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tShares = getShareCompanies ();
 
 			autoSaveFileName = constructAutoSaveFileName (AUTO_SAVES_DIR);
-			autoSaveActionReportFileName = this.constructASARFileName (AUTO_SAVES_DIR, ".action");
+			autoSaveActionReportFileName = this.constructASARFileName (AUTO_SAVES_DIR, ".action.txt");
 			autoSaveFile = new File (autoSaveFileName);
 			autoSaveActionReportFile = new File (autoSaveActionReportFileName);
 			
@@ -1153,7 +1153,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	private String constructAutoSaveFileName (String aDirectoryName) {
 		String tAutoSaveFileName;
 
-		tAutoSaveFileName = constructASARFileName (aDirectoryName, ".save");
+		tAutoSaveFileName = constructASARFileName (aDirectoryName, ".save" + fileUtils.xml);
 
 		return tAutoSaveFileName;
 	}
@@ -1168,7 +1168,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tAutoSaveFileName = aDirectoryName + File.separator + getGameName () + "." + clientUserName;
 
 		}
-		tAutoSaveFileName += aSuffix + fileUtils.xml;
+		tAutoSaveFileName += aSuffix;
 
 		return tAutoSaveFileName;
 	}
