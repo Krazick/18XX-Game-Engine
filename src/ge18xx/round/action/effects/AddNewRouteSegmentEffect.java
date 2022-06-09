@@ -48,6 +48,8 @@ public class AddNewRouteSegmentEffect extends ChangeRouteEffect {
 				tTrainCompany = (TrainCompany) tCompany;
 				tEffectApplied = tTrainCompany.extendRouteInformation (trainIndex, mapCell, startLocation, endLocation);
 			}
+		} else {
+			setApplyFailureReason ("Actor " + actor.getName () + " is not a Corporation.");
 		}
 
 		return tEffectApplied;

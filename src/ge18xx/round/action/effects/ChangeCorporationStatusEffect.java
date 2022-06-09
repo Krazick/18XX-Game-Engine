@@ -100,6 +100,8 @@ public class ChangeCorporationStatusEffect extends Effect {
 			}
 			tCorporation.resetStatus (newState);
 			tEffectApplied = true;
+		} else {
+			setApplyFailureReason ("Actor " + actor.getName () + " is not a Corporation.");
 		}
 
 		return tEffectApplied;
@@ -115,6 +117,8 @@ public class ChangeCorporationStatusEffect extends Effect {
 			tCorporation = (Corporation) actor;
 			tCorporation.resetStatus (previousState);
 			tEffectUndone = true;
+		} else {
+			setUndoFailureReason ("Actor " + actor.getName () + " is not a Corporation.");
 		}
 
 		return tEffectUndone;

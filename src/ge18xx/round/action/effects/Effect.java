@@ -33,7 +33,9 @@ public abstract class Effect {
 	boolean benefitUsed;
 	String benefitName;
 	String benefitPrivateAbbrev;
-
+	String applyFailureReason;
+	String undoFailureReason;
+	
 	Effect () {
 		this (NO_NAME);
 	}
@@ -238,7 +240,14 @@ public abstract class Effect {
 		return actor.getName ();
 	}
 
-	public abstract boolean undoEffect (RoundManager aRoundManager);
+	public boolean undoEffect (RoundManager aRoundManager) {
+		boolean tEffectUndone;
+		
+		setApplyFailureReason ("Basic Effect undoEffect method should never be called directly");
+		tEffectUndone = false;
+		
+		return tEffectUndone;
+	}
 
 	public boolean wasNewStateAuction () {
 		return false;
@@ -248,10 +257,32 @@ public abstract class Effect {
 		boolean tEffectApplied;
 
 		tEffectApplied = false;
-
+		setApplyFailureReason ("Basic Effect applyEffect method should never be called directly");
+		
 		return tEffectApplied;
 	}
 
+	protected void setApplyFailureReason (String aFailureReason) {
+		applyFailureReason = aFailureReason;
+	}
+	
+	protected void setUndoFailureReason (String aFailureReason) {
+		undoFailureReason = aFailureReason;
+	}
+	
+	/**
+	 * Retrieve the Reason why the ApplyEffect call failed. 
+	 * 
+	 * @return The 
+	 */
+	public String getApplyFailureReason () {
+		return applyFailureReason;
+	}
+	
+	public String getUndoFailureReason () {
+		return undoFailureReason;
+	}
+	
 	public boolean nullEffect () {
 		return false;
 	}

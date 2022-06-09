@@ -104,12 +104,19 @@ public class ApplyDiscountEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Certificate tCertificate;
+		int tPercentage;
+		boolean tPresidentShare;
 
+		tPercentage = 100;
+		tPresidentShare = true;
+		tCertificate = aRoundManager.getCertificate (companyAbbrev, tPercentage, tPresidentShare);
 		tEffectApplied = false;
-		tCertificate = aRoundManager.getCertificate (companyAbbrev, 100, true);
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tCertificate.setDiscount (newDiscount);
 			tEffectApplied = true;
+		} else {
+			setApplyFailureReason ("The President (" + tPercentage + "%) Certificate for " + 
+					companyAbbrev + " was not Found.");
 		}
 
 		return tEffectApplied;
@@ -119,12 +126,19 @@ public class ApplyDiscountEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Certificate tCertificate;
+		int tPercentage;
+		boolean tPresidentShare;
 
+		tPercentage = 100;
+		tPresidentShare = true;
+		tCertificate = aRoundManager.getCertificate (companyAbbrev, tPercentage, tPresidentShare);
 		tEffectUndone = false;
-		tCertificate = aRoundManager.getCertificate (companyAbbrev, 100, true);
 		if (tCertificate != Certificate.NO_CERTIFICATE) {
 			tCertificate.setDiscount (oldDiscount);
 			tEffectUndone = true;
+		} else {
+			setUndoFailureReason ("The President (" + tPercentage + "%) Certificate for " + 
+					companyAbbrev + " was not Found.");
 		}
 
 		return tEffectUndone;
