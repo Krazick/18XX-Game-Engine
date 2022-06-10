@@ -315,6 +315,7 @@ public class Action {
 		boolean tActionUndone, tEffectUndone;
 		String tErrorReport;
 		String tReport;
+		String tUndoFailureReason;
 		int tErrorCount;
 		int tEffectsUndoneCount;
 		
@@ -328,7 +329,10 @@ public class Action {
 				tEffectsUndoneCount++;
 			} else {
 				tErrorReport = "Undoing Action " + name + " Effect: " + tEffect.getName () + " FAILED";
+				tUndoFailureReason = tEffect.getUndoFailureReason ();
 				aRoundManager.appendErrorReport (tErrorReport);
+				aRoundManager.appendErrorReport (tUndoFailureReason);
+				
 				tErrorCount++;
 			}
 			tActionUndone &= tEffectUndone;
@@ -336,11 +340,19 @@ public class Action {
 
 		aRoundManager.updateAllCorporationsBox ();
 		if (tActionUndone) {
-			tReport = "There were " + tEffectsUndoneCount + " Effects that were successfully Undone";
+			if (tEffectsUndoneCount == 1) {
+				tReport = "There was 1 Effect that was successfully Undone";
+			} else {
+				tReport = "There were " + tEffectsUndoneCount + " Effects that were successfully Undone";
+			}
 			aRoundManager.appendReport (tReport);
 		} else {
-			tErrorReport = "There were " + tErrorCount + " Effects that Failed the Undo Action Steps";
-			aRoundManager.appendErrorReport (tErrorReport);
+			if (tErrorCount == 1) {
+				tReport = "There was 1 Effect that Failed the Undo Effect Step";
+			} else {
+				tReport = "There were " + tErrorCount + " Effects that Failed the Undo Effect Steps";
+			}
+			aRoundManager.appendReport (tReport);
 		}
 		
 		return tActionUndone;
@@ -353,6 +365,7 @@ public class Action {
 	public boolean applyAction (RoundManager aRoundManager) {
 		boolean tActionApplied, tEffectApplied;
 		String tErrorReport;
+		String tApplyFailureReason;
 		
 		tActionApplied = true;
 		for (Effect tEffect : effects) {
@@ -365,7 +378,9 @@ public class Action {
 				tErrorReport = "Tried to Apply a |" + name + "|, Effect " + tEffect.getName ()
 						+ " EffectApplied Flag " + tEffectApplied;
 				System.err.println (tErrorReport);
+				tApplyFailureReason = tEffect.getApplyFailureReason ();
 				aRoundManager.appendErrorReport (tErrorReport);
+				aRoundManager.appendErrorReport (tApplyFailureReason);
 			}
 		}
 
