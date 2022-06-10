@@ -141,9 +141,7 @@ public class StateChangeEffect extends Effect {
 		boolean tEffectUndone;
 
 		tEffectUndone = false;
-		System.out.println ("--- Actor " + actor.getName () + " State " + actor.getStateName () + " BEFORE UNDO");
 		actor.resetPrimaryActionState (previousState);
-		System.out.println ("--- Actor " + actor.getName () + " State " + actor.getStateName () + " AFTER UNDO");
 		tEffectUndone = true;
 		if (actor.isAPlayer ()) {
 			Player tPlayer = (Player) actor;
