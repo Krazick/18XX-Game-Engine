@@ -127,8 +127,9 @@ public class StateChangeEffect extends Effect {
 			if (actor instanceof StartPacketFrame) {
 
 			}
+			setApplyFailureReason ("The Actor is a Bank, which does not have a State to Change");
 		} else if (actor.isACorporation ()) {
-
+			setApplyFailureReason ("The Actor is a Corporation, and should not have a State Change Effect");
 		}
 		tEffectApplied = true;
 
@@ -147,6 +148,10 @@ public class StateChangeEffect extends Effect {
 			Player tPlayer = (Player) actor;
 			StockRound tStockRound = aRoundManager.getStockRound ();
 			tStockRound.updateRFPlayerLabel (tPlayer);
+		} else if (actor.isABank ()) {
+			setUndoFailureReason ("The Actor is a Bank, which does not have a State to Change");
+		} else if (actor.isACorporation ()) {
+			setUndoFailureReason ("The Actor is a Corporation, and should not have a State Change Effect");
 		}
 
 		return tEffectUndone;
