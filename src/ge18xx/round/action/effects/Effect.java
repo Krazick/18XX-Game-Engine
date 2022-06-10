@@ -243,7 +243,8 @@ public abstract class Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		
-		setApplyFailureReason ("Basic Effect undoEffect method should never be called directly");
+		setApplyFailureReason ("Basic Effect undoEffect method should never be called directly\n" +
+								" -- OR Reason not coded into the effect yet");
 		tEffectUndone = false;
 		
 		return tEffectUndone;
@@ -257,7 +258,8 @@ public abstract class Effect {
 		boolean tEffectApplied;
 
 		tEffectApplied = false;
-		setApplyFailureReason ("Basic Effect applyEffect method should never be called directly");
+		setApplyFailureReason ("Basic Effect applyEffect method should never be called directly\n" +
+								" -- OR Reason not coded into the effect yet");
 		
 		return tEffectApplied;
 	}
