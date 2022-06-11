@@ -319,7 +319,6 @@ public class ShareCompany extends TokenCompany {
 		OperatingRound tOperatingRound;
 		
 		tNewLoanCount = loanCount + 1;
-		System.out.println ("Getting a Loan (" + loanCount + " up to " + tNewLoanCount + ")");
 		tBank = corporationList.getBank ();
 		if (loanInterestHandled ()) {
 			tLoanAmount = loanAmount - loanInterest;
@@ -354,7 +353,6 @@ public class ShareCompany extends TokenCompany {
 		OperatingRound tOperatingRound;
 		Bank tBank;
 		
-		System.out.println ("Pay Loan interest on " + loanCount + " Loans.");
 		tOldState = getStatus ();
 		tLoanCount = getLoanCount ();
 		tInterestPayment = tLoanCount * getLoanInterest ();
@@ -370,6 +368,7 @@ public class ShareCompany extends TokenCompany {
 			}
 		} else {
 			System.err.println ("Need " + Bank.formatCash (tInterestPayment) + " needed to may Loan Payment on " + tLoanCount + " Loans.");
+			// TODO: Add in Emergency Fund Raising, from President, and possible Forced Stock Sale
 		}
 	}
 
@@ -415,7 +414,6 @@ public class ShareCompany extends TokenCompany {
 				setLoanCount (tNewLoanCount);
 				corporationList.addAction (tRedeemLoanAction);
 		
-				System.out.println ("Redeem a Loan (" + loanCount + " up to " + tNewLoanCount + ")");
 				setLoanCount (tNewLoanCount);
 			} else {
 				System.err.println ("Asked to replay " + Bank.formatCash (tLoanAmount) +
