@@ -90,11 +90,11 @@ public class StartPacketItem implements ParsingRoutineI {
 		return certificate.isSelected ();
 	}
 
-	private void setCertificate (Certificate aCertificate) {
+	public void setCertificate (Certificate aCertificate) {
 		certificate = aCertificate;
 	}
 
-	private void setFreeCertificate (Certificate aFreeCertificate) {
+	public void setFreeCertificate (Certificate aFreeCertificate) {
 		freeCertificate = aFreeCertificate;
 	}
 	
@@ -145,7 +145,7 @@ public class StartPacketItem implements ParsingRoutineI {
 	void setCorporationID (int aCorporationID) {
 		corporationId = aCorporationID;
 		// Will load Proper Certificate with the Load Certificate Routine
-		certificate = Certificate.NO_CERTIFICATE;
+		setCertificate (Certificate.NO_CERTIFICATE);
 	}
 
 	void setFreeCertificateCorporationId (int aFreeCorpId) {
@@ -155,7 +155,7 @@ public class StartPacketItem implements ParsingRoutineI {
 	void setFreeCertificateCorporationPercentage (int aFreeCorpPercentange) {
 		freeCertificateCorporationPercentage = aFreeCorpPercentange;
 		// Will load Proper Certificate with the Load Certificate Routine
-		freeCertificate = Certificate.NO_CERTIFICATE;
+		setFreeCertificate (Certificate.NO_CERTIFICATE);
 	}
 
 	void setStartPacketRow (StartPacketRow aStartPacketRow) {
