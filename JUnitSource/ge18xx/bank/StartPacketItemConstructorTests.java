@@ -4,37 +4,33 @@ package ge18xx.bank;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import ge18xx.company.Certificate;
+import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
-import ge18xx.company.PrivateCompany;
-import ge18xx.company.ShareCompany;
+import ge18xx.game.GameManager;
+import ge18xx.game.GameTestFactory;
+import ge18xx.player.Player;
+import ge18xx.player.PlayerTestFactory;
 import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-//import ge18xx.company.CompanyTestFactory;
-//import ge18xx.company.CorporationList;
-//import ge18xx.company.PrivateCompany;
-//import ge18xx.company.ShareCompany;
-//import ge18xx.utilities.UtilitiesTestFactory;
-//import ge18xx.utilities.XMLNode;
-
-class StartPacketItemConstrucctorTests {
-	private ShareCompany alphaShareCompany;
-	private PrivateCompany gammaPrivateCompany;
+class StartPacketItemConstructorTests {
 	private CompanyTestFactory companyTestFactory;
 	private UtilitiesTestFactory utilitiesTestFactory;
+	private CertificateTestFactory certificateTestFactory;
 	private StartPacketItem packetItem1;
 	private StartPacketItem packetItem2;
+	private Certificate mCertificateGamma;
+	private Certificate mCertificateAlpha;
 	
 	@BeforeEach
 	void setUp () throws Exception {
@@ -45,10 +41,11 @@ class StartPacketItemConstrucctorTests {
 		
 		companyTestFactory = new CompanyTestFactory ();
 		utilitiesTestFactory = companyTestFactory.getUtilitiesTestFactory ();
+		certificateTestFactory = new CertificateTestFactory ();
 		packetItem1 = constructStartPacketItem (tPacketItem1);
 		packetItem2 = constructStartPacketItem (tPacketItem2);
-		alphaShareCompany = companyTestFactory.buildAShareCompany (1);
-		gammaPrivateCompany = companyTestFactory.buildAPrivateCompany (1);
+		mCertificateGamma = certificateTestFactory.buildCertificateMock ("GPC");
+		mCertificateAlpha = certificateTestFactory.buildCertificateMock ("ASC");
 	}
 	
 	private StartPacketItem constructStartPacketItem (String aStartPacketTextXML) {
@@ -83,7 +80,64 @@ class StartPacketItemConstrucctorTests {
 	@Test
 	@DisplayName ("Test fetching Certificates")
 	void fetchingCertificatesFromPacketTests () {
+		Certificate tCertificate;
+		Certificate tFreeCertificate;
+		
 		assertEquals (packetItem1.getCertificate (), Certificate.NO_CERTIFICATE);
 		assertEquals (packetItem2.getFreeCertificate (), Certificate.NO_CERTIFICATE);
+		
+		packetItem1.setCertificate (mCertificateGamma);
+		packetItem2.setFreeCertificate (mCertificateAlpha);
+		tCertificate = packetItem1.getCertificate ();
+		tFreeCertificate = packetItem2.getFreeCertificate ();
+		
+		assertEquals ("GPC", tCertificate.getCompanyAbbrev ());
+		assertEquals ("ASC", tFreeCertificate.getCompanyAbbrev ());
+		
+	}
+	
+
+	@Nested
+	@DisplayName ("Using Mocked Certificates") 
+	class UseMockedCertificates {
+	
+		@Test
+		@DisplayName ("Test isSelected Method") 
+		void isSelectedWithMockedCertificateTests () {
+			Mockito.when (mCertificateGamma.isSelected ()).thenReturn (true);
+			packetItem1.setCertificate (mCertificateGamma);
+			
+			assertTrue (packetItem1.isSelected ());
+			
+			Mockito.when (mCertificateAlpha.isSelected ()).thenReturn (false);
+			packetItem2.setCertificate (mCertificateAlpha);
+			assertFalse (packetItem2.isSelected ());
+			
+		}
+		
+		@Test
+		@DisplayName ("Test hasBidOnThisCert Method")
+		void hasBidWithMockedCertificateTests () {
+			GameTestFactory tGameTestFactory;
+			GameManager tGameManager;
+			PlayerTestFactory tPlayerTestFactory;
+			Player mPlayer;
+			
+			tGameTestFactory = new GameTestFactory ();
+			tGameManager = tGameTestFactory.buildGameManager ();
+			tPlayerTestFactory = new PlayerTestFactory (tGameManager);
+			mPlayer = tPlayerTestFactory.buildPlayerMock ("SPIPlayer");
+			
+			Mockito.when (mCertificateGamma.hasBidOnThisCert (any (Player.class))).thenReturn (true);
+			packetItem1.setCertificate (mCertificateGamma);
+			
+			assertTrue (packetItem1.hasBidOnThisCert (mPlayer));
+			
+			Mockito.when (mCertificateAlpha.hasBidOnThisCert (any (Player.class))).thenReturn (false);
+			packetItem2.setCertificate (mCertificateAlpha);
+			
+			assertFalse (packetItem2.hasBidOnThisCert (mPlayer));
+
+		}
 	}
 }
