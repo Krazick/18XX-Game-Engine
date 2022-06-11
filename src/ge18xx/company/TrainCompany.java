@@ -409,12 +409,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tCorpBorder;
 	}
 
-//	@Override
-//	public JPanel buildPortfolioTrainsJPanel (CorporationFrame corporationFrame, 
-//			GameManager aGameManager, boolean aFullTrainPortfolio, 
-//			boolean aCanBuyTrain, String aDisableToolTipReason, 
-//			Corporation aBuyingCorporation) {
-
 	public JPanel buildPortfolioTrainsJPanel (CorporationFrame aCorporationFrame, GameManager aGameManager,
 			boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason,
 			Corporation aBuyingCorporation, int aTokenCount) {
