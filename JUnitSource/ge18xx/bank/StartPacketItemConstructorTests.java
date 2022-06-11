@@ -19,6 +19,9 @@ import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -117,7 +120,7 @@ class StartPacketItemConstructorTests {
 		
 		@Test
 		@DisplayName ("Test hasBidOnThisCert Method")
-		void hasBidWithMockedCertificateTests () {
+		void hasBidWithMockedCertificateTest () {
 			GameTestFactory tGameTestFactory;
 			GameManager tGameManager;
 			PlayerTestFactory tPlayerTestFactory;
@@ -137,7 +140,19 @@ class StartPacketItemConstructorTests {
 			packetItem2.setCertificate (mCertificateAlpha);
 			
 			assertFalse (packetItem2.hasBidOnThisCert (mPlayer));
+		}
+		
+		@Test
+		@DisplayName ("Test getMatchingCertificate Method")
+		void getMatchingCertWithMockedCertificateTest () {
+			
+			Mockito.when (mCertificateGamma.isMatchingCertificate (anyString (), anyInt (), anyBoolean ())).thenReturn (true);
+			packetItem1.setCertificate (mCertificateGamma);
+			assertEquals (mCertificateGamma, packetItem1.getMatchingCertificate ("GPC", 100, true));
 
+			Mockito.when (mCertificateAlpha.isMatchingCertificate (anyString (), anyInt (), anyBoolean ())).thenReturn (false);
+			packetItem1.setCertificate (mCertificateAlpha);
+			assertEquals (Certificate.NO_CERTIFICATE, packetItem1.getMatchingCertificate ("APC", 10, false));
 		}
 	}
 }
