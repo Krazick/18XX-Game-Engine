@@ -190,7 +190,7 @@ public class CompanyTestFactory {
 	public MinorCompany buildMinorCompanyMock (String aClientName) {
 		MinorCompany mMinorCompany = Mockito.mock (MinorCompany.class);
 
-		Mockito.when (mMinorCompany.getAbbrev ()).thenReturn ("MSC");
+		Mockito.when (mMinorCompany.getAbbrev ()).thenReturn ("MMC");
 
 		return mMinorCompany;
 	}
