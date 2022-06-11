@@ -1465,12 +1465,20 @@ public class Certificate implements Comparable<Certificate> {
 	public void setValues (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage,
 			CertificateHolderI aOwner) {
 		setCorporation (aCorporation);
-		isPresidentShare = aIsPresidentShare;
-		percentage = aPercentage;
+		setIsPresidentShare (aIsPresidentShare);
+		setPercentage (aPercentage);
 		setOwner (aOwner);
 		bidders = new Bidders (this);
 	}
 
+	private void setPercentage (int aPercentage) {
+		percentage = aPercentage;
+	}
+
+	private void setIsPresidentShare (boolean aIsPresidentShare) {
+		isPresidentShare = aIsPresidentShare;
+	}
+	
 	public void sortCorporationCertificates () {
 		corporation.sortCorporationCertificates ();
 	}
