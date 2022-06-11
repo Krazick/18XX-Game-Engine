@@ -12,6 +12,10 @@ public class GameTestFactory {
 	UtilitiesTestFactory utilitiesTestFactory;
 	private String CLIENT_NAME = "GTF Client";
 
+	/**
+	 * Builds the Game Test Factory by building the Utilities TestFactory
+	 * 
+	 */
 	public GameTestFactory () {
 		utilitiesTestFactory = new UtilitiesTestFactory ();
 	}

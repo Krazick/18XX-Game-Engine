@@ -8,19 +8,35 @@ import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
 
 public class CompanyTestFactory {
-	GameTestFactory gameTestFactory;
-	UtilitiesTestFactory utilitiesTestFactory;
+	private GameTestFactory gameTestFactory;
+	private UtilitiesTestFactory utilitiesTestFactory;
 
+	/**
+	 * Builds the Company Test Factory by creating the gameTestFactory and get the Utilities Test Factory
+	 * 
+	 */
 	public CompanyTestFactory () {
 		gameTestFactory = new GameTestFactory ();
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
 	}
 
+	/**
+	 * Builds the Company Test Factory using the provided GameTest Factory, and getting the Utilities Test Factory
+	 * 
+	 * @param aGameTestFactory A Game Test Factory to be attacheck to this Company Test Factory
+	 * 
+	 */
 	public CompanyTestFactory (GameTestFactory aGameTestFactory) {
 		gameTestFactory = aGameTestFactory;
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
 	}
 
+	/**
+	 * Retrieves the Utilities Test Factory attached to this Company Test Factory
+	 * 
+	 * @return the Utilities Test Factory attached to this Company Test Factory;
+	 * 
+	 */
 	public UtilitiesTestFactory getUtilitiesTestFactory () {
 		return utilitiesTestFactory;
 	}
