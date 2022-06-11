@@ -1870,6 +1870,28 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int compareID (Corporation aCorporation) {
 		return id - aCorporation.getID ();
 	}
+	
+	public int compareFormed (Corporation aCorporation) {
+		boolean tIsFormed1, tIsFormed2;
+		int tCompareFormed;
+
+		tIsFormed1 = isFormed ();
+		tIsFormed2 = aCorporation.isFormed ();
+		tCompareFormed = 0;
+		if (tIsFormed1) {
+			if (tIsFormed2) {
+				tCompareFormed = 0;
+			} else {
+				tCompareFormed = SORT_CO1_BEFORE_CO2;
+			}
+		} else if (tIsFormed2) {
+			tCompareFormed = SORT_CO2_BEFORE_CO1;
+		} else {
+			tCompareFormed = 0;
+		}
+
+		return tCompareFormed;
+	}
 
 	public int compareActive (Corporation aCorporation) {
 		boolean tIsActive1, tIsActive2;
@@ -2059,32 +2081,36 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		@Override
 		public int compare (Corporation aCorporation1, Corporation aCorporation2) {
 			int tOperatingOrderValue, tClosedCompare;
-
-			tOperatingOrderValue = aCorporation1.compareActive (aCorporation2);
+			
+			tOperatingOrderValue = aCorporation1.compareFormed (aCorporation2);
 			if (tOperatingOrderValue == 0) { // Both Companies are Active
-				tOperatingOrderValue = aCorporation1.comparePartiallyOperated (aCorporation2);
-				if (tOperatingOrderValue == 0) { // Both Companies can Operate
-					tOperatingOrderValue = aCorporation1.compareCanOperate (aCorporation2);
-				}
-				if (tOperatingOrderValue == 0) { // Neither Company is Partially Operated
-					tOperatingOrderValue = aCorporation1.comparePrice (aCorporation2);
-				}
-				if (tOperatingOrderValue == 0) { // Both Companies have Same Price
-					tOperatingOrderValue = aCorporation1.compareShare (aCorporation2);
-				}
-				if (tOperatingOrderValue == 0) { // Both Companies are Share Companies
-					tOperatingOrderValue = aCorporation1.compareMarketCellLtoR (aCorporation2);
-				}
-				if (tOperatingOrderValue == 0) { // Both Companies are in Same Market Column
-					tOperatingOrderValue = aCorporation1.compareMarketCellDtoU (aCorporation2);
-				}
-				if (tOperatingOrderValue == 0) { // Both Companies are in Same Market Cell
-					tOperatingOrderValue = aCorporation1.compareStackLocation (aCorporation2);
-				}
-			} else {
-				tClosedCompare = aCorporation1.compareClosed (aCorporation2);
-				if (tClosedCompare != 0) {
-					tOperatingOrderValue = tClosedCompare;
+
+				tOperatingOrderValue = aCorporation1.compareActive (aCorporation2);
+				if (tOperatingOrderValue == 0) { // Both Companies are Active
+					tOperatingOrderValue = aCorporation1.comparePartiallyOperated (aCorporation2);
+					if (tOperatingOrderValue == 0) { // Both Companies can Operate
+						tOperatingOrderValue = aCorporation1.compareCanOperate (aCorporation2);
+					}
+					if (tOperatingOrderValue == 0) { // Neither Company is Partially Operated
+						tOperatingOrderValue = aCorporation1.comparePrice (aCorporation2);
+					}
+					if (tOperatingOrderValue == 0) { // Both Companies have Same Price
+						tOperatingOrderValue = aCorporation1.compareShare (aCorporation2);
+					}
+					if (tOperatingOrderValue == 0) { // Both Companies are Share Companies
+						tOperatingOrderValue = aCorporation1.compareMarketCellLtoR (aCorporation2);
+					}
+					if (tOperatingOrderValue == 0) { // Both Companies are in Same Market Column
+						tOperatingOrderValue = aCorporation1.compareMarketCellDtoU (aCorporation2);
+					}
+					if (tOperatingOrderValue == 0) { // Both Companies are in Same Market Cell
+						tOperatingOrderValue = aCorporation1.compareStackLocation (aCorporation2);
+					}
+				} else {
+					tClosedCompare = aCorporation1.compareClosed (aCorporation2);
+					if (tClosedCompare != 0) {
+						tOperatingOrderValue = tClosedCompare;
+					}
 				}
 			}
 
