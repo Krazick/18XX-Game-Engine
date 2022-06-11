@@ -56,10 +56,6 @@ public class Bank extends GameBank implements CashHolderI {
 	TrainPortfolio rustedTrainsPortfolio;
 	private static Logger logger;
 
-	public Bank () {
-		this (NO_BANK_CASH, GameManager.NO_GAME_MANAGER);
-	}
-
 	public Bank (int aTreasury, GameManager aGameManager) {
 		super (NAME, aGameManager);
 		treasury = aTreasury;
