@@ -22,6 +22,7 @@ public class StartPacketItem implements ParsingRoutineI {
 	private static final AttributeName AN_CAN_BE_BID_ON = new AttributeName ("canBeBidOn");
 	private static final ElementName EN_FREE_CERTIFICATE = new ElementName ("FreeCertificate");
 
+	public static StartPacketItem NO_START_PACKET_ITEM = null;
 	StartPacketRow startPacketRow;
 	int corporationId;
 	int discountAmount;
@@ -89,6 +90,14 @@ public class StartPacketItem implements ParsingRoutineI {
 		return certificate.isSelected ();
 	}
 
+	private void setCertificate (Certificate aCertificate) {
+		certificate = aCertificate;
+	}
+
+	private void setFreeCertificate (Certificate aFreeCertificate) {
+		freeCertificate = aFreeCertificate;
+	}
+	
 	public boolean loadWithCertificates (Portfolio aBankPortfolio, Portfolio aStartPacketPortfolio) {
 		boolean tAllCertsLoaded = true;
 		Corporation tCorporation, tFreeCorporation;
@@ -98,14 +107,14 @@ public class StartPacketItem implements ParsingRoutineI {
 		// if there is a Free Certificate for a Share Corp, transfer that from the Bank
 		// to the Start Packet
 		tCorporation = aBankPortfolio.getCorporationForID (corporationId);
-		certificate = aBankPortfolio.getPresidentCertificate (tCorporation);
+		setCertificate (aBankPortfolio.getPresidentCertificate (tCorporation));
 		aStartPacketPortfolio.transferOneCertificateOwnership (aBankPortfolio, certificate);
 		if (freeCertificateCorporationId != Corporation.NO_ID) {
 			tFreeCorporation = aBankPortfolio.getCorporationForID (freeCertificateCorporationId);
 			if (freeCertificateCorporationPercentage > 10) {
-				freeCertificate = aBankPortfolio.getPresidentCertificate (tFreeCorporation);
+				setFreeCertificate (aBankPortfolio.getPresidentCertificate (tFreeCorporation));
 			} else {
-				freeCertificate = aBankPortfolio.getNonPresidentCertificate (tFreeCorporation);
+				setFreeCertificate (aBankPortfolio.getNonPresidentCertificate (tFreeCorporation));
 			}
 			aStartPacketPortfolio.transferOneCertificateOwnership (aBankPortfolio, freeCertificate);
 		}
