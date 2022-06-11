@@ -31,16 +31,7 @@ public class StartPacketItem implements ParsingRoutineI {
 	int freeCertificateCorporationId;
 	int freeCertificateCorporationPercentage;
 
-	StartPacketItem () {
-		startPacketRow = StartPacketRow.NO_START_PACKET_ROW;
-		setCorporationID (Corporation.NO_ID);
-		discountAmount = 0;
-		canBeBidOn = false;
-		setFreeCertificateCorporationId (Corporation.NO_ID);
-		setFreeCertificateCorporationPercentage (0);
-	}
-
-	StartPacketItem (XMLNode aNode) {
+	public StartPacketItem (XMLNode aNode) {
 		XMLNodeList tXMLNodeList;
 
 		setCorporationID (aNode.getThisIntAttribute (AN_CORPORATION_ID, Corporation.NO_ID));
