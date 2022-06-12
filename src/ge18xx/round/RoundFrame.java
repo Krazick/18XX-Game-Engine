@@ -168,6 +168,7 @@ public class RoundFrame extends XMLFrame {
 		String [] tPrices;
 		String [] tMinStartup;
 
+		// TODO -- Refactor this method, and remove un-needed crap
 		parPriceLineJPanels.clear ();
 		parPrices.clear ();
 		parPricesJPanel.removeAll ();
