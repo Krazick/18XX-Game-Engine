@@ -794,9 +794,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	// Train Company will Override
-	public void tileWasPlaced (MapCell aMapCell, Tile aTile, int aOrientation, Tile aPreviousTile,
+	public void placeTileOnMapCell (MapCell aMapCell, Tile aTile, int aOrientation, Tile aPreviousTile,
 			int aPreviousTileOrientation, String aPreviousTokens, String aPreviousBases) {
-		System.err.println ("Trying to Verify Placed Tile as Corporation - WRONG");
+		System.err.println ("Trying to Verify Place a Tile on a MapCell as Corporation - WRONG");
 	}
 
 	// Token Company will Override

@@ -1551,7 +1551,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public void tileWasPlaced (MapCell aMapCell, Tile aTile, int aOrientation, Tile aPreviousTile,
+	public void placeTileOnMapCell (MapCell aMapCell, Tile aTile, int aOrientation, Tile aPreviousTile,
 			int aPreviousOrientation, String aPreviousTokens, String aPreviousBases) {
 		RemoveTileAction tRemoveTileAction;
 		LayTileAction tLayTileAction;
