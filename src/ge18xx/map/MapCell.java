@@ -1001,21 +1001,6 @@ public class MapCell implements Comparator<Object> {
 		tileOrient = aTileOrient;
 	}
 
-	public void pickupTile (TileSet aTileSet) {
-		Tile tTileOnMapCell;
-
-		if (isTileOnCell ()) {
-			// Tile on MapCell -- Need to return it to the Tile Set
-			tTileOnMapCell = getTile ();
-			removeTile ();
-			restoreTile (aTileSet, tTileOnMapCell);
-			hexMap.redrawMap ();
-			aTileSet.redrawTileTray ();
-		} else {
-			System.err.println ("No Tile on Hex to return");
-		}
-	}
-
 	public boolean canPlaceTile (TileSet aTileSet) {
 		boolean tCanPlaceTile = true;
 		GameTile tSelectedTile;

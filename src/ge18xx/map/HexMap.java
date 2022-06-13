@@ -1271,18 +1271,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tilePlaced;
 	}
 
-	public void pickupTile () {
-		MapCell tSelectedMapCell;
-
-		tSelectedMapCell = getSelectedMapCell ();
-		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
-			System.err.println ("Pickup Tile Button Selected, no Map Cell Selected from Frame");
-		} else {
-			tSelectedMapCell.pickupTile (tileSet);
-			setTilePlaced (false);
-		}
-	}
-
 	public void upgradeTile (MapCell aCurrentMapCell, Tile aNewTile) {
 		aCurrentMapCell.upgradeTile (tileSet, aNewTile);
 		redrawMap ();
