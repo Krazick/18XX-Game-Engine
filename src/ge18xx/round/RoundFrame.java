@@ -27,7 +27,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -63,7 +62,6 @@ public class RoundFrame extends XMLFrame {
 	JPanel trainSummaryJPanel;
 	JPanel roundInfoJPanel;
 	JPanel playersJPanel;
-	JScrollPane roundScrollPane;
 	JButton passButton;
 	JButton doButton;
 	JButton showGameEngineFrameButton;
@@ -119,8 +117,9 @@ public class RoundFrame extends XMLFrame {
 		roundJPanel.add (buttonsJPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
 
-		roundScrollPane = new JScrollPane (roundJPanel);
-		add (roundScrollPane);
+		buildScrollPane (roundJPanel);
+//		roundScrollPane = new JScrollPane (roundJPanel);
+//		add (scrollPane);
 	}
 
 	private void buildHeaderJPanel () {

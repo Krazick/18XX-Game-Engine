@@ -1,5 +1,7 @@
 package ge18xx.toplevel;
 
+import java.awt.BorderLayout;
+
 //  Game_18XX
 //
 //  Created by Mark Smith on 9/3/07.
@@ -38,27 +40,51 @@ public class TileTrayFrame extends XMLFrame {
 
 	private void buildTileTrayScrollPanel () {
 		tileSet = new TileSet (this);
-		buildScrollPane (tileSet);
+		buildScrollPane (tileSet, BorderLayout.CENTER);
 	}
 
+	private boolean validTileSet () {
+		return (tileSet != TileSet.NO_TILE_SET);
+	}
+	
 	public boolean addTile (Tile aTile, int aTotalCount) {
-		return tileSet.addTile (aTile, aTotalCount);
+		boolean tTileAdded;
+		
+		tTileAdded = false;
+		if (validTileSet ()) {
+			tTileAdded = tileSet.addTile (aTile, aTotalCount);
+		}
+		
+		return tTileAdded;
 	}
 
 	public void copyTileDefinitions (TileSet aTileDefinitions) {
-		tileSet.copyTileDefinitions (aTileDefinitions);
+		if (validTileSet ()) {
+			tileSet.copyTileDefinitions (aTileDefinitions);
+		}
 	}
 
 	public XMLElement createTileDefinitions (XMLDocument aXMLDocument) {
-		return (tileSet.createAllTileDefinitions (aXMLDocument));
+		XMLElement tXMLElement;
+		
+		tXMLElement = XMLElement.NO_XML_ELEMENT;
+		if (validTileSet ()) {
+			tXMLElement = tileSet.createAllTileDefinitions (aXMLDocument);
+		}
+		
+		return tXMLElement;
 	}
 
 	public Tile getTile (int aTileNumber) {
-		if (tileSet == TileSet.NO_TILE_SET) {
-			return null;
+		Tile tTile;
+		
+		if (validTileSet ()) {
+			tTile = tileSet.getTile (aTileNumber);
 		} else {
-			return tileSet.getTile (aTileNumber);
+			tTile = Tile.NO_TILE;
 		}
+		
+		return tTile;
 	}
 
 	public TileSet getTileSet () {

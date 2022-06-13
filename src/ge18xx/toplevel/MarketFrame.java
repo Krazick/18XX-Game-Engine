@@ -1,5 +1,7 @@
 package ge18xx.toplevel;
 
+import java.awt.BorderLayout;
+
 //
 //  MarketFrame.java
 //  Game_18XX
@@ -26,7 +28,7 @@ public class MarketFrame extends XMLFrame {
 		super (aFrameName, aGameManager.getActiveGameName ());
 
 		market = new Market (40, 40, aGameManager);
-		buildScrollPane (market);
+		buildScrollPane (market, BorderLayout.CENTER);
 	}
 
 	public XMLElement createMarketDefinitions (XMLDocument aXMLDocument) {

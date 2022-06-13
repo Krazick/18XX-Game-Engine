@@ -126,7 +126,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	private void buildMapScrollPanel () {
 		map = new HexMap (this);
-		buildScrollPane (map);
+		buildScrollPane (map, BorderLayout.CENTER);
 	}
 
 	private void buildNorthPanel () {
@@ -509,7 +509,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	ParsingRoutineI mapStateParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aMapCellNode) {
-			map.loadMapCellState (aMapCellNode);
+			if (map != HexMap.NO_HEX_MAP) {
+				map.loadMapCellState (aMapCellNode);
+			}
 		}
 	};
 

@@ -17,14 +17,13 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.IOException;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
@@ -64,10 +63,19 @@ public class XMLFrame extends JFrame {
 		return gameName;
 	}
 
-	public void buildScrollPane (JLabel aImage) {
+	public void buildScrollPane (JComponent aImage) {
+		buildScrollPane (aImage, null);
+	}
+	
+	public void buildScrollPane (JComponent aImage, String aBorderLayout) {
 		scrollPane = new JScrollPane ();
 		scrollPane.setViewportView (aImage);
-		add (scrollPane, BorderLayout.CENTER);
+//		add (scrollPane, BorderLayout.CENTER);
+		if (aBorderLayout != null) {
+			add (scrollPane, aBorderLayout);
+		} else {
+			add (scrollPane);
+		}
 	}
 	
 	public String extractFrameName () {
