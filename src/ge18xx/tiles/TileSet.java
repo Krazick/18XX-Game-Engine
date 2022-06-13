@@ -388,74 +388,84 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	}
 
 	@Override
-	public void paintComponent (Graphics g) {
-		int X, Y, Xoffset, Yoffset, index, XNum, YNum, YNumOffset;
-		int valueWidth;
+	public void paintComponent (Graphics aGraphics) {
+		int tX, tY, Xoffset, Yoffset, index, tYNumOffset;
 		int tWidth, tHeight;
 		Tile tTile;
-		int tTileOrient;
-		String idLabel;
 
 		Xoffset = new Double (Hex.getWidth () * 2.25).intValue ();
 		Yoffset = hex.getYd () * 2 + 25;
-		YNumOffset = hex.getYd () + 17;
+		tYNumOffset = hex.getYd () + 17;
 		tWidth = Hex.getWidth ();
 		tHeight = hex.getYd () + 5;
-		X = Xoffset - tWidth;
-		Y = Yoffset - tHeight;
+		tX = Xoffset - tWidth;
+		tY = Yoffset - tHeight;
 		index = 0;
+		System.out.println ("Painting the TILE SET " + Xoffset + ", " + Yoffset);
+		System.out.println ("Scroll Pane Dimension " + tileTrayFrame.getPreferredSize ());
 		for (GameTile tGameTile : gameTiles) {
-			tGameTile.setXY (X, Y);
+			tGameTile.setXY (tX, tY);
 			tTile = tGameTile.getTile ();
 			if (tTile != Tile.NO_TILE) {
 				if (showThisTile (tTile)) {
-					setBackgroundForTile (g, X, Y, tWidth, tHeight, tGameTile);
-					tTileOrient = tGameTile.getTileOrient ();
-					tTile.paintComponent (g, tTileOrient, hex, new Feature2 ());
-					hex.drawRotateRightArrow (g, X, Y);
-					tGameTile.drawSelected (g, hex);
-					idLabel = tTile.getNumberToString ();
-					idLabel = idLabel + " [" + tGameTile.getTotalAndAvailable () + "]";
-					valueWidth = g.getFontMetrics ().stringWidth (idLabel);
-					XNum = X - valueWidth / 2;
-					YNum = Y + YNumOffset;
-					if (tGameTile.availableCount () > 0) {
-						g.setColor (Color.BLACK);
-					} else {
-						g.setColor (Color.RED);
-					}
-					g.drawString (idLabel, XNum, YNum);
+					drawThisTile (aGraphics, tX, tY, tYNumOffset, tWidth, tHeight, tTile, tGameTile);
 				}
 			}
 			index++;
 			if (index == TILES_PER_ROW) {
-				X = Xoffset - tWidth;
-				Y += Yoffset;
+				tX = Xoffset - tWidth;
+				tY += Yoffset;
 				index = 0;
 			} else {
-				X += Xoffset;
+				tX += Xoffset;
 			}
 		}
 	}
 
-	private void setBackgroundForTile (Graphics g, int X, int Y, int aWidth, int aHeight, GameTile aGameTile) {
+	private void drawThisTile (Graphics aGraphics, int aX, int aY, int aYNumOffset, 
+				int aWidth, int aHeight, Tile aTile, GameTile aGameTile) {
+		int XNum;
+		int YNum;
+		int valueWidth;
+		int tTileOrient;
+		String idLabel;
+		
+		setBackgroundForTile (aGraphics, aX, aY, aWidth, aHeight, aGameTile);
+		tTileOrient = aGameTile.getTileOrient ();
+		aTile.paintComponent (aGraphics, tTileOrient, hex, new Feature2 ());
+		hex.drawRotateRightArrow (aGraphics, aX, aY);
+		aGameTile.drawSelected (aGraphics, hex);
+		idLabel = aTile.getNumberToString ();
+		idLabel = idLabel + " [" + aGameTile.getTotalAndAvailable () + "]";
+		valueWidth = aGraphics.getFontMetrics ().stringWidth (idLabel);
+		XNum = aX - valueWidth / 2;
+		YNum = aY + aYNumOffset;
+		if (aGameTile.availableCount () > 0) {
+			aGraphics.setColor (Color.BLACK);
+		} else {
+			aGraphics.setColor (Color.RED);
+		}
+		aGraphics.drawString (idLabel, XNum, YNum);
+	}
+
+	private void setBackgroundForTile (Graphics aGraphics, int aX, int aY, int aWidth, int aHeight, GameTile aGameTile) {
 		int XUpperLeft;
 		int YUpperLeft;
-		XUpperLeft = X - aWidth;
-		YUpperLeft = Y - aHeight;
-
+		
+		XUpperLeft = aX - aWidth;
+		YUpperLeft = aY - aHeight;
 		if (tileTrayFrame.isUpgradeAllowed (aGameTile)) {
 			if (aGameTile.isPlayable ()) {
 				if (aGameTile.availableCount () > 0) {
-					g.setColor (Color.ORANGE);
+					aGraphics.setColor (Color.ORANGE);
 				} else {
-					g.setColor (Color.LIGHT_GRAY);
+					aGraphics.setColor (Color.LIGHT_GRAY);
 				}
-				g.fillRect (XUpperLeft, YUpperLeft, aWidth * 2, aHeight * 2);
+				aGraphics.fillRect (XUpperLeft, YUpperLeft, aWidth * 2, aHeight * 2);
 			}
 		} else {
-			g.setColor (Color.GRAY);
-			g.fillRect (XUpperLeft, YUpperLeft, aWidth * 2, aHeight * 2);
+			aGraphics.setColor (Color.GRAY);
+			aGraphics.fillRect (XUpperLeft, YUpperLeft, aWidth * 2, aHeight * 2);
 		}
 	}
 
@@ -823,22 +833,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		return tileCount;
 	}
 
-	public void setTraySize () {
-		int maxX, maxY, tileCount, rowCount;
-		Dimension tNewDimension;
-
-		if (hex == Hex.NO_HEX) {
-			setHex (Hex.getDirection ());
-		}
-		tileCount = getTileCountToShow ();
-		rowCount = new Double (tileCount / TILES_PER_ROW).intValue () + 1;
-		maxX = new Double (Hex.getWidth () * 2.25 * TILES_PER_ROW + 10).intValue ();
-		maxY = (hex.getYd () * 2 + 20) * rowCount;
-		tNewDimension = new Dimension (maxX, maxY);
-		System.out.println ("Ready to set ScrollPane PSize to " + maxX + ", " + maxY);
-		tileTrayFrame.setScrollPanePSize (tNewDimension);
-	}
-
 	public void setValues (String aSetName) {
 		gameTiles = new LinkedList<GameTile> ();
 		setName = aSetName;
@@ -860,6 +854,23 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			aGameTile.toggleSelected ();
 		}
 		tileTrayFrame.notifyMapFrame ();
+	}
+	
+	public void setTraySize () {
+		int maxX, maxY, tileCount, rowCount;
+		Dimension tNewDimension;
+
+		if (hex == Hex.NO_HEX) {
+			setHex (Hex.getDirection ());
+		}
+		tileCount = getTileCountToShow ();
+		rowCount = new Double (tileCount / TILES_PER_ROW).intValue () + 1;
+		maxX = new Double (Hex.getWidth () * 2.25 * TILES_PER_ROW + 10).intValue ();
+		maxY = (hex.getYd () * 2 + 20) * rowCount;
+		tNewDimension = new Dimension (maxX, maxY);
+		System.out.println ("Ready to set ScrollPane PSize to " + maxX + ", " + maxY);
+		tileTrayFrame.setScrollPanePSize (tNewDimension);
+		setPreferredSize (tNewDimension);
 	}
 
 	ParsingRoutineI tileSetParsingRoutine = new ParsingRoutineI () {

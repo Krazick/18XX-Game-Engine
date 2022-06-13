@@ -25,7 +25,6 @@ import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
 public class XMLFrame extends JFrame {
 	public static enum Visibility {
@@ -70,7 +69,6 @@ public class XMLFrame extends JFrame {
 	public void buildScrollPane (JComponent aImage, String aBorderLayout) {
 		scrollPane = new JScrollPane ();
 		scrollPane.setViewportView (aImage);
-//		add (scrollPane, BorderLayout.CENTER);
 		if (aBorderLayout != null) {
 			add (scrollPane, aBorderLayout);
 		} else {
@@ -284,10 +282,8 @@ public class XMLFrame extends JFrame {
 
 	public void setScrollPanePSize (Dimension tNewDimension) {
 		if (scrollPane != null) {
-			System.out.println ("Setting Scroll Pane Size");
+			System.out.println ("Setting Scroll Pane Size " + tNewDimension);
 			scrollPane.setPreferredSize (tNewDimension);
-			scrollPane.setVerticalScrollBarPolicy (ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			scrollPane.setHorizontalScrollBarPolicy (ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			scrollPane.revalidate ();
 		}
 	}

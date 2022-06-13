@@ -103,10 +103,6 @@ public class TileTrayFrame extends XMLFrame {
 		gameManager.bringMapToFront ();
 	}
 
-	public void setTraySize () {
-		tileSet.setTraySize ();
-	}
-
 	public void setValues (String aSetName) {
 		tileSet.setValues (aSetName);
 	}
