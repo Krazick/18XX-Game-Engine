@@ -1012,7 +1012,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tileTrayFrame.getTileSet ();
 	}
 
-	public TileTrayFrame getTileTrayFrame () {
+	public XMLFrame getTileTrayFrame () {
 		return tileTrayFrame;
 	}
 
