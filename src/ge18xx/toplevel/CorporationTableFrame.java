@@ -13,7 +13,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class CorporationTableFrame extends TableFrame {
+public class CorporationTableFrame extends XMLFrame {
 	public static final ElementName EN_COMPANIES = new ElementName ("Companies");
 	public static final CorporationTableFrame NO_CORP_TABLE_FRAME = null;
 	private static final long serialVersionUID = 1L;
@@ -26,7 +26,7 @@ public class CorporationTableFrame extends TableFrame {
 
 		companies = new CorporationList (aTypeName, aRoundManager);
 		tTable = companies.getJTable ();
-		setScrollPane (tTable);
+		buildScrollPane (tTable);
 	}
 
 	public boolean anyPrivatesUnowned () {

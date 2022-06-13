@@ -14,7 +14,7 @@ import ge18xx.utilities.XMLElement;
 
 import javax.swing.JTable;
 
-public class CitiesFrame extends TableFrame {
+public class CitiesFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
 	CityList cities;
 
@@ -24,7 +24,7 @@ public class CitiesFrame extends TableFrame {
 
 		cities = new CityList ();
 		tTable = cities.getJTable ();
-		setScrollPane (tTable);
+		buildScrollPane (tTable);
 	}
 
 	public XMLElement createCitiesListDefinitions (XMLDocument aXMLDocument) {

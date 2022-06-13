@@ -20,10 +20,11 @@ import ge18xx.bank.StartPacketFrame;
 import ge18xx.bank.StartPacketRow;
 import ge18xx.company.Certificate;
 import ge18xx.player.Portfolio;
-import ge18xx.toplevel.TableFrame;
+//import ge18xx.toplevel.TableFrame;
+import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.TrainPortfolio;
 
-public class ButtonsInfoFrame extends TableFrame {
+public class ButtonsInfoFrame extends XMLFrame {
 
 	/**
 	 * 
@@ -109,7 +110,7 @@ public class ButtonsInfoFrame extends TableFrame {
 		buttonsTable.setAutoResizeMode (JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		setCalculatedSize ();
-		setScrollPane (buttonsTable);
+		buildScrollPane (buttonsTable);
 	}
 
 	private void setCalculatedSize () {

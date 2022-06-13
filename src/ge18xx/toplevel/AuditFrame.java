@@ -27,7 +27,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActorTypes;
 
-public class AuditFrame extends TableFrame implements ItemListener, ActionListener {
+public class AuditFrame extends XMLFrame implements ItemListener, ActionListener {
 	DefaultTableModel auditModel = new DefaultTableModel (0, 0);
 	private String REFRESH_LIST = "REFRESH LIST";
 	private String DRAW_LINE_GRAPH = "DRAW_LINE_GRAPH";
@@ -120,7 +120,7 @@ public class AuditFrame extends TableFrame implements ItemListener, ActionListen
 		setColumnAlign (6, SwingConstants.RIGHT);
 		setLocation (100, 100);
 		setSize (aTotalWidth, 400);
-		setScrollPane (auditTable);
+		buildScrollPane (auditTable);
 	}
 
 	private void setColumnAlign (int aColumnIndex, int tAlignment) {
