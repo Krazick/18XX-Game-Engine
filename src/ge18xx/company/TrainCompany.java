@@ -1580,7 +1580,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		if (aPreviousTile != Tile.NO_TILE) {
 			tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-			tRemoveTileAction.addTileRemoveEffect (this, aMapCell, aPreviousTile, aPreviousOrientation, aPreviousTokens,
+			tRemoveTileAction.addRemoveTileEffect (this, aMapCell, aPreviousTile, aPreviousOrientation, aPreviousTokens,
 					aPreviousBases);
 			tRemoveTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			addAction (tRemoveTileAction);

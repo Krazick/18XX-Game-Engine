@@ -26,7 +26,7 @@ public class RemoveTileAction extends ChangeMapAction {
 		setName (NAME);
 	}
 
-	public void addTileRemoveEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation,
+	public void addRemoveTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation,
 			String aPreviousTokens, String aPreviousBases) {
 		ChangeTileEffect tTileRemoveEffect;
 
