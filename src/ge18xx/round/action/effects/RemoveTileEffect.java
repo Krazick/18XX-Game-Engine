@@ -86,6 +86,7 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		tGameMap = aRoundManager.getGameMap ();
 		tMapCell = getMapCell (tGameMap);
 		tMapCell.putTile (tTile, orientation);
+		tMapCell.lockTileOrientation ();
 		applyBases (aRoundManager, tMapCell);
 		applyTokens (aRoundManager, tMapCell);
 		tGameMap.redrawMap ();
