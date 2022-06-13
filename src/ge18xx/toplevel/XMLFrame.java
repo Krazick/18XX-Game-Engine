@@ -280,10 +280,9 @@ public class XMLFrame extends JFrame {
 		revalidate ();
 	}
 
-	public void setScrollPanePSize (Dimension tNewDimension) {
+	public void setScrollPanePSize (Dimension aNewDimension) {
 		if (scrollPane != null) {
-			System.out.println ("Setting Scroll Pane Size " + tNewDimension);
-			scrollPane.setPreferredSize (tNewDimension);
+			scrollPane.setPreferredSize (aNewDimension);
 			scrollPane.revalidate ();
 		}
 	}
