@@ -14,20 +14,14 @@ import ge18xx.tiles.TileType;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 
-import java.awt.Dimension;
-
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-
 public class TileTrayFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
 //	private final int TILE_WIDTH = 92; 		// # of Pixels Wide per Tile
 //	private final int TILE_HEIGHT = 115; 	// # of Pixels Height per Tile
 	public static final String BASE_TITLE = "Tile Tray";
-	public static final TileTrayFrame NO_TILE_TRAY_FRAME = null;
+	public static final XMLFrame NO_TILE_TRAY_FRAME = null;
 	TileSet tileSet;
 	GameManager gameManager;
-	JScrollPane scrollPane;
 
 	public TileTrayFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getActiveGameName ());
@@ -44,7 +38,7 @@ public class TileTrayFrame extends XMLFrame {
 
 	private void buildTileTrayScrollPanel () {
 		tileSet = new TileSet (this);
-		scrollPane = buildScrollPane (tileSet);
+		buildScrollPane (tileSet);
 	}
 
 	public boolean addTile (Tile aTile, int aTotalCount) {
@@ -99,13 +93,5 @@ public class TileTrayFrame extends XMLFrame {
 		tUpgradeAllowed = gameManager.isUpgradeAllowed (tTileColor);
 
 		return tUpgradeAllowed;
-	}
-
-	public void setScrollPanePSize (Dimension tNewDimension) {
-		if (scrollPane != null) {
-			scrollPane.setPreferredSize (tNewDimension);
-			scrollPane.setVerticalScrollBarPolicy (ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			scrollPane.setHorizontalScrollBarPolicy (ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		}
 	}
 }

@@ -835,6 +835,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		maxX = new Double (Hex.getWidth () * 2.25 * TILES_PER_ROW + 10).intValue ();
 		maxY = (hex.getYd () * 2 + 20) * rowCount;
 		tNewDimension = new Dimension (maxX, maxY);
+		System.out.println ("Ready to set ScrollPane PSize to " + maxX + ", " + maxY);
 		tileTrayFrame.setScrollPanePSize (tNewDimension);
 	}
 

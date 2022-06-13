@@ -18,6 +18,7 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.IOException;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class XMLFrame extends JFrame {
 	public static enum Visibility {
@@ -40,6 +42,7 @@ public class XMLFrame extends JFrame {
 	int defaultHexSize;
 	boolean defaultVisible;
 	String gameName;
+	JScrollPane scrollPane;
 
 	public XMLFrame (String aFrameName) {
 		this (aFrameName, GameManager.NO_GAME_NAME);
@@ -61,14 +64,10 @@ public class XMLFrame extends JFrame {
 		return gameName;
 	}
 
-	public JScrollPane buildScrollPane (JLabel aImage) {
-		JScrollPane tScrollPane;
-		
-		tScrollPane = new JScrollPane ();
-		tScrollPane.setViewportView (aImage);
-		add (tScrollPane, BorderLayout.CENTER);
-		
-		return tScrollPane;
+	public void buildScrollPane (JLabel aImage) {
+		scrollPane = new JScrollPane ();
+		scrollPane.setViewportView (aImage);
+		add (scrollPane, BorderLayout.CENTER);
 	}
 	
 	public String extractFrameName () {
@@ -273,6 +272,16 @@ public class XMLFrame extends JFrame {
 		toTheFront ();
 		pack ();
 		revalidate ();
+	}
+
+	public void setScrollPanePSize (Dimension tNewDimension) {
+		if (scrollPane != null) {
+			System.out.println ("Setting Scroll Pane Size");
+			scrollPane.setPreferredSize (tNewDimension);
+			scrollPane.setVerticalScrollBarPolicy (ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPane.setHorizontalScrollBarPolicy (ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scrollPane.revalidate ();
+		}
 	}
 
 }

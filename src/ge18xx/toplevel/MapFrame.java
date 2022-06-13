@@ -58,7 +58,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 
 import org.apache.logging.log4j.Logger;
@@ -98,7 +97,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	JPanel tokenButtons;
 	JPanel tileButtons;
 	JPanel allButtonsJPanel;
-	JScrollPane scrollPane;
 	GameManager gameManager;
 	RouteInformation routeInformation;
 	private String SELECT_ROUTE_MODE = "Select Route Mode";
@@ -128,7 +126,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	private void buildMapScrollPanel () {
 		map = new HexMap (this);
-		scrollPane = buildScrollPane (map);
+		buildScrollPane (map);
 	}
 
 	private void buildNorthPanel () {
