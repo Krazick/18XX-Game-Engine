@@ -1802,8 +1802,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 			createCities ();
 			createTileTray ();
 			createMap ();
-
-			tileTrayFrame.setTraySize ();
 		}
 	}
 
