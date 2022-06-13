@@ -17,11 +17,14 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
+import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
 public class XMLFrame extends JFrame {
 	public static enum Visibility {
@@ -58,6 +61,16 @@ public class XMLFrame extends JFrame {
 		return gameName;
 	}
 
+	public JScrollPane buildScrollPane (JLabel aImage) {
+		JScrollPane tScrollPane;
+		
+		tScrollPane = new JScrollPane ();
+		tScrollPane.setViewportView (aImage);
+		add (tScrollPane, BorderLayout.CENTER);
+		
+		return tScrollPane;
+	}
+	
 	public String extractFrameName () {
 		String tFrameName;
 		String tPattern = "^(.*) \\([A-Za-z][A-Za-z0-9_]*\\)$";

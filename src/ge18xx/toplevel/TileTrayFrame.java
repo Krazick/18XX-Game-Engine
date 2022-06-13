@@ -14,7 +14,6 @@ import ge18xx.tiles.TileType;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JScrollPane;
@@ -39,24 +38,13 @@ public class TileTrayFrame extends XMLFrame {
 		// Height - 115 Pixels per Row
 		// Count types of tiles, and divide by TILES/ROW, round up, to get how many rows
 		// need to show
-		// Should change based upon phase (and tiles available/to be shown)
-//		tNumRows = 4;  
-//		tWidth = TILE_WIDTH * TileSet.TILES_PER_ROW;
-//		tHeight = TILE_HEIGHT * tNumRows;
-//		tDimension = new Dimension (tWidth, tHeight);
-//		
-//		setScrollPanePSize (tDimension);
 
 		gameManager = aGameManager;
 	}
 
 	private void buildTileTrayScrollPanel () {
 		tileSet = new TileSet (this);
-		scrollPane = new JScrollPane ();
-		scrollPane.setViewportView (tileSet);
-		scrollPane.setHorizontalScrollBarPolicy (JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane.setVerticalScrollBarPolicy (JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		add (scrollPane, BorderLayout.CENTER);
+		scrollPane = buildScrollPane (tileSet);
 	}
 
 	public boolean addTile (Tile aTile, int aTotalCount) {
@@ -114,8 +102,10 @@ public class TileTrayFrame extends XMLFrame {
 	}
 
 	public void setScrollPanePSize (Dimension tNewDimension) {
-		scrollPane.setPreferredSize (tNewDimension);
-		scrollPane.setVerticalScrollBarPolicy (ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setHorizontalScrollBarPolicy (ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		if (scrollPane != null) {
+			scrollPane.setPreferredSize (tNewDimension);
+			scrollPane.setVerticalScrollBarPolicy (ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPane.setHorizontalScrollBarPolicy (ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		}
 	}
 }

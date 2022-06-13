@@ -18,24 +18,18 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
 import javax.swing.JScrollPane;
 
 public class MarketFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;
 	Market market;
+	JScrollPane scrollPane;
 
 	public MarketFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getActiveGameName ());
-		JScrollPane scrollPane;
 
 		market = new Market (40, 40, aGameManager);
-		scrollPane = new JScrollPane ();
-		scrollPane.setViewportView (market);
-		scrollPane.setPreferredSize (new Dimension (300, 300));
-		add (scrollPane, BorderLayout.CENTER);
+		scrollPane = buildScrollPane (market);
 	}
 
 	public XMLElement createMarketDefinitions (XMLDocument aXMLDocument) {

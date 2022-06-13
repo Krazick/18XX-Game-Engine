@@ -128,9 +128,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	private void buildMapScrollPanel () {
 		map = new HexMap (this);
-		scrollPane = new JScrollPane ();
-		scrollPane.setViewportView (map);
-		add (scrollPane, BorderLayout.CENTER);
+		scrollPane = buildScrollPane (map);
 	}
 
 	private void buildNorthPanel () {
