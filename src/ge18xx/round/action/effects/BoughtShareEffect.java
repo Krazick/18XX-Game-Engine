@@ -60,9 +60,7 @@ public class BoughtShareEffect extends Effect {
 			tPlayer.setBoughtShare (true);
 			tEffectApplied = true;
 		}
-		if (actor.isACorporation ()) {
-			tEffectApplied = true;
-		}
+		// If the Actor is NOT A Player, this Effect should not have been Added, so Complain
 
 		return tEffectApplied;
 	}
@@ -78,6 +76,7 @@ public class BoughtShareEffect extends Effect {
 			tPlayer.setBoughtShare (false);
 			tEffectUndone = true;
 		}
+		// If the Actor is NOT A Player, this Effect should not have been Added, so Complain
 
 		return tEffectUndone;
 	}
