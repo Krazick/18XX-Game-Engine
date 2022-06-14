@@ -5,12 +5,10 @@ import java.awt.event.ItemListener;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
-import ge18xx.game.GameManager;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
-import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.OperatingRound;
@@ -667,34 +665,6 @@ public class ShareCompany extends TokenCompany {
 		CorporationFrame tCorporationFrame;
 
 		corporationList.clearPrivateSelections ();
-		tCorporationFrame = getCorporationFrame ();
-		tCorporationFrame.updateInfo ();
-	}
-
-	public void buyPrivateCompany (Player aOwningPlayer, PrivateCompany aPrivateCompany, int aCashValue) {
-		Portfolio tCompanyPortfolio;
-		Portfolio tPlayerPortfolio;
-		BuyStockAction tBuyStockAction;
-		CorporationFrame tCorporationFrame;
-		Certificate tCertificate;
-		String tOperatingRoundID;
-		GameManager tGameManager;
-		boolean tCurrentNotify;
-
-		tGameManager = corporationList.getGameManager ();
-		tOperatingRoundID = "X.X";
-		tCertificate = aOwningPlayer.getPresidentCertificateFor (aPrivateCompany);
-		tBuyStockAction = new BuyStockAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-		transferCashTo (aOwningPlayer, aCashValue);
-		tBuyStockAction.addCashTransferEffect (this, aOwningPlayer, aCashValue);
-		tCompanyPortfolio = getPortfolio ();
-		tPlayerPortfolio = aOwningPlayer.getPortfolio ();
-		doFinalShareBuySteps (tCompanyPortfolio, tPlayerPortfolio, tCertificate, tBuyStockAction);
-		tBuyStockAction.addBoughtShareEffect (this);
-		tCurrentNotify = tGameManager.getNotifyNetwork ();
-		tGameManager.setNotifyNetwork (true);
-		addAction (tBuyStockAction);
-		tGameManager.setNotifyNetwork (tCurrentNotify);
 		tCorporationFrame = getCorporationFrame ();
 		tCorporationFrame.updateInfo ();
 	}
