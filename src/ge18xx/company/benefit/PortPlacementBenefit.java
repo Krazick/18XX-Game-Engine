@@ -118,12 +118,9 @@ public class PortPlacementBenefit extends MapBenefit {
 		if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
 			disableButton ();
 			setToolTip ("Another Benefit is currently in Use");
-		} else if (!hasTile ()) {
-			disableButton ();
-			setToolTip ("No Tile on the MapCell, can't place Port Token");
 		} else {
 			enableButton ();
-			setToolTip ("All Good");
+			setToolTip ("Ready for Port Placement");
 		}
 	}
 }
