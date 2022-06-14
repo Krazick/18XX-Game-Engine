@@ -145,7 +145,6 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		tCompanyPortfolio = trainCompany.getPortfolio ();
 		tPlayerPortfolio = aOwningPlayer.getPortfolio ();
 		doFinalShareBuySteps (tCompanyPortfolio, tPlayerPortfolio, certificate, tBuyStockAction);
-		tBuyStockAction.addBoughtShareEffect (trainCompany);
 		trainCompany.addAction (tBuyStockAction);
 		tCorporationFrame = trainCompany.getCorporationFrame ();
 		tCorporationFrame.updateInfo ();
