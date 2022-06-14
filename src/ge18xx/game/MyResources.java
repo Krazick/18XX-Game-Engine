@@ -32,5 +32,5 @@ public class MyResources extends ListResourceBundle {
 			{ "showRoundFrameItem", "Show Round Frame" }, { "showAuditFrameItem", "Show Audit Frame" },
 			{ "showActionReportFrameItem", "Show Action Report Frame" }, { "frameTitle", "18XX Game Engine" },
 			{ "configDir", "18XX XML Data" }, { "iconImage", "images/GE18XX.png" },
-			{ "GameSetXMLFile", "18xx Games.xml" }, { "version", "0.7.14 Beta" } };
+			{ "GameSetXMLFile", "18xx Games.xml" }, { "version", "0.7.15 Beta" } };
 }
