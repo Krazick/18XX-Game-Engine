@@ -1,6 +1,9 @@
 package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
+import ge18xx.player.Player;
+import ge18xx.player.PlayerManager;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ExchangePrezShareEffect;
 import ge18xx.round.action.effects.NewPriorityPlayerEffect;
 import ge18xx.utilities.XMLNode;
@@ -44,5 +47,23 @@ public class DonePlayerAction extends ChangeStateAction {
 		tSimpleActionReport = actor.getName () + " is Done.";
 
 		return tSimpleActionReport;
+	}
+	
+	@Override
+	public boolean undoAction (RoundManager aRoundManager) {
+		boolean tActionUndone;
+		Player tCurrentPlayer;
+		PlayerManager tPlayerManager;
+		
+		tPlayerManager = aRoundManager.getPlayerManager ();
+		tCurrentPlayer = tPlayerManager.getCurrentPlayer ();
+		tCurrentPlayer.hidePlayerFrame ();
+		
+		tActionUndone = super.undoAction (aRoundManager);
+	
+		tCurrentPlayer = tPlayerManager.getCurrentPlayer ();
+		tCurrentPlayer.showPlayerFrame ();
+
+		return tActionUndone;
 	}
 }
