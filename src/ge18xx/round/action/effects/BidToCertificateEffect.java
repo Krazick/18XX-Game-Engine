@@ -80,13 +80,26 @@ public class BidToCertificateEffect extends Effect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
+		boolean tPresidentShare;
+		int tPercentage;
+		Certificate tCertificate;
+		String tFailureReason;
 
 		tEffectUndone = false;
-		Certificate tCertificate;
-
-		tCertificate = aRoundManager.getCertificate (certificateName, 100, true);
-		tCertificate.removeBidder ((CashHolderI) actor);
-		tEffectUndone = true;
+		tPercentage = 100;
+		tPresidentShare = true;
+		tCertificate = aRoundManager.getCertificate (certificateName, tPercentage, tPresidentShare);
+		if (tCertificate != Certificate.NO_CERTIFICATE) {
+			tCertificate.removeBidder ((CashHolderI) actor);
+			tEffectUndone = true;
+		} else {
+			tFailureReason = "Certificate " + certificateName + " " + tPercentage + "% that is ";
+			if (! tPresidentShare) {
+				tFailureReason += "NOT ";
+			}
+			tFailureReason += "the President Share";
+			setUndoFailureReason (tFailureReason);
+		}
 
 		return tEffectUndone;
 	}
