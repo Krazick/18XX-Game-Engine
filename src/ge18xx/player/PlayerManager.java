@@ -820,7 +820,7 @@ public class PlayerManager {
 		aPlayer.updatePortfolioInfo ();
 		stockRound.setPriorityPlayer (tNextPlayerIndex);
 		stockRound.updateRFPlayerLabel (tOldPriorityPlayer);
-
+		tDonePlayerAction.setChainToPrevious (true);
 		addAction (tDonePlayerAction);
 		moveToNextPlayer (tNextPlayerIndex);
 		gameManager.resetRoundFrameBackgrounds ();
