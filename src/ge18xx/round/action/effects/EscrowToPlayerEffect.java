@@ -4,6 +4,7 @@ import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.player.Escrow;
 import ge18xx.player.EscrowHolderI;
+import ge18xx.player.Escrows;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -99,8 +100,10 @@ public class EscrowToPlayerEffect extends Effect {
 
 		tEffectUndone = false;
 		tPlayer = (Player) actor;
-		tPlayer.removeEscrow (escrow);
-		tEffectUndone = true;
+		tEffectUndone = tPlayer.removeEscrow (escrow, Escrows.ESCROW_CLOSE_MATCH);
+		if (! tEffectUndone) {
+			setUndoFailureReason ("Escrow was not removed");
+		}
 
 		return tEffectUndone;
 	}

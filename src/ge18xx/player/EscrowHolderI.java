@@ -7,7 +7,7 @@ public interface EscrowHolderI extends CashHolderI {
 
 	Bank getBank ();
 
-	void removeEscrow (Escrow escrow, boolean escrowCloseMatch);
+	boolean removeEscrow (Escrow escrow, boolean escrowCloseMatch);
 
 	Escrow addEscrowInfo (Certificate tCertificate, int tCash);
 
