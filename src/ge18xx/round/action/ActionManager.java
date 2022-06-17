@@ -427,6 +427,7 @@ public class ActionManager {
 		boolean tLastActionUndone;
 
 		tLastActionUndone = undoLastAction (aRoundManager, true);
+		aRoundManager.updateAllFrames ();
 		removeUndoneActionsFromNetwork ();
 
 		return tLastActionUndone;
@@ -449,7 +450,7 @@ public class ActionManager {
 				tLastActionUndone = undoLastAction (aRoundManager, false);
 			}
 		}
-		aRoundManager.updateAllFrames ();
+//		aRoundManager.updateAllFrames ();
 
 		return tLastActionUndone;
 	}
