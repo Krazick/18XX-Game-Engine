@@ -820,7 +820,6 @@ public class PlayerManager {
 		aPlayer.updatePortfolioInfo ();
 		stockRound.setPriorityPlayer (tNextPlayerIndex);
 		stockRound.updateRFPlayerLabel (tOldPriorityPlayer);
-		tDonePlayerAction.setChainToPrevious (true);
 		addAction (tDonePlayerAction);
 		moveToNextPlayer (tNextPlayerIndex);
 		gameManager.resetRoundFrameBackgrounds ();
@@ -1393,12 +1392,12 @@ public class PlayerManager {
 	public void undoAction (Player aPlayer) {
 		boolean tActionUndone;
 		Action tActionToUndo;
-		Action tLastActionDone;
+//		Action tLastActionDone;
 		Player tCurrentPlayer;
-		String tLastActionActor, tUndoneActionActor;
+//		String tLastActionActor, tUndoneActionActor;
 
 		tActionToUndo = stockRound.getLastAction ();
-		tUndoneActionActor = tActionToUndo.getActorName ();
+//		tUndoneActionActor = tActionToUndo.getActorName ();
 		tActionUndone = stockRound.undoLastAction ();
 		if (tActionUndone) {
 			aPlayer.updatePlayerInfo ();
@@ -1409,13 +1408,13 @@ public class PlayerManager {
 				tCurrentPlayer.showPlayerFrame ();
 				tCurrentPlayer.updatePlayerInfo ();
 			}
-			tLastActionDone = stockRound.getLastAction ();
-			if (tLastActionDone != Action.NO_ACTION) {
-				tLastActionActor = tLastActionDone.getActorName ();
-				if (!tLastActionActor.equals (tUndoneActionActor)) {
-					aPlayer.hidePlayerFrame ();
-				}
-			}
+//			tLastActionDone = stockRound.getLastAction ();
+//			if (tLastActionDone != Action.NO_ACTION) {
+//				tLastActionActor = tLastActionDone.getActorName ();
+//				if (!tLastActionActor.equals (tUndoneActionActor)) {
+//					aPlayer.hidePlayerFrame ();
+//				}
+//			}
 			System.out.println ("Last Action undone successfully");
 		} else {
 			System.err.println ("**** Undo Action failed ****");
@@ -1476,6 +1475,10 @@ public class PlayerManager {
 		return tIsParPriceFrameActive;
 	}
 
+	public boolean isNetworkGame () {
+		return gameManager.isNetworkGame ();
+	}
+	
 	public boolean isNetworkAndIsThisClient (String aPlayerName) {
 		return gameManager.isNetworkAndIsThisClient (aPlayerName);
 	}
