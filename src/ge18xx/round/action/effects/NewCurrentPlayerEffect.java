@@ -1,6 +1,7 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.game.GameManager;
+import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.ActorI;
@@ -34,10 +35,13 @@ public class NewCurrentPlayerEffect extends ChangePlayerEffect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		StockRound tStockRound;
-
+		Player tPlayer;
+		
 		tEffectUndone = true;
 		tStockRound = aRoundManager.getStockRound ();
 		tStockRound.setCurrentPlayerIndexOnly (previousPlayerIndex);
+		tPlayer = tStockRound.getCurrentPlayer ();
+		tPlayer.showPlayerFrame ();
 
 		return tEffectUndone;
 	}
