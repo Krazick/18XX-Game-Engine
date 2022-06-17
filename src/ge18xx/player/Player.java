@@ -1217,15 +1217,17 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void showPlayerFrame () {
 		Point tOffsetRoundFramePoint;
 
-		if (!playerFrame.isLocationFixed ()) {
-			tOffsetRoundFramePoint = getOffsetRoundFramePoint ();
-			playerFrame.setLocation (tOffsetRoundFramePoint);
-			playerFrame.setLocationFixed (true);
+		if (playerManager.isNetworkAndIsThisClient (name) || ! playerManager.isNetworkGame ()) {
+			if (!playerFrame.isLocationFixed ()) {
+				tOffsetRoundFramePoint = getOffsetRoundFramePoint ();
+				playerFrame.setLocation (tOffsetRoundFramePoint);
+				playerFrame.setLocationFixed (true);
+			}
+			updatePlayerInfo ();
+	
+			playerFrame.setVisible (true);
+			playerFrame.setEnabled (true);
 		}
-		updatePlayerInfo ();
-
-		playerFrame.setVisible (true);
-		playerFrame.setEnabled (true);
 	}
 
 	public void refundEscrow (Certificate aCertificate, int aBidAmount, WinAuctionAction aWinAuctionAction) {
