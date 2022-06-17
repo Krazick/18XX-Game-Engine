@@ -265,11 +265,11 @@ public class Escrows {
 		}
 	}
 
-	public void removeEscrow (Escrow aEscrow) {
-		removeEscrow (aEscrow, ESCROW_EXACT_MATCH);
+	public boolean removeEscrow (Escrow aEscrow) {
+		return removeEscrow (aEscrow, ESCROW_EXACT_MATCH);
 	}
 
-	public void removeEscrow (Escrow aEscrow, boolean aMatchCriteria) {
+	public boolean removeEscrow (Escrow aEscrow, boolean aMatchCriteria) {
 		int tEscrowCount = escrows.size ();
 		Escrow tEscrow;
 		String tPassedEscrowCompany, tFoundEscrowCompany;
@@ -295,5 +295,7 @@ public class Escrows {
 				}
 			}
 		}
+		
+		return tEscrowRemoved;
 	}
 }
