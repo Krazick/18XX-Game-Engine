@@ -275,12 +275,17 @@ public abstract class Effect {
 	/**
 	 * Retrieve the Reason why the ApplyEffect call failed. 
 	 * 
-	 * @return The 
+	 * @return The Apply Effect Failure Reason
 	 */
 	public String getApplyFailureReason () {
 		return applyFailureReason;
 	}
 	
+	/**
+	 * Retrieve the Reason why the Undo Effect call failed. 
+	 * 
+	 * @return The Undo Effect Failure Reason
+	 */
 	public String getUndoFailureReason () {
 		return undoFailureReason;
 	}
