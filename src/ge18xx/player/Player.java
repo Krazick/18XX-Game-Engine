@@ -1253,13 +1253,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return escrows.addEscrowInfo (aCertificate, aAmount);
 	}
 
-	public void removeEscrow (Escrow aEscrow) {
-		escrows.removeEscrow (aEscrow, Escrows.ESCROW_EXACT_MATCH);
-	}
-
 	@Override
-	public void removeEscrow (Escrow aEscrow, boolean aMatchCriteria) {
-		escrows.removeEscrow (aEscrow, aMatchCriteria);
+	public boolean removeEscrow (Escrow aEscrow, boolean aMatchCriteria) {
+		return escrows.removeEscrow (aEscrow, aMatchCriteria);
 	}
 
 	public void raiseBid (Certificate aCertificate, int aRaise) {
