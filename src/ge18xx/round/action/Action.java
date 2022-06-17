@@ -323,12 +323,11 @@ public class Action {
 		tErrorCount = 0;
 		tEffectsUndoneCount = 0;
 		for (Effect tEffect : effects) {
-			System.out.println ("Trying to Undo " + name + " Effect: " + tEffect.getName ());
 			tEffectUndone = tEffect.undoEffect (aRoundManager);
 			if (tEffectUndone) {
 				tEffectsUndoneCount++;
 			} else {
-				tErrorReport = "Undoing Action " + name + " Effect: " + tEffect.getName () + " FAILED";
+				tErrorReport = "Undoing Action " + name + " Effect: " + tEffect.getName () + " FAILED\n";
 				tUndoFailureReason = tEffect.getUndoFailureReason ();
 				aRoundManager.appendErrorReport (tErrorReport);
 				aRoundManager.appendErrorReport (tUndoFailureReason);
@@ -341,16 +340,16 @@ public class Action {
 		aRoundManager.updateAllCorporationsBox ();
 		if (tActionUndone) {
 			if (tEffectsUndoneCount == 1) {
-				tReport = "There was 1 Effect that was successfully Undone";
+				tReport = "There was 1 Effect that was successfully Undone\n";
 			} else {
-				tReport = "There were " + tEffectsUndoneCount + " Effects that were successfully Undone";
+				tReport = "There were " + tEffectsUndoneCount + " Effects that were successfully Undone\n";
 			}
 			aRoundManager.appendReport (tReport);
 		} else {
 			if (tErrorCount == 1) {
-				tReport = "There was 1 Effect that Failed the Undo Effect Step";
+				tReport = "There was 1 Effect that Failed the Undo Effect Step\n";
 			} else {
-				tReport = "There were " + tErrorCount + " Effects that Failed the Undo Effect Steps";
+				tReport = "There were " + tErrorCount + " Effects that Failed the Undo Effect Steps\n";
 			}
 			aRoundManager.appendReport (tReport);
 		}
