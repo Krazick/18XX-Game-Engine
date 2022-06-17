@@ -61,7 +61,7 @@ public class ActionReportFrame extends XMLFrame {
 	 * 
 	 */
 	public void appendErrorReport (String aErrorReport) {
-		append ("\nERROR: " + aErrorReport + "\n", errorKeyWord);
+		append ("\nERROR: " + aErrorReport, errorKeyWord);
 	}
 
 	private void scrollToBottom () {
