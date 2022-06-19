@@ -1149,6 +1149,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					tMapCellID = tMapCell.getID ();
 					if (corporation.isTileAvailableForMapCell (tMapCell)) {
 						tDisableToolTipReason = String.format (HOME_NO_TILE, tMapCellID);
+						placeTokenButton.setActionCommand (PLACE_TOKEN);
 						placeTokenButton.setToolTipText (tDisableToolTipReason);
 					} else {
 						placeTokenButton.setText (SKIP_BASE_TOKEN);
@@ -1162,6 +1163,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					tDisableToolTipReason = String.format (HOME_NO_TILE, tMapCellID);
 					if (corporation.isTileAvailableForMapCell (tMapCell)) {
 						placeTokenButton.setEnabled (false);
+						placeTokenButton.setActionCommand (PLACE_TOKEN);
 						placeTokenButton.setToolTipText (tDisableToolTipReason);
 					} else {
 						placeTokenButton.setText (SKIP_BASE_TOKEN);
@@ -1170,6 +1172,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 						placeTokenButton.setToolTipText (GUI.NO_TOOL_TIP);
 					}
 				} else {
+					placeTokenButton.setActionCommand (PLACE_TOKEN);
 					placeTokenButton.setEnabled (true);
 					placeTokenButton.setToolTipText (GUI.NO_TOOL_TIP);
 				}
