@@ -447,7 +447,15 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	public boolean canBuyMultiple () {
-		return sharePrice.canBuyMultiple ();
+		boolean tCanBuyMultiple;
+		
+		if (sharePrice == MarketCell.NO_MARKET_CELL) {
+			tCanBuyMultiple = false;
+		} else {
+			tCanBuyMultiple = sharePrice.canBuyMultiple ();
+		}
+		
+		return tCanBuyMultiple;
 	}
 
 	public int getStartCol () {

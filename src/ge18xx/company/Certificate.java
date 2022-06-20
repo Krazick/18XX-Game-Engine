@@ -83,7 +83,6 @@ public class Certificate implements Comparable<Certificate> {
 	static final float X_LEFT_ALIGNMENT = 0.0f;
 	static final float X_CENTER_ALIGNMENT = 0.5f;
 	static final float X_RIGHT_ALIGNMENT = 1.0f;
-//	static final CertificateHolderI NO_OWNER = null;
 	public static final String NO_PAR_PRICE = "???";
 
 //	Border REDLINE_BORDER = BorderFactory.createLineBorder (Color.red);
@@ -350,7 +349,12 @@ public class Certificate implements Comparable<Certificate> {
 				if (tPlayerHasEnoughCash) {
 					tToolTip = NOT_ENOUGH_CASH;
 				} else if (tPlayerHasBoughtShare) {
-					tToolTip = ALREADY_BOUGHT;
+					if (canBuyMultiple ()) {
+						tPlayerHasBoughtShare = false;
+						tEnabled = true;
+					} else {
+						tToolTip = ALREADY_BOUGHT;
+					}
 				} else if (tPlayerHasBidOnThisCert) {
 					tToolTip = ALREADY_BID_ON_CERT;
 				} else if (tPlayerHasSoldThisCompany) {
