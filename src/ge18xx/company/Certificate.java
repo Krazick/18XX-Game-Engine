@@ -249,6 +249,7 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tHasMustBuyCertificate, tPlayerAtCertLimit;
 		String tCompanyAbbrev;
 		String tGroupName;
+		String tBoughtShare;
 		Integer [] tParValues;
 
 		if (aPlayer != Player.NO_PLAYER) {
@@ -349,9 +350,14 @@ public class Certificate implements Comparable<Certificate> {
 				if (tPlayerHasEnoughCash) {
 					tToolTip = NOT_ENOUGH_CASH;
 				} else if (tPlayerHasBoughtShare) {
+					tBoughtShare = aPlayer.boughtShare ();
 					if (canBuyMultiple ()) {
-						tPlayerHasBoughtShare = false;
-						tEnabled = true;
+						if (tBoughtShare.equals (tCompanyAbbrev)) {
+							tPlayerHasBoughtShare = false;
+							tEnabled = true;
+						} else {
+							tToolTip = ALREADY_BOUGHT;							
+						}
 					} else {
 						tToolTip = ALREADY_BOUGHT;
 					}
