@@ -1655,6 +1655,32 @@ public class Certificate implements Comparable<Certificate> {
 		return corporation.isLoading ();
 	}
 	
+	/**
+	 * Compare the Percentage of this Certificate with the Certificate Passed In.
+	 * If Same percentage, return Zero.
+	 * If Certificate passed in is Larger, Sort Certificate1 (this certificate) before the one passed in.
+	 * If Certificate passed in is smaller, Sort Certificate1 (this certificate) after the one passed in.
+	 * 
+	 * @param aCertificate The Certificate to compare too.
+	 * @return the integer Zero (same), SORT_CERT1_BEFORE_CERT2, SORT_CERT2_BEFORE CERT1
+	 * 
+	 */
+	public int comparePercentage (Certificate aCertificate) {
+		int tCertificatePercentage;
+		int tCompareResult;
+		
+		tCertificatePercentage = aCertificate.getPercentage ();
+		if (tCertificatePercentage == percentage) {
+			tCompareResult = 0;
+		} else if (tCertificatePercentage > percentage) {
+			tCompareResult = SORT_CERT1_BEFORE_CERT2;
+		} else {
+			tCompareResult = SORT_CERT2_BEFORE_CERT1;
+		}
+		
+		return tCompareResult;
+	}
+
 	public static Comparator<Certificate> CertificateActiveOrderComparator = new Comparator<Certificate> () {
 
 		@Override
@@ -1665,18 +1691,21 @@ public class Certificate implements Comparable<Certificate> {
 			
 			tCorporation1 = aCertificate1.getCorporation ();
 			tCorporation2 = aCertificate2.getCorporation ();
-			tActiveOrderValue = tCorporation1.compareFormed (tCorporation2);
-			if (tActiveOrderValue == 0) { // Both Companies are Formed
-				tActiveOrderValue = tCorporation1.compareActive (tCorporation2);
+			if (tCorporation1 == tCorporation2) {
+				tActiveOrderValue = aCertificate1.comparePercentage (aCertificate2);
+			} else {
+				tActiveOrderValue = tCorporation1.compareFormed (tCorporation2);
+				if (tActiveOrderValue == 0) { // Both Companies are Formed
+					tActiveOrderValue = tCorporation1.compareActive (tCorporation2);
+				}
+	
+				if (tActiveOrderValue == 0) {
+					tActiveOrderValue = tCorporation1.compareID (tCorporation2);
+				}
 			}
-
-			if (tActiveOrderValue == 0) {
-				tActiveOrderValue = tCorporation1.compareID (tCorporation2);
-			}
-
+			
 			// ascending order
 			return tActiveOrderValue;
 		}
 	};
-
 }
