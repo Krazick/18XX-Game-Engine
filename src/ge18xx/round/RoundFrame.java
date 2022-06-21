@@ -71,7 +71,6 @@ public class RoundFrame extends XMLFrame {
 	JLabel totalCashLabel;
 	JLabel parPriceLabel;
 	JLabel gameStateLabel;
-	List<JLabel> minStartup = new LinkedList<JLabel> ();
 	List<JLabel> parPrices = new LinkedList<JLabel> ();
 	List<JLabel> companiesAtPar = new LinkedList<JLabel> ();
 	List<JPanel> parPriceLineJPanels = new LinkedList<JPanel> ();
@@ -118,8 +117,6 @@ public class RoundFrame extends XMLFrame {
 		roundJPanel.add (Box.createVerticalGlue ());
 
 		buildScrollPane (roundJPanel);
-//		roundScrollPane = new JScrollPane (roundJPanel);
-//		add (scrollPane);
 	}
 
 	private void buildHeaderJPanel () {
@@ -162,47 +159,57 @@ public class RoundFrame extends XMLFrame {
 		int tMinToFloat;
 		int tParPriceIndex;
 		int tPrice;
-		int tMinStartupCash;
-		JPanel tParPriceLinePanel;
 		String [] tPrices;
-		String [] tMinStartup;
+		JPanel tParPriceLinePanel;
+		JLabel tPriceLabel;
+		JLabel tCompaniesAtParLabel;
 
-		// TODO -- Refactor this method, and remove un-needed crap
 		parPriceLineJPanels.clear ();
 		parPrices.clear ();
 		parPricesJPanel.removeAll ();
-		minStartup.clear ();
 		tGameManager = roundManager.getGameManager ();
 		tParPrices = tGameManager.getAllStartCells ();
 		tParPriceCount = tParPrices.length;
 		tMinToFloat = tGameManager.getMinSharesToFloat ();
 
 		tPrices = new String [tParPriceCount];
-		tMinStartup = new String [tParPriceCount];
+
 		for (tParPriceIndex = 0; tParPriceIndex < tParPriceCount; tParPriceIndex++) {
 			tPrice = tParPrices [tParPriceIndex].intValue ();
 			tPrices [tParPriceIndex] = Bank.formatCash (tPrice);
-			parPrices.add (new JLabel (tPrices [tParPriceIndex]));
-			companiesAtPar.add (new JLabel (""));
+			tPriceLabel = new JLabel (tPrices [tParPriceIndex]);
+			parPrices.add (tPriceLabel);
+			tCompaniesAtParLabel = new JLabel ("");
+			companiesAtPar.add (tCompaniesAtParLabel);
 
-			tMinStartupCash = tMinToFloat * tPrice;
-			tMinStartup [tParPriceIndex] = "[" + tMinToFloat + " / " + Bank.formatCash (tMinStartupCash) + "]";
-			minStartup.add (new JLabel (tMinStartup [tParPriceIndex]));
-
-			tParPriceLinePanel = new JPanel ();
-			tParPriceLinePanel.setLayout (new BoxLayout (tParPriceLinePanel, BoxLayout.X_AXIS));
-			tParPriceLinePanel.add (Box.createHorizontalStrut (10));
-			tParPriceLinePanel.add (minStartup.get (tParPriceIndex));
-
-			tParPriceLinePanel.add (Box.createHorizontalStrut (10));
-			tParPriceLinePanel.add (parPrices.get (tParPriceIndex));
-			tParPriceLinePanel.add (Box.createHorizontalStrut (10));
-			tParPriceLinePanel.add (companiesAtPar.get (tParPriceIndex));
-			tParPriceLinePanel.add (Box.createHorizontalStrut (10));
+			tParPriceLinePanel = buildParPriceLinePanel (tParPriceIndex, tMinToFloat, tPrice);
 			parPriceLineJPanels.add (tParPriceLinePanel);
 			parPricesJPanel.add (parPriceLineJPanels.get (tParPriceIndex));
 		}
 		updateJustParPrices (tParPriceCount);
+	}
+
+	private JPanel buildParPriceLinePanel (int aParPriceIndex, int aMinToFloat, int aPrice) {
+		JPanel tParPriceLinePanel;
+		JLabel tMinStartupLabel;
+		int tMinStartupCash;
+		String tMinStartup;
+	
+		tMinStartupCash = aMinToFloat * aPrice;
+		tMinStartup  = "[" + aMinToFloat + " / " + Bank.formatCash (tMinStartupCash) + "]";
+		tMinStartupLabel = new JLabel (tMinStartup);
+		tParPriceLinePanel = new JPanel ();
+		tParPriceLinePanel.setLayout (new BoxLayout (tParPriceLinePanel, BoxLayout.X_AXIS));
+		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
+		tParPriceLinePanel.add (tMinStartupLabel);
+		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
+		tParPriceLinePanel.add (parPrices.get (aParPriceIndex));
+		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
+		tParPriceLinePanel.add (companiesAtPar.get (aParPriceIndex));
+		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
+		tParPriceLinePanel.setAlignmentX (Component.LEFT_ALIGNMENT);
+		
+		return tParPriceLinePanel;
 	}
 
 	private void buildRoundInfoJPanel () {
