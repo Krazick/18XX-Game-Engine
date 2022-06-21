@@ -207,7 +207,6 @@ public class Portfolio implements CertificateHolderI {
 		JPanel tCorporationJPanel;
 		JPanel tScrollableCorpJPanel;
 		Certificate tCertificateToShow;
-		Corporation tCorporationToShow;
 		int tCount;
 		String tCertificateType, tPrevShareCorpAbbrev, tShareCorpAbbrev;
 		boolean tIsBankPortfolioHolder = false;
@@ -229,15 +228,7 @@ public class Portfolio implements CertificateHolderI {
 							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
 					addJCAndHGlue (tAllCertificatesJPanel, tCertificateInfoJPanel);
 				} else {
-					tCertificateToShow = tCertificate;
-					// Want to be sure to show the President's Certificate FIRST to buy, if the Bank
-					// has it.
-					// The Sort Certificates has trouble placing the President Certificate in Proper
-					// order on the Undo.
-					tCorporationToShow = tCertificateToShow.getCorporation ();
-					if (containsPresidentShareOf (tCorporationToShow)) {
-						tCertificateToShow = getPresidentCertificate (tCorporationToShow);
-					}
+					tCertificateToShow = getCertificateToShow (tCertificate);
 					tAllCertificatesJPanel = setupAllCertJPanel ();
 					tCertificateInfoJPanel = tCertificateToShow.buildCertificateInfoJPanel (aSelectedButtonLabel,
 							aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
@@ -268,6 +259,10 @@ public class Portfolio implements CertificateHolderI {
 
 		return tAllCertificatesPanel;
 	}
+	
+	public void sortByActive () {
+		Collections.sort (certificates, Certificate.CertificateActiveOrderComparator);
+	}
 
 	public JPanel buildCertJPanelForBank (String aCorpType, String aSelectedButtonLabel, ItemListener aItemListener,
 			Player aPlayer, GameManager aGameManager) {
@@ -278,7 +273,6 @@ public class Portfolio implements CertificateHolderI {
 		JPanel tCorporationJPanel;
 		JPanel tScrollableCorpJPanel;
 		Certificate tCertificateToShow;
-		Corporation tCorporationToShow;
 		Corporation tCorporationForCert;
 		int tCount, tCertCount, tCertTotalPercent;
 		String tCertificateType, tPrevShareCorpAbbrev, tShareCorpAbbrev;
@@ -292,6 +286,7 @@ public class Portfolio implements CertificateHolderI {
 		tPrevShareCorpAbbrev = NO_COMPANY_YET;
 		tAllCertificatesJPanel = null;
 
+		sortByActive ();
 		for (Certificate tCertificate : certificates) {
 			tCertificateType = tCertificate.getCorpType ();
 			if (tCertificateType.equals (aCorpType)) {
@@ -302,26 +297,13 @@ public class Portfolio implements CertificateHolderI {
 					tCount++;
 					tShareCorpAbbrev = tCertificate.getCompanyAbbrev ();
 					if (!tShareCorpAbbrev.equals (tPrevShareCorpAbbrev)) {
-						tCertificateToShow = tCertificate;
-						// Want to be sure to show the President's Certificate FIRST to buy, if the Bank
-						// has it.
-						// The Sort Certificates has trouble placing the President Certificate in Proper
-						// order on the Undo.
-						tCorporationToShow = tCertificateToShow.getCorporation ();
-						if (containsPresidentShareOf (tCorporationToShow)) {
-							tCertificateToShow = getPresidentCertificate (tCorporationToShow);
-						}
-						tAllCertificatesJPanel = setupAllCertJPanel ();
+						tCertificateToShow = getCertificateToShow (tCertificate);
 						tCertificateInfoJPanel = tCertificateToShow.buildCertificateInfoJPanel (aSelectedButtonLabel,
 								aItemListener, tIsBankPortfolioHolder, aPlayer, aGameManager);
-						tAllCertificatesJPanel.add (tCertificateInfoJPanel);
-						tAllCertificatesJPanel.add (Box.createHorizontalStrut (3));
-
 						tOtherCertificatesInfoJPanel = buildCompactCertInfoJPanel (tShareCorpAbbrev, tCertCount,
 								tCertTotalPercent);
-						tAllCertificatesJPanel.add (Box.createHorizontalStrut (3));
-						tAllCertificatesJPanel.add (tOtherCertificatesInfoJPanel);
-						tAllCertificatesJPanel.add (Box.createHorizontalGlue ());
+						tAllCertificatesJPanel = buildAllCertificatesJPanel (tCertificateInfoJPanel,
+								tOtherCertificatesInfoJPanel);
 
 						addJCAndVGlue (tCorporationJPanel, tAllCertificatesJPanel);
 						tPrevShareCorpAbbrev = tShareCorpAbbrev;
@@ -337,6 +319,37 @@ public class Portfolio implements CertificateHolderI {
 		addJCAndVGlue (tScrollableCorpJPanel, tCorporationScrollPane);
 
 		return tScrollableCorpJPanel;
+	}
+
+	private Certificate getCertificateToShow (Certificate aCertificate) {
+		Certificate tCertificateToShow;
+		Corporation tCorporationToShow;
+		
+		tCertificateToShow = aCertificate;
+		// Want to be sure to show the President's Certificate FIRST to buy, if the Bank
+		// has it.
+		// The Sort Certificates has trouble placing the President Certificate in Proper
+		// order on the Undo.
+		tCorporationToShow = tCertificateToShow.getCorporation ();
+		if (containsPresidentShareOf (tCorporationToShow)) {
+			tCertificateToShow = getPresidentCertificate (tCorporationToShow);
+		}
+		
+		return tCertificateToShow;
+	}
+
+	private JPanel buildAllCertificatesJPanel (JPanel aCertificateInfoJPanel, JPanel aOtherCertificatesInfoJPanel) {
+		JPanel tAllCertificatesJPanel;
+		
+		tAllCertificatesJPanel = setupAllCertJPanel ();
+		tAllCertificatesJPanel.add (aCertificateInfoJPanel);
+		tAllCertificatesJPanel.add (Box.createHorizontalStrut (3));
+
+		tAllCertificatesJPanel.add (Box.createHorizontalStrut (3));
+		tAllCertificatesJPanel.add (aOtherCertificatesInfoJPanel);
+		tAllCertificatesJPanel.add (Box.createHorizontalGlue ());
+		
+		return tAllCertificatesJPanel;
 	}
 
 	private JPanel buildEmptyCorpJPanel (String aCorpType) {
