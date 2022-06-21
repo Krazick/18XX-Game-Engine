@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ItemListener;
+import java.util.Comparator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -79,6 +80,8 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String CANNOT_EXCHANGE_PRESIDENT = "Cannot exchange President Share";
 	public static final String COMPANY_NOT_OPERATED = "This Share Company has NOT operated yet";
 	public static final String HAVE_MUST_BUY = "You must buy the Private where COST == DISCOUNT";
+	static final int SORT_CERT1_BEFORE_CERT2 = -100;
+	static final int SORT_CERT2_BEFORE_CERT1 = 100;
 	static final int NO_PERCENTAGE = 0;
 	static final float X_LEFT_ALIGNMENT = 0.0f;
 	static final float X_CENTER_ALIGNMENT = 0.5f;
@@ -1651,4 +1654,29 @@ public class Certificate implements Comparable<Certificate> {
 	public boolean isLoading () {
 		return corporation.isLoading ();
 	}
+	
+	public static Comparator<Certificate> CertificateActiveOrderComparator = new Comparator<Certificate> () {
+
+		@Override
+		public int compare (Certificate aCertificate1, Certificate aCertificate2) {
+			int tActiveOrderValue;
+			Corporation tCorporation1;
+			Corporation tCorporation2;
+			
+			tCorporation1 = aCertificate1.getCorporation ();
+			tCorporation2 = aCertificate2.getCorporation ();
+			tActiveOrderValue = tCorporation1.compareFormed (tCorporation2);
+			if (tActiveOrderValue == 0) { // Both Companies are Formed
+				tActiveOrderValue = tCorporation1.compareActive (tCorporation2);
+			}
+
+			if (tActiveOrderValue == 0) {
+				tActiveOrderValue = tCorporation1.compareID (tCorporation2);
+			}
+
+			// ascending order
+			return tActiveOrderValue;
+		}
+	};
+
 }
