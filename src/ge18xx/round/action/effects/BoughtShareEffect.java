@@ -11,37 +11,49 @@ import ge18xx.utilities.XMLDocument;
 
 public class BoughtShareEffect extends Effect {
 	public final static String NAME = "Bought Share";
-
+	final static AttributeName AN_BOUGHT_SHARE = new AttributeName ("boughtShare");
+	String boughtShare;
+	
 	public BoughtShareEffect () {
 		super ();
 		setName (NAME);
 	}
 
-	public BoughtShareEffect (ActorI aActor) {
+	public BoughtShareEffect (ActorI aActor, String aBoughtShare) {
 		super (NAME, aActor);
+		setBoughtShare (aBoughtShare);
 	}
 
 	public BoughtShareEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
+		String tBoughtShare;
 		setName (NAME);
+		
+		tBoughtShare = aEffectNode.getThisAttribute (AN_BOUGHT_SHARE);
+		setBoughtShare (tBoughtShare);
 	}
 
-	public boolean getBoughtShare () {
-		return true;
+	public String getBoughtShare () {
+		return boughtShare;
 	}
 
+	public void setBoughtShare (String aBoughtShare) {
+		boughtShare = aBoughtShare;
+	}
+	
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-
+		
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_ACTOR_NAME);
-
+		tEffectElement.setAttribute (AN_BOUGHT_SHARE, boughtShare);
+		
 		return tEffectElement;
 	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + actor.getName () + " " + name + " a share of stock this Stock Round.");
+		return (REPORT_PREFIX + actor.getName () + " " + name + " a share of stock (" + boughtShare + ") this Stock Round.");
 	}
 
 	@Override
@@ -57,7 +69,7 @@ public class BoughtShareEffect extends Effect {
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
-			tPlayer.setBoughtShare (true);
+			tPlayer.setBoughtShare (boughtShare);
 			tEffectApplied = true;
 		}
 		// If the Actor is NOT A Player, this Effect should not have been Added, so Complain
@@ -73,7 +85,7 @@ public class BoughtShareEffect extends Effect {
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
-			tPlayer.setBoughtShare (false);
+			tPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
 			tEffectUndone = true;
 		}
 		// If the Actor is NOT A Player, this Effect should not have been Added, so Complain

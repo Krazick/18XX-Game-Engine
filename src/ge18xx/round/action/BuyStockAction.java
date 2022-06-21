@@ -25,10 +25,10 @@ public class BuyStockAction extends TransferOwnershipAction {
 		setName (NAME);
 	}
 
-	public void addBoughtShareEffect (ActorI aActor) {
+	public void addBoughtShareEffect (ActorI aActor, String aBoughtShare) {
 		BoughtShareEffect tBoughtShareEffect;
 
-		tBoughtShareEffect = new BoughtShareEffect (aActor);
+		tBoughtShareEffect = new BoughtShareEffect (aActor, aBoughtShare);
 		addEffect (tBoughtShareEffect);
 	}
 
