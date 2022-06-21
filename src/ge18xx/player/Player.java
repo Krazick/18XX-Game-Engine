@@ -73,6 +73,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final String EXCHANGE_LABEL = "Exchange";
 	public static final int OWN_ZERO_PERCENT = 0;
 	public static final String NO_STOCK_TO_SELL = null;
+	public static final String NO_SHARE_BOUGHT = null;
 	private final String DELIMITER = ",";
 	/*
 	 * These attributes are set once, and never change, but are needed for game use
@@ -86,7 +87,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	boolean gameHasCoals;
 	boolean gameHasMinors;
 	boolean gameHasShares;
-	boolean boughtShare;
+	String boughtShare;
 	boolean bidShare;
 	boolean triggeredAuction;
 	int certificateLimit;
@@ -186,9 +187,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return triggeredAuction;
 	}
 
-	public void setBoughtShare (boolean aBoughtShare) {
+	public void setBoughtShare (String aBoughtShare) {
 		boughtShare = aBoughtShare;
-		if (boughtShare) {
+		if (hasBoughtShare ()) {
 			primaryActionState = ActionStates.Bought;
 		}
 	}
@@ -375,7 +376,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void clearPrimaryActionState () {
 		primaryActionState = ActionStates.NoAction;
-		setBoughtShare (false);
+		setBoughtShare (NO_SHARE_BOUGHT);
 		setBidShare (false);
 		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
 			playerManager.updateRFPlayerLabel (this);
@@ -706,9 +707,20 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public boolean hasBoughtShare () {
-		return boughtShare;
+		boolean tHasBoughtShare;
+		
+		tHasBoughtShare = true;
+		if (boughtShare == NO_SHARE_BOUGHT) {
+			tHasBoughtShare = false;
+		}
+		
+		return tHasBoughtShare;
 	}
 
+	public String boughtShare () {
+		return boughtShare;
+	}
+	
 	public boolean hasBid () {
 		return bidShare;
 	}
@@ -1028,7 +1040,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		// Need to remove any Cash the Player has before setting it.
 
 		treasury = aPlayerNode.getThisIntAttribute (Player.AN_CASH);
-		boughtShare = aPlayerNode.getThisBooleanAttribute (AN_BOUGHT_SHARE);
+		boughtShare = aPlayerNode.getThisAttribute (AN_BOUGHT_SHARE);
 		tState = aPlayerNode.getThisAttribute (AN_PRIMARY_STATE);
 		tGenericActor = new GenericActor ();
 		primaryActionState = tGenericActor.getPlayerState (tState);

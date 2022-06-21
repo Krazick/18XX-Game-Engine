@@ -539,6 +539,7 @@ public class PlayerManager {
 		Player.ActionStates tOldState, tNewState;
 		Certificate tFreeCertificate;
 		Certificate tCertificateToBuy;
+		String tCompanyAbbrev;
 		List<Certificate> tCertificatesToTransfer;
 		ShareCompany tShareCompany;
 		Portfolio tPlayerPortfolio;
@@ -625,8 +626,9 @@ public class PlayerManager {
 			// (For a Operating Round, should not be here, since it is the Corporation that
 			// is buying the Private, not a Player)
 			if (STOCK_BUY_IN.StockRound.equals (aRoundBuying)) {
-				aPlayer.setBoughtShare (true);
-				aBuyStockAction.addBoughtShareEffect (aPlayer);
+				tCompanyAbbrev = tCertificateToBuy.getCompanyAbbrev ();
+				aPlayer.setBoughtShare (tCompanyAbbrev);
+				aBuyStockAction.addBoughtShareEffect (aPlayer, tCompanyAbbrev);
 				tNewState = aPlayer.getPrimaryActionState ();
 				aBuyStockAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
 				stockRound.updateRFPlayerLabel (aPlayer);
@@ -829,7 +831,7 @@ public class PlayerManager {
 		Player tNextPlayer;
 
 		tNextPlayer = getPlayer (aNextPlayerIndex);
-		tNextPlayer.setBoughtShare (false);
+		tNextPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
 		tNextPlayer.setBidShare (false);
 		tNextPlayer.updatePortfolioInfo ();
 		stockRound.setCurrentPlayer (aNextPlayerIndex, true);
