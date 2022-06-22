@@ -12,7 +12,7 @@ public class UtilitiesTestFactory {
 
 		theXMLDocument = theXMLDocument.ParseXMLString (aXMLText);
 
-		if (theXMLDocument.ValidDocument ()) {
+		if (theXMLDocument.validDocument ()) {
 			tXMLNode = theXMLDocument.getDocumentElement ();
 		} else {
 			tXMLNode = XMLNode.NO_NODE;
