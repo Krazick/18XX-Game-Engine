@@ -99,10 +99,14 @@
 		<MapCell>
 			<Terrain category="base" type="Clear" />
 			<Terrain category="optional" location="50" type="Mountain" />
+			<RevenueCenter id="0" location="9" name="JK"
+				type="Private Railway" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
 			<Terrain category="optional" location="50" type="Mountain" />
+			<RevenueCenter id="0" location="16" name="JK"
+				type="Private Railway" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />
@@ -142,6 +146,10 @@
 		<MapCell>
 			<Terrain category="base" type="Clear" />
 			<Terrain category="optional" location="50" type="Mountain" />
+			<RevenueCenter id="0" location="6" name="PP"
+				type="Private Railway" />
+			<RevenueCenter id="0" location="11" name="PP"
+				type="Private Railway" />
 		</MapCell>
 		<MapCell>
 			<Terrain category="base" type="Clear" />

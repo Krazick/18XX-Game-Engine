@@ -57,27 +57,41 @@
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player" />
 	</Private>
-	<Private id="1007" name="Pittsburgh &amp; Louisville" abbrev="P&amp;L" cost="20" 
-		note="No other attributes"
-		revenue="5" homeCell1="G15" homeLocation1="10" homeLocation2="15" special="NONE" mustSell="true">
+	<Private id="1007" name="Pittsburgh &amp; Louisville" abbrev="P&amp;L" cost="30" 
+		note="Lay A Ohio River Tile at no clost"
+		revenue="5" homeCell1="I9" homeLocation1="3" homeLocation2="5" special="NONE" mustSell="false">
+		<Benefits>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TilePlacementBenefit" extra="true" mapCell="J2,J4,K5,J6,J8,I9" cost="0" passive="false"/>
+		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
 	<Private id="1008" name="C&amp;O Canal" abbrev="CC" cost="20" 
-		note="No other attributes"
-		revenue="5" homeCell1="G15" homeLocation1="10" homeLocation2="15" special="NONE" mustSell="true">
+		note="The owner of the C&amp;O Canal Private Company may build on the hexes containing the CC (I1-J12) for a terrain cost of only $20. The company is closed when tiles have been laid on both hexes."
+		revenue="5" homeCell1="I11" homeCell2="J12" homeLocation1="11" homeLocation2="9" special="NONE" mustSell="false">
+		<Benefits>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TilePlacementBenefit" extra="false" mapCell="I11" cost="20" passive="false"/>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TilePlacementBenefit" extra="false" mapCell="I12" cost="20" passive="false"/>
+		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
 	<Private id="1009" name="Potomac &amp; Piedmont" abbrev="P&amp;P" cost="20" 
 		note="No other attributes"
-		revenue="5" homeCell1="G15" homeLocation1="10" homeLocation2="15" special="NONE" mustSell="true">
+		revenue="5" homeCell1="J12" homeLocation1="6" homeLocation2="10" special="NONE" mustSell="false">
+		<Benefits>
+			<Benefit actorType="ShareCompany" class="ge18xx.company.benefit.LicenseBenefit"></Benefit>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TilePlacementBenefit" extra="false" mapCell="I12" cost="60" passive="false"/>
+		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
 	<Private id="1010" name="James River &amp; Kanawha" abbrev="JK" cost="20" 
 		note="No other attributes"
-		revenue="5" homeCell1="G15" homeLocation1="10" homeLocation2="15" special="NONE" mustSell="true">
+		revenue="5" homeCell1="K9" homeCell2="K11" homeLocation1="9" homeLocation2="6" special="NONE" mustSell="false">
+		<Benefits>
+			<Benefit actorType="ShareCompany" class="ge18xx.company.benefit.LicenseBenefit"></Benefit>
+		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
 	</Private>
