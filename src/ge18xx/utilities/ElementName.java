@@ -13,8 +13,26 @@ public class ElementName extends NoSpaceString {
 		if (string != NULL_STRING) {
 			tFirstChar = string.substring (0, 1);
 			if ((tFirstChar.equals (tFirstChar.toLowerCase ()))) {
-				string = NULL_STRING;
+				setString (NULL_STRING);
 			}
 		}
+	}
+	
+	/**
+	 * If the created ElementName has a Valid No-Space-String with the first
+	 * Character as lowerCase, this will return true.
+	 * 
+	 * @return If the String provided has been stored by the Constructor as Non-Null, return TRUE, otherwise FALSE
+	 * 
+	 */
+	public boolean validElementName () {
+		boolean tValidElementName;
+		
+		tValidElementName = false;
+		if (string != NULL_STRING) {
+			tValidElementName = true;
+		}
+		
+		return tValidElementName;
 	}
 }
