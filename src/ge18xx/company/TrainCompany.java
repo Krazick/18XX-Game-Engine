@@ -1678,6 +1678,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tColor = new Color (255, 215, 0);
 		} else if (aColorName.equals ("turquoise")) {
 			tColor = new Color (64, 224, 208);
+		} else if (aColorName.equals ("Yellow")) {
+			tColor = Color.YELLOW;
+		} else if (aColorName.equals ("Maroon")) {
+			tColor = new Color (110, 39, 23);
+		} else if (aColorName.equals ("Green")) {
+			tColor = Color.GREEN;
+		} else if (aColorName.equals ("Blue")) {
+			tColor = Color.BLUE;
 		} else {
 			rgbValues = aColorName.split (",");
 			tRed = new Integer (rgbValues [0]).intValue ();
