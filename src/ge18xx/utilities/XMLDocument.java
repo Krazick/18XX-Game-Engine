@@ -71,6 +71,16 @@ public class XMLDocument {
 		}
 	}
 
+	/**
+	 * Clear the document of any Children from the Document.
+	 * 
+	 */
+	public void clearDocument () {
+		while (document.hasChildNodes ()) {
+			document.removeChild (document.getFirstChild ());
+		}
+	}
+	
 	public XMLDocument ParseXMLString (String aXMLString) {
 		DocumentBuilderFactory tDocBuilderFac;
 		DocumentBuilder tDocBuilder;
@@ -88,7 +98,13 @@ public class XMLDocument {
 		return this;
 	}
 
-	public boolean ValidDocument () {
+	/**
+	 * If this XML Document has an Action non-NULL Document Object, then it is Valid
+	 * 
+	 * @return FALSE if the DOCUMENT Object is NO_DOCUMENT, otherwise True
+	 * 
+	 */
+	public boolean validDocument () {
 		boolean tValidDocument;
 
 		if (document == NO_DOCUMENT) {
@@ -100,14 +116,58 @@ public class XMLDocument {
 		return tValidDocument;
 	}
 
+	/**
+	 * Append the Element from the provided XMLElement to this Document.
+	 * 
+	 * @param aXMLElement This XMLElement contains an Element
+	 */
 	public void appendChild (XMLElement aXMLElement) {
-		document.appendChild (aXMLElement.getElement ());
+		if (aXMLElement != XMLElement.NO_XML_ELEMENT) {
+			document.appendChild (aXMLElement.getElement ());
+		}
 	}
 
-	public XMLElement createElement (ElementName aEntityName) {
+	/**
+	 * If this XMLDocument has a Valid Document Element (ie non-NULL), find if the Document has 
+	 * any children, then return TRUE. If the Document is NULL, or the Document has NO Children,
+	 * then return FALSE.
+	 * 
+	 * @return True if there are one (or more) Children of the document.
+	 * 
+	 */
+	public boolean hasChildNodes () {
+		boolean tHasChildNodes;
+		
+		if (validDocument ()) {
+			tHasChildNodes = document.hasChildNodes ();
+		} else {
+			tHasChildNodes = false;
+		}
+		
+		return tHasChildNodes;
+	}
+	
+	/**
+	 * Create an XMLElement with the provided Element Name. 
+	 * If the EntityName is NULL, or the String in the Entity Name is NULL this
+	 * will return a NO_XML_ELEMENT
+	 * 
+	 * @param aElementName The Element Name to be created. No Attributes or children will be attached
+	 * 
+	 * @return If a Valid Entity
+	 */
+	public XMLElement createElement (ElementName aElementName) {
 		XMLElement tXMLElement;
 
-		tXMLElement = new XMLElement (document.createElement (aEntityName.getString ()));
+		if (aElementName != ElementName.NO_ELEMENT_NAME) {
+			if (aElementName.validElementName ()) {
+				tXMLElement = new XMLElement (document.createElement (aElementName.getString ()));
+			} else {
+				tXMLElement = XMLElement.NO_XML_ELEMENT;
+			}
+		} else {
+			tXMLElement = XMLElement.NO_XML_ELEMENT;
+		}
 
 		return tXMLElement;
 	}
