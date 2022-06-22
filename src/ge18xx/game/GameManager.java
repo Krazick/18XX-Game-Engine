@@ -1372,7 +1372,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		boolean tGameIdentified = false, tPlayersLoaded = false, tGameInitiated = false;
 
 		tLoadedSaveGame = false;
-		if (aXMLDocument.ValidDocument ()) {
+		if (aXMLDocument.validDocument ()) {
 			playerManager = new PlayerManager (this); /*
 														 * Create a new Player Manager - repeated openings, should not
 														 * add players to an existing set
