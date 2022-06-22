@@ -904,6 +904,7 @@ public class JGameClient extends XMLFrame {
 	public String constructGameActivityXML (ElementName aElementName, AttributeName aAttributeName1,
 			String aAttributeValue1, AttributeName aAttributeName2, String aAttributeValue2) {
 		String tGameActivity = "";
+		
 		tGameActivity = constructGameXML (EN_GAME_ACTIVITY, aElementName, aAttributeName1, aAttributeValue1,
 				aAttributeName2, aAttributeValue2);
 
@@ -914,6 +915,7 @@ public class JGameClient extends XMLFrame {
 			String aAttributeValue1, AttributeName aAttributeName2, String aAttributeValue2,
 			AttributeName aAttributeName3, String aAttributeValue3) {
 		String tGameActivity = "";
+		
 		tGameActivity = constructGameXML (EN_GAME_ACTIVITY, aElementName, aAttributeName1, aAttributeValue1,
 				aAttributeName2, aAttributeValue2, aAttributeName3, aAttributeValue3);
 
