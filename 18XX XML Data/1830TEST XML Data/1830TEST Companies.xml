@@ -57,6 +57,30 @@
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player" />
 	</Private>
+	<Private id="1007" name="Pittsburgh &amp; Louisville" abbrev="P&amp;L" cost="20" 
+		note="No other attributes"
+		revenue="5" homeCell1="G15" homeLocation1="10" homeLocation2="15" special="NONE" mustSell="true">
+		<Certificate director="YES" percentage="100"
+			allowedOwners="IPO,Player,Share" />
+	</Private>
+	<Private id="1008" name="C&amp;O Canal" abbrev="CC" cost="20" 
+		note="No other attributes"
+		revenue="5" homeCell1="G15" homeLocation1="10" homeLocation2="15" special="NONE" mustSell="true">
+		<Certificate director="YES" percentage="100"
+			allowedOwners="IPO,Player,Share" />
+	</Private>
+	<Private id="1009" name="Potomac &amp; Piedmont" abbrev="P&amp;P" cost="20" 
+		note="No other attributes"
+		revenue="5" homeCell1="G15" homeLocation1="10" homeLocation2="15" special="NONE" mustSell="true">
+		<Certificate director="YES" percentage="100"
+			allowedOwners="IPO,Player,Share" />
+	</Private>
+	<Private id="1010" name="James River &amp; Kanawha" abbrev="JK" cost="20" 
+		note="No other attributes"
+		revenue="5" homeCell1="G15" homeLocation1="10" homeLocation2="15" special="NONE" mustSell="true">
+		<Certificate director="YES" percentage="100"
+			allowedOwners="IPO,Player,Share" />
+	</Private>
 	<Share id="1101" name="Pennsylvania" abbrev="PRR" homeCell1="H12"
 		homeLocation1="14" bgColor="Dark Green" fgColor="White" tokens="4">
 		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
@@ -105,6 +129,34 @@
 	</Share>
 	<Share id="1108" name="Eire" abbrev="Erie" homeCell1="E11"
 		homeLocation1="17" homeLocation2="15" bgColor="Gold" fgColor="Black"
+		tokens="3">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1109" name="Reading" abbrev="RDR" homeCell1="H16"
+		homeLocation1="10" bgColor="Yellow" fgColor="Black"
+		tokens="3">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1110" name="Norfolk &amp; Western" abbrev="N&amp;W" homeCell1="L16"
+		homeLocation1="50" bgColor="Maroon" fgColor="Yellow"
+		tokens="3">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1111" name="Pere Marquette" abbrev="PMQ" homeCell1="E5"
+		homeLocation1="13" bgColor="Black" fgColor="White"
+		tokens="3">
+		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
+		<Certificate director="NO" percentage="10" quantity="8"
+			allowedOwners="IPO,Player,BankPool" />
+	</Share>
+	<Share id="1112" name="Nickle Plate" abbrev="NKP" homeCell1="H2"
+		homeLocation1="13" bgColor="White" fgColor="Black"
 		tokens="3">
 		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
 		<Certificate director="NO" percentage="10" quantity="8"
