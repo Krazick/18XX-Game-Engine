@@ -1,23 +1,23 @@
 package ge18xx.utilities;
 
 public class NoSpaceString {
-	public final String NULL_STRING = GUI.NULL_STRING;
+	public static final String NULL_STRING = GUI.NULL_STRING;
 	String string;
 
 	NoSpaceString () {
-		string = NULL_STRING;
+		setString (NULL_STRING);
 	}
 
 	NoSpaceString (String aString) {
 		if (aString == NULL_STRING) {
-			string = aString;
+			setString (aString);
 		} else {
 			if (aString.length () == 0) {
-				string = NULL_STRING;
+				setString (NULL_STRING);
 			} else if (aString.indexOf (" ") >= 0) {
-				string = NULL_STRING;
+				setString (NULL_STRING);
 			} else {
-				string = aString;
+				setString (aString);
 			}
 		}
 	}
@@ -42,6 +42,10 @@ public class NoSpaceString {
 		return tEquals;
 	}
 
+	public void setString (String aString) {
+		string = aString;
+	}
+	
 	public String getString () {
 		return string;
 	}
