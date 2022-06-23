@@ -180,7 +180,7 @@ public class XMLDocument {
 		return document;
 	}
 
-	public XMLNode getDocumentElement () {
+	public XMLNode getDocumentNode () {
 		XMLNode tXMLNode;
 		
 		if (validDocument ()) {
@@ -190,6 +190,18 @@ public class XMLDocument {
 		}
 		
 		return tXMLNode;
+	}
+	
+	public XMLElement getDocumentElement () {
+		XMLElement tXMLElement;
+		
+		if (validDocument ()) {
+			tXMLElement = new XMLElement (document.getDocumentElement ());
+		} else {
+			tXMLElement = XMLElement.NO_XML_ELEMENT;
+		}
+		
+		return tXMLElement;
 	}
 
 	public DOMSource getDOMSource () {
