@@ -75,9 +75,11 @@ public class XMLDocument {
 	 * Clear the document of any Children from the Document.
 	 * 
 	 */
-	public void clearDocument () {
-		while (document.hasChildNodes ()) {
-			document.removeChild (document.getFirstChild ());
+	public void clearDocumentChildren () {
+		if (validDocument ()) {
+			while (document.hasChildNodes ()) {
+				document.removeChild (document.getFirstChild ());
+			}
 		}
 	}
 	
@@ -122,8 +124,10 @@ public class XMLDocument {
 	 * @param aXMLElement This XMLElement contains an Element
 	 */
 	public void appendChild (XMLElement aXMLElement) {
-		if (aXMLElement != XMLElement.NO_XML_ELEMENT) {
-			document.appendChild (aXMLElement.getElement ());
+		if (validDocument ()) {
+			if (aXMLElement != XMLElement.NO_XML_ELEMENT) {
+				document.appendChild (aXMLElement.getElement ());
+			}
 		}
 	}
 
@@ -177,7 +181,15 @@ public class XMLDocument {
 	}
 
 	public XMLNode getDocumentElement () {
-		return new XMLNode (document.getDocumentElement ());
+		XMLNode tXMLNode;
+		
+		if (validDocument ()) {
+			tXMLNode = new XMLNode (document.getDocumentElement ());
+		} else {
+			tXMLNode = XMLNode.NO_NODE;
+		}
+		
+		return tXMLNode;
 	}
 
 	public DOMSource getDOMSource () {
