@@ -1,6 +1,7 @@
 package ge18xx.utilities;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class XMLElement {
 	Element element;
@@ -10,6 +11,10 @@ public class XMLElement {
 		element = aElement;
 	}
 
+	public XMLElement (Node aNode) {
+		element = (Element) aNode;
+	}
+	
 	public void appendChild (XMLElement aXMLElement) {
 		element.appendChild (aXMLElement.getElement ());
 	}
