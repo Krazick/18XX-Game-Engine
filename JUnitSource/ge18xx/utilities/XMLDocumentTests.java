@@ -16,9 +16,11 @@ import org.w3c.dom.Document;
 class XMLDocumentTests {
 	XMLDocument document;
 	XMLDocument nullDocument;
+	UtilitiesTestFactory utilityTestFactory;
 	
 	@BeforeEach
 	void setUp () throws Exception {
+		utilityTestFactory = new UtilitiesTestFactory ();
 		document = new XMLDocument ();
 		nullDocument = new XMLDocument (XMLDocument.NO_DOCUMENT);
 	}
@@ -33,8 +35,7 @@ class XMLDocumentTests {
 				+ "		</Benefits>\n" + "		<Certificate director=\"YES\" percentage=\"100\"\n"
 				+ "			allowedOwners=\"IPO,Player,Share\" />\n" + "	</Private>\n" + "";
 		
-		tPrivateDocument = new XMLDocument ();
-		tPrivateDocument.ParseXMLString (tPrivateCompany1TestXML);
+		tPrivateDocument = utilityTestFactory.constructXMLDocument (tPrivateCompany1TestXML);
 		
 		return tPrivateDocument;
 	}
@@ -139,13 +140,13 @@ class XMLDocumentTests {
 		XMLNode tNode2;
 		
 		tPrivateDocument = buildPrivateCompanyTestDocument ();
-		tPrivateNode = tPrivateDocument.getDocumentElement ();
+		tPrivateNode = tPrivateDocument.getDocumentNode ();
 		assertNotNull (tPrivateNode);
 		
-		tNode1 = document.getDocumentElement ();
+		tNode1 = document.getDocumentNode ();
 		assertNotNull (tNode1);
 		
-		tNode2 = nullDocument.getDocumentElement ();
+		tNode2 = nullDocument.getDocumentNode ();
 		assertNull (tNode2);
 	}
 	
@@ -163,7 +164,6 @@ class XMLDocumentTests {
 		
 		tPrivateDocument = buildPrivateCompanyTestDocument ();
 		tResult = tPrivateDocument.toString ();
-		System.out.println (tResult);
 		assertEquals (tResult, tExpected);
 	}
 }
