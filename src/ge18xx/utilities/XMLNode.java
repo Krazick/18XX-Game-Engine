@@ -23,6 +23,14 @@ public class XMLNode {
 		node = aNode;
 	}
 
+	public XMLElement getXMLElement () {
+		XMLElement tXMLElement;
+		
+		tXMLElement = new XMLElement (node);
+		
+		return tXMLElement;
+	}
+	
 	public Node getNode () {
 		return node;
 	}
@@ -178,5 +186,31 @@ public class XMLNode {
 		tFormattedOutput = buff.toString ();
 
 		return tFormattedOutput;
+	}
+	
+	public XMLNode getNode (ElementName aElementName) {
+		XMLNode tFoundNode;
+		NodeList tNodeList;
+		int tNodeIndex;
+		int tNodeCount;
+		Node tNode;
+		String tNodeName;
+		String tElementName;
+		
+		tFoundNode = NO_NODE;
+		if (node.hasChildNodes ()) {
+			tNodeList = node.getChildNodes ();
+			tNodeCount = tNodeList.getLength ();
+			tElementName = aElementName.getString ();
+			for (tNodeIndex = 0; tNodeIndex < tNodeCount; tNodeIndex++) {
+				tNode = tNodeList.item (tNodeIndex);
+				tNodeName = tNode.getNodeName ();
+				if (tElementName.equals (tNodeName)) {
+					tFoundNode = new XMLNode (tNode);
+				}
+			}
+		}
+		
+		return tFoundNode;
 	}
 }
