@@ -140,7 +140,7 @@ public class CityList extends InformationTable implements LoadableXMLI {
 		XMLNodeList tXMLNodeList;
 		XMLNode XMLCityListRoot;
 
-		XMLCityListRoot = aXMLDocument.getDocumentElement ();
+		XMLCityListRoot = aXMLDocument.getDocumentNode ();
 		tXMLNodeList = new XMLNodeList (CityInfoParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (XMLCityListRoot, CityInfo.EN_CITY_INFO);
 		loadJTable ();

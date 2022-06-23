@@ -7,13 +7,22 @@ public class UtilitiesTestFactory {
 		theXMLDocument = new XMLDocument ();
 	}
 
+	public XMLDocument constructXMLDocument (String aXMLText) {
+		XMLDocument tXMLDocument;
+		
+		tXMLDocument = theXMLDocument.ParseXMLString (aXMLText);
+		
+		return tXMLDocument;
+	}
+	
 	public XMLNode constructXMLNode (String aXMLText) {
 		XMLNode tXMLNode;
+		XMLDocument tXMLDocument;
+		
+		tXMLDocument = constructXMLDocument (aXMLText);
 
-		theXMLDocument = theXMLDocument.ParseXMLString (aXMLText);
-
-		if (theXMLDocument.validDocument ()) {
-			tXMLNode = theXMLDocument.getDocumentElement ();
+		if (tXMLDocument.validDocument ()) {
+			tXMLNode = tXMLDocument.getDocumentNode ();
 		} else {
 			tXMLNode = XMLNode.NO_NODE;
 		}

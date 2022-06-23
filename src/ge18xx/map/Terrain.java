@@ -364,7 +364,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		String tColorValues;
 		String [] tSplit;
 
-		XMLMapRoot = aXMLDocument.getDocumentElement ();
+		XMLMapRoot = aXMLDocument.getDocumentNode ();
 		tChildren = XMLMapRoot.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {

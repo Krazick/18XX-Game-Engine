@@ -1379,7 +1379,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 														 */
 			activeGame = null;
 
-			tXMLSaveGame = aXMLDocument.getDocumentElement ();
+			tXMLSaveGame = aXMLDocument.getDocumentNode ();
 			tChildren = tXMLSaveGame.getChildNodes ();
 			tChildrenCount = tChildren.getLength ();
 			for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
@@ -2055,7 +2055,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		tXMLNetworkAction = new XMLDocument ();
 		tXMLNetworkAction = tXMLNetworkAction.ParseXMLString (aNetworkAction);
-		tGSResponseNode = tXMLNetworkAction.getDocumentElement ();
+		tGSResponseNode = tXMLNetworkAction.getDocumentNode ();
 		tNodeName = tGSResponseNode.getNodeName ();
 		if (GameSupportHandler.GS_RESPONSE_TAG.equals (tNodeName)) {
 			tActionChildren = tGSResponseNode.getChildNodes ();
@@ -2092,7 +2092,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		tXMLGameActivity = new XMLDocument ();
 		tXMLGameActivity = tXMLGameActivity.ParseXMLString (aGameActivity);
-		tXMLGameActivityNode = tXMLGameActivity.getDocumentElement ();
+		tXMLGameActivityNode = tXMLGameActivity.getDocumentNode ();
 		tANodeName = tXMLGameActivityNode.getNodeName ();
 		if (JGameClient.EN_GAME_ACTIVITY.equals (tANodeName)) {
 			tActionChildren = tXMLGameActivityNode.getChildNodes ();
@@ -2210,7 +2210,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				logger.error ("Exception Message [" + tException.getMessage () + "].", tException);
 			}
 			if (tXMLDocument != null) {
-				XMLNode tXMLNode = tXMLDocument.getDocumentElement ();
+				XMLNode tXMLNode = tXMLDocument.getDocumentNode ();
 				configData = new Config (tXMLNode, this);
 			} else {
 				configData = new Config (this);

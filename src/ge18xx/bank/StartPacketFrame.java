@@ -200,7 +200,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		XMLNode XMLStartPacketRoot;
 
 		startPacketRows = new LinkedList<StartPacketRow> ();
-		XMLStartPacketRoot = aXMLDocument.getDocumentElement ();
+		XMLStartPacketRoot = aXMLDocument.getDocumentNode ();
 		tXMLNodeList = new XMLNodeList (startPacketParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (XMLStartPacketRoot, EN_START_PACKET);
 		for (StartPacketRow tStartPacketRow : startPacketRows) {

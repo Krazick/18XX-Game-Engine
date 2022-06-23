@@ -303,7 +303,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNode tXMLGameSetRoot;
 
-		tXMLGameSetRoot = aXMLDocument.getDocumentElement ();
+		tXMLGameSetRoot = aXMLDocument.getDocumentNode ();
 		ParseGameConfig (tXMLGameSetRoot);
 	}
 

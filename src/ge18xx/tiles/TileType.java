@@ -167,7 +167,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 		XMLNodeList tXMLNodeList;
 		XMLNode XMLMapRoot;
 
-		XMLMapRoot = aXMLDocument.getDocumentElement ();
+		XMLMapRoot = aXMLDocument.getDocumentNode ();
 		tXMLNodeList = new XMLNodeList (tileTypesParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (XMLMapRoot, EN_TILE_TYPES);
 	}

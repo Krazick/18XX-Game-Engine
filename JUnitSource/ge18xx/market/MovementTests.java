@@ -98,7 +98,7 @@ class MovementTests {
 		tXMLDocument.appendChild (tXMLElement);
 		assertEquals (tExpected, tXMLDocument.toString ());
 
-		tXMLNode = tXMLDocument.getDocumentElement ();
+		tXMLNode = tXMLDocument.getDocumentNode ();
 		tParsedMovement = new Movement (tXMLNode);
 
 		assertEquals (-1, tParsedMovement.getRowAdjustment ());

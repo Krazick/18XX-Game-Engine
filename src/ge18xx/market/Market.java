@@ -448,7 +448,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 		tRowIds = tUpperAlpha.split (":");
 		tColIds = tNumerics.split (":");
-		tXMLMarketRoot = aXMLDocument.getDocumentElement ();
+		tXMLMarketRoot = aXMLDocument.getDocumentNode ();
 		tMaxCols = tXMLMarketRoot.getThisIntAttribute (AN_COLS);
 		tRows = tXMLMarketRoot.getThisIntAttribute (AN_ROWS);
 		tNeighborCount = tXMLMarketRoot.getThisIntAttribute (AN_NEIGHBORS);

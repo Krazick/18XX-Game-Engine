@@ -659,7 +659,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		if (typeName == ElementName.NO_ELEMENT_NAME) {
 			System.err.println ("Before loading Corporations, need to know which Type to load.");
 		} else {
-			XMLCorporationListRoot = aXMLDocument.getDocumentElement ();
+			XMLCorporationListRoot = aXMLDocument.getDocumentNode ();
 			tXMLNodeList = new XMLNodeList (corporationListParsingRoutine, this);
 			tXMLNodeList.parseXMLNodeList (XMLCorporationListRoot, typeName);
 		}

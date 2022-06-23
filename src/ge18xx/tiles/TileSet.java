@@ -267,7 +267,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		String tRootName;
 		String tDirection;
 
-		tXMLTileSetRoot = aXMLDocument.getDocumentElement ();
+		tXMLTileSetRoot = aXMLDocument.getDocumentNode ();
 		tRootName = tXMLTileSetRoot.getNodeName ();
 		if (EN_TILE_MANIFEST.equals (tRootName)) {
 			tDirection = tXMLTileSetRoot.getThisAttribute (AN_DIRECTION);
