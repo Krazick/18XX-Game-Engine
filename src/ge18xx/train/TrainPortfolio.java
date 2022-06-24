@@ -911,12 +911,14 @@ public class TrainPortfolio implements TrainHolderI {
 		int tCount = 0;
 		String tRustInfo = TrainInfo.NO_RUST;
 		String tTileInfo = Train.NO_TILE_INFO;
+		boolean tIsUnlimited;
 
+		tIsUnlimited = false;
 		for (Train tTrain : trains) {
 			tCurrentName = tTrain.getName ();
 			if (!tCurrentName.equals (tPreviousName)) {
 				if (tCount > 0) {
-					tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tRustInfo, tTileInfo);
+					tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tIsUnlimited, tRustInfo, tTileInfo);
 					tTrainSummary += tTrainInfo;
 				}
 				tCount = 1;
@@ -931,19 +933,21 @@ public class TrainPortfolio implements TrainHolderI {
 			} else {
 				tCount++;
 			}
+			tIsUnlimited = tTrain.isUnlimitedQuantity ();
 		}
 		if (tCount > 0) {
-			tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tRustInfo, tTileInfo);
+			tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tIsUnlimited, tRustInfo, tTileInfo);
 			tTrainSummary += tTrainInfo;
 		}
 
 		return tTrainSummary;
 	}
 
-	public String buildTrainInfo (String aPreviousName, String aCost, int aCount, String aRustInfo, String aTileInfo) {
+	public String buildTrainInfo (String aPreviousName, String aCost, int aCount, boolean aIsUnlimited, String aRustInfo, String aTileInfo) {
 		String tTrainInfo;
 		String tRustTileInfo;
-
+		String tTrainCount;
+		
 		tRustTileInfo = aRustInfo;
 		if (!aTileInfo.equals (Train.NO_TILE_INFO)) {
 			if (!tRustTileInfo.equals (TrainInfo.NO_RUST)) {
@@ -954,7 +958,12 @@ public class TrainPortfolio implements TrainHolderI {
 		if (tRustTileInfo.length () > 0) {
 			tRustTileInfo = " ( " + tRustTileInfo + " )";
 		}
-		tTrainInfo = aPreviousName + " Train QTY: " + aCount + " " + aCost + tRustTileInfo + NEWLINE;
+		if (aIsUnlimited) {
+			tTrainCount = "Unlimited";
+		} else {
+			tTrainCount = aCount + "";
+		}
+		tTrainInfo = aPreviousName + " Train QTY: " + tTrainCount + " " + aCost + tRustTileInfo + NEWLINE;
 
 		return tTrainInfo;
 	}
