@@ -866,6 +866,10 @@ public class JGameClient extends XMLFrame {
 		sendPlayerOrder ();
 	}
 
+//	public XMLElement buildOptionsElement () {
+//		
+//	}
+	
 	public void updateReadyButton (String aAction, boolean aEnabled, String aToolTip) {
 		startReadyButton.setActionCommand (aAction);
 		startReadyButton.setText (aAction);
@@ -908,9 +912,6 @@ public class JGameClient extends XMLFrame {
 		networkMessage.addAttribute (EN_GAME_SUPPORT, EN_LOAD_GAME_SETUP, AN_ACTION_NUMBER, aLastActionNumber);
 		networkMessage.addAttribute (EN_GAME_SUPPORT, EN_LOAD_GAME_SETUP, AN_GAME_NAME, aGameName);
 		tGameSupport = GAME_SUPPORT_PREFIX + " " + networkMessage.toString ();
-
-//		tGameIDRequest = GAME_SUPPORT_PREFIX + " <GS><LoadGameSetup gameID=\"" + aGameID + "\" " + ""
-//				+ "actionNumber=\"" + aLastActionNumber + "\" gameName=\"" + aGameName + "\"></GS>";
 		
 		return tGameSupport;
 	}
