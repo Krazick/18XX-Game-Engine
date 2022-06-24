@@ -16,7 +16,7 @@ public class NetworkMessages {
 		xmlDocument = new XMLDocument ();
 	}
 
-	public void constructGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN) {
+	public void buildGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN) {
 		xmlDocument.clearDocumentChildren ();
 		xmlGameMessage = xmlDocument.createElement (aPrimaryEN);
 		xmlElement = xmlDocument.createElement (aSecondaryEN);
@@ -24,9 +24,9 @@ public class NetworkMessages {
 		xmlDocument.appendChild (xmlGameMessage);
 	}
 
-	public String constructGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, AttributeName aAttributeName1,
+	public String buildGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, AttributeName aAttributeName1,
 			String aAttributeValue1) {
-		constructGameXML (aPrimaryEN, aSecondaryEN);
+		buildGameXML (aPrimaryEN, aSecondaryEN);
 		addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName1, aAttributeValue1);
 
 		gameSupport = toString ();
@@ -36,7 +36,7 @@ public class NetworkMessages {
 
 	public String constructGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, AttributeName aAttributeName1,
 			String aAttributeValue1, AttributeName aAttributeName2, String aAttributeValue2) {
-		constructGameXML (aPrimaryEN, aSecondaryEN);
+		buildGameXML (aPrimaryEN, aSecondaryEN);
 		addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName1, aAttributeValue1);
 		addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName2, aAttributeValue2);
 
@@ -47,6 +47,17 @@ public class NetworkMessages {
 
 	public void addAttribute (ElementName aPrimaryEN, ElementName aSecondaryEN, 
 							AttributeName aAttributeName, String aAttributeValue) {
+		XMLElement tXMLPrimaryElement;
+		XMLElement tXMLSecondaryElement;
+		
+		tXMLPrimaryElement = getXMLGameMessage (aPrimaryEN);
+		tXMLSecondaryElement = getXMLChildElement (tXMLPrimaryElement, aSecondaryEN);
+		tXMLSecondaryElement.setAttribute (aAttributeName, aAttributeValue);
+	}
+	
+
+	public void addAttribute (ElementName aPrimaryEN, ElementName aSecondaryEN, 
+							AttributeName aAttributeName, int aAttributeValue) {
 		XMLElement tXMLPrimaryElement;
 		XMLElement tXMLSecondaryElement;
 		
