@@ -94,6 +94,7 @@ public class JGameClient extends XMLFrame {
 	public static final ElementName EN_GAME_ACTIVITY = new ElementName (GAME_ACTIVITY_TAG);
 	public static final ElementName EN_GAME_SUPPORT = new ElementName (GAME_SUPPORT_TAG);
 	public static final ElementName EN_GAME_SELECTION = new ElementName ("GameSelection");
+	public static final ElementName EN_LOAD_GAME_SETUP = new ElementName ("LoadGameSetup");
 	public static final ElementName EN_PLAYER_ORDER = new ElementName ("PlayerOrder");
 	public static final ElementName EN_REQUEST_SAVED_GAMES = new ElementName ("RequestSavedGames");
 	public static final AttributeName AN_SERVER_IP = new AttributeName ("serverIP");
@@ -102,6 +103,9 @@ public class JGameClient extends XMLFrame {
 	public static final AttributeName AN_GAME_OPTIONS = new AttributeName ("gameOptions");
 	public static final AttributeName AN_BROADCAST_MESSAGE = new AttributeName ("z_broadcast");
 	public static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
+	public static final AttributeName AN_ACTION_NUMBER = new AttributeName ("actionNumber");
+	public static final AttributeName AN_GAME_NAME = new AttributeName ("gameName");
+
 	public static final AttributeName AN_PLAYER_ORDER = new AttributeName ("players");
 	public static final AttributeName AN_PLAYER = new AttributeName ("player");
 	public static final AttributeName AN_REQUEST_ACTION_NUMBER = new AttributeName ("requestActionNumber");
@@ -453,7 +457,7 @@ public class JGameClient extends XMLFrame {
 		Matcher tMatcher;
 		String tSavedGamesXML;
 
-		tRequestSavedGames = constructGameSupportXML (EN_REQUEST_SAVED_GAMES, AN_PLAYER, playerName.getText ());
+		tRequestSavedGames = buildGameSupportXML (EN_REQUEST_SAVED_GAMES, AN_PLAYER, playerName.getText ());
 		tFullRequest = GAME_SUPPORT_PREFIX + " " + tRequestSavedGames;
 		tResponse = gameSupportHandler.requestGameSupport (tFullRequest);
 
@@ -839,7 +843,7 @@ public class JGameClient extends XMLFrame {
 		gameManager.randomizePlayerOrder ();
 		tPlayerOrder = gameManager.getPlayersInOrder ();
 		tBroadcastMessage = getName () + " has sent a new Player Order [" + tPlayerOrder + "]";
-		tGameActivity = constructGameActivityXML (EN_PLAYER_ORDER, AN_PLAYER_ORDER, tPlayerOrder, AN_BROADCAST_MESSAGE,
+		tGameActivity = buildGameActivityXML (EN_PLAYER_ORDER, AN_PLAYER_ORDER, tPlayerOrder, AN_BROADCAST_MESSAGE,
 				tBroadcastMessage);
 		sendGameActivity (tGameActivity);
 
@@ -854,7 +858,7 @@ public class JGameClient extends XMLFrame {
 
 		tBroadcastMessage = getName () + " has Selected [" + selectedGameName + "] Are you ready to Play?";
 		tGameID = getGameID ();
-		tGameActivity = constructGameActivityXML (EN_GAME_SELECTION, AN_GAME_INDEX, selectedGameIndex + "",
+		tGameActivity = buildGameActivityXML (EN_GAME_SELECTION, AN_GAME_INDEX, selectedGameIndex + "",
 				AN_BROADCAST_MESSAGE, tBroadcastMessage, AN_GAME_ID, tGameID);
 		showSavedGames.setEnabled (false);
 		showSavedGames.setToolTipText ("Ready to play New Game");
@@ -890,68 +894,85 @@ public class JGameClient extends XMLFrame {
 		String tGameIDRequest;
 		String tResponse;
 
-		tGameIDRequest = GAME_SUPPORT_PREFIX + " <GS><LoadGameSetup gameID=\"" + aGameID + "\" " + ""
-				+ "actionNumber=\"" + aLastActionNumber + "\" gameName=\"" + aGameName + "\"></GS>";
+		tGameIDRequest = buildGameIDRequest (aGameID, aLastActionNumber, aGameName);
 		tResponse = gameSupportHandler.requestGameSupport (tGameIDRequest);
 		logger.info ("Request sent is [" + tGameIDRequest + "]");
 		logger.info ("Response is [" + tResponse + "]");
 	}
 
-	public String constructGameActivityXML (ElementName aElementName, AttributeName aAttributeName1,
-			int aAttributeValue1, AttributeName aAttributeName2, String aAttributeValue2) {
-		return constructGameActivityXML (aElementName, aAttributeName1, aAttributeValue1 + "", aAttributeName2,
+	public String buildGameIDRequest (String aGameID, int aLastActionNumber, String aGameName) {
+		String tGameSupport = "";
+
+		networkMessage.buildGameXML (EN_GAME_SUPPORT, EN_LOAD_GAME_SETUP);
+		networkMessage.addAttribute (EN_GAME_SUPPORT, EN_LOAD_GAME_SETUP, AN_GAME_ID, aGameID);
+		networkMessage.addAttribute (EN_GAME_SUPPORT, EN_LOAD_GAME_SETUP, AN_ACTION_NUMBER, aLastActionNumber);
+		networkMessage.addAttribute (EN_GAME_SUPPORT, EN_LOAD_GAME_SETUP, AN_GAME_NAME, aGameName);
+		tGameSupport = GAME_SUPPORT_PREFIX + " " + networkMessage.toString ();
+
+//		tGameIDRequest = GAME_SUPPORT_PREFIX + " <GS><LoadGameSetup gameID=\"" + aGameID + "\" " + ""
+//				+ "actionNumber=\"" + aLastActionNumber + "\" gameName=\"" + aGameName + "\"></GS>";
+		
+		return tGameSupport;
+	}
+
+	public String buildGameActivityXML (ElementName aElementName, 
+						AttributeName aAttributeName1, int aAttributeValue1, 
+						AttributeName aAttributeName2, String aAttributeValue2) {
+		return buildGameActivityXML (aElementName, aAttributeName1, aAttributeValue1 + "", aAttributeName2,
 				aAttributeValue2);
 	}
 
-	public String constructGameActivityXML (ElementName aElementName, AttributeName aAttributeName1,
-			String aAttributeValue1, AttributeName aAttributeName2, String aAttributeValue2) {
+	public String buildGameActivityXML (ElementName aElementName, 
+						AttributeName aAttributeName1, String aAttributeValue1, 
+						AttributeName aAttributeName2, String aAttributeValue2) {
 		String tGameActivity = "";
 		
-		tGameActivity = constructGameXML (EN_GAME_ACTIVITY, aElementName, aAttributeName1, aAttributeValue1,
+		tGameActivity = buildGameXML (EN_GAME_ACTIVITY, aElementName, aAttributeName1, aAttributeValue1,
 				aAttributeName2, aAttributeValue2);
 
 		return tGameActivity;
 	}
 
-	public String constructGameActivityXML (ElementName aElementName, AttributeName aAttributeName1,
-			String aAttributeValue1, AttributeName aAttributeName2, String aAttributeValue2,
-			AttributeName aAttributeName3, String aAttributeValue3) {
+	public String buildGameActivityXML (ElementName aElementName, 
+						AttributeName aAttributeName1, String aAttributeValue1, 
+						AttributeName aAttributeName2, String aAttributeValue2,
+						AttributeName aAttributeName3, String aAttributeValue3) {
 		String tGameActivity = "";
 		
-		tGameActivity = constructGameXML (EN_GAME_ACTIVITY, aElementName, aAttributeName1, aAttributeValue1,
+		tGameActivity = buildGameXML (EN_GAME_ACTIVITY, aElementName, aAttributeName1, aAttributeValue1,
 				aAttributeName2, aAttributeValue2, aAttributeName3, aAttributeValue3);
 
 		return tGameActivity;
 	}
 
-	public String constructGameSupportXML (ElementName aElementName, AttributeName aAttributeName1,
-			String aAttributeValue1) {
+	public String buildGameSupportXML (ElementName aElementName, 
+						AttributeName aAttributeName1, String aAttributeValue1) {
 		String tGameSupport = "";
 
-//		tGameSupport = constructGameXML (EN_GAME_SUPPORT, aElementName, aAttributeName1, aAttributeValue1);
-		networkMessage.constructGameXML (EN_GAME_SUPPORT, aElementName);
+		networkMessage.buildGameXML (EN_GAME_SUPPORT, aElementName);
 		networkMessage.addAttribute (EN_GAME_SUPPORT, aElementName, aAttributeName1, aAttributeValue1);
 		tGameSupport = networkMessage.toString ();
 
 		return tGameSupport;
 	}
 
-	public String constructGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, AttributeName aAttributeName1,
-			String aAttributeValue1) {
+	public String buildGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, 
+						AttributeName aAttributeName1, String aAttributeValue1) {
 		String tGameSupport;
 		
-		networkMessage.constructGameXML (aPrimaryEN, aSecondaryEN);
+		networkMessage.buildGameXML (aPrimaryEN, aSecondaryEN);
 		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName1, aAttributeValue1);
 		tGameSupport = networkMessage.toString ();
 
 		return tGameSupport;
 	}
 
-	public String constructGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, AttributeName aAttributeName1,
-			String aAttributeValue1, AttributeName aAttributeName2, String aAttributeValue2) {
+	public String buildGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, 
+						AttributeName aAttributeName1, String aAttributeValue1, 
+						AttributeName aAttributeName2, String aAttributeValue2) {
 		String tGameSupport;
 		
-		networkMessage.constructGameXML (aPrimaryEN, aSecondaryEN);
+		networkMessage.buildGameXML (aPrimaryEN, aSecondaryEN);
 		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName1, aAttributeValue1);
 		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName2, aAttributeValue2);
 		tGameSupport = networkMessage.toString ();
@@ -959,12 +980,13 @@ public class JGameClient extends XMLFrame {
 		return tGameSupport;
 	}
 
-	public String constructGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, AttributeName aAttributeName1,
-			String aAttributeValue1, AttributeName aAttributeName2, String aAttributeValue2,
-			AttributeName aAttributeName3, String aAttributeValue3) {
+	public String buildGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, 
+						AttributeName aAttributeName1, String aAttributeValue1, 
+						AttributeName aAttributeName2, String aAttributeValue2,
+						AttributeName aAttributeName3, String aAttributeValue3) {
 		String tGameSupport;
 
-		networkMessage.constructGameXML (aPrimaryEN, aSecondaryEN);
+		networkMessage.buildGameXML (aPrimaryEN, aSecondaryEN);
 		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName1, aAttributeValue1);
 		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName2, aAttributeValue2);
 		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName3, aAttributeValue3);
