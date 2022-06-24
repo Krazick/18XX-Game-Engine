@@ -928,7 +928,10 @@ public class JGameClient extends XMLFrame {
 			String aAttributeValue1) {
 		String tGameSupport = "";
 
-		tGameSupport = constructGameXML (EN_GAME_SUPPORT, aElementName, aAttributeName1, aAttributeValue1);
+//		tGameSupport = constructGameXML (EN_GAME_SUPPORT, aElementName, aAttributeName1, aAttributeValue1);
+		networkMessage.constructGameXML (EN_GAME_SUPPORT, aElementName);
+		networkMessage.addAttribute (EN_GAME_SUPPORT, aElementName, aAttributeName1, aAttributeValue1);
+		tGameSupport = networkMessage.toString ();
 
 		return tGameSupport;
 	}
@@ -937,19 +940,9 @@ public class JGameClient extends XMLFrame {
 			String aAttributeValue1) {
 		String tGameSupport;
 		
-		tGameSupport = networkMessage.constructGameXML (aPrimaryEN, aSecondaryEN, aAttributeName1, aAttributeValue1);
-//		XMLDocument tXMLDocument = new XMLDocument ();
-//		XMLElement tXMLGameMessage, tXMLElement;
-//
-//		tXMLGameMessage = tXMLDocument.createElement (aPrimaryEN);
-//		tXMLElement = tXMLDocument.createElement (aSecondaryEN);
-//
-//		tXMLElement.setAttribute (aAttributeName1, aAttributeValue1);
-//		tXMLGameMessage.appendChild (tXMLElement);
-//		tXMLDocument.appendChild (tXMLGameMessage);
-//
-//		tGameSupport = tXMLDocument.toString ();
-//		tGameSupport = tGameSupport.replace ("\n", "");
+		networkMessage.constructGameXML (aPrimaryEN, aSecondaryEN);
+		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName1, aAttributeValue1);
+		tGameSupport = networkMessage.toString ();
 
 		return tGameSupport;
 	}
@@ -958,22 +951,10 @@ public class JGameClient extends XMLFrame {
 			String aAttributeValue1, AttributeName aAttributeName2, String aAttributeValue2) {
 		String tGameSupport;
 		
-		tGameSupport = networkMessage.constructGameXML (aPrimaryEN, aSecondaryEN, aAttributeName1, aAttributeValue1,
-				aAttributeName2, aAttributeValue2);
-
-//		XMLDocument tXMLDocument = new XMLDocument ();
-//		XMLElement tXMLGameMessage, tXMLElement;
-//
-//		tXMLGameMessage = tXMLDocument.createElement (aPrimaryEN);
-//		tXMLElement = tXMLDocument.createElement (aSecondaryEN);
-//
-//		tXMLElement.setAttribute (aAttributeName1, aAttributeValue1);
-//		tXMLElement.setAttribute (aAttributeName2, aAttributeValue2);
-//		tXMLGameMessage.appendChild (tXMLElement);
-//		tXMLDocument.appendChild (tXMLGameMessage);
-//
-//		tGameSupport = tXMLDocument.toString ();
-//		tGameSupport = tGameSupport.replace ("\n", "");
+		networkMessage.constructGameXML (aPrimaryEN, aSecondaryEN);
+		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName1, aAttributeValue1);
+		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName2, aAttributeValue2);
+		tGameSupport = networkMessage.toString ();
 
 		return tGameSupport;
 	}
@@ -982,20 +963,12 @@ public class JGameClient extends XMLFrame {
 			String aAttributeValue1, AttributeName aAttributeName2, String aAttributeValue2,
 			AttributeName aAttributeName3, String aAttributeValue3) {
 		String tGameSupport;
-		XMLDocument tXMLDocument = new XMLDocument ();
-		XMLElement tXMLGameMessage, tXMLElement;
 
-		tXMLGameMessage = tXMLDocument.createElement (aPrimaryEN);
-		tXMLElement = tXMLDocument.createElement (aSecondaryEN);
-
-		tXMLElement.setAttribute (aAttributeName1, aAttributeValue1);
-		tXMLElement.setAttribute (aAttributeName2, aAttributeValue2);
-		tXMLElement.setAttribute (aAttributeName3, aAttributeValue3);
-		tXMLGameMessage.appendChild (tXMLElement);
-		tXMLDocument.appendChild (tXMLGameMessage);
-
-		tGameSupport = tXMLDocument.toString ();
-		tGameSupport = tGameSupport.replace ("\n", "");
+		networkMessage.constructGameXML (aPrimaryEN, aSecondaryEN);
+		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName1, aAttributeValue1);
+		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName2, aAttributeValue2);
+		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName3, aAttributeValue3);
+		tGameSupport = networkMessage.toString ();
 
 		return tGameSupport;
 	}
