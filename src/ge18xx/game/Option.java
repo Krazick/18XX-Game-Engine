@@ -2,6 +2,10 @@ package ge18xx.game;
 
 import org.w3c.dom.NodeList;
 
+import ge18xx.bank.Bank;
+import ge18xx.company.CorporationList;
+import ge18xx.train.Train;
+import ge18xx.train.TrainInfo;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -95,4 +99,58 @@ public class Option {
 		title = aTitle;
 		setEnabled (false);
 	}
+	
+	// TODO: Build out a set of OptionEffect sub-classes for each different Option
+	// Each Option
+	public void applyOptionEffects (GameManager aGameManager) {
+		int tEffectCount, tEffectIndex;
+		OptionEffect tEffect;
+		Train tTrain, tNewTrain;
+		String tTrainName, tEffectName;
+		int tQuantity, tFoundQuantity, tAddThisMany, tRemoveThisMany;
+		int tTrainIndex;
+		Bank tBank;
+		CorporationList tCorporationList;
+		
+		tEffectCount = getEffectCount ();
+		for (tEffectIndex = 0; tEffectIndex < tEffectCount; tEffectIndex++) {
+			tEffect = getEffectIndex (tEffectIndex);
+			if (tEffect != OptionEffect.NO_OPTION_EFFECT) {
+				tEffectName = tEffect.getName ();
+				if (OptionEffect.MUST_BUY_TRAIN.equals (tEffectName)) {
+					tCorporationList = aGameManager.getShareCompanies ();
+					System.out.println (" Setting all Companies to MUST BUY TRAIN");
+					tCorporationList.setAllMustBuyTrain ();
+				} else if (OptionEffect.ADD_TO_BANK.equals (tEffectName)) {
+					tBank = aGameManager.getBank ();
+					tBank.addCash (tEffect.getQuantity ());
+				} else if (OptionEffect.SET_TRAIN_QUANTITY.equals (tEffectName)) {
+					tTrainName = tEffect.getTrainName ();
+					tQuantity = tEffect.getQuantity ();
+					tBank = aGameManager.getBank ();
+					tTrain = tBank.getTrain (tTrainName);
+					if (tQuantity == TrainInfo.UNLIMITED_TRAINS) {
+						tTrain.setUnlimitedQuantity ();
+					} else {
+						tFoundQuantity = tBank.getTrainQuantity (tTrainName);
+						if (tQuantity > tFoundQuantity) {
+							tAddThisMany = tQuantity - tFoundQuantity;
+							for (tTrainIndex = 0; tTrainIndex < tAddThisMany; tTrainIndex++) {
+								System.out.println (
+										"Train " + tTrain.getName () + " adding " + tAddThisMany);
+								tNewTrain = new Train (tTrain);
+								tBank.addTrain (tNewTrain);
+							}
+						} else if (tQuantity < tFoundQuantity) {
+							tRemoveThisMany = tFoundQuantity - tQuantity;
+							for (tTrainIndex = 0; tTrainIndex < tRemoveThisMany; tTrainIndex++) {
+								tBank.removeTrain (tTrainName);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 }

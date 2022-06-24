@@ -8,13 +8,10 @@ package ge18xx.game;
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-import ge18xx.bank.Bank;
-import ge18xx.company.CorporationList;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerInfo;
-import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -477,57 +474,12 @@ public class GameInfo {
 	}
 
 	public void setupOptions (GameManager aGameManager) {
-		int tEffectCount, tEffectIndex;
-		OptionEffect tEffect;
-		Train tTrain, tNewTrain;
-		String tTrainName, tEffectName;
-		int tQuantity, tFoundQuantity, tAddThisMany, tRemoveThisMany;
-		int tTrainIndex;
-		Bank tBank;
-		CorporationList tCorporationList;
 
 		if (options != Option.NO_OPTIONS) {
 			if (options.length > 0) {
-				tBank = aGameManager.getBank ();
 				for (Option tOption : options) {
 					if (tOption.isEnabled ()) {
-						tEffectCount = tOption.getEffectCount ();
-						for (tEffectIndex = 0; tEffectIndex < tEffectCount; tEffectIndex++) {
-							tEffect = tOption.getEffectIndex (tEffectIndex);
-							if (tEffect != OptionEffect.NO_OPTION_EFFECT) {
-								tEffectName = tEffect.getName ();
-								if (OptionEffect.MUST_BUY_TRAIN.equals (tEffectName)) {
-									tCorporationList = aGameManager.getShareCompanies ();
-									System.out.println (" Setting all Companies to MUST BUY TRAIN");
-									tCorporationList.setAllMustBuyTrain ();
-								} else if (OptionEffect.ADD_TO_BANK.equals (tEffectName)) {
-									tBank.addCash (tEffect.getQuantity ());
-								} else if (OptionEffect.SET_TRAIN_QUANTITY.equals (tEffectName)) {
-									tTrainName = tEffect.getTrainName ();
-									tQuantity = tEffect.getQuantity ();
-									tTrain = tBank.getTrain (tTrainName);
-									if (tQuantity == TrainInfo.UNLIMITED_TRAINS) {
-										tTrain.setUnlimitedQuantity ();
-									} else {
-										tFoundQuantity = tBank.getTrainQuantity (tTrainName);
-										if (tQuantity > tFoundQuantity) {
-											tAddThisMany = tQuantity - tFoundQuantity;
-											for (tTrainIndex = 0; tTrainIndex < tAddThisMany; tTrainIndex++) {
-												System.out.println (
-														"Train " + tTrain.getName () + " adding " + tAddThisMany);
-												tNewTrain = new Train (tTrain);
-												tBank.addTrain (tNewTrain);
-											}
-										} else if (tQuantity < tFoundQuantity) {
-											tRemoveThisMany = tFoundQuantity - tQuantity;
-											for (tTrainIndex = 0; tTrainIndex < tRemoveThisMany; tTrainIndex++) {
-												tBank.removeTrain (tTrainName);
-											}
-										}
-									}
-								}
-							}
-						}
+						tOption.applyOptionEffects (aGameManager);
 					}
 				}
 			}

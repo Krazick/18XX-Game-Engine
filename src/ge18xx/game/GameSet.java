@@ -96,7 +96,6 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 				handleNetworkGameConnect ();
 			} else if (NEW_GAME.equals (tActionName)) {
 				playerInputFrame.handleHotseatGameStart (gameInfo [selectedGameIndex]);
-				;
 			} else {
 				handleGameSelection (tGameIndex, true);
 			}
@@ -252,7 +251,6 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			tGameInfo = gameInfo [tIndex];
 		} else {
 			tGameInfo = GameInfo.NO_GAME_INFO;
-			;
 		}
 
 		return tGameInfo;
