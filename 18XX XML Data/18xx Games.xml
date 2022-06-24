@@ -17,10 +17,10 @@
 				<OptionEffect name="Set Train Quantity" trainName="6" quantity="3" />
 			</Option>
 			<Option title="Unlimited Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="99" />
+				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="99" disableEffect="NO Diesels"/>
 			</Option>
 			<Option title="No Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0" />
+				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0"  disableEffect="Unlimited Diesels"/>
 			</Option>
 			<Option title="Introductory Game (Bank of $4,500)">
 				<OptionEffect name="Add To Bank" quantity="-7500" />
