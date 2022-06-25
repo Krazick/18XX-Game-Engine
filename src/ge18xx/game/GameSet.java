@@ -1,6 +1,6 @@
 package ge18xx.game;
 
-import ge18xx.game.variants.Option;
+import ge18xx.game.variants.Variant;
 
 //
 //  GameSet.java
@@ -280,7 +280,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	public void itemStateChanged (ItemEvent aItemEvent) {
 		Object tSource = aItemEvent.getItemSelectable ();
 		int tIndex;
-		Option tOption;
+		Variant tOption;
 		GameInfo tGameInfo;
 		boolean tIsSelected;
 
@@ -386,7 +386,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	private void showDescriptionAndVariants (int aIndex) {
 		String tDescription;
 		int tOptionCount, tOptionIndex;
-		Option tOption;
+		Variant tOption;
 		String tOptionName;
 
 		if (descAndVariantsJPanel == GUI.NO_PANEL) {

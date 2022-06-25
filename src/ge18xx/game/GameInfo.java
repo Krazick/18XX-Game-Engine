@@ -1,6 +1,6 @@
 package ge18xx.game;
 
-import ge18xx.game.variants.Option;
+import ge18xx.game.variants.Variant;
 
 //
 //  GameInfo.java
@@ -87,7 +87,7 @@ public class GameInfo {
 	TrainInfo trains[];
 	PlayerInfo players[];
 	PhaseManager phaseManager;
-	Option options[];
+	Variant options[];
 	File18XX files[];
 
 	/* Used in Parsing Call back Functions only */
@@ -174,12 +174,12 @@ public class GameInfo {
 				trains = new TrainInfo [tTrainCount];
 				trainIndex = 0;
 				tXMLNodeList.parseXMLNodeList (tChildNode, TrainInfo.EN_TRAIN_INFO);
-			} else if (Option.EN_OPTIONS.equals (tChildName)) {
+			} else if (Variant.EN_OPTIONS.equals (tChildName)) {
 				tXMLNodeList = new XMLNodeList (optionsParsingRoutine);
-				tOptionCount = tXMLNodeList.getChildCount (tChildNode, Option.EN_OPTION);
-				options = new Option [tOptionCount];
+				tOptionCount = tXMLNodeList.getChildCount (tChildNode, Variant.EN_OPTION);
+				options = new Variant [tOptionCount];
 				optionIndex = 0;
-				tXMLNodeList.parseXMLNodeList (tChildNode, Option.EN_OPTION);
+				tXMLNodeList.parseXMLNodeList (tChildNode, Variant.EN_OPTION);
 			} else if (File18XX.EN_FILES.equals (tChildName)) {
 				tXMLNodeList = new XMLNodeList (file18XXNameParsingRoutine);
 				tFileCount = tXMLNodeList.getChildCount (tChildNode, File18XX.EN_FILE);
@@ -217,7 +217,7 @@ public class GameInfo {
 	ParsingRoutineI optionsParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			options [optionIndex++] = new Option (aChildNode);
+			options [optionIndex++] = new Variant (aChildNode);
 		}
 	};
 
@@ -317,9 +317,9 @@ public class GameInfo {
 		tXMLElement = aXMLDocument.createElement (EN_GAME_INFO);
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_GAME_ID, gameID);
-		if (options != Option.NO_OPTIONS) {
-			tGameOptions = aXMLDocument.createElement (Option.EN_OPTIONS);
-			for (Option tOption : options) {
+		if (options != Variant.NO_OPTIONS) {
+			tGameOptions = aXMLDocument.createElement (Variant.EN_OPTIONS);
+			for (Variant tOption : options) {
 				if (tOption.isEnabled ()) {
 					tGameOption = tOption.getOptionElement (aXMLDocument);
 					tGameOptions.appendChild (tGameOption);
@@ -366,18 +366,18 @@ public class GameInfo {
 	}
 
 	public int getOptionCount () {
-		if (options == Option.NO_OPTIONS) {
+		if (options == Variant.NO_OPTIONS) {
 			return 0;
 		} else {
 			return options.length;
 		}
 	}
 
-	public Option getOptionIndex (int aIndex) {
-		if (options == Option.NO_OPTIONS) {
-			return Option.NO_OPTION;
+	public Variant getOptionIndex (int aIndex) {
+		if (options == Variant.NO_OPTIONS) {
+			return Variant.NO_OPTION;
 		} else if (aIndex >= getOptionCount ()) {
-			return Option.NO_OPTION;
+			return Variant.NO_OPTION;
 		} else {
 			return options [aIndex];
 		}
@@ -491,9 +491,9 @@ public class GameInfo {
 
 	public void setupOptions (GameManager aGameManager) {
 
-		if (options != Option.NO_OPTIONS) {
+		if (options != Variant.NO_OPTIONS) {
 			if (options.length > 0) {
-				for (Option tOption : options) {
+				for (Variant tOption : options) {
 					if (tOption.isEnabled ()) {
 						tOption.applyOptionEffects (aGameManager);
 					}

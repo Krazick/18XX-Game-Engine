@@ -9,11 +9,11 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class Option {
+public class Variant {
 	static final String NO_TITLE = "<NO TITLE>";
 	public static final VariantEffect NO_OPTION_EFFECT = null;
-	public static final Option NO_OPTION = null;
-	public static final Option [] NO_OPTIONS = null;
+	public static final Variant NO_OPTION = null;
+	public static final Variant [] NO_OPTIONS = null;
 	public static final ElementName EN_OPTION = new ElementName ("Option");
 	public static final ElementName EN_OPTIONS = new ElementName ("Options");
 	static final AttributeName AN_TITLE = new AttributeName ("title");
@@ -26,11 +26,11 @@ public class Option {
 	VariantEffect optionEffects [];
 	boolean enabled;
 
-	public Option () {
+	public Variant () {
 		setValues (NO_TITLE, NO_TITLE);
 	}
 
-	public Option (XMLNode aCellNode) {
+	public Variant (XMLNode aCellNode) {
 		String tTitle;
 		String tType;
 		String tChildName;
