@@ -8,13 +8,17 @@
 		producers="Avalon Hill / Hasbro (US)" releaseDate="1986"
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		<Options>
-			<!--  			
+			<Option title="Optional 6 Train">
+				<OptionEffect name="(3) 6 Trains" action="Set Train Quantity" trainName="6" quantity="3" />
+			</Option>
+			<Option title="Diesel Counts" type="Choose 1">
+				<OptionEffect name="Unlimited" action="Set Train Quantity" trainName="Diesel" quantity="99"/>
+				<OptionEffect name="Standard" action="Set Train Quantity" trainName="Diesel" quantity="6" defaultEffect="true" />
+				<OptionEffect name="No Diesels" action="Set Train Quantity" trainName="Diesel" quantity="0"/>
+			</Option>
+<!-- 
 			<Option title="All Share Companies must buy Train">
 				<OptionEffect name="Must Buy Train" default="true" />
-			</Option>
-			-->
-			<Option title="Optional 6 Train">
-				<OptionEffect name="Set Train Quantity" trainName="6" quantity="3" />
 			</Option>
 			<Option title="Unlimited Diesels">
 				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="99" disableEffect="NO Diesels"/>
@@ -22,8 +26,9 @@
 			<Option title="No Diesels">
 				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0"  disableEffect="Unlimited Diesels"/>
 			</Option>
-			<Option title="Introductory Game (Bank of $4,500)">
-				<OptionEffect name="Add To Bank" quantity="-7500" />
+			 -->
+			<Option title="Introductory Game">
+				<OptionEffect name="Bank of $4,500" action="Add To Bank" quantity="-7500" />
 			</Option>
 		</Options>
 		<PlayerInfo>
@@ -312,19 +317,19 @@
 		
 		<Options>
 			<Option title="$400 Finish">
-				<OptionEffect name="End Game on Stock Cell" cellName="A21" />
+				<OptionEffect name="$400 Finish" action="End Game on Stock Cell" cellName="A21" />
 			</Option>
 			<Option title="1830 Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="8" quantity="0" />
-				<OptionEffect name="Set Train Quantity" trainName="10" quantity="0" />
-				<OptionEffect name="Set Train Quantity" trainName="12" quantity="0" />
-				<OptionEffect name="Add Train" >
+				<OptionEffect name="No 8 Trains" action="Set Train Quantity" trainName="8" quantity="0" />
+				<OptionEffect name="No 10 Trains" action="Set Train Quantity" trainName="10" quantity="0" />
+				<OptionEffect name="No 12 Trains" action="Set Train Quantity" trainName="12" quantity="0" />
+				<OptionEffect name="Add 6 Diesels" action="Add Train" >
 					<Train name="Diesel" order="9" revenueCenters="unlimited" quantity="6"
 					price="1100" triggerPhase="3.3" discountPrice="800" tradeInTrain="4,5,6"
 					rust="4" />
 				</OptionEffect>
-				<OptionEffect name="Remove Phase" phaseName="7" />
-				<OptionEffect name="Remove Phase" phaseName="8" />
+				<OptionEffect name="No Phase 7" action="Remove Phase" phaseName="7" />
+				<OptionEffect name="No Phase 8" action="Remove Phase" phaseName="8" />
 			</Option>
 		</Options>
 		<PlayerInfo>
@@ -394,22 +399,27 @@
 		producers="Mayfair" releaseDate="2011"
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		<Options>
-			<!--  			
-			<Option title="All Share Companies must buy Train">
-				<OptionEffect name="Must Buy Train" default="true" />
-			</Option>
-			-->
 			<Option title="Optional 6 Train">
-				<OptionEffect name="Set Train Quantity" trainName="6" quantity="3" />
+				<OptionEffect name="(3) 6 Trains" action="Set Train Quantity" trainName="6" quantity="3" />
+			</Option>
+			<Option title="Diesel Counts" type="Choose 1">
+				<OptionEffect name="Unlimited" action="Set Train Quantity" trainName="Diesel" quantity="99"/>
+				<OptionEffect name="Standard" action="Set Train Quantity" trainName="Diesel" quantity="6" defaultEffect="true" />
+				<OptionEffect name="No Diesels" action="Set Train Quantity" trainName="Diesel" quantity="0"/>
+			</Option>
+<!-- 
+			<Option title="All Share Companies must buy Train">
+				<OptionEffect name="Must Buy Train" action="Set Must Buy Train" default="true" />
 			</Option>
 			<Option title="Unlimited Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="99" />
+				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="99" disableEffect="NO Diesels"/>
 			</Option>
 			<Option title="No Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0" />
+				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0"  disableEffect="Unlimited Diesels"/>
 			</Option>
-			<Option title="Introductory Game (Bank of $4,500)">
-				<OptionEffect name="Add To Bank" quantity="-7500" />
+			 -->
+			<Option title="Introductory Game">
+				<OptionEffect name="Bank of $4,500" action="Add To Bank" quantity="-7500" />
 			</Option>
 		</Options>
 		<PlayerInfo>
@@ -468,16 +478,23 @@
 			</Option>
 			-->
 			<Option title="Optional 6 Train">
-				<OptionEffect name="Set Train Quantity" trainName="6" quantity="3" />
+				<OptionEffect name="(3) 6 Trains" action="Set Train Quantity" trainName="6" quantity="3" />
 			</Option>
+			<Option title="Diesel Counts" type="Choose 1">
+				<OptionEffect name="Unlimited" action="Set Train Quantity" trainName="Diesel" quantity="99"/>
+				<OptionEffect name="Standard" action="Set Train Quantity" trainName="Diesel" quantity="6" defaultEffect="true" />
+				<OptionEffect name="No Diesels" action="Set Train Quantity" trainName="Diesel" quantity="0"/>
+			</Option>
+<!-- 
 			<Option title="Unlimited Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="99" />
+				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="99" disableEffect="NO Diesels"/>
 			</Option>
 			<Option title="No Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0" />
+				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0"  disableEffect="Unlimited Diesels"/>
 			</Option>
-			<Option title="Introductory Game (Bank of $4,500)">
-				<OptionEffect name="Add To Bank" quantity="-7500" />
+			 -->
+			<Option title="Introductory Game">
+				<OptionEffect name="Bank of $4,500" action="Add To Bank" quantity="-7500" />
 			</Option>
 		</Options>
 		<PlayerInfo>

@@ -48,15 +48,16 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	private static final String LOAD_GAME = "Load Local Game";
 	private static final String REASON_WRONG_PLAYER_COUNT = "Either too many, or too few Players for this game";
 	private static final String REASON_NO_NEW_GAME = "Must select Game before you can start";
-	GameInfo gameInfo[];
+	GameInfo gameInfo [];
 	PlayerInputFrame playerInputFrame;
 	JPanel gameJPanel;
 	JPanel gameInfoJPanel;
-	JPanel descAndOptionsJPanel;
+	JPanel descAndVariantsJPanel;
 	JPanel listAndButtonJPanel;
 	ButtonGroup gameButtons;
-	JRadioButton gameRadioButtons[];
-	JCheckBox gameOptions[];
+	JRadioButton gameRadioButtons [];
+	JCheckBox gameOptions [];
+	JPanel gameVariants [];
 	JButton newGameButton;
 	JButton networkGameButton;
 	JButton loadGameButton;
@@ -107,7 +108,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 
 		setSelectedGame (aGameIndex);
 		gameRadioButtons [aGameIndex].setSelected (true);
-		showDescriptionAndOptions (aGameIndex);
+		showDescriptionAndVariants (aGameIndex);
 		setGameRadioButtons (playerInputFrame.getPlayerCount ());
 		if ((playerInputFrame.isNetworkGame () && aNotify)) {
 			tJGameClient = playerInputFrame.getNetworkJGameClient ();
@@ -164,7 +165,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			gameJPanel.add (listAndButtonJPanel);
 			gameJPanel.add (Box.createVerticalStrut (10));
 
-			showDescriptionAndOptions (NO_GAME_SELECTED);
+			showDescriptionAndVariants (NO_GAME_SELECTED);
 		}
 	}
 
@@ -380,42 +381,43 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		}
 	}
 
-	private void showDescriptionAndOptions (int aIndex) {
+	private void showDescriptionAndVariants (int aIndex) {
 		String tDescription;
 		int tOptionCount, tOptionIndex;
 		Option tOption;
 		String tOptionName;
 
-		if (descAndOptionsJPanel == GUI.NO_PANEL) {
-			descAndOptionsJPanel = new JPanel ();
-			descAndOptionsJPanel.setLayout (new BoxLayout (descAndOptionsJPanel, BoxLayout.Y_AXIS));
+		if (descAndVariantsJPanel == GUI.NO_PANEL) {
+			descAndVariantsJPanel = new JPanel ();
+			descAndVariantsJPanel.setLayout (new BoxLayout (descAndVariantsJPanel, BoxLayout.Y_AXIS));
 		}
-		descAndOptionsJPanel.removeAll ();
+		descAndVariantsJPanel.removeAll ();
 		if (aIndex == NO_GAME_SELECTED) {
 			if (gameDescriptionLabel == GUI.NO_LABEL) {
 				gameDescriptionLabel = new JLabel (NO_DESCRIPTION);
-				descAndOptionsJPanel.add (gameDescriptionLabel);
+				descAndVariantsJPanel.add (gameDescriptionLabel);
 			} else {
 				gameDescriptionLabel.setText (NO_DESCRIPTION);
 			}
 			tDescription = NO_DESCRIPTION;
-			descAndOptionsJPanel.add (gameDescriptionLabel);
+			descAndVariantsJPanel.add (gameDescriptionLabel);
 		} else {
 			tDescription = gameInfo [aIndex].getHTMLDescription ();
 			gameDescriptionLabel.setText (tDescription);
-			descAndOptionsJPanel.add (gameDescriptionLabel);
+			descAndVariantsJPanel.add (gameDescriptionLabel);
 			tOptionCount = gameInfo [aIndex].getOptionCount ();
+
 			gameOptions = new JCheckBox [tOptionCount];
 			for (tOptionIndex = 0; tOptionIndex < tOptionCount; tOptionIndex++) {
 				tOption = gameInfo [aIndex].getOptionIndex (tOptionIndex);
 				tOptionName = tOption.getTitle ();
 				gameOptions [tOptionIndex] = new JCheckBox (tOptionName);
 				gameOptions [tOptionIndex].addItemListener (this);
-				descAndOptionsJPanel.add (gameOptions [tOptionIndex]);
+				descAndVariantsJPanel.add (gameOptions [tOptionIndex]);
 			}
 		}
 		gameInfoJPanel.removeAll ();
-		gameInfoJPanel.add (descAndOptionsJPanel);
+		gameInfoJPanel.add (descAndVariantsJPanel);
 		playerInputFrame.addGameInfoPanel (gameInfoJPanel);
 	}
 }
