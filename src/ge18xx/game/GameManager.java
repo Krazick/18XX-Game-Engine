@@ -1089,7 +1089,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			setGameChanged (true);
 
 			setupBank ();
-			activeGame.setupOptions (this);
+			activeGame.setupVariants (this);
 			setupPlayers ();
 			tPhaseManager = activeGame.getPhaseManager ();
 			tPhaseManager.setCurrentPhase (PhaseManager.FIRST_PHASE);
@@ -2087,7 +2087,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		int tActionNodeCount, tActionIndex;
 		String tANodeName;
 		int tGameIndex;
-		String tGameOptions, tBroadcast, tPlayerOrder;
+		String tGameVariants;
+		String tBroadcast;
+		String tPlayerOrder;
 		String tGameID;
 
 		tXMLGameActivity = new XMLDocument ();
@@ -2103,11 +2105,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 					tANodeName = tActionNode.getNodeName ();
 					if (JGameClient.EN_GAME_SELECTION.equals (tANodeName)) {
 						tGameIndex = tActionNode.getThisIntAttribute (JGameClient.AN_GAME_INDEX);
-						tGameOptions = tActionNode.getThisAttribute (JGameClient.AN_GAME_OPTIONS);
+						tGameVariants = tActionNode.getThisAttribute (JGameClient.AN_GAME_VARIANTS);
 						tBroadcast = tActionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
 						tGameID = tActionNode.getThisAttribute (JGameClient.AN_GAME_ID);
 						setGameID (tGameID);
-						playerInputFrame.handleGameSelection (tGameIndex, tGameOptions, tBroadcast);
+						playerInputFrame.handleGameSelection (tGameIndex, tGameVariants, tBroadcast);
 						networkJGameClient.updateReadyButton ("READY", true, "Hit when ready to play");
 					} else if (JGameClient.EN_PLAYER_ORDER.equals (tANodeName)) {
 						tPlayerOrder = tActionNode.getThisAttribute (JGameClient.AN_PLAYER_ORDER);

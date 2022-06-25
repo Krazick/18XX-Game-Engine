@@ -312,20 +312,22 @@ public class GameInfo {
 	}
 	
 	public XMLElement getGameInfoElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement, tGameOptions, tGameOption;
+		XMLElement tXMLElement;
+		XMLElement tGameVariants;
+		XMLElement tGameVariant;
 
 		tXMLElement = aXMLDocument.createElement (EN_GAME_INFO);
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_GAME_ID, gameID);
 		if (variants != Variant.NO_VARIANTS) {
-			tGameOptions = aXMLDocument.createElement (Variant.EN_VARIANTS);
-			for (Variant tOption : variants) {
-				if (tOption.isEnabled ()) {
-					tGameOption = tOption.getOptionElement (aXMLDocument);
-					tGameOptions.appendChild (tGameOption);
+			tGameVariants = aXMLDocument.createElement (Variant.EN_VARIANTS);
+			for (Variant tVariant : variants) {
+				if (tVariant.isEnabled ()) {
+					tGameVariant = tVariant.getVariantElement (aXMLDocument);
+					tGameVariants.appendChild (tGameVariant);
 				}
 			}
-			tXMLElement.appendChild (tGameOptions);
+			tXMLElement.appendChild (tGameVariants);
 		}
 
 		return tXMLElement;
@@ -487,13 +489,12 @@ public class GameInfo {
 		playerShareLimit = aPlayerShareLimit;
 	}
 
-	public void setupOptions (GameManager aGameManager) {
-
+	public void setupVariants (GameManager aGameManager) {
 		if (variants != Variant.NO_VARIANTS) {
 			if (variants.length > 0) {
-				for (Variant tOption : variants) {
-					if (tOption.isEnabled ()) {
-						tOption.applyOptionEffects (aGameManager);
+				for (Variant tVariant : variants) {
+					if (tVariant.isEnabled ()) {
+						tVariant.applyVariantEffects (aGameManager);
 					}
 				}
 			}

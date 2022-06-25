@@ -45,7 +45,7 @@ public class Benefits {
 				tBenefitNode = new XMLNode (tBenefitChildren.item (tBenefitIndex));
 				tBenefitNodeName = tBenefitNode.getNodeName ();
 				if (Benefit.EN_BENEFIT.equals (tBenefitNodeName)) {
-					// Use Reflections to identify the OptionEffect to create, and call the
+					// Use Reflections to identify the Benefit to create, and call the
 					// constructor with the XMLNode and Game Manager
 					tClassName = tBenefitNode.getThisAttribute (Benefit.AN_CLASS);
 					tBenefitToLoad = Class.forName (tClassName);

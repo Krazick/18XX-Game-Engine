@@ -69,19 +69,21 @@ public class Variant {
 		return tEffect;
 	}
 
-	public XMLElement getOptionElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement, tOptionEffectElements, tOptionEffectElement;
+	public XMLElement getVariantElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+		XMLElement tVariantEffectElements;
+		XMLElement tVariantEffectElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_VARIANT);
 		tXMLElement.setAttribute (AN_TITLE, title);
-		tOptionEffectElements = aXMLDocument.createElement (VariantEffect.EN_VARIANT_EFFECTS);
-		for (VariantEffect tEffect : variantEffects) {
-			if (tEffect != VariantEffect.NO_VARIANT_EFFECT) {
-				tOptionEffectElement = tEffect.getEffectElement (aXMLDocument);
-				tOptionEffectElements.appendChild (tOptionEffectElement);
+		tVariantEffectElements = aXMLDocument.createElement (VariantEffect.EN_VARIANT_EFFECTS);
+		for (VariantEffect tVariantEffect : variantEffects) {
+			if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+				tVariantEffectElement = tVariantEffect.getEffectElement (aXMLDocument);
+				tVariantEffectElements.appendChild (tVariantEffectElement);
 			}
 		}
-		tXMLElement.appendChild (tOptionEffectElements);
+		tXMLElement.appendChild (tVariantEffectElements);
 
 		return tXMLElement;
 	}
@@ -120,9 +122,9 @@ public class Variant {
 		setEnabled (false);
 	}
 	
-	// TODO: Build out a set of OptionEffect sub-classes for each different Option
-	// Each Option
-	public void applyOptionEffects (GameManager aGameManager) {
+	// TODO: Build out a set of OptionEffect sub-classes for each different Variant
+	// Each Variant
+	public void applyVariantEffects (GameManager aGameManager) {
 		int tEffectCount, tEffectIndex;
 		VariantEffect tEffect;
 		
