@@ -84,15 +84,15 @@ public class GameInfo {
 	boolean loans;
 	int bankPoolShareLimit; // Limit on # of shares in Bank Pool
 	int playerShareLimit; // Limit on # of shares a Player may Hold
-	TrainInfo trains[];
-	PlayerInfo players[];
+	TrainInfo trains [];
+	PlayerInfo players [];
 	PhaseManager phaseManager;
-	Variant options[];
-	File18XX files[];
+	Variant variants [];
+	File18XX files [];
 
 	/* Used in Parsing Call back Functions only */
 	int fileIndex;
-	int optionIndex;
+	int variantIndex;
 	int playerIndex;
 	int trainIndex;
 
@@ -114,7 +114,7 @@ public class GameInfo {
 		String tStatus;
 		String tName, tCurrencyFormat, tSubTitle, tLocation, tDesigners, tProducers, tReleaseDate;
 		int tID, tMinPlayers, tMaxPlayers, tBankTotal, tFileCount;
-		int tChildrenCount, tIndex, tOptionCount;
+		int tChildrenCount, tIndex, tVariantCount;
 		int tTrainCount, tPlayerCount;
 		int tBankPoolShareLimit, tPlayerShareLimit;
 		boolean tHasPrivates, tHasMinors, tHasCoals, tHasShares;
@@ -174,12 +174,12 @@ public class GameInfo {
 				trains = new TrainInfo [tTrainCount];
 				trainIndex = 0;
 				tXMLNodeList.parseXMLNodeList (tChildNode, TrainInfo.EN_TRAIN_INFO);
-			} else if (Variant.EN_OPTIONS.equals (tChildName)) {
-				tXMLNodeList = new XMLNodeList (optionsParsingRoutine);
-				tOptionCount = tXMLNodeList.getChildCount (tChildNode, Variant.EN_OPTION);
-				options = new Variant [tOptionCount];
-				optionIndex = 0;
-				tXMLNodeList.parseXMLNodeList (tChildNode, Variant.EN_OPTION);
+			} else if (Variant.EN_VARIANTS.equals (tChildName)) {
+				tXMLNodeList = new XMLNodeList (variantsParsingRoutine);
+				tVariantCount = tXMLNodeList.getChildCount (tChildNode, Variant.EN_VARIANT);
+				variants = new Variant [tVariantCount];
+				variantIndex = 0;
+				tXMLNodeList.parseXMLNodeList (tChildNode, Variant.EN_VARIANT);
 			} else if (File18XX.EN_FILES.equals (tChildName)) {
 				tXMLNodeList = new XMLNodeList (file18XXNameParsingRoutine);
 				tFileCount = tXMLNodeList.getChildCount (tChildNode, File18XX.EN_FILE);
@@ -214,10 +214,10 @@ public class GameInfo {
 		}
 	};
 
-	ParsingRoutineI optionsParsingRoutine = new ParsingRoutineI () {
+	ParsingRoutineI variantsParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			options [optionIndex++] = new Variant (aChildNode);
+			variants [variantIndex++] = new Variant (aChildNode);
 		}
 	};
 
@@ -317,9 +317,9 @@ public class GameInfo {
 		tXMLElement = aXMLDocument.createElement (EN_GAME_INFO);
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_GAME_ID, gameID);
-		if (options != Variant.NO_OPTIONS) {
-			tGameOptions = aXMLDocument.createElement (Variant.EN_OPTIONS);
-			for (Variant tOption : options) {
+		if (variants != Variant.NO_VARIANTS) {
+			tGameOptions = aXMLDocument.createElement (Variant.EN_VARIANTS);
+			for (Variant tOption : variants) {
 				if (tOption.isEnabled ()) {
 					tGameOption = tOption.getOptionElement (aXMLDocument);
 					tGameOptions.appendChild (tGameOption);
@@ -365,21 +365,21 @@ public class GameInfo {
 		return name;
 	}
 
-	public int getOptionCount () {
-		if (options == Variant.NO_OPTIONS) {
+	public int getVariantCount () {
+		if (variants == Variant.NO_VARIANTS) {
 			return 0;
 		} else {
-			return options.length;
+			return variants.length;
 		}
 	}
 
-	public Variant getOptionIndex (int aIndex) {
-		if (options == Variant.NO_OPTIONS) {
-			return Variant.NO_OPTION;
-		} else if (aIndex >= getOptionCount ()) {
-			return Variant.NO_OPTION;
+	public Variant getVariantIndex (int aIndex) {
+		if (variants == Variant.NO_VARIANTS) {
+			return Variant.NO_VARIANT;
+		} else if (aIndex >= getVariantCount ()) {
+			return Variant.NO_VARIANT;
 		} else {
-			return options [aIndex];
+			return variants [aIndex];
 		}
 	}
 
@@ -397,7 +397,6 @@ public class GameInfo {
 
 		tStartingCash = 0;
 		if (canPlayWithXPlayers (aNumPlayers)) {
-//		if ((aNumPlayers >= minPlayers) && (aNumPlayers <= maxPlayers)) {
 			tPlayerInfoCount = players.length;
 			for (tIndex = 0; (tIndex < tPlayerInfoCount) && (tStartingCash == 0); tIndex++) {
 				if (aNumPlayers == players [tIndex].getNumPlayers ()) {
@@ -476,8 +475,7 @@ public class GameInfo {
 		hasShares = aHasShares;
 	}
 
-	public void setOtherValues (String aSubTitle, String aLocation, String aDesigners, String aProducers,
-			String aReleaseDate) {
+	public void setOtherValues (String aSubTitle, String aLocation, String aDesigners, String aProducers, String aReleaseDate) {
 		subTitle = aSubTitle;
 		location = aLocation;
 		designers = aDesigners;
@@ -491,9 +489,9 @@ public class GameInfo {
 
 	public void setupOptions (GameManager aGameManager) {
 
-		if (options != Variant.NO_OPTIONS) {
-			if (options.length > 0) {
-				for (Variant tOption : options) {
+		if (variants != Variant.NO_VARIANTS) {
+			if (variants.length > 0) {
+				for (Variant tOption : variants) {
 					if (tOption.isEnabled ()) {
 						tOption.applyOptionEffects (aGameManager);
 					}

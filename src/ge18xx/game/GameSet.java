@@ -289,7 +289,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		for (Object tObject : gameOptions) {
 			if (tObject == tSource) {
 				tIsSelected = ((JCheckBox) tSource).isSelected ();
-				tOption = tGameInfo.getOptionIndex (tIndex);
+				tOption = tGameInfo.getVariantIndex (tIndex);
 				tOption.setEnabled (tIsSelected);
 			}
 			tIndex++;
@@ -407,11 +407,11 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			tDescription = gameInfo [aIndex].getHTMLDescription ();
 			gameDescriptionLabel.setText (tDescription);
 			descAndVariantsJPanel.add (gameDescriptionLabel);
-			tOptionCount = gameInfo [aIndex].getOptionCount ();
+			tOptionCount = gameInfo [aIndex].getVariantCount ();
 
 			gameOptions = new JCheckBox [tOptionCount];
 			for (tOptionIndex = 0; tOptionIndex < tOptionCount; tOptionIndex++) {
-				tOption = gameInfo [aIndex].getOptionIndex (tOptionIndex);
+				tOption = gameInfo [aIndex].getVariantIndex (tOptionIndex);
 				tOptionName = tOption.getTitle ();
 				gameOptions [tOptionIndex] = new JCheckBox (tOptionName);
 				gameOptions [tOptionIndex].addItemListener (this);
