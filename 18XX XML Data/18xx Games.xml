@@ -3,6 +3,7 @@
 <Network name="Mark's Server" localServerIP="192.168.1.21" remoteServerIP="71.178.207.104" serverPort="18300"/>
 <Games>
 	<GameInfo id="1" name="1830" minPlayers="2" maxPlayers="6"
+		status="Playable"
 		bankTotal="12000" currencyFormat="$ ###,###" subtitle="Railroads and Robber Barons"
 		location="North Eastern United States" designers="Francis Tresham (UK) and Bruce Shelley (US)"
 		producers="Avalon Hill / Hasbro (US)" releaseDate="1986"
@@ -76,6 +77,7 @@
 		</Files>
 	</GameInfo>
 	<GameInfo id="2" name="1835" minPlayers="3" maxPlayers="7"
+		status="INCOMPLETE"
 		bankTotal="12000" currencyFormat="###,### M" designers="Michael Meier-Bachl (Germany)"
 		producers="Hans im Gluck (Germany)" location="Germany" releaseDate="1990"
 		privates="true" minors="true" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="10">
@@ -140,6 +142,7 @@
 		</Files>
 	</GameInfo>
 	<GameInfo id="3" name="1853" minPlayers="3" maxPlayers="6"
+		status="INCOMPLETE"
 		bankTotal="12500" currencyFormat="£ ###,###" designers="Frances Tresham (UK)"
 		producers="Hartland Trefoil Ltd (UK)" location="India" releaseDate="1989"
 		privates="false" minors="false" coals="false" shares="true" bankPoolShareLimit="10" playerShareLimit="6">
@@ -194,6 +197,7 @@
 		</Files>
 	</GameInfo>
 	<GameInfo id="4" name="1856" Subtitle="Railroading in Upper Canada from 1856" minPlayers="3" maxPlayers="6"
+		status="IN PROGRESS"
 		bankTotal="12000" currencyFormat="$ ###,###" designers="Bill Dixon (Canada)"
 		location="Southern Ontario, Canada" producers="Mayfair Games (US)"
 		releaseDate="1995" privates="true" minors="false" coals="false" shares="true" 
@@ -311,6 +315,7 @@
 		</Files>
 	</GameInfo>
 	<GameInfo id="5" name="1870" subtitle="Railroading across the Trans Mississippi from 1870" minPlayers="2" 
+			status="BROKEN"
 		maxPlayers="6" bankTotal="12000" currencyFormat="$ ###,###" designers="Bill Dixon (Canada)"
 		location="Mississippi Valley, USA" producers="Mayfair Games (US)" releaseDate="1995"
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
@@ -393,7 +398,7 @@
 			<File type="tileSet" name="1870 XML Data/1870 TileSet.xml" />
 		</Files>
 	</GameInfo>
-	<GameInfo id="6" name="1830+" minPlayers="2" maxPlayers="6"
+	<GameInfo id="6" name="1830+" status="PLAYABLE" minPlayers="2" maxPlayers="6"
 		bankTotal="12000" currencyFormat="$ ###,###" subtitle="Railroads and Robber Barons"
 		location="North Eastern United States" designers="Francis Tresham (UK) and Bruce Shelley (US)"
 		producers="Mayfair" releaseDate="2011"
