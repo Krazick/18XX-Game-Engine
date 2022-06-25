@@ -1,5 +1,7 @@
 package ge18xx.game;
 
+import ge18xx.game.variants.Option;
+
 //
 //  GameInfo.java
 //  Game_18XX
