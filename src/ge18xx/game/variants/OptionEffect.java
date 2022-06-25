@@ -2,6 +2,9 @@ package ge18xx.game.variants;
 
 import org.w3c.dom.NodeList;
 
+import ge18xx.bank.Bank;
+import ge18xx.company.CorporationList;
+import ge18xx.game.GameManager;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import ge18xx.utilities.AttributeName;
@@ -164,5 +167,58 @@ public class OptionEffect {
 		quantity = aQuantity;
 		phaseName = aPhaseName;
 		cellName = aCellName;
+	}
+	
+	/**
+	 * Apply the Effect using the Game Manager as needed.
+	 * 
+	 * @param aGameManager The current GameManager to have the Effect applied to.
+	 * 
+	 */
+	public void applyOptionEffect (GameManager aGameManager) {
+		Train tTrain;
+		Train tNewTrain;
+		String tTrainName;
+		String tEffectAction;
+		int tQuantity;
+		int tFoundQuantity;
+		int tAddThisMany;
+		int tRemoveThisMany;
+		Bank tBank;
+		CorporationList tCorporationList;
+		int tTrainIndex;
+
+		tEffectAction = getAction ();
+		if (OptionEffect.MUST_BUY_TRAIN.equals (tEffectAction)) {
+			tCorporationList = aGameManager.getShareCompanies ();
+			System.out.println ("Setting all Companies to MUST BUY TRAIN");
+			tCorporationList.setAllMustBuyTrain ();
+		} else if (OptionEffect.ADD_TO_BANK.equals (tEffectAction)) {
+			tBank = aGameManager.getBank ();
+			tBank.addCash (getQuantity ());
+		} else if (OptionEffect.SET_TRAIN_QUANTITY.equals (tEffectAction)) {
+			tTrainName = getTrainName ();
+			tQuantity = getQuantity ();
+			tBank = aGameManager.getBank ();
+			tTrain = tBank.getTrain (tTrainName);
+			if (tQuantity == TrainInfo.UNLIMITED_TRAINS) {
+				tTrain.setUnlimitedQuantity ();
+			} else {
+				tFoundQuantity = tBank.getTrainQuantity (tTrainName);
+				if (tQuantity > tFoundQuantity) {
+					tAddThisMany = tQuantity - tFoundQuantity;
+					for (tTrainIndex = 0; tTrainIndex < tAddThisMany; tTrainIndex++) {
+						System.out.println ("Train " + tTrain.getName () + " adding " + tAddThisMany);
+						tNewTrain = new Train (tTrain);
+						tBank.addTrain (tNewTrain);
+					}
+				} else if (tQuantity < tFoundQuantity) {
+					tRemoveThisMany = tFoundQuantity - tQuantity;
+					for (tTrainIndex = 0; tTrainIndex < tRemoveThisMany; tTrainIndex++) {
+						tBank.removeTrain (tTrainName);
+					}
+				}
+			}
+		}
 	}
 }
