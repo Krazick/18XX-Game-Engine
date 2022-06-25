@@ -14,28 +14,36 @@ import ge18xx.utilities.XMLNode;
 
 public class Option {
 	static final String NO_TITLE = "<NO TITLE>";
-	static final AttributeName AN_TITLE = new AttributeName ("title");
 	public static final OptionEffect NO_OPTION_EFFECT = null;
 	public static final Option NO_OPTION = null;
 	public static final Option [] NO_OPTIONS = null;
 	public static final ElementName EN_OPTION = new ElementName ("Option");
 	public static final ElementName EN_OPTIONS = new ElementName ("Options");
+	static final AttributeName AN_TITLE = new AttributeName ("title");
+	static final AttributeName AN_TYPE = new AttributeName ("type");
+	static final String TYPE_ALL = "ALL";
+	static final String TYPE_CHOOSE_ANY = "Choose Any";
+	static final String TYPE_CHOOSE_1 = "Choose 1";
 	String title;
-	OptionEffect optionEffects[];
+	String type;
+	OptionEffect optionEffects [];
 	boolean enabled;
 
 	public Option () {
-		setValue (NO_TITLE);
+		setValues (NO_TITLE, NO_TITLE);
 	}
 
 	public Option (XMLNode aCellNode) {
-		String tTitle, tChildName;
+		String tTitle;
+		String tType;
+		String tChildName;
 		XMLNode tChildNode;
 		NodeList tChildren;
 		int tIndex, tChildrenCount, tEffectIndex;
 
 		tTitle = aCellNode.getThisAttribute (AN_TITLE);
-		setValue (tTitle);
+		tType = aCellNode.getThisAttribute (AN_TITLE, TYPE_ALL);
+		setValues (tTitle, tType);
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		tEffectIndex = 0;
@@ -47,7 +55,6 @@ public class Option {
 				optionEffects [tEffectIndex++] = new OptionEffect (tChildNode);
 			}
 		}
-
 	}
 
 	public int getEffectCount () {
@@ -73,7 +80,7 @@ public class Option {
 		tXMLElement.setAttribute (AN_TITLE, title);
 		tOptionEffectElements = aXMLDocument.createElement (OptionEffect.EN_OPTION_EFFECTS);
 		for (OptionEffect tEffect : optionEffects) {
-			if (tEffect != null) {
+			if (tEffect != OptionEffect.NO_OPTION_EFFECT) {
 				tOptionEffectElement = tEffect.getEffectElement (aXMLDocument);
 				tOptionEffectElements.appendChild (tOptionEffectElement);
 			}
@@ -87,6 +94,22 @@ public class Option {
 		return title;
 	}
 
+	public String getType () {
+		return type;
+	}
+	
+	public boolean isTypeAll () {
+		return (type.equals (TYPE_ALL));
+	}
+	
+	public boolean isTypeChoose1 () {
+		return (type.equals (TYPE_CHOOSE_1));
+	}
+	
+	public boolean isTypeChooseAny () {
+		return (type.equals (TYPE_CHOOSE_ANY));
+	}
+	
 	public boolean isEnabled () {
 		return enabled;
 	}
@@ -95,8 +118,9 @@ public class Option {
 		enabled = aEnabled;
 	}
 
-	private void setValue (String aTitle) {
+	private void setValues (String aTitle, String aType) {
 		title = aTitle;
+		type = aType;
 		setEnabled (false);
 	}
 	
