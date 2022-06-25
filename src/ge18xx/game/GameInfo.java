@@ -32,6 +32,7 @@ public class GameInfo {
 	static final AttributeName AN_ID = new AttributeName ("id");
 	static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");
+	final AttributeName AN_STATUS = new AttributeName ("status");
 	final AttributeName AN_LOANS = new AttributeName ("loans");
 	final AttributeName AN_PRIVATES = new AttributeName ("privates");
 	final AttributeName AN_MINORS = new AttributeName ("minors");
@@ -74,6 +75,7 @@ public class GameInfo {
 	String designers;
 	String producers;
 	String releaseDate;
+	String status;
 	boolean hasPrivates;
 	boolean hasMinors;
 	boolean hasCoals;
@@ -109,6 +111,7 @@ public class GameInfo {
 		XMLNode tChildNode;
 		String tChildName;
 		String tGameID;
+		String tStatus;
 		String tName, tCurrencyFormat, tSubTitle, tLocation, tDesigners, tProducers, tReleaseDate;
 		int tID, tMinPlayers, tMaxPlayers, tBankTotal, tFileCount;
 		int tChildrenCount, tIndex, tOptionCount;
@@ -120,6 +123,7 @@ public class GameInfo {
 		tGameID = aCellNode.getThisAttribute (AN_GAME_ID);
 		tID = aCellNode.getThisIntAttribute (AN_ID);
 		tName = aCellNode.getThisAttribute (AN_NAME);
+		tStatus = aCellNode.getThisAttribute (AN_STATUS);
 		tMinPlayers = aCellNode.getThisIntAttribute (AN_MIN_PLAYERS);
 		tMaxPlayers = aCellNode.getThisIntAttribute (AN_MAX_PLAYERS);
 		tBankTotal = aCellNode.getThisIntAttribute (AN_BANK_TOTAL);
@@ -142,6 +146,7 @@ public class GameInfo {
 		setOtherValues (tSubTitle, tLocation, tDesigners, tProducers, tReleaseDate);
 		setHasCompanies (tHasPrivates, tHasMinors, tHasCoals, tHasShares);
 		setLoans (tLoans);
+		setStatus (tStatus);
 		
 		tBankPoolShareLimit = aCellNode.getThisIntAttribute (AN_BANK_POOL_SHARE_LIMIT);
 		tPlayerShareLimit = aCellNode.getThisIntAttribute (AN_PLAYER_SHARE_LIMIT);
@@ -298,6 +303,14 @@ public class GameInfo {
 		return gameID;
 	}
 
+	public String getGameName () {
+		return name;
+	}
+
+	public String getStatus () {
+		return status;
+	}
+	
 	public XMLElement getGameInfoElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement, tGameOptions, tGameOption;
 
@@ -318,10 +331,6 @@ public class GameInfo {
 		return tXMLElement;
 	}
 
-	public String getGameName () {
-		return name;
-	}
-
 	public String getHTMLDescription () {
 		String tHTMLDescription;
 
@@ -333,6 +342,7 @@ public class GameInfo {
 		}
 		tHTMLDescription += "</h3>";
 		tHTMLDescription += "<p>Setting is " + location + "</p>";
+		tHTMLDescription += "<p>Status: " + status + "</p>";
 		tHTMLDescription += "<p>&copy;" + releaseDate + " by " + producers + "</p>";
 		tHTMLDescription += "<p>Designed by: " + designers + "</p><br/></body></html>";
 
@@ -453,6 +463,10 @@ public class GameInfo {
 
 	public void setLoans (boolean tLoans) {
 		loans = tLoans;
+	}
+
+	public void setStatus (String aStatus) {
+		status = aStatus;
 	}
 	
 	public void setHasCompanies (boolean aHasPrivates, boolean aHasMinors, boolean aHasCoals, boolean aHasShares) {
