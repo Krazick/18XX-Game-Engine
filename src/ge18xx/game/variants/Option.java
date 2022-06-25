@@ -11,7 +11,7 @@ import ge18xx.utilities.XMLNode;
 
 public class Option {
 	static final String NO_TITLE = "<NO TITLE>";
-	public static final OptionEffect NO_OPTION_EFFECT = null;
+	public static final VariantEffect NO_OPTION_EFFECT = null;
 	public static final Option NO_OPTION = null;
 	public static final Option [] NO_OPTIONS = null;
 	public static final ElementName EN_OPTION = new ElementName ("Option");
@@ -23,7 +23,7 @@ public class Option {
 	static final String TYPE_CHOOSE_1 = "Choose 1";
 	String title;
 	String type;
-	OptionEffect optionEffects [];
+	VariantEffect optionEffects [];
 	boolean enabled;
 
 	public Option () {
@@ -44,12 +44,12 @@ public class Option {
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		tEffectIndex = 0;
-		optionEffects = new OptionEffect [tChildrenCount];
+		optionEffects = new VariantEffect [tChildrenCount];
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
-			if (OptionEffect.EN_OPTION_EFFECT.equals (tChildName)) {
-				optionEffects [tEffectIndex++] = new OptionEffect (tChildNode);
+			if (VariantEffect.EN_VARIANT_EFFECT.equals (tChildName)) {
+				optionEffects [tEffectIndex++] = new VariantEffect (tChildNode);
 			}
 		}
 	}
@@ -58,8 +58,8 @@ public class Option {
 		return optionEffects.length;
 	}
 
-	public OptionEffect getEffectIndex (int aIndex) {
-		OptionEffect tEffect;
+	public VariantEffect getEffectIndex (int aIndex) {
+		VariantEffect tEffect;
 
 		if ((aIndex >= 0) && (aIndex < optionEffects.length)) {
 			tEffect = optionEffects [aIndex];
@@ -75,9 +75,9 @@ public class Option {
 
 		tXMLElement = aXMLDocument.createElement (EN_OPTION);
 		tXMLElement.setAttribute (AN_TITLE, title);
-		tOptionEffectElements = aXMLDocument.createElement (OptionEffect.EN_OPTION_EFFECTS);
-		for (OptionEffect tEffect : optionEffects) {
-			if (tEffect != OptionEffect.NO_OPTION_EFFECT) {
+		tOptionEffectElements = aXMLDocument.createElement (VariantEffect.EN_VARIANT_EFFECTS);
+		for (VariantEffect tEffect : optionEffects) {
+			if (tEffect != VariantEffect.NO_VARIANT_EFFECT) {
 				tOptionEffectElement = tEffect.getEffectElement (aXMLDocument);
 				tOptionEffectElements.appendChild (tOptionEffectElement);
 			}
@@ -125,13 +125,13 @@ public class Option {
 	// Each Option
 	public void applyOptionEffects (GameManager aGameManager) {
 		int tEffectCount, tEffectIndex;
-		OptionEffect tEffect;
+		VariantEffect tEffect;
 		
 		tEffectCount = getEffectCount ();
 		for (tEffectIndex = 0; tEffectIndex < tEffectCount; tEffectIndex++) {
 			tEffect = getEffectIndex (tEffectIndex);
-			if (tEffect != OptionEffect.NO_OPTION_EFFECT) {
-				tEffect.applyOptionEffect (aGameManager);
+			if (tEffect != VariantEffect.NO_VARIANT_EFFECT) {
+				tEffect.applyVariantEffect (aGameManager);
 			}
 		}
 	}

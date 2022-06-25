@@ -13,7 +13,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class OptionEffect {
+public class VariantEffect {
 	static final String NO_NAME = "<NO NAME>";
 	static final int NO_QUANTITY = -1;
 	static final AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");
@@ -24,9 +24,9 @@ public class OptionEffect {
 	static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");
 	static final AttributeName AN_CELL_NAME = new AttributeName ("cellName");
 	static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
-	public static final ElementName EN_OPTION_EFFECT = new ElementName ("OptionEffect");
-	public static final ElementName EN_OPTION_EFFECTS = new ElementName ("OptionEffects");
-	public static final OptionEffect NO_OPTION_EFFECT = null;
+	public static final ElementName EN_VARIANT_EFFECT = new ElementName ("OptionEffect");
+	public static final ElementName EN_VARIANT_EFFECTS = new ElementName ("OptionEffects");
+	public static final VariantEffect NO_VARIANT_EFFECT = null;
 	public static final String SET_TRAIN_QUANTITY = "Set Train Quantity";
 	public static final String MUST_BUY_TRAIN = "Must Buy Train";
 	public static final String ADD_TO_BANK = "Add To Bank";
@@ -43,11 +43,11 @@ public class OptionEffect {
 	boolean defaultEffect;
 	boolean state;
 
-	public OptionEffect () {
+	public VariantEffect () {
 		setValue (NO_NAME, NO_NAME, NO_NAME, NO_QUANTITY, NO_NAME, NO_NAME);
 	}
 
-	public OptionEffect (XMLNode aCellNode) {
+	public VariantEffect (XMLNode aCellNode) {
 		String tAction;
 		String tTrainName;
 		String tPhaseName;
@@ -102,7 +102,7 @@ public class OptionEffect {
 	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement, tTrainElement;
 
-		tXMLElement = aXMLDocument.createElement (EN_OPTION_EFFECT);
+		tXMLElement = aXMLDocument.createElement (EN_VARIANT_EFFECT);
 		tXMLElement.setAttribute (AN_NAME, name);
 		if (actorName != null) {
 			if (!(actorName.equals (NO_NAME))) {
@@ -170,12 +170,12 @@ public class OptionEffect {
 	}
 	
 	/**
-	 * Apply the Effect using the Game Manager as needed.
+	 * Apply the Variant Effect using the Game Manager as needed.
 	 * 
-	 * @param aGameManager The current GameManager to have the Effect applied to.
+	 * @param aGameManager The current GameManager to have the Variant Effect applied to.
 	 * 
 	 */
-	public void applyOptionEffect (GameManager aGameManager) {
+	public void applyVariantEffect (GameManager aGameManager) {
 		Train tTrain;
 		Train tNewTrain;
 		String tTrainName;
@@ -189,14 +189,14 @@ public class OptionEffect {
 		int tTrainIndex;
 
 		tEffectAction = getAction ();
-		if (OptionEffect.MUST_BUY_TRAIN.equals (tEffectAction)) {
+		if (VariantEffect.MUST_BUY_TRAIN.equals (tEffectAction)) {
 			tCorporationList = aGameManager.getShareCompanies ();
 			System.out.println ("Setting all Companies to MUST BUY TRAIN");
 			tCorporationList.setAllMustBuyTrain ();
-		} else if (OptionEffect.ADD_TO_BANK.equals (tEffectAction)) {
+		} else if (VariantEffect.ADD_TO_BANK.equals (tEffectAction)) {
 			tBank = aGameManager.getBank ();
 			tBank.addCash (getQuantity ());
-		} else if (OptionEffect.SET_TRAIN_QUANTITY.equals (tEffectAction)) {
+		} else if (VariantEffect.SET_TRAIN_QUANTITY.equals (tEffectAction)) {
 			tTrainName = getTrainName ();
 			tQuantity = getQuantity ();
 			tBank = aGameManager.getBank ();
