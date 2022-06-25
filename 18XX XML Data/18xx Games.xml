@@ -16,6 +16,9 @@
 				<OptionEffect name="Standard" action="Set Train Quantity" trainName="Diesel" quantity="6" defaultEffect="true" />
 				<OptionEffect name="No Diesels" action="Set Train Quantity" trainName="Diesel" quantity="0"/>
 			</Option>
+			<Option title="Introductory Game">
+				<OptionEffect name="Bank of $4,500" action="Add To Bank" quantity="-7500" />
+			</Option>
 <!-- 
 			<Option title="All Share Companies must buy Train">
 				<OptionEffect name="Must Buy Train" default="true" />
@@ -27,9 +30,6 @@
 				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0"  disableEffect="Unlimited Diesels"/>
 			</Option>
 			 -->
-			<Option title="Introductory Game">
-				<OptionEffect name="Bank of $4,500" action="Add To Bank" quantity="-7500" />
-			</Option>
 		</Options>
 		<PlayerInfo>
 			<Player numPlayers="2" startingCash="1200" certificateLimit="28" />
@@ -407,6 +407,9 @@
 				<OptionEffect name="Standard" action="Set Train Quantity" trainName="Diesel" quantity="6" defaultEffect="true" />
 				<OptionEffect name="No Diesels" action="Set Train Quantity" trainName="Diesel" quantity="0"/>
 			</Option>
+			<Option title="Introductory Game">
+				<OptionEffect name="Bank of $4,500" action="Add To Bank" quantity="-7500" />
+			</Option>
 <!-- 
 			<Option title="All Share Companies must buy Train">
 				<OptionEffect name="Must Buy Train" action="Set Must Buy Train" default="true" />
@@ -418,9 +421,6 @@
 				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0"  disableEffect="Unlimited Diesels"/>
 			</Option>
 			 -->
-			<Option title="Introductory Game">
-				<OptionEffect name="Bank of $4,500" action="Add To Bank" quantity="-7500" />
-			</Option>
 		</Options>
 		<PlayerInfo>
 			<Player numPlayers="2" startingCash="1200" certificateLimit="28" />
