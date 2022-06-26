@@ -10,19 +10,19 @@
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		<Variants>
 			<Variant class="ge18xx.game.variants.VariantAll" title="Optional 6 Train">
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="(3) 6 Trains" trainName="6" quantity="3" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="(3) 6 Trains" trainName="6" quantity="3" />
 			</Variant>
 			<Variant class="ge18xx.game.variants.VariantChoose1" title="Diesel Counts">
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="Unlimited" trainName="Diesel" quantity="99"/>
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" defaultEffect="true" name="Standard" trainName="Diesel" quantity="6" />
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No Diesels" trainName="Diesel" quantity="0"/>
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="Unlimited" trainName="Diesel" quantity="99"/>
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" defaultEffect="true" name="Standard" trainName="Diesel" quantity="6" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="No Diesels" trainName="Diesel" quantity="0"/>
 			</Variant>
 			<Variant class="ge18xx.game.variants.VariantAll" title="Introductory Game">
-				<VariantEffect action="Add To Bank" class="ge18xx.game.variants.VariantEffect" name="Bank of $4,500" quantity="-7500" />
+				<VariantEffect action="Add To Bank" class="ge18xx.game.variants.AddBankCashVEffect" name="Bank of $4,500" quantity="-7500" />
 			</Variant>
 <!-- 
 			<Variant class="ge18xx.game.variants.Variant" title="All Share Companies must buy Train">
-				<VariantEffect name="Must Buy Train" default="true" />
+				<VariantEffect name="Must Buy Train" class="ge18xx.game.variants.MustBuyTrain" />
 			</Variant>
 			 -->
 		</Variants>
@@ -319,9 +319,9 @@
 				<VariantEffect action="End Game on Stock Cell" cellName="A21" class="ge18xx.game.variants.VariantEffect" name="$400 Finish" />
 			</Variant>
 			<Variant class="ge18xx.game.variants.VariantAll" title="1830 Diesels">
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No 8 Trains" trainName="8" quantity="0" />
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No 10 Trains" trainName="10" quantity="0" />
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No 12 Trains" trainName="12" quantity="0" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="No 8 Trains" trainName="8" quantity="0" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="No 10 Trains" trainName="10" quantity="0" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="No 12 Trains" trainName="12" quantity="0" />
 				<VariantEffect action="Add Train" class="ge18xx.game.variants.VariantEffect" name="Add 6 Diesels" >
 					<Train name="Diesel" order="9" revenueCenters="unlimited" quantity="6"
 					price="1100" triggerPhase="3.3" discountPrice="800" tradeInTrain="4,5,6"
@@ -399,15 +399,15 @@
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		<Variants>
 			<Variant class="ge18xx.game.variants.VariantAll" title="Optional 6 Train">
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="(3) 6 Trains" trainName="6" quantity="3" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="(3) 6 Trains" trainName="6" quantity="3" />
 			</Variant>
 			<Variant class="ge18xx.game.variants.VariantChoose1" title="Diesel Counts">
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="Unlimited" trainName="Diesel" quantity="99"/>
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" defaultEffect="true" name="Standard" trainName="Diesel" quantity="6" />
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No Diesels" trainName="Diesel" quantity="0"/>
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="Unlimited" trainName="Diesel" quantity="99"/>
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" defaultEffect="true" name="Standard" trainName="Diesel" quantity="6" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="No Diesels" trainName="Diesel" quantity="0"/>
 			</Variant>
 			<Variant class="ge18xx.game.variants.VariantAll" title="Introductory Game">
-				<VariantEffect action="Add To Bank" class="ge18xx.game.variants.VariantEffect" name="Bank of $4,500" quantity="-7500" />
+				<VariantEffect action="Add To Bank" class="ge18xx.game.variants.AddBankCashVEffect" name="Bank of $4,500" quantity="-7500" />
 			</Variant>
 <!-- 
 			<Variant class="ge18xx.game.variants.Variant" title="All Share Companies must buy Train">
@@ -466,15 +466,15 @@
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		<Variants>
 			<Variant class="ge18xx.game.variants.VariantAll" title="Optional 6 Train">
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="(3) 6 Trains" trainName="6" quantity="3" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="(3) 6 Trains" trainName="6" quantity="3" />
 			</Variant>
 			<Variant class="ge18xx.game.variants.VariantChoose1" title="Diesel Counts">
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="Unlimited" trainName="Diesel" quantity="99"/>
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" defaultEffect="true" name="Standard" trainName="Diesel" quantity="6" />
-				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No Diesels" trainName="Diesel" quantity="0"/>
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="Unlimited" trainName="Diesel" quantity="99"/>
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" defaultEffect="true" name="Standard" trainName="Diesel" quantity="6" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="No Diesels" trainName="Diesel" quantity="0"/>
 			</Variant>
 			<Variant class="ge18xx.game.variants.VariantAll" title="Introductory Game">
-				<VariantEffect action="Add To Bank" class="ge18xx.game.variants.VariantEffect" name="Bank of $4,500" quantity="-7500" />
+				<VariantEffect action="Add To Bank" class="ge18xx.game.variants.AddBankCashVEffect" name="Bank of $4,500" quantity="-7500" />
 			</Variant>
 <!-- 
 			<Variant class="ge18xx.game.variants.Variant" title="All Share Companies must buy Train">
