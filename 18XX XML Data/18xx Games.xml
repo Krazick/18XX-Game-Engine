@@ -8,30 +8,24 @@
 		location="North Eastern United States" designers="Francis Tresham (UK) and Bruce Shelley (US)"
 		producers="Avalon Hill / Hasbro (US)" releaseDate="1986"
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
-		<Options>
-			<Option title="Optional 6 Train">
-				<OptionEffect name="(3) 6 Trains" action="Set Train Quantity" trainName="6" quantity="3" />
-			</Option>
-			<Option title="Diesel Counts" type="Choose 1">
-				<OptionEffect name="Unlimited" action="Set Train Quantity" trainName="Diesel" quantity="99"/>
-				<OptionEffect name="Standard" action="Set Train Quantity" trainName="Diesel" quantity="6" defaultEffect="true" />
-				<OptionEffect name="No Diesels" action="Set Train Quantity" trainName="Diesel" quantity="0"/>
-			</Option>
-			<Option title="Introductory Game">
-				<OptionEffect name="Bank of $4,500" action="Add To Bank" quantity="-7500" />
-			</Option>
+		<Variants>
+			<Variant class="ge18xx.game.variants.Variant" title="Optional 6 Train">
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="(3) 6 Trains" trainName="6" quantity="3" />
+			</Variant>
+			<Variant class="ge18xx.game.variants.Variant" title="Diesel Counts" type="Choose 1">
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="Unlimited" trainName="Diesel" quantity="99"/>
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" defaultEffect="true" name="Standard" trainName="Diesel" quantity="6" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No Diesels" trainName="Diesel" quantity="0"/>
+			</Variant>
+			<Variant class="ge18xx.game.variants.Variant" title="Introductory Game">
+				<VariantEffect action="Add To Bank" class="ge18xx.game.variants.VariantEffect" name="Bank of $4,500" quantity="-7500" />
+			</Variant>
 <!-- 
-			<Option title="All Share Companies must buy Train">
-				<OptionEffect name="Must Buy Train" default="true" />
-			</Option>
-			<Option title="Unlimited Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="99" disableEffect="NO Diesels"/>
-			</Option>
-			<Option title="No Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0"  disableEffect="Unlimited Diesels"/>
-			</Option>
+			<Variant class="ge18xx.game.variants.Variant" title="All Share Companies must buy Train">
+				<VariantEffect name="Must Buy Train" default="true" />
+			</Variant>
 			 -->
-		</Options>
+		</Variants>
 		<PlayerInfo>
 			<Player numPlayers="2" startingCash="1200" certificateLimit="28" />
 			<Player numPlayers="3" startingCash="800" certificateLimit="20" />
@@ -320,23 +314,23 @@
 		location="Mississippi Valley, USA" producers="Mayfair Games (US)" releaseDate="1995"
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		
-		<Options>
-			<Option title="$400 Finish">
-				<OptionEffect name="$400 Finish" action="End Game on Stock Cell" cellName="A21" />
-			</Option>
-			<Option title="1830 Diesels">
-				<OptionEffect name="No 8 Trains" action="Set Train Quantity" trainName="8" quantity="0" />
-				<OptionEffect name="No 10 Trains" action="Set Train Quantity" trainName="10" quantity="0" />
-				<OptionEffect name="No 12 Trains" action="Set Train Quantity" trainName="12" quantity="0" />
-				<OptionEffect name="Add 6 Diesels" action="Add Train" >
+		<Variants>
+			<Variant class="ge18xx.game.variants.Variant" title="$400 Finish">
+				<VariantEffect action="End Game on Stock Cell" cellName="A21" class="ge18xx.game.variants.VariantEffect" name="$400 Finish" />
+			</Variant>
+			<Variant class="ge18xx.game.variants.Variant" title="1830 Diesels">
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No 8 Trains" trainName="8" quantity="0" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No 10 Trains" trainName="10" quantity="0" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No 12 Trains" trainName="12" quantity="0" />
+				<VariantEffect action="Add Train" class="ge18xx.game.variants.VariantEffect" name="Add 6 Diesels" >
 					<Train name="Diesel" order="9" revenueCenters="unlimited" quantity="6"
 					price="1100" triggerPhase="3.3" discountPrice="800" tradeInTrain="4,5,6"
 					rust="4" />
-				</OptionEffect>
-				<OptionEffect name="No Phase 7" action="Remove Phase" phaseName="7" />
-				<OptionEffect name="No Phase 8" action="Remove Phase" phaseName="8" />
-			</Option>
-		</Options>
+				</VariantEffect>
+				<VariantEffect action="Remove Phase" class="ge18xx.game.variants.VariantEffect" name="No Phase 7" phaseName="7" />
+				<VariantEffect action="Remove Phase" class="ge18xx.game.variants.VariantEffect" name="No Phase 8" phaseName="8" />
+			</Variant>
+		</Variants>
 		<PlayerInfo>
 			<Player numPlayers="2" startingCash="1050" certificateLimit="28" />
 			<Player numPlayers="3" startingCash="700" certificateLimit="20" />
@@ -403,30 +397,24 @@
 		location="North Eastern United States" designers="Francis Tresham (UK) and Bruce Shelley (US)"
 		producers="Mayfair" releaseDate="2011"
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
-		<Options>
-			<Option title="Optional 6 Train">
-				<OptionEffect name="(3) 6 Trains" action="Set Train Quantity" trainName="6" quantity="3" />
-			</Option>
-			<Option title="Diesel Counts" type="Choose 1">
-				<OptionEffect name="Unlimited" action="Set Train Quantity" trainName="Diesel" quantity="99"/>
-				<OptionEffect name="Standard" action="Set Train Quantity" trainName="Diesel" quantity="6" defaultEffect="true" />
-				<OptionEffect name="No Diesels" action="Set Train Quantity" trainName="Diesel" quantity="0"/>
-			</Option>
-			<Option title="Introductory Game">
-				<OptionEffect name="Bank of $4,500" action="Add To Bank" quantity="-7500" />
-			</Option>
+		<Variants>
+			<Variant class="ge18xx.game.variants.Variant" title="Optional 6 Train">
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="(3) 6 Trains" trainName="6" quantity="3" />
+			</Variant>
+			<Variant class="ge18xx.game.variants.Variant" title="Diesel Counts" type="Choose 1">
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="Unlimited" trainName="Diesel" quantity="99"/>
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" defaultEffect="true" name="Standard" trainName="Diesel" quantity="6" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No Diesels" trainName="Diesel" quantity="0"/>
+			</Variant>
+			<Variant class="ge18xx.game.variants.Variant" title="Introductory Game">
+				<VariantEffect action="Add To Bank" class="ge18xx.game.variants.VariantEffect" name="Bank of $4,500" quantity="-7500" />
+			</Variant>
 <!-- 
-			<Option title="All Share Companies must buy Train">
-				<OptionEffect name="Must Buy Train" action="Set Must Buy Train" default="true" />
-			</Option>
-			<Option title="Unlimited Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="99" disableEffect="NO Diesels"/>
-			</Option>
-			<Option title="No Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0"  disableEffect="Unlimited Diesels"/>
-			</Option>
+			<Variant class="ge18xx.game.variants.Variant" title="All Share Companies must buy Train">
+				<VariantEffect name="Must Buy Train" default="true" />
+			</Variant>
 			 -->
-		</Options>
+		</Variants>
 		<PlayerInfo>
 			<Player numPlayers="2" startingCash="1200" certificateLimit="28" />
 			<Player numPlayers="3" startingCash="800" certificateLimit="20" />
@@ -476,32 +464,24 @@
 		location="North Eastern United States" designers="Francis Tresham (UK) and Bruce Shelley (US)"
 		producers="Mayfair" releaseDate="2011"
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
-		<Options>
-			<!--  			
-			<Option title="All Share Companies must buy Train">
-				<OptionEffect name="Must Buy Train" default="true" />
-			</Option>
-			-->
-			<Option title="Optional 6 Train">
-				<OptionEffect name="(3) 6 Trains" action="Set Train Quantity" trainName="6" quantity="3" />
-			</Option>
-			<Option title="Diesel Counts" type="Choose 1">
-				<OptionEffect name="Unlimited" action="Set Train Quantity" trainName="Diesel" quantity="99"/>
-				<OptionEffect name="Standard" action="Set Train Quantity" trainName="Diesel" quantity="6" defaultEffect="true" />
-				<OptionEffect name="No Diesels" action="Set Train Quantity" trainName="Diesel" quantity="0"/>
-			</Option>
+		<Variants>
+			<Variant class="ge18xx.game.variants.Variant" title="Optional 6 Train">
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="(3) 6 Trains" trainName="6" quantity="3" />
+			</Variant>
+			<Variant class="ge18xx.game.variants.Variant" title="Diesel Counts" type="Choose 1">
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="Unlimited" trainName="Diesel" quantity="99"/>
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" defaultEffect="true" name="Standard" trainName="Diesel" quantity="6" />
+				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No Diesels" trainName="Diesel" quantity="0"/>
+			</Variant>
+			<Variant class="ge18xx.game.variants.Variant" title="Introductory Game">
+				<VariantEffect action="Add To Bank" class="ge18xx.game.variants.VariantEffect" name="Bank of $4,500" quantity="-7500" />
+			</Variant>
 <!-- 
-			<Option title="Unlimited Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="99" disableEffect="NO Diesels"/>
-			</Option>
-			<Option title="No Diesels">
-				<OptionEffect name="Set Train Quantity" trainName="Diesel" quantity="0"  disableEffect="Unlimited Diesels"/>
-			</Option>
+			<Variant class="ge18xx.game.variants.Variant" title="All Share Companies must buy Train">
+				<VariantEffect name="Must Buy Train" default="true" />
+			</Variant>
 			 -->
-			<Option title="Introductory Game">
-				<OptionEffect name="Bank of $4,500" action="Add To Bank" quantity="-7500" />
-			</Option>
-		</Options>
+		</Variants>
 		<PlayerInfo>
 			<Player numPlayers="2" startingCash="1200" certificateLimit="28" />
 			<Player numPlayers="3" startingCash="800" certificateLimit="20" />

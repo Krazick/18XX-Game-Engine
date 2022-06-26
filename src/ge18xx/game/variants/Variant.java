@@ -13,8 +13,8 @@ public class Variant {
 	static final String NO_TITLE = "<NO TITLE>";
 	public static final Variant NO_VARIANT = null;
 	public static final Variant [] NO_VARIANTS = null;
-	public static final ElementName EN_VARIANT = new ElementName ("Option");
-	public static final ElementName EN_VARIANTS = new ElementName ("Options");
+	public static final ElementName EN_VARIANT = new ElementName ("Variant");
+	public static final ElementName EN_VARIANTS = new ElementName ("Variants");
 	static final AttributeName AN_TITLE = new AttributeName ("title");
 	static final AttributeName AN_TYPE = new AttributeName ("type");
 	static final String TYPE_ALL = "ALL";

@@ -24,8 +24,8 @@ public class VariantEffect {
 	static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");
 	static final AttributeName AN_CELL_NAME = new AttributeName ("cellName");
 	static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
-	public static final ElementName EN_VARIANT_EFFECT = new ElementName ("OptionEffect");
-	public static final ElementName EN_VARIANT_EFFECTS = new ElementName ("OptionEffects");
+	public static final ElementName EN_VARIANT_EFFECT = new ElementName ("VariantEffect");
+	public static final ElementName EN_VARIANT_EFFECTS = new ElementName ("VariantEffects");
 	public static final VariantEffect NO_VARIANT_EFFECT = null;
 	public static final String SET_TRAIN_QUANTITY = "Set Train Quantity";
 	public static final String MUST_BUY_TRAIN = "Must Buy Train";
@@ -205,6 +205,7 @@ public class VariantEffect {
 				tTrain.setUnlimitedQuantity ();
 			} else {
 				tFoundQuantity = tBank.getTrainQuantity (tTrainName);
+				// TODO If Found Quantity is Zero, must create a NEW Train using the info in the child of this Effect
 				if (tQuantity > tFoundQuantity) {
 					tAddThisMany = tQuantity - tFoundQuantity;
 					for (tTrainIndex = 0; tTrainIndex < tAddThisMany; tTrainIndex++) {
