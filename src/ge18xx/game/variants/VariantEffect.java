@@ -38,7 +38,6 @@ public class VariantEffect {
 	String phaseName;
 	String cellName;
 	TrainInfo trainInfo;
-//	int quantity;
 	boolean defaultEffect;
 	boolean state;
 
@@ -46,36 +45,27 @@ public class VariantEffect {
 		setValue (NO_NAME, NO_NAME, NO_NAME, NO_NAME, NO_NAME);
 	}
 
-	public VariantEffect (XMLNode aCellNode) {
+	public VariantEffect (XMLNode aVariantEffectNode) {
 		String tAction;
-//		String tTrainName;
 		String tPhaseName;
 		String tCellName;
 		String tName;
-//		int tQuantity;
 		int tTrainCount, tIndex;
 		NodeList tTrainChildren;
 		XMLNode tTrainNode;
 		String tTrainChildName;
 
-		tName = aCellNode.getThisAttribute (AN_NAME);
-		tAction = aCellNode.getThisAttribute (AN_ACTION);
-		if (tAction.equals (SET_TRAIN_QUANTITY)) {
-//			tTrainName = aCellNode.getThisAttribute (AN_TRAIN_NAME);
-//			tQuantity = aCellNode.getThisIntAttribute (AN_QUANTITY);
-//			setValue (tName, tAction, tTrainName, tQuantity, NO_NAME, NO_NAME);
-//		} else if (tAction.equals (ADD_TO_BANK)) {
-//			tQuantity = aCellNode.getThisIntAttribute (AN_QUANTITY);
-//			setValue (tName, tAction, "BANK", tQuantity, NO_NAME, NO_NAME);
-		} else if (tAction.equals (REMOVE_PHASE)) {
-			tPhaseName = aCellNode.getThisAttribute (AN_PHASE_NAME);
+		tName = aVariantEffectNode.getThisAttribute (AN_NAME);
+		tAction = aVariantEffectNode.getThisAttribute (AN_ACTION);
+		if (tAction.equals (REMOVE_PHASE)) {
+			tPhaseName = aVariantEffectNode.getThisAttribute (AN_PHASE_NAME);
 			setValue (tName, tAction, "GAME", tPhaseName, NO_NAME);
 		} else if (tAction.equals (END_GAME_ON_STOCK_CELL)) {
-			tCellName = aCellNode.getThisAttribute (AN_CELL_NAME);
+			tCellName = aVariantEffectNode.getThisAttribute (AN_CELL_NAME);
 			setValue (tName, tAction, "GAME", NO_NAME, tCellName);
 		} else if (tAction.equals (ADD_TRAIN)) {
 			setValue (tName, tAction, "GAME", NO_NAME, NO_NAME);
-			tTrainChildren = aCellNode.getChildNodes ();
+			tTrainChildren = aVariantEffectNode.getChildNodes ();
 			tTrainCount = tTrainChildren.getLength ();
 			for (tIndex = 0; tIndex < tTrainCount; tIndex++) {
 				tTrainNode = new XMLNode (tTrainChildren.item (tIndex));
@@ -109,9 +99,6 @@ public class VariantEffect {
 				tXMLElement.setAttribute (AN_TRAIN_NAME, actorName);
 			}
 		}
-//		if (quantity != NO_QUANTITY) {
-//			tXMLElement.setAttribute (AN_QUANTITY, quantity);
-//		}
 		if (phaseName != NO_NAME) {
 			tXMLElement.setAttribute (AN_PHASE_NAME, phaseName);
 		}
@@ -140,18 +127,10 @@ public class VariantEffect {
 	public String getPhaseName () {
 		return phaseName;
 	}
-//
-//	public int getQuantity () {
-//		return quantity;
-//	}
 
 	public TrainInfo getTrainInfo () {
 		return trainInfo;
 	}
-//
-//	public String getTrainName () {
-//		return actorName;
-//	}
 
 	private void setValue (String aName, String aAction, String aActorName, boolean aState) {
 		name = aName;
@@ -179,50 +158,14 @@ public class VariantEffect {
 	 * 
 	 */
 	public void applyVariantEffect (GameManager aGameManager) {
-//		Train tTrain;
-//		Train tNewTrain;
-//		String tTrainName;
 		String tEffectAction;
-//		int tQuantity;
-//		int tFoundQuantity;
-//		int tAddThisMany;
-//		int tRemoveThisMany;
-//		Bank tBank;
 		CorporationList tCorporationList;
-//		int tTrainIndex;
 
 		tEffectAction = getAction ();
 		if (VariantEffect.MUST_BUY_TRAIN.equals (tEffectAction)) {
 			tCorporationList = aGameManager.getShareCompanies ();
 			System.out.println ("Setting all Companies to MUST BUY TRAIN");
 			tCorporationList.setAllMustBuyTrain ();
-//		} else if (VariantEffect.ADD_TO_BANK.equals (tEffectAction)) {
-//			tBank = aGameManager.getBank ();
-//			tBank.addCash (getQuantity ());
-//		} else if (VariantEffect.SET_TRAIN_QUANTITY.equals (tEffectAction)) {
-//			tTrainName = getTrainName ();
-//			tQuantity = getQuantity ();
-//			tBank = aGameManager.getBank ();
-//			tTrain = tBank.getTrain (tTrainName);
-//			if (tQuantity == TrainInfo.UNLIMITED_TRAINS) {
-//				tTrain.setUnlimitedQuantity ();
-//			} else {
-//				tFoundQuantity = tBank.getTrainQuantity (tTrainName);
-//				// TODO If Found Quantity is Zero, must create a NEW Train using the info in the child of this Effect
-//				if (tQuantity > tFoundQuantity) {
-//					tAddThisMany = tQuantity - tFoundQuantity;
-//					for (tTrainIndex = 0; tTrainIndex < tAddThisMany; tTrainIndex++) {
-//						System.out.println ("Train " + tTrain.getName () + " adding " + tAddThisMany);
-//						tNewTrain = new Train (tTrain);
-//						tBank.addTrain (tNewTrain);
-//					}
-//				} else if (tQuantity < tFoundQuantity) {
-//					tRemoveThisMany = tFoundQuantity - tQuantity;
-//					for (tTrainIndex = 0; tTrainIndex < tRemoveThisMany; tTrainIndex++) {
-//						tBank.removeTrain (tTrainName);
-//					}
-//				}
-//			}
 		}
 	}
 }
