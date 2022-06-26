@@ -59,7 +59,7 @@ public interface ActorI {
 		OperatedTrain ("Operated Train"), HandledLoanInterest ("Handled Loan Interest"),
 		HoldDividend ("No Dividend Paid"), HalfDividend ("Half Dividend Paid"),
 		FullDividend ("Full Dividend Paid"), BoughtTrain ("Bought Train"), 
-		Operated ("Operated"), Unformed ("Unformed"),
+		Operated ("Operated"), Unformed ("Unformed"), Inactive ("INACTIVE"),
 		WaitingResponse ("Waiting for Response"), Fixed ("Fixed"), 
 		NoState ("No State"), Bankrupt ("Bankrupt");
 

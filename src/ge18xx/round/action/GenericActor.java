@@ -117,6 +117,8 @@ public class GenericActor implements ActorI {
 			tCorporationState = ActionStates.WaitingResponse;
 		} else if (aState.equals (ActionStates.Unformed.toString ())) {
 			tCorporationState = ActionStates.Unformed;
+		} else if (aState.equals (ActionStates.Inactive.toString ())) {
+			tCorporationState = ActionStates.Inactive;
 		}
 
 		return tCorporationState;
