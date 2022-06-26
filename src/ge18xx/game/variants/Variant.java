@@ -1,5 +1,7 @@
 package ge18xx.game.variants;
 
+import java.lang.reflect.Constructor;
+
 import org.w3c.dom.NodeList;
 
 import ge18xx.game.GameManager;
@@ -15,8 +17,8 @@ public class Variant {
 	public static final Variant [] NO_VARIANTS = null;
 	public static final ElementName EN_VARIANT = new ElementName ("Variant");
 	public static final ElementName EN_VARIANTS = new ElementName ("Variants");
-	static final AttributeName AN_TITLE = new AttributeName ("title");
-	static final AttributeName AN_TYPE = new AttributeName ("type");
+	public static final AttributeName AN_TITLE = new AttributeName ("title");
+	public static final AttributeName AN_VARIANT_CLASS = new AttributeName ("class");
 	static final String TYPE_ALL = "ALL";
 	static final String TYPE_CHOOSE_ANY = "Choose Any";
 	static final String TYPE_CHOOSE_1 = "Choose 1";
@@ -26,20 +28,26 @@ public class Variant {
 	boolean enabled;
 
 	public Variant () {
-		setValues (NO_TITLE, NO_TITLE);
+		setTitle (NO_TITLE);
 	}
 
 	public Variant (XMLNode aCellNode) {
 		String tTitle;
-		String tType;
+
+		tTitle = aCellNode.getThisAttribute (AN_TITLE);
+		setTitle (tTitle);
+		loadVariantEffects (aCellNode);
+	}
+
+	public void loadVariantEffects (XMLNode aCellNode) {
 		String tChildName;
 		XMLNode tChildNode;
 		NodeList tChildren;
-		int tIndex, tChildrenCount, tEffectIndex;
-
-		tTitle = aCellNode.getThisAttribute (AN_TITLE);
-		tType = aCellNode.getThisAttribute (AN_TITLE, TYPE_ALL);
-		setValues (tTitle, tType);
+		int tIndex;
+		int tChildrenCount;
+		int tEffectIndex;
+		VariantEffect tVariantEffect;
+		
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		tEffectIndex = 0;
@@ -48,11 +56,34 @@ public class Variant {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
 			if (VariantEffect.EN_VARIANT_EFFECT.equals (tChildName)) {
-				variantEffects [tEffectIndex++] = new VariantEffect (tChildNode);
+				tVariantEffect = loadVariantEffect (tChildNode);
+				if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+					variantEffects [tEffectIndex++] = tVariantEffect;
+				}
 			}
 		}
 	}
 
+	public VariantEffect loadVariantEffect (XMLNode aVariantEffectNode) {
+		String tClassName;
+		VariantEffect tVariantEffect;
+		Class<?> tVariantEffectToLoad;
+		Constructor<?> tVariantEffectConstructor;
+		
+		tVariantEffect = VariantEffect.NO_VARIANT_EFFECT;
+		try {
+			tClassName = aVariantEffectNode.getThisAttribute (Variant.AN_VARIANT_CLASS);
+			tVariantEffectToLoad = Class.forName (tClassName);
+			tVariantEffectConstructor = tVariantEffectToLoad.getConstructor (aVariantEffectNode.getClass ());
+			tVariantEffect = (VariantEffect) tVariantEffectConstructor.newInstance (aVariantEffectNode);
+		} catch (Exception tException) {
+			System.err.println ("Caught Exception with message ");
+			tException.printStackTrace ();
+		}
+
+		return tVariantEffect;
+	}
+	
 	public int getEffectCount () {
 		return variantEffects.length;
 	}
@@ -91,22 +122,22 @@ public class Variant {
 	public String getTitle () {
 		return title;
 	}
-
-	public String getType () {
-		return type;
-	}
-	
-	public boolean isTypeAll () {
-		return (type.equals (TYPE_ALL));
-	}
-	
-	public boolean isTypeChoose1 () {
-		return (type.equals (TYPE_CHOOSE_1));
-	}
-	
-	public boolean isTypeChooseAny () {
-		return (type.equals (TYPE_CHOOSE_ANY));
-	}
+////
+////	public String getType () {
+////		return type;
+////	}
+//	
+//	public boolean isTypeAll () {
+//		return (type.equals (TYPE_ALL));
+//	}
+//	
+//	public boolean isTypeChoose1 () {
+//		return (type.equals (TYPE_CHOOSE_1));
+//	}
+//	
+//	public boolean isTypeChooseAny () {
+//		return (type.equals (TYPE_CHOOSE_ANY));
+//	}
 	
 	public boolean isEnabled () {
 		return enabled;
@@ -116,11 +147,15 @@ public class Variant {
 		enabled = aEnabled;
 	}
 
-	private void setValues (String aTitle, String aType) {
+	protected void setTitle (String aTitle) {
 		title = aTitle;
-		type = aType;
-		setEnabled (false);
 	}
+//	
+//	private void setValues (String aTitle, String aType) {
+//		title = aTitle;
+//		type = aType;
+//		setEnabled (false);
+//	}
 	
 	// TODO: Build out a set of OptionEffect sub-classes for each different Variant
 	// Each Variant
