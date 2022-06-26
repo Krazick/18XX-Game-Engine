@@ -9,15 +9,15 @@
 		producers="Avalon Hill / Hasbro (US)" releaseDate="1986"
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		<Variants>
-			<Variant class="ge18xx.game.variants.Variant" title="Optional 6 Train">
+			<Variant class="ge18xx.game.variants.VariantAll" title="Optional 6 Train">
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="(3) 6 Trains" trainName="6" quantity="3" />
 			</Variant>
-			<Variant class="ge18xx.game.variants.Variant" title="Diesel Counts" type="Choose 1">
+			<Variant class="ge18xx.game.variants.VariantChoose1" title="Diesel Counts">
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="Unlimited" trainName="Diesel" quantity="99"/>
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" defaultEffect="true" name="Standard" trainName="Diesel" quantity="6" />
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No Diesels" trainName="Diesel" quantity="0"/>
 			</Variant>
-			<Variant class="ge18xx.game.variants.Variant" title="Introductory Game">
+			<Variant class="ge18xx.game.variants.VariantAll" title="Introductory Game">
 				<VariantEffect action="Add To Bank" class="ge18xx.game.variants.VariantEffect" name="Bank of $4,500" quantity="-7500" />
 			</Variant>
 <!-- 
@@ -315,10 +315,10 @@
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		
 		<Variants>
-			<Variant class="ge18xx.game.variants.Variant" title="$400 Finish">
+			<Variant class="ge18xx.game.variants.VariantAll" title="$400 Finish">
 				<VariantEffect action="End Game on Stock Cell" cellName="A21" class="ge18xx.game.variants.VariantEffect" name="$400 Finish" />
 			</Variant>
-			<Variant class="ge18xx.game.variants.Variant" title="1830 Diesels">
+			<Variant class="ge18xx.game.variants.VariantAll" title="1830 Diesels">
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No 8 Trains" trainName="8" quantity="0" />
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No 10 Trains" trainName="10" quantity="0" />
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No 12 Trains" trainName="12" quantity="0" />
@@ -398,15 +398,15 @@
 		producers="Mayfair" releaseDate="2011"
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		<Variants>
-			<Variant class="ge18xx.game.variants.Variant" title="Optional 6 Train">
+			<Variant class="ge18xx.game.variants.VariantAll" title="Optional 6 Train">
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="(3) 6 Trains" trainName="6" quantity="3" />
 			</Variant>
-			<Variant class="ge18xx.game.variants.Variant" title="Diesel Counts" type="Choose 1">
+			<Variant class="ge18xx.game.variants.VariantChoose1" title="Diesel Counts">
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="Unlimited" trainName="Diesel" quantity="99"/>
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" defaultEffect="true" name="Standard" trainName="Diesel" quantity="6" />
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No Diesels" trainName="Diesel" quantity="0"/>
 			</Variant>
-			<Variant class="ge18xx.game.variants.Variant" title="Introductory Game">
+			<Variant class="ge18xx.game.variants.VariantAll" title="Introductory Game">
 				<VariantEffect action="Add To Bank" class="ge18xx.game.variants.VariantEffect" name="Bank of $4,500" quantity="-7500" />
 			</Variant>
 <!-- 
@@ -465,15 +465,15 @@
 		producers="Mayfair" releaseDate="2011"
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		<Variants>
-			<Variant class="ge18xx.game.variants.Variant" title="Optional 6 Train">
+			<Variant class="ge18xx.game.variants.VariantAll" title="Optional 6 Train">
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="(3) 6 Trains" trainName="6" quantity="3" />
 			</Variant>
-			<Variant class="ge18xx.game.variants.Variant" title="Diesel Counts" type="Choose 1">
+			<Variant class="ge18xx.game.variants.VariantChoose1" title="Diesel Counts">
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="Unlimited" trainName="Diesel" quantity="99"/>
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" defaultEffect="true" name="Standard" trainName="Diesel" quantity="6" />
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.VariantEffect" name="No Diesels" trainName="Diesel" quantity="0"/>
 			</Variant>
-			<Variant class="ge18xx.game.variants.Variant" title="Introductory Game">
+			<Variant class="ge18xx.game.variants.VariantAll" title="Introductory Game">
 				<VariantEffect action="Add To Bank" class="ge18xx.game.variants.VariantEffect" name="Bank of $4,500" quantity="-7500" />
 			</Variant>
 <!-- 
