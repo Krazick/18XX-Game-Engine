@@ -102,24 +102,33 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 
 	public void loadTrains (GameInfo aActiveGame) {
-		int tTrainIndex, tTrainCount, tTrainQty, tTrainIndex2;
+		int tTrainIndex, tTrainCount, tTrainQty;
 		TrainInfo tTrainInfo;
-		Train tTrain, tNewTrain;
+
 
 		tTrainCount = aActiveGame.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			tTrainInfo = aActiveGame.getTrainInfo (tTrainIndex);
 			tTrainQty = tTrainInfo.getQuantity ();
-			tTrain = tTrainInfo.getTrain ();
-			if (tTrainInfo.isStartPhase ()) {
-				tTrain.setStatus (Train.AVAILABLE_FOR_PURCHASE);
-			}
-			for (tTrainIndex2 = 0; tTrainIndex2 < tTrainQty; tTrainIndex2++) {
-				tNewTrain = new Train (tTrain);
-				addTrain (tNewTrain);
-			}
+			loadTrains (tTrainQty, tTrainInfo);
 		}
 	}
+
+	public void loadTrains (int aQuantity, TrainInfo aTrainInfo) {
+		int tTrainIndex;
+		Train tTrain;
+		Train tNewTrain;
+		
+		tTrain = aTrainInfo.getTrain ();
+		if (aTrainInfo.isStartPhase ()) {
+			tTrain.setStatus (Train.AVAILABLE_FOR_PURCHASE);
+		}
+		for (tTrainIndex = 0; tTrainIndex < aQuantity; tTrainIndex++) {
+			tNewTrain = new Train (tTrain);
+			addTrain (tNewTrain);
+		}
+	}
+
 
 	public void loadCorporations (CorporationList aCorporationList) {
 		Corporation tCorporation;
