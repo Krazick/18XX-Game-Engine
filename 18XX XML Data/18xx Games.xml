@@ -322,10 +322,9 @@
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="No 8 Trains" trainName="8" quantity="0" />
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="No 10 Trains" trainName="10" quantity="0" />
 				<VariantEffect action="Set Train Quantity" class="ge18xx.game.variants.SetTrainCountVEffect" name="No 12 Trains" trainName="12" quantity="0" />
-				<VariantEffect action="Add Train" class="ge18xx.game.variants.VariantEffect" name="Add 6 Diesels" >
+				<VariantEffect action="Add Train" class="ge18xx.game.variants.AddTrainVEffect" name="Add 6 Diesels" quantity="6">
 					<Train name="Diesel" order="9" revenueCenters="unlimited" quantity="6"
-					price="1100" triggerPhase="3.3" discountPrice="800" tradeInTrain="4,5,6"
-					rust="4" />
+							price="1100" triggerPhase="3.3" discountPrice="800" tradeInTrain="4,5,6" rust="4" />
 				</VariantEffect>
 				<VariantEffect action="Remove Phase" class="ge18xx.game.variants.VariantEffect" name="No Phase 7" phaseName="7" />
 				<VariantEffect action="Remove Phase" class="ge18xx.game.variants.VariantEffect" name="No Phase 8" phaseName="8" />
