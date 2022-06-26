@@ -23,6 +23,8 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
+import java.lang.reflect.Constructor;
+
 import org.w3c.dom.NodeList;
 
 public class GameInfo {
@@ -216,8 +218,22 @@ public class GameInfo {
 
 	ParsingRoutineI variantsParsingRoutine = new ParsingRoutineI () {
 		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			variants [variantIndex++] = new Variant (aChildNode);
+		public void foundItemMatchKey1 (XMLNode tVariantNode) {
+			String tClassName;
+			Variant tVariant;
+			Class<?> tVariantToLoad;
+			Constructor<?> tVariantConstructor;
+			
+			try {
+				tClassName = tVariantNode.getThisAttribute (Variant.AN_VARIANT_CLASS);
+				tVariantToLoad = Class.forName (tClassName);
+				tVariantConstructor = tVariantToLoad.getConstructor (tVariantNode.getClass ());
+				tVariant = (Variant) tVariantConstructor.newInstance (tVariantNode);
+				variants [variantIndex++] = tVariant;
+			} catch (Exception tException) {
+				System.err.println ("Caught Exception with message ");
+				tException.printStackTrace ();
+			}
 		}
 	};
 
