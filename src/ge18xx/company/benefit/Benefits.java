@@ -40,6 +40,8 @@ public class Benefits {
 
 		tBenefitChildren = aBenefitsNode.getChildNodes ();
 		tBenefitNodeCount = tBenefitChildren.getLength ();
+		tBenefitNodeName = "NO BENEFIT YET";
+		tClassName = "No Class Yet";
 		try {
 			for (tBenefitIndex = 0; tBenefitIndex < tBenefitNodeCount; tBenefitIndex++) {
 				tBenefitNode = new XMLNode (tBenefitChildren.item (tBenefitIndex));
@@ -56,7 +58,7 @@ public class Benefits {
 				}
 			}
 		} catch (Exception tException) {
-			System.err.println ("Caught Exception with message ");
+			System.err.println ("Caught Exception for Benefit Class " + tClassName + " with Stack Trace");
 			tException.printStackTrace ();
 		}
 	}
