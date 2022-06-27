@@ -1,10 +1,15 @@
 package ge18xx.game.variants;
 
+import java.awt.event.ItemListener;
+
+import javax.swing.JComponent;
+
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -12,6 +17,7 @@ import ge18xx.utilities.XMLNode;
 public class SetTrainCountVEffect extends VariantEffect {
 	static final AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");
 	static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
+
 	static final String NAME = "Set Train Count";
 	String trainName;
 	int quantity;
@@ -107,5 +113,37 @@ public class SetTrainCountVEffect extends VariantEffect {
 			}
 		}
 	}
-
+	
+	/**
+	 * Variant Effect Component Builder -- this should be overriden by the subclasses
+	 * 
+	 * @param aItemListener Placeholder for the Item Listener class that will handle the request
+	 * @return a CheckBox, Radio Button or JLabel based upon the Component Type to build
+	 * 
+	 */
+	@Override
+	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType, ItemListener aItemListener) {
+		JComponent tEffectComponent;
+		
+		switch (aComponentType) {
+		
+		case CHECKBOX:
+			tEffectComponent = buildEffectCheckBox (aItemListener);
+			break;
+			
+		case RADIO_BUTTON:
+			tEffectComponent = buildEffectRadioButton (aItemListener);
+			break;
+			
+		case JLABEL:
+			tEffectComponent = buildEffectJLabel (aItemListener);
+			break;
+			
+		default:
+			tEffectComponent = GUI.NO_JCOMPONENT;
+			break;
+		}
+		
+		return tEffectComponent;
+	}
 }

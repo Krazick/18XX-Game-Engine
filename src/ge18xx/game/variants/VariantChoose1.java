@@ -1,5 +1,9 @@
 package ge18xx.game.variants;
 
+import java.awt.event.ItemListener;
+
+import javax.swing.JPanel;
+
 import ge18xx.utilities.XMLNode;
 
 public class VariantChoose1 extends Variant {
@@ -9,9 +13,16 @@ public class VariantChoose1 extends Variant {
 		setTitle (TITLE);
 	}
 
-	public VariantChoose1 (XMLNode aCellNode) {
-		super (aCellNode);
-		// TODO Auto-generated constructor stub
+	public VariantChoose1 (XMLNode aXMLNode) {
+		super (aXMLNode);
 	}
-
+	
+	@Override
+	public JPanel buildVariantDescription (ItemListener aItemListener) {
+		JPanel tDescPanel;
+		
+		tDescPanel = buildVariantDescription (VariantEffect.ComponentType.RADIO_BUTTON, aItemListener);
+		
+		return tDescPanel;
+	}
 }

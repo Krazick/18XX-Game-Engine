@@ -1,5 +1,9 @@
 package ge18xx.game.variants;
 
+import java.awt.event.ItemListener;
+
+import javax.swing.JComponent;
+
 import org.w3c.dom.NodeList;
 
 import ge18xx.bank.Bank;
@@ -20,21 +24,20 @@ public class AddTrainVEffect extends VariantEffect {
 		setName (NAME);
 	}
 	
-	public AddTrainVEffect (XMLNode aCellNode) {
-		super (aCellNode);
+	public AddTrainVEffect (XMLNode aXMLNode) {
+		super (aXMLNode);
 
 		int tQuantity;
 		
-		tQuantity = aCellNode.getThisIntAttribute (AN_QUANTITY);
+		tQuantity = aXMLNode.getThisIntAttribute (AN_QUANTITY);
 		setQuantity (tQuantity);
-		loadTrainInfo (aCellNode);
+		loadTrainInfo (aXMLNode);
 	}
 
 	public int getQuantity () {
 		return quantity;
 	}
 	
-	@Override
 	public TrainInfo getTrainInfo () {
 		return trainInfo;
 	}
@@ -82,5 +85,21 @@ public class AddTrainVEffect extends VariantEffect {
 		tBank = aGameManager.getBank ();
 		System.out.println ("Train " + trainInfo.getName () + " adding " + quantity);
 		tBank.loadTrains (quantity, trainInfo);
+	}
+	
+	/**
+	 * Variant Effect Component Builder -- this should be overriden by the subclasses
+	 * 
+	 * @param aItemListener Placeholder for the Item Listener class that will handle the request
+	 * @return 
+	 * 
+	 */
+	@Override
+	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType, ItemListener aItemListener) {
+		JComponent tEffectComponent;
+
+		tEffectComponent = buildEffectJLabel (aItemListener) ;
+		
+		return tEffectComponent;
 	}
 }

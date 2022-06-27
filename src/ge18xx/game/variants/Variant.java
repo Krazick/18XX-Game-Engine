@@ -1,12 +1,23 @@
 package ge18xx.game.variants;
 
+import java.awt.event.ItemListener;
 import java.lang.reflect.Constructor;
+
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import org.w3c.dom.NodeList;
 
 import ge18xx.game.GameManager;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -26,6 +37,7 @@ public class Variant {
 	String type;
 	VariantEffect variantEffects [];
 	boolean enabled;
+	JComponent titleComponent;
 
 	public Variant () {
 		setTitle (NO_TITLE);
@@ -84,6 +96,57 @@ public class Variant {
 		return tVariantEffect;
 	}
 	
+	public JPanel buildVariantDescription (ItemListener aItemListener) {
+		return GUI.NO_PANEL;
+	}
+	
+	public JComponent buildTitleComponent (VariantEffect.ComponentType aEffectComponentType) {
+		JComponent tTitleComponent;
+		
+		if (aEffectComponentType == VariantEffect.ComponentType.JLABEL) {
+			tTitleComponent = new JCheckBox (getTitle ());	
+		} else {
+			tTitleComponent = new JLabel (getTitle ());
+		}
+		tTitleComponent.setBorder (BorderFactory.createEmptyBorder (5, 0, 0, 0));
+		
+		return tTitleComponent;
+	}
+	
+	public JPanel buildVariantDescription (VariantEffect.ComponentType aEffectComponentType, ItemListener aItemListener) {
+		JPanel tDescPanel;
+		JComponent tTitleComponent;
+		JComponent tEffectComponent;
+		ButtonGroup tEffectButtonGroup;
+		boolean tRadioButtonGroup;
+		
+		tDescPanel = new JPanel ();
+		tDescPanel.setLayout (new BoxLayout (tDescPanel, BoxLayout.PAGE_AXIS));
+		
+		tTitleComponent = buildTitleComponent (aEffectComponentType);
+		tDescPanel.add (tTitleComponent);
+		
+		tRadioButtonGroup = (aEffectComponentType == VariantEffect.ComponentType.RADIO_BUTTON);
+		if (tRadioButtonGroup) {
+			tEffectButtonGroup = new ButtonGroup ();
+		} else {
+			tEffectButtonGroup = GUI.NO_BUTTON_GROUP;
+		}
+		for (VariantEffect tVariantEffect : variantEffects) {
+			if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+				tEffectComponent = tVariantEffect.buildEffectComponent (aEffectComponentType, aItemListener);
+				if (tEffectComponent != VariantEffect.NO_VARIANT_COMPONENT) {
+					tDescPanel.add (tEffectComponent);
+					if (tRadioButtonGroup) {
+						tEffectButtonGroup.add ((AbstractButton) tEffectComponent);
+					}
+				}
+			}
+		}
+		
+		return tDescPanel;
+	}
+	
 	public int getEffectCount () {
 		return variantEffects.length;
 	}
@@ -122,22 +185,6 @@ public class Variant {
 	public String getTitle () {
 		return title;
 	}
-////
-////	public String getType () {
-////		return type;
-////	}
-//	
-//	public boolean isTypeAll () {
-//		return (type.equals (TYPE_ALL));
-//	}
-//	
-//	public boolean isTypeChoose1 () {
-//		return (type.equals (TYPE_CHOOSE_1));
-//	}
-//	
-//	public boolean isTypeChooseAny () {
-//		return (type.equals (TYPE_CHOOSE_ANY));
-//	}
 	
 	public boolean isEnabled () {
 		return enabled;
@@ -150,12 +197,6 @@ public class Variant {
 	protected void setTitle (String aTitle) {
 		title = aTitle;
 	}
-//	
-//	private void setValues (String aTitle, String aType) {
-//		title = aTitle;
-//		type = aType;
-//		setEnabled (false);
-//	}
 	
 	// TODO: Build out a set of OptionEffect sub-classes for each different Variant
 	// Each Variant

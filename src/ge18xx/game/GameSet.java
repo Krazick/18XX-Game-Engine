@@ -58,7 +58,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	JPanel listAndButtonJPanel;
 	ButtonGroup gameButtons;
 	JRadioButton gameRadioButtons [];
-	JCheckBox gameOptions [];
+//	JCheckBox gameOptions [];
 	JPanel gameVariants [];
 	JButton newGameButton;
 	JButton networkGameButton;
@@ -286,14 +286,21 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 
 		tIndex = 0;
 		tGameInfo = getSelectedGame ();
-		for (Object tObject : gameOptions) {
-			if (tObject == tSource) {
-				tIsSelected = ((JCheckBox) tSource).isSelected ();
-				tOption = tGameInfo.getVariantIndex (tIndex);
-				tOption.setEnabled (tIsSelected);
-			}
-			tIndex++;
+		System.out.println ("Item State Changed...");
+		for (JPanel tPanel : gameVariants) {
+			// TODO: Expand with looking into each Panel
+			// testing if the provided Source is within the Panel
+			// and Store within the GameInfo of the Selected Game which Variants are enabled
+			// Or other appropriate value is provided
 		}
+//		for (Object tObject : gameVariants) {
+//			if (tObject == tSource) {
+//				tIsSelected = ((JCheckBox) tSource).isSelected ();
+//				tOption = tGameInfo.getVariantIndex (tIndex);
+//				tOption.setEnabled (tIsSelected);
+//			}
+//			tIndex++;
+//		}
 	}
 
 	public void clearAllSelectedGames () {
@@ -384,11 +391,6 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	}
 
 	private void showDescriptionAndVariants (int aIndex) {
-		String tDescription;
-		int tOptionCount, tOptionIndex;
-		Variant tOption;
-		String tOptionName;
-
 		if (descAndVariantsJPanel == GUI.NO_PANEL) {
 			descAndVariantsJPanel = new JPanel ();
 			descAndVariantsJPanel.setLayout (new BoxLayout (descAndVariantsJPanel, BoxLayout.Y_AXIS));
@@ -401,25 +403,33 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 			} else {
 				gameDescriptionLabel.setText (NO_DESCRIPTION);
 			}
-			tDescription = NO_DESCRIPTION;
 			descAndVariantsJPanel.add (gameDescriptionLabel);
 		} else {
-			tDescription = gameInfo [aIndex].getHTMLDescription ();
-			gameDescriptionLabel.setText (tDescription);
-			descAndVariantsJPanel.add (gameDescriptionLabel);
-			tOptionCount = gameInfo [aIndex].getVariantCount ();
-
-			gameOptions = new JCheckBox [tOptionCount];
-			for (tOptionIndex = 0; tOptionIndex < tOptionCount; tOptionIndex++) {
-				tOption = gameInfo [aIndex].getVariantIndex (tOptionIndex);
-				tOptionName = tOption.getTitle ();
-				gameOptions [tOptionIndex] = new JCheckBox (tOptionName);
-				gameOptions [tOptionIndex].addItemListener (this);
-				descAndVariantsJPanel.add (gameOptions [tOptionIndex]);
-			}
+			buildGameDescription (aIndex);
 		}
 		gameInfoJPanel.removeAll ();
 		gameInfoJPanel.add (descAndVariantsJPanel);
 		playerInputFrame.addGameInfoPanel (gameInfoJPanel);
 	}
+
+	public void buildGameDescription (int aIndex) {
+		String tDescription;
+		int tVariantCount;
+		int tVariantIndex;
+		Variant tVariant;
+		
+		tDescription = gameInfo [aIndex].getHTMLDescription ();
+		gameDescriptionLabel.setText (tDescription);
+		descAndVariantsJPanel.add (gameDescriptionLabel);
+		tVariantCount = gameInfo [aIndex].getVariantCount ();
+
+		gameVariants = new JPanel [tVariantCount];
+		for (tVariantIndex = 0; tVariantIndex < tVariantCount; tVariantIndex++) {
+			tVariant = gameInfo [aIndex].getVariantIndex (tVariantIndex);
+			gameVariants [tVariantIndex] = tVariant.buildVariantDescription (this);
+			descAndVariantsJPanel.add (gameVariants [tVariantIndex]);
+		}
+	}
+	
+	
 }

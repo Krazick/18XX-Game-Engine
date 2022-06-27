@@ -1,5 +1,10 @@
 package ge18xx.game.variants;
 
+import java.awt.event.ItemListener;
+
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.utilities.AttributeName;
@@ -73,5 +78,21 @@ public class AddBankCashVEffect extends VariantEffect {
 		
 		tBank = aGameManager.getBank ();
 		tBank.addCash (getQuantity ());
+	}
+	
+	/**
+	 * Variant Effect Component Builder -- this should be overriden by the subclasses
+	 * 
+	 * @param aItemListener Placeholder for the Item Listener class that will handle the request
+	 * @return from this case NO_VARIANT_COMPONENT
+	 * 
+	 */
+	@Override
+	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType, ItemListener aItemListener) {
+		JLabel tComponentLabel;
+		
+		tComponentLabel = buildEffectJLabel (aItemListener);
+
+		return tComponentLabel;	
 	}
 }
