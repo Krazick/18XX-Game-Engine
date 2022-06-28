@@ -1,6 +1,7 @@
 package ge18xx.game.variants;
 
 import java.awt.event.ItemListener;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -24,5 +25,16 @@ public class VariantChoose1 extends Variant {
 		tDescPanel = buildVariantDescription (VariantEffect.ComponentType.RADIO_BUTTON, aItemListener);
 		
 		return tDescPanel;
+	}
+	
+	@Override
+	public void addActiveVariantEffects (List<VariantEffect> aActiveVariantEffects) {
+		for (VariantEffect tVariantEffect : variantEffects) {
+			if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+				if (tVariantEffect.isSelected ()) {
+					aActiveVariantEffects.add (tVariantEffect);
+				}
+			}
+		}
 	}
 }

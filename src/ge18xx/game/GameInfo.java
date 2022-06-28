@@ -1,6 +1,7 @@
 package ge18xx.game;
 
 import ge18xx.game.variants.Variant;
+import ge18xx.game.variants.VariantEffect;
 
 //
 //  GameInfo.java
@@ -24,6 +25,8 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 import java.lang.reflect.Constructor;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.w3c.dom.NodeList;
 
@@ -244,6 +247,45 @@ public class GameInfo {
 		}
 	};
 
+	public List<VariantEffect> getActiveVariantEffects () {
+		List<VariantEffect> tActiveVariantEffects;
+		
+		tActiveVariantEffects = new LinkedList<VariantEffect> ();
+		for (Variant tVariant: variants) {
+			tVariant.addActiveVariantEffects (tActiveVariantEffects);
+		}
+		
+		return tActiveVariantEffects;
+	}
+
+	public void setupVariants (GameManager aGameManager) {
+		List<VariantEffect> tActiveVariantEffects;
+		
+		tActiveVariantEffects = getActiveVariantEffects ();
+		if (tActiveVariantEffects != VariantEffect.NO_VARIANT_EFFECTS) {
+			if (tActiveVariantEffects.size () > 0) {
+				for (VariantEffect tVariantEffect : tActiveVariantEffects) {
+					tVariantEffect.applyVariantEffect (aGameManager);
+				}
+			}
+		}
+	}
+
+	public void printActiveVariants (List<VariantEffect> aActiveVariantEffects) {
+		if (aActiveVariantEffects != VariantEffect.NO_VARIANT_EFFECTS) {
+			if (aActiveVariantEffects.size () > 0) {
+				System.out.println ("Variant Effects to be Active:");
+				for (VariantEffect tVariantEffect : aActiveVariantEffects) {
+					System.out.println ("Variant Effect " + tVariantEffect.getAction ());
+				}
+			} else {
+				System.err.println ("No Variant Effects Found in List");
+			}
+		} else {
+			System.err.println ("No Variant Effects Active");
+		}
+	}
+	
 	public boolean canPayHalfDividend () {
 		return canPayHalfDividend;
 	}
@@ -503,18 +545,6 @@ public class GameInfo {
 
 	public void setPlayerShareLimit (int aPlayerShareLimit) {
 		playerShareLimit = aPlayerShareLimit;
-	}
-
-	public void setupVariants (GameManager aGameManager) {
-		if (variants != Variant.NO_VARIANTS) {
-			if (variants.length > 0) {
-				for (Variant tVariant : variants) {
-					if (tVariant.isEnabled ()) {
-						tVariant.applyVariantEffects (aGameManager);
-					}
-				}
-			}
-		}
 	}
 
 	public void setValues (int aID, String aName, int aMinPlayers, int aMaxPlayers, int aBankTotal, String aFormat) {

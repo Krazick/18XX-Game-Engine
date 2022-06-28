@@ -83,7 +83,6 @@ public class AddTrainVEffect extends VariantEffect {
 		Bank tBank;
 		
 		tBank = aGameManager.getBank ();
-		System.out.println ("Train " + trainInfo.getName () + " adding " + quantity);
 		tBank.loadTrains (quantity, trainInfo);
 	}
 	

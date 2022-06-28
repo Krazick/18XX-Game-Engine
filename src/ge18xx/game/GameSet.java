@@ -31,7 +31,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -278,21 +277,21 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
-		Object tSource = aItemEvent.getItemSelectable ();
-		int tIndex;
-		Variant tOption;
-		GameInfo tGameInfo;
-		boolean tIsSelected;
-
-		tIndex = 0;
-		tGameInfo = getSelectedGame ();
-		System.out.println ("Item State Changed...");
-		for (JPanel tPanel : gameVariants) {
+//		Object tSource = aItemEvent.getItemSelectable ();
+//		int tIndex;
+//		Variant tOption;
+//		GameInfo tGameInfo;
+//		boolean tIsSelected;
+//
+//		tIndex = 0;
+//		tGameInfo = getSelectedGame ();
+//		System.out.println ("Item State Changed...");
+//		for (JPanel tPanel : gameVariants) {
 			// TODO: Expand with looking into each Panel
 			// testing if the provided Source is within the Panel
 			// and Store within the GameInfo of the Selected Game which Variants are enabled
 			// Or other appropriate value is provided
-		}
+//		}
 //		for (Object tObject : gameVariants) {
 //			if (tObject == tSource) {
 //				tIsSelected = ((JCheckBox) tSource).isSelected ();

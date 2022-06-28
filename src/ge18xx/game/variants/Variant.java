@@ -2,6 +2,7 @@ package ge18xx.game.variants;
 
 import java.awt.event.ItemListener;
 import java.lang.reflect.Constructor;
+import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -25,6 +26,7 @@ import ge18xx.utilities.XMLNode;
 public class Variant {
 	static final String NO_TITLE = "<NO TITLE>";
 	public static final Variant NO_VARIANT = null;
+	public static final JComponent NO_VARIANT_COMPONENT = null;
 	public static final Variant [] NO_VARIANTS = null;
 	public static final ElementName EN_VARIANT = new ElementName ("Variant");
 	public static final ElementName EN_VARIANTS = new ElementName ("Variants");
@@ -115,7 +117,6 @@ public class Variant {
 	
 	public JPanel buildVariantDescription (VariantEffect.ComponentType aEffectComponentType, ItemListener aItemListener) {
 		JPanel tDescPanel;
-		JComponent tTitleComponent;
 		JComponent tEffectComponent;
 		ButtonGroup tEffectButtonGroup;
 		boolean tRadioButtonGroup;
@@ -123,8 +124,8 @@ public class Variant {
 		tDescPanel = new JPanel ();
 		tDescPanel.setLayout (new BoxLayout (tDescPanel, BoxLayout.PAGE_AXIS));
 		
-		tTitleComponent = buildTitleComponent (aEffectComponentType);
-		tDescPanel.add (tTitleComponent);
+		titleComponent = buildTitleComponent (aEffectComponentType);
+		tDescPanel.add (titleComponent);
 		
 		tRadioButtonGroup = (aEffectComponentType == VariantEffect.ComponentType.RADIO_BUTTON);
 		if (tRadioButtonGroup) {
@@ -135,7 +136,8 @@ public class Variant {
 		for (VariantEffect tVariantEffect : variantEffects) {
 			if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
 				tEffectComponent = tVariantEffect.buildEffectComponent (aEffectComponentType, aItemListener);
-				if (tEffectComponent != VariantEffect.NO_VARIANT_COMPONENT) {
+				if (tEffectComponent != VariantEffect.NO_VARIANT_EFFECT_COMPONENT) {
+					tVariantEffect.setEffectComponent (tEffectComponent);
 					tDescPanel.add (tEffectComponent);
 					if (tRadioButtonGroup) {
 						tEffectButtonGroup.add ((AbstractButton) tEffectComponent);
@@ -211,5 +213,26 @@ public class Variant {
 				tEffect.applyVariantEffect (aGameManager);
 			}
 		}
+	}
+
+	public void addActiveVariantEffects (List<VariantEffect> aActiveVariantEffects) {
+		System.err.println ("Base Class should not be called, sub-classes should override this method");
+	}
+	
+	public boolean isActive () {
+		boolean tIsActive;
+		JCheckBox tCheckBox;
+		
+		tIsActive = false;
+		if (titleComponent != GUI.NO_JCOMPONENT) {
+			if (titleComponent instanceof JCheckBox) {
+				tCheckBox = (JCheckBox) titleComponent;
+				if (tCheckBox.isSelected ()) {
+					tIsActive = true;
+				}
+			}
+		}
+		
+		return tIsActive;
 	}
 }

@@ -90,7 +90,6 @@ public class SetTrainCountVEffect extends VariantEffect {
 		int tTrainIndex;
 		int tRemoveThisMany;
 		
-		System.out.println ("Setting Train Quanity in Subclass");
 		tBank = aGameManager.getBank ();
 		tTrain = tBank.getTrain (trainName);
 		if (quantity == TrainInfo.UNLIMITED_TRAINS) {
@@ -101,7 +100,6 @@ public class SetTrainCountVEffect extends VariantEffect {
 			if (quantity > tFoundQuantity) {
 				tAddThisMany = quantity - tFoundQuantity;
 				for (tTrainIndex = 0; tTrainIndex < tAddThisMany; tTrainIndex++) {
-					System.out.println ("Train " + tTrain.getName () + " adding " + tAddThisMany);
 					tNewTrain = new Train (tTrain);
 					tBank.addTrain (tNewTrain);
 				}

@@ -1,6 +1,7 @@
 package ge18xx.game.variants;
 
 import java.awt.event.ItemListener;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -24,6 +25,17 @@ public class VariantAll extends Variant {
 		tDescPanel = buildVariantDescription (VariantEffect.ComponentType.JLABEL, aItemListener);
 		
 		return tDescPanel;
+	}
+	
+	@Override
+	public void addActiveVariantEffects (List<VariantEffect> aActiveVariantEffects) {
+		if (isActive ()) {
+			for (VariantEffect tVariantEffect : variantEffects) {
+				if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+					aActiveVariantEffects.add (tVariantEffect);
+				}
+			}
+		}
 	}
 
 }
