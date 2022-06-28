@@ -1,7 +1,5 @@
 package ge18xx.game.variants;
 
-import java.awt.event.ItemListener;
-
 import javax.swing.JComponent;
 
 import org.w3c.dom.NodeList;
@@ -94,10 +92,10 @@ public class AddTrainVEffect extends VariantEffect {
 	 * 
 	 */
 	@Override
-	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType, ItemListener aItemListener) {
+	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType) {
 		JComponent tEffectComponent;
 
-		tEffectComponent = buildEffectJLabel (aItemListener) ;
+		tEffectComponent = buildEffectJLabel () ;
 		
 		return tEffectComponent;
 	}

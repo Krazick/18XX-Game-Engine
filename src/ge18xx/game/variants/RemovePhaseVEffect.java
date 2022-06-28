@@ -1,7 +1,5 @@
 package ge18xx.game.variants;
 
-import java.awt.event.ItemListener;
-
 import javax.swing.JComponent;
 
 import ge18xx.game.GameManager;
@@ -53,10 +51,10 @@ public class RemovePhaseVEffect extends VariantEffect {
 	 * 
 	 */
 	@Override
-	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType, ItemListener aItemListener) {
+	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType) {
 		JComponent tEffectComponent;
 
-		tEffectComponent = buildEffectJLabel (aItemListener) ;
+		tEffectComponent = buildEffectJLabel () ;
 		
 		return tEffectComponent;
 	}

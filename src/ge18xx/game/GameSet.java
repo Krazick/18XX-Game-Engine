@@ -22,8 +22,6 @@ import ge18xx.utilities.XMLNodeList;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 import java.io.IOException;
 
@@ -37,7 +35,7 @@ import javax.swing.JRadioButton;
 
 import org.w3c.dom.NodeList;
 
-public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
+public class GameSet implements LoadableXMLI, ActionListener {
 	final ElementName EN_GAMES = new ElementName ("Games");
 	final ElementName EN_NETWORK = new ElementName ("Network");
 	public static final int NO_GAME_SELECTED = -1;
@@ -57,7 +55,6 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 	JPanel listAndButtonJPanel;
 	ButtonGroup gameButtons;
 	JRadioButton gameRadioButtons [];
-//	JCheckBox gameOptions [];
 	JPanel gameVariants [];
 	JButton newGameButton;
 	JButton networkGameButton;
@@ -275,33 +272,6 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		return "Game Set";
 	}
 
-	@Override
-	public void itemStateChanged (ItemEvent aItemEvent) {
-//		Object tSource = aItemEvent.getItemSelectable ();
-//		int tIndex;
-//		Variant tOption;
-//		GameInfo tGameInfo;
-//		boolean tIsSelected;
-//
-//		tIndex = 0;
-//		tGameInfo = getSelectedGame ();
-//		System.out.println ("Item State Changed...");
-//		for (JPanel tPanel : gameVariants) {
-			// TODO: Expand with looking into each Panel
-			// testing if the provided Source is within the Panel
-			// and Store within the GameInfo of the Selected Game which Variants are enabled
-			// Or other appropriate value is provided
-//		}
-//		for (Object tObject : gameVariants) {
-//			if (tObject == tSource) {
-//				tIsSelected = ((JCheckBox) tSource).isSelected ();
-//				tOption = tGameInfo.getVariantIndex (tIndex);
-//				tOption.setEnabled (tIsSelected);
-//			}
-//			tIndex++;
-//		}
-	}
-
 	public void clearAllSelectedGames () {
 		gameButtons.clearSelection ();
 	}
@@ -425,7 +395,7 @@ public class GameSet implements LoadableXMLI, ActionListener, ItemListener {
 		gameVariants = new JPanel [tVariantCount];
 		for (tVariantIndex = 0; tVariantIndex < tVariantCount; tVariantIndex++) {
 			tVariant = gameInfo [aIndex].getVariantIndex (tVariantIndex);
-			gameVariants [tVariantIndex] = tVariant.buildVariantDescription (this);
+			gameVariants [tVariantIndex] = tVariant.buildVariantDescription ();
 			descAndVariantsJPanel.add (gameVariants [tVariantIndex]);
 		}
 	}

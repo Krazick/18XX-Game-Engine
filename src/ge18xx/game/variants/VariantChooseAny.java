@@ -1,6 +1,5 @@
 package ge18xx.game.variants;
 
-import java.awt.event.ItemListener;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -19,10 +18,10 @@ public class VariantChooseAny extends Variant {
 	}
 	
 	@Override
-	public JPanel buildVariantDescription (ItemListener aItemListener) {
+	public JPanel buildVariantDescription () {
 		JPanel tDescPanel;
 		
-		tDescPanel = buildVariantDescription (VariantEffect.ComponentType.CHECKBOX, aItemListener);
+		tDescPanel = buildVariantDescription (VariantEffect.ComponentType.CHECKBOX);
 		
 		return tDescPanel;
 	}

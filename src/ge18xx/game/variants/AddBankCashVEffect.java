@@ -1,7 +1,5 @@
 package ge18xx.game.variants;
 
-import java.awt.event.ItemListener;
-
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
@@ -88,10 +86,10 @@ public class AddBankCashVEffect extends VariantEffect {
 	 * 
 	 */
 	@Override
-	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType, ItemListener aItemListener) {
+	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType) {
 		JLabel tComponentLabel;
 		
-		tComponentLabel = buildEffectJLabel (aItemListener);
+		tComponentLabel = buildEffectJLabel ();
 
 		return tComponentLabel;	
 	}

@@ -1,7 +1,5 @@
 package ge18xx.game.variants;
 
-import java.awt.event.ItemListener;
-
 import javax.swing.JComponent;
 
 import ge18xx.bank.Bank;
@@ -120,21 +118,21 @@ public class SetTrainCountVEffect extends VariantEffect {
 	 * 
 	 */
 	@Override
-	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType, ItemListener aItemListener) {
+	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType) {
 		JComponent tEffectComponent;
 		
 		switch (aComponentType) {
 		
 		case CHECKBOX:
-			tEffectComponent = buildEffectCheckBox (aItemListener);
+			tEffectComponent = buildEffectCheckBox ();
 			break;
 			
 		case RADIO_BUTTON:
-			tEffectComponent = buildEffectRadioButton (aItemListener);
+			tEffectComponent = buildEffectRadioButton ();
 			break;
 			
 		case JLABEL:
-			tEffectComponent = buildEffectJLabel (aItemListener);
+			tEffectComponent = buildEffectJLabel ();
 			break;
 			
 		default:

@@ -1,7 +1,5 @@
 package ge18xx.game.variants;
 
-import java.awt.event.ItemListener;
-
 import javax.swing.JComponent;
 
 import ge18xx.bank.Bank;
@@ -57,10 +55,10 @@ public class ActivateCompanyVEffect extends VariantEffect {
 	 * 
 	 */
 	@Override
-	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType, ItemListener aItemListener) {
+	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType) {
 		JComponent tEffectComponent;
 
-		tEffectComponent = buildEffectCheckBox (aItemListener);
+		tEffectComponent = buildEffectCheckBox ();
 		
 		return tEffectComponent;
 	}

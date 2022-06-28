@@ -1,6 +1,5 @@
 package ge18xx.game.variants;
 
-import java.awt.event.ItemListener;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
@@ -98,7 +97,7 @@ public class Variant {
 		return tVariantEffect;
 	}
 	
-	public JPanel buildVariantDescription (ItemListener aItemListener) {
+	public JPanel buildVariantDescription () {
 		return GUI.NO_PANEL;
 	}
 	
@@ -115,7 +114,7 @@ public class Variant {
 		return tTitleComponent;
 	}
 	
-	public JPanel buildVariantDescription (VariantEffect.ComponentType aEffectComponentType, ItemListener aItemListener) {
+	public JPanel buildVariantDescription (VariantEffect.ComponentType aEffectComponentType) {
 		JPanel tDescPanel;
 		JComponent tEffectComponent;
 		ButtonGroup tEffectButtonGroup;
@@ -135,7 +134,7 @@ public class Variant {
 		}
 		for (VariantEffect tVariantEffect : variantEffects) {
 			if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
-				tEffectComponent = tVariantEffect.buildEffectComponent (aEffectComponentType, aItemListener);
+				tEffectComponent = tVariantEffect.buildEffectComponent (aEffectComponentType);
 				if (tEffectComponent != VariantEffect.NO_VARIANT_EFFECT_COMPONENT) {
 					tVariantEffect.setEffectComponent (tEffectComponent);
 					tDescPanel.add (tEffectComponent);

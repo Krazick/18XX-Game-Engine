@@ -1,6 +1,5 @@
 package ge18xx.game.variants;
 
-import java.awt.event.ItemListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -174,7 +173,7 @@ public class VariantEffect {
 	 * @return from this case NO_VARIANT_COMPONENT
 	 * 
 	 */
-	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType, ItemListener aItemListener) {
+	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType) {
 		return NO_VARIANT_EFFECT_COMPONENT;
 	}
 	
@@ -186,7 +185,7 @@ public class VariantEffect {
 		return tRadioButtonText;
 	}
 	
-	protected JLabel buildEffectJLabel (ItemListener aItemListener) {
+	protected JLabel buildEffectJLabel () {
 		JLabel tComponentLabel;
 
 		tComponentLabel = new JLabel (action);
@@ -195,21 +194,19 @@ public class VariantEffect {
 		return tComponentLabel;
 	}
 	
-	protected JRadioButton buildEffectRadioButton (ItemListener aItemListener) {
+	protected JRadioButton buildEffectRadioButton () {
 		JRadioButton tRadioButton;
 		
 		tRadioButton = new JRadioButton (action);
-		tRadioButton.addItemListener (aItemListener);
 		tRadioButton.setSelected (defaultEffect);
 		
 		return tRadioButton;	
 	}
 
-	protected JCheckBox buildEffectCheckBox (ItemListener aItemListener) {
+	protected JCheckBox buildEffectCheckBox () {
 		JCheckBox tCheckBox;
 
 		tCheckBox = new JCheckBox (action);
-		tCheckBox.addItemListener (aItemListener);
 		
 		return tCheckBox;	
 	}
