@@ -10,7 +10,6 @@ import javax.swing.JRadioButton;
 
 import ge18xx.company.CorporationList;
 import ge18xx.game.GameManager;
-import ge18xx.train.TrainInfo;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -20,12 +19,10 @@ import ge18xx.utilities.XMLNode;
 public class VariantEffect {
 	static final String NO_NAME = "<NO NAME>";
 	static final int NO_QUANTITY = -1;
-//	static final AttributeName AN_TRAIN_NAME = new AttributeName ("trainName");
 	static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
 	static final AttributeName AN_ACTION = new AttributeName ("action");
 	static final AttributeName AN_DEFAULT_EFFECT = new AttributeName ("defaultEffect");
 	static final AttributeName AN_NAME = new AttributeName ("name");
-//	static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");
 	static final AttributeName AN_CELL_NAME = new AttributeName ("cellName");
 	static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
 	public static final ElementName EN_VARIANT_EFFECT = new ElementName ("VariantEffect");
@@ -43,7 +40,6 @@ public class VariantEffect {
 	String action;
 	String actorName;
 	String cellName;
-	TrainInfo trainInfo;
 	boolean defaultEffect;
 	boolean state;
 	JComponent effectComponent;
@@ -86,18 +82,30 @@ public class VariantEffect {
 		return state;
 	}
 
+	/**
+	 * Given an XMLDocument, this will create the XMLElement that stores the Effect Name 
+	 * and whether this is a Default Effect
+	 * 
+	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
+	 * 
+	 * @return the filled out XMLElement
+	 * 
+	 */
 	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_VARIANT_EFFECT);
 		tXMLElement.setAttribute (AN_NAME, name);
+		tXMLElement.setAttribute (AN_DEFAULT_EFFECT, defaultEffect);
 		if (cellName != NO_NAME) {
 			tXMLElement.setAttribute (AN_CELL_NAME, cellName);
 		}
+		
 		if (name.equals (MUST_BUY_TRAIN)) {
 			tXMLElement.setAttribute (AN_MUST_BUY_TRAIN, state);
 		}
 
+		
 		return tXMLElement;
 	}
 

@@ -4,6 +4,8 @@ import javax.swing.JComponent;
 
 import ge18xx.game.GameManager;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class RemovePhaseVEffect extends VariantEffect {
@@ -32,6 +34,25 @@ public class RemovePhaseVEffect extends VariantEffect {
 		phaseName = aPhaseName;
 	}
 	
+	/**
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * the PhaseName
+	 * 
+	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
+	 * 
+	 * @return the filled out XMLElement
+	 * 
+	 */
+	@Override
+	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+		
+		tXMLElement = super.getEffectElement (aXMLDocument);
+		tXMLElement.setAttribute (AN_PHASE_NAME, phaseName);
+
+		return tXMLElement;
+	}
+
 	/**
 	 * Apply the Variant Effect using the Game Manager as needed.
 	 * 

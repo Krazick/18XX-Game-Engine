@@ -48,12 +48,20 @@ public class AddBankCashVEffect extends VariantEffect {
 		quantity = aQuantity;
 	}
 	
+	/**
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * the Actor Name, and the Quantity
+	 * 
+	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
+	 * 
+	 * @return the filled out XMLElement
+	 * 
+	 */
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 
-		tXMLElement = aXMLDocument.createElement (EN_VARIANT_EFFECT);
-		tXMLElement.setAttribute (AN_NAME, name);
+		tXMLElement = super.getEffectElement (aXMLDocument);
 		if (quantity != NO_QUANTITY) {
 			tXMLElement.setAttribute (AN_QUANTITY, getQuantity ());
 		}

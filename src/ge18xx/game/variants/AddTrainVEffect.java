@@ -8,11 +8,11 @@ import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.train.TrainInfo;
 import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class AddTrainVEffect extends VariantEffect {
-	static final ElementName EN_TRAIN = new ElementName ("Train");
 	static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
 	static final String NAME = "Add Train";
 	int quantity;
@@ -61,13 +61,39 @@ public class AddTrainVEffect extends VariantEffect {
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
-			if (EN_TRAIN.equals (tChildName)) {
+			if (TrainInfo.EN_TRAIN_INFO.equals (tChildName)) {
 				tTrainInfo = new TrainInfo (tChildNode);
 				if (tTrainInfo != TrainInfo.NO_TRAIN_INFO) {
 					setTrainInfo (tTrainInfo);
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * the TrainInfo, and the Quantity
+	 * 
+	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
+	 * 
+	 * @return the filled out XMLElement
+	 * 
+	 */
+	@Override
+	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+		XMLElement tTrainInfoXMLElement;
+		
+		tXMLElement = super.getEffectElement (aXMLDocument);
+		if (quantity != NO_QUANTITY) {
+			tXMLElement.setAttribute (AN_QUANTITY, getQuantity ());
+		}
+		if (trainInfo != TrainInfo.NO_TRAIN_INFO) {
+			tTrainInfoXMLElement = trainInfo.getTrainInfoElement (aXMLDocument);
+			tXMLElement.appendChild (tTrainInfoXMLElement);
+		}
+
+		return tXMLElement;
 	}
 	
 	/**

@@ -5,6 +5,8 @@ import javax.swing.JComponent;
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class ActivateCompanyVEffect extends VariantEffect {
@@ -33,6 +35,24 @@ public class ActivateCompanyVEffect extends VariantEffect {
 		companyAbbrev = aCompanyAbbrev;
 	}
 	
+	/**
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores the CompanyAbbrev
+	 * 
+	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
+	 * 
+	 * @return the filled out XMLElement
+	 * 
+	 */
+	@Override
+	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+		
+		tXMLElement = super.getEffectElement (aXMLDocument);
+		tXMLElement.setAttribute (AN_COMPANY_ABBREV, companyAbbrev);
+		
+		return tXMLElement;
+	}
+
 	/**
 	 * Apply the Variant Effect using the Game Manager as needed.
 	 * 

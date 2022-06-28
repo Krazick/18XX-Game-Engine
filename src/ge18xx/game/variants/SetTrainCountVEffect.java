@@ -52,21 +52,25 @@ public class SetTrainCountVEffect extends VariantEffect {
 		trainName = aTrainName;
 	}
 	
+	/**
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * the PhaseName
+	 * 
+	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
+	 * 
+	 * @return the filled out XMLElement
+	 * 
+	 */
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement, tTrainElement;
+		XMLElement tXMLElement;
 
-		tXMLElement = aXMLDocument.createElement (EN_VARIANT_EFFECT);
-		tXMLElement.setAttribute (AN_NAME, name);
+		tXMLElement = super.getEffectElement (aXMLDocument);
 		if (trainName != null) {
-			tXMLElement.setAttribute (AN_TRAIN_NAME, actorName);
+			tXMLElement.setAttribute (AN_TRAIN_NAME, trainName);
 		}
 		if (quantity != NO_QUANTITY) {
 			tXMLElement.setAttribute (AN_QUANTITY, quantity);
-		}
-		if (trainInfo != TrainInfo.NO_TRAIN_INFO) {
-			tTrainElement = trainInfo.getTrainInfoElement (aXMLDocument);
-			tXMLElement.appendChild (tTrainElement);
 		}
 
 		return tXMLElement;
