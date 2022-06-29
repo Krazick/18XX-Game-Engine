@@ -3,6 +3,7 @@ package ge18xx.game.variants;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import ge18xx.utilities.XMLNode;
 
@@ -36,4 +37,28 @@ public class VariantChoose1 extends Variant {
 			}
 		}
 	}
+	
+	@Override
+	public boolean selectActiveVariantEffects (VariantEffect aVariantEffect) {
+		boolean tSelected;
+		JRadioButton tRadioButton;
+		
+		tSelected = false;
+		if (aVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+			for (VariantEffect tVariantEffect : variantEffects) {
+				if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+					if (tVariantEffect.getID () == aVariantEffect.getID ()) {
+						tRadioButton = (JRadioButton) tVariantEffect.getEffectComponent ();
+						tRadioButton.setSelected (true);
+						tSelected = true;
+					}
+				}
+			}
+		} else {
+			System.err.println ("Passed in VariantEffect is NULL");
+		}
+		
+		return tSelected;
+	}
+
 }

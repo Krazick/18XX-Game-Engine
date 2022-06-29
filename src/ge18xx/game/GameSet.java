@@ -321,16 +321,15 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	public void foundItemMatchKey1 (XMLNode aChildNode) {
 	}
 
-	public void handleGameOptions (XMLNode aVariantEffectsNode) {
-		int tEffectCount;
+	public void handleGameVariants (XMLNode aVariantEffectsNode) {
+		int tSelectedGameIndex;
 		
-		System.out.println ("Ready to set Game Options from remote Client for Selected Game Index " + getSelectedGameIndex ());
+		tSelectedGameIndex = getSelectedGameIndex ();
 		if (aVariantEffectsNode == VariantEffect.NO_VARIANT_EFFECTS_NODE) {
-			System.out.println ("No VariantEffects Node provided");
+			System.err.println ("No VariantEffects Node provided");
 		} else {
-			tEffectCount = aVariantEffectsNode.getChildNodes ().getLength ();
-			System.out.println ("VariantEffectsNode has " + tEffectCount);
-			gameInfo [getSelectedGameIndex ()].loadAllVariantEffects (aVariantEffectsNode);
+			gameInfo [tSelectedGameIndex].loadAllVariantEffects (aVariantEffectsNode);
+			gameInfo [tSelectedGameIndex].selectActiveVariantEffects ();
 		}
 	}
 

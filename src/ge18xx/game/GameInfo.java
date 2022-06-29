@@ -161,6 +161,7 @@ public class GameInfo {
 
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
+		setVariants (new Variant [0]); 
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
@@ -183,7 +184,7 @@ public class GameInfo {
 			} else if (Variant.EN_VARIANTS.equals (tChildName)) {
 				tXMLNodeList = new XMLNodeList (variantsParsingRoutine);
 				tVariantCount = tXMLNodeList.getChildCount (tChildNode, Variant.EN_VARIANT);
-				variants = new Variant [tVariantCount];
+				setVariants (new Variant [tVariantCount]);
 				variantIndex = 0;
 				tXMLNodeList.parseXMLNodeList (tChildNode, Variant.EN_VARIANT);
 			} else if (File18XX.EN_FILES.equals (tChildName)) {
@@ -248,6 +249,10 @@ public class GameInfo {
 		}
 	};
 
+	public void setVariants (Variant [] aVariants) {
+		variants = aVariants;
+	}
+	
 	public void loadVariantEffects (XMLNode aGameInfoNode) {
 		NodeList tChildren;
 		XMLNode tChildNode;
@@ -261,7 +266,6 @@ public class GameInfo {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
 			if (VariantEffect.EN_VARIANT_EFFECTS.equals (tChildName)) {
-				System.out.println ("Found the VariantEffects Node with a list of Effects");
 				loadAllVariantEffects (tChildNode);
 			}
 		}
@@ -285,15 +289,43 @@ public class GameInfo {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
 			if (VariantEffect.EN_VARIANT_EFFECT.equals (tChildName)) {
-				System.out.println ("Found A VariantEffect Node to be Loaded");
 				tVariantEffect = tDummyVariant.loadVariantEffect (tChildNode);
 				if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
 					tActiveVariantEffects.add (tVariantEffect);
-					System.out.println ("Variant Effect action [" + tVariantEffect.getAction () + "] loaded");
 				}
 			}
 		}
 		setActiveVariantEffects (tActiveVariantEffects);
+	}
+	
+	public boolean selectActiveVariantEffects () {
+		boolean tSuccess;
+		boolean tEffectSelected;
+		boolean tVariantHasEffect;
+		int tVariantEffectID;
+		
+		if (hasActiveVariants ()) {
+			tSuccess = true;
+			for (VariantEffect tVariantEffect: activeVariantEffects) {
+				tVariantEffectID = tVariantEffect.getID ();
+				for (Variant tVariant: variants) {
+					tVariantHasEffect = tVariant.hasVariantEffect (tVariantEffectID);
+					if (tVariantHasEffect) {
+						tEffectSelected = tVariant.selectActiveVariantEffects (tVariantEffect);
+						tSuccess &= tEffectSelected;
+						if (! tEffectSelected) {
+							System.err.println ("Effect id " + tVariantEffectID + 
+									" action [" + tVariantEffect.getAction () + "] FAILED to be Selected.");
+						}
+					}
+				}
+			}
+		} else {
+			System.err.println ("No Active VariantEffects to select");
+			tSuccess = false;
+		}
+		
+		return tSuccess;
 	}
 	
 	public List<VariantEffect> getActiveVariantEffects () {
@@ -310,23 +342,33 @@ public class GameInfo {
 	public void setupVariants () {
 		List<VariantEffect> tActiveVariantEffects;
 		
-		if (activeVariantEffects == VariantEffect.NO_VARIANT_EFFECTS) {
+		if (! hasActiveVariants ()) {
 			tActiveVariantEffects = getActiveVariantEffects ();
 			setActiveVariantEffects (tActiveVariantEffects);
-			System.out.println ("Setup Variants from since none were found");
 		}
 	}
 
 	public void applyActiveVariantEffects (GameManager aGameManager) {
-		if (activeVariantEffects != VariantEffect.NO_VARIANT_EFFECTS) {
-			if (activeVariantEffects.size () > 0) {
-				for (VariantEffect tVariantEffect : activeVariantEffects) {
-					tVariantEffect.applyVariantEffect (aGameManager);
-				}
+		if (hasActiveVariants ()) {
+			for (VariantEffect tVariantEffect : activeVariantEffects) {
+				tVariantEffect.applyVariantEffect (aGameManager);
 			}
 		}
 	}
 
+	public boolean hasActiveVariants () {
+		boolean tHasActiveVariants;
+		
+		tHasActiveVariants = false;
+		if (activeVariantEffects != VariantEffect.NO_VARIANT_EFFECTS) {
+			if (activeVariantEffects.size () > 0) {
+				tHasActiveVariants = true;
+			}
+		}
+		
+		return tHasActiveVariants;
+	}
+	
 	public void setActiveVariantEffects (List<VariantEffect> aActiveVariantEffects) {
 		activeVariantEffects = aActiveVariantEffects;
 	}

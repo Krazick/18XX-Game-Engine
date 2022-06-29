@@ -505,7 +505,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		String tName;
 
 		gameSet.handleGameSelection (aGameIndex, false);
-		gameSet.handleGameOptions (aVariantEffectsNode);
+		gameSet.handleGameVariants (aVariantEffectsNode);
 		tJGameClient = gameManager.getNetworkJGameClient ();
 		tJGameClient.appendToChat (aBroadcast);
 		tName = aBroadcast.substring (0, aBroadcast.indexOf (" "));

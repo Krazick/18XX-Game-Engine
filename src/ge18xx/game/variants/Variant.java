@@ -1,6 +1,7 @@
 package ge18xx.game.variants;
 
 import java.lang.reflect.Constructor;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.AbstractButton;
@@ -39,7 +40,7 @@ public class Variant {
 	int id;
 	String title;
 	String type;
-	VariantEffect variantEffects [];
+	List<VariantEffect> variantEffects;
 	boolean enabled;
 	JComponent titleComponent;
 
@@ -65,20 +66,18 @@ public class Variant {
 		NodeList tChildren;
 		int tIndex;
 		int tChildrenCount;
-		int tEffectIndex;
 		VariantEffect tVariantEffect;
 		
 		tChildren = aXMLNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
-		tEffectIndex = 0;
-		variantEffects = new VariantEffect [tChildrenCount];
+		variantEffects = new LinkedList<VariantEffect> ();
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
 			if (VariantEffect.EN_VARIANT_EFFECT.equals (tChildName)) {
 				tVariantEffect = loadVariantEffect (tChildNode);
 				if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
-					variantEffects [tEffectIndex++] = tVariantEffect;
+					variantEffects.add (tVariantEffect);
 				}
 			}
 		}
@@ -154,18 +153,6 @@ public class Variant {
 		
 		return tDescPanel;
 	}
-	
-	public VariantEffect getEffectIndex (int aIndex) {
-		VariantEffect tEffect;
-
-		if ((aIndex >= 0) && (aIndex < variantEffects.length)) {
-			tEffect = variantEffects [aIndex];
-		} else {
-			tEffect = VariantEffect.NO_VARIANT_EFFECT;
-		}
-
-		return tEffect;
-	}
 
 	public XMLElement getVariantElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
@@ -184,10 +171,6 @@ public class Variant {
 		tXMLElement.appendChild (tVariantEffectElements);
 
 		return tXMLElement;
-	}
-	
-	public int getEffectCount () {
-		return variantEffects.length;
 	}
 
 	public int getID () {
@@ -214,15 +197,8 @@ public class Variant {
 		title = aTitle;
 	}
 	
-	// TODO: Build out a set of OptionEffect sub-classes for each different Variant
-	// Each Variant
 	public void applyVariantEffects (GameManager aGameManager) {
-		int tEffectCount, tEffectIndex;
-		VariantEffect tEffect;
-		
-		tEffectCount = getEffectCount ();
-		for (tEffectIndex = 0; tEffectIndex < tEffectCount; tEffectIndex++) {
-			tEffect = getEffectIndex (tEffectIndex);
+		for (VariantEffect tEffect: variantEffects) {
 			if (tEffect != VariantEffect.NO_VARIANT_EFFECT) {
 				tEffect.applyVariantEffect (aGameManager);
 			}
@@ -248,5 +224,42 @@ public class Variant {
 		}
 		
 		return tIsActive;
+	}
+
+	public boolean hasVariantEffect (int aVariantID) {
+		boolean tHasVariantEffect;
+		VariantEffect tEffect;
+		
+		tEffect = getVariantEffect (aVariantID);
+		if (tEffect == VariantEffect.NO_VARIANT_EFFECT) {
+			tHasVariantEffect = false;
+		} else {
+			tHasVariantEffect = true;
+		}
+		
+		return tHasVariantEffect;
+	}
+	
+	public VariantEffect getVariantEffect (int aVariantID) {
+		VariantEffect tFoundEffect;
+		
+		tFoundEffect = VariantEffect.NO_VARIANT_EFFECT;
+		for (VariantEffect tEffect: variantEffects) {
+			if (tEffect != VariantEffect.NO_VARIANT_EFFECT) {
+				if (tEffect.getID () == aVariantID) {
+					tFoundEffect = tEffect;
+				}
+			}
+		}
+
+		return tFoundEffect;
+	}
+	
+	public boolean selectActiveVariantEffects (VariantEffect aVariantEffect) {
+		boolean tSelected;
+		
+		tSelected = false;
+		
+		return tSelected;
 	}
 }

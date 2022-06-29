@@ -2,6 +2,7 @@ package ge18xx.game.variants;
 
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import ge18xx.utilities.XMLNode;
@@ -35,5 +36,28 @@ public class VariantChooseAny extends Variant {
 				}
 			}
 		}		
+	}
+	
+	@Override
+	public boolean selectActiveVariantEffects (VariantEffect aVariantEffect) {
+		boolean tSelected;
+		JCheckBox tCheckBox;
+		
+		tSelected = false;
+		if (aVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+			for (VariantEffect tVariantEffect : variantEffects) {
+				if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+					if (tVariantEffect.getID () == aVariantEffect.getID ()) {
+						tCheckBox = (JCheckBox) tVariantEffect.getEffectComponent ();
+						tCheckBox.setSelected (true);
+						tSelected = true;
+					}
+				}
+			}
+		} else {
+			System.err.println ("Passed in VariantEffect is NULL");
+		}
+		
+		return tSelected;
 	}
 }
