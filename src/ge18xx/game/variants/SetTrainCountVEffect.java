@@ -24,14 +24,14 @@ public class SetTrainCountVEffect extends VariantEffect {
 		setName (NAME);
 	}
 
-	public SetTrainCountVEffect (XMLNode aCellNode) {
-		super (aCellNode);
+	public SetTrainCountVEffect (XMLNode aXMLNode) {
+		super (aXMLNode);
 		
 		String tTrainName;
 		int tQuantity;
 		
-		tTrainName = aCellNode.getThisAttribute (AN_TRAIN_NAME);
-		tQuantity = aCellNode.getThisIntAttribute (AN_QUANTITY);
+		tTrainName = aXMLNode.getThisAttribute (AN_TRAIN_NAME);
+		tQuantity = aXMLNode.getThisIntAttribute (AN_QUANTITY);
 		setTrainName (tTrainName);
 		setQuantity (tQuantity);
 	}
@@ -72,6 +72,7 @@ public class SetTrainCountVEffect extends VariantEffect {
 		if (quantity != NO_QUANTITY) {
 			tXMLElement.setAttribute (AN_QUANTITY, quantity);
 		}
+		tXMLElement.setAttribute (AN_CLASS, getClass ().getName ());
 
 		return tXMLElement;
 	}

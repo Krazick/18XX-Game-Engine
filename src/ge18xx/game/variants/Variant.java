@@ -24,6 +24,7 @@ import ge18xx.utilities.XMLNode;
 
 public class Variant {
 	static final String NO_TITLE = "<NO TITLE>";
+	public static final int NO_ID = 0;
 	public static final Variant NO_VARIANT = null;
 	public static final JComponent NO_VARIANT_COMPONENT = null;
 	public static final Variant [] NO_VARIANTS = null;
@@ -31,9 +32,11 @@ public class Variant {
 	public static final ElementName EN_VARIANTS = new ElementName ("Variants");
 	public static final AttributeName AN_TITLE = new AttributeName ("title");
 	public static final AttributeName AN_VARIANT_CLASS = new AttributeName ("class");
+	public static final AttributeName AN_ID = new AttributeName ("id");
 	static final String TYPE_ALL = "ALL";
 	static final String TYPE_CHOOSE_ANY = "Choose Any";
 	static final String TYPE_CHOOSE_1 = "Choose 1";
+	int id;
 	String title;
 	String type;
 	VariantEffect variantEffects [];
@@ -41,18 +44,22 @@ public class Variant {
 	JComponent titleComponent;
 
 	public Variant () {
+		setID (NO_ID);
 		setTitle (NO_TITLE);
 	}
 
-	public Variant (XMLNode aCellNode) {
+	public Variant (XMLNode aXMLNode) {
 		String tTitle;
-
-		tTitle = aCellNode.getThisAttribute (AN_TITLE);
+		int tID;
+		
+		tID = aXMLNode.getThisIntAttribute (AN_ID, NO_ID);
+		tTitle = aXMLNode.getThisAttribute (AN_TITLE);
+		setID (tID);
 		setTitle (tTitle);
-		loadVariantEffects (aCellNode);
+		loadVariantEffects (aXMLNode);
 	}
 
-	public void loadVariantEffects (XMLNode aCellNode) {
+	public void loadVariantEffects (XMLNode aXMLNode) {
 		String tChildName;
 		XMLNode tChildNode;
 		NodeList tChildren;
@@ -61,7 +68,7 @@ public class Variant {
 		int tEffectIndex;
 		VariantEffect tVariantEffect;
 		
-		tChildren = aCellNode.getChildNodes ();
+		tChildren = aXMLNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		tEffectIndex = 0;
 		variantEffects = new VariantEffect [tChildrenCount];
@@ -148,10 +155,6 @@ public class Variant {
 		return tDescPanel;
 	}
 	
-	public int getEffectCount () {
-		return variantEffects.length;
-	}
-
 	public VariantEffect getEffectIndex (int aIndex) {
 		VariantEffect tEffect;
 
@@ -182,6 +185,14 @@ public class Variant {
 
 		return tXMLElement;
 	}
+	
+	public int getEffectCount () {
+		return variantEffects.length;
+	}
+
+	public int getID () {
+		return id;
+	}
 
 	public String getTitle () {
 		return title;
@@ -195,6 +206,10 @@ public class Variant {
 		enabled = aEnabled;
 	}
 
+	public void setID (int aID) {
+		id = aID;
+	}
+	
 	protected void setTitle (String aTitle) {
 		title = aTitle;
 	}

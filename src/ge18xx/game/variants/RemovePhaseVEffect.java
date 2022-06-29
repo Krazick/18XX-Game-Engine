@@ -49,6 +49,7 @@ public class RemovePhaseVEffect extends VariantEffect {
 		
 		tXMLElement = super.getEffectElement (aXMLDocument);
 		tXMLElement.setAttribute (AN_PHASE_NAME, phaseName);
+		tXMLElement.setAttribute (AN_CLASS, getClass ().getName ());
 
 		return tXMLElement;
 	}

@@ -94,6 +94,7 @@ public class GameInfo {
 	PhaseManager phaseManager;
 	Variant variants [];
 	File18XX files [];
+	private List<VariantEffect> activeVariantEffects;
 
 	/* Used in Parsing Call back Functions only */
 	int fileIndex;
@@ -247,6 +248,54 @@ public class GameInfo {
 		}
 	};
 
+	public void loadVariantEffects (XMLNode aGameInfoNode) {
+		NodeList tChildren;
+		XMLNode tChildNode;
+		int tChildrenCount;
+		int tIndex;
+		String tChildName;
+		
+		tChildren = aGameInfoNode.getChildNodes ();
+		tChildrenCount = tChildren.getLength ();
+		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
+			tChildNode = new XMLNode (tChildren.item (tIndex));
+			tChildName = tChildNode.getNodeName ();
+			if (VariantEffect.EN_VARIANT_EFFECTS.equals (tChildName)) {
+				System.out.println ("Found the VariantEffects Node with a list of Effects");
+				loadAllVariantEffects (tChildNode);
+			}
+		}
+	}
+	
+	public void loadAllVariantEffects (XMLNode aVariantEffectsNode) {
+		NodeList tChildren;
+		XMLNode tChildNode;
+		int tChildrenCount;
+		int tIndex;
+		String tChildName;
+		VariantEffect tVariantEffect;
+		Variant tDummyVariant;
+		List<VariantEffect> tActiveVariantEffects;
+		
+		tChildren = aVariantEffectsNode.getChildNodes ();
+		tChildrenCount = tChildren.getLength ();
+		tDummyVariant = new Variant ();
+		tActiveVariantEffects = new LinkedList<VariantEffect> ();
+		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
+			tChildNode = new XMLNode (tChildren.item (tIndex));
+			tChildName = tChildNode.getNodeName ();
+			if (VariantEffect.EN_VARIANT_EFFECT.equals (tChildName)) {
+				System.out.println ("Found A VariantEffect Node to be Loaded");
+				tVariantEffect = tDummyVariant.loadVariantEffect (tChildNode);
+				if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+					tActiveVariantEffects.add (tVariantEffect);
+					System.out.println ("Variant Effect action [" + tVariantEffect.getAction () + "] loaded");
+				}
+			}
+		}
+		setActiveVariantEffects (tActiveVariantEffects);
+	}
+	
 	public List<VariantEffect> getActiveVariantEffects () {
 		List<VariantEffect> tActiveVariantEffects;
 		
@@ -258,24 +307,48 @@ public class GameInfo {
 		return tActiveVariantEffects;
 	}
 
-	public void setupVariants (GameManager aGameManager) {
+	public void setupVariants () {
 		List<VariantEffect> tActiveVariantEffects;
 		
-		tActiveVariantEffects = getActiveVariantEffects ();
-		if (tActiveVariantEffects != VariantEffect.NO_VARIANT_EFFECTS) {
-			if (tActiveVariantEffects.size () > 0) {
-				for (VariantEffect tVariantEffect : tActiveVariantEffects) {
+		if (activeVariantEffects == VariantEffect.NO_VARIANT_EFFECTS) {
+			tActiveVariantEffects = getActiveVariantEffects ();
+			setActiveVariantEffects (tActiveVariantEffects);
+			System.out.println ("Setup Variants from since none were found");
+		}
+	}
+
+	public void applyActiveVariantEffects (GameManager aGameManager) {
+		if (activeVariantEffects != VariantEffect.NO_VARIANT_EFFECTS) {
+			if (activeVariantEffects.size () > 0) {
+				for (VariantEffect tVariantEffect : activeVariantEffects) {
 					tVariantEffect.applyVariantEffect (aGameManager);
 				}
 			}
 		}
 	}
 
-	public void printActiveVariants (List<VariantEffect> aActiveVariantEffects) {
-		if (aActiveVariantEffects != VariantEffect.NO_VARIANT_EFFECTS) {
-			if (aActiveVariantEffects.size () > 0) {
+	public void setActiveVariantEffects (List<VariantEffect> aActiveVariantEffects) {
+		activeVariantEffects = aActiveVariantEffects;
+	}
+	
+	public XMLElement getGameVariantsXMLElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+		XMLElement tVariantEffectXMLElement;
+		
+		tXMLElement = aXMLDocument.createElement (VariantEffect.EN_VARIANT_EFFECTS);
+		for (VariantEffect tVariantEffect : activeVariantEffects) {
+			tVariantEffectXMLElement = tVariantEffect.getEffectElement (aXMLDocument);
+			tXMLElement.appendChild (tVariantEffectXMLElement);
+		}
+	
+		return tXMLElement;
+	}
+	
+	public void printActiveVariants () {
+		if (activeVariantEffects != VariantEffect.NO_VARIANT_EFFECTS) {
+			if (activeVariantEffects.size () > 0) {
 				System.out.println ("Variant Effects to be Active:");
-				for (VariantEffect tVariantEffect : aActiveVariantEffects) {
+				for (VariantEffect tVariantEffect : activeVariantEffects) {
 					System.out.println ("Variant Effect " + tVariantEffect.getAction ());
 				}
 			} else {
@@ -371,22 +444,13 @@ public class GameInfo {
 	
 	public XMLElement getGameInfoElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		XMLElement tGameVariants;
-		XMLElement tGameVariant;
+		XMLElement tGameVariantEffects;
 
 		tXMLElement = aXMLDocument.createElement (EN_GAME_INFO);
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_GAME_ID, gameID);
-		if (variants != Variant.NO_VARIANTS) {
-			tGameVariants = aXMLDocument.createElement (Variant.EN_VARIANTS);
-			for (Variant tVariant : variants) {
-				if (tVariant.isEnabled ()) {
-					tGameVariant = tVariant.getVariantElement (aXMLDocument);
-					tGameVariants.appendChild (tGameVariant);
-				}
-			}
-			tXMLElement.appendChild (tGameVariants);
-		}
+		tGameVariantEffects = getGameVariantsXMLElement (aXMLDocument);
+		tXMLElement.appendChild (tGameVariantEffects);
 
 		return tXMLElement;
 	}

@@ -92,6 +92,7 @@ public class AddTrainVEffect extends VariantEffect {
 			tTrainInfoXMLElement = trainInfo.getTrainInfoElement (aXMLDocument);
 			tXMLElement.appendChild (tTrainInfoXMLElement);
 		}
+		tXMLElement.setAttribute (AN_CLASS, getClass ().getName ());
 
 		return tXMLElement;
 	}

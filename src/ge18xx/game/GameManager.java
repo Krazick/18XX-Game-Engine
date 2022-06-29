@@ -1064,6 +1064,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void initiateGame (GameInfo aGameInfo) {
 		setGame (aGameInfo);
+		System.out.println ("Initiate  Brand New Game");
 		initiateGame ();
 		setNotifyNetwork (true);
 		// For Normal Start, we need to Notify Clients of Actions
@@ -1089,7 +1090,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 			setGameChanged (true);
 
 			setupBank ();
-			activeGame.setupVariants (this);
+			activeGame.setupVariants ();
+			activeGame.applyActiveVariantEffects (this);
 			setupPlayers ();
 			tPhaseManager = activeGame.getPhaseManager ();
 			tPhaseManager.setCurrentPhase (PhaseManager.FIRST_PHASE);
@@ -1432,17 +1434,18 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
-	private void loadGameInfo (XMLNode aChildNode) {
+	private void loadGameInfo (XMLNode aGameInfoNode) {
 		String tSaveGameName;
 		GameSet tGameSet;
 		String tGameID;
 
 		tGameSet = playerInputFrame.getGameSet ();
-		tSaveGameName = aChildNode.getThisAttribute (AN_NAME);
+		tSaveGameName = aGameInfoNode.getThisAttribute (AN_NAME);
 		activeGame = tGameSet.getGameByName (tSaveGameName);
-		tGameID = aChildNode.getThisAttribute (GameInfo.AN_GAME_ID);
+		tGameID = aGameInfoNode.getThisAttribute (GameInfo.AN_GAME_ID);
 		setGameID (tGameID);
 		activeGame.setGameID (tGameID);
+		activeGame.loadVariantEffects (aGameInfoNode);
 	}
 
 	public void handleIfGameInitiated (XMLNode aChildNode, String aChildName) {

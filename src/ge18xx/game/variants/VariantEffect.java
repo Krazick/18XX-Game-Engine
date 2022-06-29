@@ -24,6 +24,7 @@ public class VariantEffect {
 	static final AttributeName AN_DEFAULT_EFFECT = new AttributeName ("defaultEffect");
 	static final AttributeName AN_NAME = new AttributeName ("name");
 	static final AttributeName AN_CELL_NAME = new AttributeName ("cellName");
+	static final AttributeName AN_CLASS = new AttributeName ("class");
 	static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
 	public static final ElementName EN_VARIANT_EFFECT = new ElementName ("VariantEffect");
 	public static final ElementName EN_VARIANT_EFFECTS = new ElementName ("VariantEffects");
@@ -36,6 +37,7 @@ public class VariantEffect {
 	public static final String REMOVE_PHASE = "Remove Phase";
 	public static final String ADD_TRAIN = "Add Train";
 	public static final String END_GAME_ON_STOCK_CELL = "End Game on Stock Cell";
+	int id;
 	String name;
 	String action;
 	String actorName;
@@ -47,7 +49,11 @@ public class VariantEffect {
 	
 
 	public VariantEffect () {
-		setValue (NO_NAME, NO_NAME, NO_NAME, NO_NAME);
+		setID (Variant.NO_ID);
+		setName (NO_NAME);
+		setAction (NO_NAME);
+		setActorName (NO_NAME);
+		setState (false);
 	}
 
 	public VariantEffect (XMLNode aVariantEffectNode) {
@@ -55,18 +61,27 @@ public class VariantEffect {
 		String tCellName;
 		String tName;
 		boolean tDefaultEffect;
+		int tID;
 		
+		tID = aVariantEffectNode.getThisIntAttribute (Variant.AN_ID, Variant.NO_ID);
 		tName = aVariantEffectNode.getThisAttribute (AN_NAME);
 		tAction = aVariantEffectNode.getThisAttribute (AN_ACTION);
 		tDefaultEffect = aVariantEffectNode.getThisBooleanAttribute (AN_DEFAULT_EFFECT);
+		setID (tID);
 		setDefaultEffect (tDefaultEffect);
 		if (tAction.equals (END_GAME_ON_STOCK_CELL)) {
 			tCellName = aVariantEffectNode.getThisAttribute (AN_CELL_NAME);
 			setValue (tName, tAction, "GAME", tCellName);
 		} else if (tAction.equals (MUST_BUY_TRAIN)) {
-			setValue (tName, tAction, "GAME", true);
+			setName (tName);
+			setAction (tAction);
+			setActorName ("GAME");
+			setState (true);
 		} else {
-			setValue (tName, tAction, NO_NAME, NO_NAME);
+			setName (tName);
+			setAction (tAction);
+			setActorName ("GAME");
+			setState (false);
 		}
 	}
 
@@ -78,6 +93,10 @@ public class VariantEffect {
 		return cellName;
 	}
 
+	public int getID () {
+		return id;
+	}
+	
 	public boolean getState () {
 		return state;
 	}
@@ -95,22 +114,20 @@ public class VariantEffect {
 		XMLElement tXMLElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_VARIANT_EFFECT);
+		tXMLElement.setAttribute (Variant.AN_ID, id);
 		tXMLElement.setAttribute (AN_NAME, name);
+		tXMLElement.setAttribute (AN_ACTION, action);
 		tXMLElement.setAttribute (AN_DEFAULT_EFFECT, defaultEffect);
-		if (cellName != NO_NAME) {
-			tXMLElement.setAttribute (AN_CELL_NAME, cellName);
-		}
-		
-		if (name.equals (MUST_BUY_TRAIN)) {
-			tXMLElement.setAttribute (AN_MUST_BUY_TRAIN, state);
-		}
-
 		
 		return tXMLElement;
 	}
-
+	
 	public String getAction () {
 		return action;
+	}
+
+	public String getActorName () {
+		return actorName;
 	}
 	
 	public String getName () {
@@ -131,26 +148,36 @@ public class VariantEffect {
 		return tEnabled;
 	}
 	
-	private void setValue (String aName, String aAction, String aActorName, boolean aState) {
-		name = aName;
+	protected void setAction (String aAction) {
 		action = aAction;
+	}
+	
+	protected void setActorName (String aActorName) {
 		actorName = aActorName;
-		state = aState;
+	}
+	
+	public void setDefaultEffect (boolean aDefaultEffect) {
+		defaultEffect = aDefaultEffect;
 	}
 
 	public void setEffectComponent (JComponent tEffectComponent) {
 		effectComponent = tEffectComponent;
 	}
 	
+	protected void setID (int aID) {
+		id = aID;
+	}
+	
 	protected void setName (String aName) {
 		name = aName;
 	}
 	
-	public void setDefaultEffect (boolean aDefaultEffect) {
-		defaultEffect = aDefaultEffect;
+	protected void setState (boolean aState) {
+		state = aState;
 	}
 	
 	private void setValue (String aName, String aAction, String aActorName, String aCellName) {
+		setID (Variant.NO_ID);
 		setName (aName);
 		action = aAction;
 		actorName = aActorName;

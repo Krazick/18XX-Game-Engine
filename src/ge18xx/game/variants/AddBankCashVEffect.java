@@ -15,7 +15,6 @@ public class AddBankCashVEffect extends VariantEffect {
 	static final String NAME = "Add to Bank Cash";
 	static final String ACTOR_NAME = "Bank";
 	int quantity;
-	String actorName;
 	
 	public AddBankCashVEffect () {
 		setName (NAME);
@@ -31,17 +30,9 @@ public class AddBankCashVEffect extends VariantEffect {
 		setActorName (ACTOR_NAME);
 		setQuantity (tQuantity);
 	}
-
-	public String getActorName () {
-		return actorName;
-	}
 	
 	public int getQuantity () {
 		return quantity;
-	}
-	
-	public void setActorName (String aActorName) {
-		actorName = aActorName;
 	}
 	
 	public void setQuantity (int aQuantity) {
@@ -65,9 +56,7 @@ public class AddBankCashVEffect extends VariantEffect {
 		if (quantity != NO_QUANTITY) {
 			tXMLElement.setAttribute (AN_QUANTITY, getQuantity ());
 		}
-		if (actorName != NO_NAME) {
-			tXMLElement.setAttribute (AN_ACTOR_NAME, getActorName ());
-		}
+		tXMLElement.setAttribute (AN_CLASS, getClass ().getName ());
 
 		return tXMLElement;
 	}

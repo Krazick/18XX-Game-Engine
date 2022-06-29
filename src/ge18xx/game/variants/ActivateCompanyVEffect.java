@@ -49,6 +49,7 @@ public class ActivateCompanyVEffect extends VariantEffect {
 		
 		tXMLElement = super.getEffectElement (aXMLDocument);
 		tXMLElement.setAttribute (AN_COMPANY_ABBREV, companyAbbrev);
+		tXMLElement.setAttribute (AN_CLASS, getClass ().getName ());
 		
 		return tXMLElement;
 	}
