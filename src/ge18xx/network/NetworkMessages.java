@@ -16,6 +16,10 @@ public class NetworkMessages {
 		xmlDocument = new XMLDocument ();
 	}
 
+	public XMLDocument getXMLDocument () {
+		return xmlDocument;
+	}
+	
 	public void buildGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN) {
 		xmlDocument.clearDocumentChildren ();
 		xmlGameMessage = xmlDocument.createElement (aPrimaryEN);

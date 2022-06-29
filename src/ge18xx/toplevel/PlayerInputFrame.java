@@ -15,6 +15,7 @@ import ge18xx.game.GameInfo;
 import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLNode;
 
 import java.awt.BorderLayout;
 
@@ -499,12 +500,12 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		}
 	}
 
-	public void handleGameSelection (int aGameIndex, String aOptions, String aBroadcast) {
+	public void handleGameSelection (int aGameIndex, XMLNode aVariantEffectsNode, String aBroadcast) {
 		JGameClient tJGameClient;
 		String tName;
 
 		gameSet.handleGameSelection (aGameIndex, false);
-		gameSet.handleGameOptions (aOptions);
+		gameSet.handleGameOptions (aVariantEffectsNode);
 		tJGameClient = gameManager.getNetworkJGameClient ();
 		tJGameClient.appendToChat (aBroadcast);
 		tName = aBroadcast.substring (0, aBroadcast.indexOf (" "));

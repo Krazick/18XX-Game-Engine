@@ -4,8 +4,10 @@ import java.awt.Point;
 
 import org.apache.logging.log4j.Logger;
 
+import ge18xx.game.GameInfo;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.FileUtils;
+import ge18xx.utilities.XMLElement;
 
 public interface NetworkGameSupport {
 	public final String NO_NAME = "";
@@ -63,4 +65,8 @@ public interface NetworkGameSupport {
 
 	// Needs Log4J Imports
 	public Logger getLogger ();
+
+	public XMLElement getGameVariantsXMLElement ();
+	
+	public GameInfo getSelectedGame ();
 }

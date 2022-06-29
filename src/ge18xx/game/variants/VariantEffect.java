@@ -31,6 +31,7 @@ public class VariantEffect {
 	public static final VariantEffect NO_VARIANT_EFFECT = null;
 	public static final List<VariantEffect> NO_VARIANT_EFFECTS = null;
 	public static final JComponent NO_VARIANT_EFFECT_COMPONENT = null;
+	public static final XMLNode NO_VARIANT_EFFECTS_NODE = null;
 	public static final String SET_TRAIN_QUANTITY = "Set Train Quantity";
 	public static final String MUST_BUY_TRAIN = "Must Buy Train";
 	public static final String ADD_TO_BANK = "Add To Bank";

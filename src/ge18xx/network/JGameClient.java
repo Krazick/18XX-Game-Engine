@@ -38,6 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 
+import ge18xx.game.GameInfo;
 // TODO Work out ways to remove imports that refer to ge18xx Packages
 // Intention here is to break out ge18xx.utilities to it's own JAR File first
 // And then have the ge18xx.network to it's own JAR File that requires the utilities JAR.
@@ -855,20 +856,25 @@ public class JGameClient extends XMLFrame {
 	public void sendGameSelection () {
 		String tBroadcastMessage, tGameActivity;
 		String tGameID;
-
+		XMLElement tVariantEffects;
+		GameInfo tGameInfo;
+		XMLDocument tXMLDocument;
+			
+		tGameInfo = gameManager.getSelectedGame ();
+		tGameInfo.setupVariants ();
+		tXMLDocument = networkMessage.getXMLDocument ();
+		tVariantEffects = tGameInfo.getGameVariantsXMLElement (tXMLDocument);
 		tBroadcastMessage = getName () + " has Selected [" + selectedGameName + "] Are you ready to Play?";
 		tGameID = getGameID ();
-		tGameActivity = buildGameActivityXML (EN_GAME_SELECTION, AN_GAME_INDEX, selectedGameIndex + "",
-				AN_BROADCAST_MESSAGE, tBroadcastMessage, AN_GAME_ID, tGameID);
+		tGameActivity = buildGameActivityXML (EN_GAME_SELECTION, tVariantEffects, 
+					AN_GAME_INDEX, selectedGameIndex + "", 
+					AN_BROADCAST_MESSAGE, tBroadcastMessage, 
+					AN_GAME_ID, tGameID);
 		showSavedGames.setEnabled (false);
 		showSavedGames.setToolTipText ("Ready to play New Game");
 		sendGameActivity (tGameActivity);
 		sendPlayerOrder ();
 	}
-
-//	public XMLElement buildOptionsElement () {
-//		
-//	}
 	
 	public void updateReadyButton (String aAction, boolean aEnabled, String aToolTip) {
 		startReadyButton.setActionCommand (aAction);
@@ -934,6 +940,18 @@ public class JGameClient extends XMLFrame {
 		return tGameActivity;
 	}
 
+	public String buildGameActivityXML (ElementName aElementName, XMLElement aChildElement,
+						AttributeName aAttributeName1, String aAttributeValue1, 
+						AttributeName aAttributeName2, String aAttributeValue2,
+						AttributeName aAttributeName3, String aAttributeValue3) {
+		String tGameActivity = "";
+		
+		tGameActivity = buildGameXML (EN_GAME_ACTIVITY, aElementName, aChildElement, aAttributeName1, aAttributeValue1,
+				aAttributeName2, aAttributeValue2, aAttributeName3, aAttributeValue3);
+
+		return tGameActivity;
+	}
+
 	public String buildGameActivityXML (ElementName aElementName, 
 						AttributeName aAttributeName1, String aAttributeValue1, 
 						AttributeName aAttributeName2, String aAttributeValue2,
@@ -978,6 +996,22 @@ public class JGameClient extends XMLFrame {
 		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName2, aAttributeValue2);
 		tGameSupport = networkMessage.toString ();
 
+		return tGameSupport;
+	}
+
+	public String buildGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN, XMLElement aChildElement,
+			AttributeName aAttributeName1, String aAttributeValue1, 
+			AttributeName aAttributeName2, String aAttributeValue2,
+			AttributeName aAttributeName3, String aAttributeValue3) {
+		String tGameSupport;
+		
+		networkMessage.buildGameXML (aPrimaryEN, aSecondaryEN);
+		networkMessage.appendChild (aPrimaryEN, aSecondaryEN, aChildElement);
+		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName1, aAttributeValue1);
+		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName2, aAttributeValue2);
+		networkMessage.addAttribute (aPrimaryEN, aSecondaryEN, aAttributeName3, aAttributeValue3);
+		tGameSupport = networkMessage.toString ();
+		
 		return tGameSupport;
 	}
 
