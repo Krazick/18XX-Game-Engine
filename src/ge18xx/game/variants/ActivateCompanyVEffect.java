@@ -2,7 +2,7 @@ package ge18xx.game.variants;
 
 import javax.swing.JComponent;
 
-import ge18xx.bank.Bank;
+import ge18xx.company.CorporationList;
 import ge18xx.game.GameManager;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
@@ -12,7 +12,9 @@ import ge18xx.utilities.XMLNode;
 public class ActivateCompanyVEffect extends VariantEffect {
 	static final String NAME = "Activate Company";
 	static final AttributeName AN_COMPANY_ABBREV = new AttributeName ("companyAbbrev");
+	static final AttributeName AN_COMPANY_ID = new AttributeName ("companyID");
 	String companyAbbrev;
+	int companyID;
 	
 	public ActivateCompanyVEffect () {
 		setName (NAME);
@@ -22,13 +24,23 @@ public class ActivateCompanyVEffect extends VariantEffect {
 		super (aXMLNode);
 		
 		String tCompanyAbbrev;
+		int tCompanyID;
 		
-		tCompanyAbbrev = aXMLNode.getThisAttribute (AN_QUANTITY);
+		tCompanyAbbrev = aXMLNode.getThisAttribute (AN_COMPANY_ABBREV);
+		tCompanyID = aXMLNode.getThisIntAttribute (AN_COMPANY_ID);
 		setCompanyAbbrev (tCompanyAbbrev);
+		setCompanyID (tCompanyID);
 	}
 
 	public String getCompanyAbbrev () {
 		return companyAbbrev;
+	}
+	public int getCompanyID () {
+		return companyID;
+	}
+	
+	public void setCompanyID (int aCompanyID) {
+		companyID = aCompanyID;
 	}
 	
 	public void setCompanyAbbrev (String aCompanyAbbrev) {
@@ -62,10 +74,27 @@ public class ActivateCompanyVEffect extends VariantEffect {
 	 */
 	@Override
 	public void applyVariantEffect (GameManager aGameManager) {
-		Bank tBank;
+		CorporationList tCorporationList;
+		boolean tActivated;
 		
-		tBank = aGameManager.getBank ();
-		System.out.println ("Activate Company " + companyAbbrev + " in the " + tBank.getName ());
+		System.out.println ("Activate Company " + companyAbbrev + " in the CorporationList");
+		tCorporationList = aGameManager.getPrivates ();
+		tActivated = tCorporationList.activateCorporation (companyID);
+		
+		if (! tActivated) {
+			tCorporationList = aGameManager.getCoalCompanies ();
+			tActivated = tCorporationList.activateCorporation (companyID);
+		}
+		
+		if (! tActivated) {
+			tCorporationList = aGameManager.getMinorCompanies ();
+			tActivated = tCorporationList.activateCorporation (companyID);
+		}
+		
+		if (! tActivated) {
+			tCorporationList = aGameManager.getShareCompanies ();
+			tActivated = tCorporationList.activateCorporation (companyID);
+		}
 	}
 
 	/**

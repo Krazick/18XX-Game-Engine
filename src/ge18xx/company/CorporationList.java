@@ -98,6 +98,30 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 		return tAnyCanOperate;
 	}
+	
+	/**
+	 * Search the corporations for one with this ID. Don't use Abbrev which can be duplicated, for example B&O.
+	 * When found force set the status to unowned.
+	 * This is to be used when Activating a Company
+	 * 
+	 * @param aCompanyID The ID value of the Company.
+	 * 
+	 * @return TRUE if the company was activated, FALSE otherwise
+	 * 
+	 */
+	public boolean activateCorporation (int aCompanyID) {
+		boolean tActivated;
+		
+		tActivated = false;
+		for (Corporation tCorporation : corporations) {
+			if (aCompanyID == tCorporation.getID ()) {
+				tCorporation.forceSetStatus (ActorI.ActionStates.Unowned);
+				tActivated = true;
+			}
+		}
+		
+		return tActivated;
+	}
 
 	/**
 	 * Build the entire Company JPanel in the CorporationList
@@ -1067,6 +1091,18 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 				tTrainCompany.clearAllTrainSelections ();
 			}
 		}
+	}
+
+	public void removeInactiveCompanies () {
+		List<Corporation> tCorporations;
+		
+		tCorporations = new LinkedList<Corporation> ();
+		for (Corporation tCorporation : corporations) {
+			if (! tCorporation.isInActive ()) {
+				tCorporations.add (tCorporation);
+			}
+		}
+		corporations = tCorporations;
 	}
 
 	public void clearPrivateSelections () {

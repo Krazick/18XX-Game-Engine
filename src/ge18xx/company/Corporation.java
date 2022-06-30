@@ -1242,6 +1242,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationCertificates.isSelectedForBuy ();
 	}
 
+	public boolean isInActive () {
+		return (status == ActorI.ActionStates.Inactive);
+	}
+	
 	// Private Company will override
 	@Override
 	public boolean isAPrivateCompany () {
