@@ -319,15 +319,15 @@
 				<VariantEffect action="End Game on Stock Cell" cellName="A21" class="ge18xx.game.variants.VariantEffect" id="101" name="$400 Finish" />
 			</Variant>
 			<Variant class="ge18xx.game.variants.VariantAll" id="200" title="1830 Diesels">
-				<VariantEffect action="Remove all 8 Trains" class="ge18xx.game.variants.SetTrainCountVEffect" id="201" name="No 8 Trains" trainName="8" quantity="0" />
-				<VariantEffect action="Remove all 10 Trains" class="ge18xx.game.variants.SetTrainCountVEffect" id="202" name="No 10 Trains" trainName="10" quantity="0" />
-				<VariantEffect action="Remove all 12 Trains" class="ge18xx.game.variants.SetTrainCountVEffect" id="203" name="No 12 Trains" trainName="12" quantity="0" />
+				<VariantEffect action="Remove all 8, 10 and 12 Trains" class="ge18xx.game.variants.SetTrainCountVEffect" id="201" name="No 8 Trains" trainName="8" quantity="0" />
+				<VariantEffect action="Remove all 10 Trains" class="ge18xx.game.variants.SetTrainCountVEffect" hide="true" id="202" name="No 10 Trains" trainName="10" quantity="0" />
+				<VariantEffect action="Remove all 12 Trains" class="ge18xx.game.variants.SetTrainCountVEffect" hide="true" id="203" name="No 12 Trains" trainName="12" quantity="0" />
 				<VariantEffect action="Add 6 Diesel Trains" class="ge18xx.game.variants.AddTrainVEffect" id="204" name="Add 6 Diesels" quantity="6">
 					<Train name="Diesel" order="9" revenueCenters="unlimited" quantity="6"
 							price="1100" triggerPhase="3.3" discountPrice="800" tradeInTrain="4,5,6" rust="4" />
 				</VariantEffect>
-				<VariantEffect action="Remove Phase 7" class="ge18xx.game.variants.RemovePhaseVEffect" id="205" name="No Phase 7" phaseName="7" />
-				<VariantEffect action="Remove Phase 8" class="ge18xx.game.variants.RemovePhaseVEffect" id="206" name="No Phase 8" phaseName="8" />
+				<VariantEffect action="Remove Phases 7 and 8" class="ge18xx.game.variants.RemovePhaseVEffect" id="205" name="No Phase 7" phaseName="7" />
+				<VariantEffect action="Remove Phase 8" class="ge18xx.game.variants.RemovePhaseVEffect" hide="true" id="206" name="No Phase 8" phaseName="8" />
 			</Variant>
 		</Variants>
 		<PlayerInfo>
@@ -458,7 +458,7 @@
 			<File type="tileSet" name="1830+ XML Data/1830+ TileSet.xml" />
 		</Files>
 	</GameInfo>
-	<GameInfo id="6" name="1830TEST" minPlayers="2" maxPlayers="6"
+	<GameInfo id="6" name="1830TEST" minPlayers="2" maxPlayers="6" status="Play Test ONLY" 
 		bankTotal="12000" currencyFormat="$ ###,###" subtitle="Railroads and Robber Barons"
 		location="North Eastern United States" designers="Francis Tresham (UK) and Bruce Shelley (US)"
 		producers="Mayfair" releaseDate="2011"
@@ -481,7 +481,6 @@
 				<VariantEffect action="Activate Norfolk &amp; Western Railroad" class="ge18xx.game.variants.ActivateCompanyVEffect" id="403" name="Norfolk &amp; Western" companyAbbrev="N&amp;W" />
 				<VariantEffect action="Activate Pere Marquette Railroad" class="ge18xx.game.variants.ActivateCompanyVEffect" id="404" name="Pere Marquette" companyAbbrev="PMQ" />
 			</Variant>
-			
 <!-- 
 			<Variant class="ge18xx.game.variants.Variant" title="All Share Companies must buy Train">
 				<VariantEffect name="Must Buy Train" default="true" />
