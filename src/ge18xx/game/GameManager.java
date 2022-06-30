@@ -1088,6 +1088,23 @@ public class GameManager extends Component implements NetworkGameSupport {
 		// The Loading of a Save Game does it's own reset once the Load is complete
 	}
 
+	public void removeInactiveCompanies () {
+		CorporationList tPrivates;
+		CorporationList tCoals;
+		CorporationList tMinors;
+		CorporationList tShares;
+		
+		tPrivates = getPrivates ();
+		tPrivates.removeInactiveCompanies ();
+		tCoals = getCoalCompanies ();
+		tCoals.removeInactiveCompanies ();
+		tMinors = getMinorCompanies ();
+		tMinors.removeInactiveCompanies ();
+		tShares = getShareCompanies ();
+		tShares.removeInactiveCompanies ();
+
+	}
+	
 	public void initiateGame () {
 		CorporationList tPrivates;
 		CorporationList tCoals;
@@ -1109,6 +1126,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			setupBank ();
 			activeGame.setupVariants ();
 			activeGame.applyActiveVariantEffects (this);
+			removeInactiveCompanies ();
 			setupPlayers ();
 			tPhaseManager = activeGame.getPhaseManager ();
 			tPhaseManager.setCurrentPhase (PhaseManager.FIRST_PHASE);
