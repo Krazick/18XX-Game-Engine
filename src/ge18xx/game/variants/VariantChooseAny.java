@@ -20,11 +20,11 @@ public class VariantChooseAny extends Variant {
 	
 	@Override
 	public JPanel buildVariantDescription () {
-		JPanel tDescPanel;
+		JPanel tDescScrollPane;
 		
-		tDescPanel = buildVariantDescription (VariantEffect.ComponentType.CHECKBOX);
+		tDescScrollPane = buildVariantDescription (VariantEffect.ComponentType.CHECKBOX);
 		
-		return tDescPanel;
+		return tDescScrollPane;
 	}
 	
 	@Override

@@ -21,11 +21,13 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -33,6 +35,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 
 import org.w3c.dom.NodeList;
 
@@ -54,9 +57,10 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	JPanel gameInfoJPanel;
 	JPanel descAndVariantsJPanel;
 	JPanel listAndButtonJPanel;
+	JPanel gameVariants [];
 	ButtonGroup gameButtons;
 	JRadioButton gameRadioButtons [];
-	JPanel gameVariants [];
+	JScrollPane variantsScrollPane;
 	JButton newGameButton;
 	JButton networkGameButton;
 	JButton loadGameButton;
@@ -374,6 +378,9 @@ public class GameSet implements LoadableXMLI, ActionListener {
 			descAndVariantsJPanel.setLayout (new BoxLayout (descAndVariantsJPanel, BoxLayout.Y_AXIS));
 		}
 		descAndVariantsJPanel.removeAll ();
+		descAndVariantsJPanel.setPreferredSize (new Dimension (100, 450));
+		variantsScrollPane = new JScrollPane (descAndVariantsJPanel);
+		variantsScrollPane.setPreferredSize (new Dimension (500, 350));
 		if (aIndex == NO_GAME_SELECTED) {
 			if (gameDescriptionLabel == GUI.NO_LABEL) {
 				gameDescriptionLabel = new JLabel (NO_DESCRIPTION);
@@ -385,8 +392,9 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		} else {
 			buildGameDescription (aIndex);
 		}
+		
 		gameInfoJPanel.removeAll ();
-		gameInfoJPanel.add (descAndVariantsJPanel);
+		gameInfoJPanel.add (variantsScrollPane);
 		playerInputFrame.addGameInfoPanel (gameInfoJPanel);
 	}
 
@@ -398,6 +406,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		
 		tDescription = gameInfo [aIndex].getHTMLDescription ();
 		gameDescriptionLabel.setText (tDescription);
+		gameDescriptionLabel.setBorder (BorderFactory.createEmptyBorder (0, 10, 0, 10));
 		descAndVariantsJPanel.add (gameDescriptionLabel);
 		tVariantCount = gameInfo [aIndex].getVariantCount ();
 

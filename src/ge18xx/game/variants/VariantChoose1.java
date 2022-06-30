@@ -20,11 +20,11 @@ public class VariantChoose1 extends Variant {
 	
 	@Override
 	public JPanel buildVariantDescription () {
-		JPanel tDescPanel;
+		JPanel tDescScrollPane;
 		
-		tDescPanel = buildVariantDescription (VariantEffect.ComponentType.RADIO_BUTTON);
+		tDescScrollPane = buildVariantDescription (VariantEffect.ComponentType.RADIO_BUTTON);
 		
-		return tDescPanel;
+		return tDescScrollPane;
 	}
 	
 	@Override

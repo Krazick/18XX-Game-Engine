@@ -6,12 +6,14 @@ import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+//import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 
 import org.w3c.dom.NodeList;
 
@@ -127,9 +129,11 @@ public class Variant {
 		boolean tRadioButtonGroup;
 		
 		tDescPanel = new JPanel ();
+		tDescPanel.setBorder (VariantEffect.VE_BORDER);
 		tDescPanel.setLayout (new BoxLayout (tDescPanel, BoxLayout.PAGE_AXIS));
-		
 		titleComponent = buildTitleComponent (aEffectComponentType);
+		titleComponent.setBorder (BorderFactory.createEmptyBorder (0, 10, 0, 10));
+//		tDescPanel.add (Box.createHorizontalStrut (10));
 		tDescPanel.add (titleComponent);
 		
 		tRadioButtonGroup = (aEffectComponentType == VariantEffect.ComponentType.RADIO_BUTTON);

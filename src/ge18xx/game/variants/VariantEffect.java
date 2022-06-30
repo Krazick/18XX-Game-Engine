@@ -1,5 +1,6 @@
 package ge18xx.game.variants;
 
+import java.awt.Color;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -7,11 +8,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
+import javax.swing.border.Border;
 
 import ge18xx.company.CorporationList;
 import ge18xx.game.GameManager;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -25,6 +28,7 @@ public class VariantEffect {
 	static final AttributeName AN_NAME = new AttributeName ("name");
 	static final AttributeName AN_CELL_NAME = new AttributeName ("cellName");
 	static final AttributeName AN_CLASS = new AttributeName ("class");
+	static final AttributeName AN_HIDE = new AttributeName ("hide");
 	static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
 	public static final ElementName EN_VARIANT_EFFECT = new ElementName ("VariantEffect");
 	public static final ElementName EN_VARIANT_EFFECTS = new ElementName ("VariantEffects");
@@ -38,6 +42,7 @@ public class VariantEffect {
 	public static final String REMOVE_PHASE = "Remove Phase";
 	public static final String ADD_TRAIN = "Add Train";
 	public static final String END_GAME_ON_STOCK_CELL = "End Game on Stock Cell";
+	public static final Border VE_BORDER = BorderFactory.createLineBorder (Color.black);
 	int id;
 	String name;
 	String action;
@@ -45,9 +50,10 @@ public class VariantEffect {
 	String cellName;
 	boolean defaultEffect;
 	boolean state;
+	boolean hide;
 	JComponent effectComponent;
 	public enum ComponentType { JLABEL, CHECKBOX, RADIO_BUTTON }
-	
+
 
 	public VariantEffect () {
 		setID (Variant.NO_ID);
@@ -62,12 +68,15 @@ public class VariantEffect {
 		String tCellName;
 		String tName;
 		boolean tDefaultEffect;
+		boolean tHide;
 		int tID;
 		
 		tID = aVariantEffectNode.getThisIntAttribute (Variant.AN_ID, Variant.NO_ID);
 		tName = aVariantEffectNode.getThisAttribute (AN_NAME);
 		tAction = aVariantEffectNode.getThisAttribute (AN_ACTION);
 		tDefaultEffect = aVariantEffectNode.getThisBooleanAttribute (AN_DEFAULT_EFFECT);
+		tHide = aVariantEffectNode.getThisBooleanAttribute (AN_HIDE);
+		setHide (tHide);
 		setID (tID);
 		setDefaultEffect (tDefaultEffect);
 		if (tAction.equals (END_GAME_ON_STOCK_CELL)) {
@@ -94,6 +103,10 @@ public class VariantEffect {
 		return cellName;
 	}
 
+	public boolean hide () {
+		return hide;
+	}
+	
 	public int getID () {
 		return id;
 	}
@@ -165,6 +178,10 @@ public class VariantEffect {
 		effectComponent = tEffectComponent;
 	}
 	
+	protected void setHide (boolean aHide) {
+		hide = aHide;
+	}
+	
 	protected void setID (int aID) {
 		id = aID;
 	}
@@ -203,7 +220,7 @@ public class VariantEffect {
 	}
 	
 	/**
-	 * Variant Effect Component Builder -- this should be overriden by the subclasses
+	 * Variant Effect Component Builder -- this should be overridden by the subclasses
 	 * 
 	 * @param aItemListener Placeholder for the Item Listener class that will handle the request
 	 * @return from this case NO_VARIANT_COMPONENT
@@ -220,12 +237,16 @@ public class VariantEffect {
 		
 		return tRadioButtonText;
 	}
-	
+
 	protected JLabel buildEffectJLabel () {
 		JLabel tComponentLabel;
 
-		tComponentLabel = new JLabel (action);
-		tComponentLabel.setBorder (BorderFactory.createEmptyBorder (0, 22, 5, 0));
+		if (hide) {
+			tComponentLabel = GUI.NO_LABEL;
+		} else {
+			tComponentLabel = new JLabel (action);
+			tComponentLabel.setBorder (BorderFactory.createEmptyBorder (0, 22, 5, 10));
+		}
 		
 		return tComponentLabel;
 	}
@@ -235,6 +256,7 @@ public class VariantEffect {
 		
 		tRadioButton = new JRadioButton (action);
 		tRadioButton.setSelected (defaultEffect);
+		tRadioButton.setBorder (BorderFactory.createEmptyBorder (0, 0, 0, 10));
 		
 		return tRadioButton;	
 	}
@@ -243,6 +265,7 @@ public class VariantEffect {
 		JCheckBox tCheckBox;
 
 		tCheckBox = new JCheckBox (action);
+		tCheckBox.setBorder (BorderFactory.createEmptyBorder (0, 0, 0, 10));
 		
 		return tCheckBox;	
 	}
