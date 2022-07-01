@@ -106,12 +106,24 @@ public class TileTrayFrame extends XMLFrame {
 	public void setValues (String aSetName) {
 		tileSet.setValues (aSetName);
 	}
-
-	public boolean isUpgradeAllowed (GameTile aUpgradeGameTile) {
+	
+	/**
+	 * Determine if the specified GameTile is currently allowed to be placed on the Map, based upon the 
+	 * current Phase of the Game and the Tile Color
+	 * 
+	 * @param aGameTile The Tile to test if allowed to be placed
+	 * 
+	 * @return TRUE if the current Game Phase allows this tile Type Color can be placed.
+	 * 
+	 */
+	public boolean isUpgradeAllowed (GameTile aGameTile) {
 		boolean tUpgradeAllowed = true;
-		TileType tTileType = aUpgradeGameTile.getTheTileType ();
-		String tTileColor = tTileType.getName ();
+//		TileType tTileType;
+		String tTileColor;
 
+//		tTileType = aUpgradeGameTile.getTheTileType ();
+//		tTileColor = tTileType.getName ();
+		tTileColor = aGameTile.getTileColor ();
 		tUpgradeAllowed = gameManager.isUpgradeAllowed (tTileColor);
 
 		return tUpgradeAllowed;

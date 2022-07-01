@@ -105,6 +105,22 @@ public class GameTile {
 		return tile.getTheTileType ();
 	}
 
+	/**
+	 * Retrieve the Tile Color as a String and return it.
+	 * 
+	 * @return the String that specifies the Tile Color.
+	 * 
+	 */
+	public String getTileColor () {
+		TileType tTileType;
+		String tTileColor;
+		
+		tTileType = getTheTileType ();
+		tTileColor = tTileType.getName ();
+		
+		return tTileColor;
+	}
+	
 	public String getToolTip () {
 		String tTip;
 
