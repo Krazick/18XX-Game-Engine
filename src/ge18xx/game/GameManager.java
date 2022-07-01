@@ -1081,7 +1081,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public void initiateGame (GameInfo aGameInfo) {
 		setGame (aGameInfo);
-		System.out.println ("Initiate  Brand New Game");
 		initiateGame ();
 		setNotifyNetwork (true);
 		// For Normal Start, we need to Notify Clients of Actions
