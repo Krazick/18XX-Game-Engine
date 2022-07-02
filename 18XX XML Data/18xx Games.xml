@@ -408,6 +408,12 @@
 				<VariantEffect action="Set Diesel Train Quantity to 6 (Standard)" class="ge18xx.game.variants.SetTrainCountVEffect" defaultEffect="true" id="202" name="Standard" trainName="Diesel" quantity="6" />
 				<VariantEffect action="Set Diesel Train Quantity to Zero (0)" class="ge18xx.game.variants.SetTrainCountVEffect" id="203" name="Zero (0)" trainName="Diesel" quantity="0"/>
 			</Variant>
+			<Variant class="ge18xx.game.variants.VariantChooseAny" id="400" title="Activate Share Companies">
+				<VariantEffect action="Activate Reading Railroad" class="ge18xx.game.variants.ActivateCompanyVEffect" companyID="1109" id="401" name="Reading" companyAbbrev="RR" />
+				<VariantEffect action="Activate Nickel Plate Railroad" class="ge18xx.game.variants.ActivateCompanyVEffect" companyID="1110" id="402" name="Nickel Plate" companyAbbrev="NKP" />
+				<VariantEffect action="Activate Norfolk &amp; Western Railroad" class="ge18xx.game.variants.ActivateCompanyVEffect" companyID="1111" id="403" name="Norfolk &amp; Western" companyAbbrev="N&amp;W" />
+				<VariantEffect action="Activate Pere Marquette Railroad" class="ge18xx.game.variants.ActivateCompanyVEffect" companyID="1112" id="404" name="Pere Marquette" companyAbbrev="PMQ" />
+			</Variant>
 <!-- 
 			<Variant class="ge18xx.game.variants.Variant" title="All Share Companies must buy Train">
 				<VariantEffect name="Must Buy Train" default="true" />
@@ -475,7 +481,7 @@
 				<VariantEffect action="Set Diesel Train Quantity to 6 (Standard)" class="ge18xx.game.variants.SetTrainCountVEffect" defaultEffect="true" id="202" name="Standard" trainName="Diesel" quantity="6" />
 				<VariantEffect action="Set Diesel Train Quantity to Zero (0)" class="ge18xx.game.variants.SetTrainCountVEffect" id="203" name="Zero (0)" trainName="Diesel" quantity="0"/>
 			</Variant>
-			<Variant class="ge18xx.game.variants.VariantChooseAny" id="400" title="Activate Companies">
+			<Variant class="ge18xx.game.variants.VariantChooseAny" id="400" title="Activate Share Companies">
 				<VariantEffect action="Activate Reading Railroad" class="ge18xx.game.variants.ActivateCompanyVEffect" companyID="1109" id="401" name="Reading" companyAbbrev="RR" />
 				<VariantEffect action="Activate Nickel Plate Railroad" class="ge18xx.game.variants.ActivateCompanyVEffect" companyID="1110" id="402" name="Nickel Plate" companyAbbrev="NKP" />
 				<VariantEffect action="Activate Norfolk &amp; Western Railroad" class="ge18xx.game.variants.ActivateCompanyVEffect" companyID="1111" id="403" name="Norfolk &amp; Western" companyAbbrev="N&amp;W" />

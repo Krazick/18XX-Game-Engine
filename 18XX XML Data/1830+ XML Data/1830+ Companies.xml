@@ -89,7 +89,7 @@
 	</Private>
 	<Private id="1010" name="James River &amp; Kanawha" abbrev="JK" cost="20" 
 		note="No other attributes"
-		revenue="5" homeCell1="K9" homeCell2="K11" homeLocation1="9" homeLocation2="6" special="NONE" mustSell="false" status="INACTIVE" >
+		revenue="5" homeCell1="K11" homeLocation1="12" homeLocation2="13" special="NONE" mustSell="false" status="INACTIVE" >
 		<Benefits>
 			<Benefit actorType="ShareCompany" class="ge18xx.company.benefit.LicenseBenefit"></Benefit>
 		</Benefits>

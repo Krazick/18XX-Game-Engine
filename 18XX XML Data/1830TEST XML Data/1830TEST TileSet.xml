@@ -176,6 +176,9 @@
 		<Tile number="9805" quantity="1" />
 		<Tile number="9806" quantity="1" />
 		<Tile number="9807" quantity="1" />
+		<Tile number="9833" quantity="1" />
+		<Tile number="9936" quantity="1" />
+		<Tile number="9937" quantity="1" />
 		<Tile number="9940" quantity="1">
 			<Upgrade toNumber="54" rotations="2">
 				<RevenueCenter from="8" to="12" rotation="2"/>
