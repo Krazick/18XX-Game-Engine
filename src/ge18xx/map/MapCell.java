@@ -342,7 +342,13 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public void clearCorporation (Corporation aCorporation) {
+		Tile tTile;
+		
 		centers.clearCityInfoCorporation (aCorporation);
+		if (isTileOnCell ()) {
+			tTile = getTile ();
+			tTile.clearCorporation (aCorporation);
+		}
 	}
 
 	public void clearSelected () {

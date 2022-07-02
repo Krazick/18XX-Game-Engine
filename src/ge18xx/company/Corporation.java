@@ -143,6 +143,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		int tLocation;
 		XMLNodeList tXMLNodeList;
 		String tName, tAbbrev;
+		String tHomeCityGrid1;
+		String tHomeCityGrid2;
 		Benefit tBenefitInUse;
 
 		corporationCertificates = new Portfolio (this);
@@ -155,11 +157,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		tAbbrev = aXMLNode.getThisAttribute (AN_ABBREV);
 		setAbbrev (tAbbrev);
 
-		homeCityGrid1 = aXMLNode.getThisAttribute (AN_HOMECELL1);
+		tHomeCityGrid1 = aXMLNode.getThisAttribute (AN_HOMECELL1);
+		setHomeCityGrid1 (tHomeCityGrid1);
 		tLocation = aXMLNode.getThisIntAttribute (Location.AN_HOME_LOCATION1);
 		homeLocation1 = new Location (tLocation);
 
-		homeCityGrid2 = aXMLNode.getThisAttribute (AN_HOMECELL2);
+		tHomeCityGrid2 = aXMLNode.getThisAttribute (AN_HOMECELL2);
+		setHomeCityGrid2 (tHomeCityGrid2);
 		tLocation = aXMLNode.getThisIntAttribute (Location.AN_HOME_LOCATION2, Location.NO_LOCATION);
 		homeLocation2 = new Location (tLocation);
 		loadFormationInfo (aXMLNode);
@@ -186,6 +190,23 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		formationManadatoryPhase = tFormationManadatoryPhase;
 	}
 
+	public void removeHomeBases () {
+		MapCell tMapCell;
+		
+		tMapCell = getHomeCity1 ();
+		if (tMapCell != MapCell.NO_MAP_CELL) {
+			tMapCell.clearCorporation (this);
+			setHome1 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+		}
+		setHomeCityGrid1 (NO_HOME_GRID);
+		tMapCell = getHomeCity2 ();
+		if (tMapCell != MapCell.NO_MAP_CELL) {
+			tMapCell.clearCorporation (this);
+			setHome2 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+		}
+		setHomeCityGrid2 (NO_HOME_GRID);
+	}
+	
 	public Logger getLogger () {
 		Logger tLogger;
 		
@@ -1511,6 +1532,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public void setHome2 (MapCell aHomeCity, Location aHomeLocation) {
 		homeCity2 = aHomeCity;
 		homeLocation2 = aHomeLocation;
+	}
+
+	protected void setHomeCityGrid1 (String aHomeCityGrid) {
+		homeCityGrid1 = aHomeCityGrid;
+	}
+
+	protected void setHomeCityGrid2 (String aHomeCityGrid) {
+		homeCityGrid2 = aHomeCityGrid;
 	}
 
 	protected void setName (String aName) {

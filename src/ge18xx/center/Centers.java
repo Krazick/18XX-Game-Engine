@@ -100,7 +100,7 @@ public class Centers implements Cloneable {
 
 	public void clearAllCityInfoCorporations () {
 		for (RevenueCenter tCenter : centers) {
-			tCenter.clearCityInfoCorporation ();
+			tCenter.clearCorporation ();
 		}
 	}
 

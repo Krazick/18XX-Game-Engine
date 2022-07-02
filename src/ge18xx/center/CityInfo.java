@@ -193,28 +193,30 @@ public class CityInfo implements Cloneable {
 		if (corporation != Corporation.NO_CORPORATION) {
 			tLocation1 = corporation.getHomeLocation1 ();
 			tLocation2 = corporation.getHomeLocation2 ();
-			tPoint1 = tLocation1.calcCenter (aHex);
-			tPoint2 = tLocation2.calcCenter (aHex);
-			tX1 = Xc + tPoint1.x;
-			tY1 = Yc + tPoint1.y;
-			tX2 = Xc + tPoint2.x;
-			tY2 = Yc + tPoint2.y;
-			g.drawLine (tX1, tY1, tX2, tY2);
-			tWidthHeight = tPointTemp * 2;
-			if (mapCell != MapCell.NO_MAP_CELL) {
-				tTerrainFillColor = mapCell.getBaseTerrainFillColor ();
-				g.setColor (tTerrainFillColor);
-				g.fillOval (tX1 - tPointTemp, tY1 - tPointTemp, tWidthHeight, tWidthHeight);
-				g.fillOval (tX2 - tPointTemp, tY2 - tPointTemp, tWidthHeight, tWidthHeight);
+			if ((tLocation1 != Location.NO_LOC) && (tLocation2 != Location.NO_LOC)) {
+				tPoint1 = tLocation1.calcCenter (aHex);
+				tPoint2 = tLocation2.calcCenter (aHex);
+				tX1 = Xc + tPoint1.x;
+				tY1 = Yc + tPoint1.y;
+				tX2 = Xc + tPoint2.x;
+				tY2 = Yc + tPoint2.y;
+				g.drawLine (tX1, tY1, tX2, tY2);
+				tWidthHeight = tPointTemp * 2;
+				if (mapCell != MapCell.NO_MAP_CELL) {
+					tTerrainFillColor = mapCell.getBaseTerrainFillColor ();
+					g.setColor (tTerrainFillColor);
+					g.fillOval (tX1 - tPointTemp, tY1 - tPointTemp, tWidthHeight, tWidthHeight);
+					g.fillOval (tX2 - tPointTemp, tY2 - tPointTemp, tWidthHeight, tWidthHeight);
+				}
+				g.setColor (Color.black);
+				g.drawOval (tX1 - tPointTemp, tY1 - tPointTemp, tWidthHeight, tWidthHeight);
+				g.drawOval (tX2 - tPointTemp, tY2 - tPointTemp, tWidthHeight, tWidthHeight);
+				tXLabel = (tX1 + tX2) / 2;
+				tYLabel = (tY1 + tY2) / 2;
+				tLabel = getCorporationAbbrev ();
+				tLabel = corporation.getAbbrev ();
+				drawLabel (g, tXLabel, tYLabel, tLabel);
 			}
-			g.setColor (Color.black);
-			g.drawOval (tX1 - tPointTemp, tY1 - tPointTemp, tWidthHeight, tWidthHeight);
-			g.drawOval (tX2 - tPointTemp, tY2 - tPointTemp, tWidthHeight, tWidthHeight);
-			tXLabel = (tX1 + tX2) / 2;
-			tYLabel = (tY1 + tY2) / 2;
-			tLabel = getCorporationAbbrev ();
-			tLabel = corporation.getAbbrev ();
-			drawLabel (g, tXLabel, tYLabel, tLabel);
 		}
 	}
 

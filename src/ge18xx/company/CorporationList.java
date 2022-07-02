@@ -1098,7 +1098,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		
 		tCorporations = new LinkedList<Corporation> ();
 		for (Corporation tCorporation : corporations) {
-			if (! tCorporation.isInActive ()) {
+			if (tCorporation.isInActive ()) {
+				tCorporation.removeHomeBases ();
+			} else {
 				tCorporations.add (tCorporation);
 			}
 		}
