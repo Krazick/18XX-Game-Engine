@@ -864,7 +864,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		tTileCount = getTileCountToShow ();
 		tRowCount = new Double (tTileCount / TILES_PER_ROW).intValue () + 1;
 		tMaxX = new Double (Hex.getWidth () * 2.25 * TILES_PER_ROW + 10).intValue ();
-		tMaxY = (hex.getYd () * 2 + 20) * tRowCount;
+		tMaxY = (hex.getYd () * 2 + 20) * tRowCount + hex.getYd () + 20;
 		tNewDimension = new Dimension (tMaxX, tMaxY);
 		tileTrayFrame.setScrollPanePSize (tNewDimension);
 		setPreferredSize (tNewDimension);
