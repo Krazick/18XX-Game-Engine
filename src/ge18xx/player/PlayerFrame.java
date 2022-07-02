@@ -511,9 +511,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tStocksToSell = hasSelectedStocksToSell ();
 		tStocksToSellSame = hasSelectedSameStocksToSell ();
 		tStocksToSellOverfill = willSaleOverfillBankPool ();
-//		tStocksToBuy = hasSelectedStocksToBuy ();
 		tActionsToUndo = hasActionsToUndo ();
-//		tPrivateToBidOn = hasSelectedPrivateToBidOn ();
 		tPrezToExchange = hasSelectedPrezToExchange ();
 		tHasSelectedOneToExchange = hasSelectedOneToExchange ();
 		tPrivateOrMinorToExchange = hasSelectedPrivateOrMinorToExchange ();
@@ -522,7 +520,6 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		updatePassButton (tCanCompleteTurn, tMustBuy);
 		updateSellButton (tStocksToSell, tStocksToSellSame, tStocksToSellOverfill, tPrezToExchange);
 		updateBuyButton (canBuy);
-//		updateBuyBidButton (tStocksToBuy, tPrivateToBidOn);
 		updateExchangeButton (tPrezToExchange, tPrivateOrMinorToExchange, tHasSelectedOneToExchange);
 		updateUndoButton (tActionsToUndo);
 

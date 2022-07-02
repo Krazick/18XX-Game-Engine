@@ -606,21 +606,31 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	public void setStartCell (Market aMarket) {
-		int tRow, tCol;
 		MarketCell tMarketCell;
 		int tParPrice;
 
 		if (startCell != NO_START_CELL) {
 			if (aMarket != null) {
-				tRow = getStartRow ();
-				tCol = getStartCol ();
-				tMarketCell = aMarket.getMarketCellAtRowCol (tRow, tCol);
+				tMarketCell = getMarketCellAt (aMarket);
 				if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 					tParPrice = tMarketCell.getValue ();
+					setSharePrice (tMarketCell);
 					setParPrice (tParPrice);
 				}
 			}
 		}
+	}
+
+	public MarketCell getMarketCellAt (Market aMarket) {
+		int tRow;
+		int tCol;
+		MarketCell tMarketCell;
+		
+		tRow = getStartRow ();
+		tCol = getStartCol ();
+		tMarketCell = aMarket.getMarketCellAtRowCol (tRow, tCol);
+		
+		return tMarketCell;
 	}
 
 	private void setValues (MapCell aDestination, int aLoanCount, boolean aLoanTaken, String aStartCell) {

@@ -47,6 +47,20 @@ public class MarketFrame extends XMLFrame {
 		market.loadMarketTokens (aXMLNode);
 	}
 
+	public void setSharePriceToken (ShareCompany aShareCompany) {
+		MarketCell tMarketCell;
+		Token tToken;
+	
+		tMarketCell = aShareCompany.getMarketCellAt (market);
+		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
+			tToken = aShareCompany.getToken ();
+			if (tToken != Token.NO_TOKEN) {
+				tMarketCell.addTokenToBottom (tToken);
+			}
+			tMarketCell.redrawMarket ();
+		}	
+	}
+	
 	public void setParPrice (ShareCompany aShareCompany, int aParPrice) {
 		MarketCell tMarketCell;
 		Token tToken;
