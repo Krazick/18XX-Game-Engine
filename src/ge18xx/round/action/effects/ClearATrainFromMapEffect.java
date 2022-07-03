@@ -63,7 +63,7 @@ public class ClearATrainFromMapEffect extends Effect {
 
 		tCorporation = (Corporation) getActor ();
 
-		return (REPORT_PREFIX + name + " for " + tCorporation.getAbbrev () + " Train Index " + trainIndex + ".");
+		return (REPORT_PREFIX + name + " for " + tCorporation.getAbbrev () + " Train Index " + (trainIndex + 1) + ".");
 	}
 
 	@Override
@@ -91,5 +91,4 @@ public class ClearATrainFromMapEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		return true;
 	}
-
 }
