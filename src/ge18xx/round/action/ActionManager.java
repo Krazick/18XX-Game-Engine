@@ -86,17 +86,17 @@ public class ActionManager {
 		return tNewNumber;
 	}
 
-	public void generateNewActionNumber () {
+	public int generateNewActionNumber () {
 		String tReportActionNumber;
 		String tActionNumberString;
 		int tNewActionNumber;
-
+		
 		if (gameManager.isNetworkGame ()) {
 			tActionNumberString = gameManager.requestGameSupport (JGameClient.REQUEST_ACTION_NUMBER);
 			tNewActionNumber = getActionNumberFrom (tActionNumberString);
 			if (tNewActionNumber > 0) {
 				actionNumber = tNewActionNumber;
-				tReportActionNumber = "Retrieved New Action Number " + actionNumber + " from Game Server\n";
+				tReportActionNumber = "\nRetrieved New Action Number " + actionNumber + " from Game Server\n";
 				appendReport (tReportActionNumber);
 			} else {
 				actionNumber++;
@@ -107,6 +107,8 @@ public class ActionManager {
 			tReportActionNumber = "Increment Action Number from " + actionNumber + " to " + (actionNumber + 1) + "\n";
 			actionNumber++;
 		}
+		
+		return actionNumber;
 	}
 
 	public void actionReport () {
@@ -208,8 +210,8 @@ public class ActionManager {
 	private void setNewActionNumber (Action aAction) {
 		int tActionNumber;
 
-		generateNewActionNumber ();
-		tActionNumber = getActionNumber ();
+		tActionNumber = generateNewActionNumber ();
+//		tActionNumber = getActionNumber ();
 		aAction.setNumber (tActionNumber);
 	}
 
