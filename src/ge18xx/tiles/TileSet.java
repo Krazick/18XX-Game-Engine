@@ -61,6 +61,8 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 								// should unselect ALL and leave only the single tile selected.
 	GameTile parsedGameTile;
 	TileTrayFrame tileTrayFrame;
+	int maxWidth;
+	int maxHeight;
 
 	public TileSet (TileTrayFrame aTileTrayFrame) {
 		this (NO_TILE_SET_NAME);
@@ -386,7 +388,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 		return tShowThisTile;
 	}
-
+	
 	@Override
 	public void paintComponent (Graphics aGraphics) {
 		int tX, tY, Xoffset, Yoffset, tIndex, tYNumOffset;
@@ -401,6 +403,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		tX = Xoffset - tWidth;
 		tY = Yoffset - tHeight;
 		tIndex = 0;
+		
 		for (GameTile tGameTile : gameTiles) {
 			tGameTile.setXY (tX, tY);
 			tTile = tGameTile.getTile ();
@@ -854,17 +857,29 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		tileTrayFrame.notifyMapFrame ();
 	}
 	
+	public int calcRowCount () {
+		int tRowCount;
+		double tTileCount;
+		double tRowCountD;
+		
+		tTileCount = (double) getTileCountToShow ();
+		tRowCountD = new Double (tTileCount / TILES_PER_ROW);
+		tRowCount = (int) Math.ceil (tRowCountD);
+
+		return tRowCount;
+	}
+	
 	public void setTraySize () {
-		int tMaxX, tMaxY, tTileCount, tRowCount;
+		int tMaxX, tMaxY;
+		int tRowCount;
 		Dimension tNewDimension;
 
 		if (hex == Hex.NO_HEX) {
 			setHex (Hex.getDirection ());
 		}
-		tTileCount = getTileCountToShow ();
-		tRowCount = new Double (tTileCount / TILES_PER_ROW).intValue () + 1;
+		tRowCount = calcRowCount ();
 		tMaxX = new Double (Hex.getWidth () * 2.25 * TILES_PER_ROW + 10).intValue ();
-		tMaxY = (hex.getYd () * 2 + 20) * tRowCount + hex.getYd () + 20;
+		tMaxY = (hex.getYd () * 2 + 25) * tRowCount + 20;
 		tNewDimension = new Dimension (tMaxX, tMaxY);
 		tileTrayFrame.setScrollPanePSize (tNewDimension);
 		setPreferredSize (tNewDimension);
