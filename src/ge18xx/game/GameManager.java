@@ -1136,7 +1136,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tShares = getShareCompanies ();
 
 			autoSaveFileName = constructAutoSaveFileName (AUTO_SAVES_DIR);
-			autoSaveActionReportFileName = this.constructASARFileName (AUTO_SAVES_DIR, ".action.txt");
+			autoSaveActionReportFileName = constructASARFileName (AUTO_SAVES_DIR, ".action.txt");
 			autoSaveFile = new File (autoSaveFileName);
 			autoSaveActionReportFile = new File (autoSaveActionReportFileName);
 			
