@@ -1103,7 +1103,7 @@ public class RouteInformation {
 		} else {
 			tIsCity = aRevenueCenter.isCity ();
 			tIsDeadEnd = aRevenueCenter.isDeadEnd ();
-			if (tIsDeadEnd) { // if a Dead-End City, no Flow beyond this.
+			if (tIsDeadEnd) { // if a Dead-End City, no Flow beyond this location
 				tOpenFlow = false;
 			} else if (tIsCity) {
 				if (aCorpStation) { // If this is a City, and it has the Current Operating Company matches the Token
