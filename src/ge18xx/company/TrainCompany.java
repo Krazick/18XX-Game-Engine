@@ -1159,7 +1159,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tTrainCount = getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (getTrain (tTrainIndex) == aTrain) {
-				System.out.println ("Found the Train, indexed as " + tTrainIndex);
 				clearATrainFromMap (tTrainIndex, true);
 			}
 		}
@@ -1174,6 +1173,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public void clearATrainFromMap (int aTrainIndex) {
 		clearATrainFromMap (aTrainIndex, false);
 	}
+	
 	/**
 	 * Clear the Specified Train from the Map
 	 * 
@@ -1185,9 +1185,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		MapFrame tMapFrame;
 		ClearATrainFromMapAction tClearATrainFromMapAction;
 		String tOperatingRoundID;
+		Train tTrain;
 
 		tMapFrame = corporationList.getMapFrame ();
 		tMapFrame.clearTrainFromMap (aTrainIndex + 1);
+		tTrain = getTrain (aTrainIndex);
+		trainRevenueFrame.clearRevenuesFromTrain (aTrainIndex, tTrain);
 		if (aCreateAction) {
 			tOperatingRoundID = getOperatingRoundID ();
 			tClearATrainFromMapAction = new ClearATrainFromMapAction (ActorI.ActionStates.OperatingRound, 
@@ -1195,7 +1198,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tClearATrainFromMapAction.addClearATrainFromMapEffect (this, aTrainIndex);
 			addAction (tClearATrainFromMapAction);
 		}
-
 	}
 
 	/**
