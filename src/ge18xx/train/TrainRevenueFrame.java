@@ -326,8 +326,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 		tRouteInformation = aTrain.getCurrentRouteInformation ();
 		if (tRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
-			System.out.println ("Going to clear the " + aTrain.getName () + " for " + trainCompany.getAbbrev () +
-					" from the Map. Called from clearRouteFromTrain.");
 			trainCompany.clearATrainFromMap (aTrain);
 			aTrain.setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 		}
@@ -374,7 +372,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		}
 	}
 
-	private void clearRevenuesFromTrain (int aTrainIndex, Train aTrain) {
+	public void clearRevenuesFromTrain (int aTrainIndex, Train aTrain) {
 		int tCityCount, tCityIndex;
 
 		tCityCount = aTrain.getCityCount ();
@@ -414,9 +412,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tResetRouteButton.equals (resetRoutes [tTrainIndex])) {
 				resetTrainRoute (tTrainIndex);
-				trainCompany.clearATrainFromMap (tTrainIndex, true);
 			}
 		}
+		trainCompany.exitSelectRouteMode ();
 		updateAllFrameButtons ();
 	}
 
