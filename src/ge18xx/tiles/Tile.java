@@ -31,8 +31,8 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Paint;
 import java.awt.Point;
 
 public class Tile implements Comparable<Object>, Cloneable {
@@ -461,7 +461,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers;
 	}
 
-	public Color getColor () {
+	public Paint getColor () {
 		return (type.getColor ());
 	}
 
@@ -672,25 +672,29 @@ public class Tile implements Comparable<Object>, Cloneable {
 		}
 	}
 
-	public void paintComponent (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, Feature2 aSelectedFeature) {
+	public void paintComponent (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, 
+			Feature2 aSelectedFeature, boolean aTileIsSelected) {
 		int tOldX, tOldY;
 
 		tOldX = getX ();
 		tOldY = getY ();
 		setXY (Xc, Yc);
-		paintComponent (g, aTileOrient, aHex, aSelectedFeature);
+		paintComponent (g, aTileOrient, aHex, aSelectedFeature, aTileIsSelected);
 		setXY (tOldX, tOldY);
 	}
 
 	public void paintComponent (Graphics g, Hex aHex) {
-		paintComponent (g, 0, aHex, new Feature2 ());
+		paintComponent (g, 0, aHex, new Feature2 (), false);
 	}
 
-	public void paintComponent (Graphics g, int aTileOrient, Hex aHex, Feature2 aSelectedFeature) {
-		Color tHexColor = type.getColor ();
-		aHex.paintHex (g, XCenter, YCenter, tHexColor);
+	public void paintComponent (Graphics g, int aTileOrient, Hex aHex, Feature2 aSelectedFeature, boolean aTileIsSelected) {
+		Paint tHexPaint;
+		
+		tHexPaint = type.getColor (aTileIsSelected);
 
-		tracks.draw (g, XCenter, YCenter, aTileOrient, aHex, tHexColor, aSelectedFeature);
+		aHex.paintHex (g, XCenter, YCenter, tHexPaint);
+
+		tracks.draw (g, XCenter, YCenter, aTileOrient, aHex, tHexPaint, aSelectedFeature);
 		centers.draw (g, XCenter, YCenter, aTileOrient, aHex, ON_TILE, aSelectedFeature);
 
 		if (name != null) {

@@ -12,6 +12,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
@@ -1254,23 +1255,23 @@ public class Hex {
 		Yc = offsetY;
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Color aFill_color) {
+	public void paintHex (Graphics g, int Xo, int Yo, Paint aFill_color) {
 		paintHex (g, Xo, Yo, aFill_color, true, null);
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Color aFill_color, Color aThickFrame) {
+	public void paintHex (Graphics g, int Xo, int Yo, Paint aFill_color, Paint aThickFrame) {
 		paintHex (g, Xo, Yo, aFill_color, true, aThickFrame);
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Color aFillColor, boolean aDrawBorder) {
+	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillColor, boolean aDrawBorder) {
 		paintHex (g, Xo, Yo, aFillColor, aDrawBorder, null);
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Color aFillColor, boolean aDrawBorder, Color aThickFrame) {
+	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillColor, boolean aDrawBorder, Paint aThickFrame) {
 		paintHex (g, Xo, Yo, aFillColor, aDrawBorder, null, null);
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Color aFillColor, boolean aDrawBorder, Color aThickFrame,
+	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillColor, boolean aDrawBorder, Paint aThickFrame,
 			boolean aBlockedSides[]) {
 		Stroke tCurrentStroke;
 		BasicStroke tFrameStroke;
@@ -1286,14 +1287,14 @@ public class Hex {
 			yp [index] = y [index] + Yo;
 		}
 
-		g.setColor (aFillColor);
+		g2d.setPaint (aFillColor);
 		try {
 			g.fillPolygon (xp, yp, npnts - 1);
 		} catch (ArrayIndexOutOfBoundsException exc) {
 			System.err.println ("Oops, trying to fill polygon at " + Xo + ", " + Yo + ". Sorry");
 		}
 		if (aThickFrame != null) {
-			g.setColor (aThickFrame);
+			g2d.setPaint (aThickFrame);
 			tCurrentStroke = g2d.getStroke ();
 			tFrameStroke = new BasicStroke (trackWidth * 2);
 			g2d.setStroke (tFrameStroke);

@@ -301,7 +301,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		GameTile tRotateGameTile;
 		GameTile tPreviousGameTile;
 
-		if (tGameTile != null) {
+		if (tGameTile != GameTile.NO_GAME_TILE) {
 			if (tGameTile.tileAvailable ()) {
 				if (singleTileSelect) {
 					tPreviousGameTile = getSelectedTile ();
@@ -433,7 +433,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		
 		setBackgroundForTile (aGraphics, aX, aY, aWidth, aHeight, aGameTile);
 		tTileOrient = aGameTile.getTileOrient ();
-		aTile.paintComponent (aGraphics, tTileOrient, hex, new Feature2 ());
+		aTile.paintComponent (aGraphics, tTileOrient, hex, new Feature2 (), aGameTile.isSelected ());
 		hex.drawRotateRightArrow (aGraphics, aX, aY);
 		aGameTile.drawSelected (aGraphics, hex);
 		tIdLabel = aTile.getNumberToString ();

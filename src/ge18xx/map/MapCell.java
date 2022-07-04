@@ -40,6 +40,7 @@ import ge18xx.utilities.XMLNode;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Paint;
 import java.awt.Point;
 
 import java.awt.geom.Point2D;
@@ -1171,7 +1172,7 @@ public class MapCell implements Comparator<Object> {
 
 	public void paintComponent (Graphics g, Hex aHex) {
 		RevenueCenter tRC1;
-		Color tThickFrame;
+		Paint tThickFrame;
 		String tTileName = TileName.NO_NAME2;
 		String tBaseTileName;
 		String tCityInfoName;
@@ -1179,11 +1180,12 @@ public class MapCell implements Comparator<Object> {
 		int tNIndex;
 		Xoffset = 0;
 		Yoffset = 0;
+		Paint tFillPaint;
 
 		tRC1 = getRevenueCenter (0);
 		if (isTileOnCell ()) {
 			tTileName = tile.getName ();
-			tile.paintComponent (g, XCenter, YCenter, tileOrient, aHex, selectedFeature2);
+			tile.paintComponent (g, XCenter, YCenter, tileOrient, aHex, selectedFeature2, selected);
 			if (blockedSides != null) {
 				aHex.drawBorders (g, XCenter, YCenter, baseTerrain.drawBorder (), blockedSides);
 			}
@@ -1229,7 +1231,12 @@ public class MapCell implements Comparator<Object> {
 			} else {
 				tThickFrame = null;
 			}
-			aHex.paintHex (g, XCenter, YCenter, baseTerrain.getColor (), baseTerrain.drawBorder (), tThickFrame,
+			if (selected) {
+				tFillPaint = TileType.getColor (TileType.CLEAR_HIGHLIGHT);
+			} else {
+				tFillPaint = baseTerrain.getColor ();
+			}
+			aHex.paintHex (g, XCenter, YCenter, tFillPaint, baseTerrain.drawBorder (), tThickFrame,
 					blockedSides);
 			if (tRC1 != RevenueCenter.NO_CENTER) {
 				if (terrain1 != Terrain.NO_TERRAINX) {

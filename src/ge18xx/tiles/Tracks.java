@@ -14,9 +14,8 @@ import ge18xx.map.MapCell;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 
-import java.awt.Color;
 import java.awt.Graphics;
-
+import java.awt.Paint;
 import java.util.List;
 import java.util.LinkedList;
 
@@ -92,7 +91,7 @@ public class Tracks implements Cloneable {
 		return tElement;
 	}
 
-	public void draw (Graphics g, int XCenter, int YCenter, int aTileOrient, Hex aHex, Color aHexColor,
+	public void draw (Graphics g, int XCenter, int YCenter, int aTileOrient, Hex aHex, Paint aHexColor,
 			Feature2 aSelectedFeature) {
 		for (Track segment : segments) {
 			segment.draw (g, XCenter, YCenter, aTileOrient, aHex, aHexColor, aSelectedFeature);

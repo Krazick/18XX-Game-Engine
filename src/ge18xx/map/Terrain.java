@@ -68,12 +68,13 @@ public class Terrain extends Feature implements LoadableXMLI {
 	static final int DEEP_COAST = 24;
 	static final int DESERT = 25;
 	static final int END_ROUTE = 26;
+	static final int CLEAR_HIGHLIGHT = 27;
 	static final int MIN_TERRAIN = NO_TERRAIN;
-	static final int MAX_TERRAIN = END_ROUTE;
+	static final int MAX_TERRAIN = CLEAR_HIGHLIGHT;
 	static final String NAMES[] = { "NO TERRAIN", "Clear", "Ocean", "Delta", "Off Board Red", "Off Board Gray",
 			"Off Board Black", "Off Board Green", "", "Thick Border", "River", "Multiple River", "Major River", "Hill",
 			"Mountain", "Himalya", "Pass", "Swamp", "Lake", "Port", "Small River", "Large River", "Shallow Coast",
-			"Coast", "Deep Coast", "Desert", "End Route" };
+			"Coast", "Deep Coast", "Desert", "End Route", "Clear Highlight" };
 	static Color [] colors = null;
 
 	int terrain;

@@ -13,6 +13,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Shape;
@@ -141,7 +142,7 @@ public class Track implements Cloneable {
 		return tElement;
 	}
 
-	public void draw (Graphics g, int X, int Y, int aTileOrient, Hex aHex, Color aBaseColor,
+	public void draw (Graphics g, int X, int Y, int aTileOrient, Hex aHex, Paint aBaseColor,
 			Feature2 aSelectedFeature) {
 		Location tEnter;
 		Location tExit;
@@ -174,7 +175,7 @@ public class Track implements Cloneable {
 		g.setClip (tPreviousClip);
 	}
 
-	public void drawDeadEnd (Graphics g, int X, int Y, Location tEnter, Hex aHex, Color aBaseColor) {
+	public void drawDeadEnd (Graphics g, int X, int Y, Location tEnter, Hex aHex, Paint aBaseColor) {
 		int enterSide = tEnter.getLocation ();
 		int x[], y[];
 		int aTrackWidth = aHex.getTrackWidth ();
@@ -182,7 +183,7 @@ public class Track implements Cloneable {
 		int Xd = aHex.getXd ();
 		int Yd = aHex.getYd ();
 		int depthY = (int) (Yd / 3);
-		Color trackColor;
+		Paint trackColor;
 		int maxXDisplacement = (int) (Xd * 1.57143);
 		int minXDisplacement = (int) (Xd * 1.42857);
 		int maxYDisplacement = (int) (Yd * 0.57143);
@@ -310,12 +311,12 @@ public class Track implements Cloneable {
 		tTrackStroke = getTrackStroke (aHex);
 		g2d.setStroke (tTrackStroke);
 		trackColor = getColor (aBaseColor);
-		g.setColor (trackColor);
-		g.fillPolygon (x, y, 3);
+		g2d.setPaint (trackColor);
+		g2d.fillPolygon (x, y, 3);
 		g2d.setStroke (tCurrentStroke);
 	}
 
-	public void drawGentleTurn (Graphics g, int X, int Y, Location aEnter, Location aExit, Hex aHex, Color aBaseColor) {
+	public void drawGentleTurn (Graphics g, int X, int Y, Location aEnter, Location aExit, Hex aHex, Paint aBaseColor) {
 		int tTrackRadius, tTrackDiameter, topLeftX, topLeftY;
 		int exitValue = aExit.getLocation ();
 		Graphics2D g2d = (Graphics2D) g;
@@ -325,7 +326,7 @@ public class Track implements Cloneable {
 		int Xd = aHex.getXd ();
 		int Yd = aHex.getYd ();
 		boolean direction = Hex.getDirection ();
-		Color trackColor;
+		Paint trackColor;
 
 		tTrackRadius = Hex.getWidth () + Xd;
 		tTrackDiameter = tTrackRadius + tTrackRadius;
@@ -403,9 +404,9 @@ public class Track implements Cloneable {
 		trackColor = getColor (aBaseColor);
 		tTrackStroke = getTrackStroke (aHex);
 		g2d.setStroke (tTrackStroke);
-		g.setColor (trackColor);
+		g2d.setPaint (trackColor);
 		if (tDraw) {
-			g.drawOval (topLeftX, topLeftY, tTrackDiameter, tTrackDiameter);
+			g2d.drawOval (topLeftX, topLeftY, tTrackDiameter, tTrackDiameter);
 		}
 		g2d.setStroke (tCurrentStroke);
 		// Draw Center line Track in Yellow - Debugging Only
@@ -415,7 +416,7 @@ public class Track implements Cloneable {
 		// }
 	}
 
-	public void drawSharpTurn (Graphics g, int X, int Y, Location aEnter, Location aExit, Hex aHex, Color aBaseColor) {
+	public void drawSharpTurn (Graphics g, int X, int Y, Location aEnter, Location aExit, Hex aHex, Paint aBaseColor) {
 		int topLeftX, topLeftY, tTrackDiameter, tTrackRadius;
 		boolean tDraw;
 		int exitValue = aExit.getLocation ();
@@ -424,7 +425,7 @@ public class Track implements Cloneable {
 		BasicStroke tTrackStroke;
 		int Yd = aHex.getYd ();
 		boolean direction = Hex.getDirection ();
-		Color trackColor;
+		Paint trackColor;
 
 		tTrackRadius = aHex.getXd ();
 		tTrackDiameter = tTrackRadius + tTrackRadius;
@@ -502,9 +503,9 @@ public class Track implements Cloneable {
 		trackColor = getColor (aBaseColor);
 		tTrackStroke = getTrackStroke (aHex);
 		g2d.setStroke (tTrackStroke);
-		g.setColor (trackColor);
+		g2d.setPaint (trackColor);
 		if (tDraw) {
-			g.drawOval (topLeftX, topLeftY, tTrackDiameter, tTrackDiameter);
+			g2d.drawOval (topLeftX, topLeftY, tTrackDiameter, tTrackDiameter);
 		}
 		g2d.setStroke (tCurrentStroke);
 
@@ -515,7 +516,7 @@ public class Track implements Cloneable {
 		g.fillPolygon (sliceFrame);
 	}
 
-	public void drawStraight (Graphics g, int X, int Y, Location aEnter, Hex aHex, Color aBaseColor) {
+	public void drawStraight (Graphics g, int X, int Y, Location aEnter, Hex aHex, Paint aBaseColor) {
 		int tStartX, tStartY, tStopX, tStopY;
 		int tEnterValue = aEnter.getLocation ();
 
@@ -526,22 +527,22 @@ public class Track implements Cloneable {
 		drawStraightSegment (g, tStartX, tStartY, tStopX, tStopY, aHex, aBaseColor);
 	}
 
-	public void drawStraightSegment (Graphics g, int X1, int Y1, int X2, int Y2, Hex aHex, Color aBaseColor) {
+	public void drawStraightSegment (Graphics g, int X1, int Y1, int X2, int Y2, Hex aHex, Paint aBaseColor) {
 		Graphics2D g2d = (Graphics2D) g;
 		Stroke tCurrentStroke = g2d.getStroke ();
 		BasicStroke tTrackStroke;
-		Color trackColor;
+		Paint trackColor;
 
 		trackColor = getColor (aBaseColor);
 		tTrackStroke = getTrackStroke (aHex);
 		g2d.setStroke (tTrackStroke);
-		g.setColor (trackColor);
-		g.drawLine (X1, Y1, X2, Y2);
+		g2d.setPaint (trackColor);
+		g2d.drawLine (X1, Y1, X2, Y2);
 		g2d.setStroke (tCurrentStroke);
 	}
 
 	public void drawTrackEdgeToEdge (Graphics g, int X, int Y, Location aEnter, Location aExit, Hex aHex,
-			Color aBaseColor) {
+			Paint aBaseColor) {
 		if ((aEnter.getLocation () + 3) == aExit.getLocation ()) {
 			drawStraight (g, X, Y, aEnter, aHex, aBaseColor);
 		} else if (((aEnter.getLocation () + 1) == aExit.getLocation ())
@@ -552,7 +553,7 @@ public class Track implements Cloneable {
 		}
 	}
 
-	public void drawTrackToCity (Graphics g, int X, int Y, int aTileOrient, Hex aHex, Color aBaseColor) {
+	public void drawTrackToCity (Graphics g, int X, int Y, int aTileOrient, Hex aHex, Paint aBaseColor) {
 		int tStartX = 0;
 		int tStartY = 0;
 		int tStopX = 0;
@@ -721,8 +722,8 @@ public class Track implements Cloneable {
 		return aLocation;
 	}
 
-	public Color getColor (int aTrainNumber) {
-		Color color;
+	public Paint getColor (int aTrainNumber) {
+		Paint color;
 
 		switch (aTrainNumber) {
 		case (1):
@@ -757,7 +758,7 @@ public class Track implements Cloneable {
 		return color;
 	}
 
-	public Color getColor (Color aBaseColor) {
+	public Paint getColor (Paint aBaseColor) {
 		if (gauge.isOverpass () || gauge.isFerryBase ()) {
 			return aBaseColor;
 		} else {

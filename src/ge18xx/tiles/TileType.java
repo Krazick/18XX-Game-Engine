@@ -17,7 +17,11 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 import java.awt.Color;
-
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Rectangle;
+import java.awt.TexturePaint;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class TileType implements Cloneable, LoadableXMLI {
@@ -35,11 +39,20 @@ public class TileType implements Cloneable, LoadableXMLI {
 	public static final int OCEAN_FERRY = 7;
 	public static final int OCEAN = 8;
 	public static final int PURPLE = 9;
+	public static final int CLEAR = 10;
+	public static final int YELLOW_HIGHLIGHT = 11;
+	public static final int GREEN_HIGHLIGHT = 12;
+	public static final int GREY_HIGHLIGHT = 13;
+	public static final int BROWN_HIGHLIGHT = 14;
+	public static final int CLEAR_HIGHLIGHT = 15;
 	public static final int MIN_TYPE = NO_TYPE;
-	public static final int MAX_TYPE = PURPLE;
-	public static String NAMES[] = { "NO TYPE", "Yellow", "Green", "Grey", "Brown", "Red Off Board", "Red-Brown",
-			"Ocean Ferry", "Ocean", "Purple" };
-	static Color [] colors = null;
+	public static final int MAX_TYPE = CLEAR_HIGHLIGHT;
+	public static final int HIGHLIGHT_ADDITION = 10;
+	public static String NAMES[] = { "NO TYPE", "Yellow", "Green", "Grey", "Brown", 
+			"Red Off Board", "Red-Brown", "Ocean Ferry", "Ocean", "Purple", "Clear",
+			"Yellow Highlight", "Green Highlight", "Grey Hightlight", "Brown Highlight",
+			"Clear Highlight"};
+	static Paint [] colors = null;
 
 	int type;
 	boolean fixed;
@@ -85,7 +98,25 @@ public class TileType implements Cloneable, LoadableXMLI {
 		}
 	}
 
-	public Color getColor () {
+	public static Paint getColor (int aType) {
+		return colors [aType];
+	}
+	
+	public Paint getColor (boolean aIsSelected) {
+		int tIndex;
+		
+		tIndex = type;
+		if (aIsSelected) {
+			tIndex = type + HIGHLIGHT_ADDITION;
+			if (tIndex > MAX_TYPE) {
+				tIndex = type;
+			}
+		}
+		
+		return colors [tIndex];
+	}
+	
+	public Paint getColor () {
 		return colors [type];
 	}
 
@@ -121,6 +152,9 @@ public class TileType implements Cloneable, LoadableXMLI {
 		case GREY:
 		case OCEAN:
 		case GREEN:
+		case YELLOW_HIGHLIGHT:
+		case GREY_HIGHLIGHT:
+		case GREEN_HIGHLIGHT:
 			tRevenueColor = Color.black;
 			break;
 
@@ -177,14 +211,18 @@ public class TileType implements Cloneable, LoadableXMLI {
 	}
 
 	private void setColors () {
+		int tColorCount;
+		
 		if (colors == null) {
-			int tColorCount = (MAX_TYPE - MIN_TYPE) + 1;
+			tColorCount = (MAX_TYPE - MIN_TYPE) + 1;
 			setStaticColors (tColorCount);
 		}
 	}
 
-	private static void setStaticColors (int aColorCount) {
-		colors = new Color [aColorCount];
+	private static void setStaticColors (int aPaintCount) {
+		TexturePaint tTexturePaint;
+		
+		colors = new Paint [aPaintCount];
 		colors [0] = Color.lightGray;
 		colors [1] = Color.yellow;
 		colors [2] = Color.green;
@@ -194,6 +232,34 @@ public class TileType implements Cloneable, LoadableXMLI {
 		colors [6] = new Color (204, 51, 51);
 		colors [7] = new Color (153, 204, 255);
 		colors [8] = new Color (153, 204, 255);
+		colors [9] = new Color (140, 49, 224);
+		colors [10] = new Color (204, 255, 204);		// CLEAR
+		tTexturePaint = createTexture (Color.yellow, Color.lightGray);	// YELLOW_HIGHLIGHT
+		colors [11] = tTexturePaint;
+		tTexturePaint = createTexture (Color.green, Color.lightGray);	// GREEN HIGHLIGHT
+		colors [12] = tTexturePaint;
+		tTexturePaint = createTexture (new Color (150, 150, 150), Color.white);		// GREY_HIGHLIGHT
+		colors [13] = tTexturePaint;
+		tTexturePaint = createTexture (new Color (139, 69, 19), Color.white);		// BROWN_HIGHLIGHT
+		colors [14] = tTexturePaint;
+		tTexturePaint = createTexture (new Color (204, 255, 204), Color.lightGray);	// CLEAR_HIGHLIGHT
+		colors [15] = tTexturePaint;
+	}
+
+	public static TexturePaint createTexture (Color aBaseColor, Color aHighlightColor) {
+		TexturePaint tTexturePaint;
+		BufferedImage tBufferenedImage = new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB);
+		Graphics2D tBufferedGraphic = tBufferenedImage.createGraphics();
+		Rectangle tRectangle;
+		
+		tBufferedGraphic.setColor (aHighlightColor);
+		tBufferedGraphic.fillRect (0, 0, 5, 5);
+		tBufferedGraphic.setColor (aBaseColor);
+		tBufferedGraphic.fillOval (0, 0, 5, 5);
+		tRectangle = new Rectangle (0, 0, 5, 5);
+		tTexturePaint = new TexturePaint (tBufferenedImage, tRectangle);
+		
+		return tTexturePaint;
 	}
 
 	ParsingRoutineI tileTypesParsingRoutine = new ParsingRoutineI () {
