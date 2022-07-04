@@ -316,7 +316,9 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 				} else {
 					toggleSelectedTile (tGameTile);
 				}
-				tileTrayFrame.bringMapToFront ();
+				if (tileTrayFrame.isPlaceTileMode ()) {
+					tileTrayFrame.bringMapToFront ();
+				}
 			}
 		} else {
 			tRotateGameTile = getRotateTileContainingPoint (tPoint);
