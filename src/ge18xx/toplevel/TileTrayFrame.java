@@ -99,6 +99,10 @@ public class TileTrayFrame extends XMLFrame {
 		gameManager.notifyMapFrame ();
 	}
 
+	public boolean isPlaceTileMode () {
+		return gameManager.isPlaceTileMode ();
+	}
+
 	public void bringMapToFront () {
 		gameManager.bringMapToFront ();
 	}
