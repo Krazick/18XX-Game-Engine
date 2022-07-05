@@ -143,7 +143,7 @@ public class Hex {
 		return (hexPolygon.contains (point));
 	}
 
-	public void drawBorders (Graphics g, int Xo, int Yo, boolean drawBorder, boolean aBlockedSides[]) {
+	public void drawBorders (Graphics g, int Xo, int Yo, boolean drawBorder, boolean aBlockedSides []) {
 		int xp[], yp[], npnts = x.length, index;
 		Polygon tClipPolygon;
 		Area tNewClip;
@@ -184,23 +184,23 @@ public class Hex {
 		g.setClip (tPreviousClip);
 	}
 
-	public void drawCoast (Graphics g, int Xc, int Yc, Color aRiverColor) {
+	public void drawCoast (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
 		int X1, Y1;
 
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverColor);
+		drawRiver (g, X1, Y1, aRiverPaint);
 	}
 
-	public void drawDeepCoast (Graphics g, int Xc, int Yc, Color aRiverColor) {
+	public void drawDeepCoast (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
 		int X1, Y1;
 
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverColor);
+		drawRiver (g, X1, Y1, aRiverPaint);
 	}
 
-	public void drawHill (Graphics g, int Xc, int Yc, Color aFillColor) {
+	public void drawHill (Graphics g, int Xc, int Yc, Paint aFillPaint) {
 		double tDwidth6, tDwidth5;
 		int X1, X2, X3, Y1, Y2, Y3;
 
@@ -212,10 +212,10 @@ public class Hex {
 		Y1 = new Double (tDwidth6).intValue () + Yc;
 		Y2 = new Double (-tDwidth6).intValue () + Yc;
 		Y3 = Y1;
-		drawTriangle (g, X1, Y1, X2, Y2, X3, Y3, aFillColor);
+		drawTriangle (g, X1, Y1, X2, Y2, X3, Y3, aFillPaint);
 	}
 
-	public void drawHimalaya (Graphics g, int Xc, int Yc, Color aFillColor) {
+	public void drawHimalaya (Graphics g, int Xc, int Yc, Paint aFillPaint) {
 		int X1, X2, Y1, Y2;
 		double dw6, dw5;
 
@@ -225,28 +225,28 @@ public class Hex {
 		Y1 = new Double (-dw6 / 2).intValue () + Yc;
 		X2 = new Double (dw5).intValue () + Xc;
 		Y2 = Y1;
-		drawHill (g, X1, Y1, aFillColor);
-		drawHill (g, X2, Y2, aFillColor);
-		drawMountain (g, Xc, Yc, aFillColor);
+		drawHill (g, X1, Y1, aFillPaint);
+		drawHill (g, X2, Y2, aFillPaint);
+		drawMountain (g, Xc, Yc, aFillPaint);
 	}
 
-	public void drawLargeRiver (Graphics g, int Xc, int Yc, Color aRiverColor) {
+	public void drawLargeRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
 		int X1, Y1;
 
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverColor);
+		drawRiver (g, X1, Y1, aRiverPaint);
 	}
 
-	public void drawMajorRiver (Graphics g, int Xc, int Yc, Color aRiverColor) {
+	public void drawMajorRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
 		int X1, Y1;
 
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverColor);
+		drawRiver (g, X1, Y1, aRiverPaint);
 	}
 
-	public void drawMountain (Graphics g, int Xc, int Yc, Color aFillColor) {
+	public void drawMountain (Graphics g, int Xc, int Yc, Paint aFillPaint) {
 		double dw6, dw5;
 		int X1, X2, X3, Y1, Y2, Y3;
 
@@ -258,17 +258,17 @@ public class Hex {
 		Y1 = new Double (dw6).intValue () + Yc;
 		Y2 = new Double (-dw6).intValue () + Yc;
 		Y3 = Y1;
-		drawTriangle (g, X1, Y1, X2, Y2, X3, Y3, aFillColor);
+		drawTriangle (g, X1, Y1, X2, Y2, X3, Y3, aFillPaint);
 	}
 
-	public void drawMultipleRiver (Graphics g, int Xc, int Yc, Color aRiverColor) {
+	public void drawMultipleRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
 		int X1, Y1;
 
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverColor);
+		drawRiver (g, X1, Y1, aRiverPaint);
 		Y1 = Yc + trackWidth;
-		drawRiver (g, X1, Y1, aRiverColor);
+		drawRiver (g, X1, Y1, aRiverPaint);
 	}
 
 	public void drawNeighbor (Graphics g, int aSide, int Xo, int Yo) {
@@ -289,7 +289,8 @@ public class Hex {
 		g.setClip (tPreviousClip);
 	}
 
-	public void drawPort (Graphics g, int Xc, int Yc, Color aPortColor) {
+	public void drawPort (Graphics g, int Xc, int Yc, Paint aPortPaint) {
+		Graphics2D g2d = (Graphics2D) g;
 		int x1, y1, x2, y2;
 		int xtr, ytr, width, height;
 
@@ -297,13 +298,13 @@ public class Hex {
 		y1 = new Double (Yc - trackWidth * .5).intValue ();
 		x2 = Xc;
 		y2 = new Double (Yc + trackWidth * 2).intValue ();
-		g.setColor (aPortColor);
-		g.drawLine (x1, y1, x2, y2);
+		g2d.setPaint (aPortPaint);
+		g2d.drawLine (x1, y1, x2, y2);
 		width = trackWidth;
 		height = width;
 		xtr = new Double (x1 - width / 2).intValue ();
 		ytr = new Double (y1 - width).intValue ();
-		g.drawOval (xtr, ytr, width, height);
+		g2d.drawOval (xtr, ytr, width, height);
 		xtr = x1 - trackWidth * 2;
 		width = trackWidth * 4;
 		height = new Double (trackWidth * 3.5).intValue ();
@@ -311,29 +312,25 @@ public class Hex {
 		y1 = Yc;
 		x2 = Xc + trackWidth;
 		y2 = Yc;
-		g.drawLine (x1, y1, x2, y2);
-		g.drawArc (xtr, ytr, width, height, 220, 100);
+		g2d.drawLine (x1, y1, x2, y2);
+		g2d.drawArc (xtr, ytr, width, height, 220, 100);
 	}
 
-	public void drawOctagon (Graphics g, int Xc, int Yc, Color aColor) {
+	public void drawOctagon (Graphics g, int Xc, int Yc, Paint aPaint) {
 		Polygon polygon = new Polygon ();
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setRenderingHint (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		Stroke tOriginalStroke = g2.getStroke ();
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setRenderingHint (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		Stroke tOriginalStroke = g2d.getStroke ();
 		Stroke tNewStroke = new BasicStroke (3);
 		int R;
 
 		R = (int) (cityWidth * 2);
 		int [] [] xy = getPolygonArrays (Xc, Yc, R, 8);
 		polygon = new Polygon (xy [0], xy [1], 8);
-//       System.out.println ("Drawing Octagon center " + Xc + ", " + Yc);
-//       for (int i = 0; i < 8; i++) {
-//    	   System.out.println ("Point " + i + " (" + polygon.xpoints [i] + "," + polygon.ypoints [i] + ")");
-//       }
-		g2.setPaint (aColor);
-		g2.setStroke (tNewStroke);
-		g2.draw (polygon);
-		g2.setStroke (tOriginalStroke);
+		g2d.setPaint (aPaint);
+		g2d.setStroke (tNewStroke);
+		g2d.draw (polygon);
+		g2d.setStroke (tOriginalStroke);
 	}
 
 	private int [] [] getPolygonArrays (int cx, int cy, int R, int sides) {
@@ -352,7 +349,7 @@ public class Hex {
 		return new int [] [] { x, y };
 	}
 
-	public void drawRiver (Graphics g, int Xc, int Yc, Color aRiverColor) {
+	public void drawRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
 		int X1, Y1, width, height, index;
 		Graphics2D g2d = (Graphics2D) g;
 		int halfTW = new Double (trackWidth / 2).intValue ();
@@ -364,7 +361,7 @@ public class Hex {
 		X1 = Xc - halfTW - trackWidth - trackWidth;
 		Y1 = Yc - trackWidth;
 		g2d.setStroke (tRiverStroke);
-		g.setColor (aRiverColor);
+		g2d.setPaint (aRiverPaint);
 		for (index = 0; index < 3; index++) {
 			g.drawArc (X1, Y1, width, height, 10, 160);
 			X1 = X1 + trackWidth;
@@ -405,23 +402,24 @@ public class Hex {
 		g.drawLine (x2, y2, x4, y4);
 	}
 
-	public void drawShallowCoast (Graphics g, int Xc, int Yc, Color aRiverColor) {
+	public void drawShallowCoast (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
 		int X1, Y1;
 
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverColor);
+		drawRiver (g, X1, Y1, aRiverPaint);
 	}
 
-	public void drawSmallRiver (Graphics g, int Xc, int Yc, Color aRiverColor) {
+	public void drawSmallRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
 		int X1, Y1;
 
 		X1 = Xc;
 		Y1 = Yc - trackWidth;
-		drawRiver (g, X1, Y1, aRiverColor);
+		drawRiver (g, X1, Y1, aRiverPaint);
 	}
 
-	private void drawTriangle (Graphics g, int X1, int Y1, int X2, int Y2, int X3, int Y3, Color aFillColor) {
+	private void drawTriangle (Graphics g, int X1, int Y1, int X2, int Y2, int X3, int Y3, Paint aFillPaint) {
+		Graphics2D g2d = (Graphics2D) g;
 		Polygon tTriangle;
 		int xp[] = new int [4];
 		int yp[] = new int [4];
@@ -435,9 +433,9 @@ public class Hex {
 		xp [3] = X1;
 		yp [3] = Y1;
 		tTriangle = new Polygon (xp, yp, 4);
-		if (aFillColor != null) {
-			g.setColor (aFillColor);
-			g.fillPolygon (tTriangle);
+		if (aFillPaint != null) {
+			g2d.setPaint (aFillPaint);
+			g2d.fillPolygon (tTriangle);
 		}
 		g.setColor (Color.black);
 		g.drawPolygon (tTriangle);
@@ -1255,23 +1253,23 @@ public class Hex {
 		Yc = offsetY;
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Paint aFill_color) {
-		paintHex (g, Xo, Yo, aFill_color, true, null);
+	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillPaint) {
+		paintHex (g, Xo, Yo, aFillPaint, true, null);
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Paint aFill_color, Paint aThickFrame) {
-		paintHex (g, Xo, Yo, aFill_color, true, aThickFrame);
+	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillPaint, Paint aThickFrame) {
+		paintHex (g, Xo, Yo, aFillPaint, true, aThickFrame);
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillColor, boolean aDrawBorder) {
-		paintHex (g, Xo, Yo, aFillColor, aDrawBorder, null);
+	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillPaint, boolean aDrawBorder) {
+		paintHex (g, Xo, Yo, aFillPaint, aDrawBorder, null);
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillColor, boolean aDrawBorder, Paint aThickFrame) {
-		paintHex (g, Xo, Yo, aFillColor, aDrawBorder, null, null);
+	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillPaint, boolean aDrawBorder, Paint aThickFrame) {
+		paintHex (g, Xo, Yo, aFillPaint, aDrawBorder, null, null);
 	}
 
-	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillColor, boolean aDrawBorder, Paint aThickFrame,
+	public void paintHex (Graphics g, int Xo, int Yo, Paint aFillPaint, boolean aDrawBorder, Paint aThickFrame,
 			boolean aBlockedSides[]) {
 		Stroke tCurrentStroke;
 		BasicStroke tFrameStroke;
@@ -1287,7 +1285,7 @@ public class Hex {
 			yp [index] = y [index] + Yo;
 		}
 
-		g2d.setPaint (aFillColor);
+		g2d.setPaint (aFillPaint);
 		try {
 			g.fillPolygon (xp, yp, npnts - 1);
 		} catch (ArrayIndexOutOfBoundsException exc) {
