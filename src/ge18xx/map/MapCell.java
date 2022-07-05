@@ -70,7 +70,6 @@ public class MapCell implements Comparator<Object> {
 	static final String NO_BLOCKED_SIDES = "";
 	static final String NO_DIRECTION = null;
 	static boolean mapDirection;
-	Color terrainFillColor;
 	boolean tileOrientLocked;
 	boolean selected;
 	boolean startingTile; // If the board has a initial tile placed, need to have terrain features show
@@ -92,6 +91,7 @@ public class MapCell implements Comparator<Object> {
 	Terrain baseTerrain;
 	Terrain terrain1;
 	Terrain terrain2;
+	Paint terrainFillPaint;
 	HexMap hexMap;
 	int trainUsingSide[] = new int [6]; // Train Number using the side;
 
@@ -479,7 +479,7 @@ public class MapCell implements Comparator<Object> {
 				Xol = tLocationPoint.x + XCenter + Xoffset;
 				Yol = tLocationPoint.y + YCenter + Yoffset;
 			}
-			aTerrain.draw (g, Xol, Yol, aHex, terrainFillColor);
+			aTerrain.draw (g, Xol, Yol, aHex, terrainFillPaint);
 			Yol += 15;
 			if (aTerrain.isMountainous ()) {
 				Yol += 5;
@@ -511,8 +511,8 @@ public class MapCell implements Comparator<Object> {
 		return baseTerrain;
 	}
 
-	public Color getBaseTerrainFillColor () {
-		return baseTerrain.getColor ();
+	public Paint getBaseTerrainFillPaint () {
+		return baseTerrain.getPaint ();
 	}
 
 	public RevenueCenter getCenterAtLocation (Location aLocation) {
@@ -649,10 +649,10 @@ public class MapCell implements Comparator<Object> {
 	public Terrain getTerrain2 () {
 		return terrain2;
 	}
-
-	public Color getTerrainFillColor () {
-		return terrainFillColor;
-	}
+//
+//	public Paint getTerrainFillPaint () {
+//		return terrainFillPaint;
+//	}
 
 	public Tile getTile () {
 		return tile;
@@ -1232,9 +1232,9 @@ public class MapCell implements Comparator<Object> {
 				tThickFrame = null;
 			}
 			if (selected) {
-				tFillPaint = TileType.getPaint (TileType.CLEAR, true);
+				tFillPaint = baseTerrain.getPaint (true);
 			} else {
-				tFillPaint = baseTerrain.getColor ();
+				tFillPaint = baseTerrain.getPaint ();
 			}
 			aHex.paintHex (g, XCenter, YCenter, tFillPaint, baseTerrain.drawBorder (), tThickFrame,
 					blockedSides);
@@ -1500,7 +1500,7 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public void setTerrainFillColor (Color aTerrainFillColor) {
-		terrainFillColor = aTerrainFillColor;
+		terrainFillPaint = aTerrainFillColor;
 	}
 
 	public RevenueCenter setupRevenueCenter (int aType, int aID, int aLocation, String aName, int aValue,
