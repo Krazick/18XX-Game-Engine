@@ -160,10 +160,12 @@ public class TilePlacementBenefit extends MapBenefit {
 		tOwningCompany.handlePlaceTile ();
 		tMap = getMap ();
 		tMap.clearAllSelected ();
+		tMap.removeAllSMC ();
 		tMapCell = getMapCell ();
 		if (tMapCell == MapCell.NO_MAP_CELL) {
 			System.err.println ("Did not find Map Cell with ID " + mapCellID);
 		} else {
+			tMap.addMapCellSMC (tMapCell);
 			tMap.toggleSelectedMapCell (tMapCell);
 		}
 	}
