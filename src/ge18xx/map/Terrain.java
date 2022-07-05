@@ -9,6 +9,7 @@ package ge18xx.map;
 //
 
 import ge18xx.tiles.Feature;
+import ge18xx.tiles.TileType;
 import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -18,7 +19,9 @@ import ge18xx.utilities.XMLNode;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Stroke;
+import java.awt.TexturePaint;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
@@ -32,6 +35,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 	public static final ElementName EN_TERRAIN_FEATURES = new ElementName ("TerrainFeatures");
 	public static final AttributeName AN_BASE = new AttributeName ("base");
 	public static final AttributeName AN_COLOR = new AttributeName ("color");
+	public static final AttributeName AN_HIGHLIGHT = new AttributeName ("highlight");
 	public static final AttributeName AN_ID = new AttributeName ("id");
 	public static final AttributeName AN_TYPE = new AttributeName ("type");
 	public static final AttributeName AN_COST = new AttributeName ("cost");
@@ -75,7 +79,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 			"Off Board Black", "Off Board Green", "", "Thick Border", "River", "Multiple River", "Major River", "Hill",
 			"Mountain", "Himalya", "Pass", "Swamp", "Lake", "Port", "Small River", "Large River", "Shallow Coast",
 			"Coast", "Deep Coast", "Desert", "End Route", "Clear Highlight" };
-	static Color [] colors = null;
+	static Paint [] [] paints = null;
 
 	int terrain;
 	int cost;
@@ -147,53 +151,53 @@ public class Terrain extends Feature implements LoadableXMLI {
 		return tElement;
 	}
 
-	public void draw (Graphics g, int X, int Y, Hex aHex, Color aFillColor) {
+	public void draw (Graphics g, int X, int Y, Hex aHex, Paint aPaint) {
 		switch (terrain) {
 		case NO_TERRAIN:
 			break;
 
 		case RIVER: /* River */
-			drawRiver (g, X, Y, aHex, getColor ());
+			drawRiver (g, X, Y, aHex, getPaint ());
 			break;
 
 		case MULTIPLE_RIVER: /* Multiple River */
-			aHex.drawMultipleRiver (g, X, Y, getColor ());
+			aHex.drawMultipleRiver (g, X, Y, getPaint ());
 			break;
 
 		case MAJOR_RIVER: /* Major River */
-			aHex.drawMajorRiver (g, X, Y, getColor ());
+			aHex.drawMajorRiver (g, X, Y, getPaint ());
 			break;
 
 		case SMALL_RIVER: /* Small River */
-			aHex.drawSmallRiver (g, X, Y, getColor ());
+			aHex.drawSmallRiver (g, X, Y, getPaint ());
 			break;
 
 		case LARGE_RIVER: /* Large River */
-			aHex.drawLargeRiver (g, X, Y, getColor ());
+			aHex.drawLargeRiver (g, X, Y, getPaint ());
 			break;
 
 		case SHALLOW_COAST: /* Shallow Coastline */
-			aHex.drawShallowCoast (g, X, Y, getColor ());
+			aHex.drawShallowCoast (g, X, Y, getPaint ());
 			break;
 
 		case COAST: /* Coastline */
-			aHex.drawCoast (g, X, Y, getColor ());
+			aHex.drawCoast (g, X, Y, getPaint ());
 			break;
 
 		case DEEP_COAST: /* Deep Coastline */
-			aHex.drawDeepCoast (g, X, Y, getColor ());
+			aHex.drawDeepCoast (g, X, Y, getPaint ());
 			break;
 
 		case HILL: /* Hill */
-			aHex.drawHill (g, X, Y, aFillColor);
+			aHex.drawHill (g, X, Y, aPaint);
 			break;
 
 		case MOUNTAIN: /* Mountain */
-			aHex.drawMountain (g, X, Y, aFillColor);
+			aHex.drawMountain (g, X, Y, aPaint);
 			break;
 
 		case HIMALAYA: /* Mountain */
-			aHex.drawHimalaya (g, X, Y, aFillColor);
+			aHex.drawHimalaya (g, X, Y, aPaint);
 			break;
 
 		case PASS: /* Mountain Pass */
@@ -206,7 +210,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 			break;
 
 		case PORT: /* Port, Draw an Anchor */
-			aHex.drawPort (g, X, Y, getColor ());
+			aHex.drawPort (g, X, Y, getPaint ());
 			break;
 
 		case DESERT: /* Desert, Draw a Cactus */
@@ -217,7 +221,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		}
 	}
 
-	public void drawRiver (Graphics g, int Xc, int Yc, Hex aHex, Color aRiverColor) {
+	public void drawRiver (Graphics g, int Xc, int Yc, Hex aHex, Paint aPaint) {
 		int X1, Y1, width, height, index;
 		int tTrackWidth = aHex.getTrackWidth ();
 		Graphics2D g2d = (Graphics2D) g;
@@ -230,14 +234,14 @@ public class Terrain extends Feature implements LoadableXMLI {
 		X1 = Xc - halfTW - tTrackWidth - tTrackWidth;
 		Y1 = Yc - tTrackWidth;
 		g2d.setStroke (tRiverStroke);
-		g.setColor (aRiverColor);
+		g2d.setPaint (aPaint);
 		for (index = 0; index < 3; index++) {
 			g.drawArc (X1, Y1, width, height, 10, 160);
 			X1 = X1 + tTrackWidth;
 			g.drawArc (X1, Y1 - 1, width, height, 190, 160);
 			X1 = X1 + tTrackWidth;
 		}
-		g.setColor (Color.black);
+		g2d.setColor (Color.black);
 		g2d.setStroke (tCurrentStroke);
 	}
 
@@ -257,13 +261,25 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 		return (tDrawBorder);
 	}
-
-	public Color getColor () {
-		Color tColor;
+	
+	public Paint getPaint (boolean aHighlight) {
+		Paint tPaint;
 		
-		tColor = colors [terrain];
+		if (aHighlight) {
+			tPaint = paints [terrain] [1];
+		} else {
+			tPaint = paints [terrain] [0];
+		}
+		
+		return tPaint;
+	}
 
-		return tColor;
+	public Paint getPaint () {
+		Paint tPaint;
+		
+		tPaint = getPaint (false);
+
+		return tPaint;
 	}
 
 
@@ -363,13 +379,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		int tChildrenCount1;
 		int tIndex;
 		int tIndex1;
-		int tID;
-		int tRed;
-		int tGreen;
-		int tBlue;
-		String tColorValues;
-		String [] tSplit;
-
+		
 		XMLMapRoot = aXMLDocument.getDocumentNode ();
 		tChildren = XMLMapRoot.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
@@ -383,64 +393,120 @@ public class Terrain extends Feature implements LoadableXMLI {
 					tChildNode1 = new XMLNode (tChildren1.item (tIndex1));
 					tChildName1 = tChildNode1.getNodeName ();
 					if (EN_TERRAIN.equals (tChildName1)) {
-						tID = tChildNode1.getThisIntAttribute (AN_ID);
-						tColorValues = tChildNode1.getThisAttribute (AN_COLOR);
-						tSplit = tColorValues.split (",");
-						tRed = Integer.parseInt (tSplit [0]);
-						tGreen = Integer.parseInt (tSplit [1]);
-						tBlue = Integer.parseInt (tSplit [2]);
-						colors [tID] = new Color (tRed, tGreen, tBlue);
+						parseTerrainColor (tChildNode1);
 					}
 				}
 			}
 		}
 	}
 
-	private void setColors () {
-		int tColorCount;
+	public void parseTerrainColor (XMLNode aChildNode) {
+		int tID;
+		String tColorValues;
+		Color tColor;
+		Color tHighlightColor;
+		TexturePaint tTexturePaint;
+		String tHasHighlight;
 		
-		if (colors == null) {
-			tColorCount = (MAX_TERRAIN - MIN_TERRAIN) + 1;
-			setStaticColors (tColorCount);
+		tID = aChildNode.getThisIntAttribute (AN_ID);
+		tColorValues = aChildNode.getThisAttribute (AN_COLOR);
+		tHasHighlight = aChildNode.getThisAttribute (AN_HIGHLIGHT);
+		tColor = parseAColor (tColorValues);
+		paints [tID] [0]  = tColor;
+		if (tHasHighlight != XMLNode.NO_VALUE) {
+			tHighlightColor = parseAColor (tHasHighlight);
+			tTexturePaint = TileType.createTexture (tColor, tHighlightColor);
+			paints [tID] [1]  = tTexturePaint;
+		} else {
+			paints [tID] [1]  = tColor;
 		}
 	}
 
-	private static void setStaticColors (int aColorCount) {
-		colors = new Color [aColorCount];
-		colors [NO_TERRAIN] = Color.black;
-		colors [CLEAR] = new Color (218, 227, 131);
-		colors [OCEAN] = new Color (165, 204, 236);
-		colors [DELTA] = new Color (210, 192, 145);
-		colors [OFF_BOARD_RED] = new Color (233, 39, 34);
-		colors [OFF_BOARD_GRAY] = Color.gray;
-		colors [OFF_BOARD_BLACK] = new Color (102, 204, 102);
-		colors [OFF_BOARD_GREEN] = new Color (100, 166, 80);
-		colors [THICK_BORDER] = Color.yellow;
-		colors [RIVER] = Color.blue;
-		colors [MULTIPLE_RIVER] = Color.blue;
-		colors [MAJOR_RIVER] = Color.blue;
-		colors [HILL] = Color.lightGray;
-		colors [MOUNTAIN] = Color.lightGray;
-		colors [HIMALAYA] = Color.lightGray;
-		colors [PASS] = Color.lightGray;
-		colors [SWAMP] = Color.lightGray;
-		colors [LAKE] = Color.blue;
-		colors [PORT] = Color.black;
-		colors [SMALL_RIVER] = Color.blue;
-		colors [LARGE_RIVER] = Color.blue;
-		colors [SHALLOW_COAST] = Color.blue;
-		colors [COAST] = Color.blue;
-		colors [DEEP_COAST] = Color.blue;
-		colors [DESERT] = Color.black;
+	public Color parseAColor (String tColorValues) {
+		int tRed;
+		int tGreen;
+		int tBlue;
 		
-		printTerrainColorInfo (DELTA, colors [DELTA]);
-		System.out.println ("Above is Color for Delta after Set Static");
+		String [] tSplit;
+		Color tColor;
+		tSplit = tColorValues.split (",");
+		tRed = Integer.parseInt (tSplit [0]);
+		tGreen = Integer.parseInt (tSplit [1]);
+		tBlue = Integer.parseInt (tSplit [2]);
+		tColor = new Color (tRed, tGreen, tBlue);
+		
+		return tColor;
 	}
 
-	private static void printTerrainColorInfo (int aTerrain, Color aColor) {
-		System.out.println ("Terrain DELTA (" + aTerrain +") Color RGB (" +
-				aColor.getRed () + ", " + aColor.getGreen () + "," +
-				aColor.getBlue () + ") ");		
+	private void setPaints () {
+		int tPaintCount;
+		
+		if (paints == null) {
+			tPaintCount = (MAX_TERRAIN - MIN_TERRAIN) + 1;
+			setStaticPaints (tPaintCount);
+		}
+	}
+
+	private static void setStaticPaints (int aPaintCount) {
+		TexturePaint tTexturePaint;
+		
+		paints = new Paint [aPaintCount] [2];
+		paints [NO_TERRAIN] [0] = Color.black;
+		paints [CLEAR] [0] = new Color (204, 255, 204);
+		paints [OCEAN] [0] = new Color (165, 204, 236);
+		paints [DELTA] [0] = new Color (210, 192, 145);
+		paints [OFF_BOARD_RED] [0] = new Color (233, 39, 34);
+		paints [OFF_BOARD_GRAY] [0] = Color.gray;
+		paints [OFF_BOARD_BLACK] [0] = new Color (102, 204, 102);
+		paints [OFF_BOARD_GREEN] [0] = new Color (100, 166, 80);
+		paints [THICK_BORDER] [0] = Color.yellow;
+		paints [RIVER] [0] = Color.blue;
+		paints [MULTIPLE_RIVER] [0] = Color.blue;
+		paints [MAJOR_RIVER] [0] = Color.blue;
+		paints [HILL] [0] = Color.lightGray;
+		paints [MOUNTAIN] [0] = Color.lightGray;
+		paints [HIMALAYA] [0] = Color.lightGray;
+		paints [PASS] [0] = Color.lightGray;
+		paints [SWAMP] [0] = Color.lightGray;
+		paints [LAKE] [0] = Color.blue;
+		paints [PORT] [0] = Color.black;
+		paints [SMALL_RIVER] [0] = Color.blue;
+		paints [LARGE_RIVER] [0] = Color.blue;
+		paints [SHALLOW_COAST] [0] = Color.blue;
+		paints [COAST] [0] = Color.blue;
+		paints [DEEP_COAST] [0] = Color.blue;
+		paints [DESERT] [0] = Color.black;
+		
+				
+		paints [NO_TERRAIN] [1] = Color.black;
+		tTexturePaint = TileType.createTexture (new Color (204, 255, 204), Color.lightGray);
+		paints [CLEAR] [1] = tTexturePaint;
+		paints [OCEAN] [1] = new Color (165, 204, 236);
+		
+		tTexturePaint = TileType.createTexture (new Color (210, 192, 145), Color.darkGray);
+		paints [DELTA] [1] = tTexturePaint;
+		paints [OFF_BOARD_RED] [1] = new Color (233, 39, 34);
+		paints [OFF_BOARD_GRAY] [1] = Color.gray;
+		paints [OFF_BOARD_BLACK] [1] = new Color (102, 204, 102);
+		paints [OFF_BOARD_GREEN] [1] = new Color (100, 166, 80);
+		paints [THICK_BORDER] [1] = Color.yellow;
+		paints [RIVER] [1] = Color.blue;
+		paints [MULTIPLE_RIVER] [1] = Color.blue;
+		paints [MAJOR_RIVER] [1] = Color.blue;
+		paints [HILL] [1] = Color.lightGray;
+		paints [MOUNTAIN] [1] = Color.lightGray;
+		paints [HIMALAYA] [1] = Color.lightGray;
+		paints [PASS] [1] = Color.lightGray;
+		paints [SWAMP] [1] = Color.lightGray;
+		paints [LAKE] [1] = Color.blue;
+		paints [PORT] [1] = Color.black;
+		paints [SMALL_RIVER] [1] = Color.blue;
+		paints [LARGE_RIVER] [1] = Color.blue;
+		paints [SHALLOW_COAST] [1] = Color.blue;
+		paints [COAST] [1] = Color.blue;
+		paints [DEEP_COAST] [1] = Color.blue;
+		paints [DESERT] [1] = Color.black;
+
 	}
 
 	public void setCost (int aCost) {
@@ -448,7 +514,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 	}
 
 	public void setValues (int aTerrain, int aCost) {
-		setColors ();
+		setPaints ();
 		if ((aTerrain >= MIN_TERRAIN) && (aTerrain <= MAX_TERRAIN)) {
 			terrain = aTerrain;
 			setCost (aCost);
