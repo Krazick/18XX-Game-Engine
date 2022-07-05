@@ -259,8 +259,13 @@ public class Terrain extends Feature implements LoadableXMLI {
 	}
 
 	public Color getColor () {
-		return colors [terrain];
+		Color tColor;
+		
+		tColor = colors [terrain];
+
+		return tColor;
 	}
+
 
 	public int getCost () {
 		return cost;
@@ -392,8 +397,10 @@ public class Terrain extends Feature implements LoadableXMLI {
 	}
 
 	private void setColors () {
+		int tColorCount;
+		
 		if (colors == null) {
-			int tColorCount = (MAX_TERRAIN - MIN_TERRAIN) + 1;
+			tColorCount = (MAX_TERRAIN - MIN_TERRAIN) + 1;
 			setStaticColors (tColorCount);
 		}
 	}
@@ -403,7 +410,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		colors [NO_TERRAIN] = Color.black;
 		colors [CLEAR] = new Color (218, 227, 131);
 		colors [OCEAN] = new Color (165, 204, 236);
-		colors [DELTA] = Color.orange;
+		colors [DELTA] = new Color (210, 192, 145);
 		colors [OFF_BOARD_RED] = new Color (233, 39, 34);
 		colors [OFF_BOARD_GRAY] = Color.gray;
 		colors [OFF_BOARD_BLACK] = new Color (102, 204, 102);
@@ -425,6 +432,15 @@ public class Terrain extends Feature implements LoadableXMLI {
 		colors [COAST] = Color.blue;
 		colors [DEEP_COAST] = Color.blue;
 		colors [DESERT] = Color.black;
+		
+		printTerrainColorInfo (DELTA, colors [DELTA]);
+		System.out.println ("Above is Color for Delta after Set Static");
+	}
+
+	private static void printTerrainColorInfo (int aTerrain, Color aColor) {
+		System.out.println ("Terrain DELTA (" + aTerrain +") Color RGB (" +
+				aColor.getRed () + ", " + aColor.getGreen () + "," +
+				aColor.getBlue () + ") ");		
 	}
 
 	public void setCost (int aCost) {
