@@ -1232,7 +1232,7 @@ public class MapCell implements Comparator<Object> {
 				tThickFrame = null;
 			}
 			if (selected) {
-				tFillPaint = TileType.getColor (TileType.CLEAR_HIGHLIGHT);
+				tFillPaint = TileType.getColor (TileType.CLEAR, true);
 			} else {
 				tFillPaint = baseTerrain.getColor ();
 			}
