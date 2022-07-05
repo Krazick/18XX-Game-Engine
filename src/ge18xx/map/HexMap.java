@@ -71,6 +71,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	Hex hex;
 	TileSet tileSet;
 	MapFrame mapFrame;
+	SelectableMapCells selectableMapCells;
 	boolean tilePlaced;
 	boolean placeTileMode;
 	boolean singleMapCellSelect; // Set true if in mode to select a SINGLE Hex Map Cell, selecting a different
@@ -86,10 +87,33 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		addMouseMotionListener (this);
 		setBackground (Color.white);
 		setSingleMapCellSelect (false);
+		selectableMapCells = new SelectableMapCells ();
 	}
 
 	public int getCurrentPhase () {
 		return mapFrame.getCurrentPhase ();
+	}
+
+	// Selectable Map Cell Functions to be callable from elsewhere
+	
+	public void removeAllSMC () {
+		selectableMapCells.removeAll ();
+	}
+	
+	public void addMapCellSMC (MapCell aMapCell) {
+		selectableMapCells.addMapCell (aMapCell);
+	}
+	
+	public void addMapCellsSMC (String aMapCellIDs) {
+		selectableMapCells.addMapCells (this, aMapCellIDs);
+	}
+	
+	public boolean containsMapCellSMC (MapCell aMapCell) {
+		return selectableMapCells.containsMapCell (aMapCell);
+	}
+	
+	public boolean isSMCEmpty () {
+		return selectableMapCells.isEmpty ();
 	}
 
 	public void CalcGridCenters () {
@@ -635,12 +659,16 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 						toggleSelectedMapCell (aSelectedMapCell);
 					}
 				} else {
-					System.out.println ("Previous Map Cell " + aPreviousSelectedMapCell.getID () + " New Map Cell "
-							+ aSelectedMapCell.getID () + " Tile Was Placed " + wasTilePlaced ());
-					if (aSelectedMapCell.isSelectable ()) {
-						aPreviousSelectedMapCell.lockTileOrientation ();
-						toggleSelectedMapCell (aPreviousSelectedMapCell);
-						toggleSelectedMapCell (aSelectedMapCell);
+					if (containsMapCellSMC (aSelectedMapCell)) {
+						System.out.println ("Previous Map Cell " + aPreviousSelectedMapCell.getID () + " New Map Cell "
+								+ aSelectedMapCell.getID () + " Tile Was Placed " + wasTilePlaced ());
+						if (aSelectedMapCell.isSelectable ()) {
+							aPreviousSelectedMapCell.lockTileOrientation ();
+							toggleSelectedMapCell (aPreviousSelectedMapCell);
+							toggleSelectedMapCell (aSelectedMapCell);
+						}
+					} else {
+						System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable");
 					}
 				}
 			} else {
