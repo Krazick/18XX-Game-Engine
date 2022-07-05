@@ -23,6 +23,8 @@ import ge18xx.utilities.XMLNode;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Point;
 
 public class CityInfo implements Cloneable {
@@ -179,6 +181,7 @@ public class CityInfo implements Cloneable {
 	}
 
 	public void drawPrivateRailway (Graphics g, int Xc, int Yc, Hex aHex) {
+		Graphics2D g2d = (Graphics2D) g;
 		Point tPoint1;
 		Point tPoint2;
 		Location tLocation1;
@@ -187,7 +190,7 @@ public class CityInfo implements Cloneable {
 		int tXLabel, tYLabel;
 		int tPointTemp = aHex.getCityWidth () / 3;
 		int tWidthHeight;
-		Color tTerrainFillColor;
+		Paint tTerrainFillPaint;
 		String tLabel;
 
 		if (corporation != Corporation.NO_CORPORATION) {
@@ -200,17 +203,17 @@ public class CityInfo implements Cloneable {
 				tY1 = Yc + tPoint1.y;
 				tX2 = Xc + tPoint2.x;
 				tY2 = Yc + tPoint2.y;
-				g.drawLine (tX1, tY1, tX2, tY2);
+				g2d.drawLine (tX1, tY1, tX2, tY2);
 				tWidthHeight = tPointTemp * 2;
 				if (mapCell != MapCell.NO_MAP_CELL) {
-					tTerrainFillColor = mapCell.getBaseTerrainFillColor ();
-					g.setColor (tTerrainFillColor);
-					g.fillOval (tX1 - tPointTemp, tY1 - tPointTemp, tWidthHeight, tWidthHeight);
-					g.fillOval (tX2 - tPointTemp, tY2 - tPointTemp, tWidthHeight, tWidthHeight);
+					tTerrainFillPaint = mapCell.getBaseTerrainFillPaint ();
+					g2d.setPaint (tTerrainFillPaint);
+					g2d.fillOval (tX1 - tPointTemp, tY1 - tPointTemp, tWidthHeight, tWidthHeight);
+					g2d.fillOval (tX2 - tPointTemp, tY2 - tPointTemp, tWidthHeight, tWidthHeight);
 				}
-				g.setColor (Color.black);
-				g.drawOval (tX1 - tPointTemp, tY1 - tPointTemp, tWidthHeight, tWidthHeight);
-				g.drawOval (tX2 - tPointTemp, tY2 - tPointTemp, tWidthHeight, tWidthHeight);
+				g2d.setColor (Color.black);
+				g2d.drawOval (tX1 - tPointTemp, tY1 - tPointTemp, tWidthHeight, tWidthHeight);
+				g2d.drawOval (tX2 - tPointTemp, tY2 - tPointTemp, tWidthHeight, tWidthHeight);
 				tXLabel = (tX1 + tX2) / 2;
 				tYLabel = (tY1 + tY2) / 2;
 				tLabel = getCorporationAbbrev ();
