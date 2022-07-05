@@ -1227,12 +1227,12 @@ public class MapCell implements Comparator<Object> {
 			}
 		} else {
 			if (pseudoYellowTile ()) {
-				tThickFrame = new TileType (TileType.YELLOW, false).getColor ();
+				tThickFrame = new TileType (TileType.YELLOW, false).getPaint ();
 			} else {
 				tThickFrame = null;
 			}
 			if (selected) {
-				tFillPaint = TileType.getColor (TileType.CLEAR, true);
+				tFillPaint = TileType.getPaint (TileType.CLEAR, true);
 			} else {
 				tFillPaint = baseTerrain.getColor ();
 			}

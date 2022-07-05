@@ -55,7 +55,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 	}
 
 	public TileType (int aType, boolean aFixed) {
-		setColors ();
+		setPaints ();
 		if ((aType >= MIN_TYPE) && (aType <= MAX_TYPE)) {
 			type = aType;
 		} else {
@@ -91,11 +91,11 @@ public class TileType implements Cloneable, LoadableXMLI {
 		}
 	}
 
-	public static Paint getColor (int aType) {
-		return getColor (aType, false);
+	public static Paint getPaint (int aType) {
+		return getPaint (aType, false);
 	}
 	
-	public static Paint getColor (int aType, boolean aHighlight) {
+	public static Paint getPaint (int aType, boolean aHighlight) {
 		Paint tPaint;
 		
 		if (aHighlight) {
@@ -107,16 +107,16 @@ public class TileType implements Cloneable, LoadableXMLI {
 		return tPaint;
 	}
 	
-	public Paint getColor (boolean aIsSelected) {
+	public Paint getPaint (boolean aIsSelected) {
 		Paint tPaint;
 		
-		tPaint = getColor (type, aIsSelected);
+		tPaint = getPaint (type, aIsSelected);
 		
 		return tPaint;
 	}
 	
-	public Paint getColor () {
-		return getColor (false);
+	public Paint getPaint () {
+		return getPaint (false);
 	}
 
 	public String getName () {
@@ -206,16 +206,16 @@ public class TileType implements Cloneable, LoadableXMLI {
 		System.out.println ("Tile Type value " + type + " Name is " + NAMES [type]);
 	}
 
-	private void setColors () {
+	private void setPaints () {
 		int tPaintCount;
 		
 		if (paints == null) {
 			tPaintCount = (MAX_TYPE - MIN_TYPE) + 1;
-			setStaticColors (tPaintCount);
+			setStaticPaints (tPaintCount);
 		}
 	}
 
-	private static void setStaticColors (int aPaintCount) {
+	private static void setStaticPaints (int aPaintCount) {
 		TexturePaint tTexturePaint;
 		
 		paints = new Paint [aPaintCount] [2];

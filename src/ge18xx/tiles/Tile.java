@@ -461,10 +461,6 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers;
 	}
 
-	public Paint getColor () {
-		return (type.getColor ());
-	}
-
 	public String getName () {
 		if (name == TileName.NO_TILE_NAME) {
 			return TileName.NO_NAME2;
@@ -690,7 +686,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public void paintComponent (Graphics g, int aTileOrient, Hex aHex, Feature2 aSelectedFeature, boolean aTileIsSelected) {
 		Paint tHexPaint;
 		
-		tHexPaint = type.getColor (aTileIsSelected);
+		tHexPaint = type.getPaint (aTileIsSelected);
 
 		aHex.paintHex (g, XCenter, YCenter, tHexPaint);
 
