@@ -40,19 +40,12 @@ public class TileType implements Cloneable, LoadableXMLI {
 	public static final int OCEAN = 8;
 	public static final int PURPLE = 9;
 	public static final int CLEAR = 10;
-	public static final int YELLOW_HIGHLIGHT = 11;
-	public static final int GREEN_HIGHLIGHT = 12;
-	public static final int GREY_HIGHLIGHT = 13;
-	public static final int BROWN_HIGHLIGHT = 14;
-	public static final int CLEAR_HIGHLIGHT = 15;
 	public static final int MIN_TYPE = NO_TYPE;
-	public static final int MAX_TYPE = CLEAR_HIGHLIGHT;
+	public static final int MAX_TYPE = CLEAR;
 	public static final int HIGHLIGHT_ADDITION = 10;
 	public static String NAMES[] = { "NO TYPE", "Yellow", "Green", "Grey", "Brown", 
-			"Red Off Board", "Red-Brown", "Ocean Ferry", "Ocean", "Purple", "Clear",
-			"Yellow Highlight", "Green Highlight", "Grey Hightlight", "Brown Highlight",
-			"Clear Highlight"};
-	static Paint [] colors = null;
+			"Red Off Board", "Red-Brown", "Ocean Ferry", "Ocean", "Purple", "Clear"};
+	static Paint [] [] colors = null;
 
 	int type;
 	boolean fixed;
@@ -99,25 +92,31 @@ public class TileType implements Cloneable, LoadableXMLI {
 	}
 
 	public static Paint getColor (int aType) {
-		return colors [aType];
+		return getColor (aType, false);
+	}
+	
+	public static Paint getColor (int aType, boolean aHighlight) {
+		Paint tPaint;
+		
+		if (aHighlight) {
+			tPaint = colors [aType] [1];
+		} else {
+			tPaint = colors [aType] [0];
+		}
+		
+		return tPaint;
 	}
 	
 	public Paint getColor (boolean aIsSelected) {
-		int tIndex;
+		Paint tPaint;
 		
-		tIndex = type;
-		if (aIsSelected) {
-			tIndex = type + HIGHLIGHT_ADDITION;
-			if (tIndex > MAX_TYPE) {
-				tIndex = type;
-			}
-		}
+		tPaint = getColor (type, aIsSelected);
 		
-		return colors [tIndex];
+		return tPaint;
 	}
 	
 	public Paint getColor () {
-		return colors [type];
+		return getColor (false);
 	}
 
 	public String getName () {
@@ -152,9 +151,6 @@ public class TileType implements Cloneable, LoadableXMLI {
 		case GREY:
 		case OCEAN:
 		case GREEN:
-		case YELLOW_HIGHLIGHT:
-		case GREY_HIGHLIGHT:
-		case GREEN_HIGHLIGHT:
 			tRevenueColor = Color.black;
 			break;
 
@@ -222,28 +218,37 @@ public class TileType implements Cloneable, LoadableXMLI {
 	private static void setStaticColors (int aPaintCount) {
 		TexturePaint tTexturePaint;
 		
-		colors = new Paint [aPaintCount];
-		colors [0] = Color.lightGray;
-		colors [1] = Color.yellow;
-		colors [2] = Color.green;
-		colors [3] = new Color (150, 150, 150);
-		colors [4] = new Color (139, 69, 19);
-		colors [5] = new Color (153, 0, 0);
-		colors [6] = new Color (204, 51, 51);
-		colors [7] = new Color (153, 204, 255);
-		colors [8] = new Color (153, 204, 255);
-		colors [9] = new Color (140, 49, 224);
-		colors [10] = new Color (204, 255, 204);		// CLEAR
+		colors = new Paint [aPaintCount] [2];
+		colors [0] [0] = Color.lightGray;
+		colors [1] [0]  = Color.yellow;
+		colors [2] [0]  = Color.green;
+		colors [3] [0]  = new Color (150, 150, 150);
+		colors [4] [0]  = new Color (139, 69, 19);
+		colors [5] [0]  = new Color (153, 0, 0);
+		colors [6] [0]  = new Color (204, 51, 51);
+		colors [7] [0]  = new Color (153, 204, 255);
+		colors [8] [0]  = new Color (153, 204, 255);
+		colors [9] [0]  = new Color (140, 49, 224);
+		colors [10] [0]  = new Color (204, 255, 204);		// CLEAR
+		
+		// Highlight Section
+		colors [0] [1] = Color.lightGray;
 		tTexturePaint = createTexture (Color.yellow, Color.lightGray);	// YELLOW_HIGHLIGHT
-		colors [11] = tTexturePaint;
+		colors [1] [1] = tTexturePaint;
 		tTexturePaint = createTexture (Color.green, Color.lightGray);	// GREEN HIGHLIGHT
-		colors [12] = tTexturePaint;
+		colors [2] [1] = tTexturePaint;
 		tTexturePaint = createTexture (new Color (150, 150, 150), Color.white);		// GREY_HIGHLIGHT
-		colors [13] = tTexturePaint;
+		colors [3] [1] = tTexturePaint;
 		tTexturePaint = createTexture (new Color (139, 69, 19), Color.white);		// BROWN_HIGHLIGHT
-		colors [14] = tTexturePaint;
+		colors [4] [1] = tTexturePaint;
+		tTexturePaint = createTexture (new Color (153, 0, 0), Color.white);		// BROWN_HIGHLIGHT
+		colors [5] [1] = tTexturePaint;
+		colors [6] [1]  = new Color (204, 51, 51);
+		colors [7] [1]  = new Color (153, 204, 255);
+		colors [8] [1]  = new Color (153, 204, 255);
+		colors [9] [1]  = new Color (140, 49, 224);
 		tTexturePaint = createTexture (new Color (204, 255, 204), Color.lightGray);	// CLEAR_HIGHLIGHT
-		colors [15] = tTexturePaint;
+		colors [10] [1] = tTexturePaint;
 	}
 
 	public static TexturePaint createTexture (Color aBaseColor, Color aHighlightColor) {
@@ -288,7 +293,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 			tRed = Integer.parseInt (tSplit [0]);
 			tGreen = Integer.parseInt (tSplit [1]);
 			tBlue = Integer.parseInt (tSplit [2]);
-			colors [tID] = new Color (tRed, tGreen, tBlue);
+			colors [tID] [0] = new Color (tRed, tGreen, tBlue);
 		}
 	};
 
