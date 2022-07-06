@@ -664,7 +664,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (1)");
 			}
 		} else {
-			if (aSelectedMapCell != MapCell.NO_MAP_CELL) {
+			if (aSelectedMapCell == MapCell.NO_MAP_CELL) {
+				toggleSelectedMapCell (aSelectedMapCell);
+			} else {
 				if (aPreviousSelectedMapCell == aSelectedMapCell) {
 					if (aSelectedMapCell.isTileOnCell ()) {
 						// Tile is on Cell. Check if Locked Orientation.
@@ -696,8 +698,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 						System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (3)");
 					}
 				}
-			} else {
-				toggleSelectedMapCell (aSelectedMapCell);
 			}
 		}
 	}
@@ -1079,8 +1079,12 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			if (selectRevenueCenter) {
 				handleSelectRevenueCenter (tSelectedMapCell, tPreviousSelectedMapCell, tPoint);
 			} else {
-				toggleSelectedMapCell (tPreviousSelectedMapCell);
-				toggleSelectedMapCell (tSelectedMapCell);
+				if (tPreviousSelectedMapCell == tSelectedMapCell) {
+					toggleSelectedMapCell (tSelectedMapCell);
+				} else {
+					toggleSelectedMapCell (tPreviousSelectedMapCell);
+					toggleSelectedMapCell (tSelectedMapCell);
+				}
 			}
 		}
 
