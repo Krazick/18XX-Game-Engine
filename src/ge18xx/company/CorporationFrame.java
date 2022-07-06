@@ -301,6 +301,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		tMap = getMap ();
 		tMap.clearAllSelected ();
 		tMapCell = corporation.getHomeCity1 ();
+		tMap.removeAllSMC ();
+		tMap.addMapCellSMC (tMapCell);
 		if (tMapCell == MapCell.NO_MAP_CELL) {
 			System.err.println ("Corporation " + corporation.getAbbrev () + " has no home Map Cell");
 		} else {
