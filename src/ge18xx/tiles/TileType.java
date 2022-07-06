@@ -107,10 +107,10 @@ public class TileType implements Cloneable, LoadableXMLI {
 		return tPaint;
 	}
 	
-	public Paint getPaint (boolean aIsSelected) {
+	public Paint getPaint (boolean aIsSelectable) {
 		Paint tPaint;
 		
-		tPaint = getPaint (type, aIsSelected);
+		tPaint = getPaint (type, aIsSelectable);
 		
 		return tPaint;
 	}
