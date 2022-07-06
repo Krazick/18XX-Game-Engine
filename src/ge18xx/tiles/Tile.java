@@ -683,10 +683,11 @@ public class Tile implements Comparable<Object>, Cloneable {
 		paintComponent (g, 0, aHex, new Feature2 (), false);
 	}
 
-	public void paintComponent (Graphics g, int aTileOrient, Hex aHex, Feature2 aSelectedFeature, boolean aTileIsSelected) {
+	public void paintComponent (Graphics g, int aTileOrient, Hex aHex, Feature2 aSelectedFeature, 
+				boolean aTileIsSelectable) {
 		Paint tHexPaint;
 		
-		tHexPaint = type.getPaint (aTileIsSelected);
+		tHexPaint = type.getPaint (aTileIsSelectable);
 
 		aHex.paintHex (g, XCenter, YCenter, tHexPaint);
 
