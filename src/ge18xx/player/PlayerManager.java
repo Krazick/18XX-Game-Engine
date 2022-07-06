@@ -586,9 +586,11 @@ public class PlayerManager {
 						System.err.println ("***Selected Par Price is " + tParPrice + " or tShareCompany is NULL***");
 					}
 				} else {
-					gameManager.setParPriceToken (tShareCompany);
-					tParPrice = tShareCompany.getParPrice ();
-					aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice);
+					if (! gameManager.marketHasTokenFor (tShareCompany)) {
+						gameManager.setParPriceToken (tShareCompany);
+						tParPrice = tShareCompany.getParPrice ();
+						aBuyStockAction.addSetParValueEffect (aPlayer, tShareCompany, tParPrice);
+					}
 				}
 			} else {
 				tCurrentPresident = Player.NO_PLAYER;

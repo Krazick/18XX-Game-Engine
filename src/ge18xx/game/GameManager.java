@@ -1766,6 +1766,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		gameChangedSinceSave = aFlag;
 	}
 
+	public boolean marketHasTokenFor (ShareCompany aShareCompany) {
+		return marketFrame.marketHasTokenFor (aShareCompany);
+	}
+	
 	public void setParPriceToken (ShareCompany aShareCompany) {
 		marketFrame.setSharePriceToken (aShareCompany);
 		updateAllPlayerFrames ();
