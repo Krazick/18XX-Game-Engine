@@ -1171,6 +1171,7 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public void paintComponent (Graphics g, Hex aHex) {
+		boolean tIsInSelectable;
 		RevenueCenter tRC1;
 		Paint tThickFrame;
 		String tTileName = TileName.NO_NAME2;
@@ -1183,9 +1184,10 @@ public class MapCell implements Comparator<Object> {
 		Paint tFillPaint;
 
 		tRC1 = getRevenueCenter (0);
+		tIsInSelectable = hexMap.mapCellIsInSelectableSMC (this) || selected;
 		if (isTileOnCell ()) {
 			tTileName = tile.getName ();
-			tile.paintComponent (g, XCenter, YCenter, tileOrient, aHex, selectedFeature2, selected);
+			tile.paintComponent (g, XCenter, YCenter, tileOrient, aHex, selectedFeature2, tIsInSelectable);
 			if (blockedSides != null) {
 				aHex.drawBorders (g, XCenter, YCenter, baseTerrain.drawBorder (), blockedSides);
 			}
@@ -1231,7 +1233,7 @@ public class MapCell implements Comparator<Object> {
 			} else {
 				tThickFrame = null;
 			}
-			if (selected) {
+			if (tIsInSelectable) {
 				tFillPaint = baseTerrain.getPaint (true);
 			} else {
 				tFillPaint = baseTerrain.getPaint ();
@@ -1711,11 +1713,13 @@ public class MapCell implements Comparator<Object> {
 			tAllowedRotations [tRotationIndex] = false;
 		}
 		tCurrentTileOrient = getTileOrient (); // Identify current rotation of Tile on Map Cell
-		tRotationCount = aUpgrade.getRotationCount ();
-		for (int tRotationIndex = 0; tRotationIndex < tRotationCount; tRotationIndex++) {
-			tRotation = aUpgrade.getRotation (tRotationIndex);
-			tUpgradeRotation = (tRotation + tCurrentTileOrient) % 6;
-			tAllowedRotations [tUpgradeRotation] = canAllTracksExit (aNewTile, tUpgradeRotation);
+		if (aUpgrade != Upgrade.NO_UPGRADE) {
+			tRotationCount = aUpgrade.getRotationCount ();
+			for (int tRotationIndex = 0; tRotationIndex < tRotationCount; tRotationIndex++) {
+				tRotation = aUpgrade.getRotation (tRotationIndex);
+				tUpgradeRotation = (tRotation + tCurrentTileOrient) % 6;
+				tAllowedRotations [tUpgradeRotation] = canAllTracksExit (aNewTile, tUpgradeRotation);
+			}
 		}
 
 		return tAllowedRotations;
