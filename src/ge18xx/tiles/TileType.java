@@ -17,11 +17,8 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Paint;
-import java.awt.Rectangle;
 import java.awt.TexturePaint;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class TileType implements Cloneable, LoadableXMLI {
@@ -217,54 +214,40 @@ public class TileType implements Cloneable, LoadableXMLI {
 
 	private static void setStaticPaints (int aPaintCount) {
 		TexturePaint tTexturePaint;
+		int tGridSize;
 		
+		tGridSize = 5;
 		paints = new Paint [aPaintCount] [2];
-		paints [0] [0] = Color.lightGray;
-		paints [1] [0]  = Color.yellow;
-		paints [2] [0]  = Color.green;
-		paints [3] [0]  = new Color (150, 150, 150);
-		paints [4] [0]  = new Color (139, 69, 19);
-		paints [5] [0]  = new Color (153, 0, 0);
-		paints [6] [0]  = new Color (204, 51, 51);
-		paints [7] [0]  = new Color (153, 204, 255);
-		paints [8] [0]  = new Color (153, 204, 255);
-		paints [9] [0]  = new Color (140, 49, 224);
-		paints [10] [0]  = new Color (204, 255, 204);		// CLEAR
+		paints [NO_TYPE] [0] = Color.lightGray;
+		paints [YELLOW] [0]  = Color.yellow;
+		paints [GREEN] [0]  = Color.green;
+		paints [GREY] [0]  = new Color (150, 150, 150);
+		paints [BROWN] [0]  = new Color (139, 69, 19);
+		paints [RED_OFFBOARD] [0]  = new Color (153, 0, 0);
+		paints [RED_BROWN] [0]  = new Color (204, 51, 51);
+		paints [OCEAN_FERRY] [0]  = new Color (153, 204, 255);
+		paints [OCEAN] [0]  = new Color (153, 204, 255);
+		paints [PURPLE] [0]  = new Color (140, 49, 224);
+		paints [CLEAR] [0]  = new Color (204, 255, 204);		// CLEAR
 		
 		// Highlight Section
-		paints [0] [1] = Color.lightGray;
-		tTexturePaint = createTexture (Color.yellow, Color.lightGray);	// YELLOW_HIGHLIGHT
-		paints [1] [1] = tTexturePaint;
-		tTexturePaint = createTexture (Color.green, Color.lightGray);	// GREEN HIGHLIGHT
-		paints [2] [1] = tTexturePaint;
-		tTexturePaint = createTexture (new Color (150, 150, 150), Color.white);		// GREY_HIGHLIGHT
-		paints [3] [1] = tTexturePaint;
-		tTexturePaint = createTexture (new Color (139, 69, 19), Color.white);		// BROWN_HIGHLIGHT
-		paints [4] [1] = tTexturePaint;
-		tTexturePaint = createTexture (new Color (153, 0, 0), Color.white);		// BROWN_HIGHLIGHT
-		paints [5] [1] = tTexturePaint;
-		paints [6] [1]  = new Color (204, 51, 51);
-		paints [7] [1]  = new Color (153, 204, 255);
-		paints [8] [1]  = new Color (153, 204, 255);
-		paints [9] [1]  = new Color (140, 49, 224);
-		tTexturePaint = createTexture (new Color (204, 255, 204), Color.lightGray);	// CLEAR_HIGHLIGHT
-		paints [10] [1] = tTexturePaint;
-	}
-
-	public static TexturePaint createTexture (Color aBaseColor, Color aHighlightColor) {
-		TexturePaint tTexturePaint;
-		BufferedImage tBufferenedImage = new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB);
-		Graphics2D tBufferedGraphic = tBufferenedImage.createGraphics();
-		Rectangle tRectangle;
-		
-		tBufferedGraphic.setColor (aHighlightColor);
-		tBufferedGraphic.fillRect (0, 0, 5, 5);
-		tBufferedGraphic.setColor (aBaseColor);
-		tBufferedGraphic.fillOval (0, 0, 5, 5);
-		tRectangle = new Rectangle (0, 0, 5, 5);
-		tTexturePaint = new TexturePaint (tBufferenedImage, tRectangle);
-		
-		return tTexturePaint;
+		paints [NO_TYPE] [1] = Color.lightGray;
+		tTexturePaint = XMLNode.createTexture (Color.yellow, Color.lightGray, tGridSize);	// YELLOW_HIGHLIGHT
+		paints [YELLOW] [1] = tTexturePaint;
+		tTexturePaint = XMLNode.createTexture (Color.green, Color.lightGray, tGridSize);	// GREEN HIGHLIGHT
+		paints [GREEN] [1] = tTexturePaint;
+		tTexturePaint = XMLNode.createTexture (new Color (150, 150, 150), Color.white, tGridSize);		// GREY_HIGHLIGHT
+		paints [GREY] [1] = tTexturePaint;
+		tTexturePaint = XMLNode.createTexture (new Color (139, 69, 19), Color.white, tGridSize);		// BROWN_HIGHLIGHT
+		paints [BROWN] [1] = tTexturePaint;
+		tTexturePaint = XMLNode.createTexture (new Color (153, 0, 0), Color.white, tGridSize);		// BROWN_HIGHLIGHT
+		paints [RED_OFFBOARD] [1] = tTexturePaint;
+		paints [RED_BROWN] [1]  = new Color (204, 51, 51);
+		paints [OCEAN_FERRY] [1]  = new Color (153, 204, 255);
+		paints [OCEAN] [1]  = new Color (153, 204, 255);
+		paints [PURPLE] [1]  = new Color (140, 49, 224);
+		tTexturePaint = XMLNode.createTexture (new Color (204, 255, 204), Color.lightGray, tGridSize);	// CLEAR_HIGHLIGHT
+		paints [CLEAR] [1] = tTexturePaint;
 	}
 
 	ParsingRoutineI tileTypesParsingRoutine = new ParsingRoutineI () {
@@ -278,22 +261,15 @@ public class TileType implements Cloneable, LoadableXMLI {
 	};
 
 	ParsingRoutineI tileTypeParsingRoutine = new ParsingRoutineI () {
-		int tID;
-		int tRed;
-		int tGreen;
-		int tBlue;
-		String tColorValues;
-		String [] tSplit;
 
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			Color tColor;
+			int tID;		
+			
 			tID = aChildNode.getThisIntAttribute (AN_ID);
-			tColorValues = aChildNode.getThisAttribute (AN_COLOR);
-			tSplit = tColorValues.split (",");
-			tRed = Integer.parseInt (tSplit [0]);
-			tGreen = Integer.parseInt (tSplit [1]);
-			tBlue = Integer.parseInt (tSplit [2]);
-			paints [tID] [0] = new Color (tRed, tGreen, tBlue);
+			tColor = aChildNode.getThisColorAttribute (AN_COLOR);
+			paints [tID] [0] = tColor;
 		}
 	};
 
