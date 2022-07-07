@@ -9,7 +9,6 @@ package ge18xx.map;
 //
 
 import ge18xx.tiles.Feature;
-import ge18xx.tiles.TileType;
 import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -402,40 +401,20 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 	public void parseTerrainColor (XMLNode aChildNode) {
 		int tID;
-		String tColorValues;
 		Color tColor;
 		Color tHighlightColor;
 		TexturePaint tTexturePaint;
-		String tHasHighlight;
 		
 		tID = aChildNode.getThisIntAttribute (AN_ID);
-		tColorValues = aChildNode.getThisAttribute (AN_COLOR);
-		tHasHighlight = aChildNode.getThisAttribute (AN_HIGHLIGHT);
-		tColor = parseAColor (tColorValues);
-		paints [tID] [0]  = tColor;
-		if (tHasHighlight != XMLNode.NO_VALUE) {
-			tHighlightColor = parseAColor (tHasHighlight);
-			tTexturePaint = TileType.createTexture (tColor, tHighlightColor);
+		tColor = aChildNode.getThisColorAttribute (AN_COLOR);
+		tHighlightColor = aChildNode.getThisColorAttribute (AN_HIGHLIGHT);
+		paints [tID] [0] = tColor;
+		if (tHighlightColor != XMLNode.NO_COLOR) {
+			tTexturePaint = XMLNode.createTexture (tColor, tHighlightColor);
 			paints [tID] [1]  = tTexturePaint;
 		} else {
 			paints [tID] [1]  = tColor;
 		}
-	}
-
-	public Color parseAColor (String tColorValues) {
-		int tRed;
-		int tGreen;
-		int tBlue;
-		
-		String [] tSplit;
-		Color tColor;
-		tSplit = tColorValues.split (",");
-		tRed = Integer.parseInt (tSplit [0]);
-		tGreen = Integer.parseInt (tSplit [1]);
-		tBlue = Integer.parseInt (tSplit [2]);
-		tColor = new Color (tRed, tGreen, tBlue);
-		
-		return tColor;
 	}
 
 	private void setPaints () {
@@ -479,11 +458,11 @@ public class Terrain extends Feature implements LoadableXMLI {
 		
 				
 		paints [NO_TERRAIN] [1] = Color.black;
-		tTexturePaint = TileType.createTexture (new Color (204, 255, 204), Color.lightGray);
+		tTexturePaint = XMLNode.createTexture (new Color (204, 255, 204), Color.lightGray);
 		paints [CLEAR] [1] = tTexturePaint;
 		paints [OCEAN] [1] = new Color (165, 204, 236);
 		
-		tTexturePaint = TileType.createTexture (new Color (210, 192, 145), Color.darkGray);
+		tTexturePaint = XMLNode.createTexture (new Color (210, 192, 145), Color.darkGray);
 		paints [DELTA] [1] = tTexturePaint;
 		paints [OFF_BOARD_RED] [1] = new Color (233, 39, 34);
 		paints [OFF_BOARD_GRAY] [1] = Color.gray;
