@@ -1,5 +1,11 @@
 package ge18xx.utilities;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.TexturePaint;
+import java.awt.image.BufferedImage;
+
 //
 //  XMLNode.java
 //  Game_18XX
@@ -16,7 +22,10 @@ import org.w3c.dom.NodeList;
 public class XMLNode {
 	public static final String XML_TEXT_TAG = "#text";
 	public static final XMLNode NO_NODE = null;
+	public static final Color NO_COLOR = null;
+	public static final TexturePaint NO_TEXTURE_PAINT = null;
 	public static final String NO_VALUE = GUI.NULL_STRING;
+	public static final int GRID_SIZE = 5;
 	Node node;
 
 	public XMLNode (Node aNode) {
@@ -174,6 +183,66 @@ public class XMLNode {
 		} else {
 			return Integer.parseInt (tValue);
 		}
+	}
+
+	public Color getThisColorAttribute (AttributeName aAttributeName) {
+		String tColorValues;
+		Color tColor;
+		
+		tColorValues = getThisAttribute (aAttributeName);
+		if (tColorValues != NO_VALUE) {
+			tColor = parseAColor (tColorValues);
+		} else {
+			tColor = NO_COLOR;
+		}
+
+		return tColor;
+	}
+	
+	public Color parseAColor (String tColorValues) {
+		int tRed;
+		int tGreen;
+		int tBlue;
+		String [] tSplit;
+		Color tColor;
+		
+		tSplit = tColorValues.split (",");
+		if (tSplit.length == 3) {
+			tRed = Integer.parseInt (tSplit [0]);
+			tGreen = Integer.parseInt (tSplit [1]);
+			tBlue = Integer.parseInt (tSplit [2]);
+			tColor = new Color (tRed, tGreen, tBlue);
+		} else {
+			tColor = NO_COLOR;
+		}
+		
+		return tColor;
+	}
+	
+	public static TexturePaint createTexture (Color aBaseColor, Color aHighlightColor) {
+		return createTexture (aBaseColor, aHighlightColor, GRID_SIZE);
+	}
+	
+	public static TexturePaint createTexture (Color aBaseColor, Color aHighlightColor, int aSize) {
+		TexturePaint tTexturePaint;
+		BufferedImage tBufferenedImage;
+		Graphics2D tBufferedGraphic;
+		Rectangle tRectangle;
+		
+		if ((aBaseColor != NO_COLOR) && (aHighlightColor != NO_COLOR)) {
+			tBufferenedImage = new BufferedImage (aSize, aSize, BufferedImage.TYPE_INT_RGB);
+			tBufferedGraphic = tBufferenedImage.createGraphics ();
+			tBufferedGraphic.setColor (aHighlightColor);
+			tBufferedGraphic.fillRect (0, 0, aSize, aSize);
+			tBufferedGraphic.setColor (aBaseColor);
+			tBufferedGraphic.fillOval (0, 0, aSize, aSize);
+			tRectangle = new Rectangle (0, 0, aSize, aSize);
+			tTexturePaint = new TexturePaint (tBufferenedImage, tRectangle);
+		} else {
+			tTexturePaint = NO_TEXTURE_PAINT;
+		}
+		
+		return tTexturePaint;
 	}
 
 	@Override
