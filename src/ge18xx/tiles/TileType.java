@@ -26,6 +26,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 	public static final ElementName EN_TILE_TYPES = new ElementName ("TileTypes");
 	public static final AttributeName AN_ID = new AttributeName ("id");
 	public static final AttributeName AN_COLOR = new AttributeName ("color");
+	public static final TileType NO_TILE_TYPE = null;
 	public static final int NO_TYPE = 0;
 	public static final int YELLOW = 1;
 	public static final int GREEN = 2;
