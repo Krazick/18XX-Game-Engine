@@ -124,6 +124,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		logger = gameManager.getLogger ();
 	}
 
+	public Logger getLogger () {
+		return logger;
+	}
+	
 	private void buildMapScrollPanel () {
 		map = new HexMap (this);
 		buildScrollPane (map, BorderLayout.CENTER);
