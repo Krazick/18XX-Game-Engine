@@ -230,7 +230,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		tXMLElement.setAttribute (AN_NAME, name);
 		if (revenues != Revenues.NO_REVENUES) {
 			tRevenueElement = revenues.createElement (aXMLDocument);
-			if (tRevenueElement != null) {
+			if (tRevenueElement != XMLElement.NO_XML_ELEMENT) {
 				tXMLElement.appendChild (tRevenueElement);
 			}
 		}
