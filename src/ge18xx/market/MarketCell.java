@@ -215,7 +215,7 @@ public class MarketCell {
 			ElementName aElementName) {
 		XMLElement tXMLElement;
 
-		if (aMove != null) {
+		if (aMove != Movement.NO_MOVEMENT) {
 			tXMLElement = aMove.createElement (aXMLDocument, aElementName);
 			tXMLElement2.appendChild (tXMLElement);
 		}
@@ -325,7 +325,7 @@ public class MarketCell {
 				g.drawLine (x1 + width, y1, x1 + width, y1 + height);
 				g.drawLine (x1, y1 + height, x1 + width, y1 + height);
 			} else {
-				if (tUpCell != null) {
+				if (tUpCell != NO_MARKET_CELL) {
 					if (tUpCell.isOpen ()) {
 						g.setColor (tTextColor);
 						g.drawLine (x1, y1, x1 + width, y1);
@@ -356,7 +356,7 @@ public class MarketCell {
 			g.drawLine (x1 + width - arrowSideOffset, y1 + arrowDownOffset,
 					x1 + width - arrowSideOffset + arrowHeadWidth, y1 + arrowDownOffset + arrowHeadHeight);
 
-			if (tRightCell != null) {
+			if (tRightCell != NO_MARKET_CELL) {
 				drawRightRed (g, x1, y1, width, height);
 			}
 		}

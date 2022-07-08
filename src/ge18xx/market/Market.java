@@ -69,7 +69,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		for (rowIndex = 0; rowIndex < market.length; rowIndex++) {
 			Xc = halfWidth;
 			for (colIndex = 0; colIndex < market [rowIndex].length; colIndex++) {
-				if (market [rowIndex] [colIndex] != null) {
+				if (market [rowIndex] [colIndex] != MarketCell.NO_MARKET_CELL) {
 					market [rowIndex] [colIndex].setXYCoord (Xc, Yc);
 					Xc += cellWidth;
 				}
@@ -100,7 +100,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
 				tCellElement = market [tRowIndex] [tColIndex].createElement (aXMLDocument);
-				if (tCellElement != null) {
+				if (tCellElement != XMLElement.NO_XML_ELEMENT) {
 					tRowElement.appendChild (tCellElement);
 				}
 			}
@@ -304,7 +304,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			for (tColIndex = 0; (tColIndex < tColCount) && (tMarketCell == MarketCell.NO_MARKET_CELL); tColIndex++) {
 				if (market [tRowIndex] [tColIndex] != MarketCell.NO_MARKET_CELL) {
 					tToken = market [tRowIndex] [tColIndex].findTokenFor (aCompanyAbbrev);
-					if (tToken != null) {
+					if (tToken != Token.NO_TOKEN) {
 						tMarketCell = market [tRowIndex] [tColIndex];
 					}
 				}
@@ -328,7 +328,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tMarketCell = market [tRowIndex] [tColIndex];
 				if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 					tMarketCellElementTokens = tMarketCell.getCellTokenElements (aXMLDocument);
-					if (tMarketCellElementTokens != null) {
+					if (tMarketCellElementTokens != XMLElement.NO_XML_ELEMENT) {
 						tMarketCellElementTokens.setAttribute (AN_ROW, tRowIndex);
 						tMarketCellElementTokens.setAttribute (AN_COL, tColIndex);
 						tMarketElements.appendChild (tMarketCellElementTokens);
