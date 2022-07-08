@@ -20,6 +20,8 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
@@ -124,10 +126,13 @@ public class Revenues extends Feature {
 		Font tNewFont;
 		Font tCurrentFont;
 		Location tNewLocation;
-
+		Color tRevenueColor;
+		Paint tTilePaint;
+		Graphics2D g2d = (Graphics2D) g;
+		
 		if (!location.isNoLocation ()) {
 			tNewLocation = location.rotateLocation (aTileOrientation);
-			tCurrentFont = g.getFont ();
+			tCurrentFont = g2d.getFont ();
 			tNewFont = new Font ("Dialog", Font.PLAIN, 10);
 			g.setFont (tNewFont);
 			tDisplace = tNewLocation.calcCenter (aHex);
@@ -137,12 +142,19 @@ public class Revenues extends Feature {
 			if (tRevenueCount > 0) {
 				tHorizontalLabel = "";
 				tRevenueShownCount = 0;
+				if (aTileType != TileType.NO_TILE_TYPE) {
+					tTilePaint = aTileType.getPaint ();
+					tRevenueColor = aTileType.getRevenueColor ();
+				} else {
+					tTilePaint = Color.CYAN;
+					tRevenueColor = Color.BLACK;
+				}
 				for (tRevenueIndex = 0; tRevenueIndex < tRevenueCount; tRevenueIndex++) {
 					tValue = getValueIndex (tRevenueIndex);
 					if (tValue > 0) {
 						tValueLabel = getValueIndexToString (tRevenueIndex);
-						tWidth = g.getFontMetrics ().stringWidth (tValueLabel);
-						tHeight = g.getFontMetrics ().getHeight ();
+						tWidth = g2d.getFontMetrics ().stringWidth (tValueLabel);
+						tHeight = g2d.getFontMetrics ().getHeight ();
 						switch (layoutStyle) {
 						case (LAYOUT_CIRCLE):
 							if (tWidth > tHeight) {
@@ -159,9 +171,11 @@ public class Revenues extends Feature {
 							} else {
 								tOvalHeight = tCircleRadius * 2;
 							}
-							g.setColor (aTileType.getRevenueColor ());
-							g.drawOval (XUL, YUL, tOvalWidth, tOvalHeight);
-							g.drawString (tValueLabel, XUL + 2, YUL + tHeight - 1);
+							g2d.setPaint (tTilePaint);
+							g2d.fillOval (XUL, YUL, tOvalWidth, tOvalHeight);
+							g2d.setColor (tRevenueColor);
+							g2d.drawOval (XUL, YUL, tOvalWidth, tOvalHeight);
+							g2d.drawString (tValueLabel, XUL + 2, YUL + tHeight - 1);
 							break;
 
 						case (LAYOUT_HORIZONTAL):
@@ -174,12 +188,12 @@ public class Revenues extends Feature {
 							XUL = tXc - tBoxWidth / 2;
 							YUL = tYc - tBoxHeight / 2;
 							if (tRevenueShownCount == 0) {
-								g.setColor (Color.white);
-								g.fillRect (XUL, YUL, tBoxWidth, tBoxHeight);
-								g.setColor (Color.black);
-								g.drawRect (XUL, YUL, tBoxWidth, tBoxHeight);
+								g2d.setColor (Color.white);
+								g2d.fillRect (XUL, YUL, tBoxWidth, tBoxHeight);
+								g2d.setColor (Color.black);
+								g2d.drawRect (XUL, YUL, tBoxWidth, tBoxHeight);
 							}
-							g.drawString (tValueLabel, XUL + 1, YUL + (tHeight * (tRevenueShownCount + 1)) - 1);
+							g2d.drawString (tValueLabel, XUL + 1, YUL + (tHeight * (tRevenueShownCount + 1)) - 1);
 							tRevenueShownCount++;
 							break;
 
@@ -194,17 +208,17 @@ public class Revenues extends Feature {
 								// --- Hex class (passed in) has a drawTriangle Method, just provide the points,
 								// and a fill color
 								// 2) Change the Color of the Text to something different, like "RED"
-								g.setColor (Color.white);
-								g.fillRect (XUL, YUL, tBoxWidth, tBoxWidth);
+								g2d.setColor (Color.white);
+								g2d.fillRect (XUL, YUL, tBoxWidth, tBoxWidth);
 								// Draw Triangle Here
 								// Problem is finding the current Phase to see which color to use --
-								g.setColor (Color.black);
-								g.drawRect (XUL, YUL, tBoxWidth, tBoxWidth);
-								g.drawLine (XUL + tBoxWidth, YUL, XUL, YUL + tBoxWidth);
-								g.drawString (tValueLabel, XUL + 1, YUL + tHeight - 1);
+								g2d.setColor (Color.black);
+								g2d.drawRect (XUL, YUL, tBoxWidth, tBoxWidth);
+								g2d.drawLine (XUL + tBoxWidth, YUL, XUL, YUL + tBoxWidth);
+								g2d.drawString (tValueLabel, XUL + 1, YUL + tHeight - 1);
 							}
 							if (tRevenueShownCount == 1) {
-								g.drawString (tValueLabel, XUL + tWidth - 2, YUL + tWidth + tHeight - 3);
+								g2d.drawString (tValueLabel, XUL + tWidth - 2, YUL + tWidth + tHeight - 3);
 							}
 							tRevenueShownCount++;
 							break;
@@ -214,9 +228,9 @@ public class Revenues extends Feature {
 				if ((layoutStyle == LAYOUT_HORIZONTAL) && (tHorizontalLabel.length () > 0)) {
 					tHorizontalLabel = tHorizontalLabel.substring (0, tHorizontalLabel.length () - 1);
 					tHorizontalLabel = "(" + tHorizontalLabel + ")";
-					tWidth = g.getFontMetrics ().stringWidth (tHorizontalLabel);
-					tHeight = g.getFontMetrics ().getHeight ();
-					g.drawString (tHorizontalLabel, tXc - tWidth / 2, tYc - tHeight / 2 - 1);
+					tWidth = g2d.getFontMetrics ().stringWidth (tHorizontalLabel);
+					tHeight = g2d.getFontMetrics ().getHeight ();
+					g2d.drawString (tHorizontalLabel, tXc - tWidth / 2, tYc - tHeight / 2 - 1);
 				}
 			}
 			g.setFont (tCurrentFont);
