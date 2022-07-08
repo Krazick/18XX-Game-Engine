@@ -26,6 +26,7 @@ import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TileType;
 import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.toplevel.MapFrame;
+import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -41,6 +42,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JSlider;
@@ -73,6 +76,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	TileSet tileSet;
 	MapFrame mapFrame;
 	SelectableMapCells selectableMapCells;
+	MapGraph mapGraph;
 	boolean tilePlaced;
 	boolean placeTileMode;
 	boolean singleMapCellSelect; // Set true if in mode to select a SINGLE Hex Map Cell, selecting a different
@@ -90,7 +94,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		setBackground (Color.white);
 		setSingleMapCellSelect (false);
 		selectableMapCells = new SelectableMapCells ();
-		logger = mapFrame.getLogger ();
+		if (mapFrame != XMLFrame.NO_XML_FRAME) {
+			logger = mapFrame.getLogger ();
+		}
 	}
 
 	public int getCurrentPhase () {
@@ -1359,5 +1365,105 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	public Corporation getCorporation (String aCorporationAbbrev) {
 		return mapFrame.getCorporation (aCorporationAbbrev);
+	}
+	
+	public List<MapGraphNode> getAllBases (Corporation aCorporation) {
+		List<MapGraphNode> tStartMapNodes;
+		MapGraphNode tMapGraphNode;
+		MapCell tMapCell;
+		Location tLocation;
+		TokenCompany tTokenCompany;
+		int tCorporationID;
+		int tRowIndex, tColIndex, tRowCount, tColCount;
+		
+		tStartMapNodes = new LinkedList<MapGraphNode> ();
+		if (aCorporation.isATokenCompany ()) {
+			tTokenCompany = (TokenCompany) aCorporation;
+			tCorporationID = tTokenCompany.getID ();
+			tMapCell = tTokenCompany.getHomeCity1 ();
+			tLocation = tTokenCompany.getHomeLocation1 ();
+			tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
+			addMapGraphNode (tStartMapNodes, tMapGraphNode);
+			
+			tMapCell = tTokenCompany.getHomeCity2 ();
+			tLocation = tTokenCompany.getHomeLocation2 ();
+			tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
+			addMapGraphNode (tStartMapNodes, tMapGraphNode);
+			tRowCount = getRowCount ();
+			for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
+				tColCount = getColCount (tRowIndex);
+				for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
+					tMapCell =  map [tRowIndex] [tColIndex];
+					if (tMapCell.hasStation (tCorporationID)) {
+						tLocation = tMapCell.getLocationWithStation (tCorporationID);
+						tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
+						addMapGraphNode (tStartMapNodes, tMapGraphNode);
+					}
+				}
+			}
+		}
+		
+		return tStartMapNodes;
+	}
+
+	public boolean containsMapGraphNode (List<MapGraphNode> aMapNodes, 
+						MapGraphNode aMapGraphNode) {
+		boolean tContainsMapGraphNode;
+		String tMapGraphNodeID;
+		String tFoundMapGraphNodeID;
+		
+		tContainsMapGraphNode = false;
+		if (aMapNodes.size () > 0) {
+			if (aMapGraphNode != MapGraphNode.NO_MAP_GRAPH_NODE) {
+				tMapGraphNodeID = aMapGraphNode.getID ();
+				for (MapGraphNode tMapGraphNode: aMapNodes) {
+					tFoundMapGraphNodeID = tMapGraphNode.getID ();
+					if (tFoundMapGraphNodeID.equals (tMapGraphNodeID)) {
+						tContainsMapGraphNode = true;
+					}
+				}
+			}
+		}
+		
+		return tContainsMapGraphNode;
+	}
+	
+	public void addMapGraphNode (List<MapGraphNode> aStartMapNodes, MapGraphNode aMapGraphNode) {
+		if (aMapGraphNode != MapGraphNode.NO_MAP_GRAPH_NODE) {
+			if (! containsMapGraphNode (aStartMapNodes, aMapGraphNode)) {
+				aStartMapNodes.add (aMapGraphNode);
+			}
+		}
+	}
+	
+	private MapGraphNode buildMapGraphNode (MapCell aMapCell, 
+							Location aLocation, int aCorporationID) {
+		MapGraphNode tMapGraphNode;
+		
+		tMapGraphNode = MapGraphNode.NO_MAP_GRAPH_NODE;
+		
+		if (aMapCell != MapCell.NO_MAP_CELL) {
+			if (aMapCell.hasStation (aCorporationID)) {
+				tMapGraphNode = new MapGraphNode (aMapCell, aLocation);
+			}
+		}
+		
+		return tMapGraphNode;
+	}
+	
+	public void buildMapGraph (Corporation aCorporation) {
+		List<MapGraphNode> tStartMapNodes;
+		
+		if (mapGraph == MapGraph.NO_MAP_GRAPH) {
+			mapGraph = new MapGraph ();
+		} else {
+			mapGraph.clear ();
+		}
+		
+		tStartMapNodes = getAllBases (aCorporation);
+		System.out.println ("Start MapNode Count " + tStartMapNodes.size ());
+		for (MapGraphNode tMapGraphNode : tStartMapNodes) {
+			tMapGraphNode.printInfo ();
+		}
 	}
 }

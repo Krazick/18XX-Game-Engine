@@ -762,6 +762,14 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 
+	/**
+	 * Determine if this MapCell contains a Station for the Specified Corp ID, returnb True if so
+	 * 
+	 * @param aCorpID The Corporation ID to find.
+	 * 
+	 * @return TRUE if there is a Station that has the Corporation ID on the MapCell OR FALSE
+	 * 
+	 */
 	public boolean hasStation (int aCorpID) {
 		if (tile != Tile.NO_TILE) {
 			return tile.hasStation (aCorpID);
@@ -770,6 +778,17 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 
+	public Location getLocationWithStation (int aCorpID) {
+		Location tLocationWithStation;
+		
+		tLocationWithStation = Location.NO_LOC;
+		if (tile != Tile.NO_TILE) {
+			tLocationWithStation = tile.getLocationWithStation (aCorpID);
+		}
+		
+		return tLocationWithStation;
+	}
+	
 	public boolean haveLaidBaseTokenFor (Corporation aCorporation) {
 		return hasStation (aCorporation.getID ());
 	}

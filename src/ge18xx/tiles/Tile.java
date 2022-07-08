@@ -654,6 +654,23 @@ public class Tile implements Comparable<Object>, Cloneable {
 		}
 	}
 
+	public Location getLocationWithStation (int aCorpID) {
+		Location tLocationWithStation;
+		int tStationIndex;
+		RevenueCenter tRevenueCenter;
+		
+		tLocationWithStation = Location.NO_LOC;
+		if (hasCenters ()) {
+			tStationIndex = getStationIndex (aCorpID);
+			tRevenueCenter = centers.get (tStationIndex);
+			if (tRevenueCenter != RevenueCenter.NO_CENTER) {
+				tLocationWithStation = tRevenueCenter.getLocation ();
+			}
+		}
+		
+		return tLocationWithStation;
+	}
+	
 	public int getStationIndex (int aCorpID) {
 		if (hasCenters ())
 			return centers.getStationIndex (aCorpID);
