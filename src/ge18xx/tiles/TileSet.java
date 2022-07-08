@@ -322,7 +322,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			}
 		} else {
 			tRotateGameTile = getRotateTileContainingPoint (tPoint);
-			if (tRotateGameTile != null) {
+			if (tRotateGameTile != GameTile.NO_GAME_TILE) {
 				tRotateGameTile.rotateTileRight ();
 			}
 			tileTrayFrameToFront ();
@@ -680,7 +680,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 				if (tAvailableCount == 0) {
 					if (tUpgradeCount == 1) {
 						tUpgrade = aGameTile.getUpgrade (0);
-						if (tUpgrade != null) {
+						if (tUpgrade != Upgrade.NO_UPGRADE) {
 							tToTileNumber = tUpgrade.getTileNumber ();
 							tUpgradeGameTile = getGameTile (tToTileNumber);
 							if (tileTrayFrame.isUpgradeAllowed (tUpgradeGameTile)) {

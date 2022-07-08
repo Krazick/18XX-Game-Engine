@@ -163,7 +163,7 @@ public class Action {
 		boolean tActorSet;
 
 		tActorSet = false;
-		if (actor != null) {
+		if (actor != ActorI.NO_ACTOR) {
 			tActorSet = true;
 		}
 

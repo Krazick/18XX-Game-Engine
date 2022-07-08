@@ -95,7 +95,7 @@ public class ResponseOfferEffect extends ToEffect {
 		} else {
 			tTextResponse = "Rejected";
 		}
-		if (toActor != null) {
+		if (toActor != ActorI.NO_ACTOR) {
 			tToActorName = getToActorName ();
 		}
 		if (actor.isACorporation ()) {

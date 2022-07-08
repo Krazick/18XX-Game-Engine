@@ -621,7 +621,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		String tText;
 
 		tText = ">>NO LABEL<<";
-		if (rfPlayerLabel != null) {
+		if (rfPlayerLabel != GUI.NO_LABEL) {
 			tText = rfPlayerLabel.getText ();
 		}
 
@@ -830,7 +830,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tBank = getBank ();
 		if (tBank != Bank.NO_BANK) {
 			tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
-			if (tStartPacketPortfolio != null) {
+			if (tStartPacketPortfolio != Portfolio.NO_PORTFOLIO) {
 				tHasSelectedPrivateToBidOn = tStartPacketPortfolio.hasSelectedPrivateToBidOn ();
 			}
 		}

@@ -420,7 +420,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 
 	public void drawName (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex) {
-		if (name != null) {
+		if (name != TileName.NO_TILE_NAME) {
 			name.draw (g, Xc, Yc, aTileOrient, aHex);
 		}
 	}
@@ -613,7 +613,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	private boolean hasCenters () {
 		boolean tHasCenters = false;
 
-		if (centers != null) {
+		if (centers != Centers.NO_CENTERS) {
 			if (centers.size () > 0) {
 				tHasCenters = true;
 			}
@@ -701,10 +701,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 	public void printlog () {
 		System.out.println ("Tile Number " + number);
-		if (name != null) {
+		if (name != TileName.NO_TILE_NAME) {
 			name.printlog ();
 		}
-		if (type != null) {
+		if (type != TileType.NO_TILE_TYPE) {
 			type.printlog ();
 		}
 		System.out.print ("Tile ");
@@ -718,7 +718,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 
 	public void setCityInfo (CityInfo aCityInfo) {
-		if (aCityInfo != null) {
+		if (aCityInfo != CityInfo.NO_CITY_INFO) {
 			centers.setCityInfo (aCityInfo);
 		}
 	}
@@ -769,7 +769,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 
 	public void setTileNameLocation (int aLocation) {
-		if (name != null) {
+		if (name != TileName.NO_TILE_NAME) {
 			name.setLocation (aLocation);
 		}
 	}

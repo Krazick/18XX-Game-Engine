@@ -170,7 +170,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		Dimension tPrefSize = new Dimension (15, 20);
 		Dimension tMaxSize = new Dimension (Short.MAX_VALUE, 20);
 
-		if (aLabel != null) {
+		if (aLabel != GUI.NO_LABEL) {
 			playerInfoJPanel.add (aLabel);
 		}
 		playerInfoJPanel.add (new Box.Filler (tMinSize, tPrefSize, tMaxSize));
@@ -478,7 +478,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		int tTotalValue;
 		int tEscrowValue;
 
-		if (playerTotalValue != null) {
+		if (playerTotalValue != GUI.NO_LABEL) {
 			tPortfolioValue = 0;
 			tCashValue = 0;
 			tEscrowValue = 0;

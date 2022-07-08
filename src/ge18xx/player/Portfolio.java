@@ -117,7 +117,7 @@ public class Portfolio implements CertificateHolderI {
 		}
 	}
 
-	public JPanel buildCertificateJPanel (String tTitle, String aCorpType, String aSelectedButtonLabel,
+	public JPanel buildCertificateJPanel (String aTitle, String aCorpType, String aSelectedButtonLabel,
 			ItemListener aItemListener, GameManager aGameManager) {
 		JPanel tCertificateJPanel;
 		JPanel tCertificateInfoJPanel;
@@ -127,8 +127,8 @@ public class Portfolio implements CertificateHolderI {
 
 		tCount = 0;
 		tCertificateJPanel = new JPanel ();
-		if (tTitle != null) {
-			tCertificateJPanel.setBorder (BorderFactory.createTitledBorder (tTitle));
+		if (aTitle != null) {
+			tCertificateJPanel.setBorder (BorderFactory.createTitledBorder (aTitle));
 		}
 		tCertificateJPanel.setLayout (new BoxLayout (tCertificateJPanel, BoxLayout.X_AXIS));
 		tCertificateJPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
@@ -1154,7 +1154,7 @@ public class Portfolio implements CertificateHolderI {
 				if (tPortfolio != NO_PORTFOLIO) {
 					tCertificate = tPortfolio.getCertificate (tLoadedCertificate.getCompanyAbbrev (),
 							tLoadedCertificate.getPercentage (), tLoadedCertificate.getIsPresidentShare ());
-					if (tCertificate != null) {
+					if (tCertificate != Certificate.NO_CERTIFICATE) {
 						transferOneCertificateOwnership (tPortfolio, tCertificate);
 					}
 				}
@@ -1175,7 +1175,7 @@ public class Portfolio implements CertificateHolderI {
 		String tHolderAbbrev;
 
 		tHolderAbbrev = ">> NO HOLDER <<";
-		if (holder != null) {
+		if (holder != PortfolioHolderI.NO_HOLDER) {
 			tHolderAbbrev = holder.getAbbrev ();
 		}
 
@@ -1187,7 +1187,7 @@ public class Portfolio implements CertificateHolderI {
 		String tHolderName;
 
 		tHolderName = ">> NO HOLDER <<";
-		if (holder != null) {
+		if (holder != PortfolioHolderI.NO_HOLDER) {
 			tHolderName = holder.getName ();
 		}
 

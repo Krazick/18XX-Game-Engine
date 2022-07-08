@@ -382,7 +382,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	public void updateAuctionFrame () {
 		boolean tDone;
 
-		if (certificateToAuction != null) {
+		if (certificateToAuction != Certificate.NO_CERTIFICATE) {
 			tDone = certificateToAuction.haveOnlyOneBidderLeft ();
 			updateAuctionFrame (tDone);
 		}
