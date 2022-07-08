@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import ge18xx.game.FrameInfo;
 import ge18xx.game.GameManager;
+import ge18xx.utilities.GUI;
 
 public class FrameInfoFrame extends XMLFrame implements ActionListener {
 	ArrayList<XMLFrame> configFrames;
@@ -49,7 +50,7 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 				allJFramesJPanel.add (Box.createVerticalGlue ());
 			}
 			tOneFrameJPanel = buildOneFrameJPanel (tXMLFrame);
-			if (tOneFrameJPanel != null) {
+			if (tOneFrameJPanel != GUI.NO_PANEL) {
 				infoJPanels.add (tOneFrameJPanel);
 				allJFramesJPanel.add (tOneFrameJPanel);
 				tAddVerticalGlue = true;

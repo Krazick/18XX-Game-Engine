@@ -61,7 +61,7 @@ public class CorporationTableFrame extends XMLFrame {
 		XMLElement tXMLCompaniesStates;
 
 		tXMLCompaniesStates = null;
-		if (companies != null) {
+		if (companies != CorporationList.NO_CORPORATION_LIST) {
 			if (companies.getCorporationCount () > 0) {
 				tXMLCompaniesStates = aXMLDocument.createElement (aEN_TYPE);
 				companies.getCorporationStateElements (aXMLDocument, tXMLCompaniesStates);
