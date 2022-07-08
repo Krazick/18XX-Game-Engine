@@ -864,7 +864,7 @@ public class Certificate implements Comparable<Certificate> {
 		tXMLElement.setAttribute (AN_IS_PRESIDENT, isPresidentShare);
 		tXMLElement.setAttribute (AN_PERCENTAGE, percentage);
 		tXMLBidders = bidders.getOnlyBiddersElement (aXMLDocument);
-		if (tXMLBidders != Bidders.NO_BIDDERS) {
+		if (tXMLBidders != Bidders.NO_XML_BIDDERS) {
 			tXMLElement.appendChild (tXMLBidders);
 		}
 
@@ -1603,7 +1603,7 @@ public class Certificate implements Comparable<Certificate> {
 	public int getTotalEscrows () {
 		int tTotalEscrows = 0;
 
-		if (bidders != null) {
+		if (bidders != Bidders.NO_BIDDERS) {
 			if (bidders.getCount () > 0) {
 				tTotalEscrows += bidders.getTotalEscrows ();
 			}

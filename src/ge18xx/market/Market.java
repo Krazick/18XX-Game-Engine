@@ -44,7 +44,8 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	final static AttributeName AN_INDEX = new AttributeName ("index");
 	final static AttributeName AN_NEIGHBORS = new AttributeName ("neighbors");
 	public final static ElementName EN_MARKET = new ElementName ("Market");
-	public final static MarketCell [] [] NO_MARKET = null;
+	public final static MarketCell [] [] NO_MARKET_CELLS = null;
+	public final static Market NO_MARKET = null;
 
 	MarketCell market[][];
 	GameManager gameManager;
@@ -199,7 +200,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public int getColCount (int aRow) {
-		if (market == NO_MARKET) {
+		if (market == NO_MARKET_CELLS) {
 			return 0;
 		}
 
@@ -355,7 +356,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public int getMaxRowCount () {
-		if (market == NO_MARKET) {
+		if (market == NO_MARKET_CELLS) {
 			return 0;
 		}
 
@@ -584,7 +585,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int rowIndex = 0;
 		int colIndex = 0;
 
-		if (market == NO_MARKET) {
+		if (market == NO_MARKET_CELLS) {
 			g.setColor (Color.black);
 			g.drawString ("Empty Market Table", 0, 0);
 			g.setColor (Color.blue);

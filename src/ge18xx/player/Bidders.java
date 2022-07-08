@@ -16,7 +16,8 @@ import ge18xx.utilities.XMLNodeList;
 
 public class Bidders {
 	public static ElementName EN_BIDDERS = new ElementName ("Bidders");
-	public static final XMLElement NO_BIDDERS = null;
+	public static final XMLElement NO_XML_BIDDERS = null;
+	public static final Bidders NO_BIDDERS = null;
 	public static final int NO_BIDDER = 0;
 	List<Bidder> bidders;
 	Certificate certificate;
@@ -77,7 +78,7 @@ public class Bidders {
 	}
 
 	public XMLElement getOnlyBiddersElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLBidders = NO_BIDDERS;
+		XMLElement tXMLBidders = NO_XML_BIDDERS;
 		XMLElement tXMLBidderElement;
 
 		if (bidders.size () > 0) {
