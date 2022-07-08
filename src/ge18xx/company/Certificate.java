@@ -1164,7 +1164,7 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tOwned;
 
 		tOwned = false;
-		if (owner != null) {
+		if (owner != CertificateHolderI.NO_OWNER) {
 			tHolder = owner.getPortfolioHolder ();
 			if (tHolder != PortfolioHolderI.NO_HOLDER) {
 				if ((tHolder.isAPlayer ()) || (tHolder.isACorporation ()) || (tHolder.isABankPool ())) {
@@ -1181,7 +1181,7 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tOwned;
 
 		tOwned = false;
-		if (owner != null) {
+		if (owner != CertificateHolderI.NO_OWNER) {
 			tHolder = owner.getPortfolioHolder ();
 			if (tHolder != PortfolioHolderI.NO_HOLDER) {
 				if (tHolder.isABankPool ()) {
@@ -1206,7 +1206,7 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tOwned;
 
 		tOwned = false;
-		if (owner != null) {
+		if (owner != CertificateHolderI.NO_OWNER) {
 			tHolder = owner.getPortfolioHolder ();
 			if (tHolder != PortfolioHolderI.NO_HOLDER) {
 				if ((tHolder.isAPlayer ()) || (tHolder.isACorporation ())) {
@@ -1343,7 +1343,7 @@ public class Certificate implements Comparable<Certificate> {
 		String tCorpType;
 
 		tOwnerName = " >> NOT OWNED <<";
-		if (owner != null) {
+		if (owner != CertificateHolderI.NO_OWNER) {
 			tOwnerName = " Owner: " + owner.getHolderName ();
 		}
 		if (isPresidentShare) {
