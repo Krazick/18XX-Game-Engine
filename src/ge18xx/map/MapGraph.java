@@ -20,9 +20,15 @@ public class MapGraph {
 	}
 	
 	public void addMapGraphNode (MapGraphNode aMapGraphNode) {
-		if (! containsMapGraphNode (aMapGraphNode)) {
-			mapGraphNodes.add (aMapGraphNode);
+		if (aMapGraphNode != MapGraphNode.NO_MAP_GRAPH_NODE) {
+			if (! containsMapGraphNode (aMapGraphNode)) {
+				mapGraphNodes.add (aMapGraphNode);
+			}
 		}
+	}
+	
+	public List<MapGraphNode> getMapGraphNodes () {
+		return mapGraphNodes;
 	}
 	
 	public boolean containsMapGraphNode (MapGraphNode aMapGraphNode) {

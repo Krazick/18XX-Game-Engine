@@ -42,7 +42,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -1368,7 +1367,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 	
 	public List<MapGraphNode> getAllBases (Corporation aCorporation) {
-		List<MapGraphNode> tStartMapNodes;
+		MapGraph tStartMapGraph;
 		MapGraphNode tMapGraphNode;
 		MapCell tMapCell;
 		Location tLocation;
@@ -1376,19 +1375,22 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tCorporationID;
 		int tRowIndex, tColIndex, tRowCount, tColCount;
 		
-		tStartMapNodes = new LinkedList<MapGraphNode> ();
+		tStartMapGraph = new MapGraph ();
 		if (aCorporation.isATokenCompany ()) {
-			tTokenCompany = (TokenCompany) aCorporation;
+			tTokenCompany = (TokenCompany) aCorporation; 
 			tCorporationID = tTokenCompany.getID ();
 			tMapCell = tTokenCompany.getHomeCity1 ();
 			tLocation = tTokenCompany.getHomeLocation1 ();
 			tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
-			addMapGraphNode (tStartMapNodes, tMapGraphNode);
+			tStartMapGraph.addMapGraphNode (tMapGraphNode);
 			
 			tMapCell = tTokenCompany.getHomeCity2 ();
 			tLocation = tTokenCompany.getHomeLocation2 ();
 			tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
-			addMapGraphNode (tStartMapNodes, tMapGraphNode);
+			tStartMapGraph.addMapGraphNode (tMapGraphNode);
+			
+			// Scan the rest of the Map for more Bases, and add.
+			// Want to start with the Home Bases by default for Graph
 			tRowCount = getRowCount ();
 			for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
 				tColCount = getColCount (tRowIndex);
@@ -1397,43 +1399,13 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 					if (tMapCell.hasStation (tCorporationID)) {
 						tLocation = tMapCell.getLocationWithStation (tCorporationID);
 						tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
-						addMapGraphNode (tStartMapNodes, tMapGraphNode);
+						tStartMapGraph.addMapGraphNode (tMapGraphNode);
 					}
 				}
 			}
 		}
 		
-		return tStartMapNodes;
-	}
-
-	public boolean containsMapGraphNode (List<MapGraphNode> aMapNodes, 
-						MapGraphNode aMapGraphNode) {
-		boolean tContainsMapGraphNode;
-		String tMapGraphNodeID;
-		String tFoundMapGraphNodeID;
-		
-		tContainsMapGraphNode = false;
-		if (aMapNodes.size () > 0) {
-			if (aMapGraphNode != MapGraphNode.NO_MAP_GRAPH_NODE) {
-				tMapGraphNodeID = aMapGraphNode.getID ();
-				for (MapGraphNode tMapGraphNode: aMapNodes) {
-					tFoundMapGraphNodeID = tMapGraphNode.getID ();
-					if (tFoundMapGraphNodeID.equals (tMapGraphNodeID)) {
-						tContainsMapGraphNode = true;
-					}
-				}
-			}
-		}
-		
-		return tContainsMapGraphNode;
-	}
-	
-	public void addMapGraphNode (List<MapGraphNode> aStartMapNodes, MapGraphNode aMapGraphNode) {
-		if (aMapGraphNode != MapGraphNode.NO_MAP_GRAPH_NODE) {
-			if (! containsMapGraphNode (aStartMapNodes, aMapGraphNode)) {
-				aStartMapNodes.add (aMapGraphNode);
-			}
-		}
+		return tStartMapGraph.getMapGraphNodes ();
 	}
 	
 	private MapGraphNode buildMapGraphNode (MapCell aMapCell, 
