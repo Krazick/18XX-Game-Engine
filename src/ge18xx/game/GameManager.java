@@ -1808,6 +1808,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		addNewFrame (playerInputFrame);
 	}
 
+	public boolean hasTestGraphs () {
+		return activeGame.hasTestGraphs ();
+	}
+	
 	private void setPrivatesFrame (XMLFrame aXMLFrame) {
 		privatesFrame = (PrivatesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);

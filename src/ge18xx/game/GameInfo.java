@@ -37,6 +37,7 @@ public class GameInfo {
 	static final AttributeName AN_ID = new AttributeName ("id");
 	static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");
+	final AttributeName AN_TEST_GRAPHS = new AttributeName ("testGraphs");
 	final AttributeName AN_STATUS = new AttributeName ("status");
 	final AttributeName AN_LOANS = new AttributeName ("loans");
 	final AttributeName AN_PRIVATES = new AttributeName ("privates");
@@ -87,6 +88,7 @@ public class GameInfo {
 	boolean hasShares;
 	boolean canPayHalfDividend;
 	boolean loans;
+	boolean testGraphs;		// For DEBUGing Development testing of new Graphs
 	int bankPoolShareLimit; // Limit on # of shares in Bank Pool
 	int playerShareLimit; // Limit on # of shares a Player may Hold
 	TrainInfo trains [];
@@ -125,7 +127,8 @@ public class GameInfo {
 		int tBankPoolShareLimit, tPlayerShareLimit;
 		boolean tHasPrivates, tHasMinors, tHasCoals, tHasShares;
 		boolean tLoans;
-
+		boolean tTestGraphs;
+		
 		tGameID = aCellNode.getThisAttribute (AN_GAME_ID);
 		tID = aCellNode.getThisIntAttribute (AN_ID);
 		tName = aCellNode.getThisAttribute (AN_NAME);
@@ -140,6 +143,7 @@ public class GameInfo {
 		tProducers = aCellNode.getThisAttribute (AN_PRODUCERS);
 		tReleaseDate = aCellNode.getThisAttribute (AN_RELEASE_DATE);
 
+		tTestGraphs = aCellNode.getThisBooleanAttribute (AN_TEST_GRAPHS);
 		tHasPrivates = aCellNode.getThisBooleanAttribute (AN_PRIVATES);
 		tLoans = aCellNode.getThisBooleanAttribute (AN_LOANS);
 		tHasMinors = aCellNode.getThisBooleanAttribute (AN_MINORS);
@@ -153,6 +157,7 @@ public class GameInfo {
 		setHasCompanies (tHasPrivates, tHasMinors, tHasCoals, tHasShares);
 		setLoans (tLoans);
 		setStatus (tStatus);
+		setTestGraphs (tTestGraphs);
 		
 		tBankPoolShareLimit = aCellNode.getThisIntAttribute (AN_BANK_POOL_SHARE_LIMIT);
 		tPlayerShareLimit = aCellNode.getThisIntAttribute (AN_PLAYER_SHARE_LIMIT);
@@ -574,6 +579,10 @@ public class GameInfo {
 		return tStartingCash;
 	}
 
+	public boolean hasTestGraphs () {
+		return testGraphs;
+	}
+	
 	public int getTrainCount () {
 		return trains.length;
 	}
@@ -626,10 +635,14 @@ public class GameInfo {
 		gameID = aGameID;
 	}
 
-	public void setLoans (boolean tLoans) {
-		loans = tLoans;
+	public void setLoans (boolean aLoans) {
+		loans = aLoans;
 	}
 
+	public void setTestGraphs (boolean aTestGraphs) {
+		testGraphs = aTestGraphs;
+	}
+	
 	public void setStatus (String aStatus) {
 		status = aStatus;
 	}

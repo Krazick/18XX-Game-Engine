@@ -93,6 +93,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	JButton pickupTileButton;
 	JButton exitTokenButton;
 	JButton putTokenButton;
+	JButton testGraphsButton;
 	String companyAbbrev;
 	JPanel tokenButtons;
 	JPanel tileButtons;
@@ -152,7 +153,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tNorthPanel.add (Box.createHorizontalGlue ());
 		tNorthPanel.add (allButtonsJPanel);
 
-		selectRouteButton = new JButton ("Enter Select Route Mode");
+		selectRouteButton = new JButton ("Enter Select Route");
 		selectRouteButton.addActionListener (this);
 		selectRouteButton.setActionCommand (SELECT_ROUTE_MODE);
 		selectRouteButton.setEnabled (false);
@@ -173,6 +174,15 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 		buildTileButtonsPanel ();
 		allButtonsJPanel.add (tileButtons);
+		
+		if (gameManager.hasTestGraphs ()) {
+			testGraphsButton = new JButton ("Build Graphs");
+			testGraphsButton.addActionListener (this);
+			testGraphsButton.setActionCommand ("BuildGraphs");
+			testGraphsButton.setToolTipText ("Build Graph of current Hex Map");
+			allButtonsJPanel.add (testGraphsButton);
+			allButtonsJPanel.add (Box.createHorizontalStrut (10));
+		}
 	}
 
 	private void buildTileButtonsPanel () {
@@ -333,12 +343,18 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			putTileDownOnMap ();
 		} else if (PUT_TOKEN.equals (tTheAction)) {
 			putATokenDown (tCorporation);
+		} else if ("BuildGraphs".equals (tTheAction)) {
+			handleBuildGraphs ();
 		}
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			tCorporation.updateFrameInfo ();
 		}
 	}
 
+	private void handleBuildGraphs () {
+		System.out.println ("Time to build a Graph");
+	}
+	
 	private void completeTileLay () {
 		if (map.wasTilePlaced ()) {
 			completeBenefitInUse ();

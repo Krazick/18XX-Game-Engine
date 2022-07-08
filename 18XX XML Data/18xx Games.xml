@@ -467,7 +467,7 @@
 	<GameInfo id="6" name="1830TEST" minPlayers="2" maxPlayers="6" status="Play Test ONLY" 
 		bankTotal="12000" currencyFormat="$ ###,###" subtitle="Railroads and Robber Barons"
 		location="North Eastern United States" designers="Francis Tresham (UK) and Bruce Shelley (US)"
-		producers="Mayfair" releaseDate="2011"
+		producers="Mayfair" releaseDate="2011" testGraphs="true"
 		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		<Variants>
 			<Variant class="ge18xx.game.variants.VariantAll" id="300" title="Introductory Game">
