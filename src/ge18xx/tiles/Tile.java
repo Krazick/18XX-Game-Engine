@@ -694,7 +694,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		tracks.draw (g, XCenter, YCenter, aTileOrient, aHex, tHexPaint, aSelectedFeature);
 		centers.draw (g, XCenter, YCenter, aTileOrient, aHex, ON_TILE, aSelectedFeature);
 
-		if (name != null) {
+		if (name != TileName.NO_TILE_NAME) {
 			name.draw (g, XCenter, YCenter, aTileOrient, aHex);
 		}
 	}
