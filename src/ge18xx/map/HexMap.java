@@ -47,6 +47,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
 
 public class HexMap extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener, ChangeListener {
@@ -78,6 +79,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	// should unselect ALL and leave only the single map cell selected.
 	boolean selectRevenueCenter;
 	boolean selectTrackSegment;
+	Logger logger;
 
 	public HexMap (MapFrame aMapFrame) {
 		mapFrame = aMapFrame;
@@ -88,6 +90,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		setBackground (Color.white);
 		setSingleMapCellSelect (false);
 		selectableMapCells = new SelectableMapCells ();
+		logger = mapFrame.getLogger ();
 	}
 
 	public int getCurrentPhase () {
@@ -644,7 +647,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				if (aSelectedMapCell.isTileOnCell ()) {
 					mapFrame.handleSelectedRouteRC (aSelectedMapCell, tSelectedRevenueCenter);
 				} else {
-					System.err.println ("No Tile, and no Track on Tile - Ignore the Click");
+					logger.error ("No Tile, and no Track on Tile - Ignore the Click");
 				}
 			} else {
 				if (tSelectedCity != City.NO_CITY) {
@@ -661,7 +664,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			if (containsMapCellSMC (aSelectedMapCell)) {
 				toggleSelectedMapCell (aSelectedMapCell);
 			} else {
-				System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (1)");
+				logger.error ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (1)");
 			}
 		} else {
 			if (aSelectedMapCell == MapCell.NO_MAP_CELL) {
@@ -681,7 +684,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 						// No Tile on Cell, Toggle Selection
 						toggleSelectedMapCell (aSelectedMapCell);
 					} else {
-						System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (2)");
+						logger.error ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (2)");
 						// No Tile on Cell, Toggle Selection
 //						toggleSelectedMapCell (aSelectedMapCell);
 					}
@@ -695,7 +698,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 							toggleSelectedMapCell (aSelectedMapCell);
 						}
 					} else {
-						System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (3)");
+						logger.error ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (3)");
 					}
 				}
 			}
@@ -748,7 +751,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tRoundManager.addAction (tRotateTileAction);
 			}
 		} else {
-			System.err.println ("Only ONE Allowed Rotations have been identified for the Tile on this MapCell");
+			logger.error ("Only ONE Allowed Rotations have been identified for the Tile on this MapCell");
 		}
 	}
 
@@ -795,7 +798,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		if (tGameTile != GameTile.NO_GAME_TILE) {
 			tTile = tGameTile.popTile ();
 		} else {
-			System.err.println ("Did not find the Game Tile with # " + aTileNumber);
+			logger.error ("Did not find the Game Tile with # " + aTileNumber);
 		}
 
 		return tTile;
@@ -823,7 +826,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 							map [tRow] [tCol].setTileOrientationLocked (true);
 							restoreTile (tCurrentTile);
 						} else {
-							System.err.println ("Upgrade: Did not find the Tile with # " + tTileNumber);
+							logger.error ("Upgrade: Did not find the Tile with # " + tTileNumber);
 						}
 					}
 				} else {
@@ -832,7 +835,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 						map [tRow] [tCol].putTile (tTile, tTileOrientation);
 						map [tRow] [tCol].setTileOrientationLocked (true);
 					} else {
-						System.err.println ("Did not find the Tile with # " + tTileNumber);
+						logger.error ("Did not find the Tile with # " + tTileNumber);
 					}
 				}
 				if (isTileOnCell (tRow, tCol)) {
@@ -916,7 +919,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 
 		if (!tGoodLoad) {
-			System.err.println ("Bad Load on Row [" + tRowIndex + "].");
+			logger.error ("Bad Load on Row [" + tRowIndex + "].");
 		}
 
 		return tGoodLoad;
@@ -1000,7 +1003,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tLoadedRow = loadXMLRow (tChildNode, tTerrainCost, tTerrainType, tCols, tDefaultTerrainType, theRowIDs,
 						theColIDs);
 				if (!tLoadedRow) {
-					System.err.println ("Found too many columns to Load on Row.");
+					logger.error ("Found too many columns to Load on Row.");
 				}
 			}
 		}
@@ -1318,7 +1321,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		fillAllSMC ();
 		tSelectedMapCell = getSelectedMapCell ();
 		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
-			System.err.println ("Put Tile Down Button Selected, no Map Cell Selected from Frame");
+			logger.error ("Put Tile Down Button Selected, no Map Cell Selected from Frame");
 		} else {
 			tTilePlaced = tSelectedMapCell.putTileDown (tileSet);
 			setTilePlaced (tTilePlaced);
