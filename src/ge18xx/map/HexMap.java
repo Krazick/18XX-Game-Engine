@@ -405,9 +405,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tColCount = getColCount (tRowIndex);
 			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
 				tMapCell = map [tRowIndex] [tColIndex];
-				if (tMapCell != null) {
+				if (tMapCell != MapCell.NO_MAP_CELL) {
 					tXMLMapCellElement = tMapCell.getMapCellState (aXMLDocument);
-					if (tXMLMapCellElement != null) {
+					if (tXMLMapCellElement != XMLElement.NO_XML_ELEMENT) {
 						tXMLMapCellElement.setAttribute (AN_ROW, tRowIndex);
 						tXMLMapCellElement.setAttribute (AN_COL, tColIndex);
 						tXMLElement.appendChild (tXMLMapCellElement);

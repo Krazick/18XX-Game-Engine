@@ -33,6 +33,7 @@ public class Centers implements Cloneable {
 	public static final int UNSPECIFIED_ID = -1;
 	public static final String NO_CITY_NAME2 = "";
 	public static final String NO_CITY_NAME = null;
+	public static final Centers NO_CENTERS = null;
 	List<RevenueCenter> centers;
 
 	public Centers () {
