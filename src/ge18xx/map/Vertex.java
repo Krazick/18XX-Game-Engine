@@ -19,11 +19,11 @@ public class Vertex {
 		setMapCell (aMapCell);
 		setLocation (aLocation);
 		edges = new LinkedList<Edge> ();
-		setNeighborNode (NO_VERTEX);
+		setNeighborVertex (NO_VERTEX);
 		setID ();
 	}
 
-	public void attachNeighborNode (MapCell aMapCell, Location aLocation, Vertex tNeighborVertex) {
+	public void attachNeighborVertex (MapCell aMapCell, Location aLocation, Vertex tNeighborVertex) {
 		MapCell tNeighborMapCell;
 		Location tNeighborLocation;
 		int tFoundLocation;
@@ -37,7 +37,7 @@ public class Vertex {
 				tNeighborVertex = new Vertex (tNeighborMapCell, tNeighborLocation);
 			}
 		}
-		setNeighborNode (tNeighborVertex);
+		setNeighborVertex (tNeighborVertex);
 
 	}
 
@@ -70,15 +70,15 @@ public class Vertex {
 		return mapCell.getCellID ();
 	}
 	
-	public List<Edge> getMapEdges () {
+	public List<Edge> getEdges () {
 		return edges;
 	}
 	
-	public int getMapEdgeCount () {
+	public int getEdgeCount () {
 		return edges.size ();
 	}
 	
-	public Edge getMapEdge (int aIndex) {
+	public Edge getEdge (int aIndex) {
 		return edges.get (aIndex);
 	}
 	
@@ -148,11 +148,11 @@ public class Vertex {
 		mapCell = aMapCell;
 	}
 	
-	public void setNeighborNode (Vertex aNeighborNode) {
+	public void setNeighborVertex (Vertex aNeighborVertex) {
 		neighborVertex = NO_VERTEX;
-		if (aNeighborNode != NO_VERTEX) {
-			if (aNeighborNode.isOnSide ()) {
-				neighborVertex = aNeighborNode;
+		if (aNeighborVertex != NO_VERTEX) {
+			if (aNeighborVertex.isOnSide ()) {
+				neighborVertex = aNeighborVertex;
 			} else {
 				neighborVertex = NO_VERTEX;
 			}
@@ -167,7 +167,7 @@ public class Vertex {
 		return tIsOnSide;
 	}
 	
-	public void fillGraphNodeEdges () {
+	public void fillVertexEdges () {
 		Tile tTile;
 		int tTrackCount;
 		int tTrackIndex;
@@ -230,12 +230,12 @@ public class Vertex {
 				tNeighborLocation = new Location (tNeighborLoc);
 				if (! tNeighborMapCell.isTileOnCell ()) {
 					tNeighborVertex = new Vertex (tNeighborMapCell, tNeighborLocation);
-					aMapGraph.addMapGraphNode (tNeighborVertex);
+					aMapGraph.addVertex (tNeighborVertex);
 				} else {
 					if (! aMapGraph.containsMapCell (tNeighborMapCell)) {
 						tNeighborVertex = new Vertex (tNeighborMapCell, tNeighborLocation);
-						aMapGraph.addMapGraphNode (tNeighborVertex);
-						tNeighborVertex.fillGraphNodeEdges ();
+						aMapGraph.addVertex (tNeighborVertex);
+						tNeighborVertex.fillVertexEdges ();
 					}
 				}
 			} else {

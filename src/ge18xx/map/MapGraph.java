@@ -19,7 +19,7 @@ public class MapGraph {
 		return vertexes.isEmpty ();
 	}
 	
-	public void addMapGraphNode (Vertex aVertex) {
+	public void addVertex (Vertex aVertex) {
 		if (aVertex != Vertex.NO_VERTEX) {
 			if (! containsVertex (aVertex)) {
 				vertexes.add (aVertex);
@@ -96,7 +96,7 @@ public class MapGraph {
 		return tFoundVertex;
 	}
 	
-	public void addNeighborVertexes (Vertex aMapGraphNode) {
-		aMapGraphNode.addNeighborVertexes (this);
+	public void addNeighborVertexes (Vertex aVertex) {
+		aVertex.addNeighborVertexes (this);
 	}
 }

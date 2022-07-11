@@ -1367,7 +1367,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return mapFrame.getCorporation (aCorporationAbbrev);
 	}
 	
-	public List<Vertex> getAllBases (Corporation aCorporation) {
+	public List<Vertex> getAllVertexBases (Corporation aCorporation) {
 		MapGraph tStartMapGraph;
 		Vertex tMapGraphNode;
 		MapCell tMapCell;
@@ -1383,12 +1383,12 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tMapCell = tTokenCompany.getHomeCity1 ();
 			tLocation = tTokenCompany.getHomeLocation1 ();
 			tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
-			tStartMapGraph.addMapGraphNode (tMapGraphNode);
+			tStartMapGraph.addVertex (tMapGraphNode);
 			
 			tMapCell = tTokenCompany.getHomeCity2 ();
 			tLocation = tTokenCompany.getHomeLocation2 ();
 			tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
-			tStartMapGraph.addMapGraphNode (tMapGraphNode);
+			tStartMapGraph.addVertex (tMapGraphNode);
 			
 			// Scan the rest of the Map for more Bases, and add.
 			// Want to start with the Home Bases by default for Graph
@@ -1400,7 +1400,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 					if (tMapCell.hasStation (tCorporationID)) {
 						tLocation = tMapCell.getLocationWithStation (tCorporationID);
 						tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
-						tStartMapGraph.addMapGraphNode (tMapGraphNode);
+						tStartMapGraph.addVertex (tMapGraphNode);
 					}
 				}
 			}
@@ -1419,7 +1419,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			if (aMapCell.hasStation (aCorporationID)) {
 				tMapGraphNode = new Vertex (aMapCell, aLocation);
 				if (aMapCell.isTileOnCell ()) {
-					tMapGraphNode.fillGraphNodeEdges ();
+					tMapGraphNode.fillVertexEdges ();
 				}
 
 			}
@@ -1431,9 +1431,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public void buildMapGraph (Corporation aCorporation) {
 		if (aCorporation != Corporation.NO_CORPORATION) {
 			buildInitialMapGraph (aCorporation);
-			printMapGraphInfo ("Initial Map Graph with MapNode Count ");
+			printMapGraphInfo ("Initial Map Graph with Vertex Count ");
 			removeRedundantNodes ();
-			printMapGraphInfo ("After removal of Redundant Nodes from Map Graph with MapNode Count ");
+			printMapGraphInfo ("After removal of Redundant Nodes from Map Graph with Vertex Count ");
 		} else {
 			System.out.println ("No Operating Corporation to Map");
 		}
@@ -1446,33 +1446,33 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tFullMapGraph = mapGraph.getVertexes ();
 		System.out.println (aTitle + tFullMapGraph.size ());
 		
-		for (Vertex tMapGraphNode : tFullMapGraph) {
-			tMapGraphNode.printInfo ();
+		for (Vertex tVertex : tFullMapGraph) {
+			tVertex.printInfo ();
 		}
 	}
 
 	public void removeRedundantNodes () {
-		List<Vertex> tMapNodes;
-		List<Vertex> tRedundantNodes;
+		List<Vertex> tVertexes;
+		List<Vertex> tRedundantVertexes;
 		String tMapCellID1;
 		String tMapCellID2;
-		Edge tMapEdge;
+		Edge tEdge;
 		
-		tMapNodes = mapGraph.getVertexes ();
-		tRedundantNodes = new LinkedList<Vertex> ();
-		for (Vertex tMapGraphNode1 : tMapNodes) {
-			tMapCellID1 = tMapGraphNode1.getMapCellID ();
-			for (Vertex tMapGraphNode2 : tMapNodes) {
-				if (! tMapGraphNode1.sameVertex (tMapGraphNode2)) {
-					tMapCellID2 = tMapGraphNode2.getMapCellID ();
+		tVertexes = mapGraph.getVertexes ();
+		tRedundantVertexes = new LinkedList<Vertex> ();
+		for (Vertex tVertex1 : tVertexes) {
+			tMapCellID1 = tVertex1.getMapCellID ();
+			for (Vertex tVertex2 : tVertexes) {
+				if (! tVertex1.sameVertex (tVertex2)) {
+					tMapCellID2 = tVertex2.getMapCellID ();
 					if (tMapCellID1.equals (tMapCellID2)) {
-						if (tMapGraphNode1.getMapEdgeCount () == 1) {
-							System.out.println ("Found Node ID " + tMapGraphNode1.getID () +
-									" with Different Node ID " + tMapGraphNode2.getID ());
-							tMapEdge = tMapGraphNode1.getMapEdge (0);
-							if (tMapGraphNode2.containsEdge (tMapEdge)) {
-								System.out.println ("Found Same MapEdge " + tMapEdge.getInfo ());
-								tRedundantNodes.add (tMapGraphNode1);
+						if (tVertex1.getEdgeCount () == 1) {
+							System.out.println ("Found Vertex ID " + tVertex1.getID () +
+									" with Different Vertex ID " + tVertex2.getID ());
+							tEdge = tVertex1.getEdge (0);
+							if (tVertex2.containsEdge (tEdge)) {
+								System.out.println ("Found Same Edge " + tEdge.getInfo ());
+								tRedundantVertexes.add (tVertex1);
 							}
 						}
 					}
@@ -1480,13 +1480,13 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 		}
 		
-		for (Vertex tMapGraphNode: tRedundantNodes) {
-			mapGraph.removeVertex (tMapGraphNode);
+		for (Vertex tVertex: tRedundantVertexes) {
+			mapGraph.removeVertex (tVertex);
 		}
 	}
 	
 	public void buildInitialMapGraph (Corporation aCorporation) {
-		List<Vertex> tStartMapNodes;
+		List<Vertex> tVertexes;
 		
 		if (mapGraph == MapGraph.NO_MAP_GRAPH) {
 			mapGraph = new MapGraph ();
@@ -1494,11 +1494,11 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			mapGraph.clear ();
 		}
 		
-		tStartMapNodes = getAllBases (aCorporation);
-		for (Vertex tMapGraphNode : tStartMapNodes) {
-			if (! mapGraph.containsVertex (tMapGraphNode)) {
-				mapGraph.addMapGraphNode (tMapGraphNode);
-				mapGraph.addNeighborVertexes (tMapGraphNode);
+		tVertexes = getAllVertexBases (aCorporation);
+		for (Vertex tVertex : tVertexes) {
+			if (! mapGraph.containsVertex (tVertex)) {
+				mapGraph.addVertex (tVertex);
+				mapGraph.addNeighborVertexes (tVertex);
 			}
 		}
 	}
