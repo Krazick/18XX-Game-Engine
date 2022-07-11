@@ -59,7 +59,8 @@ public class LoggerLookup implements StrLookup {
 		LoggerLookup.setUserName (aUserName);
 		LoggerLookup.setAppName (aAppName);
 		tXMLConfigFile = aConfigDir + File.separator + "log4j2.xml";
-		System.setProperty ("log4j.configurationFile", tXMLConfigFile);
+		System.setProperty ("log4j2.configurationFile", tXMLConfigFile);
+//		System.setProperty ("log4j2.debug", "");
 		logger = LogManager.getLogger (aClass);
 		logBasicInfo (aUserName, aAppName, aAppVersion);
 	}
