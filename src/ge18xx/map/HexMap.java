@@ -42,6 +42,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -1366,9 +1367,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return mapFrame.getCorporation (aCorporationAbbrev);
 	}
 	
-	public List<MapGraphNode> getAllBases (Corporation aCorporation) {
+	public List<Vertex> getAllBases (Corporation aCorporation) {
 		MapGraph tStartMapGraph;
-		MapGraphNode tMapGraphNode;
+		Vertex tMapGraphNode;
 		MapCell tMapCell;
 		Location tLocation;
 		TokenCompany tTokenCompany;
@@ -1405,18 +1406,22 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			}
 		}
 		
-		return tStartMapGraph.getMapGraphNodes ();
+		return tStartMapGraph.getVertexes ();
 	}
 	
-	private MapGraphNode buildMapGraphNode (MapCell aMapCell, 
+	private Vertex buildMapGraphNode (MapCell aMapCell, 
 							Location aLocation, int aCorporationID) {
-		MapGraphNode tMapGraphNode;
+		Vertex tMapGraphNode;
 		
-		tMapGraphNode = MapGraphNode.NO_MAP_GRAPH_NODE;
+		tMapGraphNode = Vertex.NO_VERTEX;
 		
 		if (aMapCell != MapCell.NO_MAP_CELL) {
 			if (aMapCell.hasStation (aCorporationID)) {
-				tMapGraphNode = new MapGraphNode (aMapCell, aLocation);
+				tMapGraphNode = new Vertex (aMapCell, aLocation);
+				if (aMapCell.isTileOnCell ()) {
+					tMapGraphNode.fillGraphNodeEdges ();
+				}
+
 			}
 		}
 		
@@ -1424,7 +1429,64 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 	
 	public void buildMapGraph (Corporation aCorporation) {
-		List<MapGraphNode> tStartMapNodes;
+		if (aCorporation != Corporation.NO_CORPORATION) {
+			buildInitialMapGraph (aCorporation);
+			printMapGraphInfo ("Initial Map Graph with MapNode Count ");
+			removeRedundantNodes ();
+			printMapGraphInfo ("After removal of Redundant Nodes from Map Graph with MapNode Count ");
+		} else {
+			System.out.println ("No Operating Corporation to Map");
+		}
+
+	}
+
+	public void printMapGraphInfo (String aTitle) {
+		List<Vertex> tFullMapGraph;
+		
+		tFullMapGraph = mapGraph.getVertexes ();
+		System.out.println (aTitle + tFullMapGraph.size ());
+		
+		for (Vertex tMapGraphNode : tFullMapGraph) {
+			tMapGraphNode.printInfo ();
+		}
+	}
+
+	public void removeRedundantNodes () {
+		List<Vertex> tMapNodes;
+		List<Vertex> tRedundantNodes;
+		String tMapCellID1;
+		String tMapCellID2;
+		Edge tMapEdge;
+		
+		tMapNodes = mapGraph.getVertexes ();
+		tRedundantNodes = new LinkedList<Vertex> ();
+		for (Vertex tMapGraphNode1 : tMapNodes) {
+			tMapCellID1 = tMapGraphNode1.getMapCellID ();
+			for (Vertex tMapGraphNode2 : tMapNodes) {
+				if (! tMapGraphNode1.sameVertex (tMapGraphNode2)) {
+					tMapCellID2 = tMapGraphNode2.getMapCellID ();
+					if (tMapCellID1.equals (tMapCellID2)) {
+						if (tMapGraphNode1.getMapEdgeCount () == 1) {
+							System.out.println ("Found Node ID " + tMapGraphNode1.getID () +
+									" with Different Node ID " + tMapGraphNode2.getID ());
+							tMapEdge = tMapGraphNode1.getMapEdge (0);
+							if (tMapGraphNode2.containsEdge (tMapEdge)) {
+								System.out.println ("Found Same MapEdge " + tMapEdge.getInfo ());
+								tRedundantNodes.add (tMapGraphNode1);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		for (Vertex tMapGraphNode: tRedundantNodes) {
+			mapGraph.removeVertex (tMapGraphNode);
+		}
+	}
+	
+	public void buildInitialMapGraph (Corporation aCorporation) {
+		List<Vertex> tStartMapNodes;
 		
 		if (mapGraph == MapGraph.NO_MAP_GRAPH) {
 			mapGraph = new MapGraph ();
@@ -1433,9 +1495,11 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 		
 		tStartMapNodes = getAllBases (aCorporation);
-		System.out.println ("Start MapNode Count " + tStartMapNodes.size ());
-		for (MapGraphNode tMapGraphNode : tStartMapNodes) {
-			tMapGraphNode.printInfo ();
+		for (Vertex tMapGraphNode : tStartMapNodes) {
+			if (! mapGraph.containsVertex (tMapGraphNode)) {
+				mapGraph.addMapGraphNode (tMapGraphNode);
+				mapGraph.addNeighborVertexes (tMapGraphNode);
+			}
 		}
 	}
 }

@@ -133,8 +133,9 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean sameID (MapCell aMapCell) {
-		boolean tSameID = false;
-
+		boolean tSameID;
+		
+		tSameID = false;
 		if (aMapCell != NO_MAP_CELL) {
 			if (id.equals (aMapCell.getID ())) {
 				tSameID = true;
@@ -256,6 +257,14 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	// Get the Side of the Neighbor that connects back to this MapCell
+	/**
+	 * Find the side on the Neighbor MapCell that connects to this MapCell.
+	 * 
+	 * @param aNeighborMapCell Find this Neighbor, if valid and return the 
+	 * Location of the side. Otherwise return NO_LOCATION;
+	 * 
+	 * @return NO_LOCATION if the Neighbor is not Found for this MapCell
+	 */
 	public int getSideFromNeighbor (MapCell aNeighborMapCell) {
 		int tSideFromNeighbor;
 
@@ -570,12 +579,45 @@ public class MapCell implements Comparator<Object> {
 		return baseTileName.getName ();
 	}
 
+	/**
+	 * Get the MapCell that is the Neighbor to for this MapCell on the specified side.
+	 * 
+	 * @param aSide int value of the Location (must be between 0 and 5
+	 * 
+	 * @return NO_MAP_CELL if not a valid side, otherwise the neighbor MapCell.
+	 * Also note, if the MapCell has no neighbor on that side, it also returns NO_MAP_CELL
+	 * 
+	 */
 	public MapCell getNeighbor (int aSide) {
+		MapCell tNeighbor;
+		
 		if ((aSide < 0) || (aSide > 5)) {
-			return NO_MAP_CELL;
+			tNeighbor = NO_MAP_CELL;
 		} else {
-			return neighbors [aSide];
+			tNeighbor = neighbors [aSide];
 		}
+		
+		return tNeighbor;
+	}
+	
+	/**
+	 * Get the MapCell that is the Neighbor to for this MapCell on the specified Location
+	 * 
+	 * @param aLocation the Location which must be a Side, fetch the Neighbor
+	 * 
+	 * @return NO_MAP_CELL if not a valid side, otherwise the neighbor MapCell.
+	 * Also note, if the MapCell has no neighbor on that side, it also returns NO_MAP_CELL
+	 *
+	 */
+	public MapCell getNeighbor (Location aLocation) {
+		MapCell tNeighbor;
+		
+		tNeighbor = NO_MAP_CELL;
+		if (aLocation.isSide ()) {
+			tNeighbor = getNeighbor (aLocation.getLocation ());
+		}
+		
+		return tNeighbor;
 	}
 
 	public RevenueCenter getRCContainingPoint (Point aPoint, Hex aHex) {
@@ -649,15 +691,23 @@ public class MapCell implements Comparator<Object> {
 	public Terrain getTerrain2 () {
 		return terrain2;
 	}
-//
-//	public Paint getTerrainFillPaint () {
-//		return terrainFillPaint;
-//	}
 
 	public Tile getTile () {
 		return tile;
 	}
 
+	public String getTileInfo () {
+		String tTileInfo;
+	
+		if (isTileOnCell ()) {
+			tTileInfo = " Tile #" + getTileNumber ();
+		} else {
+			tTileInfo = " NO TILE";
+		}
+		
+		return tTileInfo;
+	}
+	
 	public int getTileNumber () {
 		if (tile == Tile.NO_TILE) {
 			return tileNumber;

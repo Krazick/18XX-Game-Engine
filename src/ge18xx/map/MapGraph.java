@@ -5,50 +5,98 @@ import java.util.List;
 
 public class MapGraph {
 	public static final MapGraph NO_MAP_GRAPH = null;
-	List<MapGraphNode> mapGraphNodes;
+	List<Vertex> vertexes;
 	
 	public MapGraph () {
-		mapGraphNodes = new LinkedList<MapGraphNode> ();
+		vertexes = new LinkedList<Vertex> ();
 	}
 
 	public void clear () {
-		mapGraphNodes.removeAll (mapGraphNodes);
+		vertexes.removeAll (vertexes);
 	}
 	
 	public boolean isEmpty () {
-		return mapGraphNodes.isEmpty ();
+		return vertexes.isEmpty ();
 	}
 	
-	public void addMapGraphNode (MapGraphNode aMapGraphNode) {
-		if (aMapGraphNode != MapGraphNode.NO_MAP_GRAPH_NODE) {
-			if (! containsMapGraphNode (aMapGraphNode)) {
-				mapGraphNodes.add (aMapGraphNode);
+	public void addMapGraphNode (Vertex aVertex) {
+		if (aVertex != Vertex.NO_VERTEX) {
+			if (! containsVertex (aVertex)) {
+				vertexes.add (aVertex);
 			}
 		}
 	}
 	
-	public List<MapGraphNode> getMapGraphNodes () {
-		return mapGraphNodes;
+	public List<Vertex> getVertexes () {
+		return vertexes;
 	}
 	
-	public boolean containsMapGraphNode (MapGraphNode aMapGraphNode) {
-		boolean tContainsMapGraphNode;
-		String tMapGraphNodeID;
-		String tFoundMapGraphNodeID;
+	public boolean removeVertex (Vertex aVertex) {
+		return vertexes.remove (aVertex);
+	}
+	
+	public boolean containsVertex (Vertex aVertex) {
+		boolean containsVertex;
+		String tVertexID;
+		String tFoundVertexID;
 		
-		tContainsMapGraphNode = false;
-		if (! mapGraphNodes.isEmpty ()) {
-			if (aMapGraphNode != MapGraphNode.NO_MAP_GRAPH_NODE) {
-				tMapGraphNodeID = aMapGraphNode.getID ();
-				for (MapGraphNode tMapGraphNode: mapGraphNodes) {
-					tFoundMapGraphNodeID = tMapGraphNode.getID ();
-					if (tFoundMapGraphNodeID.equals (tMapGraphNodeID)) {
-						tContainsMapGraphNode = true;
+		containsVertex = false;
+		if (! vertexes.isEmpty ()) {
+			if (aVertex != Vertex.NO_VERTEX) {
+				tVertexID = aVertex.getID ();
+				for (Vertex tVertex: vertexes) {
+					tFoundVertexID = tVertex.getID ();
+					if (tFoundVertexID.equals (tVertexID)) {
+						containsVertex = true;
 					}
 				}
 			}
 		}
 		
-		return tContainsMapGraphNode;
+		return containsVertex;
+	}
+	
+	public boolean containsMapCell (MapCell aMapCell) {
+		boolean tContainsMapCell;
+		MapCell tFoundMapCell;
+		
+		tContainsMapCell = false;
+		if (! vertexes.isEmpty ()) {
+			if (aMapCell != MapCell.NO_MAP_CELL) {
+				for (Vertex tVertex: vertexes) {
+					tFoundMapCell = tVertex.getMapCell ();
+					if (tFoundMapCell.sameID (aMapCell)) {
+						tContainsMapCell = true;
+					}
+				}
+
+			}
+		}
+
+		return tContainsMapCell;
+	}
+	
+	public Vertex getVertexWith (MapCell aMapCell) {
+		MapCell tFoundMapCell;
+		Vertex tFoundVertex;
+		
+		tFoundVertex = Vertex.NO_VERTEX;
+		if (! vertexes.isEmpty ()) {
+			if (aMapCell != MapCell.NO_MAP_CELL) {
+				for (Vertex tVertex: vertexes) {
+					tFoundMapCell = tVertex.getMapCell ();
+					if (tFoundMapCell.sameID (aMapCell)) {
+						tFoundVertex = tVertex;
+					}
+				}
+
+			}
+		}
+
+		return tFoundVertex;
+	}
+	
+	public void addNeighborVertexes (Vertex aMapGraphNode) {
+		aMapGraphNode.addNeighborVertexes (this);
 	}
 }
