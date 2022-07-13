@@ -1,5 +1,6 @@
 package ge18xx.map;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import ge18xx.tiles.Track;
 
 public class Vertex {
 	public final static Vertex NO_VERTEX = null;
-	Vertex neighborVertex;
 	MapCell mapCell;
 	Location location;
 	List<Edge> edges;
@@ -20,26 +20,7 @@ public class Vertex {
 		setMapCell (aMapCell);
 		setLocation (aLocation);
 		edges = new LinkedList<Edge> ();
-		setNeighborVertex (NO_VERTEX);
 		setID ();
-	}
-
-	public void attachNeighborVertex (MapCell aMapCell, Location aLocation, Vertex tNeighborVertex) {
-		MapCell tNeighborMapCell;
-		Location tNeighborLocation;
-		int tFoundLocation;
-		
-		tNeighborVertex = NO_VERTEX;
-		if (aLocation.isSide ()) {
-			tNeighborMapCell = aMapCell.getNeighbor (location);
-			if (tNeighborMapCell != MapCell.NO_MAP_CELL) {
-				tFoundLocation = aMapCell.getSideFromNeighbor (tNeighborMapCell);
-				tNeighborLocation = new Location (tFoundLocation);
-				tNeighborVertex = new Vertex (tNeighborMapCell, tNeighborLocation);
-			}
-		}
-		setNeighborVertex (tNeighborVertex);
-
 	}
 
 	public void printInfo () {
@@ -83,10 +64,6 @@ public class Vertex {
 		return edges.get (aIndex);
 	}
 	
-	public Vertex getNeighborVertex () {
-		return neighborVertex;
-	}
-	
 	public boolean containsEdge (Edge aMapEdge) {
 		boolean tContainsEdge;
 		
@@ -120,17 +97,7 @@ public class Vertex {
 	}
 	
 	public void setID () {
-		String tNeighborID;
-		String tFullID;
-		
-		tFullID = buildID ();
-
-		if (neighborVertex != NO_VERTEX) {
-			tNeighborID = neighborVertex.buildID ();
-			tFullID += "|" + tNeighborID;
-		}
-		
-		id = tFullID;
+		id = buildID ();
 	}
 	
 	public String buildID () {
@@ -149,17 +116,6 @@ public class Vertex {
 		mapCell = aMapCell;
 	}
 	
-	public void setNeighborVertex (Vertex aNeighborVertex) {
-		neighborVertex = NO_VERTEX;
-		if (aNeighborVertex != NO_VERTEX) {
-			if (aNeighborVertex.isOnSide ()) {
-				neighborVertex = aNeighborVertex;
-			} else {
-				neighborVertex = NO_VERTEX;
-			}
-		}
-	}
-	
 	public boolean isOnSide () {
 		boolean tIsOnSide;
 		
@@ -176,7 +132,6 @@ public class Vertex {
 		Edge tEdge1;
 		Edge tEdge2;
 		Vertex tVertex;
-//		Vertex tVertex2;
 		Location tStartLocation;
 		Location tEndLocation;
 		
@@ -188,16 +143,10 @@ public class Vertex {
 				tStartLocation = tTrack.getEnterLocation ();
 				tEndLocation = tTrack.getExitLocation ();
 				tVertex = Vertex.NO_VERTEX;
-//				tVertex2 = Vertex.NO_VERTEX;
 				if (tStartLocation.getLocation () == location.getLocation ()) {
 					tVertex = new Vertex (mapCell, tEndLocation);
 				} else if (tEndLocation.getLocation () == location.getLocation ()) {
 					tVertex = new Vertex (mapCell, tStartLocation);
-//				} else {
-//					tVertex = new MapGraphNode (mapCell, tStartLocation);
-//					tVertex2 = new MapGraphNode (mapCell, tEndLocation);
-//					tMapEdge1 = new MapEdge (tTrack, tVertex, tVertex2);
-//					tVertex.addMapEdge (tMapEdge1);
 				}
 				if (tVertex != Vertex.NO_VERTEX) {
 					tEdge1 = new Edge (tTrack, this, tVertex);
@@ -210,7 +159,17 @@ public class Vertex {
 	}
 	
 	public void addEdge (Edge aEdge) {
-		edges.add (aEdge);
+		boolean tAddNewEdge;
+		
+		tAddNewEdge = true;
+		for (Edge tExistingEdge : edges) {
+			if (tExistingEdge.sameEdge (aEdge)) {
+				tAddNewEdge = false;
+			}
+		}
+		if (tAddNewEdge) {
+			edges.add (aEdge);
+		}
 	}
 	
 	public void addNeighborVertexes (MapGraph aMapGraph) {
@@ -260,5 +219,60 @@ public class Vertex {
 		}
 		
 		return tHasTokenFor;
+	}
+
+	public List<MapCell> getEmptyMapCells () {
+		List<MapCell> tEmptyMapCells;
+		MapCell tEmptyMapCell;
+		HashSet<String> tVisited;
+		List<Vertex> tNextToVisit;
+		List<Edge> tEdges;
+		Vertex tVertexToVisit;
+		Vertex tRemoteVertex;
+		String tVertexID;
+		String tRemoteID;
+		
+		tEmptyMapCells = new LinkedList<MapCell> ();
+		tVisited = new HashSet<String> ();
+		tNextToVisit = new LinkedList<Vertex> ();
+		tNextToVisit.add (this);
+		
+		while (! tNextToVisit.isEmpty ()) {
+			tVertexToVisit = tNextToVisit.remove (0);
+			tVertexID = tVertexToVisit.getID ();
+//			System.out.println ("Visiting: " + tVertexID);
+//			tVertexToVisit.printInfo ();
+			if (tVertexToVisit.isEmptyMapCell ()) {
+				tEmptyMapCell = tVertexToVisit.getMapCell ();
+				if (! tEmptyMapCells.contains (tEmptyMapCell)) {
+					tEmptyMapCells.add (tEmptyMapCell);
+				}
+			}
+			
+			if (! tVisited.contains (tVertexID)) {
+				tVisited.add (tVertexID);
+				tEdges = tVertexToVisit.getEdges ();
+				for (Edge tEdge : tEdges) {
+					tRemoteVertex = tEdge.getOtherVertex (tVertexToVisit);
+					tRemoteID = tRemoteVertex.getID ();
+					if (tVisited.contains (tRemoteID)) {
+//						System.out.println ("Remote Vertex " + tRemoteID + " already Visited, not Adding");
+					} else {
+						if (tNextToVisit.contains (tRemoteVertex)) {
+//							System.out.println ("Remote Vertex " + tRemoteID + " already in Visit List, not Adding");
+						} else {
+//							System.out.println ("Remote Vertex " + tRemoteID + " added for Visiting");
+							tNextToVisit.add (tRemoteVertex);
+						}
+					}
+				}
+			}
+		}
+		
+		return tEmptyMapCells;
+	}
+	
+	public boolean isEmptyMapCell () {
+		return ! mapCell.isTileOnCell ();
 	}
 }

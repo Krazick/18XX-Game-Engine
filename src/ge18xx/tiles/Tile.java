@@ -974,6 +974,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return tracks.areLocationsConnected (aLocation, aRemoteLocationIndex);
 	}
 	
+	// ---------------------------------------------------------------------------//
+	// Map Graph Stuff after this point
 	public void fillMapGraph (MapGraph aMapGraph, int aTileOrient, MapCell aMapCell) {
 		int tTrackCount;
 		int tTrackIndex;
@@ -994,11 +996,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 			tStartVertex = new Vertex (aMapCell, tStartLocation);
 			tEndVertex = new Vertex (aMapCell, tEndLocation);
 			tEdge = new Edge (tTrack, tStartVertex, tEndVertex);
-			tStartVertex.addEdge (tEdge);
-			tEndVertex.addEdge (tEdge);
 			addVertexAndEdge (aMapGraph, tStartVertex, tEdge);
 			addVertexAndEdge (aMapGraph, tEndVertex, tEdge);
 			addNeighborVertexAndEdge (aMapGraph, tStartVertex);
+			addNeighborVertexAndEdge (aMapGraph, tEndVertex);
 		}
 	}
 
@@ -1038,8 +1039,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 		if (aMapGraph.containsVertex (aVertex)) {
 			tVertexID = aVertex.getID ();
 			tFoundVertex = aMapGraph.getVertexWithID (tVertexID);
+			aEdge.replaceVertex (tFoundVertex);
 			tFoundVertex.addEdge (aEdge);
 		} else {
+			aVertex.addEdge (aEdge);
 			aMapGraph.addVertex (aVertex);
 		}
 	}

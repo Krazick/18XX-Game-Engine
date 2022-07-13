@@ -135,4 +135,21 @@ public class MapGraph {
 		
 		return tVertexes;
 	}
+
+	public List<MapCell> getEmptyMapCellsWithCompany (List<Vertex> aBaseVertexes) {
+		List<MapCell> tEmptyMapCells;
+		List<MapCell> tAllEmptyMapCells;
+		
+		tAllEmptyMapCells = new LinkedList<MapCell> ();
+		for (Vertex tBaseVertex : aBaseVertexes) {
+			tEmptyMapCells = tBaseVertex.getEmptyMapCells ();
+			for (MapCell tEmptyMapCell : tEmptyMapCells) {
+				if (! tAllEmptyMapCells.contains (tEmptyMapCell)) {
+					tAllEmptyMapCells.add (tEmptyMapCell);
+				}
+			}
+		}
+		
+		return tAllEmptyMapCells;
+	}
 }

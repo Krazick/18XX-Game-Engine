@@ -13,7 +13,7 @@ public class Edge {
 		setStartVertex (aStartVertex);
 		setEndVertex (aEndVertex);
 	}
-
+	
 	public Track getTrack () {
 		return track;
 	}
@@ -101,9 +101,37 @@ public class Edge {
 	
 	public String getBackwardInfo () {
 		String tInfo;
+		String tGaugeName;
 		
-		tInfo = endVertex.getID () + "|" + track.getGaugeName () + "|" + startVertex.getID ();
+		if (track == Track.NO_TRACK) {
+			tGaugeName = "EDGE";
+		} else {
+			tGaugeName = track.getGaugeName ();
+		}
+		
+		tInfo = endVertex.getID () + "|" + tGaugeName + "|" + startVertex.getID ();
 		
 		return tInfo;
+	}
+
+	public Vertex getOtherVertex (Vertex aVertex) {
+		Vertex tFoundVertex;
+		
+		if (startVertex == aVertex) {
+			tFoundVertex = endVertex;
+		} else {
+			tFoundVertex = startVertex;
+		}
+		
+		return tFoundVertex;
+	}
+
+	public void replaceVertex (Vertex aNewVertex) {
+		if (startVertex.getID ().equals (aNewVertex.getID ())) {
+			setStartVertex (aNewVertex);
+		}
+		if (endVertex.getID ().equals (aNewVertex.getID ())) {
+			setEndVertex (aNewVertex);
+		}
 	}
 }
