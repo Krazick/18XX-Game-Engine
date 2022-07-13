@@ -42,7 +42,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -653,7 +652,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				if (aSelectedMapCell.isTileOnCell ()) {
 					mapFrame.handleSelectedRouteRC (aSelectedMapCell, tSelectedRevenueCenter);
 				} else {
-					logger.error ("No Tile, and no Track on Tile - Ignore the Click");
+					System.err.println ("No Tile, and no Track on Tile - Ignore the Click");
 				}
 			} else {
 				if (tSelectedCity != City.NO_CITY) {
@@ -665,12 +664,16 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public void handleSingleMapCellSelect (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell) {
-
+		
 		if (aPreviousSelectedMapCell == MapCell.NO_MAP_CELL) {
 			if (containsMapCellSMC (aSelectedMapCell)) {
 				toggleSelectedMapCell (aSelectedMapCell);
 			} else {
-				logger.error ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (1)");
+				if (aSelectedMapCell == MapCell.NO_MAP_CELL) {
+					System.out.println ("No Selected Map Cell provided");
+				} else {
+					System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (1)");
+				}
 			}
 		} else {
 			if (aSelectedMapCell == MapCell.NO_MAP_CELL) {
@@ -690,7 +693,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 						// No Tile on Cell, Toggle Selection
 						toggleSelectedMapCell (aSelectedMapCell);
 					} else {
-						logger.error ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (2)");
+						System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (2)");
 						// No Tile on Cell, Toggle Selection
 //						toggleSelectedMapCell (aSelectedMapCell);
 					}
@@ -704,7 +707,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 							toggleSelectedMapCell (aSelectedMapCell);
 						}
 					} else {
-						logger.error ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (3)");
+						System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (3)");
 					}
 				}
 			}
@@ -757,7 +760,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tRoundManager.addAction (tRotateTileAction);
 			}
 		} else {
-			logger.error ("Only ONE Allowed Rotations have been identified for the Tile on this MapCell");
+			System.err.println ("Only ONE Allowed Rotations have been identified for the Tile on this MapCell");
 		}
 	}
 
@@ -804,7 +807,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		if (tGameTile != GameTile.NO_GAME_TILE) {
 			tTile = tGameTile.popTile ();
 		} else {
-			logger.error ("Did not find the Game Tile with # " + aTileNumber);
+			System.err.println ("Did not find the Game Tile with # " + aTileNumber);
 		}
 
 		return tTile;
@@ -832,7 +835,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 							map [tRow] [tCol].setTileOrientationLocked (true);
 							restoreTile (tCurrentTile);
 						} else {
-							logger.error ("Upgrade: Did not find the Tile with # " + tTileNumber);
+							System.err.println ("Upgrade: Did not find the Tile with # " + tTileNumber);
 						}
 					}
 				} else {
@@ -841,7 +844,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 						map [tRow] [tCol].putTile (tTile, tTileOrientation);
 						map [tRow] [tCol].setTileOrientationLocked (true);
 					} else {
-						logger.error ("Did not find the Tile with # " + tTileNumber);
+						System.err.println ("Did not find the Tile with # " + tTileNumber);
 					}
 				}
 				if (isTileOnCell (tRow, tCol)) {
@@ -925,7 +928,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 
 		if (!tGoodLoad) {
-			logger.error ("Bad Load on Row [" + tRowIndex + "].");
+			System.err.println ("Bad Load on Row [" + tRowIndex + "].");
 		}
 
 		return tGoodLoad;
@@ -1009,7 +1012,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tLoadedRow = loadXMLRow (tChildNode, tTerrainCost, tTerrainType, tCols, tDefaultTerrainType, theRowIDs,
 						theColIDs);
 				if (!tLoadedRow) {
-					logger.error ("Found too many columns to Load on Row.");
+					System.err.println ("Found too many columns to Load on Row.");
 				}
 			}
 		}
@@ -1327,7 +1330,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		fillAllSMC ();
 		tSelectedMapCell = getSelectedMapCell ();
 		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
-			logger.error ("Put Tile Down Button Selected, no Map Cell Selected from Frame");
+			System.err.println("Put Tile Down Button Selected, no Map Cell Selected from Frame");
 		} else {
 			tTilePlaced = tSelectedMapCell.putTileDown (tileSet);
 			setTilePlaced (tTilePlaced);
@@ -1367,79 +1370,28 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return mapFrame.getCorporation (aCorporationAbbrev);
 	}
 	
-//	public List<Vertex> getAllVertexBases (Corporation aCorporation) {
-//		MapGraph tStartMapGraph;
-//		Vertex tMapGraphNode;
-//		MapCell tMapCell;
-//		Location tLocation;
-//		TokenCompany tTokenCompany;
-//		int tCorporationID;
-//		int tRowIndex, tColIndex, tRowCount, tColCount;
-//		
-//		tStartMapGraph = new MapGraph ();
-//		if (aCorporation.isATokenCompany ()) {
-//			tTokenCompany = (TokenCompany) aCorporation; 
-//			tCorporationID = tTokenCompany.getID ();
-//			tMapCell = tTokenCompany.getHomeCity1 ();
-//			tLocation = tTokenCompany.getHomeLocation1 ();
-//			tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
-//			tStartMapGraph.addVertex (tMapGraphNode);
-//			
-//			tMapCell = tTokenCompany.getHomeCity2 ();
-//			tLocation = tTokenCompany.getHomeLocation2 ();
-//			tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
-//			tStartMapGraph.addVertex (tMapGraphNode);
-//			
-//			// Scan the rest of the Map for more Bases, and add.
-//			// Want to start with the Home Bases by default for Graph
-//			tRowCount = getRowCount ();
-//			for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
-//				tColCount = getColCount (tRowIndex);
-//				for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-//					tMapCell =  map [tRowIndex] [tColIndex];
-//					if (tMapCell.hasStation (tCorporationID)) {
-//						tLocation = tMapCell.getLocationWithStation (tCorporationID);
-//						tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
-//						tStartMapGraph.addVertex (tMapGraphNode);
-//					}
-//				}
-//			}
-//		}
-//		
-//		return tStartMapGraph.getVertexes ();
-//	}
-//	
-//	private Vertex buildMapGraphNode (MapCell aMapCell, 
-//							Location aLocation, int aCorporationID) {
-//		Vertex tMapGraphNode;
-//		
-//		tMapGraphNode = Vertex.NO_VERTEX;
-//		
-//		if (aMapCell != MapCell.NO_MAP_CELL) {
-//			if (aMapCell.hasStation (aCorporationID)) {
-//				tMapGraphNode = new Vertex (aMapCell, aLocation);
-//				if (aMapCell.isTileOnCell ()) {
-//					tMapGraphNode.fillVertexEdges ();
-//				}
-//
-//			}
-//		}
-//		
-//		return tMapGraphNode;
-//	}
 	
-	public void buildMapGraph (Corporation aCorporation) {
-		List<Vertex> tBaseVertexes;
-		TokenCompany tTokenCompany;
-		
+	public void buildMapGraph (TokenCompany aTokenCompany) {
 		buildMapGraph ();
-		if (aCorporation.isATokenCompany ()) {
-			tTokenCompany = (TokenCompany) aCorporation;
-			tBaseVertexes = mapGraph.getVertexesWithToken (tTokenCompany);
-			printMapGraphInfo ("-----\nMap Graph of Bases for " + aCorporation.getAbbrev (), tBaseVertexes);
-		}
+		collectSelectableCells (aTokenCompany);
 	}
 
+	public void collectSelectableCells (TokenCompany aTokenCompany) {
+		List<Vertex> tBaseVertexes;
+		List<MapCell> tEmptyMapCells;
+
+		printMapGraphInfo ("Full MapGraph ", mapGraph.getVertexes ());
+		tBaseVertexes = mapGraph.getVertexesWithToken (aTokenCompany);
+//		printMapGraphInfo ("-----\nMap Graph of Bases for " + aTokenCompany.getAbbrev () + " ", tBaseVertexes);
+		tEmptyMapCells = mapGraph.getEmptyMapCellsWithCompany (tBaseVertexes);
+		System.out.println ("Empty Map Cell Count " + tEmptyMapCells.size ());
+		for (MapCell tMapCell : tEmptyMapCells) {
+			System.out.println ("Empty Map Cell " + tMapCell.getID ());
+			selectableMapCells.addMapCell (tMapCell);
+			mapFrame.repaint ();
+		}
+	}
+	
 	public void printMapGraphInfo (String aTitle, List<Vertex> aMapGraph) {
 		System.out.println (aTitle + aMapGraph.size ());
 		
@@ -1447,58 +1399,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tVertex.printInfo ();
 		}
 	}
-
-	public void removeRedundantNodes () {
-		List<Vertex> tVertexes;
-		List<Vertex> tRedundantVertexes;
-		String tMapCellID1;
-		String tMapCellID2;
-		Edge tEdge;
-		
-		tVertexes = mapGraph.getVertexes ();
-		tRedundantVertexes = new LinkedList<Vertex> ();
-		for (Vertex tVertex1 : tVertexes) {
-			tMapCellID1 = tVertex1.getMapCellID ();
-			for (Vertex tVertex2 : tVertexes) {
-				if (! tVertex1.sameVertex (tVertex2)) {
-					tMapCellID2 = tVertex2.getMapCellID ();
-					if (tMapCellID1.equals (tMapCellID2)) {
-						if (tVertex1.getEdgeCount () == 1) {
-							System.out.println ("Found Vertex ID " + tVertex1.getID () +
-									" with Different Vertex ID " + tVertex2.getID ());
-							tEdge = tVertex1.getEdge (0);
-							if (tVertex2.containsEdge (tEdge)) {
-								System.out.println ("Found Same Edge " + tEdge.getInfo ());
-								tRedundantVertexes.add (tVertex1);
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		for (Vertex tVertex: tRedundantVertexes) {
-			mapGraph.removeVertex (tVertex);
-		}
-	}
-	
-//	public void buildInitialMapGraph (Corporation aCorporation) {
-//		List<Vertex> tVertexes;
-//		
-//		if (mapGraph == MapGraph.NO_MAP_GRAPH) {
-//			mapGraph = new MapGraph ();
-//		} else {
-//			mapGraph.clear ();
-//		}
-//		
-//		tVertexes = getAllVertexBases (aCorporation);
-//		for (Vertex tVertex : tVertexes) {
-//			if (! mapGraph.containsVertex (tVertex)) {
-//				mapGraph.addVertex (tVertex);
-//				mapGraph.addNeighborVertexes (tVertex);
-//			}
-//		}
-//	}
 	
 	public void buildMapGraph () {
 		int tRowCount;
