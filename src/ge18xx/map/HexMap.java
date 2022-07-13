@@ -1367,86 +1367,83 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return mapFrame.getCorporation (aCorporationAbbrev);
 	}
 	
-	public List<Vertex> getAllVertexBases (Corporation aCorporation) {
-		MapGraph tStartMapGraph;
-		Vertex tMapGraphNode;
-		MapCell tMapCell;
-		Location tLocation;
-		TokenCompany tTokenCompany;
-		int tCorporationID;
-		int tRowIndex, tColIndex, tRowCount, tColCount;
-		
-		tStartMapGraph = new MapGraph ();
-		if (aCorporation.isATokenCompany ()) {
-			tTokenCompany = (TokenCompany) aCorporation; 
-			tCorporationID = tTokenCompany.getID ();
-			tMapCell = tTokenCompany.getHomeCity1 ();
-			tLocation = tTokenCompany.getHomeLocation1 ();
-			tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
-			tStartMapGraph.addVertex (tMapGraphNode);
-			
-			tMapCell = tTokenCompany.getHomeCity2 ();
-			tLocation = tTokenCompany.getHomeLocation2 ();
-			tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
-			tStartMapGraph.addVertex (tMapGraphNode);
-			
-			// Scan the rest of the Map for more Bases, and add.
-			// Want to start with the Home Bases by default for Graph
-			tRowCount = getRowCount ();
-			for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
-				tColCount = getColCount (tRowIndex);
-				for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
-					tMapCell =  map [tRowIndex] [tColIndex];
-					if (tMapCell.hasStation (tCorporationID)) {
-						tLocation = tMapCell.getLocationWithStation (tCorporationID);
-						tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
-						tStartMapGraph.addVertex (tMapGraphNode);
-					}
-				}
-			}
-		}
-		
-		return tStartMapGraph.getVertexes ();
-	}
-	
-	private Vertex buildMapGraphNode (MapCell aMapCell, 
-							Location aLocation, int aCorporationID) {
-		Vertex tMapGraphNode;
-		
-		tMapGraphNode = Vertex.NO_VERTEX;
-		
-		if (aMapCell != MapCell.NO_MAP_CELL) {
-			if (aMapCell.hasStation (aCorporationID)) {
-				tMapGraphNode = new Vertex (aMapCell, aLocation);
-				if (aMapCell.isTileOnCell ()) {
-					tMapGraphNode.fillVertexEdges ();
-				}
-
-			}
-		}
-		
-		return tMapGraphNode;
-	}
+//	public List<Vertex> getAllVertexBases (Corporation aCorporation) {
+//		MapGraph tStartMapGraph;
+//		Vertex tMapGraphNode;
+//		MapCell tMapCell;
+//		Location tLocation;
+//		TokenCompany tTokenCompany;
+//		int tCorporationID;
+//		int tRowIndex, tColIndex, tRowCount, tColCount;
+//		
+//		tStartMapGraph = new MapGraph ();
+//		if (aCorporation.isATokenCompany ()) {
+//			tTokenCompany = (TokenCompany) aCorporation; 
+//			tCorporationID = tTokenCompany.getID ();
+//			tMapCell = tTokenCompany.getHomeCity1 ();
+//			tLocation = tTokenCompany.getHomeLocation1 ();
+//			tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
+//			tStartMapGraph.addVertex (tMapGraphNode);
+//			
+//			tMapCell = tTokenCompany.getHomeCity2 ();
+//			tLocation = tTokenCompany.getHomeLocation2 ();
+//			tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
+//			tStartMapGraph.addVertex (tMapGraphNode);
+//			
+//			// Scan the rest of the Map for more Bases, and add.
+//			// Want to start with the Home Bases by default for Graph
+//			tRowCount = getRowCount ();
+//			for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
+//				tColCount = getColCount (tRowIndex);
+//				for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
+//					tMapCell =  map [tRowIndex] [tColIndex];
+//					if (tMapCell.hasStation (tCorporationID)) {
+//						tLocation = tMapCell.getLocationWithStation (tCorporationID);
+//						tMapGraphNode = buildMapGraphNode (tMapCell, tLocation, tCorporationID);
+//						tStartMapGraph.addVertex (tMapGraphNode);
+//					}
+//				}
+//			}
+//		}
+//		
+//		return tStartMapGraph.getVertexes ();
+//	}
+//	
+//	private Vertex buildMapGraphNode (MapCell aMapCell, 
+//							Location aLocation, int aCorporationID) {
+//		Vertex tMapGraphNode;
+//		
+//		tMapGraphNode = Vertex.NO_VERTEX;
+//		
+//		if (aMapCell != MapCell.NO_MAP_CELL) {
+//			if (aMapCell.hasStation (aCorporationID)) {
+//				tMapGraphNode = new Vertex (aMapCell, aLocation);
+//				if (aMapCell.isTileOnCell ()) {
+//					tMapGraphNode.fillVertexEdges ();
+//				}
+//
+//			}
+//		}
+//		
+//		return tMapGraphNode;
+//	}
 	
 	public void buildMapGraph (Corporation aCorporation) {
-		if (aCorporation != Corporation.NO_CORPORATION) {
-			buildInitialMapGraph (aCorporation);
-			printMapGraphInfo ("Initial Map Graph with Vertex Count ");
-			removeRedundantNodes ();
-			printMapGraphInfo ("After removal of Redundant Nodes from Map Graph with Vertex Count ");
-		} else {
-			System.out.println ("No Operating Corporation to Map");
+		List<Vertex> tBaseVertexes;
+		TokenCompany tTokenCompany;
+		
+		buildMapGraph ();
+		if (aCorporation.isATokenCompany ()) {
+			tTokenCompany = (TokenCompany) aCorporation;
+			tBaseVertexes = mapGraph.getVertexesWithToken (tTokenCompany);
+			printMapGraphInfo ("-----\nMap Graph of Bases for " + aCorporation.getAbbrev (), tBaseVertexes);
 		}
-
 	}
 
-	public void printMapGraphInfo (String aTitle) {
-		List<Vertex> tFullMapGraph;
+	public void printMapGraphInfo (String aTitle, List<Vertex> aMapGraph) {
+		System.out.println (aTitle + aMapGraph.size ());
 		
-		tFullMapGraph = mapGraph.getVertexes ();
-		System.out.println (aTitle + tFullMapGraph.size ());
-		
-		for (Vertex tVertex : tFullMapGraph) {
+		for (Vertex tVertex : aMapGraph) {
 			tVertex.printInfo ();
 		}
 	}
@@ -1485,21 +1482,43 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 	
-	public void buildInitialMapGraph (Corporation aCorporation) {
-		List<Vertex> tVertexes;
+//	public void buildInitialMapGraph (Corporation aCorporation) {
+//		List<Vertex> tVertexes;
+//		
+//		if (mapGraph == MapGraph.NO_MAP_GRAPH) {
+//			mapGraph = new MapGraph ();
+//		} else {
+//			mapGraph.clear ();
+//		}
+//		
+//		tVertexes = getAllVertexBases (aCorporation);
+//		for (Vertex tVertex : tVertexes) {
+//			if (! mapGraph.containsVertex (tVertex)) {
+//				mapGraph.addVertex (tVertex);
+//				mapGraph.addNeighborVertexes (tVertex);
+//			}
+//		}
+//	}
+	
+	public void buildMapGraph () {
+		int tRowCount;
+		int tRowIndex;
+		int tColCount;
+		int tColIndex;
+		MapCell tMapCell;
 		
-		if (mapGraph == MapGraph.NO_MAP_GRAPH) {
-			mapGraph = new MapGraph ();
-		} else {
-			mapGraph.clear ();
-		}
-		
-		tVertexes = getAllVertexBases (aCorporation);
-		for (Vertex tVertex : tVertexes) {
-			if (! mapGraph.containsVertex (tVertex)) {
-				mapGraph.addVertex (tVertex);
-				mapGraph.addNeighborVertexes (tVertex);
+		mapGraph = new MapGraph ();
+
+		// Scan the rest of the Map for more Bases, and add.
+		// Want to start with the Home Bases by default for Graph
+		tRowCount = getRowCount ();
+		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
+			tColCount = getColCount (tRowIndex);
+			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
+				tMapCell =  map [tRowIndex] [tColIndex];
+				tMapCell.fillMapGraph (mapGraph);
 			}
 		}
+
 	}
 }

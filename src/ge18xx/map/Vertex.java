@@ -3,6 +3,7 @@ package ge18xx.map;
 import java.util.LinkedList;
 import java.util.List;
 
+import ge18xx.company.TokenCompany;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.Track;
 
@@ -242,5 +243,22 @@ public class Vertex {
 				System.out.println ("No Map Cell found as neighbor on side " + tNeighborLoc);
 			}
 		}
+	}
+
+	public boolean hasTokenFor (TokenCompany aTokenCompany) {
+		boolean tHasTokenFor;
+		Location tLocation;
+		int tCompanyID;
+		
+		tHasTokenFor = false;
+		if (mapCell.isTileOnCell ()) {
+			tCompanyID = aTokenCompany.getID ();
+			if (mapCell.hasStation (tCompanyID)) {
+				tLocation = mapCell.getLocationWithStation (tCompanyID);
+				tHasTokenFor = location.isSameLocationValue (tLocation);
+			}
+		}
+		
+		return tHasTokenFor;
 	}
 }

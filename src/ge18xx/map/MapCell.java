@@ -256,7 +256,6 @@ public class MapCell implements Comparator<Object> {
 		return tSideToNeighbor;
 	}
 
-	// Get the Side of the Neighbor that connects back to this MapCell
 	/**
 	 * Find the side on the Neighbor MapCell that connects to this MapCell.
 	 * 
@@ -813,7 +812,7 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	/**
-	 * Determine if this MapCell contains a Station for the Specified Corp ID, returnb True if so
+	 * Determine if this MapCell contains a Station for the Specified Corp ID, return True if so
 	 * 
 	 * @param aCorpID The Corporation ID to find.
 	 * 
@@ -2110,5 +2109,11 @@ public class MapCell implements Comparator<Object> {
 
 	public Corporation getCorporation (String aCorporationAbbrev) {
 		return hexMap.getCorporation (aCorporationAbbrev);
+	}
+	
+	public void fillMapGraph (MapGraph aMapGraph) {
+		if (isTileOnCell ()) {
+			tile.fillMapGraph (aMapGraph, tileOrient, this);
+		}
 	}
 }

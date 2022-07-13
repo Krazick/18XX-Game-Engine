@@ -3,6 +3,8 @@ package ge18xx.map;
 import java.util.LinkedList;
 import java.util.List;
 
+import ge18xx.company.TokenCompany;
+
 public class MapGraph {
 	public static final MapGraph NO_MAP_GRAPH = null;
 	List<Vertex> vertexes;
@@ -96,7 +98,41 @@ public class MapGraph {
 		return tFoundVertex;
 	}
 	
+	public Vertex getVertexWithID (String aID) {
+		String tFoundID;
+		Vertex tFoundVertex;
+		
+		tFoundVertex = Vertex.NO_VERTEX;
+		if (! vertexes.isEmpty ()) {
+			if (aID != null) {
+				for (Vertex tVertex: vertexes) {
+					tFoundID = tVertex.getID ();
+					if (tFoundID.equals (aID)) {
+						tFoundVertex = tVertex;
+					}
+				}
+
+			}
+		}
+
+		return tFoundVertex;
+	}
+	
 	public void addNeighborVertexes (Vertex aVertex) {
 		aVertex.addNeighborVertexes (this);
+	}
+	
+	public List<Vertex> getVertexesWithToken (TokenCompany aTokenCompany) {
+		List<Vertex> tVertexes;
+		
+		tVertexes = new LinkedList<Vertex> ();
+		
+		for (Vertex tVertex : vertexes) {
+			if (tVertex.hasTokenFor (aTokenCompany)) {
+				tVertexes.add (tVertex);
+			}
+		}
+		
+		return tVertexes;
 	}
 }

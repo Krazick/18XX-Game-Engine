@@ -86,8 +86,15 @@ public class Edge {
 	
 	public String getForwardInfo () {
 		String tInfo;
+		String tGaugeName;
 		
-		tInfo = startVertex.getID () + "|" + track.getGaugeName () + "|" + endVertex.getID ();
+		if (track == Track.NO_TRACK) {
+			tGaugeName = "EDGE";
+		} else {
+			tGaugeName = track.getGaugeName ();
+		}
+		
+		tInfo = startVertex.getID () + "|" + tGaugeName + "|" + endVertex.getID ();
 		
 		return tInfo;
 	}

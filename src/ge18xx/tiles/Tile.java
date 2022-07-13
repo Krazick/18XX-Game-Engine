@@ -20,9 +20,12 @@ import ge18xx.company.Corporation;
 import ge18xx.company.MapToken;
 import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
+import ge18xx.map.Edge;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
+import ge18xx.map.MapGraph;
+import ge18xx.map.Vertex;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutine3I;
@@ -969,5 +972,75 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 	public boolean areLocationsConnected (Location aLocation, int aRemoteLocationIndex) {
 		return tracks.areLocationsConnected (aLocation, aRemoteLocationIndex);
+	}
+	
+	public void fillMapGraph (MapGraph aMapGraph, int aTileOrient, MapCell aMapCell) {
+		int tTrackCount;
+		int tTrackIndex;
+		Vertex tStartVertex;
+		Vertex tEndVertex;
+		Track tTrack;
+		Location tStartLocation;
+		Location tEndLocation;
+		Edge tEdge;
+		
+		tTrackCount = tracks.size ();
+		for (tTrackIndex = 0; tTrackIndex < tTrackCount; tTrackIndex++) {
+			tTrack = getTrackByIndex (tTrackIndex);
+			tStartLocation = tTrack.getEnterLocation ();
+			tEndLocation = tTrack.getExitLocation ();
+			tStartLocation = tStartLocation.rotateLocation (aTileOrient);
+			tEndLocation = tEndLocation.rotateLocation (aTileOrient);
+			tStartVertex = new Vertex (aMapCell, tStartLocation);
+			tEndVertex = new Vertex (aMapCell, tEndLocation);
+			tEdge = new Edge (tTrack, tStartVertex, tEndVertex);
+			tStartVertex.addEdge (tEdge);
+			tEndVertex.addEdge (tEdge);
+			addVertexAndEdge (aMapGraph, tStartVertex, tEdge);
+			addVertexAndEdge (aMapGraph, tEndVertex, tEdge);
+			addNeighborVertexAndEdge (aMapGraph, tStartVertex);
+		}
+	}
+
+	private void addNeighborVertexAndEdge (MapGraph aMapGraph, Vertex aVertex) {
+		Vertex tNeighborVertex;
+		MapCell tNeighborMapCell;
+		MapCell tMapCell;
+		Location tNeighborLocation;
+		Location tLocation;
+		int tNeighborLoc;
+		Edge tSide2SideEdge;
+		
+		if (aVertex.isOnSide ()) {
+			tMapCell = aVertex.getMapCell ();
+			tLocation = aVertex.getLocation ();
+			if (! tMapCell.isBlockedSide (tLocation.getLocation ())) {
+				tNeighborMapCell = tMapCell.getNeighbor (tLocation.getLocation ());
+				if (tNeighborMapCell != MapCell.NO_MAP_CELL) {				
+					if (tNeighborMapCell.isSelectable ()) {
+						tNeighborLoc = tMapCell.getSideFromNeighbor (tNeighborMapCell);
+						tNeighborLocation = new Location (tNeighborLoc);
+						tNeighborVertex = new Vertex (tNeighborMapCell, tNeighborLocation);
+						tSide2SideEdge = new Edge (Track.NO_TRACK, aVertex, tNeighborVertex);
+						aVertex.addEdge (tSide2SideEdge);
+						addVertexAndEdge (aMapGraph, tNeighborVertex, tSide2SideEdge);
+					}
+				}
+			}
+		}
+		
+	}
+
+	public void addVertexAndEdge (MapGraph aMapGraph, Vertex aVertex, Edge aEdge) {
+		Vertex tFoundVertex;
+		String tVertexID;
+		
+		if (aMapGraph.containsVertex (aVertex)) {
+			tVertexID = aVertex.getID ();
+			tFoundVertex = aMapGraph.getVertexWithID (tVertexID);
+			tFoundVertex.addEdge (aEdge);
+		} else {
+			aMapGraph.addVertex (aVertex);
+		}
 	}
 }
