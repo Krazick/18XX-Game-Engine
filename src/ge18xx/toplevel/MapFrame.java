@@ -353,10 +353,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	private void handleBuildGraphs () {
 		Corporation tCorporation;
+		TokenCompany tTokenCompany;
 		
 		System.out.println ("Time to build a Graph");
 		tCorporation = getOperatingCompany ();
-		map.buildMapGraph (tCorporation);
+		if (tCorporation.isATokenCompany ()) {
+			tTokenCompany = (TokenCompany) tCorporation;
+			map.buildMapGraph (tTokenCompany);
+		}
 	}
 	
 	private void completeTileLay () {
