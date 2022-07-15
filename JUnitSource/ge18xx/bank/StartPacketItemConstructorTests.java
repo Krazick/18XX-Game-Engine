@@ -47,8 +47,10 @@ class StartPacketItemConstructorTests {
 		certificateTestFactory = new CertificateTestFactory ();
 		packetItem1 = constructStartPacketItem (tPacketItem1);
 		packetItem2 = constructStartPacketItem (tPacketItem2);
-		mCertificateGamma = certificateTestFactory.buildCertificateMock ("GPC");
-		mCertificateAlpha = certificateTestFactory.buildCertificateMock ("ASC");
+		mCertificateGamma = certificateTestFactory.buildCertificateMock ();
+		Mockito.when (mCertificateGamma.getCompanyAbbrev ()).thenReturn ("GPC");
+		mCertificateAlpha = certificateTestFactory.buildCertificateMock ();
+		Mockito.when (mCertificateAlpha.getCompanyAbbrev ()).thenReturn ("ASC");
 	}
 	
 	private StartPacketItem constructStartPacketItem (String aStartPacketTextXML) {
