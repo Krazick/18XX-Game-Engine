@@ -8,10 +8,6 @@ import javax.swing.JPanel;
 public class StartPacketPortfolio extends Portfolio {
 	public final static StartPacketPortfolio NO_START_PACKET = null;
 
-	public StartPacketPortfolio () {
-		super ();
-	}
-
 	public StartPacketPortfolio (PortfolioHolderI aHolder) {
 		super (aHolder);
 	}

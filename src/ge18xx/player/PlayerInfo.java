@@ -30,10 +30,6 @@ public class PlayerInfo {
 	String phases;
 	int companyCount;
 
-	public PlayerInfo () {
-		setValues (NO_PLAYERS, NO_CASH, NO_LIMIT, ALL_PHASES, NO_COMPANIES);
-	}
-
 	public PlayerInfo (XMLNode aCellNode) {
 		int tNumPlayers, tStartingCash, tCertificateLimit, tCompanyCount;
 		String tPhases;
