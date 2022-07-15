@@ -9,27 +9,32 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyInt;
 
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ge18xx.bank.Bank;
+import ge18xx.bank.BankTestFactory;
 import ge18xx.company.Certificate;
+import ge18xx.company.CertificateTestFactory;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 
 @DisplayName ("Escrow")
 @ExtendWith (MockitoExtension.class)
 class EscrowTests {
-
-	@Mock
-	Certificate mCertificate;
 	Escrow primaryEscrow;
+	Certificate mCertificate;
 	GameManager mGameManager;
 
 	@BeforeEach
 	void setUp () throws Exception {
+		CertificateTestFactory tCertificateTestFactory;
+		
+		tCertificateTestFactory = new CertificateTestFactory ();
+		mCertificate = tCertificateTestFactory.buildCertificateMock ();
+		
 		primaryEscrow = new Escrow (mCertificate, 120);
 		GameTestFactory tGameTestFactory;
 
@@ -98,14 +103,29 @@ class EscrowTests {
 	@Test
 	@DisplayName ("Transfer Cash to Test")
 	void transferCashToTest () {
-		Bank tBank;
+		BankTestFactory tBankTestFactory;
+		Bank mBank;
 		
-		tBank = new Bank (1000, mGameManager);
-		primaryEscrow.transferCashTo (tBank, 20);
+		tBankTestFactory = new BankTestFactory ();
+		mBank = tBankTestFactory.buildBankMock (mGameManager);
+		Mockito.doNothing ().when (mBank).addCash (anyInt ());
+		
+		primaryEscrow.transferCashTo (mBank, 20);
 		assertEquals (100, primaryEscrow.getCash ());
-		assertEquals (1020, tBank.getCash ());
+		assertEquals ("Bank Mock", mBank.getAbbrev ());
 	}
 
+	@Test
+	@DisplayName ("Test Info")
+	void getInfoTest () {
+		Mockito.when (mCertificate.getCompanyAbbrev ()).thenReturn ("MockCert");
+		primaryEscrow.setName ("NameOfEscrow");
+		assertEquals (" Escrow Name NameOfEscrow for MockCert Amount 120", primaryEscrow.getInfo ());
+		
+		assertEquals ("+++Escrow Holder: TheHolder Escrow Name NameOfEscrow for MockCert Amount 120", 
+				primaryEscrow.getInfo ("TheHolder"));
+	}
+	
 	@Test
 	@DisplayName ("Retrieving Certificate")
 	void getCertificateTest () {
