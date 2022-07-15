@@ -82,7 +82,7 @@ public class Escrows {
 	public void printAllEscrows () {
 		System.out.println ("Printing all Escrows for " + escrowHolder.getName ());
 		for (Escrow tFoundEscrow : escrows) {
-			tFoundEscrow.printInfo (escrowHolderName);
+			System.out.println (tFoundEscrow.getInfo (escrowHolderName));
 		}
 	}
 
