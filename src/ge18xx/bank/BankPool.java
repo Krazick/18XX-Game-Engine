@@ -31,6 +31,11 @@ public class BankPool extends GameBank {
 
 	public BankPool (GameManager aGameManager) {
 		super (NAME, aGameManager);
+		
+		Bank tBank;
+		
+		tBank = aGameManager.getBank ();
+		trainPortfolio.setPortfolioHolder (tBank);
 	}
 
 	@Override

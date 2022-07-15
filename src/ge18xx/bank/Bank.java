@@ -58,6 +58,7 @@ public class Bank extends GameBank implements CashHolderI {
 
 	public Bank (int aTreasury, GameManager aGameManager) {
 		super (NAME, aGameManager);
+		trainPortfolio.setPortfolioHolder (this);
 		treasury = aTreasury;
 		setStartPacketFrame (StartPacketFrame.NO_START_PACKET);
 		setFormat ("");

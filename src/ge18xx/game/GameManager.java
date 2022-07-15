@@ -1154,8 +1154,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
-	private void setBank (int aBank) {
-		bank = new Bank (aBank, this);
+	private void setBank (int aInitialTreasury) {
+		bank = new Bank (aInitialTreasury, this);
 	}
 
 	private void setBankPool (BankPool aBankPool) {
