@@ -14,7 +14,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
+import ge18xx.game.GameManager;
+import ge18xx.game.GameTestFactory;
 
 @DisplayName ("Escrow")
 @ExtendWith (MockitoExtension.class)
@@ -23,10 +26,15 @@ class EscrowTests {
 	@Mock
 	Certificate mCertificate;
 	Escrow primaryEscrow;
+	GameManager mGameManager;
 
 	@BeforeEach
 	void setUp () throws Exception {
 		primaryEscrow = new Escrow (mCertificate, 120);
+		GameTestFactory tGameTestFactory;
+
+		tGameTestFactory = new GameTestFactory ();
+		mGameManager = tGameTestFactory.buildGameManager ();
 	}
 
 	@Nested
@@ -87,6 +95,28 @@ class EscrowTests {
 		assertEquals (140, primaryEscrow.getCash ());
 	}
 
+	@Test
+	@DisplayName ("Transfer Cash to Test")
+	void transferCashToTest () {
+		Bank tBank;
+		
+		tBank = new Bank (1000, mGameManager);
+		primaryEscrow.transferCashTo (tBank, 20);
+		assertEquals (100, primaryEscrow.getCash ());
+		assertEquals (1020, tBank.getCash ());
+	}
+
+	@Test
+	@DisplayName ("Retrieving Certificate")
+	void getCertificateTest () {
+		Certificate tCertificate;
+		
+		Mockito.doReturn ("EscrowCo").when (mCertificate).getCompanyAbbrev ();
+
+		tCertificate = primaryEscrow.getCertificate ();
+		assertEquals ("EscrowCo", tCertificate.getCompanyAbbrev ());
+	}
+	
 	@Nested
 	@DisplayName ("CashHolder Interface Boolean Method Tests")
 	class cashHolderIBooleanTests {
@@ -103,9 +133,27 @@ class EscrowTests {
 		}
 
 		@Test
+		@DisplayName ("is a Train Company Test")
+		void escrowTrainCompanyTest () {
+			assertFalse (primaryEscrow.isATrainCompany ());
+		}
+
+		@Test
+		@DisplayName ("is a Share Company Test")
+		void escrowShareCompanyTest () {
+			assertFalse (primaryEscrow.isAShareCompany ());
+		}
+
+		@Test
 		@DisplayName ("is a Bank Test")
 		void escrowBankTest () {
 			assertFalse (primaryEscrow.isABank ());
+		}
+
+		@Test
+		@DisplayName ("is a Bank Pool Test")
+		void escrowBankPoolTest () {
+			assertFalse (primaryEscrow.isABankPool ());
 		}
 
 		@Test
