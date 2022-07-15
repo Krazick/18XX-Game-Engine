@@ -61,7 +61,6 @@ public class Escrow implements CashHolderI {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			// Empty Stub for Interface Method
-
 		}
 
 		@Override
@@ -144,10 +143,6 @@ public class Escrow implements CashHolderI {
 		return certificate;
 	}
 
-	public void showInfo () {
-		System.out.println (name + " for " + certificate.getCompanyAbbrev () + " Amount " + Bank.formatCash (cash));
-	}
-
 	public XMLElement getElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tXMLCertificateElement;
@@ -181,10 +176,21 @@ public class Escrow implements CashHolderI {
 		return getName ();
 	}
 
-	public void printInfo (String aHolderName) {
-		System.out.println ("+++Escrow Holder: " + aHolderName + " Escrow Name " + name + " Cert for "
-				+ certificate.getCompanyAbbrev () + " Amount " + Bank.formatCash (cash));
+	public String getInfo () {
+		String tInfo;
+		
+		tInfo = " Escrow Name " + name + " for " + certificate.getCompanyAbbrev () + 
+				" Amount " + Bank.formatCash (cash);
+		
+		return tInfo;
+	}
 
+	public String getInfo (String aHolderName) {
+		String tInfo;
+		
+		tInfo = "+++Escrow Holder: " + aHolderName + getInfo ();
+
+		return tInfo;
 	}
 
 	@Override
