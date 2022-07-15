@@ -5,13 +5,10 @@ import org.mockito.Mockito;
 public class CertificateTestFactory {
 
 	public CertificateTestFactory () {
-		// TODO Auto-generated constructor stub
 	}
 
-	public Certificate buildCertificateMock (String aCompanyAbbrev) {
+	public Certificate buildCertificateMock () {
 		Certificate mCertificate = Mockito.mock (Certificate.class);
-
-		Mockito.when (mCertificate.getCompanyAbbrev ()).thenReturn (aCompanyAbbrev);
 
 		return mCertificate;
 	}
