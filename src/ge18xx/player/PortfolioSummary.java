@@ -76,12 +76,12 @@ public class PortfolioSummary {
 		if (PRIVATE_CORP_TYPE.equals (type)) {
 			tOwnershipLabel += type + " 1 Prez Cert";
 		} else if (SHARE_CORP_TYPE.equals (type)) {
-			tOwnershipLabel += getCount () + " Certs/" + getPrecentage () + "%";
+			tOwnershipLabel +=  getCertCountText ()  + getPercentageText ();
 			if (isPresident ()) {
 				tOwnershipLabel += " Prez";
 			}
 		} else {
-			tOwnershipLabel += type + " " + getCount () + " Certs/" + getPrecentage () + "%";
+			tOwnershipLabel += type + " " + getCertCountText ()  + getPercentageText ();
 			if (isPresident ()) {
 				tOwnershipLabel += " Prez";
 			}
@@ -91,6 +91,22 @@ public class PortfolioSummary {
 		return tOwnershipLabel;
 	}
 
+	private String getPercentageText () {
+		return getPrecentage () + "%";
+	}
+	
+	private String getCertCountText () {
+		String tCertCountText;
+
+		tCertCountText = count + " Cert";
+		if (count > 1) {
+			tCertCountText += "s";
+		}
+		tCertCountText += "/";
+		
+		return tCertCountText;
+	}
+	
 	public String getNote () {
 		return note;
 	}
