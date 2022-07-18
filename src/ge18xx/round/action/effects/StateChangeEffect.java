@@ -25,7 +25,8 @@ public class StateChangeEffect extends Effect {
 		setNewState (ActorI.ActionStates.NoAction);
 	}
 
-	public StateChangeEffect (ActorI aActor, ActorI.ActionStates aPreviousState, ActorI.ActionStates aNewState) {
+	public StateChangeEffect (ActorI aActor, ActorI.ActionStates aPreviousState, 
+								ActorI.ActionStates aNewState) {
 		super (NAME, aActor);
 		setPreviousState (aPreviousState);
 		setNewState (aNewState);
@@ -74,19 +75,26 @@ public class StateChangeEffect extends Effect {
 
 		if (actor != ActorI.NO_ACTOR) {
 			if (actor.isAPlayer ()) {
-				tEffectReport += " for " + actor.getName () + " from " + previousState + " to " + newState + ".";
+				tEffectReport = buildBasicReport (tEffectReport);
 			} else if (actor.isAOperatingRound () || actor.isAStockRound ()) {
 				tEffectReport += " from " + previousState + " to " + newState + ".";
 			} else if (actor.isACorporation ()) {
-				tEffectReport += " for " + actor.getName () + " from " + previousState + " to " + newState + ".";
+				tEffectReport = buildBasicReport (tEffectReport);
 			} else {
-				tEffectReport += " for " + actor.getName () + " from " + previousState + " to " + newState + ". ***";
+				tEffectReport = buildBasicReport (tEffectReport)+ " ***";
 			}
 		} else {
 			tEffectReport += " Actor within Action is not defined";
 		}
 
 		return tEffectReport;
+	}
+
+	public String buildBasicReport (String aEffectReport) {
+		aEffectReport += " for " + actor.getName () + " from " + previousState + 
+							" to " + newState + ".";
+		
+		return aEffectReport;
 	}
 
 	@Override
