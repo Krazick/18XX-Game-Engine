@@ -1369,7 +1369,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (tShareHolderCount > 0) {
 			for (tShareHolderIndex = 0; tShareHolderIndex < tShareHolderCount; tShareHolderIndex++) {
 				tPortfolioHolder = tShareHolders.getPortfolioHolder (tShareHolderIndex);
-				tPercentage = tShareHolders.getShareCount (tShareHolderIndex);
+				tPercentage = tShareHolders.getPercentage (tShareHolderIndex);
 				tDividendForShares = (int) (tDividendFor1Percent * tPercentage + 0.5);
 
 				if (tPortfolioHolder.isAPlayer ()) {

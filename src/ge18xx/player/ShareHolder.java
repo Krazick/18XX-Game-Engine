@@ -2,19 +2,15 @@ package ge18xx.player;
 
 public class ShareHolder {
 	PortfolioHolderI shareHolder;
-	int sharesHeld;
-
-	public ShareHolder () {
-		setSharesHeld (0);
-	}
+	int percentageHeld;
 
 	public ShareHolder (PortfolioHolderI aPortfolioHolder, int aShareCount) {
 		setShareHolder (aPortfolioHolder);
-		setSharesHeld (aShareCount);
+		setPercentageHeld (aShareCount);
 	}
 
-	public void addSharesHeld (int aShareCount) {
-		setSharesHeld (getSharesHeld () + aShareCount);
+	public void addPercentangeHeld (int aPercentage) {
+		setPercentageHeld (getPercentageHeld () + aPercentage);
 	}
 
 	public String getName () {
@@ -25,8 +21,8 @@ public class ShareHolder {
 		return shareHolder;
 	}
 
-	public int getSharesHeld () {
-		return sharesHeld;
+	public int getPercentageHeld () {
+		return percentageHeld;
 	}
 
 	public boolean isShareHolder (PortfolioHolderI aPortfolioHolder) {
@@ -37,7 +33,16 @@ public class ShareHolder {
 		shareHolder = aPortfolioHolder;
 	}
 
-	public void setSharesHeld (int aShareCount) {
-		sharesHeld = aShareCount;
+	public void setPercentageHeld (int aPercentage) {
+		percentageHeld = aPercentage;
 	}
+	
+	public String getShareHolderInfo (ShareHolder aShareHolder) {
+		String tShareHolderInfo;
+		
+		tShareHolderInfo = "Holder " + getName () + " Percentage Shares held: " + percentageHeld;
+		
+		return tShareHolderInfo;
+	}
+
 }

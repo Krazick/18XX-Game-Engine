@@ -10,19 +10,19 @@ public class ShareHolders {
 		shareHolders = new LinkedList<ShareHolder> ();
 	}
 
-	public void addShareHolder (PortfolioHolderI aPortfolioHolder, int aShareCount) {
+	public void addShareHolder (PortfolioHolderI aPortfolioHolder, int aPercentage) {
 		boolean tShareHolderInList;
 
 		tShareHolderInList = false;
 		for (ShareHolder tShareHolder : shareHolders) {
 			if (tShareHolder.isShareHolder (aPortfolioHolder)) {
 				tShareHolderInList = true;
-				tShareHolder.addSharesHeld (aShareCount);
+				tShareHolder.addPercentangeHeld (aPercentage);
 			}
 		}
 		if (!tShareHolderInList) {
 			ShareHolder tNewShareHolder;
-			tNewShareHolder = new ShareHolder (aPortfolioHolder, aShareCount);
+			tNewShareHolder = new ShareHolder (aPortfolioHolder, aPercentage);
 			shareHolders.add (tNewShareHolder);
 		}
 	}
@@ -42,16 +42,15 @@ public class ShareHolders {
 		return tPortfolioHolder;
 	}
 
-	public int getShareCount (int tIndex) {
+	public int getPercentage (int tIndex) {
 		ShareHolder tShareHolder;
 		int tShareCount;
 
-		tShareCount = 0;
 		if ((tIndex < 0) || (tIndex > shareHolders.size ())) {
-
+			tShareCount = 0;
 		} else {
 			tShareHolder = shareHolders.get (tIndex);
-			tShareCount = tShareHolder.getSharesHeld ();
+			tShareCount = tShareHolder.getPercentageHeld ();
 		}
 
 		return tShareCount;
@@ -62,8 +61,11 @@ public class ShareHolders {
 	}
 
 	public void printShareHolderInfo () {
+		String tShareHolderInfo;
+		
 		for (ShareHolder tShareHolder : shareHolders) {
-			System.out.println ("Holder " + tShareHolder.getName () + " percentage " + tShareHolder.getSharesHeld ());
+			tShareHolderInfo = tShareHolder.getShareHolderInfo (tShareHolder);
+			System.out.println (tShareHolderInfo);
 		}
 	}
 }
