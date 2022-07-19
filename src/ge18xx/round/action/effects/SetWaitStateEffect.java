@@ -5,6 +5,9 @@ import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.ActorI;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class SetWaitStateEffect extends StateChangeEffect {
@@ -27,9 +30,29 @@ public class SetWaitStateEffect extends StateChangeEffect {
 	
 	public SetWaitStateEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
+		
+		String tActorName;
+		ActorI tActor;
+		
 		setName (NAME);
+		tActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
+		tActor = aGameManager.getActor (tActorName, false);
+		if (tActor == ActorI.NO_ACTOR) {
+			System.err.println ("No Actor Found -- Looking for [" + tActorName + "]");
+		}
+		setToActor (tActor);
 	}
+		
+	@Override
+	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
+		XMLElement tEffectElement;
 
+		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
+		tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, toActor.getName ());
+
+		return tEffectElement;
+	}
+	
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tEffectReport;
