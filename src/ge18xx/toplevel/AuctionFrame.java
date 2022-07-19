@@ -344,7 +344,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		setBidderJPanelColor (tPlayer.getName (), false);
 		completeAuctionAction (tAuctionPassAction, tDone);
 	}
-
+	
 	private boolean clientIsWinner () {
 		boolean tClientIsWinner;
 		Player tWinningPlayer;
