@@ -39,8 +39,9 @@ public class SetWaitStateEffect extends StateChangeEffect {
 		tActor = aGameManager.getActor (tActorName, false);
 		if (tActor == ActorI.NO_ACTOR) {
 			System.err.println ("No Actor Found -- Looking for [" + tActorName + "]");
+		} else {
+			setToActor (tActor);
 		}
-		setToActor (tActor);
 	}
 		
 	@Override
@@ -91,7 +92,10 @@ public class SetWaitStateEffect extends StateChangeEffect {
 				tStockRound = aRoundManager.getStockRound ();
 				tToPlayer.resetPrimaryActionState (newState);
 				tStockRound.updateRFPlayerLabel (tToPlayer);
+				tEffectApplied = true;
 			}
+		} else {
+			tEffectApplied = true;
 		}
 
 		return tEffectApplied;
@@ -111,7 +115,11 @@ public class SetWaitStateEffect extends StateChangeEffect {
 				tToPlayer.resetPrimaryActionState (previousState);
 				tStockRound.updateRFPlayerLabel (tToPlayer);
 				tEffectUndone = true;
+			} else {
+				setUndoFailureReason ("The toActor is not a Player.");
 			}
+		} else {
+			tEffectUndone = true;
 		}
 
 		return tEffectUndone;
