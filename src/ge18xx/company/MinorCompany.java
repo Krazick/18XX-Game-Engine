@@ -103,7 +103,7 @@ public class MinorCompany extends TokenCompany {
 	}
 
 	@Override
-	public boolean isMinorCompany () {
+	public boolean isAMinorCompany () {
 		return true;
 	}
 
@@ -136,11 +136,6 @@ public class MinorCompany extends TokenCompany {
 	@Override
 	public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
 		return null;
-	}
-
-	@Override
-	public boolean isAMinorCompany () {
-		return true;
 	}
 
 	@Override

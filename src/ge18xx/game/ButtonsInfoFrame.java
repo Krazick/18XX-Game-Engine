@@ -184,7 +184,7 @@ public class ButtonsInfoFrame extends XMLFrame {
 			if (tCount > 0) {
 				for (tIndex = 0; tIndex < tCount; tIndex++) {
 					tCertificate = aPortfolio.getCertificate (tIndex);
-					if (tCertificate.isPrivateCompany ()) {
+					if (tCertificate.isAPrivateCompany ()) {
 						tFrameButton = tCertificate.getFrameButton ();
 						if (buttonValidAndVisible (tFrameButton)) {
 							addCheckboxFrameButton (tFrameButton, aHolderName);

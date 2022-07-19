@@ -1315,16 +1315,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return govtRailway;
 	}
 
-	// Minor Company will override
-	public boolean isMinorCompany () {
-		return false;
-	}
-//
-//	// Share Company will override
-//	public boolean isShareCompany () {
-//		return false;
-//	}
-
 	public boolean isSoldOut () {
 		boolean isSoldOut;
 		int tPercentOwned;

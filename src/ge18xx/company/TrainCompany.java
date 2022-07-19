@@ -1064,7 +1064,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public int getTrainLimit () {
 		int tTrainLimit;
 
-		if (isMinorCompany ()) {
+		if (isAMinorCompany ()) {
 			tTrainLimit = corporationList.getMinorTrainLimit ();
 		} else {
 			tTrainLimit = corporationList.getTrainLimit (govtRailway);

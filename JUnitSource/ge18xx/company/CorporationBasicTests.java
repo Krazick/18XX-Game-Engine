@@ -245,7 +245,7 @@ class CorporationBasicTests {
 		assertFalse (corporation.isAPrivateCompany ());
 		assertFalse (corporation.isATrainCompany ());
 		assertFalse (corporation.isATokenCompany ());
-		assertFalse (corporation.isMinorCompany ());
+		assertFalse (corporation.isAMinorCompany ());
 		assertFalse (corporation.isGovtRailway ());
 		assertFalse (corporation.isAShareCompany ());
 		assertFalse (corporation.isABank ());
