@@ -463,7 +463,7 @@ public class PlayerManager {
 		tOldAuctionState = aPlayer.getAuctionActionState ();
 		if (aPlayer.acts ()) {
 			tCertificateToBidOn = stockRound.getCertificateToBidOn ();
-			if (tCertificateToBidOn.isPrivateCompany ()) {
+			if (tCertificateToBidOn.isAPrivateCompany ()) {
 				tBidStockAction = new BidStockAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
 				tCashValue = tCertificateToBidOn.getHighestBid ();
 				tCashValue += BID_INCREMENT;
@@ -563,7 +563,7 @@ public class PlayerManager {
 		if (tCanBuyStock) {
 			tBank = stockRound.getBank ();
 			tCertificateToBuy = aCertificatesToBuy.get (0);
-			if (tCertificateToBuy.isShareCompany ()) {
+			if (tCertificateToBuy.isAShareCompany ()) {
 				tShareCompany = tCertificateToBuy.getShareCompany ();
 				if (tShareCompany == ShareCompany.NO_SHARE_COMPANY) {
 					tCurrentPresident = Player.NO_PLAYER;
@@ -758,7 +758,7 @@ public class PlayerManager {
 			// shown, but follow-on certs don't
 			// show the Certificate Buy Button.
 			// Should come up with a better way to fix this
-			if (tCertificate.isPrivateCompany ()) {
+			if (tCertificate.isAPrivateCompany ()) {
 				tCertificate.clearFrameButton ();
 			}
 			tCurrentCorporationStatus = tCertificate.getCorporationStatus ();
