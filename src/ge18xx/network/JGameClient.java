@@ -64,7 +64,7 @@ import java.awt.Color;
 public class JGameClient extends XMLFrame {
 	private static final long serialVersionUID = 1L;
 	private static final int DEFAULT_SERVER_PORT = 18300;
-	private static final String DEFAULT_REMOTE_SERVER_IP = "71.178.241.188";
+	private static final String DEFAULT_REMOTE_SERVER_IP = "96.255.246.42";
 	private static final String CONNECT_ACTION = "CONNECT";
 	private final String ALREADY_CONNECTED = "You are already connected";
 	private final String NOT_CONNECTED = "You are not connected yet";
