@@ -363,11 +363,34 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		aCertificateToBuy.refundBids (tWinAuctionAction);
 		tWinAuctionAction.addRemoveAllBidsEffect (this, aCertificateToBuy);
 		tWinAuctionAction.addFinishAuctionEffect (this);
-
+		setAllWaitStateEffects (tWinAuctionAction);
 		playerManager.addAction (tWinAuctionAction);
 		playerManager.finishAuction (tNextShareHasBids, aCreateNewAuctionAction);
 
 		return tNextShareHasBids;
+	}
+
+	private void setAllWaitStateEffects (WinAuctionAction aWinAuctionAction) {
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		int tPlayerCount;
+		int tPlayerIndex;
+		String tPlayerName;
+		String tWinnerName;
+		Player tPlayer;
+		
+		tNewState = ActorI.ActionStates.WaitState;
+		tPlayerCount = playerManager.getPlayerCount ();
+		tWinnerName = getName ();
+		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
+			tPlayer = playerManager.getPlayer (tPlayerIndex);
+			tPlayerName = tPlayer.getName ();
+			if (! tWinnerName.equals (tPlayerName)) {
+				tOldState = tPlayer.getPrimaryActionState ();
+				tPlayer.resetPrimaryActionState (tNewState);;
+				aWinAuctionAction.addSetWaitStateEffect (this, tPlayer, tOldState, tNewState);
+			}
+		}
 	}
 
 	public void clearAuctionActionState () {
