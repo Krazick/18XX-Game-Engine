@@ -671,7 +671,7 @@ public class Portfolio implements CertificateHolderI {
 		tPercentage = 0;
 		for (Certificate tCertificate : certificates) {
 			/* Only worry if this is a Share Company */
-			if (tCertificate.isShareCompany ()) {
+			if (tCertificate.isAShareCompany ()) {
 				if (tCertificate.isForThis (aCorpAbbrev)) {
 					tPercentage += tCertificate.getPercentage ();
 				}
@@ -1333,7 +1333,7 @@ public class Portfolio implements CertificateHolderI {
 		tHasSelectedPrivateOrMinorToExchange = false;
 
 		for (Certificate tCertificate : certificates) {
-			if (tCertificate.isPrivateCompany ()) {
+			if (tCertificate.isAPrivateCompany ()) {
 				if (tCertificate.isSelected ()) {
 					tHasSelectedPrivateOrMinorToExchange = true;
 				}
@@ -1349,7 +1349,7 @@ public class Portfolio implements CertificateHolderI {
 
 		tHasSelectedOneToExchange = false;
 		for (Certificate tCertificate : certificates) {
-			if (tCertificate.isShareCompany ()) {
+			if (tCertificate.isAShareCompany ()) {
 				if (tCertificate.isSelected ()) {
 					tSelectedCount++;
 				}
@@ -1367,7 +1367,7 @@ public class Portfolio implements CertificateHolderI {
 
 		tHasSelectedPrezToExchange = false;
 		for (Certificate tCertificate : certificates) {
-			if (tCertificate.isShareCompany ()) {
+			if (tCertificate.isAShareCompany ()) {
 				if (tCertificate.isPresidentShare ()) {
 					if (tCertificate.isSelected ()) {
 						tHasSelectedPrezToExchange = true;
@@ -1384,7 +1384,7 @@ public class Portfolio implements CertificateHolderI {
 
 		tHasSelectedPrivateToBidOn = false;
 		for (Certificate tCertificate : certificates) {
-			if (tCertificate.isPrivateCompany ()) {
+			if (tCertificate.isAPrivateCompany ()) {
 				if (tCertificate.isSelectedToBidOn ()) {
 					tHasSelectedPrivateToBidOn = true;
 				}
@@ -1778,7 +1778,7 @@ public class Portfolio implements CertificateHolderI {
 		String tHolderName;
 
 		if (!aCertificate.isLoading ()) {
-			if (!aCertificate.isPrivateCompany ()) {
+			if (!aCertificate.isAPrivateCompany ()) {
 				if (holder.isAPlayer ()) {
 					tPlayer = (Player) holder;
 					tClientName = tPlayer.getClientName ();
@@ -1856,7 +1856,7 @@ public class Portfolio implements CertificateHolderI {
 		for (Certificate tCertificate : certificates) {
 			tCheckedButton = tCertificate.getCheckedButton ();
 			tComboBox = tCertificate.getComboBox ();
-			if (tCertificate.isPrivateCompany ()) {
+			if (tCertificate.isAPrivateCompany ()) {
 				if (tSourceButton == tCheckedButton) {
 					tHandled = true;
 				}
@@ -1906,11 +1906,11 @@ public class Portfolio implements CertificateHolderI {
 				if (tAbbrev.length () < 4) {
 					tAbbrev += "&nbsp;";
 				}
-				if (tCertificate.isPrivateCompany ()) {
+				if (tCertificate.isAPrivateCompany ()) {
 					tType = PortfolioSummary.PRIVATE_CORP_TYPE;
-				} else if (tCertificate.isMinorCompany ()) {
+				} else if (tCertificate.isAMinorCompany ()) {
 					tType = PortfolioSummary.MINOR_CORP_TYPE;
-				} else if (tCertificate.isCoalCompany ()) {
+				} else if (tCertificate.isACoalCompany ()) {
 					tType = PortfolioSummary.COAL_CORP_TYPE;
 				}
 				tAbbrevAndType1 = buildAbbrevAndType (tAbbrev, tType);
@@ -1959,7 +1959,7 @@ public class Portfolio implements CertificateHolderI {
 		PrivateCompany tPrivateCompany;
 
 		for (Certificate tCertificate : certificates) {
-			if (tCertificate.isPrivateCompany ()) {
+			if (tCertificate.isAPrivateCompany ()) {
 				tPrivateCompany = (PrivateCompany) tCertificate.getCorporation ();
 				if (tPrivateCompany.hasActiveCompanyBenefits ()) {
 					tPrivateCompany.addBenefitButtons (aButtonRow);
@@ -1972,7 +1972,7 @@ public class Portfolio implements CertificateHolderI {
 		PrivateCompany tPrivateCompany;
 
 		for (Certificate tCertificate : certificates) {
-			if (tCertificate.isPrivateCompany ()) {
+			if (tCertificate.isAPrivateCompany ()) {
 				tPrivateCompany = (PrivateCompany) tCertificate.getCorporation ();
 				if (tPrivateCompany.hasActivePlayerBenefits ()) {
 					tPrivateCompany.addBenefitButtons (aButtonRow);
