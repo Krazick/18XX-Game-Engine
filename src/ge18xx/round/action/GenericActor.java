@@ -30,9 +30,14 @@ public class GenericActor implements ActorI {
 		return tState;
 	}
 
-	// NoAction, Pass, Acted, Bought, Sold, // Player Primary States
-	// BoughtDone, BoughtSold, SoldDone, BoughtSoldDone, Bid, BidDone // Player
-	// Alternate States
+	// Player Primary Actions:
+	// NoAction, Pass, Acted, Bought, Sold, 
+	// BoughtDone, BoughtSold, SoldDone, BoughtSoldDone, 
+	//
+	// Player Auction, and Bidding States
+	// Bid, BidDone, Bidder, AuctionPass, AuctionPass, AuctionRaise,
+	// NotBidder, WaitState
+
 
 	public ActionStates getPlayerState (String aState) {
 		ActionStates tPlayerState;
@@ -64,6 +69,8 @@ public class GenericActor implements ActorI {
 			tPlayerState = ActionStates.AuctionRaise;
 		} else if (aState.equals (ActionStates.NotBidder.toString ())) {
 			tPlayerState = ActionStates.NotBidder;
+		} else if (aState.equals (ActionStates.WaitState.toString ())) {
+			tPlayerState = ActionStates.WaitState;
 		}
 
 		return tPlayerState;
