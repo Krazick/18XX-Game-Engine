@@ -349,6 +349,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
 		List<Certificate> tCertificatesToBuy;
+		Certificate tFreeCertificate;
+		Bank tBank;
 
 		tRoundType = ActorI.ActionStates.AuctionRound;
 		tRoundID = "1";
@@ -358,18 +360,41 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tWinAuctionAction = new WinAuctionAction (tRoundType, tRoundID, this);
 		tCertificatesToBuy = new LinkedList<Certificate> ();
 		tCertificatesToBuy.add (aCertificateToBuy);
+		
+		tBank = playerManager.getBank ();
+		tFreeCertificate = tBank.getFreeCertificateWithThisCertificate (aCertificateToBuy);
 		tWinAuctionAction = (WinAuctionAction) playerManager.buyAction (this, tCertificatesToBuy,
 				PlayerManager.STOCK_BUY_IN.AuctionRound, tWinAuctionAction);
 		aCertificateToBuy.refundBids (tWinAuctionAction);
 		tWinAuctionAction.addRemoveAllBidsEffect (this, aCertificateToBuy);
 		tWinAuctionAction.addFinishAuctionEffect (this);
-		setAllWaitStateEffects (tWinAuctionAction);
+		if (mustSetParPrice (tFreeCertificate)) {
+			setAllWaitStateEffects (tWinAuctionAction);
+		}
 		playerManager.addAction (tWinAuctionAction);
 		playerManager.finishAuction (tNextShareHasBids, aCreateNewAuctionAction);
 
 		return tNextShareHasBids;
 	}
 
+	private boolean mustSetParPrice (Certificate aFreeCertificate) {
+		boolean tMustSetParPrice;
+
+		tMustSetParPrice = false;
+		
+		if (aFreeCertificate != Certificate.NO_CERTIFICATE) {
+			if (aFreeCertificate.isPresidentShare ()) {
+				if (aFreeCertificate.isAShareCompany ()) {
+					if (! aFreeCertificate.hasParPrice ()) {
+						tMustSetParPrice = true;
+					}
+				}
+			}
+		}
+		
+		return tMustSetParPrice;
+	}
+	
 	private void setAllWaitStateEffects (WinAuctionAction aWinAuctionAction) {
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;

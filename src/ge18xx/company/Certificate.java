@@ -298,7 +298,7 @@ public class Certificate implements Comparable<Certificate> {
 			tLabel = new JLabel ("Price: " + Bank.formatCash (tPrice));
 			tCertificateInfoJPanel.add (tLabel);
 		}
-		if (isPrivateCompany ()) {
+		if (isAPrivateCompany ()) {
 			tRevenue = getRevenue ();
 			if (tRevenue != Revenue.NO_REVENUE_VALUE) {
 				tRevenueInfo = "Revenue: " + Bank.formatCash (tRevenue);
@@ -315,7 +315,7 @@ public class Certificate implements Comparable<Certificate> {
 		tPlayerHasEnoughCashToBid = addBidderLabels (tCertificateInfoJPanel, tPlayerCash);
 
 		if (aCheckBoxLabel.equals (Player.SELL_LABEL)) {
-			if (!isPrivateCompany ()) {
+			if (!isAPrivateCompany ()) {
 				// Only if it is a Share Company, can it be Sold
 				// TODO: non-1830 For 1835 with Minors, 1837 with Coal we cannot Sell them
 				// either, test for CanBeSold
@@ -715,7 +715,7 @@ public class Certificate implements Comparable<Certificate> {
 
 		tCanBeExchanged = false;
 		// Only a Share Company Stock Share can be Exchanged
-		if (isShareCompany ()) {
+		if (isAShareCompany ()) {
 
 			// Company must have Operated before Exchange can happen
 			if (didOperate ()) {
@@ -730,7 +730,7 @@ public class Certificate implements Comparable<Certificate> {
 				}
 			}
 		}
-		if (isPrivateCompany ()) {
+		if (isAPrivateCompany ()) {
 			tPrivateCompany = (PrivateCompany) corporation;
 			tExchangeID = tPrivateCompany.getExchangeID ();
 			if (tExchangeID != Corporation.NO_ID) {
@@ -745,7 +745,7 @@ public class Certificate implements Comparable<Certificate> {
 		ShareCompany tShareCompany;
 		boolean tDidOperate = false;
 
-		if (isShareCompany ()) {
+		if (isAShareCompany ()) {
 			tShareCompany = (ShareCompany) corporation;
 			tDidOperate = tShareCompany.didOperate ();
 		}
@@ -759,7 +759,7 @@ public class Certificate implements Comparable<Certificate> {
 
 		tCanBeSold = false;
 		// Only a Share Company Stock Share can be sold
-		if (isShareCompany ()) {
+		if (isAShareCompany ()) {
 			// Can sell only if there is a Par Price for the Company
 			if (hasParPrice ()) {
 				// Some games allow a President Share to be sold.
@@ -818,7 +818,7 @@ public class Certificate implements Comparable<Certificate> {
 
 		if (hasParPrice ()) {
 			tCertificateCost = getValue () - getDiscount ();
-		} else if (isShareCompany ()) {
+		} else if (isAShareCompany ()) {
 			tParPrice = getComboParValue ();
 			if (tParPrice != ParPriceFrame.NO_PAR_PRICE_VALUE) {
 				tCertificateCost = calcCertificateValue (tParPrice);
@@ -884,11 +884,11 @@ public class Certificate implements Comparable<Certificate> {
 		ShareCompany tShareCompany;
 
 		tReason = NO_REASON;
-		if (isPrivateCompany ()) {
+		if (isAPrivateCompany ()) {
 			tReason = CANNOT_SELL_PRIVATE;
-		} else if (isMinorCompany ()) {
+		} else if (isAMinorCompany ()) {
 			tReason = CANNOT_SELL_MINOR;
-		} else if (isCoalCompany ()) {
+		} else if (isACoalCompany ()) {
 			tReason = CANNOT_SELL_COAL;
 		} else if (bankPoolAtLimit (aGameManager)) {
 			tReason = BANK_POOL_AT_LIMIT;
@@ -1011,11 +1011,11 @@ public class Certificate implements Comparable<Certificate> {
 
 		return tOwnerName;
 	}
-
+	
 	public int getParPrice () {
 		int tParPrice;
 
-		tParPrice = 0;
+		tParPrice = ShareCompany.NO_PAR_PRICE;
 		if (corporation.isAShareCompany ()) {
 			ShareCompany tShare = (ShareCompany) corporation;
 
@@ -1105,7 +1105,7 @@ public class Certificate implements Comparable<Certificate> {
 
 			tSharePrice = tShare.getSharePrice ();
 		}
-		if (corporation.isMinorCompany ()) {
+		if (corporation.isAMinorCompany ()) {
 			MinorCompany tMinor = (MinorCompany) corporation;
 
 			tSharePrice = tMinor.getValue ();
@@ -1143,7 +1143,29 @@ public class Certificate implements Comparable<Certificate> {
 		return tHasParPrice;
 	}
 
-	public boolean isCoalCompany () {
+	/**
+	 * Test if this Certificate is a President Certificate of a Share Company that 
+	 * has no Par Price Set.
+	 * 
+	 * @return True if this is a President Certificate of a Share Company with no Par Price
+	 */
+	public boolean noParPriceSet () {
+		boolean tNoParPriceSet;
+
+		tNoParPriceSet = false;
+		
+		if (isPresidentShare ()) {
+			if (isAShareCompany ()) {
+				if (! hasParPrice ()) {
+					tNoParPriceSet = true;
+				}
+			}
+		}
+		
+		return tNoParPriceSet;
+	}
+
+	public boolean isACoalCompany () {
 		return corporation.isACoalCompany ();
 	}
 
@@ -1155,8 +1177,8 @@ public class Certificate implements Comparable<Certificate> {
 		return (aCorporation == corporation);
 	}
 
-	public boolean isMinorCompany () {
-		return corporation.isMinorCompany ();
+	public boolean isAMinorCompany () {
+		return corporation.isAMinorCompany ();
 	}
 
 	public boolean isOwned () {
@@ -1218,7 +1240,7 @@ public class Certificate implements Comparable<Certificate> {
 		return tOwned;
 	}
 
-	public boolean isPrivateCompany () {
+	public boolean isAPrivateCompany () {
 		return corporation.isAPrivateCompany ();
 	}
 
@@ -1334,7 +1356,7 @@ public class Certificate implements Comparable<Certificate> {
 		return tCanBuyMultiple;
 	}
 
-	public boolean isShareCompany () {
+	public boolean isAShareCompany () {
 		return corporation.isAShareCompany ();
 	}
 
