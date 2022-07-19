@@ -25,6 +25,10 @@ public class StateChangeEffect extends Effect {
 		setNewState (ActorI.ActionStates.NoAction);
 	}
 
+	public StateChangeEffect (ActorI aActor) {
+		super (NAME, aActor);		
+	}
+	
 	public StateChangeEffect (ActorI aActor, ActorI.ActionStates aPreviousState, 
 								ActorI.ActionStates aNewState) {
 		super (NAME, aActor);
@@ -148,13 +152,15 @@ public class StateChangeEffect extends Effect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-
+		StockRound tStockRound;
+		Player tPlayer;
+		
 		tEffectUndone = false;
-		actor.resetPrimaryActionState (previousState);
-		tEffectUndone = true;
 		if (actor.isAPlayer ()) {
-			Player tPlayer = (Player) actor;
-			StockRound tStockRound = aRoundManager.getStockRound ();
+			tPlayer = (Player) actor;
+			actor.resetPrimaryActionState (previousState);
+			tEffectUndone = true;
+			tStockRound = aRoundManager.getStockRound ();
 			tStockRound.updateRFPlayerLabel (tPlayer);
 		} else if (actor.isABank ()) {
 			setUndoFailureReason ("The Actor is a Bank, which does not have a State to Change");
