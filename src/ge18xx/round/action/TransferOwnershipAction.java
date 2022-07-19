@@ -120,7 +120,7 @@ public class TransferOwnershipAction extends CashTransferAction {
 		for (Effect tEffect : effects) {
 			if ((tEffect instanceof TransferOwnershipEffect) && (!tIsPrivateTransferred)) {
 				tCertificate = ((TransferOwnershipEffect) tEffect).getCertificate ();
-				tIsPrivateTransferred = tCertificate.isPrivateCompany ();
+				tIsPrivateTransferred = tCertificate.isAPrivateCompany ();
 			}
 		}
 
