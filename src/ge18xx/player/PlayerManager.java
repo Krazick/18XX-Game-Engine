@@ -765,7 +765,7 @@ public class PlayerManager {
 			tCertificate.updateCorporationOwnership ();
 			tNewCorporationStatus = tCertificate.getCorporationStatus ();
 			if (tCurrentCorporationStatus != tNewCorporationStatus) {
-				aBuyStockAction.addStateChangeEffect (tCertificate.getCorporation (), tCurrentCorporationStatus,
+				aBuyStockAction.addChangeCorporationStatusEffect (tCertificate.getCorporation (), tCurrentCorporationStatus,
 						tNewCorporationStatus);
 			}
 		}
@@ -927,7 +927,7 @@ public class PlayerManager {
 			tNewCertificate.updateCorporationOwnership ();
 			tNewCorporationStatus = tNewCertificate.getCorporationStatus ();
 			if (tCurrentCorporationStatus != tNewCorporationStatus) {
-				tExchangeStockAction.addStateChangeEffect (tNewCertificate.getCorporation (), tCurrentCorporationStatus,
+				tExchangeStockAction.addChangeCorporationStatusEffect (tNewCertificate.getCorporation (), tCurrentCorporationStatus,
 						tNewCorporationStatus);
 			}
 			tCurrentPresident = (Player) tShareCompany.getPresident ();

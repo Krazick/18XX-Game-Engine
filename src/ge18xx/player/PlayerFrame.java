@@ -36,6 +36,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public static final String MUST_BUY_PRIVATE = "Must buy the Private where COST == DISCOUNT";
 	public static final String ALREADY_VISIBLE = "PlayerFrame already Visible";
 	public static final String EXCHANGE_PRIVATE = "Exchange Private Certificate for Share Certificate";
+	public static final String WAITING_FOR_PAR_PRICE = "Waiting for the Par Price of new Company to be Set";
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
 	static final String PASS = "Pass";
@@ -537,7 +538,10 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 		passButton.setText (tLabel);
 		passButton.setActionCommand (tAction);
-		if (hasSelectedStocksToBuy ()) {
+		if (player.isWaiting ()) {
+			passButton.setEnabled (false);
+			passButton.setToolTipText (WAITING_FOR_PAR_PRICE);			
+		} else if (hasSelectedStocksToBuy ()) {
 			passButton.setEnabled (false);
 			passButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
 		} else if (hasSelectedStocksToSell ()) {
@@ -623,7 +627,10 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			boolean tHasSelectedOneToExchange) {
 		boolean tCanBankHoldStock = false;
 
-		if (tHasSelectedOneToExchange) {
+		if (player.isWaiting ()) {
+			exchangeButton.setEnabled (false);
+			exchangeButton.setToolTipText (WAITING_FOR_PAR_PRICE);	
+		} else if (tHasSelectedOneToExchange) {
 			if (aPrezToExchange) {
 				tCanBankHoldStock = canBankHoldStock ();
 			}
@@ -764,12 +771,26 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		}
 	}
 
+	private boolean handledWaiting (JButton aActionButton) {
+		boolean tIsWaiting;
+		
+		tIsWaiting = player.isWaiting ();
+		if (tIsWaiting) {
+			aActionButton.setEnabled (false);
+			aActionButton.setToolTipText (WAITING_FOR_PAR_PRICE);	
+		}
+		
+		return tIsWaiting;
+	}
+	
 	private void updateUndoButton (boolean tActionsToUndo) {
-		undoButton.setEnabled (tActionsToUndo);
-		if (tActionsToUndo) {
-			undoButton.setToolTipText ("There are Actions that can be undone");
-		} else {
-			undoButton.setToolTipText ("No Actions to Undo");
+		if (! handledWaiting (undoButton)) {
+			undoButton.setEnabled (tActionsToUndo);
+			if (tActionsToUndo) {
+				undoButton.setToolTipText ("There are Actions that can be undone");
+			} else {
+				undoButton.setToolTipText ("No Actions to Undo");
+			}
 		}
 	}
 

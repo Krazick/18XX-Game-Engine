@@ -703,7 +703,7 @@ public class ShareCompany extends TokenCompany {
 		aCertificate.updateCorporationOwnership ();
 		tNewCorporationStatus = aCertificate.getCorporationStatus ();
 		if (tCurrentCorporationStatus != tNewCorporationStatus) {
-			aBuyStockAction.addStateChangeEffect (aCertificate.getCorporation (), tCurrentCorporationStatus,
+			aBuyStockAction.addChangeCorporationStatusEffect (aCertificate.getCorporation (), tCurrentCorporationStatus,
 					tNewCorporationStatus);
 		}
 	}

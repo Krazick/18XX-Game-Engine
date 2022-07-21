@@ -1067,6 +1067,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerFrame.setVisible (false);
 	}
 
+	public boolean isWaiting () {
+		return (primaryActionState == ActorI.ActionStates.WaitState);
+	}
+	
 	public boolean isCurrentPlayer () {
 		Player tCurrentPlayer;
 
@@ -1256,6 +1260,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	@Override
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		setPrimaryActionState (aPrimaryActionState);
+		playerFrame.updateButtons ();
 	}
 
 	public void setPrimaryActionState (ActionStates aPrimaryActionState) {
