@@ -277,7 +277,6 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		ActorI tToActor;
 		ActorI tActor;
 		
-		
 		tWinAuctionAction = getLastWinAuctionAction ();
 		if (tWinAuctionAction != Action.NO_ACTION) {
 			if (IsCorrectAction (tWinAuctionAction)) {
@@ -285,7 +284,6 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 				tEffect = tWinAuctionAction.getEffectNamed (tEffectName);
 				if (tEffect != Effect.NO_EFFECT) {
 					tSetWaitStateEffect = (SetWaitStateEffect) tEffect;
-					System.out.println ("Found Effect " + tSetWaitStateEffect.getName ());
 					// Need to reset the Player State so reverse the New and Old
 					tNewState = tSetWaitStateEffect.getPreviousState ();
 					tOldState = tSetWaitStateEffect.getNewState ();
@@ -322,7 +320,6 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 			}
 		}
 
-		
 		return tIsCorrectAction;
 	}
 	
@@ -337,7 +334,6 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		tWinAuctionAction = (WinAuctionAction) Action.NO_ACTION;
 		while (tLookingForLastAction) {
 			tLastAction = gameManager.getLastAction (tActionOffset);
-			System.out.println ("Getting previous Action, with offset of " + tActionOffset);
 			if (tLastAction instanceof WinAuctionAction) {
 				tWinAuctionAction = (WinAuctionAction) tLastAction;
 				tLookingForLastAction = false;
