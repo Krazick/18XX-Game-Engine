@@ -6,6 +6,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.SetParValueEffect;
+import ge18xx.round.action.effects.SetWaitStateEffect;
 import ge18xx.utilities.XMLNode;
 
 public class SetParValueAction extends Action {
@@ -31,6 +32,15 @@ public class SetParValueAction extends Action {
 
 		tSetParValueEffect = new SetParValueEffect (aActor, aShareCompany, aParPrice);
 		addEffect (tSetParValueEffect);
+	}
+
+	public void addSetWaitStateEffect (ActorI aFromActor, ActorI aToActor, ActionStates aOldState, 
+						ActionStates aNewState) {
+		SetWaitStateEffect tSetWaitStateEffect;
+
+		tSetWaitStateEffect = new SetWaitStateEffect (aFromActor, aToActor, 
+						aOldState, aNewState);
+		addEffect (tSetWaitStateEffect);
 	}
 
 	@Override

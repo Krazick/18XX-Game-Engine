@@ -6,7 +6,14 @@ import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.StockRound;
+import ge18xx.round.action.Action;
+import ge18xx.round.action.ActionManager;
+import ge18xx.round.action.ActorI;
 import ge18xx.round.action.SetParValueAction;
+import ge18xx.round.action.WinAuctionAction;
+import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.SetWaitStateEffect;
+import ge18xx.round.action.effects.TransferOwnershipEffect;
 import ge18xx.utilities.GUI;
 
 import java.awt.Color;
@@ -252,8 +259,93 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 
 		tSetParValueAction = new SetParValueAction (stockRound.getRoundType (), stockRound.getID (), player);
 		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice);
+		if (gameManager.isNetworkGame ()) {
+			resetPlayerStatesAfterWait (tSetParValueAction);
+		}
 		tSetParValueAction.setChainToPrevious (aChainToPrevious);
 
 		stockRound.addAction (tSetParValueAction);
+	}
+
+	private void resetPlayerStatesAfterWait (SetParValueAction aSetParValueAction) {
+		WinAuctionAction tWinAuctionAction;
+		Effect tEffect;
+		SetWaitStateEffect tSetWaitStateEffect;
+		String tEffectName;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		ActorI tToActor;
+		ActorI tActor;
+		
+		
+		tWinAuctionAction = getLastWinAuctionAction ();
+		if (tWinAuctionAction != Action.NO_ACTION) {
+			if (IsCorrectAction (tWinAuctionAction)) {
+				tEffectName = SetWaitStateEffect.NAME;
+				tEffect = tWinAuctionAction.getEffectNamed (tEffectName);
+				if (tEffect != Effect.NO_EFFECT) {
+					tSetWaitStateEffect = (SetWaitStateEffect) tEffect;
+					System.out.println ("Found Effect " + tSetWaitStateEffect.getName ());
+					// Need to reset the Player State so reverse the New and Old
+					tNewState = tSetWaitStateEffect.getPreviousState ();
+					tOldState = tSetWaitStateEffect.getNewState ();
+					tActor = tSetWaitStateEffect.getActor ();
+					tToActor = tSetWaitStateEffect.getToActor ();
+					aSetParValueAction.addSetWaitStateEffect (tActor, tToActor, tOldState, tNewState);
+				}
+			}
+		}
+	}
+
+	private boolean IsCorrectAction (Action aAction) {
+		boolean tIsCorrectAction;
+		TransferOwnershipEffect tTransferOwnershipEffect;
+		Certificate tCertificate;
+		Effect tEffect;
+		String tEffectName;
+		String tFoundEffectName;
+		int tEffectCount;
+		int tEffectIndex;
+		
+		tIsCorrectAction = false;
+		tEffectName = TransferOwnershipEffect.NAME;
+		tEffectCount = aAction.getEffectCount ();
+		for (tEffectIndex = 0; tEffectIndex < tEffectCount; tEffectIndex++) {
+			tEffect = aAction.getEffect (tEffectIndex);
+			tFoundEffectName = tEffect.getName ();
+			if (tFoundEffectName.equals (tEffectName)) {
+				tTransferOwnershipEffect = (TransferOwnershipEffect) tEffect;
+				tCertificate = tTransferOwnershipEffect.getCertificate ();
+				if (tCertificate == certificate) {
+					tIsCorrectAction = true;
+				}
+			}
+		}
+
+		
+		return tIsCorrectAction;
+	}
+	
+	private WinAuctionAction getLastWinAuctionAction () {
+		WinAuctionAction tWinAuctionAction;
+		Action tLastAction;
+		boolean tLookingForLastAction;
+		int tActionOffset;
+		
+		tLookingForLastAction = true;
+		tActionOffset = ActionManager.PREVIOUS_ACTION;
+		tWinAuctionAction = (WinAuctionAction) Action.NO_ACTION;
+		while (tLookingForLastAction) {
+			tLastAction = gameManager.getLastAction (tActionOffset);
+			System.out.println ("Getting previous Action, with offset of " + tActionOffset);
+			if (tLastAction instanceof WinAuctionAction) {
+				tWinAuctionAction = (WinAuctionAction) tLastAction;
+				tLookingForLastAction = false;
+			} else {
+				tActionOffset++;
+			}
+		}
+		
+		return tWinAuctionAction;
 	}
 }

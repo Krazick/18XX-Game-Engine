@@ -28,6 +28,10 @@ public class SetWaitStateEffect extends StateChangeEffect {
 		toActor = aToActor;
 	}
 	
+	public ActorI getToActor () {
+		return toActor;
+	}
+	
 	public SetWaitStateEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		
