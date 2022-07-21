@@ -174,6 +174,23 @@ public class Action {
 		effects.add (aEffect);
 	}
 
+	public Effect getEffectNamed (String aEffectName) {
+		Effect tFoundEffect;
+		String tThisEffectName;
+		
+		tFoundEffect = Effect.NO_EFFECT;
+		if (aEffectName != null) {
+			for (Effect tEffect : effects) {
+				tThisEffectName = tEffect.getName ();
+				if (aEffectName.equals (tThisEffectName)) {
+					tFoundEffect = tEffect;
+				}
+			}
+		}
+		
+		return tFoundEffect;
+	}
+	
 	public String getXMLFormat (ElementName aElementName) {
 		XMLDocument tXMLDocument = new XMLDocument ();
 		String tXMLFormat = "";
@@ -272,6 +289,14 @@ public class Action {
 		return tReport;
 	}
 
+	public int getEffectCount () {
+		return effects.size ();
+	}
+	
+	public Effect getEffect (int aEffectIndex) {
+		return effects.get (aEffectIndex);
+	}
+	
 	public String getBriefActionReport () {
 		return number + ". " + roundType + " " + roundID + ": " + actor.getAbbrev () + " performed " + name
 				+ " Chain to Previous [" + chainToPrevious + "]";
@@ -372,10 +397,10 @@ public class Action {
 			tActionApplied &= tEffectApplied;
 			if (tEffectApplied) {
 				System.out.println ("Tried to Apply a |" + name + "|, Effect " + tEffect.getName ()
-						+ " EffectApplied Flag " + tEffectApplied);
+						+ " Applied Flag " + tEffectApplied);
 			} else {
 				tErrorReport = "Tried to Apply a |" + name + "|, Effect " + tEffect.getName ()
-						+ " EffectApplied Flag " + tEffectApplied;
+						+ " Applied Flag " + tEffectApplied;
 				System.err.println (tErrorReport);
 				tApplyFailureReason = tEffect.getApplyFailureReason ();
 				aRoundManager.appendErrorReport (tErrorReport);
