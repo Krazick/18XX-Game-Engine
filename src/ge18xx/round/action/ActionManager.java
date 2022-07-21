@@ -25,6 +25,7 @@ public class ActionManager {
 	public final static ActionManager NO_ACTION_MANAGER = null;
 	public final static int STARTING_ACTION_NUMBER = 100;
 	public final static int DEFAULT_ACTION_NUMBER = 0;
+	public final static int PREVIOUS_ACTION = 1;
 	List<Action> actions;
 	List<Action> actionsToRemove;
 	ActionReportFrame actionReportFrame;
@@ -263,12 +264,16 @@ public class ActionManager {
 	}
 
 	public Action getLastAction () {
+		return getLastAction (PREVIOUS_ACTION);
+	}
+	
+	public Action getLastAction (int aActionOffset) {
 		Action tAction;
 		int tLastActionID;
-
+		
 		tAction = Action.NO_ACTION;
 		if (!actions.isEmpty ()) {
-			tLastActionID = getActionCount () - 1;
+			tLastActionID = getActionCount () - aActionOffset;
 			tAction = actions.get (tLastActionID);
 		}
 
