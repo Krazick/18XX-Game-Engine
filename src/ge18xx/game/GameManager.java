@@ -2631,4 +2631,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		return tBenefit;
 	}
+
+	public Action getLastAction (int aActionOffset) {
+		Action tLastAction;
+		
+		tLastAction = roundManager.getLastAction (aActionOffset);
+		
+		return tLastAction;
+	}
 }
