@@ -95,8 +95,6 @@ public interface ActorI {
 
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState);
 
-	public boolean isAPrivateCompany ();
-
 	public boolean isAPlayer ();
 	
 	public boolean isAStockRound ();
@@ -108,6 +106,8 @@ public interface ActorI {
 	public boolean isABankPool ();
 
 	public boolean isACorporation ();
+
+	public boolean isAPrivateCompany ();
 
 	public boolean isATrainCompany ();
 
