@@ -55,12 +55,12 @@ public interface TrainHolderI extends ActorI {
 	@Override
 	public boolean isATrainCompany ();
 
-	@Override
-	public boolean isACorporation ();
-
-	@Override
-	public boolean isABank ();
-
-	@Override
-	public boolean isABankPool ();
+//	@Override
+//	public boolean isACorporation ();
+//
+//	@Override
+//	public boolean isABank ();
+//
+//	@Override
+//	public boolean isABankPool ();
 }
