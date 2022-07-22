@@ -394,10 +394,10 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return tCertificate;
 	}
 
-	@Override
-	public boolean isAPlayer () {
-		return false;
-	}
+//	@Override
+//	public boolean isAPlayer () {
+//		return false;
+//	}
 
 	@Override
 	public boolean isAStockRound () {
@@ -414,20 +414,15 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return true;
 	}
 
-	@Override
-	public boolean isABankPool () {
-		return false;
-	}
-//
 //	@Override
-//	public boolean isACompany () {
+//	public boolean isABankPool () {
 //		return false;
 //	}
-
-	@Override
-	public boolean isACorporation () {
-		return false;
-	}
+//
+//	@Override
+//	public boolean isACorporation () {
+//		return false;
+//	}
 
 	@Override
 	public boolean isAPrivateCompany () {

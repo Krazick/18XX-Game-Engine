@@ -123,7 +123,7 @@ public class Game_18XX extends JFrame {
 		createActions ();
 		addMenus ();
 
-		setSize (385, 260);
+		setSize (360, 270);
 		setLocation (100, 100);
 		setFrameContents ();
 		setupFrameActions ();
@@ -327,17 +327,29 @@ public class Game_18XX extends JFrame {
 	}
 
 	private void setFrameContents () {
-		JLabel tGameEngineTitle = new JLabel ("Game Engine Title");
+		String tJavaVersion;
+		JLabel tJavaLabel;
+		JLabel tGameEngineTitle;;
+		JLabel tGameEngineVersion;
+		JLabel tClientLabel;
+		GroupLayout groupLayout;
+		
+		tJavaVersion = System.getProperty ("java.version");
+		tJavaLabel = new JLabel ("Java Version " + tJavaVersion);
+		tJavaLabel.setHorizontalAlignment (SwingConstants.CENTER);
+		tJavaLabel.setFont (new Font ("Lucida Grande", Font.PLAIN, 16));
+		
+		tGameEngineTitle = new JLabel ("Game Engine Title");
 		tGameEngineTitle.setText (resbundle.getString ("message"));
 		tGameEngineTitle.setFont (new Font ("Lucida Grande", Font.BOLD, 24));
 		tGameEngineTitle.setHorizontalAlignment (SwingConstants.CENTER);
 
-		JLabel tGameEngineVersion = new JLabel ("Version: X.X");
+		tGameEngineVersion = new JLabel ("Version: X.X");
 		tGameEngineVersion.setText ("V " + getGEVersion ());
 		tGameEngineVersion.setHorizontalAlignment (SwingConstants.CENTER);
 		tGameEngineVersion.setFont (new Font ("Lucida Grande", Font.PLAIN, 20));
 
-		JLabel tClientLabel = new JLabel ("Client User Name:");
+		tClientLabel = new JLabel ("Client User Name:");
 
 		clientUserName = new JTextField ();
 		clientUserName.setColumns (10);
@@ -347,13 +359,14 @@ public class Game_18XX extends JFrame {
 		quitButton = new JButton (QUIT_TEXT);
 		disconnectButton = new JButton (JGameClient.DISCONNECT);
 
-		GroupLayout groupLayout = new GroupLayout (getContentPane ());
+		groupLayout = new GroupLayout (getContentPane ());
 		groupLayout.setHorizontalGroup (groupLayout.createParallelGroup (Alignment.LEADING).addGroup (groupLayout
 				.createSequentialGroup ()
 				.addGroup (groupLayout.createParallelGroup (Alignment.LEADING)
-						.addGroup (groupLayout.createSequentialGroup ().addGap (114).addComponent (tGameEngineVersion))
+						.addGroup (groupLayout.createSequentialGroup ().addGap (100).addComponent (tGameEngineVersion))
 						.addGroup (groupLayout.createSequentialGroup ().addGap (55).addComponent (tGameEngineTitle))
-						.addGroup (groupLayout.createSequentialGroup ().addGap (57).addComponent (tClientLabel)
+						.addGroup (groupLayout.createSequentialGroup ().addGap (100).addComponent (tJavaLabel))
+						.addGroup (groupLayout.createSequentialGroup ().addGap (55).addComponent (tClientLabel)
 								.addPreferredGap (ComponentPlacement.UNRELATED).addComponent (clientUserName,
 										GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 										GroupLayout.PREFERRED_SIZE))
@@ -363,6 +376,7 @@ public class Game_18XX extends JFrame {
 		groupLayout.setVerticalGroup (groupLayout.createParallelGroup (Alignment.LEADING)
 				.addGroup (groupLayout.createSequentialGroup ().addGap (34).addComponent (tGameEngineTitle).addGap (18)
 						.addComponent (tGameEngineVersion).addGap (18)
+						.addComponent (tJavaLabel).addGap (18)
 						.addGroup (groupLayout.createParallelGroup (Alignment.BASELINE).addComponent (tClientLabel)
 								.addComponent (clientUserName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 										GroupLayout.PREFERRED_SIZE))

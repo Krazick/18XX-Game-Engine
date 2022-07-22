@@ -276,11 +276,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
 	}
 
-//	@Override
-//	public boolean isACorporation () {
-//		return false;
-//	}
-
 	@Override
 	public CashHolderI getCashHolder () {
 		return gameManager.getBank ();

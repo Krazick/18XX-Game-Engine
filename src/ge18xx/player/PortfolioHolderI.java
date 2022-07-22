@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 
 public interface PortfolioHolderI extends ActorI {
 
+	public final static PortfolioHolderI NO_HOLDER = null;
+
 	Portfolio portfolio = new Portfolio ();
 
 	public void addCertificate (Certificate aCertificate);
@@ -21,22 +23,28 @@ public interface PortfolioHolderI extends ActorI {
 	public void replacePortfolioInfo (JPanel aPortfolioJPanel);
 
 	@Override
-	public boolean isABank ();
+	public default boolean isABank () {
+		return false;
+	}
 
 	@Override
-	public boolean isABankPool ();
+	public default boolean isABankPool () {
+		return false;
+	}
 
 	@Override
-	public boolean isAPlayer ();
+	public default boolean isAPlayer () {
+		return false;
+	}
 
 	@Override
-	public boolean isACorporation ();
+	public default boolean isACorporation () {
+		return false;
+	}
 
 	@Override
 	public String getName ();
 
 	@Override
 	public String getAbbrev ();
-
-	public final static PortfolioHolderI NO_HOLDER = null;
 }
