@@ -11,6 +11,8 @@ import ge18xx.player.PortfolioHolderI;
 //
 
 public interface CertificateHolderI {
+	public static final CertificateHolderI NO_OWNER = null;
+	
 	public abstract void addCertificate (Certificate aCertificate);
 
 	public abstract int getCertificateCountAgainstLimit ();
@@ -38,6 +40,4 @@ public interface CertificateHolderI {
 	public boolean isAPlayer ();
 
 	public boolean isACorporation ();
-
-	static final CertificateHolderI NO_OWNER = null;
 }
