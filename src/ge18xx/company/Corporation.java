@@ -1306,10 +1306,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return false;
 	}
 
-	@Override
-	public boolean isCompany () {
-		return true;
-	}
+//	@Override
+//	public boolean isACorporation () {
+//		return true;
+//	}
 
 	public boolean isGovtRailway () {
 		return govtRailway;

@@ -33,14 +33,10 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	protected TrainPortfolio trainPortfolio;
 
 	public GameBank (String aName, GameManager aGameManager) {
-//		Bank tBank;
-
 		gameManager = aGameManager;
 		name = aName;
 		portfolio = new Portfolio (this);
 		trainPortfolio = new TrainPortfolio ();
-//		tBank = aGameManager.getBank ();
-//		trainPortfolio.setPortfolioHolder (this);
 	}
 
 	@Override
@@ -280,13 +276,8 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
 	}
 
-	@Override
-	public boolean isCompany () {
-		return false;
-	}
-
 //	@Override
-//	public boolean isPlayer () {
+//	public boolean isACorporation () {
 //		return false;
 //	}
 

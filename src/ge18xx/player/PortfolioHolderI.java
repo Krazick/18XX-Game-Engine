@@ -29,7 +29,8 @@ public interface PortfolioHolderI extends ActorI {
 	@Override
 	public boolean isAPlayer ();
 
-	public boolean isCompany ();
+	@Override
+	public boolean isACorporation ();
 
 	@Override
 	public String getName ();

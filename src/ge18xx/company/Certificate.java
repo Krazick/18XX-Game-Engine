@@ -1004,7 +1004,7 @@ public class Certificate implements Comparable<Certificate> {
 		if (owner != CertificateHolderI.NO_OWNER) {
 			if (owner.isAPlayer ()) {
 				tOwnerName = owner.getHolderName ();
-			} else if (owner.isCompany ()) {
+			} else if (owner.isACorporation ()) {
 				tOwnerName = owner.getHolderAbbrev ();
 			}
 		}

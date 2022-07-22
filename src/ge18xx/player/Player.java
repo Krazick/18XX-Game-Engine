@@ -1565,10 +1565,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setAuctionActionState (ActorI.ActionStates.AuctionPass);
 	}
 
-	@Override
-	public boolean isCompany () {
-		return false;
-	}
+//	@Override
+//	public boolean isACorporation () {
+//		return false;
+//	}
 
 	@Override
 	public boolean isAPrivateCompany () {

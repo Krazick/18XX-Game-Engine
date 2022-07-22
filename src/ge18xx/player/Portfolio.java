@@ -1646,8 +1646,8 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	@Override
-	public boolean isCompany () {
-		return holder.isCompany ();
+	public boolean isACorporation () {
+		return holder.isACorporation ();
 	}
 
 	public boolean isEmpty () {

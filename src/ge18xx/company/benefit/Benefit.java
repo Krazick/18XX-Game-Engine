@@ -226,7 +226,7 @@ public abstract class Benefit implements ActionListener {
 	public boolean isActiveCompanyBenefit () {
 		boolean tIsActiveCompanyBenefit = false;
 
-		if (isCompanyBenefit () && (!passive)) {
+		if (isACompanyBenefit () && (!passive)) {
 			tIsActiveCompanyBenefit = true;
 		}
 
@@ -236,7 +236,7 @@ public abstract class Benefit implements ActionListener {
 	public boolean isActivePlayerBenefit () {
 		boolean tIsActivePlayerBenefit = false;
 
-		if (isPlayerBenefit () && (!passive)) {
+		if (isAPlayerBenefit () && (!passive)) {
 			tIsActivePlayerBenefit = true;
 		}
 
@@ -245,24 +245,24 @@ public abstract class Benefit implements ActionListener {
 
 	public abstract int getCost ();
 
-	public boolean isCompanyBenefit () {
-		boolean tIsCompanyBenefit = false;
+	public boolean isACompanyBenefit () {
+		boolean tIsACompanyBenefit = false;
 
 		if (actorType.compareTo (ActorI.ActorTypes.ShareCompany) == 0) {
-			tIsCompanyBenefit = true;
+			tIsACompanyBenefit = true;
 		}
 
-		return tIsCompanyBenefit;
+		return tIsACompanyBenefit;
 	}
 
-	public boolean isPlayerBenefit () {
-		boolean tIsPlayerBenefit = false;
+	public boolean isAPlayerBenefit () {
+		boolean tIsAPlayerBenefit = false;
 
 		if (actorType.compareTo (ActorI.ActorTypes.Player) == 0) {
-			tIsPlayerBenefit = true;
+			tIsAPlayerBenefit = true;
 		}
 
-		return tIsPlayerBenefit;
+		return tIsAPlayerBenefit;
 	}
 
 	public boolean shouldConfigure () {
@@ -272,7 +272,7 @@ public abstract class Benefit implements ActionListener {
 			tShouldConfigure = false;
 		}
 
-		if (isPlayerBenefit ()) {
+		if (isAPlayerBenefit ()) {
 			if ((!privateCompany.isPlayerOwned ())) {
 				tShouldConfigure = false;
 			}
