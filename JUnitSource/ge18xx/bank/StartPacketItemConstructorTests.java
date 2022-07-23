@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@DisplayName ("Start Packet Item Constructor Tests")
 class StartPacketItemConstructorTests {
 	private CompanyTestFactory companyTestFactory;
 	private UtilitiesTestFactory utilitiesTestFactory;
@@ -101,7 +102,6 @@ class StartPacketItemConstructorTests {
 		
 	}
 	
-
 	@Nested
 	@DisplayName ("Using Mocked Certificates") 
 	class UseMockedCertificates {
