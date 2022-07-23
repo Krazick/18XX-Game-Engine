@@ -1538,12 +1538,12 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	@Override
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
-		setPrimaryActionState (aPrimaryActionState);
+		resetStatus (aPrimaryActionState);
 	}
-
-	public void setPrimaryActionState (ActorI.ActionStates aStatus) {
-		resetStatus (aStatus);
-	}
+//
+//	public void setPrimaryActionState (ActorI.ActionStates aStatus) {
+//		resetStatus (aStatus);
+//	}
 
 	/**
 	 * Force Reset the Corporation Status to the provided Status -- NO Checks to see
