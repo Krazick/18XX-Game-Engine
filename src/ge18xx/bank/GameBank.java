@@ -33,12 +33,25 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	protected TrainPortfolio trainPortfolio;
 
 	public GameBank (String aName, GameManager aGameManager) {
+		Portfolio tPortfolio;
+		TrainPortfolio tTrainPortfolio;
+		
 		gameManager = aGameManager;
 		name = aName;
-		portfolio = new Portfolio (this);
-		trainPortfolio = new TrainPortfolio ();
+		tPortfolio = new Portfolio (this);
+		tTrainPortfolio = new TrainPortfolio ();
+		setPortfolio (tPortfolio);
+		setTrainPortfolio (tTrainPortfolio);
 	}
 
+	public void setPortfolio (Portfolio aPortfolio) {
+		portfolio = aPortfolio;
+	}
+	
+	public void setTrainPortfolio (TrainPortfolio aTrainPortfolio) {
+		trainPortfolio = aTrainPortfolio;
+	}
+	
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
