@@ -115,10 +115,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tCertificatesToBuy;
 	}
 
-	public Train getCheapestTrain () {
-		return trainPortfolio.getCheapestTrain ();
-	}
-
 	@Override
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
@@ -151,23 +147,8 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return ActorI.ActionStates.Fixed.toString ();
 	}
 
-	public JPanel buildTrainPortfolioInfoJPanel (ItemListener aItemListener, Corporation aCorporation,
-			GameManager aGameManager, boolean aCompact, boolean aEnableAction, String aDisableReason) {
-		JPanel tTrainJPanel;
-		JPanel tTrainPortfolioJPanel;
-		BoxLayout tLayout;
-
-		tTrainJPanel = new JPanel ();
-		tTrainJPanel.setBorder (BorderFactory.createTitledBorder (name));
-		tLayout = new BoxLayout (tTrainJPanel, BoxLayout.X_AXIS);
-		tTrainJPanel.setLayout (tLayout);
-		tTrainPortfolioJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, aCorporation, aGameManager,
-				TrainCompany.BUY_LABEL, aCompact, aEnableAction, aDisableReason);
-		tTrainJPanel.add (Box.createVerticalGlue ());
-		tTrainJPanel.add (tTrainPortfolioJPanel);
-		tTrainJPanel.add (Box.createVerticalGlue ());
-
-		return tTrainJPanel;
+	public Train getCheapestTrain () {
+		return trainPortfolio.getCheapestTrain ();
 	}
 
 	@Override
@@ -202,6 +183,25 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		tBankJPanel.add (Box.createVerticalGlue ());
 
 		return tBankJPanel;
+	}
+
+	public JPanel buildTrainPortfolioInfoJPanel (ItemListener aItemListener, Corporation aCorporation,
+			GameManager aGameManager, boolean aCompact, boolean aEnableAction, String aDisableReason) {
+		JPanel tTrainJPanel;
+		JPanel tTrainPortfolioJPanel;
+		BoxLayout tLayout;
+
+		tTrainJPanel = new JPanel ();
+		tTrainJPanel.setBorder (BorderFactory.createTitledBorder (name));
+		tLayout = new BoxLayout (tTrainJPanel, BoxLayout.X_AXIS);
+		tTrainJPanel.setLayout (tLayout);
+		tTrainPortfolioJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, aCorporation, aGameManager,
+				TrainCompany.BUY_LABEL, aCompact, aEnableAction, aDisableReason);
+		tTrainJPanel.add (Box.createVerticalGlue ());
+		tTrainJPanel.add (tTrainPortfolioJPanel);
+		tTrainJPanel.add (Box.createVerticalGlue ());
+
+		return tTrainJPanel;
 	}
 
 	public XMLElement getPortfolioElements (XMLDocument aXMLDocument) {
