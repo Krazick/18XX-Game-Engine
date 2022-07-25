@@ -328,52 +328,8 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	}
 
 	@Override
-	public boolean isAPlayer () {
-		return false;
-	}
-
-	@Override
-	public boolean isAStockRound () {
-		return false;
-	}
-
-	@Override
-	public boolean isAOperatingRound () {
-		return false;
-	}
-
-	@Override
 	public boolean isABank () {
 		return true;
-	}
-
-	@Override
-	public boolean isACorporation () {
-		return false;
-	}
-
-	@Override
-	public boolean isAPrivateCompany () {
-		return false;
-	}
-
-	@Override
-	public boolean isABankPool () {
-		return false;
-	}
-
-	@Override
-	public boolean isATrainCompany () {
-		return false;
-	}
-
-	@Override
-	public boolean isAShareCompany () {
-		return false;
-	}
-
-	@Override
-	public void completeBenefitInUse () {
 	}
 
 	@Override
