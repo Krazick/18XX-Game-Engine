@@ -538,42 +538,41 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 		passButton.setText (tLabel);
 		passButton.setActionCommand (tAction);
-		if (player.isWaiting ()) {
-			passButton.setEnabled (false);
-			passButton.setToolTipText (WAITING_FOR_PAR_PRICE);			
-		} else if (hasSelectedStocksToBuy ()) {
-			passButton.setEnabled (false);
-			passButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
-		} else if (hasSelectedStocksToSell ()) {
-			passButton.setEnabled (false);
-			passButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
-		} else if (hasSelectedPrezToExchange ()) {
-			passButton.setEnabled (false);
-			passButton.setToolTipText (STOCK_SELECTED_FOR_EXCHANGE);
-		} else if (hasSelectedPrivateToBidOn ()) {
-			passButton.setEnabled (false);
-			passButton.setToolTipText (STOCK_SELECTED_FOR_BID);
-		} else if (hasSelectedPrivateOrMinorToExchange ()) {
-			passButton.setEnabled (false);
-			passButton.setToolTipText (PRIVATE_SELECTED_FOR_EXCHANGE);
-		} else if (player.isParPriceFrameActive ()) {
-			passButton.setEnabled (false);
-			passButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);
-		} else if (player.isAAuctionRound ()) {
-			passButton.setEnabled (false);
-			passButton.setToolTipText ("Auction Round must complete first");
-		} else if (!player.isLastActionComplete ()) {
-			passButton.setEnabled (false);
-			passButton.setToolTipText ("Last Action must be completed first");
-		} else if (mustSellStock ()) {
-			tToolTip = getMustSellToolTip (player);
-			passButton.setEnabled (false);
-			passButton.setToolTipText (tToolTip);
-		} else if (hasMustBuyCertificate ()) {
-			setCannotPass ();
-		} else {
-			passButton.setEnabled (true);
-			passButton.setToolTipText ("");
+		if (! handledWaiting (passButton)) {
+			if (hasSelectedStocksToBuy ()) {
+				passButton.setEnabled (false);
+				passButton.setToolTipText (STOCK_SELECTED_FOR_BUY);
+			} else if (hasSelectedStocksToSell ()) {
+				passButton.setEnabled (false);
+				passButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
+			} else if (hasSelectedPrezToExchange ()) {
+				passButton.setEnabled (false);
+				passButton.setToolTipText (STOCK_SELECTED_FOR_EXCHANGE);
+			} else if (hasSelectedPrivateToBidOn ()) {
+				passButton.setEnabled (false);
+				passButton.setToolTipText (STOCK_SELECTED_FOR_BID);
+			} else if (hasSelectedPrivateOrMinorToExchange ()) {
+				passButton.setEnabled (false);
+				passButton.setToolTipText (PRIVATE_SELECTED_FOR_EXCHANGE);
+			} else if (player.isParPriceFrameActive ()) {
+				passButton.setEnabled (false);
+				passButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);
+			} else if (player.isAAuctionRound ()) {
+				passButton.setEnabled (false);
+				passButton.setToolTipText ("Auction Round must complete first");
+			} else if (!player.isLastActionComplete ()) {
+				passButton.setEnabled (false);
+				passButton.setToolTipText ("Last Action must be completed first");
+			} else if (mustSellStock ()) {
+				tToolTip = getMustSellToolTip (player);
+				passButton.setEnabled (false);
+				passButton.setToolTipText (tToolTip);
+			} else if (hasMustBuyCertificate ()) {
+				setCannotPass ();
+			} else {
+				passButton.setEnabled (true);
+				passButton.setToolTipText ("");
+			}
 		}
 	}
 
@@ -602,24 +601,26 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 	private void updateSellButton (boolean aStocksToSell, boolean aStocksToSellSame, boolean aStocksToSellOverfill,
 			boolean aPrezToExchange) {
-		if (aStocksToSell) {
-			if (aPrezToExchange) {
-				sellButton.setEnabled (false);
-				sellButton.setToolTipText ("Must Exchange President Share before selecting stock to sell");
-			} else if (aStocksToSellOverfill) {
-				sellButton.setEnabled (false);
-				sellButton.setToolTipText ("Stocks selected to be Sold will Overfill BankPool");
-			} else if (aStocksToSellSame) {
-				sellButton.setEnabled (aStocksToSell);
-				sellButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
+		if (! handledWaiting (sellButton)) {
+			if (aStocksToSell) {
+				if (aPrezToExchange) {
+					sellButton.setEnabled (false);
+					sellButton.setToolTipText ("Must Exchange President Share before selecting stock to sell");
+				} else if (aStocksToSellOverfill) {
+					sellButton.setEnabled (false);
+					sellButton.setToolTipText ("Stocks selected to be Sold will Overfill BankPool");
+				} else if (aStocksToSellSame) {
+					sellButton.setEnabled (aStocksToSell);
+					sellButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
+				} else {
+					sellButton.setEnabled (aStocksToSellSame);
+					sellButton.setToolTipText (
+							"Stocks selected to sell are different companies, sell one company stock at a time");
+				}
 			} else {
-				sellButton.setEnabled (aStocksToSellSame);
-				sellButton.setToolTipText (
-						"Stocks selected to sell are different companies, sell one company stock at a time");
+				sellButton.setEnabled (aStocksToSell);
+				sellButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE);
 			}
-		} else {
-			sellButton.setEnabled (aStocksToSell);
-			sellButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE);
 		}
 	}
 
@@ -627,28 +628,30 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			boolean tHasSelectedOneToExchange) {
 		boolean tCanBankHoldStock = false;
 
-		if (player.isWaiting ()) {
-			exchangeButton.setEnabled (false);
-			exchangeButton.setToolTipText (WAITING_FOR_PAR_PRICE);	
-		} else if (tHasSelectedOneToExchange) {
-			if (aPrezToExchange) {
-				tCanBankHoldStock = canBankHoldStock ();
-			}
-
-			exchangeButton.setEnabled (tCanBankHoldStock || aPrivateOrMinorToExchange);
-			if (!tCanBankHoldStock) {
-				exchangeButton
-						.setToolTipText ("The Bank Pool cannot hold minimum % of stock required to lose Presidency");
-			} else if (aPrezToExchange) {
-				exchangeButton.setToolTipText ("There is one President's Share Selected to Exchange");
-			} else if (aPrivateOrMinorToExchange) {
-				exchangeButton.setToolTipText ("There is one Private or Minor Share Selected to Exchange");
+		if (! handledWaiting (exchangeButton)) {
+//			exchangeButton.setEnabled (false);
+//			exchangeButton.setToolTipText (WAITING_FOR_PAR_PRICE);	
+//		} else 
+			if (tHasSelectedOneToExchange) {
+				if (aPrezToExchange) {
+					tCanBankHoldStock = canBankHoldStock ();
+				}
+	
+				exchangeButton.setEnabled (tCanBankHoldStock || aPrivateOrMinorToExchange);
+				if (!tCanBankHoldStock) {
+					exchangeButton
+							.setToolTipText ("The Bank Pool cannot hold minimum % of stock required to lose Presidency");
+				} else if (aPrezToExchange) {
+					exchangeButton.setToolTipText ("There is one President's Share Selected to Exchange");
+				} else if (aPrivateOrMinorToExchange) {
+					exchangeButton.setToolTipText ("There is one Private or Minor Share Selected to Exchange");
+				} else {
+					exchangeButton.setToolTipText ("There are no selected President's Share to Exchange");
+				}
 			} else {
-				exchangeButton.setToolTipText ("There are no selected President's Share to Exchange");
+				exchangeButton.setEnabled (false);
+				exchangeButton.setToolTipText ("Select only a single President Share to Exchange at a time");
 			}
-		} else {
-			exchangeButton.setEnabled (false);
-			exchangeButton.setToolTipText ("Select only a single President Share to Exchange at a time");
 		}
 	}
 
