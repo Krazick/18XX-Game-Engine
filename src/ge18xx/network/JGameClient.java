@@ -25,6 +25,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
@@ -140,6 +141,7 @@ public class JGameClient extends XMLFrame {
 	private JTextField serverIPField;
 	private JScrollPane spChatText;
 	private JScrollPane spGameActivity;
+	private JSplitPane splitPane;
 	private JPanel gameActivityPanel;
 	private JPanel gamePanel;
 	private JPanel gameInfoPanel;
@@ -509,9 +511,12 @@ public class JGameClient extends XMLFrame {
 								.addComponent (awayFromKeyboardAFKButton).addGap (85))
 						.addGroup (groupLayout.createSequentialGroup ()
 								.addGroup (groupLayout.createParallelGroup (Alignment.TRAILING)
-										.addComponent (gameActivityPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
-												695, Short.MAX_VALUE)
-										.addComponent (spChatText, GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE))
+										.addComponent (splitPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
+												695, Short.MAX_VALUE))
+//										.addComponent (spChatText, GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE))
+//										.addComponent (gameActivityPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
+//												695, Short.MAX_VALUE)
+//										.addComponent (spChatText, GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE))
 								.addPreferredGap (ComponentPlacement.RELATED)))
 				.addGroup (groupLayout.createParallelGroup (Alignment.LEADING).addGroup (groupLayout
 						.createSequentialGroup ()
@@ -541,10 +546,11 @@ public class JGameClient extends XMLFrame {
 						.addGroup (groupLayout.createParallelGroup (Alignment.LEADING)
 								.addComponent (playerList, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 156,
 										Short.MAX_VALUE)
-								.addComponent (gameActivityPanel, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
+								.addComponent (splitPane, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
+//								.addComponent (gameActivityPanel, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
 						.addGroup (groupLayout.createParallelGroup (Alignment.LEADING).addGroup (groupLayout
 								.createSequentialGroup ().addGap (3)
-								.addComponent (spChatText, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+//								.addComponent (spChatText, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
 								.addPreferredGap (ComponentPlacement.RELATED)
 								.addGroup (groupLayout.createParallelGroup (Alignment.BASELINE)
 										.addComponent (message, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
@@ -611,7 +617,10 @@ public class JGameClient extends XMLFrame {
 		spGameActivity = new JScrollPane ();
 		spGameActivity.setAutoscrolls (true);
 		spGameActivity.setViewportView (gameActivity);
-
+		
+		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+				gameActivityPanel, spChatText);
+		
 		playerList = new JList<NetworkPlayer> (networkPlayers.getPlayerList ());
 		playerList.setFocusable (false);
 		playerList.setFocusTraversalKeysEnabled (false);
