@@ -80,11 +80,11 @@ public class Bank extends GameBank implements CashHolderI {
 			}
 		}
 	}
-
-	@Override
-	public String getAbbrev () {
-		return "Bank";
-	}
+//
+//	@Override
+//	public String getAbbrev () {
+//		return "Bank";
+//	}
 
 	private void setBankIsBroken (boolean aBroken) {
 		bankIsBroken = aBroken;
@@ -428,7 +428,6 @@ public class Bank extends GameBank implements CashHolderI {
 		String tTrainName;
 		Train tTrain;
 
-//		trainPortfolio = getTrainPortfolio ();
 		tTrainOrder = aTrain.getOrder ();
 		tNextTrainOrder = aTrain.getOnFirstOrderAvailable ();
 		/* Check for an "On First" Attribute set and if it is, then handle it */
