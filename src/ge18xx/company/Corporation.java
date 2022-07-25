@@ -2243,26 +2243,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	@Override
-	public boolean isAPlayer () {
-		return false;
-	}
-
-	@Override
-	public boolean isAStockRound () {
-		return false;
-	}
-
-	@Override
-	public boolean isAOperatingRound () {
-		return false;
-	}
-
-	@Override
-	public boolean isABank () {
-		return false;
-	}
-
-	@Override
 	public boolean isACorporation () {
 		return true;
 	}
