@@ -53,14 +53,7 @@ public interface TrainHolderI extends ActorI {
 	public int getLocalSelectedTrainCount ();
 
 	@Override
-	public boolean isATrainCompany ();
-
-//	@Override
-//	public boolean isACorporation ();
-//
-//	@Override
-//	public boolean isABank ();
-//
-//	@Override
-//	public boolean isABankPool ();
+	public default boolean isATrainCompany () {
+		return false;
+	}
 }
