@@ -71,18 +71,4 @@ public class AuctionRound extends Round {
 	public String getAbbrev () {
 		return getName ();
 	}
-
-	@Override
-	public boolean isATrainCompany () {
-		return false;
-	}
-
-	@Override
-	public boolean isAShareCompany () {
-		return false;
-	}
-
-	@Override
-	public void completeBenefitInUse () {
-	}
 }
