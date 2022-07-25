@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TileManifest game="1830" variant="Normal" direction="EW"
+<TileManifest game="1830TEST" variant="Normal" direction="EW"
 	width="830" height="525" xLocation="845" yLocation="30" visible="false">
 	<TileSet color="Yellow">
 		<Tile number="1" quantity="1" />
 		<Tile number="2" quantity="1" />
 		<Tile number="3" quantity="2" />
 		<Tile number="4" quantity="2" />
+		<Tile number="632" quantity="1" />
+		<Tile number="633" quantity="1" />
 		<Tile number="7" quantity="4">
 			<Upgrade toNumber="18" rotations="4" />
 			<Upgrade toNumber="26" rotations="0" />

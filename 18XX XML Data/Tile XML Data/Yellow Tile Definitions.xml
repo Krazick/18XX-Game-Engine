@@ -218,4 +218,28 @@ color="Yellow">
 			<Revenue location="13" phase="0" value="30" />
 		</RevenueCenter>
 	</Tile>
+	<Tile number="632" type="Yellow">
+		<Track enter="0" exit="13" gauge="NORMAL" />
+		<Track enter="1" exit="13" gauge="NORMAL" />
+		<Track enter="2" exit="15" gauge="NORMAL" />
+		<Track enter="3" exit="15" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="13" name="" type="Small Town">
+			<Revenue location="50" phase="0" value="10" />
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="15" name="" type="Small Town">
+			<Revenue location="50" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
+	<Tile number="633" type="Yellow">
+		<Track enter="0" exit="13" gauge="NORMAL" />
+		<Track enter="1" exit="13" gauge="NORMAL" />
+		<Track enter="3" exit="16" gauge="NORMAL" />
+		<Track enter="4" exit="16" gauge="NORMAL" />
+		<RevenueCenter id="-1" location="13" name="" type="Small Town">
+			<Revenue location="50" phase="0" value="10" />
+		</RevenueCenter>
+		<RevenueCenter id="-1" location="16" name="" type="Small Town">
+			<Revenue location="50" phase="0" value="10" />
+		</RevenueCenter>
+	</Tile>
 </TileDefinitions>
