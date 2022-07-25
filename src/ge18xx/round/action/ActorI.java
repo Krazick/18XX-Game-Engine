@@ -95,23 +95,43 @@ public interface ActorI {
 
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState);
 
-	public boolean isAPlayer ();
+	public default boolean isAPlayer () {
+		return false;
+	}
 	
-	public boolean isAStockRound ();
+	public default boolean isAStockRound () {
+		return false;
+	}
 
-	public boolean isAOperatingRound ();
+	public default boolean isAOperatingRound () {
+		return false;
+	}
 
-	public boolean isABank ();
+	public default boolean isABank () {
+		return false;
+	}
 
-	public boolean isABankPool ();
+	public default boolean isABankPool () {
+		return false;
+	}
 
-	public boolean isACorporation ();
+	public default boolean isACorporation () {
+		return false;
+	}
 
-	public boolean isAPrivateCompany ();
+	public default boolean isAPrivateCompany () {
+		return false;
+	}
 
-	public boolean isATrainCompany ();
+	public default boolean isATrainCompany () {
+		return false;
+	}
 
-	public boolean isAShareCompany ();
+	public default boolean isAShareCompany () {
+		return false;
+	}
 
-	public void completeBenefitInUse ();
+	public default void completeBenefitInUse () {
+		
+	}
 }
