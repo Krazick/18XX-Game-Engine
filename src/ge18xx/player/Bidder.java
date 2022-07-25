@@ -79,56 +79,7 @@ public class Bidder implements ActorI {
 	}
 
 	@Override
-	public boolean isAPlayer () {
-		return false;
-	}
-
-	@Override
-	public boolean isAStockRound () {
-		return false;
-	}
-
-	@Override
-	public boolean isAOperatingRound () {
-		return false;
-	}
-
-	@Override
-	public boolean isABank () {
-		return false;
-	}
-
-	@Override
-	public boolean isABankPool () {
-		return false;
-	}
-
-	@Override
-	public boolean isACorporation () {
-		return false;
-	}
-
-	@Override
-	public boolean isAPrivateCompany () {
-		return false;
-	}
-
-	@Override
-	public boolean isATrainCompany () {
-		return false;
-	}
-
-	@Override
-	public boolean isAShareCompany () {
-		return false;
-	}
-
-	@Override
 	public String getAbbrev () {
 		return getName ();
-	}
-
-	@Override
-	public void completeBenefitInUse () {
 	}
 }
