@@ -269,18 +269,4 @@ public class StockRound extends Round {
 		tPlayer = playerManager.getCurrentPlayer ();
 		tPlayer.passAction ();
 	}
-
-	@Override
-	public boolean isATrainCompany () {
-		return false;
-	}
-
-	@Override
-	public boolean isAShareCompany () {
-		return false;
-	}
-
-	@Override
-	public void completeBenefitInUse () {
-	}
 }

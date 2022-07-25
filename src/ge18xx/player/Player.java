@@ -1547,57 +1547,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tWillSaleOverfillBankPool;
 	}
 
-	@Override
-	public boolean isAStockRound () {
-		return false;
-	}
-
-	@Override
-	public boolean isAOperatingRound () {
-		return false;
-	}
-
 	public void applyAuctionPass () {
 		Escrow tCheapestEscrow = escrows.getCheapestEscrow ();
 		Certificate tCertificate = tCheapestEscrow.getCertificate ();
 
 		tCertificate.setAsPassForBidder (this);
 		setAuctionActionState (ActorI.ActionStates.AuctionPass);
-	}
-
-//	@Override
-//	public boolean isACorporation () {
-//		return false;
-//	}
-
-	@Override
-	public boolean isAPrivateCompany () {
-		return false;
-	}
-
-	@Override
-	public boolean isABank () {
-		return false;
-	}
-
-	@Override
-	public boolean isABankPool () {
-		return false;
-	}
-
-	@Override
-	public boolean isACorporation () {
-		return false;
-	}
-
-	@Override
-	public boolean isATrainCompany () {
-		return false;
-	}
-
-	@Override
-	public boolean isAShareCompany () {
-		return false;
 	}
 
 	public Point getOffsetRoundFramePoint () {
