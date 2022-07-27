@@ -118,7 +118,11 @@ public abstract class Benefit implements ActionListener {
 			if (button != GUI.NO_BUTTON) {
 				buttonPanel.remove (button);
 				setButton (GUI.NO_BUTTON);
+			} else {
+				System.err.println ("Button is not Defined for Benefit " + getName ());
 			}
+		} else {
+			System.err.println ("ButtonPanel is not Defined for Benefit " + getName ());
 		}
 	}
 
@@ -183,9 +187,11 @@ public abstract class Benefit implements ActionListener {
 	}
 
 	public boolean hasButton () {
-		boolean tHasButton = false;
+		boolean tHasButton;
 
-		if (button != GUI.NO_BUTTON) {
+		if (button == GUI.NO_BUTTON) {
+			tHasButton = false;
+		} else {
 			tHasButton = true;
 		}
 
@@ -266,27 +272,27 @@ public abstract class Benefit implements ActionListener {
 	}
 
 	public boolean shouldConfigure () {
-		boolean tShouldConfigure = true;
+		boolean tShouldConfigure;
 
-		if (used || passive) {
+		tShouldConfigure = true;
+		if (privateCompany.isClosed ()) {
 			tShouldConfigure = false;
-		}
-
-		if (isAPlayerBenefit ()) {
-			if ((!privateCompany.isPlayerOwned ())) {
+		} else {
+			if (used || passive) {
 				tShouldConfigure = false;
+			}
+	
+			if (isAPlayerBenefit ()) {
+				if ((!privateCompany.isPlayerOwned ())) {
+					tShouldConfigure = false;
+				}
 			}
 		}
 
 		return tShouldConfigure;
 	}
 
-	public String getNewButtonLabel () {
-		// Should have sub-class override to build label for the type of Benefit
-		String tNewButtonText = "";
-
-		return tNewButtonText;
-	}
+	public abstract String getNewButtonLabel ();
 
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		setPrivateCompany (aPrivateCompany);

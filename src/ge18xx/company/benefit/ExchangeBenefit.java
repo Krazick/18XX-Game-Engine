@@ -34,8 +34,10 @@ public class ExchangeBenefit extends CertificateBenefit {
 				tExchangeButton.addActionListener (this);
 				aButtonRow.add (tExchangeButton);
 			}
+			updateButton ();
+		} else {
+			removeButton ();
 		}
-		updateButton ();
 	}
 
 	@Override
@@ -71,6 +73,9 @@ public class ExchangeBenefit extends CertificateBenefit {
 			} else if (playerAtShareLimit ()) {
 				disableButton ();
 				setToolTip ("Player cannot exceed Corp Share Limit.");
+			} else {
+				enableButton ();
+				setToolTip ("");
 			}
 		}
 	}

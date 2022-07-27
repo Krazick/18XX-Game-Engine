@@ -19,4 +19,8 @@ public class CattlePlacementBenefit extends Benefit {
 		return 0;
 	}
 
+	@Override
+	public String getNewButtonLabel () {
+		return "Place Cattle Token";
+	}
 }

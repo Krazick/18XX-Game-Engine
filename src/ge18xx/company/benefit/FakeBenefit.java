@@ -15,4 +15,10 @@ public final class FakeBenefit extends Benefit {
 	public boolean realBenefit () {
 		return false;
 	}
+
+	@Override
+	public String getNewButtonLabel () {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

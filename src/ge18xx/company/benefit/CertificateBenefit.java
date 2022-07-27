@@ -7,7 +7,7 @@ import ge18xx.game.GameManager;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
-public class CertificateBenefit extends Benefit {
+public abstract class CertificateBenefit extends Benefit {
 	final static AttributeName AN_CERTIFICATE_PERCENTAGE = new AttributeName ("certificatePercentage");
 	final static AttributeName AN_CORPORATION_ID = new AttributeName ("corporationID");
 	final static AttributeName AN_CERTIFICATE_PRESIDENT = new AttributeName ("certificatePresident");
@@ -73,6 +73,12 @@ public class CertificateBenefit extends Benefit {
 		tShareCertificate = tShareCompany.getIPOCertificate (certificatePercentage, certificatePresident);
 
 		return tShareCertificate;
+	}
+
+	@Override
+	public String getNewButtonLabel () {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
