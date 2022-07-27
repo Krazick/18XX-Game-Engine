@@ -118,11 +118,7 @@ public abstract class Benefit implements ActionListener {
 			if (button != GUI.NO_BUTTON) {
 				buttonPanel.remove (button);
 				setButton (GUI.NO_BUTTON);
-			} else {
-				System.err.println ("Button is not Defined for Benefit " + getName ());
 			}
-		} else {
-			System.err.println ("ButtonPanel is not Defined for Benefit " + getName ());
 		}
 	}
 
