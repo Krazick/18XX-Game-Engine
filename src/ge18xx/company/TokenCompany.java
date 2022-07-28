@@ -137,6 +137,10 @@ public abstract class TokenCompany extends TrainCompany {
 
 		if (homeMapCell1HasTile ()) {
 			tBaseMapCell = this.getHomeCity1 ();
+			// This just tests for 'HomeCity1' if Corp has multiple MapCells for Base, 
+			// Must allow to choose which MapCell to place on
+			// If a Corp starts with Multiple MapCells (1853 more than one Starting Base) 
+			// must place all Map Cells.
 			if (tBaseMapCell != MapCell.NO_MAP_CELL) {
 				tTile = tBaseMapCell.getTile ();
 				if (tTile != Tile.NO_TILE) {
@@ -145,10 +149,10 @@ public abstract class TokenCompany extends TrainCompany {
 					if (tBaseRevenueCenter != RevenueCenter.NO_CENTER) {
 						tMapFrame = corporationList.getMapFrame ();
 						tMapFrame.putTokenDownHere (this, tBaseMapCell, tBaseRevenueCenter);
-					} else {
+					} else { // Given multiple choice for base location on tile - Is this needed?
 						tBaseCount = tTile.getCorporationBaseCount ();
 						if (tBaseCount > 1) {
-							enterPlaceTokenMode ();
+							corporationFrame.handlePlaceBaseToken ();
 						} else {
 							System.err.println ("No RevenueCenter found for " + getAbbrev () + " at " + tHomeLocation);
 							System.err.println ("Corp Bases [" + tBaseCount + "]");

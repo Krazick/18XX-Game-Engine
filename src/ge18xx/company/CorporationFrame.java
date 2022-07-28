@@ -293,20 +293,33 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tMap;
 	}
 
+	public void handlePlaceBaseToken () {
+		corporation.enterPlaceTokenMode ();
+		updateBaseSelectableMapCells ();
+	}
+	
 	public void handlePlaceBaseTile () {
-		HexMap tMap;
-		MapCell tMapCell;
-
 		handlePlaceTile ();
+		updateBaseSelectableMapCells ();
+	}
+
+	public void updateBaseSelectableMapCells () {
+		MapCell tMapCell;
+		HexMap tMap;
+		
 		tMap = getMap ();
+		tMap.removeAllSMC ();
 		tMap.clearAllSelected ();
 		tMapCell = corporation.getHomeCity1 ();
-		tMap.removeAllSMC ();
-		tMap.addMapCellSMC (tMapCell);
-		if (tMapCell == MapCell.NO_MAP_CELL) {
-			System.err.println ("Corporation " + corporation.getAbbrev () + " has no home Map Cell");
-		} else {
-			tMap.toggleSelectedMapCell (tMapCell);
+		addBaseMapCellToSMC (tMapCell, tMap);
+		tMapCell = corporation.getHomeCity2 ();
+		addBaseMapCellToSMC (tMapCell, tMap);
+	}
+
+	public void addBaseMapCellToSMC (MapCell aMapCell, HexMap aMap) {
+		if (aMapCell != MapCell.NO_MAP_CELL) {
+			aMap.addMapCellSMC (aMapCell);
+			aMap.toggleSelectedMapCell (aMapCell);
 		}
 	}
 
@@ -318,10 +331,18 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	public void handlePlaceToken () {
+		HexMap tMap;
+		
 		corporation.showTileTray ();
-		if (corporation.haveLaidAllBaseTokens () || corporation.choiceForBaseToken ()) {
+		if (corporation.haveLaidAllBaseTokens ()) {
 			corporation.enterPlaceTokenMode ();
+			tMap = getMap ();
+			tMap.removeAllSMC ();
+			tMap.clearAllSelected ();
+			tMap.addReachableMapCells ();	// Currently does nothing.
 			updateTTODButtons ();
+		} else if (corporation.choiceForBaseToken ()) {
+			handlePlaceBaseToken ();
 		} else {
 			corporation.placeBaseTokens ();
 		}

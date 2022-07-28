@@ -129,6 +129,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public boolean isSMCEmpty () {
 		return selectableMapCells.isEmpty ();
 	}
+	
 	public boolean mapCellIsInSelectableSMC (MapCell aMapCell) {
 		boolean tIsInSelectable;
 		
@@ -141,6 +142,12 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tIsInSelectable;
 	}
 
+	public void addReachableMapCells () {
+		// TODO -- Fill the Selectable MapCells with those Map Cells reachable
+		// from the Current Operating Company's current set of Tokens. Use the MapGraph
+		// To find these MapCells.
+	}
+	
 	public void CalcGridCenters () {
 		int rowIndex, colIndex, Xc, Yc, toggle, temp_2DLR, temp_DUP_dwidth;
 		int rowCount;
@@ -636,27 +643,31 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public void handleSelectRevenueCenter (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell, Point aPoint) {
-		City tSelectedCity = City.NO_CITY;
-		RevenueCenter tSelectedRevenueCenter = RevenueCenter.NO_CENTER;
+		City tSelectedCity;
+		RevenueCenter tSelectedRevenueCenter;
 
+		tSelectedCity = City.NO_CITY;
+		tSelectedRevenueCenter = RevenueCenter.NO_CENTER;
 		if (aPreviousSelectedMapCell != MapCell.NO_MAP_CELL) {
 			aPreviousSelectedMapCell.clearSelected ();
 		}
 		if (aSelectedMapCell != MapCell.NO_MAP_CELL) {
-			aSelectedMapCell.handleSelectRevenueCenter (aPoint);
-			tSelectedRevenueCenter = aSelectedMapCell.getSelectedRevenueCenter ();
-			if (tSelectedRevenueCenter instanceof City) {
-				tSelectedCity = (City) tSelectedRevenueCenter;
-			}
-			if (mapFrame.isSelectRouteMode ()) {
-				if (aSelectedMapCell.isTileOnCell ()) {
-					mapFrame.handleSelectedRouteRC (aSelectedMapCell, tSelectedRevenueCenter);
-				} else {
-					System.err.println ("No Tile, and no Track on Tile - Ignore the Click");
+			if (containsMapCellSMC (aSelectedMapCell)) {
+				aSelectedMapCell.handleSelectRevenueCenter (aPoint);
+				tSelectedRevenueCenter = aSelectedMapCell.getSelectedRevenueCenter ();
+				if (tSelectedRevenueCenter instanceof City) {
+					tSelectedCity = (City) tSelectedRevenueCenter;
 				}
-			} else {
-				if (tSelectedCity != City.NO_CITY) {
-					mapFrame.updatePutTokenButton (tSelectedCity, aSelectedMapCell);
+				if (mapFrame.isSelectRouteMode ()) {
+					if (aSelectedMapCell.isTileOnCell ()) {
+						mapFrame.handleSelectedRouteRC (aSelectedMapCell, tSelectedRevenueCenter);
+					} else {
+						System.err.println ("No Tile, and no Track on Tile - Ignore the Click");
+					}
+				} else {
+					if (tSelectedCity != City.NO_CITY) {
+						mapFrame.updatePutTokenButton (tSelectedCity, aSelectedMapCell);
+					}
 				}
 			}
 		}
