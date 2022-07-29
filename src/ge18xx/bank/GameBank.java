@@ -160,8 +160,77 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return trainPortfolio.getSelectedCount ();
 	}
 
-	public boolean isSelectedTrainItem (Object aItem) {
-		return trainPortfolio.isSelectedItem (aItem);
+	@Override
+	public int getLocalSelectedTrainCount () {
+		return getSelectedTrainCount ();
+	}
+
+	@Override
+	public Train getTrain (String aName) {
+		return trainPortfolio.getTrain (aName);
+	}
+
+	@Override
+	public int getTrainQuantity (String aName) {
+		return trainPortfolio.getTrainQuantity (aName);
+	}
+
+	@Override
+	public TrainPortfolio getTrainPortfolio () {
+		return trainPortfolio;
+	}
+
+	@Override
+	public String getTrainNameAndQty (String aStatus) {
+		return trainPortfolio.getTrainNameAndQty (aStatus);
+	}
+
+	@Override
+	public boolean hasTrainNamed (String aName) {
+		return trainPortfolio.hasTrainNamed (aName);
+	}
+
+	@Override
+	public boolean removeSelectedTrain () {
+		return trainPortfolio.removeSelectedTrain ();
+	}
+
+	@Override
+	public boolean removeTrain (String aName) {
+		return trainPortfolio.removeTrain (aName);
+	}
+
+	public Train [] getAvailableTrains () {
+		return trainPortfolio.getAvailableTrains ();
+	}
+
+	public void loadTrainPortfolio (XMLNode aTrainPortfolioNode) {
+		Bank tBank;
+
+		tBank = gameManager.getBank ();
+		trainPortfolio.loadTrainPortfolioFromBank (aTrainPortfolioNode, tBank);
+	}
+
+	public String getTrainSummary () {
+		return trainPortfolio.getTrainSummary ();
+	}
+
+	public boolean hasAnyTrains () {
+		boolean tHasAnyTrains = false;
+
+		if (trainPortfolio.getTrainCount () > 0) {
+			tHasAnyTrains = true;
+		}
+
+		return tHasAnyTrains;
+	}
+
+	public XMLElement getTrainPortfolioElements (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+
+		tXMLElement = trainPortfolio.getElements (aXMLDocument);
+
+		return tXMLElement;
 	}
 
 	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
@@ -212,14 +281,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tXMLElement;
 	}
 
-	public XMLElement getTrainPortfolioElements (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement;
-
-		tXMLElement = trainPortfolio.getElements (aXMLDocument);
-
-		return tXMLElement;
-	}
-
 	@Override
 	public PortfolioHolderI getPortfolioHolder () {
 		return this;
@@ -229,43 +290,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		portfolio.loadPortfolio (aPortfolioNode);
 	}
 
-	public void loadTrainPortfolio (XMLNode aTrainPortfolioNode) {
-		Bank tBank;
-
-		tBank = gameManager.getBank ();
-		trainPortfolio.loadTrainPortfolioFromBank (aTrainPortfolioNode, tBank);
-	}
-
-	@Override
-	public int getLocalSelectedTrainCount () {
-		return trainPortfolio.getSelectedCount ();
-	}
-
-	@Override
-	public Train getTrain (String aName) {
-		return trainPortfolio.getTrain (aName);
-	}
-
-	@Override
-	public int getTrainQuantity (String aName) {
-		return trainPortfolio.getTrainQuantity (aName);
-	}
-
-	@Override
-	public TrainPortfolio getTrainPortfolio () {
-		return trainPortfolio;
-	}
-
-	@Override
-	public String getTrainNameAndQty (String aStatus) {
-		return trainPortfolio.getTrainNameAndQty (aStatus);
-	}
-
-	@Override
-	public boolean hasTrainNamed (String aName) {
-		return trainPortfolio.hasTrainNamed (aName);
-	}
-
 	public void printBankInfo () {
 		System.out.print (name);
 		System.out.println ("Owned Trains [" + getTrainNameAndQty (TrainPortfolio.ALL_TRAINS) + "]");
@@ -273,16 +297,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		System.out.println ("Future Trains [" + getTrainNameAndQty (TrainPortfolio.FUTURE_TRAINS) + "]");
 		System.out.print (name);
 		portfolio.printCompactPortfolioInfo ();
-	}
-
-	@Override
-	public boolean removeSelectedTrain () {
-		return trainPortfolio.removeSelectedTrain ();
-	}
-
-	@Override
-	public boolean removeTrain (String aName) {
-		return trainPortfolio.removeTrain (aName);
 	}
 
 	@Override
@@ -304,27 +318,9 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return gameManager.getBank ();
 	}
 
-	public Train [] getAvailableTrains () {
-		return trainPortfolio.getAvailableTrains ();
-	}
-
 	@Override
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		// Nothing to do for the GameBank Class
-	}
-
-	public String getTrainSummary () {
-		return trainPortfolio.getTrainSummary ();
-	}
-
-	public boolean hasAnyTrains () {
-		boolean tHasAnyTrains = false;
-
-		if (trainPortfolio.getTrainCount () > 0) {
-			tHasAnyTrains = true;
-		}
-
-		return tHasAnyTrains;
 	}
 
 	@Override
