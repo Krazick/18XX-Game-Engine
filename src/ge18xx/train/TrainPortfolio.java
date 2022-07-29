@@ -564,19 +564,19 @@ public class TrainPortfolio implements TrainHolderI {
 
 		return tHasTrain;
 	}
-
-	public boolean isSelectedItem (Object aItem) {
-		boolean tIsSelectedItem;
-
-		tIsSelectedItem = false;
-		for (Train tTrain : trains) {
-			if (tTrain.isThisCheckBox (aItem)) {
-				tIsSelectedItem = true;
-			}
-		}
-
-		return tIsSelectedItem;
-	}
+//
+//	public boolean isSelectedItem (Object aItem) {
+//		boolean tIsSelectedItem;
+//
+//		tIsSelectedItem = false;
+//		for (Train tTrain : trains) {
+//			if (tTrain.isThisCheckBox (aItem)) {
+//				tIsSelectedItem = true;
+//			}
+//		}
+//
+//		return tIsSelectedItem;
+//	}
 
 	public void loadTrainStatus (XMLNode aXMLNode) {
 		XMLNodeList tXMLNodeList;
