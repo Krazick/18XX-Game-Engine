@@ -166,7 +166,7 @@ public class Bank extends GameBank implements CashHolderI {
 		createStartPacket (gameManager);
 	}
 
-	public JPanel buildStartPacketInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
+	public JPanel buildStartPacketInfoJPanel (ItemListener aItemListener, Player aPlayer) {
 		JPanel tPortfolioJPanel;
 		JPanel tStartPacketJPanel;
 		BoxLayout tLayout;
@@ -176,7 +176,7 @@ public class Bank extends GameBank implements CashHolderI {
 		tLayout = new BoxLayout (tStartPacketJPanel, BoxLayout.Y_AXIS);
 		tStartPacketJPanel.setLayout (tLayout);
 
-		tPortfolioJPanel = startPacketFrame.buildStartPacketInfoJPanel (aItemListener, aPlayer, aGameManager);
+		tPortfolioJPanel = startPacketFrame.buildStartPacketInfoJPanel (aItemListener, aPlayer, gameManager);
 		tStartPacketJPanel.add (Box.createVerticalGlue ());
 		tStartPacketJPanel.add (tPortfolioJPanel);
 		tStartPacketJPanel.add (Box.createVerticalGlue ());

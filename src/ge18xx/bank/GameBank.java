@@ -233,44 +233,45 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tXMLElement;
 	}
 
-	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
-		return buildPortfolioInfoJPanel (aItemListener, aPlayer, aGameManager, Player.BUY_AT_PAR_LABEL);
+	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer) {
+		return buildPortfolioInfoJPanel (aItemListener, aPlayer, Player.BUY_AT_PAR_LABEL);
 	}
 
-	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager,
+	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer,
 			String aCheckboxLabel) {
 		JPanel tPortfolioJPanel;
 		JPanel tBankJPanel;
 
-		tBankJPanel = new JPanel ();
-		tBankJPanel.setLayout (new BoxLayout (tBankJPanel, BoxLayout.X_AXIS));
-		tBankJPanel.setBorder (BorderFactory.createTitledBorder (name));
 		tPortfolioJPanel = portfolio.buildShareCertificateJPanel (Corporation.SHARE_COMPANY, aCheckboxLabel,
-				aItemListener, aPlayer, aGameManager);
-		tBankJPanel.add (Box.createVerticalGlue ());
-		tBankJPanel.add (tPortfolioJPanel);
-		tBankJPanel.add (Box.createVerticalGlue ());
+				aItemListener, aPlayer, gameManager);
+		tBankJPanel = buildPortfolioPanel (tPortfolioJPanel);
 
 		return tBankJPanel;
 	}
 
 	public JPanel buildTrainPortfolioInfoJPanel (ItemListener aItemListener, Corporation aCorporation,
-			GameManager aGameManager, boolean aCompact, boolean aEnableAction, String aDisableReason) {
+			boolean aCompact, boolean aEnableAction, String aDisableReason) {
 		JPanel tTrainJPanel;
 		JPanel tTrainPortfolioJPanel;
-		BoxLayout tLayout;
 
-		tTrainJPanel = new JPanel ();
-		tTrainJPanel.setBorder (BorderFactory.createTitledBorder (name));
-		tLayout = new BoxLayout (tTrainJPanel, BoxLayout.X_AXIS);
-		tTrainJPanel.setLayout (tLayout);
-		tTrainPortfolioJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, aCorporation, aGameManager,
+		tTrainPortfolioJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, aCorporation, gameManager,
 				TrainCompany.BUY_LABEL, aCompact, aEnableAction, aDisableReason);
-		tTrainJPanel.add (Box.createVerticalGlue ());
-		tTrainJPanel.add (tTrainPortfolioJPanel);
-		tTrainJPanel.add (Box.createVerticalGlue ());
+		tTrainJPanel = buildPortfolioPanel (tTrainPortfolioJPanel);
 
 		return tTrainJPanel;
+	}
+
+	public JPanel buildPortfolioPanel (JPanel aPortfolioJPanel) {
+		JPanel tPortfolioPanel;
+		
+		tPortfolioPanel = new JPanel ();
+		tPortfolioPanel.setLayout (new BoxLayout (tPortfolioPanel, BoxLayout.X_AXIS));
+		tPortfolioPanel.setBorder (BorderFactory.createTitledBorder (name));
+		tPortfolioPanel.add (Box.createVerticalGlue ());
+		tPortfolioPanel.add (aPortfolioJPanel);
+		tPortfolioPanel.add (Box.createVerticalGlue ());
+		
+		return tPortfolioPanel;
 	}
 
 	public XMLElement getPortfolioElements (XMLDocument aXMLDocument) {

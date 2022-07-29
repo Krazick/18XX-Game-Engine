@@ -44,8 +44,8 @@ public class BankPool extends GameBank {
 	}
 
 	@Override
-	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
-		return buildPortfolioInfoJPanel (aItemListener, aPlayer, aGameManager, Player.BUY_LABEL);
+	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer) {
+		return buildPortfolioInfoJPanel (aItemListener, aPlayer, Player.BUY_LABEL);
 	}
 
 	public XMLElement getBankPoolStateElements (XMLDocument aXMLDocument) {

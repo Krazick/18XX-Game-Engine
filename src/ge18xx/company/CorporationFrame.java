@@ -555,7 +555,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			if (tGameManager != GameManager.NO_GAME_MANAGER) {
 				bankJPanel.removeAll ();
 				if (tBankPool != BankPool.NO_BANK_POOL) {
-					tBPPortfolioJPanel = tBankPool.buildTrainPortfolioInfoJPanel (this, corporation, tGameManager,
+					tBPPortfolioJPanel = tBankPool.buildTrainPortfolioInfoJPanel (this, corporation,
 							TrainPortfolio.FULL_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
 					bankJPanel.add (Box.createHorizontalGlue ());
 					bankJPanel.add (tBPPortfolioJPanel);
@@ -564,7 +564,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					System.err.println ("Bank Pool is Null");
 				}
 				if (tBank != Bank.NO_BANK) {
-					tBankPortfolioJPanel = tBank.buildTrainPortfolioInfoJPanel (this, corporation, tGameManager,
+					tBankPortfolioJPanel = tBank.buildTrainPortfolioInfoJPanel (this, corporation,
 							TrainPortfolio.COMPACT_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
 					bankJPanel.add (tBankPortfolioJPanel);
 					bankJPanel.add (Box.createHorizontalGlue ());

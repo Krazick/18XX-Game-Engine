@@ -220,17 +220,17 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 		bankJPanel.removeAll ();
 		if (tBank.isStartPacketPortfolioEmpty ()) {
-			tBPPortfolioJPanel = tBankPool.buildPortfolioInfoJPanel (this, player, aGameManager);
+			tBPPortfolioJPanel = tBankPool.buildPortfolioInfoJPanel (this, player);
 
 			bankJPanel.add (Box.createVerticalGlue ());
 			bankJPanel.add (tBPPortfolioJPanel);
 			bankJPanel.add (Box.createVerticalGlue ());
 
-			tBankPortfolioJPanel = tBank.buildPortfolioInfoJPanel (this, player, aGameManager);
+			tBankPortfolioJPanel = tBank.buildPortfolioInfoJPanel (this, player);
 			bankJPanel.add (tBankPortfolioJPanel);
 			bankJPanel.add (Box.createVerticalGlue ());
 		} else {
-			tStartPacketPortfolioJPanel = tBank.buildStartPacketInfoJPanel (this, player, aGameManager);
+			tStartPacketPortfolioJPanel = tBank.buildStartPacketInfoJPanel (this, player);
 			bankJPanel.add (Box.createVerticalGlue ());
 			bankJPanel.add (tStartPacketPortfolioJPanel);
 			bankJPanel.add (Box.createVerticalGlue ());
