@@ -2,6 +2,7 @@ package ge18xx.bank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 
@@ -324,5 +325,74 @@ class GameBankTests {
 			assertEquals ("3 (5)", tNameAndQuantity);
 			Mockito.verify (mTrainPortfolio, times (1)).getTrainNameAndQty ("AVAILABLE");
 		}
+		
+		@DisplayName ("hasTrainNamed Test")
+		@Test
+		void hasTrainNamedTest () {
+			boolean tHasTrainNamed;
+			
+			Mockito.when (mTrainPortfolio.hasTrainNamed ("3")).thenReturn (true);
+			Mockito.when (mTrainPortfolio.hasTrainNamed ("4")).thenReturn (false);
+			tHasTrainNamed = gameBank.hasTrainNamed ("3");
+			assertTrue (tHasTrainNamed);
+			Mockito.verify (mTrainPortfolio, times (1)).hasTrainNamed ("3");
+			tHasTrainNamed = gameBank.hasTrainNamed ("5");
+			assertFalse (tHasTrainNamed);
+			Mockito.verify (mTrainPortfolio, times (1)).hasTrainNamed ("5");
+		}
+		
+		@DisplayName ("removeSelectedTrain Test")
+		@Test
+		void removeSelectedTrainTest () {
+			boolean tHasTrainNamed;
+			
+			Mockito.when (mTrainPortfolio.removeSelectedTrain ()).thenReturn (true);
+			tHasTrainNamed = gameBank.removeSelectedTrain ();
+			assertTrue (tHasTrainNamed);
+			Mockito.verify (mTrainPortfolio, times (1)).removeSelectedTrain ();
+		}
+		
+		@DisplayName ("removeTrain Test")
+		@Test
+		void removeTrainTest () {
+			boolean tTrainRemoved;
+			
+			Mockito.when (mTrainPortfolio.removeTrain ("3")).thenReturn (true);
+			Mockito.when (mTrainPortfolio.hasTrainNamed ("4")).thenReturn (false);
+			tTrainRemoved = gameBank.removeTrain ("3");
+			assertTrue (tTrainRemoved);
+			Mockito.verify (mTrainPortfolio, times (1)).removeTrain ("3");
+		}
+		
+		@DisplayName ("getAvailableTrains Test")
+		@Test
+		void getAvailableTrainsTest () {
+			Train [] tAvailableTrains;
+			Train [] tGeneratedAvailableTrains;
+			Train mGeneratedTrain;
+			Train tFoundTrain;
+			
+			tGeneratedAvailableTrains = new Train [10];
+			mGeneratedTrain = trainTestFactory.buildTrainMock ();
+			tGeneratedAvailableTrains [0] = mGeneratedTrain;
+			
+			Mockito.when (mTrainPortfolio.getAvailableTrains ()).thenReturn (tGeneratedAvailableTrains);
+			tAvailableTrains = gameBank.getAvailableTrains ();
+			tFoundTrain = tAvailableTrains [0];
+			assertEquals (mGeneratedTrain, tFoundTrain);
+			Mockito.verify (mTrainPortfolio, times (1)).getAvailableTrains ();
+		}
+		
+		@DisplayName ("getTrainSummary Test")
+		@Test
+		void getTrainSummaryTest () {
+			String tTrainSummary;
+			
+			Mockito.when (mTrainPortfolio.getTrainSummary ()).thenReturn ("Game Bank Train Summary");
+			tTrainSummary = gameBank.getTrainSummary ();
+			assertEquals ("Game Bank Train Summary", tTrainSummary);
+			Mockito.verify (mTrainPortfolio, times (1)).getTrainSummary ();
+		}
+
 	}
 }
