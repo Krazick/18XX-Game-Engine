@@ -20,7 +20,7 @@ public class BenefitTestFactory {
 		String tXMLBenefitTest = "<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>";
 		XMLNode tBenefitXMLNode;
 
-		tBenefitXMLNode = utilitiesTestFactory.constructXMLNode (tXMLBenefitTest);
+		tBenefitXMLNode = utilitiesTestFactory.buildXMLNode (tXMLBenefitTest);
 
 		tMapBenefit = new MapBenefit (tBenefitXMLNode);
 		tMapBenefit.setPrivateCompany (aPrivateCompany);

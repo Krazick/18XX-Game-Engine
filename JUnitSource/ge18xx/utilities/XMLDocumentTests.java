@@ -35,7 +35,7 @@ class XMLDocumentTests {
 				+ "		</Benefits>\n" + "		<Certificate director=\"YES\" percentage=\"100\"\n"
 				+ "			allowedOwners=\"IPO,Player,Share\" />\n" + "	</Private>\n" + "";
 		
-		tPrivateDocument = utilityTestFactory.constructXMLDocument (tPrivateCompany1TestXML);
+		tPrivateDocument = utilityTestFactory.buildXMLDocument (tPrivateCompany1TestXML);
 		
 		return tPrivateDocument;
 	}

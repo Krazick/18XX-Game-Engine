@@ -91,7 +91,7 @@ public class GameTestFactory {
 		GameInfo tGameInfo = GameInfo.NO_GAME_INFO;
 		XMLNode tGameInfoNode;
 
-		tGameInfoNode = utilitiesTestFactory.constructXMLNode (t1830TestXML);
+		tGameInfoNode = utilitiesTestFactory.buildXMLNode (t1830TestXML);
 		if (tGameInfoNode != XMLNode.NO_NODE) {
 			tGameInfo = new GameInfo (tGameInfoNode);
 			tGameInfo.setTestingFlag (true);

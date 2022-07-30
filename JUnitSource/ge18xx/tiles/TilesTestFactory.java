@@ -35,7 +35,7 @@ public class TilesTestFactory {
 		Tile tTile;
 
 		tTile = Tile.NO_TILE;
-		tTileXMLNode = utilitiesTestFactory.constructXMLNode (aTileTextXML);
+		tTileXMLNode = utilitiesTestFactory.buildXMLNode (aTileTextXML);
 		if (tTileXMLNode != XMLNode.NO_NODE) {
 			tTile = new Tile (tTileXMLNode);
 		}

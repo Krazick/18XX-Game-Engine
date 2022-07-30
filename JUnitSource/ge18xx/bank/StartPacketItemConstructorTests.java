@@ -58,7 +58,7 @@ class StartPacketItemConstructorTests {
 		XMLNode tStartPacketItemNode;
 		StartPacketItem tStartPacketItem;
 		
-		tStartPacketItemNode = utilitiesTestFactory.constructXMLNode (aStartPacketTextXML);
+		tStartPacketItemNode = utilitiesTestFactory.buildXMLNode (aStartPacketTextXML);
 		tStartPacketItem = StartPacketItem.NO_START_PACKET_ITEM;
 		
 		if (tStartPacketItemNode != XMLNode.NO_NODE) {

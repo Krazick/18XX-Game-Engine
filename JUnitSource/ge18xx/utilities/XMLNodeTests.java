@@ -21,7 +21,7 @@ class XMLNodeTests {
 				+ "			allowedOwners=\"IPO,Player,Share\" />\n" + "	</Private>\n" + "";
 		
 		utilityTestFactory = new UtilitiesTestFactory ();
-		xmlNode = utilityTestFactory.constructXMLNode (tPrivateCompany1TestXML);
+		xmlNode = utilityTestFactory.buildXMLNode (tPrivateCompany1TestXML);
 	}
 
 	@Test

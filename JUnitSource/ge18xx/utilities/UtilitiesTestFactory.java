@@ -7,7 +7,7 @@ public class UtilitiesTestFactory {
 		theXMLDocument = new XMLDocument ();
 	}
 
-	public XMLDocument constructXMLDocument (String aXMLText) {
+	public XMLDocument buildXMLDocument (String aXMLText) {
 		XMLDocument tXMLDocument;
 		
 		tXMLDocument = theXMLDocument.ParseXMLString (aXMLText);
@@ -15,11 +15,11 @@ public class UtilitiesTestFactory {
 		return tXMLDocument;
 	}
 	
-	public XMLNode constructXMLNode (String aXMLText) {
+	public XMLNode buildXMLNode (String aXMLText) {
 		XMLNode tXMLNode;
 		XMLDocument tXMLDocument;
 		
-		tXMLDocument = constructXMLDocument (aXMLText);
+		tXMLDocument = buildXMLDocument (aXMLText);
 
 		if (tXMLDocument.validDocument ()) {
 			tXMLNode = tXMLDocument.getDocumentNode ();

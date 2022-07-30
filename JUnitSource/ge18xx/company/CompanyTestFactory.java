@@ -75,7 +75,7 @@ public class CompanyTestFactory {
 			CorporationList mCorporationList) {
 		XMLNode tPrivateCompanyNode;
 
-		tPrivateCompanyNode = utilitiesTestFactory.constructXMLNode (aPrivateCompanyTextXML);
+		tPrivateCompanyNode = utilitiesTestFactory.buildXMLNode (aPrivateCompanyTextXML);
 		if (tPrivateCompanyNode != XMLNode.NO_NODE) {
 			aPrivateCompany = new PrivateCompany (tPrivateCompanyNode, mCorporationList);
 			aPrivateCompany.setTestingFlag (true);
@@ -126,7 +126,7 @@ public class CompanyTestFactory {
 			CorporationList mCorporationList) {
 		XMLNode tShareCompanyNode;
 
-		tShareCompanyNode = utilitiesTestFactory.constructXMLNode (aShareCompanyTestXML);
+		tShareCompanyNode = utilitiesTestFactory.buildXMLNode (aShareCompanyTestXML);
 		if (tShareCompanyNode != XMLNode.NO_NODE) {
 			aShareCompany = new ShareCompany (tShareCompanyNode, mCorporationList);
 			aShareCompany.setTestingFlag (true);
@@ -178,7 +178,7 @@ public class CompanyTestFactory {
 			CorporationList mCorporationList) {
 		XMLNode tMinorCompanyNode;
 
-		tMinorCompanyNode = utilitiesTestFactory.constructXMLNode (aMinorCompanyTestXML);
+		tMinorCompanyNode = utilitiesTestFactory.buildXMLNode (aMinorCompanyTestXML);
 		if (tMinorCompanyNode != XMLNode.NO_NODE) {
 			aMinorCompany = new MinorCompany (tMinorCompanyNode, mCorporationList);
 			aMinorCompany.setTestingFlag (true);
