@@ -216,10 +216,12 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	}
 
 	public boolean hasAnyTrains () {
-		boolean tHasAnyTrains = false;
+		boolean tHasAnyTrains;
 
 		if (trainPortfolio.getTrainCount () > 0) {
 			tHasAnyTrains = true;
+		} else {
+			tHasAnyTrains = false;
 		}
 
 		return tHasAnyTrains;
@@ -231,22 +233,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		tXMLElement = trainPortfolio.getElements (aXMLDocument);
 
 		return tXMLElement;
-	}
-
-	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer) {
-		return buildPortfolioInfoJPanel (aItemListener, aPlayer, Player.BUY_AT_PAR_LABEL);
-	}
-
-	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer,
-			String aCheckboxLabel) {
-		JPanel tPortfolioJPanel;
-		JPanel tBankJPanel;
-
-		tPortfolioJPanel = portfolio.buildShareCertificateJPanel (Corporation.SHARE_COMPANY, aCheckboxLabel,
-				aItemListener, aPlayer, gameManager);
-		tBankJPanel = buildPortfolioPanel (tPortfolioJPanel);
-
-		return tBankJPanel;
 	}
 
 	public JPanel buildTrainPortfolioInfoJPanel (ItemListener aItemListener, Corporation aCorporation,
@@ -261,7 +247,22 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tTrainJPanel;
 	}
 
-	public JPanel buildPortfolioPanel (JPanel aPortfolioJPanel) {
+	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer) {
+		return buildPortfolioInfoJPanel (aItemListener, aPlayer, Player.BUY_AT_PAR_LABEL);
+	}
+
+	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer, String aCheckboxLabel) {
+		JPanel tPortfolioJPanel;
+		JPanel tBankJPanel;
+
+		tPortfolioJPanel = portfolio.buildShareCertificateJPanel (Corporation.SHARE_COMPANY, aCheckboxLabel,
+				aItemListener, aPlayer, gameManager);
+		tBankJPanel = buildPortfolioPanel (tPortfolioJPanel);
+
+		return tBankJPanel;
+	}
+
+	private JPanel buildPortfolioPanel (JPanel aPortfolioJPanel) {
 		JPanel tPortfolioPanel;
 		
 		tPortfolioPanel = new JPanel ();
@@ -274,6 +275,11 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tPortfolioPanel;
 	}
 
+	@Override
+	public PortfolioHolderI getPortfolioHolder () {
+		return this;
+	}
+
 	public XMLElement getPortfolioElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 
@@ -282,31 +288,13 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tXMLElement;
 	}
 
-	@Override
-	public PortfolioHolderI getPortfolioHolder () {
-		return this;
-	}
-
 	public void loadPortfolio (XMLNode aPortfolioNode) {
 		portfolio.loadPortfolio (aPortfolioNode);
 	}
 
 	public void printBankInfo () {
-		System.out.print (name);
-		System.out.println ("Owned Trains [" + getTrainNameAndQty (TrainPortfolio.ALL_TRAINS) + "]");
-		System.out.println ("Available Trains [" + getTrainNameAndQty (TrainPortfolio.AVAILABLE_TRAINS) + "]");
-		System.out.println ("Future Trains [" + getTrainNameAndQty (TrainPortfolio.FUTURE_TRAINS) + "]");
-		System.out.print (name);
+		trainPortfolio.printNameAndQty (name);
 		portfolio.printCompactPortfolioInfo ();
-	}
-
-	@Override
-	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
-	}
-
-	@Override
-	public CashHolderI getCashHolder () {
-		return gameManager.getBank ();
 	}
 
 	@Override
@@ -315,13 +303,13 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	}
 
 	@Override
-	public Bank getBank () {
-		return gameManager.getBank ();
+	public CashHolderI getCashHolder () {
+		return getBank ();
 	}
 
 	@Override
-	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
-		// Nothing to do for the GameBank Class
+	public Bank getBank () {
+		return gameManager.getBank ();
 	}
 
 	@Override

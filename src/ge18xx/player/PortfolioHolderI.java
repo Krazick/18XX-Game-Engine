@@ -20,7 +20,9 @@ public interface PortfolioHolderI extends ActorI {
 
 	public Portfolio getPortfolio ();
 
-	public void replacePortfolioInfo (JPanel aPortfolioJPanel);
+	public default void replacePortfolioInfo (JPanel aPortfolioJPanel) {
+		// DO NOTHING by default
+	}
 
 	@Override
 	public default boolean isABank () {

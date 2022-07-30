@@ -334,11 +334,6 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return ActorI.ActionStates.Fixed.toString ();
 	}
 
-	@Override
-	public void replacePortfolioInfo (JPanel aPortfolioJPanel) {
-
-	}
-
 	public void enableMustBuyPrivateButton () {
 		boolean enableMustBuyPrivateButton = false;
 
