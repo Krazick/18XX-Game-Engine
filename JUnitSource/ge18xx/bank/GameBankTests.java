@@ -27,6 +27,10 @@ import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.train.Train;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.train.TrainTestFactory;
+import ge18xx.utilities.UtilitiesTestFactory;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
 
 @DisplayName ("Game Bank Tests")
 class GameBankTests {
@@ -35,6 +39,7 @@ class GameBankTests {
 	private CompanyTestFactory companyTestFactory;
 	private CertificateTestFactory certificateTestFactory;
 	private TrainTestFactory trainTestFactory;
+	private UtilitiesTestFactory utilitiesTestFactory;
 	private GameManager mGameManager;
 	private Portfolio mPortfolio;
 	private TrainPortfolio mTrainPortfolio;
@@ -48,6 +53,7 @@ class GameBankTests {
 		companyTestFactory = new CompanyTestFactory (gameTestFactory);
 		certificateTestFactory = new CertificateTestFactory ();
 		trainTestFactory = new TrainTestFactory ();
+		utilitiesTestFactory = new UtilitiesTestFactory ();
 		
 		mGameManager = gameTestFactory.buildGameManagerMock ();
 		gameBank = bankTestFactory.buildGameBank (mGameManager);
@@ -119,6 +125,25 @@ class GameBankTests {
 		Mockito.verify (mPortfolio, times (1)).clearSelections ();
 		Mockito.verify (mTrainPortfolio, times (1)).clearSelections ();
 	}
+	
+	@DisplayName ("Get Cash Holder Test")
+	@Test
+	void getCashHolderTest () {
+		Bank mBank;
+		
+		mBank = bankTestFactory.buildBankMock (mGameManager);
+		Mockito.when (mGameManager.getBank ()).thenReturn (mBank);
+		assertEquals (mBank, gameBank.getCashHolder ());
+		
+		assertEquals (mBank, gameBank.getBank ());
+	}
+	
+	@DisplayName ("Get Porfolio Holder Test")
+	@Test
+	void getPortfolioHolderTest () {
+		assertEquals (gameBank, gameBank.getPortfolioHolder ());
+	}
+	
 	
 	@DisplayName ("Get Certificate")
 	@Nested
@@ -278,8 +303,6 @@ class GameBankTests {
 		void getSelectedTrainCountTest () {
 			int tSelectedTrainCount;
 			
-//			mGeneratedSelectedTrain = trainTestFactory.buildTrainMock ();
-
 			Mockito.when (mTrainPortfolio.getSelectedCount ()).thenReturn (2);
 			tSelectedTrainCount = gameBank.getSelectedTrainCount ();
 			assertEquals (2, tSelectedTrainCount);
@@ -393,6 +416,75 @@ class GameBankTests {
 			assertEquals ("Game Bank Train Summary", tTrainSummary);
 			Mockito.verify (mTrainPortfolio, times (1)).getTrainSummary ();
 		}
+		
+		@DisplayName ("loadTrainPortfolio Test")
+		@Test
+		void loadTrainPortfolioTest () {
+			XMLNode mXMLNodeTrainPortfolio;
+			Bank mBank;
+			
+			mBank = bankTestFactory.buildBankMock (mGameManager);
+			Mockito.when (mGameManager.getBank ()).thenReturn (mBank);
+			
+			mXMLNodeTrainPortfolio = utilitiesTestFactory.buildXMLNodeMock ();
+			Mockito.doNothing ().when (mTrainPortfolio).loadTrainPortfolioFromBank (mXMLNodeTrainPortfolio, mBank);
+			gameBank.loadTrainPortfolio (mXMLNodeTrainPortfolio);
+			Mockito.verify (mTrainPortfolio, times (1)).loadTrainPortfolioFromBank (mXMLNodeTrainPortfolio, mBank);
+		}
+		
+		@DisplayName ("hasAnyTrains Test")
+		@Test
+		void hasAnyTrainsTest () {
+			Mockito.when (mTrainPortfolio.getTrainCount ()).thenReturn (1);
+			assertTrue (gameBank.hasAnyTrains ());
+			Mockito.verify (mTrainPortfolio, times (1)).getTrainCount ();
 
+			Mockito.when (mTrainPortfolio.getTrainCount ()).thenReturn (0);
+			assertFalse (gameBank.hasAnyTrains ());
+			Mockito.verify (mTrainPortfolio, times (2)).getTrainCount ();
+		}
+		
+		@DisplayName ("getTrainPortfolioElements Test")
+		@Test
+		void getTrainPortfolioElementsTest () {
+			XMLElement mXMLElement;
+			XMLDocument mXMLDocument;
+			
+			mXMLDocument = utilitiesTestFactory.buildXMLDocumentMock ();
+			mXMLElement = utilitiesTestFactory.buildXMLElementMock ();
+			Mockito.when (mTrainPortfolio.getElements (mXMLDocument)).thenReturn (mXMLElement);
+			
+			gameBank.getTrainPortfolioElements (mXMLDocument);
+			Mockito.verify (mTrainPortfolio, times (1)).getElements (mXMLDocument);
+		}
+	}
+	
+	@DisplayName ("Portfolio Interaction")
+	@Nested
+	class portfolioInteractionTests {
+		@DisplayName ("getPortfolioElements Test")
+		@Test
+		void getPortfolioElementsTest () {
+			XMLElement mXMLElement;
+			XMLDocument mXMLDocument;
+			
+			mXMLDocument = utilitiesTestFactory.buildXMLDocumentMock ();
+			mXMLElement = utilitiesTestFactory.buildXMLElementMock ();
+			Mockito.when (mPortfolio.getElements (mXMLDocument)).thenReturn (mXMLElement);
+			
+			gameBank.getPortfolioElements (mXMLDocument);
+			Mockito.verify (mPortfolio, times (1)).getElements (mXMLDocument);
+		}
+		
+		@DisplayName ("loadPortfolio Test")
+		@Test
+		void loadPortfolioTest () {
+			XMLNode mXMLNodePortfolio;
+			
+			mXMLNodePortfolio = utilitiesTestFactory.buildXMLNodeMock ();
+			Mockito.doNothing ().when (mPortfolio).loadPortfolio (mXMLNodePortfolio);
+			gameBank.loadPortfolio (mXMLNodePortfolio);
+			Mockito.verify (mPortfolio, times (1)).loadPortfolio (mXMLNodePortfolio);
+		}
 	}
 }
