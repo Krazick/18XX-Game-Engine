@@ -118,11 +118,12 @@ public class StateChangeEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		boolean tNewAuctionAction = false;
-
+		StockRound tStockRound;
+		
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			Player tPlayer = (Player) actor;
-			StockRound tStockRound = aRoundManager.getStockRound ();
+			tStockRound = aRoundManager.getStockRound ();
 			actor.resetPrimaryActionState (newState);
 			tStockRound.updateRFPlayerLabel (tPlayer);
 		} else if (actor.isAStockRound ()) {
@@ -162,6 +163,11 @@ public class StateChangeEffect extends Effect {
 			tEffectUndone = true;
 			tStockRound = aRoundManager.getStockRound ();
 			tStockRound.updateRFPlayerLabel (tPlayer);
+		} else if (actor.isAOperatingRound ()) {
+			if (previousState == ActorI.ActionStates.OperatingRound) {
+				aRoundManager.setRoundToOperatingRound ();
+				tEffectUndone = true;
+			}
 		} else if (actor.isABank ()) {
 			setUndoFailureReason ("The Actor is a Bank, which does not have a State to Change");
 		} else if (actor.isACorporation ()) {
