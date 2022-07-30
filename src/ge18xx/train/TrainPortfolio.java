@@ -439,6 +439,13 @@ public class TrainPortfolio implements TrainHolderI {
 		return tNameAndQty;
 	}
 
+	public void printNameAndQty (String aPortfolioHolderName) {
+		System.out.println ("Portfolio Holder " + aPortfolioHolderName);
+		System.out.println ("Owned Trains [" + getTrainNameAndQty (ALL_TRAINS) + "]");
+		System.out.println ("Available Trains [" + getTrainNameAndQty (AVAILABLE_TRAINS) + "]");
+		System.out.println ("Future Trains [" + getTrainNameAndQty (FUTURE_TRAINS) + "]");
+	}
+	
 	@Override
 	public String getTrainNameAndQty (String aStatus) {
 		String tNameAndQuantity, tName;
