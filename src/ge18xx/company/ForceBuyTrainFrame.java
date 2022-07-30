@@ -46,6 +46,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	JLabel totalTreasuryLabel;
 	JLabel cashNeededLabel;
 	JLabel totalLiquidAssetLabel;
+	JLabel totalSelectedAssetLabel;
 	JLabel saleLimitReasons;
 	JLabel frameLabel;
 	Train train;
@@ -58,6 +59,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	int actionCount;
 	int cashNeeded;
 	int liquidAssetTotal;
+	int selectedAssetTotal;
 	ShareCompany exchangedCompany;
 
 	public ForceBuyTrainFrame (TrainCompany aBuyingCompany, Train aCheapestTrain) {
@@ -130,6 +132,8 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		addLabelAndSpace (cashNeededLabel);
 		totalLiquidAssetLabel = new JLabel ("YYY");
 		addLabelAndSpace (totalLiquidAssetLabel);
+		totalSelectedAssetLabel = new JLabel ("YYY");
+		addLabelAndSpace (totalSelectedAssetLabel);
 		saleLimitReasons = new JLabel ("");
 		addLabelAndSpace (saleLimitReasons);
 
@@ -179,6 +183,19 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		}
 	}
 
+	private void updateSelectedAssetLabel () {
+		int tSelectedAssetTotal;
+		
+		tSelectedAssetTotal = calculateSelectedAssetValue ();
+		setSelectedAssetTotal (tSelectedAssetTotal);
+		if (tSelectedAssetTotal > 0) {
+			totalSelectedAssetLabel.setText ("Total Selected Certificates Value " + Bank.formatCash (selectedAssetTotal));
+		} else {
+			totalSelectedAssetLabel.setText ("No Selected Certificates");
+		}
+		
+	}
+
 	private void setExchangedCompany (ShareCompany aShareCompany) {
 		exchangedCompany = aShareCompany;
 	}
@@ -219,6 +236,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		updateExchangeButton ();
 		updateBuyTrainButton ();
 		updateLiquidAssetLabel ();
+		updateSelectedAssetLabel ();
 		updateDeclareBankruptcyButton ();
 		updateCancelButton ();
 	}
@@ -254,6 +272,28 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		liquidAssetTotal = aLiquidAssetTotal;
 	}
 
+	private void setSelectedAssetTotal (int aSelectedAssetTotal) {
+		selectedAssetTotal = aSelectedAssetTotal;
+	}
+	
+	private int calculateSelectedAssetValue () {
+		int tSelectedAssetValue;
+		Portfolio tPresidentPortfolio;
+		List<Certificate> tCertificatesToSell;
+		
+		tSelectedAssetValue = 0;
+
+		tPresidentPortfolio = getPresidentPortfolio ();
+		tCertificatesToSell = tPresidentPortfolio.getCertificatesToSell ();
+		for (Certificate tCertificate : tCertificatesToSell) {
+			if (tCertificate != Certificate.NO_CERTIFICATE) {
+				tSelectedAssetValue += tCertificate.getValue ();
+			}
+		}
+		
+		return tSelectedAssetValue;
+	}
+	
 	private int calculateTotalLiquidCertificateValue () {
 		int tLiquidCertificateValue;
 		Portfolio tPresidentPortfolio;
