@@ -1,6 +1,9 @@
 package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
+import ge18xx.player.Player;
+import ge18xx.player.PlayerManager;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.StateChangeEffect;
@@ -166,5 +169,33 @@ public class ChangeStateAction extends ChangePlayerAction {
 
 		return tAllNullEffects;
 	}
+	
+	@Override
+	public boolean undoAction (RoundManager aRoundManager) {
+		boolean tActionUndone;
+		Player tCurrentPlayer;
+		PlayerManager tPlayerManager;
+		ActorI.ActionStates aCurrentRoundType;
+		ActorI.ActionStates aPreviousRoundType;
+		
+		aCurrentRoundType = aRoundManager.getCurrentRoundType ();
+		if (aCurrentRoundType.equals (ActorI.ActionStates.StockRound)) {
+			tPlayerManager = aRoundManager.getPlayerManager ();
+			tCurrentPlayer = tPlayerManager.getCurrentPlayer ();
+			tCurrentPlayer.hidePlayerFrame ();
+		} else if (aCurrentRoundType.equals (ActorI.ActionStates.OperatingRound)) {
+			System.out.println ("Need to find current Operating Company, and Close it's Frame");
+		}
+		
+		tActionUndone = super.undoAction (aRoundManager);
+		
+		aPreviousRoundType = aRoundManager.getCurrentRoundType ();
+		if (aPreviousRoundType.equals (ActorI.ActionStates.StockRound)) {
 
+		} else if (aCurrentRoundType.equals (ActorI.ActionStates.OperatingRound)) {
+			System.out.println ("Need to find current Operating Company, and Show it's Frame");
+		}
+
+		return tActionUndone;
+	}
 }
