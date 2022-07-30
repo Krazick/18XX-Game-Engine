@@ -207,7 +207,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public void loadTrainPortfolio (XMLNode aTrainPortfolioNode) {
 		Bank tBank;
 
-		tBank = gameManager.getBank ();
+		tBank = getBank ();
 		trainPortfolio.loadTrainPortfolioFromBank (aTrainPortfolioNode, tBank);
 	}
 
