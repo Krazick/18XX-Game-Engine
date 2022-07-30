@@ -748,6 +748,16 @@ public class RoundManager implements ActionListener {
 		}
 	}
 
+	public void setRoundToOperatingRound () {
+		System.out.println ("Need to reset Round to OR without changing OR ID");
+		setRoundType (ActorI.ActionStates.OperatingRound);
+	}
+
+	public void setRoundToStockRound () {
+		System.out.println ("Need to reset Round to SR without changing OR ID");
+		setRoundType (ActorI.ActionStates.StockRound);
+	}
+	
 	public void setRoundToOperatingRound (int aRoundIDPart1, int aRoundIDPart2) {
 		String tOldOperatingRoundID, tNewOperatingRoundID;
 		Round tCurrentRound;
@@ -933,13 +943,15 @@ public class RoundManager implements ActionListener {
 	}
 	
 	public void endOperatingRound () {
+		int tIDPart1;
+		
 		// If this is the LastOR, go back to Stock Round
 		if (isLastOR ()) {
 			startStockRound ();
 		} else {
 			// Otherwise, we need to go to another Operating Round, incrementing from the
 			// current OR.
-			int tIDPart1 = operatingRound.getIDPart1 ();
+			tIDPart1 = operatingRound.getIDPart1 ();
 			setRoundToOperatingRound (tIDPart1, currentOR + 1);
 			operatingRound.startOperatingRound ();
 		}
