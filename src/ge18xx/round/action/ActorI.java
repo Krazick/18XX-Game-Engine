@@ -93,7 +93,9 @@ public interface ActorI {
 
 	public String getStateName ();
 
-	public void resetPrimaryActionState (ActionStates aPrimaryActionState);
+	public default void resetPrimaryActionState (ActionStates aPrimaryActionState) {
+		// DO NOTHING by default
+	}
 
 	public default boolean isAPlayer () {
 		return false;

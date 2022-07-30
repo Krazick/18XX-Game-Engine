@@ -1458,11 +1458,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationList.tileTrayVisible ();
 	}
 
-	@Override
-	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
-		// Note -- Will need to activate when CorporationFrame is built
-		// corporationFrame.replacePortfolioInfo (aPortfolioInfoJPanel);
-	}
+//	@Override
+//	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
+//		// Note -- Will need to activate when CorporationFrame is built
+//		// corporationFrame.replacePortfolioInfo (aPortfolioInfoJPanel);
+//	}
 
 	public void printOwnershipReport () {
 		System.out.println ("Who Owns this Corporation");
