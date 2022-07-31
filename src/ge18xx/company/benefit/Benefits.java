@@ -194,6 +194,19 @@ public class Benefits {
 		return tHasActivePlayerBenefits;
 	}
 
+	public void enableBenefit (String aBenefitName) {
+		QueryExchangeBenefit tQueryExchangeBenefit;
+		String tFoundBenefitName;
+		
+		for (Benefit tBenefit : benefits) {
+			tFoundBenefitName = tBenefit.getName ();
+			if (tFoundBenefitName.equals (aBenefitName)) {
+				tQueryExchangeBenefit = (QueryExchangeBenefit) tBenefit;
+				tQueryExchangeBenefit.setUsed (false);
+			}
+		}
+	}
+
 	public void handleQueryBenefits (JFrame aRoundFrame) {
 		QueryExchangeBenefit tQueryExchangeBenefit;
 		
