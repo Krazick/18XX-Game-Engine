@@ -134,5 +134,4 @@ public class LicenseBenefit extends Benefit {
 			setToolTip ("All Good");
 		}
 	}
-
 }

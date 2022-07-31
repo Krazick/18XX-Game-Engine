@@ -18,25 +18,25 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 	
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
+		super.configure (aPrivateCompany, aButtonRow);
 	}
 
 	public void showQueryDialog (JFrame aParentFrame) {
 		Certificate tShareCertificate;
 		String tQueryText;
+		String tOwnerName;
 		int tAnswer;
 		
 		tShareCertificate = getShareCertificate ();
-		tQueryText = "Exchange " + privateCompany.getAbbrev () + " for " + certificatePercentage + "% of "
-				+ tShareCertificate.getCompanyAbbrev () + "?";
+		tOwnerName = tShareCertificate.getOwnerName ();
+		tQueryText = tOwnerName + ", do you want to Exchange " + privateCompany.getAbbrev () + " for " + 
+				certificatePercentage + "% of " + tShareCertificate.getCompanyAbbrev () + "?";
 
 		tAnswer = JOptionPane.showConfirmDialog (aParentFrame, 
 				tQueryText, "Exchange Private Share Benefit", 
 		        JOptionPane.YES_NO_OPTION);
 
-		if (tAnswer == JOptionPane.NO_OPTION) {
-			System.out.println ("DO NOT Exchange Share");
-		} else if(tAnswer == JOptionPane.YES_OPTION) {
-		  	System.out.println ("Exchange Share YES ANSWER");
+		if (tAnswer == JOptionPane.YES_OPTION) {
 		  	handleExchangeCertificate ();
 		}
 	}

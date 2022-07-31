@@ -159,9 +159,10 @@ public abstract class Benefit implements ActionListener {
 	}
 
 	protected ShareCompany getOwningCompany () {
-		ShareCompany tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
+		ShareCompany tShareCompany;
 		ActorI tOwner;
 
+		tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
 		tOwner = privateCompany.getOwner ();
 		if (tOwner.isACorporation ()) {
 			tShareCompany = (ShareCompany) tOwner;
@@ -226,20 +227,24 @@ public abstract class Benefit implements ActionListener {
 	}
 
 	public boolean isActiveCompanyBenefit () {
-		boolean tIsActiveCompanyBenefit = false;
+		boolean tIsActiveCompanyBenefit;
 
 		if (isACompanyBenefit () && (!passive)) {
 			tIsActiveCompanyBenefit = true;
+		} else {
+			tIsActiveCompanyBenefit = false;			
 		}
 
 		return tIsActiveCompanyBenefit;
 	}
 
 	public boolean isActivePlayerBenefit () {
-		boolean tIsActivePlayerBenefit = false;
+		boolean tIsActivePlayerBenefit;
 
 		if (isAPlayerBenefit () && (!passive)) {
 			tIsActivePlayerBenefit = true;
+		} else {
+			tIsActivePlayerBenefit = false;
 		}
 
 		return tIsActivePlayerBenefit;
@@ -248,20 +253,24 @@ public abstract class Benefit implements ActionListener {
 	public abstract int getCost ();
 
 	public boolean isACompanyBenefit () {
-		boolean tIsACompanyBenefit = false;
+		boolean tIsACompanyBenefit;
 
 		if (actorType.compareTo (ActorI.ActorTypes.ShareCompany) == 0) {
 			tIsACompanyBenefit = true;
+		} else {
+			tIsACompanyBenefit = false;
 		}
 
 		return tIsACompanyBenefit;
 	}
 
 	public boolean isAPlayerBenefit () {
-		boolean tIsAPlayerBenefit = false;
+		boolean tIsAPlayerBenefit;
 
 		if (actorType.compareTo (ActorI.ActorTypes.Player) == 0) {
 			tIsAPlayerBenefit = true;
+		} else {
+			tIsAPlayerBenefit = false;
 		}
 
 		return tIsAPlayerBenefit;
@@ -327,12 +336,14 @@ public abstract class Benefit implements ActionListener {
 	}
 
 	protected Benefit findMatchedBenefit (XMLNode aBenefitNode) {
-		Benefit tMatchedBenefit = NO_BENEFIT;
+		Benefit tMatchedBenefit;
 		String tBenefitNodeName;
 
 		tBenefitNodeName = aBenefitNode.getThisAttribute (AN_NAME);
 		if (tBenefitNodeName.equals (getBaseName ())) {
 			tMatchedBenefit = this;
+		} else {
+			tMatchedBenefit = NO_BENEFIT;
 		}
 
 		return tMatchedBenefit;

@@ -16,9 +16,5 @@ public class FreeCertificateBenefit extends CertificateBenefit {
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		super.configure (aPrivateCompany, aButtonRow);
-		if (shouldConfigure ()) {
-//			System.out.println ("Should Configure for Free Certificate -- PASSIVE");
-		}
 	}
-
 }

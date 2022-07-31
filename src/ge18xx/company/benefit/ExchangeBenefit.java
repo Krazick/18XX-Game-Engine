@@ -122,7 +122,6 @@ public class ExchangeBenefit extends CertificateBenefit {
 
 		tOwner = (Player) privateCompany.getOwner ();
 		tPrivateCertificate = privateCompany.getPresidentCertificate ();
-		System.out.println ("Handling Exchange of Certificate for " + tPrivateCertificate.getCompanyAbbrev ());
 		tOwner.exchangeCertificate (tPrivateCertificate);
 		removeButton ();
 	}
