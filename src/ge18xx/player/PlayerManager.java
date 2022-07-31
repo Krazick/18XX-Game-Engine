@@ -897,6 +897,7 @@ public class PlayerManager {
 		Portfolio tBankPortfolio;
 		Portfolio tPlayerPortfolio;
 		Portfolio tClosedPortfolio;
+		PortfolioHolderI tPortfolioHolder;
 		Bank tBank;
 		ActorI.ActionStates tCurrentCorporationStatus;
 		ActorI.ActionStates tNewCorporationStatus;
@@ -930,8 +931,11 @@ public class PlayerManager {
 				tExchangeStockAction.addChangeCorporationStatusEffect (tNewCertificate.getCorporation (), tCurrentCorporationStatus,
 						tNewCorporationStatus);
 			}
-			tCurrentPresident = (Player) tShareCompany.getPresident ();
-			handlePresidentialTransfer (aPlayer, tExchangeStockAction, tShareCompany, tCurrentPresident);
+			tPortfolioHolder = tShareCompany.getPresident ();
+			if (tPortfolioHolder.isAPlayer ()) {
+				tCurrentPresident = (Player) tPortfolioHolder;
+				handlePresidentialTransfer (aPlayer, tExchangeStockAction, tShareCompany, tCurrentPresident);
+			}
 
 			// TODO --
 			addAction (tExchangeStockAction);
