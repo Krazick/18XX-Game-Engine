@@ -35,6 +35,7 @@ public class ActivateCompanyVEffect extends VariantEffect {
 	public String getCompanyAbbrev () {
 		return companyAbbrev;
 	}
+	
 	public int getCompanyID () {
 		return companyID;
 	}
@@ -48,7 +49,8 @@ public class ActivateCompanyVEffect extends VariantEffect {
 	}
 	
 	/**
-	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores the CompanyAbbrev
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * the CompanyID, the CompanyAbbrev and the VariantEffect Class
 	 * 
 	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
 	 * 
@@ -60,6 +62,7 @@ public class ActivateCompanyVEffect extends VariantEffect {
 		XMLElement tXMLElement;
 		
 		tXMLElement = super.getEffectElement (aXMLDocument);
+		tXMLElement.setAttribute (AN_COMPANY_ID, companyID);
 		tXMLElement.setAttribute (AN_COMPANY_ABBREV, companyAbbrev);
 		tXMLElement.setAttribute (AN_CLASS, getClass ().getName ());
 		
@@ -77,7 +80,6 @@ public class ActivateCompanyVEffect extends VariantEffect {
 		CorporationList tCorporationList;
 		boolean tActivated;
 		
-		System.out.println ("Activate Company " + companyAbbrev + " in the CorporationList");
 		tCorporationList = aGameManager.getPrivates ();
 		tActivated = tCorporationList.activateCorporation (companyID);
 		
