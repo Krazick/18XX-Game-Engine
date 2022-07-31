@@ -43,7 +43,10 @@ public class OperatingRound extends Round {
 		boolean tStartedOperatingRound = true;
 
 		if (! roundManager.applyingAction ()) {
-			payRevenues ();
+			if (getPrivateCompanyCount () > 0) {
+				payRevenues ();
+				handleQueryBenefits ();
+			}
 		}
 		if (anyFloatedCompanies ()) {
 			coalCompanies.clearOperatedStatus ();
@@ -158,11 +161,13 @@ public class OperatingRound extends Round {
 	}
 
 	public void payRevenues () {
-		if (getPrivateCompanyCount () > 0) {
-			privateCompanies.payPrivateRevenues (getBank (), this);
-		}
+		privateCompanies.payPrivateRevenues (getBank (), this);
 	}
 
+	public void handleQueryBenefits () {
+		privateCompanies.handleQueryBenefits (roundManager.getRoundFrame ());
+	}
+	
 	public void printRoundInfo () {
 		System.out.println (" Operating Round " + idPart1 + "." + idPart2);
 	}

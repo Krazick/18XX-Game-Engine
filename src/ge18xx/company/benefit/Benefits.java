@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.w3c.dom.NodeList;
@@ -193,6 +194,17 @@ public class Benefits {
 		return tHasActivePlayerBenefits;
 	}
 
+	public void handleQueryBenefits (JFrame aRoundFrame) {
+		QueryExchangeBenefit tQueryExchangeBenefit;
+		
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit instanceof QueryExchangeBenefit) {
+				tQueryExchangeBenefit = (QueryExchangeBenefit) tBenefit;
+				tQueryExchangeBenefit.showQueryDialog (aRoundFrame);
+			}
+		}
+	}
+	
 	public int getCount () {
 		return benefits.size ();
 	}

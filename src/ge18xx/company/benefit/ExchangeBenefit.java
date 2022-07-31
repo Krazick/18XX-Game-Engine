@@ -116,7 +116,7 @@ public class ExchangeBenefit extends CertificateBenefit {
 		}
 	}
 
-	private void handleExchangeCertificate () {
+	protected void handleExchangeCertificate () {
 		Player tOwner;
 		Certificate tPrivateCertificate;
 

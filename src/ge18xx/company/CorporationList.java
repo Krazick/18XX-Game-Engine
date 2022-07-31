@@ -56,6 +56,7 @@ import java.util.LinkedList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -724,6 +725,19 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 	}
 
+	public void handleQueryBenefits (JFrame aRoundFrame) {
+		PrivateCompany tPrivate;
+		
+		for (Corporation tCorporation : corporations) {
+			if (tCorporation.isActive ()) {
+				if (tCorporation.isAPrivateCompany ()) {
+					tPrivate = (PrivateCompany) tCorporation;
+					tPrivate.handleQueryBenefits (aRoundFrame);
+				}
+			}
+		}
+	}
+	
 	public void printReport () {
 		System.out.println ("Corporation Report");
 		for (Corporation tCorporation : corporations) {

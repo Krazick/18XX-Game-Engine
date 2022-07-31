@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.event.ItemListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.apache.commons.text.WordUtils;
@@ -177,6 +178,12 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return tHasActivePlayerBenefits;
 	}
 
+	public void handleQueryBenefits (JFrame aRoundFrame) {
+		if (benefits != Benefits.NO_BENEFITS) {
+			benefits.handleQueryBenefits (aRoundFrame);
+		}
+	}
+	
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;

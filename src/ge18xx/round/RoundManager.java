@@ -1217,4 +1217,8 @@ public class RoundManager implements ActionListener {
 	public boolean isLoading () {
 		return gameManager.gameIsStarted ();
 	}
+	
+	public void handleQueryBenefits () {
+		
+	}
 }
