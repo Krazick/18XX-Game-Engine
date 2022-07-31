@@ -33,6 +33,7 @@
 		special="Exchange for 10% of NYC" exchangeID="1103" exchangePercentage="10">
 		<Benefits>
 			<Benefit actorType="Player" class="ge18xx.company.benefit.ExchangeBenefit" corporationID="1103" certificatePercentage="10" closeOnUse="true" passive="false"/>
+			<Benefit actorType="Player" class="ge18xx.company.benefit.QueryExchangeBenefit" corporationID="1103" certificatePercentage="10" closeOnUse="true" passive="true"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
