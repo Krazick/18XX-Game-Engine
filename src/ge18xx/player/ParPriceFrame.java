@@ -334,11 +334,15 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		tWinAuctionAction = (WinAuctionAction) Action.NO_ACTION;
 		while (tLookingForLastAction) {
 			tLastAction = gameManager.getLastAction (tActionOffset);
-			if (tLastAction instanceof WinAuctionAction) {
-				tWinAuctionAction = (WinAuctionAction) tLastAction;
-				tLookingForLastAction = false;
+			if (tLastAction != Action.NO_ACTION) {
+				if (tLastAction instanceof WinAuctionAction) {
+					tWinAuctionAction = (WinAuctionAction) tLastAction;
+					tLookingForLastAction = false;
+				} else {
+					tActionOffset++;
+				}
 			} else {
-				tActionOffset++;
+				tLookingForLastAction = false;
 			}
 		}
 		

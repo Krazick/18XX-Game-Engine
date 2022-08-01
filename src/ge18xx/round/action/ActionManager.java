@@ -272,9 +272,11 @@ public class ActionManager {
 		int tLastActionID;
 		
 		tAction = Action.NO_ACTION;
-		if (!actions.isEmpty ()) {
+		if (! actions.isEmpty ()) {
 			tLastActionID = getActionCount () - aActionOffset;
-			tAction = actions.get (tLastActionID);
+			if (tLastActionID > 1) {
+				tAction = actions.get (tLastActionID);
+			}
 		}
 
 		return tAction;
