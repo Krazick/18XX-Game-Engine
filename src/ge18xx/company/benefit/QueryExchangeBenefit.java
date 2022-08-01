@@ -6,6 +6,9 @@ import javax.swing.JPanel;
 
 import ge18xx.company.Certificate;
 import ge18xx.company.PrivateCompany;
+import ge18xx.game.GameManager;
+import ge18xx.player.Player;
+import ge18xx.player.PortfolioHolderI;
 import ge18xx.utilities.XMLNode;
 
 public class QueryExchangeBenefit extends ExchangeBenefit {
@@ -21,7 +24,44 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		super.configure (aPrivateCompany, aButtonRow);
 	}
 
-	public void showQueryDialog (JFrame aParentFrame) {
+	public void handleBenefit (JFrame aRoundFrame) {
+		PortfolioHolderI tPortfolioHolder;
+		
+		if (! used ()) {
+			tPortfolioHolder = privateCompany.getPresident ();
+			if (tPortfolioHolder.isAPlayer ()) {
+				if (hasShareInBank ()) {
+					if (! playerAtShareLimit ()) {
+						handleShowQueryDialog (aRoundFrame);
+					}
+				}
+			}
+		}
+	}
+	
+	private void handleShowQueryDialog (JFrame aRoundFrame) {
+		GameManager tGameManager;
+		Player tPlayer;
+		String tPlayerName;
+		boolean tShowQueryDialog;
+		
+		tGameManager = privateCompany.getGameManager ();
+		tShowQueryDialog = false;
+		if (tGameManager.isNetworkGame ()) {
+			tPlayer = (Player) privateCompany.getPresident ();
+			tPlayerName = tPlayer.getName ();
+			if (tGameManager.isNetworkAndIsThisClient (tPlayerName)) {
+				tShowQueryDialog = true;
+			}
+		} else {
+			tShowQueryDialog = true;
+		}
+		if (tShowQueryDialog) {
+			showQueryDialog (aRoundFrame);
+		}
+	}
+	
+	private void showQueryDialog (JFrame aParentFrame) {
 		Certificate tShareCertificate;
 		String tQueryText;
 		String tOwnerName;
