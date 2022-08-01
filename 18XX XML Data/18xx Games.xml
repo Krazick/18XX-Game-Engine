@@ -476,7 +476,7 @@
 			<Variant class="ge18xx.game.variants.VariantAll" id="100" title="Optional 6 Train">
 				<VariantEffect action="Set 6 Train Quantity to 3" class="ge18xx.game.variants.SetTrainCountVEffect" id="101" name="(3) 6 Trains" trainName="6" quantity="3" />
 			</Variant>
-			<Variant class="ge18xx.game.variants.VariantAll" id="500" title="Enable M&amp;H Exchange Benefit">
+			<Variant class="ge18xx.game.variants.VariantToggle" id="500" title="Enable OR Query Exchange of M&amp;H for NYC" default="true">
 				<VariantEffect action="Allow M&amp;H Exchange at OR Start" class="ge18xx.game.variants.EnableBenefitVEffect" id="501" name="Query M&amp;H Exchange" companyID="1004" benefitName="QUERY EXCHANGE" />
 			</Variant>
 			<Variant class="ge18xx.game.variants.VariantChoose1" id="200" title="Choose Diesel Count">
