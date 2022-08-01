@@ -228,9 +228,7 @@ public class Benefits {
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit instanceof QueryExchangeBenefit) {
 				tQueryExchangeBenefit = (QueryExchangeBenefit) tBenefit;
-				if (! tQueryExchangeBenefit.used ()) {
-					tQueryExchangeBenefit.showQueryDialog (aRoundFrame);
-				}
+				tQueryExchangeBenefit.handleBenefit (aRoundFrame);
 			}
 		}
 	}
