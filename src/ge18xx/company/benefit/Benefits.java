@@ -203,6 +203,21 @@ public class Benefits {
 			if (tFoundBenefitName.equals (aBenefitName)) {
 				tQueryExchangeBenefit = (QueryExchangeBenefit) tBenefit;
 				tQueryExchangeBenefit.setUsed (false);
+				System.out.println ("Enabled " + tBenefit.getName ());
+			}
+		}
+	}
+
+	public void disableBenefit (String aBenefitName) {
+		QueryExchangeBenefit tQueryExchangeBenefit;
+		String tFoundBenefitName;
+		
+		for (Benefit tBenefit : benefits) {
+			tFoundBenefitName = tBenefit.getName ();
+			if (tFoundBenefitName.equals (aBenefitName)) {
+				tQueryExchangeBenefit = (QueryExchangeBenefit) tBenefit;
+				tQueryExchangeBenefit.setUsed (true);
+				System.out.println ("Disabled " + tBenefit.getName ());
 			}
 		}
 	}
@@ -213,7 +228,9 @@ public class Benefits {
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit instanceof QueryExchangeBenefit) {
 				tQueryExchangeBenefit = (QueryExchangeBenefit) tBenefit;
-				tQueryExchangeBenefit.showQueryDialog (aRoundFrame);
+				if (! tQueryExchangeBenefit.used ()) {
+					tQueryExchangeBenefit.showQueryDialog (aRoundFrame);
+				}
 			}
 		}
 	}

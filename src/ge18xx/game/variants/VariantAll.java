@@ -16,6 +16,7 @@ public class VariantAll extends Variant {
 
 	public VariantAll (XMLNode aXMLNode) {
 		super (aXMLNode);
+		applyEnabledToEffects ();
 	}
 	
 	@Override
@@ -27,12 +28,30 @@ public class VariantAll extends Variant {
 		return tDescPanel;
 	}
 	
+	private void applyEnabledToEffects () {
+		for (VariantEffect tVariantEffect : variantEffects) {
+			if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+				tVariantEffect.setState (enabled);
+			}
+		}
+	}
+	
 	@Override
 	public void addActiveVariantEffects (List<VariantEffect> aActiveVariantEffects) {
+		boolean tIsSelected;
+		
 		if (isActive ()) {
+			tIsSelected = isSelected ();
 			for (VariantEffect tVariantEffect : variantEffects) {
 				if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+					tVariantEffect.setState (tIsSelected);
 					aActiveVariantEffects.add (tVariantEffect);
+				}
+			}
+		} else {
+			for (VariantEffect tVariantEffect : variantEffects) {
+				if (tVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
+					tVariantEffect.setState (false);
 				}
 			}
 		}
@@ -46,8 +65,8 @@ public class VariantAll extends Variant {
 		tSelected = true;
 		tTitle = (JCheckBox) titleComponent;
 		tTitle.setSelected (true);
+		aVariantEffect.setState (tSelected);
 		
 		return tSelected;
 	}
-
 }

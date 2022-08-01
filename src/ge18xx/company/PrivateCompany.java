@@ -184,6 +184,12 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		}
 	}
 	
+	public void disableBenefit (String aBenefitName) {
+		if (benefits != Benefits.NO_BENEFITS) {
+			benefits.disableBenefit (aBenefitName);
+		}
+	}
+	
 	public void handleQueryBenefits (JFrame aRoundFrame) {
 		if (benefits != Benefits.NO_BENEFITS) {
 			benefits.handleQueryBenefits (aRoundFrame);

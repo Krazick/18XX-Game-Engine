@@ -45,6 +45,7 @@ public abstract class Benefit implements ActionListener {
 		setName (NAME);
 		setCloseOnUse (false);
 		setPassive (true);
+		setUsed (false);
 		setActorType (ActorI.ActorTypes.NO_TYPE.toString ());
 		setDefaults ();
 	}
@@ -52,11 +53,14 @@ public abstract class Benefit implements ActionListener {
 	public Benefit (XMLNode aXMLNode) {
 		boolean tClose;
 		boolean tPassive;
+		boolean tUsed;
 		String tActorType;
 
 		tActorType = aXMLNode.getThisAttribute (AN_ACTOR_TYPE);
 		tClose = aXMLNode.getThisBooleanAttribute (AN_CLOSE_ON_USE);
 		tPassive = aXMLNode.getThisBooleanAttribute (AN_PASSIVE);
+		tUsed = aXMLNode.getThisBooleanAttribute (AN_USED);
+		setUsed (tUsed);
 		setCloseOnUse (tClose);
 		setPassive (tPassive);
 		setActorType (tActorType);
@@ -76,7 +80,6 @@ public abstract class Benefit implements ActionListener {
 	}
 
 	private void setDefaults () {
-		setUsed (false);
 		setButton (GUI.NO_BUTTON);
 		setButtonPanel (NO_BUTTON_PANEL);
 		setPrivateCompany (PrivateCompany.NO_PRIVATE_COMPANY);

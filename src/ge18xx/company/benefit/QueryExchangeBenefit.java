@@ -28,7 +28,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		int tAnswer;
 		
 		tShareCertificate = getShareCertificate ();
-		tOwnerName = tShareCertificate.getOwnerName ();
+		tOwnerName = privateCompany.getPresidentName ();
 		tQueryText = tOwnerName + ", do you want to Exchange " + privateCompany.getAbbrev () + " for " + 
 				certificatePercentage + "% of " + tShareCertificate.getCompanyAbbrev () + "?";
 

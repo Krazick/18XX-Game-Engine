@@ -34,6 +34,7 @@ public class Variant {
 	public static final ElementName EN_VARIANT = new ElementName ("Variant");
 	public static final ElementName EN_VARIANTS = new ElementName ("Variants");
 	public static final AttributeName AN_TITLE = new AttributeName ("title");
+	public static final AttributeName AN_DEFAULT = new AttributeName ("default");
 	public static final AttributeName AN_VARIANT_CLASS = new AttributeName ("class");
 	public static final AttributeName AN_ID = new AttributeName ("id");
 	static final String TYPE_ALL = "ALL";
@@ -54,11 +55,14 @@ public class Variant {
 	public Variant (XMLNode aXMLNode) {
 		String tTitle;
 		int tID;
+		boolean tDefault;
 		
 		tID = aXMLNode.getThisIntAttribute (AN_ID, NO_ID);
 		tTitle = aXMLNode.getThisAttribute (AN_TITLE);
+		tDefault = aXMLNode.getThisBooleanAttribute (AN_DEFAULT);
 		setID (tID);
 		setTitle (tTitle);
+		setEnabled (tDefault);
 		loadVariantEffects (aXMLNode);
 	}
 
@@ -111,9 +115,12 @@ public class Variant {
 	
 	public JComponent buildTitleComponent (VariantEffect.ComponentType aEffectComponentType) {
 		JComponent tTitleComponent;
+		JCheckBox tCheckBox;
 		
 		if (aEffectComponentType == VariantEffect.ComponentType.JLABEL) {
-			tTitleComponent = new JCheckBox (getTitle ());	
+			tCheckBox = new JCheckBox (getTitle ());
+			tCheckBox.setSelected (enabled);
+			tTitleComponent = tCheckBox;
 		} else {
 			tTitleComponent = new JLabel (getTitle ());
 		}
@@ -133,7 +140,6 @@ public class Variant {
 		tDescPanel.setLayout (new BoxLayout (tDescPanel, BoxLayout.PAGE_AXIS));
 		titleComponent = buildTitleComponent (aEffectComponentType);
 		titleComponent.setBorder (BorderFactory.createEmptyBorder (0, 10, 0, 10));
-//		tDescPanel.add (Box.createHorizontalStrut (10));
 		tDescPanel.add (titleComponent);
 		
 		tRadioButtonGroup = (aEffectComponentType == VariantEffect.ComponentType.RADIO_BUTTON);
@@ -228,6 +234,23 @@ public class Variant {
 		}
 		
 		return tIsActive;
+	}
+
+	public boolean isSelected () {
+		boolean tIsSelected;
+		JCheckBox tCheckBox;
+		
+		tIsSelected = false;
+		if (titleComponent != GUI.NO_JCOMPONENT) {
+			if (titleComponent instanceof JCheckBox) {
+				tCheckBox = (JCheckBox) titleComponent;
+				if (tCheckBox.isSelected ()) {
+					tIsSelected = true;
+				}
+			}
+		}
+		
+		return tIsSelected;
 	}
 
 	public boolean hasVariantEffect (int aVariantID) {

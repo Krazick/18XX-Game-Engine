@@ -29,6 +29,7 @@ public class VariantEffect {
 	static final AttributeName AN_CELL_NAME = new AttributeName ("cellName");
 	static final AttributeName AN_CLASS = new AttributeName ("class");
 	static final AttributeName AN_HIDE = new AttributeName ("hide");
+	static final AttributeName AN_STATE = new AttributeName ("state");
 	static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
 	public static final ElementName EN_VARIANT_EFFECT = new ElementName ("VariantEffect");
 	public static final ElementName EN_VARIANT_EFFECTS = new ElementName ("VariantEffects");
@@ -69,6 +70,7 @@ public class VariantEffect {
 		String tName;
 		boolean tDefaultEffect;
 		boolean tHide;
+		boolean tState;
 		int tID;
 		
 		tID = aVariantEffectNode.getThisIntAttribute (Variant.AN_ID, Variant.NO_ID);
@@ -76,9 +78,14 @@ public class VariantEffect {
 		tAction = aVariantEffectNode.getThisAttribute (AN_ACTION);
 		tDefaultEffect = aVariantEffectNode.getThisBooleanAttribute (AN_DEFAULT_EFFECT);
 		tHide = aVariantEffectNode.getThisBooleanAttribute (AN_HIDE);
+		tState = aVariantEffectNode.getThisBooleanAttribute (AN_STATE);
+		setState (tState);
 		setHide (tHide);
 		setID (tID);
 		setDefaultEffect (tDefaultEffect);
+		
+		// TODO: Refactor extracting out End Game on Stock Cell to new VariantEffect child 
+		// TODO: Refactor extracting out Must Buy Train to new VariantEffect child
 		if (tAction.equals (END_GAME_ON_STOCK_CELL)) {
 			tCellName = aVariantEffectNode.getThisAttribute (AN_CELL_NAME);
 			setValue (tName, tAction, "GAME", tCellName);
@@ -132,6 +139,8 @@ public class VariantEffect {
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_ACTION, action);
 		tXMLElement.setAttribute (AN_DEFAULT_EFFECT, defaultEffect);
+		tXMLElement.setAttribute (AN_HIDE, hide);
+		tXMLElement.setAttribute (AN_STATE, state);
 		
 		return tXMLElement;
 	}

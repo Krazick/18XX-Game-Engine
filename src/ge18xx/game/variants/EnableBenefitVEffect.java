@@ -82,13 +82,19 @@ public class EnableBenefitVEffect extends VariantEffect {
 		CorporationList tCorporationList;
 		PrivateCompany tPrivate;
 		Corporation tCorporation;
+		boolean tState;
 		
-		System.out.println ("Activate Company " + companyID + " Query Exchange Benefit");
+		tState = getState ();
+		System.out.println ("Company " + companyID + " " + benefitName + " To Apply Variant Effect " + tState);
 		tCorporationList = aGameManager.getPrivates ();
 		tCorporation = tCorporationList.getCorporationByID (companyID);
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			tPrivate = (PrivateCompany) tCorporation;
-			tPrivate.enableBenefit (benefitName);
+			if (tState) {
+				tPrivate.enableBenefit (benefitName);
+			} else {
+				tPrivate.disableBenefit (benefitName);
+			}
 		}
 	}
 }

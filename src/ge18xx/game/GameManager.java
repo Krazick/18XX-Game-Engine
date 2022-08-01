@@ -2177,7 +2177,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 				logger.error (tException.getMessage (), tException);
 			}
 		}
-
 	}
 
 	public void handleGameSelection (XMLNode aGameSelectionNode) {
