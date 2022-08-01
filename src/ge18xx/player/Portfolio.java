@@ -637,7 +637,7 @@ public class Portfolio implements CertificateHolderI {
 						tThisCertificate = tCertificate;
 					}
 					if (tThisCertificate != Certificate.NO_CERTIFICATE) {
-						if (!tThisCertificate.isOwnedByBank ()) {
+						if (! tThisCertificate.isOwnedByBank ()) {
 							tThisCertificate = Certificate.NO_CERTIFICATE;
 						}
 					}
