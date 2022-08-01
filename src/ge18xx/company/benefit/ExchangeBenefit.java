@@ -8,12 +8,12 @@ import javax.swing.JPanel;
 import ge18xx.company.Certificate;
 import ge18xx.company.PrivateCompany;
 import ge18xx.player.Player;
-import ge18xx.player.PlayerFrame;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.utilities.XMLNode;
 
 public class ExchangeBenefit extends CertificateBenefit {
 	public final static String NAME = "EXCHANGE";
+	public static final String EXCHANGE_PRIVATE = "Exchange Private Certificate for Share Certificate";
 
 	public ExchangeBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -30,7 +30,7 @@ public class ExchangeBenefit extends CertificateBenefit {
 				tExchangeButton = new JButton (getNewButtonLabel ());
 				setButton (tExchangeButton);
 				setButtonPanel (aButtonRow);
-				tExchangeButton.setActionCommand (PlayerFrame.EXCHANGE_PRIVATE);
+				tExchangeButton.setActionCommand (EXCHANGE_PRIVATE);
 				tExchangeButton.addActionListener (this);
 				aButtonRow.add (tExchangeButton);
 			}
@@ -67,7 +67,7 @@ public class ExchangeBenefit extends CertificateBenefit {
 			if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
 				disableButton ();
 				setToolTip ("Another Benefit is currently in Use");
-			} else if (!hasShareInBank ()) {
+			} else if (! hasShareInBank ()) {
 				disableButton ();
 				setToolTip ("Company has no Shares in Bank for Exchange.");
 			} else if (playerAtShareLimit ()) {
@@ -80,7 +80,7 @@ public class ExchangeBenefit extends CertificateBenefit {
 		}
 	}
 
-	private boolean playerAtShareLimit () {
+	protected boolean playerAtShareLimit () {
 		boolean tPlayerAtShareLimit = false;
 		Player tPlayer;
 		Certificate tCertificate;
@@ -94,7 +94,7 @@ public class ExchangeBenefit extends CertificateBenefit {
 		return tPlayerAtShareLimit;
 	}
 
-	private boolean hasShareInBank () {
+	protected boolean hasShareInBank () {
 		boolean tHasShareInBank = false;
 		Certificate tCertificate;
 
@@ -111,7 +111,7 @@ public class ExchangeBenefit extends CertificateBenefit {
 		String tActionCommand;
 
 		tActionCommand = aEvent.getActionCommand ();
-		if (PlayerFrame.EXCHANGE_PRIVATE.equals (tActionCommand)) {
+		if (EXCHANGE_PRIVATE.equals (tActionCommand)) {
 			handleExchangeCertificate ();
 		}
 	}
