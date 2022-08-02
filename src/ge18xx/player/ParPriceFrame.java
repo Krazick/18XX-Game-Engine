@@ -8,11 +8,9 @@ import ge18xx.game.GameManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
-import ge18xx.round.action.ActorI;
 import ge18xx.round.action.SetParValueAction;
 import ge18xx.round.action.WinAuctionAction;
 import ge18xx.round.action.effects.Effect;
-import ge18xx.round.action.effects.SetWaitStateEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
 import ge18xx.utilities.GUI;
 
@@ -260,37 +258,20 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		tSetParValueAction = new SetParValueAction (stockRound.getRoundType (), stockRound.getID (), player);
 		tSetParValueAction.addSetParValueEffect (player, aShareCompany, aParPrice);
 		if (gameManager.isNetworkGame ()) {
-			resetPlayerStatesAfterWait (tSetParValueAction);
+			handleResetPlayerStates (tSetParValueAction);
 		}
 		tSetParValueAction.setChainToPrevious (aChainToPrevious);
 
 		stockRound.addAction (tSetParValueAction);
 	}
 
-	private void resetPlayerStatesAfterWait (SetParValueAction aSetParValueAction) {
+	private void handleResetPlayerStates (SetParValueAction aSetParValueAction) {
 		WinAuctionAction tWinAuctionAction;
-		Effect tEffect;
-		SetWaitStateEffect tSetWaitStateEffect;
-		String tEffectName;
-		ActorI.ActionStates tOldState;
-		ActorI.ActionStates tNewState;
-		ActorI tToActor;
-		ActorI tActor;
 		
 		tWinAuctionAction = getLastWinAuctionAction ();
 		if (tWinAuctionAction != Action.NO_ACTION) {
 			if (IsCorrectAction (tWinAuctionAction)) {
-				tEffectName = SetWaitStateEffect.NAME;
-				tEffect = tWinAuctionAction.getEffectNamed (tEffectName);
-				if (tEffect != Effect.NO_EFFECT) {
-					tSetWaitStateEffect = (SetWaitStateEffect) tEffect;
-					// Need to reset the Player State so reverse the New and Old
-					tNewState = tSetWaitStateEffect.getPreviousState ();
-					tOldState = tSetWaitStateEffect.getNewState ();
-					tActor = tSetWaitStateEffect.getActor ();
-					tToActor = tSetWaitStateEffect.getToActor ();
-					aSetParValueAction.addSetWaitStateEffect (tActor, tToActor, tOldState, tNewState);
-				}
+				aSetParValueAction.resetPlayerStatesAfterWait (tWinAuctionAction);
 			}
 		}
 	}
