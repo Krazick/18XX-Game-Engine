@@ -2046,20 +2046,63 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tCanBuyTrainInPhase;
 	}
 
+	public String getOperatingRoundID () {
+		String tOperatingRoundID;
+		
+		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+			tOperatingRoundID = roundManager.getOperatingRoundID ();
+		} else {
+			tOperatingRoundID = ">>NONE<<";
+		}
+		
+		return tOperatingRoundID;
+	}
+
+	public String getStockRoundID () {
+		String tStockRoundID;
+
+		
+		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+			tStockRoundID = roundManager.getStockRoundID () + "";
+		} else {
+			tStockRoundID = ">>NONE<<";
+		}
+		
+		return tStockRoundID;
+	}
+	
 	public boolean isOperatingRound () {
-		boolean tIsOperatingRound = false;
+		boolean tIsOperatingRound;
 
 		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
 			tIsOperatingRound = roundManager.isOperatingRound ();
+		} else {
+			tIsOperatingRound = false;
 		}
 
 		return tIsOperatingRound;
+	}
+	
+	public boolean isStockRound () {
+		boolean tIsStockRound;
+
+		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+			tIsStockRound = roundManager.isStockRound ();
+		} else {
+			tIsStockRound = false;
+		}
+
+		return tIsStockRound;
 	}
 
 	public Corporation getOperatingCompany () {
 		return roundManager.getOperatingCompany ();
 	}
 
+	public void addAction (Action aAction) {
+		roundManager.addAction (aAction);
+	}
+	
 	public boolean isUpgradeAllowed (String tTileColor) {
 		return phaseManager.isUpgradeAllowed (tTileColor);
 	}
