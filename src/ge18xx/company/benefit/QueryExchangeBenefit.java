@@ -9,10 +9,13 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
+import ge18xx.round.action.ActorI;
+import ge18xx.round.action.SetWaitStateAction;
 import ge18xx.utilities.XMLNode;
 
 public class QueryExchangeBenefit extends ExchangeBenefit {
 	public final static String NAME = "QUERY EXCHANGE";
+	SetWaitStateAction setWaitStateAction;
 
 	public QueryExchangeBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -44,6 +47,9 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		Player tPlayer;
 		String tPlayerName;
 		boolean tShowQueryDialog;
+//		SetWaitStateAction tSetWaitStateAction;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
 		
 		tGameManager = privateCompany.getGameManager ();
 		tShowQueryDialog = false;
@@ -52,6 +58,18 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 			tPlayerName = tPlayer.getName ();
 			if (tGameManager.isNetworkAndIsThisClient (tPlayerName)) {
 				tShowQueryDialog = true;
+				if (tGameManager.isOperatingRound ()) {
+					tRoundType = ActorI.ActionStates.OperatingRound;
+					tRoundID = tGameManager.getOperatingRoundID ();
+				} if (tGameManager.isStockRound ()) {
+					tRoundType = ActorI.ActionStates.StockRound;
+					tRoundID = tGameManager.getStockRoundID ();
+				} else {
+					tRoundType = ActorI.ActionStates.AuctionRound;
+					tRoundID = ">>NONE<<";
+				}
+				setWaitStateAction = new SetWaitStateAction (tRoundType, tRoundID, tPlayer);
+				tGameManager.addAction (setWaitStateAction);
 			}
 		} else {
 			tShowQueryDialog = true;
@@ -61,11 +79,14 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		}
 	}
 	
+	
 	private void showQueryDialog (JFrame aParentFrame) {
+		GameManager tGameManager;
 		Certificate tShareCertificate;
 		String tQueryText;
 		String tOwnerName;
 		int tAnswer;
+		SetWaitStateAction tResetWaitStateAction;
 		
 		tShareCertificate = getShareCertificate ();
 		tOwnerName = privateCompany.getPresidentName ();
@@ -78,6 +99,12 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 
 		if (tAnswer == JOptionPane.YES_OPTION) {
 		  	handleExchangeCertificate ();
+		}
+		tGameManager = privateCompany.getGameManager ();
+		if (tGameManager.isNetworkGame ()) {
+			tResetWaitStateAction = new SetWaitStateAction (setWaitStateAction);
+			tResetWaitStateAction.resetPlayerStatesAfterWait (setWaitStateAction);
+			tGameManager.addAction (setWaitStateAction);
 		}
 	}
 }
