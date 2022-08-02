@@ -57,6 +57,15 @@ public class Action {
 		effects = new LinkedList<Effect> ();
 	}
 
+	public Action (Action aAction) {
+		setName (aAction.getName ());
+		setActor (aAction.getActor ());
+		setRoundType (aAction.getRoundType ());
+		setRoundID (aAction.getRoundID ());
+		setChainToPrevious (false);
+		effects = new LinkedList<Effect> ();
+	}
+	
 	public Action (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		setName (NO_NAME);
 		setActor (aActor);
