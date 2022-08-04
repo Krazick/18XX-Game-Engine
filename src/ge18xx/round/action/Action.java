@@ -271,6 +271,10 @@ public class Action {
 		return roundID;
 	}
 
+	public List<Effect> getEffects () {
+		return effects;
+	}
+	
 	public ActorI.ActionStates getRoundType () {
 		return roundType;
 	}
