@@ -1,5 +1,7 @@
 package ge18xx.round.action;
 
+import java.util.List;
+
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.Effect;
@@ -16,6 +18,7 @@ public class SetWaitStateAction extends Action {
 
 	public SetWaitStateAction (Action aAction) {
 		super (aAction);
+		setName (NAME);
 	}
 	
 	public SetWaitStateAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
@@ -28,6 +31,10 @@ public class SetWaitStateAction extends Action {
 		setName (NAME);
 	}
 	
+	public SetWaitStateAction (String aName) {
+		super (aName);
+	}
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
@@ -46,28 +53,32 @@ public class SetWaitStateAction extends Action {
 		addEffect (tSetWaitStateEffect);
 	}
 	
-	public void resetPlayerStatesAfterWait (Action tWaitedAction) {
-		Effect tEffect;
+	public void resetPlayerStatesAfterWait (Action aWaitedAction) {
 		SetWaitStateEffect tSetWaitStateEffect;
 		String tEffectName;
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;
 		ActorI tToActor;
 		ActorI tActor;
+		List<Effect> tEffects;
 		
-		tEffectName = SetWaitStateEffect.NAME;
-		tEffect = tWaitedAction.getEffectNamed (tEffectName);
-		if (tEffect != Effect.NO_EFFECT) {
-			tSetWaitStateEffect = (SetWaitStateEffect) tEffect;
-			// Need to reset the Player State so reverse the New and Old
-			tNewState = tSetWaitStateEffect.getPreviousState ();
-			tOldState = tSetWaitStateEffect.getNewState ();
-			tActor = tSetWaitStateEffect.getActor ();
-			tToActor = tSetWaitStateEffect.getToActor ();
-			addSetWaitStateEffect (tActor, tToActor, tOldState, tNewState);
-		} else {
-			System.err.println ("Could not find Effect named " + tEffectName + " in Action named " + 
-								tWaitedAction.getName ());
+		tEffects = aWaitedAction.getEffects ();;
+		for (Effect tEffect : tEffects) {
+			tEffectName = tEffect.getName ();
+			if (tEffectName.equals (SetWaitStateEffect.NAME)) {
+				tSetWaitStateEffect = (SetWaitStateEffect) tEffect;
+				// Need to reset the Player State so reverse the New and Old
+				tNewState = tSetWaitStateEffect.getPreviousState ();
+				tOldState = tSetWaitStateEffect.getNewState ();
+				tActor = tSetWaitStateEffect.getActor ();
+				tToActor = tSetWaitStateEffect.getToActor ();
+				addSetWaitStateEffect (tActor, tToActor, tOldState, tNewState);
+				System.out.println ("Added SetWaitStateEffect for " + tToActor.getName () +
+						" from " + tOldState + " to " + tNewState);
+			} else {
+				System.err.println ("Could not find Effect named " + tEffectName + " in Action named " + 
+									aWaitedAction.getName ());
+			}
 		}
 	}
 
