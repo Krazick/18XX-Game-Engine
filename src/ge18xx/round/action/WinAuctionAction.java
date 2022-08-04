@@ -13,7 +13,6 @@ import ge18xx.round.action.effects.FinishAuctionEffect;
 import ge18xx.round.action.effects.RefundEscrowEffect;
 import ge18xx.round.action.effects.RemoveAllBids;
 import ge18xx.round.action.effects.RemoveEscrowEffect;
-import ge18xx.round.action.effects.SetWaitStateEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
 import ge18xx.utilities.XMLNode;
 
@@ -63,14 +62,14 @@ public class WinAuctionAction extends BuyStockAction {
 		addEffect (tFinishAuctionEffect);
 	}
 
-	public void addSetWaitStateEffect (ActorI aFromActor, ActorI aToActor, ActionStates aOldState, 
-						ActionStates aNewState) {
-		SetWaitStateEffect tSetWaitStateEffect;
-
-		tSetWaitStateEffect = new SetWaitStateEffect (aFromActor, aToActor, 
-						aOldState, aNewState);
-		addEffect (tSetWaitStateEffect);
-	}
+//	public void addSetWaitStateEffect (ActorI aFromActor, ActorI aToActor, ActionStates aOldState, 
+//						ActionStates aNewState) {
+//		SetWaitStateEffect tSetWaitStateEffect;
+//
+//		tSetWaitStateEffect = new SetWaitStateEffect (aFromActor, aToActor, 
+//						aOldState, aNewState);
+//		addEffect (tSetWaitStateEffect);
+//	}
 
 	@Override
 	public int getEffectCredit (String aActorName) {
