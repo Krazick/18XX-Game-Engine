@@ -196,6 +196,17 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		}
 	}
 	
+	public Benefit getBenefitNamed (String aBenefitName) {
+		Benefit tFoundBenefit;
+		
+		tFoundBenefit = Benefit.NO_BENEFIT;
+		if (benefits != Benefits.NO_BENEFITS) {
+			tFoundBenefit = benefits.getBenefitNamed (aBenefitName);
+		}
+		
+		return tFoundBenefit;
+	}
+	
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
