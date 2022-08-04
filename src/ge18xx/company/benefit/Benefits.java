@@ -233,6 +233,21 @@ public class Benefits {
 		}
 	}
 	
+	public Benefit getBenefitNamed (String aBenefitName) {
+		Benefit tFoundBenefit;
+		String tThisBenefitName;
+		
+		tFoundBenefit = Benefit.NO_BENEFIT;
+		for (Benefit tBenefit : benefits) {
+			tThisBenefitName = tBenefit.getName ();
+			if (tThisBenefitName.equals (aBenefitName)) {
+				tFoundBenefit = tBenefit;
+			}
+		}
+		
+		return tFoundBenefit;
+	}
+
 	public int getCount () {
 		return benefits.size ();
 	}
