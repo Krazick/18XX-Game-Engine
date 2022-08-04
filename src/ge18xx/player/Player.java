@@ -29,6 +29,7 @@ import ge18xx.market.MarketCell;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
 import ge18xx.round.action.GenericActor;
+import ge18xx.round.action.SetWaitStateAction;
 import ge18xx.round.action.WinAuctionAction;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
@@ -395,25 +396,25 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tMustSetParPrice;
 	}
 	
-	private void setAllWaitStateEffects (WinAuctionAction aWinAuctionAction) {
+	public void setAllWaitStateEffects (SetWaitStateAction aWaitStateAction) {
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;
 		int tPlayerCount;
 		int tPlayerIndex;
 		String tPlayerName;
-		String tWinnerName;
+		String tActingPlayerName;
 		Player tPlayer;
 		
 		tNewState = ActorI.ActionStates.WaitState;
 		tPlayerCount = playerManager.getPlayerCount ();
-		tWinnerName = getName ();
+		tActingPlayerName = getName ();
 		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
 			tPlayer = playerManager.getPlayer (tPlayerIndex);
 			tPlayerName = tPlayer.getName ();
-			if (! tWinnerName.equals (tPlayerName)) {
+			if (! tActingPlayerName.equals (tPlayerName)) {
 				tOldState = tPlayer.getPrimaryActionState ();
 				tPlayer.resetPrimaryActionState (tNewState);;
-				aWinAuctionAction.addSetWaitStateEffect (this, tPlayer, tOldState, tNewState);
+				aWaitStateAction.addSetWaitStateEffect (this, tPlayer, tOldState, tNewState);
 			}
 		}
 	}
