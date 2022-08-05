@@ -113,30 +113,16 @@ public class PurchaseOfferAction extends QueryActorAction {
 	}
 
 	private String getToActorName () {
-		String tFromActorName = "";
+		String tToActorName = "";
 
 		for (Effect tEffect : effects) {
-			if (tFromActorName.equals ("")) {
+			if (tToActorName.equals ("")) {
 				if (tEffect instanceof PurchaseOfferEffect) {
-					tFromActorName = ((PurchaseOfferEffect) tEffect).getToActorName ();
+					tToActorName = ((PurchaseOfferEffect) tEffect).getToActorName ();
 				}
 			}
 		}
 
-		return tFromActorName;
+		return tToActorName;
 	}
-
-//	private String getFromActorName () {
-//		String tFromActorName = "";
-//		
-//		for (Effect tEffect : effects) {
-//			if (tFromActorName.equals ("")) {
-//				if (tEffect instanceof PurchaseOfferEffect) {
-//					tFromActorName = ((PurchaseOfferEffect) tEffect).getActorName ();
-//				}
-//			}
-//		}
-//
-//		return tFromActorName;
-//	}
 }

@@ -46,7 +46,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		TrainCompany tOwningTrainCompany;
 		int tCashValue;
 		CorporationFrame tCorporationFrame;
-		PurchaseOffer tPurchaseOffer;
+		QueryOffer tPurchaseOffer;
 		
 		if (train != Train.NO_TRAIN) {
 			tCashValue = getPrice ();
@@ -96,9 +96,9 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		tLowPrice = 1;
 		tHighPrice = trainCompany.getTreasury ();
 		tDescription = trainCompany.getPresidentName () + ", Choose Buy Price for " + 
-				train.getName () + " " + PurchaseOffer.TRAIN_TYPE + " from " + currentOwner.getName ();
+				train.getName () + " " + QueryOffer.TRAIN_TYPE + " from " + currentOwner.getName ();
 		updateSellerInfo ();
-		updateInfo (PurchaseOffer.TRAIN_TYPE, tLowPrice, tHighPrice, tDescription);
+		updateInfo (QueryOffer.TRAIN_TYPE, tLowPrice, tHighPrice, tDescription);
 	}
 
 	private void updateSellerInfo () {

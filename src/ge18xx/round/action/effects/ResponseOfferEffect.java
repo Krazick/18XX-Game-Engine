@@ -1,7 +1,7 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.company.Corporation;
-import ge18xx.company.PurchaseOffer;
+import ge18xx.company.QueryOffer;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
@@ -133,7 +133,7 @@ public class ResponseOfferEffect extends ToEffect {
 		TrainCompany tTrainCompany = TrainCompany.NO_TRAIN_COMPANY;
 		ShareCompany tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		ActorI.ActionStates tOldStatus;
-		PurchaseOffer tPurchaseOffer;
+		QueryOffer tPurchaseOffer;
 		ActorI tToActor;
 		ActorI tFromActor;
 		Corporation tToCorporation;
@@ -188,7 +188,7 @@ public class ResponseOfferEffect extends ToEffect {
 				} else if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
 					if (tShareCompany.getStatus ().equals (ActorI.ActionStates.WaitingResponse)) {
 						tPurchaseOffer = tShareCompany.getPurchaseOffer ();
-						if (tPurchaseOffer != PurchaseOffer.NO_PURCHASE_OFFER) {
+						if (tPurchaseOffer != QueryOffer.NO_PURCHASE_OFFER) {
 							tOldStatus = tPurchaseOffer.getOldStatus ();
 							tShareCompany.resetStatus (tOldStatus);
 							if (response) {

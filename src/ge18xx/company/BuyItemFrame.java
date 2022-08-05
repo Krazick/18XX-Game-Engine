@@ -252,7 +252,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		return tSamePresident;
 	}
 
-	protected PurchaseOffer makePurchaseOffer (ActorI aItemOwner, Certificate aCertificate, Train aTrain) {
+	protected QueryOffer makePurchaseOffer (ActorI aItemOwner, Certificate aCertificate, Train aTrain) {
 		PurchaseOfferAction tPurchaseOfferAction;
 		PurchaseOffer tPurchaseOffer;
 		ActorI.ActionStates tOldState, tNewState;

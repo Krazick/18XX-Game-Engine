@@ -301,7 +301,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			aXMLCorporationState.appendChild (tTrainPortfolioElements);
 		}
 		super.appendOtherElements (aXMLCorporationState, aXMLDocument);
-		if (purchaseOffer != PurchaseOffer.NO_PURCHASE_OFFER) {
+		if (purchaseOffer != QueryOffer.NO_PURCHASE_OFFER) {
 			tPurchaseOfferElements = purchaseOffer.getElements (aXMLDocument);
 			aXMLCorporationState.appendChild (tPurchaseOfferElements);
 		}
@@ -1752,7 +1752,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		purchaseOffer = aPurchaseOffer;
 	}
 
-	public PurchaseOffer getPurchaseOffer () {
+	public QueryOffer getPurchaseOffer () {
 		return purchaseOffer;
 	}
 
@@ -1762,11 +1762,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		corporationList.clearTrainSelections ();
 		tCorporationFrame = getCorporationFrame ();
 		tCorporationFrame.updateInfo ();
-		purchaseOffer.setStatus (PurchaseOffer.REJECTED);
+		purchaseOffer.setStatus (QueryOffer.REJECTED);
 	}
 	
 	public void setAcceptOffer () {
-		purchaseOffer.setStatus (PurchaseOffer.ACCEPTED);
+		purchaseOffer.setStatus (QueryOffer.ACCEPTED);
 	}
 	
 	public void handleAcceptOffer (RoundManager aRoundManager) {

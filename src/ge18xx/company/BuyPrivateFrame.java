@@ -77,10 +77,10 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		}
 		
 		tDescription = trainCompany.getPresidentName () + ", Choose Buy Price for " + 
-				certificate.getCompanyAbbrev () + " " + PurchaseOffer.PRIVATE_TYPE + " from " + 
+				certificate.getCompanyAbbrev () + " " + QueryOffer.PRIVATE_TYPE + " from " + 
 				currentOwner.getName ();
 		updateSellerInfo ();
-		updateInfo (PurchaseOffer.PRIVATE_TYPE, tLowPrice, tHighPrice, tDescription);
+		updateInfo (QueryOffer.PRIVATE_TYPE, tLowPrice, tHighPrice, tDescription);
 	}
 
 	private void updateSellerInfo () {
@@ -101,7 +101,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		CertificateHolderI tCertificateHolder;
 		Player tOwningPlayer;
 		CorporationFrame tCorporationFrame;
-		PurchaseOffer tPurchaseOffer;
+		QueryOffer tPurchaseOffer;
 		
 		if (certificate != Certificate.NO_CERTIFICATE) {
 			tCertificateHolder = certificate.getOwner ();

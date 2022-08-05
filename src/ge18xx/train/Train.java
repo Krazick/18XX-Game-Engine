@@ -10,7 +10,7 @@ package ge18xx.train;
 
 import ge18xx.bank.Bank;
 import ge18xx.center.RevenueCenter;
-import ge18xx.company.PurchaseOffer;
+import ge18xx.company.QueryOffer;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.FrameButton;
 import ge18xx.map.Location;
@@ -543,7 +543,7 @@ public class Train implements Comparable<Object> {
 	}
 
 	public String getType () {
-		return PurchaseOffer.TRAIN_TYPE;
+		return QueryOffer.TRAIN_TYPE;
 	}
 
 	/**
