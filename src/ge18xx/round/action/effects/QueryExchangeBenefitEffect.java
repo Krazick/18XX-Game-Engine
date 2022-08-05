@@ -1,5 +1,7 @@
 package ge18xx.round.action.effects;
 
+import javax.swing.JFrame;
+
 import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.benefit.Benefit;
@@ -108,9 +110,18 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
+		JFrame tRoundFrame;
+		String tToPlayerName;
 		
 		tEffectApplied = true;
-		System.out.println ("Queried Exchange Benefit -- TRUE");
+		tToPlayerName = toActor.getName ();
+		if (aRoundManager.isNetworkAndIsThisClient (tToPlayerName)) {
+			System.out.println ("Queried Exchange Benefit -- TRUE");
+			if (queryExchangeBenefit != Benefit.NO_BENEFIT) {
+				tRoundFrame = aRoundManager.getRoundFrame ();
+				queryExchangeBenefit.showQueryDialog (tRoundFrame);
+			}
+		}
 		
 		return tEffectApplied;
 	}

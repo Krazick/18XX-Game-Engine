@@ -50,9 +50,11 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		Player tPlayer;
 		String tPlayerName;
 		boolean tShowQueryDialog;
+		boolean tExchangeApproved;
 		SetWaitStateAction tResetWaitStateAction;
 		
 		tShowQueryDialog = false;
+		tExchangeApproved = false;
 		tGameManager = privateCompany.getGameManager ();
 		if (tGameManager.isNetworkGame ()) {
 			tPlayer = (Player) privateCompany.getPresident ();
@@ -61,14 +63,17 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 			if (tGameManager.isNetworkAndIsThisClient (tPlayerName)) {
 				tShowQueryDialog = true;
 			} else {
-				tellPlayerToQuery (tGameManager, tPlayer);
+				tExchangeApproved = tellPlayerToQuery (tGameManager, tPlayer);
 			}
 		} else {
 			tShowQueryDialog = true;
 			tResetWaitStateAction = (SetWaitStateAction) Action.NO_ACTION;
 		}
 		if (tShowQueryDialog) {
-			showQueryDialog (aRoundFrame);
+			tExchangeApproved = showQueryDialog (aRoundFrame);
+		}
+		if (tExchangeApproved) {
+		  	handleExchangeCertificate ();
 		}
 		// After handling Query Dialog, then if we have told others to wait, run the reset Wait State Action
 		if (tResetWaitStateAction != (SetWaitStateAction) Action.NO_ACTION) {
@@ -84,7 +89,9 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 	 * @param aPlayer the Player who needs to answer the question of the Exchange.
 	 * 
 	 */
-	private void tellPlayerToQuery (GameManager aGameManager, Player aPlayer) {
+	private boolean tellPlayerToQuery (GameManager aGameManager, Player aPlayer) {
+		boolean tExchangeApproved;
+		
 		System.out.println ("Player " + aPlayer.getName () + 
 				" must answer Query Exchange Question - Send Action requesting Response.");
 		QueryExchangeBenefitAction tQueryExchangeBenefitAction;
@@ -98,6 +105,9 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		tQueryExchangeBenefitAction = new QueryExchangeBenefitAction (tRoundType, tRoundID, tCurrentPlayer);
 		tQueryExchangeBenefitAction.addQueryExchangeBenefitEffect (tCurrentPlayer, aPlayer, privateCompany, this);
 		aGameManager.addAction (tQueryExchangeBenefitAction);
+		tExchangeApproved = false;
+		
+		return tExchangeApproved;
 	}
 	
 	/**
@@ -153,11 +163,12 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		return tRoundID;
 	}
 	
-	private void showQueryDialog (JFrame aParentFrame) {
+	public boolean showQueryDialog (JFrame aParentFrame) {
 		Certificate tShareCertificate;
 		String tQueryText;
 		String tOwnerName;
 		int tAnswer;
+		boolean tExchangeApproved;
 		
 		tShareCertificate = getShareCertificate ();
 		tOwnerName = privateCompany.getPresidentName ();
@@ -169,7 +180,11 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		        JOptionPane.YES_NO_OPTION);
 
 		if (tAnswer == JOptionPane.YES_OPTION) {
-		  	handleExchangeCertificate ();
+			tExchangeApproved = true;
+		} else {
+			tExchangeApproved = false;
 		}
+		
+		return tExchangeApproved;
 	}
 }
