@@ -286,5 +286,4 @@ public class XMLFrame extends JFrame {
 			scrollPane.revalidate ();
 		}
 	}
-
 }
