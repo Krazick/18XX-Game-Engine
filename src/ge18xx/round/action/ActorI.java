@@ -136,4 +136,12 @@ public interface ActorI {
 	public default void completeBenefitInUse () {
 		
 	}
+	
+	public default void updateInfo () {
+		
+	}
+	
+	public default boolean isWaitingForResponse () {
+		return false;
+	}
 }
