@@ -41,32 +41,48 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 			setVisible (false);
 		}
 	}
+	protected QueryOffer buildPurchaseOffer (ActorI aItemOwner, Train aTrain, String aFromActorName) {
+		PurchaseTrainOffer tPurchaseTrainOffer;
+		QueryOffer tQueryOffer;
+		ActorI.ActionStates tOldState;
+		String tItemName;
+		String tOwnerName;
+		
+		tOldState = trainCompany.getStatus ();
+		tOwnerName = aItemOwner.getName ();
+		tItemName = aTrain.getName ();
+		tPurchaseTrainOffer = new PurchaseTrainOffer (tItemName, aTrain, aFromActorName, tOwnerName, getPrice (), tOldState);
+		tQueryOffer = tPurchaseTrainOffer;
+		trainCompany.setQueryOffer (tPurchaseTrainOffer);
+
+		return tQueryOffer;
+	}
 
 	private void buyTrain () {
 		TrainCompany tOwningTrainCompany;
 		int tCashValue;
-		CorporationFrame tCorporationFrame;
-		QueryOffer tPurchaseOffer;
+//		CorporationFrame tCorporationFrame;
+		QueryOffer tQueryOffer;
+		String tBuyingOwnerName;
 		
 		if (train != Train.NO_TRAIN) {
+			tBuyingOwnerName = trainCompany.getPresidentName ();
 			tCashValue = getPrice ();
 			tOwningTrainCompany = (TrainCompany) (currentOwner);
 			if (needToMakeOffer (tOwningTrainCompany, trainCompany)) {
-				tPurchaseOffer = makePurchaseOffer (tOwningTrainCompany, Certificate.NO_CERTIFICATE, train);
+				tQueryOffer = buildPurchaseOffer (tOwningTrainCompany, train, tBuyingOwnerName);
+				sendPurchaseOffer (tOwningTrainCompany, tQueryOffer);
 				setVisible (false);
-				
-				tCorporationFrame = trainCompany.getCorporationFrame ();				
-				tCorporationFrame.waitForResponse ();
+				trainCompany.waitForResponse ();
 				
 				// Once a Response is received, examine for Accept or Reject of the Purchase Offer
 				// If Accept, perform the Buy Train
-				if (tPurchaseOffer.wasAccepted ()) {
+				if (tQueryOffer.wasAccepted ()) {
 					buyTrain (tOwningTrainCompany, tCashValue, true);	
 				} else {
 					// TODO: Notify with Dialog the Offer was Rejected
 					System.out.println ("Purchase Offer for Train was Rejected");
 				}
-			
 			} else {
 				buyTrain (tOwningTrainCompany, tCashValue, false);
 			}
@@ -75,17 +91,15 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 
 	private void buyTrain (TrainCompany aOwningTrainCompany, int aCashValue, boolean aChainToPrevious) {
 		BuyTrainAction tBuyTrainAction;
-		CorporationFrame tCorporationFrame;
 		String tOperatingRoundID;
+		
 		tOperatingRoundID = trainCompany.getOperatingRoundID ();
-		tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
-				trainCompany);
+		tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, trainCompany);
 		tBuyTrainAction.setChainToPrevious (aChainToPrevious);
-		trainCompany.transferCashTo (aOwningTrainCompany, aCashValue);
 		tBuyTrainAction.addCashTransferEffect (trainCompany, aOwningTrainCompany, aCashValue);
+		trainCompany.transferCashTo (aOwningTrainCompany, aCashValue);
 		trainCompany.doFinalTrainBuySteps (aOwningTrainCompany, train, tBuyTrainAction);
-		tCorporationFrame = trainCompany.getCorporationFrame ();
-		tCorporationFrame.updateInfo ();
+		trainCompany.updateInfo ();
 	}
 
 	private void updateInfo () {
