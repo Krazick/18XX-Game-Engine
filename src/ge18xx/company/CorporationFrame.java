@@ -1391,23 +1391,4 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			updateDoneButton ();
 		}
 	}
-
-	/**
-	 * When the Corporation has need to wait for a Response from a Network Player, State is ActorI.ActionStates.WaitingResponse
-	 * Put this thread to sleep, in 2 second chunks
-	 * 
-	 */
-	public void waitForResponse () {
-		int tWaitTime = 2000; // Wait for 2 Seconds before testing if a Response came back
-		
-		updateInfo ();
-		while (corporation.isWaitingForResponse ()) {
-			try {
-				Thread.sleep (tWaitTime);
-			} catch (InterruptedException e) {
-				System.err.println ("Waiting for the Response to Clear - Exception");
-				e.printStackTrace ();
-			}
-		}
-	}
 }
