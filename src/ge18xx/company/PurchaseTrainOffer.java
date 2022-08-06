@@ -20,9 +20,9 @@ public class PurchaseTrainOffer extends QueryOffer {
 	Train train;
 	String trainName;
 
-	public PurchaseTrainOffer (String aItemName, String aItemType, Train aTrain,
-			String aFromActorName, String aToName, int aAmount, ActionStates aOldState) {
-		super (aItemName, aItemType, aFromActorName, aToName, aOldState);
+	public PurchaseTrainOffer (String aItemName, Train aTrain, String aFromActorName, String aToActorName, 
+					int aAmount, ActionStates aOldState) {
+		super (aItemName, aFromActorName, aToActorName, aOldState);
 		setTrain (aTrain);
 		setAmount (aAmount);
 	}
@@ -77,23 +77,16 @@ public class PurchaseTrainOffer extends QueryOffer {
 		amount = aAmount;
 	}
 
-	public boolean isTrain () {
-		boolean tIsTrain = false;
-	
-		if (TRAIN_TYPE.equals (itemType)) {
-			tIsTrain = true;
-		} else {
-			tIsTrain = false;
-		}
-	
-		return tIsTrain;
-	}
-
 	public Train getTrain () {
 		return train;
 	}
 
 	public int getAmount () {
 		return amount;
+	}
+	
+	@Override
+	public String getItemType () {
+		return train.getType ();
 	}
 }
