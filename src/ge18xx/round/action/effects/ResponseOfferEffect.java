@@ -188,7 +188,7 @@ public class ResponseOfferEffect extends ToEffect {
 				} else if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
 					if (tShareCompany.getStatus ().equals (ActorI.ActionStates.WaitingResponse)) {
 						tQueryOffer = tShareCompany.getQueryOffer ();
-						if (tQueryOffer != QueryOffer.NO_PURCHASE_OFFER) {
+						if (tQueryOffer != QueryOffer.NO_QUERY_OFFER) {
 							tOldStatus = tQueryOffer.getOldStatus ();
 							tShareCompany.resetStatus (tOldStatus);
 							if (response) {
