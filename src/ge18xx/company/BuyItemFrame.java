@@ -21,7 +21,6 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.PurchaseOfferAction;
-import ge18xx.train.Train;
 import ge18xx.utilities.GUI;
 
 public class BuyItemFrame extends JFrame implements KeyListener {
@@ -251,42 +250,19 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 
 		return tSamePresident;
 	}
-
-	protected QueryOffer makePurchaseOffer (ActorI aItemOwner, Certificate aCertificate, Train aTrain) {
-		PurchaseOfferAction tPurchaseOfferAction;
-		PurchaseTrainOffer tPurchaseTrainOffer;
-		PurchasePrivateOffer tPurchasePrivateOffer;
-		QueryOffer tQueryOffer;
-		ActorI.ActionStates tOldState, tNewState;
-		Train tTrain;
-		PrivateCompany tPrivateCompany;
+	
+	protected void sendPurchaseOffer (ActorI aItemOwner, QueryOffer aQueryOffer) {
 		String tOperatingRoundID;
-		String tItemName;
+		PurchaseOfferAction tPurchaseOfferAction;
 		String tItemType;
-		
-		if (aCertificate != Certificate.NO_CERTIFICATE) {
-			tPrivateCompany = (PrivateCompany) aCertificate.getCorporation ();
-			tItemName = tPrivateCompany.getAbbrev ();
-			tItemType = aCertificate.getCorpType ();
-			tTrain = Train.NO_TRAIN;
-			tPurchasePrivateOffer = new PurchasePrivateOffer (tItemName, tItemType, tPrivateCompany, getPrice (), tItemName, 
-					aItemOwner.getName (), trainCompany.getStatus ());
-			tQueryOffer = tPurchasePrivateOffer;
-			trainCompany.setQueryOffer (tPurchasePrivateOffer);
-		} else {
-			tPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
-			tItemName = aTrain.getName ();
-			tItemType = aTrain.getType ();
-			tTrain = aTrain;
-			tPurchaseTrainOffer = new PurchaseTrainOffer (tItemName, tItemType, tTrain, tItemName, 
-					aItemOwner.getName (), getPrice (), trainCompany.getStatus ());
-			tQueryOffer = tPurchaseTrainOffer;
-			trainCompany.setQueryOffer (tPurchaseTrainOffer);
-		}
+		String tItemName;
+		ActorI.ActionStates tOldState, tNewState;
 
 		tOldState = trainCompany.getStatus ();
-		
 		tOperatingRoundID = trainCompany.getOperatingRoundID ();
+		aQueryOffer = trainCompany.getQueryOffer ();
+		tItemType = aQueryOffer.getItemType ();
+		tItemName = aQueryOffer.getItemName ();
 		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 				trainCompany);
 		tPurchaseOfferAction.addPurchaseOfferEffect (trainCompany, aItemOwner, getPrice (), tItemType, tItemName);
@@ -295,8 +271,6 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		tNewState = trainCompany.getStatus ();
 		tPurchaseOfferAction.addChangeCorporationStatusEffect (trainCompany, tOldState, tNewState);
 		trainCompany.addAction (tPurchaseOfferAction);
-
-		return tQueryOffer;
 	}
 
 	protected boolean needToMakeOffer (ActorI aOwningActor, TrainCompany aBuyingCompany) {
