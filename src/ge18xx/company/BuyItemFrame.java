@@ -254,7 +254,9 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 
 	protected QueryOffer makePurchaseOffer (ActorI aItemOwner, Certificate aCertificate, Train aTrain) {
 		PurchaseOfferAction tPurchaseOfferAction;
-		PurchaseOffer tPurchaseOffer;
+		PurchaseTrainOffer tPurchaseTrainOffer;
+		PurchasePrivateOffer tPurchasePrivateOffer;
+		QueryOffer tQueryOffer;
 		ActorI.ActionStates tOldState, tNewState;
 		Train tTrain;
 		PrivateCompany tPrivateCompany;
@@ -267,17 +269,22 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 			tItemName = tPrivateCompany.getAbbrev ();
 			tItemType = aCertificate.getCorpType ();
 			tTrain = Train.NO_TRAIN;
+			tPurchasePrivateOffer = new PurchasePrivateOffer (tItemName, tItemType, tPrivateCompany, getPrice (), tItemName, 
+					aItemOwner.getName (), trainCompany.getStatus ());
+			tQueryOffer = tPurchasePrivateOffer;
+			trainCompany.setQueryOffer (tPurchasePrivateOffer);
 		} else {
 			tPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
 			tItemName = aTrain.getName ();
 			tItemType = aTrain.getType ();
 			tTrain = aTrain;
+			tPurchaseTrainOffer = new PurchaseTrainOffer (tItemName, tItemType, tTrain, tItemName, 
+					aItemOwner.getName (), getPrice (), trainCompany.getStatus ());
+			tQueryOffer = tPurchaseTrainOffer;
+			trainCompany.setQueryOffer (tPurchaseTrainOffer);
 		}
-		tPurchaseOffer = new PurchaseOffer (tItemName, tItemType, tTrain, tPrivateCompany, tItemName, 
-				aItemOwner.getName (), getPrice (), trainCompany.getStatus ());
 
 		tOldState = trainCompany.getStatus ();
-		trainCompany.setPurchaseOffer (tPurchaseOffer);
 		
 		tOperatingRoundID = trainCompany.getOperatingRoundID ();
 		tPurchaseOfferAction = new PurchaseOfferAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
@@ -289,7 +296,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		tPurchaseOfferAction.addChangeCorporationStatusEffect (trainCompany, tOldState, tNewState);
 		trainCompany.addAction (tPurchaseOfferAction);
 
-		return tPurchaseOffer;
+		return tQueryOffer;
 	}
 
 	protected boolean needToMakeOffer (ActorI aOwningActor, TrainCompany aBuyingCompany) {
@@ -475,5 +482,4 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 			range.setText (tRange);
 		}
 	}
-
 }

@@ -77,10 +77,10 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		}
 		
 		tDescription = trainCompany.getPresidentName () + ", Choose Buy Price for " + 
-				certificate.getCompanyAbbrev () + " " + QueryOffer.PRIVATE_TYPE + " from " + 
+				certificate.getCompanyAbbrev () + " " + PurchasePrivateOffer.PRIVATE_TYPE + " from " + 
 				currentOwner.getName ();
 		updateSellerInfo ();
-		updateInfo (QueryOffer.PRIVATE_TYPE, tLowPrice, tHighPrice, tDescription);
+		updateInfo (PurchasePrivateOffer.PRIVATE_TYPE, tLowPrice, tHighPrice, tDescription);
 	}
 
 	private void updateSellerInfo () {

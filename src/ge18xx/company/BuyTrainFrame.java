@@ -96,9 +96,9 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		tLowPrice = 1;
 		tHighPrice = trainCompany.getTreasury ();
 		tDescription = trainCompany.getPresidentName () + ", Choose Buy Price for " + 
-				train.getName () + " " + QueryOffer.TRAIN_TYPE + " from " + currentOwner.getName ();
+				train.getName () + " " + PurchaseTrainOffer.TRAIN_TYPE + " from " + currentOwner.getName ();
 		updateSellerInfo ();
-		updateInfo (QueryOffer.TRAIN_TYPE, tLowPrice, tHighPrice, tDescription);
+		updateInfo (PurchaseTrainOffer.TRAIN_TYPE, tLowPrice, tHighPrice, tDescription);
 	}
 
 	private void updateSellerInfo () {
