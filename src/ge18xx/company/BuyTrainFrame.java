@@ -61,7 +61,6 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 	private void buyTrain () {
 		TrainCompany tOwningTrainCompany;
 		int tCashValue;
-//		CorporationFrame tCorporationFrame;
 		QueryOffer tQueryOffer;
 		String tBuyingOwnerName;
 		
