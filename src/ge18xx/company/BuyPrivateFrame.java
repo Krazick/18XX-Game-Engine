@@ -6,7 +6,6 @@ import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
-import ge18xx.train.Train;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -97,26 +96,49 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		updateSellerInfo (tSellerInfo);
 	}
 
+	private QueryOffer buildPurchaseOffer (ActorI aItemOwner, Certificate aCertificate, String aFromActorName) {
+		PurchasePrivateOffer tPurchasePrivateOffer;
+		QueryOffer tQueryOffer;
+		ActorI.ActionStates tOldState;
+		PrivateCompany tPrivateCompany;
+		String tItemName;
+		String tOwnerName;
+		
+		tOldState = trainCompany.getStatus ();
+		tOwnerName = aItemOwner.getName ();
+		tQueryOffer = QueryOffer.NO_QUERY_OFFER;
+		if (aCertificate != Certificate.NO_CERTIFICATE) {
+			tPrivateCompany = (PrivateCompany) aCertificate.getCorporation ();
+			tItemName = tPrivateCompany.getAbbrev ();
+			tPurchasePrivateOffer = new PurchasePrivateOffer (tItemName, tPrivateCompany, getPrice (), aFromActorName, 
+					tOwnerName, tOldState);
+			tQueryOffer = tPurchasePrivateOffer;
+			trainCompany.setQueryOffer (tPurchasePrivateOffer);
+		}
+		
+		return tQueryOffer;
+	}
+	
 	private void buyPrivateCertificate () {
 		CertificateHolderI tCertificateHolder;
 		Player tOwningPlayer;
-		CorporationFrame tCorporationFrame;
-		QueryOffer tPurchaseOffer;
+		QueryOffer tQueryOffer;
+		String tBuyingOwnerName;
 		
 		if (certificate != Certificate.NO_CERTIFICATE) {
 			tCertificateHolder = certificate.getOwner ();
 			if (tCertificateHolder.isAPlayer ()) {
 				tOwningPlayer = (Player) (tCertificateHolder.getPortfolioHolder ());
 				if (needToMakeOffer (tOwningPlayer, trainCompany)) {
-					tPurchaseOffer = makePurchaseOffer (tOwningPlayer, certificate, Train.NO_TRAIN);
+					tBuyingOwnerName = trainCompany.getPresidentName ();
+					tQueryOffer = buildPurchaseOffer (tOwningPlayer, certificate, tBuyingOwnerName);
+					sendPurchaseOffer (tOwningPlayer, tQueryOffer);
 					setVisible (false);
 
-					tCorporationFrame = trainCompany.getCorporationFrame ();
-					tCorporationFrame.waitForResponse ();
-					
+					trainCompany.waitForResponse ();
 					// Once a Response is received, examine for Accept or Reject of the Purchase Offer
 					// If Accept, perform the Buy Private
-					if (tPurchaseOffer.wasAccepted ()) {
+					if (tQueryOffer.wasAccepted ()) {
 						buyPrivateCompany (tOwningPlayer);	
 					} else {
 						// TODO: Notify with Dialog the Offer was Rejected
