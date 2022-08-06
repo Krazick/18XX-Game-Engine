@@ -300,7 +300,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			aXMLCorporationState.appendChild (tTrainPortfolioElements);
 		}
 		super.appendOtherElements (aXMLCorporationState, aXMLDocument);
-		if (queryOffer != QueryOffer.NO_PURCHASE_OFFER) {
+		if (queryOffer != QueryOffer.NO_QUERY_OFFER) {
 			tPurchaseOfferElements = queryOffer.getElements (aXMLDocument);
 			aXMLCorporationState.appendChild (tPurchaseOfferElements);
 		}
@@ -664,7 +664,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 		}
 		addAction (aBuyTrainAction);
-		corporationFrame.updateInfo ();
+		updateInfo ();
 		tGameManager.updateRoundFrameParPrices ();
 	}
 
@@ -1247,7 +1247,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tSkipBaseTokenAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			tOperatingRound.addAction (tSkipBaseTokenAction);
 			setLastRevenue (thisRevenue);
-			corporationFrame.updateInfo ();
+			updateInfo ();
 		} else {
 			System.err.println ("Status has NOT been updated from " + status);
 		}
@@ -1293,7 +1293,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tPayNoDividendAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			tOperatingRound.addAction (tPayNoDividendAction);
 			setLastRevenue (thisRevenue);
-			corporationFrame.updateInfo ();
+			updateInfo ();
 		} else {
 			System.err.println ("Status has NOT been updated from " + status);
 		}
@@ -1334,7 +1334,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tPayFullDividendAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			tOperatingRound.addAction (tPayFullDividendAction);
 			setLastRevenue (thisRevenue);
-			corporationFrame.updateInfo ();
+			updateInfo ();
 		} else {
 			System.err.println ("Status has NOT been updated from " + status);
 		}
@@ -1607,7 +1607,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tLayTileAction.addCashTransferEffect (this, tBank, tCostToLayTile);
 		}
 		addAction (tLayTileAction);
-		corporationFrame.updateInfo ();
+		updateInfo ();
 	}
 
 	private void setTileLaid (LayTileAction aLayTileAction) {
@@ -1642,7 +1642,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		} else {
 			System.err.println ("--> Failure to update State to Operated Trains");
 		}
-		corporationFrame.updateInfo ();
+		updateInfo ();
 		setIsOperatingTrains (false);
 	}
 
@@ -1756,11 +1756,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public void handleRejectOffer () {
-		CorporationFrame tCorporationFrame;
-
 		corporationList.clearTrainSelections ();
-		tCorporationFrame = getCorporationFrame ();
-		tCorporationFrame.updateInfo ();
+		updateInfo ();
 		queryOffer.setStatus (QueryOffer.REJECTED);
 	}
 	
@@ -1850,9 +1847,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		Point tFrameOffset;
 		GameManager tGameManager;
 
-		if (!trainRevenueFrame.isVisible ()) {
-			tGameManager = corporationList.getGameManager ();
-			tFrameOffset = tGameManager.getOffsetRoundFrame ();
+		tGameManager = corporationList.getGameManager ();
+		tFrameOffset = tGameManager.getOffsetRoundFrame ();
+		if (! trainRevenueFrame.isVisible ()) {
 			trainRevenueFrame.setRevenueValues (this);
 			trainRevenueFrame.setLocation (tFrameOffset);
 		}
@@ -1914,4 +1911,5 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 		}
 	}
+	
 }
