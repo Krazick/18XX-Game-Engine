@@ -10,11 +10,10 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class QueryOffer {
-	public static final QueryOffer NO_PURCHASE_OFFER = null;
+public abstract class QueryOffer {
+	public static final QueryOffer NO_QUERY_OFFER = null;
 	public static final ElementName EN_QUERY_OFFER = new ElementName ("QueryOffer");
 	public static final AttributeName AN_ITEM_NAME = new AttributeName ("itemName");
-	public static final AttributeName AN_ITEM_TYPE = new AttributeName ("itemType");
 	public static final AttributeName AN_FROM_ACTOR_NAME = new AttributeName ("fromActorName");
 	public static final AttributeName AN_TO_ACTOR_NAME = new AttributeName ("toActorName");
 	public static final AttributeName AN_OLD_STATUS = new AttributeName ("oldStatus");
@@ -25,20 +24,17 @@ public class QueryOffer {
 	public static final String REJECTED = "Rejected";
 	public static final String PROCESSED = "Processed";
 	String itemName;
-	protected String itemType;
 	String fromActorName;
 	String toActorName;
 	ActorI.ActionStates oldStatus;
 	// TODO Convert to an ENUM with options on Status.
 	String status;
 
-	public QueryOffer (String aItemName, String aItemType,
-			String aFromActorName, String aToName, ActorI.ActionStates aOldState) {
+	public QueryOffer (String aItemName, String aFromActorName, String aToActorName, ActorI.ActionStates aOldState) {
 
 		setItemName (aItemName);
-		setItemType (aItemType);
 		setFromActorName (aFromActorName);
-		setToName (aToName);
+		setToActorName (aToActorName);
 
 		setOldState (aOldState);
 		setStatus (PENDING);
@@ -49,7 +45,6 @@ public class QueryOffer {
 		NodeList tPurchaseOfferList;
 		int tPOCount, tPOIndex;
 		String tItemName;
-		String tItemType;
 		String tFromActorName;
 		String tToActorName;
 		String tOldStateName;
@@ -62,15 +57,13 @@ public class QueryOffer {
 		for (tPOIndex = 0; tPOIndex < tPOCount; tPOIndex++) {
 			tPONode = new XMLNode (tPurchaseOfferList.item (tPOIndex));
 			tItemName = tPONode.getThisAttribute (AN_ITEM_NAME);
-			tItemType = tPONode.getThisAttribute (AN_ITEM_TYPE);
 			tFromActorName = tPONode.getThisAttribute (AN_FROM_ACTOR_NAME);
 			tToActorName = tPONode.getThisAttribute (AN_TO_ACTOR_NAME);
 			tOldStateName = tPONode.getThisAttribute (AN_OLD_STATUS);
 			tStatus = tPONode.getThisAttribute (AN_STATUS);
 			setItemName (tItemName);
-			setItemType (tItemType);
 			setFromActorName (tFromActorName);
-			setToName (tToActorName);
+			setToActorName (tToActorName);
 			
 			tGenericActor = new GenericActor ();
 			tOldState = tGenericActor.getCorporationActionState (tOldStateName);
@@ -88,7 +81,6 @@ public class QueryOffer {
 		
 		tXMLElement = aXMLDocument.createElement (aElementName);
 		tXMLElement.setAttribute (AN_ITEM_NAME, itemName);
-		tXMLElement.setAttribute (AN_ITEM_TYPE, itemType);
 		tXMLElement.setAttribute (AN_ITEM_NAME, fromActorName);
 		tXMLElement.setAttribute (AN_FROM_ACTOR_NAME, fromActorName);
 		tXMLElement.setAttribute (AN_TO_ACTOR_NAME, toActorName);
@@ -139,16 +131,12 @@ public class QueryOffer {
 		itemName = aItemName;
 	}
 
-	private void setItemType (String aItemType) {
-		itemType = aItemType;
-	}
-
 	private void setFromActorName (String aFromActorName) {
 		fromActorName = aFromActorName;
 	}
 
-	private void setToName (String aToName) {
-		toActorName = aToName;
+	private void setToActorName (String aToActorName) {
+		toActorName = aToActorName;
 	}
 
 	private void setOldState (ActorI.ActionStates aOldState) {
@@ -159,19 +147,17 @@ public class QueryOffer {
 		return itemName;
 	}
 
-	public String getItemType () {
-		return itemType;
-	}
-
 	public String getFromActorName () {
 		return fromActorName;
 	}
 
-	public String getToName () {
+	public String getToActorName () {
 		return toActorName;
 	}
 
 	public ActorI.ActionStates getOldStatus () {
 		return oldStatus;
 	}
+	
+	public abstract String getItemType ();
 }
