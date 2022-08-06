@@ -2313,17 +2313,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationList.isPlaceTokenMode ();
 	}
 
-	public boolean isWaitingForResponse () {
-		boolean tIsWaitingForResponse;
-
-		tIsWaitingForResponse = false;
-		if (status.equals (ActorI.ActionStates.WaitingResponse)) {
-			tIsWaitingForResponse = true;
-		}
-
-		return tIsWaitingForResponse;
-	}
-
 	public void setTestingFlag (boolean aGameTestFlag) {
 		gameTestFlag = aGameTestFlag;
 	}
@@ -2413,5 +2402,41 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		tLastAction = corporationList.getLastAction ();
 
 		return tLastAction;
+	}
+
+	@Override
+	public void updateInfo () {
+		corporationFrame.updateInfo ();
+	}
+	
+	@Override
+	public boolean isWaitingForResponse () {
+		boolean tIsWaitingForResponse;
+
+		tIsWaitingForResponse = false;
+		if (status.equals (ActorI.ActionStates.WaitingResponse)) {
+			tIsWaitingForResponse = true;
+		}
+
+		return tIsWaitingForResponse;
+	}
+
+	/**
+	 * When the Corporation has need to wait for a Response from a Network Player, State is ActorI.ActionStates.WaitingResponse
+	 * Put this thread to sleep, in 2 second chunks
+	 * 
+	 */
+	public void waitForResponse () {
+		int tWaitTime = 2000; // Wait for 2 Seconds before testing if a Response came back
+		
+		updateInfo ();
+		while (isWaitingForResponse ()) {
+			try {
+				Thread.sleep (tWaitTime);
+			} catch (InterruptedException e) {
+				System.err.println ("Waiting for the Response to Clear - Exception");
+				e.printStackTrace ();
+			}
+		}
 	}
 }
