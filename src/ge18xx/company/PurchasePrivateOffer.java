@@ -18,9 +18,9 @@ public class PurchasePrivateOffer extends QueryOffer {
 	String privateCompanyAbbrev;
 	int amount;
 
-	public PurchasePrivateOffer (String aItemName, String aItemType, PrivateCompany aPrivateCompany,
+	public PurchasePrivateOffer (String aItemName, PrivateCompany aPrivateCompany,
 			int aAmount, String aFromActorName, String aToName, ActorI.ActionStates aOldState) {
-		super (aItemName, aItemType, aFromActorName, aToName, aOldState);
+		super (aItemName, aFromActorName, aToName, aOldState);
 
 		setPrivateCompany (aPrivateCompany);
 		setPrivateCompanyAbbrev (aPrivateCompany.getAbbrev ());
@@ -69,21 +69,13 @@ public class PurchasePrivateOffer extends QueryOffer {
 	private void setAmount (int aAmount) {
 		amount = aAmount;
 	}
-	
-	public boolean isPrivateCompany () {
-		boolean tIsPrivateCompany = false;
-
-		if (PRIVATE_TYPE.equals (itemType)) {
-			tIsPrivateCompany = true;
-		} else {
-			tIsPrivateCompany = false;
-		}
-
-		return tIsPrivateCompany;
-	}
 
 	public PrivateCompany getPrivateCompany () {
 		return privateCompany;
 	}
-
+	
+	@Override
+	public String getItemType () {
+		return privateCompany.getType ();
+	}
 }
