@@ -133,7 +133,7 @@ public class ResponseOfferEffect extends ToEffect {
 		TrainCompany tTrainCompany = TrainCompany.NO_TRAIN_COMPANY;
 		ShareCompany tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		ActorI.ActionStates tOldStatus;
-		QueryOffer tPurchaseOffer;
+		QueryOffer tQueryOffer;
 		ActorI tToActor;
 		ActorI tFromActor;
 		Corporation tToCorporation;
@@ -172,8 +172,8 @@ public class ResponseOfferEffect extends ToEffect {
 			} else {
 				if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
 					if (tTrainCompany.getStatus ().equals (ActorI.ActionStates.WaitingResponse)) {
-						tPurchaseOffer = tTrainCompany.getPurchaseOffer ();
-						tOldStatus = tPurchaseOffer.getOldStatus ();
+						tQueryOffer = tTrainCompany.getQueryOffer ();
+						tOldStatus = tQueryOffer.getOldStatus ();
 						tTrainCompany.resetStatus (tOldStatus);
 						if (response) {
 							tTrainCompany.setAcceptOffer ();
@@ -187,9 +187,9 @@ public class ResponseOfferEffect extends ToEffect {
 					}
 				} else if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
 					if (tShareCompany.getStatus ().equals (ActorI.ActionStates.WaitingResponse)) {
-						tPurchaseOffer = tShareCompany.getPurchaseOffer ();
-						if (tPurchaseOffer != QueryOffer.NO_PURCHASE_OFFER) {
-							tOldStatus = tPurchaseOffer.getOldStatus ();
+						tQueryOffer = tShareCompany.getQueryOffer ();
+						if (tQueryOffer != QueryOffer.NO_PURCHASE_OFFER) {
+							tOldStatus = tQueryOffer.getOldStatus ();
 							tShareCompany.resetStatus (tOldStatus);
 							if (response) {
 								tShareCompany.setAcceptOffer ();
