@@ -12,7 +12,6 @@ import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.ShareHolders;
 import ge18xx.round.OperatingRound;
-import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.ClearATrainFromMapAction;
@@ -91,7 +90,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	boolean mustBuyTrain;
 	boolean hasLaidTile;
 	boolean isOperatingTrains;
-	PurchaseOffer purchaseOffer;
+	QueryOffer queryOffer;
 
 	public TrainCompany () {
 		this (Corporation.NO_ID, Corporation.NO_NAME);
@@ -301,8 +300,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			aXMLCorporationState.appendChild (tTrainPortfolioElements);
 		}
 		super.appendOtherElements (aXMLCorporationState, aXMLDocument);
-		if (purchaseOffer != QueryOffer.NO_PURCHASE_OFFER) {
-			tPurchaseOfferElements = purchaseOffer.getElements (aXMLDocument);
+		if (queryOffer != QueryOffer.NO_PURCHASE_OFFER) {
+			tPurchaseOfferElements = queryOffer.getElements (aXMLDocument);
 			aXMLCorporationState.appendChild (tPurchaseOfferElements);
 		}
 	}
@@ -1748,12 +1747,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tBankPool.clearSelections ();
 	}
 
-	public void setPurchaseOffer (PurchaseOffer aPurchaseOffer) {
-		purchaseOffer = aPurchaseOffer;
+	public void setQueryOffer (QueryOffer aQueryOffer) {
+		queryOffer = aQueryOffer;
 	}
 
-	public QueryOffer getPurchaseOffer () {
-		return purchaseOffer;
+	public QueryOffer getQueryOffer () {
+		return queryOffer;
 	}
 
 	public void handleRejectOffer () {
@@ -1762,78 +1761,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		corporationList.clearTrainSelections ();
 		tCorporationFrame = getCorporationFrame ();
 		tCorporationFrame.updateInfo ();
-		purchaseOffer.setStatus (QueryOffer.REJECTED);
+		queryOffer.setStatus (QueryOffer.REJECTED);
 	}
 	
 	public void setAcceptOffer () {
-		purchaseOffer.setStatus (QueryOffer.ACCEPTED);
+		queryOffer.setStatus (QueryOffer.ACCEPTED);
 	}
 	
-	public void handleAcceptOffer (RoundManager aRoundManager) {
-		BuyTrainAction tBuyTrainAction;
-		TrainCompany tOwningTrainCompany;
-		Corporation tOwningCompany;
-		ActorI tActorOfferSentTo;
-		int tCashValue;
-		Train tTrain;
-		CorporationFrame tCorporationFrame;
-		String tOperatingRoundID;
-		String tActorToName;
-		String tItemName, tItemType;
-		GameManager tGameManager;
-		boolean tCurrentNotify;
-		boolean tCurrentApplyingAction;
-
-		tGameManager = aRoundManager.getGameManager ();
-		tOperatingRoundID = aRoundManager.getOperatingRoundID ();
-		tCashValue = purchaseOffer.getAmount ();
-		tActorToName = purchaseOffer.getToName ();
-		tActorOfferSentTo = tGameManager.getActor (tActorToName);
-		if (tActorOfferSentTo.isACorporation ()) {
-			tOwningCompany = (Corporation) tActorOfferSentTo;
-			if (tOwningCompany.isATrainCompany ()) {
-				tCorporationFrame = getCorporationFrame ();
-				tOwningTrainCompany = (TrainCompany) tOwningCompany;
-				tItemType = purchaseOffer.getItemType ();
-				tItemName = purchaseOffer.getItemName ();
-				tTrain = purchaseOffer.getTrain ();
-				if (tTrain != Train.NO_TRAIN) {
-					if (tTrain.getType ().equals (tItemType)) {
-						if (tTrain.getName ().equals (tItemName)) {
-							tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
-									this);
-							transferCashTo (tOwningTrainCompany, tCashValue);
-							tBuyTrainAction.addCashTransferEffect (this, tOwningTrainCompany, tCashValue);
-							// We must toggle NotifyNetwork on, for this, and reset to prior state to allow
-							// for handling Response
-							// to when doing a purchase between players
-							tCurrentNotify = tGameManager.getNotifyNetwork ();
-							tCurrentApplyingAction = tGameManager.applyingAction ();
-							tGameManager.setApplyingAction (false);
-							tGameManager.setNotifyNetwork (true);
-							doFinalTrainBuySteps (tOwningTrainCompany, tTrain, tBuyTrainAction);
-							tGameManager.setApplyingAction (tCurrentApplyingAction);
-							tGameManager.setNotifyNetwork (tCurrentNotify);
-						} else {
-							System.err.println ("Purchase Offer's Item Name " + tItemName
-									+ " does not match Selected Item Name " + tTrain.getName ());
-						}
-					} else {
-						System.err.println ("Purchase Offer's Item Type " + tItemType
-								+ " does not match Selected Item Type " + tTrain.getType ());
-					}
-					tCorporationFrame.updateInfo ();
-				} else {
-					System.err.println ("Train Selected to buy not found (NULL)");
-				}
-			} else {
-				System.err.println ("Company " + tActorToName + " is not a Train Company");
-			}
-		} else {
-			System.err.println ("Actor " + tActorToName + " is not a Corporation - Likely Player");
-		}
-	}
-
 	public void doFinalTrainBuySteps (TrainCompany aOwningTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction) {
 		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
 		TrainPortfolio tCompanyPortfolio, tOwningPortfolio;
