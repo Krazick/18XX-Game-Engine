@@ -139,6 +139,7 @@ public class ResponseOfferEffect extends ToEffect {
 		Corporation tToCorporation;
 		Corporation tFromCorporation;
 		Player tFromPlayer;
+		Player tToPlayer;
 
 		tEffectApplied = false;
 
@@ -160,17 +161,30 @@ public class ResponseOfferEffect extends ToEffect {
 		if (tFromActorName.equals (tClientUserName)) {
 			tEffectApplied = true;
 		} else {
-			if (getActor ().isACorporation ()) {
-				tTrainCompany = (TrainCompany) getToActor ();
+			tToPlayer = Player.NO_PLAYER;
+			if (tToActor.isAPlayer ()) {
+				tToPlayer = (Player) tToActor;
+			} else if (getActor ().isACorporation ()) {
+				tTrainCompany = (TrainCompany) tToActor;
 			} else {
-				tShareCompany = (ShareCompany) getToActor ();
+				tShareCompany = (ShareCompany) tToActor;
 			}
 	
 			if (! tClientUserName.equals (tToActorName)) {
 				// If the Client trying to apply the Effect is NOT the 'ToActor' Do Nothing is a good apply of the effect
 				tEffectApplied = true;
 			} else {
-				if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
+				if (tToPlayer != Player.NO_PLAYER) {
+					tQueryOffer = tToPlayer.getQueryOffer ();
+					tOldStatus = tQueryOffer.getOldStatus ();
+					tToPlayer.setPrimaryActionState (tOldStatus);
+					if (response) {
+						tQueryOffer.setStatus (QueryOffer.ACCEPTED);
+					} else {
+						tQueryOffer.setStatus (QueryOffer.REJECTED);
+					}
+					tEffectApplied = true;
+				} else  if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
 					if (tTrainCompany.getStatus ().equals (ActorI.ActionStates.WaitingResponse)) {
 						tQueryOffer = tTrainCompany.getQueryOffer ();
 						tOldStatus = tQueryOffer.getOldStatus ();
