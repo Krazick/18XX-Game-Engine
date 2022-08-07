@@ -20,6 +20,7 @@ import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
+import ge18xx.company.QueryOffer;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.FakeBenefit;
@@ -97,6 +98,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	JPanel playerJPanel = GUI.NO_PANEL;
 	Logger logger;
 	Benefit benefitInUse;
+	QueryOffer queryOffer;
 
 	/* These attributes below change during the game, need to save/load them */
 	int treasury;
@@ -1576,6 +1578,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tClientName;
 	}
 	
+	public void setQueryOffer (QueryOffer aQueryOffer) {
+		queryOffer = aQueryOffer;
+	}
+	
+	public QueryOffer getQueryOffer () {
+		return queryOffer;
+	}
+	
 	@Override
 	public void updateInfo () {
 	}
@@ -1610,5 +1620,4 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			}
 		}
 	}
-
 }
