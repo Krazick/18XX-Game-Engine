@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ge18xx.company.Certificate;
+import ge18xx.company.ExchangePrivateQuery;
 import ge18xx.company.PrivateCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
@@ -18,6 +19,7 @@ import ge18xx.utilities.XMLNode;
 public class QueryExchangeBenefit extends ExchangeBenefit {
 	public final static String NAME = "QUERY EXCHANGE";
 	SetWaitStateAction setWaitStateAction;
+	ExchangePrivateQuery exchangePrivateQuery;
 
 	public QueryExchangeBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -63,7 +65,9 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 			if (tGameManager.isNetworkAndIsThisClient (tPlayerName)) {
 				tShowQueryDialog = true;
 			} else {
-				tExchangeApproved = tellPlayerToQuery (tGameManager, tPlayer);
+				tellPlayerToQuery (tGameManager, tPlayer);
+				tPlayer.waitForResponse ();
+				tExchangeApproved = exchangePrivateQuery.wasAccepted ();
 			}
 		} else {
 			tShowQueryDialog = true;
@@ -89,25 +93,26 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 	 * @param aPlayer the Player who needs to answer the question of the Exchange.
 	 * 
 	 */
-	private boolean tellPlayerToQuery (GameManager aGameManager, Player aPlayer) {
-		boolean tExchangeApproved;
-		
-		System.out.println ("Player " + aPlayer.getName () + 
-				" must answer Query Exchange Question - Send Action requesting Response.");
+	private void tellPlayerToQuery (GameManager aGameManager, Player aPlayer) {
 		QueryExchangeBenefitAction tQueryExchangeBenefitAction;
 		ActorI.ActionStates tRoundType;
+		ActorI.ActionStates tCurrentPlayerState;
 		String tRoundID;
 		Player tCurrentPlayer;
 		
+		System.out.println ("Player " + aPlayer.getName () + 
+				" must answer Query Exchange Question - Send Action requesting Response.");
 		tRoundType = getRoundType (aGameManager);
 		tRoundID = getRoundID (aGameManager);
 		tCurrentPlayer = aGameManager.getCurrentPlayer ();
+		tCurrentPlayerState = tCurrentPlayer.getPrimaryActionState ();
+		exchangePrivateQuery = new ExchangePrivateQuery ("Private Exchange Benefit", tCurrentPlayer.getName (), 
+				aPlayer.getName (), tCurrentPlayerState, privateCompany, NAME);
+		tCurrentPlayer.setQueryOffer (exchangePrivateQuery);
+		tCurrentPlayer.setPrimaryActionState (ActorI.ActionStates.WaitingResponse);
 		tQueryExchangeBenefitAction = new QueryExchangeBenefitAction (tRoundType, tRoundID, tCurrentPlayer);
 		tQueryExchangeBenefitAction.addQueryExchangeBenefitEffect (tCurrentPlayer, aPlayer, privateCompany, this);
 		aGameManager.addAction (tQueryExchangeBenefitAction);
-		tExchangeApproved = false;
-		
-		return tExchangeApproved;
 	}
 	
 	/**

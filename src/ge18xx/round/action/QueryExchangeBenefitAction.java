@@ -46,5 +46,4 @@ public class QueryExchangeBenefitAction extends QueryActorAction {
 
 		return tSimpleActionReport;
 	}
-
 }
