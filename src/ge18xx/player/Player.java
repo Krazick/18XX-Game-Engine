@@ -419,6 +419,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 				aWaitStateAction.addSetWaitStateEffect (this, tPlayer, tOldState, tNewState);
 			}
 		}
+		aWaitStateAction.setChainToPrevious (true);
 	}
 
 	public void clearAuctionActionState () {
@@ -1595,7 +1596,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		boolean tIsWaitingForResponse;
 
 		tIsWaitingForResponse = false;
-		if (primaryActionState.equals (ActorI.ActionStates.WaitingResponse)) {
+		if (primaryActionState.equals (ActorI.ActionStates.WaitingResponse) ||
+			primaryActionState.equals (ActorI.ActionStates.WaitState)	) {
 			tIsWaitingForResponse = true;
 		}
 
