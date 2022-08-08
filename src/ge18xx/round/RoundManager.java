@@ -299,7 +299,7 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void setButtonLabel (String aActionButtonLabel) {
-		roundFrame.updateButtonText (aActionButtonLabel);
+		roundFrame.updateDoButtonText (aActionButtonLabel);
 	}
 
 	public XMLElement getActionElements (XMLDocument aXMLDocument) {
