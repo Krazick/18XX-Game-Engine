@@ -46,6 +46,7 @@ public class RoundFrame extends XMLFrame {
 	private static final String PLAYER_JPANEL_LABEL = "Player Information";
 	private static final String YOU_NOT_PRESIDENT = "You are not the President of the Company";
 	private static final String NOT_YOUR_TURN = "It is not your turn to Perform the Action";
+	private static final String IS_WAITING = "You are in a Wait State";
 	private static final String IS_OPERATING_ROUND = "It is an Operating Round, can't Pass";
 	private static final String IS_AUCTION_ROUND = "It is an Auction Round, can't Pass";
 	static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
@@ -411,7 +412,7 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	private void updateDoButton (String aButtonLabel, String aActionCommand) {
-		updateButtonText (aButtonLabel);
+		updateDoButtonText (aButtonLabel);
 		doButton.setActionCommand (aActionCommand);
 	}
 
@@ -427,8 +428,9 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	public void setCurrentPlayerText () {
-		String tPlayerName = getCurrentPlayerName ();
+		String tPlayerName;
 
+		tPlayerName = getCurrentPlayerName ();
 		setCurrentPlayerText (tPlayerName);
 	}
 
@@ -446,7 +448,7 @@ public class RoundFrame extends XMLFrame {
 		if (passButton != GUI.NO_BUTTON) {
 			passButton.setText (aPlayerName + " " + PASS_STOCK_TEXT);
 		}
-		updateButtonText (aPlayerName + DO_STOCK_ACTION);
+		updateDoButtonText (aPlayerName + DO_STOCK_ACTION);
 		setActionForCurrentPlayer ();
 		updatePassButton ();
 	}
@@ -492,7 +494,8 @@ public class RoundFrame extends XMLFrame {
 	public void updatePassButton () {
 		String tClientUserName, tCurrentPlayerName;
 		GameManager tGameManager;
-
+		Player tCurrentPlayer;
+		
 		if (passButton != GUI.NO_BUTTON) {
 			if (roundManager.isOperatingRound ()) {
 				disablePassButton (IS_OPERATING_ROUND);
@@ -501,10 +504,15 @@ public class RoundFrame extends XMLFrame {
 			} else {
 				tGameManager = roundManager.getGameManager ();
 				if (tGameManager.isNetworkGame ()) {
-					tCurrentPlayerName = getCurrentPlayerName ();
+					tCurrentPlayer = tGameManager.getCurrentPlayer ();
+					tCurrentPlayerName = tCurrentPlayer.getName ();
 					tClientUserName = tGameManager.getClientUserName ();
 					if (tCurrentPlayerName.equals (tClientUserName)) {
-						verifyMustActions (tGameManager);
+						if (tCurrentPlayer.isWaiting ()) {
+							disablePassButton (IS_WAITING);
+						} else {
+							verifyMustActions (tGameManager);
+						}
 					} else {
 						disablePassButton (NOT_YOUR_TURN);
 					}
@@ -539,15 +547,22 @@ public class RoundFrame extends XMLFrame {
 	public void setActionForCurrentPlayer () {
 		String tClientUserName, tCurrentPlayerName;
 		GameManager tGameManager;
-
+		Player tCurrentPlayer;
+		
 		tGameManager = roundManager.getGameManager ();
 		if (doButton != GUI.NO_BUTTON) {
 			if (tGameManager.isNetworkGame ()) {
-				tCurrentPlayerName = getCurrentPlayerName ();
+				tCurrentPlayer = tGameManager.getCurrentPlayer ();
+				tCurrentPlayerName = tCurrentPlayer.getName ();
 				tClientUserName = tGameManager.getClientUserName ();
 				if (tCurrentPlayerName.equals (tClientUserName)) {
-					doButton.setEnabled (true);
-					doButton.setToolTipText ("");
+					if (tCurrentPlayer.isWaiting ()) {
+						doButton.setEnabled (false);
+						doButton.setToolTipText (IS_WAITING);
+					} else {
+						doButton.setEnabled (true);
+						doButton.setToolTipText ("");
+					}
 				} else {
 					doButton.setEnabled (false);
 					doButton.setToolTipText (NOT_YOUR_TURN);
@@ -556,7 +571,7 @@ public class RoundFrame extends XMLFrame {
 		}
 	}
 
-	public void updateButtonText (String aNewLabel) {
+	public void updateDoButtonText (String aNewLabel) {
 		if (doButton != GUI.NO_BUTTON) {
 			doButton.setText (aNewLabel);
 		}
