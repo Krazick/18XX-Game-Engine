@@ -112,6 +112,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		tCurrentPlayer.setPrimaryActionState (ActorI.ActionStates.WaitingResponse);
 		tQueryExchangeBenefitAction = new QueryExchangeBenefitAction (tRoundType, tRoundID, tCurrentPlayer);
 		tQueryExchangeBenefitAction.addQueryExchangeBenefitEffect (tCurrentPlayer, aPlayer, privateCompany, this);
+		tQueryExchangeBenefitAction.setChainToPrevious (true);
 		aGameManager.addAction (tQueryExchangeBenefitAction);
 	}
 	
@@ -136,6 +137,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		aGameManager.addAction (setWaitStateAction);
 		tResetWaitStateAction = new SetWaitStateAction (setWaitStateAction);
 		tResetWaitStateAction.resetPlayerStatesAfterWait (setWaitStateAction);
+		tResetWaitStateAction.setChainToPrevious (true);
 		
 		return tResetWaitStateAction;
 	}
