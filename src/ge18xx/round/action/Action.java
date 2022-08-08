@@ -109,7 +109,7 @@ public class Action {
 		Effect tEffect;
 		Class<?> tEffectToLoad;
 		Constructor<?> tEffectConstructor;
-
+	
 		tEffectsChildren = aActionNode.getChildNodes ();
 		tEffectsNodeCount = tEffectsChildren.getLength ();
 		tClassName = "NO-CLASS";
@@ -142,6 +142,7 @@ public class Action {
 					"Could not find Class for Effect " + tClassName + " due to Rename and using old Save Game");
 		} catch (Exception tException) {
 			System.err.println ("Caught Exception with message ");
+			System.err.println ("Class name " + tClassName + " Action Name " + tActionName + " Action Number " + tNumber);
 			tException.printStackTrace ();
 		}
 	}
