@@ -57,9 +57,10 @@ public class XMLNode {
 	}
 
 	public String getThisAttribute (AttributeName aAttributeName) {
-		String tAttributeValue = NO_VALUE;
+		String tAttributeValue;
 		String tAttributeName;
 
+		tAttributeValue = NO_VALUE;
 		if (aAttributeName.hasValue ()) {
 			tAttributeName = aAttributeName.getString ();
 			tAttributeValue = getThisAttribute (tAttributeName);
@@ -69,9 +70,10 @@ public class XMLNode {
 	}
 
 	public String getThisAttribute (AttributeName aAttributeName, String aDefaultValue) {
-		String tAttributeValue = aDefaultValue;
+		String tAttributeValue;
 		String tAttributeName;
 
+		tAttributeValue = aDefaultValue;
 		if (aAttributeName.hasValue ()) {
 			tAttributeName = aAttributeName.getString ();
 			tAttributeValue = getThisAttribute (tAttributeName, aDefaultValue);
@@ -82,17 +84,20 @@ public class XMLNode {
 
 	/* PRIVATE */
 	private String getThisAttribute (String aAttributeName) {
-		String tAttributeValue = NO_VALUE;
+		String tAttributeValue;
 		NamedNodeMap tAttributesNNM;
 		Attr tAttribute;
 		int tAttributeCount;
 		int tAttributeIndex;
+		String tThisAttributeName;
 
+		tAttributeValue = NO_VALUE;
 		tAttributesNNM = node.getAttributes ();
 		tAttributeCount = tAttributesNNM.getLength ();
 		for (tAttributeIndex = 0; tAttributeIndex < tAttributeCount; tAttributeIndex++) {
 			tAttribute = (Attr) tAttributesNNM.item (tAttributeIndex);
-			if (aAttributeName.equals (tAttribute.getNodeName ())) {
+			tThisAttributeName = tAttribute.getNodeName ();
+			if (aAttributeName.equals (tThisAttributeName)) {
 				tAttributeValue = tAttribute.getNodeValue ();
 			}
 		}
@@ -102,8 +107,9 @@ public class XMLNode {
 
 	/* PRIVATE */
 	private String getThisAttribute (String aAttributeName, String aDefaultValue) {
-		String tValue = getThisAttribute (aAttributeName);
+		String tValue;
 
+		tValue = getThisAttribute (aAttributeName);
 		if (tValue == NO_VALUE) {
 			return aDefaultValue;
 		} else {
@@ -118,9 +124,10 @@ public class XMLNode {
 	 * @return TRUE if the attribute Exists, and has value of TRUE, otherwise FALSE
 	 */
 	public boolean getThisBooleanAttribute (AttributeName aAttributeName) {
-		boolean tAttributeValue = false;
+		boolean tAttributeValue;
 		String tAttributeName;
 
+		tAttributeValue = false;
 		if (aAttributeName.hasValue ()) {
 			tAttributeName = aAttributeName.getString ();
 			tAttributeValue = getThisBooleanAttribute (tAttributeName);
@@ -131,9 +138,11 @@ public class XMLNode {
 
 	/* PRIVATE */
 	private boolean getThisBooleanAttribute (String aAttributeName) {
-		String tValue = getThisAttribute (aAttributeName);
-		boolean retValue = false;
+		String tValue;
+		boolean retValue;
 
+		tValue = getThisAttribute (aAttributeName);
+		retValue = false;
 		if (tValue == NO_VALUE) {
 			retValue = false;
 		} else if ((tValue.equals ("TRUE")) || (tValue.equals ("true")) || (tValue.equals ("True"))
@@ -151,21 +160,23 @@ public class XMLNode {
 	}
 
 	public int getThisIntAttribute (AttributeName aAttributeName) {
-		int tAttributeValue = 0;
+		int tAttributeValue;
 		String tAttributeName;
 
+		tAttributeValue = 0;
 		if (aAttributeName.hasValue ()) {
 			tAttributeName = aAttributeName.getString ();
-			tAttributeValue = getThisIntAttribute (tAttributeName, 0);
+			tAttributeValue = getThisIntAttribute (tAttributeName, tAttributeValue);
 		}
 
 		return tAttributeValue;
 	}
 
 	public int getThisIntAttribute (AttributeName aAttributeName, int aDefaultValue) {
-		int tAttributeValue = aDefaultValue;
+		int tAttributeValue;
 		String tAttributeName;
 
+		tAttributeValue = aDefaultValue;
 		if (aAttributeName.hasValue ()) {
 			tAttributeName = aAttributeName.getString ();
 			tAttributeValue = getThisIntAttribute (tAttributeName, aDefaultValue);
@@ -176,8 +187,9 @@ public class XMLNode {
 
 	/* PRIVATE */
 	private int getThisIntAttribute (String aAttributeName, int aDefaultValue) {
-		String tValue = getThisAttribute (aAttributeName);
+		String tValue;
 
+		tValue = getThisAttribute (aAttributeName);
 		if (tValue == NO_VALUE) {
 			return aDefaultValue;
 		} else {
@@ -248,8 +260,9 @@ public class XMLNode {
 	@Override
 	public String toString () {
 		String tFormattedOutput;
-		StringBuffer buff = new StringBuffer (1024);
+		StringBuffer buff;
 
+		buff = new StringBuffer (1024);
 		XMLTransformer.getXMLString (node, false, buff, true);
 
 		tFormattedOutput = buff.toString ();
