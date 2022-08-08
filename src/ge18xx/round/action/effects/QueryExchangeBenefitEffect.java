@@ -51,7 +51,9 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 		QueryExchangeBenefit tQueryExchangeBenefit;
 		
 		tPrivateID = aEffectNode.getThisIntAttribute (AN_PRIVATE_ID);
+		setPrivateCompanyID (tPrivateID);
 		tQEBenefitName = aEffectNode.getThisAttribute (AN_BENEFIT_NAME);
+		setQEBenefitName (tQEBenefitName);
 		tCorporation = aGameManager.getCorporationByID (tPrivateID);
 		if (tCorporation.isAPrivateCompany ()) {
 			tPrivateCompany = (PrivateCompany) tCorporation;
