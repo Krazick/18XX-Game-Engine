@@ -4,7 +4,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.utilities.XMLNode;
 
-public class QueryActorAction extends Action {
+public class QueryActorAction extends SetWaitStateAction {
 	public final static String NAME = "Query Actor";
 
 	public QueryActorAction () {
