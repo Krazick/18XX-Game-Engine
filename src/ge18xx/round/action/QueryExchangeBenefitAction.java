@@ -5,9 +5,10 @@ import ge18xx.company.benefit.QueryExchangeBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.QueryExchangeBenefitEffect;
+import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.utilities.XMLNode;
 
-public class QueryExchangeBenefitAction extends QueryActorAction {
+public class QueryExchangeBenefitAction extends Action {
 	public final static String NAME = "Query Exchange Benefit";
 
 	public QueryExchangeBenefitAction () {
@@ -36,6 +37,13 @@ public class QueryExchangeBenefitAction extends QueryActorAction {
 		tQueryExchangeBenefitEffect = new QueryExchangeBenefitEffect (aFromActor, aToActor, 
 						aPrivateCompany, aQueryExchangeBenefit);
 		addEffect (tQueryExchangeBenefitEffect);
+	}
+
+	public void addStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState, ActorI.ActionStates aNewState) {
+		StateChangeEffect tStateChangeEffect;
+
+		tStateChangeEffect = new StateChangeEffect (aActor, aOldState, aNewState);
+		addEffect (tStateChangeEffect);
 	}
 
 	@Override

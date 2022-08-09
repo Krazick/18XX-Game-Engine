@@ -150,6 +150,8 @@ public class ResponseOfferEffect extends ToEffect {
 		if (tToActor.isACorporation ())  {
 			tToCorporation = (Corporation) tToActor;
 			tToActorName = tToCorporation.getPresidentName ();
+		} else {
+			tToActorName = tToActor.getName ();
 		}
 		if (tFromActor.isACorporation ()) {
 			tFromCorporation = (Corporation) tFromActor;
