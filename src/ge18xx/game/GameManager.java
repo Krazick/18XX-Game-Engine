@@ -2143,30 +2143,35 @@ public class GameManager extends Component implements NetworkGameSupport {
 		XMLDocument tXMLNetworkAction;
 		XMLNode tActionNode, tGSResponseNode;
 		NodeList tActionChildren;
-		String tNodeName, tActionNodeName;
+		String tGSRNodeName;
+		String tActionNodeName;
 		int tActionNodeCount, tActionIndex;
 
 		tXMLNetworkAction = new XMLDocument ();
 		tXMLNetworkAction = tXMLNetworkAction.ParseXMLString (aNetworkAction);
 		tGSResponseNode = tXMLNetworkAction.getDocumentNode ();
-		tNodeName = tGSResponseNode.getNodeName ();
-		if (GameSupportHandler.GS_RESPONSE_TAG.equals (tNodeName)) {
+		tGSRNodeName = tGSResponseNode.getNodeName ();
+		if (GameSupportHandler.GS_RESPONSE_TAG.equals (tGSRNodeName)) {
 			tActionChildren = tGSResponseNode.getChildNodes ();
 			tActionNodeCount = tActionChildren.getLength ();
 			for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
 				tActionNode = new XMLNode (tActionChildren.item (tActionIndex));
 				tActionNodeName = tActionNode.getNodeName ();
 				if (Action.EN_ACTION.equals (tActionNodeName)) {
-					if (roundManager != null) {
-						setApplyingAction (true);
-						roundManager.handleNetworkAction (tActionNode);
-						setApplyingAction (false);
-					} else {
-						// System.err.println ("Trying to handle a Server Game Activity, Node Named [" +
-						// tANodeName + "] no Round Manager created");
-					}
+					sendNetworkAction (tActionNode);
 				}
 			}
+		}
+	}
+
+	private void sendNetworkAction (XMLNode aActionNode) {
+		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+			setApplyingAction (true);
+			roundManager.handleNetworkAction (aActionNode);
+			setApplyingAction (false);
+		} else {
+			logger.error ("Trying to handle a Server Game Activity, Node Named [" + aActionNode
+					+ "] no Round Manager set yet");
 		}
 	}
 
@@ -2178,42 +2183,36 @@ public class GameManager extends Component implements NetworkGameSupport {
 		XMLNode tActionNode;
 		NodeList tActionChildren;
 		int tActionNodeCount, tActionIndex;
-		String tANodeName;
+		String tActionNodeName;
+		String tGANodeName;
 		String tBroadcast;
 		String tPlayerOrder;
 
 		tXMLGameActivity = new XMLDocument ();
 		tXMLGameActivity = tXMLGameActivity.ParseXMLString (aGameActivity);
 		tXMLGameActivityNode = tXMLGameActivity.getDocumentNode ();
-		tANodeName = tXMLGameActivityNode.getNodeName ();
-		if (JGameClient.EN_GAME_ACTIVITY.equals (tANodeName)) {
+		tGANodeName = tXMLGameActivityNode.getNodeName ();
+		if (JGameClient.EN_GAME_ACTIVITY.equals (tGANodeName)) {
 			tActionChildren = tXMLGameActivityNode.getChildNodes ();
 			tActionNodeCount = tActionChildren.getLength ();
 			try {
 				for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
 					tActionNode = new XMLNode (tActionChildren.item (tActionIndex));
-					tANodeName = tActionNode.getNodeName ();
-					if (Action.EN_ACTION.equals (tANodeName)) {
-						if (roundManager != RoundManager.NO_ROUND_MANAGER) {
-							setApplyingAction (true);
-							roundManager.handleNetworkAction (tActionNode);
-							setApplyingAction (false);
-						} else {
-							logger.error ("Trying to handle a Server Game Activity, Node Named [" + tANodeName
-									+ "] no Round Manager set yet");
-						}
-					} else if (JGameClient.EN_GAME_SELECTION.equals (tANodeName)) {
+					tActionNodeName = tActionNode.getNodeName ();
+					if (Action.EN_ACTION.equals (tActionNodeName)) {
+						sendNetworkAction (tActionNode);
+					} else if (JGameClient.EN_GAME_SELECTION.equals (tActionNodeName)) {
 						handleGameSelection (tActionNode);
-					} else if (JGameClient.EN_PLAYER_ORDER.equals (tANodeName)) {
+					} else if (JGameClient.EN_PLAYER_ORDER.equals (tActionNodeName)) {
 						tPlayerOrder = tActionNode.getThisAttribute (JGameClient.AN_PLAYER_ORDER);
 						tBroadcast = tActionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
 						playerInputFrame.handleResetPlayerOrder (tPlayerOrder, tBroadcast);
-					} else if (ActionManager.EN_REMOVE_ACTION.equals (tANodeName)) {
+					} else if (ActionManager.EN_REMOVE_ACTION.equals (tActionNodeName)) {
 						// RemoveAction should be ignored
-					} else if (XMLNode.XML_TEXT_TAG.equals (tANodeName)) {
+					} else if (XMLNode.XML_TEXT_TAG.equals (tActionNodeName)) {
 						// If a #text Node, ignore -- it is empty
 					} else {
-						logger.error ("Node Name is [" + tANodeName + "] which is Unrecognized");
+						logger.error ("Node Name is [" + tActionNodeName + "] which is Unrecognized");
 					}
 				}
 			} catch (Exception tException) {
