@@ -18,10 +18,6 @@ public class EnableBenefitVEffect extends VariantEffect {
 	String benefitName;
 	int companyID;
 
-	public EnableBenefitVEffect () {
-		// TODO Auto-generated constructor stub
-	}
-
 	public EnableBenefitVEffect (XMLNode aXMLNode) {
 		super (aXMLNode);
 		
