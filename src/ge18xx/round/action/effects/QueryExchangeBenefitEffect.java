@@ -138,6 +138,7 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 	
 	public void sendOfferResponseAction (boolean aResponse, RoundManager aRoundManager) {
 		ResponseOfferAction tResponseOfferAction;
+		GameManager tGameManager;
 		ActionStates tRoundType;
 		String tRoundID = "";
 		ActorI tToActor, tFromActor;
@@ -148,7 +149,8 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 		} else if (tRoundType == ActionStates.StockRound) {
 			tRoundID = "" + aRoundManager.getStockRoundID ();
 		}
-
+		tGameManager = aRoundManager.getGameManager ();
+		
 		// Need to find the original Actor who sent the Query Offer, to send back to
 
 		tToActor = getActor ();
@@ -160,7 +162,11 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 		tResponseOfferAction = new ResponseOfferAction (tRoundType, tRoundID, tFromActor);
 		tResponseOfferAction.setChainToPrevious (true);
 		tResponseOfferAction.addResponseOfferEffect (tFromActor, tToActor, aResponse, NAME, getName ());
+		// Because we are in the middle of applying an Effect, but we NEED to send the Action Back
+		// Set ApplyingAction off, add the action (which will then send it), and set ApplyingAction back on
+		tGameManager.setApplyingAction (false);
 		aRoundManager.addAction (tResponseOfferAction);
+		tGameManager.setApplyingAction (true);
 	}
 	
 
