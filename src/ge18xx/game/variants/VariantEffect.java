@@ -98,7 +98,6 @@ public class VariantEffect {
 			setName (tName);
 			setAction (tAction);
 			setActorName ("GAME");
-			setState (false);
 		}
 	}
 
