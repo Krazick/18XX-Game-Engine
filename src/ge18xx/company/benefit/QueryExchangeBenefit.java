@@ -50,6 +50,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 	private void handleShowQueryDialog (JFrame aRoundFrame) {
 		GameManager tGameManager;
 		Player tPlayer;
+		Player tCurrentPlayer;
 		String tPlayerName;
 		boolean tShowQueryDialog;
 		boolean tExchangeApproved;
@@ -60,13 +61,14 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		tGameManager = privateCompany.getGameManager ();
 		if (tGameManager.isNetworkGame ()) {
 			tPlayer = (Player) privateCompany.getPresident ();
+			tCurrentPlayer = tGameManager.getCurrentPlayer ();
 			tPlayerName = tPlayer.getName ();
 			tResetWaitStateAction = tellOthersToWait (tGameManager, tPlayer);
 			if (tGameManager.isNetworkAndIsThisClient (tPlayerName)) {
 				tShowQueryDialog = true;
 			} else {
 				tellPlayerToQuery (tGameManager, tPlayer);
-				tPlayer.waitForResponse ();
+				tCurrentPlayer.waitForResponse ();
 				tExchangeApproved = exchangePrivateQuery.wasAccepted ();
 			}
 		} else {
@@ -96,7 +98,8 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 	private void tellPlayerToQuery (GameManager aGameManager, Player aPlayer) {
 		QueryExchangeBenefitAction tQueryExchangeBenefitAction;
 		ActorI.ActionStates tRoundType;
-		ActorI.ActionStates tCurrentPlayerState;
+		ActorI.ActionStates tOldPlayerState;
+		ActorI.ActionStates tNewPlayerState;
 		String tRoundID;
 		Player tCurrentPlayer;
 		
@@ -105,13 +108,15 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		tRoundType = getRoundType (aGameManager);
 		tRoundID = getRoundID (aGameManager);
 		tCurrentPlayer = aGameManager.getCurrentPlayer ();
-		tCurrentPlayerState = tCurrentPlayer.getPrimaryActionState ();
+		tOldPlayerState = tCurrentPlayer.getPrimaryActionState ();
 		exchangePrivateQuery = new ExchangePrivateQuery ("Private Exchange Benefit", tCurrentPlayer.getName (), 
-				aPlayer.getName (), tCurrentPlayerState, privateCompany, NAME);
+				aPlayer.getName (), tOldPlayerState, privateCompany, NAME);
 		tCurrentPlayer.setQueryOffer (exchangePrivateQuery);
 		tCurrentPlayer.setPrimaryActionState (ActorI.ActionStates.WaitingResponse);
+		tNewPlayerState = tCurrentPlayer.getPrimaryActionState ();
 		tQueryExchangeBenefitAction = new QueryExchangeBenefitAction (tRoundType, tRoundID, tCurrentPlayer);
 		tQueryExchangeBenefitAction.addQueryExchangeBenefitEffect (tCurrentPlayer, aPlayer, privateCompany, this);
+		tQueryExchangeBenefitAction.addStateChangeEffect (tCurrentPlayer, tOldPlayerState, tNewPlayerState);
 		tQueryExchangeBenefitAction.setChainToPrevious (true);
 		aGameManager.addAction (tQueryExchangeBenefitAction);
 	}
