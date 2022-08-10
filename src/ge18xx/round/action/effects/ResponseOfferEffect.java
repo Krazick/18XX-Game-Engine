@@ -15,6 +15,7 @@ import ge18xx.utilities.XMLNode;
 
 public class ResponseOfferEffect extends ToEffect {
 	public final static String NAME = "Response To Offer";
+	public final static String NO_TYPE = "";
 	final static AttributeName AN_RESPONSE = new AttributeName ("response");
 	final static AttributeName AN_ITEM_TYPE = new AttributeName ("itemType");
 	final static AttributeName AN_ITEM_NAME = new AttributeName ("itemName");
@@ -30,6 +31,10 @@ public class ResponseOfferEffect extends ToEffect {
 		super (aName);
 	}
 
+	public ResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemName) {
+		this (aFromActor, aToActor, aResponse, NO_TYPE, aItemName);
+	}
+	
 	public ResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType,
 			String aItemName) {
 		super (NAME, aFromActor, aToActor);

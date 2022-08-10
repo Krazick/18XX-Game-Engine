@@ -34,6 +34,13 @@ public class ResponseOfferAction extends QueryActorAction {
 
 		return tSimpleActionReport;
 	}
+	
+	public void addResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType) {
+		ResponseOfferEffect tOfferResponseEffect;
+
+		tOfferResponseEffect = new ResponseOfferEffect (aFromActor, aToActor, aResponse, aItemType);
+		addEffect (tOfferResponseEffect);
+	}
 
 	public void addResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType,
 			String aItemName) {
@@ -42,5 +49,4 @@ public class ResponseOfferAction extends QueryActorAction {
 		tOfferResponseEffect = new ResponseOfferEffect (aFromActor, aToActor, aResponse, aItemType, aItemName);
 		addEffect (tOfferResponseEffect);
 	}
-
 }
