@@ -86,22 +86,34 @@ public class QueryFrame extends JFrame implements ActionListener {
 		offerButtonPanel.setBackground (Color.ORANGE);
 	}
 
+	protected void buildOfferTopPanel (String aOfferLine) {
+		buildOfferTopPanel (aOfferLine, null);
+	}
+	
 	protected void buildOfferTopPanel (String aOfferLine1, String aOfferLine2) {
 		JLabel tOfferLabel1;
 		JLabel tOfferLabel2;
 		
 		tOfferLabel1 = new JLabel (aOfferLine1);
-		tOfferLabel2 = new JLabel (aOfferLine2);
 		tOfferLabel1.setAlignmentX (CENTER_ALIGNMENT);
-		tOfferLabel2.setAlignmentX (CENTER_ALIGNMENT);
+		
+		if (aOfferLine2 != null) {
+			tOfferLabel2 = new JLabel (aOfferLine2);
+			tOfferLabel2.setAlignmentX (CENTER_ALIGNMENT);
+		} else {
+			tOfferLabel2 = null;
+		}
+		
 		offerTopPanel = new JPanel ();
 		offerTopPanel.add (Box.createVerticalStrut (10));
 		offerTopPanel.setLayout (new BoxLayout (offerTopPanel, BoxLayout.Y_AXIS));
 		offerTopPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		offerTopPanel.add (tOfferLabel1);
 		offerTopPanel.add (Box.createVerticalStrut (10));
-		offerTopPanel.add (tOfferLabel2);
-		offerTopPanel.add (Box.createVerticalStrut (10));
+		if (tOfferLabel2 != null) {
+			offerTopPanel.add (tOfferLabel2);
+			offerTopPanel.add (Box.createVerticalStrut (10));
+		}
 		offerTopPanel.setBackground (Color.ORANGE);
 	}
 
