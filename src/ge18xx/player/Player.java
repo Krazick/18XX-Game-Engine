@@ -405,15 +405,24 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		int tPlayerIndex;
 		String tPlayerName;
 		String tActingPlayerName;
+		String tCurrentPlayerName;
 		Player tPlayer;
+		Player tCurrentPlayer;
 		
 		tNewState = ActorI.ActionStates.WaitState;
 		tPlayerCount = playerManager.getPlayerCount ();
+		tCurrentPlayer = playerManager.getCurrentPlayer ();
+		tCurrentPlayerName = tCurrentPlayer.getName ();
 		tActingPlayerName = getName ();
 		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
 			tPlayer = playerManager.getPlayer (tPlayerIndex);
 			tPlayerName = tPlayer.getName ();
-			if (! tActingPlayerName.equals (tPlayerName)) {
+			if (tActingPlayerName.equals (tPlayerName)) {
+				// If this is the player that needs to answer the query, No Wait State is needed
+			} else if (tCurrentPlayerName.equals (tPlayerName)) {
+				// If this is the player generating the query, No Wait State is needed, will be set to 'Wait to Respond'
+			} else {
+				// All other players are put into a Wait State
 				tOldState = tPlayer.getPrimaryActionState ();
 				tPlayer.resetPrimaryActionState (tNewState);;
 				aWaitStateAction.addSetWaitStateEffect (this, tPlayer, tOldState, tNewState);
@@ -683,8 +692,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public int getMustSellPercent (String aCompanyAbbrev) {
 		int tMustSellPercent;
 		ShareCompany tShareCompany;
-		Player tPresidentOf;
-		int tCurrentPlayerHasXPercent, tPresidentHasXPercent;
+		Player tPresidentPlayer;
+		int tCurrentPlayerHasXPercent;
+		int tPresidentHasXPercent;
+		PortfolioHolderI tPresident;
 
 		tMustSellPercent = 0;
 		tShareCompany = playerManager.getShareCompany (aCompanyAbbrev);
@@ -692,9 +703,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			System.err.println ("Share Company with abbrev " + aCompanyAbbrev + " could not be found");
 		} else {
 			tCurrentPlayerHasXPercent = getPercentOwnedOf (tShareCompany);
-			tPresidentOf = (Player) tShareCompany.getPresident ();
-			tPresidentHasXPercent = tPresidentOf.getPercentOwnedOf (tShareCompany);
-			tMustSellPercent = 1 + tCurrentPlayerHasXPercent - tPresidentHasXPercent;
+			tPresident = tShareCompany.getPresident ();
+			if (tPresident.isAPlayer ()) {
+				tPresidentPlayer = (Player) tPresident;
+				tPresidentHasXPercent = tPresidentPlayer.getPercentOwnedOf (tShareCompany);
+				tMustSellPercent = 1 + tCurrentPlayerHasXPercent - tPresidentHasXPercent;
+			}
 		}
 
 		return tMustSellPercent;
