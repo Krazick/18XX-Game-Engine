@@ -1,6 +1,9 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.company.Corporation;
+import ge18xx.company.ExchangeQueryFrame;
+import ge18xx.company.PurchasePrivateOffer;
+import ge18xx.company.PurchaseTrainOffer;
 import ge18xx.company.QueryOffer;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
@@ -15,7 +18,6 @@ import ge18xx.utilities.XMLNode;
 
 public class ResponseOfferEffect extends ToEffect {
 	public final static String NAME = "Response To Offer";
-	public final static String NO_TYPE = "";
 	final static AttributeName AN_RESPONSE = new AttributeName ("response");
 	final static AttributeName AN_ITEM_TYPE = new AttributeName ("itemType");
 	final static AttributeName AN_ITEM_NAME = new AttributeName ("itemName");
@@ -29,10 +31,6 @@ public class ResponseOfferEffect extends ToEffect {
 
 	public ResponseOfferEffect (String aName) {
 		super (aName);
-	}
-
-	public ResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemName) {
-		this (aFromActor, aToActor, aResponse, NO_TYPE, aItemName);
 	}
 	
 	public ResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType,
@@ -92,13 +90,17 @@ public class ResponseOfferEffect extends ToEffect {
 		String tTextResponse;
 		String tFullReport;
 		String tToActorName = "NULL";
-		String tWho, tItem;
+		String tWho;
+		String tItem;
+		String tDoes_DoesNot;
 		Corporation tCorporation;
 
 		if (response) {
 			tTextResponse = "Accepted";
+			tDoes_DoesNot = " does ";
 		} else {
 			tTextResponse = "Rejected";
+			tDoes_DoesNot = " does not ";
 		}
 		if (toActor != ActorI.NO_ACTOR) {
 			tToActorName = getToActorName ();
@@ -109,9 +111,18 @@ public class ResponseOfferEffect extends ToEffect {
 		} else {
 			tWho = actor.getName ();
 		}
-		tItem = " to buy " + itemName + " " + itemType;
-		tFullReport = REPORT_PREFIX + " The offer from " + tToActorName + tItem + " sent to " + tWho + " was "
-				+ tTextResponse;
+		if ((itemType.equals (PurchasePrivateOffer.PRIVATE_TYPE)) || 
+			(itemType.equals (PurchaseTrainOffer.TRAIN_TYPE))) {
+			tItem = " to buy " + itemName + " " + itemType;
+			tFullReport = REPORT_PREFIX + " The offer from " + tToActorName + tItem + " sent to " + tWho + " was "
+					+ tTextResponse;
+		} else if (itemType.equals (ExchangeQueryFrame.NAME)) {
+			
+			tItem = tDoes_DoesNot +  itemName;
+			tFullReport = REPORT_PREFIX + tItem;
+		} else {
+			tFullReport = REPORT_PREFIX + " NOTHING TO REPORT.";
+		}
 
 		return tFullReport;
 	}

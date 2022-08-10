@@ -9,9 +9,10 @@ import ge18xx.round.action.effects.ToEffect;
 
 public class ExchangeQueryFrame extends QueryFrame {
 	public final static String NAME = "QUERY EXCHANGE";
-
+	
 	private static final long serialVersionUID = 1L;
-
+	String actionText;
+	
 	public ExchangeQueryFrame (RoundManager aRoundManager, ToEffect aToEffect) {
 		super (aRoundManager, aToEffect);
 		String tPlayerName;
@@ -31,6 +32,7 @@ public class ExchangeQueryFrame extends QueryFrame {
 			tQueryExchangeBenefit = tQueryExchangeBenefitEffect.getQueryExchangeBenefit ();
 			
 			tOffer = tQueryExchangeBenefit.buildQueryText ();
+			actionText = tQueryExchangeBenefit.buildActionText ();
 			buildOfferTopPanel (tOffer);
 		}
 	}
@@ -38,6 +40,6 @@ public class ExchangeQueryFrame extends QueryFrame {
 	@Override
 	protected void addResponseOfferEffect (ResponseOfferAction aResponseOfferAction, ActorI aFromActor, 
 			ActorI aToActor, boolean aResponse) {
-		aResponseOfferAction.addResponseOfferEffect (aFromActor, aToActor, aResponse, NAME);
+		aResponseOfferAction.addResponseOfferEffect (aFromActor, aToActor, aResponse, NAME, actionText);
 	}
 }

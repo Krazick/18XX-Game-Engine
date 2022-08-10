@@ -195,15 +195,23 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		return tExchangeApproved;
 	}
 
-	public String buildQueryText () {
+	public String buildActionText () {
+		String tAction;
 		Certificate tShareCertificate;
+		
+		tShareCertificate = getShareCertificate ();
+		tAction = "Exchange " + privateCompany.getAbbrev () + " for " + 
+				certificatePercentage + "% of " + tShareCertificate.getCompanyAbbrev ();
+				
+		return tAction;
+	}
+	
+	public String buildQueryText () {
 		String tQueryText;
 		String tOwnerName;
 		
-		tShareCertificate = getShareCertificate ();
 		tOwnerName = privateCompany.getPresidentName ();
-		tQueryText = tOwnerName + ", do you want to Exchange " + privateCompany.getAbbrev () + " for " + 
-				certificatePercentage + "% of " + tShareCertificate.getCompanyAbbrev () + "?";
+		tQueryText = tOwnerName + ", do you want to " + buildActionText ();
 		
 		return tQueryText;
 	}

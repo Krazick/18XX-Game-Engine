@@ -35,13 +35,6 @@ public class ResponseOfferAction extends QueryActorAction {
 		return tSimpleActionReport;
 	}
 	
-	public void addResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType) {
-		ResponseOfferEffect tOfferResponseEffect;
-
-		tOfferResponseEffect = new ResponseOfferEffect (aFromActor, aToActor, aResponse, aItemType);
-		addEffect (tOfferResponseEffect);
-	}
-
 	public void addResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType,
 			String aItemName) {
 		ResponseOfferEffect tOfferResponseEffect;
