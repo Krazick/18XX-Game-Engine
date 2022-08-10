@@ -2,6 +2,7 @@ package ge18xx.round.action.effects;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
+import ge18xx.company.PurchaseOfferFrame;
 import ge18xx.company.QueryFrame;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -109,7 +110,7 @@ public class PurchaseOfferEffect extends CashInfoEffect {
 			tActorName = toActor.getName ();
 		}
 		if (tClientUserName.equals (tActorName)) {
-			tPurchaseOfferFrame = new QueryFrame (this, aRoundManager, getItemType (), getItemName ());
+			tPurchaseOfferFrame = new PurchaseOfferFrame (this, aRoundManager, itemType, itemName);
 			tPurchaseOfferFrame.setVisible (true);
 		}
 
