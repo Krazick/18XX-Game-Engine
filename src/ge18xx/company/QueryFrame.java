@@ -20,7 +20,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ResponseOfferAction;
 import ge18xx.round.action.effects.PurchaseOfferEffect;
 
-public class PurchaseOfferFrame extends JFrame implements ActionListener {
+public class QueryFrame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static final String ACCEPT_OFFER = "Accept";
 	private static final String REJECT_OFFER = "Reject";
@@ -34,7 +34,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 	String itemType;
 	String itemName;
 
-	public PurchaseOfferFrame (PurchaseOfferEffect aPurchaseOfferEffect, RoundManager aRoundManager, String aItemType,
+	public QueryFrame (PurchaseOfferEffect aPurchaseOfferEffect, RoundManager aRoundManager, String aItemType,
 			String aItemName) {
 		super ("Purchase Offer");
 
@@ -100,9 +100,7 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		offerButtonPanel.setBackground (Color.ORANGE);
 	}
 
-	private void setOfferTopPanel (PurchaseOfferEffect aPurchaseOfferEffect) {
-		JLabel tOfferLabel1;
-		JLabel tOfferLabel2;
+	protected void setOfferTopPanel (PurchaseOfferEffect aPurchaseOfferEffect) {
 		String tOffer1;
 		String tOffer2;
 		String tPresidentName;
@@ -115,8 +113,15 @@ public class PurchaseOfferFrame extends JFrame implements ActionListener {
 		tOffer2 = aPurchaseOfferEffect.getItemName () + " " + aPurchaseOfferEffect.getItemType () + " for "
 				+ Bank.formatCash (aPurchaseOfferEffect.getCash ()) + " from "
 				+ aPurchaseOfferEffect.getToActor ().getName () + ".";
-		tOfferLabel1 = new JLabel (tOffer1);
-		tOfferLabel2 = new JLabel (tOffer2);
+		buildOfferTopPanel (tOffer1, tOffer2);
+	}
+
+	protected void buildOfferTopPanel (String aOfferLine1, String aOfferLine2) {
+		JLabel tOfferLabel1;
+		JLabel tOfferLabel2;
+		
+		tOfferLabel1 = new JLabel (aOfferLine1);
+		tOfferLabel2 = new JLabel (aOfferLine2);
 		tOfferLabel1.setAlignmentX (CENTER_ALIGNMENT);
 		tOfferLabel2.setAlignmentX (CENTER_ALIGNMENT);
 		offerTopPanel = new JPanel ();

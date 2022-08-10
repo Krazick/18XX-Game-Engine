@@ -164,6 +164,8 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 		tResponseOfferAction.addResponseOfferEffect (tFromActor, tToActor, aResponse, NAME, getName ());
 		// Because we are in the middle of applying an Effect, but we NEED to send the Action Back
 		// Set ApplyingAction off, add the action (which will then send it), and set ApplyingAction back on
+		//
+		// NEED TO DEBUG Here since this Action does not seem to be sending out!!!!
 		tGameManager.setApplyingAction (false);
 		aRoundManager.addAction (tResponseOfferAction);
 		tGameManager.setApplyingAction (true);
