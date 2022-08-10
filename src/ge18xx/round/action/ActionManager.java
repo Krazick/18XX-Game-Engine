@@ -538,6 +538,8 @@ public class ActionManager {
 			logger.warn ("Class not Found Exception Thrown when trying to get parse Network Action.");
 		} catch (Exception eException) {
 			logger.error (eException.getMessage (), eException);
+			System.err.println ("Exception Caught");
+			eException.printStackTrace ();
 		}
 		gameManager.setNotifyNetwork (true);
 //		Once we are done applying these Actions, we then can reset this back to Notify
