@@ -13,12 +13,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ge18xx.bank.Bank;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ResponseOfferAction;
-import ge18xx.round.action.effects.PurchaseOfferEffect;
+import ge18xx.round.action.effects.ToEffect;
 
 public class QueryFrame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -26,41 +25,44 @@ public class QueryFrame extends JFrame implements ActionListener {
 	private static final String REJECT_OFFER = "Reject";
 	JButton acceptButton;
 	JButton rejectButton;
-	PurchaseOfferEffect purchaseOfferEffect;
 	RoundManager roundManager;
+	ToEffect toEffect;
 	JPanel offerPanel;
 	JPanel offerTopPanel;
 	JPanel offerButtonPanel;
-	String itemType;
-	String itemName;
+	
+	public QueryFrame (RoundManager aRoundManager, ToEffect aToEffect) {
+		super ();
 
-	public QueryFrame (PurchaseOfferEffect aPurchaseOfferEffect, RoundManager aRoundManager, String aItemType,
-			String aItemName) {
-		super ("Purchase Offer");
-
-		String tPlayerName;
 		Point tNewPoint;
 
-		purchaseOfferEffect = aPurchaseOfferEffect;
 		roundManager = aRoundManager;
-		tPlayerName = aRoundManager.getClientUserName ();
-		setTitle ("Purchase Offer for " + tPlayerName);
-
-		setOfferTopPanel (aPurchaseOfferEffect);
-		setOfferButtonPanel ();
-
-		buildOfferPanel ();
-
-		setItemType (aItemType);
-		setItemName (aItemName);
-		pack ();
-		tNewPoint = roundManager.getOffsetRoundFrame ();
-		setLocation (tNewPoint);
-		setSize (500, 150);
-		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
-		setVisible (false);
+		setToEffect (aToEffect);
+		setOfferTopPanel ();
+		if (offerTopPanel != null) {
+			setOfferButtonPanel ();
+	
+			buildOfferPanel ();
+	
+			pack ();
+			tNewPoint = roundManager.getOffsetRoundFrame ();
+			setLocation (tNewPoint);
+			setSize (500, 150);
+			setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
+			setVisible (false);
+		} else {
+			System.err.println ("Offer Top Panel not properly built");
+		}
 	}
 
+	public void setToEffect (ToEffect aToEffect) {
+		toEffect = aToEffect;
+	}
+	
+	protected void setOfferTopPanel () {
+
+	}
+	
 	private void buildOfferPanel () {
 		offerPanel = new JPanel ();
 		offerPanel.add (offerTopPanel);
@@ -69,22 +71,6 @@ public class QueryFrame extends JFrame implements ActionListener {
 		offerPanel.add (offerButtonPanel);
 		offerPanel.setBackground (Color.ORANGE);
 		add (offerPanel);
-	}
-
-	public String getItemType () {
-		return itemType;
-	}
-
-	public String getItemName () {
-		return itemName;
-	}
-
-	public void setItemType (String aItemType) {
-		itemType = aItemType;
-	}
-
-	public void setItemName (String aItemName) {
-		itemName = aItemName;
 	}
 
 	private void setOfferButtonPanel () {
@@ -98,22 +84,6 @@ public class QueryFrame extends JFrame implements ActionListener {
 		offerButtonPanel.add (Box.createHorizontalStrut (10));
 		offerButtonPanel.add (acceptButton);
 		offerButtonPanel.setBackground (Color.ORANGE);
-	}
-
-	protected void setOfferTopPanel (PurchaseOfferEffect aPurchaseOfferEffect) {
-		String tOffer1;
-		String tOffer2;
-		String tPresidentName;
-		Corporation tOperatingCompany;
-
-		tOperatingCompany = roundManager.getOperatingCompany ();
-		tPresidentName = tOperatingCompany.getPresidentName ();
-		tOffer1 = "The President of " + aPurchaseOfferEffect.getActorName () + " (" + tPresidentName
-				+ ") offers to buy a ";
-		tOffer2 = aPurchaseOfferEffect.getItemName () + " " + aPurchaseOfferEffect.getItemType () + " for "
-				+ Bank.formatCash (aPurchaseOfferEffect.getCash ()) + " from "
-				+ aPurchaseOfferEffect.getToActor ().getName () + ".";
-		buildOfferTopPanel (tOffer1, tOffer2);
 	}
 
 	protected void buildOfferTopPanel (String aOfferLine1, String aOfferLine2) {
@@ -163,20 +133,25 @@ public class QueryFrame extends JFrame implements ActionListener {
 
 		// Need to find the original Actor who sent the Purchase Offer, to send back to
 
-		tToActor = purchaseOfferEffect.getActor ();
+		tToActor = toEffect.getActor ();
 
 		// Need to find the current Actor (who was sent the Purchase offer) to state who
 		// it comes from
 
-		tFromActor = purchaseOfferEffect.getToActor ();
+		tFromActor = toEffect.getToActor ();
 		tResponseOfferAction = new ResponseOfferAction (tRoundType, tRoundID, tFromActor);
 		tResponseOfferAction.setChainToPrevious (true);
-		tResponseOfferAction.addResponseOfferEffect (tFromActor, tToActor, aResponse, itemType, itemName);
+		addResponseOfferEffect (tResponseOfferAction, tFromActor, tToActor, aResponse);
 		roundManager.addAction (tResponseOfferAction);
 
 		setVisible (false);
 	}
 
+	protected void addResponseOfferEffect (ResponseOfferAction aResponseOfferAction, ActorI aFromActor, 
+			ActorI aToActor, boolean aResponse) {
+		
+	}
+	
 	public JButton buildButton (String aButtonLabel, String aActionCommand) {
 		JButton tActionButton;
 
