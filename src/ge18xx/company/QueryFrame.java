@@ -63,6 +63,14 @@ public class QueryFrame extends JFrame implements ActionListener {
 
 	}
 	
+	public void setAcceptButtonLabel (String aAcceptLabel) {
+		acceptButton.setText (aAcceptLabel);
+	}
+	
+	public void setRejectButtonLabel (String aRejectLabel) {
+		rejectButton.setText (aRejectLabel);
+	}
+	
 	private void buildOfferPanel () {
 		offerPanel = new JPanel ();
 		offerPanel.add (offerTopPanel);
