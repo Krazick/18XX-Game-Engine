@@ -176,16 +176,11 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 	}
 	
 	public boolean showQueryDialog (JFrame aParentFrame) {
-		Certificate tShareCertificate;
 		String tQueryText;
-		String tOwnerName;
 		int tAnswer;
 		boolean tExchangeApproved;
 		
-		tShareCertificate = getShareCertificate ();
-		tOwnerName = privateCompany.getPresidentName ();
-		tQueryText = tOwnerName + ", do you want to Exchange " + privateCompany.getAbbrev () + " for " + 
-				certificatePercentage + "% of " + tShareCertificate.getCompanyAbbrev () + "?";
+		tQueryText = buildQueryText ();
 
 		tAnswer = JOptionPane.showConfirmDialog (aParentFrame, 
 				tQueryText, "Exchange Private Share Benefit", 
@@ -198,5 +193,18 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		}
 		
 		return tExchangeApproved;
+	}
+
+	public String buildQueryText () {
+		Certificate tShareCertificate;
+		String tQueryText;
+		String tOwnerName;
+		
+		tShareCertificate = getShareCertificate ();
+		tOwnerName = privateCompany.getPresidentName ();
+		tQueryText = tOwnerName + ", do you want to Exchange " + privateCompany.getAbbrev () + " for " + 
+				certificatePercentage + "% of " + tShareCertificate.getCompanyAbbrev () + "?";
+		
+		return tQueryText;
 	}
 }
