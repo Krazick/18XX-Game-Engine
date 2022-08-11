@@ -43,7 +43,7 @@ public class ButtonsInfoFrame extends XMLFrame {
 		super (aFrameName, aGameManager.getGameName ());
 		frameButtons = new ArrayList<FrameButton> ();
 
-		buttonModel = new DefaultTableModel (0, 0) {
+		buttonModel = new DefaultTableModel (0, 4) {
 		    private static final long serialVersionUID = 1L;
 
 		    /**

@@ -28,7 +28,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActorTypes;
 
 public class AuditFrame extends XMLFrame implements ItemListener, ActionListener {
-	DefaultTableModel auditModel = new DefaultTableModel (0, 0);
+	DefaultTableModel auditModel = new DefaultTableModel (0, 7);
 	private String REFRESH_LIST = "REFRESH LIST";
 	private String DRAW_LINE_GRAPH = "DRAW_LINE_GRAPH";
 	private String BANK_PREFIX = "Bank";
