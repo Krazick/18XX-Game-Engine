@@ -54,6 +54,7 @@ public class PurchasePrivateOffer extends QueryOffer {
 		tXMLElement = super.getElements (aXMLDocument, aElementName);
 		tXMLElement.setAttribute (AN_AMOUNT, amount);
 		tXMLElement.setAttribute (AN_PRIVATE_ABBREV, privateCompany.getAbbrev ());
+		tXMLElement.setAttribute (AN_CLASS_NAME, this.getClass ().getName ());
 
 		return tXMLElement;
 	}

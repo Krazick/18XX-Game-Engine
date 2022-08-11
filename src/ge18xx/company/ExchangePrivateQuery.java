@@ -43,7 +43,6 @@ public class ExchangePrivateQuery extends QueryOffer {
 			tBenefitName = tPONode.getThisAttribute (AN_BENEFIT_NAME);
 			setBenefitName (tBenefitName);
 		}
-		
 	}
 	
 	@Override
@@ -53,6 +52,7 @@ public class ExchangePrivateQuery extends QueryOffer {
 		tXMLElement = super.getElements (aXMLDocument, aElementName);
 		tXMLElement.setAttribute (AN_BENEFIT_NAME, benefitName);
 		tXMLElement.setAttribute (AN_PRIVATE_ABBREV, privateCompany.getAbbrev ());
+		tXMLElement.setAttribute (AN_CLASS_NAME, this.getClass ().getName ());
 
 		return tXMLElement;
 	}

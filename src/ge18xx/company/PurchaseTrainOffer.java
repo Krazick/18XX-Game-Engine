@@ -57,6 +57,7 @@ public class PurchaseTrainOffer extends QueryOffer {
 		if (train != Train.NO_TRAIN) {
 			tXMLElement.setAttribute (AN_TRAIN_NAME, train.getName ());
 		}
+		tXMLElement.setAttribute (AN_CLASS_NAME, this.getClass ().getName ());
 
 		return tXMLElement;
 	}
