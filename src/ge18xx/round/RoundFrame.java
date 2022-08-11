@@ -704,9 +704,9 @@ public class RoundFrame extends XMLFrame {
 		updateAllPlayerJPanels ();
 		updateAllCorporationsBox ();
 		updatePassButton ();
-//		System.out.println ("========= Round Frane, UpdateAll Setting Round Frame Set Backgrounds");
 		setFrameBackgrounds ();
 		revalidate ();
+		repaint ();
 	}
 
 	public void setFrameBackgrounds () {
@@ -720,7 +720,6 @@ public class RoundFrame extends XMLFrame {
 			if (roundManager.isStockRound ()) {
 				tCurrentPlayerName = getCurrentPlayerName ();
 				if (tCurrentPlayerName.equals (tClientUserName)) {
-//					System.out.println ("*********** Stock Round, Round Frame Set Alert Backgrounds");
 					setAlertBackgrounds ();
 				} else {
 					resetBackgrounds ();
@@ -729,7 +728,6 @@ public class RoundFrame extends XMLFrame {
 				tOperatingOwnerName = roundManager.getOwnerWhoWillOperate ();
 				if (tOperatingOwnerName != Corporation.NO_NAME) {
 					if (tOperatingOwnerName.equals (tClientUserName)) {
-//						System.out.println ("*********** Operating Round, Round Frame Set Alert Backgrounds");
 						setAlertBackgrounds ();
 					} else {
 						resetBackgrounds ();
@@ -742,12 +740,10 @@ public class RoundFrame extends XMLFrame {
 	public void setAlertBackgrounds () {
 		Color tAlertColor = Color.ORANGE;
 
-//		System.out.println ("*********** Round Frame Set Alert Backgrounds");
 		setAllBackgrounds (tAlertColor);
 	}
 
 	public void resetBackgrounds () {
-//		System.out.println ("*********** Round Frame Resetting Backgrounds");
 		setAllBackgrounds (defaultColor);
 	}
 
