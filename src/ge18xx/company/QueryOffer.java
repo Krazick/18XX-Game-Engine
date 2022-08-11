@@ -13,6 +13,7 @@ import ge18xx.utilities.XMLNode;
 public abstract class QueryOffer {
 	public static final QueryOffer NO_QUERY_OFFER = null;
 	public static final ElementName EN_QUERY_OFFER = new ElementName ("QueryOffer");
+	public static final AttributeName AN_CLASS_NAME = new AttributeName ("className");
 	public static final AttributeName AN_ITEM_NAME = new AttributeName ("itemName");
 	public static final AttributeName AN_FROM_ACTOR_NAME = new AttributeName ("fromActorName");
 	public static final AttributeName AN_TO_ACTOR_NAME = new AttributeName ("toActorName");
@@ -73,7 +74,11 @@ public abstract class QueryOffer {
 	}
 	
 	public XMLElement getElements (XMLDocument aXMLDocument) {
-		return getElements (aXMLDocument, EN_QUERY_OFFER);
+		XMLElement tXMLELements;
+		
+		tXMLELements = getElements (aXMLDocument, EN_QUERY_OFFER);
+		
+		return tXMLELements;
 	}
 
 	public XMLElement getElements (XMLDocument aXMLDocument, ElementName aElementName) {
