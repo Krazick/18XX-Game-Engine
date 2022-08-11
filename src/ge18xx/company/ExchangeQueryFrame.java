@@ -19,6 +19,8 @@ public class ExchangeQueryFrame extends QueryFrame {
 
 		tPlayerName = aRoundManager.getClientUserName ();
 		setTitle ("Exchange Query for " + tPlayerName);
+		setAcceptButtonLabel ("YES");
+		setRejectButtonLabel ("NO");
 	}
 	
 	@Override
