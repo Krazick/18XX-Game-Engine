@@ -2,6 +2,7 @@ package ge18xx.game;
 
 import ge18xx.game.variants.Variant;
 import ge18xx.game.variants.VariantEffect;
+import ge18xx.game.variants.VariantToggle;
 
 //
 //  GameInfo.java
@@ -300,9 +301,39 @@ public class GameInfo {
 				}
 			}
 		}
+		configureToggleVariants (tActiveVariantEffects);
 		setActiveVariantEffects (tActiveVariantEffects);
 	}
 	
+	private void configureToggleVariants (List<VariantEffect> aActiveVariantEffects) {
+		int tVariantEffectCount;
+		int tVariantEffectIndex;
+		VariantEffect tVariantEffect;
+		String tVariantEffectName;
+		String tActiveVariantEffectName;
+		boolean tActiveState;
+		
+		for (Variant tVariant: variants) {
+			if (tVariant instanceof VariantToggle) {
+				tVariantEffectCount = tVariant.getVariantEffectCount ();
+				if (tVariantEffectCount > 0) {
+					for (tVariantEffectIndex = 0; tVariantEffectIndex < tVariantEffectCount; 
+							tVariantEffectIndex++) {
+						tVariantEffect = tVariant.getVariantEffectAt (tVariantEffectIndex);
+						tVariantEffectName = tVariantEffect.getName ();
+						for (VariantEffect tActiveVariantEffect : aActiveVariantEffects) {
+							tActiveVariantEffectName = tActiveVariantEffect.getName ();
+							if (tVariantEffectName.equals (tActiveVariantEffectName)) {
+								tActiveState = tActiveVariantEffect.getState ();
+								tVariant.setSelected (tActiveState);
+							}
+						}						
+					}
+				}
+			}
+		}
+	}
+
 	public boolean selectActiveVariantEffects () {
 		boolean tSuccess;
 		boolean tEffectSelected;
@@ -316,11 +347,13 @@ public class GameInfo {
 				for (Variant tVariant: variants) {
 					tVariantHasEffect = tVariant.hasVariantEffect (tVariantEffectID);
 					if (tVariantHasEffect) {
-						tEffectSelected = tVariant.selectActiveVariantEffects (tVariantEffect);
-						tSuccess &= tEffectSelected;
-						if (! tEffectSelected) {
-							System.err.println ("Effect id " + tVariantEffectID + 
-									" action [" + tVariantEffect.getAction () + "] FAILED to be Selected.");
+						if (tVariantEffect.getState ()) {
+							tEffectSelected = tVariant.selectActiveVariantEffects (tVariantEffect);
+							tSuccess &= tEffectSelected;
+							if (! tEffectSelected) {
+								System.err.println ("Effect id " + tVariantEffectID + 
+										" action [" + tVariantEffect.getAction () + "] FAILED to be Selected.");
+							}
 						}
 					}
 				}

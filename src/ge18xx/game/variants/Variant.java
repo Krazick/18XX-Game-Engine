@@ -207,6 +207,10 @@ public class Variant {
 		title = aTitle;
 	}
 	
+	public int getVariantEffectCount () {
+		return variantEffects.size ();
+	}
+	
 	public void applyVariantEffects (GameManager aGameManager) {
 		for (VariantEffect tEffect: variantEffects) {
 			if (tEffect != VariantEffect.NO_VARIANT_EFFECT) {
@@ -236,6 +240,17 @@ public class Variant {
 		return tIsActive;
 	}
 
+	public void setSelected (boolean aIsSelected) {
+		JCheckBox tCheckBox;
+		
+		if (titleComponent != GUI.NO_JCOMPONENT) {
+			if (titleComponent instanceof JCheckBox) {
+				tCheckBox = (JCheckBox) titleComponent;
+				tCheckBox.setSelected (aIsSelected);
+			}
+		}
+	}
+	
 	public boolean isSelected () {
 		boolean tIsSelected;
 		JCheckBox tCheckBox;
@@ -265,6 +280,18 @@ public class Variant {
 		}
 		
 		return tHasVariantEffect;
+	}
+	public VariantEffect getVariantEffectAt (int aVariantEffectIndex) {
+		int tEffectCount;
+		VariantEffect tFoundVariantEffect;
+		
+		tFoundVariantEffect = VariantEffect.NO_VARIANT_EFFECT;
+		tEffectCount = variantEffects.size ();
+		if ((aVariantEffectIndex >= 0) && (aVariantEffectIndex < tEffectCount)) {
+			tFoundVariantEffect = variantEffects.get (aVariantEffectIndex);
+		}
+		
+		return tFoundVariantEffect;
 	}
 	
 	public VariantEffect getVariantEffect (int aVariantID) {

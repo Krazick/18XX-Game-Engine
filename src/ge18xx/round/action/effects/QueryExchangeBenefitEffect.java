@@ -119,10 +119,7 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 		if (aRoundManager.isNetworkAndIsThisClient (tToPlayerName)) {
 			if (queryExchangeBenefit != Benefit.NO_BENEFIT) {
 				tExchangeQueryFrame = new ExchangeQueryFrame (aRoundManager, this);
-				tExchangeQueryFrame.setAcceptButtonLabel ("YES");
-				tExchangeQueryFrame.setRejectButtonLabel ("NO");
 				tExchangeQueryFrame.setVisible (true);
-				tExchangeQueryFrame.toFront ();
 				tEffectApplied = true;
 			}
 		} else {
