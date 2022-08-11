@@ -840,7 +840,6 @@ public class RoundManager implements ActionListener {
 			if (isAAuctionRound ()) {
 				roundFrame.setAuctionRound (gameName, auctionRound.getIDPart1 ());
 			}
-//			System.out.println ("---- Round Manager Calling UpdateAll to Set Round Frame Backgrounds");
 			roundFrame.updateAll ();
 		}
 	}
