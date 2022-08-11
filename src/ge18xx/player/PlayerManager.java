@@ -83,13 +83,6 @@ public class PlayerManager {
 		tPlayer = new Player (aName, this, aCertificateLimit);
 		addPlayer (tPlayer);
 	}
-//	
-//	private void addPlayer (String aName, boolean aPrivates, boolean aCoals, boolean aMinors, boolean aShares, int aCertificateLimit) {
-//		Player tPlayer;
-//		
-//		tPlayer = new Player (aName, aPrivates, aCoals, aMinors, aShares, this, aCertificateLimit);
-//		addPlayer (tPlayer);
-//	}
 
 	public void addPlayer (Player aPlayer) {
 		if (!players.contains (aPlayer)) {
