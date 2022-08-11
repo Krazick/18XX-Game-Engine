@@ -40,7 +40,7 @@ public class QueryFrame extends JFrame implements ActionListener {
 		setToEffect (aToEffect);
 		setOfferTopPanel ();
 		if (offerTopPanel != null) {
-			setOfferButtonPanel ();
+			buildOfferButtonPanel ();
 	
 			buildOfferPanel ();
 	
@@ -49,6 +49,7 @@ public class QueryFrame extends JFrame implements ActionListener {
 			setLocation (tNewPoint);
 			setSize (500, 150);
 			setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
+			setAlwaysOnTop (true);
 			setVisible (false);
 		} else {
 			System.err.println ("Offer Top Panel not properly built");
@@ -81,7 +82,7 @@ public class QueryFrame extends JFrame implements ActionListener {
 		add (offerPanel);
 	}
 
-	private void setOfferButtonPanel () {
+	private void buildOfferButtonPanel () {
 		offerButtonPanel = new JPanel ();
 		offerButtonPanel.setLayout (new BoxLayout (offerButtonPanel, BoxLayout.X_AXIS));
 		offerButtonPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
