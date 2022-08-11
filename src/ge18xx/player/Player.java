@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -151,7 +152,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		escrows = new Escrows (this);
 		tBenefitInUse = new FakeBenefit ();
 		setBenefitInUse (tBenefitInUse);
-
+		setQueryOffer (QueryOffer.NO_QUERY_OFFER);
 		playerManager = aPlayerManager;
 		buildPlayerFrame (aGameManager);
 	}
@@ -622,7 +623,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public XMLElement getPlayerStateElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement, tXMLPortofolioElements, tXMLEscrows;
+		XMLElement tXMLElement;
+		XMLElement tXMLPortofolioElements;
+		XMLElement tXMLEscrows;
+		XMLElement tXMLQueryOfferElements;
 		String tCompaniesSold;
 
 		tCompaniesSold = soldCompanies.toString (DELIMITER);
@@ -639,6 +643,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.appendChild (tXMLPortofolioElements);
 		tXMLEscrows = escrows.getEscrowXML (aXMLDocument);
 		tXMLElement.appendChild (tXMLEscrows);
+		if (queryOffer != QueryOffer.NO_QUERY_OFFER) {
+			tXMLQueryOfferElements = queryOffer.getElements (aXMLDocument);
+			tXMLElement.appendChild (tXMLQueryOfferElements);
+		}
 
 		return tXMLElement;
 	}
@@ -1105,6 +1113,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		String tState;
 		String tSoldCompanies;
 		XMLNodeList tXMLPortfolioNodeList;
+		XMLNodeList tXMLQueryOfferNodeList;
 		GenericActor tGenericActor;
 
 		// Need to remove any Cash the Player has before setting it.
@@ -1125,7 +1134,39 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLPortfolioNodeList = new XMLNodeList (portfolioParsingRoutine);
 		tXMLPortfolioNodeList.parseXMLNodeList (aPlayerNode, Portfolio.EN_PORTFOLIO);
 		escrows.loadEscrowState (aPlayerNode);
+		tXMLQueryOfferNodeList = new XMLNodeList (queryParsingRoutine);
+		tXMLQueryOfferNodeList.parseXMLNodeList (aPlayerNode, QueryOffer.EN_QUERY_OFFER);
+		// TODO: Build way to load a QueryOffer (PurchasePrivateOffer, PurchaseTrainOffer, ExchangePrivateQuery)
+		// to load the QueryOffer Object here, and in the Train Company LoadStatus method
+		// Probably store 'class' in the EN_QUERY_OFFER Element as attribute
+		// Then just like an Action or Effect, use reflections to load it.
+		// Can this be a generic method in 'QueryOffer' that both here and Train Company can call it?
 	}
+
+	ParsingRoutineI queryParsingRoutine = new ParsingRoutineI () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			String tChildNodeName;
+			QueryOffer tQueryOffer;
+			Class<?> tQueryOfferToLoad;
+			Constructor<?> tQueryOfferConstructor;
+			String tClassName;
+			
+			tChildNodeName = aChildNode.getNodeName ();
+			System.out.println ("tChildNodeName is " + tChildNodeName);
+			// Use Reflections to identify the OptionEffect to create, and call the
+			// constructor with the XMLNode and Game Manager
+			tClassName = aChildNode.getThisAttribute (QueryOffer.AN_CLASS_NAME);
+			try {
+				tQueryOfferToLoad = Class.forName (tClassName);
+				tQueryOfferConstructor = tQueryOfferToLoad.getConstructor (aChildNode.getClass ());
+				tQueryOffer = (QueryOffer) tQueryOfferConstructor.newInstance (aChildNode);
+				setQueryOffer (tQueryOffer);
+			} catch (Exception eException) {
+				eException.printStackTrace();
+			}
+		}
+	};
 
 	ParsingRoutineI portfolioParsingRoutine = new ParsingRoutineI () {
 		@Override
@@ -1603,6 +1644,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	
 	@Override
 	public void updateInfo () {
+		playerManager.updateRoundWindow ();
 	}
 
 	@Override
@@ -1610,8 +1652,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		boolean tIsWaitingForResponse;
 
 		tIsWaitingForResponse = false;
-		if (primaryActionState.equals (ActorI.ActionStates.WaitingResponse) ||
-			primaryActionState.equals (ActorI.ActionStates.WaitState)	) {
+		if (primaryActionState.equals (ActorI.ActionStates.WaitingResponse)) {
 			tIsWaitingForResponse = true;
 		}
 

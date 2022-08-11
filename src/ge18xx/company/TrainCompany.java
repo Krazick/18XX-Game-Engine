@@ -1117,6 +1117,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tBank = corporationList.getBank ();
 		trainPortfolio.loadTrainPortfolio (aXMLNode, tBank);
 		super.loadPortfolio (aXMLNode);
+		// TODO: Build way to load a QueryOffer (PurchasePrivateOffer, PurchaseTrainOffer, ExchangePrivateQuery)
+		// to load the QueryOffer Object here, and in the Player LoadState method
+		// Probably store 'class' in the EN_QUERY_OFFER Element as attribute
+		// Then just like an Action or Effect, use reflections to load it.
+		// Can this be a generic method in 'QueryOffer' that both here and Player can call it?
 	}
 
 	@Override
