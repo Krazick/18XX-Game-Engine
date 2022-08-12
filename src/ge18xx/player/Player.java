@@ -38,6 +38,7 @@ import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
+import ge18xx.utilities.ParsingRoutineIO;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -1115,7 +1116,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		XMLNodeList tXMLPortfolioNodeList;
 		XMLNodeList tXMLQueryOfferNodeList;
 		GenericActor tGenericActor;
-
+		GameManager tGameManager;
 		// Need to remove any Cash the Player has before setting it.
 
 		treasury = aPlayerNode.getThisIntAttribute (Player.AN_CASH);
@@ -1134,7 +1135,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLPortfolioNodeList = new XMLNodeList (portfolioParsingRoutine);
 		tXMLPortfolioNodeList.parseXMLNodeList (aPlayerNode, Portfolio.EN_PORTFOLIO);
 		escrows.loadEscrowState (aPlayerNode);
-		tXMLQueryOfferNodeList = new XMLNodeList (queryParsingRoutine);
+		tGameManager = getGameManager ();
+		tXMLQueryOfferNodeList = new XMLNodeList (queryParsingRoutine, tGameManager);
 		tXMLQueryOfferNodeList.parseXMLNodeList (aPlayerNode, QueryOffer.EN_QUERY_OFFER);
 		// TODO: Build way to load a QueryOffer (PurchasePrivateOffer, PurchaseTrainOffer, ExchangePrivateQuery)
 		// to load the QueryOffer Object here, and in the Train Company LoadStatus method
@@ -1143,25 +1145,27 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		// Can this be a generic method in 'QueryOffer' that both here and Train Company can call it?
 	}
 
-	ParsingRoutineI queryParsingRoutine = new ParsingRoutineI () {
+	ParsingRoutineI queryParsingRoutine = new ParsingRoutineIO () {
 		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			String tChildNodeName;
+		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
 			QueryOffer tQueryOffer;
 			Class<?> tQueryOfferToLoad;
 			Constructor<?> tQueryOfferConstructor;
 			String tClassName;
+			GameManager tGameManager;
 			
-			tChildNodeName = aChildNode.getNodeName ();
-			System.out.println ("tChildNodeName is " + tChildNodeName);
 			// Use Reflections to identify the OptionEffect to create, and call the
 			// constructor with the XMLNode and Game Manager
 			tClassName = aChildNode.getThisAttribute (QueryOffer.AN_CLASS_NAME);
 			try {
-				tQueryOfferToLoad = Class.forName (tClassName);
-				tQueryOfferConstructor = tQueryOfferToLoad.getConstructor (aChildNode.getClass ());
-				tQueryOffer = (QueryOffer) tQueryOfferConstructor.newInstance (aChildNode);
-				setQueryOffer (tQueryOffer);
+				if (aMetaObject instanceof GameManager) {
+					tGameManager = (GameManager) aMetaObject;
+					tQueryOfferToLoad = Class.forName (tClassName);
+					tQueryOfferConstructor = tQueryOfferToLoad.getConstructor (aChildNode.getClass (), 
+							tGameManager.getClass ());
+					tQueryOffer = (QueryOffer) tQueryOfferConstructor.newInstance (aChildNode, tGameManager);
+					setQueryOffer (tQueryOffer);
+				}
 			} catch (Exception eException) {
 				eException.printStackTrace();
 			}
