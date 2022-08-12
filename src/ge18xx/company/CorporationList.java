@@ -801,13 +801,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	ParsingRoutineI corporationListParsingRoutine = new ParsingRoutineIO () {
-
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			// Empty Stub for Interface Method
-
-		}
-
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
 			PrivateCompany tPrivateInfo;
@@ -832,10 +825,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			}
 		}
 	};
-
-	@Override
-	public void foundItemMatchKey1 (XMLNode aChildNode) {
-	}
 
 	public JPanel buildFullCorpsJPanel (CorporationFrame aCorporationFrame, Corporation aBuyingCorporation,
 			GameManager aGameManager, boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason) {

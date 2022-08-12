@@ -1086,12 +1086,6 @@ public class PlayerManager {
 	ParsingRoutineI playerParsingRoutine = new ParsingRoutineIO () {
 
 		@Override
-		public void foundItemMatchKey1 (XMLNode aPlayerNode) {
-			// Empty Stub for Interface Method
-
-		}
-
-		@Override
 		public void foundItemMatchKey1 (XMLNode aPlayerNode, Object aGameInfo) {
 			String tPlayerName;
 

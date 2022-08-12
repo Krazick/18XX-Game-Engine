@@ -6,6 +6,7 @@ public interface ParsingRoutineIO extends ParsingRoutineI {
 	 * with a MetaObject Passed in
 	 */
 
-	public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject);
-
+	public default void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
+		
+	}
 }

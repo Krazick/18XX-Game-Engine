@@ -618,11 +618,6 @@ public class TrainPortfolio implements TrainHolderI {
 	ParsingRoutineI trainPortfolioParsingRoutine = new ParsingRoutineIO () {
 
 		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			System.err.println ("Found Node, but no Objects sent back");
-		}
-
-		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode, Object aBank) {
 			Bank tBank;
 
@@ -639,12 +634,6 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	ParsingRoutineIO trainParsingRoutine = new ParsingRoutineIO () {
-
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			System.err.println ("Found Node, but no Objects sent back");
-		}
-
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode, Object aBank) {
 			Bank tBank;
@@ -692,17 +681,11 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	ParsingRoutineIOO trainRouteParsingRoutine = new ParsingRoutineIOO () {
-
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			System.err.println ("Found Node, but no Objects sent back");
-		}
-
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
-			System.err.println ("Found Node, but only one Object sent back");
-		}
-
+//		@Override
+//		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
+//			System.err.println ("Found Node, but only one Object sent back");
+//		}
+//
 		@Override
 		public void foundItemMatchKey1 (XMLNode aRouteNode, Object aTrain, Object aTrainPortfolio) {
 			Train tTrain;

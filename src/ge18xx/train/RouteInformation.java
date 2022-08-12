@@ -185,12 +185,6 @@ public class RouteInformation {
 	}
 
 	ParsingRoutineIO routeSegmentsParsingRoutine = new ParsingRoutineIO () {
-
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-
-		}
-
 		@Override
 		public void foundItemMatchKey1 (XMLNode aRouteSegmentNode, Object aRouteInformation) {
 			RouteInformation tRouteInformation;

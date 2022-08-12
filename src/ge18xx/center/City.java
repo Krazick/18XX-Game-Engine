@@ -1065,13 +1065,6 @@ public class City extends RevenueCenter implements Cloneable {
 	}
 
 	ParsingRoutineI tokenParsingRoutine = new ParsingRoutineIO () {
-
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			// Empty Stub for Interface Method
-
-		}
-
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
 			int tLocation, tIndex;
