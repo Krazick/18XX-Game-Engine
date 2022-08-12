@@ -2,6 +2,7 @@ package ge18xx.company;
 
 import org.w3c.dom.NodeList;
 
+import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -27,8 +28,8 @@ public class PurchasePrivateOffer extends QueryOffer {
 		setAmount (aAmount);
 	}
 	
-	public PurchasePrivateOffer (XMLNode aChildNode) {
-		super (aChildNode);
+	public PurchasePrivateOffer (XMLNode aChildNode, GameManager aGameManager) {
+		super (aChildNode, aGameManager);
 		
 		XMLNode tPONode;
 		NodeList tPurchaseOfferList;

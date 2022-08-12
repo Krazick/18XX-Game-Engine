@@ -1,7 +1,6 @@
 package ge18xx.company;
 
-import org.w3c.dom.NodeList;
-
+import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.GenericActor;
 import ge18xx.utilities.AttributeName;
@@ -37,40 +36,32 @@ public abstract class QueryOffer {
 		setFromActorName (aFromActorName);
 		setToActorName (aToActorName);
 
-		setOldState (aOldState);
+		setOldStatus (aOldState);
 		setStatus (PENDING);
 	}
 
-	public QueryOffer (XMLNode aChildNode) {
-		XMLNode tPONode;
-		NodeList tPurchaseOfferList;
-		int tPOCount, tPOIndex;
+	public QueryOffer (XMLNode aChildNode, GameManager aGameManager) {
 		String tItemName;
 		String tFromActorName;
 		String tToActorName;
-		String tOldStateName;
+		String tOldStatusName;
 		ActorI.ActionStates tOldState;	
 		GenericActor tGenericActor;
 		String tStatus;
 
-		tPurchaseOfferList = aChildNode.getChildNodes ();
-		tPOCount = tPurchaseOfferList.getLength ();
-		for (tPOIndex = 0; tPOIndex < tPOCount; tPOIndex++) {
-			tPONode = new XMLNode (tPurchaseOfferList.item (tPOIndex));
-			tItemName = tPONode.getThisAttribute (AN_ITEM_NAME);
-			tFromActorName = tPONode.getThisAttribute (AN_FROM_ACTOR_NAME);
-			tToActorName = tPONode.getThisAttribute (AN_TO_ACTOR_NAME);
-			tOldStateName = tPONode.getThisAttribute (AN_OLD_STATUS);
-			tStatus = tPONode.getThisAttribute (AN_STATUS);
-			setItemName (tItemName);
-			setFromActorName (tFromActorName);
-			setToActorName (tToActorName);
-			
-			tGenericActor = new GenericActor ();
-			tOldState = tGenericActor.getCorporationActionState (tOldStateName);
-			setOldState (tOldState);
-			setStatus (tStatus);
-		}
+		tItemName = aChildNode.getThisAttribute (AN_ITEM_NAME);
+		tFromActorName = aChildNode.getThisAttribute (AN_FROM_ACTOR_NAME);
+		tToActorName = aChildNode.getThisAttribute (AN_TO_ACTOR_NAME);
+		tOldStatusName = aChildNode.getThisAttribute (AN_OLD_STATUS);
+		tStatus = aChildNode.getThisAttribute (AN_STATUS);
+		setItemName (tItemName);
+		setFromActorName (tFromActorName);
+		setToActorName (tToActorName);
+		
+		tGenericActor = new GenericActor ();
+		tOldState = tGenericActor.getCorporationActionState (tOldStatusName);
+		setOldStatus (tOldState);
+		setStatus (tStatus);
 	}
 	
 	public XMLElement getElements (XMLDocument aXMLDocument) {
@@ -86,7 +77,6 @@ public abstract class QueryOffer {
 		
 		tXMLElement = aXMLDocument.createElement (aElementName);
 		tXMLElement.setAttribute (AN_ITEM_NAME, itemName);
-		tXMLElement.setAttribute (AN_ITEM_NAME, fromActorName);
 		tXMLElement.setAttribute (AN_FROM_ACTOR_NAME, fromActorName);
 		tXMLElement.setAttribute (AN_TO_ACTOR_NAME, toActorName);
 		tXMLElement.setAttribute (AN_OLD_STATUS, oldStatus.toString ());
@@ -144,7 +134,7 @@ public abstract class QueryOffer {
 		toActorName = aToActorName;
 	}
 
-	private void setOldState (ActorI.ActionStates aOldState) {
+	private void setOldStatus (ActorI.ActionStates aOldState) {
 		oldStatus = aOldState;
 	}
 
