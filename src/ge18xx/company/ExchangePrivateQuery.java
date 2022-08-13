@@ -1,7 +1,5 @@
 package ge18xx.company;
 
-import org.w3c.dom.NodeList;
-
 import ge18xx.company.benefit.QueryExchangeBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
@@ -29,25 +27,17 @@ public class ExchangePrivateQuery extends QueryOffer {
 
 	public ExchangePrivateQuery (XMLNode aChildNode, GameManager aGameManager) {
 		super (aChildNode, aGameManager);
-		XMLNode tPONode;
-		NodeList tPurchaseOfferList;
-		int tPOCount, tPOIndex;
 		String tPrivateAbbrev;
 		String tBenefitName;
 		PrivateCompany tPrivateCompany;
 		CorporationList tPrivates;
 		
-		tPurchaseOfferList = aChildNode.getChildNodes ();
-		tPOCount = tPurchaseOfferList.getLength ();
-		for (tPOIndex = 0; tPOIndex < tPOCount; tPOIndex++) {
-			tPONode = new XMLNode (tPurchaseOfferList.item (tPOIndex));
-			tPrivateAbbrev = tPONode.getThisAttribute (AN_PRIVATE_ABBREV);
-			tPrivates = aGameManager.getPrivates ();
-			tPrivateCompany = (PrivateCompany) tPrivates.getCorporation (tPrivateAbbrev);
-			setPrivateCompany (tPrivateCompany);
-			tBenefitName = tPONode.getThisAttribute (AN_BENEFIT_NAME);
-			setBenefitName (tBenefitName);
-		}
+		tPrivateAbbrev = aChildNode.getThisAttribute (AN_PRIVATE_ABBREV);
+		tPrivates = aGameManager.getPrivates ();
+		tPrivateCompany = (PrivateCompany) tPrivates.getCorporation (tPrivateAbbrev);
+		setPrivateCompany (tPrivateCompany);
+		tBenefitName = aChildNode.getThisAttribute (AN_BENEFIT_NAME);
+		setBenefitName (tBenefitName);
 	}
 	
 	@Override
