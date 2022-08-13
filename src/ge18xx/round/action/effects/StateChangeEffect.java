@@ -167,11 +167,25 @@ public class StateChangeEffect extends Effect {
 			if (previousState == ActorI.ActionStates.OperatingRound) {
 				aRoundManager.setRoundToOperatingRound ();
 				tEffectUndone = true;
+			} else if (previousState == ActorI.ActionStates.StockRound) {
+				aRoundManager.setRoundToStockRound ();
+				tEffectUndone = true;
+			} else {
+				setUndoFailureReason ("The Actor is a Operating Round, and previous State is " + previousState.name ());
+			}
+		} else if (actor.isAStockRound ()) {
+			if (previousState == ActorI.ActionStates.StockRound) {
+				aRoundManager.setRoundToStockRound ();
+				tEffectUndone = true;
+			} else {
+				setUndoFailureReason ("The Actor is a Stock Round, and previous State is " + previousState.name ());
 			}
 		} else if (actor.isABank ()) {
 			setUndoFailureReason ("The Actor is a Bank, which does not have a State to Change");
 		} else if (actor.isACorporation ()) {
 			setUndoFailureReason ("The Actor is a Corporation, and should not have a State Change Effect");
+		} else {
+			setUndoFailureReason ("The Actor is a " + actor.getName () + ". Don't know what to do.");
 		}
 
 		return tEffectUndone;
