@@ -68,7 +68,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 				tShowQueryDialog = true;
 			} else {
 				tellPlayerToQuery (tGameManager, tPlayer);
-				tCurrentPlayer.waitForResponse ();
+				tCurrentPlayer.waitForResponse (tPlayerName);
 				tExchangeApproved = exchangePrivateQuery.wasAccepted ();
 			}
 		} else {
