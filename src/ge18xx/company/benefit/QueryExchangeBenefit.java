@@ -14,6 +14,7 @@ import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.QueryExchangeBenefitAction;
 import ge18xx.round.action.SetWaitStateAction;
+import ge18xx.round.action.WaitForReponseFrame;
 import ge18xx.utilities.XMLNode;
 
 public class QueryExchangeBenefit extends ExchangeBenefit {
@@ -55,20 +56,22 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		boolean tShowQueryDialog;
 		boolean tExchangeApproved;
 		SetWaitStateAction tResetWaitStateAction;
+		WaitForReponseFrame tWaitForReponseFrame;
 		
 		tShowQueryDialog = false;
 		tExchangeApproved = false;
 		tGameManager = privateCompany.getGameManager ();
 		if (tGameManager.isNetworkGame ()) {
 			tPlayer = (Player) privateCompany.getPresident ();
-			tCurrentPlayer = tGameManager.getCurrentPlayer ();
 			tPlayerName = tPlayer.getName ();
+			tCurrentPlayer = tGameManager.getCurrentPlayer ();
 			tResetWaitStateAction = tellOthersToWait (tGameManager, tPlayer);
 			if (tGameManager.isNetworkAndIsThisClient (tPlayerName)) {
 				tShowQueryDialog = true;
 			} else {
 				tellPlayerToQuery (tGameManager, tPlayer);
-				tCurrentPlayer.waitForResponse (tPlayerName);
+				tWaitForReponseFrame = new WaitForReponseFrame ("Waiting for a Response", tPlayer, tCurrentPlayer);
+				tWaitForReponseFrame.waitForResponse ();
 				tExchangeApproved = exchangePrivateQuery.wasAccepted ();
 			}
 		} else {
