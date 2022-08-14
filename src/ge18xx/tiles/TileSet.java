@@ -34,6 +34,7 @@ import javax.swing.JLabel;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class TileSet extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener {
@@ -90,7 +91,11 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	}
 
 	public boolean addTile (int aTileNumber, int aTotalCount) {
-		return gameTiles.add (new GameTile (aTileNumber, aTotalCount));
+		GameTile tGameTile;
+		
+		tGameTile = new GameTile (aTileNumber, aTotalCount);
+		
+		return gameTiles.add (tGameTile);
 	}
 
 	public void clearAllPlayable () {
@@ -119,32 +124,90 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	}
 
 	public void copyTileDefinitions (TileSet aTileDefinitions) {
-		Tile tTile;
-		Tile tTileClone;
 		int tTileNumber;
-		int tTotalCount;
-		int tAvailableCount;
-		int tIndex;
 
 		for (GameTile tGameTile : gameTiles) {
 			tTileNumber = tGameTile.getTileNumber ();
-			tTile = aTileDefinitions.getTile (tTileNumber);
-			if (tTile != Tile.NO_TILE) {
-				// Set the Generic Tile Definition to show in Tile Tray
-				tGameTile.setTile (tTile);
-				tTotalCount = tGameTile.totalCount ();
-				tAvailableCount = tGameTile.availableCount ();
-				// If don't have all tiles needed, add them to the stack.
-				if (tAvailableCount < tTotalCount) {
-					for (tIndex = 0; tIndex < tTotalCount; tIndex++) {
-						tTileClone = tTile.clone ();
-						tGameTile.pushTile (tTileClone);
+			addATileDefinition (aTileDefinitions, tTileNumber, tGameTile);
+		}
+	}
+
+	public void addATileDefinition (TileSet aTileDefinitions, int aTileNumber, GameTile aGameTile) {
+		Tile tTile;
+		int tTotalCount;
+		int tAvailableCount;
+		
+		tTile = aTileDefinitions.getTile (aTileNumber);
+		if (tTile != Tile.NO_TILE) {
+			// Set the Generic Tile Definition to show in Tile Tray
+			aGameTile.setTile (tTile);
+			tTotalCount = aGameTile.getTotalCount ();
+			tAvailableCount = aGameTile.availableCount ();
+			// If don't have all tiles needed, add them to the stack.
+			if (tAvailableCount < tTotalCount) {
+				addNTileClones (aGameTile, tTile, tTotalCount);
+			}
+		}
+	}
+
+	public void addNTileClones (GameTile aGameTile, Tile aTile, int aTotalCount) {
+		Tile tTileClone;
+		int aIndex;
+		
+		for (aIndex = 0; aIndex < aTotalCount; aIndex++) {
+			tTileClone = aTile.clone ();
+			aGameTile.pushTile (tTileClone);
+		}
+	}
+	
+	public void copyATileFromDefinitions (TileSet aTileDefinitions, int aTileNumber, int aQuantity) {
+		Tile tTile;
+		GameTile tGameTile;
+		int tTotalCount;
+		boolean tTileAdded;
+		
+		tTile = aTileDefinitions.getTile (aTileNumber);
+		if (tTile != Tile.NO_TILE) {
+			tGameTile = getGameTileMatching (aTileNumber);
+			if (tGameTile != GameTile.NO_GAME_TILE) {
+				System.out.println ("Game Tile already contains Tile # " + aTileNumber + " add " + aQuantity);
+				if (aQuantity > 0) {
+					addNTileClones (tGameTile, tTile, aQuantity);
+					tGameTile.setUsedCount (0);
+					tTotalCount = tGameTile.getTotalCount () + aQuantity;
+					tGameTile.setTotalCount (tTotalCount);
+				}
+			} else {
+				System.out.println ("Game Tile does NOT contains Tile # " + aTileNumber + " add " + aQuantity);
+				if (aQuantity > 0) {
+					tTileAdded = addTile (tTile, aQuantity);
+					tGameTile = getGameTileMatching (aTileNumber);
+					tGameTile.setUsedCount (0);
+					tGameTile.setTotalCount (aQuantity);
+					if (tTileAdded) {
+						System.out.println ("Tile # " + aTileNumber + " added " + aQuantity + " to gameTiles.");
+						sortGameTiles ();
 					}
 				}
 			}
 		}
 	}
 
+	private GameTile getGameTileMatching (int aTileNumber) {
+		int tTileNumber;
+		GameTile tFoundGameTile;
+		
+		tFoundGameTile = GameTile.NO_GAME_TILE;
+		for (GameTile tGameTile : gameTiles) {
+			tTileNumber = tGameTile.getTileNumber ();
+			if (tTileNumber == aTileNumber) {
+				tFoundGameTile = tGameTile;
+			}
+		}
+		
+		return tFoundGameTile;
+	}
+	
 	public XMLElement createAllTileDefinitions (XMLDocument aXMLDocument) {
 		XMLElement tAllTileDefinitions;
 		XMLElement tTileElement;
@@ -924,8 +987,8 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			}
 		}
 	};
-
-	@Override
-	public void foundItemMatchKey1 (XMLNode aChildNode) {
+	
+	public void sortGameTiles () {
+		Collections.sort (gameTiles, GameTile.GameTileComparator);
 	}
 }

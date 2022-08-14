@@ -91,10 +91,11 @@ public class XMLFrame extends JFrame {
 
 	public boolean loadXML (String aXMLFileName, LoadableXMLI aLoadableObject) throws IOException {
 		boolean tXMLFileWasLoaded;
-
+		XMLDocument tXMLDocument;
+		
 		if (!("".equals (aXMLFileName))) {
 			try {
-				XMLDocument tXMLDocument = new XMLDocument (aXMLFileName);
+				tXMLDocument = new XMLDocument (aXMLFileName);
 				aLoadableObject.loadXML (tXMLDocument);
 				tXMLFileWasLoaded = true;
 			} catch (Exception tException) {

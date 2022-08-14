@@ -1046,4 +1046,25 @@ public class Tile implements Comparable<Object>, Cloneable {
 			aMapGraph.addVertex (aVertex);
 		}
 	}
+	
+	public int compareType (Tile aTile) {
+		int tTypeDiff;
+		TileType tType;
+		
+		tType = aTile.getType ();
+		tTypeDiff = type.compareType (tType);
+
+		return tTypeDiff;
+	}
+	
+	public int compareNumber (Tile aTile) {
+		int tNumberDiff;
+		int tTileNumber;
+		
+		tTileNumber = aTile.getNumber ();
+		tNumberDiff = number - tTileNumber;
+
+		return tNumberDiff;
+	}
+
 }

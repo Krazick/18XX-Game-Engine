@@ -170,18 +170,33 @@ public class TileType implements Cloneable, LoadableXMLI {
 	}
 
 	public static int getTypeFromName (String aName) {
-		int index;
-		int thisType = NO_TYPE;
+		int tIndex;
+		int tType;
 
-		for (index = MIN_TYPE; index < MAX_TYPE; index++) {
-			if (aName.equals (NAMES [index])) {
-				thisType = index;
+		tType = NO_TYPE;
+		for (tIndex = MIN_TYPE; tIndex < MAX_TYPE; tIndex++) {
+			if (aName.equals (NAMES [tIndex])) {
+				tType = tIndex;
 			}
 		}
 
-		return thisType;
+		return tType;
 	}
 
+	public static boolean validName (String aName) {
+		int tFoundType;
+		boolean tValidName;
+		
+		tFoundType = getTypeFromName (aName);
+		if (tFoundType != NO_TYPE) {
+			tValidName = true;
+		} else {
+			tValidName = false;
+		}
+		
+		return tValidName;
+	}
+	
 	public void setFixed (boolean aFixed) {
 		fixed = aFixed;
 	}
@@ -286,5 +301,15 @@ public class TileType implements Cloneable, LoadableXMLI {
 		}
 
 		return tIsSameType;
+	}
+	
+	public int compareType (TileType aType) {
+		int tTypeDiff;
+		int tType;
+		
+		tType = aType.getType ();
+		tTypeDiff = type - tType;
+		
+		return tTypeDiff;
 	}
 }

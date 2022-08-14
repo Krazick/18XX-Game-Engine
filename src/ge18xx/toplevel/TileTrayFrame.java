@@ -110,7 +110,16 @@ public class TileTrayFrame extends XMLFrame {
 	public void setValues (String aSetName) {
 		tileSet.setValues (aSetName);
 	}
-	
+
+	public void loadTileTrayFrame (String aXMLTileTrayName) {
+		try {
+			loadXML (aXMLTileTrayName, tileSet);
+		} catch (Exception eException) {
+			System.err.println ("Exception thrown " + eException.getMessage ());
+			eException.printStackTrace ();
+		}
+	}
+
 	/**
 	 * Determine if the specified GameTile is currently allowed to be placed on the Map, based upon the 
 	 * current Phase of the Game and the Tile Color
@@ -122,14 +131,17 @@ public class TileTrayFrame extends XMLFrame {
 	 */
 	public boolean isUpgradeAllowed (GameTile aGameTile) {
 		boolean tUpgradeAllowed = true;
-//		TileType tTileType;
 		String tTileColor;
 
-//		tTileType = aUpgradeGameTile.getTheTileType ();
-//		tTileColor = tTileType.getName ();
 		tTileColor = aGameTile.getTileColor ();
 		tUpgradeAllowed = gameManager.isUpgradeAllowed (tTileColor);
 
 		return tUpgradeAllowed;
+	}
+
+	public void copyATileFromDefinitions (TileSet tTDTileSet, int aTileNumber, int aQuantity) {
+		if (validTileSet ()) {
+			tileSet.copyATileFromDefinitions (tTDTileSet, aTileNumber, aQuantity);
+		}
 	}
 }

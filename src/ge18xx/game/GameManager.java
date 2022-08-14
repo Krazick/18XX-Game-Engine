@@ -554,43 +554,37 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void createTileTray () {
-		String tXMLTileTrayName, tXMLTileDefinitionName;
-		String tActiveGameName, tBaseDirName;
-		String tAllTileSetNames[];
+		String tXMLTileTrayName;
+		String tActiveGameName;
+		String tBaseDirName;
 		TileTrayFrame tTileTrayFrame;
 		TileDefinitionFrame tTileDefinitionFrame;
-
+		String tFrameTitle;
+		
 		if (gameIsStarted ()) {
 			tActiveGameName = getActiveGameName ();
 			tBaseDirName = getXMLBaseDirectory ();
-			tXMLTileTrayName = getTileSetFileName ();
-			tXMLTileTrayName = tBaseDirName + tXMLTileTrayName;
-			tTileTrayFrame = new TileTrayFrame (createFrameTitle (TileTrayFrame.BASE_TITLE), this);
+			tXMLTileTrayName = tBaseDirName + getTileSetFileName ();
+			
+			tFrameTitle = createFrameTitle (TileTrayFrame.BASE_TITLE);
+			tTileTrayFrame = new TileTrayFrame (tFrameTitle, this);
 			setTileTrayFrame (tTileTrayFrame);
-			try {
-				tTileTrayFrame.loadXML (tXMLTileTrayName, tTileTrayFrame.getTileSet ());
-			} catch (Exception tException) {
-				logger.error (tException);
-			}
+			tTileTrayFrame.loadTileTrayFrame (tXMLTileTrayName);
 
-			tTileDefinitionFrame = new TileDefinitionFrame (createFrameTitle (TileDefinitionFrame.BASE_TITLE),
-					tTileTrayFrame, tActiveGameName);
+			tFrameTitle = createFrameTitle (TileDefinitionFrame.BASE_TITLE);
+			tTileDefinitionFrame = new TileDefinitionFrame (tFrameTitle, tTileTrayFrame, tActiveGameName);
 			setTileDefinitionFrame (tTileDefinitionFrame);
-			tAllTileSetNames = tTileDefinitionFrame.getAllTileSetNames ();
-			for (String tTileSetName : tAllTileSetNames) {
-				tXMLTileDefinitionName = tTileSetName + TileDefinitionFrame.TILE_SUFFIX_NAME;
-				tXMLTileDefinitionName = tBaseDirName + TileDefinitionFrame.TILE_DIRECTORY_NAME
-						+ tXMLTileDefinitionName;
-				try {
-					tTileDefinitionFrame.loadXML (tXMLTileDefinitionName, tTileDefinitionFrame.getTileSet ());
-				} catch (Exception tException) {
-					logger.error (tException);
-				}
-				tTileTrayFrame.copyTileDefinitions (tileDefinitionFrame.getTileSet ());
-			}
+			tTileDefinitionFrame.loadAllTileDefinitions (tBaseDirName, tTileTrayFrame);
 		}
 	}
 
+	public void loadATileFromASet (String aSetName, int aTileNumber, int aQuantity) {
+		String tBaseDirName;
+		
+		tBaseDirName = getXMLBaseDirectory ();
+		tileDefinitionFrame.loadATileFromASet (tBaseDirName, tileTrayFrame, aTileNumber, aSetName, aQuantity);
+	}
+	
 	public boolean doIncrementalCapitalization () {
 		return phaseManager.doIncrementalCapitalization ();
 	}

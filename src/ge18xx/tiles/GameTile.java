@@ -18,11 +18,13 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import java.util.List;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 public class GameTile {
 	public static final ElementName EN_UPGRADE = new ElementName ("Upgrade");
 	public static final GameTile NO_GAME_TILE = null;
+	public static final List<Tile> NO_TILES = null;
 	Tile tile;
 	List<Tile> tiles;
 	List<Upgrade> upgrades;
@@ -199,7 +201,7 @@ public class GameTile {
 		Tile tTile;
 
 		if (tileAvailable ()) {
-			if (tiles != null) {
+			if (tiles != NO_TILES) {
 				if (tiles.size () > 0) {
 					tTile = tiles.remove (0);
 					usedCount++;
@@ -247,20 +249,20 @@ public class GameTile {
 		tiles = new LinkedList<Tile> ();
 		upgrades = new LinkedList<Upgrade> ();
 		setTile (aTile);
-		tileNumber = aTileNumber;
-		totalCount = aTotalCount;
+		setTileNumber (aTileNumber);
+		setTotalCount (aTotalCount);
 		// Initially all the tiles used up, need to push them on the stack,
 		// and decrement usedCount as they are pushed onto the stack.
-		usedCount = aTotalCount;
+		setUsedCount (aTotalCount);
 		clearSelected ();
-		tileOrient = 0;
+		setTileOrient (0);
 		setPlayable (false);
 	}
 
-	public void setXY (int X, int Y) {
-		XCenter = X;
-		YCenter = Y;
-		tile.setXY (X, Y);
+	public void setXY (int aX, int aY) {
+		XCenter = aX;
+		YCenter = aY;
+		tile.setXY (aX, aY);
 	}
 
 	public boolean tileAvailable () {
@@ -271,11 +273,56 @@ public class GameTile {
 		selected = !selected;
 	}
 
-	public int totalCount () {
+	public void setTileNumber (int aTileNumber) {
+		tileNumber = aTileNumber;
+	}
+
+	public void setTileOrient (int aTileOrient) {
+		tileOrient = aTileOrient;
+	}
+
+	public void setTotalCount (int aTotalCount) {
+		totalCount = aTotalCount;
+	}
+	
+	public void setUsedCount (int aUsedCount) {
+		usedCount = aUsedCount;
+	}
+	
+	public int getTotalCount () {
 		return totalCount;
 	}
 
 	public int getAvailableCount () {
 		return availableCount ();
 	}
+	
+	public static Comparator<GameTile> GameTileComparator = new Comparator<GameTile> () {
+		@Override
+		public int compare (GameTile aGameTile1, GameTile aGameTile2) {
+			int tGameTileOrder;
+			int tTileTypeOrder;
+			int tTileNumberOrder;
+			Tile tTile1;
+			Tile tTile2;
+			
+			tTile1 = aGameTile1.getTile ();
+			tTile2 = aGameTile2.getTile ();
+			if (tTile1.isFixedTile ()) {
+				tGameTileOrder = 1;
+			} if (tTile2.isFixedTile ()) {
+				tGameTileOrder = -1;
+			} else {
+				tTileTypeOrder = tTile1.compareType (tTile2);
+				if (tTileTypeOrder == 0) {
+					tTileNumberOrder = tTile1.compareNumber (tTile2);
+					tGameTileOrder = tTileNumberOrder;
+				} else {
+					tGameTileOrder = tTileTypeOrder;
+				}
+			}
+			
+			return tGameTileOrder;
+		}
+	};
 }
