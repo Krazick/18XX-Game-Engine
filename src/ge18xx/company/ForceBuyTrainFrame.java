@@ -24,6 +24,7 @@ import ge18xx.player.PortfolioHolderI;
 import ge18xx.train.Train;
 
 public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemListener {
+	public static final ForceBuyTrainFrame NO_FRAME = null;
 	private static final String BUY_ACTION = "BuyTrain";
 	private static final String CANCEL_ACTION = "Cancel";
 	private static final String SELL_ACTION = "SellStock";
@@ -78,16 +79,19 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		setSize (400, 350);
 		pack ();
 		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
-		setVisible (true);
 	}
 
+	public void showFrame () {
+		setVisible (true);
+	}
+	
 	private void buildMainJPanel () {
 		mainJPanel = new JPanel ();
 		mainJPanel.setLayout (new BoxLayout (mainJPanel, BoxLayout.Y_AXIS));
 		updateMainJPanel ();
 	}
 
-	private void updateMainJPanel () {
+	public void updateMainJPanel () {
 		mainJPanel.removeAll ();
 		buildInfoJPanel ();
 		buildStockJPanel ();
@@ -130,13 +134,15 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		cashNeededLabel = new JLabel ("XXX");
 		updateCashNeeded ();
 		addLabelAndSpace (cashNeededLabel);
-		totalLiquidAssetLabel = new JLabel ("YYY");
+		totalLiquidAssetLabel = new JLabel ("");
 		addLabelAndSpace (totalLiquidAssetLabel);
-		totalSelectedAssetLabel = new JLabel ("YYY");
+		totalSelectedAssetLabel = new JLabel ("");
 		addLabelAndSpace (totalSelectedAssetLabel);
 		saleLimitReasons = new JLabel ("");
 		addLabelAndSpace (saleLimitReasons);
-
+		updateLiquidAssetLabel ();
+		updateSelectedAssetLabel ();
+		
 		tTrainPanel = train.buildCertificateInfoPanel ();
 		infoJPanel.add (tTrainPanel);
 		infoJPanel.add (Box.createVerticalStrut (10));
@@ -551,7 +557,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		tButtonLabel = Player.SELL_LABEL;
 		if (haveEnoughCash ()) {
 			doSellButton.setEnabled (false);
-			tToolTip = "Enough cash to buy the Train, can't sell stock";
+			tToolTip = Certificate.HAVE_ENOUGH_CASH;
 		} else if (hasSelectedStocksToSell ()) {
 			if (!president.hasSelectedSameStocksToSell ()) {
 				doSellButton.setEnabled (false);
@@ -691,7 +697,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		}
 	}
 
-	private boolean haveEnoughCash () {
+	public boolean haveEnoughCash () {
 		boolean tHaveEnoughCash = false;
 
 		tHaveEnoughCash = ((presidentTreasury + trainCompany.getCash ()) > train.getPrice ());

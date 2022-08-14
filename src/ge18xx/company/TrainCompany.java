@@ -125,8 +125,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			setCorporationFrame ();
 		}
 		setMustBuyTrain (false);
+		setForceTrainBuyFrame (ForceBuyTrainFrame.NO_FRAME);
 	}
 
+	private void setForceTrainBuyFrame (ForceBuyTrainFrame aFrame) {
+		forceBuyTrainFrame = aFrame;
+	}
+	
 	public TrainCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
 
@@ -147,6 +152,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		closeOnTrainPurchase = aChildNode.getThisIntAttribute (AN_CLOSE_ON_TRAIN_PURCHASE, NO_ID);
 		setupTrainRevenueFrame ();
 		setCorporationFrame ();
+		setForceTrainBuyFrame (ForceBuyTrainFrame.NO_FRAME);
 		// TODO: Parse out PurchaseOffer Element if present
 	}
 
@@ -488,9 +494,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void forceBuyTrain () {
 		Train tCheapestTrain;
-
+		ForceBuyTrainFrame tForceBuyTrainFrame;
+		
 		tCheapestTrain = getCheapestBankTrain ();
-		forceBuyTrainFrame = new ForceBuyTrainFrame (this, tCheapestTrain);
+		tForceBuyTrainFrame = new ForceBuyTrainFrame (this, tCheapestTrain);
+		setForceTrainBuyFrame (tForceBuyTrainFrame);
+		forceBuyTrainFrame.updateMainJPanel ();
+		forceBuyTrainFrame.setVisible (true);
 	}
 
 	@Override
@@ -1917,4 +1927,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 	
+	public boolean forceBuyEnoughCash () {
+		boolean tForceBuyEnoughCash;
+		
+		tForceBuyEnoughCash = true;
+		if (forceBuyTrainFrame != null) {
+			tForceBuyEnoughCash = forceBuyTrainFrame.haveEnoughCash ();
+		}
+		
+		return tForceBuyEnoughCash;
+	}
 }

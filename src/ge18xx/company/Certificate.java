@@ -80,6 +80,7 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String CANNOT_EXCHANGE_PRESIDENT = "Cannot exchange President Share";
 	public static final String COMPANY_NOT_OPERATED = "This Share Company has NOT operated yet";
 	public static final String HAVE_MUST_BUY = "You must buy the Private where COST == DISCOUNT";
+	public static final String HAVE_ENOUGH_CASH = "Enough cash to buy the Train, can't sell stock";
 	static final int SORT_CERT1_BEFORE_CERT2 = -100;
 	static final int SORT_CERT2_BEFORE_CERT1 = 100;
 	static final int NO_PERCENTAGE = 0;
@@ -756,6 +757,7 @@ public class Certificate implements Comparable<Certificate> {
 	public boolean canBeSold (GameManager aGameManager) {
 		boolean tCanBeSold;
 		ShareCompany tShareCompany;
+		ShareCompany tOperatingCompany;
 
 		tCanBeSold = false;
 		// Only a Share Company Stock Share can be sold
@@ -767,11 +769,17 @@ public class Certificate implements Comparable<Certificate> {
 					tCanBeSold = aGameManager.canSellPresidentShare ();
 				} else {
 					if (!bankPoolAtLimit (aGameManager)) {
-						tShareCompany = (ShareCompany) corporation;
-						if (tShareCompany.didOperate ()) {
-							tCanBeSold = true;
-						} else {
-							tCanBeSold = operatingCompanyMustBuyTrain (aGameManager);
+						tOperatingCompany = (ShareCompany) aGameManager.getOperatingCompany ();
+						// During Loading a game, this is not set yet, so the result is false
+						if (tOperatingCompany != Corporation.NO_CORPORATION) {
+							tShareCompany = (ShareCompany) corporation;
+							if (tOperatingCompany.forceBuyEnoughCash ()) {
+								tCanBeSold = false;
+							} else if (tShareCompany.didOperate ()) {
+								tCanBeSold = true;
+							} else {
+								tCanBeSold = operatingCompanyMustBuyTrain (aGameManager);
+							}
 						}
 					}
 				}
@@ -898,8 +906,12 @@ public class Certificate implements Comparable<Certificate> {
 			tReason = CANNOT_SELL_PRESIDENT;
 		} else {
 			tShareCompany = (ShareCompany) corporation;
-			if (!tShareCompany.didOperate ()) {
+			if (tShareCompany.forceBuyEnoughCash ()) {
+				tReason = HAVE_ENOUGH_CASH;
+			} else if (! tShareCompany.didOperate ()) {
 				tReason = COMPANY_NOT_OPERATED;
+			} else {
+				tReason = "Don't know why can't sell -- FIX THIS";
 			}
 		}
 
