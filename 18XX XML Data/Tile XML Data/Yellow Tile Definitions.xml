@@ -219,15 +219,15 @@ color="Yellow">
 		</RevenueCenter>
 	</Tile>
 	<Tile number="630" type="Yellow">
-		<Track enter="0" exit="23" gauge="NORMAL" />
-		<Track enter="4" exit="23" gauge="NORMAL" />
+		<Track enter="0" exit="12" gauge="NORMAL" />
+		<Track enter="5" exit="12" gauge="NORMAL" />
 		<Track enter="3" exit="20" gauge="NORMAL" />
 		<Track enter="1" exit="20" gauge="NORMAL" />
-		<RevenueCenter id="-1" location="23" name="" type="Small Town">
-			<Revenue location="13" phase="0" value="10" />
+		<RevenueCenter id="-1" location="12" name="" type="Small Town">
+			<Revenue location="17" phase="0" value="10" />
 		</RevenueCenter>
 		<RevenueCenter id="-1" location="20" name="" type="Small Town">
-			<Revenue location="13" phase="0" value="10" />
+			<Revenue location="17" phase="0" value="10" />
 		</RevenueCenter>
 	</Tile>
 	<Tile number="631" type="Yellow">
