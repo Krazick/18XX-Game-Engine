@@ -484,6 +484,12 @@
 				<VariantEffect action="Set Diesel Train Quantity to 6 (Standard)" class="ge18xx.game.variants.SetTrainCountVEffect" defaultEffect="true" id="202" name="Standard" trainName="Diesel" quantity="6" />
 				<VariantEffect action="Set Diesel Train Quantity to Zero (0)" class="ge18xx.game.variants.SetTrainCountVEffect" id="203" name="Zero (0)" trainName="Diesel" quantity="0"/>
 			</Variant>
+			<Variant class="ge18xx.game.variants.VariantAll" id="600" title="Add Double-Town Yellow Tiles">
+				<VariantEffect action="Add Yellow Tile 630" class="ge18xx.game.variants.AddTilesVEffect" id="601" name="Double Town 630" tileNumber="630" tileType="Yellow" quantity="1"/>
+				<VariantEffect action="Add Yellow Tile 631" class="ge18xx.game.variants.AddTilesVEffect" id="602" name="Double Town 631" tileNumber="631" tileType="Yellow" quantity="1"/>
+				<VariantEffect action="Add Yellow Tile 632" class="ge18xx.game.variants.AddTilesVEffect" id="603" name="Double Town 632" tileNumber="632" tileType="Yellow" quantity="1"/>
+				<VariantEffect action="Add Yellow Tile 633" class="ge18xx.game.variants.AddTilesVEffect" id="604" name="Double Town 633" tileNumber="633" tileType="Yellow" quantity="1"/>
+			</Variant>
 			<Variant class="ge18xx.game.variants.VariantChooseAny" id="400" title="Activate Share Companies">
 				<VariantEffect action="Activate Reading Railroad" class="ge18xx.game.variants.ActivateCompanyVEffect" companyID="1109" id="401" name="Reading" companyAbbrev="RR" />
 				<VariantEffect action="Activate Norfolk &amp; Western Railroad" class="ge18xx.game.variants.ActivateCompanyVEffect" companyID="1110" id="403" name="Norfolk &amp; Western" companyAbbrev="N&amp;W" />
