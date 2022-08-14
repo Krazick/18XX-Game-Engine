@@ -31,6 +31,22 @@ public class WaitForReponseFrame extends JFrame {
 		tPlayerName = aWaitingForPlayer.getName ();
 		buildWaitFrame (tPlayerName);
 	}
+	
+	private void buildWaitFrame (String aPlayerName) {
+		Point tRoundPoint;
+		JLabel tWaitMessage;
+		
+		tWaitMessage = new JLabel ("Waiting for Response from " + aPlayerName);
+		setLayout (new FlowLayout (FlowLayout.CENTER));
+		setBackground (Color.GREEN);
+		setSize (400, 100);
+		add (tWaitMessage);
+		
+		tRoundPoint = playerManager.getOffsetRoundFramePoint ();
+		setLocation (tRoundPoint);
+		setAlwaysOnTop (true);
+//		setDefaultCloseOperation (JDialog.DO_NOTHING_ON_CLOSE);
+	}
 
 	public boolean isWaitingForResponse () {
 		boolean tIsWaitingForResponse;
@@ -45,23 +61,6 @@ public class WaitForReponseFrame extends JFrame {
 		return tIsWaitingForResponse;
 	}
 	
-	private void buildWaitFrame (String aPlayerName) {
-		Point tRoundPoint;
-		JLabel tWaitMessage;
-		
-		tWaitMessage = new JLabel ("Waiting for Response from " + aPlayerName);
-		setLayout (new FlowLayout (FlowLayout.CENTER));
-		setSize (400, 400);
-		add (tWaitMessage);
-		setBackground (Color.PINK);
-		
-		tRoundPoint = playerManager.getOffsetRoundFramePoint ();
-		setSize (400, 200);
-		setLocation (tRoundPoint);
-		setAlwaysOnTop (true);
-//		setDefaultCloseOperation (JDialog.DO_NOTHING_ON_CLOSE);
-	}
-	
 	/**
 	 * When the Corporation has need to wait for a Response from a Network Player, State is ActorI.ActionStates.WaitingResponse
 	 * Put this thread to sleep, in 2 second chunks
@@ -72,7 +71,7 @@ public class WaitForReponseFrame extends JFrame {
 		
 		tWaitTime = 2000; // Wait for 2 Seconds before testing if a Response came back
 		
-		setVisible (true);
+		showFrame ();
 		while (isWaitingForResponse ()) {
 			try {
 				Thread.sleep (tWaitTime);
@@ -81,6 +80,14 @@ public class WaitForReponseFrame extends JFrame {
 				eException.printStackTrace ();
 			}
 		}
+		hideFrame ();
+	}
+	
+	public void showFrame () {
+		setVisible (true);
+	}
+	
+	public void hideFrame () {
 		setVisible (false);
 	}
 }
