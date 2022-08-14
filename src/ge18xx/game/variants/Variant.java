@@ -97,7 +97,7 @@ public class Variant {
 		
 		tVariantEffect = VariantEffect.NO_VARIANT_EFFECT;
 		try {
-			tClassName = aVariantEffectNode.getThisAttribute (Variant.AN_VARIANT_CLASS);
+			tClassName = aVariantEffectNode.getThisAttribute (AN_VARIANT_CLASS);
 			tVariantEffectToLoad = Class.forName (tClassName);
 			tVariantEffectConstructor = tVariantEffectToLoad.getConstructor (aVariantEffectNode.getClass ());
 			tVariantEffect = (VariantEffect) tVariantEffectConstructor.newInstance (aVariantEffectNode);
