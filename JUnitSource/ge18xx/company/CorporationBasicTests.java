@@ -241,7 +241,6 @@ class CorporationBasicTests {
 	@DisplayName ("Test various 'isA<something>' method")
 	void testCorporationIsAMethods () {
 		assertFalse (corporation.isAPlayer ());
-		assertFalse (corporation.isACoalCompany ());
 		assertFalse (corporation.isAPrivateCompany ());
 		assertFalse (corporation.isATrainCompany ());
 		assertFalse (corporation.isATokenCompany ());

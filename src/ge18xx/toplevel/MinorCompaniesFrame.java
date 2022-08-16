@@ -20,11 +20,11 @@ public class MinorCompaniesFrame extends CorporationTableFrame {
 	 */
 	public static final MinorCompaniesFrame NO_MINORS_FRAME = null;
 	public static final String BASE_TITLE = "Minor Companies";
-	public static final ElementName EN_MINORS = new ElementName (CorporationList.TYPE_NAMES [2] + "s");
+	public static final ElementName EN_MINORS = new ElementName (CorporationList.TYPE_NAMES [1] + "s");
 	private static final long serialVersionUID = 1L;
 
 	public MinorCompaniesFrame (String aFrameName, RoundManager aRoundManager) {
-		super (aFrameName, CorporationList.TYPE_NAMES [2], aRoundManager);
+		super (aFrameName, CorporationList.TYPE_NAMES [1], aRoundManager);
 	}
 
 	@Override

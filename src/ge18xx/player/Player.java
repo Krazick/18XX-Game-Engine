@@ -88,7 +88,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	// TODO Should not need to store these in this class, fetch from Game Manager if
 	// needed
 	boolean gameHasPrivates;
-	boolean gameHasCoals;
 	boolean gameHasMinors;
 	boolean gameHasShares;
 	String boughtShare;
@@ -120,14 +119,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public void setGameHasCompanies (GameManager aGameManager) {
-		boolean tHasPrivates, tHasCoals, tHasMinors, tHasShares;
+		boolean tHasPrivates, tHasMinors, tHasShares;
 
 		tHasPrivates = aGameManager.gameHasPrivates ();
-		tHasCoals = aGameManager.gameHasCoals ();
 		tHasMinors = aGameManager.gameHasMinors ();
 		tHasShares = aGameManager.gameHasShares ();
 		setGameHasPrivates (tHasPrivates);
-		setGameHasCoals (tHasCoals);
 		setGameHasMinors (tHasMinors);
 		setGameHasShares (tHasShares);
 	}
@@ -271,7 +268,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tGameManager = playerManager.getGameManager ();
 		tTitle = "Privates";
 
-		return portfolio.buildPortfolioJPanel (tTitle, gameHasPrivates, gameHasCoals, gameHasMinors, gameHasShares,
+		return portfolio.buildPortfolioJPanel (tTitle, gameHasPrivates, gameHasMinors, gameHasShares,
 				SELL_LABEL, aItemListener, tGameManager);
 	}
 
@@ -461,10 +458,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tExceedsShareLimit = (tPlayerOwnedPercentage > tPlayerShareLimit * 10);
 
 		return tExceedsShareLimit;
-	}
-
-	public boolean gameHasCoals () {
-		return gameHasCoals;
 	}
 
 	public boolean gameHasMinors () {
@@ -1298,10 +1291,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void setCertificateLimit (int aCertificateLimit) {
 		certificateLimit = aCertificateLimit;
-	}
-
-	public void setGameHasCoals (boolean aCoals) {
-		gameHasCoals = aCoals;
 	}
 
 	public void setGameHasMinors (boolean aMinors) {

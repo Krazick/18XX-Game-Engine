@@ -102,7 +102,7 @@ public class StartPacketItem implements ParsingRoutineI {
 		boolean tAllCertsLoaded = true;
 		Corporation tCorporation, tFreeCorporation;
 
-		// Find the Certificate for the Private/Coal/Minor Corp and transfer from the
+		// Find the Certificate for the Private/Minor Corp and transfer from the
 		// Bank to the Start Packet
 		// if there is a Free Certificate for a Share Corp, transfer that from the Bank
 		// to the Start Packet

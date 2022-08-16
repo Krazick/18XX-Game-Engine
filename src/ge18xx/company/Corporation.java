@@ -78,7 +78,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public static final String NO_ABBREV = null;
 	public static final String NO_NAME_STRING = "<NONE>";
 	public static final String PRIVATE_COMPANY = "Private";
-	public static final String COAL_COMPANY = "Coal";
 	public static final String MINOR_COMPANY = "Minor";
 	public static final String SHARE_COMPANY = "Share";
 	public static final String NO_NAME = ActorI.NO_NAME;
@@ -337,7 +336,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				tPortfolioInfoJPanel.add (tLabel);
 			} else {
 				tTitle = "Privates";
-				tCertsPanel = portfolio.buildPortfolioJPanel (tTitle, true, false, false, false, "", aItemListener,
+				tCertsPanel = portfolio.buildPortfolioJPanel (tTitle, true, false, false, "", aItemListener,
 						aGameManager);
 				tPortfolioInfoJPanel.add (tCertsPanel);
 			}
@@ -1270,11 +1269,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	// Private Company will override
 	@Override
 	public boolean isAPrivateCompany () {
-		return false;
-	}
-
-	// Coal Company will override
-	public boolean isACoalCompany () {
 		return false;
 	}
 

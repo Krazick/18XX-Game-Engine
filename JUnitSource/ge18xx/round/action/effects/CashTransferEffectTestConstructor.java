@@ -36,7 +36,6 @@ class CashTransferEffectTestConstructor {
 		testFactory = new GameTestFactory ();
 		mGameManager = testFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
-		Mockito.when (mGameManager.gameHasCoals ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
 		playerManager = new PlayerManager (mGameManager);

@@ -7,7 +7,7 @@
 		bankTotal="12000" currencyFormat="$ ###,###" subtitle="Railroads and Robber Barons"
 		location="North Eastern United States" designers="Francis Tresham (UK) and Bruce Shelley (US)"
 		producers="Avalon Hill / Hasbro (US)" releaseDate="1986"
-		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
+		privates="true" minors="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		<Variants>
 			<Variant class="ge18xx.game.variants.VariantAll" id="300" title="Introductory Game">
 				<VariantEffect action="Set Bank Cash to $4,500" class="ge18xx.game.variants.AddBankCashVEffect" id="301" name="$4,500" quantity="-7500" />
@@ -83,7 +83,7 @@
 		status="INCOMPLETE"
 		bankTotal="12000" currencyFormat="###,### M" designers="Michael Meier-Bachl (Germany)"
 		producers="Hans im Gluck (Germany)" location="Germany" releaseDate="1990"
-		privates="true" minors="true" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="10">
+		privates="true" minors="true" shares="true" bankPoolShareLimit="5" playerShareLimit="10">
 		<PlayerInfo>
 			<Player numPlayers="3" startingCash="600" certificateLimit="19" />
 			<Player numPlayers="4" startingCash="475" certificateLimit="15" />
@@ -148,7 +148,7 @@
 		status="INCOMPLETE"
 		bankTotal="12500" currencyFormat="£ ###,###" designers="Frances Tresham (UK)"
 		producers="Hartland Trefoil Ltd (UK)" location="India" releaseDate="1989"
-		privates="false" minors="false" coals="false" shares="true" bankPoolShareLimit="10" playerShareLimit="6">
+		privates="false" minors="false" shares="true" bankPoolShareLimit="10" playerShareLimit="6">
 		<PlayerInfo>
 			<Player numPlayers="3" startingCash="730" certificateLimit="21" />
 			<Player numPlayers="4" startingCash="570" certificateLimit="16" />
@@ -203,7 +203,7 @@
 		status="IN PROGRESS"
 		bankTotal="12000" currencyFormat="$ ###,###" designers="Bill Dixon (Canada)"
 		location="Southern Ontario, Canada" producers="Mayfair Games (US)"
-		releaseDate="1995" privates="true" minors="false" coals="false" shares="true" 
+		releaseDate="1995" privates="true" minors="false" shares="true" 
 		bankPoolShareLimit="5" playerShareLimit="6" loans="true">
 		<PlayerInfo>
 			<Player numPlayers="3" startingCash="500" certificateLimit="20" />
@@ -321,7 +321,7 @@
 			status="BROKEN"
 		maxPlayers="6" bankTotal="12000" currencyFormat="$ ###,###" designers="Bill Dixon (Canada)"
 		location="Mississippi Valley, USA" producers="Mayfair Games (US)" releaseDate="1995"
-		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
+		privates="true" minors="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		
 		<Variants>
 			<Variant class="ge18xx.game.variants.VariantAll" id="100" title="$400 Finish">
@@ -404,7 +404,7 @@
 		bankTotal="12000" currencyFormat="$ ###,###" subtitle="Railroads and Robber Barons"
 		location="North Eastern United States" designers="Francis Tresham (UK) and Bruce Shelley (US)"
 		producers="Mayfair" releaseDate="2011"
-		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
+		privates="true" minors="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		<Variants>
 			<Variant class="ge18xx.game.variants.VariantAll" id="300" title="Introductory Game">
 				<VariantEffect action="Set Bank Cash to $4,500" class="ge18xx.game.variants.AddBankCashVEffect" id="301" name="$4,500" quantity="-7500" />
@@ -486,7 +486,7 @@
 		bankTotal="12000" currencyFormat="$ ###,###" subtitle="Railroads and Robber Barons"
 		location="North Eastern United States" designers="Francis Tresham (UK) and Bruce Shelley (US)"
 		producers="Mayfair" releaseDate="2011" testGraphs="true"
-		privates="true" minors="false" coals="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
+		privates="true" minors="false" shares="true" bankPoolShareLimit="5" playerShareLimit="6">
 		<Variants>
 			<Variant class="ge18xx.game.variants.VariantAll" id="300" title="Introductory Game">
 				<VariantEffect action="Set Bank Cash to $4,500" class="ge18xx.game.variants.AddBankCashVEffect" id="301" name="$4,500" quantity="-7500" />

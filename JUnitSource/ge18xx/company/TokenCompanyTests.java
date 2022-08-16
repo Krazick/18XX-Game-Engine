@@ -45,7 +45,6 @@ class TokenCompanyTests {
 	@DisplayName ("Test various 'isA<something>' method")
 	void testCorporationIsAMethods () {
 		assertFalse (tokenCompany.isAPlayer ());
-		assertFalse (tokenCompany.isACoalCompany ());
 		assertFalse (tokenCompany.isAPrivateCompany ());
 		assertTrue (tokenCompany.isATrainCompany ());
 		assertTrue (tokenCompany.isATokenCompany ());

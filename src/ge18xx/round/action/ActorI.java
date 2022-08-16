@@ -12,7 +12,7 @@ public interface ActorI {
 
 	public enum ActorTypes {
 		NO_TYPE ("No Type"), Corporation ("Corporation"), ShareCompany ("Share Company"),
-		MinorCompany ("Minor Company"), CoalCompany ("Coal Company"), Player ("Player"), Bank ("Bank"),
+		MinorCompany ("Minor Company"), Player ("Player"), Bank ("Bank"),
 		BankPool ("Bank Pool");
 
 		private String enumString;

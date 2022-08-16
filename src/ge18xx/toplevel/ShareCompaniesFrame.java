@@ -31,7 +31,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ShareCompaniesFrame extends CorporationTableFrame implements ActionListener {
-	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [3].toString ();
+	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [2].toString ();
 	public static final String BASE_TITLE = BASE_TYPE + " Companies";
 	public static final ElementName EN_SHARES = new ElementName (BASE_TYPE + "s");
 	public static final ShareCompaniesFrame NO_SHARES_FRAME = null;
@@ -46,7 +46,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 	Market market;
 
 	public ShareCompaniesFrame (String aFrameName, RoundManager aRoundManager) {
-		super (aFrameName, CorporationList.TYPE_NAMES [3], aRoundManager);
+		super (aFrameName, CorporationList.TYPE_NAMES [2], aRoundManager);
 		JLabel tLabel;
 
 		// Test Components

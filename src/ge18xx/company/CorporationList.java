@@ -75,7 +75,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public static final CorporationList NO_CORPORATION_LIST = null;
 	public static final ElementName TYPE_NAMES[] = { 
 			new ElementName (Corporation.PRIVATE_COMPANY),
-			new ElementName (Corporation.COAL_COMPANY), 
 			new ElementName (Corporation.MINOR_COMPANY),
 			new ElementName (Corporation.SHARE_COMPANY) };
 	List<Corporation> corporations;
@@ -612,7 +611,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		PrivateCompany tPrivate;
 		ShareCompany tShare;
 		MinorCompany tMinor;
-		CoalCompany tCoal;
 
 		tColCount = getColCount ();
 		tRowCount = getRowCount ();
@@ -627,18 +625,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 				}
 				tPrivate.addAllDataElements (this, tRowIndex, 0);
 			} else if (typeName.equals (TYPE_NAMES [1])) {
-				tCoal = (CoalCompany) tCorporationInfo;
-				if (tRowIndex == 0) {
-					tCoal.addAllHeaders (this, 0);
-				}
-				tCoal.addAllDataElements (this, tRowIndex, 0);
-			} else if (typeName.equals (TYPE_NAMES [2])) {
 				tMinor = (MinorCompany) tCorporationInfo;
 				if (tRowIndex == 0) {
 					tMinor.addAllHeaders (this, 0);
 				}
 				tMinor.addAllDataElements (this, tRowIndex, 0);
-			} else if (typeName.equals (TYPE_NAMES [3])) {
+			} else if (typeName.equals (TYPE_NAMES [2])) {
 				tShare = (ShareCompany) tCorporationInfo;
 				if (tRowIndex == 0) {
 					tShare.addAllHeaders (this, 0);
@@ -764,7 +756,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		int tIndex;
 		boolean tFoundType = false;
 
-		for (tIndex = 0; (tIndex < 4) && !tFoundType; tIndex++) {
+		for (tIndex = 0; (tIndex < 3) && !tFoundType; tIndex++) {
 			if (aTypeName.equals (TYPE_NAMES [tIndex])) {
 				tFoundType = true;
 			}
@@ -804,7 +796,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
 			PrivateCompany tPrivateInfo;
-			CoalCompany tCoalCompanyInfo;
 			MinorCompany tMinorCompanyInfo;
 			ShareCompany tShareCompanyInfo;
 			CorporationList tCorporationList;
@@ -814,12 +805,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 				tPrivateInfo = new PrivateCompany (aChildNode, tCorporationList);
 				corporations.add (tPrivateInfo);
 			} else if (typeName.equals (TYPE_NAMES [1])) {
-				tCoalCompanyInfo = new CoalCompany (aChildNode, tCorporationList);
-				corporations.add (tCoalCompanyInfo);
-			} else if (typeName.equals (TYPE_NAMES [2])) {
 				tMinorCompanyInfo = new MinorCompany (aChildNode, tCorporationList);
 				corporations.add (tMinorCompanyInfo);
-			} else if (typeName.equals (TYPE_NAMES [3])) {
+			} else if (typeName.equals (TYPE_NAMES [2])) {
 				tShareCompanyInfo = new ShareCompany (aChildNode, tCorporationList);
 				corporations.add (tShareCompanyInfo);
 			}

@@ -65,8 +65,7 @@ public class OperatingRound extends Round {
 		int tNextShareToOperate;
 		int tCurrentlyOperating;
 
-		// TODO: Test if Minor Companies, or Coal Companies need to operate Before Share
-		// Companies
+		// TODO: Test if Minor Companies need to operate Before Share Companies
 		tCurrentlyOperating = shareCompanies.getCurrentlyOperating ();
 		if (tCurrentlyOperating != CorporationList.NO_CORPORATION_INDEX) {
 			tShareCompany = (ShareCompany) shareCompanies.getCorporation (tCurrentlyOperating);
@@ -169,7 +168,7 @@ public class OperatingRound extends Round {
 		tRoundDone = false;
 		
 		// TODO: Test if all Train Companies (if any) have Operated, not just Share Companies
-		// (test Minors - 1835 and Coal Companies (1837), etc.
+		// (test Minors - 1835)
 		
 		if (shareCompanies != CorporationList.NO_CORPORATION_LIST) {
 			tRoundDone = shareCompanies.haveAllCompaniesOperated ();

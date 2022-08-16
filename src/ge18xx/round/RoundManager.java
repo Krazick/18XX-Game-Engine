@@ -932,7 +932,7 @@ public class RoundManager implements ActionListener {
 		tIDPart1 = incrementRoundIDPart1 (operatingRound);
 		tIDPart2 = 1;
 		setRoundToOperatingRound (tIDPart1, tIDPart2);
-		// If no Minor, Coal of Share company operates, the Operating Round failed to
+		// If no Minor of Share company operates, the Operating Round failed to
 		// start,
 		// Revenues were paid by Private Companies
 		// Need to simply restart Stock Round

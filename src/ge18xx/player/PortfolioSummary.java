@@ -12,7 +12,6 @@ public class PortfolioSummary {
 	String note;
 	public final static String PRIVATE_CORP_TYPE = "Private";
 	public final static String MINOR_CORP_TYPE = "Minor";
-	public final static String COAL_CORP_TYPE = "Coal";
 	public final static String SHARE_CORP_TYPE = "Share";
 	public final static Border NO_BORDER = null;
 

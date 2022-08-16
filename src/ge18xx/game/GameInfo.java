@@ -43,7 +43,6 @@ public class GameInfo {
 	final AttributeName AN_LOANS = new AttributeName ("loans");
 	final AttributeName AN_PRIVATES = new AttributeName ("privates");
 	final AttributeName AN_MINORS = new AttributeName ("minors");
-	final AttributeName AN_COALS = new AttributeName ("coals");
 	final AttributeName AN_SHARES = new AttributeName ("shares");
 	final AttributeName AN_SUBTITLE = new AttributeName ("subtitle");
 	final AttributeName AN_MIN_PLAYERS = new AttributeName ("minPlayers");
@@ -85,7 +84,6 @@ public class GameInfo {
 	String status;
 	boolean hasPrivates;
 	boolean hasMinors;
-	boolean hasCoals;
 	boolean hasShares;
 	boolean canPayHalfDividend;
 	boolean loans;
@@ -111,7 +109,7 @@ public class GameInfo {
 		setOtherValues (NO_NAME, NO_NAME, NO_NAME, NO_NAME, NO_NAME);
 		setBankPoolShareLimit (NO_SHARE_LIMIT);
 		setPlayerShareLimit (NO_SHARE_LIMIT);
-		setHasCompanies (false, false, false, false);
+		setHasCompanies (false, false, false);
 	}
 
 	public GameInfo (XMLNode aCellNode) {
@@ -126,7 +124,7 @@ public class GameInfo {
 		int tChildrenCount, tIndex, tVariantCount;
 		int tTrainCount, tPlayerCount;
 		int tBankPoolShareLimit, tPlayerShareLimit;
-		boolean tHasPrivates, tHasMinors, tHasCoals, tHasShares;
+		boolean tHasPrivates, tHasMinors, tHasShares;
 		boolean tLoans;
 		boolean tTestGraphs;
 		
@@ -148,14 +146,13 @@ public class GameInfo {
 		tHasPrivates = aCellNode.getThisBooleanAttribute (AN_PRIVATES);
 		tLoans = aCellNode.getThisBooleanAttribute (AN_LOANS);
 		tHasMinors = aCellNode.getThisBooleanAttribute (AN_MINORS);
-		tHasCoals = aCellNode.getThisBooleanAttribute (AN_COALS);
 		tHasShares = aCellNode.getThisBooleanAttribute (AN_SHARES);
 		canPayHalfDividend = aCellNode.getThisBooleanAttribute (AN_CAN_PAY_HALF);
 
 		setGameID (tGameID);
 		setValues (tID, tName, tMinPlayers, tMaxPlayers, tBankTotal, tCurrencyFormat);
 		setOtherValues (tSubTitle, tLocation, tDesigners, tProducers, tReleaseDate);
-		setHasCompanies (tHasPrivates, tHasMinors, tHasCoals, tHasShares);
+		setHasCompanies (tHasPrivates, tHasMinors, tHasShares);
 		setLoans (tLoans);
 		setStatus (tStatus);
 		setTestGraphs (tTestGraphs);
@@ -624,10 +621,6 @@ public class GameInfo {
 		return trains [aIndex];
 	}
 
-	public boolean hasCoals () {
-		return hasCoals;
-	}
-
 	public boolean hasMinors () {
 		return hasMinors;
 	}
@@ -680,10 +673,9 @@ public class GameInfo {
 		status = aStatus;
 	}
 	
-	public void setHasCompanies (boolean aHasPrivates, boolean aHasMinors, boolean aHasCoals, boolean aHasShares) {
+	public void setHasCompanies (boolean aHasPrivates, boolean aHasMinors, boolean aHasShares) {
 		hasPrivates = aHasPrivates;
 		hasMinors = aHasMinors;
-		hasCoals = aHasCoals;
 		hasShares = aHasShares;
 	}
 

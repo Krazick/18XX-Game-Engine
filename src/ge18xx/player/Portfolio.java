@@ -58,7 +58,6 @@ public class Portfolio implements CertificateHolderI {
 	public final static ElementName EN_PORTFOLIO = new ElementName ("Portfolio");
 	public final static ElementName EN_BIDDERS = new ElementName ("Bidders");
 	public final static AttributeName AN_PRIVATE_INDEX = new AttributeName ("privateIndex");
-	public final static AttributeName AN_COAL_INDEX = new AttributeName ("coalIndex");
 	public final static AttributeName AN_MINOR_INDEX = new AttributeName ("minorIndex");
 	public final static AttributeName AN_SHARE_INDEX = new AttributeName ("shareIndex");
 	public final static Portfolio NO_PORTFOLIO = null;
@@ -77,7 +76,7 @@ public class Portfolio implements CertificateHolderI {
 
 	/* These items change during the Game, must be saved/loaded */
 	List<Certificate> certificates;
-	int privateIndex, coalIndex, minorIndex, shareIndex;
+	int privateIndex, minorIndex, shareIndex;
 
 	public Portfolio () {
 		this (PortfolioHolderI.NO_HOLDER);
@@ -87,7 +86,6 @@ public class Portfolio implements CertificateHolderI {
 		certificates = new LinkedList<Certificate> ();
 		setHolder (aHolder);
 		privateIndex = NO_COMPONENT_INDEX;
-		coalIndex = NO_COMPONENT_INDEX;
 		minorIndex = NO_COMPONENT_INDEX;
 		shareIndex = NO_COMPONENT_INDEX;
 	}
@@ -377,15 +375,15 @@ public class Portfolio implements CertificateHolderI {
 		return tNoCertificatesPanel;
 	}
 
-	// TODO: Don't have the 'aPrivates, aCoals, aMinors, aShares' passed in here.
+	// TODO: Don't have the 'aPrivates, aMinors, aShares' passed in here.
 	// Have this routine request this routine cycle through each Company type
 	// possible,
 	// (Found via GameManager), building a separate CertPanel with the specific
 	// type, and add it
 	// to the portfolioInfoJPanel.
-	public JPanel buildPortfolioJPanel (String tTitle, boolean aPrivates, boolean aCoals, boolean aMinors,
+	public JPanel buildPortfolioJPanel (String tTitle, boolean aPrivates, boolean aMinors,
 			boolean aShares, String aSelectedButtonLabel, ItemListener aItemListener, GameManager aGameManager) {
-		JPanel tPrivateCertPanel, tCoalCertPanel, tMinorCertPanel, tShareCertPanel;
+		JPanel tPrivateCertPanel, tMinorCertPanel, tShareCertPanel;
 
 		buildPortfolioJPanel ("Portfolio");
 
@@ -394,12 +392,6 @@ public class Portfolio implements CertificateHolderI {
 					aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tPrivateCertPanel);
 			privateIndex = portfolioInfoJPanel.getComponentCount () - 1;
-		}
-		if (aCoals) {
-			tCoalCertPanel = buildCertificateJPanel (tTitle, Corporation.COAL_COMPANY, aSelectedButtonLabel,
-					aItemListener, aGameManager);
-			addJCAndVGlue (portfolioInfoJPanel, tCoalCertPanel);
-			coalIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 		if (aMinors) {
 			tMinorCertPanel = buildCertificateJPanel (tTitle, Corporation.MINOR_COMPANY, aSelectedButtonLabel,
@@ -856,7 +848,6 @@ public class Portfolio implements CertificateHolderI {
 
 		tXMLElement = aXMLDocument.createElement (EN_PORTFOLIO);
 		setRealAttributes (tXMLElement, AN_PRIVATE_INDEX, privateIndex);
-		setRealAttributes (tXMLElement, AN_COAL_INDEX, coalIndex);
 		setRealAttributes (tXMLElement, AN_MINOR_INDEX, minorIndex);
 		setRealAttributes (tXMLElement, AN_SHARE_INDEX, shareIndex);
 		for (Certificate tCertficate : certificates) {
@@ -1120,7 +1111,6 @@ public class Portfolio implements CertificateHolderI {
 		XMLNodeList tXMLNodeList;
 
 		privateIndex = aXMLNode.getThisIntAttribute (AN_PRIVATE_INDEX, NO_COMPONENT_INDEX);
-		coalIndex = aXMLNode.getThisIntAttribute (AN_COAL_INDEX, NO_COMPONENT_INDEX);
 		minorIndex = aXMLNode.getThisIntAttribute (AN_MINOR_INDEX, NO_COMPONENT_INDEX);
 		shareIndex = aXMLNode.getThisIntAttribute (AN_SHARE_INDEX, NO_COMPONENT_INDEX);
 		tXMLNodeList = new XMLNodeList (certificateParsingRoutine);
@@ -1910,8 +1900,6 @@ public class Portfolio implements CertificateHolderI {
 					tType = PortfolioSummary.PRIVATE_CORP_TYPE;
 				} else if (tCertificate.isAMinorCompany ()) {
 					tType = PortfolioSummary.MINOR_CORP_TYPE;
-				} else if (tCertificate.isACoalCompany ()) {
-					tType = PortfolioSummary.COAL_CORP_TYPE;
 				}
 				tAbbrevAndType1 = buildAbbrevAndType (tAbbrev, tType);
 				tCount = 1;

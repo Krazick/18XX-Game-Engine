@@ -74,7 +74,6 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String NO_SHARE_PRICE = "No Share Price set";
 	public static final String CANNOT_SELL_PRIVATE = "Cannot sell a Private Company";
 	public static final String CANNOT_SELL_MINOR = "Cannot sell a Minor Company";
-	public static final String CANNOT_SELL_COAL = "Cannot sell a Coal Company";
 	public static final String BANK_POOL_AT_LIMIT = "Bank Pool at Share Limit";
 	public static final String CANNOT_SELL_PRESIDENT = "Cannot directly sell President Share";
 	public static final String CANNOT_EXCHANGE_PRESIDENT = "Cannot exchange President Share";
@@ -318,7 +317,7 @@ public class Certificate implements Comparable<Certificate> {
 		if (aCheckBoxLabel.equals (Player.SELL_LABEL)) {
 			if (!isAPrivateCompany ()) {
 				// Only if it is a Share Company, can it be Sold
-				// TODO: non-1830 For 1835 with Minors, 1837 with Coal we cannot Sell them
+				// TODO: non-1830 For 1835 with Minors we cannot Sell them
 				// either, test for CanBeSold
 				tGroupName = getCompanyAbbrev () + " Share";
 				if (isPresidentShare ()) {
@@ -896,8 +895,6 @@ public class Certificate implements Comparable<Certificate> {
 			tReason = CANNOT_SELL_PRIVATE;
 		} else if (isAMinorCompany ()) {
 			tReason = CANNOT_SELL_MINOR;
-		} else if (isACoalCompany ()) {
-			tReason = CANNOT_SELL_COAL;
 		} else if (bankPoolAtLimit (aGameManager)) {
 			tReason = BANK_POOL_AT_LIMIT;
 		} else if (!hasParPrice ()) {
@@ -1038,11 +1035,6 @@ public class Certificate implements Comparable<Certificate> {
 
 			tParPrice = tMinor.getValue ();
 		}
-		if (corporation.isACoalCompany ()) {
-			CoalCompany tCoal = (CoalCompany) corporation;
-
-			tParPrice = tCoal.getValue ();
-		}
 		if (corporation.isAPrivateCompany ()) {
 			PrivateCompany tPrivate = (PrivateCompany) corporation;
 
@@ -1122,11 +1114,6 @@ public class Certificate implements Comparable<Certificate> {
 
 			tSharePrice = tMinor.getValue ();
 		}
-		if (corporation.isACoalCompany ()) {
-			CoalCompany tCoal = (CoalCompany) corporation;
-
-			tSharePrice = tCoal.getValue ();
-		}
 
 		return tSharePrice;
 	}
@@ -1175,10 +1162,6 @@ public class Certificate implements Comparable<Certificate> {
 		}
 		
 		return tNoParPriceSet;
-	}
-
-	public boolean isACoalCompany () {
-		return corporation.isACoalCompany ();
 	}
 
 	public boolean isForThis (String aCorpAbbrev) {

@@ -80,7 +80,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	HexMap map;
 	TileSet tileSet;
 	CorporationList privateCos;
-	CorporationList coalCos;
 	CorporationList minorCos;
 	CorporationList shareCos;
 
@@ -462,12 +461,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		TrainCompany tTrainCompany = (TrainCompany) Corporation.NO_CORPORATION;
 		TrainCompany tCorporation;
 
-		if (coalCos != CorporationList.NO_CORPORATION_LIST) {
-			tCorporation = coalCos.getOperatingTrainCompany ();
-			if (tCorporation != Corporation.NO_CORPORATION) {
-				tTrainCompany = tCorporation;
-			}
-		}
 		if (minorCos != CorporationList.NO_CORPORATION_LIST) {
 			tCorporation = minorCos.getOperatingTrainCompany ();
 			if (tCorporation != Corporation.NO_CORPORATION) {
@@ -489,18 +482,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		Corporation tCorporation;
 
 		tTokenCompany = TokenCompany.NO_TOKEN_COMPANY;
-		if (coalCos != CorporationList.NO_CORPORATION_LIST) {
-			tCorporation = coalCos.getCorporation (aAbbrev);
+		if (minorCos != CorporationList.NO_CORPORATION_LIST) {
+			tCorporation = minorCos.getCorporation (aAbbrev);
 			if (tCorporation != Corporation.NO_CORPORATION) {
 				tTokenCompany = (TokenCompany) tCorporation;
-			}
-		}
-		if (tTokenCompany == TokenCompany.NO_TOKEN_COMPANY) {
-			if (minorCos != CorporationList.NO_CORPORATION_LIST) {
-				tCorporation = minorCos.getCorporation (aAbbrev);
-				if (tCorporation != Corporation.NO_CORPORATION) {
-					tTokenCompany = (TokenCompany) tCorporation;
-				}
 			}
 		}
 		if (tTokenCompany == TokenCompany.NO_TOKEN_COMPANY) {
@@ -787,10 +772,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		if (aType.equals (CorporationList.TYPE_NAMES [0])) {
 			privateCos = aCorporationList;
 		} else if (aType.equals (CorporationList.TYPE_NAMES [1])) {
-			coalCos = aCorporationList;
-		} else if (aType.equals (CorporationList.TYPE_NAMES [2])) {
 			minorCos = aCorporationList;
-		} else if (aType.equals (CorporationList.TYPE_NAMES [3])) {
+		} else if (aType.equals (CorporationList.TYPE_NAMES [2])) {
 			shareCos = aCorporationList;
 		}
 	}

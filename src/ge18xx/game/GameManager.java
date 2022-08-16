@@ -409,8 +409,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tMinorCompaniesList = minorCompaniesFrame.getCompanies ();
 			tShareCompaniesList = shareCompaniesFrame.getCompanies ();
 			tMapFrame.setCorporationList (tPrivatesCompaniesList, CorporationList.TYPE_NAMES [0]);
-			tMapFrame.setCorporationList (tMinorCompaniesList, CorporationList.TYPE_NAMES [2]);
-			tMapFrame.setCorporationList (tShareCompaniesList, CorporationList.TYPE_NAMES [3]);
+			tMapFrame.setCorporationList (tMinorCompaniesList, CorporationList.TYPE_NAMES [1]);
+			tMapFrame.setCorporationList (tShareCompaniesList, CorporationList.TYPE_NAMES [2]);
 			tMapFrame.setHomeCities (tShareCompaniesList);
 			tMapFrame.setHomeCities (tMinorCompaniesList);
 			tMapFrame.setHomeCities (tPrivatesCompaniesList);

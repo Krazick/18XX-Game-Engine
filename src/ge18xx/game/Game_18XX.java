@@ -79,7 +79,7 @@ public class Game_18XX extends JFrame {
 
 	// Game18XX Specific Menu Actions
 	protected Action showMapAction, showMarketAction, showCitiesAction, showPrivatesAction;
-	protected Action showTileTrayAction, showCoalCompaniesAction, showMinorCompaniesAction;
+	protected Action showTileTrayAction, showMinorCompaniesAction;
 	protected Action showChatClientAction, showRoundFrameAction, showShareCompaniesAction;
 	protected Action showAuditFrameAction;
 
