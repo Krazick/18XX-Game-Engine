@@ -54,7 +54,7 @@ import ge18xx.tiles.TileSet;
 import ge18xx.toplevel.AuctionFrame;
 import ge18xx.toplevel.AuditFrame;
 import ge18xx.toplevel.CitiesFrame;
-import ge18xx.toplevel.CoalCompaniesFrame;
+//import ge18xx.toplevel.CoalCompaniesFrame;
 import ge18xx.toplevel.CorporationTableFrame;
 import ge18xx.toplevel.FrameInfoFrame;
 import ge18xx.toplevel.MapFrame;
@@ -141,7 +141,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	// it is, and has the Frame in the Corporation List
 	//
 	PrivatesFrame privatesFrame;
-	CoalCompaniesFrame coalCompaniesFrame;
+//	CoalCompaniesFrame coalCompaniesFrame;
 	MinorCompaniesFrame minorCompaniesFrame;
 	ShareCompaniesFrame shareCompaniesFrame;
 
@@ -283,7 +283,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void clearCorpSelections () {
 		privatesFrame.clearSelections ();
-		coalCompaniesFrame.clearSelections ();
+//		coalCompaniesFrame.clearSelections ();
 		minorCompaniesFrame.clearSelections ();
 		shareCompaniesFrame.clearSelections ();
 	}
@@ -316,32 +316,32 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 	}
-
-	private void createCoalCompanies () {
-		String tXMLCompaniesName;
-		String tFullFrameTitle;
-		CoalCompaniesFrame tCoalCompaniesFrame;
-
-		if (gameIsStarted ()) {
-			tXMLCompaniesName = getCompaniesFileName ();
-			tXMLCompaniesName = getXMLBaseDirectory () + tXMLCompaniesName;
-			tFullFrameTitle = createFrameTitle (CoalCompaniesFrame.BASE_TITLE);
-
-			tCoalCompaniesFrame = new CoalCompaniesFrame (tFullFrameTitle, roundManager);
-			setCoalCompaniesFrame (tCoalCompaniesFrame);
-			try {
-				tCoalCompaniesFrame.loadXML (tXMLCompaniesName, tCoalCompaniesFrame.getCompanies ());
-			} catch (Exception tException) {
-				logger.error (tException);
-			}
-		}
-	}
-
-	private void setCoalCompaniesFrame (CoalCompaniesFrame aCoalCompaniesFrame) {
-		if (aCoalCompaniesFrame != XMLFrame.NO_XML_FRAME) {
-			coalCompaniesFrame = aCoalCompaniesFrame;
-		}
-	}
+//
+//	private void createCoalCompanies () {
+//		String tXMLCompaniesName;
+//		String tFullFrameTitle;
+//		CoalCompaniesFrame tCoalCompaniesFrame;
+//
+//		if (gameIsStarted ()) {
+//			tXMLCompaniesName = getCompaniesFileName ();
+//			tXMLCompaniesName = getXMLBaseDirectory () + tXMLCompaniesName;
+//			tFullFrameTitle = createFrameTitle (CoalCompaniesFrame.BASE_TITLE);
+//
+//			tCoalCompaniesFrame = new CoalCompaniesFrame (tFullFrameTitle, roundManager);
+//			setCoalCompaniesFrame (tCoalCompaniesFrame);
+//			try {
+//				tCoalCompaniesFrame.loadXML (tXMLCompaniesName, tCoalCompaniesFrame.getCompanies ());
+//			} catch (Exception tException) {
+//				logger.error (tException);
+//			}
+//		}
+//	}
+//
+//	private void setCoalCompaniesFrame (CoalCompaniesFrame aCoalCompaniesFrame) {
+//		if (aCoalCompaniesFrame != XMLFrame.NO_XML_FRAME) {
+//			coalCompaniesFrame = aCoalCompaniesFrame;
+//		}
+//	}
 
 	public void setAuctionFrame (AuctionFrame aAuctionFrame) {
 		auctionFrame = aAuctionFrame;
@@ -432,15 +432,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 
 			CorporationList tShareCompaniesList, tPrivatesCompaniesList, tMinorCompaniesList;
-//			CorporationList tCoalCompaniesList;
 
 			tMapFrame.setCityInfo (citiesFrame.getCities ());
 			tPrivatesCompaniesList = privatesFrame.getCompanies ();
-//			tCoalCompaniesList = coalCompaniesFrame.getCompanies ();
 			tMinorCompaniesList = minorCompaniesFrame.getCompanies ();
 			tShareCompaniesList = shareCompaniesFrame.getCompanies ();
 			tMapFrame.setCorporationList (tPrivatesCompaniesList, CorporationList.TYPE_NAMES [0]);
-//			tMapFrame.setCorporationList (tCoalCompaniesList, CorporationList.TYPE_NAMES [1]);
 			tMapFrame.setCorporationList (tMinorCompaniesList, CorporationList.TYPE_NAMES [2]);
 			tMapFrame.setCorporationList (tShareCompaniesList, CorporationList.TYPE_NAMES [3]);
 			tMapFrame.setHomeCities (tShareCompaniesList);
@@ -701,9 +698,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tActor = minorCompaniesFrame.getActor (aActorName);
 			}
 
-			if (tActor == ActorI.NO_ACTOR) {
-				tActor = coalCompaniesFrame.getActor (aActorName);
-			}
+//			if (tActor == ActorI.NO_ACTOR) {
+//				tActor = coalCompaniesFrame.getActor (aActorName);
+//			}
 
 			if (tActor == ActorI.NO_ACTOR) {
 				tActor = roundManager.getActor (aActorName);
@@ -748,19 +745,19 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (tCertificate == Certificate.NO_CERTIFICATE) {
 			tCertificate = minorCompaniesFrame.getCertificate (aCompanyAbbrev, aPercentage, aPresidentShare);
 		}
-		if (tCertificate == Certificate.NO_CERTIFICATE) {
-			tCertificate = coalCompaniesFrame.getCertificate (aCompanyAbbrev, aPercentage, aPresidentShare);
-		}
+//		if (tCertificate == Certificate.NO_CERTIFICATE) {
+//			tCertificate = coalCompaniesFrame.getCertificate (aCompanyAbbrev, aPercentage, aPresidentShare);
+//		}
 		if (tCertificate == Certificate.NO_CERTIFICATE) {
 			tCertificate = shareCompaniesFrame.getCertificate (aCompanyAbbrev, aPercentage, aPresidentShare);
 		}
 
 		return tCertificate;
 	}
-
-	public CorporationList getCoalCompanies () {
-		return coalCompaniesFrame.getCompanies ();
-	}
+//
+//	public CorporationList getCoalCompanies () {
+//		return coalCompaniesFrame.getCompanies ();
+//	}
 
 	public String getCompaniesFileName () {
 		return getFileName (File18XX.COMPANIES_TYPE);
@@ -773,9 +770,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (tCorporation == Corporation.NO_CORPORATION) {
 			tCorporation = minorCompaniesFrame.getCorporationByID (aCorporationID);
 		}
-		if (tCorporation == Corporation.NO_CORPORATION) {
-			tCorporation = coalCompaniesFrame.getCorporationByID (aCorporationID);
-		}
+//		if (tCorporation == Corporation.NO_CORPORATION) {
+//			tCorporation = coalCompaniesFrame.getCorporationByID (aCorporationID);
+//		}
 		if (tCorporation == Corporation.NO_CORPORATION) {
 			tCorporation = shareCompaniesFrame.getCorporationByID (aCorporationID);
 		}
@@ -837,15 +834,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return shareCompaniesFrame.getShareCompany (aCompanyAbbrev);
 	}
 
-	public int getCountOfCoals () {
-		int tCountOfCoals = 0;
-
-		if (coalCompaniesFrame != CoalCompaniesFrame.NO_COAL_COMPANIES_FRAME) {
-			tCountOfCoals = coalCompaniesFrame.getCountOfCompanies ();
-		}
-
-		return tCountOfCoals;
-	}
+//	public int getCountOfCoals () {
+//		int tCountOfCoals = 0;
+//
+//		if (coalCompaniesFrame != CoalCompaniesFrame.NO_COAL_COMPANIES_FRAME) {
+//			tCountOfCoals = coalCompaniesFrame.getCountOfCompanies ();
+//		}
+//
+//		return tCountOfCoals;
+//	}
 
 	public int getCountOfMinors () {
 		int tCountOfMinors = 0;
@@ -1083,14 +1080,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void removeInactiveCompanies () {
 		CorporationList tPrivates;
-		CorporationList tCoals;
+//		CorporationList tCoals;
 		CorporationList tMinors;
 		CorporationList tShares;
 		
 		tPrivates = getPrivates ();
 		tPrivates.removeInactiveCompanies ();
-		tCoals = getCoalCompanies ();
-		tCoals.removeInactiveCompanies ();
+//		tCoals = getCoalCompanies ();
+//		tCoals.removeInactiveCompanies ();
 		tMinors = getMinorCompanies ();
 		tMinors.removeInactiveCompanies ();
 		tShares = getShareCompanies ();
@@ -1100,7 +1097,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	
 	public void initiateGame () {
 		CorporationList tPrivates;
-		CorporationList tCoals;
+//		CorporationList tCoals;
 		CorporationList tMinors;
 		CorporationList tShares;
 		PhaseManager tPhaseManager;
@@ -1125,7 +1122,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tPhaseManager.setCurrentPhase (PhaseManager.FIRST_PHASE);
 			setPhaseManager (tPhaseManager);
 			tPrivates = getPrivates ();
-			tCoals = getCoalCompanies ();
+//			tCoals = getCoalCompanies ();
 			tMinors = getMinorCompanies ();
 			tShares = getShareCompanies ();
 
@@ -1134,7 +1131,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			autoSaveFile = new File (autoSaveFileName);
 			autoSaveActionReportFile = new File (autoSaveActionReportFileName);
 			
-			roundManager.initiateGame (tPrivates, tCoals, tMinors, tShares);
+			roundManager.initiateGame (tPrivates, tMinors, tShares);
 			if (!activeGame.isATestGame ()) {
 				roundManager.showInitialFrames ();
 			}
@@ -1502,9 +1499,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (MinorCompaniesFrame.EN_MINORS.equals (aChildName)) {
 			minorCompaniesFrame.loadStates (aChildNode);
 		}
-		if (CoalCompaniesFrame.EN_COALS.equals (aChildName)) {
-			coalCompaniesFrame.loadStates (aChildNode);
-		}
+//		if (CoalCompaniesFrame.EN_COALS.equals (aChildName)) {
+//			coalCompaniesFrame.loadStates (aChildNode);
+//		}
 		if (ShareCompaniesFrame.EN_SHARES.equals (aChildName)) {
 			shareCompaniesFrame.loadStates (aChildNode);
 		}
@@ -1531,9 +1528,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (minorCompaniesFrame != XMLFrame.NO_XML_FRAME) {
 			minorCompaniesFrame.fixLoadedRoutes (mapFrame);
 		}
-		if (coalCompaniesFrame != XMLFrame.NO_XML_FRAME) {
-			coalCompaniesFrame.fixLoadedRoutes (mapFrame);
-		}
+//		if (coalCompaniesFrame != XMLFrame.NO_XML_FRAME) {
+//			coalCompaniesFrame.fixLoadedRoutes (mapFrame);
+//		}
 		if (shareCompaniesFrame != XMLFrame.NO_XML_FRAME) {
 			shareCompaniesFrame.fixLoadedRoutes (mapFrame);
 		}
@@ -1641,7 +1638,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		/* Save the Privates, Minors, Coals, and Share Company Information */
 		appendCompanyFrameXML (tSaveGameElement, tXMLDocument, privatesFrame);
 		appendCompanyFrameXML (tSaveGameElement, tXMLDocument, minorCompaniesFrame);
-		appendCompanyFrameXML (tSaveGameElement, tXMLDocument, coalCompaniesFrame);
+//		appendCompanyFrameXML (tSaveGameElement, tXMLDocument, coalCompaniesFrame);
 		appendCompanyFrameXML (tSaveGameElement, tXMLDocument, shareCompaniesFrame);
 
 		/* Also need to save the Map Information */
@@ -1709,7 +1706,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tSaveDirectory = new File (tOriginalSaveGameDir);
 			setupChooser (tSaveDirectory);
 			saveFile = getSelectedFile (tSaveDirectory, chooser, true);
-//			tSaveDirectory = chooser.getCurrentDirectory ();
 			tNewSaveGameDir = tSaveDirectory.getAbsolutePath ();
 			if (!tOriginalSaveGameDir.equals (tNewSaveGameDir)) {
 				configData.setSaveGameDirectory (tNewSaveGameDir);
@@ -1841,7 +1837,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			createMarket ();
 			createShareCompanies ();
 			createPrivateCompanies ();
-			createCoalCompanies ();
+//			createCoalCompanies ();
 			createMinorCompanies ();
 			createCities ();
 			createTileTray ();
@@ -1872,7 +1868,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			playerManager.addPlayer (tPlayer);
 		}
 
-		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+		if (roundManagerIsValid ()) {
 			roundManager.updateAllCorporationsBox ();
 		}
 	}
@@ -1989,7 +1985,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void updateRoundFrame () {
-		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+		if (roundManagerIsValid ()) {
 			roundManager.updateRoundFrame ();
 		}
 	}
@@ -2040,10 +2036,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tCanBuyTrainInPhase;
 	}
 
+	public boolean roundManagerIsValid () {
+		return (roundManager != RoundManager.NO_ROUND_MANAGER);
+	}
+	
 	public String getOperatingRoundID () {
 		String tOperatingRoundID;
 		
-		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+		if (roundManagerIsValid ()) {
 			tOperatingRoundID = roundManager.getOperatingRoundID ();
 		} else {
 			tOperatingRoundID = ">>NONE<<";
@@ -2055,8 +2055,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public String getStockRoundID () {
 		String tStockRoundID;
 
-		
-		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+		if (roundManagerIsValid ()) {
 			tStockRoundID = roundManager.getStockRoundID () + "";
 		} else {
 			tStockRoundID = ">>NONE<<";
@@ -2068,7 +2067,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean isOperatingRound () {
 		boolean tIsOperatingRound;
 
-		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+		if (roundManagerIsValid ()) {
 			tIsOperatingRound = roundManager.isOperatingRound ();
 		} else {
 			tIsOperatingRound = false;
@@ -2080,7 +2079,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean isStockRound () {
 		boolean tIsStockRound;
 
-		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+		if (roundManagerIsValid ()) {
 			tIsStockRound = roundManager.isStockRound ();
 		} else {
 			tIsStockRound = false;
@@ -2159,7 +2158,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void sendNetworkAction (XMLNode aActionNode) {
-		if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+		if (roundManagerIsValid ()) {
 			setApplyingAction (true);
 			roundManager.handleNetworkAction (aActionNode);
 			setApplyingAction (false);
@@ -2559,15 +2558,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public int getTotalCash () {
 		int tTotalCash = 0;
 		int tBankCash, tAllPlayerCash, tAllCorpCash, tAllEscrows;
-		int tAllCoalCash, tAllMinorCash, tAllShareCash;
+		int tAllMinorCash, tAllShareCash;
 
 		tBankCash = bank.getCash ();
 		tAllEscrows = privatesFrame.getTotalEscrow ();
 		tAllPlayerCash = playerManager.getTotalPlayerCash ();
-		tAllCoalCash = coalCompaniesFrame.getTotalCorpCash ();
+//		tAllCoalCash = coalCompaniesFrame.getTotalCorpCash ();
 		tAllMinorCash = minorCompaniesFrame.getTotalCorpCash ();
 		tAllShareCash = shareCompaniesFrame.getTotalCorpCash ();
-		tAllCorpCash = tAllCoalCash + tAllMinorCash + tAllShareCash;
+		tAllCorpCash = tAllMinorCash + tAllShareCash;
 
 		tTotalCash = tBankCash + tAllPlayerCash + tAllEscrows + tAllCorpCash;
 
