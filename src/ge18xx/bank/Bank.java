@@ -156,8 +156,6 @@ public class Bank extends GameBank implements CashHolderI {
 		setFormat (tFormat);
 		tCorpList = gameManager.getPrivates ();
 		loadCorporations (tCorpList);
-		tCorpList = gameManager.getCoalCompanies ();
-		loadCorporations (tCorpList);
 		tCorpList = gameManager.getMinorCompanies ();
 		loadCorporations (tCorpList);
 		tCorpList = gameManager.getShareCompanies ();
@@ -235,7 +233,7 @@ public class Bank extends GameBank implements CashHolderI {
 
 	public void discardExcessTrains (BuyTrainAction aBuyTrainAction) {
 		BankPool tBankPool;
-		CorporationList tShareCorporationList, tMinorCorporationList, tCoalCorporationList;
+		CorporationList tShareCorporationList, tMinorCorporationList;
 
 		tBankPool = gameManager.getBankPool ();
 
@@ -244,9 +242,6 @@ public class Bank extends GameBank implements CashHolderI {
 
 		tMinorCorporationList = gameManager.getMinorCompanies ();
 		tMinorCorporationList.discardExcessTrains (tBankPool, aBuyTrainAction);
-
-		tCoalCorporationList = gameManager.getCoalCompanies ();
-		tCoalCorporationList.discardExcessTrains (tBankPool, aBuyTrainAction);
 	}
 
 	public static String formatCash (int aCashAmount) {
@@ -484,7 +479,7 @@ public class Bank extends GameBank implements CashHolderI {
 
 	public void rustAllTrainsNamed (String aTrainName, BuyTrainAction aBuyTrainAction) {
 		BankPool tBankPool;
-		CorporationList tShareCorporationList, tMinorCorporationList, tCoalCorporationList;
+		CorporationList tShareCorporationList, tMinorCorporationList;
 		TrainPortfolio tTrainPortfolio;
 
 		tBankPool = gameManager.getBankPool ();
@@ -497,9 +492,6 @@ public class Bank extends GameBank implements CashHolderI {
 
 		tMinorCorporationList = gameManager.getMinorCompanies ();
 		tMinorCorporationList.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, aBuyTrainAction);
-
-		tCoalCorporationList = gameManager.getCoalCompanies ();
-		tCoalCorporationList.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, aBuyTrainAction);
 	}
 
 	private void setBankCashLabel (JLabel aBankCashLabel) {

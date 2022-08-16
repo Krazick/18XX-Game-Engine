@@ -614,7 +614,6 @@ public class Game_18XX extends JFrame {
 
 	public void enableGameMenuItems () {
 		int tMenuItemIndex, tMenuItemCount;
-		String tCoalMenuText = resbundle.getString ("showCoalsItem");
 		String tMinorMenuText = resbundle.getString ("showMinorsItem");
 		String tPrivateMenuText = resbundle.getString ("showPrivatesItem");
 		String tChatClientText = resbundle.getString ("showChatClientItem");
@@ -626,12 +625,6 @@ public class Game_18XX extends JFrame {
 			tMenuText = gameMenuItems [tMenuItemIndex].getText ();
 			if (tMenuText.equals (tMinorMenuText)) {
 				if (gameManager.getCountOfMinors () > 0) {
-					tEnableMenuItem = true;
-				} else {
-					tEnableMenuItem = false;
-				}
-			} else if (tMenuText.equals (tCoalMenuText)) {
-				if (gameManager.getCountOfCoals () > 0) {
 					tEnableMenuItem = true;
 				} else {
 					tEnableMenuItem = false;

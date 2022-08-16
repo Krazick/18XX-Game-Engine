@@ -14,16 +14,16 @@ public class OperatingRound extends Round {
 	public final static OperatingRound NO_OPERATING_ROUND = null;
 	public final static String NAME = "Operating Round";
 	CorporationList privateCompanies;
-	CorporationList coalCompanies;
+
 	CorporationList minorCompanies;
 	CorporationList shareCompanies;
 
-	public OperatingRound (RoundManager aRoundManager, CorporationList aPrivates, CorporationList aCoals,
+	public OperatingRound (RoundManager aRoundManager, CorporationList aPrivates, 
 			CorporationList aMinors, CorporationList aShares) {
 		super (aRoundManager);
 		setID (0, 0);
 		privateCompanies = aPrivates;
-		coalCompanies = aCoals;
+
 		minorCompanies = aMinors;
 		shareCompanies = aShares;
 	}
@@ -31,7 +31,6 @@ public class OperatingRound extends Round {
 	public boolean anyFloatedCompanies () {
 		boolean tAnyFloatedCompanies = false;
 
-		tAnyFloatedCompanies = tAnyFloatedCompanies || coalCompanies.anyCanOperate ();
 		tAnyFloatedCompanies = tAnyFloatedCompanies || minorCompanies.anyCanOperate ();
 		tAnyFloatedCompanies = tAnyFloatedCompanies || shareCompanies.anyCanOperate ();
 
@@ -49,7 +48,6 @@ public class OperatingRound extends Round {
 			}
 		}
 		if (anyFloatedCompanies ()) {
-			coalCompanies.clearOperatedStatus ();
 			minorCompanies.clearOperatedStatus ();
 			shareCompanies.clearOperatedStatus ();
 			updateActionLabel ();
@@ -80,14 +78,6 @@ public class OperatingRound extends Round {
 				roundManager.updateActionLabel (tShareCompany);
 			}
 		}
-	}
-
-	public CorporationList getCoalCompanies () {
-		return coalCompanies;
-	}
-
-	public int getCoalCompanyCount () {
-		return coalCompanies.getRowCount ();
 	}
 
 	public CorporationList getMinorCompanies () {
@@ -260,9 +250,6 @@ public class OperatingRound extends Round {
 		tCorporation = shareCompanies.getOperatingCompany ();
 		if (tCorporation == Corporation.NO_CORPORATION) {
 			tCorporation = minorCompanies.getOperatingCompany ();
-		}
-		if (tCorporation == Corporation.NO_CORPORATION) {
-			tCorporation = coalCompanies.getOperatingCompany ();
 		}
 
 		return tCorporation;

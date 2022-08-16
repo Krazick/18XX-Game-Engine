@@ -86,7 +86,6 @@ class GameManagerTestConstructors {
 		assertEquals ("1830TEST", tGameManager.getGameName ());
 		assertEquals ("1830TEST", tGameManager.getActiveGameName ());
 		assertEquals (0, tGameManager.getCountOfMinors ());
-		assertEquals (0, tGameManager.getCountOfCoals ());
 		assertEquals (6, tGameManager.getCountOfPrivates ());
 		assertEquals (6, tGameManager.getCountOfOpenPrivates ());
 		assertEquals ("1830 XML Data/1830 Map.xml", tGameManager.getMapFileName ());

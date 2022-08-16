@@ -593,14 +593,6 @@ public class RoundFrame extends XMLFrame {
 			allCorporationsJPanel.add (Box.createVerticalStrut (10));
 		}
 
-		tCorporationCount = tOperatingRound.getCoalCompanyCount ();
-		if (tCorporationCount > 0) {
-			tCorporationList = tOperatingRound.getCoalCompanies ();
-			tCompanyJPanel = tCorporationList.buildCompanyJPanel (true);
-			allCorporationsJPanel.add (tCompanyJPanel);
-			allCorporationsJPanel.add (Box.createVerticalStrut (10));
-		}
-
 		tCorporationCount = tOperatingRound.getMinorCompanyCount ();
 		if (tCorporationCount > 0) {
 			tCorporationList = tOperatingRound.getMinorCompanies ();

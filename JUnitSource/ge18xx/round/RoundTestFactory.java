@@ -56,14 +56,13 @@ public class RoundTestFactory {
 
 	public OperatingRound buildOperatingRound (RoundManager aRoundManager) {
 		OperatingRound tOperatingRound;
-		CorporationList tPrivatesNull, tCoalsNull, tMinorsNull, tSharesNull;
+		CorporationList tPrivatesNull, tMinorsNull, tSharesNull;
 
 		tPrivatesNull = CorporationList.NO_CORPORATION_LIST;
-		tCoalsNull = CorporationList.NO_CORPORATION_LIST;
 		tMinorsNull = CorporationList.NO_CORPORATION_LIST;
 		tSharesNull = CorporationList.NO_CORPORATION_LIST;
 
-		tOperatingRound = new OperatingRound (aRoundManager, tPrivatesNull, tCoalsNull, tMinorsNull, tSharesNull);
+		tOperatingRound = new OperatingRound (aRoundManager, tPrivatesNull, tMinorsNull, tSharesNull);
 
 		return tOperatingRound;
 	}

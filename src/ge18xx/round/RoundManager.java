@@ -80,10 +80,10 @@ public class RoundManager implements ActionListener {
 		return logger;
 	}
 
-	public void initiateGame (CorporationList aPrivates, CorporationList aCoals, CorporationList aMinors,
+	public void initiateGame (CorporationList aPrivates, CorporationList aMinors,
 			CorporationList aShares) {
 
-		setRounds (aPrivates, aCoals, aMinors, aShares);
+		setRounds (aPrivates, aMinors, aShares);
 		setOtherRoundInfo ();
 		setRoundToStockRound (1);
 
@@ -119,7 +119,7 @@ public class RoundManager implements ActionListener {
 		actionManager = aActionManager;
 	}
 
-	public void setRounds (CorporationList aPrivates, CorporationList aCoals, CorporationList aMinors,
+	public void setRounds (CorporationList aPrivates, CorporationList aMinors,
 			CorporationList aShares) {
 
 		if (stockRound == StockRound.NO_STOCK_ROUND) {
@@ -130,7 +130,7 @@ public class RoundManager implements ActionListener {
 			auctionRound.setAuctionRoundInAuctionFrame ();
 		}
 		if (operatingRound == OperatingRound.NO_OPERATING_ROUND) {
-			setOperatingRound (new OperatingRound (this, aPrivates, aCoals, aMinors, aShares));
+			setOperatingRound (new OperatingRound (this, aPrivates, aMinors, aShares));
 		}
 	}
 
