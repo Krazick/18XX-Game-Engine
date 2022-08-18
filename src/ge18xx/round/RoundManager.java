@@ -2,6 +2,7 @@ package ge18xx.round;
 
 import java.awt.Point;
 import java.awt.event.ItemListener;
+import java.util.LinkedList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -975,26 +976,39 @@ public class RoundManager implements ActionListener {
 
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
-		if (RoundFrame.CORPORATION_ACTION.equals (aEvent.getActionCommand ())) {
+		String tEventAction;
+		Object tEventSource;
+		FastBuyButton tFastBuyButton;
+		
+		tEventAction = aEvent.getActionCommand ();
+		if (RoundFrame.CORPORATION_ACTION.equals (tEventAction)) {
 			if (!companyStartedOperating ()) {
 				logger.info ("Corporation Action for Operation Round selected");
 				prepareCorporation ();
 			}
 			showCurrentCompanyFrame ();
 		}
-		if (RoundFrame.PLAYER_ACTION.equals (aEvent.getActionCommand ())) {
+		if (RoundFrame.PLAYER_ACTION.equals (tEventAction)) {
 			showCurrentPlayerFrame ();
 			roundFrame.updatePassButton ();
 		}
-		if (RoundFrame.PLAYER_AUCTION_ACTION.equals (aEvent.getActionCommand ())) {
+		if (RoundFrame.PLAYER_AUCTION_ACTION.equals (tEventAction)) {
 			showCurrentPlayerFrame ();
 			showAuctionFrame ();
 		}
-		if (RoundFrame.SHOW_GE_FRAME_ACTION.equals (aEvent.getActionCommand ())) {
+		if (RoundFrame.SHOW_GE_FRAME_ACTION.equals (tEventAction)) {
 			showGEFrame ();
 		}
-		if (RoundFrame.PASS_STOCK_ACTION.equals (aEvent.getActionCommand ())) {
+		if (RoundFrame.PASS_STOCK_ACTION.equals (tEventAction)) {
 			passStockAction ();
+			updateAllCorporationsBox ();
+		}
+		if (RoundFrame.BUY_STOCK_ACTION.equals (tEventAction)) {
+			tEventSource = aEvent.getSource ();
+			if (tEventSource instanceof FastBuyButton) {
+				tFastBuyButton = (FastBuyButton) tEventSource;
+				buyStockAction (tFastBuyButton);
+			}
 			updateAllCorporationsBox ();
 		}
 		if (isOperatingRound ()) {
@@ -1181,6 +1195,21 @@ public class RoundManager implements ActionListener {
 		stockRound.passStockAction ();
 	}
 
+	public void buyStockAction (FastBuyButton aFastBuyButton) {
+		Certificate tCertificate;
+		List<Certificate> tCertificatesToBuy;
+		Player tCurrentPlayer;
+		
+		tCertificate = aFastBuyButton.getCertificate ();
+		System.out.println ("Fast Buy for certificate of " + tCertificate.getCompanyAbbrev ());
+		
+		tCertificatesToBuy = new LinkedList<Certificate> ();
+		tCertificatesToBuy.add (tCertificate);
+		tCurrentPlayer = gameManager.getCurrentPlayer ();
+		tCurrentPlayer.buyAction (tCertificatesToBuy);
+		tCurrentPlayer.doneAction ();
+	}
+	
 	public int getLastActionNumber () {
 		return actionManager.getLastActionNumber ();
 	}
@@ -1200,12 +1229,10 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void setFrameBackgrounds () {
-//		System.out.println ("========= Round Manager Setting Round Frame Set Backgrounds");
 		roundFrame.setFrameBackgrounds ();
 	}
 
 	public void resetBackgrounds () {
-//		System.out.println ("========= Round Manager Resetting Round Frame Backgrounds");
 		roundFrame.resetBackgrounds ();
 	}
 
