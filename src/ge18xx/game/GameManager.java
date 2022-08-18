@@ -383,8 +383,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		if (gameIsStarted ()) {
 			tBaseDir = getXMLBaseDirectory ();
-			tXMLMapName = getMapFileName ();
-			tXMLMapName = tBaseDir + tXMLMapName;
+			tXMLMapName = tBaseDir + getMapFileName ();
 			tFullTitle = createFrameTitle ("Map");
 			tMapFrame = new MapFrame (tFullTitle, this);
 			setMapFrame (tMapFrame);
@@ -402,18 +401,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 				logger.error ("Problem Loading Color Scheme: " + tException);
 			}
 
-			CorporationList tShareCompaniesList, tPrivatesCompaniesList, tMinorCompaniesList;
-
 			tMapFrame.setCityInfo (citiesFrame.getCities ());
-			tPrivatesCompaniesList = privatesFrame.getCompanies ();
-			tMinorCompaniesList = minorCompaniesFrame.getCompanies ();
-			tShareCompaniesList = shareCompaniesFrame.getCompanies ();
-			tMapFrame.setCorporationList (tPrivatesCompaniesList, CorporationList.TYPE_NAMES [0]);
-			tMapFrame.setCorporationList (tMinorCompaniesList, CorporationList.TYPE_NAMES [1]);
-			tMapFrame.setCorporationList (tShareCompaniesList, CorporationList.TYPE_NAMES [2]);
-			tMapFrame.setHomeCities (tShareCompaniesList);
-			tMapFrame.setHomeCities (tMinorCompaniesList);
-			tMapFrame.setHomeCities (tPrivatesCompaniesList);
+			tMapFrame.addCorporationList (privatesFrame, CorporationList.TYPE_NAMES [0]);
+			tMapFrame.addCorporationList (minorCompaniesFrame, CorporationList.TYPE_NAMES [1]);
+			tMapFrame.addCorporationList (shareCompaniesFrame, CorporationList.TYPE_NAMES [2]);
 		}
 	}
 
@@ -423,8 +414,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		MarketFrame tMarketFrame;
 
 		if (gameIsStarted ()) {
-			tXMLMarketName = getMarketFileName ();
-			tXMLMarketName = getXMLBaseDirectory () + tXMLMarketName;
+			tXMLMarketName = getXMLBaseDirectory () + getMarketFileName ();
 			tFullTitle = createFrameTitle ("Market");
 			tMarketFrame = new MarketFrame (tFullTitle, this);
 			setMarketFrame (tMarketFrame);
@@ -441,8 +431,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		MinorCompaniesFrame tMinorCompaniesFrame;
 
 		if (gameIsStarted ()) {
-			tXMLCompaniesName = getCompaniesFileName ();
-			tXMLCompaniesName = getXMLBaseDirectory () + tXMLCompaniesName;
+			tXMLCompaniesName = getXMLBaseDirectory () + getCompaniesFileName ();
 			tMinorCompaniesFrame = new MinorCompaniesFrame (createFrameTitle (MinorCompaniesFrame.BASE_TITLE),
 					roundManager);
 			setMinorCompaniesFrame (tMinorCompaniesFrame);
@@ -546,6 +535,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
+	/**
+	 * Load a specific tile Number with a Quantity from the specified Set, into the Tile Tray Frame. 
+	 * 
+	 * @param aSetName The Name of the Tile Set (from the list of Tile Types that have specific XML Definition Files)
+	 * @param aTileNumber The Tile Number to load
+	 * @param aQuantity The Quantity to Add to the Tile Tray. 
+	 * 
+	 */
 	public void loadATileFromASet (String aSetName, int aTileNumber, int aQuantity) {
 		String tBaseDirName;
 		
@@ -1316,9 +1313,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 			try {
 				XMLDocument tXMLDocument = new XMLDocument (aSaveGame);
 				tXMLFileWasLoaded = loadXMLSavedGame (tXMLDocument);
-			} catch (Exception tException) {
+			} catch (Exception eException) {
 				logger.error ("Oops, mucked up the XML Save Game File Access [" + aSaveGame.getName () + "].");
-				logger.error ("Exception Message [" + tException.getMessage () + "].", tException);
+				logger.error ("Exception Message [" + eException.getMessage () + "].", eException);
 				tXMLFileWasLoaded = false;
 			}
 		} else {
