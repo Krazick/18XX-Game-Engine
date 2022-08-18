@@ -83,6 +83,14 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tCertificateCount;
 	}
 
+	public Certificate getCertificateFromCorp (Corporation aCorporation, boolean aRemoveCertificate) {
+		Certificate tCertificate;
+
+		tCertificate = portfolio.getCertificateFor (aCorporation, aRemoveCertificate);
+
+		return tCertificate;
+	}
+
 	public Certificate getCertificateFromCorp (Corporation aCorporation) {
 		Certificate tCertificate;
 
