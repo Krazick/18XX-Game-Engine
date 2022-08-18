@@ -507,20 +507,27 @@ public class ShareCompany extends TokenCompany {
 	public boolean canOperate () {
 		boolean tCanOperate = true;
 
-		if ((status == ActorI.ActionStates.Unowned) || (status == ActorI.ActionStates.Owned)
-				|| (status == ActorI.ActionStates.Closed)) {
+		if ((status == ActorI.ActionStates.Unowned) || 
+			(status == ActorI.ActionStates.Owned) || 
+			(status == ActorI.ActionStates.Closed)) {
 			tCanOperate = false;
 		}
 
 		return tCanOperate;
 	}
 
+	public boolean willFloat () {
+		return (status == ActorI.ActionStates.WillFloat);
+	}
+	
 	public boolean hasFloated () {
 		boolean tHasFloated;
 
-		if ((status == ActorI.ActionStates.Unowned) || (status == ActorI.ActionStates.Closed)
-				|| (status == ActorI.ActionStates.Owned) || (status == ActorI.ActionStates.MayFloat)
-				|| (status == ActorI.ActionStates.WillFloat)) {
+		if ((status == ActorI.ActionStates.Unowned) || 
+			(status == ActorI.ActionStates.Closed) ||
+			(status == ActorI.ActionStates.Owned) || 
+			(status == ActorI.ActionStates.MayFloat) || 
+			(status == ActorI.ActionStates.WillFloat)) {
 			tHasFloated = false;
 		} else {
 			tHasFloated = true;
