@@ -3,6 +3,7 @@ package ge18xx.round;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.bank.GameBank;
+import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
@@ -51,6 +52,7 @@ public class RoundFrame extends XMLFrame {
 	private static final String IS_AUCTION_ROUND = "It is an Auction Round, can't Pass";
 	static final String SHOW_GE_FRAME_ACTION = "showGEFrame";
 	static final String PASS_STOCK_ACTION = "passStockAction";
+	static final String BUY_STOCK_ACTION = "buyStockAction";
 	static final String PLAYER_ACTION = "DoPlayerAction";
 	static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
 	static final String CORPORATION_ACTION = "DoCorporationAction";
@@ -63,6 +65,7 @@ public class RoundFrame extends XMLFrame {
 	JPanel trainSummaryJPanel;
 	JPanel roundInfoJPanel;
 	JPanel playersJPanel;
+	JPanel fastBuyJPanel;
 	JButton passButton;
 	JButton doButton;
 	JButton showGameEngineFrameButton;
@@ -396,19 +399,56 @@ public class RoundFrame extends XMLFrame {
 	private void buildButtonsJPanel () {
 		buttonsJPanel = new JPanel ();
 		buttonsJPanel.setLayout (new BoxLayout (buttonsJPanel, BoxLayout.X_AXIS));
-
+		fastBuyJPanel = new JPanel ();
 		doButton = setupButton (PLAYER_DO_STOCK, PLAYER_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		passButton = setupButton (PASS_STOCK_TEXT, PASS_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		showGameEngineFrameButton = setupButton ("Show Game Engine Frame", SHOW_GE_FRAME_ACTION, roundManager,
 				Component.CENTER_ALIGNMENT);
 
-		buttonsJPanel.add (doButton);
-		buttonsJPanel.add (Box.createHorizontalStrut (20));
-		buttonsJPanel.add (passButton);
-		buttonsJPanel.add (Box.createHorizontalStrut (20));
-		buttonsJPanel.add (showGameEngineFrameButton);
-
+		addButtonAndSpace (doButton);
+		addButtonAndSpace (passButton);
+		addButtonAndSpace (showGameEngineFrameButton);
+		buttonsJPanel.add (fastBuyJPanel);
+		fillFastBuyPanel ();
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
+	}
+
+	private void fillFastBuyPanel () {
+		GameManager tGameManager;
+		Player tCurrentPlayer;
+		Certificate tFastBuyCertificate;
+		int tFastBuyIndex;
+		boolean tHasMoreFastBuys;
+		String tButtonLabel;
+		FastBuyButton tFastBuyButton;
+		
+		tGameManager = roundManager.getGameManager ();
+		fastBuyJPanel.removeAll ();
+		tCurrentPlayer = tGameManager.getCurrentPlayer ();
+		tHasMoreFastBuys = true;
+		tFastBuyIndex = 0;
+		while (tHasMoreFastBuys) {
+			tFastBuyCertificate = tCurrentPlayer.getNextFastBuyCertificate (tFastBuyIndex);
+			if (tFastBuyCertificate != Certificate.NO_CERTIFICATE) {
+				tButtonLabel = "Fast Buy of " + tFastBuyCertificate.getCompanyAbbrev () + " for " + 
+							Bank.formatCash (tFastBuyCertificate.getParPrice ());
+				tFastBuyButton = new FastBuyButton (tButtonLabel, tFastBuyCertificate);
+				tFastBuyButton.setActionCommand (BUY_STOCK_ACTION);
+				tFastBuyButton.addActionListener (roundManager);
+				tFastBuyButton.setAlignmentX (Component.CENTER_ALIGNMENT);
+				fastBuyJPanel.add (tFastBuyButton);
+				fastBuyJPanel.add (Box.createHorizontalStrut (20));
+				tFastBuyIndex++;
+			} else {
+				tHasMoreFastBuys = false;
+				System.out.println ("Found No More Certificates for Fast Buy");
+			}
+		}
+	}
+	
+	private void addButtonAndSpace (JButton aButton) {
+		buttonsJPanel.add (aButton);
+		buttonsJPanel.add (Box.createHorizontalStrut (20));
 	}
 
 	private void updateDoButton (String aButtonLabel, String aActionCommand) {
@@ -473,6 +513,7 @@ public class RoundFrame extends XMLFrame {
 		updateDoButton (COMPANY_DO_ACTION, CORPORATION_ACTION);
 		updateTotalCashLabel ();
 		updatePassButton ();
+		fastBuyJPanel.removeAll ();
 	}
 
 	private void setCurrentRoundOf (int aCurrentOR, int aMaxOR) {
@@ -489,6 +530,7 @@ public class RoundFrame extends XMLFrame {
 		setCurrentPlayerText ();
 		updateTotalCashLabel ();
 		updatePassButton ();
+		fillFastBuyPanel ();
 	}
 
 	public void updatePassButton () {

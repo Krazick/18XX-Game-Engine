@@ -15,6 +15,7 @@ import ge18xx.company.CertificateHolderI;
 import ge18xx.company.Corporation;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.PrivateCompany;
+import ge18xx.company.ShareCompany;
 import ge18xx.game.FrameButton;
 import ge18xx.game.GameManager;
 import ge18xx.utilities.AttributeName;
@@ -60,6 +61,7 @@ public class Portfolio implements CertificateHolderI {
 	public final static AttributeName AN_PRIVATE_INDEX = new AttributeName ("privateIndex");
 	public final static AttributeName AN_MINOR_INDEX = new AttributeName ("minorIndex");
 	public final static AttributeName AN_SHARE_INDEX = new AttributeName ("shareIndex");
+	public final static boolean REMOVE_CERTIFICATE = true;
 	public final static Portfolio NO_PORTFOLIO = null;
 	public final static JPanel NO_PORTFOLIO_JPANEL = null;
 	public final static String NO_PORTFOLIO_LABEL = ">> NO PORTFOLIO <<";
@@ -536,8 +538,12 @@ public class Portfolio implements CertificateHolderI {
 	public int getCertificateTotalCount () {
 		return certificates.size ();
 	}
-
+	
 	public Certificate getCertificateFor (Corporation aCorporation) {
+		return getCertificateFor (aCorporation, REMOVE_CERTIFICATE);
+	}
+	
+	public Certificate getCertificateFor (Corporation aCorporation, boolean aRemove) {
 		Certificate tCertificate, tPortfolioCertificate;
 		int tIndex, tCertificateCount;
 
@@ -547,7 +553,9 @@ public class Portfolio implements CertificateHolderI {
 			tPortfolioCertificate = certificates.get (tIndex);
 			if (tPortfolioCertificate.isForThis (aCorporation)) {
 				tCertificate = tPortfolioCertificate;
-				certificates.remove (tIndex);
+				if (aRemove) {
+					certificates.remove (tIndex);
+				}
 			}
 		}
 
@@ -1994,5 +2002,59 @@ public class Portfolio implements CertificateHolderI {
 		}
 
 		return tFrameButton;
+	}
+
+	public Certificate getNextFastBuyCertificate (int aFastBuyIndex, Player aPlayer) {
+		Certificate tCertToBuy;
+		String tPresidentName;
+		Corporation tCorporation;
+		ShareCompany tShareCompany;
+		String tPlayerName;
+		String tAbbrev;
+		String tPrevAbbrev;
+		int tPlayerCash;
+		int tCertParValue;
+		int tCorpIndex;
+		Bank tBank;
+		
+		tCertToBuy = Certificate.NO_CERTIFICATE;
+		tPlayerName = aPlayer.getName ();
+		tCorpIndex = 0;
+		tPrevAbbrev = "";
+		for (Certificate tCertificate : certificates) {
+			if (tCertToBuy == Certificate.NO_CERTIFICATE) {
+				tCorporation = tCertificate.getCorporation ();
+				if (tCorporation.isAShareCompany ()) {
+					tShareCompany = (ShareCompany) tCorporation;
+					tPresidentName = tShareCompany.getPresidentName ();
+					tAbbrev = tShareCompany.getAbbrev ();
+					if (tAbbrev.equals (tPrevAbbrev)) {
+						tCorpIndex++;
+					} else {
+						tPrevAbbrev = tAbbrev;
+						if (tCorpIndex == aFastBuyIndex) {
+							if (tPlayerName.equals (tPresidentName)) {
+								if (! tShareCompany.hasFloated ()) {
+									if (! aPlayer.atCertLimit ()) {
+										if (! aPlayer.hasMaxShares (tAbbrev)) {
+											System.out.println ("Finding Fast Cert to Buy - President of Share Company " + 
+													tAbbrev + " is " + tPlayerName);
+											tPlayerCash = aPlayer.getCash ();
+											tCertParValue = tCertificate.getParValue ();
+											if (tPlayerCash >= tCertParValue) {
+												tBank = tCorporation.getBank ();
+												tCertToBuy = tBank.getCertificateFromCorp (tCorporation, ! REMOVE_CERTIFICATE);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return tCertToBuy;
 	}
 }

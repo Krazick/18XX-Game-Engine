@@ -1176,26 +1176,25 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerManager.bidAction (this);
 	}
 
+	// TODO: Move the BuyAction Methods over the Player Manager
+	
+	/**
+	 * Buy the Certificate the player manager has identified, and handle if next share has bids to handle
+	 * Then handle the Auctions if necessary.
+	 * 
+	 */
 	public void buyAction () {
 		boolean tNextShareHasBids;
 		Certificate tCertificate;
 		List<Certificate> tCertificatesToBuy;
-		ActorI.ActionStates tRoundType;
-		String tRoundID;
-		BuyStockAction tBuyStockAction;
 		boolean tCreateNewAuctionAction = true;
 
 		tCertificatesToBuy = playerManager.getCertificatesToBuy ();
 		tCertificate = tCertificatesToBuy.get (0);
-		tRoundType = ActorI.ActionStates.StockRound;
-		tRoundID = playerManager.getStockRoundID ();
 
 		tNextShareHasBids = playerManager.nextShareHasBids (tCertificate);
 
-		tBuyStockAction = new BuyStockAction (tRoundType, tRoundID, this);
-		tBuyStockAction = playerManager.buyAction (this, tCertificatesToBuy, PlayerManager.STOCK_BUY_IN.StockRound,
-				tBuyStockAction);
-		playerManager.addAction (tBuyStockAction);
+		buyAction (tCertificatesToBuy);
 
 		if (tNextShareHasBids) {
 			setTriggeredAuction (true); // Set the Triggered Auction Flag.
@@ -1203,6 +1202,25 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 
 		playerFrame.updateButtons ();
+	}
+
+	/**
+	 * Buy the Certificates in the list of Certificates provided, creating the appropriate Action.
+	 * 
+	 * @param aCertificatesToBuy the List of Certificates from the Player Manager
+	 * 
+	 */
+	public void buyAction (List<Certificate> aCertificatesToBuy) {
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+		BuyStockAction tBuyStockAction;
+		
+		tRoundType = ActorI.ActionStates.StockRound;
+		tRoundID = playerManager.getStockRoundID ();
+		tBuyStockAction = new BuyStockAction (tRoundType, tRoundID, this);
+		tBuyStockAction = playerManager.buyAction (this, aCertificatesToBuy, PlayerManager.STOCK_BUY_IN.StockRound,
+				tBuyStockAction);
+		playerManager.addAction (tBuyStockAction);
 	}
 
 	public void doneAction () {
@@ -1638,5 +1656,16 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	@Override
 	public void updateInfo () {
 		playerManager.updateRoundWindow ();
+	}
+
+	public Certificate getNextFastBuyCertificate (int aFastBuyIndex) {
+		Certificate tCertificate;
+
+		tCertificate = portfolio.getNextFastBuyCertificate (aFastBuyIndex, this);
+		if (tCertificate != Certificate.NO_CERTIFICATE) {
+			System.out.println ("Have a Cert to Buy");
+		}
+		
+		return tCertificate;
 	}
 }
