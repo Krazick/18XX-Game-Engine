@@ -767,6 +767,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 		return tCorporation;
 	}
+	
+	public void addCorporationList (CorporationTableFrame aCorporationFrame, ElementName aCompanyType) {
+		CorporationList tCorporationList;
+		
+		tCorporationList = aCorporationFrame.getCompanies ();
+		setCorporationList (tCorporationList, aCompanyType);
+		setHomeCities (tCorporationList);
+	}
 
 	public void setCorporationList (CorporationList aCorporationList, ElementName aType) {
 		if (aType.equals (CorporationList.TYPE_NAMES [0])) {
