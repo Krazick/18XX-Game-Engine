@@ -2034,17 +2034,12 @@ public class Portfolio implements CertificateHolderI {
 								if (! aPlayer.hasMaxShares (tAbbrev)) {
 									if (! tAbbrev.equals (tPrevAbbrev)) {
 										tPrevAbbrev = tAbbrev;
-										System.out.println ("Looking for " + aFastBuyIndex + " on " + tCorpIndex);
 										if (tCorpIndex == aFastBuyIndex) {
-											System.out.println ("Finding Fast Cert to Buy - President of Share Company " + 
-													tAbbrev + " is " + tPlayerName);
 											tPlayerCash = aPlayer.getCash ();
 											tCertParValue = tShareCompany.getParPrice ();
 											if (tPlayerCash >= tCertParValue) {
 												tBank = tCorporation.getBank ();
 												tCertToBuy = tBank.getCertificateFromCorp (tCorporation, ! REMOVE_CERTIFICATE);
-											} else {
-												System.out.println ("Cert Par Value " + tCertParValue + " Player only has " + tPlayerCash);
 											}
 										}
 										tCorpIndex++;
