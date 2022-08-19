@@ -443,18 +443,6 @@ public class Portfolio implements CertificateHolderI {
 		return isPresidentOf;
 	}
 
-	public boolean noMustSellLeft () {
-		boolean tNoMustSellLeft = true;
-
-		for (Certificate tCertificate : certificates) {
-			if (tCertificate.getMustSell ()) {
-				tNoMustSellLeft = false;
-			}
-		}
-
-		return tNoMustSellLeft;
-	}
-
 	public void applyDiscount () {
 		boolean tDiscountApplied = false;
 
@@ -481,6 +469,18 @@ public class Portfolio implements CertificateHolderI {
 		}
 
 		return tMustBuy;
+	}
+
+	public boolean noMustSellLeft () {
+		boolean tNoMustSellLeft = true;
+
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.getMustSell ()) {
+				tNoMustSellLeft = false;
+			}
+		}
+
+		return tNoMustSellLeft;
 	}
 
 	public boolean hasMustSell () {
@@ -2028,24 +2028,26 @@ public class Portfolio implements CertificateHolderI {
 					tShareCompany = (ShareCompany) tCorporation;
 					tPresidentName = tShareCompany.getPresidentName ();
 					tAbbrev = tShareCompany.getAbbrev ();
-					if (tAbbrev.equals (tPrevAbbrev)) {
-						tCorpIndex++;
-					} else {
-						tPrevAbbrev = tAbbrev;
-						if (tCorpIndex == aFastBuyIndex) {
-							if (tPlayerName.equals (tPresidentName)) {
-								if (! tShareCompany.hasFloated ()) {
-									if (! aPlayer.atCertLimit ()) {
-										if (! aPlayer.hasMaxShares (tAbbrev)) {
+					if (tPlayerName.equals (tPresidentName)) {
+						if (! tShareCompany.hasFloated ()) {
+							if (! aPlayer.atCertLimit ()) {
+								if (! aPlayer.hasMaxShares (tAbbrev)) {
+									if (! tAbbrev.equals (tPrevAbbrev)) {
+										tPrevAbbrev = tAbbrev;
+										System.out.println ("Looking for " + aFastBuyIndex + " on " + tCorpIndex);
+										if (tCorpIndex == aFastBuyIndex) {
 											System.out.println ("Finding Fast Cert to Buy - President of Share Company " + 
 													tAbbrev + " is " + tPlayerName);
 											tPlayerCash = aPlayer.getCash ();
-											tCertParValue = tCertificate.getParValue ();
+											tCertParValue = tShareCompany.getParPrice ();
 											if (tPlayerCash >= tCertParValue) {
 												tBank = tCorporation.getBank ();
 												tCertToBuy = tBank.getCertificateFromCorp (tCorporation, ! REMOVE_CERTIFICATE);
+											} else {
+												System.out.println ("Cert Par Value " + tCertParValue + " Player only has " + tPlayerCash);
 											}
 										}
+										tCorpIndex++;
 									}
 								}
 							}
