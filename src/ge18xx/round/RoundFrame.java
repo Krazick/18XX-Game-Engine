@@ -399,7 +399,10 @@ public class RoundFrame extends XMLFrame {
 	private void buildButtonsJPanel () {
 		buttonsJPanel = new JPanel ();
 		buttonsJPanel.setLayout (new BoxLayout (buttonsJPanel, BoxLayout.X_AXIS));
+		
 		fastBuyJPanel = new JPanel ();
+		fastBuyJPanel.setLayout (new BoxLayout (fastBuyJPanel, BoxLayout.X_AXIS));
+		
 		doButton = setupButton (PLAYER_DO_STOCK, PLAYER_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		passButton = setupButton (PASS_STOCK_TEXT, PASS_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		showGameEngineFrameButton = setupButton ("Show Game Engine Frame", SHOW_GE_FRAME_ACTION, roundManager,
@@ -407,9 +410,9 @@ public class RoundFrame extends XMLFrame {
 
 		addButtonAndSpace (doButton);
 		addButtonAndSpace (passButton);
-		addButtonAndSpace (showGameEngineFrameButton);
 		buttonsJPanel.add (fastBuyJPanel);
-		fillFastBuyPanel ();
+		addButtonAndSpace (showGameEngineFrameButton);
+		
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
 	}
 
@@ -417,6 +420,7 @@ public class RoundFrame extends XMLFrame {
 		GameManager tGameManager;
 		Player tCurrentPlayer;
 		Certificate tFastBuyCertificate;
+		String tPlayerName;
 		int tFastBuyIndex;
 		boolean tHasMoreFastBuys;
 		String tButtonLabel;
@@ -430,7 +434,8 @@ public class RoundFrame extends XMLFrame {
 		while (tHasMoreFastBuys) {
 			tFastBuyCertificate = tCurrentPlayer.getNextFastBuyCertificate (tFastBuyIndex);
 			if (tFastBuyCertificate != Certificate.NO_CERTIFICATE) {
-				tButtonLabel = "Fast Buy of " + tFastBuyCertificate.getCompanyAbbrev () + " for " + 
+				tPlayerName = tCurrentPlayer.getName ();
+				tButtonLabel = tPlayerName + " Fast Buy of " + tFastBuyCertificate.getCompanyAbbrev () + " for " + 
 							Bank.formatCash (tFastBuyCertificate.getParPrice ());
 				tFastBuyButton = new FastBuyButton (tButtonLabel, tFastBuyCertificate);
 				tFastBuyButton.setActionCommand (BUY_STOCK_ACTION);
@@ -441,7 +446,6 @@ public class RoundFrame extends XMLFrame {
 				tFastBuyIndex++;
 			} else {
 				tHasMoreFastBuys = false;
-				System.out.println ("Found No More Certificates for Fast Buy");
 			}
 		}
 	}
