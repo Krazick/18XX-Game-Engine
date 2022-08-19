@@ -1662,9 +1662,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		Certificate tCertificate;
 
 		tCertificate = portfolio.getNextFastBuyCertificate (aFastBuyIndex, this);
-		if (tCertificate != Certificate.NO_CERTIFICATE) {
-			System.out.println ("Have a Cert to Buy");
-		}
 		
 		return tCertificate;
 	}
