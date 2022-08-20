@@ -63,18 +63,19 @@ public class WaitForReponseFrame extends JFrame {
 	
 	/**
 	 * When the Corporation has need to wait for a Response from a Network Player, State is ActorI.ActionStates.WaitingResponse
-	 * Put this thread to sleep, in 2 second chunks
+	 * Put this thread to sleep, in X second chunks
 	 * 
 	 */
 	public void waitForResponse () {
-		int tWaitTime;
-		
-		tWaitTime = 2000; // Wait for 2 Seconds before testing if a Response came back
+		waitForResponse (2000);
+	}
+	
+	public void waitForResponse (int aWaitTime) {
 		
 		showFrame ();
 		while (isWaitingForResponse ()) {
 			try {
-				Thread.sleep (tWaitTime);
+				Thread.sleep (aWaitTime);
 			} catch (InterruptedException eException) {
 				System.err.println ("Waiting for the Response to Clear - Exception");
 				eException.printStackTrace ();

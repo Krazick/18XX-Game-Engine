@@ -55,7 +55,7 @@ class WaitForResponseFrameTests {
 	}
 
 	@Test
-	@DisplayName ("Show Waiting for Response Frame Test - 5 Seconds")
+	@DisplayName ("Show Waiting for Response Frame Test - 1 Second")
 	void showWaitingForResponseFrameTest () throws InterruptedException {
 		Point tFoundPoint;
 		
@@ -63,7 +63,7 @@ class WaitForResponseFrameTests {
 		assertEquals (tFoundPoint, mPlayerManager.getOffsetRoundFramePoint ());
 		System.out.println ("Running in Test");
 		waitForReponseFrame.showFrame ();
-		Thread.sleep (5000);
+		Thread.sleep (1000);
 		waitForReponseFrame.hideFrame ();
 	}
 	
