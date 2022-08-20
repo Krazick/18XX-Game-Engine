@@ -182,8 +182,8 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 				if (aQuantity > 0) {
 					tTileAdded = addTile (tTile, aQuantity);
 					tGameTile = getGameTileMatching (aTileNumber);
+					addNTileClones (tGameTile, tTile, aQuantity);
 					tGameTile.setUsedCount (0);
-					tGameTile.setTotalCount (aQuantity);
 					if (tTileAdded) {
 						System.out.println ("Tile # " + aTileNumber + " added " + aQuantity + " to gameTiles.");
 						sortGameTiles ();
