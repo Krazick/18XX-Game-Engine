@@ -776,8 +776,9 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	public void setAlertBackgrounds () {
-		Color tAlertColor = Color.ORANGE;
+		Color tAlertColor;
 
+		tAlertColor = Color.ORANGE;
 		setAllBackgrounds (tAlertColor);
 	}
 
@@ -792,6 +793,11 @@ public class RoundFrame extends XMLFrame {
 		setPanelBackground (trainSummaryJPanel, aBackgroundColor);
 		setPanelBackground (buttonsJPanel, aBackgroundColor);
 		setPanelBackground (roundJPanel, aBackgroundColor);
+		if (fastBuyJPanel != null) {
+			if (fastBuyJPanel.getComponentCount () > 0) {
+				setPanelBackground (fastBuyJPanel, aBackgroundColor);
+			}
+		}
 	}
 
 	private void setPanelBackground (JPanel aJPanel, Color aBackgroundColor) {
