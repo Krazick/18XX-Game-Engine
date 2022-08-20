@@ -29,6 +29,7 @@ public abstract class Benefit implements ActionListener {
 	public final static JPanel NO_BUTTON_PANEL = GUI.NO_PANEL;
 	public final static Benefit NO_BENEFIT = null;
 	public final static String NO_BENEFIT_NAME = null;
+	public final static String NO_BUTTON_LABEL = null;
 	public final static String NAME = "ABSTRACT";
 
 	ActorI.ActorTypes actorType;
@@ -167,8 +168,10 @@ public abstract class Benefit implements ActionListener {
 
 		tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
 		tOwner = privateCompany.getOwner ();
-		if (tOwner.isACorporation ()) {
-			tShareCompany = (ShareCompany) tOwner;
+		if (tOwner != ActorI.NO_ACTOR) {
+			if (tOwner.isACorporation ()) {
+				tShareCompany = (ShareCompany) tOwner;
+			}
 		}
 
 		return tShareCompany;
