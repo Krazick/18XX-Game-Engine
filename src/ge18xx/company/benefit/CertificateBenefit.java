@@ -62,11 +62,12 @@ public abstract class CertificateBenefit extends Benefit {
 	}
 
 	public Certificate getShareCertificate () {
-		Certificate tShareCertificate = Certificate.NO_CERTIFICATE;
+		Certificate tShareCertificate;
 		GameManager tGameManager;
 		CorporationList tShareCompanyList;
 		Corporation tShareCompany;
 
+		tShareCertificate = Certificate.NO_CERTIFICATE;
 		tGameManager = privateCompany.getGameManager ();
 		tShareCompanyList = tGameManager.getShareCompanies ();
 		tShareCompany = tShareCompanyList.getCorporationByID (corporationID);
@@ -77,8 +78,6 @@ public abstract class CertificateBenefit extends Benefit {
 
 	@Override
 	public String getNewButtonLabel () {
-		// TODO Auto-generated method stub
-		return null;
+		return NO_BUTTON_LABEL;
 	}
-
 }
