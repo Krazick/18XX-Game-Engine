@@ -261,10 +261,10 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public boolean hasMustBuyCertificate () {
 		return player.hasMustBuyCertificate ();
 	}
-
-	public boolean hasSelectedPrivateOrMinorToExchange () {
-		return player.hasSelectedPrivateOrMinorToExchange ();
-	}
+//
+//	public boolean hasSelectedPrivateOrMinorToExchange () {
+//		return player.hasSelectedPrivateOrMinorToExchange ();
+//	}
 
 	public boolean hasSelectedPrivateToBidOn () {
 		return player.hasSelectedPrivateToBidOn ();
@@ -503,7 +503,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 	public void updateButtons () {
 		boolean tStocksToSell, tActionsToUndo, tStocksToSellSame;
-		boolean tPrezToExchange, tCanCompleteTurn, tPrivateOrMinorToExchange;
+		boolean tPrezToExchange, tCanCompleteTurn;
+//		boolean tPrivateOrMinorToExchange;
 		boolean tStocksToSellOverfill, tMustBuy;
 		boolean tHasSelectedOneToExchange;
 
@@ -514,13 +515,13 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tActionsToUndo = hasActionsToUndo ();
 		tPrezToExchange = hasSelectedPrezToExchange ();
 		tHasSelectedOneToExchange = hasSelectedOneToExchange ();
-		tPrivateOrMinorToExchange = hasSelectedPrivateOrMinorToExchange ();
+//		tPrivateOrMinorToExchange = hasSelectedPrivateOrMinorToExchange ();
 		tCanCompleteTurn = canCompleteTurn ();
 
 		updatePassButton (tCanCompleteTurn, tMustBuy);
 		updateSellButton (tStocksToSell, tStocksToSellSame, tStocksToSellOverfill, tPrezToExchange);
 		updateBuyButton (canBuy);
-		updateExchangeButton (tPrezToExchange, tPrivateOrMinorToExchange, tHasSelectedOneToExchange);
+		updateExchangeButton (tPrezToExchange, tHasSelectedOneToExchange);
 		updateUndoButton (tActionsToUndo);
 
 		if (hasActed ()) {
@@ -550,9 +551,9 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			} else if (hasSelectedPrivateToBidOn ()) {
 				passButton.setEnabled (false);
 				passButton.setToolTipText (STOCK_SELECTED_FOR_BID);
-			} else if (hasSelectedPrivateOrMinorToExchange ()) {
-				passButton.setEnabled (false);
-				passButton.setToolTipText (PRIVATE_SELECTED_FOR_EXCHANGE);
+//			} else if (hasSelectedPrivateOrMinorToExchange ()) {
+//				passButton.setEnabled (false);
+//				passButton.setToolTipText (PRIVATE_SELECTED_FOR_EXCHANGE);
 			} else if (player.isParPriceFrameActive ()) {
 				passButton.setEnabled (false);
 				passButton.setToolTipText (STOCK_PAR_PRICE_NEEDS_SETTING);
@@ -623,8 +624,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		}
 	}
 
-	private void updateExchangeButton (boolean aPrezToExchange, boolean aPrivateOrMinorToExchange,
-			boolean tHasSelectedOneToExchange) {
+	private void updateExchangeButton (boolean aPrezToExchange, boolean tHasSelectedOneToExchange) {
 		boolean tCanBankHoldStock = false;
 
 		if (! handledWaiting (exchangeButton)) {
@@ -636,14 +636,14 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 					tCanBankHoldStock = canBankHoldStock ();
 				}
 	
-				exchangeButton.setEnabled (tCanBankHoldStock || aPrivateOrMinorToExchange);
+				exchangeButton.setEnabled (tCanBankHoldStock);
 				if (!tCanBankHoldStock) {
 					exchangeButton
 							.setToolTipText ("The Bank Pool cannot hold minimum % of stock required to lose Presidency");
 				} else if (aPrezToExchange) {
 					exchangeButton.setToolTipText ("There is one President's Share Selected to Exchange");
-				} else if (aPrivateOrMinorToExchange) {
-					exchangeButton.setToolTipText ("There is one Private or Minor Share Selected to Exchange");
+//				} else if (aPrivateOrMinorToExchange) {
+//					exchangeButton.setToolTipText ("There is one Private or Minor Share Selected to Exchange");
 				} else {
 					exchangeButton.setToolTipText ("There are no selected President's Share to Exchange");
 				}
