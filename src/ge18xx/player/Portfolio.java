@@ -942,8 +942,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public int getSelectedPercent () {
-		int tSelectedPercent = 0;
+		int tSelectedPercent;
 
+		tSelectedPercent = 0;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelected ()) {
 				tSelectedPercent += tCertificate.getPercentage ();
@@ -975,7 +976,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public int getNextPresidentPercent (Corporation aCorporation) {
-		String tCertificateOwnerName, tNextName, tPresidentName;
+		String tCertificateOwnerName;
+		String tNextName;
+		String tPresidentName;
 		PortfolioHolderI tPresident;
 		int tNextPresidentPercent;
 		int tPercent;
@@ -1011,7 +1014,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public String getNextPresidentName (Corporation aCorporation) {
-		String tCertificateOwnerName, tNextName, tPresidentName;
+		String tCertificateOwnerName;
+		String tNextName;
+		String tPresidentName;
 		PortfolioHolderI tPresident;
 		int tNextPresidentPercent;
 		int tPercent;
@@ -1064,8 +1069,9 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public String getPresidentName () {
-		String tName = NO_NAME_STRING;
+		String tName;
 
+		tName = NO_NAME_STRING;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isPresidentShare ()) {
 				tName = tCertificate.getOwnerName ();
@@ -1324,22 +1330,22 @@ public class Portfolio implements CertificateHolderI {
 
 		return tCertificateFound;
 	}
-
-	public boolean hasSelectedPrivateOrMinorToExchange () {
-		boolean tHasSelectedPrivateOrMinorToExchange;
-
-		tHasSelectedPrivateOrMinorToExchange = false;
-
-		for (Certificate tCertificate : certificates) {
-			if (tCertificate.isAPrivateCompany ()) {
-				if (tCertificate.isSelected ()) {
-					tHasSelectedPrivateOrMinorToExchange = true;
-				}
-			}
-		}
-
-		return tHasSelectedPrivateOrMinorToExchange;
-	}
+//
+//	public boolean hasSelectedPrivateOrMinorToExchange () {
+//		boolean tHasSelectedPrivateOrMinorToExchange;
+//
+//		tHasSelectedPrivateOrMinorToExchange = false;
+//
+//		for (Certificate tCertificate : certificates) {
+//			if (tCertificate.isAPrivateCompany ()) {
+//				if (tCertificate.isSelected ()) {
+//					tHasSelectedPrivateOrMinorToExchange = true;
+//				}
+//			}
+//		}
+//
+//		return tHasSelectedPrivateOrMinorToExchange;
+//	}
 
 	public boolean hasSelectedOneToExchange () {
 		boolean tHasSelectedOneToExchange;
