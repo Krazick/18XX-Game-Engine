@@ -400,10 +400,11 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public boolean isOwned () {
 		boolean tIsOwned;
 		Certificate tCertificate;
-		int tCertificateCount, tCertificateIndex;
+		int tCertificateCount;
+		int tCertificateIndex;
 
 		tIsOwned = false;
-		tCertificateCount = corporationCertificates.getCertificateCountAgainstLimit ();
+		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
 		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
 			tCertificate = corporationCertificates.getCertificate (tCertificateIndex);
 			if (tCertificate.isOwned ()) {
