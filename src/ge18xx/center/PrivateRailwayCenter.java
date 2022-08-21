@@ -20,9 +20,7 @@ public class PrivateRailwayCenter extends RevenueCenter {
 	@Override
 	public void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile,
 			Feature2 aSelectedFeature) {
-		if (cityInfo != CityInfo.NO_CITY_INFO) {
-			cityInfo.drawPrivateRailway (g, Xc, Yc, aHex);
-		}
+		cityInfo.drawPrivateRailway (g, Xc, Yc, aHex);
 	}
 
 	@Override
