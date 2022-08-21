@@ -155,9 +155,13 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public boolean hasAnyCorporationBase () {
-		boolean tHasAnyStation = false;
+		boolean tHasAnyStation;
 
-		tHasAnyStation = cityInfo.isCorporationBase ();
+		if (validCityInfo ()) {
+			tHasAnyStation = cityInfo.isCorporationBase ();
+		} else {
+			tHasAnyStation = false;
+		}
 
 		return tHasAnyStation;
 	}
@@ -214,9 +218,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public boolean containingPoint (Point aPoint, Hex aHex, int XCenter, int YCenter, int aTileOrient) {
-		boolean tContainingPoint = false;
-
-		return tContainingPoint;
+		return false;
 	}
 
 	public XMLElement createElement (XMLDocument aXMLDocument) {
@@ -254,7 +256,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public void drawName (Graphics g, int Xc, int Yc, Hex aHex) {
-		if (cityInfo != CityInfo.NO_CITY_INFO) {
+		if (validCityInfo ()) {
 //			cityInfo.drawName (g, Xc, Yc, aHex);
 		}
 	}
@@ -264,10 +266,12 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public String getCIName () {
-		String tCityInfoName = NO_NAME;
+		String tCityInfoName;
 
-		if (cityInfo != CityInfo.NO_CITY_INFO) {
+		if (validCityInfo ()) {
 			tCityInfoName = cityInfo.getName ();
+		} else {
+			tCityInfoName = NO_NAME;
 		}
 
 		return tCityInfoName;
@@ -278,36 +282,53 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public String getCityName () {
-		if (cityInfo != CityInfo.NO_CITY_INFO) {
-			return cityInfo.getName ();
+		String tCityName;
+		
+		if (validCityInfo ()) {
+			tCityName = cityInfo.getName ();
 		} else {
-			return null;
+			tCityName = null;
 		}
+		
+		return tCityName;
 	}
 
 	public int getCenterCount () {
 		return (type.getCenterCount ());
 	}
 
+	protected boolean validCityInfo () {
+		return (cityInfo != CityInfo.NO_CITY_INFO);
+	}
+	
 	public TokenCompany getTokenCorporation () {
-		if (cityInfo == CityInfo.NO_CITY_INFO) {
-			return TokenCompany.NO_TOKEN_COMPANY;
+		TokenCompany tTokenCompany;
+		
+		if (validCityInfo ()) {
+			tTokenCompany = cityInfo.getTokenCorporation ();
 		} else {
-			return cityInfo.getTokenCorporation ();
+			tTokenCompany = TokenCompany.NO_TOKEN_COMPANY;
 		}
+		
+		return tTokenCompany;
 	}
 
 	public Corporation getCorporation () {
-		if (cityInfo == CityInfo.NO_CITY_INFO) {
-			return Corporation.NO_CORPORATION;
+		Corporation tCorporation;
+		
+		if (validCityInfo ()) {
+			tCorporation =  cityInfo.getCorporation ();
 		} else {
-			return cityInfo.getCorporation ();
+			tCorporation = Corporation.NO_CORPORATION;
 		}
+		
+		return tCorporation;
 	}
 
 	public String getDestCompanyAbbrev () {
-		String tAbbrev = null;
+		String tAbbrev;
 
+		tAbbrev = null;
 		if (isCorporationBase ()) {
 			if (type.isDestination ()) {
 				tAbbrev = cityInfo.getCorporationAbbrev ();
@@ -318,8 +339,9 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public String getHomeCompanyAbbrev () {
-		String tAbbrev = null;
+		String tAbbrev;
 
+		tAbbrev = null;
 		if (isCorporationBase ()) {
 			if (!type.isDestination ()) {
 				tAbbrev = cityInfo.getCorporationAbbrev ();
@@ -395,14 +417,10 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		return type.isCity ();
 	}
 
-	public boolean isCityInfoAvailable () {
-		return (cityInfo != CityInfo.NO_CITY_INFO);
-	}
-
 	public boolean isCorporationBase () {
 		boolean tIsCorporationBase;
 
-		if (isCityInfoAvailable ()) {
+		if (validCityInfo ()) {
 			tIsCorporationBase = cityInfo.isCorporationBase ();
 		} else {
 			tIsCorporationBase = false;
@@ -469,7 +487,8 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public void setCityInfo (CityInfo aCityInfo) {
-		cityInfo = aCityInfo.clone ();
+		cityInfo = aCityInfo;
+//		cityInfo = aCityInfo.clone ();
 	}
 
 	public void setCorporation (Corporation aCorporation) {
@@ -483,7 +502,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public void setupCityInfo () {
-		if (cityInfo == CityInfo.NO_CITY_INFO) {
+		if (! validCityInfo ()) {
 			cityInfo = new CityInfo ();
 		}
 	}
