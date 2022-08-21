@@ -104,20 +104,6 @@ public class TableModel18XX extends AbstractTableModel {
 	}
 
 	/*
-	 * Don't need to implement this method unless your table's editable.
-	 */
-	@Override
-	public boolean isCellEditable (int row, int col) {
-		// Note that the data/cell address is constant,
-		// no matter where the cell appears onscreen.
-		if (col < 2) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	/*
 	 * Don't need to implement this method unless your table's data can change.
 	 */
 	@Override
