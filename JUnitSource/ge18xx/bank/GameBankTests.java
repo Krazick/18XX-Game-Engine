@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.times;
 
 import java.util.List;
@@ -57,7 +58,7 @@ class GameBankTests {
 		
 		mGameManager = gameTestFactory.buildGameManagerMock ();
 		gameBank = bankTestFactory.buildGameBank (mGameManager);
-		 
+		
 		mPortfolio = Mockito.mock (Portfolio.class);
 		Mockito.when (mPortfolio.getName ()).thenReturn ("Portfolio Mock Name");
 		mTrainPortfolio = Mockito.mock (TrainPortfolio.class);
@@ -178,16 +179,23 @@ class GameBankTests {
 		@Test
 		void getCertificateFromCorpTest () {
 			ShareCompany tShareCompany;
-			Certificate tCertificate;
+			Certificate tCertificateRemoved;
+			Certificate tCertificateNotRemoved;
 			Certificate mGeneratedCertificate;
 			
 			mGeneratedCertificate = certificateTestFactory.buildCertificateMock ();
 
 			Mockito.when (mPortfolio.getCertificateFor (any (Corporation.class))).thenReturn (mGeneratedCertificate);
+			Mockito.when (mPortfolio.getCertificateFor (any (Corporation.class), anyBoolean ())).thenReturn (mGeneratedCertificate);
 			tShareCompany = companyTestFactory.buildAShareCompany (1);
-			tCertificate = gameBank.getCertificateFromCorp (tShareCompany);
-			assertEquals (mGeneratedCertificate, tCertificate);
+			tCertificateRemoved = gameBank.getCertificateFromCorp (tShareCompany);
+			assertEquals (mGeneratedCertificate, tCertificateRemoved);
 			Mockito.verify (mPortfolio, times (1)).getCertificateFor (tShareCompany);
+			
+			tCertificateNotRemoved = gameBank.getCertificateFromCorp (tShareCompany, false);
+			assertEquals (mGeneratedCertificate, tCertificateNotRemoved);
+			Mockito.verify (mPortfolio, times (1)).getCertificateFor (tShareCompany, false);
+
 		}
 
 		@DisplayName ("getCertificateToBidOn Test")
