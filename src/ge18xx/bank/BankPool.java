@@ -49,7 +49,9 @@ public class BankPool extends GameBank {
 	}
 
 	public XMLElement getBankPoolStateElements (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement, tTrainPortfolioElements, tStockPortfolioElements;
+		XMLElement tXMLElement;
+		XMLElement tTrainPortfolioElements;
+		XMLElement tStockPortfolioElements;
 
 		tXMLElement = aXMLDocument.createElement (EN_BANK_POOL_STATE);
 		tStockPortfolioElements = getPortfolioElements (aXMLDocument);
