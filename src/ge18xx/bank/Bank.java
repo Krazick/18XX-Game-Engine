@@ -58,15 +58,25 @@ public class Bank extends GameBank implements CashHolderI {
 
 	public Bank (int aTreasury, GameManager aGameManager) {
 		super (NAME, aGameManager);
+		
+		Portfolio tClosedPortfolio;
+		TrainPortfolio tRustedTrainsPortfolio;
+		
 		trainPortfolio.setPortfolioHolder (this);
 		treasury = aTreasury;
 		setStartPacketFrame (StartPacketFrame.NO_START_PACKET);
 		setFormat ("");
 		setBankCashLabel (null);
-		closedPortfolio = new Portfolio (this);
-		rustedTrainsPortfolio = new TrainPortfolio (this);
+		tClosedPortfolio = new Portfolio (this);
+		setClosedPortfolio (tClosedPortfolio);
+		tRustedTrainsPortfolio = new TrainPortfolio (this);
+		setRustedTrainsPortfolio (tRustedTrainsPortfolio);
 		logger = LogManager.getLogger (Bank.class);
 		setBankIsBroken (false);
+	}
+
+	public void setClosedPortfolio (Portfolio aClosedPortfolio) {
+		closedPortfolio = aClosedPortfolio;
 	}
 
 	@Override
@@ -80,11 +90,6 @@ public class Bank extends GameBank implements CashHolderI {
 			}
 		}
 	}
-//
-//	@Override
-//	public String getAbbrev () {
-//		return "Bank";
-//	}
 
 	private void setBankIsBroken (boolean aBroken) {
 		bankIsBroken = aBroken;
@@ -98,14 +103,54 @@ public class Bank extends GameBank implements CashHolderI {
 		closedPortfolio.addCertificate (aCertificate);
 	}
 
+	// Rusted Train Portfolio Methods
+	public TrainPortfolio getRustedTrainPortfolio () {
+		return rustedTrainsPortfolio;
+	}
+
+	public void setRustedTrainsPortfolio (TrainPortfolio aRustedTrainsPortfolio) {
+		rustedTrainsPortfolio = aRustedTrainsPortfolio;
+	}
+
 	public void addRustedTrain (Train aTrain) {
 		rustedTrainsPortfolio.addTrain (aTrain);
+	}
+
+	public boolean removeRustedTrain (String aName) {
+		return rustedTrainsPortfolio.removeTrain (aName);
+	}
+
+	public Train getRustedTrain (String aName) {
+		Train tTrain;
+
+		tTrain = rustedTrainsPortfolio.getTrain (aName);
+		if (tTrain != Train.NO_TRAIN) {
+			System.out.println ("Found Train " + aName + " in the Rusted Pile");
+		}
+
+		return tTrain;
+	}
+
+	public void rustAllTrainsNamed (String aTrainName, BuyTrainAction aBuyTrainAction) {
+		BankPool tBankPool;
+		CorporationList tShareCorporationList, tMinorCorporationList;
+		TrainPortfolio tTrainPortfolio;
+
+		tBankPool = gameManager.getBankPool ();
+		tTrainPortfolio = tBankPool.getTrainPortfolio ();
+		tTrainPortfolio.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, tBankPool, this, aBuyTrainAction);
+		trainPortfolio.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, this, aBuyTrainAction);
+
+		tShareCorporationList = gameManager.getShareCompanies ();
+		tShareCorporationList.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, aBuyTrainAction);
+
+		tMinorCorporationList = gameManager.getMinorCompanies ();
+		tMinorCorporationList.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, aBuyTrainAction);
 	}
 
 	public void loadTrains (GameInfo aActiveGame) {
 		int tTrainIndex, tTrainCount, tTrainQty;
 		TrainInfo tTrainInfo;
-
 
 		tTrainCount = aActiveGame.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
@@ -182,37 +227,6 @@ public class Bank extends GameBank implements CashHolderI {
 		return tStartPacketJPanel;
 	}
 
-	public boolean canStartOperatingRound () {
-		return startPacketFrame.noMustSellLeft ();
-	}
-
-	public void applyDiscount () {
-		startPacketFrame.applyDiscount ();
-	}
-
-	public boolean hasMustBuyCertificate () {
-		boolean tMustBuy = false;
-
-		if (startPacketFrame != StartPacketFrame.NO_XML_FRAME) {
-			tMustBuy = startPacketFrame.hasMustBuyCertificate ();
-		}
-
-		return tMustBuy;
-	}
-
-	public boolean hasMustSell () {
-		return startPacketFrame.hasMustSell ();
-	}
-
-	public Certificate getMustSellCertificate () {
-		return startPacketFrame.getMustSellCertificate ();
-	}
-
-	@Override
-	public void clearSelections () {
-		startPacketFrame.clearSelections ();
-	}
-
 	public void createStartPacket (GameManager aGameManager) {
 		String tXMLCompaniesName;
 		String tActiveGameName;
@@ -265,14 +279,29 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 
 	public XMLElement getBankStateElements (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement, tTrainPortfolioElements, tRustedTrainPortfolioElements;
+		XMLElement tXMLElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_BANK_STATE);
 		tXMLElement.setAttribute (AN_BANK_CASH, treasury);
+		getStateElements (aXMLDocument, tXMLElement);
+
+		return tXMLElement;
+	}
+
+	public void getStateElements (XMLDocument aXMLDocument, XMLElement aXMLElement) {
+		XMLElement tTrainPortfolioElements;
+		XMLElement tRustedTrainPortfolioElements;
+		
 		tTrainPortfolioElements = getTrainPortfolioElements (aXMLDocument);
-		tXMLElement.appendChild (tTrainPortfolioElements);
+		aXMLElement.appendChild (tTrainPortfolioElements);
 		tRustedTrainPortfolioElements = getRustedTrainPortfolioElements (aXMLDocument);
-		tXMLElement.appendChild (tRustedTrainPortfolioElements);
+		aXMLElement.appendChild (tRustedTrainPortfolioElements);
+	}
+
+	public XMLElement getRustedTrainPortfolioElements (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+
+		tXMLElement = rustedTrainsPortfolio.getRustedElements (aXMLDocument);
 
 		return tXMLElement;
 	}
@@ -327,20 +356,41 @@ public class Bank extends GameBank implements CashHolderI {
 		return tCurrentHolder;
 	}
 
+	// Call various Start Packet Frame methods
+	
+	public boolean canStartOperatingRound () {
+		return startPacketFrame.noMustSellLeft ();
+	}
+
+	public void applyDiscount () {
+		startPacketFrame.applyDiscount ();
+	}
+
+	public boolean hasMustBuyCertificate () {
+		boolean tMustBuy = false;
+
+		if (startPacketFrame != StartPacketFrame.NO_XML_FRAME) {
+			tMustBuy = startPacketFrame.hasMustBuyCertificate ();
+		}
+
+		return tMustBuy;
+	}
+
+	public boolean hasMustSell () {
+		return startPacketFrame.hasMustSell ();
+	}
+
+	public Certificate getMustSellCertificate () {
+		return startPacketFrame.getMustSellCertificate ();
+	}
+
+	@Override
+	public void clearSelections () {
+		startPacketFrame.clearSelections ();
+	}
+
 	public Certificate getFreeCertificateWithThisCertificate (Certificate aThisCertificate) {
 		return startPacketFrame.getFreeCertificateWithThisCertificate (aThisCertificate);
-	}
-
-	public TrainPortfolio getRustedTrainPortfolio () {
-		return rustedTrainsPortfolio;
-	}
-
-	public XMLElement getRustedTrainPortfolioElements (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement;
-
-		tXMLElement = rustedTrainsPortfolio.getRustedElements (aXMLDocument);
-
-		return tXMLElement;
 	}
 
 	public StartPacketFrame getStartPacketFrame () {
@@ -363,17 +413,28 @@ public class Bank extends GameBank implements CashHolderI {
 		return tStartPacketPortfolio;
 	}
 
-	@Override
-	public boolean isABank () {
-		return true;
-	}
-
 	public boolean isInStartPacket (Certificate aCertificate) {
 		return startPacketFrame.hasThisCertificate (aCertificate);
 	}
 
 	public boolean isStartPacketPortfolioEmpty () {
 		return startPacketFrame.isStartPacketPortfolioEmpty ();
+	}
+
+	public boolean availableShareHasBids () {
+		return startPacketFrame.availableShareHasBids ();
+	}
+
+	public boolean nextShareHasBids () {
+		return startPacketFrame.nextShareHasBids ();
+	}
+
+	public Certificate getPrivateForAuction () {
+		return startPacketFrame.getPrivateForAuction ();
+	}
+
+	public void setStartPacketFrame (StartPacketFrame aStartPacket) {
+		startPacketFrame = aStartPacket;
 	}
 
 	public void loadBankState (XMLNode aBankNode) {
@@ -457,41 +518,12 @@ public class Bank extends GameBank implements CashHolderI {
 		}
 	}
 
-	public boolean availableShareHasBids () {
-		return startPacketFrame.availableShareHasBids ();
-	}
-
-	public boolean nextShareHasBids () {
-		return startPacketFrame.nextShareHasBids ();
-	}
-
-	public Certificate getPrivateForAuction () {
-		return startPacketFrame.getPrivateForAuction ();
-	}
-
 	public void closeAllPrivates (BuyTrainAction aBuyTrainAction) {
 		CorporationList tPrivateCorporations;
 
 		tPrivateCorporations = gameManager.getPrivates ();
 
 		tPrivateCorporations.closeAll (aBuyTrainAction);
-	}
-
-	public void rustAllTrainsNamed (String aTrainName, BuyTrainAction aBuyTrainAction) {
-		BankPool tBankPool;
-		CorporationList tShareCorporationList, tMinorCorporationList;
-		TrainPortfolio tTrainPortfolio;
-
-		tBankPool = gameManager.getBankPool ();
-		tTrainPortfolio = tBankPool.getTrainPortfolio ();
-		tTrainPortfolio.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, tBankPool, this, aBuyTrainAction);
-		trainPortfolio.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, this, aBuyTrainAction);
-
-		tShareCorporationList = gameManager.getShareCompanies ();
-		tShareCorporationList.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, aBuyTrainAction);
-
-		tMinorCorporationList = gameManager.getMinorCompanies ();
-		tMinorCorporationList.rustAllTrainsNamed (aTrainName, rustedTrainsPortfolio, this, aBuyTrainAction);
 	}
 
 	private void setBankCashLabel (JLabel aBankCashLabel) {
@@ -507,10 +539,6 @@ public class Bank extends GameBank implements CashHolderI {
 		setStaticFormat (aFormat);
 	}
 
-	private void setStartPacketFrame (StartPacketFrame aStartPacket) {
-		startPacketFrame = aStartPacket;
-	}
-
 	@Override
 	public void transferCashTo (CashHolderI aToHolder, int aAmount) {
 		aToHolder.addCash (aAmount);
@@ -519,20 +547,20 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 
 	public void updateBankCashLabel () {
+		String tBankLabel;
+		
+		tBankLabel = BANK_LABEL_PREFIX + Bank.formatCash (getCash ());
 		if (bankCashLabel == GUI.NO_LABEL) {
-			bankCashLabel = new JLabel (BANK_LABEL_PREFIX + Bank.formatCash (getCash ()));
+			bankCashLabel = new JLabel (tBankLabel);
 		} else {
-			bankCashLabel.setText (BANK_LABEL_PREFIX + Bank.formatCash (getCash ()));
+			bankCashLabel.setText (tBankLabel);
 		}
 	}
 
-	public void clearAllTrainSelections () {
-		trainPortfolio.clearAllTrainSelections ();
-	}
-
 	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
-		Certificate tCertificate = Certificate.NO_CERTIFICATE;
+		Certificate tCertificate;
 
+		tCertificate = Certificate.NO_CERTIFICATE;
 		if (startPacketFrame != StartPacketFrame.NO_XML_FRAME) {
 			tCertificate = startPacketFrame.getMatchingCertificate (aAbbrev, aPercentage, aIsPresident);
 		}
@@ -541,20 +569,5 @@ public class Bank extends GameBank implements CashHolderI {
 		}
 
 		return tCertificate;
-	}
-
-	public boolean removeRustedTrain (String aName) {
-		return rustedTrainsPortfolio.removeTrain (aName);
-	}
-
-	public Train getRustedTrain (String aName) {
-		Train tTrain;
-
-		tTrain = rustedTrainsPortfolio.getTrain (aName);
-		if (tTrain != Train.NO_TRAIN) {
-			System.out.println ("Found Train " + aName + " in the Rusted Pile");
-		}
-
-		return tTrain;
 	}
 }
