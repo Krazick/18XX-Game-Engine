@@ -487,8 +487,8 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public void setCityInfo (CityInfo aCityInfo) {
-		cityInfo = aCityInfo;
-//		cityInfo = aCityInfo.clone ();
+//		cityInfo = aCityInfo;
+		cityInfo = aCityInfo.clone ();
 	}
 
 	public void setCorporation (Corporation aCorporation) {

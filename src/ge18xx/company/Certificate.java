@@ -770,6 +770,7 @@ public class Certificate implements Comparable<Certificate> {
 					if (!bankPoolAtLimit (aGameManager)) {
 						tOperatingCompany = (ShareCompany) aGameManager.getOperatingCompany ();
 						// During Loading a game, this is not set yet, so the result is false
+						// Also Game Manager will return NO_CORPORATION if in a Stock Round
 						if (tOperatingCompany != Corporation.NO_CORPORATION) {
 							tShareCompany = (ShareCompany) corporation;
 							if (tOperatingCompany.forceBuyEnoughCash ()) {
@@ -779,6 +780,8 @@ public class Certificate implements Comparable<Certificate> {
 							} else {
 								tCanBeSold = operatingCompanyMustBuyTrain (aGameManager);
 							}
+						} else {
+							tCanBeSold = true;
 						}
 					}
 				}
@@ -820,18 +823,16 @@ public class Certificate implements Comparable<Certificate> {
 
 	// TODO: Build JUNIT Test Cases for getCost, getValue, getDiscount
 	public int getCost () {
-		int tCertificateCost = 0;
-		int tParPrice;
+		int tCertificateCost;
 
-		if (hasParPrice ()) {
-			tCertificateCost = getValue () - getDiscount ();
-		} else if (isAShareCompany ()) {
-			tParPrice = getComboParValue ();
-			if (tParPrice != ParPriceFrame.NO_PAR_PRICE_VALUE) {
-				tCertificateCost = calcCertificateValue (tParPrice);
+		if (isAShareCompany ()) {
+			if (owner.isABankPool ()) {
+				tCertificateCost = getValue ();
+			} else if (owner.isABank ()) {
+				tCertificateCost = getParPrice ();
+			} else {
+				tCertificateCost = getValue ();
 			}
-			// If it does not have a Share Price, and is not a Share Company
-			// Originally this was just a Private, but this is now part of getValue Method
 		} else {
 			tCertificateCost = getValue () - getDiscount ();
 		}
@@ -1029,13 +1030,11 @@ public class Certificate implements Comparable<Certificate> {
 			ShareCompany tShare = (ShareCompany) corporation;
 
 			tParPrice = tShare.getParPrice ();
-		}
-		if (corporation.isAMinorCompany ()) {
+		} else if (corporation.isAMinorCompany ()) {
 			MinorCompany tMinor = (MinorCompany) corporation;
 
 			tParPrice = tMinor.getValue ();
-		}
-		if (corporation.isAPrivateCompany ()) {
+		} else if (corporation.isAPrivateCompany ()) {
 			PrivateCompany tPrivate = (PrivateCompany) corporation;
 
 			tParPrice = tPrivate.getValue ();
@@ -1108,8 +1107,7 @@ public class Certificate implements Comparable<Certificate> {
 			ShareCompany tShare = (ShareCompany) corporation;
 
 			tSharePrice = tShare.getSharePrice ();
-		}
-		if (corporation.isAMinorCompany ()) {
+		} else if (corporation.isAMinorCompany ()) {
 			MinorCompany tMinor = (MinorCompany) corporation;
 
 			tSharePrice = tMinor.getValue ();

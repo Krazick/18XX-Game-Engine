@@ -2016,7 +2016,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public Corporation getOperatingCompany () {
-		return roundManager.getOperatingCompany ();
+		Corporation tOperatingCompany;
+		
+		if (isStockRound ()) {
+			tOperatingCompany = Corporation.NO_CORPORATION;
+		} else {
+			tOperatingCompany = roundManager.getOperatingCompany ();
+		}
+		
+		return tOperatingCompany;
 	}
 
 	public void addAction (Action aAction) {

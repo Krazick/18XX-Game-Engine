@@ -36,6 +36,8 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public static final String MUST_BUY_PRIVATE = "Must buy the Private where COST == DISCOUNT";
 	public static final String ALREADY_VISIBLE = "PlayerFrame already Visible";
 	public static final String WAITING_FOR_PAR_PRICE = "Waiting for the Par Price of new Company to be Set";
+	public static final String NOT_ENOUGH_CASH = "Does not have enough cash";
+	public static final String NO_PAR_PRICE_SET = "No Par Price Selected Yet";
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
 	static final String PASS = "Pass";
@@ -692,12 +694,12 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				tCostToBuy = player.getCostSelectedStockToBuy ();
 				if (tCostToBuy <= 0) {
 					buyBidButton.setEnabled (false);
-					buyBidButton.setToolTipText ("No Par Price Selected Yet");
+					buyBidButton.setToolTipText (NO_PAR_PRICE_SET);
 					buyBidButton.setText (Player.BUY_LABEL);
 					tNormalBuy = false;
 				} else if (tCostToBuy > player.getCash ()) {
 					buyBidButton.setEnabled (false);
-					buyBidButton.setToolTipText ("Does not have enough cash");
+					buyBidButton.setToolTipText (NOT_ENOUGH_CASH);
 					buyBidButton.setText (Player.BUY_LABEL);
 					tNormalBuy = false;
 				}

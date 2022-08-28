@@ -407,7 +407,7 @@ public class City extends RevenueCenter implements Cloneable {
 			drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			break;
 
-		case RevenueCenterType.TWO_CITIES: /* Two Seperate Cities */
+		case RevenueCenterType.TWO_CITIES: /* Two Separate Cities */
 			tCityColor = Color.white;
 			drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
