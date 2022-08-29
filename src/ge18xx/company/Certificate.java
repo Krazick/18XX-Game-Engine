@@ -830,6 +830,9 @@ public class Certificate implements Comparable<Certificate> {
 				tCertificateCost = getValue ();
 			} else if (owner.isABank ()) {
 				tCertificateCost = getParPrice ();
+				if (tCertificateCost == ShareCompany.NO_PAR_PRICE) {
+					tCertificateCost = getComboParValue ();
+				}
 			} else {
 				tCertificateCost = getValue ();
 			}
