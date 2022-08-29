@@ -1113,7 +1113,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		// Need to remove any Cash the Player has before setting it.
 
 		treasury = aPlayerNode.getThisIntAttribute (Player.AN_CASH);
-		boughtShare = aPlayerNode.getThisAttribute (AN_BOUGHT_SHARE);
+		boughtShare = aPlayerNode.getThisAttribute (AN_BOUGHT_SHARE, NO_SHARE_BOUGHT);
 		tState = aPlayerNode.getThisAttribute (AN_PRIMARY_STATE);
 		tGenericActor = new GenericActor ();
 		primaryActionState = tGenericActor.getPlayerState (tState);
