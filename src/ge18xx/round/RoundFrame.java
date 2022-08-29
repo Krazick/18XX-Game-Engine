@@ -435,14 +435,16 @@ public class RoundFrame extends XMLFrame {
 			tFastBuyCertificate = tCurrentPlayer.getNextFastBuyCertificate (tFastBuyIndex);
 			if (tFastBuyCertificate != Certificate.NO_CERTIFICATE) {
 				tPlayerName = tCurrentPlayer.getName ();
-				tButtonLabel = tPlayerName + " Fast Buy of " + tFastBuyCertificate.getCompanyAbbrev () + " for " + 
-							Bank.formatCash (tFastBuyCertificate.getParPrice ());
-				tFastBuyButton = new FastBuyButton (tButtonLabel, tFastBuyCertificate);
-				tFastBuyButton.setActionCommand (BUY_STOCK_ACTION);
-				tFastBuyButton.addActionListener (roundManager);
-				tFastBuyButton.setAlignmentX (Component.CENTER_ALIGNMENT);
-				fastBuyJPanel.add (tFastBuyButton);
-				fastBuyJPanel.add (Box.createHorizontalStrut (20));
+				if (tGameManager.isNetworkAndIsThisClient (tPlayerName)) {
+					tButtonLabel = tPlayerName + " Fast Buy of " + tFastBuyCertificate.getCompanyAbbrev () + " for " + 
+								Bank.formatCash (tFastBuyCertificate.getParPrice ());
+					tFastBuyButton = new FastBuyButton (tButtonLabel, tFastBuyCertificate);
+					tFastBuyButton.setActionCommand (BUY_STOCK_ACTION);
+					tFastBuyButton.addActionListener (roundManager);
+					tFastBuyButton.setAlignmentX (Component.CENTER_ALIGNMENT);
+					fastBuyJPanel.add (tFastBuyButton);
+					fastBuyJPanel.add (Box.createHorizontalStrut (20));
+				}
 				tFastBuyIndex++;
 			} else {
 				tHasMoreFastBuys = false;
