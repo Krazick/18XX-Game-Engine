@@ -826,20 +826,26 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void updateRoundFrame () {
+		int tRoundID;
+		
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 			operatingRound.sortByOperatingOrder ();
 
 			if (isStockRound ()) {
 				updateAllCorporationsBox ();
-				roundFrame.setStockRoundInfo (gameName, stockRound.getIDPart1 ());
+				tRoundID = stockRound.getIDPart1 ();
+				roundFrame.setStockRoundInfo (gameName, tRoundID);
 			}
 			if (isOperatingRound ()) {
-				roundFrame.setOperatingRound (gameName, operatingRound.getIDPart1 (), currentOR, operatingRoundCount);
+				tRoundID = operatingRound.getIDPart1 ();
+				roundFrame.setOperatingRound (gameName, tRoundID, currentOR, operatingRoundCount);
 				updateOperatingCorporationFrame ();
 				operatingRound.updateActionLabel ();
 			}
 			if (isAAuctionRound ()) {
-				roundFrame.setAuctionRound (gameName, auctionRound.getIDPart1 ());
+				tRoundID = auctionRound.getIDPart1 ();
+				
+				roundFrame.setAuctionRound (gameName, tRoundID);
 			}
 			roundFrame.updateAll ();
 		}
