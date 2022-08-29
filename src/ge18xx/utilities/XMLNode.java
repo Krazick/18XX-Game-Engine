@@ -111,10 +111,12 @@ public class XMLNode {
 
 		tValue = getThisAttribute (aAttributeName);
 		if (tValue == NO_VALUE) {
-			return aDefaultValue;
-		} else {
-			return tValue;
+			tValue = aDefaultValue;
+		} else if (tValue.equals (GUI.EMPTY_STRING)) {
+			tValue = aDefaultValue;
 		}
+		
+		return tValue;
 	}
 
 	/**
