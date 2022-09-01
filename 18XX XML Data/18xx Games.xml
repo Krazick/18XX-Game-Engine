@@ -505,8 +505,12 @@
 			<Variant class="ge18xx.game.variants.VariantAll" id="700" title="Add Plus Trains">
 				<VariantEffect action="Add 2+2 Train" class="ge18xx.game.variants.AddTrainVEffect" id="701" name="Add 2+2 Train" trainName="2+2" quantity="1" >
 					<Train name="2+2" order="2" revenueCenters="2" townRevenueCenters="2"
-							quantity="1" price="80" onLast="5" triggerPhase="1.2" />
+							quantity="1" price="80" onLast="3" triggerPhase="1.2" />
 				</VariantEffect>
+				<VariantEffect action="Add Phase 1.2" class="ge18xx.game.variants.AddPhaseVEffect" hide="true" name="1.2">
+					<Phase name="1" subName="2" rounds="1" tiles="Yellow" trainLimit="4" offBoard="Low" />
+				</VariantEffect>
+				<VariantEffect action="Modify 2 Train settting OnLast to 2, not 3" class="ge18xx.game.variants.ModifyTrainVEffect" name="2" attributeName="onLast" value="2" />
 			</Variant>
 			<Variant class="ge18xx.game.variants.VariantAll" id="600" title="Add Double-Town Yellow Tiles">
 				<VariantEffect action="Add Yellow Tile 630" class="ge18xx.game.variants.AddTilesVEffect" id="601" name="Double Town 630" tileNumber="630" tileType="Yellow" quantity="1"/>
