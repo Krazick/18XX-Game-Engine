@@ -34,9 +34,17 @@ public class PhaseManager {
 			System.err.println ("Phases Linked List not Initialized");
 		} else {
 			phases.add (aPhase);
+			phases.sort (PhaseInfo.PhaseInfoComparator);
 		}
 	}
 
+	public void printAllPhaseNames () {
+		System.out.println ("----");
+		for (PhaseInfo tPhaseInfo : phases) {
+			System.out.println ("Phase Name " + tPhaseInfo.getFullName ());
+		}
+	}
+	
 	public boolean doIncrementalCapitalization () {
 		return getCurrentPhaseInfo ().doIncrementalCapitalization ();
 	}

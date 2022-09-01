@@ -1,5 +1,7 @@
 package ge18xx.phase;
 
+import java.util.Comparator;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLNode;
@@ -34,6 +36,8 @@ public class PhaseInfo {
 	static final AttributeName AN_MIN_TO_FLOAT = new AttributeName ("minToFloat");
 	static final AttributeName AN_MIN_TO_FLOAT_LAST = new AttributeName ("minToFloatLast");
 	static final AttributeName AN_CAPITALIZATION = new AttributeName ("capitalization");
+	static final int SORT_PHASE1_BEFORE_PHASE2 = -100;
+	static final int SORT_PHASE2_BEFORE_PHASE1 = 100;
 
 	static final int STANDARD_MIN_SHARES = 6;
 	static final int NO_LIMIT = 99;
@@ -269,4 +273,35 @@ public class PhaseInfo {
 
 		return tUpgradeAllowed;
 	}
+	
+	public static Comparator<PhaseInfo> PhaseInfoComparator = new Comparator<PhaseInfo> () {
+
+		@Override
+		public int compare (PhaseInfo aPhaseInfo1, PhaseInfo aPhaseInfo2) {
+			int tSortOrder;
+			int tPhaseName1;
+			int tPhaseName2;
+			int tPhaseSubName1;
+			int tPhaseSubName2;
+			
+			tSortOrder = 0;
+			tPhaseName1 = aPhaseInfo1.getName ();
+			tPhaseName2 = aPhaseInfo2.getName ();
+			if (tPhaseName1 == tPhaseName2) {
+				tPhaseSubName1 = aPhaseInfo1.getSubName ();
+				tPhaseSubName2 = aPhaseInfo2.getSubName ();
+				if (tPhaseSubName1 < tPhaseSubName2) {
+					tSortOrder = SORT_PHASE1_BEFORE_PHASE2;
+				} else {
+					tSortOrder = SORT_PHASE2_BEFORE_PHASE1;
+				}
+			} else if (tPhaseName1 < tPhaseName2) {
+				tSortOrder = SORT_PHASE1_BEFORE_PHASE2;
+			} else {
+				tSortOrder = SORT_PHASE2_BEFORE_PHASE1;
+			}
+			
+			return tSortOrder;
+		}
+	};
 }
