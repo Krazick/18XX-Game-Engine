@@ -8,16 +8,20 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class RemovePhaseVEffect extends VariantEffect {
+public class PhaseInfoVEffect extends VariantEffect {
 	static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");
-	static final String NAME = "Remove Phase";
+	static final String NAME = "Phase Info";
 	String phaseName;
 	
-	public RemovePhaseVEffect () {
+	public PhaseInfoVEffect () {
 		setName (NAME);
 	}
+	
+	public PhaseInfoVEffect (String aPhaseName) {
+		setName (aPhaseName);
+	}
 
-	public RemovePhaseVEffect (XMLNode aXMLNode) {
+	public PhaseInfoVEffect (XMLNode aXMLNode) {
 		super (aXMLNode);
 
 		String tPhaseName;
@@ -62,11 +66,11 @@ public class RemovePhaseVEffect extends VariantEffect {
 	 */
 	@Override
 	public void applyVariantEffect (GameManager aGameManager) {
-		System.out.println ("Remove Phase being Applied");
+		System.out.println (NAME + " being Applied");
 	}
 
 	/**
-	 * Variant Effect Component Builder -- this should be overriden by the subclasses
+	 * Variant Effect Component Builder -- this should be overridden by the subclasses
 	 * 
 	 * @param aItemListener Placeholder for the Item Listener class that will handle the request
 	 * @return 
