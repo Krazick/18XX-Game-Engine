@@ -22,6 +22,8 @@ import ge18xx.utilities.XMLNode;
 public class VariantEffect {
 	static final String NO_NAME = "<NO NAME>";
 	static final int NO_QUANTITY = -1;
+	static final AttributeName AN_ATTRIBUTE_NAME = new AttributeName ("attributeName");
+	static final AttributeName AN_VALUE = new AttributeName ("value");
 	static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
 	static final AttributeName AN_ACTION = new AttributeName ("action");
 	static final AttributeName AN_DEFAULT_EFFECT = new AttributeName ("defaultEffect");
