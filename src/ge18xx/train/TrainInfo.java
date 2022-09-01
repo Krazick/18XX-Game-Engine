@@ -237,6 +237,11 @@ public class TrainInfo {
 		train.setTrainInfo (this);
 		unlimited_quantity = false;
 		onFirstOrderAvailable = aOnFirstOrderAvailable;
+//		onLastOrderAvailable = aOnLastOrderAvailable;
+		setOnLastOrderAvailable (aOnLastOrderAvailable);
+	}
+	
+	public void setOnLastOrderAvailable (int aOnLastOrderAvailable) {
 		onLastOrderAvailable = aOnLastOrderAvailable;
 	}
 }
