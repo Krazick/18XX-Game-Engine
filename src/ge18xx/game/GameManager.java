@@ -1050,13 +1050,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 			setGameChanged (true);
 
 			setupBank ();
+			tPhaseManager = activeGame.getPhaseManager ();
+			tPhaseManager.setCurrentPhase (PhaseManager.FIRST_PHASE);
+			setPhaseManager (tPhaseManager);
 			activeGame.setupVariants ();
 			activeGame.applyActiveVariantEffects (this);
 			removeInactiveCompanies ();
 			setupPlayers ();
-			tPhaseManager = activeGame.getPhaseManager ();
-			tPhaseManager.setCurrentPhase (PhaseManager.FIRST_PHASE);
-			setPhaseManager (tPhaseManager);
 			tPrivates = getPrivates ();
 			tMinors = getMinorCompanies ();
 			tShares = getShareCompanies ();
