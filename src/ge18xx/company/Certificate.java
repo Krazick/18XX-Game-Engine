@@ -1398,8 +1398,8 @@ public class Certificate implements Comparable<Certificate> {
 		corporation = aCorporation;
 	}
 
-	public boolean haveOnlyOneBidderLeft () {
-		return bidders.haveOnlyOneBidderLeft ();
+	public boolean auctionIsOver () {
+		return bidders.auctionIsOver ();
 	}
 
 	public int getNumberOfBidders () {
