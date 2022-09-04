@@ -187,10 +187,12 @@ public class Bidders {
 		return (bidders.size () > 0);
 	}
 
-	public boolean haveOnlyOneBidderLeft () {
-		boolean tHaveOnlyOneBidderLeft = false;
-		int tBidderPassCount = 0;
+	public boolean auctionIsOver () {
+		boolean tAuctionIsOver;
+		int tBidderPassCount;
 
+		tAuctionIsOver = false;
+		tBidderPassCount = 0;
 		if (getNumberOfBidders () > 1) {
 			for (Bidder tBidder : bidders) {
 				if (tBidder.hasPassed ()) {
@@ -198,14 +200,14 @@ public class Bidders {
 				}
 			}
 			if ((tBidderPassCount + 1) == getNumberOfBidders ()) {
-				tHaveOnlyOneBidderLeft = true;
+				tAuctionIsOver = true;
 			}
 
 		} else {
-			tHaveOnlyOneBidderLeft = true;
+			tAuctionIsOver = true;
 		}
 
-		return tHaveOnlyOneBidderLeft;
+		return tAuctionIsOver;
 	}
 
 	public void removeBidder (CashHolderI aCashHolder) {
