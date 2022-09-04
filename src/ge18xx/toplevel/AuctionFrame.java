@@ -1,15 +1,15 @@
 package ge18xx.toplevel;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -49,18 +49,26 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private final String UNDO = "Undo";
 
 	JLabel privateCompanyLabel;
+	JLabel freeCertificateLabel;
 	JButton doneButton;
 	JButton undoButton;
 
 	JPanel oneBidderJPanel;
-	JPanel topJPanel;
+	JPanel auctionItemInfoJPanel;
 	JPanel biddersJPanel;
-	JPanel bottomJPanel;
+	JPanel buttonJPanel;
+	
+	JPanel fullPanel;
+	
+	JComboBox<String> parValuesCombo;
+	JButton setParPrice;
+
 	JButton [] bidderRaiseButtons;
 	JButton [] bidderPassButtons;
 	JLabel [] bidderLabels;
 	JLabel [] bidderSuffixLabel;
 	Certificate certificateToAuction;
+	Certificate freeCertificate;
 	AuctionRound auctionRound;
 	String clientUserName;
 	String doneToolTipText = MULTIPLE_BIDDERS_IN_AUCTION;
@@ -70,29 +78,32 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	public AuctionFrame (String aFrameName, String aClientUser, boolean aIsNetworkGame) {
 		super (aFrameName);
-
+		
+		fullPanel = new JPanel ();
+		fullPanel.setLayout (new BoxLayout (fullPanel, BoxLayout.Y_AXIS));
 		clientUserName = aClientUser;
 		isNetworkGame = aIsNetworkGame;
 		defaultColor = getBackground ();
 
-		buildTopJPanel ();
+		buildAuctionItemInfoJPanel ();
 		buildBiddersJPanel ();
-		buildBottomJPanel ();
+		buildButtonJPanel ();
 
-		add (topJPanel, BorderLayout.NORTH);
-		add (biddersJPanel, BorderLayout.CENTER);
-		add (bottomJPanel, BorderLayout.SOUTH);
+		fullPanel.add (auctionItemInfoJPanel);
+		fullPanel.add (biddersJPanel);
+		fullPanel.add (buttonJPanel);
+		add (fullPanel);
 		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
 	}
 
-	public void buildBottomJPanel () {
-		bottomJPanel = new JPanel ();
-		bottomJPanel.setLayout (new BoxLayout (bottomJPanel, BoxLayout.Y_AXIS));
-		bottomJPanel.add (Box.createVerticalStrut (5));
+	public void buildButtonJPanel () {
+		buttonJPanel = new JPanel ();
+		buttonJPanel.setLayout (new BoxLayout (buttonJPanel, BoxLayout.Y_AXIS));
+		buttonJPanel.add (Box.createVerticalStrut (5));
 		doneButton = setupButton (DONE, DONE);
-		bottomJPanel.add (Box.createVerticalStrut (5));
+		buttonJPanel.add (Box.createVerticalStrut (5));
 		undoButton = setupButton (UNDO, UNDO);
-		bottomJPanel.add (Box.createVerticalStrut (5));
+		buttonJPanel.add (Box.createVerticalStrut (5));
 	}
 
 	public void buildBiddersJPanel () {
@@ -100,29 +111,22 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		biddersJPanel.setLayout (new BoxLayout (biddersJPanel, BoxLayout.Y_AXIS));
 
 		biddersJPanel.add (Box.createVerticalStrut (15));
-		buildOneBiddersJPanel ();
+		buildOneBidderJPanel ();
 		biddersJPanel.add (Box.createVerticalStrut (15));
 	}
 
-	public void buildOneBiddersJPanel () {
+	public void buildOneBidderJPanel () {
 		oneBidderJPanel = new JPanel ();
 		oneBidderJPanel.setLayout (new BoxLayout (oneBidderJPanel, BoxLayout.X_AXIS));
 		oneBidderJPanel.add (new JLabel ("Bidder JPanel"));
 	}
 
-	public void buildTopJPanel () {
-		JLabel tLabel;
+	public void buildAuctionItemInfoJPanel () {
 
-		tLabel = new JLabel ("Auction Round for Private Company");
-		tLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		auctionItemInfoJPanel = new JPanel ();
 		privateCompanyLabel = new JLabel ("DUMMY PRIVATE");
-		topJPanel = new JPanel ();
-		topJPanel.setLayout (new BoxLayout (topJPanel, BoxLayout.Y_AXIS));
-		topJPanel.add (Box.createVerticalStrut (15));
-		topJPanel.add (tLabel);
-		topJPanel.add (Box.createVerticalStrut (10));
-		topJPanel.add (privateCompanyLabel);
-		topJPanel.add (Box.createVerticalStrut (15));
+		freeCertificateLabel = new JLabel ("");
+		fillAuctionItemInfo ();
 	}
 
 	public JButton setupButton (String aButtonText, String aButtonCommand) {
@@ -132,7 +136,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tJButton.setActionCommand (aButtonCommand);
 		tJButton.addActionListener (this);
 		tJButton.setAlignmentX (Component.CENTER_ALIGNMENT);
-		bottomJPanel.add (tJButton);
+		buttonJPanel.add (tJButton);
 		if (isNetworkGame) {
 			if (aButtonText.equals (UNDO)) {
 				tJButton.setEnabled (false);
@@ -289,9 +293,9 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 				}
 			}
 		}
-		topJPanel.setBackground (tBackgroundColor);
+		auctionItemInfoJPanel.setBackground (tBackgroundColor);
 		biddersJPanel.setBackground (tBackgroundColor);
-		bottomJPanel.setBackground (tBackgroundColor);
+		buttonJPanel.setBackground (tBackgroundColor);
 	}
 
 	private int getNextBidderIndex (int aActingBidderIndex) {
@@ -307,7 +311,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private void passBid (int aActingBidderIndex) {
 		int tNextBidderIndex;
 		boolean tDone = true;
-		boolean tHaveOnlyOneBidderLeft;
+		boolean tAuctionIsOver;
 		Player tPlayer;
 		Player tNextPlayer;
 		Bidder tBidder;
@@ -331,9 +335,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tAuctionPassAction.addAuctionPassEffect (tPlayer, tOldBidderState, tNewBidderState);
 		tAuctionPassAction.addAuctionStateChangeEffect (tPlayer, tOldBidderState, tNewBidderState);
 
-		tHaveOnlyOneBidderLeft = certificateToAuction.haveOnlyOneBidderLeft ();
-		if (tHaveOnlyOneBidderLeft) {
+		tAuctionIsOver = certificateToAuction.auctionIsOver ();
+		if (tAuctionIsOver) {
 			tDone = clientIsWinner ();
+			updateParValueComponents ();
 		} else {
 			tNextPlayer.setAuctionActionState (ActorI.ActionStates.Bidder);
 			tNewNextBidderState = tNextPlayer.getAuctionActionState ();
@@ -383,7 +388,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		boolean tDone;
 
 		if (certificateToAuction != Certificate.NO_CERTIFICATE) {
-			tDone = certificateToAuction.haveOnlyOneBidderLeft ();
+			tDone = certificateToAuction.auctionIsOver ();
 			updateAuctionFrame (tDone);
 		}
 	}
@@ -445,7 +450,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		setVisible (false);
 	}
 
-	public void addPrivateToAuction (Certificate aCertificateToAuction) {
+	public void addPrivateToAuction (Certificate aCertificateToAuction, Certificate aFreeCertificate) {
 		Player tPlayer;
 		int tCash;
 		int tBidderCount;
@@ -453,10 +458,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		String tRaiseLabel, tBidderName;
 		boolean tBidderIsActing;
 
-		privateCompanyLabel.setText (aCertificateToAuction.getCompanyAbbrev () + " Value "
-				+ Bank.formatCash (aCertificateToAuction.getValue ()));
-		privateCompanyLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
-		certificateToAuction = aCertificateToAuction;
+		updateAuctionItemInfo (aCertificateToAuction, aFreeCertificate);
 
 		tBidderCount = certificateToAuction.getNumberOfBidders ();
 		if (tBidderCount > 0) {
@@ -529,6 +531,148 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			System.err.println ("ERROR -- Adding Certificate for " + certificateToAuction.getCompanyAbbrev ()
 					+ " with NO Bidders!!!");
 		}
+	}
+
+	public void updateAuctionItemInfo (Certificate aCertificateToAuction, Certificate aFreeCertificate) {
+		String tCertText;
+		
+		setCertificateToAuction (aCertificateToAuction);
+		setFreeCertificate (aFreeCertificate);
+		
+		tCertText = buildCertText (certificateToAuction, false);
+		privateCompanyLabel.setText (tCertText);
+		privateCompanyLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		if (freeCertificate != Certificate.NO_CERTIFICATE) {
+			tCertText = buildCertText (freeCertificate, true);
+			freeCertificateLabel.setText (tCertText);
+			freeCertificateLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		} else {
+			freeCertificateLabel.setText ("");
+		}
+		fillAuctionItemInfo ();
+	}
+
+	private String buildCertText (Certificate aCertificate, boolean aFree) {
+		String tCertText;
+		
+		if (aFree) {
+			tCertText = "Free " + freeCertificate.getPercentage () + "% ";
+			if (aCertificate.isPresidentShare ()) {
+				tCertText += "President ";
+			}
+			tCertText += "Certficate of " + freeCertificate.getCompanyAbbrev ();
+		} else {
+			tCertText = aCertificate.getCompanyAbbrev () + " Value "
+					+ Bank.formatCash (aCertificate.getValue ());
+		}
+		
+		return tCertText;
+	}
+
+	public void fillAuctionItemInfo () {
+		JLabel tLabel;
+		JPanel tParPricePanel;
+		
+		auctionItemInfoJPanel.removeAll ();
+		tLabel = new JLabel ("Auction Round for Private Company");
+		tLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		auctionItemInfoJPanel.setLayout (new BoxLayout (auctionItemInfoJPanel, BoxLayout.Y_AXIS));
+		auctionItemInfoJPanel.add (Box.createVerticalStrut (15));
+		auctionItemInfoJPanel.add (tLabel);
+		auctionItemInfoJPanel.add (Box.createVerticalStrut (10));
+		auctionItemInfoJPanel.add (privateCompanyLabel);
+		auctionItemInfoJPanel.add (Box.createVerticalStrut (15));
+		if (freeCertificate != Certificate.NO_CERTIFICATE) {
+			auctionItemInfoJPanel.add (freeCertificateLabel);
+			auctionItemInfoJPanel.add (Box.createVerticalStrut (15));
+			if (freeCertificate.isPresidentShare ()) {
+				tParPricePanel = buildSetParPricePanel ();
+				auctionItemInfoJPanel.add (tParPricePanel);
+				auctionItemInfoJPanel.add (Box.createVerticalStrut (15));
+			}
+		}
+	}
+
+	private JPanel buildSetParPricePanel () {
+		GameManager tGameManager;
+		Integer [] tParValues;
+		Dimension tParValueSize;
+		JPanel tParPricePanel;
+		
+		tParPricePanel = new JPanel ();
+		tParPricePanel.setLayout (new BoxLayout (tParPricePanel, BoxLayout.X_AXIS));
+		
+		tGameManager = auctionRound.getGameManager ();
+		tParValues = tGameManager.getAllStartCells ();
+		parValuesCombo = new JComboBox<String> ();
+		tParValueSize = new Dimension (75, 20);
+		parValuesCombo.setPreferredSize (tParValueSize);
+		parValuesCombo.setMaximumSize (tParValueSize);
+		freeCertificate.fillParValueComboBox (parValuesCombo, tParValues);
+		parValuesCombo.addActionListener (new ActionListener () {
+			@Override
+			public void actionPerformed (ActionEvent e) {
+				updateParValueComponents ();
+			}
+		});
+		setParPrice = new JButton ("Set Par Price");
+		setParPrice.addActionListener (new ActionListener () {
+			@Override
+			public void actionPerformed (ActionEvent e) {
+				System.out.println ("Set the Par Price");
+			}
+		});
+		tParPricePanel.add (parValuesCombo);
+		tParPricePanel.add (Box.createHorizontalStrut (15));
+		tParPricePanel.add (setParPrice);
+		updateParValueComponents ();
+		
+		return tParPricePanel;
+	}
+
+	public void updateParValueComponents () {
+		boolean tAuctionOver;
+		
+		if (freeCertificate != Certificate.NO_CERTIFICATE) {
+			if (freeCertificate.isPresidentShare ()) {
+				tAuctionOver = certificateToAuction.auctionIsOver ();
+				if (tAuctionOver) {
+					parValuesCombo.setEnabled (tAuctionOver);
+					if (getParPrice () > 0) {
+						setParPrice.setEnabled (true);
+						setParPrice.setToolTipText ("");
+					} else {
+						setParPrice.setEnabled (false);
+						setParPrice.setToolTipText ("Par Price has not been selected yet");
+					}
+				} else {
+					parValuesCombo.setEnabled (false);
+					parValuesCombo.setToolTipText ("Auction must completed before setting Par Price");
+					setParPrice.setEnabled (false);
+					setParPrice.setToolTipText ("Auction must completed before setting Par Price");
+				}
+			}
+		}
+	}
+	
+	public int getParPrice () {
+		int tParPrice = 0;
+		String tParPriceString;
+
+		tParPriceString = (String) parValuesCombo.getSelectedItem ();
+		if (!Certificate.NO_PAR_PRICE.equals (tParPriceString)) {
+			tParPrice = Integer.parseInt (tParPriceString);
+		}
+
+		return tParPrice;
+	}
+
+	public void setCertificateToAuction (Certificate aCertificateToAuction) {
+		certificateToAuction = aCertificateToAuction;
+	}
+
+	public void setFreeCertificate (Certificate aFreeCertificate) {
+		freeCertificate = aFreeCertificate;
 	}
 
 	public void updateOneBidderJPanel (int aBidderIndex, String aRaiseLabel) {
