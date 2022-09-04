@@ -31,7 +31,7 @@ public class ModifyTrainVEffect extends VariantEffect {
 		setTrainName (tTrainName);
 		switch (attributeName) {
 			case "onLast" :
-				System.out.println ("Set " + trainName + "Train's Attribute ON Last to " + value);
+				System.out.println ("Set " + trainName + " Train's " + attributeName + " Attribute to " + value);
 				break;
 			default:
 				System.out.println ("Don't know what to do with " + attributeName);
