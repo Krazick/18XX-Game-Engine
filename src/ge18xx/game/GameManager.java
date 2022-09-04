@@ -325,9 +325,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void addPrivateToAuction () {
-		Certificate tCertificate = bank.getPrivateForAuction ();
-
-		auctionFrame.addPrivateToAuction (tCertificate);
+		Certificate tCertificate;
+		Certificate tFreeCertificate;
+		
+		tCertificate = bank.getPrivateForAuction ();
+		tFreeCertificate = bank.getFreeCertificateWithThisCertificate (tCertificate);
+		auctionFrame.addPrivateToAuction (tCertificate, tFreeCertificate);
 	}
 
 	@Override
