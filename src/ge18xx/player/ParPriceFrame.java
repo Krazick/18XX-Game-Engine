@@ -151,7 +151,6 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 	}
 
 	public JPanel buildMiddleBox (Certificate aCertificate) {
-		Integer [] tParValues;
 		JLabel tFrameLabel2;
 		JPanel tMiddleBox;
 
@@ -163,25 +162,36 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		tMiddleBox.add (tFrameLabel2);
 		tMiddleBox.add (Box.createHorizontalStrut (10));
 
-		tParValues = gameManager.getAllStartCells ();
-		parValuesCombo = new JComboBox<String> ();
-		// Update the Par Value Combo Box, and confirm or deny the Player has enough
-		// Cash to buy Cheapest.
-
-		certificate.fillParValueComboBox (parValuesCombo, tParValues);
-
+		parValuesCombo = buildParValuesCombo ();
 		if (parValuesCombo != null) {
-			parValuesCombo.addActionListener (new ActionListener () {
-				@Override
-				public void actionPerformed (ActionEvent e) {
-					updateButton ();
-				}
-			});
 			tMiddleBox.add (parValuesCombo);
 			tMiddleBox.add (Box.createHorizontalStrut (10));
 		}
 
 		return tMiddleBox;
+	}
+
+	public JComboBox<String> buildParValuesCombo () {
+		Integer [] tParValues;
+		JComboBox<String> tParValuesCombo;
+		
+		tParValues = gameManager.getAllStartCells ();
+		tParValuesCombo = new JComboBox<String> ();
+		// Update the Par Value Combo Box, and confirm or deny the Player has enough
+		// Cash to buy Cheapest.
+
+		certificate.fillParValueComboBox (tParValuesCombo, tParValues);
+
+		if (tParValuesCombo != null) {
+			tParValuesCombo.addActionListener (new ActionListener () {
+				@Override
+				public void actionPerformed (ActionEvent e) {
+					updateButton ();
+				}
+			});
+		}
+		
+		return tParValuesCombo;
 	}
 
 	public void setParPriceFrameActive (boolean aParPriceFrameActive) {
