@@ -609,9 +609,7 @@ public class PlayerManager {
 				 * set
 				 */
 				if (tFreeCertificate.isPresidentShare ()) {
-					if (tFreeCertificate.hasParPrice ()) {
-						System.err.println ("Par Price already set.");
-					} else {
+					if (! tFreeCertificate.hasParPrice ()) {
 						handleSetParPrice (aPlayer, tFreeCertificate);
 					}
 				}
@@ -706,13 +704,20 @@ public class PlayerManager {
 		}
 	}
 
+	public ParPriceFrame buildParPriceFrame (Player aPlayer, Certificate aCertificate) {
+		PlayerFrame tPlayerFrame;
+		ParPriceFrame tParPriceFrame;
+		
+		tPlayerFrame = aPlayer.getPlayerFrame ();
+		tParPriceFrame = new ParPriceFrame (tPlayerFrame, aPlayer, stockRound, aCertificate);
+		
+		return tParPriceFrame;
+	}
+	
 	private void handleSetParPrice (Player aPlayer, Certificate aCertificate, ShareCompany aShareCompany,
 			int aParPrice) {
-		PlayerFrame tPlayerFrame;
-
 		gameManager.setParPrice (aShareCompany, aParPrice);
-		tPlayerFrame = aPlayer.getPlayerFrame ();
-		parPriceFrame = new ParPriceFrame (tPlayerFrame, aPlayer, stockRound, aCertificate);
+		parPriceFrame = buildParPriceFrame (aPlayer, aCertificate);
 		parPriceFrame.setParPriceFrameActive (false);
 		parPriceFrame.setParValueAction (aParPrice, aShareCompany, false);
 	}
@@ -720,13 +725,13 @@ public class PlayerManager {
 	private void handleSetParPrice (Player aPlayer, Certificate aCertificate) {
 		PlayerFrame tPlayerFrame;
 
-		tPlayerFrame = aPlayer.getPlayerFrame ();
-		parPriceFrame = new ParPriceFrame (tPlayerFrame, aPlayer, stockRound, aCertificate);
+		parPriceFrame = buildParPriceFrame (aPlayer, aCertificate);
 		parPriceFrame.setVisible (true);
 		parPriceFrame.toFront ();
+		tPlayerFrame = aPlayer.getPlayerFrame ();
 		tPlayerFrame.setEnabled (false);
 	}
-
+	
 	public void addAction (Action aAction) {
 		if (aAction != Action.NO_ACTION) {
 			stockRound.addAction (aAction);
@@ -929,8 +934,6 @@ public class PlayerManager {
 				tCurrentPresident = (Player) tPortfolioHolder;
 				handlePresidentialTransfer (aPlayer, tExchangeStockAction, tShareCompany, tCurrentPresident);
 			}
-
-			// TODO --
 			addAction (tExchangeStockAction);
 		}
 	}
