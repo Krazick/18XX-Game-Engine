@@ -254,6 +254,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public void bringPlayerFrameToFront () {
+		playerFrame.updateButtons ();
 		playerFrame.toTheFront ();
 	}
 
