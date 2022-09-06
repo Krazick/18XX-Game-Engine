@@ -18,6 +18,7 @@ import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 import ge18xx.player.Bidder;
 import ge18xx.player.Escrow;
+import ge18xx.player.ParPriceFrame;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.AuctionRound;
@@ -167,7 +168,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	private void completeAuction () {
 		boolean tNextShareHasBids;
-
+		Player tPlayer;
+		
 		// Transfer Certificate to Highest Bidder
 		// Transfer Escrow from Highest Bidder to Bank
 		// Remove Escrow element for the Certificate from the Highest Bidder
@@ -179,14 +181,23 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		// 1. Complete Auction extends Buy Stock Action
 		// 2. Effect to Remove Escrow Element from Player
 		// 3. Effect to Remove Bid Element from Certificate
-		int tHighestBidderIndex = certificateToAuction.getHighestBidderIndex ();
-		Player tPlayer = (Player) certificateToAuction.getCashHolderAt (tHighestBidderIndex);
+		tPlayer = getHighestBidder ();
 
-		this.setBidderJPanelColor (tPlayer.getName (), false);
+		setBidderJPanelColor (tPlayer.getName (), false);
 		tNextShareHasBids = tPlayer.finishAuction (certificateToAuction, true);
 		if (!tNextShareHasBids) {
 			hideAuctionFrame ();
 		}
+	}
+
+	private Player getHighestBidder () {
+		int tHighestBidderIndex;
+		Player tPlayer;
+		
+		tHighestBidderIndex = certificateToAuction.getHighestBidderIndex ();
+		tPlayer = (Player) certificateToAuction.getCashHolderAt (tHighestBidderIndex);
+		
+		return tPlayer;
 	}
 
 	private void undoLastAction () {
@@ -353,11 +364,9 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private boolean clientIsWinner () {
 		boolean tClientIsWinner;
 		Player tWinningPlayer;
-		int tHighestBidderIndex;
 
 		if (isNetworkGame) {
-			tHighestBidderIndex = certificateToAuction.getHighestBidderIndex ();
-			tWinningPlayer = (Player) certificateToAuction.getCashHolderAt (tHighestBidderIndex);
+			tWinningPlayer = getHighestBidder ();
 			if (tWinningPlayer != Player.NO_PLAYER) {
 				if (clientUserName.equals (tWinningPlayer.getName ())) {
 					tClientIsWinner = true;
@@ -396,14 +405,42 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	public void updateAuctionFrame (boolean aDone) {
 		boolean tClientIsActing = false;
 
+		tClientIsActing = updateDoneButton (aDone);
+		updateBidderJPanels ();
+		setBidderJPanelColor (clientUserName, tClientIsActing);
+	}
+
+	private boolean updateDoneButton (boolean aDone) {
+		boolean tClientIsActing;
+		
+		tClientIsActing = false;
+		if (freeCertificate == Certificate.NO_CERTIFICATE) {
+			tClientIsActing = updateDoneButtonStep2 (aDone);
+		} else if (freeCertificate.isPresidentShare ()) {
+			if (freeCertificate.hasParPrice ()) {
+				tClientIsActing = updateDoneButtonStep2 (aDone);				
+			} else {
+				doneButton.setEnabled (false);
+				doneButton.setToolTipText ("Par Price has not been set yet");
+			}
+		} else {
+			tClientIsActing = updateDoneButtonStep2 (aDone);
+		}
+
+		return tClientIsActing;
+	}
+
+	private boolean updateDoneButtonStep2 (boolean aDone) {
+		boolean tClientIsActing;
+		
+		tClientIsActing = false;
 		if (aDone) {
 			tClientIsActing = clientIsWinner ();
 			doneButton.setEnabled (tClientIsActing);
 		}
-
 		doneButton.setToolTipText (doneToolTipText);
-		updateBidderJPanels ();
-		setBidderJPanelColor (clientUserName, tClientIsActing);
+		
+		return tClientIsActing;
 	}
 
 	private boolean thisIsTheClient () {
@@ -452,11 +489,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	public void addPrivateToAuction (Certificate aCertificateToAuction, Certificate aFreeCertificate) {
 		Player tPlayer;
-		int tCash;
 		int tBidderCount;
 		int tHighestBidderIndex, tLowestBidderIndex;
-		String tRaiseLabel, tBidderName;
-		boolean tBidderIsActing;
 
 		updateAuctionItemInfo (aCertificateToAuction, aFreeCertificate);
 
@@ -482,54 +516,65 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 			// Empty out the Bidders Box of all "one Bidder Box"s in case of undo/redo.. or
 			// followup auctions.
-			biddersJPanel.removeAll ();
-			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
-				setBidderSuffixLabel (tBidderCount, tBidderIndex, tHighestBidderIndex);
-				tPlayer = (Player) certificateToAuction.getCashHolderAt (tBidderIndex);
-				tBidderName = tPlayer.getName ();
-				tBidderIsActing = isBidderActing (tBidderIndex, tBidderName);
-
-				tCash = certificateToAuction.getBidAt (tBidderIndex);
-				bidderLabels [tBidderIndex] = new JLabel (getBidderLabel (tPlayer, tCash));
-
-				tRaiseLabel = RAISE + " " + Bank.formatCash (PlayerManager.BID_INCREMENT);
-				updateOneBidderJPanel (tBidderIndex, tRaiseLabel);
-
-				if (tBidderIndex == tHighestBidderIndex) {
-					if (tBidderCount == 1) {
-						tBidderIsActing = thisIsTheClient ();
-						doneButton.setEnabled (tBidderIsActing);
-						doneToolTipText = ONLY_ONE_BIDDER_NOT_YOU;
-						if (!tBidderIsActing) {
-							doneButton.setToolTipText (doneToolTipText);
-						}
-					} else {
-						tBidderIsActing = false;
-						doneButton.setEnabled (false);
-						doneButton.setToolTipText (doneToolTipText);
-					}
-					setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing,
-							HIGHEST_NO_RAISE);
-					setButton (bidderPassButtons [tBidderIndex], PASS, false, tBidderIsActing, HIGHEST_NO_PASS);
-				} else {
-					setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, true, tBidderIsActing, NOT_HIGHEST);
-					setButton (bidderPassButtons [tBidderIndex], PASS, true, tBidderIsActing, NOT_HIGHEST);
-					doneButton.setEnabled (false);
-					doneButton.setToolTipText (doneToolTipText);
-				}
-				oneBidderJPanel.add (bidderSuffixLabel [tBidderIndex]);
-				oneBidderJPanel.add (Box.createHorizontalStrut (15));
-				biddersJPanel.add (oneBidderJPanel);
-				biddersJPanel.add (Box.createVerticalStrut (15));
-
-				if (tBidderIsActing) {
-					setBidderJPanelColor (tBidderName, tBidderIsActing);
-				}
-				configAuctionUndoButton ();
-			}
+			fillBiddersPanel (tBidderCount, tHighestBidderIndex);
+			updateAuctionUndoButton ();
+			updateDoneButton (false);
 		} else {
 			System.err.println ("ERROR -- Adding Certificate for " + certificateToAuction.getCompanyAbbrev ()
 					+ " with NO Bidders!!!");
+		}
+	}
+
+	private void fillBiddersPanel (int aBidderCount, int aHighestBidderIndex) {
+		Player tPlayer;
+		int tCash;
+		String tRaiseLabel;
+		String tBidderName;
+		boolean tBidderIsActing;
+		
+		biddersJPanel.removeAll ();
+		for (int tBidderIndex = 0; tBidderIndex < aBidderCount; tBidderIndex++) {
+			setBidderSuffixLabel (aBidderCount, tBidderIndex, aHighestBidderIndex);
+			tPlayer = (Player) certificateToAuction.getCashHolderAt (tBidderIndex);
+			tBidderName = tPlayer.getName ();
+			tBidderIsActing = isBidderActing (tBidderIndex, tBidderName);
+
+			tCash = certificateToAuction.getBidAt (tBidderIndex);
+			bidderLabels [tBidderIndex] = new JLabel (getBidderLabel (tPlayer, tCash));
+
+			tRaiseLabel = RAISE + " " + Bank.formatCash (PlayerManager.BID_INCREMENT);
+			updateOneBidderJPanel (tBidderIndex, tRaiseLabel);
+
+			if (tBidderIndex == aHighestBidderIndex) {
+//				if (aBidderCount == 1) {
+//					tBidderIsActing = thisIsTheClient ();
+//					doneButton.setEnabled (tBidderIsActing);
+//					doneToolTipText = ONLY_ONE_BIDDER_NOT_YOU;
+//					if (!tBidderIsActing) {
+//						doneButton.setToolTipText (doneToolTipText);
+//					}
+//				} else {
+//					tBidderIsActing = false;
+//					doneButton.setEnabled (false);
+//					doneButton.setToolTipText (doneToolTipText);
+//				}
+				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing,
+						HIGHEST_NO_RAISE);
+				setButton (bidderPassButtons [tBidderIndex], PASS, false, tBidderIsActing, HIGHEST_NO_PASS);
+			} else {
+				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, true, tBidderIsActing, NOT_HIGHEST);
+				setButton (bidderPassButtons [tBidderIndex], PASS, true, tBidderIsActing, NOT_HIGHEST);
+//				doneButton.setEnabled (false);
+//				doneButton.setToolTipText (doneToolTipText);
+			}
+			oneBidderJPanel.add (bidderSuffixLabel [tBidderIndex]);
+			oneBidderJPanel.add (Box.createHorizontalStrut (15));
+			biddersJPanel.add (oneBidderJPanel);
+			biddersJPanel.add (Box.createVerticalStrut (15));
+
+			if (tBidderIsActing) {
+				setBidderJPanelColor (tBidderName, tBidderIsActing);
+			}
 		}
 	}
 
@@ -603,6 +648,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tParPricePanel.setLayout (new BoxLayout (tParPricePanel, BoxLayout.X_AXIS));
 		
 		tGameManager = auctionRound.getGameManager ();
+		
 		tParValues = tGameManager.getAllStartCells ();
 		parValuesCombo = new JComboBox<String> ();
 		tParValueSize = new Dimension (75, 20);
@@ -619,7 +665,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		setParPrice.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent e) {
-				System.out.println ("Set the Par Price");
+				handleSetParPrice ();
 			}
 		});
 		tParPricePanel.add (parValuesCombo);
@@ -630,20 +676,42 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		return tParPricePanel;
 	}
 
-	public void updateParValueComponents () {
-		boolean tAuctionOver;
+	private void handleSetParPrice () {
+		GameManager tGameManager;
+		ParPriceFrame tParPriceFrame;
+		int tSelectedParPrice;
 		
+		tGameManager = auctionRound.getGameManager ();
+		tParPriceFrame = tGameManager.buildParPriceFrame (freeCertificate);
+		tSelectedParPrice = getParPrice ();
+		if (tSelectedParPrice > 0) {
+			tGameManager.handleSetParPrice (freeCertificate, tSelectedParPrice, tParPriceFrame);
+		}
+		updateDoneButton (true);
+	}
+	
+	public void updateParValueComponents () {
+		GameManager tGameManager;
+		boolean tAuctionOver;
+		Player tWinningPlayer;
+		String tWinningName;
+		
+		tGameManager = auctionRound.getGameManager ();
 		if (freeCertificate != Certificate.NO_CERTIFICATE) {
 			if (freeCertificate.isPresidentShare ()) {
 				tAuctionOver = certificateToAuction.auctionIsOver ();
 				if (tAuctionOver) {
-					parValuesCombo.setEnabled (tAuctionOver);
-					if (getParPrice () > 0) {
-						setParPrice.setEnabled (true);
-						setParPrice.setToolTipText ("");
+					tWinningPlayer = getHighestBidder ();
+					tWinningName = tWinningPlayer.getName ();
+					if (tGameManager.isNetworkGame ()) {
+						if (tGameManager.isNetworkAndIsThisClient (tWinningName)) {
+							updateParValueForWinner ();
+						} else {
+							parValuesCombo.setEnabled (tAuctionOver);
+							parValuesCombo.setToolTipText ("You did not win the Auction");
+						}
 					} else {
-						setParPrice.setEnabled (false);
-						setParPrice.setToolTipText ("Par Price has not been selected yet");
+						updateParValueForWinner ();
 					}
 				} else {
 					parValuesCombo.setEnabled (false);
@@ -652,6 +720,17 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 					setParPrice.setToolTipText ("Auction must completed before setting Par Price");
 				}
 			}
+		}
+	}
+
+	private void updateParValueForWinner () {
+		parValuesCombo.setEnabled (true);
+		if (getParPrice () > 0) {
+			setParPrice.setEnabled (true);
+			setParPrice.setToolTipText ("");
+		} else {
+			setParPrice.setEnabled (false);
+			setParPrice.setToolTipText ("Par Price has not been selected yet");
 		}
 	}
 	
@@ -693,7 +772,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		oneBidderJPanel.add (bidderPassButtons [aBidderIndex]);
 	}
 
-	public void configAuctionUndoButton () {
+	public void updateAuctionUndoButton () {
 		String tClientName;
 		GameManager tGameManager;
 		boolean tAmIBidder;
@@ -705,13 +784,9 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			undoButton.setEnabled (true);
 			undoButton.setToolTipText ("");
 		} else {
-			disableAuctionUndoButton ();
+			undoButton.setEnabled (false);
+			undoButton.setToolTipText ("You are not a Bidder, cannot Undo");
 		}
-	}
-
-	public void disableAuctionUndoButton () {
-		undoButton.setEnabled (false);
-		undoButton.setToolTipText ("You are not a Bidder, cannot Undo");
 	}
 
 	public void updateBidderJPanels () {
@@ -732,7 +807,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			tCash = certificateToAuction.getBidAt (tBidderIndex);
 			bidderLabels [tBidderIndex].setText (getBidderLabel (tPlayer, tCash));
 			tRaiseLabel = RAISE + " " + Bank.formatCash (PlayerManager.BID_INCREMENT);
-			configAuctionUndoButton ();
+			updateAuctionUndoButton ();
 
 			if (tBidderIndex == tHighestBidderIndex) {
 				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing, HIGHEST_NO_RAISE);
