@@ -2,7 +2,6 @@ package ge18xx.player;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
-import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.StockRound;
@@ -62,7 +61,8 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		tGameManager = aPlayer.getGameManager ();
 		setGameManager (tGameManager);
 
-		buildParValuesPanel (aPlayer, aCertificate);
+		parValuesPanel = buildParValuesPanel (aPlayer, aCertificate);
+		activateParValuesPanel ();
 		tNewPoint = gameManager.getOffsetPlayerFrame ();
 		setLocation (tNewPoint);
 		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
@@ -85,21 +85,27 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		gameManager = aGameManager;
 	}
 
-	private void buildParValuesPanel (Player aPlayer, Certificate aCertificate) {
+	public JPanel buildParValuesPanel (Player aPlayer, Certificate aCertificate) {
 		JPanel tVerticalBox;
 		Border tCorporateColorBorder;
-
-		parValuesPanel = new JPanel ();
-		parValuesPanel.setLayout (new BoxLayout (parValuesPanel, BoxLayout.Y_AXIS));
+		JPanel tParValuesPanel;
+		
+		tParValuesPanel = new JPanel ();
+		tParValuesPanel.setLayout (new BoxLayout (tParValuesPanel, BoxLayout.Y_AXIS));
 		tCorporateColorBorder = aCertificate.getCorporateBorder ();
 
-		parValuesPanel.setBorder (tCorporateColorBorder);
+		tParValuesPanel.setBorder (tCorporateColorBorder);
 
 		tVerticalBox = buildVerticalBox (aPlayer, aCertificate);
 
-		parValuesPanel.add (Box.createHorizontalStrut (10));
-		parValuesPanel.add (tVerticalBox);
-		parValuesPanel.add (Box.createHorizontalStrut (10));
+		tParValuesPanel.add (Box.createHorizontalStrut (10));
+		tParValuesPanel.add (tVerticalBox);
+		tParValuesPanel.add (Box.createHorizontalStrut (10));
+		
+		return tParValuesPanel;
+	}
+	
+	private void activateParValuesPanel () {
 		setParPriceFrameActive (true);
 		add (parValuesPanel);
 		if (gameManager.isNetworkGame ()) {
@@ -238,28 +244,41 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
-		int tSelectedParPrice;
-		Corporation tCorporation;
-		ShareCompany tShareCompany;
+		boolean tParPriceSet;
 
+		tParPriceSet = false;
 		if (SET_PAR_PRICE_ACTION.equals (aEvent.getActionCommand ())) {
-			tSelectedParPrice = getParPrice ();
-			if (tSelectedParPrice > 0) {
-				tCorporation = certificate.getCorporation ();
-				if (tCorporation.isAShareCompany ()) {
-					tShareCompany = (ShareCompany) tCorporation;
-				} else {
-					tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
-				}
-				if ((tSelectedParPrice > 0) && (tShareCompany != Corporation.NO_CORPORATION)) {
-					setParPriceFrameActive (false);
-					gameManager.setParPrice (tShareCompany, tSelectedParPrice);
-					setParValueAction (tSelectedParPrice, tShareCompany, true);
-					gameManager.bringPlayerFrameToFront ();
-				}
-			}
+			tParPriceSet = handleSetParPrice ();
 		}
-		setVisible (false);
+		
+		if (tParPriceSet) {
+			setVisible (false);
+		}
+	}
+
+	public boolean handleSetParPrice () {
+		int tSelectedParPrice;
+		boolean tParPriceSet;
+		
+		tParPriceSet = false;
+		tSelectedParPrice = getParPrice ();
+		if (tSelectedParPrice > 0) {
+			tParPriceSet = handleSetParPrice (tSelectedParPrice);
+		}
+		
+		return tParPriceSet;
+	}
+
+	public boolean handleSetParPrice (int aSelectedParPrice) {
+		boolean tParPriceSet;
+		
+		tParPriceSet = gameManager.handleSetParPrice (certificate, aSelectedParPrice, this);
+		if (tParPriceSet) {
+			setParPriceFrameActive (false);
+			gameManager.bringPlayerFrameToFront ();
+		}
+		
+		return tParPriceSet;
 	}
 
 	public void setParValueAction (int aParPrice, ShareCompany aShareCompany, boolean aChainToPrevious) {
