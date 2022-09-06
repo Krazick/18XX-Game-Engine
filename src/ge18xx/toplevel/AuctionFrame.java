@@ -443,22 +443,22 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		return tClientIsActing;
 	}
 
-	private boolean thisIsTheClient () {
-		boolean thisIsTheClient;
-
-		if (isNetworkGame) {
-			Player tPlayer = (Player) certificateToAuction.getCashHolderAt (0);
-			if (clientUserName.equals (tPlayer.getName ())) {
-				thisIsTheClient = true;
-			} else {
-				thisIsTheClient = false;
-			}
-		} else {
-			thisIsTheClient = true;
-		}
-
-		return thisIsTheClient;
-	}
+//	private boolean thisIsTheClient () {
+//		boolean thisIsTheClient;
+//
+//		if (isNetworkGame) {
+//			Player tPlayer = (Player) certificateToAuction.getCashHolderAt (0);
+//			if (clientUserName.equals (tPlayer.getName ())) {
+//				thisIsTheClient = true;
+//			} else {
+//				thisIsTheClient = false;
+//			}
+//		} else {
+//			thisIsTheClient = true;
+//		}
+//
+//		return thisIsTheClient;
+//	}
 
 	private void clearAllAuctionStates () {
 		auctionRound.clearAllAuctionStates ();
