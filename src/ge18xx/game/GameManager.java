@@ -35,6 +35,7 @@ import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkGameSupport;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Escrow;
+import ge18xx.player.ParPriceFrame;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerFrame;
 import ge18xx.player.PlayerManager;
@@ -322,6 +323,36 @@ public class GameManager extends Component implements NetworkGameSupport {
 		Certificate tCertificate = bank.getPrivateForAuction ();
 
 		return tCertificate.getCompanyAbbrev ();
+	}
+
+	public ParPriceFrame buildParPriceFrame (Certificate aCertificate) {
+		Player tCurrentPlayer;
+		
+		tCurrentPlayer = getCurrentPlayer ();
+		
+		return playerManager.buildParPriceFrame (tCurrentPlayer, aCertificate);
+	}
+	
+	public boolean handleSetParPrice (Certificate aCertificate, int aSelectedParPrice, ParPriceFrame aParPriceFrame) {
+		Corporation tCorporation;
+		ShareCompany tShareCompany;
+		boolean tParPriceSet;
+		
+		tCorporation = aCertificate.getCorporation ();
+		if (tCorporation.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) tCorporation;
+		} else {
+			tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
+		}
+		if ((aSelectedParPrice > 0) && (tShareCompany != Corporation.NO_CORPORATION)) {
+			tParPriceSet = true;
+			setParPrice (tShareCompany, aSelectedParPrice);
+			aParPriceFrame.setParValueAction (aSelectedParPrice, tShareCompany, true);
+		} else {
+			tParPriceSet = false;
+		}
+		
+		return tParPriceSet;
 	}
 
 	public void addPrivateToAuction () {
