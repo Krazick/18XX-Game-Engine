@@ -403,11 +403,12 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	}
 
 	public void updateAuctionFrame (boolean aDone) {
-		boolean tClientIsActing = false;
+		boolean tClientIsActing;
 
 		tClientIsActing = updateDoneButton (aDone);
 		updateBidderJPanels ();
-		setBidderJPanelColor (clientUserName, tClientIsActing);
+		updateParValueComponents ();
+		setBidderJPanelColor (clientUserName, true);
 	}
 
 	private boolean updateDoneButton (boolean aDone) {
@@ -442,23 +443,6 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		
 		return tClientIsActing;
 	}
-
-//	private boolean thisIsTheClient () {
-//		boolean thisIsTheClient;
-//
-//		if (isNetworkGame) {
-//			Player tPlayer = (Player) certificateToAuction.getCashHolderAt (0);
-//			if (clientUserName.equals (tPlayer.getName ())) {
-//				thisIsTheClient = true;
-//			} else {
-//				thisIsTheClient = false;
-//			}
-//		} else {
-//			thisIsTheClient = true;
-//		}
-//
-//		return thisIsTheClient;
-//	}
 
 	private void clearAllAuctionStates () {
 		auctionRound.clearAllAuctionStates ();
@@ -546,26 +530,12 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			updateOneBidderJPanel (tBidderIndex, tRaiseLabel);
 
 			if (tBidderIndex == aHighestBidderIndex) {
-//				if (aBidderCount == 1) {
-//					tBidderIsActing = thisIsTheClient ();
-//					doneButton.setEnabled (tBidderIsActing);
-//					doneToolTipText = ONLY_ONE_BIDDER_NOT_YOU;
-//					if (!tBidderIsActing) {
-//						doneButton.setToolTipText (doneToolTipText);
-//					}
-//				} else {
-//					tBidderIsActing = false;
-//					doneButton.setEnabled (false);
-//					doneButton.setToolTipText (doneToolTipText);
-//				}
 				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing,
 						HIGHEST_NO_RAISE);
 				setButton (bidderPassButtons [tBidderIndex], PASS, false, tBidderIsActing, HIGHEST_NO_PASS);
 			} else {
 				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, true, tBidderIsActing, NOT_HIGHEST);
 				setButton (bidderPassButtons [tBidderIndex], PASS, true, tBidderIsActing, NOT_HIGHEST);
-//				doneButton.setEnabled (false);
-//				doneButton.setToolTipText (doneToolTipText);
 			}
 			oneBidderJPanel.add (bidderSuffixLabel [tBidderIndex]);
 			oneBidderJPanel.add (Box.createHorizontalStrut (15));
@@ -707,8 +677,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 						if (tGameManager.isNetworkAndIsThisClient (tWinningName)) {
 							updateParValueForWinner ();
 						} else {
-							parValuesCombo.setEnabled (tAuctionOver);
+							parValuesCombo.setEnabled (false);
 							parValuesCombo.setToolTipText ("You did not win the Auction");
+							setParPrice.setEnabled (false);
+							setParPrice.setToolTipText ("You did not win the Auction");
 						}
 					} else {
 						updateParValueForWinner ();
