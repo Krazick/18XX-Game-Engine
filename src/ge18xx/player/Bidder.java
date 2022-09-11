@@ -62,8 +62,9 @@ public class Bidder implements ActorI {
 	}
 
 	public void raiseBid (Certificate aCertificate, int aRaise) {
-		Player tPlayer = (Player) cashHolder;
+		Player tPlayer;
 
+		tPlayer = (Player) cashHolder;
 		setAmount (amount + aRaise);
 		tPlayer.raiseBid (aCertificate, aRaise);
 		setAuctionActionState (ActorI.ActionStates.AuctionRaise);
@@ -73,6 +74,22 @@ public class Bidder implements ActorI {
 		auctionActionState = aActionState;
 	}
 
+	public boolean hasActed () {
+		boolean tHasActed;
+		Player tPlayer;
+		
+		tPlayer = (Player) getCashHolder ();
+		
+		if ((tPlayer.getAuctionActionState () == ActorI.ActionStates.NoAction) ||
+			(auctionActionState == ActorI.ActionStates.Bidder)) { 
+			tHasActed = false;
+		} else {
+			tHasActed = true;
+		}
+		
+		return tHasActed;
+	}
+	
 	@Override
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		// Nothing to do for the Bidder State

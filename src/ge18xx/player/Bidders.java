@@ -96,12 +96,22 @@ public class Bidders {
 		return bidders.get (aIndex);
 	}
 
+	public boolean hasBidderAtActed (int aIndex) {
+		Bidder tBidder;
+		boolean tHasActed;
+		
+		tBidder = getBidderAt (aIndex);
+		tHasActed = tBidder.hasActed ();
+		
+		return tHasActed;
+	}
+	
 	public CashHolderI getCashHolderAt (int aIndex) {
 		Bidder tBidder;
 		CashHolderI tCashHolder;
 
 		if (bidders.size () > 0) {
-			tBidder = bidders.get (aIndex);
+			tBidder = getBidderAt (aIndex);
 			tCashHolder = tBidder.getCashHolder ();
 		} else {
 			tCashHolder = (CashHolderI) ActorI.NO_ACTOR;
@@ -276,7 +286,7 @@ public class Bidders {
 
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
-				tBidder = (Player) getCashHolderAt (0);
+				tBidder = (Player) getCashHolderAt (tBidderIndex);
 				tBidder.setAuctionActionState (ActorI.ActionStates.AuctionRaise);
 			}
 		}

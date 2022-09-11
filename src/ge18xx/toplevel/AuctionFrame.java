@@ -32,7 +32,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private static int NO_BIDDER_INDEX = -1;
 	private final String HIGHEST_NO_RAISE = "Highest Bidder does not need to Raise the Bid";
 	private final String HIGHEST_NO_PASS = "Highest Bidder does not need to Pass the Bid";
-	private final String ONLY_ONE_BIDDER_NOT_YOU = "Only One Bidder, which is not You";
+//	private final String ONLY_ONE_BIDDER_NOT_YOU = "Only One Bidder, which is not You";
 	private final String WON_NOT_YOU = "Auction has been won, but not by you";
 	private final String WON_BY_YOU = "You have won the Auction";
 	private final String MULTIPLE_BIDDERS_IN_AUCTION = "Multiple Bidders still in the Auction";
@@ -404,11 +404,16 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	public void updateAuctionFrame (boolean aDone) {
 		boolean tClientIsActing;
-
-		tClientIsActing = updateDoneButton (aDone);
+		
+		if (aDone) {
+			tClientIsActing = clientIsWinner ();
+		} else {
+			tClientIsActing = isBidderActing ();
+		}
+		updateDoneButton (aDone);
 		updateBidderJPanels ();
 		updateParValueComponents ();
-		setBidderJPanelColor (clientUserName, true);
+		setBidderJPanelColor (clientUserName, tClientIsActing);
 	}
 
 	private boolean updateDoneButton (boolean aDone) {
@@ -438,8 +443,11 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		if (aDone) {
 			tClientIsActing = clientIsWinner ();
 			doneButton.setEnabled (tClientIsActing);
+			doneButton.setToolTipText ("Auction is Over");
+		} else {
+			doneButton.setEnabled (false);
+			doneButton.setToolTipText (doneToolTipText);
 		}
-		doneButton.setToolTipText (doneToolTipText);
 		
 		return tClientIsActing;
 	}
@@ -473,9 +481,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	public void addPrivateToAuction (Certificate aCertificateToAuction, Certificate aFreeCertificate) {
 		Player tPlayer;
+		Bidder tLowestBidder;
 		int tBidderCount;
 		int tHighestBidderIndex, tLowestBidderIndex;
-
+		
 		updateAuctionItemInfo (aCertificateToAuction, aFreeCertificate);
 
 		tBidderCount = certificateToAuction.getNumberOfBidders ();
@@ -495,14 +504,16 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 			// Find the Lowest Bidder and set the state to NoAction
 			tLowestBidderIndex = certificateToAuction.getLowestBidderIndex ();
+			tLowestBidder = certificateToAuction.getBidderAt (tLowestBidderIndex);
 			tPlayer = (Player) certificateToAuction.getCashHolderAt (tLowestBidderIndex);
 			tPlayer.setAuctionActionState (ActorI.ActionStates.Bidder);
+			tLowestBidder.setAuctionActionState (ActorI.ActionStates.Bidder);
 
 			// Empty out the Bidders Box of all "one Bidder Box"s in case of undo/redo.. or
 			// followup auctions.
 			fillBiddersPanel (tBidderCount, tHighestBidderIndex);
-			updateAuctionUndoButton ();
-			updateDoneButton (false);
+
+			updateAuctionFrame ();
 		} else {
 			System.err.println ("ERROR -- Adding Certificate for " + certificateToAuction.getCompanyAbbrev ()
 					+ " with NO Bidders!!!");
@@ -791,6 +802,28 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
+	private boolean isBidderActing () {
+		int tBidderCount;
+		boolean tBidderIsActing;
+		int tBidderIndex;
+		Bidder tBidder;
+		String tBidderName;
+		
+		tBidderIsActing = true;
+		tBidderCount = certificateToAuction.getNumberOfBidders ();
+		if (isNetworkGame) {
+			for (tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
+				tBidder = certificateToAuction.getBidderAt (tBidderIndex);
+				tBidderName = tBidder.getName ();
+				if (tBidderName.equals (clientUserName)) {
+					tBidderIsActing = ! tBidder.hasActed ();
+				}
+			}
+		}
+		
+		return tBidderIsActing;
+	}
+	
 	private boolean isBidderActing (int aBidderIndex, String aBidderName) {
 		boolean tIsBidderActing = false;
 
