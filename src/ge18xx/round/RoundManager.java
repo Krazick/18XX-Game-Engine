@@ -91,6 +91,18 @@ public class RoundManager implements ActionListener {
 		stockRound.setStartingPlayer ();
 	}
 
+	public boolean isFirstStockRound () {
+		boolean tIsFirstStockRound;
+		
+		if (isStockRound ()) {
+			tIsFirstStockRound = stockRound.isFirstRound ();
+		} else {
+			tIsFirstStockRound = false;
+		}
+		
+		return tIsFirstStockRound;
+	}
+	
 	public void showInitialFrames () {
 		showFrame ();
 		actionManager.showActionReportFrame ();
