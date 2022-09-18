@@ -378,13 +378,11 @@ public class GameSet implements LoadableXMLI, ActionListener {
 			descAndVariantsJPanel.setLayout (new BoxLayout (descAndVariantsJPanel, BoxLayout.Y_AXIS));
 		}
 		descAndVariantsJPanel.removeAll ();
-		descAndVariantsJPanel.setPreferredSize (new Dimension (100, 450));
 		variantsScrollPane = new JScrollPane (descAndVariantsJPanel);
 		variantsScrollPane.setPreferredSize (new Dimension (500, 350));
 		if (aIndex == NO_GAME_SELECTED) {
 			if (gameDescriptionLabel == GUI.NO_LABEL) {
 				gameDescriptionLabel = new JLabel (NO_DESCRIPTION);
-				descAndVariantsJPanel.add (gameDescriptionLabel);
 			} else {
 				gameDescriptionLabel.setText (NO_DESCRIPTION);
 			}
@@ -395,6 +393,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		
 		gameInfoJPanel.removeAll ();
 		gameInfoJPanel.add (variantsScrollPane);
+		gameInfoJPanel.setPreferredSize (gameInfoJPanel.getPreferredSize ());
 		playerInputFrame.addGameInfoPanel (gameInfoJPanel);
 	}
 
@@ -417,6 +416,4 @@ public class GameSet implements LoadableXMLI, ActionListener {
 			descAndVariantsJPanel.add (gameVariants [tVariantIndex]);
 		}
 	}
-	
-	
 }
