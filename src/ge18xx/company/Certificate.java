@@ -80,6 +80,7 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String COMPANY_NOT_OPERATED = "This Share Company has NOT operated yet";
 	public static final String HAVE_MUST_BUY = "You must buy the Private where COST == DISCOUNT";
 	public static final String HAVE_ENOUGH_CASH = "Enough cash to buy the Train, can't sell stock";
+	public static final String NO_SALE_FIRST_STOCK_ROUND = "Can't sell Stock in First Stock Round";
 	static final int SORT_CERT1_BEFORE_CERT2 = -100;
 	static final int SORT_CERT2_BEFORE_CERT1 = 100;
 	static final int NO_PERCENTAGE = 0;
@@ -251,7 +252,6 @@ public class Certificate implements Comparable<Certificate> {
 		boolean tPlayerHasSoldThisCompany, tPlayerHasMaxShares, tPlayerHasBoughtShare;
 		boolean tHasMustBuyCertificate, tPlayerAtCertLimit;
 		String tCompanyAbbrev;
-		String tGroupName;
 		String tBoughtShare;
 		Integer [] tParValues;
 
@@ -315,36 +315,7 @@ public class Certificate implements Comparable<Certificate> {
 		tPlayerHasEnoughCashToBid = addBidderLabels (tCertificateInfoJPanel, tPlayerCash);
 
 		if (aCheckBoxLabel.equals (Player.SELL_LABEL)) {
-			if (!isAPrivateCompany ()) {
-				// Only if it is a Share Company, can it be Sold
-				// TODO: non-1830 For 1835 with Minors we cannot Sell them
-				// either, test for CanBeSold
-				tGroupName = getCompanyAbbrev () + " Share";
-				if (isPresidentShare ()) {
-					tGroupName = getCompanyAbbrev () + " President Share";
-					if (canBeExchanged (aGameManager)) {
-						checkBox = setupCheckedButton (Player.EXCHANGE_LABEL, true, GUI.NO_TOOL_TIP, aItemListener);
-					} else {
-						// TODO -- Find the Reason cannot Exchange:
-						// No other player owns at least 20%, Company hasn't operated yet, Bank Pool cannot hold enough
-						// 
-						checkBox = setupCheckedButton (Player.EXCHANGE_LABEL, false, CANNOT_EXCHANGE_PRESIDENT,
-								aItemListener);
-					}
-				} else if (canBeSold (aGameManager)) {
-					checkBox = setupCheckedButton (aCheckBoxLabel, true, GUI.NO_TOOL_TIP, aItemListener);
-				} else {
-					checkBox = setupCheckedButton (aCheckBoxLabel, false, getReasonForNoSale (aGameManager),
-							aItemListener);
-				}
-				setFrameButton (checkBox, tGroupName);
-				tCertificateInfoJPanel.add (checkBox);
-			} else {
-				// If the CheckBox is created, set it to invisible (don't want it on Explain Table)
-				if (checkBox != GUI.NO_CHECK_BOX) {
-					checkBox.setVisible (false);
-				}
-			}
+			updateSellCheckBox (aCheckBoxLabel, aItemListener, aGameManager, tCertificateInfoJPanel);
 		} else if (aCheckBoxLabel.equals (Player.BUY_LABEL) || aCheckBoxLabel.equals (Player.BUY_AT_PAR_LABEL)) {
 			if (canBeBought ()) {
 				tToolTip = "";
@@ -416,6 +387,60 @@ public class Certificate implements Comparable<Certificate> {
 		}
 
 		return tCertificateInfoJPanel;
+	}
+
+	private void updateSellCheckBox (String aCheckBoxLabel, ItemListener aItemListener, GameManager aGameManager,
+			JPanel aCertificateInfoJPanel) {
+		String tGroupName;
+		String tNoSaleToolTip;
+		boolean tCanBeSold;
+		
+		if (! isAPrivateCompany ()) {
+			// Only if it is a Share Company, can it be Sold
+			// TODO: non-1830 For 1835 with Minors we cannot Sell them
+			// either, test for CanBeSold
+			tGroupName = getCompanyAbbrev () + " Share";
+			if (isPresidentShare ()) {
+				tGroupName = updateExchangeCheckBox (aItemListener, aGameManager);
+			} else {
+				tCanBeSold = canBeSold (aGameManager);
+				if (! tCanBeSold) {
+					tNoSaleToolTip = getReasonForNoSale (aGameManager);
+				} else {
+					tNoSaleToolTip = "Can Sell Stock";
+				}
+				checkBox = setupCheckedButton (aCheckBoxLabel, tCanBeSold, tNoSaleToolTip, aItemListener);
+
+//				if (canBeSold (aGameManager)) {
+//					checkBox = setupCheckedButton (aCheckBoxLabel, true, GUI.NO_TOOL_TIP, aItemListener);
+//				} else {
+//					checkBox = setupCheckedButton (aCheckBoxLabel, false, getReasonForNoSale (aGameManager),
+//							aItemListener);
+//				}
+			}
+			setFrameButton (checkBox, tGroupName);
+			aCertificateInfoJPanel.add (checkBox);
+		} else {
+			// If the CheckBox is created, set it to invisible (don't want it on Explain Table)
+			if (checkBox != GUI.NO_CHECK_BOX) {
+				checkBox.setVisible (false);
+			}
+		}
+	}
+
+	private String updateExchangeCheckBox (ItemListener aItemListener, GameManager aGameManager) {
+		String tGroupName;
+		tGroupName = getCompanyAbbrev () + " President Share";
+		if (canBeExchanged (aGameManager)) {
+			checkBox = setupCheckedButton (Player.EXCHANGE_LABEL, true, GUI.NO_TOOL_TIP, aItemListener);
+		} else {
+			// TODO -- Find the Reason cannot Exchange:
+			// No other player owns at least 20%, Company hasn't operated yet, Bank Pool cannot hold enough
+			// 
+			checkBox = setupCheckedButton (Player.EXCHANGE_LABEL, false, CANNOT_EXCHANGE_PRESIDENT,
+					aItemListener);
+		}
+		return tGroupName;
 	}
 
 	public void enableParValuesCombo (boolean aEnable) {
@@ -766,22 +791,33 @@ public class Certificate implements Comparable<Certificate> {
 				// Some games allow a President Share to be sold.
 				if (isPresidentShare) {
 					tCanBeSold = aGameManager.canSellPresidentShare ();
+				} else if (aGameManager.isFirstStockRound ()) {
+					tCanBeSold = false;
 				} else {
-					if (!bankPoolAtLimit (aGameManager)) {
-						tOperatingCompany = (ShareCompany) aGameManager.getOperatingCompany ();
-						// During Loading a game, this is not set yet, so the result is false
-						// Also Game Manager will return NO_CORPORATION if in a Stock Round
-						if (tOperatingCompany != Corporation.NO_CORPORATION) {
-							tShareCompany = (ShareCompany) corporation;
-							if (tOperatingCompany.forceBuyEnoughCash ()) {
-								tCanBeSold = false;
-							} else if (tShareCompany.didOperate ()) {
-								tCanBeSold = true;
-							} else {
-								tCanBeSold = operatingCompanyMustBuyTrain (aGameManager);
+					if (! bankPoolAtLimit (aGameManager)) {
+						if (aGameManager.isOperatingRound ()) {
+							tOperatingCompany = (ShareCompany) aGameManager.getOperatingCompany ();
+							// During Loading a game, this is not set yet, so the result is false
+							if (tOperatingCompany != Corporation.NO_CORPORATION) {
+								tShareCompany = (ShareCompany) corporation;
+								if (tOperatingCompany.forceBuyEnoughCash ()) {
+									tCanBeSold = false;
+								} else if (tShareCompany.didOperate ()) {
+									tCanBeSold = true;
+								} else {
+									tCanBeSold = operatingCompanyMustBuyTrain (aGameManager);
+								}
 							}
 						} else {
-							tCanBeSold = true;
+							if (aGameManager.operateBeforeSale ()) {
+								if (corporation.didOperate ()) {
+									tCanBeSold = true;
+								} else {
+									tCanBeSold = false;
+								}
+							} else {
+								tCanBeSold = true;
+							}
 						}
 					}
 				}
@@ -796,9 +832,10 @@ public class Certificate implements Comparable<Certificate> {
 	// buy a Train
 	// Otherwise return false;
 	private boolean operatingCompanyMustBuyTrain (GameManager aGameManager) {
-		boolean tOCMustBuyTrain = false;
+		boolean tOCMustBuyTrain;
 		Corporation tOperatingCompany;
 
+		tOCMustBuyTrain = false;
 		if (aGameManager.isOperatingRound ()) {
 			tOperatingCompany = aGameManager.getOperatingCompany ();
 			// During Loading a game, this is not set yet, so the result is false
@@ -899,6 +936,8 @@ public class Certificate implements Comparable<Certificate> {
 			tReason = CANNOT_SELL_PRIVATE;
 		} else if (isAMinorCompany ()) {
 			tReason = CANNOT_SELL_MINOR;
+		} else if (aGameManager.isFirstStockRound ()) {
+			tReason = NO_SALE_FIRST_STOCK_ROUND;
 		} else if (bankPoolAtLimit (aGameManager)) {
 			tReason = BANK_POOL_AT_LIMIT;
 		} else if (!hasParPrice ()) {
@@ -907,12 +946,18 @@ public class Certificate implements Comparable<Certificate> {
 			tReason = CANNOT_SELL_PRESIDENT;
 		} else {
 			tShareCompany = (ShareCompany) corporation;
-			if (tShareCompany.forceBuyEnoughCash ()) {
-				tReason = HAVE_ENOUGH_CASH;
-			} else if (! tShareCompany.didOperate ()) {
-				tReason = COMPANY_NOT_OPERATED;
+			if (aGameManager.isStockRound ()) {
+				if (! tShareCompany.didOperate ()) {
+					tReason = COMPANY_NOT_OPERATED;
+				} else {
+					tReason = "Stock Round, Don't know why can't sell -- FIX THIS";
+				}
 			} else {
-				tReason = "Don't know why can't sell -- FIX THIS";
+				if (tShareCompany.forceBuyEnoughCash ()) {
+					tReason = HAVE_ENOUGH_CASH;
+				} else {
+					tReason = "Operating Round (Force Train Buy) - Don't know why can't sell -- FIX THIS";
+				}
 			}
 		}
 
