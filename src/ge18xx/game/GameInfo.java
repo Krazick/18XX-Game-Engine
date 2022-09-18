@@ -56,6 +56,7 @@ public class GameInfo {
 	final AttributeName AN_PRODUCERS = new AttributeName ("producers");
 	final AttributeName AN_RELEASE_DATE = new AttributeName ("releaseDate");
 	final AttributeName AN_CAN_PAY_HALF = new AttributeName ("canPayHalfDividend");
+	final AttributeName AN_OPERATE_BEFORE_SALE = new AttributeName ("operateBeforeSale");
 
 	static final int NO_GAME_ID = 0;
 	static final String NO_NAME = "<NONE>";
@@ -82,6 +83,7 @@ public class GameInfo {
 	String producers;
 	String releaseDate;
 	String status;
+	boolean operateBeforeSale;
 	boolean hasPrivates;
 	boolean hasMinors;
 	boolean hasShares;
@@ -127,6 +129,7 @@ public class GameInfo {
 		boolean tHasPrivates, tHasMinors, tHasShares;
 		boolean tLoans;
 		boolean tTestGraphs;
+		boolean tOperateBeforeSale;
 		
 		tGameID = aCellNode.getThisAttribute (AN_GAME_ID);
 		tID = aCellNode.getThisIntAttribute (AN_ID);
@@ -147,6 +150,7 @@ public class GameInfo {
 		tLoans = aCellNode.getThisBooleanAttribute (AN_LOANS);
 		tHasMinors = aCellNode.getThisBooleanAttribute (AN_MINORS);
 		tHasShares = aCellNode.getThisBooleanAttribute (AN_SHARES);
+		tOperateBeforeSale = aCellNode.getThisBooleanAttribute (AN_OPERATE_BEFORE_SALE);
 		canPayHalfDividend = aCellNode.getThisBooleanAttribute (AN_CAN_PAY_HALF);
 
 		setGameID (tGameID);
@@ -155,6 +159,7 @@ public class GameInfo {
 		setHasCompanies (tHasPrivates, tHasMinors, tHasShares);
 		setLoans (tLoans);
 		setStatus (tStatus);
+		setOperateBeforeSale (tOperateBeforeSale);
 		setTestGraphs (tTestGraphs);
 		
 		tBankPoolShareLimit = aCellNode.getThisIntAttribute (AN_BANK_POOL_SHARE_LIMIT);
@@ -636,6 +641,10 @@ public class GameInfo {
 	public boolean hasShares () {
 		return hasShares;
 	}
+	
+	public boolean operateBeforeSale () {
+		return operateBeforeSale;
+	}
 
 	public void printGameInfo () {
 		int tIndex;
@@ -665,6 +674,10 @@ public class GameInfo {
 		loans = aLoans;
 	}
 
+	public void setOperateBeforeSale (boolean aOperateBeforeSale) {
+		operateBeforeSale = aOperateBeforeSale;
+	}
+	
 	public void setTestGraphs (boolean aTestGraphs) {
 		testGraphs = aTestGraphs;
 	}
