@@ -2483,6 +2483,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return notifyNetwork;
 	}
 
+	public boolean operateBeforeSale () {
+		return activeGame.operateBeforeSale ();
+	}
+	
+	public boolean isFirstStockRound () {
+		return roundManager.isFirstStockRound ();
+	}
+	
 	public void showRoundFrame () {
 		roundManager.showRoundFrame ();
 	}
