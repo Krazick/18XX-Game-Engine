@@ -497,6 +497,9 @@
 			<Variant class="ge18xx.game.variants.VariantToggle" id="500" title="Enable OR Query Exchange of M&amp;H for NYC" default="true">
 				<VariantEffect action="Allow M&amp;H Exchange at OR Start" class="ge18xx.game.variants.EnableBenefitVEffect" id="501" name="Query M&amp;H Exchange" companyID="1004" benefitName="QUERY EXCHANGE" />
 			</Variant>
+			<Variant class="ge18xx.game.variants.VariantToggle" id="800" title="Require Share Company to Operate before Sale" default="true">
+				<VariantEffect action="Require Share Company to Operate before Sale" class="ge18xx.game.variants.ModifyGameInfoVEffect" id="801" name="Operate Before Sale" attributeName="operateBeforeSale" />
+			</Variant>
 			<Variant class="ge18xx.game.variants.VariantChoose1" id="200" title="Choose Diesel Count">
 				<VariantEffect action="Set Diesel Train Quantity to Unlimited" class="ge18xx.game.variants.SetTrainCountVEffect" id="201" name="Unlimited" trainName="Diesel" quantity="99"/>
 				<VariantEffect action="Set Diesel Train Quantity to 6 (Standard)" class="ge18xx.game.variants.SetTrainCountVEffect" defaultEffect="true" id="202" name="Standard" trainName="Diesel" quantity="6" />
