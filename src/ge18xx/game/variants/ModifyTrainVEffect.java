@@ -18,7 +18,7 @@ public class ModifyTrainVEffect extends VariantEffect {
 
 	public ModifyTrainVEffect (XMLNode aVariantEffectNode) {
 		super (aVariantEffectNode);
-		System.out.println ("Ready to ready Attributes for Modify Train");
+		System.out.println ("Ready to read Attributes for Modify Train");
 		String tAttributeName;
 		String tValue;
 		String tTrainName;
