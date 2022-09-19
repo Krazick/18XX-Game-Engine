@@ -6,9 +6,6 @@
 		<Tile number="2" quantity="1" />
 		<Tile number="3" quantity="2" />
 		<Tile number="4" quantity="2" />
-		<Tile number="631" quantity="1" />
-		<Tile number="632" quantity="1" />
-		<Tile number="633" quantity="1" />
 		<Tile number="7" quantity="4">
 			<Upgrade toNumber="18" rotations="4" />
 			<Upgrade toNumber="26" rotations="0" />
