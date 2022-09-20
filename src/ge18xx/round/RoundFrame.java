@@ -329,7 +329,8 @@ public class RoundFrame extends XMLFrame {
 		int tPlayerIndex;
 		Player tPlayer;
 		JPanel tPlayerJPanel;
-		int tPlayerCount, tPriorityPlayer;
+		int tPlayerCount;
+		int tPriorityPlayer;
 		int tIndex, tClientIndex;
 		StockRound tStockRound;
 
@@ -341,17 +342,29 @@ public class RoundFrame extends XMLFrame {
 		if (roundManager.isNetworkGame ()) {
 			tClientIndex = getClientIndex (tPlayerCount, tStockRound);
 		}
+		playersJPanel.add (Box.createHorizontalGlue ());
 		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
-			tPlayerIndex = (tIndex + tClientIndex) % tPlayerCount;
+			tPlayerIndex = getAdjustedPlayerIndex (tPlayerCount, tIndex, tClientIndex);
 			tPlayer = tStockRound.getPlayerAtIndex (tPlayerIndex);
 			if (tPlayer != Player.NO_PLAYER) {
 				tPlayerJPanel = tPlayer.buildAPlayerJPanel (tPriorityPlayer, tPlayerIndex);
 				playersJPanel.add (tPlayerJPanel);
 				playersJPanel.add (Box.createHorizontalStrut (10));
+				playersJPanel.add (Box.createHorizontalGlue ());
 			} else {
 				logger.error ("No Player Found for " + tPlayerIndex);
 			}
 		}
+	}
+
+	private int getAdjustedPlayerIndex (int aPlayerCount, int aIndex, int aClientIndex) {
+		int tPlayerIndex;
+		
+		// TODO: Adjust to show either "Client First", or "Priority First" (no formula yet)
+		// TODO: Get based upon Player Preference
+		tPlayerIndex = (aIndex + aClientIndex) % aPlayerCount;
+		
+		return tPlayerIndex;
 	}
 
 	private int getClientIndex (int aPlayerCount, StockRound aStockRound) {
