@@ -71,7 +71,7 @@ public class ModifyTrainVEffect extends VariantEffect {
 			tTrainInfo = tGameInfo.getTrainInfo (tTrainInfoIndex);
 			tTrainName = tTrainInfo.getName ();
 			if (tTrainName.equals (trainName)) {
-				System.out.println ("Found a " + tTrainName + "resetting Attribute");
+				System.out.println ("Found a " + tTrainName + " resetting Attribute");
 				switch (attributeName) {
 					case "onLast":
 						tValue = Integer.valueOf (value);
