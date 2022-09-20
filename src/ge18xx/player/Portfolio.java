@@ -1892,13 +1892,19 @@ public class Portfolio implements CertificateHolderI {
 		JLabel tCertificateOwnershipLabel;
 		List<PortfolioSummary> tPortfolioSummary;
 		PortfolioSummary tASummary;
-		String tAbbrev, tOwnershipLabel, tNote, tAbbrevAndType1, tAbbrevAndType2;
-		int tCount, tPercentage;
-		boolean tIsPresident, tHandledCertificate;
+		String tAbbrev;
+		String tOwnershipLabel;
+		String tNote;
+		String tAbbrevAndType1;
+		String tAbbrevAndType2;
+		String tType;
+		int tCount;
+		int tPercentage;
+		boolean tIsPresident;
+		boolean tHandledCertificate;
 		Border tCorporateColorBorder;
 		Corporation tCorporation;
-		String tType;
-
+		
 		if (certificates.size () > 0) {
 			tOwnershipPanel = new JPanel ();
 			tOwnershipPanel.setLayout (new BoxLayout (tOwnershipPanel, BoxLayout.Y_AXIS));
@@ -1908,7 +1914,8 @@ public class Portfolio implements CertificateHolderI {
 				tType = PortfolioSummary.SHARE_CORP_TYPE;
 				tAbbrev = tCertificate.getCompanyAbbrev ();
 				if (tAbbrev.length () < 4) {
-					tAbbrev += "&nbsp;";
+//					tAbbrev += "&nbsp;";
+					tAbbrev += " ";
 				}
 				if (tCertificate.isAPrivateCompany ()) {
 					tType = PortfolioSummary.PRIVATE_CORP_TYPE;
