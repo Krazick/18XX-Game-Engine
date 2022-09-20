@@ -508,14 +508,15 @@
 				<VariantEffect action="Set Diesel Train Quantity to Zero (0)" class="ge18xx.game.variants.SetTrainCountVEffect" id="203" name="Zero (0)" trainName="Diesel" quantity="0"/>
 			</Variant>
 			<Variant class="ge18xx.game.variants.VariantAll" id="700" title="Add Plus Trains">
-				<VariantEffect action="Add 2+2 Train" class="ge18xx.game.variants.AddTrainVEffect" id="701" name="Add 2+2 Train" trainName="2+2" quantity="1" >
+				<VariantEffect action="Replace last 2 with 2+2 Train" class="ge18xx.game.variants.AddTrainVEffect" id="701" name="Add 2+2 Train" trainName="2+2" quantity="1" >
 					<Train name="2+2" order="2" revenueCenters="2" townRevenueCenters="2"
 							quantity="1" price="80" onLast="3" triggerPhase="1.2" />
 				</VariantEffect>
-				<VariantEffect action="Add Phase 1.2" class="ge18xx.game.variants.AddPhaseVEffect" hide="true" name="1.2">
+				<VariantEffect action="Set 2 Train Quantity to 5" class="ge18xx.game.variants.SetTrainCountVEffect" hide="true" id="702" name="(5) 2 Trains" trainName="2" quantity="5" />
+				<VariantEffect action="Add Phase 1.2" class="ge18xx.game.variants.AddPhaseVEffect" hide="true" id="703" name="1.2">
 					<Phase name="1" subName="2" rounds="1" tiles="Yellow" trainLimit="4" offBoard="Low" />
 				</VariantEffect>
-				<VariantEffect action="Modify 2 Train settting OnLast to 2, not 3" class="ge18xx.game.variants.ModifyTrainVEffect" name="2" attributeName="onLast" value="2" />
+				<VariantEffect action="Modify 2 Train settting OnLast to 2, not 3" class="ge18xx.game.variants.ModifyTrainVEffect" id="704" name="2" attributeName="onLast" value="2" />
 			</Variant>
 			<!--  Company specific Variants -->
 			<Variant class="ge18xx.game.variants.VariantChooseAny" id="400" title="Activate Share Companies">
