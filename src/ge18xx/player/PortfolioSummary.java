@@ -71,7 +71,8 @@ public class PortfolioSummary {
 	public String getSummary () {
 		String tOwnershipLabel;
 
-		tOwnershipLabel = getAbbrev () + "&nbsp;";
+//		tOwnershipLabel = getAbbrev () + "&nbsp;";
+		tOwnershipLabel = getAbbrev () + " ";
 		if (PRIVATE_CORP_TYPE.equals (type)) {
 			tOwnershipLabel += type + " 1 Prez Cert";
 		} else if (SHARE_CORP_TYPE.equals (type)) {
@@ -85,7 +86,7 @@ public class PortfolioSummary {
 				tOwnershipLabel += " Prez";
 			}
 		}
-		tOwnershipLabel = "<html>" + tOwnershipLabel + "</html>";
+//		tOwnershipLabel = "<html>" + tOwnershipLabel + "</html>";
 
 		return tOwnershipLabel;
 	}
