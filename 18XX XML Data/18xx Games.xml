@@ -18,6 +18,9 @@
 			<Variant class="ge18xx.game.variants.VariantToggle" id="800" title="Require Share Company to Operate before Sale" default="false">
 				<VariantEffect action="Require Share Company to Operate before Sale" class="ge18xx.game.variants.ModifyGameInfoVEffect" id="801" name="Operate Before Sale" attributeName="operateBeforeSale" />
 			</Variant>
+			<Variant class="ge18xx.game.variants.VariantToggle" id="900" title="Random Player Start Order" default="true" hotSeatOnly="true">
+				<VariantEffect action="Random Player Start Order" class="ge18xx.game.variants.ModifyGameInfoVEffect" id="901" name="Randomize Start Order" attributeName="randomizeStartOrder" />
+			</Variant>
 			<!--  Train specific Variants -->
 			<Variant class="ge18xx.game.variants.VariantAll" id="100" title="Optional 6 Train">
 				<VariantEffect action="Set 6 Train Quantity to 3" class="ge18xx.game.variants.SetTrainCountVEffect" id="101" name="(3) 6 Trains" trainName="6" quantity="3" />
@@ -497,6 +500,9 @@
 			</Variant>
 			<Variant class="ge18xx.game.variants.VariantToggle" id="800" title="Require Share Company to Operate before Sale" default="false">
 				<VariantEffect action="Require Share Company to Operate before Sale" class="ge18xx.game.variants.ModifyGameInfoVEffect" id="801" name="Operate Before Sale" attributeName="operateBeforeSale" />
+			</Variant>
+			<Variant class="ge18xx.game.variants.VariantToggle" id="900" title="Random Player Start Order" default="true" hotSeatOnly="true">
+				<VariantEffect action="Random Player Start Order" class="ge18xx.game.variants.ModifyGameInfoVEffect" id="901" name="Randomize Start Order" attributeName="randomizeStartOrder" />
 			</Variant>
 			<!--  Train specific Variants -->
 			<Variant class="ge18xx.game.variants.VariantAll" id="100" title="Optional 6 Train">

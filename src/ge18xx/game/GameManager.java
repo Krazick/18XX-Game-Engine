@@ -1090,6 +1090,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			activeGame.setupVariants ();
 			activeGame.applyActiveVariantEffects (this);
 			removeInactiveCompanies ();
+			playerInputFrame.randomizePlayerOrder ();
 			setupPlayers ();
 			tPrivates = getPrivates ();
 			tMinors = getMinorCompanies ();
@@ -2096,6 +2097,18 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return playerInputFrame.getPlayersInOrder ();
 	}
 
+	public boolean shouldRandomize () {
+		boolean tShouldRandomize;
+		
+		if (activeGame != GameInfo.NO_GAME_INFO) {
+			tShouldRandomize = activeGame.randomizeStartOrder ();
+		} else {
+			tShouldRandomize = true;
+		}
+		
+		return tShouldRandomize;
+	}
+	
 	@Override
 	public void randomizePlayerOrder () {
 		playerInputFrame.randomizePlayerOrder ();

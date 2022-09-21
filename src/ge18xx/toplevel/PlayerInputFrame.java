@@ -167,7 +167,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	}
 
 	public void handleHotseatGameStart (GameInfo aGameInfo) {
-		randomizePlayerOrder ();
+//		randomizePlayerOrder ();
 		setVisible (false);
 		initiateGame (aGameInfo);
 		logger.info ("Start new Game [" + aGameInfo.getGameName () + "] with Players [" + getPlayersInOrder () + "]");
@@ -228,19 +228,23 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		int tIndex;
 		int tFoundCount;
 		List<String> tPlayerNames;
-
-		tPlayerNames = getPlayerNames ();
-		tFoundCount = tPlayerNames.size ();
-		Random tGenerator = new Random ();
-		Collections.shuffle (tPlayerNames, tGenerator);
-		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
-			if (tIndex < tFoundCount) {
-				playerNames [tIndex].setText (tPlayerNames.get (tIndex));
-			} else {
-				playerNames [tIndex].setText (NO_NAME);
+		boolean tShouldRandomize;
+		
+		tShouldRandomize = gameManager.shouldRandomize ();
+		if (tShouldRandomize) {
+			tPlayerNames = getPlayerNames ();
+			tFoundCount = tPlayerNames.size ();
+			Random tGenerator = new Random ();
+			Collections.shuffle (tPlayerNames, tGenerator);
+			for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
+				if (tIndex < tFoundCount) {
+					playerNames [tIndex].setText (tPlayerNames.get (tIndex));
+				} else {
+					playerNames [tIndex].setText (NO_NAME);
+				}
 			}
+			lockClientPlayer ();
 		}
-		lockClientPlayer ();
 	}
 
 	@Override

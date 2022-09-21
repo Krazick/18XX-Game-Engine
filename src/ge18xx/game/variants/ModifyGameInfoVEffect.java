@@ -26,6 +26,9 @@ public class ModifyGameInfoVEffect extends VariantEffect {
 			case "operateBeforeSale" :
 				System.out.println ("Game Info Attribute Toggle " + attributeName);
 				break;
+			case "randomizeStartOrder" :
+				System.out.println ("Game Info Attribute Toggle " + attributeName);
+				break;
 			default:
 				System.out.println ("Don't know what to do with " + attributeName);
 		}
@@ -69,6 +72,10 @@ public class ModifyGameInfoVEffect extends VariantEffect {
 		switch (attributeName) {
 			case "operateBeforeSale":
 				tGameInfo.setOperateBeforeSale (state);
+				System.out.println ("Setting GameInfo Attribute " + attributeName + " to " + state);
+				break;
+			case "randomizeStartOrder":
+				tGameInfo.setRandomizeStartOrder (state);
 				System.out.println ("Setting GameInfo Attribute " + attributeName + " to " + state);
 				break;
 			default:

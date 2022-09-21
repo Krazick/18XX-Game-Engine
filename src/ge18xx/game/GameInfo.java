@@ -57,6 +57,7 @@ public class GameInfo {
 	final AttributeName AN_RELEASE_DATE = new AttributeName ("releaseDate");
 	final AttributeName AN_CAN_PAY_HALF = new AttributeName ("canPayHalfDividend");
 	final AttributeName AN_OPERATE_BEFORE_SALE = new AttributeName ("operateBeforeSale");
+	final AttributeName AN_RANDOMIZE_START_ORDER = new AttributeName ("randomizeStartOrder");
 
 	static final int NO_GAME_ID = 0;
 	static final String NO_NAME = "<NONE>";
@@ -89,6 +90,7 @@ public class GameInfo {
 	boolean hasShares;
 	boolean canPayHalfDividend;
 	boolean loans;
+	boolean randomizeStartOrder;
 	boolean testGraphs;		// For DEBUGing Development testing of new Graphs
 	int bankPoolShareLimit; // Limit on # of shares in Bank Pool
 	int playerShareLimit; // Limit on # of shares a Player may Hold
@@ -130,6 +132,7 @@ public class GameInfo {
 		boolean tLoans;
 		boolean tTestGraphs;
 		boolean tOperateBeforeSale;
+		boolean tRandomizeStartOrder;
 		
 		tGameID = aCellNode.getThisAttribute (AN_GAME_ID);
 		tID = aCellNode.getThisIntAttribute (AN_ID);
@@ -151,6 +154,7 @@ public class GameInfo {
 		tHasMinors = aCellNode.getThisBooleanAttribute (AN_MINORS);
 		tHasShares = aCellNode.getThisBooleanAttribute (AN_SHARES);
 		tOperateBeforeSale = aCellNode.getThisBooleanAttribute (AN_OPERATE_BEFORE_SALE);
+		tRandomizeStartOrder = aCellNode.getThisBooleanAttribute (AN_RANDOMIZE_START_ORDER);
 		canPayHalfDividend = aCellNode.getThisBooleanAttribute (AN_CAN_PAY_HALF);
 
 		setGameID (tGameID);
@@ -160,6 +164,7 @@ public class GameInfo {
 		setLoans (tLoans);
 		setStatus (tStatus);
 		setOperateBeforeSale (tOperateBeforeSale);
+		setRandomizeStartOrder (tRandomizeStartOrder);
 		setTestGraphs (tTestGraphs);
 		
 		tBankPoolShareLimit = aCellNode.getThisIntAttribute (AN_BANK_POOL_SHARE_LIMIT);
@@ -645,6 +650,10 @@ public class GameInfo {
 	public boolean operateBeforeSale () {
 		return operateBeforeSale;
 	}
+	
+	public boolean randomizeStartOrder () {
+		return randomizeStartOrder;
+	}
 
 	public void printGameInfo () {
 		int tIndex;
@@ -676,6 +685,10 @@ public class GameInfo {
 
 	public void setOperateBeforeSale (boolean aOperateBeforeSale) {
 		operateBeforeSale = aOperateBeforeSale;
+	}
+
+	public void setRandomizeStartOrder (boolean aRandomizeStartOrder) {
+		randomizeStartOrder = aRandomizeStartOrder;
 	}
 	
 	public void setTestGraphs (boolean aTestGraphs) {
