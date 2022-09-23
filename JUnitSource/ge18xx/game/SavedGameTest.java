@@ -61,6 +61,7 @@ class SavedGameTest {
 			assertEquals ("", tSavedGame.getGameStatus ());
 			assertEquals (0, tSavedGame.getLastActionNumber ());
 			assertEquals (0, tSavedGame.getPlayerCount ());
+			assertFalse (tSavedGame.localAutoSaveFound ());
 		}
 
 		@Test
@@ -72,6 +73,7 @@ class SavedGameTest {
 			assertEquals (3, savedGame.getPlayerCount ());
 			assertTrue (savedGame.hasPlayer ("SGPlayerBeta"));
 			assertFalse (savedGame.hasPlayer ("SGPlayerDelta"));
+			assertFalse (savedGame.localAutoSaveFound ());
 		}
 
 		@Test
@@ -80,12 +82,15 @@ class SavedGameTest {
 			savedGame.setGameID ("2021-04-12-1313");
 			savedGame.setGameStatus ("Prepared");
 			savedGame.setLastActionNumber (100);
+			savedGame.setGameName ("GameName Test Setter and Getter");
 
 			assertEquals ("2021-04-12-1313", savedGame.getGameID ());
 			assertEquals ("Prepared", savedGame.getGameStatus ());
 			assertEquals (100, savedGame.getLastActionNumber ());
 			assertEquals (0, savedGame.getPlayerCount ());
 			assertEquals ("", savedGame.getPlayers ());
+			assertFalse (savedGame.localAutoSaveFound ());
+			assertEquals ("GameName Test Setter and Getter", savedGame.getGameName ());
 		}
 
 		@Test

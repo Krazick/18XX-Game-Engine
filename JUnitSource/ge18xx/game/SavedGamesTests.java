@@ -40,6 +40,7 @@ class SavedGamesTests {
 	@DisplayName ("Constructor and getting Count")
 	void SavedGameConstructorTest () {
 		assertEquals (4, savedGames.getSavedGameCount ());
+		assertEquals (mGameManager, savedGames.getGameManager ());
 	}
 
 	@Nested
