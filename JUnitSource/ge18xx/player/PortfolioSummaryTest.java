@@ -100,7 +100,7 @@ class PortfolioSummaryTest {
 		
 		sharePrezPortfolioSummary.addCount (2);
 		tSummary = sharePrezPortfolioSummary.getSummary ();
-		assertEquals ("<html>BnOTest&nbsp;5 Certs/30% Prez</html>", tSummary);
+		assertEquals ("BnOTest 5 Certs/30% Prez", tSummary);
 		assertEquals (5, sharePrezPortfolioSummary.getCount ());
 	}
 
@@ -111,7 +111,7 @@ class PortfolioSummaryTest {
 		
 		sharePrezPortfolioSummary.addPercentage (20);
 		tSummary = sharePrezPortfolioSummary.getSummary ();
-		assertEquals ("<html>BnOTest&nbsp;3 Certs/50% Prez</html>", tSummary);
+		assertEquals ("BnOTest 3 Certs/50% Prez", tSummary);
 	}
 
 	@Test
@@ -121,11 +121,11 @@ class PortfolioSummaryTest {
 		
 		sharePortfolioSummary.setIsPresident (true);
 		tSummary = sharePortfolioSummary.getSummary ();
-		assertEquals ("<html>NPrezTest&nbsp;3 Certs/30% Prez</html>", tSummary);
+		assertEquals ("NPrezTest 3 Certs/30% Prez", tSummary);
 
 		sharePortfolioSummary.setIsPresident (false);
 		tSummary = sharePortfolioSummary.getSummary ();
-		assertEquals ("<html>NPrezTest&nbsp;3 Certs/30% Prez</html>", tSummary);
+		assertEquals ("NPrezTest 3 Certs/30% Prez", tSummary);
 	}
 
 	@Nested
@@ -139,7 +139,7 @@ class PortfolioSummaryTest {
 			Border tFoundBorder;
 			
 			tSummary = sharePrezPortfolioSummary.getSummary ();
-			assertEquals ("<html>BnOTest&nbsp;3 Certs/30% Prez</html>", tSummary);
+			assertEquals ("BnOTest 3 Certs/30% Prez", tSummary);
 			
 			assertEquals (3, sharePrezPortfolioSummary.getCount ());
 			assertEquals ("Share", sharePrezPortfolioSummary.getType ());
@@ -156,7 +156,7 @@ class PortfolioSummaryTest {
 			Border tFoundBorder;
 			
 			tSummary = sharePortfolioSummary.getSummary ();
-			assertEquals ("<html>NPrezTest&nbsp;3 Certs/30%</html>", tSummary);
+			assertEquals ("NPrezTest 3 Certs/30%", tSummary);
 			
 			assertEquals ("Share", sharePortfolioSummary.getType ());
 			assertEquals ("Test Case Note Not Prez", sharePortfolioSummary.getNote ());
@@ -172,7 +172,7 @@ class PortfolioSummaryTest {
 			Border tFoundBorder;
 			
 			tSummary = privatePortfolioSummary.getSummary ();
-			assertEquals ("<html>PrivateTest&nbsp;Private 1 Prez Cert</html>", tSummary);
+			assertEquals ("PrivateTest Private 1 Prez Cert", tSummary);
 			
 			assertEquals ("Private", privatePortfolioSummary.getType ());
 			assertEquals ("Private Test Case Note", privatePortfolioSummary.getNote ());
@@ -188,7 +188,7 @@ class PortfolioSummaryTest {
 			Border tFoundBorder;
 			
 			tSummary = minorPrezPortfolioSummary.getSummary ();
-			assertEquals ("<html>MinorTest&nbsp;Minor 1 Cert/50% Prez</html>", tSummary);
+			assertEquals ("MinorTest Minor 1 Cert/50% Prez", tSummary);
 			
 			assertEquals ("Minor", minorPrezPortfolioSummary.getType ());
 			assertEquals ("Minor Test Case Note", minorPrezPortfolioSummary.getNote ());
@@ -204,7 +204,7 @@ class PortfolioSummaryTest {
 			Border tFoundBorder;
 			
 			tSummary = minorPortfolioSummary.getSummary ();
-			assertEquals ("<html>MinorNPrezTest&nbsp;Minor 1 Cert/50%</html>", tSummary);
+			assertEquals ("MinorNPrezTest Minor 1 Cert/50%", tSummary);
 			
 			assertEquals ("Minor", minorPortfolioSummary.getType ());
 			assertEquals ("Minor Prez Test Case Note", minorPortfolioSummary.getNote ());
