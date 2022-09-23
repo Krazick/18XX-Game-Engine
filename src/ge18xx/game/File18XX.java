@@ -24,10 +24,6 @@ public class File18XX {
 	String name;
 	String type;
 
-	public File18XX () {
-		setValue (NO_NAME, NO_TYPE);
-	}
-
 	public File18XX (XMLNode aCellNode) {
 		String tName;
 		String tType;
