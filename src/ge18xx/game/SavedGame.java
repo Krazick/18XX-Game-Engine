@@ -99,10 +99,6 @@ public class SavedGame {
 		localAutoSaveFound = aLocalFound;
 	}
 
-	public boolean getLocalAutoSaveFound () {
-		return localAutoSaveFound;
-	}
-
 	public boolean localAutoSaveFound () {
 		return localAutoSaveFound;
 	}
