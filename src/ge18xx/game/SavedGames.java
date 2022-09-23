@@ -88,7 +88,7 @@ public class SavedGames {
 		boolean tFoundAtLeastOne = false;
 
 		for (SavedGame tSavedGame : games) {
-			if (tSavedGame.getLocalAutoSaveFound ()) {
+			if (tSavedGame.localAutoSaveFound ()) {
 				tFoundAtLeastOne = true;
 			}
 		}
@@ -100,7 +100,7 @@ public class SavedGames {
 		int tMatchedCount = 0;
 
 		for (SavedGame tSavedGame : games) {
-			if (tSavedGame.getLocalAutoSaveFound ()) {
+			if (tSavedGame.localAutoSaveFound ()) {
 				tMatchedCount++;
 			}
 		}
