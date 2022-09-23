@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
@@ -41,6 +42,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private final String ONLY_BIDDER = "Only Bidder";
 	private final String NOT_HIGHEST = "";
 	private final String RAISE = "Raise";
+	private final String RAISE_BY = "Raise by:";
 	private final String PASS = "Pass";
 	private final String RAISED = "Raised";
 	private final String PASSED = "Passed";
@@ -65,6 +67,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	JButton setParPrice;
 
 	JButton [] bidderRaiseButtons;
+	JButton [] bidderRaiseByButtons;
+	JTextField [] bidderRaiseAmountField;
 	JButton [] bidderPassButtons;
 	JLabel [] bidderLabels;
 	JLabel [] bidderSuffixLabel;
@@ -218,8 +222,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	private void raiseBid (int aActingBidderIndex) {
 		int tBidderCount = certificateToAuction.getNumberOfBidders ();
-		int tNextBidderIndex, tRaiseAmount;
-		int tOldBidAmount, tNewBidAmount;
+		int tNextBidderIndex;
+		int tRaiseAmount;
+		int tOldBidAmount;
+		int tNewBidAmount;
 		Player tPlayer;
 		Player tNextPlayer;
 		Bidder tBidder;
@@ -490,6 +496,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tBidderCount = certificateToAuction.getNumberOfBidders ();
 		if (tBidderCount > 0) {
 			bidderRaiseButtons = new JButton [tBidderCount];
+			bidderRaiseByButtons = new JButton [tBidderCount];
+			bidderRaiseAmountField = new JTextField [tBidderCount];
 			bidderPassButtons = new JButton [tBidderCount];
 			bidderSuffixLabel = new JLabel [tBidderCount];
 			bidderLabels = new JLabel [tBidderCount];
@@ -524,6 +532,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		Player tPlayer;
 		int tCash;
 		String tRaiseLabel;
+		String tRaiseByLabel;
 		String tBidderName;
 		boolean tBidderIsActing;
 		
@@ -538,14 +547,18 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			bidderLabels [tBidderIndex] = new JLabel (getBidderLabel (tPlayer, tCash));
 
 			tRaiseLabel = RAISE + " " + Bank.formatCash (PlayerManager.BID_INCREMENT);
+			tRaiseByLabel = RAISE_BY;
 			updateOneBidderJPanel (tBidderIndex, tRaiseLabel);
 
 			if (tBidderIndex == aHighestBidderIndex) {
 				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, false, tBidderIsActing,
 						HIGHEST_NO_RAISE);
+				setButton (bidderRaiseByButtons [tBidderIndex], tRaiseByLabel, false, tBidderIsActing,
+						HIGHEST_NO_RAISE);
 				setButton (bidderPassButtons [tBidderIndex], PASS, false, tBidderIsActing, HIGHEST_NO_PASS);
 			} else {
 				setButton (bidderRaiseButtons [tBidderIndex], tRaiseLabel, true, tBidderIsActing, NOT_HIGHEST);
+				setButton (bidderRaiseByButtons [tBidderIndex], tRaiseByLabel, true, tBidderIsActing, NOT_HIGHEST);
 				setButton (bidderPassButtons [tBidderIndex], PASS, true, tBidderIsActing, NOT_HIGHEST);
 			}
 			oneBidderJPanel.add (bidderSuffixLabel [tBidderIndex]);
@@ -747,8 +760,14 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		bidderRaiseButtons [aBidderIndex].addActionListener (this);
 		bidderRaiseButtons [aBidderIndex].setActionCommand (RAISE);
 
+		bidderRaiseByButtons [aBidderIndex] = new JButton (aRaiseLabel);
+		bidderRaiseByButtons [aBidderIndex].addActionListener (this);
+		bidderRaiseByButtons [aBidderIndex].setActionCommand (RAISE_BY);
+
 		oneBidderJPanel.add (bidderRaiseButtons [aBidderIndex]);
 		oneBidderJPanel.add (Box.createHorizontalStrut (5));
+//		oneBidderJPanel.add (bidderRaiseByButtons [aBidderIndex]);
+//		oneBidderJPanel.add (Box.createHorizontalStrut (5));
 		bidderPassButtons [aBidderIndex] = new JButton (PASS);
 		bidderPassButtons [aBidderIndex].addActionListener (this);
 		bidderPassButtons [aBidderIndex].setActionCommand (PASS);
@@ -774,7 +793,9 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	public void updateBidderJPanels () {
 		Player tPlayer;
-		int tCash, tBidderCount, tHighestBidderIndex;
+		int tBidAmount;
+		int tBidderCount;
+		int tHighestBidderIndex;
 		String tRaiseLabel;
 		String tBidderName;
 		boolean tBidderIsActing;
@@ -787,8 +808,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			tPlayer = (Player) certificateToAuction.getCashHolderAt (tBidderIndex);
 			tBidderName = tPlayer.getName ();
 			tBidderIsActing = isBidderActing (tBidderIndex, tBidderName);
-			tCash = certificateToAuction.getBidAt (tBidderIndex);
-			bidderLabels [tBidderIndex].setText (getBidderLabel (tPlayer, tCash));
+			tBidAmount = certificateToAuction.getBidAt (tBidderIndex);
+			bidderLabels [tBidderIndex].setText (getBidderLabel (tPlayer, tBidAmount));
 			tRaiseLabel = RAISE + " " + Bank.formatCash (PlayerManager.BID_INCREMENT);
 			updateAuctionUndoButton ();
 
