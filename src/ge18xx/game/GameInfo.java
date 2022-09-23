@@ -133,6 +133,7 @@ public class GameInfo {
 		boolean tTestGraphs;
 		boolean tOperateBeforeSale;
 		boolean tRandomizeStartOrder;
+		boolean tCanPayHalfDividend;
 		
 		tGameID = aCellNode.getThisAttribute (AN_GAME_ID);
 		tID = aCellNode.getThisIntAttribute (AN_ID);
@@ -155,7 +156,7 @@ public class GameInfo {
 		tHasShares = aCellNode.getThisBooleanAttribute (AN_SHARES);
 		tOperateBeforeSale = aCellNode.getThisBooleanAttribute (AN_OPERATE_BEFORE_SALE);
 		tRandomizeStartOrder = aCellNode.getThisBooleanAttribute (AN_RANDOMIZE_START_ORDER);
-		canPayHalfDividend = aCellNode.getThisBooleanAttribute (AN_CAN_PAY_HALF);
+		tCanPayHalfDividend = aCellNode.getThisBooleanAttribute (AN_CAN_PAY_HALF);
 
 		setGameID (tGameID);
 		setValues (tID, tName, tMinPlayers, tMaxPlayers, tBankTotal, tCurrencyFormat);
@@ -165,6 +166,7 @@ public class GameInfo {
 		setStatus (tStatus);
 		setOperateBeforeSale (tOperateBeforeSale);
 		setRandomizeStartOrder (tRandomizeStartOrder);
+		setCanPayHalfDividend (tCanPayHalfDividend);
 		setTestGraphs (tTestGraphs);
 		
 		tBankPoolShareLimit = aCellNode.getThisIntAttribute (AN_BANK_POOL_SHARE_LIMIT);
@@ -654,7 +656,7 @@ public class GameInfo {
 	public boolean randomizeStartOrder () {
 		return randomizeStartOrder;
 	}
-
+	
 	public void printGameInfo () {
 		int tIndex;
 
@@ -689,6 +691,10 @@ public class GameInfo {
 
 	public void setRandomizeStartOrder (boolean aRandomizeStartOrder) {
 		randomizeStartOrder = aRandomizeStartOrder;
+	}
+	
+	public void setCanPayHalfDividend (boolean aCanPayHalfDividend) {
+		canPayHalfDividend = aCanPayHalfDividend;
 	}
 	
 	public void setTestGraphs (boolean aTestGraphs) {

@@ -401,7 +401,9 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		String tDescription;
 		int tVariantCount;
 		int tVariantIndex;
+		int tAddedCount;
 		Variant tVariant;
+		GameManager tGameManager;
 		
 		tDescription = gameInfo [aIndex].getHTMLDescription ();
 		gameDescriptionLabel.setText (tDescription);
@@ -410,10 +412,24 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		tVariantCount = gameInfo [aIndex].getVariantCount ();
 
 		gameVariants = new JPanel [tVariantCount];
+		tGameManager = playerInputFrame.getGameManager ();
+		tAddedCount = 0;
 		for (tVariantIndex = 0; tVariantIndex < tVariantCount; tVariantIndex++) {
 			tVariant = gameInfo [aIndex].getVariantIndex (tVariantIndex);
-			gameVariants [tVariantIndex] = tVariant.buildVariantDescription ();
-			descAndVariantsJPanel.add (gameVariants [tVariantIndex]);
+			if (tGameManager.isNetworkGame ()) {
+				if (! tVariant.hotSeatOnly ()) {
+					tAddedCount = addVariantToList (tAddedCount, tVariant);
+				}
+			} else {
+				tAddedCount = addVariantToList (tAddedCount, tVariant);
+			}
 		}
+	}
+
+	private int addVariantToList (int aIndex, Variant aVariant) {
+		gameVariants [aIndex] = aVariant.buildVariantDescription ();
+		descAndVariantsJPanel.add (gameVariants [aIndex]);
+		
+		return (aIndex + 1);
 	}
 }

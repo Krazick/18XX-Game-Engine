@@ -37,6 +37,7 @@ public class Variant {
 	public static final AttributeName AN_DEFAULT = new AttributeName ("default");
 	public static final AttributeName AN_VARIANT_CLASS = new AttributeName ("class");
 	public static final AttributeName AN_ID = new AttributeName ("id");
+	public static final AttributeName AN_HOTSEAT_ONLY = new AttributeName ("hotSeatOnly");
 	static final String TYPE_ALL = "ALL";
 	static final String TYPE_CHOOSE_ANY = "Choose Any";
 	static final String TYPE_CHOOSE_1 = "Choose 1";
@@ -45,6 +46,7 @@ public class Variant {
 	String type;
 	List<VariantEffect> variantEffects;
 	boolean enabled;
+	boolean hotSeatOnly;
 	JComponent titleComponent;
 
 	public Variant () {
@@ -56,13 +58,16 @@ public class Variant {
 		String tTitle;
 		int tID;
 		boolean tDefault;
+		boolean tHotSeatOnly;
 		
 		tID = aXMLNode.getThisIntAttribute (AN_ID, NO_ID);
 		tTitle = aXMLNode.getThisAttribute (AN_TITLE);
 		tDefault = aXMLNode.getThisBooleanAttribute (AN_DEFAULT);
+		tHotSeatOnly = aXMLNode.getThisBooleanAttribute (AN_HOTSEAT_ONLY);
 		setID (tID);
 		setTitle (tTitle);
 		setEnabled (tDefault);
+		setHotSeatOnly (tHotSeatOnly);
 		loadVariantEffects (aXMLNode);
 	}
 
@@ -193,6 +198,14 @@ public class Variant {
 	
 	public boolean isEnabled () {
 		return enabled;
+	}
+
+	public boolean hotSeatOnly () {
+		return hotSeatOnly;
+	}
+	
+	public void setHotSeatOnly (boolean aHotSeatOnly) {
+		hotSeatOnly = aHotSeatOnly;
 	}
 	
 	public void setEnabled (boolean aEnabled) {
