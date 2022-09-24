@@ -9,7 +9,7 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class PhaseInfoVEffect extends VariantEffect {
-	static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");
+	public static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");
 	static final String NAME = "Phase Info";
 	String phaseName;
 	
