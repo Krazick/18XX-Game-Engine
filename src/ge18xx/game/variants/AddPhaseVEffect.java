@@ -5,9 +5,13 @@ import org.w3c.dom.NodeList;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class AddPhaseVEffect extends PhaseInfoVEffect {
+	public static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");
 	static final String NAME = "Add Phase";
 	PhaseInfo phaseInfo;
 	
@@ -19,6 +23,29 @@ public class AddPhaseVEffect extends PhaseInfoVEffect {
 		super (aVariantEffectNode);
 		setName (NAME);
 		loadPhaseInfo (aVariantEffectNode);
+	}
+	
+	/**
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * the CompanyID and the VariantEffect Class
+	 * 
+	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
+	 * 
+	 * @return the filled out XMLElement
+	 * 
+	 */
+	@Override
+	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+		XMLElement tXMLPhaseElement;
+		
+		tXMLElement = super.getEffectElement (aXMLDocument);
+		tXMLElement.setAttribute (AN_PHASE_NAME, phaseInfo.getFullName ());
+		tXMLPhaseElement = phaseInfo.getElement (aXMLDocument);
+		tXMLElement.appendChild (tXMLPhaseElement);
+		tXMLElement.setAttribute (AN_CLASS, getClass ().getName ());
+		
+		return tXMLElement;
 	}
 
 	/**
