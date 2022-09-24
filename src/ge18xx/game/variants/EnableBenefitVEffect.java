@@ -81,7 +81,6 @@ public class EnableBenefitVEffect extends VariantEffect {
 		boolean tState;
 		
 		tState = getState ();
-		System.out.println ("Company " + companyID + " " + benefitName + " To Apply Variant Effect " + tState);
 		tCorporationList = aGameManager.getPrivates ();
 		tCorporation = tCorporationList.getCorporationByID (companyID);
 		if (tCorporation != Corporation.NO_CORPORATION) {

@@ -17,17 +17,14 @@ public class ModifyGameInfoVEffect extends VariantEffect {
 
 	public ModifyGameInfoVEffect (XMLNode aVariantEffectNode) {
 		super (aVariantEffectNode);
-		System.out.println ("Ready to read Attributes for Modify Game Info");
 		String tAttributeName;
 		
 		tAttributeName = aVariantEffectNode.getThisAttribute (AN_ATTRIBUTE_NAME);
 		setAttributeName (tAttributeName);
 		switch (attributeName) {
 			case "operateBeforeSale" :
-				System.out.println ("Game Info Attribute Toggle " + attributeName);
 				break;
 			case "randomizeStartOrder" :
-				System.out.println ("Game Info Attribute Toggle " + attributeName);
 				break;
 			default:
 				System.out.println ("Don't know what to do with " + attributeName);
@@ -72,11 +69,9 @@ public class ModifyGameInfoVEffect extends VariantEffect {
 		switch (attributeName) {
 			case "operateBeforeSale":
 				tGameInfo.setOperateBeforeSale (state);
-				System.out.println ("Setting GameInfo Attribute " + attributeName + " to " + state);
 				break;
 			case "randomizeStartOrder":
 				tGameInfo.setRandomizeStartOrder (state);
-				System.out.println ("Setting GameInfo Attribute " + attributeName + " to " + state);
 				break;
 			default:
 				System.out.println ("Don't know what to do with " + attributeName);

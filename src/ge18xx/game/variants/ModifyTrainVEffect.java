@@ -3,6 +3,8 @@ package ge18xx.game.variants;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.train.TrainInfo;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class ModifyTrainVEffect extends VariantEffect {
@@ -18,7 +20,6 @@ public class ModifyTrainVEffect extends VariantEffect {
 
 	public ModifyTrainVEffect (XMLNode aVariantEffectNode) {
 		super (aVariantEffectNode);
-		System.out.println ("Ready to read Attributes for Modify Train");
 		String tAttributeName;
 		String tValue;
 		String tTrainName;
@@ -31,7 +32,6 @@ public class ModifyTrainVEffect extends VariantEffect {
 		setTrainName (tTrainName);
 		switch (attributeName) {
 			case "onLast" :
-				System.out.println ("Set " + trainName + " Train's " + attributeName + " Attribute to " + value);
 				break;
 			default:
 				System.out.println ("Don't know what to do with " + attributeName);
@@ -50,6 +50,27 @@ public class ModifyTrainVEffect extends VariantEffect {
 		value = aValue;
 	}
 	
+	/**
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * the CompanyID and the VariantEffect Class
+	 * 
+	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
+	 * 
+	 * @return the filled out XMLElement
+	 * 
+	 */
+	@Override
+	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+		
+		tXMLElement = super.getEffectElement (aXMLDocument);
+		tXMLElement.setAttribute (AN_ATTRIBUTE_NAME, attributeName);
+		tXMLElement.setAttribute (AN_VALUE, value);
+		tXMLElement.setAttribute (AN_CLASS, getClass ().getName ());
+		
+		return tXMLElement;
+	}
+
 	/**
 	 * Apply the Variant Effect using the Game Manager as needed.
 	 * 
@@ -71,7 +92,6 @@ public class ModifyTrainVEffect extends VariantEffect {
 			tTrainInfo = tGameInfo.getTrainInfo (tTrainInfoIndex);
 			tTrainName = tTrainInfo.getName ();
 			if (tTrainName.equals (trainName)) {
-				System.out.println ("Found a " + tTrainName + " resetting Attribute");
 				switch (attributeName) {
 					case "onLast":
 						tValue = Integer.valueOf (value);
