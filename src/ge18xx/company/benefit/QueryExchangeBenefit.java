@@ -106,8 +106,6 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		String tRoundID;
 		Player tCurrentPlayer;
 		
-		System.out.println ("Player " + aPlayer.getName () + 
-				" must answer Query Exchange Question - Send Action requesting Response.");
 		tRoundType = getRoundType (aGameManager);
 		tRoundID = getRoundID (aGameManager);
 		tCurrentPlayer = aGameManager.getCurrentPlayer ();
