@@ -516,7 +516,8 @@
 			<Variant class="ge18xx.game.variants.VariantAll" id="700" title="Add Plus Trains">
 				<VariantEffect action="Replace last 2 with 2+2 Train" class="ge18xx.game.variants.AddTrainVEffect" id="701" name="Add 2+2 Train" trainName="2+2" quantity="1" >
 					<Train name="2+2" order="2" revenueCenters="2" townRevenueCenters="2"
-							quantity="1" price="80" onLast="3" triggerPhase="1.2" />
+							quantity="1" price="180" onLast="3" triggerPhase="1.2" />
+							<!--  2+2 - $180, 3+3 - $300, 4+4 - $450, 5+5 - $630, 6+6 - $ 800 -->
 				</VariantEffect>
 				<VariantEffect action="Set 2 Train Quantity to 5" class="ge18xx.game.variants.SetTrainCountVEffect" hide="true" id="702" name="(5) 2 Trains" trainName="2" quantity="5" />
 				<VariantEffect action="Add Phase 1.2" class="ge18xx.game.variants.AddPhaseVEffect" hide="true" id="703" name="1.2">
