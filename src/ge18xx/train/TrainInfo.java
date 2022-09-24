@@ -149,7 +149,9 @@ public class TrainInfo {
 	public XMLElement getTrainInfoElement (XMLDocument aXMLDocument) {
 		XMLElement tElement;
 		int tTownCount;
-
+		int tOnLast;
+		int tOnFirst;
+		
 		tElement = aXMLDocument.createElement (EN_TRAIN_INFO);
 		tElement.setAttribute (AN_NAME, train.getName ());
 		tElement.setAttribute (AN_REVENUE_CENTERS, train.getCityCount ());
@@ -159,6 +161,15 @@ public class TrainInfo {
 		}
 		tElement.setAttribute (AN_QUANTITY, quantity);
 		tElement.setAttribute (AN_PRICE, train.getPrice ());
+		tElement.setAttribute (AN_ORDER, train.getOrder ());
+		tOnLast = getOnLastOrderAvailable ();
+		if (tOnLast != Train.NO_ORDER) {
+			tElement.setAttribute (AN_ON_LAST, tOnLast);
+		}
+		tOnFirst = getOnFirstOrderAvailable ();
+		if (tOnFirst != Train.NO_ORDER) {
+			tElement.setAttribute (AN_ON_FIRST, tOnFirst);
+		}
 		tElement.setAttribute (AN_TRIGGER_PHASE, triggerMainPhase + "." + triggerMinorPhase);
 		if (discountPrice != NO_DISCOUNT) {
 			tElement.setAttribute (AN_DISCOUNT_PRICE, discountPrice);

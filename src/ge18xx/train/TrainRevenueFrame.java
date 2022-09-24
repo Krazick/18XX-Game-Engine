@@ -85,6 +85,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JPanel allRevenuesJPanel;
 	JPanel buttonsJPanel;
 	JFormattedTextField [] [] revenuesByTrain;
+	JFormattedTextField []  revenuesByPlusTrain;
+	int [] plusUsedCount;
 	JLabel [] totalRevenueByEachTrain;
 	private int lastRevenue;
 	private int thisRevenue;
@@ -115,6 +117,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		buildAllFramesJPanel (aTrainCompany);
 
 		revenuesByTrain = new JFormattedTextField [maxTrainCount] [maxStops];
+		revenuesByPlusTrain = new JFormattedTextField [maxTrainCount];
+		plusUsedCount = new int [maxTrainCount];
 		totalRevenueByEachTrain = new JLabel [maxTrainCount];
 		confirmRoutes = new JButton [maxTrainCount];
 		selectRoutes = new JButton [maxTrainCount];
@@ -373,12 +377,19 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	public void clearRevenuesFromTrain (int aTrainIndex, Train aTrain) {
-		int tCityCount, tCityIndex;
+		int tCityCount;
+		int tCityIndex;
 
 		tCityCount = aTrain.getCityCount ();
 		for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
 			if (revenuesByTrain [aTrainIndex] [tCityIndex] != null) {
 				revenuesByTrain [aTrainIndex] [tCityIndex].setValue (0);
+			}
+		}
+		if (aTrain.isPlusTrain ()) {
+			if (revenuesByPlusTrain [aTrainIndex] != null) {
+				revenuesByPlusTrain [aTrainIndex].setValue (0);
+				plusUsedCount [aTrainIndex] = 0;			
 			}
 		}
 	}
@@ -497,10 +508,15 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		for (tCityIndex = 0; tCityIndex < aTrain.getCityCount (); tCityIndex++) {
 			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (0);
 		}
+		if (aTrain.isPlusTrain ()) {
+			revenuesByPlusTrain [aTrainIndex].setValue (0);
+			plusUsedCount [aTrainIndex] = 0;
+		}
 		for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
 			tRevenue = aRouteInformation.getRevenueAt (tCityIndex);
 			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (tRevenue);
 		}
+		
 	}
 
 	public void handleSelectRoute (ActionEvent aSelectRouteEvent) {
@@ -546,15 +562,17 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	 */
 
 	public int addAllTrainRevenues () {
-		int tAllTrainRevenues, tTrainCount, tTrainIndex, tCityCount, tTrainRevenue;
+		int tAllTrainRevenues, tTrainCount, tTrainIndex;
+		int tCityCount;
+		int tTrainRevenue;
 		Train tTrain;
 
 		tAllTrainRevenues = 0;
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			tTrain = trainCompany.getTrain (tTrainIndex);
-			tCityCount = tTrain.getCityCount ();
-			tTrainRevenue = addTrainRevenues (tTrainIndex, tCityCount);
+//			tCityCount = tTrain.getCityCount ();
+			tTrainRevenue = addTrainRevenues (tTrainIndex, tTrain);
 			tAllTrainRevenues += tTrainRevenue;
 		}
 
@@ -571,13 +589,16 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	 * @return Total Revenue value of the RevenueLabels for the specific train
 	 */
 
-	public int addTrainRevenues (int aTrainIndex, int aCityCount) {
-		int tTotalRevenue, tCityIndex;
+	public int addTrainRevenues (int aTrainIndex, Train aTrain) {
+		int tTotalRevenue;
+		int tCityIndex;
+		int tCityCount;
 		JFormattedTextField tRevenueField;
 		Object tRevenueValue;
 
 		tTotalRevenue = 0;
-		for (tCityIndex = 0; tCityIndex < aCityCount; tCityIndex++) {
+		tCityCount = aTrain.getCityCount ();
+		for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
 			tRevenueField = revenuesByTrain [aTrainIndex] [tCityIndex];
 			if (tRevenueField != null) {
 				tRevenueValue = tRevenueField.getValue ();
@@ -586,7 +607,16 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				}
 			}
 		}
-
+		if (aTrain.isPlusTrain ()) {
+			tRevenueField = revenuesByPlusTrain [aTrainIndex];
+			if (tRevenueField != null) {
+				tRevenueValue = tRevenueField.getValue ();
+				if (tRevenueValue != null) {
+					tTotalRevenue += ((Number) tRevenueValue).intValue ();
+				}
+			}
+		}
+		
 		return tTotalRevenue;
 	}
 
@@ -642,7 +672,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 		tTrainLabel = new JLabel (tTrain.getName () + " Train #" + (aTrainIndex + 1));
 		tTrainRevenueJPanel.add (tTrainLabel);
-		buildRevenuesByTrain (aTrainIndex, tCityCount, tTrainRevenueJPanel);
+		buildRevenuesByTrain (aTrainIndex, tCityCount, tTrain, tTrainRevenueJPanel);
 		totalRevenueByEachTrain [aTrainIndex] = new JLabel ("0");
 		tTrainRevenueJPanel.add (totalRevenueByEachTrain [aTrainIndex]);
 
@@ -663,7 +693,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		return tTrainRevenueJPanel;
 	}
 
-	private void buildRevenuesByTrain (int aTrainIndex, int aCenterCount, JPanel aTrainRevenueJPanel) {
+	private void buildRevenuesByTrain (int aTrainIndex, int aCenterCount, Train aTrain, JPanel aTrainRevenueJPanel) {
 		int tCenterIndex;
 		Dimension tTextFieldSize = new Dimension (30, 20);
 
@@ -680,8 +710,23 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			if ((tCenterIndex + 1) < aCenterCount) {
 				aTrainRevenueJPanel.add (new JLabel ("+"));
 			} else {
-				aTrainRevenueJPanel.add (new JLabel ("="));
+				if (! aTrain.isPlusTrain ()) {
+					aTrainRevenueJPanel.add (new JLabel ("="));
+				}
 			}
+		}
+		if (aTrain.isPlusTrain ()) {
+			aTrainRevenueJPanel.add (new JLabel ("+"));
+			revenuesByPlusTrain [aTrainIndex] = new JFormattedTextField ();
+			revenuesByPlusTrain [aTrainIndex].setValue (0);
+			revenuesByPlusTrain [aTrainIndex].setColumns (2);
+			revenuesByPlusTrain [aTrainIndex].setHorizontalAlignment (JTextField.RIGHT);
+			revenuesByPlusTrain [aTrainIndex].setMaximumSize (tTextFieldSize);
+			revenuesByPlusTrain [aTrainIndex].setPreferredSize (tTextFieldSize);
+			revenuesByPlusTrain [aTrainIndex].setMinimumSize (tTextFieldSize);
+			revenuesByPlusTrain [aTrainIndex].addPropertyChangeListener ("value", this);
+			aTrainRevenueJPanel.add (revenuesByPlusTrain [aTrainIndex]);
+			aTrainRevenueJPanel.add (new JLabel ("="));
 		}
 	}
 
@@ -817,7 +862,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			tTrain = trainCompany.getTrain (tTrainIndex);
 			tCityCount = tTrain.getCityCount ();
-			tTrainRevenue = addTrainRevenues (tTrainIndex, tCityCount);
+			tTrainRevenue = addTrainRevenues (tTrainIndex, tTrain);
 
 			for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
 				if (revenuesByTrain [tTrainIndex] [tCityIndex] == aSource) {
