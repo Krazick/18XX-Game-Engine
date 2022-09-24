@@ -4,6 +4,8 @@ import java.util.Comparator;
 
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 //
@@ -30,7 +32,7 @@ public class PhaseInfo {
 	static final AttributeName AN_OFF_BOARD = new AttributeName ("offBoard");
 	static final AttributeName AN_CAN_BUY_PRIVATE = new AttributeName ("canBuyPrivate");
 	static final AttributeName AN_CAN_BUY_TRAIN = new AttributeName ("canBuyTrain");
-	static final AttributeName AN_CLOSE_PRIVATE = new AttributeName ("closePrivate");
+	static final AttributeName AN_CLOSE_PRIVATES = new AttributeName ("closePrivate");
 	static final AttributeName AN_GOVERNMENT_CAN_FORM = new AttributeName ("governmentCanForm");
 	static final AttributeName AN_GOVERNMENT_MUST_FORM = new AttributeName ("governmentMustForm");
 	static final AttributeName AN_MIN_TO_FLOAT = new AttributeName ("minToFloat");
@@ -71,7 +73,7 @@ public class PhaseInfo {
 	}
 
 	public PhaseInfo (XMLNode aCellNode) {
-		int tName, tSubName, tRounds, tTrainLimit, tMinorTrainLimit, tGovTrainLimit;
+		int tName, tSubName, tRounds, tTrainLimit, tMinorTrainLimit, tGovtTrainLimit;
 		boolean tCanBuyPrivate, tClosePrivate, tGovernmentCanForm, tGovernmentMustForm;
 		boolean tCanBuyTrain;
 		String tOffBoard, tTileColors;
@@ -87,18 +89,52 @@ public class PhaseInfo {
 			tTrainLimit = aCellNode.getThisIntAttribute (AN_MAJOR_TRAIN_LIMIT, NO_LIMIT);
 		}
 		tMinorTrainLimit = aCellNode.getThisIntAttribute (AN_MINOR_TRAIN_LIMIT, NO_LIMIT);
-		tGovTrainLimit = aCellNode.getThisIntAttribute (AN_GOVT_TRAIN_LIMIT, NO_LIMIT);
+		tGovtTrainLimit = aCellNode.getThisIntAttribute (AN_GOVT_TRAIN_LIMIT, NO_LIMIT);
 		tOffBoard = aCellNode.getThisAttribute (AN_OFF_BOARD);
 		tCanBuyPrivate = aCellNode.getThisBooleanAttribute (AN_CAN_BUY_PRIVATE);
 		tCanBuyTrain = aCellNode.getThisBooleanAttribute (AN_CAN_BUY_TRAIN);
-		tClosePrivate = aCellNode.getThisBooleanAttribute (AN_CLOSE_PRIVATE);
+		tClosePrivate = aCellNode.getThisBooleanAttribute (AN_CLOSE_PRIVATES);
 		tGovernmentCanForm = aCellNode.getThisBooleanAttribute (AN_GOVERNMENT_CAN_FORM);
 		tGovernmentMustForm = aCellNode.getThisBooleanAttribute (AN_GOVERNMENT_MUST_FORM);
-		setValues (tName, tSubName, tRounds, tTiles, tTrainLimit, tMinorTrainLimit, tGovTrainLimit, tOffBoard,
+		setValues (tName, tSubName, tRounds, tTiles, tTrainLimit, tMinorTrainLimit, tGovtTrainLimit, tOffBoard,
 				tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tGovernmentCanForm, tGovernmentMustForm);
 		parseFloatMinValues (aCellNode);
 	}
+	
+	public XMLElement getElement (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+		String tTileColors;
+		
+		tXMLElement = aXMLDocument.createElement (EN_PHASE);
+		tXMLElement.setAttribute (AN_NAME, name);
+		tXMLElement.setAttribute (AN_SUB_NAME, subName);
+		tXMLElement.setAttribute (AN_ROUNDS, rounds);
+		tTileColors = getTiles ();
+		tXMLElement.setAttribute (AN_TILES, tTileColors);
+		tXMLElement.setAttribute (AN_TRAIN_LIMIT, trainLimit);
+		tXMLElement.setAttribute (AN_MINOR_TRAIN_LIMIT, minorTrainLimit);
 
+		tXMLElement.setAttribute (AN_GOVT_TRAIN_LIMIT, govtTrainLimit);
+		tXMLElement.setAttribute (AN_OFF_BOARD, offBoard);
+		if (canBuyPrivate) {
+			tXMLElement.setAttribute (AN_CAN_BUY_PRIVATE, canBuyPrivate);
+		}
+		if (canBuyTrain) {
+			tXMLElement.setAttribute (AN_CAN_BUY_TRAIN, canBuyTrain);
+		}
+		if (closePrivates) {
+			tXMLElement.setAttribute (AN_CLOSE_PRIVATES, closePrivates);
+		}
+		if (governmentCanForm) {
+			tXMLElement.setAttribute (AN_GOVERNMENT_CAN_FORM, governmentCanForm);
+		} 
+		if (governmentMustForm) {
+			tXMLElement.setAttribute (AN_GOVERNMENT_MUST_FORM, governmentMustForm);
+		}
+
+		return tXMLElement;
+	}
+	
 	// minToFloat="2" minToFloatLast="3" />
 	private void parseFloatMinValues (XMLNode aCellNode) {
 		int tValue;
