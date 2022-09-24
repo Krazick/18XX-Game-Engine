@@ -1141,6 +1141,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private void updatePlaceTokenButton () {
 		String tDisableToolTipReason;
 		String tMapCellID;
+		String tPlaceTokenText;
 		MapCell tMapCell;
 		int tCost;
 		boolean tSetCostOnLabel = false;
@@ -1148,7 +1149,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (corporation.canLayToken ()) {
 			placeTokenButton.setEnabled (true);
 			if (corporation.haveLaidAllBaseTokens ()) {
-				placeTokenButton.setText (PLACE_TOKEN);
+				tPlaceTokenText = PLACE_TOKEN;
+				placeTokenButton.setText (tPlaceTokenText);
 				if (corporation.isPlaceTileMode ()) {
 					placeTokenButton.setEnabled (false);
 					placeTokenButton.setToolTipText (IN_PLACE_TILE_MODE);
@@ -1165,7 +1167,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					placeTokenButton.setToolTipText (tDisableToolTipReason);
 				}
 			} else {
-				placeTokenButton.setText (PLACE_BASE_TOKEN);
+				tPlaceTokenText = PLACE_BASE_TOKEN;
+				placeTokenButton.setText (tPlaceTokenText);
 				if (!corporation.homeMapCell1HasTile ()) {
 					placeTokenButton.setEnabled (false);
 					tMapCell = corporation.getHomeCity1 ();
