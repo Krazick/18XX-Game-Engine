@@ -346,6 +346,7 @@ public class Train implements Comparable<Object> {
 		tXMLElement = aXMLDocument.createElement (EN_TRAIN);
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_STATUS, status);
+		tXMLElement.setAttribute (AN_ORDER, order);
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
 			if (currentRouteInformation.isValidRoute () > 0) {
 				tXMLCurrentRouteInfoElement = currentRouteInformation.getElement (aXMLDocument, EN_CURRENT_ROUTE);
@@ -459,6 +460,10 @@ public class Train implements Comparable<Object> {
 		return (status == NOT_AVAILABLE);
 	}
 
+	public boolean isPlusTrain () {
+		return (townCount > 0);
+	}
+	
 	public boolean isRusted () {
 		return (status == RUSTED);
 	}
