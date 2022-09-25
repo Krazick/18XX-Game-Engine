@@ -1038,6 +1038,50 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			return homeCityGrid2; // Should get from homeCity2.getID ();
 		}
 	}
+	
+	public String getHomeMapCellID (int aHomeID) {
+		String tMapCellID;
+		
+		if (aHomeID == 1) {
+			tMapCellID = getCorpHome1MapID ();			
+		} else if (aHomeID == 2) {
+			tMapCellID = getCorpHome2MapID ();
+		} else {
+			tMapCellID = null;
+		}
+		return tMapCellID;
+	}
+
+	private String getMapCellID (MapCell aMapCell) {
+		String tMapCellID;
+		
+		if (aMapCell != MapCell.NO_MAP_CELL) {
+			tMapCellID = aMapCell.getID ();
+		} else {
+			tMapCellID = null;
+		}
+		return tMapCellID;
+	}
+
+	public String getCorpHome1MapID () {
+		MapCell tMapCell;
+		String tMapCellID;
+		
+		tMapCell = getHomeCity1 ();
+		tMapCellID = getMapCellID (tMapCell);
+
+		return tMapCellID;
+	}
+
+	public String getCorpHome2MapID () {
+		MapCell tMapCell;
+		String tMapCellID;
+		
+		tMapCell = getHomeCity2 ();
+		tMapCellID = getMapCellID (tMapCell);
+
+		return tMapCellID;
+	}
 
 	public MapCell getHomeCity1 () {
 		return homeCity1;
