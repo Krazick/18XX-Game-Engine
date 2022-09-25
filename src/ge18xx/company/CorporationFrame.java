@@ -455,11 +455,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void createActionButtonJPanel () {
+		String tPlaceBaseTileLabel;
+		
 		buttonsJPanel = new JPanel (new WrapLayout ());
 
 		doneButton = setupButton (DONE, DONE);
 		undoButton = setupButton (UNDO, UNDO);
-		placeBaseTileButton = setupButton (PLACE_BASE_TILE, PLACE_BASE_TILE);
+		tPlaceBaseTileLabel = createBaseTileLabel (1);
+		placeBaseTileButton = setupButton (tPlaceBaseTileLabel, PLACE_BASE_TILE);
 		placeTileButton = setupButton (PLACE_TILE, PLACE_TILE);
 		placeTokenButton = setupButton (PLACE_TOKEN, PLACE_TOKEN);
 		showMapButton = setupButton (SHOW_MAP, SHOW_MAP);
@@ -925,9 +928,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	public void updatePlaceBaseTileButton () {
+		String tPlaceBaseTileLabel;
+		
 		if (corporation.homeMapCell1HasTile ()) {
 			placeBaseTileButton.setVisible (false);
 		} else {
+			tPlaceBaseTileLabel = createBaseTileLabel (1);
+			placeBaseTileButton.setText (tPlaceBaseTileLabel);
 			placeBaseTileButton.setVisible (true);
 			updateTileButton (placeBaseTileButton);
 		}
@@ -1082,12 +1089,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					} else {
 						updateButton (buyTrainButton, false, "Must select Train from the Bank that Can be Upgraded to "
 								+ tSelectedTrainToBuy.getName ());
-//						updateBuyTrainButton (false, "Must select Train from the Bank that Can be Upgraded to "
-//								+ tSelectedTrainToBuy.getName ());
 					}
 				} else {
 					updateButton (buyTrainButton, false, "Must select Train from the Bank to Upgrade");
-//					updateBuyTrainButton (false, "Must select Train from the Bank to Upgrade");
 				}
 			} else {
 				updateBuyTrainButton (false);
@@ -1129,14 +1133,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		} else {
 			tToolTip = corporation.reasonForNoBuyTrain ();
 		}
-//		updateBuyTrainButton (aEnable, tToolTip);
 		updateButton (buyTrainButton, aEnable, tToolTip);
 	}
-
-//	private void updateBuyTrainButton (boolean aEnable, String aToolTip) {
-//		buyTrainButton.setEnabled (aEnable);
-//		buyTrainButton.setToolTipText (aToolTip);
-//	}
 
 	private void updatePlaceTokenButton () {
 		String tDisableToolTipReason;
@@ -1167,12 +1165,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					placeTokenButton.setToolTipText (tDisableToolTipReason);
 				}
 			} else {
-				tPlaceTokenText = PLACE_BASE_TOKEN;
+				tMapCell = corporation.getHomeCity1 ();
+				tMapCellID = tMapCell.getID ();
+				tPlaceTokenText = createBaseTokenLabel (1);
 				placeTokenButton.setText (tPlaceTokenText);
 				if (!corporation.homeMapCell1HasTile ()) {
 					placeTokenButton.setEnabled (false);
-					tMapCell = corporation.getHomeCity1 ();
-					tMapCellID = tMapCell.getID ();
 					if (corporation.isTileAvailableForMapCell (tMapCell)) {
 						tDisableToolTipReason = String.format (HOME_NO_TILE, tMapCellID);
 						placeTokenButton.setActionCommand (PLACE_TOKEN);
@@ -1186,6 +1184,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				} else if (!corporation.homeMapCell2HasTile ()) {
 					tMapCell = corporation.getHomeCity2 ();
 					tMapCellID = tMapCell.getID ();
+					tPlaceTokenText = createBaseTokenLabel (2);
+					placeTokenButton.setText (tPlaceTokenText);
 					tDisableToolTipReason = String.format (HOME_NO_TILE, tMapCellID);
 					if (corporation.isTileAvailableForMapCell (tMapCell)) {
 						placeTokenButton.setEnabled (false);
@@ -1218,6 +1218,51 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			}
 		}
 	}
+	
+	private String createBaseTokenLabel (int aHomeID) {
+		String tMapCellID;
+		String tBaseTokenLabel;
+		
+		tMapCellID = corporation.getHomeMapCellID (aHomeID);
+		tBaseTokenLabel = createBaseLabel (PLACE_BASE_TOKEN, tMapCellID);
+
+		return tBaseTokenLabel;
+	}
+
+	private String createBaseTileLabel (int aHomeID) {
+		String tMapCellID;
+		String tBaseTileLabel;
+		
+		tMapCellID = corporation.getHomeMapCellID (aHomeID);
+		tBaseTileLabel = createBaseLabel (PLACE_BASE_TILE, tMapCellID);
+		
+		return tBaseTileLabel;
+	}
+	
+	private String createBaseLabel (String aPrefixString, String aHomeMapCellID) {
+		String tPlaseBaseLabel;
+		
+		if (aHomeMapCellID != null) {
+			tPlaseBaseLabel = aPrefixString + " (" + aHomeMapCellID + ")";
+		} else {
+			tPlaseBaseLabel = aPrefixString;
+		}
+		
+		return tPlaseBaseLabel;
+	}
+	
+//	private String getHomeMapCellID (int aHomeID) {
+//		String tMapCellID;
+//		
+//		if (aHomeID == 1) {
+//			tMapCellID = corporation.getCorpHome1MapID ();			
+//		} else if (aHomeID == 2) {
+//			tMapCellID = corporation.getCorpHome2MapID ();
+//		} else {
+//			tMapCellID = null;
+//		}
+//		return tMapCellID;
+//	}
 
 	private void updateOperateTrainButton (int aTrainCount) {
 		String tToolTip;
