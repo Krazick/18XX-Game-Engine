@@ -563,7 +563,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	public int addAllTrainRevenues () {
 		int tAllTrainRevenues, tTrainCount, tTrainIndex;
-		int tCityCount;
 		int tTrainRevenue;
 		Train tTrain;
 
@@ -571,7 +570,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			tTrain = trainCompany.getTrain (tTrainIndex);
-//			tCityCount = tTrain.getCityCount ();
 			tTrainRevenue = addTrainRevenues (tTrainIndex, tTrain);
 			tAllTrainRevenues += tTrainRevenue;
 		}
@@ -585,7 +583,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	 * Revenue Frame Labels filled with the Revenues
 	 * 
 	 * @param aTrainIndex The index of which train to sum up
-	 * @param aCityCount  The total number of Revenue Fields to sum up
+	 * @param aTrain The Train to collect revenues for
 	 * @return Total Revenue value of the RevenueLabels for the specific train
 	 */
 
