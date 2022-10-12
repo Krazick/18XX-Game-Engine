@@ -1166,6 +1166,10 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		placeTileMode = aMode;
 	}
 
+	public boolean isPlaceTileMode () {
+		return placeTileMode;
+	}
+	
 	public void setSingleMapCellSelect (boolean aSelectState) {
 		singleMapCellSelect = aSelectState;
 		clearAllSelected ();

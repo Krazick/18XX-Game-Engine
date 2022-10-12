@@ -83,7 +83,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	CorporationList minorCos;
 	CorporationList shareCos;
 
-	boolean placeTileMode;
+//	boolean placeTileMode;
 	boolean placeTokenMode;
 	boolean selectRouteMode;
 	JButton exitTileButton;
@@ -294,9 +294,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	}
 
 	public void togglePlaceTileMode () {
-		setModes (!placeTileMode, false, false);
-		map.setSingleMapCellSelect (placeTileMode);
-		tileSet.setSingleTileSelect (placeTileMode);
+		boolean tIsPlaceTileMode;
+		boolean tNewPlaceTileMode;
+		
+		tIsPlaceTileMode = map.isPlaceTileMode ();
+		tNewPlaceTileMode = !tIsPlaceTileMode;
+		setModes (tNewPlaceTileMode, false, false);
+		map.setSingleMapCellSelect (tNewPlaceTileMode);
+		tileSet.setSingleTileSelect (tNewPlaceTileMode);
 		map.clearAllSelected ();
 	}
 
@@ -505,7 +510,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	}
 
 	public boolean isPlaceTileMode () {
-		return placeTileMode;
+		return map.isPlaceTileMode ();
 	}
 
 	public boolean isSelectRouteMode () {
@@ -863,14 +868,12 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	public void setPlaceTileMode (boolean aMode) {
+	public void setPlaceTileMode (boolean aPlaceTileMode) {
 		MapCell tSelectedMapCell;
 		
-		placeTileMode = aMode;
-
-		map.setPlaceTileMode (placeTileMode);
-		exitTileButton.setEnabled (aMode);
-		if (aMode) {
+		map.setPlaceTileMode (aPlaceTileMode);
+		exitTileButton.setEnabled (aPlaceTileMode);
+		if (aPlaceTileMode) {
 			exitTileButton.setToolTipText (GUI.NO_TOOL_TIP);
 			tileButtons.setBackground (Color.ORANGE);
 		} else {
@@ -878,7 +881,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			tileButtons.setBackground (getBackground ());
 		}
 		putTileButton.setEnabled (false);
-		if (placeTileMode) {
+		if (map.isPlaceTileMode ()) {
 			updatePickupTileButton (false, NO_TILE_PLACED);
 			putTileButton.setToolTipText (NO_SELECTED_MAP_CELL);
 		} else {
