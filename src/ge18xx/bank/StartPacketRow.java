@@ -28,12 +28,6 @@ public class StartPacketRow implements ParsingRoutineI {
 	int rowNumber;
 	List<StartPacketItem> startPacketItems;
 
-	StartPacketRow () {
-		rowNumber = 0;
-		startPacketItems = new LinkedList<StartPacketItem> ();
-		startPacketFrame = StartPacketFrame.NO_START_PACKET;
-	}
-
 	StartPacketRow (XMLNode aNode) {
 		XMLNodeList tXMLNodeList;
 
@@ -41,6 +35,7 @@ public class StartPacketRow implements ParsingRoutineI {
 		startPacketItems = new LinkedList<StartPacketItem> ();
 		tXMLNodeList = new XMLNodeList (this);
 		tXMLNodeList.parseXMLNodeList (aNode, EN_CERTIFICATE);
+		setStartPacket (StartPacketFrame.NO_START_PACKET);
 	}
 
 	public JPanel buildRowJPanel (String aSelectedButtonLabel, ItemListener aItemListener, Player aPlayer,
@@ -106,19 +101,31 @@ public class StartPacketRow implements ParsingRoutineI {
 	}
 
 	public Certificate getCertificateInRow (int aIndex) {
-		Certificate tItemCertificate = Certificate.NO_CERTIFICATE;
+		Certificate tItemCertificate;
 		StartPacketItem tStartPacketItem;
 
-		if (aIndex >= getItemCount ()) {
-			System.err.println ("Only " + startPacketItems.size () + " Items in Row, asked for " + aIndex);
-		} else {
+		tItemCertificate = Certificate.NO_CERTIFICATE;
+		if (validIndex (aIndex)) {
 			tStartPacketItem = startPacketItems.get (aIndex);
 			tItemCertificate = tStartPacketItem.getCertificate ();
+		} else {
+			System.err.println ("Only " + getItemCount () + " Items in Row, asked for " + aIndex);
 		}
 
 		return tItemCertificate;
 	}
 
+	private boolean validIndex (int aIndex) {
+		boolean tValidIndex;
+		
+		tValidIndex = false;
+		if ((aIndex >= 0) && (aIndex < getItemCount ())) {
+			tValidIndex = true;
+		}
+		
+		return tValidIndex;
+	}
+	
 	public Certificate getCertificateToAuction () {
 		Certificate tCertificateToAuction;
 		Certificate tCertificate;
