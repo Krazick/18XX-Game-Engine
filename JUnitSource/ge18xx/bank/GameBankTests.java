@@ -25,6 +25,7 @@ import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderLoaderI;
+import ge18xx.player.PortfolioTestFactory;
 import ge18xx.train.Train;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.train.TrainTestFactory;
@@ -41,6 +42,7 @@ class GameBankTests {
 	private CertificateTestFactory certificateTestFactory;
 	private TrainTestFactory trainTestFactory;
 	private UtilitiesTestFactory utilitiesTestFactory;
+	private PortfolioTestFactory portfolioTestFactory;
 	private GameManager mGameManager;
 	private Portfolio mPortfolio;
 	private TrainPortfolio mTrainPortfolio;
@@ -55,12 +57,12 @@ class GameBankTests {
 		certificateTestFactory = new CertificateTestFactory ();
 		trainTestFactory = new TrainTestFactory ();
 		utilitiesTestFactory = new UtilitiesTestFactory ();
+		portfolioTestFactory = new PortfolioTestFactory (bankTestFactory);
 		
 		mGameManager = gameTestFactory.buildGameManagerMock ();
 		gameBank = bankTestFactory.buildGameBank (mGameManager);
 		
-		mPortfolio = Mockito.mock (Portfolio.class);
-		Mockito.when (mPortfolio.getName ()).thenReturn ("Portfolio Mock Name");
+		mPortfolio = portfolioTestFactory.buildPortfolioMock (gameBank);
 		mTrainPortfolio = Mockito.mock (TrainPortfolio.class);
 		Mockito.when (mTrainPortfolio.getName ()).thenReturn ("Train Portfolio Mock Name");
 		
