@@ -195,6 +195,10 @@ public class CompanyTestFactory {
 		return mMinorCompany;
 	}
 
+	public ShareCompany buildShareCompanyMock () {
+		return buildShareCompanyMock ("Test Client Share");
+	}
+	
 	public ShareCompany buildShareCompanyMock (String aClientName) {
 		ShareCompany mShareCompany = Mockito.mock (ShareCompany.class);
 
