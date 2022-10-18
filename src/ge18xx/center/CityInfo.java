@@ -42,6 +42,9 @@ public class CityInfo implements Cloneable {
 	MapCell mapCell;
 	Corporation corporation; // Corporation Home Base
 
+	/**
+	 * 
+	 */
 	public CityInfo () {
 		this (0, NO_NAME, null, RevenueCenterType.NO_REVENUE_CENTER);
 	}
