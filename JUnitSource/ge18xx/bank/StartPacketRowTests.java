@@ -21,8 +21,8 @@ class StartPacketRowTests {
 	private StartPacketRow packetRow2;
 	private Certificate mCertificateAlpha;
 	private Certificate mCertificateGamma;
-	private Certificate mCertificateDelta;
-	private Certificate mCertificateChi;
+//	private Certificate mCertificateDelta;
+//	private Certificate mCertificateChi;
 
 	@BeforeEach
 	void setUp () throws Exception {
@@ -48,10 +48,10 @@ class StartPacketRowTests {
 		Mockito.when (mCertificateAlpha.getCompanyAbbrev ()).thenReturn ("ASC");
 		mCertificateGamma = certificateTestFactory.buildCertificateMock ();
 		Mockito.when (mCertificateGamma.getCompanyAbbrev ()).thenReturn ("GPC");
-		mCertificateDelta = certificateTestFactory.buildCertificateMock ();
-		Mockito.when (mCertificateGamma.getCompanyAbbrev ()).thenReturn ("DPC");
-		mCertificateChi = certificateTestFactory.buildCertificateMock ();
-		Mockito.when (mCertificateGamma.getCompanyAbbrev ()).thenReturn ("CPC");
+//		mCertificateDelta = certificateTestFactory.buildCertificateMock ();
+//		Mockito.when (mCertificateGamma.getCompanyAbbrev ()).thenReturn ("DPC");
+//		mCertificateChi = certificateTestFactory.buildCertificateMock ();
+//		Mockito.when (mCertificateGamma.getCompanyAbbrev ()).thenReturn ("CPC");
 	}
 
 	private StartPacketRow constructStartPacketRow (String aStartPacketRowTextXML) {
