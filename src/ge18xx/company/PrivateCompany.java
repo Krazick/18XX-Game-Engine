@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.apache.commons.text.WordUtils;
+import org.apache.commons.lang.WordUtils;
 
 import ge18xx.bank.Bank;
 import ge18xx.center.Revenue;
