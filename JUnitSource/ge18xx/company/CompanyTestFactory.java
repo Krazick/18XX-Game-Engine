@@ -65,13 +65,13 @@ public class CompanyTestFactory {
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 
 		if (tCompanyIndex == 1) {
-			tPrivateCompany = constructPrivateCompany (tPrivateCompany1TestXML, tPrivateCompany, mCorporationList);
+			tPrivateCompany = buildPrivateCompany (tPrivateCompany1TestXML, tPrivateCompany, mCorporationList);
 		}
 
 		return tPrivateCompany;
 	}
 
-	private PrivateCompany constructPrivateCompany (String aPrivateCompanyTextXML, PrivateCompany aPrivateCompany,
+	private PrivateCompany buildPrivateCompany (String aPrivateCompanyTextXML, PrivateCompany aPrivateCompany,
 			CorporationList mCorporationList) {
 		XMLNode tPrivateCompanyNode;
 
@@ -112,9 +112,9 @@ public class CompanyTestFactory {
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 
 		if (aCompanyIndex == 1) {
-			tShareCompany = constructShareCompany (tShareCompany1TestXML, tShareCompany, mCorporationList);
+			tShareCompany = buildShareCompany (tShareCompany1TestXML, tShareCompany, mCorporationList);
 		} else if (aCompanyIndex == 2) {
-			tShareCompany = constructShareCompany (tShareCompany2TestXML, tShareCompany, mCorporationList);
+			tShareCompany = buildShareCompany (tShareCompany2TestXML, tShareCompany, mCorporationList);
 		} else {
 			tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		}
@@ -122,7 +122,7 @@ public class CompanyTestFactory {
 		return tShareCompany;
 	}
 
-	private ShareCompany constructShareCompany (String aShareCompanyTestXML, ShareCompany aShareCompany,
+	private ShareCompany buildShareCompany (String aShareCompanyTestXML, ShareCompany aShareCompany,
 			CorporationList mCorporationList) {
 		XMLNode tShareCompanyNode;
 
@@ -164,9 +164,9 @@ public class CompanyTestFactory {
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 
 		if (aCompanyIndex == 1) {
-			tMinorCompany = constructMinorCompany (tMinorCompany1TestXML, tMinorCompany, mCorporationList);
+			tMinorCompany = buildMinorCompany (tMinorCompany1TestXML, tMinorCompany, mCorporationList);
 		} else if (aCompanyIndex == 2) {
-			tMinorCompany = constructMinorCompany (tMinorCompany2TestXML, tMinorCompany, mCorporationList);
+			tMinorCompany = buildMinorCompany (tMinorCompany2TestXML, tMinorCompany, mCorporationList);
 		} else {
 			tMinorCompany = MinorCompany.NO_MINOR_COMPANY;
 		}
@@ -174,7 +174,7 @@ public class CompanyTestFactory {
 		return tMinorCompany;
 	}
 
-	private MinorCompany constructMinorCompany (String aMinorCompanyTestXML, MinorCompany aMinorCompany,
+	private MinorCompany buildMinorCompany (String aMinorCompanyTestXML, MinorCompany aMinorCompany,
 			CorporationList mCorporationList) {
 		XMLNode tMinorCompanyNode;
 
