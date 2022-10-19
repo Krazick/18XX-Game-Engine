@@ -340,7 +340,7 @@ public class CityInfo implements Cloneable {
 	public void setCorporation (String aCorporationAbbrev) {
 		Corporation tCorporation;
 
-		if (aCorporationAbbrev != Corporation.NO_ABBREV) {
+		if (aCorporationAbbrev != null) {
 			tCorporation = mapCell.getCorporation (aCorporationAbbrev);
 			setCorporation (tCorporation);
 		}

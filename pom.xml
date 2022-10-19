@@ -108,6 +108,6 @@
     	<groupId>net.bytebuddy-agent</groupId>
     	<artifactId>byte-buddy-agent</artifactId>
     	<version>1.12.14</version>
-	</dependency>
+    </dependency>
   </dependencies>
 </project>
