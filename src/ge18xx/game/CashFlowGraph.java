@@ -5,15 +5,16 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.embed.swing.JFXPanel;
+import javafx.stage.Stage;
+import java.util.Arrays; 
+import javafx.application.Application; 
+import javafx.collections.FXCollections; 
+import javafx.scene.Group; 
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedAreaChart;
 import javafx.scene.chart.XYChart;
-import javafx.stage.Stage;
 
 public class CashFlowGraph {
 	Stage stage;
