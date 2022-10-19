@@ -62,18 +62,6 @@
     </plugins>
   </build>
   <dependencies>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>4.8.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-junit-jupiter</artifactId>
-      <version>4.8.0</version>
-      <scope>test</scope>
-    </dependency>
 	<dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-api</artifactId>
@@ -100,14 +88,26 @@
     	<version>3.3.4</version>
     </dependency>
     <dependency>
+    	<groupId>org.mockito</groupId>
+    	<artifactId>mockito-core</artifactId>
+    	<version>4.8.1</version>
+    	<scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>org.mockito</groupId>
+    	<artifactId>mockito-junit-jupiter</artifactId>
+    	<version>4.8.1</version>
+    	<scope>test</scope>
+    </dependency>
+    <dependency>
     	<groupId>net.bytebuddy</groupId>
     	<artifactId>byte-buddy</artifactId>
-    	<version>1.12.14</version>
-	</dependency>
+    	<version>1.12.18</version>
+    </dependency>
     <dependency>
-    	<groupId>net.bytebuddy-agent</groupId>
+    	<groupId>net.bytebuddy</groupId>
     	<artifactId>byte-buddy-agent</artifactId>
-    	<version>1.12.14</version>
+    	<version>1.12.18</version>
     </dependency>
   </dependencies>
 </project>
