@@ -20,7 +20,6 @@ import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
-import ge18xx.game.CashFlowGraph;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
@@ -404,16 +403,10 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	@Override
 	public void actionPerformed (ActionEvent aActionEvent) {
 		String tTheAction;
-		CashFlowGraph tCashFlowGraph;
 
 		tTheAction = aActionEvent.getActionCommand ();
 		if (REFRESH_LIST.equals (tTheAction)) {
 			updateAuditTable ();
-		}
-		if (DRAW_LINE_GRAPH.equals (tTheAction)) {
-			tCashFlowGraph = new CashFlowGraph (auditTable);
-			tCashFlowGraph.launch ();
-			tCashFlowGraph.showGraph ();
 		}
 	}
 
