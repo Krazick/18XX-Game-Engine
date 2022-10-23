@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
 <Map cols="12" defaultType="Ocean" direction="EW" fillColor="black"
 	rows="13" rowStart="M" colStart="1" 
 	width="860" height="790" xLocation="100" yLocation="100" visible="false">
