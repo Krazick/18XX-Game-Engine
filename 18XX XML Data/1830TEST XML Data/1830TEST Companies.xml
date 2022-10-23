@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Corporations>
+<!DOCTYPE xml>
+<Corporations
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://krazick.github.io/schema 
+						https://krazick.github.io/18XX-Game-Engine-XML/public/XSD/18XX-Corporations.xsd">
 	<Private id="1001" name="Schuylkill Valley" abbrev="SVN&amp;RR" cost="20" 
 		note="No other attributes"
 		revenue="5" homeCell1="G15" homeLocation1="10" homeLocation2="15" special="NONE" mustSell="true">
