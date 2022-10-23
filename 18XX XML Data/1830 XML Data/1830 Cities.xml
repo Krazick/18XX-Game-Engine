@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <Cities 
+	xmlns="https://krazick.github.io/schema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="https://krazick.github.io/schema 
-						https://krazick.github.io/18XX-Game-Engine-XML/public/XSD/18XX-Cities.xsd">
+	xsi:schemaLocation="https://krazick.github.io/18XX-Game-Engine-XML/public/XSD/18XX-Cities.xsd
+						https://krazick.github.io/schema">
 	<CityInfo id="1" location="17" name="Deep South" type="3" />
 	<CityInfo id="2" location="14" name="Gulf" type="3" />
 	<CityInfo id="3" location="14" name="Chicago" type="3" />
