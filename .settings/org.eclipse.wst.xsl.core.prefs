@@ -9,3 +9,4 @@ NAME_ATTRIBUTE_EMPTY=2
 NAME_ATTRIBUTE_MISSING=2
 TEMPLATE_CONFLICT=2
 eclipse.preferences.version=1
+use-project-settings=true

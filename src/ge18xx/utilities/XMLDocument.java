@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -56,6 +57,21 @@ public class XMLDocument {
 		}
 	}
 
+	public XMLDocument (URL aURL) {
+		DocumentBuilderFactory tDocBuilderFac;
+		DocumentBuilder tDocBuilder;
+
+		try {
+			tDocBuilderFac = DocumentBuilderFactory.newInstance ();
+			tDocBuilder = tDocBuilderFac.newDocumentBuilder ();
+			document = tDocBuilder.parse (aURL.openStream ());
+		} catch (Exception tException) {
+			System.err.println ("Caught Exception " + tException);
+			document = NO_DOCUMENT;
+			tException.printStackTrace ();
+		}
+	}
+	
 	public XMLDocument (String aFileName) {
 		DocumentBuilderFactory tDocBuilderFac;
 		DocumentBuilder tDocBuilder;
