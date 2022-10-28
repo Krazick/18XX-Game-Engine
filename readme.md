@@ -30,12 +30,12 @@ The 18XX Game Engine can be used by itself, to play the game in hot-seat mode (s
 
 **[Related Projects](#Related)**
 
-
 # Code Base Description
 <div id="Description>
 
 The 18XX Game Engine is written in Java. The GUI utilizes the Java Swing UI. It has several data files that are written in XML. There are no actual Tile Images. The data for the Tiles are specified in an XML Structure and the code draws the images when needed.
 This code base began in the early 1990's, in C, and then ported to Java to allow multiple platform operation (my development platform has the the Apple Mac, and currently play with my group who all run windows platforms, and my Mac as well. 
+
 
 # How to Install and Run
 <div id="Install">
