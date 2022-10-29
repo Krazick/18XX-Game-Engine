@@ -21,11 +21,11 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 public class StartPacketRow implements ParsingRoutineI {
-	public static final StartPacketRow NO_START_PACKET_ROW = null;
-	private static final ElementName EN_CERTIFICATE = new ElementName ("Certificate");
 	private static final AttributeName AN_ROW = new AttributeName ("row");
-	StartPacketFrame startPacketFrame;
+	private static final ElementName EN_CERTIFICATE = new ElementName ("Certificate");
+	public static final StartPacketRow NO_START_PACKET_ROW = null;
 	int rowNumber;
+	StartPacketFrame startPacketFrame;
 	List<StartPacketItem> startPacketItems;
 
 	StartPacketRow (XMLNode aNode) {
@@ -62,6 +62,120 @@ public class StartPacketRow implements ParsingRoutineI {
 	// Return true if only one is left. Needed to verify if next Certificate is in
 	// current row, or next row.
 
+	public void disableAllCheckedButtons (String aToolTip) {
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			tStartPacketItem.disableCheckedButton (aToolTip);
+		}
+	}
+
+	public void enableAllCheckedButtons (String aToolTip, Player aPlayer) {
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			if (!tStartPacketItem.hasBidOnThisCert (aPlayer)) {
+				tStartPacketItem.enableCheckedButton (aToolTip);
+			}
+		}
+	}
+
+	public boolean enableMustBuyPrivateButton () {
+		boolean tPrivateEnabled = false;
+
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			tPrivateEnabled = tStartPacketItem.enableMustBuyPrivateButton ();
+		}
+
+		return tPrivateEnabled;
+	}
+
+	public void enableSelectedButton (String aToolTip) {
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			if (tStartPacketItem.isSelected ()) {
+				tStartPacketItem.enableCheckedButton (aToolTip);
+			}
+		}
+	}
+
+	@Override
+	public void foundItemMatchKey1 (XMLNode aChildNode) {
+		StartPacketItem tStartPacketItem;
+
+		tStartPacketItem = new StartPacketItem (aChildNode);
+		startPacketItems.add (tStartPacketItem);
+		tStartPacketItem.setStartPacketRow (this);
+	}
+
+	public Certificate getCertificateInRow (int aIndex) {
+		Certificate tItemCertificate;
+		StartPacketItem tStartPacketItem;
+
+		tItemCertificate = Certificate.NO_CERTIFICATE;
+		if (validIndex (aIndex)) {
+			tStartPacketItem = startPacketItems.get (aIndex);
+			tItemCertificate = tStartPacketItem.getCertificate ();
+		} else {
+			System.err.println ("Only " + getItemCount () + " Items in Row, asked for " + aIndex);
+		}
+
+		return tItemCertificate;
+	}
+
+	public Certificate getCertificateToAuction () {
+		Certificate tCertificateToAuction;
+		Certificate tCertificate;
+
+		tCertificateToAuction = Certificate.NO_CERTIFICATE;
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			if (tCertificateToAuction == Certificate.NO_CERTIFICATE) {
+				tCertificate = tStartPacketItem.getCertificate ();
+				if (tCertificate.hasBidders ()) {
+					tCertificateToAuction = tCertificate;
+				}
+			}
+		}
+
+		return tCertificateToAuction;
+	}
+
+	public FrameButton getFrameButtonInRow (int aIndex) {
+		Certificate tCertificate;
+		FrameButton tFrameButton = FrameButton.NO_FRAME_BUTTON;
+
+		tCertificate = getCertificateInRow (aIndex);
+		if (tCertificate != Certificate.NO_CERTIFICATE) {
+			tFrameButton = tCertificate.getFrameButton ();
+		}
+
+		return tFrameButton;
+	}
+
+	public Certificate getFreeCertificateWithThisCertificate (Certificate aThisCertificate) {
+		Certificate tFreeCertificate;
+		Certificate tItemCertificate;
+
+		tFreeCertificate = Certificate.NO_CERTIFICATE;
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			tItemCertificate = tStartPacketItem.getCertificate ();
+			if (tItemCertificate == aThisCertificate) {
+				tFreeCertificate = tStartPacketItem.getFreeCertificate ();
+			}
+		}
+
+		return tFreeCertificate;
+	}
+
+	public int getItemCount () {
+		return startPacketItems.size ();
+	}
+
+	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
+		Certificate tCertificate = Certificate.NO_CERTIFICATE;
+
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			tCertificate = tStartPacketItem.getMatchingCertificate (aAbbrev, aPercentage, aIsPresident);
+		}
+
+		return tCertificate;
+	}
+
 	boolean isOneLeftInRow () {
 		return (startPacketItems.size () == 1);
 	}
@@ -82,80 +196,6 @@ public class StartPacketRow implements ParsingRoutineI {
 		}
 
 		return tRowNotSoldOut;
-	}
-
-	public int getItemCount () {
-		return startPacketItems.size ();
-	}
-
-	public FrameButton getFrameButtonInRow (int aIndex) {
-		Certificate tCertificate;
-		FrameButton tFrameButton = FrameButton.NO_FRAME_BUTTON;
-
-		tCertificate = getCertificateInRow (aIndex);
-		if (tCertificate != Certificate.NO_CERTIFICATE) {
-			tFrameButton = tCertificate.getFrameButton ();
-		}
-
-		return tFrameButton;
-	}
-
-	public Certificate getCertificateInRow (int aIndex) {
-		Certificate tItemCertificate;
-		StartPacketItem tStartPacketItem;
-
-		tItemCertificate = Certificate.NO_CERTIFICATE;
-		if (validIndex (aIndex)) {
-			tStartPacketItem = startPacketItems.get (aIndex);
-			tItemCertificate = tStartPacketItem.getCertificate ();
-		} else {
-			System.err.println ("Only " + getItemCount () + " Items in Row, asked for " + aIndex);
-		}
-
-		return tItemCertificate;
-	}
-
-	private boolean validIndex (int aIndex) {
-		boolean tValidIndex;
-
-		tValidIndex = false;
-		if ((aIndex >= 0) && (aIndex < getItemCount ())) {
-			tValidIndex = true;
-		}
-
-		return tValidIndex;
-	}
-
-	public Certificate getCertificateToAuction () {
-		Certificate tCertificateToAuction;
-		Certificate tCertificate;
-
-		tCertificateToAuction = Certificate.NO_CERTIFICATE;
-		for (StartPacketItem tStartPacketItem : startPacketItems) {
-			if (tCertificateToAuction == Certificate.NO_CERTIFICATE) {
-				tCertificate = tStartPacketItem.getCertificate ();
-				if (tCertificate.hasBidders ()) {
-					tCertificateToAuction = tCertificate;
-				}
-			}
-		}
-
-		return tCertificateToAuction;
-	}
-
-	public Certificate getFreeCertificateWithThisCertificate (Certificate aThisCertificate) {
-		Certificate tFreeCertificate;
-		Certificate tItemCertificate;
-
-		tFreeCertificate = Certificate.NO_CERTIFICATE;
-		for (StartPacketItem tStartPacketItem : startPacketItems) {
-			tItemCertificate = tStartPacketItem.getCertificate ();
-			if (tItemCertificate == aThisCertificate) {
-				tFreeCertificate = tStartPacketItem.getFreeCertificate ();
-			}
-		}
-
-		return tFreeCertificate;
 	}
 
 	public boolean loadWithCertificates (Portfolio aBankPortfolio, Portfolio aStartPacketPortfolio) {
@@ -179,54 +219,14 @@ public class StartPacketRow implements ParsingRoutineI {
 		startPacketFrame = aStartPacket;
 	}
 
-	@Override
-	public void foundItemMatchKey1 (XMLNode aChildNode) {
-		StartPacketItem tStartPacketItem;
+	private boolean validIndex (int aIndex) {
+		boolean tValidIndex;
 
-		tStartPacketItem = new StartPacketItem (aChildNode);
-		startPacketItems.add (tStartPacketItem);
-		tStartPacketItem.setStartPacketRow (this);
-	}
-
-	public boolean enableMustBuyPrivateButton () {
-		boolean tPrivateEnabled = false;
-
-		for (StartPacketItem tStartPacketItem : startPacketItems) {
-			tPrivateEnabled = tStartPacketItem.enableMustBuyPrivateButton ();
+		tValidIndex = false;
+		if ((aIndex >= 0) && (aIndex < getItemCount ())) {
+			tValidIndex = true;
 		}
 
-		return tPrivateEnabled;
-	}
-
-	public void disableAllCheckedButtons (String aToolTip) {
-		for (StartPacketItem tStartPacketItem : startPacketItems) {
-			tStartPacketItem.disableCheckedButton (aToolTip);
-		}
-	}
-
-	public void enableAllCheckedButtons (String aToolTip, Player aPlayer) {
-		for (StartPacketItem tStartPacketItem : startPacketItems) {
-			if (!tStartPacketItem.hasBidOnThisCert (aPlayer)) {
-				tStartPacketItem.enableCheckedButton (aToolTip);
-			}
-		}
-	}
-
-	public void enableSelectedButton (String aToolTip) {
-		for (StartPacketItem tStartPacketItem : startPacketItems) {
-			if (tStartPacketItem.isSelected ()) {
-				tStartPacketItem.enableCheckedButton (aToolTip);
-			}
-		}
-	}
-
-	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
-		Certificate tCertificate = Certificate.NO_CERTIFICATE;
-
-		for (StartPacketItem tStartPacketItem : startPacketItems) {
-			tCertificate = tStartPacketItem.getMatchingCertificate (aAbbrev, aPercentage, aIsPresident);
-		}
-
-		return tCertificate;
+		return tValidIndex;
 	}
 }

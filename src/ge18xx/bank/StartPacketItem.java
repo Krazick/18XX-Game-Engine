@@ -16,21 +16,21 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 public class StartPacketItem implements ParsingRoutineI {
-	private static final AttributeName AN_CORPORATION_ID = new AttributeName ("corporationId");
-	private static final AttributeName AN_PERCENTAGE = new AttributeName ("percentage");
-	private static final AttributeName AN_DISCOUNT_AMOUNT = new AttributeName ("discountAmount");
 	private static final AttributeName AN_CAN_BE_BID_ON = new AttributeName ("canBeBidOn");
+	private static final AttributeName AN_CORPORATION_ID = new AttributeName ("corporationId");
+	private static final AttributeName AN_DISCOUNT_AMOUNT = new AttributeName ("discountAmount");
+	private static final AttributeName AN_PERCENTAGE = new AttributeName ("percentage");
 	private static final ElementName EN_FREE_CERTIFICATE = new ElementName ("FreeCertificate");
 
 	public static StartPacketItem NO_START_PACKET_ITEM = null;
-	StartPacketRow startPacketRow;
-	int corporationId;
-	int discountAmount;
 	boolean canBeBidOn;
 	Certificate certificate;
+	int corporationId;
+	int discountAmount;
 	Certificate freeCertificate;
 	int freeCertificateCorporationId;
 	int freeCertificateCorporationPercentage;
+	StartPacketRow startPacketRow;
 
 	public StartPacketItem (XMLNode aNode) {
 		XMLNodeList tXMLNodeList;
@@ -54,16 +54,29 @@ public class StartPacketItem implements ParsingRoutineI {
 		return tCertificateInfoPanel;
 	}
 
-	public boolean hasBidOnThisCert (Player aPlayer) {
-		return certificate.hasBidOnThisCert (aPlayer);
+	public void disableCheckedButton (String aToolTip) {
+		certificate.setStateCheckedButton (false, aToolTip);
 	}
 
-	public int getCorporationId () {
-		return corporationId;
+	public void enableCheckedButton (String aToolTip) {
+		certificate.setStateCheckedButton (true, aToolTip);
 	}
 
-	public int getDiscountAmount () {
-		return discountAmount;
+	public boolean enableMustBuyPrivateButton () {
+		boolean tPrivateEnabled = false;
+
+		if (certificate.getValue () == certificate.getDiscount ()) {
+			certificate.setStateCheckedButton (true, "Must Buy this Private");
+			tPrivateEnabled = true;
+		}
+
+		return tPrivateEnabled;
+	}
+
+	@Override
+	public void foundItemMatchKey1 (XMLNode aChildNode) {
+		setFreeCertificateCorporationId (aChildNode.getThisIntAttribute (AN_CORPORATION_ID, Corporation.NO_ID));
+		setFreeCertificateCorporationPercentage (aChildNode.getThisIntAttribute (AN_PERCENTAGE, 0));
 	}
 
 	public boolean getCanBeBidOn () {
@@ -72,6 +85,14 @@ public class StartPacketItem implements ParsingRoutineI {
 
 	public Certificate getCertificate () {
 		return certificate;
+	}
+
+	public int getCorporationId () {
+		return corporationId;
+	}
+
+	public int getDiscountAmount () {
+		return discountAmount;
 	}
 
 	public Certificate getFreeCertificate () {
@@ -86,16 +107,22 @@ public class StartPacketItem implements ParsingRoutineI {
 		return freeCertificateCorporationPercentage;
 	}
 
+	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
+		Certificate tCertificate = Certificate.NO_CERTIFICATE;
+
+		if (certificate.isMatchingCertificate (aAbbrev, aPercentage, aIsPresident)) {
+			tCertificate = certificate;
+		}
+
+		return tCertificate;
+	}
+
+	public boolean hasBidOnThisCert (Player aPlayer) {
+		return certificate.hasBidOnThisCert (aPlayer);
+	}
+
 	public boolean isSelected () {
 		return certificate.isSelected ();
-	}
-
-	public void setCertificate (Certificate aCertificate) {
-		certificate = aCertificate;
-	}
-
-	public void setFreeCertificate (Certificate aFreeCertificate) {
-		freeCertificate = aFreeCertificate;
 	}
 
 	public boolean loadWithCertificates (Portfolio aBankPortfolio, Portfolio aStartPacketPortfolio) {
@@ -142,10 +169,18 @@ public class StartPacketItem implements ParsingRoutineI {
 
 	}
 
+	public void setCertificate (Certificate aCertificate) {
+		certificate = aCertificate;
+	}
+
 	void setCorporationID (int aCorporationID) {
 		corporationId = aCorporationID;
 		// Will load Proper Certificate with the Load Certificate Routine
 		setCertificate (Certificate.NO_CERTIFICATE);
+	}
+
+	public void setFreeCertificate (Certificate aFreeCertificate) {
+		freeCertificate = aFreeCertificate;
 	}
 
 	void setFreeCertificateCorporationId (int aFreeCorpId) {
@@ -160,40 +195,5 @@ public class StartPacketItem implements ParsingRoutineI {
 
 	void setStartPacketRow (StartPacketRow aStartPacketRow) {
 		startPacketRow = aStartPacketRow;
-	}
-
-	@Override
-	public void foundItemMatchKey1 (XMLNode aChildNode) {
-		setFreeCertificateCorporationId (aChildNode.getThisIntAttribute (AN_CORPORATION_ID, Corporation.NO_ID));
-		setFreeCertificateCorporationPercentage (aChildNode.getThisIntAttribute (AN_PERCENTAGE, 0));
-	}
-
-	public boolean enableMustBuyPrivateButton () {
-		boolean tPrivateEnabled = false;
-
-		if (certificate.getValue () == certificate.getDiscount ()) {
-			certificate.setStateCheckedButton (true, "Must Buy this Private");
-			tPrivateEnabled = true;
-		}
-
-		return tPrivateEnabled;
-	}
-
-	public void disableCheckedButton (String aToolTip) {
-		certificate.setStateCheckedButton (false, aToolTip);
-	}
-
-	public void enableCheckedButton (String aToolTip) {
-		certificate.setStateCheckedButton (true, aToolTip);
-	}
-
-	public Certificate getMatchingCertificate (String aAbbrev, int aPercentage, boolean aIsPresident) {
-		Certificate tCertificate = Certificate.NO_CERTIFICATE;
-
-		if (certificate.isMatchingCertificate (aAbbrev, aPercentage, aIsPresident)) {
-			tCertificate = certificate;
-		}
-
-		return tCertificate;
 	}
 }

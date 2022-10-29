@@ -44,14 +44,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		setTrainPortfolio (tTrainPortfolio);
 	}
 
-	public void setPortfolio (Portfolio aPortfolio) {
-		portfolio = aPortfolio;
-	}
-
-	public void setTrainPortfolio (TrainPortfolio aTrainPortfolio) {
-		trainPortfolio = aTrainPortfolio;
-	}
-
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
@@ -60,199 +52,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	@Override
 	public void addTrain (Train aTrain) {
 		trainPortfolio.addTrain (aTrain);
-	}
-
-	public void clearSelections () {
-		portfolio.clearSelections ();
-		trainPortfolio.clearSelections ();
-	}
-
-	public int getCertificatePercentageFor (Corporation aCorporation) {
-		int tCertificatePercentage;
-
-		tCertificatePercentage = portfolio.getCertificatePercentageFor (aCorporation);
-
-		return tCertificatePercentage;
-	}
-
-	public int getCertificateCountFor (Corporation aCorporation) {
-		int tCertificateCount;
-
-		tCertificateCount = portfolio.getCertificateCountFor (aCorporation);
-
-		return tCertificateCount;
-	}
-
-	public Certificate getCertificateFromCorp (Corporation aCorporation, boolean aRemoveCertificate) {
-		Certificate tCertificate;
-
-		tCertificate = portfolio.getCertificateFor (aCorporation, aRemoveCertificate);
-
-		return tCertificate;
-	}
-
-	public Certificate getCertificateFromCorp (Corporation aCorporation) {
-		Certificate tCertificate;
-
-		tCertificate = portfolio.getCertificateFor (aCorporation);
-
-		return tCertificate;
-	}
-
-	public Certificate getCertificateToBidOn () {
-		Certificate tCertificateToBidOn;
-
-		tCertificateToBidOn = portfolio.getCertificateToBidOn ();
-
-		return tCertificateToBidOn;
-	}
-
-	public Certificate getCertificateToBuy () {
-		Certificate tCertificateToBuy;
-
-		tCertificateToBuy = portfolio.getCertificateToBuy ();
-
-		return tCertificateToBuy;
-	}
-
-	public List<Certificate> getCertificatesToBuy () {
-		List<Certificate> tCertificatesToBuy;
-
-		tCertificatesToBuy = portfolio.getCertificatesToBuy ();
-
-		return tCertificatesToBuy;
-	}
-
-	@Override
-	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
-		PortfolioHolderLoaderI tCurrentHolder;
-
-		tCurrentHolder = portfolio.getCurrentHolder (aLoadedCertificate);
-
-		return tCurrentHolder;
-	}
-
-	public PortfolioHolderLoaderI getCurrentHolderGM (LoadedCertificate aLoadedCertificate) {
-		PortfolioHolderLoaderI tCurrentHolder;
-
-		tCurrentHolder = gameManager.getCurrentHolder (aLoadedCertificate);
-
-		return tCurrentHolder;
-	}
-
-	@Override
-	public String getName () {
-		return name;
-	}
-
-	@Override
-	public Portfolio getPortfolio () {
-		return portfolio;
-	}
-
-	@Override
-	public String getStateName () {
-		return ActorI.ActionStates.Fixed.toString ();
-	}
-
-	public Train getCheapestTrain () {
-		return trainPortfolio.getCheapestTrain ();
-	}
-
-	@Override
-	public Train getSelectedTrain () {
-		return trainPortfolio.getSelectedTrain ();
-	}
-
-	public int getSelectedTrainCount () {
-		return trainPortfolio.getSelectedCount ();
-	}
-
-	@Override
-	public int getLocalSelectedTrainCount () {
-		return getSelectedTrainCount ();
-	}
-
-	@Override
-	public Train getTrain (String aName) {
-		return trainPortfolio.getTrain (aName);
-	}
-
-	@Override
-	public int getTrainQuantity (String aName) {
-		return trainPortfolio.getTrainQuantity (aName);
-	}
-
-	@Override
-	public TrainPortfolio getTrainPortfolio () {
-		return trainPortfolio;
-	}
-
-	@Override
-	public String getTrainNameAndQty (String aStatus) {
-		return trainPortfolio.getTrainNameAndQty (aStatus);
-	}
-
-	@Override
-	public boolean hasTrainNamed (String aName) {
-		return trainPortfolio.hasTrainNamed (aName);
-	}
-
-	@Override
-	public boolean removeSelectedTrain () {
-		return trainPortfolio.removeSelectedTrain ();
-	}
-
-	@Override
-	public boolean removeTrain (String aName) {
-		return trainPortfolio.removeTrain (aName);
-	}
-
-	public Train [] getAvailableTrains () {
-		return trainPortfolio.getAvailableTrains ();
-	}
-
-	public void loadTrainPortfolio (XMLNode aTrainPortfolioNode) {
-		Bank tBank;
-
-		tBank = getBank ();
-		trainPortfolio.loadTrainPortfolioFromBank (aTrainPortfolioNode, tBank);
-	}
-
-	public String getTrainSummary () {
-		return trainPortfolio.getTrainSummary ();
-	}
-
-	public boolean hasAnyTrains () {
-		boolean tHasAnyTrains;
-
-		if (trainPortfolio.getTrainCount () > 0) {
-			tHasAnyTrains = true;
-		} else {
-			tHasAnyTrains = false;
-		}
-
-		return tHasAnyTrains;
-	}
-
-	public XMLElement getTrainPortfolioElements (XMLDocument aXMLDocument) {
-		XMLElement tXMLElement;
-
-		tXMLElement = trainPortfolio.getElements (aXMLDocument);
-
-		return tXMLElement;
-	}
-
-	public JPanel buildTrainPortfolioInfoJPanel (ItemListener aItemListener, Corporation aCorporation,
-			boolean aCompact, boolean aEnableAction, String aDisableReason) {
-		JPanel tTrainJPanel;
-		JPanel tTrainPortfolioJPanel;
-
-		tTrainPortfolioJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, aCorporation, gameManager,
-				TrainCompany.BUY_LABEL, aCompact, aEnableAction, aDisableReason);
-		tTrainJPanel = buildPortfolioPanel (tTrainPortfolioJPanel);
-
-		return tTrainJPanel;
 	}
 
 	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer) {
@@ -283,9 +82,132 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tPortfolioPanel;
 	}
 
+	public JPanel buildTrainPortfolioInfoJPanel (ItemListener aItemListener, Corporation aCorporation,
+			boolean aCompact, boolean aEnableAction, String aDisableReason) {
+		JPanel tTrainJPanel;
+		JPanel tTrainPortfolioJPanel;
+
+		tTrainPortfolioJPanel = trainPortfolio.buildPortfolioJPanel (aItemListener, aCorporation, gameManager,
+				TrainCompany.BUY_LABEL, aCompact, aEnableAction, aDisableReason);
+		tTrainJPanel = buildPortfolioPanel (tTrainPortfolioJPanel);
+
+		return tTrainJPanel;
+	}
+
+	public void clearSelections () {
+		portfolio.clearSelections ();
+		trainPortfolio.clearSelections ();
+	}
+
 	@Override
-	public PortfolioHolderI getPortfolioHolder () {
-		return this;
+	public String getAbbrev () {
+		return "GameBank";
+	}
+
+	public Train [] getAvailableTrains () {
+		return trainPortfolio.getAvailableTrains ();
+	}
+
+	@Override
+	public Bank getBank () {
+		return gameManager.getBank ();
+	}
+
+	@Override
+	public CashHolderI getCashHolder () {
+		return getBank ();
+	}
+
+	public int getCertificateCountFor (Corporation aCorporation) {
+		int tCertificateCount;
+
+		tCertificateCount = portfolio.getCertificateCountFor (aCorporation);
+
+		return tCertificateCount;
+	}
+
+	public Certificate getCertificateFromCorp (Corporation aCorporation) {
+		Certificate tCertificate;
+
+		tCertificate = portfolio.getCertificateFor (aCorporation);
+
+		return tCertificate;
+	}
+
+	public Certificate getCertificateFromCorp (Corporation aCorporation, boolean aRemoveCertificate) {
+		Certificate tCertificate;
+
+		tCertificate = portfolio.getCertificateFor (aCorporation, aRemoveCertificate);
+
+		return tCertificate;
+	}
+
+	public int getCertificatePercentageFor (Corporation aCorporation) {
+		int tCertificatePercentage;
+
+		tCertificatePercentage = portfolio.getCertificatePercentageFor (aCorporation);
+
+		return tCertificatePercentage;
+	}
+
+	public List<Certificate> getCertificatesToBuy () {
+		List<Certificate> tCertificatesToBuy;
+
+		tCertificatesToBuy = portfolio.getCertificatesToBuy ();
+
+		return tCertificatesToBuy;
+	}
+
+	public Certificate getCertificateToBidOn () {
+		Certificate tCertificateToBidOn;
+
+		tCertificateToBidOn = portfolio.getCertificateToBidOn ();
+
+		return tCertificateToBidOn;
+	}
+
+	public Certificate getCertificateToBuy () {
+		Certificate tCertificateToBuy;
+
+		tCertificateToBuy = portfolio.getCertificateToBuy ();
+
+		return tCertificateToBuy;
+	}
+
+	public Train getCheapestTrain () {
+		return trainPortfolio.getCheapestTrain ();
+	}
+
+	@Override
+	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
+		PortfolioHolderLoaderI tCurrentHolder;
+
+		tCurrentHolder = portfolio.getCurrentHolder (aLoadedCertificate);
+
+		return tCurrentHolder;
+	}
+
+	public PortfolioHolderLoaderI getCurrentHolderGM (LoadedCertificate aLoadedCertificate) {
+		PortfolioHolderLoaderI tCurrentHolder;
+
+		tCurrentHolder = gameManager.getCurrentHolder (aLoadedCertificate);
+
+		return tCurrentHolder;
+	}
+
+	@Override
+	public int getLocalSelectedTrainCount () {
+		return getSelectedTrainCount ();
+	}
+
+	@Override
+	public String getName () {
+		return name;
+	}
+
+	@Override
+	public Portfolio getPortfolio () {
+		return portfolio;
 	}
 
 	public XMLElement getPortfolioElements (XMLDocument aXMLDocument) {
@@ -296,8 +218,93 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tXMLElement;
 	}
 
+	@Override
+	public PortfolioHolderI getPortfolioHolder () {
+		return this;
+	}
+
+	@Override
+	public Train getSelectedTrain () {
+		return trainPortfolio.getSelectedTrain ();
+	}
+
+	public int getSelectedTrainCount () {
+		return trainPortfolio.getSelectedCount ();
+	}
+
+	@Override
+	public String getStateName () {
+		return ActorI.ActionStates.Fixed.toString ();
+	}
+
+	@Override
+	public Train getTrain (String aName) {
+		return trainPortfolio.getTrain (aName);
+	}
+
+	@Override
+	public int getTrainLimit () {
+		return 0;
+	}
+
+	@Override
+	public String getTrainNameAndQty (String aStatus) {
+		return trainPortfolio.getTrainNameAndQty (aStatus);
+	}
+
+	@Override
+	public TrainPortfolio getTrainPortfolio () {
+		return trainPortfolio;
+	}
+
+	public XMLElement getTrainPortfolioElements (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+
+		tXMLElement = trainPortfolio.getElements (aXMLDocument);
+
+		return tXMLElement;
+	}
+
+	@Override
+	public int getTrainQuantity (String aName) {
+		return trainPortfolio.getTrainQuantity (aName);
+	}
+
+	public String getTrainSummary () {
+		return trainPortfolio.getTrainSummary ();
+	}
+
+	public boolean hasAnyTrains () {
+		boolean tHasAnyTrains;
+
+		if (trainPortfolio.getTrainCount () > 0) {
+			tHasAnyTrains = true;
+		} else {
+			tHasAnyTrains = false;
+		}
+
+		return tHasAnyTrains;
+	}
+
+	@Override
+	public boolean hasTrainNamed (String aName) {
+		return trainPortfolio.hasTrainNamed (aName);
+	}
+
+	@Override
+	public boolean isABank () {
+		return true;
+	}
+
 	public void loadPortfolio (XMLNode aPortfolioNode) {
 		portfolio.loadPortfolio (aPortfolioNode);
+	}
+
+	public void loadTrainPortfolio (XMLNode aTrainPortfolioNode) {
+		Bank tBank;
+
+		tBank = getBank ();
+		trainPortfolio.loadTrainPortfolioFromBank (aTrainPortfolioNode, tBank);
 	}
 
 	public void printBankInfo () {
@@ -306,27 +313,20 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	}
 
 	@Override
-	public String getAbbrev () {
-		return "GameBank";
+	public boolean removeSelectedTrain () {
+		return trainPortfolio.removeSelectedTrain ();
 	}
 
 	@Override
-	public CashHolderI getCashHolder () {
-		return getBank ();
+	public boolean removeTrain (String aName) {
+		return trainPortfolio.removeTrain (aName);
 	}
 
-	@Override
-	public Bank getBank () {
-		return gameManager.getBank ();
+	public void setPortfolio (Portfolio aPortfolio) {
+		portfolio = aPortfolio;
 	}
 
-	@Override
-	public boolean isABank () {
-		return true;
-	}
-
-	@Override
-	public int getTrainLimit () {
-		return 0;
+	public void setTrainPortfolio (TrainPortfolio aTrainPortfolio) {
+		trainPortfolio = aTrainPortfolio;
 	}
 }

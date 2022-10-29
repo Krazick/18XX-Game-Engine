@@ -25,9 +25,21 @@ import ge18xx.utilities.XMLNodeList;
 //
 
 public class BankPool extends GameBank {
-	public static final String NAME = "Bank Pool";
 	public static final ElementName EN_BANK_POOL_STATE = new ElementName ("BankPool");
+	public static final String NAME = "Bank Pool";
 	public static final BankPool NO_BANK_POOL = null;
+
+	ParsingRoutineI bankPoolParsingRoutine = new ParsingRoutine2I () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			loadPortfolio (aChildNode);
+		}
+
+		@Override
+		public void foundItemMatchKey2 (XMLNode aChildNode) {
+			loadTrainPortfolio (aChildNode);
+		}
+	};
 
 	public BankPool (GameManager aGameManager) {
 		super (NAME, aGameManager);
@@ -39,13 +51,13 @@ public class BankPool extends GameBank {
 	}
 
 	@Override
-	public boolean isABankPool () {
-		return true;
+	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer) {
+		return buildPortfolioInfoJPanel (aItemListener, aPlayer, Player.BUY_LABEL);
 	}
 
 	@Override
-	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer) {
-		return buildPortfolioInfoJPanel (aItemListener, aPlayer, Player.BUY_LABEL);
+	public String getAbbrev () {
+		return NAME;
 	}
 
 	public XMLElement getBankPoolStateElements (XMLDocument aXMLDocument) {
@@ -62,27 +74,15 @@ public class BankPool extends GameBank {
 		return tXMLElement;
 	}
 
+	@Override
+	public boolean isABankPool () {
+		return true;
+	}
+
 	public void loadBankPoolState (XMLNode aBankPoolNode) {
 		XMLNodeList tXMLNodeList;
 
 		tXMLNodeList = new XMLNodeList (bankPoolParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aBankPoolNode, Portfolio.EN_PORTFOLIO, TrainPortfolio.EN_TRAIN_PORTFOLIO);
-	}
-
-	ParsingRoutineI bankPoolParsingRoutine = new ParsingRoutine2I () {
-		@Override
-		public void foundItemMatchKey1 (XMLNode aChildNode) {
-			loadPortfolio (aChildNode);
-		}
-
-		@Override
-		public void foundItemMatchKey2 (XMLNode aChildNode) {
-			loadTrainPortfolio (aChildNode);
-		}
-	};
-
-	@Override
-	public String getAbbrev () {
-		return NAME;
 	}
 }
