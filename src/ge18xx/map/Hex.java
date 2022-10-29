@@ -324,7 +324,7 @@ public class Hex {
 		Stroke tNewStroke = new BasicStroke (3);
 		int R;
 
-		R = (int) (cityWidth * 2);
+		R = cityWidth * 2;
 		int [] [] xy = getPolygonArrays (Xc, Yc, R, 8);
 		polygon = new Polygon (xy [0], xy [1], 8);
 		g2d.setPaint (aPaint);

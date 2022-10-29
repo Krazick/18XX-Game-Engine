@@ -61,8 +61,8 @@ class CorporationBasicTests {
 //	ActorI.ActionStates -- CorporationStates
 //
 //	Unowned, Owned, Closed, MayFloat, WillFloat, NotOperated,
-//	StartedOperations, TileLaid, Tile2Laid, TileUpgraded, 
-//	StationLaid, TileAndStationLaid, OperatedTrain, HoldDividend, 
+//	StartedOperations, TileLaid, Tile2Laid, TileUpgraded,
+//	StationLaid, TileAndStationLaid, OperatedTrain, HoldDividend,
 //	HalfDividend, FullDividend, BoughtTrain, Operated
 
 	@Test

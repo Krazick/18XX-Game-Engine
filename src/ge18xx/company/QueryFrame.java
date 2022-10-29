@@ -30,7 +30,7 @@ public class QueryFrame extends JFrame implements ActionListener {
 	JPanel offerPanel;
 	JPanel offerTopPanel;
 	JPanel offerButtonPanel;
-	
+
 	public QueryFrame (RoundManager aRoundManager, ToEffect aToEffect) {
 		super ();
 
@@ -41,9 +41,9 @@ public class QueryFrame extends JFrame implements ActionListener {
 		setOfferTopPanel ();
 		if (offerTopPanel != null) {
 			buildOfferButtonPanel ();
-	
+
 			buildOfferPanel ();
-	
+
 			pack ();
 			tNewPoint = roundManager.getOffsetRoundFrame ();
 			setLocation (tNewPoint);
@@ -59,19 +59,19 @@ public class QueryFrame extends JFrame implements ActionListener {
 	public void setToEffect (ToEffect aToEffect) {
 		toEffect = aToEffect;
 	}
-	
+
 	protected void setOfferTopPanel () {
 
 	}
-	
+
 	public void setAcceptButtonLabel (String aAcceptLabel) {
 		acceptButton.setText (aAcceptLabel);
 	}
-	
+
 	public void setRejectButtonLabel (String aRejectLabel) {
 		rejectButton.setText (aRejectLabel);
 	}
-	
+
 	private void buildOfferPanel () {
 		offerPanel = new JPanel ();
 		offerPanel.add (offerTopPanel);
@@ -98,21 +98,21 @@ public class QueryFrame extends JFrame implements ActionListener {
 	protected void buildOfferTopPanel (String aOfferLine) {
 		buildOfferTopPanel (aOfferLine, null);
 	}
-	
+
 	protected void buildOfferTopPanel (String aOfferLine1, String aOfferLine2) {
 		JLabel tOfferLabel1;
 		JLabel tOfferLabel2;
-		
+
 		tOfferLabel1 = new JLabel (aOfferLine1);
 		tOfferLabel1.setAlignmentX (CENTER_ALIGNMENT);
-		
+
 		if (aOfferLine2 != null) {
 			tOfferLabel2 = new JLabel (aOfferLine2);
 			tOfferLabel2.setAlignmentX (CENTER_ALIGNMENT);
 		} else {
 			tOfferLabel2 = null;
 		}
-		
+
 		offerTopPanel = new JPanel ();
 		offerTopPanel.add (Box.createVerticalStrut (10));
 		offerTopPanel.setLayout (new BoxLayout (offerTopPanel, BoxLayout.Y_AXIS));
@@ -168,11 +168,11 @@ public class QueryFrame extends JFrame implements ActionListener {
 		setVisible (false);
 	}
 
-	protected void addResponseOfferEffect (ResponseOfferAction aResponseOfferAction, ActorI aFromActor, 
+	protected void addResponseOfferEffect (ResponseOfferAction aResponseOfferAction, ActorI aFromActor,
 			ActorI aToActor, boolean aResponse) {
-		
+
 	}
-	
+
 	public JButton buildButton (String aButtonLabel, String aActionCommand) {
 		JButton tActionButton;
 

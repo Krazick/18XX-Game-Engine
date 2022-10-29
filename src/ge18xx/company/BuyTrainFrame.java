@@ -19,7 +19,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		setAllButtonListeners (this);
 		train = aSelectedTrain;
 		if (aCurrentOwner.isATrainCompany ()) {
-			setCurrentOwner ((TrainCompany) aCurrentOwner);
+			setCurrentOwner (aCurrentOwner);
 		} else {
 			setCurrentOwner (Corporation.NO_CORPORATION);
 		}
@@ -29,7 +29,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 	@Override
 	public void actionPerformed (ActionEvent e) {
 		String tActionCommand;
-		
+
 		tActionCommand = e.getActionCommand ();
 		if (tActionCommand.equals (SET_BUY_PRICE_ACTION)) {
 			updateButtons ();
@@ -47,7 +47,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		ActorI.ActionStates tOldState;
 		String tItemName;
 		String tOwnerName;
-		
+
 		tOldState = trainCompany.getStatus ();
 		tOwnerName = aItemOwner.getName ();
 		tItemName = aTrain.getName ();
@@ -63,7 +63,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		int tCashValue;
 		QueryOffer tQueryOffer;
 		String tBuyingOwnerName;
-		
+
 		if (train != Train.NO_TRAIN) {
 			tBuyingOwnerName = trainCompany.getPresidentName ();
 			tCashValue = getPrice ();
@@ -73,11 +73,11 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 				sendPurchaseOffer (tOwningTrainCompany, tQueryOffer);
 				setVisible (false);
 				trainCompany.waitForResponse ();
-				
+
 				// Once a Response is received, examine for Accept or Reject of the Purchase Offer
 				// If Accept, perform the Buy Train
 				if (tQueryOffer.wasAccepted ()) {
-					buyTrain (tOwningTrainCompany, tCashValue, true);	
+					buyTrain (tOwningTrainCompany, tCashValue, true);
 				} else {
 					// TODO: Notify with Dialog the Offer was Rejected
 					System.out.println ("Purchase Offer for Train was Rejected");
@@ -91,7 +91,7 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 	private void buyTrain (TrainCompany aOwningTrainCompany, int aCashValue, boolean aChainToPrevious) {
 		BuyTrainAction tBuyTrainAction;
 		String tOperatingRoundID;
-		
+
 		tOperatingRoundID = trainCompany.getOperatingRoundID ();
 		tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, trainCompany);
 		tBuyTrainAction.setChainToPrevious (aChainToPrevious);
@@ -104,11 +104,11 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 	private void updateInfo () {
 		int tLowPrice, tHighPrice;
 		String tDescription;
-		
+
 		setDefaultPrice ();
 		tLowPrice = 1;
 		tHighPrice = trainCompany.getTreasury ();
-		tDescription = trainCompany.getPresidentName () + ", Choose Buy Price for " + 
+		tDescription = trainCompany.getPresidentName () + ", Choose Buy Price for " +
 				train.getName () + " " + PurchaseTrainOffer.TRAIN_TYPE + " from " + currentOwner.getName ();
 		updateSellerInfo ();
 		updateInfo (PurchaseTrainOffer.TRAIN_TYPE, tLowPrice, tHighPrice, tDescription);
@@ -118,12 +118,12 @@ public class BuyTrainFrame extends BuyItemFrame implements ActionListener {
 		String tOwnerName = "NO OWNER";
 		int tTreasury = 0;
 		String tSellerInfo;
-		
+
 		if (currentOwner != Corporation.NO_CORPORATION) {
 			tOwnerName = currentOwner.getName ();
 			tTreasury = getCurrentOwnerCash () + getPrice ();
 		}
-		tSellerInfo =  tOwnerName + " Treasury will have " + Bank.formatCash (tTreasury) + 
+		tSellerInfo =  tOwnerName + " Treasury will have " + Bank.formatCash (tTreasury) +
 						" after purchase.";
 		updateSellerInfo (tSellerInfo);
 	}

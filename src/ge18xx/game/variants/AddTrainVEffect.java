@@ -17,16 +17,16 @@ public class AddTrainVEffect extends VariantEffect {
 	static final String NAME = "Add Train";
 	int quantity;
 	TrainInfo trainInfo;
-	
+
 	public AddTrainVEffect () {
 		setName (NAME);
 	}
-	
+
 	public AddTrainVEffect (XMLNode aXMLNode) {
 		super (aXMLNode);
 
 		int tQuantity;
-		
+
 		tQuantity = aXMLNode.getThisIntAttribute (AN_QUANTITY);
 		setQuantity (tQuantity);
 		loadTrainInfo (aXMLNode);
@@ -35,19 +35,19 @@ public class AddTrainVEffect extends VariantEffect {
 	public int getQuantity () {
 		return quantity;
 	}
-	
+
 	public TrainInfo getTrainInfo () {
 		return trainInfo;
 	}
-	
+
 	public void setQuantity (int aQuantity) {
 		quantity = aQuantity;
 	}
-	
+
 	public void setTrainInfo (TrainInfo aTrainInfo) {
 		trainInfo = aTrainInfo;
 	}
-	
+
 	public void loadTrainInfo (XMLNode aAddTrainVEffectNode) {
 		String tChildName;
 		XMLNode tChildNode;
@@ -55,7 +55,7 @@ public class AddTrainVEffect extends VariantEffect {
 		int tIndex;
 		int tChildrenCount;
 		TrainInfo tTrainInfo;
-		
+
 		tChildren = aAddTrainVEffectNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
@@ -69,21 +69,21 @@ public class AddTrainVEffect extends VariantEffect {
 			}
 		}
 	}
-	
+
 	/**
-	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores
 	 * the TrainInfo, and the Quantity
-	 * 
+	 *
 	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
-	 * 
+	 *
 	 * @return the filled out XMLElement
-	 * 
+	 *
 	 */
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tTrainInfoXMLElement;
-		
+
 		tXMLElement = super.getEffectElement (aXMLDocument);
 		if (quantity != NO_QUANTITY) {
 			tXMLElement.setAttribute (AN_QUANTITY, getQuantity ());
@@ -96,34 +96,34 @@ public class AddTrainVEffect extends VariantEffect {
 
 		return tXMLElement;
 	}
-	
+
 	/**
 	 * Apply the Variant Effect using the Game Manager as needed.
-	 * 
+	 *
 	 * @param aGameManager The current GameManager to have the Variant Effect applied to.
-	 * 
+	 *
 	 */
 	@Override
 	public void applyVariantEffect (GameManager aGameManager) {
 		Bank tBank;
-		
+
 		tBank = aGameManager.getBank ();
 		tBank.loadTrains (quantity, trainInfo);
 	}
-	
+
 	/**
 	 * Variant Effect Component Builder -- this should be overriden by the subclasses
-	 * 
+	 *
 	 * @param aItemListener Placeholder for the Item Listener class that will handle the request
-	 * @return 
-	 * 
+	 * @return
+	 *
 	 */
 	@Override
 	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType) {
 		JComponent tEffectComponent;
 
 		tEffectComponent = buildEffectJLabel () ;
-		
+
 		return tEffectComponent;
 	}
 }

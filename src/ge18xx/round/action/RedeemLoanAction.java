@@ -26,24 +26,24 @@ public class RedeemLoanAction extends GetLoanAction {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	/**
-	 * This method is to override the AddGetLoanEffect method, since when redeeming a Loan should never be able to 
+	 * This method is to override the AddGetLoanEffect method, since when redeeming a Loan should never be able to
 	 * add the 'GetLoanEffect' to the RedeemLoanAction. The name is CORRECT.
-	 * 
+	 *
 	 */
 	@Override
 	public void addGetLoanEffect (ActorI aActor, boolean aOldLoanTaken, boolean aNewLoanTaken) {
 		System.err.println ("Cannot add a Loan Effect when Redeeming a Loan");
 	}
-	
+
 	public void addRedeemLoanEffect (ActorI aActor) {
 		RedeemLoanEffect tRedeemLoanEffect;
 
 		tRedeemLoanEffect = new RedeemLoanEffect (aActor);
 		addEffect (tRedeemLoanEffect);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";

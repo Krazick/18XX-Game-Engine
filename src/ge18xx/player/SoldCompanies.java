@@ -10,7 +10,7 @@ public class SoldCompanies {
 	public static final JLabel NO_SOLD_COMPANIES = null;
 
 	SoldCompanies () {
-		soldCompanies = new LinkedList<String> ();
+		soldCompanies = new LinkedList<> ();
 	}
 
 	public void addSoldCompanies (String aCompanyAbbrev) {

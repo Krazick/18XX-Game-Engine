@@ -16,7 +16,7 @@ import ge18xx.utilities.XMLElement;
 
 public class MinorCompaniesFrame extends CorporationTableFrame {
 	/**
-	 * 
+	 *
 	 */
 	public static final MinorCompaniesFrame NO_MINORS_FRAME = null;
 	public static final String BASE_TITLE = "Minor Companies";

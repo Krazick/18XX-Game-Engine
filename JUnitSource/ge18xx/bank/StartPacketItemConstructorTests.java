@@ -36,14 +36,14 @@ class StartPacketItemConstructorTests {
 	private StartPacketItem packetItem2;
 	private Certificate mCertificateGamma;
 	private Certificate mCertificateAlpha;
-	
+
 	@BeforeEach
 	void setUp () throws Exception {
 		String tPacketItem1 = "<Certificate corporationId=\"802\" discountAmount=\"5\" canBeBidOn=\"NO\"></Certificate>";
 		String tPacketItem2 = "<Certificate corporationId=\"803\" discountAmount=\"0\" canBeBidOn=\"YES\">" +
-				"<FreeCertificate corporationId=\"1101\" percentage=\"10\"/>" + 
+				"<FreeCertificate corporationId=\"1101\" percentage=\"10\"/>" +
 				"</Certificate>";
-		
+
 		companyTestFactory = new CompanyTestFactory ();
 		utilitiesTestFactory = companyTestFactory.getUtilitiesTestFactory ();
 		certificateTestFactory = new CertificateTestFactory ();
@@ -54,14 +54,14 @@ class StartPacketItemConstructorTests {
 		mCertificateAlpha = certificateTestFactory.buildCertificateMock ();
 		Mockito.when (mCertificateAlpha.getCompanyAbbrev ()).thenReturn ("ASC");
 	}
-	
+
 	private StartPacketItem constructStartPacketItem (String aStartPacketTextXML) {
 		XMLNode tStartPacketItemNode;
 		StartPacketItem tStartPacketItem;
-		
+
 		tStartPacketItemNode = utilitiesTestFactory.buildXMLNode (aStartPacketTextXML);
 		tStartPacketItem = StartPacketItem.NO_START_PACKET_ITEM;
-		
+
 		if (tStartPacketItemNode != XMLNode.NO_NODE) {
 			tStartPacketItem = new StartPacketItem (tStartPacketItemNode);
 		}
@@ -76,7 +76,7 @@ class StartPacketItemConstructorTests {
 		assertEquals (802, packetItem1.getCorporationId ());
 		assertEquals (5, packetItem1.getDiscountAmount ());
 		assertFalse (packetItem1.getCanBeBidOn ());
-		
+
 		assertEquals (803, packetItem2.getCorporationId ());
 		assertEquals (0, packetItem2.getDiscountAmount ());
 		assertTrue (packetItem2.getCanBeBidOn ());
@@ -89,38 +89,38 @@ class StartPacketItemConstructorTests {
 	void fetchingCertificatesFromPacketTests () {
 		Certificate tCertificate;
 		Certificate tFreeCertificate;
-		
+
 		assertEquals (packetItem1.getCertificate (), Certificate.NO_CERTIFICATE);
 		assertEquals (packetItem2.getFreeCertificate (), Certificate.NO_CERTIFICATE);
-		
+
 		packetItem1.setCertificate (mCertificateGamma);
 		packetItem2.setFreeCertificate (mCertificateAlpha);
 		tCertificate = packetItem1.getCertificate ();
 		tFreeCertificate = packetItem2.getFreeCertificate ();
-		
+
 		assertEquals ("GPC", tCertificate.getCompanyAbbrev ());
 		assertEquals ("ASC", tFreeCertificate.getCompanyAbbrev ());
-		
+
 	}
-	
+
 	@Nested
-	@DisplayName ("Using Mocked Certificates") 
+	@DisplayName ("Using Mocked Certificates")
 	class UseMockedCertificates {
-	
+
 		@Test
-		@DisplayName ("Test isSelected Method") 
+		@DisplayName ("Test isSelected Method")
 		void isSelectedWithMockedCertificateTests () {
 			Mockito.when (mCertificateGamma.isSelected ()).thenReturn (true);
 			packetItem1.setCertificate (mCertificateGamma);
-			
+
 			assertTrue (packetItem1.isSelected ());
-			
+
 			Mockito.when (mCertificateAlpha.isSelected ()).thenReturn (false);
 			packetItem2.setCertificate (mCertificateAlpha);
 			assertFalse (packetItem2.isSelected ());
-			
+
 		}
-		
+
 		@Test
 		@DisplayName ("Test hasBidOnThisCert Method")
 		void hasBidWithMockedCertificateTest () {
@@ -128,27 +128,27 @@ class StartPacketItemConstructorTests {
 			GameManager tGameManager;
 			PlayerTestFactory tPlayerTestFactory;
 			Player mPlayer;
-			
+
 			tGameTestFactory = new GameTestFactory ();
 			tGameManager = tGameTestFactory.buildGameManager ();
 			tPlayerTestFactory = new PlayerTestFactory (tGameManager);
 			mPlayer = tPlayerTestFactory.buildPlayerMock ("SPIPlayer");
-			
+
 			Mockito.when (mCertificateGamma.hasBidOnThisCert (any (Player.class))).thenReturn (true);
 			packetItem1.setCertificate (mCertificateGamma);
-			
+
 			assertTrue (packetItem1.hasBidOnThisCert (mPlayer));
-			
+
 			Mockito.when (mCertificateAlpha.hasBidOnThisCert (any (Player.class))).thenReturn (false);
 			packetItem2.setCertificate (mCertificateAlpha);
-			
+
 			assertFalse (packetItem2.hasBidOnThisCert (mPlayer));
 		}
-		
+
 		@Test
 		@DisplayName ("Test getMatchingCertificate Method")
 		void getMatchingCertWithMockedCertificateTest () {
-			
+
 			Mockito.when (mCertificateGamma.isMatchingCertificate (anyString (), anyInt (), anyBoolean ())).thenReturn (true);
 			packetItem1.setCertificate (mCertificateGamma);
 			assertEquals (mCertificateGamma, packetItem1.getMatchingCertificate ("GPC", 100, true));

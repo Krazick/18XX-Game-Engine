@@ -7,7 +7,7 @@ public class ShareHolders {
 	List<ShareHolder> shareHolders;
 
 	public ShareHolders () {
-		shareHolders = new LinkedList<ShareHolder> ();
+		shareHolders = new LinkedList<> ();
 	}
 
 	public void addShareHolder (PortfolioHolderI aPortfolioHolder, int aPercentage) {
@@ -62,7 +62,7 @@ public class ShareHolders {
 
 	public void printShareHolderInfo () {
 		String tShareHolderInfo;
-		
+
 		for (ShareHolder tShareHolder : shareHolders) {
 			tShareHolderInfo = tShareHolder.getShareHolderInfo (tShareHolder);
 			System.out.println (tShareHolderInfo);

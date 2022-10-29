@@ -100,11 +100,11 @@ public class PhaseInfo {
 				tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tGovernmentCanForm, tGovernmentMustForm);
 		parseFloatMinValues (aCellNode);
 	}
-	
+
 	public XMLElement getElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		String tTileColors;
-		
+
 		tXMLElement = aXMLDocument.createElement (EN_PHASE);
 		tXMLElement.setAttribute (AN_NAME, name);
 		tXMLElement.setAttribute (AN_SUB_NAME, subName);
@@ -127,14 +127,14 @@ public class PhaseInfo {
 		}
 		if (governmentCanForm) {
 			tXMLElement.setAttribute (AN_GOVERNMENT_CAN_FORM, governmentCanForm);
-		} 
+		}
 		if (governmentMustForm) {
 			tXMLElement.setAttribute (AN_GOVERNMENT_MUST_FORM, governmentMustForm);
 		}
 
 		return tXMLElement;
 	}
-	
+
 	// minToFloat="2" minToFloatLast="3" />
 	private void parseFloatMinValues (XMLNode aCellNode) {
 		int tValue;
@@ -309,7 +309,7 @@ public class PhaseInfo {
 
 		return tUpgradeAllowed;
 	}
-	
+
 	public static Comparator<PhaseInfo> PhaseInfoComparator = new Comparator<PhaseInfo> () {
 
 		@Override
@@ -319,7 +319,7 @@ public class PhaseInfo {
 			int tPhaseName2;
 			int tPhaseSubName1;
 			int tPhaseSubName2;
-			
+
 			tSortOrder = 0;
 			tPhaseName1 = aPhaseInfo1.getName ();
 			tPhaseName2 = aPhaseInfo2.getName ();
@@ -336,7 +336,7 @@ public class PhaseInfo {
 			} else {
 				tSortOrder = SORT_PHASE2_BEFORE_PHASE1;
 			}
-			
+
 			return tSortOrder;
 		}
 	};

@@ -74,7 +74,7 @@ public class VariantEffect {
 		boolean tHide;
 		boolean tState;
 		int tID;
-		
+
 		tID = aVariantEffectNode.getThisIntAttribute (Variant.AN_ID, Variant.NO_ID);
 		tName = aVariantEffectNode.getThisAttribute (AN_NAME);
 		tAction = aVariantEffectNode.getThisAttribute (AN_ACTION);
@@ -85,8 +85,8 @@ public class VariantEffect {
 		setHide (tHide);
 		setID (tID);
 		setDefaultEffect (tDefaultEffect);
-		
-		// TODO: Refactor extracting out End Game on Stock Cell to new VariantEffect child 
+
+		// TODO: Refactor extracting out End Game on Stock Cell to new VariantEffect child
 		// TODO: Refactor extracting out Must Buy Train to new VariantEffect child
 		if (tAction.equals (END_GAME_ON_STOCK_CELL)) {
 			tCellName = aVariantEffectNode.getThisAttribute (AN_CELL_NAME);
@@ -106,7 +106,7 @@ public class VariantEffect {
 	public JComponent getEffectComponent () {
 		return effectComponent;
 	}
-	
+
 	public String getCellName () {
 		return cellName;
 	}
@@ -114,23 +114,23 @@ public class VariantEffect {
 	public boolean hide () {
 		return hide;
 	}
-	
+
 	public int getID () {
 		return id;
 	}
-	
+
 	public boolean getState () {
 		return state;
 	}
 
 	/**
-	 * Given an XMLDocument, this will create the XMLElement that stores the Effect Name 
+	 * Given an XMLDocument, this will create the XMLElement that stores the Effect Name
 	 * and whether this is a Default Effect
-	 * 
+	 *
 	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
-	 * 
+	 *
 	 * @return the filled out XMLElement
-	 * 
+	 *
 	 */
 	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
@@ -142,10 +142,10 @@ public class VariantEffect {
 		tXMLElement.setAttribute (AN_DEFAULT_EFFECT, defaultEffect);
 		tXMLElement.setAttribute (AN_HIDE, hide);
 		tXMLElement.setAttribute (AN_STATE, state);
-		
+
 		return tXMLElement;
 	}
-	
+
 	public String getAction () {
 		return action;
 	}
@@ -153,14 +153,14 @@ public class VariantEffect {
 	public String getActorName () {
 		return actorName;
 	}
-	
+
 	public String getName () {
 		return name;
 	}
 
 	public boolean isEnabled () {
 		boolean tEnabled;
-		
+
 		if (effectComponent == NO_VARIANT_EFFECT_COMPONENT) {
 			tEnabled = false;
 		} else if (effectComponent instanceof JLabel)  {
@@ -168,18 +168,18 @@ public class VariantEffect {
 		} else {
 			tEnabled = effectComponent.isEnabled ();
 		}
-		
+
 		return tEnabled;
 	}
-	
+
 	protected void setAction (String aAction) {
 		action = aAction;
 	}
-	
+
 	protected void setActorName (String aActorName) {
 		actorName = aActorName;
 	}
-	
+
 	public void setDefaultEffect (boolean aDefaultEffect) {
 		defaultEffect = aDefaultEffect;
 	}
@@ -187,23 +187,23 @@ public class VariantEffect {
 	public void setEffectComponent (JComponent tEffectComponent) {
 		effectComponent = tEffectComponent;
 	}
-	
+
 	protected void setHide (boolean aHide) {
 		hide = aHide;
 	}
-	
+
 	protected void setID (int aID) {
 		id = aID;
 	}
-	
+
 	protected void setName (String aName) {
 		name = aName;
 	}
-	
+
 	protected void setState (boolean aState) {
 		state = aState;
 	}
-	
+
 	private void setValue (String aName, String aAction, String aActorName, String aCellName) {
 		setID (Variant.NO_ID);
 		setName (aName);
@@ -211,12 +211,12 @@ public class VariantEffect {
 		actorName = aActorName;
 		cellName = aCellName;
 	}
-	
+
 	/**
 	 * Apply the Variant Effect using the Game Manager as needed.
-	 * 
+	 *
 	 * @param aGameManager The current GameManager to have the Variant Effect applied to.
-	 * 
+	 *
 	 */
 	public void applyVariantEffect (GameManager aGameManager) {
 		String tEffectAction;
@@ -228,23 +228,23 @@ public class VariantEffect {
 			tCorporationList.setAllMustBuyTrain ();
 		}
 	}
-	
+
 	/**
 	 * Variant Effect Component Builder -- this should be overridden by the subclasses
-	 * 
+	 *
 	 * @param aItemListener Placeholder for the Item Listener class that will handle the request
 	 * @return from this case NO_VARIANT_COMPONENT
-	 * 
+	 *
 	 */
 	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType) {
 		return NO_VARIANT_EFFECT_COMPONENT;
 	}
-	
+
 	public String buildComponentText () {
 		String tRadioButtonText;
-		
+
 		tRadioButtonText = action + " " + name;
-		
+
 		return tRadioButtonText;
 	}
 
@@ -257,18 +257,18 @@ public class VariantEffect {
 			tComponentLabel = new JLabel (action);
 			tComponentLabel.setBorder (BorderFactory.createEmptyBorder (0, 22, 5, 10));
 		}
-		
+
 		return tComponentLabel;
 	}
-	
+
 	protected JRadioButton buildEffectRadioButton () {
 		JRadioButton tRadioButton;
-		
+
 		tRadioButton = new JRadioButton (action);
 		tRadioButton.setSelected (defaultEffect);
 		tRadioButton.setBorder (BorderFactory.createEmptyBorder (0, 0, 0, 10));
-		
-		return tRadioButton;	
+
+		return tRadioButton;
 	}
 
 	protected JCheckBox buildEffectCheckBox () {
@@ -276,17 +276,17 @@ public class VariantEffect {
 
 		tCheckBox = new JCheckBox (action);
 		tCheckBox.setBorder (BorderFactory.createEmptyBorder (0, 0, 0, 10));
-		
-		return tCheckBox;	
+
+		return tCheckBox;
 	}
 
 	protected boolean isSelected () {
 		boolean tIsSelected;
 		JCheckBox tCheckBox;
 		JRadioButton tRadioButton;
-		
+
 		tIsSelected = false;
-		
+
 		if (effectComponent instanceof  JCheckBox) {
 			tCheckBox = (JCheckBox) effectComponent;
 			tIsSelected = tCheckBox.isSelected ();
@@ -295,7 +295,7 @@ public class VariantEffect {
 			tRadioButton = (JRadioButton) effectComponent;
 			tIsSelected = tRadioButton.isSelected ();
 		}
-		
+
 		return tIsSelected;
 	}
 }

@@ -31,8 +31,8 @@ public class GenericActor implements ActorI {
 	}
 
 	// Player Primary Actions:
-	// NoAction, Pass, Acted, Bought, Sold, 
-	// BoughtDone, BoughtSold, SoldDone, BoughtSoldDone, 
+	// NoAction, Pass, Acted, Bought, Sold,
+	// BoughtDone, BoughtSold, SoldDone, BoughtSoldDone,
 	//
 	// Player Auction, and Bidding States
 	// Bid, BidDone, Bidder, AuctionPass, AuctionPass, AuctionRaise,
@@ -77,7 +77,7 @@ public class GenericActor implements ActorI {
 	}
 
 //	Unowned, Owned, Closed, MayFloat, WillFloat, NotOperated, StartedOperations		// Corporation States
-//	TileLaid, Tile2Laid, TileUpgraded, StationLaid, TileAndStationLaid, OperatedTrain, 
+//	TileLaid, Tile2Laid, TileUpgraded, StationLaid, TileAndStationLaid, OperatedTrain,
 //	HoldDividend, HalfDividend, FullDividend, BoughtTrain, Operated,
 
 	public ActorI.ActionStates getCorporationActionState (String aState) {
@@ -156,9 +156,9 @@ public class GenericActor implements ActorI {
 				ActionStates.AuctionRound };
 
 		tRoundState = ActionStates.NoState;
-		for (int tIndex = 0; tIndex < tRoundStates.length; tIndex++) {
+		for (ActionStates tRoundState2 : tRoundStates) {
 			if (tRoundState == ActionStates.NoState) {
-				tRoundState = getMatchingActionState (aState, tRoundStates [tIndex]);
+				tRoundState = getMatchingActionState (aState, tRoundState2);
 			}
 		}
 

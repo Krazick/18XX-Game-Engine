@@ -32,7 +32,7 @@ public class GameFrameConfig {
 		gameName = tGameName;
 		tChildren = aFramesNode.getChildNodes ();
 		tNodeCount = tChildren.getLength ();
-		frameInfoList = new ArrayList<FrameInfo> ();
+		frameInfoList = new ArrayList<> ();
 
 		try {
 			for (tNodeIndex = 0; tNodeIndex < tNodeCount; tNodeIndex++) {

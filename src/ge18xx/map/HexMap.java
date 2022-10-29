@@ -103,42 +103,42 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	// Selectable Map Cell Functions to be callable from elsewhere
-	
+
 	public void fillAllSMC () {
 		// TODO Build routine to properly identify all of the MapCells that the
 		// current Operating Company can place either a new tile (on empty Map Cell)
 		// or upgrade an existing Tile
 	}
-	
+
 	public void removeAllSMC () {
 		selectableMapCells.removeAll ();
 	}
-	
+
 	public void addMapCellSMC (MapCell aMapCell) {
 		selectableMapCells.addMapCell (aMapCell);
 	}
-	
+
 	public void addMapCellsSMC (String aMapCellIDs) {
 		selectableMapCells.addMapCells (this, aMapCellIDs);
 	}
-	
+
 	public boolean containsMapCellSMC (MapCell aMapCell) {
 		return selectableMapCells.containsMapCell (aMapCell);
 	}
-	
+
 	public boolean isSMCEmpty () {
 		return selectableMapCells.isEmpty ();
 	}
-	
+
 	public boolean mapCellIsInSelectableSMC (MapCell aMapCell) {
 		boolean tIsInSelectable;
-		
+
 		if (isSMCEmpty ()) {
 			tIsInSelectable = false;
 		} else {
 			tIsInSelectable = containsMapCellSMC (aMapCell);
 		}
-		
+
 		return tIsInSelectable;
 	}
 
@@ -147,7 +147,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		// from the Current Operating Company's current set of Tokens. Use the MapGraph
 		// To find these MapCells.
 	}
-	
+
 	public void CalcGridCenters () {
 		int rowIndex, colIndex, Xc, Yc, toggle, temp_2DLR, temp_DUP_dwidth;
 		int rowCount;
@@ -225,7 +225,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	/**
 	 * Clear the Specified Train Number from the Entire Map
-	 * 
+	 *
 	 * @param aTrainNumber The Train Number to clear
 	 */
 	public void clearTrain (int aTrainNumber) {
@@ -244,7 +244,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	/**
 	 * Clear All Trains from All of the Map Cells on the Map. Will also Clear the
 	 * Sides as well
-	 * 
+	 *
 	 */
 	public void clearAllTrains () {
 		int rowIndex, colIndex, rowCount, colCount;
@@ -675,7 +675,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public void handleSingleMapCellSelect (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell) {
-		
+
 		if (aPreviousSelectedMapCell == MapCell.NO_MAP_CELL) {
 			if (containsMapCellSMC (aSelectedMapCell)) {
 				toggleSelectedMapCell (aSelectedMapCell);
@@ -888,7 +888,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				map [tRowIndex] [index].setEmptyMapCell (aDefaultTerrainType);
 			}
 		}
-		if (((int) (tRowIndex / 2)) * 2 == tRowIndex) {
+		if ((tRowIndex / 2) * 2 == tRowIndex) {
 			evenRow = true;
 			tOddRow = 0;
 		} else {
@@ -1035,7 +1035,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
 	 */
@@ -1045,7 +1045,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -1169,7 +1169,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public boolean isPlaceTileMode () {
 		return placeTileMode;
 	}
-	
+
 	public void setSingleMapCellSelect (boolean aSelectState) {
 		singleMapCellSelect = aSelectState;
 		clearAllSelected ();
@@ -1208,7 +1208,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 		tSource = (JSlider) aEvent.getSource ();
 		if (!tSource.getValueIsAdjusting ()) {
-			int hexScale = (int) tSource.getValue ();
+			int hexScale = tSource.getValue ();
 			setHexScale (hexScale);
 		}
 	}
@@ -1384,8 +1384,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public Corporation getCorporation (String aCorporationAbbrev) {
 		return mapFrame.getCorporation (aCorporationAbbrev);
 	}
-	
-	
+
+
 	public void buildMapGraph (TokenCompany aTokenCompany) {
 		buildMapGraph ();
 		collectSelectableCells (aTokenCompany);
@@ -1406,22 +1406,22 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			mapFrame.repaint ();
 		}
 	}
-	
+
 	public void printMapGraphInfo (String aTitle, List<Vertex> aMapGraph) {
 		System.out.println (aTitle + aMapGraph.size ());
-		
+
 		for (Vertex tVertex : aMapGraph) {
 			tVertex.printInfo ();
 		}
 	}
-	
+
 	public void buildMapGraph () {
 		int tRowCount;
 		int tRowIndex;
 		int tColCount;
 		int tColIndex;
 		MapCell tMapCell;
-		
+
 		mapGraph = new MapGraph ();
 
 		// Scan the rest of the Map for more Bases, and add.

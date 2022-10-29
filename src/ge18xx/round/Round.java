@@ -95,7 +95,7 @@ public abstract class Round implements ActorI {
 	public boolean isFirstRound () {
 		return (idPart1 == 1);
 	}
-	
+
 	public Action getLastAction () {
 		return roundManager.getLastAction ();
 	}

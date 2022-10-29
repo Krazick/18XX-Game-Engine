@@ -16,13 +16,13 @@ import javax.swing.JLabel;
 
 public class AllTileSets extends JLabel {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	Set<TileSet> gameTileSets;
 
 	public AllTileSets () {
-		gameTileSets = new HashSet<TileSet> ();
+		gameTileSets = new HashSet<> ();
 	}
 
 	public boolean addTileSet (String aSetName) {
@@ -37,7 +37,7 @@ public class AllTileSets extends JLabel {
 		boolean retValue = false;
 
 		while (iter.hasNext () && !retValue) {
-			tTileSet = (TileSet) iter.next ();
+			tTileSet = iter.next ();
 			tSetName = tTileSet.getName ();
 			if (tSetName.equals (tTileTypeName)) {
 				retValue = tTileSet.addTile (tile, aTotalCount);
@@ -55,7 +55,7 @@ public class AllTileSets extends JLabel {
 
 		if (aTileNumber != 0) {
 			while (iter.hasNext () && !tFoundTile) {
-				tTileSet = (TileSet) iter.next ();
+				tTileSet = iter.next ();
 				tTile = tTileSet.getTile (aTileNumber);
 				if (tTile != Tile.NO_TILE) {
 					tFoundTile = true;

@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.Logger;
 
@@ -125,7 +126,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public Logger getLogger () {
 		return logger;
 	}
-	
+
 	private void buildMapScrollPanel () {
 		map = new HexMap (this);
 		buildScrollPane (map, BorderLayout.CENTER);
@@ -135,7 +136,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		JPanel tNorthPanel;
 
 		tNorthPanel = new JPanel ();
-		hexScaleSlider = new JSlider (JSlider.HORIZONTAL, 4, 16, 8);
+		hexScaleSlider = new JSlider (SwingConstants.HORIZONTAL, 4, 16, 8);
 		hexScaleSlider.addChangeListener (map);
 
 		// Turn on labels at major tick marks.
@@ -171,7 +172,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 		buildTileButtonsPanel ();
 		allButtonsJPanel.add (tileButtons);
-		
+
 		if (gameManager.hasTestGraphs ()) {
 			testGraphsButton = new JButton ("Build Graphs");
 			testGraphsButton.addActionListener (this);
@@ -270,7 +271,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	/**
 	 * Clear the Specified Train from the Map
-	 * 
+	 *
 	 * @param aTrainNumber The Train Number to clear from the Map
 	 */
 	public void clearTrainFromMap (int aTrainNumber) {
@@ -280,7 +281,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	/**
 	 * Clear all Trains from the Map
-	 * 
+	 *
 	 */
 	public void clearAllTrainsFromMap () {
 		map.clearAllTrains ();
@@ -294,7 +295,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public void togglePlaceTileMode () {
 		boolean tIsPlaceTileMode;
 		boolean tNewPlaceTileMode;
-		
+
 		tIsPlaceTileMode = map.isPlaceTileMode ();
 		tNewPlaceTileMode = !tIsPlaceTileMode;
 		setModes (tNewPlaceTileMode, false, false);
@@ -356,7 +357,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private void handleBuildGraphs () {
 		Corporation tCorporation;
 		TokenCompany tTokenCompany;
-		
+
 		System.out.println ("Time to build a Graph");
 		tCorporation = getOperatingCompany ();
 		if (tCorporation.isATokenCompany ()) {
@@ -364,7 +365,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			map.buildMapGraph (tTokenCompany);
 		}
 	}
-	
+
 	private void completeTileLay () {
 		if (map.wasTilePlaced ()) {
 			completeBenefitInUse ();
@@ -623,7 +624,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		int tRevenueCenterIndex;
 		int tCorporationID;
 
-		tBaseCorporation = (Corporation) aCity.getTokenCorporation ();
+		tBaseCorporation = aCity.getTokenCorporation ();
 		tMapToken = aCorporation.getMapToken ();
 		if (tMapToken == MapToken.NO_MAP_TOKEN) {
 			System.err.println ("Company has no tokens to place");
@@ -668,7 +669,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			if (aMapCell.hasStation (tCorporationID)) {
 				tCanPlaceTokenToolTip = "Map Cell already has this Company's Token";
 			} else if (aSelectedCity != City.NO_CITY) {
-				tBaseCorporation = (Corporation) aSelectedCity.getTokenCorporation ();
+				tBaseCorporation = aSelectedCity.getTokenCorporation ();
 				if (tBaseCorporation == Corporation.NO_CORPORATION) {
 					if (!hasFreeStation (aSelectedCity)) {
 						tCanPlaceTokenToolTip = "No Free Station on City";
@@ -703,7 +704,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			if (aMapCell.hasStation (tCorporationID)) {
 				tCanPlaceToken = false;
 			} else if (aSelectedCity != City.NO_CITY) {
-				tBaseCorporation = (Corporation) aSelectedCity.getTokenCorporation ();
+				tBaseCorporation = aSelectedCity.getTokenCorporation ();
 				if (tBaseCorporation == Corporation.NO_CORPORATION) {
 					if (hasFreeStation (aSelectedCity)) {
 						tCanPlaceToken = true;
@@ -770,10 +771,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 		return tCorporation;
 	}
-	
+
 	public void addCorporationList (CorporationTableFrame aCorporationFrame, ElementName aCompanyType) {
 		CorporationList tCorporationList;
-		
+
 		tCorporationList = aCorporationFrame.getCompanies ();
 		setCorporationList (tCorporationList, aCompanyType);
 		setHomeCities (tCorporationList);
@@ -868,7 +869,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	public void setPlaceTileMode (boolean aPlaceTileMode) {
 		MapCell tSelectedMapCell;
-		
+
 		map.setPlaceTileMode (aPlaceTileMode);
 		exitTileButton.setEnabled (aPlaceTileMode);
 		if (aPlaceTileMode) {
@@ -972,21 +973,21 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	}
 
 	/**
-	 * Determine if the specified GameTile is currently allowed to be placed on the Map, based upon the 
+	 * Determine if the specified GameTile is currently allowed to be placed on the Map, based upon the
 	 * current Phase of the Game and the Tile Color
-	 * 
+	 *
 	 * @param aGameTile The Tile to test if allowed to be placed
-	 * 
+	 *
 	 * @return TRUE if the current Game Phase allows this tile Type Color can be placed.
-	 * 
+	 *
 	 */
 	public boolean isUpgradeAllowed (GameTile aGameTile) {
 		boolean tUpgradeAllowed = true;
 		String tTileColor;
-		
+
 		tTileColor = aGameTile.getTileColor ();
 		tUpgradeAllowed = gameManager.isUpgradeAllowed (tTileColor);
-		
+
 		return tUpgradeAllowed;
 	}
 
@@ -1005,11 +1006,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			putTileButton.setEnabled (false);
 			tMapCell = map.getSelectedMapCell ();
 			tTile = tileSet.getSelectedTile ();
-			
+
 			// If there is a Map Cell Selected we can do further tests
 			if (tMapCell != MapCell.NO_MAP_CELL) {
 				if (tTile != GameTile.NO_GAME_TILE) {
-					if (isUpgradeAllowed (tTile)) {	
+					if (isUpgradeAllowed (tTile)) {
 						tNewTile = tTile.getTile ();
 						tAnyAllowedRotation = tMapCell.anyAllowedRotation (tileSet, tNewTile);
 						if (tAnyAllowedRotation) {
@@ -1041,7 +1042,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 										tOperatingTrainCompany.getAbbrev (), tMapCell.getBasePrivateAbbrev (privateCos));
 								putTileButton.setToolTipText (tPrivateNotOwned);
 							}
-	
+
 						} else {
 							putTileButton.setEnabled (false);
 							putTileButton.setToolTipText ("No Valid Rotation for the selected Upgrade Tile");

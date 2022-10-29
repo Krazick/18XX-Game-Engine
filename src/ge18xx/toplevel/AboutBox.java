@@ -16,10 +16,11 @@ import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class AboutBox extends JFrame implements ActionListener {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	protected JLabel titleLabel, aboutLabel[];
@@ -66,7 +67,7 @@ public class AboutBox extends JFrame implements ActionListener {
 
 		Panel textPanel2 = new Panel (new GridLayout (labelCount, 1));
 		for (int i = 0; i < labelCount; i++) {
-			aboutLabel [i].setHorizontalAlignment (JLabel.CENTER);
+			aboutLabel [i].setHorizontalAlignment (SwingConstants.CENTER);
 			textPanel2.add (aboutLabel [i]);
 		}
 		this.getContentPane ().add (textPanel2, BorderLayout.CENTER);

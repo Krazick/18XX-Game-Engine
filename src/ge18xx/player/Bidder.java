@@ -77,19 +77,19 @@ public class Bidder implements ActorI {
 	public boolean hasActed () {
 		boolean tHasActed;
 		Player tPlayer;
-		
+
 		tPlayer = (Player) getCashHolder ();
-		
+
 		if ((tPlayer.getAuctionActionState () == ActorI.ActionStates.NoAction) ||
-			(auctionActionState == ActorI.ActionStates.Bidder)) { 
+			(auctionActionState == ActorI.ActionStates.Bidder)) {
 			tHasActed = false;
 		} else {
 			tHasActed = true;
 		}
-		
+
 		return tHasActed;
 	}
-	
+
 	@Override
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		// Nothing to do for the Bidder State

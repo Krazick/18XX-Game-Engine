@@ -34,12 +34,12 @@ public class XMLNode {
 
 	public XMLElement getXMLElement () {
 		XMLElement tXMLElement;
-		
+
 		tXMLElement = new XMLElement (node);
-		
+
 		return tXMLElement;
 	}
-	
+
 	public Node getNode () {
 		return node;
 	}
@@ -115,13 +115,13 @@ public class XMLNode {
 		} else if (tValue.equals (GUI.EMPTY_STRING)) {
 			tValue = aDefaultValue;
 		}
-		
+
 		return tValue;
 	}
 
 	/**
 	 * Parse out a Boolean Attribute, return -false- if attribute is not found
-	 * 
+	 *
 	 * @param aAttributeName The AttributeName to be found
 	 * @return TRUE if the attribute Exists, and has value of TRUE, otherwise FALSE
 	 */
@@ -202,7 +202,7 @@ public class XMLNode {
 	public Color getThisColorAttribute (AttributeName aAttributeName) {
 		String tColorValues;
 		Color tColor;
-		
+
 		tColorValues = getThisAttribute (aAttributeName);
 		if (tColorValues != NO_VALUE) {
 			tColor = parseAColor (tColorValues);
@@ -212,14 +212,14 @@ public class XMLNode {
 
 		return tColor;
 	}
-	
+
 	public Color parseAColor (String tColorValues) {
 		int tRed;
 		int tGreen;
 		int tBlue;
 		String [] tSplit;
 		Color tColor;
-		
+
 		tSplit = tColorValues.split (",");
 		if (tSplit.length == 3) {
 			tRed = Integer.parseInt (tSplit [0]);
@@ -229,20 +229,20 @@ public class XMLNode {
 		} else {
 			tColor = NO_COLOR;
 		}
-		
+
 		return tColor;
 	}
-	
+
 	public static TexturePaint createTexture (Color aBaseColor, Color aHighlightColor) {
 		return createTexture (aBaseColor, aHighlightColor, GRID_SIZE);
 	}
-	
+
 	public static TexturePaint createTexture (Color aBaseColor, Color aHighlightColor, int aSize) {
 		TexturePaint tTexturePaint;
 		BufferedImage tBufferenedImage;
 		Graphics2D tBufferedGraphic;
 		Rectangle tRectangle;
-		
+
 		if ((aBaseColor != NO_COLOR) && (aHighlightColor != NO_COLOR)) {
 			tBufferenedImage = new BufferedImage (aSize, aSize, BufferedImage.TYPE_INT_RGB);
 			tBufferedGraphic = tBufferenedImage.createGraphics ();
@@ -255,7 +255,7 @@ public class XMLNode {
 		} else {
 			tTexturePaint = NO_TEXTURE_PAINT;
 		}
-		
+
 		return tTexturePaint;
 	}
 
@@ -271,7 +271,7 @@ public class XMLNode {
 
 		return tFormattedOutput;
 	}
-	
+
 	public XMLNode getNode (ElementName aElementName) {
 		XMLNode tFoundNode;
 		NodeList tNodeList;
@@ -280,7 +280,7 @@ public class XMLNode {
 		Node tNode;
 		String tNodeName;
 		String tElementName;
-		
+
 		tFoundNode = NO_NODE;
 		if (node.hasChildNodes ()) {
 			tNodeList = node.getChildNodes ();
@@ -294,7 +294,7 @@ public class XMLNode {
 				}
 			}
 		}
-		
+
 		return tFoundNode;
 	}
 }

@@ -46,7 +46,7 @@ import ge18xx.network.JGameClient;
 //Created by Mark Smith on 8/25/07.
 //Copyright (c) 2007 __MyCompanyName__. All rights reserved.
 //
-//For information on setting Java configuration information, including 
+//For information on setting Java configuration information, including
 //setting Java properties, refer to the documentation at
 //	http://developer.apple.com/techpubs/java/java.html
 //
@@ -61,7 +61,7 @@ import ge18xx.utilities.Sound;
 import log4j2.plugins.LoggerLookup;
 
 // TODO -- Create an abstract Super Class that is "GameEngineFrame" that has non-specific objects
-// the Game_18XX Class that extends the GameEngineFrame, 
+// the Game_18XX Class that extends the GameEngineFrame,
 public class Game_18XX extends JFrame {
 	private static final long serialVersionUID = 1L;
 
@@ -156,7 +156,7 @@ public class Game_18XX extends JFrame {
 		int tConfirm;
 		Logger tLogger;
 		String tQuestion;
-		
+
 		tQuestion = "Are You Sure to Exit the " + getTitle () + "?";
 
 		tConfirm = JOptionPane.showConfirmDialog (this, tQuestion, "Exit Confirmation", JOptionPane.YES_NO_OPTION);
@@ -328,16 +328,16 @@ public class Game_18XX extends JFrame {
 	private void setFrameContents () {
 		String tJavaVersion;
 		JLabel tJavaLabel;
-		JLabel tGameEngineTitle;;
+		JLabel tGameEngineTitle;
 		JLabel tGameEngineVersion;
 		JLabel tClientLabel;
 		GroupLayout groupLayout;
-		
+
 		tJavaVersion = System.getProperty ("java.version");
 		tJavaLabel = new JLabel ("Java Version " + tJavaVersion);
 		tJavaLabel.setHorizontalAlignment (SwingConstants.CENTER);
 		tJavaLabel.setFont (new Font ("Lucida Grande", Font.PLAIN, 16));
-		
+
 		tGameEngineTitle = new JLabel ("Game Engine Title");
 		tGameEngineTitle.setText (resbundle.getString ("message"));
 		tGameEngineTitle.setFont (new Font ("Lucida Grande", Font.BOLD, 24));
@@ -395,7 +395,7 @@ public class Game_18XX extends JFrame {
 	/*
 	 * public void about (ApplicationEvent e) { aboutBox.setResizable (false);
 	 * aboutBox.setVisible (true); }
-	 * 
+	 *
 	 * public void preferences (ApplicationEvent e) { prefs.setResizable (false);
 	 * prefs.setVisible (true); }
 	 */

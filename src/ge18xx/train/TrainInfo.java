@@ -151,7 +151,7 @@ public class TrainInfo {
 		int tTownCount;
 		int tOnLast;
 		int tOnFirst;
-		
+
 		tElement = aXMLDocument.createElement (EN_TRAIN_INFO);
 		tElement.setAttribute (AN_NAME, train.getName ());
 		tElement.setAttribute (AN_REVENUE_CENTERS, train.getCityCount ());
@@ -251,7 +251,7 @@ public class TrainInfo {
 //		onLastOrderAvailable = aOnLastOrderAvailable;
 		setOnLastOrderAvailable (aOnLastOrderAvailable);
 	}
-	
+
 	public void setOnLastOrderAvailable (int aOnLastOrderAvailable) {
 		onLastOrderAvailable = aOnLastOrderAvailable;
 	}

@@ -43,7 +43,7 @@ public class CityInfo implements Cloneable {
 	Corporation corporation; // Corporation Home Base
 
 	/**
-	 * 
+	 *
 	 */
 	public CityInfo () {
 		this (0, NO_NAME, null, RevenueCenterType.NO_REVENUE_CENTER);
@@ -102,7 +102,7 @@ public class CityInfo implements Cloneable {
 	@Override
 	public CityInfo clone () {
 		CityInfo tCityInfo = CityInfo.NO_CITY_INFO;
-		;
+
 
 		try {
 			tCityInfo = (CityInfo) super.clone ();

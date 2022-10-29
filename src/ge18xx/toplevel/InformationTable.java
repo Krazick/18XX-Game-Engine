@@ -15,7 +15,7 @@ import javax.swing.JTable;
 
 public abstract class InformationTable extends JPanel {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	Object [] [] data;

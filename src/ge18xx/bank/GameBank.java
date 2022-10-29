@@ -35,7 +35,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public GameBank (String aName, GameManager aGameManager) {
 		Portfolio tPortfolio;
 		TrainPortfolio tTrainPortfolio;
-		
+
 		gameManager = aGameManager;
 		name = aName;
 		tPortfolio = new Portfolio (this);
@@ -47,11 +47,11 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	public void setPortfolio (Portfolio aPortfolio) {
 		portfolio = aPortfolio;
 	}
-	
+
 	public void setTrainPortfolio (TrainPortfolio aTrainPortfolio) {
 		trainPortfolio = aTrainPortfolio;
 	}
-	
+
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
@@ -272,14 +272,14 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 
 	private JPanel buildPortfolioPanel (JPanel aPortfolioJPanel) {
 		JPanel tPortfolioPanel;
-		
+
 		tPortfolioPanel = new JPanel ();
 		tPortfolioPanel.setLayout (new BoxLayout (tPortfolioPanel, BoxLayout.X_AXIS));
 		tPortfolioPanel.setBorder (BorderFactory.createTitledBorder (name));
 		tPortfolioPanel.add (Box.createVerticalGlue ());
 		tPortfolioPanel.add (aPortfolioJPanel);
 		tPortfolioPanel.add (Box.createVerticalGlue ());
-		
+
 		return tPortfolioPanel;
 	}
 

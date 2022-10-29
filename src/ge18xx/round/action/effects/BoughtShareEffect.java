@@ -13,7 +13,7 @@ public class BoughtShareEffect extends Effect {
 	public final static String NAME = "Bought Share";
 	final static AttributeName AN_BOUGHT_SHARE = new AttributeName ("boughtShare");
 	String boughtShare;
-	
+
 	public BoughtShareEffect () {
 		super ();
 		setName (NAME);
@@ -28,7 +28,7 @@ public class BoughtShareEffect extends Effect {
 		super (aEffectNode, aGameManager);
 		String tBoughtShare;
 		setName (NAME);
-		
+
 		tBoughtShare = aEffectNode.getThisAttribute (AN_BOUGHT_SHARE);
 		setBoughtShare (tBoughtShare);
 	}
@@ -40,14 +40,14 @@ public class BoughtShareEffect extends Effect {
 	public void setBoughtShare (String aBoughtShare) {
 		boughtShare = aBoughtShare;
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-		
+
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_BOUGHT_SHARE, boughtShare);
-		
+
 		return tEffectElement;
 	}
 

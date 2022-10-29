@@ -32,7 +32,7 @@ public class StartPacketRow implements ParsingRoutineI {
 		XMLNodeList tXMLNodeList;
 
 		rowNumber = aNode.getThisIntAttribute (AN_ROW);
-		startPacketItems = new LinkedList<StartPacketItem> ();
+		startPacketItems = new LinkedList<> ();
 		tXMLNodeList = new XMLNodeList (this);
 		tXMLNodeList.parseXMLNodeList (aNode, EN_CERTIFICATE);
 		setStartPacket (StartPacketFrame.NO_START_PACKET);
@@ -117,15 +117,15 @@ public class StartPacketRow implements ParsingRoutineI {
 
 	private boolean validIndex (int aIndex) {
 		boolean tValidIndex;
-		
+
 		tValidIndex = false;
 		if ((aIndex >= 0) && (aIndex < getItemCount ())) {
 			tValidIndex = true;
 		}
-		
+
 		return tValidIndex;
 	}
-	
+
 	public Certificate getCertificateToAuction () {
 		Certificate tCertificateToAuction;
 		Certificate tCertificate;

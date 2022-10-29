@@ -21,7 +21,7 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 	GameManager gameManager;
 	private String RESET_START = "Reset ";
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,7 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 
 		allJFramesJPanel = new JPanel ();
 		allJFramesJPanel.setLayout (new BoxLayout (allJFramesJPanel, BoxLayout.Y_AXIS));
-		infoJPanels = new ArrayList<JPanel> ();
+		infoJPanels = new ArrayList<> ();
 		setLocation (100, 100);
 		setSize (500, 400);
 

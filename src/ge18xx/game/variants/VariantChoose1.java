@@ -17,16 +17,16 @@ public class VariantChoose1 extends Variant {
 	public VariantChoose1 (XMLNode aXMLNode) {
 		super (aXMLNode);
 	}
-	
+
 	@Override
 	public JPanel buildVariantDescription () {
 		JPanel tDescScrollPane;
-		
+
 		tDescScrollPane = buildVariantDescription (VariantEffect.ComponentType.RADIO_BUTTON);
-		
+
 		return tDescScrollPane;
 	}
-	
+
 	@Override
 	public void addActiveVariantEffects (List<VariantEffect> aActiveVariantEffects) {
 		for (VariantEffect tVariantEffect : variantEffects) {
@@ -37,12 +37,12 @@ public class VariantChoose1 extends Variant {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean selectActiveVariantEffects (VariantEffect aVariantEffect) {
 		boolean tSelected;
 		JRadioButton tRadioButton;
-		
+
 		tSelected = false;
 		if (aVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
 			for (VariantEffect tVariantEffect : variantEffects) {
@@ -57,7 +57,7 @@ public class VariantChoose1 extends Variant {
 		} else {
 			System.err.println ("Passed in VariantEffect is NULL");
 		}
-		
+
 		return tSelected;
 	}
 

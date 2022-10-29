@@ -173,16 +173,16 @@ public class Escrow implements CashHolderI {
 
 	public String getInfo () {
 		String tInfo;
-		
-		tInfo = " Escrow Name " + name + " for " + certificate.getCompanyAbbrev () + 
+
+		tInfo = " Escrow Name " + name + " for " + certificate.getCompanyAbbrev () +
 				" Amount " + Bank.formatCash (cash);
-		
+
 		return tInfo;
 	}
 
 	public String getInfo (String aHolderName) {
 		String tInfo;
-		
+
 		tInfo = "+++Escrow Holder: " + aHolderName + getInfo ();
 
 		return tInfo;

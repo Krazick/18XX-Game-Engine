@@ -23,7 +23,7 @@ public class Bidders {
 	Certificate certificate;
 
 	public Bidders (Certificate aCertificate) {
-		bidders = new LinkedList<Bidder> ();
+		bidders = new LinkedList<> ();
 		certificate = aCertificate;
 	}
 
@@ -99,13 +99,13 @@ public class Bidders {
 	public boolean hasBidderAtActed (int aIndex) {
 		Bidder tBidder;
 		boolean tHasActed;
-		
+
 		tBidder = getBidderAt (aIndex);
 		tHasActed = tBidder.hasActed ();
-		
+
 		return tHasActed;
 	}
-	
+
 	public CashHolderI getCashHolderAt (int aIndex) {
 		Bidder tBidder;
 		CashHolderI tCashHolder;

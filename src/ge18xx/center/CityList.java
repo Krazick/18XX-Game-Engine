@@ -24,7 +24,7 @@ import ge18xx.utilities.XMLNodeList;
 
 public class CityList extends InformationTable implements LoadableXMLI {
 	/**
-	 * 
+	 *
 	 */
 	public final static CityList NO_CITY_LIST = null;
 	final static ElementName EN_CITIES = new ElementName ("Cities");
@@ -33,7 +33,7 @@ public class CityList extends InformationTable implements LoadableXMLI {
 
 	public CityList () {
 		super ();
-		cities = new LinkedList<CityInfo> ();
+		cities = new LinkedList<> ();
 	}
 
 	public XMLElement createElement (XMLDocument aXMLDocument) {
@@ -57,7 +57,7 @@ public class CityList extends InformationTable implements LoadableXMLI {
 		int tCityID;
 
 		while (tCityInfoIter.hasNext () && tNotFoundYet) {
-			tCityInfo = (CityInfo) tCityInfoIter.next ();
+			tCityInfo = tCityInfoIter.next ();
 			tCityID = tCityInfo.getID ();
 			if (tCityID == aCityID) {
 				tNotFoundYet = false;
@@ -92,7 +92,7 @@ public class CityList extends InformationTable implements LoadableXMLI {
 		int tColCount;
 
 		if (tCityInfoIter.hasNext ()) {
-			tCityInfo = (CityInfo) tCityInfoIter.next ();
+			tCityInfo = tCityInfoIter.next ();
 			tColCount = tCityInfo.fieldCount ();
 		} else {
 			tColCount = 0;

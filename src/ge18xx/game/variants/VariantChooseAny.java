@@ -17,16 +17,16 @@ public class VariantChooseAny extends Variant {
 	public VariantChooseAny (XMLNode aXMLNode) {
 		super (aXMLNode);
 	}
-	
+
 	@Override
 	public JPanel buildVariantDescription () {
 		JPanel tDescScrollPane;
-		
+
 		tDescScrollPane = buildVariantDescription (VariantEffect.ComponentType.CHECKBOX);
-		
+
 		return tDescScrollPane;
 	}
-	
+
 	@Override
 	public void addActiveVariantEffects (List<VariantEffect> aActiveVariantEffects) {
 		for (VariantEffect tVariantEffect : variantEffects) {
@@ -35,14 +35,14 @@ public class VariantChooseAny extends Variant {
 					aActiveVariantEffects.add (tVariantEffect);
 				}
 			}
-		}		
+		}
 	}
-	
+
 	@Override
 	public boolean selectActiveVariantEffects (VariantEffect aVariantEffect) {
 		boolean tSelected;
 		JCheckBox tCheckBox;
-		
+
 		tSelected = false;
 		if (aVariantEffect != VariantEffect.NO_VARIANT_EFFECT) {
 			for (VariantEffect tVariantEffect : variantEffects) {
@@ -57,7 +57,7 @@ public class VariantChooseAny extends Variant {
 		} else {
 			System.err.println ("Passed in VariantEffect is NULL");
 		}
-		
+
 		return tSelected;
 	}
 }

@@ -61,7 +61,7 @@ public class Feature implements Cloneable {
 	public Feature clone () {
 		try {
 			Feature tFeature = (Feature) super.clone ();
-			tFeature.location = (Location) location.clone ();
+			tFeature.location = location.clone ();
 
 			return tFeature;
 		} catch (CloneNotSupportedException e) {

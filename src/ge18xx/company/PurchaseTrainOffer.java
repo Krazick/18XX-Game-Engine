@@ -21,7 +21,7 @@ public class PurchaseTrainOffer extends QueryOffer {
 	Train train;
 	String trainName;
 
-	public PurchaseTrainOffer (String aItemName, Train aTrain, String aFromActorName, String aToActorName, 
+	public PurchaseTrainOffer (String aItemName, Train aTrain, String aFromActorName, String aToActorName,
 					int aAmount, ActionStates aOldState) {
 		super (aItemName, aFromActorName, aToActorName, aOldState);
 		setTrain (aTrain);
@@ -30,13 +30,13 @@ public class PurchaseTrainOffer extends QueryOffer {
 
 	public PurchaseTrainOffer (XMLNode aChildNode, GameManager aGameManager) {
 		super (aChildNode, aGameManager);
-		
+
 		XMLNode tPONode;
 		NodeList tPurchaseOfferList;
 		int tPOCount, tPOIndex;
 		int tAmount;
 		String tTrainName;
-		
+
 		tPurchaseOfferList = aChildNode.getChildNodes ();
 		tPOCount = tPurchaseOfferList.getLength ();
 		for (tPOIndex = 0; tPOIndex < tPOCount; tPOIndex++) {
@@ -48,7 +48,7 @@ public class PurchaseTrainOffer extends QueryOffer {
 			System.out.println ("Train Name [" + tTrainName + "] ");
 		}
 	}
-	
+
 	@Override
 	public XMLElement getElements (XMLDocument aXMLDocument, ElementName aElementName) {
 		XMLElement tXMLElement;
@@ -62,15 +62,15 @@ public class PurchaseTrainOffer extends QueryOffer {
 
 		return tXMLElement;
 	}
-	
+
 	public String getTrainName () {
 		return trainName;
 	}
-	
+
 	private void setTrainName (String aTrainName) {
 		trainName = aTrainName;
 	}
-	
+
 	private void setTrain (Train aTrain) {
 		train = aTrain;
 	}
@@ -86,7 +86,7 @@ public class PurchaseTrainOffer extends QueryOffer {
 	public int getAmount () {
 		return amount;
 	}
-	
+
 	@Override
 	public String getItemType () {
 		return train.getType ();

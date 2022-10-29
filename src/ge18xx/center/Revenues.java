@@ -45,10 +45,10 @@ public class Revenues extends Feature {
 	static final int MAX_LAYOUT_STYLE = LAYOUT_SPLIT;
 	static final String LAYOUT_NAMES[] = { "circle", "oval", "horizontal", "vertical", "split" };
 	int layoutStyle;
-	List<Revenue> revenues = new LinkedList<Revenue> ();
+	List<Revenue> revenues = new LinkedList<> ();
 
 	public Revenues () {
-		revenues = new LinkedList<Revenue> ();
+		revenues = new LinkedList<> ();
 		setValues (Revenue.NO_REVENUE_VALUE, Location.CENTER_CITY_LOC, Revenue.ALL_PHASES, LAYOUT_CIRCLE);
 	}
 
@@ -57,7 +57,7 @@ public class Revenues extends Feature {
 		int tRevenueCount;
 		int tRevenueIndex;
 
-		revenues = new LinkedList<Revenue> ();
+		revenues = new LinkedList<> ();
 		if (aRevenues != NO_REVENUES) {
 			tRevenueCount = aRevenues.getRevenueCount ();
 			for (tRevenueIndex = 0; tRevenueIndex < tRevenueCount; tRevenueIndex++) {
@@ -73,12 +73,12 @@ public class Revenues extends Feature {
 	}
 
 	public Revenues (int aValue, int aLocation, int aPhase) {
-		revenues = new LinkedList<Revenue> ();
+		revenues = new LinkedList<> ();
 		setValues (aValue, aLocation, aPhase, LAYOUT_CIRCLE);
 	}
 
 	public Revenues (int aValue, int aLocation, int aPhase, int aLayoutStyle) {
-		revenues = new LinkedList<Revenue> ();
+		revenues = new LinkedList<> ();
 		setValues (aValue, aLocation, aPhase, aLayoutStyle);
 	}
 
@@ -129,7 +129,7 @@ public class Revenues extends Feature {
 		Color tRevenueColor;
 		Paint tTilePaint;
 		Graphics2D g2d = (Graphics2D) g;
-		
+
 		if (!location.isNoLocation ()) {
 			tNewLocation = location.rotateLocation (aTileOrientation);
 			tCurrentFont = g2d.getFont ();

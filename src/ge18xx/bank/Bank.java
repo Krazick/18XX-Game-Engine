@@ -25,6 +25,7 @@ import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.player.StartPacketPortfolio;
 import ge18xx.round.action.BuyTrainAction;
+import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import ge18xx.train.TrainPortfolio;
@@ -58,10 +59,10 @@ public class Bank extends GameBank implements CashHolderI {
 
 	public Bank (int aTreasury, GameManager aGameManager) {
 		super (NAME, aGameManager);
-		
+
 		Portfolio tClosedPortfolio;
 		TrainPortfolio tRustedTrainsPortfolio;
-		
+
 		trainPortfolio.setPortfolioHolder (this);
 		treasury = aTreasury;
 		setStartPacketFrame (StartPacketFrame.NO_START_PACKET);
@@ -164,7 +165,7 @@ public class Bank extends GameBank implements CashHolderI {
 		int tTrainIndex;
 		Train tTrain;
 		Train tNewTrain;
-		
+
 		tTrain = aTrainInfo.getTrain ();
 		if (aTrainInfo.isStartPhase ()) {
 			tTrain.setStatus (Train.AVAILABLE_FOR_PURCHASE);
@@ -291,7 +292,7 @@ public class Bank extends GameBank implements CashHolderI {
 	public void getStateElements (XMLDocument aXMLDocument, XMLElement aXMLElement) {
 		XMLElement tTrainPortfolioElements;
 		XMLElement tRustedTrainPortfolioElements;
-		
+
 		tTrainPortfolioElements = getTrainPortfolioElements (aXMLDocument);
 		aXMLElement.appendChild (tTrainPortfolioElements);
 		tRustedTrainPortfolioElements = getRustedTrainPortfolioElements (aXMLDocument);
@@ -313,7 +314,7 @@ public class Bank extends GameBank implements CashHolderI {
 
 	@Override
 	public CashHolderI getCashHolder () {
-		return (CashHolderI) this;
+		return this;
 	}
 
 	@Override
@@ -357,7 +358,7 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 
 	// Call various Start Packet Frame methods
-	
+
 	public boolean canStartOperatingRound () {
 		return startPacketFrame.noMustSellLeft ();
 	}
@@ -369,7 +370,7 @@ public class Bank extends GameBank implements CashHolderI {
 	public boolean hasMustBuyCertificate () {
 		boolean tMustBuy = false;
 
-		if (startPacketFrame != StartPacketFrame.NO_XML_FRAME) {
+		if (startPacketFrame != XMLFrame.NO_XML_FRAME) {
 			tMustBuy = startPacketFrame.hasMustBuyCertificate ();
 		}
 
@@ -548,7 +549,7 @@ public class Bank extends GameBank implements CashHolderI {
 
 	public void updateBankCashLabel () {
 		String tBankLabel;
-		
+
 		tBankLabel = BANK_LABEL_PREFIX + Bank.formatCash (getCash ());
 		if (bankCashLabel == GUI.NO_LABEL) {
 			bankCashLabel = new JLabel (tBankLabel);
@@ -561,7 +562,7 @@ public class Bank extends GameBank implements CashHolderI {
 		Certificate tCertificate;
 
 		tCertificate = Certificate.NO_CERTIFICATE;
-		if (startPacketFrame != StartPacketFrame.NO_XML_FRAME) {
+		if (startPacketFrame != XMLFrame.NO_XML_FRAME) {
 			tCertificate = startPacketFrame.getMatchingCertificate (aAbbrev, aPercentage, aIsPresident);
 		}
 		if (tCertificate == Certificate.NO_CERTIFICATE) {

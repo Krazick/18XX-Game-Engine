@@ -146,10 +146,10 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		benefits.removeBenefitButtons (aButtonRow);
 	}
 
-	/** 
+	/**
 	 * Remove the Benefit Buttons (if any) that have Active Player Benefits or Active Company Benefits
 	 * from the Player Frame, or Corporate Benefit Frames Respectively.
-	 * 
+	 *
 	 */
 	@Override
 	public void removeBenefitButtons () {
@@ -183,30 +183,30 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 			benefits.enableBenefit (aBenefitName);
 		}
 	}
-	
+
 	public void disableBenefit (String aBenefitName) {
 		if (benefits != Benefits.NO_BENEFITS) {
 			benefits.disableBenefit (aBenefitName);
 		}
 	}
-	
+
 	public void handleQueryBenefits (JFrame aRoundFrame) {
 		if (benefits != Benefits.NO_BENEFITS) {
 			benefits.handleQueryBenefits (aRoundFrame);
 		}
 	}
-	
+
 	public Benefit getBenefitNamed (String aBenefitName) {
 		Benefit tFoundBenefit;
-		
+
 		tFoundBenefit = Benefit.NO_BENEFIT;
 		if (benefits != Benefits.NO_BENEFITS) {
 			tFoundBenefit = benefits.getBenefitNamed (aBenefitName);
 		}
-		
+
 		return tFoundBenefit;
 	}
-	
+
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
@@ -486,7 +486,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public int calculateStartingTreasury () {
 		return 0;
 	}
-	
+
 	@Override
 	public void updateInfo () {
 		// TODO Auto-generated method stub

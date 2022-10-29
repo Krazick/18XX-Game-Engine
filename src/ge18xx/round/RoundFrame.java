@@ -75,9 +75,9 @@ public class RoundFrame extends XMLFrame {
 	JLabel totalCashLabel;
 	JLabel parPriceLabel;
 	JLabel gameStateLabel;
-	List<JLabel> parPrices = new LinkedList<JLabel> ();
-	List<JLabel> companiesAtPar = new LinkedList<JLabel> ();
-	List<JPanel> parPriceLineJPanels = new LinkedList<JPanel> ();
+	List<JLabel> parPrices = new LinkedList<> ();
+	List<JLabel> companiesAtPar = new LinkedList<> ();
+	List<JPanel> parPriceLineJPanels = new LinkedList<> ();
 	Color defaultColor;
 	Logger logger;
 	int padding1;
@@ -198,7 +198,7 @@ public class RoundFrame extends XMLFrame {
 		JLabel tMinStartupLabel;
 		int tMinStartupCash;
 		String tMinStartup;
-	
+
 		tMinStartupCash = aMinToFloat * aPrice;
 		tMinStartup  = "[" + aMinToFloat + " / " + Bank.formatCash (tMinStartupCash) + "]";
 		tMinStartupLabel = new JLabel (tMinStartup);
@@ -212,7 +212,7 @@ public class RoundFrame extends XMLFrame {
 		tParPriceLinePanel.add (companiesAtPar.get (aParPriceIndex));
 		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
 		tParPriceLinePanel.setAlignmentX (Component.LEFT_ALIGNMENT);
-		
+
 		return tParPriceLinePanel;
 	}
 
@@ -359,11 +359,11 @@ public class RoundFrame extends XMLFrame {
 
 	private int getAdjustedPlayerIndex (int aPlayerCount, int aIndex, int aClientIndex) {
 		int tPlayerIndex;
-		
+
 		// TODO: Adjust to show either "Client First", or "Priority First" (no formula yet)
 		// TODO: Get based upon Player Preference
 		tPlayerIndex = (aIndex + aClientIndex) % aPlayerCount;
-		
+
 		return tPlayerIndex;
 	}
 
@@ -412,10 +412,10 @@ public class RoundFrame extends XMLFrame {
 	private void buildButtonsJPanel () {
 		buttonsJPanel = new JPanel ();
 		buttonsJPanel.setLayout (new BoxLayout (buttonsJPanel, BoxLayout.X_AXIS));
-		
+
 		fastBuyJPanel = new JPanel ();
 		fastBuyJPanel.setLayout (new BoxLayout (fastBuyJPanel, BoxLayout.X_AXIS));
-		
+
 		doButton = setupButton (PLAYER_DO_STOCK, PLAYER_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		passButton = setupButton (PASS_STOCK_TEXT, PASS_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		showGameEngineFrameButton = setupButton ("Show Game Engine Frame", SHOW_GE_FRAME_ACTION, roundManager,
@@ -425,7 +425,7 @@ public class RoundFrame extends XMLFrame {
 		addButtonAndSpace (passButton);
 		buttonsJPanel.add (fastBuyJPanel);
 		addButtonAndSpace (showGameEngineFrameButton);
-		
+
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
 	}
 
@@ -438,7 +438,7 @@ public class RoundFrame extends XMLFrame {
 		boolean tHasMoreFastBuys;
 		String tButtonLabel;
 		FastBuyButton tFastBuyButton;
-		
+
 		tGameManager = roundManager.getGameManager ();
 		fastBuyJPanel.removeAll ();
 		tCurrentPlayer = tGameManager.getCurrentPlayer ();
@@ -449,7 +449,7 @@ public class RoundFrame extends XMLFrame {
 			if (tFastBuyCertificate != Certificate.NO_CERTIFICATE) {
 				tPlayerName = tCurrentPlayer.getName ();
 				if (tGameManager.isNetworkAndIsThisClient (tPlayerName)) {
-					tButtonLabel = tPlayerName + " Fast Buy of " + tFastBuyCertificate.getCompanyAbbrev () + " for " + 
+					tButtonLabel = tPlayerName + " Fast Buy of " + tFastBuyCertificate.getCompanyAbbrev () + " for " +
 								Bank.formatCash (tFastBuyCertificate.getParPrice ());
 					tFastBuyButton = new FastBuyButton (tButtonLabel, tFastBuyCertificate);
 					tFastBuyButton.setActionCommand (BUY_STOCK_ACTION);
@@ -464,7 +464,7 @@ public class RoundFrame extends XMLFrame {
 			}
 		}
 	}
-	
+
 	private void addButtonAndSpace (JButton aButton) {
 		buttonsJPanel.add (aButton);
 		buttonsJPanel.add (Box.createHorizontalStrut (20));
@@ -556,7 +556,7 @@ public class RoundFrame extends XMLFrame {
 		String tClientUserName, tCurrentPlayerName;
 		GameManager tGameManager;
 		Player tCurrentPlayer;
-		
+
 		if (passButton != GUI.NO_BUTTON) {
 			if (roundManager.isOperatingRound ()) {
 				disablePassButton (IS_OPERATING_ROUND);
@@ -609,7 +609,7 @@ public class RoundFrame extends XMLFrame {
 		String tClientUserName, tCurrentPlayerName;
 		GameManager tGameManager;
 		Player tCurrentPlayer;
-		
+
 		tGameManager = roundManager.getGameManager ();
 		if (doButton != GUI.NO_BUTTON) {
 			if (tGameManager.isNetworkGame ()) {

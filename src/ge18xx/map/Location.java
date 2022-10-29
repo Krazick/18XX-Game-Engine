@@ -599,17 +599,17 @@ public class Location implements Cloneable {
 	}
 
 	protected int rotateLocation (int aMinValue, int aOrientation, int aMod) {
-		return (int) (aMinValue + (location - aMinValue + aOrientation) % aMod);
+		return aMinValue + (location - aMinValue + aOrientation) % aMod;
 	}
 
 	/**
 	 * Given the current Location, rotate it by the provided Orientation, creating a new Location
 	 * that is returned
-	 * 
+	 *
 	 * @param aOrientation The amount of Rotation that should be applied.
-	 * 
+	 *
 	 * @return a New Location Value that is rotated
-	 * 
+	 *
 	 */
 	public Location rotateLocation (int aOrientation) {
 		int newLocation = location;

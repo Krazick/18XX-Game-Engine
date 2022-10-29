@@ -40,17 +40,17 @@ public class PassAction extends ChangeStateAction {
 
 		return tSimpleActionReport;
 	}
-	
+
 	@Override
 	public boolean undoAction (RoundManager aRoundManager) {
 		boolean tActionUndone;
 		Player tCurrentPlayer;
 		PlayerManager tPlayerManager;
-		
+
 		tPlayerManager = aRoundManager.getPlayerManager ();
 		tCurrentPlayer = tPlayerManager.getCurrentPlayer ();
 		tCurrentPlayer.hidePlayerFrame ();
-		
+
 		tActionUndone = super.undoAction (aRoundManager);
 
 		tCurrentPlayer = tPlayerManager.getCurrentPlayer ();

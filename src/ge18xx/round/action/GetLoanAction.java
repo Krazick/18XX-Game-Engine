@@ -37,11 +37,11 @@ public class GetLoanAction extends CashTransferAction {
 
 	public void addUpdateLoanCountEffect (ActorI aActor, int aOldLoanCount, int aNewLoanCount) {
 		UpdateLoanCountEffect tUpdateLoanCountEffect;
-		
+
 		tUpdateLoanCountEffect = new UpdateLoanCountEffect (aActor, aOldLoanCount, aNewLoanCount);
 		addEffect (tUpdateLoanCountEffect);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";

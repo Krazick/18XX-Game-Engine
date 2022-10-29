@@ -67,6 +67,6 @@ public interface NetworkGameSupport {
 	public Logger getLogger ();
 
 	public XMLElement getGameVariantsXMLElement ();
-	
+
 	public GameInfo getSelectedGame ();
 }

@@ -5,25 +5,25 @@ import java.util.List;
 
 public class SelectableMapCells {
 	List<MapCell> selectableMapCells;
-	
+
 	public SelectableMapCells () {
-		selectableMapCells = new LinkedList<MapCell> ();
+		selectableMapCells = new LinkedList<> ();
 	}
 
 	public void removeAll () {
 		selectableMapCells.removeAll (selectableMapCells);
 	}
-	
+
 	public void addMapCell (MapCell aMapCell) {
 		selectableMapCells.add (aMapCell);
 	}
-	
+
 	public void addMapCells (HexMap aHexMap, String aMapCellIDs) {
 		String tMapCellIDs [];
 		MapCell tMapCell;
 		int tMapCellCount;
 		int tMapCellIndex;
-		
+
 		tMapCellIDs = aMapCellIDs.split (", ?");
 		tMapCellCount = tMapCellIDs.length;
 		if (tMapCellCount > 0) {
@@ -35,19 +35,19 @@ public class SelectableMapCells {
 			}
 		}
 	}
-	
+
 	public boolean containsMapCell (MapCell aMapCell) {
 		boolean tContainsMapCell;
-		
+
 		if (isEmpty ()) {
 			tContainsMapCell = true;
 		} else {
 			tContainsMapCell = selectableMapCells.contains (aMapCell);
 		}
-		
+
 		return tContainsMapCell;
 	}
-	
+
 	public boolean isEmpty () {
 		return selectableMapCells.isEmpty ();
 	}

@@ -115,7 +115,7 @@ public class ApplyDiscountEffect extends Effect {
 			tCertificate.setDiscount (newDiscount);
 			tEffectApplied = true;
 		} else {
-			setApplyFailureReason ("The President (" + tPercentage + "%) Certificate for " + 
+			setApplyFailureReason ("The President (" + tPercentage + "%) Certificate for " +
 					companyAbbrev + " was not Found.");
 		}
 
@@ -137,7 +137,7 @@ public class ApplyDiscountEffect extends Effect {
 			tCertificate.setDiscount (oldDiscount);
 			tEffectUndone = true;
 		} else {
-			setUndoFailureReason ("The President (" + tPercentage + "%) Certificate for " + 
+			setUndoFailureReason ("The President (" + tPercentage + "%) Certificate for " +
 					companyAbbrev + " was not Found.");
 		}
 

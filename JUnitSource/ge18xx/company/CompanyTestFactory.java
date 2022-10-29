@@ -13,7 +13,7 @@ public class CompanyTestFactory {
 
 	/**
 	 * Builds the Company Test Factory by creating the gameTestFactory and get the Utilities Test Factory
-	 * 
+	 *
 	 */
 	public CompanyTestFactory () {
 		gameTestFactory = new GameTestFactory ();
@@ -22,9 +22,9 @@ public class CompanyTestFactory {
 
 	/**
 	 * Builds the Company Test Factory using the provided GameTest Factory, and getting the Utilities Test Factory
-	 * 
+	 *
 	 * @param aGameTestFactory A Game Test Factory to be attacheck to this Company Test Factory
-	 * 
+	 *
 	 */
 	public CompanyTestFactory (GameTestFactory aGameTestFactory) {
 		gameTestFactory = aGameTestFactory;
@@ -33,9 +33,9 @@ public class CompanyTestFactory {
 
 	/**
 	 * Retrieves the Utilities Test Factory attached to this Company Test Factory
-	 * 
+	 *
 	 * @return the Utilities Test Factory attached to this Company Test Factory;
-	 * 
+	 *
 	 */
 	public UtilitiesTestFactory getUtilitiesTestFactory () {
 		return utilitiesTestFactory;
@@ -46,7 +46,7 @@ public class CompanyTestFactory {
 	 * CorporationList attached to Private Company will be Mocked, and the
 	 * GameManager attached to the Corporation List will be mocked, and returned
 	 * when requesting to 'getGameManager'
-	 * 
+	 *
 	 * @param aCompanyIndex Use 1 for TestC&SL any other will return
 	 *                      NO_PRIVATE_COMPANY
 	 * @return a PrivateCompany for the one requested
@@ -89,7 +89,7 @@ public class CompanyTestFactory {
 	 * attached to Share Company will be Mocked, and the GameManager attached to the
 	 * Corporation List will be mocked, and returned when requesting to
 	 * 'getGameManager'
-	 * 
+	 *
 	 * @param aCompanyIndex Use 1 for TestPennsylvania and 2 for Test BnO, any other
 	 *                      will return NO_SHARE_COMPANY
 	 * @return a ShareCompany for the one requested
@@ -140,7 +140,7 @@ public class CompanyTestFactory {
 	 * attached to Minor Company will be Mocked, and the GameManager attached to the
 	 * Corporation List will be mocked, and returned when requesting to
 	 * 'getGameManager'
-	 * 
+	 *
 	 * @param aCompanyIndex Use 1 for TestBergisch-Markische Bahn and 2 for
 	 *                      TestBerline-Potsdamer Bahn, any other will return
 	 *                      NO_MINOR_COMPANY
@@ -198,7 +198,7 @@ public class CompanyTestFactory {
 	public ShareCompany buildShareCompanyMock () {
 		return buildShareCompanyMock ("Test Client Share");
 	}
-	
+
 	public ShareCompany buildShareCompanyMock (String aClientName) {
 		ShareCompany mShareCompany = Mockito.mock (ShareCompany.class);
 

@@ -326,7 +326,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 
 	public void handleGameVariants (XMLNode aVariantEffectsNode) {
 		int tSelectedGameIndex;
-		
+
 		tSelectedGameIndex = getSelectedGameIndex ();
 		if (aVariantEffectsNode == VariantEffect.NO_VARIANT_EFFECTS_NODE) {
 			System.err.println ("No VariantEffects Node provided");
@@ -389,7 +389,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		} else {
 			buildGameDescription (aIndex);
 		}
-		
+
 		gameInfoJPanel.removeAll ();
 		gameInfoJPanel.add (variantsScrollPane);
 		gameInfoJPanel.setPreferredSize (gameInfoJPanel.getPreferredSize ());
@@ -403,7 +403,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		int tAddedCount;
 		Variant tVariant;
 		GameManager tGameManager;
-		
+
 		tDescription = gameInfo [aIndex].getHTMLDescription ();
 		gameDescriptionLabel.setText (tDescription);
 		gameDescriptionLabel.setBorder (BorderFactory.createEmptyBorder (0, 10, 0, 10));
@@ -428,7 +428,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	private int addVariantToList (int aIndex, Variant aVariant) {
 		gameVariants [aIndex] = aVariant.buildVariantDescription ();
 		descAndVariantsJPanel.add (gameVariants [aIndex]);
-		
+
 		return (aIndex + 1);
 	}
 }

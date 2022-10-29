@@ -19,7 +19,7 @@ import ge18xx.tiles.Feature2;
 class PrivateRailwayCenterTests {
 	PrivateRailwayCenter privateRailywayCenter;
 	CenterTestFactory centerTestFactory;
-	
+
 	@BeforeEach
 	void setUp () throws Exception {
 		centerTestFactory = new CenterTestFactory ();
@@ -39,18 +39,18 @@ class PrivateRailwayCenterTests {
 	@DisplayName ("Private Railway Center CityInfo Test")
 	void privateRailwayCenterCityInfoTest () {
 		CityInfo mCityInfo;
-		
+
 		Graphics mGraphics;
 		int tX, tY, tOrient;
 		Hex tHex;
 		boolean tOnTile;
 		Feature2 tFeature;
-		
+
 		mCityInfo = centerTestFactory.buildCityInfoMock ();
-		
-		Mockito.doNothing ().when (mCityInfo).drawPrivateRailway (any (Graphics.class), anyInt (), anyInt (), 
+
+		Mockito.doNothing ().when (mCityInfo).drawPrivateRailway (any (Graphics.class), anyInt (), anyInt (),
 				any (ge18xx.map.Hex.class));
-		
+
 		mGraphics = centerTestFactory.buildGraphicsMock ();
 		tX = 10;
 		tY = 10;
@@ -62,7 +62,7 @@ class PrivateRailwayCenterTests {
 		privateRailywayCenter.setCityInfo (mCityInfo);
 
 		privateRailywayCenter.draw (mGraphics, tX, tY, tOrient, tHex, tOnTile, tFeature);
-//		Mockito.verify (mCityInfo, times (1)).drawPrivateRailway (any (Graphics.class), anyInt (), anyInt (), 
+//		Mockito.verify (mCityInfo, times (1)).drawPrivateRailway (any (Graphics.class), anyInt (), anyInt (),
 //				any (ge18xx.map.Hex.class));
 
 	}

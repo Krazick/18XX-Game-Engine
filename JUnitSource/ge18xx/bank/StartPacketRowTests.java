@@ -60,10 +60,10 @@ class StartPacketRowTests {
 	private StartPacketRow constructStartPacketRow (String aStartPacketRowTextXML) {
 		XMLNode tStartPacketRowNode;
 		StartPacketRow tStartPacketRow;
-		
+
 		tStartPacketRowNode = utilitiesTestFactory.buildXMLNode (aStartPacketRowTextXML);
 		tStartPacketRow = StartPacketRow.NO_START_PACKET_ROW;
-		
+
 		if (tStartPacketRowNode != XMLNode.NO_NODE) {
 			tStartPacketRow = new StartPacketRow (tStartPacketRowNode);
 		}

@@ -128,7 +128,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			buildCorporationAllInfoJPanel ();
 
 			buildCorporationJPanel ();
-			
+
 			setSize (900, 800);
 			setIsNetworkGame (aIsNetworkGame);
 			updateUndoButton ();
@@ -137,7 +137,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void buildCorporationJPanel () {
 		JPanel tTopBoxes;
-		
+
 		tTopBoxes = buildTopBoxes ();
 
 		corporationJPanel = new JPanel ();
@@ -298,7 +298,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		corporation.enterPlaceTokenMode ();
 		updateBaseSelectableMapCells ();
 	}
-	
+
 	public void handlePlaceBaseTile () {
 		handlePlaceTile ();
 		updateBaseSelectableMapCells ();
@@ -307,7 +307,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void updateBaseSelectableMapCells () {
 		MapCell tMapCell;
 		HexMap tMap;
-		
+
 		tMap = getMap ();
 		tMap.removeAllSMC ();
 		tMap.clearAllSelected ();
@@ -333,7 +333,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	public void handlePlaceToken () {
 		HexMap tMap;
-		
+
 		corporation.showTileTray ();
 		if (corporation.haveLaidAllBaseTokens ()) {
 			corporation.enterPlaceTokenMode ();
@@ -457,7 +457,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void createActionButtonJPanel () {
 		String tPlaceBaseTileLabel;
-		
+
 		buttonsJPanel = new JPanel (new WrapLayout ());
 
 		doneButton = setupButton (DONE, DONE);
@@ -632,7 +632,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void setLoanCountLabel () {
 		lastRevenueLabel.setText ("Loan Count: " + corporation.getLoanCount ());
 	}
-	
+
 	public void setPhaseInfo () {
 		PhaseInfo tPhaseInfo;
 		String tCurrentRoundOf;
@@ -716,7 +716,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		int tLoanCount;
 		int tLoanAmount;
 		int tLoanInterest;
-		
+
 		tSharesOwned = corporation.getPercentOwned ()/ 10;
 		tLoanCount = corporation.getLoanCount ();
 		tLoanAmount = corporation.getLoanAmount ();
@@ -726,22 +726,22 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tToolTip = "Only one Loan can be taken per Operating Round";
 		} else if (tSharesOwned < tLoanCount) {
 			getLoanButton.setEnabled (false);
-			tToolTip = "Company has " + tSharesOwned + " Shares owned by Players, and has " + tLoanCount + 
+			tToolTip = "Company has " + tSharesOwned + " Shares owned by Players, and has " + tLoanCount +
 					" Loans outstanding. Can't take out any more.";
 		} else {
 			getLoanButton.setEnabled (true);
-			tToolTip = "Can take out Loan of " + Bank.formatCash (tLoanAmount) + ". Interest is " + 
+			tToolTip = "Can take out Loan of " + Bank.formatCash (tLoanAmount) + ". Interest is " +
 						Bank.formatCash (tLoanInterest) + " per Operating Round.";
 		}
 		getLoanButton.setToolTipText (tToolTip);
 	}
-	
+
 	private void updatePayLoanInterestButton () {
 		String tToolTip;
 		int tLoanCount;
 		int tLoanPaymentDue;
 		int tLoanInterest;
-		
+
 		tLoanCount = corporation.getLoanCount ();
 		tLoanInterest = corporation.getLoanInterest ();
 		tLoanPaymentDue = tLoanCount * tLoanInterest;
@@ -754,18 +754,18 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tToolTip = "Company has " + tLoanCount + " outstanding Loans, and owes " + Bank.formatCash (tLoanPaymentDue);
 		} else if (corporation.hasNoTrain ()) {
 			payLoanInterestButton.setEnabled (true);
-			tToolTip = "Company has " + tLoanCount + " outstanding Loans, and owes " + Bank.formatCash (tLoanPaymentDue);			
+			tToolTip = "Company has " + tLoanCount + " outstanding Loans, and owes " + Bank.formatCash (tLoanPaymentDue);
 		} else {
 			payLoanInterestButton.setEnabled (false);
 			tToolTip = "Not Time to pay Loan Interest";
 		}
 		payLoanInterestButton.setToolTipText (tToolTip);
 	}
-	
+
 	private void updateRedeemLoanButton () {
 		String tToolTip;
 		ShareCompany tShareCompany;
-		
+
 		if (corporation.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) corporation;
 			if (! tShareCompany.hasOutstandingLoans ()) {
@@ -793,7 +793,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 		redeemLoanButton.setToolTipText (tToolTip);
 	}
-	
+
 	private void updatePayHalfDividendButton (int aTrainCount) {
 		String tToolTip;
 
@@ -828,7 +828,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private boolean mustPayInterest () {
 		boolean tMustPayInterest;
-		
+
 		if (corporation.gameHasLoans ()) {
 			if (corporation.loanInterestHandled ()) {
 				tMustPayInterest = false;
@@ -840,10 +840,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		} else {
 			tMustPayInterest = false;
 		}
-		
+
 		return tMustPayInterest;
 	}
-	
+
 	private void updatePayNoDividendButton (int aTrainCount) {
 		String tToolTip;
 
@@ -930,7 +930,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	public void updatePlaceBaseTileButton () {
 		String tPlaceBaseTileLabel;
-		
+
 		if (corporation.homeMapCell1HasTile ()) {
 			placeBaseTileButton.setVisible (false);
 		} else {
@@ -1219,11 +1219,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			}
 		}
 	}
-	
+
 	private String createBaseTokenLabel (int aHomeID) {
 		String tMapCellID;
 		String tBaseTokenLabel;
-		
+
 		tMapCellID = corporation.getHomeMapCellID (aHomeID);
 		tBaseTokenLabel = createBaseLabel (PLACE_BASE_TOKEN, tMapCellID);
 
@@ -1233,30 +1233,30 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private String createBaseTileLabel (int aHomeID) {
 		String tMapCellID;
 		String tBaseTileLabel;
-		
+
 		tMapCellID = corporation.getHomeMapCellID (aHomeID);
 		tBaseTileLabel = createBaseLabel (PLACE_BASE_TILE, tMapCellID);
-		
+
 		return tBaseTileLabel;
 	}
-	
+
 	private String createBaseLabel (String aPrefixString, String aHomeMapCellID) {
 		String tPlaseBaseLabel;
-		
+
 		if (aHomeMapCellID != null) {
 			tPlaseBaseLabel = aPrefixString + " (" + aHomeMapCellID + ")";
 		} else {
 			tPlaseBaseLabel = aPrefixString;
 		}
-		
+
 		return tPlaseBaseLabel;
 	}
-	
+
 //	private String getHomeMapCellID (int aHomeID) {
 //		String tMapCellID;
-//		
+//
 //		if (aHomeID == 1) {
-//			tMapCellID = corporation.getCorpHome1MapID ();			
+//			tMapCellID = corporation.getCorpHome1MapID ();
 //		} else if (aHomeID == 2) {
 //			tMapCellID = corporation.getCorpHome2MapID ();
 //		} else {
@@ -1294,7 +1294,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tToolTipReason;
 		String tButtonLabel;
 		boolean tEnable;
-		
+
 		tButtonLabel = createBuyPrivateLabel ();
 		if (corporation.canBuyPrivate ()) {
 			if (corporation.getCountOfSelectedPrivates () == 1) {
@@ -1313,23 +1313,23 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void updateButton (JButton aButton, boolean aEnable, String aToolTip) {
 		String tButtonLabel;
-		
+
 		tButtonLabel = aButton.getText ();
 		updateButton (aButton, aEnable, aToolTip, tButtonLabel);
 	}
-	
+
 	private void updateButton (JButton aButton, boolean aEnable, String aToolTip, String aButtonLabel) {
 		aButton.setEnabled (aEnable);
 		aButton.setToolTipText (aToolTip);
 		aButton.setText (aButtonLabel);
 	}
-	
+
 	private String createBuyPrivateLabel () {
 		PrivateCompany tPrivateCompany;
 		String tPrivatePrezName;
 		String tCorpPrezName;
 		String tButtonLabel;
-		
+
 		tPrivateCompany = corporation.getSelectedPrivateToBuy ();
 		tButtonLabel = BUY_PRIVATE;
 		if (tPrivateCompany != PrivateCompany.NO_PRIVATE_COMPANY) {
@@ -1339,7 +1339,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				tButtonLabel = OFFER_TO_BUY_PRIVATE;
 			}
 		}
-		
+
 		return tButtonLabel;
 	}
 

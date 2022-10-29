@@ -84,7 +84,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	public void showFrame () {
 		setVisible (true);
 	}
-	
+
 	private void buildMainJPanel () {
 		mainJPanel = new JPanel ();
 		mainJPanel.setLayout (new BoxLayout (mainJPanel, BoxLayout.Y_AXIS));
@@ -142,7 +142,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		addLabelAndSpace (saleLimitReasons);
 		updateLiquidAssetLabel ();
 		updateSelectedAssetLabel ();
-		
+
 		tTrainPanel = train.buildCertificateInfoPanel ();
 		infoJPanel.add (tTrainPanel);
 		infoJPanel.add (Box.createVerticalStrut (10));
@@ -191,7 +191,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 
 	private void updateSelectedAssetLabel () {
 		int tSelectedAssetTotal;
-		
+
 		tSelectedAssetTotal = calculateSelectedAssetValue ();
 		setSelectedAssetTotal (tSelectedAssetTotal);
 		if (tSelectedAssetTotal > 0) {
@@ -199,7 +199,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		} else {
 			totalSelectedAssetLabel.setText ("No Selected Certificates");
 		}
-		
+
 	}
 
 	private void setExchangedCompany (ShareCompany aShareCompany) {
@@ -281,12 +281,12 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	private void setSelectedAssetTotal (int aSelectedAssetTotal) {
 		selectedAssetTotal = aSelectedAssetTotal;
 	}
-	
+
 	private int calculateSelectedAssetValue () {
 		int tSelectedAssetValue;
 		Portfolio tPresidentPortfolio;
 		List<Certificate> tCertificatesToSell;
-		
+
 		tSelectedAssetValue = 0;
 
 		tPresidentPortfolio = getPresidentPortfolio ();
@@ -296,10 +296,10 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 				tSelectedAssetValue += tCertificate.getValue ();
 			}
 		}
-		
+
 		return tSelectedAssetValue;
 	}
-	
+
 	private int calculateTotalLiquidCertificateValue () {
 		int tLiquidCertificateValue;
 		Portfolio tPresidentPortfolio;
@@ -310,7 +310,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		tLiquidCertificateValue = 0;
 		tPresidentPortfolio = getPresidentPortfolio ();
 		tCertificatesCanBeSold = tPresidentPortfolio.getCertificatesCanBeSold ();
-		tReasons = new HashSet<String> ();
+		tReasons = new HashSet<> ();
 
 		tLiquidCertificateValue += calculateCurrentLiquidStock (tCertificatesCanBeSold, tReasons);
 

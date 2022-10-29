@@ -3,6 +3,7 @@ package ge18xx.map;
 import org.mockito.Mockito;
 
 import ge18xx.toplevel.MapFrame;
+import ge18xx.toplevel.XMLFrame;
 
 public class MapTestFactory {
 
@@ -11,7 +12,7 @@ public class MapTestFactory {
 	}
 
 	public MapFrame buildMapFrame () {
-		MapFrame tMapFrame = (MapFrame) MapFrame.NO_XML_FRAME;
+		MapFrame tMapFrame = (MapFrame) XMLFrame.NO_XML_FRAME;
 
 		return tMapFrame;
 	}

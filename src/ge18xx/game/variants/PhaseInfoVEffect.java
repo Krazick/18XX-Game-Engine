@@ -12,11 +12,11 @@ public class PhaseInfoVEffect extends VariantEffect {
 	public static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");
 	static final String NAME = "Phase Info";
 	String phaseName;
-	
+
 	public PhaseInfoVEffect () {
 		setName (NAME);
 	}
-	
+
 	public PhaseInfoVEffect (String aPhaseName) {
 		setName (aPhaseName);
 	}
@@ -25,7 +25,7 @@ public class PhaseInfoVEffect extends VariantEffect {
 		super (aXMLNode);
 
 		String tPhaseName;
-		
+
 		tPhaseName = aXMLNode.getThisAttribute (AN_PHASE_NAME);
 		setPhaseName (tPhaseName);
 	}
@@ -37,20 +37,20 @@ public class PhaseInfoVEffect extends VariantEffect {
 	public void setPhaseName (String aPhaseName) {
 		phaseName = aPhaseName;
 	}
-	
+
 	/**
-	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores
 	 * the PhaseName
-	 * 
+	 *
 	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
-	 * 
+	 *
 	 * @return the filled out XMLElement
-	 * 
+	 *
 	 */
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		
+
 		tXMLElement = super.getEffectElement (aXMLDocument);
 		tXMLElement.setAttribute (AN_PHASE_NAME, phaseName);
 		tXMLElement.setAttribute (AN_CLASS, getClass ().getName ());
@@ -60,9 +60,9 @@ public class PhaseInfoVEffect extends VariantEffect {
 
 	/**
 	 * Apply the Variant Effect using the Game Manager as needed.
-	 * 
+	 *
 	 * @param aGameManager The current GameManager to have the Variant Effect applied to.
-	 * 
+	 *
 	 */
 	@Override
 	public void applyVariantEffect (GameManager aGameManager) {
@@ -71,17 +71,17 @@ public class PhaseInfoVEffect extends VariantEffect {
 
 	/**
 	 * Variant Effect Component Builder -- this should be overridden by the subclasses
-	 * 
+	 *
 	 * @param aItemListener Placeholder for the Item Listener class that will handle the request
-	 * @return 
-	 * 
+	 * @return
+	 *
 	 */
 	@Override
 	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType) {
 		JComponent tEffectComponent;
 
 		tEffectComponent = buildEffectJLabel () ;
-		
+
 		return tEffectComponent;
 	}
 }

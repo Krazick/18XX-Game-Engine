@@ -9,10 +9,10 @@ import ge18xx.round.action.effects.ToEffect;
 
 public class ExchangeQueryFrame extends QueryFrame {
 	public final static String NAME = "QUERY EXCHANGE";
-	
+
 	private static final long serialVersionUID = 1L;
 	String actionText;
-	
+
 	public ExchangeQueryFrame (RoundManager aRoundManager, ToEffect aToEffect) {
 		super (aRoundManager, aToEffect);
 		String tPlayerName;
@@ -22,25 +22,25 @@ public class ExchangeQueryFrame extends QueryFrame {
 		setAcceptButtonLabel ("YES");
 		setRejectButtonLabel ("NO");
 	}
-	
+
 	@Override
 	protected void setOfferTopPanel () {
 		String tOffer;
 		QueryExchangeBenefitEffect tQueryExchangeBenefitEffect;
 		QueryExchangeBenefit tQueryExchangeBenefit;
-		
+
 		if (toEffect instanceof QueryExchangeBenefitEffect) {
 			tQueryExchangeBenefitEffect = (QueryExchangeBenefitEffect) toEffect;
 			tQueryExchangeBenefit = tQueryExchangeBenefitEffect.getQueryExchangeBenefit ();
-			
+
 			tOffer = tQueryExchangeBenefit.buildQueryText ();
 			actionText = tQueryExchangeBenefit.buildActionText ();
 			buildOfferTopPanel (tOffer);
 		}
 	}
-	
+
 	@Override
-	protected void addResponseOfferEffect (ResponseOfferAction aResponseOfferAction, ActorI aFromActor, 
+	protected void addResponseOfferEffect (ResponseOfferAction aResponseOfferAction, ActorI aFromActor,
 			ActorI aToActor, boolean aResponse) {
 		aResponseOfferAction.addResponseOfferEffect (aFromActor, aToActor, aResponse, NAME, actionText);
 	}

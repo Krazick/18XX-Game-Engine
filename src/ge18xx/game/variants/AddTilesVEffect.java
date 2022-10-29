@@ -26,7 +26,7 @@ public class AddTilesVEffect extends VariantEffect {
 		int tQuantity;
 		int tTileNumber;
 		String tTileType;
-		
+
 		tQuantity = aVariantEffectNode.getThisIntAttribute (AN_QUANTITY);
 		tTileNumber = aVariantEffectNode.getThisIntAttribute (AN_TILE_NUMBER);
 		tTileType = aVariantEffectNode.getThisAttribute (AN_TILE_TYPE);
@@ -42,35 +42,35 @@ public class AddTilesVEffect extends VariantEffect {
 	public int getQuantity () {
 		return quantity;
 	}
-	
+
 	public int getTileNumber () {
 		return tileNumber;
 	}
-	
+
 	public String getTileType () {
 		return tileType;
 	}
-	
+
 	public void setQuantity (int aQuantity) {
 		quantity = aQuantity;
 	}
-	
+
 	public void setTileNumber (int aTileNumber) {
 		tileNumber = aTileNumber;
 	}
-	
+
 	public void setTileType (String aTileType) {
 		tileType = aTileType;
 	}
-	
+
 	/**
-	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores
 	 * the PhaseName
-	 * 
+	 *
 	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
-	 * 
+	 *
 	 * @return the filled out XMLElement
-	 * 
+	 *
 	 */
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
@@ -87,12 +87,12 @@ public class AddTilesVEffect extends VariantEffect {
 
 		return tXMLElement;
 	}
-	
+
 	/**
 	 * Apply the Variant Effect using the Game Manager as needed.
-	 * 
+	 *
 	 * @param aGameManager The current GameManager to have the Variant Effect applied to.
-	 * 
+	 *
 	 */
 	@Override
 	public void applyVariantEffect (GameManager aGameManager) {

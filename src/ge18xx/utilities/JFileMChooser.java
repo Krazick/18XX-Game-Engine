@@ -11,7 +11,7 @@ import javax.swing.filechooser.FileSystemView;
 
 public class JFileMChooser extends JFileChooser {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	JDialog jDialog;

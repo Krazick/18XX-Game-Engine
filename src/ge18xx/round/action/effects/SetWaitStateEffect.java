@@ -13,11 +13,11 @@ import ge18xx.utilities.XMLNode;
 public class SetWaitStateEffect extends StateChangeEffect {
 	public final static String NAME = "Set Wait State";
 	ActorI toActor;
-	
+
 	public SetWaitStateEffect (ActorI aFromActor, ActorI aToActor, ActorI.ActionStates aOldState,
 			ActorI.ActionStates aNewState) {
 		super (aFromActor);
-		
+
 		setToActor (aToActor);
 		setNewState (aNewState);
 		setPreviousState (aOldState);
@@ -27,17 +27,17 @@ public class SetWaitStateEffect extends StateChangeEffect {
 	public void setToActor (ActorI aToActor) {
 		toActor = aToActor;
 	}
-	
+
 	public ActorI getToActor () {
 		return toActor;
 	}
-	
+
 	public SetWaitStateEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		
+
 		String tActorName;
 		ActorI tActor;
-		
+
 		setName (NAME);
 		tActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
 		tActor = aGameManager.getActor (tActorName, false);
@@ -47,7 +47,7 @@ public class SetWaitStateEffect extends StateChangeEffect {
 			setToActor (tActor);
 		}
 	}
-		
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
@@ -57,7 +57,7 @@ public class SetWaitStateEffect extends StateChangeEffect {
 
 		return tEffectElement;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tEffectReport;
@@ -77,9 +77,9 @@ public class SetWaitStateEffect extends StateChangeEffect {
 
 	@Override
 	public String buildBasicReport (String aEffectReport) {
-		aEffectReport += " for " + toActor.getName () + " from " + previousState + 
+		aEffectReport += " for " + toActor.getName () + " from " + previousState +
 							" to " + newState + ".";
-		
+
 		return aEffectReport;
 	}
 
@@ -88,7 +88,7 @@ public class SetWaitStateEffect extends StateChangeEffect {
 		boolean tEffectApplied;
 		Player tToPlayer;
 		StockRound tStockRound;
-		
+
 		tEffectApplied = false;
 		if (aRoundManager.isNetworkGame ()) {
 			if (toActor.isAPlayer ()) {
@@ -110,7 +110,7 @@ public class SetWaitStateEffect extends StateChangeEffect {
 		boolean tEffectUndone;
 		Player tToPlayer;
 		StockRound tStockRound;
-		
+
 		tEffectUndone = false;
 		if (aRoundManager.isNetworkGame ()) {
 			if (toActor.isAPlayer ()) {

@@ -15,15 +15,15 @@ public class PortfolioTestFactory {
 	public PortfolioTestFactory (BankTestFactory aBankTestFactory) {
 		bankTestFactory = aBankTestFactory;
 	}
-	
+
 	public PortfolioHolderI buildBankPortfolioHolder (GameManager aGameManager) {
 		PortfolioHolderI tBankPortfolioHolder;
-		
+
 		tBankPortfolioHolder = bankTestFactory.buildBank (aGameManager);
-		
+
 		return tBankPortfolioHolder;
 	}
-	
+
 	public PortfolioHolderI buildBankPortfolioHolderMock (GameManager aGameManager) {
 		PortfolioHolderI mBankPortfolioHolder;
 
@@ -34,9 +34,9 @@ public class PortfolioTestFactory {
 
 	public Portfolio buildPortfolio (PortfolioHolderI aHolder) {
 		Portfolio tPortfolio;
-		
+
 		tPortfolio = new Portfolio (aHolder);
-		
+
 		return tPortfolio;
 	}
 
@@ -46,7 +46,7 @@ public class PortfolioTestFactory {
 		mPortfolio = Mockito.mock (Portfolio.class);
 		Mockito.when (mPortfolio.getHolder ()).thenReturn (aHolder);
 		Mockito.when (mPortfolio.getName ()).thenReturn ("Portfolio Mock Name");
-		
+
 		return mPortfolio;
 	}
 }

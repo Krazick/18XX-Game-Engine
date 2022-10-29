@@ -134,7 +134,7 @@ public class GameInfo {
 		boolean tOperateBeforeSale;
 		boolean tRandomizeStartOrder;
 		boolean tCanPayHalfDividend;
-		
+
 		tGameID = aCellNode.getThisAttribute (AN_GAME_ID);
 		tID = aCellNode.getThisIntAttribute (AN_ID);
 		tName = aCellNode.getThisAttribute (AN_NAME);
@@ -168,7 +168,7 @@ public class GameInfo {
 		setRandomizeStartOrder (tRandomizeStartOrder);
 		setCanPayHalfDividend (tCanPayHalfDividend);
 		setTestGraphs (tTestGraphs);
-		
+
 		tBankPoolShareLimit = aCellNode.getThisIntAttribute (AN_BANK_POOL_SHARE_LIMIT);
 		tPlayerShareLimit = aCellNode.getThisIntAttribute (AN_PLAYER_SHARE_LIMIT);
 		setBankPoolShareLimit (tBankPoolShareLimit);
@@ -176,7 +176,7 @@ public class GameInfo {
 
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
-		setVariants (new Variant [0]); 
+		setVariants (new Variant [0]);
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
@@ -243,7 +243,7 @@ public class GameInfo {
 			Variant tVariant;
 			Class<?> tVariantToLoad;
 			Constructor<?> tVariantConstructor;
-			
+
 			try {
 				tClassName = tVariantNode.getThisAttribute (Variant.AN_VARIANT_CLASS);
 				tVariantToLoad = Class.forName (tClassName);
@@ -267,14 +267,14 @@ public class GameInfo {
 	public void setVariants (Variant [] aVariants) {
 		variants = aVariants;
 	}
-	
+
 	public void loadVariantEffects (XMLNode aGameInfoNode) {
 		NodeList tChildren;
 		XMLNode tChildNode;
 		int tChildrenCount;
 		int tIndex;
 		String tChildName;
-		
+
 		tChildren = aGameInfoNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
@@ -285,7 +285,7 @@ public class GameInfo {
 			}
 		}
 	}
-	
+
 	public void loadAllVariantEffects (XMLNode aVariantEffectsNode) {
 		NodeList tChildren;
 		XMLNode tChildNode;
@@ -295,11 +295,11 @@ public class GameInfo {
 		VariantEffect tVariantEffect;
 		Variant tDummyVariant;
 		List<VariantEffect> tActiveVariantEffects;
-		
+
 		tChildren = aVariantEffectsNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		tDummyVariant = new Variant ();
-		tActiveVariantEffects = new LinkedList<VariantEffect> ();
+		tActiveVariantEffects = new LinkedList<> ();
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
@@ -313,7 +313,7 @@ public class GameInfo {
 		configureToggleVariants (tActiveVariantEffects);
 		setActiveVariantEffects (tActiveVariantEffects);
 	}
-	
+
 	private void configureToggleVariants (List<VariantEffect> aActiveVariantEffects) {
 		int tVariantEffectCount;
 		int tVariantEffectIndex;
@@ -321,12 +321,12 @@ public class GameInfo {
 		String tVariantEffectName;
 		String tActiveVariantEffectName;
 		boolean tActiveState;
-		
+
 		for (Variant tVariant: variants) {
 			if (tVariant instanceof VariantToggle) {
 				tVariantEffectCount = tVariant.getVariantEffectCount ();
 				if (tVariantEffectCount > 0) {
-					for (tVariantEffectIndex = 0; tVariantEffectIndex < tVariantEffectCount; 
+					for (tVariantEffectIndex = 0; tVariantEffectIndex < tVariantEffectCount;
 							tVariantEffectIndex++) {
 						tVariantEffect = tVariant.getVariantEffectAt (tVariantEffectIndex);
 						tVariantEffectName = tVariantEffect.getName ();
@@ -336,7 +336,7 @@ public class GameInfo {
 								tActiveState = tActiveVariantEffect.getState ();
 								tVariant.setSelected (tActiveState);
 							}
-						}						
+						}
 					}
 				}
 			}
@@ -348,7 +348,7 @@ public class GameInfo {
 		boolean tEffectSelected;
 		boolean tVariantHasEffect;
 		int tVariantEffectID;
-		
+
 		if (hasActiveVariants ()) {
 			tSuccess = true;
 			for (VariantEffect tVariantEffect: activeVariantEffects) {
@@ -360,7 +360,7 @@ public class GameInfo {
 							tEffectSelected = tVariant.selectActiveVariantEffects (tVariantEffect);
 							tSuccess &= tEffectSelected;
 							if (! tEffectSelected) {
-								System.err.println ("Effect id " + tVariantEffectID + 
+								System.err.println ("Effect id " + tVariantEffectID +
 										" action [" + tVariantEffect.getAction () + "] FAILED to be Selected.");
 							}
 						}
@@ -371,24 +371,24 @@ public class GameInfo {
 			System.err.println ("No Active VariantEffects to select");
 			tSuccess = false;
 		}
-		
+
 		return tSuccess;
 	}
-	
+
 	public List<VariantEffect> getActiveVariantEffects () {
 		List<VariantEffect> tActiveVariantEffects;
-		
-		tActiveVariantEffects = new LinkedList<VariantEffect> ();
+
+		tActiveVariantEffects = new LinkedList<> ();
 		for (Variant tVariant: variants) {
 			tVariant.addActiveVariantEffects (tActiveVariantEffects);
 		}
-		
+
 		return tActiveVariantEffects;
 	}
 
 	public void setupVariants () {
 		List<VariantEffect> tActiveVariantEffects;
-		
+
 		if (! hasActiveVariants ()) {
 			tActiveVariantEffects = getActiveVariantEffects ();
 			setActiveVariantEffects (tActiveVariantEffects);
@@ -405,34 +405,34 @@ public class GameInfo {
 
 	public boolean hasActiveVariants () {
 		boolean tHasActiveVariants;
-		
+
 		tHasActiveVariants = false;
 		if (activeVariantEffects != VariantEffect.NO_VARIANT_EFFECTS) {
 			if (activeVariantEffects.size () > 0) {
 				tHasActiveVariants = true;
 			}
 		}
-		
+
 		return tHasActiveVariants;
 	}
-	
+
 	public void setActiveVariantEffects (List<VariantEffect> aActiveVariantEffects) {
 		activeVariantEffects = aActiveVariantEffects;
 	}
-	
+
 	public XMLElement getGameVariantsXMLElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tVariantEffectXMLElement;
-		
+
 		tXMLElement = aXMLDocument.createElement (VariantEffect.EN_VARIANT_EFFECTS);
 		for (VariantEffect tVariantEffect : activeVariantEffects) {
 			tVariantEffectXMLElement = tVariantEffect.getEffectElement (aXMLDocument);
 			tXMLElement.appendChild (tVariantEffectXMLElement);
 		}
-	
+
 		return tXMLElement;
 	}
-	
+
 	public void printActiveVariants () {
 		if (activeVariantEffects != VariantEffect.NO_VARIANT_EFFECTS) {
 			if (activeVariantEffects.size () > 0) {
@@ -447,7 +447,7 @@ public class GameInfo {
 			System.err.println ("No Variant Effects Active");
 		}
 	}
-	
+
 	public boolean canPayHalfDividend () {
 		return canPayHalfDividend;
 	}
@@ -530,7 +530,7 @@ public class GameInfo {
 	public String getStatus () {
 		return status;
 	}
-	
+
 	public XMLElement getGameInfoElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tGameVariantEffects;
@@ -624,7 +624,7 @@ public class GameInfo {
 	public boolean hasTestGraphs () {
 		return testGraphs;
 	}
-	
+
 	public int getTrainCount () {
 		return trains.length;
 	}
@@ -644,19 +644,19 @@ public class GameInfo {
 	public boolean gameHasLoans () {
 		return loans;
 	}
-	
+
 	public boolean hasShares () {
 		return hasShares;
 	}
-	
+
 	public boolean operateBeforeSale () {
 		return operateBeforeSale;
 	}
-	
+
 	public boolean randomizeStartOrder () {
 		return randomizeStartOrder;
 	}
-	
+
 	public void printGameInfo () {
 		int tIndex;
 
@@ -692,19 +692,19 @@ public class GameInfo {
 	public void setRandomizeStartOrder (boolean aRandomizeStartOrder) {
 		randomizeStartOrder = aRandomizeStartOrder;
 	}
-	
+
 	public void setCanPayHalfDividend (boolean aCanPayHalfDividend) {
 		canPayHalfDividend = aCanPayHalfDividend;
 	}
-	
+
 	public void setTestGraphs (boolean aTestGraphs) {
 		testGraphs = aTestGraphs;
 	}
-	
+
 	public void setStatus (String aStatus) {
 		status = aStatus;
 	}
-	
+
 	public void setHasCompanies (boolean aHasPrivates, boolean aHasMinors, boolean aHasShares) {
 		hasPrivates = aHasPrivates;
 		hasMinors = aHasMinors;

@@ -25,7 +25,7 @@ public class PayLoanInterestAction extends CashTransferAction {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";

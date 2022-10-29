@@ -11,7 +11,7 @@ public class NetworkMessages {
 	String gameSupport;
 	XMLElement xmlGameMessage;
 	XMLElement xmlElement;
-	
+
 	public NetworkMessages () {
 		xmlDocument = new XMLDocument ();
 	}
@@ -19,7 +19,7 @@ public class NetworkMessages {
 	public XMLDocument getXMLDocument () {
 		return xmlDocument;
 	}
-	
+
 	public void buildGameXML (ElementName aPrimaryEN, ElementName aSecondaryEN) {
 		xmlDocument.clearDocumentChildren ();
 		xmlGameMessage = xmlDocument.createElement (aPrimaryEN);
@@ -49,41 +49,41 @@ public class NetworkMessages {
 		return gameSupport;
 	}
 
-	public void addAttribute (ElementName aPrimaryEN, ElementName aSecondaryEN, 
+	public void addAttribute (ElementName aPrimaryEN, ElementName aSecondaryEN,
 							AttributeName aAttributeName, String aAttributeValue) {
 		XMLElement tXMLPrimaryElement;
 		XMLElement tXMLSecondaryElement;
-		
+
 		tXMLPrimaryElement = getXMLGameMessage (aPrimaryEN);
 		tXMLSecondaryElement = getXMLChildElement (tXMLPrimaryElement, aSecondaryEN);
 		tXMLSecondaryElement.setAttribute (aAttributeName, aAttributeValue);
 	}
-	
 
-	public void addAttribute (ElementName aPrimaryEN, ElementName aSecondaryEN, 
+
+	public void addAttribute (ElementName aPrimaryEN, ElementName aSecondaryEN,
 							AttributeName aAttributeName, int aAttributeValue) {
 		XMLElement tXMLPrimaryElement;
 		XMLElement tXMLSecondaryElement;
-		
+
 		tXMLPrimaryElement = getXMLGameMessage (aPrimaryEN);
 		tXMLSecondaryElement = getXMLChildElement (tXMLPrimaryElement, aSecondaryEN);
 		tXMLSecondaryElement.setAttribute (aAttributeName, aAttributeValue);
 	}
-	
+
 	public void appendChild (ElementName aPrimaryEN, ElementName aSecondaryEN, XMLElement aXMLElement) {
 		XMLElement tXMLPrimaryElement;
 		XMLElement tXMLSecondaryElement;
-		
+
 		tXMLPrimaryElement = getXMLGameMessage (aPrimaryEN);
 		tXMLSecondaryElement = getXMLChildElement (tXMLPrimaryElement, aSecondaryEN);
 		tXMLSecondaryElement.appendChild (aXMLElement);
 	}
-	
+
 	public XMLElement getXMLGameMessage (ElementName aElementName) {
 		XMLNode tXMLGameNode;
 		XMLElement tXMLGameMessage;
 		String tGameNodeName;
-		
+
 		tXMLGameMessage = XMLElement.NO_XML_ELEMENT;
 		if (xmlDocument.hasChildNodes ()) {
 			tXMLGameNode = xmlDocument.getDocumentNode ();
@@ -92,25 +92,25 @@ public class NetworkMessages {
 				tXMLGameMessage = new XMLElement (tXMLGameNode.getNode ());
 			}
 		}
-		
+
 		return tXMLGameMessage;
 	}
-	
+
 	public XMLElement getXMLChildElement (XMLElement aXMLElement, ElementName aElementName) {
 		XMLElement tXMLChildElement;
-		
+
 		tXMLChildElement = XMLElement.NO_XML_ELEMENT;
 		if (aXMLElement.hasChildNodes ()) {
 			tXMLChildElement = aXMLElement.getElement (aElementName);
 		}
-		
+
 		return tXMLChildElement;
 	}
-	
+
 	@Override
 	public String toString () {
 		String tMessage;
-		
+
 		tMessage = xmlDocument.toString ();
 		tMessage = tMessage.replace ("\n", "");
 

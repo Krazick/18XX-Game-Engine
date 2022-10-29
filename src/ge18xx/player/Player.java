@@ -361,9 +361,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tNextShareHasBids = playerManager.nextShareHasBids (aCertificateToBuy);
 
 		tWinAuctionAction = new WinAuctionAction (tRoundType, tRoundID, this);
-		tCertificatesToBuy = new LinkedList<Certificate> ();
+		tCertificatesToBuy = new LinkedList<> ();
 		tCertificatesToBuy.add (aCertificateToBuy);
-		
+
 		tBank = playerManager.getBank ();
 		tFreeCertificate = tBank.getFreeCertificateWithThisCertificate (aCertificateToBuy);
 		tWinAuctionAction = (WinAuctionAction) playerManager.buyAction (this, tCertificatesToBuy,
@@ -384,7 +384,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		boolean tMustSetParPrice;
 
 		tMustSetParPrice = false;
-		
+
 		if (aFreeCertificate != Certificate.NO_CERTIFICATE) {
 			if (aFreeCertificate.isPresidentShare ()) {
 				if (aFreeCertificate.isAShareCompany ()) {
@@ -394,10 +394,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 				}
 			}
 		}
-		
+
 		return tMustSetParPrice;
 	}
-	
+
 	public void setAllWaitStateEffects (SetWaitStateAction aWaitStateAction) {
 		ActorI.ActionStates tOldState;
 		ActorI.ActionStates tNewState;
@@ -408,7 +408,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		String tCurrentPlayerName;
 		Player tPlayer;
 		Player tCurrentPlayer;
-		
+
 		tNewState = ActorI.ActionStates.WaitState;
 		tPlayerCount = playerManager.getPlayerCount ();
 		tCurrentPlayer = playerManager.getCurrentPlayer ();
@@ -424,7 +424,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			} else {
 				// All other players are put into a Wait State
 				tOldState = tPlayer.getPrimaryActionState ();
-				tPlayer.resetPrimaryActionState (tNewState);;
+				tPlayer.resetPrimaryActionState (tNewState);
 				aWaitStateAction.addSetWaitStateEffect (this, tPlayer, tOldState, tNewState);
 			}
 		}
@@ -443,7 +443,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			playerManager.updateRFPlayerLabel (this);
 			playerManager.updateRoundWindow ();
 		}
-		if (playerFrame != PlayerFrame.NO_XML_FRAME) {
+		if (playerFrame != XMLFrame.NO_XML_FRAME) {
 			playerFrame.setPassButton ();
 			playerFrame.updatePortfolioInfo ();
 		}
@@ -777,19 +777,19 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public boolean hasBoughtShare () {
 		boolean tHasBoughtShare;
-		
+
 		tHasBoughtShare = true;
 		if (boughtShare == NO_SHARE_BOUGHT) {
 			tHasBoughtShare = false;
 		}
-		
+
 		return tHasBoughtShare;
 	}
 
 	public String boughtShare () {
 		return boughtShare;
 	}
-	
+
 	public boolean hasBid () {
 		return bidShare;
 	}
@@ -892,7 +892,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public boolean hasSelectedPrivateToBidOn () {
 		boolean tHasSelectedPrivateToBidOn = false;
-		;
+
 		Bank tBank;
 		StartPacketPortfolio tStartPacketPortfolio;
 
@@ -1091,7 +1091,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public boolean isWaiting () {
 		return (primaryActionState == ActorI.ActionStates.WaitState);
 	}
-	
+
 	public boolean isCurrentPlayer () {
 		Player tCurrentPlayer;
 
@@ -1147,7 +1147,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			Constructor<?> tQueryOfferConstructor;
 			String tClassName;
 			GameManager tGameManager;
-			
+
 			// Use Reflections to identify the OptionEffect to create, and call the
 			// constructor with the XMLNode and Game Manager
 			tClassName = aChildNode.getThisAttribute (QueryOffer.AN_CLASS_NAME);
@@ -1155,7 +1155,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 				if (aMetaObject instanceof GameManager) {
 					tGameManager = (GameManager) aMetaObject;
 					tQueryOfferToLoad = Class.forName (tClassName);
-					tQueryOfferConstructor = tQueryOfferToLoad.getConstructor (aChildNode.getClass (), 
+					tQueryOfferConstructor = tQueryOfferToLoad.getConstructor (aChildNode.getClass (),
 							tGameManager.getClass ());
 					tQueryOffer = (QueryOffer) tQueryOfferConstructor.newInstance (aChildNode, tGameManager);
 					setQueryOffer (tQueryOffer);
@@ -1178,11 +1178,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	// TODO: Move the BuyAction Methods over the Player Manager
-	
+
 	/**
 	 * Buy the Certificate the player manager has identified, and handle if next share has bids to handle
 	 * Then handle the Auctions if necessary.
-	 * 
+	 *
 	 */
 	public void buyAction () {
 		boolean tNextShareHasBids;
@@ -1207,15 +1207,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	/**
 	 * Buy the Certificates in the list of Certificates provided, creating the appropriate Action.
-	 * 
+	 *
 	 * @param aCertificatesToBuy the List of Certificates from the Player Manager
-	 * 
+	 *
 	 */
 	public void buyAction (List<Certificate> aCertificatesToBuy) {
 		ActorI.ActionStates tRoundType;
 		String tRoundID;
 		BuyStockAction tBuyStockAction;
-		
+
 		tRoundType = ActorI.ActionStates.StockRound;
 		tRoundID = playerManager.getStockRoundID ();
 		tBuyStockAction = new BuyStockAction (tRoundType, tRoundID, this);
@@ -1360,7 +1360,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 				playerFrame.setLocationFixed (true);
 			}
 			updatePlayerInfo ();
-	
+
 			playerFrame.setVisible (true);
 			playerFrame.setEnabled (true);
 		}
@@ -1421,9 +1421,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
-		
+
 		tActionCommand = aEvent.getActionCommand ();
-		
+
 		if (PlayerFrame.PASS.equals (tActionCommand)) {
 			passAction ();
 		}
@@ -1645,15 +1645,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 		return tClientName;
 	}
-	
+
 	public void setQueryOffer (QueryOffer aQueryOffer) {
 		queryOffer = aQueryOffer;
 	}
-	
+
 	public QueryOffer getQueryOffer () {
 		return queryOffer;
 	}
-	
+
 	@Override
 	public void updateInfo () {
 		playerManager.updateRoundWindow ();
@@ -1663,7 +1663,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		Certificate tCertificate;
 
 		tCertificate = portfolio.getNextFastBuyCertificate (aFastBuyIndex, this);
-		
+
 		return tCertificate;
 	}
 }

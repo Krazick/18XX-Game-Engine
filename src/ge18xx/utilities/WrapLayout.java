@@ -14,7 +14,7 @@ import javax.swing.SwingUtilities;
  */
 public class WrapLayout extends FlowLayout {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 //	private Dimension preferredLayoutSize;
@@ -32,7 +32,7 @@ public class WrapLayout extends FlowLayout {
 	 * default 5-unit horizontal and vertical gap. The value of the alignment
 	 * argument must be one of <code>WrapLayout</code>, <code>WrapLayout</code>, or
 	 * <code>WrapLayout</code>.
-	 * 
+	 *
 	 * @param align the alignment value
 	 */
 	public WrapLayout (int align) {
@@ -45,7 +45,7 @@ public class WrapLayout extends FlowLayout {
 	 * <p>
 	 * The value of the alignment argument must be one of <code>WrapLayout</code>,
 	 * <code>WrapLayout</code>, or <code>WrapLayout</code>.
-	 * 
+	 *
 	 * @param align the alignment value
 	 * @param hgap  the horizontal gap between components
 	 * @param vgap  the vertical gap between components
@@ -57,7 +57,7 @@ public class WrapLayout extends FlowLayout {
 	/**
 	 * Returns the preferred dimensions for this layout given the <i>visible</i>
 	 * components in the specified target container.
-	 * 
+	 *
 	 * @param target the component which needs to be laid out
 	 * @return the preferred dimensions to lay out the subcomponents of the
 	 *         specified container
@@ -70,7 +70,7 @@ public class WrapLayout extends FlowLayout {
 	/**
 	 * Returns the minimum dimensions needed to layout the <i>visible</i> components
 	 * contained in the specified target container.
-	 * 
+	 *
 	 * @param target the component which needs to be laid out
 	 * @return the minimum dimensions to lay out the subcomponents of the specified
 	 *         container
@@ -172,9 +172,9 @@ public class WrapLayout extends FlowLayout {
 	 * preferred size for the container.
 	 *
 	 * @param dim update the width and height when appropriate
-	 * 
+	 *
 	 * @param rowWidth the width of the row to add
-	 * 
+	 *
 	 * @param rowHeight the height of the row to add
 	 */
 	private void addRow (Dimension dim, int rowWidth, int rowHeight) {

@@ -155,7 +155,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 	/**
 	 * Clear the Specified Train from all tracks on the Tile
-	 * 
+	 *
 	 * @param aTrainNumber The Train Number to clear
 	 */
 	public void clearTrain (int aTrainNumber) {
@@ -164,7 +164,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 	/**
 	 * Clear All Trains from every Track on the Tile
-	 * 
+	 *
 	 */
 	public void clearAllTrains () {
 		tracks.clearAllTrains ();
@@ -495,7 +495,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	/**
 	 * Find the RevenueCenter on the Tile that has a Track connecting to the
 	 * Location provided
-	 * 
+	 *
 	 * @param aOtherLocation The remote location that should have track connecting
 	 *                       to this RevenueCenter
 	 * @return NO_CENTER if no RevenueCenter is found with track connecting to the
@@ -661,7 +661,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		Location tLocationWithStation;
 		int tStationIndex;
 		RevenueCenter tRevenueCenter;
-		
+
 		tLocationWithStation = Location.NO_LOC;
 		if (hasCenters ()) {
 			tStationIndex = getStationIndex (aCorpID);
@@ -670,10 +670,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 				tLocationWithStation = tRevenueCenter.getLocation ();
 			}
 		}
-		
+
 		return tLocationWithStation;
 	}
-	
+
 	public int getStationIndex (int aCorpID) {
 		if (hasCenters ())
 			return centers.getStationIndex (aCorpID);
@@ -688,7 +688,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		}
 	}
 
-	public void paintComponent (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, 
+	public void paintComponent (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex,
 			Feature2 aSelectedFeature, boolean aTileIsSelected) {
 		int tOldX, tOldY;
 
@@ -703,10 +703,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 		paintComponent (g, 0, aHex, new Feature2 (), false);
 	}
 
-	public void paintComponent (Graphics g, int aTileOrient, Hex aHex, Feature2 aSelectedFeature, 
+	public void paintComponent (Graphics g, int aTileOrient, Hex aHex, Feature2 aSelectedFeature,
 				boolean aTileIsSelectable) {
 		Paint tHexPaint;
-		
+
 		tHexPaint = type.getPaint (aTileIsSelectable);
 
 		aHex.paintHex (g, XCenter, YCenter, tHexPaint);
@@ -973,7 +973,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public boolean areLocationsConnected (Location aLocation, int aRemoteLocationIndex) {
 		return tracks.areLocationsConnected (aLocation, aRemoteLocationIndex);
 	}
-	
+
 	// ---------------------------------------------------------------------------//
 	// Map Graph Stuff after this point
 	public void fillMapGraph (MapGraph aMapGraph, int aTileOrient, MapCell aMapCell) {
@@ -985,7 +985,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		Location tStartLocation;
 		Location tEndLocation;
 		Edge tEdge;
-		
+
 		tTrackCount = tracks.size ();
 		for (tTrackIndex = 0; tTrackIndex < tTrackCount; tTrackIndex++) {
 			tTrack = getTrackByIndex (tTrackIndex);
@@ -1011,13 +1011,13 @@ public class Tile implements Comparable<Object>, Cloneable {
 		Location tLocation;
 		int tNeighborLoc;
 		Edge tSide2SideEdge;
-		
+
 		if (aVertex.isOnSide ()) {
 			tMapCell = aVertex.getMapCell ();
 			tLocation = aVertex.getLocation ();
 			if (! tMapCell.isBlockedSide (tLocation.getLocation ())) {
 				tNeighborMapCell = tMapCell.getNeighbor (tLocation.getLocation ());
-				if (tNeighborMapCell != MapCell.NO_MAP_CELL) {				
+				if (tNeighborMapCell != MapCell.NO_MAP_CELL) {
 					if (tNeighborMapCell.isSelectable ()) {
 						tNeighborLoc = tMapCell.getSideFromNeighbor (tNeighborMapCell);
 						tNeighborLocation = new Location (tNeighborLoc);
@@ -1029,13 +1029,13 @@ public class Tile implements Comparable<Object>, Cloneable {
 				}
 			}
 		}
-		
+
 	}
 
 	public void addVertexAndEdge (MapGraph aMapGraph, Vertex aVertex, Edge aEdge) {
 		Vertex tFoundVertex;
 		String tVertexID;
-		
+
 		if (aMapGraph.containsVertex (aVertex)) {
 			tVertexID = aVertex.getID ();
 			tFoundVertex = aMapGraph.getVertexWithID (tVertexID);
@@ -1046,21 +1046,21 @@ public class Tile implements Comparable<Object>, Cloneable {
 			aMapGraph.addVertex (aVertex);
 		}
 	}
-	
+
 	public int compareType (Tile aTile) {
 		int tTypeDiff;
 		TileType tType;
-		
+
 		tType = aTile.getType ();
 		tTypeDiff = type.compareType (tType);
 
 		return tTypeDiff;
 	}
-	
+
 	public int compareNumber (Tile aTile) {
 		int tNumberDiff;
 		int tTileNumber;
-		
+
 		tTileNumber = aTile.getNumber ();
 		tNumberDiff = number - tTileNumber;
 

@@ -283,13 +283,13 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 
 	public String getCityName () {
 		String tCityName;
-		
+
 		if (validCityInfo ()) {
 			tCityName = cityInfo.getName ();
 		} else {
 			tCityName = null;
 		}
-		
+
 		return tCityName;
 	}
 
@@ -300,28 +300,28 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	protected boolean validCityInfo () {
 		return (cityInfo != CityInfo.NO_CITY_INFO);
 	}
-	
+
 	public TokenCompany getTokenCorporation () {
 		TokenCompany tTokenCompany;
-		
+
 		if (validCityInfo ()) {
 			tTokenCompany = cityInfo.getTokenCorporation ();
 		} else {
 			tTokenCompany = TokenCompany.NO_TOKEN_COMPANY;
 		}
-		
+
 		return tTokenCompany;
 	}
 
 	public Corporation getCorporation () {
 		Corporation tCorporation;
-		
+
 		if (validCityInfo ()) {
 			tCorporation =  cityInfo.getCorporation ();
 		} else {
 			tCorporation = Corporation.NO_CORPORATION;
 		}
-		
+
 		return tCorporation;
 	}
 

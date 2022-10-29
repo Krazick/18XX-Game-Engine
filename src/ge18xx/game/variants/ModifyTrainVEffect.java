@@ -12,7 +12,7 @@ public class ModifyTrainVEffect extends VariantEffect {
 	String attributeName;
 	String value;
 	String trainName;
-	
+
 	public ModifyTrainVEffect () {
 		super ();
 		setName (NAME);
@@ -23,7 +23,7 @@ public class ModifyTrainVEffect extends VariantEffect {
 		String tAttributeName;
 		String tValue;
 		String tTrainName;
-		
+
 		tTrainName = aVariantEffectNode.getThisAttribute (TrainInfo.AN_NAME);
 		tAttributeName = aVariantEffectNode.getThisAttribute (AN_ATTRIBUTE_NAME);
 		tValue = aVariantEffectNode.getThisAttribute (AN_VALUE);
@@ -41,41 +41,41 @@ public class ModifyTrainVEffect extends VariantEffect {
 	public void setAttributeName (String aAttributeName) {
 		attributeName = aAttributeName;
 	}
-	
+
 	public void setTrainName (String aTrainName) {
 		trainName = aTrainName;
 	}
-	
+
 	public void setValue (String aValue) {
 		value = aValue;
 	}
-	
+
 	/**
-	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores
 	 * the CompanyID and the VariantEffect Class
-	 * 
+	 *
 	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
-	 * 
+	 *
 	 * @return the filled out XMLElement
-	 * 
+	 *
 	 */
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		
+
 		tXMLElement = super.getEffectElement (aXMLDocument);
 		tXMLElement.setAttribute (AN_ATTRIBUTE_NAME, attributeName);
 		tXMLElement.setAttribute (AN_VALUE, value);
 		tXMLElement.setAttribute (AN_CLASS, getClass ().getName ());
-		
+
 		return tXMLElement;
 	}
 
 	/**
 	 * Apply the Variant Effect using the Game Manager as needed.
-	 * 
+	 *
 	 * @param aGameManager The current GameManager to have the Variant Effect applied to.
-	 * 
+	 *
 	 */
 	@Override
 	public void applyVariantEffect (GameManager aGameManager) {
@@ -85,7 +85,7 @@ public class ModifyTrainVEffect extends VariantEffect {
 		int tTrainInfoIndex;
 		String tTrainName;
 		int tValue;
-		
+
 		tGameInfo = aGameManager.getActiveGame ();
 		tTrainInfoCount = tGameInfo.getTrainCount ();
 		for (tTrainInfoIndex = 0; tTrainInfoIndex < tTrainInfoCount; tTrainInfoIndex++) {
@@ -101,6 +101,6 @@ public class ModifyTrainVEffect extends VariantEffect {
 						System.out.println ("Don't know what to do with " + attributeName);
 				}
 			}
-		}	
+		}
 	}
 }

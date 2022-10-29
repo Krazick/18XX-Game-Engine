@@ -30,10 +30,10 @@ class EscrowTests {
 	@BeforeEach
 	void setUp () throws Exception {
 		CertificateTestFactory tCertificateTestFactory;
-		
+
 		tCertificateTestFactory = new CertificateTestFactory ();
 		mCertificate = tCertificateTestFactory.buildCertificateMock ();
-		
+
 		primaryEscrow = new Escrow (mCertificate, 120);
 		GameTestFactory tGameTestFactory;
 
@@ -104,11 +104,11 @@ class EscrowTests {
 	void transferCashToTest () {
 		BankTestFactory tBankTestFactory;
 		Bank mBank;
-		
+
 		tBankTestFactory = new BankTestFactory ();
 		mBank = tBankTestFactory.buildBankMock (mGameManager);
 		Mockito.doNothing ().when (mBank).addCash (anyInt ());
-		
+
 		primaryEscrow.transferCashTo (mBank, 20);
 		assertEquals (100, primaryEscrow.getCash ());
 		assertEquals ("Bank Mock", mBank.getAbbrev ());
@@ -120,22 +120,22 @@ class EscrowTests {
 		Mockito.when (mCertificate.getCompanyAbbrev ()).thenReturn ("MockCert");
 		primaryEscrow.setName ("NameOfEscrow");
 		assertEquals (" Escrow Name NameOfEscrow for MockCert Amount 120", primaryEscrow.getInfo ());
-		
-		assertEquals ("+++Escrow Holder: TheHolder Escrow Name NameOfEscrow for MockCert Amount 120", 
+
+		assertEquals ("+++Escrow Holder: TheHolder Escrow Name NameOfEscrow for MockCert Amount 120",
 				primaryEscrow.getInfo ("TheHolder"));
 	}
-	
+
 	@Test
 	@DisplayName ("Retrieving Certificate")
 	void getCertificateTest () {
 		Certificate tCertificate;
-		
+
 		Mockito.doReturn ("EscrowCo").when (mCertificate).getCompanyAbbrev ();
 
 		tCertificate = primaryEscrow.getCertificate ();
 		assertEquals ("EscrowCo", tCertificate.getCompanyAbbrev ());
 	}
-	
+
 	@Nested
 	@DisplayName ("CashHolder Interface Boolean Method Tests")
 	class cashHolderIBooleanTests {

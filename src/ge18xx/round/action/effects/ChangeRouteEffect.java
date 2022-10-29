@@ -47,15 +47,15 @@ public class ChangeRouteEffect extends Effect {
 		tMapCellID = aEffectNode.getThisAttribute (AN_MAP_CELL_ID);
 		tMapCell = tMap.getMapCellForID (tMapCellID);
 		setMapCell (tMapCell);
-		
+
 		tStartLocationInt = aEffectNode.getThisIntAttribute (AN_START_LOCATION);
 		tStartLocation = new Location (tStartLocationInt);
 		setStartLocation (tStartLocation);
-		
+
 		tEndLocationInt = aEffectNode.getThisIntAttribute (AN_END_LOCATION);
 		tEndLocation = new Location (tEndLocationInt);
 		setEndLocation (tEndLocation);
-		
+
 		tTrainIndex = aEffectNode.getThisIntAttribute (AN_TRAIN_INDEX);
 		setTrainIndex (tTrainIndex);
 	}
@@ -118,7 +118,7 @@ public class ChangeRouteEffect extends Effect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tReport;
 
-		tReport = REPORT_PREFIX + name + " for " + getActorName () + " for Train " + (getTrainIndex () + 1) + 
+		tReport = REPORT_PREFIX + name + " for " + getActorName () + " for Train " + (getTrainIndex () + 1) +
 				" on MapCell " + mapCell.getCellID () + " from Location " + startLocation.getLocation ();
 		if (endLocation.getLocation () != Location.NO_LOCATION) {
 			tReport += " to Location " + endLocation.getLocation ();

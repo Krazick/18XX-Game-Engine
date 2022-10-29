@@ -36,7 +36,6 @@ import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.PreparedCorporationAction;
 import ge18xx.round.action.RemoveTileAction;
 import ge18xx.round.action.SkipBaseTokenAction;
-import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.train.RouteInformation;
@@ -131,7 +130,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	private void setForceTrainBuyFrame (ForceBuyTrainFrame aFrame) {
 		forceBuyTrainFrame = aFrame;
 	}
-	
+
 	public TrainCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
 
@@ -202,7 +201,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	/**
 	 * Prepare the Corporation for operations.
-	 * 
+	 *
 	 */
 	@Override
 	public void prepareCorporation () {
@@ -211,7 +210,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		ActorI.ActionStates tPreviousStatus, tNewStatus;
 		int tCurrentRevenue, tPreviousRevenue;
 		ShareCompany tShareCompany;
-		
+
 		tPreviousStatus = getActionStatus ();
 		updateStatus (ActorI.ActionStates.StartedOperations);
 		tNewStatus = getActionStatus ();
@@ -297,7 +296,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public void appendOtherElements (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		XMLElement tTrainPortfolioElements;
 		XMLElement tPurchaseOfferElements;
-		
+
 		aXMLCorporationState.setAttribute (AN_LAST_REVENUE, getLastRevenue ());
 		aXMLCorporationState.setAttribute (AN_THIS_REVENUE, getThisRevenue ());
 		aXMLCorporationState.setAttribute (AN_MUST_BUY_TRAIN, mustBuyTrain ());
@@ -495,7 +494,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public void forceBuyTrain () {
 		Train tCheapestTrain;
 		ForceBuyTrainFrame tForceBuyTrainFrame;
-		
+
 		tCheapestTrain = getCheapestBankTrain ();
 		tForceBuyTrainFrame = new ForceBuyTrainFrame (this, tCheapestTrain);
 		setForceTrainBuyFrame (tForceBuyTrainFrame);
@@ -650,7 +649,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			aBuyTrainAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 		}
 		if (closeOnTrainPurchase != NO_ID) {
-			tGameManager.closeCompany (closeOnTrainPurchase, (TransferOwnershipAction) aBuyTrainAction);
+			tGameManager.closeCompany (closeOnTrainPurchase, aBuyTrainAction);
 		}
 		tFirstTrainOfType = false;
 		tNextAvailableTrain = Train.NO_TRAIN;
@@ -685,7 +684,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		TrainHolderI tTrainHolder;
 
 		tTrainHolder = getSelectedTrainHolder ();
-		if (tTrainHolder != TrainPortfolio.NO_TRAIN_HOLDER) {
+		if (tTrainHolder != TrainHolderI.NO_TRAIN_HOLDER) {
 			tTrain = tTrainHolder.getSelectedTrain ();
 			if (tTrain != Train.NO_TRAIN) {
 				tTrainIsSelected = true;
@@ -729,8 +728,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tOperateTrains;
 
 		tOperateTrains = false;
-		if ((status == ActorI.ActionStates.StartedOperations) || (status == ActorI.ActionStates.TileLaid) || 
-			(status == ActorI.ActionStates.Tile2Laid) || (status == ActorI.ActionStates.TileUpgraded) || 
+		if ((status == ActorI.ActionStates.StartedOperations) || (status == ActorI.ActionStates.TileLaid) ||
+			(status == ActorI.ActionStates.Tile2Laid) || (status == ActorI.ActionStates.TileUpgraded) ||
 			(status == ActorI.ActionStates.TileAndStationLaid) || (status == ActorI.ActionStates.StationLaid)) {
 			if (trainPortfolio.getTrainCount () > 0) {
 				tOperateTrains = true;
@@ -757,15 +756,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public boolean didOperateTrains () {
 		boolean tDidOperateTrains;
-		
+
 		tDidOperateTrains = false;
 		if (status == ActorI.ActionStates.OperatedTrain) {
 			tDidOperateTrains = true;
 		}
-		
+
 		return tDidOperateTrains;
 	}
-	
+
 	@Override
 	public boolean didOperate () {
 		return (status == ActorI.ActionStates.Operated);
@@ -802,9 +801,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tDividendsHandled = false;
 		if ((status == ActorI.ActionStates.Closed) || (status == ActorI.ActionStates.Unformed) ||
 			(status == ActorI.ActionStates.Unowned) || (status == ActorI.ActionStates.Owned) ||
-			(status == ActorI.ActionStates.MayFloat) || (status == ActorI.ActionStates.WillFloat) || 
-			(status == ActorI.ActionStates.HoldDividend) || (status == ActorI.ActionStates.HalfDividend) || 
-			(status == ActorI.ActionStates.FullDividend) || (status == ActorI.ActionStates.BoughtTrain) || 
+			(status == ActorI.ActionStates.MayFloat) || (status == ActorI.ActionStates.WillFloat) ||
+			(status == ActorI.ActionStates.HoldDividend) || (status == ActorI.ActionStates.HalfDividend) ||
+			(status == ActorI.ActionStates.FullDividend) || (status == ActorI.ActionStates.BoughtTrain) ||
 			(status == ActorI.ActionStates.Operated)) {
 			tDividendsHandled = true;
 		}
@@ -839,7 +838,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public CashHolderI getCashHolder () {
-		return (CashHolderI) this;
+		return this;
 	}
 
 	@Override
@@ -939,7 +938,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public TrainHolderI getLocalSelectedTrainHolder () {
-		TrainHolderI tTrainHolder = TrainPortfolio.NO_TRAIN_HOLDER;
+		TrainHolderI tTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
 		Train tSelectedTrain;
 
 		tSelectedTrain = trainPortfolio.getSelectedTrain ();
@@ -955,7 +954,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		TrainHolderI tTrainHolder;
 
 		tTrainHolder = getOtherSelectedTrainHolder ();
-		if (tTrainHolder != TrainPortfolio.NO_TRAIN_HOLDER) {
+		if (tTrainHolder != TrainHolderI.NO_TRAIN_HOLDER) {
 			tIsSelectedTrainHolder = false;
 		}
 
@@ -989,7 +988,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tBank = getBank ();
 		tBankPool = getBankPool ();
 		tTrain = Train.NO_TRAIN;
-		tTrainHolder = TrainPortfolio.NO_TRAIN_HOLDER;
+		tTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
 		if (tTrain == Train.NO_TRAIN) {
 			tTrain = tBank.getSelectedTrain ();
 			if (tTrain != Train.NO_TRAIN) {
@@ -1038,7 +1037,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	/**
 	 * Find the Train at the specified index in the Train Portfolio, and return it
-	 * 
+	 *
 	 * @param aIndex The Index for the Train to find
 	 * @return The Train at the specified index in the Train Portfolio
 	 */
@@ -1048,7 +1047,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	/**
 	 * Find the Train at the specified index in the Train Portfolio, and return it
-	 * 
+	 *
 	 * @param aName The name for the Train to find
 	 * @return The Train at the specified index in the Train Portfolio
 	 */
@@ -1148,7 +1147,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	/**
 	 * Update all of the Train Indexes within the Company's portfolio
-	 * 
+	 *
 	 */
 	public void updateTrainIndexes () {
 		trainPortfolio.updateTrainIndexes ();
@@ -1164,12 +1163,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	/**
 	 * Clear the Specified Train from the Map
-	 * 
+	 *
 	 * @param aTrain the actual Train that should be cleared. Need to find index for the Train
 	 */
 	public void clearATrainFromMap (Train aTrain) {
 		int tTrainCount, tTrainIndex;
-		
+
 		tTrainCount = getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (getTrain (tTrainIndex) == aTrain) {
@@ -1177,20 +1176,20 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 		}
 	}
-	
+
 	/**
 	 * Clear the Specified Train from the Map but not create an Action to send to others
-	 * 
+	 *
 	 * @param aTrainIndex The Train to clear from the Map, must Look for next index
-	 * 
+	 *
 	 */
 	public void clearATrainFromMap (int aTrainIndex) {
 		clearATrainFromMap (aTrainIndex, false);
 	}
-	
+
 	/**
 	 * Clear the Specified Train from the Map
-	 * 
+	 *
 	 * @param aTrainIndex The Train to clear from the Map, must Look for next index
 	 * @param aCreateAction Flag to specify if Action should be created
 	 *
@@ -1207,7 +1206,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		trainRevenueFrame.clearRevenuesFromTrain (aTrainIndex, tTrain);
 		if (aCreateAction) {
 			tOperatingRoundID = getOperatingRoundID ();
-			tClearATrainFromMapAction = new ClearATrainFromMapAction (ActorI.ActionStates.OperatingRound, 
+			tClearATrainFromMapAction = new ClearATrainFromMapAction (ActorI.ActionStates.OperatingRound,
 					tOperatingRoundID, this);
 			tClearATrainFromMapAction.addClearATrainFromMapEffect (this, aTrainIndex);
 			addAction (tClearATrainFromMapAction);
@@ -1216,9 +1215,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	/**
 	 * Clear All trains from the Map
-	 * 
+	 *
 	 * @param aCreateAction Flag to specify if Action should be created
-	 * 
+	 *
 	 */
 	@Override
 	public void clearAllTrainsFromMap (boolean aCreateAction) {
@@ -1228,7 +1227,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		tMapFrame = corporationList.getMapFrame ();
 		tMapFrame.clearAllTrainsFromMap ();
-		
+
 		if (aCreateAction) {
 			tOperatingRoundID = getOperatingRoundID ();
 			tClearAllRoutesAction = new ClearAllRoutesAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
@@ -1775,11 +1774,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		updateInfo ();
 		queryOffer.setStatus (QueryOffer.REJECTED);
 	}
-	
+
 	public void setAcceptOffer () {
 		queryOffer.setStatus (QueryOffer.ACCEPTED);
 	}
-	
+
 	public void doFinalTrainBuySteps (TrainCompany aOwningTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction) {
 		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
 		TrainPortfolio tCompanyPortfolio, tOwningPortfolio;
@@ -1926,15 +1925,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 		}
 	}
-	
+
 	public boolean forceBuyEnoughCash () {
 		boolean tForceBuyEnoughCash;
-		
+
 		tForceBuyEnoughCash = true;
 		if (forceBuyTrainFrame != null) {
 			tForceBuyEnoughCash = forceBuyTrainFrame.haveEnoughCash ();
 		}
-		
+
 		return tForceBuyEnoughCash;
 	}
 }

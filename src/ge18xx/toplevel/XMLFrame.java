@@ -1,6 +1,7 @@
 package ge18xx.toplevel;
 
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.IOException;
@@ -29,7 +30,7 @@ import ge18xx.utilities.XMLNode;
 public class XMLFrame extends JFrame {
 	public static enum Visibility {
 		ON, OFF, CONFIG_VALUE
-	};
+	}
 
 	private static final long serialVersionUID = 1L;
 	public static final XMLFrame NO_XML_FRAME = null;
@@ -65,7 +66,7 @@ public class XMLFrame extends JFrame {
 	public void buildScrollPane (JComponent aImage) {
 		buildScrollPane (aImage, null);
 	}
-	
+
 	public void buildScrollPane (JComponent aImage, String aBorderLayout) {
 		scrollPane = new JScrollPane ();
 		scrollPane.setViewportView (aImage);
@@ -75,7 +76,7 @@ public class XMLFrame extends JFrame {
 			add (scrollPane);
 		}
 	}
-	
+
 	public String extractFrameName () {
 		String tFrameName;
 		String tPattern = "^(.*) \\([A-Za-z][A-Za-z0-9_]*\\)$";
@@ -92,7 +93,7 @@ public class XMLFrame extends JFrame {
 	public boolean loadXML (String aXMLFileName, LoadableXMLI aLoadableObject) throws IOException {
 		boolean tXMLFileWasLoaded;
 		XMLDocument tXMLDocument;
-		
+
 		if (!("".equals (aXMLFileName))) {
 			try {
 				tXMLDocument = new XMLDocument (aXMLFileName);
@@ -249,7 +250,7 @@ public class XMLFrame extends JFrame {
 	}
 
 	public void toTheFront () {
-		int tState = super.getExtendedState () & ~JFrame.ICONIFIED & JFrame.NORMAL;
+		int tState = super.getExtendedState () & ~Frame.ICONIFIED & Frame.NORMAL;
 
 		super.setExtendedState (tState);
 		super.setEnabled (true);

@@ -36,12 +36,12 @@ public class ShareHolder {
 	public void setPercentageHeld (int aPercentage) {
 		percentageHeld = aPercentage;
 	}
-	
+
 	public String getShareHolderInfo (ShareHolder aShareHolder) {
 		String tShareHolderInfo;
-		
+
 		tShareHolderInfo = "Holder " + getName () + " Percentage Shares held: " + percentageHeld;
-		
+
 		return tShareHolderInfo;
 	}
 

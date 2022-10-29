@@ -62,11 +62,11 @@ public class WinAuctionAction extends BuyStockAction {
 		addEffect (tFinishAuctionEffect);
 	}
 
-//	public void addSetWaitStateEffect (ActorI aFromActor, ActorI aToActor, ActionStates aOldState, 
+//	public void addSetWaitStateEffect (ActorI aFromActor, ActorI aToActor, ActionStates aOldState,
 //						ActionStates aNewState) {
 //		SetWaitStateEffect tSetWaitStateEffect;
 //
-//		tSetWaitStateEffect = new SetWaitStateEffect (aFromActor, aToActor, 
+//		tSetWaitStateEffect = new SetWaitStateEffect (aFromActor, aToActor,
 //						aOldState, aNewState);
 //		addEffect (tSetWaitStateEffect);
 //	}

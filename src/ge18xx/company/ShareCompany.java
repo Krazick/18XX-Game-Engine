@@ -67,7 +67,7 @@ public class ShareCompany extends TokenCompany {
 		int tParPrice;
 		int tLoanCount;
 		boolean tLoanTaken;
-		
+
 		destinationLabel = aChildNode.getThisAttribute (AN_DESTINATION);
 		tDestLocation = aChildNode.getThisIntAttribute (AN_DESTINATION_LOCATION, Location.NO_LOCATION);
 		destinationLocation = new Location (tDestLocation);
@@ -251,49 +251,49 @@ public class ShareCompany extends TokenCompany {
 
 	/**
 	 * Flag if the Corporation has taken a loan in this Operating Round.
-	 * 
+	 *
 	 */
 	@Override
 	public boolean wasLoanTaken () {
 		return loanTaken;
 	}
-	
+
 	/**
 	 * Based upon the corporation state, determine if the Loan Interest has been handled. Needed to determine loan amount for new Loans
-	 * 
+	 *
 	 * @return TRUE if we have moved beyond the Loan Interest Handling State
 	 */
 	@Override
 	public boolean loanInterestHandled () {
 		boolean tLoanInterestHandled;
-		
+
 		tLoanInterestHandled = false;
-		if ((status == ActorI.ActionStates.HandledLoanInterest) || 
-			(status == ActorI.ActionStates.HoldDividend) || 
-			(status == ActorI.ActionStates.HalfDividend) || 
-			(status == ActorI.ActionStates.FullDividend) || 
-			(status == ActorI.ActionStates.BoughtTrain) || 
+		if ((status == ActorI.ActionStates.HandledLoanInterest) ||
+			(status == ActorI.ActionStates.HoldDividend) ||
+			(status == ActorI.ActionStates.HalfDividend) ||
+			(status == ActorI.ActionStates.FullDividend) ||
+			(status == ActorI.ActionStates.BoughtTrain) ||
 			(status == ActorI.ActionStates.Operated)) {
 			tLoanInterestHandled = true;
 		}
-		
+
 		return tLoanInterestHandled;
 	}
-	
+
 	/**
 	 * Determines if there are any outstanding Loans
-	 * 
+	 *
 	 * @return True if there are any outstanding loans (Loan Count > 0)
-	 * 
+	 *
 	 */
 	@Override
 	public boolean hasOutstandingLoans () {
 		return (loanCount > 0);
 	}
-	
+
 	/**
 	 * Return the Count of the Loans the company has outstanding
-	 * 
+	 *
 	 * @return Total number of Loans that are outstanding
 	 */
 	@Override
@@ -305,7 +305,7 @@ public class ShareCompany extends TokenCompany {
 	 * Handle the Process of getting a Loan for this Company, add one to the LoanCount,
 	 * transfer the cash from the bank to the company treasury, create the action to document this,
 	 * and add the action.
-	 * 
+	 *
 	 */
 	@Override
 	public void getLoan () {
@@ -315,7 +315,7 @@ public class ShareCompany extends TokenCompany {
 		Bank tBank;
 		GetLoanAction tGetLoanAction;
 		OperatingRound tOperatingRound;
-		
+
 		tNewLoanCount = loanCount + 1;
 		tBank = corporationList.getBank ();
 		if (loanInterestHandled ()) {
@@ -338,8 +338,8 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	/**
-	 * Base method to handle Interest Payment for a Loan for the Company. 
-	 * 
+	 * Base method to handle Interest Payment for a Loan for the Company.
+	 *
 	 */
 	@Override
 	public void payLoanInterest () {
@@ -350,7 +350,7 @@ public class ShareCompany extends TokenCompany {
 		PayLoanInterestAction tPayLoanInterestAction;
 		OperatingRound tOperatingRound;
 		Bank tBank;
-		
+
 		tOldState = getStatus ();
 		tLoanCount = getLoanCount ();
 		tInterestPayment = tLoanCount * getLoanInterest ();
@@ -375,7 +375,7 @@ public class ShareCompany extends TokenCompany {
 	 * transfer the cash from the company treasury to the bank, create the action to document this,
 	 * and add the action. If a Company does not have enough cash, need to expand this get this from
 	 * the company President, and possible Force Stock Sale to raise the Cash.
-	 * 
+	 *
 	 */
 	@Override
 	public void redeemLoan () {
@@ -393,13 +393,13 @@ public class ShareCompany extends TokenCompany {
 		RedeemLoanAction tRedeemLoanAction;
 		Bank tBank;
 		OperatingRound tOperatingRound;
-		
+
 		if (loanCount < aLoanCount) {
 			System.err.println ("Asked to repay " + aLoanCount + " however the company only has " + loanCount + " outstanding loans.");
 		} else {
 			tNewLoanCount = loanCount - aLoanCount;
 			tLoanAmount = loanAmount * aLoanCount;
-			
+
 			if (getCash () >= tLoanAmount) {
 				tBank = corporationList.getBank ();
 				tOperatingRound = corporationList.getOperatingRound ();
@@ -407,11 +407,11 @@ public class ShareCompany extends TokenCompany {
 				tRedeemLoanAction.addRedeemLoanEffect (this);
 				tRedeemLoanAction.addUpdateLoanCountEffect (this, loanCount, tNewLoanCount);
 				tRedeemLoanAction.addCashTransferEffect (this, tBank, tLoanAmount);
-		
+
 				transferCashTo (tBank, tLoanAmount);
 				setLoanCount (tNewLoanCount);
 				corporationList.addAction (tRedeemLoanAction);
-		
+
 				setLoanCount (tNewLoanCount);
 			} else {
 				System.err.println ("Asked to replay " + Bank.formatCash (tLoanAmount) +
@@ -420,7 +420,7 @@ public class ShareCompany extends TokenCompany {
 			}
 		}
 	}
-	
+
 	public int getParPrice () {
 		return parPrice;
 	}
@@ -448,13 +448,13 @@ public class ShareCompany extends TokenCompany {
 
 	public boolean canBuyMultiple () {
 		boolean tCanBuyMultiple;
-		
+
 		if (sharePrice == MarketCell.NO_MARKET_CELL) {
 			tCanBuyMultiple = false;
 		} else {
 			tCanBuyMultiple = sharePrice.canBuyMultiple ();
 		}
-		
+
 		return tCanBuyMultiple;
 	}
 
@@ -507,8 +507,8 @@ public class ShareCompany extends TokenCompany {
 	public boolean canOperate () {
 		boolean tCanOperate = true;
 
-		if ((status == ActorI.ActionStates.Unowned) || 
-			(status == ActorI.ActionStates.Owned) || 
+		if ((status == ActorI.ActionStates.Unowned) ||
+			(status == ActorI.ActionStates.Owned) ||
 			(status == ActorI.ActionStates.Closed)) {
 			tCanOperate = false;
 		}
@@ -519,14 +519,14 @@ public class ShareCompany extends TokenCompany {
 	public boolean willFloat () {
 		return (status == ActorI.ActionStates.WillFloat);
 	}
-	
+
 	public boolean hasFloated () {
 		boolean tHasFloated;
 
-		if ((status == ActorI.ActionStates.Unowned) || 
+		if ((status == ActorI.ActionStates.Unowned) ||
 			(status == ActorI.ActionStates.Closed) ||
-			(status == ActorI.ActionStates.Owned) || 
-			(status == ActorI.ActionStates.MayFloat) || 
+			(status == ActorI.ActionStates.Owned) ||
+			(status == ActorI.ActionStates.MayFloat) ||
 			(status == ActorI.ActionStates.WillFloat)) {
 			tHasFloated = false;
 		} else {
@@ -586,7 +586,7 @@ public class ShareCompany extends TokenCompany {
 	public boolean loanTaken () {
 		return loanTaken;
 	}
-	
+
 	public void setNoPrice () {
 		setParPrice (NO_PAR_PRICE);
 		setSharePrice (MarketCell.NO_SHARE_PRICE);
@@ -632,11 +632,11 @@ public class ShareCompany extends TokenCompany {
 		int tRow;
 		int tCol;
 		MarketCell tMarketCell;
-		
+
 		tRow = getStartRow ();
 		tCol = getStartCol ();
 		tMarketCell = aMarket.getMarketCellAtRowCol (tRow, tCol);
-		
+
 		return tMarketCell;
 	}
 
@@ -704,7 +704,7 @@ public class ShareCompany extends TokenCompany {
 		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
 		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate, tToHolder);
 		tCurrentCorporationStatus = aCertificate.getCorporationStatus ();
-		
+
 		// TODO: If buying Private into a Share Company, we don't need to change the Corporation State
 
 		aCertificate.updateCorporationOwnership ();

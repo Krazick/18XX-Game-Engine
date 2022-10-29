@@ -22,7 +22,7 @@ public enum MarketRegion {
 	Color color;
 	Color textColor;
 
-	MarketRegion (boolean aCloseCorporation, boolean aExceedPlayerCorpShareLimit, 
+	MarketRegion (boolean aCloseCorporation, boolean aExceedPlayerCorpShareLimit,
 				boolean aCountAgainstCertificateLimit, boolean aNotCountAsBuy, Color aColor, Color aTextColor) {
 		setCloseCorporation (aCloseCorporation);
 		setExceedPlayerCorpShareLimit (aExceedPlayerCorpShareLimit);

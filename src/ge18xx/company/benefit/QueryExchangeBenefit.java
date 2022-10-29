@@ -27,7 +27,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		setName (NAME);
 		setWaitStateAction = (SetWaitStateAction) Action.NO_ACTION;
 	}
-	
+
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		super.configure (aPrivateCompany, aButtonRow);
@@ -35,7 +35,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 
 	public void handleBenefit (JFrame aRoundFrame) {
 		PortfolioHolderI tPortfolioHolder;
-		
+
 		if (! used ()) {
 			tPortfolioHolder = privateCompany.getPresident ();
 			if (tPortfolioHolder.isAPlayer ()) {
@@ -47,7 +47,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 			}
 		}
 	}
-	
+
 	private void handleShowQueryDialog (JFrame aRoundFrame) {
 		GameManager tGameManager;
 		Player tPlayer;
@@ -57,7 +57,7 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		boolean tExchangeApproved;
 		SetWaitStateAction tResetWaitStateAction;
 		WaitForReponseFrame tWaitForReponseFrame;
-		
+
 		tShowQueryDialog = false;
 		tExchangeApproved = false;
 		tGameManager = privateCompany.getGameManager ();
@@ -93,10 +93,10 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 	/**
 	 * Test the Player who is President of the Private with a Query Exchange Benefit to ask the question
 	 * and if needed to perform the exchange.
-	 * 
+	 *
 	 * @param aGameManager The Game Manager, to retrieve info, and add the QueryExchangeBenefitAction to be done
 	 * @param aPlayer the Player who needs to answer the question of the Exchange.
-	 * 
+	 *
 	 */
 	private void tellPlayerToQuery (GameManager aGameManager, Player aPlayer) {
 		QueryExchangeBenefitAction tQueryExchangeBenefitAction;
@@ -105,12 +105,12 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		ActorI.ActionStates tNewPlayerState;
 		String tRoundID;
 		Player tCurrentPlayer;
-		
+
 		tRoundType = getRoundType (aGameManager);
 		tRoundID = getRoundID (aGameManager);
 		tCurrentPlayer = aGameManager.getCurrentPlayer ();
 		tOldPlayerState = tCurrentPlayer.getPrimaryActionState ();
-		exchangePrivateQuery = new ExchangePrivateQuery ("Private Exchange Benefit", tCurrentPlayer.getName (), 
+		exchangePrivateQuery = new ExchangePrivateQuery ("Private Exchange Benefit", tCurrentPlayer.getName (),
 				aPlayer.getName (), tOldPlayerState, privateCompany, NAME);
 		tCurrentPlayer.setQueryOffer (exchangePrivateQuery);
 		tCurrentPlayer.setPrimaryActionState (ActorI.ActionStates.WaitingResponse);
@@ -121,15 +121,15 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		tQueryExchangeBenefitAction.setChainToPrevious (true);
 		aGameManager.addAction (tQueryExchangeBenefitAction);
 	}
-	
+
 	/**
 	 * This method will tell all Other Players to move into a Wait State, and return an action that will
 	 * reset these same players to the state they had before being told to Wait.
-	 * 
+	 *
 	 * @param aGameManager The Game Manager, to retrieve info, and add the setWaitAction to be done
 	 * @param aPlayer The Player with the Private that has the Query Exchange Benefit all others should wait
 	 * @return the ResetWaitStateAction to reset the players to the state before they were told to wait.
-	 * 
+	 *
 	 */
 	private SetWaitStateAction tellOthersToWait (GameManager aGameManager, Player aPlayer) {
 		ActorI.ActionStates tRoundType;
@@ -144,13 +144,13 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		tResetWaitStateAction = new SetWaitStateAction (setWaitStateAction);
 		tResetWaitStateAction.resetPlayerStatesAfterWait (setWaitStateAction);
 		tResetWaitStateAction.setChainToPrevious (true);
-		
+
 		return tResetWaitStateAction;
 	}
-	
+
 	private ActorI.ActionStates getRoundType (GameManager aGameManager) {
 		ActorI.ActionStates tRoundType;
-		
+
 		if (aGameManager.isOperatingRound ()) {
 			tRoundType = ActorI.ActionStates.OperatingRound;
 		} else if (aGameManager.isStockRound ()) {
@@ -161,10 +161,10 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 
 		return tRoundType;
 	}
-	
+
 	private String getRoundID (GameManager aGameManager) {
 		String tRoundID;
-		
+
 		if (aGameManager.isOperatingRound ()) {
 			tRoundID = aGameManager.getOperatingRoundID ();
 		} else if (aGameManager.isStockRound ()) {
@@ -175,16 +175,16 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 
 		return tRoundID;
 	}
-	
+
 	public boolean showQueryDialog (JFrame aParentFrame) {
 		String tQueryText;
 		int tAnswer;
 		boolean tExchangeApproved;
-		
+
 		tQueryText = buildQueryText ();
 
-		tAnswer = JOptionPane.showConfirmDialog (aParentFrame, 
-				tQueryText, "Exchange Private Share Benefit", 
+		tAnswer = JOptionPane.showConfirmDialog (aParentFrame,
+				tQueryText, "Exchange Private Share Benefit",
 		        JOptionPane.YES_NO_OPTION);
 
 		if (tAnswer == JOptionPane.YES_OPTION) {
@@ -192,28 +192,28 @@ public class QueryExchangeBenefit extends ExchangeBenefit {
 		} else {
 			tExchangeApproved = false;
 		}
-		
+
 		return tExchangeApproved;
 	}
 
 	public String buildActionText () {
 		String tAction;
 		Certificate tShareCertificate;
-		
+
 		tShareCertificate = getShareCertificate ();
-		tAction = "Exchange " + privateCompany.getAbbrev () + " for " + 
+		tAction = "Exchange " + privateCompany.getAbbrev () + " for " +
 				certificatePercentage + "% of " + tShareCertificate.getCompanyAbbrev ();
-				
+
 		return tAction;
 	}
-	
+
 	public String buildQueryText () {
 		String tQueryText;
 		String tOwnerName;
-		
+
 		tOwnerName = privateCompany.getPresidentName ();
 		tQueryText = tOwnerName + ", do you want to " + buildActionText ();
-		
+
 		return tQueryText;
 	}
 }

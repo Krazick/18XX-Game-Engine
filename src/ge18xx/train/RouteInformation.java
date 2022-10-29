@@ -63,8 +63,8 @@ public class RouteInformation {
 		phase = aPhase;
 		setTrainCompany (aTrainCompany);
 		setTrainRevenueFrame (aTrainRevenueFrame);
-		routeSegments = new ArrayList<RouteSegment> ();
-		revenueCenters = new ArrayList<RevenueCenter> ();
+		routeSegments = new ArrayList<> ();
+		revenueCenters = new ArrayList<> ();
 		clearWarningMessage ();
 	}
 
@@ -107,8 +107,8 @@ public class RouteInformation {
 			}
 			phase = tPhase;
 
-			routeSegments = new ArrayList<RouteSegment> ();
-			revenueCenters = new ArrayList<RevenueCenter> ();
+			routeSegments = new ArrayList<> ();
+			revenueCenters = new ArrayList<> ();
 
 			tXMLNodeList = new XMLNodeList (routeSegmentsParsingRoutine, this);
 			tXMLNodeList.parseXMLNodeList (aRouteNode, EN_ROUTE_SEGMENTS, RouteSegment.EN_ROUTE_SEGMENT);
@@ -1082,7 +1082,7 @@ public class RouteInformation {
 	 * RevenueCenter, or a Town, or Double Town - YES If a City, and it has the
 	 * Corporation Station (passed in) -- YES If a City, and it has an Open Station
 	 * -- YES Otherwise, it is blocked --- NO
-	 * 
+	 *
 	 * @param aRevenueCenter The Revenue Center under consideration,
 	 * @param aCorpStation   - True is this corporation has a Station present
 	 * @return True if the the answer above is YES, otherwise FALSE

@@ -22,7 +22,7 @@ import javax.swing.JRadioButton;
 
 public class Initialization extends JFrame {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	protected JButton okButton;

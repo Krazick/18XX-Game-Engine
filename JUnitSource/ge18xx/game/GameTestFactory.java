@@ -14,7 +14,7 @@ public class GameTestFactory {
 
 	/**
 	 * Builds the Game Test Factory by building the Utilities TestFactory
-	 * 
+	 *
 	 */
 	public GameTestFactory () {
 		utilitiesTestFactory = new UtilitiesTestFactory ();

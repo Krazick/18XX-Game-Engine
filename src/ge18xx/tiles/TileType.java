@@ -41,7 +41,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 	public static final int MIN_TYPE = NO_TYPE;
 	public static final int MAX_TYPE = CLEAR;
 	public static final int HIGHLIGHT_ADDITION = 10;
-	public static String NAMES[] = { "NO TYPE", "Yellow", "Green", "Grey", "Brown", 
+	public static String NAMES[] = { "NO TYPE", "Yellow", "Green", "Grey", "Brown",
 			"Red Off Board", "Red-Brown", "Ocean Ferry", "Ocean", "Purple", "Clear"};
 	static Paint [] [] paints = null;
 
@@ -92,27 +92,27 @@ public class TileType implements Cloneable, LoadableXMLI {
 	public static Paint getPaint (int aType) {
 		return getPaint (aType, false);
 	}
-	
+
 	public static Paint getPaint (int aType, boolean aHighlight) {
 		Paint tPaint;
-		
+
 		if (aHighlight) {
 			tPaint = paints [aType] [1];
 		} else {
 			tPaint = paints [aType] [0];
 		}
-		
+
 		return tPaint;
 	}
-	
+
 	public Paint getPaint (boolean aIsSelectable) {
 		Paint tPaint;
-		
+
 		tPaint = getPaint (type, aIsSelectable);
-		
+
 		return tPaint;
 	}
-	
+
 	public Paint getPaint () {
 		return getPaint (false);
 	}
@@ -186,17 +186,17 @@ public class TileType implements Cloneable, LoadableXMLI {
 	public static boolean validName (String aName) {
 		int tFoundType;
 		boolean tValidName;
-		
+
 		tFoundType = getTypeFromName (aName);
 		if (tFoundType != NO_TYPE) {
 			tValidName = true;
 		} else {
 			tValidName = false;
 		}
-		
+
 		return tValidName;
 	}
-	
+
 	public void setFixed (boolean aFixed) {
 		fixed = aFixed;
 	}
@@ -221,7 +221,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 
 	private void setPaints () {
 		int tPaintCount;
-		
+
 		if (paints == null) {
 			tPaintCount = (MAX_TYPE - MIN_TYPE) + 1;
 			setStaticPaints (tPaintCount);
@@ -231,7 +231,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 	private static void setStaticPaints (int aPaintCount) {
 		TexturePaint tTexturePaint;
 		int tGridSize;
-		
+
 		tGridSize = 5;
 		paints = new Paint [aPaintCount] [2];
 		paints [NO_TYPE] [0] = Color.lightGray;
@@ -245,7 +245,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 		paints [OCEAN] [0]  = new Color (153, 204, 255);
 		paints [PURPLE] [0]  = new Color (140, 49, 224);
 		paints [CLEAR] [0]  = new Color (204, 255, 204);		// CLEAR
-		
+
 		// Highlight Section
 		paints [NO_TYPE] [1] = Color.lightGray;
 		tTexturePaint = XMLNode.createTexture (Color.yellow, Color.lightGray, tGridSize);	// YELLOW_HIGHLIGHT
@@ -281,8 +281,8 @@ public class TileType implements Cloneable, LoadableXMLI {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			Color tColor;
-			int tID;		
-			
+			int tID;
+
 			tID = aChildNode.getThisIntAttribute (AN_ID);
 			tColor = aChildNode.getThisColorAttribute (AN_COLOR);
 			paints [tID] [0] = tColor;
@@ -302,14 +302,14 @@ public class TileType implements Cloneable, LoadableXMLI {
 
 		return tIsSameType;
 	}
-	
+
 	public int compareType (TileType aType) {
 		int tTypeDiff;
 		int tType;
-		
+
 		tType = aType.getType ();
 		tTypeDiff = type - tType;
-		
+
 		return tTypeDiff;
 	}
 }

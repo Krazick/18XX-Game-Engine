@@ -46,12 +46,12 @@ public class MarketFrame extends XMLFrame {
 	public void loadMarketTokens (XMLNode aXMLNode) {
 		market.loadMarketTokens (aXMLNode);
 	}
-	
+
 	public boolean marketHasTokenFor (ShareCompany aShareCompany) {
 		boolean tMarketHasTokenFor;
 		MarketCell tMarketCell;
 		Token tFoundToken;
-		
+
 		tMarketCell = aShareCompany.getSharePriceMarketCell ();
 		if (tMarketCell ==  MarketCell.NO_MARKET_CELL) {
 			tMarketHasTokenFor = false;
@@ -63,14 +63,14 @@ public class MarketFrame extends XMLFrame {
 				tMarketHasTokenFor = true;
 			}
 		}
-		
+
 		return tMarketHasTokenFor;
 	}
 
 	public void setSharePriceToken (ShareCompany aShareCompany) {
 		MarketCell tMarketCell;
 		Token tToken;
-	
+
 		tMarketCell = aShareCompany.getMarketCellAt (market);
 		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 			tToken = aShareCompany.getToken ();
@@ -78,9 +78,9 @@ public class MarketFrame extends XMLFrame {
 				tMarketCell.addTokenToBottom (tToken);
 			}
 			tMarketCell.redrawMarket ();
-		}	
+		}
 	}
-	
+
 	public void setParPrice (ShareCompany aShareCompany, int aParPrice) {
 		MarketCell tMarketCell;
 		Token tToken;

@@ -14,7 +14,7 @@ public class PurchasePrivateOffer extends QueryOffer {
 	public static final AttributeName AN_AMOUNT = new AttributeName ("amount");
 	public static final AttributeName AN_PRIVATE_ABBREV = new AttributeName ("privateAbbrev");
 	public static final String PRIVATE_TYPE = Corporation.PRIVATE_COMPANY;
-	
+
 	PrivateCompany privateCompany;
 	String privateCompanyAbbrev;
 	int amount;
@@ -27,16 +27,16 @@ public class PurchasePrivateOffer extends QueryOffer {
 		setPrivateCompanyAbbrev (aPrivateCompany.getAbbrev ());
 		setAmount (aAmount);
 	}
-	
+
 	public PurchasePrivateOffer (XMLNode aChildNode, GameManager aGameManager) {
 		super (aChildNode, aGameManager);
-		
+
 		XMLNode tPONode;
 		NodeList tPurchaseOfferList;
 		int tPOCount, tPOIndex;
 		String tPrivateAbbrev;
 		int tAmount;
-		
+
 		tPurchaseOfferList = aChildNode.getChildNodes ();
 		tPOCount = tPurchaseOfferList.getLength ();
 		for (tPOIndex = 0; tPOIndex < tPOCount; tPOIndex++) {
@@ -47,7 +47,7 @@ public class PurchasePrivateOffer extends QueryOffer {
 			setAmount (tAmount);
 		}
 	}
-	
+
 	@Override
 	public XMLElement getElements (XMLDocument aXMLDocument, ElementName aElementName) {
 		XMLElement tXMLElement;
@@ -59,11 +59,11 @@ public class PurchasePrivateOffer extends QueryOffer {
 
 		return tXMLElement;
 	}
-	
+
 	private void setPrivateCompanyAbbrev (String aPrivateCompayAbbrev) {
 		privateCompanyAbbrev = aPrivateCompayAbbrev;
 	}
-	
+
 	private void setPrivateCompany (PrivateCompany aPrivateCompany) {
 		privateCompany = aPrivateCompany;
 	}
@@ -75,7 +75,7 @@ public class PurchasePrivateOffer extends QueryOffer {
 	public PrivateCompany getPrivateCompany () {
 		return privateCompany;
 	}
-	
+
 	@Override
 	public String getItemType () {
 		return privateCompany.getType ();

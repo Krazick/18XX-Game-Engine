@@ -30,11 +30,11 @@ public class QueryExchangeBenefitAction extends Action {
 		setName (NAME);
 	}
 
-	public void addQueryExchangeBenefitEffect (ActorI aFromActor, ActorI aToActor, 
+	public void addQueryExchangeBenefitEffect (ActorI aFromActor, ActorI aToActor,
 			PrivateCompany aPrivateCompany, QueryExchangeBenefit aQueryExchangeBenefit) {
 		QueryExchangeBenefitEffect tQueryExchangeBenefitEffect;
 
-		tQueryExchangeBenefitEffect = new QueryExchangeBenefitEffect (aFromActor, aToActor, 
+		tQueryExchangeBenefitEffect = new QueryExchangeBenefitEffect (aFromActor, aToActor,
 						aPrivateCompany, aQueryExchangeBenefit);
 		addEffect (tQueryExchangeBenefitEffect);
 	}

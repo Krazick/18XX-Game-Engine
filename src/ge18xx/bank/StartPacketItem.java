@@ -97,7 +97,7 @@ public class StartPacketItem implements ParsingRoutineI {
 	public void setFreeCertificate (Certificate aFreeCertificate) {
 		freeCertificate = aFreeCertificate;
 	}
-	
+
 	public boolean loadWithCertificates (Portfolio aBankPortfolio, Portfolio aStartPacketPortfolio) {
 		boolean tAllCertsLoaded = true;
 		Corporation tCorporation, tFreeCorporation;
@@ -130,7 +130,7 @@ public class StartPacketItem implements ParsingRoutineI {
 			certificate.printCertificateInfo ();
 		}
 		System.out.println ("    Can be Bid On [" + canBeBidOn + "]");
-		;
+
 		if (freeCertificateCorporationId > 0) {
 			System.out.println ("      Free Certificate of [" + freeCertificateCorporationId + "] Percentage of ["
 					+ freeCertificateCorporationPercentage + "]");

@@ -16,7 +16,7 @@ class XMLDocumentTests {
 	XMLDocument document;
 	XMLDocument nullDocument;
 	UtilitiesTestFactory utilityTestFactory;
-	
+
 	@BeforeEach
 	void setUp () throws Exception {
 		utilityTestFactory = new UtilitiesTestFactory ();
@@ -33,12 +33,12 @@ class XMLDocumentTests {
 				+ "			<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>\n"
 				+ "		</Benefits>\n" + "		<Certificate director=\"YES\" percentage=\"100\"\n"
 				+ "			allowedOwners=\"IPO,Player,Share\" />\n" + "	</Private>\n" + "";
-		
+
 		tPrivateDocument = utilityTestFactory.buildXMLDocument (tPrivateCompany1TestXML);
-		
+
 		return tPrivateDocument;
 	}
-	
+
 	@Test
 	@DisplayName ("Constructor Tests")
 	void basicConstructorTests () {
@@ -46,10 +46,10 @@ class XMLDocumentTests {
 
 		assertTrue (document.validDocument ());
 		assertFalse (document.hasChildNodes ());
-		
+
 		assertFalse (nullDocument.validDocument ());
 		assertFalse (nullDocument.hasChildNodes ());
-		
+
 		tPrivateDocument = buildPrivateCompanyTestDocument ();
 		assertTrue (tPrivateDocument.validDocument ());
 		assertTrue (tPrivateDocument.hasChildNodes ());
@@ -64,7 +64,7 @@ class XMLDocumentTests {
 		ElementName tElementName;
 		ElementName tNoElementName;
 		ElementName tBadElementName;
-		
+
 		tElementName = new ElementName ("TestElementName");
 		tBadElementName = new ElementName ("testElementName");
 		tXMLElement = document.createElement (tElementName);
@@ -72,41 +72,41 @@ class XMLDocumentTests {
 		tNoElementName = ElementName.NO_ELEMENT_NAME;
 		tNoXMLElement = document.createElement (tNoElementName);
 		assertNull (tNoXMLElement);
-	
+
 		tBadXMLElement = document.createElement (tBadElementName);
 		assertNull (tBadXMLElement);
-		
+
 		assertFalse (document.hasChildNodes ());
 		document.appendChild (tNoXMLElement);
 		assertFalse (document.hasChildNodes ());
-		
+
 		document.appendChild (tBadXMLElement);
 		assertFalse (document.hasChildNodes ());
 	}
-	
+
 	@Test
 	@DisplayName ("Clear Element Tests")
 	void clearElementTests () {
 		XMLElement tXMLElement;
 		ElementName tElementName;
-		
+
 		assertFalse (document.hasChildNodes ());
 		assertFalse (nullDocument.hasChildNodes ());
-		
+
 		tElementName = new ElementName ("TestElementName");
 		tXMLElement = document.createElement (tElementName);
 		document.appendChild (tXMLElement);
 		assertTrue (document.hasChildNodes ());
-		
+
 		document.clearDocumentChildren ();
 		assertFalse (document.hasChildNodes ());
-		
+
 		assertFalse (nullDocument.validDocument ());
 		assertFalse (nullDocument.hasChildNodes ());
 		nullDocument.appendChild (tXMLElement);
 		assertFalse (nullDocument.validDocument ());
 		assertFalse (nullDocument.hasChildNodes ());
-		
+
 		nullDocument.clearDocumentChildren ();
 		assertFalse (nullDocument.hasChildNodes ());
 	}
@@ -118,18 +118,18 @@ class XMLDocumentTests {
 		Document tDocument1;
 		Document tDocument2;
 		Document tDocument3;
-		
+
 		tPrivateDocument = buildPrivateCompanyTestDocument ();
 		tDocument1 = tPrivateDocument.getDocument ();
 		assertNotNull (tDocument1);
-		
+
 		tDocument2 = nullDocument.getDocument ();
 		assertNull (tDocument2);
-		
+
 		tDocument3 = document.getDocument ();
 		assertNotNull (tDocument3);
 	}
-	
+
 	@Test
 	@DisplayName ("Get Document Element Tests")
 	void getDocumentElementTests () {
@@ -137,18 +137,18 @@ class XMLDocumentTests {
 		XMLNode tPrivateNode;
 		XMLNode tNode1;
 		XMLNode tNode2;
-		
+
 		tPrivateDocument = buildPrivateCompanyTestDocument ();
 		tPrivateNode = tPrivateDocument.getDocumentNode ();
 		assertNotNull (tPrivateNode);
-		
+
 		tNode1 = document.getDocumentNode ();
 		assertNotNull (tNode1);
-		
+
 		tNode2 = nullDocument.getDocumentNode ();
 		assertNull (tNode2);
 	}
-	
+
 	@Test
 	@DisplayName ("Get Document ToString Tests")
 	void documentToStringTests () {
@@ -160,7 +160,7 @@ class XMLDocumentTests {
 				+ "		</Benefits>\n"
 				+ "		<Certificate allowedOwners=\"IPO,Player,Share\" director=\"YES\" percentage=\"100\"/>\n"
 				+ "	</Private>\n";
-		
+
 		tPrivateDocument = buildPrivateCompanyTestDocument ();
 		tResult = tPrivateDocument.toString ();
 		assertEquals (tResult, tExpected);

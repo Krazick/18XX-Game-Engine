@@ -25,7 +25,7 @@ public class PhaseManager {
 	int currentPhase;
 
 	public PhaseManager () {
-		phases = new LinkedList<PhaseInfo> ();
+		phases = new LinkedList<> ();
 		setCurrentPhase (NO_PHASE);
 	}
 
@@ -44,7 +44,7 @@ public class PhaseManager {
 			System.out.println ("Phase Name " + tPhaseInfo.getFullName ());
 		}
 	}
-	
+
 	public boolean doIncrementalCapitalization () {
 		return getCurrentPhaseInfo ().doIncrementalCapitalization ();
 	}

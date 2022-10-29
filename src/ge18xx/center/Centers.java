@@ -37,7 +37,7 @@ public class Centers implements Cloneable {
 	List<RevenueCenter> centers;
 
 	public Centers () {
-		centers = new LinkedList<RevenueCenter> ();
+		centers = new LinkedList<> ();
 	}
 
 	public Centers (Centers aCenters, Tile aTile) {
@@ -51,7 +51,7 @@ public class Centers implements Cloneable {
 		String tName;
 		List<RevenueCenter> tCenters;
 
-		centers = new LinkedList<RevenueCenter> ();
+		centers = new LinkedList<> ();
 		tCenters = aCenters.getCenters ();
 		for (RevenueCenter tCenter : tCenters) {
 			tType = tCenter.getTypeToInt ();
@@ -178,7 +178,7 @@ public class Centers implements Cloneable {
 
 	@Override
 	public Centers clone () {
-		List<RevenueCenter> tCentersCopy = new LinkedList<RevenueCenter> ();
+		List<RevenueCenter> tCentersCopy = new LinkedList<> ();
 		for (RevenueCenter tCenter : centers) {
 			if (tCenter != RevenueCenter.NO_CENTER) {
 				tCentersCopy.add (tCenter.clone ());

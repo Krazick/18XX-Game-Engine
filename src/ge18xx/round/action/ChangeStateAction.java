@@ -169,7 +169,7 @@ public class ChangeStateAction extends ChangePlayerAction {
 
 		return tAllNullEffects;
 	}
-	
+
 	@Override
 	public boolean undoAction (RoundManager aRoundManager) {
 		boolean tActionUndone;
@@ -177,7 +177,7 @@ public class ChangeStateAction extends ChangePlayerAction {
 		PlayerManager tPlayerManager;
 		ActorI.ActionStates aCurrentRoundType;
 		ActorI.ActionStates aPreviousRoundType;
-		
+
 		aCurrentRoundType = aRoundManager.getCurrentRoundType ();
 		if (aCurrentRoundType.equals (ActorI.ActionStates.StockRound)) {
 			tPlayerManager = aRoundManager.getPlayerManager ();
@@ -186,9 +186,9 @@ public class ChangeStateAction extends ChangePlayerAction {
 		} else if (aCurrentRoundType.equals (ActorI.ActionStates.OperatingRound)) {
 			System.out.println ("Need to find current Operating Company, and Close it's Frame");
 		}
-		
+
 		tActionUndone = super.undoAction (aRoundManager);
-		
+
 		aPreviousRoundType = aRoundManager.getCurrentRoundType ();
 		if (aPreviousRoundType.equals (ActorI.ActionStates.StockRound)) {
 

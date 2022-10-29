@@ -9,7 +9,7 @@ import ge18xx.utilities.XMLNode;
 /**
  * Will clear specific Trains from the map. Each Train to be cleared needs to be added as a individual
  * ClearATrainFromMapEffect
- * 
+ *
  *
  */
 public class ClearATrainFromMapAction extends Action {
@@ -17,7 +17,7 @@ public class ClearATrainFromMapAction extends Action {
 
 	/**
 	 * Basic No-Arg Constructor for the class
-	 * 
+	 *
 	 */
 	public ClearATrainFromMapAction () {
 		super (NAME);
@@ -25,9 +25,9 @@ public class ClearATrainFromMapAction extends Action {
 
 	/**
 	 * Constructor with a Single Text String to override the Default NAME for the Action
-	 * 
+	 *
 	 * @param aName The Name to set to the Action
-	 * 
+	 *
 	 */
 	public ClearATrainFromMapAction (String aName) {
 		super (aName);
@@ -35,11 +35,11 @@ public class ClearATrainFromMapAction extends Action {
 
 	/**
 	 * Constructor with the Round Type, the RoundID and the Actor performing the Action
-	 * 
+	 *
 	 * @param aRoundType identifies the type of Round where the Action is performed
 	 * @param aRoundID identifies the Round ID when the Action is performed
 	 * @param aActor identifies the Actor who is performing the Action
-	 * 
+	 *
 	 */
 	public ClearATrainFromMapAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
@@ -48,7 +48,7 @@ public class ClearATrainFromMapAction extends Action {
 
 	/**
 	 * Constructor that extracts information from the provided XML Node to build the Action.
-	 * 
+	 *
 	 * @param aActionNode The XML Node that is used to create the Action. This node from either
 	 * 						the Save Game File, or from the Network delivery from remote clients
 	 * @param aGameManager The GameManager to be passed to the super class (Action) constructor
@@ -60,7 +60,7 @@ public class ClearATrainFromMapAction extends Action {
 
 	/**
 	 * Create a new ClearATrainFromMapEffect, and add to the list of Effects for this Action
-	 * 
+	 *
 	 * @param aCorporation The Corporation performing the Action
 	 * @param aTrainIndex The Index of the Train for this Corporation that is to be applied for the Effect
 	 */
@@ -75,7 +75,7 @@ public class ClearATrainFromMapAction extends Action {
 	/**
 	 * Generate a Simple Action Report, a String that describes what this Action should do. This Overrides
 	 * The super Class (Action) method
-	 * 
+	 *
 	 * @return String with the Action Report
 	 */
 	public String getSimpleActionReport () {

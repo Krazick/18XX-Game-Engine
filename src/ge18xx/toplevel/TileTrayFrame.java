@@ -46,15 +46,15 @@ public class TileTrayFrame extends XMLFrame {
 	private boolean validTileSet () {
 		return (tileSet != TileSet.NO_TILE_SET);
 	}
-	
+
 	public boolean addTile (Tile aTile, int aTotalCount) {
 		boolean tTileAdded;
-		
+
 		tTileAdded = false;
 		if (validTileSet ()) {
 			tTileAdded = tileSet.addTile (aTile, aTotalCount);
 		}
-		
+
 		return tTileAdded;
 	}
 
@@ -66,24 +66,24 @@ public class TileTrayFrame extends XMLFrame {
 
 	public XMLElement createTileDefinitions (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		
+
 		tXMLElement = XMLElement.NO_XML_ELEMENT;
 		if (validTileSet ()) {
 			tXMLElement = tileSet.createAllTileDefinitions (aXMLDocument);
 		}
-		
+
 		return tXMLElement;
 	}
 
 	public Tile getTile (int aTileNumber) {
 		Tile tTile;
-		
+
 		if (validTileSet ()) {
 			tTile = tileSet.getTile (aTileNumber);
 		} else {
 			tTile = Tile.NO_TILE;
 		}
-		
+
 		return tTile;
 	}
 
@@ -121,13 +121,13 @@ public class TileTrayFrame extends XMLFrame {
 	}
 
 	/**
-	 * Determine if the specified GameTile is currently allowed to be placed on the Map, based upon the 
+	 * Determine if the specified GameTile is currently allowed to be placed on the Map, based upon the
 	 * current Phase of the Game and the Tile Color
-	 * 
+	 *
 	 * @param aGameTile The Tile to test if allowed to be placed
-	 * 
+	 *
 	 * @return TRUE if the current Game Phase allows this tile Type Color can be placed.
-	 * 
+	 *
 	 */
 	public boolean isUpgradeAllowed (GameTile aGameTile) {
 		boolean tUpgradeAllowed = true;

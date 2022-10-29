@@ -65,7 +65,7 @@ public class UpdateLastRevenueEffect extends Effect {
 		String tReport;
 		String tOldValue;
 		String tNewValue;
-		
+
 		if (oldLastRevenue >= 0) {
 			tOldValue = Bank.formatCash (oldLastRevenue);
 		} else {
@@ -78,7 +78,7 @@ public class UpdateLastRevenueEffect extends Effect {
 			tNewValue = "NO Last Revenue Value";
 		}
 		tReport =  REPORT_PREFIX + name + " of " + tOldValue + " with " + tNewValue + " for " + getActorName () + ".";
-		
+
 		return tReport;
 	}
 

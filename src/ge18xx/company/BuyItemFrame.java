@@ -50,12 +50,12 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		range = new JLabel ("Range");
 		buyerInfo = new JLabel ("Buyer info");
 		sellerInfo = new JLabel ("Seller info");
-		
+
 		buildPriceRangePanel ();
 		buildButtonPanel ();
 		buildBuyItemPanel ();
 		add (buyItemPanel);
-		
+
 		pack ();
 		setSize (520, 170);
 		setVisible (false);
@@ -79,25 +79,25 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 			buyItemPanel.add (Box.createVerticalStrut (10));
 			buttonPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 			buyItemPanel.add (buttonPanel);
-		}		
+		}
 	}
-	
+
 	private void buildPriceRangePanel () {
 		JLabel tBuyPriceLabel;
-		
+
 		buildPriceField ();
 		tBuyPriceLabel = new JLabel ("Buy Price: ");
-		
+
 		rangePricePanel = new JPanel ();
 		rangePricePanel.setLayout (new BoxLayout (rangePricePanel, BoxLayout.X_AXIS));
 		rangePricePanel.setAlignmentY (Component.CENTER_ALIGNMENT);
 		rangePricePanel.add (range);
 		rangePricePanel.add (Box.createHorizontalStrut (10));
 		rangePricePanel.add (tBuyPriceLabel);
-		rangePricePanel.add (Box.createHorizontalStrut (10));		
+		rangePricePanel.add (Box.createHorizontalStrut (10));
 		rangePricePanel.add (priceField);
 	}
-	 
+
 	@Override
 	public void requestFocus () {
 		priceField.requestFocus ();
@@ -106,17 +106,17 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	public void setCurrentOwner (ActorI aCurrentOwner) {
 		currentOwner = aCurrentOwner;
 	}
-	
+
 	public void setItemName (String aItemName) {
 		itemName = aItemName;
 	}
-	
+
 	protected void updateBuyerInfo () {
 		String tBuyerInfo;
 		int tRemainingCash;
-		
+
 		tRemainingCash = trainCompany.getTreasury () - getPrice ();
-		tBuyerInfo = trainCompany.getName () + " will have " + Bank.formatCash (tRemainingCash) + 
+		tBuyerInfo = trainCompany.getName () + " will have " + Bank.formatCash (tRemainingCash) +
 				" after purchase.";
 		updateBuyerInfo (tBuyerInfo);
 	}
@@ -124,22 +124,22 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	protected void updateBuyerInfo (String aBuyerInfo) {
 		buyerInfo.setText (aBuyerInfo);
 	}
-	
+
 	protected void updateSellerInfo (String aSellerInfo) {
 		sellerInfo.setText (aSellerInfo);
 	}
-	
+
 	protected void setMinPrice (int aMinPrice) {
 		minPrice = aMinPrice;
 	}
-	
+
 	protected void setMaxPrice (int aMaxPrice) {
 		maxPrice = aMaxPrice;
 	}
-	
+
 	public boolean validRange (int aMinPrice, int aMaxPrice) {
 		boolean tValidPrice;
-		
+
 		if (aMinPrice < 1) {
 			tValidPrice = false;
 		} else if (aMaxPrice < aMinPrice) {
@@ -147,31 +147,31 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		} else {
 			tValidPrice = true;
 		}
-		
+
 		return tValidPrice;
 	}
-	
+
 	public boolean fixedPrice () {
 		return (minPrice == maxPrice);
 	}
-	
+
 	public String generateRange () {
 		String tRange;
-		
+
 		if (fixedPrice ()) {
 			tRange = "Price " + Bank.formatCash (minPrice);
 		} else {
-			tRange = "Range (" + Bank.formatCash (minPrice) + " to " + 
+			tRange = "Range (" + Bank.formatCash (minPrice) + " to " +
 						Bank.formatCash (maxPrice) + ") ";
 		}
-		
+
 		return tRange;
 	}
 
 	protected void setBuyButtonText (ActorI aCurrentOwner) {
 		String tBuyButtonText;
 		String tPrefix;
-		
+
 		if (samePresident (aCurrentOwner, trainCompany)) {
 			tPrefix = "Buy ";
 		} else {
@@ -184,11 +184,11 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	public void setBuyButtonText (String aBuyButtonText) {
 		doBuyButton.setText (aBuyButtonText);
 	}
-	
+
 	public void updateBuyButton (boolean aEnable, String aToolTip) {
 		updateButton (doBuyButton, aEnable, aToolTip);
 	}
-	
+
 	public void updateSetPriceButton (boolean aEnable, String aToolTip) {
 		if (priceIsGood ()) {
 			updateButton (doSetPriceButton, aEnable, aToolTip);
@@ -196,12 +196,12 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 			updateButton (doSetPriceButton, false, getBuyToolTip ());
 		}
 	}
-	
+
 	public void updateButton (JButton aButton, boolean aEnable, String aToolTip) {
 		aButton.setEnabled (aEnable);
 		aButton.setToolTipText (aToolTip);
 	}
-	
+
 	protected int getPrice () {
 		String tPrice;
 		int tGetPrice;
@@ -230,7 +230,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		String tPresidentName, tOwningPresidentName;
 		TrainCompany tOwningTrainCompany;
 		Player tOwningPlayer;
-		
+
 		tSamePresident = false;
 		tPresidentName = aBuyingTrainCompany.getPresidentName ();
 		if (aOwningActor.isATrainCompany ()) {
@@ -250,7 +250,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 
 		return tSamePresident;
 	}
-	
+
 	protected void sendPurchaseOffer (ActorI aItemOwner, QueryOffer aQueryOffer) {
 		String tOperatingRoundID;
 		PurchaseOfferAction tPurchaseOfferAction;
@@ -276,7 +276,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	protected boolean needToMakeOffer (ActorI aOwningActor, TrainCompany aBuyingCompany) {
 		boolean tNeedToMakeOffer = true;
 		GameManager tGameManager;
-		
+
 		tGameManager = aBuyingCompany.getGameManager ();
 		if (tGameManager.isNetworkGame ()) {
 			if (samePresident (aOwningActor, aBuyingCompany)) {
@@ -288,11 +288,11 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 
 		return tNeedToMakeOffer;
 	}
-	
+
 	protected boolean priceIsGood () {
 		boolean tGoodPrice;
 		int tPrice;
-		
+
 		tPrice = getPrice ();
 		tGoodPrice = true;
 		if (tPrice < minPrice) {
@@ -301,14 +301,14 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		if (tPrice > maxPrice) {
 			tGoodPrice = false;
 		}
-		
+
 		return tGoodPrice;
 	}
-	
+
 	protected String getBuyToolTip () {
 		String tBuyToolTip;
 		int tPrice;
-		
+
 		tPrice = getPrice ();
 		tBuyToolTip = "Ready for Purchase";
 		if (tPrice < minPrice) {
@@ -317,10 +317,10 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		if (tPrice > maxPrice) {
 			tBuyToolTip = "Must choose price < " + (maxPrice + 1);
 		}
-		
+
 		return tBuyToolTip;
 	}
-	
+
 	private void buildButtonPanel () {
 		buttonPanel = new JPanel ();
 		buttonPanel.setLayout (new BoxLayout (buttonPanel, BoxLayout.X_AXIS));
@@ -329,13 +329,13 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		doSetPriceButton = buildButton ("Set Buy Price", SET_BUY_PRICE_ACTION);
 		doBuyButton = buildButton (CorporationFrame.BUY_TRAIN, BUY_ACTION);
 		updateSetPriceButton (false, "Price Field has not changed");
-		
+
 		buttonPanel.add (doSetPriceButton);
 		buttonPanel.add (Box.createHorizontalStrut (10));
 		buttonPanel.add (doBuyButton);
 		buttonPanel.add (Box.createHorizontalStrut (10));
 	}
-	
+
 	public JButton buildButton (String aButtonLabel, String aActionCommand) {
 		JButton tActionButton;
 
@@ -350,11 +350,11 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		setButtonListener (doSetPriceButton, aActionListener);
 		setButtonListener (doBuyButton, aActionListener);
 	}
-	
+
 	public void setButtonListener (JButton aButton, ActionListener aActionListener) {
-		aButton.addActionListener (aActionListener);		
+		aButton.addActionListener (aActionListener);
 	}
-	
+
 	protected void setDefaultPrice () {
 		setPrice (1);
 	}
@@ -362,7 +362,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	public void setPrice (int aPrice) {
 		priceField.setText (aPrice + "");
 	}
-	
+
 	private void buildPriceField () {
 		priceField = new JTextField ();
 		priceField.setPreferredSize (new Dimension (20, 24));
@@ -372,7 +372,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		priceField.setColumns (3);
 		priceField.addKeyListener (this);
 	}
-	
+
 	@Override
 	public void keyTyped (KeyEvent aKeyEvent) {
 		handleKeyEvent (aKeyEvent);
@@ -387,10 +387,10 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	public void keyReleased (KeyEvent aKeyEvent) {
 		handleKeyEvent (aKeyEvent);
 	}
-	
+
 	private void handleKeyEvent (KeyEvent aKeyEvent) {
 		int tEventID;
-		
+
 		tEventID = aKeyEvent.getID ();
 		if (tEventID == KeyEvent.KEY_RELEASED) {
 			updateBuyButton (false, "Price Field has changed");
@@ -402,7 +402,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 		TrainCompany tTrainCompany;
 		Player tPlayer;
 		int tCurrentOwnerCash;
-		
+
 		tCurrentOwnerCash = 0;
 		if (currentOwner.isAPlayer ()) {
 			tPlayer = (Player) currentOwner;
@@ -411,14 +411,14 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 			tTrainCompany = (TrainCompany) currentOwner;
 			tCurrentOwnerCash = tTrainCompany.getCash ();
 		}
-		
+
 		return tCurrentOwnerCash;
 	}
-	
+
 	protected void setFrameLocation () {
 		Point tNewPoint;
 		GameManager tGameManager;
-		
+
 		tGameManager = trainCompany.getGameManager ();
 		tNewPoint = tGameManager.getOffsetCorporationFrame ();
 		setLocation (tNewPoint);
@@ -428,7 +428,7 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	protected void updateButtons () {
 		String tBuyToolTip;
 		boolean tEnableBuyButton;
-		
+
 		tBuyToolTip = getBuyToolTip ();
 		tEnableBuyButton = priceIsGood ();
 		updateBuyButton (tEnableBuyButton, tBuyToolTip);
@@ -439,14 +439,14 @@ public class BuyItemFrame extends JFrame implements KeyListener {
 	protected void updateInfo (String aItemType, int aLowPrice, int aHighPrice, String aDescription) {
 		updateBuyItemPanel (aItemType, aDescription, aLowPrice, aHighPrice);
 		updateBuyerInfo ();
-		setBuyButtonText (currentOwner);	
+		setBuyButtonText (currentOwner);
 		setFrameLocation ();
 	}
-	
-	public void updateBuyItemPanel (String aItemName, String aDescription, 
+
+	public void updateBuyItemPanel (String aItemName, String aDescription,
 					int aMinPrice, int aMaxPrice) {
 		String tRange;
-		
+
 		if (validRange (aMinPrice, aMaxPrice)) {
 			setItemName (aItemName);
 			description.setText (aDescription);

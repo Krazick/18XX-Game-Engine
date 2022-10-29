@@ -45,7 +45,7 @@ public abstract class QueryOffer {
 		String tFromActorName;
 		String tToActorName;
 		String tOldStatusName;
-		ActorI.ActionStates tOldState;	
+		ActorI.ActionStates tOldState;
 		GenericActor tGenericActor;
 		String tStatus;
 
@@ -57,24 +57,24 @@ public abstract class QueryOffer {
 		setItemName (tItemName);
 		setFromActorName (tFromActorName);
 		setToActorName (tToActorName);
-		
+
 		tGenericActor = new GenericActor ();
 		tOldState = tGenericActor.getCorporationActionState (tOldStatusName);
 		setOldStatus (tOldState);
 		setStatus (tStatus);
 	}
-	
+
 	public XMLElement getElements (XMLDocument aXMLDocument) {
 		XMLElement tXMLELements;
-		
+
 		tXMLELements = getElements (aXMLDocument, EN_QUERY_OFFER);
-		
+
 		return tXMLELements;
 	}
 
 	public XMLElement getElements (XMLDocument aXMLDocument, ElementName aElementName) {
 		XMLElement tXMLElement;
-		
+
 		tXMLElement = aXMLDocument.createElement (aElementName);
 		tXMLElement.setAttribute (AN_ITEM_NAME, itemName);
 		tXMLElement.setAttribute (AN_FROM_ACTOR_NAME, fromActorName);
@@ -88,37 +88,37 @@ public abstract class QueryOffer {
 	public void setStatus (String aStatus) {
 		status = aStatus;
 	}
-	
+
 	public boolean wasAccepted () {
 		boolean tWasAccepted;
-	
+
 		tWasAccepted = false;
 		if (status.equals (ACCEPTED)) {
 			tWasAccepted = true;
 		}
-		
+
 		return tWasAccepted;
 	}
-	
+
 	public boolean wasRejected () {
 		boolean tWasRejected;
-	
+
 		tWasRejected = false;
 		if (status.equals (REJECTED)) {
 			tWasRejected = true;
 		}
-		
+
 		return tWasRejected;
 	}
-	
+
 	public boolean isPending () {
 		boolean tIsPending;
-		
+
 		tIsPending = false;
 		if (status.equals (PENDING)) {
 			tIsPending = true;
 		}
-		
+
 		return tIsPending;
 	}
 
@@ -153,6 +153,6 @@ public abstract class QueryOffer {
 	public ActorI.ActionStates getOldStatus () {
 		return oldStatus;
 	}
-	
+
 	public abstract String getItemType ();
 }

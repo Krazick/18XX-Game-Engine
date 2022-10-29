@@ -50,7 +50,7 @@ public class SavedGame {
 	}
 
 	private void setupPlayers () {
-		players = new ArrayList<String> ();
+		players = new ArrayList<> ();
 	}
 
 	private void readFile (String aFileName) {

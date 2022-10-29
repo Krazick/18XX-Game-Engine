@@ -18,7 +18,7 @@ public class OperatingRound extends Round {
 	CorporationList minorCompanies;
 	CorporationList shareCompanies;
 
-	public OperatingRound (RoundManager aRoundManager, CorporationList aPrivates, 
+	public OperatingRound (RoundManager aRoundManager, CorporationList aPrivates,
 			CorporationList aMinors, CorporationList aShares) {
 		super (aRoundManager);
 		setID (0, 0);
@@ -156,7 +156,7 @@ public class OperatingRound extends Round {
 	public void handleQueryBenefits () {
 		privateCompanies.handleQueryBenefits (roundManager.getRoundFrame ());
 	}
-	
+
 	public void printRoundInfo () {
 		System.out.println (" Operating Round " + idPart1 + "." + idPart2);
 	}
@@ -166,10 +166,10 @@ public class OperatingRound extends Round {
 		boolean tRoundDone;
 
 		tRoundDone = false;
-		
+
 		// TODO: Test if all Train Companies (if any) have Operated, not just Share Companies
 		// (test Minors - 1835)
-		
+
 		if (shareCompanies != CorporationList.NO_CORPORATION_LIST) {
 			tRoundDone = shareCompanies.haveAllCompaniesOperated ();
 		}

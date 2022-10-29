@@ -94,7 +94,7 @@ public class PortfolioSummary {
 	private String getPercentageText () {
 		return getPrecentage () + "%";
 	}
-	
+
 	private String getCertCountText () {
 		String tCertCountText;
 
@@ -103,10 +103,10 @@ public class PortfolioSummary {
 			tCertCountText += "s";
 		}
 		tCertCountText += "/";
-		
+
 		return tCertCountText;
 	}
-	
+
 	public String getNote () {
 		return note;
 	}

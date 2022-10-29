@@ -37,7 +37,7 @@ public interface ActorI {
 			return tFoundActorType;
 		}
 
-	};
+	}
 
 	public enum ActionStates {
 		NoAction ("No Action"), Pass ("Passed"), Acted ("Acted"), 			// Player Primary States
@@ -53,14 +53,14 @@ public interface ActorI {
 
 		Unowned ("Unowned"), Owned ("Owned"), Closed ("Closed"), 			// Corporation States
 		MayFloat ("May Float"), WillFloat ("Will Float"), NotOperated ("Not Operated"),
-		StartedOperations ("Started Operating"), TileLaid ("Tile Laid"), 
-		Tile2Laid ("Second Tile Laid"), TileUpgraded ("Tile Upgraded"), 
+		StartedOperations ("Started Operating"), TileLaid ("Tile Laid"),
+		Tile2Laid ("Second Tile Laid"), TileUpgraded ("Tile Upgraded"),
 		StationLaid ("Station Laid"), TileAndStationLaid ("Tile and Station Laid"),
 		OperatedTrain ("Operated Train"), HandledLoanInterest ("Handled Loan Interest"),
 		HoldDividend ("No Dividend Paid"), HalfDividend ("Half Dividend Paid"),
-		FullDividend ("Full Dividend Paid"), BoughtTrain ("Bought Train"), 
+		FullDividend ("Full Dividend Paid"), BoughtTrain ("Bought Train"),
 		Operated ("Operated"), Unformed ("Unformed"), Inactive ("INACTIVE"),
-		WaitingResponse ("Waiting for Response"), Fixed ("Fixed"), 
+		WaitingResponse ("Waiting for Response"), Fixed ("Fixed"),
 		NoState ("No State"), Bankrupt ("Bankrupt"), Recievership ("Recievership");
 
 		private String enumString;
@@ -85,7 +85,7 @@ public interface ActorI {
 			return enumAbbrev;
 		}
 
-	};
+	}
 
 	public String getName ();
 
@@ -100,7 +100,7 @@ public interface ActorI {
 	public default boolean isAPlayer () {
 		return false;
 	}
-	
+
 	public default boolean isAStockRound () {
 		return false;
 	}
@@ -134,13 +134,13 @@ public interface ActorI {
 	}
 
 	public default void completeBenefitInUse () {
-		
+
 	}
-	
+
 	public default void updateInfo () {
-		
+
 	}
-	
+
 	public default boolean isWaitingForResponse () {
 		return false;
 	}

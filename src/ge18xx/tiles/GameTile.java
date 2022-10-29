@@ -107,20 +107,20 @@ public class GameTile {
 
 	/**
 	 * Retrieve the Tile Color as a String and return it.
-	 * 
+	 *
 	 * @return the String that specifies the Tile Color.
-	 * 
+	 *
 	 */
 	public String getTileColor () {
 		TileType tTileType;
 		String tTileColor;
-		
+
 		tTileType = getTheTileType ();
 		tTileColor = tTileType.getName ();
-		
+
 		return tTileColor;
 	}
-	
+
 	public String getToolTip () {
 		String tTip;
 
@@ -244,8 +244,8 @@ public class GameTile {
 	}
 
 	public void setValues (Tile aTile, int aTileNumber, int aTotalCount, int aUsedCount) {
-		tiles = new LinkedList<Tile> ();
-		upgrades = new LinkedList<Upgrade> ();
+		tiles = new LinkedList<> ();
+		upgrades = new LinkedList<> ();
 		setTile (aTile);
 		setTileNumber (aTileNumber);
 		setTotalCount (aTotalCount);
@@ -282,11 +282,11 @@ public class GameTile {
 	public void setTotalCount (int aTotalCount) {
 		totalCount = aTotalCount;
 	}
-	
+
 	public void setUsedCount (int aUsedCount) {
 		usedCount = aUsedCount;
 	}
-	
+
 	public int getTotalCount () {
 		return totalCount;
 	}
@@ -294,7 +294,7 @@ public class GameTile {
 	public int getAvailableCount () {
 		return availableCount ();
 	}
-	
+
 	public static Comparator<GameTile> GameTileComparator = new Comparator<GameTile> () {
 		@Override
 		public int compare (GameTile aGameTile1, GameTile aGameTile2) {
@@ -303,7 +303,7 @@ public class GameTile {
 			int tTileNumberOrder;
 			Tile tTile1;
 			Tile tTile2;
-			
+
 			tTile1 = aGameTile1.getTile ();
 			tTile2 = aGameTile2.getTile ();
 			if (tTile1.isFixedTile ()) {
@@ -319,7 +319,7 @@ public class GameTile {
 					tGameTileOrder = tTileTypeOrder;
 				}
 			}
-			
+
 			return tGameTileOrder;
 		}
 	};

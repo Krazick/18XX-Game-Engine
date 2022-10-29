@@ -259,22 +259,22 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 		return (tDrawBorder);
 	}
-	
+
 	public Paint getPaint (boolean aHighlight) {
 		Paint tPaint;
-		
+
 		if (aHighlight) {
 			tPaint = paints [terrain] [1];
 		} else {
 			tPaint = paints [terrain] [0];
 		}
-		
+
 		return tPaint;
 	}
 
 	public Paint getPaint () {
 		Paint tPaint;
-		
+
 		tPaint = getPaint (false);
 
 		return tPaint;
@@ -377,7 +377,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		int tChildrenCount1;
 		int tIndex;
 		int tIndex1;
-		
+
 		XMLMapRoot = aXMLDocument.getDocumentNode ();
 		tChildren = XMLMapRoot.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
@@ -403,7 +403,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		Color tColor;
 		Color tHighlightColor;
 		TexturePaint tTexturePaint;
-		
+
 		tID = aChildNode.getThisIntAttribute (AN_ID);
 		tColor = aChildNode.getThisColorAttribute (AN_COLOR);
 		tHighlightColor = aChildNode.getThisColorAttribute (AN_HIGHLIGHT);
@@ -418,7 +418,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 	private void setPaints () {
 		int tPaintCount;
-		
+
 		if (paints == null) {
 			tPaintCount = (MAX_TERRAIN - MIN_TERRAIN) + 1;
 			setStaticPaints (tPaintCount);
@@ -427,7 +427,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 	private static void setStaticPaints (int aPaintCount) {
 		TexturePaint tTexturePaint;
-		
+
 		paints = new Paint [aPaintCount] [2];
 		paints [NO_TERRAIN] [0] = Color.black;
 		paints [CLEAR] [0] = new Color (204, 255, 204);
@@ -454,13 +454,13 @@ public class Terrain extends Feature implements LoadableXMLI {
 		paints [COAST] [0] = Color.blue;
 		paints [DEEP_COAST] [0] = Color.blue;
 		paints [DESERT] [0] = Color.black;
-		
-				
+
+
 		paints [NO_TERRAIN] [1] = Color.black;
 		tTexturePaint = XMLNode.createTexture (new Color (204, 255, 204), Color.lightGray);
 		paints [CLEAR] [1] = tTexturePaint;
 		paints [OCEAN] [1] = new Color (165, 204, 236);
-		
+
 		tTexturePaint = XMLNode.createTexture (new Color (210, 192, 145), Color.darkGray);
 		paints [DELTA] [1] = tTexturePaint;
 		paints [OFF_BOARD_RED] [1] = new Color (233, 39, 34);

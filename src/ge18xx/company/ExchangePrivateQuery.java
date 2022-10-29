@@ -17,7 +17,7 @@ public class ExchangePrivateQuery extends QueryOffer {
 	String privateAbbrev;
 	String benefitName;
 
-	public ExchangePrivateQuery (String aItemName, String aFromActorName, String aToActorName, ActionStates aOldState, 
+	public ExchangePrivateQuery (String aItemName, String aFromActorName, String aToActorName, ActionStates aOldState,
 			PrivateCompany aPrivateCompany, String aBenefitName) {
 		super (aItemName, aFromActorName, aToActorName, aOldState);
 		setPrivateCompany (aPrivateCompany);
@@ -31,7 +31,7 @@ public class ExchangePrivateQuery extends QueryOffer {
 		String tBenefitName;
 		PrivateCompany tPrivateCompany;
 		CorporationList tPrivates;
-		
+
 		tPrivateAbbrev = aChildNode.getThisAttribute (AN_PRIVATE_ABBREV);
 		tPrivates = aGameManager.getPrivates ();
 		tPrivateCompany = (PrivateCompany) tPrivates.getCorporation (tPrivateAbbrev);
@@ -39,7 +39,7 @@ public class ExchangePrivateQuery extends QueryOffer {
 		tBenefitName = aChildNode.getThisAttribute (AN_BENEFIT_NAME);
 		setBenefitName (tBenefitName);
 	}
-	
+
 	@Override
 	public XMLElement getElements (XMLDocument aXMLDocument, ElementName aElementName) {
 		XMLElement tXMLElement;
@@ -55,11 +55,11 @@ public class ExchangePrivateQuery extends QueryOffer {
 	private void setBenefitName (String aBenefitName) {
 		benefitName = aBenefitName;
 	}
-	
+
 	private void setPrivateAbbrev (String aPrivateAbbrev) {
 		privateAbbrev = aPrivateAbbrev;
 	}
-	
+
 	private void setPrivateCompany (PrivateCompany aPrivateCompany) {
 		privateCompany = aPrivateCompany;
 	}

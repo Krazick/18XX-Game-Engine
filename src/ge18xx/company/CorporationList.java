@@ -71,7 +71,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public final static ElementName EN_CORPORATIONS = new ElementName ("Corporations");
 	public static final int NO_CORPORATION_INDEX = -1;
 	public static final CorporationList NO_CORPORATION_LIST = null;
-	public static final ElementName TYPE_NAMES[] = { 
+	public static final ElementName TYPE_NAMES[] = {
 			new ElementName (Corporation.PRIVATE_COMPANY),
 			new ElementName (Corporation.MINOR_COMPANY),
 			new ElementName (Corporation.SHARE_COMPANY) };
@@ -82,7 +82,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 	public CorporationList (ElementName aTypeName, RoundManager aRoundManager) {
 		super ();
-		corporations = new LinkedList<Corporation> ();
+		corporations = new LinkedList<> ();
 		setTypeName (aTypeName);
 		roundManager = aRoundManager;
 	}
@@ -96,20 +96,20 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 		return tAnyCanOperate;
 	}
-	
+
 	/**
 	 * Search the corporations for one with this ID. Don't use Abbrev which can be duplicated, for example B&O.
 	 * When found force set the status to unowned.
 	 * This is to be used when Activating a Company
-	 * 
+	 *
 	 * @param aCompanyID The ID value of the Company.
-	 * 
+	 *
 	 * @return TRUE if the company was activated, FALSE otherwise
-	 * 
+	 *
 	 */
 	public boolean activateCorporation (int aCompanyID) {
 		boolean tActivated;
-		
+
 		tActivated = false;
 		for (Corporation tCorporation : corporations) {
 			if (aCompanyID == tCorporation.getID ()) {
@@ -117,17 +117,17 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 				tActivated = true;
 			}
 		}
-		
+
 		return tActivated;
 	}
 
 	/**
 	 * Build the entire Company JPanel in the CorporationList
-	 * 
+	 *
 	 * @param aAllCompanies TRUE to set Title "All TYPE Companies", FALSE to set
 	 *                      Title "TYPE Companies in Operating Order"
 	 * @return the JPanel to add to the JFrame
-	 * 
+	 *
 	 */
 	public JPanel buildCompanyJPanel (boolean aAllCompanies) {
 		JPanel tCompanyJPanel;
@@ -379,7 +379,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		int tColCount;
 
 		if (tCorporationIter.hasNext ()) {
-			tCorporation = (Corporation) tCorporationIter.next ();
+			tCorporation = tCorporationIter.next ();
 			tColCount = tCorporation.fieldCount ();
 		} else {
 			tColCount = 0;
@@ -569,9 +569,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 	/**
 	 * Test if ALL of the Train Companies in this Corporation List have operated or not.
-	 * 
+	 *
 	 * @return True if all Train Companies in this list have operated
-	 * 
+	 *
 	 */
 	public boolean haveAllCompaniesOperated () {
 		boolean tAllCompaniesOperated;
@@ -717,7 +717,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 	public void handleQueryBenefits (JFrame aRoundFrame) {
 		PrivateCompany tPrivate;
-		
+
 		for (Corporation tCorporation : corporations) {
 			if (tCorporation.isActive ()) {
 				if (tCorporation.isAPrivateCompany ()) {
@@ -727,7 +727,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			}
 		}
 	}
-	
+
 	public void printReport () {
 		System.out.println ("Corporation Report");
 		for (Corporation tCorporation : corporations) {
@@ -908,9 +908,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 	private Border setupOuterBorder (Color aFgColor, Color aBgColor) {
 		Border tOuterBorder;
-		
+
 		tOuterBorder = BorderFactory.createLineBorder (aBgColor, 2);
-		
+
 		return tOuterBorder;
 	}
 
@@ -954,7 +954,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			if (tCorporation.isActive ()) {
 				if (!aCurrentAbbrev.equals (tCorporation.getAbbrev ())) {
 					tTrainHolder = tCorporation.getLocalSelectedTrainHolder ();
-					if (tTrainHolder != TrainPortfolio.NO_TRAIN_HOLDER) {
+					if (tTrainHolder != TrainHolderI.NO_TRAIN_HOLDER) {
 						tSelectedCount += tTrainHolder.getLocalSelectedTrainCount ();
 					}
 				}
@@ -965,10 +965,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public TrainHolderI getOtherSelectedTrainHolder (String aCurrentAbbrev) {
-		TrainHolderI tTrainHolder = TrainPortfolio.NO_TRAIN_HOLDER;
+		TrainHolderI tTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
 
 		for (Corporation tCorporation : corporations) {
-			if (tTrainHolder == TrainPortfolio.NO_TRAIN_HOLDER) {
+			if (tTrainHolder == TrainHolderI.NO_TRAIN_HOLDER) {
 				if (!aCurrentAbbrev.equals (tCorporation.getAbbrev ())) {
 					tTrainHolder = tCorporation.getLocalSelectedTrainHolder ();
 				}
@@ -1021,7 +1021,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 						tPrivateCompany = (PrivateCompany) tCorporation;
 					}
 				}
-				if ((tHomeCity2 != MapCell.NO_MAP_CELL) && 
+				if ((tHomeCity2 != MapCell.NO_MAP_CELL) &&
 					(tPrivateCompany == (PrivateCompany) Corporation.NO_CORPORATION)) {
 					if (tHomeCity2 == aMapCell) {
 						tPrivateCompany = (PrivateCompany) tCorporation;
@@ -1084,8 +1084,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 	public void removeInactiveCompanies () {
 		List<Corporation> tCorporations;
-		
-		tCorporations = new LinkedList<Corporation> ();
+
+		tCorporations = new LinkedList<> ();
 		for (Corporation tCorporation : corporations) {
 			if (tCorporation.isInActive ()) {
 				tCorporation.removeHomeBases ();
@@ -1118,21 +1118,21 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	// Pass method calls over to Round Manager
-	
+
 	public void addAction (Action aAction) {
 		roundManager.addAction (aAction);
 	}
-	
+
 	/**
 	 * Append Error Report String to Action Report Frame as an Error
-	 * 
+	 *
 	 * @param aErrorReport String Text to append as an Error to the end of the Action Report Frame
-	 * 
+	 *
 	 */
 	public void appendErrorReport (String aReport) {
 		roundManager.appendErrorReport (aReport);
 	}
-	
+
 	public void bringMapToFront () {
 		roundManager.bringMapToFront ();
 	}
@@ -1192,7 +1192,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public boolean gameHasPrivates () {
 		return roundManager.gameHasPrivates ();
 	}
-	
+
 	public boolean gameHasLoans () {
 		return roundManager.gameHasLoans ();
 	}
@@ -1204,7 +1204,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public BankPool getBankPool () {
 		return roundManager.getBankPool ();
 	}
-	
+
 	public int getCapitalizationLevel (int aSharesSold) {
 		return roundManager.getCapitalizationLevel (aSharesSold);
 	}

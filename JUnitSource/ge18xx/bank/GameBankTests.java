@@ -47,10 +47,10 @@ class GameBankTests {
 	private Portfolio mPortfolio;
 	private TrainPortfolio mTrainPortfolio;
 	private GameBank gameBank;
-	
+
 	@BeforeEach
 	void setUp () throws Exception {
-		
+
 		bankTestFactory = new BankTestFactory ();
 		gameTestFactory = new GameTestFactory ();
 		companyTestFactory = new CompanyTestFactory (gameTestFactory);
@@ -58,14 +58,14 @@ class GameBankTests {
 		trainTestFactory = new TrainTestFactory ();
 		utilitiesTestFactory = new UtilitiesTestFactory ();
 		portfolioTestFactory = new PortfolioTestFactory (bankTestFactory);
-		
+
 		mGameManager = gameTestFactory.buildGameManagerMock ();
 		gameBank = bankTestFactory.buildGameBank (mGameManager);
-		
+
 		mPortfolio = portfolioTestFactory.buildPortfolioMock (gameBank);
 		mTrainPortfolio = Mockito.mock (TrainPortfolio.class);
 		Mockito.when (mTrainPortfolio.getName ()).thenReturn ("Train Portfolio Mock Name");
-		
+
 		gameBank.setPortfolio (mPortfolio);
 		gameBank.setTrainPortfolio (mTrainPortfolio);
 	}
@@ -76,20 +76,20 @@ class GameBankTests {
 		GameBank tGameBank;
 		Portfolio tPortfolio;
 		TrainPortfolio tTrainPortfolio;
-		
+
 		tGameBank = bankTestFactory.buildGameBank (mGameManager);
 		assertEquals ("Test Game Bank", tGameBank.getName ());
 		tGameBank.setPortfolio (mPortfolio);
 		tGameBank.setTrainPortfolio (mTrainPortfolio);
-		
+
 		tPortfolio = tGameBank.getPortfolio ();
 		tTrainPortfolio = tGameBank.getTrainPortfolio ();
-		
+
 		assertEquals ("Portfolio Mock Name", tPortfolio.getName ());
 		assertEquals ("Train Portfolio Mock Name", tTrainPortfolio.getName ());
 		assertEquals ("Fixed", tGameBank.getStateName ());
 		assertEquals ("GameBank", tGameBank.getAbbrev ());
-		
+
 		assertEquals (0, tGameBank.getTrainLimit ());
 		assertTrue (tGameBank.isABank ());
 	}
@@ -98,56 +98,56 @@ class GameBankTests {
 	@Test
 	void addCertificateTest () {
 		Certificate mCertificate;
-		
+
 		mCertificate  = certificateTestFactory.buildCertificateMock ();
 		Mockito.doNothing ().when (mPortfolio).addCertificate (any (Certificate.class));
-		
+
 		gameBank.addCertificate (mCertificate);
 		Mockito.verify (mPortfolio, times (1)).addCertificate (any (Certificate.class));
 	}
-	
+
 	@DisplayName ("Add Train Test")
 	@Test
 	void addTrainTest () {
 		Train mTrain;
-		
+
 		mTrain  = Mockito.mock (Train.class);
 		Mockito.doNothing ().when (mTrainPortfolio).addTrain (any (Train.class));
-		
+
 		gameBank.addTrain (mTrain);
 		Mockito.verify (mTrainPortfolio, times (1)).addTrain (any (Train.class));
 	}
-	
+
 	@DisplayName ("Clear Selections Test")
 	@Test
 	void clearSelectionsTest () {
 		Mockito.doNothing ().when (mTrainPortfolio).clearSelections ();
 		Mockito.doNothing ().when (mPortfolio).clearSelections ();
-		
+
 		gameBank.clearSelections ();
 		Mockito.verify (mPortfolio, times (1)).clearSelections ();
 		Mockito.verify (mTrainPortfolio, times (1)).clearSelections ();
 	}
-	
+
 	@DisplayName ("Get Cash Holder Test")
 	@Test
 	void getCashHolderTest () {
 		Bank mBank;
-		
+
 		mBank = bankTestFactory.buildBankMock (mGameManager);
 		Mockito.when (mGameManager.getBank ()).thenReturn (mBank);
 		assertEquals (mBank, gameBank.getCashHolder ());
-		
+
 		assertEquals (mBank, gameBank.getBank ());
 	}
-	
+
 	@DisplayName ("Get Porfolio Holder Test")
 	@Test
 	void getPortfolioHolderTest () {
 		assertEquals (gameBank, gameBank.getPortfolioHolder ());
 	}
-	
-	
+
+
 	@DisplayName ("Get Certificate")
 	@Nested
 	class getCertificateTests {
@@ -156,7 +156,7 @@ class GameBankTests {
 		void getCertificatePercentageForTest () {
 			ShareCompany tShareCompany;
 			int tShareCompanyPercentage;
-			
+
 			Mockito.when (mPortfolio.getCertificatePercentageFor (any (Corporation.class))).thenReturn (30);
 			tShareCompany = companyTestFactory.buildAShareCompany (1);
 			tShareCompanyPercentage = gameBank.getCertificatePercentageFor (tShareCompany);
@@ -169,14 +169,14 @@ class GameBankTests {
 		void getCertificateCountForTest () {
 			ShareCompany tShareCompany;
 			int tShareCompanyCount;
-			
+
 			Mockito.when (mPortfolio.getCertificateCountFor (any (Corporation.class))).thenReturn (3);
 			tShareCompany = companyTestFactory.buildAShareCompany (1);
 			tShareCompanyCount = gameBank.getCertificateCountFor (tShareCompany);
 			assertEquals (3, tShareCompanyCount);
 			Mockito.verify (mPortfolio, times (1)).getCertificateCountFor (tShareCompany);
 		}
-		
+
 		@DisplayName ("getCertificateFromCorp Test")
 		@Test
 		void getCertificateFromCorpTest () {
@@ -184,7 +184,7 @@ class GameBankTests {
 			Certificate tCertificateRemoved;
 			Certificate tCertificateNotRemoved;
 			Certificate mGeneratedCertificate;
-			
+
 			mGeneratedCertificate = certificateTestFactory.buildCertificateMock ();
 
 			Mockito.when (mPortfolio.getCertificateFor (any (Corporation.class))).thenReturn (mGeneratedCertificate);
@@ -193,7 +193,7 @@ class GameBankTests {
 			tCertificateRemoved = gameBank.getCertificateFromCorp (tShareCompany);
 			assertEquals (mGeneratedCertificate, tCertificateRemoved);
 			Mockito.verify (mPortfolio, times (1)).getCertificateFor (tShareCompany);
-			
+
 			tCertificateNotRemoved = gameBank.getCertificateFromCorp (tShareCompany, false);
 			assertEquals (mGeneratedCertificate, tCertificateNotRemoved);
 			Mockito.verify (mPortfolio, times (1)).getCertificateFor (tShareCompany, false);
@@ -205,7 +205,7 @@ class GameBankTests {
 		void getCertificateToBidOnTest () {
 			Certificate tCertificate;
 			Certificate mGeneratedCertificate;
-			
+
 			mGeneratedCertificate = certificateTestFactory.buildCertificateMock ();
 
 			Mockito.when (mPortfolio.getCertificateToBidOn ()).thenReturn (mGeneratedCertificate);
@@ -219,7 +219,7 @@ class GameBankTests {
 		void getCertificateToBuyTest () {
 			Certificate tCertificate;
 			Certificate mGeneratedCertificate;
-			
+
 			mGeneratedCertificate = certificateTestFactory.buildCertificateMock ();
 
 			Mockito.when (mPortfolio.getCertificateToBuy ()).thenReturn (mGeneratedCertificate);
@@ -233,7 +233,7 @@ class GameBankTests {
 		void getCertificatesToBuyTest () {
 			List<Certificate> tCertificates;
 			List<Certificate> mGeneratedCertificates;
-			
+
 			mGeneratedCertificates = certificateTestFactory.buildListCertificatesMock ();
 
 			Mockito.when (mPortfolio.getCertificatesToBuy ()).thenReturn (mGeneratedCertificates);
@@ -242,7 +242,7 @@ class GameBankTests {
 			Mockito.verify (mPortfolio, times (1)).getCertificatesToBuy ();
 		}
 	}
-	
+
 	@DisplayName ("Get PortfolioHolderLoaderI")
 	@Nested
 	class getPortfolioHolderLoaderITests {
@@ -252,7 +252,7 @@ class GameBankTests {
 			LoadedCertificate mLoadedCertificate;
 			PortfolioHolderLoaderI mPortfolioHolderLoaderI;
 			PortfolioHolderLoaderI mFoundPortfolioHolderLoaderI;
-			
+
 			mLoadedCertificate = certificateTestFactory.buildLoadedCertificateMock ();
 			mPortfolioHolderLoaderI = Mockito.mock (PortfolioHolderLoaderI.class);
 			Mockito.when (mPortfolio.getCurrentHolder (any (LoadedCertificate.class))).thenReturn (mPortfolioHolderLoaderI);
@@ -267,7 +267,7 @@ class GameBankTests {
 			LoadedCertificate mLoadedCertificate;
 			PortfolioHolderLoaderI mPortfolioHolderLoaderI;
 			PortfolioHolderLoaderI mFoundPortfolioHolderLoaderI;
-			
+
 			mLoadedCertificate = certificateTestFactory.buildLoadedCertificateMock ();
 			mPortfolioHolderLoaderI = Mockito.mock (PortfolioHolderLoaderI.class);
 			Mockito.when (mGameManager.getCurrentHolder (mLoadedCertificate)).thenReturn (mPortfolioHolderLoaderI);
@@ -276,7 +276,7 @@ class GameBankTests {
 			Mockito.verify (mGameManager, times (1)).getCurrentHolder (mLoadedCertificate);
 		}
 	}
-	
+
 	@DisplayName ("Train Portfolio interaction")
 	@Nested
 	class trainPortfolioInteractionTests {
@@ -285,7 +285,7 @@ class GameBankTests {
 		void getCheapestTrainTest () {
 			Train tCheapestTrain;
 			Train mGeneratedCheapestTrain;
-			
+
 			mGeneratedCheapestTrain = trainTestFactory.buildTrainMock ();
 
 			Mockito.when (mTrainPortfolio.getCheapestTrain ()).thenReturn (mGeneratedCheapestTrain);
@@ -293,13 +293,13 @@ class GameBankTests {
 			assertEquals (mGeneratedCheapestTrain, tCheapestTrain);
 			Mockito.verify (mTrainPortfolio, times (1)).getCheapestTrain ();
 		}
-		
+
 		@DisplayName ("getSelectedTrain Test")
 		@Test
 		void getSelectedTrainTest () {
 			Train tSelectedTrain;
 			Train mGeneratedSelectedTrain;
-			
+
 			mGeneratedSelectedTrain = trainTestFactory.buildTrainMock ();
 
 			Mockito.when (mTrainPortfolio.getSelectedTrain ()).thenReturn (mGeneratedSelectedTrain);
@@ -307,28 +307,28 @@ class GameBankTests {
 			assertEquals (mGeneratedSelectedTrain, tSelectedTrain);
 			Mockito.verify (mTrainPortfolio, times (1)).getSelectedTrain ();
 		}
-		
+
 		@DisplayName ("getSelectedTrainCount Test")
 		@Test
 		void getSelectedTrainCountTest () {
 			int tSelectedTrainCount;
-			
+
 			Mockito.when (mTrainPortfolio.getSelectedCount ()).thenReturn (2);
 			tSelectedTrainCount = gameBank.getSelectedTrainCount ();
 			assertEquals (2, tSelectedTrainCount);
 			Mockito.verify (mTrainPortfolio, times (1)).getSelectedCount ();
-			
+
 			tSelectedTrainCount = gameBank.getLocalSelectedTrainCount ();
 			assertEquals (2, tSelectedTrainCount);
 			Mockito.verify (mTrainPortfolio, times (2)).getSelectedCount ();
 		}
-		
+
 		@DisplayName ("getTrain Test")
 		@Test
 		void getTrainTest () {
 			Train tSelectedTrain;
 			Train mGeneratedSelectedTrain;
-			
+
 			mGeneratedSelectedTrain = trainTestFactory.buildTrainMock ();
 
 			Mockito.when (mTrainPortfolio.getTrain ("3")).thenReturn (mGeneratedSelectedTrain);
@@ -336,34 +336,34 @@ class GameBankTests {
 			assertEquals (mGeneratedSelectedTrain, tSelectedTrain);
 			Mockito.verify (mTrainPortfolio, times (1)).getTrain ("3");
 		}
-		
+
 		@DisplayName ("getTrainQuantity Test")
 		@Test
 		void getTrainQuantityTest () {
 			int tTrainQuantity;
-			
+
 			Mockito.when (mTrainPortfolio.getTrainQuantity ("3")).thenReturn (5);
 			tTrainQuantity = gameBank.getTrainQuantity ("3");
 			assertEquals (5, tTrainQuantity);
 			Mockito.verify (mTrainPortfolio, times (1)).getTrainQuantity ("3");
 		}
-		
+
 		@DisplayName ("getTrainNameAndQty Test")
 		@Test
 		void getTrainNameAndQtyTest () {
 			String tNameAndQuantity;
-			
+
 			Mockito.when (mTrainPortfolio.getTrainNameAndQty ("AVAILABLE")).thenReturn ("3 (5)");
 			tNameAndQuantity = gameBank.getTrainNameAndQty ("AVAILABLE");
 			assertEquals ("3 (5)", tNameAndQuantity);
 			Mockito.verify (mTrainPortfolio, times (1)).getTrainNameAndQty ("AVAILABLE");
 		}
-		
+
 		@DisplayName ("hasTrainNamed Test")
 		@Test
 		void hasTrainNamedTest () {
 			boolean tHasTrainNamed;
-			
+
 			Mockito.when (mTrainPortfolio.hasTrainNamed ("3")).thenReturn (true);
 			Mockito.when (mTrainPortfolio.hasTrainNamed ("4")).thenReturn (false);
 			tHasTrainNamed = gameBank.hasTrainNamed ("3");
@@ -373,30 +373,30 @@ class GameBankTests {
 			assertFalse (tHasTrainNamed);
 			Mockito.verify (mTrainPortfolio, times (1)).hasTrainNamed ("5");
 		}
-		
+
 		@DisplayName ("removeSelectedTrain Test")
 		@Test
 		void removeSelectedTrainTest () {
 			boolean tHasTrainNamed;
-			
+
 			Mockito.when (mTrainPortfolio.removeSelectedTrain ()).thenReturn (true);
 			tHasTrainNamed = gameBank.removeSelectedTrain ();
 			assertTrue (tHasTrainNamed);
 			Mockito.verify (mTrainPortfolio, times (1)).removeSelectedTrain ();
 		}
-		
+
 		@DisplayName ("removeTrain Test")
 		@Test
 		void removeTrainTest () {
 			boolean tTrainRemoved;
-			
+
 			Mockito.when (mTrainPortfolio.removeTrain ("3")).thenReturn (true);
 			Mockito.when (mTrainPortfolio.hasTrainNamed ("4")).thenReturn (false);
 			tTrainRemoved = gameBank.removeTrain ("3");
 			assertTrue (tTrainRemoved);
 			Mockito.verify (mTrainPortfolio, times (1)).removeTrain ("3");
 		}
-		
+
 		@DisplayName ("getAvailableTrains Test")
 		@Test
 		void getAvailableTrainsTest () {
@@ -404,44 +404,44 @@ class GameBankTests {
 			Train [] tGeneratedAvailableTrains;
 			Train mGeneratedTrain;
 			Train tFoundTrain;
-			
+
 			tGeneratedAvailableTrains = new Train [10];
 			mGeneratedTrain = trainTestFactory.buildTrainMock ();
 			tGeneratedAvailableTrains [0] = mGeneratedTrain;
-			
+
 			Mockito.when (mTrainPortfolio.getAvailableTrains ()).thenReturn (tGeneratedAvailableTrains);
 			tAvailableTrains = gameBank.getAvailableTrains ();
 			tFoundTrain = tAvailableTrains [0];
 			assertEquals (mGeneratedTrain, tFoundTrain);
 			Mockito.verify (mTrainPortfolio, times (1)).getAvailableTrains ();
 		}
-		
+
 		@DisplayName ("getTrainSummary Test")
 		@Test
 		void getTrainSummaryTest () {
 			String tTrainSummary;
-			
+
 			Mockito.when (mTrainPortfolio.getTrainSummary ()).thenReturn ("Game Bank Train Summary");
 			tTrainSummary = gameBank.getTrainSummary ();
 			assertEquals ("Game Bank Train Summary", tTrainSummary);
 			Mockito.verify (mTrainPortfolio, times (1)).getTrainSummary ();
 		}
-		
+
 		@DisplayName ("loadTrainPortfolio Test")
 		@Test
 		void loadTrainPortfolioTest () {
 			XMLNode mXMLNodeTrainPortfolio;
 			Bank mBank;
-			
+
 			mBank = bankTestFactory.buildBankMock (mGameManager);
 			Mockito.when (mGameManager.getBank ()).thenReturn (mBank);
-			
+
 			mXMLNodeTrainPortfolio = utilitiesTestFactory.buildXMLNodeMock ();
 			Mockito.doNothing ().when (mTrainPortfolio).loadTrainPortfolioFromBank (mXMLNodeTrainPortfolio, mBank);
 			gameBank.loadTrainPortfolio (mXMLNodeTrainPortfolio);
 			Mockito.verify (mTrainPortfolio, times (1)).loadTrainPortfolioFromBank (mXMLNodeTrainPortfolio, mBank);
 		}
-		
+
 		@DisplayName ("hasAnyTrains Test")
 		@Test
 		void hasAnyTrainsTest () {
@@ -453,22 +453,22 @@ class GameBankTests {
 			assertFalse (gameBank.hasAnyTrains ());
 			Mockito.verify (mTrainPortfolio, times (2)).getTrainCount ();
 		}
-		
+
 		@DisplayName ("getTrainPortfolioElements Test")
 		@Test
 		void getTrainPortfolioElementsTest () {
 			XMLElement mXMLElement;
 			XMLDocument mXMLDocument;
-			
+
 			mXMLDocument = utilitiesTestFactory.buildXMLDocumentMock ();
 			mXMLElement = utilitiesTestFactory.buildXMLElementMock ();
 			Mockito.when (mTrainPortfolio.getElements (mXMLDocument)).thenReturn (mXMLElement);
-			
+
 			gameBank.getTrainPortfolioElements (mXMLDocument);
 			Mockito.verify (mTrainPortfolio, times (1)).getElements (mXMLDocument);
 		}
 	}
-	
+
 	@DisplayName ("Portfolio Interaction")
 	@Nested
 	class portfolioInteractionTests {
@@ -477,20 +477,20 @@ class GameBankTests {
 		void getPortfolioElementsTest () {
 			XMLElement mXMLElement;
 			XMLDocument mXMLDocument;
-			
+
 			mXMLDocument = utilitiesTestFactory.buildXMLDocumentMock ();
 			mXMLElement = utilitiesTestFactory.buildXMLElementMock ();
 			Mockito.when (mPortfolio.getElements (mXMLDocument)).thenReturn (mXMLElement);
-			
+
 			gameBank.getPortfolioElements (mXMLDocument);
 			Mockito.verify (mPortfolio, times (1)).getElements (mXMLDocument);
 		}
-		
+
 		@DisplayName ("loadPortfolio Test")
 		@Test
 		void loadPortfolioTest () {
 			XMLNode mXMLNodePortfolio;
-			
+
 			mXMLNodePortfolio = utilitiesTestFactory.buildXMLNodeMock ();
 			Mockito.doNothing ().when (mPortfolio).loadPortfolio (mXMLNodePortfolio);
 			gameBank.loadPortfolio (mXMLNodePortfolio);

@@ -132,7 +132,7 @@ public class MapCell implements Comparator<Object> {
 
 	public boolean sameID (MapCell aMapCell) {
 		boolean tSameID;
-		
+
 		tSameID = false;
 		if (aMapCell != NO_MAP_CELL) {
 			if (id.equals (aMapCell.getID ())) {
@@ -153,7 +153,7 @@ public class MapCell implements Comparator<Object> {
 
 	/**
 	 * Clear the Specified Train from all Sides of the Map Cell, if it matches
-	 * 
+	 *
 	 * @param aTrainNumber The Train Number to Clear
 	 */
 	public void clearTrainUsingSides (int aTrainNumber) {
@@ -256,10 +256,10 @@ public class MapCell implements Comparator<Object> {
 
 	/**
 	 * Find the side on the Neighbor MapCell that connects to this MapCell.
-	 * 
-	 * @param aNeighborMapCell Find this Neighbor, if valid and return the 
+	 *
+	 * @param aNeighborMapCell Find this Neighbor, if valid and return the
 	 * Location of the side. Otherwise return NO_LOCATION;
-	 * 
+	 *
 	 * @return NO_LOCATION if the Neighbor is not Found for this MapCell
 	 */
 	public int getSideFromNeighbor (MapCell aNeighborMapCell) {
@@ -350,7 +350,7 @@ public class MapCell implements Comparator<Object> {
 
 	public void clearCorporation (Corporation aCorporation) {
 		Tile tTile;
-		
+
 		centers.clearCityInfoCorporation (aCorporation);
 		if (isTileOnCell ()) {
 			tTile = getTile ();
@@ -365,7 +365,7 @@ public class MapCell implements Comparator<Object> {
 
 	/**
 	 * Clear the Specified Train from the Map Cell, if it has a Tile on it.
-	 * 
+	 *
 	 * @param aTrainNumber The Train Number to Clear
 	 */
 	public void clearTrain (int aTrainNumber) {
@@ -376,7 +376,7 @@ public class MapCell implements Comparator<Object> {
 
 	/**
 	 * Clear all Trains from the Map Cell, if it has a Tile on it.
-	 * 
+	 *
 	 */
 	public void clearAllTrains () {
 		if (isTileOnCell ()) {
@@ -578,42 +578,42 @@ public class MapCell implements Comparator<Object> {
 
 	/**
 	 * Get the MapCell that is the Neighbor to for this MapCell on the specified side.
-	 * 
+	 *
 	 * @param aSide int value of the Location (must be between 0 and 5
-	 * 
+	 *
 	 * @return NO_MAP_CELL if not a valid side, otherwise the neighbor MapCell.
 	 * Also note, if the MapCell has no neighbor on that side, it also returns NO_MAP_CELL
-	 * 
+	 *
 	 */
 	public MapCell getNeighbor (int aSide) {
 		MapCell tNeighbor;
-		
+
 		if ((aSide < 0) || (aSide > 5)) {
 			tNeighbor = NO_MAP_CELL;
 		} else {
 			tNeighbor = neighbors [aSide];
 		}
-		
+
 		return tNeighbor;
 	}
-	
+
 	/**
 	 * Get the MapCell that is the Neighbor to for this MapCell on the specified Location
-	 * 
+	 *
 	 * @param aLocation the Location which must be a Side, fetch the Neighbor
-	 * 
+	 *
 	 * @return NO_MAP_CELL if not a valid side, otherwise the neighbor MapCell.
 	 * Also note, if the MapCell has no neighbor on that side, it also returns NO_MAP_CELL
 	 *
 	 */
 	public MapCell getNeighbor (Location aLocation) {
 		MapCell tNeighbor;
-		
+
 		tNeighbor = NO_MAP_CELL;
 		if (aLocation.isSide ()) {
 			tNeighbor = getNeighbor (aLocation.getLocation ());
 		}
-		
+
 		return tNeighbor;
 	}
 
@@ -695,16 +695,16 @@ public class MapCell implements Comparator<Object> {
 
 	public String getTileInfo () {
 		String tTileInfo;
-	
+
 		if (isTileOnCell ()) {
 			tTileInfo = " Tile #" + getTileNumber ();
 		} else {
 			tTileInfo = " NO TILE";
 		}
-		
+
 		return tTileInfo;
 	}
-	
+
 	public int getTileNumber () {
 		if (tile == Tile.NO_TILE) {
 			return tileNumber;
@@ -811,11 +811,11 @@ public class MapCell implements Comparator<Object> {
 
 	/**
 	 * Determine if this MapCell contains a Station for the Specified Corp ID, return True if so
-	 * 
+	 *
 	 * @param aCorpID The Corporation ID to find.
-	 * 
+	 *
 	 * @return TRUE if there is a Station that has the Corporation ID on the MapCell OR FALSE
-	 * 
+	 *
 	 */
 	public boolean hasStation (int aCorpID) {
 		if (tile != Tile.NO_TILE) {
@@ -827,15 +827,15 @@ public class MapCell implements Comparator<Object> {
 
 	public Location getLocationWithStation (int aCorpID) {
 		Location tLocationWithStation;
-		
+
 		tLocationWithStation = Location.NO_LOC;
 		if (tile != Tile.NO_TILE) {
 			tLocationWithStation = tile.getLocationWithStation (aCorpID);
 		}
-		
+
 		return tLocationWithStation;
 	}
-	
+
 	public boolean haveLaidBaseTokenFor (Corporation aCorporation) {
 		return hasStation (aCorporation.getID ());
 	}
@@ -1471,7 +1471,7 @@ public class MapCell implements Comparator<Object> {
 		int tIndex;
 
 		centers = new Centers ();
-		endRoutes = new LinkedList<Terrain> ();
+		endRoutes = new LinkedList<> ();
 		neighbors = new MapCell [6];
 		baseTileName = new TileName (aBaseName);
 		if (aBlockedSides == null) {
@@ -2108,7 +2108,7 @@ public class MapCell implements Comparator<Object> {
 	public Corporation getCorporation (String aCorporationAbbrev) {
 		return hexMap.getCorporation (aCorporationAbbrev);
 	}
-	
+
 	public void fillMapGraph (MapGraph aMapGraph) {
 		if (isTileOnCell ()) {
 			tile.fillMapGraph (aMapGraph, tileOrient, this);

@@ -54,7 +54,7 @@ public class Action {
 		setRoundType (NO_ROUND_TYPE);
 		setRoundID (NO_ROUND_ID);
 		setChainToPrevious (false);
-		effects = new LinkedList<Effect> ();
+		effects = new LinkedList<> ();
 	}
 
 	public Action (Action aAction) {
@@ -63,16 +63,16 @@ public class Action {
 		setRoundType (aAction.getRoundType ());
 		setRoundID (aAction.getRoundID ());
 		setChainToPrevious (false);
-		effects = new LinkedList<Effect> ();
+		effects = new LinkedList<> ();
 	}
-	
+
 	public Action (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		setName (NO_NAME);
 		setActor (aActor);
 		setRoundType (aRoundType);
 		setRoundID (aRoundID);
 		setChainToPrevious (false);
-		effects = new LinkedList<Effect> ();
+		effects = new LinkedList<> ();
 	}
 
 	public Action (XMLNode aActionNode, GameManager aGameManager) {
@@ -99,7 +99,7 @@ public class Action {
 		setRoundType (tRoundType);
 		setRoundID (tRoundID);
 		setChainToPrevious (tChainToPrevious);
-		effects = new LinkedList<Effect> ();
+		effects = new LinkedList<> ();
 
 		XMLNode tEffectsNode, tEffectNode;
 		NodeList tEffectsChildren, tEffectChildren;
@@ -109,7 +109,7 @@ public class Action {
 		Effect tEffect;
 		Class<?> tEffectToLoad;
 		Constructor<?> tEffectConstructor;
-	
+
 		tEffectsChildren = aActionNode.getChildNodes ();
 		tEffectsNodeCount = tEffectsChildren.getLength ();
 		tClassName = "NO-CLASS";
@@ -152,7 +152,7 @@ public class Action {
 			tEffect.postParse (actor);
 		}
 	}
-	
+
 	public void setNumber (int aNumber) {
 		number = aNumber;
 	}
@@ -187,7 +187,7 @@ public class Action {
 	public Effect getEffectNamed (String aEffectName) {
 		Effect tFoundEffect;
 		String tThisEffectName;
-		
+
 		tFoundEffect = Effect.NO_EFFECT;
 		if (aEffectName != null) {
 			for (Effect tEffect : effects) {
@@ -197,10 +197,10 @@ public class Action {
 				}
 			}
 		}
-		
+
 		return tFoundEffect;
 	}
-	
+
 	public String getXMLFormat (ElementName aElementName) {
 		XMLDocument tXMLDocument = new XMLDocument ();
 		String tXMLFormat = "";
@@ -275,7 +275,7 @@ public class Action {
 	public List<Effect> getEffects () {
 		return effects;
 	}
-	
+
 	public ActorI.ActionStates getRoundType () {
 		return roundType;
 	}
@@ -306,11 +306,11 @@ public class Action {
 	public int getEffectCount () {
 		return effects.size ();
 	}
-	
+
 	public Effect getEffect (int aEffectIndex) {
 		return effects.get (aEffectIndex);
 	}
-	
+
 	public String getBriefActionReport () {
 		return number + ". " + roundType + " " + roundID + ": " + actor.getAbbrev () + " performed " + name
 				+ " Chain to Previous [" + chainToPrevious + "]";
@@ -321,7 +321,7 @@ public class Action {
 	}
 
 	public void printUndoCompletion (boolean aActionUndone) {
-		if (aActionUndone == false) {
+		if (!aActionUndone) {
 			System.err.println ("***Not all Effects Undone properly***");
 		}
 	}
@@ -357,7 +357,7 @@ public class Action {
 		String tUndoFailureReason;
 		int tErrorCount;
 		int tEffectsUndoneCount;
-		
+
 		tActionUndone = true;
 		tErrorCount = 0;
 		tEffectsUndoneCount = 0;
@@ -370,7 +370,7 @@ public class Action {
 				tUndoFailureReason = tEffect.getUndoFailureReason ();
 				aRoundManager.appendErrorReport (tErrorReport);
 				aRoundManager.appendErrorReport (tUndoFailureReason);
-				
+
 				tErrorCount++;
 			}
 			tActionUndone &= tEffectUndone;
@@ -392,7 +392,7 @@ public class Action {
 			}
 			aRoundManager.appendReport (tReport);
 		}
-		
+
 		return tActionUndone;
 	}
 
@@ -404,7 +404,7 @@ public class Action {
 		boolean tActionApplied, tEffectApplied;
 		String tErrorReport;
 		String tApplyFailureReason;
-		
+
 		tActionApplied = true;
 		for (Effect tEffect : effects) {
 			tEffectApplied = tEffect.applyEffect (aRoundManager);

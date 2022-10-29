@@ -15,7 +15,7 @@ public class ClearATrainFromMapEffect extends Effect {
 	public final static AttributeName AN_CLEAR_A_TRAIN = new AttributeName ("clearATrain");
 	public final static AttributeName AN_TRAIN_INDEX = new AttributeName ("trainIndex");
 	int trainIndex;
-	
+
 	public ClearATrainFromMapEffect () {
 		super ();
 		setName (NAME);
@@ -34,11 +34,11 @@ public class ClearATrainFromMapEffect extends Effect {
 	public ClearATrainFromMapEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		int tTrainIndex;
-		
+
 		tTrainIndex = aEffectNode.getThisIntAttribute (AN_TRAIN_INDEX);
 		setTrainIndex (tTrainIndex);
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
@@ -52,11 +52,11 @@ public class ClearATrainFromMapEffect extends Effect {
 	public void setTrainIndex (int aTrainIndex) {
 		trainIndex = aTrainIndex;
 	}
-	
+
 	public int getTrainIndex () {
 		return trainIndex;
 	}
-	
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		Corporation tCorporation;

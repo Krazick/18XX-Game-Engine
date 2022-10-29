@@ -211,7 +211,7 @@ public class ChatServerHandler extends ServerHandler {
 		jClient.appendToChat ("I " + aChatVerb + " the Game", true);
 
 	}
-	
+
 	@Override
 	protected void handleChatReconnect () {
 		String tGameSupportXML;

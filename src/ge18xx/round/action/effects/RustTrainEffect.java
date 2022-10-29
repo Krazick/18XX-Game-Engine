@@ -42,14 +42,14 @@ public class RustTrainEffect extends TransferTrainEffect {
 	 * This method will verify that the Train Object to be rusted has been found after Parsing the Action
 	 * That includes rusting Trains. If the Train Object has not been found seek it from the provided Actor.
 	 * This Actor should be a Train Company. It will be used during a Train Upgrade, that is rusted by the Upgrade.
-	 * 
+	 *
 	 */
-	
+
 	@Override
 	public void postParse (ActorI aActor) {
 		TrainCompany tTrainCompany;
 		Train tTrain;
-		
+
 		if (train == Train.NO_TRAIN) {
 			if (aActor.isATrainCompany ()) {
 				tTrainCompany = (TrainCompany) aActor;
@@ -57,16 +57,16 @@ public class RustTrainEffect extends TransferTrainEffect {
 				if (tTrain != Train.NO_TRAIN) {
 					setTrain (tTrain);
 				} else {
-					System.err.println ("Could not find the " + trainName + 
+					System.err.println ("Could not find the " + trainName +
 							" Train in the Train Portfolio within the " + tTrainCompany.getName () + " Train Company.");
 				}
 			} else {
 				System.err.println ("The Actor " + aActor.getName () + " is not A Train Company, so doesn't have a Train Portfolio.");
 			}
 		}
-		
+
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;

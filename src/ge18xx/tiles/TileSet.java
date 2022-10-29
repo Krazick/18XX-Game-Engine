@@ -52,7 +52,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	public static final AttributeName AN_NUMBER = new AttributeName ("number");
 	public static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
 	public static final int TILES_PER_ROW = 9;
-	List<GameTile> gameTiles = new LinkedList<GameTile> ();
+	List<GameTile> gameTiles = new LinkedList<> ();
 	String setName;
 	Hex hex;
 	boolean showAllTiles; // Set true to show all Tiles in Tile Tray
@@ -90,9 +90,9 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	public boolean addTile (int aTileNumber, int aTotalCount) {
 		GameTile tGameTile;
-		
+
 		tGameTile = new GameTile (aTileNumber, aTotalCount);
-		
+
 		return gameTiles.add (tGameTile);
 	}
 
@@ -134,7 +134,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		Tile tTile;
 		int tTotalCount;
 		int tAvailableCount;
-		
+
 		tTile = aTileDefinitions.getTile (aTileNumber);
 		if (tTile != Tile.NO_TILE) {
 			// Set the Generic Tile Definition to show in Tile Tray
@@ -151,19 +151,19 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	public void addNTileClones (GameTile aGameTile, Tile aTile, int aTotalCount) {
 		Tile tTileClone;
 		int aIndex;
-		
+
 		for (aIndex = 0; aIndex < aTotalCount; aIndex++) {
 			tTileClone = aTile.clone ();
 			aGameTile.pushTile (tTileClone);
 		}
 	}
-	
+
 	public void copyATileFromDefinitions (TileSet aTileDefinitions, int aTileNumber, int aQuantity) {
 		Tile tTile;
 		GameTile tGameTile;
 		int tTotalCount;
 		boolean tTileAdded;
-		
+
 		tTile = aTileDefinitions.getTile (aTileNumber);
 		if (tTile != Tile.NO_TILE) {
 			tGameTile = getGameTileMatching (aTileNumber);
@@ -194,7 +194,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	private GameTile getGameTileMatching (int aTileNumber) {
 		int tTileNumber;
 		GameTile tFoundGameTile;
-		
+
 		tFoundGameTile = GameTile.NO_GAME_TILE;
 		for (GameTile tGameTile : gameTiles) {
 			tTileNumber = tGameTile.getTileNumber ();
@@ -202,10 +202,10 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 				tFoundGameTile = tGameTile;
 			}
 		}
-		
+
 		return tFoundGameTile;
 	}
-	
+
 	public XMLElement createAllTileDefinitions (XMLDocument aXMLDocument) {
 		XMLElement tAllTileDefinitions;
 		XMLElement tTileElement;
@@ -228,7 +228,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 		if (aTileNumber != 0) {
 			while (tIterator.hasNext () && !tFoundTile) {
-				tGameTile = (GameTile) tIterator.next ();
+				tGameTile = tIterator.next ();
 				if (aTileNumber == tGameTile.getTileNumber ()) {
 					tFoundTile = true;
 				}
@@ -270,7 +270,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 		if (aTileNumber != 0) {
 			while (tIterator.hasNext () && !tFoundTile) {
-				tGameTile = (GameTile) tIterator.next ();
+				tGameTile = tIterator.next ();
 				if (aTileNumber == tGameTile.getTileNumber ()) {
 					tTile = tGameTile.getTile ();
 					tFoundTile = true;
@@ -393,7 +393,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
 	 */
@@ -411,7 +411,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -451,7 +451,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 		return tShowThisTile;
 	}
-	
+
 	@Override
 	public void paintComponent (Graphics aGraphics) {
 		int tX, tY, Xoffset, Yoffset, tIndex, tYNumOffset;
@@ -466,7 +466,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		tX = Xoffset - tWidth;
 		tY = Yoffset - tHeight;
 		tIndex = 0;
-		
+
 		for (GameTile tGameTile : gameTiles) {
 			tGameTile.setXY (tX, tY);
 			tTile = tGameTile.getTile ();
@@ -486,14 +486,14 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		}
 	}
 
-	private void drawThisTile (Graphics aGraphics, int aX, int aY, int aYNumOffset, 
+	private void drawThisTile (Graphics aGraphics, int aX, int aY, int aYNumOffset,
 				int aWidth, int aHeight, Tile aTile, GameTile aGameTile) {
 		int tXNum;
 		int tYNum;
 		int tValueWidth;
 		int tTileOrient;
 		String tIdLabel;
-		
+
 		setBackgroundForTile (aGraphics, aX, aY, aWidth, aHeight, aGameTile);
 		tTileOrient = aGameTile.getTileOrient ();
 		aTile.paintComponent (aGraphics, tTileOrient, hex, new Feature2 (), aGameTile.isSelected ());
@@ -515,7 +515,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	private void setBackgroundForTile (Graphics aGraphics, int aX, int aY, int aWidth, int aHeight, GameTile aGameTile) {
 		int tXUpperLeft;
 		int tYUpperLeft;
-		
+
 		tXUpperLeft = aX - aWidth;
 		tYUpperLeft = aY - aHeight;
 		if (tileTrayFrame.isUpgradeAllowed (aGameTile)) {
@@ -541,7 +541,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 		if (aTileNumber != 0) {
 			while (tIterator.hasNext () && !tFoundTile) {
-				tGameTile = (GameTile) tIterator.next ();
+				tGameTile = tIterator.next ();
 				if (aTileNumber == tGameTile.getTileNumber ()) {
 					tTile = tGameTile.popTile ();
 					tFoundTile = true;
@@ -898,7 +898,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	}
 
 	public void setValues (String aSetName) {
-		gameTiles = new LinkedList<GameTile> ();
+		gameTiles = new LinkedList<> ();
 		setName = aSetName;
 		addMouseListener (this);
 		addMouseMotionListener (this);
@@ -919,19 +919,19 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		}
 		tileTrayFrame.notifyMapFrame ();
 	}
-	
+
 	public int calcRowCount () {
 		int tRowCount;
 		double tTileCount;
 		double tRowCountD;
-		
-		tTileCount = (double) getTileCountToShow ();
+
+		tTileCount = getTileCountToShow ();
 		tRowCountD = new Double (tTileCount / TILES_PER_ROW);
 		tRowCount = (int) Math.ceil (tRowCountD);
 
 		return tRowCount;
 	}
-	
+
 	public void setTraySize () {
 		int tMaxX, tMaxY;
 		int tRowCount;
@@ -985,7 +985,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			}
 		}
 	};
-	
+
 	public void sortGameTiles () {
 		Collections.sort (gameTiles, GameTile.GameTileComparator);
 	}

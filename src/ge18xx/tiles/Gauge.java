@@ -120,7 +120,7 @@ public class Gauge implements Cloneable {
 
 	/**
 	 * Test if a Gauge of a Track is useable or not.
-	 * 
+	 *
 	 * @return True if Gauge is (NORMAL, METER, DUAL, TUNNEL, or FERRY)
 	 */
 	public boolean useableGauge () {

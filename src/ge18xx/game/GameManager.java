@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -79,7 +80,7 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 // TODO -- Create an abstract 'GenericGameManager' Super Class that holds non-specific Game information like:
-//   GameInfo, PlayerManager, configFrames, PlayerInputFrame, frameInfo, and the other non-specific 
+//   GameInfo, PlayerManager, configFrames, PlayerInputFrame, frameInfo, and the other non-specific
 //   objects flagged below. Move the methods that use only these objects to the super-class
 //
 // Also create a 'NetworkGameManager' Sub-class that implements the NetworkGameSupport objects and
@@ -202,7 +203,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void storeAllFrames (Game_18XX aGame_18XX_Frame) {
-		configFrames = new ArrayList<XMLFrame> ();
+		configFrames = new ArrayList<> ();
 		game18XXFrame = aGame_18XX_Frame;
 		setPlayerInputFrame (PlayerInputFrame.NO_PLAYER_INPUT_FRAME);
 		setFrameInfoFrame (XMLFrame.NO_XML_FRAME);
@@ -325,17 +326,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public ParPriceFrame buildParPriceFrame (Certificate aCertificate) {
 		Player tCurrentPlayer;
-		
+
 		tCurrentPlayer = getCurrentPlayer ();
-		
+
 		return playerManager.buildParPriceFrame (tCurrentPlayer, aCertificate);
 	}
-	
+
 	public boolean handleSetParPrice (Certificate aCertificate, int aSelectedParPrice, ParPriceFrame aParPriceFrame) {
 		Corporation tCorporation;
 		ShareCompany tShareCompany;
 		boolean tParPriceSet;
-		
+
 		tCorporation = aCertificate.getCorporation ();
 		if (tCorporation.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) tCorporation;
@@ -349,14 +350,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 		} else {
 			tParPriceSet = false;
 		}
-		
+
 		return tParPriceSet;
 	}
 
 	public void addPrivateToAuction () {
 		Certificate tCertificate;
 		Certificate tFreeCertificate;
-		
+
 		tCertificate = bank.getPrivateForAuction ();
 		tFreeCertificate = bank.getFreeCertificateWithThisCertificate (tCertificate);
 		auctionFrame.addPrivateToAuction (tCertificate, tFreeCertificate);
@@ -521,7 +522,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	/**
 	 * Get the Minimum Number of Shares that must be sold to allow a Company to
 	 * Float
-	 * 
+	 *
 	 * @return the Minimum Number of Shares needed to float
 	 */
 	public int getMinSharesToFloat () {
@@ -549,12 +550,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 		TileTrayFrame tTileTrayFrame;
 		TileDefinitionFrame tTileDefinitionFrame;
 		String tFrameTitle;
-		
+
 		if (gameIsStarted ()) {
 			tActiveGameName = getActiveGameName ();
 			tBaseDirName = getXMLBaseDirectory ();
 			tXMLTileTrayName = tBaseDirName + getTileSetFileName ();
-			
+
 			tFrameTitle = createFrameTitle (TileTrayFrame.BASE_TITLE);
 			tTileTrayFrame = new TileTrayFrame (tFrameTitle, this);
 			setTileTrayFrame (tTileTrayFrame);
@@ -568,20 +569,20 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	/**
-	 * Load a specific tile Number with a Quantity from the specified Set, into the Tile Tray Frame. 
-	 * 
+	 * Load a specific tile Number with a Quantity from the specified Set, into the Tile Tray Frame.
+	 *
 	 * @param aSetName The Name of the Tile Set (from the list of Tile Types that have specific XML Definition Files)
 	 * @param aTileNumber The Tile Number to load
-	 * @param aQuantity The Quantity to Add to the Tile Tray. 
-	 * 
+	 * @param aQuantity The Quantity to Add to the Tile Tray.
+	 *
 	 */
 	public void loadATileFromASet (String aSetName, int aTileNumber, int aQuantity) {
 		String tBaseDirName;
-		
+
 		tBaseDirName = getXMLBaseDirectory ();
 		tileDefinitionFrame.loadATileFromASet (tBaseDirName, tileTrayFrame, aTileNumber, aSetName, aQuantity);
 	}
-	
+
 	public boolean doIncrementalCapitalization () {
 		return phaseManager.doIncrementalCapitalization ();
 	}
@@ -1025,7 +1026,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public GameInfo getSelectedGame () {
 		return playerInputFrame.getSelectedGame ();
 	}
-	
+
 	@Override
 	public void initiateNetworkGame () {
 		initiateGame (getSelectedGame ());
@@ -1035,13 +1036,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public XMLElement getGameVariantsXMLElement () {
 		XMLElement tGameVariantsXMLElement;
 		XMLDocument tXMLDocument;
-		
+
 		tXMLDocument = new XMLDocument ();
 		tGameVariantsXMLElement = activeGame.getGameVariantsXMLElement (tXMLDocument);
-		
+
 		return tGameVariantsXMLElement;
 	}
-	
+
 	public void initiateGame (GameInfo aGameInfo) {
 		setGame (aGameInfo);
 		initiateGame ();
@@ -1054,7 +1055,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		CorporationList tPrivates;
 		CorporationList tMinors;
 		CorporationList tShares;
-		
+
 		tPrivates = getPrivates ();
 		tPrivates.removeInactiveCompanies ();
 		tMinors = getMinorCompanies ();
@@ -1063,7 +1064,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tShares.removeInactiveCompanies ();
 
 	}
-	
+
 	public void initiateGame () {
 		CorporationList tPrivates;
 		CorporationList tMinors;
@@ -1098,7 +1099,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			autoSaveActionReportFileName = constructASARFileName (AUTO_SAVES_DIR, ".action.txt");
 			autoSaveFile = new File (autoSaveFileName);
 			autoSaveActionReportFile = new File (autoSaveActionReportFileName);
-			
+
 			roundManager.initiateGame (tPrivates, tMinors, tShares);
 			if (!activeGame.isATestGame ()) {
 				roundManager.showInitialFrames ();
@@ -1184,7 +1185,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		aChooser.addChoosableFileFilter (fileGEFilter);
 		aChooser.setAcceptAllFileFilterUsed (true);
-		aChooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
+		aChooser.setFileSelectionMode (JFileChooser.FILES_AND_DIRECTORIES);
 
 		while (tNotChosenYet) {
 			aChooser.setCurrentDirectory (tDirectory);
@@ -1193,7 +1194,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			} else {
 				tResult = chooser.showOpenDialog (this);
 			}
-			if (tResult == JFileMChooser.APPROVE_OPTION) {
+			if (tResult == JFileChooser.APPROVE_OPTION) {
 				tSelectedFile = chooser.getSelectedFile ();
 				if (tSelectedFile.isDirectory ()) {
 					tDirectory = tSelectedFile;
@@ -1233,7 +1234,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tSaveDirectory = new File (tSaveDirectoryPath);
 		chooser.setCurrentDirectory (tSaveDirectory);
 		chooser.setAcceptAllFileFilterUsed (true);
-		chooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
+		chooser.setFileSelectionMode (JFileChooser.FILES_AND_DIRECTORIES);
 		chooser.setMLocation (tNewPoint);
 		setLoadSavedFile (getSelectedFile (tSaveDirectory, chooser, false));
 
@@ -1551,7 +1552,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		XMLDocument tXMLDocument;
 		XMLElement tXMLElement, tSaveGameElement;
 		String tFullActionReport;
-		
+
 		tXMLDocument = new XMLDocument ();
 		tSaveGameElement = tXMLDocument.createElement (EN_GAME);
 		tSaveGameElement.setAttribute (AN_GE_VERSION, getGEVersion ());
@@ -1611,7 +1612,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tXMLDocument.appendChild (tSaveGameElement);
 
 		tXMLDocument.outputXML (saveFile);
-		
+
 		tFullActionReport = roundManager.getFullActionReport ();
 		outputToFile (tFullActionReport, autoSaveActionReportFile);
 	}
@@ -1697,7 +1698,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		chooser.setCurrentDirectory (aSaveDirectory);
 		chooser.addChoosableFileFilter (fileGEFilter);
 		chooser.setAcceptAllFileFilterUsed (true);
-		chooser.setFileSelectionMode (JFileMChooser.FILES_AND_DIRECTORIES);
+		chooser.setFileSelectionMode (JFileChooser.FILES_AND_DIRECTORIES);
 		chooser.setSelectedFile (new File ("SaveGame." + fileUtils.xml));
 	}
 
@@ -1720,12 +1721,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean marketHasTokenFor (ShareCompany aShareCompany) {
 		return marketFrame.marketHasTokenFor (aShareCompany);
 	}
-	
+
 	public void setParPriceToken (ShareCompany aShareCompany) {
 		marketFrame.setSharePriceToken (aShareCompany);
 		updateAllPlayerFrames ();
 	}
-	
+
 	public void setParPrice (ShareCompany aShareCompany, int aParPrice) {
 		marketFrame.setParPrice (aShareCompany, aParPrice);
 		updateAllPlayerFrames ();
@@ -1762,7 +1763,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean hasTestGraphs () {
 		return activeGame.hasTestGraphs ();
 	}
-	
+
 	private void setPrivatesFrame (XMLFrame aXMLFrame) {
 		privatesFrame = (PrivatesFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
@@ -1999,16 +2000,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean roundManagerIsValid () {
 		return (roundManager != RoundManager.NO_ROUND_MANAGER);
 	}
-	
+
 	public String getOperatingRoundID () {
 		String tOperatingRoundID;
-		
+
 		if (roundManagerIsValid ()) {
 			tOperatingRoundID = roundManager.getOperatingRoundID ();
 		} else {
 			tOperatingRoundID = ">>NONE<<";
 		}
-		
+
 		return tOperatingRoundID;
 	}
 
@@ -2020,10 +2021,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		} else {
 			tStockRoundID = ">>NONE<<";
 		}
-		
+
 		return tStockRoundID;
 	}
-	
+
 	public boolean isOperatingRound () {
 		boolean tIsOperatingRound;
 
@@ -2035,7 +2036,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		return tIsOperatingRound;
 	}
-	
+
 	public boolean isStockRound () {
 		boolean tIsStockRound;
 
@@ -2050,20 +2051,20 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public Corporation getOperatingCompany () {
 		Corporation tOperatingCompany;
-		
+
 		if (isStockRound ()) {
 			tOperatingCompany = Corporation.NO_CORPORATION;
 		} else {
 			tOperatingCompany = roundManager.getOperatingCompany ();
 		}
-		
+
 		return tOperatingCompany;
 	}
 
 	public void addAction (Action aAction) {
 		roundManager.addAction (aAction);
 	}
-	
+
 	public boolean isUpgradeAllowed (String tTileColor) {
 		return phaseManager.isUpgradeAllowed (tTileColor);
 	}
@@ -2097,16 +2098,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public boolean shouldRandomize () {
 		boolean tShouldRandomize;
-		
+
 		if (activeGame != GameInfo.NO_GAME_INFO) {
 			tShouldRandomize = activeGame.randomizeStartOrder ();
 		} else {
 			tShouldRandomize = true;
 		}
-		
+
 		return tShouldRandomize;
 	}
-	
+
 	@Override
 	public void randomizePlayerOrder () {
 		playerInputFrame.randomizePlayerOrder ();
@@ -2204,7 +2205,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		NodeList tChildren;
 		XMLNode tChildNode;
 		XMLNode tVariantEffectsNode;
-		
+
 		tGameIndex = aGameSelectionNode.getThisIntAttribute (JGameClient.AN_GAME_INDEX);
 		tBroadcast = aGameSelectionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
 		tGameID = aGameSelectionNode.getThisAttribute (JGameClient.AN_GAME_ID);
@@ -2227,7 +2228,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void setApplyingAction (boolean aApplyingAction) {
 		applyingNetworkAction = aApplyingAction;
 	}
-	
+
 	public boolean applyingAction () {
 		return applyingNetworkAction;
 	}
@@ -2497,11 +2498,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public boolean operateBeforeSale () {
 		return activeGame.operateBeforeSale ();
 	}
-	
+
 	public boolean isFirstStockRound () {
 		return roundManager.isFirstStockRound ();
 	}
-	
+
 	public void showRoundFrame () {
 		roundManager.showRoundFrame ();
 	}
@@ -2655,9 +2656,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public Action getLastAction (int aActionOffset) {
 		Action tLastAction;
-		
+
 		tLastAction = roundManager.getLastAction (aActionOffset);
-		
+
 		return tLastAction;
 	}
 }

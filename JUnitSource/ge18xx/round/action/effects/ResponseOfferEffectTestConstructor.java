@@ -11,13 +11,13 @@ import org.mockito.Mockito;
 
 import ge18xx.company.Certificate;
 import ge18xx.company.CompanyTestFactory;
-import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.round.action.ActorI;
 
 @DisplayName ("Response to Offer Effect Constructor Tests")
 class ResponseOfferEffectTestConstructor {
@@ -103,7 +103,7 @@ class ResponseOfferEffectTestConstructor {
 		assertEquals (tReportResponseTrue, effectBeta.getEffectReport (null));
 		assertEquals (tReportResponseFalse, effectChi.getEffectReport (null));
 
-		effectChi.setToActor (Corporation.NO_ACTOR);
+		effectChi.setToActor (ActorI.NO_ACTOR);
 		assertEquals (tReportResponseNoTO, effectChi.getEffectReport (null));
 
 		assertEquals (tReportResponseEpsilon, effectEpsilon.getEffectReport (null));

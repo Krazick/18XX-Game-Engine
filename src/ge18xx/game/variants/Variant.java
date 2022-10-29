@@ -58,7 +58,7 @@ public class Variant {
 		int tID;
 		boolean tDefault;
 		boolean tHotSeatOnly;
-		
+
 		tID = aXMLNode.getThisIntAttribute (AN_ID, NO_ID);
 		tTitle = aXMLNode.getThisAttribute (AN_TITLE);
 		tDefault = aXMLNode.getThisBooleanAttribute (AN_DEFAULT);
@@ -77,10 +77,10 @@ public class Variant {
 		int tIndex;
 		int tChildrenCount;
 		VariantEffect tVariantEffect;
-		
+
 		tChildren = aXMLNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
-		variantEffects = new LinkedList<VariantEffect> ();
+		variantEffects = new LinkedList<> ();
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
@@ -98,7 +98,7 @@ public class Variant {
 		VariantEffect tVariantEffect;
 		Class<?> tVariantEffectToLoad;
 		Constructor<?> tVariantEffectConstructor;
-		
+
 		tVariantEffect = VariantEffect.NO_VARIANT_EFFECT;
 		try {
 			tClassName = aVariantEffectNode.getThisAttribute (AN_VARIANT_CLASS);
@@ -112,15 +112,15 @@ public class Variant {
 
 		return tVariantEffect;
 	}
-	
+
 	public JPanel buildVariantDescription () {
 		return GUI.NO_PANEL;
 	}
-	
+
 	public JComponent buildTitleComponent (VariantEffect.ComponentType aEffectComponentType) {
 		JComponent tTitleComponent;
 		JCheckBox tCheckBox;
-		
+
 		if (aEffectComponentType == VariantEffect.ComponentType.JLABEL) {
 			tCheckBox = new JCheckBox (getTitle ());
 			tCheckBox.setSelected (enabled);
@@ -129,23 +129,23 @@ public class Variant {
 			tTitleComponent = new JLabel (getTitle ());
 		}
 		tTitleComponent.setBorder (BorderFactory.createEmptyBorder (5, 0, 0, 0));
-		
+
 		return tTitleComponent;
 	}
-	
+
 	public JPanel buildVariantDescription (VariantEffect.ComponentType aEffectComponentType) {
 		JPanel tDescPanel;
 		JComponent tEffectComponent;
 		ButtonGroup tEffectButtonGroup;
 		boolean tRadioButtonGroup;
-		
+
 		tDescPanel = new JPanel ();
 		tDescPanel.setBorder (VariantEffect.VE_BORDER);
 		tDescPanel.setLayout (new BoxLayout (tDescPanel, BoxLayout.PAGE_AXIS));
 		titleComponent = buildTitleComponent (aEffectComponentType);
 		titleComponent.setBorder (BorderFactory.createEmptyBorder (0, 10, 0, 10));
 		tDescPanel.add (titleComponent);
-		
+
 		tRadioButtonGroup = (aEffectComponentType == VariantEffect.ComponentType.RADIO_BUTTON);
 		if (tRadioButtonGroup) {
 			tEffectButtonGroup = new ButtonGroup ();
@@ -164,7 +164,7 @@ public class Variant {
 				}
 			}
 		}
-		
+
 		return tDescPanel;
 	}
 
@@ -194,7 +194,7 @@ public class Variant {
 	public String getTitle () {
 		return title;
 	}
-	
+
 	public boolean isEnabled () {
 		return enabled;
 	}
@@ -202,11 +202,11 @@ public class Variant {
 	public boolean hotSeatOnly () {
 		return hotSeatOnly;
 	}
-	
+
 	public void setHotSeatOnly (boolean aHotSeatOnly) {
 		hotSeatOnly = aHotSeatOnly;
 	}
-	
+
 	public void setEnabled (boolean aEnabled) {
 		enabled = aEnabled;
 	}
@@ -214,15 +214,15 @@ public class Variant {
 	public void setID (int aID) {
 		id = aID;
 	}
-	
+
 	protected void setTitle (String aTitle) {
 		title = aTitle;
 	}
-	
+
 	public int getVariantEffectCount () {
 		return variantEffects.size ();
 	}
-	
+
 	public void applyVariantEffects (GameManager aGameManager) {
 		for (VariantEffect tEffect: variantEffects) {
 			if (tEffect != VariantEffect.NO_VARIANT_EFFECT) {
@@ -234,11 +234,11 @@ public class Variant {
 	public void addActiveVariantEffects (List<VariantEffect> aActiveVariantEffects) {
 		System.err.println ("Base Class should not be called, sub-classes should override this method");
 	}
-	
+
 	public boolean isActive () {
 		boolean tIsActive;
 		JCheckBox tCheckBox;
-		
+
 		tIsActive = false;
 		if (titleComponent != GUI.NO_JCOMPONENT) {
 			if (titleComponent instanceof JCheckBox) {
@@ -248,13 +248,13 @@ public class Variant {
 				}
 			}
 		}
-		
+
 		return tIsActive;
 	}
 
 	public void setSelected (boolean aIsSelected) {
 		JCheckBox tCheckBox;
-		
+
 		if (titleComponent != GUI.NO_JCOMPONENT) {
 			if (titleComponent instanceof JCheckBox) {
 				tCheckBox = (JCheckBox) titleComponent;
@@ -262,11 +262,11 @@ public class Variant {
 			}
 		}
 	}
-	
+
 	public boolean isSelected () {
 		boolean tIsSelected;
 		JCheckBox tCheckBox;
-		
+
 		tIsSelected = false;
 		if (titleComponent != GUI.NO_JCOMPONENT) {
 			if (titleComponent instanceof JCheckBox) {
@@ -276,39 +276,39 @@ public class Variant {
 				}
 			}
 		}
-		
+
 		return tIsSelected;
 	}
 
 	public boolean hasVariantEffect (int aVariantID) {
 		boolean tHasVariantEffect;
 		VariantEffect tEffect;
-		
+
 		tEffect = getVariantEffect (aVariantID);
 		if (tEffect == VariantEffect.NO_VARIANT_EFFECT) {
 			tHasVariantEffect = false;
 		} else {
 			tHasVariantEffect = true;
 		}
-		
+
 		return tHasVariantEffect;
 	}
 	public VariantEffect getVariantEffectAt (int aVariantEffectIndex) {
 		int tEffectCount;
 		VariantEffect tFoundVariantEffect;
-		
+
 		tFoundVariantEffect = VariantEffect.NO_VARIANT_EFFECT;
 		tEffectCount = variantEffects.size ();
 		if ((aVariantEffectIndex >= 0) && (aVariantEffectIndex < tEffectCount)) {
 			tFoundVariantEffect = variantEffects.get (aVariantEffectIndex);
 		}
-		
+
 		return tFoundVariantEffect;
 	}
-	
+
 	public VariantEffect getVariantEffect (int aVariantID) {
 		VariantEffect tFoundEffect;
-		
+
 		tFoundEffect = VariantEffect.NO_VARIANT_EFFECT;
 		for (VariantEffect tEffect: variantEffects) {
 			if (tEffect != VariantEffect.NO_VARIANT_EFFECT) {
@@ -320,12 +320,12 @@ public class Variant {
 
 		return tFoundEffect;
 	}
-	
+
 	public boolean selectActiveVariantEffects (VariantEffect aVariantEffect) {
 		boolean tSelected;
-		
+
 		tSelected = false;
-		
+
 		return tSelected;
 	}
 }

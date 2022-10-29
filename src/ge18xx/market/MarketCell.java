@@ -143,8 +143,8 @@ public class MarketCell {
 
 		tX = (int) aPoint.getX ();
 		tY = (int) aPoint.getY ();
-		tXTopLeft = xCenter - (int) (aWidth / 2);
-		tYTopLeft = yCenter - (int) (aHeight / 2);
+		tXTopLeft = xCenter - aWidth / 2;
+		tYTopLeft = yCenter - aHeight / 2;
 		tXBottomRight = tXTopLeft + aWidth;
 		tYBottomRight = tYTopLeft + aHeight;
 		if ((tX >= tXTopLeft) && (tX < tXBottomRight)) {
@@ -164,8 +164,8 @@ public class MarketCell {
 
 		tX = (int) aPoint.getX ();
 		tY = (int) aPoint.getY ();
-		tXTopLeft = xCenter - (int) (aWidth / 2);
-		tYTopLeft = yCenter - (int) (aHeight / 2);
+		tXTopLeft = xCenter - aWidth / 2;
+		tYTopLeft = yCenter - aHeight / 2;
 		tXBottomRight = tXTopLeft + aWidth;
 		tYBottomRight = tYTopLeft + aHeight;
 		if ((tX >= tXTopLeft) && (tX < tXBottomRight)) {
@@ -397,9 +397,9 @@ public class MarketCell {
 		int tWidth, tHeight, xTL, yTL;
 
 		if (tokens.getTokenCount () > 0) {
-			tWidth = (int) (width / 3);
-			tHeight = (int) (height / 3);
-			xTL = xCenter - tWidth - (int) (tWidth / 3);
+			tWidth = width / 3;
+			tHeight = height / 3;
+			xTL = xCenter - tWidth - tWidth / 3;
 			yTL = yCenter;
 			tWidth = tWidth + tWidth;
 			tHeight = tHeight + tHeight;
@@ -787,8 +787,8 @@ public class MarketCell {
 	}
 
 	public void setXYCoord (int Xc, int Yc) {
-		xCenter = (int) Xc;
-		yCenter = (int) Yc;
+		xCenter = Xc;
+		yCenter = Yc;
 	}
 
 	public void unSelect () {

@@ -92,7 +92,7 @@ public class GeneratedRevenueEffect extends Effect {
 		tOperatingCompany.closeTrainRevenueFrame ();
 		aRoundManager.updateAllCorporationsBox ();
 		tEffectApplied = true;
-		
+
 		return tEffectApplied;
 	}
 

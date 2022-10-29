@@ -631,13 +631,13 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 		if (! handledWaiting (exchangeButton)) {
 //			exchangeButton.setEnabled (false);
-//			exchangeButton.setToolTipText (WAITING_FOR_PAR_PRICE);	
-//		} else 
+//			exchangeButton.setToolTipText (WAITING_FOR_PAR_PRICE);
+//		} else
 			if (tHasSelectedOneToExchange) {
 				if (aPrezToExchange) {
 					tCanBankHoldStock = canBankHoldStock ();
 				}
-	
+
 				exchangeButton.setEnabled (tCanBankHoldStock);
 				if (!tCanBankHoldStock) {
 					exchangeButton
@@ -777,16 +777,16 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 	private boolean handledWaiting (JButton aActionButton) {
 		boolean tIsWaiting;
-		
+
 		tIsWaiting = player.isWaiting ();
 		if (tIsWaiting) {
 			aActionButton.setEnabled (false);
-			aActionButton.setToolTipText (WAITING_FOR_PAR_PRICE);	
+			aActionButton.setToolTipText (WAITING_FOR_PAR_PRICE);
 		}
-		
+
 		return tIsWaiting;
 	}
-	
+
 	private void updateUndoButton (boolean tActionsToUndo) {
 		if (! handledWaiting (undoButton)) {
 			undoButton.setEnabled (tActionsToUndo);

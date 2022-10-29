@@ -60,9 +60,9 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	JPanel auctionItemInfoJPanel;
 	JPanel biddersJPanel;
 	JPanel buttonJPanel;
-	
+
 	JPanel fullPanel;
-	
+
 	JComboBox<String> parValuesCombo;
 	JButton setParPrice;
 
@@ -83,7 +83,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	public AuctionFrame (String aFrameName, String aClientUser, boolean aIsNetworkGame) {
 		super (aFrameName);
-		
+
 		fullPanel = new JPanel ();
 		fullPanel.setLayout (new BoxLayout (fullPanel, BoxLayout.Y_AXIS));
 		clientUserName = aClientUser;
@@ -173,7 +173,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private void completeAuction () {
 		boolean tNextShareHasBids;
 		Player tPlayer;
-		
+
 		// Transfer Certificate to Highest Bidder
 		// Transfer Escrow from Highest Bidder to Bank
 		// Remove Escrow element for the Certificate from the Highest Bidder
@@ -197,10 +197,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	private Player getHighestBidder () {
 		int tHighestBidderIndex;
 		Player tPlayer;
-		
+
 		tHighestBidderIndex = certificateToAuction.getHighestBidderIndex ();
 		tPlayer = (Player) certificateToAuction.getCashHolderAt (tHighestBidderIndex);
-		
+
 		return tPlayer;
 	}
 
@@ -366,7 +366,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		setBidderJPanelColor (tPlayer.getName (), false);
 		completeAuctionAction (tAuctionPassAction, tDone);
 	}
-	
+
 	private boolean clientIsWinner () {
 		boolean tClientIsWinner;
 		Player tWinningPlayer;
@@ -410,7 +410,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	public void updateAuctionFrame (boolean aDone) {
 		boolean tClientIsActing;
-		
+
 		if (aDone) {
 			tClientIsActing = clientIsWinner ();
 		} else {
@@ -424,13 +424,13 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	private boolean updateDoneButton (boolean aDone) {
 		boolean tClientIsActing;
-		
+
 		tClientIsActing = false;
 		if (freeCertificate == Certificate.NO_CERTIFICATE) {
 			tClientIsActing = updateDoneButtonStep2 (aDone);
 		} else if (freeCertificate.isPresidentShare ()) {
 			if (freeCertificate.hasParPrice ()) {
-				tClientIsActing = updateDoneButtonStep2 (aDone);				
+				tClientIsActing = updateDoneButtonStep2 (aDone);
 			} else {
 				doneButton.setEnabled (false);
 				doneButton.setToolTipText ("Par Price has not been set yet");
@@ -444,7 +444,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	private boolean updateDoneButtonStep2 (boolean aDone) {
 		boolean tClientIsActing;
-		
+
 		tClientIsActing = false;
 		if (aDone) {
 			tClientIsActing = clientIsWinner ();
@@ -454,7 +454,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			doneButton.setEnabled (false);
 			doneButton.setToolTipText (doneToolTipText);
 		}
-		
+
 		return tClientIsActing;
 	}
 
@@ -490,7 +490,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		Bidder tLowestBidder;
 		int tBidderCount;
 		int tHighestBidderIndex, tLowestBidderIndex;
-		
+
 		updateAuctionItemInfo (aCertificateToAuction, aFreeCertificate);
 
 		tBidderCount = certificateToAuction.getNumberOfBidders ();
@@ -535,7 +535,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		String tRaiseByLabel;
 		String tBidderName;
 		boolean tBidderIsActing;
-		
+
 		biddersJPanel.removeAll ();
 		for (int tBidderIndex = 0; tBidderIndex < aBidderCount; tBidderIndex++) {
 			setBidderSuffixLabel (aBidderCount, tBidderIndex, aHighestBidderIndex);
@@ -574,10 +574,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	public void updateAuctionItemInfo (Certificate aCertificateToAuction, Certificate aFreeCertificate) {
 		String tCertText;
-		
+
 		setCertificateToAuction (aCertificateToAuction);
 		setFreeCertificate (aFreeCertificate);
-		
+
 		tCertText = buildCertText (certificateToAuction, false);
 		privateCompanyLabel.setText (tCertText);
 		privateCompanyLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
@@ -593,7 +593,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 
 	private String buildCertText (Certificate aCertificate, boolean aFree) {
 		String tCertText;
-		
+
 		if (aFree) {
 			tCertText = "Free " + freeCertificate.getPercentage () + "% ";
 			if (aCertificate.isPresidentShare ()) {
@@ -604,14 +604,14 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			tCertText = aCertificate.getCompanyAbbrev () + " Value "
 					+ Bank.formatCash (aCertificate.getValue ());
 		}
-		
+
 		return tCertText;
 	}
 
 	public void fillAuctionItemInfo () {
 		JLabel tLabel;
 		JPanel tParPricePanel;
-		
+
 		auctionItemInfoJPanel.removeAll ();
 		tLabel = new JLabel ("Auction Round for Private Company");
 		tLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
@@ -637,14 +637,14 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		Integer [] tParValues;
 		Dimension tParValueSize;
 		JPanel tParPricePanel;
-		
+
 		tParPricePanel = new JPanel ();
 		tParPricePanel.setLayout (new BoxLayout (tParPricePanel, BoxLayout.X_AXIS));
-		
+
 		tGameManager = auctionRound.getGameManager ();
-		
+
 		tParValues = tGameManager.getAllStartCells ();
-		parValuesCombo = new JComboBox<String> ();
+		parValuesCombo = new JComboBox<> ();
 		tParValueSize = new Dimension (75, 20);
 		parValuesCombo.setPreferredSize (tParValueSize);
 		parValuesCombo.setMaximumSize (tParValueSize);
@@ -666,7 +666,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		tParPricePanel.add (Box.createHorizontalStrut (15));
 		tParPricePanel.add (setParPrice);
 		updateParValueComponents ();
-		
+
 		return tParPricePanel;
 	}
 
@@ -674,7 +674,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		GameManager tGameManager;
 		ParPriceFrame tParPriceFrame;
 		int tSelectedParPrice;
-		
+
 		tGameManager = auctionRound.getGameManager ();
 		tParPriceFrame = tGameManager.buildParPriceFrame (freeCertificate);
 		tSelectedParPrice = getParPrice ();
@@ -683,13 +683,13 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		}
 		updateDoneButton (true);
 	}
-	
+
 	public void updateParValueComponents () {
 		GameManager tGameManager;
 		boolean tAuctionOver;
 		Player tWinningPlayer;
 		String tWinningName;
-		
+
 		tGameManager = auctionRound.getGameManager ();
 		if (freeCertificate != Certificate.NO_CERTIFICATE) {
 			if (freeCertificate.isPresidentShare ()) {
@@ -729,7 +729,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 			setParPrice.setToolTipText ("Par Price has not been selected yet");
 		}
 	}
-	
+
 	public int getParPrice () {
 		int tParPrice = 0;
 		String tParPriceString;
@@ -829,7 +829,7 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 		int tBidderIndex;
 		Bidder tBidder;
 		String tBidderName;
-		
+
 		tBidderIsActing = true;
 		tBidderCount = certificateToAuction.getNumberOfBidders ();
 		if (isNetworkGame) {
@@ -841,10 +841,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 				}
 			}
 		}
-		
+
 		return tBidderIsActing;
 	}
-	
+
 	private boolean isBidderActing (int aBidderIndex, String aBidderName) {
 		boolean tIsBidderActing = false;
 

@@ -21,7 +21,7 @@ public class Config {
 
 	public Config (GameManager aGameManager) {
 		gameManager = aGameManager;
-		gameFrames = new ArrayList<GameFrameConfig> ();
+		gameFrames = new ArrayList<> ();
 		setJustSaveGameDirectory ("");
 	}
 
@@ -35,7 +35,7 @@ public class Config {
 		gameManager = aGameManager;
 		tChildren = aConfigNode.getChildNodes ();
 		tNodeCount = tChildren.getLength ();
-		gameFrames = new ArrayList<GameFrameConfig> ();
+		gameFrames = new ArrayList<> ();
 		try {
 			for (tNodeIndex = 0; tNodeIndex < tNodeCount; tNodeIndex++) {
 				tChildNode = new XMLNode (tChildren.item (tNodeIndex));

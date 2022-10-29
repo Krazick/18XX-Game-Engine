@@ -71,7 +71,7 @@ public class XMLDocument {
 			tException.printStackTrace ();
 		}
 	}
-	
+
 	public XMLDocument (String aFileName) {
 		DocumentBuilderFactory tDocBuilderFac;
 		DocumentBuilder tDocBuilder;
@@ -89,7 +89,7 @@ public class XMLDocument {
 
 	/**
 	 * Clear the document of any Children from the Document.
-	 * 
+	 *
 	 */
 	public void clearDocumentChildren () {
 		if (validDocument ()) {
@@ -98,7 +98,7 @@ public class XMLDocument {
 			}
 		}
 	}
-	
+
 	public XMLDocument ParseXMLString (String aXMLString) {
 		DocumentBuilderFactory tDocBuilderFac;
 		DocumentBuilder tDocBuilder;
@@ -118,9 +118,9 @@ public class XMLDocument {
 
 	/**
 	 * If this XML Document has an Action non-NULL Document Object, then it is Valid
-	 * 
+	 *
 	 * @return FALSE if the DOCUMENT Object is NO_DOCUMENT, otherwise True
-	 * 
+	 *
 	 */
 	public boolean validDocument () {
 		boolean tValidDocument;
@@ -136,7 +136,7 @@ public class XMLDocument {
 
 	/**
 	 * Append the Element from the provided XMLElement to this Document.
-	 * 
+	 *
 	 * @param aXMLElement This XMLElement contains an Element
 	 */
 	public void appendChild (XMLElement aXMLElement) {
@@ -148,32 +148,32 @@ public class XMLDocument {
 	}
 
 	/**
-	 * If this XMLDocument has a Valid Document Element (ie non-NULL), find if the Document has 
+	 * If this XMLDocument has a Valid Document Element (ie non-NULL), find if the Document has
 	 * any children, then return TRUE. If the Document is NULL, or the Document has NO Children,
 	 * then return FALSE.
-	 * 
+	 *
 	 * @return True if there are one (or more) Children of the document.
-	 * 
+	 *
 	 */
 	public boolean hasChildNodes () {
 		boolean tHasChildNodes;
-		
+
 		if (validDocument ()) {
 			tHasChildNodes = document.hasChildNodes ();
 		} else {
 			tHasChildNodes = false;
 		}
-		
+
 		return tHasChildNodes;
 	}
-	
+
 	/**
-	 * Create an XMLElement with the provided Element Name. 
+	 * Create an XMLElement with the provided Element Name.
 	 * If the EntityName is NULL, or the String in the Entity Name is NULL this
 	 * will return a NO_XML_ELEMENT
-	 * 
+	 *
 	 * @param aElementName The Element Name to be created. No Attributes or children will be attached
-	 * 
+	 *
 	 * @return If a Valid Entity
 	 */
 	public XMLElement createElement (ElementName aElementName) {
@@ -198,25 +198,25 @@ public class XMLDocument {
 
 	public XMLNode getDocumentNode () {
 		XMLNode tXMLNode;
-		
+
 		if (validDocument ()) {
 			tXMLNode = new XMLNode (document.getDocumentElement ());
 		} else {
 			tXMLNode = XMLNode.NO_NODE;
 		}
-		
+
 		return tXMLNode;
 	}
-	
+
 	public XMLElement getDocumentElement () {
 		XMLElement tXMLElement;
-		
+
 		if (validDocument ()) {
 			tXMLElement = new XMLElement (document.getDocumentElement ());
 		} else {
 			tXMLElement = XMLElement.NO_XML_ELEMENT;
 		}
-		
+
 		return tXMLElement;
 	}
 

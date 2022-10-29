@@ -26,10 +26,10 @@ public class StateChangeEffect extends Effect {
 	}
 
 	public StateChangeEffect (ActorI aActor) {
-		super (NAME, aActor);		
+		super (NAME, aActor);
 	}
-	
-	public StateChangeEffect (ActorI aActor, ActorI.ActionStates aPreviousState, 
+
+	public StateChangeEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
 								ActorI.ActionStates aNewState) {
 		super (NAME, aActor);
 		setPreviousState (aPreviousState);
@@ -95,9 +95,9 @@ public class StateChangeEffect extends Effect {
 	}
 
 	public String buildBasicReport (String aEffectReport) {
-		aEffectReport += " for " + actor.getName () + " from " + previousState + 
+		aEffectReport += " for " + actor.getName () + " from " + previousState +
 							" to " + newState + ".";
-		
+
 		return aEffectReport;
 	}
 
@@ -119,7 +119,7 @@ public class StateChangeEffect extends Effect {
 		boolean tEffectApplied;
 		boolean tNewAuctionAction = false;
 		StockRound tStockRound;
-		
+
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			Player tPlayer = (Player) actor;
@@ -155,7 +155,7 @@ public class StateChangeEffect extends Effect {
 		boolean tEffectUndone;
 		StockRound tStockRound;
 		Player tPlayer;
-		
+
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;

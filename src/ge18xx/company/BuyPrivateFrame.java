@@ -14,12 +14,12 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	Certificate certificate;
 
-	public BuyPrivateFrame (TrainCompany aTrainCompany, PortfolioHolderI aOwner, 
+	public BuyPrivateFrame (TrainCompany aTrainCompany, PortfolioHolderI aOwner,
 			Certificate aCertificate) {
 		super (CorporationFrame.BUY_PRIVATE, aTrainCompany);
-		
+
 		Player tPlayer;
-		
+
 		setAllButtonListeners (this);
 		certificate = aCertificate;
 		if (aOwner.isAPlayer ()) {
@@ -34,7 +34,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 	@Override
 	public void actionPerformed (ActionEvent e) {
 		String tActionCommand;
-		
+
 		tActionCommand = e.getActionCommand ();
 		if (tActionCommand == SET_BUY_PRICE_ACTION) {
 			updateButtons ();
@@ -51,7 +51,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 	protected void setDefaultPrice () {
 		int tDefaultValue;
 		int tShareTreasury;
-		
+
 		tShareTreasury = trainCompany.getTreasury ();
 
 		tDefaultValue = certificate.getValue ();
@@ -65,7 +65,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		int tLowPrice, tHighPrice, tCertPrice;
 		String tDescription;
 		int tShareTreasury;
-		
+
 		tShareTreasury = trainCompany.getTreasury ();
 		tCertPrice = certificate.getValue ();
 		setDefaultPrice ();
@@ -74,9 +74,9 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		if (tHighPrice > tShareTreasury) {
 			tHighPrice = tShareTreasury;
 		}
-		
-		tDescription = trainCompany.getPresidentName () + ", Choose Buy Price for " + 
-				certificate.getCompanyAbbrev () + " " + PurchasePrivateOffer.PRIVATE_TYPE + " from " + 
+
+		tDescription = trainCompany.getPresidentName () + ", Choose Buy Price for " +
+				certificate.getCompanyAbbrev () + " " + PurchasePrivateOffer.PRIVATE_TYPE + " from " +
 				currentOwner.getName ();
 		updateSellerInfo ();
 		updateInfo (PurchasePrivateOffer.PRIVATE_TYPE, tLowPrice, tHighPrice, tDescription);
@@ -86,12 +86,12 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		String tOwnerName = "NO OWNER";
 		int tTreasury = 0;
 		String tSellerInfo;
-		
+
 		if (currentOwner != Player.NO_PLAYER) {
 			tOwnerName = currentOwner.getName ();
 			tTreasury = getCurrentOwnerCash () + getPrice ();
 		}
-		tSellerInfo =  tOwnerName + " will have " + Bank.formatCash (tTreasury) + 
+		tSellerInfo =  tOwnerName + " will have " + Bank.formatCash (tTreasury) +
 						" cash after purchase.";
 		updateSellerInfo (tSellerInfo);
 	}
@@ -103,28 +103,28 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		PrivateCompany tPrivateCompany;
 		String tItemName;
 		String tOwnerName;
-		
+
 		tOldState = trainCompany.getStatus ();
 		tOwnerName = aItemOwner.getName ();
 		tQueryOffer = QueryOffer.NO_QUERY_OFFER;
 		if (aCertificate != Certificate.NO_CERTIFICATE) {
 			tPrivateCompany = (PrivateCompany) aCertificate.getCorporation ();
 			tItemName = tPrivateCompany.getAbbrev ();
-			tPurchasePrivateOffer = new PurchasePrivateOffer (tItemName, tPrivateCompany, getPrice (), aFromActorName, 
+			tPurchasePrivateOffer = new PurchasePrivateOffer (tItemName, tPrivateCompany, getPrice (), aFromActorName,
 					tOwnerName, tOldState);
 			tQueryOffer = tPurchasePrivateOffer;
 			trainCompany.setQueryOffer (tPurchasePrivateOffer);
 		}
-		
+
 		return tQueryOffer;
 	}
-	
+
 	private void buyPrivateCertificate () {
 		CertificateHolderI tCertificateHolder;
 		Player tOwningPlayer;
 		QueryOffer tQueryOffer;
 		String tBuyingOwnerName;
-		
+
 		if (certificate != Certificate.NO_CERTIFICATE) {
 			tCertificateHolder = certificate.getOwner ();
 			if (tCertificateHolder.isAPlayer ()) {
@@ -139,7 +139,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 					// Once a Response is received, examine for Accept or Reject of the Purchase Offer
 					// If Accept, perform the Buy Private
 					if (tQueryOffer.wasAccepted ()) {
-						buyPrivateCompany (tOwningPlayer);	
+						buyPrivateCompany (tOwningPlayer);
 					} else {
 						// TODO: Notify with Dialog the Offer was Rejected
 						System.out.println ("Purchase Offer for Private was Rejected");
@@ -158,7 +158,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 		BuyStockAction tBuyStockAction;
 		CorporationFrame tCorporationFrame;
 		String tOperatingRoundID;
-		
+
 		tOperatingRoundID = trainCompany.getOperatingRoundID ();
 		tBuyStockAction = new BuyStockAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, trainCompany);
 		tCashValue = getPrice ();
@@ -176,7 +176,7 @@ public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 										BuyStockAction aBuyStockAction) {
 		PrivateCompany tPrivateCompany;
 		ShareCompany tShareCompany;
-		
+
 		tPrivateCompany = (PrivateCompany) aCertificate.getCorporation ();
 		tPrivateCompany.removeBenefitButtons ();
 		if (trainCompany.isAShareCompany ()) {

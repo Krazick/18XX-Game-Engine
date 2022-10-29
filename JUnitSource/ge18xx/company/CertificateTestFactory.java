@@ -14,7 +14,7 @@ public class CertificateTestFactory {
 		Certificate mCertificate;
 
 		mCertificate = Mockito.mock (Certificate.class);
-		
+
 		return mCertificate;
 	}
 
@@ -22,20 +22,20 @@ public class CertificateTestFactory {
 		List<Certificate> mCertificatesList;
 		Certificate mCertificate = Mockito.mock (Certificate.class);
 
-		mCertificatesList = new LinkedList<Certificate> ();
+		mCertificatesList = new LinkedList<> ();
 		mCertificate = buildCertificateMock ();
 		mCertificatesList.add (mCertificate);
 		mCertificate = buildCertificateMock ();
 		mCertificatesList.add (mCertificate);
-		
+
 		return mCertificatesList;
 	}
 
 	public LoadedCertificate buildLoadedCertificateMock () {
 		LoadedCertificate mLoadedCertificate;
-		
+
 		mLoadedCertificate = Mockito.mock (LoadedCertificate.class);
-		
+
 		return mLoadedCertificate;
 	}
 }

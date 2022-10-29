@@ -133,7 +133,7 @@ public class NodeInformation {
 
 	/**
 	 * Determine if a NodeInformation Object has a Valid Location
-	 * 
+	 *
 	 * @return True if there is a Location
 	 */
 	public boolean isValid () {
@@ -274,7 +274,7 @@ public class NodeInformation {
 	/**
 	 * Update the Node for the Route Segment to be sure the route Open Flow flag is
 	 * set correctly.
-	 * 
+	 *
 	 * @param aRouteInformation The 'determineOpenFlow' method is in the
 	 *                          RouteInformation Object
 	 * @param aCorpID           The current Corporation ID needed to test for proper

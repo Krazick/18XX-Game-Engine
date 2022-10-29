@@ -26,12 +26,12 @@ public class RedeemLoanEffect extends GetLoanEffect {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		return true;

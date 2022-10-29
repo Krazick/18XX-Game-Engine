@@ -23,7 +23,7 @@ public class Tracks implements Cloneable {
 	List<Track> segments;
 
 	public Tracks () {
-		segments = new LinkedList<Track> ();
+		segments = new LinkedList<> ();
 	}
 
 	private Tracks (List<Track> aSegments) {
@@ -50,7 +50,7 @@ public class Tracks implements Cloneable {
 
 	/**
 	 * Clear the Specified Train Number on every Track on the Tile.
-	 * 
+	 *
 	 * @param aTrainNumber the Train Number to test for on the Tracks
 	 */
 	public void clearTrain (int aTrainNumber) {
@@ -63,7 +63,7 @@ public class Tracks implements Cloneable {
 
 	/**
 	 * Clear the All Train Numbers on every Track on the Tile.
-	 * 
+	 *
 	 */
 	public void clearAllTrains () {
 		for (Track tSegment : segments) {
@@ -73,7 +73,7 @@ public class Tracks implements Cloneable {
 
 	@Override
 	public Tracks clone () {
-		List<Track> tSegmentsCopy = new LinkedList<Track> ();
+		List<Track> tSegmentsCopy = new LinkedList<> ();
 		for (Track tSegment : segments) {
 			tSegmentsCopy.add (tSegment.clone ());
 		}
@@ -190,16 +190,16 @@ public class Tracks implements Cloneable {
 	/**
 	 * Return the First Track from the specified side Location that has a useable
 	 * Track
-	 * 
+	 *
 	 * Note -- This is based upon the ordering of the Track Segments in the XML
 	 * Track data for the Specified Tile. A Track is Useable if the Gauge is
 	 * Useable.
-	 * 
+	 *
 	 * @param aSideLocation The integer "Side" Location on the tile from which we
 	 *                      need to find a Track Segment
 	 * @return The actual Track Object that is found, or "Track.NO_TRACK" Constant
 	 *         meaning there is no Track
-	 * 
+	 *
 	 */
 	public Track getTrackFromSide (int aSideLocation) {
 		Track tTrack = Track.NO_TRACK;

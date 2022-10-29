@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ge18xx.tiles;
 
@@ -15,8 +15,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 //import org.mockito.Mockito;
-//import static org.mockito.Mockito.verify;  
-//import static org.mockito.Mockito.any;  
+//import static org.mockito.Mockito.verify;
+//import static org.mockito.Mockito.any;
 
 import ge18xx.map.Location;
 
@@ -65,7 +65,7 @@ class FeatureTests {
 //		Mockito.when (mLocation.calcCenter (any (Hex.class))).thenReturn (tPoint);
 //		Feature tFeature = new Feature (10);
 //		tCalculatedCenter = tFeature.calcCenter (tHex);
-//		
+//
 //		tXValue = (int) tCalculatedCenter.getX ();
 //		tYValue = (int) tCalculatedCenter.getY ();
 //		verify (mLocation).calcCenter (tHex);

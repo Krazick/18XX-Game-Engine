@@ -25,7 +25,7 @@ public class Benefits {
 	List<Benefit> benefits;
 
 	public Benefits (XMLNode aBenefitsNode, Corporation aCorporation) {
-		benefits = new LinkedList<Benefit> ();
+		benefits = new LinkedList<> ();
 		parseBenefits (aBenefitsNode, aCorporation);
 	}
 
@@ -150,7 +150,7 @@ public class Benefits {
 
 	public void removeBenefitButtons () {
 		JPanel tButtonRow;
-		
+
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit.isActivePlayerBenefit ()) {
 				tBenefit.removeButton ();
@@ -197,7 +197,7 @@ public class Benefits {
 	public void enableBenefit (String aBenefitName) {
 		QueryExchangeBenefit tQueryExchangeBenefit;
 		String tFoundBenefitName;
-		
+
 		for (Benefit tBenefit : benefits) {
 			tFoundBenefitName = tBenefit.getName ();
 			if (tFoundBenefitName.equals (aBenefitName)) {
@@ -211,7 +211,7 @@ public class Benefits {
 	public void disableBenefit (String aBenefitName) {
 		QueryExchangeBenefit tQueryExchangeBenefit;
 		String tFoundBenefitName;
-		
+
 		for (Benefit tBenefit : benefits) {
 			tFoundBenefitName = tBenefit.getName ();
 			if (tFoundBenefitName.equals (aBenefitName)) {
@@ -224,7 +224,7 @@ public class Benefits {
 
 	public void handleQueryBenefits (JFrame aRoundFrame) {
 		QueryExchangeBenefit tQueryExchangeBenefit;
-		
+
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit instanceof QueryExchangeBenefit) {
 				tQueryExchangeBenefit = (QueryExchangeBenefit) tBenefit;
@@ -232,11 +232,11 @@ public class Benefits {
 			}
 		}
 	}
-	
+
 	public Benefit getBenefitNamed (String aBenefitName) {
 		Benefit tFoundBenefit;
 		String tThisBenefitName;
-		
+
 		tFoundBenefit = Benefit.NO_BENEFIT;
 		for (Benefit tBenefit : benefits) {
 			tThisBenefitName = tBenefit.getName ();
@@ -244,7 +244,7 @@ public class Benefits {
 				tFoundBenefit = tBenefit;
 			}
 		}
-		
+
 		return tFoundBenefit;
 	}
 

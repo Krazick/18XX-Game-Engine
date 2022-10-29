@@ -45,7 +45,7 @@ public class NoSpaceString {
 	public void setString (String aString) {
 		string = aString;
 	}
-	
+
 	public String getString () {
 		return string;
 	}

@@ -43,7 +43,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public StartPacketFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getActiveGameName ());
 		setGameManager (aGameManager);
-		startPacketRows = new LinkedList<StartPacketRow> ();
+		startPacketRows = new LinkedList<> ();
 		portfolio = new StartPacketPortfolio (this);
 	}
 
@@ -199,7 +199,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		XMLNodeList tXMLNodeList;
 		XMLNode XMLStartPacketRoot;
 
-		startPacketRows = new LinkedList<StartPacketRow> ();
+		startPacketRows = new LinkedList<> ();
 		XMLStartPacketRoot = aXMLDocument.getDocumentNode ();
 		tXMLNodeList = new XMLNodeList (startPacketParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (XMLStartPacketRoot, EN_START_PACKET);

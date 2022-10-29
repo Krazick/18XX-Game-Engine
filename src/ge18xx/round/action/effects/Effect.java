@@ -35,7 +35,7 @@ public abstract class Effect {
 	String benefitPrivateAbbrev;
 	String applyFailureReason;
 	String undoFailureReason;
-	
+
 	Effect () {
 		this (NO_NAME);
 	}
@@ -68,16 +68,16 @@ public abstract class Effect {
 	/**
 	 * This method should be called after the Action has been parsed by the Constructor given
 	 * an XMLNode of the Data. This is to allow special case Effects to correct for not finding an object
-	 * like a Train or a Certificate from the Action's Actor. This Method should be overriden by the 
+	 * like a Train or a Certificate from the Action's Actor. This Method should be overriden by the
 	 * Effect that is impacted.
-	 * 
+	 *
 	 * @param aActor The actor that should be searched for the object if it was not properly setup
 	 */
-	
+
 	public void postParse (ActorI aActor) {
-		
+
 	}
-	
+
 	protected void setBenefitUsed (boolean aBenefitUsed) {
 		benefitUsed = aBenefitUsed;
 	}
@@ -242,11 +242,11 @@ public abstract class Effect {
 
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-		
+
 		setApplyFailureReason ("Basic Effect undoEffect method should never be called directly\n" +
 								" -- OR Reason not coded into the effect yet");
 		tEffectUndone = false;
-		
+
 		return tEffectUndone;
 	}
 
@@ -260,36 +260,36 @@ public abstract class Effect {
 		tEffectApplied = false;
 		setApplyFailureReason ("Basic Effect applyEffect method should never be called directly\n" +
 								" -- OR Reason not coded into the effect yet");
-		
+
 		return tEffectApplied;
 	}
 
 	protected void setApplyFailureReason (String aFailureReason) {
 		applyFailureReason = aFailureReason;
 	}
-	
+
 	protected void setUndoFailureReason (String aFailureReason) {
 		undoFailureReason = aFailureReason;
 	}
-	
+
 	/**
-	 * Retrieve the Reason why the ApplyEffect call failed. 
-	 * 
+	 * Retrieve the Reason why the ApplyEffect call failed.
+	 *
 	 * @return The Apply Effect Failure Reason
 	 */
 	public String getApplyFailureReason () {
 		return applyFailureReason;
 	}
-	
+
 	/**
-	 * Retrieve the Reason why the Undo Effect call failed. 
-	 * 
+	 * Retrieve the Reason why the Undo Effect call failed.
+	 *
 	 * @return The Undo Effect Failure Reason
 	 */
 	public String getUndoFailureReason () {
 		return undoFailureReason;
 	}
-	
+
 	public boolean nullEffect () {
 		return false;
 	}

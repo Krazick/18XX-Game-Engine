@@ -14,7 +14,7 @@ public class AddPhaseVEffect extends PhaseInfoVEffect {
 	public static final AttributeName AN_PHASE_NAME = new AttributeName ("phaseName");
 	static final String NAME = "Add Phase";
 	PhaseInfo phaseInfo;
-	
+
 	public AddPhaseVEffect () {
 		super (NAME);
 	}
@@ -24,50 +24,50 @@ public class AddPhaseVEffect extends PhaseInfoVEffect {
 		setName (NAME);
 		loadPhaseInfo (aVariantEffectNode);
 	}
-	
+
 	/**
-	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores
 	 * the CompanyID and the VariantEffect Class
-	 * 
+	 *
 	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
-	 * 
+	 *
 	 * @return the filled out XMLElement
-	 * 
+	 *
 	 */
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tXMLPhaseElement;
-		
+
 		tXMLElement = super.getEffectElement (aXMLDocument);
 		tXMLElement.setAttribute (AN_PHASE_NAME, phaseInfo.getFullName ());
 		tXMLPhaseElement = phaseInfo.getElement (aXMLDocument);
 		tXMLElement.appendChild (tXMLPhaseElement);
 		tXMLElement.setAttribute (AN_CLASS, getClass ().getName ());
-		
+
 		return tXMLElement;
 	}
 
 	/**
 	 * Apply the Variant Effect using the Game Manager as needed.
-	 * 
+	 *
 	 * @param aGameManager The current GameManager to have the Variant Effect applied to.
-	 * 
+	 *
 	 */
 	@Override
 	public void applyVariantEffect (GameManager aGameManager) {
 		PhaseManager tPhaseManager;
-		
-		System.out.println (NAME + " being Applied" + " Have Phase " + phaseInfo.getName () + "." + 
+
+		System.out.println (NAME + " being Applied" + " Have Phase " + phaseInfo.getName () + "." +
 					phaseInfo.getSubName () );
 		tPhaseManager = aGameManager.getPhaseManager ();
 		tPhaseManager.addPhase (phaseInfo);
 	}
-	
+
 	public void setPhaseInfo (PhaseInfo aPhaseInfo) {
 		phaseInfo = aPhaseInfo;
 	}
-	
+
 	public void loadPhaseInfo (XMLNode aVariantEffectNode) {
 		String tChildName;
 		XMLNode tChildNode;
@@ -75,7 +75,7 @@ public class AddPhaseVEffect extends PhaseInfoVEffect {
 		int tIndex;
 		int tChildrenCount;
 		PhaseInfo tPhaseInfo;
-		
+
 		tChildren = aVariantEffectNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {

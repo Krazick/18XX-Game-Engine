@@ -9,7 +9,7 @@ public class NetworkPlayers {
 	public static final boolean NOT_OK_TO_ADD = false;
 
 	public NetworkPlayers (NetworkGameSupport aGameManager) {
-		playerList = new DefaultListModel<NetworkPlayer> ();
+		playerList = new DefaultListModel<> ();
 		gameManager = aGameManager;
 	}
 

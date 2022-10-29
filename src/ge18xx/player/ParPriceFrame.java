@@ -89,7 +89,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		JPanel tVerticalBox;
 		Border tCorporateColorBorder;
 		JPanel tParValuesPanel;
-		
+
 		tParValuesPanel = new JPanel ();
 		tParValuesPanel.setLayout (new BoxLayout (tParValuesPanel, BoxLayout.Y_AXIS));
 		tCorporateColorBorder = aCertificate.getCorporateBorder ();
@@ -101,10 +101,10 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		tParValuesPanel.add (Box.createHorizontalStrut (10));
 		tParValuesPanel.add (tVerticalBox);
 		tParValuesPanel.add (Box.createHorizontalStrut (10));
-		
+
 		return tParValuesPanel;
 	}
-	
+
 	private void activateParValuesPanel () {
 		setParPriceFrameActive (true);
 		add (parValuesPanel);
@@ -180,9 +180,9 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 	public JComboBox<String> buildParValuesCombo () {
 		Integer [] tParValues;
 		JComboBox<String> tParValuesCombo;
-		
+
 		tParValues = gameManager.getAllStartCells ();
-		tParValuesCombo = new JComboBox<String> ();
+		tParValuesCombo = new JComboBox<> ();
 		// Update the Par Value Combo Box, and confirm or deny the Player has enough
 		// Cash to buy Cheapest.
 
@@ -196,7 +196,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 				}
 			});
 		}
-		
+
 		return tParValuesCombo;
 	}
 
@@ -250,7 +250,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		if (SET_PAR_PRICE_ACTION.equals (aEvent.getActionCommand ())) {
 			tParPriceSet = handleSetParPrice ();
 		}
-		
+
 		if (tParPriceSet) {
 			setVisible (false);
 		}
@@ -259,25 +259,25 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 	public boolean handleSetParPrice () {
 		int tSelectedParPrice;
 		boolean tParPriceSet;
-		
+
 		tParPriceSet = false;
 		tSelectedParPrice = getParPrice ();
 		if (tSelectedParPrice > 0) {
 			tParPriceSet = handleSetParPrice (tSelectedParPrice);
 		}
-		
+
 		return tParPriceSet;
 	}
 
 	public boolean handleSetParPrice (int aSelectedParPrice) {
 		boolean tParPriceSet;
-		
+
 		tParPriceSet = gameManager.handleSetParPrice (certificate, aSelectedParPrice, this);
 		if (tParPriceSet) {
 			setParPriceFrameActive (false);
 			gameManager.bringPlayerFrameToFront ();
 		}
-		
+
 		return tParPriceSet;
 	}
 
@@ -296,7 +296,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 
 	private void handleResetPlayerStates (SetParValueAction aSetParValueAction) {
 		WinAuctionAction tWinAuctionAction;
-		
+
 		tWinAuctionAction = getLastWinAuctionAction ();
 		if (tWinAuctionAction != Action.NO_ACTION) {
 			if (IsCorrectAction (tWinAuctionAction)) {
@@ -314,7 +314,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 		String tFoundEffectName;
 		int tEffectCount;
 		int tEffectIndex;
-		
+
 		tIsCorrectAction = false;
 		tEffectName = TransferOwnershipEffect.NAME;
 		tEffectCount = aAction.getEffectCount ();
@@ -332,13 +332,13 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 
 		return tIsCorrectAction;
 	}
-	
+
 	private WinAuctionAction getLastWinAuctionAction () {
 		WinAuctionAction tWinAuctionAction;
 		Action tLastAction;
 		boolean tLookingForLastAction;
 		int tActionOffset;
-		
+
 		tLookingForLastAction = true;
 		tActionOffset = ActionManager.PREVIOUS_ACTION;
 		tWinAuctionAction = (WinAuctionAction) Action.NO_ACTION;
@@ -355,7 +355,7 @@ public class ParPriceFrame extends JDialog implements ActionListener {
 				tLookingForLastAction = false;
 			}
 		}
-		
+
 		return tWinAuctionAction;
 	}
 }

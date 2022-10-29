@@ -10,12 +10,12 @@ public class TrainTestFactory {
 
 	public Train buildTrain () {
 		Train tTrain;
-		
+
 		tTrain = new Train ();
-		
+
 		return tTrain;
 	}
-	
+
 	public Train buildTrainMock () {
 		Train mTrain;
 

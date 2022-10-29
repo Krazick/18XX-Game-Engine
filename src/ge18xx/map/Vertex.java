@@ -14,19 +14,19 @@ public class Vertex {
 	Location location;
 	List<Edge> edges;
 	String id;
-	
+
 	public Vertex (MapCell aMapCell, Location aLocation) {
-		
+
 		setMapCell (aMapCell);
 		setLocation (aLocation);
-		edges = new LinkedList<Edge> ();
+		edges = new LinkedList<> ();
 		setID ();
 	}
 
 	public void printInfo () {
 		String tEdgeInfo;
 		String tTileInfo;
-		
+
 		tEdgeInfo = " Edge Count: " + edges.size ();
 		if (edges.size () > 0) {
 			for (Edge tMapEdge : edges) {
@@ -34,53 +34,53 @@ public class Vertex {
 			}
 		}
 		tTileInfo = mapCell.getTileInfo ();
-		
+
 		System.out.println ("Vertex"
 				+ " ID: " + id + " MapCell ID " + mapCell.getID () +
 				" Location " + location.getLocation () + tEdgeInfo + tTileInfo);
 	}
-	
+
 	public String getID () {
 		return id;
 	}
-	
+
 	public MapCell getMapCell () {
 		return mapCell;
 	}
-	
+
 	public String getMapCellID () {
 		return mapCell.getCellID ();
 	}
-	
+
 	public List<Edge> getEdges () {
 		return edges;
 	}
-	
+
 	public int getEdgeCount () {
 		return edges.size ();
 	}
-	
+
 	public Edge getEdge (int aIndex) {
 		return edges.get (aIndex);
 	}
-	
+
 	public boolean containsEdge (Edge aMapEdge) {
 		boolean tContainsEdge;
-		
+
 		tContainsEdge = false;
 		for (Edge tEdge : edges) {
 			if (tEdge.sameEdge (aMapEdge)) {
 				tContainsEdge = true;
 			}
 		}
-		
+
 		return tContainsEdge;
 	}
-	
+
 	public boolean sameVertex (Vertex aVertex) {
 		boolean tSameVertex;
 		String tVertexID;
-		
+
 		tSameVertex = false;
 		if (aVertex != Vertex.NO_VERTEX) {
 			tVertexID = aVertex.getID ();
@@ -88,42 +88,42 @@ public class Vertex {
 				tSameVertex = true;
 			}
 		}
-		
+
 		return tSameVertex;
 	}
-	
+
 	public Location getLocation () {
 		return location;
 	}
-	
+
 	public void setID () {
 		id = buildID ();
 	}
-	
+
 	public String buildID () {
 		String tID;
-		
+
 		tID = mapCell.getCellID () + ":" + location.getLocation ();
 
 		return tID;
 	}
-	
+
 	public void setLocation (Location aLocation) {
 		location = aLocation;
 	}
-	
+
 	public void setMapCell (MapCell aMapCell) {
 		mapCell = aMapCell;
 	}
-	
+
 	public boolean isOnSide () {
 		boolean tIsOnSide;
-		
+
 		tIsOnSide = location.isSide ();
-		
+
 		return tIsOnSide;
 	}
-	
+
 	public void fillVertexEdges () {
 		Tile tTile;
 		int tTrackCount;
@@ -134,7 +134,7 @@ public class Vertex {
 		Vertex tVertex;
 		Location tStartLocation;
 		Location tEndLocation;
-		
+
 		tTile = mapCell.getTile ();
 		tTrackCount = tTile.getTrackCount ();
 		for (tTrackIndex = 0; tTrackIndex < tTrackCount; tTrackIndex++ ) {
@@ -157,10 +157,10 @@ public class Vertex {
 			}
 		}
 	}
-	
+
 	public void addEdge (Edge aEdge) {
 		boolean tAddNewEdge;
-		
+
 		tAddNewEdge = true;
 		for (Edge tExistingEdge : edges) {
 			if (tExistingEdge.sameEdge (aEdge)) {
@@ -171,7 +171,7 @@ public class Vertex {
 			edges.add (aEdge);
 		}
 	}
-	
+
 	public void addNeighborVertexes (MapGraph aMapGraph) {
 		MapCell tNeighborMapCell;
 		Location tNeighborLocation;
@@ -179,7 +179,7 @@ public class Vertex {
 		int tNeighborLoc;
 		Vertex tEndVertex;
 		Vertex tNeighborVertex;
-		
+
 		for (Edge tEdge : edges) {
 			tEndVertex = tEdge.getEndVertex ();
 			tEndLocation = tEndVertex.getLocation ();
@@ -208,7 +208,7 @@ public class Vertex {
 		boolean tHasTokenFor;
 		Location tLocation;
 		int tCompanyID;
-		
+
 		tHasTokenFor = false;
 		if (mapCell.isTileOnCell ()) {
 			tCompanyID = aTokenCompany.getID ();
@@ -217,7 +217,7 @@ public class Vertex {
 				tHasTokenFor = location.isSameLocationValue (tLocation);
 			}
 		}
-		
+
 		return tHasTokenFor;
 	}
 
@@ -231,12 +231,12 @@ public class Vertex {
 		Vertex tRemoteVertex;
 		String tVertexID;
 		String tRemoteID;
-		
-		tEmptyMapCells = new LinkedList<MapCell> ();
-		tVisited = new HashSet<String> ();
-		tNextToVisit = new LinkedList<Vertex> ();
+
+		tEmptyMapCells = new LinkedList<> ();
+		tVisited = new HashSet<> ();
+		tNextToVisit = new LinkedList<> ();
 		tNextToVisit.add (this);
-		
+
 		while (! tNextToVisit.isEmpty ()) {
 			tVertexToVisit = tNextToVisit.remove (0);
 			tVertexID = tVertexToVisit.getID ();
@@ -248,7 +248,7 @@ public class Vertex {
 					tEmptyMapCells.add (tEmptyMapCell);
 				}
 			}
-			
+
 			if (! tVisited.contains (tVertexID)) {
 				tVisited.add (tVertexID);
 				tEdges = tVertexToVisit.getEdges ();
@@ -268,10 +268,10 @@ public class Vertex {
 				}
 			}
 		}
-		
+
 		return tEmptyMapCells;
 	}
-	
+
 	public boolean isEmptyMapCell () {
 		return ! mapCell.isTileOnCell ();
 	}

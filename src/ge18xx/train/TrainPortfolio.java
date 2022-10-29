@@ -44,11 +44,11 @@ public class TrainPortfolio implements TrainHolderI {
 	CashHolderI portfolioHolder;
 
 	public TrainPortfolio () {
-		trains = new ArrayList<Train> ();
+		trains = new ArrayList<> ();
 	}
 
 	public TrainPortfolio (CashHolderI aPortfolioHolder) {
-		trains = new ArrayList<Train> ();
+		trains = new ArrayList<> ();
 		setPortfolioHolder (aPortfolioHolder);
 	}
 
@@ -59,7 +59,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public String getPortfolioHolderAbbrev () {
 		String tHolderName = "NONE";
 
-		if (portfolioHolder != CashHolderI.NO_ACTOR) {
+		if (portfolioHolder != ActorI.NO_ACTOR) {
 			tHolderName = portfolioHolder.getAbbrev ();
 		}
 
@@ -69,7 +69,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public String getPortfolioHolderName () {
 		String tHolderName = "NONE";
 
-		if (portfolioHolder != CashHolderI.NO_ACTOR) {
+		if (portfolioHolder != ActorI.NO_ACTOR) {
 			tHolderName = portfolioHolder.getName ();
 		}
 
@@ -200,9 +200,9 @@ public class TrainPortfolio implements TrainHolderI {
 				tTrain.clearCurrentRoute ();
 			}
 		}
-		
+
 	}
-	
+
 	public void clearSelections () {
 		if (trains != NO_TRAINS) {
 			for (Train tTrain : trains) {
@@ -228,7 +228,7 @@ public class TrainPortfolio implements TrainHolderI {
 
 	@Override
 	public CashHolderI getCashHolder () {
-		return (CashHolderI) CashHolderI.NO_ACTOR;
+		return (CashHolderI) ActorI.NO_ACTOR;
 	}
 
 	public boolean anyTrainIsOperating () {
@@ -404,9 +404,9 @@ public class TrainPortfolio implements TrainHolderI {
 
 	/**
 	 * Find the Train at the specified index, and return it. If there are no trains in the portfolio
-	 * return Train.NO_TRAIN. If the train index is after the last train in the 
+	 * return Train.NO_TRAIN. If the train index is after the last train in the
 	 * portfolio, return Train.NO_TRAIN
-	 * 
+	 *
 	 * @param aIndex the Index for the Train to find
 	 * @return The Train at the specified index
 	 */
@@ -445,7 +445,7 @@ public class TrainPortfolio implements TrainHolderI {
 		System.out.println ("Available Trains [" + getTrainNameAndQty (AVAILABLE_TRAINS) + "]");
 		System.out.println ("Future Trains [" + getTrainNameAndQty (FUTURE_TRAINS) + "]");
 	}
-	
+
 	@Override
 	public String getTrainNameAndQty (String aStatus) {
 		String tNameAndQuantity, tName;
@@ -497,7 +497,7 @@ public class TrainPortfolio implements TrainHolderI {
 							}
 						}
 					}
-					if (tFoundTrain == false) {
+					if (!tFoundTrain) {
 						tNames [tCount2] = tName;
 						if (tTrain.isUnlimitedQuantity ()) {
 							tQuantities [tCount2] = TrainInfo.UNLIMITED_TRAINS;
@@ -706,7 +706,7 @@ public class TrainPortfolio implements TrainHolderI {
 		tCount = getTrainCount ();
 		tTrainRemoved = false;
 		if (tCount > 0) {
-			for (tIndex = 0; (tIndex < tCount) && (tTrainRemoved == false); tIndex++) {
+			for (tIndex = 0; (tIndex < tCount) && !tTrainRemoved; tIndex++) {
 				tTrain = trains.get (tIndex);
 				if (tTrain.isSelected ()) {
 					if (!(tTrain.isUnlimitedQuantity ())) {
@@ -729,7 +729,7 @@ public class TrainPortfolio implements TrainHolderI {
 		tCount = getTrainCount ();
 		tTrainRemoved = false;
 		if (tCount > 0) {
-			for (tIndex = 0; (tIndex < tCount) && (tTrainRemoved == false); tIndex++) {
+			for (tIndex = 0; (tIndex < tCount) && !tTrainRemoved; tIndex++) {
 				tTrain = trains.get (tIndex);
 				if (tTrain.getName ().equals (aTrainName)) {
 					if (!(tTrain.isUnlimitedQuantity ())) {
@@ -816,7 +816,7 @@ public class TrainPortfolio implements TrainHolderI {
 
 	/**
 	 * Will clear all of the currently selected Trains so they are NOT selected
-	 * 
+	 *
 	 */
 	public void clearAllTrainSelections () {
 		for (Train tTrain : trains) {
@@ -937,7 +937,7 @@ public class TrainPortfolio implements TrainHolderI {
 		String tTrainInfo;
 		String tRustTileInfo;
 		String tTrainCount;
-		
+
 		tRustTileInfo = aRustInfo;
 		if (!aTileInfo.equals (Train.NO_TILE_INFO)) {
 			if (!tRustTileInfo.equals (TrainInfo.NO_RUST)) {
@@ -960,7 +960,7 @@ public class TrainPortfolio implements TrainHolderI {
 
 	/**
 	 * Update the Train Indexes for all of the company's Trains.
-	 * 
+	 *
 	 */
 	public void updateTrainIndexes () {
 		int tTrainIndex;

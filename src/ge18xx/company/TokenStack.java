@@ -30,7 +30,7 @@ public class TokenStack {
 	MarketCell marketCell;
 
 	public TokenStack (MarketCell aMarketCell) {
-		tokens = new LinkedList<Token> ();
+		tokens = new LinkedList<> ();
 		setMarketCell (aMarketCell);
 	}
 
@@ -59,7 +59,7 @@ public class TokenStack {
 		tLocation2 = NO_STACK_LOCATION;
 		for (tTokenIndex = tTokenCount - 1; tTokenIndex >= 0; tTokenIndex--) {
 			tToken = getTokenAtIndex (tTokenIndex);
-			tCorporation = (Corporation) tToken.getWhichCompany ();
+			tCorporation = tToken.getWhichCompany ();
 			if (tCorporation == aCorporation1) {
 				tLocation1 = tTokenIndex;
 			}

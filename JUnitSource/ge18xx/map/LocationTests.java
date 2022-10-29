@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ge18xx.map;
 
@@ -125,9 +125,9 @@ class LocationTests {
 
 	private void testCityLocations (Location aLocation, int aIndex, boolean cityHC, boolean cityHS, boolean cityFHCR,
 			boolean cityFHCL, boolean cityFHS, boolean cityNC, boolean cityAS) {
-		Integer tIndex = new Integer (aIndex);
-		String tLabel = "Location is " + tIndex.toString () + " City ";
-		String tNotLabel = "Location is " + tIndex.toString () + " Not City ";
+		int tIndex = aIndex;
+		String tLabel = "Location is " + Integer.toString (tIndex) + " City ";
+		String tNotLabel = "Location is " + Integer.toString (tIndex) + " Not City ";
 
 		if (cityHC) {
 			assertTrue (aLocation.isCityHexCorner (), tLabel + "Hex Corner");

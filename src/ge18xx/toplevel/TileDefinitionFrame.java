@@ -44,7 +44,7 @@ public class TileDefinitionFrame extends XMLFrame {
 
 	public void loadAllTileDefinitions (String aBaseDirName, TileTrayFrame aTileTrayFrame) {
 		TileSet tTDTileSet;
-		
+
 		for (String tTileSetName : allTileSetNames) {
 			tTDTileSet = loadATileDefinitionSet (aBaseDirName, tTileSetName);
 			aTileTrayFrame.copyTileDefinitions (tTDTileSet);
@@ -53,7 +53,7 @@ public class TileDefinitionFrame extends XMLFrame {
 
 	public TileSet loadATileDefinitionSet (String aBaseDirName, String aTileSetName) {
 		String tXMLTDFileName;
-		
+
 		tXMLTDFileName = aBaseDirName + TILE_DIRECTORY_NAME + aTileSetName + TILE_SUFFIX_NAME;
 		try {
 			loadXML (tXMLTDFileName, tileSet);
@@ -61,14 +61,14 @@ public class TileDefinitionFrame extends XMLFrame {
 			System.err.println ("Exception thrown " + eException.getMessage ());
 			eException.printStackTrace ();
 		}
-		
+
 		return tileSet;
 	}
 
-	public void loadATileFromASet (String aBaseDirName, TileTrayFrame aTileTrayFrame, 
+	public void loadATileFromASet (String aBaseDirName, TileTrayFrame aTileTrayFrame,
 									int aTileNumber, String aTileSetName, int aQuantity) {
 		TileSet tTDTileSet;
-		
+
 		tTDTileSet = loadATileDefinitionSet (aBaseDirName, aTileSetName);
 		aTileTrayFrame.copyATileFromDefinitions (tTDTileSet, aTileNumber, aQuantity);
 	}

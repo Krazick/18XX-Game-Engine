@@ -26,6 +26,7 @@ import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
 import ge18xx.round.AuctionRound;
+import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.Action;
@@ -58,10 +59,10 @@ public class PlayerManager {
 
 	public enum STOCK_BUY_IN {
 		StockRound, AuctionRound, OperatingRound
-	}; // Round a Stock Certificate was purchased
+	} // Round a Stock Certificate was purchased
 
 	public final static boolean AUCTION_BUY = false;
-	public final static List<Player> players = new LinkedList<Player> ();
+	public final static List<Player> players = new LinkedList<> ();
 	private final static List<Player> NO_PLAYERS = null;
 	GameManager gameManager;
 	StockRound stockRound;
@@ -202,7 +203,7 @@ public class PlayerManager {
 
 	/**
 	 * Clear the Exchanged Shares for All Players
-	 * 
+	 *
 	 */
 	public void clearAllExchangedShares () {
 		for (Player tPlayer : players) {
@@ -227,7 +228,7 @@ public class PlayerManager {
 	public Bank getBank () {
 		Bank tBank = Bank.NO_BANK;
 
-		if (stockRound != StockRound.NO_ROUND) {
+		if (stockRound != Round.NO_ROUND) {
 			tBank = stockRound.getBank ();
 		}
 
@@ -247,7 +248,7 @@ public class PlayerManager {
 	}
 
 	public List<ActionStates> getPlayerAuctionStates () {
-		List<ActionStates> aAuctionStates = new LinkedList<ActionStates> ();
+		List<ActionStates> aAuctionStates = new LinkedList<> ();
 		ActorI.ActionStates tActionState;
 
 		for (Player tPlayer : players) {
@@ -601,7 +602,7 @@ public class PlayerManager {
 			doFinalShareBuySteps (tPlayerPortfolio, tSourcePortfolio, aCertificatesToBuy, aBuyStockAction);
 			/* If this Private include a Free Certificate, hand that over as well */
 			if (tFreeCertificate != Certificate.NO_CERTIFICATE) {
-				tCertificatesToTransfer = new LinkedList<Certificate> ();
+				tCertificatesToTransfer = new LinkedList<> ();
 				tCertificatesToTransfer.add (tFreeCertificate);
 				doFinalShareBuySteps (tPlayerPortfolio, tSourcePortfolio, tCertificatesToTransfer, aBuyStockAction);
 				/*
@@ -707,13 +708,13 @@ public class PlayerManager {
 	public ParPriceFrame buildParPriceFrame (Player aPlayer, Certificate aCertificate) {
 		PlayerFrame tPlayerFrame;
 		ParPriceFrame tParPriceFrame;
-		
+
 		tPlayerFrame = aPlayer.getPlayerFrame ();
 		tParPriceFrame = new ParPriceFrame (tPlayerFrame, aPlayer, stockRound, aCertificate);
-		
+
 		return tParPriceFrame;
 	}
-	
+
 	private void handleSetParPrice (Player aPlayer, Certificate aCertificate, ShareCompany aShareCompany,
 			int aParPrice) {
 		gameManager.setParPrice (aShareCompany, aParPrice);
@@ -731,7 +732,7 @@ public class PlayerManager {
 		tPlayerFrame = aPlayer.getPlayerFrame ();
 		tPlayerFrame.setEnabled (false);
 	}
-	
+
 	public void addAction (Action aAction) {
 		if (aAction != Action.NO_ACTION) {
 			stockRound.addAction (aAction);
@@ -1157,7 +1158,6 @@ public class PlayerManager {
 						tPassAction.addApplyDiscountEffect (aPlayer, tCompanyName, tOldDiscount, tNewDiscount);
 					}
 				}
-				;
 			}
 			tPassAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
 			tPassAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
@@ -1180,7 +1180,7 @@ public class PlayerManager {
 	public void resetRoundFrameBackgrounds () {
 		gameManager.resetRoundFrameBackgrounds ();
 	}
-	
+
 	public void passAuctionAction (Player aPlayer) {
 		int tNextPlayerIndex;
 
@@ -1264,7 +1264,7 @@ public class PlayerManager {
 			// This time transfer the Ownership of the stock certificates to the Bank
 			// Portfolio, and adjust the Stock Price
 			tStartMarketCell = MarketCell.NO_MARKET_CELL;
-			tShareCompany = (ShareCompany) Corporation.NO_ACTOR;
+			tShareCompany = (ShareCompany) ActorI.NO_ACTOR;
 			tStartLocation = TokenStack.NO_STACK_LOCATION;
 			tNewLocation = TokenStack.NO_STACK_LOCATION;
 			tNewMarketCell = tStartMarketCell;
@@ -1480,7 +1480,7 @@ public class PlayerManager {
 	public boolean isNetworkGame () {
 		return gameManager.isNetworkGame ();
 	}
-	
+
 	public boolean isNetworkAndIsThisClient (String aPlayerName) {
 		return gameManager.isNetworkAndIsThisClient (aPlayerName);
 	}

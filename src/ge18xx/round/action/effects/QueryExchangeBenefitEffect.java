@@ -21,7 +21,7 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 	String qeBenefitName;
 	PrivateCompany privateCompany;
 	QueryExchangeBenefit queryExchangeBenefit;
-	
+
 	public QueryExchangeBenefitEffect () {
 		super (NAME);
 	}
@@ -41,14 +41,14 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 
 	public QueryExchangeBenefitEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		
+
 		int tPrivateID;
 		String tQEBenefitName;
 		Corporation tCorporation;
 		PrivateCompany tPrivateCompany;
 		Benefit tBenefit;
 		QueryExchangeBenefit tQueryExchangeBenefit;
-		
+
 		tPrivateID = aEffectNode.getThisIntAttribute (AN_PRIVATE_ID);
 		setPrivateCompanyID (tPrivateID);
 		tQEBenefitName = aEffectNode.getThisAttribute (AN_BENEFIT_NAME);
@@ -64,7 +64,7 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 			}
 		}
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
@@ -79,7 +79,7 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 	public void setPrivateCompany (PrivateCompany aPrivateCompany) {
 		privateCompany = aPrivateCompany;
 	}
-	
+
 	public void setQueryExchangeBenefit (QueryExchangeBenefit aQueryExchangeBenefit) {
 		queryExchangeBenefit = aQueryExchangeBenefit;
 	}
@@ -87,33 +87,33 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 	public void setPrivateCompanyID (int aPrivateID) {
 		privateID = aPrivateID;
 	}
-	
+
 	public void setQEBenefitName (String aQEBenefitName) {
 		qeBenefitName = aQEBenefitName;
 	}
-	
+
 	public PrivateCompany getPrivateCompany () {
 		return privateCompany;
 	}
-	
+
 	public QueryExchangeBenefit getQueryExchangeBenefit  () {
 		return queryExchangeBenefit;
 	}
-	
+
 	public int getPrivateCompanyID () {
 		return privateID;
 	}
-	
+
 	public String getQEBenefitName  () {
 		return qeBenefitName;
 	}
-	
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		String tToPlayerName;
 		ExchangeQueryFrame tExchangeQueryFrame;
-		
+
 		tEffectApplied = false;
 		tToPlayerName = toActor.getName ();
 		if (aRoundManager.isNetworkAndIsThisClient (tToPlayerName)) {
@@ -123,12 +123,12 @@ public class QueryExchangeBenefitEffect extends ToEffect {
 				tEffectApplied = true;
 			}
 		} else {
-			tEffectApplied = true;			
+			tEffectApplied = true;
 		}
-		
+
 		return tEffectApplied;
 	}
-	
+
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;

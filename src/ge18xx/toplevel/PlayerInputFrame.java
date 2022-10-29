@@ -194,7 +194,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		int tIndex;
 		String tName;
 
-		tPlayerNames = new ArrayList<String> ();
+		tPlayerNames = new ArrayList<> ();
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
 			tName = playerNames [tIndex].getText ();
 			if (!(tName.equals (NO_NAME))) {
@@ -228,7 +228,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		int tFoundCount;
 		List<String> tPlayerNames;
 		boolean tShouldRandomize;
-		
+
 		tShouldRandomize = gameManager.shouldRandomize ();
 		if (tShouldRandomize) {
 			tPlayerNames = getPlayerNames ();

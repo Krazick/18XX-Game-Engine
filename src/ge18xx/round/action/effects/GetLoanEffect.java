@@ -40,7 +40,7 @@ public class GetLoanEffect extends Effect {
 
 		boolean tOldLoanTaken;
 		boolean tNewLoanTaken;
-		
+
 		tOldLoanTaken = aEffectNode.getThisBooleanAttribute (AN_OLD_LOAN_TAKEN);
 		tNewLoanTaken = aEffectNode.getThisBooleanAttribute (AN_NEW_LOAN_TAKEN);
 		setOldLoanTaken (tOldLoanTaken);
@@ -50,19 +50,19 @@ public class GetLoanEffect extends Effect {
 	private void setOldLoanTaken (boolean aOldLoanTaken) {
 		oldLoanTaken = aOldLoanTaken;
 	}
-	
+
 	private void setNewLoanTaken (boolean aNewLoanTaken) {
 		newLoanTaken = aNewLoanTaken;
 	}
-	
+
 	public boolean getOldLoanTaken () {
 		return oldLoanTaken;
 	}
-	
+
 	public boolean getNewLoanTaken () {
 		return newLoanTaken;
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
@@ -70,7 +70,7 @@ public class GetLoanEffect extends Effect {
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_NEW_LOAN_TAKEN, newLoanTaken);
 		tEffectElement.setAttribute (AN_OLD_LOAN_TAKEN, oldLoanTaken);
-		
+
 		return tEffectElement;
 	}
 
@@ -84,7 +84,7 @@ public class GetLoanEffect extends Effect {
 		boolean tEffectApplied;
 		ShareCompany tShareCompany;
 		ActorI tActor;
-		
+
 		tEffectApplied = false;
 		tActor = getActor ();
 		if (tActor.isAShareCompany ()) {
@@ -92,7 +92,7 @@ public class GetLoanEffect extends Effect {
 			tShareCompany.setLoanTaken (newLoanTaken);
 			tEffectApplied = true;
 		}
-		
+
 		return tEffectApplied;
 	}
 
@@ -101,7 +101,7 @@ public class GetLoanEffect extends Effect {
 		boolean tEffectUndone;
 		ShareCompany tShareCompany;
 		ActorI tActor;
-		
+
 		tEffectUndone = false;
 		tActor = getActor ();
 		if (tActor.isAShareCompany ()) {
@@ -109,7 +109,7 @@ public class GetLoanEffect extends Effect {
 			tShareCompany.setLoanTaken (oldLoanTaken);
 			tEffectUndone = true;
 		}
-		
+
 		return tEffectUndone;
 	}
 }

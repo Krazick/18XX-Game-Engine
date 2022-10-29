@@ -16,7 +16,7 @@ class BankPoolTests {
 	private GameTestFactory gameTestFactory;
 	private GameManager mGameManager;
 	BankPool bankPool;
-	
+
 	@BeforeEach
 	void setUp () throws Exception {
 		bankTestFactory = new BankTestFactory ();

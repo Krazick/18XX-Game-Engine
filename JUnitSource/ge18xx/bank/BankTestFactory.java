@@ -12,12 +12,12 @@ public class BankTestFactory {
 
 	public Bank buildBank (GameManager aGameManager) {
 		Bank tBank;
-		
+
 		tBank = new Bank (0, aGameManager);
-		
+
 		return tBank;
 	}
-	
+
 	public Bank buildBankMock (GameManager mGameManager) {
 		Bank mBank;
 
@@ -27,22 +27,22 @@ public class BankTestFactory {
 		return mBank;
 	}
 
-	public GameBank buildGameBank (GameManager aGameManager) { 
+	public GameBank buildGameBank (GameManager aGameManager) {
 		return buildGameBank ("Test Game Bank", aGameManager);
 	}
-	
+
 	public GameBank buildGameBank (String aGameBankName, GameManager aGameManager) {
 		GameBank tGameBank;
-		
+
 		tGameBank = new GameBank (aGameBankName, aGameManager);
-		
+
 		return tGameBank;
 	}
-	
+
 	public GameBank buildGameBankMock (GameManager mGameManager) {
 		return buildGameBankMock ("Mock Game Bank", mGameManager);
 	}
-	
+
 	public GameBank buildGameBankMock (String aGameBankNameMock, GameManager mGameManager) {
 		GameBank mGameBank;
 
@@ -54,12 +54,12 @@ public class BankTestFactory {
 
 	public BankPool buildBankPool (GameManager aGameManager) {
 		BankPool tBankPool;
-		
+
 		tBankPool = new BankPool (aGameManager);
-		
+
 		return tBankPool;
 	}
-	
+
 	public BankPool buildBankPoolMock (GameManager mGameManager) {
 		BankPool mBankPool;
 

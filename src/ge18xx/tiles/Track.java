@@ -84,12 +84,12 @@ public class Track implements Cloneable {
 	}
 
 	/**
-	 * 
+	 *
 	 * Test if the Gauge of the Track Segment is Useable
-	 * 
+	 *
 	 * @return True if the Gauge is useable by a Train or not ('Track' Segments can
 	 *         be OVERPASSes, or dashed components of a combination Track.
-	 * 
+	 *
 	 */
 	public boolean useableTrack () {
 		return gauge.useableGauge ();
@@ -181,7 +181,7 @@ public class Track implements Cloneable {
 		int halfTrackWidth = aTrackWidth / 2;
 		int Xd = aHex.getXd ();
 		int Yd = aHex.getYd ();
-		int depthY = (int) (Yd / 3);
+		int depthY = Yd / 3;
 		Paint trackColor;
 		int maxXDisplacement = (int) (Xd * 1.57143);
 		int minXDisplacement = (int) (Xd * 1.42857);
@@ -592,42 +592,42 @@ public class Track implements Cloneable {
 				tStopX = X + displace.x;
 				tStopY = Y + displace.y;
 			} else if (tExit.isAdjacentForward (tEnter)) {
-				tExit = tEnter.rotateLocation ((int) 1);
+				tExit = tEnter.rotateLocation (1);
 				tStartSliceNum = (tEnter.getLocation () * 2) % 12;
 				tStopSliceNum = (tStartSliceNum + 1) % 12;
 				tDraw = 2;
 			} else if (tExit.isAdjacentBackward (tEnter)) {
-				tExit = tEnter.rotateLocation ((int) 5);
+				tExit = tEnter.rotateLocation (5);
 				tStartSliceNum = (tEnter.getLocation () * 2) % 12;
 				tStopSliceNum = (tStartSliceNum + 1) % 12;
 				tDraw = 2;
 			} else if (tExit.isForward (tEnter)) {
-				tExit = tEnter.rotateLocation ((int) 2);
+				tExit = tEnter.rotateLocation (2);
 				tStartSliceNum = (tEnter.getLocation () * 2) % 12;
 				tStopSliceNum = (tStartSliceNum + 2) % 12;
 				tDraw = 3;
 			} else if (tExit.isBackward (tEnter)) {
-				tExit = tEnter.rotateLocation ((int) 4);
+				tExit = tEnter.rotateLocation (4);
 				tStopSliceNum = (tEnter.getLocation () * 2 + 1) % 12;
 				tStartSliceNum = (tStopSliceNum + 10) % 12;
 				tDraw = 3;
 			} else if (tExit.isAdjacentFarForward (tEnter)) {
-				tExit = tEnter.rotateLocation ((int) 2);
+				tExit = tEnter.rotateLocation (2);
 				tStartSliceNum = tEnter.getLocation () + 13;
 				tStopSliceNum = tStartSliceNum;
 				tDraw = 3;
 			} else if (tExit.isAdjacentFarBackward (tEnter)) {
-				tExit = tEnter.rotateLocation ((int) 4);
+				tExit = tEnter.rotateLocation (4);
 				tStartSliceNum = tEnter.getLocation () + 13;
 				tStopSliceNum = tStartSliceNum;
 				tDraw = 3;
 			} else if (tExit.isFarAdjacentForward (tEnter)) {
-				tExit = tEnter.rotateLocation ((int) 2);
+				tExit = tEnter.rotateLocation (2);
 				tStartSliceNum = ((tEnter.getLocation () + 2) % 6) + 19;
 				tStopSliceNum = tStartSliceNum;
 				tDraw = 4;
 			} else if (tExit.isFarAdjacentBackward (tEnter)) {
-				tExit = tEnter.rotateLocation ((int) 4);
+				tExit = tEnter.rotateLocation (4);
 				tStartSliceNum = ((tEnter.getLocation () + 4) % 6) + 19;
 				tStopSliceNum = tStartSliceNum;
 				tDraw = 4;
@@ -796,7 +796,7 @@ public class Track implements Cloneable {
 	public BasicStroke getTrackStroke (Hex aHex) {
 		BasicStroke tTrackStroke;
 		boolean isDashed;
-		float tTrackWidth = (float) aHex.getTrackWidth ();
+		float tTrackWidth = aHex.getTrackWidth ();
 		float dash1[] = { 4.0f };
 
 		isDashed = gauge.isDashed ();
@@ -815,7 +815,7 @@ public class Track implements Cloneable {
 
 	/**
 	 * Get the Current Train Number using this Track Segment
-	 * 
+	 *
 	 * @return The Train Number using this Track
 	 */
 	public int getTrainNumber () {

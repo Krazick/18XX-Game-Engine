@@ -14,12 +14,12 @@ public class RemovePhaseVEffect extends PhaseInfoVEffect {
 		super (aXMLNode);
 		setName (NAME);
 	}
-	
+
 	/**
 	 * Apply the Variant Effect using the Game Manager as needed.
-	 * 
+	 *
 	 * @param aGameManager The current GameManager to have the Variant Effect applied to.
-	 * 
+	 *
 	 */
 	@Override
 	public void applyVariantEffect (GameManager aGameManager) {

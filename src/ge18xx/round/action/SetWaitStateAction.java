@@ -20,7 +20,7 @@ public class SetWaitStateAction extends Action {
 		super (aAction);
 		setName (NAME);
 	}
-	
+
 	public SetWaitStateAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
@@ -30,7 +30,7 @@ public class SetWaitStateAction extends Action {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-	
+
 	public SetWaitStateAction (String aName) {
 		super (aName);
 	}
@@ -44,15 +44,15 @@ public class SetWaitStateAction extends Action {
 		return tSimpleActionReport;
 	}
 
-	public void addSetWaitStateEffect (ActorI aFromActor, ActorI aToActor, ActionStates aOldState, 
+	public void addSetWaitStateEffect (ActorI aFromActor, ActorI aToActor, ActionStates aOldState,
 						ActionStates aNewState) {
 		SetWaitStateEffect tSetWaitStateEffect;
 
-		tSetWaitStateEffect = new SetWaitStateEffect (aFromActor, aToActor, 
+		tSetWaitStateEffect = new SetWaitStateEffect (aFromActor, aToActor,
 						aOldState, aNewState);
 		addEffect (tSetWaitStateEffect);
 	}
-	
+
 	public void resetPlayerStatesAfterWait (Action aWaitedAction) {
 		SetWaitStateEffect tSetWaitStateEffect;
 		String tEffectName;
@@ -61,8 +61,8 @@ public class SetWaitStateAction extends Action {
 		ActorI tToActor;
 		ActorI tActor;
 		List<Effect> tEffects;
-		
-		tEffects = aWaitedAction.getEffects ();;
+
+		tEffects = aWaitedAction.getEffects ();
 		for (Effect tEffect : tEffects) {
 			tEffectName = tEffect.getName ();
 			if (tEffectName.equals (SetWaitStateEffect.NAME)) {
@@ -76,7 +76,7 @@ public class SetWaitStateAction extends Action {
 				System.out.println ("Added SetWaitStateEffect for " + tToActor.getName () +
 						" from " + tOldState + " to " + tNewState);
 			} else {
-				System.err.println ("Could not find Effect named " + tEffectName + " in Action named " + 
+				System.err.println ("Could not find Effect named " + tEffectName + " in Action named " +
 									aWaitedAction.getName ());
 			}
 		}

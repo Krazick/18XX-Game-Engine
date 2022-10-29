@@ -49,21 +49,21 @@ class PortfolioTests {
 			assertEquals (1, portfolio.getCertificateTotalCount ());
 			portfolio.clearSelections ();
 		}
-		
+
 		@Test
 		@DisplayName ("Get Certificate by Index Tests")
 		void getCertificateByIndexTest () {
 			Certificate mCertificate1;
 			Certificate tFoundCertificate;
-			
+
 			mCertificate1 = certificateTestFactory.buildCertificateMock ();
 			tFoundCertificate = portfolio.getCertificate (0);
 			assertNull (tFoundCertificate);
-			
+
 			portfolio.addCertificate (mCertificate);
 			tFoundCertificate = portfolio.getCertificate (1);
 			assertNull (tFoundCertificate);
-			
+
 			tFoundCertificate = portfolio.getCertificate (0);
 			assertEquals (mCertificate, tFoundCertificate);
 

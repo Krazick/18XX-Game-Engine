@@ -48,9 +48,9 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 /**
- * 
+ *
  * Will store and Manage the Certificates owned by a PortfolioHolderI
- * 
+ *
  * @author marksmith
  *
  */
@@ -84,7 +84,7 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public Portfolio (PortfolioHolderI aHolder) {
-		certificates = new LinkedList<Certificate> ();
+		certificates = new LinkedList<> ();
 		setHolder (aHolder);
 		privateIndex = NO_COMPONENT_INDEX;
 		minorIndex = NO_COMPONENT_INDEX;
@@ -258,7 +258,7 @@ public class Portfolio implements CertificateHolderI {
 
 		return tAllCertificatesPanel;
 	}
-	
+
 	public void sortByActive () {
 		Collections.sort (certificates, Certificate.CertificateActiveOrderComparator);
 	}
@@ -323,7 +323,7 @@ public class Portfolio implements CertificateHolderI {
 	private Certificate getCertificateToShow (Certificate aCertificate) {
 		Certificate tCertificateToShow;
 		Corporation tCorporationToShow;
-		
+
 		tCertificateToShow = aCertificate;
 		// Want to be sure to show the President's Certificate FIRST to buy, if the Bank
 		// has it.
@@ -333,13 +333,13 @@ public class Portfolio implements CertificateHolderI {
 		if (containsPresidentShareOf (tCorporationToShow)) {
 			tCertificateToShow = getPresidentCertificate (tCorporationToShow);
 		}
-		
+
 		return tCertificateToShow;
 	}
 
 	private JPanel buildAllCertificatesJPanel (JPanel aCertificateInfoJPanel, JPanel aOtherCertificatesInfoJPanel) {
 		JPanel tAllCertificatesJPanel;
-		
+
 		tAllCertificatesJPanel = setupAllCertJPanel ();
 		tAllCertificatesJPanel.add (aCertificateInfoJPanel);
 		tAllCertificatesJPanel.add (Box.createHorizontalStrut (3));
@@ -347,7 +347,7 @@ public class Portfolio implements CertificateHolderI {
 		tAllCertificatesJPanel.add (Box.createHorizontalStrut (3));
 		tAllCertificatesJPanel.add (aOtherCertificatesInfoJPanel);
 		tAllCertificatesJPanel.add (Box.createHorizontalGlue ());
-		
+
 		return tAllCertificatesJPanel;
 	}
 
@@ -537,11 +537,11 @@ public class Portfolio implements CertificateHolderI {
 	public int getCertificateTotalCount () {
 		return certificates.size ();
 	}
-	
+
 	public Certificate getCertificateFor (Corporation aCorporation) {
 		return getCertificateFor (aCorporation, REMOVE_CERTIFICATE);
 	}
-	
+
 	public Certificate getCertificateFor (Corporation aCorporation, boolean aRemove) {
 		Certificate tCertificate, tPortfolioCertificate;
 		int tIndex, tCertificateCount;
@@ -766,7 +766,7 @@ public class Portfolio implements CertificateHolderI {
 	public List<Certificate> getCertificatesToBuy () {
 		List<Certificate> tCertificatesToBuy;
 
-		tCertificatesToBuy = new LinkedList<Certificate> ();
+		tCertificatesToBuy = new LinkedList<> ();
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToBuy ()) {
 				tCertificatesToBuy.add (tCertificate);
@@ -779,7 +779,7 @@ public class Portfolio implements CertificateHolderI {
 	public List<Certificate> getCertificatesCanBeSold () {
 		List<Certificate> tCertificatesToSell;
 
-		tCertificatesToSell = new LinkedList<Certificate> ();
+		tCertificatesToSell = new LinkedList<> ();
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.canBeSold ()) {
 				tCertificatesToSell.add (tCertificate);
@@ -792,7 +792,7 @@ public class Portfolio implements CertificateHolderI {
 	public List<Certificate> getCertificatesToSell () {
 		List<Certificate> tCertificatesToSell;
 
-		tCertificatesToSell = new LinkedList<Certificate> ();
+		tCertificatesToSell = new LinkedList<> ();
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelectedToSell ()) {
 				tCertificatesToSell.add (tCertificate);
@@ -1217,7 +1217,7 @@ public class Portfolio implements CertificateHolderI {
 
 	/**
 	 * Percentage of Shares Sold from Bank
-	 * 
+	 *
 	 * @return int value of % shares sold (up to 100)
 	 */
 
@@ -1505,9 +1505,9 @@ public class Portfolio implements CertificateHolderI {
 
 	/**
 	 * Review all Selected Shares for Sale to determine if all are the same Size
-	 * 
+	 *
 	 * @return True if all Selected Shares are the same Size.
-	 * 
+	 *
 	 */
 	public boolean allSelectedSharesSameSize () {
 		boolean tAllSelectedSharesSameSize;
@@ -1534,9 +1534,9 @@ public class Portfolio implements CertificateHolderI {
 
 	/**
 	 * Get cost of all Shares selected to be Bought
-	 * 
+	 *
 	 * @return Total Cost of all Shares selected to be Bought
-	 * 
+	 *
 	 */
 	public int getSelectedStocksCost () {
 		int tSelectedStockCost;
@@ -1553,9 +1553,9 @@ public class Portfolio implements CertificateHolderI {
 
 	/**
 	 * Get cost of all Shares selected to be Sold
-	 * 
+	 *
 	 * @return Total Cost of all Shares selected to be Sold
-	 * 
+	 *
 	 */
 	public int getSelectedStocksSaleCost () {
 		int tSelectedStockSaleCost;
@@ -1572,10 +1572,10 @@ public class Portfolio implements CertificateHolderI {
 
 	/**
 	 * Determine if the player has selected any stocks to Sell
-	 * 
+	 *
 	 * @return TRUE if at least one stock in the Portfolio has been selected to be
 	 *         sold
-	 * 
+	 *
 	 */
 	public boolean hasSelectedStocksToSell () {
 		boolean tHasSelectedStocksToSell;
@@ -1903,12 +1903,12 @@ public class Portfolio implements CertificateHolderI {
 		boolean tHandledCertificate;
 		Border tCorporateColorBorder;
 		Corporation tCorporation;
-		
+
 		if (certificates.size () > 0) {
 			tOwnershipPanel = new JPanel ();
 			tOwnershipPanel.setLayout (new BoxLayout (tOwnershipPanel, BoxLayout.Y_AXIS));
 
-			tPortfolioSummary = new LinkedList<PortfolioSummary> ();
+			tPortfolioSummary = new LinkedList<> ();
 			for (Certificate tCertificate : certificates) {
 				tType = PortfolioSummary.SHARE_CORP_TYPE;
 				tAbbrev = tCertificate.getCompanyAbbrev ();
@@ -2028,7 +2028,7 @@ public class Portfolio implements CertificateHolderI {
 		int tCertParValue;
 		int tCorpIndex;
 		Bank tBank;
-		
+
 		tCertToBuy = Certificate.NO_CERTIFICATE;
 		tPlayerName = aPlayer.getName ();
 		tCorpIndex = 0;
@@ -2063,7 +2063,7 @@ public class Portfolio implements CertificateHolderI {
 				}
 			}
 		}
-		
+
 		return tCertToBuy;
 	}
 }

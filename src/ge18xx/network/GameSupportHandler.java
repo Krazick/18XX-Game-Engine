@@ -3,8 +3,6 @@ package ge18xx.network;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ge18xx.game.GameManager;
-
 public class GameSupportHandler {
 	private boolean waitingForResponse;
 	private String response;
@@ -50,7 +48,7 @@ public class GameSupportHandler {
 	public void holdRequestTillReady () {
 		while (waitingForResponse) {
 			try {
-				Thread.sleep (GameManager.WAIT_TIME + 1);
+				Thread.sleep (NetworkGameSupport.WAIT_TIME + 1);
 			} catch (InterruptedException e) {
 				System.err.println ("Waiting for the Response to Clear - Exception");
 				e.printStackTrace ();
@@ -69,7 +67,7 @@ public class GameSupportHandler {
 		setWaitingForResponse (tWaitForResponse);
 		while (waitingForResponse) {
 			try {
-				Thread.sleep (GameManager.WAIT_TIME);
+				Thread.sleep (NetworkGameSupport.WAIT_TIME);
 			} catch (InterruptedException e) {
 				e.printStackTrace ();
 			}

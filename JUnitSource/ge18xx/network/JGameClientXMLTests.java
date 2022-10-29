@@ -41,7 +41,7 @@ public class JGameClientXMLTests {
 				tSelectedGameIndex, JGameClient.AN_BROADCAST_MESSAGE, tBroadcastMessage);
 		assertEquals (tExpected1, tGameActivity3);
 	}
-	
+
 	@Test
 	@DisplayName ("Building Game XML 1 Attribute Tests")
 	public void JGameClientGameActivity1XMLTests () {
@@ -53,7 +53,7 @@ public class JGameClientXMLTests {
 				tSelectedGameIndex + "");
 		assertEquals (tExpected1, tGameActivity2);
 	}
-	
+
 	@Test
 	@DisplayName ("Building Game Activity 3 Attributes Tests")
 	public void JGameClientGameActivity3XMLTests () {
@@ -68,12 +68,12 @@ public class JGameClientXMLTests {
 		tGameActivity1 = jGameClient.buildGameActivityXML (JGameClient.EN_PLAYER_ORDER, JGameClient.AN_GAME_ID,
 				tSelectedGameID + "", JGameClient.AN_BROADCAST_MESSAGE, tBroadcastMessage);
 		assertEquals (tExpected1, tGameActivity1);
-		
+
 		tGameActivity2 = jGameClient.buildGameActivityXML (JGameClient.EN_GAME_SELECTION, JGameClient.AN_GAME_ID,
 				tGameID , JGameClient.AN_BROADCAST_MESSAGE, tBroadcastMessage, JGameClient.AN_PLAYER, "AlphaPlayer");
 		assertEquals (tExpected2, tGameActivity2);
 	}
-	
+
 	@Test
 	@DisplayName ("Building GameID Request")
 	public void buildGameIDRequestTest () {
@@ -82,7 +82,7 @@ public class JGameClientXMLTests {
 		int tLastActionNumber = 105;
 		String tBuildResult;
 		String tExpected;
-		
+
 		tExpected = "Game Support <GS><LoadGameSetup actionNumber=\"105\" gameID=\"1830.2022-06-23-1655\" gameName=\"1830\"/></GS>";
 		tBuildResult = jGameClient.buildGameIDRequest (tGameID, tLastActionNumber, tGameName);
 		assertEquals (tExpected, tBuildResult);

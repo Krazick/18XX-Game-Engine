@@ -27,7 +27,7 @@ import ge18xx.train.TrainPortfolio;
 public class ButtonsInfoFrame extends XMLFrame {
 
 	/**
-	 * 
+	 *
 	 */
 	public static final String EXPLAIN = "Explain";
 	private static final long serialVersionUID = 1L;
@@ -41,14 +41,14 @@ public class ButtonsInfoFrame extends XMLFrame {
 
 	public ButtonsInfoFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager.getGameName ());
-		frameButtons = new ArrayList<FrameButton> ();
+		frameButtons = new ArrayList<> ();
 
 		buttonModel = new DefaultTableModel (0, 4) {
 		    private static final long serialVersionUID = 1L;
 
 		    /**
 		     * Set so that no Cell in the Table can be edited.
-		     * 
+		     *
 		     */
 			@Override
 		    public boolean isCellEditable (int row, int column) {
@@ -56,7 +56,7 @@ public class ButtonsInfoFrame extends XMLFrame {
 		       return false;
 		    }
 		};
-		
+
 		allButtonInfoJPanel = new JPanel ();
 		allButtonInfoJPanel.setLayout (new BoxLayout (allButtonInfoJPanel, BoxLayout.Y_AXIS));
 
@@ -117,8 +117,8 @@ public class ButtonsInfoFrame extends XMLFrame {
 		int tTotalWidth = 0;
 		int tTotalHeight;
 
-		for (int tIndex = 0; tIndex < colWidths.length; tIndex++) {
-			tTotalWidth += colWidths [tIndex] + 1;
+		for (int colWidth : colWidths) {
+			tTotalWidth += colWidth + 1;
 		}
 		tTotalHeight = (rowHeight + 10) * (frameButtons.size () + 1);
 		setSize (tTotalWidth, tTotalHeight);
@@ -163,17 +163,17 @@ public class ButtonsInfoFrame extends XMLFrame {
 
 	private boolean buttonValidAndVisible (FrameButton aFrameButton) {
 		boolean tButtonValidAndVisible;
-		
+
 		tButtonValidAndVisible = false;
 		if (aFrameButton != FrameButton.NO_FRAME_BUTTON) {
 			if (aFrameButton.isVisible ()) {
 				tButtonValidAndVisible = true;
 			}
 		}
-		
+
 		return tButtonValidAndVisible;
 	}
-	
+
 	public void fillWithPrivateCheckBoxes (Portfolio aPortfolio, String aHolderName) {
 		int tCount, tIndex;
 		FrameButton tFrameButton;

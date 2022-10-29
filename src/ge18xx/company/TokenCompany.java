@@ -73,7 +73,7 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 
 	private void setupNewMapTokens () {
-		mapTokens = new LinkedList<MapToken> ();
+		mapTokens = new LinkedList<> ();
 		totalTokenCount = 0;
 	}
 
@@ -136,9 +136,9 @@ public abstract class TokenCompany extends TrainCompany {
 
 		if (homeMapCell1HasTile ()) {
 			tBaseMapCell = this.getHomeCity1 ();
-			// This just tests for 'HomeCity1' if Corp has multiple MapCells for Base, 
+			// This just tests for 'HomeCity1' if Corp has multiple MapCells for Base,
 			// Must allow to choose which MapCell to place on
-			// If a Corp starts with Multiple MapCells (1853 more than one Starting Base) 
+			// If a Corp starts with Multiple MapCells (1853 more than one Starting Base)
 			// must place all Map Cells.
 			if (tBaseMapCell != MapCell.NO_MAP_CELL) {
 				tTile = tBaseMapCell.getTile ();

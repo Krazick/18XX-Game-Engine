@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 class XMLNodeTests {
 	UtilitiesTestFactory utilityTestFactory;
 	XMLNode xmlNode;
-	
+
 	@BeforeEach
 	void setUp () throws Exception {
 		String tPrivateCompany1TestXML = "	<Private id=\"802\" name=\"TEST-Champlain &amp; St. Lawrence\" abbrev=\"TEST-C&amp;SL\" cost=\"40\" \n"
@@ -19,7 +19,7 @@ class XMLNodeTests {
 				+ "			<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>\n"
 				+ "		</Benefits>\n" + "		<Certificate director=\"YES\" percentage=\"100\"\n"
 				+ "			allowedOwners=\"IPO,Player,Share\" />\n" + "	</Private>\n" + "";
-		
+
 		utilityTestFactory = new UtilitiesTestFactory ();
 		xmlNode = utilityTestFactory.buildXMLNode (tPrivateCompany1TestXML);
 	}
@@ -29,7 +29,7 @@ class XMLNodeTests {
 	void findChildNodeTest () {
 		XMLNode tChildNode;
 		ElementName tElementName;
-		
+
 		tElementName = new ElementName ("Benefits");
 		tChildNode = xmlNode.getNode (tElementName);
 		assertNotNull (tChildNode);

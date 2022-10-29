@@ -32,7 +32,7 @@ public class ResponseOfferEffect extends ToEffect {
 	public ResponseOfferEffect (String aName) {
 		super (aName);
 	}
-	
+
 	public ResponseOfferEffect (ActorI aFromActor, ActorI aToActor, boolean aResponse, String aItemType,
 			String aItemName) {
 		super (NAME, aFromActor, aToActor);
@@ -111,13 +111,13 @@ public class ResponseOfferEffect extends ToEffect {
 		} else {
 			tWho = actor.getName ();
 		}
-		if ((itemType.equals (PurchasePrivateOffer.PRIVATE_TYPE)) || 
+		if ((itemType.equals (PurchasePrivateOffer.PRIVATE_TYPE)) ||
 			(itemType.equals (PurchaseTrainOffer.TRAIN_TYPE))) {
 			tItem = " to buy " + itemName + " " + itemType;
 			tFullReport = REPORT_PREFIX + " The offer from " + tToActorName + tItem + " sent to " + tWho + " was "
 					+ tTextResponse;
 		} else if (itemType.equals (ExchangeQueryFrame.NAME)) {
-			
+
 			tItem = tDoes_DoesNot +  itemName;
 			tFullReport = REPORT_PREFIX + tItem;
 		} else {
@@ -187,7 +187,7 @@ public class ResponseOfferEffect extends ToEffect {
 			} else {
 				tShareCompany = (ShareCompany) tToActor;
 			}
-	
+
 			if (! tClientUserName.equals (tToActorName)) {
 				// If the Client trying to apply the Effect is NOT the 'ToActor' Do Nothing is a good apply of the effect
 				tEffectApplied = true;
@@ -239,7 +239,7 @@ public class ResponseOfferEffect extends ToEffect {
 				}
 			}
 		}
-		
+
 		return tEffectApplied;
 	}
 

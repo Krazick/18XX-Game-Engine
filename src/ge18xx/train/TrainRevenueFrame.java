@@ -19,7 +19,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.Logger;
 
@@ -37,7 +37,7 @@ import ge18xx.utilities.GUI;
  * the company owns, and allows you to operate the train. The Revenues the train
  * produces will be shown in the Frame. It allows the Route to be reset, and
  * reuse the previous route run by the train.
- * 
+ *
  * @author Mark J Smith
  * @version 1.0
  *
@@ -45,7 +45,7 @@ import ge18xx.utilities.GUI;
 public class TrainRevenueFrame extends JFrame implements ActionListener, PropertyChangeListener, ItemListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private String NOT_YOUR_COMPANY = "This is not your company operating";
 	private static final long serialVersionUID = 1L;
@@ -96,7 +96,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	/**
 	 * This will construct the basic Train Revenue Frame
-	 * 
+	 *
 	 * @param aTrainCompany
 	 * @param aTitle
 	 * @throws HeadlessException
@@ -389,7 +389,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		if (aTrain.isPlusTrain ()) {
 			if (revenuesByPlusTrain [aTrainIndex] != null) {
 				revenuesByPlusTrain [aTrainIndex].setValue (0);
-				plusUsedCount [aTrainIndex] = 0;			
+				plusUsedCount [aTrainIndex] = 0;
 			}
 		}
 	}
@@ -418,7 +418,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	private void handleResetRoute (ActionEvent aResetRouteEvent) {
 		JButton tResetRouteButton = (JButton) aResetRouteEvent.getSource ();
 		int tTrainIndex, tTrainCount;
-		
+
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tResetRouteButton.equals (resetRoutes [tTrainIndex])) {
@@ -516,7 +516,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tRevenue = aRouteInformation.getRevenueAt (tCityIndex);
 			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (tRevenue);
 		}
-		
+
 	}
 
 	public void handleSelectRoute (ActionEvent aSelectRouteEvent) {
@@ -557,7 +557,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	/**
 	 * This returns the sum of the revenues from all of the trains the company owns
-	 * 
+	 *
 	 * @return the Total of all Trains revenues
 	 */
 
@@ -581,7 +581,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	 * This returns the sum of a single Train Revenues, provided the Train Index and
 	 * the count of the cities The actual Revenue values summed are from the Train
 	 * Revenue Frame Labels filled with the Revenues
-	 * 
+	 *
 	 * @param aTrainIndex The index of which train to sum up
 	 * @param aTrain The Train to collect revenues for
 	 * @return Total Revenue value of the RevenueLabels for the specific train
@@ -614,7 +614,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				}
 			}
 		}
-		
+
 		return tTotalRevenue;
 	}
 
@@ -699,7 +699,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			revenuesByTrain [aTrainIndex] [tCenterIndex] = new JFormattedTextField ();
 			revenuesByTrain [aTrainIndex] [tCenterIndex].setValue (0);
 			revenuesByTrain [aTrainIndex] [tCenterIndex].setColumns (3);
-			revenuesByTrain [aTrainIndex] [tCenterIndex].setHorizontalAlignment (JTextField.RIGHT);
+			revenuesByTrain [aTrainIndex] [tCenterIndex].setHorizontalAlignment (SwingConstants.RIGHT);
 			revenuesByTrain [aTrainIndex] [tCenterIndex].setMaximumSize (tTextFieldSize);
 			revenuesByTrain [aTrainIndex] [tCenterIndex].setPreferredSize (tTextFieldSize);
 			revenuesByTrain [aTrainIndex] [tCenterIndex].setMinimumSize (tTextFieldSize);
@@ -718,7 +718,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			revenuesByPlusTrain [aTrainIndex] = new JFormattedTextField ();
 			revenuesByPlusTrain [aTrainIndex].setValue (0);
 			revenuesByPlusTrain [aTrainIndex].setColumns (2);
-			revenuesByPlusTrain [aTrainIndex].setHorizontalAlignment (JTextField.RIGHT);
+			revenuesByPlusTrain [aTrainIndex].setHorizontalAlignment (SwingConstants.RIGHT);
 			revenuesByPlusTrain [aTrainIndex].setMaximumSize (tTextFieldSize);
 			revenuesByPlusTrain [aTrainIndex].setPreferredSize (tTextFieldSize);
 			revenuesByPlusTrain [aTrainIndex].setMinimumSize (tTextFieldSize);
@@ -963,7 +963,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			}
 		}
 	}
-	
+
 	public void updateSelectRouteButton (int aTrainIndex) {
 		Train tTrain;
 
@@ -987,7 +987,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			logger.error ("TrainIndex of " + aTrainIndex + " is out of range");
 		}
 	}
-	
+
 	public void updateConfirmRouteButton (int aTrainIndex) {
 		Train tTrain;
 		RouteInformation tRouteInformation;
@@ -1053,7 +1053,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	private boolean anyTrainIsOperating () {
 		return trainCompany.anyTrainIsOperating ();
 	}
-	
+
 	private void showSelectRouteButton (int aTrainIndex) {
 		selectRoutes [aTrainIndex].setVisible (true);
 		confirmRoutes [aTrainIndex].setVisible (false);
@@ -1063,7 +1063,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		selectRoutes [aTrainIndex].setVisible (false);
 		confirmRoutes [aTrainIndex].setVisible (true);
 	}
-	
+
 	private void disableConfirmRouteButton (int aTrainIndex, String aToolTipText) {
 		confirmRoutes [aTrainIndex].setEnabled (false);
 		confirmRoutes [aTrainIndex].setToolTipText (aToolTipText);
@@ -1117,7 +1117,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		udpateConfirmAllRoutesButton ();
 		updateCancelButton ();
 	}
-	
+
 	private void updateConfirmRouteButtons () {
 		int tTrainIndex;
 
@@ -1200,7 +1200,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	/**
 	 * This method will update the status for the ResetRoute Button for the Nth
 	 * train owned by this Company
-	 * 
+	 *
 	 * @param aTrainIndex To identify which button to update.
 	 */
 
@@ -1254,7 +1254,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	/**
 	 * This method will disable All of the Buttons on the Frame, and set flag as NOT YOUR COMPANY
-	 * 
+	 *
 	 */
 
 	public void disableAll () {

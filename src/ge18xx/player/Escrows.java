@@ -25,7 +25,7 @@ public class Escrows {
 	EscrowHolderI escrowHolder;
 
 	public Escrows (EscrowHolderI aEscrowHolder) {
-		escrows = new LinkedList<Escrow> ();
+		escrows = new LinkedList<> ();
 		escrowHolder = aEscrowHolder;
 		escrowHolderName = escrowHolder.getName ();
 	}
@@ -295,7 +295,7 @@ public class Escrows {
 				}
 			}
 		}
-		
+
 		return tEscrowRemoved;
 	}
 }

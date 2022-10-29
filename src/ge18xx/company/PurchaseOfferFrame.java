@@ -23,7 +23,7 @@ public class PurchaseOfferFrame extends QueryFrame {
 		tPlayerName = aRoundManager.getClientUserName ();
 		setTitle ("Purchase Offer for " + tPlayerName);
 	}
-	
+
 	public String getItemType () {
 		return itemType;
 	}
@@ -47,7 +47,7 @@ public class PurchaseOfferFrame extends QueryFrame {
 		String tPresidentName;
 		Corporation tOperatingCompany;
 		PurchaseOfferEffect tPurchaseOfferEffect;
-		
+
 		if (toEffect instanceof PurchaseOfferEffect) {
 			tPurchaseOfferEffect = (PurchaseOfferEffect) toEffect;
 			tOperatingCompany = roundManager.getOperatingCompany ();
@@ -60,9 +60,9 @@ public class PurchaseOfferFrame extends QueryFrame {
 			buildOfferTopPanel (tOffer1, tOffer2);
 		}
 	}
-	
+
 	@Override
-	protected void addResponseOfferEffect (ResponseOfferAction aResponseOfferAction, ActorI aFromActor, 
+	protected void addResponseOfferEffect (ResponseOfferAction aResponseOfferAction, ActorI aFromActor,
 			ActorI aToActor, boolean aResponse) {
 		aResponseOfferAction.addResponseOfferEffect (aFromActor, aToActor, aResponse, itemType, itemName);
 	}

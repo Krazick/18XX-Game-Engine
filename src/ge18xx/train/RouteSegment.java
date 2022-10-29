@@ -193,18 +193,18 @@ public class RouteSegment {
 		setStartNode (tNodeInformation);
 	}
 
-//	public void setStartNode (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
+//	public void setStartNode (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue,
 //				int aBonus, RevenueCenter aRevenueCenter) {
 //		NodeInformation tNodeInformation;
-//		
+//
 //		tNodeInformation = new NodeInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
 //		setStartNode (tNodeInformation);
 //	}
-//	
-//	public void setEndNode (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue, 
+//
+//	public void setEndNode (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue,
 //			int aBonus, RevenueCenter aRevenueCenter) {
 //		NodeInformation tNodeInformation;
-//		
+//
 //		tNodeInformation = new NodeInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
 //		setEndNode (tNodeInformation);
 //	}
@@ -446,7 +446,7 @@ public class RouteSegment {
 
 	/**
 	 * Get the specific Track on the Map Cell with the two specific end points
-	 * 
+	 *
 	 * @return The Track found from the Start to the End on the Map Cell.
 	 */
 	public Track getTrack () {
@@ -462,7 +462,7 @@ public class RouteSegment {
 
 	/**
 	 * Test if the Track for a specific Route Segment is currently in use
-	 * 
+	 *
 	 * @return True If the Track connecting the two end points on the Map Cell is in
 	 *         use
 	 */
@@ -491,7 +491,7 @@ public class RouteSegment {
 	/**
 	 * Update both the Start Node, and then End Node for the Route Segment to be
 	 * sure the route Open Flow flags are set correctly.
-	 * 
+	 *
 	 * @param aRouteInformation The 'determineOpenFlow' method is in the
 	 *                          RouteInformation Object
 	 * @param aCorpID           The current Corporation ID needed to test for proper
@@ -696,7 +696,7 @@ public class RouteSegment {
 	 * unuseable Tracks to find the next one that begins at the Start and does NOT
 	 * End at the End. (ie we get back to the original track. as long as it is not
 	 * the same Track segment on the Current Index
-	 * 
+	 *
 	 * @param aCurrentIndex  The Index starting from
 	 * @param aStartLocation The starting Location for the Current Track Segment
 	 * @param aEndLocation   The ending Location for the Current Track Segment
@@ -713,7 +713,7 @@ public class RouteSegment {
 
 		tNextIndex = aCurrentIndex;
 		tTrackCount = tile.getTrackCount ();
-		while (tTestedAll == false) {
+		while (!tTestedAll) {
 			tNextIndex = ((tNextIndex + 1) % tTrackCount);
 			tNextTrack = tile.getTrackByIndex (tNextIndex);
 			if (tNextTrack != Track.NO_TRACK) {
@@ -767,8 +767,8 @@ public class RouteSegment {
 				clearTrainOnTrack (tTrack);
 
 //				System.out.println ("Original [" + tOriginalStart.getLocation () + " to " +  tOriginalEnd.getLocation () +
-//						"] UnRotated [" + tStartLocation.getLocation () + " to " +  tEndLocation.getLocation () + 
-//						"] NextTrack [" + tNewStartLocation.getLocation () + " to " +  tNewEndLocation.getLocation () + 
+//						"] UnRotated [" + tStartLocation.getLocation () + " to " +  tEndLocation.getLocation () +
+//						"] NextTrack [" + tNewStartLocation.getLocation () + " to " +  tNewEndLocation.getLocation () +
 //						"] NextTrack Rotated [" + tNewRotStart.getLocation () + " to " +  tNewRotEnd.getLocation () + "]");
 				if (tOriginalStart.getLocation () == tNewStartLocation.getLocation ()) {
 					if (tOriginalStart.getLocation () == tNewRotEnd.getLocation ()) {

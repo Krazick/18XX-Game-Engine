@@ -16,9 +16,9 @@ public class FastBuyButton extends JButton {
 	public Certificate getCertificate () {
 		return certificate;
 	}
-	
+
 	public void setCertificate (Certificate aCertificate) {
 		certificate = aCertificate;
 	}
-	
+
 }

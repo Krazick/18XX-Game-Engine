@@ -48,7 +48,7 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	CorporationList companies;
 	GameManager gameManager;
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -73,9 +73,9 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	private JPanel buildNorthComponents () {
 		JPanel tNorthComponents = new JPanel ();
 
-		companyCombo = new JComboBox<String> ();
-		playerCombo = new JComboBox<String> ();
-		actorsCombo = new JComboBox<String> ();
+		companyCombo = new JComboBox<> ();
+		playerCombo = new JComboBox<> ();
+		actorsCombo = new JComboBox<> ();
 		tNorthComponents.add (actorsCombo);
 		updateActorsComboBox ();
 
@@ -455,18 +455,18 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 //
 //class HorizontalAlignmentHeaderRenderer implements TableCellRenderer {
 //	private int horizontalAlignment = SwingConstants.LEFT;
-//	  
+//
 //	public HorizontalAlignmentHeaderRenderer (int aHorizontalAlignment) {
 //		  horizontalAlignment = aHorizontalAlignment;
 //	}
-//	  
-//	@Override 
+//
+//	@Override
 //	public Component getTableCellRendererComponent (JTable aTable, Object aValue, boolean aIsSelected,
 //			  		boolean hasFocus, int row, int column) {
 //		TableCellRenderer r = aTable.getTableHeader ().getDefaultRenderer ();
 //		JLabel l = (JLabel) r.getTableCellRendererComponent (aTable, aValue, aIsSelected, hasFocus, row, column);
 //		l.setHorizontalAlignment (horizontalAlignment);
-//	
+//
 //		return l;
 //	}
 //}

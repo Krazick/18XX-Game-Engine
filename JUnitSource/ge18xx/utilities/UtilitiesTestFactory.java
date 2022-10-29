@@ -11,12 +11,12 @@ public class UtilitiesTestFactory {
 
 	public XMLDocument buildXMLDocument (String aXMLText) {
 		XMLDocument tXMLDocument;
-		
+
 		tXMLDocument = theXMLDocument.ParseXMLString (aXMLText);
-		
+
 		return tXMLDocument;
 	}
-	
+
 	public XMLDocument buildXMLDocumentMock () {
 		XMLDocument mXMLDocument;
 
@@ -24,11 +24,11 @@ public class UtilitiesTestFactory {
 
 		return mXMLDocument;
 	}
-	
+
 	public XMLNode buildXMLNode (String aXMLText) {
 		XMLNode tXMLNode;
 		XMLDocument tXMLDocument;
-		
+
 		tXMLDocument = buildXMLDocument (aXMLText);
 
 		if (tXMLDocument.validDocument ()) {
@@ -39,7 +39,7 @@ public class UtilitiesTestFactory {
 
 		return tXMLNode;
 	}
-	
+
 	public XMLNode buildXMLNodeMock () {
 		XMLNode mXMLNode;
 
@@ -51,11 +51,11 @@ public class UtilitiesTestFactory {
 	public XMLDocument getTheXMLDocument () {
 		return theXMLDocument;
 	}
-	
+
 	public XMLElement buildXMLElement (String aXMLText) {
 		XMLElement tXMLElement;
 		XMLDocument tXMLDocument;
-		
+
 		tXMLDocument = buildXMLDocument (aXMLText);
 
 		if (tXMLDocument.validDocument ()) {
@@ -63,10 +63,10 @@ public class UtilitiesTestFactory {
 		} else {
 			tXMLElement = XMLElement.NO_XML_ELEMENT;
 		}
-		
+
 		return tXMLElement;
 	}
-	
+
 	public XMLElement buildXMLElementMock () {
 		XMLElement mXMLElement;
 

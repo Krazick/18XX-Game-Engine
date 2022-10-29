@@ -43,8 +43,8 @@ public class ActionManager {
 		roundManager = aRoundManager;
 		gameManager = roundManager.getGameManager ();
 		tFullTitle = gameManager.createFrameTitle ("Action Report");
-		actions = new LinkedList<Action> ();
-		actionsToRemove = new LinkedList<Action> ();
+		actions = new LinkedList<> ();
+		actionsToRemove = new LinkedList<> ();
 		actionReportFrame = new ActionReportFrame (tFullTitle, aRoundManager.getGameName ());
 		gameManager.addNewFrame (actionReportFrame);
 		setActionNumber (DEFAULT_ACTION_NUMBER);
@@ -91,7 +91,7 @@ public class ActionManager {
 		String tReportActionNumber;
 		String tActionNumberString;
 		int tNewActionNumber;
-		
+
 		if (gameManager.isNetworkGame ()) {
 			tActionNumberString = gameManager.requestGameSupport (JGameClient.REQUEST_ACTION_NUMBER);
 			tNewActionNumber = getActionNumberFrom (tActionNumberString);
@@ -108,7 +108,7 @@ public class ActionManager {
 			tReportActionNumber = "Increment Action Number from " + actionNumber + " to " + (actionNumber + 1) + "\n";
 			actionNumber++;
 		}
-		
+
 		return actionNumber;
 	}
 
@@ -128,21 +128,21 @@ public class ActionManager {
 
 	/**
 	 * Append Report String to Action Report Frame with a Line Border on Top and Bottom
-	 * 
+	 *
 	 * @param aReport String Text to append to the end of the Action Report Frame
-	 * 
+	 *
 	 */
 	public void appendBorderedReport (String aReport) {
 		String tReport = "\n----------------------" + aReport + "\n----------------------";
 
 		appendReport (tReport);
 	}
-	
+
 	/**
 	 * Append Report String to Action Report Frame
-	 * 
+	 *
 	 * @param aReport String Text to append to the end of the Action Report Frame
-	 * 
+	 *
 	 */
 	public void appendReport (String aReport) {
 		actionReportFrame.append (aReport);
@@ -150,9 +150,9 @@ public class ActionManager {
 
 	/**
 	 * Append Error Report String to Action Report Frame as an Error
-	 * 
+	 *
 	 * @param aErrorReport String Text to append as an Error to the end of the Action Report Frame
-	 * 
+	 *
 	 */
 	public void appendErrorReport (String aErrorReport) {
 		actionReportFrame.appendErrorReport (aErrorReport);
@@ -161,7 +161,7 @@ public class ActionManager {
 	public String getFullActionReport () {
 		return actionReportFrame.getText ();
 	}
-	
+
 	private void appendActionReport (Action aAction) {
 		String tActionReport;
 
@@ -266,11 +266,11 @@ public class ActionManager {
 	public Action getLastAction () {
 		return getLastAction (PREVIOUS_ACTION);
 	}
-	
+
 	public Action getLastAction (int aActionOffset) {
 		Action tAction;
 		int tLastActionID;
-		
+
 		tAction = Action.NO_ACTION;
 		if (! actions.isEmpty ()) {
 			tLastActionID = getActionCount () - aActionOffset;

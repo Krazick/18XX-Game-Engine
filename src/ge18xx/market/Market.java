@@ -538,7 +538,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
 	 */
@@ -556,7 +556,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
 	 */
 	@Override

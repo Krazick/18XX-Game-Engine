@@ -93,16 +93,16 @@ public class RoundManager implements ActionListener {
 
 	public boolean isFirstStockRound () {
 		boolean tIsFirstStockRound;
-		
+
 		if (isStockRound ()) {
 			tIsFirstStockRound = stockRound.isFirstRound ();
 		} else {
 			tIsFirstStockRound = false;
 		}
-		
+
 		return tIsFirstStockRound;
 	}
-	
+
 	public void showInitialFrames () {
 		showFrame ();
 		actionManager.showActionReportFrame ();
@@ -211,9 +211,9 @@ public class RoundManager implements ActionListener {
 
 	/**
 	 * Append Report String to Action Report Frame
-	 * 
+	 *
 	 * @param aReport String Text to append to the end of the Action Report Frame
-	 * 
+	 *
 	 */
 	public void appendReport (String aReport) {
 		actionManager.appendReport (aReport);
@@ -221,20 +221,20 @@ public class RoundManager implements ActionListener {
 
 	/**
 	 * Append Error Report String to Action Report Frame as an Error
-	 * 
+	 *
 	 * @param aErrorReport String Text to append as an Error to the end of the Action Report Frame
-	 * 
+	 *
 	 */
 	public void appendErrorReport (String aReport) {
 		actionManager.appendErrorReport (aReport);
 	}
-	
+
 	public String getFullActionReport () {
 		return actionManager.getFullActionReport ();
 	}
-	
+
 	public void addOR () {
-		if (addedOR == false) {
+		if (!addedOR) {
 			operatingRoundCount++;
 			addedOR = true;
 		}
@@ -439,7 +439,7 @@ public class RoundManager implements ActionListener {
 	public Action getLastAction () {
 		return actionManager.getLastAction ();
 	}
-	
+
 	public Action getLastAction (int aActionOffset) {
 		return actionManager.getLastAction (aActionOffset);
 	}
@@ -466,7 +466,7 @@ public class RoundManager implements ActionListener {
 
 	/**
 	 * Get the Minimum Number of Shares to Float the company
-	 * 
+	 *
 	 * @return return the Minimum Number of Shares
 	 */
 	public int getMinSharesToFloat () {
@@ -487,7 +487,7 @@ public class RoundManager implements ActionListener {
 
 		return tPhaseInfo;
 	}
-	
+
 	public int getCapitalizationLevel (int aSharesSold) {
 		PhaseInfo tPhaseInfo;
 		int tCapitalizationLevel;
@@ -770,7 +770,7 @@ public class RoundManager implements ActionListener {
 		System.out.println ("Need to reset Round to SR without changing OR ID");
 		setRoundType (ActorI.ActionStates.StockRound);
 	}
-	
+
 	public void setRoundToOperatingRound (int aRoundIDPart1, int aRoundIDPart2) {
 		String tOldOperatingRoundID, tNewOperatingRoundID;
 		Round tCurrentRound;
@@ -839,7 +839,7 @@ public class RoundManager implements ActionListener {
 
 	public void updateRoundFrame () {
 		int tRoundID;
-		
+
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 			operatingRound.sortByOperatingOrder ();
 
@@ -856,7 +856,7 @@ public class RoundManager implements ActionListener {
 			}
 			if (isAAuctionRound ()) {
 				tRoundID = auctionRound.getIDPart1 ();
-				
+
 				roundFrame.setAuctionRound (gameName, tRoundID);
 			}
 			roundFrame.updateAll ();
@@ -959,10 +959,10 @@ public class RoundManager implements ActionListener {
 			startStockRound ();
 		}
 	}
-	
+
 	public void endOperatingRound () {
 		int tIDPart1;
-		
+
 		// If this is the LastOR, go back to Stock Round
 		if (isLastOR ()) {
 			startStockRound ();
@@ -997,7 +997,7 @@ public class RoundManager implements ActionListener {
 		String tEventAction;
 		Object tEventSource;
 		FastBuyButton tFastBuyButton;
-		
+
 		tEventAction = aEvent.getActionCommand ();
 		if (RoundFrame.CORPORATION_ACTION.equals (tEventAction)) {
 			if (!companyStartedOperating ()) {
@@ -1217,17 +1217,17 @@ public class RoundManager implements ActionListener {
 		Certificate tCertificate;
 		List<Certificate> tCertificatesToBuy;
 		Player tCurrentPlayer;
-		
+
 		tCertificate = aFastBuyButton.getCertificate ();
 		System.out.println ("Fast Buy for certificate of " + tCertificate.getCompanyAbbrev ());
-		
-		tCertificatesToBuy = new LinkedList<Certificate> ();
+
+		tCertificatesToBuy = new LinkedList<> ();
 		tCertificatesToBuy.add (tCertificate);
 		tCurrentPlayer = gameManager.getCurrentPlayer ();
 		tCurrentPlayer.buyAction (tCertificatesToBuy);
 		tCurrentPlayer.doneAction ();
 	}
-	
+
 	public int getLastActionNumber () {
 		return actionManager.getLastActionNumber ();
 	}
@@ -1261,8 +1261,8 @@ public class RoundManager implements ActionListener {
 	public boolean isLoading () {
 		return gameManager.gameIsStarted ();
 	}
-	
+
 	public void handleQueryBenefits () {
-		
+
 	}
 }

@@ -15,7 +15,7 @@ public class UpdateLoanCountEffect extends Effect {
 	public final static String NAME = "Update Loan Count";
 	int oldLoanCount;
 	int newLoanCount;
-	
+
 	public UpdateLoanCountEffect () {
 		super ();
 		setName (NAME);
@@ -41,29 +41,29 @@ public class UpdateLoanCountEffect extends Effect {
 
 		int tOldLoanCount;
 		int tNewLoanCount;
-		
+
 		tOldLoanCount = aEffectNode.getThisIntAttribute (AN_OLD_LOAN_COUNT);
 		tNewLoanCount = aEffectNode.getThisIntAttribute (AN_NEW_LOAN_COUNT);
 		setOldLoanCount (tOldLoanCount);
 		setNewLoanCount (tNewLoanCount);
 	}
-	
+
 	private void setOldLoanCount (int aOldLoanCount) {
 		oldLoanCount = aOldLoanCount;
 	}
-	
+
 	private void setNewLoanCount (int aNewLoanCount) {
 		newLoanCount = aNewLoanCount;
 	}
-	
+
 	public int getOldLoanCount () {
 		return oldLoanCount;
 	}
-	
+
 	public int getNewLoanCount () {
 		return newLoanCount;
 	}
-	
+
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
@@ -71,7 +71,7 @@ public class UpdateLoanCountEffect extends Effect {
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_NEW_LOAN_COUNT, newLoanCount);
 		tEffectElement.setAttribute (AN_OLD_LOAN_COUNT, oldLoanCount);
-		
+
 		return tEffectElement;
 	}
 
@@ -86,7 +86,7 @@ public class UpdateLoanCountEffect extends Effect {
 		boolean tEffectApplied;
 		ShareCompany tShareCompany;
 		ActorI tActor;
-		
+
 		tEffectApplied = false;
 		tActor = getActor ();
 		if (tActor.isAShareCompany ()) {
@@ -94,7 +94,7 @@ public class UpdateLoanCountEffect extends Effect {
 			tShareCompany.setLoanCount (newLoanCount);
 			tEffectApplied = true;
 		}
-		
+
 		return tEffectApplied;
 	}
 
@@ -103,7 +103,7 @@ public class UpdateLoanCountEffect extends Effect {
 		boolean tEffectUndone;
 		ShareCompany tShareCompany;
 		ActorI tActor;
-		
+
 		tEffectUndone = false;
 		tActor = getActor ();
 		if (actor.isAShareCompany ()) {
@@ -111,7 +111,7 @@ public class UpdateLoanCountEffect extends Effect {
 			tShareCompany.setLoanCount (oldLoanCount);
 			tEffectUndone = true;
 		}
-		
+
 		return tEffectUndone;
 	}
 }

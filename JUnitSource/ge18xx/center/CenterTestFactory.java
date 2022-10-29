@@ -14,7 +14,7 @@ public class CenterTestFactory {
 
 	/**
 	 * Builds the Center Test Factory by creating the gameTestFactory and get the Utilities Test Factory
-	 * 
+	 *
 	 */
 	public CenterTestFactory () {
 		gameTestFactory = new GameTestFactory ();
@@ -42,7 +42,7 @@ public class CenterTestFactory {
 
 		return mCityInfo;
 	}
-	
+
 	public Graphics buildGraphicsMock () {
 		Graphics mGraphics = Mockito.mock (Graphics.class);
 

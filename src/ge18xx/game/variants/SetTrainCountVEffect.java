@@ -19,17 +19,17 @@ public class SetTrainCountVEffect extends VariantEffect {
 	static final String NAME = "Set Train Count";
 	String trainName;
 	int quantity;
-	
+
 	public SetTrainCountVEffect () {
 		setName (NAME);
 	}
 
 	public SetTrainCountVEffect (XMLNode aXMLNode) {
 		super (aXMLNode);
-		
+
 		String tTrainName;
 		int tQuantity;
-		
+
 		tTrainName = aXMLNode.getThisAttribute (AN_TRAIN_NAME);
 		tQuantity = aXMLNode.getThisIntAttribute (AN_QUANTITY);
 		setTrainName (tTrainName);
@@ -39,27 +39,27 @@ public class SetTrainCountVEffect extends VariantEffect {
 	public int getQuantity () {
 		return quantity;
 	}
-	
+
 	public String getTrainName () {
 		return trainName;
 	}
-	
+
 	public void setQuantity (int aQuantity) {
 		quantity = aQuantity;
 	}
-	
+
 	public void setTrainName (String aTrainName) {
 		trainName = aTrainName;
 	}
-	
+
 	/**
-	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores 
+	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores
 	 * the PhaseName
-	 * 
+	 *
 	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
-	 * 
+	 *
 	 * @return the filled out XMLElement
-	 * 
+	 *
 	 */
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument) {
@@ -79,9 +79,9 @@ public class SetTrainCountVEffect extends VariantEffect {
 
 	/**
 	 * Apply the Variant Effect using the Game Manager as needed.
-	 * 
+	 *
 	 * @param aGameManager The current GameManager to have the Variant Effect applied to.
-	 * 
+	 *
 	 */
 	@Override
 	public void applyVariantEffect (GameManager aGameManager) {
@@ -92,7 +92,7 @@ public class SetTrainCountVEffect extends VariantEffect {
 		int tAddThisMany;
 		int tTrainIndex;
 		int tRemoveThisMany;
-		
+
 		tBank = aGameManager.getBank ();
 		tTrain = tBank.getTrain (trainName);
 		if (quantity == TrainInfo.UNLIMITED_TRAINS) {
@@ -114,37 +114,37 @@ public class SetTrainCountVEffect extends VariantEffect {
 			}
 		}
 	}
-	
+
 	/**
 	 * Variant Effect Component Builder -- this should be overriden by the subclasses
-	 * 
+	 *
 	 * @param aItemListener Placeholder for the Item Listener class that will handle the request
 	 * @return a CheckBox, Radio Button or JLabel based upon the Component Type to build
-	 * 
+	 *
 	 */
 	@Override
 	public JComponent buildEffectComponent (VariantEffect.ComponentType aComponentType) {
 		JComponent tEffectComponent;
-		
+
 		switch (aComponentType) {
-		
+
 		case CHECKBOX:
 			tEffectComponent = buildEffectCheckBox ();
 			break;
-			
+
 		case RADIO_BUTTON:
 			tEffectComponent = buildEffectRadioButton ();
 			break;
-			
+
 		case JLABEL:
 			tEffectComponent = buildEffectJLabel ();
 			break;
-			
+
 		default:
 			tEffectComponent = GUI.NO_JCOMPONENT;
 			break;
 		}
-		
+
 		return tEffectComponent;
 	}
 }

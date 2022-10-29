@@ -463,7 +463,7 @@ public class Train implements Comparable<Object> {
 	public boolean isPlusTrain () {
 		return (townCount > 0);
 	}
-	
+
 	public boolean isRusted () {
 		return (status == RUSTED);
 	}
@@ -538,7 +538,7 @@ public class Train implements Comparable<Object> {
 	public boolean hasRoute () {
 		return (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION);
 	}
-	
+
 	public boolean hasOperated () {
 		return currentRouteInformation.hasOperated ();
 	}
@@ -556,7 +556,7 @@ public class Train implements Comparable<Object> {
 	 * Train. Required so that when a Company loses a Train (it was bought, rusted,
 	 * or discarded) the Reuse Route will have updated information for the remaining
 	 * trains.
-	 * 
+	 *
 	 * @param aTrainIndex The train index value to set to.
 	 */
 	public void updateTrainIndex (int aTrainIndex) {
@@ -570,23 +570,23 @@ public class Train implements Comparable<Object> {
 
 	/**
 	 * Clear the Current Route Information by setting it to NO_ROUTE_INFORMATION
-	 * 
+	 *
 	 */
 	public void clearCurrentRoute () {
 		setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 	}
-	
+
 	/**
 	 * Clear the Previous Route Information by setting it to NO_ROUTE_INFORMATION
-	 * 
+	 *
 	 */
 	public void clearPreviousRoute () {
 		setPreviousRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
 	}
-	
+
 	/**
 	 * Clear the Current RouteInformation by calling currentRouteInformation.clear, if it is set
-	 * 
+	 *
 	 */
 	public void clearRouteInformation () {
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {

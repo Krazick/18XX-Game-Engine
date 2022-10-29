@@ -181,12 +181,12 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Retrieve current Game's Bank Pool Sell Limit as number of Certificates
-	 * 
+	 *
 	 * @param aGameManager Current Game's GameManager
 	 * @return the Bank Pool Share Limit
-	 * 
+	 *
 	 */
 	// TODO Update to use a % Limit instead of Certificate Limit
 	public int sellLimit () {
@@ -205,12 +205,12 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Retrieve current Game's Bank Pool Share Limit
-	 * 
+	 *
 	 * @param aGameManager Current Game's GameManager
 	 * @return the Bank Pool Share Limit
-	 * 
+	 *
 	 */
 	// TODO Update to use a % Limit instead of Certificate Limit
 	public int getBankPoolShareLimit (GameManager aGameManager) {
@@ -330,7 +330,7 @@ public class Certificate implements Comparable<Certificate> {
 							tPlayerHasBoughtShare = false;
 							tEnabled = true;
 						} else {
-							tToolTip = ALREADY_BOUGHT;							
+							tToolTip = ALREADY_BOUGHT;
 						}
 					} else {
 						tToolTip = ALREADY_BOUGHT;
@@ -394,7 +394,7 @@ public class Certificate implements Comparable<Certificate> {
 		String tGroupName;
 		String tNoSaleToolTip;
 		boolean tCanBeSold;
-		
+
 		if (! isAPrivateCompany ()) {
 			// Only if it is a Share Company, can it be Sold
 			// TODO: non-1830 For 1835 with Minors we cannot Sell them
@@ -436,7 +436,7 @@ public class Certificate implements Comparable<Certificate> {
 		} else {
 			// TODO -- Find the Reason cannot Exchange:
 			// No other player owns at least 20%, Company hasn't operated yet, Bank Pool cannot hold enough
-			// 
+			//
 			checkBox = setupCheckedButton (Player.EXCHANGE_LABEL, false, CANNOT_EXCHANGE_PRESIDENT,
 					aItemListener);
 		}
@@ -461,7 +461,7 @@ public class Certificate implements Comparable<Certificate> {
 
 		tGameManager = corporation.getGameManager ();
 		tParValues = tGameManager.getAllStartCells ();
-		parValuesCombo = new JComboBox<String> ();
+		parValuesCombo = new JComboBox<> ();
 		tParValueSize = new Dimension (75, 20);
 		parValuesCombo.setPreferredSize (tParValueSize);
 		parValuesCombo.setMaximumSize (tParValueSize);
@@ -1069,7 +1069,7 @@ public class Certificate implements Comparable<Certificate> {
 
 		return tOwnerName;
 	}
-	
+
 	public int getParPrice () {
 		int tParPrice;
 
@@ -1189,16 +1189,16 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	/**
-	 * Test if this Certificate is a President Certificate of a Share Company that 
+	 * Test if this Certificate is a President Certificate of a Share Company that
 	 * has no Par Price Set.
-	 * 
+	 *
 	 * @return True if this is a President Certificate of a Share Company with no Par Price
 	 */
 	public boolean noParPriceSet () {
 		boolean tNoParPriceSet;
 
 		tNoParPriceSet = false;
-		
+
 		if (isPresidentShare ()) {
 			if (isAShareCompany ()) {
 				if (! hasParPrice ()) {
@@ -1206,7 +1206,7 @@ public class Certificate implements Comparable<Certificate> {
 				}
 			}
 		}
-		
+
 		return tNoParPriceSet;
 	}
 
@@ -1354,7 +1354,7 @@ public class Certificate implements Comparable<Certificate> {
 	/**
 	 * Determine if the Certificate has a "SELL" Label on the CheckBox, with no
 	 * regards to limits
-	 * 
+	 *
 	 * @return TRUE if the Certificate has a "SELL" Label on the Checkbox
 	 */
 	public boolean canBeSold () {
@@ -1554,7 +1554,7 @@ public class Certificate implements Comparable<Certificate> {
 	private void setIsPresidentShare (boolean aIsPresidentShare) {
 		isPresidentShare = aIsPresidentShare;
 	}
-	
+
 	public void sortCorporationCertificates () {
 		corporation.sortCorporationCertificates ();
 	}
@@ -1562,7 +1562,7 @@ public class Certificate implements Comparable<Certificate> {
 	/**
 	 * Update the Status of the Corporation Ownership to Owned, May Float or Will
 	 * Float based on game rules
-	 * 
+	 *
 	 */
 	public void updateCorporationOwnership () {
 		ActorI.ActionStates tState;
@@ -1717,21 +1717,21 @@ public class Certificate implements Comparable<Certificate> {
 	public boolean isLoading () {
 		return corporation.isLoading ();
 	}
-	
+
 	/**
 	 * Compare the Percentage of this Certificate with the Certificate Passed In.
 	 * If Same percentage, return Zero.
 	 * If Certificate passed in is Larger, Sort Certificate1 (this certificate) before the one passed in.
 	 * If Certificate passed in is smaller, Sort Certificate1 (this certificate) after the one passed in.
-	 * 
+	 *
 	 * @param aCertificate The Certificate to compare too.
 	 * @return the integer Zero (same), SORT_CERT1_BEFORE_CERT2, SORT_CERT2_BEFORE CERT1
-	 * 
+	 *
 	 */
 	public int comparePercentage (Certificate aCertificate) {
 		int tCertificatePercentage;
 		int tCompareResult;
-		
+
 		tCertificatePercentage = aCertificate.getPercentage ();
 		if (tCertificatePercentage == percentage) {
 			tCompareResult = 0;
@@ -1740,7 +1740,7 @@ public class Certificate implements Comparable<Certificate> {
 		} else {
 			tCompareResult = SORT_CERT2_BEFORE_CERT1;
 		}
-		
+
 		return tCompareResult;
 	}
 
@@ -1751,7 +1751,7 @@ public class Certificate implements Comparable<Certificate> {
 			int tActiveOrderValue;
 			Corporation tCorporation1;
 			Corporation tCorporation2;
-			
+
 			tCorporation1 = aCertificate1.getCorporation ();
 			tCorporation2 = aCertificate2.getCorporation ();
 			if (tCorporation1 == tCorporation2) {
@@ -1761,12 +1761,12 @@ public class Certificate implements Comparable<Certificate> {
 				if (tActiveOrderValue == 0) { // Both Companies are Formed
 					tActiveOrderValue = tCorporation1.compareActive (tCorporation2);
 				}
-	
+
 				if (tActiveOrderValue == 0) {
 					tActiveOrderValue = tCorporation1.compareID (tCorporation2);
 				}
 			}
-			
+
 			// ascending order
 			return tActiveOrderValue;
 		}

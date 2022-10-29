@@ -15,11 +15,11 @@ public class XMLElement {
 
 	public XMLElement (Node aNode) {
 		Element tElement;
-		
+
 		tElement = (Element) aNode;
 		setElement (tElement);
 	}
-	
+
 	public void appendChild (XMLElement aXMLElement) {
 		if (validElement ()) {
 			element.appendChild (aXMLElement.getElement ());
@@ -29,7 +29,7 @@ public class XMLElement {
 	public void setElement (Element aElement) {
 		element = aElement;
 	}
-	
+
 	public Element getElement () {
 		return element;
 	}
@@ -37,20 +37,20 @@ public class XMLElement {
 	public boolean validElement () {
 		return element != NO_ELEMENT;
 	}
-	
+
 	public boolean hasChildNodes () {
 		Node tNode;
 		boolean tHasChildNodes;
-		
+
 		tHasChildNodes = false;
 		if (validElement ()) {
-			tNode = (Node) element;
+			tNode = element;
 			tHasChildNodes = tNode.hasChildNodes ();
 		}
-		
+
 		return tHasChildNodes;
 	}
-	
+
 	public NodeList getChildNodes () {
 		return element.getChildNodes ();
 	}
@@ -68,7 +68,7 @@ public class XMLElement {
 	public void setAttribute (AttributeName aAttributeName, boolean aValue) {
 		setAttribute (aAttributeName, new Boolean (aValue).toString ());
 	}
-	
+
 	public XMLElement getElement (ElementName aElementName) {
 		XMLElement tFoundElement;
 		NodeList tNodeList;
@@ -77,7 +77,7 @@ public class XMLElement {
 		Element tElement;
 		String tNodeName;
 		String tElementName;
-		
+
 		tFoundElement = NO_XML_ELEMENT;
 		if (element.hasChildNodes ()) {
 			tNodeList = element.getChildNodes ();
@@ -91,7 +91,7 @@ public class XMLElement {
 				}
 			}
 		}
-		
+
 		return tFoundElement;
 	}
 

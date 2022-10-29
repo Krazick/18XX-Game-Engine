@@ -51,13 +51,13 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		// Test Components
 		JPanel tNorthComponents = new JPanel ();
 
-		companyCombo = new JComboBox<String> ();
+		companyCombo = new JComboBox<> ();
 		tNorthComponents.add (companyCombo);
 
 		tLabel = new JLabel ("Par Value");
 		tNorthComponents.add (tLabel);
 
-		parValuesCombo = new JComboBox<Integer> ();
+		parValuesCombo = new JComboBox<> ();
 		tNorthComponents.add (parValuesCombo);
 
 		sellShareButton = new JButton ("Sell Share of Stock");

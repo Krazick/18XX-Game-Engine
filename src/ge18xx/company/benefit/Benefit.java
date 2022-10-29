@@ -238,7 +238,7 @@ public abstract class Benefit implements ActionListener {
 		if (isACompanyBenefit () && (!passive)) {
 			tIsActiveCompanyBenefit = true;
 		} else {
-			tIsActiveCompanyBenefit = false;			
+			tIsActiveCompanyBenefit = false;
 		}
 
 		return tIsActiveCompanyBenefit;
@@ -292,7 +292,7 @@ public abstract class Benefit implements ActionListener {
 			if (used || passive) {
 				tShouldConfigure = false;
 			}
-	
+
 			if (isAPlayerBenefit ()) {
 				if ((!privateCompany.isPlayerOwned ())) {
 					tShouldConfigure = false;

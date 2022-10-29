@@ -36,7 +36,7 @@ public class NewCurrentPlayerEffect extends ChangePlayerEffect {
 		boolean tEffectUndone;
 		StockRound tStockRound;
 		Player tPlayer;
-		
+
 		tEffectUndone = true;
 		tStockRound = aRoundManager.getStockRound ();
 		tStockRound.setCurrentPlayerIndexOnly (previousPlayerIndex);

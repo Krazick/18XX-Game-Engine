@@ -16,7 +16,7 @@ public class SavedGames {
 		String [] tSavedGamesParsed;
 
 		setGameManager (aGameManager);
-		games = new ArrayList<SavedGame> ();
+		games = new ArrayList<> ();
 		tSavedGamesXML = aSavedGamesXML.replaceAll ("><", ">\r<");
 		tSavedGamesParsed = tSavedGamesXML.split ("\r");
 		for (String tLine : tSavedGamesParsed) {
@@ -55,7 +55,7 @@ public class SavedGames {
 								if (tFileName.endsWith (".save18xx.xml")) {
 									tFileNameParts = tFileName.split (Pattern.quote ("."));
 									if (tSavedGameID.equals (tFileNameParts [1])) {
-//										System.out.println ("Game ID " + tSavedGameID + 
+//										System.out.println ("Game ID " + tSavedGameID +
 //												" Found Locally with Player Name " + tFileNameParts [2]);
 										if (tLocalPlayerName.equals (tFileNameParts [2])) {
 //											System.out.println ("Matching Local Player " + tLocalPlayerName);

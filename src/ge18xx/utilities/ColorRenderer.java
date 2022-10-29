@@ -11,7 +11,7 @@ import java.awt.Component;
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
-/* 
+/*
 * ColorRenderer.java Class from Java Tutorials.
  */
 
@@ -23,7 +23,7 @@ import javax.swing.table.TableCellRenderer;
 
 public class ColorRenderer extends JLabel implements TableCellRenderer {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	Border unselectedBorder = null;
