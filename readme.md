@@ -34,7 +34,7 @@ The 18XX Game Engine can be used by itself, to play the game in hot-seat mode (s
 <a name="Description"></a>
 
 The 18XX Game Engine is written in Java. The GUI utilizes the Java Swing UI. There are several data files that are written in XML. There are no actual Tile Images. The data for the Tiles are specified in an XML Structure and the code draws the images when needed.
-This code base began in the early 1990's, in C, and then ported to Java to allow multiple platform operation (my development platform has the the Apple Mac, and currently play with my group who all run windows platforms, and my Mac as well. 
+This code base began in the early 1990's, in C, and then ported to Java to allow multiple platform operation (my development platform has the the Apple Mac, and currently play with my group who all run windows platforms, and my Mac as well. The code base does follow specific formatting conventions (that are not necessarily the "java standard". The objects and their associated fields, and internal method variable have specific naming guidelines.
 
 
 # How to Install and Run
@@ -78,7 +78,7 @@ Interested contributors should start with expanding the JavaDocs for the various
 # Tests
 <a name="Tests"></a>
 
-Various JUnit Tests have been created to exercise the functionality of the Game Engine. These are by no means complete and exhaustive at this time. 
+Various JUnit Tests have been created to exercise the functionality of the Game Engine. These are by no means complete and exhaustive at this time. There is use of Mockito to provide Mock Objects. Attempts have been made to use factories to create the more complex objects to be mocked. These factories have consistent nameing schemes.
 
 
 # Related Projects
