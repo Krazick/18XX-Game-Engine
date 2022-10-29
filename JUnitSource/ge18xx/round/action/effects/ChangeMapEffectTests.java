@@ -1,8 +1,8 @@
 package ge18xx.round.action.effects;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,9 +15,9 @@ import ge18xx.company.benefit.BenefitTestFactory;
 import ge18xx.company.benefit.MapBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
-import ge18xx.map.MapTestFactory;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
+import ge18xx.map.MapTestFactory;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.RoundTestFactory;

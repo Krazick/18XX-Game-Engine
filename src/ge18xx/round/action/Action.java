@@ -1,5 +1,11 @@
 package ge18xx.round.action;
 
+import java.lang.reflect.Constructor;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.w3c.dom.NodeList;
+
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -11,12 +17,6 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import org.w3c.dom.NodeList;
-
-import java.lang.reflect.Constructor;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Action {
 	public final static String NO_NAME = ">> NO ACTION NAME <<";

@@ -1,29 +1,10 @@
 package ge18xx.toplevel;
 
-//
-//  PlayerInputFrame.java
-//  Game_18XX
-//
-//  Created by Mark Smith on 12/6/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
-//
-
-import ge18xx.game.GameManager;
-import ge18xx.game.GameSet;
-import ge18xx.game.GameInfo;
-//import ge18xx.game.Game_18XX;
-import ge18xx.network.JGameClient;
-import ge18xx.network.NetworkPlayer;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLNode;
-
 import java.awt.BorderLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +19,24 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.apache.logging.log4j.Logger;
+
+import ge18xx.game.GameInfo;
+
+//
+//  PlayerInputFrame.java
+//  Game_18XX
+//
+//  Created by Mark Smith on 12/6/09.
+//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//
+
+import ge18xx.game.GameManager;
+import ge18xx.game.GameSet;
+//import ge18xx.game.Game_18XX;
+import ge18xx.network.JGameClient;
+import ge18xx.network.NetworkPlayer;
+import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLNode;
 
 public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusListener {
 	public static final PlayerInputFrame NO_PLAYER_INPUT_FRAME = null;

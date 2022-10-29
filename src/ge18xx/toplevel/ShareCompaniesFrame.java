@@ -1,5 +1,14 @@
 package ge18xx.toplevel;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 //
 //  SharesFrame.java
 //  Game_18XX
@@ -19,16 +28,6 @@ import ge18xx.round.action.ActorI;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
-
-import java.awt.BorderLayout;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class ShareCompaniesFrame extends CorporationTableFrame implements ActionListener {
 	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [2].toString ();

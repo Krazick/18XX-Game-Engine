@@ -1,5 +1,10 @@
 package ge18xx.tiles;
 
+import java.awt.Graphics;
+import java.awt.Paint;
+import java.util.LinkedList;
+import java.util.List;
+
 //
 //  Tracks.java
 //  Game_18XX
@@ -13,11 +18,6 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
-
-import java.awt.Graphics;
-import java.awt.Paint;
-import java.util.List;
-import java.util.LinkedList;
 
 public class Tracks implements Cloneable {
 	List<Track> segments;

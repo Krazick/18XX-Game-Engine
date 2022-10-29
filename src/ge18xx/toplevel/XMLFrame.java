@@ -1,5 +1,14 @@
 package ge18xx.toplevel;
 
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Point;
+import java.io.IOException;
+
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+
 import ge18xx.game.Config;
 import ge18xx.game.FrameInfo;
 import ge18xx.game.GameFrameConfig;
@@ -16,15 +25,6 @@ import ge18xx.game.GameManager;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Point;
-import java.io.IOException;
-
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 
 public class XMLFrame extends JFrame {
 	public static enum Visibility {

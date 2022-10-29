@@ -4,8 +4,8 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
-import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.GenericActor;
 import ge18xx.utilities.XMLNode;
 
 public class AuctionStateChangeEffect extends StateChangeEffect {

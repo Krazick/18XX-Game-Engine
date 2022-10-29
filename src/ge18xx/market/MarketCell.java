@@ -1,5 +1,12 @@
 package ge18xx.market;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+
+import org.w3c.dom.NodeList;
+
 //
 //  MarketCell.java
 //  18XX_JAVA
@@ -27,14 +34,6 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
-
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-
-import java.awt.geom.Point2D;
-
-import org.w3c.dom.NodeList;
 
 public class MarketCell {
 	final static AttributeName AN_VALUE = new AttributeName ("value");

@@ -1,5 +1,14 @@
 package ge18xx.company;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 //
 //  TokenCompany.java
 //  Game_18XX
@@ -23,16 +32,6 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import java.util.List;
-import java.util.LinkedList;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public abstract class TokenCompany extends TrainCompany {
 	final static AttributeName AN_TOKENS = new AttributeName ("tokens");

@@ -1,5 +1,8 @@
 package ge18xx.company;
 
+import java.awt.Graphics;
+import java.util.LinkedList;
+
 //
 //  TokenStack.java
 //  Game_18XX
@@ -19,9 +22,6 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
-
-import java.awt.Graphics;
-import java.util.LinkedList;
 
 public class TokenStack {
 	public static final ElementName EN_TOKENS = new ElementName ("Tokens");

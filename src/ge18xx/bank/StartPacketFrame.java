@@ -23,9 +23,9 @@ import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutineI;
+import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
-import ge18xx.utilities.XMLDocument;
 
 public class StartPacketFrame extends XMLFrame implements LoadableXMLI, PortfolioHolderLoaderI {
 	private static final ElementName EN_START_PACKET = new ElementName ("StartPacket");

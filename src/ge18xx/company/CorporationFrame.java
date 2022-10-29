@@ -1,5 +1,19 @@
 package ge18xx.company;
 
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.game.ButtonsInfoFrame;
@@ -17,19 +31,6 @@ import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.GUI;
 import ge18xx.utilities.WrapLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class CorporationFrame extends XMLFrame implements ActionListener, ItemListener {
 	static final String SHOW_MAP = "Show Map";

@@ -1,9 +1,10 @@
 package ge18xx.player;
 
-import ge18xx.game.GameManager;
-
 import java.awt.event.ItemListener;
+
 import javax.swing.JPanel;
+
+import ge18xx.game.GameManager;
 
 public class StartPacketPortfolio extends Portfolio {
 	public final static StartPacketPortfolio NO_START_PACKET = null;

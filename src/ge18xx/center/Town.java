@@ -1,5 +1,10 @@
 package ge18xx.center;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 //
 //  Town.java
 //  Java_18XX
@@ -13,11 +18,6 @@ import ge18xx.map.Location;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.TileType;
 import ge18xx.utilities.XMLNode;
-
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
 
 public class Town extends RevenueCenter {
 	public static final Town NO_TOWN = null;

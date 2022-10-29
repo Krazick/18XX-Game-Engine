@@ -1,5 +1,10 @@
 package ge18xx.tiles;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Point;
+
 //
 //  TileName.java
 //  Game_18XX
@@ -15,11 +20,6 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Point;
 
 public class TileName extends Feature implements Cloneable {
 	public final static ElementName EN_TILE_NAME = new ElementName ("TileName");

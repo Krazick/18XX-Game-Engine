@@ -1,5 +1,29 @@
 package ge18xx.company;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.event.ItemListener;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneLayout;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+
+import org.apache.logging.log4j.Logger;
+
 //
 //  CorporationList.java
 //  Game_18XX
@@ -35,36 +59,10 @@ import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.ParsingRoutineIO;
+import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
-import ge18xx.utilities.XMLDocument;
-
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.event.ItemListener;
-
-import java.io.IOException;
-
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.LinkedList;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneLayout;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-
-import org.apache.logging.log4j.Logger;
 
 //  Should be able to specify this as a Generic Class, where the TYPE extends Corporation
 

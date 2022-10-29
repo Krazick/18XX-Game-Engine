@@ -1,5 +1,11 @@
 package ge18xx.game;
 
+import java.lang.reflect.Constructor;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.w3c.dom.NodeList;
+
 import ge18xx.game.variants.Variant;
 import ge18xx.game.variants.VariantEffect;
 import ge18xx.game.variants.VariantToggle;
@@ -24,12 +30,6 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
-
-import java.lang.reflect.Constructor;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.w3c.dom.NodeList;
 
 public class GameInfo {
 	public static final GameInfo NO_GAME_INFO = null;

@@ -1,14 +1,14 @@
 package ge18xx.company;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import ge18xx.bank.Bank;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class BuyPrivateFrame extends BuyItemFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;

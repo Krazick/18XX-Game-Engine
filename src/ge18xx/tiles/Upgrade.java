@@ -1,5 +1,7 @@
 package ge18xx.tiles;
 
+import org.w3c.dom.NodeList;
+
 //
 //  Upgrade.java
 //  Game_18XX
@@ -12,8 +14,6 @@ import ge18xx.map.Location;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLNode;
-
-import org.w3c.dom.NodeList;
 
 public class Upgrade {
 	public static final ElementName EN_REVENUE_CENTER = new ElementName ("RevenueCenter");

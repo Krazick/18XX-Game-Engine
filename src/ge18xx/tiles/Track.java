@@ -1,14 +1,5 @@
 package ge18xx.tiles;
 
-import ge18xx.map.Hex;
-import ge18xx.map.Location;
-import ge18xx.map.MapCell;
-import ge18xx.utilities.AttributeName;
-import ge18xx.utilities.ElementName;
-import ge18xx.utilities.XMLDocument;
-import ge18xx.utilities.XMLElement;
-import ge18xx.utilities.XMLNode;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,8 +9,16 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.Stroke;
-
 import java.awt.geom.Area;
+
+import ge18xx.map.Hex;
+import ge18xx.map.Location;
+import ge18xx.map.MapCell;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
 
 public class Track implements Cloneable {
 	public static final ElementName EN_TRACK = new ElementName ("Track");

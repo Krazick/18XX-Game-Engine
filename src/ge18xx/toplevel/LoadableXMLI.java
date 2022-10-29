@@ -1,5 +1,7 @@
 package ge18xx.toplevel;
 
+import java.io.IOException;
+
 //
 //  LoadableXMLI.java
 //  Game_18XX
@@ -10,8 +12,6 @@ package ge18xx.toplevel;
 
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
-
-import java.io.IOException;
 
 public interface LoadableXMLI extends ParsingRoutineI {
 	/* Returns the name of the Loadable Object for Error Messages */

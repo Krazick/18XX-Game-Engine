@@ -1,20 +1,5 @@
 package ge18xx.round;
 
-import ge18xx.bank.Bank;
-import ge18xx.bank.BankPool;
-import ge18xx.bank.GameBank;
-import ge18xx.company.Certificate;
-import ge18xx.company.Corporation;
-import ge18xx.company.CorporationList;
-import ge18xx.company.ShareCompany;
-import ge18xx.game.GameManager;
-import ge18xx.phase.PhaseInfo;
-import ge18xx.phase.PhaseManager;
-import ge18xx.player.Player;
-import ge18xx.player.PlayerFrame;
-import ge18xx.toplevel.XMLFrame;
-import ge18xx.utilities.GUI;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -34,6 +19,21 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import org.apache.logging.log4j.Logger;
+
+import ge18xx.bank.Bank;
+import ge18xx.bank.BankPool;
+import ge18xx.bank.GameBank;
+import ge18xx.company.Certificate;
+import ge18xx.company.Corporation;
+import ge18xx.company.CorporationList;
+import ge18xx.company.ShareCompany;
+import ge18xx.game.GameManager;
+import ge18xx.phase.PhaseInfo;
+import ge18xx.phase.PhaseManager;
+import ge18xx.player.Player;
+import ge18xx.player.PlayerFrame;
+import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.GUI;
 
 public class RoundFrame extends XMLFrame {
 	public static final RoundFrame NO_ROUND_FRAME = null;

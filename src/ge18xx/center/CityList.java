@@ -1,5 +1,10 @@
 package ge18xx.center;
 
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 //
 //  CityList.java
 //  18XX_JAVA
@@ -16,12 +21,6 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
-
-import java.io.IOException;
-
-import java.util.List;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 public class CityList extends InformationTable implements LoadableXMLI {
 	/**

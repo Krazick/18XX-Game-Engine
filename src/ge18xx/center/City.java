@@ -1,5 +1,13 @@
 package ge18xx.center;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Area;
+
 //
 //  City.java
 //  18XX_JAVA
@@ -24,18 +32,10 @@ import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.ParsingRoutineIO;
+import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLNodeList;
-
-import java.awt.geom.Area;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.Shape;
 
 public class City extends RevenueCenter implements Cloneable {
 	public static final AttributeName AN_NUMBER = new AttributeName ("number");

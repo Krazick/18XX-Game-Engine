@@ -8,9 +8,9 @@ import ge18xx.round.StockRound;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.GenericActor;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLDocument;
 
 public class StateChangeEffect extends Effect {
 	public final static String NAME = "State Change";

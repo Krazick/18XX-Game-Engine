@@ -1,5 +1,8 @@
 package ge18xx.phase;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
 import ge18xx.round.action.BuyTrainAction;
@@ -10,9 +13,6 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import java.util.List;
-import java.util.LinkedList;
 
 public class PhaseManager {
 	public static final PhaseManager NO_PHASE_MANAGER = null;

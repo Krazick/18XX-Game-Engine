@@ -1,5 +1,7 @@
 package ge18xx.tiles;
 
+import java.awt.Point;
+
 //
 //  Feature2.java
 //  Game_18XX
@@ -11,8 +13,6 @@ package ge18xx.tiles;
 
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
-
-import java.awt.Point;
 
 public class Feature2 extends Feature {
 	public static final Feature2 NO_FEATURE2 = null;

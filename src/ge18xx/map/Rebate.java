@@ -1,5 +1,10 @@
 package ge18xx.map;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Point;
+
 //
 //  Rebate.java
 //  Game_18XX
@@ -12,11 +17,6 @@ import ge18xx.tiles.Feature;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLNode;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Point;
 
 public class Rebate extends Feature {
 	public static final AttributeName AN_VALUE = new AttributeName ("value");

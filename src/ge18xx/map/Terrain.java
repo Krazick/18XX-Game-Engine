@@ -1,5 +1,16 @@
 package ge18xx.map;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Stroke;
+import java.awt.TexturePaint;
+import java.io.IOException;
+
+import org.w3c.dom.NodeList;
+
 //
 //  Terrain.java
 //  Java_18XX
@@ -15,18 +26,6 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Stroke;
-import java.awt.TexturePaint;
-import java.awt.BasicStroke;
-import java.awt.Color;
-
-import java.io.IOException;
-
-import org.w3c.dom.NodeList;
 
 public class Terrain extends Feature implements LoadableXMLI {
 	public static final ElementName EN_TERRAIN = new ElementName ("Terrain");

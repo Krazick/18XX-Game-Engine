@@ -1,5 +1,9 @@
 package ge18xx.player;
 
+import java.awt.Point;
+import java.util.LinkedList;
+import java.util.List;
+
 //
 //  PlayerManager.java
 //  Game_18XX
@@ -26,6 +30,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BidStockAction;
 import ge18xx.round.action.BuyStockAction;
 import ge18xx.round.action.ChangeStateAction;
@@ -35,7 +40,6 @@ import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.PassAction;
 import ge18xx.round.action.SellStockAction;
 import ge18xx.round.action.TransferOwnershipAction;
-import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ParsingRoutineI;
@@ -44,10 +48,6 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
-
-import java.util.List;
-import java.awt.Point;
-import java.util.LinkedList;
 
 public class PlayerManager {
 	final AttributeName AN_NAME = new AttributeName ("name");

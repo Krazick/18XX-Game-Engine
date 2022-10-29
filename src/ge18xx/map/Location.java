@@ -1,5 +1,7 @@
 package ge18xx.map;
 
+import java.awt.Point;
+
 //
 //  Location.java
 //  Java_18XX
@@ -20,8 +22,6 @@ package ge18xx.map;
 // 99      Dead End Location
 
 import ge18xx.utilities.AttributeName;
-
-import java.awt.Point;
 
 public class Location implements Cloneable {
 	public static final AttributeName AN_LOCATION = new AttributeName ("location");

@@ -1,15 +1,5 @@
 package ge18xx.player;
 
-import ge18xx.bank.Bank;
-import ge18xx.bank.BankPool;
-import ge18xx.bank.StartPacketFrame;
-import ge18xx.company.Certificate;
-import ge18xx.company.Corporation;
-import ge18xx.game.ButtonsInfoFrame;
-import ge18xx.game.GameManager;
-import ge18xx.toplevel.XMLFrame;
-import ge18xx.utilities.GUI;
-
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ItemEvent;
@@ -21,6 +11,16 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import ge18xx.bank.Bank;
+import ge18xx.bank.BankPool;
+import ge18xx.bank.StartPacketFrame;
+import ge18xx.company.Certificate;
+import ge18xx.company.Corporation;
+import ge18xx.game.ButtonsInfoFrame;
+import ge18xx.game.GameManager;
+import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.GUI;
 
 public class PlayerFrame extends XMLFrame implements ItemListener {
 	public static final String STOCK_SELECTED_FOR_BID2 = "Another Private has been selected to be Bid On";

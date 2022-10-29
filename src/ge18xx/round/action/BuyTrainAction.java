@@ -2,6 +2,7 @@ package ge18xx.round.action;
 
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
+import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.ChangeTrainStatusEffect;
 import ge18xx.round.action.effects.DiscardExcessTrainEffect;
 import ge18xx.round.action.effects.Effect;
@@ -9,7 +10,6 @@ import ge18xx.round.action.effects.PhaseChangeEffect;
 import ge18xx.round.action.effects.RustTrainEffect;
 import ge18xx.round.action.effects.TransferTrainEffect;
 import ge18xx.round.action.effects.UpgradeTrainEffect;
-import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.train.Train;
 import ge18xx.utilities.XMLNode;
 

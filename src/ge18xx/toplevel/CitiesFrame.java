@@ -1,5 +1,7 @@
 package ge18xx.toplevel;
 
+import javax.swing.JTable;
+
 //
 //  CitiesFrame.java
 //  Game_18XX
@@ -11,8 +13,6 @@ package ge18xx.toplevel;
 import ge18xx.center.CityList;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
-
-import javax.swing.JTable;
 
 public class CitiesFrame extends XMLFrame {
 	private static final long serialVersionUID = 1L;

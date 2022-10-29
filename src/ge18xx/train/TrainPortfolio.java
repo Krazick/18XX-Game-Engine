@@ -1,5 +1,13 @@
 package ge18xx.train;
 
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import javax.swing.Box;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.TrainCompany;
@@ -19,14 +27,6 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
-
-import java.awt.event.ItemListener;
-import java.util.Collections;
-import java.util.ArrayList;
-
-import javax.swing.Box;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class TrainPortfolio implements TrainHolderI {
 	private final static String NEWLINE = "\n";

@@ -1,5 +1,21 @@
 package ge18xx.toplevel;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+
+import org.apache.logging.log4j.Logger;
+
 //
 //  MapFrame.java
 //  rails_18xx
@@ -15,8 +31,8 @@ import ge18xx.center.CityList;
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
-import ge18xx.company.ShareCompany;
 import ge18xx.company.MapToken;
+import ge18xx.company.ShareCompany;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
@@ -26,10 +42,10 @@ import ge18xx.map.MapCell;
 import ge18xx.map.Terrain;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActionManager;
-import ge18xx.round.action.StartRouteAction;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ExtendRouteAction;
 import ge18xx.round.action.RouteAction;
+import ge18xx.round.action.StartRouteAction;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
@@ -43,24 +59,6 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.io.IOException;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-
-import org.apache.logging.log4j.Logger;
 
 public class MapFrame extends XMLFrame implements ActionListener {
 	private final String NO_TILE_PLACED = "No Tile placed yet";

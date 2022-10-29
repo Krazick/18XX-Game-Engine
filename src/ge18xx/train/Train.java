@@ -1,5 +1,15 @@
 package ge18xx.train;
 
+import java.awt.Color;
+import java.awt.event.ItemListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+
 //
 //  Train.java
 //  Java_18XX
@@ -25,16 +35,6 @@ import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import java.awt.Color;
-import java.awt.event.ItemListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 public class Train implements Comparable<Object> {
 	final static ElementName EN_TRAIN = new ElementName ("Train");

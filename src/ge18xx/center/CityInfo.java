@@ -1,5 +1,12 @@
 package ge18xx.center;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Point;
+
 //
 //  CityInfo.java
 //  18XX_JAVA
@@ -19,13 +26,6 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Point;
 
 public class CityInfo implements Cloneable {
 	public static final AttributeName AN_NAME = new AttributeName ("name");

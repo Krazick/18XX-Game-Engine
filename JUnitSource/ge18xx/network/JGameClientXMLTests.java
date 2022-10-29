@@ -1,10 +1,10 @@
 package ge18xx.network;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;

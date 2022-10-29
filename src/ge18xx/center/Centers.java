@@ -1,5 +1,10 @@
 package ge18xx.center;
 
+import java.awt.Graphics;
+import java.awt.Point;
+import java.util.LinkedList;
+import java.util.List;
+
 //
 //  Centers.java
 //  Game_18XX
@@ -23,11 +28,6 @@ import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import java.awt.Graphics;
-import java.awt.Point;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Centers implements Cloneable {
 	public static final int UNSPECIFIED_ID = -1;

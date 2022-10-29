@@ -1,5 +1,15 @@
 package ge18xx.round.action;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.logging.log4j.Logger;
+import org.w3c.dom.NodeList;
+
 import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
 import ge18xx.network.JGameClient;
@@ -10,16 +20,6 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import org.apache.logging.log4j.Logger;
-import org.w3c.dom.NodeList;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ActionManager {
 	public final static ActionManager NO_ACTION_MANAGER = null;

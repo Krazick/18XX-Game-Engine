@@ -1,5 +1,17 @@
 package ge18xx.map;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Paint;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.w3c.dom.NodeList;
+
 //
 //  MapCell.java
 //  18XX_JAVA
@@ -36,20 +48,6 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Paint;
-import java.awt.Point;
-
-import java.awt.geom.Point2D;
-
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.w3c.dom.NodeList;
 
 public class MapCell implements Comparator<Object> {
 	public static final AttributeName AN_REVENUE_CENTER_INDEX = new AttributeName ("revenueCenterIndex");

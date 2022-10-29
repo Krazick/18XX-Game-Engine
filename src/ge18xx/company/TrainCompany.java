@@ -1,5 +1,17 @@
 package ge18xx.company;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Point;
+import java.awt.event.ItemListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.game.ButtonsInfoFrame;
@@ -19,12 +31,12 @@ import ge18xx.round.action.ClearAllRoutesAction;
 import ge18xx.round.action.FloatCompanyAction;
 import ge18xx.round.action.LayTileAction;
 import ge18xx.round.action.OperatedTrainsAction;
+import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.PreparedCorporationAction;
 import ge18xx.round.action.RemoveTileAction;
 import ge18xx.round.action.SkipBaseTokenAction;
 import ge18xx.round.action.TransferOwnershipAction;
-import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.train.RouteInformation;
@@ -38,18 +50,6 @@ import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.event.ItemListener;
-import java.awt.Point;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 
 public abstract class TrainCompany extends Corporation implements CashHolderI, TrainHolderI {
 	public static final ElementName EN_TRAIN_COMPANY = new ElementName ("TrainCompany");

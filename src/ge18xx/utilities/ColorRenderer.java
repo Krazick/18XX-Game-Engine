@@ -1,5 +1,8 @@
 package ge18xx.utilities;
 
+import java.awt.Color;
+import java.awt.Component;
+
 //
 //  ColorRenderer.java
 //  Game_18XX
@@ -17,8 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
-import java.awt.Color;
-import java.awt.Component;
 
 public class ColorRenderer extends JLabel implements TableCellRenderer {
 	/**

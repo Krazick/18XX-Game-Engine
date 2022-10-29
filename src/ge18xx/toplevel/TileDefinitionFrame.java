@@ -1,5 +1,10 @@
 package ge18xx.toplevel;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JScrollPane;
+
 //
 //  TileDefinitionFrame.java
 //  Game_18XX
@@ -9,11 +14,6 @@ package ge18xx.toplevel;
 //
 
 import ge18xx.tiles.TileSet;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.JScrollPane;
 
 public class TileDefinitionFrame extends XMLFrame {
 	public static final String BASE_TITLE = "Tile Definition";

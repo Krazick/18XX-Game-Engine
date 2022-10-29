@@ -1,18 +1,5 @@
 package ge18xx.player;
 
-import ge18xx.bank.Bank;
-import ge18xx.company.Certificate;
-import ge18xx.company.ShareCompany;
-import ge18xx.game.GameManager;
-import ge18xx.round.StockRound;
-import ge18xx.round.action.Action;
-import ge18xx.round.action.ActionManager;
-import ge18xx.round.action.SetParValueAction;
-import ge18xx.round.action.WinAuctionAction;
-import ge18xx.round.action.effects.Effect;
-import ge18xx.round.action.effects.TransferOwnershipEffect;
-import ge18xx.utilities.GUI;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
@@ -29,6 +16,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+
+import ge18xx.bank.Bank;
+import ge18xx.company.Certificate;
+import ge18xx.company.ShareCompany;
+import ge18xx.game.GameManager;
+import ge18xx.round.StockRound;
+import ge18xx.round.action.Action;
+import ge18xx.round.action.ActionManager;
+import ge18xx.round.action.SetParValueAction;
+import ge18xx.round.action.WinAuctionAction;
+import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.TransferOwnershipEffect;
+import ge18xx.utilities.GUI;
 
 public class ParPriceFrame extends JDialog implements ActionListener {
 	private static final String SET_PAR_PRICE_ACTION = "SetParPrice";

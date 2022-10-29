@@ -8,9 +8,9 @@ import ge18xx.market.MarketCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-import ge18xx.utilities.XMLDocument;
 
 public class SetParValueEffect extends Effect {
 	public final static String NAME = "Set Par Value";

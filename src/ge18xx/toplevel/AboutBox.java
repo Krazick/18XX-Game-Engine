@@ -1,17 +1,16 @@
 package ge18xx.toplevel;
 
+import java.awt.BorderLayout;
+
 //
 //	File:	AboutBox.java
 //
 
 import java.awt.Font;
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Panel;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.util.Locale;
 import java.util.ResourceBundle;
 

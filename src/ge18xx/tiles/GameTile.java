@@ -1,5 +1,12 @@
 package ge18xx.tiles;
 
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
 //
 //  GameTiles.java
 //  Java_18XX
@@ -11,15 +18,6 @@ package ge18xx.tiles;
 import ge18xx.map.Hex;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.utilities.ElementName;
-
-import java.awt.Graphics;
-import java.awt.Point;
-
-import java.awt.geom.Point2D;
-
-import java.util.List;
-import java.util.Comparator;
-import java.util.LinkedList;
 
 public class GameTile {
 	public static final ElementName EN_UPGRADE = new ElementName ("Upgrade");

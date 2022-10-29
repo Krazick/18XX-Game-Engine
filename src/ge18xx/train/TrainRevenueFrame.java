@@ -1,14 +1,5 @@
 package ge18xx.train;
 
-import ge18xx.bank.Bank;
-import ge18xx.company.TrainCompany;
-import ge18xx.game.GameManager;
-import ge18xx.game.Game_18XX;
-import ge18xx.map.HexMap;
-import ge18xx.phase.PhaseInfo;
-import ge18xx.toplevel.MapFrame;
-import ge18xx.utilities.GUI;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -31,6 +22,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.apache.logging.log4j.Logger;
+
+import ge18xx.bank.Bank;
+import ge18xx.company.TrainCompany;
+import ge18xx.game.GameManager;
+import ge18xx.game.Game_18XX;
+import ge18xx.map.HexMap;
+import ge18xx.phase.PhaseInfo;
+import ge18xx.toplevel.MapFrame;
+import ge18xx.utilities.GUI;
 
 /**
  * This class manages the Train Revenue Frame that will show all of the trains

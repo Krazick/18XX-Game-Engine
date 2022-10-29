@@ -4,16 +4,17 @@ import java.awt.Component;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.logging.log4j.Logger;
+import org.w3c.dom.NodeList;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
@@ -76,9 +77,6 @@ import ge18xx.utilities.JFileMChooser;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import org.apache.logging.log4j.Logger;
-import org.w3c.dom.NodeList;
 
 // TODO -- Create an abstract 'GenericGameManager' Super Class that holds non-specific Game information like:
 //   GameInfo, PlayerManager, configFrames, PlayerInputFrame, frameInfo, and the other non-specific 

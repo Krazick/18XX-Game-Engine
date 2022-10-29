@@ -1,9 +1,9 @@
 package ge18xx.round;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 
 import org.junit.jupiter.api.AfterEach;
@@ -14,8 +14,8 @@ import org.mockito.Mockito;
 
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
-import ge18xx.player.PlayerTestFactory;
 import ge18xx.player.PlayerManager;
+import ge18xx.player.PlayerTestFactory;
 import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.PlayerInputFrame;
 

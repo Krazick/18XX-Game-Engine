@@ -1,5 +1,14 @@
 package ge18xx.center;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Point;
+import java.util.LinkedList;
+import java.util.List;
+
 //
 //  Revenue.java
 //  Game_18XX
@@ -18,15 +27,6 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
-
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Point;
-import java.util.List;
-import java.util.LinkedList;
 
 public class Revenues extends Feature {
 	public static final ElementName EN_REVENUE = new ElementName ("Revenue");

@@ -1,10 +1,10 @@
 package ge18xx.player;
 
+import javax.swing.JPanel;
+
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.round.action.ActorI;
-
-import javax.swing.JPanel;
 
 public interface PortfolioHolderI extends ActorI {
 

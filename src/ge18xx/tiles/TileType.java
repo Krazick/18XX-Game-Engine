@@ -1,5 +1,10 @@
 package ge18xx.tiles;
 
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.TexturePaint;
+import java.io.IOException;
+
 //
 //  TileType.java
 //  Java_18XX
@@ -15,11 +20,6 @@ import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
-
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.TexturePaint;
-import java.io.IOException;
 
 public class TileType implements Cloneable, LoadableXMLI {
 	public static final ElementName EN_TILE_TYPE = new ElementName ("TileType");
