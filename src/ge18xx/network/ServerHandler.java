@@ -80,7 +80,7 @@ public abstract class ServerHandler implements Runnable {
 		setContinueRunning (tContinueRunning);
 	}
 
-	boolean establishSocketConnection () throws UnknownHostException, IOException, SocketException {
+	boolean establishSocketConnection () throws UnknownHostException, IOException, SocketException, ConnectException {
 		InetAddress tIPAddress;
 
 		Socket tSocket = new Socket ();
