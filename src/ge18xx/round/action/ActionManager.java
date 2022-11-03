@@ -274,7 +274,7 @@ public class ActionManager {
 		tAction = Action.NO_ACTION;
 		if (! actions.isEmpty ()) {
 			tLastActionID = getActionCount () - aActionOffset;
-			if (tLastActionID > 1) {
+			if (tLastActionID >= 0) {
 				tAction = actions.get (tLastActionID);
 			}
 		}

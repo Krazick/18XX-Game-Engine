@@ -1296,12 +1296,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 	private boolean loadSavedXMLFile () {
 		List<ActionStates> tAuctionStates;
 		boolean tGoodLoad = false;
+		int tLastActionNumber;
+		String tGameName;
 
 		setNotifyNetwork (false);
 		if (loadXMLFile (loadSavedFile)) {
 			if (isNetworkGame ()) {
-				networkJGameClient.setGameIDonServer (gameID, roundManager.getLastActionNumber (),
-						activeGame.getGameName ());
+				tLastActionNumber = roundManager.getLastActionNumber ();
+				tGameName = activeGame.getGameName ();
+				networkJGameClient.setGameIDonServer (gameID, tLastActionNumber,tGameName);
 			}
 			/* Once a Game has been loaded, can enable both Save and Save As Menu Items */
 			game18XXFrame.disableGameStartItems ();
