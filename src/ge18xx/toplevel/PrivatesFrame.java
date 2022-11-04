@@ -12,6 +12,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JPanel;
 
+import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.round.RoundManager;
@@ -21,7 +22,7 @@ import ge18xx.utilities.XMLElement;
 
 public class PrivatesFrame extends CorporationTableFrame {
 	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [0].toString ();
-	public static final String BASE_TITLE = BASE_TYPE + " Companies";
+	public static final String BASE_TITLE = BASE_TYPE + " " + Corporation.COMPANIES;
 	public static final PrivatesFrame NO_PRIVATES_FRAME = null;
 	public static final ElementName EN_PRIVATES = new ElementName (BASE_TYPE + "s");
 	private static final long serialVersionUID = 1L;

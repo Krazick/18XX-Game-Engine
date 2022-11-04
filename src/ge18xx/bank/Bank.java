@@ -175,14 +175,18 @@ public class Bank extends GameBank implements CashHolderI {
 	public void createStartPacket (GameManager aGameManager) {
 		String tXMLCompaniesName;
 		String tActiveGameName;
-
+		XMLDocument tXMLDocument;
+		String tType;
+		
 		if (aGameManager.gameIsStarted ()) {
 			tActiveGameName = aGameManager.getActiveGameName ();
 			tXMLCompaniesName = aGameManager.getCompaniesFileName ();
 			tXMLCompaniesName = aGameManager.getXMLBaseDirectory () + tXMLCompaniesName;
 			startPacketFrame = new StartPacketFrame (tActiveGameName + StartPacketFrame.SPFRAME_SUFFIX, aGameManager);
+			tType = Corporation.COMPANIES;
+			tXMLDocument = aGameManager.readXMLfromURL (tActiveGameName, tType);
 			try {
-				startPacketFrame.loadXML (tXMLCompaniesName, startPacketFrame);
+				startPacketFrame.loadXML (tXMLDocument, startPacketFrame);
 			} catch (Exception tException) {
 				logger.error ("Creating Start Packet Failure", tException);
 			}

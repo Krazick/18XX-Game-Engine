@@ -59,6 +59,7 @@ import ge18xx.utilities.XMLNodeList;
 
 public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRoutineI, Comparable<Corporation> {
 	public static final String CORPORATION = "Corporation";
+	public static final String COMPANIES = "Companies";
 	public static final ElementName EN_CORPORATION = new ElementName (CORPORATION);
 	public static final AttributeName AN_QUANTITY = new AttributeName ("quantity");
 	public static final AttributeName AN_ID = new AttributeName ("id");

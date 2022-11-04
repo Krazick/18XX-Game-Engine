@@ -68,6 +68,7 @@ public class Game_18XX extends JFrame {
 
 	// Generic Game Engine Fields
 	private final String ENTER_USER_NAME = "Must Enter User Name";
+	public final String DATA_URL_BASE = "DataURLBase";
 	protected ResourceBundle resbundle;
 	protected AboutBox aboutBox;
 	protected PrefPane prefs;
@@ -689,22 +690,34 @@ public class Game_18XX extends JFrame {
 		enableSaveMenuItems ();
 	}
 
+	public String getURLValue (String aResourceName) {
+		String tURLBase;
+		
+		tURLBase = resbundle.getString (aResourceName);
+		
+		return tURLBase;
+	}
+	
+	public String getURLBase () {
+		return getURLValue (DATA_URL_BASE);
+	}
+	
 	public boolean loadGameSet () {
-		String tFileName;
+//		String tFileName;
 		String tURLBase;
 		String tGameURLFileName;
 		String tFullURL;
 		boolean tLoadedGameSet;
 		GameSet tGameSet;
-		XMLDocument tXMLDocument;
+//		XMLDocument tXMLDocument;
 		XMLDocument tURLDocument;
 
 //		tFileName = gameManager.getXMLBaseDirectory () + resbundle.getString ("GameSetXMLFile");
 //		tXMLDocument = new XMLDocument (tFileName);
 //		{ "DataURLBase", "https://krazick.github.io/18XX-Game-Engine-XML/XML/" },
 //		{ "GameSetURLFile", "18xx-Games.xml" },
-		tURLBase = resbundle.getString ("DataURLBase");
-		tGameURLFileName = resbundle.getString ("GameSetURLFile");
+		tURLBase = getURLBase ();
+		tGameURLFileName = getURLValue ("GameSetURLFile");
 		tFullURL = tURLBase + tGameURLFileName;
 		tURLDocument = new XMLDocument (tFullURL);
 		

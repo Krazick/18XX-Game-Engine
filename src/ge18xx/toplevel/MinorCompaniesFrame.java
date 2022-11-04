@@ -1,5 +1,7 @@
 package ge18xx.toplevel;
 
+import ge18xx.company.Corporation;
+
 //
 //  MinorCompaniesFrame.java
 //  Game_18XX
@@ -18,9 +20,10 @@ public class MinorCompaniesFrame extends CorporationTableFrame {
 	/**
 	 *
 	 */
+	public static final String BASE_TYPE = CorporationList.TYPE_NAMES [1].toString ();
 	public static final MinorCompaniesFrame NO_MINORS_FRAME = null;
-	public static final String BASE_TITLE = "Minor Companies";
-	public static final ElementName EN_MINORS = new ElementName (CorporationList.TYPE_NAMES [1] + "s");
+	public static final String BASE_TITLE = BASE_TYPE +  " " + Corporation.COMPANIES;
+	public static final ElementName EN_MINORS = new ElementName (BASE_TYPE + "s");
 	private static final long serialVersionUID = 1L;
 
 	public MinorCompaniesFrame (String aFrameName, RoundManager aRoundManager) {

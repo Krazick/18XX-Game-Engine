@@ -14,11 +14,13 @@ import javax.swing.JScrollPane;
 //
 
 import ge18xx.tiles.TileSet;
+import ge18xx.utilities.XMLDocument;
 
 public class TileDefinitionFrame extends XMLFrame {
 	public static final String BASE_TITLE = "Tile Definition";
-	public static final String TILE_SUFFIX_NAME = " Tile Definitions.xml";
+	public static final String TILE_SUFFIX_NAME = "-Tile-Definitions.xml";
 	public static final String TILE_DIRECTORY_NAME = "Tile XML Data/";
+	public static final String TILE_URL_BASE = "Tiles";
 	private static final long serialVersionUID = 1L;
 	String allTileSetNames[] = { "Yellow", "Green", "Brown", "Grey", "Other" };
 	TileSet tileSet;
@@ -42,13 +44,44 @@ public class TileDefinitionFrame extends XMLFrame {
 		return tileSet;
 	}
 
-	public void loadAllTileDefinitions (String aBaseDirName, TileTrayFrame aTileTrayFrame) {
+	public void loadAllTileDefinitions (String aURLBase, TileTrayFrame aTileTrayFrame) {
 		TileSet tTDTileSet;
-
+		XMLDocument tXMLDocument;
+		
 		for (String tTileSetName : allTileSetNames) {
-			tTDTileSet = loadATileDefinitionSet (aBaseDirName, tTileSetName);
+			tXMLDocument = readXMLfromURL (aURLBase, tTileSetName);
+			tTDTileSet = loadATileDefinitionSet (tXMLDocument);
 			aTileTrayFrame.copyTileDefinitions (tTDTileSet);
 		}
+	}
+
+	public TileSet loadATileDefinitionSet (XMLDocument aXMLDocument) {
+		try {
+			loadXML (aXMLDocument, tileSet);
+		} catch (Exception eException) {
+			System.err.println ("Exception thrown " + eException.getMessage ());
+			eException.printStackTrace ();
+		}
+
+		return tileSet;
+	}
+
+	public void loadATileFromASet (String aURLBase, String aBaseDirName, TileTrayFrame aTileTrayFrame,
+			int aTileNumber, String aTileSetName, int aQuantity) {
+		TileSet tTDTileSet;
+		XMLDocument tXMLDocument;
+
+		tXMLDocument = readXMLfromURL (aURLBase, aTileSetName);
+		tTDTileSet = loadATileDefinitionSet (tXMLDocument);
+		aTileTrayFrame.copyATileFromDefinitions (tTDTileSet, aTileNumber, aQuantity);
+	}
+	
+	public void loadATileFromASet (String aBaseDirName, TileTrayFrame aTileTrayFrame,
+									int aTileNumber, String aTileSetName, int aQuantity) {
+		TileSet tTDTileSet;
+
+		tTDTileSet = loadATileDefinitionSet (aBaseDirName, aTileSetName);
+		aTileTrayFrame.copyATileFromDefinitions (tTDTileSet, aTileNumber, aQuantity);
 	}
 
 	public TileSet loadATileDefinitionSet (String aBaseDirName, String aTileSetName) {
@@ -64,12 +97,22 @@ public class TileDefinitionFrame extends XMLFrame {
 
 		return tileSet;
 	}
+	
+	public XMLDocument readXMLfromURL (String aURLBase, String tType) {
+		XMLDocument tXMLDocument;
+		String tFullURL;
+		
+		tFullURL = constructFullURL (aURLBase, tType);
+		tXMLDocument = new XMLDocument (tFullURL);
+		
+		return tXMLDocument;
+	}
 
-	public void loadATileFromASet (String aBaseDirName, TileTrayFrame aTileTrayFrame,
-									int aTileNumber, String aTileSetName, int aQuantity) {
-		TileSet tTDTileSet;
-
-		tTDTileSet = loadATileDefinitionSet (aBaseDirName, aTileSetName);
-		aTileTrayFrame.copyATileFromDefinitions (tTDTileSet, aTileNumber, aQuantity);
+	private String constructFullURL (String aURLBase, String aType) {
+		String tFullURL;
+		
+		tFullURL = aURLBase + TILE_URL_BASE + "/" + aType + TILE_SUFFIX_NAME;
+		
+		return tFullURL;
 	}
 }

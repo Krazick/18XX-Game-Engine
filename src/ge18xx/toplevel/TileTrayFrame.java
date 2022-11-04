@@ -111,6 +111,15 @@ public class TileTrayFrame extends XMLFrame {
 		tileSet.setValues (aSetName);
 	}
 
+	public void loadTileTrayFrame (XMLDocument aXMLDocument) {
+		try {
+			loadXML (aXMLDocument, tileSet);
+		} catch (Exception eException) {
+			System.err.println ("Exception thrown " + eException.getMessage ());
+			eException.printStackTrace ();
+		}
+	}
+
 	public void loadTileTrayFrame (String aXMLTileTrayName) {
 		try {
 			loadXML (aXMLTileTrayName, tileSet);

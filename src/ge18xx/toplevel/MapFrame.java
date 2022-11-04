@@ -531,6 +531,22 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			}
 		}
 	};
+	
+	@Override
+	public boolean loadXML (XMLDocument aXMLDocument, LoadableXMLI aLoadableObject) throws IOException {
+		boolean tXMLFileWasLoaded;
+		int tMaxWidth, tMaxHeight;
+
+		tXMLFileWasLoaded = super.loadXML (aXMLDocument, aLoadableObject);
+		if (tXMLFileWasLoaded) {
+			setFixedMapTiles ();
+		}
+		tMaxWidth = map.getMaxWidth ();
+		tMaxHeight = map.getMaxHeight ();
+		scrollPane.setPreferredSize (new Dimension (tMaxWidth, tMaxHeight));
+
+		return tXMLFileWasLoaded;
+	}
 
 	@Override
 	public boolean loadXML (String aXMLFileName, LoadableXMLI aLoadableObject) throws IOException {
