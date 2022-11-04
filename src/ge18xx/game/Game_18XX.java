@@ -58,6 +58,7 @@ import ge18xx.toplevel.PrefPane;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 import ge18xx.utilities.Sound;
+import ge18xx.utilities.XMLDocument;
 import log4j2.plugins.LoggerLookup;
 
 // TODO -- Create an abstract Super Class that is "GameEngineFrame" that has non-specific objects
@@ -690,13 +691,29 @@ public class Game_18XX extends JFrame {
 
 	public boolean loadGameSet () {
 		String tFileName;
+		String tURLBase;
+		String tGameURLFileName;
+		String tFullURL;
 		boolean tLoadedGameSet;
+		GameSet tGameSet;
+		XMLDocument tXMLDocument;
+		XMLDocument tURLDocument;
 
-		tFileName = gameManager.getXMLBaseDirectory () + resbundle.getString ("GameSetXMLFile");
-		// "18xx Games.xml";
+//		tFileName = gameManager.getXMLBaseDirectory () + resbundle.getString ("GameSetXMLFile");
+//		tXMLDocument = new XMLDocument (tFileName);
+//		{ "DataURLBase", "https://krazick.github.io/18XX-Game-Engine-XML/XML/" },
+//		{ "GameSetURLFile", "18xx-Games.xml" },
+		tURLBase = resbundle.getString ("DataURLBase");
+		tGameURLFileName = resbundle.getString ("GameSetURLFile");
+		tFullURL = tURLBase + tGameURLFileName;
+		tURLDocument = new XMLDocument (tFullURL);
+		
 		try {
 			createPlayerInputFrame ();
-			playerInputFrame.loadXML (tFileName, playerInputFrame.getGameSet ());
+			tGameSet = playerInputFrame.getGameSet ();
+//			playerInputFrame.loadXML (tFileName, tGameSet);
+//			playerInputFrame.loadXML (tXMLDocument, tGameSet);
+			playerInputFrame.loadXML (tURLDocument, tGameSet);
 			tLoadedGameSet = true;
 		} catch (IOException tException) {
 			System.err.println ("Caught Exception " + tException);

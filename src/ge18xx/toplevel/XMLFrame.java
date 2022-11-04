@@ -90,6 +90,22 @@ public class XMLFrame extends JFrame {
 		return tFrameName;
 	}
 
+	public boolean loadXML (XMLDocument aXMLDocument, LoadableXMLI aLoadableObject) throws IOException {
+		boolean tXMLFileWasLoaded;
+
+		try {
+			aLoadableObject.loadXML (aXMLDocument);
+			tXMLFileWasLoaded = true;
+		} catch (Exception tException) {
+			System.err.println ("Exception Message [" + tException.getMessage () + "].");
+			tException.printStackTrace (System.err);
+			tXMLFileWasLoaded = false;
+		}
+
+		return tXMLFileWasLoaded;
+
+	}
+	
 	public boolean loadXML (String aXMLFileName, LoadableXMLI aLoadableObject) throws IOException {
 		boolean tXMLFileWasLoaded;
 		XMLDocument tXMLDocument;

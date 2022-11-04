@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GE18xx>
-<Network name="Mark's Server" localServerIP="192.168.1.21" remoteServerIP="71.178.207.104" serverPort="18300"/>
+<GE18xx version="0.5">
+<Network name="Mark's Server" localServerIP="192.168.1.21" remoteServerIP="108.31.172.56" serverPort="18300"/>
 <Games>
 	<GameInfo id="1" name="1830" minPlayers="2" maxPlayers="6"
 		status="Playable"
