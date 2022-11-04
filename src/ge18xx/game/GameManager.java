@@ -299,7 +299,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tFullFrameTitle;
 		CitiesFrame tCitiesFrame;
 		XMLDocument tXMLDocument;
-		String tFullURL;
 		String tType;
 
 		if (gameIsStarted ()) {
@@ -433,12 +432,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void createMap () {
-		String tXMLMapName;
+//		String tXMLMapName;
 		String tBaseDir;
 		String tColorSchemeName;
 		String tFullTitle;
 		MapFrame tMapFrame;
-		String tFullURL;
 		String tActiveGameName;
 		String tType;
 		XMLDocument tXMLDocument;
@@ -447,7 +445,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tType = "Map";
 			tActiveGameName = getActiveGameName ();
 			tBaseDir = getXMLBaseDirectory ();
-			tXMLMapName = tBaseDir + getMapFileName ();
+//			tXMLMapName = tBaseDir + getMapFileName ();
 			tFullTitle = createFrameTitle (tType);
 			tMapFrame = new MapFrame (tFullTitle, this);
 			setMapFrame (tMapFrame);
@@ -474,10 +472,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void createMarket () {
-		String tXMLMarketName;
+//		String tXMLMarketName;
 		String tFullTitle;
 		MarketFrame tMarketFrame;
-		String tFullURL;
 		String tActiveGameName;
 		String tType;
 		XMLDocument tXMLDocument;
@@ -485,7 +482,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (gameIsStarted ()) {
 			tType = "Market";
 			tActiveGameName = getActiveGameName ();
-			tXMLMarketName = getXMLBaseDirectory () + getMarketFileName ();
+//			tXMLMarketName = getXMLBaseDirectory () + getMarketFileName ();
 			tFullTitle = createFrameTitle (tType);
 			tMarketFrame = new MarketFrame (tFullTitle, this);
 			setMarketFrame (tMarketFrame);
@@ -499,10 +496,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void createMinorCompanies () {
-		String tXMLCompaniesName;
+//		String tXMLCompaniesName;
 		String tFullTitle;
 		MinorCompaniesFrame tMinorCompaniesFrame;
-		String tFullURL;
 		String tActiveGameName;
 		String tType;
 		XMLDocument tXMLDocument;
@@ -510,7 +506,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (gameIsStarted ()) {
 			tType = Corporation.COMPANIES;
 			tActiveGameName = getActiveGameName ();
-			tXMLCompaniesName = getXMLBaseDirectory () + getCompaniesFileName ();
+//			tXMLCompaniesName = getXMLBaseDirectory () + getCompaniesFileName ();
 			tFullTitle = createFrameTitle (tType);
 			tMinorCompaniesFrame = new MinorCompaniesFrame (tFullTitle, roundManager);
 			setMinorCompaniesFrame (tMinorCompaniesFrame);
@@ -527,7 +523,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tXMLCompaniesName;
 		String tFullTitle;
 		PrivatesFrame tPrivatesFrame;
-		String tFullURL;
 		String tActiveGameName;
 		String tType;
 		XMLDocument tXMLDocument;
@@ -555,7 +550,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		Integer [] tParValues;
 		Market tMarket;
 		ShareCompaniesFrame tShareCompaniesFrame;
-		String tFullURL;
 		String tActiveGameName;
 		String tType;
 		XMLDocument tXMLDocument;
@@ -608,9 +602,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void createTileTray () {
-		String tXMLTileTrayName;
+//		String tXMLTileTrayName;
 		String tActiveGameName;
-		String tBaseDirName;
+//		String tBaseDirName;
 		TileTrayFrame tTileTrayFrame;
 		TileDefinitionFrame tTileDefinitionFrame;
 		String tFrameTitle;
@@ -620,8 +614,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		if (gameIsStarted ()) {
 			tActiveGameName = getActiveGameName ();
-			tBaseDirName = getXMLBaseDirectory ();
-			tXMLTileTrayName = tBaseDirName + getTileSetFileName ();
+//			tBaseDirName = getXMLBaseDirectory ();
+//			tXMLTileTrayName = tBaseDirName + getTileSetFileName ();
 
 			tFrameTitle = createFrameTitle (TileTrayFrame.BASE_TITLE);
 			tTileTrayFrame = new TileTrayFrame (tFrameTitle, this);
