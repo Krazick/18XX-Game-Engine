@@ -1043,17 +1043,12 @@ public class MapFrame extends XMLFrame implements ActionListener {
 								// If there is a Tile Lay Cost, and the Company Treasury has enough cash we can
 								// move forward
 								if (tTileLayCost <= tOperatingCompanyTreasury) {
-									// And there is a Game Tile Selected -- Enable the Put Tile Button
-									if (tTile != GameTile.NO_GAME_TILE) {
-										if (validUpgradeType (tMapCell, tTile)) {
-											putTileButton.setEnabled (true);
-											putTileButton.setToolTipText (GUI.NO_TOOL_TIP);
-										} else {
-											putTileButton.setEnabled (false);
-											putTileButton.setToolTipText ("Not a Valid Upgrade choice");
-										}
+									if (validUpgradeType (tMapCell, tTile)) {
+										putTileButton.setEnabled (true);
+										putTileButton.setToolTipText (GUI.NO_TOOL_TIP);
 									} else {
-										putTileButton.setToolTipText (NO_TILE_SELECTED);
+										putTileButton.setEnabled (false);
+										putTileButton.setToolTipText ("Not a Valid Upgrade choice");
 									}
 								} else {
 									String tNotEnoughCash = String.format (NOT_ENOUGH_CASH,
@@ -1077,7 +1072,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					}
 				} else {
 					putTileButton.setEnabled (false);
-					putTileButton.setToolTipText ("No selected Tile Yet");
+					putTileButton.setToolTipText (NO_TILE_SELECTED);
 				}
 			} else {
 				putTileButton.setToolTipText (NO_SELECTED_MAP_CELL);
