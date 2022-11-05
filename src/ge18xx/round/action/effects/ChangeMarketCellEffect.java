@@ -18,7 +18,7 @@ public class ChangeMarketCellEffect extends Effect {
 	public final static String NAME = "Change Market Cell";
 	final static AttributeName AN_START_LOCATION = new AttributeName ("startLocation");
 	final static AttributeName AN_NEW_LOCATION = new AttributeName ("newLocation");
-	final static AttributeName AN_START_COORDINATES = new AttributeName ("startCoordiantes");
+	final static AttributeName AN_START_COORDINATES = new AttributeName ("startCoordinates");
 	final static AttributeName AN_NEW_COORDINATES = new AttributeName ("newCoordinates");
 	int startLocation;
 	int newLocation;
