@@ -434,7 +434,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	private void createMap () {
 //		String tXMLMapName;
 		String tBaseDir;
-		String tColorSchemeName;
 		String tFullTitle;
 		MapFrame tMapFrame;
 		String tActiveGameName;
@@ -456,18 +455,29 @@ public class GameManager extends Component implements NetworkGameSupport {
 			} catch (Exception tException) {
 				logger.error (tException);
 			}
-			tColorSchemeName = tBaseDir + "Color Scheme.xml";
-			try {
-				tMapFrame.loadXMLColorScheme (tColorSchemeName, tMapFrame.getTerrain ());
-				tMapFrame.loadXMLColorScheme (tColorSchemeName, tileTrayFrame.getTileType ());
-			} catch (Exception tException) {
-				logger.error ("Problem Loading Color Scheme: " + tException);
-			}
+			loadColorScheme (tBaseDir, tMapFrame);
 
 			tMapFrame.setCityInfo (citiesFrame.getCities ());
 			tMapFrame.addCorporationList (privatesFrame, CorporationList.TYPE_NAMES [0]);
 			tMapFrame.addCorporationList (minorCompaniesFrame, CorporationList.TYPE_NAMES [1]);
 			tMapFrame.addCorporationList (shareCompaniesFrame, CorporationList.TYPE_NAMES [2]);
+		}
+	}
+
+	public void loadColorScheme (String tBaseDir, MapFrame tMapFrame) {
+//		String tColorSchemeName;
+		String tFullURL;
+		XMLDocument tXMLDocument;
+		
+		tFullURL = game18XXFrame.getURLBase () + "Color-Scheme.xml";
+		tXMLDocument = new XMLDocument (tFullURL);
+
+//		tColorSchemeName = tBaseDir + "Color Scheme.xml";
+		try {
+			tMapFrame.loadXMLColorScheme (tXMLDocument, tMapFrame.getTerrain ());
+			tMapFrame.loadXMLColorScheme (tXMLDocument, tileTrayFrame.getTileType ());
+		} catch (Exception tException) {
+			logger.error ("Problem Loading Color Scheme: " + tException);
 		}
 	}
 

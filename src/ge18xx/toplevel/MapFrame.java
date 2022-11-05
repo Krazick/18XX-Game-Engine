@@ -564,6 +564,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		return tXMLFileWasLoaded;
 	}
 
+	public boolean loadXMLColorScheme (XMLDocument aXMLDocument, LoadableXMLI aLoadableObject) throws IOException {
+		boolean tXMLFileWasLoaded;
+
+		tXMLFileWasLoaded = super.loadXML (aXMLDocument, aLoadableObject);
+
+		return tXMLFileWasLoaded;
+	}
+
 	public boolean loadXMLColorScheme (String aXMLFileName, LoadableXMLI aLoadableObject) throws IOException {
 		boolean tXMLFileWasLoaded;
 
