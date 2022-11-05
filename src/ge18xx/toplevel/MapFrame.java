@@ -372,6 +372,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 		togglePlaceTileMode ();
 		map.setTilePlaced (false);
+		map.removeAllSMC ();
 	}
 
 	private void setCompanyAbbrev (String aCompanyAbbrev) {
@@ -599,6 +600,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public void putATokenDown (Corporation aCorporation) {
 		putTokenDown (aCorporation);
 		togglePlaceTokenMode ();
+		map.removeAllSMC ();
 	}
 
 	public void putTokenDown (Corporation aCorporation) {
