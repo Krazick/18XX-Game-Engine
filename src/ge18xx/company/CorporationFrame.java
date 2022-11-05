@@ -305,16 +305,21 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	public void updateBaseSelectableMapCells () {
-		MapCell tMapCell;
+		MapCell tMapCell1;
+		MapCell tMapCell2;
 		HexMap tMap;
 
 		tMap = getMap ();
 		tMap.removeAllSMC ();
 		tMap.clearAllSelected ();
-		tMapCell = corporation.getHomeCity1 ();
-		addBaseMapCellToSMC (tMapCell, tMap);
-		tMapCell = corporation.getHomeCity2 ();
-		addBaseMapCellToSMC (tMapCell, tMap);
+		tMapCell1 = corporation.getHomeCity1 ();
+		addBaseMapCellToSMC (tMapCell1, tMap);
+		tMapCell2 = corporation.getHomeCity2 ();
+		addBaseMapCellToSMC (tMapCell2, tMap);
+		if ((tMapCell1 != MapCell.NO_DESTINATION) &&
+			(tMapCell2 == tMapCell1)) {
+			tMap.toggleSelectedMapCell (tMapCell1);
+		}
 	}
 
 	public void addBaseMapCellToSMC (MapCell aMapCell, HexMap aMap) {
