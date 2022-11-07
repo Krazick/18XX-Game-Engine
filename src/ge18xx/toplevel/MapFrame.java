@@ -74,17 +74,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private final String NOT_ENOUGH_CASH = "%s does not have enough cash, needs %s has %s";
 	private final String PRIVATE_NOT_OWNED = "%s does not own the Private Company %s";
 	private final String NO_OPERATING_COMPANY = "There is no Operating Company to place a Tile";
+	private final String RESET_ALL_FLAGS_TIP = "Reset all Map Flags and Selections";
 	public static final String NO_COMPANY = "NO_COMPANY";
 	private static final long serialVersionUID = 1L;
-	HexMap map;
-	TileSet tileSet;
-	CorporationList privateCos;
-	CorporationList minorCos;
-	CorporationList shareCos;
 
-//	boolean placeTileMode;
-	boolean placeTokenMode;
-	boolean selectRouteMode;
 	JButton exitTileButton;
 	JButton selectRouteButton;
 	JButton putTileButton;
@@ -92,12 +85,24 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	JButton exitTokenButton;
 	JButton putTokenButton;
 	JButton testGraphsButton;
-	String companyAbbrev;
-	JPanel tokenButtons;
-	JPanel tileButtons;
+	JButton resetAllFlagsButton;
+	JPanel tokenButtonsJPanel;
+	JPanel tileButtonsJPanel;
 	JPanel allButtonsJPanel;
+	JPanel otherButtonsJPanel;
+	JSlider hexScaleSlider;
+	
+	HexMap map;
+	TileSet tileSet;
+	boolean placeTokenMode;
+	boolean selectRouteMode;
+	CorporationList privateCos;
+	CorporationList minorCos;
+	CorporationList shareCos;
+	String companyAbbrev;
 	GameManager gameManager;
 	RouteInformation routeInformation;
+	private String RESET_ALL_FLAGS = "Reset All Flags";
 	private String SELECT_ROUTE_MODE = "Select Route Mode";
 	private String CANCEL_TOKEN_MODE = "CancelToken";
 	private String CANCEL_MODE_LABEL = "Cancel Mode";
@@ -105,7 +110,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private String PUT_TILE = "PutTile";
 	private String PICKUP_TILE = "PickupTile";
 	private String PUT_TOKEN = "PutToken";
-	JSlider hexScaleSlider;
 	Logger logger;
 
 	public MapFrame (String aFrameName, GameManager aGameManager) {
@@ -151,62 +155,78 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tNorthPanel.add (Box.createHorizontalGlue ());
 		tNorthPanel.add (allButtonsJPanel);
 
+		buildOtherButtonsJPanel ();
+		tNorthPanel.add (Box.createHorizontalGlue ());
+		tNorthPanel.add (otherButtonsJPanel);
+
+		add (tNorthPanel, BorderLayout.NORTH);
+	}
+
+	private void buildOtherButtonsJPanel () {
+		otherButtonsJPanel = new JPanel ();
+		otherButtonsJPanel.setLayout (new BoxLayout (otherButtonsJPanel, BoxLayout.Y_AXIS));
+		
 		selectRouteButton = new JButton ("Enter Select Route");
 		selectRouteButton.addActionListener (this);
 		selectRouteButton.setActionCommand (SELECT_ROUTE_MODE);
 		selectRouteButton.setEnabled (false);
 		selectRouteButton.setToolTipText (NOT_OPERATING_TRAIN_MODE);
-		tNorthPanel.add (Box.createHorizontalGlue ());
-		tNorthPanel.add (selectRouteButton);
+		
+		resetAllFlagsButton = new JButton (RESET_ALL_FLAGS);
+		resetAllFlagsButton.addActionListener (this);
+		resetAllFlagsButton.setActionCommand (RESET_ALL_FLAGS);
+		resetAllFlagsButton.setToolTipText (RESET_ALL_FLAGS_TIP);
 
-		add (tNorthPanel, BorderLayout.NORTH);
-	}
-
-	private void buildAllButtonsJPanel () {
-		allButtonsJPanel = new JPanel ();
-		allButtonsJPanel.setLayout (new BoxLayout (allButtonsJPanel, BoxLayout.Y_AXIS));
-
-		buildTokenButtonsPanel ();
-		allButtonsJPanel.add (tokenButtons);
-		allButtonsJPanel.add (Box.createVerticalStrut (10));
-
-		buildTileButtonsPanel ();
-		allButtonsJPanel.add (tileButtons);
-
+		otherButtonsJPanel.add (selectRouteButton);
+		otherButtonsJPanel.add (Box.createVerticalGlue ());
+		otherButtonsJPanel.add (resetAllFlagsButton);	
+		
 		if (gameManager.hasTestGraphs ()) {
 			testGraphsButton = new JButton ("Build Graphs");
 			testGraphsButton.addActionListener (this);
 			testGraphsButton.setActionCommand ("BuildGraphs");
 			testGraphsButton.setToolTipText ("Build Graph of current Hex Map");
-			allButtonsJPanel.add (testGraphsButton);
-			allButtonsJPanel.add (Box.createHorizontalStrut (10));
+			otherButtonsJPanel.add (testGraphsButton);
+			otherButtonsJPanel.add (Box.createVerticalGlue ());
 		}
+	}
+	
+	private void buildAllButtonsJPanel () {
+		allButtonsJPanel = new JPanel ();
+		allButtonsJPanel.setLayout (new BoxLayout (allButtonsJPanel, BoxLayout.Y_AXIS));
+
+		buildTokenButtonsPanel ();
+		allButtonsJPanel.add (tokenButtonsJPanel);
+		allButtonsJPanel.add (Box.createVerticalStrut (10));
+
+		buildTileButtonsPanel ();
+		allButtonsJPanel.add (tileButtonsJPanel);
 	}
 
 	private void buildTileButtonsPanel () {
 		JLabel tLabelTileMode;
 
 		tLabelTileMode = new JLabel ("Tile Mode");
-		tileButtons = new JPanel ();
-		tileButtons.setLayout (new BoxLayout (tileButtons, BoxLayout.X_AXIS));
-		tileButtons.setOpaque (true);
-		tileButtons.add (tLabelTileMode);
-		tileButtons.add (Box.createHorizontalStrut (10));
+		tileButtonsJPanel = new JPanel ();
+		tileButtonsJPanel.setLayout (new BoxLayout (tileButtonsJPanel, BoxLayout.X_AXIS));
+		tileButtonsJPanel.setOpaque (true);
+		tileButtonsJPanel.add (tLabelTileMode);
+		tileButtonsJPanel.add (Box.createHorizontalStrut (10));
 
 		putTileButton = new JButton ("Put Down");
 		putTileButton.addActionListener (this);
 		putTileButton.setActionCommand (PUT_TILE);
 		putTileButton.setEnabled (false);
 		putTileButton.setToolTipText (NOT_PLACE_TILE_MODE);
-		tileButtons.add (putTileButton);
-		tileButtons.add (Box.createHorizontalStrut (10));
+		tileButtonsJPanel.add (putTileButton);
+		tileButtonsJPanel.add (Box.createHorizontalStrut (10));
 
 		pickupTileButton = new JButton ("Pickup");
 		pickupTileButton.addActionListener (this);
 		pickupTileButton.setActionCommand (PICKUP_TILE);
 		updatePickupTileButton (false, NOT_PLACE_TILE_MODE);
-		tileButtons.add (pickupTileButton);
-		tileButtons.add (Box.createHorizontalStrut (10));
+		tileButtonsJPanel.add (pickupTileButton);
+		tileButtonsJPanel.add (Box.createHorizontalStrut (10));
 
 		exitTileButton = new JButton ("Exit Mode");
 		exitTileButton.addActionListener (this);
@@ -214,34 +234,34 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		exitTileButton.setEnabled (false);
 		exitTileButton.setToolTipText (NOT_PLACE_TILE_MODE);
 
-		tileButtons.add (exitTileButton);
-		tileButtons.add (Box.createHorizontalStrut (10));
+		tileButtonsJPanel.add (exitTileButton);
+		tileButtonsJPanel.add (Box.createHorizontalStrut (10));
 	}
 
 	private void buildTokenButtonsPanel () {
 		JLabel tLabelTokenMode;
 
 		tLabelTokenMode = new JLabel ("Token Mode");
-		tokenButtons = new JPanel ();
-		tokenButtons.setLayout (new BoxLayout (tokenButtons, BoxLayout.X_AXIS));
-		tokenButtons.setOpaque (true);
-		tokenButtons.add (tLabelTokenMode);
-		tokenButtons.add (Box.createHorizontalStrut (10));
+		tokenButtonsJPanel = new JPanel ();
+		tokenButtonsJPanel.setLayout (new BoxLayout (tokenButtonsJPanel, BoxLayout.X_AXIS));
+		tokenButtonsJPanel.setOpaque (true);
+		tokenButtonsJPanel.add (tLabelTokenMode);
+		tokenButtonsJPanel.add (Box.createHorizontalStrut (10));
 
 		putTokenButton = new JButton ("Put Down");
 		putTokenButton.addActionListener (this);
 		putTokenButton.setActionCommand (PUT_TOKEN);
 		putTokenButton.setEnabled (false);
 		putTokenButton.setToolTipText (NOT_PLACE_TOKEN_MODE);
-		tokenButtons.add (putTokenButton);
-		tokenButtons.add (Box.createHorizontalStrut (10));
+		tokenButtonsJPanel.add (putTokenButton);
+		tokenButtonsJPanel.add (Box.createHorizontalStrut (10));
 
 		exitTokenButton = new JButton (CANCEL_MODE_LABEL);
 		exitTokenButton.addActionListener (this);
 		exitTokenButton.setActionCommand (CANCEL_TOKEN_MODE);
 		exitTokenButton.setToolTipText (NOT_PLACE_TOKEN_MODE);
-		tokenButtons.add (exitTokenButton);
-		tokenButtons.add (Box.createHorizontalStrut (10));
+		tokenButtonsJPanel.add (exitTokenButton);
+		tokenButtonsJPanel.add (Box.createHorizontalStrut (10));
 	}
 
 	public GameManager getGameManager () {
@@ -288,6 +308,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		repaint ();
 	}
 
+	/**
+	 * Retrieve the current phase from the Game Manager and return it
+	 * 
+	 * @return The current Phase
+	 */
 	public int getCurrentPhase () {
 		return gameManager.getCurrentPhase ();
 	}
@@ -346,6 +371,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			putTileDownOnMap ();
 		} else if (PUT_TOKEN.equals (tTheAction)) {
 			putATokenDown (tCorporation);
+		} else if (RESET_ALL_FLAGS.equals (tTheAction)) {
+			resetAllModes ();
 		} else if ("BuildGraphs".equals (tTheAction)) {
 			handleBuildGraphs ();
 		}
@@ -354,6 +381,17 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
+	private void resetAllModes () {
+		setModes (false, false, false);
+
+		map.clearAllTrains ();
+		map.removeAllSMC ();
+		map.setSingleMapCellSelect (true);
+		
+		tileSet.clearAllSelected ();
+		tileSet.clearAllPlayable ();
+	}
+	
 	private void handleBuildGraphs () {
 		Corporation tCorporation;
 		TokenCompany tTokenCompany;
@@ -900,10 +938,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		exitTileButton.setEnabled (aPlaceTileMode);
 		if (aPlaceTileMode) {
 			exitTileButton.setToolTipText (GUI.NO_TOOL_TIP);
-			tileButtons.setBackground (Color.ORANGE);
+			tileButtonsJPanel.setBackground (Color.ORANGE);
 		} else {
 			exitTileButton.setToolTipText (NOT_PLACE_TILE_MODE);
-			tileButtons.setBackground (getBackground ());
+			tileButtonsJPanel.setBackground (getBackground ());
 		}
 		putTileButton.setEnabled (false);
 		if (map.isPlaceTileMode ()) {
@@ -927,11 +965,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		if (aMode) {
 			exitTokenButton.setToolTipText (GUI.NO_TOOL_TIP);
 			putTokenButton.setToolTipText (NO_SELECTED_RC);
-			tokenButtons.setBackground (Color.ORANGE);
+			tokenButtonsJPanel.setBackground (Color.ORANGE);
 		} else {
 			exitTokenButton.setToolTipText (NOT_PLACE_TOKEN_MODE);
 			putTokenButton.setToolTipText (NOT_PLACE_TOKEN_MODE);
-			tokenButtons.setBackground (getBackground ());
+			tokenButtonsJPanel.setBackground (getBackground ());
 		}
 		map.setSelectTrackSegment (aMode);
 		map.setSelectRevenueCenter (aMode);
@@ -946,6 +984,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 		map.setSelectTrackSegment (aMode);
 		map.setSelectRevenueCenter (aMode);
+		map.setSingleMapCellSelect (!aMode);
 	}
 
 	public void setTileSet (TileSet aTileSet) {
@@ -954,11 +993,12 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	}
 
 	public void updatePutTokenButton (City aSelectedCity, MapCell aMapCell) {
-		boolean tCitySelected = hasCityBeenSelected ();
+		boolean tCitySelected;
 		boolean tCanPlaceToken;
 		Corporation tCorporation;
 		String tToolTip;
 
+		tCitySelected = hasCityBeenSelected ();
 		tCorporation = getOperatingTrainCompany ();
 		tCanPlaceToken = canPlaceToken (tCorporation, aSelectedCity, aMapCell);
 		if (tCanPlaceToken) {
