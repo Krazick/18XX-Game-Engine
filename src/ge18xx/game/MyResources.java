@@ -42,5 +42,5 @@ public class MyResources extends ListResourceBundle {
 			{ "GameSetXMLFile", "18xx Games.xml" },
 			{ "DataURLBase", "https://krazick.github.io/18XX-Game-Engine-XML/XML/" },
 			{ "GameSetURLFile", "18xx-Games.xml" },
-			{ "version", "0.7.18 Beta" } };
+			{ "version", "0.7.18A Beta" } };
 }
