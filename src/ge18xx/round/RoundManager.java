@@ -7,6 +7,7 @@ import java.awt.event.ItemListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import org.apache.logging.log4j.Logger;
@@ -81,6 +82,10 @@ public class RoundManager implements ActionListener {
 		return logger;
 	}
 
+	public JMenuBar getJMenuBar () {
+		return gameManager.getJMenuBar ();
+	}
+	
 	public void initiateGame (CorporationList aPrivates, CorporationList aMinors,
 			CorporationList aShares) {
 

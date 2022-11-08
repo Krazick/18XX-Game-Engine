@@ -12,6 +12,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
@@ -87,6 +88,8 @@ public class RoundFrame extends XMLFrame {
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, String aGameName) {
 		super (aFrameName, aGameName);
 
+		JMenuBar tJMenuBar;
+		
 		defaultColor = UIManager.getColor ("Panel.background");
 		roundManager = aRoundManager;
 		logger = roundManager.getLogger ();
@@ -94,7 +97,9 @@ public class RoundFrame extends XMLFrame {
 		padding2 = 5;
 
 		buildRoundJPanel ();
-
+		tJMenuBar = roundManager.getJMenuBar ();
+		setJMenuBar (tJMenuBar);
+		
 		pack ();
 		setStockRoundInfo (aGameName, roundManager.getStockRoundID ());
 	}

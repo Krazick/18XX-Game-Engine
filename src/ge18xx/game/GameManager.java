@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import org.apache.logging.log4j.Logger;
@@ -202,6 +203,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return logger;
 	}
 
+	public JMenuBar getJMenuBar () {
+		return this.game18XXFrame.getJMenuBar ();
+	}
+	
 	private void storeAllFrames (Game_18XX aGame_18XX_Frame) {
 		configFrames = new ArrayList<> ();
 		game18XXFrame = aGame_18XX_Frame;
