@@ -74,6 +74,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private final String NOT_ENOUGH_CASH = "%s does not have enough cash, needs %s has %s";
 	private final String PRIVATE_NOT_OWNED = "%s does not own the Private Company %s";
 	private final String NO_OPERATING_COMPANY = "There is no Operating Company to place a Tile";
+	private final String NON_PLAYABLE_TILE_SELECTED = "The selected Tile is not Playable on the Selected MapCell.";
 	private final String RESET_ALL_FLAGS_TIP = "Reset all Map Flags and Selections";
 	public static final String NO_COMPANY = "NO_COMPANY";
 	private static final long serialVersionUID = 1L;
@@ -1115,7 +1116,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						}
 					} else {
 						putTileButton.setEnabled (false);
-						putTileButton.setToolTipText ("The selected Tile is not Playable on the Selected MapCell.");						
+						putTileButton.setToolTipText (NON_PLAYABLE_TILE_SELECTED);						
 					}
 				} else {
 					putTileButton.setEnabled (false);
