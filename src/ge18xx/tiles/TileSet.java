@@ -55,8 +55,8 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	List<GameTile> gameTiles = new LinkedList<> ();
 	String setName;
 	Hex hex;
-	boolean showAllTiles; // Set true to show all Tiles in Tile Tray
-	boolean singleTileSelect; // Set true if in mode to select a SINGLE Tile, selecting a different one
+	boolean showAllTiles; 		// Set true to show all Tiles in Tile Tray
+	boolean singleTileSelect; 	// Set true if in mode to select a SINGLE Tile, selecting a different one
 								// should unselect ALL and leave only the single tile selected.
 	GameTile parsedGameTile;
 	TileTrayFrame tileTrayFrame;
