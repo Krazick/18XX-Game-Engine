@@ -1059,7 +1059,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	public void updatePutTileButton () {
 		MapCell tMapCell;
-		GameTile tTile;
+		GameTile tSelectedGameTile;
 		Tile tNewTile;
 		int tTileLayCost;
 		TrainCompany tOperatingTrainCompany;
@@ -1071,46 +1071,51 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			tOperatingCompanyTreasury = tOperatingTrainCompany.getCash ();
 			putTileButton.setEnabled (false);
 			tMapCell = map.getSelectedMapCell ();
-			tTile = tileSet.getSelectedTile ();
+			tSelectedGameTile = tileSet.getSelectedTile ();
 
 			// If there is a Map Cell Selected we can do further tests
 			if (tMapCell != MapCell.NO_MAP_CELL) {
-				if (tTile != GameTile.NO_GAME_TILE) {
-					if (isUpgradeAllowed (tTile)) {
-						tNewTile = tTile.getTile ();
-						tAnyAllowedRotation = tMapCell.anyAllowedRotation (tileSet, tNewTile);
-						if (tAnyAllowedRotation) {
-							if (!tMapCell.privatePreventsTileLay (privateCos, tOperatingTrainCompany)) {
-								tTileLayCost = tMapCell.getCostToLayTile (tNewTile);
-								// If there is a Tile Lay Cost, and the Company Treasury has enough cash we can
-								// move forward
-								if (tTileLayCost <= tOperatingCompanyTreasury) {
-									if (validUpgradeType (tMapCell, tTile)) {
-										putTileButton.setEnabled (true);
-										putTileButton.setToolTipText (GUI.NO_TOOL_TIP);
+				if (tSelectedGameTile != GameTile.NO_GAME_TILE) {
+					if (tSelectedGameTile.isPlayable ()) {
+						if (isUpgradeAllowed (tSelectedGameTile)) {
+							tNewTile = tSelectedGameTile.getTile ();
+							tAnyAllowedRotation = tMapCell.anyAllowedRotation (tileSet, tNewTile);
+							if (tAnyAllowedRotation) {
+								if (!tMapCell.privatePreventsTileLay (privateCos, tOperatingTrainCompany)) {
+									tTileLayCost = tMapCell.getCostToLayTile (tNewTile);
+									// If there is a Tile Lay Cost, and the Company Treasury has enough cash we can
+									// move forward
+									if (tTileLayCost <= tOperatingCompanyTreasury) {
+										if (validUpgradeType (tMapCell, tSelectedGameTile)) {
+											putTileButton.setEnabled (true);
+											putTileButton.setToolTipText (GUI.NO_TOOL_TIP);
+										} else {
+											putTileButton.setEnabled (false);
+											putTileButton.setToolTipText ("Not a Valid Upgrade choice");
+										}
 									} else {
-										putTileButton.setEnabled (false);
-										putTileButton.setToolTipText ("Not a Valid Upgrade choice");
+										String tNotEnoughCash = String.format (NOT_ENOUGH_CASH,
+												tOperatingTrainCompany.getAbbrev (), Bank.formatCash (tTileLayCost),
+												Bank.formatCash (tOperatingCompanyTreasury));
+										putTileButton.setToolTipText (tNotEnoughCash);
 									}
 								} else {
-									String tNotEnoughCash = String.format (NOT_ENOUGH_CASH,
-											tOperatingTrainCompany.getAbbrev (), Bank.formatCash (tTileLayCost),
-											Bank.formatCash (tOperatingCompanyTreasury));
-									putTileButton.setToolTipText (tNotEnoughCash);
+									String tPrivateNotOwned = String.format (PRIVATE_NOT_OWNED,
+											tOperatingTrainCompany.getAbbrev (), tMapCell.getBasePrivateAbbrev (privateCos));
+									putTileButton.setToolTipText (tPrivateNotOwned);
 								}
+	
 							} else {
-								String tPrivateNotOwned = String.format (PRIVATE_NOT_OWNED,
-										tOperatingTrainCompany.getAbbrev (), tMapCell.getBasePrivateAbbrev (privateCos));
-								putTileButton.setToolTipText (tPrivateNotOwned);
+								putTileButton.setEnabled (false);
+								putTileButton.setToolTipText ("No Valid Rotation for the selected Upgrade Tile");
 							}
-
 						} else {
 							putTileButton.setEnabled (false);
-							putTileButton.setToolTipText ("No Valid Rotation for the selected Upgrade Tile");
+							putTileButton.setToolTipText ("The current phase does not allow the Selected Tile to be placed yet.");
 						}
 					} else {
 						putTileButton.setEnabled (false);
-						putTileButton.setToolTipText ("The current phase does not allow the Selected Tile to be placed yet.");
+						putTileButton.setToolTipText ("The selected Tile is not Playable on the Selected MapCell.");						
 					}
 				} else {
 					putTileButton.setEnabled (false);
