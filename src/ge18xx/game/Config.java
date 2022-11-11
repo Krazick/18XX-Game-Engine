@@ -15,33 +15,35 @@ public class Config {
 	public static final ElementName EN_CONFIG = new ElementName ("Config");
 	public static final ElementName EN_FRAMES = new ElementName ("Frames");
 	public static final GameFrameConfig NO_GAME_FRAME = null;
+
 	ArrayList<GameFrameConfig> gameFrames;
 	String saveGameDirectory;
 	GameManager gameManager;
 
 	public Config (GameManager aGameManager) {
 		gameManager = aGameManager;
-		gameFrames = new ArrayList<> ();
+		gameFrames = new ArrayList<GameFrameConfig> ();
 		setJustSaveGameDirectory ("");
 	}
 
 	public Config (XMLNode aConfigNode, GameManager aGameManager) {
 		NodeList tChildren;
 		XMLNode tChildNode;
-		int tNodeCount, tNodeIndex;
+		int tNodeCount;
+		int tNodeIndex;
 		GameFrameConfig tGameFrameConfig;
 		String tSaveGameDirName;
 
 		gameManager = aGameManager;
 		tChildren = aConfigNode.getChildNodes ();
 		tNodeCount = tChildren.getLength ();
-		gameFrames = new ArrayList<> ();
+		gameFrames = new ArrayList<GameFrameConfig> ();
 		try {
 			for (tNodeIndex = 0; tNodeIndex < tNodeCount; tNodeIndex++) {
 				tChildNode = new XMLNode (tChildren.item (tNodeIndex));
 				if (EN_FRAMES.equals (tChildNode.getNodeName ())) {
 					tGameFrameConfig = new GameFrameConfig (tChildNode);
-					gameFrames.add (tGameFrameConfig);
+					addNewGameFrame (tGameFrameConfig);
 				} else if (GameManager.EN_SAVEGAMEDIR.equals (tChildNode.getNodeName ())) {
 					tSaveGameDirName = tChildNode.getThisAttribute (GameManager.AN_NAME);
 					setJustSaveGameDirectory (tSaveGameDirName);
@@ -108,15 +110,34 @@ public class Config {
 
 	public GameFrameConfig getGameFrameConfigFor (String aGameName) {
 		GameFrameConfig tFoundGameFrameConfig = NO_GAME_FRAME;
-
+		String tGameName;
+		
 		if (getGameFramesCount () > 0) {
 			for (GameFrameConfig tGameFrameConfig : gameFrames) {
-				if (tGameFrameConfig.getGameName ().equals (aGameName)) {
-					tFoundGameFrameConfig = tGameFrameConfig;
+				if (tGameFrameConfig != NO_GAME_FRAME) {
+					tGameName = tGameFrameConfig.getGameName ();
+					if (tGameName != GameFrameConfig.NO_GAME_NAME) {
+						if (tGameName.equals (aGameName)) {
+							tFoundGameFrameConfig = tGameFrameConfig;
+						}
+					}
 				}
 			}
 		}
 
 		return tFoundGameFrameConfig;
+	}
+	
+	private void addNewGameFrame (GameFrameConfig aGameFrameConfig) {
+		GameFrameConfig tFoundGameFrameConfig;
+		String tGameName;
+		
+		tGameName = aGameFrameConfig.getGameName ();
+		tFoundGameFrameConfig = getGameFrameConfigFor (tGameName);
+		if (tFoundGameFrameConfig == NO_GAME_FRAME) {
+			gameFrames.add (aGameFrameConfig);
+		} else {
+			System.err.println ("Already have GameFrame for " + tGameName);
+		}
 	}
 }
