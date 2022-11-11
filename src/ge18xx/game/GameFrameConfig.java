@@ -13,7 +13,8 @@ import ge18xx.utilities.XMLNode;
 public class GameFrameConfig {
 	public static final AttributeName AN_GAME_NAME = new AttributeName ("gameName");
 	public static final ElementName EN_FRAME = new ElementName ("Frame");
-
+	public static final String NO_GAME_NAME = null;
+	
 	String gameName;
 	ArrayList<FrameInfo> frameInfoList;
 
@@ -28,11 +29,11 @@ public class GameFrameConfig {
 		int tNodeCount, tNodeIndex;
 		FrameInfo tFrameInfo;
 
-		tGameName = aFramesNode.getThisAttribute (AN_GAME_NAME);
+		tGameName = aFramesNode.getThisAttribute (AN_GAME_NAME, NO_GAME_NAME);
 		gameName = tGameName;
 		tChildren = aFramesNode.getChildNodes ();
 		tNodeCount = tChildren.getLength ();
-		frameInfoList = new ArrayList<> ();
+		frameInfoList = new ArrayList<FrameInfo> ();
 
 		try {
 			for (tNodeIndex = 0; tNodeIndex < tNodeCount; tNodeIndex++) {
@@ -56,7 +57,7 @@ public class GameFrameConfig {
 		XMLElement tXMLFrameElement;
 
 		tXMLFrameElement = createXMLFrameElement (aXMLDocument);
-		if (aFrameName != null) {
+		if (aFrameName != FrameInfo.NO_FRAME_NAME) {
 			if (!("".equals (aFrameName))) {
 				for (FrameInfo tFrameInfo : frameInfoList) {
 					if (tFrameInfo.getName ().equals (aFrameName)) {
