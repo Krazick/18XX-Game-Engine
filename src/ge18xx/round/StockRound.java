@@ -155,7 +155,7 @@ public class StockRound extends Round {
 		System.out.println ("  Priority Player Index " + priorityPlayerIndex);
 	}
 
-	public void setCurrentPlayerIndexOnly (int aPlayerIndex) {
+	public void setCurrentPlayerIndex (int aPlayerIndex) {
 		currentPlayerIndex = aPlayerIndex;
 		roundManager.setCurrentPlayerLabel ();
 	}
@@ -183,7 +183,7 @@ public class StockRound extends Round {
 		tPlayer = playerManager.getPlayer (aPlayerIndex);
 		if (tPlayer != Player.NO_PLAYER) {
 			tChangeStateAction = new ChangeStateAction (getRoundType (), getID (), tPlayer);
-			setCurrentPlayerIndexOnly (aPlayerIndex);
+			setCurrentPlayerIndex (aPlayerIndex);
 			tOldState = tPlayer.getPrimaryActionState ();
 			playerManager.clearPlayerPrimaryStateAt (currentPlayerIndex);
 			tNewState = tPlayer.getPrimaryActionState ();
