@@ -209,7 +209,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 	
 	private void storeAllFrames (Game_18XX aGame_18XX_Frame) {
-		configFrames = new ArrayList<> ();
+		configFrames = new ArrayList<XMLFrame> ();
+		addNewFrame (aGame_18XX_Frame);
 		game18XXFrame = aGame_18XX_Frame;
 		setPlayerInputFrame (PlayerInputFrame.NO_PLAYER_INPUT_FRAME);
 		setFrameInfoFrame (XMLFrame.NO_XML_FRAME);
@@ -2386,6 +2387,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				logger.error ("Exception Message [" + tException.getMessage () + "].", tException);
 			}
 			if (tXMLDocument != XMLDocument.NO_XML_DOCUMENT) {
+				@SuppressWarnings ("null")
 				XMLNode tXMLNode = tXMLDocument.getDocumentNode ();
 				configData = new Config (tXMLNode, this);
 			} else {
@@ -2638,6 +2640,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void showChatClient () {
 		if (networkJGameClient != JGameClient.NO_JGAME_CLIENT) {
 			networkJGameClient.setVisible (true);
+			addNewFrame (networkJGameClient);
 		}
 	}
 

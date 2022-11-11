@@ -24,7 +24,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -63,7 +62,7 @@ import log4j2.plugins.LoggerLookup;
 
 // TODO -- Create an abstract Super Class that is "GameEngineFrame" that has non-specific objects
 // the Game_18XX Class that extends the GameEngineFrame,
-public class Game_18XX extends JFrame {
+public class Game_18XX extends XMLFrame {
 	private static final long serialVersionUID = 1L;
 
 	// Generic Game Engine Fields
