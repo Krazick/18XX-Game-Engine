@@ -827,8 +827,8 @@ public class PlayerManager {
 		aPlayer.updatePortfolioInfo ();
 		stockRound.setPriorityPlayer (tNextPlayerIndex);
 		stockRound.updateRFPlayerLabel (tOldPriorityPlayer);
-		addAction (tDonePlayerAction);
 		moveToNextPlayer (tNextPlayerIndex);
+		addAction (tDonePlayerAction);
 		gameManager.resetRoundFrameBackgrounds ();
 	}
 
@@ -1161,7 +1161,6 @@ public class PlayerManager {
 			}
 			tPassAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
 			tPassAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
-			addAction (tPassAction);
 			stockRound.updateRFPlayerLabel (aPlayer);
 
 			if (tHaveAllPassed) {
@@ -1172,6 +1171,7 @@ public class PlayerManager {
 			} else {
 				moveToNextPlayer (tNextPlayerIndex);
 			}
+			addAction (tPassAction);
 		} else {
 			System.err.println ("Player has acted in this Stock Round, cannot Pass");
 		}
