@@ -185,7 +185,6 @@ public class Game_18XX extends JFrame {
 
 		if (getLogger () == null) {
 			tAppVersion = getGEVersion ();
-//	    	tXMLConfigFileDir = "18XX%20XML%20Data";
 			tXMLConfigFileDir = resbundle.getString ("configDir");
 			loggerLookup.setupLogger (aUserName, aAppName, tAppVersion, tXMLConfigFileDir, ge18xx.game.Game_18XX.class);
 		}
@@ -703,19 +702,13 @@ public class Game_18XX extends JFrame {
 	}
 	
 	public boolean loadGameSet () {
-//		String tFileName;
 		String tURLBase;
 		String tGameURLFileName;
 		String tFullURL;
 		boolean tLoadedGameSet;
 		GameSet tGameSet;
-//		XMLDocument tXMLDocument;
 		XMLDocument tURLDocument;
 
-//		tFileName = gameManager.getXMLBaseDirectory () + resbundle.getString ("GameSetXMLFile");
-//		tXMLDocument = new XMLDocument (tFileName);
-//		{ "DataURLBase", "https://krazick.github.io/18XX-Game-Engine-XML/XML/" },
-//		{ "GameSetURLFile", "18xx-Games.xml" },
 		tURLBase = getURLBase ();
 		tGameURLFileName = getURLValue ("GameSetURLFile");
 		tFullURL = tURLBase + tGameURLFileName;
@@ -724,8 +717,6 @@ public class Game_18XX extends JFrame {
 		try {
 			createPlayerInputFrame ();
 			tGameSet = playerInputFrame.getGameSet ();
-//			playerInputFrame.loadXML (tFileName, tGameSet);
-//			playerInputFrame.loadXML (tXMLDocument, tGameSet);
 			playerInputFrame.loadXML (tURLDocument, tGameSet);
 			tLoadedGameSet = true;
 		} catch (IOException tException) {
