@@ -99,6 +99,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final AttributeName AN_GE_VERSION = new AttributeName ("version");
 	public static final String NO_GAME_NAME = "<NONE>";
+	public static final String UNSPECIFIED_GAME_NAME = "UNSPECIFIED";
 	public static final String NO_FILE_NAME = "<NONE>";
 	public static final String AUTO_SAVES_DIR = "autoSaves";
 	public static final GameManager NO_GAME_MANAGER = null;
@@ -2384,7 +2385,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				logger.error ("Oops, mucked up the Config File Access [" + tConfigFileName + "].");
 				logger.error ("Exception Message [" + tException.getMessage () + "].", tException);
 			}
-			if (tXMLDocument != null) {
+			if (tXMLDocument != XMLDocument.NO_XML_DOCUMENT) {
 				XMLNode tXMLNode = tXMLDocument.getDocumentNode ();
 				configData = new Config (tXMLNode, this);
 			} else {
@@ -2471,8 +2472,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public XMLDocument createNewConfigDocument () {
 		XMLElement tConfigElement, tFramesElement, tFrameElement, tSaveGameDirElement;
 		XMLDocument tXMLDocument;
-		int tGameCount, tGameIndex;
-		String tGameName;
 		String tActiveGameName;
 
 		tXMLDocument = new XMLDocument ();
@@ -2485,7 +2484,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tFramesElement = tXMLDocument.createElement (EN_FRAMES);
 
 		if (activeGame == GameInfo.NO_GAME_INFO) {
-			tActiveGameName = "NONE";
+			tActiveGameName = UNSPECIFIED_GAME_NAME;
 		} else {
 			tActiveGameName = activeGame.getName ();
 		}
@@ -2503,20 +2502,35 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 		tConfigElement.appendChild (tFramesElement);
+		addOtherGameConfigs (tActiveGameName, tConfigElement, tXMLDocument);
+
+		tXMLDocument.appendChild (tConfigElement);
+
+		return tXMLDocument;
+	}
+
+	public void addOtherGameConfigs (String aActiveGameName, XMLElement tConfigElement, XMLDocument tXMLDocument) {
+		XMLElement tFramesElement;
+		int tGameCount;
+		int tGameIndex;
+		String tGameName;
+		GameFrameConfig tGameFrameConfig;
+		
 		tGameCount = configData.getGameFramesCount ();
 		if (tGameCount > 0) {
 			for (tGameIndex = 0; tGameIndex < tGameCount; tGameIndex++) {
-				tGameName = configData.getGameFrameConfigFor (tGameIndex).getGameName ();
-				if (!(tGameName.equals (getGameName ()))) {
+				tGameFrameConfig = configData.getGameFrameConfigFor (tGameIndex);
+				tGameName = tGameFrameConfig.getGameName ();
+				if (tGameName.equals (aActiveGameName)) {
+					// Don't add since this was already added
+				} else if (tGameName.equals (UNSPECIFIED_GAME_NAME) || tGameName.equals ("NONE")) {
+					// Don't add since the Unspecified Game Name doesn't need to be saved
+				} else {
 					tFramesElement = configData.getXMLFramesElement (tXMLDocument, tGameIndex);
 					tConfigElement.appendChild (tFramesElement);
 				}
 			}
 		}
-
-		tXMLDocument.appendChild (tConfigElement);
-
-		return tXMLDocument;
 	}
 
 	@Override
