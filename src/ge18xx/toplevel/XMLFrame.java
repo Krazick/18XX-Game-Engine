@@ -40,6 +40,7 @@ public class XMLFrame extends JFrame {
 	int defaultYLocation;
 	int defaultHexSize;
 	boolean defaultVisible;
+	int defaultState;
 	String gameName;
 	JScrollPane scrollPane;
 
@@ -130,18 +131,19 @@ public class XMLFrame extends JFrame {
 		return tXMLFileWasLoaded;
 	}
 
-	public void setDefaults (int aWidth, int aHeight, int aXLocation, int aYLocation, boolean aVisible, int aHexSize) {
+	public void setDefaults (int aWidth, int aHeight, int aXLocation, int aYLocation, boolean aVisible, int aHexSize, int aState ) {
 		defaultWidth = aWidth;
 		defaultHeight = aHeight;
 		defaultXLocation = aXLocation;
 		defaultYLocation = aYLocation;
 		defaultVisible = aVisible;
 		defaultHexSize = aHexSize;
+		defaultState = aState;
 	}
 
 	public void setDefaults (FrameInfo aFrameInfo) {
 		setDefaults (aFrameInfo.getWidth (), aFrameInfo.getHeight (), aFrameInfo.getXLocation (),
-				aFrameInfo.getYLocation (), aFrameInfo.getVisible (), aFrameInfo.getHexSize ());
+				aFrameInfo.getYLocation (), aFrameInfo.getVisible (), aFrameInfo.getHexSize (), aFrameInfo.getState ());
 	}
 
 	public void setDefaults (XMLNode aXMLMapRoot) {
@@ -173,10 +175,15 @@ public class XMLFrame extends JFrame {
 		return defaultHexSize;
 	}
 
+	public int getDefaultState () {
+		return defaultState;
+	}
+	
 	public void setDefaultFrameInfo () {
 		setLocation (defaultXLocation, defaultYLocation);
 		setSize (defaultWidth, defaultHeight);
 		setVisible (defaultVisible);
+		setState (defaultState);
 		if (defaultHexSize > 0) {
 			setHexScale (defaultHexSize);
 		}
@@ -253,6 +260,7 @@ public class XMLFrame extends JFrame {
 		} else if (aVisibility.equals (Visibility.OFF.toString ())) {
 			setVisible (false);
 		}
+		setFrameNormal ();
 	}
 
 	public int getHexScale () {
@@ -277,6 +285,22 @@ public class XMLFrame extends JFrame {
 		super.setAlwaysOnTop (false);
 	}
 
+	public boolean isMinimized () {
+		boolean tIsMinimized;
+		
+		 if (getExtendedState () == JFrame.ICONIFIED) {
+			tIsMinimized = true;
+		} else {
+			tIsMinimized = false;
+		}
+		
+		return tIsMinimized;
+	}
+	
+	public void setFrameNormal () {
+		setState (JFrame.NORMAL);
+	}
+	
 	public Point getOffsetFrame () {
 		Point tFramePoint, tNewPoint;
 		double tX, tY;

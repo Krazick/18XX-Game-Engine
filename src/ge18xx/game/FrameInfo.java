@@ -12,7 +12,8 @@ public class FrameInfo {
 	public static final AttributeName AN_XLOCATION = new AttributeName ("xLocation");
 	public static final AttributeName AN_YLOCATION = new AttributeName ("yLocation");
 	public static final AttributeName AN_VISIBLE = new AttributeName ("visible");
-	public static final AttributeName AN_HEX_SCAKE = new AttributeName ("hexScale");
+	public static final AttributeName AN_HEX_SCALE = new AttributeName ("hexScale");
+	public static final AttributeName AN_STATE = new AttributeName ("state");
 	public static final FrameInfo NO_FRAME_INFO = null;
 	public static final String NO_FRAME_NAME = null;
 	int height;
@@ -21,6 +22,7 @@ public class FrameInfo {
 	int yLocation;
 	int hexSize = 0;
 	boolean visible;
+	int state;
 	String name;
 
 	public FrameInfo (XMLFrame aXMLFrame) {
@@ -32,6 +34,7 @@ public class FrameInfo {
 		yLocation = aXMLFrame.getLocation ().y;
 		visible = aXMLFrame.isVisible ();
 		hexSize = aXMLFrame.getHexScale ();
+		state = aXMLFrame.getState ();
 
 		tFrameName = aXMLFrame.extractFrameName ();
 //		tFrameName = extractFrameName (aXMLFrame);
@@ -59,8 +62,9 @@ public class FrameInfo {
 		aXMLFrameElement.setAttribute (AN_XLOCATION, xLocation);
 		aXMLFrameElement.setAttribute (AN_YLOCATION, yLocation);
 		aXMLFrameElement.setAttribute (AN_VISIBLE, visible);
+		aXMLFrameElement.setAttribute (AN_STATE, state);
 		if (hexSize > 0) {
-			aXMLFrameElement.setAttribute (AN_HEX_SCAKE, hexSize);
+			aXMLFrameElement.setAttribute (AN_HEX_SCALE, hexSize);
 		}
 
 		return aXMLFrameElement;
@@ -72,8 +76,9 @@ public class FrameInfo {
 		xLocation = aFrameInfoNode.getThisIntAttribute (AN_XLOCATION, 20);
 		yLocation = aFrameInfoNode.getThisIntAttribute (AN_YLOCATION, 20);
 		visible = aFrameInfoNode.getThisBooleanAttribute (AN_VISIBLE);
+		state = aFrameInfoNode.getThisIntAttribute (AN_STATE);
 		name = aFrameInfoNode.getThisAttribute (AN_NAME);
-		hexSize = aFrameInfoNode.getThisIntAttribute (AN_HEX_SCAKE);
+		hexSize = aFrameInfoNode.getThisIntAttribute (AN_HEX_SCALE);
 	}
 
 	@Override
@@ -86,6 +91,7 @@ public class FrameInfo {
 		tFrameInfo += "X-Location: " + xLocation + "\n";
 		tFrameInfo += "Y-Location: " + yLocation + "\n";
 		tFrameInfo += "Visible: " + visible + "\n";
+		tFrameInfo += "State: " + state + "\n";
 
 		return tFrameInfo;
 	}
@@ -126,6 +132,10 @@ public class FrameInfo {
 		return visible;
 	}
 
+	public int getState () {
+		return state;
+	}
+	
 	public String getName () {
 		return name;
 	}
