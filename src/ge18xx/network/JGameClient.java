@@ -279,12 +279,6 @@ public class JGameClient extends XMLFrame {
 				String tAction = aActionEvent.getActionCommand ();
 
 				if (REFRESH.equals (tAction)) {
-//					backFromAFK ();
-//					networkPlayers.removeAllPlayers ();
-//					// Add myself to the list
-//					networkPlayers.addPlayer (playerName.getText ());
-//					// Request from the ServerHandler to add all of the other Players
-//					serverHandler.requestUserNameList ();
 					refreshPlayers ();
 				}
 			}
