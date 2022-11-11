@@ -439,7 +439,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void createMap () {
-//		String tXMLMapName;
 		String tBaseDir;
 		String tFullTitle;
 		MapFrame tMapFrame;
@@ -451,7 +450,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tType = "Map";
 			tActiveGameName = getActiveGameName ();
 			tBaseDir = getXMLBaseDirectory ();
-//			tXMLMapName = tBaseDir + getMapFileName ();
 			tFullTitle = createFrameTitle (tType);
 			tMapFrame = new MapFrame (tFullTitle, this);
 			setMapFrame (tMapFrame);
@@ -472,14 +470,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void loadColorScheme (String tBaseDir, MapFrame tMapFrame) {
-//		String tColorSchemeName;
 		String tFullURL;
 		XMLDocument tXMLDocument;
 		
 		tFullURL = game18XXFrame.getURLBase () + "Color-Scheme.xml";
 		tXMLDocument = new XMLDocument (tFullURL);
 
-//		tColorSchemeName = tBaseDir + "Color Scheme.xml";
 		try {
 			tMapFrame.loadXMLColorScheme (tXMLDocument, tMapFrame.getTerrain ());
 			tMapFrame.loadXMLColorScheme (tXMLDocument, tileTrayFrame.getTileType ());
@@ -489,7 +485,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void createMarket () {
-//		String tXMLMarketName;
 		String tFullTitle;
 		MarketFrame tMarketFrame;
 		String tActiveGameName;
@@ -499,7 +494,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (gameIsStarted ()) {
 			tType = "Market";
 			tActiveGameName = getActiveGameName ();
-//			tXMLMarketName = getXMLBaseDirectory () + getMarketFileName ();
 			tFullTitle = createFrameTitle (tType);
 			tMarketFrame = new MarketFrame (tFullTitle, this);
 			setMarketFrame (tMarketFrame);
@@ -513,7 +507,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void createMinorCompanies () {
-//		String tXMLCompaniesName;
 		String tFullTitle;
 		MinorCompaniesFrame tMinorCompaniesFrame;
 		String tActiveGameName;
@@ -523,7 +516,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		if (gameIsStarted ()) {
 			tType = Corporation.COMPANIES;
 			tActiveGameName = getActiveGameName ();
-//			tXMLCompaniesName = getXMLBaseDirectory () + getCompaniesFileName ();
 			tFullTitle = createFrameTitle (tType);
 			tMinorCompaniesFrame = new MinorCompaniesFrame (tFullTitle, roundManager);
 			setMinorCompaniesFrame (tMinorCompaniesFrame);
@@ -619,9 +611,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void createTileTray () {
-//		String tXMLTileTrayName;
 		String tActiveGameName;
-//		String tBaseDirName;
 		TileTrayFrame tTileTrayFrame;
 		TileDefinitionFrame tTileDefinitionFrame;
 		String tFrameTitle;
@@ -631,8 +621,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		if (gameIsStarted ()) {
 			tActiveGameName = getActiveGameName ();
-//			tBaseDirName = getXMLBaseDirectory ();
-//			tXMLTileTrayName = tBaseDirName + getTileSetFileName ();
 
 			tFrameTitle = createFrameTitle (TileTrayFrame.BASE_TITLE);
 			tTileTrayFrame = new TileTrayFrame (tFrameTitle, this);
@@ -641,7 +629,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tType = "TileSet";
 			tXMLDocument = readXMLfromURL (tActiveGameName, tType);
 			tTileTrayFrame.loadTileTrayFrame (tXMLDocument);
-//			tTileTrayFrame.loadTileTrayFrame (tXMLTileTrayName);
 
 			tFrameTitle = createFrameTitle (TileDefinitionFrame.BASE_TITLE);
 			tTileDefinitionFrame = new TileDefinitionFrame (tFrameTitle, tTileTrayFrame, tActiveGameName);
