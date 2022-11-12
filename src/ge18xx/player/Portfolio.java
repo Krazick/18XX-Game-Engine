@@ -1381,7 +1381,7 @@ public class Portfolio implements CertificateHolderI {
 
 		return tHasSelectedPrezToExchange;
 	}
-
+	
 	public boolean hasSelectedPrivateToBidOn () {
 		boolean tHasSelectedPrivateToBidOn;
 

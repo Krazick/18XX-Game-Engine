@@ -132,6 +132,18 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		}
 	}
 
+	public Certificate getMustBuyCertificate () {
+		Certificate tMustBuyCertificate = Certificate.NO_CERTIFICATE;
+
+		for (StartPacketRow tStartPacketRow : startPacketRows) {
+			if (tMustBuyCertificate == Certificate.NO_CERTIFICATE) {
+				tMustBuyCertificate = tStartPacketRow.getMustBuyCertificate ();
+			}
+		}
+		
+		return tMustBuyCertificate;
+	}
+		
 	public void enableMustBuyPrivateButton () {
 		boolean enableMustBuyPrivateButton = false;
 

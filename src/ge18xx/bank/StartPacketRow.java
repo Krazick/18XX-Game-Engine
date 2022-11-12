@@ -76,6 +76,18 @@ public class StartPacketRow implements ParsingRoutineI {
 		}
 	}
 
+	public Certificate getMustBuyCertificate () {
+		Certificate tMustBuyCertificate = Certificate.NO_CERTIFICATE;
+
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			if (tMustBuyCertificate == Certificate.NO_CERTIFICATE) {
+				tMustBuyCertificate = tStartPacketItem.getMustBuyCertificate ();
+			}
+		}
+		
+		return tMustBuyCertificate;
+	}
+
 	public boolean enableMustBuyPrivateButton () {
 		boolean tPrivateEnabled = false;
 

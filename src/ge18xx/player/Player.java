@@ -890,9 +890,20 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tHasSelectedSameStocksToSell;
 	}
 
+	public Certificate getMustBuyCertificate () {
+		Certificate tMustBuyCertificate = Certificate.NO_CERTIFICATE;
+		Bank tBank;
+		
+		tBank = getBank ();
+		if (tBank != Bank.NO_BANK) {
+			tMustBuyCertificate = tBank.getMustBuyCertificate ();
+		}
+		
+		return tMustBuyCertificate;
+	}
+	
 	public boolean hasSelectedPrivateToBidOn () {
 		boolean tHasSelectedPrivateToBidOn = false;
-
 		Bank tBank;
 		StartPacketPortfolio tStartPacketPortfolio;
 
@@ -1013,8 +1024,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tBank = getBank ();
 		if (hasSelectedStockToBuy ()) {
 			tBankPortfolio = tBank.getPortfolio ();
-			tCountSelectedCertificatesToBuy = tBankPortfolio.getCountSelectedCertificatesToBuy ();
 			tStartPacketPortfolio = tBank.getStartPacketPortfolio ();
+			tCountSelectedCertificatesToBuy = tBankPortfolio.getCountSelectedCertificatesToBuy ();
 			tCountSelectedCertificatesToBuy += tStartPacketPortfolio.getCountSelectedCertificatesToBuy ();
 			tBankPool = playerManager.getBankPool ();
 			tBankPoolPortfolio = tBankPool.getPortfolio ();

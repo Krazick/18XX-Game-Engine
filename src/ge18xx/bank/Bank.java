@@ -50,6 +50,7 @@ public class Bank extends GameBank implements CashHolderI {
 	public static final Bank NO_BANK = null;
 	public static final int NO_BANK_CASH = 0;
 	public static final String NO_FORMAT = null;
+	
 	public static String formatCash (int aCashAmount) {
 		String tFormatted;
 
@@ -69,8 +70,7 @@ public class Bank extends GameBank implements CashHolderI {
 		format = aFormat;
 		decimalFormat = new DecimalFormat (aFormat);
 	}
-	JLabel bankCashLabel;
-	boolean bankIsBroken;
+	
 	ParsingRoutineI bankParsingRoutine = new ParsingRoutine2I () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
@@ -82,10 +82,11 @@ public class Bank extends GameBank implements CashHolderI {
 			loadRustedTrainPortfolio (aChildNode);
 		}
 	};
+	
+	JLabel bankCashLabel;
+	boolean bankIsBroken;
 	Portfolio closedPortfolio;
-
 	TrainPortfolio rustedTrainsPortfolio;
-
 	StartPacketFrame startPacketFrame;
 
 	int treasury;
@@ -292,6 +293,10 @@ public class Bank extends GameBank implements CashHolderI {
 
 	public Certificate getMustSellCertificate () {
 		return startPacketFrame.getMustSellCertificate ();
+	}
+	
+	public Certificate getMustBuyCertificate () {
+		return startPacketFrame.getMustBuyCertificate ();
 	}
 
 	public Train getNextAvailableTrain () {

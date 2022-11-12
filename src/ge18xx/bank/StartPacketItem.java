@@ -61,11 +61,21 @@ public class StartPacketItem implements ParsingRoutineI {
 	public void enableCheckedButton (String aToolTip) {
 		certificate.setStateCheckedButton (true, aToolTip);
 	}
+	
+	public Certificate getMustBuyCertificate () {
+		Certificate tMustBuyCertificate = Certificate.NO_CERTIFICATE;
+
+		if (certificate.valueEqualsDiscount ()) {
+			tMustBuyCertificate = certificate;
+		}
+		
+		return tMustBuyCertificate;
+	}
 
 	public boolean enableMustBuyPrivateButton () {
 		boolean tPrivateEnabled = false;
 
-		if (certificate.getValue () == certificate.getDiscount ()) {
+		if (certificate.valueEqualsDiscount ()) {
 			certificate.setStateCheckedButton (true, "Must Buy this Private");
 			tPrivateEnabled = true;
 		}

@@ -900,6 +900,10 @@ public class Certificate implements Comparable<Certificate> {
 		return corporation.getDiscount ();
 	}
 
+	public boolean valueEqualsDiscount () {
+		return (getValue () == getDiscount ());
+	}
+	
 	public boolean hasBidders () {
 		return bidders.hasBidders ();
 	}
