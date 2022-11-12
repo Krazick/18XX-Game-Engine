@@ -1329,22 +1329,6 @@ public class Portfolio implements CertificateHolderI {
 
 		return tCertificateFound;
 	}
-//
-//	public boolean hasSelectedPrivateOrMinorToExchange () {
-//		boolean tHasSelectedPrivateOrMinorToExchange;
-//
-//		tHasSelectedPrivateOrMinorToExchange = false;
-//
-//		for (Certificate tCertificate : certificates) {
-//			if (tCertificate.isAPrivateCompany ()) {
-//				if (tCertificate.isSelected ()) {
-//					tHasSelectedPrivateOrMinorToExchange = true;
-//				}
-//			}
-//		}
-//
-//		return tHasSelectedPrivateOrMinorToExchange;
-//	}
 
 	public boolean hasSelectedOneToExchange () {
 		boolean tHasSelectedOneToExchange;
@@ -1913,7 +1897,6 @@ public class Portfolio implements CertificateHolderI {
 				tType = PortfolioSummary.SHARE_CORP_TYPE;
 				tAbbrev = tCertificate.getCompanyAbbrev ();
 				if (tAbbrev.length () < 4) {
-//					tAbbrev += "&nbsp;";
 					tAbbrev += " ";
 				}
 				if (tCertificate.isAPrivateCompany ()) {
