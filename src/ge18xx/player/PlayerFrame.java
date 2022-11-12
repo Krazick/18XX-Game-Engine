@@ -681,18 +681,27 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	public void updateBuyButton (boolean aCanBuy) {
-		boolean tStocksToBuy, tPrivateToBidOn;
-		boolean tNormalBuy = true;
+		boolean tStocksToBuy;
+		boolean tPrivateToBidOn;
+		boolean tNormalBuy;
+		Certificate tMustBuyCertificate;
 		int tCostToBuy;
 
 		tStocksToBuy = hasSelectedStocksToBuy ();
 		tPrivateToBidOn = hasSelectedPrivateToBidOn ();
+		tNormalBuy = true;
 		if (tPrivateToBidOn) {
 			tNormalBuy = true;
 		} else if (tStocksToBuy) {
 			if (player.getCountSelectedCosToBuy () == 1) {
 				tCostToBuy = player.getCostSelectedStockToBuy ();
-				if (tCostToBuy <= 0) {
+				tMustBuyCertificate = player.getMustBuyCertificate ();
+				if (tMustBuyCertificate != Certificate.NO_CERTIFICATE) {
+					buyBidButton.setEnabled (true);
+					buyBidButton.setToolTipText ("Must Buy this Certificate at NO Cost");
+					buyBidButton.setText (Player.BUY_LABEL);
+					tNormalBuy = false;					
+				} else if (tCostToBuy <= 0) {
 					buyBidButton.setEnabled (false);
 					buyBidButton.setToolTipText (NO_PAR_PRICE_SET);
 					buyBidButton.setText (Player.BUY_LABEL);
