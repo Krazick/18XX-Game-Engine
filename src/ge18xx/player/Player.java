@@ -858,14 +858,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tHasSelectedPrezToExchange;
 	}
 
-//	public boolean hasSelectedPrivateOrMinorToExchange () {
-//		boolean tHasSelectedPrivateOrMinorToExchange;
-//
-//		tHasSelectedPrivateOrMinorToExchange = portfolio.hasSelectedPrivateOrMinorToExchange ();
-//
-//		return tHasSelectedPrivateOrMinorToExchange;
-//	}
-
 	public String getSelectedCompanyAbbrev () {
 		String tSelectedCompanyAbbrev;
 
