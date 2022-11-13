@@ -426,10 +426,10 @@ public class RoundFrame extends XMLFrame {
 		showGameEngineFrameButton = setupButton ("Show Game Engine Frame", SHOW_GE_FRAME_ACTION, roundManager,
 				Component.CENTER_ALIGNMENT);
 
-		addButtonAndSpace (doButton);
-		addButtonAndSpace (passButton);
+		addButtonAndSpace (buttonsJPanel, doButton);
+		addButtonAndSpace (buttonsJPanel, passButton);
 		buttonsJPanel.add (fastBuyJPanel);
-		addButtonAndSpace (showGameEngineFrameButton);
+		addButtonAndSpace (buttonsJPanel, showGameEngineFrameButton);
 
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
 	}
@@ -457,11 +457,8 @@ public class RoundFrame extends XMLFrame {
 					tButtonLabel = tPlayerName + " Fast Buy of " + tFastBuyCertificate.getCompanyAbbrev () + " for " +
 								Bank.formatCash (tFastBuyCertificate.getParPrice ());
 					tFastBuyButton = new FastBuyButton (tButtonLabel, tFastBuyCertificate);
-					tFastBuyButton.setActionCommand (BUY_STOCK_ACTION);
-					tFastBuyButton.addActionListener (roundManager);
-					tFastBuyButton.setAlignmentX (Component.CENTER_ALIGNMENT);
-					fastBuyJPanel.add (tFastBuyButton);
-					fastBuyJPanel.add (Box.createHorizontalStrut (20));
+					setupButton (BUY_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT, tFastBuyButton);
+					addButtonAndSpace (fastBuyJPanel, tFastBuyButton);
 				}
 				tFastBuyIndex++;
 			} else {
@@ -470,9 +467,9 @@ public class RoundFrame extends XMLFrame {
 		}
 	}
 
-	private void addButtonAndSpace (JButton aButton) {
-		buttonsJPanel.add (aButton);
-		buttonsJPanel.add (Box.createHorizontalStrut (20));
+	private void addButtonAndSpace (JPanel aButtonPanel, JButton aButton) {
+		aButtonPanel.add (aButton);
+		aButtonPanel.add (Box.createHorizontalStrut (20));
 	}
 
 	private void updateDoButton (String aButtonLabel, String aActionCommand) {
@@ -484,11 +481,15 @@ public class RoundFrame extends XMLFrame {
 		JButton tButton;
 
 		tButton = new JButton (aLabel);
-		tButton.setActionCommand (aAction);
-		tButton.addActionListener (aListener);
-		tButton.setAlignmentX (aAlignment);
+		setupButton (aAction, aListener, aAlignment, tButton);
 
 		return tButton;
+	}
+
+	public void setupButton (String aAction, ActionListener aListener, float aAlignment, JButton aButton) {
+		aButton.setActionCommand (aAction);
+		aButton.addActionListener (aListener);
+		aButton.setAlignmentX (aAlignment);
 	}
 
 	public void setCurrentPlayerText () {
