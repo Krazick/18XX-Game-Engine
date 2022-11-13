@@ -441,6 +441,10 @@ public class RoundManager implements ActionListener {
 		return gameName;
 	}
 
+	public int getActionCount () {
+		return actionManager.getActionCount ();
+	}
+	
 	public Action getLastAction () {
 		return actionManager.getLastAction ();
 	}

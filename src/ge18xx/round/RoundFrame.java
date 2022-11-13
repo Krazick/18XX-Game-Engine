@@ -57,7 +57,7 @@ public class RoundFrame extends XMLFrame {
 	static final String PLAYER_ACTION = "DoPlayerAction";
 	static final String PLAYER_AUCTION_ACTION = "DoPlayerAuctionAction";
 	static final String CORPORATION_ACTION = "DoCorporationAction";
-	RoundManager roundManager;
+	static final String RESEND_LAST_ACTION = "ResendLastAction";
 	JPanel roundJPanel;
 	JPanel allCorporationsJPanel;
 	JPanel buttonsJPanel;
@@ -69,7 +69,8 @@ public class RoundFrame extends XMLFrame {
 	JPanel fastBuyJPanel;
 	JButton passButton;
 	JButton doButton;
-	JButton showGameEngineFrameButton;
+	JButton showGEFrameButton;
+	JButton resendLastActionButton;
 	JTextArea trainSummary;
 	JLabel frameLabel;
 	JLabel phaseLabel;
@@ -84,6 +85,7 @@ public class RoundFrame extends XMLFrame {
 	int padding1;
 	int padding2;
 	String currentRoundOf;
+	RoundManager roundManager;
 
 	public RoundFrame (String aFrameName, RoundManager aRoundManager, String aGameName) {
 		super (aFrameName, aGameName);
@@ -423,15 +425,18 @@ public class RoundFrame extends XMLFrame {
 
 		doButton = setupButton (PLAYER_DO_STOCK, PLAYER_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		passButton = setupButton (PASS_STOCK_TEXT, PASS_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT);
-		showGameEngineFrameButton = setupButton ("Show Game Engine Frame", SHOW_GE_FRAME_ACTION, roundManager,
+		showGEFrameButton = setupButton ("Show Game Engine Frame", SHOW_GE_FRAME_ACTION, roundManager,
 				Component.CENTER_ALIGNMENT);
+		resendLastActionButton = setupButton ("Resend Last Action", RESEND_LAST_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 
 		addButtonAndSpace (buttonsJPanel, doButton);
 		addButtonAndSpace (buttonsJPanel, passButton);
 		buttonsJPanel.add (fastBuyJPanel);
-		addButtonAndSpace (buttonsJPanel, showGameEngineFrameButton);
+		addButtonAndSpace (buttonsJPanel, showGEFrameButton);
+		addButtonAndSpace (buttonsJPanel, resendLastActionButton);
 
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
+		updateResendLastActionButton ();
 	}
 
 	private void fillFastBuyPanel () {
@@ -477,6 +482,23 @@ public class RoundFrame extends XMLFrame {
 		doButton.setActionCommand (aActionCommand);
 	}
 
+	private void updateResendLastActionButton () {
+		int tActionCount;
+		
+		if (roundManager.isNetworkGame ()) {
+			tActionCount = roundManager.getActionCount ();
+			if (tActionCount == 0) {
+				resendLastActionButton.setEnabled (false);
+				resendLastActionButton.setToolTipText ("No Actions to resend");
+			} else {
+				resendLastActionButton.setEnabled (true);
+				resendLastActionButton.setToolTipText ("Will resend the Last Action you triggered.");
+			}
+		} else {
+			resendLastActionButton.setVisible (false);
+		}
+	}
+	
 	public JButton setupButton (String aLabel, String aAction, ActionListener aListener, float aAlignment) {
 		JButton tButton;
 
@@ -530,6 +552,7 @@ public class RoundFrame extends XMLFrame {
 		setFrameLabel (aGameName, " " + aRoundID);
 		updateDoButton (PLAYER_DO_AUCTION, PLAYER_AUCTION_ACTION);
 		updatePassButton ();
+		updateResendLastActionButton ();
 	}
 
 	public void setOperatingRound (String aGameName, int aRoundIDPart1, int aCurrentOR, int aMaxOR) {
@@ -538,6 +561,7 @@ public class RoundFrame extends XMLFrame {
 		updateDoButton (COMPANY_DO_ACTION, CORPORATION_ACTION);
 		updateTotalCashLabel ();
 		updatePassButton ();
+		updateResendLastActionButton ();
 		fastBuyJPanel.removeAll ();
 	}
 
@@ -555,6 +579,7 @@ public class RoundFrame extends XMLFrame {
 		setCurrentPlayerText ();
 		updateTotalCashLabel ();
 		updatePassButton ();
+		updateResendLastActionButton ();
 		fillFastBuyPanel ();
 	}
 
