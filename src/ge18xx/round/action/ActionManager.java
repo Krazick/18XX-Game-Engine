@@ -186,10 +186,14 @@ public class ActionManager {
 	}
 
 	private void justAddAction (Action aAction) {
-		String tXMLFormat;
-
 		actions.add (aAction);
 		appendActionReport (aAction);
+		sendActionToNetwork (aAction);
+	}
+
+	private void sendActionToNetwork (Action aAction) {
+		String tXMLFormat;
+		
 		// Note the 'getNotifyNetwork' in the Game Manager should be tested
 		// To prevent Applying Actions from a remote client would also send
 		// The action back out to the remote client causing an Infinite Loop
@@ -269,19 +273,70 @@ public class ActionManager {
 
 	public Action getLastAction (int aActionOffset) {
 		Action tAction;
-		int tLastActionID;
+		int tLastActionIndex;
 
 		tAction = Action.NO_ACTION;
 		if (! actions.isEmpty ()) {
-			tLastActionID = getActionCount () - aActionOffset;
-			if (tLastActionID >= 0) {
-				tAction = actions.get (tLastActionID);
-			}
+			tLastActionIndex = getLastActionIndex (aActionOffset);
+			tAction = getActionAt (tLastActionIndex);
+//			if (tLastActionIndex >= 0) {
+//				tAction = actions.get (tLastActionIndex);
+//			}
 		}
 
 		return tAction;
 	}
 
+	private int getLastActionIndex (int aActionOffset) {
+		int tLastActionIndex;
+		
+		tLastActionIndex = getActionCount () - aActionOffset;
+		
+		return tLastActionIndex;
+	}
+
+	public void resendLastAction () {
+		Action tAction;
+		int tLastActionIndex;
+		int tFromNumber;
+		int tToNumber;
+		String tFromName;
+		String tToName;
+		List<Action> tResendTheseActions;
+		boolean tGetActionsToResend;
+		
+		if (gameManager.isNetworkGame ()) {
+			if (actions.isEmpty ()) {
+				System.err.println ("No Actions to resend");
+			} else {
+				tResendTheseActions = new LinkedList<Action> ();
+				tLastActionIndex = getLastActionIndex (PREVIOUS_ACTION);
+				tGetActionsToResend = true;
+				tAction = getLastAction ();
+				tToNumber = tAction.getNumber ();
+				tFromNumber = tToNumber;
+				tToName = tAction.getActorName ();
+				tFromName = tToName;
+				while (tGetActionsToResend) {
+					tAction = getActionAt (tLastActionIndex);
+					if (tAction != Action.NO_ACTION) {
+						tFromNumber = tAction.getNumber ();
+						tFromName = tAction.getActorName ();
+						tResendTheseActions.add (tAction);
+						tGetActionsToResend = tAction.getChainToPrevious ();	
+						tLastActionIndex--;
+					} else {
+						tGetActionsToResend = false;
+					}
+				}
+				System.out.println ("Ready to resend " + tResendTheseActions.size () + " Actions from " + tFromNumber + 
+						" (" + tFromName + ") " + " to " + tToNumber + " (" + tToName + ")");
+			}
+		} else {
+			System.err.println ("No need to resend actions unless this is a Network Game");
+		}
+	}
+	
 	public boolean hasActionsToUndo () {
 		return !actions.isEmpty ();
 	}
