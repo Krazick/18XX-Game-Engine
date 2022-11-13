@@ -1036,6 +1036,9 @@ public class RoundManager implements ActionListener {
 			}
 			updateAllCorporationsBox ();
 		}
+		if (RoundFrame.RESEND_LAST_ACTION.equals (tEventAction)) {
+			actionManager.resendLastAction ();
+		}
 		if (isOperatingRound ()) {
 			if (operatingRoundIsDone ()) {
 				endOperatingRound ();
