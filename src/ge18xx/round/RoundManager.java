@@ -767,12 +767,10 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void setRoundToOperatingRound () {
-		System.out.println ("Need to reset Round to OR without changing OR ID");
 		setRoundType (ActorI.ActionStates.OperatingRound);
 	}
 
 	public void setRoundToStockRound () {
-		System.out.println ("Need to reset Round to SR without changing OR ID");
 		setRoundType (ActorI.ActionStates.StockRound);
 	}
 
@@ -1224,7 +1222,6 @@ public class RoundManager implements ActionListener {
 		Player tCurrentPlayer;
 
 		tCertificate = aFastBuyButton.getCertificate ();
-		System.out.println ("Fast Buy for certificate of " + tCertificate.getCompanyAbbrev ());
 
 		tCertificatesToBuy = new LinkedList<> ();
 		tCertificatesToBuy.add (tCertificate);
