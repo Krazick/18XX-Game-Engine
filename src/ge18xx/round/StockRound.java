@@ -224,10 +224,10 @@ public class StockRound extends Round {
 		roundManager.fullOwnershipAdjustment ();
 	}
 
-	@Override
-	public void startAuctionRound (boolean aCreateNewAuctionAction) {
-		roundManager.startAuctionRound (aCreateNewAuctionAction);
-	}
+//	@Override
+//	public void startAuctionRound (boolean aCreateNewAuctionAction) {
+//		roundManager.startAuctionRound (aCreateNewAuctionAction);
+//	}
 
 	public boolean canStartOperatingRound () {
 		return roundManager.canStartOperatingRound ();
