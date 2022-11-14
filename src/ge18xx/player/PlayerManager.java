@@ -235,6 +235,10 @@ public class PlayerManager {
 		return tBank;
 	}
 
+	public RoundManager getRoundManager () {
+		return gameManager.getRoundManager ();
+	}
+		
 	public BankPool getBankPool () {
 		return stockRound.getBankPool ();
 	}
