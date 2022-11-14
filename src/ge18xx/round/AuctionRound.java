@@ -16,6 +16,7 @@ public class AuctionRound extends Round {
 		setAuctionFrame (new AuctionFrame (gameManager.createFrameTitle (NAME), gameManager.getClientUserName (),
 				gameManager.isNetworkGame ()));
 		gameManager.setAuctionFrame (auctionFrame);
+		setID (0, 0);
 	}
 
 	public void setAuctionRoundInAuctionFrame () {
@@ -42,7 +43,7 @@ public class AuctionRound extends Round {
 
 	@Override
 	public String getID () {
-		return "1.0";
+		return getIDPart1 () + "";
 	}
 
 	public void setPrevBidderJPanelColor (int aNewBidderIndex) {
@@ -65,6 +66,11 @@ public class AuctionRound extends Round {
 		roundManager.addPrivateToAuction ();
 		roundManager.setAuctionFrameLocation ();
 		showAuctionFrame ();
+	}
+	
+	@Override
+	public boolean isAAuctionRound () {
+		return true;
 	}
 
 	@Override
