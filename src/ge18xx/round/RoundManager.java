@@ -206,11 +206,7 @@ public class RoundManager implements ActionListener {
 		if (!gameManager.applyingAction ()) {
 			actionManager.addAction (aAction);
 		}
-		// If this does NOT Chain to a Previous Action, Do an Auto save... Don't need
-		// extra overhead.
-		if (!aAction.getChainToPrevious ()) {
-			gameManager.autoSaveGame ();
-		}
+		gameManager.autoSaveGame ();
 		gameManager.setGameChanged (true);
 	}
 
@@ -631,6 +627,7 @@ public class RoundManager implements ActionListener {
 		int tIDPart1;
 
 		tIDPart1 = aRound.getIDPart1 () + 1;
+		aRound.setIDPart1 (tIDPart1);
 
 		return tIDPart1;
 	}
@@ -836,7 +833,9 @@ public class RoundManager implements ActionListener {
 				if (!tRoundID.equals ("0.0")) {
 					tChangeRoundAction = new ChangeRoundAction (tCurrentRoundType, tRoundID, aCurrentRound);
 					tChangeRoundAction.addStateChangeEffect (aCurrentRound, tCurrentRoundType, tNewRoundType);
-					tChangeRoundAction.addChangeRoundIDEffect (aNewRound, aOldRoundID, aNewRoundID);
+					if (! aOldRoundID.equals (aNewRoundID)) {
+						tChangeRoundAction.addChangeRoundIDEffect (aNewRound, aOldRoundID, aNewRoundID);
+					}
 					tChangeRoundAction.setChainToPrevious (true);
 					addAction (tChangeRoundAction);
 				}
@@ -887,13 +886,15 @@ public class RoundManager implements ActionListener {
 
 	public void setRoundToAuctionRound (boolean aCreateNewAuctionAction) {
 		String tOldRoundID, tNewRoundID;
+		int tRoundID;
 
 		tOldRoundID = auctionRound.getID ();
-		tNewRoundID = incrementRoundIDPart1 (auctionRound) + "";
+		tRoundID = incrementRoundIDPart1 (auctionRound);
+		tNewRoundID = tRoundID + "";
 		auctionRound.setID (tOldRoundID);
 		changeRound (stockRound, ActorI.ActionStates.AuctionRound, auctionRound, tOldRoundID, tNewRoundID,
 				aCreateNewAuctionAction);
-		roundFrame.setAuctionRound (gameName, 1);
+		roundFrame.setAuctionRound (gameName, tRoundID);
 	}
 
 	public void showFrame () {
