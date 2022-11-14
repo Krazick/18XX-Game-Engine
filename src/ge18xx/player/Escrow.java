@@ -134,6 +134,10 @@ public class Escrow implements CashHolderI {
 		actionState = aActionState;
 	}
 
+	public ActionStates getActionState () {
+		return actionState;
+	}
+	
 	public Certificate getCertificate () {
 		return certificate;
 	}
@@ -159,11 +163,6 @@ public class Escrow implements CashHolderI {
 		// Escrow
 		aToCashHolder.addCash (aAmount);
 		addCash (-aAmount);
-	}
-
-	@Override
-	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
-		// Nothing to do for the Escrow State
 	}
 
 	@Override
