@@ -1166,6 +1166,7 @@ public class PlayerManager {
 			tPassAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
 			tPassAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
 			stockRound.updateRFPlayerLabel (aPlayer);
+			addAction (tPassAction);
 
 			if (tHaveAllPassed) {
 				if (!stockRound.startOperatingRound ()) {
@@ -1175,7 +1176,6 @@ public class PlayerManager {
 			} else {
 				moveToNextPlayer (tNextPlayerIndex);
 			}
-			addAction (tPassAction);
 		} else {
 			System.err.println ("Player has acted in this Stock Round, cannot Pass");
 		}
