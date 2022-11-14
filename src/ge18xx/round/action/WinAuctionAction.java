@@ -13,6 +13,7 @@ import ge18xx.round.action.effects.FinishAuctionEffect;
 import ge18xx.round.action.effects.RefundEscrowEffect;
 import ge18xx.round.action.effects.RemoveAllBids;
 import ge18xx.round.action.effects.RemoveEscrowEffect;
+import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
 import ge18xx.utilities.XMLNode;
 
@@ -53,6 +54,18 @@ public class WinAuctionAction extends BuyStockAction {
 
 		tRemoveAllBids = new RemoveAllBids (aActor, aCertificate);
 		addEffect (tRemoveAllBids);
+	}
+	
+	@Override
+	public void addStateChangeEffect (ActorI aActor, ActorI.ActionStates aOldState, ActorI.ActionStates aNewState) {
+		StateChangeEffect tStateChangeEffect;
+
+		if (actor.isACorporation ()) {
+			addChangeCorporationStatusEffect (aActor, aOldState, aNewState);
+		} else {
+			tStateChangeEffect = new StateChangeEffect (aActor, aOldState, aNewState);
+			addEffect (tStateChangeEffect);
+		}
 	}
 
 	public void addFinishAuctionEffect (ActorI aActor) {
