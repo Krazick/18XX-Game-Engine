@@ -393,10 +393,10 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	}
 
 	private void completeAuctionAction (Action aAuctionAction, boolean aDone) {
-		auctionRound.addAction (aAuctionAction);
 		// If all Bidders have passed, and one Raise -- We are done, and can enable Done
 		// Button.
 		updateAuctionFrame (aDone);
+		auctionRound.addAction (aAuctionAction);
 	}
 
 	public void updateAuctionFrame () {
