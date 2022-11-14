@@ -91,11 +91,6 @@ public class Bidder implements ActorI {
 	}
 
 	@Override
-	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
-		// Nothing to do for the Bidder State
-	}
-
-	@Override
 	public String getAbbrev () {
 		return getName ();
 	}
