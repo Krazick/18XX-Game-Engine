@@ -835,8 +835,6 @@ public class RoundFrame extends XMLFrame {
 	private void setAllBackgrounds (Color aBackgroundColor) {
 		getContentPane ().setBackground (aBackgroundColor);
 		setPanelBackground (headerJPanel, aBackgroundColor);
-		setPanelBackground (parPricesJPanel, aBackgroundColor);
-		setPanelBackground (trainSummaryJPanel, aBackgroundColor);
 		setPanelBackground (buttonsJPanel, aBackgroundColor);
 		setPanelBackground (roundJPanel, aBackgroundColor);
 		if (fastBuyJPanel != null) {
