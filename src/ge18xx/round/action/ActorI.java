@@ -105,6 +105,10 @@ public interface ActorI {
 		return false;
 	}
 
+	public default boolean isAAuctionRound () {
+		return false;
+	}
+
 	public default boolean isAOperatingRound () {
 		return false;
 	}
