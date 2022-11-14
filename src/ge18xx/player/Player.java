@@ -28,8 +28,12 @@ import ge18xx.company.benefit.FakeBenefit;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
+import ge18xx.round.AuctionRound;
+import ge18xx.round.RoundManager;
+import ge18xx.round.StockRound;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
+import ge18xx.round.action.ChangeRoundAction;
 import ge18xx.round.action.GenericActor;
 import ge18xx.round.action.SetWaitStateAction;
 import ge18xx.round.action.WinAuctionAction;
@@ -376,10 +380,33 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 		playerManager.addAction (tWinAuctionAction);
 		playerManager.finishAuction (tNextShareHasBids, aCreateNewAuctionAction);
-
+		returnToStockRound ();
+		
 		return tNextShareHasBids;
 	}
 
+	private void returnToStockRound () {
+		RoundManager tRoundManager;
+		AuctionRound tAuctionRound;
+		StockRound tStockRound;
+		ChangeRoundAction tChangeRoundAction;
+		ActorI.ActionStates tRoundType;
+		String tOldRoundID;
+		String tNewRoundID;
+		
+		tRoundManager = playerManager.getRoundManager ();
+		tAuctionRound = tRoundManager.getAuctionRound ();
+		tStockRound = tRoundManager.getStockRound ();
+		tRoundType = ActorI.ActionStates.AuctionRound;
+		tOldRoundID = tStockRound.getID ();
+		tNewRoundID = tStockRound.getID ();
+
+		tChangeRoundAction = new ChangeRoundAction (ActorI.ActionStates.AuctionRound, "1", tAuctionRound);
+		tChangeRoundAction.addStateChangeEffect (tAuctionRound, tRoundType, ActorI.ActionStates.StockRound);
+		tChangeRoundAction.setChainToPrevious (true);
+		tRoundManager.changeRound (tAuctionRound, ActorI.ActionStates.StockRound, tStockRound, tOldRoundID, tNewRoundID, true);
+	}
+	
 	private boolean mustSetParPrice (Certificate aFreeCertificate) {
 		boolean tMustSetParPrice;
 
@@ -1631,10 +1658,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public Point getOffsetRoundFramePoint () {
 		return playerManager.getOffsetRoundFramePoint ();
-	}
-
-	public boolean isAAuctionRound () {
-		return playerManager.isAAuctionRound ();
 	}
 
 	public boolean isLastActionComplete () {
