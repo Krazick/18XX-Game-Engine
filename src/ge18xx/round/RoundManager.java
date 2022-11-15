@@ -40,6 +40,7 @@ import ge18xx.round.action.GenericActor;
 import ge18xx.tiles.TileSet;
 import ge18xx.toplevel.AuditFrame;
 import ge18xx.toplevel.MapFrame;
+import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.utilities.AttributeName;
@@ -186,7 +187,7 @@ public class RoundManager implements ActionListener {
 		setRoundType (ActorI.ActionStates.StockRound);
 	}
 
-	public RoundFrame getRoundFrame () {
+	public XMLFrame getRoundFrame () {
 		return roundFrame;
 	}
 
@@ -1038,7 +1039,7 @@ public class RoundManager implements ActionListener {
 			updateAllCorporationsBox ();
 		}
 		if (RoundFrame.RESEND_LAST_ACTION.equals (tEventAction)) {
-			actionManager.resendLastAction ();
+			actionManager.resendLastActions ();
 		}
 		if (isOperatingRound ()) {
 			if (operatingRoundIsDone ()) {
