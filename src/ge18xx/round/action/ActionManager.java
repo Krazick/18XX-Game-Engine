@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
 import ge18xx.network.JGameClient;
+import ge18xx.network.ResendLastActionsFrame;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.toplevel.AuditFrame;
@@ -51,6 +52,10 @@ public class ActionManager {
 		logger = Game_18XX.getLoggerX ();
 	}
 
+	public GameManager getGameManager () {
+		return gameManager;
+	}
+	
 	public void setActionNumber (int aNumber) {
 		String tReportActionNumber;
 
@@ -216,7 +221,6 @@ public class ActionManager {
 		int tActionNumber;
 
 		tActionNumber = generateNewActionNumber ();
-//		tActionNumber = getActionNumber ();
 		aAction.setNumber (tActionNumber);
 	}
 
@@ -279,15 +283,12 @@ public class ActionManager {
 		if (! actions.isEmpty ()) {
 			tLastActionIndex = getLastActionIndex (aActionOffset);
 			tAction = getActionAt (tLastActionIndex);
-//			if (tLastActionIndex >= 0) {
-//				tAction = actions.get (tLastActionIndex);
-//			}
 		}
 
 		return tAction;
 	}
 
-	private int getLastActionIndex (int aActionOffset) {
+	public int getLastActionIndex (int aActionOffset) {
 		int tLastActionIndex;
 		
 		tLastActionIndex = getActionCount () - aActionOffset;
@@ -295,42 +296,15 @@ public class ActionManager {
 		return tLastActionIndex;
 	}
 
-	public void resendLastAction () {
-		Action tAction;
-		int tLastActionIndex;
-		int tFromNumber;
-		int tToNumber;
-		String tFromName;
-		String tToName;
-		List<Action> tResendTheseActions;
-		boolean tGetActionsToResend;
+	public void resendLastActions () {
+		ResendLastActionsFrame tResendLastActionsFrame;
 		
 		if (gameManager.isNetworkGame ()) {
 			if (actions.isEmpty ()) {
 				System.err.println ("No Actions to resend");
 			} else {
-				tResendTheseActions = new LinkedList<Action> ();
-				tLastActionIndex = getLastActionIndex (PREVIOUS_ACTION);
-				tGetActionsToResend = true;
-				tAction = getLastAction ();
-				tToNumber = tAction.getNumber ();
-				tFromNumber = tToNumber;
-				tToName = tAction.getActorName ();
-				tFromName = tToName;
-				while (tGetActionsToResend) {
-					tAction = getActionAt (tLastActionIndex);
-					if (tAction != Action.NO_ACTION) {
-						tFromNumber = tAction.getNumber ();
-						tFromName = tAction.getActorName ();
-						tResendTheseActions.add (tAction);
-						tGetActionsToResend = tAction.getChainToPrevious ();	
-						tLastActionIndex--;
-					} else {
-						tGetActionsToResend = false;
-					}
-				}
-				System.out.println ("Ready to resend " + tResendTheseActions.size () + " Actions from " + tFromNumber + 
-						" (" + tFromName + ") " + " to " + tToNumber + " (" + tToName + ")");
+				tResendLastActionsFrame = new ResendLastActionsFrame ("Resend Last Actions", this);
+				tResendLastActionsFrame.resendLastActionsToNet ();
 			}
 		} else {
 			System.err.println ("No need to resend actions unless this is a Network Game");
@@ -692,7 +666,7 @@ public class ActionManager {
 			aAuditFrame.addRow (aActionNumber, tRoundID, tActionEventDescription, tCredit, tDebit);
 		}
 	}
-
+	
 	public boolean isLastActionComplete () {
 		boolean tIsLastActionComplete = true;
 //		String tLastActionComplete;
