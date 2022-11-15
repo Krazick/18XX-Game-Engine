@@ -3,7 +3,6 @@ package ge18xx.round;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,7 +36,7 @@ import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 
 public class RoundFrame extends XMLFrame {
-	public static final RoundFrame NO_ROUND_FRAME = null;
+	public static final XMLFrame NO_ROUND_FRAME = null;
 	private static final long serialVersionUID = 1L;
 	private static final String NEWLINE = "\n";
 	private static final String DO_STOCK_ACTION = " do Stock Action";
@@ -499,21 +498,6 @@ public class RoundFrame extends XMLFrame {
 		}
 	}
 	
-	public JButton setupButton (String aLabel, String aAction, ActionListener aListener, float aAlignment) {
-		JButton tButton;
-
-		tButton = new JButton (aLabel);
-		setupButton (aAction, aListener, aAlignment, tButton);
-
-		return tButton;
-	}
-
-	public void setupButton (String aAction, ActionListener aListener, float aAlignment, JButton aButton) {
-		aButton.setActionCommand (aAction);
-		aButton.addActionListener (aListener);
-		aButton.setAlignmentX (aAlignment);
-	}
-
 	public void setCurrentPlayerText () {
 		String tPlayerName;
 
