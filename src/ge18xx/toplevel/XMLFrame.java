@@ -4,8 +4,10 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -327,5 +329,20 @@ public class XMLFrame extends JFrame {
 			scrollPane.setPreferredSize (aNewDimension);
 			scrollPane.revalidate ();
 		}
+	}
+
+	public JButton setupButton (String aLabel, String aAction, ActionListener aListener, float aAlignment) {
+		JButton tButton;
+	
+		tButton = new JButton (aLabel);
+		setupButton (aAction, aListener, aAlignment, tButton);
+	
+		return tButton;
+	}
+
+	public void setupButton (String aAction, ActionListener aListener, float aAlignment, JButton aButton) {
+		aButton.setActionCommand (aAction);
+		aButton.addActionListener (aListener);
+		aButton.setAlignmentX (aAlignment);
 	}
 }
