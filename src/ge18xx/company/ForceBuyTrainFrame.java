@@ -78,7 +78,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		updateButtons ();
 		setSize (400, 350);
 		pack ();
-		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
+//		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
 	}
 
 	public void showFrame () {
