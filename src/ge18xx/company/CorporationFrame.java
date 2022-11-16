@@ -1,5 +1,6 @@
 package ge18xx.company;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -452,9 +453,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private JButton setupButton (String aButtonLabel, String aButtonAction) {
 		JButton tButton;
 
-		tButton = new JButton (aButtonLabel);
-		tButton.setActionCommand (aButtonAction);
-		tButton.addActionListener (this);
+		tButton = this.setupButton (aButtonLabel, aButtonAction, this, Component.CENTER_ALIGNMENT);
 		tButton.setVisible (false);
 
 		return tButton;
