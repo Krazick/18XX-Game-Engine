@@ -1434,6 +1434,5 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tMapCell.fillMapGraph (mapGraph);
 			}
 		}
-
 	}
 }

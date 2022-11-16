@@ -1066,5 +1066,4 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 		return tNumberDiff;
 	}
-
 }
