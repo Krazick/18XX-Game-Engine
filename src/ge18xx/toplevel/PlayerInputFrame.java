@@ -1,6 +1,7 @@
 package ge18xx.toplevel;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -32,7 +33,6 @@ import ge18xx.game.GameInfo;
 
 import ge18xx.game.GameManager;
 import ge18xx.game.GameSet;
-//import ge18xx.game.Game_18XX;
 import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
 import ge18xx.utilities.ElementName;
@@ -96,11 +96,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 			buildOnePlayerPanel (tIndex, tPlayersPanel);
 			tPlayersPanel.add (Box.createVerticalStrut (5));
 		}
-		randomizeButton = new JButton (RANDOMIZE_ORDER);
-		randomizeButton.setActionCommand (RANDOMIZE_ORDER);
-		randomizeButton.addActionListener (this);
-		randomizeButton.setEnabled (false);
-		randomizeButton.setToolTipText (REASON_NO_RANDOMIZE);
+		randomizeButton = setupButton (RANDOMIZE_ORDER, RANDOMIZE_ORDER, this, Component.CENTER_ALIGNMENT);
 		tPlayersPanel.add (randomizeButton);
 		tPlayersPanel.add (Box.createVerticalStrut (10));
 		labelPlayerCount = new JLabel ();
