@@ -21,8 +21,6 @@ import javax.swing.JTextField;
 
 import org.apache.logging.log4j.Logger;
 
-import ge18xx.game.GameInfo;
-
 //
 //  PlayerInputFrame.java
 //  Game_18XX
@@ -31,6 +29,7 @@ import ge18xx.game.GameInfo;
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameSet;
 import ge18xx.network.JGameClient;
