@@ -45,6 +45,7 @@ public class RoundFrame extends XMLFrame {
 	private static final String PLAYER_DO_STOCK = "Player" + DO_STOCK_ACTION;
 	private static final String PASS_STOCK_TEXT = "Pass in Stock Round";
 	private static final String PLAYER_JPANEL_LABEL = "Player Information";
+	private static final String RESEND_LAST_ACTION_LABEL = "Resend Last Action";
 	private static final String YOU_NOT_PRESIDENT = "You are not the President of the Company";
 	private static final String NOT_YOUR_TURN = "It is not your turn to Perform the Action";
 	private static final String IS_WAITING = "You are in a Wait State";
@@ -424,14 +425,14 @@ public class RoundFrame extends XMLFrame {
 
 		doButton = setupButton (PLAYER_DO_STOCK, PLAYER_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		passButton = setupButton (PASS_STOCK_TEXT, PASS_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT);
-		showGEFrameButton = setupButton ("Show Game Engine Frame", SHOW_GE_FRAME_ACTION, roundManager,
-				Component.CENTER_ALIGNMENT);
-		resendLastActionButton = setupButton ("Resend Last Action", RESEND_LAST_ACTION, roundManager, Component.CENTER_ALIGNMENT);
+//		showGEFrameButton = setupButton ("Show Game Engine Frame", SHOW_GE_FRAME_ACTION, roundManager,
+//				Component.CENTER_ALIGNMENT);
+		resendLastActionButton = setupButton (RESEND_LAST_ACTION_LABEL, RESEND_LAST_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 
 		addButtonAndSpace (buttonsJPanel, doButton);
 		addButtonAndSpace (buttonsJPanel, passButton);
 		buttonsJPanel.add (fastBuyJPanel);
-		addButtonAndSpace (buttonsJPanel, showGEFrameButton);
+//		addButtonAndSpace (buttonsJPanel, showGEFrameButton);
 		addButtonAndSpace (buttonsJPanel, resendLastActionButton);
 
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
