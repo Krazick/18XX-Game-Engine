@@ -191,23 +191,32 @@ public class ActionManager {
 	}
 
 	private void justAddAction (Action aAction) {
+		boolean tAppendAction;
+		
 		actions.add (aAction);
 		appendActionReport (aAction);
-		sendActionToNetwork (aAction);
+		tAppendAction = sendActionToNetwork (aAction);
+		if (tAppendAction) {
+			appendToJGameClient (aAction);
+		}
 	}
 
-	private void sendActionToNetwork (Action aAction) {
+	public boolean sendActionToNetwork (Action aAction) {
 		String tXMLFormat;
+		boolean tAppendAction;
 		
 		// Note the 'getNotifyNetwork' in the Game Manager should be tested
 		// To prevent Applying Actions from a remote client would also send
 		// The action back out to the remote client causing an Infinite Loop
+		tAppendAction = false;
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			tXMLFormat = aAction.getXMLFormat (JGameClient.EN_GAME_ACTIVITY);
 			tXMLFormat = tXMLFormat.replaceAll ("\n", "");
 			sendGameActivity (tXMLFormat, false);
-			appendToJGameClient (aAction);
+			tAppendAction = true;
 		}
+		
+		return tAppendAction;
 	}
 
 	private void setAuditAttributes (Action aAction) {
