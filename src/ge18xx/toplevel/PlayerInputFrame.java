@@ -96,6 +96,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 			buildOnePlayerPanel (tIndex, tPlayersPanel);
 			tPlayersPanel.add (Box.createVerticalStrut (5));
 		}
+		// Randomize Player Order Button
 		randomizeButton = setupButton (RANDOMIZE_ORDER, RANDOMIZE_ORDER, this, Component.CENTER_ALIGNMENT);
 		tPlayersPanel.add (randomizeButton);
 		tPlayersPanel.add (Box.createVerticalStrut (10));
