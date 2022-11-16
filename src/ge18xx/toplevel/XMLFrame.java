@@ -331,6 +331,15 @@ public class XMLFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * Create a new JButton with the specified parameters.
+	 * 
+	 * @param aLabel Label for the Button
+	 * @param aAction Action Command for the Button
+	 * @param aListener The Action Listener Class
+	 * @param aAlignment The Alignment
+	 * @return the newly create JButton
+	 */
 	public JButton setupButton (String aLabel, String aAction, ActionListener aListener, float aAlignment) {
 		JButton tButton;
 	
@@ -340,6 +349,14 @@ public class XMLFrame extends JFrame {
 		return tButton;
 	}
 
+	/**
+	 * Modify the provided JButton with the specified parameters
+	 * 
+	 * @param aAction Action Command for the Button
+	 * @param aListener The Action Listener Class
+	 * @param aAlignment The Alignment
+	 * @param aButton The Button to be modified
+	 */
 	public void setupButton (String aAction, ActionListener aListener, float aAlignment, JButton aButton) {
 		aButton.setActionCommand (aAction);
 		aButton.addActionListener (aListener);
