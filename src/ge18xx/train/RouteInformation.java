@@ -424,6 +424,16 @@ public class RouteInformation {
 		return tCanBeReused;
 	}
 
+	public RevenueCenter getRevenueCenterAt (int aRevenueCenterIndex) {
+		RevenueCenter tRevenueCenter = RevenueCenter.NO_CENTER;
+		
+		if ((aRevenueCenterIndex >= 0) && (aRevenueCenterIndex < revenueCenters.size ())) {
+			tRevenueCenter = revenueCenters.get (aRevenueCenterIndex);
+		}
+		
+		return tRevenueCenter;
+	}
+	
 	public int getRevenueAt (int aRevenueCenterIndex) {
 		int tRevenue = 0;
 		RevenueCenter tRevenueCenter;
