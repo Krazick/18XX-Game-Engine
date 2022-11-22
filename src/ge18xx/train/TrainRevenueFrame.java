@@ -24,6 +24,7 @@ import javax.swing.SwingConstants;
 import org.apache.logging.log4j.Logger;
 
 import ge18xx.bank.Bank;
+import ge18xx.center.RevenueCenter;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
@@ -502,19 +503,54 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		int tCityCount;
 		int tCityIndex;
 		int tRevenue;
+		int tPlusCurrentRevenue;
+		int tPlusCount;
+		int tRevenueCenterCount;
+		int tRevenueCenterIndex;
+		boolean tIsAPlusTrain;
+		boolean tRevenueHandled;
+		RevenueCenter tRevenueCenter;
 
 		tCityCount = aTrain.getCityCount ();
 
-		for (tCityIndex = 0; tCityIndex < aTrain.getCityCount (); tCityIndex++) {
+		for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
 			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (0);
 		}
-		if (aTrain.isPlusTrain ()) {
+		tIsAPlusTrain = aTrain.isPlusTrain ();
+		if (tIsAPlusTrain) {
 			revenuesByPlusTrain [aTrainIndex].setValue (0);
 			plusUsedCount [aTrainIndex] = 0;
+			tPlusCount = aTrain.getTownCount ();
+		} else {
+			tPlusCount = 0;
 		}
-		for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
-			tRevenue = aRouteInformation.getRevenueAt (tCityIndex);
-			revenuesByTrain [aTrainIndex] [tCityIndex].setValue (tRevenue);
+		tCityIndex = 0;
+		tRevenueCenterCount = aRouteInformation.getCenterCount ();
+		for (tRevenueCenterIndex = 0; tRevenueCenterIndex < tRevenueCenterCount; tRevenueCenterIndex++) {
+			
+			tRevenueCenter = aRouteInformation.getRevenueCenterAt (tRevenueCenterIndex);
+			tRevenue = aRouteInformation.getRevenueAt (tRevenueCenterIndex);
+			tRevenueHandled = false;
+			if (tRevenueCenter != RevenueCenter.NO_CENTER) {
+				if (tIsAPlusTrain) {
+					if (tRevenueCenter.isTown ())  {
+						if (tPlusCount > plusUsedCount [aTrainIndex]) {
+							plusUsedCount [aTrainIndex] += 1;
+							tPlusCurrentRevenue = Integer.parseInt (revenuesByPlusTrain [aTrainIndex].getText ());
+							revenuesByPlusTrain [aTrainIndex].setValue (tPlusCurrentRevenue + tRevenue);
+							tRevenueHandled = true;
+						}
+					}
+				}
+			}
+			
+			if (!tRevenueHandled) {
+				if (tCityIndex < tCityCount) {
+					revenuesByTrain [aTrainIndex] [tCityIndex].setValue (tRevenue);
+					tCityIndex++;
+				}
+			}
+
 		}
 
 	}
@@ -865,6 +901,11 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
 				if (revenuesByTrain [tTrainIndex] [tCityIndex] == aSource) {
 					totalRevenueByEachTrain [tTrainIndex].setText (Bank.formatCash (tTrainRevenue));
+				}
+			}
+			if (tTrain.isPlusTrain ()) {
+				if (revenuesByPlusTrain [tTrainIndex] == aSource) {
+					totalRevenueByEachTrain [tTrainIndex].setText (Bank.formatCash (tTrainRevenue));					
 				}
 			}
 			tTotalRevenue += tTrainRevenue;
