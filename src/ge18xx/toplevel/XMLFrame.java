@@ -36,12 +36,12 @@ public class XMLFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	public static final XMLFrame NO_XML_FRAME = null;
+	boolean defaultVisible;
 	int defaultWidth;
 	int defaultHeight;
 	int defaultXLocation;
 	int defaultYLocation;
 	int defaultHexSize;
-	boolean defaultVisible;
 	int defaultState;
 	String gameName;
 	JScrollPane scrollPane;
@@ -192,10 +192,11 @@ public class XMLFrame extends JFrame {
 	}
 
 	public XMLElement getXMLFrameElement (XMLDocument aXMLDocument) {
-		XMLElement tXMLFrameElement = XMLElement.NO_XML_ELEMENT;
 		FrameInfo tFrameInfo;
-		GameFrameConfig tGameFrameConfig = new GameFrameConfig ("template");
+		GameFrameConfig tGameFrameConfig;
+		XMLElement tXMLFrameElement;
 
+		tGameFrameConfig = new GameFrameConfig ("template");
 		tXMLFrameElement = tGameFrameConfig.createXMLFrameElement (aXMLDocument);
 		tFrameInfo = new FrameInfo (this);
 		tFrameInfo.appendXMLFrameAttributes (tXMLFrameElement);
