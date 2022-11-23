@@ -53,7 +53,6 @@ import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
 import ge18xx.toplevel.AboutBox;
 import ge18xx.toplevel.PlayerInputFrame;
-import ge18xx.toplevel.PrefPane;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 import ge18xx.utilities.Sound;
@@ -70,11 +69,10 @@ public class Game_18XX extends XMLFrame {
 	public final String DATA_URL_BASE = "DataURLBase";
 	protected ResourceBundle resbundle;
 	protected AboutBox aboutBox;
-	protected PrefPane prefs;
 	protected JMenu fileMenu, gameMenu;
 	protected Action newAction, openAction, closeAction, saveAction, saveAsAction, saveConfigAction;
 	protected Action frameInfoAction, exitAction, undoAction, cutAction, copyAction;
-	protected Action pasteAction, clearAction, selectAllAction;
+	protected Action pasteAction, clearAction, selectAllAction, userPreferencesAction;
 	protected Action selectGameAction, showActionReportFrameAction, showPlayerInputAction;
 
 	// Game18XX Specific Menu Actions
@@ -88,6 +86,7 @@ public class Game_18XX extends XMLFrame {
 	PlayerInputFrame playerInputFrame;
 	JMenuBar mainMenuBar;
 	JMenuItem gameMenuItems[];
+	JMenuItem userPreferencesMenuItem;
 	JMenuItem newMenuItem;
 	JMenuItem openMenuItem;
 	JMenuItem closeMenuItem;
@@ -395,9 +394,7 @@ public class Game_18XX extends XMLFrame {
 	/*
 	 * public void about (ApplicationEvent e) { aboutBox.setResizable (false);
 	 * aboutBox.setVisible (true); }
-	 *
-	 * public void preferences (ApplicationEvent e) { prefs.setResizable (false);
-	 * prefs.setVisible (true); }
+	 * 
 	 */
 
 	private void addMenus () {
@@ -410,6 +407,9 @@ public class Game_18XX extends XMLFrame {
 
 	private void setupFileMenu () {
 		fileMenu = new JMenu ("File");
+		userPreferencesMenuItem = new JMenuItem (userPreferencesAction);
+		disableUserPreferencesMenuItem ();
+		fileMenu.add (userPreferencesMenuItem);
 		newMenuItem = new JMenuItem (newAction);
 		disableNewMenuItem ();
 		fileMenu.add (newMenuItem);
@@ -499,6 +499,7 @@ public class Game_18XX extends XMLFrame {
 //		int tShortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask ();
 
 		// Create actions that can be used by menus, buttons, toolbars, etc.
+		userPreferencesAction = new userPreferencesActionClass (resbundle.getString ("preferencesItem"), null);
 		newAction = new newActionClass (resbundle.getString ("newItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_N, aShortcutKeyMask));
 		openAction = new openActionClass (resbundle.getString ("openItem"),
@@ -544,6 +545,10 @@ public class Game_18XX extends XMLFrame {
 		tNewPoint = new Point (tNewX, tNewY);
 
 		return tNewPoint;
+	}
+
+	public void disableUserPreferencesMenuItem () {
+		userPreferencesMenuItem.setEnabled (false);
 	}
 
 	public void disableNewMenuItem () {
@@ -596,6 +601,7 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	public void disableGameStartItems () {
+		disableUserPreferencesMenuItem ();
 		disableNewMenuItem ();
 		disableOpenMenuItem ();
 		disableCloseMenuItem ();
@@ -645,6 +651,10 @@ public class Game_18XX extends XMLFrame {
 			}
 			gameMenuItems [tMenuItemIndex].setEnabled (tEnableMenuItem);
 		}
+	}
+
+	public void enableUserPreferencesMenuItem () {
+		userPreferencesMenuItem.setEnabled (true);
 	}
 
 	public void enableNewMenuItem () {
@@ -877,6 +887,20 @@ public class Game_18XX extends XMLFrame {
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showActionReportFrame ();
+		}
+	}
+
+	public class userPreferencesActionClass extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+		
+		public userPreferencesActionClass (String text, KeyStroke shortcut) {
+			super (text);
+			putValue (ACCELERATOR_KEY, shortcut);
+		}
+
+		@Override
+		public void actionPerformed (ActionEvent e) {
+			gameManager.showUserPreferencesFrame ();
 		}
 	}
 
