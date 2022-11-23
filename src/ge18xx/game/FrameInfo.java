@@ -20,9 +20,9 @@ public class FrameInfo {
 	int width;
 	int xLocation;
 	int yLocation;
-	int hexSize = 0;
-	boolean visible;
+	int hexSize;
 	int state;
+	boolean visible;
 	String name;
 
 	public FrameInfo (XMLFrame aXMLFrame) {
@@ -37,7 +37,6 @@ public class FrameInfo {
 		state = aXMLFrame.getState ();
 
 		tFrameName = aXMLFrame.extractFrameName ();
-//		tFrameName = extractFrameName (aXMLFrame);
 		name = tFrameName;
 	}
 
