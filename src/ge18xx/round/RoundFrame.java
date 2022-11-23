@@ -323,9 +323,11 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	private void buildPlayersJPanel () {
+		BoxLayout tLayout;
+		
 		playersJPanel = new JPanel ();
 		playersJPanel.setBorder (BorderFactory.createTitledBorder (PLAYER_JPANEL_LABEL));
-		BoxLayout tLayout = new BoxLayout (playersJPanel, BoxLayout.X_AXIS);
+		tLayout = new BoxLayout (playersJPanel, BoxLayout.X_AXIS);
 		playersJPanel.setLayout (tLayout);
 		playersJPanel.add (Box.createHorizontalStrut (10));
 		updateAllPlayerJPanels ();
@@ -333,21 +335,23 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	private void updateAllPlayerJPanels () {
-		int tPlayerIndex;
 		Player tPlayer;
+		StockRound tStockRound;
 		JPanel tPlayerJPanel;
 		int tPlayerCount;
 		int tPriorityPlayer;
-		int tIndex, tClientIndex;
-		StockRound tStockRound;
+		int tIndex;
+		int tClientIndex;
+		int tPlayerIndex;
 
 		tStockRound = roundManager.getStockRound ();
 		tPlayerCount = tStockRound.getPlayerCount ();
 		tPriorityPlayer = tStockRound.getPriorityIndex ();
 		playersJPanel.removeAll ();
-		tClientIndex = 0;
 		if (roundManager.isNetworkGame ()) {
 			tClientIndex = getClientIndex (tPlayerCount, tStockRound);
+		} else {
+			tClientIndex = 0;
 		}
 		playersJPanel.add (Box.createHorizontalGlue ());
 		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
@@ -375,13 +379,14 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	private int getClientIndex (int aPlayerCount, StockRound aStockRound) {
-		int tClientIndex = 0;
-		int tPlayerIndex;
-		String tClientName, tPlayerName;
 		Player tPlayer;
+		String tClientName;
+		String tPlayerName;
+		int tClientIndex;
+		int tPlayerIndex;
 
 		tClientName = roundManager.getClientUserName ();
-
+		tClientIndex = 0;
 		for (tPlayerIndex = 0; tPlayerIndex < aPlayerCount; tPlayerIndex++) {
 			tPlayer = aStockRound.getPlayerAtIndex (tPlayerIndex);
 			tPlayerName = tPlayer.getName ();
@@ -394,10 +399,11 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	private void updateCurrentPlayerText () {
-		int tPlayerIndex;
 		Player tPlayer;
-		int tPlayerCount, tCurrentPlayer;
 		StockRound tStockRound;
+		int tCurrentPlayer;
+		int tPlayerCount;
+		int tPlayerIndex;
 
 		tStockRound = roundManager.getStockRound ();
 		tCurrentPlayer = tStockRound.getCurrentPlayerIndex ();
