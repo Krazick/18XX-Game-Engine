@@ -19,7 +19,7 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 	ArrayList<JPanel> infoJPanels;
 	JPanel allJFramesJPanel;
 	GameManager gameManager;
-	private String RESET_START = "Reset ";
+	private String RESET = "Reset";
 	/**
 	 *
 	 */
@@ -71,7 +71,6 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 		tFrameInfo = new FrameInfo (aXMLFrame);
 
 		if (tFrameInfo.getHeight () > 0) {
-			tResetButton = new JButton ("Reset");
 			tOneFrameJPanel = new JPanel ();
 			tOneFrameJPanel.setLayout (new BoxLayout (tOneFrameJPanel, BoxLayout.X_AXIS));
 			tOneFrameJPanel.add (Box.createHorizontalStrut (10));
@@ -93,7 +92,8 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 			tOneFrameJPanel.add (tLabel);
 			tOneFrameJPanel.add (Box.createHorizontalGlue ());
 
-			tResetButton.setActionCommand (RESET_START + tFrameName);
+			tResetButton = new JButton (RESET);
+			tResetButton.setActionCommand (RESET + " " + tFrameName);
 			tResetButton.addActionListener (this);
 
 			tOneFrameJPanel.add (tResetButton);
@@ -110,8 +110,8 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 		String tFrameName;
 
 		tActionCommand = aEvent.getActionCommand ();
-		if (tActionCommand.startsWith (RESET_START)) {
-			tFrameName = tActionCommand.substring (RESET_START.length ());
+		if (tActionCommand.startsWith (RESET)) {
+			tFrameName = tActionCommand.substring (RESET.length () + 1);
 			handleFrameReset (tFrameName);
 		}
 	}
@@ -128,7 +128,6 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 			System.out.println ("Default Y " + tFoundXMLFrame.getDefaultYLocation ());
 			tFoundXMLFrame.setLocation (100, 100);
 			tFoundXMLFrame.showFrame ();
-//			gameManager.showFrame (tFoundXMLFrame);
 		}
 	}
 
