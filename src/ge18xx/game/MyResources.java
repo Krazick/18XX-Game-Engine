@@ -18,8 +18,10 @@ public class MyResources extends ListResourceBundle {
 
 	static final Object [] [] contents = {
 			// Generic Resources
-			{ "fileMenu", "File" }, { "editMenu", "Edit" }, { "newItem", "New" }, { "openItem", "Open..." },
-			{ "closeItem", "Close" }, { "saveItem", "Save" }, { "saveAsItem", "Save As..." },
+			{ "fileMenu", "File" }, { "editMenu", "Edit" }, 
+			{ "preferencesItem", "User Preferences..." },
+			{ "newItem", "New" }, { "openItem", "Open..." }, { "closeItem", "Close" }, 
+			{ "saveItem", "Save" }, { "saveAsItem", "Save As..." },
 			{ "saveConfigItem", "Save Config" }, { "frameInfoItem", "Frame Info" }, { "exitItem", "Exit" },
 			{ "undoItem", "Undo" }, { "cutItem", "Cut" }, { "copyItem", "Copy" }, { "pasteItem", "Paste" },
 			{ "clearItem", "Clear" }, { "selectAllItem", "Select All" }, { "gameMenu", "Game" },
