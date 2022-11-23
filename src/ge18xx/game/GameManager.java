@@ -144,7 +144,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	PrivatesFrame privatesFrame;
 	MinorCompaniesFrame minorCompaniesFrame;
 	ShareCompaniesFrame shareCompaniesFrame;
-
+	UserPreferencesFrame userPreferencesFrame;
+	
 	AuctionFrame auctionFrame;
 	MapFrame mapFrame;
 	MarketFrame marketFrame;
@@ -223,6 +224,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setTileTrayFrame (XMLFrame.NO_XML_FRAME);
 		setTileDefinitionFrame (XMLFrame.NO_XML_FRAME);
 		setAuditFrame (XMLFrame.NO_XML_FRAME);
+		setUserPreferencesFrame (XMLFrame.NO_XML_FRAME);
 	}
 
 	private void setUserDir () {
@@ -410,13 +412,24 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tFullTitle;
 	}
 
+	private void createUserPreferencesFrame () {
+		UserPreferencesFrame tUserPreferencesFrame;
+		String tFullTitle;
+
+		if (gameIsStarted ()) {
+			tFullTitle = createFrameTitle ("User Preferences");
+			tUserPreferencesFrame = new UserPreferencesFrame (tFullTitle);
+			setUserPreferencesFrame (tUserPreferencesFrame);
+			game18XXFrame.enableUserPreferencesMenuItem ();
+		}
+	}
+	
 	private void createAuditFrame () {
 		AuditFrame tAuditFrame;
 		String tFullTitle;
 
 		if (gameIsStarted ()) {
 			tFullTitle = createFrameTitle ("Audit");
-
 			tAuditFrame = new AuditFrame (tFullTitle, this);
 			setAuditFrame (tAuditFrame);
 		}
@@ -1181,6 +1194,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			logger.info ("Game has started with AutoSave Name " + autoSaveFileName);
 			gameStarted = true;
 			createAuditFrame ();
+			createUserPreferencesFrame ();
 			applyConfigSettings ();
 			createFrameInfoFrame ();
 			setFrameBackgrounds ();
@@ -1860,6 +1874,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		addNewFrame (aXMLFrame);
 	}
 
+	private void setUserPreferencesFrame (XMLFrame aXMLFrame) {
+		userPreferencesFrame = (UserPreferencesFrame) aXMLFrame;
+		addNewFrame (aXMLFrame);
+	}
+	
 	private void setFrameInfoFrame (XMLFrame aXMLFrame) {
 		frameInfoFrame = (FrameInfoFrame) aXMLFrame;
 		addNewFrame (aXMLFrame);
@@ -2601,6 +2620,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		roundManager.showActionReportFrame ();
 	}
 
+	public void showUserPreferencesFrame () {
+		userPreferencesFrame.setVisible (true);
+	}
+	
 	public void showAuditFrame () {
 		String tActorName;
 		CorporationList tCompanies;
