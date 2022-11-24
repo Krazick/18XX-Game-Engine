@@ -601,7 +601,6 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	public void disableGameStartItems () {
-		disableUserPreferencesMenuItem ();
 		disableNewMenuItem ();
 		disableOpenMenuItem ();
 		disableCloseMenuItem ();
