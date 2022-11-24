@@ -17,7 +17,7 @@ import ge18xx.utilities.GUI;
 public class FrameInfoFrame extends XMLFrame implements ActionListener {
 	ArrayList<XMLFrame> configFrames;
 	ArrayList<JPanel> infoJPanels;
-	JPanel allJFramesJPanel;
+	JPanel frameInfoPanel;
 	GameManager gameManager;
 	private String RESET = "Reset";
 	/**
@@ -30,35 +30,39 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 		configFrames = aGameManager.getConfigFrames ();
 		gameManager = aGameManager;
 
-		allJFramesJPanel = new JPanel ();
-		allJFramesJPanel.setLayout (new BoxLayout (allJFramesJPanel, BoxLayout.Y_AXIS));
+		frameInfoPanel = new JPanel ();
+		frameInfoPanel.setLayout (new BoxLayout (frameInfoPanel, BoxLayout.Y_AXIS));
 		infoJPanels = new ArrayList<> ();
 		setLocation (100, 100);
 		setSize (500, 400);
 
 		fillFrames ();
-		add (allJFramesJPanel);
+		add (frameInfoPanel);
 	}
 
+	public JPanel getFrameInfoPanel () {
+		return frameInfoPanel;
+	}
+	
 	public void fillFrames () {
 		boolean tAddVerticalGlue = false;
 		JPanel tOneFrameJPanel;
 
-		allJFramesJPanel.add (Box.createVerticalStrut (10));
+		frameInfoPanel.add (Box.createVerticalStrut (10));
 		for (XMLFrame tXMLFrame : configFrames) {
 			if (tAddVerticalGlue) {
-				allJFramesJPanel.add (Box.createVerticalGlue ());
+				frameInfoPanel.add (Box.createVerticalGlue ());
 			}
 			tOneFrameJPanel = buildOneFrameJPanel (tXMLFrame);
 			if (tOneFrameJPanel != GUI.NO_PANEL) {
 				infoJPanels.add (tOneFrameJPanel);
-				allJFramesJPanel.add (tOneFrameJPanel);
+				frameInfoPanel.add (tOneFrameJPanel);
 				tAddVerticalGlue = true;
 			} else {
 				tAddVerticalGlue = false;
 			}
 		}
-		allJFramesJPanel.add (Box.createVerticalStrut (10));
+		frameInfoPanel.add (Box.createVerticalStrut (10));
 	}
 
 	public JPanel buildOneFrameJPanel (XMLFrame aXMLFrame) {
