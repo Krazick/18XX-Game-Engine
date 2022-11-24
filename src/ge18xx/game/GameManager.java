@@ -448,6 +448,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 			tFrameInfoFrame = new FrameInfoFrame (tFullTitle, this);
 			setFrameInfoFrame (tFrameInfoFrame);
+			userPreferencesFrame.setFrameInfoPanel (tFrameInfoFrame.getFrameInfoPanel ());
 		}
 	}
 
