@@ -2357,6 +2357,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 		clientUserName = aClientUserName;
 	}
 
+	public String getFirstPlayerName () {
+		String tFirstPlayerName;
+		
+		tFirstPlayerName = clientUserName;
+		if (userPreferencesFrame != XMLFrame.NO_XML_FRAME) {
+			tFirstPlayerName = userPreferencesFrame.getFirstPlayerName (this);
+		}
+		
+		return tFirstPlayerName;
+	}
+	
 	@Override
 	public String getClientUserName () {
 		return clientUserName;
