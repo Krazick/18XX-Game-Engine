@@ -1125,6 +1125,18 @@ public class RoundManager implements ActionListener {
 		gameManager.revalidateAuctionFrame ();
 	}
 
+	/**
+	 * Get the name of the First Player to appear in Round Frame List
+	 * This is based upon user Preference
+	 * 
+	 * @return Name of the player who should appear first in the Round Frame List
+	 * 
+	 */
+	
+	public String getFirstPlayerName () {
+		return gameManager.getFirstPlayerName ();
+	}
+
 	public String getClientUserName () {
 		return gameManager.getClientUserName ();
 	}
