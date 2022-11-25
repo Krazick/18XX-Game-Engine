@@ -3,10 +3,8 @@ package ge18xx.game;
 import java.awt.Color;
 
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
@@ -22,8 +20,7 @@ public class UserPreferencesFrame extends XMLFrame {
 	JScrollPane userPreferencesSPane;
 	JScrollPane frameSPane;
 	JScrollPane colorsSPane;
-	ButtonGroup buttonGroup;
-	JRadioButton playerOrderButtons [];
+	PlayerOrderPreference playerOrderPreference;
 	
 	public UserPreferencesFrame (String aFrameName) {
 		super (aFrameName);
@@ -69,24 +66,10 @@ public class UserPreferencesFrame extends XMLFrame {
 	
 	public JPanel buildUserPreferences () {
 		JPanel tUserPreferencesPanel;
-		ButtonGroup buttonGroup;
-		JLabel tPlayerOrderLabel;
-		int tPlayerOrderIndex;
 		
 		tUserPreferencesPanel = new JPanel ();
-		tPlayerOrderLabel = new JLabel ("Player Order in Round Frame");
-		tUserPreferencesPanel.add (tPlayerOrderLabel);
-		playerOrderButtons = new JRadioButton [4];
-		playerOrderButtons [0] = new JRadioButton ("Client Player first");
-		playerOrderButtons [0].setSelected (true);
-		playerOrderButtons [1]  = new JRadioButton ("Priority Player at Start of Stock Round First"); 
-		playerOrderButtons [2]  = new JRadioButton ("Priority Player always First"); 
-		playerOrderButtons [3]  = new JRadioButton ("Current Player First"); 
-		buttonGroup = new ButtonGroup ();
-		for (tPlayerOrderIndex = 0; tPlayerOrderIndex < 4; tPlayerOrderIndex++) {
-			buttonGroup.add (playerOrderButtons [tPlayerOrderIndex]);
-			tUserPreferencesPanel.add (playerOrderButtons [tPlayerOrderIndex]);
-		}
+		playerOrderPreference = new PlayerOrderPreference ();
+		playerOrderPreference.buildUserPreferences (tUserPreferencesPanel);
 		
 		return tUserPreferencesPanel;
 	}
@@ -108,16 +91,18 @@ public class UserPreferencesFrame extends XMLFrame {
 	}
 	
 	public int getPlayerOrderPreference () {
-		int tPlayerOrderIndex;
 		int tSelectedPlayerOrder;
 		
-		tSelectedPlayerOrder = 0;
-		for (tPlayerOrderIndex = 0; tPlayerOrderIndex < 4; tPlayerOrderIndex++) {
-			if (playerOrderButtons [tPlayerOrderIndex].isSelected ()) {
-				tSelectedPlayerOrder = tPlayerOrderIndex;
-			}
-		}
+		tSelectedPlayerOrder = playerOrderPreference.getPlayerOrderPreference ();
 
 		return tSelectedPlayerOrder;
+	}
+	
+	public String getFirstPlayerName (GameManager aGameManager) {
+		String tFirstPlayerName;
+		
+		tFirstPlayerName = playerOrderPreference.getFirstPlayerName (aGameManager);
+		
+		return tFirstPlayerName;
 	}
 }
