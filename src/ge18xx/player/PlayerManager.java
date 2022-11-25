@@ -800,6 +800,10 @@ public class PlayerManager {
 		return tThisPlayerIndex;
 	}
 
+	public int getPriorityPlayerIndex () {
+		return stockRound.getPriorityIndex ();
+	}
+	
 	public void doneAction (Player aPlayer) {
 		int tNextPlayerIndex, tCurrentPlayerIndex;
 		int tOldPriorityPlayerIndex, tThisPlayerIndex;
@@ -815,7 +819,7 @@ public class PlayerManager {
 			tCurrentPlayerIndex = tThisPlayerIndex;
 		}
 		tNextPlayerIndex = stockRound.getNextPlayerIndex ();
-		tOldPriorityPlayerIndex = stockRound.getPriorityIndex ();
+		tOldPriorityPlayerIndex = getPriorityPlayerIndex ();
 		tOldPriorityPlayer = getPlayer (tOldPriorityPlayerIndex);
 		tDonePlayerAction = new DonePlayerAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
 		tDonePlayerAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
