@@ -341,21 +341,17 @@ public class RoundFrame extends XMLFrame {
 		int tPlayerCount;
 		int tPriorityPlayer;
 		int tIndex;
-		int tClientIndex;
+		int tPlayerOffset;
 		int tPlayerIndex;
 
 		tStockRound = roundManager.getStockRound ();
 		tPlayerCount = tStockRound.getPlayerCount ();
 		tPriorityPlayer = tStockRound.getPriorityIndex ();
 		playersJPanel.removeAll ();
-		if (roundManager.isNetworkGame ()) {
-			tClientIndex = getClientIndex (tPlayerCount, tStockRound);
-		} else {
-			tClientIndex = 0;
-		}
+		tPlayerOffset = getPlayerOffset (tPlayerCount, tStockRound);
 		playersJPanel.add (Box.createHorizontalGlue ());
 		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
-			tPlayerIndex = getAdjustedPlayerIndex (tPlayerCount, tIndex, tClientIndex);
+			tPlayerIndex = getAdjustedPlayerIndex (tPlayerCount, tIndex, tPlayerOffset);
 			tPlayer = tStockRound.getPlayerAtIndex (tPlayerIndex);
 			if (tPlayer != Player.NO_PLAYER) {
 				tPlayerJPanel = tPlayer.buildAPlayerJPanel (tPriorityPlayer, tPlayerIndex);
@@ -368,34 +364,33 @@ public class RoundFrame extends XMLFrame {
 		}
 	}
 
-	private int getAdjustedPlayerIndex (int aPlayerCount, int aIndex, int aClientIndex) {
+	private int getAdjustedPlayerIndex (int aPlayerCount, int aIndex, int aIndexOffset) {
 		int tPlayerIndex;
 
-		// TODO: Adjust to show either "Client First", or "Priority First" (no formula yet)
-		// TODO: Get based upon Player Preference
-		tPlayerIndex = (aIndex + aClientIndex) % aPlayerCount;
+		tPlayerIndex = (aIndex + aIndexOffset) % aPlayerCount;
 
 		return tPlayerIndex;
 	}
 
-	private int getClientIndex (int aPlayerCount, StockRound aStockRound) {
+	private int getPlayerOffset (int aPlayerCount, StockRound aStockRound) {
 		Player tPlayer;
-		String tClientName;
 		String tPlayerName;
-		int tClientIndex;
+		String tFirstPlayerName;
+		int tPlayerOffset;
 		int tPlayerIndex;
 
-		tClientName = roundManager.getClientUserName ();
-		tClientIndex = 0;
+		tFirstPlayerName = roundManager.getFirstPlayerName ();
+		
+		tPlayerOffset = 0;
 		for (tPlayerIndex = 0; tPlayerIndex < aPlayerCount; tPlayerIndex++) {
 			tPlayer = aStockRound.getPlayerAtIndex (tPlayerIndex);
 			tPlayerName = tPlayer.getName ();
-			if (tPlayerName.equals (tClientName)) {
-				tClientIndex = tPlayerIndex;
+			if (tPlayerName.equals (tFirstPlayerName)) {
+				tPlayerOffset = tPlayerIndex;
 			}
 		}
 
-		return tClientIndex;
+		return tPlayerOffset;
 	}
 
 	private void updateCurrentPlayerText () {
