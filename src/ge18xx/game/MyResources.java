@@ -22,7 +22,7 @@ public class MyResources extends ListResourceBundle {
 			{ "preferencesItem", "User Preferences..." },
 			{ "newItem", "New" }, { "openItem", "Open..." }, { "closeItem", "Close" }, 
 			{ "saveItem", "Save" }, { "saveAsItem", "Save As..." },
-			{ "saveConfigItem", "Save Config" }, { "frameInfoItem", "Frame Info" }, { "exitItem", "Exit" },
+			{ "saveConfigItem", "Save Config" }, { "exitItem", "Exit" },
 			{ "undoItem", "Undo" }, { "cutItem", "Cut" }, { "copyItem", "Copy" }, { "pasteItem", "Paste" },
 			{ "clearItem", "Clear" }, { "selectAllItem", "Select All" }, { "gameMenu", "Game" },
 			// Game Specific Resources
@@ -44,5 +44,5 @@ public class MyResources extends ListResourceBundle {
 			{ "GameSetXMLFile", "18xx Games.xml" },
 			{ "DataURLBase", "https://krazick.github.io/18XX-Game-Engine-XML/XML/" },
 			{ "GameSetURLFile", "18xx-Games.xml" },
-			{ "version", "0.7.18A Beta" } };
+			{ "version", "0.7.18B Beta" } };
 }
