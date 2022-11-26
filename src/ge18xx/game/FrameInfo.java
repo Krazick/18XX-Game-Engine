@@ -103,11 +103,11 @@ public class FrameInfo {
 		return width;
 	}
 
-	public String getHeightStr () {
+	public String getHeightString () {
 		return height + "";
 	}
 
-	public String getWidthStr () {
+	public String getWidthString () {
 		return width + "";
 	}
 
