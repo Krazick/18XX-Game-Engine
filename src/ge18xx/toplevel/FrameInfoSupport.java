@@ -23,21 +23,16 @@ public class FrameInfoSupport implements ActionListener {
 	/**
 	 *
 	 */
-//	private static final long serialVersionUID = 1L;
 
 	public FrameInfoSupport (String aFrameName, GameManager aGameManager) {
-//		super (aFrameName, aGameManager.getGameName ());
 		configFrames = aGameManager.getConfigFrames ();
 		gameManager = aGameManager;
 
 		frameInfoPanel = new JPanel ();
 		frameInfoPanel.setLayout (new BoxLayout (frameInfoPanel, BoxLayout.Y_AXIS));
 		infoJPanels = new ArrayList<> ();
-//		setLocation (100, 100);
-//		setSize (500, 400);
 
 		fillFrames ();
-//		add (frameInfoPanel);
 	}
 
 	public JPanel getFrameInfoPanel () {
