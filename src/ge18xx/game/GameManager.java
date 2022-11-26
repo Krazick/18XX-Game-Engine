@@ -46,6 +46,7 @@ import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
 import ge18xx.round.RoundManager;
+import ge18xx.round.StockRound;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
 import ge18xx.round.action.ActorI;
@@ -192,7 +193,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setBank (Bank.NO_BANK_CASH);
 		setPlayerManager (PlayerManager.NO_PLAYER_MANAGER);
 		setPhaseManager (PhaseManager.NO_PHASE_MANAGER);
-		loadConfig ();
 	}
 
 	@Override
@@ -412,16 +412,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tFullTitle;
 	}
 
-	private void createUserPreferencesFrame () {
+	public void createUserPreferencesFrame () {
 		UserPreferencesFrame tUserPreferencesFrame;
 		String tFullTitle;
 
-		if (gameIsStarted ()) {
-			tFullTitle = createFrameTitle ("User Preferences");
-			tUserPreferencesFrame = new UserPreferencesFrame (tFullTitle);
-			setUserPreferencesFrame (tUserPreferencesFrame);
-			game18XXFrame.enableUserPreferencesMenuItem ();
-		}
+		tFullTitle = createFrameTitle ("User Preferences");
+		tUserPreferencesFrame = new UserPreferencesFrame (tFullTitle, this);
+		setUserPreferencesFrame (tUserPreferencesFrame);
+		game18XXFrame.enableUserPreferencesMenuItem ();
+		loadConfig ();
 	}
 	
 	private void createAuditFrame () {
@@ -702,8 +701,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 		mapFrame.exitSelectRouteMode ();
 	}
 
+	public StockRound getStockRound () {
+		return roundManager.getStockRound ();
+	}
+	
 	public void fullOwnershipAdjustment () {
-		marketFrame.fullOwnershipAdjustment (roundManager.getStockRound ());
+		marketFrame.fullOwnershipAdjustment (getStockRound ());
 	}
 
 	public boolean gameChanged () {
@@ -1161,6 +1164,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		if (activeGame != GameInfo.NO_GAME_INFO) {
 			game18XXFrame.initiateGame ();
+			createUserPreferencesFrame ();
 			if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 				tPlayerManager = new PlayerManager (this);
 				setPlayerManager (tPlayerManager);
@@ -1195,7 +1199,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 			logger.info ("Game has started with AutoSave Name " + autoSaveFileName);
 			gameStarted = true;
 			createAuditFrame ();
-			createUserPreferencesFrame ();
 			applyConfigSettings ();
 			createFrameInfoFrame ();
 			setFrameBackgrounds ();
@@ -1314,6 +1317,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tNewPoint = getOffsetGEFrame ();
 		chooser = new JFileMChooser ();
 		chooser.setDialogTitle ("Find Saved Game File to Load");
+		createUserPreferencesFrame ();
 		tSaveDirectoryPath = configData.getSaveGameDirectory ();
 		if (tSaveDirectoryPath == null) {
 			tSaveDirectoryPath = "";
@@ -2362,7 +2366,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		
 		tFirstPlayerName = clientUserName;
 		if (userPreferencesFrame != XMLFrame.NO_XML_FRAME) {
-			tFirstPlayerName = userPreferencesFrame.getFirstPlayerName (this);
+			tFirstPlayerName = userPreferencesFrame.getFirstPlayerName ();
 		}
 		
 		return tFirstPlayerName;
@@ -2391,7 +2395,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void loadConfig () {
-		XMLDocument tXMLDocument = null;
+		XMLDocument tXMLDocument = XMLDocument.NO_XML_DOCUMENT;
 		String tConfigFileName;
 		File tConfigFile;
 
@@ -2405,7 +2409,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				logger.error ("Exception Message [" + tException.getMessage () + "].", tException);
 			}
 			if (tXMLDocument != XMLDocument.NO_XML_DOCUMENT) {
-				@SuppressWarnings ("null")
+//				@SuppressWarnings ("null")
 				XMLNode tXMLNode = tXMLDocument.getDocumentNode ();
 				configData = new Config (tXMLNode, this);
 			} else {
@@ -2490,7 +2494,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public XMLDocument createNewConfigDocument () {
-		XMLElement tConfigElement, tFramesElement, tFrameElement, tSaveGameDirElement;
+		XMLElement tConfigElement;
+		XMLElement tFramesElement;
+		XMLElement tFrameElement;
+		XMLElement tSaveGameDirElement;
+		XMLElement tPreferencesElement;
 		XMLDocument tXMLDocument;
 		String tActiveGameName;
 
@@ -2501,6 +2509,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tSaveGameDirElement.setAttribute (AN_NAME, configData.getSaveGameDirectory ());
 		tConfigElement.appendChild (tSaveGameDirElement);
 
+		tPreferencesElement = userPreferencesFrame.createElement (tXMLDocument);
+		tConfigElement.appendChild (tPreferencesElement);
+		
 		tFramesElement = tXMLDocument.createElement (EN_FRAMES);
 
 		if (activeGame == GameInfo.NO_GAME_INFO) {
@@ -2634,6 +2645,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void showUserPreferencesFrame () {
 		userPreferencesFrame.setVisible (true);
+	}
+	
+	public UserPreferencesFrame getUserPreferencesFrame () {
+		return userPreferencesFrame;
 	}
 	
 	public void showAuditFrame () {
