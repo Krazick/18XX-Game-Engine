@@ -32,21 +32,27 @@ public class Config {
 		int tNodeCount;
 		int tNodeIndex;
 		GameFrameConfig tGameFrameConfig;
+		UserPreferencesFrame tUserPreferencesFrame;
 		String tSaveGameDirName;
+		String tNodeName;
 
 		gameManager = aGameManager;
+		gameFrames = new ArrayList<GameFrameConfig> ();
 		tChildren = aConfigNode.getChildNodes ();
 		tNodeCount = tChildren.getLength ();
-		gameFrames = new ArrayList<GameFrameConfig> ();
 		try {
 			for (tNodeIndex = 0; tNodeIndex < tNodeCount; tNodeIndex++) {
 				tChildNode = new XMLNode (tChildren.item (tNodeIndex));
-				if (EN_FRAMES.equals (tChildNode.getNodeName ())) {
+				tNodeName = tChildNode.getNodeName ();
+				if (EN_FRAMES.equals (tNodeName)) {
 					tGameFrameConfig = new GameFrameConfig (tChildNode);
 					addNewGameFrame (tGameFrameConfig);
-				} else if (GameManager.EN_SAVEGAMEDIR.equals (tChildNode.getNodeName ())) {
+				} else if (GameManager.EN_SAVEGAMEDIR.equals (tNodeName)) {
 					tSaveGameDirName = tChildNode.getThisAttribute (GameManager.AN_NAME);
 					setJustSaveGameDirectory (tSaveGameDirName);
+				} else if (UserPreferencesFrame.EN_USER_PREFERENCES.equals (tNodeName)) {
+					tUserPreferencesFrame = gameManager.getUserPreferencesFrame ();
+					tUserPreferencesFrame.parsePreferences (tChildNode);
 				}
 			}
 		} catch (Exception tException) {
