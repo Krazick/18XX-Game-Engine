@@ -125,6 +125,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		String tPlayerName;
 
 		tGameManager = playerInputFrame.getGameManager ();
+		tGameManager.createUserPreferencesFrame ();
 		tPlayerName = tGameManager.getClientUserName ();
 		playerInputFrame.clearOtherPlayers (tPlayerName);
 		tNetworkGameJClient = new JGameClient (CHAT_TITLE + " (" + tPlayerName + ")", tGameManager);
