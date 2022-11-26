@@ -1,6 +1,8 @@
 package ge18xx.game;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -8,10 +10,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import org.w3c.dom.NodeList;
+
 import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
 
 public class UserPreferencesFrame extends XMLFrame {
-
+	public static final ElementName EN_USER_PREFERENCES = new ElementName ("UserPreferences");
 	private static final long serialVersionUID = 1L;
 	JTabbedPane tabbedPane;
 	JPanel userPreferencesPanel;
@@ -21,28 +29,25 @@ public class UserPreferencesFrame extends XMLFrame {
 	JScrollPane frameSPane;
 	JScrollPane colorsSPane;
 	PlayerOrderPreference playerOrderPreference;
+	GameManager gameManager;
 	
-	public UserPreferencesFrame (String aFrameName) {
+	public UserPreferencesFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName);
 		
-		setupJTabbedPane ();
-	}
-
-	public UserPreferencesFrame (String aFrameName, String aGameName) {
-		super (aFrameName, aGameName);
-		
-		setupJTabbedPane ();
+		gameManager = aGameManager;
+		setupJTabbedPane (aGameManager);
 	}
 	
-	private void setupJTabbedPane () {
+	private void setupJTabbedPane (GameManager aGameManager) {
 		JPanel tColorsPanel;
 		JLabel tColorsLabel;
 		JPanel tUserPreferencesPanel;
+		Point tFrameOffset;
 		
 		tabbedPane = new JTabbedPane ();
 		
 		userPreferencesSPane = new JScrollPane ();
-		tUserPreferencesPanel = buildUserPreferences ();
+		tUserPreferencesPanel = buildUserPreferences (aGameManager);
 		setUserPrefencesPanel (tUserPreferencesPanel);
 		
 		frameSPane = new JScrollPane ();
@@ -61,14 +66,16 @@ public class UserPreferencesFrame extends XMLFrame {
 
 		add (tabbedPane);
 		
+		tFrameOffset = gameManager.getOffsetGEFrame ();
+		setLocation (tFrameOffset);
 		setSize (500, 500);
 	}
 	
-	public JPanel buildUserPreferences () {
+	public JPanel buildUserPreferences (GameManager aGameManager) {
 		JPanel tUserPreferencesPanel;
 		
 		tUserPreferencesPanel = new JPanel ();
-		playerOrderPreference = new PlayerOrderPreference ();
+		playerOrderPreference = new PlayerOrderPreference (aGameManager);
 		playerOrderPreference.buildUserPreferences (tUserPreferencesPanel);
 		
 		return tUserPreferencesPanel;
@@ -98,11 +105,51 @@ public class UserPreferencesFrame extends XMLFrame {
 		return tSelectedPlayerOrder;
 	}
 	
-	public String getFirstPlayerName (GameManager aGameManager) {
+	public String getFirstPlayerName () {
 		String tFirstPlayerName;
 		
-		tFirstPlayerName = playerOrderPreference.getFirstPlayerName (aGameManager);
+		tFirstPlayerName = playerOrderPreference.getFirstPlayerName ();
 		
 		return tFirstPlayerName;
+	}
+
+	public XMLElement createElement (XMLDocument aXMLDocument) {
+		XMLElement tPreferencesElement;
+		XMLElement tPlayerOrderElement;
+		
+		tPreferencesElement = aXMLDocument.createElement (EN_USER_PREFERENCES);
+		tPlayerOrderElement = playerOrderPreference.createElement (aXMLDocument);
+		tPreferencesElement.appendChild (tPlayerOrderElement);
+		
+		return tPreferencesElement;
+	}
+	
+	public void parsePreferences (XMLNode aPreferencesNode) {
+		NodeList tChildren;
+		XMLNode tChildNode;
+		int tNodeCount;
+		int tNodeIndex;
+		String tNodeName;
+
+		tChildren = aPreferencesNode.getChildNodes ();
+		tNodeCount = tChildren.getLength ();
+		try {
+			for (tNodeIndex = 0; tNodeIndex < tNodeCount; tNodeIndex++) {
+				tChildNode = new XMLNode (tChildren.item (tNodeIndex));
+				tNodeName = tChildNode.getNodeName ();
+				if (PlayerOrderPreference.EN_PLAYER_ORDER.equals (tNodeName)) {
+					playerOrderPreference.parsePlayerOrder (tChildNode);
+				}
+			}
+		} catch (Exception tException) {
+			System.err.println ("Caught Exception with message ");
+			tException.printStackTrace ();
+		}
+	}
+	
+	@Override
+	public void processWindowEvent (WindowEvent aWindowEvent) {
+		super.processWindowEvent (aWindowEvent);
+		gameManager.saveConfig (true);
 	}
 }
