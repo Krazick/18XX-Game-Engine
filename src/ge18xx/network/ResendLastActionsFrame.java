@@ -168,10 +168,10 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 
 		tEventAction = aEvent.getActionCommand ();
 		if (CONFIRM_RESEND.equals (tEventAction)) {
-			System.out.println ("Trying to Resend to Network");
 			for (Action tAction : resendTheseActions ) {
 				actionManager.sendActionToNetwork (tAction);
 			}
+			setVisible (false);
 		}
 		if (CANCEL.equals (tEventAction)) {
 			setVisible (false);
