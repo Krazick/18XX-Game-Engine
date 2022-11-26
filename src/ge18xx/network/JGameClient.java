@@ -505,10 +505,6 @@ public class JGameClient extends XMLFrame {
 								.addGroup (groupLayout.createParallelGroup (Alignment.TRAILING)
 										.addComponent (splitPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
 												695, Short.MAX_VALUE))
-//										.addComponent (spChatText, GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE))
-//										.addComponent (gameActivityPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
-//												695, Short.MAX_VALUE)
-//										.addComponent (spChatText, GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE))
 								.addPreferredGap (ComponentPlacement.RELATED)))
 				.addGroup (groupLayout.createParallelGroup (Alignment.LEADING).addGroup (groupLayout
 						.createSequentialGroup ()
@@ -539,10 +535,8 @@ public class JGameClient extends XMLFrame {
 								.addComponent (playerList, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 156,
 										Short.MAX_VALUE)
 								.addComponent (splitPane, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
-//								.addComponent (gameActivityPanel, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
 						.addGroup (groupLayout.createParallelGroup (Alignment.LEADING).addGroup (groupLayout
 								.createSequentialGroup ().addGap (3)
-//								.addComponent (spChatText, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
 								.addPreferredGap (ComponentPlacement.RELATED)
 								.addGroup (groupLayout.createParallelGroup (Alignment.BASELINE)
 										.addComponent (message, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
@@ -558,8 +552,7 @@ public class JGameClient extends XMLFrame {
 		getContentPane ().setLayout (groupLayout);
 
 		setForUnconnected ();
-		setSize (919, 470);
-		pack ();
+		setSize (1060, 520);
 	}
 
 	private void buildFrameComponents () {

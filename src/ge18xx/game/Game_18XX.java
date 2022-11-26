@@ -122,7 +122,7 @@ public class Game_18XX extends XMLFrame {
 		createActions ();
 		addMenus ();
 
-		setSize (360, 270);
+		setSize (360, 300);
 		setLocation (100, 100);
 		setFrameContents ();
 		setupFrameActions ();
@@ -332,20 +332,20 @@ public class Game_18XX extends XMLFrame {
 		JLabel tClientLabel;
 		GroupLayout groupLayout;
 
+		tGameEngineTitle = new JLabel ("Game Engine Title");
+		tGameEngineTitle.setText (resbundle.getString ("message"));
+		tGameEngineTitle.setFont (new Font ("Lucida Grande", Font.BOLD, 20));
+		tGameEngineTitle.setHorizontalAlignment (SwingConstants.CENTER);
+
 		tJavaVersion = System.getProperty ("java.version");
 		tJavaLabel = new JLabel ("Java Version " + tJavaVersion);
 		tJavaLabel.setHorizontalAlignment (SwingConstants.CENTER);
-		tJavaLabel.setFont (new Font ("Lucida Grande", Font.PLAIN, 16));
-
-		tGameEngineTitle = new JLabel ("Game Engine Title");
-		tGameEngineTitle.setText (resbundle.getString ("message"));
-		tGameEngineTitle.setFont (new Font ("Lucida Grande", Font.BOLD, 24));
-		tGameEngineTitle.setHorizontalAlignment (SwingConstants.CENTER);
+		tJavaLabel.setFont (new Font ("Lucida Grande", Font.PLAIN, 14));
 
 		tGameEngineVersion = new JLabel ("Version: X.X");
 		tGameEngineVersion.setText ("V " + getGEVersion ());
 		tGameEngineVersion.setHorizontalAlignment (SwingConstants.CENTER);
-		tGameEngineVersion.setFont (new Font ("Lucida Grande", Font.PLAIN, 20));
+		tGameEngineVersion.setFont (new Font ("Lucida Grande", Font.PLAIN, 16));
 
 		tClientLabel = new JLabel ("Client User Name:");
 
@@ -493,8 +493,6 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	private void setupGenericActions (int aShortcutKeyMask) {
-//		int tShortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask ();
-
 		// Create actions that can be used by menus, buttons, toolbars, etc.
 		userPreferencesAction = new userPreferencesActionClass (resbundle.getString ("preferencesItem"), null);
 		newAction = new newActionClass (resbundle.getString ("newItem"),
@@ -996,19 +994,6 @@ public class Game_18XX extends XMLFrame {
 			gameManager.saveConfig (false);
 		}
 	}
-
-//	public class frameInfoActionClass extends AbstractAction {
-//		private static final long serialVersionUID = 1L;
-//
-//		public frameInfoActionClass (String text) {
-//			super (text);
-//		}
-//
-//		@Override
-//		public void actionPerformed (ActionEvent e) {
-//			gameManager.showFrameInfo ();
-//		}
-//	}
 
 	private static void setupForMac () {
 		boolean tIsMacOS = false;
