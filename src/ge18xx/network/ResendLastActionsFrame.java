@@ -107,6 +107,7 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 		String tFromName;
 		String tToName;
 		String tFullList;
+		String tPlayerName;
 		boolean tGetActionsToResend;
 
 		resendTheseActions = new LinkedList<Action> ();
@@ -116,6 +117,7 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 		tToNumber = tAction.getNumber ();
 		tFromNumber = tToNumber;
 		tToName = tAction.getActorName ();
+		tPlayerName = tToName;
 		tFromName = tToName;
 		tFullList = "";
 		while (tGetActionsToResend) {
@@ -128,6 +130,7 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 				tFullList = tAction.getBriefActionReport () + NEWLINE + tFullList;
 				tGetActionsToResend = tAction.getChainToPrevious ();	
 				tLastActionIndex--;
+				tPlayerName = tToName;
 			} else {
 				tGetActionsToResend = false;
 			}
@@ -137,9 +140,22 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 				" (" + tFromName + ") " + " to " + tToNumber + " (" + tToName + ")";
 		networkLastAction = "Network's Last Action for this game is " + tNetworkLastActionNumber;
 		buildResendPanel ();
+		updateResendConfirmButton (tPlayerName);
 		listToResendTextArea.setText (tFullList);
 	}
 
+	public void updateResendConfirmButton (String aPlayerName) {
+		String tClientName;
+		
+		tClientName = actionManager.getGameManager ().getClientUserName ();
+		if (aPlayerName.equals (tClientName)) {
+			confirmResendButton.setEnabled (true);
+		} else {
+			confirmResendButton.setEnabled (false);
+			confirmResendButton.setToolTipText ("Actor of Action is " + aPlayerName + " who is not you " + tClientName);
+		}
+	}
+	
 	public int getNetworkLastActionNumber () {
 		String tLastAction;
 		int tNetworkLastActionNumber;
