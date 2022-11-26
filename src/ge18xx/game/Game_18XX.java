@@ -71,7 +71,7 @@ public class Game_18XX extends XMLFrame {
 	protected AboutBox aboutBox;
 	protected JMenu fileMenu, gameMenu;
 	protected Action newAction, openAction, closeAction, saveAction, saveAsAction, saveConfigAction;
-	protected Action frameInfoAction, exitAction, undoAction, cutAction, copyAction;
+	protected Action exitAction, undoAction, cutAction, copyAction;
 	protected Action pasteAction, clearAction, selectAllAction, userPreferencesAction;
 	protected Action selectGameAction, showActionReportFrameAction, showPlayerInputAction;
 
@@ -427,9 +427,6 @@ public class Game_18XX extends XMLFrame {
 		saveConfigMenuItem = new JMenuItem (saveConfigAction);
 		disableSaveConfigMenuItem ();
 		fileMenu.add (saveConfigMenuItem);
-		frameInfoMenuItem = new JMenuItem (frameInfoAction);
-		disableFrameInfoMenuItem ();
-		fileMenu.add (frameInfoMenuItem);
 		exitMenuItem = new JMenuItem (exitAction);
 		fileMenu.add (exitMenuItem);
 		mainMenuBar.add (fileMenu);
@@ -510,7 +507,6 @@ public class Game_18XX extends XMLFrame {
 				KeyStroke.getKeyStroke (KeyEvent.VK_S, aShortcutKeyMask));
 		saveAsAction = new saveAsActionClass (resbundle.getString ("saveAsItem"));
 		saveConfigAction = new saveConfigActionClass (resbundle.getString ("saveConfigItem"));
-		frameInfoAction = new frameInfoActionClass (resbundle.getString ("frameInfoItem"));
 		exitAction = new exitActionClass (resbundle.getString ("exitItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_Q, aShortcutKeyMask));
 	}
@@ -573,10 +569,6 @@ public class Game_18XX extends XMLFrame {
 
 	public void disableSaveConfigMenuItem () {
 		saveConfigMenuItem.setEnabled (false);
-	}
-
-	public void disableFrameInfoMenuItem () {
-		frameInfoMenuItem.setEnabled (false);
 	}
 
 	public void updateDisconnectButton () {
@@ -680,15 +672,10 @@ public class Game_18XX extends XMLFrame {
 		saveConfigMenuItem.setEnabled (true);
 	}
 
-	public void enableFrameInfoMenuItem () {
-		frameInfoMenuItem.setEnabled (true);
-	}
-
 	public void enableSaveMenuItems () {
 		enableSaveMenuItem ();
 		enableSaveAsMenuItem ();
 		enableSaveConfigMenuItem ();
-		enableFrameInfoMenuItem ();
 	}
 
 	public void initiateGame () {
@@ -1010,18 +997,18 @@ public class Game_18XX extends XMLFrame {
 		}
 	}
 
-	public class frameInfoActionClass extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		public frameInfoActionClass (String text) {
-			super (text);
-		}
-
-		@Override
-		public void actionPerformed (ActionEvent e) {
-			gameManager.showFrameInfo ();
-		}
-	}
+//	public class frameInfoActionClass extends AbstractAction {
+//		private static final long serialVersionUID = 1L;
+//
+//		public frameInfoActionClass (String text) {
+//			super (text);
+//		}
+//
+//		@Override
+//		public void actionPerformed (ActionEvent e) {
+//			gameManager.showFrameInfo ();
+//		}
+//	}
 
 	private static void setupForMac () {
 		boolean tIsMacOS = false;

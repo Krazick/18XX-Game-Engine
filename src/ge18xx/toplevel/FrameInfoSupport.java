@@ -14,7 +14,7 @@ import ge18xx.game.FrameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.utilities.GUI;
 
-public class FrameInfoFrame extends XMLFrame implements ActionListener {
+public class FrameInfoSupport implements ActionListener {
 	ArrayList<XMLFrame> configFrames;
 	ArrayList<JPanel> infoJPanels;
 	JPanel frameInfoPanel;
@@ -23,21 +23,21 @@ public class FrameInfoFrame extends XMLFrame implements ActionListener {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+//	private static final long serialVersionUID = 1L;
 
-	public FrameInfoFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager.getGameName ());
+	public FrameInfoSupport (String aFrameName, GameManager aGameManager) {
+//		super (aFrameName, aGameManager.getGameName ());
 		configFrames = aGameManager.getConfigFrames ();
 		gameManager = aGameManager;
 
 		frameInfoPanel = new JPanel ();
 		frameInfoPanel.setLayout (new BoxLayout (frameInfoPanel, BoxLayout.Y_AXIS));
 		infoJPanels = new ArrayList<> ();
-		setLocation (100, 100);
-		setSize (500, 400);
+//		setLocation (100, 100);
+//		setSize (500, 400);
 
 		fillFrames ();
-		add (frameInfoPanel);
+//		add (frameInfoPanel);
 	}
 
 	public JPanel getFrameInfoPanel () {

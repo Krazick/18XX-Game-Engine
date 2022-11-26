@@ -60,7 +60,7 @@ import ge18xx.toplevel.AuctionFrame;
 import ge18xx.toplevel.AuditFrame;
 import ge18xx.toplevel.CitiesFrame;
 import ge18xx.toplevel.CorporationTableFrame;
-import ge18xx.toplevel.FrameInfoFrame;
+import ge18xx.toplevel.FrameInfoSupport;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.MarketFrame;
 import ge18xx.toplevel.MinorCompaniesFrame;
@@ -155,7 +155,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	AuditFrame auditFrame;
 	TileDefinitionFrame tileDefinitionFrame;
 	PlayerInputFrame playerInputFrame;
-	FrameInfoFrame frameInfoFrame;
+	FrameInfoSupport frameInfoFrame;
 
 	// Other Frames include:
 	// RoundFrame -- held by RoundManager
@@ -214,7 +214,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		addNewFrame (aGame_18XX_Frame);
 		game18XXFrame = aGame_18XX_Frame;
 		setPlayerInputFrame (PlayerInputFrame.NO_PLAYER_INPUT_FRAME);
-		setFrameInfoFrame (XMLFrame.NO_XML_FRAME);
 
 		setMapFrame (XMLFrame.NO_XML_FRAME);
 		setCitiesFrame (XMLFrame.NO_XML_FRAME);
@@ -439,13 +438,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	private void createFrameInfoFrame () {
-		FrameInfoFrame tFrameInfoFrame;
+		FrameInfoSupport tFrameInfoFrame;
 		String tFullTitle;
 
 		if (gameIsStarted ()) {
 			tFullTitle = createFrameTitle ("Frame Info");
 
-			tFrameInfoFrame = new FrameInfoFrame (tFullTitle, this);
+			tFrameInfoFrame = new FrameInfoSupport (tFullTitle, this);
 			setFrameInfoFrame (tFrameInfoFrame);
 			userPreferencesFrame.setFrameInfoPanel (tFrameInfoFrame.getFrameInfoPanel ());
 		}
@@ -1884,9 +1883,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		addNewFrame (aXMLFrame);
 	}
 	
-	private void setFrameInfoFrame (XMLFrame aXMLFrame) {
-		frameInfoFrame = (FrameInfoFrame) aXMLFrame;
-		addNewFrame (aXMLFrame);
+	private void setFrameInfoFrame (FrameInfoSupport aFrameInfoFrame) {
+		frameInfoFrame = aFrameInfoFrame;
+//		addNewFrame (aXMLFrame);
 	}
 
 	private void setTileDefinitionFrame (XMLFrame aXMLFrame) {
@@ -2778,14 +2777,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return game18XXFrame.getIconImage ();
 	}
 
-	public void showFrameInfo () {
-		if (frameInfoFrame != XMLFrame.NO_XML_FRAME) {
-			System.out.println ("Ready to show Frame Info Frame");
-			frameInfoFrame.setVisible (true);
-		} else {
-			System.out.println ("No Frame Info Setup yet");
-		}
-	}
+//	public void showFrameInfo () {
+//		if (frameInfoFrame != XMLFrame.NO_XML_FRAME) {
+//			System.out.println ("Ready to show Frame Info Frame");
+//			frameInfoFrame.setVisible (true);
+//		} else {
+//			System.out.println ("No Frame Info Setup yet");
+//		}
+//	}
 
 	public Benefit findBenefit (String aBenefitName) {
 		Benefit tBenefit;
