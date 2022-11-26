@@ -426,14 +426,11 @@ public class RoundFrame extends XMLFrame {
 
 		doButton = setupButton (PLAYER_DO_STOCK, PLAYER_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 		passButton = setupButton (PASS_STOCK_TEXT, PASS_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT);
-//		showGEFrameButton = setupButton ("Show Game Engine Frame", SHOW_GE_FRAME_ACTION, roundManager,
-//				Component.CENTER_ALIGNMENT);
 		resendLastActionButton = setupButton (RESEND_LAST_ACTION_LABEL, RESEND_LAST_ACTION, roundManager, Component.CENTER_ALIGNMENT);
 
 		addButtonAndSpace (buttonsJPanel, doButton);
 		addButtonAndSpace (buttonsJPanel, passButton);
 		buttonsJPanel.add (fastBuyJPanel);
-//		addButtonAndSpace (buttonsJPanel, showGEFrameButton);
 		addButtonAndSpace (buttonsJPanel, resendLastActionButton);
 
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
