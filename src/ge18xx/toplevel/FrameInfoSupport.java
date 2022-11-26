@@ -44,6 +44,8 @@ public class FrameInfoSupport implements ActionListener {
 		JPanel tOneFrameJPanel;
 
 		frameInfoPanel.add (Box.createVerticalStrut (10));
+		tOneFrameJPanel = buildHeaderPanel ();
+		frameInfoPanel.add (tOneFrameJPanel);
 		for (XMLFrame tXMLFrame : configFrames) {
 			if (tAddVerticalGlue) {
 				frameInfoPanel.add (Box.createVerticalGlue ());
@@ -60,6 +62,26 @@ public class FrameInfoSupport implements ActionListener {
 		frameInfoPanel.add (Box.createVerticalStrut (10));
 	}
 
+	private JPanel buildHeaderPanel () {
+		JPanel tOneFrameJPanel = null;
+		JLabel tLabel;
+		
+		tOneFrameJPanel = new JPanel ();
+		tOneFrameJPanel.setLayout (new BoxLayout (tOneFrameJPanel, BoxLayout.X_AXIS));
+		tOneFrameJPanel.add (Box.createHorizontalStrut (10));
+
+		tLabel = new JLabel ("Frame Title");
+		tOneFrameJPanel.add (tLabel);
+		tOneFrameJPanel.add (Box.createHorizontalGlue ());
+		addOneLabel ("X", tOneFrameJPanel);
+		addOneLabel ("Y",  tOneFrameJPanel);
+		addOneLabel ("Height", tOneFrameJPanel);
+		addOneLabel ("Width", tOneFrameJPanel);
+		tOneFrameJPanel.add (Box.createHorizontalStrut (75));
+
+		return tOneFrameJPanel;
+	}
+	
 	public JPanel buildOneFrameJPanel (XMLFrame aXMLFrame) {
 		FrameInfo tFrameInfo;
 		JButton tResetButton;
@@ -78,18 +100,10 @@ public class FrameInfoSupport implements ActionListener {
 			tLabel = new JLabel (tFrameName);
 			tOneFrameJPanel.add (tLabel);
 			tOneFrameJPanel.add (Box.createHorizontalGlue ());
-			tLabel = new JLabel (tFrameInfo.getX ());
-			tOneFrameJPanel.add (tLabel);
-			tOneFrameJPanel.add (Box.createHorizontalGlue ());
-			tLabel = new JLabel (tFrameInfo.getY ());
-			tOneFrameJPanel.add (tLabel);
-			tOneFrameJPanel.add (Box.createHorizontalGlue ());
-			tLabel = new JLabel (tFrameInfo.getHeightStr ());
-			tOneFrameJPanel.add (tLabel);
-			tOneFrameJPanel.add (Box.createHorizontalGlue ());
-			tLabel = new JLabel (tFrameInfo.getWidthStr ());
-			tOneFrameJPanel.add (tLabel);
-			tOneFrameJPanel.add (Box.createHorizontalGlue ());
+			addOneLabel (tFrameInfo.getX (), tOneFrameJPanel);
+			addOneLabel (tFrameInfo.getY (), tOneFrameJPanel);
+			addOneLabel (tFrameInfo.getHeightString (), tOneFrameJPanel);
+			addOneLabel (tFrameInfo.getWidthString (), tOneFrameJPanel);
 
 			tResetButton = new JButton (RESET);
 			tResetButton.setActionCommand (RESET + " " + tFrameName);
@@ -101,6 +115,14 @@ public class FrameInfoSupport implements ActionListener {
 
 		return tOneFrameJPanel;
 
+	}
+
+	public void addOneLabel (String aValue, JPanel aOneFrameJPanel) {
+		JLabel tLabel;
+		
+		tLabel = new JLabel (aValue);
+		aOneFrameJPanel.add (tLabel);
+		aOneFrameJPanel.add (Box.createHorizontalStrut (10));
 	}
 
 	@Override
