@@ -20,6 +20,7 @@ public class StockRound extends Round {
 	PlayerManager playerManager;
 	int currentPlayerIndex;
 	int priorityPlayerIndex;
+	int startRoundPriorityIndex;
 
 	public StockRound () {
 		super (null);
@@ -33,6 +34,7 @@ public class StockRound extends Round {
 	public void setStartingPlayer () {
 		setCurrentPlayer (FIRST_PLAYER, false);
 		setPriorityPlayer (FIRST_PLAYER);
+		setStartRoundPriorityIndex (FIRST_PLAYER);
 	}
 
 	public void clearAllPlayerPasses () {
@@ -172,6 +174,7 @@ public class StockRound extends Round {
 		// ChangeStateAction
 		playerManager.clearAllExchangedShares ();
 		setCurrentPlayer (getPriorityIndex (), true);
+		setStartRoundPriorityIndex (getPriorityIndex ());
 	}
 
 	public void setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious) {
@@ -204,6 +207,14 @@ public class StockRound extends Round {
 		priorityPlayerIndex = aPriorityIndex;
 	}
 
+	public void setStartRoundPriorityIndex (int aPriorityIndex) {
+		startRoundPriorityIndex = aPriorityIndex;
+	}
+	
+	public int getStartRoundPriorityIndex () {
+		return startRoundPriorityIndex;
+	}
+	
 	public void showCurrentPlayerFrame () {
 		playerManager.showPlayerFrame (currentPlayerIndex);
 	}
