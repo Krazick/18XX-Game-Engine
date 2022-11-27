@@ -1,5 +1,6 @@
 package ge18xx.game;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -20,8 +21,8 @@ import java.util.ResourceBundle;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -29,10 +30,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.Logger;
 
@@ -330,21 +330,26 @@ public class Game_18XX extends XMLFrame {
 		JLabel tGameEngineTitle;
 		JLabel tGameEngineVersion;
 		JLabel tClientLabel;
-		GroupLayout groupLayout;
+		JPanel tPrimaryPanel;
+		JPanel tClientPanel;
+		JPanel tButtonPanel;
 
+		tPrimaryPanel = new JPanel ();
+		tPrimaryPanel.setLayout (new BoxLayout (tPrimaryPanel, BoxLayout.Y_AXIS));
+		
 		tGameEngineTitle = new JLabel ("Game Engine Title");
 		tGameEngineTitle.setText (resbundle.getString ("message"));
 		tGameEngineTitle.setFont (new Font ("Lucida Grande", Font.BOLD, 20));
-		tGameEngineTitle.setHorizontalAlignment (SwingConstants.CENTER);
+		tGameEngineTitle.setAlignmentX (Component.CENTER_ALIGNMENT);
 
 		tJavaVersion = System.getProperty ("java.version");
 		tJavaLabel = new JLabel ("Java Version " + tJavaVersion);
-		tJavaLabel.setHorizontalAlignment (SwingConstants.CENTER);
+		tJavaLabel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		tJavaLabel.setFont (new Font ("Lucida Grande", Font.PLAIN, 14));
 
 		tGameEngineVersion = new JLabel ("Version: X.X");
 		tGameEngineVersion.setText ("V " + getGEVersion ());
-		tGameEngineVersion.setHorizontalAlignment (SwingConstants.CENTER);
+		tGameEngineVersion.setAlignmentX (Component.CENTER_ALIGNMENT);
 		tGameEngineVersion.setFont (new Font ("Lucida Grande", Font.PLAIN, 16));
 
 		tClientLabel = new JLabel ("Client User Name:");
@@ -352,38 +357,47 @@ public class Game_18XX extends XMLFrame {
 		clientUserName = new JTextField ();
 		clientUserName.setColumns (10);
 		clientUserName.setEnabled (true);
+		clientUserName.setSize (getPreferredSize());
+		
+		tClientPanel = new JPanel ();
+		tClientPanel.setLayout (new BoxLayout (tClientPanel, BoxLayout.X_AXIS));
+		tClientPanel.add (Box.createHorizontalStrut (10));
+		tClientPanel.add (tClientLabel);
+		tClientPanel.add (Box.createHorizontalStrut (10));
+		tClientPanel.add (clientUserName);
+		tClientPanel.add (Box.createHorizontalStrut (10));
+		
+		tPrimaryPanel.add (Box.createVerticalStrut (10));
+		tPrimaryPanel.add (tGameEngineTitle);
+		tPrimaryPanel.add (Box.createVerticalStrut (10));
+		tPrimaryPanel.add (tJavaLabel);
+		tPrimaryPanel.add (Box.createVerticalStrut (10));
+		tPrimaryPanel.add (tGameEngineVersion);
+		tPrimaryPanel.add (Box.createVerticalStrut (10));
+		tPrimaryPanel.add (Box.createVerticalGlue ());
+		tPrimaryPanel.add (tClientPanel);
+		tPrimaryPanel.add (Box.createVerticalGlue ());
+		tPrimaryPanel.add (Box.createVerticalStrut (10));
 
+		tButtonPanel = new JPanel ();
+		tButtonPanel.setLayout (new BoxLayout (tButtonPanel, BoxLayout.X_AXIS));
 		newGameButton = new JButton (OK_TEXT);
 		quitButton = new JButton (QUIT_TEXT);
 		disconnectButton = new JButton (JGameClient.DISCONNECT);
+		tButtonPanel.add (Box.createHorizontalStrut (10));
+		tButtonPanel.add (newGameButton);
+		tButtonPanel.add (Box.createHorizontalStrut (10));
+		tButtonPanel.add (quitButton);
+		tButtonPanel.add (Box.createHorizontalStrut (10));
+		tButtonPanel.add (disconnectButton);
+		tButtonPanel.add (Box.createHorizontalStrut (10));
 
-		groupLayout = new GroupLayout (getContentPane ());
-		groupLayout.setHorizontalGroup (groupLayout.createParallelGroup (Alignment.LEADING).addGroup (groupLayout
-				.createSequentialGroup ()
-				.addGroup (groupLayout.createParallelGroup (Alignment.LEADING)
-						.addGroup (groupLayout.createSequentialGroup ().addGap (100).addComponent (tGameEngineVersion))
-						.addGroup (groupLayout.createSequentialGroup ().addGap (55).addComponent (tGameEngineTitle))
-						.addGroup (groupLayout.createSequentialGroup ().addGap (100).addComponent (tJavaLabel))
-						.addGroup (groupLayout.createSequentialGroup ().addGap (55).addComponent (tClientLabel)
-								.addPreferredGap (ComponentPlacement.UNRELATED).addComponent (clientUserName,
-										GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGroup (groupLayout.createSequentialGroup ().addGap (20).addComponent (newGameButton)
-								.addGap (20).addComponent (quitButton).addGap (20).addComponent (disconnectButton)))
-				.addContainerGap (11, Short.MAX_VALUE)));
-		groupLayout.setVerticalGroup (groupLayout.createParallelGroup (Alignment.LEADING)
-				.addGroup (groupLayout.createSequentialGroup ().addGap (34).addComponent (tGameEngineTitle).addGap (18)
-						.addComponent (tGameEngineVersion).addGap (18)
-						.addComponent (tJavaLabel).addGap (18)
-						.addGroup (groupLayout.createParallelGroup (Alignment.BASELINE).addComponent (tClientLabel)
-								.addComponent (clientUserName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap (ComponentPlacement.UNRELATED)
-						.addGroup (groupLayout.createParallelGroup (Alignment.BASELINE).addComponent (newGameButton)
-								.addComponent (quitButton).addComponent (disconnectButton))
-						.addContainerGap (12, Short.MAX_VALUE)));
+		tButtonPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		tPrimaryPanel.add (tButtonPanel);
+		tPrimaryPanel.add (Box.createVerticalStrut (10));
+		add (tPrimaryPanel);
+		pack ();
 		disableGameButtons ();
-		getContentPane ().setLayout (groupLayout);
 	}
 
 	@Override
