@@ -415,7 +415,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		UserPreferencesFrame tUserPreferencesFrame;
 		String tFullTitle;
 
-		tFullTitle = createFrameTitle ("User Preferences");
+		tFullTitle = "User Preferences Frame";
 		tUserPreferencesFrame = new UserPreferencesFrame (tFullTitle, this);
 		setUserPreferencesFrame (tUserPreferencesFrame);
 		game18XXFrame.enableUserPreferencesMenuItem ();
