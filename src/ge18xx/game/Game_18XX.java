@@ -66,6 +66,8 @@ public class Game_18XX extends XMLFrame {
 
 	// Generic Game Engine Fields
 	private final String ENTER_USER_NAME = "Must Enter User Name";
+	private final String OK_TEXT = "OK";
+	private final String QUIT_TEXT = "Quit";
 	public final String DATA_URL_BASE = "DataURLBase";
 	protected ResourceBundle resbundle;
 	protected AboutBox aboutBox;
@@ -82,8 +84,6 @@ public class Game_18XX extends XMLFrame {
 	protected Action showAuditFrameAction;
 
 	// More Generic Game Engine Fields
-	GameManager gameManager;
-	PlayerInputFrame playerInputFrame;
 	JMenuBar mainMenuBar;
 	JMenuItem gameMenuItems[];
 	JMenuItem userPreferencesMenuItem;
@@ -95,12 +95,13 @@ public class Game_18XX extends XMLFrame {
 	JMenuItem saveConfigMenuItem;
 	JMenuItem frameInfoMenuItem;
 	JMenuItem exitMenuItem;
-	private String OK_TEXT = "OK";
-	private String QUIT_TEXT = "Quit";
 	private JTextField clientUserName;
 	private JButton newGameButton;
 	private JButton quitButton;
 	private JButton disconnectButton;
+	
+	GameManager gameManager;
+	PlayerInputFrame playerInputFrame;
 	LoggerLookup loggerLookup = new LoggerLookup ();
 	String userDir = System.getProperty ("user.dir");
 	Image iconImage;
