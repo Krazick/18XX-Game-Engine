@@ -91,7 +91,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 			playerNames [tIndex] = new JTextField (10);
 			playerNames [tIndex].addActionListener (this);
 			playerNames [tIndex].addFocusListener (this);
-
+			playerNames [tIndex].setMaximumSize (playerNames [tIndex].getMinimumSize ());
 			buildOnePlayerPanel (tIndex, tPlayersPanel);
 			tPlayersPanel.add (Box.createVerticalStrut (5));
 		}
