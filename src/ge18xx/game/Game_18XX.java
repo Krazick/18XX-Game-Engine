@@ -1,6 +1,7 @@
 package ge18xx.game;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -358,7 +359,6 @@ public class Game_18XX extends XMLFrame {
 		clientUserName = new JTextField ();
 		clientUserName.setColumns (10);
 		clientUserName.setEnabled (true);
-		clientUserName.setSize (getPreferredSize());
 		
 		tClientPanel = new JPanel ();
 		tClientPanel.setLayout (new BoxLayout (tClientPanel, BoxLayout.X_AXIS));
@@ -367,6 +367,7 @@ public class Game_18XX extends XMLFrame {
 		tClientPanel.add (Box.createHorizontalStrut (10));
 		tClientPanel.add (clientUserName);
 		tClientPanel.add (Box.createHorizontalStrut (10));
+		tClientPanel.setMaximumSize (new Dimension (320, 35));
 		
 		tPrimaryPanel.add (Box.createVerticalStrut (10));
 		tPrimaryPanel.add (tGameEngineTitle);

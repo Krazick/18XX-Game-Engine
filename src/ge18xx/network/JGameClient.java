@@ -3,6 +3,7 @@ package ge18xx.network;
 import java.awt.Adjustable;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -16,9 +17,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,7 +29,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -123,12 +122,17 @@ public class JGameClient extends XMLFrame {
 	private final String PLAY_GAME = "PLAY GAME";
 	private final String START_GAME = "START";
 	private final String NO_SELECTED_GAME = null;
+	// Static Labels
+	JLabel nameLabel = new JLabel ("Name:");
+	JLabel serverIPLabel = new JLabel ("Server IP:");
+	JLabel playersLabel = new JLabel ("Players");
+	JLabel messageLabel = new JLabel ("Message:");
 
 	// Java Swing Objects
 	private JTextPane chatText;
 	private JTextPane gameActivity;
 	private JTextField playerName;
-	private JTextField message;
+	private JTextField messageField;
 	private JButton connectButton;
 	private JButton sendMessageButton;
 	private JButton awayFromKeyboardAFKButton;
@@ -144,6 +148,12 @@ public class JGameClient extends XMLFrame {
 	private JPanel gamePanel;
 	private JPanel gameInfoPanel;
 	private JPanel networkSavedGamesPanel;
+	private JPanel primaryPanel;
+	private JPanel headerPanel;
+	private JPanel activityPanel;
+	private JPanel playersPanel;
+	private JPanel messagePanel;
+	private JPanel bottomPanel;
 	private JList<NetworkPlayer> playerList;
 	private JList<String> savedGamesList;
 	private DefaultListModel<String> savedGamesListModel;
@@ -285,7 +295,7 @@ public class JGameClient extends XMLFrame {
 			}
 		});
 
-		message.addActionListener (new ActionListener () {
+		messageField.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 				sendMessage (aActionEvent);
@@ -395,8 +405,8 @@ public class JGameClient extends XMLFrame {
 		connectButton.requestFocusInWindow ();
 		updateReadyButton (SELECT_GAME, false, NOT_CONNECTED);
 
-		message.setEnabled (false);
-		message.setFocusable (false);
+		messageField.setEnabled (false);
+		messageField.setFocusable (false);
 		serverIPField.setEnabled (true);
 		serverIPField.setToolTipText (GUI.NO_TOOL_TIP);
 
@@ -432,9 +442,9 @@ public class JGameClient extends XMLFrame {
 		playerName.setEnabled (false);
 		playerName.setEditable (false);
 		requestSavedGames ();
-		message.setEnabled (true);
-		message.setFocusable (true);
-		message.requestFocusInWindow ();
+		messageField.setEnabled (true);
+		messageField.setFocusable (true);
+		messageField.requestFocusInWindow ();
 		gameManager.updateDisconnectButton ();
 	}
 
@@ -470,98 +480,119 @@ public class JGameClient extends XMLFrame {
 		heartbeatThread.setContinueRunning (true);
 		hbeatThread.start ();
 	}
+	
+	private void buildPanels () {
+		primaryPanel = new JPanel ();
+		primaryPanel.setLayout (new BoxLayout (primaryPanel, BoxLayout.Y_AXIS));
+		buildHeaderPanel ();
+		buildActityAndPlayersPanel ();
+		buildMessagePanel ();
+		buildBottomPanel ();
+		
+		primaryPanel.add (Box.createVerticalStrut (10));
+		primaryPanel.add (headerPanel);
+		primaryPanel.add (Box.createVerticalGlue ());
+		primaryPanel.add (activityPanel);
+		primaryPanel.add (Box.createVerticalStrut (10));
+		primaryPanel.add (Box.createVerticalGlue ());
+		primaryPanel.add (messagePanel);
+		primaryPanel.add (Box.createVerticalStrut (10));
+		primaryPanel.add (Box.createVerticalGlue ());
+		primaryPanel.add (bottomPanel);
+		primaryPanel.add (Box.createVerticalStrut (10));
+		add (primaryPanel);
+	}
+
+	private void buildBottomPanel () {
+		bottomPanel = new JPanel ();
+		bottomPanel.setLayout (new BoxLayout (bottomPanel, BoxLayout.X_AXIS));
+		bottomPanel.add (Box.createHorizontalStrut (10));
+		bottomPanel.add (sendMessageButton);
+		bottomPanel.add (Box.createHorizontalGlue ());
+		bottomPanel.add (awayFromKeyboardAFKButton);
+		bottomPanel.add (Box.createHorizontalGlue ());
+		bottomPanel.add (disconnectButton);
+		bottomPanel.add (Box.createHorizontalStrut (10));
+	}
+
+	private void buildActityAndPlayersPanel () {
+		playersPanel = new JPanel ();
+		playersPanel.setLayout (new BoxLayout (playersPanel, BoxLayout.Y_AXIS));
+		playersPanel.add (Box.createVerticalStrut (10));
+		playersPanel.add (playersLabel);
+		playersPanel.add (Box.createVerticalStrut (10));
+		playerList.setFixedCellWidth (150);
+		playersPanel.add (playerList);
+		playersPanel.add (Box.createVerticalGlue ());
+		playersPanel.add (refreshPlayersButton);
+		playersPanel.add (Box.createVerticalStrut (10));
+		
+		activityPanel = new JPanel ();
+		activityPanel.setLayout (new BoxLayout (activityPanel, BoxLayout.X_AXIS));
+		activityPanel.add (Box.createHorizontalStrut (10));
+		splitPane.setAlignmentY (Component.TOP_ALIGNMENT);
+		activityPanel.add (splitPane);
+		activityPanel.add (Box.createHorizontalStrut (10));
+		playersPanel.setAlignmentY (Component.TOP_ALIGNMENT);
+		activityPanel.add (playersPanel);
+		activityPanel.add (Box.createHorizontalStrut (10));
+	}
+
+	private void buildMessagePanel () {
+		Dimension tDimensionPref;
+		
+		messagePanel = new JPanel ();
+		messagePanel.setLayout (new BoxLayout (messagePanel, BoxLayout.X_AXIS));
+		messagePanel.add (Box.createHorizontalStrut (10));
+		messagePanel.add (messageLabel);
+		messagePanel.add (Box.createHorizontalStrut (5));
+		messageField.setColumns (200);
+		tDimensionPref = messageField.getPreferredSize ();
+		messageField.setMaximumSize (tDimensionPref);
+		messagePanel.add (messageField);
+		messagePanel.add (Box.createHorizontalStrut (10));
+	}
+
+	private void buildHeaderPanel () {
+		headerPanel = new JPanel ();
+		headerPanel.setLayout (new BoxLayout (headerPanel, BoxLayout.X_AXIS));
+		headerPanel.add (Box.createHorizontalStrut (10));
+		headerPanel.add (nameLabel);
+		playerName.setColumns (10);
+		playerName.setMaximumSize (playerName.getMinimumSize ());
+		headerPanel.add (playerName);
+		headerPanel.add (Box.createHorizontalGlue ());
+		headerPanel.add (connectButton);
+		headerPanel.add (Box.createHorizontalGlue ());
+		headerPanel.add (showSavedGames);
+		headerPanel.add (Box.createHorizontalGlue ());
+		headerPanel.add (startReadyButton);
+		headerPanel.add (Box.createHorizontalGlue ());
+		headerPanel.add (serverIPLabel);
+		serverIPField.setColumns (10);
+		serverIPField.setMaximumSize (serverIPField.getMinimumSize ());
+		headerPanel.add (serverIPField);
+		headerPanel.add (Box.createHorizontalStrut (10));
+	}
 
 	private void setupJFrame () {
-		// Static Labels
-		JLabel lblName = new JLabel ("Name:");
-		JLabel lblServerChoice = new JLabel ("Server IP:");
-		JLabel lblPlayers = new JLabel ("Players");
-		JLabel lblMessage = new JLabel ("Message:");
-
-		lblName.setLabelFor (playerName);
-		lblMessage.setVerticalTextPosition (SwingConstants.BOTTOM);
-		lblMessage.setLabelFor (message);
+		nameLabel.setLabelFor (playerName);
+		messageLabel.setLabelFor (messageField);
 
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		buildFrameComponents ();
-
-		GroupLayout groupLayout = new GroupLayout (getContentPane ());
-		groupLayout.setHorizontalGroup (groupLayout.createParallelGroup (Alignment.LEADING).addGroup (groupLayout
-				.createSequentialGroup ().addGap (40)
-				.addGroup (groupLayout.createParallelGroup (Alignment.TRAILING)
-						.addGroup (groupLayout.createSequentialGroup ().addComponent (lblName)
-								.addPreferredGap (ComponentPlacement.UNRELATED)
-								.addComponent (playerName, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-								.addGap (18).addComponent (connectButton).addGap (18).addComponent (showSavedGames)
-								.addGap (18).addComponent (startReadyButton).addGap (18).addComponent (lblServerChoice)
-								.addPreferredGap (ComponentPlacement.UNRELATED).addComponent (serverIPField))
-						.addGroup (groupLayout.createSequentialGroup ().addPreferredGap (ComponentPlacement.RELATED)
-								.addComponent (lblMessage).addGap (18)
-								.addComponent (message, GroupLayout.PREFERRED_SIZE, 619, GroupLayout.PREFERRED_SIZE))
-						.addGroup (groupLayout.createSequentialGroup ().addComponent (sendMessageButton).addGap (18)
-								.addPreferredGap (ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
-								.addComponent (awayFromKeyboardAFKButton).addGap (85))
-						.addGroup (groupLayout.createSequentialGroup ()
-								.addGroup (groupLayout.createParallelGroup (Alignment.TRAILING)
-										.addComponent (splitPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
-												695, Short.MAX_VALUE))
-								.addPreferredGap (ComponentPlacement.RELATED)))
-				.addGroup (groupLayout.createParallelGroup (Alignment.LEADING).addGroup (groupLayout
-						.createSequentialGroup ()
-						.addGroup (groupLayout.createParallelGroup (Alignment.LEADING)
-								.addGroup (groupLayout.createSequentialGroup ().addGap (38).addComponent (lblPlayers,
-										GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
-								.addGroup (groupLayout.createSequentialGroup ().addGap (19)
-										.addGroup (groupLayout.createParallelGroup (Alignment.LEADING)
-												.addComponent (playerList, GroupLayout.DEFAULT_SIZE, 134,
-														Short.MAX_VALUE)
-												.addComponent (disconnectButton))))
-						.addGap (31))
-						.addGroup (Alignment.TRAILING,
-								groupLayout.createSequentialGroup ().addPreferredGap (ComponentPlacement.RELATED)
-										.addComponent (refreshPlayersButton, GroupLayout.PREFERRED_SIZE, 98,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap (40)))));
-		groupLayout.setVerticalGroup (groupLayout.createParallelGroup (Alignment.TRAILING)
-				.addGroup (groupLayout.createSequentialGroup ().addGap (17)
-						.addGroup (groupLayout.createParallelGroup (Alignment.BASELINE).addComponent (lblName)
-								.addComponent (playerName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent (connectButton).addComponent (showSavedGames)
-								.addComponent (startReadyButton).addComponent (lblServerChoice)
-								.addComponent (serverIPField).addComponent (lblPlayers))
-						.addPreferredGap (ComponentPlacement.RELATED)
-						.addGroup (groupLayout.createParallelGroup (Alignment.LEADING)
-								.addComponent (playerList, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 156,
-										Short.MAX_VALUE)
-								.addComponent (splitPane, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
-						.addGroup (groupLayout.createParallelGroup (Alignment.LEADING).addGroup (groupLayout
-								.createSequentialGroup ().addGap (3)
-								.addPreferredGap (ComponentPlacement.RELATED)
-								.addGroup (groupLayout.createParallelGroup (Alignment.BASELINE)
-										.addComponent (message, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent (lblMessage)))
-								.addGroup (groupLayout.createSequentialGroup ().addGap (18)
-										.addComponent (refreshPlayersButton)))
-						.addPreferredGap (ComponentPlacement.RELATED)
-						.addGroup (groupLayout.createParallelGroup (Alignment.BASELINE).addComponent (sendMessageButton)
-								.addComponent (awayFromKeyboardAFKButton).addComponent (disconnectButton))
-						.addGap (13)));
-		gameActivityPanel.setLayout (new BorderLayout (0, 0));
-		getContentPane ().setLayout (groupLayout);
-
+		buildPanels ();
+		
 		setForUnconnected ();
-		setSize (1060, 520);
+		setSize (1000, 520);
 	}
 
 	private void buildFrameComponents () {
 		// Text Fields
 		playerName = new JTextField ();
 		playerName.setColumns (10);
-		message = new JTextField ();
-		message.setActionCommand (SEND);
-		message.setColumns (80);
+		messageField = new JTextField (200);
+		messageField.setActionCommand (SEND);
 
 		serverIPField = new JTextField (DEFAULT_REMOTE_SERVER_IP, 10);
 		serverIPField.setHorizontalAlignment (SwingConstants.CENTER);
@@ -1039,7 +1070,7 @@ public class JGameClient extends XMLFrame {
 
 	private void sendMessage (String aAction) {
 		if (SEND.equals (aAction)) {
-			String tMessage = message.getText ();
+			String tMessage = messageField.getText ();
 
 			// De-activate AFK, if it has been set
 			backFromAFK ();
@@ -1056,7 +1087,7 @@ public class JGameClient extends XMLFrame {
 					appendToChat ("I said: " + tMessage, iSaid);
 				}
 			}
-			message.setText ("");
+			messageField.setText ("");
 		}
 	}
 
