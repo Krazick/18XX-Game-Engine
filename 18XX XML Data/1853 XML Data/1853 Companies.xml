@@ -5,28 +5,28 @@
 	xsi:schemaLocation="https://krazick.github.io/schema 
 						https://krazick.github.io/18XX-Game-Engine-XML/public/XSD/18XX-Corporations.xsd">
 	<Share id="1901" name="East Indian Railway" abbrev="EIR"
-		homeCell1="Jab" homeLocation1="7" homeCell2="Hx" homeLocation2="10"
+		homeCell1="Jab" homeLocation1="7" homeCell2="Hx" homeLocation2="10" homeType="both"
 		bgColor="Red" fgColor="White" tokens="5" startPrice="0,14">
 		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
 		<Certificate director="NO" percentage="10" quantity="8"
 			allowedOwners="IPO,Player,BankPool" />
 	</Share>
 	<Share id="1902" name="Great Indian Pennisula Railway" abbrev="GIP"
-		homeCell1="Mi" homeLocation1="10" homeCell2="Ht" homeLocation2="10"
+		homeCell1="Mi" homeLocation1="10" homeCell2="Ht" homeLocation2="10" homeType="both"
 		bgColor="204,102,0" fgColor="White" tokens="5" startPrice="1,13">
 		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
 		<Certificate director="NO" percentage="10" quantity="8"
 			allowedOwners="IPO,Player,BankPool" />
 	</Share>
 	<Share id="1903" name="North Western Railway" abbrev="NWR"
-		homeCell1="Fn" homeLocation1="7" homeCell2="Ck" homeLocation2="11"
+		homeCell1="Fn" homeLocation1="7" homeCell2="Ck" homeLocation2="11" homeType="both"
 		bgColor="Black" fgColor="White" tokens="5" startPrice="2,12">
 		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
 		<Certificate director="NO" percentage="10" quantity="8"
 			allowedOwners="IPO,Player,BankPool" />
 	</Share>
 	<Share id="1904" name="Bengal Nagpur Railway" abbrev="BNR"
-		homeCell1="Kq" homeLocation1="17" homeCell2="Jab" homeLocation2="11"
+		homeCell1="Kq" homeLocation1="17" homeCell2="Jab" homeLocation2="11" homeType="both"
 		bgColor="Dark Green" fgColor="White" tokens="5" startPrice="3,11">
 		<Certificate director="YES" percentage="20" allowedOwners="IPO,Player" />
 		<Certificate director="NO" percentage="10" quantity="8"
