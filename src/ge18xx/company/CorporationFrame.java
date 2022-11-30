@@ -1379,19 +1379,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 		return tFoundMapCellID;
 	}
-	
-//	private String getHomeMapCellID (int aHomeID) {
-//		String tMapCellID;
-//
-//		if (aHomeID == 1) {
-//			tMapCellID = corporation.getCorpHome1MapID ();
-//		} else if (aHomeID == 2) {
-//			tMapCellID = corporation.getCorpHome2MapID ();
-//		} else {
-//			tMapCellID = null;
-//		}
-//		return tMapCellID;
-//	}
 
 	private void updateOperateTrainButton (int aTrainCount) {
 		String tToolTip;
