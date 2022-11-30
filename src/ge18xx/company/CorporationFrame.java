@@ -302,14 +302,54 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tMap;
 	}
 
+	// For a company like Eire where it must choose between two Revenue Centers
+	// To place the Base Token, come here and enter Place Token Mode
+	
 	public void handlePlaceBaseToken () {
 		corporation.enterPlaceTokenMode ();
-		updateBaseSelectableMapCells ();
+	}
+	
+	// For when the Place Base Token Button that specifies a Map Cell ID
+	// Place the Token On, extract it's MapCellID, and Location 
+	public void handlePlaceBaseToken (String aSourceTitle) {
+		MapCell tMapCell;
+		Location tLocation;
+		
+		if (corporation.choiceForBaseToken ()) {
+			updateSelectableMapCell (aSourceTitle);
+			handlePlaceBaseToken ();
+		} else {
+			tMapCell = extractMapCell (aSourceTitle);
+			if (corporation.getHomeCity1 () == tMapCell) {
+				tLocation = corporation.getHomeLocation1 ();
+			} else if (corporation.getHomeCity2 () == tMapCell) {
+				tLocation = corporation.getHomeLocation2 ();
+			} else {
+				tLocation = Location.NO_LOC;
+			}
+			corporation.placeBaseToken (tMapCell, tLocation);
+		}
 	}
 
-	public void handlePlaceBaseTile () {
+	public void handlePlaceBaseTile (String aSourceTitle) {
+		MapCell tMapCell;
+		HexMap tMap;
+		
 		handlePlaceTile ();
-		updateBaseSelectableMapCells ();
+		tMapCell = extractMapCell (aSourceTitle);
+		tMap = getMap ();
+		tMap.toggleSelectedMapCell (tMapCell);
+	}
+
+	private void updateSelectableMapCell (String aSourceTitle) {
+		MapCell tMapCell;
+		HexMap tMap;
+		
+		tMap = getMap ();
+		tMap.removeAllSMC ();
+		tMap.clearAllSelected ();
+		tMapCell = extractMapCell (aSourceTitle);
+		addBaseMapCellToSMC (tMapCell, tMap);
 	}
 
 	public void updateBaseSelectableMapCells () {
@@ -346,9 +386,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	public void handlePlaceToken (String aSourceTitle) {
 		HexMap tMap;
-		MapCell tMapCell;
-		Location tLocation;
-		String tMapCellID;
+//		MapCell tMapCell;
+//		Location tLocation;
 
 		corporation.showTileTray ();
 		tMap = getMap ();
@@ -358,20 +397,31 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tMap.clearAllSelected ();
 			tMap.addReachableMapCells ();	// Currently does nothing.
 			updateTTODButtons ();
-		} else if (corporation.choiceForBaseToken ()) {
-			handlePlaceBaseToken ();
-		} else {
-			tMapCellID = extractMapCellID (aSourceTitle);
-			tMapCell = tMap.getMapCellForID (tMapCellID);
-			if (corporation.getHomeCity1 () == tMapCell) {
-				tLocation = corporation.getHomeLocation1 ();
-			} else if (corporation.getHomeCity2 () == tMapCell) {
-				tLocation = corporation.getHomeLocation2 ();
-			} else {
-				tLocation = Location.NO_LOC;
-			}
-			corporation.placeBaseToken (tMapCell, tLocation);
+//		} else if (corporation.choiceForBaseToken ()) {
+//			handlePlaceBaseToken ();
+//		} else {
+//			tMapCell = extractMapCell (aSourceTitle);
+//			if (corporation.getHomeCity1 () == tMapCell) {
+//				tLocation = corporation.getHomeLocation1 ();
+//			} else if (corporation.getHomeCity2 () == tMapCell) {
+//				tLocation = corporation.getHomeLocation2 ();
+//			} else {
+//				tLocation = Location.NO_LOC;
+//			}
+//			corporation.placeBaseToken (tMapCell, tLocation);
 		}
+	}
+
+	private MapCell extractMapCell (String aSourceTitle) {
+		MapCell tMapCell;
+		String tMapCellID;
+		HexMap tMap;
+		
+		tMap = getMap ();
+		tMapCellID = extractMapCellID (aSourceTitle);
+		tMapCell = tMap.getMapCellForID (tMapCellID);
+		
+		return tMapCell;
 	}
 
 	@Override
@@ -381,19 +431,22 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		JButton tSourceButton;
 
 		tCommand = aEvent.getActionCommand ();
+		corporation.showMap ();
+		tSourceButton = (JButton) aEvent.getSource ();
+		tSourceTitle = tSourceButton.getText ();
 		if (SHOW_MAP.equals (tCommand)) {
 			corporation.showMap ();
 		}
 		if (PLACE_BASE_TILE.equals (tCommand)) {
-			handlePlaceBaseTile ();
+			handlePlaceBaseTile (tSourceTitle);
 		}
 		if (PLACE_TILE.equals (tCommand)) {
 			handlePlaceTile ();
 		}
+		if (PLACE_BASE_TOKEN.equals (tCommand)) {
+			handlePlaceBaseToken (tSourceTitle);
+		}
 		if (PLACE_TOKEN.equals (tCommand)) {
-			corporation.showMap ();
-			tSourceButton = (JButton) aEvent.getSource ();
-			tSourceTitle = tSourceButton.getText ();
 			handlePlaceToken (tSourceTitle);
 		}
 		if (SKIP_BASE_TOKEN.equals (tCommand)) {
@@ -497,9 +550,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		placeTileButton = setupButton (PLACE_TILE, PLACE_TILE);
 		
 		tPlaceBaseTokenLabel = createBaseTokenLabel (1);
-		placeBaseTokenButton1 = setupButton (tPlaceBaseTokenLabel, PLACE_TOKEN);
+		placeBaseTokenButton1 = setupButton (tPlaceBaseTokenLabel, PLACE_BASE_TOKEN);
 		tPlaceBaseTokenLabel = createBaseTokenLabel (2);
-		placeBaseTokenButton2 = setupButton (tPlaceBaseTokenLabel, PLACE_TOKEN);
+		placeBaseTokenButton2 = setupButton (tPlaceBaseTokenLabel, PLACE_BASE_TOKEN);
 		placeTokenButton = setupButton (PLACE_TOKEN, PLACE_TOKEN);
 		showMapButton = setupButton (SHOW_MAP, SHOW_MAP);
 		operateTrainButton = setupButton (OPERATE_TRAIN, OPERATE_TRAIN);
@@ -1054,8 +1107,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		
 		aPlaceBaseTokenButton.setText (aPlaceBaseTokenLabel1);
 		aPlaceBaseTokenButton.setVisible (true);
-		tMapCellID = aMapCell.getID ();
 		aPlaceBaseTokenButton.setEnabled (false);
+		tMapCellID = aMapCell.getID ();
 		tToolTip = String.format (HOME_NO_TILE, tMapCellID);
 		if (aMapCell.isTileOnCell () ) {
 			if (corporation.isPlaceTileMode ()) {
@@ -1068,7 +1121,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		} else {
 			if (corporation.isTileAvailableForMapCell (aMapCell)) {
 				tToolTip = String.format (HOME_NO_TILE_AVAILABLE, tMapCellID);
-				aPlaceBaseTokenButton.setActionCommand (PLACE_TOKEN);
+//				aPlaceBaseTokenButton.setActionCommand (PLACE_BASE_TOKEN);
 			} else {
 				aPlaceBaseTokenButton.setText (SKIP_BASE_TOKEN);
 				aPlaceBaseTokenButton.setActionCommand (SKIP_BASE_TOKEN);
@@ -1078,7 +1131,59 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 		aPlaceBaseTokenButton.setToolTipText (tToolTip);
 	}
-	
+
+	private String createBaseTokenLabel (int aHomeID) {
+		String tMapCellID;
+		String tBaseTokenLabel;
+
+		tMapCellID = corporation.getHomeMapCellID (aHomeID);
+		tBaseTokenLabel = createBaseLabel (PLACE_BASE_TOKEN, tMapCellID);
+
+		return tBaseTokenLabel;
+	}
+
+	private String createBaseTileLabel (int aHomeID) {
+		String tMapCellID;
+		String tBaseTileLabel;
+
+		tMapCellID = corporation.getHomeMapCellID (aHomeID);
+		tBaseTileLabel = createBaseLabel (PLACE_BASE_TILE, tMapCellID);
+
+		return tBaseTileLabel;
+	}
+
+	private String createBaseLabel (String aPrefixString, String aHomeMapCellID) {
+		String tPlaseBaseLabel;
+
+		if (aHomeMapCellID != null) {
+			tPlaseBaseLabel = aPrefixString + " (" + aHomeMapCellID + ")";
+		} else {
+			tPlaseBaseLabel = aPrefixString;
+		}
+
+		return tPlaseBaseLabel;
+	}
+
+	private String extractMapCellID (String aLabelText) {
+		String tLabelTile = PLACE_BASE_TILE + " \\((.*)\\)";
+		String tLabelToken = PLACE_BASE_TOKEN + " \\((.*)\\)";
+		Pattern tLabelTokenPattern = Pattern.compile (tLabelToken);
+		Pattern tLabelTilePattern = Pattern.compile (tLabelTile);
+		Matcher tMatcherToken = tLabelTokenPattern.matcher (aLabelText);
+		Matcher tMatcherTile = tLabelTilePattern.matcher (aLabelText);
+		String tFoundMapCellID;
+
+		tFoundMapCellID = "";
+
+		if (tMatcherTile.find ()) {
+			tFoundMapCellID = tMatcherTile.group (1);
+		} else if (tMatcherToken.find () ) {
+			tFoundMapCellID = tMatcherToken.group (1);
+		}
+
+		return tFoundMapCellID;
+	}
+
 	private void updatePlaceTokenButton () {
 		String tDisableToolTipReason;
 //		String tMapCellID;
@@ -1093,23 +1198,28 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				tPlaceTokenText = PLACE_TOKEN;
 				placeTokenButton.setText (tPlaceTokenText);
 				if (corporation.isPlaceTileMode ()) {
-					placeTokenButton.setEnabled (false);
-					placeTokenButton.setToolTipText (IN_PLACE_TILE_MODE);
+					updateButton (placeTokenButton, false, IN_PLACE_TILE_MODE);
+//					placeTokenButton.setEnabled (false);
+//					placeTokenButton.setToolTipText (IN_PLACE_TILE_MODE);
 				} else if (corporation.isPlaceTokenMode ()) {
-					placeTokenButton.setEnabled (false);
-					placeTokenButton.setToolTipText (IN_TOKEN_MODE);
+					updateButton (placeTokenButton, false, IN_TOKEN_MODE);
+//					placeTokenButton.setEnabled (false);
+//					placeTokenButton.setToolTipText (IN_TOKEN_MODE);
 				} else if (corporation.haveMoneyForToken ()) {
-					placeTokenButton.setEnabled (true);
+					updateButton (placeTokenButton, true, GUI.NO_TOOL_TIP);
+//					placeTokenButton.setEnabled (true);
 					tSetCostOnLabel = true;
-					placeTokenButton.setToolTipText (GUI.NO_TOOL_TIP);
+//					placeTokenButton.setToolTipText (GUI.NO_TOOL_TIP);
 				} else {
-					placeTokenButton.setEnabled (false);
+//					placeTokenButton.setEnabled (false);
 					tDisableToolTipReason = corporation.reasonForNoTokenLay ();
-					placeTokenButton.setToolTipText (tDisableToolTipReason);
+//					placeTokenButton.setToolTipText (tDisableToolTipReason);
+					updateButton (placeTokenButton, false, tDisableToolTipReason);
 				}
 			} else {
-				placeTokenButton.setEnabled (false);
-				placeTokenButton.setToolTipText ("Have not placed Base Token yet");
+				updateButton (placeTokenButton, false, "Have not placed Base Token yet");
+//				placeTokenButton.setEnabled (false);
+//				placeTokenButton.setToolTipText ("Have not placed Base Token yet");
 //			} else {
 //				tMapCell = corporation.getHomeCity1 ();
 //				tMapCellID = tMapCell.getID ();
@@ -1326,58 +1436,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tToolTip = corporation.reasonForNoBuyTrain ();
 		}
 		updateButton (buyTrainButton, aEnable, tToolTip);
-	}
-
-	private String createBaseTokenLabel (int aHomeID) {
-		String tMapCellID;
-		String tBaseTokenLabel;
-
-		tMapCellID = corporation.getHomeMapCellID (aHomeID);
-		tBaseTokenLabel = createBaseLabel (PLACE_BASE_TOKEN, tMapCellID);
-
-		return tBaseTokenLabel;
-	}
-
-	private String createBaseTileLabel (int aHomeID) {
-		String tMapCellID;
-		String tBaseTileLabel;
-
-		tMapCellID = corporation.getHomeMapCellID (aHomeID);
-		tBaseTileLabel = createBaseLabel (PLACE_BASE_TILE, tMapCellID);
-
-		return tBaseTileLabel;
-	}
-
-	private String createBaseLabel (String aPrefixString, String aHomeMapCellID) {
-		String tPlaseBaseLabel;
-
-		if (aHomeMapCellID != null) {
-			tPlaseBaseLabel = aPrefixString + " (" + aHomeMapCellID + ")";
-		} else {
-			tPlaseBaseLabel = aPrefixString;
-		}
-
-		return tPlaseBaseLabel;
-	}
-
-	private String extractMapCellID (String aLabelText) {
-		String tLabelTile = PLACE_BASE_TILE + " \\((.*)\\)";
-		String tLabelToken = PLACE_BASE_TOKEN + " \\((.*)\\)";
-		Pattern tLabelTokenPattern = Pattern.compile (tLabelToken);
-		Pattern tLabelTilePattern = Pattern.compile (tLabelTile);
-		Matcher tMatcherToken = tLabelTokenPattern.matcher (aLabelText);
-		Matcher tMatcherTile = tLabelTilePattern.matcher (aLabelText);
-		String tFoundMapCellID;
-
-		tFoundMapCellID = "";
-
-		if (tMatcherTile.find ()) {
-			tFoundMapCellID = tMatcherTile.group (1);
-		} else if (tMatcherToken.find () ) {
-			tFoundMapCellID = tMatcherToken.group (1);
-		}
-
-		return tFoundMapCellID;
 	}
 
 	private void updateOperateTrainButton (int aTrainCount) {
