@@ -695,6 +695,25 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
+	public boolean allBasesHaveTiles () {
+		boolean tAllBasesHaveTiles;
+		
+		tAllBasesHaveTiles = false;
+		if (homeCity1 != null) {
+			if (hasTwoBases ()) {
+				if (homeCity2 != null) {
+					if (homeCity1.isTileOnCell () && homeCity2.isTileOnCell ()) {
+						tAllBasesHaveTiles = true;
+					}
+				}
+			} else {
+				tAllBasesHaveTiles = homeCity1.isTileOnCell ();
+			}
+		}
+		return tAllBasesHaveTiles;
+	}
+	
+	@Override
 	public boolean canLayTile () {
 		boolean tCanLayTile;
 
