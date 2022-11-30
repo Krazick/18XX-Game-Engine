@@ -386,8 +386,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	public void handlePlaceToken (String aSourceTitle) {
 		HexMap tMap;
-//		MapCell tMapCell;
-//		Location tLocation;
 
 		corporation.showTileTray ();
 		tMap = getMap ();
@@ -397,18 +395,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tMap.clearAllSelected ();
 			tMap.addReachableMapCells ();	// Currently does nothing.
 			updateTTODButtons ();
-//		} else if (corporation.choiceForBaseToken ()) {
-//			handlePlaceBaseToken ();
-//		} else {
-//			tMapCell = extractMapCell (aSourceTitle);
-//			if (corporation.getHomeCity1 () == tMapCell) {
-//				tLocation = corporation.getHomeLocation1 ();
-//			} else if (corporation.getHomeCity2 () == tMapCell) {
-//				tLocation = corporation.getHomeLocation2 ();
-//			} else {
-//				tLocation = Location.NO_LOC;
-//			}
-//			corporation.placeBaseToken (tMapCell, tLocation);
 		}
 	}
 
@@ -1121,7 +1107,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		} else {
 			if (corporation.isTileAvailableForMapCell (aMapCell)) {
 				tToolTip = String.format (HOME_NO_TILE_AVAILABLE, tMapCellID);
-//				aPlaceBaseTokenButton.setActionCommand (PLACE_BASE_TOKEN);
 			} else {
 				aPlaceBaseTokenButton.setText (SKIP_BASE_TOKEN);
 				aPlaceBaseTokenButton.setActionCommand (SKIP_BASE_TOKEN);
@@ -1186,7 +1171,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void updatePlaceTokenButton () {
 		String tDisableToolTipReason;
-//		String tMapCellID;
 		String tPlaceTokenText;
 		MapCell tMapCell;
 		int tCost;
@@ -1199,65 +1183,17 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				placeTokenButton.setText (tPlaceTokenText);
 				if (corporation.isPlaceTileMode ()) {
 					updateButton (placeTokenButton, false, IN_PLACE_TILE_MODE);
-//					placeTokenButton.setEnabled (false);
-//					placeTokenButton.setToolTipText (IN_PLACE_TILE_MODE);
 				} else if (corporation.isPlaceTokenMode ()) {
 					updateButton (placeTokenButton, false, IN_TOKEN_MODE);
-//					placeTokenButton.setEnabled (false);
-//					placeTokenButton.setToolTipText (IN_TOKEN_MODE);
 				} else if (corporation.haveMoneyForToken ()) {
 					updateButton (placeTokenButton, true, GUI.NO_TOOL_TIP);
-//					placeTokenButton.setEnabled (true);
 					tSetCostOnLabel = true;
-//					placeTokenButton.setToolTipText (GUI.NO_TOOL_TIP);
 				} else {
-//					placeTokenButton.setEnabled (false);
 					tDisableToolTipReason = corporation.reasonForNoTokenLay ();
-//					placeTokenButton.setToolTipText (tDisableToolTipReason);
 					updateButton (placeTokenButton, false, tDisableToolTipReason);
 				}
 			} else {
 				updateButton (placeTokenButton, false, "Have not placed Base Token yet");
-//				placeTokenButton.setEnabled (false);
-//				placeTokenButton.setToolTipText ("Have not placed Base Token yet");
-//			} else {
-//				tMapCell = corporation.getHomeCity1 ();
-//				tMapCellID = tMapCell.getID ();
-//				tPlaceTokenText = createBaseTokenLabel (1);
-//				placeTokenButton.setText (tPlaceTokenText);
-//				if (!corporation.homeMapCell1HasTile ()) {
-//					placeTokenButton.setEnabled (false);
-//					if (corporation.isTileAvailableForMapCell (tMapCell)) {
-//						tDisableToolTipReason = String.format (HOME_NO_TILE, tMapCellID);
-//						placeTokenButton.setActionCommand (PLACE_TOKEN);
-//						placeTokenButton.setToolTipText (tDisableToolTipReason);
-//					} else {
-//						placeTokenButton.setText (SKIP_BASE_TOKEN);
-//						placeTokenButton.setActionCommand (SKIP_BASE_TOKEN);
-//						placeTokenButton.setEnabled (true);
-//						placeTokenButton.setToolTipText (GUI.NO_TOOL_TIP);
-//					}
-//				} else if (!corporation.homeMapCell2HasTile ()) {
-//					tMapCell = corporation.getHomeCity2 ();
-//					tMapCellID = tMapCell.getID ();
-//					tPlaceTokenText = createBaseTokenLabel (2);
-//					placeTokenButton.setText (tPlaceTokenText);
-//					tDisableToolTipReason = String.format (HOME_NO_TILE, tMapCellID);
-//					if (corporation.isTileAvailableForMapCell (tMapCell)) {
-//						placeTokenButton.setEnabled (false);
-//						placeTokenButton.setActionCommand (PLACE_TOKEN);
-//						placeTokenButton.setToolTipText (tDisableToolTipReason);
-//					} else {
-//						placeTokenButton.setText (SKIP_BASE_TOKEN);
-//						placeTokenButton.setActionCommand (SKIP_BASE_TOKEN);
-//						placeTokenButton.setEnabled (true);
-//						placeTokenButton.setToolTipText (GUI.NO_TOOL_TIP);
-//					}
-//				} else {
-//					placeTokenButton.setActionCommand (PLACE_TOKEN);
-//					placeTokenButton.setEnabled (true);
-//					placeTokenButton.setToolTipText (GUI.NO_TOOL_TIP);
-//				}
 			}
 		} else {
 			placeTokenButton.setText (PLACE_TOKEN);
