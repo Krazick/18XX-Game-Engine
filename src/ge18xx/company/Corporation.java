@@ -67,6 +67,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public static final AttributeName AN_ABBREV = new AttributeName ("abbrev");
 	public static final AttributeName AN_HOMECELL1 = new AttributeName ("homeCell1");
 	public static final AttributeName AN_HOMECELL2 = new AttributeName ("homeCell2");
+	public static final AttributeName AN_HOME_TYPE= new AttributeName ("homeType");
 	public static final AttributeName AN_CORP_STATUS = new AttributeName ("status");
 	public static final AttributeName AN_GOVT_RAILWAY = new AttributeName ("govtRailway");
 	public static final AttributeName AN_FORMATION_PHASE = new AttributeName ("formationPhase");
@@ -82,6 +83,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public static final String SHARE_COMPANY = "Share";
 	public static final String NO_NAME = ActorI.NO_NAME;
 	public static final String FORMATION_PHASE1 = "1";
+	public static final String HOME_TYPE_CHOICE = "choice";
+	public static final String HOME_TYPE_BOTH = "both";
 	public static final int NO_ID = 0;
 	public static final Corporation NO_CORPORATION = null;
 	static final String enum_closed = ActionStates.Closed.toString ();
@@ -108,6 +111,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	Location homeLocation1;
 	MapCell homeCity2;
 	Location homeLocation2;
+	String homeType;
 	ActorI.ActionStates status;
 	CorporationFrame corporationFrame;
 	CorporationList corporationList;
@@ -144,6 +148,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		String tName, tAbbrev;
 		String tHomeCityGrid1;
 		String tHomeCityGrid2;
+		String tHomeType;
 		Benefit tBenefitInUse;
 
 		corporationCertificates = new Portfolio (this);
@@ -165,6 +170,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		setHomeCityGrid2 (tHomeCityGrid2);
 		tLocation = aXMLNode.getThisIntAttribute (Location.AN_HOME_LOCATION2, Location.NO_LOCATION);
 		homeLocation2 = new Location (tLocation);
+		
+		tHomeType = aXMLNode.getThisAttribute (AN_HOME_TYPE);
+		setHomeType (tHomeType);
+		
 		loadFormationInfo (aXMLNode);
 
 		setStatus (aXMLNode);
@@ -285,6 +294,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		aCorporationList.addDataElement (getHomeLocation1Int (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getHomeCityGrid2 (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getHomeLocation2Int (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getHomeType (), aRowIndex, tCurrentColumn++);
 
 		return tCurrentColumn;
 	}
@@ -299,6 +309,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		aCorporationList.addHeader ("Home Loc 1", tCurrentColumn++);
 		aCorporationList.addHeader ("Home Cell 2", tCurrentColumn++);
 		aCorporationList.addHeader ("Home Loc 2", tCurrentColumn++);
+		aCorporationList.addHeader ("Home Type", tCurrentColumn++);
 
 		return tCurrentColumn;
 	}
@@ -845,7 +856,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	// For the Corporation List Columns
 	public int fieldCount () {
-		return 9;
+		return 10;
 	}
 
 	// TODO Reorder methods with single call to corporationList together
@@ -1115,6 +1126,57 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		}
 	}
 
+	public String getHomeType () {
+		return homeType;
+	}
+	
+	public boolean isHomeTypeChoice () {
+		boolean tIsChoice;
+		
+		tIsChoice = false;
+		if (homeType == null) {
+			tIsChoice = false;
+		} else if (homeType.equals (HOME_TYPE_CHOICE)) {
+			tIsChoice = true;
+		}
+		
+		return tIsChoice;
+	}
+	
+	public boolean isHomeTypeBoth () {
+		boolean tIsBoth;
+		
+		tIsBoth = false;
+		if (homeType == null) {
+			tIsBoth = false;
+		} else if (homeType.equals (HOME_TYPE_BOTH)) {
+			tIsBoth = true;
+		}
+		
+		return tIsBoth;
+	}
+	
+	public boolean allBasesHaveTiles () {
+		boolean tAllBasesHaveTiles;
+		
+		tAllBasesHaveTiles = false;
+		
+		return tAllBasesHaveTiles;
+	}
+	
+	public boolean hasTwoBases () {
+		boolean tHasTwoBases;
+		
+		if ((getHomeCity1 () != MapCell.NO_MAP_CELL) &&
+			(getHomeCity2 () != MapCell.NO_MAP_CELL)) {
+			tHasTwoBases = true;
+		} else {
+			tHasTwoBases = false;
+		}
+		
+		return tHasTwoBases;
+	}
+	
 	// TokenCompany will Override
 	public MapToken getMapToken () {
 		return null;
@@ -1496,12 +1558,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationList.tileTrayVisible ();
 	}
 
-//	@Override
-//	public void replacePortfolioInfo (JPanel aPortfolioInfoJPanel) {
-//		// Note -- Will need to activate when CorporationFrame is built
-//		// corporationFrame.replacePortfolioInfo (aPortfolioInfoJPanel);
-//	}
-
 	public void printOwnershipReport () {
 		System.out.println ("Who Owns this Corporation");
 		corporationCertificates.printPortfolioInfo ();
@@ -1570,6 +1626,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		homeCityGrid2 = aHomeCityGrid;
 	}
 
+	protected void setHomeType (String aHomeType) {
+		homeType = aHomeType;
+	}
+	
 	protected void setName (String aName) {
 		name = aName;
 	}
@@ -1578,10 +1638,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		resetStatus (aPrimaryActionState);
 	}
-//
-//	public void setPrimaryActionState (ActorI.ActionStates aStatus) {
-//		resetStatus (aStatus);
-//	}
 
 	/**
 	 * Force Reset the Corporation Status to the provided Status -- NO Checks to see
@@ -2359,7 +2415,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return gameTestFlag;
 	}
 
-	public void placeBaseTokens () {
+	public void placeBaseToken (MapCell aMapCell, Location aHomeLocation) {
 		// Override in Token Company Class
 	}
 
@@ -2476,5 +2532,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 				e.printStackTrace ();
 			}
 		}
+	}
+
+	public boolean haveLaidThisBaseToken (MapCell tMapCell) {
+		return false;
 	}
 }
