@@ -165,7 +165,6 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public void fullOwnershipAdjustment (StockRound aStockRound, Market aMarket) {
-//		ShareCompany tShareCompany;
 		MarketCell tMarketCell, tPreviousMarketCell;
 		int tRowCount, tColCount, tRowIndex, tColIndex;
 		boolean tNeighborDown;
