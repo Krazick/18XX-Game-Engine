@@ -43,7 +43,10 @@ public class ActionReportFrame extends XMLFrame {
 		setSize (800, 500);
 		actionReport.setEditable (false);
 	}
-
+	
+	/**
+	 * Update the Frame, and specifically updateFrameTitle (from super class XMLFrame) with the static BASE_TITLE provided
+	 */
 	public void updateFrame () {
 		updateFrameTitle (BASE_TITLE);
 	}
