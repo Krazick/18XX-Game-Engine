@@ -101,7 +101,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	CorporationList minorCos;
 	CorporationList shareCos;
 	String companyAbbrev;
-//	GameManager gameManager;
 	RouteInformation routeInformation;
 	private String RESET_ALL_FLAGS = "Reset All Flags";
 	private String BUILD_GRAPHS = "Build Graphs";
@@ -115,8 +114,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	public MapFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
-//
-//		gameManager = aGameManager;
 
 		buildMapScrollPanel ();
 		buildNorthPanel ();
@@ -132,6 +129,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		return logger;
 	}
 
+	/**
+	 * Update the Frame, and specifically updateFrameTitle (from super class XMLFrame) with the static BASE_TITLE provided
+	 */
 	public void updateFrame () {
 		updateFrameTitle (BASE_TITLE);
 	}
@@ -951,11 +951,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	public void setSelectRouteMode (boolean aMode) {
 		selectRouteMode = aMode;
-//		if (selectRouteMode) {
-//			selectRouteButton.setText ("Exit Select Route Mode");
-//		} else {
-//			selectRouteButton.setText ("Enter Select Route Mode");
-//		}
 		map.setSelectTrackSegment (aMode);
 		map.setSelectRevenueCenter (aMode);
 		map.setSingleMapCellSelect (!aMode);
