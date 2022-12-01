@@ -23,10 +23,10 @@ public class TileTrayFrame extends XMLFrame {
 	public static final String BASE_TITLE = "Tile Tray";
 	public static final XMLFrame NO_TILE_TRAY_FRAME = null;
 	TileSet tileSet;
-	GameManager gameManager;
+//	GameManager gameManager;
 
 	public TileTrayFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager.getActiveGameName ());
+		super (aFrameName, aGameManager);
 
 		buildTileTrayScrollPanel ();
 
@@ -34,12 +34,12 @@ public class TileTrayFrame extends XMLFrame {
 		// Height - 115 Pixels per Row
 		// Count types of tiles, and divide by TILES/ROW, round up, to get how many rows
 		// need to show
-
-		gameManager = aGameManager;
+//
+//		gameManager = aGameManager;
 	}
 
 	public void updateFrame () {
-		updateFrameTitle (gameManager, BASE_TITLE);
+		updateFrameTitle (BASE_TITLE);
 	}
 
 	private void buildTileTrayScrollPanel () {

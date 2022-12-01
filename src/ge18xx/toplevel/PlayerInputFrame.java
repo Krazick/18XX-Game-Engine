@@ -50,7 +50,6 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	private static final long serialVersionUID = 1L;
 	static final int MAX_PLAYERS = 8;
 	static final int MAX_GAMES = 5;
-	GameManager gameManager;
 	GameSet gameSet;
 	int playerCount;
 	JTextField [] playerNames;
@@ -60,7 +59,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	Logger logger;
 
 	public PlayerInputFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, "Player Input Frame");
+		super (aFrameName, aGameManager);
 		String tClientUserName;
 
 		setGameManager (aGameManager);
@@ -162,7 +161,6 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	}
 
 	public void handleHotseatGameStart (GameInfo aGameInfo) {
-//		randomizePlayerOrder ();
 		setVisible (false);
 		initiateGame (aGameInfo);
 		logger.info ("Start new Game [" + aGameInfo.getGameName () + "] with Players [" + getPlayersInOrder () + "]");
@@ -474,11 +472,6 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		setVisible (false);
 		gameManager.setPlayerInputFrame (this);
 		gameManager.loadSavedGame ();
-	}
-
-	public void setGameManager (GameManager aGameManager) {
-		gameManager = aGameManager;
-		gameManager.setPlayerInputFrame (this);
 	}
 
 	public boolean isNetworkGame () {

@@ -101,7 +101,7 @@ public class Game_18XX extends XMLFrame {
 	private JButton quitButton;
 	private JButton disconnectButton;
 	
-	GameManager gameManager;
+//	GameManager gameManager;
 	PlayerInputFrame playerInputFrame;
 	LoggerLookup loggerLookup = new LoggerLookup ();
 	String userDir = System.getProperty ("user.dir");
@@ -112,7 +112,7 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	public Game_18XX (boolean aVisible) {
-		super ("");
+		super ("", GameManager.NO_GAME_MANAGER);
 
 		// The ResourceBundle below contains all of the strings used in this
 		// application. ResourceBundles are useful for localizing applications.
@@ -225,9 +225,9 @@ public class Game_18XX extends XMLFrame {
 		return iconImage;
 	}
 
-	public void setGameManager (GameManager aGameManager) {
-		gameManager = aGameManager;
-	}
+//	public void setGameManager (GameManager aGameManager) {
+//		gameManager = aGameManager;
+//	}
 
 	private void setupAutoSavesAndLogDirectory () {
 		String tAutoSavesDirName;

@@ -315,7 +315,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tXMLCitiesName = getCitiesFileName ();
 			tXMLCitiesName = getXMLBaseDirectory () + tXMLCitiesName;
 			tFullFrameTitle = createFrameTitle (tType);
-			tCitiesFrame = new CitiesFrame (tFullFrameTitle, tActiveGameName);
+			tCitiesFrame = new CitiesFrame (tFullFrameTitle, this);
 			setCitiesFrame (tCitiesFrame);
 			tXMLDocument = readXMLfromURL (tActiveGameName, tType);
 			try {
@@ -647,7 +647,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tTileTrayFrame.loadTileTrayFrame (tXMLDocument);
 
 			tFrameTitle = createFrameTitle (TileDefinitionFrame.BASE_TITLE);
-			tTileDefinitionFrame = new TileDefinitionFrame (tFrameTitle, tTileTrayFrame, tActiveGameName);
+			tTileDefinitionFrame = new TileDefinitionFrame (tFrameTitle, tTileTrayFrame, this);
 			setTileDefinitionFrame (tTileDefinitionFrame);
 			
 			tURLBase = game18XXFrame.getURLBase ();

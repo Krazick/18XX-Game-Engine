@@ -30,6 +30,8 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class XMLFrame extends JFrame {
+	public GameManager gameManager;
+	
 	public static enum Visibility {
 		ON, OFF, CONFIG_VALUE
 	}
@@ -46,20 +48,33 @@ public class XMLFrame extends JFrame {
 	String gameName;
 	JScrollPane scrollPane;
 
-	public XMLFrame (String aFrameName) {
-		this (aFrameName, GameManager.NO_GAME_NAME);
-	}
+//	public XMLFrame (String aFrameName, GameManager aGameManager) {
+//		this (aFrameName, GameManager.NO_GAME_NAME);
+//	}
 
-	public XMLFrame (String aFrameName, String aGameName) {
-		super (aFrameName);
-		gameName = aGameName;
+	public XMLFrame (String aFrameName, GameManager aGameManager) {
+		super ();
+//		super (aGameManager.getActiveGameName ());
+		setGameManager (aGameManager);
+		if (gameManager == GameManager.NO_GAME_MANAGER) {
+			gameName = GameManager.NO_GAME_NAME;
+		} else {
+			gameName = gameManager.getActiveGameName ();
+		}
+		setTitle (aFrameName);
 	}
 	
-	public void updateFrameTitle (GameManager aGameManager, String aBaseTitle) {
+	public void setGameManager (GameManager aGameManager) {
+		gameManager = aGameManager;
+	}
+	
+	public void updateFrameTitle (String aBaseTitle) {
 		String tFrameTitle;
 
-		tFrameTitle = aGameManager.createFrameTitle (aBaseTitle);
-		setTitle (tFrameTitle);
+		if (gameManager != GameManager.NO_GAME_MANAGER) {
+			tFrameTitle = gameManager.createFrameTitle (aBaseTitle);
+			setTitle (tFrameTitle);
+		}
 	}
 
 	protected void setIconImage (GameManager aGameManager) {

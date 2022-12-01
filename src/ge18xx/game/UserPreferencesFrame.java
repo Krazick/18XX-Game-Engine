@@ -30,12 +30,12 @@ public class UserPreferencesFrame extends XMLFrame {
 	JScrollPane colorsSPane;
 	PlayerOrderPreference playerOrderPreference;
 	ClientNameInFramePreference clientNameInFramePreference;
-	GameManager gameManager;
+//	GameManager gameManager;
 	
 	public UserPreferencesFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName);
+		super (aFrameName, aGameManager);
 		
-		gameManager = aGameManager;
+//		gameManager = aGameManager;
 		setupJTabbedPane (aGameManager);
 	}
 	

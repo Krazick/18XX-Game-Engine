@@ -20,7 +20,7 @@ public class CorporationTableFrame extends XMLFrame {
 	CorporationList companies;
 
 	public CorporationTableFrame (String aFrameName, ElementName aTypeName, RoundManager aRoundManager) {
-		super (aFrameName, aRoundManager.getGameName ());
+		super (aFrameName, aRoundManager.getGameManager ());
 
 		JTable tTable;
 

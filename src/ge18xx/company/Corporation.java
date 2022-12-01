@@ -1588,7 +1588,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			tGameManager = corporationList.getGameManager ();
 			tIsNetworkGame = tGameManager.isNetworkGame ();
 			tFullTitle = tGameManager.createFrameTitle ("Corporation");
-			corporationFrame = new CorporationFrame (tFullTitle, this, tIsNetworkGame);
+			corporationFrame = new CorporationFrame (tFullTitle, this, tIsNetworkGame, tGameManager);
 		} else {
 			corporationFrame = (CorporationFrame) XMLFrame.NO_XML_FRAME;
 		}

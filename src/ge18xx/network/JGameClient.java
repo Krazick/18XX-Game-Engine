@@ -185,7 +185,7 @@ public class JGameClient extends XMLFrame {
 	}
 
 	public JGameClient (String aTitle, NetworkGameSupport aGameManager, String aServerIP, int aServerPort) {
-		super (aTitle);
+		super (aTitle, (GameManager) aGameManager);
 		Point tNewPoint;
 
 		gameManager = aGameManager;
@@ -206,7 +206,7 @@ public class JGameClient extends XMLFrame {
 	}
 
 	public void updateFrame () {
-		updateFrameTitle ((GameManager) gameManager, BASE_TITLE);
+		updateFrameTitle (BASE_TITLE);
 	}
 
 	private boolean setupServerInfo () {

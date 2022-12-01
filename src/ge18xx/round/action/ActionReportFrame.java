@@ -8,9 +8,11 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
 
 public class ActionReportFrame extends XMLFrame {
+	public static final String BASE_TITLE = "Action Report";
 	private static final long serialVersionUID = 1L;
 	JTextPane actionReport;
 	JScrollPane actionScrollPane;
@@ -18,8 +20,8 @@ public class ActionReportFrame extends XMLFrame {
 	SimpleAttributeSet normalKeyWord;
 	SimpleAttributeSet errorKeyWord;
 
-	public ActionReportFrame (String aFrameName, String aGameName) {
-		super (aFrameName, aGameName);
+	public ActionReportFrame (String aFrameName, GameManager aGameManager) {
+		super (aFrameName, aGameManager);
 		actionReport = new JTextPane ();
 		actionReport.setText ( "Action Report:\n" );
 		actionReportDoc = actionReport.getStyledDocument ();
@@ -40,6 +42,10 @@ public class ActionReportFrame extends XMLFrame {
 		add (actionScrollPane);
 		setSize (800, 500);
 		actionReport.setEditable (false);
+	}
+
+	public void updateFrame () {
+		updateFrameTitle (BASE_TITLE);
 	}
 
 	/**

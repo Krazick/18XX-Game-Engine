@@ -46,7 +46,7 @@ public class ActionManager {
 		tFullTitle = gameManager.createFrameTitle ("Action Report");
 		actions = new LinkedList<> ();
 		actionsToRemove = new LinkedList<> ();
-		actionReportFrame = new ActionReportFrame (tFullTitle, aRoundManager.getGameName ());
+		actionReportFrame = new ActionReportFrame (tFullTitle, gameManager);
 		gameManager.addNewFrame (actionReportFrame);
 		setActionNumber (DEFAULT_ACTION_NUMBER);
 		logger = Game_18XX.getLoggerX ();
@@ -312,7 +312,7 @@ public class ActionManager {
 			if (actions.isEmpty ()) {
 				System.err.println ("No Actions to resend");
 			} else {
-				tResendLastActionsFrame = new ResendLastActionsFrame ("Resend Last Actions", this);
+				tResendLastActionsFrame = new ResendLastActionsFrame ("Resend Last Actions", this, gameManager);
 				tResendLastActionsFrame.resendLastActionsToNet ();
 			}
 		} else {

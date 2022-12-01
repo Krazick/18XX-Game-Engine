@@ -121,17 +121,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	Corporation corporation;
 	boolean isNetworkGame;
 
-	public CorporationFrame (String aFrameName, Corporation aCorporation, boolean aIsNetworkGame) {
-		super (((aCorporation != Corporation.NO_CORPORATION) ? aCorporation.getName () + " " : "") + aFrameName);
-		GameManager tGameManager;
+	public CorporationFrame (String aFrameName, Corporation aCorporation, boolean aIsNetworkGame, GameManager aGameManager) {
+		super (((aCorporation != Corporation.NO_CORPORATION) ? aCorporation.getName () + " " : "") + aFrameName, aGameManager);
 
 		certJPanel = GUI.NO_PANEL;
 		corporation = aCorporation;
 		if (isCorporationSet ()) {
 			corporation = aCorporation;
-			tGameManager = corporation.getGameManager ();
+//			tGameManager = corporation.getGameManager ();
 			buttonsInfoFrame = new ButtonsInfoFrame (corporation.getName () + " Corporation Frame Info for Buttons",
-					tGameManager);
+					gameManager);
 
 			buildCorporationAllInfoJPanel ();
 
@@ -487,26 +486,26 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void handleExplainButtons () {
 		Point tNewPoint;
-		GameManager tGameManager;
+//		GameManager tGameManager;
 		PlayerManager tPlayerManager;
 		Bank tBank;
 		BankPool tBankPool;
 		TrainPortfolio tTrainPortfolio;
 
-		tGameManager = corporation.getGameManager ();
-		tNewPoint = tGameManager.getOffsetCorporationFrame ();
+//		tGameManager = corporation.getGameManager ();
+		tNewPoint = gameManager.getOffsetCorporationFrame ();
 		buttonsInfoFrame.prepareExplainButtons (Portfolio.NO_PORTFOLIO);
 
-		tBank = tGameManager.getBank ();
+		tBank = gameManager.getBank ();
 		tTrainPortfolio = tBank.getTrainPortfolio ();
 		buttonsInfoFrame.fillWithCheckBoxes (tTrainPortfolio);
-		tBankPool = tGameManager.getBankPool ();
+		tBankPool = gameManager.getBankPool ();
 		tTrainPortfolio = tBankPool.getTrainPortfolio ();
 		buttonsInfoFrame.fillWithCheckBoxes (tTrainPortfolio);
 
 		corporation.fillCorporationTrains (buttonsInfoFrame);
 
-		tPlayerManager = tGameManager.getPlayerManager ();
+		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayerManager.fillPrivateCompanies (buttonsInfoFrame);
 
 		buttonsInfoFrame.handleExplainButtons (tNewPoint);

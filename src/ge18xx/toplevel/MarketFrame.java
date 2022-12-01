@@ -24,18 +24,18 @@ public class MarketFrame extends XMLFrame {
 	public static final String BASE_TITLE = "Market";
 	private static final long serialVersionUID = 1L;
 	Market market;
-	GameManager gameManager;
+//	GameManager gameManager;
 
 	public MarketFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager.getActiveGameName ());
-
-		gameManager = aGameManager;
+		super (aFrameName, aGameManager);
+//
+//		gameManager = aGameManager;
 		market = new Market (40, 40, aGameManager);
 		buildScrollPane (market, BorderLayout.CENTER);
 	}
 
 	public void updateFrame () {
-		updateFrameTitle (gameManager, BASE_TITLE);
+		updateFrameTitle (BASE_TITLE);
 	}
 
 	public XMLElement createMarketDefinitions (XMLDocument aXMLDocument) {

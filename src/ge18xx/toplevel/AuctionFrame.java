@@ -81,8 +81,8 @@ public class AuctionFrame extends XMLFrame implements ActionListener {
 	boolean onlyBidder = false;
 	Color defaultColor;
 
-	public AuctionFrame (String aFrameName, String aClientUser, boolean aIsNetworkGame) {
-		super (aFrameName);
+	public AuctionFrame (String aFrameName, String aClientUser, boolean aIsNetworkGame, GameManager aGameManager) {
+		super (aFrameName, aGameManager);
 
 		fullPanel = new JPanel ();
 		fullPanel.setLayout (new BoxLayout (fullPanel, BoxLayout.Y_AXIS));

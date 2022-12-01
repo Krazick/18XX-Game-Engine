@@ -28,6 +28,7 @@ import ge18xx.round.action.ActorI.ActorTypes;
 
 public class AuditFrame extends XMLFrame implements ItemListener, ActionListener {
 	DefaultTableModel auditModel = new DefaultTableModel (0, 7);
+	public static final String BASE_TITLE = "Audit";
 	private String REFRESH_LIST = "REFRESH LIST";
 	private String DRAW_LINE_GRAPH = "DRAW_LINE_GRAPH";
 	private String BANK_PREFIX = "Bank";
@@ -46,17 +47,17 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	JButton refreshList;
 	JButton lineGraph;
 	CorporationList companies;
-	GameManager gameManager;
+//	GameManager gameManager;
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
 	public AuditFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager.getGameName ());
+		super (aFrameName, aGameManager);
 
-		setGameManager (aGameManager);
-		setCompanies (aGameManager.getShareCompanies ());
+//		setGameManager (aGameManager);
+		setCompanies (gameManager.getShareCompanies ());
 		String [] tColumnNames = { "#", "Round", "Actor", "Action / Event", "Debit", "Credit", "Balance" };
 		int tColWidths[] = { 50, 50, 110, 1000, 50, 50, 70 };
 		int tTotalWidth = 0;
@@ -68,6 +69,10 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 
 		add (tNorthComponents, BorderLayout.NORTH);
 		setActorType (ActorTypes.Player);
+	}
+
+	public void updateFrame () {
+		updateFrameTitle (BASE_TITLE);
 	}
 
 	private JPanel buildNorthComponents () {
@@ -138,10 +143,10 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	public ActorI.ActorTypes getActorType () {
 		return actorType;
 	}
-
-	public void setGameManager (GameManager aGameManager) {
-		gameManager = aGameManager;
-	}
+//
+//	public void setGameManager (GameManager aGameManager) {
+//		gameManager = aGameManager;
+//	}
 
 	public void setCompanies (CorporationList aCompanies) {
 		companies = aCompanies;

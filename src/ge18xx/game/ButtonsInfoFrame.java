@@ -40,7 +40,7 @@ public class ButtonsInfoFrame extends XMLFrame {
 	int buttonIndex;
 
 	public ButtonsInfoFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager.getGameName ());
+		super (aFrameName, aGameManager);
 		frameButtons = new ArrayList<> ();
 
 		buttonModel = new DefaultTableModel (0, 4) {

@@ -42,13 +42,13 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 	String networkLastAction;
 	List<Action> resendTheseActions;
 
-	public ResendLastActionsFrame (String aFrameName, ActionManager aActionManager) {
-		super (aFrameName);
+	public ResendLastActionsFrame (String aFrameName, ActionManager aActionManager, GameManager aGameManager) {
+		super (aFrameName, aGameManager);
 		actionManager = aActionManager;
 	}
 
-	public ResendLastActionsFrame (String aFrameName, String aGameName, ActionManager aActionManager) {
-		super (aFrameName, aGameName);
+	public ResendLastActionsFrame (String aFrameName, String aGameName, ActionManager aActionManager, GameManager aGameManager) {
+		super (aFrameName, aGameManager);
 		actionManager = aActionManager;
 	}
 

@@ -70,7 +70,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	boolean locationFixed;
 
 	public PlayerFrame (String aFrameName, Player aPlayer, GameManager aGameManager) {
-		super (aFrameName, aGameManager.getActiveGameName ());
+		super (aFrameName, aGameManager);
 
 		if (aPlayer != Player.NO_PLAYER) {
 			player = aPlayer;

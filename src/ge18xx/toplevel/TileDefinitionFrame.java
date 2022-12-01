@@ -5,6 +5,8 @@ import java.awt.Dimension;
 
 import javax.swing.JScrollPane;
 
+import ge18xx.game.GameManager;
+
 //
 //  TileDefinitionFrame.java
 //  Game_18XX
@@ -25,8 +27,8 @@ public class TileDefinitionFrame extends XMLFrame {
 	String allTileSetNames[] = { "Yellow", "Green", "Brown", "Grey", "Other" };
 	TileSet tileSet;
 
-	public TileDefinitionFrame (String aFrameName, TileTrayFrame aTileTrayFrame, String aGameName) {
-		super (aFrameName, aGameName);
+	public TileDefinitionFrame (String aFrameName, TileTrayFrame aTileTrayFrame, GameManager aGameManager) {
+		super (aFrameName, aGameManager);
 		JScrollPane scrollPane;
 
 		tileSet = new TileSet (aTileTrayFrame);

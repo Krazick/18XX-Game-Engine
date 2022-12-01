@@ -35,7 +35,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	private static final long serialVersionUID = 1L;
 	public static final String SP_NAME = "Start Packet";
 	public static final String SPFRAME_SUFFIX = " " + SP_NAME + " Frame";
-	GameManager gameManager;
+//	GameManager gameManager;
 	ParsingRoutineI itemParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
@@ -61,8 +61,8 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	List<StartPacketRow> startPacketRows;
 
 	public StartPacketFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager.getActiveGameName ());
-		setGameManager (aGameManager);
+		super (aFrameName, aGameManager);
+//		setGameManager (aGameManager);
 		startPacketRows = new LinkedList<> ();
 		portfolio = new StartPacketPortfolio (this);
 	}
@@ -446,7 +446,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		// Nothing to do for Start Packet Frame Class
 	}
 
-	private void setGameManager (GameManager aGameManager) {
-		gameManager = aGameManager;
-	}
+//	private void setGameManager (GameManager aGameManager) {
+//		gameManager = aGameManager;
+//	}
 }

@@ -14,7 +14,7 @@ public class AuctionRound extends Round {
 
 		gameManager = aRoundManager.getGameManager ();
 		setAuctionFrame (new AuctionFrame (gameManager.createFrameTitle (NAME), gameManager.getClientUserName (),
-				gameManager.isNetworkGame ()));
+				gameManager.isNetworkGame (), gameManager));
 		gameManager.setAuctionFrame (auctionFrame);
 		setID (0, 0);
 	}

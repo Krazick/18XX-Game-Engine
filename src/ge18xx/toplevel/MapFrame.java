@@ -101,7 +101,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	CorporationList minorCos;
 	CorporationList shareCos;
 	String companyAbbrev;
-	GameManager gameManager;
+//	GameManager gameManager;
 	RouteInformation routeInformation;
 	private String RESET_ALL_FLAGS = "Reset All Flags";
 	private String BUILD_GRAPHS = "Build Graphs";
@@ -114,9 +114,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	Logger logger;
 
 	public MapFrame (String aFrameName, GameManager aGameManager) {
-		super (aFrameName, aGameManager.getActiveGameName ());
-
-		gameManager = aGameManager;
+		super (aFrameName, aGameManager);
+//
+//		gameManager = aGameManager;
 
 		buildMapScrollPanel ();
 		buildNorthPanel ();
@@ -133,7 +133,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	}
 
 	public void updateFrame () {
-		updateFrameTitle (gameManager, BASE_TITLE);
+		updateFrameTitle (BASE_TITLE);
 	}
 	
 	private void buildMapScrollPanel () {

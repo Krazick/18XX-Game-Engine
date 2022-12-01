@@ -88,23 +88,29 @@ public class RoundFrame extends XMLFrame {
 	String currentRoundOf;
 	RoundManager roundManager;
 
-	public RoundFrame (String aFrameName, RoundManager aRoundManager, String aGameName) {
-		super (aFrameName, aGameName);
+	public RoundFrame (String aFrameName, RoundManager aRoundManager, GameManager aGameManager) {
+		super (aFrameName, aGameManager);
 
 		JMenuBar tJMenuBar;
+		String tGameName;
 		
 		defaultColor = UIManager.getColor ("Panel.background");
 		roundManager = aRoundManager;
 		logger = roundManager.getLogger ();
 		padding1 = 10;
 		padding2 = 5;
-
+		
 		buildRoundJPanel ();
 		tJMenuBar = roundManager.getJMenuBar ();
 		setJMenuBar (tJMenuBar);
 		
 		pack ();
-		setStockRoundInfo (aGameName, roundManager.getStockRoundID ());
+		tGameName = aGameManager.getActiveGameName ();
+		setStockRoundInfo (tGameName, roundManager.getStockRoundID ());
+	}
+
+	public void updateFrameTitle () {
+		updateFrameTitle (BASE_TITLE);
 	}
 
 	private void buildRoundJPanel () {
@@ -761,13 +767,6 @@ public class RoundFrame extends XMLFrame {
 
 		tGameState = buildGameState ();
 		gameStateLabel.setText (tGameState);
-	}
-
-	public void updateFrameTitle () {
-		GameManager tGameManager;
-		
-		tGameManager = roundManager.getGameManager ();
-		updateFrameTitle (tGameManager, BASE_TITLE);
 	}
 	
 	public void updateAll () {
