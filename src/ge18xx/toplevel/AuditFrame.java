@@ -47,7 +47,6 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	JButton refreshList;
 	JButton lineGraph;
 	CorporationList companies;
-//	GameManager gameManager;
 	/**
 	 *
 	 */
@@ -56,7 +55,6 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	public AuditFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
 
-//		setGameManager (aGameManager);
 		setCompanies (gameManager.getShareCompanies ());
 		String [] tColumnNames = { "#", "Round", "Actor", "Action / Event", "Debit", "Credit", "Balance" };
 		int tColWidths[] = { 50, 50, 110, 1000, 50, 50, 70 };
@@ -71,6 +69,9 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		setActorType (ActorTypes.Player);
 	}
 
+	/**
+	 * Update the Frame, and specifically updateFrameTitle (from super class XMLFrame) with the static BASE_TITLE provided
+	 */
 	public void updateFrame () {
 		updateFrameTitle (BASE_TITLE);
 	}
@@ -129,7 +130,6 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 
 	private void setColumnAlign (int aColumnIndex, int tAlignment) {
 		DefaultTableCellRenderer tCellRenderer = new DefaultTableCellRenderer ();
-//		HorizontalAlignmentHeaderRenderer tHeaderRenderer = new HorizontalAlignmentHeaderRenderer (SwingConstants.RIGHT);
 
 		tCellRenderer.setHorizontalAlignment (tAlignment);
 		auditTable.getColumnModel ().getColumn (aColumnIndex).setHeaderRenderer (tCellRenderer);
@@ -143,10 +143,6 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 	public ActorI.ActorTypes getActorType () {
 		return actorType;
 	}
-//
-//	public void setGameManager (GameManager aGameManager) {
-//		gameManager = aGameManager;
-//	}
 
 	public void setCompanies (CorporationList aCompanies) {
 		companies = aCompanies;
@@ -457,21 +453,3 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 		gameManager.fillAuditFrame (actorName);
 	}
 }
-//
-//class HorizontalAlignmentHeaderRenderer implements TableCellRenderer {
-//	private int horizontalAlignment = SwingConstants.LEFT;
-//
-//	public HorizontalAlignmentHeaderRenderer (int aHorizontalAlignment) {
-//		  horizontalAlignment = aHorizontalAlignment;
-//	}
-//
-//	@Override
-//	public Component getTableCellRendererComponent (JTable aTable, Object aValue, boolean aIsSelected,
-//			  		boolean hasFocus, int row, int column) {
-//		TableCellRenderer r = aTable.getTableHeader ().getDefaultRenderer ();
-//		JLabel l = (JLabel) r.getTableCellRendererComponent (aTable, aValue, aIsSelected, hasFocus, row, column);
-//		l.setHorizontalAlignment (horizontalAlignment);
-//
-//		return l;
-//	}
-//}
