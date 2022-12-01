@@ -63,7 +63,5 @@ public class ClientNameInFramePreference implements ActionListener, ItemListener
 	@Override
 	public void itemStateChanged (ItemEvent e) {
 		gameManager.updateAllFrames ();
-		
 	}
-
 }
