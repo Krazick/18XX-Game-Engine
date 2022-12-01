@@ -128,12 +128,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		corporation = aCorporation;
 		if (isCorporationSet ()) {
 			corporation = aCorporation;
-//			tGameManager = corporation.getGameManager ();
 			buttonsInfoFrame = new ButtonsInfoFrame (corporation.getName () + " Corporation Frame Info for Buttons",
 					gameManager);
 
 			buildCorporationAllInfoJPanel ();
-
 			buildCorporationJPanel ();
 
 			setSize (900, 800);
