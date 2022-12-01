@@ -138,9 +138,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		setValues (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aStatus, aGovtRailway);
 	}
 
-	/*
-	 * Parse Corporation Node from XML Node - For Initial Load from Data file of
-	 * Corporations
+	/**
+	 * Parse Corporation Node from XML Node - For Initial Load from Data file of Corporations
+	 * 
+	 * @param aXMLNode The Node to Parse
+	 * @param aCorporationList 
 	 */
 	public Corporation (XMLNode aXMLNode, CorporationList aCorporationList) {
 		int tLocation;
