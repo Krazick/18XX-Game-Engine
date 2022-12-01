@@ -48,13 +48,8 @@ public class XMLFrame extends JFrame {
 	String gameName;
 	JScrollPane scrollPane;
 
-//	public XMLFrame (String aFrameName, GameManager aGameManager) {
-//		this (aFrameName, GameManager.NO_GAME_NAME);
-//	}
-
 	public XMLFrame (String aFrameName, GameManager aGameManager) {
 		super ();
-//		super (aGameManager.getActiveGameName ());
 		setGameManager (aGameManager);
 		if (gameManager == GameManager.NO_GAME_MANAGER) {
 			gameName = GameManager.NO_GAME_NAME;
