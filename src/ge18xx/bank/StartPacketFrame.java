@@ -35,7 +35,6 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	private static final long serialVersionUID = 1L;
 	public static final String SP_NAME = "Start Packet";
 	public static final String SPFRAME_SUFFIX = " " + SP_NAME + " Frame";
-//	GameManager gameManager;
 	ParsingRoutineI itemParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
@@ -62,7 +61,6 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 
 	public StartPacketFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
-//		setGameManager (aGameManager);
 		startPacketRows = new LinkedList<> ();
 		portfolio = new StartPacketPortfolio (this);
 	}
@@ -357,11 +355,6 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return tAllCertsLoaded;
 	}
 
-//	@Override
-//	public boolean isAPlayer () {
-//		return false;
-//	}
-
 	@Override
 	public void loadXML (XMLDocument aXMLDocument) throws IOException {
 		XMLNodeList tXMLNodeList;
@@ -420,16 +413,6 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return tNextShareHasBids;
 	}
 
-//	@Override
-//	public boolean isABankPool () {
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean isACorporation () {
-//		return false;
-//	}
-
 	public boolean noMustSellLeft () {
 		return portfolio.noMustSellLeft ();
 	}
@@ -445,8 +428,4 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public void resetPrimaryActionState (ActionStates aPrimaryActionState) {
 		// Nothing to do for Start Packet Frame Class
 	}
-
-//	private void setGameManager (GameManager aGameManager) {
-//		gameManager = aGameManager;
-//	}
 }
