@@ -101,7 +101,6 @@ public class Game_18XX extends XMLFrame {
 	private JButton quitButton;
 	private JButton disconnectButton;
 	
-//	GameManager gameManager;
 	PlayerInputFrame playerInputFrame;
 	LoggerLookup loggerLookup = new LoggerLookup ();
 	String userDir = System.getProperty ("user.dir");
@@ -224,10 +223,6 @@ public class Game_18XX extends XMLFrame {
 
 		return iconImage;
 	}
-
-//	public void setGameManager (GameManager aGameManager) {
-//		gameManager = aGameManager;
-//	}
 
 	private void setupAutoSavesAndLogDirectory () {
 		String tAutoSavesDirName;
