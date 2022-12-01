@@ -24,16 +24,17 @@ public class MarketFrame extends XMLFrame {
 	public static final String BASE_TITLE = "Market";
 	private static final long serialVersionUID = 1L;
 	Market market;
-//	GameManager gameManager;
 
 	public MarketFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
-//
-//		gameManager = aGameManager;
+
 		market = new Market (40, 40, aGameManager);
 		buildScrollPane (market, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Update the Frame, and specifically updateFrameTitle (from super class XMLFrame) with the static BASE_TITLE provided
+	 */
 	public void updateFrame () {
 		updateFrameTitle (BASE_TITLE);
 	}
