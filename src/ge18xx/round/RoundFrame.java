@@ -37,6 +37,7 @@ import ge18xx.utilities.GUI;
 
 public class RoundFrame extends XMLFrame {
 	public static final XMLFrame NO_ROUND_FRAME = null;
+	public final static String BASE_TITLE = "Round";
 	private static final long serialVersionUID = 1L;
 	private static final String NEWLINE = "\n";
 	private static final String DO_STOCK_ACTION = " do Stock Action";
@@ -762,7 +763,15 @@ public class RoundFrame extends XMLFrame {
 		gameStateLabel.setText (tGameState);
 	}
 
+	public void updateFrameTitle () {
+		GameManager tGameManager;
+		
+		tGameManager = roundManager.getGameManager ();
+		updateFrameTitle (tGameManager, BASE_TITLE);
+	}
+	
 	public void updateAll () {
+		updateFrameTitle ();
 		updateParPrices ();
 		updateTotalCashLabel ();
 		updateGameStateLabel ();

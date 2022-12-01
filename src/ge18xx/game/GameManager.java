@@ -404,10 +404,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tFullTitle;
 
 		tFullTitle = getActiveGameName () + " " + aBaseName + " Frame";
-		if (isNetworkGame ()) {
-			tFullTitle += " (" + clientUserName + ")";
+		if (userPreferencesFrame != XMLFrame.NO_XML_FRAME) {
+			if (userPreferencesFrame.showClientNameInFrameTitle ()) {
+				if (isNetworkGame ()) {
+					tFullTitle += " (" + clientUserName + ")";
+				}
+			}
 		}
-
+		
 		return tFullTitle;
 	}
 
@@ -2031,13 +2035,26 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void updateAllFrames () {
-		updateRoundFrame ();
-		if (roundManager.getCurrentRoundType ().equals (ActorI.ActionStates.StockRound)) {
-			updateAllPlayerFrames ();
-		} else if (roundManager.getCurrentRoundType ().equals (ActorI.ActionStates.OperatingRound)) {
-			roundManager.updateOperatingCorporationFrame ();
+		if (roundManagerIsValid () ) {
+			updateRoundFrame ();
+			if (roundManager.getCurrentRoundType ().equals (ActorI.ActionStates.StockRound)) {
+				updateAllPlayerFrames ();
+			} else if (roundManager.getCurrentRoundType ().equals (ActorI.ActionStates.OperatingRound)) {
+				roundManager.updateOperatingCorporationFrame ();
+			}
 		}
-
+		if (mapFrame != MapFrame.NO_XML_FRAME) {
+			mapFrame.updateFrame ();
+		}
+		if (marketFrame != MarketFrame.NO_XML_FRAME) {
+			marketFrame.updateFrame ();
+		}
+		if (tileTrayFrame != TileTrayFrame.NO_XML_FRAME) {
+			tileTrayFrame.updateFrame ();
+		}
+		if (networkJGameClient != JGameClient.NO_XML_FRAME) {
+			networkJGameClient.updateFrame ();
+		}
 	}
 
 	public void updateAllPlayerFrames () {

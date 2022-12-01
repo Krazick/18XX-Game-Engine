@@ -177,7 +177,7 @@ public class RoundManager implements ActionListener {
 		String tFullTitle;
 
 		gameName = gameManager.getActiveGameName ();
-		tFullTitle = gameManager.createFrameTitle ("Round");
+		tFullTitle = gameManager.createFrameTitle (RoundFrame.BASE_TITLE);
 		setRoundFrame (new RoundFrame (tFullTitle, this, gameName));
 		gameManager.addNewFrame (roundFrame);
 		roundFrame.setFrameToConfigDetails (gameManager);

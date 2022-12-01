@@ -38,6 +38,10 @@ public class TileTrayFrame extends XMLFrame {
 		gameManager = aGameManager;
 	}
 
+	public void updateFrame () {
+		updateFrameTitle (gameManager, BASE_TITLE);
+	}
+
 	private void buildTileTrayScrollPanel () {
 		tileSet = new TileSet (this);
 		buildScrollPane (tileSet, BorderLayout.CENTER);

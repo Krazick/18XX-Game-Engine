@@ -111,6 +111,7 @@ public class JGameClient extends XMLFrame {
 	public static final String REQUEST_LAST_ACTION_COMPLETE = "<LastAction isComplete=\"TRUE\">";
 	public static final String REQUEST_LAST_ACTION = "<ActionNumber requestLast=\"TRUE\">";
 	public static final String DISCONNECT = "DISCONNECT";
+	public static final String BASE_TITLE = "Game Chat Client";
 	private final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
 	private final String SHOW_ALL_GAMES = "SHOW ALL GAMES";
 	private final String SELECT_GAME = "SELECT GAME";
@@ -202,6 +203,10 @@ public class JGameClient extends XMLFrame {
 			setVisible (true);
 			logger = gameManager.getLogger ();
 		}
+	}
+
+	public void updateFrame () {
+		updateFrameTitle ((GameManager) gameManager, BASE_TITLE);
 	}
 
 	private boolean setupServerInfo () {

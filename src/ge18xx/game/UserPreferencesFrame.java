@@ -29,6 +29,7 @@ public class UserPreferencesFrame extends XMLFrame {
 	JScrollPane frameSPane;
 	JScrollPane colorsSPane;
 	PlayerOrderPreference playerOrderPreference;
+	ClientNameInFramePreference clientNameInFramePreference;
 	GameManager gameManager;
 	
 	public UserPreferencesFrame (String aFrameName, GameManager aGameManager) {
@@ -78,6 +79,9 @@ public class UserPreferencesFrame extends XMLFrame {
 		playerOrderPreference = new PlayerOrderPreference (aGameManager);
 		playerOrderPreference.buildUserPreferences (tUserPreferencesPanel);
 		
+		clientNameInFramePreference = new ClientNameInFramePreference (aGameManager);
+		clientNameInFramePreference.buildUserPreferences (tUserPreferencesPanel);
+		
 		return tUserPreferencesPanel;
 	}
 	
@@ -112,14 +116,21 @@ public class UserPreferencesFrame extends XMLFrame {
 		
 		return tFirstPlayerName;
 	}
+	
+	public boolean showClientNameInFrameTitle () {
+		return clientNameInFramePreference.showClientNameInFrameTitle ();
+	}
 
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tPreferencesElement;
 		XMLElement tPlayerOrderElement;
+		XMLElement tClientNameElement;
 		
 		tPreferencesElement = aXMLDocument.createElement (EN_USER_PREFERENCES);
 		tPlayerOrderElement = playerOrderPreference.createElement (aXMLDocument);
 		tPreferencesElement.appendChild (tPlayerOrderElement);
+		tClientNameElement = clientNameInFramePreference.createElement (aXMLDocument);
+		tPreferencesElement.appendChild (tClientNameElement);
 		
 		return tPreferencesElement;
 	}
@@ -139,6 +150,9 @@ public class UserPreferencesFrame extends XMLFrame {
 				tNodeName = tChildNode.getNodeName ();
 				if (PlayerOrderPreference.EN_PLAYER_ORDER.equals (tNodeName)) {
 					playerOrderPreference.parsePlayerOrder (tChildNode);
+				}
+				if (ClientNameInFramePreference.EN_CLIENT_NAME.equals (tNodeName)) {
+					clientNameInFramePreference.parseClientName (tChildNode);
 				}
 			}
 		} catch (Exception tException) {

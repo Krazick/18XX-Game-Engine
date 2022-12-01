@@ -54,6 +54,13 @@ public class XMLFrame extends JFrame {
 		super (aFrameName);
 		gameName = aGameName;
 	}
+	
+	public void updateFrameTitle (GameManager aGameManager, String aBaseTitle) {
+		String tFrameTitle;
+
+		tFrameTitle = aGameManager.createFrameTitle (aBaseTitle);
+		setTitle (tFrameTitle);
+	}
 
 	protected void setIconImage (GameManager aGameManager) {
 		Image tImage;

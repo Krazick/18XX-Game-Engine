@@ -43,25 +43,25 @@ public interface NetworkGameSupport {
 
 	public String getGameID ();
 
-	public void resetGameID (String tGameID);
+	public void resetGameID (String aGameID);
 
 	public String getXMLBaseDirectory ();
 
-	public void parseNetworkSavedGames (String tResponse);
+	public void parseNetworkSavedGames (String aResponse);
 
 	public String getClientUserName ();
 
-	public void loadAutoSavedGame (String autoSaveFileName);
+	public void loadAutoSavedGame (String aAutoSaveFileName);
 
 	public String getGEVersion ();
 
 	public void updateDisconnectButton ();
-
+	
 	public FileUtils getFileUtils ();
 
 	// Needs specific ge18xx XMLFrame Imports
 
-	public void addNewFrame (XMLFrame jGameClient);
+	public void addNewFrame (XMLFrame aJGameClient);
 
 	// Needs Log4J Imports
 	public Logger getLogger ();

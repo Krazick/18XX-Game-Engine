@@ -77,6 +77,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private final String NON_PLAYABLE_TILE_SELECTED = "The selected Tile is not Playable on the Selected MapCell.";
 	private final String RESET_ALL_FLAGS_TIP = "Reset all Map Flags and Selections";
 	public static final String NO_COMPANY = "NO_COMPANY";
+	public static final String BASE_TITLE = "Map";
 	private static final long serialVersionUID = 1L;
 
 	JButton exitTileButton;
@@ -131,6 +132,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		return logger;
 	}
 
+	public void updateFrame () {
+		updateFrameTitle (gameManager, BASE_TITLE);
+	}
+	
 	private void buildMapScrollPanel () {
 		map = new HexMap (this);
 		buildScrollPane (map, BorderLayout.CENTER);
