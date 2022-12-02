@@ -329,13 +329,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	public void handlePlaceBaseTile (String aSourceTitle) {
-		MapCell tMapCell;
-		HexMap tMap;
-		
 		handlePlaceTile ();
-		tMapCell = extractMapCell (aSourceTitle);
-		tMap = getMap ();
-		tMap.toggleSelectedMapCell (tMapCell);
+		updateSelectableMapCell (aSourceTitle);
 	}
 
 	private void updateSelectableMapCell (String aSourceTitle) {
