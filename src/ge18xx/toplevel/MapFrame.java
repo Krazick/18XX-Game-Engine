@@ -176,13 +176,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 		otherButtonsJPanel.add (resetAllFlagsButton);	
 		
-		if (gameManager.hasTestGraphs ()) {
+//		if (gameManager.hasTestGraphs ()) {
 			testGraphsButton = setupButton (BUILD_GRAPHS, BUILD_GRAPHS, this, Component.CENTER_ALIGNMENT);
 			testGraphsButton.setToolTipText ("Build Graph of current Hex Map");
 			otherButtonsJPanel.add (Box.createVerticalGlue ());
 			otherButtonsJPanel.add (testGraphsButton);
 			otherButtonsJPanel.add (Box.createVerticalGlue ());
-		}
+//		}
 	}
 	
 	private void buildAllButtonsJPanel () {
@@ -399,6 +399,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tCorporation.undoAction ();
 		updatePickupTileButton (false, NO_TILE_PLACED);
 		updatePutTileButton ();
+		updateGraphsButton ();
 		map.setTilePlaced (false);
 	}
 
@@ -435,6 +436,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 		tileSet.clearAllSelected ();
 		updatePutTileButton ();
+		updateGraphsButton ();
 		toTheFront ();
 	}
 
@@ -1024,6 +1026,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tUpgradeAllowed = gameManager.isUpgradeAllowed (tTileColor);
 
 		return tUpgradeAllowed;
+	}
+
+	public void updateGraphsButton () {
+		// TODO -- Find if the Operating Company has any Tokens placed on Map. If so, enable the testGraphsButton
+//		testGraphsButton
 	}
 
 	public void updatePutTileButton () {
