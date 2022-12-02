@@ -353,14 +353,17 @@ public class Game_18XX extends XMLFrame {
 
 		clientUserName = new JTextField ();
 		clientUserName.setColumns (10);
+		clientUserName.setMaximumSize (clientUserName.getPreferredSize ());
 		clientUserName.setEnabled (true);
 		
 		tClientPanel = new JPanel ();
 		tClientPanel.setLayout (new BoxLayout (tClientPanel, BoxLayout.X_AXIS));
 		tClientPanel.add (Box.createHorizontalStrut (10));
+		tClientPanel.add (Box.createHorizontalGlue ());
 		tClientPanel.add (tClientLabel);
 		tClientPanel.add (Box.createHorizontalStrut (10));
 		tClientPanel.add (clientUserName);
+		tClientPanel.add (Box.createHorizontalGlue ());
 		tClientPanel.add (Box.createHorizontalStrut (10));
 		tClientPanel.setMaximumSize (new Dimension (320, 35));
 		
