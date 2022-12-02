@@ -47,6 +47,12 @@ public class Location implements Cloneable {
 	static final int MIN_CITY_LOC_ADJSIDE = 40;
 	static final int MAX_CITY_LOC_ADJSIDE = 45;
 	public static final int CENTER_CITY_LOC = 50;
+	static final int DEAD_END0_LOC = 90;
+	static final int DEAD_END1_LOC = 91;
+	static final int DEAD_END2_LOC = 92;
+	static final int DEAD_END3_LOC = 93;
+	static final int DEAD_END4_LOC = 94;
+	static final int DEAD_END5_LOC = 95;
 	static final int DEAD_END_LOC = 99;
 	static final int MIN_LOCATION = NO_LOCATION;
 	static final int MAX_LOCATION = MAX_CITY_LOC_ADJSIDE;
@@ -172,6 +178,12 @@ public class Location implements Cloneable {
 		case (40):
 		case (43):
 		case (CENTER_CITY_LOC):
+		case (DEAD_END0_LOC):
+		case (DEAD_END1_LOC):
+		case (DEAD_END2_LOC):
+		case (DEAD_END3_LOC):
+		case (DEAD_END4_LOC):
+		case (DEAD_END5_LOC):
 		case (DEAD_END_LOC):
 			tXsign = 0;
 			break;
@@ -232,6 +244,12 @@ public class Location implements Cloneable {
 		case (37):
 		case (39):
 		case (CENTER_CITY_LOC):
+		case (DEAD_END0_LOC):
+		case (DEAD_END1_LOC):
+		case (DEAD_END2_LOC):
+		case (DEAD_END3_LOC):
+		case (DEAD_END4_LOC):
+		case (DEAD_END5_LOC):
 		case (DEAD_END_LOC):
 			tYsign = 0;
 			break;
@@ -434,7 +452,26 @@ public class Location implements Cloneable {
 	}
 
 	public boolean isDeadEnd () {
-		return (location == DEAD_END_LOC);
+		return isDeadEnd (location);
+	}
+	
+	public boolean isDeadEnd (int aLocation) {
+		boolean tIsDeadEnd;
+		
+		switch (aLocation) {
+			case (DEAD_END0_LOC):
+			case (DEAD_END1_LOC):
+			case (DEAD_END2_LOC):
+			case (DEAD_END3_LOC):
+			case (DEAD_END4_LOC):
+			case (DEAD_END5_LOC):
+			case (DEAD_END_LOC):
+				tIsDeadEnd = true;
+				break;
+			default:
+				tIsDeadEnd = false;
+		}
+		return tIsDeadEnd;
 	}
 
 	public boolean isFarOpposite (Location aOther) {
@@ -570,7 +607,11 @@ public class Location implements Cloneable {
 	public static boolean isValidLocation (int aLocation) {
 		if ((aLocation >= MIN_SIDE) && (aLocation <= MAX_LOCATION)) {
 			return (true);
-		} else if ((aLocation == CENTER_CITY_LOC) || (aLocation == DEAD_END_LOC)) {
+		} else if (aLocation == CENTER_CITY_LOC) {
+			return (true);
+		} else if (aLocation == DEAD_END_LOC) {
+			return (true);
+		} else if ((aLocation >= DEAD_END0_LOC) && (aLocation <= DEAD_END5_LOC)) {
 			return (true);
 		} else {
 			return (false);
@@ -579,11 +620,6 @@ public class Location implements Cloneable {
 
 	public boolean isSide () {
 		return (isValidSide (location));
-//		if ((location >= MIN_SIDE) && (location <= MAX_SIDE)) {
-//			return (true);
-//		} else {
-//			return (false);
-//		}
 	}
 
 	public boolean isSide (int aSide) {
@@ -667,7 +703,7 @@ public class Location implements Cloneable {
 
 	public void setValue (int aLocation) {
 		if (((aLocation >= MIN_LOCATION) && (aLocation <= MAX_LOCATION))
-				|| ((aLocation == CENTER_CITY_LOC) || (aLocation == DEAD_END_LOC))) {
+				|| ((aLocation == CENTER_CITY_LOC) || (isDeadEnd (aLocation)))) {
 			location = aLocation;
 		}
 	}
