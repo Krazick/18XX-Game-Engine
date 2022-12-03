@@ -249,8 +249,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		Object tEventObject = aEvent.getSource ();
 
 		if (tEventObject instanceof JTextField) {
-			setPlayerCount (getTFPlayerCount ());
-			gameSet.setGameRadioButtons (playerCount);
+			setPlayerCount ();
 			if (playerCount > 1) {
 				randomizeButton.setEnabled (true);
 			} else {
@@ -281,13 +280,12 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 
 	public void clearOtherPlayers (String aPlayerName) {
 		int tIndex;
-
+		
 		playerNames [0].setText (aPlayerName);
 		for (tIndex = 1; tIndex < MAX_PLAYERS; tIndex++) {
 			playerNames [tIndex].setText (NO_NAME);
 		}
-		setPlayerCount (getTFPlayerCount ());
-		updatePlayerCountLabel ();
+		setPlayerCount ();
 	}
 
 	public int getTFPlayerCount () {
@@ -385,7 +383,6 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 			logNewPlayer (aPlayerName);
 		}
 		setPlayerCount (tPlayerCount);
-		gameSet.setGameRadioButtons (tPlayerCount);
 	}
 
 	private void logNewPlayer (String aPlayerName) {
@@ -408,13 +405,11 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 				playerNames [tIndex].setText (NO_NAME);
 			}
 		}
-
 		setPlayerCount (NO_PLAYERS);
-		gameSet.setGameRadioButtons (NO_PLAYERS);
 	}
 
 	public void removeNetworkPlayer (String aPlayerName) {
-		int tPlayerIndex, tIndex, tPlayerCount;
+		int tPlayerIndex, tIndex;
 
 		tPlayerIndex = getIndexOfPlayer (aPlayerName);
 
@@ -425,9 +420,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 			playerNames [MAX_PLAYERS - 1].setText (NO_NAME);
 			logger.info ("Network Player " + aPlayerName + " removed from the Player List.");
 		}
-		tPlayerCount = getTFPlayerCount ();
-		setPlayerCount (tPlayerCount);
-		gameSet.setGameRadioButtons (tPlayerCount);
+		setPlayerCount ();
 	}
 
 	public String [] getPlayers () {
@@ -454,6 +447,9 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	public void setPlayerCount (int aPlayerCount) {
 		playerCount = aPlayerCount;
 		updatePlayerCountLabel ();
+		if (gameSet != null) {
+			gameSet.setGameRadioButtons (aPlayerCount);
+		}
 	}
 
 	public int getPlayerCount () {
