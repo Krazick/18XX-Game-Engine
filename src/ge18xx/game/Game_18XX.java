@@ -537,6 +537,7 @@ public class Game_18XX extends XMLFrame {
 			tNewPoint = getOffsetGEFrame ();
 			playerInputFrame.setLocation (tNewPoint);
 			createGameSet ();
+			gameManager.setPlayerInputFrame (playerInputFrame);
 		}
 	}
 
