@@ -2351,28 +2351,48 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	@Override
 	public void updatePlayerCountLabel () {
-		playerInputFrame.updatePlayerCountLabel ();
+		if (validPlayerInputFrame ()) {
+			playerInputFrame.updatePlayerCountLabel ();
+		}
 	}
 
 	@Override
 	public void addNetworkPlayer (String aPlayerName) {
 		if (notifyNetwork) {
-			playerInputFrame.addNetworkPlayer (aPlayerName);
+			if (validPlayerInputFrame ()) {
+				playerInputFrame.addNetworkPlayer (aPlayerName);
+			}
 		}
 	}
 
 	@Override
 	public void removeNetworkPlayer (String aPlayerName) {
 		if (notifyNetwork) {
-			playerInputFrame.removeNetworkPlayer (aPlayerName);
+			if (validPlayerInputFrame ()) {
+				playerInputFrame.removeNetworkPlayer (aPlayerName);
+			}
 		}
 	}
 
 	@Override
 	public void removeAllNetworkPlayers () {
-		playerInputFrame.removeAllPlayers ();
+		if (validPlayerInputFrame ()) {
+			playerInputFrame.removeAllPlayers ();
+		}
 	}
 
+	public boolean validPlayerInputFrame () {
+		boolean tValidPlayerInputFrame;
+		
+		if (playerInputFrame == PlayerInputFrame.NO_PLAYER_INPUT_FRAME) {
+			tValidPlayerInputFrame = false;
+		} else {
+			tValidPlayerInputFrame = true;
+		}
+		
+		return tValidPlayerInputFrame;
+	}
+	
 	public void setClientUserName (String aClientUserName) {
 		clientUserName = aClientUserName;
 	}
@@ -2425,7 +2445,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 				logger.error ("Exception Message [" + tException.getMessage () + "].", tException);
 			}
 			if (tXMLDocument != XMLDocument.NO_XML_DOCUMENT) {
-//				@SuppressWarnings ("null")
 				XMLNode tXMLNode = tXMLDocument.getDocumentNode ();
 				configData = new Config (tXMLNode, this);
 			} else {
