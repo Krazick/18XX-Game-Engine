@@ -22,8 +22,10 @@ public class ActionReportFrame extends XMLFrame {
 
 	public ActionReportFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
+		
 		actionReport = new JTextPane ();
 		actionReport.setText ( "Action Report:\n" );
+		actionReport.setEditable (false);
 		actionReportDoc = actionReport.getStyledDocument ();
 
 	//  Define a keyword attributes
@@ -38,10 +40,9 @@ public class ActionReportFrame extends XMLFrame {
 		StyleConstants.setFontSize (errorKeyWord, 16);
 		StyleConstants.setItalic (errorKeyWord, true);
 
-		JScrollPane actionScrollPane = new JScrollPane (actionReport);
+		actionScrollPane = new JScrollPane (actionReport);
 		add (actionScrollPane);
 		setSize (800, 500);
-		actionReport.setEditable (false);
 	}
 	
 	/**
