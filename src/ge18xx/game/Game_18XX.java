@@ -462,10 +462,10 @@ public class Game_18XX extends XMLFrame {
 		tMenuIndex = addGameMenu (tMenuIndex, showPrivatesAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showShareCompaniesAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showTileTrayAction);
-		tMenuIndex = addGameMenu (tMenuIndex, showChatClientAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showRoundFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showAuditFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showActionReportFrameAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showChatClientAction);
 		tMenuIndex = addGameMenu (tMenuIndex, resendLastActions);
 
 		for (tMenuItemIndex = 0; tMenuItemIndex < tMenuItemCount; tMenuItemIndex++) {

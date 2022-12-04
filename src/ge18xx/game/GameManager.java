@@ -1205,6 +1205,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			applyConfigSettings ();
 			createFrameInfoFrame ();
 			setFrameBackgrounds ();
+			game18XXFrame.initiateGame ();
 		}
 	}
 
