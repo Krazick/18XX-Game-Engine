@@ -2678,6 +2678,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		roundManager.showActionReportFrame ();
 	}
 
+	public void resendLastActions () {
+		roundManager.resendLastActions ();
+	}
+	
 	public void showUserPreferencesFrame () {
 		userPreferencesFrame.setVisible (true);
 	}

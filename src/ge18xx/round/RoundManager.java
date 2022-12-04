@@ -1221,6 +1221,10 @@ public class RoundManager implements ActionListener {
 		actionManager.showActionReportFrame ();
 	}
 
+	public void resendLastActions () {
+		actionManager.resendLastActions ();
+	}
+
 	public Point getOffsetRoundFrame () {
 		Point tNewPoint;
 
