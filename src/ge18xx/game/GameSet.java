@@ -43,7 +43,6 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	final ElementName EN_NETWORK = new ElementName ("Network");
 	public static final int NO_GAME_SELECTED = -1;
 	public static final GameSet NO_GAME_SET = null;
-	public static final String CHAT_TITLE = "GE18XX Chat Client";
 	private static final String NO_DESCRIPTION = "<html><body><h3>Game Description</h3><p>NO GAME SELECTED</p></body></html>";
 	private static final String NEW_GAME = "New Local Game";
 	private static final String NETWORK_GAME = "Online Game";
@@ -123,17 +122,21 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		GameManager tGameManager;
 		JGameClient tNetworkGameJClient;
 		String tPlayerName;
+		String tChatTitle;
 
 		tGameManager = playerInputFrame.getGameManager ();
 		tGameManager.createUserPreferencesFrame ();
 		tPlayerName = tGameManager.getClientUserName ();
 		playerInputFrame.clearOtherPlayers (tPlayerName);
-		tNetworkGameJClient = new JGameClient (CHAT_TITLE + " (" + tPlayerName + ")", tGameManager);
+		tChatTitle = tGameManager.createFrameTitle (JGameClient.BASE_TITLE);
+		tNetworkGameJClient = new JGameClient (tChatTitle, tGameManager);
 		tGameManager.setNetworkJGameClient (tNetworkGameJClient);
 		tGameManager.setNotifyNetwork (true);
 		tNetworkGameJClient.addLocalPlayer (tPlayerName, false);
 		removeGamePanelButtons ();
 		tNetworkGameJClient.addGamePanel (gameJPanel);
+		tNetworkGameJClient.clearGameSelection ();
+		tNetworkGameJClient.swapToGamePanel ();
 		playerInputFrame.setVisible (false);
 	}
 
