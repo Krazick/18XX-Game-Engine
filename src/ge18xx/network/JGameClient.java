@@ -111,11 +111,11 @@ public class JGameClient extends XMLFrame {
 	public static final String REQUEST_LAST_ACTION_COMPLETE = "<LastAction isComplete=\"TRUE\">";
 	public static final String REQUEST_LAST_ACTION = "<ActionNumber requestLast=\"TRUE\">";
 	public static final String DISCONNECT = "DISCONNECT";
-	public static final String BASE_TITLE = "Game Chat Client";
-	private final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
-	private final String SHOW_ALL_GAMES = "SHOW ALL GAMES";
-	private final String SELECT_GAME = "SELECT GAME";
-	private final String READY_TO_PLAY = "READY";
+	public static final String BASE_TITLE = "Chat Client";
+	private static final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
+	private static final String START_NEW_GAME = "START NEW GAME";
+	private static final String SELECT_GAME = "SELECT GAME";
+	private static final String READY_TO_PLAY = "READY";
 //	private final String ACTIVE = "ACTIVE";
 	private final String REFRESH = "REFRESH";
 	private final String AFK = "AFK";
@@ -131,7 +131,7 @@ public class JGameClient extends XMLFrame {
 
 	// Java Swing Objects
 	private JTextPane chatText;
-	private JTextPane gameActivity;
+	private JTextPane gameActivityTextPane;
 	private JTextField playerName;
 	private JTextField messageField;
 	private JButton connectButton;
@@ -140,13 +140,13 @@ public class JGameClient extends XMLFrame {
 	private JButton disconnectButton;
 	private JButton refreshPlayersButton;
 	private JButton startReadyButton;
-	private JButton showSavedGames;
+	private JButton chooseGameButton;
 	private JTextField serverIPField;
-	private JScrollPane spChatText;
-	private JScrollPane spGameActivity;
-	private JSplitPane splitPane;
-	private JPanel gameActivityPanel;
-	private JPanel gamePanel;
+	private JScrollPane chatTextScrollPane;
+	private JScrollPane gameActivityScrollPane;
+	private JSplitPane gameSplitPane;
+	private JPanel fullGameInfoPanel;
+	private JPanel gamesListPanel;
 	private JPanel gameInfoPanel;
 	private JPanel networkSavedGamesPanel;
 	private JPanel primaryPanel;
@@ -320,19 +320,19 @@ public class JGameClient extends XMLFrame {
 			}
 		});
 
-		showSavedGames.addActionListener (new ActionListener () {
+		chooseGameButton.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aActionEvent) {
 
-				if (showSavedGames.getText ().equals (SHOW_SAVED_GAMES)) {
-					showSavedGames.setText (SHOW_ALL_GAMES);
+				if (chooseGameButton.getText ().equals (SHOW_SAVED_GAMES)) {
+					chooseGameButton.setText (START_NEW_GAME);
 					swapToNSGPanel ();
 					updateReadyButton (PLAY_GAME, false, WAITING_FOR_GAME);
 
-				} else if (showSavedGames.getText ().equals (SHOW_ALL_GAMES)) {
-					showSavedGames.setText (SHOW_SAVED_GAMES);
+				} else if (chooseGameButton.getText ().equals (START_NEW_GAME)) {
+					chooseGameButton.setText (SHOW_SAVED_GAMES);
 					clearGameSelection ();
-					swapToGIPanel ();
+					swapToGamePanel ();
 					updateReadyButton (SELECT_GAME, false, WAITING_FOR_GAME);
 				}
 			}
@@ -345,7 +345,7 @@ public class JGameClient extends XMLFrame {
 
 				if (PLAY_GAME.equals (tAction)) {
 					updateReadyButton (PLAY_GAME, false, GAME_ALREADY_STARTED);
-					updateButtonGameStarted (showSavedGames);
+					updateButtonGameStarted (chooseGameButton);
 					loadAndStartGame ();
 				} else {
 					if (getGameID ().equals ("")) {
@@ -396,8 +396,8 @@ public class JGameClient extends XMLFrame {
 
 		sendMessageButton.setEnabled (false);
 		sendMessageButton.setToolTipText (NOT_CONNECTED);
-		showSavedGames.setEnabled (false);
-		showSavedGames.setToolTipText (NOT_CONNECTED);
+		chooseGameButton.setEnabled (false);
+		chooseGameButton.setToolTipText (NOT_CONNECTED);
 		disconnectButton.setEnabled (false);
 		disconnectButton.setToolTipText (NOT_CONNECTED);
 		refreshPlayersButton.setEnabled (false);
@@ -416,11 +416,12 @@ public class JGameClient extends XMLFrame {
 		serverIPField.setToolTipText (GUI.NO_TOOL_TIP);
 
 		if (!gameManager.gameStarted ()) {
-			showSavedGames.setText (SHOW_SAVED_GAMES);
-			removeNSGPanel ();
-			removeGamePanel ();
+			chooseGameButton.setText (SHOW_SAVED_GAMES);
+//			removeNSGPanel ();
+//			removeGamePanel ();
+			swapToGameActivity ();
 			clearGameSelection ();
-			addGamePanel ();
+			addGamesListPanel ();
 		}
 		gameManager.updateDisconnectButton ();
 	}
@@ -454,8 +455,8 @@ public class JGameClient extends XMLFrame {
 	}
 
 	private void updateShowSavedGamesButton () {
-		showSavedGames.setEnabled (true);
-		showSavedGames.setToolTipText (GUI.NO_TOOL_TIP);
+		chooseGameButton.setEnabled (true);
+		chooseGameButton.setToolTipText (GUI.NO_TOOL_TIP);
 	}
 
 	public void requestSavedGames () {
@@ -535,8 +536,8 @@ public class JGameClient extends XMLFrame {
 		activityPanel = new JPanel ();
 		activityPanel.setLayout (new BoxLayout (activityPanel, BoxLayout.X_AXIS));
 		activityPanel.add (Box.createHorizontalStrut (10));
-		splitPane.setAlignmentY (Component.TOP_ALIGNMENT);
-		activityPanel.add (splitPane);
+		gameSplitPane.setAlignmentY (Component.TOP_ALIGNMENT);
+		activityPanel.add (gameSplitPane);
 		activityPanel.add (Box.createHorizontalStrut (10));
 		playersPanel.setAlignmentY (Component.TOP_ALIGNMENT);
 		activityPanel.add (playersPanel);
@@ -569,7 +570,7 @@ public class JGameClient extends XMLFrame {
 		headerPanel.add (Box.createHorizontalGlue ());
 		headerPanel.add (connectButton);
 		headerPanel.add (Box.createHorizontalGlue ());
-		headerPanel.add (showSavedGames);
+		headerPanel.add (chooseGameButton);
 		headerPanel.add (Box.createHorizontalGlue ());
 		headerPanel.add (startReadyButton);
 		headerPanel.add (Box.createHorizontalGlue ());
@@ -609,7 +610,7 @@ public class JGameClient extends XMLFrame {
 		refreshPlayersButton = new JButton (REFRESH);
 		disconnectButton = new JButton (DISCONNECT);
 		startReadyButton = new JButton (SELECT_GAME);
-		showSavedGames = new JButton (SHOW_SAVED_GAMES);
+		chooseGameButton = new JButton (SHOW_SAVED_GAMES);
 
 		// Text Panes and Scroll Panes
 		chatText = new JTextPane ();
@@ -619,30 +620,26 @@ public class JGameClient extends XMLFrame {
 		chatText.setFocusCycleRoot (false);
 		chatText.setEditable (false);
 
-		spChatText = new JScrollPane ();
-		spChatText.setAutoscrolls (true);
-		spChatText.setViewportBorder (null);
-		spChatText.setViewportView (chatText);
+		chatTextScrollPane = new JScrollPane (chatText);
+		chatTextScrollPane.setAutoscrolls (true);
+		chatTextScrollPane.setViewportBorder (null);
 
-		gameActivityPanel = new JPanel ();
-		gameActivityPanel.setBorder (new LineBorder (Color.GRAY, 1, true));
-		gameActivityPanel.setPreferredSize (new Dimension (100, 100));
+		fullGameInfoPanel = new JPanel ();
+		fullGameInfoPanel.setBorder (new LineBorder (Color.GRAY, 1, true));
 
-		gameActivity = new JTextPane ();
-		gameActivity.setText ("Game Activity Area");
-		gameActivity.setFocusable (true);
-		gameActivity.setFocusTraversalKeysEnabled (false);
-		gameActivity.setFocusCycleRoot (false);
-		gameActivity.setEditable (false);
+		gameActivityTextPane = new JTextPane ();
+		gameActivityTextPane.setText ("Game Activity Area");
+		gameActivityTextPane.setFocusable (true);
+		gameActivityTextPane.setFocusTraversalKeysEnabled (false);
+		gameActivityTextPane.setFocusCycleRoot (false);
+		gameActivityTextPane.setEditable (false);
 
-		spGameActivity = new JScrollPane ();
-		spGameActivity.setAutoscrolls (true);
-		spGameActivity.setViewportView (gameActivity);
+		gameActivityScrollPane = new JScrollPane (gameActivityTextPane);
+		gameActivityScrollPane.setAutoscrolls (true);
 
-		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				gameActivityPanel, spChatText);
+		gameSplitPane = new JSplitPane (JSplitPane.VERTICAL_SPLIT, fullGameInfoPanel, chatTextScrollPane);
 
-		playerList = new JList<> (networkPlayers.getPlayerList ());
+		playerList = new JList<NetworkPlayer> (networkPlayers.getPlayerList ());
 		playerList.setFocusable (false);
 		playerList.setFocusTraversalKeysEnabled (false);
 		playerList.setEnabled (false);
@@ -669,7 +666,7 @@ public class JGameClient extends XMLFrame {
 	private void updatePlayersAndButtons () {
 		refreshPlayers ();
 		updateButtonGameStarted (startReadyButton);
-		updateButtonGameStarted (showSavedGames);
+		updateButtonGameStarted (chooseGameButton);
 	}
 
 	private void updateButtonGameStarted (JButton aButton) {
@@ -677,70 +674,38 @@ public class JGameClient extends XMLFrame {
 		aButton.setToolTipText (GAME_ALREADY_STARTED);
 	}
 
-	private void swapToGameActivity () {
-		removeGamePanel ();
-		removeNSGPanel ();
-		addSPGameActivity ();
+	public void swapToGameActivity () {
+		gameSplitPane.setTopComponent (gameActivityScrollPane);
+		gameSplitPane.setBottomComponent (chatTextScrollPane);
+		gameSplitPane.setDividerLocation (0.75);
 	}
 
-	private void swapToNSGPanel () {
-		removeGamePanel ();
-		addNSGPanel ();
+	public void swapToNSGPanel () {
+		gameSplitPane.setTopComponent (networkSavedGamesPanel);
+		gameSplitPane.setBottomComponent (chatTextScrollPane);
 	}
 
-	private void swapToGIPanel () {
-		removeNSGPanel ();
-		addGamePanel ();
+	public void swapToGamePanel () {
+		gameSplitPane.setTopComponent (fullGameInfoPanel);
+		gameSplitPane.setBottomComponent (chatTextScrollPane);
 	}
 
-	public void removeGamePanel () {
-		if (gamePanel != GUI.NO_PANEL) {
-			gameActivityPanel.remove (gamePanel);
-		}
-		if (gameInfoPanel != GUI.NO_PANEL) {
-			gameActivityPanel.remove (gameInfoPanel);
-		}
-		revalidate ();
-	}
-
-	public void addGamePanel () {
-		if (gamePanel != GUI.NO_PANEL) {
-			gameActivityPanel.add (gamePanel, BorderLayout.WEST);
+	private void addGamesListPanel () {
+		if (gamesListPanel != GUI.NO_PANEL) {
+			fullGameInfoPanel.add (gamesListPanel, BorderLayout.WEST);
 		}
 	}
 
 	public void addGamePanel (JPanel aGamePanel) {
-		gamePanel = aGamePanel;
-		addGamePanel ();
+		gamesListPanel = aGamePanel;
+		addGamesListPanel ();
 		revalidate ();
 	}
 
 	public void addGameInfoPanel (JPanel aGameInfoPanel, GameSet aGameSet) {
 		gameSet = aGameSet;
 		gameInfoPanel = aGameInfoPanel;
-		gameActivityPanel.add (aGameInfoPanel, BorderLayout.EAST);
-		revalidate ();
-	}
-
-	public void removeSPGameActivity () {
-		gameActivityPanel.remove (spGameActivity);
-		revalidate ();
-	}
-
-	public void addSPGameActivity () {
-		gameActivityPanel.add (spGameActivity);
-		revalidate ();
-	}
-
-	public void addNSGPanel () {
-		gameActivityPanel.add (networkSavedGamesPanel);
-		revalidate ();
-	}
-
-	public void removeNSGPanel () {
-		if (networkSavedGamesPanel != GUI.NO_PANEL) {
-			gameActivityPanel.remove (networkSavedGamesPanel);
-		}
+		fullGameInfoPanel.add (gameInfoPanel, BorderLayout.EAST);
 		revalidate ();
 	}
 
@@ -857,8 +822,8 @@ public class JGameClient extends XMLFrame {
 		String tGameID;
 
 		tGameID = getGameID ();
-		showSavedGames.setEnabled (false);
-		showSavedGames.setToolTipText ("Ready to play New Game");
+		chooseGameButton.setEnabled (false);
+		chooseGameButton.setToolTipText ("Ready to play New Game");
 		serverHandler.sendUserReady (tGameID);
 		sendPlayerOrder ();
 	}
@@ -900,8 +865,8 @@ public class JGameClient extends XMLFrame {
 					AN_GAME_INDEX, selectedGameIndex + "",
 					AN_BROADCAST_MESSAGE, tBroadcastMessage,
 					AN_GAME_ID, tGameID);
-		showSavedGames.setEnabled (false);
-		showSavedGames.setToolTipText ("Ready to play New Game");
+		chooseGameButton.setEnabled (false);
+		chooseGameButton.setToolTipText ("Ready to play New Game");
 		sendGameActivity (tGameActivity);
 		sendPlayerOrder ();
 	}
@@ -913,7 +878,7 @@ public class JGameClient extends XMLFrame {
 		if (aEnabled) {
 			if (gameManager.gameStarted ()) {
 				updateButtonGameStarted (startReadyButton);
-				updateButtonGameStarted (showSavedGames);
+				updateButtonGameStarted (chooseGameButton);
 			} else {
 				startReadyButton.setEnabled (true);
 			}
@@ -1098,9 +1063,9 @@ public class JGameClient extends XMLFrame {
 
 	public void appendToGameActivity (String aGameActivity) {
 		try {
-			Document doc = gameActivity.getDocument ();
+			Document doc = gameActivityTextPane.getDocument ();
 			doc.insertString (doc.getLength (), "\n" + aGameActivity, normal);
-			scroll (spGameActivity, ScrollDirection.DOWN);
+			scroll (gameActivityScrollPane, ScrollDirection.DOWN);
 		} catch (BadLocationException exc) {
 			exc.printStackTrace ();
 		}
@@ -1140,7 +1105,7 @@ public class JGameClient extends XMLFrame {
 		try {
 			Document doc = chatText.getDocument ();
 			doc.insertString (doc.getLength (), "\n" + aString, aStyle);
-			scroll (spChatText, ScrollDirection.DOWN);
+			scroll (chatTextScrollPane, ScrollDirection.DOWN);
 		} catch (BadLocationException exc) {
 			exc.printStackTrace ();
 		}
@@ -1428,11 +1393,11 @@ public class JGameClient extends XMLFrame {
 			loadSavedGameJList (aNetworkSavedGames);
 			tNetworkSavedGamesBox.add (Box.createVerticalStrut (20));
 			tNetworkSavedGamesBox.add (savedGamesList);
-			showSavedGames.setToolTipText ("Show " + tTitle);
+			chooseGameButton.setToolTipText ("Show " + tTitle);
 			updateShowSavedGamesButton ();
 		} else {
-			showSavedGames.setEnabled (false);
-			showSavedGames.setToolTipText (tTitle);
+			chooseGameButton.setEnabled (false);
+			chooseGameButton.setToolTipText (tTitle);
 		}
 
 		networkSavedGamesPanel.add (tNetworkSavedGamesBox);

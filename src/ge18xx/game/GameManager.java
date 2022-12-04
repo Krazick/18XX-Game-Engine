@@ -747,7 +747,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public String getActiveGameName () {
 		String tName;
 
-		tName = NO_GAME_NAME;
+		tName = "";
 		if (gameIsStarted ()) {
 			tName = activeGame.getName ();
 		}
@@ -1576,15 +1576,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void loadNetworkJGameClient (XMLNode tChildNode) {
 		String tServerIP;
+		String tChatTitle;
 		int tServerPort;
 		JGameClient tNetworkJGameClient;
 
 		tServerIP = tChildNode.getThisAttribute (JGameClient.AN_SERVER_IP);
 		tServerPort = tChildNode.getThisIntAttribute (JGameClient.AN_SERVER_PORT);
-		tNetworkJGameClient = new JGameClient (GameSet.CHAT_TITLE + " (" + clientUserName + ")", this, tServerIP,
-				tServerPort);
+		tChatTitle = createFrameTitle (JGameClient.BASE_TITLE);
+		tNetworkJGameClient = new JGameClient (tChatTitle, this, tServerIP, tServerPort);
 		tNetworkJGameClient.addLocalPlayer (clientUserName, true);
-		tNetworkJGameClient.addSPGameActivity ();
 		setNetworkJGameClient (tNetworkJGameClient);
 	}
 
