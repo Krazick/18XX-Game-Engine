@@ -104,10 +104,10 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 		int tLastActionIndex;
 		int tFromNumber;
 		int tToNumber;
-		String tFromName;
-		String tToName;
+		String tActorName;
 		String tFullList;
 		String tPlayerName;
+		String tLastActorName;
 		boolean tGetActionsToResend;
 
 		resendTheseActions = new LinkedList<Action> ();
@@ -116,28 +116,28 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 		tAction = actionManager.getLastAction ();
 		tToNumber = tAction.getNumber ();
 		tFromNumber = tToNumber;
-		tToName = tAction.getActorName ();
-		tPlayerName = tToName;
-		tFromName = tToName;
+		tActorName = tAction.getActorName ();
+		tPlayerName = tActorName;
+		tLastActorName = tActorName;
 		tFullList = "";
 		while (tGetActionsToResend) {
 			tAction = actionManager.getActionAt (tLastActionIndex);
 			if (tAction != Action.NO_ACTION) {
 				tFromNumber = tAction.getNumber ();
-				tFromName = tAction.getActorName ();
+				tActorName = tAction.getActorName ();
 				resendTheseActions.add (0, tAction);
 
 				tFullList = tAction.getBriefActionReport () + NEWLINE + tFullList;
 				tGetActionsToResend = tAction.getChainToPrevious ();	
 				tLastActionIndex--;
-				tPlayerName = tToName;
+				tPlayerName = tActorName;
 			} else {
 				tGetActionsToResend = false;
 			}
 		}
 		tNetworkLastActionNumber = getNetworkLastActionNumber ();
 		summary = "Ready to resend " + resendTheseActions.size () + " Actions from " + tFromNumber + 
-				" (" + tFromName + ") " + " to " + tToNumber + " (" + tToName + ")";
+				" (" + tPlayerName + ") " + " to " + tToNumber + " (" + tLastActorName + ")";
 		networkLastAction = "Network's Last Action for this game is " + tNetworkLastActionNumber;
 		buildResendPanel ();
 		updateResendConfirmButton (tPlayerName);
@@ -147,7 +147,7 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 	public void updateResendConfirmButton (String aPlayerName) {
 		String tClientName;
 		
-		tClientName = actionManager.getGameManager ().getClientUserName ();
+		tClientName = gameManager.getClientUserName ();
 		if (aPlayerName.equals (tClientName)) {
 			confirmResendButton.setEnabled (true);
 		} else {
