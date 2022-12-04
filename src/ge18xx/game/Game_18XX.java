@@ -83,7 +83,8 @@ public class Game_18XX extends XMLFrame {
 	protected Action showTileTrayAction, showMinorCompaniesAction;
 	protected Action showChatClientAction, showRoundFrameAction, showShareCompaniesAction;
 	protected Action showAuditFrameAction;
-
+	protected Action resendLastActions;
+	
 	// More Generic Game Engine Fields
 	JMenuBar mainMenuBar;
 	JMenuItem gameMenuItems[];
@@ -452,7 +453,7 @@ public class Game_18XX extends XMLFrame {
 		int tMenuIndex;
 
 		gameMenu = new JMenu ("Game");
-		tMenuItemCount = 10;
+		tMenuItemCount = Integer.parseInt (resbundle.getString ("MenuItemCount"));
 		gameMenuItems = new JMenuItem [tMenuItemCount];
 		tMenuIndex = 0;
 		tMenuIndex = addGameMenu (tMenuIndex, showMapAction);
@@ -465,6 +466,7 @@ public class Game_18XX extends XMLFrame {
 		tMenuIndex = addGameMenu (tMenuIndex, showRoundFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showAuditFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showActionReportFrameAction);
+		tMenuIndex = addGameMenu (tMenuIndex, resendLastActions);
 
 		for (tMenuItemIndex = 0; tMenuItemIndex < tMenuItemCount; tMenuItemIndex++) {
 			gameMenuItems [tMenuItemIndex].setEnabled (false);
@@ -504,6 +506,7 @@ public class Game_18XX extends XMLFrame {
 		showAuditFrameAction = new showAuditFrameActionClass (resbundle.getString ("showAuditFrameItem"), null);
 		showActionReportFrameAction = new showActionReportFrameActionClass (
 				resbundle.getString ("showActionReportFrameItem"), null);
+		resendLastActions = new resendLastActionsClass (resbundle.getString ("resendLastActions"), null);
 	}
 
 	private void setupGenericActions (int aShortcutKeyMask) {
@@ -626,6 +629,7 @@ public class Game_18XX extends XMLFrame {
 		String tMinorMenuText = resbundle.getString ("showMinorsItem");
 		String tPrivateMenuText = resbundle.getString ("showPrivatesItem");
 		String tChatClientText = resbundle.getString ("showChatClientItem");
+		String tResendLastActionsText = resbundle.getString ("resendLastActions");
 		String tMenuText;
 		boolean tEnableMenuItem;
 
@@ -645,6 +649,12 @@ public class Game_18XX extends XMLFrame {
 					tEnableMenuItem = false;
 				}
 			} else if (tMenuText.equals (tChatClientText)) {
+				if (gameManager.isNetworkGame ()) {
+					tEnableMenuItem = true;
+				} else {
+					tEnableMenuItem = false;
+				}
+			} else if (tMenuText.equals (tResendLastActionsText)) {
 				if (gameManager.isNetworkGame ()) {
 					tEnableMenuItem = true;
 				} else {
@@ -886,6 +896,20 @@ public class Game_18XX extends XMLFrame {
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showActionReportFrame ();
+		}
+	}
+
+	public class resendLastActionsClass extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public resendLastActionsClass (String text, KeyStroke shortcut) {
+			super (text);
+			putValue (ACCELERATOR_KEY, shortcut);
+		}
+
+		@Override
+		public void actionPerformed (ActionEvent e) {
+			gameManager.resendLastActions ();
 		}
 	}
 
