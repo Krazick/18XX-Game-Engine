@@ -145,11 +145,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	 * @param aCorporationList 
 	 */
 	public Corporation (XMLNode aXMLNode, CorporationList aCorporationList) {
-		int tLocation;
 		XMLNodeList tXMLNodeList;
-		String tName, tAbbrev;
-		String tHomeCityGrid1;
-		String tHomeCityGrid2;
+		String tName;
+		String tAbbrev;
 		String tHomeType;
 		Benefit tBenefitInUse;
 
@@ -163,15 +161,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		tAbbrev = aXMLNode.getThisAttribute (AN_ABBREV);
 		setAbbrev (tAbbrev);
 
-		tHomeCityGrid1 = aXMLNode.getThisAttribute (AN_HOMECELL1);
-		setHomeCityGrid1 (tHomeCityGrid1);
-		tLocation = aXMLNode.getThisIntAttribute (Location.AN_HOME_LOCATION1);
-		homeLocation1 = new Location (tLocation);
-
-		tHomeCityGrid2 = aXMLNode.getThisAttribute (AN_HOMECELL2);
-		setHomeCityGrid2 (tHomeCityGrid2);
-		tLocation = aXMLNode.getThisIntAttribute (Location.AN_HOME_LOCATION2, Location.NO_LOCATION);
-		homeLocation2 = new Location (tLocation);
+		parseHomeCities (aXMLNode);
 		
 		tHomeType = aXMLNode.getThisAttribute (AN_HOME_TYPE);
 		setHomeType (tHomeType);
@@ -185,6 +175,22 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		setCorporationList (aCorporationList);
 		tBenefitInUse = new FakeBenefit ();
 		setBenefitInUse (tBenefitInUse);
+	}
+
+	private void parseHomeCities (XMLNode aXMLNode) {
+		int tLocation;
+		String tHomeCityGrid1;
+		String tHomeCityGrid2;
+		
+		tHomeCityGrid1 = aXMLNode.getThisAttribute (AN_HOMECELL1);
+		setHomeCityGrid1 (tHomeCityGrid1);
+		tLocation = aXMLNode.getThisIntAttribute (Location.AN_HOME_LOCATION1);
+		homeLocation1 = new Location (tLocation);
+
+		tHomeCityGrid2 = aXMLNode.getThisAttribute (AN_HOMECELL2);
+		setHomeCityGrid2 (tHomeCityGrid2);
+		tLocation = aXMLNode.getThisIntAttribute (Location.AN_HOME_LOCATION2, Location.NO_LOCATION);
+		homeLocation2 = new Location (tLocation);
 	}
 
 	private void loadFormationInfo (XMLNode aXMLNode) {
@@ -1547,7 +1553,33 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			tLoadedState = tGenericActor.getCorporationActionState (tLoadedStatus);
 			resetStatus (tLoadedState);
 		}
+		removeHomeIfNull (aXMLNode);
+		
 		loadStates (aXMLNode);
+	}
+
+	private void removeHomeIfNull (XMLNode aXMLNode) {
+		MapCell tDefaultHome1;
+		MapCell tDefaultHome2;
+		Location tDefaultLocation1;
+		Location tDefaultLocation2;
+		
+		tDefaultHome1 = getHomeCity1 ();
+		tDefaultHome2 = getHomeCity2 ();
+		tDefaultLocation1 = getHomeLocation1 ();
+		tDefaultLocation2 = getHomeLocation2 ();
+		
+		parseHomeCities (aXMLNode);
+		if (homeCityGrid1 == GUI.NULL_STRING) {
+			if (tDefaultHome1 != MapCell.NO_MAP_CELL) {
+				tDefaultHome1.removeHome (this, tDefaultLocation1);
+			}
+		}
+		if (homeCityGrid2 == GUI.NULL_STRING) {
+			if (tDefaultHome2 != MapCell.NO_MAP_CELL) {
+				tDefaultHome2.removeHome (this, tDefaultLocation2);
+			}
+		}
 	}
 
 	public void loadStates (XMLNode aXMLNode) {
