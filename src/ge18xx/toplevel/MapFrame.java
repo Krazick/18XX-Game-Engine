@@ -1031,8 +1031,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 //		testGraphsButton
 	}
 
-	public void setEnabledBuildGraphsButton (boolean aEnable) {
+	public void setEnabledBuildGraphsButton (boolean aEnable, String aDisableToolTip) {
 		buildGraphsButton.setEnabled (aEnable);
+		if (aEnable) {
+			buildGraphsButton.setToolTipText ("");
+		} else {
+			buildGraphsButton.setToolTipText (aDisableToolTip);
+		}
 	}
 	
 	public void updatePutTileButton () {
