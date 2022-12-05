@@ -931,6 +931,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public void getCorporationStateElement (XMLElement aXMLCorporationState) {
 		aXMLCorporationState.setAttribute (AN_ABBREV, getAbbrev ());
 		aXMLCorporationState.setAttribute (AN_CORP_STATUS, getStatusName ());
+		if (homeCity1 != MapCell.NO_MAP_CELL) {
+			aXMLCorporationState.setAttribute (AN_HOMECELL1, homeCity1.getCellID ());
+			aXMLCorporationState.setAttribute (Location.AN_HOME_LOCATION1, getHomeLocation1 ().getLocation ());
+		}
+		if (homeCity2 != MapCell.NO_MAP_CELL) {
+			aXMLCorporationState.setAttribute (AN_HOMECELL2, homeCity2.getCellID ());
+			aXMLCorporationState.setAttribute (Location.AN_HOME_LOCATION2, getHomeLocation2 ().getLocation ());
+		}
 	}
 
 	public XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
@@ -1402,16 +1410,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return false;
 	}
 
-	// Share Company will override
 	@Override
 	public boolean isABankPool () {
 		return false;
 	}
-
-//	@Override
-//	public boolean isACorporation () {
-//		return true;
-//	}
 
 	public boolean isGovtRailway () {
 		return govtRailway;
@@ -2366,6 +2368,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		tHomeMapCellHasTile = false;
 		if (homeCity1 != MapCell.NO_MAP_CELL) {
 			tHomeMapCellHasTile = homeCity1.isTileOnCell ();
+		} else if (homeCity2 != MapCell.NO_MAP_CELL) {
+			tHomeMapCellHasTile = true;
 		} else {
 			System.err.println ("Home City 1 Map Cell is NOT SET -- PROBLEM!");
 		}

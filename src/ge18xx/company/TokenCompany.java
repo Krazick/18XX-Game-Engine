@@ -125,13 +125,23 @@ public abstract class TokenCompany extends TrainCompany {
 		mapTokens.add (aMapToken);
 	}
 
+	public void removeOtherHome (MapCell aMapCell, Location aHomeLocation) {
+		if (aMapCell == homeCity1) {
+			if (homeCity2.removeHome (this, homeLocation2)) {
+				setHome2 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+			}
+		} else if (aMapCell == homeCity2) {
+			if (homeCity1.removeHome (this, homeLocation1)) {
+				setHome1 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+			}
+		}
+	}
+	
 	@Override
 	public void placeBaseToken (MapCell aMapCell, Location aHomeLocation) {
 		MapFrame tMapFrame;
-//		MapCell tBaseMapCell;
 		Tile tTile;
 		RevenueCenter tBaseRevenueCenter;
-//		Location tHomeLocation;
 		int tBaseCount;
 
 		if (aMapCell.isTileOnCell ()) {
@@ -140,7 +150,10 @@ public abstract class TokenCompany extends TrainCompany {
 			if (tBaseRevenueCenter != RevenueCenter.NO_CENTER) {
 				tMapFrame = corporationList.getMapFrame ();
 				tMapFrame.putTokenDownHere (this, aMapCell, tBaseRevenueCenter);
-			} else { // Given multiple choice for base location on tile - Is this needed?
+				if (isHomeTypeChoice ()) {
+					removeOtherHome (aMapCell, aHomeLocation);
+				}
+			} else { // Given multiple choice for base location on tile
 				tBaseCount = tTile.getCorporationBaseCount ();
 				if (tBaseCount > 1) {
 					corporationFrame.handlePlaceBaseToken ();
@@ -429,10 +442,11 @@ public abstract class TokenCompany extends TrainCompany {
 		if (! haveLaidAllBaseTokens ()) {
 			if (homeMapCell1HasTile ()) {
 				tCanLayBaseToken = true;
+			} else if (homeMapCell2HasTile ()) {
+				tCanLayBaseToken = true;
 			}
 		}
 
-		
 		return tCanLayBaseToken;
 	}
 
