@@ -1338,8 +1338,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public void putTileDown () {
-		MapCell tSelectedMapCell;
 		boolean tTilePlaced;
+		MapCell tSelectedMapCell;
 
 		tSelectedMapCell = getSelectedMapCell ();
 		if (tSelectedMapCell == MapCell.NO_MAP_CELL) {
