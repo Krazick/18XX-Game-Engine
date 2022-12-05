@@ -1044,35 +1044,29 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		
 		if (corporation.canLayTile ()) {
 			if (corporation.isPlaceTileMode ()) {
-//				aTileButton.setEnabled (false);
 				tEnableTile = false;
 				tToolTip = IN_PLACE_TILE_MODE;
 			} else if (corporation.isPlaceTokenMode ()) {
-//				aTileButton.setEnabled (false);
 				tEnableTile = false;
-			tToolTip = IN_TOKEN_MODE;
+				tToolTip = IN_TOKEN_MODE;
 			} else if (! corporation.allBasesHaveTiles ()) {
-//				aTileButton.setEnabled (true);
 				tEnableTile = true;
 				tToolTip = "Can Lay Base Tile";
 			} else if (corporation.canLayBaseToken ()) {
-//				aTileButton.setEnabled (false);
 				tEnableTile = false;
 				tToolTip = MUST_LAY_BASE_TOKEN;
 			} else {
-//				aTileButton.setEnabled (true);
 				tEnableTile = true;
 				tToolTip = GUI.NO_TOOL_TIP;
 			}
 		} else {
-//			aTileButton.setEnabled (false);
 			tEnableTile = false;
 			tToolTip = corporation.reasonForNoTileLay ();
 		}
 		aTileButton.setEnabled (tEnableTile);
 		aTileButton.setToolTipText (tToolTip);
 		tMapFrame = getMapFrame ();
-		tMapFrame.setEnabledBuildGraphsButton (tEnableTile);
+		tMapFrame.setEnabledBuildGraphsButton (tEnableTile, "Not ready to place a tile");
 	}
 	
 	public void updatePlaceBaseTokenButtons () {
