@@ -487,15 +487,25 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public void setCityInfo (CityInfo aCityInfo) {
-//		cityInfo = aCityInfo;
+		// Need to Clone this City Info, rather than simply save it... really should have calling routine clone it and pass the clone in
+		// Otherwise for 1830, the NYC Tile get's it home Base for NYNH put in the wrong spot.
+		
 		cityInfo = aCityInfo.clone ();
 	}
 
-	public void setCorporation (Corporation aCorporation) {
+	public void setCorporationHome (Corporation aCorporation) {
 		setupCityInfo ();
-		cityInfo.setCorporation (aCorporation, this);
+		cityInfo.setCorporationHome (aCorporation, this);
 	}
 
+	public boolean removeHome (Corporation aCorporation) {
+		boolean tHomeRemoved;
+		
+		tHomeRemoved = cityInfo.clearCorporation (aCorporation);;
+		
+		return tHomeRemoved;
+	}
+	
 	public void setMapCell (MapCell aMapCell) {
 		setupCityInfo ();
 		cityInfo.setMapCell (aMapCell);

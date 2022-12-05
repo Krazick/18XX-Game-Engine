@@ -79,10 +79,17 @@ public class CityInfo implements Cloneable {
 		corporation = Corporation.NO_CORPORATION;
 	}
 
-	public void clearCorporation (Corporation aCorporation) {
+	public boolean clearCorporation (Corporation aCorporation) {
+		boolean tCorporationCleared;
+		
 		if (corporation == aCorporation) {
 			clearCorporation ();
+			tCorporationCleared = true;
+		} else {
+			tCorporationCleared = false;
 		}
+		
+		return tCorporationCleared;
 	}
 
 	public void clearCorporationOnMapCell () {
@@ -350,7 +357,7 @@ public class CityInfo implements Cloneable {
 		corporation = aCorporation;
 	}
 
-	public void setCorporation (Corporation aCorporation, RevenueCenter aRevenueCenter) {
+	public void setCorporationHome (Corporation aCorporation, RevenueCenter aRevenueCenter) {
 		corporation = aCorporation;
 		center = aRevenueCenter;
 	}

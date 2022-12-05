@@ -733,8 +733,16 @@ public class Tile implements Comparable<Object>, Cloneable {
 		centers.printlog ();
 	}
 
-	public void setCorporationBase (Corporation aBaseCorporation, Location aNewCityLocation) {
-		centers.setCorporationBase (aBaseCorporation, aNewCityLocation);
+	public void setCorporationHome (Corporation aHomeCorporation, Location aNewCityLocation) {
+		centers.setCorporationHome (aHomeCorporation, aNewCityLocation);
+	}
+
+	public boolean removeHome (Corporation aHomeCorporation, Location aNewCityLocation) {
+		boolean tHomeRemoved;
+		
+		tHomeRemoved = centers.removeHome (aHomeCorporation, aNewCityLocation);
+		
+		return tHomeRemoved;
 	}
 
 	public void setCityInfo (CityInfo aCityInfo) {
@@ -758,7 +766,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 				tRevenueCenter = getRevenueCenter (tCenterIndex);
 				tCorporation = tRevenueCenter.getCorporation ();
 				tTileRevenueCenter = getRevenueCenter (tCenterIndex);
-				tTileRevenueCenter.setCorporation (tCorporation);
+				tTileRevenueCenter.setCorporationHome (tCorporation);
 			}
 		}
 	}

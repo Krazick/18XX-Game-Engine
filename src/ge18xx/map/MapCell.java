@@ -1420,15 +1420,33 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 
+	public boolean removeHome (Corporation aCorporation, Location aLocation) {
+		boolean tHomeRemoved;
+		Location tNewLocation;
+		
+		tHomeRemoved = false;
+		if (isTileOnCell ()) {
+			if (tile != Tile.NO_TILE) {
+				tNewLocation = aLocation.rotateLocation (-tileOrient);
+				tHomeRemoved = tile.removeHome (aCorporation, tNewLocation);
+				tile.setMapCell (this);
+			}
+		} else {
+			tHomeRemoved = centers.removeHome (aCorporation, aLocation);
+		}
+		
+		return tHomeRemoved;
+	}
+	
 	public void setCorporation (Corporation aCorporation, Location aLocation) {
 		Location tNewLocation;
 
-		centers.setCorporationBase (aCorporation, aLocation);
+		centers.setCorporationHome (aCorporation, aLocation);
 		centers.setMapCell (this);
 		if (isTileOnCell ()) {
 			if (tile != Tile.NO_TILE) {
 				tNewLocation = aLocation.rotateLocation (-tileOrient);
-				tile.setCorporationBase (aCorporation, tNewLocation);
+				tile.setCorporationHome (aCorporation, tNewLocation);
 				tile.setMapCell (this);
 			}
 		}
@@ -1689,7 +1707,7 @@ public class MapCell implements Comparator<Object> {
 					} else {
 						if (tCity.isCorporationBase ()) {
 							tBaseCorporation = tCity.getCorporation ();
-							aNewTile.setCorporationBase (tBaseCorporation, tNewCityLocation);
+							aNewTile.setCorporationHome (tBaseCorporation, tNewCityLocation);
 							aNewTile.setMapCell (this);
 						}
 					}

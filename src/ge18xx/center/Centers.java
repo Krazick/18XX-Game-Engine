@@ -507,14 +507,29 @@ public class Centers implements Cloneable {
 		}
 	}
 
-	public void setCorporationBase (Corporation aBaseCorporation, Location aNewCityLocation) {
+	public void setCorporationHome (Corporation aCorporation, Location aNewCityLocation) {
 		for (RevenueCenter tCenter : centers) {
 			if (tCenter.isAtLocation (aNewCityLocation)) {
 				if ((tCenter instanceof City) || (tCenter instanceof PrivateRailwayCenter)) {
-					tCenter.setCorporation (aBaseCorporation);
+					tCenter.setCorporationHome (aCorporation);
 				}
 			}
 		}
+	}
+
+	public boolean removeHome (Corporation aCorporation, Location aLocation) {
+		boolean tHomeRemoved;
+		
+		tHomeRemoved = false;
+		for (RevenueCenter tCenter : centers) {
+			if (tCenter.isAtLocation (aLocation)) {
+				if ((tCenter instanceof City) || (tCenter instanceof PrivateRailwayCenter)) {
+					tHomeRemoved = tCenter.removeHome (aCorporation);
+				}
+			}
+		}
+		
+		return tHomeRemoved;
 	}
 
 	public void copyCityInfo (Tile aTile) {
