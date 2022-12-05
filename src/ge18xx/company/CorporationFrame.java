@@ -289,14 +289,20 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private HexMap getMap () {
 		MapFrame tMapFrame;
-		GameManager tGameManager;
 		HexMap tMap;
 
-		tGameManager = corporation.getGameManager ();
-		tMapFrame = tGameManager.getMapFrame ();
+		tMapFrame = getMapFrame ();
 		tMap = tMapFrame.getMap ();
 
 		return tMap;
+	}
+
+	private MapFrame getMapFrame () {
+		MapFrame tMapFrame;
+		GameManager tGameManager;
+		tGameManager = corporation.getGameManager ();
+		tMapFrame = tGameManager.getMapFrame ();
+		return tMapFrame;
 	}
 
 	// For a company like Eire where it must choose between two Revenue Centers
@@ -1033,29 +1039,40 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void updateTileButton (JButton aTileButton) {
 		String tToolTip;
-
+		boolean tEnableTile;
+		MapFrame tMapFrame;
+		
 		if (corporation.canLayTile ()) {
 			if (corporation.isPlaceTileMode ()) {
-				aTileButton.setEnabled (false);
+//				aTileButton.setEnabled (false);
+				tEnableTile = false;
 				tToolTip = IN_PLACE_TILE_MODE;
 			} else if (corporation.isPlaceTokenMode ()) {
-				aTileButton.setEnabled (false);
-				tToolTip = IN_TOKEN_MODE;
+//				aTileButton.setEnabled (false);
+				tEnableTile = false;
+			tToolTip = IN_TOKEN_MODE;
 			} else if (! corporation.allBasesHaveTiles ()) {
-				aTileButton.setEnabled (true);
+//				aTileButton.setEnabled (true);
+				tEnableTile = true;
 				tToolTip = "Can Lay Base Tile";
 			} else if (corporation.canLayBaseToken ()) {
-				aTileButton.setEnabled (false);
+//				aTileButton.setEnabled (false);
+				tEnableTile = false;
 				tToolTip = MUST_LAY_BASE_TOKEN;
 			} else {
-				aTileButton.setEnabled (true);
+//				aTileButton.setEnabled (true);
+				tEnableTile = true;
 				tToolTip = GUI.NO_TOOL_TIP;
 			}
 		} else {
-			aTileButton.setEnabled (false);
+//			aTileButton.setEnabled (false);
+			tEnableTile = false;
 			tToolTip = corporation.reasonForNoTileLay ();
 		}
+		aTileButton.setEnabled (tEnableTile);
 		aTileButton.setToolTipText (tToolTip);
+		tMapFrame = getMapFrame ();
+		tMapFrame.setEnabledBuildGraphsButton (tEnableTile);
 	}
 	
 	public void updatePlaceBaseTokenButtons () {

@@ -85,7 +85,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	JButton pickupTileButton;
 	JButton exitTokenButton;
 	JButton putTokenButton;
-	JButton testGraphsButton;
+	JButton buildGraphsButton;
 	JButton resetAllFlagsButton;
 	JPanel tokenButtonsJPanel;
 	JPanel tileButtonsJPanel;
@@ -176,13 +176,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 		otherButtonsJPanel.add (resetAllFlagsButton);	
 		
-//		if (gameManager.hasTestGraphs ()) {
-			testGraphsButton = setupButton (BUILD_GRAPHS, BUILD_GRAPHS, this, Component.CENTER_ALIGNMENT);
-			testGraphsButton.setToolTipText ("Build Graph of current Hex Map");
-			otherButtonsJPanel.add (Box.createVerticalGlue ());
-			otherButtonsJPanel.add (testGraphsButton);
-			otherButtonsJPanel.add (Box.createVerticalGlue ());
-//		}
+		buildGraphsButton = setupButton (BUILD_GRAPHS, BUILD_GRAPHS, this, Component.CENTER_ALIGNMENT);
+		buildGraphsButton.setToolTipText ("Build Graph of current Hex Map");
+		otherButtonsJPanel.add (Box.createVerticalGlue ());
+		otherButtonsJPanel.add (buildGraphsButton);
+		otherButtonsJPanel.add (Box.createVerticalGlue ());
 	}
 	
 	private void buildAllButtonsJPanel () {
@@ -1033,6 +1031,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 //		testGraphsButton
 	}
 
+	public void setEnabledBuildGraphsButton (boolean aEnable) {
+		buildGraphsButton.setEnabled (aEnable);
+	}
+	
 	public void updatePutTileButton () {
 		MapCell tMapCell;
 		GameTile tSelectedGameTile;
