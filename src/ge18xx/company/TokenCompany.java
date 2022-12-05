@@ -127,12 +127,16 @@ public abstract class TokenCompany extends TrainCompany {
 
 	public void removeOtherHome (MapCell aMapCell, Location aHomeLocation) {
 		if (aMapCell == homeCity1) {
-			if (homeCity2.removeHome (this, homeLocation2)) {
-				setHome2 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+			if (homeCity2 != MapCell.NO_MAP_CELL) {
+				if (homeCity2.removeHome (this, homeLocation2)) {
+					setHome2 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+				}
 			}
 		} else if (aMapCell == homeCity2) {
-			if (homeCity1.removeHome (this, homeLocation1)) {
-				setHome1 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+			if (homeCity1 != MapCell.NO_MAP_CELL) {
+				if (homeCity1.removeHome (this, homeLocation1)) {
+					setHome1 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+				}
 			}
 		}
 	}
@@ -163,37 +167,6 @@ public abstract class TokenCompany extends TrainCompany {
 				}
 			}
 		}
-
-//		if (homeMapCell1HasTile ()) {
-//			tBaseMapCell = this.getHomeCity1 ();
-//			// This just tests for 'HomeCity1' if Corp has multiple MapCells for Base,
-//			// Must allow to choose which MapCell to place on
-//			// If a Corp starts with Multiple MapCells (1853 more than one Starting Base)
-//			// must place all Map Cells.
-//			if (tBaseMapCell != MapCell.NO_MAP_CELL) {
-//				tTile = tBaseMapCell.getTile ();
-//				if (tTile != Tile.NO_TILE) {
-//					tHomeLocation = this.getHomeLocation1 ();
-//					tBaseRevenueCenter = tTile.getRCWithBaseForCorp (this);
-//					if (tBaseRevenueCenter != RevenueCenter.NO_CENTER) {
-//						tMapFrame = corporationList.getMapFrame ();
-//						tMapFrame.putTokenDownHere (this, tBaseMapCell, tBaseRevenueCenter);
-//					} else { // Given multiple choice for base location on tile - Is this needed?
-//						tBaseCount = tTile.getCorporationBaseCount ();
-//						if (tBaseCount > 1) {
-//							corporationFrame.handlePlaceBaseToken ();
-//						} else {
-//							System.err.println ("No RevenueCenter found for " + getAbbrev () + " at " + tHomeLocation);
-//							System.err.println ("Corp Bases [" + tBaseCount + "]");
-//						}
-//					}
-//				} else {
-//					System.err.println ("No Tile found on Base MapCell found for " + getAbbrev ());
-//				}
-//			} else {
-//				System.err.println ("No Base MapCell found for " + getAbbrev ());
-//			}
-//		}
 	}
 
 	@Override
@@ -407,10 +380,14 @@ public abstract class TokenCompany extends TrainCompany {
 
 	@Override
 	public boolean choiceForBaseToken () {
-		boolean tChoiceForBaseToken = false;
+		boolean tChoiceForBaseToken;
 
-		if (homeCity1.sameID (homeCity2)) {
+		if (homeCity1 == MapCell.NO_MAP_CELL) {
+			tChoiceForBaseToken = false;
+		} else if (homeCity1.sameID (homeCity2)) {
 			tChoiceForBaseToken = true;
+		} else {
+			tChoiceForBaseToken = false;
 		}
 
 		return tChoiceForBaseToken;
