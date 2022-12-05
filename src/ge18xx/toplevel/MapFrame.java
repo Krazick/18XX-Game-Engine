@@ -379,10 +379,37 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private void completeTileLay () {
 		if (map.wasTilePlaced ()) {
 			completeBenefitInUse ();
+			removeHomeIfChoice ();
 		}
 		togglePlaceTileMode ();
 		map.setTilePlaced (false);
 		map.removeAllSMC ();
+	}
+
+	private void removeHomeIfChoice () {
+		MapCell tSelectedMapCell;
+		MapCell tHomeMapCell1;
+		MapCell tHomeMapCell2;
+		Location tHomeLocation1;
+		Location tHomeLocation2;
+		Corporation tCorporation;
+		
+		tCorporation = getOperatingCompany ();
+		if (tCorporation.isHomeTypeChoice ()) {
+			tSelectedMapCell = map.getSelectedMapCell ();
+			tHomeMapCell1 = tCorporation.getHomeCity1 ();
+			tHomeMapCell2 = tCorporation.getHomeCity2 ();
+			tHomeLocation1 = tCorporation.getHomeLocation1 ();
+			tHomeLocation2 = tCorporation.getHomeLocation2 ();
+			if (tSelectedMapCell == tHomeMapCell1) {
+				tHomeMapCell2.removeHome (tCorporation, tHomeLocation2);
+				tCorporation.setHome2 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+			}
+			if (tSelectedMapCell == tHomeMapCell2) {
+				tHomeMapCell1.removeHome (tCorporation, tHomeLocation1);
+				tCorporation.setHome1 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+			}
+		}
 	}
 
 	private void setCompanyAbbrev (String aCompanyAbbrev) {
