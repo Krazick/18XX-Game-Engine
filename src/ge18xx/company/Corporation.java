@@ -1654,11 +1654,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		homeLocation2 = aHomeLocation;
 	}
 
-	protected void setHomeCityGrid1 (String aHomeCityGrid) {
+	public void setHomeCityGrid1 (String aHomeCityGrid) {
 		homeCityGrid1 = aHomeCityGrid;
 	}
 
-	protected void setHomeCityGrid2 (String aHomeCityGrid) {
+	public void setHomeCityGrid2 (String aHomeCityGrid) {
 		homeCityGrid2 = aHomeCityGrid;
 	}
 
