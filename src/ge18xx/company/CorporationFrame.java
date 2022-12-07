@@ -513,7 +513,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private JButton setupButton (String aButtonLabel, String aButtonAction) {
 		JButton tButton;
 
-		tButton = this.setupButton (aButtonLabel, aButtonAction, this, Component.CENTER_ALIGNMENT);
+		tButton = setupButton (aButtonLabel, aButtonAction, this, Component.CENTER_ALIGNMENT);
 		tButton.setVisible (false);
 
 		return tButton;

@@ -179,35 +179,25 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		playerInfoJPanel.add (new Box.Filler (tMinSize, tPrefSize, tMaxSize));
 	}
 
-	private JButton buildButton (String aButtonLabel, String aButtonAction) {
+	private JButton setupButton (String aButtonLabel, String aButtonAction) {
 		JButton tActionButton;
 
-		tActionButton = new JButton (aButtonLabel);
-		tActionButton.setAlignmentX (CENTER_ALIGNMENT);
-		tActionButton.setActionCommand (aButtonAction);
-		tActionButton.addActionListener (player);
-
+		tActionButton = setupButton (aButtonLabel, aButtonAction, player, CENTER_ALIGNMENT);
 		buttonsInfoFrame.addButton (tActionButton);
-
+		buttonJPanel.add (tActionButton);
+		
 		return tActionButton;
 	}
 
 	private void buildButtonJPanel () {
 		buttonJPanel = new JPanel (new WrapLayout ());
 
-		passButton = buildButton (PASS, PASS);
-		buyBidButton = buildButton (Player.BUY_BID_LABEL, Player.BUY_BID_LABEL);
-		sellButton = buildButton (Player.SELL_LABEL, Player.SELL_LABEL);
-		exchangeButton = buildButton (Player.EXCHANGE_LABEL, Player.EXCHANGE_LABEL);
-		undoButton = buildButton (UNDO, UNDO);
-		explainButton = buildButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
-
-		buttonJPanel.add (passButton);
-		buttonJPanel.add (buyBidButton);
-		buttonJPanel.add (sellButton);
-		buttonJPanel.add (exchangeButton);
-		buttonJPanel.add (undoButton);
-		buttonJPanel.add (explainButton);
+		passButton = setupButton (PASS, PASS);
+		buyBidButton = setupButton (Player.BUY_BID_LABEL, Player.BUY_BID_LABEL);
+		sellButton = setupButton (Player.SELL_LABEL, Player.SELL_LABEL);
+		exchangeButton = setupButton (Player.EXCHANGE_LABEL, Player.EXCHANGE_LABEL);
+		undoButton = setupButton (UNDO, UNDO);
+		explainButton = setupButton (ButtonsInfoFrame.EXPLAIN, ButtonsInfoFrame.EXPLAIN);
 	}
 
 	private void updateBankJPanel (GameManager aGameManager) {
