@@ -2,10 +2,12 @@ package ge18xx.round.action;
 
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
+import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.BenefitUsedEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.LayTileEffect;
+import ge18xx.round.action.effects.RemoveHomeEffect;
 import ge18xx.round.action.effects.SetHasLaidTileEffect;
 import ge18xx.tiles.Tile;
 import ge18xx.utilities.XMLNode;
@@ -37,6 +39,14 @@ public class LayTileAction extends ChangeMapAction {
 
 		tTileLayEffect = new LayTileEffect (aActor, aMapCell, aTile, aOrientation, aTokens, aBases);
 		addEffect (tTileLayEffect);
+	}
+
+	public void addRemoveHomeEffect (ActorI aActor, String aCorporationAbbrev, MapCell aHomeCity1, MapCell aHomeCity2,
+									Location aHomeLocation1, Location aHomeLocation2) {
+		RemoveHomeEffect tRemoveHomeEffect;
+
+		tRemoveHomeEffect = new RemoveHomeEffect (aActor, aCorporationAbbrev, aHomeCity1, aHomeCity2, aHomeLocation1, aHomeLocation2);
+		addEffect (tRemoveHomeEffect);
 	}
 
 	public void addBenefitUsedEffect (ActorI aActor, Benefit aBenefit) {
