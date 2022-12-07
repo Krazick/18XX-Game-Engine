@@ -150,7 +150,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		corporationJPanel.add (Box.createVerticalStrut (20));
 		corporationJPanel.add (tTopBoxes);
 		corporationJPanel.add (Box.createVerticalStrut (10));
-		createActionButtonJPanel ();
+		buildButtonJPanel ();
 		corporationJPanel.add (buttonsJPanel);
 		corporationJPanel.add (Box.createVerticalStrut (10));
 
@@ -519,7 +519,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		return tButton;
 	}
 
-	private void createActionButtonJPanel () {
+	private void buildButtonJPanel () {
 		String tPlaceBaseTileLabel;
 		String tPlaceBaseTokenLabel;
 
