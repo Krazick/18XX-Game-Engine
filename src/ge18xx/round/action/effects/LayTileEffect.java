@@ -64,7 +64,7 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		tEffectApplied = false;
 		tTileSet = aRoundManager.getTileSet ();
 		tGameMap = aRoundManager.getGameMap ();
-		tMapCell = super.getMapCell (tGameMap);
+		tMapCell = getMapCell (tGameMap);
 		tTile = tTileSet.getGameTile (tileNumber);
 		// Apply if the Tile Number on the Cell matches
 		if (tTile.getTileNumber () == tileNumber) {
@@ -82,7 +82,7 @@ public class LayTileEffect extends ChangeTileContentEffect {
 
 		return tEffectApplied;
 	}
-
+	
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
@@ -92,9 +92,9 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		TileSet tTileSet;
 
 		tEffectUndone = false;
-		tTileSet = aRoundManager.getTileSet ();
-		tGameMap = aRoundManager.getGameMap ();
-		tMapCell = super.getMapCell (tGameMap);
+		tTileSet = getTileSet (aRoundManager);
+		tGameMap = getMap (aRoundManager);
+		tMapCell = getMapCell (tGameMap);
 		tTile = tMapCell.getTile ();
 		// Undo if the Tile Number on the Cell matches
 		// OR if the tileNumber was 0, which means the tile was Upgraded,

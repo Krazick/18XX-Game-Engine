@@ -10,6 +10,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.tiles.Tile;
+import ge18xx.tiles.TileSet;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -97,7 +98,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 
 		tGameMap = aRoundManager.getGameMap ();
 		tEffectApplied = false;
-		tMapCell = super.getMapCell (tGameMap);
+		tMapCell = getMapCell (tGameMap);
 		tTile = tMapCell.getTile ();
 		if (tTile.getNumber () == tileNumber) {
 			tCorporation = (Corporation) getActor ();
@@ -119,22 +120,25 @@ public class LayTokenEffect extends ChangeMapEffect {
 
 		return tEffectApplied;
 	}
+	
+	public TileSet getTileSet (RoundManager aRoundManager) {
+		return aRoundManager.getTileSet ();
+	}
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Tile tTile;
 		MapCell tMapCell, tCorpHomeCell1, tCorpHomeCell2;
-//		MapToken tMapToken;
 		Corporation tCorporation;
 		TokenCompany tTokenCompany;
 		int tCorporationID;
 		int tTokenAtID;
 		HexMap tGameMap;
 
-		tGameMap = aRoundManager.getGameMap ();
+		tGameMap = getMap (aRoundManager);
 		tEffectUndone = false;
-		tMapCell = super.getMapCell (tGameMap);
+		tMapCell = getMapCell (tGameMap);
 		tTile = tMapCell.getTile ();
 		if (tTile.getNumber () == tileNumber) {
 			tCorporation = (Corporation) getActor ();
