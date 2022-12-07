@@ -2537,6 +2537,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		XMLElement tPreferencesElement;
 		XMLDocument tXMLDocument;
 		String tActiveGameName;
+		int tHeight;
+		int tWidth;
 
 		tXMLDocument = new XMLDocument ();
 		tConfigElement = tXMLDocument.createElement (EN_CONFIG);
@@ -2559,10 +2561,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		for (XMLFrame tXMLFrame : configFrames) {
 			if (tXMLFrame != XMLFrame.NO_XML_FRAME) {
+				tHeight = tXMLFrame.getHeight ();
+				tWidth = tXMLFrame.getWidth ();
 				// If the Height and Width are > 0, save it... otherwise it makes no sense since
-				// the
-				// Frame is not showing anything
-				if ((tXMLFrame.getHeight () > 0) && (tXMLFrame.getWidth () > 0)) {
+				// the Frame is not showing anything
+				if ((tHeight > 0) && (tWidth > 0)) {
 					tFrameElement = tXMLFrame.getXMLFrameElement (tXMLDocument);
 					tFramesElement.appendChild (tFrameElement);
 				}
