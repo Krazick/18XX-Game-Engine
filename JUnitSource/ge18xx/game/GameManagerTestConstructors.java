@@ -73,7 +73,7 @@ class GameManagerTestConstructors {
 		tGameInfo = testFactory.buildGameInfo ();
 
 		assertEquals ("<NONE>", tGameManager.getGameName ());
-		assertEquals ("<NONE>", tGameManager.getActiveGameName ());
+		assertEquals ("", tGameManager.getActiveGameName ());
 		assertEquals ("1830TEST", tGameInfo.getName ());
 		assertEquals ("<NONE>", tGameManager.getFileName ("Market"));
 		assertFalse (tGameManager.gameIsStarted ());
