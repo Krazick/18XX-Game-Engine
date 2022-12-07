@@ -50,6 +50,10 @@ public class ChangeMapEffect extends Effect {
 		return tEffectElement;
 	}
 
+	public HexMap getMap (RoundManager aRoundManager) {
+		return aRoundManager.getGameMap ();
+	}
+
 	public String getMapCellID () {
 		return mapCellID;
 	}

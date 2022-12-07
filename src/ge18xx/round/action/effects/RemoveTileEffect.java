@@ -53,8 +53,8 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		TileSet tTileSet;
 
 		tEffectApplied = false;
-		tTileSet = aRoundManager.getTileSet ();
-		tGameMap = aRoundManager.getGameMap ();
+		tGameMap = getMap (aRoundManager);
+		tTileSet = getTileSet (aRoundManager);
 		tMapCell = getMapCell (tGameMap);
 		tTile = tMapCell.getTile ();
 		tTile.returnTokens ();
@@ -78,12 +78,12 @@ public class RemoveTileEffect extends ChangeTileContentEffect {
 		int tTileNumber;
 
 		tEffectUndone = false;
-		tTileSet = aRoundManager.getTileSet ();
+		tGameMap = getMap (aRoundManager);
+		tTileSet = getTileSet (aRoundManager);
 		tTileNumber = getTileNumber ();
 		tTile = tTileSet.popTile (tTileNumber);
 		tGameTile = tTileSet.getGameTile (tTileNumber);
 		tGameTile.clearPlayable ();
-		tGameMap = aRoundManager.getGameMap ();
 		tMapCell = getMapCell (tGameMap);
 		tMapCell.putTile (tTile, orientation);
 		tMapCell.lockTileOrientation ();

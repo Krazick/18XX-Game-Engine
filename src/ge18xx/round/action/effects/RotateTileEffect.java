@@ -53,13 +53,11 @@ public class RotateTileEffect extends LayTileEffect {
 		MapCell tMapCell;
 		HexMap tGameMap;
 		TileSet tTileSet;
-//		int tNewOrientation;
-//		int tCurrentOrientation;
 
 		tEffectApplied = false;
-		tTileSet = aRoundManager.getTileSet ();
-		tGameMap = aRoundManager.getGameMap ();
-		tMapCell = super.getMapCell (tGameMap);
+		tGameMap = getMap (aRoundManager);
+		tTileSet = getTileSet (aRoundManager);
+		tMapCell = getMapCell (tGameMap);
 		tGameTile = tTileSet.getGameTile (tileNumber);
 		tTile = tGameTile.getTile ();
 		// Apply if the Tile Number on the Cell matches
@@ -112,9 +110,9 @@ public class RotateTileEffect extends LayTileEffect {
 		TileSet tTileSet;
 
 		tEffectUndone = false;
-		tTileSet = aRoundManager.getTileSet ();
-		tGameMap = aRoundManager.getGameMap ();
-		tMapCell = super.getMapCell (tGameMap);
+		tGameMap = getMap (aRoundManager);
+		tTileSet = getTileSet (aRoundManager);
+		tMapCell = getMapCell (tGameMap);
 		tGameTile = tTileSet.getGameTile (tileNumber);
 		// Apply if the Tile Number on the Cell matches
 		if (tGameTile.getTileNumber () == tileNumber) {

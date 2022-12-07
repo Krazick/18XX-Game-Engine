@@ -9,6 +9,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.tiles.Tile;
+import ge18xx.tiles.TileSet;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -80,6 +81,10 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 
 	public void setTokens (String aTokens) {
 		tokens = aTokens;
+	}
+	
+	public TileSet getTileSet (RoundManager aRoundManager) {
+		return aRoundManager.getTileSet ();
 	}
 
 	public void applyTokens (RoundManager aRoundManager, MapCell aMapCell) {
