@@ -21,6 +21,7 @@ import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
+import ge18xx.utilities.WrapLayout;
 
 public class PlayerFrame extends XMLFrame implements ItemListener {
 	public static final String STOCK_SELECTED_FOR_BID2 = "Another Private has been selected to be Bid On";
@@ -192,7 +193,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	private void buildButtonJPanel () {
-		buttonJPanel = new JPanel ();
+		buttonJPanel = new JPanel (new WrapLayout ());
 
 		passButton = buildButton (PASS, PASS);
 		buyBidButton = buildButton (Player.BUY_BID_LABEL, Player.BUY_BID_LABEL);
