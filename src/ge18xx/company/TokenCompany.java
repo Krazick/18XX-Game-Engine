@@ -479,6 +479,7 @@ public abstract class TokenCompany extends TrainCompany {
 		tOperatingRoundID = corporationList.getOperatingRoundID ();
 		tLayTokenAction = new LayTokenAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 		tLayTokenAction.addLayTokenEffect (this, aMapCell, aTile, aRevenueCenterIndex, benefitInUse);
+		addRemoveHomeEffect (aMapCell, tLayTokenAction);
 		tLayTokenAction.addChangeCorporationStatusEffect (this, aCurrentStatus, aNewStatus);
 		if (tCostToLayTokenOnMapCell > 0) {
 			tBank = corporationList.getBank ();
@@ -491,6 +492,18 @@ public abstract class TokenCompany extends TrainCompany {
 		addAction (tLayTokenAction);
 	}
 
+	public void addRemoveHomeEffect (MapCell aMapCell, LayTokenAction aLayTokenAction) {
+		if (isHomeTypeChoice ()) {
+			if (aMapCell == homeCity1) {
+				aLayTokenAction.addRemoveHomeEffect (this, getAbbrev (), MapCell.NO_MAP_CELL, getHomeCity2 (), 
+													Location.NO_LOC, getHomeLocation2 ());
+			} else if (aMapCell == homeCity2) {
+				aLayTokenAction.addRemoveHomeEffect (this, getAbbrev (), getHomeCity1 (), MapCell.NO_MAP_CELL, 
+						 							getHomeLocation1 (), Location.NO_LOC);
+			}
+		}
+	}
+	
 	@Override
 	public int getCostToLayToken (MapCell aMapCell) {
 		int tCostToLayToken;
