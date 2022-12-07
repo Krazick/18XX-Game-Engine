@@ -93,12 +93,12 @@ public class RemoveHomeEffect extends Effect {
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
 		tEffectElement.setAttribute (AN_COMPANY_ABBREV, getCompanyAbbrev ());
 		tHomeCityID1 = getHomeCity1ID ();
-		tHomeCityID2 = getHomeCity1ID ();
-		if (tHomeCityID2.equals (MapCell.NO_ID)) {
-			tEffectElement.setAttribute (AN_HOME_CITY1, getHomeCity1ID ());
+		tHomeCityID2 = getHomeCity2ID ();
+		if (isHomeCity1Set ()) {
+			tEffectElement.setAttribute (AN_HOME_CITY1, tHomeCityID1);
 			tEffectElement.setAttribute (AN_HOME_LOCATION1, getHomeLocation1 ());
-		} else if (tHomeCityID1.equals (MapCell.NO_ID)) {
-			tEffectElement.setAttribute (AN_HOME_CITY2, getHomeCity2ID ());
+		} else if (isHomeCity2Set ()) {
+			tEffectElement.setAttribute (AN_HOME_CITY2, tHomeCityID2);
 			tEffectElement.setAttribute (AN_HOME_LOCATION2, getHomeLocation2 ());
 		}
 		
@@ -153,20 +153,50 @@ public class RemoveHomeEffect extends Effect {
 		return aGameMap.getMapCellForID (aMapCellID);
 	}
 
+	private boolean isHomeCity1Set () {
+		boolean tIsHomeCity1Set;
+		String tHomeCityID1;
+		
+		tHomeCityID1 = getHomeCity1ID ();
+		if (tHomeCityID1 == null) {
+			tIsHomeCity1Set = false;
+		} else if (tHomeCityID1.equals (MapCell.NO_ID)) {
+			tIsHomeCity1Set = false;			
+		} else {
+			tIsHomeCity1Set = true;
+		}
+		
+		return tIsHomeCity1Set;
+	}
+	
+	private boolean isHomeCity2Set () {
+		boolean tIsHomeCity2Set;
+		String tHomeCityID2;
+		
+		tHomeCityID2 = getHomeCity2ID ();
+		if (tHomeCityID2 == null) {
+			tIsHomeCity2Set = false;
+		} else if (tHomeCityID2.equals (MapCell.NO_ID)) {
+			tIsHomeCity2Set = false;			
+		} else {
+			tIsHomeCity2Set = true;
+		}
+		
+		return tIsHomeCity2Set;
+	}
+	
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tReport;
-		String tHomeCityID1;
-		String tHomeCityID2;
 		
 		tReport = REPORT_PREFIX + getName ();
-		tHomeCityID1 = getHomeCity1ID ();
-		tHomeCityID2 = getHomeCity1ID ();
 		
-		if (tHomeCityID1.equals (MapCell.NO_ID)) {
-			tReport += " at " + homeCity2ID + " Location " + homeLocation2;
-		} else if (tHomeCityID2.equals (MapCell.NO_ID)) {
+		if (isHomeCity1Set ()) {
 			tReport += " at " + homeCity1ID + " Location " + homeLocation1;
+		} else if (isHomeCity2Set ()) {
+			tReport += " at " + homeCity2ID + " Location " + homeLocation2;
+		} else {
+			tReport += " at UNSPECIFIED MapCell and Location ";
 		}
 		tReport += " for " + getActorName () + ".";
 		
@@ -189,17 +219,18 @@ public class RemoveHomeEffect extends Effect {
 		tHomeCityID2 = getHomeCity2ID ();
 		
 		tShareCompany = aRoundManager.getShareCompany (getCompanyAbbrev ());
-		if (tHomeCityID1.equals (MapCell.NO_ID)) {
+		if (isHomeCity2Set ()) {
 			tMapCell = getMapCell (tGameMap, tHomeCityID2);
 			tLocation = new Location (homeLocation2);
 			tShareCompany.setHome1 (MapCell.NO_MAP_CELL, Location.NO_LOC);
 			tEffectApplied = removeHomeFromMap (aRoundManager, tMapCell, tLocation, tShareCompany);
-		} else if (tHomeCityID2.equals (MapCell.NO_ID)) {
+		} else if (isHomeCity1Set ()) {
 			tMapCell = getMapCell (tGameMap, tHomeCityID1);
 			tLocation = new Location (homeLocation1);
 			tShareCompany.setHome2 (MapCell.NO_MAP_CELL, Location.NO_LOC);
 			tEffectApplied = removeHomeFromMap (aRoundManager, tMapCell, tLocation, tShareCompany);
 		}
+		tGameMap.revalidate ();
 
 		return tEffectApplied;
 	}
@@ -237,19 +268,20 @@ public class RemoveHomeEffect extends Effect {
 		tHomeCityID2 = getHomeCity2ID ();
 		
 		tShareCompany = aRoundManager.getShareCompany (getCompanyAbbrev ());
-		if (tHomeCityID1.equals (MapCell.NO_ID)) {
+		if (isHomeCity2Set ()) {
 			tMapCell = getMapCell (tGameMap, tHomeCityID2);
 			tLocation = new Location (homeLocation2);
 			tShareCompany.setHome2 (tMapCell, tLocation);
 			tShareCompany.setHomeCityGrid2 (tHomeCityID2);
 			tEffectUndone = restoreHomeOnMap (tMapCell, tLocation, tShareCompany);
-		} else if (tHomeCityID2.equals (MapCell.NO_ID)) {
+		} else if (isHomeCity1Set ()) {
 			tMapCell = getMapCell (tGameMap, tHomeCityID1);
 			tLocation = new Location (homeLocation1);
 			tShareCompany.setHome1 (tMapCell, tLocation);
 			tShareCompany.setHomeCityGrid1 (tHomeCityID1);
 			tEffectUndone = restoreHomeOnMap (tMapCell, tLocation, tShareCompany);
 		}
+		tGameMap.revalidate ();
 		
 		return tEffectUndone;
 	}
