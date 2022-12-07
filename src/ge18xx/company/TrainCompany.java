@@ -1623,6 +1623,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tTokens = aTile.getPlacedTokens ();
 		tBases = aTile.getCorporationBases ();
 		tLayTileAction.addLayTileEffect (this, aMapCell, aTile, aOrientation, tTokens, tBases);
+		addRemoveHomeEffect (tLayTileAction, aMapCell);
 		if (tCurrentStatus != tNewStatus) {
 			tLayTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 		}
@@ -1641,6 +1642,28 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 		addAction (tLayTileAction);
 		updateInfo ();
+	}
+
+	private void addRemoveHomeEffect (LayTileAction aLayTileAction, MapCell aSelectedMapCell) {
+		MapCell tHomeMapCell1;
+		MapCell tHomeMapCell2;
+		Location tHomeLocation1;
+		Location tHomeLocation2;
+		
+		if (isHomeTypeChoice ()) {
+			tHomeMapCell1 = getHomeCity1 ();
+			tHomeMapCell2 = getHomeCity2 ();
+			tHomeLocation1 = getHomeLocation1 ();
+			tHomeLocation2 = getHomeLocation2 ();
+			if (aSelectedMapCell == tHomeMapCell1) {
+				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), MapCell.NO_MAP_CELL,tHomeMapCell2, 
+						Location.NO_LOC, tHomeLocation2);
+			}
+			if (aSelectedMapCell == tHomeMapCell2) {
+				aLayTileAction.addRemoveHomeEffect (this, getAbbrev (), tHomeMapCell1, MapCell.NO_MAP_CELL, 
+						tHomeLocation1, Location.NO_LOC);
+			}
+		}
 	}
 
 	private void setTileLaid (LayTileAction aLayTileAction) {
