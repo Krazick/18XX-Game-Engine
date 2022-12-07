@@ -1,10 +1,14 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.center.RevenueCenter;
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
+import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.tiles.Tile;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -141,6 +145,14 @@ public class RemoveHomeEffect extends Effect {
 		homeLocation2 = aHomeLocation2;
 	}
 
+	public HexMap getMap (RoundManager aRoundManager) {
+		return aRoundManager.getGameMap ();
+	}
+	
+	public MapCell getMapCell (HexMap aGameMap, String aMapCellID) {
+		return aGameMap.getMapCellForID (aMapCellID);
+	}
+
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tReport;
@@ -163,21 +175,100 @@ public class RemoveHomeEffect extends Effect {
 
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
-		boolean tEffectApplied = false;
+		boolean tEffectApplied;
+		HexMap tGameMap;
+		MapCell tMapCell;
+		Location tLocation;
+		String tHomeCityID1;
+		String tHomeCityID2;
+		ShareCompany tShareCompany;
+		
+		tEffectApplied = false;
+		tGameMap = getMap (aRoundManager);
+		tHomeCityID1 = getHomeCity1ID ();
+		tHomeCityID2 = getHomeCity2ID ();
+		
+		tShareCompany = aRoundManager.getShareCompany (getCompanyAbbrev ());
+		if (tHomeCityID1.equals (MapCell.NO_ID)) {
+			tMapCell = getMapCell (tGameMap, tHomeCityID2);
+			tLocation = new Location (homeLocation2);
+			tShareCompany.setHome1 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+			tEffectApplied = removeHomeFromMap (aRoundManager, tMapCell, tLocation, tShareCompany);
+		} else if (tHomeCityID2.equals (MapCell.NO_ID)) {
+			tMapCell = getMapCell (tGameMap, tHomeCityID1);
+			tLocation = new Location (homeLocation1);
+			tShareCompany.setHome2 (MapCell.NO_MAP_CELL, Location.NO_LOC);
+			tEffectApplied = removeHomeFromMap (aRoundManager, tMapCell, tLocation, tShareCompany);
+		}
 
-		System.out.println ("Need to Apply " + NAME);
-//		tCertificate = aRoundManager.getCertificate (getCompanyAbbrev (), getPercentage (), isPresident ());
-//		if (tCertificate != Certificate.NO_CERTIFICATE) {
-//			tCertificate.removeAllBids ();
-//			tEffectApplied = true;
-//		}
+		return tEffectApplied;
+	}
 
+	private boolean removeHomeFromMap (RoundManager aRoundManager, MapCell aMapCell, Location aLocation, ShareCompany aShareCompany) {
+		boolean tEffectApplied;
+		Tile tTile;
+		RevenueCenter tRevenueCenter;
+		
+		tTile = aMapCell.getTile ();
+		if (tTile != Tile.NO_TILE) {
+			tRevenueCenter = tTile.getRevenueCenter (0);
+			aLocation = tRevenueCenter.getLocation ();
+			aLocation = aLocation.rotateLocation (aMapCell.getTileOrient ());
+		}
+		aMapCell.removeHome (aShareCompany, aLocation);
+		tEffectApplied = true;
+		
 		return tEffectApplied;
 	}
 
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
-		return true;
+		boolean tEffectUndone;
+		HexMap tGameMap;
+		MapCell tMapCell;
+		Location tLocation;
+		String tHomeCityID1;
+		String tHomeCityID2;
+		ShareCompany tShareCompany;
+		
+		tEffectUndone = false;
+		tGameMap = getMap (aRoundManager);
+		tHomeCityID1 = getHomeCity1ID ();
+		tHomeCityID2 = getHomeCity2ID ();
+		
+		tShareCompany = aRoundManager.getShareCompany (getCompanyAbbrev ());
+		if (tHomeCityID1.equals (MapCell.NO_ID)) {
+			tMapCell = getMapCell (tGameMap, tHomeCityID2);
+			tLocation = new Location (homeLocation2);
+			tShareCompany.setHome2 (tMapCell, tLocation);
+			tShareCompany.setHomeCityGrid2 (tHomeCityID2);
+			tEffectUndone = restoreHomeOnMap (tMapCell, tLocation, tShareCompany);
+		} else if (tHomeCityID2.equals (MapCell.NO_ID)) {
+			tMapCell = getMapCell (tGameMap, tHomeCityID1);
+			tLocation = new Location (homeLocation1);
+			tShareCompany.setHome1 (tMapCell, tLocation);
+			tShareCompany.setHomeCityGrid1 (tHomeCityID1);
+			tEffectUndone = restoreHomeOnMap (tMapCell, tLocation, tShareCompany);
+		}
+		
+		return tEffectUndone;
+	}
+
+	private boolean restoreHomeOnMap (MapCell aMapCell, Location aLocation, ShareCompany aShareCompany) {
+		boolean tEffectUndone;
+		Tile tTile;
+		RevenueCenter tRevenueCenter;
+		
+		tTile = aMapCell.getTile ();
+		if (tTile != Tile.NO_TILE) {
+			tRevenueCenter = tTile.getRevenueCenter (0);
+			aLocation = tRevenueCenter.getLocation ();
+			aLocation = aLocation.rotateLocation (aMapCell.getTileOrient ());
+		}
+		aMapCell.setCorporation (aShareCompany, aLocation);
+		tEffectUndone = true;
+		
+		return tEffectUndone;
 	}
 
 }
