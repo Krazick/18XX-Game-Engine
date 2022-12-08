@@ -415,6 +415,21 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tCorporation;
 	}
 
+	public Corporation getCorporationByName (String aCompanyName) {
+		Corporation tCorporation;
+		String tName;
+
+		tCorporation = Corporation.NO_CORPORATION;
+		for (Corporation tCorporationI : corporations) {
+			tName = tCorporationI.getName ();
+			if (tName.equals (aCompanyName)) {
+				tCorporation = tCorporationI;
+			}
+		}
+
+		return tCorporation;
+	}
+
 	public Corporation getCorporationByID (int aCorporationID) {
 		Corporation tCorporation;
 

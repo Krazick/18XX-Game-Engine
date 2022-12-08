@@ -842,6 +842,28 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return getFileName (File18XX.COMPANIES_TYPE);
 	}
 
+	public Corporation getCorporationByName (String aCorporationName) {
+		Corporation tCorporation;
+
+		tCorporation = privatesFrame.getCorporationByAbbrev (aCorporationName);
+		if (tCorporation == Corporation.NO_CORPORATION) {
+			tCorporation = getActingCorporationByName (aCorporationName);
+		}
+
+		return tCorporation;
+	}
+
+	public Corporation getActingCorporationByName (String aCorporationName) {
+		Corporation tCorporation;
+
+		tCorporation = minorCompaniesFrame.getCorporationByName (aCorporationName);
+		if (tCorporation == Corporation.NO_CORPORATION) {
+			tCorporation = shareCompaniesFrame.getCorporationByName (aCorporationName);
+		}
+
+		return tCorporation;
+	}
+
 	public Corporation getCorporationByID (int aCorporationID) {
 		Corporation tCorporation;
 

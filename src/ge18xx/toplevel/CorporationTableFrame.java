@@ -83,6 +83,14 @@ public class CorporationTableFrame extends XMLFrame {
 		return (companies.getCertificate (aCompanyAbbrev, aPercentage, aPresidentShare));
 	}
 
+	public Corporation getCorporationByAbbrev (String aCorporationAbbrev) {
+		return companies.getCorporation (aCorporationAbbrev);
+	}
+	
+	public Corporation getCorporationByName (String aCorporationName) {
+		return companies.getCorporationByName (aCorporationName);
+	}
+
 	public Corporation getCorporationByID (int aCorporationID) {
 		return companies.getCorporationByID (aCorporationID);
 	}

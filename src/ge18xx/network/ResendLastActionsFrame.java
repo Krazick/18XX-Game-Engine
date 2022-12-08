@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActionManager;
@@ -106,7 +107,6 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 		int tToNumber;
 		String tActorName;
 		String tFullList;
-		String tPlayerName;
 		String tLastActorName;
 		boolean tGetActionsToResend;
 
@@ -117,7 +117,6 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 		tToNumber = tAction.getNumber ();
 		tFromNumber = tToNumber;
 		tActorName = tAction.getActorName ();
-		tPlayerName = tActorName;
 		tLastActorName = tActorName;
 		tFullList = "";
 		while (tGetActionsToResend) {
@@ -130,29 +129,42 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 				tFullList = tAction.getBriefActionReport () + NEWLINE + tFullList;
 				tGetActionsToResend = tAction.getChainToPrevious ();	
 				tLastActionIndex--;
-				tPlayerName = tActorName;
 			} else {
 				tGetActionsToResend = false;
 			}
 		}
 		tNetworkLastActionNumber = getNetworkLastActionNumber ();
 		summary = "Ready to resend " + resendTheseActions.size () + " Actions from " + tFromNumber + 
-				" (" + tPlayerName + ") " + " to " + tToNumber + " (" + tLastActorName + ")";
+				" (" + tActorName + ") " + " to " + tToNumber + " (" + tLastActorName + ")";
 		networkLastAction = "Network's Last Action for this game is " + tNetworkLastActionNumber;
 		buildResendPanel ();
-		updateResendConfirmButton (tPlayerName);
+		updateResendConfirmButton (tActorName);
 		listToResendTextArea.setText (tFullList);
 	}
 
-	public void updateResendConfirmButton (String aPlayerName) {
+	public void updateResendConfirmButton (String aActorName) {
 		String tClientName;
+		String tPlayerName;
+		String tActingParty;
+		Corporation tCorporation;
+		GameManager tGameManager;
 		
 		tClientName = gameManager.getClientUserName ();
-		if (aPlayerName.equals (tClientName)) {
+		tGameManager = actionManager.getGameManager ();
+		tCorporation = tGameManager.getActingCorporationByName (aActorName);
+		if (tCorporation == Corporation.NO_CORPORATION) {
+			tPlayerName = aActorName;
+			tActingParty = tPlayerName;
+		} else {
+			tPlayerName = tCorporation.getPresidentName ();
+			tActingParty = tPlayerName + " (President of " + aActorName + ")";
+		}
+		if (tPlayerName.equals (tClientName)) {
 			confirmResendButton.setEnabled (true);
+			confirmResendButton.setToolTipText ("Actor of Action is " + tActingParty + " can now resend the Actions.");
 		} else {
 			confirmResendButton.setEnabled (false);
-			confirmResendButton.setToolTipText ("Actor of Action is " + aPlayerName + " who is not you " + tClientName);
+			confirmResendButton.setToolTipText ("Actor of Action is " + tActingParty + " who is not you " + tClientName + ".");
 		}
 	}
 	
