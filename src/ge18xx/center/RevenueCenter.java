@@ -208,7 +208,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		
 		tRevenueCenter.id = id;
 		tRevenueCenter.name = name;
-		tRevenueCenter.revenues = revenues;
+		tRevenueCenter.revenues = revenues.clone ();
 		tRevenueCenter.type = type.clone ();
 		tRevenueCenter.cityInfo = cityInfo.clone ();
 		for (int tTrainIndex = 0; tTrainIndex < MAX_TRAIN_COUNT; tTrainIndex++) {

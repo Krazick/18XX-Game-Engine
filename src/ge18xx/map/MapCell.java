@@ -1107,6 +1107,7 @@ public class MapCell implements Comparator<Object> {
 	public boolean putThisTileDown (TileSet aTileSet, GameTile aThisTile, int aThisRotation) {
 		GameTile tGameTileOnMapCell;
 		Tile tTile;
+		Tile tClonedTile;
 		Tile tTileOnMapCell;
 		int tUpgradeCount;
 		int tTileNumber;
@@ -1121,7 +1122,8 @@ public class MapCell implements Comparator<Object> {
 			tUpgradeCount = tGameTileOnMapCell.getUpgradeCount ();
 			if (tUpgradeCount > 0) {
 				tTile = aThisTile.popTile ();
-				tTilePlaced = upgradeTile (aTileSet, tTile);
+				tClonedTile = tTile.clone ();
+				tTilePlaced = upgradeTile (aTileSet, tClonedTile);
 				hexMap.redrawMap ();
 			} else {
 				System.err.println ("No Upgrades Available");

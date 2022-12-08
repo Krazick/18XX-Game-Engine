@@ -53,7 +53,8 @@ public class Revenues extends Feature {
 	}
 
 	public Revenues (Revenues aRevenues) {
-		int tValue, tPhase;
+		int tValue;
+		int tPhase;
 		int tRevenueCount;
 		int tRevenueIndex;
 
@@ -86,6 +87,27 @@ public class Revenues extends Feature {
 		revenues.add (aRevenue);
 	}
 
+	@Override
+	public Revenues clone () {
+		Revenues tRevenues = (Revenues) super.clone ();
+		int tRevenueCount;
+		int tRevenueIndex;
+		int tValue;
+		int tPhase;
+		
+		tRevenues.revenues = new LinkedList<> ();
+		tRevenueCount = getRevenueCount ();
+		for (tRevenueIndex = 0; tRevenueIndex < tRevenueCount; tRevenueIndex++) {
+			tValue = getValueIndex (tRevenueIndex);
+			tPhase = getPhaseIndex (tRevenueIndex);
+			tRevenues.addRevenue (tValue, tPhase);
+		}
+		tRevenues.layoutStyle = layoutStyle;
+		tRevenues.setLocation (getLocation ());
+		
+		return tRevenues;
+	}
+	
 	public void addRevenue (int aValue, int aPhase) {
 		Revenue tRevenue;
 
