@@ -246,7 +246,7 @@ public abstract class TokenCompany extends TrainCompany {
 
 		g.setColor (fgColor);
 		g.drawString (abbrev, tX, tY);
-		g.setColor (bgColor);
+		g.setColor (homeColor);
 		g.drawString (abbrev, tX, tY);
 		g.setFont (tCurrentFont);
 		g.setColor (tCurrentColor);

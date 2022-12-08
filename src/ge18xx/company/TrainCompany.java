@@ -59,6 +59,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	static final AttributeName AN_CLOSE_ON_TRAIN_PURCHASE = new AttributeName ("closeOnTrainPurchase");
 	static final AttributeName AN_BG_COLOR = new AttributeName ("bgColor");
 	static final AttributeName AN_FG_COLOR = new AttributeName ("fgColor");
+	static final AttributeName AN_HOME_COLOR = new AttributeName ("homeColor");
 	static final AttributeName AN_COST = new AttributeName ("cost");
 	static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
 	public static final String BUY_LABEL = "Buy";
@@ -76,8 +77,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	static final int INFINITE_PRICE = 99999;
 	String bgColorName;
 	String fgColorName;
+	String homeColorName;
 	Color bgColor;
 	Color fgColor;
+	Color homeColor;
 	int treasury;
 	int thisRevenue;
 	int lastRevenue;
@@ -143,6 +146,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		bgColor = translateColor (bgColorName);
 		fgColorName = aChildNode.getThisAttribute (AN_FG_COLOR);
 		fgColor = translateColor (fgColorName);
+		homeColorName = aChildNode.getThisAttribute (AN_HOME_COLOR, bgColorName);
+		homeColor = translateColor (homeColorName);
 		value = aChildNode.getThisIntAttribute (AN_COST);
 		lastRevenue = aChildNode.getThisIntAttribute (AN_LAST_REVENUE);
 		thisRevenue = aChildNode.getThisIntAttribute (AN_THIS_REVENUE);
