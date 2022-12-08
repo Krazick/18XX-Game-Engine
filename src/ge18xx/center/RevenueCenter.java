@@ -205,11 +205,12 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	@Override
 	public RevenueCenter clone () {
 		RevenueCenter tRevenueCenter = (RevenueCenter) super.clone ();
+		
 		tRevenueCenter.id = id;
 		tRevenueCenter.name = name;
 		tRevenueCenter.revenues = revenues;
 		tRevenueCenter.type = type.clone ();
-		tRevenueCenter.cityInfo = cityInfo;
+		tRevenueCenter.cityInfo = cityInfo.clone ();
 		for (int tTrainIndex = 0; tTrainIndex < MAX_TRAIN_COUNT; tTrainIndex++) {
 			tRevenueCenter.selectedForTrain [tTrainIndex] = selectedForTrain [tTrainIndex];
 		}
