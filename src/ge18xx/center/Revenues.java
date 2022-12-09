@@ -171,9 +171,9 @@ public class Revenues extends Feature {
 					tTilePaint = Color.CYAN;
 					tRevenueColor = Color.BLACK;
 				}
-				for (tRevenueIndex = 0; tRevenueIndex < tRevenueCount; tRevenueIndex++) {
+				for (tRevenueIndex = 1; tRevenueIndex < tRevenueCount; tRevenueIndex++) {
 					tValue = getValueIndex (tRevenueIndex);
-					if (tValue > 0) {
+					if ((tValue >= 0) && (tRevenueCount > 2)) {
 						tValueLabel = getValueIndexToString (tRevenueIndex);
 						tWidth = g2d.getFontMetrics ().stringWidth (tValueLabel);
 						tHeight = g2d.getFontMetrics ().getHeight ();
@@ -252,6 +252,7 @@ public class Revenues extends Feature {
 					tHorizontalLabel = "(" + tHorizontalLabel + ")";
 					tWidth = g2d.getFontMetrics ().stringWidth (tHorizontalLabel);
 					tHeight = g2d.getFontMetrics ().getHeight ();
+					g2d.setColor (Color.white);
 					g2d.drawString (tHorizontalLabel, tXc - tWidth / 2, tYc - tHeight / 2 - 1);
 				}
 			}
