@@ -76,56 +76,67 @@ public class GenericActor implements ActorI {
 		return tPlayerState;
 	}
 
-//	Unowned, Owned, Closed, MayFloat, WillFloat, NotOperated, StartedOperations		// Corporation States
+//	Unowned, Owned, Closed, MayFloat, WillFloat, NotOperated, StartedOperations, 	HandledLoanInterest,	
 //	TileLaid, Tile2Laid, TileUpgraded, StationLaid, TileAndStationLaid, OperatedTrain,
-//	HoldDividend, HalfDividend, FullDividend, BoughtTrain, Operated,
+//	HoldDividend, HalfDividend, FullDividend, BoughtTrain, Operated, 
+//	Fixed, Inactive, WaitingResponse, Bankrupt, Recievership
 
 	public ActorI.ActionStates getCorporationActionState (String aState) {
 		ActorI.ActionStates tCorporationState;
 
 		tCorporationState = ActionStates.NoState;
-		if (aState.equals (ActionStates.Unowned.toString ())) {
+		if (aState.equals (ActionStates.Unowned.toString ())) {						// 1
 			tCorporationState = ActionStates.Unowned;
-		} else if (aState.equals (ActionStates.Owned.toString ())) {
+		} else if (aState.equals (ActionStates.Owned.toString ())) {					// 2
 			tCorporationState = ActionStates.Owned;
-		} else if (aState.equals (ActionStates.Closed.toString ())) {
+		} else if (aState.equals (ActionStates.Closed.toString ())) {				// 3
 			tCorporationState = ActionStates.Closed;
-		} else if (aState.equals (ActionStates.MayFloat.toString ())) {
+		} else if (aState.equals (ActionStates.MayFloat.toString ())) {				// 4
 			tCorporationState = ActionStates.MayFloat;
-		} else if (aState.equals (ActionStates.StartedOperations.toString ())) {
+		} else if (aState.equals (ActionStates.StartedOperations.toString ())) {		// 5
 			tCorporationState = ActionStates.StartedOperations;
-		} else if (aState.equals (ActionStates.Operated.toString ())) {
+		} else if (aState.equals (ActionStates.Operated.toString ())) {				// 6
 			tCorporationState = ActionStates.Operated;
-		} else if (aState.equals (ActionStates.NotOperated.toString ())) {
+		} else if (aState.equals (ActionStates.HandledLoanInterest.toString ())) {	// 7
+			tCorporationState = ActionStates.HandledLoanInterest;
+		} else if (aState.equals (ActionStates.NotOperated.toString ())) {			// 8
 			tCorporationState = ActionStates.NotOperated;
-		} else if (aState.equals (ActionStates.WillFloat.toString ())) {
+		} else if (aState.equals (ActionStates.WillFloat.toString ())) {				// 9
 			tCorporationState = ActionStates.WillFloat;
-		} else if (aState.equals (ActionStates.TileLaid.toString ())) {
+		} else if (aState.equals (ActionStates.TileLaid.toString ())) {				// 10
 			tCorporationState = ActionStates.TileLaid;
-		} else if (aState.equals (ActionStates.Tile2Laid.toString ())) {
+		} else if (aState.equals (ActionStates.Tile2Laid.toString ())) {				// 11
 			tCorporationState = ActionStates.Tile2Laid;
-		} else if (aState.equals (ActionStates.TileUpgraded.toString ())) {
+		} else if (aState.equals (ActionStates.TileUpgraded.toString ())) {			// 12
 			tCorporationState = ActionStates.TileUpgraded;
-		} else if (aState.equals (ActionStates.StationLaid.toString ())) {
+		} else if (aState.equals (ActionStates.StationLaid.toString ())) {			// 13
 			tCorporationState = ActionStates.StationLaid;
-		} else if (aState.equals (ActionStates.TileAndStationLaid.toString ())) {
+		} else if (aState.equals (ActionStates.TileAndStationLaid.toString ())) {		// 14
 			tCorporationState = ActionStates.TileAndStationLaid;
-		} else if (aState.equals (ActionStates.OperatedTrain.toString ())) {
+		} else if (aState.equals (ActionStates.OperatedTrain.toString ())) {			// 15
 			tCorporationState = ActionStates.OperatedTrain;
-		} else if (aState.equals (ActionStates.HoldDividend.toString ())) {
+		} else if (aState.equals (ActionStates.HoldDividend.toString ())) {			// 16
 			tCorporationState = ActionStates.HoldDividend;
-		} else if (aState.equals (ActionStates.HalfDividend.toString ())) {
+		} else if (aState.equals (ActionStates.HalfDividend.toString ())) {			// 17
 			tCorporationState = ActionStates.HalfDividend;
-		} else if (aState.equals (ActionStates.FullDividend.toString ())) {
+		} else if (aState.equals (ActionStates.FullDividend.toString ())) {			// 18
 			tCorporationState = ActionStates.FullDividend;
-		} else if (aState.equals (ActionStates.BoughtTrain.toString ())) {
+		} else if (aState.equals (ActionStates.BoughtTrain.toString ())) {			// 19
 			tCorporationState = ActionStates.BoughtTrain;
-		} else if (aState.equals (ActionStates.WaitingResponse.toString ())) {
+		} else if (aState.equals (ActionStates.WaitingResponse.toString ())) {		// 20
 			tCorporationState = ActionStates.WaitingResponse;
-		} else if (aState.equals (ActionStates.Unformed.toString ())) {
+		} else if (aState.equals (ActionStates.Unformed.toString ())) {				// 21
 			tCorporationState = ActionStates.Unformed;
-		} else if (aState.equals (ActionStates.Inactive.toString ())) {
+		} else if (aState.equals (ActionStates.Fixed.toString ())) {					// 22
+			tCorporationState = ActionStates.Fixed;
+		} else if (aState.equals (ActionStates.Inactive.toString ())) {				// 23
 			tCorporationState = ActionStates.Inactive;
+		} else if (aState.equals (ActionStates.WaitingResponse.toString ())) {		// 24
+			tCorporationState = ActionStates.WaitingResponse;
+		} else if (aState.equals (ActionStates.Bankrupt.toString ())) {				// 25
+			tCorporationState = ActionStates.Bankrupt;
+		} else if (aState.equals (ActionStates.Recievership.toString ())) {			// 26
+			tCorporationState = ActionStates.Recievership;
 		}
 
 		return tCorporationState;
