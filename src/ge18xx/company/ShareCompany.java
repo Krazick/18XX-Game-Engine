@@ -363,6 +363,7 @@ public class ShareCompany extends TokenCompany {
 				tPayLoanInterestAction.addCashTransferEffect (this, tBank, tInterestPayment);
 				tPayLoanInterestAction.addChangeCorporationStatusEffect (this, tOldState, tNewState);
 				transferCashTo (tBank, tInterestPayment);
+				addAction (tPayLoanInterestAction);
 			}
 		} else {
 			System.err.println ("Need " + Bank.formatCash (tInterestPayment) + " needed to may Loan Payment on " + tLoanCount + " Loans.");
