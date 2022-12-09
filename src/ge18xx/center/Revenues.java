@@ -133,33 +133,33 @@ public class Revenues extends Feature {
 		return tXMLElement;
 	}
 
-	public void draw (Graphics g, int Xc, int Yc, Hex aHex, int aTileOrientation, TileType aTileType) {
-		int tWidth, tHeight;
-		int tBoxWidth, tBoxHeight;
+	public void draw (Graphics aGraphics, int aXc, int aYc, Hex aHex, int aTileOrientation, TileType aTileType) {
+		int tWidth;
+		int tHeight;
+		int tValue;
+		int tXc;
+		int tYc;
+		int tRevenueCount;
+		int tRevenueIndex;
+		int tRevenueShownCount;
 		String tValueLabel;
 		String tHorizontalLabel;
-		int tValue;
-		int XUL, YUL;
-		int tXc, tYc;
-		int tCircleRadius, tCircleDiameter;
-		int tOvalHeight, tOvalWidth;
-		int tRevenueCount, tRevenueIndex, tRevenueShownCount;
 		Point tDisplace;
 		Font tNewFont;
 		Font tCurrentFont;
 		Location tNewLocation;
 		Color tRevenueColor;
 		Paint tTilePaint;
-		Graphics2D g2d = (Graphics2D) g;
+		Graphics2D tGraphics2D = (Graphics2D) aGraphics;
 
 		if (!location.isNoLocation ()) {
 			tNewLocation = location.rotateLocation (aTileOrientation);
-			tCurrentFont = g2d.getFont ();
+			tCurrentFont = tGraphics2D.getFont ();
 			tNewFont = new Font ("Dialog", Font.PLAIN, 10);
-			g.setFont (tNewFont);
+			aGraphics.setFont (tNewFont);
 			tDisplace = tNewLocation.calcCenter (aHex);
-			tXc = Xc + tDisplace.x;
-			tYc = Yc + tDisplace.y;
+			tXc = aXc + tDisplace.x;
+			tYc = aYc + tDisplace.y;
 			tRevenueCount = getRevenueCount ();
 			if (tRevenueCount > 0) {
 				tHorizontalLabel = "";
@@ -173,90 +173,138 @@ public class Revenues extends Feature {
 				}
 				for (tRevenueIndex = 1; tRevenueIndex < tRevenueCount; tRevenueIndex++) {
 					tValue = getValueIndex (tRevenueIndex);
-					if ((tValue >= 0) && (tRevenueCount > 2)) {
-						tValueLabel = getValueIndexToString (tRevenueIndex);
-						tWidth = g2d.getFontMetrics ().stringWidth (tValueLabel);
-						tHeight = g2d.getFontMetrics ().getHeight ();
-						switch (layoutStyle) {
+					tValueLabel = getValueIndexToString (tRevenueIndex);
+					tWidth = tGraphics2D.getFontMetrics ().stringWidth (tValueLabel);
+					tHeight = tGraphics2D.getFontMetrics ().getHeight ();
+					switch (layoutStyle) {
 						case (LAYOUT_CIRCLE):
-							if (tWidth > tHeight) {
-								tCircleRadius = tWidth / 2 + 2;
-							} else {
-								tCircleRadius = tHeight / 2 + 2;
-							}
-							tCircleDiameter = tCircleRadius * 2;
-							XUL = tXc - tCircleRadius;
-							YUL = tYc - tCircleRadius;
-							tOvalWidth = tCircleDiameter;
-							if (tValue > 99) {
-								tOvalHeight = tHeight + 3;
-							} else {
-								tOvalHeight = tCircleRadius * 2;
-							}
-							g2d.setPaint (tTilePaint);
-							g2d.fillOval (XUL, YUL, tOvalWidth, tOvalHeight);
-							g2d.setColor (tRevenueColor);
-							g2d.drawOval (XUL, YUL, tOvalWidth, tOvalHeight);
-							g2d.drawString (tValueLabel, XUL + 2, YUL + tHeight - 1);
+							drawRevenueCircle (tWidth, tHeight, tValueLabel, tValue, tXc, tYc, tRevenueColor,
+									tTilePaint, tGraphics2D);
 							break;
-
+	
 						case (LAYOUT_HORIZONTAL):
 							tHorizontalLabel = tHorizontalLabel + tValueLabel + "/";
 							break;
-
+	
 						case (LAYOUT_VERTICAL):
-							tBoxWidth = tWidth + 2;
-							tBoxHeight = tHeight * (tRevenueCount - 1) + 1;
-							XUL = tXc - tBoxWidth / 2;
-							YUL = tYc - tBoxHeight / 2;
-							if (tRevenueShownCount == 0) {
-								g2d.setColor (Color.white);
-								g2d.fillRect (XUL, YUL, tBoxWidth, tBoxHeight);
-								g2d.setColor (Color.black);
-								g2d.drawRect (XUL, YUL, tBoxWidth, tBoxHeight);
-							}
-							g2d.drawString (tValueLabel, XUL + 1, YUL + (tHeight * (tRevenueShownCount + 1)) - 1);
-							tRevenueShownCount++;
+							tRevenueShownCount = drawRevenueVertical (tWidth, tHeight, tValueLabel, tValue, tXc, tYc,
+									tRevenueCount, tRevenueShownCount, tGraphics2D);
 							break;
-
+	
 						case (LAYOUT_SPLIT):
-							tBoxWidth = tWidth * 2;
-							XUL = tXc - tWidth;
-							YUL = tYc - tWidth;
-							if (tRevenueShownCount == 0) {
-								// To highlight the Current Phase Value either:
-								// 1) Draw a Triangle over the area and choose different background, drawing the
-								// triangle region, over top of the "White" Rectangle
-								// --- Hex class (passed in) has a drawTriangle Method, just provide the points,
-								// and a fill color
-								// 2) Change the Color of the Text to something different, like "RED"
-								g2d.setColor (Color.white);
-								g2d.fillRect (XUL, YUL, tBoxWidth, tBoxWidth);
-								// Draw Triangle Here
-								// Problem is finding the current Phase to see which color to use --
-								g2d.setColor (Color.black);
-								g2d.drawRect (XUL, YUL, tBoxWidth, tBoxWidth);
-								g2d.drawLine (XUL + tBoxWidth, YUL, XUL, YUL + tBoxWidth);
-								g2d.drawString (tValueLabel, XUL + 1, YUL + tHeight - 1);
-							}
-							if (tRevenueShownCount == 1) {
-								g2d.drawString (tValueLabel, XUL + tWidth - 2, YUL + tWidth + tHeight - 3);
-							}
-							tRevenueShownCount++;
+							tRevenueShownCount = drawRevenueSplit (tWidth, tHeight, tValueLabel, tValue, tXc, tYc,
+									tRevenueShownCount, tGraphics2D);
 							break;
-						}
 					}
 				}
-				if ((layoutStyle == LAYOUT_HORIZONTAL) && (tHorizontalLabel.length () > 0)) {
-					tHorizontalLabel = tHorizontalLabel.substring (0, tHorizontalLabel.length () - 1);
-					tHorizontalLabel = "(" + tHorizontalLabel + ")";
-					tWidth = g2d.getFontMetrics ().stringWidth (tHorizontalLabel);
-					tHeight = g2d.getFontMetrics ().getHeight ();
-					g2d.setColor (Color.white);
-					g2d.drawString (tHorizontalLabel, tXc - tWidth / 2, tYc - tHeight / 2 - 1);
-				}
+				drawRevenueHorizontal (tHorizontalLabel, tXc, tYc, tRevenueColor, tGraphics2D);
 			}
-			g.setFont (tCurrentFont);
+			aGraphics.setFont (tCurrentFont);
+		}
+	}
+
+	private void drawRevenueHorizontal (String aHorizontalLabel, int aXc, int aYc, Color aRevenueColor, Graphics2D aGraphics2D) {
+		int tWidth;
+		int tHeight;
+		
+		if ((layoutStyle == LAYOUT_HORIZONTAL) && (aHorizontalLabel.length () > 0)) {
+			aHorizontalLabel = aHorizontalLabel.substring (0, aHorizontalLabel.length () - 1);
+			aHorizontalLabel = "(" + aHorizontalLabel + ")";
+			tWidth = aGraphics2D.getFontMetrics ().stringWidth (aHorizontalLabel);
+			tHeight = aGraphics2D.getFontMetrics ().getHeight ();
+			aGraphics2D.setColor (aRevenueColor);
+			aGraphics2D.drawString (aHorizontalLabel, aXc - tWidth / 2, aYc - tHeight / 2 - 1);
+		}
+	}
+
+	private int drawRevenueSplit (int aWidth, int aHeight, String aValueLabel, int aValue, int aXc, int aYc, int aRevenueShownCount,
+			Graphics2D aGraphics2D) {
+		int tBoxWidth;
+		int tXUpperLeft;
+		int tYUpperLeft;
+		
+		if (aValue > 0) {
+			tBoxWidth = aWidth * 2;
+			tXUpperLeft = aXc - aWidth;
+			tYUpperLeft = aYc - aWidth;
+			if (aRevenueShownCount == 0) {
+				// To highlight the Current Phase Value either:
+				// 1) Draw a Triangle over the area and choose different background, drawing the
+				// triangle region, over top of the "White" Rectangle
+				// --- Hex class (passed in) has a drawTriangle Method, just provide the points,
+				// and a fill color
+				// 2) Change the Color of the Text to something different, like "RED"
+				aGraphics2D.setColor (Color.white);
+				aGraphics2D.fillRect (tXUpperLeft, tYUpperLeft, tBoxWidth, tBoxWidth);
+				// Draw Triangle Here
+				// Problem is finding the current Phase to see which color to use --
+				aGraphics2D.setColor (Color.black);
+				aGraphics2D.drawRect (tXUpperLeft, tYUpperLeft, tBoxWidth, tBoxWidth);
+				aGraphics2D.drawLine (tXUpperLeft + tBoxWidth, tYUpperLeft, tXUpperLeft, tYUpperLeft + tBoxWidth);
+				aGraphics2D.drawString (aValueLabel, tXUpperLeft + 1, tYUpperLeft + aHeight - 1);
+			} else if (aRevenueShownCount == 1) {
+				aGraphics2D.drawString (aValueLabel, tXUpperLeft + aWidth - 2, tYUpperLeft + aWidth + aHeight - 3);
+			}
+			aRevenueShownCount++;
+		}
+		
+		return aRevenueShownCount;
+	}
+
+	private int drawRevenueVertical (int tWidth, int tHeight, String aValueLabel, int aValue, int aXc, int aYc, int aRevenueCount,
+			int aRevenueShownCount, Graphics2D aGraphics2D) {
+		int tBoxWidth;
+		int tBoxHeight;
+		int tXUpperLeft;
+		int tYUpperLeft;
+		
+		if (aValue > 0) {
+			tBoxWidth = tWidth + 2;
+			tBoxHeight = tHeight * (aRevenueCount - 1) + 1;
+			tXUpperLeft = aXc - tBoxWidth / 2;
+			tYUpperLeft = aYc - tBoxHeight / 2;
+			if (aRevenueShownCount == 0) {
+				aGraphics2D.setColor (Color.white);
+				aGraphics2D.fillRect (tXUpperLeft, tYUpperLeft, tBoxWidth, tBoxHeight);
+				aGraphics2D.setColor (Color.black);
+				aGraphics2D.drawRect (tXUpperLeft, tYUpperLeft, tBoxWidth, tBoxHeight);
+			}
+			aGraphics2D.drawString (aValueLabel, tXUpperLeft + 1, tYUpperLeft + (tHeight * (aRevenueShownCount + 1)) - 1);
+			aRevenueShownCount++;
+		}
+		
+		return aRevenueShownCount;
+	}
+
+	private void drawRevenueCircle (int aWidth, int aHeight, String aValueLabel, int aValue, int aXc, int aYc,
+			Color aRevenueColor, Paint aTilePaint, Graphics2D aGraphics2D) {
+		int tXUpperLeft;
+		int tYUpperLeft;
+		int tCircleRadius;
+		int tCircleDiameter;
+		int tOvalHeight;
+		int tOvalWidth;
+		
+		if (aValue > 0) {
+			if (aWidth > aHeight) {
+				tCircleRadius = aWidth / 2 + 2;
+			} else {
+				tCircleRadius = aHeight / 2 + 2;
+			}
+			tCircleDiameter = tCircleRadius * 2;
+			tXUpperLeft = aXc - tCircleRadius;
+			tYUpperLeft = aYc - tCircleRadius;
+			tOvalWidth = tCircleDiameter;
+			if (aValue > 99) {
+				tOvalHeight = aHeight + 3;
+			} else {
+				tOvalHeight = tCircleRadius * 2;
+			}
+			aGraphics2D.setPaint (aTilePaint);
+			aGraphics2D.fillOval (tXUpperLeft, tYUpperLeft, tOvalWidth, tOvalHeight);
+			aGraphics2D.setColor (aRevenueColor);
+			aGraphics2D.drawOval (tXUpperLeft, tYUpperLeft, tOvalWidth, tOvalHeight);
+			aGraphics2D.drawString (aValueLabel, tXUpperLeft + 2, tYUpperLeft + aHeight - 1);
 		}
 	}
 
