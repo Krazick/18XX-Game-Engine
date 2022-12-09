@@ -133,6 +133,23 @@ public class Revenues extends Feature {
 		return tXMLElement;
 	}
 
+	/**
+	 * Test if the Location for the Revenues is a Valid Location
+	 * 
+	 * @return False of the location is a Not a valid Location otherwise True
+	 */
+	public boolean isValidLocation () {
+		boolean tIsValidLocation;
+
+		if (location.isNoLocation ()) {
+			tIsValidLocation = false;
+		} else {
+			tIsValidLocation = true;
+		}
+		
+		return tIsValidLocation;
+	}
+	
 	public void draw (Graphics aGraphics, int aXc, int aYc, Hex aHex, int aTileOrientation, TileType aTileType) {
 		int tWidth;
 		int tHeight;
@@ -152,7 +169,7 @@ public class Revenues extends Feature {
 		Paint tTilePaint;
 		Graphics2D tGraphics2D = (Graphics2D) aGraphics;
 
-		if (!location.isNoLocation ()) {
+//		if (!location.isNoLocation ()) {
 			tNewLocation = location.rotateLocation (aTileOrientation);
 			tCurrentFont = tGraphics2D.getFont ();
 			tNewFont = new Font ("Dialog", Font.PLAIN, 10);
@@ -200,7 +217,7 @@ public class Revenues extends Feature {
 				drawRevenueHorizontal (tHorizontalLabel, tXc, tYc, tRevenueColor, tGraphics2D);
 			}
 			aGraphics.setFont (tCurrentFont);
-		}
+//		}
 	}
 
 	private void drawRevenueHorizontal (String aHorizontalLabel, int aXc, int aYc, Color aRevenueColor, Graphics2D aGraphics2D) {

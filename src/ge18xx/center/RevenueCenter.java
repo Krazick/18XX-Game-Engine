@@ -262,8 +262,10 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		}
 	}
 
-	public void drawValue (Graphics g, int Xc, int Yc, Hex aHex, int aTileOrient) {
-		revenues.draw (g, Xc, Yc, aHex, aTileOrient, tileType);
+	public void drawValue (Graphics aGraphics, int aXCenter, int aYCenter, Hex aHex, int aTileOrient) {
+		if (revenues.isValidLocation ()) {
+			revenues.draw (aGraphics, aXCenter, aYCenter, aHex, aTileOrient, tileType);
+		}
 	}
 
 	public String getCIName () {
