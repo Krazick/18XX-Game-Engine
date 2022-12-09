@@ -142,19 +142,19 @@ public class TileType implements Cloneable, LoadableXMLI {
 	}
 
 	public Color getRevenueColor () {
-		Color tRevenueColor = Color.black;
+		Color tRevenueColor;
 
 		switch (type) {
-		case YELLOW:
-		case GREY:
-		case OCEAN:
-		case GREEN:
-			tRevenueColor = Color.black;
-			break;
-
-		default:
-			tRevenueColor = Color.white;
-			break;
+			case YELLOW:
+			case GREY:
+			case OCEAN:
+			case GREEN:
+				tRevenueColor = Color.black;
+				break;
+	
+			default:
+				tRevenueColor = Color.white;
+				break;
 		}
 
 		return (tRevenueColor);
