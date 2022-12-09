@@ -169,55 +169,53 @@ public class Revenues extends Feature {
 		Paint tTilePaint;
 		Graphics2D tGraphics2D = (Graphics2D) aGraphics;
 
-//		if (!location.isNoLocation ()) {
-			tNewLocation = location.rotateLocation (aTileOrientation);
-			tCurrentFont = tGraphics2D.getFont ();
-			tNewFont = new Font ("Dialog", Font.PLAIN, 10);
-			aGraphics.setFont (tNewFont);
-			tDisplace = tNewLocation.calcCenter (aHex);
-			tXc = aXc + tDisplace.x;
-			tYc = aYc + tDisplace.y;
-			tRevenueCount = getRevenueCount ();
-			if (tRevenueCount > 0) {
-				tHorizontalLabel = "";
-				tRevenueShownCount = 0;
-				if (aTileType != TileType.NO_TILE_TYPE) {
-					tTilePaint = aTileType.getPaint ();
-					tRevenueColor = aTileType.getRevenueColor ();
-				} else {
-					tTilePaint = Color.CYAN;
-					tRevenueColor = Color.BLACK;
-				}
-				for (tRevenueIndex = 1; tRevenueIndex < tRevenueCount; tRevenueIndex++) {
-					tValue = getValueIndex (tRevenueIndex);
-					tValueLabel = getValueIndexToString (tRevenueIndex);
-					tWidth = tGraphics2D.getFontMetrics ().stringWidth (tValueLabel);
-					tHeight = tGraphics2D.getFontMetrics ().getHeight ();
-					switch (layoutStyle) {
-						case (LAYOUT_CIRCLE):
-							drawRevenueCircle (tWidth, tHeight, tValueLabel, tValue, tXc, tYc, tRevenueColor,
-									tTilePaint, tGraphics2D);
-							break;
-	
-						case (LAYOUT_HORIZONTAL):
-							tHorizontalLabel = tHorizontalLabel + tValueLabel + "/";
-							break;
-	
-						case (LAYOUT_VERTICAL):
-							tRevenueShownCount = drawRevenueVertical (tWidth, tHeight, tValueLabel, tValue, tXc, tYc,
-									tRevenueCount, tRevenueShownCount, tGraphics2D);
-							break;
-	
-						case (LAYOUT_SPLIT):
-							tRevenueShownCount = drawRevenueSplit (tWidth, tHeight, tValueLabel, tValue, tXc, tYc,
-									tRevenueShownCount, tGraphics2D);
-							break;
-					}
-				}
-				drawRevenueHorizontal (tHorizontalLabel, tXc, tYc, tRevenueColor, tGraphics2D);
+		tNewLocation = location.rotateLocation (aTileOrientation);
+		tCurrentFont = tGraphics2D.getFont ();
+		tNewFont = new Font ("Dialog", Font.PLAIN, 10);
+		aGraphics.setFont (tNewFont);
+		tDisplace = tNewLocation.calcCenter (aHex);
+		tXc = aXc + tDisplace.x;
+		tYc = aYc + tDisplace.y;
+		tRevenueCount = getRevenueCount ();
+		if (tRevenueCount > 0) {
+			tHorizontalLabel = "";
+			tRevenueShownCount = 0;
+			if (aTileType != TileType.NO_TILE_TYPE) {
+				tTilePaint = aTileType.getPaint ();
+				tRevenueColor = aTileType.getRevenueColor ();
+			} else {
+				tTilePaint = Color.CYAN;
+				tRevenueColor = Color.BLACK;
 			}
-			aGraphics.setFont (tCurrentFont);
-//		}
+			for (tRevenueIndex = 1; tRevenueIndex < tRevenueCount; tRevenueIndex++) {
+				tValue = getValueIndex (tRevenueIndex);
+				tValueLabel = getValueIndexToString (tRevenueIndex);
+				tWidth = tGraphics2D.getFontMetrics ().stringWidth (tValueLabel);
+				tHeight = tGraphics2D.getFontMetrics ().getHeight ();
+				switch (layoutStyle) {
+					case (LAYOUT_CIRCLE):
+						drawRevenueCircle (tWidth, tHeight, tValueLabel, tValue, tXc, tYc, tRevenueColor,
+								tTilePaint, tGraphics2D);
+						break;
+
+					case (LAYOUT_HORIZONTAL):
+						tHorizontalLabel = tHorizontalLabel + tValueLabel + "/";
+						break;
+
+					case (LAYOUT_VERTICAL):
+						tRevenueShownCount = drawRevenueVertical (tWidth, tHeight, tValueLabel, tValue, tXc, tYc,
+								tRevenueCount, tRevenueShownCount, tGraphics2D);
+						break;
+
+					case (LAYOUT_SPLIT):
+						tRevenueShownCount = drawRevenueSplit (tWidth, tHeight, tValueLabel, tValue, tXc, tYc,
+								tRevenueShownCount, tGraphics2D);
+						break;
+				}
+			}
+			drawRevenueHorizontal (tHorizontalLabel, tXc, tYc, tRevenueColor, tGraphics2D);
+		}
+		aGraphics.setFont (tCurrentFont);
 	}
 
 	private void drawRevenueHorizontal (String aHorizontalLabel, int aXc, int aYc, Color aRevenueColor, Graphics2D aGraphics2D) {
