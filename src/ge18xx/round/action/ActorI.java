@@ -1,5 +1,9 @@
 package ge18xx.round.action;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import ge18xx.utilities.AttributeName;
 
 public interface ActorI {
@@ -11,8 +15,12 @@ public interface ActorI {
 	public static final AttributeName AN_FROM_ACTOR_NAME = new AttributeName ("fromActor");
 
 	public enum ActorTypes {
-		NO_TYPE ("No Type"), Corporation ("Corporation"), ShareCompany ("Share Company"),
-		MinorCompany ("Minor Company"), Player ("Player"), Bank ("Bank"),
+		NO_TYPE ("No Type"), 
+		Corporation ("Corporation"), 
+		ShareCompany ("Share Company"),
+		MinorCompany ("Minor Company"), 
+		Player ("Player"), 
+		Bank ("Bank"),
 		BankPool ("Bank Pool");
 
 		private String enumString;
@@ -36,17 +44,26 @@ public interface ActorI {
 			}
 			return tFoundActorType;
 		}
-
 	}
 
 	public enum ActionStates {
-		NoAction ("No Action"), Pass ("Passed"), Acted ("Acted"), 			// Player Primary States
-		Bought ("Bought"), Sold ("Sold"), BoughtDone ("Bought and Done"), 	// Player Primary States
-		BoughtSold ("Bought and Sold"), SoldDone ("Sold and Done"), 			// Player Primary States
-		BoughtSoldDone ("Bought, Sold and Done"), Bid ("Bid"), 				// Player Primary States
-		BidDone ("Bid and Done"), WaitState ("Wait State"),					// Player Primary States
-		Bidder ("Bidder"), AuctionPass ("Auction Passed"), 					// Player Auction States
-		AuctionRaise ("Auction Raised"), NotBidder ("Not a Bidder"), 		// Player Auction States
+		// Player Primary States
+		NoAction ("No Action"), 
+		Pass ("Passed", Arrays.asList (new String [] {"No Action"})), 
+		Acted ("Acted"),
+		Bought ("Bought", Arrays.asList (new String [] {"No Action"})),
+		Sold ("Sold", Arrays.asList (new String [] {"No Action"})),
+		BoughtDone ("Bought and Done", Arrays.asList (new String [] {"Bought"})),
+		BoughtSold ("Bought and Sold", Arrays.asList (new String [] {"Bought", "Sold"})),
+		SoldDone ("Sold and Done", Arrays.asList (new String [] {"Sold"})), 	
+		BoughtSoldDone ("Bought, Sold and Done", Arrays.asList (new String [] {"Bought and Sold"})), 
+		Bid ("Bid", Arrays.asList (new String [] {"No Action"})),
+		BidDone ("Bid and Done", Arrays.asList (new String [] {"Bid"})), 
+		WaitState ("Wait State", Arrays.asList (new String [] {"No Action"})),
+		
+		// Player Auction States
+		Bidder ("Bidder"), AuctionPass ("Auction Passed"),
+		AuctionRaise ("Auction Raised"), NotBidder ("Not a Bidder"),
 
 		NoRound ("No Round", "NR"), StockRound ("Stock Round", "SR"), 		// Round States
 		OperatingRound ("Operating Round", "OR"), AuctionRound ("Auction Round", "AR"),
@@ -67,16 +84,41 @@ public interface ActorI {
 
 		private String enumString;
 		private String enumAbbrev;
+	    private List<String> validFromStates = new LinkedList<String> ();
 
 		ActionStates (String aEnumString) {
-			enumString = aEnumString;
-			enumAbbrev = aEnumString;
+			this (aEnumString, aEnumString);
+		}
+		
+		ActionStates (String aEnumString, List<String> aValidFromStates) {
+			this (aEnumString, aEnumString, aValidFromStates);
 		}
 
 		ActionStates (String aEnumString, String aEnumAbbrev) {
+			this (aEnumString, aEnumAbbrev, Arrays.asList (new String [] {}));
+		}
+		
+		ActionStates (String aEnumString, String aEnumAbbrev, List<String> aValidFromStates) {
 			enumString = aEnumString;
 			enumAbbrev = aEnumAbbrev;
+			validFromStates = aValidFromStates;
 		}
+		
+	    public boolean canChangeState (ActionStates aToState) {
+    			boolean tValidChange;
+    		
+    			tValidChange = aToState.validFromStates.contains (this.toString ());
+        
+    			return tValidChange;
+	    }
+	    
+	    public boolean canChangeState (ActionStates aFromState, ActionStates aToState) {
+	    		boolean tValidChange;
+	    		
+	    		tValidChange = aToState.validFromStates.contains (aFromState.toString ());
+	        
+	        return tValidChange;
+	    }
 
 		@Override
 		public String toString () {
@@ -86,7 +128,6 @@ public interface ActorI {
 		public String toAbbrev () {
 			return enumAbbrev;
 		}
-
 	}
 
 	public String getName ();

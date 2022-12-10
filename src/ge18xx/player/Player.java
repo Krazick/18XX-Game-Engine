@@ -1287,9 +1287,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public boolean passes () {
 		boolean tCanPass;
-
+		boolean tCanChangeState;
+		
 		tCanPass = false;
-		if (primaryActionState == ActionStates.NoAction) {
+		tCanChangeState = primaryActionState.canChangeState (ActionStates.Pass);
+		System.out.println (name + " Player State " + primaryActionState.toString () + " can change to " + 
+							ActionStates.Pass.toString () + " flag is " + tCanChangeState);
+//		if (primaryActionState == ActionStates.NoAction) {
+		if (tCanChangeState) {
 			primaryActionState = ActionStates.Pass;
 			tCanPass = true;
 		} else {
@@ -1506,23 +1511,37 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void buildPlayerLabel (int aPriorityPlayerIndex, int aPlayerIndex) {
 		String tPlayerLabelText;
-		String tPlayerState;
+//		String tPlayerState;
 
 		tPlayerLabelText = getName ();
 		if (aPriorityPlayerIndex == aPlayerIndex) {
 			tPlayerLabelText += " [PRIORITY]";
 		}
-		if (hasPassed ()) {
-			tPlayerLabelText += " [PASSED]";
-		} else {
-			tPlayerState = getStateName ();
-			if (tPlayerState != "NoAction") {
-				tPlayerLabelText += " [" + tPlayerState + "]";
-			}
-		}
+		
+		tPlayerLabelText = buildNameState (tPlayerLabelText);
+//		if (hasPassed ()) {
+//			tPlayerLabelText += " [PASSED]";
+//		} else {
+//			tPlayerState = getStateName ();
+//			if (tPlayerState != "NoAction") {
+//				tPlayerLabelText += " [" + tPlayerState + "]";
+//			}
+//		}
 		setRFPlayerLabel (tPlayerLabelText);
 	}
 
+	public String buildNameState () {
+		return buildNameState (name);
+	}
+	
+	public String buildNameState (String aPlayerName) {
+		String tPlayerLabel;
+		
+		tPlayerLabel = aPlayerName + " [" + getStateName () + "]";
+
+		return tPlayerLabel;
+	}
+	
 	public void updateCashLabel () {
 		String tCashText;
 
