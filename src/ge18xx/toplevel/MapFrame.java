@@ -681,6 +681,17 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
+	public void placeBenefitToken (MapCell aMapCell, String aTokenType) {
+
+		aMapCell.placeBenefitToken (aTokenType);
+		addPlacePortAction (aMapCell);
+		completeBenefitInUse ();
+	}
+	
+	public void addPlacePortAction (MapCell aMapCell) {
+		
+	}
+	
 	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell, boolean aAddLayTokenAction) {
 		Tile tTile;
 		MapToken tMapToken;

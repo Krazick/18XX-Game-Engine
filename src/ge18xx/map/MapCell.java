@@ -35,6 +35,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
+import ge18xx.company.benefit.MapBenefit;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
@@ -90,6 +91,8 @@ public class MapCell implements Comparator<Object> {
 	Terrain terrain1;
 	Terrain terrain2;
 	Paint terrainFillPaint;
+	boolean hasPortToken;
+	boolean hasCattleToken;
 	HexMap hexMap;
 	int trainUsingSide[] = new int [6]; // Train Number using the side;
 
@@ -485,7 +488,8 @@ public class MapCell implements Comparator<Object> {
 				Xol = tLocationPoint.x + XCenter + Xoffset;
 				Yol = tLocationPoint.y + YCenter + Yoffset;
 			}
-			aTerrain.draw (g, Xol, Yol, aHex, terrainFillPaint);
+
+			aTerrain.draw (g, Xol, Yol, aHex, terrainFillPaint, hasPortToken);
 			Yol += 15;
 			if (aTerrain.isMountainous ()) {
 				Yol += 5;
@@ -521,6 +525,72 @@ public class MapCell implements Comparator<Object> {
 		return baseTerrain.getPaint ();
 	}
 
+	public boolean canHoldCattleToken () {
+		boolean tcanHoldCattleToken;
+		
+		// TODO Fix how to determine if a MapCell can hold a Cattle Token for 1870
+		
+		if (terrain1.isPort ()) {
+			tcanHoldCattleToken = true;
+		} else {
+			tcanHoldCattleToken = false;
+		}
+		
+		return tcanHoldCattleToken;
+	}
+
+	public boolean canHoldPortToken () {
+		boolean tcanHoldPortToken;
+		
+		if ((terrain1.isPort ()) || (terrain2.isPort ())) {
+			tcanHoldPortToken = true;
+		} else {
+			tcanHoldPortToken = false;
+		}
+		
+		return tcanHoldPortToken;
+	}
+	
+	public void placeBenefitToken (String aTokenType) {
+		if (aTokenType.equals (MapBenefit.PORT_TOKEN)) {
+			placePortToken ();
+		} else if (aTokenType.equals (MapBenefit.CATTLE_TOKEN)) {
+			placeCattleToken ();
+		}
+	}
+	
+	public void removeBenefitToken (String aTokenType) {
+		if (aTokenType.equals (MapBenefit.PORT_TOKEN)) {
+			removePortToken ();
+		} else if (aTokenType.equals (MapBenefit.CATTLE_TOKEN)) {
+			removeCattleToken ();
+		}
+	}
+	
+	public void placePortToken () {
+		hasPortToken = true;
+	}
+	
+	public void removePortToken () {
+		hasPortToken = false;
+	}
+	
+	public boolean hasPortToken () {
+		return hasPortToken;
+	}
+	
+	public void placeCattleToken () {
+		hasCattleToken = true;
+	}
+	
+	public void removeCattleToken () {
+		hasCattleToken = false;
+	}
+	
+	public boolean hasCattleToken () {
+		return hasCattleToken;
+	}
+	
 	public RevenueCenter getCenterAtLocation (Location aLocation) {
 		RevenueCenter tRevenueCenter;
 
@@ -1412,6 +1482,8 @@ public class MapCell implements Comparator<Object> {
 		}
 		tileOrientLocked = false;
 		selectedFeature2 = new Feature2 ();
+		removePortToken ();
+		removeCattleToken ();
 	}
 
 	public void setCityInfo (CityInfo aCityInfo) {

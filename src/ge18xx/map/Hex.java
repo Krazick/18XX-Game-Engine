@@ -289,6 +289,40 @@ public class Hex {
 		g.setClip (tPreviousClip);
 	}
 
+	public void drawCattleToken (Graphics g, int Xc, int Yc, Paint aCattlePaint) {
+		// Draw a Cattle Token
+	}
+	
+	public void drawCattle (Graphics g, int Xc, int Yc, Paint aCattlePaint) {
+		// Draw a Cattle
+	}
+	
+	public void drawPortToken (Graphics g, int Xc, int Yc, Paint aPortPaint) {
+		Graphics2D tGraphics2D = (Graphics2D) g;
+		int x1, y1;
+		int tWidth, tHeight;
+		String tLabel;
+		
+		tLabel = "+20";
+		System.out.println ("Ready to draw a PORT TOKEN");
+		tWidth = tGraphics2D.getFontMetrics ().stringWidth (tLabel) + 2;
+		tHeight = tGraphics2D.getFontMetrics ().getHeight () + 2;
+		x1 = Xc - tWidth/2;
+		y1 = Yc - tHeight/2;
+		System.out.println ("Drawing Rect at " + x1 + ", " + y1 + " -- width " + tWidth + " height " + tHeight);
+		tGraphics2D.setPaint (Color.white);
+		tGraphics2D.fillRect (x1, y1, tWidth, tHeight);
+		tGraphics2D.setPaint (aPortPaint);
+		tGraphics2D.drawRect (x1, y1, tWidth, tHeight);
+		x1 = Xc - tWidth/2;
+		y1 = Yc + tHeight/2 - 4;
+		System.out.println ("Drawing Rect at " + x1 + ", " + y1 + " -- width " + tWidth + " height " + tHeight);
+
+		tGraphics2D.drawString ("+20", x1, y1);
+
+//		drawPort (g, Xc, Yc, aPortPaint);
+	}
+	
 	public void drawPort (Graphics g, int Xc, int Yc, Paint aPortPaint) {
 		Graphics2D g2d = (Graphics2D) g;
 		int x1, y1, x2, y2;

@@ -18,6 +18,8 @@ public class MapBenefit extends Benefit {
 	final static AttributeName AN_MAPCELL = new AttributeName ("mapCell");
 	final static AttributeName AN_COST = new AttributeName ("cost");
 	final static AttributeName AN_SAME_TURN = new AttributeName ("sameTurn");
+	public final static String PORT_TOKEN = "port";
+	public final static String CATTLE_TOKEN = "cattle";
 	public final static String NAME = "Map";
 	String mapCellID;
 	int cost;
@@ -47,6 +49,10 @@ public class MapBenefit extends Benefit {
 		mapCellID = aMapCellID;
 	}
 
+	public void setMapCellID (MapCell aMapCell) {
+		setMapCellID (aMapCell.getCellID ());
+	}
+	
 	public void setCost (int aCost) {
 		cost = aCost;
 	}
@@ -71,16 +77,39 @@ public class MapBenefit extends Benefit {
 
 	protected HexMap getMap () {
 		MapFrame tMapFrame;
-		GameManager tGameManager;
 		HexMap tMap;
 
-		tGameManager = privateCompany.getGameManager ();
-		tMapFrame = tGameManager.getMapFrame ();
+		tMapFrame = getMapFrame ();
 		tMap = tMapFrame.getMap ();
 
 		return tMap;
 	}
 
+	protected MapFrame getMapFrame () {
+		GameManager tGameManager;
+		MapFrame tMapFrame;
+
+		tGameManager = privateCompany.getGameManager ();
+		tMapFrame = tGameManager.getMapFrame ();
+
+		return tMapFrame;
+	}
+	
+	protected void revalidateMap () {
+		MapFrame tMapFrame;
+
+		tMapFrame = getMapFrame ();
+		tMapFrame.revalidate ();
+	}
+	
+	protected void placeBenefitToken (MapCell aSelectedMapCell, String aTokenType) {
+		MapFrame tMapFrame;
+		
+		tMapFrame = getMapFrame ();
+		tMapFrame.placeBenefitToken (aSelectedMapCell, aTokenType);
+		tMapFrame.revalidate ();
+	}
+	
 	protected boolean isTileAvailable () {
 		HexMap tMap;
 		MapCell tMapCell;
@@ -113,6 +142,16 @@ public class MapBenefit extends Benefit {
 		return getMapCell (tMap);
 	}
 
+	protected MapCell getSelectedMapCell () {
+		HexMap tMap;
+		MapCell tSelectedMapCell;
+		
+		tMap = getMap ();
+		tSelectedMapCell = tMap.getSelectedMapCell ();
+		
+		return tSelectedMapCell;
+	}
+	
 	protected MapCell getMapCell (HexMap aMap) {
 		return aMap.getMapCellForID (mapCellID);
 	}

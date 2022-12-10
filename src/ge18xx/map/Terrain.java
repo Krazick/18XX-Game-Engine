@@ -69,14 +69,15 @@ public class Terrain extends Feature implements LoadableXMLI {
 	static final int COAST = 23;
 	static final int DEEP_COAST = 24;
 	static final int DESERT = 25;
-	static final int END_ROUTE = 26;
-	static final int CLEAR_HIGHLIGHT = 27;
+	static final int CATTLE = 26;
+	static final int END_ROUTE = 27;
+	static final int CLEAR_HIGHLIGHT = 28;
 	static final int MIN_TERRAIN = NO_TERRAIN;
 	static final int MAX_TERRAIN = CLEAR_HIGHLIGHT;
 	static final String NAMES[] = { "NO TERRAIN", "Clear", "Ocean", "Delta", "Off Board Red", "Off Board Gray",
 			"Off Board Black", "Off Board Green", "", "Thick Border", "River", "Multiple River", "Major River", "Hill",
 			"Mountain", "Himalya", "Pass", "Swamp", "Lake", "Port", "Small River", "Large River", "Shallow Coast",
-			"Coast", "Deep Coast", "Desert", "End Route", "Clear Highlight" };
+			"Coast", "Deep Coast", "Desert", "Cattle", "End Route", "Clear Highlight" };
 	static Paint [] [] paints = null;
 
 	int terrain;
@@ -148,8 +149,12 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 		return tElement;
 	}
-
+	
 	public void draw (Graphics g, int X, int Y, Hex aHex, Paint aPaint) {
+		draw (g, X, Y, aHex, aPaint, false);
+	}
+
+	public void draw (Graphics g, int X, int Y, Hex aHex, Paint aPaint, boolean aHasPortToken) {
 		switch (terrain) {
 		case NO_TERRAIN:
 			break;
@@ -208,7 +213,19 @@ public class Terrain extends Feature implements LoadableXMLI {
 			break;
 
 		case PORT: /* Port, Draw an Anchor */
-			aHex.drawPort (g, X, Y, getPaint ());
+			if (aHasPortToken) {
+				aHex.drawPortToken (g, X, Y, getPaint ());
+			} else {
+				aHex.drawPort (g, X, Y, getPaint ());
+			}
+			break;
+
+		case CATTLE: /* Port, Draw Cattle */
+			if (aHasPortToken) {
+				aHex.drawCattleToken (g, X, Y, getPaint ());
+			} else {
+				aHex.drawCattle (g, X, Y, getPaint ());
+			}
 			break;
 
 		case DESERT: /* Desert, Draw a Cactus */

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.map.MapCell;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
@@ -94,7 +95,22 @@ public class PortPlacementBenefit extends MapBenefit {
 	}
 
 	private void handlePlacePortToken () {
-		System.out.println ("Ready to place Port Token");
+		MapCell tSelectedMapCell;
+		boolean tCanHoldPortToken;
+		ShareCompany tOwningCompany;
+
+		tOwningCompany = getOwningCompany ();
+		capturePreviousBenefitInUse (tOwningCompany, this);
+
+		tSelectedMapCell = getSelectedMapCell ();
+		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
+			tCanHoldPortToken = tSelectedMapCell.canHoldPortToken ();
+			if (tCanHoldPortToken) {
+				setMapCellID (tSelectedMapCell);
+				System.out.println ("Ready to place Port Token on " + getMapCellID ());
+				placeBenefitToken (tSelectedMapCell, tokenType);
+			}
+		}
 	}
 
 	@Override
