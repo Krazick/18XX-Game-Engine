@@ -706,7 +706,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	public void setLoanCountLabel () {
-		lastRevenueLabel.setText ("Loan Count: " + corporation.getLoanCount ());
+		String tLoanCount;
+		
+		tLoanCount = "Loan Count: " + corporation.getLoanCount ();
+		if (corporation.wasLoanTaken ()) {
+			tLoanCount += "*";
+		}
+		loanCountLabel.setText (tLoanCount);
 	}
 
 	public void setPhaseInfo () {
@@ -826,6 +832,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		if (tLoanCount == 0) {
 			payLoanInterestButton.setEnabled (false);
 			tToolTip = "Company has no Loans, so there is no Interest Due.";
+		} else if (corporation.didPayLoanInterest ()){
+			payLoanInterestButton.setEnabled (false);
+			tToolTip = "Company has paid Loan Interest, so there is no additional Interest Due.";			
 		} else if (corporation.didOperateTrains ()){
 			payLoanInterestButton.setEnabled (true);
 			tToolTip = "Company has " + tLoanCount + " outstanding Loans, and owes " + Bank.formatCash (tLoanPaymentDue);
@@ -848,9 +857,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			if (! tShareCompany.hasOutstandingLoans ()) {
 				redeemLoanButton.setEnabled (false);
 				tToolTip = NO_CORPORATION_LOANS;
-			} else if (!corporation.dividendsHandled ()) {
+			} else if (! corporation.dividendsHandled ()) {
 				redeemLoanButton.setEnabled (false);
 				tToolTip = DIVIDENDS_NOT_HANDLED;
+			} else if (corporation.getCash () < corporation.loanAmount) {
+				redeemLoanButton.setEnabled (false);
+				tToolTip = "Not enough cash to pay a Loan back";
 			} else if (corporation.getSelectedTrainCount () > 0) {
 				redeemLoanButton.setEnabled (false);
 				tToolTip = TRAIN_SELECTED;

@@ -728,6 +728,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tDidOperate;
 	}
 
+	public boolean didPayLoanInterest () {
+		return false;
+	}
+
 	public boolean wasLoanTaken () {
 		return false;
 	}
