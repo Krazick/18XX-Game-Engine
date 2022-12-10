@@ -118,7 +118,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 	private void buildPlayerInfoPanel () {
 		playerInfoJPanel = new JPanel ();
-		playerInfoJPanel.setBorder (BorderFactory.createTitledBorder ("Information For " + player.getName ()));
+		updatePanelBorder ();
 		playerInfoJPanel.setLayout (new BoxLayout (playerInfoJPanel, BoxLayout.X_AXIS));
 		playerInfoJPanel.setAlignmentX (CENTER_ALIGNMENT);
 
@@ -140,6 +140,13 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 		playerTotalValue = new JLabel ("");
 		addPlayerInfoJPanelLabel (playerTotalValue);
+	}
+
+	private void updatePanelBorder () {
+		String tPlayerInfoTitle;
+		
+		tPlayerInfoTitle = "Information For " + player.buildNameState ();
+		playerInfoJPanel.setBorder (BorderFactory.createTitledBorder (tPlayerInfoTitle));
 	}
 
 	private void updateBidAndEscrow () {
@@ -482,6 +489,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	public void updatePlayerInfo (GameManager aGameManager) {
+		updatePanelBorder ();
 		setCashLabel ();
 		updateCertificateInfo ();
 		updatePortfolioInfo ();
