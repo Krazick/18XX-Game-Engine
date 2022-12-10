@@ -351,7 +351,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	private void resetAllModes () {
+	public void resetAllModes () {
 		setModes (false, false, false);
 
 		map.clearAllTrains ();

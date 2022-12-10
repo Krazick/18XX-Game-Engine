@@ -8,6 +8,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -88,12 +89,14 @@ public class LayTileEffect extends ChangeTileContentEffect {
 		boolean tEffectUndone;
 		Tile tTile;
 		MapCell tMapCell;
+		MapFrame tMapFrame;
 		HexMap tGameMap;
 		TileSet tTileSet;
 
 		tEffectUndone = false;
 		tTileSet = getTileSet (aRoundManager);
 		tGameMap = getMap (aRoundManager);
+		tMapFrame = getMapFrame (aRoundManager);
 		tMapCell = getMapCell (tGameMap);
 		tTile = tMapCell.getTile ();
 		// Undo if the Tile Number on the Cell matches
@@ -105,6 +108,7 @@ public class LayTileEffect extends ChangeTileContentEffect {
 				tMapCell.removeTile ();
 				tMapCell.restoreTile (tTileSet, tTile);
 				tGameMap.setPlayableTiles (tMapCell);
+				tMapFrame.resetAllModes ();
 				tGameMap.redrawMap ();
 				tEffectUndone = true;
 			} else {

@@ -6,6 +6,7 @@ import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -48,6 +49,10 @@ public class ChangeMapEffect extends Effect {
 		tEffectElement.setAttribute (MapCell.AN_MAP_CELL_ID, mapCellID);
 
 		return tEffectElement;
+	}
+
+	public MapFrame getMapFrame (RoundManager aRoundManager) {
+		return aRoundManager.getMapFrame ();
 	}
 
 	public HexMap getMap (RoundManager aRoundManager) {
