@@ -1132,13 +1132,12 @@ public class PlayerManager {
 	};
 
 	public void passAction (Player aPlayer) {
-		int tNextPlayerIndex, tCurrentPlayerIndex;
 		PassAction tPassAction;
-		Player.ActionStates tOldState, tNewState;
-		boolean tMustSell, tHaveAllPassed;
-		Certificate tCertificate;
-		int tOldDiscount = 0, tNewDiscount = 0;
-		String tCompanyName = "";
+		Player.ActionStates tOldState;
+		Player.ActionStates tNewState;
+		boolean tHaveAllPassed;
+		int tNextPlayerIndex;
+		int tCurrentPlayerIndex;
 
 		tPassAction = new PassAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
 		// Get State before acting for saving in the Action Stack.
@@ -1150,21 +1149,13 @@ public class PlayerManager {
 
 			tCurrentPlayerIndex = stockRound.getCurrentPlayerIndex ();
 			tNextPlayerIndex = stockRound.getNextPlayerIndex ();
-			tCertificate = gameManager.getMustSellCertificate ();
 			tHaveAllPassed = haveAllPassed ();
 			if (tHaveAllPassed) {
 				// Test result -- if True, continue
 				// If False -- clear all Pass Flags, and move to Next Player, continuing Stock
 				// Round
 				if (!stockRound.canStartOperatingRound ()) {
-					tMustSell = gameManager.hasMustSell ();
-					if (tMustSell) {
-						tCompanyName = tCertificate.getCompanyAbbrev ();
-						tOldDiscount = tCertificate.getDiscount ();
-						gameManager.applyDiscount ();
-						tNewDiscount = tCertificate.getDiscount ();
-						tPassAction.addApplyDiscountEffect (aPlayer, tCompanyName, tOldDiscount, tNewDiscount);
-					}
+					applyDiscountIfMustSell (aPlayer, tPassAction);
 				}
 			}
 			tPassAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
@@ -1182,6 +1173,24 @@ public class PlayerManager {
 			}
 		} else {
 			System.err.println ("Player has acted in this Stock Round, cannot Pass");
+		}
+	}
+
+	private void applyDiscountIfMustSell (Player aPlayer, PassAction aPassAction) {
+		Certificate tCertificate;
+		boolean tMustSell;
+		int tOldDiscount;
+		int tNewDiscount;
+		String tCompanyName;
+		
+		tMustSell = gameManager.hasMustSell ();
+		if (tMustSell) {
+			tCertificate = gameManager.getMustSellCertificate ();
+			tCompanyName = tCertificate.getCompanyAbbrev ();
+			tOldDiscount = tCertificate.getDiscount ();
+			gameManager.applyDiscount ();
+			tNewDiscount = tCertificate.getDiscount ();
+			aPassAction.addApplyDiscountEffect (aPlayer, tCompanyName, tOldDiscount, tNewDiscount);
 		}
 	}
 
