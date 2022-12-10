@@ -268,10 +268,8 @@ public class ShareCompany extends TokenCompany {
 		boolean tLoanInterestHandled;
 
 		tLoanInterestHandled = false;
-		if ((status == ActorI.ActionStates.HandledLoanInterest) ||
-			(status == ActorI.ActionStates.HoldDividend) ||
-			(status == ActorI.ActionStates.HalfDividend) ||
-			(status == ActorI.ActionStates.FullDividend) ||
+		if (dividendsHandled () ||
+			(status == ActorI.ActionStates.HandledLoanInterest) ||
 			(status == ActorI.ActionStates.BoughtTrain) ||
 			(status == ActorI.ActionStates.Operated)) {
 			tLoanInterestHandled = true;
@@ -560,7 +558,10 @@ public class ShareCompany extends TokenCompany {
 	public void loadStatus (XMLNode aXMLNode) {
 		super.loadStatus (aXMLNode);
 		setParPrice (aXMLNode.getThisIntAttribute (AN_PAR_PRICE));
-		setLoanCount (aXMLNode.getThisIntAttribute (AN_LOAN_COUNT));
+		if (gameHasLoans ()) {
+			setLoanCount (aXMLNode.getThisIntAttribute (AN_LOAN_COUNT));
+			setLoanTaken (aXMLNode.getThisBooleanAttribute (AN_LOAN_TAKEN));
+		}
 	}
 
 	public void payNoDividendAdjustment (PayNoDividendAction aPayNoDividendAction) {
