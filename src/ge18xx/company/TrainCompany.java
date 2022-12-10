@@ -778,12 +778,26 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
+	public boolean didPayLoanInterest () {
+		boolean tDidPayLoanInterst;
+
+		tDidPayLoanInterst = false;
+		if ((status == ActorI.ActionStates.HandledLoanInterest) || dividendsHandled ())  {
+			tDidPayLoanInterst = true;
+		}
+
+		return tDidPayLoanInterst;
+	}
+
+	@Override
 	public boolean didOperateTrains () {
 		boolean tDidOperateTrains;
 
-		tDidOperateTrains = false;
-		if (status == ActorI.ActionStates.OperatedTrain) {
+		if ((status == ActorI.ActionStates.OperatedTrain) ||
+			(status == ActorI.ActionStates.HandledLoanInterest)) {
 			tDidOperateTrains = true;
+		} else {
+			tDidOperateTrains = false;			
 		}
 
 		return tDidOperateTrains;
@@ -1268,7 +1282,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public void skipBaseToken () {
-		ActorI.ActionStates tCurrentStatus, tNewStatus;
+		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tNewStatus;
 		boolean tStatusUpdated;
 		String tOperatingRoundID;
 		OperatingRound tOperatingRound;
@@ -1300,7 +1315,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		Bank tBank;
 		OperatingRound tOperatingRound;
 		boolean tStatusUpdated;
-		ActorI.ActionStates tCurrentStatus, tNewStatus;
+		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tNewStatus;
 
 		tRevenueGenerated = 0;
 		if (thisRevenue != NO_REVENUE_GENERATED) {
@@ -1345,7 +1361,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		ShareCompany tShareCompany;
 		OperatingRound tOperatingRound;
 		boolean tStatusUpdated;
-		ActorI.ActionStates tCurrentStatus, tNewStatus;
+		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tNewStatus;
 
 		tRevenueGenerated = 0;
 		if (thisRevenue != NO_REVENUE_GENERATED) {
@@ -1380,8 +1397,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	public void payShareHolders (PayFullDividendAction aPayFullDividendAction) {
 		ShareHolders tShareHolders;
-		int tCertificateCount, tCertificateIndex, tShareHolderCount, tShareHolderIndex;
-		int tPercentage, tDividendForShares;
+		int tCertificateCount;
+		int tCertificateIndex;
+		int tShareHolderCount;
+		int tShareHolderIndex;
+		int tPercentage;
+		int tDividendForShares;
 		double tDividendFor1Percent;
 		Certificate tCertificate;
 		PortfolioHolderI tPortfolioHolder;
@@ -1419,23 +1440,26 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 					aPayFullDividendAction.addCashTransferEffect (tBank, this, tDividendForShares);
 				}
 				// TODO: non-1830 Games Test if Portfolio Holder is Bank or Bank Pool -- and if
-				// game states
-				// if these pay Corporation, pay those share there
+				// game states if these pay Corporation, pay those share there
 			}
 		}
 	}
 
 	@Override
 	public boolean canBuyTrain () {
-		boolean tCanBuyTrain = true;
+		boolean tCanBuyTrain;
 
 		if (atTrainLimit ()) {
 			tCanBuyTrain = false;
 		} else if (treasury == 0) {
 			tCanBuyTrain = false;
-		} else if ((status != ActorI.ActionStates.BoughtTrain) && (status != ActorI.ActionStates.HoldDividend)
-				&& (status != ActorI.ActionStates.HalfDividend) && (status != ActorI.ActionStates.FullDividend)) {
+		} else if ((status != ActorI.ActionStates.BoughtTrain) && 
+					(status != ActorI.ActionStates.HoldDividend) && 
+					(status != ActorI.ActionStates.HalfDividend) && 
+					(status != ActorI.ActionStates.FullDividend)) {
 			tCanBuyTrain = false;
+		} else {
+			tCanBuyTrain = true;
 		}
 
 		return tCanBuyTrain;
@@ -1462,8 +1486,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		tReasonForNoBuyTrain = NO_REASON;
 		tSelectedTrainCount = getSelectedTrainCount ();
-		if ((status == ActorI.ActionStates.HoldDividend) || (status == ActorI.ActionStates.HalfDividend)
-				|| (status == ActorI.ActionStates.FullDividend)) {
+		if (dividendsHandled ()) {
 			// If Dividend has been held, half paid, or full paid it is time to buy train
 			if (treasury == 0) {
 				tReasonForNoBuyTrain = NO_MONEY;
