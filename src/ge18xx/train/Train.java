@@ -20,6 +20,7 @@ import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
 import ge18xx.center.RevenueCenter;
+import ge18xx.company.Coupon;
 import ge18xx.company.PurchaseTrainOffer;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.FrameButton;
@@ -36,7 +37,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class Train implements Comparable<Object> {
+public class Train extends Coupon implements Comparable<Object> {
 	final static ElementName EN_TRAIN = new ElementName ("Train");
 	final static ElementName EN_CURRENT_ROUTE = new ElementName ("CurrentRoute");
 	final static ElementName EN_PREVIOUS_ROUTE = new ElementName ("PreviousRoute");
@@ -62,11 +63,11 @@ public class Train implements Comparable<Object> {
 	public static final String MISSING_NAME = "MISSING";
 	public static final String NO_TILE_INFO = "";
 	Gauge gauge;
-	String name;
+//	String name;
 	int order;
 	int cityCount;
 	int townCount;
-	int price;
+//	int price;
 	int status;
 	TrainInfo trainInfo;
 	JCheckBox actionCheckbox;
@@ -77,22 +78,24 @@ public class Train implements Comparable<Object> {
 	RouteInformation previousRouteInformation;
 
 	public Train () {
-		Gauge no_gauge = new Gauge ();
-		setValues ("", NO_ORDER, no_gauge, NO_RC_COUNT, NO_RC_COUNT, NO_PRICE);
+		this ("", NO_ORDER, new Gauge (), NO_RC_COUNT, NO_RC_COUNT, NO_PRICE);
 	}
 
 	public Train (String aName, int aOrder, int aGaugeType, int aMajorCity, int aPrice) {
-		Gauge tGauge = new Gauge (aGaugeType);
-		setValues (aName, aOrder, tGauge, aMajorCity, NO_RC_COUNT, aPrice);
+		this (aName, aOrder, new Gauge (aGaugeType), aMajorCity, NO_RC_COUNT, aPrice);
 	}
 
 	public Train (String aName, int aOrder, int aGaugeType, int aMajorCity, int aMinorCity, int aPrice) {
-		Gauge tGauge = new Gauge (aGaugeType);
-		setValues (aName, aOrder, tGauge, aMajorCity, aMinorCity, aPrice);
+		this (aName, aOrder, new Gauge (aGaugeType), aMajorCity, aMinorCity, aPrice);
+	}
+	
+	public Train (String aName, int aOrder, Gauge aGauge, int aMajorCity, int aMinorCity, int aPrice) {
+		super (aName, aPrice);
+		setValues (aOrder, aGauge, aMajorCity, aMinorCity);
 	}
 
 	public Train (Train aTrain) {
-		this (aTrain.name, aTrain.order, aTrain.gauge.getType (), aTrain.cityCount, aTrain.townCount, aTrain.price);
+		this (aTrain.getName (), aTrain.order, aTrain.gauge.getType (), aTrain.cityCount, aTrain.townCount, aTrain.getPrice ());
 		setStatus (aTrain.getStatus ());
 		setTrainInfo (aTrain.getTrainInfo ());
 	}
@@ -135,6 +138,7 @@ public class Train implements Comparable<Object> {
 		return previousRouteInformation;
 	}
 
+	@Override
 	public JPanel buildCertificateInfoPanel () {
 		JPanel tCertificateInfoPanel;
 		Border tCertInfoBorder;
@@ -144,13 +148,13 @@ public class Train implements Comparable<Object> {
 		tCertInfoBorder = setupBorder ();
 		tCertificateInfoPanel.setBorder (tCertInfoBorder);
 		tCertificateInfoPanel.add (new JLabel (getFullName ()));
-		setCostLabel (tCertificateInfoPanel, price);
+		setCostLabel (tCertificateInfoPanel, getPrice ());
 
 		return tCertificateInfoPanel;
 	}
 
 	private String getFullName () {
-		return name + " Train";
+		return getName () + " Train";
 	}
 
 	public JPanel buildCertificateInfoJPanel (ItemListener aItemListener, String aActionLabel, boolean aActionEnabled,
@@ -209,7 +213,7 @@ public class Train implements Comparable<Object> {
 		// during initial game setup, costLabel is not created yet, so don't have
 		// cost labels (or trains) to discount yet
 		if (costLabel != null) {
-			tDiscountRemoved = (trainInfo.getPrice () != price);
+			tDiscountRemoved = (trainInfo.getPrice () != getPrice ());
 			if (tDiscountRemoved) {
 				tCostLabel = "Cost " + Bank.formatCash (trainInfo.getPrice ());
 				costLabel.setText (tCostLabel);
@@ -241,7 +245,7 @@ public class Train implements Comparable<Object> {
 		boolean tCanUpgrade = false;
 
 		for (Train tAvailableTrain : aAvailableTrains) {
-			if (tAvailableTrain.canBeUpgradedFrom (name)) {
+			if (tAvailableTrain.canBeUpgradedFrom (getName ())) {
 				tCanUpgrade = true;
 			}
 		}
@@ -264,12 +268,14 @@ public class Train implements Comparable<Object> {
 		clearSelection ();
 	}
 
+	@Override
 	public void setSelection () {
 		if (actionCheckbox != GUI.NO_CHECK_BOX) {
 			actionCheckbox.setSelected (true);
 		}
 	}
 
+	@Override
 	public void clearSelection () {
 		if (actionCheckbox != GUI.NO_CHECK_BOX) {
 			actionCheckbox.setSelected (false);
@@ -341,10 +347,11 @@ public class Train implements Comparable<Object> {
 
 	public XMLElement getElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		XMLElement tXMLCurrentRouteInfoElement, tPreviousRouteInfoElement;
+		XMLElement tXMLCurrentRouteInfoElement;
+		XMLElement tPreviousRouteInfoElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_TRAIN);
-		tXMLElement.setAttribute (AN_NAME, name);
+		tXMLElement.setAttribute (AN_NAME, getName ());
 		tXMLElement.setAttribute (AN_STATUS, status);
 		tXMLElement.setAttribute (AN_ORDER, order);
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
@@ -375,10 +382,6 @@ public class Train implements Comparable<Object> {
 		return tIsCurrrentRouteValid;
 	}
 
-	public String getName () {
-		return name;
-	}
-
 	public int getOrder () {
 		return order;
 	}
@@ -389,10 +392,6 @@ public class Train implements Comparable<Object> {
 
 	public int getOnLastOrderAvailable () {
 		return trainInfo.getOnLastOrderAvailable ();
-	}
-
-	public int getPrice () {
-		return price;
 	}
 
 	public String getRust () {
@@ -496,10 +495,6 @@ public class Train implements Comparable<Object> {
 		setStatus (RUSTED);
 	}
 
-	public void setPrice (int aPrice) {
-		price = aPrice;
-	}
-
 	public void setStatus (int aStatus) {
 		status = aStatus;
 	}
@@ -512,14 +507,14 @@ public class Train implements Comparable<Object> {
 		trainInfo.setUnlimited ();
 	}
 
-	public void setValues (String aName, int aOrder, Gauge aGauge, int aMajorCity, int aMinorCity, int aPrice) {
+	public void setValues (int aOrder, Gauge aGauge, int aMajorCity, int aMinorCity) {
 		gauge = aGauge;
 		order = aOrder;
-		name = aName;
 		cityCount = aMajorCity;
 		townCount = aMinorCity;
 
-		setPrice (aPrice);
+//		name = aName;
+//		setPrice (aPrice);
 		setStatus (NOT_AVAILABLE);
 		setTrainInfo (TrainInfo.NO_TRAIN_INFO);
 		setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
