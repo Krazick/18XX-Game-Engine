@@ -21,6 +21,7 @@ import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.RedeemLoanAction;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -348,6 +349,7 @@ public class ShareCompany extends TokenCompany {
 		PayLoanInterestAction tPayLoanInterestAction;
 		OperatingRound tOperatingRound;
 		Bank tBank;
+		LoanInterestCoupon tInterestCoupon;
 
 		tOldState = getStatus ();
 		tLoanCount = getLoanCount ();
@@ -364,11 +366,23 @@ public class ShareCompany extends TokenCompany {
 				addAction (tPayLoanInterestAction);
 			}
 		} else {
-			System.err.println ("Need " + Bank.formatCash (tInterestPayment) + " needed to may Loan Payment on " + tLoanCount + " Loans.");
-			// TODO: Add in Emergency Fund Raising, from President, and possible Forced Stock Sale
+			// TODO -- Before force Interest payment, deduct interest from Revenue generated when operating Train.
+			
+			System.err.println ("Need " + Bank.formatCash (tInterestPayment) + " needed to pay Loan Interest Payment on " + tLoanCount + " Loans.");
+			tInterestCoupon = new LoanInterestCoupon ("Loan Interest Coupon", tInterestPayment);
+			forceBuyCoupon (tInterestCoupon);
 		}
 	}
 
+	private void forceBuyCoupon (Coupon aForceBuyCoupon) {
+		ForceBuyCouponFrame tForceBuyCouponFrame;
+
+		tForceBuyCouponFrame = new ForceBuyCouponFrame (this, aForceBuyCoupon);
+		setForceBuyCouponFrame (tForceBuyCouponFrame);
+		forceBuyCouponFrame.updateMainJPanel ();
+		forceBuyCouponFrame.showFrame ();
+	}
+	
 	/**
 	 * Handle the Process of Redeeming (paying back) a Loan for this Company, deduct one to the LoanCount,
 	 * transfer the cash from the company treasury to the bank, create the action to document this,
@@ -386,36 +400,45 @@ public class ShareCompany extends TokenCompany {
 		}
 	}
 
-	private void redeemLoans (int aLoanCount) {
+	@Override
+	public int getLoanAmount () {
+		return loanAmount;
+	}
+	
+	public void redeemLoans (int aLoanRedemptionCount) {
 		int tNewLoanCount;
-		int tLoanAmount;
+		int tLoanRedemptionAmount;
 		RedeemLoanAction tRedeemLoanAction;
 		Bank tBank;
 		OperatingRound tOperatingRound;
+		LoanRedemptionCoupon tRedemptionCoupon;
 
-		if (loanCount < aLoanCount) {
-			System.err.println ("Asked to repay " + aLoanCount + " however the company only has " + loanCount + " outstanding loans.");
+		if (loanCount < aLoanRedemptionCount) {
+			System.err.println ("Asked to repay " + aLoanRedemptionCount + " however the company only has " + 
+								loanCount + " outstanding loans.");
 		} else {
-			tNewLoanCount = loanCount - aLoanCount;
-			tLoanAmount = loanAmount * aLoanCount;
+			tNewLoanCount = loanCount - aLoanRedemptionCount;
+			tLoanRedemptionAmount = loanAmount * aLoanRedemptionCount;
 
-			if (getCash () >= tLoanAmount) {
+			if (getCash () >= tLoanRedemptionAmount) {
 				tBank = corporationList.getBank ();
 				tOperatingRound = corporationList.getOperatingRound ();
 				tRedeemLoanAction = new RedeemLoanAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
 				tRedeemLoanAction.addRedeemLoanEffect (this);
 				tRedeemLoanAction.addUpdateLoanCountEffect (this, loanCount, tNewLoanCount);
-				tRedeemLoanAction.addCashTransferEffect (this, tBank, tLoanAmount);
+				tRedeemLoanAction.addCashTransferEffect (this, tBank, tLoanRedemptionAmount);
 
-				transferCashTo (tBank, tLoanAmount);
+				transferCashTo (tBank, tLoanRedemptionAmount);
 				setLoanCount (tNewLoanCount);
 				corporationList.addAction (tRedeemLoanAction);
 
 				setLoanCount (tNewLoanCount);
 			} else {
-				System.err.println ("Asked to replay " + Bank.formatCash (tLoanAmount) +
+				System.err.println ("Asked to replay " + Bank.formatCash (tLoanRedemptionAmount) +
 						" however, the company only has " + Bank.formatCash (getCash ()) + " available.");
 				// TODO: Add in Emergency Fund Raising, from President, and possible Forced Stock Sale
+				tRedemptionCoupon = new LoanRedemptionCoupon ("Loan Redemption Coupon", tLoanRedemptionAmount);
+				forceBuyCoupon (tRedemptionCoupon);
 			}
 		}
 	}
@@ -727,6 +750,21 @@ public class ShareCompany extends TokenCompany {
 		return null;
 	}
 
+	@Override
+	public String buildCorpInfoLabel () {
+		String tCorpLabel;
+		String tLoanInfo;
+		
+		if (gameHasLoans ()) {
+			tLoanInfo = "Loan Count: " + loanCount;
+		} else {
+			tLoanInfo = GUI.NULL_STRING;
+		}
+		tCorpLabel = super.buildCorpInfoLabel (tLoanInfo);
+		
+		return tCorpLabel;
+	}
+	
 	@Override
 	public int getCurrentValue () {
 		return getSharePrice ();

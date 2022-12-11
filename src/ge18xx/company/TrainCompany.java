@@ -87,7 +87,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	int closeOnTrainPurchase;
 	TrainPortfolio trainPortfolio;
 	TrainRevenueFrame trainRevenueFrame;
-	ForceBuyTrainFrame forceBuyTrainFrame;
+	ForceBuyCouponFrame forceBuyCouponFrame;
 	int value;
 	boolean mustBuyTrain;
 	boolean hasLaidTile;
@@ -127,11 +127,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			setCorporationFrame ();
 		}
 		setMustBuyTrain (false);
-		setForceTrainBuyFrame (ForceBuyTrainFrame.NO_FRAME);
+		setForceBuyCouponFrame (ForceBuyCouponFrame.NO_FRAME);
 	}
 
-	private void setForceTrainBuyFrame (ForceBuyTrainFrame aFrame) {
-		forceBuyTrainFrame = aFrame;
+	protected void setForceBuyCouponFrame (ForceBuyCouponFrame aFrame) {
+		forceBuyCouponFrame = aFrame;
 	}
 
 	public TrainCompany (XMLNode aChildNode, CorporationList aCorporationList) {
@@ -156,7 +156,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		closeOnTrainPurchase = aChildNode.getThisIntAttribute (AN_CLOSE_ON_TRAIN_PURCHASE, NO_ID);
 		setupTrainRevenueFrame ();
 		setCorporationFrame ();
-		setForceTrainBuyFrame (ForceBuyTrainFrame.NO_FRAME);
+		setForceBuyCouponFrame (ForceBuyCouponFrame.NO_FRAME);
 		// TODO: Parse out PurchaseOffer Element if present
 	}
 
@@ -333,6 +333,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public String buildCorpInfoLabel () {
+		return this.buildCorpInfoLabel (GUI.NULL_STRING);
+	}
+
+	@Override
+	public String buildCorpInfoLabel (String aLoanInfo) {
 		String tCorpLabel = "";
 		String tThisRevenue;
 
@@ -343,6 +348,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tCorpLabel += "<br>[" + getStatusName () + "]";
 			tCorpLabel += "<br>Prez: " + getPresidentName ();
 			tCorpLabel += "<br>Treasury: " + Bank.formatCash (getCash ());
+			if (aLoanInfo != GUI.NULL_STRING) {
+				tCorpLabel += "<br>" + aLoanInfo;
+			}
 			if (canOperate ()) {
 				tCorpLabel += "<br>" + trainPortfolio.getTrainList ();
 				tThisRevenue = getFormattedThisRevenue ();
@@ -498,13 +506,17 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void forceBuyTrain () {
 		Train tCheapestTrain;
-		ForceBuyTrainFrame tForceBuyTrainFrame;
+		ForceBuyCouponFrame tForceBuyTrainFrame;
+		ShareCompany tShareCompany;
 
-		tCheapestTrain = getCheapestBankTrain ();
-		tForceBuyTrainFrame = new ForceBuyTrainFrame (this, tCheapestTrain);
-		setForceTrainBuyFrame (tForceBuyTrainFrame);
-		forceBuyTrainFrame.updateMainJPanel ();
-		forceBuyTrainFrame.setVisible (true);
+		if (isAShareCompany ()) {
+			tCheapestTrain = getCheapestBankTrain ();
+			tShareCompany = (ShareCompany) this;
+			tForceBuyTrainFrame = new ForceBuyCouponFrame (tShareCompany, tCheapestTrain);
+			setForceBuyCouponFrame (tForceBuyTrainFrame);
+			forceBuyCouponFrame.updateMainJPanel ();
+			forceBuyCouponFrame.setVisible (true);
+		}
 	}
 
 	@Override
@@ -2000,8 +2012,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tForceBuyEnoughCash;
 
 		tForceBuyEnoughCash = true;
-		if (forceBuyTrainFrame != null) {
-			tForceBuyEnoughCash = forceBuyTrainFrame.haveEnoughCash ();
+		if (forceBuyCouponFrame != null) {
+			tForceBuyEnoughCash = forceBuyCouponFrame.haveEnoughCash ();
 		}
 
 		return tForceBuyEnoughCash;

@@ -1262,6 +1262,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public String buildCorpInfoLabel () {
 		return ">> OVERRIDE buildCorpInfoLabel <<";
 	}
+	
+	public String buildCorpInfoLabel (String aLoanInfo) {
+		return ">> OVERRIDE buildCorpInfoLabel <<";
+	}
 
 	public int getNextPresidentPercent () {
 		return corporationCertificates.getNextPresidentPercent (this);
