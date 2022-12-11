@@ -341,6 +341,22 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 	public void setMarket (Market aMarket) {
 		market = aMarket;
 	}
+	
+	public void setLoanInfo (int aLoanAmount, int aLoanInterest) {
+		ShareCompany tShareCompany;
+		int tIndex;
+		int tCorpCount;
+
+		if (companies != CorporationList.NO_CORPORATION_LIST) {
+			tCorpCount = companies.getRowCount ();
+			if (tCorpCount > 0) {
+				for (tIndex = 0; tIndex < tCorpCount; tIndex++) {
+					tShareCompany = (ShareCompany) companies.getCorporation (tIndex);
+					tShareCompany.setLoanInfo (aLoanAmount, aLoanInterest);
+				}
+			}
+		}
+	}
 
 	public void setStartCells () {
 		ShareCompany tShareCompany;

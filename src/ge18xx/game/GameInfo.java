@@ -41,6 +41,8 @@ public class GameInfo {
 	final AttributeName AN_TEST_GRAPHS = new AttributeName ("testGraphs");
 	final AttributeName AN_STATUS = new AttributeName ("status");
 	final AttributeName AN_LOANS = new AttributeName ("loans");
+	final AttributeName AN_LOAN_AMOUNT = new AttributeName ("loanAmount");
+	final AttributeName AN_LOAN_INTEREST = new AttributeName ("loanInterest");
 	final AttributeName AN_PRIVATES = new AttributeName ("privates");
 	final AttributeName AN_MINORS = new AttributeName ("minors");
 	final AttributeName AN_SHARES = new AttributeName ("shares");
@@ -77,6 +79,8 @@ public class GameInfo {
 	int minPlayers;
 	int maxPlayers;
 	int bankTotal;
+	int loanAmount;
+	int loanInterest;
 	String currencyFormat;
 	String subTitle;
 	String location;
@@ -128,6 +132,8 @@ public class GameInfo {
 		int tChildrenCount, tIndex, tVariantCount;
 		int tTrainCount, tPlayerCount;
 		int tBankPoolShareLimit, tPlayerShareLimit;
+		int tLoanAmount;
+		int tLoanInterest;
 		boolean tHasPrivates, tHasMinors, tHasShares;
 		boolean tLoans;
 		boolean tTestGraphs;
@@ -152,6 +158,8 @@ public class GameInfo {
 		tTestGraphs = aCellNode.getThisBooleanAttribute (AN_TEST_GRAPHS);
 		tHasPrivates = aCellNode.getThisBooleanAttribute (AN_PRIVATES);
 		tLoans = aCellNode.getThisBooleanAttribute (AN_LOANS);
+		tLoanAmount = aCellNode.getThisIntAttribute (AN_LOAN_AMOUNT);
+		tLoanInterest = aCellNode.getThisIntAttribute (AN_LOAN_INTEREST);
 		tHasMinors = aCellNode.getThisBooleanAttribute (AN_MINORS);
 		tHasShares = aCellNode.getThisBooleanAttribute (AN_SHARES);
 		tOperateBeforeSale = aCellNode.getThisBooleanAttribute (AN_OPERATE_BEFORE_SALE);
@@ -163,6 +171,8 @@ public class GameInfo {
 		setOtherValues (tSubTitle, tLocation, tDesigners, tProducers, tReleaseDate);
 		setHasCompanies (tHasPrivates, tHasMinors, tHasShares);
 		setLoans (tLoans);
+		setLoanAmount (tLoanAmount);
+		setLoanInterest (tLoanInterest);
 		setStatus (tStatus);
 		setOperateBeforeSale (tOperateBeforeSale);
 		setRandomizeStartOrder (tRandomizeStartOrder);
@@ -629,6 +639,14 @@ public class GameInfo {
 		return trains.length;
 	}
 
+	public int getLoanAmount () {
+		return loanAmount;
+	}
+	
+	public int getLoanInterest () {
+		return loanInterest;
+	}
+	
 	public TrainInfo getTrainInfo (int aIndex) {
 		return trains [aIndex];
 	}
@@ -685,6 +703,14 @@ public class GameInfo {
 		loans = aLoans;
 	}
 
+	public void setLoanAmount (int aLoanAmount) {
+		loanAmount = aLoanAmount;
+	}
+	
+	public void setLoanInterest (int aLoanInterest) {
+		loanInterest = aLoanInterest;
+	}
+	
 	public void setOperateBeforeSale (boolean aOperateBeforeSale) {
 		operateBeforeSale = aOperateBeforeSale;
 	}

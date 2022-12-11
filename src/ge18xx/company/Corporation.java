@@ -95,8 +95,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	static final int NO_NAME_INT = -1;
 	static final int SORT_CO1_BEFORE_CO2 = -100;
 	static final int SORT_CO2_BEFORE_CO1 = 100;
-	int loanAmount = 100;
-	int loanInterest = 10;
+	int loanAmount = 0;
+	int loanInterest = 0;
 	boolean gameTestFlag = false;
 	boolean govtRailway;
 	int id;
@@ -177,6 +177,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		setBenefitInUse (tBenefitInUse);
 	}
 
+	public void setLoanInfo (int aLoanAmount, int aLoanInterest) {
+		loanAmount = aLoanAmount;
+		loanInterest = aLoanInterest;
+	}
+	
 	private void parseHomeCities (XMLNode aXMLNode) {
 		int tLocation;
 		String tHomeCityGrid1;

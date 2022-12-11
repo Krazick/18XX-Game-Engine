@@ -240,9 +240,11 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public JPanel buildCertificateInfoJPanel (String aCheckBoxLabel, ItemListener aItemListener, boolean aIsBankHolder,
-			Player aPlayer, GameManager aGameManager) {
+											Player aPlayer, GameManager aGameManager) {
 		JPanel tCertificateInfoJPanel;
-		JLabel tLabel, tLastRevenueLabel;
+		JLabel tLabel;
+		JLabel tLastRevenueLabel;
+		JLabel tLoanCountLabel;
 		JLabel tDiscountLabel;
 		String tRevenueInfo;
 		String tToolTip = "";
@@ -309,6 +311,10 @@ public class Certificate implements Comparable<Certificate> {
 			if (corporation.canOperate ()) {
 				tLastRevenueLabel = new JLabel ("Revenue: " + corporation.getFormattedThisRevenue ());
 				tCertificateInfoJPanel.add (tLastRevenueLabel);
+			}
+			if (corporation.gameHasLoans ()) {
+				tLoanCountLabel = new JLabel ("Loans: " + corporation.getLoanCount ());
+				tCertificateInfoJPanel.add (tLoanCountLabel);
 			}
 		}
 

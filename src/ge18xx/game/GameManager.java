@@ -578,6 +578,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		String tActiveGameName;
 		String tType;
 		XMLDocument tXMLDocument;
+		int tLoanAmount;
+		int tLoanInterest;
 
 		if (gameIsStarted ()) {
 			tType =  Corporation.COMPANIES;
@@ -591,6 +593,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 			try {
 				tShareCompaniesFrame.loadXML (tXMLDocument, tShareCompaniesFrame.getCompanies ());
 				tMarket = marketFrame.getMarket ();
+				tLoanAmount = activeGame.getLoanAmount ();
+				tLoanInterest = activeGame.getLoanInterest ();
+				tShareCompaniesFrame.setLoanInfo (tLoanAmount, tLoanInterest);
 				tShareCompaniesFrame.setMarket (tMarket);
 				tShareCompaniesFrame.setStartCells ();
 				tShareCompaniesFrame.updateCorpComboBox ();
