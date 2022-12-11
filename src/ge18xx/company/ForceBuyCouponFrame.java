@@ -23,9 +23,9 @@ import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.train.Train;
 
-public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemListener {
-	public static final ForceBuyTrainFrame NO_FRAME = null;
-	private static final String BUY_ACTION = "BuyTrain";
+public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemListener {
+	public static final ForceBuyCouponFrame NO_FRAME = null;
+	private static final String BUY_ACTION = "BuyAction";
 	private static final String CANCEL_ACTION = "Cancel";
 	private static final String SELL_ACTION = "SellStock";
 	private static final String EXCHANGE_ACTION = "Exchange";
@@ -50,10 +50,11 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	JLabel totalSelectedAssetLabel;
 	JLabel saleLimitReasons;
 	JLabel frameLabel;
-	Train train;
-	TrainCompany trainCompany;
+	Coupon mustBuyCoupon;
+	ShareCompany shareCompany;
 	Player president;
 	String operatingRoundID;
+	String forceAction;
 	GameManager gameManager;
 	int buyingTrainCompanyTreasury;
 	int presidentTreasury;
@@ -63,11 +64,18 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	int selectedAssetTotal;
 	ShareCompany exchangedCompany;
 
-	public ForceBuyTrainFrame (TrainCompany aBuyingCompany, Train aCheapestTrain) {
-		super ("Force Buy Train");
-
-		trainCompany = aBuyingCompany;
-		train = aCheapestTrain;
+	public ForceBuyCouponFrame (ShareCompany aBuyingCompany, Coupon aMustBuyCoupon) {
+		super ("Force Payment Frame");
+		
+		forceAction = "Force ";
+		if (aMustBuyCoupon instanceof Train) {
+			forceAction += CorporationFrame.BUY_TRAIN;
+		} else {
+			forceAction += "Pay " + aMustBuyCoupon.getName ();
+		}
+		setTitle (forceAction);
+		shareCompany = aBuyingCompany;
+		mustBuyCoupon = aMustBuyCoupon;
 		actionCount = 0;
 		setExchangedCompany (ShareCompany.NO_SHARE_COMPANY);
 
@@ -100,28 +108,29 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		mainJPanel.add (infoJPanel);
 		mainJPanel.add (stockCertificatesJPanel);
 		mainJPanel.add (buttonJPanel);
+		updateButtons ();
 	}
 
 	private void buildInfoJPanel () {
 		JLabel tPresidentLabel;
-		JPanel tTrainPanel;
+		JPanel tCouponPanel;
 		PortfolioHolderI tPortfolioHolder;
 		int tCompanyTreasury;
 
-		tPortfolioHolder = trainCompany.getPresident ();
+		tPortfolioHolder = shareCompany.getPresident ();
 		if (tPortfolioHolder.isAPlayer ()) {
 			president = (Player) tPortfolioHolder;
 		}
 		presidentTreasury = president.getCash ();
-		gameManager = trainCompany.getGameManager ();
+		gameManager = shareCompany.getGameManager ();
 
-		tCompanyTreasury = trainCompany.getCash ();
+		tCompanyTreasury = shareCompany.getCash ();
 		infoJPanel = new JPanel ();
 		infoJPanel.setLayout (new BoxLayout (infoJPanel, BoxLayout.Y_AXIS));
 		infoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 
 		infoJPanel.add (Box.createVerticalStrut (10));
-		frameLabel = new JLabel ("Force Buy Train for " + trainCompany.getAbbrev ());
+		frameLabel = new JLabel (forceAction + " for " + shareCompany.getAbbrev ());
 		addLabelAndSpace (frameLabel);
 		corporationTreasuryLabel = new JLabel ("Treasury: " + Bank.formatCash (tCompanyTreasury));
 		addLabelAndSpace (corporationTreasuryLabel);
@@ -143,8 +152,8 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		updateLiquidAssetLabel ();
 		updateSelectedAssetLabel ();
 
-		tTrainPanel = train.buildCertificateInfoPanel ();
-		infoJPanel.add (tTrainPanel);
+		tCouponPanel = mustBuyCoupon.buildCertificateInfoPanel ();
+		infoJPanel.add (tCouponPanel);
 		infoJPanel.add (Box.createVerticalStrut (10));
 	}
 
@@ -154,21 +163,21 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		infoJPanel.add (Box.createVerticalStrut (10));
 	}
 
-	private int calculateCashNeeded (int aCompanyTreasury, int aTrainCost) {
+	private int calculateCashNeeded (int aCompanyTreasury, int aCouponCost) {
 		int tCashNeeded;
 
-		tCashNeeded = aTrainCost - (presidentTreasury + aCompanyTreasury);
+		tCashNeeded = aCouponCost - (presidentTreasury + aCompanyTreasury);
 
 		return tCashNeeded;
 	}
 
 	private void updateCashNeeded () {
 		int tCompanyTreasury;
-		int tTrainCost;
+		int tCouponCost;
 
-		tTrainCost = train.getPrice ();
-		tCompanyTreasury = trainCompany.getTreasury ();
-		cashNeeded = calculateCashNeeded (tCompanyTreasury, tTrainCost);
+		tCouponCost = mustBuyCoupon.getPrice ();
+		tCompanyTreasury = shareCompany.getTreasury ();
+		cashNeeded = calculateCashNeeded (tCompanyTreasury, tCouponCost);
 		if (cashNeeded > 0) {
 			cashNeededLabel.setText ("Cash Needed: " + Bank.formatCash (cashNeeded));
 		} else {
@@ -209,7 +218,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	private void buildButtonJPanel () {
 		buttonJPanel = new JPanel ();
 		buttonJPanel.setLayout (new BoxLayout (buttonJPanel, BoxLayout.X_AXIS));
-		doBuyButton = setupButton (CorporationFrame.BUY_TRAIN, BUY_ACTION);
+		doBuyButton = setupButton (forceAction, BUY_ACTION);
 		doSellButton = setupButton (Player.SELL_LABEL, SELL_ACTION);
 		exchangeButton = setupButton (Player.EXCHANGE_LABEL, EXCHANGE_ACTION);
 		undoButton = setupButton ("Undo", UNDO_ACTION);
@@ -240,7 +249,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		updateUndoButtion ();
 		updateSellButton ();
 		updateExchangeButton ();
-		updateBuyTrainButton ();
+		updateBuyCouponButton ();
 		updateLiquidAssetLabel ();
 		updateSelectedAssetLabel ();
 		updateDeclareBankruptcyButton ();
@@ -250,21 +259,20 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	private void updateTreasuryLabels () {
 		presidentTreasury = president.getCash ();
 		presidentTreasuryLabel.setText ("President Treasury: " + Bank.formatCash (presidentTreasury));
-		totalTreasuryLabel.setText ("Total Treasury: " + Bank.formatCash (presidentTreasury + trainCompany.getCash ()));
+		totalTreasuryLabel.setText ("Total Treasury: " + Bank.formatCash (presidentTreasury + shareCompany.getCash ()));
 	}
 
 	private void updateCancelButton () {
 		if (actionCount == 0) {
 			cancelButton.setEnabled (true);
-			cancelButton.setToolTipText ("Cancel Force Train Buy, and Close window");
+			cancelButton.setToolTipText ("Cancel " + forceAction + ", and Close window");
 		} else {
 			cancelButton.setEnabled (false);
-			cancelButton.setToolTipText ("Stock has been sold, must undo all Sales or complete Train purchase");
+			cancelButton.setToolTipText ("Stock has been sold, must undo all Sales or complete " + forceAction);
 		}
 	}
 
 	private void updateUndoButtion () {
-
 		if (actionCount == 0) {
 			undoButton.setEnabled (false);
 			undoButton.setToolTipText ("No Stock Sell Actions to undo. Close Window to undo previous OR Action");
@@ -338,7 +346,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		// Determine Sale Limits for Certificates from other Companies, limited by Bank
 		// Pool Limits
 
-		tTrainCoAbbrev = trainCompany.getAbbrev ();
+		tTrainCoAbbrev = shareCompany.getAbbrev ();
 		tPreviousAbbrev = "";
 		tCertCount = 0;
 		tSellLimit = 9;
@@ -374,7 +382,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	}
 
 	private int calculateCurrentLiquidStock (List<Certificate> aCertificatesCanBeSold, Set<String> aReasons) {
-		String tTrainCoAbbrev;
+		String tShareCompanyAbbrev;
 		String tReason;
 		int tCanSellPercent;
 		int tCanSellCount;
@@ -384,10 +392,10 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		int tSharePercent = 10; // Should determine minumum Share Percent for Company.
 		int tPresidentPercent;
 
-		tTrainCoAbbrev = trainCompany.getAbbrev ();
+		tShareCompanyAbbrev = shareCompany.getAbbrev ();
 		tLiquidCertificateValue = 0;
-		tPresidentPercent = trainCompany.getPresidentPercent ();
-		tNextPresidentPercent = trainCompany.getNextPresidentPercent ();
+		tPresidentPercent = shareCompany.getPresidentPercent ();
+		tNextPresidentPercent = shareCompany.getNextPresidentPercent ();
 		tCanSellPercent = (tPresidentPercent - tNextPresidentPercent);
 		tCanSellCount = tCanSellPercent / tSharePercent;
 		tCurrentCorpCounted = 0;
@@ -395,17 +403,17 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		tCanSellPercent = 0;
 		tNextPresidentPercent = 0;
 
-		// Determine Sale Limits for Certificates from trainCompany, limited by Next
+		// Determine Sale Limits for Certificates from shareCompany, limited by Next
 		// President Holdings
 		for (Certificate tCertificate : aCertificatesCanBeSold) {
-			if (tCertificate.getCompanyAbbrev ().equals (tTrainCoAbbrev)) {
+			if (tCertificate.getCompanyAbbrev ().equals (tShareCompanyAbbrev)) {
 				if (tCurrentCorpCounted < tCanSellCount) {
 					tLiquidCertificateValue += tCertificate.getCost ();
 					tCurrentCorpCounted++;
 				} else {
 					if (tNextPresidentPercent > 0) {
-						tReason = trainCompany.getNextPresidentName () + " has " + tNextPresidentPercent + "% of "
-								+ tTrainCoAbbrev + ", limits Sale to " + tCanSellPercent + "%";
+						tReason = shareCompany.getNextPresidentName () + " has " + tNextPresidentPercent + "% of "
+								+ tShareCompanyAbbrev + ", limits Sale to " + tCanSellPercent + "%";
 						aReasons.add (tReason);
 					}
 				}
@@ -537,10 +545,10 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 
 		tSelectedCompanyAbbrev = president.getSelectedCompanyAbbrev ();
 
-		if (tSelectedCompanyAbbrev.equals (trainCompany.getAbbrev ())) {
+		if (tSelectedCompanyAbbrev.equals (shareCompany.getAbbrev ())) {
 			tSelectedPercent = president.getSelectedPercent ();
-			tPresidentPercent = trainCompany.getPresidentPercent ();
-			tNextPresidentPercent = trainCompany.getNextPresidentPercent ();
+			tPresidentPercent = shareCompany.getPresidentPercent ();
+			tNextPresidentPercent = shareCompany.getNextPresidentPercent ();
 			if (tNextPresidentPercent > (tPresidentPercent - tSelectedPercent)) {
 				tWillChangePresidency = true;
 			}
@@ -571,8 +579,8 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 				// Test if stock to sale would change current Corp President... if not disallow
 			} else if (willChangePresidency ()) {
 				doSellButton.setEnabled (false);
-				tToolTip = "Cannot sell all selected Shares - Operating " + trainCompany.getAbbrev ()
-						+ " must buy Train, cannot sell out Presidency";
+				tToolTip = "Cannot sell all selected Shares - Operating " + shareCompany.getAbbrev ()
+						+ " must " + forceAction + ", cannot sell out Presidency";
 			} else {
 				Certificate tCertificateToSell;
 				String tAbbrevSelected;
@@ -670,7 +678,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		return tToolTip;
 	}
 
-	private void updateBuyTrainButton () {
+	private void updateBuyCouponButton () {
 		String tToolTip;
 
 		if (mustSellStock ()) {
@@ -678,10 +686,10 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 			tToolTip = getMustSellToolTip ();
 		} else if (haveEnoughCash ()) {
 			doBuyButton.setEnabled (true);
-			tToolTip = "Can Force Buy Train";
+			tToolTip = "Can Force " + forceAction;
 		} else {
 			doBuyButton.setEnabled (false);
-			tToolTip = "Not Enough cash to buy Train";
+			tToolTip = "Not Enough cash to " + forceAction;
 		}
 
 		doBuyButton.setToolTipText (tToolTip);
@@ -690,17 +698,17 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	private void updateDeclareBankruptcyButton () {
 		if (liquidAssetTotal >= cashNeeded) {
 			declareBankruptcyButton.setEnabled (false);
-			declareBankruptcyButton.setToolTipText ("Have enough to buy Train");
+			declareBankruptcyButton.setToolTipText ("Have enough to " + forceAction);
 		} else {
 			declareBankruptcyButton.setEnabled (true);
-			declareBankruptcyButton.setToolTipText ("Does NOT have enough to buy Train");
+			declareBankruptcyButton.setToolTipText ("Does NOT have enough to  " + forceAction);
 		}
 	}
 
 	public boolean haveEnoughCash () {
 		boolean tHaveEnoughCash = false;
 
-		tHaveEnoughCash = ((presidentTreasury + trainCompany.getCash ()) > train.getPrice ());
+		tHaveEnoughCash = ((presidentTreasury + shareCompany.getCash ()) > mustBuyCoupon.getPrice ());
 
 		return tHaveEnoughCash;
 	}
@@ -708,7 +716,7 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		if (BUY_ACTION.equals (aEvent.getActionCommand ())) {
-			buyTrain ();
+			buyCoupon ();
 		}
 		if (SELL_ACTION.equals (aEvent.getActionCommand ())) {
 			sellStock ();
@@ -723,23 +731,23 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 			declareBankruptcy ();
 		}
 		if (CANCEL_ACTION.equals (aEvent.getActionCommand ())) {
-			cancelForceTrainBuy ();
+			cancelForceBuyCoupon ();
 		}
 		updateButtons ();
 	}
 
-	private void cancelForceTrainBuy () {
+	private void cancelForceBuyCoupon () {
 		setVisible (false);
 	}
 
 	private void declareBankruptcy () {
-		cancelForceTrainBuy ();
-		System.out.println (president.getName () + " is Declaring Bankruptcy for " + trainCompany.getName ());
-		trainCompany.declareBankruptcy ();
+		cancelForceBuyCoupon ();
+		System.out.println (president.getName () + " is Declaring Bankruptcy for " + shareCompany.getName ());
+		shareCompany.declareBankruptcy ();
 	}
 
 	private void undoAction () {
-		trainCompany.undoAction ();
+		shareCompany.undoAction ();
 		actionCount--;
 		setVisible (false);
 	}
@@ -773,13 +781,23 @@ public class ForceBuyTrainFrame extends JFrame implements ActionListener, ItemLi
 		repaint ();
 	}
 
-	private void buyTrain () {
+	private void buyCoupon () {
 		int tNeededCash;
+		int tLoanCountToRepay;
 
-		tNeededCash = train.getPrice () - trainCompany.getCash ();
-		president.transferCashTo (trainCompany, tNeededCash);
-		train.setSelection ();
-		trainCompany.buyTrain (tNeededCash);
+		tNeededCash = mustBuyCoupon.getPrice () - shareCompany.getCash ();
+		president.transferCashTo (shareCompany, tNeededCash);
+		if (mustBuyCoupon instanceof Train) {
+			mustBuyCoupon.setSelection ();
+			shareCompany.buyTrain (tNeededCash);
+		} else if (mustBuyCoupon instanceof LoanInterestCoupon) {
+			shareCompany.payLoanInterest ();
+		} else if (mustBuyCoupon instanceof LoanRedemptionCoupon) {
+			tLoanCountToRepay = mustBuyCoupon.getPrice ()/shareCompany.getLoanAmount ();
+			shareCompany.redeemLoans (tLoanCountToRepay);
+		} else {
+			System.err.println ("The Must Buy Coupon " + mustBuyCoupon.getName () + " is not a recognized type.");
+		}
 		setVisible (false);
 	}
 
