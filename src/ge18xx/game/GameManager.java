@@ -937,6 +937,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return shareCompaniesFrame.getShareCompany (aCompanyAbbrev);
 	}
 
+	public PrivateCompany getPrivateCompany (String aCompanyAbbrev) {
+		return privatesFrame.getPrivateCompany (aCompanyAbbrev);
+	}
+
 	public int getCountOfMinors () {
 		int tCountOfMinors = 0;
 
