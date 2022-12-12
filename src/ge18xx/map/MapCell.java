@@ -831,6 +831,12 @@ public class MapCell implements Comparator<Object> {
 					tTip += "Build Cost: " + tTerrainCost + "<br>";
 				}
 			}
+			if (hasPortToken) {
+				tTip += "Port: Open";
+			}
+			if (hasCattleToken) {
+				tTip += "Cattle: Open";
+			}
 			if (rebate != Rebate.NO_REBATE) {
 				tTip += "Rebate: " + rebate.getAmount () + "<br>";
 			}
