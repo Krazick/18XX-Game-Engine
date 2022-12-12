@@ -874,10 +874,10 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	private void placeBenefitTokens (int aCol, int aRow, boolean aHasPort, boolean aHasCattle) {
 		if (aHasPort) {
-			map [aRow] [aCol].placePortToken ();
+			map [aRow] [aCol].layPortToken ();
 		}
 		if (aHasCattle) {
-			map [aRow] [aCol].placeCattleToken ();
+			map [aRow] [aCol].layCattleToken ();
 		}
 	}
 
