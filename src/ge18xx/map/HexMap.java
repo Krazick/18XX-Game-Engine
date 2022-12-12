@@ -829,8 +829,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tDefaultTileNumber;
 		boolean tHasPort;
 		boolean tHasCattle;
-		Tile tTile;
-		Tile tCurrentTile;
 
 		tCol = aMapCellNode.getThisIntAttribute (AN_COL);
 		tRow = aMapCellNode.getThisIntAttribute (AN_ROW);
@@ -842,36 +840,44 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			if (inColRange (tRow, tCol)) {
 				if (isTileOnCell (tRow, tCol)) {
 					tDefaultTileNumber = map [tRow] [tCol].getTileNumber ();
-					if (tDefaultTileNumber != tTileNumber) {
-						tTile = getTileFromTileSet (tTileNumber);
-						if (tTile != Tile.NO_TILE) {
-							tCurrentTile = map [tRow] [tCol].getTile ();
-							map [tRow] [tCol].putTile (tTile, tTileOrientation);
-							map [tRow] [tCol].setTileOrientationLocked (true);
-							if (tHasPort) {
-								map [tRow] [tCol].placePortToken ();
-							}
-							if (tHasCattle) {
-								map [tRow] [tCol].placeCattleToken ();
-							}
-							restoreTile (tCurrentTile);
-						} else {
-							System.err.println ("Upgrade: Did not find the Tile with # " + tTileNumber);
-						}
+					if (tDefaultTileNumber == tTileNumber) {
+						placeBenefitTokens (tCol, tRow, tHasPort, tHasCattle);
+					} else {
+						placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tHasPort, tHasCattle);
 					}
 				} else {
-					tTile = getTileFromTileSet (tTileNumber);
-					if (tTile != Tile.NO_TILE) {
-						map [tRow] [tCol].putTile (tTile, tTileOrientation);
-						map [tRow] [tCol].setTileOrientationLocked (true);
-					} else {
-						System.err.println ("Did not find the Tile with # " + tTileNumber);
-					}
+					placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tHasPort, tHasCattle);
 				}
 				if (isTileOnCell (tRow, tCol)) {
 					map [tRow] [tCol].loadStationsStates (aMapCellNode);
 				}
 			}
+		}
+	}
+
+	private void placeTileWithState (int aCol, int aRow, int aTileOrientation, int aTileNumber, boolean aHasPort,
+			boolean aHasCattle) {
+		Tile tTile;
+		Tile tCurrentTile;
+		
+		tTile = getTileFromTileSet (aTileNumber);
+		if (tTile != Tile.NO_TILE) {
+			tCurrentTile = map [aRow] [aCol].getTile ();
+			map [aRow] [aCol].putTile (tTile, aTileOrientation);
+			map [aRow] [aCol].setTileOrientationLocked (true);
+			placeBenefitTokens (aCol, aRow, aHasPort, aHasCattle);
+			restoreTile (tCurrentTile);
+		} else {
+			System.err.println ("Upgrade: Did not find the Tile with # " + aTileNumber);
+		}
+	}
+
+	private void placeBenefitTokens (int aCol, int aRow, boolean aHasPort, boolean aHasCattle) {
+		if (aHasPort) {
+			map [aRow] [aCol].placePortToken ();
+		}
+		if (aHasCattle) {
+			map [aRow] [aCol].placeCattleToken ();
 		}
 	}
 
@@ -1378,13 +1384,16 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	public void restoreTile (Tile aCurrentTile) {
 		GameTile tCurrentGameTile;
-		int tCurrentTileNumber = aCurrentTile.getNumber ();
+		int tCurrentTileNumber;
 
-		// Remove Tile from Map Cell, Clear all City Info and Stations, and place it
-		// back on TileSet
-		tCurrentGameTile = tileSet.getGameTile (tCurrentTileNumber);
-		aCurrentTile.clearAll ();
-		tCurrentGameTile.pushTile (aCurrentTile);
+		if (aCurrentTile != Tile.NO_TILE) {
+			tCurrentTileNumber = aCurrentTile.getNumber ();
+			// Remove Tile from Map Cell, Clear all City Info and Stations, and place it
+			// back on TileSet
+			tCurrentGameTile = tileSet.getGameTile (tCurrentTileNumber);
+			aCurrentTile.clearAll ();
+			tCurrentGameTile.pushTile (aCurrentTile);
+		}
 	}
 
 	@Override
