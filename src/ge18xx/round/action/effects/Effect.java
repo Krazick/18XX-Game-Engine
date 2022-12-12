@@ -8,6 +8,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -119,11 +120,53 @@ public abstract class Effect {
 	}
 
 	private void setNoBenefitInUse () {
-		setBenefitName ("");
-		setBenefitPrivateAbbrev ("");
+		setBenefitName (GUI.EMPTY_STRING);
+		setBenefitPrivateAbbrev (GUI.EMPTY_STRING);
 		setBenefitUsed (false);
 	}
 
+	private boolean benefitValid () {
+		boolean tBenefitValid;
+		
+		if (benefitName == GUI.NULL_STRING) {
+			tBenefitValid = false;
+		} else if (benefitName.equals (GUI.EMPTY_STRING)) {
+			tBenefitValid = false;
+		} else {
+			tBenefitValid = true;
+		}
+		
+		return tBenefitValid;
+	}
+	
+	protected void setBenefitUsed (RoundManager aRoundManager) {
+		Benefit tBenefit;
+		
+		if (benefitValid ()) {
+			tBenefit = getBenefitWithName (aRoundManager);
+			// TODO -- 
+			tBenefit.setUsed (true);
+		}
+	}
+	
+	protected void setBenefitUnUsed (RoundManager aRoundManager) {
+		Benefit tBenefit;
+		
+		if (benefitValid ()) {
+			tBenefit = getBenefitWithName (aRoundManager);
+			// TODO -- 
+			tBenefit.undoUse ();
+		}
+	}
+	
+	protected Benefit getBenefitWithName (RoundManager aRoundManager) {
+		Benefit tBenefit;
+		
+		tBenefit = aRoundManager.getBenefitWithName (benefitPrivateAbbrev, benefitName);
+		
+		return tBenefit;
+	}
+	
 	Effect (XMLNode aEffectNode, GameManager aGameManager) {
 		String tEffectName, tActorName;
 		ActorI tActor;
