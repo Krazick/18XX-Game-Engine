@@ -37,6 +37,7 @@ import ge18xx.company.MapToken;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
+import ge18xx.company.benefit.MapBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
@@ -44,8 +45,10 @@ import ge18xx.map.MapCell;
 import ge18xx.map.Terrain;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActionManager;
+import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ExtendRouteAction;
+import ge18xx.round.action.LayBenefitTokenAction;
 import ge18xx.round.action.RouteAction;
 import ge18xx.round.action.StartRouteAction;
 import ge18xx.tiles.GameTile;
@@ -681,15 +684,24 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	public void placeBenefitToken (MapCell aMapCell, String aTokenType) {
+	public void placeBenefitToken (MapCell aMapCell, String aTokenType, MapBenefit aMapBenefit) {
 
-		aMapCell.placeBenefitToken (aTokenType);
-		addPlacePortAction (aMapCell);
+		aMapCell.layBenefitToken (aTokenType);
+		addLayBenefitTokenAction (aMapCell, aTokenType, aMapBenefit);
 		completeBenefitInUse ();
 	}
 	
-	public void addPlacePortAction (MapCell aMapCell) {
+	public void addLayBenefitTokenAction (MapCell aMapCell, String aTokenType, MapBenefit aMapBenefit) {
+		LayBenefitTokenAction tLayBenefitTokenAction;
+		String tOperatingRoundID;
+		Corporation tOperatingCompany;
 		
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
+		tOperatingCompany = gameManager.getOperatingCompany ();
+		tLayBenefitTokenAction = new LayBenefitTokenAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, tOperatingCompany);
+		tLayBenefitTokenAction.addLayBenefitTokenEffect (tOperatingCompany, aMapCell, aTokenType, aMapBenefit);
+		gameManager.addAction (tLayBenefitTokenAction);
+		resetAllModes ();
 	}
 	
 	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell, boolean aAddLayTokenAction) {
