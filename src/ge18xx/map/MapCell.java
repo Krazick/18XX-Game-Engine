@@ -553,7 +553,7 @@ public class MapCell implements Comparator<Object> {
 		return tcanHoldPortToken;
 	}
 	
-	public void placeBenefitToken (String aTokenType) {
+	public void layBenefitToken (String aTokenType) {
 		if (aTokenType.equals (MapBenefit.PORT_TOKEN)) {
 			placePortToken ();
 		} else if (aTokenType.equals (MapBenefit.CATTLE_TOKEN)) {
