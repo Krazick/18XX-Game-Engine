@@ -21,6 +21,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
+import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.market.Market;
@@ -592,6 +593,16 @@ public class RoundManager implements ActionListener {
 		return tRoundType;
 	}
 
+	public Benefit getBenefitWithName (String aPrivateAbbev, String aBenefitName) {
+		Benefit tFoundBenefit;
+		PrivateCompany tFoundPrivateCompany;
+		
+		tFoundPrivateCompany = gameManager.getPrivateCompany (aPrivateAbbev);
+		tFoundBenefit = tFoundPrivateCompany.getBenefitNamed (aBenefitName);
+		
+		return tFoundBenefit;
+	}
+	
 	public PrivateCompany getSelectedPrivateCompanyToBuy () {
 		return gameManager.getSelectedPrivateCompanyToBuy ();
 	}
