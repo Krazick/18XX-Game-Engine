@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
+import ge18xx.company.PrivateCompany;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.round.RoundManager;
 import ge18xx.utilities.ElementName;
@@ -65,6 +66,14 @@ public class PrivatesFrame extends CorporationTableFrame {
 		} else {
 			return false;
 		}
+	}
+
+	public PrivateCompany getPrivateCompany (String aCompanyAbbrev) {
+		PrivateCompany tPrivateCompany;
+
+		tPrivateCompany = (PrivateCompany) companies.getCorporation (aCompanyAbbrev);
+
+		return tPrivateCompany;
 	}
 
 	public int getTotalEscrow () {
