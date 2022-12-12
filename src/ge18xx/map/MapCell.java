@@ -555,9 +555,9 @@ public class MapCell implements Comparator<Object> {
 	
 	public void layBenefitToken (String aTokenType) {
 		if (aTokenType.equals (MapBenefit.PORT_TOKEN)) {
-			placePortToken ();
+			layPortToken ();
 		} else if (aTokenType.equals (MapBenefit.CATTLE_TOKEN)) {
-			placeCattleToken ();
+			layCattleToken ();
 		}
 	}
 	
@@ -569,7 +569,7 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 	
-	public void placePortToken () {
+	public void layPortToken () {
 		hasPortToken = true;
 	}
 	
@@ -581,7 +581,7 @@ public class MapCell implements Comparator<Object> {
 		return hasPortToken;
 	}
 	
-	public void placeCattleToken () {
+	public void layCattleToken () {
 		hasCattleToken = true;
 	}
 	
