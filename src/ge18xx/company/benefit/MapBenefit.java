@@ -102,11 +102,11 @@ public class MapBenefit extends Benefit {
 		tMapFrame.revalidate ();
 	}
 	
-	protected void placeBenefitToken (MapCell aSelectedMapCell, String aTokenType) {
+	protected void placeBenefitToken (MapCell aSelectedMapCell, String aTokenType, MapBenefit aMapBenefit) {
 		MapFrame tMapFrame;
 		
 		tMapFrame = getMapFrame ();
-		tMapFrame.placeBenefitToken (aSelectedMapCell, aTokenType);
+		tMapFrame.placeBenefitToken (aSelectedMapCell, aTokenType, aMapBenefit);
 		tMapFrame.revalidate ();
 	}
 	
