@@ -56,6 +56,8 @@ public class MapCell implements Comparator<Object> {
 	public static final AttributeName AN_MAP_CELL_ID = new AttributeName ("mapCellID");
 	public static final AttributeName AN_STARTING = new AttributeName ("starting");
 	public static final AttributeName AN_SIDE = new AttributeName ("side");
+	public static final AttributeName AN_PORT_TOKEN = new AttributeName ("port");
+	public static final AttributeName AN_CATTLE_TOKEN = new AttributeName ("cattle");
 	public static final ElementName EN_BLOCKED = new ElementName ("Blocked");
 	public static final ElementName EN_MAP_CELL = new ElementName ("MapCell");
 	public static final String NO_ID = "";
@@ -597,7 +599,7 @@ public class MapCell implements Comparator<Object> {
 		if (isTileOnCell ()) {
 			tRevenueCenter = tile.getCenterAtLocation (aLocation);
 		} else {
-			tRevenueCenter = centers.getCenterAtLocation (aLocation);
+			tRevenueCenter = centers.getRevenueCenterAtLocation (aLocation);
 		}
 
 		return tRevenueCenter;
@@ -627,6 +629,12 @@ public class MapCell implements Comparator<Object> {
 			tXMLElement = aXMLDocument.createElement (EN_MAP_CELL);
 			tXMLElement.setAttribute (Tile.AN_TILE_NUMBER, tile.getNumber ());
 			tXMLElement.setAttribute (AN_ORIENTATION, tileOrient);
+			if (hasPortToken) {
+				tXMLElement.setAttribute (AN_PORT_TOKEN, true);
+			}
+			if (hasCattleToken) {
+				tXMLElement.setAttribute (AN_CATTLE_TOKEN, true);
+			}
 			if (tile.hasAnyStation ()) {
 				tile.appendTokensState (aXMLDocument, tXMLElement);
 			}
@@ -705,7 +713,7 @@ public class MapCell implements Comparator<Object> {
 		if (isTileOnCell ()) {
 			tFoundRevenueCenter = tile.getCenterAtLocation (aLocation);
 		} else {
-			tFoundRevenueCenter = centers.getCenterAtLocation (aLocation);
+			tFoundRevenueCenter = centers.getRevenueCenterAtLocation (aLocation);
 		}
 
 		return tFoundRevenueCenter;
@@ -2100,12 +2108,26 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public Track getTrackFromStartToEnd (int aStartLocation, int aEndLocation) {
-		Track tTrack = Track.NO_TRACK;
-		Location tRawThisLocation, tRawThatLocation;
+		Track tTrack;
+		Location tRawThisLocation;
+		Location tRawThatLocation;
+		int tRawStartLocation;
+		int tRawEndLocation;
 
+		tTrack = Track.NO_TRACK;
+		tRawStartLocation = aStartLocation;
+		tRawEndLocation = aEndLocation;
 		if (isTileOnCell ()) {
-			tRawThisLocation = new Location (aStartLocation);
-			tRawThatLocation = new Location (aEndLocation);
+			if ((aStartLocation == Location.DEAD_END_LOC) && 
+				((aEndLocation >= Location.MIN_SIDE) && (aEndLocation <= Location.MAX_SIDE))) {
+				tRawStartLocation = tRawEndLocation + Location.DEAD_END0_LOC;
+			} else if ((aEndLocation == Location.DEAD_END_LOC) &&
+						((aStartLocation >= Location.MIN_SIDE) && (aStartLocation <= Location.MAX_SIDE))) {
+				tRawEndLocation = tRawStartLocation + Location.DEAD_END0_LOC;
+			}
+
+			tRawThisLocation = new Location (tRawStartLocation);
+			tRawThatLocation = new Location (tRawEndLocation);
 			tRawThisLocation = unrotateIfSide (tRawThisLocation);
 			tRawThatLocation = unrotateIfSide (tRawThatLocation);
 
@@ -2124,14 +2146,30 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean hasConnectingTrackBetween (int aThisLocation, int aThatLocation) {
-		Location tRawThisLocation, tRawThatLocation;
-
-		tRawThisLocation = new Location (aThisLocation);
-		tRawThatLocation = new Location (aThatLocation);
-		tRawThisLocation = unrotateIfSide (tRawThisLocation);
-		tRawThatLocation = unrotateIfSide (tRawThatLocation);
-
-		return tile.hasConnectingTrackBetween (tRawThisLocation, tRawThatLocation);
+//		Location tRawThisLocation, tRawThatLocation;
+		Track tTrack;
+		boolean tHasTrack;
+		
+		tTrack = getTrackFromStartToEnd (aThisLocation, aThatLocation);
+		if (tTrack == Track.NO_TRACK) {
+			tHasTrack = false;
+		} else {
+			tHasTrack = true;
+		}
+//		if ((aThisLocation == Location.DEAD_END_LOC) && 
+//			((aThatLocation >= Location.MIN_SIDE) && (aThatLocation <= Location.MAX_SIDE))) {
+//			aThisLocation = aThatLocation + Location.DEAD_END0_LOC;
+//		} else if ((aThatLocation == Location.DEAD_END_LOC) &&
+//				((aThisLocation >= Location.MIN_SIDE) && (aThisLocation <= Location.MAX_SIDE))) {
+//			aThatLocation = aThatLocation + Location.DEAD_END0_LOC;
+//		}
+//		tRawThisLocation = new Location (aThisLocation);
+//		tRawThatLocation = new Location (aThatLocation);
+//		tRawThisLocation = unrotateIfSide (tRawThisLocation);
+//		tRawThatLocation = unrotateIfSide (tRawThatLocation);
+//
+//		return tile.hasConnectingTrackBetween (tRawThisLocation, tRawThatLocation);
+		return tHasTrack;
 	}
 
 	public int getSideInUseCount () {
