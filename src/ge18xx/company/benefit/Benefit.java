@@ -337,6 +337,7 @@ public abstract class Benefit implements ActionListener {
 		tXMLBenefitElement = aXMLDocument.createElement (EN_BENEFIT);
 		tXMLBenefitElement.setAttribute (AN_USED, used);
 		tXMLBenefitElement.setAttribute (AN_NAME, getBaseName ());
+		tXMLBenefitElement.setAttribute (AN_CLOSE_ON_USE, closeOnUse);
 
 		return tXMLBenefitElement;
 	}
@@ -357,8 +358,11 @@ public abstract class Benefit implements ActionListener {
 
 	public void updateState (XMLNode aBenefitNode) {
 		boolean tUsedState;
-
+		boolean tCloseOnUse;
+		
 		tUsedState = aBenefitNode.getThisBooleanAttribute (AN_USED);
 		setUsed (tUsedState);
+		tCloseOnUse = aBenefitNode.getThisBooleanAttribute (AN_CLOSE_ON_USE);
+		setCloseOnUse (tCloseOnUse);
 	}
 }
