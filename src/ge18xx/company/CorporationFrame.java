@@ -485,13 +485,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void handleExplainButtons () {
 		Point tNewPoint;
-//		GameManager tGameManager;
 		PlayerManager tPlayerManager;
 		Bank tBank;
 		BankPool tBankPool;
 		TrainPortfolio tTrainPortfolio;
 
-//		tGameManager = corporation.getGameManager ();
 		tNewPoint = gameManager.getOffsetCorporationFrame ();
 		buttonsInfoFrame.prepareExplainButtons (Portfolio.NO_PORTFOLIO);
 
