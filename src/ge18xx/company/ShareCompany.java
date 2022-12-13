@@ -769,11 +769,8 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	public void handleRejectOfferPrivate () {
-		CorporationFrame tCorporationFrame;
-
 		corporationList.clearPrivateSelections ();
-		tCorporationFrame = getCorporationFrame ();
-		tCorporationFrame.updateInfo ();
+		updateInfo ();
 	}
 
 	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, Certificate aCertificate,
