@@ -1,9 +1,10 @@
 package ge18xx.company;
 
 public class LoanInterestCoupon extends Coupon {
-
-	public LoanInterestCoupon (String aName, int aPrice) {
-		super (aName, aPrice);
+	public static final String NAME = "Loan Interest Coupon";
+	
+	public LoanInterestCoupon (int aPrice) {
+		super (NAME, aPrice);
 	}
 
 }
