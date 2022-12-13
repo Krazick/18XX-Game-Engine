@@ -2,14 +2,16 @@ package ge18xx.train;
 
 import org.mockito.Mockito;
 
+import ge18xx.company.Coupon;
+
 public class TrainTestFactory {
 
 	public TrainTestFactory () {
 	}
 
 
-	public Train buildTrain () {
-		Train tTrain;
+	public Coupon buildTrain () {
+		Coupon tTrain;
 
 		tTrain = new Train ();
 
