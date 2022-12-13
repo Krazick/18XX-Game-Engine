@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
+import ge18xx.company.Coupon;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
@@ -174,7 +175,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tCertificateToBuy;
 	}
 
-	public Train getCheapestTrain () {
+	public Coupon getCheapestTrain () {
 		return trainPortfolio.getCheapestTrain ();
 	}
 
