@@ -487,9 +487,8 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return 0;
 	}
 
-	@Override
-	public void updateInfo () {
-		// TODO Auto-generated method stub
-		corporationFrame.updateInfo ();
-	}
+//	@Override
+//	public void updateInfo () {
+//		corporationFrame.updateInfo ();
+//	}
 }
