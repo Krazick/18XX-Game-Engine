@@ -603,7 +603,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tAllCompaniesOperated;
 	}
 
-	public boolean isFirstTrainOfType (Train aTrain) {
+	public boolean isFirstTrainOfType (Coupon aTrain) {
 		boolean tIsFirstTrainOfType;
 
 		tIsFirstTrainOfType = true;

@@ -1249,7 +1249,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void updateForceBuyTrainButton () {
-		Train tCheapestTrain;
+		Coupon tCheapestTrain;
 
 		if (corporation.isOperating ()) {
 			if (corporation.dividendsHandled ()) {
@@ -1303,7 +1303,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		int tThisSelectedTrainCount;
 		TrainCompany tTrainCompany = (TrainCompany) corporation;
 		Train tSelectedTrainToBuy;
-		Train tSelectedTrainToUpgrade;
+		Coupon tSelectedTrainToUpgrade;
 		boolean tRemovedADiscount;
 
 		tThisSelectedTrainCount = tTrainCompany.getLocalSelectedTrainCount ();

@@ -505,7 +505,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public void forceBuyTrain () {
-		Train tCheapestTrain;
+		Coupon tCheapestTrain;
 		ForceBuyCouponFrame tForceBuyTrainFrame;
 		ShareCompany tShareCompany;
 
@@ -556,9 +556,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public Train getCheapestBankTrain () {
-		Train tCheapestTrain = Train.NO_TRAIN;
-		Train tBankPoolTrain, tBankTrain;
+	public Coupon getCheapestBankTrain () {
+		Coupon tCheapestTrain = Train.NO_TRAIN;
+		Coupon tBankPoolTrain, tBankTrain;
 		int tBankPoolTrainCost, tBankTrainCost;
 		BankPool tBankPool;
 		Bank tBank;
@@ -644,7 +644,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	public void buyBankTrain (BuyTrainAction aBuyTrainAction) {
 		Train tTrain;
-		Train tNextAvailableTrain;
+		Coupon tNextAvailableTrain;
 		TrainHolderI tTrainHolder;
 		CashHolderI tCashHolder;
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
@@ -697,7 +697,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public boolean trainIsSelected () {
 		boolean tTrainIsSelected = false;
-		Train tTrain;
+		Coupon tTrain;
 		TrainHolderI tTrainHolder;
 
 		tTrainHolder = getSelectedTrainHolder ();
@@ -989,7 +989,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public TrainHolderI getLocalSelectedTrainHolder () {
 		TrainHolderI tTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
-		Train tSelectedTrain;
+		Coupon tSelectedTrain;
 
 		tSelectedTrain = trainPortfolio.getSelectedTrain ();
 		if (tSelectedTrain != Train.NO_TRAIN) {
@@ -1033,7 +1033,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		Bank tBank;
 		BankPool tBankPool;
 		TrainHolderI tTrainHolder;
-		Train tTrain;
+		Coupon tTrain;
 
 		tBank = getBank ();
 		tBankPool = getBankPool ();
@@ -1160,7 +1160,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public boolean hasTrainOfType (Train aTrain) {
+	public boolean hasTrainOfType (Coupon aTrain) {
 		return trainPortfolio.hasTrainNamed (aTrain.getName ());
 	}
 
@@ -1216,7 +1216,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	 *
 	 * @param aTrain the actual Train that should be cleared. Need to find index for the Train
 	 */
-	public void clearATrainFromMap (Train aTrain) {
+	public void clearATrainFromMap (Coupon aTrain) {
 		int tTrainCount, tTrainIndex;
 
 		tTrainCount = getTrainCount ();
@@ -1795,7 +1795,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public void applyDiscount () {
-		Train tSelectedTrainToUpgrade;
+		Coupon tSelectedTrainToUpgrade;
 		Bank tBank;
 		Train [] tAvailableTrains;
 		String tDiscountAppliedTo = "";

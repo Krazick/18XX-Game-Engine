@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.w3c.dom.NodeList;
 
 import ge18xx.center.RevenueCenter;
+import ge18xx.company.Coupon;
 import ge18xx.company.TrainCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
@@ -177,7 +178,7 @@ public class RouteInformation {
 		}
 	}
 
-	public void loadRouteForTrain (XMLNode aRouteSegmentNode, ElementName aElementName, Train aTrain) {
+	public void loadRouteForTrain (XMLNode aRouteSegmentNode, ElementName aElementName, Coupon aTrain) {
 		XMLNodeList tXMLNodeList;
 
 		tXMLNodeList = new XMLNodeList (routeSegmentsParsingRoutine, this);
