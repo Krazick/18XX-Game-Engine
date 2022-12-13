@@ -107,7 +107,7 @@ public class PortPlacementBenefit extends MapBenefit {
 			tCanHoldPortToken = tSelectedMapCell.canHoldPortToken ();
 			if (tCanHoldPortToken) {
 				setMapCellID (tSelectedMapCell);
-				System.out.println ("Ready to place Port Token on " + getMapCellID ());
+				System.out.println ("Ready to place " + tokenType + " Token on " + getMapCellID ());
 				placeBenefitToken (tSelectedMapCell, tokenType, this);
 			}
 		}
@@ -117,7 +117,7 @@ public class PortPlacementBenefit extends MapBenefit {
 	public String getNewButtonLabel () {
 		String tNewButtonText;
 
-		tNewButtonText = "Place Port Token on Map";
+		tNewButtonText = "Place " + tokenType + " Token on Map";
 
 		return tNewButtonText;
 	}
@@ -136,7 +136,7 @@ public class PortPlacementBenefit extends MapBenefit {
 			setToolTip ("Another Benefit is currently in Use");
 		} else {
 			enableButton ();
-			setToolTip ("Ready for Port Placement");
+			setToolTip ("Ready for " + tokenType + " Token Placement");
 		}
 	}
 }

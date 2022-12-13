@@ -1,26 +1,135 @@
 package ge18xx.company.benefit;
 
+import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import ge18xx.company.CorporationFrame;
+import ge18xx.company.PrivateCompany;
+import ge18xx.company.ShareCompany;
+import ge18xx.map.MapCell;
+import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
-public class CattlePlacementBenefit extends Benefit {
-
-	public CattlePlacementBenefit () {
-		// TODO Auto-generated constructor stub
-	}
+public class CattlePlacementBenefit extends MapBenefit {
+	final static AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
+	final static AttributeName AN_TOKEN_PLACEMENT = new AttributeName ("tokenPlacement");
+	final static AttributeName AN_TOKEN_BONUS = new AttributeName ("tokenBonus");
+	public final static String NAME = "Cattle Placement";
+	String tokenType;
+	boolean tokenPlacement;
+	int tokenBonus;
 
 	public CattlePlacementBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
-		// TODO Auto-generated constructor stub
+		String tTokenType;
+		boolean tTokenPlacement;
+		int tTokenBonus;
+
+		tTokenType = aXMLNode.getThisAttribute (AN_TOKEN_TYPE);
+		tTokenPlacement = aXMLNode.getThisBooleanAttribute (AN_TOKEN_PLACEMENT);
+		tTokenBonus = aXMLNode.getThisIntAttribute (AN_TOKEN_BONUS);
+		setTokenType (tTokenType);
+		setTokenPlacement (tTokenPlacement);
+		setTokenBonus (tTokenBonus);
+		setName (NAME);
+	}
+
+	public void setTokenType (String aTokenType) {
+		tokenType = aTokenType;
+	}
+
+	public void setTokenPlacement (boolean aTokenPlacement) {
+		tokenPlacement = aTokenPlacement;
+	}
+
+	public void setTokenBonus (int aTokenBonus) {
+		tokenBonus = aTokenBonus;
+	}
+
+	public String getTokenType () {
+		return tokenType;
+	}
+
+	public boolean getTokenPlacement () {
+		return tokenPlacement;
+	}
+
+	public int getTokenBonus () {
+		return tokenBonus;
 	}
 
 	@Override
-	public int getCost () {
-		// TODO Auto-generated method stub
-		return 0;
+	public void actionPerformed (ActionEvent aEvent) {
+		String tActionCommand;
+
+		tActionCommand = aEvent.getActionCommand ();
+		if (CorporationFrame.PLACE_CATTLE_TOKEN.equals (tActionCommand)) {
+			handlePlaceCattleToken ();
+		}
+	}
+	@Override
+	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
+		JButton tPlaceCattleTokenButton;
+
+		super.configure (aPrivateCompany, aButtonRow);
+		if (shouldConfigure ()) {
+			if (!hasButton ()) {
+				tPlaceCattleTokenButton = new JButton (getNewButtonLabel ());
+				setButton (tPlaceCattleTokenButton);
+				setButtonPanel (aButtonRow);
+				tPlaceCattleTokenButton.setActionCommand (CorporationFrame.PLACE_CATTLE_TOKEN);
+				tPlaceCattleTokenButton.addActionListener (this);
+				aButtonRow.add (tPlaceCattleTokenButton);
+			}
+			updateButton ();
+		}
+	}
+
+	private void handlePlaceCattleToken () {
+		MapCell tSelectedMapCell;
+		boolean tCanHoldCattleToken;
+		ShareCompany tOwningCompany;
+
+		tOwningCompany = getOwningCompany ();
+		capturePreviousBenefitInUse (tOwningCompany, this);
+
+		tSelectedMapCell = getSelectedMapCell ();
+		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
+			tCanHoldCattleToken = tSelectedMapCell.canHoldCattleToken ();
+			if (tCanHoldCattleToken) {
+				setMapCellID (tSelectedMapCell);
+				System.out.println ("Ready to place " + tokenType + " Token on " + getMapCellID ());
+				placeBenefitToken (tSelectedMapCell, tokenType, this);
+			}
+		}
 	}
 
 	@Override
 	public String getNewButtonLabel () {
-		return "Place Cattle Token";
+		String tNewButtonText;
+
+		tNewButtonText = "Place " + tokenType + " Token on Map";
+
+		return tNewButtonText;
+	}
+
+	@Override
+	public void updateButton () {
+		ShareCompany tOwningCompany;
+		Benefit tBenefitInUse;
+		String tBenefitInUseName;
+
+		tOwningCompany = getOwningCompany ();
+		tBenefitInUse = tOwningCompany.getBenefitInUse ();
+		tBenefitInUseName = tBenefitInUse.getName ();
+		if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
+			disableButton ();
+			setToolTip ("Another Benefit is currently in Use");
+		} else {
+			enableButton ();
+			setToolTip ("Ready for " + tokenType + " Token Placement");
+		}
 	}
 }
