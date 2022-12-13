@@ -51,6 +51,7 @@ public class ShareCompany extends TokenCompany {
 	Location destinationLocation;
 	String destinationLabel;
 	String startCell;
+	int escrowForPayment;
 	int parPrice;
 	int loanCount;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
@@ -343,11 +344,11 @@ public class ShareCompany extends TokenCompany {
 	@Override
 	public void payLoanInterest () {
 		ActorI.ActionStates tOldState;
-		ActorI.ActionStates tNewState;
 		int tLoanCount;
 		int tInterestPayment;
-		PayLoanInterestAction tPayLoanInterestAction;
-		OperatingRound tOperatingRound;
+		int tTreasuryContribution;
+		int tRevenueContribution;
+		int tRevenueReducedTo;
 		Bank tBank;
 		LoanInterestCoupon tInterestCoupon;
 
@@ -356,24 +357,80 @@ public class ShareCompany extends TokenCompany {
 		tInterestPayment = tLoanCount * getLoanInterest ();
 		tBank = corporationList.getBank ();
 		if (tInterestPayment <= getCash ()) {
-			if (updateStatus (ActorI.ActionStates.HandledLoanInterest)) {
-				tNewState = getStatus ();
-				tOperatingRound = corporationList.getOperatingRound ();
-				tPayLoanInterestAction = new PayLoanInterestAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
-				tPayLoanInterestAction.addCashTransferEffect (this, tBank, tInterestPayment);
-				tPayLoanInterestAction.addChangeCorporationStatusEffect (this, tOldState, tNewState);
-				transferCashTo (tBank, tInterestPayment);
-				addAction (tPayLoanInterestAction);
-			}
+			completeLoanInterestPayment (tOldState, tInterestPayment, 0, tBank);
 		} else {
-			// TODO -- Before force Interest payment, deduct interest from Revenue generated when operating Train.
+			// TODO -- 
+			// If not enough Cash in Treasury to pay Interest on Loans -- we get here
+			tTreasuryContribution = calculateTreasuryContribution ();
+			tRevenueContribution = calculateRevenueContribution (tInterestPayment);
+			tRevenueReducedTo = getThisRevenue () - tRevenueContribution;
+			setThisRevenue (tRevenueReducedTo);
 			
-			System.err.println ("Need " + Bank.formatCash (tInterestPayment) + " needed to pay Loan Interest Payment on " + tLoanCount + " Loans.");
-			tInterestCoupon = new LoanInterestCoupon ("Loan Interest Coupon", tInterestPayment);
-			forceBuyCoupon (tInterestCoupon);
+			if (tInterestPayment <= (tTreasuryContribution + tRevenueContribution)) {
+				System.err.println ("Need " + Bank.formatCash (tInterestPayment) + " needed to pay Loan Interest Payment on " +
+									tLoanCount + " Loans.");
+				tInterestCoupon = new LoanInterestCoupon (tInterestPayment);
+				forceBuyCoupon (tInterestCoupon);
+			} else {
+				completeLoanInterestPayment (tOldState, tInterestPayment, tRevenueContribution, tBank);
+			}
 		}
 	}
 
+	private void completeLoanInterestPayment (ActorI.ActionStates aOldState, int aCompanyPayment, int aRevenuePayment, Bank aBank) {
+		ActorI.ActionStates tNewState;
+		PayLoanInterestAction tPayLoanInterestAction;
+		OperatingRound tOperatingRound;
+		
+		if (updateStatus (ActorI.ActionStates.HandledLoanInterest)) {
+			tNewState = getStatus ();
+			tOperatingRound = corporationList.getOperatingRound ();
+			tPayLoanInterestAction = new PayLoanInterestAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
+			tPayLoanInterestAction.addCashTransferEffect (this, aBank, aCompanyPayment);
+			tPayLoanInterestAction.addChangeCorporationStatusEffect (this, aOldState, tNewState);
+			if (aRevenuePayment > 0) {
+				tPayLoanInterestAction.addReduceRevenueEffect (this, aRevenuePayment);
+			}
+			transferCashTo (aBank, aCompanyPayment);
+			addAction (tPayLoanInterestAction);
+		}
+	}
+
+	private int calculateTreasuryContribution () {
+		int tTreasuryContribution;
+		
+		tTreasuryContribution = ((int) (getCash ()/10) * 10);
+		
+		return tTreasuryContribution;
+	}
+	
+	// Before we Force By the Coupon (using President Cash and Sales)
+	// Examine the Revenue Earned, and deduct $10 increments into "Escrow for Interest Payment" until Revenue is Zero or 
+	// (Treasury + Escrow) is equal to Interest Owed. Complete Payment.
+	// If (Treasury + Escrow) is less than Interest Owed, then Force Buy Coupon for Interest.
+	private int calculateRevenueContribution (int aInterestPayment) {
+		int tTreasuryContribution;
+		int tRevenueContribution;
+		int tStillOwe;
+		int tRevenueEarned;
+		
+		escrowForPayment = 0;
+		tTreasuryContribution = calculateTreasuryContribution ();
+		tStillOwe = aInterestPayment - tTreasuryContribution;
+		tRevenueEarned = getThisRevenue ();
+		if (tRevenueEarned >= tStillOwe) {
+			tRevenueContribution = tStillOwe;
+		} else {
+			tRevenueContribution = tRevenueEarned;
+		}
+		
+		System.out.println ("Treasury " + getCash () + " Contribution amount " + tTreasuryContribution);
+		System.out.println ("Still Owed after Treasury " + tStillOwe);
+		System.out.println ("Revenue Earned " + tRevenueEarned + " Revenue Contribution " + tRevenueContribution);
+		
+		return tRevenueContribution;
+	}
+	
 	private void forceBuyCoupon (Coupon aForceBuyCoupon) {
 		ForceBuyCouponFrame tForceBuyCouponFrame;
 
@@ -437,7 +494,7 @@ public class ShareCompany extends TokenCompany {
 				System.err.println ("Asked to replay " + Bank.formatCash (tLoanRedemptionAmount) +
 						" however, the company only has " + Bank.formatCash (getCash ()) + " available.");
 				// TODO: Add in Emergency Fund Raising, from President, and possible Forced Stock Sale
-				tRedemptionCoupon = new LoanRedemptionCoupon ("Loan Redemption Coupon", tLoanRedemptionAmount);
+				tRedemptionCoupon = new LoanRedemptionCoupon (tLoanRedemptionAmount);
 				forceBuyCoupon (tRedemptionCoupon);
 			}
 		}
