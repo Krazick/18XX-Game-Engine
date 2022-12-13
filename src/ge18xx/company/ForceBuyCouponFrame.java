@@ -152,7 +152,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		updateLiquidAssetLabel ();
 		updateSelectedAssetLabel ();
 
-		tCouponPanel = mustBuyCoupon.buildCertificateInfoPanel ();
+		tCouponPanel = mustBuyCoupon.buildCouponInfoPanel ();
 		infoJPanel.add (tCouponPanel);
 		infoJPanel.add (Box.createVerticalStrut (10));
 	}
@@ -792,6 +792,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 			shareCompany.buyTrain (tNeededCash);
 		} else if (mustBuyCoupon instanceof LoanInterestCoupon) {
 			shareCompany.payLoanInterest ();
+			shareCompany.updateFrameInfo ();
 		} else if (mustBuyCoupon instanceof LoanRedemptionCoupon) {
 			tLoanCountToRepay = mustBuyCoupon.getPrice ()/shareCompany.getLoanAmount ();
 			shareCompany.redeemLoans (tLoanCountToRepay);
