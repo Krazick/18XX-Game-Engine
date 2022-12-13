@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.effects.ReduceRevenueEffect;
 import ge18xx.utilities.XMLNode;
 
 public class PayLoanInterestAction extends CashTransferAction {
@@ -26,6 +27,13 @@ public class PayLoanInterestAction extends CashTransferAction {
 		setName (NAME);
 	}
 
+	public void addReduceRevenueEffect (ActorI aActor, int aReduceRevenueBy) {
+		ReduceRevenueEffect tReduceRevenueEffect;
+
+		tReduceRevenueEffect = new ReduceRevenueEffect (aActor, aReduceRevenueBy);
+		addEffect (tReduceRevenueEffect);
+	}
+	
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
