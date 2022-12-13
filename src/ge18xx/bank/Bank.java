@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
+import ge18xx.company.Coupon;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
@@ -299,8 +300,8 @@ public class Bank extends GameBank implements CashHolderI {
 		return startPacketFrame.getMustBuyCertificate ();
 	}
 
-	public Train getNextAvailableTrain () {
-		Train tTrain;
+	public Coupon getNextAvailableTrain () {
+		Coupon tTrain;
 
 		tTrain = trainPortfolio.getNextAvailableTrain ();
 
@@ -462,7 +463,7 @@ public class Bank extends GameBank implements CashHolderI {
 		int tNextTrainOrder;
 		int tOldNextTrainStatus, tNewNextTrainStatus;
 		String tTrainName;
-		Train tTrain;
+		Coupon tTrain;
 
 		tTrainOrder = aTrain.getOrder ();
 		tNextTrainOrder = aTrain.getOnFirstOrderAvailable ();
