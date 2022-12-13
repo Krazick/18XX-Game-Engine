@@ -3,6 +3,7 @@ package ge18xx.round.action.effects;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.Corporation;
+import ge18xx.company.Coupon;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -106,7 +107,7 @@ public class TransferTrainEffect extends ToEffect {
 		System.out.println (getEffectReport (aRoundManager));
 	}
 
-	public Train getTrain () {
+	public Coupon getTrain () {
 		return train;
 	}
 

@@ -1,5 +1,6 @@
 package ge18xx.train;
 
+import ge18xx.company.Coupon;
 import ge18xx.player.CashHolderI;
 import ge18xx.round.action.ActorI;
 
@@ -26,7 +27,7 @@ public interface TrainHolderI extends ActorI {
 	public String getTrainNameAndQty (String aStatus);
 
 	/* Get the a Train Object with this Name */
-	public Train getTrain (String aName);
+	public Coupon getTrain (String aName);
 
 	public TrainPortfolio getTrainPortfolio ();
 

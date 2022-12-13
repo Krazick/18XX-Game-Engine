@@ -3,12 +3,9 @@ package ge18xx.train;
 import java.awt.Color;
 import java.awt.event.ItemListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 //
 //  Train.java
@@ -63,11 +60,9 @@ public class Train extends Coupon implements Comparable<Object> {
 	public static final String MISSING_NAME = "MISSING";
 	public static final String NO_TILE_INFO = "";
 	Gauge gauge;
-//	String name;
 	int order;
 	int cityCount;
 	int townCount;
-//	int price;
 	int status;
 	TrainInfo trainInfo;
 	JCheckBox actionCheckbox;
@@ -139,29 +134,15 @@ public class Train extends Coupon implements Comparable<Object> {
 	}
 
 	@Override
-	public JPanel buildCertificateInfoPanel () {
-		JPanel tCertificateInfoPanel;
-		Border tCertInfoBorder;
-
-		tCertificateInfoPanel = new JPanel ();
-		tCertificateInfoPanel.setLayout (new BoxLayout (tCertificateInfoPanel, BoxLayout.Y_AXIS));
-		tCertInfoBorder = setupBorder ();
-		tCertificateInfoPanel.setBorder (tCertInfoBorder);
-		tCertificateInfoPanel.add (new JLabel (getFullName ()));
-		setCostLabel (tCertificateInfoPanel, getPrice ());
-
-		return tCertificateInfoPanel;
-	}
-
-	private String getFullName () {
-		return getName () + " Train";
+	protected String getFullName () {
+		return getName () + " " + TYPE_NAME;
 	}
 
 	public JPanel buildCertificateInfoJPanel (ItemListener aItemListener, String aActionLabel, boolean aActionEnabled,
 			String aActionToolTip) {
 		JPanel tCertificateInfoPanel;
 
-		tCertificateInfoPanel = buildCertificateInfoPanel ();
+		tCertificateInfoPanel = buildCouponInfoPanel ();
 		if (aActionLabel != null) {
 			if (actionCheckbox == GUI.NO_CHECK_BOX) {
 				actionCheckbox = new JCheckBox (aActionLabel);
@@ -180,57 +161,39 @@ public class Train extends Coupon implements Comparable<Object> {
 		return tCertificateInfoPanel;
 	}
 
-	private Border setupBorder () {
-		Border tCertInfoBorder;
-		Border tInnerBorder;
-		Border tOuterBorder;
-		Color tInnerColor;
-
-		tInnerColor = new Color (237, 237, 237);
-		tInnerBorder = BorderFactory.createLineBorder (tInnerColor, 5);
-		tOuterBorder = BorderFactory.createLineBorder (Color.black, 1);
-		tCertInfoBorder = BorderFactory.createCompoundBorder (tOuterBorder, tInnerBorder);
-
-		return tCertInfoBorder;
-	}
-
 	public int getDiscountCost () {
 		return trainInfo.getDiscount ();
 	}
 
-	public void applyDiscount (Train aTradeInTrain) {
+	public void applyDiscount (Coupon aTradeInTrain) {
 		String tCostLabel;
 
 		tCostLabel = "Discounted Cost " + Bank.formatCash (getDiscountCost ());
-		costLabel.setText (tCostLabel);
+		setCostLabel (tCostLabel);
 		setPrice (getDiscountCost ());
 	}
 
 	public boolean removeDiscount () {
 		String tCostLabel;
-		boolean tDiscountRemoved = false;
+		boolean tDiscountRemoved;
+		int tTrainPrice;
 
 		// during initial game setup, costLabel is not created yet, so don't have
 		// cost labels (or trains) to discount yet
-		if (costLabel != null) {
-			tDiscountRemoved = (trainInfo.getPrice () != getPrice ());
+		if (validCostLabel ()) {
+			tTrainPrice = trainInfo.getPrice ();
+			tDiscountRemoved = (tTrainPrice != getPrice ());
 			if (tDiscountRemoved) {
-				tCostLabel = "Cost " + Bank.formatCash (trainInfo.getPrice ());
-				costLabel.setText (tCostLabel);
-				setPrice (trainInfo.getPrice ());
+				setPrice (tTrainPrice);
+				tCostLabel = "Cost " + Bank.formatCash (tTrainPrice);
+				setCostLabel (tCostLabel);
 				actionCheckbox.setSelected (false);
 			}
+		} else {
+			tDiscountRemoved = false;
 		}
 
 		return tDiscountRemoved;
-	}
-
-	private void setCostLabel (JPanel aCertificateInfoPanel, int aPrice) {
-		String tCostLabel;
-
-		tCostLabel = "Cost " + Bank.formatCash (aPrice);
-		costLabel = new JLabel (tCostLabel);
-		aCertificateInfoPanel.add (costLabel);
 	}
 
 	public boolean canBeUpgradedFrom (String aTradeInPossible) {
@@ -287,7 +250,7 @@ public class Train extends Coupon implements Comparable<Object> {
 		int tResult;
 
 		if (!(aTrain instanceof Train))
-			throw new ClassCastException ("A Train object expected.");
+			throw new ClassCastException ("A " + TYPE_NAME + " object expected.");
 		tResult = order - ((Train) aTrain).order;
 
 		return tResult;
@@ -403,7 +366,7 @@ public class Train extends Coupon implements Comparable<Object> {
 
 		tRustInfo = getRust ();
 		if (!tRustInfo.equals (TrainInfo.NO_RUST)) {
-			tRustInfo = "Rust " + tRustInfo + " Trains";
+			tRustInfo = "Rust " + tRustInfo + " " + TYPE_NAME + "s";
 		}
 
 		return tRustInfo;
@@ -429,7 +392,7 @@ public class Train extends Coupon implements Comparable<Object> {
 
 		// TODO: update the TrainStatusValue to be an Enum, and get name from the Enum
 
-		tNameOfStatus = "No Train Status";
+		tNameOfStatus = "No " + TYPE_NAME + " Status";
 		if (aStatusValue == NOT_AVAILABLE) {
 			tNameOfStatus = "Not Available for Purchase";
 		} else if (aStatusValue == AVAILABLE_FOR_PURCHASE) {
@@ -589,7 +552,7 @@ public class Train extends Coupon implements Comparable<Object> {
 		}
 	}
 
-	public void loadRouteInformation (XMLNode aRouteNode, Train aTrain, TrainPortfolio aTrainPortfolio) {
+	public void loadRouteInformation (XMLNode aRouteNode, Coupon aTrain, TrainPortfolio aTrainPortfolio) {
 		RouteInformation tRouteInformation;
 		String tNodeName;
 

@@ -79,7 +79,7 @@ public class PurchaseTrainOffer extends QueryOffer {
 		amount = aAmount;
 	}
 
-	public Train getTrain () {
+	public Coupon getTrain () {
 		return train;
 	}
 

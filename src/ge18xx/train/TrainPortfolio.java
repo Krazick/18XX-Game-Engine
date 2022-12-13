@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
+import ge18xx.company.Coupon;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.FrameButton;
 import ge18xx.game.GameManager;
@@ -205,7 +206,7 @@ public class TrainPortfolio implements TrainHolderI {
 
 	public void clearSelections () {
 		if (trains != NO_TRAINS) {
-			for (Train tTrain : trains) {
+			for (Coupon tTrain : trains) {
 				tTrain.clearSelection ();
 			}
 		}
@@ -254,7 +255,7 @@ public class TrainPortfolio implements TrainHolderI {
 		tTrainLimit = getTrainLimit ();
 		if (trains.size () > 0) {
 			tTrainList = "Trains (";
-			for (Train tTrain : trains) {
+			for (Coupon tTrain : trains) {
 				tTrainList += tTrain.getName ();
 				tTrainIndex++;
 				if (tTrainIndex < trains.size ()) {
@@ -366,8 +367,8 @@ public class TrainPortfolio implements TrainHolderI {
 		return (getTrainCount () == 0);
 	}
 
-	public Train getTrainOfOrder (int aOrder) {
-		Train tTrainOfOrder;
+	public Coupon getTrainOfOrder (int aOrder) {
+		Coupon tTrainOfOrder;
 
 		tTrainOfOrder = Train.NO_TRAIN;
 
@@ -563,7 +564,7 @@ public class TrainPortfolio implements TrainHolderI {
 		boolean tHasTrain;
 
 		tHasTrain = false;
-		for (Train tTrain : trains) {
+		for (Coupon tTrain : trains) {
 			if (tTrain.getName ().equals (aTrainName)) {
 				tHasTrain = true;
 			}
@@ -673,7 +674,7 @@ public class TrainPortfolio implements TrainHolderI {
 		loadRouteForTrain (aTrain, aTrainNode, Train.EN_PREVIOUS_ROUTE);
 	}
 
-	public void loadRouteForTrain (Train aTrain, XMLNode aTrainNode, ElementName aElementName) {
+	public void loadRouteForTrain (Coupon aTrain, XMLNode aTrainNode, ElementName aElementName) {
 		XMLNodeList tXMLNodeList;
 
 		tXMLNodeList = new XMLNodeList (trainRouteParsingRoutine, aTrain, this);
@@ -791,9 +792,9 @@ public class TrainPortfolio implements TrainHolderI {
 		return tAvailableCount;
 	}
 
-	public Train getNextAvailableTrain () {
-		Train tNextAvailableTrain;
-		Train tAvailableTrains[];
+	public Coupon getNextAvailableTrain () {
+		Coupon tNextAvailableTrain;
+		Coupon tAvailableTrains[];
 
 		tAvailableTrains = getAvailableTrains ();
 		tNextAvailableTrain = tAvailableTrains [0];
