@@ -19,6 +19,7 @@ import ge18xx.company.Certificate;
 import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.Corporation;
+import ge18xx.company.Coupon;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
@@ -283,7 +284,7 @@ class GameBankTests {
 		@DisplayName ("getCheapestTrain Test")
 		@Test
 		void getCheapestTrainTest () {
-			Train tCheapestTrain;
+			Coupon tCheapestTrain;
 			Train mGeneratedCheapestTrain;
 
 			mGeneratedCheapestTrain = trainTestFactory.buildTrainMock ();
@@ -297,7 +298,7 @@ class GameBankTests {
 		@DisplayName ("getSelectedTrain Test")
 		@Test
 		void getSelectedTrainTest () {
-			Train tSelectedTrain;
+			Coupon tSelectedTrain;
 			Train mGeneratedSelectedTrain;
 
 			mGeneratedSelectedTrain = trainTestFactory.buildTrainMock ();
@@ -326,7 +327,7 @@ class GameBankTests {
 		@DisplayName ("getTrain Test")
 		@Test
 		void getTrainTest () {
-			Train tSelectedTrain;
+			Coupon tSelectedTrain;
 			Train mGeneratedSelectedTrain;
 
 			mGeneratedSelectedTrain = trainTestFactory.buildTrainMock ();
@@ -400,10 +401,10 @@ class GameBankTests {
 		@DisplayName ("getAvailableTrains Test")
 		@Test
 		void getAvailableTrainsTest () {
-			Train [] tAvailableTrains;
+			Coupon [] tAvailableTrains;
 			Train [] tGeneratedAvailableTrains;
 			Train mGeneratedTrain;
-			Train tFoundTrain;
+			Coupon tFoundTrain;
 
 			tGeneratedAvailableTrains = new Train [10];
 			mGeneratedTrain = trainTestFactory.buildTrainMock ();
