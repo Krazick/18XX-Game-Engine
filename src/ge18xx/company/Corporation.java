@@ -1549,6 +1549,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public void updateFrameInfo () {
+		updateInfo ();
+	}
+	
+	@Override
+	public void updateInfo () {
 		if (corporationFrame != XMLFrame.NO_XML_FRAME) {
 			corporationFrame.updateInfo ();
 		}
@@ -2549,10 +2554,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tLastAction;
 	}
 
-	@Override
-	public void updateInfo () {
-		corporationFrame.updateInfo ();
-	}
 
 	@Override
 	public boolean isWaitingForResponse () {
