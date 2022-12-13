@@ -183,6 +183,7 @@ public class MapBenefit extends Benefit {
 			tRoundID = tRoundManager.getOperatingRoundID ();
 			tCloseCompanyAction = new CloseCompanyAction (ActorI.ActionStates.OperatingRound, tRoundID, tOwningCompany);
 			privateCompany.close (tCloseCompanyAction);
+			tCloseCompanyAction.setChainToPrevious (true);
 			tRoundManager.addAction (tCloseCompanyAction);
 		}
 		tOwningCompany.updateFrameInfo ();
