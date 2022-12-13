@@ -24,6 +24,7 @@ import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.CorporationList;
+import ge18xx.company.Coupon;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
@@ -615,7 +616,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	 */
 	public int getMinSharesToFloat () {
 		String tNextTrainName;
-		Train tTrain;
+		Coupon tTrain;
 
 		tTrain = bank.getNextAvailableTrain ();
 		tNextTrainName = tTrain.getName ();

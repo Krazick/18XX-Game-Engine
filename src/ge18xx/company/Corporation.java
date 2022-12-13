@@ -863,7 +863,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	// Train Company will Override
-	public boolean hasTrainOfType (Train aTrain) {
+	public boolean hasTrainOfType (Coupon aTrain) {
 		return false;
 	}
 
@@ -2325,7 +2325,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public void forceBuyTrain () {
 	}
 
-	public Train getCheapestBankTrain () {
+	public Coupon getCheapestBankTrain () {
 		return Train.NO_TRAIN;
 	}
 
