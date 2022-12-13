@@ -465,7 +465,7 @@ public abstract class TokenCompany extends TrainCompany {
 			popToken (); // Pop off the Token from the list of Map Tokens,
 							// don't want infinite supply
 
-			corporationFrame.updateInfo ();
+			updateInfo ();
 		}
 	}
 
