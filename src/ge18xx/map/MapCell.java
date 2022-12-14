@@ -1322,61 +1322,39 @@ public class MapCell implements Comparator<Object> {
 		return tPseudoYellowTile;
 	}
 
-	public void paintComponent (Graphics g, Hex aHex) {
+	public void paintComponent (Graphics aGraphics, Hex aHex) {
 		boolean tIsInSelectable;
-		RevenueCenter tRC1;
+		RevenueCenter tRevenueCenter;
 		Paint tThickFrame;
-		String tTileName = TileName.NO_NAME2;
+		String tTileName;
 		String tBaseTileName;
 		String tCityInfoName;
-		int Xoffset, Yoffset;
-		int tNIndex;
-		Xoffset = 0;
-		Yoffset = 0;
+		int tXoffset;
+		int tYoffset;
+		
+		tXoffset = 0;
+		tYoffset = 0;
 		Paint tFillPaint;
-
-		tRC1 = getRevenueCenter (0);
+		tTileName = TileName.NO_NAME2;
+		
+		tRevenueCenter = getRevenueCenter (0);
 		tIsInSelectable = hexMap.mapCellIsInSelectableSMC (this) || selected;
 		if (isTileOnCell ()) {
 			tTileName = tile.getName ();
-			tile.paintComponent (g, XCenter, YCenter, tileOrient, aHex, selectedFeature2, tIsInSelectable);
+			tile.paintComponent (aGraphics, XCenter, YCenter, tileOrient, aHex, selectedFeature2, tIsInSelectable);
 			if (blockedSides != null) {
-				aHex.drawBorders (g, XCenter, YCenter, baseTerrain.drawBorder (), blockedSides);
+				aHex.drawBorders (aGraphics, XCenter, YCenter, baseTerrain.drawBorder (), blockedSides);
 			}
 			if (isStartingTile ()) {
-				if (tRC1 != RevenueCenter.NO_CENTER) {
-					if (terrain1 != Terrain.NO_TERRAINX) {
-						if (terrain1.isRiver ()) {
-							if (tRC1.isCenterLocation ()) {
-								Yoffset = aHex.getTrackWidth () * 4;
-							}
-						}
-						drawTerrain (g, terrain1, aHex, Xoffset, Yoffset);
-					}
-				}
-				if (terrain2 != Terrain.NO_TERRAINX) {
-					if (terrain2.isRiver ()) {
-						if (terrain1.getLocation () == terrain2.getLocation ()) {
-							Yoffset = aHex.getTrackWidth () * 2;
-						}
-					}
-					drawTerrain (g, terrain2, aHex, Xoffset, Yoffset);
-				}
+				tYoffset = drawTerrain1 (aGraphics, aHex, tRevenueCenter, tXoffset, tYoffset);
+				drawTerrain2 (aGraphics, aHex, tXoffset, tYoffset);
 			} else {
-				if (terrain1 != Terrain.NO_TERRAINX) {
-					if (terrain1.bleedThroughAll ()) {
-						drawTerrain (g, terrain1, aHex, Xoffset, Yoffset);
-					}
-				}
-				if (terrain2 != Terrain.NO_TERRAINX) {
-					if (terrain2.bleedThroughAll ()) {
-						drawTerrain (g, terrain2, aHex, Xoffset, Yoffset);
-					}
-				}
+				drawTerrainBleedThrough (aGraphics, terrain1, aHex, tXoffset, tYoffset);
+				drawTerrainBleedThrough (aGraphics, terrain2, aHex, tXoffset, tYoffset);
 			}
 			if (endRoutes.size () > 0) {
 				for (Terrain tEndRoute : endRoutes) {
-					drawTerrain (g, tEndRoute, aHex, Xoffset, Yoffset);
+					drawTerrain (aGraphics, tEndRoute, aHex, tXoffset, tYoffset);
 				}
 			}
 		} else {
@@ -1390,61 +1368,84 @@ public class MapCell implements Comparator<Object> {
 			} else {
 				tFillPaint = baseTerrain.getPaint ();
 			}
-			aHex.paintHex (g, XCenter, YCenter, tFillPaint, baseTerrain.drawBorder (), tThickFrame,
+			aHex.paintHex (aGraphics, XCenter, YCenter, tFillPaint, baseTerrain.drawBorder (), tThickFrame,
 					blockedSides);
-			if (tRC1 != RevenueCenter.NO_CENTER) {
-				if (terrain1 != Terrain.NO_TERRAINX) {
-					if (terrain1.isRiver ()) {
-						if (tRC1.isCenterLocation ()) {
-							Yoffset = aHex.getTrackWidth () * 4;
-						}
-					}
-				}
-			}
-			drawTerrain (g, terrain1, aHex, Xoffset, Yoffset);
-			if (terrain2 != Terrain.NO_TERRAINX) {
-				if (terrain2.isRiver ()) {
-					if (terrain1.getLocation () == terrain2.getLocation ()) {
-						Yoffset = aHex.getTrackWidth () * 2;
-					}
-				}
-			}
-			drawTerrain (g, terrain2, aHex, Xoffset, Yoffset);
-			centers.draw (g, XCenter, YCenter, aHex, NOT_ON_TILE, selectedFeature2);
+			tYoffset = drawTerrain1 (aGraphics, aHex, tRevenueCenter, tXoffset, tYoffset);
+			drawTerrain2 (aGraphics, aHex, tXoffset, tYoffset);
+			centers.draw (aGraphics, XCenter, YCenter, aHex, NOT_ON_TILE, selectedFeature2);
 			if (rebate != Rebate.NO_REBATE) {
-				rebate.draw (g, XCenter, YCenter, aHex);
+				rebate.draw (aGraphics, XCenter, YCenter, aHex);
 			}
 		}
 		if (baseTileName != TileName.NO_TILE_NAME) {
 			tBaseTileName = baseTileName.getName ();
-			if (tRC1 != RevenueCenter.NO_CENTER) {
-				tCityInfoName = tRC1.getCIName ();
+			if (tRevenueCenter != RevenueCenter.NO_CENTER) {
+				tCityInfoName = tRevenueCenter.getCIName ();
 				if (!tBaseTileName.equalsIgnoreCase (tCityInfoName)) {
 					if (!tTileName.equalsIgnoreCase (tBaseTileName)) {
-						baseTileName.draw (g, XCenter, YCenter, aHex);
+						baseTileName.draw (aGraphics, XCenter, YCenter, aHex);
 					}
 				}
 				if (!tTileName.equalsIgnoreCase (tCityInfoName)) {
-					tRC1.drawName (g, XCenter, YCenter, aHex);
+					tRevenueCenter.drawName (aGraphics, XCenter, YCenter, aHex);
 				}
 			}
 		}
 
 		if (selected) {
-			aHex.paintSelected (g, XCenter, YCenter);
+			aHex.paintSelected (aGraphics, XCenter, YCenter);
 		}
 
+		paintNeighbors (aGraphics, aHex);
+	}
+
+	private void paintNeighbors (Graphics aGraphics, Hex aHex) {
+		int tNIndex;
 		for (tNIndex = 0; tNIndex < 6; tNIndex++) {
 			if (neighbors [tNIndex] != null) {
 				if (neighbors [tNIndex].isSelected ()) {
-					paintAsNeighbor (g, aHex, tNIndex);
+					paintAsNeighbor (aGraphics, aHex, tNIndex);
 				}
 			}
 		}
 	}
+	
+	public void paintAsNeighbor (Graphics aGraphics, Hex aHex, int aSide) {
+		aHex.drawNeighbor (aGraphics, aSide, XCenter, YCenter);
+	}
 
-	public void paintAsNeighbor (Graphics g, Hex aHex, int aSide) {
-		aHex.drawNeighbor (g, aSide, XCenter, YCenter);
+	private int drawTerrain1 (Graphics aGraphics, Hex aHex, RevenueCenter aRevenueCenter, int aXoffset, int aYoffset) {
+		if (aRevenueCenter != RevenueCenter.NO_CENTER) {
+			if (terrain1 != Terrain.NO_TERRAINX) {
+				if (terrain1.isRiver ()) {
+					if (aRevenueCenter.isCenterLocation ()) {
+						aYoffset = aHex.getTrackWidth () * 4;
+					}
+				}
+			}
+		}
+		drawTerrain (aGraphics, terrain1, aHex, aXoffset, aYoffset);
+		
+		return aYoffset;
+	}
+
+	private void drawTerrain2 (Graphics aGraphics, Hex aHex, int aXoffset, int aYoffset) {
+		if (terrain2 != Terrain.NO_TERRAINX) {
+			if (terrain2.isRiver ()) {
+				if (terrain1.getLocation () == terrain2.getLocation ()) {
+					aYoffset = aHex.getTrackWidth () * 2;
+				}
+			}
+		}
+		drawTerrain (aGraphics, terrain2, aHex, aXoffset, aYoffset);
+	}
+	 
+	private void drawTerrainBleedThrough (Graphics aGraphics, Terrain aTerrain, Hex aHex, int aXoffset, int aYoffset) {
+		if (aTerrain != Terrain.NO_TERRAINX) {
+			if (aTerrain.bleedThroughAll ()) {
+				drawTerrain (aGraphics, aTerrain, aHex, aXoffset, aYoffset);
+			}
+		}
 	}
 
 	public boolean setAllowedRotation (int aIndex, boolean aAllowed) {
