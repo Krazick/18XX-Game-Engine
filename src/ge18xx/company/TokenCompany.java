@@ -222,20 +222,26 @@ public abstract class TokenCompany extends TrainCompany {
 		return tReason;
 	}
 
-	public void drawBase (Graphics g, int X1, int Y1, int aWidth, int aHeight, boolean aHome) {
+	public void drawBase (Graphics g, int X1, int Y1, int aWidth, int aHeight, boolean aHomeX) {
 		Font tCurrentFont;
 		Font tNewFont;
 		Color tCurrentColor;
-		int tX, tY;
+		int tX;
+		int tY;
 		int tAbbrevWidth;
 		int tAbbrevHeight;
 		int tFontSize;
 		int tScale = Hex.getScale ();
 
-		tFontSize = tScale + 1;
-
 		tCurrentFont = g.getFont ();
-		tNewFont = new Font (FONT_SSNAME, Font.BOLD, tFontSize);
+		if (aHomeX) {
+			tFontSize = tScale + 1;
+			tNewFont = new Font (FONT_SSNAME, Font.BOLD, tFontSize);
+		} else {
+			tFontSize = tScale - 2;
+			tNewFont = new Font (FONT_SSNAME, Font.ITALIC, tFontSize);
+		}
+		System.out.println ("Drawing Base for " + getAbbrev () + " Size " + tFontSize + " Home Flag " + aHomeX);
 		g.setFont (tNewFont);
 		tCurrentColor = g.getColor ();
 		tX = X1 + aWidth / 2;
