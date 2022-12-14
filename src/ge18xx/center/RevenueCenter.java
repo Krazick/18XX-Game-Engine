@@ -248,11 +248,10 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 
 	public void drawCorporationBase (Graphics g, int X1, int Y1, int width, int height) {
 		if (isCorporationBase ()) {
-			if (type.isDestination ()) {
-				cityInfo.drawCorporationBase (g, X1, Y1, width, height, false);
-			} else {
-				cityInfo.drawCorporationBase (g, X1, Y1, width, height, true);
-			}
+			cityInfo.drawCorporationBase (g, X1, Y1, width, height, true);
+		}
+		if (type.isDestination ()) {
+			cityInfo.drawCorporationBase (g, X1, Y1, width, height, false);
 		}
 	}
 
@@ -625,7 +624,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	// ABSTRACT Methods that should be overloaded by the sub-classes
 	public abstract boolean cityOrTown ();
 
-	public abstract void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile,
+	public abstract void draw (Graphics aGraphics, int aXc, int aYc, int aTileOrient, Hex aHex, boolean aOnTile,
 			Feature2 aSelectedFeature);
 
 	public abstract boolean cityHasOpenStation ();

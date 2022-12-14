@@ -366,12 +366,12 @@ public class City extends RevenueCenter implements Cloneable {
 	}
 
 	@Override
-	public void draw (Graphics g, int Xc, int Yc, Hex aHex, boolean onTile, Feature2 aSelectedFeature) {
-		draw (g, Xc, Yc, NO_ROTATION, aHex, onTile, aSelectedFeature);
+	public void draw (Graphics aGraphics, int aXc, int aYc, Hex aHex, boolean aOnTile, Feature2 aSelectedFeature) {
+		draw (aGraphics, aXc, aYc, NO_ROTATION, aHex, aOnTile, aSelectedFeature);
 	}
 
 	@Override
-	public void draw (Graphics g, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile,
+	public void draw (Graphics aGrapics, int Xc, int Yc, int aTileOrient, Hex aHex, boolean onTile,
 			Feature2 aSelectedFeature) {
 		Color tCityColor;
 		Location tLocation = location.rotateLocation (aTileOrient);
@@ -383,92 +383,92 @@ public class City extends RevenueCenter implements Cloneable {
 			break;
 
 		case RevenueCenterType.DEAD_END_ONLY_CITY: /* Dead End City, DRAW Revenues Only */
-			drawValue (g, Xc, Yc, aHex, aTileOrient);
+			drawValue (aGrapics, Xc, Yc, aHex, aTileOrient);
 			break;
 
 		case RevenueCenterType.SINGLE_CITY: /* Single City */
 		case RevenueCenterType.DEAD_END_CITY: /* Dead End City (can have station, need to draw) */
 			tCityColor = Color.white;
-			drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+			drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (isSingleSelected (tLocation, aSelectedFeature)) {
-				drawSelectionMarker (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY);
+				drawSelectionMarker (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY);
 			}
 			break;
 
 		case RevenueCenterType.DESTINATION_CITY: /* Destination City (can have station, need to draw) */
-			drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.DESTINATION_CITY, null, aTileOrient, true, 0);
+			drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.DESTINATION_CITY, null, aTileOrient, true, 0);
 			if (isSingleSelected (tLocation, aSelectedFeature)) {
-				drawSelectionMarker (g, Xc, Yc, aHex, tLocation, RevenueCenterType.DESTINATION_CITY);
+				drawSelectionMarker (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.DESTINATION_CITY);
 			}
 			break;
 
 		case RevenueCenterType.BYPASS_CITY: /* BYPASS Track Single City */
 			tCityColor = Color.white;
-			drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+			drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			break;
 
 		case RevenueCenterType.TWO_CITIES: /* Two Separate Cities */
 			tCityColor = Color.white;
-			drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+			drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
 				tLocation.rotateLocation180 ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			}
 			break;
 
 		case RevenueCenterType.THREE_CITIES: /* Three Seperate Cities */
 			tCityColor = Color.white;
-			drawACity (g, Xc, Yc, aHex, location, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+			drawACity (aGrapics, Xc, Yc, aHex, location, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
 				tLocation.rotateLocation2Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 				tLocation.rotateLocation2Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			}
 			break;
 
 		case RevenueCenterType.FOUR_CITIES: /* Four Seperate Cities */
 			tCityColor = Color.white;
-			drawACity (g, Xc, Yc, aHex, location, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+			drawACity (aGrapics, Xc, Yc, aHex, location, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
 				tLocation.rotateLocation1Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 				tLocation.rotateLocation2Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 				tLocation.rotateLocation1Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			}
 			break;
 
 		case RevenueCenterType.FIVE_CITIES: /* Five Seperate Cities */
 			tCityColor = Color.white;
-			drawACity (g, Xc, Yc, aHex, location, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+			drawACity (aGrapics, Xc, Yc, aHex, location, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
 				tLocation.rotateLocation1Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 				tLocation.rotateLocation1Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 				tLocation.rotateLocation2Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 				tLocation.rotateLocation1Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			}
 			break;
 
 		case RevenueCenterType.SIX_CITIES: /* Six Seperate Cities */
 			tCityColor = Color.white;
-			drawACity (g, Xc, Yc, aHex, location, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+			drawACity (aGrapics, Xc, Yc, aHex, location, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
 				tLocation.rotateLocation1Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 				tLocation.rotateLocation1Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 				tLocation.rotateLocation1Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 				tLocation.rotateLocation1Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 				tLocation.rotateLocation1Tick ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			}
 			break;
 
@@ -476,60 +476,76 @@ public class City extends RevenueCenter implements Cloneable {
 		case RevenueCenterType.TRIPLE_CITY: /* Triple City */
 		case RevenueCenterType.QUAD_CITY: /* Four City */
 			tCityColor = Color.white;
-			drawACity (g, Xc, Yc, aHex, tLocation, tType, tCityColor, aTileOrient, true, 0);
+			drawACity (aGrapics, Xc, Yc, aHex, tLocation, tType, tCityColor, aTileOrient, true, 0);
 			if (isSingleSelected (tLocation, aSelectedFeature)) {
-				drawSelectionMarker (g, Xc, Yc, aHex, tLocation, tType);
+				drawSelectionMarker (aGrapics, Xc, Yc, aHex, tLocation, tType);
 			}
 			break;
 
 		case RevenueCenterType.TWO_DOUBLE_CITIES: /* Two Double Cities */
 			tCityColor = Color.white;
-			drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.DOUBLE_CITY, tCityColor, aTileOrient, true, 0);
+			drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.DOUBLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
 				tLocation.rotateLocation180 ();
-				drawACity (g, Xc, Yc, aHex, tLocation, RevenueCenterType.DOUBLE_CITY, tCityColor, aTileOrient, true, 0);
+				drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.DOUBLE_CITY, tCityColor, aTileOrient, true, 0);
 			}
 			break;
 
 		case RevenueCenterType.PRIVATE_RAILWAY_POINT: /* Private Railway Revenue Location */
 			if (cityInfo != CityInfo.NO_CITY_INFO) {
-				cityInfo.drawPrivateRailway (g, Xc, Yc, aHex);
+				cityInfo.drawPrivateRailway (aGrapics, Xc, Yc, aHex);
 			}
 			break;
 		}
-		drawName (g, Xc, Yc, aHex);
+		drawName (aGrapics, Xc, Yc, aHex);
 	}
 
-	public void drawACity (Graphics g, int Xc, int Yc, Hex aHex, Location aLocation, int aType, Color aCityColor,
+	public void drawACity (Graphics aGraphics, int Xc, int Yc, Hex aHex, Location aLocation, int aType, Color aCityColor,
 			int aTileOrient, boolean drawValue, int aTokenIndex) {
-		drawACity (g, Xc, Yc, aHex, aLocation, aType, aCityColor, aTileOrient, drawValue, Xc, Yc, aTokenIndex);
+		drawACity (aGraphics, Xc, Yc, aHex, aLocation, aType, aCityColor, aTileOrient, drawValue, Xc, Yc, aTokenIndex);
 	}
 
-	public void drawACity (Graphics g, double Xc, double Yc, Hex aHex, int aLocation, int aType, Color aCityColor,
+	public void drawACity (Graphics aGraphics, double Xc, double Yc, Hex aHex, int aLocation, int aType, Color aCityColor,
 			int aTileOrient, boolean drawValue, int hexXc, int hexYc, int aTokenIndex) {
 		Location tLocation = new Location (aLocation);
 		int XCenter = new Double (Xc).intValue ();
 		int YCenter = new Double (Yc).intValue ();
-		drawACity (g, XCenter, YCenter, aHex, tLocation, aType, aCityColor, aTileOrient, drawValue, hexXc, hexYc,
+		
+		drawACity (aGraphics, XCenter, YCenter, aHex, tLocation, aType, aCityColor, aTileOrient, drawValue, hexXc, hexYc,
 				aTokenIndex);
 	}
 
 	public void drawACity (Graphics g, int Xc, int Yc, Hex aHex, Location aLocation, int aType, Color aCityColor,
 			int aTileOrient, boolean drawValue, int hexXc, int hexYc, int aTokenIndex) {
-		int X1, Y1, X2, Y2;
-		double XCenter1, YCenter1, XCenter2, YCenter2, XCenter3, YCenter3, XCenter4, YCenter4;
-		int XB1, YB1, XB2, YB2, XB3, YB3, XB4, YB4, XB5, YB5, XB6, YB6, XB7, YB7, XB8, YB8;
-		int temp = aHex.getCityWidth ();
-		double C30 = 0.8660254;
-		double S30 = 0.5;
-		double tempC30 = temp * C30, tCS30;
-		double tempS30 = temp * S30;
-
+		double XCenter1, YCenter1;
+		double XCenter2, YCenter2;
+		double XCenter3, YCenter3;
+		double XCenter4, YCenter4;
+		int X1, Y1;
+		int X2, Y2;
+		int XB1, YB1;
+		int XB2, YB2;
+		int XB3, YB3;
+		int XB4, YB4;
+		int XB5, YB5;
+		int XB6, YB6;
+		int XB7, YB7;
+		int XB8, YB8;
+		int temp;
 		int Xsign;
 		int Ysign;
+		double C30 = 0.8660254;
+		double S30 = 0.5;
+		double tCS30;
+		double tempC30;
+		double tempS30;
+
 		Point tDisplace;
 		tDisplace = aLocation.calcCenter (aHex);
 
+		temp = aHex.getCityWidth ();
+		tempC30 = temp * C30;
+		tempS30 = temp * S30;
 		X1 = Xc - temp;
 		Y1 = Yc - temp;
 		X2 = Xc + temp;
@@ -885,6 +901,8 @@ public class City extends RevenueCenter implements Cloneable {
 		int width, height;
 		int tCorpID;
 		boolean tDrawToken;
+		boolean tIsCorporationBase;
+		boolean tIsDestination;
 
 		width = X2 - X1;
 		height = Y2 - Y1;
@@ -904,7 +922,10 @@ public class City extends RevenueCenter implements Cloneable {
 				g.setColor (aCityColor);
 				g.fillOval (X1, Y1, width, height);
 			}
-			if (isCorporationBase ()) {
+			tIsCorporationBase = isCorporationBase ();
+			tIsDestination = isDestination ();
+			if (tIsCorporationBase || tIsDestination) {
+//			if (isCorporationBase () || isDestination ()) {
 				tCorpID = getHomeCompanyID ();
 				if (!cityHasStation (tCorpID)) {
 					drawCorporationBase (g, X1, Y1, width, height);

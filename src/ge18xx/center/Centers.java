@@ -200,14 +200,14 @@ public class Centers implements Cloneable {
 		return tXMLElement;
 	}
 
-	public void draw (Graphics g, int XCenter, int YCenter, Hex aHex, boolean aOnTile, Feature2 aSelectedFeature) {
-		draw (g, XCenter, YCenter, MapCell.NO_ORIENTATION, aHex, aOnTile, aSelectedFeature);
+	public void draw (Graphics aGraphics, int aXCenter, int aYCenter, Hex aHex, boolean aOnTile, Feature2 aSelectedFeature) {
+		draw (aGraphics, aXCenter, aYCenter, MapCell.NO_ORIENTATION, aHex, aOnTile, aSelectedFeature);
 	}
 
-	public void draw (Graphics g, int XCenter, int YCenter, int aTileOrient, Hex aHex, boolean aOnTile,
+	public void draw (Graphics aGraphics, int aXCenter, int aYCenter, int aTileOrient, Hex aHex, boolean aOnTile,
 			Feature2 aSelectedFeature) {
 		for (RevenueCenter tRevenueCenter : centers) {
-			tRevenueCenter.draw (g, XCenter, YCenter, aTileOrient, aHex, aOnTile, aSelectedFeature);
+			tRevenueCenter.draw (aGraphics, aXCenter, aYCenter, aTileOrient, aHex, aOnTile, aSelectedFeature);
 		}
 	}
 
