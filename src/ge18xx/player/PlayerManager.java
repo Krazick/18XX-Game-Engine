@@ -16,6 +16,7 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
+import ge18xx.company.CorporationList;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
@@ -543,7 +544,6 @@ public class PlayerManager {
 		Portfolio tPlayerPortfolio;
 		Portfolio tSourcePortfolio;
 		Bank tBank;
-		int tCashValue;
 		int tParPrice;
 		Player tCurrentPresident;
 		PortfolioHolderI tCurrentHolder;
@@ -596,11 +596,10 @@ public class PlayerManager {
 			}
 
 			tFreeCertificate = tBank.getFreeCertificateWithThisCertificate (tCertificateToBuy);
-			tCashValue = calculateCashToBuy (aCertificatesToBuy);
 			tSourcePortfolio = getSourcePortfolio (tCertificateToBuy);
 
-			aPlayer.transferCashTo (tBank, tCashValue);
-			aBuyStockAction.addCashTransferEffect (aPlayer, tBank, tCashValue);
+			manageCashTransfer (aPlayer, aCertificatesToBuy, aBuyStockAction, tBank, tSourcePortfolio);
+
 			tPlayerPortfolio = aPlayer.getPortfolio ();
 
 			doFinalShareBuySteps (tPlayerPortfolio, tSourcePortfolio, aCertificatesToBuy, aBuyStockAction);
@@ -645,6 +644,49 @@ public class PlayerManager {
 		return tBuyStockAction;
 	}
 
+	private void manageCashTransfer (Player aPlayer, List<Certificate> aCertificatesToBuy,
+			BuyStockAction aBuyStockAction, Bank aBank, Portfolio aSourcePortfolio) {
+		CashHolderI tPayCashTo;
+		int tCashValue;
+		Certificate tCertificate;
+
+		tCashValue = calculateCashToBuy (aCertificatesToBuy);
+		tCertificate = aCertificatesToBuy.get (0);
+		tPayCashTo = getPayCashTo (aBank, tCertificate, aSourcePortfolio);
+		aPlayer.transferCashTo (tPayCashTo, tCashValue);
+		aBuyStockAction.addCashTransferEffect (aPlayer, tPayCashTo, tCashValue);
+	}
+
+	private CashHolderI getPayCashTo (Bank aBank, Certificate aCertificate, Portfolio aSourcePortfolio) {
+		CashHolderI tPayCashTo;
+		int tCapitalizationLevel;
+		int tSharesSold;
+		CorporationList tCorporationList;
+		ShareCompany tShareCompany;
+		
+		tShareCompany = aCertificate.getShareCompany ();
+		if (aSourcePortfolio.isABankPool ()) {
+			tPayCashTo = aBank;
+		} else if (aCertificate.isAPrivateCompany () || aCertificate.isAMinorCompany ()) {
+			tPayCashTo = aBank;
+		} else if (! tShareCompany.hasFloated ()) {
+			tPayCashTo = aBank;
+		} else {
+			tSharesSold = tShareCompany.getPercentOwned ()/10 + 1;
+			tCorporationList = gameManager.getShareCompanies ();
+			tCapitalizationLevel = tCorporationList.getCapitalizationLevel (tSharesSold);
+			if (tCapitalizationLevel == 10) {
+				tPayCashTo = aBank;
+			} else if (tCapitalizationLevel < tSharesSold){
+				tPayCashTo = aBank;
+			} else {
+				tPayCashTo = tShareCompany;
+			}
+		}
+		
+		return tPayCashTo;
+	}
+	
 	private Portfolio getSourcePortfolio (Certificate aCertificateToBuy) {
 		Portfolio tSourcePortfolio;
 		Bank tBank;
