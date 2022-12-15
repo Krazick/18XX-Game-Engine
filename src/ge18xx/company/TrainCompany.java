@@ -343,7 +343,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		tCorpLabel = getAbbrev () + "&nbsp;";
 		if (isActive ()) {
-			tCorpLabel += "[" + getPlayerOrCorpOwnedPercentage () + "%&nbsp; Owned]";
+//			tCorpLabel += "[" + getPlayerOrCorpOwnedPercentage () + "%&nbsp; Owned]";
+			tCorpLabel += buildPercentOwnedLabel ();
 			tCorpLabel += "<br>[" + getBankPoolPercentage () + "%&nbsp; in Bank Pool]";
 			tCorpLabel += "<br>[" + getStatusName () + "]";
 			tCorpLabel += "<br>Prez: " + getPresidentName ();
@@ -442,13 +443,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 		tCorpJPanel = new JPanel ();
 		tCorpJPanel.setLayout (new BoxLayout (tCorpJPanel, BoxLayout.Y_AXIS));
-		tCorpJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		tCorpJPanel.setAlignmentX (Component.LEFT_ALIGNMENT);
 		tCorpJPanel.setBorder (tBorder);
 
 		if (!isPlayerOwned ()) {
 			tPresident = "Bank";
 		}
-		addLabel (tCorpJPanel, getAbbrev ());
+		addLabel (tCorpJPanel, getAbbrev () + " " + buildPercentOwnedLabel ());
 		addLabel (tCorpJPanel, "State: " + getStatusName ());
 		addLabel (tCorpJPanel, "Treasury: " + Bank.formatCash (treasury));
 		addLabel (tCorpJPanel, "Tokens: " + aTokenCount);

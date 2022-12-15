@@ -1,10 +1,12 @@
 package ge18xx.train;
 
+import java.awt.Component;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -100,9 +102,10 @@ public class TrainPortfolio implements TrainHolderI {
 		JPanel tPortfolioJPanel;
 		JPanel tTrainCertJPanel;
 		JLabel tLabel;
-		int tTrainCount, tTrainQuantity;
+		int tTrainCount;
+		int tTrainQuantity;
 		Train tTrain;
-		String tTrainName, tLabelText;
+		String tTrainName;
 		String tActionLabel;
 		String tActionToolTip;
 		boolean tActionEnabled;
@@ -111,6 +114,9 @@ public class TrainPortfolio implements TrainHolderI {
 		Train [] tBankAvailableTrains = aGameManager.getBankAvailableTrains ();
 
 		tPortfolioJPanel = new JPanel ();
+		tPortfolioJPanel.setLayout (new BoxLayout (tPortfolioJPanel, BoxLayout.X_AXIS));
+		tPortfolioJPanel.setAlignmentX (Component.LEFT_ALIGNMENT);
+
 		tPortfolioJPanel.add (Box.createHorizontalStrut (10));
 		if (trains.isEmpty ()) {
 			tLabel = new JLabel (">> NO TRAINS <<");
@@ -169,30 +175,41 @@ public class TrainPortfolio implements TrainHolderI {
 				tTrainCertJPanel = tTrain.buildCertificateInfoJPanel (aItemListener, tActionLabel, tActionEnabled,
 						tActionToolTip);
 				if (aFullvsCompact == COMPACT_TRAIN_PORTFOLIO) {
-					if (tTrainQuantity > 1) {
-						tLabelText = "<br>" + (tTrainQuantity - 1) + " More<br>" + tTrainName + " Train";
-						if (tTrainQuantity > 2) {
-							tLabelText += "s";
-						}
-						tLabelText = "<br>Quantity: " + tTrainQuantity;
-					} else if (tTrainQuantity == 1) {
-						tLabelText = "<br>LAST " + tTrainName + " Train";
-					} else {
-						tLabelText = "";
-					}
-					tLabel = new JLabel ("<html>" + tLabelText + "</html>");
-
-					if (tTrainQuantity > 0) {
-						tTrainCertJPanel.add (tLabel);
-					}
-					tTrainIndex += tTrainQuantity - 1;
+					tTrainIndex = updateForCompactPortfolio (tTrainCertJPanel, tTrainQuantity, tTrainName, tTrainIndex);
 				}
 
 				tPortfolioJPanel.add (tTrainCertJPanel);
+				tPortfolioJPanel.add (Box.createHorizontalGlue ());
+				tPortfolioJPanel.add (Box.createHorizontalStrut (10));
 			}
 		}
 
 		return tPortfolioJPanel;
+	}
+
+	private int updateForCompactPortfolio (JPanel aTrainCertJPanel, int aTrainQuantity, String aTrainName, int aTrainIndex) {
+		JLabel tLabel;
+		String tLabelText;
+		
+		if (aTrainQuantity > 1) {
+			tLabelText = "<br>" + (aTrainQuantity - 1) + " More<br>" + aTrainName + " Train";
+			if (aTrainQuantity > 2) {
+				tLabelText += "s";
+			}
+			tLabelText = "<br>Quantity: " + aTrainQuantity;
+		} else if (aTrainQuantity == 1) {
+			tLabelText = "<br>LAST " + aTrainName + " Train";
+		} else {
+			tLabelText = "";
+		}
+		tLabel = new JLabel ("<html>" + tLabelText + "</html>");
+
+		if (aTrainQuantity > 0) {
+			aTrainCertJPanel.add (tLabel);
+		}
+		aTrainIndex += aTrainQuantity - 1;
+		
+		return aTrainIndex;
 	}
 
 	public void clearCurrentRoutes () {
