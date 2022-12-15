@@ -41,12 +41,15 @@ public class PhaseInfo {
 	static final int SORT_PHASE1_BEFORE_PHASE2 = -100;
 	static final int SORT_PHASE2_BEFORE_PHASE1 = 100;
 
-	static final int STANDARD_MIN_SHARES = 6;
-	static final int NO_LIMIT = 99;
+	public static final int STANDARD_MIN_SHARES = 6;
+	public static final int STANDARD_SHARE_SIZE = 10;
+	public static final int NO_LIMIT = 99;
+	public static final String FULL_GAME_CAPITALIZATION = "FULL";
+	public static final int FULL_CAPITALIZATION = 10;
 	public static final int NO_NAME = 0;
-	static final int NO_ROUNDS = 0;
-	static final String [] NO_TILES = null;
-	static final String NO_OFF_BOARD = null;
+	public static final int NO_ROUNDS = 0;
+	public static final String [] NO_TILES = null;
+	public static final String NO_OFF_BOARD = null;
 	int name;
 	int subName;
 	int rounds;
@@ -59,7 +62,7 @@ public class PhaseInfo {
 					// Company
 	int minToFloatLast; // Minimum number of Shares sold to Float the Company when last Train of Phase
 						// has been Sold (ie when next train purchase triggers Phase Change)
-	String capitalization;
+	String gameCapitalization;
 	boolean canBuyPrivate;
 	boolean canBuyTrain;
 	boolean closePrivates;
@@ -144,12 +147,12 @@ public class PhaseInfo {
 		setMinToFloat (tValue);
 		tValue = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT_LAST, STANDARD_MIN_SHARES);
 		setMinToFloatLast (tValue);
-		tCapitalization = aCellNode.getThisAttribute (AN_CAPITALIZATION, "FULL");
-		setCapitalization (tCapitalization);
+		tCapitalization = aCellNode.getThisAttribute (AN_CAPITALIZATION, FULL_GAME_CAPITALIZATION);
+		setGameCapitalization (tCapitalization);
 	}
 
-	private void setCapitalization (String aCapitalization) {
-		capitalization = aCapitalization;
+	private void setGameCapitalization (String aGameCapitalization) {
+		gameCapitalization = aGameCapitalization;
 	}
 
 	private void setMinToFloat (int aValue) {
@@ -173,22 +176,22 @@ public class PhaseInfo {
 	}
 
 	public int getWillFloatPercent () {
-		return willFloat * 10;
+		return willFloat * STANDARD_SHARE_SIZE;
 	}
 
 	// TODO: 1856 - Capitalization level changes based upon Phase -- NEED to Expand
-	public int getCapitalizationLevel (int aSharesSold) {
-		int tCapitalizationLevel;
+	public int getGameCapitalizationLevel (int aSharesSold) {
+		int tGameCapitalizationLevel;
 
-		if (capitalization.equals ("FULL")) {
-			tCapitalizationLevel = 10;
-		} else if (capitalization.equals ("min_Shares_Sold_5")) {
-			tCapitalizationLevel = Math.min (5, aSharesSold);
+		if (gameCapitalization.equals (FULL_GAME_CAPITALIZATION)) {
+			tGameCapitalizationLevel = FULL_CAPITALIZATION;
+		} else if (gameCapitalization.equals ("min_Shares_Sold_5")) {
+			tGameCapitalizationLevel = Math.min (5, aSharesSold);
 		} else {
-			tCapitalizationLevel = 1;
+			tGameCapitalizationLevel = 1;
 		}
 
-		return tCapitalizationLevel;
+		return tGameCapitalizationLevel;
 	}
 
 	public boolean doIncrementalCapitalization () {

@@ -7,76 +7,13 @@
     <property name="dir.workspace" value="${dir.buildfile}/.."/>
     <property name="dir.jarfile" value="/Users/marksmith/Documents/18XX_Games"/>
     <target name="create_run_jar">
-        <jar destfile="${dir.jarfile}/ge18XX1.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="${dir.jarfile}/ge18XX.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="ge18xx.game.Game_18XX"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="${dir.buildfile}/target/classes"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/JARS/commons/commons-lang-2.6.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-spring-cloud-config-client-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-spring-cloud-config-client-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-spring-cloud-config-client-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-spring-boot-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-spring-boot-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-spring-boot-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-docker-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-docker-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-docker-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-appserver-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-appserver-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-appserver-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-liquibase-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-liquibase-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-liquibase-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jdbc-dbcp2-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jdbc-dbcp2-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jdbc-dbcp2-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jpa-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jpa-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jpa-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-cassandra-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-cassandra-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-cassandra-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-mongodb3-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-mongodb3-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-mongodb3-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-mongodb4-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-mongodb4-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-mongodb4-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-couchdb-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-couchdb-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-couchdb-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-web-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-web-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-web-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-taglib-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-taglib-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-taglib-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jmx-gui-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jmx-gui-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jmx-gui-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-slf4j18-impl-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-slf4j18-impl-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-slf4j18-impl-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-slf4j-impl-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-slf4j-impl-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-slf4j-impl-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-1.2-api-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-1.2-api-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-1.2-api-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-flume-ng-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-flume-ng-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-flume-ng-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jul-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jul-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jul-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jcl-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jcl-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-jcl-2.18.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-iostreams-2.18.0-javadoc.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-iostreams-2.18.0-sources.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-iostreams-2.18.0.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-core-2.18.0-tests.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-core-2.18.0-javadoc.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/apache-log4j-2.18.0-bin/log4j-core-2.18.0-sources.jar"/>
@@ -88,18 +25,18 @@
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/JARS/mockito/mockito-junit-jupiter-4.8.1.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/JARS/mockito/byte-buddy-1.12.18.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/JARS/mockito/byte-buddy-agent-1.12.18.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-jupiter-api_5.9.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-jupiter-engine_5.9.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-jupiter-migrationsupport_5.9.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-jupiter-params_5.9.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-commons_1.9.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-engine_1.9.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-launcher_1.9.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-runner_1.9.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-suite-api_1.9.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-suite-engine_1.9.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-suite-commons_1.9.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-vintage-engine_5.9.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-jupiter-api_5.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-jupiter-engine_5.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-jupiter-migrationsupport_5.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-jupiter-params_5.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-commons_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-engine_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-launcher_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-runner_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-suite-api_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-suite-engine_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-platform-suite-commons_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/junit-vintage-engine_5.9.1.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.opentest4j_1.2.0.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.apiguardian.api_1.1.2.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="/Users/marksmith/.p2/pool/plugins/org.junit_4.13.2.v20211018-1956.jar"/>
