@@ -241,7 +241,6 @@ public abstract class TokenCompany extends TrainCompany {
 			tFontSize = tScale - 2;
 			tNewFont = new Font (FONT_SSNAME, Font.ITALIC, tFontSize);
 		}
-		System.out.println ("Drawing Base for " + getAbbrev () + " Size " + tFontSize + " Home Flag " + aHomeX);
 		g.setFont (tNewFont);
 		tCurrentColor = g.getColor ();
 		tX = X1 + aWidth / 2;
