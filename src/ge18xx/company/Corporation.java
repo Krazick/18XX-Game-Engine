@@ -1211,7 +1211,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public String getName () {
 		return name;
 	}
-
+	
 	/**
 	 * Percentage of Shares Sold from Bank
 	 *
