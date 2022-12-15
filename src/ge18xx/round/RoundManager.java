@@ -495,12 +495,12 @@ public class RoundManager implements ActionListener {
 		return tPhaseInfo;
 	}
 
-	public int getCapitalizationLevel (int aSharesSold) {
+	public int getGameCapitalizationLevel (int aSharesSold) {
 		PhaseInfo tPhaseInfo;
 		int tCapitalizationLevel;
 
 		tPhaseInfo = getCurrentPhaseInfo ();
-		tCapitalizationLevel = tPhaseInfo.getCapitalizationLevel (aSharesSold);
+		tCapitalizationLevel = tPhaseInfo.getGameCapitalizationLevel (aSharesSold);
 
 		return tCapitalizationLevel;
 	}
