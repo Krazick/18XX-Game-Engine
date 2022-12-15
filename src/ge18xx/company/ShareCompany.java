@@ -9,6 +9,7 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
+import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.OperatingRound;
@@ -42,6 +43,7 @@ public class ShareCompany extends TokenCompany {
 	static final AttributeName AN_DESTINATION = new AttributeName ("destination");
 	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	static final AttributeName AN_START_PRICE = new AttributeName ("startPrice");
+	static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
 	static final String NO_START_CELL = null;
 	public static final int NO_PAR_PRICE = -1;
 	public static ShareCompany NO_SHARE_COMPANY = null;
@@ -54,21 +56,24 @@ public class ShareCompany extends TokenCompany {
 	int escrowForPayment;
 	int parPrice;
 	int loanCount;
+	int capitalizationLevel;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
 
 	public ShareCompany () {
 		super ();
 		setNoPrice ();
-		setValues (NO_PAR_PRICE, MarketCell.NO_SHARE_PRICE, MapCell.NO_DESTINATION, NO_LOANS, false, NO_START_CELL);
+		setValues (NO_PAR_PRICE, MarketCell.NO_SHARE_PRICE, MapCell.NO_DESTINATION, NO_LOANS, false, 
+					NO_START_CELL, PhaseInfo.FULL_CAPITALIZATION);
 	}
 
 	public ShareCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
 		int tDestLocation;
-		String tStartCell;
 		int tParPrice;
 		int tLoanCount;
+		int tCapitalizationLevel;
 		boolean tLoanTaken;
+		String tStartCell;
 
 		destinationLabel = aChildNode.getThisAttribute (AN_DESTINATION);
 		tDestLocation = aChildNode.getThisIntAttribute (AN_DESTINATION_LOCATION, Location.NO_LOCATION);
@@ -77,8 +82,9 @@ public class ShareCompany extends TokenCompany {
 		tParPrice = aChildNode.getThisIntAttribute (AN_PAR_PRICE, NO_PAR_PRICE);
 		tLoanCount = aChildNode.getThisIntAttribute (AN_LOAN_COUNT, NO_LOANS);
 		tLoanTaken = aChildNode.getThisBooleanAttribute (AN_LOAN_TAKEN);
+		tCapitalizationLevel = aChildNode.getThisIntAttribute (AN_CAPITALIZATION_LEVEL);
 		setNoPrice ();
-		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, MapCell.NO_DESTINATION, tLoanCount, tLoanTaken, tStartCell);
+		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, MapCell.NO_DESTINATION, tLoanCount, tLoanTaken, tStartCell, tCapitalizationLevel);
 	}
 
 	@Override
@@ -169,36 +175,6 @@ public class ShareCompany extends TokenCompany {
 		return super.fieldCount () + 5;
 	}
 
-	@Override
-	public int calculateStartingTreasury () {
-		int tStartingTreasury;
-		int tCapitalizationAmount;
-
-		tCapitalizationAmount = getCapitalizationLevel ();
-		tStartingTreasury = tCapitalizationAmount * getParPrice ();
-
-		return tStartingTreasury;
-	}
-
-	@Override
-	public int getCapitalizationLevel (int aSharesSold) {
-		return getCapitalizationLevel ();
-	}
-
-	private int getCapitalizationLevel () {
-		int tCapitalizationAmount;
-		int tSharesSold;
-
-		tSharesSold = getSharesSold ();
-		tCapitalizationAmount = super.getCapitalizationLevel (tSharesSold);
-//		if (corporationList.doIncrementalCapitalization ()) {
-//			System.out.println ("Should do Incremental Capitalization for " + abbrev);
-//			// NOTE -- 1856 in early Phases, will do Incremental Capitalization based on Shares Sold
-//		}
-
-		return tCapitalizationAmount;
-	}
-
 	/* Build XML Element of Current Share Company State -- For Saving */
 	@Override
 	public XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
@@ -232,6 +208,7 @@ public class ShareCompany extends TokenCompany {
 			aXMLCorporationState.setAttribute (AN_LOAN_COUNT, loanCount);
 			aXMLCorporationState.setAttribute (AN_LOAN_TAKEN, loanTaken);
 		}
+		aXMLCorporationState.setAttribute (AN_CAPITALIZATION_LEVEL, getParPrice ());
 		super.getCorporationStateElement (aXMLCorporationState);
 	}
 
@@ -730,16 +707,60 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	private void setValues (int aParPrice, MarketCell aSharePrice, MapCell aDestination, int aLoanCount,
-			boolean aLoanTaken, String aStartCell) {
+			boolean aLoanTaken, String aStartCell, int aCapitalizationLevel) {
 		setSharePrice (aSharePrice);
 		setParPrice (aParPrice);
+		setCapitalizationLevel (aCapitalizationLevel);
 		setValues (aDestination, aLoanCount, aLoanTaken, aStartCell);
 	}
 
+	public int getCapitalizationLevel () {
+		return capitalizationLevel;
+	}
+	
+	public void setCapitalizationLevel (int aCapitalizationLevel) {
+		capitalizationLevel = aCapitalizationLevel;
+	}
+	
+	public void setCapitalizationLevel () {
+		int tCapitalizationLevel;
+		
+		tCapitalizationLevel = getGameCapitalizationLevel ();
+		setCapitalizationLevel (tCapitalizationLevel);
+	}
+	
+	@Override
+	public int calculateStartingTreasury () {
+		int tStartingTreasury;
+
+		tStartingTreasury = capitalizationLevel * getParPrice ();
+
+		return tStartingTreasury;
+	}
+
+	@Override
+	public int getGameCapitalizationLevel (int aSharesSold) {
+		return getGameCapitalizationLevel ();
+	}
+
+	private int getGameCapitalizationLevel () {
+		int tCapitalizationAmount;
+		int tSharesSold;
+
+		tSharesSold = getSharesSold ();
+		tCapitalizationAmount = super.getGameCapitalizationLevel (tSharesSold);
+//		if (corporationList.doIncrementalCapitalization ()) {
+//			System.out.println ("Should do Incremental Capitalization for " + abbrev);
+//			// NOTE -- 1856 in early Phases, will do Incremental Capitalization based on Shares Sold
+//		}
+
+		return tCapitalizationAmount;
+	}
+	
 	private int getSharesSold () {
 		int tSharesSold;
 
-		tSharesSold = getOwnedPercentage () / 10;
+		tSharesSold = getPlayerOrCorpOwnedPercentage () / 10;
 
 		return tSharesSold;
 	}
