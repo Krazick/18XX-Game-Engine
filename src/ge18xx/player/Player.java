@@ -83,35 +83,38 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public static final String NO_STOCK_TO_SELL = null;
 	public static final String NO_SHARE_BOUGHT = null;
 	private final String DELIMITER = ",";
-	/*
-	 * These attributes are set once, and never change, but are needed for game use
-	 */
-	PlayerManager playerManager;
-	String name;
-	PlayerFrame playerFrame;
+	
 	// TODO Should not need to store these in this class, fetch from Game Manager if
 	// needed
 	boolean gameHasPrivates;
 	boolean gameHasMinors;
 	boolean gameHasShares;
+	//-------------
+	/*
+	 * These attributes are set once, and never change, but are needed for game use
+	 */
+	PlayerManager playerManager;
+	String name;
 	String boughtShare;
-	boolean bidShare;
-	boolean triggeredAuction;
+	PlayerFrame playerFrame;
+	
 	int certificateLimit;
 	JLabel rfPlayerLabel;
 	JLabel cashLabel;
 	JPanel playerJPanel = GUI.NO_PANEL;
 	Logger logger;
-	Benefit benefitInUse;
-	QueryOffer queryOffer;
 
 	/* These attributes below change during the game, need to save/load them */
+	String exchangedPrezShare;
+	boolean bidShare;
+	boolean triggeredAuction;
 	int treasury;
+	Benefit benefitInUse;
 	Escrows escrows;
+	QueryOffer queryOffer;
+	Portfolio portfolio;
 	ActionStates primaryActionState;
 	ActionStates auctionActionState;
-	Portfolio portfolio;
-	String exchangedPrezShare;
 	SoldCompanies soldCompanies;
 
 	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
