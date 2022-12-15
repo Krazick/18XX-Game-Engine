@@ -53,7 +53,6 @@ public class Escrow implements CashHolderI {
 		actionState = ActionStates.NoAction;
 		setCash (tCash);
 		setName (tName);
-
 	}
 
 	ParsingRoutineIO certificateParsingRoutine = new ParsingRoutineIO () {
