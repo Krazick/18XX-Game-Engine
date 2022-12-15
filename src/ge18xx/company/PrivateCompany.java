@@ -258,7 +258,8 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 		tCorpLabel = getAbbrev () + "<br>";
 		if (isActive ()) {
-			tCorpLabel += "[" + getPlayerOrCorpOwnedPercentage () + "%&nbsp;" + getStatusName () + "]";
+//			tCorpLabel += "[" + getPlayerOrCorpOwnedPercentage () + "%&nbsp;" + getStatusName () + "]";
+			tCorpLabel += buildPercentOwnedLabel ();
 			tCorpLabel += "<br>Prez: " + getPresidentName ();
 			tCorpLabel += "<br>Price: " + Bank.formatCash (getCost ());
 			tCorpLabel += "<br>Revenue: " + Bank.formatCash (getRevenue ());
