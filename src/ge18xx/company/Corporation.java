@@ -917,10 +917,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	public abstract int calculateStartingTreasury ();
 
-	public int getCapitalizationLevel (int aSharesSold) {
+	public int getGameCapitalizationLevel (int aSharesSold) {
 		int tCapitalizationLevel;
 
-		tCapitalizationLevel = corporationList.getCapitalizationLevel (aSharesSold);
+		tCapitalizationLevel = corporationList.getGameCapitalizationLevel (aSharesSold);
 
 		return tCapitalizationLevel;
 	}
@@ -1212,7 +1212,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return name;
 	}
 
-	public int getOwnedPercentage () {
+	/**
+	 * Percentage of Shares Sold from Bank
+	 *
+	 * @return int value of % shares sold (up to 100)
+	 */
+
+	public int getPercentOwned () {
 		return corporationCertificates.getPercentOwned ();
 	}
 
@@ -1292,6 +1298,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationCertificates.getPlayerOrCorpOwnedPercentageFor (this);
 	}
 
+	public String buildPercentOwnedLabel () {
+		return "[" + getPlayerOrCorpOwnedPercentage () + "% Owned]";
+	}
+	
 	@Override
 	public Portfolio getPortfolio () {
 		return portfolio;
@@ -1312,16 +1322,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	public Certificate getPresidentCertificate () {
 		return corporationCertificates.getPresidentCertificate ();
-	}
-
-	/**
-	 * Percentage of Shares Sold from Bank
-	 *
-	 * @return int value of % shares sold (up to 100)
-	 */
-
-	public int getPercentOwned () {
-		return corporationCertificates.getPercentOwned ();
 	}
 
 	/**
