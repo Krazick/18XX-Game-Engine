@@ -1220,8 +1220,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return roundManager.getBankPool ();
 	}
 
-	public int getCapitalizationLevel (int aSharesSold) {
-		return roundManager.getCapitalizationLevel (aSharesSold);
+	public int getGameCapitalizationLevel (int aSharesSold) {
+		return roundManager.getGameCapitalizationLevel (aSharesSold);
 	}
 
 	public CashHolderI getCashHolderByName (String aCashHolderName) {

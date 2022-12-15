@@ -674,7 +674,7 @@ public class PlayerManager {
 		} else {
 			tSharesSold = tShareCompany.getPercentOwned ()/10 + 1;
 			tCorporationList = gameManager.getShareCompanies ();
-			tCapitalizationLevel = tCorporationList.getCapitalizationLevel (tSharesSold);
+			tCapitalizationLevel = tCorporationList.getGameCapitalizationLevel (tSharesSold);
 			if (tCapitalizationLevel == 10) {
 				tPayCashTo = aBank;
 			} else if (tCapitalizationLevel < tSharesSold){
