@@ -197,13 +197,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void buildCorporationAllInfoJPanel () {
 		Dimension tMinSize = new Dimension (10, 10);
-
+		
 		corporationAllInfoJPanel = new JPanel ();
 		corporationAllInfoJPanel.setLayout (new BoxLayout (corporationAllInfoJPanel, BoxLayout.Y_AXIS));
 		corporationAllInfoJPanel.setAlignmentY (CENTER_ALIGNMENT);
-		corporationAllInfoJPanel.setBorder (BorderFactory.createTitledBorder (
-				BorderFactory.createLineBorder (((TrainCompany) corporation).getBgColor (), 2),
-				" Information For " + corporation.getName ()));
+		updateCorpInfoBorder ();
 
 		buildCorporationInfoJPanel (tMinSize);
 
@@ -218,6 +216,15 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 				corporationAllInfoJPanel.add (certJPanel);
 			}
 		}
+	}
+
+	private void updateCorpInfoBorder () {
+		String tOwnedPercent;
+		
+		tOwnedPercent = corporation.buildPercentOwnedLabel ();
+		corporationAllInfoJPanel.setBorder (BorderFactory.createTitledBorder (
+				BorderFactory.createLineBorder (((TrainCompany) corporation).getBgColor (), 2),
+				" Information For " + corporation.getName () + " " + tOwnedPercent + " "));
 	}
 
 	private void buildCorporationInfoJPanel (Dimension aMinSize) {
@@ -1466,6 +1473,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	public void updateInfo () {
+		updateCorpInfoBorder ();
 		setStatusLabel ();
 		setPhaseInfo ();
 		setPresidentLabel ();
