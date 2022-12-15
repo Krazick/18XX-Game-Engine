@@ -221,6 +221,7 @@ public class OperatingRound extends Round {
 			tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareIndexToOperate);
 			if (!tShareCompany.hasFloated ()) {
 				if (tShareCompany.shouldFloat ()) {
+					tShareCompany.setCapitalizationLevel ();
 					tStartingTreasury = tShareCompany.calculateStartingTreasury ();
 					tShareCompany.floatCompany (tStartingTreasury);
 				} else {
