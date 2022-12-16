@@ -60,6 +60,8 @@ public class GameInfo {
 	final AttributeName AN_CAN_PAY_HALF = new AttributeName ("canPayHalfDividend");
 	final AttributeName AN_OPERATE_BEFORE_SALE = new AttributeName ("operateBeforeSale");
 	final AttributeName AN_RANDOMIZE_START_ORDER = new AttributeName ("randomizeStartOrder");
+	final AttributeName AN_FIRST_TOKEN_COST = new AttributeName ("firstTokenCost");
+	final AttributeName AN_LATER_TOKEN_COST = new AttributeName ("laterTokenCost");
 
 	static final int NO_GAME_ID = 0;
 	static final String NO_NAME = "<NONE>";
@@ -81,6 +83,8 @@ public class GameInfo {
 	int bankTotal;
 	int loanAmount;
 	int loanInterest;
+	int firstTokenCost;
+	int laterTokenCost;
 	String currencyFormat;
 	String subTitle;
 	String location;
@@ -134,6 +138,8 @@ public class GameInfo {
 		int tBankPoolShareLimit, tPlayerShareLimit;
 		int tLoanAmount;
 		int tLoanInterest;
+		int tFirstTokenCost;
+		int tLaterTokenCost;
 		boolean tHasPrivates, tHasMinors, tHasShares;
 		boolean tLoans;
 		boolean tTestGraphs;
@@ -160,6 +166,8 @@ public class GameInfo {
 		tLoans = aCellNode.getThisBooleanAttribute (AN_LOANS);
 		tLoanAmount = aCellNode.getThisIntAttribute (AN_LOAN_AMOUNT);
 		tLoanInterest = aCellNode.getThisIntAttribute (AN_LOAN_INTEREST);
+		tFirstTokenCost = aCellNode.getThisIntAttribute (AN_FIRST_TOKEN_COST);
+		tLaterTokenCost = aCellNode.getThisIntAttribute (AN_LATER_TOKEN_COST);
 		tHasMinors = aCellNode.getThisBooleanAttribute (AN_MINORS);
 		tHasShares = aCellNode.getThisBooleanAttribute (AN_SHARES);
 		tOperateBeforeSale = aCellNode.getThisBooleanAttribute (AN_OPERATE_BEFORE_SALE);
@@ -173,6 +181,8 @@ public class GameInfo {
 		setLoans (tLoans);
 		setLoanAmount (tLoanAmount);
 		setLoanInterest (tLoanInterest);
+		setFirstTokenCost (tFirstTokenCost);
+		setLaterTokenCost (tLaterTokenCost);
 		setStatus (tStatus);
 		setOperateBeforeSale (tOperateBeforeSale);
 		setRandomizeStartOrder (tRandomizeStartOrder);
@@ -646,6 +656,14 @@ public class GameInfo {
 	public int getLoanInterest () {
 		return loanInterest;
 	}
+
+	public int getFirstTokenCost () {
+		return firstTokenCost;
+	}
+	
+	public int getLaterTokenCost () {
+		return laterTokenCost;
+	}
 	
 	public TrainInfo getTrainInfo (int aIndex) {
 		return trains [aIndex];
@@ -709,6 +727,14 @@ public class GameInfo {
 	
 	public void setLoanInterest (int aLoanInterest) {
 		loanInterest = aLoanInterest;
+	}
+	
+	public void setFirstTokenCost (int aFirstTokenCost) {
+		firstTokenCost = aFirstTokenCost;
+	}
+	
+	public void setLaterTokenCost (int aLaterTokenCost) {
+		laterTokenCost = aLaterTokenCost;
 	}
 	
 	public void setOperateBeforeSale (boolean aOperateBeforeSale) {
