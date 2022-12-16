@@ -9,7 +9,6 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
-import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.OperatingRound;
@@ -58,13 +57,6 @@ public class ShareCompany extends TokenCompany {
 	int loanCount;
 	int capitalizationLevel;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
-
-	public ShareCompany () {
-		super ();
-		setNoPrice ();
-		setValues (NO_PAR_PRICE, MarketCell.NO_SHARE_PRICE, MapCell.NO_DESTINATION, NO_LOANS, false, 
-					NO_START_CELL, PhaseInfo.FULL_CAPITALIZATION);
-	}
 
 	public ShareCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
