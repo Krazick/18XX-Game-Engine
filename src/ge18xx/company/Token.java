@@ -17,6 +17,7 @@ import ge18xx.utilities.XMLElement;
 public class Token {
 	public static final ElementName EN_TOKEN = new ElementName ("Token");
 	public static final Token NO_TOKEN = null;
+	public static final int NO_COST = 0;
 	TokenCompany whichCompany;
 
 	public Token () {
@@ -77,5 +78,9 @@ public class Token {
 
 	public void setCompany (TokenCompany aCompany) {
 		whichCompany = aCompany;
+	}
+	
+	public boolean isAMapToken () {
+		return false;
 	}
 }
