@@ -700,6 +700,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			(status == ActorI.ActionStates.StationLaid) ||
 			(status == ActorI.ActionStates.TileAndStationLaid) ||
 			(status == ActorI.ActionStates.OperatedTrain) ||
+			(status == ActorI.ActionStates.HandledLoanInterest) ||
 			(status == ActorI.ActionStates.HoldDividend) ||
 			(status == ActorI.ActionStates.HalfDividend) ||
 			(status == ActorI.ActionStates.FullDividend) ||
