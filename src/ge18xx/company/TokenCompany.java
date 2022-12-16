@@ -46,6 +46,18 @@ public abstract class TokenCompany extends TrainCompany {
 	public static String FONT_SSNAME = "SansSerif";
 	int NO_COST_CALCULATED = 1000;
 
+	// Create new Class 'TokenInfo' that has:
+	// 1) Token (can be sub-Class MapToken)
+	// 2) Type [an ENUM] (Market, Home, FixedCost, RangeCost
+	// 3) Cost (if RangeCost Type, value -1, otherwise the cost)
+	// 4) Used (Boolean to mark if used or not)
+	// Store in an ArrayList, with a fixed number of entries, based on how many tokens the Company has
+	// Methods:
+	// 1) GetToken (TokenType) -- Market, Home
+	// 2) GetToken () -- No Arg, gets the first FixedCost or RangeCost that is not used
+	// 3) GetLastToken () -- No Arg, gets the last FixedCost or RangeCost that is not used
+	// 4) GetTokenCount () -- No Arg, gets the count of available MapTokens (never counts the MarketToken Type)
+	
 	List<MapToken> mapTokens;
 	int totalTokenCount;
 
