@@ -19,7 +19,7 @@ public class MapToken extends Token {
 	}
 
 	public MapToken (MapToken aMapToken, int aCost) {
-		super ();
+		super (aMapToken);
 
 		setLocation (Location.NO_LOC);
 		setMapCell (MapCell.NO_MAP_CELL);
@@ -154,4 +154,10 @@ public class MapToken extends Token {
 			return true;
 		}
 	}
+	
+	@Override
+	public boolean isAMapToken () {
+		return true;
+	}
+
 }
