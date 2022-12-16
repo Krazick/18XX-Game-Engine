@@ -19,6 +19,10 @@ import ge18xx.round.action.ActorI;
 class TokenCompanyTests {
 	class TokenCompanyConcrete extends TokenCompany {
 
+		public TokenCompanyConcrete (int aID, String aName) {
+			super (aID, aName);
+		}
+
 		@Override
 		public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
 			return null;
@@ -34,7 +38,7 @@ class TokenCompanyTests {
 
 	@BeforeEach
 	void setUp () throws Exception {
-		tokenCompany = new TokenCompanyConcrete ();
+		tokenCompany = new TokenCompanyConcrete (Corporation.NO_ID, "TEST TOKEN COMPANY");
 	}
 
 	@AfterEach
