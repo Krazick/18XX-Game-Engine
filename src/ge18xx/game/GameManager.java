@@ -118,12 +118,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 	String autoSaveActionReportFileName;
 	String clientUserName;
 	String gameID;
-	Config configData;
+	String userDir;
 	boolean gameChangedSinceSave;
 	boolean gameStarted;
 	boolean gameEnding;
+	Config configData;
 	Logger logger;
-	String userDir;
 	FileUtils fileUtils;
 	FileGEFilter fileGEFilter;
 
@@ -136,12 +136,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 	BankPool bankPool;
 	Bank bank;
 
-	// Various Frames the Game Manager tracks -- Consider adding to a "FrameManager"
-	// Class
+	// Various Frames the Game Manager tracks -- 
+	// Consider adding to a "FrameManager" Class
 	// These Frames for Companies, have the CorporationList
-	// TODO: Consider having an Array/List of CorporationLists, that tracks what
-	// type of Company
-	// it is, and has the Frame in the Corporation List
+	//
+	// Consider having an Array/List of CorporationLists, that tracks what
+	// type of Company it is, and has the Frame in the Corporation List
 	//
 	PrivatesFrame privatesFrame;
 	MinorCompaniesFrame minorCompaniesFrame;
@@ -159,15 +159,19 @@ public class GameManager extends Component implements NetworkGameSupport {
 	FrameInfoSupport frameInfoFrame;
 
 	// Other Frames include:
-	// RoundFrame -- held by RoundManager
-	// TrainRevenueFrame -- held by TrainCompany
-	// ParPriceFrame
-	// BuyTrainFrame
-	// EmergencyBuyTrainFrame
-	// BuyPrivateFrame (makeOffer for Private or Train)
+		// RoundFrame 				-- held by RoundManager
+		// TrainRevenueFrame 		-- held by TrainCompany
+		// ParPriceFrame				-- held by PlayerManager
+		// BuyItemFrame extends to:
+			// BuyPrivateFrame			-- held by ShareCompany, in BuyPrivate Method
+			// BuyTrainFrame				-- held by TrainCompany, in BuyOtherTrain Method
+		// ForceBuyCouponFrame	extends to:
+			// ForceBuyTrainFrame		-- held by TrainCompany, in ForceBuyTrain Method
+			// Loan Interest Payment		-- held by ShareCompany, in ForceBuyCoupon Method
+			// Loan Redemption Payment	-- held by ShareCompany, in ForceBuyCoupon Method
 
 	// Network Game Objects
-	JGameClient networkJGameClient;
+	JGameClient networkJGameClient;		// Extends XMLFrame
 	SavedGames networkSavedGames;
 	boolean notifyNetwork;
 	boolean applyingNetworkAction;
