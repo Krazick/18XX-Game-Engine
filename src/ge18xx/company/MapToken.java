@@ -159,5 +159,4 @@ public class MapToken extends Token {
 	public boolean isAMapToken () {
 		return true;
 	}
-
 }
