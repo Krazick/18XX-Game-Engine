@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.center.RevenueCenter;
+import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.game.GameManager;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
@@ -59,25 +60,35 @@ public abstract class TokenCompany extends TrainCompany {
 	// 4) GetTokenCount () -- No Arg, gets the count of available MapTokens (never counts the MarketToken Type)
 	
 	List<MapToken> mapTokens;
+	Tokens tokens;
 	int totalTokenCount;
-
-	public TokenCompany () {
-		super ();
-		setupNewMapTokens ();
-	}
 
 	public TokenCompany (int aID, String aName) {
 		super (aID, aName);
-		setupNewMapTokens ();
+		totalTokenCount = 1;		// A Minimum number of Tokens for a Token Company (like 1835 Minor)
+		setupAllTokens ();
 	}
 
 	public TokenCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
 
-		MapToken tMapToken;
-
-		setupNewMapTokens ();
 		totalTokenCount = aChildNode.getThisIntAttribute (AN_TOKENS);
+		setupAllTokens ();
+	}
+
+	private void setupAllTokens () {
+		Token tMarketToken;
+		
+		tokens = new Tokens (totalTokenCount);
+		tMarketToken = new Token (this);
+		tokens.addNewToken (tMarketToken, TokenType.MARKET, Token.NO_COST);
+		setupNewMapTokens ();
+	}
+	
+	private void setupNewMapTokens () {
+		MapToken tMapToken;
+		
+		mapTokens = new LinkedList<> ();
 		if (totalTokenCount > 0) {
 			tMapToken = new MapToken ();
 			tMapToken.setCompany (this);
@@ -85,11 +96,47 @@ public abstract class TokenCompany extends TrainCompany {
 		}
 	}
 
-	private void setupNewMapTokens () {
-		mapTokens = new LinkedList<> ();
-		totalTokenCount = 0;
+	public void addNTokens (int aCount, MapToken aMapToken) {
+		MapToken tMapToken;
+		int tStartIndex;
+		int tIndex;
+		int tCost;
+
+		tCost = Token.NO_COST;
+		tStartIndex = 1;
+		if (homeCityGrid1 != XMLNode.NO_VALUE) {
+			tStartIndex++;
+			tMapToken = new MapToken (aMapToken, tCost);
+			addMapToken (tMapToken);
+			tokens.addNewToken (tMapToken, TokenType.HOME1, tCost);
+		}
+		if (homeCityGrid2 != XMLNode.NO_VALUE) {
+			tStartIndex++;
+			tMapToken = new MapToken (aMapToken, tCost);
+			addMapToken (tMapToken);
+			tokens.addNewToken (tMapToken, TokenType.HOME2, tCost);
+		}
+		for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
+			tMapToken = new MapToken (aMapToken, tCost);
+			if (tIndex == tStartIndex) {
+				tCost = 40;
+			} else if (tIndex > tStartIndex) {
+				tCost = 100;
+			}
+			tMapToken.setCompany (this);
+			addMapToken (tMapToken);
+			tokens.addNewToken (tMapToken, TokenType.FIXED_COST, tCost);
+		}
 	}
 
+	public void addAsFirstMapToken (MapToken aMapToken) {
+		mapTokens.add (0, aMapToken);
+	}
+
+	public void addMapToken (MapToken aMapToken) {
+		mapTokens.add (aMapToken);
+	}
+	
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
@@ -110,32 +157,6 @@ public abstract class TokenCompany extends TrainCompany {
 		aCorporationList.addHeader ("Token Count", tCurrentColumn++);
 
 		return tCurrentColumn;
-	}
-
-	public void addNTokens (int aCount, MapToken aMapToken) {
-		int tIndex;
-		MapToken tMapToken;
-		int tCost;
-
-		tCost = 0;
-		for (tIndex = 0; tIndex < aCount; tIndex++) {
-			tMapToken = new MapToken (aMapToken, tCost);
-			if (tIndex == 0) {
-				tCost = 40;
-			} else if (tIndex > 0) {
-				tCost = 100;
-			}
-			tMapToken.setCompany (this);
-			addMapToken (tMapToken);
-		}
-	}
-
-	public void addAsFirstMapToken (MapToken aMapToken) {
-		mapTokens.add (0, aMapToken);
-	}
-
-	public void addMapToken (MapToken aMapToken) {
-		mapTokens.add (aMapToken);
 	}
 
 	public void removeOtherHome (MapCell aMapCell, Location aHomeLocation) {
