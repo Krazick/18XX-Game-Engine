@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
+
 /**
  * @author marksmith
  *
@@ -33,6 +36,7 @@ class TokenTests {
 		tMockCoID = 5001;
 		mCompany = Mockito.mock (TokenCompany.class);
 		Mockito.when (mCompany.getID ()).thenReturn (tMockCoID);
+		Mockito.when (mCompany.getAbbrev ()).thenReturn ("MC1");
 
 		tMockCoID = 5002;
 		mCompany2 = Mockito.mock (TokenCompany.class);
@@ -137,5 +141,17 @@ class TokenTests {
 			assertTrue (token.isSameCompany (tToken2));
 			assertTrue (token.isCorporationAbbrev (tMockAbbrev));
 		}
+	}
+	
+	@Test
+	@DisplayName ("Test Creating XML Element for Token")
+	public void testXMLElementCreation () {
+		XMLDocument tXMLDocument;
+		XMLElement tXMLElement;
+		
+		tXMLDocument = new XMLDocument ();
+		tXMLElement = token.getTokenElement (tXMLDocument);
+		tXMLDocument.appendChild (tXMLElement);
+		System.out.println ("XML Element: " + tXMLDocument.toString ());
 	}
 }
