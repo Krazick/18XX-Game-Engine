@@ -50,11 +50,99 @@ public class TokenInfo {
 		return token;
 	}
 	
+	public boolean isMapToken () {
+		boolean isMapToken;
+		
+		if (isRangeCostToken () || isFixedCostToken () || isHomeToken ())  {
+			isMapToken = true;
+		} else {
+			isMapToken = false;
+		}
+		
+		return isMapToken;
+	}
+	
+	public boolean isRangeCostToken () {
+		boolean tIsRangeCostToken;
+		
+		if (tokenType == TokenType.RANGE_COST)  {
+			tIsRangeCostToken = true;
+		} else {
+			tIsRangeCostToken = false;
+		}
+		
+		return tIsRangeCostToken;
+	}
+	
+	public boolean isFixedCostToken () {
+		boolean tIsFixedCostToken;
+		
+		if (tokenType == TokenType.FIXED_COST)  {
+			tIsFixedCostToken = true;
+		} else {
+			tIsFixedCostToken = false;
+		}
+		
+		return tIsFixedCostToken;
+	}
+
+	public boolean isMarketToken () {
+		boolean tIsMarketToken;
+		
+		if (tokenType == TokenType.MARKET)  {
+			tIsMarketToken = true;
+		} else {
+			tIsMarketToken = false;
+		}
+		
+		return tIsMarketToken;
+	}
+	
+	public boolean isHomeToken () {
+		boolean tIsHomeToken;
+		
+		if ((tokenType == TokenType.HOME1) || (tokenType == TokenType.HOME2)) {
+			tIsHomeToken = true;
+		} else {
+			tIsHomeToken = false;
+		}
+		
+		return tIsHomeToken;
+	}
+	
+	public Token getHomeToken () {
+		Token tHomeToken;
+		
+		if (isHomeToken ()) {
+			tHomeToken = token;
+		} else {
+			tHomeToken = Token.NO_TOKEN;
+		}
+		
+		return tHomeToken;
+	}
+	
+	public Token getMarketToken () {
+		Token tMarketToken;
+		
+		if (isMarketToken ()) {
+			tMarketToken = token;
+		} else {
+			tMarketToken = Token.NO_TOKEN;
+		}
+		
+		return tMarketToken;
+	}
+	
 	public MapToken getMapToken () {
 		MapToken tMapToken;
 		
-		if (token.isAMapToken ()) {
-			tMapToken = (MapToken) token;
+		if (isMapToken ()) {
+			if (token.isAMapToken ()) {
+				tMapToken = (MapToken) token;
+			} else {
+				tMapToken = MapToken.NO_MAP_TOKEN;
+			}
 		} else {
 			tMapToken = MapToken.NO_MAP_TOKEN;
 		}
