@@ -129,10 +129,6 @@ public abstract class TokenCompany extends TrainCompany {
 		}
 	}
 
-	public void addAsFirstMapToken (MapToken aMapToken) {
-		mapTokens.add (0, aMapToken);
-	}
-
 	public void addMapToken (MapToken aMapToken) {
 		mapTokens.add (aMapToken);
 	}
