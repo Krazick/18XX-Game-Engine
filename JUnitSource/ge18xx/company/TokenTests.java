@@ -20,8 +20,9 @@ import ge18xx.utilities.XMLElement;
  */
 @DisplayName ("Testing the Token Class with Mocking Token Company")
 class TokenTests {
-	TokenCompany mCompany;
-	TokenCompany mCompany2;
+	TokenCompany mTokenCompany;
+	TokenCompany mTokenCompany2;
+	CompanyTestFactory companyTestFactory;
 	String mockAbbrev;
 	String mockStatus;
 	Token token;
@@ -31,18 +32,20 @@ class TokenTests {
 	 */
 	@BeforeEach
 	void setUp () throws Exception {
-		int tMockCoID;
+		int tMockCoID1;
+		int tMockCoID2;
 
-		tMockCoID = 5001;
-		mCompany = Mockito.mock (TokenCompany.class);
-		Mockito.when (mCompany.getID ()).thenReturn (tMockCoID);
-		Mockito.when (mCompany.getAbbrev ()).thenReturn ("MC1");
+		tMockCoID1 = 5001;
+		companyTestFactory = new CompanyTestFactory ();
+		mTokenCompany = companyTestFactory.buildTokenCompanyMock ();
+		Mockito.when (mTokenCompany.getID ()).thenReturn (tMockCoID1);
+		Mockito.when (mTokenCompany.getAbbrev ()).thenReturn ("MC1");
 
-		tMockCoID = 5002;
-		mCompany2 = Mockito.mock (TokenCompany.class);
-		Mockito.when (mCompany2.getID ()).thenReturn (tMockCoID);
+		tMockCoID2 = 5002;
+		mTokenCompany2 = companyTestFactory.buildTokenCompanyMock ();
+		Mockito.when (mTokenCompany2.getID ()).thenReturn (tMockCoID2);
 
-		token = new Token (mCompany);
+		token = companyTestFactory.buildToken (mTokenCompany);
 	}
 
 	/**
@@ -62,6 +65,16 @@ class TokenTests {
 
 			tToken = new Token ();
 			assertEquals (TokenCompany.NO_TOKEN_COMPANY, tToken.getWhichCompany ());
+		}
+		
+		@Test
+		@DisplayName ("Using CompanyTestFactory")
+		public void testCompanyTestFactoryToken () {
+			Token tToken;
+
+			tToken = companyTestFactory.buildToken ();
+			assertEquals ("MC1", tToken.getCorporationAbbrev ());
+			assertEquals (5001, tToken.getCorporationID ());
 		}
 
 		@Test
@@ -83,7 +96,7 @@ class TokenTests {
 		@DisplayName ("With a Mocked Company")
 		public void testGetCorporationIDFromToken () {
 			assertEquals (5001, token.getCorporationID ());
-			assertEquals (mCompany, token.getWhichCompany ());
+			assertEquals (mTokenCompany, token.getWhichCompany ());
 		}
 
 		@Test
@@ -93,8 +106,8 @@ class TokenTests {
 
 			mockAbbrev = "MCA";
 			mockStatus = "Operated";
-			Mockito.when (mCompany.getAbbrev ()).thenReturn (mockAbbrev);
-			Mockito.when (mCompany.getStatusName ()).thenReturn (mockStatus);
+			Mockito.when (mTokenCompany.getAbbrev ()).thenReturn (mockAbbrev);
+			Mockito.when (mTokenCompany.getStatusName ()).thenReturn (mockStatus);
 
 			tToken2 = new Token (token);
 			assertEquals ("MCA", tToken2.getCorporationAbbrev ());
@@ -114,14 +127,14 @@ class TokenTests {
 
 			mockAbbrev = "MCA";
 			mockStatus = "Operated";
-			Mockito.when (mCompany.getAbbrev ()).thenReturn (mockAbbrev);
-			Mockito.when (mCompany.getStatusName ()).thenReturn (mockStatus);
+			Mockito.when (mTokenCompany.getAbbrev ()).thenReturn (mockAbbrev);
+			Mockito.when (mTokenCompany.getStatusName ()).thenReturn (mockStatus);
 			tMockAbbrev2 = "MCA2";
 			tMockStatus2 = "TileLaid";
-			Mockito.when (mCompany2.getAbbrev ()).thenReturn (tMockAbbrev2);
-			Mockito.when (mCompany2.getStatusName ()).thenReturn (tMockStatus2);
+			Mockito.when (mTokenCompany2.getAbbrev ()).thenReturn (tMockAbbrev2);
+			Mockito.when (mTokenCompany2.getStatusName ()).thenReturn (tMockStatus2);
 
-			tToken2 = new Token (mCompany2);
+			tToken2 = new Token (mTokenCompany2);
 
 			assertFalse (token.isSameCompany (tToken2));
 			assertFalse (token.isCorporationAbbrev (tMockAbbrev2));
@@ -134,9 +147,9 @@ class TokenTests {
 			Token tToken2;
 
 			tMockAbbrev = "MCA";
-			Mockito.when (mCompany.getAbbrev ()).thenReturn (tMockAbbrev);
+			Mockito.when (mTokenCompany.getAbbrev ()).thenReturn (tMockAbbrev);
 
-			tToken2 = new Token (mCompany);
+			tToken2 = new Token (mTokenCompany);
 
 			assertTrue (token.isSameCompany (tToken2));
 			assertTrue (token.isCorporationAbbrev (tMockAbbrev));
