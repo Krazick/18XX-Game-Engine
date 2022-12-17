@@ -2,9 +2,15 @@ package ge18xx.company;
 
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 
 public class MapToken extends Token {
 	public static final MapToken NO_MAP_TOKEN = null;
+	public static final String NO_SIDES = null;
+	public static final String DIVIDER = "|";
+	final static AttributeName AN_CONNECTED_SIDES = new AttributeName ("connectedSides");
 	MapCell mapCell;
 	Location location;
 	int cost;
@@ -25,6 +31,23 @@ public class MapToken extends Token {
 		setMapCell (MapCell.NO_MAP_CELL);
 		setCost (aCost);
 		setAllConnectedSides (false);
+	}
+	
+	@Override
+	public XMLElement getTokenElement (XMLDocument aXMLDocument) {
+		XMLElement tTokenElement;
+		String tConnectedSides;
+		
+		tTokenElement = super.getTokenElement (aXMLDocument);
+		fillTokenElement (tTokenElement);
+		tTokenElement.setAttribute (MapCell.AN_MAP_CELL_ID, mapCell.getCellID ());
+		tTokenElement.setAttribute (Location.AN_LOCATION, location.getLocation ());
+		tConnectedSides = getSides ();
+		if (tConnectedSides != MapToken.NO_SIDES) {
+			tTokenElement.setAttribute (AN_CONNECTED_SIDES, tConnectedSides);
+		}
+
+		return tTokenElement;
 	}
 
 	public MapCell getMapCell () {
@@ -113,12 +136,15 @@ public class MapToken extends Token {
 	}
 
 	public String getSides () {
-		String tSides = "|";
+		String tSides = NO_SIDES;
 		int tSideIndex;
 
 		for (tSideIndex = Location.MIN_SIDE; tSideIndex <= Location.MAX_SIDE; tSideIndex++) {
 			if (connectedSides [tSideIndex]) {
-				tSides += tSideIndex + "|";
+				if (tSides == NO_SIDES) {
+					tSides = DIVIDER;
+				}
+				tSides += tSideIndex + DIVIDER;
 			}
 		}
 
@@ -129,7 +155,7 @@ public class MapToken extends Token {
 		int tSideIndex;
 
 		for (tSideIndex = Location.MIN_SIDE; tSideIndex <= Location.MAX_SIDE; tSideIndex++) {
-			System.out.print (tSideIndex + " " + connectedSides [tSideIndex] + " | ");
+			System.out.print (tSideIndex + " " + connectedSides [tSideIndex] + " " + DIVIDER + " ");
 		}
 		System.out.println ("");
 	}
