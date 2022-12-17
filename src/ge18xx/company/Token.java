@@ -55,9 +55,13 @@ public class Token {
 		XMLElement tTokenElement;
 
 		tTokenElement = aXMLDocument.createElement (EN_TOKEN);
-		tTokenElement.setAttribute (Corporation.AN_ABBREV, getCorporationAbbrev ());
-
+		fillTokenElement (tTokenElement);
+		
 		return tTokenElement;
+	}
+
+	protected void fillTokenElement (XMLElement aTokenElement) {
+		aTokenElement.setAttribute (Corporation.AN_ABBREV, getCorporationAbbrev ());
 	}
 
 	public TokenCompany getWhichCompany () {
