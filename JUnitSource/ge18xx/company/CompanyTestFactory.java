@@ -195,13 +195,26 @@ public class CompanyTestFactory {
 		return mMinorCompany;
 	}
 
+	public TokenCompany buildTokenCompanyMock () {
+		return buildTokenCompanyMock ("Test Client Share");
+	}
+
+	public TokenCompany buildTokenCompanyMock (String aClientName) {
+		TokenCompany mTokenCompany = Mockito.mock (TokenCompany.class);
+
+		Mockito.when (mTokenCompany.getAbbrev ()).thenReturn ("MTC");
+
+		return mTokenCompany;
+	}
+
 	public ShareCompany buildShareCompanyMock () {
 		return buildShareCompanyMock ("Test Client Share");
 	}
 
 	public ShareCompany buildShareCompanyMock (String aClientName) {
-		ShareCompany mShareCompany = Mockito.mock (ShareCompany.class);
+		ShareCompany mShareCompany;
 
+		mShareCompany = Mockito.mock (ShareCompany.class);
 		Mockito.when (mShareCompany.getAbbrev ()).thenReturn ("MSC");
 
 		return mShareCompany;
@@ -213,5 +226,55 @@ public class CompanyTestFactory {
 		Mockito.when (mPrivateCompany.getAbbrev ()).thenReturn ("MPC");
 
 		return mPrivateCompany;
+	}
+	
+	public Token buildToken (TokenCompany aTokenCompany) {
+		Token tToken;
+		
+		tToken = new Token (aTokenCompany);
+		
+		return tToken;
+	}
+	
+	public Token buildToken () {
+		TokenCompany mTokenCompany;
+		int tMockCoID;
+		Token tToken;
+
+		tMockCoID = 5001;
+		mTokenCompany = buildTokenCompanyMock ();
+		Mockito.when (mTokenCompany.getID ()).thenReturn (tMockCoID);
+		Mockito.when (mTokenCompany.getAbbrev ()).thenReturn ("MC1");
+		tToken = buildToken (mTokenCompany);
+
+		return tToken;
+	}
+	
+	public Token buildTokenMock () {
+		Token mToken;
+		
+		mToken = Mockito.mock (Token.class);
+		Mockito.when (mToken.getCorporationAbbrev ()).thenReturn ("MTC_MT");
+		
+		return mToken;
+	}
+	
+	public MapToken buildMapToken (TokenCompany aTokenCompany) {
+		MapToken tMapToken;
+		
+		tMapToken = new MapToken ();
+		tMapToken.setCompany (aTokenCompany);
+		tMapToken.setCost (40);
+		
+		return tMapToken;
+	}
+
+	public MapToken buildMapTokenMock () {
+		MapToken mMapToken;
+		
+		mMapToken = Mockito.mock (MapToken.class);
+		Mockito.when (mMapToken.getCorporationAbbrev ()).thenReturn ("MTC_MT");
+
+		return mMapToken;
 	}
 }
