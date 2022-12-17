@@ -22,6 +22,10 @@ public class TokenInfo {
 		this (Token.NO_TOKEN, TokenType.NO_TYPE, 0);
 	}
 	
+	public TokenInfo (Token aToken, TokenType aTokenType) {
+		this (aToken, aTokenType, Token.NO_COST);
+	}
+	
 	public TokenInfo (Token aToken, TokenType aTokenType, int aCost) {
 		setToken (aToken);
 		setTokenType (aTokenType);
