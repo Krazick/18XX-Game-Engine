@@ -50,6 +50,20 @@ class MapTokenTests {
 			assertEquals ("", mapToken1.getMapCellID ());
 			assertEquals ("|0|4|", mapToken1.getSides ());
 		}
+		
+
+		@Test
+		@DisplayName ("That Token is a Map Token")
+		public void testIsAMapTokenA () {
+			assertTrue (mapToken.isAMapToken ());
+		}
+
+		@Test
+		@DisplayName ("That Duplciated Token is NOT a Map Token")
+		public void testIsAMapTokenB () {
+			assertTrue (mapToken1.isAMapToken ());
+		}
+
 	}
 
 	@Test
@@ -94,6 +108,7 @@ class MapTokenTests {
 		assertEquals (tLocation, mapToken1.getLocation ());
 		assertEquals (tMapCell, mapToken1.getMapCell ());
 		assertTrue (mapToken1.tokenPlaced ());
+		assertFalse (mapToken.tokenPlaced ());
 
 		assertEquals ("T1", mapToken1.getMapCellID ());
 	}

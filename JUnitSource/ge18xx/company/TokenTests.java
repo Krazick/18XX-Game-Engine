@@ -19,8 +19,9 @@ import org.mockito.Mockito;
 class TokenTests {
 	TokenCompany mCompany;
 	TokenCompany mCompany2;
-	String mockAbbrev, mockStatus;
-	Token token1;
+	String mockAbbrev;
+	String mockStatus;
+	Token token;
 
 	/**
 	 * @throws java.lang.Exception
@@ -37,7 +38,7 @@ class TokenTests {
 		mCompany2 = Mockito.mock (TokenCompany.class);
 		Mockito.when (mCompany2.getID ()).thenReturn (tMockCoID);
 
-		token1 = new Token (mCompany);
+		token = new Token (mCompany);
 	}
 
 	/**
@@ -60,10 +61,25 @@ class TokenTests {
 		}
 
 		@Test
+		@DisplayName ("That Token is NOT a Map Token")
+		public void testIsAMapTokenA () {
+			assertFalse (token.isAMapToken ());
+		}
+
+		@Test
+		@DisplayName ("That Default Token is NOT a Map Token")
+		public void testIsAMapTokenB () {
+			Token tToken;
+
+			tToken = new Token ();
+			assertFalse (tToken.isAMapToken ());
+		}
+		
+		@Test
 		@DisplayName ("With a Mocked Company")
 		public void testGetCorporationIDFromToken () {
-			assertEquals (5001, token1.getCorporationID ());
-			assertEquals (mCompany, token1.getWhichCompany ());
+			assertEquals (5001, token.getCorporationID ());
+			assertEquals (mCompany, token.getWhichCompany ());
 		}
 
 		@Test
@@ -76,7 +92,7 @@ class TokenTests {
 			Mockito.when (mCompany.getAbbrev ()).thenReturn (mockAbbrev);
 			Mockito.when (mCompany.getStatusName ()).thenReturn (mockStatus);
 
-			tToken2 = new Token (token1);
+			tToken2 = new Token (token);
 			assertEquals ("MCA", tToken2.getCorporationAbbrev ());
 			assertEquals (5001, tToken2.getCorporationID ());
 			assertEquals ("Operated", tToken2.getCorporationStatus ());
@@ -103,8 +119,8 @@ class TokenTests {
 
 			tToken2 = new Token (mCompany2);
 
-			assertFalse (token1.isSameCompany (tToken2));
-			assertFalse (token1.isCorporationAbbrev (tMockAbbrev2));
+			assertFalse (token.isSameCompany (tToken2));
+			assertFalse (token.isCorporationAbbrev (tMockAbbrev2));
 		}
 
 		@Test
@@ -118,8 +134,8 @@ class TokenTests {
 
 			tToken2 = new Token (mCompany);
 
-			assertTrue (token1.isSameCompany (tToken2));
-			assertTrue (token1.isCorporationAbbrev (tMockAbbrev));
+			assertTrue (token.isSameCompany (tToken2));
+			assertTrue (token.isCorporationAbbrev (tMockAbbrev));
 		}
 	}
 }

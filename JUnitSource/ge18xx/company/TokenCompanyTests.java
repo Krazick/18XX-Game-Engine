@@ -69,13 +69,13 @@ class TokenCompanyTests {
 		tokenCompany.setName ("Token Railway Company");
 
 		tokenCompany.resetStatus (ActorI.ActionStates.StartedOperations);
-		assertFalse (tokenCompany.canLayToken ());
+		assertTrue (tokenCompany.canLayToken ());
 
 		tokenCompany.addMapToken (tMapToken);
 		tokenCompany.addMapToken (tMapToken);
-		assertEquals ("Token Count: 2", tokenCompany.getTokenLabel ());
+		assertEquals ("Token Count: 3", tokenCompany.getTokenLabel ());
 
-		assertEquals (2, tokenCompany.getTokenCount ());
+		assertEquals (3, tokenCompany.getTokenCount ());
 		tokenCompany.resetStatus (ActorI.ActionStates.Unowned);
 		assertFalse (tokenCompany.canLayToken ());
 
