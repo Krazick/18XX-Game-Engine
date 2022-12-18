@@ -15,6 +15,7 @@ public class CompanyTestFactory {
 	 * Builds the Company Test Factory by creating the gameTestFactory and get the Utilities Test Factory
 	 *
 	 */
+	
 	public CompanyTestFactory () {
 		gameTestFactory = new GameTestFactory ();
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
@@ -26,6 +27,7 @@ public class CompanyTestFactory {
 	 * @param aGameTestFactory A Game Test Factory to be attacheck to this Company Test Factory
 	 *
 	 */
+	
 	public CompanyTestFactory (GameTestFactory aGameTestFactory) {
 		gameTestFactory = aGameTestFactory;
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
@@ -37,6 +39,7 @@ public class CompanyTestFactory {
 	 * @return the Utilities Test Factory attached to this Company Test Factory;
 	 *
 	 */
+	
 	public UtilitiesTestFactory getUtilitiesTestFactory () {
 		return utilitiesTestFactory;
 	}
@@ -51,6 +54,7 @@ public class CompanyTestFactory {
 	 *                      NO_PRIVATE_COMPANY
 	 * @return a PrivateCompany for the one requested
 	 */
+	
 	public PrivateCompany buildAPrivateCompany (int tCompanyIndex) {
 		String tPrivateCompany1TestXML = "	<Private id=\"802\" name=\"TEST-Champlain &amp; St. Lawrence\" abbrev=\"TEST-C&amp;SL\" cost=\"40\" \n"
 				+ "		revenue=\"10\" homeCell1=\"B20\" homeLocation1=\"7\" homeLocation2=\"12\" \n"
@@ -83,6 +87,14 @@ public class CompanyTestFactory {
 
 		return aPrivateCompany;
 	}
+	
+	public PrivateCompany buildPrivateCompanyMock (String aClientName) {
+		PrivateCompany mPrivateCompany = Mockito.mock (PrivateCompany.class);
+
+		Mockito.when (mPrivateCompany.getAbbrev ()).thenReturn ("MPC");
+
+		return mPrivateCompany;
+	}
 
 	/**
 	 * Build a Share Company from XML Data for Testing Purposes. The CorporationList
@@ -94,6 +106,7 @@ public class CompanyTestFactory {
 	 *                      will return NO_SHARE_COMPANY
 	 * @return a ShareCompany for the one requested
 	 */
+	
 	public ShareCompany buildAShareCompany (int aCompanyIndex) {
 		String tShareCompany1TestXML = "<Share id=\"901\" name=\"TestPennsylvania\" abbrev=\"TPRR\" homeCell1=\"H12\" \n"
 				+ "	homeLocation1=\"14\" bgColor=\"Dark Green\" fgColor=\"White\" tokens=\"4\"> \n"
@@ -134,6 +147,19 @@ public class CompanyTestFactory {
 
 		return aShareCompany;
 	}
+	
+	public ShareCompany buildShareCompanyMock () {
+		return buildShareCompanyMock ("Test Client Share");
+	}
+
+	public ShareCompany buildShareCompanyMock (String aClientName) {
+		ShareCompany mShareCompany;
+
+		mShareCompany = Mockito.mock (ShareCompany.class);
+		Mockito.when (mShareCompany.getAbbrev ()).thenReturn ("MSC");
+
+		return mShareCompany;
+	}
 
 	/**
 	 * Build a Minor Company from XML Data for Testing Purposes. The CorporationList
@@ -146,6 +172,7 @@ public class CompanyTestFactory {
 	 *                      NO_MINOR_COMPANY
 	 * @return a MinorCompany for the one requested
 	 */
+	
 	public MinorCompany buildAMinorCompany (int aCompanyIndex) {
 		String tMinorCompany1TestXML = "<Minor id=\"1701\" name=\"TestBergisch-Markische Bahn\" abbrev=\"1\" cost=\"80\"\n"
 				+ "		homeCell1=\"H2\" homeLocation1=\"15\" upgradeID=\"1810\" upgradePercentage=\"5\"\n"
@@ -186,47 +213,45 @@ public class CompanyTestFactory {
 
 		return aMinorCompany;
 	}
-
+	
 	public MinorCompany buildMinorCompanyMock (String aClientName) {
-		MinorCompany mMinorCompany = Mockito.mock (MinorCompany.class);
+		MinorCompany mMinorCompany;
 
+		mMinorCompany = Mockito.mock (MinorCompany.class);
 		Mockito.when (mMinorCompany.getAbbrev ()).thenReturn ("MMC");
 
 		return mMinorCompany;
 	}
 
+	// Build Mocked Token Company Methods
+	
 	public TokenCompany buildTokenCompanyMock () {
-		return buildTokenCompanyMock ("Test Client Share");
+		TokenCompany mTokenCompany;
+		
+		mTokenCompany = Mockito.mock (TokenCompany.class);
+		
+		return mTokenCompany;
 	}
-
-	public TokenCompany buildTokenCompanyMock (String aClientName) {
-		TokenCompany mTokenCompany = Mockito.mock (TokenCompany.class);
-
-		Mockito.when (mTokenCompany.getAbbrev ()).thenReturn ("MTC");
-
+	
+	public TokenCompany buildTokenCompanyMock (int aCompanyID) {
+		TokenCompany mTokenCompany;
+		
+		mTokenCompany = buildTokenCompanyMock ();
+		Mockito.when (mTokenCompany.getID ()).thenReturn (aCompanyID);
+		
+		return mTokenCompany;
+	}
+	
+	public TokenCompany buildTokenCompanyMock (int aCompanyID, String aCompanyAbbrev) {
+		TokenCompany mTokenCompany;
+		
+		mTokenCompany = buildTokenCompanyMock (aCompanyID);
+		Mockito.when (mTokenCompany.getAbbrev ()).thenReturn (aCompanyAbbrev);
+		
 		return mTokenCompany;
 	}
 
-	public ShareCompany buildShareCompanyMock () {
-		return buildShareCompanyMock ("Test Client Share");
-	}
-
-	public ShareCompany buildShareCompanyMock (String aClientName) {
-		ShareCompany mShareCompany;
-
-		mShareCompany = Mockito.mock (ShareCompany.class);
-		Mockito.when (mShareCompany.getAbbrev ()).thenReturn ("MSC");
-
-		return mShareCompany;
-	}
-
-	public PrivateCompany buildPrivateCompanyMock (String aClientName) {
-		PrivateCompany mPrivateCompany = Mockito.mock (PrivateCompany.class);
-
-		Mockito.when (mPrivateCompany.getAbbrev ()).thenReturn ("MPC");
-
-		return mPrivateCompany;
-	}
+	// Build Token Methods
 	
 	public Token buildToken (TokenCompany aTokenCompany) {
 		Token tToken;
@@ -242,9 +267,7 @@ public class CompanyTestFactory {
 		Token tToken;
 
 		tMockCoID = 5001;
-		mTokenCompany = buildTokenCompanyMock ();
-		Mockito.when (mTokenCompany.getID ()).thenReturn (tMockCoID);
-		Mockito.when (mTokenCompany.getAbbrev ()).thenReturn ("MC1");
+		mTokenCompany = buildTokenCompanyMock (tMockCoID, "MC1");
 		tToken = buildToken (mTokenCompany);
 
 		return tToken;
@@ -259,6 +282,8 @@ public class CompanyTestFactory {
 		
 		return mToken;
 	}
+	
+	// Build Map Token Methods
 	
 	public MapToken buildMapToken (TokenCompany aTokenCompany) {
 		MapToken tMapToken;
