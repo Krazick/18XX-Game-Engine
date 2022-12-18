@@ -199,5 +199,17 @@ class TokenInfoTests {
 			assertTrue (tMarketTokenInfo.isUsed ());
 			assertTrue (tMarketTokenInfo.getUsed ());
 		}
+		
+		@Test
+		@DisplayName ("Get Token Test")
+		void getTokenTest () {
+			TokenInfo tMarketTokenInfo;
+			Token tMarketToken;
+
+			tMarketTokenInfo = new TokenInfo (mToken, TokenType.MARKET);
+			tMarketToken = tMarketTokenInfo.getToken ();
+			assertEquals (mToken, tMarketToken);
+		}
 	}
+
 }

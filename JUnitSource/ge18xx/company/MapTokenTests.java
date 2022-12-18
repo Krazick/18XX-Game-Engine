@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -20,6 +19,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 
 class MapTokenTests {
+	CompanyTestFactory companyTestFactory;
 	MapToken mapToken;
 	MapToken mapToken1;
 	MapToken mapToken2;
@@ -32,6 +32,7 @@ class MapTokenTests {
 		int tMockCoID2;
 		int tMockCoID3;
 
+		companyTestFactory = new CompanyTestFactory ();
 		tMockCoID2 = 5002;
 		tMockCoID3 = 5003;
 		mapToken = new MapToken ();
@@ -39,17 +40,11 @@ class MapTokenTests {
 		mapToken1.setConnectedSide (0, true);
 		mapToken1.setConnectedSide (4, true);
 		
-		mCompany2 = Mockito.mock (TokenCompany.class);
-		Mockito.when (mCompany2.getID ()).thenReturn (tMockCoID2);
-		Mockito.when (mCompany2.getAbbrev ()).thenReturn ("MC2");
-		mapToken2 = new MapToken ();
-		mapToken2.setCompany (mCompany2);
+		mCompany2 = companyTestFactory.buildTokenCompanyMock (tMockCoID2, "MC2");
+		mapToken2 = companyTestFactory.buildMapToken (mCompany2);
 		
-		mCompany3 = Mockito.mock (TokenCompany.class);
-		Mockito.when (mCompany3.getID ()).thenReturn (tMockCoID3);
-		Mockito.when (mCompany3.getAbbrev ()).thenReturn ("MC3");
-		mapToken3 = new MapToken ();
-		mapToken3.setCompany (mCompany3);
+		mCompany3 = companyTestFactory.buildTokenCompanyMock (tMockCoID3, "MC3");
+		mapToken3 = companyTestFactory.buildMapToken (mCompany3);
 	}
 
 	@Nested

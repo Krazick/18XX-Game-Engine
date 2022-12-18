@@ -37,13 +37,10 @@ class TokenTests {
 
 		tMockCoID1 = 5001;
 		companyTestFactory = new CompanyTestFactory ();
-		mTokenCompany = companyTestFactory.buildTokenCompanyMock ();
-		Mockito.when (mTokenCompany.getID ()).thenReturn (tMockCoID1);
-		Mockito.when (mTokenCompany.getAbbrev ()).thenReturn ("MC1");
+		mTokenCompany = companyTestFactory.buildTokenCompanyMock (tMockCoID1, "MC1");
 
 		tMockCoID2 = 5002;
-		mTokenCompany2 = companyTestFactory.buildTokenCompanyMock ();
-		Mockito.when (mTokenCompany2.getID ()).thenReturn (tMockCoID2);
+		mTokenCompany2 = companyTestFactory.buildTokenCompanyMock (tMockCoID2);
 
 		token = companyTestFactory.buildToken (mTokenCompany);
 	}
@@ -165,6 +162,6 @@ class TokenTests {
 		tXMLDocument = new XMLDocument ();
 		tXMLElement = token.getTokenElement (tXMLDocument);
 		tXMLDocument.appendChild (tXMLElement);
-		System.out.println ("XML Element: " + tXMLDocument.toString ());
+		assertEquals ("<Token abbrev=\"MC1\"/>\n", tXMLDocument.toString ());
 	}
 }
