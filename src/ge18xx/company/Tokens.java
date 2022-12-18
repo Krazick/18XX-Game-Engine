@@ -20,6 +20,18 @@ public class Tokens {
 	// 4) GetTokenCount () -- No Arg, gets the count of available MapTokens (never counts the MarketToken Type)
 	// 5) AddNewToken (Token, TokenType, Cost) -- Set ArrayList Token to the provided Token
 	
+	/**
+	 * Constructor for the Tokens ArrayList that keeps the Market Token, the Home Tokens, and the additional
+	 * Tokens to be placed on RevenueCenters. These tokens with the Cost are stored in the 'TokenInfo' ArrayList
+	 * The other two indexes are the StartIndex (that is set to the Token AFTER the Home Tokens) and the NextIndex 
+	 * is used as new tokens are "add" by resetting those created during the construction below.
+	 * This constructor just create "Empty Token Info" elements to add to the array list.
+	 * 
+	 * @param aTokenCount The Number of Tokens to be used on the Map (Home Tokens, one or two, and either the 
+	 * 						FixedCost or RangeCost Token Types. The later method 'getTokenCount' will be one more
+	 * 						since the Market Token takes Slot Zero (0) and is never placed on the Map.
+	 */
+	
 	public Tokens (int aTokenCount) {
 		int tIndex;
 		int tTokenCount;
@@ -60,7 +72,6 @@ public class Tokens {
 		Token tToken;
 		TokenInfo tTokenInfo;
 		
-		tToken = Token.NO_TOKEN;
 		tTokenInfo = TokenInfo.NO_TOKEN_INFO;
 		if (aTokenType == TokenType.MARKET) {
 			tTokenInfo = tokens.get (MARKET_INDEX);
@@ -73,7 +84,9 @@ public class Tokens {
 		}
 		if (tTokenInfo != TokenInfo.NO_TOKEN_INFO) {
 			tToken = tTokenInfo.getToken ();
-		}			
+		} else {
+			tToken = Token.NO_TOKEN;
+		}
 		
 		return tToken;
 	}
