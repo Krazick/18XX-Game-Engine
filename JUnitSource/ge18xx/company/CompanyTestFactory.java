@@ -255,6 +255,7 @@ public class CompanyTestFactory {
 		
 		mToken = Mockito.mock (Token.class);
 		Mockito.when (mToken.getCorporationAbbrev ()).thenReturn ("MTC_MT");
+		Mockito.when (mToken.isAMapToken ()).thenReturn (false);
 		
 		return mToken;
 	}
@@ -274,6 +275,7 @@ public class CompanyTestFactory {
 		
 		mMapToken = Mockito.mock (MapToken.class);
 		Mockito.when (mMapToken.getCorporationAbbrev ()).thenReturn ("MTC_MT");
+		Mockito.when (mMapToken.isAMapToken ()).thenReturn (true);
 
 		return mMapToken;
 	}
