@@ -63,9 +63,13 @@ public class CompanyTestFactory {
 				+ "			<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>\n"
 				+ "		</Benefits>\n" + "		<Certificate director=\"YES\" percentage=\"100\"\n"
 				+ "			allowedOwners=\"IPO,Player,Share\" />\n" + "	</Private>\n" + "";
-		PrivateCompany tPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
-		CorporationList mCorporationList = Mockito.mock (CorporationList.class);
-		GameManager mGameManager = gameTestFactory.buildGameManagerMock ();
+		PrivateCompany tPrivateCompany;
+		CorporationList mCorporationList;
+		GameManager mGameManager;
+		
+		tPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
+		mCorporationList = Mockito.mock (CorporationList.class);
+		mGameManager = gameTestFactory.buildGameManagerMock ();
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 
 		if (tCompanyIndex == 1) {
@@ -89,8 +93,9 @@ public class CompanyTestFactory {
 	}
 	
 	public PrivateCompany buildPrivateCompanyMock (String aClientName) {
-		PrivateCompany mPrivateCompany = Mockito.mock (PrivateCompany.class);
+		PrivateCompany mPrivateCompany;
 
+		mPrivateCompany = Mockito.mock (PrivateCompany.class);
 		Mockito.when (mPrivateCompany.getAbbrev ()).thenReturn ("MPC");
 
 		return mPrivateCompany;
@@ -119,9 +124,13 @@ public class CompanyTestFactory {
 				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
 				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
 
-		ShareCompany tShareCompany = ShareCompany.NO_SHARE_COMPANY;
-		CorporationList mCorporationList = Mockito.mock (CorporationList.class);
-		GameManager mGameManager = gameTestFactory.buildGameManagerMock ();
+		ShareCompany tShareCompany;
+		CorporationList mCorporationList;
+		GameManager mGameManager;
+		
+		tShareCompany = ShareCompany.NO_SHARE_COMPANY;
+		mCorporationList = Mockito.mock (CorporationList.class);
+		mGameManager = gameTestFactory.buildGameManagerMock ();
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 
 		if (aCompanyIndex == 1) {
@@ -185,9 +194,13 @@ public class CompanyTestFactory {
 				+ "		<Certificate director=\"YES\" percentage=\"50\" allowedOwners=\"IPO,Player\" />\n"
 				+ "		<Certificate director=\"NO\" percentage=\"50\" allowedOwners=\"Minor\" />\n" + "	</Minor>";
 
-		MinorCompany tMinorCompany = MinorCompany.NO_MINOR_COMPANY;
-		CorporationList mCorporationList = Mockito.mock (CorporationList.class);
-		GameManager mGameManager = gameTestFactory.buildGameManagerMock ();
+		MinorCompany tMinorCompany;
+		CorporationList mCorporationList;
+		GameManager mGameManager;
+		
+		tMinorCompany = MinorCompany.NO_MINOR_COMPANY;
+		mCorporationList = Mockito.mock (CorporationList.class);
+		mGameManager = gameTestFactory.buildGameManagerMock ();
 		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 
 		if (aCompanyIndex == 1) {
