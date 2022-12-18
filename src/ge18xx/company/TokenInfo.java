@@ -45,10 +45,9 @@ public class TokenInfo {
 		cost = aCost;
 	}
 	
-	private void setUsed (boolean aUsed) {
+	public void setUsed (boolean aUsed) {
 		used = aUsed;
 	}
-
 
 	public Token getToken () {
 		return token;
@@ -114,13 +113,13 @@ public class TokenInfo {
 		return tIsHomeToken;
 	}
 	
-	public Token getHomeToken () {
-		Token tHomeToken;
+	public MapToken getHomeToken () {
+		MapToken tHomeToken;
 		
 		if (isHomeToken ()) {
-			tHomeToken = token;
+			tHomeToken = (MapToken) token;
 		} else {
-			tHomeToken = Token.NO_TOKEN;
+			tHomeToken = MapToken.NO_MAP_TOKEN;
 		}
 		
 		return tHomeToken;
