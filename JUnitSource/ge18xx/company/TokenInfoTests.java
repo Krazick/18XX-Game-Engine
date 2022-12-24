@@ -109,7 +109,7 @@ class TokenInfoTests {
 			assertFalse (tTokenInfo.isFixedCostToken ());
 			assertTrue (tTokenInfo.isRangeCostToken ());
 			assertTrue (tTokenInfo.isMapToken ());
-			assertEquals (0, tTokenInfo.getCost ());
+			assertEquals (Token.RANGE_COST, tTokenInfo.getCost ());
 			assertEquals (TokenType.RANGE_COST, tTokenInfo.getTokenType ());
 		}
 	}
