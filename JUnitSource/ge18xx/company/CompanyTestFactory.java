@@ -298,6 +298,18 @@ public class CompanyTestFactory {
 	
 	// Build Map Token Methods
 	
+	public MapToken buildMapToken () {
+		TokenCompany mTokenCompany;
+		int tMockCoID;
+		MapToken tMapToken;
+
+		tMockCoID = 5001;
+		mTokenCompany = buildTokenCompanyMock (tMockCoID, "MC1");
+		tMapToken = buildMapToken (mTokenCompany);
+		
+		return tMapToken;
+	}
+	
 	public MapToken buildMapToken (TokenCompany aTokenCompany) {
 		MapToken tMapToken;
 		
