@@ -19,7 +19,7 @@ public class TokenInfo {
 	boolean used;
 	
 	public TokenInfo () {
-		this (Token.NO_TOKEN, TokenType.NO_TYPE, 0);
+		this (Token.NO_TOKEN, TokenType.NO_TYPE);
 	}
 	
 	public TokenInfo (Token aToken, TokenType aTokenType) {
@@ -158,7 +158,15 @@ public class TokenInfo {
 	}
 	
 	public int getCost () {
-		return cost;
+		int tCost;
+		
+		if (isRangeCostToken ()) {
+			tCost = Token.RANGE_COST;
+		} else {
+			tCost = cost;
+		}
+		
+		return tCost;
 	}
 	
 	public boolean getUsed () {
