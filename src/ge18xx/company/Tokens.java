@@ -80,10 +80,16 @@ public class Tokens {
 		} else if (aTokenType == TokenType.HOME2) {
 			tTokenInfo = tokens.get (HOME2_INDEX);
 		} else {
-			tToken = getMapToken ();
+			tTokenInfo = getMapTokenInfo ();
 		}
 		if (tTokenInfo != TokenInfo.NO_TOKEN_INFO) {
-			tToken = tTokenInfo.getToken ();
+			// Have to double-check the TokenInfo retrieved is the type requested
+			// ie. just because HOME2 was requested, this could be a fixed or range type if corp has only one Home
+			if (tTokenInfo.getTokenType () == aTokenType) {
+				tToken = tTokenInfo.getToken ();
+			} else { 
+				tToken = Token.NO_TOKEN;
+			}
 		} else {
 			tToken = Token.NO_TOKEN;
 		}
@@ -91,25 +97,93 @@ public class Tokens {
 		return tToken;
 	}
 	
+	public MapToken getMapToken (TokenType aTokenType) {
+		MapToken tMapToken;
+		TokenInfo tTokenInfo;
+		
+		tTokenInfo = TokenInfo.NO_TOKEN_INFO;
+		if (aTokenType == TokenType.MARKET) {
+			tTokenInfo = TokenInfo.NO_TOKEN_INFO;
+		} else if (aTokenType == TokenType.HOME1) {
+			tTokenInfo = tokens.get (HOME1_INDEX);
+		} else if (aTokenType == TokenType.HOME2) {
+			tTokenInfo = tokens.get (HOME2_INDEX);
+		} else {
+			tTokenInfo = getMapTokenInfo ();
+		}
+		if (tTokenInfo != TokenInfo.NO_TOKEN_INFO) {
+			// Have to double-check the TokenInfo retrieved is the type requested
+			// ie. just because HOME2 was requested, this could be a fixed or range type if corp has only one Home
+			if (tTokenInfo.getTokenType () == aTokenType) {
+				tMapToken = tTokenInfo.getMapToken ();
+			} else { 
+				tMapToken = MapToken.NO_MAP_TOKEN;
+			}
+		} else {
+			tMapToken = MapToken.NO_MAP_TOKEN;
+		}
+		
+		return tMapToken;
+	}
+	
 	public int getTokenCount () {
 		return tokens.size ();
 	}
 	
-	public Token getMapToken () {
-		MapToken tMapToken;
+	public TokenInfo getMapTokenInfo () {
 		TokenInfo tTokenInfo;
+		TokenInfo tFoundMapTokenInfo;
 		int tIndex;
 		int tTokenCount;
 		
 		tTokenCount = getTokenCount ();
-		tMapToken = MapToken.NO_MAP_TOKEN;
-		for (tIndex = startIndex; tIndex < tTokenCount; tIndex++) {
+		tFoundMapTokenInfo = TokenInfo.NO_TOKEN_INFO;
+		for (tIndex = startIndex; 
+				((tIndex < tTokenCount) && 
+				(tFoundMapTokenInfo == TokenInfo.NO_TOKEN_INFO)); tIndex++) {
 			tTokenInfo = tokens.get (tIndex);
 			if (! tTokenInfo.isUsed ()) {
-				tMapToken = tTokenInfo.getMapToken ();
+				tFoundMapTokenInfo = tTokenInfo;
 			}
 		}
 		
-		return tMapToken;
+		return tFoundMapTokenInfo;
+	}
+
+	
+	public int getTokenCost (Token aToken) {
+		TokenInfo tTokenInfo;
+		int tIndex;
+		int tTokenCount;
+		int tTokenCost;
+
+		tTokenCost = Token.NO_COST;
+		if (aToken != Token.NO_TOKEN) {
+			tTokenCount = getTokenCount ();
+			for (tIndex = 0; tIndex < tTokenCount; tIndex++) {
+				tTokenInfo = tokens.get (tIndex);
+				if (tTokenInfo.getToken () == aToken) {
+					tTokenCost = tTokenInfo.getCost ();
+				}
+			}
+		}
+		
+		return tTokenCost;
+	}
+
+	public void setTokenUsed (Token aUsedToken, boolean aUsed) {
+		int tIndex;
+		int tTokenCount;
+		TokenInfo tTokenInfo;
+		
+		if (aUsedToken != Token.NO_TOKEN) {
+			tTokenCount = getTokenCount ();
+			for (tIndex = 0; tIndex < tTokenCount; tIndex++) {
+				tTokenInfo = tokens.get (tIndex);
+				if (tTokenInfo.getToken () == aUsedToken) {
+					tTokenInfo.setUsed (aUsed);
+				}
+			}
+		}
 	}
 }
