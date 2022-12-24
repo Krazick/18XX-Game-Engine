@@ -18,6 +18,7 @@ public class Token {
 	public static final ElementName EN_TOKEN = new ElementName ("Token");
 	public static final Token NO_TOKEN = null;
 	public static final int NO_COST = 0;
+	public static final int RANGE_COST = -1;
 	TokenCompany whichCompany;
 
 	public Token () {
