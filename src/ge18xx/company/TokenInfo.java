@@ -53,6 +53,18 @@ public class TokenInfo {
 		return token;
 	}
 	
+	public boolean isMatchingTokenType (TokenType aTokenType) {
+		boolean tIsMatchingTokenType;
+		
+		if (tokenType == aTokenType) {
+			tIsMatchingTokenType = true;
+		} else {
+			tIsMatchingTokenType = false;
+		}
+		
+		return tIsMatchingTokenType;
+	}
+	
 	public boolean isMapToken () {
 		boolean isMapToken;
 		
