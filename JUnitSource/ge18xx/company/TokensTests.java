@@ -323,7 +323,7 @@ class TokensTests {
 	}
 	
 	@Test
-	@DisplayName ("Get Token Cost with Fixed Cost Tests")
+	@DisplayName ("Get Token Costs with Fixed Cost Tests")
 	void getToken_FixedCost_Test () {
 		Token mMarketToken;
 		MapToken mHome1Token;
@@ -389,7 +389,7 @@ class TokensTests {
 	}
 
 	@Test
-	@DisplayName ("Test getting Last Map Token in list with Range Cost")
+	@DisplayName ("Test getting Last Map Token in list with Range Costs Tests")
 	void getLastMapToken_RangeCost_Test () {
 		Token mMarketToken;
 		MapToken mHome1Token;
@@ -422,7 +422,7 @@ class TokensTests {
 	}
 	
 	@Test
-	@DisplayName ("Get Token Used with Range Cost Tests")
+	@DisplayName ("Get Token Used with Range Costs Tests")
 	void getTokenUsed_RangeCost_Test () {
 		Token mMarketToken;
 		MapToken mHome1Token;
@@ -457,6 +457,55 @@ class TokensTests {
 		assertTrue (tokens4.getTokenUsed (tFoundMapToken1));
 		assertTrue (tokens4.getTokenUsed (tFoundMapToken2));
 		assertFalse (tokens4.getTokenUsed (tFoundMapToken3));
+	}
+
+	@Test
+	@DisplayName ("Get Token Available Count with Range Costs Tests")
+	void getTokenAvailableCount_RangeCost_Test () {
+		Token mMarketToken;
+		MapToken mHome1Token;
+		MapToken mMap1Token;
+		MapToken mMap2Token;
+		MapToken mMap3Token;
+		Token tFoundToken;
+		MapToken tFoundMapToken1;
+		MapToken tFoundMapToken2;
+		MapToken tFoundMapToken3;
+		MapToken tFoundMapToken4;
+
+		
+		mMarketToken = companyTestFactory.buildTokenMock ();
+		tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0);
+		mHome1Token = companyTestFactory.buildMapTokenMock ();
+		tokens4.addNewToken (mHome1Token, TokenInfo.TokenType.HOME1, 0);
+		mMap1Token = companyTestFactory.buildMapTokenMock ();
+		tokens4.addNewToken (mMap1Token, TokenInfo.TokenType.RANGE_COST, 0);
+		mMap2Token = companyTestFactory.buildMapTokenMock ();
+		tokens4.addNewToken (mMap2Token, TokenInfo.TokenType.RANGE_COST, 0);
+		mMap3Token = companyTestFactory.buildMapTokenMock ();
+		tokens4.addNewToken (mMap3Token, TokenInfo.TokenType.RANGE_COST, 0);
+
+		assertEquals (4, tokens4.getAvailableTokenCount ());
+		tFoundToken = tokens4.getToken (TokenInfo.TokenType.MARKET);
+		tokens4.setTokenUsed (tFoundToken, true);
+		assertEquals (4, tokens4.getAvailableTokenCount ());
+		
+		tFoundMapToken1 = tokens4.getMapToken (TokenInfo.TokenType.HOME1);
+		tokens4.setTokenUsed (tFoundMapToken1, true);
+		assertEquals (3, tokens4.getAvailableTokenCount ());
+		
+		tFoundMapToken2 = tokens4.getMapToken (TokenInfo.TokenType.RANGE_COST);
+		tokens4.setTokenUsed (tFoundMapToken2, true);
+		assertEquals (2, tokens4.getAvailableTokenCount ());
+		
+		tFoundMapToken3 = tokens4.getMapToken (TokenInfo.TokenType.RANGE_COST);
+		tokens4.setTokenUsed (tFoundMapToken3, true);
+		assertEquals (1, tokens4.getAvailableTokenCount ());
+		
+		tFoundMapToken4 = tokens4.getMapToken (TokenInfo.TokenType.RANGE_COST);
+		tokens4.setTokenUsed (tFoundMapToken4, true);
+		assertEquals (0, tokens4.getAvailableTokenCount ());
+
 	}
 
 }

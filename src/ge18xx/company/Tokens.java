@@ -150,6 +150,24 @@ public class Tokens {
 		return tokens.size ();
 	}
 	
+	public int getAvailableTokenCount () {
+		int tAvailableTokenCount;
+		int tTokenCount;
+		int tTokenIndex;
+		TokenInfo tTokenInfo;
+		
+		tAvailableTokenCount = 0;
+		tTokenCount = getTokenCount ();
+		for (tTokenIndex = 1; tTokenIndex < tTokenCount; tTokenIndex++) {
+			tTokenInfo = tokens.get (tTokenIndex);
+			if (! tTokenInfo.isUsed ()) {
+				tAvailableTokenCount++;
+			}
+		}
+		
+		return tAvailableTokenCount;
+	}
+	
 	public TokenInfo getMapTokenInfo () {
 		TokenInfo tTokenInfo;
 		TokenInfo tFoundMapTokenInfo;
