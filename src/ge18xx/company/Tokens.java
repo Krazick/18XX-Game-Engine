@@ -85,7 +85,7 @@ public class Tokens {
 		if (tTokenInfo != TokenInfo.NO_TOKEN_INFO) {
 			// Have to double-check the TokenInfo retrieved is the type requested
 			// ie. just because HOME2 was requested, this could be a fixed or range type if corp has only one Home
-			if (tTokenInfo.getTokenType () == aTokenType) {
+			if (tTokenInfo.isMatchingTokenType (aTokenType)) {
 				tToken = tTokenInfo.getToken ();
 			} else { 
 				tToken = Token.NO_TOKEN;
@@ -114,10 +114,30 @@ public class Tokens {
 		if (tTokenInfo != TokenInfo.NO_TOKEN_INFO) {
 			// Have to double-check the TokenInfo retrieved is the type requested
 			// ie. just because HOME2 was requested, this could be a fixed or range type if corp has only one Home
-			if (tTokenInfo.getTokenType () == aTokenType) {
+			if (tTokenInfo.isMatchingTokenType (aTokenType)) {
 				tMapToken = tTokenInfo.getMapToken ();
 			} else { 
 				tMapToken = MapToken.NO_MAP_TOKEN;
+			}
+		} else {
+			tMapToken = MapToken.NO_MAP_TOKEN;
+		}
+		
+		return tMapToken;
+	}
+	
+	public MapToken getLastMapToken (TokenType aTokenType) {
+		MapToken tMapToken;
+		TokenInfo tLastMapTokenInfo;
+		int tTokenCount;
+		
+		tTokenCount = getTokenCount ();
+		tLastMapTokenInfo = tokens.get (tTokenCount - 1);
+		if (tLastMapTokenInfo.isMatchingTokenType (aTokenType)) {
+			if (tLastMapTokenInfo.isUsed ()) {
+				tMapToken = MapToken.NO_MAP_TOKEN;
+			} else {
+				tMapToken = tLastMapTokenInfo.getMapToken ();
 			}
 		} else {
 			tMapToken = MapToken.NO_MAP_TOKEN;
@@ -150,6 +170,25 @@ public class Tokens {
 		return tFoundMapTokenInfo;
 	}
 
+	public boolean getTokenUsed (Token aToken) {
+		TokenInfo tTokenInfo;
+		int tIndex;
+		int tTokenCount;
+		boolean tTokenUsed;
+
+		tTokenUsed = false;
+		if (aToken != Token.NO_TOKEN) {
+			tTokenCount = getTokenCount ();
+			for (tIndex = 0; tIndex < tTokenCount; tIndex++) {
+				tTokenInfo = tokens.get (tIndex);
+				if (tTokenInfo.getToken () == aToken) {
+					tTokenUsed = tTokenInfo.getUsed ();
+				}
+			}
+		}
+		
+		return tTokenUsed;
+	}
 	
 	public int getTokenCost (Token aToken) {
 		TokenInfo tTokenInfo;
