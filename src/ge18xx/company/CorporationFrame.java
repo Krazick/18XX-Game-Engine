@@ -1194,7 +1194,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tPlaceTokenText;
 		MapCell tMapCell;
 		int tCost;
-		boolean tSetCostOnLabel = false;
 
 		if (corporation.canLayToken ()) {
 			placeTokenButton.setEnabled (true);
@@ -1207,7 +1206,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					updateButton (placeTokenButton, false, IN_TOKEN_MODE);
 				} else if (corporation.haveMoneyForToken ()) {
 					updateButton (placeTokenButton, true, GUI.NO_TOOL_TIP);
-					tSetCostOnLabel = true;
 				} else {
 					tDisableToolTipReason = corporation.reasonForNoTokenLay ();
 					updateButton (placeTokenButton, false, tDisableToolTipReason);
@@ -1222,12 +1220,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			placeTokenButton.setToolTipText (tDisableToolTipReason);
 		}
 
-		if (tSetCostOnLabel) {
-			tMapCell = MapCell.NO_MAP_CELL;
-			tCost = corporation.getCostToLayToken (tMapCell);
-			if (tCost > 0) {
-				placeTokenButton.setText (PLACE_TOKEN + " for " + Bank.formatCash (tCost));
-			}
+		tMapCell = MapCell.NO_MAP_CELL;
+		tCost = corporation.getCostToLayToken (tMapCell);
+		if (tCost > 0) {
+			placeTokenButton.setText (PLACE_TOKEN + " for " + Bank.formatCash (tCost));
 		}
 	}
 
