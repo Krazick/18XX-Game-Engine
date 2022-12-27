@@ -33,11 +33,15 @@ public class Hex {
 	static int DEFAULT_WIDTH = 5;
 	static int scale = DEFAULT_SCALE;
 	static int width = DEFAULT_WIDTH;
-	int x[], y[];
-	private int Xt, Yt;
-	private int displaceUpDown, displaceLeftRight;
+	int x[];
+	int y[];
+	private int Xt;
+	private int Yt;
+	private int displaceUpDown;
+	private int displaceLeftRight;
 	private int intDWidth;
-	int Xc, Yc;
+	int Xc;
+	int Yc;
 	int cityWidth;
 	int trackWidth;
 	Polygon hexPolygon;
@@ -1410,8 +1414,10 @@ public class Hex {
 
 		dwidth = width * scale;
 
-		double ssp_d = sSixth_pi * dwidth, csp_d = cSixth_pi * dwidth;
-		double stp_d = sThird_pi * dwidth, ctp_d = cThird_pi * dwidth;
+		double ssp_d = sSixth_pi * dwidth;
+		double csp_d = cSixth_pi * dwidth;
+		double stp_d = sThird_pi * dwidth;
+		double ctp_d = cThird_pi * dwidth;
 
 		displaceUpDown = new Double (ssp_d).intValue ();
 		displaceLeftRight = new Double (csp_d).intValue ();
@@ -1420,6 +1426,19 @@ public class Hex {
 		offsetHex (offsetX, offsetY);
 		intDWidth = new Double (dwidth).intValue ();
 
+		fillXandYPoints ();
+		
+		cityWidth = new Double (displaceLeftRight / 2.9).intValue ();
+		trackWidth = new Double (displaceLeftRight / 7.25).intValue () + 1;
+		hexPolygon = buildOffsetPolygon (0, 0);
+		rectX = getMinX ();
+		rectY = getMinY ();
+		rectWidth = getMaxX () - rectX + 1;
+		rectHeight = getMaxY () - rectY + 1;
+		rectBounds = new Rectangle (rectX, rectY, rectWidth, rectHeight);
+	}
+
+	private void fillXandYPoints () {
 		x = new int [7];
 		y = new int [7];
 		if (direction) {
@@ -1453,14 +1472,6 @@ public class Hex {
 			x [6] = x [0];
 			y [6] = y [0];
 		}
-		cityWidth = new Double (displaceLeftRight / 2.9).intValue ();
-		trackWidth = new Double (displaceLeftRight / 7.25).intValue () + 1;
-		hexPolygon = buildOffsetPolygon (0, 0);
-		rectX = getMinX ();
-		rectY = getMinY ();
-		rectWidth = getMaxX () - rectX + 1;
-		rectHeight = getMaxY () - rectY + 1;
-		rectBounds = new Rectangle (rectX, rectY, rectWidth, rectHeight);
 	}
 
 	public int [] getXArray () {
