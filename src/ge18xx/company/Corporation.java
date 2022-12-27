@@ -945,15 +945,24 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	/* Add to XML Element Corporation Specific Information -- For Save File */
 	public void getCorporationStateElement (XMLElement aXMLCorporationState) {
+		Location tHomeLocation1;
+		Location tHomeLocation2;
+		int tHomeLocation1Int;
+		int tHomeLocation2Int;
+		
 		aXMLCorporationState.setAttribute (AN_ABBREV, getAbbrev ());
 		aXMLCorporationState.setAttribute (AN_CORP_STATUS, getStatusName ());
 		if (homeCity1 != MapCell.NO_MAP_CELL) {
 			aXMLCorporationState.setAttribute (AN_HOMECELL1, homeCity1.getCellID ());
-			aXMLCorporationState.setAttribute (Location.AN_HOME_LOCATION1, getHomeLocation1 ().getLocation ());
+			tHomeLocation1 = getHomeLocation1 ();
+			tHomeLocation1Int = tHomeLocation1.getLocation ();
+			aXMLCorporationState.setAttribute (Location.AN_HOME_LOCATION1, tHomeLocation1Int);
 		}
 		if (homeCity2 != MapCell.NO_MAP_CELL) {
 			aXMLCorporationState.setAttribute (AN_HOMECELL2, homeCity2.getCellID ());
-			aXMLCorporationState.setAttribute (Location.AN_HOME_LOCATION2, getHomeLocation2 ().getLocation ());
+			tHomeLocation2 = getHomeLocation2 ();
+			tHomeLocation2Int = tHomeLocation2.getLocation ();
+			aXMLCorporationState.setAttribute (Location.AN_HOME_LOCATION2, tHomeLocation2Int);
 		}
 	}
 
@@ -1203,9 +1212,13 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tHasTwoBases;
 	}
 	
+	public MapToken popMapToken () {
+		return MapToken.NO_MAP_TOKEN;
+	}
+	
 	// TokenCompany will Override
 	public MapToken getMapToken () {
-		return null;
+		return MapToken.NO_MAP_TOKEN;
 	}
 
 	@Override
