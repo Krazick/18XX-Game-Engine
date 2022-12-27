@@ -1632,7 +1632,7 @@ public class MapCell implements Comparator<Object> {
 		City tCity;
 		MapToken tMapToken;
 
-		tMapToken = aShareCompany.popToken ();
+		tMapToken = aShareCompany.popMapToken ();
 		tCity = tile.getCityAt (aCityIndex);
 		tCity.setStation (aStationIndex, tMapToken);
 	}

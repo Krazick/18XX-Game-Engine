@@ -117,12 +117,12 @@ public abstract class TokenCompany extends TrainCompany {
 			tokens.addNewToken (tMapToken, TokenType.HOME2, tCost);
 		}
 		for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
-			tMapToken = new MapToken (aMapToken, tCost);
 			if (tIndex == tStartIndex) {
 				tCost = 40;
 			} else if (tIndex > tStartIndex) {
 				tCost = 100;
 			}
+			tMapToken = new MapToken (aMapToken, tCost);
 			tMapToken.setCompany (this);
 			addMapToken (tMapToken);
 			tokens.addNewToken (tMapToken, TokenType.FIXED_COST, tCost);
@@ -360,7 +360,7 @@ public abstract class TokenCompany extends TrainCompany {
 		MapToken tMapToken;
 
 		tMapToken = mapTokens.get (0);
-
+		
 		return tMapToken;
 	}
 
@@ -467,7 +467,8 @@ public abstract class TokenCompany extends TrainCompany {
 		super.loadStatus (aXMLNode);
 	}
 
-	public MapToken popToken () {
+	@Override
+	public MapToken popMapToken () {
 		MapToken tMapToken;
 
 		if (getTokenCount () == 0) {
@@ -485,8 +486,9 @@ public abstract class TokenCompany extends TrainCompany {
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
 
 		tCurrentStatus = status;
-		if ((status == ActorI.ActionStates.TileLaid) || (status == ActorI.ActionStates.Tile2Laid)
-				|| (status == ActorI.ActionStates.TileUpgraded)) {
+		if ((status == ActorI.ActionStates.TileLaid) || 
+			(status == ActorI.ActionStates.Tile2Laid) || 
+			(status == ActorI.ActionStates.TileUpgraded)) {
 			tStatusUpdated = updateStatus (ActorI.ActionStates.TileAndStationLaid);
 		} else {
 			tStatusUpdated = updateStatus (ActorI.ActionStates.StationLaid);
@@ -496,7 +498,7 @@ public abstract class TokenCompany extends TrainCompany {
 			if (aAddLayTokenAction) {
 				addLayTokenAction (aMapCell, aTile, aRevenueCenterIndex, tCurrentStatus, tNewStatus);
 			}
-			popToken (); // Pop off the Token from the list of Map Tokens,
+			popMapToken (); // Pop off the Token from the list of Map Tokens,
 							// don't want infinite supply
 
 			updateInfo ();

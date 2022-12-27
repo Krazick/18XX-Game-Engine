@@ -1106,7 +1106,7 @@ public class City extends RevenueCenter implements Cloneable {
 				if (tTokenCompany == TokenCompany.NO_TOKEN_COMPANY) {
 					logger.info ("Did not find a Token Company with abbrev " + tAbbrev);
 				} else {
-					tMapToken = tTokenCompany.popToken ();
+					tMapToken = tTokenCompany.popMapToken ();
 					tCity.setStation (tIndex, tMapToken);
 				}
 			}
