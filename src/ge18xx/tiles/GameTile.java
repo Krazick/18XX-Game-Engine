@@ -17,10 +17,12 @@ import java.util.List;
 
 import ge18xx.map.Hex;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 
 public class GameTile {
 	public static final ElementName EN_UPGRADE = new ElementName ("Upgrade");
+	public static final AttributeName AN_OVERRIDE = new AttributeName ("override");
 	public static final GameTile NO_GAME_TILE = null;
 	public static final List<Tile> NO_TILES = null;
 	Tile tile;
@@ -34,17 +36,22 @@ public class GameTile {
 	int YCenter;
 	boolean selected;
 	boolean playable;
+	boolean override;
 
 	public GameTile () {
 		this (new Tile (), 0);
 	}
 
 	public GameTile (Tile aTile, int aTotalCount) {
-		setValues (aTile, aTile.getNumber (), aTotalCount, 0);
+		setValues (aTile, aTile.getNumber (), aTotalCount, 0, false);
 	}
 
+	public GameTile (int aTileNumber, int aTotalCount, boolean aOverride) {
+		setValues (null, aTileNumber, aTotalCount, 0, aOverride);
+	}
+	
 	public GameTile (int aTileNumber, int aTotalCount) {
-		setValues (null, aTileNumber, aTotalCount, 0);
+		this (aTileNumber, aTotalCount, false);
 	}
 
 	public boolean addUpgrade (Upgrade aUpgrade) {
@@ -64,7 +71,7 @@ public class GameTile {
 	}
 
 	public boolean canOverride () {
-		return tile.canOverride ();
+		return override;
 	}
 	
 	public boolean containingPoint (Point2D.Double aPoint, Hex aHex) {
@@ -247,12 +254,17 @@ public class GameTile {
 		tile = aTile;
 	}
 
-	public void setValues (Tile aTile, int aTileNumber, int aTotalCount, int aUsedCount) {
+	public void setOverride (boolean aOverride) {
+		override = aOverride;
+	}
+	
+	public void setValues (Tile aTile, int aTileNumber, int aTotalCount, int aUsedCount, boolean aOverride) {
 		tiles = new LinkedList<> ();
 		upgrades = new LinkedList<> ();
 		setTile (aTile);
 		setTileNumber (aTileNumber);
 		setTotalCount (aTotalCount);
+		setOverride (aOverride);
 		// Initially all the tiles used up, need to push them on the stack,
 		// and decrement usedCount as they are pushed onto the stack.
 		setUsedCount (aTotalCount);

@@ -43,7 +43,6 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public final static AttributeName AN_TILE_NUMBER = new AttributeName ("tileNumber");
 	public final static AttributeName AN_TYPE = new AttributeName ("type");
 	public final static AttributeName AN_FIXED = new AttributeName ("fixed");
-	public static final AttributeName AN_OVERRIDE = new AttributeName ("override");
 	public final static ElementName EN_TILE = new ElementName ("Tile");
 	public static final Tile NO_TILE = null;
 	public static final String NO_BASES = "";
@@ -60,7 +59,6 @@ public class Tile implements Comparable<Object>, Cloneable {
 	TileType type;
 	Tracks tracks;
 	Centers centers;
-	boolean override;
 
 	public Tile () {
 		this (NOT_A_TILE, TileType.NO_TYPE);
@@ -93,15 +91,12 @@ public class Tile implements Comparable<Object>, Cloneable {
 		boolean tFixed;
 		String tType;
 		XMLNodeList tXMLNodeList;
-		boolean tOverride;
 		
 		tracks = new Tracks ();
 		centers = new Centers ();
 		tNumber = aNode.getThisIntAttribute (AN_NUMBER);
 		tType = aNode.getThisAttribute (AN_TYPE);
 		tFixed = aNode.getThisBooleanAttribute (AN_FIXED);
-		tOverride = aNode.getThisBooleanAttribute (AN_OVERRIDE);
-		setOverride (tOverride);
 		name = null;
 		tTileTypeID = TileType.getTypeFromName (tType);
 		tXMLNodeList = new XMLNodeList (tileParsingRoutine);
@@ -109,15 +104,6 @@ public class Tile implements Comparable<Object>, Cloneable {
 		setValues (tNumber, tTileTypeID);
 		centers.setTileType (type);
 		type.setFixed (tFixed);
-	}
-
-	
-	public void setOverride (boolean aOverride) {
-		override = aOverride;
-	}
-
-	public boolean canOverride () {
-		return override;
 	}
 
 	public Track getTrackFromStartToEnd (int aStartLocation, int aEndLocation) {

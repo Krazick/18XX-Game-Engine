@@ -1040,9 +1040,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 		tSelectedTileType = aGameTile.getTheTileType ();
 		if (aMapCell.isTileOnCell ()) {
-			tSelectedTileType = aGameTile.getTheTileType ();
-			if (aMapCell.canUpgradeTo (tSelectedTileType)) {
+			if (aGameTile.canOverride ()) {
 				tValidUpgradeType = true;
+			} else {
+				tSelectedTileType = aGameTile.getTheTileType ();
+				if (aMapCell.canUpgradeTo (tSelectedTileType)) {
+					tValidUpgradeType = true;
+				}
 			}
 		} else {
 			if (aMapCell.pseudoYellowTile ()) {

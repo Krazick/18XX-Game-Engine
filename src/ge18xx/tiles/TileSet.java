@@ -88,10 +88,10 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		return tAddedGameTile;
 	}
 
-	public boolean addTile (int aTileNumber, int aTotalCount) {
+	public boolean addTile (int aTileNumber, int aTotalCount, boolean aOverride) {
 		GameTile tGameTile;
 
-		tGameTile = new GameTile (aTileNumber, aTotalCount);
+		tGameTile = new GameTile (aTileNumber, aTotalCount, aOverride);
 
 		return gameTiles.add (tGameTile);
 	}
@@ -955,13 +955,15 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			Upgrade tUpgrade;
 			int tTileNumber;
 			int tQuantity;
+			boolean tOverride;
 			String tChildName;
 
 			tChildName = aChildNode.getNodeName ();
 			if (Tile.EN_TILE.equals (tChildName)) {
 				tTileNumber = aChildNode.getThisIntAttribute (AN_NUMBER);
 				tQuantity = aChildNode.getThisIntAttribute (AN_QUANTITY);
-				addTile (tTileNumber, tQuantity);
+				tOverride = aChildNode.getThisBooleanAttribute (GameTile.AN_OVERRIDE);
+				addTile (tTileNumber, tQuantity, tOverride);
 				parsedGameTile = getGameTile (tTileNumber);
 				tXMLNodeList = new XMLNodeList (tileParsingRoutine);
 				tXMLNodeList.parseXMLNodeList (aChildNode, EN_UPGRADE);
