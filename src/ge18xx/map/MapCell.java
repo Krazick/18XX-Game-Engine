@@ -1214,7 +1214,8 @@ public class MapCell implements Comparator<Object> {
 			}
 		} else {
 			// No Tile on Map Cell Straight Forward placement
-			if (sameTypeCount (aThisTile)) {
+			
+			if (sameTypeCount (aThisTile) || aThisTile.canOverride ()) {
 				// Have a Tile, and a MapCell Selected with same Revenue Center Types
 				tTile = aThisTile.popTile ();
 				if (aThisRotation != NO_ROTATION) {
