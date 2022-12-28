@@ -1631,11 +1631,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		RemoveTileAction tRemoveTileAction;
 		LayTileAction tLayTileAction;
 		String tOperatingRoundID;
-		ActorI.ActionStates tCurrentStatus, tNewStatus;
+		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tNewStatus;
 		ActorI.ActionStates tTargetStatus;
 		int tCostToLayTile;
 		Bank tBank;
-		String tTokens, tBases;
+		String tTokens;
+		String tBases;
 
 		tCurrentStatus = status;
 		if (benefitInUse.changeState ()) {
