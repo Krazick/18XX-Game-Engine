@@ -581,14 +581,17 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 
 	public int getNonBaseTokenCost () {
-		int tCostToLayToken = 0;
+		int tCostToLayToken;
 		MapToken tFirstToken;
 
+		tCostToLayToken = NO_COST;
 		if (benefitInUse.realBenefit ()) {
 			tCostToLayToken = benefitInUse.getCost ();
 		} else {
-			tFirstToken = mapTokens.get (0);
-			tCostToLayToken = tFirstToken.getCost ();
+			if (mapTokens.size () > 0) {
+				tFirstToken = mapTokens.get (0);
+				tCostToLayToken = tFirstToken.getCost ();
+			}
 		}
 
 		return tCostToLayToken;
