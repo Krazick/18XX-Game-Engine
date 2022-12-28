@@ -379,15 +379,16 @@ public class City extends RevenueCenter implements Cloneable {
 
 		tType = type.getType ();
 		switch (tType) {
-		case RevenueCenterType.NO_REVENUE_CENTER: /* No City */
+		case RevenueCenterType.NO_REVENUE_CENTER: 		/* No City */
 			break;
 
-		case RevenueCenterType.DEAD_END_ONLY_CITY: /* Dead End City, DRAW Revenues Only */
+		case RevenueCenterType.DEAD_END_ONLY_CITY: 		/* Dead End City, DRAW Revenues Only */
+		case RevenueCenterType.RUN_THROUGH_CITY: 		/* Run Through City, DRAW Revenues Only */
 			drawValue (aGrapics, Xc, Yc, aHex, aTileOrient);
 			break;
 
-		case RevenueCenterType.SINGLE_CITY: /* Single City */
-		case RevenueCenterType.DEAD_END_CITY: /* Dead End City (can have station, need to draw) */
+		case RevenueCenterType.SINGLE_CITY: 				/* Single City */
+		case RevenueCenterType.DEAD_END_CITY: 			/* Dead End City (can have station, need to draw) */
 			tCityColor = Color.white;
 			drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (isSingleSelected (tLocation, aSelectedFeature)) {
@@ -395,19 +396,19 @@ public class City extends RevenueCenter implements Cloneable {
 			}
 			break;
 
-		case RevenueCenterType.DESTINATION_CITY: /* Destination City (can have station, need to draw) */
+		case RevenueCenterType.DESTINATION_CITY: 		/* Destination City (can have station, need to draw) */
 			drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.DESTINATION_CITY, null, aTileOrient, true, 0);
 			if (isSingleSelected (tLocation, aSelectedFeature)) {
 				drawSelectionMarker (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.DESTINATION_CITY);
 			}
 			break;
 
-		case RevenueCenterType.BYPASS_CITY: /* BYPASS Track Single City */
+		case RevenueCenterType.BYPASS_CITY: 				/* BYPASS Track Single City */
 			tCityColor = Color.white;
 			drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			break;
 
-		case RevenueCenterType.TWO_CITIES: /* Two Separate Cities */
+		case RevenueCenterType.TWO_CITIES: 				/* Two Separate Cities */
 			tCityColor = Color.white;
 			drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
@@ -416,7 +417,7 @@ public class City extends RevenueCenter implements Cloneable {
 			}
 			break;
 
-		case RevenueCenterType.THREE_CITIES: /* Three Seperate Cities */
+		case RevenueCenterType.THREE_CITIES: 			/* Three Seperate Cities */
 			tCityColor = Color.white;
 			drawACity (aGrapics, Xc, Yc, aHex, location, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
@@ -427,7 +428,7 @@ public class City extends RevenueCenter implements Cloneable {
 			}
 			break;
 
-		case RevenueCenterType.FOUR_CITIES: /* Four Seperate Cities */
+		case RevenueCenterType.FOUR_CITIES: 				/* Four Seperate Cities */
 			tCityColor = Color.white;
 			drawACity (aGrapics, Xc, Yc, aHex, location, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
@@ -440,7 +441,7 @@ public class City extends RevenueCenter implements Cloneable {
 			}
 			break;
 
-		case RevenueCenterType.FIVE_CITIES: /* Five Seperate Cities */
+		case RevenueCenterType.FIVE_CITIES: 				/* Five Seperate Cities */
 			tCityColor = Color.white;
 			drawACity (aGrapics, Xc, Yc, aHex, location, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
@@ -455,7 +456,7 @@ public class City extends RevenueCenter implements Cloneable {
 			}
 			break;
 
-		case RevenueCenterType.SIX_CITIES: /* Six Seperate Cities */
+		case RevenueCenterType.SIX_CITIES: 				/* Six Seperate Cities */
 			tCityColor = Color.white;
 			drawACity (aGrapics, Xc, Yc, aHex, location, RevenueCenterType.SINGLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
@@ -472,9 +473,9 @@ public class City extends RevenueCenter implements Cloneable {
 			}
 			break;
 
-		case RevenueCenterType.DOUBLE_CITY: /* Double City */
-		case RevenueCenterType.TRIPLE_CITY: /* Triple City */
-		case RevenueCenterType.QUAD_CITY: /* Four City */
+		case RevenueCenterType.DOUBLE_CITY: 				/* Double City */
+		case RevenueCenterType.TRIPLE_CITY: 				/* Triple City */
+		case RevenueCenterType.QUAD_CITY: 				/* Four City */
 			tCityColor = Color.white;
 			drawACity (aGrapics, Xc, Yc, aHex, tLocation, tType, tCityColor, aTileOrient, true, 0);
 			if (isSingleSelected (tLocation, aSelectedFeature)) {
@@ -482,7 +483,7 @@ public class City extends RevenueCenter implements Cloneable {
 			}
 			break;
 
-		case RevenueCenterType.TWO_DOUBLE_CITIES: /* Two Double Cities */
+		case RevenueCenterType.TWO_DOUBLE_CITIES: 		/* Two Double Cities */
 			tCityColor = Color.white;
 			drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.DOUBLE_CITY, tCityColor, aTileOrient, true, 0);
 			if (!onTile) {
@@ -491,7 +492,7 @@ public class City extends RevenueCenter implements Cloneable {
 			}
 			break;
 
-		case RevenueCenterType.PRIVATE_RAILWAY_POINT: /* Private Railway Revenue Location */
+		case RevenueCenterType.PRIVATE_RAILWAY_POINT: 	/* Private Railway Revenue Location */
 			if (cityInfo != CityInfo.NO_CITY_INFO) {
 				cityInfo.drawPrivateRailway (aGrapics, Xc, Yc, aHex);
 			}
