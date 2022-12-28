@@ -63,6 +63,10 @@ public class GameTile {
 		selected = false;
 	}
 
+	public boolean canOverride () {
+		return tile.canOverride ();
+	}
+	
 	public boolean containingPoint (Point2D.Double aPoint, Hex aHex) {
 		return aHex.contains (aPoint, XCenter, YCenter);
 	}

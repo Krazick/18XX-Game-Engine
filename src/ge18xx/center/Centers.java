@@ -264,12 +264,26 @@ public class Centers implements Cloneable {
 		return tCenter;
 
 	}
+	
+	public RevenueCenter getRunThroughCenter () {
+		RevenueCenter tCenter;
+		
+		tCenter = RevenueCenter.NO_CENTER;
+		for (RevenueCenter tRevenueCenter : centers) {
+			if (tRevenueCenter.isARunThroughCity ()) {
+				tCenter = tRevenueCenter;
+			}
+		}
+		
+		return tCenter;
+	}
 
 	public RevenueCenter getRevenueCenterAtLocation (Location aLocation) {
 		RevenueCenter tCenter = RevenueCenter.NO_CENTER;
 		int tRCLocationInt;
 		int tLocationInt;
 
+		tCenter = RevenueCenter.NO_CENTER;
 		tLocationInt = aLocation.getLocation ();
 		if ((tLocationInt >= Location.DEAD_END0_LOC) && (tLocationInt <= Location.DEAD_END5_LOC)) {
 			tLocationInt = Location.DEAD_END_LOC;

@@ -419,6 +419,10 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		return type.isCity ();
 	}
 
+	public boolean isARunThroughCity () {
+		return type.isARunThroughCity ();
+	}
+	
 	public boolean isCorporationBase () {
 		boolean tIsCorporationBase;
 

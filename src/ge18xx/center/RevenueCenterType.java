@@ -30,12 +30,13 @@ public class RevenueCenterType implements Cloneable {
 	public static final int DESTINATION_CITY = 16;
 	public static final int DOT_TOWN = 17;
 	public static final int PRIVATE_RAILWAY_POINT = 18;
+	public static final int RUN_THROUGH_CITY = 19;
 	public static final int MIN_REVENUE_CENTER_TYPE = NO_REVENUE_CENTER;
-	public static final int MAX_REVENUE_CENTER_TYPE = PRIVATE_RAILWAY_POINT;
+	public static final int MAX_REVENUE_CENTER_TYPE = RUN_THROUGH_CITY;
 	static final String NAMES[] = { "No Revenue Center", "Small Town", "Two Small Towns", "Single City", "Two Cities",
 			"Three Cities", "Four Cities", "Five Cities", "Six Cities", "Double City", "Triple City", "Quad City",
 			"Two Double Cities", "Dead-End City", "Dead-End Only City", "Bypass City", "Destination City", "Dot Town",
-			"Private Railway" };
+			"Private Railway", "Run Through City" };
 
 	int type;
 
@@ -61,6 +62,7 @@ public class RevenueCenterType implements Cloneable {
 		case DOT_TOWN:
 		case DESTINATION_CITY:
 		case PRIVATE_RAILWAY_POINT:
+		case RUN_THROUGH_CITY:
 			canPlaceStation = false;
 			break;
 
@@ -139,6 +141,7 @@ public class RevenueCenterType implements Cloneable {
 		case SMALL_TOWN:
 		case TWO_SMALL_TOWNS:
 		case DOT_TOWN:
+		case RUN_THROUGH_CITY:
 		case PRIVATE_RAILWAY_POINT:
 			aMaxStationCount = 0;
 			break;
@@ -199,6 +202,7 @@ public class RevenueCenterType implements Cloneable {
 		case BYPASS_CITY:
 		case DEAD_END_ONLY_CITY:
 		case TWO_SMALL_TOWNS:
+		case RUN_THROUGH_CITY:
 		case PRIVATE_RAILWAY_POINT:
 			tStationCount = 0;
 			break;
@@ -261,16 +265,22 @@ public class RevenueCenterType implements Cloneable {
 	}
 
 	static public boolean isCity (String aType) {
-		if (aType.equals ("Single City") || aType.equals ("Double City") || aType.equals ("Two Cities")
-				|| aType.equals ("Three Cities") || aType.equals ("Four Cities") || aType.equals ("Five Cities")
-				|| aType.equals ("Six Cities") || aType.equals ("Triple City") || aType.equals ("Quad City")
-				|| aType.equals ("Two Double Cities") || aType.equals ("Dead-End City")
-				|| aType.equals ("Dead-End Only City") || aType.equals ("Bypass City")
-				|| aType.equals ("Destination City")) {
+		if (aType.equals ("Single City") || aType.equals ("Double City") || 
+			aType.equals ("Two Cities") || aType.equals ("Three Cities") || 
+			aType.equals ("Four Cities") || aType.equals ("Five Cities") || 
+			aType.equals ("Six Cities") || aType.equals ("Triple City") || 
+			aType.equals ("Quad City") || aType.equals ("Two Double Cities") || 
+			aType.equals ("Dead-End City") || aType.equals ("Dead-End Only City") || 
+			aType.equals ("Bypass City") || aType.equals ("Destination City") || 
+			aType.equals ("Run Through City")) {
 			return (true);
 		} else {
 			return (false);
 		}
+	}
+
+	public boolean isARunThroughCity () {
+		return (type == RUN_THROUGH_CITY);
 	}
 
 	public boolean isDestination () {

@@ -197,18 +197,29 @@ public class NodeInformation {
 
 	public void applyRCinfo (Tile aTile, Location aLocation, int aCorpID) {
 		RevenueCenter tRevenueCenter;
-
+		RevenueCenter tRunThroughCenter;
+		
 		if (aTile != Tile.NO_TILE) {
-			tRevenueCenter = aTile.getCenterAtLocation (aLocation);
-			if (tRevenueCenter != RevenueCenter.NO_CENTER) {
-				setHasRevenueCenter (true);
-				setRevenueCenter (tRevenueCenter);
-				if (tRevenueCenter.cityHasStation (aCorpID)) {
-					setCorpStation (true);
-				}
+			tRunThroughCenter = aTile.getRunThroughCenter ();
+			if (tRunThroughCenter != RevenueCenter.NO_CENTER) {
+				storeRevenueCenter (aTile, aLocation, aCorpID, tRunThroughCenter);
 			} else {
-				System.err.println ("Can't find Revenue Center at " + aLocation.getLocation ());
+				tRevenueCenter = aTile.getCenterAtLocation (aLocation);
+				storeRevenueCenter (aTile, aLocation, aCorpID, tRevenueCenter);
+
 			}
+		}
+	}
+
+	private void storeRevenueCenter (Tile aTile, Location aLocation, int aCorpID, RevenueCenter aRevenueCenter) {
+		if (aRevenueCenter != RevenueCenter.NO_CENTER) {
+			setHasRevenueCenter (true);
+			setRevenueCenter (aRevenueCenter);
+			if (aRevenueCenter.cityHasStation (aCorpID)) {
+				setCorpStation (true);
+			}
+		} else {
+			System.err.println ("Can't find Revenue Center at " + aLocation.getLocation ());
 		}
 	}
 

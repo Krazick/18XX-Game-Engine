@@ -348,12 +348,16 @@ public class RouteSegment {
 		Location tStartLocation, tEndLocation;
 
 		tStartLocation = start.getLocation ();
-		if (!tStartLocation.isSide ()) {
+		if (tile.getRunThroughCenter () != RevenueCenter.NO_CENTER) {
 			start.applyRCinfo (tile, tStartLocation, aCorpID);
-		}
-		tEndLocation = end.getLocation ();
-		if (!tEndLocation.isSide ()) {
-			end.applyRCinfo (tile, tEndLocation, aCorpID);
+		} else {
+			if (!tStartLocation.isSide ()) {
+				start.applyRCinfo (tile, tStartLocation, aCorpID);
+			}
+			tEndLocation = end.getLocation ();
+			if (!tEndLocation.isSide ()) {
+				end.applyRCinfo (tile, tEndLocation, aCorpID);
+			}
 		}
 	}
 
