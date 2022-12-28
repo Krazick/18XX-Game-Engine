@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 import ge18xx.map.Location;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLNode;
 
 public class Upgrade {
@@ -24,35 +25,37 @@ public class Upgrade {
 	public static final AttributeName AN_TO = new AttributeName ("to");
 	public static final AttributeName AN_FROM = new AttributeName ("from");
 	public static final AttributeName AN_VALUES = new AttributeName ("values");
+	public static final AttributeName AN_PHASES = new AttributeName ("phases");
 	public static final Upgrade NO_UPGRADE = null;
+	public static final String [] NO_PHASES = null;
 	static final int ANY_ROTATION = -1;
 	int toNumber;
-	int toRotations[];
-	int RCfrom[];
-	int RCto[];
-	int RCrotation[];
+	int toRotations [];
+	int RCfrom [];
+	int RCto [];
+	int RCrotation [];
 	String baseCityName;
+	String phases [];
 
 	public Upgrade () {
 	}
 
 	public Upgrade (XMLNode aNode) {
-		String [] tSplit = null;
 		String tRotations;
 		NodeList tChildren;
 		XMLNode tChildNode;
 		String tChildName;
 		int tIndex;
 		int tChildrenCount;
-		int tUpgradeCount, tUpgradeIndex;
+		int tUpgradeCount;
+		int tUpgradeIndex;
+		String tPhases;
 
 		toNumber = aNode.getThisIntAttribute (AN_TO_NUMBER);
 		tRotations = aNode.getThisAttribute (AN_ROTATIONS);
-		tSplit = tRotations.split (",");
-		toRotations = new int [tSplit.length];
-		for (tIndex = 0; tIndex < tSplit.length; tIndex++) {
-			toRotations [tIndex] = Integer.parseInt (tSplit [tIndex]);
-		}
+		setToRotations (tRotations);
+		tPhases = aNode.getThisAttribute (AN_PHASES);
+		setPhases (tPhases);
 		tChildren = aNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
 		if (tChildrenCount > 0) {
@@ -80,6 +83,44 @@ public class Upgrade {
 		}
 	}
 
+	private void setToRotations (String aRotations) {
+		String [] tSplit;
+		int tIndex;
+		
+		tSplit = aRotations.split (",");
+		toRotations = new int [tSplit.length];
+		for (tIndex = 0; tIndex < tSplit.length; tIndex++) {
+			toRotations [tIndex] = Integer.parseInt (tSplit [tIndex]);
+		}
+	}
+
+	public void setPhases (String aPhases) {
+		if (aPhases == GUI.NULL_STRING) {
+			phases = NO_PHASES;
+		} else {
+			phases = aPhases.split (",");
+		}
+	}
+	
+	public String [] getPhases () {
+		return phases;
+	}
+	
+	public boolean containsPhase (String aPhase) {
+		boolean tContainsPhase;
+		
+		tContainsPhase = false;
+		if (phases != NO_PHASES) {
+			for (String tPhase : phases) {
+				if (aPhase.equals (tPhase)) {
+					tContainsPhase = true;
+				}
+			}
+		}
+		
+		return tContainsPhase;
+	}
+	
 	public String getBaseCityName () {
 		return baseCityName;
 	}
