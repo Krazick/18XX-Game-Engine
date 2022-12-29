@@ -267,7 +267,7 @@ public abstract class TokenCompany extends TrainCompany {
 			tFontSize = tScale + 1;
 			tNewFont = new Font (FONT_SSNAME, Font.BOLD, tFontSize);
 		} else {
-			tFontSize = tScale - 2;
+			tFontSize = tScale - 1;
 			tNewFont = new Font (FONT_SSNAME, Font.ITALIC, tFontSize);
 		}
 		g.setFont (tNewFont);
@@ -277,7 +277,7 @@ public abstract class TokenCompany extends TrainCompany {
 		tAbbrevWidth = g.getFontMetrics ().stringWidth (abbrev);
 		tAbbrevHeight = g.getFontMetrics ().getHeight ();
 		tX = tX - tAbbrevWidth / 2;
-		tY = tY + tAbbrevHeight / 2;
+		tY = tY + tAbbrevHeight / 2 - 1;
 
 		g.setColor (fgColor);
 		g.drawString (abbrev, tX, tY);

@@ -46,7 +46,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	Revenues revenues;
 	RevenueCenterType type;
 	CityInfo cityInfo;
-	boolean selectedForTrain[] = new boolean [MAX_TRAIN_COUNT];
+	boolean selectedForTrain [] = new boolean [MAX_TRAIN_COUNT];
 	TileType tileType;
 
 	public RevenueCenter () {
@@ -246,13 +246,12 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		drawName (g, Xc, Yc, aHex);
 	}
 
+	public void drawDestination (Graphics g, int X1, int Y1, int width, int height) {
+		cityInfo.drawDestination (g, X1, Y1, width, height, false);
+	}
+	
 	public void drawCorporationBase (Graphics g, int X1, int Y1, int width, int height) {
-		if (isCorporationBase ()) {
-			cityInfo.drawCorporationBase (g, X1, Y1, width, height, true);
-		}
-		if (type.isDestination ()) {
-			cityInfo.drawCorporationBase (g, X1, Y1, width, height, false);
-		}
+		cityInfo.drawCorporationBase (g, X1, Y1, width, height, true);
 	}
 
 	public void drawName (Graphics g, int Xc, int Yc, Hex aHex) {

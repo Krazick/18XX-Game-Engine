@@ -84,7 +84,7 @@ public class ShareCompany extends TokenCompany {
 		int tCurrentColumn = aStartColumn;
 
 		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
-		aCorporationList.addDataElement (getDestination (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getDestinationLabel (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getDestinationLocationInt (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getSParPrice (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getSharePrice (), aRowIndex, tCurrentColumn++);
@@ -204,7 +204,11 @@ public class ShareCompany extends TokenCompany {
 		super.getCorporationStateElement (aXMLCorporationState);
 	}
 
-	public String getDestination () {
+	public MapCell getDestination () {
+		return destination;
+	}
+	
+	public String getDestinationLabel () {
 		return destinationLabel;
 	}
 
@@ -622,10 +626,14 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	public void setDestination (MapCell aDestinationCity, Location aDestinationLocation) {
-		destination = aDestinationCity;
+		setDestinationMapCell (aDestinationCity);
 		destinationLocation = aDestinationLocation;
 	}
 
+	public void setDestinationMapCell (MapCell aDestinationCity) {
+		destination = aDestinationCity;
+	}
+	
 	public void setLoanCount (int aLoanCount) {
 		loanCount = aLoanCount;
 	}

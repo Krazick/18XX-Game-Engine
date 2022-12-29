@@ -92,6 +92,7 @@ public class MapCell implements Comparator<Object> {
 	Terrain baseTerrain;
 	Terrain terrain1;
 	Terrain terrain2;
+	int destinationCorpID;
 	Paint terrainFillPaint;
 	boolean hasPortToken;
 	boolean hasCattleToken;
@@ -800,6 +801,7 @@ public class MapCell implements Comparator<Object> {
 		int tTerrainCost;
 		String tTileName;
 		int tCurrentPhase;
+		Corporation tDestinationCorporation;
 
 		if (baseTerrain.isSelectable ()) {
 			tTip = "<html>Cell <b>" + getCellID () + "</b><br>";
@@ -840,12 +842,32 @@ public class MapCell implements Comparator<Object> {
 			if (rebate != Rebate.NO_REBATE) {
 				tTip += "Rebate: " + rebate.getAmount () + "<br>";
 			}
+			if (destinationCorpID != Corporation.NO_ID) {
+				tDestinationCorporation = getCorporationByID (destinationCorpID);
+				if (tDestinationCorporation != Corporation.NO_CORPORATION) {
+					tTip += "Destination: " + tDestinationCorporation.getAbbrev ();
+				}
+			}
 			tTip += "</html>";
 		} else {
 			tTip = null;
 		}
 
 		return tTip;
+	}
+
+	public TokenCompany getTokenCompanyByID (int aCorpID) {
+		Corporation tCorporation;
+		TokenCompany tTokenCompany;
+		
+		tCorporation = hexMap.getCorporationByID (aCorpID);
+		if (tCorporation.isATokenCompany ()) {
+			tTokenCompany = (TokenCompany) tCorporation;
+		} else {
+			tTokenCompany = TokenCompany.NO_TOKEN_COMPANY;
+		}
+		
+		return tTokenCompany;
 	}
 
 	public TokenCompany getTokenCompany (String aAbbrev) {
@@ -1500,8 +1522,17 @@ public class MapCell implements Comparator<Object> {
 		selectedFeature2 = new Feature2 ();
 		removePortToken ();
 		removeCattleToken ();
+		setDestinationCorpID (Corporation.NO_ID);
 	}
 
+	public void setDestinationCorpID (int aDestionationCorpID) {
+		destinationCorpID = aDestionationCorpID;
+	}
+	
+	public int getDestinationCorpID () {
+		return destinationCorpID;
+	}
+	
 	public void setCityInfo (CityInfo aCityInfo) {
 		centers.setCityInfo (aCityInfo);
 
@@ -2241,6 +2272,10 @@ public class MapCell implements Comparator<Object> {
 		}
 
 		return tCanUpgradeTo;
+	}
+
+	public Corporation getCorporationByID (int aCorporationID) {
+		return hexMap.getCorporationByID (aCorporationID);
 	}
 
 	public Corporation getCorporation (String aCorporationAbbrev) {

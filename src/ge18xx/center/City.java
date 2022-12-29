@@ -46,7 +46,7 @@ public class City extends RevenueCenter implements Cloneable {
 	static final int NO_STATIONS = 0;
 	static final int NOT_VALID_STATION = -1;
 	int stationCount;
-	MapToken corpStations[];
+	MapToken corpStations [];
 
 	public City () {
 		this (RevenueCenterType.NO_REVENUE_CENTER, NO_STATIONS, Location.NO_LOCATION, NO_ID, NO_NAME, NO_VALUE,
@@ -397,7 +397,8 @@ public class City extends RevenueCenter implements Cloneable {
 			break;
 
 		case RevenueCenterType.DESTINATION_CITY: 		/* Destination City (can have station, need to draw) */
-			drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.DESTINATION_CITY, null, aTileOrient, true, 0);
+			tCityColor = new Color (255, 255, 204);
+			drawACity (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.DESTINATION_CITY, tCityColor, aTileOrient, true, 0);
 			if (isSingleSelected (tLocation, aSelectedFeature)) {
 				drawSelectionMarker (aGrapics, Xc, Yc, aHex, tLocation, RevenueCenterType.DESTINATION_CITY);
 			}
@@ -924,13 +925,15 @@ public class City extends RevenueCenter implements Cloneable {
 				g.fillOval (X1, Y1, width, height);
 			}
 			tIsCorporationBase = isCorporationBase ();
-			tIsDestination = isDestination ();
-			if (tIsCorporationBase || tIsDestination) {
-//			if (isCorporationBase () || isDestination ()) {
+			if (tIsCorporationBase) {
 				tCorpID = getHomeCompanyID ();
 				if (!cityHasStation (tCorpID)) {
 					drawCorporationBase (g, X1, Y1, width, height);
 				}
+			}
+			tIsDestination = isDestination ();
+			if (tIsDestination) {
+				drawDestination (g, X1, Y1, width, height);
 			}
 		}
 

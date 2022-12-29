@@ -487,6 +487,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tMapFrame.addCorporationList (privatesFrame, CorporationList.TYPE_NAMES [0]);
 			tMapFrame.addCorporationList (minorCompaniesFrame, CorporationList.TYPE_NAMES [1]);
 			tMapFrame.addCorporationList (shareCompaniesFrame, CorporationList.TYPE_NAMES [2]);
+			tMapFrame.setDestinationCorpIDs (shareCompaniesFrame);
 		}
 	}
 

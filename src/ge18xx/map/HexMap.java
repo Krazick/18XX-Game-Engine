@@ -1401,6 +1401,10 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	}
 
+	public Corporation getCorporationByID (int aCorporationID) {
+		return mapFrame.getCorporationByID (aCorporationID);
+	}
+
 	public Corporation getCorporation (String aCorporationAbbrev) {
 		return mapFrame.getCorporation (aCorporationAbbrev);
 	}

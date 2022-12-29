@@ -867,7 +867,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		setCorporationList (tCorporationList, aCompanyType);
 		setHomeCities (tCorporationList);
 	}
-
+	
 	public void setCorporationList (CorporationList aCorporationList, ElementName aType) {
 		if (aType.equals (CorporationList.TYPE_NAMES [0])) {
 			privateCos = aCorporationList;
@@ -895,6 +895,31 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					tTile = tileSet.popTile (tTileNumber);
 					if (tTile != Tile.NO_TILE) {
 						map.putStartingTile (rowIndex, colIndex, tTile);
+					}
+				}
+			}
+		}
+	}
+
+	public void setDestinationCorpIDs (CorporationTableFrame aCorporationFrame) {
+		CorporationList tCorporationList;
+		ShareCompany tShareCompany;
+		int tCorporationIndex;
+		int tMaxCorporations;
+		MapCell tMapCell;
+		String tDestinationMapCellID;
+		
+		tCorporationList = aCorporationFrame.getCompanies ();
+		if (tCorporationList != CorporationList.NO_CORPORATION_LIST) {
+			tMaxCorporations = tCorporationList.getRowCount ();
+			for (tCorporationIndex = 0; tCorporationIndex < tMaxCorporations; tCorporationIndex++) {
+				tShareCompany = (ShareCompany) tCorporationList.getCorporation (tCorporationIndex);
+				tDestinationMapCellID = tShareCompany.getDestinationLabel ();
+				if (tDestinationMapCellID != GUI.NULL_STRING) {
+					tMapCell = this.map.getMapCellForID (tDestinationMapCellID);
+					tShareCompany.setDestinationMapCell (tMapCell);
+					if (tMapCell != MapCell.NO_MAP_CELL) {
+						tMapCell.setDestinationCorpID (tShareCompany.getID ());
 					}
 				}
 			}
@@ -939,7 +964,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						tLocation = tShareCompany.getDestinationLocation ();
 						if (tLocation != Location.NO_DESTINATION_LOCATION) {
 							if (!tLocation.isNoLocation ()) {
-								tCellID = tShareCompany.getDestination ();
+								tCellID = tShareCompany.getDestinationLabel ();
 								if (tCellID != Corporation.NO_NAME_STRING) {
 									tMapCell = map.getMapCellForID (tCellID);
 									if (tMapCell != MapCell.NO_MAP_CELL) {
@@ -1216,6 +1241,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tMapCell = map.getMapCellForID (aMapCellID);
 
 		return tMapCell;
+	}
+
+	public Corporation getCorporationByID (int aCorporationID) {
+		return shareCos.getCorporationByID (aCorporationID);
 	}
 
 	public Corporation getCorporation (String aCorporationAbbrev) {

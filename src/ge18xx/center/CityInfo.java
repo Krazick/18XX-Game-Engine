@@ -140,16 +140,25 @@ public class CityInfo implements Cloneable {
 		return tXMLElement;
 	}
 
+	public void drawDestination (Graphics g, int X1, int Y1, int aWidth, int aHeight, boolean aHome) {
+		TokenCompany tTokenCompany;
+		int tDestinationCompanyID;
+		
+		tDestinationCompanyID = mapCell.getDestinationCorpID ();
+		tTokenCompany = mapCell.getTokenCompanyByID (tDestinationCompanyID);
+		if (tTokenCompany != Corporation.NO_CORPORATION) {
+			tTokenCompany.drawBase (g, X1, Y1, aWidth, aHeight, aHome);
+		}
+	}
+	
 	public void drawCorporationBase (Graphics g, int X1, int Y1, int aWidth, int aHeight, boolean aHome) {
 		TokenCompany tTokenCompany;
 
 		if (corporation != Corporation.NO_CORPORATION) {
 			if (!mapCell.hasStation (corporation.getID ())) {
-				try {
+				if (corporation.isATokenCompany ()) {
 					tTokenCompany = (TokenCompany) corporation;
 					tTokenCompany.drawBase (g, X1, Y1, aWidth, aHeight, aHome);
-				} catch (ClassCastException e) {
-
 				}
 			}
 		}
