@@ -25,6 +25,7 @@ import org.apache.logging.log4j.Logger;
 
 import ge18xx.bank.Bank;
 import ge18xx.center.RevenueCenter;
+import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
@@ -44,10 +45,6 @@ import ge18xx.utilities.GUI;
  *
  */
 public class TrainRevenueFrame extends JFrame implements ActionListener, PropertyChangeListener, ItemListener {
-
-	/**
-	 *
-	 */
 	private String NOT_YOUR_COMPANY = "This is not your company operating";
 	private static final long serialVersionUID = 1L;
 	private static final String CONFIRM_ROUTE_ACTION = "DoConfirmRouteAction";
@@ -84,6 +81,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JButton [] reuseRoutes;
 	JPanel allFramesJPanel;
 	JPanel allRevenuesJPanel;
+	JPanel loanInfoPanel;
 	JPanel buttonsJPanel;
 	JFormattedTextField [] [] revenuesByTrain;
 	JFormattedTextField []  revenuesByPlusTrain;
@@ -112,6 +110,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updatePresidentLabel ();
 		allRevenuesJPanel = GUI.NO_PANEL;
 		setRevenueValues (aTrainCompany);
+		loanInfoPanel = new JPanel ();
 		buildRevenuesJPanel ();
 		buildsButtonsJPanel ();
 		presidentLabel.setAlignmentX (CENTER_ALIGNMENT);
@@ -214,6 +213,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		allFramesJPanel.add (thisRevenueLabel);
 		allFramesJPanel.add (Box.createVerticalStrut (10));
 		allFramesJPanel.add (notificationLabel);
+		allFramesJPanel.add (Box.createVerticalStrut (10));
+		allFramesJPanel.add (loanInfoPanel);
 		allFramesJPanel.add (Box.createVerticalStrut (10));
 		allFramesJPanel.add (buttonsJPanel);
 		allFramesJPanel.add (Box.createVerticalStrut (10));
@@ -654,9 +655,73 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		return tTotalRevenue;
 	}
 
+	private void updateLoanInfoPanel () {
+		ShareCompany tShareCompany;
+		BoxLayout tLayoutX;
+		int tLoanCount;
+		int tLoanInterest;
+		int tTreasury;
+		int tRevenueContribution;
+		JLabel tLoanCountLabel;
+		JLabel tLoanInterestLabel;
+		JLabel tCorpTreasury;
+		JLabel tRevenueContributionLabel;
+	
+		if (trainCompany.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) trainCompany;
+			tLoanCount = tShareCompany.getLoanCount ();
+			if (tLoanCount > 0) {
+				loanInfoPanel.setAlignmentX (CENTER_ALIGNMENT);
+				tLayoutX = new BoxLayout (loanInfoPanel, BoxLayout.X_AXIS);
+				loanInfoPanel.setLayout (tLayoutX);
+				tLoanCountLabel = new JLabel ("Loan Count: " + tLoanCount);
+				loanInfoPanel.add (tLoanCountLabel);
+				loanInfoPanel.add (Box.createHorizontalStrut (10));
+				
+				tLoanInterest = tLoanCount * 10;
+				tLoanInterestLabel = new JLabel ("Interest Owed: " + Bank.formatCash (tLoanInterest));
+				loanInfoPanel.add (tLoanInterestLabel);
+				loanInfoPanel.add (Box.createHorizontalStrut (10));
+				
+				tTreasury = tShareCompany.getCash ();
+				tCorpTreasury = new JLabel ("Treasury: " + Bank.formatCash (tTreasury));
+				loanInfoPanel.add (tCorpTreasury);
+				loanInfoPanel.add (Box.createHorizontalStrut (10));
+				
+				tRevenueContribution = calculateRevenueContribution (tLoanInterest, tTreasury);
+				tRevenueContributionLabel = new JLabel ("Revenue Contribution: " + 
+											Bank.formatCash (tRevenueContribution));
+				loanInfoPanel.add (tRevenueContributionLabel);
+				loanInfoPanel.add (Box.createHorizontalStrut (10));
+				
+				loanInfoPanel.setVisible (true);
+			} else {
+				loanInfoPanel.setVisible (false);
+			}
+		}
+	}
+	
+	public int calculateRevenueContribution (int tLoanInterest, int tTreasury) {
+		int tRevenueContribution;
+		int tRC1;
+		
+		tRevenueContribution = 0;
+		if (tTreasury < tLoanInterest) {
+			tRC1 = tLoanInterest - tTreasury;
+			tRevenueContribution = ((int) (tRC1/10)) * 10;
+			if (tRC1 != tRevenueContribution) {
+				tRevenueContribution = ((int) ((tRC1 + 10)/10)) * 10;
+			}
+ 		}
+		
+		return tRevenueContribution;
+	}
+	
 	private void buildRevenuesJPanel () {
-		int tTrainCount, tTrainIndex;
-		int tHeight, tWidth;
+		int tTrainCount;
+		int tTrainIndex;
+		int tHeight;
+		int tWidth;
 		JPanel tTrainRevenueJPanel;
 		BoxLayout tLayoutY;
 
@@ -938,7 +1003,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		int tWidth, tHeight;
 
 		tWidth = calculateTrainWidth ();
-		tHeight = 225 + calculateTrainHeight ();
+		tHeight = 240 + calculateTrainHeight ();
 		setSize (tWidth, tHeight);
 	}
 
@@ -954,6 +1019,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		if (! isVisible ()) {
 			buildRevenuesJPanel ();
 		}
+		updateLoanInfoPanel ();
 		updateThisRevenueLabel ();
 		updateFrameSize ();
 		setFrameSetup (true);
