@@ -131,7 +131,11 @@ public class TransferOwnershipAction extends CashTransferAction {
 		String tShareCountTransferred, tSimpleActionReport;
 		int tCount, tTotalPrice, tSharePrice, tSharePercentage;
 		boolean tIsPresident, tIsPrivate;
-		String tFullShareDescription, tPrice, tFromActorName;
+		String tFullShareDescription;
+		String tPrice;
+		String tFromActorName;
+		String tCashSentTo;
+		String tSentTo;
 
 		tCount = getShareCountTransferred ();
 		tSharePercentage = getSharePercentageTransferred ();
@@ -144,16 +148,19 @@ public class TransferOwnershipAction extends CashTransferAction {
 		tIsPresident = isPresidentTransferred ();
 		tIsPrivate = isPrivateTransferred ();
 		tFromActorName = getFromActorName ();
+		tCashSentTo = getToActorName ();
+		tSentTo = " sent to " + tCashSentTo;
 		if (tIsPrivate) {
 			tFullShareDescription = "the Private Company " + getCompanyAbbrev () + " from " + tFromActorName + ".";
-			tPrice = " Total " + aVerb2 + " price of " + Bank.formatCash (tTotalPrice) + ".";
+			tPrice = " Total " + aVerb2 + " price of " + Bank.formatCash (tTotalPrice) + tSentTo + ".";
 		} else {
 			tFullShareDescription = tShareCountTransferred + " (" + tSharePercentage + "%) of " + getCompanyAbbrev ();
 			if (tIsPresident) {
 				tFullShareDescription += " (President Share)";
 			}
+			
 			tPrice = " for " + Bank.formatCash (tSharePrice) + " per share from " + tFromActorName + "." + " Total "
-					+ aVerb2 + " price of " + Bank.formatCash (tTotalPrice) + ".";
+					+ aVerb2 + " price of " + Bank.formatCash (tTotalPrice) + tSentTo +".";
 		}
 
 		tSimpleActionReport = actor.getName () + " " + aVerb1 + " " + tFullShareDescription + tPrice;
