@@ -810,6 +810,8 @@ public class Certificate implements Comparable<Certificate> {
 									tCanBeSold = false;
 								} else if (tShareCompany.didOperate ()) {
 									tCanBeSold = true;
+								} else if (tOperatingCompany.mustBuyCoupon ()) {
+									tCanBeSold = operatingCompanyMustBuyCoupon (aGameManager);
 								} else {
 									tCanBeSold = operatingCompanyMustBuyTrain (aGameManager);
 								}
@@ -833,6 +835,32 @@ public class Certificate implements Comparable<Certificate> {
 		return tCanBeSold;
 	}
 
+	// In the case of a ForceBuyCoupon state, the Certificate flag is set to true
+	// If the Company is Operating, 
+	// The Company has Loan Count > 0, and 
+	// The Company must Pay Loan Interest or Redeem Loan
+	// Otherwise return false;
+	private boolean operatingCompanyMustBuyCoupon (GameManager aGameManager) {
+		boolean tOCMustBuyCoupon;
+		Corporation tOperatingCompany;
+
+		tOCMustBuyCoupon = false;
+
+		if (aGameManager.isOperatingRound ()) {
+			tOperatingCompany = aGameManager.getOperatingCompany ();
+			// During Loading a game, this is not set yet, so the result is false
+			if (tOperatingCompany != Corporation.NO_CORPORATION) {
+				if (tOperatingCompany.getLoanCount () > 0) {
+					if (tOperatingCompany.mustBuyCoupon ()) {
+						tOCMustBuyCoupon = true;
+					}
+				}
+
+			}
+		}
+
+		return tOCMustBuyCoupon;
+	}
 	// In the case of a ForceTrainBuy state, the Certificate flag is set to true
 	// If the company is Operating, the company has no train, and the company must
 	// buy a Train

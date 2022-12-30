@@ -2349,13 +2349,20 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	// Train Company will Override these
-	public void setMustBuyTrain (boolean b) {
+	public void setMustBuyTrain (boolean aMustBuyTrain) {
 	}
 
 	public boolean mustBuyTrain () {
 		return false;
 	}
 
+	public void setMustBuyCoupon (boolean aMustBuyCoupon) {
+	}
+	
+	public boolean mustBuyCoupon () {
+		return false;
+	}
+	
 	public boolean mustBuyTrainNow () {
 		return false;
 	}

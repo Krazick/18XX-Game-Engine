@@ -52,6 +52,7 @@ public class ShareCompany extends TokenCompany {
 	String startCell;
 	DestinationInfo destinationInfo;
 	int loanCount;
+	boolean mustBuyCoupon;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
 
 	public ShareCompany (XMLNode aChildNode, CorporationList aCorporationList) {
@@ -132,6 +133,16 @@ public class ShareCompany extends TokenCompany {
 		return aCorporation.getPresidentCertificate ();
 	}
 
+	@Override
+	public void setMustBuyCoupon (boolean aMustBuyCoupon) {
+		mustBuyCoupon = aMustBuyCoupon;
+	}
+	
+	@Override
+	public boolean mustBuyCoupon () {
+		return mustBuyCoupon;
+	}
+	
 	@Override
 	public boolean canBuyPrivate () {
 		return corporationList.canBuyPrivate ();
@@ -396,6 +407,7 @@ public class ShareCompany extends TokenCompany {
 
 		tForceBuyCouponFrame = new ForceBuyCouponFrame (this, aForceBuyCoupon);
 		setForceBuyCouponFrame (tForceBuyCouponFrame);
+		setMustBuyCoupon (true);
 		forceBuyCouponFrame.updateMainJPanel ();
 		forceBuyCouponFrame.showFrame ();
 	}
