@@ -191,7 +191,7 @@ public class ShareCompany extends TokenCompany {
 			aXMLCorporationState.setAttribute (AN_LOAN_COUNT, loanCount);
 			aXMLCorporationState.setAttribute (AN_LOAN_TAKEN, loanTaken);
 		}
-		aXMLCorporationState.setAttribute (AN_CAPITALIZATION_LEVEL, getParPrice ());
+		destinationInfo.getDestinationInfo (aXMLCorporationState);
 		super.getCorporationStateElement (aXMLCorporationState);
 	}
 
@@ -687,7 +687,6 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	private void setValues (int aLoanCount, boolean aLoanTaken, String aStartCell) {
-		setDestination (MapCell.NO_DESTINATION, Location.NO_DESTINATION_LOCATION);
 		setLoanCount (aLoanCount);
 		setLoanTaken (aLoanTaken);
 		startCell = aStartCell;
