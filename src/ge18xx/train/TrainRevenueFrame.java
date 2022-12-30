@@ -89,6 +89,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	JLabel [] totalRevenueByEachTrain;
 	private int lastRevenue;
 	private int thisRevenue;
+	private int revenueContribution;
 	boolean yourCompany;
 	boolean frameSetup;
 	Logger logger;
@@ -151,6 +152,14 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updateLastRevenueLabel ();
 	}
 
+	private void setRevenueContribution (int aRevenueContribution) {
+		revenueContribution = aRevenueContribution;
+	}
+	
+	public int getRevenueContribution () {
+		return revenueContribution;
+	}
+	
 	private void updateLastRevenueLabel () {
 		String tFormattedRevenue;
 
@@ -595,7 +604,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	/**
 	 * This returns the sum of the revenues from all of the trains the company owns
 	 *
-	 * @return the Total of all Trains revenues
+	 * @return the Total of all Trains revenues less the RevenueContribution due to Loan Interest Payments (if any)
 	 */
 
 	public int addAllTrainRevenues () {
@@ -610,7 +619,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 			tTrainRevenue = addTrainRevenues (tTrainIndex, tTrain);
 			tAllTrainRevenues += tTrainRevenue;
 		}
-
+		tAllTrainRevenues -= getRevenueContribution ();
+		
 		return tAllTrainRevenues;
 	}
 
@@ -689,6 +699,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				loanInfoPanel.add (Box.createHorizontalStrut (10));
 				
 				tRevenueContribution = calculateRevenueContribution (tLoanInterest, tTreasury);
+				setRevenueContribution (tRevenueContribution);
 				tRevenueContributionLabel = new JLabel ("Revenue Contribution: " + 
 											Bank.formatCash (tRevenueContribution));
 				loanInfoPanel.add (tRevenueContributionLabel);
