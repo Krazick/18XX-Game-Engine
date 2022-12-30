@@ -3,33 +3,49 @@ package ge18xx.company;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class DestinationInfo {
 	static final AttributeName AN_DESTINATION = new AttributeName ("destination");
+	static final AttributeName AN_REACHED = new AttributeName ("reached");
 	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
+	static final AttributeName AN_ESCROW = new AttributeName ("escrow");
 	Location location;
 	MapCell mapCell;
 	String label;
 	int capitalizationLevel;
 	int escrowForPayment;
+	boolean reached;
 
 	public DestinationInfo (XMLNode aChildNode) {
 		Location tLocation;
 		int tCapitalizationLevel;
 		int tDestinationLocation;
 		String tDestinationLabel;
+		boolean tReached;
 		
-		tDestinationLabel = aChildNode.getThisAttribute (AN_DESTINATION);
-		setLabel (tDestinationLabel);
-		tDestinationLocation = aChildNode.getThisIntAttribute (AN_DESTINATION_LOCATION, Location.NO_LOCATION);
-		tLocation = new Location (tDestinationLocation);
-		setLocation (tLocation);
 		tCapitalizationLevel = aChildNode.getThisIntAttribute (AN_CAPITALIZATION_LEVEL);
 		setCapitalizationLevel (tCapitalizationLevel);
+		tDestinationLocation = aChildNode.getThisIntAttribute (AN_DESTINATION_LOCATION, Location.NO_LOCATION);
+		if (tDestinationLocation == Location.NO_LOCATION) {
+			setLocation (Location.NO_LOC);
+			setReached (true);
+		} else {
+			tLocation = new Location (tDestinationLocation);
+			setLocation (tLocation);
+			tReached = aChildNode.getThisBooleanAttribute (AN_REACHED);
+			setReached (tReached);
+			tDestinationLabel = aChildNode.getThisAttribute (AN_DESTINATION);
+			setLabel (tDestinationLabel);
+		}
 	}
 
+	public void setReached (boolean aReached) {
+		reached = aReached;
+	}
+	
 	public void setLocation (Location aLocation) {
 		location = aLocation;
 	}
@@ -48,6 +64,10 @@ public class DestinationInfo {
 	
 	public void setEscrowForPayment (int aEscrowForPayment) {
 		escrowForPayment = aEscrowForPayment;
+	}
+	
+	public boolean hasReached () {
+		return reached;
 	}
 	
 	public Location getLocation () {
@@ -78,4 +98,13 @@ public class DestinationInfo {
 		}
 	}
 
+	public void getDestinationInfo (XMLElement aXMLCorporationState) {
+		aXMLCorporationState.setAttribute (AN_CAPITALIZATION_LEVEL, getCapitalizationLevel ());
+		if (location != Location.NO_LOC) {
+			aXMLCorporationState.setAttribute (AN_DESTINATION, getLabel ());
+			aXMLCorporationState.setAttribute (AN_DESTINATION_LOCATION, getLocationInt ());
+			aXMLCorporationState.setAttribute (AN_REACHED, hasReached ());
+			aXMLCorporationState.setAttribute (AN_ESCROW, getEscrowForPayment ());
+		}
+	}
 }
