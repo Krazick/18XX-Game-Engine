@@ -99,6 +99,7 @@ public class Certificate implements Comparable<Certificate> {
 	FrameButton frameButton;
 	JComboBox<String> parValuesCombo;
 	Bidders bidders;
+	boolean justBought;
 
 	public Certificate () {
 		this (Corporation.NO_CORPORATION, false, NO_PERCENTAGE, CertificateHolderI.NO_OWNER);
@@ -110,6 +111,7 @@ public class Certificate implements Comparable<Certificate> {
 		parValuesCombo = null;
 		checkBox = GUI.NO_CHECK_BOX;
 		setFrameButton (checkBox, "");
+		setJustBought (false);
 	}
 
 	public Certificate (Certificate aCertificate) {
@@ -124,9 +126,18 @@ public class Certificate implements Comparable<Certificate> {
 			setFrameButton (checkBox, "");
 			parValuesCombo = null;
 			bidders = new Bidders (this);
+			setJustBought (false);
 		}
 	}
 
+	public void setJustBought (boolean aJustBought) {
+		justBought = aJustBought;
+	}
+	
+	public boolean justBought () {
+		return justBought;
+	}
+	
 	private void setFrameButton (JCheckBox aJCheckBox, String aGroupName) {
 		if (aJCheckBox != GUI.NO_CHECK_BOX) {
 			frameButton = new FrameButton (aJCheckBox, aGroupName);

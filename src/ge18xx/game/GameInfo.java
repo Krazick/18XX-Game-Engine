@@ -62,6 +62,7 @@ public class GameInfo {
 	final AttributeName AN_RANDOMIZE_START_ORDER = new AttributeName ("randomizeStartOrder");
 	final AttributeName AN_FIRST_TOKEN_COST = new AttributeName ("firstTokenCost");
 	final AttributeName AN_LATER_TOKEN_COST = new AttributeName ("laterTokenCost");
+	final AttributeName AN_NO_TOUCH_PASS = new AttributeName ("noTouchPass");
 
 	static final int NO_GAME_ID = 0;
 	static final String NO_NAME = "<NONE>";
@@ -75,9 +76,9 @@ public class GameInfo {
 
 	boolean gameTestFlag = false; // For marking this Game info as Test for JUNIT Purposes ONLY
 
-	int id;
 	String gameID;
 	String name;
+	int id;
 	int minPlayers;
 	int maxPlayers;
 	int bankTotal;
@@ -92,6 +93,7 @@ public class GameInfo {
 	String producers;
 	String releaseDate;
 	String status;
+	boolean noTouchPass;
 	boolean operateBeforeSale;
 	boolean hasPrivates;
 	boolean hasMinors;
@@ -140,13 +142,16 @@ public class GameInfo {
 		int tLoanInterest;
 		int tFirstTokenCost;
 		int tLaterTokenCost;
-		boolean tHasPrivates, tHasMinors, tHasShares;
+		boolean tHasPrivates;
+		boolean tHasMinors;
+		boolean tHasShares;
 		boolean tLoans;
 		boolean tTestGraphs;
 		boolean tOperateBeforeSale;
 		boolean tRandomizeStartOrder;
 		boolean tCanPayHalfDividend;
-
+		boolean tNoTouchPass;
+		
 		tGameID = aCellNode.getThisAttribute (AN_GAME_ID);
 		tID = aCellNode.getThisIntAttribute (AN_ID);
 		tName = aCellNode.getThisAttribute (AN_NAME);
@@ -161,6 +166,7 @@ public class GameInfo {
 		tProducers = aCellNode.getThisAttribute (AN_PRODUCERS);
 		tReleaseDate = aCellNode.getThisAttribute (AN_RELEASE_DATE);
 
+		tNoTouchPass = aCellNode.getThisBooleanAttribute (AN_NO_TOUCH_PASS);
 		tTestGraphs = aCellNode.getThisBooleanAttribute (AN_TEST_GRAPHS);
 		tHasPrivates = aCellNode.getThisBooleanAttribute (AN_PRIVATES);
 		tLoans = aCellNode.getThisBooleanAttribute (AN_LOANS);
@@ -188,6 +194,7 @@ public class GameInfo {
 		setRandomizeStartOrder (tRandomizeStartOrder);
 		setCanPayHalfDividend (tCanPayHalfDividend);
 		setTestGraphs (tTestGraphs);
+		setNoTouchPass (tNoTouchPass);
 
 		tBankPoolShareLimit = aCellNode.getThisIntAttribute (AN_BANK_POOL_SHARE_LIMIT);
 		tPlayerShareLimit = aCellNode.getThisIntAttribute (AN_PLAYER_SHARE_LIMIT);
@@ -753,6 +760,10 @@ public class GameInfo {
 		testGraphs = aTestGraphs;
 	}
 
+	public void setNoTouchPass (boolean aNoTouchPass) {
+		noTouchPass = aNoTouchPass;
+	}
+	
 	public void setStatus (String aStatus) {
 		status = aStatus;
 	}
@@ -784,6 +795,10 @@ public class GameInfo {
 		currencyFormat = aFormat;
 	}
 
+	public boolean noTouchPass () {
+		return noTouchPass;
+	}
+	
 	public boolean isATestGame () {
 		return gameTestFlag;
 	}

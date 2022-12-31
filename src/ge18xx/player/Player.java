@@ -171,6 +171,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerFrame.setFrameToConfigDetails (aGameManager, XMLFrame.getVisibileOFF ());
 	}
 
+	public void clearJustBoughtForAllCerts () {
+		portfolio.clearJustBoughtForAllCerts ();
+	}
+	
 	public void setBenefitInUse (Benefit aBenefitInUse) {
 		benefitInUse = aBenefitInUse;
 	}

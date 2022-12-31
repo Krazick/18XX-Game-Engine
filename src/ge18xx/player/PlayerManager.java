@@ -92,6 +92,12 @@ public class PlayerManager {
 		}
 	}
 
+	public void clearJustBoughtForAllPlayers () {
+		for (Player tPlayer : players) {
+			tPlayer.clearJustBoughtForAllCerts ();
+		}
+	}
+	
 	public String getPlayersInOrder () {
 		String tPlayersInOrder = "";
 
