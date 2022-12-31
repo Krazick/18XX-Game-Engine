@@ -29,7 +29,7 @@ public class AddPhaseVEffect extends PhaseInfoVEffect {
 	 * Given an XMLDocument, this will create the XMLElement by using the super-class and then stores
 	 * the CompanyID and the VariantEffect Class
 	 *
-	 * @param aXMLDocument The XMLDocumdnt to use to create the XMLElement
+	 * @param aXMLDocument The XMLDocument to use to create the XMLElement
 	 *
 	 * @return the filled out XMLElement
 	 *
