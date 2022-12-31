@@ -319,7 +319,6 @@ public class ShareCompany extends TokenCompany {
 		int tInterestPayment;
 		int tTreasuryContribution;
 		int tRevenueContribution;
-		int tRevenueReducedTo;
 		Bank tBank;
 		LoanInterestCoupon tInterestCoupon;
 
@@ -330,16 +329,10 @@ public class ShareCompany extends TokenCompany {
 		if (tInterestPayment <= getCash ()) {
 			completeLoanInterestPayment (tOldState, tInterestPayment, 0, tBank);
 		} else {
-			// TODO -- 
-			// If not enough Cash in Treasury to pay Interest on Loans -- we get here
 			tTreasuryContribution = calculateTreasuryContribution ();
 			tRevenueContribution = calculateRevenueContribution (tInterestPayment);
-			tRevenueReducedTo = getThisRevenue () - tRevenueContribution;
-			setThisRevenue (tRevenueReducedTo);
 			
-			if (tInterestPayment <= (tTreasuryContribution + tRevenueContribution)) {
-				System.err.println ("Need " + Bank.formatCash (tInterestPayment) + " needed to pay Loan Interest Payment on " +
-									tLoanCount + " Loans.");
+			if (tInterestPayment < (tTreasuryContribution + tRevenueContribution)) {
 				tInterestCoupon = new LoanInterestCoupon (tInterestPayment);
 				forceBuyCoupon (tInterestCoupon);
 			} else {
@@ -352,17 +345,19 @@ public class ShareCompany extends TokenCompany {
 		ActorI.ActionStates tNewState;
 		PayLoanInterestAction tPayLoanInterestAction;
 		OperatingRound tOperatingRound;
+		int tCashPaid;
 		
 		if (updateStatus (ActorI.ActionStates.HandledLoanInterest)) {
 			tNewState = getStatus ();
 			tOperatingRound = corporationList.getOperatingRound ();
 			tPayLoanInterestAction = new PayLoanInterestAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
-			tPayLoanInterestAction.addCashTransferEffect (this, aBank, aCompanyPayment);
-			tPayLoanInterestAction.addChangeCorporationStatusEffect (this, aOldState, tNewState);
+			tCashPaid = aCompanyPayment - aRevenuePayment;
+			transferCashTo (aBank, tCashPaid);
 			if (aRevenuePayment > 0) {
 				tPayLoanInterestAction.addReduceRevenueEffect (this, aRevenuePayment);
 			}
-			transferCashTo (aBank, aCompanyPayment);
+			tPayLoanInterestAction.addCashTransferEffect (this, aBank, tCashPaid);
+			tPayLoanInterestAction.addChangeCorporationStatusEffect (this, aOldState, tNewState);
 			addAction (tPayLoanInterestAction);
 		}
 	}
@@ -383,21 +378,16 @@ public class ShareCompany extends TokenCompany {
 		int tTreasuryContribution;
 		int tRevenueContribution;
 		int tStillOwe;
-		int tRevenueEarned;
 		
 		destinationInfo.setEscrowForPayment (0);
 		tTreasuryContribution = calculateTreasuryContribution ();
-		tStillOwe = aInterestPayment - tTreasuryContribution;
-		tRevenueEarned = getThisRevenue ();
-		if (tRevenueEarned >= tStillOwe) {
-			tRevenueContribution = tStillOwe;
-		} else {
-			tRevenueContribution = tRevenueEarned;
-		}
+		tRevenueContribution = trainRevenueFrame.getRevenueContribution ();
+		
+		tStillOwe = aInterestPayment - tTreasuryContribution - tRevenueContribution;
 		
 		System.out.println ("Treasury " + getCash () + " Contribution amount " + tTreasuryContribution);
-		System.out.println ("Still Owed after Treasury " + tStillOwe);
-		System.out.println ("Revenue Earned " + tRevenueEarned + " Revenue Contribution " + tRevenueContribution);
+		System.out.println ("Revenue Contribution " + tRevenueContribution);
+		System.out.println ("Still Owed after Treasury and Revenue contributions" + tStillOwe);
 		
 		return tRevenueContribution;
 	}
