@@ -141,7 +141,7 @@ public class RoundFrame extends XMLFrame {
 
 		headerJPanel = new JPanel ();
 		headerJPanel.setMinimumSize (new Dimension (600, 100));
-		headerJPanel.setMaximumSize (new Dimension (1000, 150));
+		headerJPanel.setMaximumSize (new Dimension (1100, 150));
 		headerJPanel.setBorder (BorderFactory.createEmptyBorder (padding2, padding2, padding2, padding2));
 		headerJPanel.setLayout (new BoxLayout (headerJPanel, BoxLayout.X_AXIS));
 		headerJPanel.add (Box.createHorizontalStrut (20));

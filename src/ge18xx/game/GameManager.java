@@ -263,6 +263,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tPrivatesJPanel;
 	}
 
+	public boolean noTouchPass () {
+		return activeGame.noTouchPass ();
+	}
+	
 	public boolean canSellPresidentShare () {
 		return activeGame.canSellPresidentShare ();
 	}
