@@ -744,6 +744,7 @@ public class ShareCompany extends TokenCompany {
 		return tSharesSold;
 	}
 
+	@Override
 	public boolean shouldFloat () {
 		boolean tShouldFloat;
 		int tMinSharesToFloat;

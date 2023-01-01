@@ -1182,17 +1182,17 @@ public class RoundManager implements ActionListener {
 		gameManager.setParPrice (aShareCompany, aParPrice);
 	}
 
-	public void updateActionLabel (TrainCompany aTrainCompany) {
+	public void updateActionLabel (ShareCompany aShareCompany) {
 		String tDoActionLabel = "DO THIS COMPANY";
-
-		if (aTrainCompany.shouldOperate ()) {
-			tDoActionLabel = aTrainCompany.getDoLabel ();
+		
+		if (aShareCompany.shouldOperate ()) {
+			tDoActionLabel = aShareCompany.getDoLabel ();
 		}
-		if (aTrainCompany.isOperating ()) {
-			tDoActionLabel = aTrainCompany.getOperatingLabel ();
+		if (aShareCompany.isOperating ()) {
+			tDoActionLabel = aShareCompany.getOperatingLabel ();
 		}
 		setButtonLabel (tDoActionLabel);
-		if (isNetworkAndIsThisClient (aTrainCompany.getPresidentName ())) {
+		if (isNetworkAndIsThisClient (aShareCompany.getPresidentName ())) {
 			enableActionButton (true);
 		} else {
 			enableActionButton (false);

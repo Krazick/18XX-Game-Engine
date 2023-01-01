@@ -795,6 +795,12 @@ public class GameInfo {
 		currencyFormat = aFormat;
 	}
 
+	/**
+	 * Returns the state of the NoTouchPass Game Attribute 
+	 * 
+	 * @return the NoTouchPass Attribute
+	 * 
+	 */
 	public boolean noTouchPass () {
 		return noTouchPass;
 	}

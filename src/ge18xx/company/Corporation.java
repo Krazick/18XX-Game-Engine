@@ -2013,6 +2013,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return isOperating;
 	}
 
+	public boolean shouldFloat () {
+		return false;
+	}
+	
 	public boolean shouldOperate () {
 		boolean tShouldOperate;
 
@@ -2023,6 +2027,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 			(status == ActorI.ActionStates.Operated) ||
 			(status == ActorI.ActionStates.Unformed)) {
 			tShouldOperate = false;
+		} else if (shouldFloat ()) {
+			tShouldOperate = true;
 		}
 
 		return tShouldOperate;
