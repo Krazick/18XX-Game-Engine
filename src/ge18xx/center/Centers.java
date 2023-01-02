@@ -76,6 +76,18 @@ public class Centers implements Cloneable {
 		return centers.add (aCenter);
 	}
 
+	public boolean remove (RevenueCenter aCenter) {
+		return centers.remove (aCenter);
+	}
+	
+	public void removeTemporaryCenters () {
+		for (RevenueCenter tRevenueCenter : centers) {
+			if (tRevenueCenter.isTemporary ()) {
+				remove (tRevenueCenter);
+			}
+		}
+	}
+
 	public void appendCenters (XMLElement aXMLElement, XMLDocument aXMLDocument) {
 		XMLElement tCenterElement;
 

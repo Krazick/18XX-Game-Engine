@@ -46,8 +46,9 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	Revenues revenues;
 	RevenueCenterType type;
 	CityInfo cityInfo;
-	boolean selectedForTrain [] = new boolean [MAX_TRAIN_COUNT];
 	TileType tileType;
+	boolean selectedForTrain [] = new boolean [MAX_TRAIN_COUNT];
+	boolean temporary;
 
 	public RevenueCenter () {
 		TileType noTileType;
@@ -63,8 +64,8 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		setTileType (aTileType);
 	}
 
-	public RevenueCenter (RevenueCenterType aRCType, int aID, int aLocation, String aName, int aValue,
-			TileType aTileType) {
+	public RevenueCenter (RevenueCenterType aRCType, int aID, int aLocation, String aName, 
+							int aValue, TileType aTileType) {
 		setValues (aRCType, aID, aLocation, aName, aValue);
 		setTileType (aTileType);
 	}
@@ -139,6 +140,14 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		return false;
 	}
 
+	public void setTemporary (boolean aTemporary) {
+		temporary = aTemporary;
+	}
+	
+	public boolean isTemporary () {
+		return temporary;
+	}
+	
 	public void appendCorporationBase (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
 		XMLElement tCorporationBaseElement;
 		String tCorporationAbbrev;
@@ -417,7 +426,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public boolean isCity () {
 		return type.isCity ();
 	}
-
+	
 	public boolean isARunThroughCity () {
 		return type.isARunThroughCity ();
 	}

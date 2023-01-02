@@ -324,11 +324,16 @@ public class CityInfo implements Cloneable {
 	}
 
 	public boolean isCorporationBase () {
-		boolean tIsCorporationBase = false;
+		boolean tIsCorporationBase;
 
-		if (corporation != Corporation.NO_CORPORATION) {
-			if ((corporation.isAShareCompany () || corporation.isAMinorCompany ())) {
-				tIsCorporationBase = true;
+		tIsCorporationBase = false;
+		if (center != RevenueCenter.NO_CENTER) {
+			if (! center.isDestination ()) {
+				if (corporation != Corporation.NO_CORPORATION) {
+					if ((corporation.isAShareCompany () || corporation.isAMinorCompany ())) {
+						tIsCorporationBase = true;
+					}
+				}
 			}
 		}
 

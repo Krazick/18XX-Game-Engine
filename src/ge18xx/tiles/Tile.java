@@ -122,6 +122,18 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return tTrack;
 	}
 
+	public boolean addCenter (RevenueCenter aRevenueCenter) {
+		return (centers.add (aRevenueCenter));
+	}
+	
+	public boolean removeCenter (RevenueCenter aRevenueCenter) {
+		return (centers.remove (aRevenueCenter));
+	}
+	
+	public void removeTemporaryCenters () {
+		centers.removeTemporaryCenters ();
+	}
+	
 	public boolean addTrack (Track aTrack) {
 		return tracks.add (aTrack);
 	}

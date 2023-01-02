@@ -1758,6 +1758,7 @@ public class MapCell implements Comparator<Object> {
 		int tFirstPossibleRotation;
 		Location tOldCityLocation, tNewCityLocation;
 		RevenueCenter tRevenueCenter;
+		City tDestinationCity;
 		City tCity;
 		Corporation tBaseCorporation;
 		GameTile tCurrentGameTile;
@@ -1830,6 +1831,10 @@ public class MapCell implements Comparator<Object> {
 							tBaseCorporation = tCity.getCorporation ();
 							aNewTile.setCorporationHome (tBaseCorporation, tNewCityLocation);
 							aNewTile.setMapCell (this);
+						} else if (tCity.isDestination ()) {
+							tDestinationCity = tCity.clone ();
+							tDestinationCity.setTemporary (true);
+							aNewTile.addCenter (tDestinationCity);
 						}
 					}
 				}
@@ -1977,6 +1982,7 @@ public class MapCell implements Comparator<Object> {
 
 		// Remove Tile from Map Cell, Clear all City Info and Stations, and place it
 		// back on TileSet
+		aCurrentTile.removeTemporaryCenters ();
 		tCurrentGameTile = aTileSet.getGameTile (tCurrentTileNumber);
 		aCurrentTile.clearAll ();
 		tCurrentGameTile.pushTile (aCurrentTile);
