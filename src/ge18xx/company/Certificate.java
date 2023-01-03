@@ -23,6 +23,7 @@ import ge18xx.game.FrameButton;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
+import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Bidder;
 import ge18xx.player.Bidders;
 import ge18xx.player.CashHolderI;
@@ -1154,7 +1155,7 @@ public class Certificate implements Comparable<Certificate> {
 		iValue = 0;
 		if (corporation.isAShareCompany ()) {
 			iParPrice = getParPrice ();
-			fSinglePercentPrice = (float) iParPrice / 10;
+			fSinglePercentPrice = (float) iParPrice / PhaseInfo.STANDARD_SHARE_SIZE;
 			iValue = (int) (fSinglePercentPrice * percentage);
 		} else if (corporation.isAPrivateCompany ()) {
 			if (hasBidders ()) {
@@ -1217,7 +1218,7 @@ public class Certificate implements Comparable<Certificate> {
 		float fSinglePercentPrice;
 		int iValue;
 
-		fSinglePercentPrice = (float) aSharePrice / 10;
+		fSinglePercentPrice = (float) aSharePrice / PhaseInfo.STANDARD_SHARE_SIZE;
 		iValue = (int) (fSinglePercentPrice * percentage);
 
 		return iValue;
@@ -1650,7 +1651,7 @@ public class Certificate implements Comparable<Certificate> {
 		if (corporation.isAShareCompany ()) {
 			tMinSharesToFloat = corporation.getMinSharesToFloat ();
 			tPercentOwned = corporation.getPercentOwned ();
-			tSharesSold = tPercentOwned / 10;
+			tSharesSold = tPercentOwned / PhaseInfo.STANDARD_SHARE_SIZE;
 			if (tSharesSold >= tMinSharesToFloat) {
 				tNewState = ActorI.ActionStates.MayFloat;
 			}
