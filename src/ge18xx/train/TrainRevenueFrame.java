@@ -679,6 +679,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	
 		if (trainCompany.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) trainCompany;
+			loanInfoPanel.removeAll ();
 			tLoanCount = tShareCompany.getLoanCount ();
 			if (tLoanCount > 0) {
 				loanInfoPanel.setAlignmentX (CENTER_ALIGNMENT);
