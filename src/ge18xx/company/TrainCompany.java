@@ -166,12 +166,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	public void setupTrainRevenueFrame () {
 		String tRevenueFrameTitle;
-		String tClientName;
 		GameManager tGameManager;
 
 		tGameManager = corporationList.getGameManager ();
-		tClientName = tGameManager.getClientUserName ();
-		tRevenueFrameTitle = "Train Revenue for " + abbrev + " (" + tClientName + ")";
+		tRevenueFrameTitle = tGameManager.createFrameTitle ("Train Revenue for " + abbrev);
 		trainRevenueFrame = new TrainRevenueFrame (this, tRevenueFrameTitle);
 	}
 
