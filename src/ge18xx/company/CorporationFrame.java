@@ -1,5 +1,6 @@
 package ge18xx.company;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -71,6 +72,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String MUST_BUY_TRAIN = "Corporation must buy a Train";
 	static final String MUST_PAY_INTEREST = "Must Pay Interest on outstanding loans before handling dividends.";
 	static final String NO_CORPORATION_LOANS = "Corporation has no Loans";
+	static final String ONE_LOAN_PER_OR = "Only one Loan can be taken per Operating Round";
 	static final String GET_LOAN = "Get Loan";
 	static final String REDEEM_LOAN = "Redeem Loan";
 	static final String PAY_LOAN_INTEREST = "Pay Loan Interest";
@@ -87,6 +89,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	JPanel privatesJPanel;
 	JPanel certInfoJPanel;
 	JPanel buttonsJPanel;
+	JPanel buyTrainButtonsJPanel;
 	JLabel treasuryLabel;
 	JLabel presidentLabel;
 	JLabel statusLabel;
@@ -580,8 +583,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			addButton (payHalfDividendButton);
 		}
 		addButton (payFullDividendButton);
-		addButton (buyTrainButton);
-		addButton (buyTrainForceButton);
+		buyTrainButtonsJPanel = new JPanel ();
+		addButtonsSubPanel (buyTrainButtonsJPanel, buyTrainButton);
+		addButtonsSubPanel (buyTrainButtonsJPanel, buyTrainForceButton);
+		addButtonsSubPanel (buyTrainButtonsJPanel);
 		if (corporation.gameHasPrivates ()) {
 			addButton (buyPrivateButton);
 		}
@@ -594,6 +599,16 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		addButton (explainButton);
 	}
 
+	private void addButtonsSubPanel (JPanel aButtonsSubPanel, JButton aButton) {
+		aButton.setVisible (true);
+		aButtonsSubPanel.add (aButton);
+		buttonsInfoFrame.addButton (aButton);
+	}
+	
+	private void addButtonsSubPanel (JPanel aButtonsSubPanel) {
+		buttonsJPanel.add (aButtonsSubPanel);
+	}
+	
 	private void addButton (JButton aButton) {
 		aButton.setVisible (true);
 		buttonsJPanel.add (aButton);
@@ -811,7 +826,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		tLoanInterest = corporation.getLoanInterest ();
 		if (corporation.wasLoanTaken ()) {
 			getLoanButton.setEnabled (false);
-			tToolTip = "Only one Loan can be taken per Operating Round";
+			tToolTip = ONE_LOAN_PER_OR;
 		} else if (tSharesOwned <= tLoanCount) {
 			getLoanButton.setEnabled (false);
 			tToolTip = "Company has " + tSharesOwned + " Shares owned by Players, and has " + tLoanCount +
@@ -1306,6 +1321,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		Train tSelectedTrainToBuy;
 		Coupon tSelectedTrainToUpgrade;
 		boolean tRemovedADiscount;
+		boolean tCanBuyTrain;
 
 		tThisSelectedTrainCount = tTrainCompany.getLocalSelectedTrainCount ();
 		tSelectedCount = corporation.getSelectedTrainCount ();
@@ -1325,6 +1341,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			}
 		}
 
+		tCanBuyTrain = false;
 		// if tThisSelectedCount is one, it has been selected to Upgrade to another
 		// train
 		if (tThisSelectedTrainCount == 1) {
@@ -1339,23 +1356,25 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					tSelectedTrainToBuy = tTrainCompany.getSelectedBankTrain ();
 					tSelectedTrainToUpgrade = tTrainCompany.getSelectedTrain ();
 					if (tSelectedTrainToBuy.canBeUpgradedFrom (tSelectedTrainToUpgrade.getName ())) {
-						updateBuyTrainButton (true);
+						tCanBuyTrain = true;
+						updateBuyTrainButton (tCanBuyTrain);
 					} else {
-						updateButton (buyTrainButton, false, "Must select Train from the Bank that Can be Upgraded to "
+						updateButton (buyTrainButton, tCanBuyTrain, "Must select Train from the Bank that Can be Upgraded to "
 								+ tSelectedTrainToBuy.getName ());
 					}
 				} else {
-					updateButton (buyTrainButton, false, "Must select Train from the Bank to Upgrade");
+					updateButton (buyTrainButton, tCanBuyTrain, "Must select Train from the Bank to Upgrade");
 				}
 			} else {
-				updateBuyTrainButton (false);
+				updateBuyTrainButton (tCanBuyTrain);
 			}
 		} else if (canBuySelectedTrain (tSelectedCount)) {
 			updateBuyTrainLabel ();
-			updateBuyTrainButton (true);
+			tCanBuyTrain = true;
+			updateBuyTrainButton (tCanBuyTrain);
 		} else {
 			updateBuyTrainLabel ();
-			updateBuyTrainButton (false);
+			updateBuyTrainButton (tCanBuyTrain);
 		}
 	}
 
@@ -1381,11 +1400,20 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	private void updateBuyTrainButton (boolean aEnable) {
 		String tToolTip;
-
+		Color tAlertColor;
+		Color tBackgroundColor;
+		
 		if (aEnable) {
 			tToolTip = GUI.NO_TOOL_TIP;
 		} else {
 			tToolTip = corporation.reasonForNoBuyTrain ();
+		}
+		if (corporation.dividendsHandled ()) {
+			tAlertColor = gameManager.getAlertColor ();
+			buyTrainButtonsJPanel.setBackground (tAlertColor);
+		} else {
+			tBackgroundColor = gameManager.getDefaultColor ();
+			buyTrainButtonsJPanel.setBackground (tBackgroundColor);
 		}
 		updateButton (buyTrainButton, aEnable, tToolTip);
 	}

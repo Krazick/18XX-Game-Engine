@@ -1,5 +1,6 @@
 package ge18xx.game;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.Point;
@@ -2851,6 +2852,22 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 
 		return tIsConnected;
+	}
+
+	public Color getAlertColor () {
+		Color tAlertColor;
+
+		tAlertColor = Color.ORANGE;
+		
+		return tAlertColor;
+	}
+
+	public Color getDefaultColor () {
+		Color tDefaultColor;
+		
+		tDefaultColor = shareCompaniesFrame.getBackground ();
+		
+		return tDefaultColor;
 	}
 
 	@Override
