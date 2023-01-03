@@ -805,14 +805,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		int tLoanAmount;
 		int tLoanInterest;
 
-		tSharesOwned = corporation.getPercentOwned ()/ 10;
+		tSharesOwned = corporation.getPercentOwned ()/ PhaseInfo.STANDARD_SHARE_SIZE;
 		tLoanCount = corporation.getLoanCount ();
 		tLoanAmount = corporation.getLoanAmount ();
 		tLoanInterest = corporation.getLoanInterest ();
 		if (corporation.wasLoanTaken ()) {
 			getLoanButton.setEnabled (false);
 			tToolTip = "Only one Loan can be taken per Operating Round";
-		} else if (tSharesOwned < tLoanCount) {
+		} else if (tSharesOwned <= tLoanCount) {
 			getLoanButton.setEnabled (false);
 			tToolTip = "Company has " + tSharesOwned + " Shares owned by Players, and has " + tLoanCount +
 					" Loans outstanding. Can't take out any more.";
