@@ -70,11 +70,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String TRAIN_SELECTED = "Train has been Selected for Purchase";
 	static final String PRIVATE_SELECTED = "Private has been Selected for Purchase";
 	static final String MUST_BUY_TRAIN = "Corporation must buy a Train";
+	static final String MUST_REDEEM_LOANS = "Corporation has more loans out than Shares Owned by Players. Must Redeem Loans";
 	static final String MUST_PAY_INTEREST = "Must Pay Interest on outstanding loans before handling dividends.";
 	static final String NO_CORPORATION_LOANS = "Corporation has no Loans";
 	static final String ONE_LOAN_PER_OR = "Only one Loan can be taken per Operating Round";
 	static final String GET_LOAN = "Get Loan";
 	static final String REDEEM_LOAN = "Redeem Loan";
+	static final String MUST_REDEEM_LOAN = "Must Redeem at least %d Loan";
 	static final String PAY_LOAN_INTEREST = "Pay Loan Interest";
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
@@ -819,26 +821,30 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		int tLoanCount;
 		int tLoanAmount;
 		int tLoanInterest;
-
-		tSharesOwned = corporation.getPercentOwned ()/ PhaseInfo.STANDARD_SHARE_SIZE;
-		tLoanCount = corporation.getLoanCount ();
-		tLoanAmount = corporation.getLoanAmount ();
-		tLoanInterest = corporation.getLoanInterest ();
-		if (corporation.wasLoanTaken ()) {
-			getLoanButton.setEnabled (false);
-			tToolTip = ONE_LOAN_PER_OR;
-		} else if (tSharesOwned <= tLoanCount) {
-			getLoanButton.setEnabled (false);
-			tToolTip = "Company has " + tSharesOwned + " Shares owned by Players, and has " + tLoanCount +
-					" Loans outstanding. Can't take out any more.";
-		} else {
-			getLoanButton.setEnabled (true);
-			tToolTip = "Can take out Loan of " + Bank.formatCash (tLoanAmount) + ". Interest is " +
-						Bank.formatCash (tLoanInterest) + " per Operating Round.";
+		ShareCompany tShareCompany;
+		
+		if (corporation.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) corporation;
+			tSharesOwned = tShareCompany.getSharesOwned ();
+			tLoanCount = tShareCompany.getLoanCount ();
+			tLoanAmount = tShareCompany.getLoanAmount ();
+			tLoanInterest = tShareCompany.getLoanInterest ();
+			if (tShareCompany.wasLoanTaken ()) {
+				getLoanButton.setEnabled (false);
+				tToolTip = ONE_LOAN_PER_OR;
+			} else if (tSharesOwned <= tLoanCount) {
+				getLoanButton.setEnabled (false);
+				tToolTip = "Company has " + tSharesOwned + " Shares owned by Players, and has " + tLoanCount +
+						" Loans outstanding. Can't take out any more.";
+			} else {
+				getLoanButton.setEnabled (true);
+				tToolTip = "Can take out Loan of " + Bank.formatCash (tLoanAmount) + ". Interest is " +
+							Bank.formatCash (tLoanInterest) + " per Operating Round.";
+			}
+			getLoanButton.setToolTipText (tToolTip);
 		}
-		getLoanButton.setToolTipText (tToolTip);
 	}
-
+	
 	private void updatePayLoanInterestButton () {
 		String tToolTip;
 		int tLoanCount;
@@ -869,29 +875,40 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void updateRedeemLoanButton () {
+		int tMustRedeemCount;
+		String tRedeemLabel;
 		String tToolTip;
 		ShareCompany tShareCompany;
-
+		
+		tRedeemLabel = REDEEM_LOAN;
 		if (corporation.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) corporation;
+			tMustRedeemCount = tShareCompany.getMustRedeemLoanCount ();
 			if (! tShareCompany.hasOutstandingLoans ()) {
 				redeemLoanButton.setEnabled (false);
 				tToolTip = NO_CORPORATION_LOANS;
 			} else if (! corporation.dividendsHandled ()) {
 				redeemLoanButton.setEnabled (false);
 				tToolTip = DIVIDENDS_NOT_HANDLED;
-			} else if (corporation.getCash () < corporation.loanAmount) {
-				redeemLoanButton.setEnabled (false);
-				tToolTip = "Not enough cash to pay a Loan back";
-			} else if (corporation.getSelectedTrainCount () > 0) {
-				redeemLoanButton.setEnabled (false);
-				tToolTip = TRAIN_SELECTED;
 			} else if (corporation.getCountOfSelectedPrivates () > 0) {
 				redeemLoanButton.setEnabled (false);
 				tToolTip = PRIVATE_SELECTED;
+			} else if (corporation.getSelectedTrainCount () > 0) {
+				redeemLoanButton.setEnabled (false);
+				tToolTip = TRAIN_SELECTED;
 			} else if (corporation.mustBuyTrainNow ()) {
 				redeemLoanButton.setEnabled (false);
 				tToolTip = MUST_BUY_TRAIN;
+			} else if (tMustRedeemCount > 0) {
+				tRedeemLabel = String.format (MUST_REDEEM_LOAN, tMustRedeemCount);
+				if (tMustRedeemCount > 1) {
+					tRedeemLabel += "s";
+				}
+				redeemLoanButton.setEnabled (true);
+				tToolTip = GUI.NO_TOOL_TIP;
+			} else if (corporation.getCash () < corporation.loanAmount) {
+				redeemLoanButton.setEnabled (false);
+				tToolTip = "Not enough cash to pay a Loan back";
 			} else {
 				redeemLoanButton.setEnabled (true);
 				tToolTip = GUI.NO_TOOL_TIP;
@@ -900,9 +917,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			redeemLoanButton.setEnabled (false);
 			tToolTip = NO_CORPORATION_LOANS;
 		}
+		redeemLoanButton.setText (tRedeemLabel);
 		redeemLoanButton.setToolTipText (tToolTip);
 	}
-
+	
 	private void updatePayHalfDividendButton (int aTrainCount) {
 		String tToolTip;
 
@@ -1254,6 +1272,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		} else if (corporation.getCountOfSelectedPrivates () > 0) {
 			doneButton.setEnabled (false);
 			tToolTip = PRIVATE_SELECTED;
+		} else if (corporation.getLoanCount () > corporation.getSharesOwned ()) {
+			doneButton.setEnabled (false);
+			tToolTip = MUST_REDEEM_LOANS;
 		} else if (corporation.mustBuyTrainNow ()) {
 			doneButton.setEnabled (false);
 			tToolTip = MUST_BUY_TRAIN;
