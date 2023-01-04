@@ -716,7 +716,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		boolean tDidOperateTrain;
 
 		tDidOperateTrain = false;
-		if ((status == ActorI.ActionStates.OperatedTrain)) {
+		if ((status == ActorI.ActionStates.OperatedTrain) || 
+			(status == ActorI.ActionStates.HandledLoanInterest)) {
 			tDidOperateTrain = true;
 		}
 
