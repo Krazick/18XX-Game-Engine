@@ -2409,6 +2409,14 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 
 	}
 
+	/**
+	 * Base method to the number of shares owned by Players. The Share company will Override
+	 */
+	// Share Company will Override
+	public int getSharesOwned () {
+		return 0;
+	}
+
 	public Border setupBorder () {
 		Border tCorpBorder;
 
