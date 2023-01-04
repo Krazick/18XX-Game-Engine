@@ -45,7 +45,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	JLabel corporationTreasuryLabel;
 	JLabel presidentTreasuryLabel;
 	JLabel totalTreasuryLabel;
-	JLabel cashNeededLabel;
+	JLabel presidentalCashNeededLabel;
 	JLabel totalLiquidAssetLabel;
 	JLabel totalSelectedAssetLabel;
 	JLabel saleLimitReasons;
@@ -59,9 +59,10 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	int buyingTrainCompanyTreasury;
 	int presidentTreasury;
 	int actionCount;
-	int cashNeeded;
+	int presidentContribution;
 	int liquidAssetTotal;
 	int selectedAssetTotal;
+	int revenueContribution;
 	ShareCompany exchangedCompany;
 
 	public ForceBuyCouponFrame (ShareCompany aBuyingCompany, Coupon aMustBuyCoupon) {
@@ -77,6 +78,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		shareCompany = aBuyingCompany;
 		mustBuyCoupon = aMustBuyCoupon;
 		actionCount = 0;
+		revenueContribution = 0;
 		setExchangedCompany (ShareCompany.NO_SHARE_COMPANY);
 
 		buildMainJPanel ();
@@ -86,11 +88,18 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		updateButtons ();
 		setSize (400, 350);
 		pack ();
-//		setDefaultCloseOperation (DO_NOTHING_ON_CLOSE);
 	}
 
 	public void showFrame () {
 		setVisible (true);
+	}
+
+	private void setRevenueContribution (int aRevenueContribution) {
+		revenueContribution = aRevenueContribution;
+	}
+
+	private int getRevenueContribution () {
+		return revenueContribution;
 	}
 
 	private void buildMainJPanel () {
@@ -110,7 +119,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		mainJPanel.add (buttonJPanel);
 		updateButtons ();
 	}
-
+	
 	private void buildInfoJPanel () {
 		JLabel tPresidentLabel;
 		JPanel tCouponPanel;
@@ -134,15 +143,18 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		addLabelAndSpace (frameLabel);
 		corporationTreasuryLabel = new JLabel ("Treasury: " + Bank.formatCash (tCompanyTreasury));
 		addLabelAndSpace (corporationTreasuryLabel);
+		
+		addRevenueContributionToPanel ();
+		
 		tPresidentLabel = new JLabel ("President: " + president.getName ());
 		addLabelAndSpace (tPresidentLabel);
 		presidentTreasuryLabel = new JLabel ("President Treasury: " + Bank.formatCash (presidentTreasury));
 		addLabelAndSpace (presidentTreasuryLabel);
 		totalTreasuryLabel = new JLabel ("Total Treasury: " + Bank.formatCash (presidentTreasury + tCompanyTreasury));
 		addLabelAndSpace (totalTreasuryLabel);
-		cashNeededLabel = new JLabel ("XXX");
-		updateCashNeeded ();
-		addLabelAndSpace (cashNeededLabel);
+		presidentalCashNeededLabel = new JLabel ("XXX");
+		updatePresidentalCashNeeded ();
+		addLabelAndSpace (presidentalCashNeededLabel);
 		totalLiquidAssetLabel = new JLabel ("");
 		addLabelAndSpace (totalLiquidAssetLabel);
 		totalSelectedAssetLabel = new JLabel ("");
@@ -157,32 +169,44 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		infoJPanel.add (Box.createVerticalStrut (10));
 	}
 
+	private void addRevenueContributionToPanel () {
+		int tRevenueContribution;
+		LoanInterestCoupon tLoanInterestCoupon;
+		JLabel tRevenueContributionLabel;
+		
+		if (mustBuyCoupon instanceof LoanInterestCoupon) {
+			tLoanInterestCoupon = (LoanInterestCoupon) mustBuyCoupon;
+			tRevenueContribution = tLoanInterestCoupon.getRevenueContribution ();
+			tRevenueContributionLabel = new JLabel ("Revenue Contribution: " + Bank.formatCash (tRevenueContribution));
+			addLabelAndSpace (tRevenueContributionLabel);
+		} else {
+			tRevenueContribution = 0;
+		}
+		setRevenueContribution (tRevenueContribution);
+	}
+
 	private void addLabelAndSpace (JLabel aLabelToAdd) {
 		infoJPanel.add (Box.createHorizontalStrut (50));
 		infoJPanel.add (aLabelToAdd);
 		infoJPanel.add (Box.createVerticalStrut (10));
 	}
 
-	private int calculateCashNeeded (int aCompanyTreasury, int aCouponCost) {
-		int tCashNeeded;
-
-		tCashNeeded = aCouponCost - (presidentTreasury + aCompanyTreasury);
-
-		return tCashNeeded;
+	private void calculatePresidentalCashNeeded (int aCompanyTreasury, int aCouponCost) {
+		presidentContribution = aCouponCost - (getRevenueContribution () + aCompanyTreasury);
 	}
 
-	private void updateCashNeeded () {
+	private void updatePresidentalCashNeeded () {
 		int tCompanyTreasury;
 		int tCouponCost;
 
 		tCouponCost = mustBuyCoupon.getPrice ();
 		tCompanyTreasury = shareCompany.getTreasury ();
-		cashNeeded = calculateCashNeeded (tCompanyTreasury, tCouponCost);
-		if (cashNeeded > 0) {
-			cashNeededLabel.setText ("Cash Needed: " + Bank.formatCash (cashNeeded));
+		calculatePresidentalCashNeeded (tCompanyTreasury, tCouponCost);
+		if (presidentContribution > 0) {
+			presidentalCashNeededLabel.setText ("Presidental Cash Needed: " + Bank.formatCash (presidentContribution));
 		} else {
-			cashNeededLabel.setText (
-					"Have enough Cash, will have " + Bank.formatCash (-cashNeeded) + " in President Treasury");
+			presidentalCashNeededLabel.setText (
+					"Have enough Cash, will have " + Bank.formatCash (presidentTreasury + presidentContribution) + " in President Treasury");
 		}
 	}
 
@@ -521,8 +545,8 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		tTotalSaleCost = getSelectedStocksSaleCost ();
 		// TODO -- Find the smallest percentage Share to be sold
 		tCertificateCost = tCertificateToSell.getCost ();
-		if (tTotalSaleCost > cashNeeded) {
-			tExcessCash = tTotalSaleCost - cashNeeded;
+		if (tTotalSaleCost > presidentContribution) {
+			tExcessCash = tTotalSaleCost - presidentContribution;
 			if (tExcessCash > tCertificateCost) {
 				if (allSelectedSharesSameSize ()) {
 					tTooManySharesSelectedToSell = true;
@@ -696,7 +720,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	}
 
 	private void updateDeclareBankruptcyButton () {
-		if (liquidAssetTotal >= cashNeeded) {
+		if (liquidAssetTotal >= presidentContribution) {
 			declareBankruptcyButton.setEnabled (false);
 			declareBankruptcyButton.setToolTipText ("Have enough to " + forceAction);
 		} else {
@@ -708,7 +732,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	public boolean haveEnoughCash () {
 		boolean tHaveEnoughCash = false;
 
-		tHaveEnoughCash = ((presidentTreasury + shareCompany.getCash ()) > mustBuyCoupon.getPrice ());
+		tHaveEnoughCash = ((presidentTreasury + shareCompany.getCash () + revenueContribution) >= mustBuyCoupon.getPrice ());
 
 		return tHaveEnoughCash;
 	}
@@ -775,28 +799,24 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 
 	private void refreshFrame () {
 		buildStockJPanel ();
-//		updateButtons ();
 		updateTreasuryLabels ();
 		updateMainJPanel ();
 		repaint ();
 	}
 
 	private void buyCoupon () {
-		int tNeededCash;
 		int tLoanCountToRepay;
 
-		tNeededCash = mustBuyCoupon.getPrice () - shareCompany.getCash ();
-		president.transferCashTo (shareCompany, tNeededCash);
 		if (mustBuyCoupon instanceof Train) {
 			mustBuyCoupon.setSelection ();
-			shareCompany.buyTrain (tNeededCash);
+			shareCompany.buyTrain (presidentContribution);
 		} else if (mustBuyCoupon instanceof LoanInterestCoupon) {
-			shareCompany.payLoanInterest ();
+			shareCompany.payLoanInterest (presidentContribution);
 			shareCompany.updateFrameInfo ();
 			shareCompany.setMustBuyCoupon (false);
 		} else if (mustBuyCoupon instanceof LoanRedemptionCoupon) {
 			tLoanCountToRepay = mustBuyCoupon.getPrice ()/shareCompany.getLoanAmount ();
-			shareCompany.redeemLoans (tLoanCountToRepay);
+			shareCompany.redeemLoans (tLoanCountToRepay, presidentContribution);
 			shareCompany.setMustBuyCoupon (false);
 		} else {
 			System.err.println ("The Must Buy Coupon " + mustBuyCoupon.getName () + " is not a recognized type.");

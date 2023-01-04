@@ -309,16 +309,20 @@ public class ShareCompany extends TokenCompany {
 		corporationList.addAction (tGetLoanAction);
 	}
 
+	@Override
+	public void payLoanInterest () {
+		payLoanInterest (0);
+	}
 	/**
 	 * Base method to handle Interest Payment for a Loan for the Company.
 	 *
 	 */
-	@Override
-	public void payLoanInterest () {
+
+	public void payLoanInterest (int aPresidentContribution) {
 		ActorI.ActionStates tOldState;
 		int tLoanCount;
 		int tInterestPayment;
-		int tTreasuryContribution;
+		int tTreasury;
 		int tRevenueContribution;
 		Bank tBank;
 		LoanInterestCoupon tInterestCoupon;
@@ -328,21 +332,23 @@ public class ShareCompany extends TokenCompany {
 		tInterestPayment = tLoanCount * getLoanInterest ();
 		tBank = corporationList.getBank ();
 		if (tInterestPayment <= getCash ()) {
-			completeLoanInterestPayment (tOldState, tInterestPayment, 0, tBank);
+			completeLoanInterestPayment (tOldState, tInterestPayment, 0, aPresidentContribution, tBank);
 		} else {
-			tTreasuryContribution = calculateTreasuryContribution ();
+
+			tTreasury = getCash ();
 			tRevenueContribution = calculateRevenueContribution (tInterestPayment);
 			
-			if (tInterestPayment < (tTreasuryContribution + tRevenueContribution)) {
-				tInterestCoupon = new LoanInterestCoupon (tInterestPayment);
+			if (tInterestPayment > (tTreasury + tRevenueContribution + aPresidentContribution)) {
+				tInterestCoupon = new LoanInterestCoupon (tInterestPayment, tRevenueContribution);
 				forceBuyCoupon (tInterestCoupon);
 			} else {
-				completeLoanInterestPayment (tOldState, tInterestPayment, tRevenueContribution, tBank);
+				completeLoanInterestPayment (tOldState, tInterestPayment, tRevenueContribution, aPresidentContribution, tBank);
 			}
 		}
 	}
 
-	private void completeLoanInterestPayment (ActorI.ActionStates aOldState, int aCompanyPayment, int aRevenuePayment, Bank aBank) {
+	private void completeLoanInterestPayment (ActorI.ActionStates aOldState, int aInterestPayment, int aRevenuePayment, 
+											int aPresidentContribution, Bank aBank) {
 		ActorI.ActionStates tNewState;
 		PayLoanInterestAction tPayLoanInterestAction;
 		OperatingRound tOperatingRound;
@@ -352,7 +358,8 @@ public class ShareCompany extends TokenCompany {
 			tNewState = getStatus ();
 			tOperatingRound = corporationList.getOperatingRound ();
 			tPayLoanInterestAction = new PayLoanInterestAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
-			tCashPaid = aCompanyPayment - aRevenuePayment;
+			addNeededCashTransferEffect (tPayLoanInterestAction, aPresidentContribution);
+			tCashPaid = aInterestPayment - aRevenuePayment;
 			transferCashTo (aBank, tCashPaid);
 			if (aRevenuePayment > 0) {
 				tPayLoanInterestAction.addReduceRevenueEffect (this, aRevenuePayment);
@@ -380,7 +387,6 @@ public class ShareCompany extends TokenCompany {
 		int tRevenueContribution;
 		int tStillOwe;
 		
-		destinationInfo.setEscrowForPayment (0);
 		tTreasuryContribution = calculateTreasuryContribution ();
 		tRevenueContribution = trainRevenueFrame.getRevenueContribution ();
 		
@@ -388,7 +394,7 @@ public class ShareCompany extends TokenCompany {
 		
 		System.out.println ("Treasury " + getCash () + " Contribution amount " + tTreasuryContribution);
 		System.out.println ("Revenue Contribution " + tRevenueContribution);
-		System.out.println ("Still Owed after Treasury and Revenue contributions" + tStillOwe);
+		System.out.println ("Still Owed after Treasury and Revenue contributions " + tStillOwe);
 		
 		return tRevenueContribution;
 	}
@@ -451,6 +457,10 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	public void redeemLoans (int aLoanRedemptionCount) {
+		redeemLoans (aLoanRedemptionCount, 0);
+	}
+
+	public void redeemLoans (int aLoanRedemptionCount, int aPresidentContribution) {
 		int tNewLoanCount;
 		int tLoanRedemptionAmount;
 		RedeemLoanAction tRedeemLoanAction;
@@ -465,11 +475,12 @@ public class ShareCompany extends TokenCompany {
 			tNewLoanCount = loanCount - aLoanRedemptionCount;
 			tLoanRedemptionAmount = loanAmount * aLoanRedemptionCount;
 
-			if (getCash () >= tLoanRedemptionAmount) {
+			if (tLoanRedemptionAmount <= (getCash () + aPresidentContribution)) {
 				tBank = corporationList.getBank ();
 				tOperatingRound = corporationList.getOperatingRound ();
+				setLoanCount (tNewLoanCount);
 				tRedeemLoanAction = new RedeemLoanAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
-				tRedeemLoanAction.addRedeemLoanEffect (this);
+				addNeededCashTransferEffect (tRedeemLoanAction, aPresidentContribution);
 				tRedeemLoanAction.addUpdateLoanCountEffect (this, loanCount, tNewLoanCount);
 				tRedeemLoanAction.addCashTransferEffect (this, tBank, tLoanRedemptionAmount);
 
@@ -477,11 +488,10 @@ public class ShareCompany extends TokenCompany {
 				setLoanCount (tNewLoanCount);
 				corporationList.addAction (tRedeemLoanAction);
 
-				setLoanCount (tNewLoanCount);
+				corporationFrame.updateInfo ();
 			} else {
 				System.err.println ("Asked to replay " + Bank.formatCash (tLoanRedemptionAmount) +
 						" however, the company only has " + Bank.formatCash (getCash ()) + " available.");
-				// TODO: Add in Emergency Fund Raising, from President, and possible Forced Stock Sale
 				tRedemptionCoupon = new LoanRedemptionCoupon (tLoanRedemptionAmount);
 				forceBuyCoupon (tRedemptionCoupon);
 			}

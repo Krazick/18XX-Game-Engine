@@ -3,7 +3,6 @@ package ge18xx.round.action;
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.effects.RedeemLoanEffect;
 import ge18xx.utilities.XMLNode;
 
 public class RedeemLoanAction extends GetLoanAction {
@@ -35,13 +34,6 @@ public class RedeemLoanAction extends GetLoanAction {
 	@Override
 	public void addGetLoanEffect (ActorI aActor, boolean aOldLoanTaken, boolean aNewLoanTaken) {
 		System.err.println ("Cannot add a Loan Effect when Redeeming a Loan");
-	}
-
-	public void addRedeemLoanEffect (ActorI aActor) {
-		RedeemLoanEffect tRedeemLoanEffect;
-
-		tRedeemLoanEffect = new RedeemLoanEffect (aActor);
-		addEffect (tRedeemLoanEffect);
 	}
 
 	@Override

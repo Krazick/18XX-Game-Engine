@@ -725,6 +725,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 				tRevenueContribution = ((int) ((tRC1 + 10)/10)) * 10;
 			}
  		}
+		tRevenueContribution = Math.min (tRevenueContribution, thisRevenue);
+		tRevenueContribution = Math.max (tRevenueContribution, 0);
 		
 		return tRevenueContribution;
 	}
@@ -1031,8 +1033,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		if (! isVisible ()) {
 			buildRevenuesJPanel ();
 		}
-		updateLoanInfoPanel ();
 		updateThisRevenueLabel ();
+		updateLoanInfoPanel ();
 		updateFrameSize ();
 		setFrameSetup (true);
 	}
@@ -1235,6 +1237,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		updateReuseRouteButtons ();
 		udpateConfirmAllRoutesButton ();
 		updateCancelButton ();
+		updateLoanInfoPanel ();
 	}
 
 	private void updateConfirmRouteButtons () {

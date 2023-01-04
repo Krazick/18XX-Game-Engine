@@ -26,6 +26,7 @@ import ge18xx.player.ShareHolders;
 import ge18xx.round.OperatingRound;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyTrainAction;
+import ge18xx.round.action.CashTransferAction;
 import ge18xx.round.action.ClearATrainFromMapAction;
 import ge18xx.round.action.ClearAllRoutesAction;
 import ge18xx.round.action.FloatCompanyAction;
@@ -609,15 +610,16 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		BankPool tBankPool;
 		BuyTrainAction tBuyTrainAction;
 		String tOperatingRoundID;
-		CashHolderI tPresident;
+//		CashHolderI tPresident;
 
 		if (isSelectedTrainInBank ()) {
 			tOperatingRoundID = corporationList.getOperatingRoundID ();
 			tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-			if (aNeededCash > 0) {
-				tPresident = (CashHolderI) getPresident ();
-				tBuyTrainAction.addCashTransferEffect (tPresident, this, aNeededCash);
-			}
+			addNeededCashTransferEffect (tBuyTrainAction, aNeededCash);
+//			if (aNeededCash > 0) {
+//				tPresident = (CashHolderI) getPresident ();
+//				tBuyTrainAction.addCashTransferEffect (tPresident, this, aNeededCash);
+//			}
 			tUpgradingTrain = getSelectedTrain ();
 			if (tUpgradingTrain != Train.NO_TRAIN) {
 				tBankPool = corporationList.getBankPool ();
@@ -631,6 +633,16 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		clearAllTrainSelections ();
 	}
 
+	protected void addNeededCashTransferEffect (CashTransferAction aCashTransferAction, int aPresidentContribution) {
+		CashHolderI tPresident;
+
+		if (aPresidentContribution > 0) {
+			tPresident = (CashHolderI) getPresident ();
+			transferCashTo (tPresident, -aPresidentContribution);
+			aCashTransferAction.addCashTransferEffect (tPresident, this, aPresidentContribution);
+		}
+	}
+	
 	public Train getSelectedBankTrain () {
 		Train tTrain;
 		TrainHolderI tTrainHolder;
