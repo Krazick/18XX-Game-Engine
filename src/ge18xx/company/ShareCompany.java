@@ -9,6 +9,7 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
+import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.OperatingRound;
@@ -423,7 +424,32 @@ public class ShareCompany extends TokenCompany {
 	public int getLoanAmount () {
 		return loanAmount;
 	}
-	
+
+	@Override
+	public int getSharesOwned () {
+		int tSharesOwned;
+		
+		tSharesOwned = getPercentOwned ()/ PhaseInfo.STANDARD_SHARE_SIZE;
+
+		return tSharesOwned;
+	}
+
+	public int getMustRedeemLoanCount () {
+		int tLoanCount;
+		int tSharesOwned;
+		int tMustRedeemCount;
+		
+		tLoanCount = getLoanCount ();
+		tSharesOwned = getSharesOwned ();
+		if (tLoanCount > tSharesOwned) {
+			tMustRedeemCount = tLoanCount - tSharesOwned;
+		} else {
+			tMustRedeemCount = 0;
+		}
+
+		return tMustRedeemCount;
+	}
+
 	public void redeemLoans (int aLoanRedemptionCount) {
 		int tNewLoanCount;
 		int tLoanRedemptionAmount;
