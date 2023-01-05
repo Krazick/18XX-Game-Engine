@@ -33,6 +33,7 @@ public class PhaseInfo {
 	static final AttributeName AN_CAN_BUY_PRIVATE = new AttributeName ("canBuyPrivate");
 	static final AttributeName AN_CAN_BUY_TRAIN = new AttributeName ("canBuyTrain");
 	static final AttributeName AN_CLOSE_PRIVATES = new AttributeName ("closePrivate");
+	static final AttributeName AN_LOANS_ALLOWED = new AttributeName ("loansAllowed");
 	static final AttributeName AN_GOVERNMENT_CAN_FORM = new AttributeName ("governmentCanForm");
 	static final AttributeName AN_GOVERNMENT_MUST_FORM = new AttributeName ("governmentMustForm");
 	static final AttributeName AN_MIN_TO_FLOAT = new AttributeName ("minToFloat");
@@ -66,19 +67,21 @@ public class PhaseInfo {
 	boolean canBuyPrivate;
 	boolean canBuyTrain;
 	boolean closePrivates;
+	boolean loansAllowed;
 	boolean governmentCanForm;
 	boolean governmentMustForm;
 	String offBoard;
 
 	public PhaseInfo () {
 		setValues (NO_NAME, NO_NAME, NO_ROUNDS, NO_TILES, NO_LIMIT, NO_LIMIT, NO_LIMIT, NO_OFF_BOARD, false, false,
-				false, false, false);
+				false, false, false, false);
 	}
 
 	public PhaseInfo (XMLNode aCellNode) {
 		int tName, tSubName, tRounds, tTrainLimit, tMinorTrainLimit, tGovtTrainLimit;
 		boolean tCanBuyPrivate, tClosePrivate, tGovernmentCanForm, tGovernmentMustForm;
 		boolean tCanBuyTrain;
+		boolean tLoansAllowed;
 		String tOffBoard, tTileColors;
 		String tTiles[];
 
@@ -97,10 +100,11 @@ public class PhaseInfo {
 		tCanBuyPrivate = aCellNode.getThisBooleanAttribute (AN_CAN_BUY_PRIVATE);
 		tCanBuyTrain = aCellNode.getThisBooleanAttribute (AN_CAN_BUY_TRAIN);
 		tClosePrivate = aCellNode.getThisBooleanAttribute (AN_CLOSE_PRIVATES);
+		tLoansAllowed = aCellNode.getThisBooleanAttribute (AN_LOANS_ALLOWED);
 		tGovernmentCanForm = aCellNode.getThisBooleanAttribute (AN_GOVERNMENT_CAN_FORM);
 		tGovernmentMustForm = aCellNode.getThisBooleanAttribute (AN_GOVERNMENT_MUST_FORM);
 		setValues (tName, tSubName, tRounds, tTiles, tTrainLimit, tMinorTrainLimit, tGovtTrainLimit, tOffBoard,
-				tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tGovernmentCanForm, tGovernmentMustForm);
+				tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tLoansAllowed, tGovernmentCanForm, tGovernmentMustForm);
 		parseFloatMinValues (aCellNode);
 	}
 
@@ -280,7 +284,7 @@ public class PhaseInfo {
 
 	public void setValues (int aName, int aSubName, int aRounds, String [] aTiles, int aTrainLimit,
 			int aMinorTrainLimit, int aGovtTrainLimit, String aOffBoard, boolean aCanBuyPrivate, boolean aCanBuyTrain,
-			boolean aClosePrivates, boolean aGovernmentCanForm, boolean aGovernmentMustForm) {
+			boolean aClosePrivates, boolean aLoansAllowed, boolean aGovernmentCanForm, boolean aGovernmentMustForm) {
 		name = aName;
 		subName = aSubName;
 		rounds = aRounds;
@@ -292,6 +296,7 @@ public class PhaseInfo {
 		canBuyPrivate = aCanBuyPrivate;
 		canBuyTrain = aCanBuyTrain;
 		closePrivates = aClosePrivates;
+		loansAllowed = aLoansAllowed;
 		governmentCanForm = aGovernmentCanForm;
 		governmentMustForm = aGovernmentMustForm;
 		willFloat = 6;
@@ -301,6 +306,10 @@ public class PhaseInfo {
 		return canBuyTrain;
 	}
 
+	public boolean allowsLoans () {
+		return loansAllowed;
+	}
+	
 	public boolean isUpgradeAllowed (String aTileColor) {
 		boolean tUpgradeAllowed = false;
 
