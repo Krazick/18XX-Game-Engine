@@ -306,7 +306,7 @@ public class PhaseInfo {
 		return canBuyTrain;
 	}
 
-	public boolean allowsLoans () {
+	public boolean loansAllowed () {
 		return loansAllowed;
 	}
 	
