@@ -696,6 +696,21 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return phaseManager.canBuyPrivate ();
 	}
 
+	public boolean gameHasLoans () {
+		return activeGame.gameHasLoans ();
+	}
+	
+	public boolean loansAllowed () {
+		boolean tLoansAllowed;
+		
+		tLoansAllowed = false;
+		if (phaseManager != PhaseManager.NO_PHASE_MANAGER) {
+			tLoansAllowed = phaseManager.loansAllowed ();
+		}
+		
+		return tLoansAllowed;
+	}
+	
 	public void enterPlaceTileMode () {
 		mapFrame.togglePlaceTileMode ();
 	}
@@ -734,10 +749,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public boolean gameHasPrivates () {
 		return activeGame.hasPrivates ();
-	}
-
-	public boolean gameHasLoans () {
-		return activeGame.gameHasLoans ();
 	}
 
 	public boolean gameHasMinors () {

@@ -74,6 +74,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String MUST_PAY_INTEREST = "Must Pay Interest on outstanding loans before handling dividends.";
 	static final String NO_CORPORATION_LOANS = "Corporation has no Loans";
 	static final String ONE_LOAN_PER_OR = "Only one Loan can be taken per Operating Round";
+	static final String LOANS_CANNOT_BE_TAKEN_IN_PHASE = "Loans cannot be taken in current Phase";
 	static final String GET_LOAN = "Get Loan";
 	static final String REDEEM_LOAN = "Redeem Loan";
 	static final String MUST_REDEEM_LOAN = "Must Redeem at least %d Loan";
@@ -829,7 +830,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			tLoanCount = tShareCompany.getLoanCount ();
 			tLoanAmount = tShareCompany.getLoanAmount ();
 			tLoanInterest = tShareCompany.getLoanInterest ();
-			if (tShareCompany.wasLoanTaken ()) {
+			if (! gameManager.loansAllowed ()) {
+				getLoanButton.setEnabled (false);
+				tToolTip = LOANS_CANNOT_BE_TAKEN_IN_PHASE;				
+			} else if (tShareCompany.wasLoanTaken ()) {
 				getLoanButton.setEnabled (false);
 				tToolTip = ONE_LOAN_PER_OR;
 			} else if (tSharesOwned <= tLoanCount) {

@@ -62,6 +62,19 @@ public class PhaseManager {
 		return tCanBuyPrivate;
 	}
 
+	public boolean loansAllowed () {
+		PhaseInfo tPhaseInfo;
+		boolean tLoansAllowed;
+
+		tLoansAllowed = false;
+		tPhaseInfo = getCurrentPhaseInfo ();
+		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
+			tLoansAllowed = tPhaseInfo.loansAllowed ();
+		}
+
+		return tLoansAllowed;
+	}
+	
 	public PhaseInfo getCurrentPhaseInfo () {
 		PhaseInfo tPhaseInfo;
 

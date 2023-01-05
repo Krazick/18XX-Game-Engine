@@ -878,7 +878,6 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return 10;
 	}
 
-	// TODO Reorder methods with single call to corporationList together
 	public boolean gameHasLoans () {
 		return corporationList.gameHasLoans ();
 	}
