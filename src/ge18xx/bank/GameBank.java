@@ -76,7 +76,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		tPortfolioPanel = new JPanel ();
 		tPortfolioPanel.setLayout (new BoxLayout (tPortfolioPanel, BoxLayout.X_AXIS));
 		tPortfolioPanel.setBorder (BorderFactory.createTitledBorder (name));
-		tPortfolioPanel.add (Box.createVerticalGlue ());
 		tPortfolioPanel.add (aPortfolioJPanel);
 		tPortfolioPanel.add (Box.createVerticalGlue ());
 

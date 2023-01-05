@@ -116,11 +116,11 @@ public class TrainPortfolio implements TrainHolderI {
 		tPortfolioJPanel = new JPanel ();
 		tPortfolioJPanel.setLayout (new BoxLayout (tPortfolioJPanel, BoxLayout.X_AXIS));
 		tPortfolioJPanel.setAlignmentX (Component.LEFT_ALIGNMENT);
-
 		tPortfolioJPanel.add (Box.createHorizontalStrut (10));
 		if (trains.isEmpty ()) {
 			tLabel = new JLabel (">> NO TRAINS <<");
 			tPortfolioJPanel.add (tLabel);
+			tPortfolioJPanel.add (Box.createHorizontalStrut (10));
 		} else {
 			tTrainCount = getTrainCount ();
 			tPortfolioJPanel.add (Box.createHorizontalGlue ());
@@ -174,6 +174,7 @@ public class TrainPortfolio implements TrainHolderI {
 				}
 				tTrainCertJPanel = tTrain.buildCertificateInfoJPanel (aItemListener, tActionLabel, tActionEnabled,
 						tActionToolTip);
+
 				if (aFullvsCompact == COMPACT_TRAIN_PORTFOLIO) {
 					tTrainIndex = updateForCompactPortfolio (tTrainCertJPanel, tTrainQuantity, tTrainName, tTrainIndex);
 				}
@@ -192,17 +193,13 @@ public class TrainPortfolio implements TrainHolderI {
 		String tLabelText;
 		
 		if (aTrainQuantity > 1) {
-			tLabelText = "<br>" + (aTrainQuantity - 1) + " More<br>" + aTrainName + " Train";
-			if (aTrainQuantity > 2) {
-				tLabelText += "s";
-			}
-			tLabelText = "<br>Quantity: " + aTrainQuantity;
+			tLabelText = "Quantity: " + aTrainQuantity;
 		} else if (aTrainQuantity == 1) {
-			tLabelText = "<br>LAST " + aTrainName + " Train";
+			tLabelText = "LAST " + aTrainName + " Train";
 		} else {
 			tLabelText = "";
 		}
-		tLabel = new JLabel ("<html>" + tLabelText + "</html>");
+		tLabel = new JLabel (tLabelText);
 
 		if (aTrainQuantity > 0) {
 			aTrainCertJPanel.add (tLabel);
