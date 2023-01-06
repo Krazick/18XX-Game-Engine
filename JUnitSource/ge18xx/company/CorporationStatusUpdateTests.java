@@ -13,6 +13,7 @@ import ge18xx.round.action.ActorI;
 class CorporationStatusUpdateTests {
 	ShareCompany alphaShareCompany;
 	ShareCompany betaShareCompany;
+	ShareCompany limaShareCompany;
 	PrivateCompany gammaPrivateCompany;
 	MinorCompany deltaMinorCompany;
 	CompanyTestFactory companyTestFactory;
@@ -22,6 +23,7 @@ class CorporationStatusUpdateTests {
 		companyTestFactory = new CompanyTestFactory ();
 		alphaShareCompany = companyTestFactory.buildAShareCompany (1);
 		betaShareCompany = companyTestFactory.buildAShareCompany (2);
+		limaShareCompany = companyTestFactory.buildAShareCompany (3);
 		gammaPrivateCompany = companyTestFactory.buildAPrivateCompany (1);
 		deltaMinorCompany = companyTestFactory.buildAMinorCompany (1);
 	}
@@ -39,7 +41,6 @@ class CorporationStatusUpdateTests {
 		assertEquals ("Unowned", gammaPrivateCompany.getStatusName ());
 		gammaPrivateCompany.setStatus (ActorI.ActionStates.Owned);
 		assertEquals ("Owned", gammaPrivateCompany.getStatusName ());
-
 	}
 
 	@Test
@@ -79,6 +80,31 @@ class CorporationStatusUpdateTests {
 		deltaMinorCompany.forceSetStatus (ActorI.ActionStates.Owned);
 		deltaMinorCompany.setStatus (ActorI.ActionStates.NotOperated);
 		assertNotEquals ("Not Operated", deltaMinorCompany.getStatusName ());
+	}
+
+	@Test
+	@DisplayName ("Update Status from MayFloat to next State")
+	void testUpdatingMayFloatStatus () {
+		limaShareCompany.forceSetStatus (ActorI.ActionStates.MayFloat);
+		limaShareCompany.setStatus (ActorI.ActionStates.Owned);
+		assertEquals ("Owned", limaShareCompany.getStatusName ());
+		
+		limaShareCompany.forceSetStatus (ActorI.ActionStates.MayFloat);
+		limaShareCompany.setStatus (ActorI.ActionStates.WillFloat);
+		assertEquals ("Will Float", limaShareCompany.getStatusName ());
+		
+		limaShareCompany.forceSetStatus (ActorI.ActionStates.MayFloat);
+		limaShareCompany.setStatus (ActorI.ActionStates.NotOperated);
+		assertEquals ("Not Operated", limaShareCompany.getStatusName ());
+
+		limaShareCompany.forceSetStatus (ActorI.ActionStates.MayFloat);
+		limaShareCompany.setStatus (ActorI.ActionStates.StartedOperations);
+		assertNotEquals ("Started Operations", limaShareCompany.getStatusName ());
+
+//		if ((aStatus == ActorI.ActionStates.Owned) ||
+//				(aStatus == ActorI.ActionStates.WillFloat) ||
+//				(aStatus == ActorI.ActionStates.NotOperated)) {
+
 	}
 
 }

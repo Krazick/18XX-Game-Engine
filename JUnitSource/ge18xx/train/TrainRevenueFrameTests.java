@@ -22,7 +22,7 @@ class TrainRevenueFrameTests {
 		companyTestFactory = new CompanyTestFactory ();
 		mTokenCompany = companyTestFactory.buildTokenCompanyMock (tMockCoID1, "MC1");
 		trainRevenueFrame = new TrainRevenueFrame (mTokenCompany, "Mocked Train Company for Tests");
-
+		trainRevenueFrame.setThisRevenue (40);
 	}
 
 	@Test
