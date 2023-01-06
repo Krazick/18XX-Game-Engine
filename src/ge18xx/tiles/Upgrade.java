@@ -116,6 +116,8 @@ public class Upgrade {
 					tContainsPhase = true;
 				}
 			}
+		} else {
+			tContainsPhase = true;
 		}
 		
 		return tContainsPhase;
