@@ -51,11 +51,11 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	int cost;
 	int revenue;
 	int discount;
+	int exchangeID; // Corporation ID to Exchange this Private For
+	int exchangePercentage; // Exchange Percentage
 	boolean mustSell;
 	String special;
 	String note;
-	int exchangeID; // Corporation ID to Exchange this Private For
-	int exchangePercentage; // Exchange Percentage
 	Benefits benefits; // Move up to Corporation Level to allow all Companies to have Benefits
 
 	public PrivateCompany () {
