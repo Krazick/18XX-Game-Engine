@@ -142,7 +142,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		setLastRevenue (tLastRevenue);
 	}
 
-	private void setThisRevenue (int aThisRevenue) {
+	public void setThisRevenue (int aThisRevenue) {
 		thisRevenue = aThisRevenue;
 		updateThisRevenueLabel ();
 	}
