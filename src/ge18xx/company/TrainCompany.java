@@ -76,24 +76,24 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	static final int NO_COST = 0;
 	static final float LEFT_ALIGNMENT = 0.0f;
 	static final int INFINITE_PRICE = 99999;
+	TrainPortfolio trainPortfolio;
+	TrainRevenueFrame trainRevenueFrame;
+	ForceBuyCouponFrame forceBuyCouponFrame;
+	QueryOffer queryOffer;
+	int closeOnTrainPurchase;
+	int treasury;
+	int thisRevenue;
+	int lastRevenue;
+	int value;
+	boolean mustBuyTrain;
+	boolean hasLaidTile;
+	boolean isOperatingTrains;
 	String bgColorName;
 	String fgColorName;
 	String homeColorName;
 	Color bgColor;
 	Color fgColor;
 	Color homeColor;
-	int treasury;
-	int thisRevenue;
-	int lastRevenue;
-	int closeOnTrainPurchase;
-	TrainPortfolio trainPortfolio;
-	TrainRevenueFrame trainRevenueFrame;
-	ForceBuyCouponFrame forceBuyCouponFrame;
-	int value;
-	boolean mustBuyTrain;
-	boolean hasLaidTile;
-	boolean isOperatingTrains;
-	QueryOffer queryOffer;
 
 	public TrainCompany () {
 		this (Corporation.NO_ID, Corporation.NO_NAME);
@@ -610,16 +610,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		BankPool tBankPool;
 		BuyTrainAction tBuyTrainAction;
 		String tOperatingRoundID;
-//		CashHolderI tPresident;
 
 		if (isSelectedTrainInBank ()) {
 			tOperatingRoundID = corporationList.getOperatingRoundID ();
 			tBuyTrainAction = new BuyTrainAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 			addNeededCashTransferEffect (tBuyTrainAction, aNeededCash);
-//			if (aNeededCash > 0) {
-//				tPresident = (CashHolderI) getPresident ();
-//				tBuyTrainAction.addCashTransferEffect (tPresident, this, aNeededCash);
-//			}
 			tUpgradingTrain = getSelectedTrain ();
 			if (tUpgradingTrain != Train.NO_TRAIN) {
 				tBankPool = corporationList.getBankPool ();

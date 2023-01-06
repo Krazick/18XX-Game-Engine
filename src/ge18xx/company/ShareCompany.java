@@ -48,10 +48,10 @@ public class ShareCompany extends TokenCompany {
 	public static final int NO_PAR_PRICE = -1;
 	public static ShareCompany NO_SHARE_COMPANY = null;
 	static final int NO_LOANS = 0;
-	int parPrice;
+	DestinationInfo destinationInfo;
 	MarketCell sharePrice;
 	String startCell;
-	DestinationInfo destinationInfo;
+	int parPrice;
 	int loanCount;
 	boolean mustBuyCoupon;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
