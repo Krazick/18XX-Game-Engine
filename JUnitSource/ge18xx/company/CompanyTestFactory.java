@@ -8,6 +8,7 @@ import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
 
 public class CompanyTestFactory {
+	public final int NO_COMPANY_INDEX = 99;
 	private GameTestFactory gameTestFactory;
 	private UtilitiesTestFactory utilitiesTestFactory;
 
@@ -123,6 +124,13 @@ public class CompanyTestFactory {
 				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
 				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
 				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
+		String tShareCompany3TestXML = "	<Share id=\"1501\" name=\"Buffalo, Brantford &amp; Goderich Railway\"\n"
+				+ "		abbrev=\"BBG\" homeCell1=\"J15\" homeLocation1=\"50\" destination=\"N17\"\n"
+				+ "		destinationLocation=\"12\" bgColor=\"255,102,255\" fgColor=\"Black\" tokens=\"3\" tokenType=\"FixedCost\">\n"
+				+ "		<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" />\n"
+				+ "		<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\"\n"
+				+ "			allowedOwners=\"IPO,Player,BankPool\" />\n"
+				+ "	</Share>\n";
 
 		ShareCompany tShareCompany;
 		CorporationList mCorporationList;
@@ -137,6 +145,8 @@ public class CompanyTestFactory {
 			tShareCompany = buildShareCompany (tShareCompany1TestXML, tShareCompany, mCorporationList);
 		} else if (aCompanyIndex == 2) {
 			tShareCompany = buildShareCompany (tShareCompany2TestXML, tShareCompany, mCorporationList);
+		} else if (aCompanyIndex == 3) {
+			tShareCompany = buildShareCompany (tShareCompany3TestXML, tShareCompany, mCorporationList);
 		} else {
 			tShareCompany = ShareCompany.NO_SHARE_COMPANY;
 		}
