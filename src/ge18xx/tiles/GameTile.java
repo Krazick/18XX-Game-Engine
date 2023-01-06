@@ -54,6 +54,21 @@ public class GameTile {
 		this (aTileNumber, aTotalCount, false);
 	}
 
+	public boolean isUpgradeAllowedInPhase (int aToTileNumber, int aPhase) {
+		boolean tIsUpgradeAllowed;
+		String tPhaseNumber;
+		
+		tIsUpgradeAllowed = true;
+		for (Upgrade tUpgrade : upgrades) {
+			if (tUpgrade.getTileNumber () == aToTileNumber) {
+				tPhaseNumber = "" + aPhase;
+				tIsUpgradeAllowed = tUpgrade.containsPhase (tPhaseNumber);
+			}
+		}
+		
+		return tIsUpgradeAllowed;
+	}
+	
 	public boolean addUpgrade (Upgrade aUpgrade) {
 		return upgrades.add (aUpgrade);
 	}
