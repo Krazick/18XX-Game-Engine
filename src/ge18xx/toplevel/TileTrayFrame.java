@@ -140,11 +140,18 @@ public class TileTrayFrame extends XMLFrame {
 	 *
 	 */
 	public boolean isUpgradeAllowed (GameTile aGameTile) {
-		boolean tUpgradeAllowed = true;
+		boolean tUpgradeAllowed;
 		String tTileColor;
+//		int tToTileNumber;
+//		int tPhaseNumber;
 
 		tTileColor = aGameTile.getTileColor ();
 		tUpgradeAllowed = gameManager.isUpgradeAllowed (tTileColor);
+//		if (tUpgradeAllowed) {
+//			tToTileNumber = aGameTile.getTileNumber ();
+//			tPhaseNumber = gameManager.getCurrentPhase ();
+//			tUpgradeAllowed = aGameTile.isUpgradeAllowedInPhase (tToTileNumber, tPhaseNumber);
+//		}
 
 		return tUpgradeAllowed;
 	}
