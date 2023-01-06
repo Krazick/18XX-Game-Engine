@@ -79,6 +79,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	private final String NO_OPERATING_COMPANY = "There is no Operating Company to place a Tile";
 	private final String NON_PLAYABLE_TILE_SELECTED = "The selected Tile is not Playable on the Selected MapCell.";
 	private final String RESET_ALL_FLAGS_TIP = "Reset all Map Flags and Selections";
+	private final String NO_VALID_ROTATION = "No Valid Rotation for the selected Upgrade Tile";
 	public static final String NO_COMPANY = "NO_COMPANY";
 	public static final String BASE_TITLE = "Map";
 	private static final long serialVersionUID = 1L;
@@ -1091,17 +1092,28 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	 * current Phase of the Game and the Tile Color
 	 *
 	 * @param aGameTile The Tile to test if allowed to be placed
+	 * @param aCurrentGameTile the Tile currently on the MapCell that is proposed for Upgrading from
 	 *
 	 * @return TRUE if the current Game Phase allows this tile Type Color can be placed.
 	 *
 	 */
-	public boolean isUpgradeAllowed (GameTile aGameTile) {
-		boolean tUpgradeAllowed = true;
+	public boolean isUpgradeAllowed (GameTile aGameTile, GameTile aCurrentGameTile) {
+		boolean tUpgradeAllowed;
 		String tTileColor;
-
+		int tPhase;
+		int tToTileNumber;
+		
+		tUpgradeAllowed = true;
 		tTileColor = aGameTile.getTileColor ();
 		tUpgradeAllowed = gameManager.isUpgradeAllowed (tTileColor);
-
+		if (aCurrentGameTile != GameTile.NO_GAME_TILE) {
+			if (tUpgradeAllowed) {
+				tPhase = getCurrentPhase ();
+				tToTileNumber = aGameTile.getTileNumber ();
+				tUpgradeAllowed = aCurrentGameTile.isUpgradeAllowedInPhase (tToTileNumber, tPhase);
+			}
+		}
+		
 		return tUpgradeAllowed;
 	}
 
@@ -1122,24 +1134,35 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public void updatePutTileButton () {
 		MapCell tMapCell;
 		GameTile tSelectedGameTile;
+		GameTile tCurrentGameTile;
 		Tile tNewTile;
+		Tile tCurrentTile;
 		int tTileLayCost;
 		TrainCompany tOperatingTrainCompany;
 		int tOperatingCompanyTreasury;
 		boolean tAnyAllowedRotation;
-
+		String tNotEnoughCash;
+		String tPrivateNotOwned;
+		
 		tOperatingTrainCompany = getOperatingTrainCompany ();
 		if (tOperatingTrainCompany != Corporation.NO_CORPORATION) {
 			tOperatingCompanyTreasury = tOperatingTrainCompany.getCash ();
 			putTileButton.setEnabled (false);
 			tMapCell = map.getSelectedMapCell ();
-			tSelectedGameTile = tileSet.getSelectedTile ();
 
 			// If there is a Map Cell Selected we can do further tests
 			if (tMapCell != MapCell.NO_MAP_CELL) {
+				tCurrentTile = tMapCell.getTile ();
+				if (tCurrentTile == Tile.NO_TILE) {
+					tCurrentGameTile = GameTile.NO_GAME_TILE;
+				} else {
+					tCurrentGameTile = tileSet.getGameTile (tCurrentTile.getNumber ());
+				}
+				tSelectedGameTile = tileSet.getSelectedTile ();
+
 				if (tSelectedGameTile != GameTile.NO_GAME_TILE) {
 					if (tSelectedGameTile.isPlayable ()) {
-						if (isUpgradeAllowed (tSelectedGameTile)) {
+						if (isUpgradeAllowed (tSelectedGameTile, tCurrentGameTile)) {
 							tNewTile = tSelectedGameTile.getTile ();
 							tAnyAllowedRotation = tMapCell.anyAllowedRotation (tileSet, tNewTile);
 							if (tAnyAllowedRotation) {
@@ -1156,20 +1179,19 @@ public class MapFrame extends XMLFrame implements ActionListener {
 											putTileButton.setToolTipText ("Not a Valid Upgrade choice");
 										}
 									} else {
-										String tNotEnoughCash = String.format (NOT_ENOUGH_CASH,
+										tNotEnoughCash = String.format (NOT_ENOUGH_CASH,
 												tOperatingTrainCompany.getAbbrev (), Bank.formatCash (tTileLayCost),
 												Bank.formatCash (tOperatingCompanyTreasury));
 										putTileButton.setToolTipText (tNotEnoughCash);
 									}
 								} else {
-									String tPrivateNotOwned = String.format (PRIVATE_NOT_OWNED,
+									tPrivateNotOwned = String.format (PRIVATE_NOT_OWNED,
 											tOperatingTrainCompany.getAbbrev (), tMapCell.getBasePrivateAbbrev (privateCos));
 									putTileButton.setToolTipText (tPrivateNotOwned);
 								}
-	
 							} else {
 								putTileButton.setEnabled (false);
-								putTileButton.setToolTipText ("No Valid Rotation for the selected Upgrade Tile");
+								putTileButton.setToolTipText (NO_VALID_ROTATION);
 							}
 						} else {
 							putTileButton.setEnabled (false);

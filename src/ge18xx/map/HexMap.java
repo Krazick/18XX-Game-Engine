@@ -714,8 +714,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 								+ aSelectedMapCell.getID () + " Tile Was Placed " + wasTilePlaced ());
 						if (aSelectedMapCell.isSelectable ()) {
 							aPreviousSelectedMapCell.lockTileOrientation ();
-							toggleSelectedMapCell (aPreviousSelectedMapCell);
-							toggleSelectedMapCell (aSelectedMapCell);
+							toggleSelectedMapCell (aPreviousSelectedMapCell);	
+							toggleSelectedMapCell (aSelectedMapCell);			
 						}
 					} else {
 						System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (3)");
