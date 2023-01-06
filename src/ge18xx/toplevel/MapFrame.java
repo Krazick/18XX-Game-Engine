@@ -1206,7 +1206,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 		tRouteSegment = new RouteSegment (aSelectedMapCell);
 		tCorpID = tCorporation.getID ();
-		tPhase = gameManager.getCurrentPhase ();
+		tPhase = getCurrentPhase ();
 		tRoundManager = gameManager.getRoundManager ();
 		tActionManager = tRoundManager.getActionManager ();
 		tRoundType = tRoundManager.getCurrentRoundType ();
