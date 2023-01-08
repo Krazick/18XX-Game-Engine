@@ -54,6 +54,8 @@ public class Location implements Cloneable {
 	public static final int DEAD_END4_LOC = 94;
 	public static final int DEAD_END5_LOC = 95;
 	public static final int DEAD_END_LOC = 99;
+	static final int MIN_DEAD_END_SIDE_LOC = DEAD_END0_LOC;
+	static final int MAX_DEAD_END_SIDE_LOC = DEAD_END5_LOC;
 	static final int MIN_LOCATION = NO_LOCATION;
 	static final int MAX_LOCATION = MAX_CITY_LOC_ADJSIDE;
 	int location;
@@ -396,7 +398,8 @@ public class Location implements Cloneable {
 	}
 
 	public boolean isCity () {
-		if (((location >= MIN_CITY_LOC_NS) && (location <= MAX_CITY_LOC_ADJSIDE)) || (location == CENTER_CITY_LOC)) {
+		if (((location >= MIN_CITY_LOC_NS) && 
+			(location <= MAX_CITY_LOC_ADJSIDE)) || (location == CENTER_CITY_LOC)) {
 			return (true);
 		} else {
 			return (false);
@@ -433,6 +436,10 @@ public class Location implements Cloneable {
 
 	public boolean isCityAdjacentSide () {
 		return ((location >= MIN_CITY_LOC_ADJSIDE) && (location <= MAX_CITY_LOC_ADJSIDE));
+	}
+
+	public boolean isDeadEndSide () {
+		return ((location >= DEAD_END0_LOC) && (location <= DEAD_END5_LOC));
 	}
 
 	public boolean isClose (Location aOther) {
@@ -617,7 +624,7 @@ public class Location implements Cloneable {
 			return (false);
 		}
 	}
-
+	
 	public boolean isSide () {
 		return (isValidSide (location));
 	}
@@ -664,6 +671,8 @@ public class Location implements Cloneable {
 			newLocation = rotateLocation (MIN_CITY_LOC_FCL, aOrientation, 6);
 		} else if (this.isCityAdjacentSide ()) {
 			newLocation = rotateLocation (MIN_CITY_LOC_ADJSIDE, aOrientation, 6);
+		} else if (isDeadEndSide ()) {
+			newLocation = rotateLocation (MIN_DEAD_END_SIDE_LOC, aOrientation, 6);
 		} else if (this.isCityNearCenter ()) {
 			if (aOrientation < 4) {
 				newLocation = rotateLocation (MIN_CITY_LOC_NCNTR, aOrientation, 4);
@@ -716,21 +725,23 @@ public class Location implements Cloneable {
 	public Location unrotateLocation (int aOrientation) {
 		int newLocation = location;
 
-		if (this.isSide ()) {
+		if (isSide ()) {
 			newLocation = rotateLocation (0, 6 - aOrientation, 6);
-		} else if (this.isCityHexSide ()) {
+		} else if (isCityHexSide ()) {
 			newLocation = rotateLocation (MIN_CITY_LOC_NS, 6 - aOrientation, 6);
-		} else if (this.isCityHexCorner ()) {
+		} else if (isCityHexCorner ()) {
 			newLocation = rotateLocation (MIN_CITY_LOC_NC, 6 - aOrientation, 6);
-		} else if (this.isCityFarHexSide ()) {
+		} else if (isCityFarHexSide ()) {
 			newLocation = rotateLocation (MIN_CITY_LOC_FS, 6 - aOrientation, 6);
-		} else if (this.isCityFarHexCornerRight ()) {
+		} else if (isCityFarHexCornerRight ()) {
 			newLocation = rotateLocation (MIN_CITY_LOC_FCR, 6 - aOrientation, 6);
-		} else if (this.isCityFarHexCornerLeft ()) {
+		} else if (isCityFarHexCornerLeft ()) {
 			newLocation = rotateLocation (MIN_CITY_LOC_FCL, 6 - aOrientation, 6);
-		} else if (this.isCityAdjacentSide ()) {
+		} else if (isCityAdjacentSide ()) {
 			newLocation = rotateLocation (MIN_CITY_LOC_ADJSIDE, 6 - aOrientation, 6);
-		} else if (this.isCityNearCenter ()) {
+		} else if (isDeadEndSide ()) {
+			newLocation = rotateLocation (MIN_DEAD_END_SIDE_LOC, 6 - aOrientation, 6);
+		} else if (isCityNearCenter ()) {
 			if (aOrientation < 4) {
 				newLocation = rotateLocation (MIN_CITY_LOC_NCNTR, 4 - aOrientation, 4);
 			}
