@@ -964,12 +964,18 @@ public class RouteInformation {
 	}
 
 	private boolean fillEndPoint (RouteSegment aRouteSegment, RouteAction aRouteAction) {
-		boolean tFillEndPoint = false;
+		boolean tFillEndPoint;
 		RouteSegment tPreviousSegment;
-		MapCell tCurrentMapCell, tPreviousMapCell;
+		Track tPreviousTrack;
+		MapCell tCurrentMapCell;
+		MapCell tPreviousMapCell;
 		int tSegmentCount;
-		int tPreviousSide, tPreviousEnd, tPreviousStart;
+		int tPreviousSide;
+		int tPreviousEnd;
+		int tPreviousStart;
+		int tNewPreviousStart;
 
+		tFillEndPoint = false;
 		tSegmentCount = getSegmentCount ();
 		tPreviousSegment = getRouteSegment (tSegmentCount - 1);
 		tCurrentMapCell = aRouteSegment.getMapCell ();
@@ -985,6 +991,14 @@ public class RouteInformation {
 					if (tPreviousMapCell.hasConnectingTrackBetween (tPreviousStart, tPreviousSide)) {
 						tFillEndPoint = setTrainOn (aRouteAction, tPreviousSegment, tPreviousMapCell, tPreviousSide,
 								tPreviousStart);
+					} else if (tPreviousStart == Location.DEAD_END_LOC) {
+						tPreviousTrack = tPreviousMapCell.getTrackFromSide (tPreviousSide);
+						tNewPreviousStart = tPreviousTrack.getEnterLocationInt ();
+						if (tPreviousSide == tNewPreviousStart) {
+							tNewPreviousStart = tPreviousTrack.getExitLocationInt ();
+						}
+						tFillEndPoint = setTrainOn (aRouteAction, tPreviousSegment, tPreviousMapCell, tPreviousSide,
+								tNewPreviousStart);
 					} else {
 						warningMessage = "Previous Map Cell's Tile does not have Track Segment between " + tPreviousSide
 								+ " and " + tPreviousStart;

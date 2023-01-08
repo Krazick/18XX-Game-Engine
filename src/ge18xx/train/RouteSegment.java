@@ -688,7 +688,7 @@ public class RouteSegment {
 		} else {
 			tPossibleEnd = tTrack.getEnterLocation ();
 		}
-		if (tPossibleEnd.isSide ()) {
+		if (tPossibleEnd.isSide () || tPossibleEnd.isDeadEndSide ()) {
 			tPossibleEnd = tPossibleEnd.rotateLocation (mapCell.getTileOrient ());
 		}
 

@@ -1859,10 +1859,16 @@ public class MapCell implements Comparator<Object> {
 		MapToken tMapToken;
 		City tNewTileCity;
 		Location tNewLocation;
-		boolean tMustSwap = false;
-		String tOldSides, tNewSides;
+		boolean tMustSwap;
+		String tOldSides;
+		String tNewSides;
 
 		tNewLocation = aNewCityLocation;
+		tMustSwap = false;		// For handling O-O Tiles where the Tracks must replace existing Track
+								// The existing Track is from a Side to a City. It either works as 
+								// coded in the upgrade data or it has a missing Connection.
+								// a if missing it must swap with the other RevenueCenter for Token Upgrades
+								//
 		for (tStationIndex = 0; tStationIndex < aOldCity.getStationCount (); tStationIndex++) {
 			tMapToken = aOldCity.getToken (tStationIndex);
 			if (tMapToken != MapToken.NO_MAP_TOKEN) {
@@ -1871,7 +1877,7 @@ public class MapCell implements Comparator<Object> {
 					tOldSides = tMapToken.getSides ();
 					moveAMapToken (tMapToken, tNewTileCity);
 					tNewSides = tMapToken.getSides ();
-					if (!tNewSides.contains (tOldSides)) {
+					if (! allOldSidesConnected (tOldSides,tNewSides)) {
 						tMustSwap = true;
 					}
 				}
@@ -1881,6 +1887,22 @@ public class MapCell implements Comparator<Object> {
 		return tMustSwap;
 	}
 
+	public boolean allOldSidesConnected (String aOldSides, String aNewSides) {
+		boolean tAllOldSidesConnected;
+		String tAllOldSides [];
+		
+		tAllOldSidesConnected = true;
+		tAllOldSides = aOldSides.split ("\\|");
+		
+		for (String tOldSide : tAllOldSides) {
+			if (! aNewSides.contains (tOldSide)) {
+				tAllOldSidesConnected = false;
+			}
+		}
+	
+		return tAllOldSidesConnected;
+	}
+	
 	public void moveAMapToken (MapToken aMapToken, City aNewCity) {
 		aNewCity.setMapCell (this);
 		aNewCity.setStation (aMapToken);
@@ -1893,7 +1915,7 @@ public class MapCell implements Comparator<Object> {
 		int tCurrentTileNumber;
 		int tUpgradeToTileNumber;
 		int tFirstPossibleRotation;
-		boolean tAllowedRotations[];
+		boolean tAllowedRotations [];
 
 		if (this.isTileOnCell ()) {
 			tCurrentTileNumber = getTileNumber (); // Find Current Tile Number and the Current Game Tile
@@ -1964,7 +1986,7 @@ public class MapCell implements Comparator<Object> {
 		return tFirstPossibleRotation;
 	}
 
-	public boolean upgradeAllowed (boolean aAllowedRotations[]) {
+	public boolean upgradeAllowed (boolean aAllowedRotations []) {
 		boolean tUpgradeAllowed = false;
 		int tFirstPossibleRotation;
 
@@ -2174,12 +2196,22 @@ public class MapCell implements Comparator<Object> {
 			tRawThisLocation = new Location (tRawStartLocation);
 			tRawThatLocation = new Location (tRawEndLocation);
 			tRawThisLocation = unrotateIfSide (tRawThisLocation);
+			tRawThisLocation = unrotateIfDeadEndSide (tRawThisLocation);
 			tRawThatLocation = unrotateIfSide (tRawThatLocation);
+			tRawThatLocation = unrotateIfDeadEndSide (tRawThatLocation);
 
 			tTrack = tile.getTrackFromStartToEnd (tRawThisLocation.getLocation (), tRawThatLocation.getLocation ());
 		}
 
 		return tTrack;
+	}
+
+	public Location unrotateIfDeadEndSide (Location aLocation) {
+		if (aLocation.isDeadEndSide ()) {
+			aLocation = aLocation.unrotateLocation (tileOrient);
+		}
+
+		return aLocation;
 	}
 
 	public Location unrotateIfSide (Location aLocation) {
