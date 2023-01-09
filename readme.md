@@ -54,7 +54,7 @@ To actually download the deployment package, there are a few requirements:
     1. Launch with just a double-click of the 'ge18xx.jar' file, a '18XX Game Engine' Frame should be displayed.
     1. Enter your name in the 'Client User Name' field
     1. Click the OK Button.
-    1. A new 'Enter Player Information' Frame is shown. If there is no information shown under 'Players Entered: 1', revisit Steps for retrieving the '18XX XML Data' Archive above. 
+    1. A new 'Enter Player Information' Frame is shown.  
 
 # How to Use
 <a name="Use"></a>
