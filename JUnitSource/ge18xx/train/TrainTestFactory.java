@@ -9,7 +9,6 @@ public class TrainTestFactory {
 	public TrainTestFactory () {
 	}
 
-
 	public Coupon buildTrain () {
 		Coupon tTrain;
 
@@ -25,5 +24,22 @@ public class TrainTestFactory {
 		Mockito.when (mTrain.getCityCount ()).thenReturn (3);
 
 		return mTrain;
+	}
+
+	public TrainPortfolio buildTrainPortfolio () {
+		TrainPortfolio tTrainPortfolio;
+
+		tTrainPortfolio = new TrainPortfolio ();
+
+		return tTrainPortfolio;
+	}
+
+	public TrainPortfolio buildTrainPortfolioMock () {
+		TrainPortfolio tTrainPortfolio;
+
+		tTrainPortfolio = Mockito.mock (TrainPortfolio.class);
+		Mockito.when (tTrainPortfolio.getPortfolioHolderAbbrev ()).thenReturn ("MTPH");
+
+		return tTrainPortfolio;
 	}
 }
