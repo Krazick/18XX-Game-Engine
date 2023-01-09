@@ -68,9 +68,24 @@ public class LayTileAction extends ChangeMapAction {
 		String tSimpleActionReport = "";
 
 		tSimpleActionReport = actor.getName () + " laid Tile " + getTileNumber () + " with Orientation of "
-				+ getOrientation () + ".";
+				+ getOrientation () + " onto MapCell " + getMapCellID () + ".";
 
 		return tSimpleActionReport;
+	}
+
+	public String getMapCellID () {
+		String tMapCellID;
+
+		tMapCellID = MapCell.NO_ID;
+		for (Effect tEffect : effects) {
+			if (tMapCellID == MapCell.NO_ID) {
+				if (tEffect instanceof LayTileEffect) {
+					tMapCellID = ((LayTileEffect) tEffect).getMapCellID ();
+				}
+			}
+		}
+
+		return tMapCellID;
 	}
 
 	public int getTileNumber () {
