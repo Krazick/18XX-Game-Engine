@@ -47,7 +47,7 @@ public class TrainPortfolio implements TrainHolderI {
 	CashHolderI portfolioHolder;
 
 	public TrainPortfolio () {
-		trains = new ArrayList<> ();
+		this (CashHolderI.NO_CASH_HOLDER);
 	}
 
 	public TrainPortfolio (CashHolderI aPortfolioHolder) {
@@ -60,9 +60,10 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public String getPortfolioHolderAbbrev () {
-		String tHolderName = "NONE";
+		String tHolderName;
 
-		if (portfolioHolder != ActorI.NO_ACTOR) {
+		tHolderName = "NONE";
+		if (portfolioHolder != CashHolderI.NO_CASH_HOLDER) {
 			tHolderName = portfolioHolder.getAbbrev ();
 		}
 
@@ -70,9 +71,10 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public String getPortfolioHolderName () {
-		String tHolderName = "NONE";
+		String tHolderName;
 
-		if (portfolioHolder != ActorI.NO_ACTOR) {
+		tHolderName = "NONE";
+		if (portfolioHolder != CashHolderI.NO_CASH_HOLDER) {
 			tHolderName = portfolioHolder.getName ();
 		}
 
@@ -86,9 +88,10 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public FrameButton getFrameButtonAt (int aIndex) {
-		FrameButton tFrameButton = FrameButton.NO_FRAME_BUTTON;
+		FrameButton tFrameButton;
 		Train tTrain;
 
+		tFrameButton = FrameButton.NO_FRAME_BUTTON;
 		tTrain = trains.get (aIndex);
 		if (tTrain != Train.NO_TRAIN) {
 			tFrameButton = tTrain.getFrameButton ();
@@ -243,7 +246,7 @@ public class TrainPortfolio implements TrainHolderI {
 
 	@Override
 	public CashHolderI getCashHolder () {
-		return (CashHolderI) ActorI.NO_ACTOR;
+		return CashHolderI.NO_CASH_HOLDER;
 	}
 
 	public boolean anyTrainIsOperating () {
@@ -586,19 +589,6 @@ public class TrainPortfolio implements TrainHolderI {
 
 		return tHasTrain;
 	}
-//
-//	public boolean isSelectedItem (Object aItem) {
-//		boolean tIsSelectedItem;
-//
-//		tIsSelectedItem = false;
-//		for (Train tTrain : trains) {
-//			if (tTrain.isThisCheckBox (aItem)) {
-//				tIsSelectedItem = true;
-//			}
-//		}
-//
-//		return tIsSelectedItem;
-//	}
 
 	public void loadTrainStatus (XMLNode aXMLNode) {
 		XMLNodeList tXMLNodeList;
@@ -696,11 +686,6 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	ParsingRoutineIOO trainRouteParsingRoutine = new ParsingRoutineIOO () {
-//		@Override
-//		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
-//			System.err.println ("Found Node, but only one Object sent back");
-//		}
-//
 		@Override
 		public void foundItemMatchKey1 (XMLNode aRouteNode, Object aTrain, Object aTrainPortfolio) {
 			Train tTrain;
