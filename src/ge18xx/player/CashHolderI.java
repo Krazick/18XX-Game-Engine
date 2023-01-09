@@ -11,7 +11,8 @@ import ge18xx.round.action.ActorI;
 //
 
 public interface CashHolderI extends ActorI {
-
+	public final CashHolderI NO_CASH_HOLDER = null;
+	
 	public abstract void addCash (int aAmount);
 
 	public abstract int getCash ();
