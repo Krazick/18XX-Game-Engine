@@ -44,10 +44,10 @@ public class ShareCompany extends TokenCompany {
 	static final AttributeName AN_DESTINATION = new AttributeName ("destination");
 	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
-	static final String NO_START_CELL = null;
+	public static final String NO_START_CELL = null;
 	public static final int NO_PAR_PRICE = -1;
 	public static ShareCompany NO_SHARE_COMPANY = null;
-	static final int NO_LOANS = 0;
+	public static final int NO_LOANS = 0;
 	DestinationInfo destinationInfo;
 	MarketCell sharePrice;
 	String startCell;
