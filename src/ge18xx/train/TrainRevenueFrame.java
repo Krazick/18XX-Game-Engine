@@ -1,6 +1,7 @@
 package ge18xx.train;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.HeadlessException;
@@ -16,7 +17,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -32,6 +32,7 @@ import ge18xx.game.Game_18XX;
 import ge18xx.map.HexMap;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.toplevel.MapFrame;
+import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 
 /**
@@ -44,7 +45,7 @@ import ge18xx.utilities.GUI;
  * @version 1.0
  *
  */
-public class TrainRevenueFrame extends JFrame implements ActionListener, PropertyChangeListener, ItemListener {
+public class TrainRevenueFrame extends XMLFrame implements ActionListener, PropertyChangeListener, ItemListener {
 	private String NOT_YOUR_COMPANY = "This is not your company operating";
 	private static final long serialVersionUID = 1L;
 	private static final String CONFIRM_ROUTE_ACTION = "DoConfirmRouteAction";
@@ -103,7 +104,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	 */
 
 	public TrainRevenueFrame (TrainCompany aTrainCompany, String aTitle) throws HeadlessException {
-		super (aTitle);
+		super (aTitle, aTrainCompany.getGameManager ());
 
 		trainCompany = aTrainCompany;
 		title = new JLabel ();
@@ -134,7 +135,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	public void setRevenueValues (TrainCompany aTrainCompany) {
-		int tThisRevenue, tLastRevenue;
+		int tThisRevenue;
+		int tLastRevenue;
 
 		tThisRevenue = aTrainCompany.getThisRevenue ();
 		tLastRevenue = aTrainCompany.getLastRevenue ();
@@ -231,10 +233,11 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	private void buildsButtonsJPanel () {
-		FlowLayout tFlowLayout = new FlowLayout ();
+		FlowLayout tFlowLayout;
 
-		confimAllRoutes = setupButton (CONFIRM_ALL_REVENUES, CONFIRM_ALL_REVENUES_ACTION);
-		cancel = setupButton (CANCEL, CANCEL_ACTION);
+		tFlowLayout = new FlowLayout ();
+		confimAllRoutes = setupButton (CONFIRM_ALL_REVENUES, CONFIRM_ALL_REVENUES_ACTION, this, Component.CENTER_ALIGNMENT);
+		cancel = setupButton (CANCEL, CANCEL_ACTION, this, Component.CENTER_ALIGNMENT);
 
 		buttonsJPanel = new JPanel (tFlowLayout);
 		buttonsJPanel.add (confimAllRoutes);
@@ -267,16 +270,6 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	private boolean isYourCompany () {
 		return yourCompany;
-	}
-
-	private JButton setupButton (String aTitle, String aAction) {
-		JButton tButton;
-
-		tButton = new JButton (aTitle);
-		tButton.setActionCommand (aAction);
-		tButton.addActionListener (this);
-
-		return tButton;
 	}
 
 	@Override
@@ -407,7 +400,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	private void handleConfirmRoute (ActionEvent aConfirmRouteEvent) {
 		JButton tConfirmRouteButton;
-		int tTrainIndex, tTrainCount;
+		int tTrainIndex;
+		int tTrainCount;
 		Train tTrain;
 		RouteInformation tRouteInformation;
 
@@ -427,9 +421,11 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	private void handleResetRoute (ActionEvent aResetRouteEvent) {
-		JButton tResetRouteButton = (JButton) aResetRouteEvent.getSource ();
-		int tTrainIndex, tTrainCount;
+		JButton tResetRouteButton;
+		int tTrainIndex;
+		int tTrainCount;
 
+		tResetRouteButton = (JButton) aResetRouteEvent.getSource ();
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			if (tResetRouteButton.equals (resetRoutes [tTrainIndex])) {
@@ -442,7 +438,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	private void handleReuseRoute (ActionEvent aReuseRouteEvent) {
 		JButton tReuseRouteButton;
-		int tTrainIndex, tTrainCount;
+		int tTrainIndex;
+		int tTrainCount;
 
 		tReuseRouteButton = (JButton) aReuseRouteEvent.getSource ();
 		tTrainCount = trainCompany.getTrainCount ();
@@ -470,8 +467,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	private void highlightRouteSegments (Train aTrain) {
 		RouteInformation tRouteInformation;
-		MapFrame tMapFrame;
 		GameManager tGameManager;
+		MapFrame tMapFrame;
 		HexMap tMap;
 
 		tGameManager = trainCompany.getGameManager ();
@@ -566,16 +563,22 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	public void handleSelectRoute (ActionEvent aSelectRouteEvent) {
-		JButton tSelectRouteButton = (JButton) aSelectRouteEvent.getSource ();
-		int tTrainIndex, tTrainCount;
-		Train tTrain;
-		Color tColor = Color.BLUE;
-		String tRoundID;
-		int tRegionBonus = 0, tSpecialBonus = 0;
-		RouteInformation tRouteInformation;
+		JButton tSelectRouteButton;
+		int tTrainIndex;
+		int tTrainCount;
+		int tRegionBonus;
+		int tSpecialBonus;
 		int tPhase;
+		String tRoundID;
+		RouteInformation tRouteInformation;
 		PhaseInfo tPhaseInfo;
+		Train tTrain;
+		Color tColor;
 
+		tSelectRouteButton = (JButton) aSelectRouteEvent.getSource ();
+		tRegionBonus = 0;
+		tSpecialBonus = 0;
+		tColor = Color.BLUE;
 		tTrainCount = trainCompany.getTrainCount ();
 		tPhaseInfo = trainCompany.getCurrentPhaseInfo ();
 		tPhase = tPhaseInfo.getName ();
@@ -608,7 +611,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	 */
 
 	public int addAllTrainRevenues () {
-		int tAllTrainRevenues, tTrainCount, tTrainIndex;
+		int tAllTrainRevenues;
+		int tTrainCount;
+		int tTrainIndex;
 		int tTrainRevenue;
 		Train tTrain;
 
@@ -772,10 +777,7 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		BoxLayout tLayoutX;
 		Train tTrain;
 
-		// TODO: for a N+N Train, need to get maximum City Count
-		// TODO: QUICK FIX, the "getCityCount" will return a Maximum of maxStops (15) to
-		// allow Diesels to Operate
-		// MUST Figure out way to give Diesels an infinite length
+		// TODO -- MUST Figure out way to give Diesels an infinite length
 
 		tTrain = trainCompany.getTrain (aTrainIndex);
 		tCityCount = tTrain.getCityCount ();
@@ -789,17 +791,17 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 		totalRevenueByEachTrain [aTrainIndex] = new JLabel ("0");
 		tTrainRevenueJPanel.add (totalRevenueByEachTrain [aTrainIndex]);
 
-		confirmRoutes [aTrainIndex] = setupButton (CONFIRM_ROUTE, CONFIRM_ROUTE_ACTION);
-		selectRoutes [aTrainIndex] = setupButton (SELECT_ROUTE, SELECT_ROUTE_ACTION);
+		confirmRoutes [aTrainIndex] = setupButton (CONFIRM_ROUTE, CONFIRM_ROUTE_ACTION, this, Component.CENTER_ALIGNMENT);
+		selectRoutes [aTrainIndex] = setupButton (SELECT_ROUTE, SELECT_ROUTE_ACTION, this, Component.CENTER_ALIGNMENT);
 		updateConfirmRouteButton (aTrainIndex);
 		disableConfirmRouteButton (aTrainIndex, "Train Not Operating");
 		updateSelectRouteButton (aTrainIndex);
 		tTrainRevenueJPanel.add (confirmRoutes [aTrainIndex]);
 		tTrainRevenueJPanel.add (selectRoutes [aTrainIndex]);
-		resetRoutes [aTrainIndex] = setupButton (RESET_ROUTE, RESET_ROUTE_ACTION);
+		resetRoutes [aTrainIndex] = setupButton (RESET_ROUTE, RESET_ROUTE_ACTION, this, Component.CENTER_ALIGNMENT);
 		updateResetRouteButton (aTrainIndex);
 		tTrainRevenueJPanel.add (resetRoutes [aTrainIndex]);
-		reuseRoutes [aTrainIndex] = setupButton (REUSE_ROUTE, REUSE_ROUTE_ACTION);
+		reuseRoutes [aTrainIndex] = setupButton (REUSE_ROUTE, REUSE_ROUTE_ACTION, this, Component.CENTER_ALIGNMENT);
 		updateReuseRouteButton (aTrainIndex);
 		tTrainRevenueJPanel.add (reuseRoutes [aTrainIndex]);
 
@@ -808,8 +810,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	private void buildRevenuesByTrain (int aTrainIndex, int aCenterCount, Train aTrain, JPanel aTrainRevenueJPanel) {
 		int tCenterIndex;
-		Dimension tTextFieldSize = new Dimension (30, 20);
+		Dimension tTextFieldSize;
 
+		tTextFieldSize = new Dimension (30, 20);
 		for (tCenterIndex = 0; tCenterIndex < aCenterCount; tCenterIndex++) {
 			revenuesByTrain [aTrainIndex] [tCenterIndex] = new JFormattedTextField ();
 			revenuesByTrain [aTrainIndex] [tCenterIndex].setValue (0);
@@ -870,10 +873,12 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	private boolean allRoutesValid () {
-		boolean tAllRoutesValid = true;
-		int tTrainIndex, tTrainCount;
+		boolean tAllRoutesValid;
+		int tTrainIndex;
+		int tTrainCount;
 		Train tTrain;
 
+		tAllRoutesValid = true;
 		tTrainCount = trainCompany.getTrainCount ();
 
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
@@ -890,8 +895,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	public boolean allRevenuesValid (int aTrainIndex, int aCityCount) {
 		int tCityIndex;
-		boolean tAllRevenuesValid = true;
+		boolean tAllRevenuesValid;
 
+		tAllRevenuesValid = true;
 		for (tCityIndex = 0; (tCityIndex < aCityCount) && tAllRevenuesValid; tCityIndex++) {
 			tAllRevenuesValid = tAllRevenuesValid && isValidRevenue (aTrainIndex, tCityIndex);
 		}
@@ -934,10 +940,13 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	private boolean allTrainRevenuesAreValid () {
-		boolean tAllTrainRevenuesAreValid = true;
+		boolean tAllTrainRevenuesAreValid;
 		Train tTrain;
-		int tCityCount, tTrainIndex, tTrainCount;
+		int tCityCount;
+		int tTrainIndex;
+		int tTrainCount;
 
+		tAllTrainRevenuesAreValid = true;
 		tTrainCount = trainCompany.getTrainCount ();
 		for (tTrainIndex = 0; tTrainIndex < tTrainCount; tTrainIndex++) {
 			tTrain = trainCompany.getTrain (tTrainIndex);
@@ -953,9 +962,10 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 
 	@Override
 	public void propertyChange (PropertyChangeEvent aEvent) {
-		Object tSource = aEvent.getSource ();
+		Object tSource;
 		int tTotalRevenue;
 
+		tSource = aEvent.getSource ();
 		tTotalRevenue = getTotalRevenue (tSource);
 		setThisRevenue (tTotalRevenue);
 		updateAllFrameButtons ();
@@ -1014,7 +1024,8 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	private void updateFrameSize () {
-		int tWidth, tHeight;
+		int tWidth;
+		int tHeight;
 
 		tWidth = calculateTrainWidth ();
 		tHeight = 240 + calculateTrainHeight ();
@@ -1281,9 +1292,10 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	}
 
 	private boolean totalRevenueIsZero (int aTrainIndex) {
-		boolean tTotalRevenueIsZero = false;
+		boolean tTotalRevenueIsZero;
 		String tTotalRevenueForTrain;
 
+		tTotalRevenueIsZero = false;
 		tTotalRevenueForTrain = totalRevenueByEachTrain [aTrainIndex].getText ();
 		if (tTotalRevenueForTrain.equals ("0")) {
 			tTotalRevenueIsZero = true;
@@ -1380,7 +1392,9 @@ public class TrainRevenueFrame extends JFrame implements ActionListener, Propert
 	 */
 
 	public void disableAll () {
-		int tTrainIndex, tCityIndex, tCityCount;
+		int tTrainIndex;
+		int tCityIndex;
+		int tCityCount;
 		Train tTrain;
 		boolean tEnabled;
 
