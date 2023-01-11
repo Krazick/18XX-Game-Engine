@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.mockito.Mockito;
 
+import ge18xx.phase.PhaseInfo;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
@@ -98,5 +99,20 @@ public class GameTestFactory {
 		}
 
 		return tGameInfo;
+	}
+	
+	public PhaseInfo buildPhaseInfoMock () {
+		PhaseInfo mPhaseInfo;
+		
+		mPhaseInfo  = Mockito.mock (PhaseInfo.class);
+		Mockito.when (mPhaseInfo.getFullName ()).thenReturn ("TEST1");
+		Mockito.when (mPhaseInfo.getTrainLimit ()).thenReturn (1);
+		Mockito.when (mPhaseInfo.getTiles ()).thenReturn ("TEST_TILES");
+
+//		phaseNameLabel.setText ("Current Phase Name " + tPhaseInfo.getFullName ());
+//		trainLimitLabel.setText ("Train Limit: " + tPhaseInfo.getTrainLimit ());
+//		allowedTilesLabel.setText ("Tile Colors: " + tPhaseInfo.getTiles ());
+		
+		return mPhaseInfo;
 	}
 }

@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
+import ge18xx.phase.PhaseInfo;
 import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
 
@@ -122,11 +123,14 @@ public class CompanyTestFactory {
 	
 		CorporationList mCorporationList;
 		GameManager mGameManager;
+		PhaseInfo mPhaseInfo;
+		CorporationFrame mCorporationFrame;
 		
 		tTokenCompany = NO_TOKEN_COMPANY;
-		mCorporationList = Mockito.mock (CorporationList.class);
+		
 		mGameManager = gameTestFactory.buildGameManagerMock ();
-		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
+		mPhaseInfo = gameTestFactory.buildPhaseInfoMock ();
+		mCorporationList = buildCorporationListMock (mGameManager, mPhaseInfo);
 
 		if (aCompanyIndex == 1) {
 			tTokenCompany = buildTokenCompany (tTokenCompany1TestXML, tTokenCompany, mCorporationList);
@@ -134,7 +138,36 @@ public class CompanyTestFactory {
 			tTokenCompany = buildTokenCompany (tTokenCompany2TestXML, tTokenCompany, mCorporationList);			
 		}
 		
+		mCorporationFrame = buildCorporationFrameMock ();
+		tTokenCompany.setCorporationFrame (mCorporationFrame);
 		return tTokenCompany;
+	}
+
+	private CorporationFrame buildCorporationFrameMock () {
+		CorporationFrame mCorporationFrame;
+		
+		mCorporationFrame = Mockito.mock (CorporationFrame.class);
+		
+		return mCorporationFrame;
+	}
+	
+	private CorporationList buildCorporationListMock (GameManager mGameManager, PhaseInfo mPhaseInfo) {
+		CorporationList mCorporationList;
+		JPanel mJPanel;
+		
+		mCorporationList = Mockito.mock (CorporationList.class);
+		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
+		Mockito.when (mCorporationList.getCurrentPhaseInfo ()).thenReturn (mPhaseInfo);
+		Mockito.when (mCorporationList.getCurrentRoundOf ()).thenReturn ("2");
+		mJPanel = Mockito.mock (JPanel.class);
+		Mockito.when (mCorporationList.buildFullCorpsJPanel (null, NO_TOKEN_COMPANY, mGameManager, false, false, null)).thenReturn (mJPanel);
+//		buildFullCorpsJPanel (this, corporation,
+//				tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);	
+		
+//		buildFullCorpsJPanel (CorporationFrame aCorporationFrame, Corporation aBuyingCorporation,
+//				GameManager aGameManager, boolean aFullTrainPortfolio, boolean aCanBuyTrain, String aDisableToolTipReason)
+		
+		return mCorporationList;
 	}
 	
 	/**
