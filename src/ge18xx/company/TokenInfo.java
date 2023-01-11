@@ -10,7 +10,7 @@ public class TokenInfo {
 
 	public static TokenInfo NO_TOKEN_INFO = null;
 	public enum TokenType {
-		MARKET, HOME1, HOME2, FIXED_COST, RANGE_COST, NO_TYPE
+		MARKET, HOME1, HOME2, FIXED_COST, RANGE_COST, NO_TYPE, MAP
 	}
 
 	Token token;
@@ -35,6 +35,9 @@ public class TokenInfo {
 
 	private void setToken (Token aToken) {
 		token = aToken;
+		if (token != Token.NO_TOKEN) {
+			token.setTokenInfo (this);
+		}
 	}
 	
 	private void setTokenType (TokenType aTokenType) {
@@ -53,11 +56,13 @@ public class TokenInfo {
 		return token;
 	}
 	
-	public boolean isMatchingTokenType (TokenType aTokenType) {
+	public boolean isMatchingTokenType (TokenType aRequestedTokenType) {
 		boolean tIsMatchingTokenType;
 		
-		if (tokenType == aTokenType) {
+		if (tokenType == aRequestedTokenType) {
 			tIsMatchingTokenType = true;
+		} else if (aRequestedTokenType == TokenType.MAP){
+			tIsMatchingTokenType = isMapToken ();
 		} else {
 			tIsMatchingTokenType = false;
 		}
