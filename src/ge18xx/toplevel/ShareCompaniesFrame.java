@@ -168,7 +168,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 							tMarketCell = market.getMarketCellAtRowCol (tRow, tCol);
 							if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 								tShareCompany.setSharePrice (tMarketCell);
-								tToken = tShareCompany.getToken ();
+								tToken = tShareCompany.getMarketToken ();
 								if (tToken != Token.NO_TOKEN) {
 									tMarketCell.addTokenToBottom (tToken);
 									tMarketCell.redrawMarket ();
@@ -197,7 +197,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 
 		tMarketCell = market.findStartCell (aParPrice);
 		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
-			tToken = aShareCompany.getToken ();
+			tToken = aShareCompany.getMarketToken ();
 			if (tToken != Token.NO_TOKEN) {
 				aShareCompany.setParPrice (aParPrice);
 				aShareCompany.setSharePrice (tMarketCell);
@@ -256,7 +256,7 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		ShareCompany tShareCompany;
 
 		tShareCompany = (ShareCompany) companies.getCorporation (aCompanyAbbrev);
-		tToken = tShareCompany.getToken ();
+		tToken = tShareCompany.getMarketToken ();
 
 		return tToken;
 	}

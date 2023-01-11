@@ -41,6 +41,7 @@ public abstract class TokenCompany extends TrainCompany {
 	public final static ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
 	public final static TokenCompany NO_TOKEN_COMPANY = null;
 	private final static List<MapToken> NO_MAP_TOKENS = null;
+	private final static int MIN_TOKEN_COUNT = 1;
 	public static String FONT_CNAME = "Courier";
 	public static String FONT_DNAME = "Dialog";
 	public static String FONT_SNAME = "Serif";
@@ -65,20 +66,22 @@ public abstract class TokenCompany extends TrainCompany {
 
 	public TokenCompany (int aID, String aName) {
 		super (aID, aName);
-		totalTokenCount = 1;		// A Minimum number of Tokens for a Token Company (like 1835 Minor)
-		setupAllTokens ();
+		setupAllTokens (MIN_TOKEN_COUNT);
 	}
 
 	public TokenCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
 
-		totalTokenCount = aChildNode.getThisIntAttribute (AN_TOKENS);
-		setupAllTokens ();
+		int tTotalTokenCount;
+		
+		tTotalTokenCount = aChildNode.getThisIntAttribute (AN_TOKENS);
+		setupAllTokens (tTotalTokenCount);
 	}
-
-	private void setupAllTokens () {
+	
+	private void setupAllTokens (int aTotalTokenCount) {
 		Token tMarketToken;
 		
+		setTotalTokenCount (aTotalTokenCount);
 		tokens = new Tokens (totalTokenCount);
 		tMarketToken = new Token (this);
 		tokens.addNewToken (tMarketToken, TokenType.MARKET, Token.NO_COST);
@@ -89,11 +92,13 @@ public abstract class TokenCompany extends TrainCompany {
 		MapToken tMapToken;
 		
 		mapTokens = new LinkedList<> ();
-		if (totalTokenCount > 0) {
-			tMapToken = new MapToken ();
-			tMapToken.setCompany (this);
-			addNTokens (totalTokenCount, tMapToken);
-		}
+		tMapToken = new MapToken ();
+		tMapToken.setCompany (this);
+		addNTokens (totalTokenCount, tMapToken);
+	}
+
+	public void setTotalTokenCount (int aTotalTokenCount) {
+		totalTokenCount = aTotalTokenCount;
 	}
 
 	public void addNTokens (int aCount, MapToken aMapToken) {
@@ -364,13 +369,20 @@ public abstract class TokenCompany extends TrainCompany {
 		return tMapToken;
 	}
 
-	public Token getToken () {
-		Token tToken;
+	/**
+	 * This method will return a MarketToken, never a MapToken
+	 * 
+	 * @return the Market Token for the Token Company, to be used on the Market
+	 * 
+	 */
+	
+	public Token getMarketToken () {
+		Token tMarketToken;
 
-		tToken = new Token ();
-		tToken.setCompany (this);
+		tMarketToken = tokens.getToken (TokenType.MARKET);
+		tMarketToken.setCompany (this);
 
-		return tToken;
+		return tMarketToken;
 	}
 
 	public int getTokenCount () {

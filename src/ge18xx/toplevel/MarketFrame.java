@@ -81,7 +81,7 @@ public class MarketFrame extends XMLFrame {
 
 		tMarketCell = aShareCompany.getMarketCellAt (market);
 		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
-			tToken = aShareCompany.getToken ();
+			tToken = aShareCompany.getMarketToken ();
 			if (tToken != Token.NO_TOKEN) {
 				tMarketCell.addTokenToBottom (tToken);
 			}
@@ -95,7 +95,7 @@ public class MarketFrame extends XMLFrame {
 
 		tMarketCell = market.findStartCell (aParPrice);
 		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
-			tToken = aShareCompany.getToken ();
+			tToken = aShareCompany.getMarketToken ();
 			if (tToken != Token.NO_TOKEN) {
 				aShareCompany.setParPrice (aParPrice);
 				aShareCompany.setSharePrice (tMarketCell);
