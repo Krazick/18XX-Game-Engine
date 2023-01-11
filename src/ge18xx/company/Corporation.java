@@ -1651,17 +1651,23 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		String tFullTitle;
 		GameManager tGameManager;
 		boolean tIsNetworkGame;
+		CorporationFrame tCorporationFrame;
 
 		if (isATrainCompany ()) {
 			tGameManager = corporationList.getGameManager ();
 			tIsNetworkGame = tGameManager.isNetworkGame ();
 			tFullTitle = tGameManager.createFrameTitle ("Corporation");
-			corporationFrame = new CorporationFrame (tFullTitle, this, tIsNetworkGame, tGameManager);
+			tCorporationFrame = new CorporationFrame (tFullTitle, this, tIsNetworkGame, tGameManager);
 		} else {
-			corporationFrame = (CorporationFrame) XMLFrame.NO_XML_FRAME;
+			tCorporationFrame = (CorporationFrame) XMLFrame.NO_XML_FRAME;
 		}
+		setCorporationFrame (tCorporationFrame);
 	}
 
+	public void setCorporationFrame (CorporationFrame aCorporationFrame) {
+		corporationFrame = aCorporationFrame;
+	}
+	
 	/**
 	 * Set the Company's HomeCity1 and HomeLocation1 to the provided parameters
 	 *
