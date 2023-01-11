@@ -68,6 +68,22 @@ public class Tokens {
 		}
 	}
 	
+	public Token getHome1Token () {
+		return getToken (TokenType.HOME1);
+	}
+	
+	public Token getHome2Token () {
+		return getToken (TokenType.HOME2);
+	}
+	
+	public MapToken getMapToken () {
+		return getMapToken (TokenType.MAP);
+	}
+	
+	public Token getMarketToken () {
+		return getToken (TokenType.MARKET);
+	}
+	
 	public Token getToken (TokenType aTokenType) {
 		Token tToken;
 		TokenInfo tTokenInfo;
