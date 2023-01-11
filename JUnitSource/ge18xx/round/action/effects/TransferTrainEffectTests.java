@@ -51,7 +51,7 @@ class TransferTrainEffectTests {
 	@Test
 	@DisplayName ("Simple Constructor Tests")
 	void test () {
-		String tReportResult = "--Effect: Transfer Train named Test2 from TestPennsylvania to Test Baltimore and Ohio.";
+		String tReportResult = "--Effect: Transfer Train named Test2 from Test Pennsylvania to Test Baltimore and Ohio.";
 		ShareCompany tShareActor;
 		ShareCompany tToShareActor;
 
@@ -60,12 +60,12 @@ class TransferTrainEffectTests {
 
 		assertTrue (effectBeta.actorIsSet (), "Actor is not Set");
 		assertEquals ("Transfer Train", effectBeta.getName ());
-		assertEquals ("TestPennsylvania", effectBeta.getActorName ());
+		assertEquals ("Test Pennsylvania", effectBeta.getActorName ());
 		assertEquals ("Test Baltimore and Ohio", effectBeta.getToActorName ());
 
 		tShareActor = (ShareCompany) effectBeta.getActor ();
 		tToShareActor = (ShareCompany) effectBeta.getToActor ();
-		assertEquals ("TestPennsylvania", tShareActor.getName ());
+		assertEquals ("Test Pennsylvania", tShareActor.getName ());
 		assertEquals (tReportResult, effectBeta.getEffectReport (null));
 		assertNotNull (effectBeta.getToActorName ());
 		assertEquals ("Test Baltimore and Ohio", effectBeta.getToActorName ());

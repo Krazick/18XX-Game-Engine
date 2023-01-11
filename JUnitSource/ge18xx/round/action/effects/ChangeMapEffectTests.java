@@ -99,7 +99,7 @@ class ChangeMapEffectTests {
 		tRoundTestFactory = new RoundTestFactory ();
 		tRoundManager = tRoundTestFactory.buildRoundManager ();
 		tEffectReport = effectAlpha.getEffectReport (tRoundManager);
-		assertEquals ("--Effect: Change Map by TestPennsylvania on MapCell T1.", tEffectReport);
+		assertEquals ("--Effect: Change Map by Test Pennsylvania on MapCell T1.", tEffectReport);
 		assertTrue (effectAlpha.undoEffect (tRoundManager));
 	}
 }

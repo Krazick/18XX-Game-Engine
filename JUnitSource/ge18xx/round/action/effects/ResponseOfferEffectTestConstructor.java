@@ -63,7 +63,6 @@ class ResponseOfferEffectTestConstructor {
 		certificate = new Certificate (companyBeta, true, 20, tPortfolioAlpha);
 		tPortfolioAlpha.addCertificate (certificate);
 		effectAlpha = new ResponseOfferEffect ();
-//		public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage, CertificateHolderI aOwner) {
 		tResponse = true;
 		tItemType = "Private";
 		tItemName = certificate.getCompanyName ();
@@ -86,7 +85,7 @@ class ResponseOfferEffectTestConstructor {
 
 		assertTrue (effectBeta.getResponse ());
 		assertEquals ("Private", effectBeta.getItemType ());
-		assertEquals ("TestPennsylvania", effectBeta.getItemName ());
+		assertEquals ("Test Pennsylvania", effectBeta.getItemName ());
 
 		tFoundPlayer = (Player) effectBeta.getToActor ();
 		assertEquals ("ToEffectTesterDelta", tFoundPlayer.getName ());
@@ -95,10 +94,10 @@ class ResponseOfferEffectTestConstructor {
 	@Test
 	@DisplayName ("Reports from Response to Offer Tests")
 	void reportsFromResponseToOfferTests () {
-		String tReportResponseTrue = "--Effect:  The offer from ToEffectTesterDelta to buy TestPennsylvania Private sent to ToEffectTesterAlpha was Accepted";
-		String tReportResponseFalse = "--Effect:  The offer from ToEffectTesterDelta to buy TestPennsylvania Private sent to ToEffectTesterAlpha was Rejected";
-		String tReportResponseNoTO = "--Effect:  The offer from NULL to buy TestPennsylvania Private sent to ToEffectTesterAlpha was Rejected";
-		String tReportResponseEpsilon = "--Effect:  The offer from ToEffectTesterDelta to buy TestPennsylvania Private sent to  President of TestPennsylvania (TPRR) was Rejected";
+		String tReportResponseTrue = "--Effect:  The offer from ToEffectTesterDelta to buy Test Pennsylvania Private sent to ToEffectTesterAlpha was Accepted";
+		String tReportResponseFalse = "--Effect:  The offer from ToEffectTesterDelta to buy Test Pennsylvania Private sent to ToEffectTesterAlpha was Rejected";
+		String tReportResponseNoTO = "--Effect:  The offer from NULL to buy Test Pennsylvania Private sent to ToEffectTesterAlpha was Rejected";
+		String tReportResponseEpsilon = "--Effect:  The offer from ToEffectTesterDelta to buy Test Pennsylvania Private sent to  President of Test Pennsylvania (TPRR) was Rejected";
 
 		assertEquals (tReportResponseTrue, effectBeta.getEffectReport (null));
 		assertEquals (tReportResponseFalse, effectChi.getEffectReport (null));
