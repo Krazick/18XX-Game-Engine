@@ -19,7 +19,7 @@ class TokenCompanyTests {
 	@BeforeEach
 	void setUp () throws Exception {
 		companyTestFactory = new CompanyTestFactory ();
-		tokenCompany = companyTestFactory.buildTokenCompanyConcrete (Corporation.NO_ID, "Token Test Company, No ID");
+		tokenCompany = companyTestFactory.buildATokenCompany (1);
 	}
 
 	@AfterEach
@@ -30,7 +30,32 @@ class TokenCompanyTests {
 	@Test
 	@DisplayName ("Test fetching a Market Token for this Company")
 	void fetchMarketTokenTest () {
+		Token tMarketToken;
+
+		assertEquals ("Token Count: 4", tokenCompany.getTokenLabel ());
+		tMarketToken = tokenCompany.getMarketToken ();
+		assertEquals (tMarketToken.getCorporationID (), 991);
+		assertFalse (tMarketToken instanceof MapToken);
+		assertTrue (tMarketToken instanceof Token);
+	}
+	
+	@Test
+	@DisplayName ("Test adding a Map Token for this Company")
+	void addingMapTokenTest () {
+		MapToken tMapToken;
+		Token tFetchedToken;
 		
+		tMapToken = new MapToken ();
+		
+		assertEquals (4, tokenCompany.getTokenCount ());
+		tokenCompany.addMapToken (tMapToken);
+		tokenCompany.addMapToken (tMapToken);
+		assertEquals ("Token Count: 6", tokenCompany.getTokenLabel ());
+		assertEquals (6, tokenCompany.getTokenCount ());
+		
+		tFetchedToken = tokenCompany.getMapToken ();
+		assertTrue (tFetchedToken.isAMapToken ());
+		assertTrue (tFetchedToken instanceof MapToken);
 	}
 	
 	@Test
@@ -50,20 +75,12 @@ class TokenCompanyTests {
 	@Test
 	@DisplayName ("Valid for CanLayToken Method")
 	void canLayTokenTests () {
-		MapToken tMapToken;
-
-		tMapToken = new MapToken ();
 		tokenCompany.setAbbrev ("TRC");
 		tokenCompany.setName ("Token Railway Company");
 
 		tokenCompany.resetStatus (ActorI.ActionStates.StartedOperations);
 		assertTrue (tokenCompany.canLayToken ());
 
-		tokenCompany.addMapToken (tMapToken);
-		tokenCompany.addMapToken (tMapToken);
-		assertEquals ("Token Count: 3", tokenCompany.getTokenLabel ());
-
-		assertEquals (3, tokenCompany.getTokenCount ());
 		tokenCompany.resetStatus (ActorI.ActionStates.Unowned);
 		assertFalse (tokenCompany.canLayToken ());
 
