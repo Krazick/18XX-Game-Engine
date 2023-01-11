@@ -1,5 +1,9 @@
 package ge18xx.company;
 
+import java.awt.event.ItemListener;
+
+import javax.swing.JPanel;
+
 import org.mockito.Mockito;
 
 import ge18xx.game.GameManager;
@@ -8,6 +12,7 @@ import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
 
 public class CompanyTestFactory {
+	public final TokenCompanyConcrete NO_TOKEN_COMPANY = null;
 	public final int NO_COMPANY_INDEX = 99;
 	private GameTestFactory gameTestFactory;
 	private UtilitiesTestFactory utilitiesTestFactory;
@@ -102,6 +107,36 @@ public class CompanyTestFactory {
 		return mPrivateCompany;
 	}
 
+	public TokenCompany buildATokenCompany (int aCompanyIndex) {
+		TokenCompanyConcrete tTokenCompany;
+		String tTokenCompany1TestXML = "<Share id=\"991\" name=\"Test Token Pennsylvania\" abbrev=\"TTPRR\" homeCell1=\"H12\" \n"
+				+ "	homeLocation1=\"14\" bgColor=\"Dark Green\" fgColor=\"White\" tokens=\"4\"> \n"
+				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
+				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
+				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
+		String tTokenCompany2TestXML = "<Share id=\"992\" name=\"Test Token Baltimore and Ohio\" abbrev=\"TTBNO\" homeCell1=\"I15\" \n"
+				+ "	homeLocation1=\"21\" bgColor=\"Deep Blue\" fgColor=\"White\" tokens=\"3\"> \n"
+				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
+				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
+				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
+	
+		CorporationList mCorporationList;
+		GameManager mGameManager;
+		
+		tTokenCompany = NO_TOKEN_COMPANY;
+		mCorporationList = Mockito.mock (CorporationList.class);
+		mGameManager = gameTestFactory.buildGameManagerMock ();
+		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
+
+		if (aCompanyIndex == 1) {
+			tTokenCompany = buildTokenCompany (tTokenCompany1TestXML, tTokenCompany, mCorporationList);
+		} else if (aCompanyIndex == 2) {
+			tTokenCompany = buildTokenCompany (tTokenCompany2TestXML, tTokenCompany, mCorporationList);			
+		}
+		
+		return tTokenCompany;
+	}
+	
 	/**
 	 * Build a Share Company from XML Data for Testing Purposes. The CorporationList
 	 * attached to Share Company will be Mocked, and the GameManager attached to the
@@ -114,7 +149,7 @@ public class CompanyTestFactory {
 	 */
 	
 	public ShareCompany buildAShareCompany (int aCompanyIndex) {
-		String tShareCompany1TestXML = "<Share id=\"901\" name=\"TestPennsylvania\" abbrev=\"TPRR\" homeCell1=\"H12\" \n"
+		String tShareCompany1TestXML = "<Share id=\"901\" name=\"Test Pennsylvania\" abbrev=\"TPRR\" homeCell1=\"H12\" \n"
 				+ "	homeLocation1=\"14\" bgColor=\"Dark Green\" fgColor=\"White\" tokens=\"4\"> \n"
 				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
 				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
@@ -152,6 +187,19 @@ public class CompanyTestFactory {
 		}
 
 		return tShareCompany;
+	}
+
+	private TokenCompanyConcrete buildTokenCompany (String aTokenCompanyTestXML, TokenCompanyConcrete aTokenCompany,
+			CorporationList mCorporationList) {
+		XMLNode tTokenCompanyNode;
+
+		tTokenCompanyNode = utilitiesTestFactory.buildXMLNode (aTokenCompanyTestXML);
+		if (tTokenCompanyNode != XMLNode.NO_NODE) {
+			aTokenCompany = new TokenCompanyConcrete (tTokenCompanyNode, mCorporationList);
+			aTokenCompany.setTestingFlag (true);
+		}
+
+		return aTokenCompany;
 	}
 
 	private ShareCompany buildShareCompany (String aShareCompanyTestXML, ShareCompany aShareCompany,
@@ -246,6 +294,45 @@ public class CompanyTestFactory {
 		return mMinorCompany;
 	}
 
+	// Class to create Concrete Token Company rather than a specific extended class for Testing
+	
+	class TokenCompanyConcrete extends TokenCompany {
+		
+		public TokenCompanyConcrete (int aID, String aName) {
+			super (aID, aName);
+		}
+
+		public TokenCompanyConcrete (XMLNode aChildNode, CorporationList aCorporationList) {
+			super (aChildNode, aCorporationList);
+		}
+
+		@Override
+		public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
+			return null;
+		}
+
+		@Override
+		public int calculateStartingTreasury () {
+			return 0;
+		}
+	}
+
+	public TokenCompany buildTokenCompanyConcrete () {
+		TokenCompany cTokenCompany;
+		
+		cTokenCompany = buildTokenCompanyConcrete (NO_COMPANY_INDEX, "TEST TOKEN COMPANY");
+		
+		return cTokenCompany;
+	}
+	
+	public TokenCompany buildTokenCompanyConcrete (int aCompanyID, String aCompanyName) {
+		TokenCompany cTokenCompany;
+		
+		cTokenCompany = new TokenCompanyConcrete (aCompanyID, aCompanyName);
+		
+		return cTokenCompany;
+	}
+	
 	// Build Mocked Token Company Methods
 	
 	public TokenCompany buildTokenCompanyMock () {

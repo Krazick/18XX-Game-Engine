@@ -4,10 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.awt.event.ItemListener;
-
-import javax.swing.JPanel;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,37 +13,29 @@ import ge18xx.round.action.ActorI;
 
 @DisplayName ("Token Company Tests")
 class TokenCompanyTests {
-	class TokenCompanyConcrete extends TokenCompany {
-
-		public TokenCompanyConcrete (int aID, String aName) {
-			super (aID, aName);
-		}
-
-		@Override
-		public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
-			return null;
-		}
-
-		@Override
-		public int calculateStartingTreasury () {
-			return 0;
-		}
-	}
-
-	TokenCompanyConcrete tokenCompany;
+	CompanyTestFactory companyTestFactory;
+	TokenCompany tokenCompany;
 
 	@BeforeEach
 	void setUp () throws Exception {
-		tokenCompany = new TokenCompanyConcrete (Corporation.NO_ID, "TEST TOKEN COMPANY");
+		companyTestFactory = new CompanyTestFactory ();
+		tokenCompany = companyTestFactory.buildTokenCompanyConcrete (Corporation.NO_ID, "Token Test Company, No ID");
 	}
 
 	@AfterEach
 	void tearDown () throws Exception {
 	}
 
+	
+	@Test
+	@DisplayName ("Test fetching a Market Token for this Company")
+	void fetchMarketTokenTest () {
+		
+	}
+	
 	@Test
 	@DisplayName ("Test various 'isA<something>' method")
-	void testCorporationIsAMethods () {
+	void corporationIsAMethodTests () {
 		assertFalse (tokenCompany.isAPlayer ());
 		assertFalse (tokenCompany.isAPrivateCompany ());
 		assertTrue (tokenCompany.isATrainCompany ());
@@ -61,7 +49,7 @@ class TokenCompanyTests {
 
 	@Test
 	@DisplayName ("Valid for CanLayToken Method")
-	void testCanLayToken () {
+	void canLayTokenTests () {
 		MapToken tMapToken;
 
 		tMapToken = new MapToken ();
