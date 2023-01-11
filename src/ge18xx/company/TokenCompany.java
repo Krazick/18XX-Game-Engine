@@ -224,9 +224,12 @@ public abstract class TokenCompany extends TrainCompany {
 		boolean tCanLayToken;
 
 		tCanLayToken = false;
-		if ((status == ActorI.ActionStates.StartedOperations) || (status == ActorI.ActionStates.TileLaid)
-				|| (status == ActorI.ActionStates.Tile2Laid) || (status == ActorI.ActionStates.StationLaid)
-				|| (status == ActorI.ActionStates.TileAndStationLaid) || (status == ActorI.ActionStates.TileUpgraded)) {
+		if ((status == ActorI.ActionStates.StartedOperations) || 
+			(status == ActorI.ActionStates.TileLaid) || 
+			(status == ActorI.ActionStates.Tile2Laid) || 
+			(status == ActorI.ActionStates.StationLaid) || 
+			(status == ActorI.ActionStates.TileAndStationLaid) || 
+			(status == ActorI.ActionStates.TileUpgraded)) {
 			tCanLayToken = true;
 		}
 		if (getTokenCount () == 0) {
