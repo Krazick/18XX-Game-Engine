@@ -47,6 +47,12 @@ class TokenInfoTests {
 			assertFalse (tTokenInfo.isMapToken ());
 			assertEquals (0, tTokenInfo.getCost ());
 			assertEquals (TokenType.MARKET, tTokenInfo.getTokenType ());
+			assertTrue (tTokenInfo.isMatchingTokenType (TokenType.MARKET));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.HOME1));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.MAP));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.FIXED_COST));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.RANGE_COST));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.HOME2));
 		}
 	
 		@Test
@@ -63,6 +69,13 @@ class TokenInfoTests {
 			assertTrue (tTokenInfo.isMapToken ());
 			assertEquals (0, tTokenInfo.getCost ());
 			assertEquals (TokenType.HOME1, tTokenInfo.getTokenType ());
+			
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.MARKET));
+			assertTrue (tTokenInfo.isMatchingTokenType (TokenType.HOME1));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.HOME2));
+			assertTrue (tTokenInfo.isMatchingTokenType (TokenType.MAP));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.FIXED_COST));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.RANGE_COST));
 		}
 	
 		@Test
@@ -79,6 +92,13 @@ class TokenInfoTests {
 			assertTrue (tTokenInfo.isMapToken ());
 			assertEquals (0, tTokenInfo.getCost ());
 			assertEquals (TokenType.HOME2, tTokenInfo.getTokenType ());
+			
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.MARKET));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.HOME1));
+			assertTrue (tTokenInfo.isMatchingTokenType (TokenType.HOME2));
+			assertTrue (tTokenInfo.isMatchingTokenType (TokenType.MAP));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.FIXED_COST));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.RANGE_COST));
 		}
 	
 		@Test
@@ -95,6 +115,13 @@ class TokenInfoTests {
 			assertTrue (tTokenInfo.isMapToken ());
 			assertEquals (40, tTokenInfo.getCost ());
 			assertEquals (TokenType.FIXED_COST, tTokenInfo.getTokenType ());
+			
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.MARKET));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.HOME1));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.HOME2));
+			assertTrue (tTokenInfo.isMatchingTokenType (TokenType.MAP));
+			assertTrue (tTokenInfo.isMatchingTokenType (TokenType.FIXED_COST));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.RANGE_COST));
 		}
 	
 		@Test
@@ -111,6 +138,13 @@ class TokenInfoTests {
 			assertTrue (tTokenInfo.isMapToken ());
 			assertEquals (Token.RANGE_COST, tTokenInfo.getCost ());
 			assertEquals (TokenType.RANGE_COST, tTokenInfo.getTokenType ());
+			
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.MARKET));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.HOME1));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.HOME2));
+			assertTrue (tTokenInfo.isMatchingTokenType (TokenType.MAP));
+			assertFalse (tTokenInfo.isMatchingTokenType (TokenType.FIXED_COST));
+			assertTrue (tTokenInfo.isMatchingTokenType (TokenType.RANGE_COST));
 		}
 	}
 	

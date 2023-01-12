@@ -568,7 +568,6 @@ class TokensTests {
 		tFoundMapToken4 = tokens4.getMapToken (TokenInfo.TokenType.RANGE_COST);
 		tokens4.setTokenUsed (tFoundMapToken4, true);
 		assertEquals (0, tokens4.getAvailableTokenCount ());
-
 	}
 
 }
