@@ -184,6 +184,26 @@ public class Tokens {
 		return tAvailableTokenCount;
 	}
 	
+	public TokenInfo getTokenInfo (Token aToken) {
+		TokenInfo tTokenInfo;
+		TokenInfo tFoundTokenInfo;
+		int tIndex;
+		int tTokenCount;
+
+		tFoundTokenInfo = TokenInfo.NO_TOKEN_INFO;
+		if (aToken != Token.NO_TOKEN) {
+			tTokenCount = getTokenCount ();
+			for (tIndex = 0; tIndex < tTokenCount; tIndex++) {
+				tTokenInfo = tokens.get (tIndex);
+				if (tTokenInfo.getToken () == aToken) {
+					tFoundTokenInfo = tTokenInfo;
+				}
+			}
+		}
+		
+		return tFoundTokenInfo;
+	}
+	
 	public TokenInfo getMapTokenInfo () {
 		TokenInfo tTokenInfo;
 		TokenInfo tFoundMapTokenInfo;
