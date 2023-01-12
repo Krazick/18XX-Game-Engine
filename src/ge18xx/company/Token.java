@@ -20,7 +20,6 @@ public class Token {
 	public static final int NO_COST = 0;
 	public static final int RANGE_COST = -1;
 	TokenCompany whichCompany;
-	TokenInfo tokenInfo;
 
 	public Token () {
 		setCompany (TokenCompany.NO_TOKEN_COMPANY);
@@ -35,14 +34,6 @@ public class Token {
 
 		tCompany = aToken.getWhichCompany ();
 		setCompany (tCompany);
-	}
-
-	public void setTokenInfo (TokenInfo aTokenInfo) {
-		tokenInfo = aTokenInfo;
-	}
-	
-	public TokenInfo getTokenInfo () {
-		return tokenInfo;
 	}
 	
 	public void drawToken (Graphics g, int X1, int Y1, int width, int height) {

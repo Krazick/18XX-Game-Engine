@@ -35,9 +35,6 @@ public class TokenInfo {
 
 	private void setToken (Token aToken) {
 		token = aToken;
-		if (token != Token.NO_TOKEN) {
-			token.setTokenInfo (this);
-		}
 	}
 	
 	private void setTokenType (TokenType aTokenType) {
