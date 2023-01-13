@@ -911,20 +911,20 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		XMLElement tXMLCorporationState;
 
 		tXMLCorporationState = aXMLDocument.createElement (EN_TRAIN_COMPANY);
-		getCorporationStateElement (tXMLCorporationState);
+		getCorporationStateElement (tXMLCorporationState, aXMLDocument);
 
 		return tXMLCorporationState;
 	}
 
 	@Override
-	public void getCorporationStateElement (XMLElement aXMLCorporationState) {
+	public void getCorporationStateElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 
 		aXMLCorporationState.setAttribute (AN_VALUE, getValue ());
 		if (lastRevenue > 0) {
 			aXMLCorporationState.setAttribute (AN_LAST_REVENUE, lastRevenue);
 		}
 		aXMLCorporationState.setAttribute (AN_TREASURY, getCash ());
-		super.getCorporationStateElement (aXMLCorporationState);
+		super.getCorporationStateElement (aXMLCorporationState, aXMLDocument);
 	}
 
 	public double getDividendFor1Percent () {

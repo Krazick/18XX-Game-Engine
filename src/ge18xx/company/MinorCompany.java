@@ -66,7 +66,7 @@ public class MinorCompany extends TokenCompany {
 		XMLElement tXMLCorporationState;
 
 		tXMLCorporationState = aXMLDocument.createElement (EN_MINOR_COMPANY);
-		getCorporationStateElement (tXMLCorporationState);
+		getCorporationStateElement (tXMLCorporationState, aXMLDocument);
 
 		return tXMLCorporationState;
 	}

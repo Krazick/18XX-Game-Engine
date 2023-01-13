@@ -944,7 +944,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	/* Add to XML Element Corporation Specific Information -- For Save File */
-	public void getCorporationStateElement (XMLElement aXMLCorporationState) {
+	public void getCorporationStateElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		Location tHomeLocation1;
 		Location tHomeLocation2;
 		int tHomeLocation1Int;

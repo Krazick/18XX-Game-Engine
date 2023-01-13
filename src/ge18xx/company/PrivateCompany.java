@@ -363,7 +363,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		XMLElement tXMLElement, tBidders, tXMLBenefits;
 
 		tXMLElement = aXMLDocument.createElement (EN_PRIVATE);
-		super.getCorporationStateElement (tXMLElement);
+		super.getCorporationStateElement (tXMLElement, aXMLDocument);
 		tXMLElement.setAttribute (AN_DISCOUNT, discount);
 		tXMLElement.setAttribute (AN_MUST_SELL, mustSell);
 		tBidders = corporationCertificates.getBidders (aXMLDocument);
