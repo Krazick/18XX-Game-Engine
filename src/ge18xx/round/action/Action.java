@@ -101,8 +101,14 @@ public class Action {
 		setChainToPrevious (tChainToPrevious);
 		effects = new LinkedList<> ();
 
-		XMLNode tEffectsNode, tEffectNode;
-		NodeList tEffectsChildren, tEffectChildren;
+		parseActionNode (aActionNode, aGameManager, tActionName, tNumber);
+	}
+
+	private void parseActionNode (XMLNode aActionNode, GameManager aGameManager, String aActionName, int aNumber) {
+		XMLNode tEffectsNode;
+		XMLNode tEffectNode;
+		NodeList tEffectsChildren;
+		NodeList tEffectChildren;
 		int tEffectNodeCount, tEffectsNodeCount, tEffectIndex, tEffectsIndex;
 		String tEffectsNodeName, tEffectNodeName;
 		String tClassName;
@@ -142,7 +148,7 @@ public class Action {
 					"Could not find Class for Effect " + tClassName + " due to Rename and using old Save Game");
 		} catch (Exception tException) {
 			System.err.println ("Caught Exception with message ");
-			System.err.println ("Class name " + tClassName + " Action Name " + tActionName + " Action Number " + tNumber);
+			System.err.println ("Class name " + tClassName + " Action Name " + aActionName + " Action Number " + aNumber);
 			tException.printStackTrace ();
 		}
 	}
