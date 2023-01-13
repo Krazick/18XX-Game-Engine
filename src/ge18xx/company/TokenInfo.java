@@ -1,6 +1,16 @@
 package ge18xx.company;
 
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.ElementName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
+
 public class TokenInfo {
+	public final static AttributeName AN_AVAILABLE_TOKEN_TYPE = new AttributeName ("tokenType");
+	public final static AttributeName AN_AVAILABLE_TOKEN_COST = new AttributeName ("cost");
+	public final static AttributeName AN_AVAILABLE_TOKEN_USED = new AttributeName ("used");
+	public final static ElementName EN_TOKEN_INFO = new ElementName ("TokenInfo");
+
 	// Create new Class 'TokenInfo' that has:
 	// 1) Token (can be sub-Class MapToken)
 	// 2) Type [an ENUM] (Market, Home1, Home2, FixedCost, RangeCost
@@ -41,7 +51,7 @@ public class TokenInfo {
 		tokenType = aTokenType;
 	}
 	
-	private void setCost (int aCost) {
+	public void setCost (int aCost) {
 		cost = aCost;
 	}
 	
@@ -51,6 +61,20 @@ public class TokenInfo {
 
 	public Token getToken () {
 		return token;
+	}
+	
+	public boolean isMatchingTokenType (String aTokenType) {
+		boolean tIsMatchingTokenType;
+		String tThisType;
+		
+		tThisType = tokenType.toString ();
+		if (tThisType.equals (aTokenType)){
+			tIsMatchingTokenType = true;
+		} else {
+			tIsMatchingTokenType = false;
+		}
+		
+		return tIsMatchingTokenType;		
 	}
 	
 	public boolean isMatchingTokenType (TokenType aRequestedTokenType) {
@@ -189,5 +213,16 @@ public class TokenInfo {
 
 	public boolean isUsed () {
 		return used;
+	}
+
+	public XMLElement getTokenInfoElement (XMLDocument aXMLDocument) {
+		XMLElement tTokenInfoElement;
+		
+		tTokenInfoElement = aXMLDocument.createElement (EN_TOKEN_INFO);
+		tTokenInfoElement.setAttribute (AN_AVAILABLE_TOKEN_TYPE, tokenType.toString ());
+		tTokenInfoElement.setAttribute (AN_AVAILABLE_TOKEN_COST, getCost ());
+		tTokenInfoElement.setAttribute (AN_AVAILABLE_TOKEN_USED, getUsed ());
+		
+		return tTokenInfoElement;
 	}
 }

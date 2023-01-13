@@ -70,7 +70,7 @@ class TokensTests {
 			Token mToken;
 			Token tFoundToken;
 			
-			mToken = companyTestFactory.buildTokenMock ();
+			mToken = companyTestFactory.buildMapTokenMock ();
 			tokens4.addNewToken (mToken, TokenInfo.TokenType.HOME1, 0);
 			
 			assertEquals (5, tokens4.getTokenCount ());
@@ -94,8 +94,9 @@ class TokensTests {
 		void addHome2TokenTest () {
 			Token mToken;
 			Token tFoundToken;
+			MapToken tFoundMapToken;
 	
-			mToken = companyTestFactory.buildTokenMock ();
+			mToken = companyTestFactory.buildMapTokenMock ();
 			tokens4.addNewToken (mToken, TokenInfo.TokenType.HOME2, 0);
 			
 			assertEquals (5, tokens4.getTokenCount ());
@@ -110,8 +111,8 @@ class TokensTests {
 			tFoundToken = tokens4.getToken (TokenInfo.TokenType.RANGE_COST);
 			assertNotEquals (mToken, tFoundToken);
 			
-			tFoundToken = tokens4.getHome2Token ();
-			assertEquals (mToken, tFoundToken);
+			tFoundMapToken = tokens4.getHome2Token ();
+			assertEquals (mToken, tFoundMapToken);
 		}
 		
 		@Test
@@ -121,7 +122,7 @@ class TokensTests {
 			Token mHomeToken;
 			Token tFoundToken;
 	
-			mHomeToken = companyTestFactory.buildTokenMock ();
+			mHomeToken = companyTestFactory.buildMapTokenMock ();
 			tokens4.addNewToken (mHomeToken, TokenInfo.TokenType.HOME1, 0);
 			
 			mToken = companyTestFactory.buildMapTokenMock ();
@@ -569,5 +570,4 @@ class TokensTests {
 		tokens4.setTokenUsed (tFoundMapToken4, true);
 		assertEquals (0, tokens4.getAvailableTokenCount ());
 	}
-
 }

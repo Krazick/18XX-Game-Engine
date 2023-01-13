@@ -75,6 +75,7 @@ public abstract class TokenCompany extends TrainCompany {
 		int tTotalTokenCount;
 		
 		tTotalTokenCount = aChildNode.getThisIntAttribute (AN_TOKENS);
+		setTotalTokenCount (tTotalTokenCount);
 		setupAllTokens (tTotalTokenCount);
 	}
 	
@@ -106,9 +107,11 @@ public abstract class TokenCompany extends TrainCompany {
 		int tStartIndex;
 		int tIndex;
 		int tCost;
+		TokenType tTokenTypeToAdd;
 
 		tCost = Token.NO_COST;
 		tStartIndex = 1;
+		tTokenTypeToAdd = TokenType.FIXED_COST;
 		if (homeCityGrid1 != XMLNode.NO_VALUE) {
 			tStartIndex++;
 			tMapToken = new MapToken (aMapToken, tCost);
@@ -130,7 +133,7 @@ public abstract class TokenCompany extends TrainCompany {
 			tMapToken = new MapToken (aMapToken, tCost);
 			tMapToken.setCompany (this);
 			addMapToken (tMapToken);
-			tokens.addNewToken (tMapToken, TokenType.FIXED_COST, tCost);
+			tokens.addNewToken (tMapToken, tTokenTypeToAdd, tCost);
 		}
 	}
 
@@ -347,31 +350,69 @@ public abstract class TokenCompany extends TrainCompany {
 		XMLElement tXMLCorporationState;
 
 		tXMLCorporationState = aXMLDocument.createElement (EN_TOKEN_COMPANY);
-		getCorporationStateElement (tXMLCorporationState);
+		getCorporationStateElement (tXMLCorporationState, aXMLDocument);
 
 		return tXMLCorporationState;
 	}
 
 	@Override
 	public void appendOtherElements (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
+		tokens.getTokensElement (aXMLCorporationState, aXMLDocument);
 		super.appendOtherElements (aXMLCorporationState, aXMLDocument);
 	}
 
 	@Override
-	public void getCorporationStateElement (XMLElement aXMLCorporationState) {
+	public void getCorporationStateElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		aXMLCorporationState.setAttribute (AN_AVAILABLE_TOKEN_COUNT, getTokenCount ());
-		super.getCorporationStateElement (aXMLCorporationState);
+		super.getCorporationStateElement (aXMLCorporationState, aXMLDocument);
 	}
 
+	/**
+	 * Retrieve the next available Token that is a MapToken
+	 * 
+	 * @return The first available Map Token
+	 * 
+	 */
 	@Override
 	public MapToken getMapToken () {
 		MapToken tMapToken;
 
 		tMapToken = mapTokens.get (0);
+		tMapToken = tokens.getMapToken ();
 		
 		return tMapToken;
 	}
 
+	/**
+	 * Retrieve the Home1 Token that is a MapToken
+	 * 
+	 * @return The Home1 Map Token
+	 * 
+	 */
+
+	public MapToken getHome1Token () {
+		MapToken tMapToken;
+
+		tMapToken = tokens.getHome1Token ();
+		
+		return tMapToken;
+	}
+
+	/**
+	 * Retrieve the Home2 Token that is a MapToken
+	 * 
+	 * @return The Home2 Map Token
+	 * 
+	 */
+
+	public MapToken getHome2Token () {
+		MapToken tMapToken;
+
+		tMapToken = tokens.getHome2Token ();
+		
+		return tMapToken;
+	}
+	
 	/**
 	 * This method will return a MarketToken, never a MapToken
 	 * 
@@ -383,7 +424,7 @@ public abstract class TokenCompany extends TrainCompany {
 		Token tMarketToken;
 
 		tMarketToken = tokens.getToken (TokenType.MARKET);
-		tMarketToken.setCompany (this);
+		tokens.setTokenUsed (tMarketToken, true);
 
 		return tMarketToken;
 	}
@@ -396,12 +437,21 @@ public abstract class TokenCompany extends TrainCompany {
 		} else {
 			tTokenCount = mapTokens.size ();
 		}
-
+		if (tokens == Tokens.NO_TOKENS) {
+			tTokenCount = 0;
+		} else {
+			tTokenCount = tokens.getAvailableTokenCount ();
+		}
+		
 		return tTokenCount;
 	}
 
 	public int getTotalTokenCount () {
-		return totalTokenCount;
+		int tTotalTokenCount;
+		
+		tTotalTokenCount = tokens.getTokenCount ();
+		
+		return tTotalTokenCount;
 	}
 
 	@Override
@@ -480,6 +530,9 @@ public abstract class TokenCompany extends TrainCompany {
 	@Override
 	public void loadStatus (XMLNode aXMLNode) {
 		super.loadStatus (aXMLNode);
+		
+		tokens.loadStatus (aXMLNode);
+		// TODO -- Parse out the Tokens, and TokenInfo Elements
 	}
 
 	@Override

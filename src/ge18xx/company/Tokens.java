@@ -3,8 +3,19 @@ package ge18xx.company;
 import java.util.ArrayList;
 
 import ge18xx.company.TokenInfo.TokenType;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.ElementName;
+import ge18xx.utilities.ParsingRoutineI;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
+import ge18xx.utilities.XMLNodeList;
 
 public class Tokens {
+	public final static AttributeName AN_AVAILABLE_TOKEN_COUNT = new AttributeName ("availableTokenCount");
+	public final static AttributeName AN_TOKEN_INDEX = new AttributeName ("tokenIndex");
+	public final static ElementName EN_TOKENS = new ElementName ("Tokens");
+	public final static Tokens NO_TOKENS = null;
 	private static int MARKET_INDEX = 0;
 	private static int HOME1_INDEX = 1;
 	private static int HOME2_INDEX = 2;
@@ -46,6 +57,51 @@ public class Tokens {
 		}
 	}
 
+	public void loadStatus (XMLNode aTokensNode) {
+		XMLNodeList tXMLNodeList;
+
+		tXMLNodeList = new XMLNodeList (TokensParsingRoutine);
+		tXMLNodeList.parseXMLNodeList (aTokensNode, EN_TOKENS);
+	}
+
+	ParsingRoutineI TokensParsingRoutine = new ParsingRoutineI () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aTokensNode) {
+			loadTokenInfo (aTokensNode);
+		}
+	};
+
+	public void loadTokenInfo (XMLNode aXMLTokenInfoNode) {
+		XMLNodeList tXMLTokenInfoNodeList;
+
+		tXMLTokenInfoNodeList = new XMLNodeList (TokenInfoParsingRoutine);
+		tXMLTokenInfoNodeList.parseXMLNodeList (aXMLTokenInfoNode, TokenInfo.EN_TOKEN_INFO);
+	}
+
+	ParsingRoutineI TokenInfoParsingRoutine = new ParsingRoutineI () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aTokenInfoNode) {
+			int tTokenIndex;
+			int tTokenCost;
+			String tTokenType;
+			boolean tTokenUsed;
+			TokenInfo tTokenInfo;
+			
+			tTokenIndex = aTokenInfoNode.getThisIntAttribute (AN_TOKEN_INDEX);
+			tTokenCost = aTokenInfoNode.getThisIntAttribute (TokenInfo.AN_AVAILABLE_TOKEN_COST);
+			tTokenType = aTokenInfoNode.getThisAttribute (TokenInfo.AN_AVAILABLE_TOKEN_TYPE);
+			tTokenUsed = aTokenInfoNode.getThisBooleanAttribute (TokenInfo.AN_AVAILABLE_TOKEN_USED);
+			tTokenInfo = tokens.get (tTokenIndex);
+			if (tTokenInfo.isMatchingTokenType (tTokenType)) {
+				System.out.println ("Fetched TokenInfo at Index " + tTokenIndex);
+				tTokenInfo.setUsed (tTokenUsed);
+				tTokenInfo.setCost (tTokenCost);
+			} else {
+				System.err.println ("TokenInfo at " + tTokenIndex + " has Type " + tTokenInfo.getTokenType () + " Looking for " + tTokenType);
+			}
+		}
+	};
+
 	public void addNewToken (Token aToken, TokenType aTokenType, int aCost) {
 		TokenInfo tTokenInfo;
 		
@@ -68,12 +124,12 @@ public class Tokens {
 		}
 	}
 	
-	public Token getHome1Token () {
-		return getToken (TokenType.HOME1);
+	public MapToken getHome1Token () {
+		return getMapToken (TokenType.HOME1);
 	}
 	
-	public Token getHome2Token () {
-		return getToken (TokenType.HOME2);
+	public MapToken getHome2Token () {
+		return getMapToken (TokenType.HOME2);
 	}
 	
 	public MapToken getMapToken () {
@@ -277,6 +333,27 @@ public class Tokens {
 					tTokenInfo.setUsed (aUsed);
 				}
 			}
+		}
+	}
+
+	public void getTokensElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
+		XMLElement tTokensElement;
+		XMLElement tTokenInfoElement;
+		int tTokenCount;
+		int tTokenIndex;
+		
+		tTokenCount = getTokenCount ();
+		aXMLCorporationState.setAttribute (AN_AVAILABLE_TOKEN_COUNT, getTokenCount ());
+		if (tTokenCount > 0) {
+			tTokensElement = aXMLDocument.createElement (EN_TOKENS);
+			tTokenIndex = MARKET_INDEX;
+			for (TokenInfo tTokenInfo : tokens) {
+				tTokenInfoElement = tTokenInfo.getTokenInfoElement (aXMLDocument);
+				tTokenInfoElement.setAttribute (AN_TOKEN_INDEX, tTokenIndex);
+				tTokenIndex++;
+				tTokensElement.appendChild (tTokenInfoElement);
+			}
+			aXMLCorporationState.appendChild (tTokensElement);
 		}
 	}
 }

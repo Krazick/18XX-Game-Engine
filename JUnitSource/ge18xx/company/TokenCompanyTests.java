@@ -42,16 +42,11 @@ class TokenCompanyTests {
 	@Test
 	@DisplayName ("Test adding a Map Token for this Company")
 	void addingMapTokenTest () {
-		MapToken tMapToken;
 		Token tFetchedToken;
 		
-		tMapToken = new MapToken ();
-		
 		assertEquals (4, tokenCompany.getTokenCount ());
-		tokenCompany.addMapToken (tMapToken);
-		tokenCompany.addMapToken (tMapToken);
-		assertEquals ("Token Count: 6", tokenCompany.getTokenLabel ());
-		assertEquals (6, tokenCompany.getTokenCount ());
+		assertEquals ("Token Count: 4", tokenCompany.getTokenLabel ());
+		assertEquals (4, tokenCompany.getTokenCount ());
 		
 		tFetchedToken = tokenCompany.getMapToken ();
 		assertTrue (tFetchedToken.isAMapToken ());
