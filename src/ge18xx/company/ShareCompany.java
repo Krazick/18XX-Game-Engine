@@ -176,7 +176,7 @@ public class ShareCompany extends TokenCompany {
 		XMLElement tXMLCorporationState;
 
 		tXMLCorporationState = aXMLDocument.createElement (EN_SHARE_COMPANY);
-		getCorporationStateElement (tXMLCorporationState);
+		getCorporationStateElement (tXMLCorporationState, aXMLDocument);
 		super.appendOtherElements (tXMLCorporationState, aXMLDocument);
 
 		return tXMLCorporationState;
@@ -197,14 +197,14 @@ public class ShareCompany extends TokenCompany {
 	 * routine
 	 */
 	@Override
-	public void getCorporationStateElement (XMLElement aXMLCorporationState) {
+	public void getCorporationStateElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
 		aXMLCorporationState.setAttribute (AN_PAR_PRICE, getParPrice ());
 		if (gameHasLoans ()) {
 			aXMLCorporationState.setAttribute (AN_LOAN_COUNT, loanCount);
 			aXMLCorporationState.setAttribute (AN_LOAN_TAKEN, loanTaken);
 		}
 		destinationInfo.getDestinationInfo (aXMLCorporationState);
-		super.getCorporationStateElement (aXMLCorporationState);
+		super.getCorporationStateElement (aXMLCorporationState, aXMLDocument);
 	}
 
 	public MapCell getDestination () {
