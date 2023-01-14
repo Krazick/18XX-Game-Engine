@@ -3,8 +3,6 @@ package ge18xx.company;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -40,7 +38,7 @@ public abstract class TokenCompany extends TrainCompany {
 	final static AttributeName AN_AVAILABLE_TOKEN_COUNT = new AttributeName ("availableTokenCount");
 	public final static ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
 	public final static TokenCompany NO_TOKEN_COMPANY = null;
-	private final static List<MapToken> NO_MAP_TOKENS = null;
+//	private final static List<MapToken> NO_MAP_TOKENS = null;
 	private final static int MIN_TOKEN_COUNT = 1;
 	public static String FONT_CNAME = "Courier";
 	public static String FONT_DNAME = "Dialog";
@@ -60,7 +58,7 @@ public abstract class TokenCompany extends TrainCompany {
 	// 3) GetLastToken () -- No Arg, gets the last FixedCost or RangeCost that is not used
 	// 4) GetTokenCount () -- No Arg, gets the count of available MapTokens (never counts the MarketToken Type)
 	
-	List<MapToken> mapTokens;
+//	List<MapToken> mapTokens;
 	Tokens tokens;
 	int totalTokenCount;
 
@@ -92,7 +90,7 @@ public abstract class TokenCompany extends TrainCompany {
 	private void setupNewMapTokens () {
 		MapToken tMapToken;
 		
-		mapTokens = new LinkedList<> ();
+//		mapTokens = new LinkedList<> ();
 		tMapToken = new MapToken ();
 		tMapToken.setCompany (this);
 		addNTokens (totalTokenCount, tMapToken);
@@ -115,13 +113,13 @@ public abstract class TokenCompany extends TrainCompany {
 		if (homeCityGrid1 != XMLNode.NO_VALUE) {
 			tStartIndex++;
 			tMapToken = new MapToken (aMapToken, tCost);
-			addMapToken (tMapToken);
+//			addMapToken (tMapToken);
 			tokens.addNewToken (tMapToken, TokenType.HOME1, tCost);
 		}
 		if (homeCityGrid2 != XMLNode.NO_VALUE) {
 			tStartIndex++;
 			tMapToken = new MapToken (aMapToken, tCost);
-			addMapToken (tMapToken);
+//			addMapToken (tMapToken);
 			tokens.addNewToken (tMapToken, TokenType.HOME2, tCost);
 		}
 		for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
@@ -132,14 +130,18 @@ public abstract class TokenCompany extends TrainCompany {
 			}
 			tMapToken = new MapToken (aMapToken, tCost);
 			tMapToken.setCompany (this);
-			addMapToken (tMapToken);
+//			addMapToken (tMapToken);
 			tokens.addNewToken (tMapToken, tTokenTypeToAdd, tCost);
 		}
 	}
 
-	public void addMapToken (MapToken aMapToken) {
-		mapTokens.add (aMapToken);
+	public void setTokenUsed (Token aToken, boolean aUsed) {
+		tokens.setTokenUsed (aToken, aUsed);
 	}
+	
+//	public void addMapToken (MapToken aMapToken) {
+//		mapTokens.add (aMapToken);
+//	}
 	
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
@@ -180,28 +182,31 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 	
 	@Override
-	public void placeBaseToken (MapCell aMapCell, Location aHomeLocation) {
+	public void placeHomeToken (MapCell aMapCell, Location aHomeLocation) {
 		MapFrame tMapFrame;
 		Tile tTile;
-		RevenueCenter tBaseRevenueCenter;
-		int tBaseCount;
+		RevenueCenter tHomeRevenueCenter;
+		int tHomeCount;
+
+		MapToken tMapToken;
 
 		if (aMapCell.isTileOnCell ()) {
 			tTile = aMapCell.getTile ();
-			tBaseRevenueCenter = tTile.getRCWithBaseForCorp (this);
-			if (tBaseRevenueCenter != RevenueCenter.NO_CENTER) {
+			tHomeRevenueCenter = tTile.getRCWithBaseForCorp (this);
+			if (tHomeRevenueCenter != RevenueCenter.NO_CENTER) {
 				tMapFrame = corporationList.getMapFrame ();
-				tMapFrame.putTokenDownHere (this, aMapCell, tBaseRevenueCenter);
+				tMapToken = getHome1Token ();
+				tMapFrame.putTokenDownHere (this, tMapToken, TokenType.HOME1, aMapCell, tHomeRevenueCenter);
 				if (isHomeTypeChoice ()) {
 					removeOtherHome (aMapCell, aHomeLocation);
 				}
 			} else { // Given multiple choice for base location on tile
-				tBaseCount = tTile.getCorporationBaseCount ();
-				if (tBaseCount > 1) {
-					corporationFrame.handlePlaceBaseToken ();
+				tHomeCount = tTile.getCorporationHomeCount ();
+				if (tHomeCount > 1) {
+					corporationFrame.handlePlaceHomeToken ();
 				} else {
 					System.err.println ("No RevenueCenter found for " + getAbbrev () + " at " + aHomeLocation);
-					System.err.println ("Corp Bases [" + tBaseCount + "]");
+					System.err.println ("Corp Bases [" + tHomeCount + "]");
 				}
 			}
 		}
@@ -368,6 +373,22 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 
 	/**
+	 * Retrieve the Last available Token that is a MapToken
+	 * 
+	 * @return The Last available Map Token
+	 * 
+	 */
+	@Override
+	public MapToken getLastMapToken () {
+		MapToken tMapToken;
+
+		tMapToken = tokens.getLastMapToken ();
+		tokens.setTokenUsed (tMapToken, true);
+		
+		return tMapToken;
+	}
+
+	/**
 	 * Retrieve the next available Token that is a MapToken
 	 * 
 	 * @return The first available Map Token
@@ -377,8 +398,38 @@ public abstract class TokenCompany extends TrainCompany {
 	public MapToken getMapToken () {
 		MapToken tMapToken;
 
-		tMapToken = mapTokens.get (0);
+		tMapToken = getMapTokenOnly ();
+		tokens.setTokenUsed (tMapToken, true);
+		
+		return tMapToken;
+	}
+	
+	/**
+	 * Retrieve the next available Token that is a MapToken
+	 * 
+	 * @return The first available Map Token
+	 * 
+	 */
+	public MapToken getMapTokenOnly () {
+		MapToken tMapToken;
+
 		tMapToken = tokens.getMapToken ();
+		
+		return tMapToken;
+	}
+	
+	/**
+	 * Retrieve the next available Token that is a MapToken
+	 * 
+	 * @return The first available Map Token
+	 * 
+	 */
+	@Override
+	public MapToken getMapToken (TokenType aTokenType) {
+		MapToken tMapToken;
+
+		tMapToken = tokens.getMapToken (aTokenType);
+		tokens.setTokenUsed (tMapToken, true);
 		
 		return tMapToken;
 	}
@@ -394,6 +445,7 @@ public abstract class TokenCompany extends TrainCompany {
 		MapToken tMapToken;
 
 		tMapToken = tokens.getHome1Token ();
+		tokens.setTokenUsed (tMapToken, true);
 		
 		return tMapToken;
 	}
@@ -428,15 +480,58 @@ public abstract class TokenCompany extends TrainCompany {
 
 		return tMarketToken;
 	}
+	
+	/**
+	 * This method will return a Token of the specified Type
+	 * 
+	 * @return the Market Token for the Token Company, to be used on the Market
+	 * 
+	 */
+	
+	public Token getToken (TokenType aTokenType) {
+		Token tToken;
 
+		tToken = tokens.getToken (aTokenType);
+		tokens.setTokenUsed (tToken, true);
+
+		return tToken;
+	}
+	
+	/**
+	 * This method will return a Token of the specified Type
+	 * 
+	 * @return the Market Token for the Token Company, to be used on the Market
+	 * 
+	 */
+	
+	public Token getTokenAt (int aIndex) {
+		Token tToken;
+
+		tToken = tokens.getTokenAt (aIndex);
+		tokens.setTokenUsed (tToken, true);
+
+		return tToken;
+	}
+
+	public TokenType getTokenType (Token aToken) {
+		TokenType tTokenType;
+		
+		tTokenType = tokens.getTokenType (aToken);
+		
+		return tTokenType;
+	}
+	
+	public int getTokenIndex (Token aToken) {
+		int tTokenIndex;
+		
+		tTokenIndex = tokens.getTokenIndex (aToken);
+		
+		return tTokenIndex;
+	}
+	
 	public int getTokenCount () {
 		int tTokenCount;
 
-		if (mapTokens == NO_MAP_TOKENS) {
-			tTokenCount = 0;
-		} else {
-			tTokenCount = mapTokens.size ();
-		}
 		if (tokens == Tokens.NO_TOKENS) {
 			tTokenCount = 0;
 		} else {
@@ -457,8 +552,12 @@ public abstract class TokenCompany extends TrainCompany {
 	@Override
 	public boolean haveMoneyForToken () {
 		boolean tHaveMoneyForToken = true;
-
-		if (getNonBaseTokenCost () > treasury) {
+		MapToken tMapToken;
+		int tTokenCost;
+		
+		tMapToken = getMapTokenOnly ();
+		tTokenCost = getNonHomeTokenCost (tMapToken);
+		if (tTokenCost > treasury) {
 			tHaveMoneyForToken = false;
 		}
 
@@ -535,21 +634,22 @@ public abstract class TokenCompany extends TrainCompany {
 		// TODO -- Parse out the Tokens, and TokenInfo Elements
 	}
 
+//	@Override
+//	public MapToken popMapToken () {
+//		MapToken tMapToken;
+//
+//		if (getTokenCount () == 0) {
+//			tMapToken = MapToken.NO_MAP_TOKEN;
+//		} else {
+//			tMapToken = mapTokens.remove (0);
+//		}
+//
+//		return tMapToken;
+//	}
+
 	@Override
-	public MapToken popMapToken () {
-		MapToken tMapToken;
-
-		if (getTokenCount () == 0) {
-			tMapToken = MapToken.NO_MAP_TOKEN;
-		} else {
-			tMapToken = mapTokens.remove (0);
-		}
-
-		return tMapToken;
-	}
-
-	@Override
-	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, boolean aAddLayTokenAction) {
+	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, MapToken aMapToken,
+								int aTokenIndex, boolean aAddLayTokenAction) {
 		boolean tStatusUpdated;
 		ActorI.ActionStates tCurrentStatus, tNewStatus;
 
@@ -564,7 +664,7 @@ public abstract class TokenCompany extends TrainCompany {
 		if (tStatusUpdated) {
 			tNewStatus = status;
 			if (aAddLayTokenAction) {
-				addLayTokenAction (aMapCell, aTile, aRevenueCenterIndex, tCurrentStatus, tNewStatus);
+				addLayTokenAction (aMapCell, aTile, aRevenueCenterIndex, aMapToken, aTokenIndex, tCurrentStatus, tNewStatus);
 			}
 			popMapToken (); // Pop off the Token from the list of Map Tokens,
 							// don't want infinite supply
@@ -573,23 +673,31 @@ public abstract class TokenCompany extends TrainCompany {
 		}
 	}
 
-	public void addLayTokenAction (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex,
-			ActorI.ActionStates aCurrentStatus, ActorI.ActionStates aNewStatus) {
+	public void addLayTokenAction (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
+									MapToken aMapToken, int aTokenIndex, 
+									ActorI.ActionStates aCurrentStatus, ActorI.ActionStates aNewStatus) {
 		LayTokenAction tLayTokenAction;
+		TokenType tTokenType;
 		String tOperatingRoundID;
 		Bank tBank;
-		int tCostToLayTokenOnMapCell;
+		int tTokenCost;
 
-		tCostToLayTokenOnMapCell = getCostToLayToken (aMapCell);
+		tTokenType = tokens.getTokenType (aMapToken);
+		tTokenCost = getTokenCost (aMapToken, tTokenType, aMapCell);
+//		tTokenCost = tokens.getTokenCost (aMapToken);
+		if (tTokenCost == Token.RANGE_COST) {
+			System.out.println ("Need to Calculate Cost for Token based on RANGE from Home");
+			// TODO -- Calculate the Cost based on the Range from the Home Station
+		}
 		tOperatingRoundID = corporationList.getOperatingRoundID ();
 		tLayTokenAction = new LayTokenAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-		tLayTokenAction.addLayTokenEffect (this, aMapCell, aTile, aRevenueCenterIndex, benefitInUse);
+		tLayTokenAction.addLayTokenEffect (this, aMapCell, aTile, aRevenueCenterIndex, tTokenType, aTokenIndex, benefitInUse);
 		addRemoveHomeEffect (aMapCell, tLayTokenAction);
 		tLayTokenAction.addChangeCorporationStatusEffect (this, aCurrentStatus, aNewStatus);
-		if (tCostToLayTokenOnMapCell > 0) {
+		if (tTokenCost > 0) {
 			tBank = corporationList.getBank ();
-			transferCashTo (tBank, tCostToLayTokenOnMapCell);
-			tLayTokenAction.addCashTransferEffect (this, tBank, tCostToLayTokenOnMapCell);
+			transferCashTo (tBank, tTokenCost);
+			tLayTokenAction.addCashTransferEffect (this, tBank, tTokenCost);
 		}
 		if (benefitInUse.realBenefit ()) {
 			tLayTokenAction.addBenefitUsedEffect (this, benefitInUse);
@@ -610,8 +718,8 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 	
 	@Override
-	public int getCostToLayToken (MapCell aMapCell) {
-		int tCostToLayToken;
+	public int getTokenCost (MapToken aMapToken, TokenType aTokenType, MapCell aMapCell) {
+		int tTokenCost;
 		String tMapCellID;
 
 		// Token Cost Rules
@@ -622,61 +730,63 @@ public abstract class TokenCompany extends TrainCompany {
 		// -- Second and Later Tokens after Home Bases -- $100
 		// -- If Calculated on Distance from Base -- $X * # of Hexes
 
-		tCostToLayToken = NO_COST_CALCULATED;
+		tTokenCost = NO_COST_CALCULATED;
 		if (aMapCell != MapCell.NO_MAP_CELL) {
 			tMapCellID = aMapCell.getID ();
-			if (tCostToLayToken == NO_COST_CALCULATED) {
-				// Home City 1 for this Corporation -- This Token is Free
-				tCostToLayToken = getHomeBaseCost (homeCity1, tMapCellID);
+			if (aTokenType == TokenType.HOME1) {
+				tTokenCost = getHomeBaseCost (homeCity1, tMapCellID);
+			} else if (aTokenType == TokenType.HOME2) {
+				tTokenCost = getHomeBaseCost (homeCity2, tMapCellID);
 			}
-			if (tCostToLayToken == NO_COST_CALCULATED) {
-				// Home City 2 for this Corporation -- This Token is Free
-				tCostToLayToken = getHomeBaseCost (homeCity2, tMapCellID);
-			}
+//
+//			if (tTokenCost == NO_COST_CALCULATED) {
+//				// Home City 1 for this Corporation -- This Token is Free
+//				tTokenCost = getHomeBaseCost (homeCity1, tMapCellID);
+//			}
+//			if (tTokenCost == NO_COST_CALCULATED) {
+//				// Home City 2 for this Corporation -- This Token is Free
+//				tTokenCost = getHomeBaseCost (homeCity2, tMapCellID);
+//			}
 		}
 		// First Token is used on the Market
 
 		/* If Laying Base Token -- Cost is Zero */
 		// Test by comparing the Available Count to the Total Starting Count,
 		// If Available Count plus 1 equals Total Starting Count -- this is First Token
-		if (tCostToLayToken == NO_COST_CALCULATED) {
-			tCostToLayToken = getNonBaseTokenCost ();
+		if (tTokenCost == NO_COST_CALCULATED) {
+			tTokenCost = getNonHomeTokenCost (aMapToken);
 		}
 
 		// Also note, some games may vary token cost on Distance from Home Station
 
-		return tCostToLayToken;
+		return tTokenCost;
 	}
 
-	public int getNonBaseTokenCost () {
-		int tCostToLayToken;
-		MapToken tFirstToken;
+	public int getNonHomeTokenCost (MapToken aMapToken) {
+		int tTokenCost;
 
-		tCostToLayToken = NO_COST;
+		tTokenCost = NO_COST;
 		if (benefitInUse.realBenefit ()) {
-			tCostToLayToken = benefitInUse.getCost ();
+			tTokenCost = benefitInUse.getCost ();
 		} else {
-			if (mapTokens.size () > 0) {
-				tFirstToken = mapTokens.get (0);
-				tCostToLayToken = tFirstToken.getCost ();
-			}
+			tTokenCost = tokens.getTokenCost (aMapToken);
 		}
 
-		return tCostToLayToken;
+		return tTokenCost;
 	}
 
-	private int getHomeBaseCost (MapCell aBaseMapCell, String aMapCellID) {
-		int tCostToLayHome;
-
+	private int getHomeBaseCost (MapCell aHomeMapCell, String aMapCellID) {
+		int tHomeTokenCost;
+		
 		// TODO: non-1830 Games, need to determine if cost is based on Distance
-		tCostToLayHome = NO_COST_CALCULATED;
-		if (aBaseMapCell != MapCell.NO_MAP_CELL) {
-			if (aBaseMapCell.getID () == aMapCellID) {
-				tCostToLayHome = 0;
+		tHomeTokenCost = NO_COST_CALCULATED;
+		if (aHomeMapCell != MapCell.NO_MAP_CELL) {
+			if (aHomeMapCell.getID () == aMapCellID) {
+				tHomeTokenCost = 0;
 			}
 		}
 
-		return tCostToLayHome;
+		return tHomeTokenCost;
 	}
 
 	@Override

@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -321,7 +322,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	// For a company like Eire where it must choose between two Revenue Centers
 	// To place the Base Token, come here and enter Place Token Mode
 	
-	public void handlePlaceBaseToken () {
+	public void handlePlaceHomeToken () {
 		corporation.enterPlaceTokenMode ();
 	}
 	
@@ -333,7 +334,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		
 		if (corporation.choiceForBaseToken ()) {
 			updateSelectableMapCell (aSourceTitle);
-			handlePlaceBaseToken ();
+			handlePlaceHomeToken ();
 		} else {
 			tMapCell = extractMapCell (aSourceTitle);
 			if (corporation.getHomeCity1 () == tMapCell) {
@@ -343,7 +344,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			} else {
 				tLocation = Location.NO_LOC;
 			}
-			corporation.placeBaseToken (tMapCell, tLocation);
+			corporation.placeHomeToken (tMapCell, tLocation);
 		}
 	}
 
@@ -1227,10 +1228,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	}
 
 	private void updatePlaceTokenButton () {
+		TokenCompany tTokenCompany;
 		String tDisableToolTipReason;
 		String tPlaceTokenText;
 		MapCell tMapCell;
 		int tCost;
+		MapToken tMapToken;
 
 		if (corporation.canLayToken ()) {
 			placeTokenButton.setEnabled (true);
@@ -1257,9 +1260,11 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			placeTokenButton.setToolTipText (tDisableToolTipReason);
 		}
 
-		tMapCell = MapCell.NO_MAP_CELL;
-		tCost = corporation.getCostToLayToken (tMapCell);
-		if (tCost > 0) {
+		if (corporation.isATokenCompany ()) {
+			tTokenCompany = (TokenCompany) corporation;
+			tMapToken = tTokenCompany.getMapTokenOnly ();
+			tMapCell = MapCell.NO_MAP_CELL;
+			tCost = tTokenCompany.getTokenCost (tMapToken, TokenType.MAP, tMapCell); 
 			placeTokenButton.setText (PLACE_TOKEN + " for " + Bank.formatCash (tCost));
 		}
 	}

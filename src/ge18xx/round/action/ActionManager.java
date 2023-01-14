@@ -497,7 +497,6 @@ public class ActionManager {
 				tLastActionUndone = undoLastAction (aRoundManager, false);
 			}
 		}
-//		aRoundManager.updateAllFrames ();
 
 		return tLastActionUndone;
 	}

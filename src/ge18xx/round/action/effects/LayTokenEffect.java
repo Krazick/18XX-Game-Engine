@@ -2,7 +2,11 @@ package ge18xx.round.action.effects;
 
 import ge18xx.center.City;
 import ge18xx.company.Corporation;
+import ge18xx.company.MapToken;
 import ge18xx.company.TokenCompany;
+import ge18xx.company.TokenInfo;
+import ge18xx.company.TokenInfo.TokenType;
+import ge18xx.company.Tokens;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -20,6 +24,8 @@ public class LayTokenEffect extends ChangeMapEffect {
 	public final static String NAME = "Lay Token";
 	int tileNumber;
 	int revenueCenterIndex;
+	int tokenIndex;
+	TokenType tokenType;
 
 	public LayTokenEffect () {
 		super ();
@@ -27,51 +33,90 @@ public class LayTokenEffect extends ChangeMapEffect {
 	}
 
 	public LayTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex,
-			Benefit aBenefitInUse) {
+			TokenType aTokenType, int aTokenIndex, Benefit aBenefitInUse) {
 		super (aActor, aMapCell, aBenefitInUse);
 		setName (NAME);
 		setTileNumber (aTile);
 		setRevenueCenterIndex (aRevenueCenterIndex);
+		setTokenIndex (aTokenIndex);
+		setTokenType (aTokenType);
 	}
 
 	public LayTokenEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		int tTileNumber, tRevenueCenterIndex;
+		int tTileNumber;
+		int tRevenueCenterIndex;
+		int tTokenIndex;
+		String tTokenType;
 		Tile tTile;
 
 		tRevenueCenterIndex = aEffectNode.getThisIntAttribute (MapCell.AN_REVENUE_CENTER_INDEX);
+		tTokenType = aEffectNode.getThisAttribute (TokenInfo.AN_AVAILABLE_TOKEN_TYPE);
 		tTileNumber = aEffectNode.getThisIntAttribute (Tile.AN_TILE_NUMBER);
+		tTokenIndex = aEffectNode.getThisIntAttribute (Tokens.AN_TOKEN_INDEX);
 		tTile = aGameManager.getTile (tTileNumber);
-
 		setTileNumber (tTile);
 		setRevenueCenterIndex (tRevenueCenterIndex);
+		setTokenIndex (tTokenIndex);
+		setTokenType (tTokenType);
+	}
+	
+	public void setTokenType (String aTokenType) {
+		for (TokenInfo.TokenType eTokenType : TokenInfo.TokenType.values ()) { 
+			if (eTokenType.toString ().equals (aTokenType)) {
+				setTokenType (eTokenType);
+			}
+		}
 	}
 
+	public void setTokenIndex (int aTokenIndex) {
+		tokenIndex = aTokenIndex;
+	}
+	
+	public void setTokenType (TokenType aTokenType) {
+		tokenType = aTokenType;
+	}
+	
 	public int getTileNumber () {
 		return tileNumber;
 	}
 
-	public int getRevenueCenterInex () {
+	public int getRevenueCenterIndex () {
 		return revenueCenterIndex;
 	}
 
+	public int getTokenIndex () {
+		return tokenIndex;
+	}
+	
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (Tile.AN_TILE_NUMBER, tileNumber);
-		tEffectElement.setAttribute (MapCell.AN_REVENUE_CENTER_INDEX, getRevenueCenterInex ());
+		tEffectElement.setAttribute (MapCell.AN_REVENUE_CENTER_INDEX, getRevenueCenterIndex ());
+		tEffectElement.setAttribute (Tokens.AN_TOKEN_INDEX, getTokenIndex ());
+		tEffectElement.setAttribute (TokenInfo.AN_AVAILABLE_TOKEN_TYPE, tokenType.toString ());
 
 		return tEffectElement;
 	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		String tBenefitReport = getBenefitEffectReport ();
-
-		return (REPORT_PREFIX + getName () + " on Tile " + tileNumber + " at Center Index " + revenueCenterIndex
-				+ " by " + getActor ().getName () + " on MapCell " + getMapCellID () + "." + tBenefitReport);
+		String tBenefitReport;
+		String tTokenType;
+		String tActorName;
+		String tMapCellID;
+		
+		tBenefitReport = getBenefitEffectReport ();
+		tTokenType = tokenType.toString ();
+		tActorName = getActor ().getName ();
+		tMapCellID = getMapCellID ();
+		
+		return (REPORT_PREFIX + getName () + " Token (Index " + tokenIndex + " Type " + tTokenType +
+				") on Tile " + tileNumber + " at Center Index " + revenueCenterIndex
+				+ " by " + tActorName + " on MapCell " + tMapCellID + "." + tBenefitReport);
 	}
 
 	@Override
@@ -92,7 +137,9 @@ public class LayTokenEffect extends ChangeMapEffect {
 		boolean tEffectApplied;
 		Tile tTile;
 		MapCell tMapCell;
+		MapToken tMapToken;
 		Corporation tCorporation;
+		TokenCompany tTokenCompany;
 		City tCity;
 		HexMap tGameMap;
 
@@ -102,11 +149,14 @@ public class LayTokenEffect extends ChangeMapEffect {
 		tTile = tMapCell.getTile ();
 		if (tTile.getNumber () == tileNumber) {
 			tCorporation = (Corporation) getActor ();
-			if (tCorporation instanceof TokenCompany) {
+			if (tCorporation.isATokenCompany ()) {
+				tTokenCompany = (TokenCompany) tCorporation;
 				tCity = (City) tTile.getRevenueCenter (revenueCenterIndex);
+				tMapToken = (MapToken) tTokenCompany.getTokenAt (tokenIndex);
 				// Apply effect on Remote Client, don't want to add a new LayTokenAction (or
 				// spend money)
-				tGameMap.putMapTokenDown (tCorporation, tCity, tMapCell, false);
+
+				tGameMap.putMapTokenDown (tTokenCompany, tMapToken, tokenType, tCity, tMapCell, false);
 				tGameMap.redrawMap ();
 				tEffectApplied = true;
 			} else {
@@ -142,7 +192,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 		tTile = tMapCell.getTile ();
 		if (tTile.getNumber () == tileNumber) {
 			tCorporation = (Corporation) getActor ();
-			if (tCorporation instanceof TokenCompany) {
+			if (tCorporation.isATokenCompany ()) {
 				tTokenCompany = (TokenCompany) tCorporation;
 				tCorporationID = tTokenCompany.getID ();
 				tTokenAtID = tTile.getStationIndex (tCorporationID);
@@ -164,9 +214,8 @@ public class LayTokenEffect extends ChangeMapEffect {
 					tTokenCompany.updateFrameInfo ();
 					tEffectUndone = true;
 				} else {
-					System.err
-							.println ("Undo " + getName () + " by " + getActor ().getName () + " Fails since TokenAtID "
-									+ tTokenAtID + " doesn't match the RCIndex " + revenueCenterIndex);
+					System.err.println ("Undo " + getName () + " by " + getActor ().getName () + 
+										" Fails since TokenAtID " + tTokenAtID + " doesn't match the RCIndex " + revenueCenterIndex);
 				}
 			} else {
 				System.err.println ("Undo " + getName () + " by " + getActor ().getName ()
@@ -179,5 +228,4 @@ public class LayTokenEffect extends ChangeMapEffect {
 
 		return tEffectUndone;
 	}
-
 }

@@ -36,6 +36,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.company.MapToken;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TokenCompany;
+import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.MapBenefit;
 import ge18xx.game.GameManager;
@@ -332,7 +333,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public void actionPerformed (ActionEvent aActionEvent) {
 		String tTheAction = aActionEvent.getActionCommand ();
 		Corporation tCorporation;
-
+		TokenCompany tTokenCompany;
+		
 		tCorporation = getOperatingCompany ();
 
 		if (COMPLETE_TILE_LAY.equals (tTheAction)) {
@@ -344,7 +346,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		} else if (PUT_TILE.equals (tTheAction)) {
 			putTileDownOnMap ();
 		} else if (PUT_TOKEN.equals (tTheAction)) {
-			putATokenDown (tCorporation);
+			if (tCorporation.isATokenCompany ()) {
+				tTokenCompany = (TokenCompany) tCorporation;
+				putATokenDown (tTokenCompany, TokenType.MAP);
+			}
 		} else if (RESET_ALL_FLAGS.equals (tTheAction)) {
 			resetAllModes ();
 		} else if (BUILD_GRAPHS.equals (tTheAction)) {
@@ -640,13 +645,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		return tHasCityBeenSelected;
 	}
 
-	public void putATokenDown (Corporation aCorporation) {
-		putTokenDown (aCorporation);
+	public void putATokenDown (TokenCompany aTokenCompany, TokenType aTokenType) {
+		putTokenDown (aTokenCompany, aTokenType);
 		togglePlaceTokenMode ();
 		map.removeAllSMC ();
 	}
 
-	public void putTokenDown (Corporation aCorporation) {
+	public void putTokenDown (TokenCompany aTokenCompany, TokenType aTokenType) {
 		MapCell tSelectedMapCell;
 		RevenueCenter tSelectedRevenueCenter;
 
@@ -654,7 +659,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 			tSelectedRevenueCenter = tSelectedMapCell.getSelectedRevenueCenter ();
 			if (tSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
-				putTokenDownHere (aCorporation, tSelectedMapCell, tSelectedRevenueCenter);
+				putTokenDownHere (aTokenCompany, tSelectedMapCell, tSelectedRevenueCenter, aTokenType);
 			} else {
 				System.err.println ("No Revenue Center Selected from Map Cell");
 			}
@@ -663,18 +668,44 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	public void putTokenDownHere (Corporation aCorporation, MapCell aMapCell, RevenueCenter aRevenueCenter) {
+	public void putTokenDownHere (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType,
+									MapCell aMapCell, RevenueCenter aRevenueCenter) {
 		City tSelectedCity;
 		boolean tCanPlaceToken;
 
-		if (aCorporation != Corporation.NO_CORPORATION) {
-			setCompanyAbbrev (aCorporation.getAbbrev ());
+		if (aTokenCompany != Corporation.NO_CORPORATION) {
+			setCompanyAbbrev (aTokenCompany.getAbbrev ());
 			if (aRevenueCenter != RevenueCenter.NO_CENTER) {
 				if (aRevenueCenter.canPlaceStation ()) {
 					tSelectedCity = (City) aRevenueCenter;
-					tCanPlaceToken = canPlaceToken (aCorporation, tSelectedCity, aMapCell);
+					tCanPlaceToken = canPlaceToken (aTokenCompany, tSelectedCity, aMapCell);
 					if (tCanPlaceToken) {
-						putMapTokenDown (aCorporation, tSelectedCity, aMapCell, true);
+						putMapTokenDown (aTokenCompany, aMapToken, aTokenType, tSelectedCity, aMapCell, true);
+					}
+				} else {
+					System.err.println ("Cannot Place Station on this Revenue Center");
+				}
+			}
+		} else {
+			System.err.println ("No Operating Company Found ");
+		}
+	}
+
+	public void putTokenDownHere (TokenCompany aTokenCompany, MapCell aMapCell, RevenueCenter aRevenueCenter, 
+									TokenType aTokenType) {
+		City tSelectedCity;
+		boolean tCanPlaceToken;
+		MapToken tMapToken;
+
+		if (aTokenCompany != Corporation.NO_CORPORATION) {
+			setCompanyAbbrev (aTokenCompany.getAbbrev ());
+			if (aRevenueCenter != RevenueCenter.NO_CENTER) {
+				if (aRevenueCenter.canPlaceStation ()) {
+					tSelectedCity = (City) aRevenueCenter;
+					tCanPlaceToken = canPlaceToken (aTokenCompany, tSelectedCity, aMapCell);
+					if (tCanPlaceToken) {
+						tMapToken = aTokenCompany.getMapToken ();
+						putMapTokenDown (aTokenCompany, tMapToken, aTokenType, tSelectedCity, aMapCell, true);
 					}
 				} else {
 					System.err.println ("Cannot Place Station on this Revenue Center");
@@ -686,7 +717,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	}
 
 	public void placeBenefitToken (MapCell aMapCell, String aTokenType, MapBenefit aMapBenefit) {
-
 		aMapCell.layBenefitToken (aTokenType);
 		addLayBenefitTokenAction (aMapCell, aTokenType, aMapBenefit);
 		completeBenefitInUse ();
@@ -705,35 +735,36 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		resetAllModes ();
 	}
 	
-	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell, boolean aAddLayTokenAction) {
+	public void putMapTokenDown (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType, City aCity, 
+								MapCell aMapCell, boolean aAddLayTokenAction) {
 		Tile tTile;
-		MapToken tMapToken;
 		boolean tTokenPlaced;
-		Corporation tBaseCorporation;
+		TokenCompany tTokenCompany;
 		int tRevenueCenterIndex;
 		int tCorporationID;
+		int tTokenIndex;
 
-		tBaseCorporation = aCity.getTokenCorporation ();
-		tMapToken = aCorporation.getMapToken ();
-		if (tMapToken == MapToken.NO_MAP_TOKEN) {
+		tTokenCompany = aCity.getTokenCorporation ();
+		if (aMapToken == MapToken.NO_MAP_TOKEN) {
 			System.err.println ("Company has no tokens to place");
 		} else {
-			tTokenPlaced = aCity.setStation (tMapToken);
+			tTokenPlaced = aCity.setStation (aMapToken);
 			if (tTokenPlaced) {
-				tCorporationID = aCorporation.getID ();
+				tCorporationID = aTokenCompany.getID ();
 				tTile = aMapCell.getTile ();
 				tRevenueCenterIndex = tTile.getStationIndex (tCorporationID);
-				aCorporation.tokenWasPlaced (aMapCell, tTile, tRevenueCenterIndex, aAddLayTokenAction);
+				tTokenIndex = aTokenCompany.getTokenIndex (aMapToken);
+				aTokenCompany.tokenWasPlaced (aMapCell, tTile, tRevenueCenterIndex, aMapToken, tTokenIndex, aAddLayTokenAction);
 				completeBenefitInUse ();
 				putTokenButton.setEnabled (false);
 				putTokenButton.setToolTipText (TOKEN_ALREADY_PLACED);
 				// If we have placed the Token and there was a Base Corporation Tile, clear out
 				// any other Bases for this Corporation from this Tile
 				// Primarily for EIRE that starts with a choice of two spots in the Tile.
-				if (tBaseCorporation == aCorporation) {
+				if (tTokenCompany == aTokenCompany) {
 					tTile = aMapCell.getTile ();
 					if (tTile != Tile.NO_TILE) {
-						tTile.clearCorporation (aCorporation);
+						tTile.clearCorporation (aTokenCompany);
 					}
 				}
 			} else {

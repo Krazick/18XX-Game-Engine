@@ -19,6 +19,7 @@ public class TokenInfo {
 	// Store in an ArrayList, with a fixed number of entries, based on how many tokens the Company has
 
 	public static TokenInfo NO_TOKEN_INFO = null;
+	public static TokenType NO_TOKEN_TYPE = null;
 	public enum TokenType {
 		MARKET, HOME1, HOME2, FIXED_COST, RANGE_COST, NO_TYPE, MAP
 	}

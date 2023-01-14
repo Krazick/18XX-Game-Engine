@@ -23,6 +23,8 @@ import java.awt.geom.Area;
 import ge18xx.company.Corporation;
 import ge18xx.company.MapToken;
 import ge18xx.company.TokenCompany;
+import ge18xx.company.TokenInfo;
+import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -107,14 +109,25 @@ public class City extends RevenueCenter implements Cloneable {
 	public void appendTokensState (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
 		int tIndex;
 		XMLElement tXMLTokenState;
+		MapToken tMapToken;
+		TokenType tTokenType;
+		TokenCompany tTokenCompany;
+		String tAbbrev;
+		String tMapCellID;
 
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
 			if (hasMapTokenAtStation (tIndex)) {
+				tMapToken = getMapTokenAtStation (tIndex);
+				tTokenCompany = getTokenCompanyForStation (tIndex);
+				tAbbrev = tTokenCompany.getAbbrev ();
+				tTokenType = tTokenCompany.getTokenType (tMapToken);
+				tMapCellID = corpStations [tIndex].getMapCellID ();
 				tXMLTokenState = aXMLDocument.createElement (EN_CORPORATE_STATION);
-				tXMLTokenState.setAttribute (Corporation.AN_ABBREV, corpStations [tIndex].getCorporationAbbrev ());
+				tXMLTokenState.setAttribute (Corporation.AN_ABBREV, tAbbrev);
 				tXMLTokenState.setAttribute (AN_STATION_INDEX, tIndex);
 				tXMLTokenState.setAttribute (Location.AN_LOCATION, location.getLocation ());
-				tXMLTokenState.setAttribute (MapCell.AN_MAP_CELL_ID, corpStations [tIndex].getMapCellID ());
+				tXMLTokenState.setAttribute (MapCell.AN_MAP_CELL_ID, tMapCellID);
+				tXMLTokenState.setAttribute (TokenInfo.AN_AVAILABLE_TOKEN_TYPE, tTokenType.toString ());
 				aMapCellElement.appendChild (tXMLTokenState);
 			}
 		}
@@ -147,6 +160,18 @@ public class City extends RevenueCenter implements Cloneable {
 		return (corpStations [aIndex] != MapToken.NO_MAP_TOKEN);
 	}
 
+	public MapToken getMapTokenAtStation (int aIndex) {
+		return corpStations [aIndex];
+	}
+	
+	public TokenCompany getTokenCompanyForStation (int aIndex) {
+		TokenCompany tTokenCompany;
+		
+		tTokenCompany = corpStations [aIndex].getTokenCompany ();
+		
+		return tTokenCompany;
+	}
+	
 	@Override
 	public boolean cityHasAnyStation () {
 		boolean tHasAnyStation = false;
@@ -229,7 +254,7 @@ public class City extends RevenueCenter implements Cloneable {
 					if (tCorporationId == aTokenCompany.getID ()) {
 						tFound = true;
 						tMapToken = corpStations [tIndex];
-						aTokenCompany.addMapToken (tMapToken);
+						aTokenCompany.setTokenUsed (tMapToken, false);
 					}
 					if (tFound) {
 						if ((tIndex + 1) < stationCount) {
@@ -1097,13 +1122,18 @@ public class City extends RevenueCenter implements Cloneable {
 			MapCell tMapCell;
 			TokenCompany tTokenCompany;
 			MapToken tMapToken;
+			TokenType tTokenType;
+			String tTokenTypeString;
 
 			City tCity;
 
 			tCity = (City) aMetaObject;
 			tAbbrev = aChildNode.getThisAttribute (Corporation.AN_ABBREV);
+			tTokenTypeString = aChildNode.getThisAttribute (TokenInfo.AN_AVAILABLE_TOKEN_TYPE);
 			tLocation = aChildNode.getThisIntAttribute (Location.AN_LOCATION);
 			tIndex = aChildNode.getThisIntAttribute (AN_STATION_INDEX);
+			tTokenType = getTokenType (tTokenTypeString);
+			
 			if (location.getLocation () == tLocation) {
 				tMapCell = tCity.cityInfo.getMapCell ();
 				tTokenCompany = tMapCell.getTokenCompany (tAbbrev);
@@ -1111,11 +1141,25 @@ public class City extends RevenueCenter implements Cloneable {
 					logger.info ("Did not find a Token Company with abbrev " + tAbbrev);
 				} else {
 					tMapToken = tTokenCompany.popMapToken ();
+					tMapToken = tTokenCompany.getMapToken (tTokenType);
 					tCity.setStation (tIndex, tMapToken);
 				}
 			}
 		}
 	};
+	
+	public TokenType getTokenType (String aTokenType) {
+		TokenType tTokenType;
+		
+		tTokenType = TokenInfo.NO_TOKEN_TYPE;
+		for (TokenInfo.TokenType eTokenType : TokenInfo.TokenType.values ()) { 
+			if (eTokenType.toString ().equals (aTokenType)) {
+				tTokenType = eTokenType;
+			}
+		}
+		
+		return tTokenType;
+	}
 
 	public boolean placeStation (MapToken aStation) {
 		return placeStation (aStation, cityInfo.getMapCell ());

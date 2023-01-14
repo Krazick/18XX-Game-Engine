@@ -22,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
 import ge18xx.company.benefit.FakeBenefit;
@@ -850,7 +851,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	// Token Company will Override
-	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, boolean aAddLayTokenAction) {
+	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
+								MapToken aMapToken, int aTokenIndex, boolean aAddLayTokenAction) {
 		System.err.println ("Trying to Verify Place Token as Corporation - WRONG");
 	}
 
@@ -1218,6 +1220,21 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	
 	// TokenCompany will Override
 	public MapToken getMapToken () {
+		return MapToken.NO_MAP_TOKEN;
+	}
+	
+	// TokenCompany will Override
+	public MapToken getMapToken (TokenType aTokenType) {
+		return MapToken.NO_MAP_TOKEN;
+	}
+
+	/**
+	 * Retrieve the Last available Token that is a MapToken
+	 * 
+	 * @return The Last available Map Token
+	 * 
+	 */
+	public MapToken getLastMapToken () {
 		return MapToken.NO_MAP_TOKEN;
 	}
 
@@ -2512,11 +2529,11 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return gameTestFlag;
 	}
 
-	public void placeBaseToken (MapCell aMapCell, Location aHomeLocation) {
+	public void placeHomeToken (MapCell aMapCell, Location aHomeLocation) {
 		// Override in Token Company Class
 	}
 
-	public int getCostToLayToken (MapCell tMapCell) {
+	public int getTokenCost (MapToken aMapToken, TokenType aTokenType, MapCell tMapCell) {
 		// Override in Token Company Class
 		return 0;
 	}

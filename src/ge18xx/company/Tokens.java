@@ -19,6 +19,7 @@ public class Tokens {
 	private static int MARKET_INDEX = 0;
 	private static int HOME1_INDEX = 1;
 	private static int HOME2_INDEX = 2;
+	public final static int NO_TOKEN_INDEX = -1;
 	
 	ArrayList<TokenInfo> tokens;
 	int startIndex;
@@ -198,6 +199,10 @@ public class Tokens {
 		return tMapToken;
 	}
 	
+	public MapToken getLastMapToken () {
+		return getLastMapToken (TokenType.MAP);
+	}
+	
 	public MapToken getLastMapToken (TokenType aTokenType) {
 		MapToken tMapToken;
 		TokenInfo tLastMapTokenInfo;
@@ -238,6 +243,48 @@ public class Tokens {
 		}
 		
 		return tAvailableTokenCount;
+	}
+
+	public Token getTokenAt (int aIndex) {
+		TokenInfo tTokenInfo;
+		Token tToken;
+		
+		tTokenInfo = tokens.get (aIndex);
+		tToken = tTokenInfo.getToken ();
+		
+		return tToken;
+	}
+	
+	public int getTokenIndex (Token aToken) {
+
+		Token tFoundToken;
+		int tTokenCount;
+		int tTokenIndex;
+		int tFoundTokenIndex;
+		
+		tTokenCount = tokens.size ();
+		tFoundTokenIndex = NO_TOKEN_INDEX;
+		for (tTokenIndex = 0; tTokenIndex < tTokenCount; tTokenIndex++) {
+			tFoundToken = getTokenAt (tTokenIndex);
+			if (tFoundToken == aToken) {
+				tFoundTokenIndex = tTokenIndex;
+			}
+		}
+		
+		return tFoundTokenIndex;
+	}
+
+	public TokenType getTokenType (Token aToken) {
+		TokenInfo tTokenInfo;
+		TokenType tTokenType;
+		
+		tTokenInfo = getTokenInfo (aToken);
+		tTokenType = TokenInfo.NO_TOKEN_TYPE;
+		if (tTokenInfo != TokenInfo.NO_TOKEN_INFO) {
+			tTokenType = tTokenInfo.getTokenType ();
+		}
+		
+		return tTokenType;
 	}
 	
 	public TokenInfo getTokenInfo (Token aToken) {

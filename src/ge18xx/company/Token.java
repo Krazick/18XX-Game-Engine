@@ -19,7 +19,7 @@ public class Token {
 	public static final Token NO_TOKEN = null;
 	public static final int NO_COST = 0;
 	public static final int RANGE_COST = -1;
-	TokenCompany whichCompany;
+	TokenCompany tokenCompany;
 
 	public Token () {
 		setCompany (TokenCompany.NO_TOKEN_COMPANY);
@@ -37,21 +37,25 @@ public class Token {
 	}
 	
 	public void drawToken (Graphics g, int X1, int Y1, int width, int height) {
-		whichCompany.drawToken (g, X1, Y1, width, height);
+		tokenCompany.drawToken (g, X1, Y1, width, height);
 	}
 
 	public String getCorporationAbbrev () {
-		return whichCompany.getAbbrev ();
+		return tokenCompany.getAbbrev ();
 	}
 
 	public int getCorporationID () {
-		return whichCompany.getID ();
+		return tokenCompany.getID ();
 	}
 
 	public String getCorporationStatus () {
-		return whichCompany.getStatusName ();
+		return tokenCompany.getStatusName ();
 	}
 
+	public TokenCompany getTokenCompany () {
+		return tokenCompany;
+	}
+	
 	public XMLElement getTokenElement (XMLDocument aXMLDocument) {
 		XMLElement tTokenElement;
 
@@ -66,7 +70,7 @@ public class Token {
 	}
 
 	public TokenCompany getWhichCompany () {
-		return whichCompany;
+		return tokenCompany;
 	}
 
 	public boolean isCorporationAbbrev (String aCorporationAbbrev) {
@@ -74,15 +78,15 @@ public class Token {
 	}
 
 	public boolean isSameCompany (Token aToken) {
-		return (whichCompany == aToken.getWhichCompany ());
+		return (tokenCompany == aToken.getWhichCompany ());
 	}
 
 	public void printlog () {
-		System.out.println ("Token for " + whichCompany.getAbbrev ());
+		System.out.println ("Token for " + tokenCompany.getAbbrev ());
 	}
 
 	public void setCompany (TokenCompany aCompany) {
-		whichCompany = aCompany;
+		tokenCompany = aCompany;
 	}
 	
 	public boolean isAMapToken () {

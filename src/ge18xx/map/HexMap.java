@@ -33,7 +33,9 @@ import ge18xx.center.City;
 import ge18xx.center.CityInfo;
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.Corporation;
+import ge18xx.company.MapToken;
 import ge18xx.company.TokenCompany;
+import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -301,8 +303,9 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tElement;
 	}
 
-	public void putMapTokenDown (Corporation aCorporation, City aCity, MapCell aMapCell, boolean aAddLayTokenAtion) {
-		mapFrame.putMapTokenDown (aCorporation, aCity, aMapCell, aAddLayTokenAtion);
+	public void putMapTokenDown (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType, City aCity, 
+					MapCell aMapCell, boolean aAddLayTokenAtion) {
+		mapFrame.putMapTokenDown (aTokenCompany, aMapToken, aTokenType, aCity, aMapCell, aAddLayTokenAtion);
 	}
 
 	public int getColCount (int thisRow) {

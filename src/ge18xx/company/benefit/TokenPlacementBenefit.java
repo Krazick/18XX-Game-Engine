@@ -7,8 +7,10 @@ import javax.swing.JPanel;
 
 import ge18xx.center.City;
 import ge18xx.company.CorporationFrame;
+import ge18xx.company.MapToken;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Tile;
@@ -90,6 +92,8 @@ public class TokenPlacementBenefit extends MapBenefit {
 	private void handlePlaceToken () {
 		HexMap tMap;
 		MapCell tMapCell;
+		MapToken tMapToken;
+		TokenType tTokenType;
 		Tile tTile;
 		ShareCompany tOwningCompany;
 		City tCity;
@@ -108,7 +112,9 @@ public class TokenPlacementBenefit extends MapBenefit {
 				if (tTile.cityOnTile ()) {
 					tCity = (City) tTile.getRevenueCenter (0);
 					// Local Client, need to add the Lay Token Action
-					tMap.putMapTokenDown (tOwningCompany, tCity, tMapCell, true);
+					tMapToken = tOwningCompany.getLastMapToken ();
+					tTokenType = tOwningCompany.getTokenType (tMapToken);
+					tMap.putMapTokenDown (tOwningCompany, tMapToken, tTokenType, tCity, tMapCell, true);
 				}
 				tMap.toggleSelectedMapCell (tMapCell);
 			} else {

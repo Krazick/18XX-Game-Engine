@@ -291,7 +291,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 								tTokenCompany = tMapToken.getWhichCompany ();
 								System.out.println ("Returning Token for " + tTokenCompany.getAbbrev ()
 										+ " count before " + tTokenCompany.getTokenCount ());
-								tTokenCompany.addMapToken (tMapToken);
+//								tTokenCompany.addMapToken (tMapToken);
+								tTokenCompany.setTokenUsed (tMapToken, false);
 								System.out.println ("Returning Token for " + tTokenCompany.getAbbrev () + " count now "
 										+ tTokenCompany.getTokenCount ());
 							}
@@ -303,7 +304,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 	}
 
-	public int getCorporationBaseCount () {
+	public int getCorporationHomeCount () {
 		int tBaseCount = 0;
 		int tCityCenterCount, tCityIndex;
 		RevenueCenter tRevenueCenter;
