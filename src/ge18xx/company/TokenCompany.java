@@ -498,9 +498,9 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 	
 	/**
-	 * This method will return a Token of the specified Type
+	 * This method will return a Token of the specified Index in the Tokens Array
 	 * 
-	 * @return the Market Token for the Token Company, to be used on the Market
+	 * @return the Token for the Token Company, at the specified Index location
 	 * 
 	 */
 	
