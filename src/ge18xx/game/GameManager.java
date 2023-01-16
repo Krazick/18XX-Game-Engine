@@ -2268,6 +2268,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return playerInputFrame.getPlayersInOrder ();
 	}
 
+	@Override
+	public String getGameID () {
+		return gameID;
+	}
+
 	public boolean shouldRandomize () {
 		boolean tShouldRandomize;
 
@@ -2467,11 +2472,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	@Override
 	public String getClientUserName () {
 		return clientUserName;
-	}
-
-	@Override
-	public String getGameID () {
-		return gameID;
 	}
 
 	public boolean isNetworkAndIsThisClient (String aClientName) {
