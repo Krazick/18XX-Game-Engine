@@ -2249,6 +2249,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return activeGame.getBankPoolShareLimit () * 10;
 	}
 
+	/** 
+	 *  Determine if the active game is a Network Game
+	 *  
+	 * @return True if the networkJGameClient is Defined, thereby a Network Game
+	 * 
+	 */
 	public boolean isNetworkGame () {
 		return (networkJGameClient != JGameClient.NO_JGAME_CLIENT);
 	}
