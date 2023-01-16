@@ -1,5 +1,6 @@
 package ge18xx.game.userPreferences;
 
+import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -46,6 +47,7 @@ public class PlayerOrderPreference extends UserPreference {
 			buttonGroup.add (playerOrderButtons [tPlayerOrderIndex]);
 			aUserPreferencesPanel.add (playerOrderButtons [tPlayerOrderIndex]);
 		}
+		aUserPreferencesPanel.add (Box.createVerticalStrut (5));
 	}
 	
 	public JRadioButton setupRadioButton (String aLabel, String aActionCommand) {

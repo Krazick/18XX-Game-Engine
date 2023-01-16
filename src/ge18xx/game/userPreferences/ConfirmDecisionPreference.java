@@ -1,5 +1,6 @@
 package ge18xx.game.userPreferences;
 
+import javax.swing.Box;
 import javax.swing.JPanel;
 
 import ge18xx.game.GameManager;
@@ -20,6 +21,7 @@ public class ConfirmDecisionPreference extends UserPreference {
 
 	@Override
 	public void buildUserPreferences (JPanel aUserPreferencesPanel) {
+		aUserPreferencesPanel.add (Box.createVerticalStrut (5));
 		
 	}
 

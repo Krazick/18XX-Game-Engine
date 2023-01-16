@@ -31,6 +31,7 @@ public class UserPreferencesFrame extends XMLFrame {
 	JScrollPane colorsSPane;
 	PlayerOrderPreference playerOrderPreference;
 	ClientNameInFramePreference clientNameInFramePreference;
+	ShowConfigInfoPreference showConfigInfoPreference;
 	
 	public UserPreferencesFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
@@ -81,6 +82,9 @@ public class UserPreferencesFrame extends XMLFrame {
 		clientNameInFramePreference = new ClientNameInFramePreference (aGameManager);
 		clientNameInFramePreference.buildUserPreferences (tUserPreferencesPanel);
 		
+		showConfigInfoPreference = new ShowConfigInfoPreference (aGameManager);
+		showConfigInfoPreference.buildUserPreferences (tUserPreferencesPanel);
+		
 		return tUserPreferencesPanel;
 	}
 	
@@ -119,6 +123,10 @@ public class UserPreferencesFrame extends XMLFrame {
 	public boolean showClientNameInFrameTitle () {
 		return clientNameInFramePreference.showClientNameInFrameTitle ();
 	}
+	
+	public boolean showConfigInfoFileInfo () {
+		return showConfigInfoPreference.showConfigInfoFileInfo ();
+	}
 
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tPreferencesElement;
@@ -152,6 +160,9 @@ public class UserPreferencesFrame extends XMLFrame {
 				}
 				if (ClientNameInFramePreference.EN_CLIENT_NAME.equals (tNodeName)) {
 					clientNameInFramePreference.parsePreference (tChildNode);
+				}
+				if (ShowConfigInfoPreference.EN_CONFIG_INFO.equals (tNodeName)) {
+					showConfigInfoPreference.parsePreference (tChildNode);
 				}
 			}
 		} catch (Exception tException) {

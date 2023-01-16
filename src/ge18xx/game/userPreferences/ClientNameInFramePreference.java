@@ -3,6 +3,7 @@ package ge18xx.game.userPreferences;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
@@ -29,6 +30,7 @@ public class ClientNameInFramePreference extends UserPreference implements ItemL
 		clientNameInFrame.addItemListener (this);
 		clientNameInFrame.addActionListener (this);
 		aUserPreferencesPanel.add (clientNameInFrame);
+		aUserPreferencesPanel.add (Box.createVerticalStrut (5));
 	}
 	
 	public boolean showClientNameInFrameTitle () {
@@ -56,7 +58,7 @@ public class ClientNameInFramePreference extends UserPreference implements ItemL
 	}
 
 	@Override
-	public void itemStateChanged (ItemEvent e) {
+	public void itemStateChanged (ItemEvent aItemEvent) {
 		gameManager.updateAllFrames ();
 	}
 }
