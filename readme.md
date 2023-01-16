@@ -45,8 +45,6 @@ To actually download the deployment package, there are a few requirements:
 1. Have Java JRE Version 1.8 or later installed in your platform
 1. Setup a directory on your platform, named "18XX_Games" (or equivalent). This directory is where you install the components necessary, and the Game Engine will create 'autoSaves' directory.
 1. Retrieve the get18xx.jar File that is a runnable JAR File that uses Java 1.8 (or later). Place this into the directory created above.
-1. Retrieve the '18XX XML Data.zip' Folder, that contains a directory structure of the XML Data that is used locally.
-1. Unzip the '18XX XML Data.zip' Folder into the '18XX_Games' directory created above. This should create a folder '18XX XML Data' in which all of the XML Files are placed.
 1. Optionally, create another folder 'SaveGames' to store games in progress with any desired name.
 1. If using a Mac, you need two additional files
     1. Retrieve 'launch_ge18xx.command' and place into the 18XX_Games folder
@@ -56,7 +54,7 @@ To actually download the deployment package, there are a few requirements:
     1. Launch with just a double-click of the 'ge18xx.jar' file, a '18XX Game Engine' Frame should be displayed.
     1. Enter your name in the 'Client User Name' field
     1. Click the OK Button.
-    1. A new 'Enter Player Information' Frame is shown. If there is no information shown under 'Players Entered: 1', revisit Steps for retrieving the '18XX XML Data' Archive above. 
+    1. A new 'Enter Player Information' Frame is shown.  
 
 # How to Use
 <a name="Use"></a>
