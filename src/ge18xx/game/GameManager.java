@@ -2899,6 +2899,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tIsConnected;
 	}
 
+	/**
+	 * Get the default Alert Color
+	 * 
+	 * @return the Default Alert Color
+	 */
 	public Color getAlertColor () {
 		Color tAlertColor;
 
