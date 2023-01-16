@@ -94,7 +94,6 @@ public class Tokens {
 			tTokenUsed = aTokenInfoNode.getThisBooleanAttribute (TokenInfo.AN_AVAILABLE_TOKEN_USED);
 			tTokenInfo = tokens.get (tTokenIndex);
 			if (tTokenInfo.isMatchingTokenType (tTokenType)) {
-				System.out.println ("Fetched TokenInfo at Index " + tTokenIndex);
 				tTokenInfo.setUsed (tTokenUsed);
 				tTokenInfo.setCost (tTokenCost);
 			} else {
