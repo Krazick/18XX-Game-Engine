@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.apache.logging.log4j.Logger;
@@ -32,6 +33,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
+import ge18xx.game.userPreferences.UserPreferencesFrame;
 import ge18xx.game.variants.VariantEffect;
 import ge18xx.map.HexMap;
 import ge18xx.market.Market;
@@ -2484,48 +2486,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tIsNetworkAndClient;
 	}
 
-	public void loadConfig () {
-		XMLDocument tXMLDocument = XMLDocument.NO_XML_DOCUMENT;
-		String tConfigFileName;
-		File tConfigFile;
-
-		tConfigFileName = getConfigFileName ();
-		tConfigFile = new File (tConfigFileName);
-		if (tConfigFile.exists ()) {
-			try {
-				tXMLDocument = new XMLDocument (tConfigFile);
-			} catch (Exception tException) {
-				logger.error ("Oops, mucked up the Config File Access [" + tConfigFileName + "].");
-				logger.error ("Exception Message [" + tException.getMessage () + "].", tException);
-			}
-			if (tXMLDocument != XMLDocument.NO_XML_DOCUMENT) {
-				XMLNode tXMLNode = tXMLDocument.getDocumentNode ();
-				configData = new Config (tXMLNode, this);
-			} else {
-				configData = new Config (this);
-			}
-		} else {
-			configData = new Config (this);
-		}
-	}
-
-	public void saveConfig (boolean aOverwriteFile) {
-		XMLDocument tXMLDocument;
-		File tConfigFile;
-
-		tXMLDocument = createNewConfigDocument ();
-		tConfigFile = getConfigFile ();
-		tXMLDocument.outputXML (tConfigFile);
-	}
-
-	public String getConfigFileName () {
-		return "ge18xx." + clientUserName + ".cfg.xml";
-	}
-
-	public File getConfigFile () {
-		return new File (getConfigFileName ());
-	}
-
 	@Override
 	public void addNewFrame (XMLFrame aXMLFrame) {
 		String tXMLFrameName;
@@ -2558,6 +2518,57 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tFrameIsPresent;
 	}
 
+	//  Configuration File Methods
+	
+	public void loadConfig () {
+		XMLDocument tXMLDocument = XMLDocument.NO_XML_DOCUMENT;
+		String tConfigFileName;
+		File tConfigFile;
+
+		tConfigFileName = getConfigFileName ();
+		tConfigFile = new File (tConfigFileName);
+		showConfigFileInfo (tConfigFile, "Loading Config File from");
+		
+		if (tConfigFile.exists ()) {
+			try {
+				tXMLDocument = new XMLDocument (tConfigFile);
+			} catch (Exception tException) {
+				logger.error ("Oops, mucked up the Config File Access [" + tConfigFileName + "].");
+				logger.error ("Exception Message [" + tException.getMessage () + "].", tException);
+			}
+			if (tXMLDocument != XMLDocument.NO_XML_DOCUMENT) {
+				XMLNode tXMLNode = tXMLDocument.getDocumentNode ();
+				configData = new Config (tXMLNode, this);
+			} else {
+				configData = new Config (this);
+			}
+		} else {
+			configData = new Config (this);
+		}
+	}
+
+	public void saveConfig (boolean aOverwriteFile) {
+		XMLDocument tXMLDocument;
+		File tConfigFile;
+
+		tXMLDocument = createNewConfigDocument ();
+		tConfigFile = getConfigFile ();
+		tXMLDocument.outputXML (tConfigFile);
+		showConfigFileInfo (tConfigFile, "Config File Saved");
+	}
+
+	public String getConfigFileName () {
+		String tConfigFileName;
+
+		tConfigFileName = "ge18xx." + clientUserName + ".cfg.xml";
+		
+		return tConfigFileName;
+	}
+
+	public File getConfigFile () {
+		return new File (getConfigFileName ());
+	}
+
 	private void applyConfigSettings () {
 		GameFrameConfig tGameFrameConfig;
 
@@ -2571,8 +2582,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public GameFrameConfig getGameFrameConfig () {
 		GameFrameConfig tGameFrameConfig;
-		String tGameName = getGameName ();
+		String tGameName;
 
+		tGameName = getGameName ();
 		tGameFrameConfig = configData.getGameFrameConfigFor (tGameName);
 
 		return tGameFrameConfig;
@@ -2656,6 +2668,22 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
+	public void showConfigFileInfo (File aConfigFile, String aTitle) {
+		XMLFrame tFrame;
+		String tConfigurationFilePath;
+		
+		if (roundManager == RoundManager.NO_ROUND_MANAGER) {
+			tFrame = game18XXFrame;
+		} else {
+			tFrame = roundManager.getRoundFrame ();
+		}
+		tConfigurationFilePath = aConfigFile.getAbsolutePath ();
+		JOptionPane.showMessageDialog (tFrame, "Path " + tConfigurationFilePath, 
+										aTitle, JOptionPane.PLAIN_MESSAGE);
+	}
+	
+	//  End Configuration File Methods
+	
 	@Override
 	public int getSelectedGameIndex () {
 		return playerInputFrame.getSelectedGameIndex ();
