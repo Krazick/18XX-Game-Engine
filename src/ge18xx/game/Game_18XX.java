@@ -17,6 +17,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -106,6 +108,8 @@ public class Game_18XX extends XMLFrame {
 	LoggerLookup loggerLookup = new LoggerLookup ();
 	String userDir = System.getProperty ("user.dir");
 	Image iconImage;
+	Path currentRelativePath;
+	String absolutePath;
 
 	public Game_18XX () {
 		this (true);
@@ -118,6 +122,10 @@ public class Game_18XX extends XMLFrame {
 		// application. ResourceBundles are useful for localizing applications.
 		// New localities can be added by adding additional properties files.
 		loadResourceBundle ("ge18xx");
+		
+		currentRelativePath = Paths.get ("");
+		absolutePath = currentRelativePath.toAbsolutePath ().toString ();
+		System.out.println ("Current absolute path is: " + absolutePath);
 
 		setApplicationIcon ();
 
@@ -142,6 +150,10 @@ public class Game_18XX extends XMLFrame {
 		updateDisconnectButton ();
 	}
 
+	public String getAbsolutePath () {
+		return absolutePath;
+	}
+	
 	private void loadResourceBundle (String aGameEngineName) {
 		String tTitle;
 
@@ -1048,7 +1060,7 @@ public class Game_18XX extends XMLFrame {
 		}
 	}
 
-	public static void main (String aArgs[]) {
+	public static void main (String aArgs[]) {		
 		setupForMac ();
 
 		new Game_18XX ();
