@@ -13,6 +13,7 @@ public class LoggerLookup implements StrLookup {
 	private static String userName = "NONAME";
 	private static String appName = "NOAPP";
 	public static Logger logger;
+	String environmentVersionInfo;
 
 	public static void setAppName (String aAppName) {
 		appName = aAppName;
@@ -70,13 +71,19 @@ public class LoggerLookup implements StrLookup {
 		String tOSName = System.getProperty ("os.name");
 		String tOSVersion = System.getProperty ("os.version");
 		String tLog4JVersion;
+		String tEnvironmentVersionInfo;
 
 		tLog4JVersion = getLog4JVersion ();
 		logger.info ("Application: " + aAppName + ", Version " + aAppVersion + " Client " + aUserName);
-		logger.info ("Java Version " + tJavaVersion + " OS Name " + tOSName + " OS Version " + tOSVersion);
-		logger.info ("Log4J2 LogManager Version " + tLog4JVersion);
+		tEnvironmentVersionInfo = "Java Version " + tJavaVersion + " OS Name " + tOSName + " OS Version " + tOSVersion +" Log4J2 Version " + tLog4JVersion;
+		logger.info (tEnvironmentVersionInfo);
+		setVersionInfo (tEnvironmentVersionInfo);
 	}
 
+	public void setVersionInfo (String aEnvironmentVersionInfo) {
+		environmentVersionInfo = aEnvironmentVersionInfo;
+	}
+	
 	private String getLog4JVersion () {
 		String tLog4JVersion = "NOT FOUND";
 
