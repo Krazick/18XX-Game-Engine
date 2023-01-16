@@ -2678,14 +2678,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 		XMLFrame tFrame;
 		String tConfigurationFilePath;
 		
-		if (roundManager == RoundManager.NO_ROUND_MANAGER) {
-			tFrame = game18XXFrame;
-		} else {
-			tFrame = roundManager.getRoundFrame ();
+		if (userPreferencesFrame.showConfigInfoFileInfo ()) {
+			if (roundManager == RoundManager.NO_ROUND_MANAGER) {
+				tFrame = game18XXFrame;
+			} else {
+				tFrame = roundManager.getRoundFrame ();
+			}
+			tConfigurationFilePath = aConfigFile.getAbsolutePath ();
+			JOptionPane.showMessageDialog (tFrame, "Path " + tConfigurationFilePath, 
+											aTitle, JOptionPane.PLAIN_MESSAGE);
 		}
-		tConfigurationFilePath = aConfigFile.getAbsolutePath ();
-		JOptionPane.showMessageDialog (tFrame, "Path " + tConfigurationFilePath, 
-										aTitle, JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	//  End Configuration File Methods
