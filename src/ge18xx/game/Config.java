@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.w3c.dom.NodeList;
 
+import ge18xx.game.userPreferences.UserPreferencesFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
