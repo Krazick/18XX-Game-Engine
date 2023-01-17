@@ -49,6 +49,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	private static final String LOAD_GAME = "Load Local Game";
 	private static final String REASON_WRONG_PLAYER_COUNT = "Either too many, or too few Players for this game";
 	private static final String REASON_NO_NEW_GAME = "Must select Game before you can start";
+	private static final String REASON_BAD_PLAYER_LIST = "Bad Player List entered";
 	GameInfo gameInfo [];
 	PlayerInputFrame playerInputFrame;
 	JPanel gameJPanel;
@@ -110,7 +111,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		setSelectedGame (aGameIndex);
 		gameRadioButtons [aGameIndex].setSelected (true);
 		showDescriptionAndVariants (aGameIndex);
-		setGameRadioButtons (playerInputFrame.getPlayerCount ());
+		setGameRadioButtons (playerInputFrame.getPlayerCount (), playerInputFrame.getBadPlayerList ());
 		if ((playerInputFrame.isNetworkGame () && aNotify)) {
 			tJGameClient = playerInputFrame.getNetworkJGameClient ();
 			tJGameClient.handleGameSelection (aGameIndex, gameInfo [aGameIndex].getName ());
@@ -349,13 +350,18 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		playerInputFrame = aPlayerInputFrame;
 	}
 
-	public void setGameRadioButtons (int aCurrentPlayerCount) {
-		int tIndex, tGameCount;
+	public void setGameRadioButtons (int aCurrentPlayerCount, boolean aBadPlayerList) {
+		int tIndex;
+		int tGameCount;
 
 		if (gameInfo != GameInfo.NO_GAMES) {
 			tGameCount = gameInfo.length;
 			for (tIndex = 0; tIndex < tGameCount; tIndex++) {
-				if (gameInfo [tIndex].canPlayWithXPlayers (aCurrentPlayerCount)) {
+				if (aBadPlayerList) {
+					gameRadioButtons [tIndex].setEnabled (false);
+					gameRadioButtons [tIndex].setToolTipText (REASON_BAD_PLAYER_LIST);
+					setEnabledGameButtons (false, REASON_BAD_PLAYER_LIST);
+				} else if (gameInfo [tIndex].canPlayWithXPlayers (aCurrentPlayerCount)) {
 					gameRadioButtons [tIndex].setEnabled (true);
 					gameRadioButtons [tIndex].setToolTipText (GUI.NO_TOOL_TIP);
 					if (gameRadioButtons [tIndex].isSelected ()) {

@@ -43,6 +43,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	public static final int NO_PLAYER_INDEX = -1;
 	public static final int NO_PLAYERS = 0;
 	public static final String INVALID_NAME = "INVALID-NAME";
+	public static final String DUPLICATE_NAME = "DUPLICATE-NAME";
 	public static final ElementName EN_PLAYERS = new ElementName ("Players");
 	public static final ElementName EN_PLAYER = new ElementName ("Player");
 	private static final String RANDOMIZE_ORDER = "Randomize Order";
@@ -52,6 +53,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 	static final int MAX_GAMES = 5;
 	GameSet gameSet;
 	int playerCount;
+	boolean badPlayerList;
 	JTextField [] playerNames;
 	JLabel labelPlayerCount;
 	JButton randomizeButton;
@@ -72,11 +74,20 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 
 		tClientUserName = gameManager.getClientUserName ();
 		addPlayer (tClientUserName);
+		setBadPlayerList (false);
 		lockClientPlayer ();
 		pack ();
 		playerNames [0].transferFocus ();
 	}
 
+	public void setBadPlayerList (boolean aBadPlayerList) {
+		badPlayerList = aBadPlayerList;
+	}
+	
+	public boolean getBadPlayerList () {
+		return badPlayerList;
+	}
+	
 	private JPanel buildPlayersPanel () {
 		int tIndex;
 		JPanel tPlayersPanel;
@@ -251,7 +262,13 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		if (tEventObject instanceof JTextField) {
 			setPlayerCount ();
 			if (playerCount > 1) {
-				randomizeButton.setEnabled (true);
+				if (getBadPlayerList ()) {
+					randomizeButton.setEnabled (false);
+					randomizeButton.setToolTipText ("Bad Player List Entered");
+				} else {
+					randomizeButton.setEnabled (true);
+					randomizeButton.setToolTipText ("");
+				}
 			} else {
 				randomizeButton.setEnabled (false);
 				randomizeButton.setToolTipText (REASON_NO_RANDOMIZE);
@@ -290,8 +307,12 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 
 	public int getTFPlayerCount () {
 		String tName;
-		int tIndex, tPlayerCount = 0;
+		int tIndex;
+		int tPlayerCount;
+		boolean tDuplicateName;
 
+		tPlayerCount = 0;
+		setBadPlayerList (false);
 		for (tIndex = 0; tIndex < MAX_PLAYERS; tIndex++) {
 			tName = playerNames [tIndex].getText ();
 			if (tName != null) {
@@ -300,17 +321,25 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 						tPlayerCount++;
 					} else {
 						playerNames [tIndex].setText (INVALID_NAME);
+						setBadPlayerList (true);
 					}
 				}
 			}
 		}
-
+		tDuplicateName = isDuplicate (tPlayerCount);
+		if (tDuplicateName) {
+			playerNames [tPlayerCount - 1].setText (DUPLICATE_NAME);
+			tPlayerCount--;
+			setBadPlayerList (true);
+		}
+		
 		return tPlayerCount;
 	}
 
 	public void updatePlayerCountLabel () {
 		int tActualCount;
 		String tPrefix;
+		String tLabel;
 
 		if (playerCount == NO_PLAYERS) {
 			tActualCount = 0;
@@ -323,7 +352,12 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		} else {
 			tPrefix = "Players Entered: ";
 		}
-		labelPlayerCount.setText (tPrefix + tActualCount);
+		if (getBadPlayerList ()) {
+			tLabel = "Bad Player List Entered";
+		} else {
+			tLabel = tPrefix + tActualCount;
+		}
+		labelPlayerCount.setText (tLabel);
 	}
 
 	public GameManager getGameManager () {
@@ -359,6 +393,33 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		return tPlayerIndex;
 	}
 
+	/**
+	 * Check all other player names entered so far for a duplicate. Ignore the CurrentIndex Player
+	 * 
+	 * @param aPlayerCount The Total PlayerCount to this point
+	 * @return True if the same player name is any other player name, otherwise false.
+	 * 
+	 */
+	public boolean isDuplicate (int aPlayerCount) {
+		boolean tIsDuplicate;
+		int tIndex;
+		String tPlayerName;
+		
+		tIsDuplicate = false;
+		if (aPlayerCount >= 2) {
+			tPlayerName = playerNames [aPlayerCount - 1].getText ();
+			if ((tPlayerName != null) && (!tPlayerName.equals (NO_NAME))) {
+				for (tIndex = 0; tIndex < (aPlayerCount - 1); tIndex++) {
+					if (tPlayerName.equals (playerNames [tIndex].getText ())) {
+						tIsDuplicate = true;				
+					}
+				}
+			}
+		}
+		
+		return tIsDuplicate;
+	}
+	
 	public boolean isAlreadyPresent (String aPlayerName) {
 		int tIndex;
 		boolean tIsAlreadyPresent = false;
@@ -448,7 +509,7 @@ public class PlayerInputFrame extends XMLFrame implements ActionListener, FocusL
 		playerCount = aPlayerCount;
 		updatePlayerCountLabel ();
 		if (gameSet != null) {
-			gameSet.setGameRadioButtons (aPlayerCount);
+			gameSet.setGameRadioButtons (aPlayerCount, getBadPlayerList ());
 		}
 	}
 
