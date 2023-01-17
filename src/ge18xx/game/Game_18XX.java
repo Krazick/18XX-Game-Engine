@@ -493,7 +493,7 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	private void createActions () {
-		int tShortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask ();
+		int tShortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMaskEx ();
 
 		setupGenericActions (tShortcutKeyMask);
 		setupGameSpecificActions (tShortcutKeyMask);

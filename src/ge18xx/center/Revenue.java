@@ -50,7 +50,7 @@ public class Revenue implements Cloneable {
 	}
 
 	public String getPhaseToString () {
-		return (new Integer (phase).toString ());
+		return (Integer.valueOf (phase).toString ());
 	}
 
 	public int getValue () {
@@ -58,7 +58,7 @@ public class Revenue implements Cloneable {
 	}
 
 	public String getValueToString () {
-		return (new Integer (value).toString ());
+		return (Integer.valueOf (value).toString ());
 	}
 
 	public void setValues (int aValue, int aPhase) {

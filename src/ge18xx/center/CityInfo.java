@@ -288,7 +288,7 @@ public class CityInfo implements Cloneable {
 	}
 
 	public String getIDToString () {
-		return (new Integer (id).toString ());
+		return (Integer.valueOf (id).toString ());
 	}
 
 	public MapCell getMapCell () {
@@ -320,7 +320,7 @@ public class CityInfo implements Cloneable {
 	}
 
 	public String getTypeToString () {
-		return (new Integer (type).toString ());
+		return (Integer.valueOf (type).toString ());
 	}
 
 	public boolean isCorporationBase () {

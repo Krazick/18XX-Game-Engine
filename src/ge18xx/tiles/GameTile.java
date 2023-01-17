@@ -160,8 +160,8 @@ public class GameTile {
 	}
 
 	public String getTotalAndAvailable () {
-		String tTotal = new Integer (totalCount).toString ();
-		String tAvailable = new Integer (availableCount ()).toString ();
+		String tTotal = Integer.valueOf (totalCount).toString ();
+		String tAvailable = Integer.valueOf (availableCount ()).toString ();
 
 		return (tAvailable + " of " + tTotal);
 	}

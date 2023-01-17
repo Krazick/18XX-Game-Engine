@@ -210,11 +210,11 @@ public class Hex {
 
 		tDwidth5 = dwidth / 6;
 		tDwidth6 = dwidth / 10;
-		X1 = new Double (-tDwidth5).intValue () + Xc;
+		X1 = Double.valueOf (-tDwidth5).intValue () + Xc;
 		X2 = Xc;
-		X3 = new Double (tDwidth5).intValue () + Xc;
-		Y1 = new Double (tDwidth6).intValue () + Yc;
-		Y2 = new Double (-tDwidth6).intValue () + Yc;
+		X3 = Double.valueOf (tDwidth5).intValue () + Xc;
+		Y1 = Double.valueOf (tDwidth6).intValue () + Yc;
+		Y2 = Double.valueOf (-tDwidth6).intValue () + Yc;
 		Y3 = Y1;
 		drawTriangle (g, X1, Y1, X2, Y2, X3, Y3, aFillPaint);
 	}
@@ -225,9 +225,9 @@ public class Hex {
 
 		dw5 = dwidth / 5;
 		dw6 = dwidth / 6;
-		X1 = new Double (-dw5).intValue () + Xc;
-		Y1 = new Double (-dw6 / 2).intValue () + Yc;
-		X2 = new Double (dw5).intValue () + Xc;
+		X1 = Double.valueOf (-dw5).intValue () + Xc;
+		Y1 = Double.valueOf (-dw6 / 2).intValue () + Yc;
+		X2 = Double.valueOf (dw5).intValue () + Xc;
 		Y2 = Y1;
 		drawHill (g, X1, Y1, aFillPaint);
 		drawHill (g, X2, Y2, aFillPaint);
@@ -256,11 +256,11 @@ public class Hex {
 
 		dw5 = dwidth / 5;
 		dw6 = dwidth / 6;
-		X1 = new Double (-dw5).intValue () + Xc;
+		X1 = Double.valueOf (-dw5).intValue () + Xc;
 		X2 = Xc;
-		X3 = new Double (dw5).intValue () + Xc;
-		Y1 = new Double (dw6).intValue () + Yc;
-		Y2 = new Double (-dw6).intValue () + Yc;
+		X3 = Double.valueOf (dw5).intValue () + Xc;
+		Y1 = Double.valueOf (dw6).intValue () + Yc;
+		Y2 = Double.valueOf (-dw6).intValue () + Yc;
 		Y3 = Y1;
 		drawTriangle (g, X1, Y1, X2, Y2, X3, Y3, aFillPaint);
 	}
@@ -333,19 +333,19 @@ public class Hex {
 		int xtr, ytr, width, height;
 
 		x1 = Xc;
-		y1 = new Double (Yc - trackWidth * .5).intValue ();
+		y1 = Double.valueOf (Yc - trackWidth * .5).intValue ();
 		x2 = Xc;
-		y2 = new Double (Yc + trackWidth * 2).intValue ();
+		y2 = Double.valueOf (Yc + trackWidth * 2).intValue ();
 		g2d.setPaint (aPortPaint);
 		g2d.drawLine (x1, y1, x2, y2);
 		width = trackWidth;
 		height = width;
-		xtr = new Double (x1 - width / 2).intValue ();
-		ytr = new Double (y1 - width).intValue ();
+		xtr = Double.valueOf (x1 - width / 2).intValue ();
+		ytr = Double.valueOf (y1 - width).intValue ();
 		g2d.drawOval (xtr, ytr, width, height);
 		xtr = x1 - trackWidth * 2;
 		width = trackWidth * 4;
-		height = new Double (trackWidth * 3.5).intValue ();
+		height = Double.valueOf (trackWidth * 3.5).intValue ();
 		x1 = Xc - trackWidth;
 		y1 = Yc;
 		x2 = Xc + trackWidth;
@@ -390,7 +390,7 @@ public class Hex {
 	public void drawRiver (Graphics g, int Xc, int Yc, Paint aRiverPaint) {
 		int X1, Y1, width, height, index;
 		Graphics2D g2d = (Graphics2D) g;
-		int halfTW = new Double (trackWidth / 2).intValue ();
+		int halfTW = Double.valueOf (trackWidth / 2).intValue ();
 		BasicStroke tRiverStroke = new BasicStroke (2);
 		Stroke tCurrentStroke = g2d.getStroke ();
 
@@ -1115,7 +1115,7 @@ public class Hex {
 	}
 
 	public static int getWidth () {
-		return (new Double (dwidth).intValue ());
+		return (Double.valueOf (dwidth).intValue ());
 	}
 
 	public int getXd () {
@@ -1419,17 +1419,17 @@ public class Hex {
 		double stp_d = sThird_pi * dwidth;
 		double ctp_d = cThird_pi * dwidth;
 
-		displaceUpDown = new Double (ssp_d).intValue ();
-		displaceLeftRight = new Double (csp_d).intValue ();
-		Xt = new Double (stp_d).intValue () - 3;
-		Yt = new Double (ctp_d).intValue () - 3;
+		displaceUpDown = Double.valueOf (ssp_d).intValue ();
+		displaceLeftRight = Double.valueOf (csp_d).intValue ();
+		Xt = Double.valueOf (stp_d).intValue () - 3;
+		Yt = Double.valueOf (ctp_d).intValue () - 3;
 		offsetHex (offsetX, offsetY);
-		intDWidth = new Double (dwidth).intValue ();
+		intDWidth = Double.valueOf (dwidth).intValue ();
 
 		fillXandYPoints ();
 		
-		cityWidth = new Double (displaceLeftRight / 2.9).intValue ();
-		trackWidth = new Double (displaceLeftRight / 7.25).intValue () + 1;
+		cityWidth = Double.valueOf (displaceLeftRight / 2.9).intValue ();
+		trackWidth = Double.valueOf (displaceLeftRight / 7.25).intValue () + 1;
 		hexPolygon = buildOffsetPolygon (0, 0);
 		rectX = getMinX ();
 		rectY = getMinY ();

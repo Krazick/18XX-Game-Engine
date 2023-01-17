@@ -244,7 +244,7 @@ public class MarketCell {
 		MarketCell tDownCell = getNeighborDown ();
 		Color tCellColor, tTextColor;
 
-		valueLabel = new Integer (value).toString ();
+		valueLabel = Integer.valueOf (value).toString ();
 		arrowDownOffset = 5;
 		arrowSideOffset = 5;
 		arrowHeadHeight = 5;

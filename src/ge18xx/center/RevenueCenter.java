@@ -376,7 +376,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public String getIDToString () {
-		return (new Integer (id).toString ());
+		return (Integer.valueOf (id).toString ());
 	}
 
 	public String getName () {
@@ -396,11 +396,11 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public String getRevenueToString (int aPhase) {
-		return (new Integer (revenues.getValue (aPhase)).toString ());
+		return (Integer.valueOf (revenues.getValue (aPhase)).toString ());
 	}
 
 	public String getRevenueToString () {
-		return (new Integer (revenues.getValue ()).toString ());
+		return (Integer.valueOf(revenues.getValue ()).toString ());
 	}
 
 	public int getRevenueCount () {

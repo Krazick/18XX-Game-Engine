@@ -366,7 +366,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tMaxCol = getMaxColCount ();
 		int tMaxX;
 
-		tMaxX = market [0] [tMaxCol - 1].getX () + new Double (cellWidth / 2).intValue ();
+		tMaxX = market [0] [tMaxCol - 1].getX () + Double.valueOf (cellWidth / 2).intValue ();
 
 		return tMaxX;
 	}
@@ -375,7 +375,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tMaxRow = getMaxRowCount ();
 		int tMaxY;
 
-		tMaxY = market [tMaxRow - 1] [0].getY () + new Double (cellHeight / 2).intValue ();
+		tMaxY = market [tMaxRow - 1] [0].getY () + Double.valueOf (cellHeight / 2).intValue ();
 		return tMaxY;
 	}
 

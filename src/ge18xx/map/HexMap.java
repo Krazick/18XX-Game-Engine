@@ -161,7 +161,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			rowCount = getRowCount ();
 
 			Yc = 0 - temp_DUP_dwidth + hex.getIntDWidth ();
-			if (new Double (rowCount / 2).intValue () * 2 == rowCount) {
+			if (Double.valueOf (rowCount / 2).intValue () * 2 == rowCount) {
 				toggle = 0;
 			} else {
 				toggle = 1;

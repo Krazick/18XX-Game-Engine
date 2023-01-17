@@ -82,7 +82,7 @@ public class Rebate extends Feature {
 		String tRebate;
 
 		if (amount > 0) {
-			tRebate = new Integer (amount).toString ();
+			tRebate = Integer.valueOf (amount).toString ();
 		} else {
 			tRebate = null;
 		}

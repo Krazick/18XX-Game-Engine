@@ -1059,7 +1059,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	}
 
 	public String getIDToString () {
-		return (new Integer (id).toString ());
+		return (Integer.valueOf (id).toString ());
 	}
 
 	public GameManager getGameManager () {

@@ -145,8 +145,8 @@ public class Location implements Cloneable {
 			Xbase = aHex.getIntDWidth ();
 			Ybase = aHex.getIntDWidth ();
 		}
-		Xdisp = new Double (Xsign * (Xbase / Xfactor)).intValue ();
-		Ydisp = new Double (Ysign * (Ybase / Yfactor)).intValue ();
+		Xdisp = Double.valueOf (Xsign * (Xbase / Xfactor)).intValue ();
+		Ydisp = Double.valueOf (Ysign * (Ybase / Yfactor)).intValue ();
 		if (Hex.getDirection ()) {
 			tDisp = Xdisp;
 			Xdisp = Ydisp;
@@ -719,7 +719,7 @@ public class Location implements Cloneable {
 
 	@Override
 	public String toString () {
-		return (new Integer (location).toString ());
+		return (Integer.valueOf (location).toString ());
 	}
 
 	public Location unrotateLocation (int aOrientation) {
