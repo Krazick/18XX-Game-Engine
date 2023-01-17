@@ -240,7 +240,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		int X1, Y1, width, height, index;
 		int tTrackWidth = aHex.getTrackWidth ();
 		Graphics2D g2d = (Graphics2D) g;
-		int halfTW = new Double (tTrackWidth / 2).intValue ();
+		int halfTW = Double.valueOf (tTrackWidth / 2).intValue ();
 		BasicStroke tRiverStroke = new BasicStroke (2);
 		Stroke tCurrentStroke = g2d.getStroke ();
 
@@ -303,7 +303,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 	}
 
 	public String getCostToString () {
-		return (new Integer (cost).toString ());
+		return (Integer.valueOf (cost).toString ());
 	}
 
 	public String getCategory (XMLNode aNode) {

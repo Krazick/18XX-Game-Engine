@@ -534,9 +534,11 @@ public class City extends RevenueCenter implements Cloneable {
 	public void drawACity (Graphics aGraphics, double Xc, double Yc, Hex aHex, int aLocation, int aType, Color aCityColor,
 			int aTileOrient, boolean drawValue, int hexXc, int hexYc, int aTokenIndex) {
 		Location tLocation = new Location (aLocation);
-		int XCenter = new Double (Xc).intValue ();
-		int YCenter = new Double (Yc).intValue ();
+		int XCenter;
+		int YCenter;
 		
+		XCenter = Double.valueOf (Xc).intValue ();
+		YCenter = Double.valueOf (Yc).intValue ();
 		drawACity (aGraphics, XCenter, YCenter, aHex, tLocation, aType, aCityColor, aTileOrient, drawValue, hexXc, hexYc,
 				aTokenIndex);
 	}
@@ -587,7 +589,7 @@ public class City extends RevenueCenter implements Cloneable {
 			break;
 
 		case RevenueCenterType.DESTINATION_CITY:
-			temp = new Double (temp / 1.25).intValue ();
+			temp = Double.valueOf (temp / 1.25).intValue ();
 			X1 = Xc - temp;
 			Y1 = Yc - temp;
 			X2 = Xc + temp;
@@ -678,33 +680,33 @@ public class City extends RevenueCenter implements Cloneable {
 				XCenter2 = X1 + 2 * Xsign * tempS30;
 				YCenter2 = Y1 + 2 * Ysign * tempC30;
 				if (Ysign == 0) {
-					XB1 = new Double (XCenter1).intValue ();
-					YB1 = new Double (YCenter1 - temp).intValue ();
-					XB2 = new Double (XCenter2).intValue ();
+					XB1 = Double.valueOf (XCenter1).intValue ();
+					YB1 = Double.valueOf (YCenter1 - temp).intValue ();
+					XB2 = Double.valueOf (XCenter2).intValue ();
 					YB2 = YB1;
 					XB3 = XB2;
-					YB3 = new Double (YCenter1 + temp).intValue ();
+					YB3 = Double.valueOf (YCenter1 + temp).intValue ();
 					XB4 = XB1;
 					YB4 = YB3;
 				} else {
 					if (Xsign == 0) {
-						XB1 = new Double (XCenter1 - temp).intValue ();
-						YB1 = new Double (YCenter1).intValue ();
-						XB2 = new Double (XCenter1 + temp).intValue ();
+						XB1 = Double.valueOf (XCenter1 - temp).intValue ();
+						YB1 = Double.valueOf (YCenter1).intValue ();
+						XB2 = Double.valueOf (XCenter1 + temp).intValue ();
 						YB2 = YB1;
 						XB3 = XB2;
-						YB3 = new Double (YCenter2).intValue ();
+						YB3 = Double.valueOf (YCenter2).intValue ();
 						XB4 = XB1;
 						YB4 = YB3;
 					} else {
-						XB1 = new Double (XCenter1 - Xsign * tempS30).intValue ();
-						YB1 = new Double (YCenter1 + Ysign * tempC30).intValue ();
-						XB2 = new Double (XCenter2 - Xsign * tempS30).intValue ();
-						YB2 = new Double (YCenter2 + Ysign * tempC30).intValue ();
-						XB3 = new Double (XCenter2 + Xsign * tempS30).intValue ();
-						YB3 = new Double (YCenter2 - Ysign * tempC30).intValue ();
-						XB4 = new Double (XCenter1 + Xsign * tempS30).intValue ();
-						YB4 = new Double (YCenter1 - Ysign * tempC30).intValue ();
+						XB1 = Double.valueOf (XCenter1 - Xsign * tempS30).intValue ();
+						YB1 = Double.valueOf (YCenter1 + Ysign * tempC30).intValue ();
+						XB2 = Double.valueOf (XCenter2 - Xsign * tempS30).intValue ();
+						YB2 = Double.valueOf (YCenter2 + Ysign * tempC30).intValue ();
+						XB3 = Double.valueOf (XCenter2 + Xsign * tempS30).intValue ();
+						YB3 = Double.valueOf (YCenter2 - Ysign * tempC30).intValue ();
+						XB4 = Double.valueOf (XCenter1 + Xsign * tempS30).intValue ();
+						YB4 = Double.valueOf (YCenter1 - Ysign * tempC30).intValue ();
 					}
 				}
 			} else {
@@ -733,14 +735,14 @@ public class City extends RevenueCenter implements Cloneable {
 					YCenter1 = Yc + tDisplace.y + Ysign * tempS30;
 					XCenter2 = Xc + tDisplace.x - Xsign * tempC30;
 					YCenter2 = Yc + tDisplace.y - Ysign * tempS30;
-					XB1 = new Double (XCenter1 - Xsign * tempS30).intValue ();
-					YB1 = new Double (YCenter1 + Ysign * tempC30).intValue ();
-					XB2 = new Double (XCenter2 - Xsign * tempS30).intValue ();
-					YB2 = new Double (YCenter2 + Ysign * tempC30).intValue ();
-					XB3 = new Double (XCenter2 + Xsign * tempS30).intValue ();
-					YB3 = new Double (YCenter2 - Ysign * tempC30).intValue ();
-					XB4 = new Double (XCenter1 + Xsign * tempS30).intValue ();
-					YB4 = new Double (YCenter1 - Ysign * tempC30).intValue ();
+					XB1 = Double.valueOf (XCenter1 - Xsign * tempS30).intValue ();
+					YB1 = Double.valueOf (YCenter1 + Ysign * tempC30).intValue ();
+					XB2 = Double.valueOf (XCenter2 - Xsign * tempS30).intValue ();
+					YB2 = Double.valueOf (YCenter2 + Ysign * tempC30).intValue ();
+					XB3 = Double.valueOf (XCenter2 + Xsign * tempS30).intValue ();
+					YB3 = Double.valueOf (YCenter2 - Ysign * tempC30).intValue ();
+					XB4 = Double.valueOf (XCenter1 + Xsign * tempS30).intValue ();
+					YB4 = Double.valueOf (YCenter1 - Ysign * tempC30).intValue ();
 				}
 			}
 			drawMultipleCityBox (g, XB1, YB1, XB2, YB2, XB3, YB3, XB4, YB4);
@@ -764,17 +766,17 @@ public class City extends RevenueCenter implements Cloneable {
 			YCenter1 = YCenter3 + Ysign * 2 * tempC30;
 			XCenter2 = XCenter3 - Xsign * 2 * tempS30;
 			YCenter2 = YCenter3 + Ysign * 2 * tempC30;
-			XB1 = new Double (XCenter1).intValue ();
-			YB1 = new Double (YCenter1 + Ysign * temp).intValue ();
-			XB2 = new Double (XCenter2).intValue ();
+			XB1 = Double.valueOf (XCenter1).intValue ();
+			YB1 = Double.valueOf (YCenter1 + Ysign * temp).intValue ();
+			XB2 = Double.valueOf (XCenter2).intValue ();
 			YB2 = YB1;
-			XB3 = new Double (XCenter2 - Ysign * tempC30).intValue ();
+			XB3 = Double.valueOf (XCenter2 - Ysign * tempC30).intValue ();
 			YB3 = Yc;
-			XB4 = new Double (XCenter3 - Xsign * tempC30).intValue ();
-			YB4 = new Double (YCenter3 - Ysign * tempS30).intValue ();
-			XB5 = new Double (XCenter3 + Xsign * tempC30).intValue ();
+			XB4 = Double.valueOf (XCenter3 - Xsign * tempC30).intValue ();
+			YB4 = Double.valueOf (YCenter3 - Ysign * tempS30).intValue ();
+			XB5 = Double.valueOf (XCenter3 + Xsign * tempC30).intValue ();
 			YB5 = YB4;
-			XB6 = new Double (XCenter1 + Xsign * tempC30).intValue ();
+			XB6 = Double.valueOf (XCenter1 + Xsign * tempC30).intValue ();
 			YB6 = YB3;
 			drawMultipleCityBox (g, XB1, YB1, XB2, YB2, XB3, YB3, XB4, YB4, XB5, YB5, XB6, YB6);
 			drawACity (g, XCenter1, YCenter1, aHex, Location.CENTER_CITY_LOC, RevenueCenterType.SINGLE_CITY, aCityColor,
@@ -794,19 +796,19 @@ public class City extends RevenueCenter implements Cloneable {
 			YCenter3 = Yc + temp;
 			XCenter4 = Xc + temp;
 			YCenter4 = Yc + temp;
-			XB1 = new Double (XCenter1).intValue ();
-			YB1 = new Double (YCenter1 - temp).intValue ();
-			XB2 = new Double (XCenter2).intValue ();
+			XB1 = Double.valueOf (XCenter1).intValue ();
+			YB1 = Double.valueOf (YCenter1 - temp).intValue ();
+			XB2 = Double.valueOf (XCenter2).intValue ();
 			YB2 = YB1;
-			XB3 = new Double (XCenter2 + temp).intValue ();
-			YB3 = new Double (YCenter2).intValue ();
+			XB3 = Double.valueOf (XCenter2 + temp).intValue ();
+			YB3 = Double.valueOf (YCenter2).intValue ();
 			XB4 = XB3;
-			YB4 = new Double (YCenter4).intValue ();
+			YB4 = Double.valueOf (YCenter4).intValue ();
 			XB5 = XB2;
-			YB5 = new Double (YCenter4 + temp).intValue ();
+			YB5 = Double.valueOf (YCenter4 + temp).intValue ();
 			XB6 = XB1;
 			YB6 = YB5;
-			XB7 = new Double (XCenter3 - temp).intValue ();
+			XB7 = Double.valueOf (XCenter3 - temp).intValue ();
 			YB7 = YB4;
 			XB8 = XB7;
 			YB8 = YB3;
@@ -1068,7 +1070,7 @@ public class City extends RevenueCenter implements Cloneable {
 	}
 
 	public String getNumberToString () {
-		return (new Integer (stationCount).toString ());
+		return (Integer.valueOf (stationCount).toString ());
 	}
 
 	@Override

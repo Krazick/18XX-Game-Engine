@@ -458,7 +458,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		int tWidth, tHeight;
 		Tile tTile;
 
-		Xoffset = new Double (Hex.getWidth () * 2.25).intValue ();
+		Xoffset = Double.valueOf (Hex.getWidth () * 2.25).intValue ();
 		Yoffset = hex.getYd () * 2 + 25;
 		tYNumOffset = hex.getYd () + 17;
 		tWidth = Hex.getWidth ();
@@ -926,7 +926,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		double tRowCountD;
 
 		tTileCount = getTileCountToShow ();
-		tRowCountD = new Double (tTileCount / TILES_PER_ROW);
+		tRowCountD = Double.valueOf (tTileCount / TILES_PER_ROW);
 		tRowCount = (int) Math.ceil (tRowCountD);
 
 		return tRowCount;
@@ -941,7 +941,7 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			setHex (Hex.getDirection ());
 		}
 		tRowCount = calcRowCount ();
-		tMaxX = new Double (Hex.getWidth () * 2.25 * TILES_PER_ROW + 10).intValue ();
+		tMaxX = Double.valueOf (Hex.getWidth () * 2.25 * TILES_PER_ROW + 10).intValue ();
 		tMaxY = (hex.getYd () * 2 + 25) * tRowCount + 20;
 		tNewDimension = new Dimension (tMaxX, tMaxY);
 		tileTrayFrame.setScrollPanePSize (tNewDimension);

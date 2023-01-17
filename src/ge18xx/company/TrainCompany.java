@@ -1757,7 +1757,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public Color translateColor (String aColorName) {
-		int tRed, tGreen, tBlue;
+		int tRed;
+		int tGreen;
+		int tBlue;
 		String rgbValues[] = new String [3];
 		Color tColor;
 
@@ -1793,9 +1795,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tColor = Color.BLUE;
 		} else {
 			rgbValues = aColorName.split (",");
-			tRed = new Integer (rgbValues [0]).intValue ();
-			tGreen = new Integer (rgbValues [1]).intValue ();
-			tBlue = new Integer (rgbValues [2]).intValue ();
+			tRed = Integer.valueOf (rgbValues [0]);
+			tGreen = Integer.valueOf (rgbValues [1]);
+			tBlue = Integer.valueOf (rgbValues [2]);
 			tColor = new Color (tRed, tGreen, tBlue);
 		}
 

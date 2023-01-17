@@ -495,7 +495,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 
 	public String getNumberToString () {
-		return (new Integer (number).toString ());
+		return (Integer.valueOf (number).toString ());
 	}
 
 	public RevenueCenter getRCContainingPoint (Point aPoint, Hex aHex, int XCenter, int YCenter, int aTileOrient) {
