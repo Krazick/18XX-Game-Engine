@@ -257,6 +257,7 @@ public class XMLDocument {
 			DOMSource source = this.getDOMSource ();
 			trans.transform (source, result);
 			xmlString = sw.toString ();
+			xmlString = xmlString.replaceAll ("\n *\n", xmlString);
 		} catch (Exception tException) {
 			System.err.println (tException);
 			tException.printStackTrace ();

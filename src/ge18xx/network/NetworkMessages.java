@@ -113,6 +113,7 @@ public class NetworkMessages {
 
 		tMessage = xmlDocument.toString ();
 		tMessage = tMessage.replace ("\n", "");
+		tMessage = tMessage.replaceAll ("> *<", "><");
 
 		return tMessage;
 	}
