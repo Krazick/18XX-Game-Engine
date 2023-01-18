@@ -62,11 +62,11 @@ public class XMLElement {
 	}
 
 	public void setAttribute (AttributeName aAttributeName, int aValue) {
-		setAttribute (aAttributeName, "" + aValue);
+		setAttribute (aAttributeName, Integer.valueOf (aValue).toString ());
 	}
 
 	public void setAttribute (AttributeName aAttributeName, boolean aValue) {
-		setAttribute (aAttributeName, "" + aValue);
+		setAttribute (aAttributeName, Boolean.valueOf (aValue).toString ());
 	}
 
 	public XMLElement getElement (ElementName aElementName) {
