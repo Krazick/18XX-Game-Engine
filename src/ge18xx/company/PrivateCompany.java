@@ -7,8 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.apache.commons.lang.WordUtils;
-
 import ge18xx.bank.Bank;
 import ge18xx.center.Revenue;
 import ge18xx.company.benefit.Benefit;
@@ -22,6 +20,7 @@ import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutine2I;
 import ge18xx.utilities.ParsingRoutineI;
+import ge18xx.utilities.WordWrapping;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -102,9 +101,11 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	private String wordWrap (String aText) {
+		WordWrapping tWordWrapping;
 		String tWrappedWords = "";
 
-		tWrappedWords = WordUtils.wrap (aText, 50, "<br/>", true);
+		tWordWrapping = new WordWrapping ("<br/>");
+		tWrappedWords = tWordWrapping.wrap (aText, 50);
 
 		return tWrappedWords;
 	}
