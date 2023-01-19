@@ -1254,14 +1254,16 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public void updateCorporationFrame () {
 		Corporation tOperatingCompany;
 		GameManager tGameManager;
-		RoundManager tRoundManager;
 		
 		tGameManager = mapFrame.getGameManager ();
-		tRoundManager = tGameManager.getRoundManager ();
-		tOperatingCompany = tRoundManager.getOperatingCompany ();
+		tOperatingCompany = tGameManager.getOperatingCompany ();
 		
-		if (! isPlaceTileMode ()) {
-			tOperatingCompany.updateCorporationFrame ();
+		if (tOperatingCompany != Corporation.NO_CORPORATION) {
+//			if (tOperatingCompany.is)  TEST if my Operating Company
+
+			if (! isPlaceTileMode ()) {
+				tOperatingCompany.updateCorporationFrame ();
+			}
 		}
 	}
 	
