@@ -107,8 +107,7 @@ public class PortPlacementBenefit extends MapBenefit {
 			tCanHoldPortToken = tSelectedMapCell.canHoldPortToken ();
 			if (tCanHoldPortToken) {
 				setMapCellID (tSelectedMapCell);
-				System.out.println ("Ready to place " + tokenType + " Token on " + getMapCellID ());
-				placeBenefitToken (tSelectedMapCell, tokenType, this);
+				placeBenefitToken (tSelectedMapCell, tokenType, this, tokenBonus);
 			}
 		}
 	}
