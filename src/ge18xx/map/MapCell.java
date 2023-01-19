@@ -2325,4 +2325,26 @@ public class MapCell implements Comparator<Object> {
 			tile.fillMapGraph (aMapGraph, tileOrient, this);
 		}
 	}
+	
+	public int getBonusRevenue () {
+		int tBonusRevenue;
+		int tPortRevenue;
+		int tCattleRevenue;
+		int tLicenseRevenue;
+		
+		tBonusRevenue = 0;
+		tPortRevenue = 0;
+		tCattleRevenue = 0;
+		tLicenseRevenue = 0;
+		if (hasPortToken ()) {
+			tPortRevenue = 20;
+		}
+		if (hasCattleToken ()) {
+			tCattleRevenue = 10;
+		}
+		
+		tBonusRevenue = tPortRevenue + tCattleRevenue + tLicenseRevenue;
+		
+		return tBonusRevenue;
+	}
 }

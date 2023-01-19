@@ -79,12 +79,16 @@ public class RouteSegment {
 
 	public RouteSegment (XMLNode aRouteSegmentNode) {
 		String tMapCellID;
-		int tTileNumber, tCost, tGaugeInt;
+		String tSegmentNodeName;
+		int tTileNumber;
+		int tCost;
+		int tGaugeInt;
+		int tSegmentIndex;
+		int tSegmentNodeCount;
 		XMLNode tSegmentNode;
 		NodeList tSegmentChildren;
-		int tSegmentIndex, tSegmentNodeCount;
-		String tSegmentNodeName;
-		NodeInformation tStartNode, tEndNode;
+		NodeInformation tStartNode;
+		NodeInformation tEndNode;
 		Gauge tGauge;
 
 		tMapCellID = aRouteSegmentNode.getThisAttribute (AN_MAP_CELL_ID);
@@ -192,22 +196,6 @@ public class RouteSegment {
 		tNodeInformation = new NodeInformation (aStartLocation, false, false, false, 0, 0, RevenueCenter.NO_CENTER);
 		setStartNode (tNodeInformation);
 	}
-
-//	public void setStartNode (Location aStartLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue,
-//				int aBonus, RevenueCenter aRevenueCenter) {
-//		NodeInformation tNodeInformation;
-//
-//		tNodeInformation = new NodeInformation (aStartLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
-//		setStartNode (tNodeInformation);
-//	}
-//
-//	public void setEndNode (Location aEndLocation, boolean aCorpStation, boolean aOpenFlow, boolean aHasRevenueCenter, int aRevenue,
-//			int aBonus, RevenueCenter aRevenueCenter) {
-//		NodeInformation tNodeInformation;
-//
-//		tNodeInformation = new NodeInformation (aEndLocation, aCorpStation, aOpenFlow, aHasRevenueCenter, aRevenue, aBonus, aRevenueCenter);
-//		setEndNode (tNodeInformation);
-//	}
 
 	public void setEndNode (Location aEndLocation, int aPhase) {
 		NodeInformation tNodeInformation;

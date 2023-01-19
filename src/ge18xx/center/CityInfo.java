@@ -283,6 +283,17 @@ public class CityInfo implements Cloneable {
 		}
 	}
 
+	public int getBonusRevenue () {
+		int tBonusRevenue;
+		
+		tBonusRevenue = 0;
+		if (mapCell != MapCell.NO_MAP_CELL) {
+			tBonusRevenue = mapCell.getBonusRevenue ();
+		}
+		
+		return tBonusRevenue;
+	}
+	
 	public int getID () {
 		return id;
 	}

@@ -487,6 +487,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tMapFrame.loadXML (tXMLDocument, tMapFrame.getMap ());
 			} catch (Exception tException) {
 				logger.error (tException);
+				tException.printStackTrace ();
 			}
 			loadColorScheme (tBaseDir, tMapFrame);
 

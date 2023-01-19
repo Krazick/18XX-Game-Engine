@@ -388,9 +388,26 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public int getRevenue (int aPhase) {
-		return (revenues.getValue (aPhase));
+		int tTotalRevenue;
+		int tBonusRevenue;
+		int tBaseRevenue;
+		
+		tBaseRevenue = revenues.getValue (aPhase);
+		tBonusRevenue = getBonusRevenue ();
+		tTotalRevenue = tBaseRevenue + tBonusRevenue;
+		
+		return tTotalRevenue;
 	}
 
+	public int getBonusRevenue () {
+		int tBonusRevenue;
+		
+		tBonusRevenue = 0;
+		tBonusRevenue = cityInfo.getBonusRevenue ();
+		
+		return tBonusRevenue;
+	}
+	
 	public Revenues getRevenues () {
 		return revenues;
 	}
