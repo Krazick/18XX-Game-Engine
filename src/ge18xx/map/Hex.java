@@ -10,6 +10,7 @@ package ge18xx.map;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -293,7 +294,7 @@ public class Hex {
 		g.setClip (tPreviousClip);
 	}
 
-	public void drawCattleToken (Graphics g, int Xc, int Yc, Paint aCattlePaint) {
+	public void drawCattleToken (Graphics g, int Xc, int Yc, Paint aCattlePaint, int aBenefitValue) {
 		// Draw a Cattle Token
 	}
 	
@@ -301,32 +302,44 @@ public class Hex {
 		// Draw a Cattle
 	}
 	
-	public void drawPortToken (Graphics g, int Xc, int Yc, Paint aPortPaint) {
-		Graphics2D tGraphics2D = (Graphics2D) g;
-		int x1, y1;
-		int tWidth, tHeight;
+	public void drawPortToken (Graphics aGraphics, int Xc, int Yc, Paint aPortPaint, int aBenefitValue) {
+		Graphics2D tGraphics2D;
+		int x1;
+		int y1;
+		int tWidth;
+		int tHeight;
 		String tLabel;
+		Font tCurrentFont;
 		
-		tLabel = "+20";
-		System.out.println ("Ready to draw a PORT TOKEN");
+		tGraphics2D = (Graphics2D) aGraphics;
+		tCurrentFont = setRevenueFont (tGraphics2D);
+		tLabel = "+" + aBenefitValue;
 		tWidth = tGraphics2D.getFontMetrics ().stringWidth (tLabel) + 2;
 		tHeight = tGraphics2D.getFontMetrics ().getHeight () + 2;
 		x1 = Xc - tWidth/2;
 		y1 = Yc - tHeight/2;
-		System.out.println ("Drawing Rect at " + x1 + ", " + y1 + " -- width " + tWidth + " height " + tHeight);
 		tGraphics2D.setPaint (Color.white);
 		tGraphics2D.fillRect (x1, y1, tWidth, tHeight);
 		tGraphics2D.setPaint (aPortPaint);
 		tGraphics2D.drawRect (x1, y1, tWidth, tHeight);
 		x1 = Xc - tWidth/2;
-		y1 = Yc + tHeight/2 - 4;
-		System.out.println ("Drawing Rect at " + x1 + ", " + y1 + " -- width " + tWidth + " height " + tHeight);
+		y1 = Yc + tHeight/2 - 2;
 
-		tGraphics2D.drawString ("+20", x1, y1);
-
-//		drawPort (g, Xc, Yc, aPortPaint);
+		tGraphics2D.drawString (tLabel, x1, y1);
+		tGraphics2D.setFont (tCurrentFont);
 	}
-	
+
+	private Font setRevenueFont (Graphics2D aGraphics2D) {
+		Font tNewFont;
+		Font tCurrentFont;
+		
+		tCurrentFont = aGraphics2D.getFont ();
+		tNewFont = new Font ("Dialog", Font.PLAIN, 10);
+		aGraphics2D.setFont (tNewFont);
+		
+		return tCurrentFont;
+	}
+
 	public void drawPort (Graphics g, int Xc, int Yc, Paint aPortPaint) {
 		Graphics2D g2d = (Graphics2D) g;
 		int x1, y1, x2, y2;
