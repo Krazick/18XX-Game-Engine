@@ -58,6 +58,7 @@ public class MapCell implements Comparator<Object> {
 	public static final AttributeName AN_SIDE = new AttributeName ("side");
 	public static final AttributeName AN_PORT_TOKEN = new AttributeName ("port");
 	public static final AttributeName AN_CATTLE_TOKEN = new AttributeName ("cattle");
+	public static final AttributeName AN_BENEFIT_VALUE = new AttributeName ("benefitValue");
 	public static final ElementName EN_BLOCKED = new ElementName ("Blocked");
 	public static final ElementName EN_MAP_CELL = new ElementName ("MapCell");
 	public static final String NO_ID = "";
@@ -92,6 +93,7 @@ public class MapCell implements Comparator<Object> {
 	Terrain baseTerrain;
 	Terrain terrain1;
 	Terrain terrain2;
+	int benefitValue;
 	int destinationCorpID;
 	Paint terrainFillPaint;
 	boolean hasPortToken;
@@ -470,6 +472,7 @@ public class MapCell implements Comparator<Object> {
 			}
 			tXMLElement.appendChild (tTileElement);
 		}
+		
 		return tXMLElement;
 	}
 
@@ -492,7 +495,7 @@ public class MapCell implements Comparator<Object> {
 				Yol = tLocationPoint.y + YCenter + Yoffset;
 			}
 
-			aTerrain.draw (g, Xol, Yol, aHex, terrainFillPaint, hasPortToken);
+			aTerrain.draw (g, Xol, Yol, aHex, terrainFillPaint, hasPortToken, hasCattleToken, benefitValue);
 			Yol += 15;
 			if (aTerrain.isMountainous ()) {
 				Yol += 5;
@@ -565,7 +568,8 @@ public class MapCell implements Comparator<Object> {
 		return tCanHoldPortToken;
 	}
 	
-	public void layBenefitToken (String aTokenType) {
+	public void layBenefitToken (String aTokenType, int aBenefitValue) {
+		setBenefitValue (aBenefitValue);
 		if (aTokenType.equals (MapBenefit.PORT_TOKEN)) {
 			layPortToken ();
 		} else if (aTokenType.equals (MapBenefit.CATTLE_TOKEN)) {
@@ -581,12 +585,20 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 	
+	public void setPortToken (boolean aPortToken) {
+		hasPortToken = aPortToken;
+	}
+	
+	public void setCattleToken (boolean aCattleToken) {
+		hasCattleToken = aCattleToken;
+	}
+	
 	public void layPortToken () {
-		hasPortToken = true;
+		setPortToken (true);
 	}
 	
 	public void removePortToken () {
-		hasPortToken = false;
+		setPortToken (false);
 	}
 	
 	public boolean hasPortToken () {
@@ -594,11 +606,11 @@ public class MapCell implements Comparator<Object> {
 	}
 	
 	public void layCattleToken () {
-		hasCattleToken = true;
+		setCattleToken (true);
 	}
 	
 	public void removeCattleToken () {
-		hasCattleToken = false;
+		setCattleToken (false);
 	}
 	
 	public boolean hasCattleToken () {
@@ -647,6 +659,9 @@ public class MapCell implements Comparator<Object> {
 			if (hasCattleToken) {
 				tXMLElement.setAttribute (AN_CATTLE_TOKEN, true);
 			}
+			if (benefitValue > 0) {
+				tXMLElement.setAttribute (AN_BENEFIT_VALUE, benefitValue);
+			}
 			if (tile.hasAnyStation ()) {
 				tile.appendTokensState (aXMLDocument, tXMLElement);
 			}
@@ -658,6 +673,20 @@ public class MapCell implements Comparator<Object> {
 		return tXMLElement;
 	}
 
+	public void loadBenefitStates (XMLNode aXMLNode) {
+		boolean tHasPortToken;
+		boolean tHasCattleToken;
+		int tBenefitValue;
+		
+		tHasPortToken = aXMLNode.getThisBooleanAttribute (AN_PORT_TOKEN);
+		tHasCattleToken = aXMLNode.getThisBooleanAttribute (AN_CATTLE_TOKEN);
+		tBenefitValue = aXMLNode.getThisIntAttribute (AN_BENEFIT_VALUE);
+		
+		setPortToken (tHasPortToken);
+		setCattleToken (tHasCattleToken);
+		setBenefitValue (tBenefitValue);
+	}
+	
 	public boolean getMapDirection () {
 		return mapDirection;
 	}
@@ -1029,6 +1058,7 @@ public class MapCell implements Comparator<Object> {
 		if (isTileOnCell ()) {
 			tile.loadStationsStates (aMapCellNode);
 		}
+		loadBenefitStates (aMapCellNode);
 	}
 
 	public void setID (String aID) {
@@ -1041,10 +1071,10 @@ public class MapCell implements Comparator<Object> {
 		String tChildName;
 		String tCategory;
 		String tRCType;
-		int tChildrenCount;
-		int tChildrenIndex;
 		Terrain tTerrain;
 		RevenueCenter tRevenueCenter;
+		int tChildrenCount;
+		int tChildrenIndex;
 		int tTerrainIndex;
 		int tTerrainType;
 		int tTileNumber;
@@ -1534,8 +1564,17 @@ public class MapCell implements Comparator<Object> {
 		removePortToken ();
 		removeCattleToken ();
 		setDestinationCorpID (Corporation.NO_ID);
+		setBenefitValue (0);
 	}
 
+	public int getBenefitValue () {
+		return benefitValue;
+	}
+	
+	public void setBenefitValue (int aBenefitValue) {
+		benefitValue = aBenefitValue;
+	}
+	
 	public void setDestinationCorpID (int aDestionationCorpID) {
 		destinationCorpID = aDestionationCorpID;
 	}
