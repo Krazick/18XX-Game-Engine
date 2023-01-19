@@ -341,6 +341,14 @@ public class Terrain extends Feature implements LoadableXMLI {
 		return ((terrain == HILL) || (terrain == MOUNTAIN) || (terrain == HIMALAYA));
 	}
 
+	public boolean isCattle () {
+		boolean tIsCattle;
+		
+		tIsCattle = false;
+		
+		return tIsCattle;
+	}
+
 	public boolean isPort () {
 		return (terrain == PORT);
 	}
