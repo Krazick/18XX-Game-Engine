@@ -27,10 +27,11 @@ public class LayBenefitTokenAction extends ChangeMapAction {
 		setName (NAME);
 	}
 
-	public void addLayBenefitTokenEffect (ActorI aActor, MapCell aMapCell, String aTokenType, MapBenefit aMapBenefit) {
+	public void addLayBenefitTokenEffect (ActorI aActor, MapCell aMapCell, String aTokenType, 
+											MapBenefit aMapBenefit, int aTokenBonus) {
 		LayBenefitTokenEffect tLayBenefitTokenEffect;
 
-		tLayBenefitTokenEffect = new LayBenefitTokenEffect (aActor, aMapCell, aTokenType, aMapBenefit);
+		tLayBenefitTokenEffect = new LayBenefitTokenEffect (aActor, aMapCell, aTokenType, aMapBenefit, aTokenBonus);
 		addEffect (tLayBenefitTokenEffect);
 	}
 

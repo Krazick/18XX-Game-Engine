@@ -13,8 +13,10 @@ import ge18xx.utilities.XMLNode;
 
 public class LayBenefitTokenEffect extends ChangeMapEffect {
 	public static final AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
+	public static final AttributeName AN_TOKEN_BONUS = new AttributeName ("tokenBonus");
 	public final static String NAME = "Lay Benefit Token";
 	String tokenType;
+	int tokenBonus;
 	
 	public LayBenefitTokenEffect () {
 		this (NAME);
@@ -24,26 +26,39 @@ public class LayBenefitTokenEffect extends ChangeMapEffect {
 		super (aName);
 	}
 
-	public LayBenefitTokenEffect (ActorI aActor, MapCell aMapCell, String aTokenType) {
+	public LayBenefitTokenEffect (ActorI aActor, MapCell aMapCell, String aTokenType, int aTokenBonus) {
 		super (aActor, aMapCell);
 		setTokenType (aTokenType);
+		setTokenBonus (aTokenBonus);
 		setName (NAME);
 	}
 
-	public LayBenefitTokenEffect (ActorI aActor, MapCell aMapCell, String aTokenType, Benefit aBenefitInUse) {
+	public LayBenefitTokenEffect (ActorI aActor, MapCell aMapCell, String aTokenType, Benefit aBenefitInUse, int aTokenBonus) {
 		super (aActor, aMapCell, aBenefitInUse);
 		setTokenType (aTokenType);
+		setTokenBonus (aTokenBonus);
 		setName (NAME);
 	}
 
 	public LayBenefitTokenEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		String tTokenType;
+		int tTokenBonus;
 
 		tTokenType = aEffectNode.getThisAttribute (AN_TOKEN_TYPE);
 		setTokenType (tTokenType);
+		tTokenBonus = aEffectNode.getThisIntAttribute (AN_TOKEN_BONUS);
+		setTokenBonus (tTokenBonus);
 	}
 
+	public int getTokenBonus () {
+		return tokenBonus;
+	}
+	
+	public void setTokenBonus (int aTokenBonus) {
+		tokenBonus = aTokenBonus;
+	}
+	
 	public String getTokenType () {
 		return tokenType;
 	}
@@ -81,7 +96,7 @@ public class LayBenefitTokenEffect extends ChangeMapEffect {
 		tGameMap = aRoundManager.getGameMap ();
 		tEffectApplied = false;
 		tMapCell = getMapCell (tGameMap);
-		tMapCell.layBenefitToken (tokenType);
+		tMapCell.layBenefitToken (tokenType, tokenBonus);
 		setBenefitUsed (aRoundManager);
 		tEffectApplied = true;
 
