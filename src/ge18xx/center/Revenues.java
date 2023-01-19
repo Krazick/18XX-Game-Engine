@@ -162,17 +162,15 @@ public class Revenues extends Feature {
 		String tValueLabel;
 		String tHorizontalLabel;
 		Point tDisplace;
-		Font tNewFont;
 		Font tCurrentFont;
 		Location tNewLocation;
 		Color tRevenueColor;
 		Paint tTilePaint;
-		Graphics2D tGraphics2D = (Graphics2D) aGraphics;
+		Graphics2D tGraphics2D;
 
+		tGraphics2D = (Graphics2D) aGraphics;
 		tNewLocation = location.rotateLocation (aTileOrientation);
-		tCurrentFont = tGraphics2D.getFont ();
-		tNewFont = new Font ("Dialog", Font.PLAIN, 10);
-		aGraphics.setFont (tNewFont);
+		tCurrentFont = setRevenueFont (tGraphics2D);
 		tDisplace = tNewLocation.calcCenter (aHex);
 		tXc = aXc + tDisplace.x;
 		tYc = aYc + tDisplace.y;
@@ -215,7 +213,18 @@ public class Revenues extends Feature {
 			}
 			drawRevenueHorizontal (tHorizontalLabel, tXc, tYc, tRevenueColor, tGraphics2D);
 		}
-		aGraphics.setFont (tCurrentFont);
+		tGraphics2D.setFont (tCurrentFont);
+	}
+
+	private Font setRevenueFont (Graphics2D aGraphics2D) {
+		Font tNewFont;
+		Font tCurrentFont;
+		
+		tCurrentFont = aGraphics2D.getFont ();
+		tNewFont = new Font ("Dialog", Font.PLAIN, 10);
+		aGraphics2D.setFont (tNewFont);
+		
+		return tCurrentFont;
 	}
 
 	private void drawRevenueHorizontal (String aHorizontalLabel, int aXc, int aYc, Color aRevenueColor, Graphics2D aGraphics2D) {

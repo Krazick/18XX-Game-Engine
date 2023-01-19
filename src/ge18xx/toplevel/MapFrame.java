@@ -716,13 +716,13 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	public void placeBenefitToken (MapCell aMapCell, String aTokenType, MapBenefit aMapBenefit) {
-		aMapCell.layBenefitToken (aTokenType);
-		addLayBenefitTokenAction (aMapCell, aTokenType, aMapBenefit);
+	public void placeBenefitToken (MapCell aMapCell, String aTokenType, MapBenefit aMapBenefit, int aBenefitValue) {
+		aMapCell.layBenefitToken (aTokenType, aBenefitValue);
+		addLayBenefitTokenAction (aMapCell, aTokenType, aMapBenefit, aBenefitValue);
 		completeBenefitInUse ();
 	}
 	
-	public void addLayBenefitTokenAction (MapCell aMapCell, String aTokenType, MapBenefit aMapBenefit) {
+	public void addLayBenefitTokenAction (MapCell aMapCell, String aTokenType, MapBenefit aMapBenefit, int aBenefitValue) {
 		LayBenefitTokenAction tLayBenefitTokenAction;
 		String tOperatingRoundID;
 		Corporation tOperatingCompany;
@@ -730,7 +730,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tOperatingCompany = gameManager.getOperatingCompany ();
 		tLayBenefitTokenAction = new LayBenefitTokenAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, tOperatingCompany);
-		tLayBenefitTokenAction.addLayBenefitTokenEffect (tOperatingCompany, aMapCell, aTokenType, aMapBenefit);
+		tLayBenefitTokenAction.addLayBenefitTokenEffect (tOperatingCompany, aMapCell, aTokenType, aMapBenefit, aBenefitValue);
 		gameManager.addAction (tLayBenefitTokenAction);
 		resetAllModes ();
 	}

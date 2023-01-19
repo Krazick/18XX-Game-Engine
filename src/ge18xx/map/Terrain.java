@@ -150,11 +150,12 @@ public class Terrain extends Feature implements LoadableXMLI {
 		return tElement;
 	}
 	
-	public void draw (Graphics g, int X, int Y, Hex aHex, Paint aPaint) {
-		draw (g, X, Y, aHex, aPaint, false);
-	}
+//	public void draw (Graphics g, int X, int Y, Hex aHex, Paint aPaint) {
+//		draw (g, X, Y, aHex, aPaint, false);
+//	}
 
-	public void draw (Graphics g, int X, int Y, Hex aHex, Paint aPaint, boolean aHasPortToken) {
+	public void draw (Graphics g, int X, int Y, Hex aHex, Paint aPaint, boolean aHasPortToken, 
+						boolean aHasCattleToken, int aBenefitValue) {
 		switch (terrain) {
 		case NO_TERRAIN:
 			break;
@@ -214,15 +215,15 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 		case PORT: /* Port, Draw an Anchor */
 			if (aHasPortToken) {
-				aHex.drawPortToken (g, X, Y, getPaint ());
+				aHex.drawPortToken (g, X, Y, getPaint (), aBenefitValue);
 			} else {
 				aHex.drawPort (g, X, Y, getPaint ());
 			}
 			break;
 
 		case CATTLE: /* Port, Draw Cattle */
-			if (aHasPortToken) {
-				aHex.drawCattleToken (g, X, Y, getPaint ());
+			if (aHasCattleToken) {
+				aHex.drawCattleToken (g, X, Y, getPaint (), aBenefitValue);
 			} else {
 				aHex.drawCattle (g, X, Y, getPaint ());
 			}
