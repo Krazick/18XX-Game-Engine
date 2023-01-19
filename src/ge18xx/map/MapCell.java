@@ -529,29 +529,40 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean canHoldCattleToken () {
-		boolean tcanHoldCattleToken;
+		boolean tCanHoldCattleToken;
 		
 		// TODO Fix how to determine if a MapCell can hold a Cattle Token for 1870
-		
-		if (terrain1.isPort ()) {
-			tcanHoldCattleToken = true;
-		} else {
-			tcanHoldCattleToken = false;
+		tCanHoldCattleToken = false;
+		if (terrain1 != null) {
+			if (terrain1.isCattle ()) {
+				tCanHoldCattleToken = true;
+			}
+		} 
+		if (terrain2 != null) {
+			if (terrain2.isCattle ()) {
+				tCanHoldCattleToken = true;
+			}
 		}
 		
-		return tcanHoldCattleToken;
+		return tCanHoldCattleToken;
 	}
 
 	public boolean canHoldPortToken () {
-		boolean tcanHoldPortToken;
+		boolean tCanHoldPortToken;
 		
-		if ((terrain1.isPort ()) || (terrain2.isPort ())) {
-			tcanHoldPortToken = true;
-		} else {
-			tcanHoldPortToken = false;
+		tCanHoldPortToken = false;
+		if (terrain1 != null) {
+			if (terrain1.isPort ()) {
+				tCanHoldPortToken = true;
+			}
+		} 
+		if (terrain2 != null) {
+			if (terrain2.isPort ()) {
+				tCanHoldPortToken = true;
+			}
 		}
 		
-		return tcanHoldPortToken;
+		return tCanHoldPortToken;
 	}
 	
 	public void layBenefitToken (String aTokenType) {

@@ -780,6 +780,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		treasuryLabel.setText ("Treasury: " + Bank.formatCash (tTreasuryValue));
 	}
 
+	public void updatePrivateBenefitButtons () {
+		corporation.configurePrivateBenefitButtons (buttonsJPanel);
+	}
+	
 	public void updateCFButtons () {
 		if (corporation.mapVisible ()) {
 			showMapButton.setEnabled (false);
@@ -793,7 +797,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateForceBuyTrainButton ();
 		updateBuyPrivateButton ();
 		updateDoneButton ();
-		corporation.configurePrivateBenefitButtons (buttonsJPanel);
+		updatePrivateBenefitButtons ();
 		repaint ();
 		revalidate ();
 	}

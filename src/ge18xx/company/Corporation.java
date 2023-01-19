@@ -2647,4 +2647,8 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public boolean haveLaidThisBaseToken (MapCell tMapCell) {
 		return false;
 	}
+	
+	public void updateCorporationFrame () {
+		corporationFrame.updateCFButtons ();
+	}
 }

@@ -1082,7 +1082,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	@Override
 	public void mouseClicked (MouseEvent e) {
-//    	handleClick (e);
 	}
 
 	public void redrawMap () {
@@ -1249,8 +1248,23 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tileSet.clearAllSelected ();
 			mapFrame.updatePutTileButton ();
 		}
+		updateCorporationFrame ();
 	}
 
+	public void updateCorporationFrame () {
+		Corporation tOperatingCompany;
+		GameManager tGameManager;
+		RoundManager tRoundManager;
+		
+		tGameManager = mapFrame.getGameManager ();
+		tRoundManager = tGameManager.getRoundManager ();
+		tOperatingCompany = tRoundManager.getOperatingCompany ();
+		
+		if (! isPlaceTileMode ()) {
+			tOperatingCompany.updateCorporationFrame ();
+		}
+	}
+	
 	public void setPlayableTiles (MapCell aSelectedMapCell) {
 		int tMapCellTypeCount;
 		int tTileNumber;
