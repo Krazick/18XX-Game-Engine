@@ -120,16 +120,30 @@ public class CattlePlacementBenefit extends MapBenefit {
 		ShareCompany tOwningCompany;
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
+		MapCell tSelectedMapCell;
+		boolean tCanHoldPortToken;
 
 		tOwningCompany = getOwningCompany ();
 		tBenefitInUse = tOwningCompany.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
-		if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
-			disableButton ();
-			setToolTip ("Another Benefit is currently in Use");
+		tSelectedMapCell = getSelectedMapCell ();
+		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
+			tCanHoldPortToken = tSelectedMapCell.canHoldPortToken ();
+			if (tCanHoldPortToken) {
+				if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
+					disableButton ();
+					setToolTip ("Another Benefit is currently in Use");
+				} else {
+					enableButton ();
+					setToolTip ("Ready for " + tokenType + " Token Placement");
+				}
+			} else {
+				disableButton ();
+				setToolTip ("The Selected Map Cell cannot hold a " + tokenType + " Token");				
+			}
 		} else {
-			enableButton ();
-			setToolTip ("Ready for " + tokenType + " Token Placement");
+			disableButton ();
+			setToolTip ("No Selected Map Cell");
 		}
 	}
 }
