@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
+import ge18xx.utilities.XMLNode;
 
 public class Coupon {
 	String name;
@@ -19,7 +20,11 @@ public class Coupon {
 		setName (aName);
 		setPrice (aPrice);
 	}
-
+	
+	public Coupon (XMLNode aXMLNode) {
+	
+	}
+	
 	public int getPrice () {
 		return price;
 	}
