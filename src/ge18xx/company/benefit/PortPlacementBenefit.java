@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import ge18xx.company.CorporationFrame;
+import ge18xx.company.PortLicense;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.map.MapCell;
@@ -98,6 +99,8 @@ public class PortPlacementBenefit extends MapBenefit {
 		MapCell tSelectedMapCell;
 		boolean tCanHoldPortToken;
 		ShareCompany tOwningCompany;
+		PortLicense tPortLicense;
+		String tLicenseName;
 
 		tOwningCompany = getOwningCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
@@ -108,6 +111,9 @@ public class PortPlacementBenefit extends MapBenefit {
 			if (tCanHoldPortToken) {
 				setMapCellID (tSelectedMapCell);
 				placeBenefitToken (tSelectedMapCell, tokenType, this, tokenBonus);
+				tLicenseName = privateCompany.getAbbrev () + " Port";
+				tPortLicense = new PortLicense (tLicenseName, getTokenBonus ());
+				tOwningCompany.addLicense (tPortLicense);
 			}
 		}
 	}
