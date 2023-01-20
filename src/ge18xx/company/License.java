@@ -15,6 +15,7 @@ public class License extends Coupon {
 	public static final AttributeName AN_LICENSE = new AttributeName ("license");
 	public static final AttributeName AN_BENEFIT_VALUE = new AttributeName ("benefitValue");
 	public static final AttributeName AN_LICENSE_NAME = new AttributeName ("licenseName");
+	public static final AttributeName AN_LICENSE_PRICE = new AttributeName ("price");
 	public static final License NO_LICENSE = null;
 	public static final ArrayList<License> NO_LICENSES = null;
 	public static final int NO_VALUE = 0;
