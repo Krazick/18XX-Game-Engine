@@ -141,6 +141,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		licenses.add (aLicense);
 	}
 	
+	public boolean removeLicense (License aLicense) {
+		boolean tLicenseRemoved;
+		
+		tLicenseRemoved = licenses.remove (aLicense);
+		
+		return tLicenseRemoved;
+	}
+	
 	protected void setForceBuyCouponFrame (ForceBuyCouponFrame aFrame) {
 		forceBuyCouponFrame = aFrame;
 	}

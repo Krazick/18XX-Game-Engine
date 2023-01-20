@@ -3,6 +3,7 @@ package ge18xx.round.action.effects;
 import ge18xx.bank.Bank;
 import ge18xx.company.License;
 import ge18xx.company.PortLicense;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
@@ -97,4 +98,49 @@ public class AddLicenseEffect extends CashTransferEffect {
 		System.out.println (getEffectReport (aRoundManager));
 	}
 
+	@Override
+	public boolean applyEffect (RoundManager aRoundManager) {
+		boolean tEffectApplied;
+		TrainCompany tTrainCompany;
+		
+		tTrainCompany = getTrainCompany ();
+		if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
+			tTrainCompany.addLicense (license);
+			tEffectApplied = super.applyEffect (aRoundManager);
+		} else {
+			tEffectApplied = false;
+		}
+		
+		return tEffectApplied;
+	}
+
+	public TrainCompany getTrainCompany () {
+		ActorI tToActor;
+		TrainCompany tTrainCompany;
+		
+		tToActor = getToActor ();
+		if (tToActor.isATrainCompany ()) {
+			tTrainCompany = (TrainCompany) tToActor;
+		} else {
+			tTrainCompany = TrainCompany.NO_TRAIN_COMPANY;
+		}
+		
+		return tTrainCompany;
+	}
+	
+	@Override
+	public boolean undoEffect (RoundManager aRoundManager) {
+		boolean tEffectUndone;
+		TrainCompany tTrainCompany;
+
+		tTrainCompany = getTrainCompany ();
+		if (tTrainCompany != TrainCompany.NO_TRAIN_COMPANY) {
+			tTrainCompany.removeLicense (license);
+			tEffectUndone = super.undoEffect (aRoundManager);
+		} else {
+			tEffectUndone = false;
+		}
+
+		return tEffectUndone;
+	}
 }
