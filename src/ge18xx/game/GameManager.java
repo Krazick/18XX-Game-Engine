@@ -204,6 +204,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	@Override
+	public String getEnvironmentVersionInfo () {
+		return game18XXFrame.getEnvironmentVersionInfo ();
+	}
+
+	@Override
 	public FileUtils getFileUtils () {
 		return fileUtils;
 	}

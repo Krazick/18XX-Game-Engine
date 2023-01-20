@@ -69,4 +69,7 @@ public interface NetworkGameSupport {
 	public XMLElement getGameVariantsXMLElement ();
 
 	public GameInfo getSelectedGame ();
+	
+	public String getEnvironmentVersionInfo ();
+
 }

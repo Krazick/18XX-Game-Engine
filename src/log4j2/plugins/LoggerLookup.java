@@ -77,11 +77,15 @@ public class LoggerLookup implements StrLookup {
 		logger.info ("Application: " + aAppName + ", Version " + aAppVersion + " Client " + aUserName);
 		tEnvironmentVersionInfo = "Java Version " + tJavaVersion + " OS Name " + tOSName + " OS Version " + tOSVersion +" Log4J2 Version " + tLog4JVersion;
 		logger.info (tEnvironmentVersionInfo);
-		setVersionInfo (tEnvironmentVersionInfo);
+		setEnvironmentVersionInfo (tEnvironmentVersionInfo);
 	}
 
-	public void setVersionInfo (String aEnvironmentVersionInfo) {
+	public void setEnvironmentVersionInfo (String aEnvironmentVersionInfo) {
 		environmentVersionInfo = aEnvironmentVersionInfo;
+	}
+	
+	public String getEnvironmentVersionInfo () {
+		return environmentVersionInfo;
 	}
 	
 	private String getLog4JVersion () {

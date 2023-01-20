@@ -201,6 +201,10 @@ public class Game_18XX extends XMLFrame {
 		}
 	}
 
+	public String getEnvironmentVersionInfo () {
+		return loggerLookup.getEnvironmentVersionInfo ();
+	}
+
 	public String getGEVersion () {
 		return resbundle.getString ("version");
 	}
@@ -493,8 +497,12 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	private void createActions () {
-		int tShortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMaskEx ();
+		int tShortcutKeyMask;
 
+		// When upgrade to Java 11 use the getMenuShortcutKeyMaskEx method
+//		tShortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMaskEx ();
+		// When running on Java 8 use getMenuShortcutKeyMask method
+		tShortcutKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask ();
 		setupGenericActions (tShortcutKeyMask);
 		setupGameSpecificActions (tShortcutKeyMask);
 	}
