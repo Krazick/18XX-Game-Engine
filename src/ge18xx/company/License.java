@@ -28,7 +28,6 @@ public class License extends Coupon {
 		setIsPortLicense (false);
 	}
 
-	
 	public License (XMLNode aXMLNode) {
 		super (aXMLNode);
 		int tBenefitValue;
