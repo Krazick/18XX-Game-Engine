@@ -51,7 +51,7 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public TrainPortfolio (CashHolderI aPortfolioHolder) {
-		trains = new ArrayList<> ();
+		trains = new ArrayList<Train> ();
 		setPortfolioHolder (aPortfolioHolder);
 	}
 
