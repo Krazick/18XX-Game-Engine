@@ -860,4 +860,11 @@ public class ShareCompany extends TokenCompany {
 	public int getCurrentValue () {
 		return getSharePrice ();
 	}
+	
+	/**
+	 * Method to override the Basic Corporation Method so that if Share Company Closes, no error message is generated.
+	 */
+	@Override
+	public void removeBenefitButtons () {
+	}
 }
