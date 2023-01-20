@@ -768,6 +768,7 @@ public class JGameClient extends XMLFrame {
 				if (serverHandler != ServerHandler.NO_SERVER_HANDLER) {
 					if (serverHandler.isConnected ()) {
 						serverHandler.sendGEVersion (gameManager.getGEVersion ());
+						serverHandler.sendEnvironmentVersionInfo (gameManager.getEnvironmentVersionInfo ());
 						setForConnected ();
 						serverHandler.requestUserNameList ();
 					}

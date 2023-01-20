@@ -152,6 +152,10 @@ public class ChatServerHandler extends ServerHandler {
 		println ("GEVersion " + aVersion);
 	}
 
+	public void sendEnvironmentVersionInfo (String aEnvironmentVersionInfo) {
+		println ("EnvironmentVersionInfo " + aEnvironmentVersionInfo);
+	}
+
 	public void requestUserNameList () {
 		println ("who");
 	}
