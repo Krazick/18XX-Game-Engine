@@ -2594,6 +2594,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	@Override
 	public abstract void completeBenefitInUse ();
 
+	public License getPortLicense () {
+		return License.NO_LICENSE;
+	}
+	
 	protected abstract boolean choiceForBaseToken ();
 
 	public int getSmallestSharePercentage () {
