@@ -29,6 +29,7 @@ import ge18xx.center.RevenueCenterType;
 import ge18xx.center.Town;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
+import ge18xx.company.License;
 import ge18xx.company.MapToken;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
@@ -1568,7 +1569,22 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public int getBenefitValue () {
-		return benefitValue;
+		int tBenefitValue;
+		Corporation tCorporation;
+		License tPortLicense;
+		
+		tBenefitValue = 0;
+		if (hasPortToken ()) {
+			tCorporation = hexMap.getOperatingCompany ();
+			tPortLicense = tCorporation.getPortLicense ();
+			if (tPortLicense != License.NO_LICENSE) {
+				tBenefitValue = tPortLicense.getPortValue ();
+			} else {
+				System.out.println ("Did not find a Port License so no Benefit");
+			}
+		}
+		
+		return tBenefitValue;
 	}
 	
 	public void setBenefitValue (int aBenefitValue) {
@@ -2387,10 +2403,10 @@ public class MapCell implements Comparator<Object> {
 		tCattleRevenue = 0;
 		tLicenseRevenue = 0;
 		if (hasPortToken ()) {
-			tPortRevenue = 20;
+			tPortRevenue = getBenefitValue ();
 		}
 		if (hasCattleToken ()) {
-			tCattleRevenue = 10;
+			tCattleRevenue = getBenefitValue ();
 		}
 		
 		tBonusRevenue = tPortRevenue + tCattleRevenue + tLicenseRevenue;
