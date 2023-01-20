@@ -5,11 +5,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.PortLicense;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.map.MapCell;
+import ge18xx.round.action.Action;
+import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
@@ -21,6 +24,7 @@ public class PortPlacementBenefit extends MapBenefit {
 	String tokenType;
 	boolean tokenPlacement;
 	int tokenBonus;
+	AddLicenseEffect addLicenseEffect;
 
 	public PortPlacementBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -101,7 +105,8 @@ public class PortPlacementBenefit extends MapBenefit {
 		ShareCompany tOwningCompany;
 		PortLicense tPortLicense;
 		String tLicenseName;
-
+		Bank tBank;
+		
 		tOwningCompany = getOwningCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
 
@@ -110,10 +115,12 @@ public class PortPlacementBenefit extends MapBenefit {
 			tCanHoldPortToken = tSelectedMapCell.canHoldPortToken ();
 			if (tCanHoldPortToken) {
 				setMapCellID (tSelectedMapCell);
-				placeBenefitToken (tSelectedMapCell, tokenType, this, tokenBonus);
 				tLicenseName = privateCompany.getAbbrev () + " Port";
 				tPortLicense = new PortLicense (tLicenseName, getTokenBonus ());
 				tOwningCompany.addLicense (tPortLicense);
+				tBank = tOwningCompany.getBank ();
+				addLicenseEffect = new AddLicenseEffect (tBank, tOwningCompany, 0, tPortLicense);
+				placeBenefitToken (tSelectedMapCell, tokenType, this, tokenBonus);
 			}
 		}
 	}
@@ -157,5 +164,16 @@ public class PortPlacementBenefit extends MapBenefit {
 			disableButton ();
 			setToolTip ("No Selected Map Cell");
 		}
+	}
+	
+	/**
+	 *  Add Any additional Effects to the provided Action generated in the process of applying this Benefit.
+	 *  
+	 * @param aAction The Action to which the Effect needs to be added.
+	 * 
+	 */
+	@Override
+	public void addAdditionalEffects (Action aAction) {
+		aAction.addEffect (addLicenseEffect);
 	}
 }
