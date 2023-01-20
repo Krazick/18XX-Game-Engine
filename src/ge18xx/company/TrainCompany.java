@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -47,9 +48,11 @@ import ge18xx.train.TrainRevenueFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
+import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
+import ge18xx.utilities.XMLNodeList;
 
 public abstract class TrainCompany extends Corporation implements CashHolderI, TrainHolderI {
 	public static final ElementName EN_TRAIN_COMPANY = new ElementName ("TrainCompany");
@@ -73,9 +76,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final TrainCompany NO_TRAIN_COMPANY = null;
 	public static final int NO_REVENUE_GENERATED = -1;
 	public static final String NO_REVENUE = "0";
+	public static final JPanel NO_JPANEL = null;
 	static final int NO_COST = 0;
 	static final float LEFT_ALIGNMENT = 0.0f;
 	static final int INFINITE_PRICE = 99999;
+	ArrayList<License> licenses;
 	TrainPortfolio trainPortfolio;
 	TrainRevenueFrame trainRevenueFrame;
 	ForceBuyCouponFrame forceBuyCouponFrame;
@@ -116,6 +121,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		super (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aState, aGovtRailway);
 
 		trainPortfolio = new TrainPortfolio (this);
+		licenses = new ArrayList<License> ();
 		bgColor = aBgColor;
 		fgColor = aFgColor;
 		treasury = 0;
@@ -131,6 +137,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		setForceBuyCouponFrame (ForceBuyCouponFrame.NO_FRAME);
 	}
 
+	public void addLicense (License aLicense) {
+		licenses.add (aLicense);
+	}
+	
 	protected void setForceBuyCouponFrame (ForceBuyCouponFrame aFrame) {
 		forceBuyCouponFrame = aFrame;
 	}
@@ -142,6 +152,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		boolean tMustBuyTrain;
 
 		trainPortfolio = new TrainPortfolio (this);
+		licenses = new ArrayList<License> ();
 		tColorName = aChildNode.getThisAttribute (AN_BG_COLOR);
 		bgColorName = tColorName;
 		bgColor = translateColor (bgColorName);
@@ -161,6 +172,22 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		// TODO: Parse out PurchaseOffer Element if present
 	}
 
+	@Override
+	public License getPortLicense () {
+		License tFoundPortLicense;
+		
+		tFoundPortLicense = License.NO_LICENSE;
+		if (licenses.size () > 0) {
+			for (License tLicense : licenses) {
+				if (tLicense.isPortLicense ()) {
+					tFoundPortLicense = tLicense;
+				}
+			}
+		}
+		
+		return tFoundPortLicense;
+	}
+	
 	public void declareBankruptcy () {
 		declareBankruptcyAction ();
 	}
@@ -473,12 +500,32 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		aCorpJPanel.add (tLabel);
 	}
 
+	public JPanel buildLicenseInfoPanel () {
+		JPanel tLicensePanel;
+		JLabel tLicenseLabel;
+		
+		tLicensePanel = NO_JPANEL;
+		if (licenses != License.NO_LICENSES) {
+			if (licenses.size () > 0) {
+				tLicensePanel = new JPanel ();
+				for (License tLicense : licenses) {
+					tLicenseLabel = new JLabel (tLicense.getLicenseLabel ());
+					tLicensePanel.add (tLicenseLabel);
+				}
+			}
+		}
+		
+		return tLicensePanel;
+	}
+	
 	public JPanel buildCertPortfolioInfoJPanel (ItemListener aItemListener) {
 		JPanel tCertPortfolioInfoJPanel;
 		JPanel tTrainPortfolioInfoJPanel;
 		JPanel tPortfolioInfoJPanel;
+		JPanel tLicenseInfoPanel;
 		GameManager tGameManager;
-		JLabel tLabel, tBPPLabel;
+		JLabel tLabel;
+		JLabel tBPPLabel;
 		String tBankPoolPercent;
 
 		tGameManager = corporationList.getGameManager ();
@@ -499,6 +546,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tCertPortfolioInfoJPanel.add (tBPPLabel);
 		tCertPortfolioInfoJPanel.add (tTrainPortfolioInfoJPanel);
 		tCertPortfolioInfoJPanel.add (tPortfolioInfoJPanel);
+		tLicenseInfoPanel = buildLicenseInfoPanel ();
+		if (tLicenseInfoPanel != NO_JPANEL) {
+			tCertPortfolioInfoJPanel.add (tLicenseInfoPanel);
+		}
 
 		return tCertPortfolioInfoJPanel;
 	}
@@ -924,9 +975,26 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			aXMLCorporationState.setAttribute (AN_LAST_REVENUE, lastRevenue);
 		}
 		aXMLCorporationState.setAttribute (AN_TREASURY, getCash ());
+		getLicensesElement (aXMLCorporationState, aXMLDocument);
 		super.getCorporationStateElement (aXMLCorporationState, aXMLDocument);
 	}
 
+	public void getLicensesElement (XMLElement aXMLCorporationState, XMLDocument aXMLDocument) {
+		XMLElement tXMLLicenses;
+		XMLElement tLicenseElement;
+		
+		if (licenses != License.NO_LICENSES) {
+			if (licenses.size () > 0) {
+				tXMLLicenses = aXMLDocument.createElement (License.EN_LICENSES);
+				for (License tLicense : licenses) {
+					tLicenseElement = tLicense.createElement (aXMLDocument);
+					tXMLLicenses.appendChild (tLicenseElement);
+				}
+				aXMLCorporationState.appendChild (tXMLLicenses);
+			}
+		}
+		
+	}
 	public double getDividendFor1Percent () {
 		return thisRevenue / 100.0;
 	}
@@ -1182,11 +1250,53 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tBank = corporationList.getBank ();
 		trainPortfolio.loadTrainPortfolio (aXMLNode, tBank);
 		super.loadPortfolio (aXMLNode);
+		loadLicenses (aXMLNode);
 		// TODO: Build way to load a QueryOffer (PurchasePrivateOffer, PurchaseTrainOffer, ExchangePrivateQuery)
 		// to load the QueryOffer Object here, and in the Player LoadState method
 		// Probably store 'class' in the EN_QUERY_OFFER Element as attribute
 		// Then just like an Action or Effect, use reflections to load it.
 		// Can this be a generic method in 'QueryOffer' that both here and Player can call it?
+	}
+
+	public void loadLicenses (XMLNode aXMLNode) {
+		XMLNodeList tXMLNodeList;
+
+		tXMLNodeList = new XMLNodeList (licensesParsingRoutine);
+		tXMLNodeList.parseXMLNodeList (aXMLNode, License.EN_LICENSES);
+	}
+
+	ParsingRoutineI licensesParsingRoutine = new ParsingRoutineI () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			loadLicense (aChildNode);
+		}
+	};
+
+	public void loadLicense (XMLNode aXMLNode) {
+		XMLNodeList tXMLNodeList;
+
+		tXMLNodeList = new XMLNodeList (licenseParsingRoutine);
+		tXMLNodeList.parseXMLNodeList (aXMLNode, License.EN_LICENSE);
+	}
+
+	ParsingRoutineI licenseParsingRoutine = new ParsingRoutineI () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			loadALicense (aChildNode);
+		}
+	};
+	
+	public void loadALicense (XMLNode aXMLNode) {
+		License tLicense;
+		PortLicense tPortLicense;
+		
+		tLicense = new License (aXMLNode);
+		if (tLicense.isPortLicense ()) {
+			tPortLicense = new PortLicense (tLicense.getName (), tLicense.getBenefitValue ());
+			licenses.add (tPortLicense);
+		} else {
+			licenses.add (tLicense);
+		}
 	}
 
 	@Override
