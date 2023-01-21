@@ -64,6 +64,7 @@ To actually download the deployment package, there are a few requirements:
 
 # License
 <a name="License"></a>
+Standard MIT License -- See the License File for details.
 
 # Badges
 <a name="Badges"></a>
