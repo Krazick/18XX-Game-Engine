@@ -77,7 +77,7 @@ Interested contributors should start with expanding the JavaDocs for the various
 # Tests
 <a name="Tests"></a>
 
-Various JUnit Tests have been created to exercise the functionality of the Game Engine. These are by no means complete and exhaustive at this time. There is use of Mockito to provide Mock Objects. Attempts have been made to use factories to create the more complex objects to be mocked. These factories have consistent nameing schemes.
+Various JUnit Tests have been created to exercise the functionality of the Game Engine. These are by no means complete and exhaustive at this time. There is use of Mockito to provide Mock Objects. Attempts have been made to use factories to create the more complex objects to be mocked. These factories have consistent name schemes.
 
 
 # Related Projects
