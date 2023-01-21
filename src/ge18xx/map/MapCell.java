@@ -59,6 +59,8 @@ public class MapCell implements Comparator<Object> {
 	public static final AttributeName AN_SIDE = new AttributeName ("side");
 	public static final AttributeName AN_PORT_TOKEN = new AttributeName ("port");
 	public static final AttributeName AN_CATTLE_TOKEN = new AttributeName ("cattle");
+	public static final AttributeName AN_BRIDGE_TOKEN = new AttributeName ("bridge");
+	public static final AttributeName AN_TUNNEL_TOKEN = new AttributeName ("tunnel");
 	public static final AttributeName AN_BENEFIT_VALUE = new AttributeName ("benefitValue");
 	public static final ElementName EN_BLOCKED = new ElementName ("Blocked");
 	public static final ElementName EN_MAP_CELL = new ElementName ("MapCell");
@@ -99,6 +101,8 @@ public class MapCell implements Comparator<Object> {
 	Paint terrainFillPaint;
 	boolean hasPortToken;
 	boolean hasCattleToken;
+	boolean hasBridgeToken;
+	boolean hasTunnelToken;
 	HexMap hexMap;
 	int trainUsingSide[] = new int [6]; // Train Number using the side;
 
@@ -496,7 +500,8 @@ public class MapCell implements Comparator<Object> {
 				Yol = tLocationPoint.y + YCenter + Yoffset;
 			}
 
-			aTerrain.draw (g, Xol, Yol, aHex, terrainFillPaint, hasPortToken, hasCattleToken, benefitValue);
+			aTerrain.draw (g, Xol, Yol, aHex, terrainFillPaint, hasPortToken, hasCattleToken, 
+							hasBridgeToken, hasTunnelToken, benefitValue);
 			Yol += 15;
 			if (aTerrain.isMountainous ()) {
 				Yol += 5;
@@ -594,6 +599,14 @@ public class MapCell implements Comparator<Object> {
 		hasCattleToken = aCattleToken;
 	}
 	
+	public void setBridgeToken (boolean aBridgeToken) {
+		hasBridgeToken = aBridgeToken;
+	}
+	
+	public void setTunnelToken (boolean aTunnelToken) {
+		hasTunnelToken = aTunnelToken;
+	}
+	
 	public void layPortToken () {
 		setPortToken (true);
 	}
@@ -612,6 +625,14 @@ public class MapCell implements Comparator<Object> {
 	
 	public void removeCattleToken () {
 		setCattleToken (false);
+	}
+	
+	public boolean hasBridgeToken () {
+		return hasBridgeToken;
+	}
+	
+	public boolean hasTunnelToken () {
+		return hasTunnelToken;
 	}
 	
 	public boolean hasCattleToken () {
@@ -660,6 +681,12 @@ public class MapCell implements Comparator<Object> {
 			if (hasCattleToken) {
 				tXMLElement.setAttribute (AN_CATTLE_TOKEN, true);
 			}
+			if (hasBridgeToken) {
+				tXMLElement.setAttribute (AN_BRIDGE_TOKEN, true);
+			}
+			if (hasTunnelToken) {
+				tXMLElement.setAttribute (AN_TUNNEL_TOKEN, true);
+			}
 			if (benefitValue > 0) {
 				tXMLElement.setAttribute (AN_BENEFIT_VALUE, benefitValue);
 			}
@@ -677,14 +704,20 @@ public class MapCell implements Comparator<Object> {
 	public void loadBenefitStates (XMLNode aXMLNode) {
 		boolean tHasPortToken;
 		boolean tHasCattleToken;
+		boolean tHasBridgeToken;
+		boolean tHasTunnelToken;
 		int tBenefitValue;
 		
 		tHasPortToken = aXMLNode.getThisBooleanAttribute (AN_PORT_TOKEN);
 		tHasCattleToken = aXMLNode.getThisBooleanAttribute (AN_CATTLE_TOKEN);
+		tHasBridgeToken = aXMLNode.getThisBooleanAttribute (AN_BRIDGE_TOKEN);
+		tHasTunnelToken = aXMLNode.getThisBooleanAttribute (AN_TUNNEL_TOKEN);
 		tBenefitValue = aXMLNode.getThisIntAttribute (AN_BENEFIT_VALUE);
 		
 		setPortToken (tHasPortToken);
 		setCattleToken (tHasCattleToken);
+		setBridgeToken (tHasBridgeToken);
+		setTunnelToken (tHasTunnelToken);
 		setBenefitValue (tBenefitValue);
 	}
 	
@@ -879,6 +912,12 @@ public class MapCell implements Comparator<Object> {
 			}
 			if (hasCattleToken) {
 				tTip += "Cattle: Open";
+			}
+			if (hasBridgeToken) {
+				tTip += "Bridge: Open";
+			}
+			if (hasTunnelToken) {
+				tTip += "Tunnel: Open";
 			}
 			if (rebate != Rebate.NO_REBATE) {
 				tTip += "Rebate: " + rebate.getAmount () + "<br>";
@@ -2396,11 +2435,15 @@ public class MapCell implements Comparator<Object> {
 		int tBonusRevenue;
 		int tPortRevenue;
 		int tCattleRevenue;
+		int tBridgeRevenue;
+		int tTunnelRevenue;
 		int tLicenseRevenue;
 		
 		tBonusRevenue = 0;
 		tPortRevenue = 0;
 		tCattleRevenue = 0;
+		tBridgeRevenue = 0;
+		tTunnelRevenue = 0;
 		tLicenseRevenue = 0;
 		if (hasPortToken ()) {
 			tPortRevenue = getBenefitValue ();
@@ -2408,6 +2451,14 @@ public class MapCell implements Comparator<Object> {
 		if (hasCattleToken ()) {
 			tCattleRevenue = getBenefitValue ();
 		}
+		if (hasBridgeToken ()) {
+			tBridgeRevenue = getBenefitValue ();
+		}
+		if (hasTunnelToken ()) {
+			tTunnelRevenue = getBenefitValue ();
+		}
+		
+		tLicenseRevenue = tBridgeRevenue + tTunnelRevenue;
 		
 		tBonusRevenue = tPortRevenue + tCattleRevenue + tLicenseRevenue;
 		

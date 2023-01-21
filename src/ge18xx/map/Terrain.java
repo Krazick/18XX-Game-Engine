@@ -72,12 +72,14 @@ public class Terrain extends Feature implements LoadableXMLI {
 	static final int CATTLE = 26;
 	static final int END_ROUTE = 27;
 	static final int CLEAR_HIGHLIGHT = 28;
+	static final int BRIDGE = 29;
+	static final int TUNNEL = 30;
 	static final int MIN_TERRAIN = NO_TERRAIN;
-	static final int MAX_TERRAIN = CLEAR_HIGHLIGHT;
+	static final int MAX_TERRAIN = TUNNEL;
 	static final String NAMES[] = { "NO TERRAIN", "Clear", "Ocean", "Delta", "Off Board Red", "Off Board Gray",
 			"Off Board Black", "Off Board Green", "", "Thick Border", "River", "Multiple River", "Major River", "Hill",
 			"Mountain", "Himalya", "Pass", "Swamp", "Lake", "Port", "Small River", "Large River", "Shallow Coast",
-			"Coast", "Deep Coast", "Desert", "Cattle", "End Route", "Clear Highlight" };
+			"Coast", "Deep Coast", "Desert", "Cattle", "End Route", "Clear Highlight", "Bridge", "Tunnel" };
 	static Paint [] [] paints = null;
 
 	int terrain;
@@ -155,7 +157,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 //	}
 
 	public void draw (Graphics g, int X, int Y, Hex aHex, Paint aPaint, boolean aHasPortToken, 
-						boolean aHasCattleToken, int aBenefitValue) {
+						boolean aHasCattleToken, boolean aHasBridgeToken, boolean aHasTunnelToken, int aBenefitValue) {
 		switch (terrain) {
 		case NO_TERRAIN:
 			break;
@@ -226,6 +228,18 @@ public class Terrain extends Feature implements LoadableXMLI {
 				aHex.drawCattleToken (g, X, Y, getPaint (), aBenefitValue);
 			} else {
 				aHex.drawCattle (g, X, Y, getPaint ());
+			}
+			break;
+
+		case BRIDGE: /* Bridge */
+			if (aHasCattleToken) {
+				aHex.drawPortToken (g, X, Y, getPaint (), aBenefitValue);
+			}
+			break;
+
+		case TUNNEL: /* Tunnel, Draw Cattle */
+			if (aHasTunnelToken) {
+				aHex.drawPortToken (g, X, Y, getPaint (), aBenefitValue);
 			}
 			break;
 

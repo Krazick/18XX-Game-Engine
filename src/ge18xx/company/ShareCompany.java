@@ -812,8 +812,10 @@ public class ShareCompany extends TokenCompany {
 
 	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, Certificate aCertificate,
 			BuyStockAction aBuyStockAction) {
-		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
-		PortfolioHolderI tFromHolder, tToHolder;
+		ActorI.ActionStates tCurrentCorporationStatus;
+		ActorI.ActionStates tNewCorporationStatus;
+		PortfolioHolderI tFromHolder;
+		PortfolioHolderI tToHolder;
 
 		tFromHolder = aFromPortfolio.getHolder ();
 		tToHolder = aToPortfolio.getHolder ();
