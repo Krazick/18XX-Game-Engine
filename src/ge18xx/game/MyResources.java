@@ -41,7 +41,7 @@ public class MyResources extends ListResourceBundle {
 			{ "showChatClientItem", "Show Chat Client" },
 			{ "resendLastActions", "Resend Last Action(s)" },
 			{ "frameTitle", "18XX Game Engine" },
-			{ "configDir", "18XX XML Data" },
+			{ "configDir", "" },
 			{ "iconImage", "images/GE18XX.png" },
 			{ "GameSetXMLFile", "18xx Games.xml" },
 			{ "DataURLBase", "https://krazick.github.io/18XX-Game-Engine-XML/XML/" },
