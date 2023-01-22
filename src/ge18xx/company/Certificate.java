@@ -498,8 +498,8 @@ public class Certificate implements Comparable<Certificate> {
 		String tCertInfo;
 		String tNote;
 		CompoundBorder tCertInfoBorder2;
-
 		int tPadding;
+		
 		tCertificateInfoJPanel = new JPanel ();
 		tCertificateInfoJPanel.setLayout (new BoxLayout (tCertificateInfoJPanel, BoxLayout.Y_AXIS));
 		tPadding = 3;

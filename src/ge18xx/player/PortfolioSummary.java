@@ -71,22 +71,21 @@ public class PortfolioSummary {
 	public String getSummary () {
 		String tOwnershipLabel;
 
-//		tOwnershipLabel = getAbbrev () + "&nbsp;";
 		tOwnershipLabel = getAbbrev () + " ";
 		if (PRIVATE_CORP_TYPE.equals (type)) {
-			tOwnershipLabel += type + " 1 Prez Cert";
+//			tOwnershipLabel += type + " 1 Prez Cert";
+			tOwnershipLabel += type + " Cert";
 		} else if (SHARE_CORP_TYPE.equals (type)) {
-			tOwnershipLabel +=  getCertCountText ()  + getPercentageText ();
+			tOwnershipLabel +=  getCertCountText () + getPercentageText ();
 			if (isPresident ()) {
 				tOwnershipLabel += " Prez";
 			}
 		} else {
-			tOwnershipLabel += type + " " + getCertCountText ()  + getPercentageText ();
+			tOwnershipLabel += type + " " + getCertCountText () + getPercentageText ();
 			if (isPresident ()) {
 				tOwnershipLabel += " Prez";
 			}
 		}
-//		tOwnershipLabel = "<html>" + tOwnershipLabel + "</html>";
 
 		return tOwnershipLabel;
 	}
