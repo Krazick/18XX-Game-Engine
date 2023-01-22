@@ -17,6 +17,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
@@ -71,6 +72,7 @@ public class Game_18XX extends XMLFrame {
 	private final String ENTER_USER_NAME = "Must Enter User Name";
 	private final String OK_TEXT = "OK";
 	private final String QUIT_TEXT = "Quit";
+	public static final String NO_PATH = null;
 	public final String DATA_URL_BASE = "DataURLBase";
 	protected ResourceBundle resbundle;
 	protected AboutBox aboutBox;
@@ -125,7 +127,10 @@ public class Game_18XX extends XMLFrame {
 		
 		currentRelativePath = Paths.get ("");
 		absolutePath = currentRelativePath.toAbsolutePath ().toString ();
-
+		System.out.println ("JAR Directory [" + getJarDirectory () + "]");
+		System.out.println ("Absolute Path [" + absolutePath + "]");
+		System.out.println ("Current Relative Path [" + currentRelativePath + "]");
+		
 		setApplicationIcon ();
 
 		createActions ();
@@ -149,6 +154,22 @@ public class Game_18XX extends XMLFrame {
 		updateDisconnectButton ();
 	}
 
+	public String getJarDirectory () {
+		File tJarFile;
+		String tJarDirectory;
+		
+		try {
+			tJarFile = new File(Game_18XX.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+			tJarDirectory = tJarFile.getParent ();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			tJarDirectory = NO_PATH;
+		}
+		
+		
+		return tJarDirectory;
+	}
+	
 	public String getAbsolutePath () {
 		return absolutePath;
 	}
@@ -178,6 +199,9 @@ public class Game_18XX extends XMLFrame {
 			if (tLogger != null) {
 				tLogger.info ("EXITING Game Engine");
 			}
+			loggerLookup.writeToSimpleLogger ("Exiting the 18XX Game Engine");
+			loggerLookup.closeSimpleLogger ();
+			
 			disconnect ();
 			System.exit (0);
 		}
@@ -197,7 +221,8 @@ public class Game_18XX extends XMLFrame {
 		if (getLogger () == null) {
 			tAppVersion = getGEVersion ();
 			tXMLConfigFileDir = resbundle.getString ("configDir");
-			loggerLookup.setupLogger (aUserName, aAppName, tAppVersion, tXMLConfigFileDir, ge18xx.game.Game_18XX.class);
+			loggerLookup.setupLogger (aUserName, aAppName, tAppVersion, tXMLConfigFileDir, 
+								this, ge18xx.game.Game_18XX.class);
 		}
 	}
 
