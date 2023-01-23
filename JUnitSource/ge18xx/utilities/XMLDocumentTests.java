@@ -157,18 +157,13 @@ class XMLDocumentTests {
 		String tExpected;
 		
 		tExpected = "<Private abbrev=\"TEST-C&amp;SL\" cost=\"40\" homeCell1=\"B20\" homeLocation1=\"7\" homeLocation2=\"12\" id=\"802\" name=\"TEST-Champlain &amp; St. Lawrence\" note=\"A Corporation owning the C&amp;SL may lay a tile onC&amp;SL's hex even if this hex is not connected to the Corporation's Railhead. This free tile placement is in addition to the Corporation's tile placement — For this turn only the Corporation may play two tiles. The tile played on the C&amp;SL hex does not have to connect to any existing adjacent track.\" revenue=\"10\" special=\"Free Tile Placement\">\n"
-				+ "    		\n"
-				+ "    <Benefits>\n"
-				+ "        			\n"
-				+ "        <Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" cost=\"0\" extra=\"true\" mapCell=\"B20\" passive=\"false\"/>\n"
-				+ "        		\n"
-				+ "    </Benefits>\n"
-				+ "    		\n"
-				+ "    <Certificate allowedOwners=\"IPO,Player,Share\" director=\"YES\" percentage=\"100\"/>\n"
-				+ "    	\n"
-				+ "</Private>\n";
+				+ "		<Benefits>\n"
+				+ "			<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" cost=\"0\" extra=\"true\" mapCell=\"B20\" passive=\"false\"/>\n"
+				+ "		</Benefits>\n"
+				+ "		<Certificate allowedOwners=\"IPO,Player,Share\" director=\"YES\" percentage=\"100\"/>\n"
+				+ "	</Private>\n";
 		tPrivateDocument = buildPrivateCompanyTestDocument ();
 		tResult = tPrivateDocument.toString ();
-		assertEquals (tResult, tExpected);
+		assertEquals (tExpected, tResult);
 	}
 }
