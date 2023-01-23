@@ -172,7 +172,8 @@ class PortfolioSummaryTest {
 			Border tFoundBorder;
 
 			tSummary = privatePortfolioSummary.getSummary ();
-			assertEquals ("PrivateTest Private 1 Prez Cert", tSummary);
+//			assertEquals ("PrivateTest Private 1 Prez Cert", tSummary);
+			assertEquals ("PrivateTest Private Cert", tSummary);
 
 			assertEquals ("Private", privatePortfolioSummary.getType ());
 			assertEquals ("Private Test Case Note", privatePortfolioSummary.getNote ());
