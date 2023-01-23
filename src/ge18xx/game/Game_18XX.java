@@ -127,9 +127,6 @@ public class Game_18XX extends XMLFrame {
 		
 		currentRelativePath = Paths.get ("");
 		absolutePath = currentRelativePath.toAbsolutePath ().toString ();
-		System.out.println ("JAR Directory [" + getJarDirectory () + "]");
-		System.out.println ("Absolute Path [" + absolutePath + "]");
-		System.out.println ("Current Relative Path [" + currentRelativePath + "]");
 		
 		setApplicationIcon ();
 
