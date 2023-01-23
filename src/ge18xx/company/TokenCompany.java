@@ -38,7 +38,6 @@ public abstract class TokenCompany extends TrainCompany {
 	final static AttributeName AN_AVAILABLE_TOKEN_COUNT = new AttributeName ("availableTokenCount");
 	public final static ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
 	public final static TokenCompany NO_TOKEN_COMPANY = null;
-//	private final static List<MapToken> NO_MAP_TOKENS = null;
 	private final static int MIN_TOKEN_COUNT = 1;
 	public static String FONT_CNAME = "Courier";
 	public static String FONT_DNAME = "Dialog";
@@ -58,7 +57,6 @@ public abstract class TokenCompany extends TrainCompany {
 	// 3) GetLastToken () -- No Arg, gets the last FixedCost or RangeCost that is not used
 	// 4) GetTokenCount () -- No Arg, gets the count of available MapTokens (never counts the MarketToken Type)
 	
-//	List<MapToken> mapTokens;
 	Tokens tokens;
 	int totalTokenCount;
 
@@ -90,7 +88,6 @@ public abstract class TokenCompany extends TrainCompany {
 	private void setupNewMapTokens () {
 		MapToken tMapToken;
 		
-//		mapTokens = new LinkedList<> ();
 		tMapToken = new MapToken ();
 		tMapToken.setCompany (this);
 		addNTokens (totalTokenCount, tMapToken);
@@ -113,13 +110,11 @@ public abstract class TokenCompany extends TrainCompany {
 		if (homeCityGrid1 != XMLNode.NO_VALUE) {
 			tStartIndex++;
 			tMapToken = new MapToken (aMapToken, tCost);
-//			addMapToken (tMapToken);
 			tokens.addNewToken (tMapToken, TokenType.HOME1, tCost);
 		}
 		if (homeCityGrid2 != XMLNode.NO_VALUE) {
 			tStartIndex++;
 			tMapToken = new MapToken (aMapToken, tCost);
-//			addMapToken (tMapToken);
 			tokens.addNewToken (tMapToken, TokenType.HOME2, tCost);
 		}
 		for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
@@ -130,7 +125,6 @@ public abstract class TokenCompany extends TrainCompany {
 			}
 			tMapToken = new MapToken (aMapToken, tCost);
 			tMapToken.setCompany (this);
-//			addMapToken (tMapToken);
 			tokens.addNewToken (tMapToken, tTokenTypeToAdd, tCost);
 		}
 	}
@@ -138,10 +132,6 @@ public abstract class TokenCompany extends TrainCompany {
 	public void setTokenUsed (Token aToken, boolean aUsed) {
 		tokens.setTokenUsed (aToken, aUsed);
 	}
-	
-//	public void addMapToken (MapToken aMapToken) {
-//		mapTokens.add (aMapToken);
-//	}
 	
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
@@ -634,24 +624,12 @@ public abstract class TokenCompany extends TrainCompany {
 		// TODO -- Parse out the Tokens, and TokenInfo Elements
 	}
 
-//	@Override
-//	public MapToken popMapToken () {
-//		MapToken tMapToken;
-//
-//		if (getTokenCount () == 0) {
-//			tMapToken = MapToken.NO_MAP_TOKEN;
-//		} else {
-//			tMapToken = mapTokens.remove (0);
-//		}
-//
-//		return tMapToken;
-//	}
-
 	@Override
 	public void tokenWasPlaced (MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, MapToken aMapToken,
 								int aTokenIndex, boolean aAddLayTokenAction) {
 		boolean tStatusUpdated;
-		ActorI.ActionStates tCurrentStatus, tNewStatus;
+		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tNewStatus;
 
 		tCurrentStatus = status;
 		if ((status == ActorI.ActionStates.TileLaid) || 
@@ -666,8 +644,7 @@ public abstract class TokenCompany extends TrainCompany {
 			if (aAddLayTokenAction) {
 				addLayTokenAction (aMapCell, aTile, aRevenueCenterIndex, aMapToken, aTokenIndex, tCurrentStatus, tNewStatus);
 			}
-			popMapToken (); // Pop off the Token from the list of Map Tokens,
-							// don't want infinite supply
+			tokens.setTokenUsed (aMapToken, true);
 
 			updateInfo ();
 		}

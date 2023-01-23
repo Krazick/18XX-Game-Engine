@@ -1214,9 +1214,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tHasTwoBases;
 	}
 	
-	public MapToken popMapToken () {
-		return MapToken.NO_MAP_TOKEN;
-	}
+//	public MapToken popMapToken () {
+//		return MapToken.NO_MAP_TOKEN;
+//	}
 	
 	// TokenCompany will Override
 	public MapToken getMapToken () {

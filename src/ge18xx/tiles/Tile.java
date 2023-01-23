@@ -368,12 +368,18 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 	public String getPlacedTokens () {
 		String tPlacedTokens = NO_TOKENS, tAPlacedToken;
-		int tCityCenterCount, tCityCenterIndex, tStationIndex;
+		int tCityCenterCount;
+		int tCityCenterIndex;
+		int tStationIndex;
+		int tTokenIndex;
 		RevenueCenter tRevenueCenter;
 		City tCity;
 		MapToken tMapToken;
 		String tAbbrev;
 
+		// a single Placed Token is identified by:
+		// Company Abbrev, Station Index, City Center Index, Token Index
+		
 		tCityCenterCount = getCityCenterCount ();
 		if (tCityCenterCount > 0) {
 			for (tCityCenterIndex = 0; tCityCenterIndex < tCityCenterCount; tCityCenterIndex++) {
@@ -385,7 +391,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 							tMapToken = tCity.getToken (tStationIndex);
 							if (tMapToken != MapToken.NO_MAP_TOKEN) {
 								tAbbrev = tMapToken.getCorporationAbbrev ();
-								tAPlacedToken = tAbbrev + "," + tStationIndex + "," + tCityCenterIndex;
+								tTokenIndex = tMapToken.getTokenIndex ();
+								tAPlacedToken = tAbbrev + "," + tStationIndex + "," + tCityCenterIndex + "," + tTokenIndex;
 								if (!(tPlacedTokens.equals (NO_TOKENS))) {
 									tPlacedTokens += ";";
 								}

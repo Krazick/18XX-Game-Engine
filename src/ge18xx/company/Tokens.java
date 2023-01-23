@@ -255,7 +255,6 @@ public class Tokens {
 	}
 	
 	public int getTokenIndex (Token aToken) {
-
 		Token tFoundToken;
 		int tTokenCount;
 		int tTokenIndex;

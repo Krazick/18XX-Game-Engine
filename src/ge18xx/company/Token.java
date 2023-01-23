@@ -44,6 +44,14 @@ public class Token {
 		return tokenCompany.getAbbrev ();
 	}
 
+	public int getTokenIndex () {
+		int tTokenIndex;
+		
+		tTokenIndex = tokenCompany.getTokenIndex (this);
+		
+		return tTokenIndex;
+	}
+	
 	public int getCorporationID () {
 		return tokenCompany.getID ();
 	}

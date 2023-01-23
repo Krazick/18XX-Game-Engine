@@ -91,7 +91,9 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 		String [] tTokens;
 		String [] tTokenInfo;
 		String tAbbrev;
-		int tStationIndex, tCityIndex;
+		int tStationIndex;
+		int tCityIndex;
+		int tTokenIndex;
 		ShareCompany tShareCompany;
 		String tTheTokens;
 
@@ -104,9 +106,10 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 				tAbbrev = tTokenInfo [0];
 				tStationIndex = Integer.parseInt (tTokenInfo [1]);
 				tCityIndex = Integer.parseInt (tTokenInfo [2]);
+				tTokenIndex = Integer.parseInt (tTokenInfo [3]);
 				tShareCompany = aRoundManager.getShareCompany (tAbbrev);
 				aMapCell.returnStation (tShareCompany);
-				aMapCell.setStationAt (tShareCompany, tStationIndex, tCityIndex);
+				aMapCell.setStationAt (tShareCompany, tStationIndex, tCityIndex, tTokenIndex);
 			}
 		}
 	}
