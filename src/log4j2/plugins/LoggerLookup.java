@@ -71,7 +71,6 @@ public class LoggerLookup implements StrLookup {
 		}
 		tXMLConfigFile += "log4j2.xml";
 		System.setProperty ("log4j2.configurationFile", tXMLConfigFile);
-//		System.setProperty ("log4j2.debug", "");
 		logger = LogManager.getLogger (aClass);
 		logBasicInfo (aUserName, aAppName, aAppVersion, aGame_18XX);
 		
@@ -109,12 +108,14 @@ public class LoggerLookup implements StrLookup {
 	}
 	
 	public void writeToSimpleLogger (String aLogData) {
+		if (logFileWriter != null) {
 		try {
 			logFileWriter.append (aLogData + "\n");
 			logFileWriter.flush ();
-		} catch (IOException e) {
+		} catch (IOException eIOException) {
 			System.err.println ("Failed to append to logFileWriter");
-			e.printStackTrace();
+			eIOException.printStackTrace();
+		}
 		}
 	}
 	
@@ -125,9 +126,9 @@ public class LoggerLookup implements StrLookup {
 			logFileWriter = new FileWriter (logFile);
 			logFileWriter.write ("Setting up Simple Logger File\n");
 			logFileWriter.flush ();
-		} catch (IOException e) {
+		} catch (IOException eIOException) {
 			System.err.println ("Failed to open and write to logFileWriter");
-			e.printStackTrace();
+			eIOException.printStackTrace();
 		}
 	}
 	
@@ -136,9 +137,9 @@ public class LoggerLookup implements StrLookup {
 			if (logFileWriter != null) {
 				logFileWriter.close ();
 			}
-		} catch (IOException e) {
+		} catch (IOException eIOException) {
 			System.err.println ("Failed to close logFileWriter");
-			e.printStackTrace();
+			eIOException.printStackTrace();
 		}
 	}
 	
