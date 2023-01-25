@@ -3,6 +3,8 @@ package ge18xx.game.userPreferences;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.WindowEvent;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -22,6 +24,10 @@ import ge18xx.utilities.XMLNode;
 public class UserPreferencesFrame extends XMLFrame {
 	public static final ElementName EN_USER_PREFERENCES = new ElementName ("UserPreferences");
 	private static final long serialVersionUID = 1L;
+	private static final int PlayerOrderIndex = 0;
+	private static final int ClientNameIndex = 1;
+	private static final int ShowConfigIndex = 2;
+	private static final int ConfirmDontBuyTrainIndex = 3;
 	JTabbedPane tabbedPane;
 	JPanel userPreferencesPanel;
 	JPanel frameInfoPanel;
@@ -29,27 +35,23 @@ public class UserPreferencesFrame extends XMLFrame {
 	JScrollPane userPreferencesSPane;
 	JScrollPane frameSPane;
 	JScrollPane colorsSPane;
-	PlayerOrderPreference playerOrderPreference;
-	ClientNameInFramePreference clientNameInFramePreference;
-	ShowConfigInfoPreference showConfigInfoPreference;
+	List <UserPreference> userPreferences;
 	
 	public UserPreferencesFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
-		
+		userPreferences = new LinkedList <UserPreference> ();
 		setupJTabbedPane (aGameManager);
 	}
 	
 	private void setupJTabbedPane (GameManager aGameManager) {
 		JPanel tColorsPanel;
 		JLabel tColorsLabel;
-		JPanel tUserPreferencesPanel;
 		Point tFrameOffset;
 		
 		tabbedPane = new JTabbedPane ();
 		
 		userPreferencesSPane = new JScrollPane ();
-		tUserPreferencesPanel = buildUserPreferences (aGameManager);
-		setUserPrefencesPanel (tUserPreferencesPanel);
+		buildUserPreferences (aGameManager);
 		
 		frameSPane = new JScrollPane ();
 		colorsSPane = new JScrollPane ();
@@ -72,20 +74,29 @@ public class UserPreferencesFrame extends XMLFrame {
 		setSize (500, 500);
 	}
 	
-	public JPanel buildUserPreferences (GameManager aGameManager) {
+	public void buildUserPreferences (GameManager aGameManager) {
 		JPanel tUserPreferencesPanel;
+		UserPreference tUserPreference;
 		
 		tUserPreferencesPanel = new JPanel ();
-		playerOrderPreference = new PlayerOrderPreference (aGameManager);
-		playerOrderPreference.buildUserPreferences (tUserPreferencesPanel);
+		setUserPrefencesPanel (tUserPreferencesPanel);
 		
-		clientNameInFramePreference = new ClientNameInFramePreference (aGameManager);
-		clientNameInFramePreference.buildUserPreferences (tUserPreferencesPanel);
+		tUserPreference = new PlayerOrderPreference (aGameManager);
+		buildUserPreferences (tUserPreference);
+
+		tUserPreference = new ClientNameInFramePreference (aGameManager);
+		buildUserPreferences (tUserPreference);
+
+		tUserPreference = new ShowConfigInfoPreference (aGameManager);
+		buildUserPreferences (tUserPreference);
 		
-		showConfigInfoPreference = new ShowConfigInfoPreference (aGameManager);
-		showConfigInfoPreference.buildUserPreferences (tUserPreferencesPanel);
-		
-		return tUserPreferencesPanel;
+		tUserPreference = new ConfirmDontBuyTrainPreference (aGameManager);
+		buildUserPreferences (tUserPreference);
+	}
+	
+	public void buildUserPreferences (UserPreference aUserPreference) {
+		aUserPreference.buildUserPreferences (userPreferencesPanel);
+		userPreferences.add (aUserPreference);
 	}
 	
 	public void setUserPrefencesPanel (JPanel aUserPreferencesPanel) {
@@ -106,39 +117,57 @@ public class UserPreferencesFrame extends XMLFrame {
 	
 	public int getPlayerOrderPreference () {
 		int tSelectedPlayerOrder;
+		PlayerOrderPreference tPlayerOrderPreference;
 		
-		tSelectedPlayerOrder = playerOrderPreference.getPlayerOrderPreference ();
+		tPlayerOrderPreference = (PlayerOrderPreference) userPreferences.get (PlayerOrderIndex);
+		tSelectedPlayerOrder = tPlayerOrderPreference.getPlayerOrderPreference ();
 
 		return tSelectedPlayerOrder;
 	}
 	
 	public String getFirstPlayerName () {
 		String tFirstPlayerName;
+		PlayerOrderPreference tPlayerOrderPreference;
 		
-		tFirstPlayerName = playerOrderPreference.getFirstPlayerName ();
+		tPlayerOrderPreference = (PlayerOrderPreference) userPreferences.get (PlayerOrderIndex);
+		tFirstPlayerName = tPlayerOrderPreference.getFirstPlayerName ();
 		
 		return tFirstPlayerName;
 	}
 	
 	public boolean showClientNameInFrameTitle () {
-		return clientNameInFramePreference.showClientNameInFrameTitle ();
+		ClientNameInFramePreference tClientNameInFramePreference;
+		
+		tClientNameInFramePreference = (ClientNameInFramePreference) userPreferences.get (ClientNameIndex);
+		
+		return tClientNameInFramePreference.showClientNameInFrameTitle ();
 	}
 	
 	public boolean showConfigInfoFileInfo () {
-		return showConfigInfoPreference.showConfigInfoFileInfo ();
+		ShowConfigInfoPreference tShowConfigInfoPreference;
+		
+		tShowConfigInfoPreference = (ShowConfigInfoPreference) userPreferences.get (ShowConfigIndex);
+		
+		return tShowConfigInfoPreference.showConfigInfoFileInfo ();
+	}
+
+	public boolean confirmDontBuyTrain () {
+		ConfirmDontBuyTrainPreference tConfirmDontBuyTrainPreference;
+		
+		tConfirmDontBuyTrainPreference = (ConfirmDontBuyTrainPreference) userPreferences.get (ConfirmDontBuyTrainIndex);
+		
+		return tConfirmDontBuyTrainPreference.showConfirmDontBuyTrain ();
 	}
 
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tPreferencesElement;
-		XMLElement tPlayerOrderElement;
-		XMLElement tClientNameElement;
 		
 		tPreferencesElement = aXMLDocument.createElement (EN_USER_PREFERENCES);
-		tPlayerOrderElement = playerOrderPreference.createElement (aXMLDocument);
-		tPreferencesElement.appendChild (tPlayerOrderElement);
-		tClientNameElement = clientNameInFramePreference.createElement (aXMLDocument);
-		tPreferencesElement.appendChild (tClientNameElement);
 		
+		for (UserPreference tUserPreference : userPreferences) {
+			tUserPreference.appendNewElement (tPreferencesElement, aXMLDocument);
+		}
+
 		return tPreferencesElement;
 	}
 	
@@ -148,7 +177,11 @@ public class UserPreferencesFrame extends XMLFrame {
 		int tNodeCount;
 		int tNodeIndex;
 		String tNodeName;
-
+		PlayerOrderPreference tPlayerOrderPreference;
+		ClientNameInFramePreference tClientNameInFramePreference;
+		ShowConfigInfoPreference tShowConfigInfoPreference;
+		ConfirmDecisionPreference tConfirmDecisionPreference;
+		
 		tChildren = aPreferencesNode.getChildNodes ();
 		tNodeCount = tChildren.getLength ();
 		try {
@@ -156,13 +189,20 @@ public class UserPreferencesFrame extends XMLFrame {
 				tChildNode = new XMLNode (tChildren.item (tNodeIndex));
 				tNodeName = tChildNode.getNodeName ();
 				if (PlayerOrderPreference.EN_PLAYER_ORDER.equals (tNodeName)) {
-					playerOrderPreference.parsePreference (tChildNode);
+					tPlayerOrderPreference = (PlayerOrderPreference) userPreferences.get (PlayerOrderIndex);
+					tPlayerOrderPreference.parsePreference (tChildNode);
 				}
 				if (ClientNameInFramePreference.EN_CLIENT_NAME.equals (tNodeName)) {
-					clientNameInFramePreference.parsePreference (tChildNode);
+					tClientNameInFramePreference = (ClientNameInFramePreference) userPreferences.get (ClientNameIndex);
+					tClientNameInFramePreference.parsePreference (tChildNode);
 				}
 				if (ShowConfigInfoPreference.EN_CONFIG_INFO.equals (tNodeName)) {
-					showConfigInfoPreference.parsePreference (tChildNode);
+					tShowConfigInfoPreference = (ShowConfigInfoPreference) userPreferences.get (ShowConfigIndex);
+					tShowConfigInfoPreference.parsePreference (tChildNode);
+				}
+				if (ConfirmDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
+					tConfirmDecisionPreference = (ConfirmDecisionPreference) userPreferences.get (ConfirmDontBuyTrainIndex);
+					tConfirmDecisionPreference.parsePreference (tChildNode);
 				}
 			}
 		} catch (Exception tException) {
