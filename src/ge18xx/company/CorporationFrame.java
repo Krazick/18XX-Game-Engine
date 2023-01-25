@@ -16,6 +16,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
@@ -427,6 +428,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tCommand;
 		String tSourceTitle;
 		JButton tSourceButton;
+		boolean tPerformDoneAction;
 
 		tCommand = aEvent.getActionCommand ();
 		corporation.showMap ();
@@ -484,15 +486,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporation.redeemLoan ();
 		}
 		if (DONE.equals (tCommand)) {
-			if ((gameManager.confirmDontBuyTrain ()) && (corporation.hasNoTrain ())) {
-				System.out.println ("Company " + corporation.getAbbrev () + " does not have a Train - Confirm to be done");
-				
-			} else {
+			tPerformDoneAction = performDoneAction ();
+			if (tPerformDoneAction) {	
 				corporation.doneAction ();
 			}
 		}
 		if (UNDO.equals (tCommand)) {
-			System.out.println ("Undo Last Action");
 			corporation.clearBankSelections ();
 			corporation.undoAction ();
 		}
@@ -502,6 +501,26 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateInfo ();
 	}
 
+	private boolean performDoneAction () {
+		boolean tPerformDoneAction;
+		int tResponse;
+				
+		if ((gameManager.confirmDontBuyTrain ()) && (corporation.hasNoTrain ())) {
+			tResponse = JOptionPane.showConfirmDialog (this,
+					"Your Company " + corporation.getAbbrev () + " does not own a Train.\n Are you sure you want to be DONE?", 
+					"Confirm DONE", JOptionPane.YES_NO_OPTION);
+			if (tResponse == JOptionPane.YES_OPTION) {
+				tPerformDoneAction = true;
+			} else {
+				tPerformDoneAction = false;
+			}
+		} else {
+			tPerformDoneAction = true;
+		}
+
+		return tPerformDoneAction;
+	}
+	
 	private void handleExplainButtons () {
 		Point tNewPoint;
 		PlayerManager tPlayerManager;
