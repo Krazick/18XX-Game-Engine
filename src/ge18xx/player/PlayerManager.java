@@ -1576,6 +1576,10 @@ public class PlayerManager {
 		return gameManager.isLastActionComplete ();
 	}
 
+	public boolean confirmBuyPresidentShare () {
+		return gameManager.confirmBuyPresidentShare ();
+	}
+
 	public void fillPrivateCompanies (ButtonsInfoFrame aButtonsInfoFrame) {
 		Portfolio tPortfolio;
 

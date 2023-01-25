@@ -28,6 +28,7 @@ public class UserPreferencesFrame extends XMLFrame {
 	private static final int ClientNameIndex = 1;
 	private static final int ShowConfigIndex = 2;
 	private static final int ConfirmDontBuyTrainIndex = 3;
+	private static final int ConfirmBuyPresidentShareIndex = 4;
 	JTabbedPane tabbedPane;
 	JPanel userPreferencesPanel;
 	JPanel frameInfoPanel;
@@ -91,6 +92,9 @@ public class UserPreferencesFrame extends XMLFrame {
 		buildUserPreferences (tUserPreference);
 		
 		tUserPreference = new ConfirmDontBuyTrainPreference (aGameManager);
+		buildUserPreferences (tUserPreference);
+		
+		tUserPreference = new ConfirmBuyPresidentSharePreference (aGameManager);
 		buildUserPreferences (tUserPreference);
 	}
 	
@@ -156,7 +160,15 @@ public class UserPreferencesFrame extends XMLFrame {
 		
 		tConfirmDontBuyTrainPreference = (ConfirmDontBuyTrainPreference) userPreferences.get (ConfirmDontBuyTrainIndex);
 		
-		return tConfirmDontBuyTrainPreference.showConfirmDontBuyTrain ();
+		return tConfirmDontBuyTrainPreference.getConfirmDontBuyTrain ();
+	}
+
+	public boolean confirmBuyPresidentShare () {
+		ConfirmBuyPresidentSharePreference tConfirmBuyPresidentSharePreference;
+		
+		tConfirmBuyPresidentSharePreference = (ConfirmBuyPresidentSharePreference) userPreferences.get (ConfirmBuyPresidentShareIndex);
+		
+		return tConfirmBuyPresidentSharePreference.getConfirmBuyPresidentShare ();
 	}
 
 	public XMLElement createElement (XMLDocument aXMLDocument) {
@@ -202,6 +214,10 @@ public class UserPreferencesFrame extends XMLFrame {
 				}
 				if (ConfirmDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
 					tConfirmDecisionPreference = (ConfirmDecisionPreference) userPreferences.get (ConfirmDontBuyTrainIndex);
+					tConfirmDecisionPreference.parsePreference (tChildNode);
+				}
+				if (ConfirmDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
+					tConfirmDecisionPreference = (ConfirmDecisionPreference) userPreferences.get (ConfirmBuyPresidentShareIndex);
 					tConfirmDecisionPreference.parsePreference (tChildNode);
 				}
 			}

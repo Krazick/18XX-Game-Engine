@@ -47,7 +47,7 @@ public class ConfirmDontBuyTrainPreference extends ConfirmDecisionPreference imp
 		setDecisionChoice (confirmDontBuyTrain.isSelected ());
 	}
 
-	public boolean showConfirmDontBuyTrain () {
+	public boolean getConfirmDontBuyTrain () {
 		return confirmDontBuyTrain.isSelected ();
 	}
 }

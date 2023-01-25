@@ -2702,6 +2702,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return userPreferencesFrame.confirmDontBuyTrain ();
 	}
 	
+	public boolean confirmBuyPresidentShare () {
+		return userPreferencesFrame.confirmBuyPresidentShare ();
+	}
+	
 	@Override
 	public int getSelectedGameIndex () {
 		return playerInputFrame.getSelectedGameIndex ();

@@ -428,7 +428,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		String tCommand;
 		String tSourceTitle;
 		JButton tSourceButton;
-		boolean tPerformDoneAction;
+		boolean tConfirmedDoneAction;
 
 		tCommand = aEvent.getActionCommand ();
 		corporation.showMap ();
@@ -486,8 +486,8 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporation.redeemLoan ();
 		}
 		if (DONE.equals (tCommand)) {
-			tPerformDoneAction = performDoneAction ();
-			if (tPerformDoneAction) {	
+			tConfirmedDoneAction = confirmDoneAction ();
+			if (tConfirmedDoneAction) {	
 				corporation.doneAction ();
 			}
 		}
@@ -501,24 +501,24 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		updateInfo ();
 	}
 
-	private boolean performDoneAction () {
-		boolean tPerformDoneAction;
+	private boolean confirmDoneAction () {
+		boolean tConfirmedDoneAction;
 		int tResponse;
 				
 		if ((gameManager.confirmDontBuyTrain ()) && (corporation.hasNoTrain ())) {
 			tResponse = JOptionPane.showConfirmDialog (this,
-					"Your Company " + corporation.getAbbrev () + " does not own a Train.\n Are you sure you want to be DONE?", 
+					"Your Company " + corporation.getAbbrev () + " does not own a Train.\nAre you sure you want to be DONE?", 
 					"Confirm DONE", JOptionPane.YES_NO_OPTION);
 			if (tResponse == JOptionPane.YES_OPTION) {
-				tPerformDoneAction = true;
+				tConfirmedDoneAction = true;
 			} else {
-				tPerformDoneAction = false;
+				tConfirmedDoneAction = false;
 			}
 		} else {
-			tPerformDoneAction = true;
+			tConfirmedDoneAction = true;
 		}
 
-		return tPerformDoneAction;
+		return tConfirmedDoneAction;
 	}
 	
 	private void handleExplainButtons () {

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.apache.logging.log4j.Logger;
@@ -1225,23 +1226,66 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		boolean tNextShareHasBids;
 		Certificate tCertificate;
 		List<Certificate> tCertificatesToBuy;
-		boolean tCreateNewAuctionAction = true;
-
-		tCertificatesToBuy = playerManager.getCertificatesToBuy ();
-		tCertificate = tCertificatesToBuy.get (0);
-
-		tNextShareHasBids = playerManager.nextShareHasBids (tCertificate);
-
-		buyAction (tCertificatesToBuy);
-
-		if (tNextShareHasBids) {
-			setTriggeredAuction (true); // Set the Triggered Auction Flag.
-			playerManager.startAuctionRound (tCreateNewAuctionAction);
+		boolean tCreateNewAuctionAction;
+		boolean tConfirmBuyShare;
+		
+		tConfirmBuyShare = confirmBuyShareAction ();
+		if (tConfirmBuyShare) {	
+			tCreateNewAuctionAction = true;
+			tCertificatesToBuy = playerManager.getCertificatesToBuy ();
+			tCertificate = tCertificatesToBuy.get (0);
+	
+			tNextShareHasBids = playerManager.nextShareHasBids (tCertificate);
+	
+			buyAction (tCertificatesToBuy);
+	
+			if (tNextShareHasBids) {
+				setTriggeredAuction (true); // Set the Triggered Auction Flag.
+				playerManager.startAuctionRound (tCreateNewAuctionAction);
+			}
 		}
-
 		playerFrame.updateButtons ();
 	}
 
+	public boolean confirmBuyShareAction () {
+		boolean tConfirmedBuyShareAction;
+		int tResponse;
+		int tCertificateCount;		
+		Certificate tCertificate;
+		List<Certificate> tCertificatesToBuy;
+		
+		tCertificatesToBuy = playerManager.getCertificatesToBuy ();
+		tCertificateCount = tCertificatesToBuy.size ();
+		if (tCertificateCount == 1) {
+			tCertificate = tCertificatesToBuy.get (0);
+			if (tCertificate.isAShareCompany ()) {
+				if ((playerManager.confirmBuyPresidentShare ()) && (tCertificate.isPresidentShare ())) {
+					tResponse = JOptionPane.showConfirmDialog (playerFrame,
+							"You have chosen to buy the President Share of  " + tCertificate.getCompanyAbbrev () + 
+							"\nAre you sure you want to buy this President Share?", 
+							"Confirm Buy", JOptionPane.YES_NO_OPTION);
+					if (tResponse == JOptionPane.YES_OPTION) {
+						tConfirmedBuyShareAction = true;
+					} else {
+						tConfirmedBuyShareAction = false;
+					}
+				} else {
+					tConfirmedBuyShareAction = true;
+				}
+			} else {
+				tConfirmedBuyShareAction = true;				
+			}
+		} else if (tCertificateCount > 1) {
+			// TODO -- present a confirmation for buy X (where X > 1) Confirmation Dialog for buying more than 1 share of 
+			// the particular company. -- May not be worth the trouble
+			tConfirmedBuyShareAction = true;
+		} else {
+			tConfirmedBuyShareAction = false;
+		}
+
+		return tConfirmedBuyShareAction;
+	}
+	
 	/**
 	 * Buy the Certificates in the list of Certificates provided, creating the appropriate Action.
 	 *
