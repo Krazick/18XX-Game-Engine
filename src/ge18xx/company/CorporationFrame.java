@@ -484,7 +484,12 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporation.redeemLoan ();
 		}
 		if (DONE.equals (tCommand)) {
-			corporation.doneAction ();
+			if ((gameManager.confirmDontBuyTrain ()) && (corporation.hasNoTrain ())) {
+				System.out.println ("Company " + corporation.getAbbrev () + " does not have a Train - Confirm to be done");
+				
+			} else {
+				corporation.doneAction ();
+			}
 		}
 		if (UNDO.equals (tCommand)) {
 			System.out.println ("Undo Last Action");
