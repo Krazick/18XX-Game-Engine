@@ -51,10 +51,11 @@ public class ShowConfigInfoPreference extends UserPreference implements ItemList
 
 	@Override
 	public void parsePreference (XMLNode aChildNode) {
-		boolean tShow;
-		
-		tShow = aChildNode.getThisBooleanAttribute (AN_SHOW);
-		showConfigInfoFrame.setSelected (tShow);
+		parseBooleanPreference (aChildNode, AN_SHOW, showConfigInfoFrame);
+//		boolean tShow;
+//		
+//		tShow = aChildNode.getThisBooleanAttribute (AN_SHOW);
+//		showConfigInfoFrame.setSelected (tShow);
 	}
 	
 	@Override
