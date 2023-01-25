@@ -4,6 +4,8 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 
 import ge18xx.game.GameManager;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -14,6 +16,11 @@ import ge18xx.utilities.XMLNode;
 //    Perform 'DONE' during Company Operation if train does not have a Train -- not required if company MUST buy a Train
 
 public class ConfirmDecisionPreference extends UserPreference {
+	public static final ElementName EN_CONFIRM_DECISION = new ElementName ("ConfirmDecision");
+	public static final AttributeName AN_TYPE= new AttributeName ("type");
+	public static final AttributeName AN_CHOICE= new AttributeName ("choice");
+	public String decisionType;
+	boolean decisionChoice;
 
 	public ConfirmDecisionPreference (GameManager aGameManager) {
 		super (aGameManager);
@@ -22,12 +29,33 @@ public class ConfirmDecisionPreference extends UserPreference {
 	@Override
 	public void buildUserPreferences (JPanel aUserPreferencesPanel) {
 		aUserPreferencesPanel.add (Box.createVerticalStrut (5));
-		
 	}
 
+	public void setDecisionType (String aDecisionType) {
+		decisionType = aDecisionType;
+	}
+	
+	public String getDecisionType () {
+		return decisionType;
+	}
+	
+	public void setDecisionChoice (boolean aDecisionChoice) {
+		decisionChoice = aDecisionChoice;
+	}
+	
+	public boolean getDecisionChoice () {
+		return decisionChoice;
+	}
+	
 	@Override
 	public XMLElement createElement (XMLDocument aXMLDocument) {
-		return null;
+		XMLElement tConfirmDecisionElement;
+		
+		tConfirmDecisionElement = aXMLDocument.createElement (EN_CONFIRM_DECISION);
+		tConfirmDecisionElement.setAttribute (AN_TYPE, decisionType);
+		tConfirmDecisionElement.setAttribute (AN_CHOICE, decisionChoice);
+		
+		return tConfirmDecisionElement;
 	}
 
 	@Override
