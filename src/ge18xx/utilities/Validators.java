@@ -5,6 +5,14 @@ import java.util.regex.Pattern;
 
 public class Validators {
 
+	/**
+	 * Test if a provided String is a Valid IPv4 or Domain Name. Test for an IPv4 first, then Domain Name
+	 * 
+	 * @param aIPorDomain the String to be tested
+	 * 
+	 * @return true if it meets the formatting for IPv4 or Domain Name
+	 * 
+	 */
 	public static boolean isValidIPorDomain (String aIPorDomain) {
 		boolean tIsValidIPorDomain = false;
 
@@ -17,6 +25,14 @@ public class Validators {
 		return tIsValidIPorDomain;
 	}
 
+	/**
+	 * Test if a provided IPAddress ios a valid IPv4 (###.###.###.###) where each Number is between 0 and 255
+	 * 
+	 * @param aIPAddress the IP Address to be tested.
+	 * 
+	 * @return true if appears to be a valid IP v 4 Address.
+	 * 
+	 */
 	public static boolean isValidIP (String aIPAddress) {
 		try {
 			if (aIPAddress == null || aIPAddress.isEmpty ()) {
@@ -44,6 +60,14 @@ public class Validators {
 		}
 	}
 
+	/**
+	 * Test if the provide String matches the pattern for a Domain Name
+	 * 
+	 * @param aPossibleDomainName the String to test 
+	 * 
+	 * @return True if it matches the domain name Regex Pattern
+	 * 
+	 */
 	public static boolean isValidDomain (String aPossibleDomainName) {
 		// Regex to check valid domain name.
 		String tDomainRegex = "^((?!-)[A-Za-z0-9-]" + "{1,63}(?<!-)\\.)" + "+[A-Za-z]{2,6}";

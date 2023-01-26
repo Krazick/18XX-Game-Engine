@@ -10,8 +10,29 @@ import org.junit.jupiter.api.Test;
 class ValidatorsTests {
 
 	@Test
+	@DisplayName ("Test Valid IPv4 or Domain Name")
+	void isValidIPorDomainTests () {
+		String domainOrIP;
+		
+		domainOrIP = "geeksforgeeks.org";
+		assertTrue (Validators.isValidIPorDomain (domainOrIP));
+		
+		domainOrIP = "geeksforgeeks.org";
+		assertTrue (Validators.isValidIPorDomain (domainOrIP));
+		
+		domainOrIP = "-geeksforgeeks.org";
+		assertFalse (Validators.isValidIPorDomain (domainOrIP));
+		
+		domainOrIP =  "192.168.1.21";
+		assertTrue (Validators.isValidIPorDomain (domainOrIP));
+		
+		domainOrIP =  "192.168.1.21.7";
+		assertFalse (Validators.isValidIPorDomain (domainOrIP));
+	}
+	
+	@Test
 	@DisplayName ("Test Valid and Invalid Domain Names")
-	void testDomainNames () {
+	void domainNameTests () {
 		// Test Case 1:
 		String str1 = "geeksforgeeks.org";
 		assertTrue (Validators.isValidDomain (str1));
@@ -40,8 +61,8 @@ class ValidatorsTests {
 	}
 
 	@Test
-	@DisplayName ("Test Valid and Invalid IP Addresses")
-	void testIPAddresses () {
+	@DisplayName ("Test Valid and Invalid IPv4 Addresses")
+	void IPAddressesTests () {
 		// Test Case 1:
 		String str1 = "192.168.1.21";
 		assertTrue (Validators.isValidIP (str1));
