@@ -16,30 +16,40 @@ public class License extends Coupon {
 	public static final AttributeName AN_BENEFIT_VALUE = new AttributeName ("benefitValue");
 	public static final AttributeName AN_LICENSE_NAME = new AttributeName ("licenseName");
 	public static final AttributeName AN_LICENSE_PRICE = new AttributeName ("price");
+	public static final AttributeName AN_MAP_CELL_IDS = new AttributeName ("mapCellIDs");
 	public static final License NO_LICENSE = null;
 	public static final ArrayList<License> NO_LICENSES = null;
 	public static final int NO_VALUE = 0;
 	int benefitValue;
 	boolean isPortLicense;
+	String mapCellIDs;
+	
+	public License (String aName, int aBenefitValue) {
+		this (aName, NO_VALUE, aBenefitValue);
+	}
 	
 	public License (String aName, int aPrice, int aBenefitValue) {
 		super (aName, aPrice);
 		setBenefitValue (aBenefitValue);
 		setIsPortLicense (false);
+		setMapCellIDs ("");
 	}
 
 	public License (XMLNode aXMLNode) {
 		super (aXMLNode);
 		int tBenefitValue;
 		String tLicenseName;
+		String tMapCellIDs;
 		boolean tIsPortLicense;
 		
 		tIsPortLicense = aXMLNode.getThisBooleanAttribute (PortLicense.AN_PORT_LICENSE);
 		tBenefitValue = aXMLNode.getThisIntAttribute (AN_BENEFIT_VALUE, NO_VALUE);
 		tLicenseName = aXMLNode.getThisAttribute (AN_LICENSE_NAME);
+		tMapCellIDs = aXMLNode.getThisAttribute (AN_MAP_CELL_IDS);
 		setBenefitValue (tBenefitValue);
 		setName (tLicenseName);
 		setIsPortLicense (tIsPortLicense);
+		setMapCellIDs (tMapCellIDs);
 	}
 
 
@@ -51,12 +61,20 @@ public class License extends Coupon {
 		benefitValue = aBenefitValue;
 	}
 	
+	public void setMapCellIDs (String aMapCellIDs) {
+		mapCellIDs = aMapCellIDs;
+	}
+	
 	public int getBenefitValue () {
 		return benefitValue;
 	}
 	
 	public int getPortValue () {
 		return NO_VALUE;
+	}
+	
+	public String getMapCellIDs () {
+		return mapCellIDs;
 	}
 	
 	public boolean isPortLicense () {
@@ -79,6 +97,7 @@ public class License extends Coupon {
 	public void addAttributes (XMLElement aXMLElement) {
 		aXMLElement.setAttribute (AN_LICENSE_NAME, getName ());
 		aXMLElement.setAttribute (AN_BENEFIT_VALUE, getBenefitValue ());
+		aXMLElement.setAttribute (AN_MAP_CELL_IDS, getMapCellIDs ());
 	}
 
 	public XMLElement createElement (XMLDocument aXMLDocument) {
