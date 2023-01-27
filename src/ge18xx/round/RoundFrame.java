@@ -463,6 +463,13 @@ public class RoundFrame extends XMLFrame {
 					tFastBuyButton = new FastBuyButton (tButtonLabel, tFastBuyCertificate);
 					setupButton (BUY_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT, tFastBuyButton);
 					addButtonAndSpace (fastBuyJPanel, tFastBuyButton);
+					if (tCurrentPlayer.hasBoughtShare ()) {
+						tFastBuyButton.setEnabled (false);
+						tFastBuyButton.setToolTipText ("Already Bought a Share of Stock");
+					} else {
+						tFastBuyButton.setEnabled (true);
+						tFastBuyButton.setToolTipText ("Buy another Share of your Company Stock");
+					}
 				}
 				tFastBuyIndex++;
 			} else {
