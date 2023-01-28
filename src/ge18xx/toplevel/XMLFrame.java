@@ -98,12 +98,13 @@ public class XMLFrame extends JFrame {
 	}
 
 	public String extractFrameName () {
+		int tIndexLastSpace;
 		String tFrameName;
 		String tPattern = "^(.*) \\([A-Za-z][A-Za-z0-9_]*\\)$";
 
 		tFrameName = getTitle ();
 		if (tFrameName.matches (tPattern)) {
-			int tIndexLastSpace = tFrameName.lastIndexOf (" ");
+			tIndexLastSpace = tFrameName.lastIndexOf (" ");
 			tFrameName = tFrameName.substring (0, tIndexLastSpace);
 		}
 
