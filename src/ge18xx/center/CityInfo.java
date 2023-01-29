@@ -70,6 +70,7 @@ public class CityInfo implements Cloneable {
 		name = aChildNode.getThisAttribute (AN_NAME);
 		type = aChildNode.getThisIntAttribute (AN_TYPE);
 		tCorporationAbbrev = aChildNode.getThisAttribute (AN_CORP_BASE);
+
 		setCorporation (tCorporationAbbrev);
 		tLocation = aChildNode.getThisIntAttribute (Location.AN_LOCATION, Location.CENTER_CITY_LOC);
 		nameLocation = new Location (tLocation);
@@ -383,8 +384,10 @@ public class CityInfo implements Cloneable {
 	}
 
 	public void setCorporationHome (Corporation aCorporation, RevenueCenter aRevenueCenter) {
-		corporation = aCorporation;
 		center = aRevenueCenter;
+		if (!center.isDestination ()) {
+			corporation = aCorporation;
+		}
 	}
 
 	public void setMapCell (MapCell aMapCell) {

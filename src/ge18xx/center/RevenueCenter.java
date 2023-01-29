@@ -340,7 +340,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 
 		tAbbrev = null;
 		if (isCorporationBase ()) {
-			if (type.isDestination ()) {
+			if (isDestination ()) {
 				tAbbrev = cityInfo.getCorporationAbbrev ();
 			}
 		}
@@ -353,7 +353,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 
 		tAbbrev = null;
 		if (isCorporationBase ()) {
-			if (!type.isDestination ()) {
+			if (! isDestination ()) {
 				tAbbrev = cityInfo.getCorporationAbbrev ();
 			}
 		}

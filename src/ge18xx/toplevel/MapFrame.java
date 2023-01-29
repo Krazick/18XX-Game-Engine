@@ -676,14 +676,14 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		if (aTokenCompany != Corporation.NO_CORPORATION) {
 			setCompanyAbbrev (aTokenCompany.getAbbrev ());
 			if (aRevenueCenter != RevenueCenter.NO_CENTER) {
-				if (aRevenueCenter.canPlaceStation ()) {
-					tSelectedCity = (City) aRevenueCenter;
+				tSelectedCity = (City) aRevenueCenter;
+				if (tSelectedCity.canPlaceStation ()) {
 					tCanPlaceToken = canPlaceToken (aTokenCompany, tSelectedCity, aMapCell);
 					if (tCanPlaceToken) {
 						putMapTokenDown (aTokenCompany, aMapToken, aTokenType, tSelectedCity, aMapCell, true);
 					}
 				} else {
-					System.err.println ("Cannot Place Station on this Revenue Center");
+					System.err.println ("***Cannot Place Station on this Revenue Center");
 				}
 			}
 		} else {
@@ -708,7 +708,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						putMapTokenDown (aTokenCompany, tMapToken, aTokenType, tSelectedCity, aMapCell, true);
 					}
 				} else {
-					System.err.println ("Cannot Place Station on this Revenue Center");
+					System.err.println ("---Cannot Place Station on this Revenue Center");
 				}
 			}
 		} else {
