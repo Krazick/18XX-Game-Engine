@@ -348,7 +348,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		} else if (PUT_TOKEN.equals (tTheAction)) {
 			if (tCorporation.isATokenCompany ()) {
 				tTokenCompany = (TokenCompany) tCorporation;
-				putATokenDown (tTokenCompany, TokenType.MAP);
+				putATokenDown (tTokenCompany);
 			}
 		} else if (RESET_ALL_FLAGS.equals (tTheAction)) {
 			resetAllModes ();
@@ -645,21 +645,27 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		return tHasCityBeenSelected;
 	}
 
-	public void putATokenDown (TokenCompany aTokenCompany, TokenType aTokenType) {
-		putTokenDown (aTokenCompany, aTokenType);
+	public void putATokenDown (TokenCompany aTokenCompany) {
+		putTokenDown (aTokenCompany);
 		togglePlaceTokenMode ();
 		map.removeAllSMC ();
 	}
-
-	public void putTokenDown (TokenCompany aTokenCompany, TokenType aTokenType) {
+	
+	public void putTokenDown (TokenCompany aTokenCompany) {
 		MapCell tSelectedMapCell;
 		RevenueCenter tSelectedRevenueCenter;
+		TokenType tTokenType;
 
 		tSelectedMapCell = map.getSelectedMapCell ();
 		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 			tSelectedRevenueCenter = tSelectedMapCell.getSelectedRevenueCenter ();
 			if (tSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
-				putTokenDownHere (aTokenCompany, tSelectedMapCell, tSelectedRevenueCenter, aTokenType);
+				if (tSelectedRevenueCenter.getHomeCompanyAbbrev ().equals (aTokenCompany.getAbbrev ())) {
+					tTokenType = TokenType.HOME1;
+				} else {
+					tTokenType = TokenType.MAP;
+				}
+				putTokenDownHere (aTokenCompany, tSelectedMapCell, tSelectedRevenueCenter, tTokenType);
 			} else {
 				System.err.println ("No Revenue Center Selected from Map Cell");
 			}
@@ -704,7 +710,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					tSelectedCity = (City) aRevenueCenter;
 					tCanPlaceToken = canPlaceToken (aTokenCompany, tSelectedCity, aMapCell);
 					if (tCanPlaceToken) {
-						tMapToken = aTokenCompany.getMapToken ();
+						tMapToken = (MapToken) aTokenCompany.getToken (aTokenType);
 						putMapTokenDown (aTokenCompany, tMapToken, aTokenType, tSelectedCity, aMapCell, true);
 					}
 				} else {
@@ -816,7 +822,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	public boolean canPlaceToken (Corporation aCorporation, City aSelectedCity, MapCell aMapCell) {
 		boolean tCanPlaceToken = false;
 		Corporation tBaseCorporation;
-		String tBaseAbbrev, tCorporationAbbrev;
+//		String tBaseAbbrev, tCorporationAbbrev;
 		int tCorporationID;
 
 		tCorporationID = aCorporation.getID ();
@@ -830,11 +836,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						tCanPlaceToken = true;
 					}
 				} else {
-					tBaseAbbrev = tBaseCorporation.getAbbrev ();
-					tCorporationAbbrev = aCorporation.getAbbrev ();
+//					tBaseAbbrev = tBaseCorporation.getAbbrev ();
+//					tCorporationAbbrev = aCorporation.getAbbrev ();
 					if (aSelectedCity.cityHasStation (tCorporationID)) {
 						tCanPlaceToken = false;
-					} else if (tBaseAbbrev.equals (tCorporationAbbrev)) {
+					} else if (isHomeMapCell (aCorporation, aSelectedCity)) {
 						if (hasFreeStation (aSelectedCity)) {
 							tCanPlaceToken = true;
 						}
@@ -848,6 +854,24 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		return tCanPlaceToken;
 	}
 
+	private boolean isHomeMapCell (Corporation aCorporation, City aSelectedCity) {
+		boolean tIsHomeMapCell;
+		Corporation tBaseCorporation;
+		String tBaseAbbrev;
+		String tCorporationAbbrev;
+		
+		tBaseCorporation = aSelectedCity.getTokenCorporation ();
+		tBaseAbbrev = tBaseCorporation.getAbbrev ();
+		tCorporationAbbrev = aCorporation.getAbbrev ();
+		if (tBaseAbbrev.equals (tCorporationAbbrev)) {
+			tIsHomeMapCell = true;
+		} else {
+			tIsHomeMapCell = false;
+		}
+
+		return tIsHomeMapCell;
+	}
+	
 	private boolean hasFreeStation (City aCity) {
 		return aCity.getFreeStationCount () > 0;
 	}
