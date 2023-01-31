@@ -312,13 +312,17 @@ public class Bank extends GameBank implements CashHolderI {
 		return startPacketFrame.getPrivateForAuction ();
 	}
 
+	/**
+	 * Find a Train in the Rusted Pile
+	 * 
+	 * @param aName The Name of the train to find
+	 * @return The Train found in the Rusted Pile that matches the Name provided
+	 * 
+	 */
 	public Train getRustedTrain (String aName) {
 		Train tTrain;
 
 		tTrain = rustedTrainsPortfolio.getTrain (aName);
-		if (tTrain != Train.NO_TRAIN) {
-			System.out.println ("Found Train " + aName + " in the Rusted Pile");
-		}
 
 		return tTrain;
 	}
