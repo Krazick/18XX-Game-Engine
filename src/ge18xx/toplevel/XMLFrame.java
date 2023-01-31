@@ -63,7 +63,7 @@ public class XMLFrame extends JFrame {
 		gameManager = aGameManager;
 	}
 	
-	public void updateFrameTitle (String aBaseTitle) {
+	protected void updateFrameTitle (String aBaseTitle) {
 		String tFrameTitle;
 
 		if (gameManager != GameManager.NO_GAME_MANAGER) {

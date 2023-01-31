@@ -106,7 +106,7 @@ public class RoundFrame extends XMLFrame {
 		setStockRoundInfo (tGameName, roundManager.getStockRoundID ());
 	}
 
-	public void updateFrameTitle () {
+	private void updateFrameTitle () {
 		updateFrameTitle (BASE_TITLE);
 	}
 
