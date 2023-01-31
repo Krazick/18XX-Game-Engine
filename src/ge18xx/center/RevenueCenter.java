@@ -351,7 +351,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	public String getHomeCompanyAbbrev () {
 		String tAbbrev;
 
-		tAbbrev = null;
+		tAbbrev = Corporation.NO_ABBREV;
 		if (isCorporationBase ()) {
 			if (! isDestination ()) {
 				tAbbrev = cityInfo.getCorporationAbbrev ();
