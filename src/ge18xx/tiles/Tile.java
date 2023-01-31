@@ -509,8 +509,29 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers.getRCContainingPoint (aPoint, aHex, XCenter, YCenter, aTileOrient);
 	}
 
+	/**
+	 * Get the number of Usable Revenue Centers (that are NOT Destinations)
+	 * 
+	 * @return the Count of Centers that can be used by Tokens
+	 * 
+	 */
 	public int getRevenueCenterCount () {
-		return centers.size ();
+		RevenueCenter tRevenueCenter;
+		int tUseableRevenueCenters;
+		int tRCIndex;
+		int tRCCount;
+		
+		tUseableRevenueCenters = 0;
+		tRCCount = centers.size ();
+		
+		for (tRCIndex = 0; tRCIndex < tRCCount; tRCIndex++) {
+			tRevenueCenter = centers.get (tRCIndex);
+			if (! tRevenueCenter.isDestination ()) {
+				tUseableRevenueCenters++;
+			}
+		}
+		
+		return tUseableRevenueCenters;
 	}
 
 	public RevenueCenter getRevenueCenter (int aCenterIndex) {
