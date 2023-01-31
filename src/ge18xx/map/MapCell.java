@@ -1932,14 +1932,14 @@ public class MapCell implements Comparator<Object> {
 					if (tCity.cityHasAnyStation ()) {
 						tMustSwap = moveAllMapTokens (aNewTile, tNewCityLocation, tCity);
 					} else {
-						if (tCity.isCorporationBase ()) {
-							tBaseCorporation = tCity.getCorporation ();
-							aNewTile.setCorporationHome (tBaseCorporation, tNewCityLocation);
-							aNewTile.setMapCell (this);
-						} else if (tCity.isDestination ()) {
+						if (tCity.isDestination ()) {
 							tDestinationCity = tCity.clone ();
 							tDestinationCity.setTemporary (true);
 							aNewTile.addCenter (tDestinationCity);
+						} else if (tCity.isCorporationBase ()) {
+							tBaseCorporation = tCity.getCorporation ();
+							aNewTile.setCorporationHome (tBaseCorporation, tNewCityLocation);
+							aNewTile.setMapCell (this);
 						}
 					}
 				}
