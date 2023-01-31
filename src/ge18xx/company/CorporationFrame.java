@@ -15,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -1331,9 +1332,17 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 				if (corporation.mustBuyTrainNow ()) {
 					if (corporation.getCash () < tCheapestTrain.getPrice ()) {
-						buyTrainForceButton.setVisible (true);
-						buyTrainForceButton.setEnabled (true);
-						buyTrainForceButton.setToolTipText (GUI.NO_TOOL_TIP);
+						// Kludge here. Should test if any other Corporation has a Train Selected to be 
+						// purchased. If the BuyTrainButton is enabled, then a train has been selected.
+						if (buyTrainButton.isEnabled ()) {
+							buyTrainForceButton.setVisible (true);
+							buyTrainForceButton.setEnabled (false);
+							buyTrainForceButton.setToolTipText ("A Train from another company has been Selected for Purchase");	
+						} else {
+							buyTrainForceButton.setVisible (true);
+							buyTrainForceButton.setEnabled (true);
+							buyTrainForceButton.setToolTipText (GUI.NO_TOOL_TIP);
+						}
 					} else {
 						hideForceBuyTrainButton ();
 					}
@@ -1375,12 +1384,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	private void updateBuyTrainButton () {
 		int tSelectedCount;
 		int tThisSelectedTrainCount;
-		TrainCompany tTrainCompany = (TrainCompany) corporation;
 		Train tSelectedTrainToBuy;
 		Coupon tSelectedTrainToUpgrade;
 		boolean tRemovedADiscount;
 		boolean tCanBuyTrain;
+		TrainCompany tTrainCompany;
 
+		tTrainCompany = (TrainCompany) corporation;
 		tThisSelectedTrainCount = tTrainCompany.getLocalSelectedTrainCount ();
 		tSelectedCount = corporation.getSelectedTrainCount ();
 
@@ -1644,10 +1654,23 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	@Override
 	public void itemStateChanged (ItemEvent aItemEvent) {
+		JCheckBox tCheckbox;
+		Object tSource;
+		
 		if (corporation.isWaitingForResponse ()) {
 			updateButton (buyTrainButton, false, "Waiting for Response from Purchase Offer");
 		} else if (corporation.isOperating ()) {
+			tSource = aItemEvent.getSource ();
+			if (tSource instanceof JCheckBox) {
+				tCheckbox = (JCheckBox) tSource;
+				if (tCheckbox.isSelected ()) {
+					tCheckbox.setToolTipText ("Train Selected for Purchase");
+				} else {
+					tCheckbox.setToolTipText (GUI.NO_TOOL_TIP);
+				}
+			}
 			updateBuyTrainButton ();
+			updateForceBuyTrainButton ();
 			updateBuyPrivateButton ();
 			updateDoneButton ();
 		}
