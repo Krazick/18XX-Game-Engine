@@ -655,12 +655,18 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		MapCell tSelectedMapCell;
 		RevenueCenter tSelectedRevenueCenter;
 		TokenType tTokenType;
+		String tHomeAbbrev;
+		String tTokenAbbrev;
 
 		tSelectedMapCell = map.getSelectedMapCell ();
 		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 			tSelectedRevenueCenter = tSelectedMapCell.getSelectedRevenueCenter ();
 			if (tSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
-				if (tSelectedRevenueCenter.getHomeCompanyAbbrev ().equals (aTokenCompany.getAbbrev ())) {
+				tHomeAbbrev = tSelectedRevenueCenter.getHomeCompanyAbbrev ();
+				tTokenAbbrev = aTokenCompany.getAbbrev ();
+				if (tHomeAbbrev == Corporation.NO_ABBREV) {
+					tTokenType = TokenType.MAP;
+				} else if (tHomeAbbrev.equals (tTokenAbbrev)) {
 					tTokenType = TokenType.HOME1;
 				} else {
 					tTokenType = TokenType.MAP;
