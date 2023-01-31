@@ -57,7 +57,7 @@ public class Certificate implements Comparable<Certificate> {
 	public static AttributeName AN_ALLOWED_OWNERS = new AttributeName ("allowedOwners");
 	public static ElementName EN_CERTIFICATE = new ElementName ("Certificate");
 	public static ElementName EN_BIDDERS = new ElementName ("Bidders");
-	private static String NO_OWNER_NAME = "";
+	public static String NO_OWNER_NAME = "";
 	private static String SHARE_OWNER = "Share";
 	private static String IPO_OWNER = "IPO";
 	private static String PLAYER_OWNER = "Player";
