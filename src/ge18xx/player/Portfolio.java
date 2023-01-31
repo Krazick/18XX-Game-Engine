@@ -980,6 +980,16 @@ public class Portfolio implements CertificateHolderI {
 		return tPresidentPercent;
 	}
 
+	/**
+	 * Determine the player who has the next highest Stock Percentage of the specific Corporation after the current
+	 * President, and return that percentage owned. This will ignore shares owned by the Bank or the BankPool.
+	 * TODO:  This -SHOULD- also ignore shares that may be owned by a Company.
+	 * 
+	 * @param aCorporation The corporation to find ownership of
+	 * 
+	 * @return the Percentage owned by the next highest player.
+	 * 
+	 */
 	public int getNextPresidentPercent (Corporation aCorporation) {
 		String tCertificateOwnerName;
 		String tNextName;
@@ -998,17 +1008,19 @@ public class Portfolio implements CertificateHolderI {
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isOwned ()) {
 				tCertificateOwnerName = tCertificate.getOwnerName ();
-				if (!tCertificateOwnerName.equals (tPresidentName)) {
-					if (tCertificateOwnerName.equals (tNextName)) {
-						tPercent += tCertificate.getPercentage ();
-					} else {
-						if (tPercent > tNextPresidentPercent) {
-							tNextPresidentPercent = tPercent;
+				if (! tCertificateOwnerName.equals (Certificate.NO_OWNER_NAME)) {
+					if (! tCertificateOwnerName.equals (tPresidentName)) {
+						if (tCertificateOwnerName.equals (tNextName)) {
+							tPercent += tCertificate.getPercentage ();
+						} else {
+							if (tPercent > tNextPresidentPercent) {
+								tNextPresidentPercent = tPercent;
+							}
+							tPercent = tCertificate.getPercentage ();
 						}
-						tPercent = tCertificate.getPercentage ();
 					}
+					tNextName = tCertificateOwnerName;
 				}
-				tNextName = tCertificateOwnerName;
 			}
 		}
 		if (tPercent > tNextPresidentPercent) {
