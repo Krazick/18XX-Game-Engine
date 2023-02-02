@@ -375,7 +375,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		Corporation tCorporation;
 		TokenCompany tTokenCompany;
 
-		System.out.println ("Time to build a Graph");
 		tCorporation = getOperatingCompany ();
 		if (tCorporation != Corporation.NO_CORPORATION) {
 			if (tCorporation.isATokenCompany ()) {
@@ -393,6 +392,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		togglePlaceTileMode ();
 		map.setTilePlaced (false);
 		map.removeAllSMC ();
+		if (gameManager.hasDestinations ()) {
+			gameManager.checkForDestinationsReached ();
+		}
 	}
 
 	private void removeHomeIfChoice () {
