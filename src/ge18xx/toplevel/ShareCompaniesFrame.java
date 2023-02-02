@@ -406,6 +406,14 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 		}
 	}
 
+	public boolean hasDestinations () {
+		return companies.hasDestinations ();
+	}
+	
+	public void checkForDestinationsReached () {
+		companies.checkForDestinationsReached ();
+	}
+	
 	public void fixLoadedRoutes (MapFrame aMapFrame) {
 		super.fixLoadedRoutes (aMapFrame, BASE_TYPE);
 	}
