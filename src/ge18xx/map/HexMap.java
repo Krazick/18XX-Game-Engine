@@ -1464,6 +1464,25 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 
+	public boolean graphContainsMapCell (MapCell aMapCell) {
+		boolean tGraphContainsMapCell;
+		
+		tGraphContainsMapCell = false;
+		if (mapGraph != MapGraph.NO_MAP_GRAPH) {
+			tGraphContainsMapCell = mapGraph.containsMapCell (aMapCell);
+		}
+		
+		return tGraphContainsMapCell;
+	}
+	
+	public void breadthFirstSearch (String aHomeVertexID) {
+		mapGraph.breadthFirstSearch (aHomeVertexID) ;
+	}
+	
+	public boolean foundInBFS (String aMapCellID) {
+		return mapGraph.foundInBFS (aMapCellID);
+	}
+	
 	public void buildMapGraph () {
 		int tRowCount;
 		int tRowIndex;
