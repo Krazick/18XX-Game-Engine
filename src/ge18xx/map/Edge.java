@@ -4,6 +4,7 @@ import ge18xx.tiles.Track;
 
 public class Edge {
 	public static final Edge NO_EDGE = null;
+	public static final String NO_TRACK_LABEL = "EDGE";
 	Track track;
 	Vertex startVertex;
 	Vertex endVertex;
@@ -84,12 +85,24 @@ public class Edge {
 		return tInfo;
 	}
 
+	public boolean isNoTrackEdge () {
+		boolean tIsNoTrackEdge;
+		
+		if (track == Track.NO_TRACK) {
+			tIsNoTrackEdge = true;
+		} else {
+			tIsNoTrackEdge = false;
+		}
+		
+		return tIsNoTrackEdge;
+	}
+	
 	public String getForwardInfo () {
 		String tInfo;
 		String tGaugeName;
 
-		if (track == Track.NO_TRACK) {
-			tGaugeName = "EDGE";
+		if (isNoTrackEdge ()) {
+			tGaugeName = NO_TRACK_LABEL;
 		} else {
 			tGaugeName = track.getGaugeName ();
 		}
@@ -103,8 +116,8 @@ public class Edge {
 		String tInfo;
 		String tGaugeName;
 
-		if (track == Track.NO_TRACK) {
-			tGaugeName = "EDGE";
+		if (isNoTrackEdge ()) {
+			tGaugeName = NO_TRACK_LABEL;
 		} else {
 			tGaugeName = track.getGaugeName ();
 		}
