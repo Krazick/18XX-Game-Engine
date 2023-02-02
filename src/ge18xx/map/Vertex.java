@@ -10,6 +10,7 @@ import ge18xx.tiles.Track;
 
 public class Vertex {
 	public final static Vertex NO_VERTEX = null;
+	public final static String NO_VERTEX_ID = null;
 	MapCell mapCell;
 	Location location;
 	List<Edge> edges;
@@ -100,6 +101,11 @@ public class Vertex {
 		id = buildID ();
 	}
 
+	@Override
+	public String toString () {
+		return id;
+	}
+	
 	public String buildID () {
 		String tID;
 
@@ -108,6 +114,18 @@ public class Vertex {
 		return tID;
 	}
 
+	public static String buildID (MapCell aMapCell, Location aLocation) {
+		String tID;
+		
+		if ((aMapCell != MapCell.NO_MAP_CELL) && (aLocation != Location.NO_LOC)) {
+			tID = aMapCell.getCellID () + ":" + aLocation.getLocation ();
+		} else {
+			tID = Vertex.NO_VERTEX_ID;
+		}
+		
+		return tID;
+	}
+	
 	public void setLocation (Location aLocation) {
 		location = aLocation;
 	}
@@ -240,8 +258,6 @@ public class Vertex {
 		while (! tNextToVisit.isEmpty ()) {
 			tVertexToVisit = tNextToVisit.remove (0);
 			tVertexID = tVertexToVisit.getID ();
-//			System.out.println ("Visiting: " + tVertexID);
-//			tVertexToVisit.printInfo ();
 			if (tVertexToVisit.isEmptyMapCell ()) {
 				tEmptyMapCell = tVertexToVisit.getMapCell ();
 				if (! tEmptyMapCells.contains (tEmptyMapCell)) {
@@ -274,5 +290,19 @@ public class Vertex {
 
 	public boolean isEmptyMapCell () {
 		return ! mapCell.isTileOnCell ();
+	}
+	
+	public void visitNeighbors (List<String> aQueueVertexIDs, List<Vertex> aVisitedVertexes) {
+		Vertex tNeighbor;
+		String tVertexID;
+		
+		for (Edge tEdge : edges) {
+			tNeighbor = tEdge.getOtherVertex (this);
+			if (! aVisitedVertexes.contains (tNeighbor)) {
+				tVertexID = tNeighbor.getID ();
+				aQueueVertexIDs.add (tVertexID);
+				aVisitedVertexes.add (tNeighbor);
+			}
+		}
 	}
 }
