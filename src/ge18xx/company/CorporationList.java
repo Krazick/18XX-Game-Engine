@@ -36,6 +36,7 @@ import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
+import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.CashHolderI;
@@ -582,6 +583,33 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return "Corporation List";
 	}
 
+	public boolean hasDestinations () {
+		boolean tHasDestinations;
+		
+		tHasDestinations = false;
+		for (Corporation tCorporation : corporations) {
+			if (tCorporation.hasDestination ()) {
+				tHasDestinations = true;
+			}
+		}
+
+		return tHasDestinations;
+	}
+	
+	public void checkForDestinationsReached () {
+		HexMap tHexMap;
+		GameManager tGameManager;
+		
+		tGameManager = getGameManager ();
+		tHexMap = tGameManager.getGameMap ();
+		tHexMap.buildMapGraph ();
+		for (Corporation tCorporation : corporations) {
+			if (tCorporation.hasDestination ()) {
+				tCorporation.checkForDestinationReached (tHexMap);
+			}
+		}
+	}
+	
 	/**
 	 * Test if ALL of the Train Companies in this Corporation List have operated or not.
 	 *
