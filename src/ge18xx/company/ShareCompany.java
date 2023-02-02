@@ -5,8 +5,10 @@ import java.awt.event.ItemListener;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
+import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
+import ge18xx.map.Vertex;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.phase.PhaseInfo;
@@ -19,6 +21,7 @@ import ge18xx.round.action.GetLoanAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayLoanInterestAction;
 import ge18xx.round.action.PayNoDividendAction;
+import ge18xx.round.action.ReachedDestinationAction;
 import ge18xx.round.action.RedeemLoanAction;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -100,6 +103,96 @@ public class ShareCompany extends TokenCompany {
 		return tCurrentColumn;
 	}
 
+	@Override
+	public boolean hasDestination () {
+		return destinationInfo.hasDestination ();
+	}
+	
+	@Override
+	public void checkForDestinationReached (HexMap aHexMap) {
+		String tDestinationMapCellID;
+		String tHomeVertexID;
+		Location tLocation;
+		MapCell tHomeMapCell;
+		MapCell tDestinationMapCell;
+		boolean tContainsHomeMapCell;
+		boolean tContainsDestinationMapCell;
+		boolean tFoundInBFS;
+		int tCorpID;
+		
+		tHomeMapCell = getHomeCity1 ();
+		tCorpID = getID ();
+		tLocation = tHomeMapCell.getLocationWithStation (tCorpID);
+		tHomeVertexID = Vertex.buildID (tHomeMapCell, tLocation);
+		
+		if (tHomeVertexID != Vertex.NO_VERTEX_ID) {
+			tDestinationMapCell = destinationInfo.getMapCell ();
+			
+			tDestinationMapCellID = destinationInfo.getMapCellID ();
+			System.out.println ("Check if " + abbrev + " has reached from home " + tHomeVertexID + 
+					" to destination " + tDestinationMapCellID);
+			if (destinationInfo.hasReached ()) {
+				System.out.println ("Has previously reached the destination");
+			} else {
+				tContainsHomeMapCell = aHexMap.graphContainsMapCell (tHomeMapCell);
+				tContainsDestinationMapCell = aHexMap.graphContainsMapCell (tDestinationMapCell);
+				if (tContainsHomeMapCell && tContainsDestinationMapCell) {
+					System.out.println ("Home and Destination Map Cells are in the Graph - Need to see if Connected");
+					aHexMap.breadthFirstSearch (tHomeVertexID);
+					tFoundInBFS = aHexMap.foundInBFS (tDestinationMapCellID);
+					System.out.println ("**** Found Destination in BFS " + tFoundInBFS);
+					if (tFoundInBFS) {
+						handleReachedDestination ();
+					}
+				} else {
+					System.out.println ("Home Map Cell in Graph: " + tContainsHomeMapCell);
+					System.out.println ("Destination Map Cell in Graph: " + tContainsDestinationMapCell);			
+				}
+			}
+		}
+	}
+
+	public void handleReachedDestination () {
+		ReachedDestinationAction tReachedDestinationAction;
+		OperatingRound tOperatingRound;
+		boolean tReachedDestination;
+		int tEscrowReleased;
+		int tSharesSold;
+		int tParPrice;
+		Bank tBank;
+
+		tBank = corporationList.getBank ();	
+		tReachedDestination = true;
+		setReachedDestination (tReachedDestination);
+		tOperatingRound = corporationList.getOperatingRound ();
+		tReachedDestinationAction = new ReachedDestinationAction (tOperatingRound.getRoundType (), 
+																tOperatingRound.getID (), this);
+		tReachedDestinationAction.setChainToPrevious (true);
+		tReachedDestinationAction.addReachedDestinationEffect (tOperatingRound, tReachedDestination);
+		tEscrowReleased = 0;
+		tSharesSold = getSharesOwned ();
+		tParPrice = getParPrice ();
+		if (tSharesSold > 5) {
+			tEscrowReleased = (tSharesSold - 5) * tParPrice;
+		}
+		// TODO -- Calculate the Escrow amount to be Released to the company from the Bank
+		// Shares Sold > 50% times the Par Price
+		System.out.println ("--- For " + abbrev + " Sold " + tSharesSold + " Shares, Par Price " + tParPrice + " Escrow " + tEscrowReleased);
+		tBank.transferCashTo (this, tEscrowReleased);
+
+		tReachedDestinationAction.addCashTransferEffect (tBank, this, tEscrowReleased);
+		corporationList.addAction (tReachedDestinationAction);
+	}
+
+	public void setReachedDestination (boolean aReached) {
+		destinationInfo.setReached (aReached);
+	}
+	
+	@Override
+	public boolean hasReachedDestination () {
+		return destinationInfo.hasReached ();
+	}
+	
 	public JPanel buildPrivatesForPurchaseJPanel (ItemListener aItemListener) {
 		JPanel tPrivatesJPanel;
 
@@ -124,7 +217,7 @@ public class ShareCompany extends TokenCompany {
 		tBuyPrivateFrame = new BuyPrivateFrame (this, tPrivateOwner, tPresidentCertificate);
 		tBuyPrivateFrame.requestFocus ();
 	}
-
+	
 	@Override
 	public PrivateCompany getSelectedPrivateToBuy () {
 		return (corporationList.getSelectedPrivateCompanyToBuy ());
