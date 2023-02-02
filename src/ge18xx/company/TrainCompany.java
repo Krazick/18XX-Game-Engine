@@ -216,7 +216,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public void floatCompany (int aInitialTreasury) {
 		int tRowIndex;
 		FloatCompanyAction tFloatCompanyAction;
-		ActorI.ActionStates tOldState, tNewState;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
 		OperatingRound tOperatingRound;
 		Bank tBank;
 
@@ -367,18 +368,22 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public String buildCorpInfoLabel () {
-		return this.buildCorpInfoLabel (GUI.NULL_STRING);
+		return buildCorpInfoLabel (GUI.NULL_STRING);
 	}
 
 	@Override
 	public String buildCorpInfoLabel (String aLoanInfo) {
-		String tCorpLabel = "";
+		String tCorpLabel;
 		String tThisRevenue;
 
 		tCorpLabel = getAbbrev () + "&nbsp;";
 		if (isActive ()) {
-//			tCorpLabel += "[" + getPlayerOrCorpOwnedPercentage () + "%&nbsp; Owned]";
 			tCorpLabel += buildPercentOwnedLabel ();
+			if (hasDestination ()) {
+				if (hasReachedDestination ()) {
+					tCorpLabel += "*";
+				}
+			}
 			tCorpLabel += "<br>[" + getBankPoolPercentage () + "%&nbsp; in Bank Pool]";
 			tCorpLabel += "<br>[" + getStatusName () + "]";
 			tCorpLabel += "<br>Prez: " + getPresidentName ();
