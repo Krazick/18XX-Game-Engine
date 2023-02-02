@@ -28,6 +28,7 @@ import ge18xx.company.benefit.Benefits;
 import ge18xx.company.benefit.FakeBenefit;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
+import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.market.MarketCell;
@@ -2453,6 +2454,18 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return true;
 	}
 
+	public boolean hasDestination () {
+		return false;
+	}
+	
+	public boolean hasReachedDestination () {
+		return false;
+	}
+	
+	public void checkForDestinationReached (HexMap aHexMap) {
+		
+	}
+	
 	public String getNote () {
 		return NO_NOTE;
 	}
