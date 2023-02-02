@@ -651,6 +651,11 @@ public class MapCell implements Comparator<Object> {
 		return tRevenueCenter;
 	}
 
+	@Override
+	public String toString () {
+		return id;
+	}
+	
 	public String getCellID () {
 		return id;
 	}
@@ -1016,7 +1021,7 @@ public class MapCell implements Comparator<Object> {
 
 		tLocationWithStation = Location.NO_LOC;
 		if (tile != Tile.NO_TILE) {
-			tLocationWithStation = tile.getLocationWithStation (aCorpID);
+			tLocationWithStation = tile.getLocationWithStation (aCorpID, tileOrient);
 		}
 
 		return tLocationWithStation;
