@@ -703,7 +703,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 		}
 	}
 
-	public Location getLocationWithStation (int aCorpID) {
+	public Location getLocationWithStation (int aCorpID, int aTileOrient) {
 		Location tLocationWithStation;
 		int tStationIndex;
 		RevenueCenter tRevenueCenter;
@@ -711,9 +711,12 @@ public class Tile implements Comparable<Object>, Cloneable {
 		tLocationWithStation = Location.NO_LOC;
 		if (hasCenters ()) {
 			tStationIndex = getStationIndex (aCorpID);
-			tRevenueCenter = centers.get (tStationIndex);
-			if (tRevenueCenter != RevenueCenter.NO_CENTER) {
-				tLocationWithStation = tRevenueCenter.getLocation ();
+			if (tStationIndex != Centers.UNSPECIFIED_ID) {
+				tRevenueCenter = centers.get (tStationIndex);
+				if (tRevenueCenter != RevenueCenter.NO_CENTER) {
+					tLocationWithStation = tRevenueCenter.getLocation ();
+					tLocationWithStation = tLocationWithStation.unrotateLocation (aTileOrient);
+				}
 			}
 		}
 
@@ -721,11 +724,15 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 
 	public int getStationIndex (int aCorpID) {
+		int tStationIndex;
+		
 		if (hasCenters ())
-			return centers.getStationIndex (aCorpID);
+			tStationIndex = centers.getStationIndex (aCorpID);
 		else {
-			return Centers.UNSPECIFIED_ID;
+			tStationIndex = Centers.UNSPECIFIED_ID;
 		}
+		
+		return tStationIndex;
 	}
 
 	public void loadStationsStates (XMLNode aMapCellNode) {
