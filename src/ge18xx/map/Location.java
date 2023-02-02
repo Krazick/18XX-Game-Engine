@@ -723,31 +723,31 @@ public class Location implements Cloneable {
 	}
 
 	public Location unrotateLocation (int aOrientation) {
-		int newLocation = location;
+		int tNewLocation = location;
 
 		if (isSide ()) {
-			newLocation = rotateLocation (0, 6 - aOrientation, 6);
+			tNewLocation = rotateLocation (0, 6 - aOrientation, 6);
 		} else if (isCityHexSide ()) {
-			newLocation = rotateLocation (MIN_CITY_LOC_NS, 6 - aOrientation, 6);
+			tNewLocation = rotateLocation (MIN_CITY_LOC_NS, 6 - aOrientation, 6);
 		} else if (isCityHexCorner ()) {
-			newLocation = rotateLocation (MIN_CITY_LOC_NC, 6 - aOrientation, 6);
+			tNewLocation = rotateLocation (MIN_CITY_LOC_NC, 6 - aOrientation, 6);
 		} else if (isCityFarHexSide ()) {
-			newLocation = rotateLocation (MIN_CITY_LOC_FS, 6 - aOrientation, 6);
+			tNewLocation = rotateLocation (MIN_CITY_LOC_FS, 6 - aOrientation, 6);
 		} else if (isCityFarHexCornerRight ()) {
-			newLocation = rotateLocation (MIN_CITY_LOC_FCR, 6 - aOrientation, 6);
+			tNewLocation = rotateLocation (MIN_CITY_LOC_FCR, 6 - aOrientation, 6);
 		} else if (isCityFarHexCornerLeft ()) {
-			newLocation = rotateLocation (MIN_CITY_LOC_FCL, 6 - aOrientation, 6);
+			tNewLocation = rotateLocation (MIN_CITY_LOC_FCL, 6 - aOrientation, 6);
 		} else if (isCityAdjacentSide ()) {
-			newLocation = rotateLocation (MIN_CITY_LOC_ADJSIDE, 6 - aOrientation, 6);
+			tNewLocation = rotateLocation (MIN_CITY_LOC_ADJSIDE, 6 - aOrientation, 6);
 		} else if (isDeadEndSide ()) {
-			newLocation = rotateLocation (MIN_DEAD_END_SIDE_LOC, 6 - aOrientation, 6);
+			tNewLocation = rotateLocation (MIN_DEAD_END_SIDE_LOC, 6 - aOrientation, 6);
 		} else if (isCityNearCenter ()) {
 			if (aOrientation < 4) {
-				newLocation = rotateLocation (MIN_CITY_LOC_NCNTR, 4 - aOrientation, 4);
+				tNewLocation = rotateLocation (MIN_CITY_LOC_NCNTR, 4 - aOrientation, 4);
 			}
 		}
 
-		return (new Location (newLocation));
+		return (new Location (tNewLocation));
 	}
 
 	public boolean isSameLocationValue (Location aOtherLocation) {
