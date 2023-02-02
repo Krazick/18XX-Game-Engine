@@ -42,6 +42,10 @@ public class DestinationInfo {
 		}
 	}
 
+	public boolean hasDestination () {
+		return (location != Location.NO_LOC);
+	}
+	
 	public void setReached (boolean aReached) {
 		reached = aReached;
 	}
@@ -76,6 +80,10 @@ public class DestinationInfo {
 	
 	public MapCell getMapCell () {
 		return mapCell;
+	}
+	
+	public String getMapCellID () {
+		return mapCell.getCellID ();
 	}
 	
 	public String getLabel () {
