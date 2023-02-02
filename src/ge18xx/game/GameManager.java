@@ -1164,6 +1164,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return aBaseDirectory;
 	}
 
+	public void checkForDestinationsReached () {
+		System.out.println ("Tile Placed, Check for Destinations Reached");
+		shareCompaniesFrame.checkForDestinationsReached ();
+	}
+
+	public boolean hasDestinations () {
+		return shareCompaniesFrame.hasDestinations ();
+	}
+	
 	public boolean hasMustBuyCertificate () {
 		return bank.hasMustBuyCertificate ();
 	}
