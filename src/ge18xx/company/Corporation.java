@@ -924,7 +924,7 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	public int getGameCapitalizationLevel (int aSharesSold) {
 		int tCapitalizationLevel;
 
-		tCapitalizationLevel = corporationList.getGameCapitalizationLevel (aSharesSold);
+		tCapitalizationLevel = corporationList.getCapitalizationLevel (aSharesSold);
 
 		return tCapitalizationLevel;
 	}
