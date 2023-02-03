@@ -1206,6 +1206,18 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tGameVariantsXMLElement;
 	}
 
+	public int getCapitalizationLevel (int aSharesSold) {
+		int tCapitalizationLevel;
+		Coupon tNextTrain;
+		String tNextTrainName;
+		
+		tNextTrain = bank.getNextAvailableTrain ();
+		tNextTrainName = tNextTrain.getName ();
+		tCapitalizationLevel = activeGame.getCapitalizationLevel (aSharesSold, tNextTrainName);
+		
+		return tCapitalizationLevel;
+	}
+
 	public void initiateGame (GameInfo aGameInfo) {
 		setGame (aGameInfo);
 		initiateGame ();
