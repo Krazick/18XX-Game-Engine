@@ -172,27 +172,6 @@ public class PhaseInfo {
 		return willFloat * STANDARD_SHARE_SIZE;
 	}
 
-	// TODO: 1856 - Capitalization level changes based upon Phase -- NEED to Expand
-//	public int getGameCapitalizationLevel (int aSharesSold) {
-//		int tGameCapitalizationLevel;
-//
-//		if (gameCapitalization.equals (FULL_GAME_CAPITALIZATION)) {
-//			tGameCapitalizationLevel = FULL_CAPITALIZATION;
-//		} else if (gameCapitalization.equals (INCREMENTAL_5)) {
-//			tGameCapitalizationLevel = Math.min (INCREMENTAL_5_MAX, aSharesSold);
-//		} else if (gameCapitalization.equals (INCREMENTAL_10)) {
-//			tGameCapitalizationLevel = Math.min (INCREMENTAL_10_MAX, aSharesSold);
-//		} else {
-//			tGameCapitalizationLevel = 1;
-//		}
-//
-//		return tGameCapitalizationLevel;
-//	}
-
-	public boolean doIncrementalCapitalization () {
-		return false;
-	}
-
 	public String getOffBoard () {
 		return offBoard;
 	}
