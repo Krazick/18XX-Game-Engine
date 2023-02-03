@@ -38,15 +38,12 @@ public class PhaseInfo {
 	static final AttributeName AN_GOVERNMENT_MUST_FORM = new AttributeName ("governmentMustForm");
 	static final AttributeName AN_MIN_TO_FLOAT = new AttributeName ("minToFloat");
 	static final AttributeName AN_MIN_TO_FLOAT_LAST = new AttributeName ("minToFloatLast");
-	static final AttributeName AN_CAPITALIZATION = new AttributeName ("capitalization");
 	static final int SORT_PHASE1_BEFORE_PHASE2 = -100;
 	static final int SORT_PHASE2_BEFORE_PHASE1 = 100;
 
 	public static final int STANDARD_MIN_SHARES = 6;
 	public static final int STANDARD_SHARE_SIZE = 10;
 	public static final int NO_LIMIT = 99;
-	public static final String FULL_GAME_CAPITALIZATION = "FULL";
-	public static final int FULL_CAPITALIZATION = 10;
 	public static final int NO_NAME = 0;
 	public static final int NO_ROUNDS = 0;
 	public static final String [] NO_TILES = null;
@@ -63,7 +60,6 @@ public class PhaseInfo {
 					// Company
 	int minToFloatLast; // Minimum number of Shares sold to Float the Company when last Train of Phase
 						// has been Sold (ie when next train purchase triggers Phase Change)
-	String gameCapitalization;
 	boolean canBuyPrivate;
 	boolean canBuyTrain;
 	boolean closePrivates;
@@ -145,18 +141,11 @@ public class PhaseInfo {
 	// minToFloat="2" minToFloatLast="3" />
 	private void parseFloatMinValues (XMLNode aCellNode) {
 		int tValue;
-		String tCapitalization;
 
 		tValue = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT, STANDARD_MIN_SHARES);
 		setMinToFloat (tValue);
 		tValue = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT_LAST, STANDARD_MIN_SHARES);
 		setMinToFloatLast (tValue);
-		tCapitalization = aCellNode.getThisAttribute (AN_CAPITALIZATION, FULL_GAME_CAPITALIZATION);
-		setGameCapitalization (tCapitalization);
-	}
-
-	private void setGameCapitalization (String aGameCapitalization) {
-		gameCapitalization = aGameCapitalization;
 	}
 
 	private void setMinToFloat (int aValue) {
@@ -184,19 +173,21 @@ public class PhaseInfo {
 	}
 
 	// TODO: 1856 - Capitalization level changes based upon Phase -- NEED to Expand
-	public int getGameCapitalizationLevel (int aSharesSold) {
-		int tGameCapitalizationLevel;
-
-		if (gameCapitalization.equals (FULL_GAME_CAPITALIZATION)) {
-			tGameCapitalizationLevel = FULL_CAPITALIZATION;
-		} else if (gameCapitalization.equals ("min_Shares_Sold_5")) {
-			tGameCapitalizationLevel = Math.min (5, aSharesSold);
-		} else {
-			tGameCapitalizationLevel = 1;
-		}
-
-		return tGameCapitalizationLevel;
-	}
+//	public int getGameCapitalizationLevel (int aSharesSold) {
+//		int tGameCapitalizationLevel;
+//
+//		if (gameCapitalization.equals (FULL_GAME_CAPITALIZATION)) {
+//			tGameCapitalizationLevel = FULL_CAPITALIZATION;
+//		} else if (gameCapitalization.equals (INCREMENTAL_5)) {
+//			tGameCapitalizationLevel = Math.min (INCREMENTAL_5_MAX, aSharesSold);
+//		} else if (gameCapitalization.equals (INCREMENTAL_10)) {
+//			tGameCapitalizationLevel = Math.min (INCREMENTAL_10_MAX, aSharesSold);
+//		} else {
+//			tGameCapitalizationLevel = 1;
+//		}
+//
+//		return tGameCapitalizationLevel;
+//	}
 
 	public boolean doIncrementalCapitalization () {
 		return false;
