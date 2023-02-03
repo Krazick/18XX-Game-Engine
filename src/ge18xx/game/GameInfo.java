@@ -109,6 +109,7 @@ public class GameInfo {
 	PhaseManager phaseManager;
 	Variant variants [];
 	File18XX files [];
+	Capitalization capitalizations;
 	private List<VariantEffect> activeVariantEffects;
 
 	/* Used in Parsing Call back Functions only */
@@ -235,6 +236,8 @@ public class GameInfo {
 				files = new File18XX [tFileCount];
 				fileIndex = 0;
 				tXMLNodeList.parseXMLNodeList (tChildNode, File18XX.EN_FILE);
+			} else if (Capitalization.EN_CAPITALIZATIONS.equals (tChildName)) {
+				capitalizations = new Capitalization (tChildNode);
 			}
 		}
 	}
@@ -446,7 +449,15 @@ public class GameInfo {
 	public void setActiveVariantEffects (List<VariantEffect> aActiveVariantEffects) {
 		activeVariantEffects = aActiveVariantEffects;
 	}
-
+	
+	public int getCapitalizationLevel (int aSharesSold, String aNextTrainName) {
+		int tCapitalizationLevel;
+		
+		tCapitalizationLevel = capitalizations.getCapitalizationLevel (aSharesSold, aNextTrainName);
+		
+		return tCapitalizationLevel;
+	}
+	
 	public XMLElement getGameVariantsXMLElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tVariantEffectXMLElement;
