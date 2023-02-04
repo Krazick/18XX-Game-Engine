@@ -26,11 +26,13 @@ public class ReachedDestinationAction extends CashTransferAction {
 		setName (NAME);
 	}
 	
-	public void addReachedDestinationEffect (ActorI aActor, boolean aReached) {
+	public void addReachedDestinationEffect (ActorI aActor, boolean aReached, int aOldCapitalizationLevel, 
+										int aNewCapitalizationLevel) {
 		ReachedDestinationEffect tReachedDestinationEffect;
 
 		if (actor.isACorporation ()) {
-			tReachedDestinationEffect = new ReachedDestinationEffect (aActor, aReached);
+			tReachedDestinationEffect = new ReachedDestinationEffect (aActor, aReached, 
+										aOldCapitalizationLevel, aNewCapitalizationLevel);
 			addEffect (tReachedDestinationEffect);
 		}
 	}
