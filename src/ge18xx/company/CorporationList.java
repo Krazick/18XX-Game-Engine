@@ -1212,10 +1212,6 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		roundManager.doneAction (aCorporation);
 	}
 
-	public boolean doIncrementalCapitalization () {
-		return roundManager.doIncrementalCapitalization ();
-	}
-
 	public void enterPlaceTileMode () {
 		roundManager.enterPlaceTileMode ();
 	}

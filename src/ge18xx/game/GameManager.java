@@ -696,10 +696,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tileDefinitionFrame.loadATileFromASet (tURLBase, tBaseDirName, tileTrayFrame, aTileNumber, aSetName, aQuantity);
 	}
 
-	public boolean doIncrementalCapitalization () {
-		return phaseManager.doIncrementalCapitalization ();
-	}
-
 	public boolean canBuyPrivate () {
 		return phaseManager.canBuyPrivate ();
 	}

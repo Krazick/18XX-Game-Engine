@@ -703,10 +703,6 @@ public class RoundManager implements ActionListener {
 		}
 	};
 
-	public boolean doIncrementalCapitalization () {
-		return gameManager.doIncrementalCapitalization ();
-	}
-
 	public boolean canBuyPrivate () {
 		return gameManager.canBuyPrivate ();
 	}

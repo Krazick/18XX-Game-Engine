@@ -45,10 +45,6 @@ public class PhaseManager {
 		}
 	}
 
-	public boolean doIncrementalCapitalization () {
-		return getCurrentPhaseInfo ().doIncrementalCapitalization ();
-	}
-
 	public boolean canBuyPrivate () {
 		PhaseInfo tPhaseInfo;
 		boolean tCanBuyPrivate;
