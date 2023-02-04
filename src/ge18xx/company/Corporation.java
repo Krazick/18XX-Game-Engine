@@ -22,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.company.License.LicenseTypes;
 import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
@@ -2667,5 +2668,9 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 	
 	public void updateCorporationFrame () {
 		corporationFrame.updateCFButtons ();
+	}
+
+	public License getLicense (LicenseTypes aType) {
+		return License.NO_LICENSE;
 	}
 }

@@ -30,6 +30,7 @@ import ge18xx.center.Town;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.License;
+import ge18xx.company.License.LicenseTypes;
 import ge18xx.company.MapToken;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
@@ -891,7 +892,7 @@ public class MapCell implements Comparator<Object> {
 				}
 			}
 			if (tile != Tile.NO_TILE) {
-				tCurrentPhase = hexMap.getCurrentPhase ();
+				tCurrentPhase = hexMap.getCurrentPhase () + 1;
 				tTip += tile.getToolTip (tCurrentPhase);
 				tTip += "Tile Orientation: " + tileOrient + "<br>";
 			} else {
@@ -1616,6 +1617,7 @@ public class MapCell implements Comparator<Object> {
 		int tBenefitValue;
 		Corporation tCorporation;
 		License tPortLicense;
+		License tLicense;
 		
 		tBenefitValue = 0;
 		if (hasPortToken ()) {
@@ -1623,9 +1625,14 @@ public class MapCell implements Comparator<Object> {
 			tPortLicense = tCorporation.getPortLicense ();
 			if (tPortLicense != License.NO_LICENSE) {
 				tBenefitValue = tPortLicense.getPortValue ();
-			} else {
-				System.out.println ("Did not find a Port License so no Benefit");
 			}
+		} else if (hasCattleToken ()) {
+			tCorporation = hexMap.getOperatingCompany ();
+			tLicense = tCorporation.getLicense (LicenseTypes.CATTLE);
+			if (tLicense != License.NO_LICENSE) {
+				tBenefitValue = tLicense.getPortValue ();
+			}
+
 		}
 		
 		return tBenefitValue;

@@ -196,6 +196,22 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tFoundPortLicense;
 	}
 	
+	@Override
+	public License getLicense (License.LicenseTypes aType) {
+		License tFoundLicense;
+		
+		tFoundLicense = License.NO_LICENSE;
+		if (licenses.size () > 0) {
+			for (License tLicense : licenses) {
+				if (tLicense.isLicenseOfType (aType)) {
+					tFoundLicense = tLicense;
+				}
+			}
+		}
+		
+		return tFoundLicense;
+	}
+
 	public void declareBankruptcy () {
 		declareBankruptcyAction ();
 	}
