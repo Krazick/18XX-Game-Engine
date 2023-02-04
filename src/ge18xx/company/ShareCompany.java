@@ -5,6 +5,7 @@ import java.awt.event.ItemListener;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
+import ge18xx.game.Capitalization;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -159,25 +160,29 @@ public class ShareCompany extends TokenCompany {
 		int tEscrowReleased;
 		int tSharesSold;
 		int tParPrice;
+		int tOldCapitalizationLevel;
+		int tNewCapitalizationLevel;
 		Bank tBank;
 
 		tBank = corporationList.getBank ();	
 		tReachedDestination = true;
+		tOldCapitalizationLevel = destinationInfo.getCapitalizationLevel ();
 		setReachedDestination (tReachedDestination);
+		tNewCapitalizationLevel = Capitalization.INCREMENTAL_10_MAX;
+		setDestinationCapitalizationLevel (tNewCapitalizationLevel);
 		tOperatingRound = corporationList.getOperatingRound ();
 		tReachedDestinationAction = new ReachedDestinationAction (tOperatingRound.getRoundType (), 
 																tOperatingRound.getID (), this);
 		tReachedDestinationAction.setChainToPrevious (true);
-		tReachedDestinationAction.addReachedDestinationEffect (tOperatingRound, tReachedDestination);
+		tReachedDestinationAction.addReachedDestinationEffect (tOperatingRound, tReachedDestination, 
+				tOldCapitalizationLevel, tNewCapitalizationLevel);
+		
 		tEscrowReleased = 0;
 		tSharesSold = getSharesOwned ();
 		tParPrice = getParPrice ();
 		if (tSharesSold > 5) {
 			tEscrowReleased = (tSharesSold - 5) * tParPrice;
 		}
-		// TODO -- Calculate the Escrow amount to be Released to the company from the Bank
-		// Shares Sold > 50% times the Par Price
-		System.out.println ("--- For " + abbrev + " Sold " + tSharesSold + " Shares, Par Price " + tParPrice + " Escrow " + tEscrowReleased);
 		tBank.transferCashTo (this, tEscrowReleased);
 
 		tReachedDestinationAction.addCashTransferEffect (tBank, this, tEscrowReleased);
@@ -838,7 +843,11 @@ public class ShareCompany extends TokenCompany {
 		int tCapitalizationLevel;
 		
 		tCapitalizationLevel = getCapitalizationLevel ();
-		destinationInfo.setCapitalizationLevel (tCapitalizationLevel);
+		setDestinationCapitalizationLevel (tCapitalizationLevel);
+	}
+	
+	public void setDestinationCapitalizationLevel (int aCapitalizationLevel) {
+		destinationInfo.setCapitalizationLevel (aCapitalizationLevel);
 	}
 	
 	@Override
