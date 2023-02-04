@@ -533,6 +533,20 @@ public class Tile implements Comparable<Object>, Cloneable {
 		
 		return tUseableRevenueCenters;
 	}
+	
+	/**
+	 * Get the Total number of Usable Revenue Centers
+	 * 
+	 * @return the Total Count of Centers
+	 * 
+	 */
+	public int getTotalRevenueCenterCount () {
+		int tRCCount;
+		
+		tRCCount = centers.size ();
+		
+		return tRCCount;
+	}
 
 	public RevenueCenter getRevenueCenter (int aCenterIndex) {
 		return centers.get (aCenterIndex);
@@ -556,14 +570,16 @@ public class Tile implements Comparable<Object>, Cloneable {
 		int tCenterCount;
 
 		tFoundRevenueCenter = RevenueCenter.NO_CENTER;
-		tCenterCount = getRevenueCenterCount ();
+		tCenterCount = getTotalRevenueCenterCount ();
 		if (tCenterCount > 0) {
 			for (tCenterIndex = 0; tCenterIndex < tCenterCount; tCenterIndex++) {
 				tRevenueCenter = centers.get (tCenterIndex);
-				tLocation = tRevenueCenter.getLocation ().getLocation ();
-				tTrack = tracks.getTrackFromStartToEnd (tLocation, aOtherLocation);
-				if (tTrack != Track.NO_TRACK) {
-					tFoundRevenueCenter = tRevenueCenter;
+				if (! tRevenueCenter.isDestination ()) {
+					tLocation = tRevenueCenter.getLocation ().getLocation ();
+					tTrack = tracks.getTrackFromStartToEnd (tLocation, aOtherLocation);
+					if (tTrack != Track.NO_TRACK) {
+						tFoundRevenueCenter = tRevenueCenter;
+					}
 				}
 			}
 		}
@@ -574,13 +590,18 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public String getRevenueValue (int aPhase) {
 		RevenueCenter tRevenueCenter;
 		int tRCIndex;
-		String tRevenueValue = "";
+		int tRCCount;
+		String tRevenueValue;
 
-		for (tRCIndex = 0; tRCIndex < getRevenueCenterCount (); tRCIndex++) {
+		tRevenueValue = "";
+		tRCCount = getTotalRevenueCenterCount ();
+		for (tRCIndex = 0; tRCIndex < tRCCount; tRCIndex++) {
 			if (tRevenueValue.equals ("")) {
 				tRevenueCenter = getRevenueCenter (tRCIndex);
 				if (tRevenueCenter != RevenueCenter.NO_CENTER) {
-					tRevenueValue = tRevenueCenter.getRevenueToString (aPhase);
+					if (! tRevenueCenter.isDestination ()) {
+						tRevenueValue = tRevenueCenter.getRevenueToString (aPhase);
+					}
 				}
 			}
 		}
