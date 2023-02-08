@@ -67,6 +67,17 @@ public class Bank extends GameBank implements CashHolderI {
 
 		return tFormatted;
 	}
+	
+	public static String formatCash (String aCashAmount) {
+		String tFormatted;
+		int tCashAmount;
+		
+		tCashAmount = Integer.parseInt (aCashAmount);
+		tFormatted = formatCash (tCashAmount);
+				
+		return tFormatted;
+	}
+	
 	private static void setStaticFormat (String aFormat) {
 		format = aFormat;
 		decimalFormat = new DecimalFormat (aFormat);
