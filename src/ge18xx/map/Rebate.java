@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import ge18xx.bank.Bank;
+
 //
 //  Rebate.java
 //  Game_18XX
@@ -78,6 +80,10 @@ public class Rebate extends Feature {
 		return amount;
 	}
 
+	public String getFormattedAmount () {
+		return Bank.formatCash (amount);
+	}
+	
 	public String getAmountToString () {
 		String tRebate;
 
