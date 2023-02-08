@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.w3c.dom.NodeList;
 
+import ge18xx.bank.Bank;
+
 //
 //  MapCell.java
 //  18XX_JAVA
@@ -31,6 +33,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.License;
 import ge18xx.company.License.LicenseTypes;
+import ge18xx.company.LicenseToken;
 import ge18xx.company.MapToken;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
@@ -98,13 +101,14 @@ public class MapCell implements Comparator<Object> {
 	Terrain baseTerrain;
 	Terrain terrain1;
 	Terrain terrain2;
-	int benefitValue;
-	int destinationCorpID;
 	Paint terrainFillPaint;
+	int destinationCorpID;
+	int benefitValue;
 	boolean hasPortToken;
 	boolean hasCattleToken;
 	boolean hasBridgeToken;
 	boolean hasTunnelToken;
+	LicenseToken licenseToken;
 	HexMap hexMap;
 
 	public MapCell (HexMap aHexMap) {
@@ -123,6 +127,7 @@ public class MapCell implements Comparator<Object> {
 	public MapCell (int Xc, int Yc, HexMap aHexMap, int aBaseTerrain, Tile aTile, int aTileOrient, String aBaseName,
 			String aBlockedSides) {
 		setAllValues (Xc, Yc, aHexMap, aBaseTerrain, aTile, aTileOrient, aBaseName, aBlockedSides);
+		setupLicenseToken ();
 	}
 
 	public boolean addRevenueCenter (int aType, int aID, int aLocation, String aName, int aValue, TileType aTileType) {
@@ -592,6 +597,27 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 	
+	public void setupLicenseToken () {
+		License tLicense;
+		
+		tLicense = new License ();
+		licenseToken = new LicenseToken (tLicense);
+	}
+	
+	public void activateLicenseToken (License.LicenseTypes aLicenseType, int aPrice, int aBenefitValue) {
+		License tLicense;
+		
+		tLicense = licenseToken.getLicense ();
+		tLicense.setType (aLicenseType);
+		tLicense.setPrice (aPrice);
+		tLicense.setBenefitValue (aBenefitValue);
+		licenseToken.setActive (true);
+	}
+	
+	public void deactiveLicenseToken () {
+		licenseToken.setActive (false);
+	}
+	
 	public void setPortToken (boolean aPortToken) {
 		hasPortToken = aPortToken;
 	}
@@ -878,8 +904,10 @@ public class MapCell implements Comparator<Object> {
 
 	public String getToolTip () {
 		String tTip;
-		int tTerrainCost;
 		String tTileName;
+		String tBenefitValue;
+		String tCost;
+		int tTerrainCost;
 		int tCurrentPhase;
 		Corporation tDestinationCorporation;
 
@@ -893,8 +921,8 @@ public class MapCell implements Comparator<Object> {
 			}
 			if (tile != Tile.NO_TILE) {
 				tCurrentPhase = hexMap.getCurrentPhase () + 1;
-				tTip += tile.getToolTip (tCurrentPhase);
 				tTip += "Tile Orientation: " + tileOrient + "<br>";
+				tTip += tile.getToolTip (tCurrentPhase);
 			} else {
 				if (centers.size () > 0) {
 					tTip += centers.getToolTip ();
@@ -910,23 +938,25 @@ public class MapCell implements Comparator<Object> {
 				}
 				tTip += "<br>";
 				if (tTerrainCost > 0) {
-					tTip += "Build Cost: " + tTerrainCost + "<br>";
+					tCost = Bank.formatCash (tTerrainCost);
+					tTip += "Build Cost: " + tCost + "<br>";
 				}
 			}
+			tBenefitValue = Bank.formatCash (benefitValue);
 			if (hasPortToken) {
-				tTip += "Port: Open";
+				tTip += "Port: Open " + tBenefitValue + "<br>";
 			}
 			if (hasCattleToken) {
-				tTip += "Cattle: Open";
+				tTip += "Cattle: Active " + tBenefitValue +"<br>";
 			}
 			if (hasBridgeToken) {
-				tTip += "Bridge: Open";
+				tTip += "Bridge: Active " + tBenefitValue + "<br>";
 			}
 			if (hasTunnelToken) {
-				tTip += "Tunnel: Open";
+				tTip += "Tunnel: Active " + tBenefitValue + "<br>";
 			}
 			if (rebate != Rebate.NO_REBATE) {
-				tTip += "Rebate: " + rebate.getAmount () + "<br>";
+				tTip += "Rebate: " + rebate.getFormattedAmount () + "<br>";
 			}
 			if (destinationCorpID != Corporation.NO_ID) {
 				tDestinationCorporation = getCorporationByID (destinationCorpID);
