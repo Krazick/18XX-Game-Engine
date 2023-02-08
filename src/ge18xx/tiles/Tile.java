@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Paint;
 import java.awt.Point;
 
+import ge18xx.bank.Bank;
+
 //
 //  Tile.java
 //  Java_18XX
@@ -32,6 +34,7 @@ import ge18xx.map.MapGraph;
 import ge18xx.map.Vertex;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutine3I;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -593,10 +596,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 		int tRCCount;
 		String tRevenueValue;
 
-		tRevenueValue = "";
+		tRevenueValue = GUI.EMPTY_STRING;
 		tRCCount = getTotalRevenueCenterCount ();
 		for (tRCIndex = 0; tRCIndex < tRCCount; tRCIndex++) {
-			if (tRevenueValue.equals ("")) {
+			if (tRevenueValue.equals (GUI.EMPTY_STRING)) {
 				tRevenueCenter = getRevenueCenter (tRCIndex);
 				if (tRevenueCenter != RevenueCenter.NO_CENTER) {
 					if (! tRevenueCenter.isDestination ()) {
@@ -644,10 +647,16 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 
 	public String getToolTip (int aPhase) {
-		String tTip = "";
+		String tTip;
+		String tRevenue;
 
+		tTip = GUI.NO_TOOL_TIP;
 		tTip += "Tile: " + getTypeName () + " " + getNumberToString () + "<br>";
-		tTip += "Revenue: " + getRevenueValue (aPhase) + "<br>";
+		tRevenue = getRevenueValue (aPhase);
+		if (! tRevenue.equals (GUI.EMPTY_STRING)) {
+			tRevenue = Bank.formatCash (tRevenue);
+			tTip += "Revenue: " + tRevenue + "<br>";
+		}
 		if (hasCenters ()) {
 			tTip += centers.getToolTip ();
 		}
