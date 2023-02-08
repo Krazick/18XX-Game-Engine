@@ -21,7 +21,9 @@ public class License extends Coupon {
 	public static final License NO_LICENSE = null;
 	public static final ArrayList<License> NO_LICENSES = null;
 	public static final int NO_VALUE = 0;
-	public enum LicenseTypes { NO_TYPE, PORT, BRIDGE, TUNNEL, CATTLE };
+	public static final String NO_NAME = "";
+	public static final String NO_MAP_CELL_IDS = "";
+	public enum LicenseTypes { NO_TYPE, PORT, OPEN_PORT, CLOSED_PORT, BRIDGE, TUNNEL, CATTLE, COAL };
 	int benefitValue;
 	boolean isPortLicense;
 	boolean isBridgeLicense;
@@ -30,16 +32,34 @@ public class License extends Coupon {
 	String mapCellIDs;
 	LicenseTypes type;
 	
+	public License () {
+		this (NO_NAME, NO_VALUE, NO_VALUE);
+	}
+	
 	public License (String aName, int aBenefitValue) {
 		this (aName, NO_VALUE, aBenefitValue);
 	}
 	
 	public License (String aName, int aPrice, int aBenefitValue) {
 		super (aName, aPrice);
+		
+		LicenseTypes tLicenseType;
+		
+		tLicenseType = getTypeFromName (aName);
+		setValues (tLicenseType, aPrice, aBenefitValue);
+	}
+	
+	public License (LicenseTypes aType, int aPrice, int aBenefitValue) {
+		super (aType.toString (), aPrice);
+		setValues (aType, aPrice, aBenefitValue);
+	}
+	
+	public void setValues (LicenseTypes aType, int aPrice, int aBenefitValue) {
+		setType (aType);
 		setBenefitValue (aBenefitValue);
+		
 		setIsPortLicense (false);
-		setType (LicenseTypes.NO_TYPE);
-		setMapCellIDs ("");
+		setMapCellIDs (NO_MAP_CELL_IDS);
 	}
 
 	public License (XMLNode aXMLNode) {
@@ -62,7 +82,7 @@ public class License extends Coupon {
 		setTypeFromName (tTypeName);
 	}
 
-	public void setTypeFromName (String aTypeName) {
+	public LicenseTypes getTypeFromName (String aTypeName) {
 		String tTypeName;
 		LicenseTypes tFoundType;
 		
@@ -73,6 +93,14 @@ public class License extends Coupon {
 				tFoundType = tType;
 			}
 		}
+		
+		return tFoundType;
+	}
+	
+	public void setTypeFromName (String aTypeName) {
+		LicenseTypes tFoundType;
+		
+		tFoundType = getTypeFromName (aTypeName);
 		setType (tFoundType);
 	}
 	
