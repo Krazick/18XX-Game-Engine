@@ -82,12 +82,13 @@ public class MapCell implements Comparator<Object> {
 							// through.
 	boolean allowedRotations[] = new boolean [6];
 	boolean blockedSides[] = new boolean [6];
-	String id = "A1";
+	int trainUsingSide[] = new int [6]; // Train Number using the side;
+	MapCell neighbors[];
 	int XCenter, YCenter;
 	int tileNumber;
 	int tileOrient;
 	int startingTileNumber;
-	MapCell neighbors[];
+	String id = "A1";
 	Tile tile;
 	TileName baseTileName;
 	Rebate rebate;
@@ -105,7 +106,6 @@ public class MapCell implements Comparator<Object> {
 	boolean hasBridgeToken;
 	boolean hasTunnelToken;
 	HexMap hexMap;
-	int trainUsingSide[] = new int [6]; // Train Number using the side;
 
 	public MapCell (HexMap aHexMap) {
 		this (aHexMap, NO_DIRECTION);
