@@ -293,16 +293,12 @@ public class Hex {
 		g.setColor (Color.black);
 		g.setClip (tPreviousClip);
 	}
-
-	public void drawCattleToken (Graphics g, int Xc, int Yc, Paint aCattlePaint, int aBenefitValue) {
-		// Draw a Cattle Token
-	}
 	
 	public void drawCattle (Graphics g, int Xc, int Yc, Paint aCattlePaint) {
 		// Draw a Cattle
 	}
 	
-	public void drawPortToken (Graphics aGraphics, int Xc, int Yc, Paint aPortPaint, int aBenefitValue) {
+	public void drawLicenseToken (Graphics aGraphics, int Xc, int Yc, Paint aPaint, int aBenefitValue) {
 		Graphics2D tGraphics2D;
 		int x1;
 		int y1;
@@ -320,7 +316,7 @@ public class Hex {
 		y1 = Yc - tHeight/2;
 		tGraphics2D.setPaint (Color.white);
 		tGraphics2D.fillRect (x1, y1, tWidth, tHeight);
-		tGraphics2D.setPaint (aPortPaint);
+		tGraphics2D.setPaint (aPaint);
 		tGraphics2D.drawRect (x1, y1, tWidth, tHeight);
 		x1 = Xc - tWidth/2;
 		y1 = Yc + tHeight/2 - 2;
