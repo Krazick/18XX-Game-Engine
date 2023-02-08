@@ -828,7 +828,11 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public void loadMapCellState (XMLNode aMapCellNode) {
-		int tCol, tRow, tTileOrientation, tTileNumber;
+		int tCol;
+		int tRow;
+		int tTileOrientation;
+		int tTileNumber;
+		int tBenefitValue;
 		int tDefaultTileNumber;
 		boolean tHasPort;
 		boolean tHasCattle;
@@ -839,17 +843,18 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tTileNumber = aMapCellNode.getThisIntAttribute (Tile.AN_TILE_NUMBER);
 		tHasPort = aMapCellNode.getThisBooleanAttribute (MapCell.AN_PORT_TOKEN);
 		tHasCattle = aMapCellNode.getThisBooleanAttribute (MapCell.AN_CATTLE_TOKEN);
+		tBenefitValue = aMapCellNode.getThisIntAttribute (MapCell.AN_BENEFIT_VALUE);
 		if (inRowRange (tRow)) {
 			if (inColRange (tRow, tCol)) {
 				if (isTileOnCell (tRow, tCol)) {
 					tDefaultTileNumber = map [tRow] [tCol].getTileNumber ();
 					if (tDefaultTileNumber == tTileNumber) {
-						placeBenefitTokens (tCol, tRow, tHasPort, tHasCattle);
+						placeBenefitTokens (tCol, tRow, tBenefitValue, tHasPort, tHasCattle);
 					} else {
-						placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tHasPort, tHasCattle);
+						placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tBenefitValue, tHasPort, tHasCattle);
 					}
 				} else {
-					placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tHasPort, tHasCattle);
+					placeTileWithState (tCol, tRow, tTileOrientation, tTileNumber, tBenefitValue, tHasPort, tHasCattle);
 				}
 				if (isTileOnCell (tRow, tCol)) {
 					map [tRow] [tCol].loadStationsStates (aMapCellNode);
@@ -858,8 +863,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 
-	private void placeTileWithState (int aCol, int aRow, int aTileOrientation, int aTileNumber, boolean aHasPort,
-			boolean aHasCattle) {
+	private void placeTileWithState (int aCol, int aRow, int aTileOrientation, int aTileNumber, int aBenefitValue, 
+			boolean aHasPort, boolean aHasCattle) {
 		Tile tTile;
 		Tile tCurrentTile;
 		
@@ -868,20 +873,21 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tCurrentTile = map [aRow] [aCol].getTile ();
 			map [aRow] [aCol].putTile (tTile, aTileOrientation);
 			map [aRow] [aCol].setTileOrientationLocked (true);
-			placeBenefitTokens (aCol, aRow, aHasPort, aHasCattle);
+			placeBenefitTokens (aCol, aRow, aBenefitValue, aHasPort, aHasCattle);
 			restoreTile (tCurrentTile);
 		} else {
 			System.err.println ("Upgrade: Did not find the Tile with # " + aTileNumber);
 		}
 	}
-
-	private void placeBenefitTokens (int aCol, int aRow, boolean aHasPort, boolean aHasCattle) {
+	
+	private void placeBenefitTokens (int aCol, int aRow, int aBenefitValue, boolean aHasPort, boolean aHasCattle) {		
 		if (aHasPort) {
 			map [aRow] [aCol].layPortToken ();
 		}
 		if (aHasCattle) {
 			map [aRow] [aCol].layCattleToken ();
 		}
+		map [aRow] [aCol].setBenefitValue (aBenefitValue);
 	}
 
 	private boolean loadXMLRow (XMLNode aRowNode, int aTerrainCost[], int aTerrainType[], int aCols,
