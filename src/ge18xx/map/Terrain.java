@@ -215,31 +215,31 @@ public class Terrain extends Feature implements LoadableXMLI {
 		case LAKE: /* Lake */
 			break;
 
-		case PORT: /* Port, Draw an Anchor */
+		case PORT: /* Draw Port License Token, Draw an Anchor */
 			if (aHasPortToken) {
-				aHex.drawPortToken (g, X, Y, getPaint (), aBenefitValue);
+				aHex.drawLicenseToken (g, X, Y, getPaint (), aBenefitValue);
 			} else {
 				aHex.drawPort (g, X, Y, getPaint ());
 			}
 			break;
 
-		case CATTLE: /* Port, Draw Cattle */
+		case CATTLE: /* Draw  License Token, Draw CattleCattle */
 			if (aHasCattleToken) {
-				aHex.drawCattleToken (g, X, Y, getPaint (), aBenefitValue);
+				aHex.drawLicenseToken (g, X, Y, getPaint (), aBenefitValue);
 			} else {
 				aHex.drawCattle (g, X, Y, getPaint ());
 			}
 			break;
 
-		case BRIDGE: /* Bridge */
-			if (aHasCattleToken) {
-				aHex.drawPortToken (g, X, Y, getPaint (), aBenefitValue);
+		case BRIDGE: /* Draw Bridge */
+			if (aHasBridgeToken) {
+				aHex.drawLicenseToken (g, X, Y, getPaint (), aBenefitValue);
 			}
 			break;
 
-		case TUNNEL: /* Tunnel, Draw Cattle */
+		case TUNNEL: /* Draw Tunnel */
 			if (aHasTunnelToken) {
-				aHex.drawPortToken (g, X, Y, getPaint (), aBenefitValue);
+				aHex.drawLicenseToken (g, X, Y, getPaint (), aBenefitValue);
 			}
 			break;
 
