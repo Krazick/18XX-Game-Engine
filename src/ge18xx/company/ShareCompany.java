@@ -537,6 +537,15 @@ public class ShareCompany extends TokenCompany {
 
 		return tSharesOwned;
 	}
+	
+	@Override
+	public int getSharesOwnedByPlayerOrCorp () {
+		int tSharesOwned;
+		
+		tSharesOwned = getPlayerOrCorpOwnedPercentage ()/ PhaseInfo.STANDARD_SHARE_SIZE;
+
+		return tSharesOwned;
+	}
 
 	public int getMustRedeemLoanCount () {
 		int tLoanCount;

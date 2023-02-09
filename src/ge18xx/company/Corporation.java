@@ -1331,6 +1331,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return corporationCertificates.getPlayerOrCorpOwnedPercentageFor (this);
 	}
 
+	public int getSharesOwnedByPlayerOrCorp () {
+		return corporationCertificates.getPlayerOrCorpOwnedPercentageFor (this)/PhaseInfo.STANDARD_SHARE_SIZE;
+	}
+
 	public String buildPercentOwnedLabel () {
 		return "[" + getPlayerOrCorpOwnedPercentage () + "% Owned]";
 	}
