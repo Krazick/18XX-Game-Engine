@@ -1502,11 +1502,17 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			if (isAShareCompany ()) {
 				tShareCompany = (ShareCompany) this;
 				tShareCompany.payNoDividendAdjustment (tPayNoDividendAction);
-			}
+			} 
 			tPayNoDividendAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			tOperatingRound.addAction (tPayNoDividendAction);
 			setLastRevenue (thisRevenue);
 			updateInfo ();
+			if (! isGovtRailway ()) {
+				if (isAShareCompany ()) {
+					tShareCompany = (ShareCompany) this;
+					tShareCompany.handleCloseCorporation ();
+				}
+			}
 		} else {
 			System.err.println ("Status has NOT been updated from " + status);
 		}
