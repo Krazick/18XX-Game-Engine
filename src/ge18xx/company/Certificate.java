@@ -825,7 +825,7 @@ public class Certificate implements Comparable<Certificate> {
 								} else if (tOperatingCompany.mustBuyCoupon ()) {
 									tCanBeSold = operatingCompanyMustBuyCoupon (aGameManager);
 								} else {
-									tCanBeSold = operatingCompanyMustBuyTrain (aGameManager);
+									tCanBeSold = true;
 								}
 							}
 						} else {
@@ -873,31 +873,7 @@ public class Certificate implements Comparable<Certificate> {
 
 		return tOCMustBuyCoupon;
 	}
-	// In the case of a ForceTrainBuy state, the Certificate flag is set to true
-	// If the company is Operating, the company has no train, and the company must
-	// buy a Train
-	// Otherwise return false;
-	private boolean operatingCompanyMustBuyTrain (GameManager aGameManager) {
-		boolean tOCMustBuyTrain;
-		Corporation tOperatingCompany;
-
-		tOCMustBuyTrain = false;
-		if (aGameManager.isOperatingRound ()) {
-			tOperatingCompany = aGameManager.getOperatingCompany ();
-			// During Loading a game, this is not set yet, so the result is false
-			if (tOperatingCompany != Corporation.NO_CORPORATION) {
-				if (tOperatingCompany.getTrainCount () == 0) {
-					if (tOperatingCompany.mustBuyTrain ()) {
-						tOCMustBuyTrain = true;
-					}
-				}
-
-			}
-		}
-
-		return tOCMustBuyTrain;
-	}
-
+	
 	public void clearSelection () {
 		if (checkBox != GUI.NO_CHECK_BOX) {
 			checkBox.setSelected (false);
