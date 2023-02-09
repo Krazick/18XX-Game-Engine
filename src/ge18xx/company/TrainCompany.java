@@ -617,10 +617,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public boolean mustBuyTrainNow () {
-		boolean tMustBuyTrainNow = false;
+		boolean tMustBuyTrainNow;
 
 		if (mustBuyTrain && hasNoTrain ()) {
 			tMustBuyTrainNow = true;
+		} else {
+			tMustBuyTrainNow = false;
 		}
 
 		return tMustBuyTrainNow;
