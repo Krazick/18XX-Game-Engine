@@ -856,7 +856,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		
 		if (corporation.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) corporation;
-//			tSharesOwned = tShareCompany.getSharesOwned ();
 			tSharesOwned = tShareCompany.getSharesOwnedByPlayerOrCorp ();
 			tLoanCount = tShareCompany.getLoanCount ();
 			tLoanAmount = tShareCompany.getLoanAmount ();
