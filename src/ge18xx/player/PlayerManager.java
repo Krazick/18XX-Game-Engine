@@ -1282,6 +1282,7 @@ public class PlayerManager {
 		int tStartLocation, tNewLocation;
 		Token tToken;
 		ShareCompany tShareCompany;
+		ShareCompany tCompanyBeingSold;
 		String tCompanyAbbrev;
 		String tExchangedShare;
 		Player tCurrentPresident, tNewPresident;
@@ -1334,8 +1335,10 @@ public class PlayerManager {
 			tNewLocation = TokenStack.NO_STACK_LOCATION;
 			tNewMarketCell = tStartMarketCell;
 			tCurrentPresident = Player.NO_PLAYER;
+			tCompanyBeingSold = ShareCompany.NO_SHARE_COMPANY;
 			for (Certificate tCertificate : tCertificatesToSell) {
 				tShareCompany = (ShareCompany) tCertificate.getCorporation ();
+				tCompanyBeingSold = tShareCompany;
 				tCompanyAbbrev = tShareCompany.getAbbrev ();
 				// Haven't found the President yet, so find the current President -- if known.
 				if (tCurrentPresident == Player.NO_PLAYER) {
@@ -1392,10 +1395,11 @@ public class PlayerManager {
 				}
 			}
 			addAction (tSellStockAction);
+			tCompanyBeingSold.handleCloseCorporation ();
 			aPlayer.updatePlayerInfo ();
 		}
 	}
-
+	
 	public void exchangePresidentCertificate (ShareCompany aShareCompany, Player aOldPresident, Player aNewPresident,
 			TransferOwnershipAction aAction) {
 		Certificate tPresidentCertificate, tCertificateOne;
