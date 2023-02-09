@@ -252,6 +252,17 @@ public class ShareCompany extends TokenCompany {
 		return "Cannot buy Private in current Phase";
 	}
 
+	public void handleCloseCorporation () {
+		MarketCell tMarketCell;
+		
+		tMarketCell = getSharePriceMarketCell ();
+		if (tMarketCell.isClosed ()) {
+			System.out.println ("Share Company " + getAbbrev () + " moved into a Closed MarketCell -- CLOSING");
+		} else {
+			System.out.println ("Tested Share Company " + getAbbrev () + "for Closing");
+		}
+	}
+
 	public boolean countsAgainstCertificateLimit () {
 		boolean tCounts;
 
