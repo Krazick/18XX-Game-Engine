@@ -121,23 +121,39 @@ public class TokenStack {
 		MarketCell tMarketCell;
 		MarketCell tNewMarketCell;
 		String tCompanyAbbrev;
-		int tStartStackLocation, tNewStackLocation;
 
 		tCompanyAbbrev = aShareCompany.getAbbrev ();
 		tMarketCell = aShareCompany.getSharePriceMarketCell ();
 		if (tMarketCell != MarketCell.NO_MARKET_CELL) {
 			tNewMarketCell = tMarketCell.getDividendHoldMarketCell ();
-			tStartStackLocation = tMarketCell.getTokenLocation (tCompanyAbbrev);
 			if (tMarketCell != tNewMarketCell) {
-				moveTokenToNewMarketCell (aShareCompany, tMarketCell, tNewMarketCell);
-				tNewStackLocation = tNewMarketCell.getTokenLocation (tCompanyAbbrev);
-				aPayNoDividendAction.addChangeMarketCellEffect (aShareCompany, tMarketCell, tStartStackLocation,
-						tNewMarketCell, tNewStackLocation);
+				if (! aShareCompany.isGovtRailway ()) {
+					moveMarketToken (aShareCompany, aPayNoDividendAction, tMarketCell, tNewMarketCell, 
+									tCompanyAbbrev);
+				} else if (! tMarketCell.isClosed ()) {
+					moveMarketToken (aShareCompany, aPayNoDividendAction, tMarketCell, tNewMarketCell, 
+									tCompanyAbbrev);					
+				} else {
+					System.out.println ("Government Railway " + aShareCompany.getAbbrev () + " cannot be Closed.");
+				}
 			}
 		}
 	}
 
-	public void doPayFullDividendAdjustment (ShareCompany aShareCompany, PayFullDividendAction aPayFullDividendAction) {
+	private void moveMarketToken (ShareCompany aShareCompany, PayNoDividendAction aPayNoDividendAction,
+								MarketCell aMarketCell, MarketCell aNewMarketCell, String aCompanyAbbrev) {
+		int tNewStackLocation;
+		int tStartStackLocation;
+		
+		tStartStackLocation = aMarketCell.getTokenLocation (aCompanyAbbrev);
+		moveTokenToNewMarketCell (aShareCompany, aMarketCell, aNewMarketCell);
+		tNewStackLocation = aNewMarketCell.getTokenLocation (aCompanyAbbrev);
+		aPayNoDividendAction.addChangeMarketCellEffect (aShareCompany, aMarketCell, tStartStackLocation,
+				aNewMarketCell, tNewStackLocation);
+	}
+
+	public void doPayFullDividendAdjustment (ShareCompany aShareCompany, 
+											PayFullDividendAction aPayFullDividendAction) {
 		MarketCell tMarketCell;
 		MarketCell tNewMarketCell;
 		String tCompanyAbbrev;
