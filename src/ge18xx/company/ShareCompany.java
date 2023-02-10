@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.game.Capitalization;
+import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -16,8 +17,10 @@ import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.OperatingRound;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.BuyStockAction;
+import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.GetLoanAction;
 import ge18xx.round.action.PayFullDividendAction;
 import ge18xx.round.action.PayLoanInterestAction;
@@ -254,10 +257,32 @@ public class ShareCompany extends TokenCompany {
 
 	public void handleCloseCorporation () {
 		MarketCell tMarketCell;
+		GameManager tGameManager;
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+		CloseCompanyAction tCloseCompanyAction;
+		HexMap tHexMap;
 		
 		tMarketCell = getSharePriceMarketCell ();
 		if (tMarketCell.isClosed ()) {
 			System.out.println ("Share Company " + getAbbrev () + " moved into a Closed MarketCell -- CLOSING");
+			// Remove all Tokens from for this company from the Map
+			// Remove Home Base Corporation Info from the Map
+			// Remove the Market Token for this company
+			// Transfer all Cash to the Bank
+			// Transfer all Trains to the BankPool
+			// Close any Private Corporations owned by the Company (Licenses owned by other Corps still active)
+			// Add Action that has all the Effects required
+			
+			tGameManager = getGameManager ();
+			tRoundManager = tGameManager.getRoundManager ();
+			tRoundType = tRoundManager.getCurrentRoundType ();
+			tRoundID = tRoundManager.getCurrentRoundOf ();
+			tCloseCompanyAction = new CloseCompanyAction (tRoundType, tRoundID, this);
+			tHexMap = tGameManager.getGameMap ();
+			tHexMap.removeAllMapTokens (this, tCloseCompanyAction);
+			
 		} else {
 			System.out.println ("Tested Share Company " + getAbbrev () + "for Closing");
 		}
