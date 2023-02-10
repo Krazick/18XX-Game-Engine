@@ -20,20 +20,32 @@ public class Token {
 	public static final int NO_COST = 0;
 	public static final int RANGE_COST = -1;
 	TokenCompany tokenCompany;
+	TokenInfo.TokenType type;
 
 	public Token () {
 		setCompany (TokenCompany.NO_TOKEN_COMPANY);
 	}
 
-	public Token (TokenCompany aTokenCompany) {
+	public Token (TokenCompany aTokenCompany, TokenInfo.TokenType aType) {
 		setCompany (aTokenCompany);
+		setTokenType (aType);
 	}
 
-	public Token (Token aToken) {
+	public Token (Token aToken, TokenInfo.TokenType aType) {
 		TokenCompany tCompany;
 
 		tCompany = aToken.getWhichCompany ();
 		setCompany (tCompany);
+		setTokenType (aType);
+	}
+	
+
+	public void setTokenType (TokenInfo.TokenType aTokenType) {
+		type = aTokenType;
+	}
+	
+	public TokenInfo.TokenType getTokenType () {
+		return type;
 	}
 	
 	public void drawToken (Graphics g, int X1, int Y1, int width, int height) {

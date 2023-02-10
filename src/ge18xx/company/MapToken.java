@@ -24,8 +24,8 @@ public class MapToken extends Token {
 		setAllConnectedSides (false);
 	}
 
-	public MapToken (MapToken aMapToken, int aCost) {
-		super (aMapToken);
+	public MapToken (MapToken aMapToken, int aCost, TokenInfo.TokenType aType) {
+		super (aMapToken, aType);
 
 		setLocation (Location.NO_LOC);
 		setMapCell (MapCell.NO_MAP_CELL);
