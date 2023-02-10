@@ -41,6 +41,7 @@ import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.MapBenefit;
+import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
@@ -2505,5 +2506,9 @@ public class MapCell implements Comparator<Object> {
 		tBonusRevenue = tPortRevenue + tCattleRevenue + tLicenseRevenue;
 		
 		return tBonusRevenue;
+	}
+	
+	public void removeMapTokens (TokenCompany aTokenCompany, CloseCompanyAction aCloseCompanyAction) {
+		centers.removeMapTokens (aTokenCompany, id, aCloseCompanyAction);
 	}
 }
