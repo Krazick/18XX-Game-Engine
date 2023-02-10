@@ -17,9 +17,11 @@ import ge18xx.company.Corporation;
 import ge18xx.company.MapToken;
 import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
+import ge18xx.company.TokenInfo;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
+import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileName;
@@ -666,4 +668,20 @@ public class Centers implements Cloneable {
 		return tCenter;
 
 	}
+	
+	public void removeMapTokens (TokenCompany aTokenCompany, String aMapCellID, 
+								CloseCompanyAction aCloseCompanyAction) {
+//		TokenInfo.TokenType tType;
+		
+		for (RevenueCenter tRevenueCenter : centers) {
+			if (tRevenueCenter.cityHasStation (aTokenCompany.getID ())) {
+				if (tRevenueCenter.withBaseForCorp (aTokenCompany)) {
+					
+				}
+//				aCloseCompanyAction.addRemoveMapTokenEffect
+			}
+		}
+
+	}
+
 }
