@@ -80,7 +80,7 @@ public abstract class TokenCompany extends TrainCompany {
 		
 		setTotalTokenCount (aTotalTokenCount);
 		tokens = new Tokens (totalTokenCount);
-		tMarketToken = new Token (this);
+		tMarketToken = new Token (this, TokenType.MARKET);
 		tokens.addNewToken (tMarketToken, TokenType.MARKET, Token.NO_COST);
 		setupNewMapTokens ();
 	}
@@ -109,12 +109,12 @@ public abstract class TokenCompany extends TrainCompany {
 		tTokenTypeToAdd = TokenType.FIXED_COST;
 		if (homeCityGrid1 != XMLNode.NO_VALUE) {
 			tStartIndex++;
-			tMapToken = new MapToken (aMapToken, tCost);
+			tMapToken = new MapToken (aMapToken, tCost, TokenType.HOME1);
 			tokens.addNewToken (tMapToken, TokenType.HOME1, tCost);
 		}
 		if (homeCityGrid2 != XMLNode.NO_VALUE) {
 			tStartIndex++;
-			tMapToken = new MapToken (aMapToken, tCost);
+			tMapToken = new MapToken (aMapToken, tCost, TokenType.HOME2);
 			tokens.addNewToken (tMapToken, TokenType.HOME2, tCost);
 		}
 		for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
@@ -123,7 +123,7 @@ public abstract class TokenCompany extends TrainCompany {
 			} else if (tIndex > tStartIndex) {
 				tCost = 100;
 			}
-			tMapToken = new MapToken (aMapToken, tCost);
+			tMapToken = new MapToken (aMapToken, tCost, tTokenTypeToAdd);
 			tMapToken.setCompany (this);
 			tokens.addNewToken (tMapToken, tTokenTypeToAdd, tCost);
 		}
