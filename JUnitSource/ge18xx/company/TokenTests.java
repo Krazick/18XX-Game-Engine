@@ -42,7 +42,7 @@ class TokenTests {
 		tMockCoID2 = 5002;
 		mTokenCompany2 = companyTestFactory.buildTokenCompanyMock (tMockCoID2);
 
-		token = companyTestFactory.buildToken (mTokenCompany);
+		token = companyTestFactory.buildToken (mTokenCompany, TokenInfo.TokenType.MAP);
 	}
 
 	/**
@@ -106,7 +106,7 @@ class TokenTests {
 			Mockito.when (mTokenCompany.getAbbrev ()).thenReturn (mockAbbrev);
 			Mockito.when (mTokenCompany.getStatusName ()).thenReturn (mockStatus);
 
-			tToken2 = new Token (token);
+			tToken2 = new Token (token, TokenInfo.TokenType.FIXED_COST);
 			assertEquals ("MCA", tToken2.getCorporationAbbrev ());
 			assertEquals (5001, tToken2.getCorporationID ());
 			assertEquals ("Operated", tToken2.getCorporationStatus ());
@@ -131,7 +131,7 @@ class TokenTests {
 			Mockito.when (mTokenCompany2.getAbbrev ()).thenReturn (tMockAbbrev2);
 			Mockito.when (mTokenCompany2.getStatusName ()).thenReturn (tMockStatus2);
 
-			tToken2 = new Token (mTokenCompany2);
+			tToken2 = new Token (mTokenCompany2, TokenInfo.TokenType.MAP);
 
 			assertFalse (token.isSameCompany (tToken2));
 			assertFalse (token.isCorporationAbbrev (tMockAbbrev2));
@@ -146,7 +146,7 @@ class TokenTests {
 			tMockAbbrev = "MCA";
 			Mockito.when (mTokenCompany.getAbbrev ()).thenReturn (tMockAbbrev);
 
-			tToken2 = new Token (mTokenCompany);
+			tToken2 = new Token (mTokenCompany, TokenInfo.TokenType.MAP);
 
 			assertTrue (token.isSameCompany (tToken2));
 			assertTrue (token.isCorporationAbbrev (tMockAbbrev));

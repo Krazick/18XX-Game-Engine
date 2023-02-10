@@ -396,10 +396,10 @@ public class CompanyTestFactory {
 
 	// Build Token Methods
 	
-	public Token buildToken (TokenCompany aTokenCompany) {
+	public Token buildToken (TokenCompany aTokenCompany, TokenInfo.TokenType aType) {
 		Token tToken;
 		
-		tToken = new Token (aTokenCompany);
+		tToken = new Token (aTokenCompany, aType);
 		
 		return tToken;
 	}
@@ -411,7 +411,7 @@ public class CompanyTestFactory {
 
 		tMockCoID = 5001;
 		mTokenCompany = buildTokenCompanyMock (tMockCoID, "MC1");
-		tToken = buildToken (mTokenCompany);
+		tToken = buildToken (mTokenCompany, TokenInfo.TokenType.MAP);
 
 		return tToken;
 	}

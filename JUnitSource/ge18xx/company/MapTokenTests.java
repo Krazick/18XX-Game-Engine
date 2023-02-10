@@ -36,7 +36,7 @@ class MapTokenTests {
 		tMockCoID2 = 5002;
 		tMockCoID3 = 5003;
 		mapToken = new MapToken ();
-		mapToken1 = new MapToken (mapToken, 20);
+		mapToken1 = new MapToken (mapToken, 20, TokenInfo.TokenType.FIXED_COST);
 		mapToken1.setConnectedSide (0, true);
 		mapToken1.setConnectedSide (4, true);
 		
