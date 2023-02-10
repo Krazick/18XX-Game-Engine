@@ -39,6 +39,7 @@ import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.round.action.RotateTileAction;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
@@ -72,7 +73,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public static final boolean DO_ADD_ACTION = true;
 	public static final HexMap NO_HEX_MAP = null;
 	private static final long serialVersionUID = 1L;
-	MapCell map[][];
+	MapCell map [] [];
 	Hex hex;
 	TileSet tileSet;
 	MapFrame mapFrame;
@@ -1440,7 +1441,32 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return mapFrame.getCorporation (aCorporationAbbrev);
 	}
 
+	public void removeAllMapTokens (TokenCompany aTokenCompany, CloseCompanyAction aCloseCompanyAction) {
+		int tRowCount;
+		int tRowIndex;
+		int tColCount;
+		int tColIndex;
+		MapCell tMapCell;
 
+		mapGraph = new MapGraph ();
+
+		// Scan the rest of the Map for more Bases, and add.
+		// Want to start with the Home Bases by default for Graph
+		tRowCount = getRowCount ();
+		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
+			tColCount = getColCount (tRowIndex);
+			for (tColIndex = 0; tColIndex < tColCount; tColIndex++) {
+				tMapCell =  map [tRowIndex] [tColIndex];
+				if (tMapCell.getRevenueCenterCount () > 0) {
+					tMapCell.removeMapTokens (aTokenCompany, aCloseCompanyAction);
+				}
+			}
+		}
+
+	}
+	
+// Map Graph Functions
+	
 	public void buildMapGraph (TokenCompany aTokenCompany) {
 		buildMapGraph ();
 		collectSelectableCells (aTokenCompany);
