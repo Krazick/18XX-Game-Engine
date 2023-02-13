@@ -62,21 +62,24 @@ public class TownTick extends Town {
 
 	@Override
 	public boolean containingPoint (Point aPoint, Hex aHex, int Xc, int Yc, int aTileOrient) {
-		boolean tContainingPoint = false;
-		int X1, Y1, X2, Y2, Xd, Yd, width, height;
-		int temp = aHex.getCityWidth ();
+		boolean tContainingPoint;
+		int X1, Y1, X2, Y2, Xd, Yd;
+		int width, height;
+		int tCityWidth;
 		Location tLocation;
 		Point tDisplace;
 		Rectangle tRectangle;
 
+		tContainingPoint = false;
+		tCityWidth = aHex.getCityWidth ();
 		tLocation = location.rotateLocation (aTileOrient);
 		tDisplace = tLocation.calcCenter (aHex);
 		Xd = Xc + tDisplace.x;
 		Yd = Yc + tDisplace.y;
-		X1 = Xd - temp;
-		Y1 = Yd - temp;
-		X2 = Xd + temp;
-		Y2 = Yd + temp;
+		X1 = Xd - tCityWidth;
+		Y1 = Yd - tCityWidth;
+		X2 = Xd + tCityWidth;
+		Y2 = Yd + tCityWidth;
 		width = X2 - X1;
 		height = Y2 - Y1;
 		tRectangle = new Rectangle (X1, Y1, width, height);
