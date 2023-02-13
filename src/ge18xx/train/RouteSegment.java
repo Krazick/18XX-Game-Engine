@@ -443,7 +443,8 @@ public class RouteSegment {
 	 */
 	public Track getTrack () {
 		Track tTrack;
-		int tStartLoc, tEndLoc;
+		int tStartLoc;
+		int tEndLoc;
 
 		tStartLoc = start.getLocationInt ();
 		tEndLoc = end.getLocationInt ();
@@ -732,11 +733,20 @@ public class RouteSegment {
 
 	public boolean cycleToNextTrack () {
 		boolean tCycledToNextTrack = false;
-		Track tNextTrack, tTrack;
-		int tTrackCount, tTrainNumber;
-		Location tNewStartLocation, tEndLocation, tStartLocation, tNewEndLocation, tOriginalStart, tOriginalEnd;
-		Location tNewRotStart, tNewRotEnd;
-		int tTileOrient, tCurrentTrackIndex;
+		Track tNextTrack;
+		Track tTrack;
+		int tTrackCount;
+		int tTrainNumber;
+		int tTileOrient;
+		int tCurrentTrackIndex;
+		Location tNewStartLocation;
+		Location tEndLocation;
+		Location tStartLocation;
+		Location tNewEndLocation;
+		Location tOriginalStart;
+		Location tOriginalEnd;
+		Location tNewRotStart;
+		Location tNewRotEnd;
 
 		tTileOrient = mapCell.getTileOrient ();
 		tOriginalStart = new Location (start.getLocationInt ());

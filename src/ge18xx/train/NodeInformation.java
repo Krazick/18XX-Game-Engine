@@ -112,7 +112,15 @@ public class NodeInformation {
 	}
 
 	public int getLocationInt () {
-		return location.getLocation ();
+		int tLocationInt;
+		
+		if (location == Location.NO_LOC) {
+			tLocationInt = Location.NO_LOCATION;
+		} else {
+			tLocationInt = location.getLocation ();
+		}
+		
+		return tLocationInt;
 	}
 
 	public Location getLocation () {
