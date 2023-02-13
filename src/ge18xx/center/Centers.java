@@ -17,7 +17,6 @@ import ge18xx.company.Corporation;
 import ge18xx.company.MapToken;
 import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
-import ge18xx.company.TokenInfo;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
