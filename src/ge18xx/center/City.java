@@ -49,10 +49,10 @@ public class City extends RevenueCenter implements Cloneable {
 	int stationCount;
 	MapToken corpStations [];
 
-	public City () {
-		this (RevenueCenterType.NO_REVENUE_CENTER, NO_STATIONS, Location.NO_LOCATION, NO_ID, NO_NAME, NO_VALUE,
-				new TileType ());
-	}
+//	public City () {
+//		this (RevenueCenterType.NO_REVENUE_CENTER, NO_STATIONS, Location.NO_LOCATION, NO_ID, NO_NAME, NO_VALUE,
+//				new TileType ());
+//	}
 
 	public City (XMLNode aNode) {
 		super (aNode);
@@ -89,9 +89,9 @@ public class City extends RevenueCenter implements Cloneable {
 		setRevenueLocation (aCity.revenues.getLocation ());
 	}
 
-	public City (int aType, int aNumber, int aLocation, int aValue, TileType aTileType) {
-		this (aType, aNumber, NO_ID, aLocation, NO_NAME, aValue, aTileType);
-	}
+//	public City (int aType, int aNumber, int aLocation, int aValue, TileType aTileType) {
+//		this (aType, aNumber, NO_ID, aLocation, NO_NAME, aValue, aTileType);
+//	}
 
 	public City (int aType, int aNumber, int aID, int aLocation, String aName, int aValue, TileType aTileType) {
 		super (aType, aID, aLocation, aName, aValue, aTileType);
