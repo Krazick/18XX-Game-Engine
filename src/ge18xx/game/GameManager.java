@@ -40,6 +40,7 @@ import ge18xx.market.Market;
 import ge18xx.network.GameSupportHandler;
 import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkGameSupport;
+import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
 import ge18xx.player.Escrow;
 import ge18xx.player.ParPriceFrame;
@@ -635,11 +636,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public int getMinSharesToFloat () {
 		String tNextTrainName;
 		Coupon tTrain;
+		int tMinSharesToFloat;
 
 		tTrain = bank.getNextAvailableTrain ();
-		tNextTrainName = tTrain.getName ();
-
-		return phaseManager.getMinSharesToFloat (tNextTrainName);
+		if (tTrain == Train.NO_TRAIN) {
+			tMinSharesToFloat = PhaseInfo.STANDARD_MIN_SHARES;
+		} else {
+			tNextTrainName = tTrain.getName ();
+			tMinSharesToFloat = phaseManager.getMinSharesToFloat (tNextTrainName);
+		}
+		
+		return tMinSharesToFloat;
 	}
 
 	public Integer [] getAllStartCells () {
