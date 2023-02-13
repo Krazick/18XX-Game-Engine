@@ -33,6 +33,7 @@ import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerFrame;
 import ge18xx.toplevel.XMLFrame;
+import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.GUI;
 
 public class RoundFrame extends XMLFrame {
@@ -318,9 +319,13 @@ public class RoundFrame extends XMLFrame {
 
 	public String getTrainSummary (GameBank aBankWithTrains) {
 		String tBankTrainSummary = "";
-
+		String tBankName;
+		
+		tBankName = aBankWithTrains.getName ();
 		if (aBankWithTrains.hasAnyTrains ()) {
-			tBankTrainSummary = aBankWithTrains.getName () + NEWLINE + NEWLINE + aBankWithTrains.getTrainSummary ();
+			tBankTrainSummary = tBankName + NEWLINE + NEWLINE + aBankWithTrains.getTrainSummary ();
+		} else if (tBankName.equals (Bank.NAME)){
+			tBankTrainSummary = TrainPortfolio.NO_TRAINS_TEXT;
 		}
 
 		return tBankTrainSummary;

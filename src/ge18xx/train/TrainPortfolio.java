@@ -32,6 +32,7 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 public class TrainPortfolio implements TrainHolderI {
+	public static final String NO_TRAINS_TEXT = ">> NO TRAINS <<";
 	private final static String NEWLINE = "\n";
 	public final static ElementName EN_TRAIN_PORTFOLIO = new ElementName ("TrainPortfolio");
 	public final static ElementName EN_RUSTED_TRAIN_PORTFOLIO = new ElementName ("RustedTrainPortfolio");
@@ -121,7 +122,7 @@ public class TrainPortfolio implements TrainHolderI {
 		tPortfolioJPanel.setAlignmentX (Component.LEFT_ALIGNMENT);
 		tPortfolioJPanel.add (Box.createHorizontalStrut (10));
 		if (trains.isEmpty ()) {
-			tLabel = new JLabel (">> NO TRAINS <<");
+			tLabel = new JLabel (NO_TRAINS_TEXT);
 			tPortfolioJPanel.add (tLabel);
 			tPortfolioJPanel.add (Box.createHorizontalStrut (10));
 		} else {
@@ -796,7 +797,12 @@ public class TrainPortfolio implements TrainHolderI {
 		Coupon tAvailableTrains[];
 
 		tAvailableTrains = getAvailableTrains ();
-		tNextAvailableTrain = tAvailableTrains [0];
+		if (tAvailableTrains.length > 0) {
+		// TODO -- If tAvailableTrains has NO Trains, return NO_TRAIN and Test
+			tNextAvailableTrain = tAvailableTrains [0];
+		} else {
+			tNextAvailableTrain = Train.NO_TRAIN;
+		}
 
 		return tNextAvailableTrain;
 	}
@@ -928,6 +934,8 @@ public class TrainPortfolio implements TrainHolderI {
 		if (tCount > 0) {
 			tTrainInfo = buildTrainInfo (tPreviousName, tCost, tCount, tIsUnlimited, tRustInfo, tTileInfo);
 			tTrainSummary += tTrainInfo;
+		} else {
+			tTrainSummary = NO_TRAINS_TEXT;
 		}
 
 		return tTrainSummary;
