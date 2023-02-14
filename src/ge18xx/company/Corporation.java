@@ -2551,6 +2551,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		// Override in Token Company Class
 	}
 
+	public int getTokenCount () {
+		return 0;
+	}
+	
 	public int getTokenCost (MapToken aMapToken, TokenType aTokenType, MapCell tMapCell) {
 		// Override in Token Company Class
 		return 0;

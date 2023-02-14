@@ -519,6 +519,7 @@ public abstract class TokenCompany extends TrainCompany {
 		return tTokenIndex;
 	}
 	
+	@Override
 	public int getTokenCount () {
 		int tTokenCount;
 
