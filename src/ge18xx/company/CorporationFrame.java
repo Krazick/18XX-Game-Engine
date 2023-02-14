@@ -41,16 +41,20 @@ import ge18xx.utilities.GUI;
 import ge18xx.utilities.WrapLayout;
 
 public class CorporationFrame extends XMLFrame implements ActionListener, ItemListener {
-	static final String SHOW_MAP = "Show Map";
-	static final String PLACE_TILE = "Place Tile";
-	static final String PLACE_BASE_TILE = "Place Base Tile";
+	private static final long serialVersionUID = 1L;
 	public static final String PLACE_TILE_PRIVATE = "Place Tile on Private Home";
 	public static final String PLACE_TOKEN_PRIVATE = "Place Token on Private Home";
 	public static final String PLACE_PORT_TOKEN = "Place Port Token";
 	public static final String PLACE_CATTLE_TOKEN = "Place Cattle Token";
 	public static final String BUY_LICENSE = "Buy License to use Private Home";
+	public static final String BUY_TRAIN = "Buy Train";
+	static final String SHOW_MAP = "Show Map";
+	static final String PLACE_TILE = "Place Tile";
+	static final String PLACE_BASE_TILE = "Place Base Tile";
 	static final String PLACE_TOKEN = "Place Token";
 	static final String PLACE_BASE_TOKEN = "Place Base Token";
+	static final String NO_TOKENS = "No Tokens";
+	static final String NO_TOKENS_AVAILABLE = "The Company has no Tokens available to Place";
 	static final String IN_PLACE_TILE_MODE = "Already in Place Tile Mode";
 	static final String IN_TOKEN_MODE = "Already in Place Token Mode";
 	static final String SKIP_BASE_TOKEN = "Skip Base Token";
@@ -62,7 +66,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String PAY_FULL_DIVIDEND = "Pay Full Dividend";
 	static final String PAY_HALF_DIVIDEND = "Pay Half Dividend";
 	static final String PAY_NO_DIVIDEND = "Pay No Dividend";
-	public static final String BUY_TRAIN = "Buy Train";
 	static final String OFFER_TO_BUY_TRAIN = "Offer to Buy Train";
 	static final String FORCE_BUY_TRAIN = "Force Buy Train";
 	static final String BUY_PRIVATE = "Buy Private";
@@ -84,7 +87,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String PAY_LOAN_INTEREST = "Pay Loan Interest";
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
-	private static final long serialVersionUID = 1L;
 	JPanel bankJPanel;
 	JPanel certJPanel;
 	JPanel privatesBox;
@@ -1264,12 +1266,14 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		int tCost;
 		MapToken tMapToken;
 
+		tPlaceTokenText = PLACE_TOKEN;
 		if (corporation.canLayToken ()) {
 			placeTokenButton.setEnabled (true);
 			if (corporation.haveLaidAllBaseTokens ()) {
-				tPlaceTokenText = PLACE_TOKEN;
-				placeTokenButton.setText (tPlaceTokenText);
-				if (corporation.isPlaceTileMode ()) {
+				if (corporation.getTokenCount () == 0) {
+					tPlaceTokenText = NO_TOKENS;
+					updateButton (placeTokenButton, false, NO_TOKENS_AVAILABLE);
+				} else if (corporation.isPlaceTileMode ()) {
 					updateButton (placeTokenButton, false, IN_PLACE_TILE_MODE);
 				} else if (corporation.isPlaceTokenMode ()) {
 					updateButton (placeTokenButton, false, IN_TOKEN_MODE);
@@ -1279,22 +1283,25 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					tDisableToolTipReason = corporation.reasonForNoTokenLay ();
 					updateButton (placeTokenButton, false, tDisableToolTipReason);
 				}
+				placeTokenButton.setText (tPlaceTokenText);
 			} else {
 				updateButton (placeTokenButton, false, "Have not placed Base Token yet");
 			}
 		} else {
-			placeTokenButton.setText (PLACE_TOKEN);
+			placeTokenButton.setText (tPlaceTokenText);
 			placeTokenButton.setEnabled (false);
 			tDisableToolTipReason = corporation.reasonForNoTokenLay ();
 			placeTokenButton.setToolTipText (tDisableToolTipReason);
 		}
 
-		if (corporation.isATokenCompany ()) {
-			tTokenCompany = (TokenCompany) corporation;
-			tMapToken = tTokenCompany.getMapTokenOnly ();
-			tMapCell = MapCell.NO_MAP_CELL;
-			tCost = tTokenCompany.getTokenCost (tMapToken, TokenType.MAP, tMapCell); 
-			placeTokenButton.setText (PLACE_TOKEN + " for " + Bank.formatCash (tCost));
+		if (corporation.getTokenCount () > 0) {
+			if (corporation.isATokenCompany ()) {
+				tTokenCompany = (TokenCompany) corporation;
+				tMapToken = tTokenCompany.getMapTokenOnly ();
+				tMapCell = MapCell.NO_MAP_CELL;
+				tCost = tTokenCompany.getTokenCost (tMapToken, TokenType.MAP, tMapCell); 
+				placeTokenButton.setText (PLACE_TOKEN + " for " + Bank.formatCash (tCost));
+			}
 		}
 	}
 
