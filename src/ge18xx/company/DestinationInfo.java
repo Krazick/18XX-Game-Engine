@@ -20,28 +20,53 @@ public class DestinationInfo {
 	boolean reached;
 
 	public DestinationInfo (XMLNode aChildNode) {
+		loadStatus (aChildNode);
+//		Location tLocation;
+//		int tCapitalizationLevel;
+//		int tDestinationLocation;
+//		String tDestinationLabel;
+//		boolean tReached;
+//		
+//		tCapitalizationLevel = aChildNode.getThisIntAttribute (AN_CAPITALIZATION_LEVEL);
+//		setCapitalizationLevel (tCapitalizationLevel);
+//		tDestinationLocation = aChildNode.getThisIntAttribute (AN_DESTINATION_LOCATION, Location.NO_LOCATION);
+//		if (tDestinationLocation == Location.NO_LOCATION) {
+//			setLocation (Location.NO_LOC);
+//			setReached (true);
+//		} else {
+//			tLocation = new Location (tDestinationLocation);
+//			setLocation (tLocation);
+//			tReached = aChildNode.getThisBooleanAttribute (AN_REACHED);
+//			setReached (tReached);
+//			tDestinationLabel = aChildNode.getThisAttribute (AN_DESTINATION);
+//			setLabel (tDestinationLabel);
+//		}
+	}
+
+	public void loadStatus (XMLNode aXMLNode) {
 		Location tLocation;
 		int tCapitalizationLevel;
 		int tDestinationLocation;
 		String tDestinationLabel;
 		boolean tReached;
-		
-		tCapitalizationLevel = aChildNode.getThisIntAttribute (AN_CAPITALIZATION_LEVEL);
+
+		tCapitalizationLevel = aXMLNode.getThisIntAttribute (AN_CAPITALIZATION_LEVEL);
 		setCapitalizationLevel (tCapitalizationLevel);
-		tDestinationLocation = aChildNode.getThisIntAttribute (AN_DESTINATION_LOCATION, Location.NO_LOCATION);
+		tDestinationLocation = aXMLNode.getThisIntAttribute (AN_DESTINATION_LOCATION, Location.NO_LOCATION);
 		if (tDestinationLocation == Location.NO_LOCATION) {
 			setLocation (Location.NO_LOC);
 			setReached (true);
 		} else {
 			tLocation = new Location (tDestinationLocation);
 			setLocation (tLocation);
-			tReached = aChildNode.getThisBooleanAttribute (AN_REACHED);
+			tReached = aXMLNode.getThisBooleanAttribute (AN_REACHED);
 			setReached (tReached);
-			tDestinationLabel = aChildNode.getThisAttribute (AN_DESTINATION);
+			tDestinationLabel = aXMLNode.getThisAttribute (AN_DESTINATION);
 			setLabel (tDestinationLabel);
 		}
-	}
 
+	}
+	
 	public boolean hasDestination () {
 		return (location != Location.NO_LOC);
 	}
