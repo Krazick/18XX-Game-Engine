@@ -1075,10 +1075,10 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mouseMoved (MouseEvent arg0) {
+	public void mouseMoved (MouseEvent aMouseEvent) {
 		MapCell tMapCell;
 
-		Point tPoint = arg0.getPoint ();
+		Point tPoint = aMouseEvent.getPoint ();
 		tMapCell = getMapCellContainingPoint (tPoint);
 		if (tMapCell == MapCell.NO_MAP_CELL) {
 			setToolTipText ("***");
@@ -1109,16 +1109,20 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	@Override
-	public void mouseReleased (MouseEvent e) {
-		handleClick (e);
+	public void mouseReleased (MouseEvent aMouseEvent) {
+		handleClick (aMouseEvent);
 	}
 
 	public void handleClick (MouseEvent aMouseEvent) {
 		Point tPoint;
 		MapCell tSelectedMapCell;
 		MapCell tPreviousSelectedMapCell;
-
+		boolean tShiftDown;
+		
 		tPoint = aMouseEvent.getPoint ();
+
+		tShiftDown = aMouseEvent.isShiftDown ();
+		System.out.println ("Shift key is Down: " + tShiftDown);
 		tSelectedMapCell = getMapCellContainingPoint (tPoint);
 		tPreviousSelectedMapCell = getSelectedMapCell ();
 		if (singleMapCellSelect) {
