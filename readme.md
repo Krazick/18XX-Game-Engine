@@ -33,8 +33,8 @@ The 18XX Game Engine can be used by itself, to play the game in hot-seat mode (s
 # Code Base Description
 <a name="Description"></a>
 
-The 18XX Game Engine is written in Java. The GUI utilizes the Java Swing UI. There are several data files that are written in XML. There are no actual Tile Images. The data for the Tiles are specified in an XML Structure and the code draws the images when needed.
-This code base began in the early 1990's, in C, and then ported to Java to allow multiple platform operation (my development platform has the the Apple Mac, and currently play with my group who all run windows platforms, and my Mac as well. The code base does follow specific formatting conventions (that are not necessarily the "java standard". The objects and their associated fields, and internal method variable have specific naming guidelines.
+The 18XX Game Engine is written in Java. The GUI utilizes the Java Swing UI. There are several data files that are written in XML. These data files are stored and used from the Krazick.github.io Repository. There are no actual Tile Images. The data for the Tiles are specified in an XML Structure and the code draws the images when needed.
+This code base began in the early 1990's, in C, and then ported to Java to allow multiple platform operation (my development platform is the the Apple Macintosh, and currently play with my group who all run Windows platforms, and my Mac as well. The code base does follow specific formatting conventions (that are not necessarily the "java standard". The objects and their associated fields, and internal method variable have specific naming guidelines.
 
 
 # How to Install and Run
@@ -58,6 +58,12 @@ To actually download the deployment package, there are a few requirements:
 
 # How to Use
 <a name="Use"></a>
+
+Use of the GE18XX Game Engine does need a Network Connection to retrieve the XML Data Files. The actual use is simply setup and launch as directed above. There is a NetGameServer, from a separate github repository that can be used to support network game play. The NetGameServer repository is currently private. 
+
+The NetGameServer when launched on a platform, listens on port 18300 for connections from the Game Engine. If you get a NetGameServer setup on another platform, you must have it listen to port 18300, and allow any firewall to pass that port through to your server platform.
+
+You can play the GE18XX Game Engine in Hot Seat mode, where all players are together and play on a single computer.
 
 # Credits
 <a name="Credits"></a>
