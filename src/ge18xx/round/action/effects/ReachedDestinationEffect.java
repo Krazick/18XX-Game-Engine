@@ -105,7 +105,6 @@ public class ReachedDestinationEffect extends Effect {
 		} else {
 			tEffectApplied = false;
 		}
-		
 
 		return tEffectApplied;
 	}

@@ -177,7 +177,7 @@ public class ShareCompany extends TokenCompany {
 		tReachedDestinationAction = new ReachedDestinationAction (tOperatingRound.getRoundType (), 
 																tOperatingRound.getID (), this);
 		tReachedDestinationAction.setChainToPrevious (true);
-		tReachedDestinationAction.addReachedDestinationEffect (tOperatingRound, tReachedDestination, 
+		tReachedDestinationAction.addReachedDestinationEffect (this, tReachedDestination, 
 				tOldCapitalizationLevel, tNewCapitalizationLevel);
 		
 		tEscrowReleased = 0;
