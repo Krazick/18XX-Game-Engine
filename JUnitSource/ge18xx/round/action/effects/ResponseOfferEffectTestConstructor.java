@@ -10,12 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import ge18xx.company.Certificate;
+import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
+import ge18xx.player.PlayerTestFactory;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
 
@@ -27,18 +29,22 @@ class ResponseOfferEffectTestConstructor {
 	ResponseOfferEffect effectEpsilon;
 	ShareCompany companyBeta;
 	ShareCompany companyGamma;
-	Player playerActorAlpha;
-	Player playerActorDelta;
+	Player mPlayerActorAlpha;
+	Player mPlayerActorDelta;
 	GameManager mGameManager;
 	PlayerManager playerManager;
-	GameTestFactory testFactory;
+	GameTestFactory gameTestFactory;
+	PlayerTestFactory playerTestFactory;
 	CompanyTestFactory companyTestFactory;
+	CertificateTestFactory certificateTestFactory;
 	Certificate certificate;
 
 	@BeforeEach
 	void setUp () throws Exception {
-		String tClientName, tPlayer2Name, tPlayer3Name;
-		Portfolio tPortfolioAlpha;
+		String tClientName;
+		String tPlayer2Name;
+		String tPlayer3Name;
+		Portfolio mPortfolioAlpha;
 		boolean tResponse;
 		String tItemType;
 		String tItemName;
@@ -46,30 +52,38 @@ class ResponseOfferEffectTestConstructor {
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterAlpha";
 		tPlayer3Name = "ToEffectTesterDelta";
-		testFactory = new GameTestFactory ();
-		companyTestFactory = new CompanyTestFactory (testFactory);
-		mGameManager = testFactory.buildGameManagerMock (tClientName);
+		gameTestFactory = new GameTestFactory ();
+		companyTestFactory = new CompanyTestFactory (gameTestFactory);
+		certificateTestFactory = new CertificateTestFactory ();
+		
+		mGameManager = gameTestFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
-		playerManager = new PlayerManager (mGameManager);
+		playerTestFactory = new PlayerTestFactory (mGameManager);
+		playerManager = playerTestFactory.buildPlayerManager ();
+
 		effectAlpha = new ResponseOfferEffect ();
-		playerActorAlpha = new Player (tPlayer2Name, playerManager, 0);
-		playerActorDelta = new Player (tPlayer3Name, playerManager, 0);
+		
+		mPlayerActorAlpha = playerTestFactory.buildPlayerMock (tPlayer2Name);
+		mPlayerActorDelta = playerTestFactory.buildPlayerMock (tPlayer3Name);
+		
+		mPortfolioAlpha = Mockito.mock (Portfolio.class);
+		Mockito.when (mPlayerActorAlpha.getPortfolio ()).thenReturn (mPortfolioAlpha);
+		
 		companyBeta = companyTestFactory.buildAShareCompany (1);
 		companyGamma = companyTestFactory.buildAShareCompany (2);
-		tPortfolioAlpha = playerActorAlpha.getPortfolio ();
 
-		certificate = new Certificate (companyBeta, true, 20, tPortfolioAlpha);
-		tPortfolioAlpha.addCertificate (certificate);
+		certificate = certificateTestFactory.buildCertificate (companyBeta, true, 20, mPortfolioAlpha);
+		Mockito.when (mPortfolioAlpha.getCertificate (0)).thenReturn (certificate);
 		effectAlpha = new ResponseOfferEffect ();
 		tResponse = true;
 		tItemType = "Private";
 		tItemName = certificate.getCompanyName ();
-		effectBeta = new ResponseOfferEffect (playerActorAlpha, playerActorDelta, tResponse, tItemType, tItemName);
+		effectBeta = new ResponseOfferEffect (mPlayerActorAlpha, mPlayerActorDelta, tResponse, tItemType, tItemName);
 		tResponse = false;
-		effectChi = new ResponseOfferEffect (playerActorAlpha, playerActorDelta, tResponse, tItemType, tItemName);
-		effectEpsilon = new ResponseOfferEffect (companyBeta, playerActorDelta, tResponse, tItemType, tItemName);
+		effectChi = new ResponseOfferEffect (mPlayerActorAlpha, mPlayerActorDelta, tResponse, tItemType, tItemName);
+		effectEpsilon = new ResponseOfferEffect (companyBeta, mPlayerActorDelta, tResponse, tItemType, tItemName);
 	}
 
 	@Test

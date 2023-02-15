@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import ge18xx.company.Certificate;
+import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
@@ -18,6 +20,7 @@ import ge18xx.game.GameTestFactory;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
+import ge18xx.player.PlayerTestFactory;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
 
@@ -27,46 +30,63 @@ class TransferOwnershipEffectTestConstructor {
 	TransferOwnershipEffect effectBeta;
 	ShareCompany companyBeta;
 	ShareCompany companyGamma;
-	Player playerActorAlpha;
-	Player playerActorDelta;
+	Player mPlayerActorAlpha;
+	Player mPlayerActorDelta;
 	GameManager mGameManager;
 	PhaseInfo mPhaseInfo = Mockito.mock (PhaseInfo.class);
 	PlayerManager playerManager;
 	GameTestFactory testFactory;
 	CompanyTestFactory companyTestFactory;
+	PlayerTestFactory playerTestFactory;
+	CertificateTestFactory certificateTestFactory;
 	Certificate certificate;
 
 	@BeforeEach
 	void setUp () throws Exception {
-		String tClientName, tPlayer2Name, tPlayer3Name;
-		Portfolio tPortfolioAlpha;
+		String tClientName;
+		String tPlayer2Name;
+		String tPlayer3Name;
+		Portfolio mPortfolioAlpha;
+		Portfolio mPortfolioDelta;
 
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterAlpha";
 		tPlayer3Name = "ToEffectTesterDelta";
 		testFactory = new GameTestFactory ();
 		companyTestFactory = new CompanyTestFactory (testFactory);
+		certificateTestFactory = new CertificateTestFactory ();
+
 		mGameManager = testFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
-		playerManager = new PlayerManager (mGameManager);
-		effectAlpha = new TransferOwnershipEffect ();
-		playerActorAlpha = new Player (tPlayer2Name, playerManager, 0);
-		playerActorDelta = new Player (tPlayer3Name, playerManager, 0);
+		playerTestFactory = new PlayerTestFactory (mGameManager);
+		playerManager = playerTestFactory.buildPlayerManager ();
 
+		effectAlpha = new TransferOwnershipEffect ();
+		
+		mPlayerActorAlpha = playerTestFactory.buildPlayerMock (tPlayer2Name);
+		mPlayerActorDelta = playerTestFactory.buildPlayerMock (tPlayer3Name);
+		
+		mPortfolioAlpha = Mockito.mock (Portfolio.class);
+		Mockito.when (mPlayerActorAlpha.getPortfolio ()).thenReturn (mPortfolioAlpha);
+		Mockito.when (mPortfolioAlpha.transferOneCertificateOwnership (any (Portfolio.class), any (Certificate.class))).thenReturn (true);
+
+		mPortfolioDelta = Mockito.mock (Portfolio.class);
+		Mockito.when (mPortfolioDelta.transferOneCertificateOwnership (any (Portfolio.class), any (Certificate.class))).thenReturn (true);
+		
+		Mockito.when (mPlayerActorDelta.getPortfolio ()).thenReturn (mPortfolioDelta);
+		
 		companyBeta = companyTestFactory.buildAShareCompany (1);
 		Mockito.when (mPhaseInfo.getWillFloatPercent ()).thenReturn (60);
 		Mockito.when (companyBeta.getMinSharesToFloat ()).thenReturn (6);
 		Mockito.when (companyBeta.getCurrentPhaseInfo ()).thenReturn (mPhaseInfo);
-//		Mockito.when (companyBeta.getPercentOwned ()).thenReturn (20);
 
 		companyGamma = companyTestFactory.buildAShareCompany (2);
-		tPortfolioAlpha = playerActorAlpha.getPortfolio ();
 
-		certificate = new Certificate (companyBeta, true, 20, tPortfolioAlpha);
-		tPortfolioAlpha.addCertificate (certificate);
-		effectBeta = new TransferOwnershipEffect (playerActorAlpha, certificate, playerActorDelta);
+		certificate = certificateTestFactory.buildCertificate (companyBeta, true, 20, mPortfolioAlpha);
+		Mockito.when (mPortfolioAlpha.getCertificate (0)).thenReturn (certificate);
+		effectBeta = new TransferOwnershipEffect (mPlayerActorAlpha, certificate, mPlayerActorDelta);
 	}
 
 	@Test

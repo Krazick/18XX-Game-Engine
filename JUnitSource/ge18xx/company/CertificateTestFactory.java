@@ -10,6 +10,15 @@ public class CertificateTestFactory {
 	public CertificateTestFactory () {
 	}
 
+	public Certificate buildCertificate (Corporation aCorporation, boolean aIsPresidentShare, 
+			int aPercentage, CertificateHolderI aOwner) {
+		Certificate tCertificate;
+		
+		tCertificate = new Certificate (aCorporation, aIsPresidentShare, aPercentage, aOwner);
+		
+		return tCertificate;
+	}
+	
 	public Certificate buildCertificateMock () {
 		Certificate mCertificate;
 

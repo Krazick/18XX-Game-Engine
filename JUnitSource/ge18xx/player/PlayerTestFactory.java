@@ -53,8 +53,9 @@ public class PlayerTestFactory {
 	 *
 	 */
 	public Player buildPlayerMock (String aName) {
-		Player mPlayer = Mockito.mock (Player.class);
+		Player mPlayer;
 
+		mPlayer = Mockito.mock (Player.class);
 		Mockito.when (mPlayer.getName ()).thenReturn (aName);
 
 		return mPlayer;
