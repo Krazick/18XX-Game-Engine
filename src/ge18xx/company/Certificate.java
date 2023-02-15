@@ -102,10 +102,6 @@ public class Certificate implements Comparable<Certificate> {
 	Bidders bidders;
 	boolean justBought;
 
-	public Certificate () {
-		this (Corporation.NO_CORPORATION, false, NO_PERCENTAGE, CertificateHolderI.NO_OWNER);
-	}
-
 	public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage,
 			CertificateHolderI aOwner) {
 		setValues (aCorporation, aIsPresidentShare, aPercentage, aOwner);
