@@ -1856,29 +1856,35 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public boolean itemStateChanged (ItemEvent aItemEvent, PlayerFrame aPlayerFrame) {
+		Object tSourceButton;
 		JCheckBox tCheckedButton;
 		JComboBox<String> tComboBox;
 		int tParPrice;
-		boolean tIsSelected, tHandled;
-		Object tSourceButton = aItemEvent.getItemSelectable ();
-		Object tSourceItem = aItemEvent.getItem ();
+		int tCostToBuy;
+		boolean tIsSelected;
+		boolean tHandled;
 
 		tHandled = false;
+		tSourceButton = aItemEvent.getItemSelectable ();
 		for (Certificate tCertificate : certificates) {
-			tCheckedButton = tCertificate.getCheckedButton ();
-			tComboBox = tCertificate.getComboBox ();
-			if (tCertificate.isAPrivateCompany ()) {
-				if (tSourceButton == tCheckedButton) {
-					tHandled = true;
-				}
-			} else {
-				if (tSourceButton == tCheckedButton) {
-					tIsSelected = tCheckedButton.isSelected ();
-					tCertificate.enableParValuesCombo (tIsSelected);
-					tHandled = true;
-				} else if (tSourceItem == tComboBox) {
-					tParPrice = tCertificate.getComboParValue ();
-					aPlayerFrame.updateBuyButton ((tParPrice > 0));
+			if (! tHandled) {
+				tCheckedButton = tCertificate.getCheckedButton ();
+				tComboBox = tCertificate.getComboBox ();
+				if (tCertificate.isAPrivateCompany ()) {
+					if (tSourceButton == tCheckedButton) {
+						tHandled = true;
+					}
+				} else {
+					if (tSourceButton == tCheckedButton) {
+						tIsSelected = tCheckedButton.isSelected ();
+						tCertificate.enableParValuesCombo (tIsSelected);
+						tHandled = true;
+					} else if (tSourceButton == tComboBox) {
+						tParPrice = tCertificate.getComboParValue ();
+						tCostToBuy = tCertificate.calcCertificateValue (tParPrice);
+						aPlayerFrame.updateBuyButton ((tParPrice > 0), tCostToBuy);
+						tHandled = true;
+					}
 				}
 			}
 		}

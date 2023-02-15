@@ -664,13 +664,20 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 		return tCanBankHoldStock;
 	}
-
+	
 	public void updateBuyButton (boolean aCanBuy) {
+		int tCostToBuy;
+		
+		tCostToBuy = player.getCostSelectedStockToBuy ();
+		updateBuyButton (aCanBuy, tCostToBuy);
+	}
+	
+	public void updateBuyButton (boolean aCanBuy, int aCostToBuy) {
 		boolean tStocksToBuy;
 		boolean tPrivateToBidOn;
 		boolean tNormalBuy;
 		Certificate tMustBuyCertificate;
-		int tCostToBuy;
+//		int tCostToBuy;
 
 		tStocksToBuy = hasSelectedStocksToBuy ();
 		tPrivateToBidOn = hasSelectedPrivateToBidOn ();
@@ -679,19 +686,19 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			tNormalBuy = true;
 		} else if (tStocksToBuy) {
 			if (player.getCountSelectedCosToBuy () == 1) {
-				tCostToBuy = player.getCostSelectedStockToBuy ();
+//				tCostToBuy = player.getCostSelectedStockToBuy ();
 				tMustBuyCertificate = player.getMustBuyCertificate ();
 				if (tMustBuyCertificate != Certificate.NO_CERTIFICATE) {
 					buyBidButton.setEnabled (true);
 					buyBidButton.setToolTipText ("Must Buy this Certificate at NO Cost");
 					buyBidButton.setText (Player.BUY_LABEL);
 					tNormalBuy = false;					
-				} else if (tCostToBuy <= 0) {
+				} else if (aCostToBuy <= 0) {
 					buyBidButton.setEnabled (false);
 					buyBidButton.setToolTipText (NO_PAR_PRICE_SET);
 					buyBidButton.setText (Player.BUY_LABEL);
 					tNormalBuy = false;
-				} else if (tCostToBuy > player.getCash ()) {
+				} else if (aCostToBuy > player.getCash ()) {
 					buyBidButton.setEnabled (false);
 					buyBidButton.setToolTipText (NOT_ENOUGH_CASH);
 					buyBidButton.setText (Player.BUY_LABEL);

@@ -109,8 +109,8 @@ public class Certificate implements Comparable<Certificate> {
 	public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage,
 			CertificateHolderI aOwner) {
 		setValues (aCorporation, aIsPresidentShare, aPercentage, aOwner);
-		parValuesCombo = null;
-		checkBox = GUI.NO_CHECK_BOX;
+		setParValuesCombo (GUI.NO_COMBO_BOX);
+		setCheckBox (GUI.NO_CHECK_BOX);
 		setFrameButton (checkBox, "");
 		setJustBought (false);
 	}
@@ -122,15 +122,22 @@ public class Certificate implements Comparable<Certificate> {
 			allowedOwners = aCertificate.allowedOwners.clone ();
 			setCorporation (aCertificate.getCorporation ());
 			setOwner (aCertificate.getOwner ());
-			checkBox = new JCheckBox ("EMPTY");
-			checkBox = GUI.NO_CHECK_BOX;
+			setCheckBox (GUI.NO_CHECK_BOX);
 			setFrameButton (checkBox, "");
-			parValuesCombo = null;
+			setParValuesCombo (GUI.NO_COMBO_BOX);
 			bidders = new Bidders (this);
 			setJustBought (false);
 		}
 	}
 
+	public void setCheckBox (JCheckBox aCheckBox) {
+		checkBox = aCheckBox;
+	}
+
+	public void setParValuesCombo (JComboBox<String> aParValuesCombo) {
+		parValuesCombo = aParValuesCombo;
+	}
+	
 	public void setJustBought (boolean aJustBought) {
 		justBought = aJustBought;
 	}
@@ -186,9 +193,9 @@ public class Certificate implements Comparable<Certificate> {
 		}
 		setCorporation (Corporation.NO_CORPORATION);
 		setOwner (CertificateHolderI.NO_OWNER);
-		checkBox = GUI.NO_CHECK_BOX;
+		setParValuesCombo (GUI.NO_COMBO_BOX);
+		setCheckBox (GUI.NO_CHECK_BOX);
 		setFrameButton (checkBox, "");
-		parValuesCombo = null;
 		bidders = new Bidders (this);
 	}
 
@@ -462,7 +469,7 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public void enableParValuesCombo (boolean aEnable) {
-		if (parValuesCombo != null) {
+		if (parValuesCombo != GUI.NO_COMBO_BOX) {
 			parValuesCombo.setEnabled (aEnable);
 			if (!aEnable) {
 				if (parValuesCombo.getItemCount () > 0) {
@@ -479,7 +486,7 @@ public class Certificate implements Comparable<Certificate> {
 
 		tGameManager = corporation.getGameManager ();
 		tParValues = tGameManager.getAllStartCells ();
-		parValuesCombo = new JComboBox<> ();
+		setParValuesCombo (new JComboBox<String> ());
 		tParValueSize = new Dimension (75, 20);
 		parValuesCombo.setPreferredSize (tParValueSize);
 		parValuesCombo.setMaximumSize (tParValueSize);
@@ -883,14 +890,16 @@ public class Certificate implements Comparable<Certificate> {
 	// TODO: Build JUNIT Test Cases for getCost, getValue, getDiscount
 	public int getCost () {
 		int tCertificateCost;
-
+		int tParPrice;
+		
 		if (isAShareCompany ()) {
 			if (owner.isABankPool ()) {
 				tCertificateCost = getValue ();
 			} else if (owner.isABank ()) {
 				tCertificateCost = getParPrice ();
 				if (tCertificateCost == ShareCompany.NO_PAR_PRICE) {
-					tCertificateCost = getComboParValue ();
+					tParPrice = getComboParValue ();
+					tCertificateCost = calcCertificateValue (tParPrice);
 				}
 			} else {
 				tCertificateCost = getValue ();
