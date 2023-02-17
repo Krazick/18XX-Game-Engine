@@ -17,7 +17,7 @@ public class ChangeRouteEffect extends Effect {
 	final static AttributeName AN_START_LOCATION = new AttributeName ("start");
 	final static AttributeName AN_END_LOCATION = new AttributeName ("end");
 
-	public static final String NAME = "Change Route Effect";
+	public static final String NAME = "Change Route";
 	int trainIndex;
 	MapCell mapCell;
 	Location startLocation;
@@ -60,6 +60,10 @@ public class ChangeRouteEffect extends Effect {
 		setTrainIndex (tTrainIndex);
 	}
 
+	public ChangeRouteEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell) {
+		this (aActor, aTrainIndex, aMapCell, Location.NO_LOC, Location.NO_LOC);
+	}
+	
 	public ChangeRouteEffect (ActorI aActor, int aTrainIndex, MapCell aMapCell, Location aStartLocation,
 			Location aEndLocation) {
 		super (NAME, aActor);
@@ -76,8 +80,12 @@ public class ChangeRouteEffect extends Effect {
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_TRAIN_INDEX, trainIndex);
 		tEffectElement.setAttribute (AN_MAP_CELL_ID, mapCell.getID ());
-		tEffectElement.setAttribute (AN_START_LOCATION, startLocation.getLocation ());
-		tEffectElement.setAttribute (AN_END_LOCATION, endLocation.getLocation ());
+		if (startLocation != Location.NO_LOC) {
+			tEffectElement.setAttribute (AN_START_LOCATION, startLocation.getLocation ());
+		}
+		if (endLocation != Location.NO_LOC) { 
+			tEffectElement.setAttribute (AN_END_LOCATION, endLocation.getLocation ());
+		}
 
 		return tEffectElement;
 	}
@@ -147,5 +155,4 @@ public class ChangeRouteEffect extends Effect {
 		// Don't really need to undo this effect
 		return true;
 	}
-
 }
