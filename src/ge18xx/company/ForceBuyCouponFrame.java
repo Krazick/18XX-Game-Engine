@@ -68,13 +68,13 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	public ForceBuyCouponFrame (ShareCompany aBuyingCompany, Coupon aMustBuyCoupon) {
 		super ("Force Payment Frame");
 		
-		forceAction = "Force ";
+		forceAction = "";
 		if (aMustBuyCoupon instanceof Train) {
-			forceAction += CorporationFrame.BUY_TRAIN;
+			forceAction += "Buy " + aMustBuyCoupon.getName () + " Train Now";
 		} else {
-			forceAction += "Pay " + aMustBuyCoupon.getName ();
+			forceAction += "Pay " + aMustBuyCoupon.getName () + " Now";
 		}
-		setTitle (forceAction);
+		setTitle ("Force " + forceAction);
 		shareCompany = aBuyingCompany;
 		mustBuyCoupon = aMustBuyCoupon;
 		actionCount = 0;
@@ -110,6 +110,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 
 	public void updateMainJPanel () {
 		mainJPanel.removeAll ();
+		buildButtonJPanel ();
 		buildInfoJPanel ();
 		buildStockJPanel ();
 		buildButtonJPanel ();
@@ -123,6 +124,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	private void buildInfoJPanel () {
 		JLabel tPresidentLabel;
 		JPanel tCouponPanel;
+		JPanel tCouponAndButtonPanel;
 		PortfolioHolderI tPortfolioHolder;
 		int tCompanyTreasury;
 
@@ -139,7 +141,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		infoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 
 		infoJPanel.add (Box.createVerticalStrut (10));
-		frameLabel = new JLabel (forceAction + " for " + shareCompany.getAbbrev ());
+		frameLabel = new JLabel ("Force " + forceAction + " for " + shareCompany.getAbbrev ());
 		addLabelAndSpace (frameLabel);
 		corporationTreasuryLabel = new JLabel ("Treasury: " + Bank.formatCash (tCompanyTreasury));
 		addLabelAndSpace (corporationTreasuryLabel);
@@ -165,7 +167,14 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		updateSelectedAssetLabel ();
 
 		tCouponPanel = mustBuyCoupon.buildCouponInfoPanel ();
-		infoJPanel.add (tCouponPanel);
+		tCouponAndButtonPanel = new JPanel ();
+		tCouponAndButtonPanel.setLayout (new BoxLayout (tCouponAndButtonPanel, BoxLayout.X_AXIS));
+		tCouponAndButtonPanel.add (tCouponPanel);
+		tCouponAndButtonPanel.add (Box.createHorizontalStrut (10));
+		tCouponAndButtonPanel.add (doBuyButton);
+		updateBuyCouponButton ();
+		
+		infoJPanel.add (tCouponAndButtonPanel);
 		infoJPanel.add (Box.createVerticalStrut (10));
 	}
 
@@ -198,12 +207,14 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	private void updatePresidentalCashNeeded () {
 		int tCompanyTreasury;
 		int tCouponCost;
+		int tCashToRaise;
 
 		tCouponCost = mustBuyCoupon.getPrice ();
 		tCompanyTreasury = shareCompany.getTreasury ();
 		calculatePresidentalCashNeeded (tCompanyTreasury, tCouponCost);
+		tCashToRaise = tCouponCost - (getRevenueContribution () + tCompanyTreasury + presidentTreasury);
 		if (presidentContribution > 0) {
-			presidentalCashNeededLabel.setText ("Presidental Cash Needed: " + Bank.formatCash (presidentContribution));
+			presidentalCashNeededLabel.setText ("Cash amount that must be raised: " + Bank.formatCash (tCashToRaise));
 		} else {
 			presidentalCashNeededLabel.setText (
 					"Have enough Cash, will have " + Bank.formatCash (presidentTreasury + presidentContribution) + " in President Treasury");
@@ -242,7 +253,7 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	private void buildButtonJPanel () {
 		buttonJPanel = new JPanel ();
 		buttonJPanel.setLayout (new BoxLayout (buttonJPanel, BoxLayout.X_AXIS));
-		doBuyButton = setupButton (forceAction, BUY_ACTION);
+		doBuyButton = setupButton (forceAction, BUY_ACTION, false);
 		doSellButton = setupButton (Player.SELL_LABEL, SELL_ACTION);
 		exchangeButton = setupButton (Player.EXCHANGE_LABEL, EXCHANGE_ACTION);
 		undoButton = setupButton ("Undo", UNDO_ACTION);
@@ -251,12 +262,18 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 	}
 
 	private JButton setupButton (String aLabel, String aActionCommand) {
+		return setupButton (aLabel, aActionCommand, true);
+	}
+	
+	private JButton setupButton (String aLabel, String aActionCommand, boolean aAddButton) {
 		JButton tJButton;
 
 		tJButton = new JButton (aLabel);
 		tJButton.setActionCommand (aActionCommand);
 		tJButton.addActionListener (this);
-		buttonJPanel.add (tJButton);
+		if (aAddButton) {
+			buttonJPanel.add (tJButton);
+		}
 
 		return tJButton;
 	}
