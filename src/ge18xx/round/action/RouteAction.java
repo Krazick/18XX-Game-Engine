@@ -22,6 +22,7 @@ public class RouteAction extends Action {
 
 	public RouteAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
+		setName (NAME);
 	}
 
 	public RouteAction (XMLNode aActionNode, GameManager aGameManager) {
