@@ -52,6 +52,7 @@ import ge18xx.tiles.Track;
 import ge18xx.tiles.Upgrade;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -1763,8 +1764,8 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public void setOtherValues (int aBaseTerrain, Tile aTile, int aTileOrient, String aBaseName, String aBlockedSides) {
-		int tBlockedIndex;
 		String tSideNames[] = { "A", "B", "C", "D", "E", "F" };
+		int tBlockedIndex;
 		int tIndex;
 
 		centers = new Centers ();
@@ -1848,15 +1849,16 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public void setTerrainFillColor (String aTerrainFillColor) {
-		Color tTerrainFillColor = null;
+		Color tTerrainFillColor;
 
-		if (!(aTerrainFillColor == null)) {
+		tTerrainFillColor = GUI.NO_COLOR;
+		if (!(aTerrainFillColor == GUI.NULL_STRING)) {
 			if (aTerrainFillColor.equals ("white")) {
 				tTerrainFillColor = Color.white;
 			} else if (aTerrainFillColor.equals ("black")) {
 				tTerrainFillColor = Color.black;
 			} else if (aTerrainFillColor.equals ("hollow")) {
-				tTerrainFillColor = null;
+				tTerrainFillColor = GUI.NO_COLOR;
 			} else if (aTerrainFillColor.equals ("orange")) {
 				tTerrainFillColor = Color.orange;
 			}
@@ -1870,16 +1872,21 @@ public class MapCell implements Comparator<Object> {
 
 	public RevenueCenter setupRevenueCenter (int aType, int aID, int aLocation, String aName, int aValue,
 			TileType aTileType) {
-		RevenueCenterType tRCType = new RevenueCenterType (aType);
-
-		return setupRevenueCenter (tRCType, aID, aLocation, aName, aValue, aTileType);
+		RevenueCenterType tRCType;
+		RevenueCenter tRevenueCenter;
+		
+		tRCType = new RevenueCenterType (aType);
+		tRevenueCenter = setupRevenueCenter (tRCType, aID, aLocation, aName, aValue, aTileType);
+		
+		return tRevenueCenter;
 	}
 
 	public RevenueCenter setupRevenueCenter (RevenueCenterType tRevenueCenterType, int aID, int aLocation, String aName,
 			int aValue, TileType aTileType) {
 		RevenueCenter tRevenueCenter;
-		int tStationCount = tRevenueCenterType.getStationCount ();
+		int tStationCount;
 
+		tStationCount = tRevenueCenterType.getStationCount ();
 		if (tRevenueCenterType.isDotTown ()) {
 			tRevenueCenter = new Town (tRevenueCenterType, aID, aLocation, aName, aValue, aTileType);
 		} else if (tRevenueCenterType.isTown ()) {
@@ -1890,12 +1897,12 @@ public class MapCell implements Comparator<Object> {
 			tRevenueCenter = null;
 		}
 
-		return (tRevenueCenter);
+		return tRevenueCenter;
 	}
 
-	public void setXY (int Xc, int Yc) {
-		XCenter = Xc;
-		YCenter = Yc;
+	public void setXY (int aXCenter, int aYCenter) {
+		XCenter = aXCenter;
+		YCenter = aYCenter;
 	}
 
 	public void swapTokens () {
@@ -1914,7 +1921,8 @@ public class MapCell implements Comparator<Object> {
 		int tCityCenterCount;
 		int tCityCenterIndex;
 		int tFirstPossibleRotation;
-		Location tOldCityLocation, tNewCityLocation;
+		Location tOldCityLocation;
+		Location tNewCityLocation;
 		RevenueCenter tRevenueCenter;
 		City tDestinationCity;
 		City tCity;
@@ -1922,7 +1930,7 @@ public class MapCell implements Comparator<Object> {
 		GameTile tCurrentGameTile;
 		Tile tCurrentTile;
 		Upgrade tUpgrade;
-		boolean tAllowedRotations[] = new boolean [6];
+		boolean tAllowedRotations [] = new boolean [6];
 		boolean tMustSwap = false;
 		boolean tTilePlaced = false;
 
