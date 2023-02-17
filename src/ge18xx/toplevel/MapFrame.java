@@ -1277,18 +1277,30 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	public void handleSelectedRouteRC (MapCell aSelectedMapCell, RevenueCenter aSelectedRevenueCenter) {
+	public void handleRemoveRouteSegment (MapCell aSelectedMapCell) {
+		if (routeInformation.getSegmentCount () > 1) {
+			System.out.println ("Ready to remove MapCell " + aSelectedMapCell.getCellID ());
+			routeInformation.removeEndIfMapCell (aSelectedMapCell);
+		}
+	}
+	
+	public void handleSelectedRoute (MapCell aSelectedMapCell, RevenueCenter aSelectedRC) {
 		RouteSegment tRouteSegment;
-		Corporation tCorporation = getOperatingCompany ();
-		int tCorpID, tPhase, tTrainIndex;
-		RouteAction tRouteAction = RouteAction.NO_ROUTE_ACTION;
+		Corporation tCorporation;
+		int tCorpID;
+		int tPhase;
+		int tTrainIndex;
+		RouteAction tRouteAction;
 		StartRouteAction tStartRouteAction;
 		ActionStates tRoundType;
 		String tRoundID;
 		RoundManager tRoundManager;
 		ActionManager tActionManager;
-		Location tStartLocation, tEndLocation;
+		Location tStartLocation;
+		Location tEndLocation;
 
+		tCorporation = getOperatingCompany ();
+		tRouteAction = RouteAction.NO_ROUTE_ACTION;
 		tRouteSegment = new RouteSegment (aSelectedMapCell);
 		tCorpID = tCorporation.getID ();
 		tPhase = getCurrentPhase ();
@@ -1296,10 +1308,10 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		tActionManager = tRoundManager.getActionManager ();
 		tRoundType = tRoundManager.getCurrentRoundType ();
 		tRoundID = tRoundManager.getOperatingRoundID ();
-		if (routeInformation.getSegmentCount () == 0) {
-			if (aSelectedRevenueCenter != RevenueCenter.NO_CENTER) {
+		if (routeInformation.isEmpty ()) {
+			if (aSelectedRC != RevenueCenter.NO_CENTER) {
 				tStartRouteAction = new StartRouteAction (tRoundType, tRoundID, tCorporation);
-				tStartLocation = aSelectedRevenueCenter.getLocation ();
+				tStartLocation = aSelectedRC.getLocation ();
 				tEndLocation = new Location ();
 				tTrainIndex = routeInformation.getTrainIndex ();
 				tStartRouteAction.addStartRouteEffect (tCorporation, tTrainIndex, aSelectedMapCell, tStartLocation,
@@ -1313,7 +1325,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			tRouteAction.setChainToPrevious (true);
 		}
 		if (tRouteAction != RouteAction.NO_ROUTE_ACTION) {
-			routeInformation.setStartSegment (tRouteSegment, aSelectedRevenueCenter, tPhase, tCorpID);
+			routeInformation.setStartSegment (tRouteSegment, aSelectedRC, tPhase, tCorpID);
 			routeInformation.extendRouteInformation (tRouteSegment, tPhase, tCorpID, tRouteAction);
 
 			tActionManager.addAction (tRouteAction);

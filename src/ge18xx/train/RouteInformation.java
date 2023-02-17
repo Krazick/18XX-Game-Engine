@@ -64,8 +64,8 @@ public class RouteInformation {
 		phase = aPhase;
 		setTrainCompany (aTrainCompany);
 		setTrainRevenueFrame (aTrainRevenueFrame);
-		routeSegments = new ArrayList<> ();
-		revenueCenters = new ArrayList<> ();
+		routeSegments = new ArrayList<RouteSegment> ();
+		revenueCenters = new ArrayList<RevenueCenter> ();
 		clearWarningMessage ();
 	}
 
@@ -108,8 +108,8 @@ public class RouteInformation {
 			}
 			phase = tPhase;
 
-			routeSegments = new ArrayList<> ();
-			revenueCenters = new ArrayList<> ();
+			routeSegments = new ArrayList<RouteSegment> ();
+			revenueCenters = new ArrayList<RevenueCenter> ();
 
 			tXMLNodeList = new XMLNodeList (routeSegmentsParsingRoutine, this);
 			tXMLNodeList.parseXMLNodeList (aRouteNode, EN_ROUTE_SEGMENTS, RouteSegment.EN_ROUTE_SEGMENT);
@@ -293,6 +293,10 @@ public class RouteInformation {
 		return tIsSameRCasLast;
 	}
 
+	public boolean isEmpty () {
+		return routeSegments.isEmpty ();
+	}
+	
 	public int getSegmentCount () {
 		return routeSegments.size ();
 	}
@@ -763,7 +767,11 @@ public class RouteInformation {
 			addRouteSegment (aRouteSegment, aRouteAction);
 		} else if (tInitialSegmentCount == 1) {
 			System.out.println ("\nScenario 2 - Add Segment # 2");
-			tContinueWork = fillEndPoint (aRouteSegment, aRouteAction);
+			if (previousSegmentNeedsFill ()) {
+				tContinueWork = fillEndPoint (aRouteSegment, aRouteAction);
+			} else {
+				tContinueWork = true;
+			}
 			if (tContinueWork) {
 				tContinueWork = addNextRouteSegment (aRouteSegment, aCorpID, aRouteAction);
 			}
@@ -782,6 +790,7 @@ public class RouteInformation {
 		}
 		updateRouteButtons ();
 	}
+	
 
 	public void cycleToNextTrack (RouteAction aRouteAction, int aCorpID) {
 		RouteSegment tLastRouteSegment;
@@ -819,6 +828,7 @@ public class RouteInformation {
 		trainRevenueFrame.updateRevenues (this);
 		trainRevenueFrame.updateAllFrameButtons ();
 	}
+	
 
 	public void updateRevenueCenterInfo (int aCorpID, RouteSegment aLastRouteSegment, Location aNewEndLocation,
 			Location aOldEndLocation) {
@@ -830,6 +840,7 @@ public class RouteInformation {
 			addRevenueCenter (aLastRouteSegment);
 		}
 	}
+	
 
 	public void swapTrackHighlights (int aTrainNumber, Track aOldTrack, Track aNewTrack) {
 		int tTrainIndex = getTrainIndex () + 1;
@@ -837,6 +848,7 @@ public class RouteInformation {
 		aOldTrack.clearTrainNumber ();
 		aNewTrack.setTrainNumber (tTrainIndex);
 	}
+	
 
 	private boolean addNewPreviousSegment (RouteSegment aRouteSegment, int aPhase, int aCorpID,
 			RouteAction aRouteAction) {
@@ -908,6 +920,7 @@ public class RouteInformation {
 	public void clearWarningMessage () {
 		warningMessage = NO_MESSAGE;
 	}
+	
 
 	private boolean addNextRouteSegment (RouteSegment aRouteSegment, int aCorpID, RouteAction aRouteAction) {
 		boolean tAddNextRouteSegment = false;
@@ -935,6 +948,7 @@ public class RouteInformation {
 
 		return tAddNextRouteSegment;
 	}
+	
 
 	public Location moveEndRoute (RouteSegment aPreviousSegment, RouteSegment aRouteSegment, MapCell aPreviousMapCell,
 			MapCell aCurrentMapCell) {
@@ -948,6 +962,7 @@ public class RouteInformation {
 
 		return tPossibleEnd;
 	}
+	
 
 	public boolean addTheRouteSegment (RouteSegment aRouteSegment, RouteAction aRouteAction) {
 		int tTrainNumber;
@@ -963,21 +978,46 @@ public class RouteInformation {
 		return true;
 	}
 
+	private RouteSegment getPreviousRouteSegment () {
+		RouteSegment tPreviousSegment;
+		int tSegmentCount;
+		
+		tSegmentCount = getSegmentCount ();
+		tPreviousSegment = getRouteSegment (tSegmentCount - 1);
+
+		return tPreviousSegment;
+	}
+	
+	private boolean previousSegmentNeedsFill () {
+		RouteSegment tPreviousSegment;
+		boolean tPreviousSegmentNeedsFill;
+		int tPreviousEnd;
+		
+		tPreviousSegment = getPreviousRouteSegment ();
+		tPreviousEnd = tPreviousSegment.getEndLocationInt ();
+
+		if (tPreviousEnd == Location.NO_LOCATION) {
+			tPreviousSegmentNeedsFill = true;
+		} else {
+			tPreviousSegmentNeedsFill = false;
+		}
+		
+		return tPreviousSegmentNeedsFill;
+	}
+	
 	private boolean fillEndPoint (RouteSegment aRouteSegment, RouteAction aRouteAction) {
 		boolean tFillEndPoint;
 		RouteSegment tPreviousSegment;
 		Track tPreviousTrack;
 		MapCell tCurrentMapCell;
 		MapCell tPreviousMapCell;
-		int tSegmentCount;
 		int tPreviousSide;
 		int tPreviousEnd;
 		int tPreviousStart;
 		int tNewPreviousStart;
 
 		tFillEndPoint = false;
-		tSegmentCount = getSegmentCount ();
-		tPreviousSegment = getRouteSegment (tSegmentCount - 1);
+		tPreviousSegment = getPreviousRouteSegment ();
 		tCurrentMapCell = aRouteSegment.getMapCell ();
 		tPreviousMapCell = tPreviousSegment.getMapCell ();
 		clearWarningMessage ();
@@ -1058,6 +1098,63 @@ public class RouteInformation {
 		return tFillEndPoint;
 	}
 
+	public void removeEndIfMapCell (MapCell aMapCell) {
+		RouteSegment tLastRouteSegment;
+		int tLastRouteSegmentIndex;
+		MapCell tLastMapCell;
+		Location tEndLocation;
+		
+		tLastRouteSegmentIndex = routeSegments.size () - 1;
+		tLastRouteSegment = routeSegments.get (tLastRouteSegmentIndex);
+		tLastMapCell = tLastRouteSegment.getMapCell ();
+		if (tLastMapCell.getID ().equals (aMapCell.getCellID ())) {
+			System.out.println ("Last MapCell on Route matches the one to remove.");
+			tLastRouteSegment.clearTrainOn ();
+			routeSegments.remove (tLastRouteSegmentIndex);
+			tEndLocation = tLastRouteSegment.getEndLocation ();
+			if (! tEndLocation.isSide ()) {
+				removeLastRevenueCenter ();
+			}
+			removeSegmentsBackToJunction ();
+		} else {
+			System.out.println ("Last MapCell on Route DOES NOT match the one to remove");
+		}
+		updateRevenueFrame ();
+	}
+	
+	public void removeSegmentsBackToJunction () {
+		RouteSegment tLastRouteSegment;
+		int tLastRouteSegmentIndex;
+		int tTrackCount;
+		boolean tFoundJunction;
+		MapCell tLastMapCell;
+		Location tStartLocation;
+		Location tEndLocation;
+		
+		tLastRouteSegmentIndex = routeSegments.size () - 1;
+		tFoundJunction = false;
+		while ((tLastRouteSegmentIndex > 0) && (tFoundJunction == false)) {
+			tLastRouteSegment = routeSegments.get (tLastRouteSegmentIndex);
+			tStartLocation = tLastRouteSegment.getStartLocation ();
+			tEndLocation = tLastRouteSegment.getEndLocation ();
+			tLastMapCell = tLastRouteSegment.getMapCell ();
+			if (tStartLocation.isSide ()) {
+				tTrackCount = tLastMapCell.getTrackCountFromSide (tStartLocation);
+				if (tTrackCount > 1) {
+					tFoundJunction = true;
+				}
+			} else {
+				tFoundJunction = true;
+			}
+			if (! tEndLocation.isSide ()) {
+				removeLastRevenueCenter ();
+			}
+			tLastRouteSegment.clearTrainOn ();
+			routeSegments.remove (tLastRouteSegmentIndex);
+			tLastRouteSegmentIndex--;
+		}
+	}
+	
 	public void setStartSegment (RouteSegment aRouteSegment, RevenueCenter aSelectedRevenueCenter, int aPhase,
 			int aCorpID) {
 		NodeInformation tNode;
