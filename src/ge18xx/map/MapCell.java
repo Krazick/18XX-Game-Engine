@@ -404,6 +404,16 @@ public class MapCell implements Comparator<Object> {
 		}
 	}
 
+	public int getTrackCountFromSide (Location aSideLocation) {
+		Location tNewSideLocation;
+		int tTrackCount;
+		
+		tNewSideLocation = aSideLocation.unrotateLocation (tileOrient);
+		tTrackCount = tile.getTrackCountFromSide (tNewSideLocation);
+		
+		return tTrackCount;
+	}
+	
 	public void clearSelectedFeature2 () {
 		setSelectedFeature2 (new Location (Location.NO_LOCATION));
 	}

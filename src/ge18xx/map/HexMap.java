@@ -664,7 +664,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 				if (mapFrame.isSelectRouteMode ()) {
 					if (aSelectedMapCell.isTileOnCell ()) {
-						mapFrame.handleSelectedRouteRC (aSelectedMapCell, tSelectedRevenueCenter);
+						mapFrame.handleSelectedRoute (aSelectedMapCell, tSelectedRevenueCenter);
 					} else {
 						System.err.println ("No Tile, and no Track on Tile - Ignore the Click");
 					}
@@ -1122,20 +1122,23 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tPoint = aMouseEvent.getPoint ();
 
 		tShiftDown = aMouseEvent.isShiftDown ();
-		System.out.println ("Shift key is Down: " + tShiftDown);
 		tSelectedMapCell = getMapCellContainingPoint (tPoint);
 		tPreviousSelectedMapCell = getSelectedMapCell ();
 		if (singleMapCellSelect) {
 			handleSingleMapCellSelect (tSelectedMapCell, tPreviousSelectedMapCell);
 		} else {
-			if (selectRevenueCenter) {
-				handleSelectRevenueCenter (tSelectedMapCell, tPreviousSelectedMapCell, tPoint);
+			if (tShiftDown && mapFrame.isSelectRouteMode ()) {
+				mapFrame.handleRemoveRouteSegment (tSelectedMapCell);
 			} else {
-				if (tPreviousSelectedMapCell == tSelectedMapCell) {
-					toggleSelectedMapCell (tSelectedMapCell);
+				if (selectRevenueCenter) {
+					handleSelectRevenueCenter (tSelectedMapCell, tPreviousSelectedMapCell, tPoint);
 				} else {
-					toggleSelectedMapCell (tPreviousSelectedMapCell);
-					toggleSelectedMapCell (tSelectedMapCell);
+					if (tPreviousSelectedMapCell == tSelectedMapCell) {
+						toggleSelectedMapCell (tSelectedMapCell);
+					} else {
+						toggleSelectedMapCell (tPreviousSelectedMapCell);
+						toggleSelectedMapCell (tSelectedMapCell);
+					}
 				}
 			}
 		}
