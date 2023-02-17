@@ -939,13 +939,23 @@ public class Tile implements Comparable<Object>, Cloneable {
 	};
 
 	public void swapTokens (MapCell aMapCell) {
-		MapToken tMapToken0, tMapToken1;
-		City tCity0, tCity1;
+		MapToken tMapToken0;
+		MapToken tMapToken1;
+		City tCity0;
+		City tCity1;
+		int tCityIndex;
 
-		if (getCenterCount () == 2) {
+		if (getCenterCount () > 1) {
 			if (hasAnyStation ()) {
-				tCity0 = (City) centers.get (0);
-				tCity1 = (City) centers.get (1);
+				tCityIndex = 0;
+				tCity0 = (City) centers.get (tCityIndex++);
+				if (tCity0.isDestination ()) {
+					tCity0 = (City) centers.get (tCityIndex++);
+				}
+				tCity1 = (City) centers.get (tCityIndex++);
+				if (tCity1.isDestination ()) {
+					tCity1 = (City) centers.get (tCityIndex++);					
+				}
 				tMapToken0 = tCity0.getToken (0);
 				tMapToken1 = tCity1.getToken (0);
 				if (tMapToken0 != MapToken.NO_MAP_TOKEN) {
