@@ -10,7 +10,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
 
 public class AddNewRouteSegmentEffect extends ChangeRouteEffect {
-	public static final String NAME = "New Route Segment Effect";
+	public static final String NAME = "New Route Segment";
 
 	public AddNewRouteSegmentEffect () {
 		super (NAME);
