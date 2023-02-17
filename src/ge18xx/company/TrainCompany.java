@@ -2096,6 +2096,19 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tRouteExtended;
 	}
 
+	public boolean removeRouteSegment (int aTrainIndex, MapCell aMapCell, int aSegmentIndex) {
+		Train tTrain;
+		RouteInformation tRouteInformation;
+		boolean tRouteSegmentRemoved;
+		
+		tTrain = getTrain (aTrainIndex);
+		tRouteInformation = tTrain.getCurrentRouteInformation ();
+		tRouteSegmentRemoved = tRouteInformation.removeSegment (aSegmentIndex);
+		corporationList.repaintMapFrame ();
+
+		return tRouteSegmentRemoved;
+	}
+	
 	public void showTrainRevenueFrameForOthers (int aTrainIndex) {
 		Point tFrameOffset;
 		GameManager tGameManager;

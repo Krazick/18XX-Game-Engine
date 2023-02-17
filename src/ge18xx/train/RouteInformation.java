@@ -8,11 +8,13 @@ import org.w3c.dom.NodeList;
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.Coupon;
 import ge18xx.company.TrainCompany;
+import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.player.CashHolderI;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.RemoveRouteSegmentsAction;
 import ge18xx.round.action.RouteAction;
 import ge18xx.round.action.StartRouteAction;
 import ge18xx.tiles.Track;
@@ -1101,42 +1103,83 @@ public class RouteInformation {
 	public void removeEndIfMapCell (MapCell aMapCell) {
 		RouteSegment tLastRouteSegment;
 		int tLastRouteSegmentIndex;
+		boolean tRouteSegmentsRemoved;
+		String tOperatingRoundID;
 		MapCell tLastMapCell;
-		Location tEndLocation;
+		RemoveRouteSegmentsAction tRemoveRouteSegmentsAction;
+		GameManager tGameManager;
 		
 		tLastRouteSegmentIndex = routeSegments.size () - 1;
 		tLastRouteSegment = routeSegments.get (tLastRouteSegmentIndex);
 		tLastMapCell = tLastRouteSegment.getMapCell ();
 		if (tLastMapCell.getID ().equals (aMapCell.getCellID ())) {
 			System.out.println ("Last MapCell on Route matches the one to remove.");
+
+			tOperatingRoundID = trainCompany.getOperatingRoundID ();
+			tRemoveRouteSegmentsAction = new RemoveRouteSegmentsAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
+					trainCompany);
+			tRemoveRouteSegmentsAction.addRemoveRouteSegmentEffect (trainCompany, tLastRouteSegmentIndex, trainIndex, aMapCell);
+			
+			if (removeSegment (tLastRouteSegmentIndex)) {
+				tRouteSegmentsRemoved = removeSegmentsBackToJunction (tRemoveRouteSegmentsAction);
+				if (tRouteSegmentsRemoved) {
+						tGameManager = trainCompany.getGameManager ();
+						tGameManager.addAction (tRemoveRouteSegmentsAction);
+				} else {
+					System.err.println ("Failed to Removed Route Segments to Junction ");
+				}
+			} else {
+				System.err.println ("Failed to Removed Route Segment " + tLastRouteSegmentIndex);
+			}
+		} else {
+			System.err.println ("Last MapCell on Route DOES NOT match the one to remove");
+		}
+		updateRevenueFrame ();
+	}
+
+	/**
+	 * Remove the Route Segment specified by the provided index. If The end Location is not a Side 
+	 * then remove the Last Revenue Center as well.
+	 * 
+	 * @param aRouteSegmentIndex
+	 */
+	
+	public boolean removeSegment (int aRouteSegmentIndex) {
+		Location tEndLocation;
+		RouteSegment tLastRouteSegment;
+		boolean tRouteSegmentRemoved;
+		
+		tLastRouteSegment = routeSegments.get (aRouteSegmentIndex);
+		if (tLastRouteSegment != RouteSegment.NO_ROUTE_SEGMENT) {
 			tLastRouteSegment.clearTrainOn ();
-			routeSegments.remove (tLastRouteSegmentIndex);
+			routeSegments.remove (aRouteSegmentIndex);
 			tEndLocation = tLastRouteSegment.getEndLocation ();
 			if (! tEndLocation.isSide ()) {
 				removeLastRevenueCenter ();
 			}
-			removeSegmentsBackToJunction ();
+			tRouteSegmentRemoved = true;
 		} else {
-			System.out.println ("Last MapCell on Route DOES NOT match the one to remove");
+			tRouteSegmentRemoved = false;
 		}
-		updateRevenueFrame ();
+		
+		return tRouteSegmentRemoved;
 	}
 	
-	public void removeSegmentsBackToJunction () {
+	public boolean removeSegmentsBackToJunction (RemoveRouteSegmentsAction aRemoveRouteSegmentsAction) {
 		RouteSegment tLastRouteSegment;
 		int tLastRouteSegmentIndex;
 		int tTrackCount;
 		boolean tFoundJunction;
+		boolean tRouteSegmentRemoved;
 		MapCell tLastMapCell;
 		Location tStartLocation;
-		Location tEndLocation;
 		
 		tLastRouteSegmentIndex = routeSegments.size () - 1;
 		tFoundJunction = false;
+		tRouteSegmentRemoved = false;
 		while ((tLastRouteSegmentIndex > 0) && (tFoundJunction == false)) {
 			tLastRouteSegment = routeSegments.get (tLastRouteSegmentIndex);
 			tStartLocation = tLastRouteSegment.getStartLocation ();
-			tEndLocation = tLastRouteSegment.getEndLocation ();
 			tLastMapCell = tLastRouteSegment.getMapCell ();
 			if (tStartLocation.isSide ()) {
 				tTrackCount = tLastMapCell.getTrackCountFromSide (tStartLocation);
@@ -1146,13 +1189,17 @@ public class RouteInformation {
 			} else {
 				tFoundJunction = true;
 			}
-			if (! tEndLocation.isSide ()) {
-				removeLastRevenueCenter ();
+			
+			tRouteSegmentRemoved = removeSegment (tLastRouteSegmentIndex);
+			if (tRouteSegmentRemoved) {
+				aRemoveRouteSegmentsAction.addRemoveRouteSegmentEffect (trainCompany, tLastRouteSegmentIndex, trainIndex, tLastMapCell);
+				tLastRouteSegmentIndex--;
+			} else {
+				tLastRouteSegmentIndex = 0;
 			}
-			tLastRouteSegment.clearTrainOn ();
-			routeSegments.remove (tLastRouteSegmentIndex);
-			tLastRouteSegmentIndex--;
 		}
+		
+		return tRouteSegmentRemoved;
 	}
 	
 	public void setStartSegment (RouteSegment aRouteSegment, RevenueCenter aSelectedRevenueCenter, int aPhase,
