@@ -45,6 +45,8 @@ public class Train extends Coupon implements Comparable<Object> {
 	final static AttributeName AN_TOWN_COUNT = new AttributeName ("townCount");
 	final static AttributeName AN_PRICE = new AttributeName ("price");
 	final static AttributeName AN_STATUS = new AttributeName ("status");
+	public static final int MAX_STOPS = 30;
+	public static final int HALF_MAX_STOPS = MAX_STOPS / 2;
 	public static final String TYPE_NAME = "Train";
 	public static final Train NO_TRAIN = null;
 	public static final int NO_ORDER = -1;
@@ -261,12 +263,12 @@ public class Train extends Coupon implements Comparable<Object> {
 	}
 
 	public int getCityCount () {
-		// TODO: KLUDGE to allow Diesel to run with Infinite LENGTH (max 15).
+		// TODO: KLUDGE to allow Diesel to run with Infinite LENGTH (max 30).
 		int tCityCountMax;
 
 		tCityCountMax = cityCount;
-		if (tCityCountMax > 15) {
-			tCityCountMax = 15;
+		if (tCityCountMax > MAX_STOPS) {
+			tCityCountMax = MAX_STOPS;
 		}
 
 		return tCityCountMax;
