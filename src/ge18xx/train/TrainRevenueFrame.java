@@ -55,6 +55,8 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	private static final String SELECT_ROUTE_ACTION = "DoSelectRouteAction";
 	private static final String REUSE_ROUTE_ACTION = "doReuseRouteAction";
 	private static final String NO_NOTIFICATION = "";
+//	private static final int MAX_REVENUE_WIDTH = 1500;
+	private static final int MAX_TRAIN_COUNT = 5;
 	public static final TrainRevenueFrame NO_TRAIN_REVENUE_FRAME = null;
 
 	String LAST_REVENUE = "Last Round Revenue ";
@@ -66,8 +68,6 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	String CANCEL = "Cancel";
 	String RESET_ROUTE = "Reset Route";
 	String REUSE_ROUTE = "Reuse Route";
-	int maxTrainCount = 5;
-	int maxStops = 15;
 	TrainCompany trainCompany;
 	JLabel title;
 	JLabel presidentLabel;
@@ -85,7 +85,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	JPanel loanInfoPanel;
 	JPanel buttonsJPanel;
 	JFormattedTextField [] [] revenuesByTrain;
-	JFormattedTextField []  revenuesByPlusTrain;
+	JFormattedTextField [] revenuesByPlusTrain;
 	int [] plusUsedCount;
 	JLabel [] totalRevenueByEachTrain;
 	private int lastRevenue;
@@ -118,14 +118,14 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		presidentLabel.setAlignmentX (CENTER_ALIGNMENT);
 		buildAllFramesJPanel (aTrainCompany);
 
-		revenuesByTrain = new JFormattedTextField [maxTrainCount] [maxStops];
-		revenuesByPlusTrain = new JFormattedTextField [maxTrainCount];
-		plusUsedCount = new int [maxTrainCount];
-		totalRevenueByEachTrain = new JLabel [maxTrainCount];
-		confirmRoutes = new JButton [maxTrainCount];
-		selectRoutes = new JButton [maxTrainCount];
-		resetRoutes = new JButton [maxTrainCount];
-		reuseRoutes = new JButton [maxTrainCount];
+		revenuesByTrain = new JFormattedTextField [MAX_TRAIN_COUNT] [Train.MAX_STOPS];
+		revenuesByPlusTrain = new JFormattedTextField [MAX_TRAIN_COUNT];
+		plusUsedCount = new int [MAX_TRAIN_COUNT];
+		totalRevenueByEachTrain = new JLabel [MAX_TRAIN_COUNT];
+		confirmRoutes = new JButton [MAX_TRAIN_COUNT];
+		selectRoutes = new JButton [MAX_TRAIN_COUNT];
+		resetRoutes = new JButton [MAX_TRAIN_COUNT];
+		reuseRoutes = new JButton [MAX_TRAIN_COUNT];
 		pack ();
 		updateFrameSize ();
 		setYourCompany (true);
@@ -808,11 +808,34 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		return tTrainRevenueJPanel;
 	}
 
-	private void buildRevenuesByTrain (int aTrainIndex, int aCenterCount, Train aTrain, JPanel aTrainRevenueJPanel) {
+	private void buildRevenuesByTrain (int aTrainIndex, int aCenterCount, Train aTrain, 
+										JPanel aTrainRevenueJPanel) {
 		int tCenterIndex;
+		int tRowIndex;
+		int tRowCount;
 		Dimension tTextFieldSize;
+		JPanel tBothRevenuePanels;
+		JPanel tRevenuesByTrainPanels [];
+		BoxLayout tLayoutY;
+		BoxLayout tLayoutX1;
+		BoxLayout tLayoutX2;
 
-		tTextFieldSize = new Dimension (30, 20);
+		tTextFieldSize = new Dimension (35, 20);
+		if (aCenterCount > Train.HALF_MAX_STOPS) {
+			tRowCount = 2;
+		} else {
+			tRowCount = 1;
+		}
+		tRevenuesByTrainPanels = new JPanel [tRowCount];
+		tRowIndex = 0;
+		tRevenuesByTrainPanels [tRowIndex] = new JPanel ();
+		tLayoutX1 = new BoxLayout (tRevenuesByTrainPanels [tRowIndex], BoxLayout.X_AXIS);
+		tRevenuesByTrainPanels [tRowIndex].setLayout (tLayoutX1);
+		if (tRowCount == 2) {
+			tRevenuesByTrainPanels [tRowIndex + 1] = new JPanel ();
+			tLayoutX2 = new BoxLayout (tRevenuesByTrainPanels [tRowIndex + 1], BoxLayout.X_AXIS);
+			tRevenuesByTrainPanels [tRowIndex + 1].setLayout (tLayoutX2);
+		}
 		for (tCenterIndex = 0; tCenterIndex < aCenterCount; tCenterIndex++) {
 			revenuesByTrain [aTrainIndex] [tCenterIndex] = new JFormattedTextField ();
 			revenuesByTrain [aTrainIndex] [tCenterIndex].setValue (0);
@@ -822,17 +845,20 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 			revenuesByTrain [aTrainIndex] [tCenterIndex].setPreferredSize (tTextFieldSize);
 			revenuesByTrain [aTrainIndex] [tCenterIndex].setMinimumSize (tTextFieldSize);
 			revenuesByTrain [aTrainIndex] [tCenterIndex].addPropertyChangeListener ("value", this);
-			aTrainRevenueJPanel.add (revenuesByTrain [aTrainIndex] [tCenterIndex]);
+			tRevenuesByTrainPanels [tRowIndex].add (revenuesByTrain [aTrainIndex] [tCenterIndex]);
 			if ((tCenterIndex + 1) < aCenterCount) {
-				aTrainRevenueJPanel.add (new JLabel ("+"));
+				tRevenuesByTrainPanels [tRowIndex] .add (new JLabel ("+"));
 			} else {
 				if (! aTrain.isPlusTrain ()) {
-					aTrainRevenueJPanel.add (new JLabel ("="));
+					tRevenuesByTrainPanels [tRowIndex].add (new JLabel ("="));
 				}
+			}
+			if ((tCenterIndex + 1) == Train.HALF_MAX_STOPS) {
+				tRowIndex++;
 			}
 		}
 		if (aTrain.isPlusTrain ()) {
-			aTrainRevenueJPanel.add (new JLabel ("+"));
+			tRevenuesByTrainPanels [tRowIndex].add (new JLabel ("+"));
 			revenuesByPlusTrain [aTrainIndex] = new JFormattedTextField ();
 			revenuesByPlusTrain [aTrainIndex].setValue (0);
 			revenuesByPlusTrain [aTrainIndex].setColumns (2);
@@ -841,8 +867,19 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 			revenuesByPlusTrain [aTrainIndex].setPreferredSize (tTextFieldSize);
 			revenuesByPlusTrain [aTrainIndex].setMinimumSize (tTextFieldSize);
 			revenuesByPlusTrain [aTrainIndex].addPropertyChangeListener ("value", this);
-			aTrainRevenueJPanel.add (revenuesByPlusTrain [aTrainIndex]);
-			aTrainRevenueJPanel.add (new JLabel ("="));
+			tRevenuesByTrainPanels [tRowIndex].add (revenuesByPlusTrain [aTrainIndex]);
+			tRevenuesByTrainPanels [tRowIndex].add (new JLabel ("="));
+		}
+
+		if (tRowCount == 1) {
+			aTrainRevenueJPanel.add (tRevenuesByTrainPanels [0]);
+		} else {
+			tBothRevenuePanels = new JPanel ();
+			tLayoutY = new BoxLayout (tBothRevenuePanels, BoxLayout.Y_AXIS);
+			tBothRevenuePanels.setLayout (tLayoutY);
+			tBothRevenuePanels.add (tRevenuesByTrainPanels [0]);
+			tBothRevenuePanels.add (tRevenuesByTrainPanels [1]);
+			aTrainRevenueJPanel.add (tBothRevenuePanels);
 		}
 	}
 
@@ -1008,7 +1045,10 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		int tMaxTrainSize;
 
 		tMaxTrainSize = trainCompany.getMaxTrainSize ();
-		tWidth = 465 + (tMaxTrainSize * 40);
+		if (tMaxTrainSize > Train.HALF_MAX_STOPS) {
+			tMaxTrainSize = Train.HALF_MAX_STOPS;
+		}
+		tWidth = 485 + (tMaxTrainSize * 45);
 
 		return tWidth;
 	}
