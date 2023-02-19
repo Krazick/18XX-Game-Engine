@@ -93,8 +93,18 @@ public class Tracks implements Cloneable {
 
 	public void draw (Graphics g, int XCenter, int YCenter, int aTileOrient, Hex aHex, Paint aHexColor,
 			Feature2 aSelectedFeature) {
-		for (Track segment : segments) {
-			segment.draw (g, XCenter, YCenter, aTileOrient, aHex, aHexColor, aSelectedFeature);
+		List<Track> drawLaterSegments;
+		
+		drawLaterSegments = new LinkedList<Track> ();
+		for (Track tSegment : segments) {
+			if (tSegment.isTrackUsed ()) {
+				drawLaterSegments.add (tSegment);
+			} else {
+				tSegment.draw (g, XCenter, YCenter, aTileOrient, aHex, aHexColor, aSelectedFeature);
+			}
+		}
+		for (Track tSegment : drawLaterSegments) {
+			tSegment.draw (g, XCenter, YCenter, aTileOrient, aHex, aHexColor, aSelectedFeature);
 		}
 	}
 
