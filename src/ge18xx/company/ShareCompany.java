@@ -284,7 +284,7 @@ public class ShareCompany extends TokenCompany {
 			tHexMap.removeAllMapTokens (this, tCloseCompanyAction);
 			
 		} else {
-			System.out.println ("Tested Share Company " + getAbbrev () + "for Closing");
+			System.out.println ("Tested Share Company " + getAbbrev () + " for Closing");
 		}
 	}
 
