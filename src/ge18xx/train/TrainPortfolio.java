@@ -40,6 +40,8 @@ public class TrainPortfolio implements TrainHolderI {
 	public static final String AVAILABLE_TRAINS = "AVAILABLE";
 	public static final String FUTURE_TRAINS = "FUTURE";
 	public static final String RUSTED_TRAINS = "RUSTED";
+	public static final String ADDED_TRAIN = "ADDED TRAIN";
+	public static final String REMOVED_TRAIN = "REMOVED TRAIN";
 	public static final boolean FULL_TRAIN_PORTFOLIO = true;
 	public static final boolean COMPACT_TRAIN_PORTFOLIO = false;
 	public static final TrainPortfolio NO_TRAIN_PORTFOLIO = null;
