@@ -23,6 +23,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TokenStack;
 import ge18xx.game.ButtonsInfoFrame;
+import ge18xx.game.Capitalization;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
@@ -677,11 +678,15 @@ public class PlayerManager {
 			tPayCashTo = aBank;
 		} else if (! tShareCompany.hasFloated ()) {
 			tPayCashTo = aBank;
+		} else if (! gameManager.hasDestinations ()) {
+			tPayCashTo = aBank;
+		} else if (tShareCompany.hasReachedDestination ()) {
+			tPayCashTo = tShareCompany;
 		} else {
 			tSharesSold = tShareCompany.getPercentOwned ()/10 + 1;
 			tCorporationList = gameManager.getShareCompanies ();
 			tCapitalizationLevel = tCorporationList.getCapitalizationLevel (tSharesSold);
-			if (tCapitalizationLevel == 10) {
+			if (tCapitalizationLevel == Capitalization.INCREMENTAL_10_MAX) {
 				tPayCashTo = aBank;
 			} else if (tCapitalizationLevel < tSharesSold){
 				tPayCashTo = aBank;
