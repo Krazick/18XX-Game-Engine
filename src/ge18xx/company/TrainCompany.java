@@ -735,7 +735,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		Coupon tNextAvailableTrain;
 		TrainHolderI tTrainHolder;
 		CashHolderI tCashHolder;
-		ActorI.ActionStates tCurrentStatus, tNewStatus;
+		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tNewStatus;
 		boolean tStatusUpdated;
 		Bank tBank;
 		GameManager tGameManager;
