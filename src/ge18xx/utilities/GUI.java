@@ -10,6 +10,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 
 public interface GUI {
 	public static final String NO_TOOL_TIP = "";
@@ -24,4 +25,6 @@ public interface GUI {
 	public static final ButtonGroup NO_BUTTON_GROUP = null;
 	public static final JScrollPane NO_SCROLL_PANE = null;
 	public static final Color NO_COLOR = null;
+	public static final String NEWLINE = "\n";
+	public static final Color defaultColor = UIManager.getColor ("Panel.background");
 }
