@@ -14,15 +14,12 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import org.apache.logging.log4j.Logger;
 
 import ge18xx.bank.Bank;
-import ge18xx.bank.BankPool;
-import ge18xx.bank.GameBank;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
@@ -33,14 +30,12 @@ import ge18xx.phase.PhaseManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerFrame;
 import ge18xx.toplevel.XMLFrame;
-import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.GUI;
 
 public class RoundFrame extends XMLFrame {
 	public static final XMLFrame NO_ROUND_FRAME = null;
 	public final static String BASE_TITLE = "Round";
 	private static final long serialVersionUID = 1L;
-	private static final String NEWLINE = "\n";
 	private static final String DO_STOCK_ACTION = " do Stock Action";
 	private static final String PLAYER_DO_AUCTION = "Player do Auction Action";
 	private static final String COMPANY_DO_ACTION = "Company do Action";
@@ -63,7 +58,6 @@ public class RoundFrame extends XMLFrame {
 	JPanel buttonsJPanel;
 	JPanel headerJPanel;
 	JPanel parPricesJPanel;
-	JPanel trainSummaryJPanel;
 	JPanel roundInfoJPanel;
 	JPanel playersJPanel;
 	JPanel fastBuyJPanel;
@@ -76,10 +70,10 @@ public class RoundFrame extends XMLFrame {
 	JLabel totalCashLabel;
 	JLabel parPriceLabel;
 	JLabel gameStateLabel;
+	TrainSummaryPanel trainSummaryPanel;
 	List<JLabel> parPrices = new LinkedList<> ();
 	List<JLabel> companiesAtPar = new LinkedList<> ();
 	List<JPanel> parPriceLineJPanels = new LinkedList<> ();
-	Color defaultColor;
 	Logger logger;
 	int padding1;
 	int padding2;
@@ -92,7 +86,6 @@ public class RoundFrame extends XMLFrame {
 		JMenuBar tJMenuBar;
 		String tGameName;
 		
-		defaultColor = UIManager.getColor ("Panel.background");
 		roundManager = aRoundManager;
 		logger = roundManager.getLogger ();
 		padding1 = 10;
@@ -138,9 +131,9 @@ public class RoundFrame extends XMLFrame {
 	private void buildHeaderJPanel () {
 		buildParPrices ();
 		buildRoundInfoJPanel ();
-		buildTrainSummary ();
-
-		headerJPanel = new JPanel ();
+		trainSummaryPanel = new TrainSummaryPanel (roundManager);
+		
+		headerJPanel = new JPanel (true);
 		headerJPanel.setMinimumSize (new Dimension (600, 100));
 		headerJPanel.setMaximumSize (new Dimension (1100, 150));
 		headerJPanel.setBorder (BorderFactory.createEmptyBorder (padding2, padding2, padding2, padding2));
@@ -152,7 +145,7 @@ public class RoundFrame extends XMLFrame {
 		headerJPanel.add (roundInfoJPanel);
 		headerJPanel.add (Box.createHorizontalStrut (20));
 		headerJPanel.add (Box.createHorizontalGlue ());
-		headerJPanel.add (trainSummaryJPanel);
+		headerJPanel.add (trainSummaryPanel);
 		headerJPanel.add (Box.createHorizontalStrut (20));
 	}
 
@@ -282,53 +275,6 @@ public class RoundFrame extends XMLFrame {
 		}
 
 		return tGameState;
-	}
-
-	private void buildTrainSummary () {
-		Border tBorder1, tBorder2;
-
-		trainSummaryJPanel = new JPanel ();
-		trainSummary = new JTextArea ("");
-		trainSummary.setEditable (false);
-		updateTrainSummary ();
-		tBorder1 = BorderFactory.createLineBorder (Color.BLACK);
-		tBorder2 = BorderFactory.createTitledBorder (tBorder1, "Train Summary", TitledBorder.CENTER, TitledBorder.TOP);
-		trainSummaryJPanel.setBorder (tBorder2);
-		trainSummaryJPanel.add (Box.createHorizontalStrut (10));
-		trainSummaryJPanel.add (trainSummary);
-		trainSummaryJPanel.add (Box.createHorizontalStrut (10));
-	}
-
-	private void updateTrainSummary () {
-		String tFullTrainSummary;
-		String tBankPoolTrainSummary;
-		String tBankTrainSummary;
-		Bank tBank;
-		BankPool tBankPool;
-
-		tBankPool = roundManager.getBankPool ();
-		tBankPoolTrainSummary = getTrainSummary (tBankPool);
-
-		tBank = roundManager.getBank ();
-		tBankTrainSummary = getTrainSummary (tBank);
-		tFullTrainSummary = tBankPoolTrainSummary + NEWLINE + tBankTrainSummary;
-
-		trainSummary.setText (tFullTrainSummary);
-		trainSummary.setBackground (defaultColor);
-	}
-
-	public String getTrainSummary (GameBank aBankWithTrains) {
-		String tBankTrainSummary = "";
-		String tBankName;
-		
-		tBankName = aBankWithTrains.getName ();
-		if (aBankWithTrains.hasAnyTrains ()) {
-			tBankTrainSummary = tBankName + NEWLINE + NEWLINE + aBankWithTrains.getTrainSummary ();
-		} else if (tBankName.equals (Bank.NAME)){
-			tBankTrainSummary = TrainPortfolio.NO_TRAINS_TEXT;
-		}
-
-		return tBankTrainSummary;
 	}
 
 	private void buildPlayersJPanel () {
@@ -761,7 +707,6 @@ public class RoundFrame extends XMLFrame {
 		updateTotalCashLabel ();
 		updateGameStateLabel ();
 		updatePhaseLabel ();
-		updateTrainSummary ();
 		updateAllPlayerJPanels ();
 		updateAllCorporationsBox ();
 		updatePassButton ();
@@ -806,7 +751,7 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	public void resetBackgrounds () {
-		setAllBackgrounds (defaultColor);
+		setAllBackgrounds (GUI.defaultColor);
 	}
 
 	private void setAllBackgrounds (Color aBackgroundColor) {
