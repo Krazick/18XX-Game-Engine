@@ -2,6 +2,7 @@ package ge18xx.bank;
 
 import java.awt.event.ItemListener;
 import java.util.List;
+import java.util.Observable;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -27,7 +28,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
+public class GameBank extends Observable implements TrainHolderI, PortfolioHolderLoaderI {
 	protected GameManager gameManager;
 	protected String name;
 	protected Portfolio portfolio;
@@ -48,11 +49,6 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
-	}
-
-	@Override
-	public void addTrain (Train aTrain) {
-		trainPortfolio.addTrain (aTrain);
 	}
 
 	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer) {
@@ -314,14 +310,35 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 
 	@Override
 	public boolean removeSelectedTrain () {
-		return trainPortfolio.removeSelectedTrain ();
+		boolean tRemovedTrain;
+		
+		tRemovedTrain = trainPortfolio.removeSelectedTrain ();
+		updateObservers (TrainPortfolio.REMOVED_TRAIN);
+		
+		return tRemovedTrain;
+	}
+
+	@Override
+	public void addTrain (Train aTrain) {
+		trainPortfolio.addTrain (aTrain);
+		updateObservers (TrainPortfolio.ADDED_TRAIN);
 	}
 
 	@Override
 	public boolean removeTrain (String aName) {
-		return trainPortfolio.removeTrain (aName);
+		boolean tRemovedTrain;
+		
+		tRemovedTrain = trainPortfolio.removeTrain (aName);
+		updateObservers (TrainPortfolio.REMOVED_TRAIN);
+		
+		return tRemovedTrain;
 	}
 
+	private void updateObservers (String aMessage) {
+		setChanged ();
+		notifyObservers (aMessage);
+	}
+	
 	public void setPortfolio (Portfolio aPortfolio) {
 		portfolio = aPortfolio;
 	}
