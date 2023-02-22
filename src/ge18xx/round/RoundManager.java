@@ -41,7 +41,6 @@ import ge18xx.round.action.GenericActor;
 import ge18xx.tiles.TileSet;
 import ge18xx.toplevel.AuditFrame;
 import ge18xx.toplevel.MapFrame;
-import ge18xx.toplevel.XMLFrame;
 import ge18xx.train.RouteInformation;
 import ge18xx.train.Train;
 import ge18xx.utilities.AttributeName;
@@ -176,10 +175,13 @@ public class RoundManager implements ActionListener {
 
 	public void setOtherRoundInfo () {
 		String tFullTitle;
+		RoundFrame tRoundFrame;
 
 		gameName = gameManager.getActiveGameName ();
 		tFullTitle = gameManager.createFrameTitle (RoundFrame.BASE_TITLE);
-		setRoundFrame (new RoundFrame (tFullTitle, this, gameManager));
+
+		tRoundFrame = new RoundFrame (tFullTitle, this, gameManager);
+		setRoundFrame (tRoundFrame);
 		gameManager.addNewFrame (roundFrame);
 		roundFrame.setFrameToConfigDetails (gameManager);
 		setCurrentOR (0);
@@ -188,7 +190,7 @@ public class RoundManager implements ActionListener {
 		setRoundType (ActorI.ActionStates.StockRound);
 	}
 
-	public XMLFrame getRoundFrame () {
+	public RoundFrame getRoundFrame () {
 		return roundFrame;
 	}
 
@@ -311,7 +313,7 @@ public class RoundManager implements ActionListener {
 
 	public void fullOwnershipAdjustment () {
 		gameManager.fullOwnershipAdjustment ();
-		roundFrame.updateAllCorporationsBox ();
+		roundFrame.updateAllCorporationsJPanel ();
 	}
 
 	public void setButtonLabel (String aActionButtonLabel) {
@@ -1069,7 +1071,7 @@ public class RoundManager implements ActionListener {
 
 	public void updateAllCorporationsBox () {
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
-			roundFrame.updateAllCorporationsBox ();
+			roundFrame.updateAllCorporationsJPanel ();
 		}
 	}
 
