@@ -69,9 +69,6 @@ public class RoundFrame extends XMLFrame {
 	JLabel gameStateLabel;
 	ParPricesPanel parPricesPanel;
 	TrainSummaryPanel trainSummaryPanel;
-//	List<JLabel> parPrices = new LinkedList<> ();
-//	List<JLabel> companiesAtPar = new LinkedList<> ();
-//	List<JPanel> parPriceLineJPanels = new LinkedList<> ();
 	Logger logger;
 	int padding1;
 	int padding2;
@@ -127,9 +124,8 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	private void buildHeaderJPanel () {
-//		buildParPrices ();
-		parPricesPanel = new ParPricesPanel (roundManager);
 		buildRoundInfoJPanel ();
+		parPricesPanel = new ParPricesPanel (roundManager);
 		trainSummaryPanel = new TrainSummaryPanel (roundManager);
 		
 		headerJPanel = new JPanel (true);
@@ -147,10 +143,6 @@ public class RoundFrame extends XMLFrame {
 		headerJPanel.add (trainSummaryPanel);
 		headerJPanel.add (Box.createHorizontalStrut (20));
 	}
-
-//	public void updateParPrices () {
-//		parPricesPanel.updateParPrices ();
-//	}
 
 	private void buildRoundInfoJPanel () {
 		int tTotalCash;
