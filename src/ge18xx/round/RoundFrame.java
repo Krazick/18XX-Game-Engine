@@ -3,8 +3,8 @@ package ge18xx.round;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.LinkedList;
-import java.util.List;
+//import java.util.LinkedList;
+//import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -13,9 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
+//import javax.swing.border.Border;
+//import javax.swing.border.TitledBorder;
 
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +22,7 @@ import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
-import ge18xx.company.ShareCompany;
+//import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
@@ -63,17 +62,16 @@ public class RoundFrame extends XMLFrame {
 	JPanel fastBuyJPanel;
 	JButton passButton;
 	JButton doButton;
-	JButton showGEFrameButton;
-	JTextArea trainSummary;
 	JLabel frameLabel;
 	JLabel phaseLabel;
 	JLabel totalCashLabel;
 	JLabel parPriceLabel;
 	JLabel gameStateLabel;
+	ParPricesPanel parPricesPanel;
 	TrainSummaryPanel trainSummaryPanel;
-	List<JLabel> parPrices = new LinkedList<> ();
-	List<JLabel> companiesAtPar = new LinkedList<> ();
-	List<JPanel> parPriceLineJPanels = new LinkedList<> ();
+//	List<JLabel> parPrices = new LinkedList<> ();
+//	List<JLabel> companiesAtPar = new LinkedList<> ();
+//	List<JPanel> parPriceLineJPanels = new LinkedList<> ();
 	Logger logger;
 	int padding1;
 	int padding2;
@@ -129,7 +127,8 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	private void buildHeaderJPanel () {
-		buildParPrices ();
+//		buildParPrices ();
+		parPricesPanel = new ParPricesPanel (roundManager);
 		buildRoundInfoJPanel ();
 		trainSummaryPanel = new TrainSummaryPanel (roundManager);
 		
@@ -139,7 +138,7 @@ public class RoundFrame extends XMLFrame {
 		headerJPanel.setBorder (BorderFactory.createEmptyBorder (padding2, padding2, padding2, padding2));
 		headerJPanel.setLayout (new BoxLayout (headerJPanel, BoxLayout.X_AXIS));
 		headerJPanel.add (Box.createHorizontalStrut (20));
-		headerJPanel.add (parPricesJPanel);
+		headerJPanel.add (parPricesPanel);
 		headerJPanel.add (Box.createHorizontalGlue ());
 		headerJPanel.add (Box.createHorizontalStrut (20));
 		headerJPanel.add (roundInfoJPanel);
@@ -149,76 +148,8 @@ public class RoundFrame extends XMLFrame {
 		headerJPanel.add (Box.createHorizontalStrut (20));
 	}
 
-	private void buildParPrices () {
-		Border tBorder1, tBorder2;
-
-		parPricesJPanel = new JPanel ();
-		parPricesJPanel.setLayout (new BoxLayout (parPricesJPanel, BoxLayout.Y_AXIS));
-		tBorder1 = BorderFactory.createLineBorder (Color.BLACK);
-		tBorder2 = BorderFactory.createTitledBorder (tBorder1, "Par Prices", TitledBorder.CENTER, TitledBorder.TOP);
-		parPricesJPanel.setBorder (tBorder2);
-
-		updateParPrices ();
-	}
-
 	public void updateParPrices () {
-		GameManager tGameManager;
-		int tParPriceCount;
-		Integer tParPrices [];
-		int tMinToFloat;
-		int tParPriceIndex;
-		int tPrice;
-		String [] tPrices;
-		JPanel tParPriceLinePanel;
-		JLabel tPriceLabel;
-		JLabel tCompaniesAtParLabel;
-
-		parPriceLineJPanels.clear ();
-		parPrices.clear ();
-		parPricesJPanel.removeAll ();
-		tGameManager = roundManager.getGameManager ();
-		tParPrices = tGameManager.getAllStartCells ();
-		tParPriceCount = tParPrices.length;
-		tMinToFloat = tGameManager.getMinSharesToFloat ();
-
-		tPrices = new String [tParPriceCount];
-
-		for (tParPriceIndex = 0; tParPriceIndex < tParPriceCount; tParPriceIndex++) {
-			tPrice = tParPrices [tParPriceIndex].intValue ();
-			tPrices [tParPriceIndex] = Bank.formatCash (tPrice);
-			tPriceLabel = new JLabel (tPrices [tParPriceIndex]);
-			parPrices.add (tPriceLabel);
-			tCompaniesAtParLabel = new JLabel ("");
-			companiesAtPar.add (tCompaniesAtParLabel);
-
-			tParPriceLinePanel = buildParPriceLinePanel (tParPriceIndex, tMinToFloat, tPrice);
-			parPriceLineJPanels.add (tParPriceLinePanel);
-			parPricesJPanel.add (parPriceLineJPanels.get (tParPriceIndex));
-		}
-		updateJustParPrices (tParPriceCount);
-	}
-
-	private JPanel buildParPriceLinePanel (int aParPriceIndex, int aMinToFloat, int aPrice) {
-		JPanel tParPriceLinePanel;
-		JLabel tMinStartupLabel;
-		int tMinStartupCash;
-		String tMinStartup;
-
-		tMinStartupCash = aMinToFloat * aPrice;
-		tMinStartup  = "[" + aMinToFloat + " / " + Bank.formatCash (tMinStartupCash) + "]";
-		tMinStartupLabel = new JLabel (tMinStartup);
-		tParPriceLinePanel = new JPanel ();
-		tParPriceLinePanel.setLayout (new BoxLayout (tParPriceLinePanel, BoxLayout.X_AXIS));
-		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
-		tParPriceLinePanel.add (tMinStartupLabel);
-		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
-		tParPriceLinePanel.add (parPrices.get (aParPriceIndex));
-		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
-		tParPriceLinePanel.add (companiesAtPar.get (aParPriceIndex));
-		tParPriceLinePanel.add (Box.createHorizontalStrut (10));
-		tParPriceLinePanel.setAlignmentX (Component.LEFT_ALIGNMENT);
-
-		return tParPriceLinePanel;
+		parPricesPanel.updateParPrices ();
 	}
 
 	private void buildRoundInfoJPanel () {
@@ -625,48 +556,6 @@ public class RoundFrame extends XMLFrame {
 		revalidate ();
 	}
 
-	public void updateJustParPrices (int aParPriceCount) {
-		OperatingRound tOperatingRound;
-		int tCorporationCount, tCorporationIndex;
-		int tPriceCount, tPriceIndex;
-		int tParPriceIndex;
-		CorporationList tCorporationList;
-		String tPriceLabel;
-		String tParPrice;
-		ShareCompany tShareCompany;
-		String tCompaniesAtPrice [];
-
-		tOperatingRound = roundManager.getOperatingRound ();
-		tCorporationCount = tOperatingRound.getShareCompanyCount ();
-
-		if (tCorporationCount > 0) {
-			tCorporationList = tOperatingRound.getShareCompanies ();
-			tPriceCount = companiesAtPar.size ();
-			tCompaniesAtPrice = new String [tPriceCount];
-			for (tCorporationIndex = 0; tCorporationIndex < tCorporationCount; tCorporationIndex++) {
-				tShareCompany = (ShareCompany) tCorporationList.getCorporation (tCorporationIndex);
-				if (tShareCompany.hasParPrice ()) {
-					tParPrice = Bank.formatCash (tShareCompany.getParPrice ());
-					for (tParPriceIndex = 0; tParPriceIndex < aParPriceCount; tParPriceIndex++) {
-						tPriceLabel = parPrices.get (tParPriceIndex).getText ();
-						if (tPriceLabel.equals (tParPrice)) {
-							if (tCompaniesAtPrice [tParPriceIndex] == null) {
-								tCompaniesAtPrice [tParPriceIndex] = tShareCompany.getAbbrev ();
-							} else {
-								tCompaniesAtPrice [tParPriceIndex] += ", " + tShareCompany.getAbbrev ();
-							}
-						}
-					}
-				}
-			}
-
-			for (tPriceIndex = 0; tPriceIndex < tPriceCount; tPriceIndex++) {
-				companiesAtPar.get (tPriceIndex).setText (tCompaniesAtPrice [tPriceIndex]);
-			}
-		}
-		revalidate ();
-	}
-
 	public void updatePhaseLabel () {
 		PhaseManager tPhaseManager;
 		PhaseInfo tCurrentPhaseInfo;
@@ -703,7 +592,7 @@ public class RoundFrame extends XMLFrame {
 	
 	public void updateAll () {
 		updateFrameTitle ();
-		updateParPrices ();
+//		updateParPrices ();
 		updateTotalCashLabel ();
 		updateGameStateLabel ();
 		updatePhaseLabel ();
