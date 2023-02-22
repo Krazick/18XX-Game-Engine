@@ -66,6 +66,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	static final AttributeName AN_HOME_COLOR = new AttributeName ("homeColor");
 	static final AttributeName AN_COST = new AttributeName ("cost");
 	static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
+	public static final String LAST_TRAIN_BOUGHT = "LAST TRAIN BOUGHT";
 	public static final String BUY_LABEL = "Buy";
 	public final static String NO_MONEY = "No money in the Treasury.";
 	public final static String REVENUES_NOT_GENERATED = "Train Revenues have not been generated yet.";
@@ -776,6 +777,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (tNextAvailableTrain != Train.NO_TRAIN) {
 			if (!tNextAvailableTrain.getName ().equals (tTrain.getName ())) {
 				tGameManager.updateRoundFrameParPrices ();
+				updateObservers (LAST_TRAIN_BOUGHT);
 			}
 		}
 		addAction (aBuyTrainAction);
