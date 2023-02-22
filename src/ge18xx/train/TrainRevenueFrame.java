@@ -55,7 +55,6 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 	private static final String SELECT_ROUTE_ACTION = "DoSelectRouteAction";
 	private static final String REUSE_ROUTE_ACTION = "doReuseRouteAction";
 	private static final String NO_NOTIFICATION = "";
-//	private static final int MAX_REVENUE_WIDTH = 1500;
 	private static final int MAX_TRAIN_COUNT = 5;
 	public static final TrainRevenueFrame NO_TRAIN_REVENUE_FRAME = null;
 
