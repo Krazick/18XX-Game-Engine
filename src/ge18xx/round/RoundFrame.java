@@ -40,7 +40,6 @@ public class RoundFrame extends XMLFrame {
 	private static final String COMPANY_DO_ACTION = "Company do Action";
 	private static final String PLAYER_DO_STOCK = "Player" + DO_STOCK_ACTION;
 	private static final String PASS_STOCK_TEXT = "Pass in Stock Round";
-	private static final String PLAYER_JPANEL_LABEL = "Player Information";
 	private static final String YOU_NOT_PRESIDENT = "You are not the President of the Company";
 	private static final String NOT_YOUR_TURN = "It is not your turn to Perform the Action";
 	private static final String IS_WAITING = "You are in a Wait State";
@@ -56,7 +55,6 @@ public class RoundFrame extends XMLFrame {
 	JPanel allCorporationsJPanel;
 	JPanel buttonsJPanel;
 	JPanel headerJPanel;
-	JPanel parPricesJPanel;
 	JPanel roundInfoJPanel;
 	JPanel playersJPanel;
 	JPanel fastBuyJPanel;
@@ -67,6 +65,7 @@ public class RoundFrame extends XMLFrame {
 	JLabel totalCashLabel;
 	JLabel parPriceLabel;
 	JLabel gameStateLabel;
+	PlayersInfoPanel playersInfoPanel;
 	ParPricesPanel parPricesPanel;
 	TrainSummaryPanel trainSummaryPanel;
 	Logger logger;
@@ -81,7 +80,7 @@ public class RoundFrame extends XMLFrame {
 		JMenuBar tJMenuBar;
 		String tGameName;
 		
-		roundManager = aRoundManager;
+		setRoundManager (aRoundManager);
 		logger = roundManager.getLogger ();
 		padding1 = 10;
 		padding2 = 5;
@@ -95,6 +94,10 @@ public class RoundFrame extends XMLFrame {
 		setStockRoundInfo (tGameName, roundManager.getStockRoundID ());
 	}
 
+	private void setRoundManager (RoundManager aRoundManager) {
+		roundManager = aRoundManager;
+	}
+	
 	private void updateFrameTitle () {
 		updateFrameTitle (BASE_TITLE);
 	}
@@ -108,8 +111,9 @@ public class RoundFrame extends XMLFrame {
 		roundJPanel.add (headerJPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
 
-		buildPlayersJPanel ();
-		roundJPanel.add (playersJPanel);
+		playersInfoPanel = new PlayersInfoPanel (roundManager);
+		playersInfoPanel.setRoundFrame (this);
+		roundJPanel.add (playersInfoPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
 
 		buildAllCorporationsJPanel ();
@@ -200,99 +204,10 @@ public class RoundFrame extends XMLFrame {
 		return tGameState;
 	}
 
-	private void buildPlayersJPanel () {
-		BoxLayout tLayout;
-		
-		playersJPanel = new JPanel ();
-		playersJPanel.setBorder (BorderFactory.createTitledBorder (PLAYER_JPANEL_LABEL));
-		tLayout = new BoxLayout (playersJPanel, BoxLayout.X_AXIS);
-		playersJPanel.setLayout (tLayout);
-		playersJPanel.add (Box.createHorizontalStrut (10));
-		updateAllPlayerJPanels ();
-		updateCurrentPlayerText ();
-	}
-
-	private void updateAllPlayerJPanels () {
-		Player tPlayer;
-		StockRound tStockRound;
-		JPanel tPlayerJPanel;
-		int tPlayerCount;
-		int tPriorityPlayer;
-		int tIndex;
-		int tPlayerOffset;
-		int tPlayerIndex;
-
-		tStockRound = roundManager.getStockRound ();
-		tPlayerCount = tStockRound.getPlayerCount ();
-		tPriorityPlayer = tStockRound.getPriorityIndex ();
-		playersJPanel.removeAll ();
-		tPlayerOffset = getPlayerOffset (tPlayerCount, tStockRound);
-		playersJPanel.add (Box.createHorizontalGlue ());
-		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
-			tPlayerIndex = getAdjustedPlayerIndex (tPlayerCount, tIndex, tPlayerOffset);
-			tPlayer = tStockRound.getPlayerAtIndex (tPlayerIndex);
-			if (tPlayer != Player.NO_PLAYER) {
-				tPlayerJPanel = tPlayer.buildAPlayerJPanel (tPriorityPlayer, tPlayerIndex);
-				playersJPanel.add (tPlayerJPanel);
-				playersJPanel.add (Box.createHorizontalStrut (10));
-				playersJPanel.add (Box.createHorizontalGlue ());
-			} else {
-				logger.error ("No Player Found for " + tPlayerIndex);
-			}
-		}
-	}
-
-	private int getAdjustedPlayerIndex (int aPlayerCount, int aIndex, int aIndexOffset) {
-		int tPlayerIndex;
-
-		tPlayerIndex = (aIndex + aIndexOffset) % aPlayerCount;
-
-		return tPlayerIndex;
-	}
-
-	private int getPlayerOffset (int aPlayerCount, StockRound aStockRound) {
-		Player tPlayer;
-		String tPlayerName;
-		String tFirstPlayerName;
-		int tPlayerOffset;
-		int tPlayerIndex;
-
-		tFirstPlayerName = roundManager.getFirstPlayerName ();
-		
-		tPlayerOffset = 0;
-		for (tPlayerIndex = 0; tPlayerIndex < aPlayerCount; tPlayerIndex++) {
-			tPlayer = aStockRound.getPlayerAtIndex (tPlayerIndex);
-			tPlayerName = tPlayer.getName ();
-			if (tPlayerName.equals (tFirstPlayerName)) {
-				tPlayerOffset = tPlayerIndex;
-			}
-		}
-
-		return tPlayerOffset;
-	}
-
-	private void updateCurrentPlayerText () {
-		Player tPlayer;
-		StockRound tStockRound;
-		int tCurrentPlayer;
-		int tPlayerCount;
-		int tPlayerIndex;
-
-		tStockRound = roundManager.getStockRound ();
-		tCurrentPlayer = tStockRound.getCurrentPlayerIndex ();
-		tPlayerCount = tStockRound.getPlayerCount ();
-		for (tPlayerIndex = 0; tPlayerIndex < tPlayerCount; tPlayerIndex++) {
-			tPlayer = tStockRound.getPlayerAtIndex (tPlayerIndex);
-			if (tCurrentPlayer == tPlayerIndex) {
-				setCurrentPlayerText (tPlayer.getName ());
-			}
-		}
-	}
-
 	private void buildAllCorporationsJPanel () {
 		allCorporationsJPanel = new JPanel ();
 		allCorporationsJPanel.setLayout (new BoxLayout (allCorporationsJPanel, BoxLayout.Y_AXIS));
-		updateAllCorporationsBox ();
+		updateAllCorporationsJPanel ();
 	}
 
 	private void buildButtonsJPanel () {
@@ -309,7 +224,6 @@ public class RoundFrame extends XMLFrame {
 		addButtonAndSpace (buttonsJPanel, passButton);
 		buttonsJPanel.add (fastBuyJPanel);
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
-
 	}
 
 	private void fillFastBuyPanel () {
@@ -361,23 +275,6 @@ public class RoundFrame extends XMLFrame {
 		updateDoButtonText (aButtonLabel);
 		doButton.setActionCommand (aActionCommand);
 	}
-	
-	public void setCurrentPlayerText () {
-		String tPlayerName;
-
-		tPlayerName = getCurrentPlayerName ();
-		setCurrentPlayerText (tPlayerName);
-	}
-
-	public String getCurrentPlayerName () {
-		StockRound tStockRound;
-		String tPlayerName;
-
-		tStockRound = roundManager.getStockRound ();
-		tPlayerName = tStockRound.getCurrentPlayerName ();
-
-		return tPlayerName;
-	}
 
 	public void setCurrentPlayerText (String aPlayerName) {
 		if (passButton != GUI.NO_BUTTON) {
@@ -422,7 +319,7 @@ public class RoundFrame extends XMLFrame {
 	public void setStockRoundInfo (String aGameName, int aRoundID) {
 		setFrameLabel (aGameName, " " + aRoundID);
 		updateDoButton (PLAYER_DO_STOCK, PLAYER_ACTION);
-		setCurrentPlayerText ();
+		playersInfoPanel.setCurrentPlayerText ();
 		updateTotalCashLabel ();
 		updatePassButton ();
 		fillFastBuyPanel ();
@@ -514,7 +411,7 @@ public class RoundFrame extends XMLFrame {
 		}
 	}
 
-	public void updateAllCorporationsBox () {
+	public void updateAllCorporationsJPanel () {
 		JPanel tCompanyJPanel;
 		OperatingRound tOperatingRound;
 		int tCorporationCount;
@@ -587,8 +484,7 @@ public class RoundFrame extends XMLFrame {
 		updateTotalCashLabel ();
 		updateGameStateLabel ();
 		updatePhaseLabel ();
-		updateAllPlayerJPanels ();
-		updateAllCorporationsBox ();
+		updateAllCorporationsJPanel ();
 		updatePassButton ();
 		setFrameBackgrounds ();
 		revalidate ();
@@ -604,7 +500,7 @@ public class RoundFrame extends XMLFrame {
 		if (tGameManager.isNetworkGame ()) {
 			tClientUserName = tGameManager.getClientUserName ();
 			if (roundManager.isStockRound ()) {
-				tCurrentPlayerName = getCurrentPlayerName ();
+				tCurrentPlayerName = playersInfoPanel.getCurrentPlayerName ();
 				if (tCurrentPlayerName.equals (tClientUserName)) {
 					setAlertBackgrounds ();
 				} else {
