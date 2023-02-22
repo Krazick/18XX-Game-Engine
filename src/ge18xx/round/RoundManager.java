@@ -1172,6 +1172,14 @@ public class RoundManager implements ActionListener {
 		return tShareCompany;
 	}
 
+	public CorporationList getShareCompanies () {
+		CorporationList tShareCompanies;
+		
+		tShareCompanies = gameManager.getShareCompanies ();
+		
+		return tShareCompanies;
+	}
+	
 	public void setParPrice (ShareCompany aShareCompany, int aParPrice) {
 		gameManager.setParPrice (aShareCompany, aParPrice);
 	}
