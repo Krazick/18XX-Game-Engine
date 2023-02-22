@@ -5,6 +5,9 @@ import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.train.RouteInformation;
+import ge18xx.train.Train;
+import ge18xx.train.TrainRevenueFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -79,7 +82,10 @@ public class RemoveRouteSegmentEffect extends ChangeRouteEffect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
+		Train tTrain;
 		TrainCompany tTrainCompany;
+		TrainRevenueFrame tTrainRevenueFrame;
+		RouteInformation tRouteInformation;
 		
 		tEffectApplied = false;
 		if (actor.isATrainCompany ()) {
@@ -87,6 +93,10 @@ public class RemoveRouteSegmentEffect extends ChangeRouteEffect {
 			tEffectApplied = tTrainCompany.removeRouteSegment (trainIndex, mapCell, segmentIndex);
 			System.out.println ("Need to Remove Route Segment " + segmentIndex + " from Route for Train " + (getTrainIndex () + 1) + 
 					" MapCell ID " + getMapCell ().getID () + ".");
+			tTrainRevenueFrame = tTrainCompany.getTrainRevenueFrame ();
+			tTrain = tTrainCompany.getTrain (getTrainIndex ());
+			tRouteInformation = tTrain.getCurrentRouteInformation ();
+			tTrainRevenueFrame.updateRevenues (tRouteInformation);
 		}
 		
 		return tEffectApplied;
