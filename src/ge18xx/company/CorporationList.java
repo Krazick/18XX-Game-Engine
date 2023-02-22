@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -153,6 +154,17 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 
 		return tCompanyJPanel;
+	}
+
+	public boolean addObservers (Observer aObserver) {
+		boolean tObserversAdded;
+		
+		tObserversAdded = true;
+		for (Corporation tCorporation : corporations) {
+			tCorporation.addObserver (aObserver);
+		}
+		
+		return tObserversAdded;
 	}
 
 	public void sortByOperatingOrder () {
