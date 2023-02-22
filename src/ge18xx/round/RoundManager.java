@@ -715,10 +715,6 @@ public class RoundManager implements ActionListener {
 		return gameManager.gameHasLoans ();
 	}
 
-	public void updateParPrices () {
-		roundFrame.updateParPrices ();
-	}
-
 	public boolean mapVisible () {
 		return gameManager.mapVisible ();
 	}

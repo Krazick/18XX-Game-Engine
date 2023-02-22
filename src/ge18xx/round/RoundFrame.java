@@ -148,9 +148,9 @@ public class RoundFrame extends XMLFrame {
 		headerJPanel.add (Box.createHorizontalStrut (20));
 	}
 
-	public void updateParPrices () {
-		parPricesPanel.updateParPrices ();
-	}
+//	public void updateParPrices () {
+//		parPricesPanel.updateParPrices ();
+//	}
 
 	private void buildRoundInfoJPanel () {
 		int tTotalCash;
@@ -592,7 +592,6 @@ public class RoundFrame extends XMLFrame {
 	
 	public void updateAll () {
 		updateFrameTitle ();
-//		updateParPrices ();
 		updateTotalCashLabel ();
 		updateGameStateLabel ();
 		updatePhaseLabel ();

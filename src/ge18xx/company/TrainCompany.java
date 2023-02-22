@@ -776,13 +776,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 		if (tNextAvailableTrain != Train.NO_TRAIN) {
 			if (!tNextAvailableTrain.getName ().equals (tTrain.getName ())) {
-				tGameManager.updateRoundFrameParPrices ();
+//				tGameManager.updateRoundFrameParPrices ();
 				updateObservers (LAST_TRAIN_BOUGHT);
 			}
 		}
 		addAction (aBuyTrainAction);
 		updateInfo ();
-		tGameManager.updateRoundFrameParPrices ();
+//		tGameManager.updateRoundFrameParPrices ();
 	}
 
 	@Override

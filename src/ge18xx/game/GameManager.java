@@ -1715,10 +1715,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		repaintTileTrayFrame ();
 	}
 
-	public void updateRoundFrameParPrices () {
-		roundManager.updateParPrices ();
-	}
-
 	public void repaintTileTrayFrame () {
 		tileTrayFrame.repaint ();
 	}
