@@ -65,8 +65,18 @@ public class TrainSummaryPanel extends JPanel implements Observer {
 	}
 	
 	@Override
-	public void update (Observable aObservable, Object aArg) {
-		updateTrainSummary ();
+	public void update (Observable aObservable, Object aMessage) {
+		String tMessage;
+		
+		if (aMessage instanceof String) {
+			tMessage = (String) aMessage;
+		} else {
+			tMessage = GUI.EMPTY_STRING;
+		}
+		if (tMessage.equals (TrainPortfolio.ADDED_TRAIN) || 
+			tMessage.equals (TrainPortfolio.REMOVED_TRAIN)) {
+			updateTrainSummary ();
+		}
 	}
 
 	private void buildTrainSummary () {
@@ -76,7 +86,8 @@ public class TrainSummaryPanel extends JPanel implements Observer {
 		setNewTrainSummary ();
 		updateTrainSummary ();
 		tBorder1 = BorderFactory.createLineBorder (Color.BLACK);
-		tBorder2 = BorderFactory.createTitledBorder (tBorder1, "Train Summary", TitledBorder.CENTER, TitledBorder.TOP);
+		tBorder2 = BorderFactory.createTitledBorder (tBorder1, "Train Summary", 
+							TitledBorder.CENTER, TitledBorder.TOP);
 		setBorder (tBorder2);
 		add (Box.createHorizontalStrut (10));
 		add (trainSummary);
@@ -101,7 +112,6 @@ public class TrainSummaryPanel extends JPanel implements Observer {
 		Bank tBank;
 		BankPool tBankPool;
 
-		System.out.println ("Updating Train Summary inside TrainSummaryPanel");
 		tBankPool = roundManager.getBankPool ();
 		tBankPoolTrainSummary = getTrainSummary (tBankPool);
 
@@ -114,9 +124,10 @@ public class TrainSummaryPanel extends JPanel implements Observer {
 	}
 
 	public String getTrainSummary (GameBank aBankWithTrains) {
-		String tBankTrainSummary = "";
+		String tBankTrainSummary;
 		String tBankName;
 		
+		tBankTrainSummary = "";
 		tBankName = aBankWithTrains.getName ();
 		if (aBankWithTrains.hasAnyTrains ()) {
 			tBankTrainSummary = tBankName + GUI.NEWLINE + GUI.NEWLINE + aBankWithTrains.getTrainSummary ();
@@ -126,5 +137,4 @@ public class TrainSummaryPanel extends JPanel implements Observer {
 
 		return tBankTrainSummary;
 	}
-
 }
