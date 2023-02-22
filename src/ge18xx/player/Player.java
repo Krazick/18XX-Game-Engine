@@ -7,6 +7,7 @@ import java.awt.event.ItemListener;
 import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -57,7 +58,7 @@ import ge18xx.utilities.XMLNodeList;
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoaderI {
+public class Player extends Observable implements ActionListener, EscrowHolderI, PortfolioHolderLoaderI {
 	public static final Player NO_PLAYER = null;
 	public static final String NO_PLAYER_NAME = "";
 	public static final String NO_PLAYER_NAME_LABEL = ">NO PLAYER<";
@@ -74,6 +75,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	final static AttributeName AN_BOUGHT_SHARE = new AttributeName ("boughtShare");
 	final static AttributeName AN_BID_SHARE = new AttributeName ("bidShare");
 	final static AttributeName AN_TRIGGERED_AUCTION = new AttributeName ("triggeredAuction");
+	public static final String PLAYER_CHANGED = "Player Changed";
 	public static final String SELL_LABEL = "Sell";
 	public static final String BUY_LABEL = "Buy";
 	public static final String BUY_AT_PAR_LABEL = "Buy at Par";
@@ -257,12 +259,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void addCash (int aAmount) {
 		treasury += aAmount;
 		playerFrame.setCashLabel ();
+		updateObservers (PLAYER_CHANGED + " - CASH");
 	}
 
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
 		playerFrame.updateCertificateInfo ();
+		updateObservers (PLAYER_CHANGED + " - PORTFOLIO");
 	}
 
 	public void bringPlayerFrameToFront () {
@@ -1132,10 +1136,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public boolean isCurrentPlayer () {
 		Player tCurrentPlayer;
-
+		boolean tIsCurrentPlayer;
+		
 		tCurrentPlayer = playerManager.getCurrentPlayer ();
-
-		return this.equals (tCurrentPlayer);
+		tIsCurrentPlayer = this.equals (tCurrentPlayer);
+		
+		return tIsCurrentPlayer;
 	}
 
 	public boolean isPresidentOf (Corporation aCorporation) {
@@ -1213,6 +1219,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void bidAction () {
 		playerManager.bidAction (this);
+		updateObservers (PLAYER_CHANGED + " - BID");
 	}
 
 	// TODO: Move the BuyAction Methods over the Player Manager
@@ -1245,6 +1252,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			}
 		}
 		playerFrame.updateButtons ();
+		updateObservers (PLAYER_CHANGED + " - BOUGHT");
 	}
 
 	public boolean confirmBuyShareAction () {
@@ -1307,19 +1315,23 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void doneAction () {
 		playerManager.doneAction (this);
+		updateObservers (PLAYER_CHANGED + " - DONE");
 		hidePlayerFrame ();
 	}
 
 	public void exchangeAction () {
 		playerManager.exchangeAction (this);
+		updateObservers (PLAYER_CHANGED + " - EXCHANGED");
 	}
 
 	public void exchangeCertificate (Certificate aCertificate) {
 		playerManager.exchangeCertificate (this, aCertificate);
+		updateObservers (PLAYER_CHANGED + " - EXCHANGED");
 	}
 
 	public void sellAction () {
 		playerManager.sellAction (this);
+		updateObservers (PLAYER_CHANGED + " - SOLD");
 	}
 
 	public void undoAction () {
@@ -1330,10 +1342,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerManager.resetRoundFrameBackgrounds ();
 		playerManager.passAction (this);
 		hidePlayerFrame ();
+		updateObservers (PLAYER_CHANGED + " - PASSED");
 	}
 
 	public void passAuctionAction () {
 		playerManager.passAuctionAction (this);
+		updateObservers (PLAYER_CHANGED + " - PASSED AUCTION");
 	}
 
 	public boolean passes () {
@@ -1344,7 +1358,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tCanChangeState = primaryActionState.canChangeState (ActionStates.Pass);
 		System.out.println (name + " Player State " + primaryActionState.toString () + " can change to " + 
 							ActionStates.Pass.toString () + " flag is " + tCanChangeState);
-//		if (primaryActionState == ActionStates.NoAction) {
 		if (tCanChangeState) {
 			primaryActionState = ActionStates.Pass;
 			tCanPass = true;
@@ -1562,7 +1575,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void buildPlayerLabel (int aPriorityPlayerIndex, int aPlayerIndex) {
 		String tPlayerLabelText;
-//		String tPlayerState;
 
 		tPlayerLabelText = getName ();
 		if (aPriorityPlayerIndex == aPlayerIndex) {
@@ -1570,14 +1582,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 		
 		tPlayerLabelText = buildNameState (tPlayerLabelText);
-//		if (hasPassed ()) {
-//			tPlayerLabelText += " [PASSED]";
-//		} else {
-//			tPlayerState = getStateName ();
-//			if (tPlayerState != "NoAction") {
-//				tPlayerLabelText += " [" + tPlayerState + "]";
-//			}
-//		}
 		setRFPlayerLabel (tPlayerLabelText);
 	}
 
@@ -1761,5 +1765,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tCertificate = portfolio.getNextFastBuyCertificate (aFastBuyIndex, this);
 
 		return tCertificate;
+	}
+	
+	public void updateObservers (String aMessage) {
+		setChanged ();
+		notifyObservers (aMessage);
 	}
 }
