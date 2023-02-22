@@ -21,12 +21,6 @@ public class ExchangeShareEffect extends ExchangePrezShareEffect {
 		setNewCorporationAbbrev (NO_EXCHANGE_PREZ);
 	}
 
-	public ExchangeShareEffect (String aName, ActorI aToActor, String aCorporationAbbrev,
-			String aNewCorporationAbbrev) {
-		super (aName, aToActor, aCorporationAbbrev);
-		setNewCorporationAbbrev (aNewCorporationAbbrev);
-	}
-
 	public ExchangeShareEffect (ActorI aToActor, String aCorporationAbbrev, String aNewCorporationAbbrev) {
 		super (NAME, aToActor, aCorporationAbbrev);
 		setNewCorporationAbbrev (aNewCorporationAbbrev);
