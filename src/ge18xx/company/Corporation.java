@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ItemListener;
 import java.util.Comparator;
+import java.util.Observable;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -60,7 +61,8 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
-public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRoutineI, Comparable<Corporation> {
+public abstract class Corporation extends Observable implements PortfolioHolderLoaderI, 
+										ParsingRoutineI, Comparable<Corporation> {
 	public static final String CORPORATION = "Corporation";
 	public static final String COMPANIES = "Companies";
 	public static final ElementName EN_CORPORATION = new ElementName (CORPORATION);
@@ -2638,6 +2640,10 @@ public abstract class Corporation implements PortfolioHolderLoaderI, ParsingRout
 		return tLastAction;
 	}
 
+	public void updateObservers (String aMessage) {
+		setChanged ();
+		notifyObservers (aMessage);
+	}
 
 	@Override
 	public boolean isWaitingForResponse () {
