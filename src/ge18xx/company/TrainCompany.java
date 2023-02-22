@@ -765,7 +765,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tBank = (Bank) tTrainHolder;
 				tFirstTrainOfType = corporationList.isFirstTrainOfType (tTrain);
 				tBank.makeTrainsAvailable (tTrain, aBuyTrainAction);
-				tNextAvailableTrain = tBank.getNextAvailableTrain ();
+//				tNextAvailableTrain = tBank.getNextAvailableTrain ();
 			}
 		}
 		addTrain (tTrain);
@@ -774,15 +774,17 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (tFirstTrainOfType) {
 			corporationList.performPhaseChange (this, tTrain, aBuyTrainAction);
 		}
+		if (tTrainHolder.isABank ()) {
+			tBank = (Bank) tTrainHolder;
+			tNextAvailableTrain = tBank.getNextAvailableTrain ();
+		}
 		if (tNextAvailableTrain != Train.NO_TRAIN) {
 			if (!tNextAvailableTrain.getName ().equals (tTrain.getName ())) {
-//				tGameManager.updateRoundFrameParPrices ();
 				updateObservers (LAST_TRAIN_BOUGHT);
 			}
 		}
 		addAction (aBuyTrainAction);
 		updateInfo ();
-//		tGameManager.updateRoundFrameParPrices ();
 	}
 
 	@Override
