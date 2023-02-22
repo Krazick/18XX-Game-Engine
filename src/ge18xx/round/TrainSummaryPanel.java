@@ -2,14 +2,9 @@ package ge18xx.round;
 
 import java.awt.Color;
 import java.awt.LayoutManager;
-import java.util.Observable;
-import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import ge18xx.bank.Bank;
@@ -18,38 +13,30 @@ import ge18xx.bank.GameBank;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.GUI;
 
-public class TrainSummaryPanel extends JPanel implements Observer {
+public class TrainSummaryPanel extends ObserverPanel {
 
 	private static final long serialVersionUID = 1L;
+	private static final String TRAIN_SUMMARY_LABEL = "Train Summary";
 	private JTextArea trainSummary;
-	RoundManager roundManager;
 	
 	public TrainSummaryPanel (RoundManager aRoundManager) {
-		super ();
-		setRoundManager (aRoundManager);
+		super (aRoundManager);
 		buildTrainSummary ();
 	}
 
 	public TrainSummaryPanel (LayoutManager aLayout, RoundManager aRoundManager) {
-		super (aLayout);
-		setRoundManager (aRoundManager);
+		super (aLayout, aRoundManager);
 		buildTrainSummary ();
 	}
 
 	public TrainSummaryPanel (boolean aIsDoubleBuffered, RoundManager aRoundManager) {
-		super (aIsDoubleBuffered);
-		setRoundManager (aRoundManager);
+		super (aIsDoubleBuffered, aRoundManager);
 		buildTrainSummary ();
 	}
 
 	public TrainSummaryPanel (LayoutManager aLayout, boolean aIsDoubleBuffered, RoundManager aRoundManager) {
-		super (aLayout, aIsDoubleBuffered);
-		setRoundManager (aRoundManager);
+		super (aLayout, aIsDoubleBuffered, aRoundManager);
 		buildTrainSummary ();
-	}
-
-	private void setRoundManager (RoundManager aRoundManager) {
-		roundManager = aRoundManager;
 	}
 
 	private void setNewTrainSummary () {
@@ -63,32 +50,16 @@ public class TrainSummaryPanel extends JPanel implements Observer {
 	private void setTrainSummary (JTextArea aTrainSummary) {
 		trainSummary = aTrainSummary;
 	}
-	
+
 	@Override
-	public void update (Observable aObservable, Object aMessage) {
-		String tMessage;
-		
-		if (aMessage instanceof String) {
-			tMessage = (String) aMessage;
-		} else {
-			tMessage = GUI.EMPTY_STRING;
-		}
-		if (tMessage.equals (TrainPortfolio.ADDED_TRAIN) || 
-			tMessage.equals (TrainPortfolio.REMOVED_TRAIN)) {
-			updateTrainSummary ();
-		}
+	protected void updatePanel () {
+		updateTrainSummary ();
 	}
 
-	private void buildTrainSummary () {
-		Border tBorder1;
-		Border tBorder2;
-		
+	private void buildTrainSummary () {	
+		buildBorder (TRAIN_SUMMARY_LABEL, TitledBorder.CENTER, Color.BLACK);
 		setNewTrainSummary ();
 		updateTrainSummary ();
-		tBorder1 = BorderFactory.createLineBorder (Color.BLACK);
-		tBorder2 = BorderFactory.createTitledBorder (tBorder1, "Train Summary", 
-							TitledBorder.CENTER, TitledBorder.TOP);
-		setBorder (tBorder2);
 		add (Box.createHorizontalStrut (10));
 		add (trainSummary);
 		add (Box.createHorizontalStrut (10));
@@ -99,6 +70,8 @@ public class TrainSummaryPanel extends JPanel implements Observer {
 		Bank tBank;
 		BankPool tBankPool;
 		
+		addMessage (TrainPortfolio.ADDED_TRAIN);
+		addMessage (TrainPortfolio.REMOVED_TRAIN);
 		tBank = roundManager.getBank ();
 		tBankPool = roundManager.getBankPool ();
 		tBank.addObserver (this);

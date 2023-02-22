@@ -5,15 +5,11 @@ import java.awt.Component;
 import java.awt.LayoutManager;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import ge18xx.bank.Bank;
@@ -21,67 +17,42 @@ import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
-import ge18xx.utilities.GUI;
 
-public class ParPricesPanel extends JPanel implements Observer {
+public class ParPricesPanel extends ObserverPanel {
 	private static final long serialVersionUID = 1L;
+	private static final String PAR_PRICES_LABEL = "Par Prices";
 	List<JLabel> parPrices = new LinkedList<JLabel> ();
 	List<JLabel> companiesAtPar = new LinkedList<JLabel> ();
 	List<JPanel> parPriceLineJPanels = new LinkedList<JPanel> ();
-	RoundManager roundManager;
 	
 	public ParPricesPanel (RoundManager aRoundManager) {
-		super ();
-		setRoundManager (aRoundManager);
+		super (aRoundManager);
 		buildParPrices ();
 	}
 
 	public ParPricesPanel (LayoutManager layout, RoundManager aRoundManager) {
-		super (layout);
-		setRoundManager (aRoundManager);
+		super (layout, aRoundManager);
 		buildParPrices ();
 	}
 
 	public ParPricesPanel (boolean isDoubleBuffered, RoundManager aRoundManager) {
-		super (isDoubleBuffered);
-		setRoundManager (aRoundManager);
+		super (isDoubleBuffered, aRoundManager);
 		buildParPrices ();
 	}
 
 	public ParPricesPanel (LayoutManager layout, boolean isDoubleBuffered, RoundManager aRoundManager) {
-		super (layout, isDoubleBuffered);
-		setRoundManager (aRoundManager);
+		super (layout, isDoubleBuffered, aRoundManager);
 		buildParPrices ();
 	}
 
 	@Override
-	public void update (Observable aObservable, Object aMessage) {
-		String tMessage;
-		
-		if (aMessage instanceof String) {
-			tMessage = (String) aMessage;
-		} else {
-			tMessage = GUI.EMPTY_STRING;
-		}
-		if (tMessage.equals (ShareCompany.SET_PAR_PRICE) ||
-			tMessage.equals (TrainCompany.LAST_TRAIN_BOUGHT)) {
-			updateParPrices ();
-		}
-		
+	protected void updatePanel () {
+		updateParPrices ();
 	}
-
-	private void setRoundManager (RoundManager aRoundManager) {
-		roundManager = aRoundManager;
-	}
-
+	
 	private void buildParPrices () {
-		Border tBorder1, tBorder2;
-
 		setLayout (new BoxLayout (this, BoxLayout.Y_AXIS));
-		tBorder1 = BorderFactory.createLineBorder (Color.BLACK);
-		tBorder2 = BorderFactory.createTitledBorder (tBorder1, "Par Prices", 
-								TitledBorder.CENTER, TitledBorder.TOP);
-		setBorder (tBorder2);
+		buildBorder (PAR_PRICES_LABEL, TitledBorder.CENTER, Color.BLACK);
 		observeShareCompanies ();
 		updateParPrices ();
 	}
@@ -90,6 +61,8 @@ public class ParPricesPanel extends JPanel implements Observer {
 		CorporationList tShareCompanies;
 		boolean tObserversAdded;
 		
+		addMessage (ShareCompany.SET_PAR_PRICE);
+		addMessage (TrainCompany.LAST_TRAIN_BOUGHT);
 		tShareCompanies = roundManager.getShareCompanies ();
 		tObserversAdded = tShareCompanies.addObservers (this);
 		if (! tObserversAdded) {
