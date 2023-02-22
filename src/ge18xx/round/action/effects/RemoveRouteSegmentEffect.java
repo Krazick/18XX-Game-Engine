@@ -91,8 +91,6 @@ public class RemoveRouteSegmentEffect extends ChangeRouteEffect {
 		if (actor.isATrainCompany ()) {
 			tTrainCompany = (TrainCompany) actor;
 			tEffectApplied = tTrainCompany.removeRouteSegment (trainIndex, mapCell, segmentIndex);
-			System.out.println ("Need to Remove Route Segment " + segmentIndex + " from Route for Train " + (getTrainIndex () + 1) + 
-					" MapCell ID " + getMapCell ().getID () + ".");
 			tTrainRevenueFrame = tTrainCompany.getTrainRevenueFrame ();
 			tTrain = tTrainCompany.getTrain (getTrainIndex ());
 			tRouteInformation = tTrain.getCurrentRouteInformation ();
