@@ -52,6 +52,7 @@ public class ShareCompany extends TokenCompany {
 	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
 	public static final String NO_START_CELL = null;
+	public static final String SET_PAR_PRICE = "SET PAR PRICE";
 	public static final int NO_PAR_PRICE = -1;
 	public static ShareCompany NO_SHARE_COMPANY = null;
 	public static final int NO_LOANS = 0;
@@ -830,16 +831,7 @@ public class ShareCompany extends TokenCompany {
 			tRowIndex = corporationList.getRowIndex (this);
 			corporationList.addDataElement (parPrice, tRowIndex, 17);
 		}
-	}
-
-	public void setSharePrice (MarketCell aSharePrice) {
-		int tRowIndex;
-
-		sharePrice = aSharePrice;
-		if (aSharePrice != MarketCell.NO_SHARE_PRICE) {
-			tRowIndex = corporationList.getRowIndex (this);
-			corporationList.addDataElement (sharePrice.getValue (), tRowIndex, 18);
-		}
+		updateObservers (SET_PAR_PRICE);
 	}
 
 	public void setStartCell (Market aMarket) {
@@ -855,6 +847,16 @@ public class ShareCompany extends TokenCompany {
 					setParPrice (tParPrice);
 				}
 			}
+		}
+	}
+
+	public void setSharePrice (MarketCell aSharePrice) {
+		int tRowIndex;
+
+		sharePrice = aSharePrice;
+		if (aSharePrice != MarketCell.NO_SHARE_PRICE) {
+			tRowIndex = corporationList.getRowIndex (this);
+			corporationList.addDataElement (sharePrice.getValue (), tRowIndex, 18);
 		}
 	}
 
