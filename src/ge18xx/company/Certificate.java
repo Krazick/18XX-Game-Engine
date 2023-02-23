@@ -1749,6 +1749,10 @@ public class Certificate implements Comparable<Certificate> {
 		return corporation.isLoading ();
 	}
 
+	public void updateObservers (String aMessage) {
+		corporation.updateObservers (aMessage);
+	}
+	
 	/**
 	 * Compare the Percentage of this Certificate with the Certificate Passed In.
 	 * If Same percentage, return Zero.
