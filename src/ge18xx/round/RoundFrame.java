@@ -443,7 +443,6 @@ public class RoundFrame extends XMLFrame {
 		updateTotalCashLabel ();
 		updateGameStateLabel ();
 		updatePhaseLabel ();
-//		updateAllCorporationsJPanel ();  // TODO Replace all updates with Observers Notifying
 		updatePassButton ();
 		setFrameBackgrounds ();
 		revalidate ();
@@ -494,7 +493,7 @@ public class RoundFrame extends XMLFrame {
 		setPanelBackground (headerJPanel, aBackgroundColor);
 		setPanelBackground (buttonsJPanel, aBackgroundColor);
 		setPanelBackground (roundJPanel, aBackgroundColor);
-		if (fastBuyJPanel != null) {
+		if (fastBuyJPanel != GUI.NO_PANEL) {
 			if (fastBuyJPanel.getComponentCount () > 0) {
 				setPanelBackground (fastBuyJPanel, aBackgroundColor);
 			}
