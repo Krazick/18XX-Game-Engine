@@ -234,4 +234,8 @@ public class Escrow implements CashHolderI {
 	@Override
 	public void completeBenefitInUse () {
 	}
+
+	@Override
+	public void updateObservers (String aMessage) {
+	}
 }
