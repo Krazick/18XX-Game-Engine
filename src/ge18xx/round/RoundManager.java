@@ -1294,6 +1294,10 @@ public class RoundManager implements ActionListener {
 		roundFrame.resetBackgrounds ();
 	}
 
+	public void setListenerPanels (boolean aListen) {
+		roundFrame.setListenerPanels (aListen);
+	}
+
 	public void setListenObserverPanels (boolean aListen) {
 		roundFrame.setListenObserverPanels (aListen);
 	}
