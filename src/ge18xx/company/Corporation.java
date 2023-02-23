@@ -1760,7 +1760,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	 */
 	protected void forceSetStatus (ActorI.ActionStates aStatus) {
 		status = aStatus;
-		updateObservers (CORPORATION_STATUS_CHANGE);
+		updateObservers (CORPORATION_STATUS_CHANGE + " Force [" + status.toString () + "]");
 	}
 
 	/**
@@ -1777,7 +1777,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			forceSetStatus (aStatus);
 		} else {
 			updateStatus (aStatus);
-			updateObservers (CORPORATION_STATUS_CHANGE);
+			updateObservers (CORPORATION_STATUS_CHANGE + " [" + status.toString () + "]");
 		}
 	}
 
