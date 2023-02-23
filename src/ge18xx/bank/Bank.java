@@ -596,4 +596,9 @@ public class Bank extends GameBank implements CashHolderI {
 			bankCashLabel.setText (tBankLabel);
 		}
 	}
+
+	@Override
+	public void updateObservers (String aMessage) {
+		super.updateObservers (aMessage);
+	}
 }
