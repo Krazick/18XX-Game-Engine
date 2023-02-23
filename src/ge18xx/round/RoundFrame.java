@@ -66,6 +66,7 @@ public class RoundFrame extends XMLFrame {
 	TrainSummaryPanel trainSummaryPanel;
 	AllCorporationsPanel allCorporationsPanel;
 	List<ObserverPanel> observerPanels;
+	List<ListenerPanel> listenerPanels;
 	Logger logger;
 	int padding1;
 	int padding2;
@@ -83,6 +84,7 @@ public class RoundFrame extends XMLFrame {
 		padding1 = 10;
 		padding2 = 5;
 		observerPanels = new LinkedList<ObserverPanel> ();
+		listenerPanels = new LinkedList<ListenerPanel> ();
 		buildRoundJPanel ();
 		tJMenuBar = roundManager.getJMenuBar ();
 		setJMenuBar (tJMenuBar);
@@ -100,6 +102,12 @@ public class RoundFrame extends XMLFrame {
 	public void setListenObserverPanels (boolean aListen) {
 		for (ObserverPanel tObserverPanel : observerPanels) {
 			tObserverPanel.setListen (aListen);
+		}
+	}
+	
+	public void setListenerPanels (boolean aListen) {
+		for (ListenerPanel tListenerPanel : listenerPanels) {
+			tListenerPanel.setListen (aListen);
 		}
 	}
 	
@@ -139,7 +147,7 @@ public class RoundFrame extends XMLFrame {
 		parPricesPanel = new ParPricesPanel (roundManager);
 		trainSummaryPanel = new TrainSummaryPanel (roundManager);
 		observerPanels.add (parPricesPanel);
-		observerPanels.add (trainSummaryPanel);
+		listenerPanels.add (trainSummaryPanel);
 		
 		headerJPanel = new JPanel (true);
 		headerJPanel.setMinimumSize (new Dimension (600, 100));
