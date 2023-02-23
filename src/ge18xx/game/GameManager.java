@@ -2157,6 +2157,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			roundManager.updateRoundFrame ();
 			roundManager.updateAllObserverPanels ();
 			roundManager.setListenObserverPanels (true);
+			roundManager.setListenerPanels (true);
 		}
 	}
 
