@@ -2,7 +2,6 @@ package ge18xx.bank;
 
 import java.awt.event.ItemListener;
 import java.util.List;
-import java.util.Observable;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -24,15 +23,17 @@ import ge18xx.round.action.ActorI;
 import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
+import ge18xx.utilities.MessageBean;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class GameBank extends Observable implements TrainHolderI, PortfolioHolderLoaderI {
+public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	protected GameManager gameManager;
 	protected String name;
 	protected Portfolio portfolio;
 	protected TrainPortfolio trainPortfolio;
+	MessageBean bankBean;
 
 	public GameBank (String aName, GameManager aGameManager) {
 		Portfolio tPortfolio;
@@ -44,8 +45,13 @@ public class GameBank extends Observable implements TrainHolderI, PortfolioHolde
 		tTrainPortfolio = new TrainPortfolio ();
 		setPortfolio (tPortfolio);
 		setTrainPortfolio (tTrainPortfolio);
+		bankBean = new MessageBean ();
 	}
 
+	public MessageBean getMessageBean () {
+		return bankBean;
+	}
+	
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
@@ -335,8 +341,7 @@ public class GameBank extends Observable implements TrainHolderI, PortfolioHolde
 	}
 
 	protected void updateObservers (String aMessage) {
-		setChanged ();
-		notifyObservers (aMessage);
+		bankBean.setMessage (aMessage);
 	}
 	
 	public void setPortfolio (Portfolio aPortfolio) {
