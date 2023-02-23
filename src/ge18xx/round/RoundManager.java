@@ -847,8 +847,8 @@ public class RoundManager implements ActionListener {
 		}
 	}
 
-	public void updateAllObserverPanels () {
-		roundFrame.updateAllObserverPanels ();
+	public void updateAllListenerPanels () {
+		roundFrame.updateAllListenerPanels ();
 	}
 	
 	public void updateRoundFrame () {
@@ -1296,10 +1296,6 @@ public class RoundManager implements ActionListener {
 
 	public void setListenerPanels (boolean aListen) {
 		roundFrame.setListenerPanels (aListen);
-	}
-
-	public void setListenObserverPanels (boolean aListen) {
-		roundFrame.setListenObserverPanels (aListen);
 	}
 	
 	public CorporationList getMinors () {

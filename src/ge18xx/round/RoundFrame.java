@@ -65,7 +65,6 @@ public class RoundFrame extends XMLFrame {
 	ParPricesPanel parPricesPanel;
 	TrainSummaryPanel trainSummaryPanel;
 	AllCorporationsPanel allCorporationsPanel;
-	List<ObserverPanel> observerPanels;
 	List<ListenerPanel> listenerPanels;
 	Logger logger;
 	int padding1;
@@ -83,7 +82,6 @@ public class RoundFrame extends XMLFrame {
 		logger = roundManager.getLogger ();
 		padding1 = 10;
 		padding2 = 5;
-		observerPanels = new LinkedList<ObserverPanel> ();
 		listenerPanels = new LinkedList<ListenerPanel> ();
 		buildRoundJPanel ();
 		tJMenuBar = roundManager.getJMenuBar ();
@@ -92,17 +90,11 @@ public class RoundFrame extends XMLFrame {
 		pack ();
 		tGameName = aGameManager.getActiveGameName ();
 		setStockRoundInfo (tGameName, roundManager.getStockRoundID ());
-		setListenObserverPanels (false);
+		setListenerPanels (false);
 	}
 
 	private void setRoundManager (RoundManager aRoundManager) {
 		roundManager = aRoundManager;
-	}
-	
-	public void setListenObserverPanels (boolean aListen) {
-		for (ObserverPanel tObserverPanel : observerPanels) {
-			tObserverPanel.setListen (aListen);
-		}
 	}
 	
 	public void setListenerPanels (boolean aListen) {
@@ -136,8 +128,8 @@ public class RoundFrame extends XMLFrame {
 		buildButtonsJPanel ();
 		roundJPanel.add (buttonsJPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
-		observerPanels.add (playersInfoPanel);
-		observerPanels.add (allCorporationsPanel);
+		listenerPanels.add (playersInfoPanel);
+		listenerPanels.add (allCorporationsPanel);
 
 		buildScrollPane (roundJPanel);
 	}
@@ -146,7 +138,7 @@ public class RoundFrame extends XMLFrame {
 		buildRoundInfoJPanel ();
 		parPricesPanel = new ParPricesPanel (roundManager);
 		trainSummaryPanel = new TrainSummaryPanel (roundManager);
-		observerPanels.add (parPricesPanel);
+		listenerPanels.add (parPricesPanel);
 		listenerPanels.add (trainSummaryPanel);
 		
 		headerJPanel = new JPanel (true);
@@ -471,9 +463,9 @@ public class RoundFrame extends XMLFrame {
 		repaint ();
 	}
 
-	public void updateAllObserverPanels () {
-		for (ObserverPanel tObserverPanel : observerPanels) {
-			tObserverPanel.updatePanel ();
+	public void updateAllListenerPanels () {
+		for (ListenerPanel tListenerPanel : listenerPanels) {
+			tListenerPanel.updatePanel ();
 		}
 	}
 	

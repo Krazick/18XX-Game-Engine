@@ -18,7 +18,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 
-public class ParPricesPanel extends ObserverPanel {
+public class ParPricesPanel extends ListenerPanel {
 	private static final long serialVersionUID = 1L;
 	private static final String PAR_PRICES_LABEL = "Par Prices";
 	List<JLabel> parPrices = new LinkedList<JLabel> ();
@@ -59,13 +59,13 @@ public class ParPricesPanel extends ObserverPanel {
 	
 	private void observeShareCompanies () {
 		CorporationList tShareCompanies;
-		boolean tObserversAdded;
+		boolean tListenersAdded;
 		
 		addMessage (ShareCompany.SET_PAR_PRICE);
 		addMessage (TrainCompany.LAST_TRAIN_BOUGHT);
 		tShareCompanies = roundManager.getShareCompanies ();
-		tObserversAdded = tShareCompanies.addObservers (this);
-		if (! tObserversAdded) {
+		tListenersAdded = tShareCompanies.addListeners (this);
+		if (! tListenersAdded) {
 			System.err.println ("Not all Observers added.");
 		}
 	}

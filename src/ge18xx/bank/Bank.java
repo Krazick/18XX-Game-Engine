@@ -598,7 +598,7 @@ public class Bank extends GameBank implements CashHolderI {
 	}
 
 	@Override
-	public void updateObservers (String aMessage) {
-		super.updateObservers (aMessage);
+	public void updateListeners (String aMessage) {
+		super.updateListeners (aMessage);
 	}
 }

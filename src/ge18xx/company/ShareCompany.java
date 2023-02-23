@@ -831,7 +831,7 @@ public class ShareCompany extends TokenCompany {
 			tRowIndex = corporationList.getRowIndex (this);
 			corporationList.addDataElement (parPrice, tRowIndex, 17);
 		}
-		updateObservers (SET_PAR_PRICE);
+		updateListeners (SET_PAR_PRICE);
 	}
 
 	public void setStartCell (Market aMarket) {

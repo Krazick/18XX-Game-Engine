@@ -19,5 +19,5 @@ public interface CashHolderI extends ActorI {
 
 	public abstract void transferCashTo (CashHolderI aToCashHolder, int aAmount);
 	
-	public abstract void updateObservers (String aMessage);
+	public abstract void updateListeners (String aMessage);
 }

@@ -89,7 +89,7 @@ public class SetParValueEffect extends Effect {
 		if (actor.isAPlayer ()) {
 			tShareCompany = aRoundManager.getShareCompany (companyAbbrev);
 			aRoundManager.setParPrice (tShareCompany, parValue);
-			tShareCompany.updateObservers (ShareCompany.SET_PAR_PRICE);
+			tShareCompany.updateListeners (ShareCompany.SET_PAR_PRICE);
 			tEffectApplied = true;
 		}
 

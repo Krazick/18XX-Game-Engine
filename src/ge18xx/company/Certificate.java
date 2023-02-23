@@ -1750,7 +1750,7 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public void updateObservers (String aMessage) {
-		corporation.updateObservers (aMessage);
+		corporation.updateListeners (aMessage);
 	}
 	
 	/**

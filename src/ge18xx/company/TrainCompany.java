@@ -316,7 +316,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void addCash (int aAmount) {
 		treasury += aAmount;
-		updateObservers (CASH_TRANSFER);
+		updateListeners (CASH_TRANSFER);
 	}
 
 	public void setTreasury (int aCash) {
@@ -800,7 +800,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 		if (tNextAvailableTrain != Train.NO_TRAIN) {
 			if (!tNextAvailableTrain.getName ().equals (tTrain.getName ())) {
-				updateObservers (LAST_TRAIN_BOUGHT);
+				updateListeners (LAST_TRAIN_BOUGHT);
 			}
 		}
 		addAction (aBuyTrainAction);

@@ -7,7 +7,6 @@ import java.awt.event.ItemListener;
 import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Observable;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -43,6 +42,7 @@ import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
+import ge18xx.utilities.MessageBean;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.ParsingRoutineIO;
 import ge18xx.utilities.XMLDocument;
@@ -58,7 +58,7 @@ import ge18xx.utilities.XMLNodeList;
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-public class Player extends Observable implements ActionListener, EscrowHolderI, PortfolioHolderLoaderI {
+public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoaderI {
 	public static final Player NO_PLAYER = null;
 	public static final String NO_PLAYER_NAME = "";
 	public static final String NO_PLAYER_NAME_LABEL = ">NO PLAYER<";
@@ -119,11 +119,13 @@ public class Player extends Observable implements ActionListener, EscrowHolderI,
 	ActionStates primaryActionState;
 	ActionStates auctionActionState;
 	SoldCompanies soldCompanies;
+	MessageBean bean;
 
 	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
 		GameManager tGameManager;
 
 		tGameManager = aPlayerManager.getGameManager ();
+		bean = new MessageBean ();
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, tGameManager);
 		setGameHasCompanies (tGameManager);
 	}
@@ -174,6 +176,10 @@ public class Player extends Observable implements ActionListener, EscrowHolderI,
 		playerFrame.setFrameToConfigDetails (aGameManager, XMLFrame.getVisibileOFF ());
 	}
 
+	public MessageBean getBean () {
+		return bean;
+	}
+	
 	public void clearJustBoughtForAllCerts () {
 		portfolio.clearJustBoughtForAllCerts ();
 	}
@@ -259,14 +265,14 @@ public class Player extends Observable implements ActionListener, EscrowHolderI,
 	public void addCash (int aAmount) {
 		treasury += aAmount;
 		playerFrame.setCashLabel ();
-		updateObservers (PLAYER_CHANGED + " - CASH");
+		updateListeners (PLAYER_CHANGED + " - CASH");
 	}
 
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
 		playerFrame.updateCertificateInfo ();
-		updateObservers (PLAYER_CHANGED + " - PORTFOLIO");
+		updateListeners (PLAYER_CHANGED + " - PORTFOLIO");
 	}
 
 	public void bringPlayerFrameToFront () {
@@ -1219,7 +1225,7 @@ public class Player extends Observable implements ActionListener, EscrowHolderI,
 
 	public void bidAction () {
 		playerManager.bidAction (this);
-		updateObservers (PLAYER_CHANGED + " - BID");
+		updateListeners (PLAYER_CHANGED + " - BID");
 	}
 
 	// TODO: Move the BuyAction Methods over the Player Manager
@@ -1252,7 +1258,7 @@ public class Player extends Observable implements ActionListener, EscrowHolderI,
 			}
 		}
 		playerFrame.updateButtons ();
-		updateObservers (PLAYER_CHANGED + " - BOUGHT");
+		updateListeners (PLAYER_CHANGED + " - BOUGHT");
 	}
 
 	public boolean confirmBuyShareAction () {
@@ -1315,23 +1321,23 @@ public class Player extends Observable implements ActionListener, EscrowHolderI,
 
 	public void doneAction () {
 		playerManager.doneAction (this);
-		updateObservers (PLAYER_CHANGED + " - DONE");
+		updateListeners (PLAYER_CHANGED + " - DONE");
 		hidePlayerFrame ();
 	}
 
 	public void exchangeAction () {
 		playerManager.exchangeAction (this);
-		updateObservers (PLAYER_CHANGED + " - EXCHANGED");
+		updateListeners (PLAYER_CHANGED + " - EXCHANGED");
 	}
 
 	public void exchangeCertificate (Certificate aCertificate) {
 		playerManager.exchangeCertificate (this, aCertificate);
-		updateObservers (PLAYER_CHANGED + " - EXCHANGED");
+		updateListeners (PLAYER_CHANGED + " - EXCHANGED");
 	}
 
 	public void sellAction () {
 		playerManager.sellAction (this);
-		updateObservers (PLAYER_CHANGED + " - SOLD");
+		updateListeners (PLAYER_CHANGED + " - SOLD");
 	}
 
 	public void undoAction () {
@@ -1342,12 +1348,12 @@ public class Player extends Observable implements ActionListener, EscrowHolderI,
 		playerManager.resetRoundFrameBackgrounds ();
 		playerManager.passAction (this);
 		hidePlayerFrame ();
-		updateObservers (PLAYER_CHANGED + " - PASSED");
+		updateListeners (PLAYER_CHANGED + " - PASSED");
 	}
 
 	public void passAuctionAction () {
 		playerManager.passAuctionAction (this);
-		updateObservers (PLAYER_CHANGED + " - PASSED AUCTION");
+		updateListeners (PLAYER_CHANGED + " - PASSED AUCTION");
 	}
 
 	public boolean passes () {
@@ -1768,8 +1774,7 @@ public class Player extends Observable implements ActionListener, EscrowHolderI,
 	}
 	
 	@Override
-	public void updateObservers (String aMessage) {
-		setChanged ();
-		notifyObservers (aMessage);
+	public void updateListeners (String aMessage) {
+		bean.setMessage (aMessage);
 	}
 }

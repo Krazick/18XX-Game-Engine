@@ -9,8 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import ge18xx.player.Player;
+import ge18xx.utilities.MessageBean;
 
-public class PlayersInfoPanel extends ObserverPanel{
+public class PlayersInfoPanel extends ListenerPanel{
 
 	private static final long serialVersionUID = 1L;
 	private static final String PLAYER_JPANEL_LABEL = "Player Information";
@@ -57,21 +58,23 @@ public class PlayersInfoPanel extends ObserverPanel{
 		add (Box.createHorizontalStrut (10));
 		updateAllPlayerJPanels ();
 		updateCurrentPlayerText ();
-		observePlayers ();
+		addPlayerlisteners ();
 	}
 
-	private void observePlayers () {
+	private void addPlayerlisteners () {
 		StockRound tStockRound;
 		Player tPlayer;
 		int tPlayerCount;
 		int tIndex;
+		MessageBean tPlayerBean;
 
 		addMessage (Player.PLAYER_CHANGED);
 		tStockRound = roundManager.getStockRound ();
 		tPlayerCount = tStockRound.getPlayerCount ();
 		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
 			tPlayer = tStockRound.getPlayerAtIndex (tIndex);
-			tPlayer.addObserver (this);
+			tPlayerBean = tPlayer.getBean ();
+			tPlayerBean.addPropertyChangeListener (this);
 		}
 	}
 

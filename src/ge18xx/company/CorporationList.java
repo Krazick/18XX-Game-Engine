@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -42,6 +41,7 @@ import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.CashHolderI;
 import ge18xx.player.PortfolioHolderI;
+import ge18xx.round.ListenerPanel;
 import ge18xx.round.OperatingRound;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.Action;
@@ -59,6 +59,7 @@ import ge18xx.train.Train;
 import ge18xx.train.TrainHolderI;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.MessageBean;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.ParsingRoutineIO;
 import ge18xx.utilities.XMLDocument;
@@ -156,15 +157,17 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tCompanyJPanel;
 	}
 
-	public boolean addObservers (Observer aObserver) {
-		boolean tObserversAdded;
+	public boolean addListeners (ListenerPanel aListener) {
+		boolean tListenersAdded;
+		MessageBean tCorporationBean;
 		
-		tObserversAdded = true;
+		tListenersAdded = true;
 		for (Corporation tCorporation : corporations) {
-			tCorporation.addObserver (aObserver);
+			tCorporationBean = tCorporation.getMessageBean ();
+			tCorporationBean.addPropertyChangeListener (aListener);
 		}
 		
-		return tObserversAdded;
+		return tListenersAdded;
 	}
 
 	public void sortByOperatingOrder () {

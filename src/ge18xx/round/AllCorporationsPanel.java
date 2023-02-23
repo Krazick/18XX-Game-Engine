@@ -11,7 +11,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.company.TrainCompany;
 import ge18xx.player.Portfolio;
 
-public class AllCorporationsPanel extends ObserverPanel {
+public class AllCorporationsPanel extends ListenerPanel {
 
 	private static final long serialVersionUID = 1L;
 //	private static final String ALL_CORPORATIONS_JPANEL_LABEL = "All Corporations Information";
@@ -44,23 +44,23 @@ public class AllCorporationsPanel extends ObserverPanel {
 	
 	private void observeCorporations () {
 		CorporationList tCorporationList;
-		boolean tObserversAdded;
+		boolean tListenersAdded;
 		
 		addMessage (Corporation.CORPORATION_STATUS_CHANGE);
 		addMessage (TrainCompany.CASH_TRANSFER);
 		addMessage (Portfolio.CERTIFICATE_ADDED);
 		addMessage (Portfolio.CERTIFICATE_REMOVED);
-		tObserversAdded = true;
+		tListenersAdded = true;
 		
 		tCorporationList = roundManager.getShareCompanies ();
-		tObserversAdded = tObserversAdded && tCorporationList.addObservers (this);
+		tListenersAdded = tListenersAdded && tCorporationList.addListeners (this);;
 		tCorporationList = roundManager.getMinors ();
-		tObserversAdded = tObserversAdded && tCorporationList.addObservers (this);
+		tListenersAdded = tListenersAdded && tCorporationList.addListeners (this);
 		tCorporationList = roundManager.getPrivates ();
-		tObserversAdded = tObserversAdded && tCorporationList.addObservers (this);
+		tListenersAdded = tListenersAdded && tCorporationList.addListeners (this);
 		
-		if (! tObserversAdded) {
-			System.err.println ("Not all Observers added.");
+		if (! tListenersAdded) {
+			System.err.println ("Not all Listeners added.");
 		}
 
 	}

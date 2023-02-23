@@ -33,7 +33,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	protected String name;
 	protected Portfolio portfolio;
 	protected TrainPortfolio trainPortfolio;
-	MessageBean bankBean;
+	MessageBean bean;
 
 	public GameBank (String aName, GameManager aGameManager) {
 		Portfolio tPortfolio;
@@ -45,11 +45,11 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		tTrainPortfolio = new TrainPortfolio ();
 		setPortfolio (tPortfolio);
 		setTrainPortfolio (tTrainPortfolio);
-		bankBean = new MessageBean ();
+		bean = new MessageBean ();
 	}
 
 	public MessageBean getMessageBean () {
-		return bankBean;
+		return bean;
 	}
 	
 	@Override
@@ -319,7 +319,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		boolean tRemovedTrain;
 		
 		tRemovedTrain = trainPortfolio.removeSelectedTrain ();
-		updateObservers (TrainPortfolio.REMOVED_TRAIN);
+		updateListeners (TrainPortfolio.REMOVED_TRAIN);
 		
 		return tRemovedTrain;
 	}
@@ -327,7 +327,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	@Override
 	public void addTrain (Train aTrain) {
 		trainPortfolio.addTrain (aTrain);
-		updateObservers (TrainPortfolio.ADDED_TRAIN);
+		updateListeners (TrainPortfolio.ADDED_TRAIN);
 	}
 
 	@Override
@@ -335,13 +335,13 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		boolean tRemovedTrain;
 		
 		tRemovedTrain = trainPortfolio.removeTrain (aName);
-		updateObservers (TrainPortfolio.REMOVED_TRAIN);
+		updateListeners (TrainPortfolio.REMOVED_TRAIN);
 		
 		return tRemovedTrain;
 	}
 
-	protected void updateObservers (String aMessage) {
-		bankBean.setMessage (aMessage);
+	protected void updateListeners (String aMessage) {
+		bean.setMessage (aMessage);
 	}
 	
 	public void setPortfolio (Portfolio aPortfolio) {

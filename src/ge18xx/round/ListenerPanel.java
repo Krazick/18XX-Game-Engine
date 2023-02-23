@@ -68,16 +68,17 @@ public abstract class ListenerPanel extends JPanel implements PropertyChangeList
 
 	@Override
 	public void propertyChange (PropertyChangeEvent aEvent) {
-		System.out.println ("Property Change Method Called with Event. Listening " + listen);
 		String tMessage;
 		Object tSource;
 		MessageBean tMessageBean;
 		
+		System.out.println ("Property Change Method Called with Event. Listening " + listen);
 		if (listen) {
 			tSource = aEvent.getSource ();
 			if (tSource instanceof MessageBean) {
 				tMessageBean = (MessageBean) tSource;
 				tMessage = tMessageBean.getMessage ();
+				System.out.println ("Message sent is " + tMessage);
 				for (String tValidMessage : messages) {
 					if (tMessage.equals (tValidMessage)) {
 						updatePanel ();

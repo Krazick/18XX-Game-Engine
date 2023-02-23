@@ -55,6 +55,7 @@ import ge18xx.train.TrainHolderI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
+import ge18xx.utilities.MessageBean;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -113,6 +114,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	String formationPhase;
 	String formationRequirement;
 	String formationManadatoryPhase;
+	MessageBean bean;
 	MapCell homeCity1;
 	Location homeLocation1;
 	MapCell homeCity2;
@@ -142,6 +144,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public Corporation (int aID, String aName, String aAbbrev, MapCell aHomeCity1, Location aHomeLocation1,
 			MapCell aHomeCity2, Location aHomeLocation2, ActorI.ActionStates aStatus, boolean aGovtRailway) {
 		setValues (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aStatus, aGovtRailway);
+		bean = new MessageBean ();
 	}
 
 	/**
@@ -160,6 +163,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		corporationCertificates = new Portfolio (this);
 		portfolio = new Portfolio (this);
 		id = aXMLNode.getThisIntAttribute (AN_ID);
+		bean = new MessageBean ();
 
 		tName = aXMLNode.getThisAttribute (AN_NAME);
 		setName (tName);
@@ -183,6 +187,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		setBenefitInUse (tBenefitInUse);
 	}
 
+	public MessageBean getMessageBean () {
+		return bean;
+	}
+	
 	public void setLoanInfo (int aLoanAmount, int aLoanInterest) {
 		loanAmount = aLoanAmount;
 		loanInterest = aLoanInterest;
@@ -393,7 +401,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public void clearOperatedStatus () {
 		if (status == ActorI.ActionStates.Operated) {
 			status = ActorI.ActionStates.NotOperated;
-			updateObservers (CORPORATION_STATUS_CHANGE);
+			updateListeners (CORPORATION_STATUS_CHANGE);
 		}
 	}
 
@@ -688,7 +696,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 					aTransferOwnershipAction.addCloseCorporationEffect (this, tOldState, tNewState);
 				}
 			}
-			updateObservers (CORPORATION_STATUS_CHANGE);
+			updateListeners (CORPORATION_STATUS_CHANGE);
 		} else {
 			System.err.println ("XXX--> Failure to update Corp " + getName () + " State to Closed <--");
 		}
@@ -1760,7 +1768,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	 */
 	protected void forceSetStatus (ActorI.ActionStates aStatus) {
 		status = aStatus;
-		updateObservers (CORPORATION_STATUS_CHANGE + " Force [" + status.toString () + "]");
+		updateListeners (CORPORATION_STATUS_CHANGE + " Force [" + status.toString () + "]");
 	}
 
 	/**
@@ -1777,7 +1785,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			forceSetStatus (aStatus);
 		} else {
 			updateStatus (aStatus);
-			updateObservers (CORPORATION_STATUS_CHANGE + " [" + status.toString () + "]");
+			updateListeners (CORPORATION_STATUS_CHANGE + " [" + status.toString () + "]");
 		}
 	}
 
@@ -2086,7 +2094,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	public void updateOwnerPortfolios () {
 		corporationCertificates.updateCertificateOwnersInfo ();
-		updateObservers (CORPORATION_STATUS_CHANGE);
+		updateListeners (CORPORATION_STATUS_CHANGE);
 	}
 
 	/* Sort Methods for proper ordering */
@@ -2646,9 +2654,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tLastAction;
 	}
 
-	public void updateObservers (String aMessage) {
-		setChanged ();
-		notifyObservers (aMessage);
+	public void updateListeners (String aMessage) {
+		bean.setMessage (aMessage);
 	}
 
 	@Override

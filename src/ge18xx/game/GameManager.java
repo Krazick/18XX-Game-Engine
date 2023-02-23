@@ -1300,6 +1300,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			createFrameInfoFrame ();
 			setFrameBackgrounds ();
 			game18XXFrame.initiateGame ();
+			roundManager.setListenerPanels (true);
 		}
 	}
 
@@ -2155,8 +2156,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void updateRoundFrame () {
 		if (roundManagerIsValid ()) {
 			roundManager.updateRoundFrame ();
-			roundManager.updateAllObserverPanels ();
-			roundManager.setListenObserverPanels (true);
+			roundManager.updateAllListenerPanels ();
 			roundManager.setListenerPanels (true);
 		}
 	}
