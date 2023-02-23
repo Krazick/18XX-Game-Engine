@@ -45,6 +45,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public static final AttributeName AN_MUST_SELL = new AttributeName ("mustSell");
 	public static final AttributeName AN_DISCOUNT = new AttributeName ("discount");
 	public static final PrivateCompany NO_PRIVATE_COMPANY = null;
+	public static final String INCREASE_DISCOUNT = "- INCREASE DISCOUNT";
 	private static final int DISCOUNT = 5;
 	private static final int INITIAL_DISCOUNT = 0;
 	int cost;
@@ -73,8 +74,8 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 			Location aHomeLocation1, MapCell aHomeCity2, Location aHomeLocation2, int aExchangeCorporationID,
 			int aExchangeCorporationPercentage, ActorI.ActionStates aState, boolean aMustBeSoldBeforeOperatingRound) {
 		super (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aState, false);
-		cost = aCost;
-		discount = INITIAL_DISCOUNT;
+		setCost (aCost);
+		setDiscount (INITIAL_DISCOUNT);
 		revenue = aRevenue;
 		exchangeID = aExchangeCorporationID;
 		exchangePercentage = aExchangeCorporationPercentage;
@@ -84,9 +85,11 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public PrivateCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
 		String tNote;
+		int tDiscount;
+		int tCost;
 
-		cost = aChildNode.getThisIntAttribute (AN_COST);
-		discount = aChildNode.getThisIntAttribute (AN_DISCOUNT);
+		tCost = aChildNode.getThisIntAttribute (AN_COST);
+		tDiscount = aChildNode.getThisIntAttribute (AN_DISCOUNT);
 		mustSell = aChildNode.getThisBooleanAttribute (AN_MUST_SELL);
 		revenue = aChildNode.getThisIntAttribute (AN_REVENUE);
 		special = aChildNode.getThisAttribute (AN_SPECIAL);
@@ -98,6 +101,8 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		}
 		exchangeID = aChildNode.getThisIntAttribute (AN_EXCHANGE_ID);
 		exchangePercentage = aChildNode.getThisIntAttribute (AN_EXCHANGE_PERCENTAGE);
+		setCost (tCost);
+		setDiscount (tDiscount);
 	}
 
 	private String wordWrap (String aText) {
@@ -259,7 +264,6 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 		tCorpLabel = getAbbrev () + "<br>";
 		if (isActive ()) {
-//			tCorpLabel += "[" + getPlayerOrCorpOwnedPercentage () + "%&nbsp;" + getStatusName () + "]";
 			tCorpLabel += buildPercentOwnedLabel ();
 			tCorpLabel += "<br>Prez: " + getPresidentName ();
 			tCorpLabel += "<br>Price: " + Bank.formatCash (getCost ());
@@ -303,6 +307,10 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return super.fieldCount () + 7;
 	}
 
+	public void setCost (int aCost) {
+		cost = aCost;
+	}
+	
 	public int getCost () {
 		return cost;
 	}
@@ -320,6 +328,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	@Override
 	public void increaseDiscount () {
 		discount += DISCOUNT;
+		notifyObservers (CORPORATION_STATUS_CHANGE + INCREASE_DISCOUNT);
 	}
 
 	@Override
@@ -396,7 +405,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	public int getValue () {
-		return cost;
+		return getCost ();
 	}
 
 	public boolean isOwned () {
@@ -470,10 +479,12 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	public Benefit findBenefit (String aBenefitName) {
-		Benefit tFoundBenefit = Benefit.NO_BENEFIT;
+		Benefit tFoundBenefit;
 
 		if (benefits != Benefits.NO_BENEFITS) {
 			tFoundBenefit = benefits.findBenefit (aBenefitName);
+		} else {
+			tFoundBenefit = Benefit.NO_BENEFIT;
 		}
 
 		return tFoundBenefit;
@@ -481,7 +492,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	@Override
 	public int getCurrentValue () {
-		return getValue ();
+		return getCost ();
 	}
 
 	@Override
