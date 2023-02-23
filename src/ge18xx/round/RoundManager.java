@@ -847,6 +847,10 @@ public class RoundManager implements ActionListener {
 		}
 	}
 
+	public void updateAllObserverPanels () {
+		roundFrame.updateAllObserverPanels ();
+	}
+	
 	public void updateRoundFrame () {
 		int tRoundID;
 
@@ -1290,6 +1294,10 @@ public class RoundManager implements ActionListener {
 		roundFrame.resetBackgrounds ();
 	}
 
+	public void setListenObserverPanels (boolean aListen) {
+		roundFrame.setListenObserverPanels (aListen);
+	}
+	
 	public CorporationList getMinors () {
 		return gameManager.getMinors ();
 	}
