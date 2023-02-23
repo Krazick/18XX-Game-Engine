@@ -63,6 +63,8 @@ public class Portfolio implements CertificateHolderI {
 	public final static boolean REMOVE_CERTIFICATE = true;
 	public final static Portfolio NO_PORTFOLIO = null;
 	public final static JPanel NO_PORTFOLIO_JPANEL = null;
+	public final static String CERTIFICATE_ADDED = "CERTIFICATE ADDED";
+	public final static String CERTIFICATE_REMOVED = "CERTIFICATE REMOVED";
 	public final static String NO_PORTFOLIO_LABEL = ">> NO PORTFOLIO <<";
 	public final static String NO_COMPANY_YET = ">> NONE YET <<";
 	public final static String NO_CERTIFICATES = ">> NO CERTIFICATES <<";
@@ -94,6 +96,7 @@ public class Portfolio implements CertificateHolderI {
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		aCertificate.setOwner (this);
+		aCertificate.updateObservers (CERTIFICATE_ADDED);
 		certificates.add (aCertificate);
 		Collections.sort (certificates);
 	}
@@ -560,6 +563,7 @@ public class Portfolio implements CertificateHolderI {
 				tCertificate = tPortfolioCertificate;
 				if (aRemove) {
 					certificates.remove (tIndex);
+					tCertificate.updateObservers (CERTIFICATE_REMOVED);
 				}
 			}
 		}
@@ -1328,6 +1332,7 @@ public class Portfolio implements CertificateHolderI {
 			if (tPortfolioCertificate == aCertificate) {
 				tCertificate = tPortfolioCertificate;
 				certificates.remove (tIndex);
+				tCertificate.updateObservers (CERTIFICATE_REMOVED);
 			}
 		}
 
