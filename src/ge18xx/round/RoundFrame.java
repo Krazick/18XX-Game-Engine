@@ -3,6 +3,8 @@ package ge18xx.round;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -63,6 +65,7 @@ public class RoundFrame extends XMLFrame {
 	ParPricesPanel parPricesPanel;
 	TrainSummaryPanel trainSummaryPanel;
 	AllCorporationsPanel allCorporationsPanel;
+	List<ObserverPanel> observerPanels;
 	Logger logger;
 	int padding1;
 	int padding2;
@@ -79,7 +82,7 @@ public class RoundFrame extends XMLFrame {
 		logger = roundManager.getLogger ();
 		padding1 = 10;
 		padding2 = 5;
-		
+		observerPanels = new LinkedList<ObserverPanel> ();
 		buildRoundJPanel ();
 		tJMenuBar = roundManager.getJMenuBar ();
 		setJMenuBar (tJMenuBar);
@@ -87,10 +90,17 @@ public class RoundFrame extends XMLFrame {
 		pack ();
 		tGameName = aGameManager.getActiveGameName ();
 		setStockRoundInfo (tGameName, roundManager.getStockRoundID ());
+		setListenObserverPanels (false);
 	}
 
 	private void setRoundManager (RoundManager aRoundManager) {
 		roundManager = aRoundManager;
+	}
+	
+	public void setListenObserverPanels (boolean aListen) {
+		for (ObserverPanel tObserverPanel : observerPanels) {
+			tObserverPanel.setListen (aListen);
+		}
 	}
 	
 	private void updateFrameTitle () {
@@ -118,6 +128,8 @@ public class RoundFrame extends XMLFrame {
 		buildButtonsJPanel ();
 		roundJPanel.add (buttonsJPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
+		observerPanels.add (playersInfoPanel);
+		observerPanels.add (allCorporationsPanel);
 
 		buildScrollPane (roundJPanel);
 	}
@@ -126,6 +138,8 @@ public class RoundFrame extends XMLFrame {
 		buildRoundInfoJPanel ();
 		parPricesPanel = new ParPricesPanel (roundManager);
 		trainSummaryPanel = new TrainSummaryPanel (roundManager);
+		observerPanels.add (parPricesPanel);
+		observerPanels.add (trainSummaryPanel);
 		
 		headerJPanel = new JPanel (true);
 		headerJPanel.setMinimumSize (new Dimension (600, 100));
@@ -449,6 +463,12 @@ public class RoundFrame extends XMLFrame {
 		repaint ();
 	}
 
+	public void updateAllObserverPanels () {
+		for (ObserverPanel tObserverPanel : observerPanels) {
+			tObserverPanel.updatePanel ();
+		}
+	}
+	
 	public void setFrameBackgrounds () {
 		GameManager tGameManager;
 		String tClientUserName, tCurrentPlayerName;
