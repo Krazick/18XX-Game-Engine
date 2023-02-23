@@ -70,7 +70,7 @@ public abstract class ObserverPanel extends JPanel implements Observer {
 		} else {
 			tMessage = GUI.EMPTY_STRING;
 		}
-//		System.out.println ("Observed Message " + tMessage);
+		System.out.println ("Observed Message " + tMessage);
 		for (String tValidMessage : messages) {
 			if (tMessage.equals (tValidMessage)) {
 				updatePanel ();
