@@ -3,8 +3,6 @@ package ge18xx.round;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-//import java.util.LinkedList;
-//import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -13,16 +11,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-//import javax.swing.border.Border;
-//import javax.swing.border.TitledBorder;
 
 import org.apache.logging.log4j.Logger;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
-import ge18xx.company.CorporationList;
-//import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.phase.PhaseManager;
@@ -68,6 +62,7 @@ public class RoundFrame extends XMLFrame {
 	PlayersInfoPanel playersInfoPanel;
 	ParPricesPanel parPricesPanel;
 	TrainSummaryPanel trainSummaryPanel;
+	AllCorporationsPanel allCorporationsPanel;
 	Logger logger;
 	int padding1;
 	int padding2;
@@ -116,8 +111,8 @@ public class RoundFrame extends XMLFrame {
 		roundJPanel.add (playersInfoPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
 
-		buildAllCorporationsJPanel ();
-		roundJPanel.add (allCorporationsJPanel);
+		allCorporationsPanel = new AllCorporationsPanel (roundManager);
+		roundJPanel.add (allCorporationsPanel);
 		roundJPanel.add (Box.createVerticalGlue ());
 
 		buildButtonsJPanel ();
@@ -202,12 +197,6 @@ public class RoundFrame extends XMLFrame {
 		}
 
 		return tGameState;
-	}
-
-	private void buildAllCorporationsJPanel () {
-		allCorporationsJPanel = new JPanel ();
-		allCorporationsJPanel.setLayout (new BoxLayout (allCorporationsJPanel, BoxLayout.Y_AXIS));
-		updateAllCorporationsJPanel ();
 	}
 
 	private void buildButtonsJPanel () {
@@ -410,39 +399,9 @@ public class RoundFrame extends XMLFrame {
 			doButton.setText (aNewLabel);
 		}
 	}
-
+	
 	public void updateAllCorporationsJPanel () {
-		JPanel tCompanyJPanel;
-		OperatingRound tOperatingRound;
-		int tCorporationCount;
-		CorporationList tCorporationList;
-
-		tOperatingRound = roundManager.getOperatingRound ();
-		tCorporationCount = tOperatingRound.getPrivateCompanyCount ();
-		allCorporationsJPanel.removeAll ();
-		if (tCorporationCount > 0) {
-			tCorporationList = tOperatingRound.getPrivateCompanies ();
-			tCompanyJPanel = tCorporationList.buildCompanyJPanel (true);
-			allCorporationsJPanel.add (tCompanyJPanel);
-			allCorporationsJPanel.add (Box.createVerticalStrut (10));
-		}
-
-		tCorporationCount = tOperatingRound.getMinorCompanyCount ();
-		if (tCorporationCount > 0) {
-			tCorporationList = tOperatingRound.getMinorCompanies ();
-			tCompanyJPanel = tCorporationList.buildCompanyJPanel (true);
-			allCorporationsJPanel.add (tCompanyJPanel);
-			allCorporationsJPanel.add (Box.createVerticalStrut (10));
-		}
-
-		tCorporationCount = tOperatingRound.getShareCompanyCount ();
-		if (tCorporationCount > 0) {
-			tCorporationList = tOperatingRound.getShareCompanies ();
-			tCompanyJPanel = tCorporationList.buildCompanyJPanel (false);
-			allCorporationsJPanel.add (tCompanyJPanel);
-			allCorporationsJPanel.add (Box.createVerticalStrut (10));
-		}
-		revalidate ();
+		allCorporationsPanel.updateAllCorporationsJPanel ();
 	}
 
 	public void updatePhaseLabel () {
@@ -484,7 +443,7 @@ public class RoundFrame extends XMLFrame {
 		updateTotalCashLabel ();
 		updateGameStateLabel ();
 		updatePhaseLabel ();
-		updateAllCorporationsJPanel ();
+		updateAllCorporationsJPanel ();  // TODO Replace all updates with Observers Notifying
 		updatePassButton ();
 		setFrameBackgrounds ();
 		revalidate ();
