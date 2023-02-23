@@ -28,6 +28,7 @@ import ge18xx.company.CorporationFrame;
 import ge18xx.company.CorporationList;
 import ge18xx.company.Coupon;
 import ge18xx.company.LoadedCertificate;
+import ge18xx.company.MinorCompany;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
@@ -958,6 +959,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tSelectedPrivateCompany;
 	}
 
+	public CorporationList getMinors () {
+		return minorCompaniesFrame.getCompanies ();
+	}
+
 	public CorporationList getPrivates () {
 		return privatesFrame.getCompanies ();
 	}
@@ -968,6 +973,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public ShareCompany getShareCompany (String aCompanyAbbrev) {
 		return shareCompaniesFrame.getShareCompany (aCompanyAbbrev);
+	}
+
+	public MinorCompany getMinorCompany (String aCompanyAbbrev) {
+		return minorCompaniesFrame.getMinorCompany (aCompanyAbbrev);
 	}
 
 	public PrivateCompany getPrivateCompany (String aCompanyAbbrev) {
