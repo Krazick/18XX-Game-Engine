@@ -1290,6 +1290,10 @@ public class RoundManager implements ActionListener {
 		roundFrame.resetBackgrounds ();
 	}
 
+	public CorporationList getMinors () {
+		return gameManager.getMinors ();
+	}
+
 	public CorporationList getPrivates () {
 		return gameManager.getPrivates ();
 	}
