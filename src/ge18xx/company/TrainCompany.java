@@ -67,6 +67,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	static final AttributeName AN_COST = new AttributeName ("cost");
 	static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
 	public static final String LAST_TRAIN_BOUGHT = "LAST TRAIN BOUGHT";
+	public static final String CASH_TRANSFER = "CASH TRANSFER";
 	public static final String BUY_LABEL = "Buy";
 	public final static String NO_MONEY = "No money in the Treasury.";
 	public final static String REVENUES_NOT_GENERATED = "Train Revenues have not been generated yet.";
@@ -79,6 +80,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final String NO_REVENUE = "0";
 	public static final JPanel NO_JPANEL = null;
 	static final int NO_COST = 0;
+	static final int NO_CASH = 0;
 	static final float LEFT_ALIGNMENT = 0.0f;
 	static final int INFINITE_PRICE = 99999;
 	ArrayList<License> licenses;
@@ -125,7 +127,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		licenses = new ArrayList<License> ();
 		bgColor = aBgColor;
 		fgColor = aFgColor;
-		treasury = 0;
+		setTreasury (NO_CASH);
 		value = aCost;
 		setThisRevenue (NO_REVENUE_GENERATED);
 		setLastRevenue (NO_REVENUE_GENERATED);
@@ -314,6 +316,24 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void addCash (int aAmount) {
 		treasury += aAmount;
+		updateObservers (CASH_TRANSFER);
+	}
+
+	public void setTreasury (int aCash) {
+		treasury = aCash;
+	}
+
+	@Override
+	public int getCash () {
+		return treasury;
+	}
+
+	public int getTreasury () {
+		return getCash ();
+	}
+
+	public boolean noCash () {
+		return (treasury == NO_CASH);
 	}
 
 	@Override
@@ -321,7 +341,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		int tCurrentColumn = aStartColumn;
 
 		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
-		aCorporationList.addDataElement (getTreasury (), aRowIndex, tCurrentColumn++);
+		aCorporationList.addDataElement (getCash (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getBgColorName (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getBgColor (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getFgColorName (), aRowIndex, tCurrentColumn++);
@@ -357,7 +377,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		aXMLCorporationState.setAttribute (AN_LAST_REVENUE, getLastRevenue ());
 		aXMLCorporationState.setAttribute (AN_THIS_REVENUE, getThisRevenue ());
 		aXMLCorporationState.setAttribute (AN_MUST_BUY_TRAIN, mustBuyTrain ());
-		if (trainPortfolio.getTrainCount () > 0) {
+		if (! trainPortfolio.hasNoTrain ()) {
 			tTrainPortfolioElements = trainPortfolio.getElements (aXMLDocument);
 			aXMLCorporationState.appendChild (tTrainPortfolioElements);
 		}
@@ -975,11 +995,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public int getCash () {
-		return treasury;
-	}
-
-	@Override
 	public CashHolderI getCashHolder () {
 		return this;
 	}
@@ -1254,10 +1269,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public int getTrainQuantity (String aName) {
 		return trainPortfolio.getTrainQuantity (aName);
-	}
-
-	public int getTreasury () {
-		return treasury;
 	}
 
 	public int getValue () {
@@ -1614,14 +1625,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			}
 		}
 	}
-
+	
 	@Override
 	public boolean canBuyTrain () {
 		boolean tCanBuyTrain;
 
 		if (atTrainLimit ()) {
 			tCanBuyTrain = false;
-		} else if (treasury == 0) {
+		} else if (noCash ()) {
 			tCanBuyTrain = false;
 		} else if ((status != ActorI.ActionStates.BoughtTrain) && 
 					(status != ActorI.ActionStates.HoldDividend) && 
@@ -1658,7 +1669,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tSelectedTrainCount = getSelectedTrainCount ();
 		if (dividendsHandled ()) {
 			// If Dividend has been held, half paid, or full paid it is time to buy train
-			if (treasury == 0) {
+			if (noCash ()) {
 				tReasonForNoBuyTrain = NO_MONEY;
 			} else if (atTrainLimit ()) {
 				tReasonForNoBuyTrain = "At Train Limit of " + getTrainLimit () + " for this Corporation/Phase.";
