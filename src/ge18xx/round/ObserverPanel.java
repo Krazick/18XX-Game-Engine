@@ -19,6 +19,7 @@ public abstract class ObserverPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	RoundManager roundManager;
 	List<String> messages;
+	boolean listen;
 
 	public ObserverPanel (RoundManager aRoundManager) {
 		super ();
@@ -48,6 +49,10 @@ public abstract class ObserverPanel extends JPanel implements Observer {
 		roundManager = aRoundManager;
 	}
 
+	public void setListen (boolean aListen) {
+		listen = aListen;
+	}
+	
 	protected void addMessage (String aMessage) {
 		messages.add (aMessage);
 	}
@@ -70,12 +75,14 @@ public abstract class ObserverPanel extends JPanel implements Observer {
 		} else {
 			tMessage = GUI.EMPTY_STRING;
 		}
-		System.out.println ("Observed Message " + tMessage);
-		for (String tValidMessage : messages) {
-			if (tMessage.equals (tValidMessage)) {
-				updatePanel ();
-			} else if (tMessage.startsWith (tValidMessage)) {
-				updatePanel ();
+		System.out.println ("Observed Message " + tMessage + " Listen " + listen);
+		if (listen) {
+			for (String tValidMessage : messages) {
+				if (tMessage.equals (tValidMessage)) {
+					updatePanel ();
+				} else if (tMessage.startsWith (tValidMessage)) {
+					updatePanel ();
+				}
 			}
 		}
 	}
