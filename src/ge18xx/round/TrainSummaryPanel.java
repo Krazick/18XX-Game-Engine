@@ -12,8 +12,9 @@ import ge18xx.bank.BankPool;
 import ge18xx.bank.GameBank;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.GUI;
+import ge18xx.utilities.MessageBean;
 
-public class TrainSummaryPanel extends ObserverPanel {
+public class TrainSummaryPanel extends ListenerPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TRAIN_SUMMARY_LABEL = "Train Summary";
@@ -69,13 +70,18 @@ public class TrainSummaryPanel extends ObserverPanel {
 	private void observeBank () {
 		Bank tBank;
 		BankPool tBankPool;
+		MessageBean tBankBean;
+		MessageBean tBankPoolBean;
 		
 		addMessage (TrainPortfolio.ADDED_TRAIN);
 		addMessage (TrainPortfolio.REMOVED_TRAIN);
 		tBank = roundManager.getBank ();
 		tBankPool = roundManager.getBankPool ();
-		tBank.addObserver (this);
-		tBankPool.addObserver (this);
+		
+		tBankBean = tBank.getMessageBean ();
+		tBankBean.addPropertyChangeListener (this);
+		tBankPoolBean = tBankPool.getMessageBean ();
+		tBankPoolBean.addPropertyChangeListener (this);
 	}
 	
 	public void updateTrainSummary () {
