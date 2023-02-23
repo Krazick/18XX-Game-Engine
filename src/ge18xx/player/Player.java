@@ -1767,6 +1767,7 @@ public class Player extends Observable implements ActionListener, EscrowHolderI,
 		return tCertificate;
 	}
 	
+	@Override
 	public void updateObservers (String aMessage) {
 		setChanged ();
 		notifyObservers (aMessage);
