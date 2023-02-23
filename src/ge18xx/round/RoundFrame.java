@@ -443,7 +443,7 @@ public class RoundFrame extends XMLFrame {
 		updateTotalCashLabel ();
 		updateGameStateLabel ();
 		updatePhaseLabel ();
-		updateAllCorporationsJPanel ();  // TODO Replace all updates with Observers Notifying
+//		updateAllCorporationsJPanel ();  // TODO Replace all updates with Observers Notifying
 		updatePassButton ();
 		setFrameBackgrounds ();
 		revalidate ();
