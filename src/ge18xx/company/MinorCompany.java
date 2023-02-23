@@ -124,6 +124,7 @@ public class MinorCompany extends TokenCompany {
 		return (isOwned);
 	}
 
+	@Override
 	public void setTreasury (int aInitialTreasury) {
 		addCash (aInitialTreasury);
 	}
