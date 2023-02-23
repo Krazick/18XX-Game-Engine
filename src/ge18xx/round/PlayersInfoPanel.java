@@ -51,7 +51,6 @@ public class PlayersInfoPanel extends ObserverPanel{
 	
 		tRoundFrame = roundManager.getRoundFrame ();
 		setRoundFrame (tRoundFrame);
-//		setBorder (BorderFactory.createTitledBorder (PLAYER_JPANEL_LABEL));
 		tLayout = new BoxLayout (this, BoxLayout.X_AXIS);
 		setLayout (tLayout);
 		buildBorder (PLAYER_JPANEL_LABEL, TitledBorder.LEADING, Color.DARK_GRAY);
