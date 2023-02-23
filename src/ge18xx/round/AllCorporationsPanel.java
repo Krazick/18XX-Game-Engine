@@ -6,7 +6,10 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
+import ge18xx.company.TrainCompany;
+import ge18xx.player.Portfolio;
 
 public class AllCorporationsPanel extends ObserverPanel {
 
@@ -36,6 +39,30 @@ public class AllCorporationsPanel extends ObserverPanel {
 	private void buildAllCorporationsJPanel () {
 		setLayout (new BoxLayout (this, BoxLayout.Y_AXIS));
 		updateAllCorporationsJPanel ();
+		observeCorporations ();
+	}
+	
+	private void observeCorporations () {
+		CorporationList tCorporationList;
+		boolean tObserversAdded;
+		
+		addMessage (Corporation.CORPORATION_STATUS_CHANGE);
+		addMessage (TrainCompany.CASH_TRANSFER);
+		addMessage (Portfolio.CERTIFICATE_ADDED);
+		addMessage (Portfolio.CERTIFICATE_REMOVED);
+		tObserversAdded = true;
+		
+		tCorporationList = roundManager.getShareCompanies ();
+		tObserversAdded = tObserversAdded && tCorporationList.addObservers (this);
+		tCorporationList = roundManager.getMinors ();
+		tObserversAdded = tObserversAdded && tCorporationList.addObservers (this);
+		tCorporationList = roundManager.getPrivates ();
+		tObserversAdded = tObserversAdded && tCorporationList.addObservers (this);
+		
+		if (! tObserversAdded) {
+			System.err.println ("Not all Observers added.");
+		}
+
 	}
 	
 	public void updateAllCorporationsJPanel () {
@@ -76,5 +103,4 @@ public class AllCorporationsPanel extends ObserverPanel {
 	protected void updatePanel () {
 		updateAllCorporationsJPanel ();
 	}
-
 }
