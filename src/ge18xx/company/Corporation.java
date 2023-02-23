@@ -78,6 +78,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public static final AttributeName AN_FORMATION_PHASE = new AttributeName ("formationPhase");
 	public static final AttributeName AN_FORMATION_REQUIREMENT = new AttributeName ("formationRequirement");
 	public static final AttributeName AN_FORMATION_MADATORY_PHASE = new AttributeName ("formationMandatoryPhase");
+	public static final String CORPORATION_STATUS_CHANGE = "CORPORATION STATUS CHANGE";
 	public static final String NO_NOTE = "";
 	public static final String NO_REASON = ">>NO REASON<<";
 	public static final String NO_PRESIDENT = "";
@@ -392,6 +393,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public void clearOperatedStatus () {
 		if (status == ActorI.ActionStates.Operated) {
 			status = ActorI.ActionStates.NotOperated;
+			updateObservers (CORPORATION_STATUS_CHANGE);
 		}
 	}
 
@@ -686,6 +688,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 					aTransferOwnershipAction.addCloseCorporationEffect (this, tOldState, tNewState);
 				}
 			}
+			updateObservers (CORPORATION_STATUS_CHANGE);
 		} else {
 			System.err.println ("XXX--> Failure to update Corp " + getName () + " State to Closed <--");
 		}
@@ -1757,6 +1760,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	 */
 	protected void forceSetStatus (ActorI.ActionStates aStatus) {
 		status = aStatus;
+		updateObservers (CORPORATION_STATUS_CHANGE);
 	}
 
 	/**
@@ -1773,6 +1777,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			forceSetStatus (aStatus);
 		} else {
 			updateStatus (aStatus);
+			updateObservers (CORPORATION_STATUS_CHANGE);
 		}
 	}
 
@@ -2081,6 +2086,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	public void updateOwnerPortfolios () {
 		corporationCertificates.updateCertificateOwnersInfo ();
+		updateObservers (CORPORATION_STATUS_CHANGE);
 	}
 
 	/* Sort Methods for proper ordering */
