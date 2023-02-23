@@ -334,7 +334,7 @@ public class GameBank extends Observable implements TrainHolderI, PortfolioHolde
 		return tRemovedTrain;
 	}
 
-	private void updateObservers (String aMessage) {
+	protected void updateObservers (String aMessage) {
 		setChanged ();
 		notifyObservers (aMessage);
 	}
