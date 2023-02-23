@@ -11,6 +11,7 @@ import ge18xx.company.Corporation;
 //
 
 import ge18xx.company.CorporationList;
+import ge18xx.company.MinorCompany;
 import ge18xx.round.RoundManager;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -38,4 +39,14 @@ public class MinorCompaniesFrame extends CorporationTableFrame {
 	public void fixLoadedRoutes (MapFrame aMapFrame) {
 		super.fixLoadedRoutes (aMapFrame, "Minor");
 	}
+	
+
+	public MinorCompany getMinorCompany (String aCompanyAbbrev) {
+		MinorCompany tMinorCompany;
+
+		tMinorCompany = (MinorCompany) companies.getCorporation (aCompanyAbbrev);
+
+		return tMinorCompany;
+	}
+
 }
