@@ -1785,7 +1785,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			forceSetStatus (aStatus);
 		} else {
 			updateStatus (aStatus);
-			updateListeners (CORPORATION_STATUS_CHANGE + " [" + status.toString () + "]");
 		}
 	}
 
@@ -1951,7 +1950,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 				tStatusUpdated = true;
 			}
 		}
-
+		updateListeners (CORPORATION_STATUS_CHANGE + " [" + status.toString () + "]");
+		
 		return tStatusUpdated;
 	}
 
