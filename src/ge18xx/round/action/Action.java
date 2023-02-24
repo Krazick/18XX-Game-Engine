@@ -40,8 +40,8 @@ public class Action {
 	int number;
 	int totalCash;
 	List<Effect> effects;
-	Boolean chainToPrevious; // Chain this Action to Previous Action --
-								// If Undo This Action, Undo Previous Action as well - Default is FALSE;
+	Boolean chainToPrevious;	// Chain this Action to Previous Action --
+							// If Undo This Action, Undo Previous Action as well - Default is FALSE;
 
 	public Action () {
 		this (NO_NAME);
@@ -99,7 +99,7 @@ public class Action {
 		setRoundType (tRoundType);
 		setRoundID (tRoundID);
 		setChainToPrevious (tChainToPrevious);
-		effects = new LinkedList<> ();
+		effects = new LinkedList<Effect> ();
 
 		parseActionNode (aActionNode, aGameManager, tActionName, tNumber);
 	}
@@ -208,11 +208,14 @@ public class Action {
 	}
 
 	public String getXMLFormat (ElementName aElementName) {
-		XMLDocument tXMLDocument = new XMLDocument ();
-		String tXMLFormat = "";
+		XMLDocument tXMLDocument;
+		XMLElement tActionElement;
+		XMLElement tGameActivityElement;
+		String tXMLFormat;
 		String tXMLFormatClean;
-		XMLElement tActionElement, tGameActivityElement;
 
+		tXMLFormat = "";
+		tXMLDocument = new XMLDocument ();
 		tActionElement = getActionElement (tXMLDocument);
 		tGameActivityElement = tXMLDocument.createElement (aElementName);
 		tGameActivityElement.appendChild (tActionElement);
@@ -225,7 +228,9 @@ public class Action {
 
 	/* Build XML Element to save the State */
 	public XMLElement getActionElement (XMLDocument aXMLDocument) {
-		XMLElement tActionElement, tEffectsElement, tEffectElement;
+		XMLElement tActionElement;
+		XMLElement tEffectsElement;
+		XMLElement tEffectElement;
 		String tActorName;
 
 		if (actor.isACorporation ()) {
@@ -270,8 +275,16 @@ public class Action {
 		return name;
 	}
 
-	public String getName (String aName) {
-		return aName + " " + EN_ACTION;
+	public void setName (String aName) {
+		name = createFullName (aName);
+	}
+
+	private String createFullName (String aName) {
+		String tFullName;
+		
+		tFullName =  aName + " Action";
+		
+		return tFullName;
 	}
 
 	public String getRoundID () {
@@ -302,8 +315,9 @@ public class Action {
 	}
 
 	public String getSimpleActionReport () {
-		String tReport = getBriefActionReport ();
+		String tReport;
 
+		tReport = getBriefActionReport ();
 		tReport = "Brief [" + tReport + "]";
 
 		return tReport;
@@ -318,8 +332,12 @@ public class Action {
 	}
 
 	public String getBriefActionReport () {
-		return number + ". " + roundType + " " + roundID + ": " + actor.getAbbrev () + " performed " + name
+		String tReport;
+		
+		tReport =  number + ". " + roundType + " " + roundID + ": " + actor.getAbbrev () + " performed " + name
 				+ " Chain to Previous [" + chainToPrevious + "]";
+		
+		return tReport;
 	}
 
 	public void printBriefActionReport () {
@@ -340,14 +358,6 @@ public class Action {
 		chainToPrevious = aChainToPrevious;
 	}
 
-	public void setName (String aName) {
-		name = createFullName (aName);
-	}
-
-	private String createFullName (String aName) {
-		return aName + " Action";
-	}
-
 	public void setRoundID (String aRoundID) {
 		roundID = aRoundID;
 	}
@@ -357,7 +367,8 @@ public class Action {
 	}
 
 	public boolean undoAction (RoundManager aRoundManager) {
-		boolean tActionUndone, tEffectUndone;
+		boolean tActionUndone;
+		boolean tEffectUndone;
 		String tErrorReport;
 		String tReport;
 		String tUndoFailureReason;
@@ -407,7 +418,8 @@ public class Action {
 	}
 
 	public boolean applyAction (RoundManager aRoundManager) {
-		boolean tActionApplied, tEffectApplied;
+		boolean tActionApplied;
+		boolean tEffectApplied;
 		String tErrorReport;
 		String tApplyFailureReason;
 
@@ -433,9 +445,10 @@ public class Action {
 	}
 
 	public int getEffectDebit (String aActorName) {
-		int tDebit = 0;
+		int tDebit;
 		CashTransferEffect tCashTransferEffect;
 
+		tDebit = 0;
 		for (Effect tEffect : effects) {
 			if (tDebit == 0) {
 				if (tEffect instanceof CashTransferEffect) {
@@ -449,9 +462,10 @@ public class Action {
 	}
 
 	public int getEffectCredit (String aActorName) {
-		int tCredit = 0;
+		int tCredit;
 		CashTransferEffect tCashTransferEffect;
 
+		tCredit = 0;
 		for (Effect tEffect : effects) {
 			if (tCredit == 0) {
 				if (tEffect instanceof CashTransferEffect) {
@@ -465,10 +479,11 @@ public class Action {
 	}
 
 	public boolean effectsThisActor (String aActorName) {
-		boolean tEffectsThisActor = false;
+		boolean tEffectsThisActor;
 		String tFoundActorName;
 
 		tFoundActorName = actor.getName ();
+		tEffectsThisActor = false;
 		if (aActorName.equals (tFoundActorName)) {
 			tEffectsThisActor = true;
 		} else {
@@ -485,14 +500,17 @@ public class Action {
 	}
 
 	public boolean effectsForActorAreCash (String aActorName) {
-		boolean tEffectsThisActorAreCash = false;
+		boolean tEffectsThisActorAreCash;
 		String tActorName, tToActorName;
 
+		tEffectsThisActorAreCash = false;
 		for (Effect tEffect : effects) {
 			tActorName = tEffect.getActorName ();
 			tToActorName = tEffect.getToActorName ();
-			if ((aActorName.equals (tActorName)) || (aActorName.equals (tToActorName))) {
-				if ((tEffect instanceof CashTransferEffect) || (tEffect instanceof RefundEscrowEffect)) {
+			if ((aActorName.equals (tActorName)) || 
+				(aActorName.equals (tToActorName))) {
+				if ((tEffect instanceof CashTransferEffect) || 
+					(tEffect instanceof RefundEscrowEffect)) {
 					tEffectsThisActorAreCash = true;
 				}
 			}
@@ -502,8 +520,9 @@ public class Action {
 	}
 
 	public boolean hasRefundEscrowEffect (String aActorName) {
-		boolean tHasRefundEscrowEffect = false;
+		boolean tHasRefundEscrowEffect;
 
+		tHasRefundEscrowEffect = false;
 		for (Effect tEffect : effects) {
 			if (tEffect instanceof RefundEscrowEffect) {
 				tHasRefundEscrowEffect = true;
@@ -518,14 +537,18 @@ public class Action {
 	}
 
 	public String getAuctionWinner () {
-		String aAuctionWinner = ActorI.NO_NAME;
+		String aAuctionWinner;
 
+		aAuctionWinner = ActorI.NO_NAME;
+		
 		return aAuctionWinner;
 	}
 
 	public boolean allNullEffects () {
-		boolean tAllNullEffects = false;
+		boolean tAllNullEffects;
 
+		tAllNullEffects = false;
+		
 		return tAllNullEffects;
 	}
 }
