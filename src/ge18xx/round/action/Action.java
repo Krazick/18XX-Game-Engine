@@ -372,7 +372,7 @@ public class Action {
 			if (tEffectUndone) {
 				tEffectsUndoneCount++;
 			} else {
-				tErrorReport = "Undoing Action " + name + " Effect: " + tEffect.getName () + " FAILED\n";
+				tErrorReport = "Failed trying to undo Action " + name + " Effect: " + tEffect.getName () + "\n";
 				tUndoFailureReason = tEffect.getUndoFailureReason ();
 				aRoundManager.appendErrorReport (tErrorReport);
 				aRoundManager.appendErrorReport (tUndoFailureReason);
@@ -415,12 +415,8 @@ public class Action {
 		for (Effect tEffect : effects) {
 			tEffectApplied = tEffect.applyEffect (aRoundManager);
 			tActionApplied &= tEffectApplied;
-			if (tEffectApplied) {
-				System.out.println ("Tried to Apply a |" + name + "|, Effect " + tEffect.getName ()
-						+ " Applied Flag " + tEffectApplied);
-			} else {
-				tErrorReport = "Tried to Apply a |" + name + "|, Effect " + tEffect.getName ()
-						+ " Applied Flag " + tEffectApplied;
+			if (! tEffectApplied) {
+				tErrorReport = "Failed to Apply a |" + name + "|, Effect " + tEffect.getName ();
 				System.err.println (tErrorReport);
 				tApplyFailureReason = tEffect.getApplyFailureReason ();
 				aRoundManager.appendErrorReport (tErrorReport);
@@ -429,9 +425,7 @@ public class Action {
 		}
 
 		aRoundManager.updateAllCorporationsBox ();
-		if (tActionApplied) {
-			System.out.println ("Applied All Effects " + tActionApplied);
-		} else {
+		if (! tActionApplied) {
 			System.err.println ("Applied All Effects " + tActionApplied);
 		}
 
