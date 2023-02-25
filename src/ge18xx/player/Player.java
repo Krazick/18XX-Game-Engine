@@ -123,9 +123,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
 		GameManager tGameManager;
-
+		MessageBean tBean;
+		
 		tGameManager = aPlayerManager.getGameManager ();
-		bean = new MessageBean ();
+		tBean = new MessageBean ();
+		setMessageBean (tBean);
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, tGameManager);
 		setGameHasCompanies (tGameManager);
 	}
@@ -141,6 +143,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setGameHasShares (tHasShares);
 	}
 
+	private void setMessageBean (MessageBean aBean) {
+		bean = aBean;
+	}
+	
+	public MessageBean getMessageBean () {
+		return bean;
+	}
+	
 	private void buildPlayer (String aName, PlayerManager aPlayerManager, int aCertificateLimit,
 			GameManager aGameManager) {
 		Benefit tBenefitInUse;
