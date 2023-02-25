@@ -38,6 +38,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.TokenCompany;
 import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.TrainCompany;
+import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.MapBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -341,6 +342,9 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			completeTileLay ();
 		} else if (CANCEL_TOKEN_MODE.equals (tTheAction)) {
 			togglePlaceTokenMode ();
+			if (tCorporation.isATokenCompany ()) {
+				resetBenefitInUse (tCorporation);
+			}
 		} else if (PICKUP_TILE.equals (tTheAction)) {
 			pickupTile ();
 		} else if (PUT_TILE.equals (tTheAction)) {
@@ -360,6 +364,16 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
+	private void resetBenefitInUse (Corporation aCorporation) {
+		Benefit tBenefitInUse;
+		
+		tBenefitInUse = aCorporation.getBenefitInUse ();
+		if (tBenefitInUse.isRealBenefit ()) {
+			tBenefitInUse.setUsed (false);
+			aCorporation.setBenefitInUse (Benefit.FAKE_BENEFIT);
+		}
+	}
+	
 	public void resetAllModes () {
 		setModes (false, false, false);
 
