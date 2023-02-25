@@ -72,7 +72,7 @@ public class LicenseBenefit extends Benefit {
 	}
 
 	@Override
-	public boolean realBenefit () {
+	public boolean isRealBenefit () {
 		return true;
 	}
 
@@ -111,8 +111,10 @@ public class LicenseBenefit extends Benefit {
 	@Override
 	public String getNewButtonLabel () {
 		String tNewButtonText;
+		String tOwnerAbbrev;
 
-		tNewButtonText = "Buy License from " + privateCompany.getAbbrev ();
+		tOwnerAbbrev = privateCompany.getOwnerName ();
+		tNewButtonText = "Buy " + privateCompany.getAbbrev () + " License from " + tOwnerAbbrev;
 
 		return tNewButtonText;
 	}
@@ -126,7 +128,7 @@ public class LicenseBenefit extends Benefit {
 		tOwningCompany = getOwningCompany ();
 		tBenefitInUse = tOwningCompany.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
-		if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
+		if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
 			disableButton ();
 			setToolTip ("Another Benefit is currently in Use");
 		} else {
