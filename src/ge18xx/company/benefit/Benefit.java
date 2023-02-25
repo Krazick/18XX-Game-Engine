@@ -33,6 +33,7 @@ public abstract class Benefit implements ActionListener {
 	public final static String NO_BENEFIT_NAME = null;
 	public final static String NO_BUTTON_LABEL = null;
 	public final static String NAME = "ABSTRACT";
+	public static final Benefit FAKE_BENEFIT = new FakeBenefit (); 
 
 	ActorI.ActorTypes actorType;
 	boolean closeOnUse;

@@ -27,7 +27,6 @@ import ge18xx.company.License.LicenseTypes;
 import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
-import ge18xx.company.benefit.FakeBenefit;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -158,7 +157,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		String tName;
 		String tAbbrev;
 		String tHomeType;
-		Benefit tBenefitInUse;
 
 		corporationCertificates = new Portfolio (this);
 		portfolio = new Portfolio (this);
@@ -183,8 +181,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		tXMLNodeList = new XMLNodeList (this);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, Certificate.EN_CERTIFICATE, Benefits.EN_BENEFITS);
 		setCorporationList (aCorporationList);
-		tBenefitInUse = new FakeBenefit ();
-		setBenefitInUse (tBenefitInUse);
+		setBenefitInUse (Benefit.FAKE_BENEFIT);
 	}
 
 	public MessageBean getMessageBean () {
