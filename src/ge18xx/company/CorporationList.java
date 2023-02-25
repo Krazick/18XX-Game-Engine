@@ -157,6 +157,18 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tCompanyJPanel;
 	}
 
+	
+	public void addMessageBeans () {
+		MessageBean tBean;
+		GameManager tGameManager;
+		
+		tGameManager = roundManager.getGameManager ();
+		for (Corporation tCorporation : corporations) {
+			tBean = tCorporation.getMessageBean ();
+			tGameManager.addGoodBean (tBean);
+		}
+	}
+	
 	public boolean addListeners (ListenerPanel aListener) {
 		boolean tListenersAdded;
 		MessageBean tCorporationBean;
