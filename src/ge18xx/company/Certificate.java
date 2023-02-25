@@ -1749,7 +1749,7 @@ public class Certificate implements Comparable<Certificate> {
 		return corporation.isLoading ();
 	}
 
-	public void updateObservers (String aMessage) {
+	public void updateListeners (String aMessage) {
 		corporation.updateListeners (aMessage);
 	}
 	
