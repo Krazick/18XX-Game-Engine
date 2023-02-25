@@ -64,7 +64,7 @@ public class ExchangeBenefit extends CertificateBenefit {
 			tPlayer = (Player) tHolder;
 			tBenefitInUse = tPlayer.getBenefitInUse ();
 			tBenefitInUseName = tBenefitInUse.getName ();
-			if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
+			if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
 				disableButton ();
 				setToolTip ("Another Benefit is currently in Use");
 			} else if (! hasShareInBank ()) {

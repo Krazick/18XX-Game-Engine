@@ -67,7 +67,7 @@ public class PortPlacementBenefit extends MapBenefit {
 	}
 
 	@Override
-	public boolean realBenefit () {
+	public boolean isRealBenefit () {
 		return true;
 	}
 
@@ -149,7 +149,7 @@ public class PortPlacementBenefit extends MapBenefit {
 		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 			tCanHoldPortToken = tSelectedMapCell.canHoldPortToken ();
 			if (tCanHoldPortToken) {
-				if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
+				if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
 					disableButton ();
 					setToolTip ("Another Benefit is currently in Use");
 				} else {

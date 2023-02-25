@@ -39,7 +39,9 @@ public class ChangeMapAction extends CashTransferAction {
 			ActorI.ActionStates aNewState) {
 		ChangeCorporationStatusEffect tChangeCorporationStatusEffect;
 
-		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
-		addEffect (tChangeCorporationStatusEffect);
+		if (aPreviousState != aNewState) {
+			tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
+			addEffect (tChangeCorporationStatusEffect);
+		}
 	}
 }

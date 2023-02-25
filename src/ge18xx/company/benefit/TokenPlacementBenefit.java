@@ -97,6 +97,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 		Tile tTile;
 		ShareCompany tOwningCompany;
 		City tCity;
+		int tCityCount;
 
 		tOwningCompany = getOwningCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
@@ -109,12 +110,16 @@ public class TokenPlacementBenefit extends MapBenefit {
 		} else {
 			if (tMapCell.isTileOnCell ()) {
 				tTile = tMapCell.getTile ();
-				if (tTile.cityOnTile ()) {
+				tCityCount = tTile.getCityCenterCount ();
+				if (tCityCount == 1) {
 					tCity = (City) tTile.getRevenueCenter (0);
 					// Local Client, need to add the Lay Token Action
 					tMapToken = tOwningCompany.getLastMapToken ();
 					tTokenType = tOwningCompany.getTokenType (tMapToken);
 					tMap.putMapTokenDown (tOwningCompany, tMapToken, tTokenType, tCity, tMapCell, true);
+				} else if (tCityCount > 1) {
+					tOwningCompany.enterPlaceTokenMode ();
+					tMap.addMapCellSMC (tMapCell);
 				}
 				tMap.toggleSelectedMapCell (tMapCell);
 			} else {
@@ -150,7 +155,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 	}
 
 	@Override
-	public boolean realBenefit () {
+	public boolean isRealBenefit () {
 		return true;
 	}
 
@@ -167,7 +172,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 		tOwningCompany = getOwningCompany ();
 		tBenefitInUse = tOwningCompany.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
-		if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
+		if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
 			disableButton ();
 			setToolTip ("Another Benefit is currently in Use");
 		} else if (!hasTile ()) {

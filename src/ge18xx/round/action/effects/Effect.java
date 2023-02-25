@@ -56,7 +56,7 @@ public abstract class Effect {
 		setActor (aActor);
 		if (aBenefitInUse == NO_BENEFIT_IN_USE) {
 			setNoBenefitInUse ();
-		} else if (aBenefitInUse.realBenefit ()) {
+		} else if (aBenefitInUse.isRealBenefit ()) {
 			setBenefitName (aBenefitInUse.getName ());
 			tPrivateCompany = aBenefitInUse.getPrivateCompany ();
 			setBenefitPrivateAbbrev (tPrivateCompany.getAbbrev ());
@@ -109,9 +109,9 @@ public abstract class Effect {
 
 		if (benefitName.length () > 0) {
 			if (getBenefitUsed ()) {
-				tUsed = "Used ";
+				tUsed = " Used ";
 			} else {
-				tUsed = "";
+				tUsed = " ";
 			}
 			tBenefitEffectReport = tUsed + benefitName + " Benefit from " + benefitPrivateAbbrev + ".";
 		}

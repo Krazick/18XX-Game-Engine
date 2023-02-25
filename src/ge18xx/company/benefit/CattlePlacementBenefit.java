@@ -130,7 +130,7 @@ public class CattlePlacementBenefit extends MapBenefit {
 		if (tSelectedMapCell != MapCell.NO_MAP_CELL) {
 			tCanHoldPortToken = tSelectedMapCell.canHoldPortToken ();
 			if (tCanHoldPortToken) {
-				if ((tBenefitInUse.realBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
+				if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
 					disableButton ();
 					setToolTip ("Another Benefit is currently in Use");
 				} else {

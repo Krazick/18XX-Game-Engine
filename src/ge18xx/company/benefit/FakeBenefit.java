@@ -12,7 +12,7 @@ public final class FakeBenefit extends Benefit {
 	}
 
 	@Override
-	public boolean realBenefit () {
+	public boolean isRealBenefit () {
 		return false;
 	}
 

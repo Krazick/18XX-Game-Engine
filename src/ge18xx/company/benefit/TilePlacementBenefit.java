@@ -171,7 +171,7 @@ public class TilePlacementBenefit extends MapBenefit {
 	}
 
 	@Override
-	public boolean realBenefit () {
+	public boolean isRealBenefit () {
 		return true;
 	}
 
