@@ -344,6 +344,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 			togglePlaceTokenMode ();
 			if (tCorporation.isATokenCompany ()) {
 				resetBenefitInUse (tCorporation);
+				resetAllModes ();
 			}
 		} else if (PICKUP_TILE.equals (tTheAction)) {
 			pickupTile ();
