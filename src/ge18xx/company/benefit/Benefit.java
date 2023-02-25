@@ -23,6 +23,7 @@ public abstract class Benefit implements ActionListener {
 	public final static ElementName EN_BENEFIT = new ElementName ("Benefit");
 	public final static AttributeName AN_CLASS = new AttributeName ("class");
 	public final static AttributeName AN_USED = new AttributeName ("used");
+	public final static AttributeName AN_ALL_ACTORS = new AttributeName ("allActors");
 	public final static AttributeName AN_NAME = new AttributeName ("name");
 	public final static AttributeName AN_CLOSE_ON_USE = new AttributeName ("closeOnUse");
 	public final static AttributeName AN_PASSIVE = new AttributeName ("passive");
@@ -37,6 +38,7 @@ public abstract class Benefit implements ActionListener {
 	boolean closeOnUse;
 	boolean used;
 	boolean passive;
+	boolean allActors;
 	JButton button;
 	JPanel buttonPanel;
 	PrivateCompany privateCompany;
@@ -49,6 +51,7 @@ public abstract class Benefit implements ActionListener {
 		setPassive (true);
 		setUsed (false);
 		setActorType (ActorI.ActorTypes.NO_TYPE.toString ());
+		setAllActors (false);
 		setDefaults ();
 	}
 
@@ -56,19 +59,30 @@ public abstract class Benefit implements ActionListener {
 		boolean tClose;
 		boolean tPassive;
 		boolean tUsed;
+		boolean tAllActors;
 		String tActorType;
 
 		tActorType = aXMLNode.getThisAttribute (AN_ACTOR_TYPE);
 		tClose = aXMLNode.getThisBooleanAttribute (AN_CLOSE_ON_USE);
 		tPassive = aXMLNode.getThisBooleanAttribute (AN_PASSIVE);
 		tUsed = aXMLNode.getThisBooleanAttribute (AN_USED);
+		tAllActors = aXMLNode.getThisBooleanAttribute (AN_ALL_ACTORS);
 		setUsed (tUsed);
 		setCloseOnUse (tClose);
 		setPassive (tPassive);
 		setActorType (tActorType);
+		setAllActors (tAllActors);
 		setDefaults ();
 	}
 
+	public void setAllActors (boolean aAllActors) {
+		allActors = aAllActors;
+	}
+	
+	public boolean getAllActors () {
+		return allActors;
+	}
+	
 	public void setName (String aName) {
 		name = aName;
 	}
@@ -315,7 +329,7 @@ public abstract class Benefit implements ActionListener {
 	public void actionPerformed (ActionEvent aEvent) {
 	}
 
-	public boolean realBenefit () {
+	public boolean isRealBenefit () {
 		return true;
 	}
 
