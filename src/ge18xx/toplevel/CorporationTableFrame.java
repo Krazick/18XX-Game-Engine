@@ -29,6 +29,10 @@ public class CorporationTableFrame extends XMLFrame {
 		buildScrollPane (tTable);
 	}
 
+	public void addMessageBeans () {
+		companies.addMessageBeans ();
+	}
+	
 	public boolean anyPrivatesUnowned () {
 		return false;
 	}
