@@ -13,6 +13,7 @@ import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
+import ge18xx.player.PlayerTestFactory;
 import ge18xx.round.RoundManager;
 import ge18xx.round.RoundTestFactory;
 import ge18xx.utilities.AttributeName;
@@ -29,7 +30,8 @@ class EffectTestConstructor {
 	GameManager mGameManager;
 	PlayerManager playerManager;
 	private String GENERIC_EFFECT = "Generic";
-	GameTestFactory testFactory;
+	GameTestFactory gameTestFactory;
+	PlayerTestFactory playerTestFactory;
 
 	@BeforeEach
 	void setUp () throws Exception {
@@ -37,15 +39,16 @@ class EffectTestConstructor {
 
 		tClientName = "TFBuster";
 		tPlayer2Name = "EffectTesterBeta";
-		testFactory = new GameTestFactory ();
-		mGameManager = testFactory.buildGameManagerMock (tClientName);
+		gameTestFactory = new GameTestFactory ();
+		mGameManager = gameTestFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
-		playerManager = new PlayerManager (mGameManager);
+		playerTestFactory = new PlayerTestFactory (mGameManager);
+		playerManager = playerTestFactory.buildPlayerManager ();
 		effectAlpha = new ToEffect ();
-		actorBeta = new Player (tPlayer2Name, playerManager, 0);
-		actorDelta = new Player (tClientName, playerManager, 0);
+		actorBeta = playerTestFactory.buildPlayerMock (tPlayer2Name);
+		actorDelta = playerTestFactory.buildPlayerMock (tClientName);
 		effectBeta = new ToEffect (GENERIC_EFFECT, actorBeta, actorDelta);
 	}
 
@@ -102,9 +105,9 @@ class EffectTestConstructor {
 
 		assertEquals ("Test Benefit", effectBeta.getBenefitName ());
 		assertEquals ("TPA", effectBeta.getBenefitPrivateAbbrev ());
-		assertEquals ("Test Benefit Benefit from TPA.", effectBeta.getBenefitEffectReport ());
+		assertEquals (" Test Benefit Benefit from TPA.", effectBeta.getBenefitEffectReport ());
 		effectBeta.setBenefitUsed (true);
-		assertEquals ("Used Test Benefit Benefit from TPA.", effectBeta.getBenefitEffectReport ());
+		assertEquals (" Used Test Benefit Benefit from TPA.", effectBeta.getBenefitEffectReport ());
 	}
 
 	@Test
