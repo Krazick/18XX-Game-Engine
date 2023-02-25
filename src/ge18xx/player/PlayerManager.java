@@ -45,6 +45,7 @@ import ge18xx.round.action.SellStockAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.MessageBean;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.ParsingRoutineIO;
 import ge18xx.utilities.XMLDocument;
@@ -92,7 +93,16 @@ public class PlayerManager {
 			players.add (aPlayer);
 		}
 	}
-
+	
+	public void addMessageBeans () {
+		MessageBean tBean;
+		
+		for (Player tPlayer : players) {
+			tBean = tPlayer.getMessageBean ();
+			gameManager.addGoodBean (tBean);
+		}
+	}
+	
 	public void clearJustBoughtForAllPlayers () {
 		for (Player tPlayer : players) {
 			tPlayer.clearJustBoughtForAllCerts ();
