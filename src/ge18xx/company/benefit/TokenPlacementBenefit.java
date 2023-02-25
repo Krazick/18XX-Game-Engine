@@ -14,6 +14,7 @@ import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Tile;
+import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
@@ -93,6 +94,7 @@ public class TokenPlacementBenefit extends MapBenefit {
 		HexMap tMap;
 		MapCell tMapCell;
 		MapToken tMapToken;
+		MapFrame tMapFrame;
 		TokenType tTokenType;
 		Tile tTile;
 		ShareCompany tOwningCompany;
@@ -120,6 +122,8 @@ public class TokenPlacementBenefit extends MapBenefit {
 				} else if (tCityCount > 1) {
 					tOwningCompany.enterPlaceTokenMode ();
 					tMap.addMapCellSMC (tMapCell);
+					tMapFrame = getMapFrame ();
+					tMapFrame.updatePutTokenButton (City.NO_CITY, tMapCell);
 				}
 				tMap.toggleSelectedMapCell (tMapCell);
 			} else {
