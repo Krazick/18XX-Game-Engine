@@ -409,7 +409,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporation.enterPlaceTokenMode ();
 			tMap.removeAllSMC ();
 			tMap.clearAllSelected ();
-			tMap.addReachableMapCells ();	// Currently does nothing.
+			tMap.addReachableMapCells ();	// TODO Currently does nothing.
 			updateTTODButtons ();
 		}
 	}
