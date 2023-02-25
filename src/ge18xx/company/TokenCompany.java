@@ -640,6 +640,10 @@ public abstract class TokenCompany extends TrainCompany {
 		} else {
 			tStatusUpdated = updateStatus (ActorI.ActionStates.StationLaid);
 		}
+		if (benefitInUse.isRealBenefit ()) {
+			tStatusUpdated = true;
+			benefitInUse.setUsed (true);
+		}
 		if (tStatusUpdated) {
 			tNewStatus = status;
 			if (aAddLayTokenAction) {
@@ -662,7 +666,6 @@ public abstract class TokenCompany extends TrainCompany {
 
 		tTokenType = tokens.getTokenType (aMapToken);
 		tTokenCost = getTokenCost (aMapToken, tTokenType, aMapCell);
-//		tTokenCost = tokens.getTokenCost (aMapToken);
 		if (tTokenCost == Token.RANGE_COST) {
 			System.out.println ("Need to Calculate Cost for Token based on RANGE from Home");
 			// TODO -- Calculate the Cost based on the Range from the Home Station
@@ -671,14 +674,14 @@ public abstract class TokenCompany extends TrainCompany {
 		tLayTokenAction = new LayTokenAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 		tLayTokenAction.addLayTokenEffect (this, aMapCell, aTile, aRevenueCenterIndex, tTokenType, aTokenIndex, benefitInUse);
 		addRemoveHomeEffect (aMapCell, tLayTokenAction);
+		if (benefitInUse.isRealBenefit ()) {
+			tLayTokenAction.addBenefitUsedEffect (this, benefitInUse);
+		}
 		tLayTokenAction.addChangeCorporationStatusEffect (this, aCurrentStatus, aNewStatus);
 		if (tTokenCost > 0) {
 			tBank = corporationList.getBank ();
 			transferCashTo (tBank, tTokenCost);
 			tLayTokenAction.addCashTransferEffect (this, tBank, tTokenCost);
-		}
-		if (benefitInUse.realBenefit ()) {
-			tLayTokenAction.addBenefitUsedEffect (this, benefitInUse);
 		}
 		addAction (tLayTokenAction);
 	}
@@ -744,7 +747,7 @@ public abstract class TokenCompany extends TrainCompany {
 		int tTokenCost;
 
 		tTokenCost = NO_COST;
-		if (benefitInUse.realBenefit ()) {
+		if (benefitInUse.isRealBenefit ()) {
 			tTokenCost = benefitInUse.getCost ();
 		} else {
 			tTokenCost = tokens.getTokenCost (aMapToken);
