@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -83,6 +84,7 @@ import ge18xx.utilities.ElementName;
 import ge18xx.utilities.FileGEFilter;
 import ge18xx.utilities.FileUtils;
 import ge18xx.utilities.JFileMChooser;
+import ge18xx.utilities.MessageBean;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -180,6 +182,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	SavedGames networkSavedGames;
 	boolean notifyNetwork;
 	boolean applyingNetworkAction;
+	List<MessageBean> allBeans;
 
 	public GameManager () {
 		fileUtils = new FileUtils ("18xx.");
@@ -1233,9 +1236,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void initiateGame (GameInfo aGameInfo) {
 		setGame (aGameInfo);
 		initiateGame ();
-		setNotifyNetwork (true);
+		activateCommunications ();
 		// For Normal Start, we need to Notify Clients of Actions
 		// The Loading of a Save Game does it's own reset once the Load is complete
+	}
+
+	public void activateCommunications () {
+		setNotifyNetwork (true);
+		roundManager.setListenerPanels (true);
+		activateAllBeans ();
 	}
 
 	public void removeInactiveCompanies () {
@@ -1260,7 +1269,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 		PlayerManager tPlayerManager;
 
 		if (activeGame != GameInfo.NO_GAME_INFO) {
-			game18XXFrame.initiateGame ();
 			createUserPreferencesFrame ();
 			if (playerManager == PlayerManager.NO_PLAYER_MANAGER) {
 				tPlayerManager = new PlayerManager (this);
@@ -1282,7 +1290,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tPrivates = getPrivates ();
 			tMinors = getMinorCompanies ();
 			tShares = getShareCompanies ();
-
+			collectAllBeans ();
+			
 			autoSaveFileName = constructAutoSaveFileName (AUTO_SAVES_DIR);
 			autoSaveActionReportFileName = constructASARFileName (AUTO_SAVES_DIR, ".action.txt");
 			autoSaveFile = new File (autoSaveFileName);
@@ -1300,10 +1309,39 @@ public class GameManager extends Component implements NetworkGameSupport {
 			createFrameInfoFrame ();
 			setFrameBackgrounds ();
 			game18XXFrame.initiateGame ();
-			roundManager.setListenerPanels (true);
 		}
 	}
 
+	private void collectAllBeans () {
+		MessageBean tBean;
+		
+		allBeans = new LinkedList<MessageBean> ();
+		tBean = bank.getMessageBean ();
+		addGoodBean (tBean);
+		tBean = bankPool.getMessageBean ();
+		addGoodBean (tBean);
+		playerManager.addMessageBeans ();
+		System.out.println ("Collected " + allBeans.size () + " Message Beans After Players");
+		shareCompaniesFrame.addMessageBeans ();
+		System.out.println ("Collected " + allBeans.size () + " Message Beans After Shares");
+		minorCompaniesFrame.addMessageBeans ();
+		System.out.println ("Collected " + allBeans.size () + " Message Beans After Minors");
+		privatesFrame.addMessageBeans ();
+		System.out.println ("Collected " + allBeans.size () + " Message Beans After Privates");
+	}
+	
+	public void addGoodBean (MessageBean aBean) {
+		if (aBean != MessageBean.NO_BEAN) {
+			allBeans.add (aBean);
+		}
+	}
+	
+	private void activateAllBeans () {
+		for (MessageBean tBean : allBeans) {
+			tBean.setActive (true);
+		}
+	}
+	
 	private void setBank (int aInitialTreasury) {
 		bank = new Bank (aInitialTreasury, this);
 	}
@@ -1516,7 +1554,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			logger.info ("Load of file " + loadSavedFile.getName () + " Succeeded." + " Players ["
 					+ playerManager.getPlayersInOrder () + "]");
 		}
-		setNotifyNetwork (true);
+		activateCommunications ();
 
 		return tGoodLoad;
 	}
