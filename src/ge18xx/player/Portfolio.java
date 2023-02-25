@@ -96,7 +96,7 @@ public class Portfolio implements CertificateHolderI {
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		aCertificate.setOwner (this);
-		aCertificate.updateObservers (CERTIFICATE_ADDED);
+		aCertificate.updateListeners (CERTIFICATE_ADDED);
 		certificates.add (aCertificate);
 		Collections.sort (certificates);
 	}
@@ -563,7 +563,7 @@ public class Portfolio implements CertificateHolderI {
 				tCertificate = tPortfolioCertificate;
 				if (aRemove) {
 					certificates.remove (tIndex);
-					tCertificate.updateObservers (CERTIFICATE_REMOVED);
+					tCertificate.updateListeners (CERTIFICATE_REMOVED);
 				}
 			}
 		}
@@ -1332,7 +1332,7 @@ public class Portfolio implements CertificateHolderI {
 			if (tPortfolioCertificate == aCertificate) {
 				tCertificate = tPortfolioCertificate;
 				certificates.remove (tIndex);
-				tCertificate.updateObservers (CERTIFICATE_REMOVED);
+				tCertificate.updateListeners (CERTIFICATE_REMOVED);
 			}
 		}
 
