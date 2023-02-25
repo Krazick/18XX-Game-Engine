@@ -2594,9 +2594,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public boolean hasPlacedAnyStation () {
-		boolean tHasPlacedAnyStation = false;
+		boolean tHasPlacedAnyStation;
 		MapFrame tMapFrame;
 
+		tHasPlacedAnyStation = false;
 		tMapFrame = corporationList.getMapFrame ();
 		tHasPlacedAnyStation = tMapFrame.hasStation (getID ());
 
