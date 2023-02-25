@@ -1838,7 +1838,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (tCurrentStatus != tNewStatus) {
 			tLayTileAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 		}
-		if (benefitInUse.realBenefit ()) {
+		if (benefitInUse.isRealBenefit ()) {
 			tLayTileAction.addBenefitUsedEffect (this, benefitInUse);
 			if (!benefitInUse.isAExtraTilePlacement ()) {
 				setTileLaid (tLayTileAction);
