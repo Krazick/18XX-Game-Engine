@@ -87,9 +87,12 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		NodeList tChildren;
 		XMLNode tChildNode;
 		String tChildName;
-		String tRevenueCenterTypeName, tRevenueCenterName;
-		int tID, tLocation;
-		int tChildrenCount, tChildrenIndex;
+		String tRevenueCenterTypeName;
+		String tRevenueCenterName;
+		int tID;
+		int tLocation;
+		int tChildrenCount;
+		int tChildrenIndex;
 		RevenueCenterType tRevenueCenterType;
 
 		tRevenueCenterTypeName = aNode.getThisAttribute (AN_TYPE);
@@ -525,6 +528,14 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		cityInfo.printCityInfo ();
 	}
 
+	/**
+	 * This method should be the normal way to set the City Info when upgrading a Tile, to copy each City's specific
+	 * data, like the Corporation Bases so in situations where a single MapCell has two different Cities, with different
+	 * Corporation Bases to be promoted properly. 1830 NYC, and 1856 Toronto are examples.
+	 * 
+	 * @param aCityInfo The City info to Clone into this Revenue Center's City Info object.
+	 * 
+	 */
 	public void setCityInfo (CityInfo aCityInfo) {
 		// Need to Clone this City Info, rather than simply save it... really should have calling routine clone it and pass the clone in
 		// Otherwise for 1830, the NYC Tile get's it home Base for NYNH put in the wrong spot.
@@ -532,6 +543,18 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		cityInfo = aCityInfo.clone ();
 	}
 
+	/**
+	 * This method should only be used in JUnit Test Cases to set the City Info to what is passed in, 
+	 * and not Clone it. Cloning the City Info allows two Cities on the Same Tile, with different Homes
+	 * Like NYC in 1830, and Toronto in 1856 to maintain different Corporation Homes in each City.
+	 * 
+	 * @param aCityInfo The City Info to copy into this Revenue Center's City Info object.
+	 * 
+	 */
+	public void setNoCloneCityInfo (CityInfo aCityInfo) {
+		cityInfo = aCityInfo;
+	}
+	
 	public void setCorporationHome (Corporation aCorporation) {
 		setupCityInfo ();
 		cityInfo.setCorporationHome (aCorporation, this);
