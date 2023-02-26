@@ -32,6 +32,7 @@ class RevenueCenterTypeTests {
 	RevenueCenterType bypassCity;
 	RevenueCenterType dotTown;
 	RevenueCenterType privateRailwayPoint;
+	RevenueCenterType runThroughCity;
 
 	@BeforeEach
 	public void setUp () throws Exception {
@@ -53,6 +54,7 @@ class RevenueCenterTypeTests {
 		destinationCity = new RevenueCenterType (RevenueCenterType.DESTINATION_CITY);
 		bypassCity = new RevenueCenterType (RevenueCenterType.BYPASS_CITY);
 		dotTown = new RevenueCenterType (RevenueCenterType.DOT_TOWN);
+		runThroughCity = new RevenueCenterType (RevenueCenterType.RUN_THROUGH_CITY);
 		privateRailwayPoint = new RevenueCenterType (RevenueCenterType.PRIVATE_RAILWAY_POINT);
 	}
 
@@ -70,6 +72,7 @@ class RevenueCenterTypeTests {
 	public void testMaxStationCounts () {
 		testRCEqualsMaxStations (0, noRevenueCenter);
 		testRCEqualsMaxStations (0, privateRailwayPoint);
+		testRCEqualsMaxStations (0, runThroughCity);
 		testRCEqualsMaxStations (0, smallTown);
 		testRCEqualsMaxStations (0, twoSmallTowns);
 		testRCEqualsMaxStations (0, dotTown);
@@ -103,6 +106,7 @@ class RevenueCenterTypeTests {
 		testRCEqualsStationCounts (0, twoSmallTowns);
 		testRCEqualsStationCounts (0, dotTown);
 		testRCEqualsStationCounts (0, destinationCity);
+		testRCEqualsStationCounts (0, runThroughCity);
 		testRCEqualsStationCounts (1, singleCity);
 		testRCEqualsStationCounts (0, deadEndCity);
 		testRCEqualsStationCounts (0, deadEndOnlyCity);
@@ -133,6 +137,7 @@ class RevenueCenterTypeTests {
 		testRCEqualsCenterCounts (1, dotTown);
 		testRCEqualsCenterCounts (1, destinationCity);
 		testRCEqualsCenterCounts (1, singleCity);
+		testRCEqualsCenterCounts (0, runThroughCity);
 		testRCEqualsCenterCounts (1, deadEndCity);
 		testRCEqualsCenterCounts (1, deadEndOnlyCity);
 		testRCEqualsCenterCounts (1, bypassCity);
@@ -165,6 +170,7 @@ class RevenueCenterTypeTests {
 		testRCBooleanCanPlaceStation (false, twoSmallTowns);
 		testRCBooleanCanPlaceStation (false, dotTown);
 		testRCBooleanCanPlaceStation (false, destinationCity);
+		testRCBooleanCanPlaceStation (false, runThroughCity);
 		testRCBooleanCanPlaceStation (true, singleCity);
 		testRCBooleanCanPlaceStation (true, deadEndCity);
 		testRCBooleanCanPlaceStation (true, deadEndOnlyCity);
@@ -197,6 +203,7 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsCity (false, twoSmallTowns);
 		testRCBooleanIsCity (false, dotTown);
 		testRCBooleanIsCity (true, destinationCity);
+		testRCBooleanIsCity (true, runThroughCity);
 		testRCBooleanIsCity (true, singleCity);
 		testRCBooleanIsCity (true, deadEndCity);
 		testRCBooleanIsCity (true, deadEndOnlyCity);
@@ -231,6 +238,7 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsDotTown (false, twoSmallTowns);
 		testRCBooleanIsDotTown (true, dotTown);
 		testRCBooleanIsDotTown (false, destinationCity);
+		testRCBooleanIsDotTown (false, runThroughCity);
 		testRCBooleanIsDotTown (false, singleCity);
 		testRCBooleanIsDotTown (false, deadEndCity);
 		testRCBooleanIsDotTown (false, deadEndOnlyCity);
@@ -265,6 +273,7 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsCityOrTown (true, twoSmallTowns);
 		testRCBooleanIsCityOrTown (true, dotTown);
 		testRCBooleanIsCityOrTown (true, destinationCity);
+		testRCBooleanIsCityOrTown (true, runThroughCity);
 		testRCBooleanIsCityOrTown (true, singleCity);
 		testRCBooleanIsCityOrTown (true, deadEndCity);
 		testRCBooleanIsCityOrTown (true, deadEndOnlyCity);
@@ -299,6 +308,7 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsDestination (false, twoSmallTowns);
 		testRCBooleanIsDestination (false, dotTown);
 		testRCBooleanIsDestination (true, destinationCity);
+		testRCBooleanIsDestination (false, runThroughCity);
 		testRCBooleanIsDestination (false, singleCity);
 		testRCBooleanIsDestination (false, deadEndCity);
 		testRCBooleanIsDestination (false, deadEndOnlyCity);
@@ -323,6 +333,40 @@ class RevenueCenterTypeTests {
 					"Is not a Private Railway Result for [" + aRevenueCenterType.getName () + "]");
 		}
 	}
+	
+	@Test
+	@DisplayName ("Verify Center is a Run Through City per Revenue Center Types")
+	public void testIsRunThroughCity () {
+		testRCBooleanIsRunThrough (false, noRevenueCenter);
+		testRCBooleanIsRunThrough (false, privateRailwayPoint);
+		testRCBooleanIsRunThrough (false, smallTown);
+		testRCBooleanIsRunThrough (false, twoSmallTowns);
+		testRCBooleanIsRunThrough (false, dotTown);
+		testRCBooleanIsRunThrough (false, destinationCity);
+		testRCBooleanIsRunThrough (true, runThroughCity);
+		testRCBooleanIsRunThrough (false, singleCity);
+		testRCBooleanIsRunThrough (false, deadEndCity);
+		testRCBooleanIsRunThrough (false, deadEndOnlyCity);
+		testRCBooleanIsRunThrough (false, bypassCity);
+		testRCBooleanIsRunThrough (false, twoCities);
+		testRCBooleanIsRunThrough (false, doubleCity);
+		testRCBooleanIsRunThrough (false, threeCities);
+		testRCBooleanIsRunThrough (false, tripleCity);
+		testRCBooleanIsRunThrough (false, fourCities);
+		testRCBooleanIsRunThrough (false, quadCity);
+		testRCBooleanIsRunThrough (false, twoDoubleCities);
+		testRCBooleanIsRunThrough (false, fiveCities);
+		testRCBooleanIsRunThrough (false, sixCities);
+	}
+
+	private void testRCBooleanIsRunThrough (boolean aExpectedValue, RevenueCenterType aRevenueCenterType) {
+		if (aExpectedValue) {
+			assertTrue (aRevenueCenterType.isARunThroughCity (), "Is a Run Through City Result for [" + aRevenueCenterType.getName () + "]");
+		} else {
+			assertFalse (aRevenueCenterType.isARunThroughCity (),
+					"Is not a Run Through City Result for [" + aRevenueCenterType.getName () + "]");
+		}
+	}
 
 	@Test
 	@DisplayName ("Verify Center is a Private Railway per Revenue Center Types")
@@ -333,6 +377,7 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsPrivateRailway (false, twoSmallTowns);
 		testRCBooleanIsPrivateRailway (false, dotTown);
 		testRCBooleanIsPrivateRailway (false, destinationCity);
+		testRCBooleanIsPrivateRailway (false, runThroughCity);
 		testRCBooleanIsPrivateRailway (false, singleCity);
 		testRCBooleanIsPrivateRailway (false, deadEndCity);
 		testRCBooleanIsPrivateRailway (false, deadEndOnlyCity);
@@ -366,6 +411,7 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsTown (true, twoSmallTowns);
 		testRCBooleanIsTown (true, dotTown);
 		testRCBooleanIsTown (false, destinationCity);
+		testRCBooleanIsTown (false, runThroughCity);
 		testRCBooleanIsTown (false, singleCity);
 		testRCBooleanIsTown (false, deadEndCity);
 		testRCBooleanIsTown (false, deadEndOnlyCity);
@@ -400,6 +446,7 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsTwoTowns (true, twoSmallTowns);
 		testRCBooleanIsTwoTowns (false, dotTown);
 		testRCBooleanIsTwoTowns (false, destinationCity);
+		testRCBooleanIsTwoTowns (false, runThroughCity);
 		testRCBooleanIsTwoTowns (false, singleCity);
 		testRCBooleanIsTwoTowns (false, deadEndCity);
 		testRCBooleanIsTwoTowns (false, deadEndOnlyCity);
@@ -434,6 +481,7 @@ class RevenueCenterTypeTests {
 		testRCBooleanIsCityFromName (false, twoSmallTowns);
 		testRCBooleanIsCityFromName (false, dotTown);
 		testRCBooleanIsCityFromName (true, destinationCity);
+		testRCBooleanIsCityFromName (true, runThroughCity);
 		testRCBooleanIsCityFromName (true, singleCity);
 		testRCBooleanIsCityFromName (true, deadEndCity);
 		testRCBooleanIsCityFromName (true, deadEndOnlyCity);
@@ -510,6 +558,7 @@ class RevenueCenterTypeTests {
 		testRCIntTypeFromName (16, destinationCity);
 		testRCIntTypeFromName (17, dotTown);
 		testRCIntTypeFromName (18, privateRailwayPoint);
+		testRCIntTypeFromName (19, runThroughCity);
 	}
 
 	@Test
