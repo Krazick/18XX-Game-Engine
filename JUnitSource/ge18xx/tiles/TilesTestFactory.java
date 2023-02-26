@@ -108,7 +108,7 @@ public class TilesTestFactory {
 	}
 	
 
-	public Feature buildFeature2 () {
+	public Feature2 buildFeature2 () {
 		Feature2 tFeature2;
 		
 		tFeature2 = new Feature2 ();
@@ -116,7 +116,7 @@ public class TilesTestFactory {
 		return tFeature2;
 	}
 	
-	public Feature buildFeature2 (int aLocation1, int aLocation2 ) {
+	public Feature2 buildFeature2 (int aLocation1, int aLocation2 ) {
 		Feature2 tFeature2;
 		
 		tFeature2 = new Feature2 (aLocation1, aLocation2);
@@ -124,7 +124,7 @@ public class TilesTestFactory {
 		return tFeature2;
 	}
 	
-	public Feature buildFeature2 (Location aLocation1, Location aLocation2) {
+	public Feature2 buildFeature2 (Location aLocation1, Location aLocation2) {
 		Feature2 tFeature2;
 		
 		tFeature2 = new Feature2 (aLocation1, aLocation2);
@@ -132,7 +132,7 @@ public class TilesTestFactory {
 		return tFeature2;
 	}
 	
-	public Feature buildFeature2Mock () {
+	public Feature2 buildFeature2Mock () {
 		Feature2 mFeature2 = Mockito.mock (Feature2.class);
 
 		Mockito.when (mFeature2.getLocation ()).thenReturn (Location.NO_LOC);
@@ -140,7 +140,7 @@ public class TilesTestFactory {
 		return mFeature2;
 	}
 	
-	public Feature buildFeature2Mock (int aLocation1, int aLocation2) {
+	public Feature2 buildFeature2Mock (int aLocation1, int aLocation2) {
 		Feature2 mFeature2 = Mockito.mock (Feature2.class);
 		Location tLocation1;
 		Location tLocation2;
@@ -153,7 +153,7 @@ public class TilesTestFactory {
 		return mFeature2;
 	}
 	
-	public Feature buildFeature2Mock (Location aLocation1, Location aLocation2) {
+	public Feature2 buildFeature2Mock (Location aLocation1, Location aLocation2) {
 		Feature2 mFeature2 = Mockito.mock (Feature2.class);
 
 		Mockito.when (mFeature2.getLocation ()).thenReturn (aLocation1);
