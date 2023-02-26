@@ -30,6 +30,7 @@ public class CenterTestFactory {
 		tPrivateRailwayCenter = (PrivateRailwayCenter) RevenueCenter.NO_CENTER;
 		if (tPrivateRailwayCenterNode != XMLNode.NO_NODE) {
 			tPrivateRailwayCenter = new PrivateRailwayCenter (tPrivateRailwayCenterNode);
+			tPrivateRailwayCenter.setupCityInfo ();
 		}
 
 		return tPrivateRailwayCenter;
