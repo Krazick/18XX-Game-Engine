@@ -6,6 +6,7 @@ import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.XMLFrame;
 
 public class MapTestFactory {
+	public static final MapTestFactory NO_MAP_TEST_FACTORY = null;
 
 	public MapTestFactory () {
 
@@ -65,6 +66,38 @@ public class MapTestFactory {
 		return tMapCell;
 	}
 
+	public Hex buildHex () {
+		Hex tHex;
+		
+		tHex = new Hex ();
+		
+		return tHex;
+	}
+	
+	public Hex buildHex (boolean aHexDirection) {
+		Hex tHex;
+		
+		tHex = new Hex (aHexDirection);
+		
+		return tHex;
+	}
+	
+	public Hex buildHex (int aOffsetX, int aOffsetY, boolean aHexDirection) {
+		Hex tHex;
+		
+		tHex = new Hex (aOffsetX, aOffsetY, aHexDirection);
+		
+		return tHex;
+	}
+	
+	public Hex buildHex (int aOffsetX, int aOffsetY, boolean aHexDirection, int aScale) {
+		Hex tHex;
+		
+		tHex = new Hex (aOffsetX, aOffsetY, aHexDirection, aScale);
+		
+		return tHex;
+	}
+	
 	public Location buildLocation () {
 		Location tLocation;
 		int tCenterLocation;
@@ -81,5 +114,21 @@ public class MapTestFactory {
 		tLocation = new Location (aIntLocation);
 
 		return tLocation;
+	}
+	
+	public Location buildLocationMock () {
+		Location mLocation = Mockito.mock (Location.class);
+
+		Mockito.when (mLocation.getLocation ()).thenReturn (Location.NO_LOCATION);
+
+		return mLocation;
+	}
+	
+	public Location buildLocationMock (int aLocation) {
+		Location mLocation = Mockito.mock (Location.class);
+		
+		Mockito.when (mLocation.getLocation ()).thenReturn (aLocation);
+
+		return mLocation;
 	}
 }
