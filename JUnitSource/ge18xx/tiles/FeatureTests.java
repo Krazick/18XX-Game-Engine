@@ -8,17 +8,19 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 
-import org.junit.jupiter.api.AfterEach;
+import java.awt.Point;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-//import org.mockito.Mockito;
-//import static org.mockito.Mockito.verify;
-//import static org.mockito.Mockito.any;
-
+import ge18xx.map.Hex;
 import ge18xx.map.Location;
+import ge18xx.map.MapTestFactory;
 
 /**
  * @author marksmith
@@ -26,6 +28,8 @@ import ge18xx.map.Location;
  */
 @DisplayName ("Feature Tests")
 class FeatureTests {
+	TilesTestFactory tilesTestFactory;
+	MapTestFactory mapTestFactory;
 	Feature featureAlpha;
 	Feature featureBeta;
 	Feature featureDelta;
@@ -39,41 +43,41 @@ class FeatureTests {
 	 */
 	@BeforeEach
 	void setUp () throws Exception {
-		featureAlpha = new Feature ();
-		locationDeadEnd = new Location (99); // Dead End Location
-		featureBeta = new Feature (locationDeadEnd);
-		locationCenter = new Location (50); // Center City Location
-		featureDelta = new Feature (0); // Hex Side # 0 Location
+		mapTestFactory = new MapTestFactory ();
+		tilesTestFactory = new TilesTestFactory ();
+		featureAlpha = tilesTestFactory.buildFeature ();
+		locationDeadEnd = mapTestFactory.buildLocation (99);
+		featureBeta = tilesTestFactory.buildFeature (locationDeadEnd);
+		locationCenter = mapTestFactory.buildLocation (50); // Center City Location
+		featureDelta = tilesTestFactory.buildFeature (0); // Hex Side # 0 Location
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterEach
-	void tearDown () throws Exception {
+	@Test
+	@DisplayName ("Test CalcCenter access")
+	public void testCallingCalcCenter () {
+		Point tPoint;
+		Point tCalculatedCenter;
+		int tXValue;
+		int tYValue;
+		Hex tHex;
+		Feature tFeature;
+		Location mLocation;
+
+		tPoint = new Point (100, 100);
+		tHex = mapTestFactory.buildHex (100, 50, true);
+		mLocation = mapTestFactory.buildLocationMock ();
+		Mockito.when (mLocation.calcCenter (any (Hex.class))).thenReturn (tPoint);
+		tFeature = tilesTestFactory.buildFeature (mLocation);
+		tCalculatedCenter = tFeature.calcCenter (tHex);
+
+		tXValue = (int) tCalculatedCenter.getX ();
+		tYValue = (int) tCalculatedCenter.getY ();
+		verify (mLocation).calcCenter (tHex);
+		System.out.println ("Calculated Center " + tCalculatedCenter.getX () + ", " + tCalculatedCenter.getY ());
+		System.out.println ("Point " + tPoint.getX () + ", " + tPoint.getY ());
+		assertEquals (100, tXValue);
+		assertEquals (100, tYValue);
 	}
-
-//	@Test
-//	@DisplayName ("Test CalcCenter access")
-//	public void testCallingCalcCenter () {
-//		Point tPoint = new Point (100, 100);
-//		Point tCalculatedCenter;
-//		int tXValue, tYValue;
-//		Hex tHex = new Hex (100, 50, true);
-
-//		Location mLocation = Mockito.mock (Location.class);
-//		Mockito.when (mLocation.calcCenter (any (Hex.class))).thenReturn (tPoint);
-//		Feature tFeature = new Feature (10);
-//		tCalculatedCenter = tFeature.calcCenter (tHex);
-//
-//		tXValue = (int) tCalculatedCenter.getX ();
-//		tYValue = (int) tCalculatedCenter.getY ();
-//		verify (mLocation).calcCenter (tHex);
-//		System.out.println ("Calculated Center " + tCalculatedCenter.getX () + ", " + tCalculatedCenter.getY ());
-//		System.out.println ("Point " + tPoint.getX () + ", " + tPoint.getY ());
-//		assertEquals (8, tXValue);
-//		assertEquals (15, tYValue);
-//	}
 
 	@Test
 	@DisplayName ("Test Feature Constructors")
@@ -86,6 +90,8 @@ class FeatureTests {
 		featureGamma = featureDelta.clone ();
 		assertEquals (0, featureGamma.getLocationToInt (), "Feature is Hex Side 0 -- Cloned");
 		assertNotEquals (featureDelta, featureGamma, "Feature Delta is Not Feature Gamma");
+		
+		assertFalse (featureAlpha.isOpen ());
 	}
 
 	@Test
