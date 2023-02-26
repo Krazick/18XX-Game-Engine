@@ -1,16 +1,30 @@
 package ge18xx.tiles;
 
+import org.mockito.Mockito;
+
 import ge18xx.game.GameTestFactory;
+import ge18xx.map.Location;
+import ge18xx.map.MapTestFactory;
 import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
 
 public class TilesTestFactory {
 	GameTestFactory gameTestFactory;
 	UtilitiesTestFactory utilitiesTestFactory;
+	MapTestFactory mapTestFactory;
 
 	public TilesTestFactory () {
+		this (MapTestFactory.NO_MAP_TEST_FACTORY);
+	}
+	
+	public TilesTestFactory (MapTestFactory aMapTestFactory) {
 		gameTestFactory = new GameTestFactory ();
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
+		if (aMapTestFactory == MapTestFactory.NO_MAP_TEST_FACTORY) {
+			mapTestFactory = new MapTestFactory ();
+		} else {
+			mapTestFactory = aMapTestFactory;
+		}
 	}
 
 	public Tile buildTile () {
@@ -43,4 +57,108 @@ public class TilesTestFactory {
 		return tTile;
 	}
 
+	public Feature buildFeature () {
+		Feature tFeature;
+		
+		tFeature = new Feature ();
+		
+		return tFeature;
+	}
+	
+	public Feature buildFeature (int aLocation ) {
+		Feature tFeature;
+		
+		tFeature = new Feature (aLocation);
+		
+		return tFeature;
+	}
+	
+	public Feature buildFeature (Location aLocation) {
+		Feature tFeature;
+		
+		tFeature = new Feature (aLocation);
+		
+		return tFeature;
+	}
+	
+	public Feature buildFeatureMock () {
+		Feature mFeature = Mockito.mock (Feature.class);
+
+		Mockito.when (mFeature.getLocation ()).thenReturn (Location.NO_LOC);
+
+		return mFeature;
+	}
+	
+	public Feature buildFeatureMock (int aLocation) {
+		Feature mFeature = Mockito.mock (Feature.class);
+		Location tLocation;
+		
+		tLocation = mapTestFactory.buildLocation (aLocation);
+		Mockito.when (mFeature.getLocation ()).thenReturn (tLocation);
+
+		return mFeature;
+	}
+	
+	public Feature buildFeatureMock (Location aLocation) {
+		Feature mFeature = Mockito.mock (Feature.class);
+
+		Mockito.when (mFeature.getLocation ()).thenReturn (aLocation);
+
+		return mFeature;
+	}
+	
+
+	public Feature buildFeature2 () {
+		Feature2 tFeature2;
+		
+		tFeature2 = new Feature2 ();
+		
+		return tFeature2;
+	}
+	
+	public Feature buildFeature2 (int aLocation1, int aLocation2 ) {
+		Feature2 tFeature2;
+		
+		tFeature2 = new Feature2 (aLocation1, aLocation2);
+		
+		return tFeature2;
+	}
+	
+	public Feature buildFeature2 (Location aLocation1, Location aLocation2) {
+		Feature2 tFeature2;
+		
+		tFeature2 = new Feature2 (aLocation1, aLocation2);
+		
+		return tFeature2;
+	}
+	
+	public Feature buildFeature2Mock () {
+		Feature2 mFeature2 = Mockito.mock (Feature2.class);
+
+		Mockito.when (mFeature2.getLocation ()).thenReturn (Location.NO_LOC);
+
+		return mFeature2;
+	}
+	
+	public Feature buildFeature2Mock (int aLocation1, int aLocation2) {
+		Feature2 mFeature2 = Mockito.mock (Feature2.class);
+		Location tLocation1;
+		Location tLocation2;
+		
+		tLocation1 = mapTestFactory.buildLocation (aLocation1);
+		tLocation2 = mapTestFactory.buildLocation (aLocation2);
+		Mockito.when (mFeature2.getLocation ()).thenReturn (tLocation1);
+		Mockito.when (mFeature2.getLocation2 ()).thenReturn (tLocation2);
+
+		return mFeature2;
+	}
+	
+	public Feature buildFeature2Mock (Location aLocation1, Location aLocation2) {
+		Feature2 mFeature2 = Mockito.mock (Feature2.class);
+
+		Mockito.when (mFeature2.getLocation ()).thenReturn (aLocation1);
+		Mockito.when (mFeature2.getLocation2 ()).thenReturn (aLocation2);
+
+		return mFeature2;
+	}
 }
