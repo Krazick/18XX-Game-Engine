@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.times;
 
 import java.awt.Graphics;
 
@@ -39,17 +40,15 @@ class PrivateRailwayCenterTests {
 	@DisplayName ("Private Railway Center CityInfo Test")
 	void privateRailwayCenterCityInfoTest () {
 		CityInfo mCityInfo;
-
+		CityInfo tNoCityInfo;
 		Graphics mGraphics;
-		int tX, tY, tOrient;
+		int tX;
+		int tY;
+		int tOrient;
 		Hex tHex;
 		boolean tOnTile;
 		Feature2 tFeature;
 
-		mCityInfo = centerTestFactory.buildCityInfoMock ();
-
-		Mockito.doNothing ().when (mCityInfo).drawPrivateRailway (any (Graphics.class), anyInt (), anyInt (),
-				any (ge18xx.map.Hex.class));
 
 		mGraphics = centerTestFactory.buildGraphicsMock ();
 		tX = 10;
@@ -58,12 +57,19 @@ class PrivateRailwayCenterTests {
 		tHex = new Hex ();
 		tOnTile = false;
 		tFeature = new Feature2 ();
-
-		privateRailywayCenter.setCityInfo (mCityInfo);
+		tNoCityInfo = CityInfo.NO_CITY_INFO;
+		privateRailywayCenter.setNoCloneCityInfo (tNoCityInfo);
 
 		privateRailywayCenter.draw (mGraphics, tX, tY, tOrient, tHex, tOnTile, tFeature);
-//		Mockito.verify (mCityInfo, times (1)).drawPrivateRailway (any (Graphics.class), anyInt (), anyInt (),
-//				any (ge18xx.map.Hex.class));
+
+		mCityInfo = centerTestFactory.buildCityInfoMock ();
+		Mockito.doNothing ().when (mCityInfo).drawPrivateRailway (any (Graphics.class), 
+				anyInt (), anyInt (), any (ge18xx.map.Hex.class));
+		privateRailywayCenter.setNoCloneCityInfo (mCityInfo);
+
+		privateRailywayCenter.draw (mGraphics, tX, tY, tOrient, tHex, tOnTile, tFeature);
+		Mockito.verify (mCityInfo, times (1)).drawPrivateRailway (any (Graphics.class), anyInt (), anyInt (),
+				any (ge18xx.map.Hex.class));
 
 	}
 }
