@@ -1,7 +1,5 @@
 package ge18xx.tiles;
 
-import java.awt.Point;
-
 //
 //  Feature2.java
 //  Game_18XX
@@ -11,7 +9,6 @@ import java.awt.Point;
 //
 // Feature that appears on a hex that has two locations associated with it (Track, Private Railway)
 
-import ge18xx.map.Hex;
 import ge18xx.map.Location;
 
 public class Feature2 extends Feature {
@@ -47,10 +44,6 @@ public class Feature2 extends Feature {
 		}
 
 		return tBothLocationsSet;
-	}
-
-	public Point calcCenter2 (Hex aHex) {
-		return location2.calcCenter (aHex);
 	}
 
 	public Location getLocation2 () {
