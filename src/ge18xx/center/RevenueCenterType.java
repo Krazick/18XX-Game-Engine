@@ -257,7 +257,7 @@ public class RevenueCenterType implements Cloneable {
 	}
 
 	public boolean isCity () {
-		if ((type >= SINGLE_CITY) && (type <= DESTINATION_CITY)) {
+		if (((type >= SINGLE_CITY) && (type <= DESTINATION_CITY)) || (type == RUN_THROUGH_CITY)) {
 			return (true);
 		} else {
 			return (false);
