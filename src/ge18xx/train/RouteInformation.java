@@ -1119,9 +1119,11 @@ public class RouteInformation {
 			tRemoveRouteSegmentsAction = new RemoveRouteSegmentsAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 					trainCompany);
 			tRemoveRouteSegmentsAction.addRemoveRouteSegmentEffect (trainCompany, tLastRouteSegmentIndex, trainIndex, aMapCell);
-			
-			if (removeSegment (tLastRouteSegmentIndex)) {
-				tRouteSegmentsRemoved = removeSegmentsBackToJunction (tRemoveRouteSegmentsAction);
+			tRouteSegmentsRemoved = removeSegment (tLastRouteSegmentIndex);
+			if (tRouteSegmentsRemoved) {
+				if (tLastRouteSegment.isStartASide ()) {
+					tRouteSegmentsRemoved = removeSegmentsBackToJunction (tRemoveRouteSegmentsAction);
+				}
 				if (tRouteSegmentsRemoved) {
 						tGameManager = trainCompany.getGameManager ();
 						tGameManager.addAction (tRemoveRouteSegmentsAction);
@@ -1176,26 +1178,31 @@ public class RouteInformation {
 		
 		tLastRouteSegmentIndex = routeSegments.size () - 1;
 		tFoundJunction = false;
-		tRouteSegmentRemoved = false;
-		while ((tLastRouteSegmentIndex > 0) && (tFoundJunction == false)) {
-			tLastRouteSegment = routeSegments.get (tLastRouteSegmentIndex);
-			tStartLocation = tLastRouteSegment.getStartLocation ();
-			tLastMapCell = tLastRouteSegment.getMapCell ();
-			if (tStartLocation.isSide ()) {
-				tTrackCount = tLastMapCell.getTrackCountFromSide (tStartLocation);
-				if (tTrackCount > 1) {
+
+		if (tLastRouteSegmentIndex == 0) {
+			tRouteSegmentRemoved = true;
+		} else {
+			tRouteSegmentRemoved = false;
+			while ((tLastRouteSegmentIndex > 0) && (tFoundJunction == false)) {
+				tLastRouteSegment = routeSegments.get (tLastRouteSegmentIndex);
+				tStartLocation = tLastRouteSegment.getStartLocation ();
+				tLastMapCell = tLastRouteSegment.getMapCell ();
+				if (tStartLocation.isSide ()) {
+					tTrackCount = tLastMapCell.getTrackCountFromSide (tStartLocation);
+					if (tTrackCount > 1) {
+						tFoundJunction = true;
+					}
+				} else {
 					tFoundJunction = true;
 				}
-			} else {
-				tFoundJunction = true;
-			}
-			
-			tRouteSegmentRemoved = removeSegment (tLastRouteSegmentIndex);
-			if (tRouteSegmentRemoved) {
-				aRemoveRouteSegmentsAction.addRemoveRouteSegmentEffect (trainCompany, tLastRouteSegmentIndex, trainIndex, tLastMapCell);
-				tLastRouteSegmentIndex--;
-			} else {
-				tLastRouteSegmentIndex = 0;
+				
+				tRouteSegmentRemoved = removeSegment (tLastRouteSegmentIndex);
+				if (tRouteSegmentRemoved) {
+					aRemoveRouteSegmentsAction.addRemoveRouteSegmentEffect (trainCompany, tLastRouteSegmentIndex, trainIndex, tLastMapCell);
+					tLastRouteSegmentIndex--;
+				} else {
+					tLastRouteSegmentIndex = 0;
+				}
 			}
 		}
 		
