@@ -10,29 +10,30 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.TrainCompany;
 import ge18xx.player.Portfolio;
+import ge18xx.train.TrainPortfolio;
 
 public class AllCorporationsPanel extends ListenerPanel {
-
+	private static final String NAME = "All Corporations";
 	private static final long serialVersionUID = 1L;
 //	private static final String ALL_CORPORATIONS_JPANEL_LABEL = "All Corporations Information";
 
 	public AllCorporationsPanel (RoundManager aRoundManager) {
-		super (aRoundManager);
+		super (aRoundManager, NAME);
 		buildAllCorporationsJPanel ();
 	}
 
 	public AllCorporationsPanel (LayoutManager layout, RoundManager aRoundManager) {
-		super (layout, aRoundManager);
+		super (layout, aRoundManager, NAME);
 		buildAllCorporationsJPanel ();
 	}
 
 	public AllCorporationsPanel (boolean isDoubleBuffered, RoundManager aRoundManager) {
-		super (isDoubleBuffered, aRoundManager);
+		super (isDoubleBuffered, aRoundManager, NAME);
 		buildAllCorporationsJPanel ();
 	}
 
 	public AllCorporationsPanel (LayoutManager layout, boolean isDoubleBuffered, RoundManager aRoundManager) {
-		super (layout, isDoubleBuffered, aRoundManager);
+		super (layout, isDoubleBuffered, aRoundManager, NAME);
 		buildAllCorporationsJPanel ();
 	}
 
@@ -47,9 +48,11 @@ public class AllCorporationsPanel extends ListenerPanel {
 		boolean tListenersAdded;
 		
 		addMessage (Corporation.CORPORATION_STATUS_CHANGE);
-		addMessage (TrainCompany.CASH_TRANSFER);
+		addMessage (TrainCompany.CORPORATION_CASH_CHANGED);
 		addMessage (Portfolio.CERTIFICATE_ADDED);
 		addMessage (Portfolio.CERTIFICATE_REMOVED);
+		addMessage (TrainPortfolio.ADDED_TRAIN);
+		addMessage (TrainPortfolio.REMOVED_TRAIN);
 		tListenersAdded = true;
 		
 		tCorporationList = roundManager.getShareCompanies ();
