@@ -46,6 +46,7 @@ public class Market extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	public final static ElementName EN_MARKET = new ElementName ("Market");
 	public final static MarketCell [] [] NO_MARKET_CELLS = null;
 	public final static Market NO_MARKET = null;
+	public final static String MARKET_CELL_ADJUSTMENT = "Market Cell Adjustment";
 
 	MarketCell market[][];
 	GameManager gameManager;
