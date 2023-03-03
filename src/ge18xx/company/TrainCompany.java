@@ -67,7 +67,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	static final AttributeName AN_COST = new AttributeName ("cost");
 	static final AttributeName AN_MUST_BUY_TRAIN = new AttributeName ("mustBuyTrain");
 	public static final String LAST_TRAIN_BOUGHT = "LAST TRAIN BOUGHT";
-	public static final String CASH_TRANSFER = "CASH TRANSFER";
+	public static final String DIVIDENDS_HANDLED = "DIVIDENDS HAVE BEEN HANDLED";
 	public static final String BUY_LABEL = "Buy";
 	public final static String NO_MONEY = "No money in the Treasury.";
 	public final static String REVENUES_NOT_GENERATED = "Train Revenues have not been generated yet.";
@@ -316,7 +316,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	@Override
 	public void addCash (int aAmount) {
 		treasury += aAmount;
-		updateListeners (CASH_TRANSFER);
+		updateListeners (CORPORATION_CASH_CHANGED + " by " + aAmount);
 	}
 
 	public void setTreasury (int aCash) {
@@ -1483,16 +1483,16 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public void payNoDividend () {
+		boolean tStatusUpdated;
 		int tRevenueGenerated;
-		PayNoDividendAction tPayNoDividendAction;
 		String tOperatingRoundID;
 		ShareCompany tShareCompany;
 		Bank tBank;
 		OperatingRound tOperatingRound;
-		boolean tStatusUpdated;
 		ActorI.ActionStates tCurrentStatus;
 		ActorI.ActionStates tNewStatus;
-
+		PayNoDividendAction tPayNoDividendAction;
+		
 		tRevenueGenerated = 0;
 		if (thisRevenue != NO_REVENUE_GENERATED) {
 			tRevenueGenerated = thisRevenue;
@@ -1534,6 +1534,11 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 
+	@Override
+	public void payHalfDividend () {
+		// TODO -- Implement Half Pay Dividend for 1870 GITHUB Issue GE # 169
+	}
+	
 	@Override
 	public void payFullDividend () {
 		int tRevenueGenerated;
