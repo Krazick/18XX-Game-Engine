@@ -19,6 +19,7 @@ import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 
 public class ParPricesPanel extends ListenerPanel {
+	private static final String NAME = "Par Prices";
 	private static final long serialVersionUID = 1L;
 	private static final String PAR_PRICES_LABEL = "Par Prices";
 	List<JLabel> parPrices = new LinkedList<JLabel> ();
@@ -26,22 +27,22 @@ public class ParPricesPanel extends ListenerPanel {
 	List<JPanel> parPriceLineJPanels = new LinkedList<JPanel> ();
 	
 	public ParPricesPanel (RoundManager aRoundManager) {
-		super (aRoundManager);
+		super (aRoundManager, NAME);
 		buildParPrices ();
 	}
 
 	public ParPricesPanel (LayoutManager layout, RoundManager aRoundManager) {
-		super (layout, aRoundManager);
+		super (layout, aRoundManager, NAME);
 		buildParPrices ();
 	}
 
 	public ParPricesPanel (boolean isDoubleBuffered, RoundManager aRoundManager) {
-		super (isDoubleBuffered, aRoundManager);
+		super (isDoubleBuffered, aRoundManager, NAME);
 		buildParPrices ();
 	}
 
 	public ParPricesPanel (LayoutManager layout, boolean isDoubleBuffered, RoundManager aRoundManager) {
-		super (layout, isDoubleBuffered, aRoundManager);
+		super (layout, isDoubleBuffered, aRoundManager, NAME);
 		buildParPrices ();
 	}
 

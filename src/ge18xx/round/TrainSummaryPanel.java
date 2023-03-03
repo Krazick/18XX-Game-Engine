@@ -15,28 +15,28 @@ import ge18xx.utilities.GUI;
 import ge18xx.utilities.MessageBean;
 
 public class TrainSummaryPanel extends ListenerPanel {
-
+	private static final String NAME = "Train Summary";
 	private static final long serialVersionUID = 1L;
 	private static final String TRAIN_SUMMARY_LABEL = "Train Summary";
 	private JTextArea trainSummary;
 	
 	public TrainSummaryPanel (RoundManager aRoundManager) {
-		super (aRoundManager);
+		super (aRoundManager, NAME);
 		buildTrainSummary ();
 	}
 
 	public TrainSummaryPanel (LayoutManager aLayout, RoundManager aRoundManager) {
-		super (aLayout, aRoundManager);
+		super (aLayout, aRoundManager, NAME);
 		buildTrainSummary ();
 	}
 
 	public TrainSummaryPanel (boolean aIsDoubleBuffered, RoundManager aRoundManager) {
-		super (aIsDoubleBuffered, aRoundManager);
+		super (aIsDoubleBuffered, aRoundManager, NAME);
 		buildTrainSummary ();
 	}
 
 	public TrainSummaryPanel (LayoutManager aLayout, boolean aIsDoubleBuffered, RoundManager aRoundManager) {
-		super (aLayout, aIsDoubleBuffered, aRoundManager);
+		super (aLayout, aIsDoubleBuffered, aRoundManager, NAME);
 		buildTrainSummary ();
 	}
 
