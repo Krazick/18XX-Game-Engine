@@ -75,7 +75,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	final static AttributeName AN_BOUGHT_SHARE = new AttributeName ("boughtShare");
 	final static AttributeName AN_BID_SHARE = new AttributeName ("bidShare");
 	final static AttributeName AN_TRIGGERED_AUCTION = new AttributeName ("triggeredAuction");
-	public static final String PLAYER_CHANGED = "Player Changed";
 	public static final String SELL_LABEL = "Sell";
 	public static final String BUY_LABEL = "Buy";
 	public static final String BUY_AT_PAR_LABEL = "Buy at Par";
@@ -275,14 +274,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void addCash (int aAmount) {
 		treasury += aAmount;
 		playerFrame.setCashLabel ();
-		updateListeners (PLAYER_CHANGED + " - CASH");
+		updateListeners (PLAYER_CASH_CHANGED + " by " + aAmount);
 	}
 
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
 		playerFrame.updateCertificateInfo ();
-		updateListeners (PLAYER_CHANGED + " - PORTFOLIO");
+		updateListeners (PLAYER_PORTFOLIO_CHANGED + " by adding " + aCertificate.getCompanyAbbrev ());
 	}
 
 	public void bringPlayerFrameToFront () {
@@ -1235,7 +1234,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void bidAction () {
 		playerManager.bidAction (this);
-		updateListeners (PLAYER_CHANGED + " - BID");
+		updateListeners (PLAYER_BID_CHANGED );
 	}
 
 	// TODO: Move the BuyAction Methods over the Player Manager
@@ -1268,7 +1267,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			}
 		}
 		playerFrame.updateButtons ();
-		updateListeners (PLAYER_CHANGED + " - BOUGHT");
+		updateListeners (PLAYER_PORTFOLIO_CHANGED + " - BOUGHT");
 	}
 
 	public boolean confirmBuyShareAction () {
@@ -1331,23 +1330,23 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void doneAction () {
 		playerManager.doneAction (this);
-		updateListeners (PLAYER_CHANGED + " - DONE");
+		updateListeners (PLAYER_STATUS_CHANGED + " - DONE");
 		hidePlayerFrame ();
 	}
 
 	public void exchangeAction () {
 		playerManager.exchangeAction (this);
-		updateListeners (PLAYER_CHANGED + " - EXCHANGED");
+		updateListeners (PLAYER_PORTFOLIO_CHANGED + " - EXCHANGED");
 	}
 
 	public void exchangeCertificate (Certificate aCertificate) {
 		playerManager.exchangeCertificate (this, aCertificate);
-		updateListeners (PLAYER_CHANGED + " - EXCHANGED");
+		updateListeners (PLAYER_PORTFOLIO_CHANGED + " - EXCHANGED");
 	}
 
 	public void sellAction () {
 		playerManager.sellAction (this);
-		updateListeners (PLAYER_CHANGED + " - SOLD");
+		updateListeners (PLAYER_PORTFOLIO_CHANGED + " - SOLD");
 	}
 
 	public void undoAction () {
@@ -1358,12 +1357,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerManager.resetRoundFrameBackgrounds ();
 		playerManager.passAction (this);
 		hidePlayerFrame ();
-		updateListeners (PLAYER_CHANGED + " - PASSED");
+		updateListeners (PLAYER_STATUS_CHANGED + " - PASSED");
 	}
 
 	public void passAuctionAction () {
 		playerManager.passAuctionAction (this);
-		updateListeners (PLAYER_CHANGED + " - PASSED AUCTION");
+		updateListeners (PLAYER_STATUS_CHANGED + " - PASSED AUCTION");
 	}
 
 	public boolean passes () {
@@ -1785,6 +1784,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	
 	@Override
 	public void updateListeners (String aMessage) {
-		bean.setMessage (aMessage);
+		bean.addMessage (aMessage);
 	}
 }
