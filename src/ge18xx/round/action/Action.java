@@ -422,8 +422,12 @@ public class Action {
 		boolean tEffectApplied;
 		String tErrorReport;
 		String tApplyFailureReason;
+		GameManager tGameManager;
 
 		tActionApplied = true;
+		tGameManager = aRoundManager.getGameManager ();
+		tGameManager.activateAllBeans (false);
+		System.out.println ("Ready to apply Action " + getSimpleActionReport ());
 		for (Effect tEffect : effects) {
 			tEffectApplied = tEffect.applyEffect (aRoundManager);
 			tActionApplied &= tEffectApplied;
@@ -435,7 +439,8 @@ public class Action {
 				aRoundManager.appendErrorReport (tApplyFailureReason);
 			}
 		}
-
+		tGameManager.activateAllBeans (false);
+		tGameManager.sendAllBeanMessages ();
 		aRoundManager.updateAllCorporationsBox ();
 		if (! tActionApplied) {
 			System.err.println ("Applied All Effects " + tActionApplied);
