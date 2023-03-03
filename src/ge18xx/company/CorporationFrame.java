@@ -22,7 +22,6 @@ import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
-import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.game.ButtonsInfoFrame;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -465,7 +464,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 		if (PAY_HALF_DIVIDEND.equals (tCommand)) {
 			System.out.println ("Pay Half Dividend Action");
-//			corporation.payHalfDividend ();
+			corporation.payHalfDividend ();
 		}
 		if (PAY_FULL_DIVIDEND.equals (tCommand)) {
 			corporation.payFullDividend ();
@@ -1262,16 +1261,29 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		TokenCompany tTokenCompany;
 		String tDisableToolTipReason;
 		String tPlaceTokenText;
-		MapCell tMapCell;
-		int tCost;
+		int tTokenCost;
+		int tTokenCount;
 		MapToken tMapToken;
 
 		tPlaceTokenText = PLACE_TOKEN;
+		tTokenCount = corporation.getTokenCount ();
+		if (tTokenCount > 0) {
+			if (corporation.isATokenCompany ()) {
+				tTokenCompany = (TokenCompany) corporation;
+				tMapToken = tTokenCompany.getMapTokenOnly (); 
+				tTokenCost = tMapToken.getCost ();
+				if (tTokenCost > 0) {
+					tPlaceTokenText +=  " for " + Bank.formatCash (tTokenCost);
+				}
+			}
+		} else {
+			tPlaceTokenText = NO_TOKENS;
+		}
+		placeTokenButton.setText (tPlaceTokenText);
 		if (corporation.canLayToken ()) {
 			placeTokenButton.setEnabled (true);
 			if (corporation.haveLaidAllBaseTokens ()) {
-				if (corporation.getTokenCount () == 0) {
-					tPlaceTokenText = NO_TOKENS;
+				if (tTokenCount == 0) {
 					updateButton (placeTokenButton, false, NO_TOKENS_AVAILABLE);
 				} else if (corporation.isPlaceTileMode ()) {
 					updateButton (placeTokenButton, false, IN_PLACE_TILE_MODE);
@@ -1283,25 +1295,13 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 					tDisableToolTipReason = corporation.reasonForNoTokenLay ();
 					updateButton (placeTokenButton, false, tDisableToolTipReason);
 				}
-				placeTokenButton.setText (tPlaceTokenText);
 			} else {
 				updateButton (placeTokenButton, false, "Have not placed Base Token yet");
 			}
 		} else {
-			placeTokenButton.setText (tPlaceTokenText);
 			placeTokenButton.setEnabled (false);
 			tDisableToolTipReason = corporation.reasonForNoTokenLay ();
 			placeTokenButton.setToolTipText (tDisableToolTipReason);
-		}
-
-		if (corporation.getTokenCount () > 0) {
-			if (corporation.isATokenCompany ()) {
-				tTokenCompany = (TokenCompany) corporation;
-				tMapToken = tTokenCompany.getMapTokenOnly ();
-				tMapCell = MapCell.NO_MAP_CELL;
-				tCost = tTokenCompany.getTokenCost (tMapToken, TokenType.MAP, tMapCell); 
-				placeTokenButton.setText (PLACE_TOKEN + " for " + Bank.formatCash (tCost));
-			}
 		}
 	}
 
