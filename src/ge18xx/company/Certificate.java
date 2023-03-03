@@ -1748,10 +1748,6 @@ public class Certificate implements Comparable<Certificate> {
 	public boolean isLoading () {
 		return corporation.isLoading ();
 	}
-
-	public void updateListeners (String aMessage) {
-		corporation.updateListeners (aMessage);
-	}
 	
 	/**
 	 * Compare the Percentage of this Certificate with the Certificate Passed In.
