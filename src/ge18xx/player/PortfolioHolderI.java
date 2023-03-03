@@ -9,7 +9,8 @@ import ge18xx.round.action.ActorI;
 public interface PortfolioHolderI extends ActorI {
 
 	public final static PortfolioHolderI NO_HOLDER = null;
-
+	public static final String PLAYER_PORTFOLIO_CHANGED = "Player Portfolio Changed ";
+	
 	Portfolio portfolio = new Portfolio ();
 
 	public void addCertificate (Certificate aCertificate);
@@ -49,4 +50,6 @@ public interface PortfolioHolderI extends ActorI {
 
 	@Override
 	public String getAbbrev ();
+
+	public void updateListeners (String aMessage);
 }
