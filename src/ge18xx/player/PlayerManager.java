@@ -103,6 +103,12 @@ public class PlayerManager {
 		}
 	}
 	
+	public void updatePlayerListeners (String aMessage) {
+		for (Player tPlayer : players) {
+			tPlayer.updateListeners (aMessage);
+		}
+	}
+
 	public void clearJustBoughtForAllPlayers () {
 		for (Player tPlayer : players) {
 			tPlayer.clearJustBoughtForAllCerts ();
