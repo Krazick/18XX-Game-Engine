@@ -327,6 +327,10 @@ public class RoundManager implements ActionListener {
 	public ActionManager getActionManager () {
 		return actionManager;
 	}
+	
+	public void updatePlayerListeners (String aMessage) {
+		playerManager.updatePlayerListeners (aMessage);
+	}
 
 	public ActorI getActor (String aActorName) {
 		ActorI tActor;
