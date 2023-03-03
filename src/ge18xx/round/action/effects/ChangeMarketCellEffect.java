@@ -181,6 +181,7 @@ public class ChangeMarketCellEffect extends Effect {
 				tNewCell.addTokenToLocation (newLocation, tToken);
 			}
 			tNewCell.redrawMarket ();
+			aRoundManager.updatePlayerListeners (Market.MARKET_CELL_ADJUSTMENT);
 		}
 
 		return tEffectApplied;
