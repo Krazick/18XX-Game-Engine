@@ -20,29 +20,40 @@ public abstract class ListenerPanel extends JPanel implements PropertyChangeList
 	RoundManager roundManager;
 	List<String> messages;
 	boolean listen;
+	String panelName;
 
-	public ListenerPanel (RoundManager aRoundManager) {
+	public ListenerPanel (RoundManager aRoundManager, String aPanelName) {
 		super ();
 		setRoundManager (aRoundManager);
 		messages = new LinkedList<String> ();
+		setPanelName (aPanelName);
 	}
-
-	public ListenerPanel (LayoutManager aLayout, RoundManager aRoundManager) {
+	
+	public ListenerPanel (LayoutManager aLayout, RoundManager aRoundManager, String aPanelName) {
 		super (aLayout);
 		setRoundManager (aRoundManager);
 		messages = new LinkedList<String> ();
+		setPanelName (aPanelName);
 	}
 
-	public ListenerPanel (boolean aIsDoubleBuffered, RoundManager aRoundManager) {
+	public ListenerPanel (boolean aIsDoubleBuffered, RoundManager aRoundManager, 
+						String aPanelName) {
 		super (aIsDoubleBuffered);
 		setRoundManager (aRoundManager);
 		messages = new LinkedList<String> ();
+		setPanelName (aPanelName);
 	}
 
-	public ListenerPanel (LayoutManager aLayout, boolean aIsDoubleBuffered, RoundManager aRoundManager) {
+	public ListenerPanel (LayoutManager aLayout, boolean aIsDoubleBuffered, 
+						RoundManager aRoundManager, String aPanelName) {
 		super (aLayout, aIsDoubleBuffered);
 		setRoundManager (aRoundManager);
 		messages = new LinkedList<String> ();
+		setPanelName (aPanelName);
+	}
+
+	private void setPanelName (String aName) {
+		panelName = aName;
 	}
 
 	private void setRoundManager (RoundManager aRoundManager) {
@@ -71,25 +82,40 @@ public abstract class ListenerPanel extends JPanel implements PropertyChangeList
 		String tMessage;
 		Object tSource;
 		MessageBean tMessageBean;
+		boolean tUpdatePanel;
+		int tMessageCount;
+		int tMessageIndex;
 		
 //		System.out.println ("Property Change Method Called with Event. Listening " + listen);
+		// Update routine to look at all messages, and any that should trigger an update 
+		// will then set the (new) 'tUpdatePanel' flag as true.
+		// After the loop through all messages, if the flag is true, trigger the updatePanel call.
+		
+		tUpdatePanel = false;
 		if (listen) {
 			tSource = aEvent.getSource ();
 			if (tSource instanceof MessageBean) {
 				tMessageBean = (MessageBean) tSource;
-				tMessage = tMessageBean.getMessage ();
-//				System.out.println ("Message sent is " + tMessage);
-				for (String tValidMessage : messages) {
-					if (tMessage.equals (tValidMessage)) {
-						updatePanel ();
-					} else if (tMessage.startsWith (tValidMessage)) {
-						updatePanel ();
+				tMessageCount = tMessageBean.getMessageCount ();
+				for (tMessageIndex = 0; tMessageIndex < tMessageCount; tMessageIndex++) {
+					tMessage = tMessageBean.getMessageAt (tMessageIndex);
+					System.out.println ("Message sent to " + panelName + " is " + tMessage);
+					for (String tValidMessage : messages) {
+						if (tMessage.equals (tValidMessage)) {
+							tUpdatePanel = true;
+						} else if (tMessage.startsWith (tValidMessage)) {
+							tUpdatePanel = true;
+						}
 					}
+					
 				}
 			}
 		}
 
-		updatePanel ();
+		if (tUpdatePanel) {
+			System.out.println ("Updating " + panelName + " Panel");
+			updatePanel ();
+		}
 	}
 
 	protected abstract void updatePanel ();
