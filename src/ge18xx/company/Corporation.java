@@ -1531,6 +1531,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Train Company will override
+	public void payHalfDividend () {
+		System.err.println ("Trying to -PAY HALF DIVIDEND- Should be handled by Train Company");
+	}
+
+	// Train Company will override
 	public void payNoDividend () {
 		System.err.println ("Trying to -PAY NO DIVIDEND- Should be handled by Train Company");
 	}
@@ -2652,8 +2657,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tLastAction;
 	}
 
+	@Override
 	public void updateListeners (String aMessage) {
-		bean.setMessage (aMessage);
+		bean.addMessage (aMessage);
 	}
 
 	@Override
