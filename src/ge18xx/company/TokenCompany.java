@@ -237,14 +237,23 @@ public abstract class TokenCompany extends TrainCompany {
 		return tCanLayToken;
 	}
 
+	public int getTokenCost () {
+		MapToken tMapToken;
+		MapCell tMapCell;
+		int tTokenCost;
+		
+		tMapToken = getMapTokenOnly ();
+		tMapCell = MapCell.NO_MAP_CELL;
+		tTokenCost = getTokenCost (tMapToken, TokenType.MAP, tMapCell); 
+		
+		return tTokenCost;
+	}
+	
 	@Override
 	public String reasonForNoTokenLay () {
 		String tReason;
 
 		tReason = NO_REASON;
-		if (status == ActorI.ActionStates.OperatedTrain) {
-			tReason = "Already Operated Train";
-		}
 		if (getTokenCount () == 0) {
 			tReason = "No Available Tokens to Lay";
 		} else if (!haveMoneyForToken ()) {
@@ -379,7 +388,7 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 
 	/**
-	 * Retrieve the next available Token that is a MapToken
+	 * Retrieve the next available Token that is a MapToken and set as Used
 	 * 
 	 * @return The first available Map Token
 	 * 
@@ -738,7 +747,8 @@ public abstract class TokenCompany extends TrainCompany {
 			tTokenCost = getNonHomeTokenCost (aMapToken);
 		}
 
-		// Also note, some games may vary token cost on Distance from Home Station
+		// Also note, some games may vary token cost on Distance from Home Station like 1835.
+		// This is if the a RANGED COST
 
 		return tTokenCost;
 	}

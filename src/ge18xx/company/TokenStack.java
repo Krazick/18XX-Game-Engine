@@ -3,6 +3,9 @@ package ge18xx.company;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
+import ge18xx.game.GameManager;
+import ge18xx.market.Market;
+
 //
 //  TokenStack.java
 //  Game_18XX
@@ -177,6 +180,7 @@ public class TokenStack {
 			MarketCell aNewMarketCell) {
 		String tCompanyAbbrev;
 		Token tToken;
+		GameManager tGameManager;
 
 		tCompanyAbbrev = aShareCompany.getAbbrev ();
 		aShareCompany.setSharePrice (aNewMarketCell);
@@ -185,6 +189,8 @@ public class TokenStack {
 			aNewMarketCell.addTokenToBottom (tToken);
 		}
 		aNewMarketCell.redrawMarket ();
+		tGameManager = aShareCompany.getGameManager ();
+		tGameManager.updatePlayerListeners (Market.MARKET_CELL_ADJUSTMENT);
 	}
 
 	public void drawStack (Graphics g, int x1, int y1, int width, int height) {
