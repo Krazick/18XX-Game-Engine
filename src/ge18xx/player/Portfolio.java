@@ -96,7 +96,7 @@ public class Portfolio implements CertificateHolderI {
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		aCertificate.setOwner (this);
-		aCertificate.updateListeners (CERTIFICATE_ADDED);
+		holder.updateListeners (CERTIFICATE_ADDED + " to " + holder.getName ());
 		certificates.add (aCertificate);
 		Collections.sort (certificates);
 	}
@@ -552,18 +552,22 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public Certificate getCertificateFor (Corporation aCorporation, boolean aRemove) {
-		Certificate tCertificate, tPortfolioCertificate;
-		int tIndex, tCertificateCount;
+		Certificate tCertificate;
+		Certificate tPortfolioCertificate;
+		int tIndex;
+		int tCertificateCount;
 
 		tCertificate = Certificate.NO_CERTIFICATE;
 		tCertificateCount = certificates.size ();
-		for (tIndex = 0; (tIndex < tCertificateCount) && (tCertificate == Certificate.NO_CERTIFICATE); tIndex++) {
+		for (tIndex = 0; 
+			(tIndex < tCertificateCount) && (tCertificate == Certificate.NO_CERTIFICATE); 
+			tIndex++) {
 			tPortfolioCertificate = certificates.get (tIndex);
 			if (tPortfolioCertificate.isForThis (aCorporation)) {
 				tCertificate = tPortfolioCertificate;
 				if (aRemove) {
 					certificates.remove (tIndex);
-					tCertificate.updateListeners (CERTIFICATE_REMOVED);
+					holder.updateListeners (CERTIFICATE_REMOVED + " from " + holder.getName ());
 				}
 			}
 		}
@@ -1332,7 +1336,7 @@ public class Portfolio implements CertificateHolderI {
 			if (tPortfolioCertificate == aCertificate) {
 				tCertificate = tPortfolioCertificate;
 				certificates.remove (tIndex);
-				tCertificate.updateListeners (CERTIFICATE_REMOVED);
+				holder.updateListeners (CERTIFICATE_REMOVED + " from " + holder.getName ());
 			}
 		}
 
@@ -1738,11 +1742,12 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public boolean transferOneCertificateOwnership (Portfolio aFromPortfolio, Certificate aCertificate) {
+		Certificate tThisCertificate;
+		Certificate tCertificate;
 		boolean tTransferGood;
-		Certificate tThisCertificate, tCertificate;
+		boolean tIsPresident;
 		String tCompanyAbbrev;
 		int tPercentage;
-		boolean tIsPresident;
 
 		tTransferGood = false;
 		if (aFromPortfolio != NO_PORTFOLIO) {
