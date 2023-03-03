@@ -88,7 +88,7 @@ public class TrainPortfolio implements TrainHolderI {
 	public void addTrain (Train aTrain) {
 		trains.add (aTrain);
 		Collections.sort (trains);
-		portfolioHolder.updateListeners (ADDED_TRAIN);
+		portfolioHolder.updateListeners (ADDED_TRAIN + " to " + portfolioHolder.getName ());
 	}
 
 	public FrameButton getFrameButtonAt (int aIndex) {
@@ -716,7 +716,7 @@ public class TrainPortfolio implements TrainHolderI {
 					if (!(tTrain.isUnlimitedQuantity ())) {
 						trains.remove (tIndex);
 						tTrainRemoved = true;
-						portfolioHolder.updateListeners (REMOVED_TRAIN);
+						portfolioHolder.updateListeners (REMOVED_TRAIN + " from " + portfolioHolder.getName ());
 					}
 				}
 			}
