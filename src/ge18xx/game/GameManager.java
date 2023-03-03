@@ -1244,7 +1244,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void activateCommunications () {
 		setNotifyNetwork (true);
 		roundManager.setListenerPanels (true);
-		activateAllBeans ();
+		activateAllBeans (true);
 	}
 
 	public void removeInactiveCompanies () {
@@ -1336,12 +1336,18 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 	
-	private void activateAllBeans () {
+	public void activateAllBeans (boolean aActiveFlag) {
 		for (MessageBean tBean : allBeans) {
-			tBean.setActive (true);
+			tBean.setActive (aActiveFlag);
 		}
 	}
 	
+	public void sendAllBeanMessages () {
+		for (MessageBean tBean : allBeans) {
+			tBean.sendMessages ();
+		}
+	}
+
 	private void setBank (int aInitialTreasury) {
 		bank = new Bank (aInitialTreasury, this);
 	}
@@ -2067,6 +2073,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
+	public void updatePlayerListeners (String aMessage) {
+		playerManager.updatePlayerListeners (aMessage);
+	}
+	
 	public void showCities () {
 		citiesFrame.showFrame ();
 	}
