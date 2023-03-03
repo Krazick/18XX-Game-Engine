@@ -9,31 +9,32 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import ge18xx.player.Player;
+import ge18xx.player.Portfolio;
 import ge18xx.utilities.MessageBean;
 
 public class PlayersInfoPanel extends ListenerPanel{
-
+	private static final String NAME = "Players Info";
 	private static final long serialVersionUID = 1L;
 	private static final String PLAYER_JPANEL_LABEL = "Player Information";
 	RoundFrame roundFrame;
 	
 	public PlayersInfoPanel (RoundManager aRoundManager) {
-		super (aRoundManager);
+		super (aRoundManager, NAME);
 		buildPlayersJPanel ();
 	}
 
 	public PlayersInfoPanel (LayoutManager layout, RoundManager aRoundManager) {
-		super (layout, aRoundManager);
+		super (layout, aRoundManager, NAME);
 		buildPlayersJPanel ();
 	}
 
 	public PlayersInfoPanel (boolean isDoubleBuffered, RoundManager aRoundManager) {
-		super (isDoubleBuffered, aRoundManager);
+		super (isDoubleBuffered, aRoundManager, NAME);
 		buildPlayersJPanel ();
 	}
 
 	public PlayersInfoPanel (LayoutManager layout, boolean isDoubleBuffered, RoundManager aRoundManager) {
-		super (layout, isDoubleBuffered, aRoundManager);
+		super (layout, isDoubleBuffered, aRoundManager, NAME);
 		buildPlayersJPanel ();
 	}
 
@@ -68,7 +69,11 @@ public class PlayersInfoPanel extends ListenerPanel{
 		int tIndex;
 		MessageBean tPlayerBean;
 
-		addMessage (Player.PLAYER_CHANGED);
+		addMessage (Player.PLAYER_CASH_CHANGED);
+		addMessage (Player.PLAYER_BID_CHANGED);
+		addMessage (Player.PLAYER_STATUS_CHANGED);
+		addMessage (Portfolio.CERTIFICATE_ADDED);
+		addMessage (Portfolio.CERTIFICATE_REMOVED);
 		tStockRound = roundManager.getStockRound ();
 		tPlayerCount = tStockRound.getPlayerCount ();
 		for (tIndex = 0; tIndex < tPlayerCount; tIndex++) {
