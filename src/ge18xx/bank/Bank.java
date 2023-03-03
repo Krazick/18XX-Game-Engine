@@ -132,6 +132,7 @@ public class Bank extends GameBank implements CashHolderI {
 				gameManager.updateRoundFrame ();
 			}
 		}
+		updateListeners (BANK_CASH_CHANGED + " by " + aAmount);
 	}
 
 	public void addClosedCertificate (Certificate aCertificate) {

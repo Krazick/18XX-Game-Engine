@@ -340,8 +340,9 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		return tRemovedTrain;
 	}
 
-	protected void updateListeners (String aMessage) {
-		bean.setMessage (aMessage);
+	@Override
+	public void updateListeners (String aMessage) {
+		bean.addMessage (aMessage);
 	}
 	
 	public void setPortfolio (Portfolio aPortfolio) {
