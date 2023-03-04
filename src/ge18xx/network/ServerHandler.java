@@ -63,8 +63,7 @@ public abstract class ServerHandler implements Runnable {
 			// Connect to socket by host, port, and with specified timeout.
 			setHost (aHost);
 			setPort (aPort);
-			establishSocketConnection ();
-			tContinueRunning = true;
+			tContinueRunning = establishSocketConnection ();
 		} catch (UnknownHostException tException) {
 			log ("Unkown Host Exception thrown when creating Socket to Server", tException);
 		} catch (ConnectException tException) {
@@ -82,6 +81,7 @@ public abstract class ServerHandler implements Runnable {
 
 	boolean establishSocketConnection () throws UnknownHostException, IOException, SocketException, ConnectException {
 		InetAddress tIPAddress;
+		boolean tGoodConnection;
 
 		Socket tSocket = new Socket ();
 		tIPAddress = InetAddress.getByName (host);
@@ -90,8 +90,9 @@ public abstract class ServerHandler implements Runnable {
 		logger.info ("Socket Connection Established");
 		tSocket.setKeepAlive (true);
 		setValues (tSocket);
+		tGoodConnection = true;
 
-		return true;
+		return tGoodConnection;
 	}
 
 	protected void setContinueRunning (boolean aContinueRunning) {
