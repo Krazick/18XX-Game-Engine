@@ -99,7 +99,6 @@ public abstract class ListenerPanel extends JPanel implements PropertyChangeList
 				tMessageCount = tMessageBean.getMessageCount ();
 				for (tMessageIndex = 0; tMessageIndex < tMessageCount; tMessageIndex++) {
 					tMessage = tMessageBean.getMessageAt (tMessageIndex);
-					System.out.println ("Message sent to " + panelName + " is " + tMessage);
 					for (String tValidMessage : messages) {
 						if (tMessage.equals (tValidMessage)) {
 							tUpdatePanel = true;
@@ -113,7 +112,6 @@ public abstract class ListenerPanel extends JPanel implements PropertyChangeList
 		}
 
 		if (tUpdatePanel) {
-			System.out.println ("Updating " + panelName + " Panel");
 			updatePanel ();
 		}
 	}

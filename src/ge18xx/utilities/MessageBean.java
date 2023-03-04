@@ -9,7 +9,6 @@ public class MessageBean {
 	public final static MessageBean NO_BEAN = null;
 	private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 	private String oldMessage;
-	private String message; // the bean  property
 	private List<String> messages;
 	private boolean active;
 	int index;
@@ -40,6 +39,7 @@ public class MessageBean {
 	}
 	
 	public void flushMessages () {
+		System.out.println ("Clearing out " + getMessageCount ());
 		messages.clear ();
 	}
 	
@@ -49,10 +49,6 @@ public class MessageBean {
 	
 	public void removePropertyChangeListener (PropertyChangeListener aListener) {
 	    support.removePropertyChangeListener (aListener);
-	}
-	
-	public String getMessage () {
-	    return message;
 	}
 	
 	public void setOldMessage (String aOldMessage) {
@@ -78,11 +74,10 @@ public class MessageBean {
 	public void sendMessages  () {
 		String tOldMessage;
 		
-		System.out.println ("Send Bean Messages Count " + messages.size ());
+//		System.out.println ("Send Bean Messages Count " + messages.size () +  messages.toString ());
 		if (active) {
 			tOldMessage = oldMessage;
 			for (String tNewMessage : messages) {
-				System.out.println ("Message [" + tNewMessage);
 			    // The parameter values of firePropertyChange method
 			    // constitute the PropertyChangeEvent object
 			    support.firePropertyChange ("message " + index, tOldMessage, tNewMessage);
