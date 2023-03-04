@@ -427,7 +427,6 @@ public class Action {
 		tActionApplied = true;
 		tGameManager = aRoundManager.getGameManager ();
 		tGameManager.activateAllBeans (false);
-		System.out.println ("Ready to apply Action " + getSimpleActionReport ());
 		for (Effect tEffect : effects) {
 			tEffectApplied = tEffect.applyEffect (aRoundManager);
 			tActionApplied &= tEffectApplied;
