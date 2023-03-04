@@ -1245,6 +1245,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		setNotifyNetwork (true);
 		roundManager.setListenerPanels (true);
 		activateAllBeans (true);
+		flushAllBeanMessages ();
 	}
 
 	public void removeInactiveCompanies () {
@@ -1339,6 +1340,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public void activateAllBeans (boolean aActiveFlag) {
 		for (MessageBean tBean : allBeans) {
 			tBean.setActive (aActiveFlag);
+		}
+	}
+	
+	public void flushAllBeanMessages () {
+		for (MessageBean tBean : allBeans) {
+			tBean.flushMessages ();
 		}
 	}
 	
