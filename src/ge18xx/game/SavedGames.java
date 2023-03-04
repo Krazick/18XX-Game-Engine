@@ -2,11 +2,13 @@ package ge18xx.game;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.regex.Pattern;
 
 import ge18xx.network.JGameClient;
 
-public class SavedGames {
+public class SavedGames implements Comparator<SavedGame> {
 	private ArrayList<SavedGame> games;
 	public static int NO_INDEX = -1;
 	GameManager gameManager;
@@ -24,6 +26,7 @@ public class SavedGames {
 				addSavedGame (tLine);
 			}
 		}
+		Collections.sort (games, this);
 	}
 
 	public void setGameManager (GameManager aGameManager) {
@@ -184,5 +187,18 @@ public class SavedGames {
 		}
 
 		return tSavedGame;
+	}
+
+	@Override
+	public int compare (SavedGame aSavedGame1, SavedGame aSavedGame2) {
+		int tOrder;
+		String tGameID1;
+		String tGameID2;
+		
+		tGameID1 = aSavedGame1.getGameID ();
+		tGameID2 = aSavedGame2.getGameID ();
+		tOrder = tGameID2.compareTo (tGameID1);
+		
+		return tOrder;
 	}
 }

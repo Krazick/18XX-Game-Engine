@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,11 +28,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
@@ -47,12 +43,10 @@ import ge18xx.game.GameInfo;
 // And then have the ge18xx.network to it's own JAR File that requires the utilities JAR.
 import ge18xx.game.GameManager;
 import ge18xx.game.GameSet;
-import ge18xx.game.SavedGame;
 import ge18xx.game.SavedGames;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.FileUtils;
 import ge18xx.utilities.GUI;
 import ge18xx.utilities.Validators;
 import ge18xx.utilities.XMLDocument;
@@ -120,7 +114,7 @@ public class JGameClient extends XMLFrame {
 	private final String REFRESH = "REFRESH";
 	private final String AFK = "AFK";
 	private final String SEND = "SEND";
-	private final String PLAY_GAME = "PLAY GAME";
+	public static final String PLAY_GAME = "PLAY GAME";
 	private final String START_GAME = "START";
 	private final String NO_SELECTED_GAME = null;
 	// Static Labels
@@ -128,6 +122,8 @@ public class JGameClient extends XMLFrame {
 	JLabel serverIPLabel = new JLabel ("Server IP:");
 	JLabel playersLabel = new JLabel ("Players");
 	JLabel messageLabel = new JLabel ("Message:");
+
+	public enum ScrollDirection { UP, DOWN }
 
 	// Java Swing Objects
 	private JTextPane chatText;
@@ -148,7 +144,7 @@ public class JGameClient extends XMLFrame {
 	private JPanel fullGameInfoPanel;
 	private JPanel gamesListPanel;
 	private JPanel gameInfoPanel;
-	private JPanel networkSavedGamesPanel;
+	private SavedGamesPanel networkSavedGamesPanel;
 	private JPanel primaryPanel;
 	private JPanel headerPanel;
 	private JPanel activityPanel;
@@ -156,8 +152,8 @@ public class JGameClient extends XMLFrame {
 	private JPanel messagePanel;
 	private JPanel bottomPanel;
 	private JList<NetworkPlayer> playerList;
-	private JList<String> savedGamesList;
-	private DefaultListModel<String> savedGamesListModel;
+//	private JList<String> savedGamesList;
+//	private DefaultListModel<String> savedGamesListModel;
 
 	private HeartbeatThread heartbeatThread;
 	private Thread hbeatThread;
@@ -417,8 +413,6 @@ public class JGameClient extends XMLFrame {
 
 		if (!gameManager.gameStarted ()) {
 			chooseGameButton.setText (SHOW_SAVED_GAMES);
-//			removeNSGPanel ();
-//			removeGamePanel ();
 			swapToGameActivity ();
 			clearGameSelection ();
 			addGamesListPanel ();
@@ -452,11 +446,6 @@ public class JGameClient extends XMLFrame {
 		messageField.setFocusable (true);
 		messageField.requestFocusInWindow ();
 		gameManager.updateDisconnectButton ();
-	}
-
-	private void updateShowSavedGamesButton () {
-		chooseGameButton.setEnabled (true);
-		chooseGameButton.setToolTipText (GUI.NO_TOOL_TIP);
 	}
 
 	public void requestSavedGames () {
@@ -1238,10 +1227,6 @@ public class JGameClient extends XMLFrame {
 		tVerticalBar.addAdjustmentListener (scroller);
 	}
 
-	public enum ScrollDirection {
-		UP, DOWN
-	}
-
 	public XMLElement getNetworkElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
 
@@ -1297,113 +1282,39 @@ public class JGameClient extends XMLFrame {
 		return gameManager.getGameID ();
 	}
 
-	public void loadSavedGameJList (SavedGames aNetworkSavedGames) {
-		SavedGame tSavedGame;
-		String tSavedGameInfo;
-
-		savedGamesListModel = new DefaultListModel<> ();
-		for (int tIndex = 0; tIndex < aNetworkSavedGames.getSavedGameCount (); tIndex++) {
-			tSavedGame = aNetworkSavedGames.getSavedGameAt (tIndex);
-			if (tSavedGame.localAutoSaveFound ()) {
-				tSavedGameInfo = "   : " + tSavedGame.getGameName () + " : " + tSavedGame.getGameID () + " : Players ("
-						+ tSavedGame.getPlayers () + ") : " + " Last Action Number : "
-						+ tSavedGame.getLastActionNumber ();
-				savedGamesListModel.addElement (tSavedGameInfo);
-			}
-		}
-		savedGamesList = new JList<> (savedGamesListModel);
-		savedGamesList.setSelectionMode (ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		savedGamesList.setLayoutOrientation (JList.VERTICAL);
-		savedGamesList.addListSelectionListener (new ListSelectionListener () {
-			@Override
-			public void valueChanged (ListSelectionEvent aEvent) {
-				savedGameSelected (aEvent);
-			}
-		});
+	public void setAutoSaveFileName (String aAutoSaveFileName) {
+		autoSaveFileName = aAutoSaveFileName;
+	}
+	
+	public String getAutoSaveFileName () {
+		return autoSaveFileName;
 	}
 
-	private void savedGameSelected (ListSelectionEvent aEvent) {
-		String tSelectedGame;
-		String [] tSelectedParts;
-		String tNewSaveGameFile;
-		FileUtils tFileUtils;
-
-		tFileUtils = gameManager.getFileUtils ();
-		tSelectedGame = savedGamesList.getSelectedValue ();
-		tSelectedParts = tSelectedGame.split (" : ");
-		tNewSaveGameFile = tSelectedParts [1] + "." + tSelectedParts [2] + "." + gameManager.getClientUserName ()
-				+ ".save" + tFileUtils.xml;
-		if (!tNewSaveGameFile.equals (autoSaveFileName)) {
-			System.out.println ("Selected Saved Game is [" + tSelectedGame + "]");
-			System.out.println (" Part 0 [" + tSelectedParts [0] + "]" + " Part 1 [" + tSelectedParts [1] + "]"
-					+ " Part 2 [" + tSelectedParts [2] + "]" + " Part 3 [" + tSelectedParts [3] + "]");
-			System.out.println ("New Auto Save File Name: " + tNewSaveGameFile);
-			autoSaveFileName = tNewSaveGameFile;
-			updateReadyButton (PLAY_GAME, true, GUI.NO_TOOL_TIP);
-		}
+	public JButton getChooseGameButton () {
+		return chooseGameButton;
 	}
 
 	public void loadAndStartGame () {
 		gameManager.loadAutoSavedGame (autoSaveFileName);
 		serverHandler.sendUserActive (getGameID ());
 		refreshPlayers ();
-		System.out.println ("Should have Game Manager Load the Network Game, and Start Playing " + "with Game ID ["
-				+ getGameID () + "]");
+		System.out.println ("Should have Game Manager Load the Network Game, and Start Playing " + 
+					"with Game ID [" + getGameID () + "]");
 		swapToGameActivity ();
 	}
-
+	
 	public int getAutoSavedLastAction () {
-		int tLastAction = 99;
-		String tSelectedGame;
-		String [] tSelectedParts;
-
-		tSelectedGame = savedGamesList.getSelectedValue ();
-		tSelectedParts = tSelectedGame.split (" : ");
-		tLastAction = Integer.parseInt (tSelectedParts [5]);
-
+		int tLastAction;
+		
+		tLastAction = networkSavedGamesPanel.getAutoSavedLastAction ();
+		
 		return tLastAction;
 	}
 
-	// TODO Extract the method building the Saved Game Panel to separate Class,
-	// into the ge18xx.game Package
-	// Take along Subroutines with it.
-	// Leave new method to set the networkSavedGames JPanel
 	public void buildNetworkSGPanel (SavedGames aNetworkSavedGames) {
-		JLabel tPanelTitle;
-		int tSavedGameCount;
-		String tTitle;
-		Box tNetworkSavedGamesBox;
-
-		networkSavedGamesPanel = new JPanel ();
-		tNetworkSavedGamesBox = Box.createVerticalBox ();
-		tSavedGameCount = aNetworkSavedGames.getMatchedSavedGameCount ();
-
-		if (tSavedGameCount == 1) {
-			tTitle = " Your Saved Game ";
-		} else if (tSavedGameCount > 1) {
-			tTitle = "Your " + tSavedGameCount + " Saved Games";
-		} else {
-			tTitle = "You have no Saved Games";
-		}
-
-		tPanelTitle = new JLabel (tTitle);
-		tNetworkSavedGamesBox.add (Box.createVerticalStrut (10));
-		tNetworkSavedGamesBox.add (tPanelTitle);
-
-		if (tSavedGameCount > 0) {
-			loadSavedGameJList (aNetworkSavedGames);
-			tNetworkSavedGamesBox.add (Box.createVerticalStrut (20));
-			tNetworkSavedGamesBox.add (savedGamesList);
-			chooseGameButton.setToolTipText ("Show " + tTitle);
-			updateShowSavedGamesButton ();
-		} else {
-			chooseGameButton.setEnabled (false);
-			chooseGameButton.setToolTipText (tTitle);
-		}
-
-		networkSavedGamesPanel.add (tNetworkSavedGamesBox);
+		networkSavedGamesPanel = new SavedGamesPanel (gameManager, this, aNetworkSavedGames);
 	}
-
+	
 	public String fetchActionWithNumber (int tActionNumber, String aGameID) {
 		String tActionFound;
 		String tRequestAction;
@@ -1426,6 +1337,8 @@ public class JGameClient extends XMLFrame {
 	}
 
 	public void startHeartbeatDelivery () {
-		heartbeatThread.startHeartbeatDelivery ();
+		if (heartbeatThread != null) {
+			heartbeatThread.startHeartbeatDelivery ();
+		}
 	}
 }
