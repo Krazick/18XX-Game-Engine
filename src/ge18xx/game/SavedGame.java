@@ -56,7 +56,10 @@ public class SavedGame {
 	private void readFile (String aFileName) {
 		FileReader tFile;
 		BufferedReader tReader;
-		String tLine, tGameID, tPlayerName, tGameStatus;
+		String tLine;
+		String tGameID;
+		String tPlayerName;
+		String tGameStatus;
 		int tLastActionNumber;
 
 		if (!TEST_FILE.equals (aFileName)) {
@@ -256,8 +259,8 @@ public class SavedGame {
 		String tPlayers;
 
 		tPlayers = getPlayers ();
-		tSavedGameXML = "<Game gameID=\"" + gameID + "\" lastActionNumber=\"" + lastActionNumber + "\" players=\""
-				+ tPlayers + "\" status=\"" + gameStatus + "\">";
+		tSavedGameXML = "<Game gameID=\"" + gameID + "\" lastActionNumber=\"" + lastActionNumber + 
+				"\" players=\"" + tPlayers + "\" status=\"" + gameStatus + "\">";
 
 		return tSavedGameXML;
 	}

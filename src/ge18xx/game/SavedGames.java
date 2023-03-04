@@ -18,7 +18,7 @@ public class SavedGames implements Comparator<SavedGame> {
 		String [] tSavedGamesParsed;
 
 		setGameManager (aGameManager);
-		games = new ArrayList<> ();
+		games = new ArrayList<SavedGame> ();
 		tSavedGamesXML = aSavedGamesXML.replaceAll ("><", ">\r<");
 		tSavedGamesParsed = tSavedGamesXML.split ("\r");
 		for (String tLine : tSavedGamesParsed) {
