@@ -275,4 +275,33 @@ public class Benefits {
 
 		return tFoundBenefit;
 	}
+	
+	public boolean hasAnyPassiveCompanyBenefits () {
+		boolean tHasAnyPassiveCompanyBenefits;
+		
+		tHasAnyPassiveCompanyBenefits = false;
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit.isPassiveCompanyBenefit ()) {
+				tHasAnyPassiveCompanyBenefits = true;
+			}
+		}
+		
+		return tHasAnyPassiveCompanyBenefits;
+	}
+	
+	public Benefit getUnusedPassiveCompanyBenefit () {
+		Benefit tPassiveBenefit;
+		
+		tPassiveBenefit = Benefit.NO_BENEFIT;
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit.isPassiveCompanyBenefit ()) {
+				if (! tBenefit.used ()) {
+					tPassiveBenefit = tBenefit;
+				}
+			}
+		}
+		
+		return tPassiveBenefit;
+	}
+
 }
