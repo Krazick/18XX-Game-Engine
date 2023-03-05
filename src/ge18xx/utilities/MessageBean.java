@@ -7,8 +7,9 @@ import java.util.List;
 
 public class MessageBean {
 	public final static MessageBean NO_BEAN = null;
-	private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+	private PropertyChangeSupport support;
 	private String oldMessage;
+	private String propertyName;
 	private List<String> messages;
 	private boolean active;
 	int index;
@@ -27,19 +28,28 @@ public class MessageBean {
 	//  3. When all of the Effects have been applied, Reactive the Message Bean
 	//  4. Call the 'sendMessages' method to send all backlogged messages 
 	
-	public MessageBean () {
+	public MessageBean (String aPropertyName) {
+		support = new PropertyChangeSupport (this);
 		setActive (false);
 		messages = new LinkedList<String> ();
 		index = 0;
 		setOldMessage (GUI.EMPTY_STRING);
+		setPropertyName (aPropertyName);
 	}
 	
 	public void setActive (boolean aActive) {
 		active = aActive;
 	}
 	
+	public void setPropertyName (String aPropertyName) {
+		propertyName = aPropertyName;
+	}
+	
+	public String getPropertyName () {
+		return propertyName;
+	}
+	
 	public void flushMessages () {
-		System.out.println ("Clearing out " + getMessageCount ());
 		messages.clear ();
 	}
 	
@@ -74,13 +84,14 @@ public class MessageBean {
 	public void sendMessages  () {
 		String tOldMessage;
 		
-//		System.out.println ("Send Bean Messages Count " + messages.size () +  messages.toString ());
+//		System.out.println ("Send Bean [" + propertyName + "] Messages Count " + 
+//							messages.size () +  " " + messages.toString ());
 		if (active) {
 			tOldMessage = oldMessage;
 			for (String tNewMessage : messages) {
 			    // The parameter values of firePropertyChange method
 			    // constitute the PropertyChangeEvent object
-			    support.firePropertyChange ("message " + index, tOldMessage, tNewMessage);
+			    support.firePropertyChange (propertyName, tOldMessage, tNewMessage);
 			}
 			flushMessages ();
 		}

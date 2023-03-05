@@ -92,11 +92,19 @@ public abstract class ListenerPanel extends JPanel implements PropertyChangeList
 		// After the loop through all messages, if the flag is true, trigger the updatePanel call.
 		
 		tUpdatePanel = false;
+		tSource = aEvent.getSource ();
+		if (tSource instanceof MessageBean) {
+			tMessageBean = (MessageBean) tSource;
+			tMessageCount = tMessageBean.getMessageCount ();
+//			System.out.println ("Panel " + panelName + " Received Bean with Property [" + tMessageBean.getPropertyName () + "] Count " + tMessageCount);
+		} else {
+			tMessageBean = MessageBean.NO_BEAN;
+			tMessageCount = 0;
+		}
+
 		if (listen) {
-			tSource = aEvent.getSource ();
-			if (tSource instanceof MessageBean) {
-				tMessageBean = (MessageBean) tSource;
-				tMessageCount = tMessageBean.getMessageCount ();
+			if (tMessageBean != MessageBean.NO_BEAN) {
+//				System.out.println ("Property [" + tMessageBean.getPropertyName () + "] Count " + tMessageCount);
 				for (tMessageIndex = 0; tMessageIndex < tMessageCount; tMessageIndex++) {
 					tMessage = tMessageBean.getMessageAt (tMessageIndex);
 					for (String tValidMessage : messages) {
