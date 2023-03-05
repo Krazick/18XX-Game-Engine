@@ -16,6 +16,7 @@ import ge18xx.map.MapCell;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutine2I;
@@ -490,6 +491,39 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return tFoundBenefit;
 	}
 
+	public boolean hasAnyPassiveCompanyBenefits () {
+		return benefits.hasAnyPassiveCompanyBenefits ();
+	}
+	
+	public Benefit getUnusedPassiveCompanyBenefit () {
+		Benefit tBenefit;
+		
+		tBenefit = benefits.getUnusedPassiveCompanyBenefit ();
+		
+		return tBenefit;
+	}
+	
+	public Effect handlePassiveBenefits (ShareCompany aShareCompany) {
+		Benefit tPassiveBenefit;
+		boolean tWhileMore;
+		Effect tAddLicenseEffect;
+		
+		tWhileMore = true;
+		tAddLicenseEffect = Effect.NO_EFFECT;
+		while (tWhileMore) {
+			tPassiveBenefit = getUnusedPassiveCompanyBenefit ();
+			if (tPassiveBenefit != Benefit.NO_BENEFIT) {
+				tAddLicenseEffect = tPassiveBenefit.handlePassive (aShareCompany);
+				System.out.println ("Handled Passive Benefit " + tPassiveBenefit.getName ());
+				System.out.println ("Have Effect " + tAddLicenseEffect.getName () + " to Add to Action.");
+			} else {
+				tWhileMore = false;
+			}
+		}
+		
+		return tAddLicenseEffect;
+	}
+	
 	@Override
 	public int getCurrentValue () {
 		return getCost ();

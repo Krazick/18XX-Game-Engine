@@ -27,6 +27,7 @@ import ge18xx.round.action.PayLoanInterestAction;
 import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.ReachedDestinationAction;
 import ge18xx.round.action.RedeemLoanAction;
+import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
@@ -962,8 +963,8 @@ public class ShareCompany extends TokenCompany {
 		updateInfo ();
 	}
 
-	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, Certificate aCertificate,
-			BuyStockAction aBuyStockAction) {
+	public void doFinalShareBuySteps (Portfolio aToPortfolio, Portfolio aFromPortfolio, 
+									Certificate aCertificate, BuyStockAction aBuyStockAction) {
 		ActorI.ActionStates tCurrentCorporationStatus;
 		ActorI.ActionStates tNewCorporationStatus;
 		PortfolioHolderI tFromHolder;
@@ -974,14 +975,31 @@ public class ShareCompany extends TokenCompany {
 		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
 		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate, tToHolder);
 		tCurrentCorporationStatus = aCertificate.getCorporationStatus ();
-
+		handlePassiveBenefits (aCertificate, aBuyStockAction);
 		// TODO: If buying Private into a Share Company, we don't need to change the Corporation State
 
 		aCertificate.updateCorporationOwnership ();
 		tNewCorporationStatus = aCertificate.getCorporationStatus ();
 		if (tCurrentCorporationStatus != tNewCorporationStatus) {
-			aBuyStockAction.addChangeCorporationStatusEffect (aCertificate.getCorporation (), tCurrentCorporationStatus,
-					tNewCorporationStatus);
+			aBuyStockAction.addChangeCorporationStatusEffect (aCertificate.getCorporation (),
+							tCurrentCorporationStatus, tNewCorporationStatus);
+		}
+	}
+
+	private void handlePassiveBenefits (Certificate aCertificate, BuyStockAction aBuyStockAction) {
+		PrivateCompany tPrivateCompany;
+		Effect tEffect;
+		
+		if (aCertificate.isAPrivateCompany ()) {
+			tPrivateCompany = (PrivateCompany) aCertificate.getCorporation ();
+			if (tPrivateCompany.hasAnyPassiveCompanyBenefits ()) {
+				System.out.println ("The Private " + tPrivateCompany.getAbbrev () + 
+						" has Unused Passive Benefits");
+				tEffect = tPrivateCompany.handlePassiveBenefits (this);
+				if (tEffect != Effect.NO_EFFECT) {
+					aBuyStockAction.addEffect (tEffect);
+				}
+			}
 		}
 	}
 
