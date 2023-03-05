@@ -2,6 +2,8 @@ package ge18xx.company.benefit;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.License;
+import ge18xx.company.ShareCompany;
+import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.XMLNode;
 
 public class FreeLicenseBenefit extends Benefit {
@@ -68,15 +70,26 @@ public class FreeLicenseBenefit extends Benefit {
 	public String getNewButtonLabel () {
 		return null;
 	}
-
+	
 	public License getLicense () {
 		License tLicense;
 		String tLicenseName;
 		
-		tLicenseName = privateCompany.getAbbrev () + " License";
+		tLicenseName = buildLicenseName ();
 		tLicense = new License (tLicenseName, value);
 		tLicense.setMapCellIDs (mapCellIDs);
 		
 		return tLicense;
+	}
+	
+	@Override
+	public Effect handlePassive (ShareCompany aShareCompany) {
+		License tLicense;
+		
+		tLicense = getLicense ();
+		addLicense (aShareCompany, tLicense);
+		setUsed (true);
+		
+		return addLicenseEffect;
 	}
 }
