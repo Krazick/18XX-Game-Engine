@@ -438,7 +438,7 @@ public class Action {
 				aRoundManager.appendErrorReport (tApplyFailureReason);
 			}
 		}
-		tGameManager.activateAllBeans (false);
+		tGameManager.activateAllBeans (true);
 		tGameManager.sendAllBeanMessages ();
 		aRoundManager.updateAllCorporationsBox ();
 		if (! tActionApplied) {
