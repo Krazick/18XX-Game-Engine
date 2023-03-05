@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.player.PortfolioHolderI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
@@ -89,10 +90,23 @@ public class LicenseBenefit extends Benefit {
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		JButton tBuyLicenseButton;
-
+		ShareCompany tOwningShareCompany;
+		PortfolioHolderI tOwner;
+		boolean tAddButton;
+		String tLicenseName;
+		
 		super.configure (aPrivateCompany, aButtonRow);
+		tAddButton = true;
 		if (shouldConfigure ()) {
-			if (!hasButton ()) {
+			tOwner = aPrivateCompany.getOwner ();
+			if (tOwner.isAShareCompany ()) {
+				tOwningShareCompany = (ShareCompany) tOwner;
+				tLicenseName = buildLicenseName ();
+				if (tOwningShareCompany.hasLicense (tLicenseName)) {
+					tAddButton = false;
+				}
+			}
+			if (!hasButton () && tAddButton) {
 				tBuyLicenseButton = new JButton (getNewButtonLabel ());
 				setButton (tBuyLicenseButton);
 				setButtonPanel (aButtonRow);
@@ -125,15 +139,17 @@ public class LicenseBenefit extends Benefit {
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
 
-		tOwningCompany = getOwningCompany ();
-		tBenefitInUse = tOwningCompany.getBenefitInUse ();
-		tBenefitInUseName = tBenefitInUse.getName ();
-		if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
-			disableButton ();
-			setToolTip ("Another Benefit is currently in Use");
-		} else {
-			enableButton ();
-			setToolTip ("All Good");
+		if (buttonConfigured ()) {
+			tOwningCompany = getOwningCompany ();
+			tBenefitInUse = tOwningCompany.getBenefitInUse ();
+			tBenefitInUseName = tBenefitInUse.getName ();
+			if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
+				disableButton ();
+				setToolTip ("Another Benefit is currently in Use");
+			} else {
+				enableButton ();
+				setToolTip ("All Good");
+			}
 		}
 	}
 }
