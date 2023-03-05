@@ -120,6 +120,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	Location homeLocation2;
 	String homeType;
 	ActorI.ActionStates status;
+	ActorI.ActorTypes actorType = ActorI.ActorTypes.Corporation;
 	CorporationFrame corporationFrame;
 	CorporationList corporationList;
 	Benefit benefitInUse;
@@ -142,7 +143,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	public Corporation (int aID, String aName, String aAbbrev, MapCell aHomeCity1, Location aHomeLocation1,
 			MapCell aHomeCity2, Location aHomeLocation2, ActorI.ActionStates aStatus, boolean aGovtRailway) {
-		bean = new MessageBean ();
+		String tActorType;
+		
+		tActorType = actorType.toString () + " " + aAbbrev;
+		bean = new MessageBean (tActorType);
 		setValues (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aStatus, aGovtRailway);
 	}
 
@@ -157,17 +161,20 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		String tName;
 		String tAbbrev;
 		String tHomeType;
-
+		String tActorType;
+		
 		corporationCertificates = new Portfolio (this);
 		portfolio = new Portfolio (this);
 		id = aXMLNode.getThisIntAttribute (AN_ID);
-		bean = new MessageBean ();
 
 		tName = aXMLNode.getThisAttribute (AN_NAME);
 		setName (tName);
 
 		tAbbrev = aXMLNode.getThisAttribute (AN_ABBREV);
 		setAbbrev (tAbbrev);
+		
+		tActorType = actorType.toString () + " " + getAbbrev ();
+		bean = new MessageBean (tActorType);
 
 		parseHomeCities (aXMLNode);
 		

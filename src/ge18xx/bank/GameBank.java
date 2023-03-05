@@ -34,18 +34,21 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 	protected Portfolio portfolio;
 	protected TrainPortfolio trainPortfolio;
 	MessageBean bean;
-
+	ActorI.ActorTypes actorType = ActorI.ActorTypes.Bank;
+	
 	public GameBank (String aName, GameManager aGameManager) {
 		Portfolio tPortfolio;
 		TrainPortfolio tTrainPortfolio;
-
+		String tActorType;
+		
 		gameManager = aGameManager;
 		name = aName;
 		tPortfolio = new Portfolio (this);
 		tTrainPortfolio = new TrainPortfolio ();
 		setPortfolio (tPortfolio);
 		setTrainPortfolio (tTrainPortfolio);
-		bean = new MessageBean ();
+		tActorType = actorType.toString () + " " + getName ();
+		bean = new MessageBean (tActorType);
 	}
 
 	public MessageBean getMessageBean () {

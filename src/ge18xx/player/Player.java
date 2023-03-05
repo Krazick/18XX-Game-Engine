@@ -119,13 +119,17 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	ActionStates auctionActionState;
 	SoldCompanies soldCompanies;
 	MessageBean bean;
+	ActorI.ActorTypes actorType = ActorI.ActorTypes.Player;
+
 
 	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
 		GameManager tGameManager;
 		MessageBean tBean;
+		String tActorType;
 		
 		tGameManager = aPlayerManager.getGameManager ();
-		tBean = new MessageBean ();
+		tActorType = actorType.toString () + " " + aName;
+		tBean = new MessageBean (tActorType);
 		setMessageBean (tBean);
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, tGameManager);
 		setGameHasCompanies (tGameManager);
