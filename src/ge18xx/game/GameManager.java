@@ -1322,13 +1322,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tBean = bankPool.getMessageBean ();
 		addGoodBean (tBean);
 		playerManager.addMessageBeans ();
-		System.out.println ("Collected " + allBeans.size () + " Message Beans After Players");
 		shareCompaniesFrame.addMessageBeans ();
-		System.out.println ("Collected " + allBeans.size () + " Message Beans After Shares");
 		minorCompaniesFrame.addMessageBeans ();
-		System.out.println ("Collected " + allBeans.size () + " Message Beans After Minors");
 		privatesFrame.addMessageBeans ();
-		System.out.println ("Collected " + allBeans.size () + " Message Beans After Privates");
 	}
 	
 	public void addGoodBean (MessageBean aBean) {
