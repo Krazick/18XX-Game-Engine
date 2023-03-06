@@ -64,7 +64,7 @@ class SavedGamesTests {
 		void SaveGameGetGameIDatTests () {
 			assertEquals (4, savedGames.getSavedGameCount ());
 
-			assertEquals ("2021-04-08-1923", savedGames.getGameIDat (0));
+			assertEquals ("2021-04-13-1214", savedGames.getGameIDat (0));
 			assertEquals ("2021-04-09-1541", savedGames.getGameIDat (1));
 			assertEquals ("NOID", savedGames.getGameIDat (6));
 			assertEquals ("NOID", savedGames.getGameIDat (-56));
@@ -89,8 +89,8 @@ class SavedGamesTests {
 		@Test
 		@DisplayName ("SavedGames getting Index for specific GameID")
 		void SavedGamesGetIndexForGameIDTest () {
-			assertEquals (0, savedGames.getIndexForGameID ("2021-04-08-1923"));
-			assertEquals (3, savedGames.getIndexForGameID ("2021-04-13-1214"));
+			assertEquals (2, savedGames.getIndexForGameID ("2021-04-08-1923"));
+			assertEquals (0, savedGames.getIndexForGameID ("2021-04-13-1214"));
 			assertEquals (-1, savedGames.getIndexForGameID (null));
 			assertEquals (-1, savedGames.getIndexForGameID (""));
 			assertEquals (-1, savedGames.getIndexForGameID ("NOID"));
@@ -106,7 +106,7 @@ class SavedGamesTests {
 		SavedGame tBadSavedGame;
 
 		tSavedGame = savedGames.getSavedGameAt (3);
-		assertEquals ("2021-04-13-1214", tSavedGame.getGameID ());
+		assertEquals ("2021-04-07-1748", tSavedGame.getGameID ());
 		tBadSavedGame = savedGames.getSavedGameAt (12);
 		assertNull (tBadSavedGame);
 		tBadSavedGame = savedGames.getSavedGameAt (-3);
