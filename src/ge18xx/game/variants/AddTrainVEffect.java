@@ -112,10 +112,10 @@ public class AddTrainVEffect extends VariantEffect {
 	}
 
 	/**
-	 * Variant Effect Component Builder -- this should be overriden by the subclasses
+	 * Variant Effect Component Builder -- this should be overridden by the subclasses
 	 *
-	 * @param aItemListener Placeholder for the Item Listener class that will handle the request
-	 * @return
+	 * @param aComponentType Placeholder for the Item Listener class that will handle the request
+	 * @return the Component that was built
 	 *
 	 */
 	@Override
