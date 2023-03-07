@@ -6,15 +6,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
-import ge18xx.company.License;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
-import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
-import ge18xx.round.action.effects.AddLicenseEffect;
-import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
@@ -46,11 +41,9 @@ public abstract class Benefit implements ActionListener {
 	boolean allActors;
 	JButton button;
 	JPanel buttonPanel;
-	PrivateCompany privateCompany;
+	protected PrivateCompany privateCompany;
 	Benefit previousBenefitInUse;
 	String name;
-	AddLicenseEffect addLicenseEffect;
-
 	public Benefit () {
 		setName (NAME);
 		setCloseOnUse (false);
@@ -401,35 +394,5 @@ public abstract class Benefit implements ActionListener {
 		setUsed (tUsedState);
 		tCloseOnUse = aBenefitNode.getThisBooleanAttribute (AN_CLOSE_ON_USE);
 		setCloseOnUse (tCloseOnUse);
-	}
-
-	public Effect handlePassive (ShareCompany aShareCompany) {
-		return Effect.NO_EFFECT;
-	}
-	
-	public void addLicense (ShareCompany aOwningCompany, License aLicense) {
-		Bank tBank;
-		
-		aOwningCompany.addLicense (aLicense);
-		tBank = aOwningCompany.getBank ();
-		addLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
-	}
-
-	/**
-	 *  Add Any additional Effects to the provided Action generated in the process of applying this Benefit.
-	 *  
-	 * @param aAction The Action to which the Effect needs to be added.
-	 * 
-	 */
-	public void addAdditionalEffects (Action aAction) {
-		aAction.addEffect (addLicenseEffect);
-	}
-
-	public String buildLicenseName () {
-		String tLicenseName;
-		
-		tLicenseName = privateCompany.getAbbrev () + " License";
-
-		return tLicenseName;
 	}
 }
