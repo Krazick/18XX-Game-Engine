@@ -289,14 +289,14 @@ public class Benefits {
 		return tHasAnyPassiveCompanyBenefits;
 	}
 	
-	public Benefit getUnusedPassiveCompanyBenefit () {
-		Benefit tPassiveBenefit;
+	public PassiveEffectBenefit getUnusedPassiveCompanyBenefit () {
+		PassiveEffectBenefit tPassiveBenefit;
 		
-		tPassiveBenefit = Benefit.NO_BENEFIT;
+		tPassiveBenefit = (PassiveEffectBenefit) Benefit.NO_BENEFIT;
 		for (Benefit tBenefit : benefits) {
 			if (tBenefit.isPassiveCompanyBenefit ()) {
 				if (! tBenefit.used ()) {
-					tPassiveBenefit = tBenefit;
+					tPassiveBenefit = (PassiveEffectBenefit) tBenefit;
 				}
 			}
 		}
