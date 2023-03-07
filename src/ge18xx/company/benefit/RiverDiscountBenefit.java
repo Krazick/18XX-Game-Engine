@@ -24,5 +24,4 @@ public class RiverDiscountBenefit extends Benefit {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
