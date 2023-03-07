@@ -11,6 +11,7 @@ import ge18xx.bank.Bank;
 import ge18xx.center.Revenue;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.company.benefit.Benefits;
+import ge18xx.company.benefit.PassiveEffectBenefit;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.player.Portfolio;
@@ -495,16 +496,16 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return benefits.hasAnyPassiveCompanyBenefits ();
 	}
 	
-	public Benefit getUnusedPassiveCompanyBenefit () {
-		Benefit tBenefit;
+	public PassiveEffectBenefit getUnusedPassiveCompanyBenefit () {
+		PassiveEffectBenefit tPassiveEffectBenefit;
 		
-		tBenefit = benefits.getUnusedPassiveCompanyBenefit ();
+		tPassiveEffectBenefit = benefits.getUnusedPassiveCompanyBenefit ();
 		
-		return tBenefit;
+		return tPassiveEffectBenefit;
 	}
 	
 	public Effect handlePassiveBenefits (ShareCompany aShareCompany) {
-		Benefit tPassiveBenefit;
+		PassiveEffectBenefit tPassiveBenefit;
 		boolean tWhileMore;
 		Effect tAddLicenseEffect;
 		
