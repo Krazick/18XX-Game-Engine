@@ -1,17 +1,20 @@
 package ge18xx.company.benefit;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.License;
 import ge18xx.company.ShareCompany;
+import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.XMLNode;
 
-public class FreeLicenseBenefit extends Benefit {
+public class FreeLicenseBenefit extends PassiveEffectBenefit {
 	public final static String NAME = "Free License";
 	int corporationID;
 	int licenseCost;
 	String mapCellIDs;
 	int value;
+	AddLicenseEffect addLicenseEffect;
 
 	public FreeLicenseBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -91,5 +94,14 @@ public class FreeLicenseBenefit extends Benefit {
 		setUsed (true);
 		
 		return addLicenseEffect;
+	}
+
+	@Override
+	public void addLicense (ShareCompany aOwningCompany, License aLicense) {
+		Bank tBank;
+		
+		aOwningCompany.addLicense (aLicense);
+		tBank = aOwningCompany.getBank ();
+		addLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
 	}
 }

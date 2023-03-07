@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.CorporationFrame;
+import ge18xx.company.License;
 import ge18xx.company.PortLicense;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
@@ -118,6 +120,14 @@ public class PortPlacementBenefit extends MapBenefit {
 				placeBenefitToken (tSelectedMapCell, tokenType, this, tokenBonus);
 			}
 		}
+	}
+	
+	public void addLicense (ShareCompany aOwningCompany, License aLicense) {
+		Bank tBank;
+		
+		aOwningCompany.addLicense (aLicense);
+		tBank = aOwningCompany.getBank ();
+		addLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
 	}
 
 	@Override

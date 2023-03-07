@@ -44,6 +44,7 @@ public abstract class Benefit implements ActionListener {
 	protected PrivateCompany privateCompany;
 	Benefit previousBenefitInUse;
 	String name;
+	
 	public Benefit () {
 		setName (NAME);
 		setCloseOnUse (false);

@@ -5,10 +5,15 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.CorporationFrame;
+import ge18xx.company.License;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.player.PortfolioHolderI;
+import ge18xx.round.action.Action;
+import ge18xx.round.action.effects.AddLicenseEffect;
+import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
@@ -22,6 +27,7 @@ public class LicenseBenefit extends Benefit {
 	int licenseCost;
 	String mapCellIDs;
 	int value;
+	AddLicenseEffect addLicenseEffect;
 
 	public LicenseBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -151,5 +157,35 @@ public class LicenseBenefit extends Benefit {
 				setToolTip ("All Good");
 			}
 		}
+	}
+
+	public Effect handlePassive (ShareCompany aShareCompany) {
+		return Effect.NO_EFFECT;
+	}
+
+	public void addLicense (ShareCompany aOwningCompany, License aLicense) {
+		Bank tBank;
+		
+		aOwningCompany.addLicense (aLicense);
+		tBank = aOwningCompany.getBank ();
+		addLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
+	}
+
+	/**
+	 *  Add Any additional Effects to the provided Action generated in the process of applying this Benefit.
+	 *  
+	 * @param aAction The Action to which the Effect needs to be added.
+	 * 
+	 */
+	public void addAdditionalEffects (Action aAction) {
+		aAction.addEffect (addLicenseEffect);
+	}
+
+	public String buildLicenseName () {
+		String tLicenseName;
+		
+		tLicenseName = privateCompany.getAbbrev () + " License";
+	
+		return tLicenseName;
 	}
 }
