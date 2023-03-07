@@ -24,5 +24,4 @@ public class FirstORBenefit extends Benefit {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
