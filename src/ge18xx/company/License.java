@@ -82,14 +82,18 @@ public class License extends Coupon {
 		setTypeFromName (tTypeName);
 	}
 
-	public LicenseTypes getTypeFromName (String aTypeName) {
+	public static LicenseTypes getTypeFromName (String aTypeName) {
 		String tTypeName;
+		String tCapsTypeName;
 		LicenseTypes tFoundType;
 		
 		tFoundType = LicenseTypes.NO_TYPE;
+		tCapsTypeName = aTypeName.toUpperCase ();
 		for (LicenseTypes tType : LicenseTypes.values ()) {
 			tTypeName = tType.toString ();
 			if (aTypeName.equals (tTypeName)) {
+				tFoundType = tType;
+			} else if (tCapsTypeName.equals (tTypeName)) {
 				tFoundType = tType;
 			}
 		}
