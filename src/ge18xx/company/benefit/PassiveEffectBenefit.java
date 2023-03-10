@@ -12,18 +12,12 @@ public class PassiveEffectBenefit extends Benefit {
 
 	Effect effect;
 
-	public PassiveEffectBenefit () {
-		// TODO Auto-generated constructor stub
-	}
-
 	public PassiveEffectBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public int getCost () {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -36,8 +30,7 @@ public class PassiveEffectBenefit extends Benefit {
 		return tButtonLabel;
 	}
 
-	public Effect handlePassive (ShareCompany aShareCompany) {
-		return Effect.NO_EFFECT;
+	public void handlePassive (ShareCompany aShareCompany, Action aAction) {
 	}
 
 	public void addLicense (ShareCompany aOwningCompany, License aLicense) {
