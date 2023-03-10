@@ -51,7 +51,7 @@ public class PassiveTokenBenefit extends FreeLicenseBenefit {
 		MapFrame tMapFrame;
 		
 		tMapFrame = getMapFrame ();
-		tMapFrame.placeBenefitToken (aSelectedMapCell, aLocation, aTokenType, aBenefitValue);
+		tMapFrame.placeBenefitToken (aSelectedMapCell, aTokenType, this, aBenefitValue);
 		tMapFrame.revalidate ();
 		tMapFrame.repaint ();
 	}
