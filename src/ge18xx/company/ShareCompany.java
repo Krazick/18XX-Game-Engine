@@ -27,7 +27,6 @@ import ge18xx.round.action.PayLoanInterestAction;
 import ge18xx.round.action.PayNoDividendAction;
 import ge18xx.round.action.ReachedDestinationAction;
 import ge18xx.round.action.RedeemLoanAction;
-import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
@@ -988,17 +987,13 @@ public class ShareCompany extends TokenCompany {
 
 	private void handlePassiveBenefits (Certificate aCertificate, BuyStockAction aBuyStockAction) {
 		PrivateCompany tPrivateCompany;
-		Effect tEffect;
 		
 		if (aCertificate.isAPrivateCompany ()) {
 			tPrivateCompany = (PrivateCompany) aCertificate.getCorporation ();
 			if (tPrivateCompany.hasAnyPassiveCompanyBenefits ()) {
 				System.out.println ("The Private " + tPrivateCompany.getAbbrev () + 
 						" has Unused Passive Benefits");
-				tEffect = tPrivateCompany.handlePassiveBenefits (this);
-				if (tEffect != Effect.NO_EFFECT) {
-					aBuyStockAction.addEffect (tEffect);
-				}
+				tPrivateCompany.handlePassiveBenefits (this, aBuyStockAction);
 			}
 		}
 	}
