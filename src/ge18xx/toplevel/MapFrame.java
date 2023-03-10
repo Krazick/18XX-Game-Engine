@@ -39,7 +39,6 @@ import ge18xx.company.TokenCompany;
 import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
-import ge18xx.company.benefit.MapBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.Location;
@@ -745,23 +744,32 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	public void placeBenefitToken (MapCell aMapCell, String aTokenType, MapBenefit aMapBenefit, int aBenefitValue) {
+	public LayBenefitTokenAction placeBenefitToken (MapCell aMapCell, String aTokenType, 
+							Benefit aBenefitInUse, int aBenefitValue) {
+		LayBenefitTokenAction tLayBenefitTokenAction;
+		
 		aMapCell.layBenefitToken (aTokenType, aBenefitValue);
-		addLayBenefitTokenAction (aMapCell, aTokenType, aMapBenefit, aBenefitValue);
+		tLayBenefitTokenAction = createLayBenefitTokenAction (aMapCell, aTokenType, aBenefitInUse, aBenefitValue);
 		completeBenefitInUse ();
+		
+		return tLayBenefitTokenAction;
 	}
-	
-	public void addLayBenefitTokenAction (MapCell aMapCell, String aTokenType, MapBenefit aMapBenefit, int aBenefitValue) {
+
+	public LayBenefitTokenAction createLayBenefitTokenAction (MapCell aMapCell, String aTokenType, 
+						Benefit aBenefitInUse, int aBenefitValue) {
 		LayBenefitTokenAction tLayBenefitTokenAction;
 		String tOperatingRoundID;
 		Corporation tOperatingCompany;
 		
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tOperatingCompany = gameManager.getOperatingCompany ();
-		tLayBenefitTokenAction = new LayBenefitTokenAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, tOperatingCompany);
-		tLayBenefitTokenAction.addLayBenefitTokenEffect (tOperatingCompany, aMapCell, aTokenType, aMapBenefit, aBenefitValue);
-		gameManager.addAction (tLayBenefitTokenAction);
+		tLayBenefitTokenAction = new LayBenefitTokenAction (ActorI.ActionStates.OperatingRound, 
+						tOperatingRoundID, tOperatingCompany);
+		tLayBenefitTokenAction.addLayBenefitTokenEffect (tOperatingCompany, aMapCell, aTokenType, 
+						aBenefitInUse, aBenefitValue);
 		resetAllModes ();
+		
+		return tLayBenefitTokenAction;
 	}
 	
 	public void putMapTokenDown (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType, City aCity, 
