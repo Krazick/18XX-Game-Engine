@@ -79,7 +79,7 @@ public class LayBenefitTokenEffect extends ChangeMapEffect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " by " + actor.getName () + "lay " + tokenType + " on MapCell " + mapCellID + ".");
+		return (REPORT_PREFIX + name + " by " + actor.getName () + " lay " + tokenType + " token on MapCell " + mapCellID + ".");
 	}
 
 	@Override
@@ -99,7 +99,8 @@ public class LayBenefitTokenEffect extends ChangeMapEffect {
 		tMapCell.layBenefitToken (tokenType, tokenBonus);
 		setBenefitUsed (aRoundManager);
 		tEffectApplied = true;
-
+		tGameMap.redrawMap ();
+		
 		return tEffectApplied;
 	}
 
