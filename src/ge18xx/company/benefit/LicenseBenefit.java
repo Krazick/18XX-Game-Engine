@@ -19,11 +19,9 @@ import ge18xx.utilities.XMLNode;
 
 public class LicenseBenefit extends Benefit {
 	public final static String NAME = "License";
-	final static AttributeName AN_LICENSE = new AttributeName ("license");
 	final static AttributeName AN_LICENSE_COST = new AttributeName ("licenseCost");
 	final static AttributeName AN_MAP_CELL = new AttributeName ("mapCell");
 	final static AttributeName AN_LICENSE_VALUE = new AttributeName ("value");
-	boolean license;
 	int licenseCost;
 	String mapCellIDs;
 	int value;
@@ -33,24 +31,17 @@ public class LicenseBenefit extends Benefit {
 		super (aXMLNode);
 
 		String tMapCellIDs;
-		boolean tLicense;
 		int tLicenseValue;
 		int tLicenseCost;
 
-		tLicense = aXMLNode.getThisBooleanAttribute (AN_LICENSE);
 		tLicenseCost = aXMLNode.getThisIntAttribute (AN_LICENSE_COST);
 		tMapCellIDs = aXMLNode.getThisAttribute (AN_MAP_CELL);
 		tLicenseValue = aXMLNode.getThisIntAttribute (AN_LICENSE_VALUE);
-		setLicense (tLicense);
 		setLicenseCost (tLicenseCost);
 		setMapCellIDs (tMapCellIDs);
 		setLicenseValue (tLicenseValue);
 
 		setName (NAME);
-	}
-
-	public void setLicense (boolean aLicense) {
-		license = aLicense;
 	}
 
 	public void setLicenseCost (int aLicenseCost) {
