@@ -51,7 +51,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 	static final int OFF_BOARD_GRAY = 5;
 	static final int OFF_BOARD_BLACK = 6;
 	static final int OFF_BOARD_GREEN = 7;
-
+	static final int OFF_BOARD_XXX = 8;
 	static final int THICK_BORDER = 9;
 	static final int RIVER = 10;
 	static final int MULTIPLE_RIVER = 11;
@@ -71,15 +71,16 @@ public class Terrain extends Feature implements LoadableXMLI {
 	static final int DESERT = 25;
 	static final int CATTLE = 26;
 	static final int END_ROUTE = 27;
-	static final int CLEAR_HIGHLIGHT = 28;
+	static final int START_ROUTE = 28;
 	static final int BRIDGE = 29;
 	static final int TUNNEL = 30;
 	static final int MIN_TERRAIN = NO_TERRAIN;
 	static final int MAX_TERRAIN = TUNNEL;
-	static final String NAMES[] = { "NO TERRAIN", "Clear", "Ocean", "Delta", "Off Board Red", "Off Board Gray",
-			"Off Board Black", "Off Board Green", "", "Thick Border", "River", "Multiple River", "Major River", "Hill",
-			"Mountain", "Himalya", "Pass", "Swamp", "Lake", "Port", "Small River", "Large River", "Shallow Coast",
-			"Coast", "Deep Coast", "Desert", "Cattle", "End Route", "Clear Highlight", "Bridge", "Tunnel" };
+	static final String NAMES[] = { "NO TERRAIN", "Clear", "Ocean", "Delta", "Off Board Red", 
+			"Off Board Gray", "Off Board Black", "Off Board Green", "", "Thick Border", "River", 
+			"Multiple River", "Major River", "Hill", "Mountain", "Himalya", "Pass", "Swamp", 
+			"Lake", "Port", "Small River", "Large River", "Shallow Coast", "Coast", "Deep Coast", 
+			"Desert", "Cattle", "End Route", "Start Route", "Bridge", "Tunnel" };
 	static Paint [] [] paints = null;
 
 	int terrain;
@@ -126,7 +127,10 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 	@Override
 	public boolean bleedThroughAll () {
-		if ((terrain < RIVER) || (terrain == PORT) || (terrain == END_ROUTE)) {
+		if ((terrain < RIVER) || 
+			(terrain == PORT) || 
+			(terrain == END_ROUTE) ||
+			(terrain == START_ROUTE)) {
 			return true;
 		} else {
 			return false;
@@ -151,133 +155,145 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 		return tElement;
 	}
-	
-//	public void draw (Graphics g, int X, int Y, Hex aHex, Paint aPaint) {
-//		draw (g, X, Y, aHex, aPaint, false);
-//	}
 
-	public void draw (Graphics g, int X, int Y, Hex aHex, Paint aPaint, boolean aHasPortToken, 
-						boolean aHasCattleToken, boolean aHasBridgeToken, boolean aHasTunnelToken, int aBenefitValue) {
+	public void draw (Graphics g, int X, int Y, Hex aHex, Paint aHexFillPaint, 
+					boolean aHasPortToken,  boolean aHasCattleToken, 
+					boolean aHasBridgeToken, boolean aHasTunnelToken, int aBenefitValue) {
+		Paint tTerrainPaint;
+		
+		tTerrainPaint = getPaint ();
 		switch (terrain) {
-		case NO_TERRAIN:
-			break;
-
-		case RIVER: /* River */
-			drawRiver (g, X, Y, aHex, getPaint ());
-			break;
-
-		case MULTIPLE_RIVER: /* Multiple River */
-			aHex.drawMultipleRiver (g, X, Y, getPaint ());
-			break;
-
-		case MAJOR_RIVER: /* Major River */
-			aHex.drawMajorRiver (g, X, Y, getPaint ());
-			break;
-
-		case SMALL_RIVER: /* Small River */
-			aHex.drawSmallRiver (g, X, Y, getPaint ());
-			break;
-
-		case LARGE_RIVER: /* Large River */
-			aHex.drawLargeRiver (g, X, Y, getPaint ());
-			break;
-
-		case SHALLOW_COAST: /* Shallow Coastline */
-			aHex.drawShallowCoast (g, X, Y, getPaint ());
-			break;
-
-		case COAST: /* Coastline */
-			aHex.drawCoast (g, X, Y, getPaint ());
-			break;
-
-		case DEEP_COAST: /* Deep Coastline */
-			aHex.drawDeepCoast (g, X, Y, getPaint ());
-			break;
-
-		case HILL: /* Hill */
-			aHex.drawHill (g, X, Y, aPaint);
-			break;
-
-		case MOUNTAIN: /* Mountain */
-			aHex.drawMountain (g, X, Y, aPaint);
-			break;
-
-		case HIMALAYA: /* Mountain */
-			aHex.drawHimalaya (g, X, Y, aPaint);
-			break;
-
-		case PASS: /* Mountain Pass */
-			break;
-
-		case SWAMP: /* Swamp */
-			break;
-
-		case LAKE: /* Lake */
-			break;
-
-		case PORT: /* Draw Port License Token, Draw an Anchor */
-			if (aHasPortToken) {
-				aHex.drawLicenseToken (g, X, Y, getPaint (), aBenefitValue);
-			} else {
-				aHex.drawPort (g, X, Y, getPaint ());
-			}
-			break;
-
-		case CATTLE: /* Draw  License Token, Draw CattleCattle */
-			if (aHasCattleToken) {
-				aHex.drawLicenseToken (g, X, Y, getPaint (), aBenefitValue);
-			} else {
-				aHex.drawCattle (g, X, Y, getPaint ());
-			}
-			break;
-
-		case BRIDGE: /* Draw Bridge */
-			if (aHasBridgeToken) {
-				aHex.drawLicenseToken (g, X, Y, getPaint (), aBenefitValue);
-			}
-			break;
-
-		case TUNNEL: /* Draw Tunnel */
-			if (aHasTunnelToken) {
-				aHex.drawLicenseToken (g, X, Y, getPaint (), aBenefitValue);
-			}
-			break;
-
-		case DESERT: /* Desert, Draw a Cactus */
-			break;
-
-		case END_ROUTE:
-			aHex.drawOctagon (g, X, Y, Color.RED);
+			case NO_TERRAIN:
+				break;
+	
+			case RIVER: /* River */
+				drawRiver (g, X, Y, aHex, tTerrainPaint);
+				break;
+	
+			case MULTIPLE_RIVER: /* Multiple River */
+				aHex.drawMultipleRiver (g, X, Y, tTerrainPaint);
+				break;
+	
+			case MAJOR_RIVER: /* Major River */
+				aHex.drawMajorRiver (g, X, Y, tTerrainPaint);
+				break;
+	
+			case SMALL_RIVER: /* Small River */
+				aHex.drawSmallRiver (g, X, Y, tTerrainPaint);
+				break;
+	
+			case LARGE_RIVER: /* Large River */
+				aHex.drawLargeRiver (g, X, Y, tTerrainPaint);
+				break;
+	
+			case SHALLOW_COAST: /* Shallow Coast line */
+				aHex.drawShallowCoast (g, X, Y, tTerrainPaint);
+				break;
+	
+			case COAST: /* Coast line */
+				aHex.drawCoast (g, X, Y, tTerrainPaint);
+				break;
+	
+			case DEEP_COAST: /* Deep Coast line */
+				aHex.drawDeepCoast (g, X, Y, tTerrainPaint);
+				break;
+	
+			case HILL: /* Hill */
+				aHex.drawHill (g, X, Y, aHexFillPaint);
+				break;
+	
+			case MOUNTAIN: /* Mountain */
+				aHex.drawMountain (g, X, Y, aHexFillPaint);
+				break;
+	
+			case HIMALAYA: /* Mountain */
+				aHex.drawHimalaya (g, X, Y, aHexFillPaint);
+				break;
+	
+			case PASS: /* Mountain Pass */
+				break;
+	
+			case SWAMP: /* Swamp */
+				break;
+	
+			case LAKE: /* Lake */
+				break;
+	
+			case PORT: /* Draw Port License Token, Draw an Anchor */
+				if (aHasPortToken) {
+					aHex.drawLicenseToken (g, X, Y, tTerrainPaint, aBenefitValue);
+				} else {
+					aHex.drawPort (g, X, Y, tTerrainPaint);
+				}
+				break;
+	
+			case CATTLE: /* Draw  License Token, Draw Cattle Token */
+				if (aHasCattleToken) {
+					aHex.drawLicenseToken (g, X, Y, tTerrainPaint, aBenefitValue);
+				} else {
+					aHex.drawCattle (g, X, Y, tTerrainPaint);
+				}
+				break;
+	
+			case BRIDGE: /* Draw Bridge */
+				if (aHasBridgeToken) {
+					aHex.drawLicenseToken (g, X, Y, tTerrainPaint, aBenefitValue);
+				}
+				break;
+	
+			case TUNNEL: /* Draw Tunnel */
+				if (aHasTunnelToken) {
+					aHex.drawLicenseToken (g, X, Y, tTerrainPaint, aBenefitValue);
+				}
+				break;
+	
+			case DESERT: /* Desert, Draw a Cactus */
+				break;
+	
+			case END_ROUTE:
+				// TODO -- Draw Border around Hex at end of Route
+				break;
+				
+			case START_ROUTE:
+				// TODO -- Draw Border around Hex at start of Route
+				break;
 		}
 	}
 
 	public void drawRiver (Graphics g, int Xc, int Yc, Hex aHex, Paint aPaint) {
-		int X1, Y1, width, height, index;
-		int tTrackWidth = aHex.getTrackWidth ();
-		Graphics2D g2d = (Graphics2D) g;
-		int halfTW = Double.valueOf (tTrackWidth / 2).intValue ();
-		BasicStroke tRiverStroke = new BasicStroke (2);
-		Stroke tCurrentStroke = g2d.getStroke ();
+		int X1, Y1;
+		int width, height, index;
+		int tTrackWidth;
+		int halfTW;
+		Graphics2D tGraphics2D;
+		BasicStroke tRiverStroke;
+		Stroke tCurrentStroke;
 
+		tGraphics2D = (Graphics2D) g;
+		tTrackWidth = aHex.getTrackWidth ();
+		halfTW = Double.valueOf (tTrackWidth / 2).intValue ();
+		tRiverStroke = new BasicStroke (2);
+		tCurrentStroke = tGraphics2D.getStroke ();
 		width = tTrackWidth - 1;
 		height = tTrackWidth - 1;
 		X1 = Xc - halfTW - tTrackWidth - tTrackWidth;
 		Y1 = Yc - tTrackWidth;
-		g2d.setStroke (tRiverStroke);
-		g2d.setPaint (aPaint);
+		tGraphics2D.setStroke (tRiverStroke);
+		tGraphics2D.setPaint (aPaint);
 		for (index = 0; index < 3; index++) {
 			g.drawArc (X1, Y1, width, height, 10, 160);
 			X1 = X1 + tTrackWidth;
 			g.drawArc (X1, Y1 - 1, width, height, 190, 160);
 			X1 = X1 + tTrackWidth;
 		}
-		g2d.setColor (Color.black);
-		g2d.setStroke (tCurrentStroke);
+		tGraphics2D.setColor (Color.black);
+		tGraphics2D.setStroke (tCurrentStroke);
 	}
 
 	public boolean drawBorder () {
-		boolean tDrawBorder = true;
+		boolean tDrawBorder;
 
+		tDrawBorder = true;
 		switch (terrain) {
 
 		case OCEAN:
@@ -353,7 +369,12 @@ public class Terrain extends Feature implements LoadableXMLI {
 
 	public boolean isMountainous () {
 		// True if Hill, Mountain or Himalaya
-		return ((terrain == HILL) || (terrain == MOUNTAIN) || (terrain == HIMALAYA));
+		boolean tIsMountainous;
+		
+		
+		tIsMountainous = ((terrain == HILL) || (terrain == MOUNTAIN) || (terrain == HIMALAYA));
+		
+		return tIsMountainous;
 	}
 
 	public boolean isCattle () {
@@ -386,8 +407,9 @@ public class Terrain extends Feature implements LoadableXMLI {
 	}
 
 	public boolean isSelectable () {
-		boolean tIsSelectable = true;
+		boolean tIsSelectable;
 
+		 tIsSelectable = true;
 		switch (terrain) {
 
 		case OFF_BOARD_BLACK:
@@ -477,6 +499,7 @@ public class Terrain extends Feature implements LoadableXMLI {
 		paints [OFF_BOARD_GRAY] [0] = Color.gray;
 		paints [OFF_BOARD_BLACK] [0] = new Color (102, 204, 102);
 		paints [OFF_BOARD_GREEN] [0] = new Color (100, 166, 80);
+		paints [OFF_BOARD_XXX] [0] = new Color (0, 0, 0);
 		paints [THICK_BORDER] [0] = Color.yellow;
 		paints [RIVER] [0] = Color.blue;
 		paints [MULTIPLE_RIVER] [0] = Color.blue;
@@ -493,20 +516,23 @@ public class Terrain extends Feature implements LoadableXMLI {
 		paints [SHALLOW_COAST] [0] = Color.blue;
 		paints [COAST] [0] = Color.blue;
 		paints [DEEP_COAST] [0] = Color.blue;
-		paints [DESERT] [0] = Color.black;
-
+		paints [CATTLE] [0] = Color.black;
+		paints [END_ROUTE] [0] = Color.red;
+		paints [START_ROUTE] [0] = Color.green;
+		paints [BRIDGE] [0] = Color.black;
+		paints [TUNNEL] [0] = Color.black;
 
 		paints [NO_TERRAIN] [1] = Color.black;
 		tTexturePaint = XMLNode.createTexture (new Color (204, 255, 204), Color.lightGray);
 		paints [CLEAR] [1] = tTexturePaint;
 		paints [OCEAN] [1] = new Color (165, 204, 236);
-
 		tTexturePaint = XMLNode.createTexture (new Color (210, 192, 145), Color.darkGray);
 		paints [DELTA] [1] = tTexturePaint;
 		paints [OFF_BOARD_RED] [1] = new Color (233, 39, 34);
 		paints [OFF_BOARD_GRAY] [1] = Color.gray;
 		paints [OFF_BOARD_BLACK] [1] = new Color (102, 204, 102);
 		paints [OFF_BOARD_GREEN] [1] = new Color (100, 166, 80);
+		paints [OFF_BOARD_XXX] [1] = new Color (0, 0, 0);
 		paints [THICK_BORDER] [1] = Color.yellow;
 		paints [RIVER] [1] = Color.blue;
 		paints [MULTIPLE_RIVER] [1] = Color.blue;
@@ -524,7 +550,11 @@ public class Terrain extends Feature implements LoadableXMLI {
 		paints [COAST] [1] = Color.blue;
 		paints [DEEP_COAST] [1] = Color.blue;
 		paints [DESERT] [1] = Color.black;
-
+		paints [CATTLE] [1] = Color.black;
+		paints [END_ROUTE] [1] = Color.red;
+		paints [START_ROUTE] [1] = Color.green;
+		paints [BRIDGE] [1] = Color.black;
+		paints [TUNNEL] [1] = Color.black;
 	}
 
 	public void setCost (int aCost) {
