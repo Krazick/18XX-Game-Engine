@@ -132,7 +132,9 @@ public class MapCell implements Comparator<Object> {
 		setupLicenseToken ();
 	}
 
-	public boolean addRevenueCenter (int aType, int aID, int aLocation, String aName, int aValue, TileType aTileType) {
+
+	public boolean addRevenueCenter (int aType, int aID, int aLocation, String aName, int aValue, 
+									TileType aTileType) {
 		RevenueCenterType tRCType = new RevenueCenterType (aType);
 		RevenueCenter tRC;
 		Location tLocation2;
@@ -606,6 +608,10 @@ public class MapCell implements Comparator<Object> {
 			removePortToken ();
 		} else if (aTokenType.equals (MapBenefit.CATTLE_TOKEN)) {
 			removeCattleToken ();
+		} else if (aTokenType.equals (MapBenefit.BRIDGE_TOKEN)) {
+			removeBridgeToken ();
+		} else if (aTokenType.equals (MapBenefit.TUNNEL_TOKEN)) {
+			removeTunnelToken ();
 		}
 	}
 	
@@ -646,6 +652,22 @@ public class MapCell implements Comparator<Object> {
 		hasTunnelToken = aTunnelToken;
 	}
 	
+	public void layBridgeToken () {
+		setBridgeToken (true);
+	}
+	
+	public void removeBridgeToken () {
+		setBridgeToken (false);
+	}
+	
+	public void layTunnelToken () {
+		setTunnelToken (true);
+	}
+	
+	public void removeTunnelToken () {
+		setTunnelToken (false);
+	}
+
 	public void layPortToken () {
 		setPortToken (true);
 	}
@@ -1672,7 +1694,19 @@ public class MapCell implements Comparator<Object> {
 			tCorporation = hexMap.getOperatingCompany ();
 			tLicense = tCorporation.getLicense (LicenseTypes.CATTLE);
 			if (tLicense != License.NO_LICENSE) {
-				tBenefitValue = tLicense.getPortValue ();
+				tBenefitValue = tLicense.getBenefitValue ();
+			}
+		} else if (hasBridgeToken ()) {
+			tCorporation = hexMap.getOperatingCompany ();
+			tLicense = tCorporation.getLicense (LicenseTypes.BRIDGE);
+			if (tLicense != License.NO_LICENSE) {
+				tBenefitValue = tLicense.getBenefitValue ();
+			}
+		} else if (hasTunnelToken ()) {
+			tCorporation = hexMap.getOperatingCompany ();
+			tLicense = tCorporation.getLicense (LicenseTypes.TUNNEL);
+			if (tLicense != License.NO_LICENSE) {
+				tBenefitValue = tLicense.getBenefitValue ();
 			}
 
 		}
