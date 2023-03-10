@@ -8,6 +8,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.CloseCompanyAction;
+import ge18xx.round.action.LayBenefitTokenAction;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
@@ -15,15 +16,19 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class MapBenefit extends Benefit {
+	final static AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
 	final static AttributeName AN_MAPCELL = new AttributeName ("mapCell");
 	final static AttributeName AN_COST = new AttributeName ("cost");
 	final static AttributeName AN_SAME_TURN = new AttributeName ("sameTurn");
 	public final static String PORT_TOKEN = "port";
 	public final static String CATTLE_TOKEN = "cattle";
+	public final static String BRIDGE_TOKEN = "bridge";
+	public final static String TUNNEL_TOKEN = "tunnel";
 	public final static String NAME = "Map";
 	String mapCellID;
 	int cost;
 	boolean sameTurn;
+	String tokenType;
 
 	public MapBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -31,14 +36,25 @@ public class MapBenefit extends Benefit {
 		String tMapCellID;
 		int tCost;
 		boolean tSameTurn;
-
+		String tTokenType;
+		
+		tTokenType = aXMLNode.getThisAttribute (AN_TOKEN_TYPE);
 		tMapCellID = aXMLNode.getThisAttribute (AN_MAPCELL);
 		tCost = aXMLNode.getThisIntAttribute (AN_COST);
 		tSameTurn = aXMLNode.getThisBooleanAttribute (AN_SAME_TURN);
+		setTokenType (tTokenType);
 		setMapCellID (tMapCellID);
 		setCost (tCost);
 		setSameTurn (tSameTurn);
 		setName (NAME);
+	}
+	
+	public void setTokenType (String aTokenType) {
+		tokenType = aTokenType;
+	}
+
+	public String getTokenType () {
+		return tokenType;
 	}
 
 	public void setSameTurn (boolean aSameTurn) {
@@ -102,12 +118,15 @@ public class MapBenefit extends Benefit {
 		tMapFrame.revalidate ();
 	}
 	
-	protected void placeBenefitToken (MapCell aSelectedMapCell, String aTokenType, MapBenefit aMapBenefit, int aBenefitValue) {
+	protected LayBenefitTokenAction placeBenefitToken (MapCell aSelectedMapCell, String aTokenType, MapBenefit aMapBenefit, int aBenefitValue) {
 		MapFrame tMapFrame;
+		LayBenefitTokenAction tLayBenefitTokenAction;
 		
 		tMapFrame = getMapFrame ();
-		tMapFrame.placeBenefitToken (aSelectedMapCell, aTokenType, aMapBenefit, aBenefitValue);
+		tLayBenefitTokenAction = tMapFrame.placeBenefitToken (aSelectedMapCell, aTokenType, aMapBenefit, aBenefitValue);
 		tMapFrame.revalidate ();
+		
+		return tLayBenefitTokenAction;
 	}
 	
 	protected boolean isTileAvailable () {
