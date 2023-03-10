@@ -11,17 +11,17 @@ import ge18xx.company.License;
 import ge18xx.company.PortLicense;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
+import ge18xx.round.action.LayBenefitTokenAction;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
 public class PortPlacementBenefit extends MapBenefit {
-	final static AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
 	final static AttributeName AN_TOKEN_PLACEMENT = new AttributeName ("tokenPlacement");
 	final static AttributeName AN_TOKEN_BONUS = new AttributeName ("tokenBonus");
 	public final static String NAME = "Port Placement";
-	String tokenType;
 	boolean tokenPlacement;
 	int tokenBonus;
 	AddLicenseEffect addLicenseEffect;
@@ -29,21 +29,14 @@ public class PortPlacementBenefit extends MapBenefit {
 	public PortPlacementBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
 
-		String tTokenType;
 		boolean tTokenPlacement;
 		int tTokenBonus;
 
-		tTokenType = aXMLNode.getThisAttribute (AN_TOKEN_TYPE);
 		tTokenPlacement = aXMLNode.getThisBooleanAttribute (AN_TOKEN_PLACEMENT);
 		tTokenBonus = aXMLNode.getThisIntAttribute (AN_TOKEN_BONUS);
-		setTokenType (tTokenType);
 		setTokenPlacement (tTokenPlacement);
 		setTokenBonus (tTokenBonus);
 		setName (NAME);
-	}
-
-	public void setTokenType (String aTokenType) {
-		tokenType = aTokenType;
 	}
 
 	public void setTokenPlacement (boolean aTokenPlacement) {
@@ -52,10 +45,6 @@ public class PortPlacementBenefit extends MapBenefit {
 
 	public void setTokenBonus (int aTokenBonus) {
 		tokenBonus = aTokenBonus;
-	}
-
-	public String getTokenType () {
-		return tokenType;
 	}
 
 	public boolean getTokenPlacement () {
@@ -105,6 +94,8 @@ public class PortPlacementBenefit extends MapBenefit {
 		ShareCompany tOwningCompany;
 		PortLicense tPortLicense;
 		String tLicenseName;
+		LayBenefitTokenAction tLayBenefitTokenAction;
+		GameManager tGameManager;
 		
 		tOwningCompany = getOwningCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
@@ -114,14 +105,26 @@ public class PortPlacementBenefit extends MapBenefit {
 			tCanHoldPortToken = tSelectedMapCell.canHoldPortToken ();
 			if (tCanHoldPortToken) {
 				setMapCellID (tSelectedMapCell);
-				tLicenseName = privateCompany.getAbbrev () + " Port";
+				tLicenseName = buildLicenseName ();
 				tPortLicense = new PortLicense (tLicenseName, getTokenBonus ());
+				tPortLicense.setMapCellIDs (mapCellID);
 				addLicense (tOwningCompany, tPortLicense);
-				placeBenefitToken (tSelectedMapCell, tokenType, this, tokenBonus);
+				tLayBenefitTokenAction = placeBenefitToken (tSelectedMapCell, tokenType, this, tokenBonus);
+				tLayBenefitTokenAction.addAddLicenseEffect (addLicenseEffect);
+				tGameManager = tOwningCompany.getGameManager ();
+				tGameManager.addAction (tLayBenefitTokenAction);
 			}
 		}
 	}
+
+	public String buildLicenseName () {
+		String tLicenseName;
+		
+		tLicenseName = privateCompany.getAbbrev () + " Port";
 	
+		return tLicenseName;
+	}
+
 	public void addLicense (ShareCompany aOwningCompany, License aLicense) {
 		Bank tBank;
 		
@@ -170,15 +173,4 @@ public class PortPlacementBenefit extends MapBenefit {
 			setToolTip ("No Selected Map Cell");
 		}
 	}
-	
-//	/**
-//	 *  Add Any additional Effects to the provided Action generated in the process of applying this Benefit.
-//	 *  
-//	 * @param aAction The Action to which the Effect needs to be added.
-//	 * 
-//	 */
-//	@Override
-//	public void addAdditionalEffects (Action aAction) {
-//		aAction.addEffect (addLicenseEffect);
-//	}
 }
