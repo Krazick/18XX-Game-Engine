@@ -1052,6 +1052,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tXMLLicenses = aXMLDocument.createElement (License.EN_LICENSES);
 				for (License tLicense : licenses) {
 					tLicenseElement = tLicense.createElement (aXMLDocument);
+					tLicense.addAttributes (tLicenseElement);
+
 					tXMLLicenses.appendChild (tLicenseElement);
 				}
 				aXMLCorporationState.appendChild (tXMLLicenses);
