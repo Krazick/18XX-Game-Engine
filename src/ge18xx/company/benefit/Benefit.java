@@ -2,6 +2,7 @@ package ge18xx.company.benefit;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -9,7 +10,10 @@ import javax.swing.JPanel;
 import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.effects.BenefitUsedEffect;
+import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
@@ -44,6 +48,7 @@ public abstract class Benefit implements ActionListener {
 	protected PrivateCompany privateCompany;
 	Benefit previousBenefitInUse;
 	String name;
+	ArrayList<Effect> additionalEffects;
 	
 	public Benefit () {
 		setName (NAME);
@@ -53,6 +58,7 @@ public abstract class Benefit implements ActionListener {
 		setActorType (ActorI.ActorTypes.NO_TYPE.toString ());
 		setAllActors (false);
 		setDefaults ();
+		setAdditionalEffects ();
 	}
 
 	public Benefit (XMLNode aXMLNode) {
@@ -73,8 +79,27 @@ public abstract class Benefit implements ActionListener {
 		setActorType (tActorType);
 		setAllActors (tAllActors);
 		setDefaults ();
+		setAdditionalEffects ();
 	}
 
+	public void setAdditionalEffects () {
+		additionalEffects = new ArrayList<Effect> ();
+	}
+	
+	public void clearAdditionalEffects () {
+		setAdditionalEffects ();
+	}
+	
+	public void addAdditionalEffect (Effect aEffect) {
+		additionalEffects.add (aEffect);
+	}
+	
+	public void addAdditionalEffects (Action aAction) {
+		for (Effect tEffect : additionalEffects) {
+			aAction.addEffect (tEffect);
+		}
+	}
+	
 	public void setAllActors (boolean aAllActors) {
 		allActors = aAllActors;
 	}
@@ -353,8 +378,12 @@ public abstract class Benefit implements ActionListener {
 
 	}
 
-	public void completeBenefitInUse () {
+	public void completeBenefitInUse (Corporation aOwningCompany) {
+		BenefitUsedEffect tBenefitUsedEffect;
+
 		setUsed (true);
+		tBenefitUsedEffect = new BenefitUsedEffect (aOwningCompany, this);
+		addAdditionalEffect (tBenefitUsedEffect);
 		removeButton ();
 	}
 
