@@ -46,12 +46,11 @@ import ge18xx.map.MapCell;
 import ge18xx.map.Terrain;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActionManager;
-import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.ExtendRouteAction;
-import ge18xx.round.action.LayBenefitTokenAction;
 import ge18xx.round.action.RouteAction;
 import ge18xx.round.action.StartRouteAction;
+import ge18xx.round.action.effects.LayBenefitTokenEffect;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
@@ -399,8 +398,11 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	}
 
 	private void completeTileLay () {
+		Corporation tOperatingCompany;
+		
 		if (map.wasTilePlaced ()) {
-			completeBenefitInUse ();
+			tOperatingCompany = gameManager.getOperatingCompany ();
+			completeBenefitInUse (tOperatingCompany);
 			removeHomeIfChoice ();
 		}
 		togglePlaceTileMode ();
@@ -490,11 +492,8 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		toTheFront ();
 	}
 
-	private void completeBenefitInUse () {
-		Corporation tCorporation;
-
-		tCorporation = getOperatingCompany ();
-		tCorporation.completeBenefitInUse ();
+	private void completeBenefitInUse (Corporation aOperatingCompany) {
+		aOperatingCompany.completeBenefitInUse (aOperatingCompany);
 	}
 
 	private void updatePickupTileButton (boolean aEnabled, String aToolTip) {
@@ -744,32 +743,17 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		}
 	}
 
-	public LayBenefitTokenAction placeBenefitToken (MapCell aMapCell, String aTokenType, 
+	public void placeBenefitToken (MapCell aMapCell, String aTokenType, 
 							Benefit aBenefitInUse, int aBenefitValue) {
-		LayBenefitTokenAction tLayBenefitTokenAction;
-		
-		aMapCell.layBenefitToken (aTokenType, aBenefitValue);
-		tLayBenefitTokenAction = createLayBenefitTokenAction (aMapCell, aTokenType, aBenefitInUse, aBenefitValue);
-		completeBenefitInUse ();
-		
-		return tLayBenefitTokenAction;
-	}
-
-	public LayBenefitTokenAction createLayBenefitTokenAction (MapCell aMapCell, String aTokenType, 
-						Benefit aBenefitInUse, int aBenefitValue) {
-		LayBenefitTokenAction tLayBenefitTokenAction;
-		String tOperatingRoundID;
+		LayBenefitTokenEffect tLayBenefitTokenEffect;
 		Corporation tOperatingCompany;
 		
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
-		tOperatingCompany = gameManager.getOperatingCompany ();
-		tLayBenefitTokenAction = new LayBenefitTokenAction (ActorI.ActionStates.OperatingRound, 
-						tOperatingRoundID, tOperatingCompany);
-		tLayBenefitTokenAction.addLayBenefitTokenEffect (tOperatingCompany, aMapCell, aTokenType, 
-						aBenefitInUse, aBenefitValue);
-		resetAllModes ();
+		aMapCell.layBenefitToken (aTokenType, aBenefitValue);
 		
-		return tLayBenefitTokenAction;
+		tOperatingCompany = gameManager.getOperatingCompany ();
+		tLayBenefitTokenEffect = new LayBenefitTokenEffect (tOperatingCompany, aMapCell, aTokenType, aBenefitValue);
+		aBenefitInUse.addAdditionalEffect (tLayBenefitTokenEffect);
+		completeBenefitInUse (tOperatingCompany);
 	}
 	
 	public void putMapTokenDown (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType, City aCity, 
@@ -792,7 +776,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				tRevenueCenterIndex = tTile.getStationIndex (tCorporationID);
 				tTokenIndex = aTokenCompany.getTokenIndex (aMapToken);
 				aTokenCompany.tokenWasPlaced (aMapCell, tTile, tRevenueCenterIndex, aMapToken, tTokenIndex, aAddLayTokenAction);
-				completeBenefitInUse ();
+				completeBenefitInUse (aTokenCompany);
 				putTokenButton.setEnabled (false);
 				putTokenButton.setToolTipText (TOKEN_ALREADY_PLACED);
 				// If we have placed the Token and there was a Base Corporation Tile, clear out
