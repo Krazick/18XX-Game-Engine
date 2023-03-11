@@ -177,7 +177,10 @@ public class TilePlacementBenefit extends MapBenefit {
 
 	@Override
 	public void abortUse () {
-		resetBenefitInUse ();
+		ShareCompany tOwningCompany;
+
+		tOwningCompany = getOwningCompany ();
+		resetBenefitInUse (tOwningCompany);
 	}
 
 	// If this is an Extra Tile Placement Benefit, we DO NOT want to Change the
