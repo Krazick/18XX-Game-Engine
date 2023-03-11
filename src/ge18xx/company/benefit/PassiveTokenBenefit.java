@@ -46,8 +46,7 @@ public class PassiveTokenBenefit extends FreeLicenseBenefit {
 		return tMapFrame;
 	}
 	
-	protected void placeBenefitToken (MapCell aSelectedMapCell, int aLocation, String aTokenType,  
-					int aBenefitValue) {
+	protected void placeBenefitToken (MapCell aSelectedMapCell, String aTokenType, int aBenefitValue) {
 		MapFrame tMapFrame;
 		
 		tMapFrame = getMapFrame ();
@@ -61,7 +60,6 @@ public class PassiveTokenBenefit extends FreeLicenseBenefit {
 		MapCell tMapCell;
 		int tMapCellCount;
 		int tMapCellIndex;
-		int tLocation;
 		MapFrame tMapFrame;
 		HexMap tHexMap;
 		LayBenefitTokenEffect tLayBenefitTokenEffect;
@@ -72,13 +70,12 @@ public class PassiveTokenBenefit extends FreeLicenseBenefit {
 		tMapCellCount = getMapCellIDCount ();
 		for (tMapCellIndex = 0; tMapCellIndex < tMapCellCount; tMapCellIndex++) {
 			tMapCellID = getMapCellID (tMapCellIndex);
-			tLocation = getLocationInt (tMapCellIndex);
 			tMapCell = tHexMap.getMapCellForID (tMapCellID);
 			tActor = aAction.getActor ();
 			tLayBenefitTokenEffect = new LayBenefitTokenEffect (tActor, tMapCell, tokenType, value);
-			System.out.println ("Ready to Place " + tokenType + " Token at " + tMapCellID + " Location " + tLocation);
-			placeBenefitToken (tMapCell, tLocation, tokenType, value);
-			aAction.addEffect (tLayBenefitTokenEffect);
+			addAdditionalEffect (tLayBenefitTokenEffect);
+			System.out.println ("Ready to Place " + tokenType + " Token at " + tMapCellID);
+			placeBenefitToken (tMapCell, tokenType, value);
 		}
 	}
 }
