@@ -1,6 +1,9 @@
 package ge18xx.utilities;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -27,4 +30,53 @@ public interface GUI {
 	public static final Color NO_COLOR = null;
 	public static final String NEWLINE = "\n";
 	public static final Color defaultColor = UIManager.getColor ("Panel.background");
+	
+	public static int getNumberOfDisplays () {
+		int tNumberOfDisplays;
+		GraphicsEnvironment tLocalGraphicsEnvironment;
+		
+		tLocalGraphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment ();
+		tNumberOfDisplays = tLocalGraphicsEnvironment.getScreenDevices ().length;
+		
+		return tNumberOfDisplays;
+	}
+	
+	public static Dimension getDefaultScreenSize () {
+		GraphicsDevice tGraphicsDevice;
+		Dimension tDimension;
+		
+		tGraphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment ().getDefaultScreenDevice ();
+		tDimension = getSizeOfDevice (tGraphicsDevice);
+		
+		return tDimension;
+	}
+	
+	public static Dimension getScreenSize (int aDeviceIndex) {
+		GraphicsDevice tGraphicsDevice;
+		GraphicsDevice [] tGraphicsDevices;
+		Dimension tDimension;
+		
+		tGraphicsDevices = GraphicsEnvironment.getLocalGraphicsEnvironment ().getScreenDevices ();
+		System.out.println ("Number of Devices found " + tGraphicsDevices.length);
+		if ((aDeviceIndex > 0) && (aDeviceIndex < tGraphicsDevices.length)) {
+			tGraphicsDevice = tGraphicsDevices [aDeviceIndex];
+			tDimension = getSizeOfDevice (tGraphicsDevice);
+		} else {
+			tDimension = null;
+		}
+		
+		return tDimension;
+	}
+
+	public static Dimension getSizeOfDevice (GraphicsDevice tGraphicsDevice) {
+		Dimension tDimension;
+		int tWidth;
+		int tHeight;
+		
+		tWidth = tGraphicsDevice.getDisplayMode ().getWidth ();
+		tHeight = tGraphicsDevice.getDisplayMode ().getHeight ();
+		tDimension = new Dimension (tWidth, tHeight);
+		
+		return tDimension;
+	}
 }
