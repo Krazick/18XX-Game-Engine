@@ -600,6 +600,10 @@ public class MapCell implements Comparator<Object> {
 			layPortToken ();
 		} else if (aTokenType.equals (MapBenefit.CATTLE_TOKEN)) {
 			layCattleToken ();
+		} else if (aTokenType.equals (MapBenefit.BRIDGE_TOKEN)) {
+			layBridgeToken ();
+		} else if (aTokenType.equals (MapBenefit.TUNNEL_TOKEN)) {
+			layTunnelToken ();
 		}
 	}
 	
