@@ -45,6 +45,11 @@ class CorporationBasicTests {
 		public int calculateStartingTreasury () {
 			return 0;
 		}
+
+		@Override
+		public void completeBenefitInUse (Corporation aCorporation) {
+			
+		}
 	}
 
 	CorporationConcrete corporation;
