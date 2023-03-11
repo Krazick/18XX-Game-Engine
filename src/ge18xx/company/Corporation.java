@@ -2639,8 +2639,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	}
 
-	@Override
-	public abstract void completeBenefitInUse ();
+	public abstract void completeBenefitInUse (Corporation aCorporation);
 
 	public License getPortLicense () {
 		return License.NO_LICENSE;
