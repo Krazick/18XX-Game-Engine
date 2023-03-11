@@ -11,7 +11,6 @@ import ge18xx.company.License;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.player.PortfolioHolderI;
-import ge18xx.round.action.Action;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.AttributeName;
@@ -25,7 +24,6 @@ public class LicenseBenefit extends Benefit {
 	int licenseCost;
 	String mapCellIDs;
 	int value;
-	AddLicenseEffect addLicenseEffect;
 
 	public LicenseBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -156,20 +154,12 @@ public class LicenseBenefit extends Benefit {
 
 	public void addLicense (ShareCompany aOwningCompany, License aLicense) {
 		Bank tBank;
-		
+		AddLicenseEffect tAddLicenseEffect;
+
 		aOwningCompany.addLicense (aLicense);
 		tBank = aOwningCompany.getBank ();
-		addLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
-	}
-
-	/**
-	 *  Add Any additional Effects to the provided Action generated in the process of applying this Benefit.
-	 *  
-	 * @param aAction The Action to which the Effect needs to be added.
-	 * 
-	 */
-	public void addAdditionalEffects (Action aAction) {
-		aAction.addEffect (addLicenseEffect);
+		tAddLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
+		addAdditionalEffect (tAddLicenseEffect);
 	}
 
 	public String buildLicenseName () {
