@@ -19,7 +19,7 @@ public class FreeLicenseBenefit extends PassiveEffectBenefit {
 	String [] mapCellIDs;
 	License.LicenseTypes licenseType;
 	int value;
-	AddLicenseEffect addLicenseEffect;
+//	AddLicenseEffect addLicenseEffect;
 
 	public FreeLicenseBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -142,12 +142,20 @@ public class FreeLicenseBenefit extends PassiveEffectBenefit {
 		License tLicense;
 		String tLicenseName;
 		
-		tLicenseName = buildLicenseName ();
+		tLicenseName = buildLicenseName (licenseType);
 		tLicense = new License (tLicenseName, licenseCost, value);
 		tLicense.setMapCellIDs (getAllMapCellIDs ());
 		tLicense.setType (licenseType);
 		
 		return tLicense;
+	}
+
+	public String buildLicenseName (License.LicenseTypes aType) {
+		String tLicenseName;
+		
+		tLicenseName = privateCompany.getAbbrev () + " " + aType.toString ();
+	
+		return tLicenseName;
 	}
 	
 	@Override
@@ -157,15 +165,18 @@ public class FreeLicenseBenefit extends PassiveEffectBenefit {
 		tLicense = getLicense ();
 		addLicense (aShareCompany, tLicense);
 		setUsed (true);
-		aAction.addEffect (addLicenseEffect);
+
+//		aAction.addEffect (addLicenseEffect);
 	}
 
 	@Override
 	public void addLicense (ShareCompany aOwningCompany, License aLicense) {
 		Bank tBank;
+		AddLicenseEffect tAddLicenseEffect;
 		
 		aOwningCompany.addLicense (aLicense);
 		tBank = aOwningCompany.getBank ();
-		addLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
+		tAddLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
+		addAdditionalEffect (tAddLicenseEffect);
 	}
 }
