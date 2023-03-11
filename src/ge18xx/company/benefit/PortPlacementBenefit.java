@@ -11,10 +11,9 @@ import ge18xx.company.License;
 import ge18xx.company.PortLicense;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
-import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
-import ge18xx.round.action.LayBenefitTokenAction;
 import ge18xx.round.action.effects.AddLicenseEffect;
+import ge18xx.round.action.effects.BenefitUsedEffect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
@@ -24,7 +23,6 @@ public class PortPlacementBenefit extends MapBenefit {
 	public final static String NAME = "Port Placement";
 	boolean tokenPlacement;
 	int tokenBonus;
-	AddLicenseEffect addLicenseEffect;
 
 	public PortPlacementBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -94,9 +92,8 @@ public class PortPlacementBenefit extends MapBenefit {
 		ShareCompany tOwningCompany;
 		PortLicense tPortLicense;
 		String tLicenseName;
-		LayBenefitTokenAction tLayBenefitTokenAction;
-		GameManager tGameManager;
-		
+		BenefitUsedEffect tBenefitUsedEffect;
+
 		tOwningCompany = getOwningCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
 
@@ -109,10 +106,10 @@ public class PortPlacementBenefit extends MapBenefit {
 				tPortLicense = new PortLicense (tLicenseName, getTokenBonus ());
 				tPortLicense.setMapCellIDs (mapCellID);
 				addLicense (tOwningCompany, tPortLicense);
-				tLayBenefitTokenAction = placeBenefitToken (tSelectedMapCell, tokenType, this, tokenBonus);
-				tLayBenefitTokenAction.addAddLicenseEffect (addLicenseEffect);
-				tGameManager = tOwningCompany.getGameManager ();
-				tGameManager.addAction (tLayBenefitTokenAction);
+				placeBenefitToken (tSelectedMapCell, tokenType, this, tokenBonus);
+				setUsed (true);
+				tBenefitUsedEffect = new BenefitUsedEffect (tOwningCompany, this);
+				addAdditionalEffect (tBenefitUsedEffect);
 			}
 		}
 	}
@@ -127,10 +124,12 @@ public class PortPlacementBenefit extends MapBenefit {
 
 	public void addLicense (ShareCompany aOwningCompany, License aLicense) {
 		Bank tBank;
-		
+		AddLicenseEffect tAddLicenseEffect;
+	
 		aOwningCompany.addLicense (aLicense);
 		tBank = aOwningCompany.getBank ();
-		addLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
+		tAddLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
+		addAdditionalEffect (tAddLicenseEffect);
 	}
 
 	@Override
