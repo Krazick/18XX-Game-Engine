@@ -36,6 +36,7 @@ public class CattlePlacementBenefit extends MapBenefit {
 		setName (NAME);
 	}
 
+	@Override
 	public void setTokenType (String aTokenType) {
 		tokenType = aTokenType;
 	}
@@ -48,6 +49,7 @@ public class CattlePlacementBenefit extends MapBenefit {
 		tokenBonus = aTokenBonus;
 	}
 
+	@Override
 	public String getTokenType () {
 		return tokenType;
 	}
