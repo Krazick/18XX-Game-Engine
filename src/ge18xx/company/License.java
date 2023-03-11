@@ -23,7 +23,6 @@ public class License extends Coupon {
 	public static final int NO_VALUE = 0;
 	public static final String NO_NAME = "";
 	public static final String NO_MAP_CELL_IDS = "";
-	public enum LicenseTypes { NO_TYPE, PORT, OPEN_PORT, CLOSED_PORT, BRIDGE, TUNNEL, CATTLE, COAL };
 	int benefitValue;
 	boolean isPortLicense;
 	boolean isBridgeLicense;
@@ -31,6 +30,28 @@ public class License extends Coupon {
 	boolean isCattleLicense;
 	String mapCellIDs;
 	LicenseTypes type;
+	public enum LicenseTypes { 
+		NO_TYPE ("No Type"), 
+		PORT ("Port"), 
+		OPEN_PORT ("Open Port"), 
+		CLOSED_PORT ("Closed Port"), 
+		BRIDGE ("Bridge"), 
+		TUNNEL ("Tunnel"), 
+		CATTLE ("Cattle"), 
+		COAL ("Coal");
+		
+		private String enumString;
+	
+		LicenseTypes (String aEnumString) {
+			enumString = aEnumString;
+		}
+	
+		@Override
+		public String toString () {
+			return enumString;
+		}
+
+	};
 	
 	public License () {
 		this (NO_NAME, NO_VALUE, NO_VALUE);
