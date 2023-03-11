@@ -8,7 +8,6 @@ import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.CloseCompanyAction;
-import ge18xx.round.action.LayBenefitTokenAction;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
@@ -118,15 +117,14 @@ public class MapBenefit extends Benefit {
 		tMapFrame.revalidate ();
 	}
 	
-	protected LayBenefitTokenAction placeBenefitToken (MapCell aSelectedMapCell, String aTokenType, MapBenefit aMapBenefit, int aBenefitValue) {
+	protected void placeBenefitToken (MapCell aSelectedMapCell, String aTokenType, MapBenefit aMapBenefit, int aBenefitValue) {
 		MapFrame tMapFrame;
-		LayBenefitTokenAction tLayBenefitTokenAction;
 		
 		tMapFrame = getMapFrame ();
-		tLayBenefitTokenAction = tMapFrame.placeBenefitToken (aSelectedMapCell, aTokenType, aMapBenefit, aBenefitValue);
+		tMapFrame.placeBenefitToken (aSelectedMapCell, aTokenType, aMapBenefit, aBenefitValue);
+		tMapFrame.resetAllModes ();
 		tMapFrame.revalidate ();
-		
-		return tLayBenefitTokenAction;
+		tMapFrame.repaint ();
 	}
 	
 	protected boolean isTileAvailable () {
@@ -175,40 +173,43 @@ public class MapBenefit extends Benefit {
 		return aMap.getMapCellForID (mapCellID);
 	}
 
-	public void resetBenefitInUse () {
-		Corporation tOwningCompany;
+	public void resetBenefitInUse (Corporation aOwningCompany) {
 
 		if (privateCompany != PrivateCompany.NO_PRIVATE_COMPANY) {
-			tOwningCompany = (Corporation) privateCompany.getOwner ();
-			tOwningCompany.setBenefitInUse (previousBenefitInUse);
+			aOwningCompany.setBenefitInUse (previousBenefitInUse);
 		}
 	}
 
 	@Override
-	public void completeBenefitInUse () {
-		super.completeBenefitInUse ();
+	public void completeBenefitInUse (Corporation aOwningCompany) {
+		super.completeBenefitInUse (aOwningCompany);
 
-		Corporation tOwningCompany;
 		CloseCompanyAction tCloseCompanyAction;
 		GameManager tGameManager;
-		RoundManager tRoundManager;
-		String tRoundID;
 
-		resetBenefitInUse ();
-		tOwningCompany = (Corporation) privateCompany.getOwner ();
+		tGameManager = privateCompany.getGameManager ();
 		if (closeOnUse) {
-			tGameManager = privateCompany.getGameManager ();
-			tRoundManager = tGameManager.getRoundManager ();
-			tRoundID = tRoundManager.getOperatingRoundID ();
-			tCloseCompanyAction = new CloseCompanyAction (ActorI.ActionStates.OperatingRound, tRoundID, tOwningCompany);
-//			addAdditionalEffects (tCloseCompanyAction);
+			tCloseCompanyAction = createCloseCompanyAction (tGameManager, aOwningCompany);
 			privateCompany.close (tCloseCompanyAction);
-			tCloseCompanyAction.setChainToPrevious (true);
-			tRoundManager.addAction (tCloseCompanyAction);
+			addAdditionalEffects (tCloseCompanyAction);
+			tGameManager.addAction (tCloseCompanyAction);
 		}
-		tOwningCompany.updateFrameInfo ();
+		resetBenefitInUse (aOwningCompany);
+		aOwningCompany.updateFrameInfo ();
 	}
 
+	private CloseCompanyAction createCloseCompanyAction (GameManager aGameManager, Corporation aOwningCompany) {
+		RoundManager tRoundManager;
+		String tRoundID;
+		CloseCompanyAction tCloseCompanyAction;
+		
+		tRoundManager = aGameManager.getRoundManager ();
+		tRoundID = tRoundManager.getOperatingRoundID ();
+		tCloseCompanyAction = new CloseCompanyAction (ActorI.ActionStates.OperatingRound, tRoundID, aOwningCompany);
+
+		return tCloseCompanyAction;
+	}
+	
 	@Override
 	protected XMLElement getCorporationStateElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLBenefitElement;
