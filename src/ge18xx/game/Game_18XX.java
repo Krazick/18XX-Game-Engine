@@ -112,6 +112,7 @@ public class Game_18XX extends XMLFrame {
 	Image iconImage;
 	Path currentRelativePath;
 	String absolutePath;
+	int numberOfDisplays;
 
 	public Game_18XX () {
 		this (true);
@@ -129,7 +130,7 @@ public class Game_18XX extends XMLFrame {
 		absolutePath = currentRelativePath.toAbsolutePath ().toString ();
 		
 		setApplicationIcon ();
-
+//		printDisplayInfo ();
 		createActions ();
 		addMenus ();
 
@@ -149,6 +150,28 @@ public class Game_18XX extends XMLFrame {
 			}
 		});
 		updateDisconnectButton ();
+	}
+
+	public void printDisplayInfo () {
+		int tIndex;
+		Dimension tDimension;
+		numberOfDisplays = GUI.getNumberOfDisplays ();
+		
+		System.out.println ("Number of Displays " + numberOfDisplays);
+		tDimension = GUI.getDefaultScreenSize ();
+		if (tDimension != null) {
+			System.out.println ("Default Display size " + tDimension.toString ());
+		} else {
+			System.out.println ("Default Display DEVICE NOT FOUND");			
+		}
+		for (tIndex = 0; tIndex < numberOfDisplays; tIndex++) {
+			tDimension = GUI.getScreenSize (tIndex);
+			if (tDimension != null) {
+				System.out.println ("Display " + tIndex + " size " + tDimension.toString ());
+			} else {
+				System.out.println ("Display " + tIndex + " DEVICE NOT FOUND");
+			}
+		}
 	}
 
 	public String getJarDirectory () {
