@@ -91,7 +91,9 @@ public abstract class Benefit implements ActionListener {
 	}
 	
 	public void addAdditionalEffect (Effect aEffect) {
-		additionalEffects.add (aEffect);
+		if (! additionalEffects.contains (aEffect)) {
+			additionalEffects.add (aEffect);
+		}
 	}
 	
 	public void addAdditionalEffects (Action aAction) {
