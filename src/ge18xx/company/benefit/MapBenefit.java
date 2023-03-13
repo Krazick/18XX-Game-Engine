@@ -8,6 +8,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.CloseCompanyAction;
+import ge18xx.round.action.LayTokenAction;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
@@ -19,10 +20,10 @@ public class MapBenefit extends Benefit {
 	final static AttributeName AN_MAPCELL = new AttributeName ("mapCell");
 	final static AttributeName AN_COST = new AttributeName ("cost");
 	final static AttributeName AN_SAME_TURN = new AttributeName ("sameTurn");
-	public final static String PORT_TOKEN = "port";
-	public final static String CATTLE_TOKEN = "cattle";
-	public final static String BRIDGE_TOKEN = "bridge";
-	public final static String TUNNEL_TOKEN = "tunnel";
+	public final static String PORT_TOKEN = "Port";
+	public final static String CATTLE_TOKEN = "Cattle";
+	public final static String BRIDGE_TOKEN = "Bridge";
+	public final static String TUNNEL_TOKEN = "Tunnel";
 	public final static String NAME = "Map";
 	String mapCellID;
 	int cost;
@@ -198,6 +199,17 @@ public class MapBenefit extends Benefit {
 		aOwningCompany.updateFrameInfo ();
 	}
 
+	public void completeBenefitInUse (Corporation aOwningCompany, LayTokenAction aLayTokenAction) {
+		super.completeBenefitInUse (aOwningCompany);
+		
+		if (closeOnUse) {
+			privateCompany.close (aLayTokenAction);
+			addAdditionalEffects (aLayTokenAction);
+		}
+		resetBenefitInUse (aOwningCompany);
+		aOwningCompany.updateFrameInfo ();		
+	}
+	
 	private CloseCompanyAction createCloseCompanyAction (GameManager aGameManager, Corporation aOwningCompany) {
 		RoundManager tRoundManager;
 		String tRoundID;
