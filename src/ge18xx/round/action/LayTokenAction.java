@@ -10,6 +10,7 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.LayTokenEffect;
 import ge18xx.round.action.effects.RemoveHomeEffect;
 import ge18xx.tiles.Tile;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLNode;
 
 public class LayTokenAction extends ChangeMapAction {
@@ -54,10 +55,10 @@ public class LayTokenAction extends ChangeMapAction {
 	}
 
 	public String getMapCellID () {
-		String tMapCellID = "";
+		String tMapCellID = GUI.EMPTY_STRING;
 
 		for (Effect tEffect : effects) {
-			if ("".equals (tMapCellID)) {
+			if (GUI.EMPTY_STRING.equals (tMapCellID)) {
 				if (tEffect instanceof LayTokenEffect) {
 					tMapCellID = ((LayTokenEffect) tEffect).getMapCellID ();
 				}
