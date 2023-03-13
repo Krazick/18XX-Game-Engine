@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import ge18xx.bank.Bank;
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.TokenInfo.TokenType;
+import ge18xx.company.benefit.MapBenefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
@@ -672,6 +673,7 @@ public abstract class TokenCompany extends TrainCompany {
 		String tOperatingRoundID;
 		Bank tBank;
 		int tTokenCost;
+		MapBenefit tMapBenefit;
 
 		tTokenType = tokens.getTokenType (aMapToken);
 		tTokenCost = getTokenCost (aMapToken, tTokenType, aMapCell);
@@ -683,14 +685,18 @@ public abstract class TokenCompany extends TrainCompany {
 		tLayTokenAction = new LayTokenAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 		tLayTokenAction.addLayTokenEffect (this, aMapCell, aTile, aRevenueCenterIndex, tTokenType, aTokenIndex, benefitInUse);
 		addRemoveHomeEffect (aMapCell, tLayTokenAction);
-		if (benefitInUse.isRealBenefit ()) {
-			tLayTokenAction.addBenefitUsedEffect (this, benefitInUse);
-		}
 		tLayTokenAction.addChangeCorporationStatusEffect (this, aCurrentStatus, aNewStatus);
 		if (tTokenCost > 0) {
 			tBank = corporationList.getBank ();
 			transferCashTo (tBank, tTokenCost);
 			tLayTokenAction.addCashTransferEffect (this, tBank, tTokenCost);
+		}
+		if (benefitInUse.isRealBenefit ()) {
+			tLayTokenAction.addBenefitUsedEffect (this, benefitInUse);
+			if (benefitInUse instanceof MapBenefit) {
+				tMapBenefit = (MapBenefit) benefitInUse;
+				tMapBenefit.completeBenefitInUse (this, tLayTokenAction);
+			}
 		}
 		addAction (tLayTokenAction);
 	}
