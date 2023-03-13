@@ -73,7 +73,7 @@ public class BenefitUsedEffect extends Effect {
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " for " + benefitInUse.getPrivateCompany ().getAbbrev () + " "
-				+ getBenefitName () + " made by " + actor.getName () + ".");
+				+ getBenefitName () + " by " + actor.getName () + ".");
 	}
 
 	@Override
