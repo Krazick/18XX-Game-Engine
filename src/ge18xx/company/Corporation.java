@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ItemListener;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Observable;
 
 import javax.swing.BorderFactory;
@@ -44,7 +45,9 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.DeclareBankruptcyAction;
 import ge18xx.round.action.DoneCorpAction;
 import ge18xx.round.action.GenericActor;
+import ge18xx.round.action.LayTokenAction;
 import ge18xx.round.action.TransferOwnershipAction;
+import ge18xx.round.action.effects.Effect;
 import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.XMLFrame;
@@ -669,6 +672,18 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		corporationList.appendErrorReport (aErrorReport);
 	}
 
+	public void close (LayTokenAction aTokenAction) {
+		TransferOwnershipAction tTransferOwnershipAction;
+		List<Effect> tEffects;
+		
+		tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, "DUMMY", this);
+		close (tTransferOwnershipAction);
+		tEffects = tTransferOwnershipAction.getEffects ();
+		for (Effect tEffect : tEffects) {
+			aTokenAction.addEffect (tEffect);
+		}
+	}
+	
 	public void close (TransferOwnershipAction aTransferOwnershipAction) {
 		Certificate tCertificate;
 		CertificateHolderI tCertificateHolder;
@@ -676,7 +691,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		PortfolioHolderI tOwner;
 		Bank tBank;
 		int tCertificateCount;
-		ActorI.ActionStates tOldState, tNewState;
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
 		Portfolio tClosedPortfolio;
 
 		tOldState = getActionStatus ();
