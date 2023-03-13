@@ -79,7 +79,7 @@ public class LayBenefitTokenEffect extends ChangeMapEffect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " by " + actor.getName () + " lay " + tokenType + " token on MapCell " + mapCellID + ".");
+		return (REPORT_PREFIX + name + " by " + actor.getName () + " to lay " + tokenType + " token on MapCell " + mapCellID + ".");
 	}
 
 	@Override
