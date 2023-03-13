@@ -28,7 +28,7 @@
 		revenue="10" homeCell1="H11" homeLocation1="15" homeLocation2="17"
 		special="Free Tile Placement">
 		<Benefits>
-			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TilePlacementBenefit" extraTilePlacement="true" mapCell="H11" cost="0" close="false"/>
+			<Benefit actorType="Share Company" class="ge18xx.company.benefit.TilePlacementBenefit" extra="true" mapCell="H11" cost="0" close="false"/>
 		</Benefits>
 		<Certificate director="YES" percentage="100"
 			allowedOwners="IPO,Player,Share" />
