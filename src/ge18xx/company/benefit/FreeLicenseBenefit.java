@@ -2,13 +2,12 @@ package ge18xx.company.benefit;
 
 import java.util.Arrays;
 
-import ge18xx.bank.Bank;
 import ge18xx.company.Corporation;
 import ge18xx.company.License;
 import ge18xx.company.ShareCompany;
 import ge18xx.map.Location;
 import ge18xx.round.action.Action;
-import ge18xx.round.action.effects.AddLicenseEffect;
+import ge18xx.round.action.effects.BenefitUsedEffect;
 import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLNode;
 
@@ -19,7 +18,6 @@ public class FreeLicenseBenefit extends PassiveEffectBenefit {
 	String [] mapCellIDs;
 	License.LicenseTypes licenseType;
 	int value;
-//	AddLicenseEffect addLicenseEffect;
 
 	public FreeLicenseBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
@@ -145,7 +143,7 @@ public class FreeLicenseBenefit extends PassiveEffectBenefit {
 		tLicenseName = buildLicenseName (licenseType);
 		tLicense = new License (tLicenseName, licenseCost, value);
 		tLicense.setMapCellIDs (getAllMapCellIDs ());
-		tLicense.setType (licenseType);
+		tLicense.setTypeFromName (licenseType.toString ());
 		
 		return tLicense;
 	}
@@ -161,22 +159,13 @@ public class FreeLicenseBenefit extends PassiveEffectBenefit {
 	@Override
 	public void handlePassive (ShareCompany aShareCompany, Action aAction) {
 		License tLicense;
+		BenefitUsedEffect tBenefitUsedEffect;
 		
 		tLicense = getLicense ();
 		addLicense (aShareCompany, tLicense);
 		setUsed (true);
-
-//		aAction.addEffect (addLicenseEffect);
-	}
-
-	@Override
-	public void addLicense (ShareCompany aOwningCompany, License aLicense) {
-		Bank tBank;
-		AddLicenseEffect tAddLicenseEffect;
-		
-		aOwningCompany.addLicense (aLicense);
-		tBank = aOwningCompany.getBank ();
-		tAddLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
-		addAdditionalEffect (tAddLicenseEffect);
+		tBenefitUsedEffect = new BenefitUsedEffect (aShareCompany, this);
+		addAdditionalEffect (tBenefitUsedEffect);
+		addAdditionalEffects (aAction);
 	}
 }
