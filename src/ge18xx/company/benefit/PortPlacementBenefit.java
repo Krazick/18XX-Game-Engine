@@ -13,7 +13,6 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.AddLicenseEffect;
-import ge18xx.round.action.effects.BenefitUsedEffect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
 
@@ -92,7 +91,6 @@ public class PortPlacementBenefit extends MapBenefit {
 		ShareCompany tOwningCompany;
 		PortLicense tPortLicense;
 		String tLicenseName;
-		BenefitUsedEffect tBenefitUsedEffect;
 
 		tOwningCompany = getOwningCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
@@ -107,9 +105,6 @@ public class PortPlacementBenefit extends MapBenefit {
 				tPortLicense.setMapCellIDs (mapCellID);
 				addLicense (tOwningCompany, tPortLicense);
 				placeBenefitToken (tSelectedMapCell, tokenType, this, tokenBonus);
-				setUsed (true);
-				tBenefitUsedEffect = new BenefitUsedEffect (tOwningCompany, this);
-				addAdditionalEffect (tBenefitUsedEffect);
 			}
 		}
 	}
