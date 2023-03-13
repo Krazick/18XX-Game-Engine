@@ -28,6 +28,7 @@ public class License extends Coupon {
 	boolean isBridgeLicense;
 	boolean isTunnelLicense;
 	boolean isCattleLicense;
+	boolean isCoalLicense;
 	String mapCellIDs;
 	LicenseTypes type;
 	public enum LicenseTypes { 
@@ -105,16 +106,12 @@ public class License extends Coupon {
 
 	public static LicenseTypes getTypeFromName (String aTypeName) {
 		String tTypeName;
-		String tCapsTypeName;
 		LicenseTypes tFoundType;
 		
 		tFoundType = LicenseTypes.NO_TYPE;
-		tCapsTypeName = aTypeName.toUpperCase ();
 		for (LicenseTypes tType : LicenseTypes.values ()) {
 			tTypeName = tType.toString ();
 			if (aTypeName.equals (tTypeName)) {
-				tFoundType = tType;
-			} else if (tCapsTypeName.equals (tTypeName)) {
 				tFoundType = tType;
 			}
 		}
@@ -126,7 +123,35 @@ public class License extends Coupon {
 		LicenseTypes tFoundType;
 		
 		tFoundType = getTypeFromName (aTypeName);
-		setType (tFoundType);
+		
+		switch (tFoundType) {
+			case NO_TYPE:
+				break;
+			case PORT:
+				setIsPortLicense (true);
+				break;
+			case OPEN_PORT:
+				setIsPortLicense (true);
+				break;
+			case CLOSED_PORT:
+				setIsPortLicense (true);
+				break;
+			case BRIDGE:
+				setIsBridgeLicense (true);
+				break;
+			case TUNNEL:
+				setIsTunnelLicense (true);
+				break;
+			case CATTLE:
+				setIsCattleLicense (true);
+				break;
+			case COAL:
+				setIsCoalLicense (true);
+				break;
+			default:
+				break;
+		}
+		setType (tFoundType);	
 	}
 	
 	public void setType (LicenseTypes aType) {
@@ -157,6 +182,13 @@ public class License extends Coupon {
 	public void setIsCattleLicense (boolean aIsCattleLicense) {
 		isCattleLicense = aIsCattleLicense;
 		if (isCattleLicense) {
+			setType (LicenseTypes.CATTLE);
+		}
+	}
+	
+	public void setIsCoalLicense (boolean aIsCoalLicense) {
+		isCoalLicense = aIsCoalLicense;
+		if (isCoalLicense) {
 			setType (LicenseTypes.CATTLE);
 		}
 	}
