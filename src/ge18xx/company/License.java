@@ -189,7 +189,7 @@ public class License extends Coupon {
 	public void setIsCoalLicense (boolean aIsCoalLicense) {
 		isCoalLicense = aIsCoalLicense;
 		if (isCoalLicense) {
-			setType (LicenseTypes.CATTLE);
+			setType (LicenseTypes.COAL);
 		}
 	}
 	
