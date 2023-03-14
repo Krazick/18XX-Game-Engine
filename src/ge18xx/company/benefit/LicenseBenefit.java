@@ -24,22 +24,32 @@ public class LicenseBenefit extends Benefit {
 	int licenseCost;
 	String mapCellIDs;
 	int value;
+	License.LicenseTypes licenseType;
 
 	public LicenseBenefit (XMLNode aXMLNode) {
 		super (aXMLNode);
 
 		String tMapCellIDs;
+		String tTokenType;
 		int tLicenseValue;
 		int tLicenseCost;
+		License.LicenseTypes tLicenseType;
 
 		tLicenseCost = aXMLNode.getThisIntAttribute (AN_LICENSE_COST);
 		tMapCellIDs = aXMLNode.getThisAttribute (AN_MAP_CELL);
 		tLicenseValue = aXMLNode.getThisIntAttribute (AN_LICENSE_VALUE);
+		tTokenType = aXMLNode.getThisAttribute (MapBenefit.AN_TOKEN_TYPE);
+		tLicenseType = License.getTypeFromName (tTokenType);
 		setLicenseCost (tLicenseCost);
 		setMapCellIDs (tMapCellIDs);
 		setLicenseValue (tLicenseValue);
+		setLicenseType (tLicenseType);
 
 		setName (NAME);
+	}
+
+	public void setLicenseType (License.LicenseTypes aLicenseType) {
+		licenseType = aLicenseType;
 	}
 
 	public void setLicenseCost (int aLicenseCost) {
@@ -162,10 +172,18 @@ public class LicenseBenefit extends Benefit {
 		addAdditionalEffect (tAddLicenseEffect);
 	}
 
+	public String buildLicenseName (License.LicenseTypes aType) {
+		String tLicenseName;
+		
+		tLicenseName = privateCompany.getAbbrev () + " " + aType.toString ();
+	
+		return tLicenseName;
+	}
+
 	public String buildLicenseName () {
 		String tLicenseName;
 		
-		tLicenseName = privateCompany.getAbbrev () + " License";
+		tLicenseName = buildLicenseName (licenseType);
 	
 		return tLicenseName;
 	}
