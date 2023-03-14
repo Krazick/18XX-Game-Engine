@@ -1,12 +1,11 @@
 package ge18xx.company.benefit;
 
+import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.Action;
-import ge18xx.round.action.ActorI;
-import ge18xx.round.action.effects.LayBenefitTokenEffect;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
@@ -32,8 +31,13 @@ public class PassiveTokenBenefit extends FreeLicenseBenefit {
 
 	@Override
 	public void handlePassive (ShareCompany aShareCompany, Action aAction) {
+		Corporation tOwningCompany;
+
 		placeAllBenefitTokens (aAction);
-		setUsed (true);
+		tOwningCompany = getOwningCompany ();
+		completeBenefitInUse (tOwningCompany);
+		addAdditionalEffects (aAction);
+
 	}
 	
 	protected MapFrame getMapFrame () {
@@ -62,8 +66,6 @@ public class PassiveTokenBenefit extends FreeLicenseBenefit {
 		int tMapCellIndex;
 		MapFrame tMapFrame;
 		HexMap tHexMap;
-		LayBenefitTokenEffect tLayBenefitTokenEffect;
-		ActorI tActor;
 		
 		tMapFrame = getMapFrame ();	
 		tHexMap = tMapFrame.getMap ();
@@ -71,9 +73,6 @@ public class PassiveTokenBenefit extends FreeLicenseBenefit {
 		for (tMapCellIndex = 0; tMapCellIndex < tMapCellCount; tMapCellIndex++) {
 			tMapCellID = getMapCellID (tMapCellIndex);
 			tMapCell = tHexMap.getMapCellForID (tMapCellID);
-			tActor = aAction.getActor ();
-			tLayBenefitTokenEffect = new LayBenefitTokenEffect (tActor, tMapCell, tokenType, value);
-			addAdditionalEffect (tLayBenefitTokenEffect);
 			System.out.println ("Ready to Place " + tokenType + " Token at " + tMapCellID);
 			placeBenefitToken (tMapCell, tokenType, value);
 		}
