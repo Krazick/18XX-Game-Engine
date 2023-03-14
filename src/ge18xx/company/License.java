@@ -22,6 +22,7 @@ public class License extends Coupon {
 	public static final ArrayList<License> NO_LICENSES = null;
 	public static final int NO_VALUE = 0;
 	public static final String NO_NAME = "";
+	public static final String NO_TYPE_NAME = "No Type";
 	public static final String NO_MAP_CELL_IDS = "";
 	int benefitValue;
 	boolean isPortLicense;
@@ -29,6 +30,7 @@ public class License extends Coupon {
 	boolean isTunnelLicense;
 	boolean isCattleLicense;
 	boolean isCoalLicense;
+	boolean isRiverLicense;
 	String mapCellIDs;
 	LicenseTypes type;
 	public enum LicenseTypes { 
@@ -39,7 +41,8 @@ public class License extends Coupon {
 		BRIDGE ("Bridge"), 
 		TUNNEL ("Tunnel"), 
 		CATTLE ("Cattle"), 
-		COAL ("Coal");
+		COAL ("Coal"),
+		RIVER ("River");
 		
 		private String enumString;
 	
@@ -55,7 +58,7 @@ public class License extends Coupon {
 	};
 	
 	public License () {
-		this (NO_NAME, NO_VALUE, NO_VALUE);
+		this (NO_TYPE_NAME, NO_VALUE, NO_VALUE);
 	}
 	
 	public License (String aName, int aBenefitValue) {
@@ -148,6 +151,8 @@ public class License extends Coupon {
 			case COAL:
 				setIsCoalLicense (true);
 				break;
+			case RIVER:
+				setIsRiverLicense (true);
 			default:
 				break;
 		}
@@ -190,6 +195,13 @@ public class License extends Coupon {
 		isCoalLicense = aIsCoalLicense;
 		if (isCoalLicense) {
 			setType (LicenseTypes.COAL);
+		}
+	}
+	
+	public void setIsRiverLicense (boolean aIsRiverLicense) {
+		isRiverLicense = aIsRiverLicense;
+		if (isCoalLicense) {
+			setType (LicenseTypes.RIVER);
 		}
 	}
 	
