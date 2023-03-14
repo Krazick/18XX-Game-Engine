@@ -513,7 +513,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 			tPassiveBenefit = getUnusedPassiveCompanyBenefit ();
 			if (tPassiveBenefit != Benefit.NO_BENEFIT) {
 				tPassiveBenefit.handlePassive (aShareCompany, aAction);
-				System.out.println ("Handled Passive Benefit " + tPassiveBenefit.getName ());
+				System.out.println ("Handled Passive Benefits " + tPassiveBenefit.getName ());
 			} else {
 				tWhileMore = false;
 			}
