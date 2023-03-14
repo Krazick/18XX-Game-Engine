@@ -83,11 +83,11 @@ public class GameTestFactory {
 				+ "   <PlayerInfo><Player numPlayers=\"2\" startingCash=\"600\" certificateLimit=\"28\" /></PlayerInfo>\n"
 				+ "   <Phases><Phase name=\"1\" subName=\"1\" rounds=\"1\" tiles=\"Yellow\" trainLimit=\"4\"/></Phases>\n"
 				+ "   <Trains><Train name=\"2\" order=\"1\" revenueCenters=\"2\" quantity=\"6\" price=\"80\" /></Trains>\n"
-				+ "   <Files>\n" + "      <File type=\"map\" name=\"1830 XML Data/1830 Map.xml\" /> \n"
-				+ "      <File type=\"companies\" name=\"1830 XML Data/1830 Companies.xml\" /> \n"
-				+ "      <File type=\"cities\" name=\"1830 XML Data/1830 Cities.xml\" /> \n"
-				+ "      <File type=\"market\" name=\"1830 XML Data/1830 Market.xml\" /> \n"
-				+ "      <File type=\"tileSet\" name=\"1830 XML Data/1830 TileSet.xml\" /> \n" + "   </Files>\n"
+				+ "   <Files>\n" + "      <File type=\"map\" name=\"1830TEST XML Data/1830TEST Map.xml\" /> \n"
+				+ "      <File type=\"companies\" name=\"1830TEST XML Data/1830TEST Companies.xml\" /> \n"
+				+ "      <File type=\"cities\" name=\"1830TEST XML Data/1830TEST Cities.xml\" /> \n"
+				+ "      <File type=\"market\" name=\"1830TEST XML Data/1830TEST Market.xml\" /> \n"
+				+ "      <File type=\"tileSet\" name=\"1830TEST XML Data/1830TEST TileSet.xml\" /> \n" + "   </Files>\n"
 				+ "</GameInfo>";
 		GameInfo tGameInfo = GameInfo.NO_GAME_INFO;
 		XMLNode tGameInfoNode;
