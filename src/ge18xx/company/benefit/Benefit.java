@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.game.GameManager;
+import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.effects.BenefitUsedEffect;
@@ -252,8 +254,20 @@ public abstract class Benefit implements ActionListener {
 	}
 
 	public void undoUse () {
+		JPanel tCorpFrameButtonPanel;
+		PortfolioHolderI tOwner;
+		Corporation tOwningCompany;
+		
 		setUsed (false);
 		if (shouldConfigure ()) {
+			if (buttonPanel == GUI.NO_PANEL) {
+				tOwner = privateCompany.getOwner ();
+				if (tOwner.isACorporation ()) {
+					tOwningCompany = (Corporation) tOwner;
+					tCorpFrameButtonPanel = tOwningCompany.getButtonPanel ();
+					setButtonPanel (tCorpFrameButtonPanel);
+				}
+			}
 			configure (privateCompany, buttonPanel);
 		}
 	}
@@ -288,6 +302,18 @@ public abstract class Benefit implements ActionListener {
 		}
 
 		return tIsPassiveCompanyBenefit;
+	}
+
+	public boolean isAllActorsCompanyBenefit () {
+		boolean tIsAllActorsCompanyBenefit;
+
+		if (allActors && (!passive)) {
+			tIsAllActorsCompanyBenefit = true;
+		} else {
+			tIsAllActorsCompanyBenefit = false;
+		}
+
+		return tIsAllActorsCompanyBenefit;
 	}
 
 	public boolean isActiveCompanyBenefit () {
@@ -344,16 +370,29 @@ public abstract class Benefit implements ActionListener {
 		boolean tShouldConfigure;
 
 		tShouldConfigure = true;
-		if (privateCompany.isClosed ()) {
+
+		// If the Benefit is Passive, NEVER Configure
+		
+		if (passive) {
 			tShouldConfigure = false;
-		} else {
-			if (used || passive) {
+		} else if (allActors) {
+			// If it is an AllActors Benefit, and it is a Player Benefit. Don't Configure
+			// If it is NOT a Player Benefit (ie Company Benefit) Then always Configure
+			if (isAPlayerBenefit ()) {
 				tShouldConfigure = false;
 			}
-
-			if (isAPlayerBenefit ()) {
-				if ((!privateCompany.isPlayerOwned ())) {
+		} else {
+			if (privateCompany.isClosed ()) {
+				tShouldConfigure = false;
+			} else {
+				if (used) {
 					tShouldConfigure = false;
+				}
+	
+				if (isAPlayerBenefit ()) {
+					if ((!privateCompany.isPlayerOwned ())) {
+						tShouldConfigure = false;
+					}
 				}
 			}
 		}
@@ -426,5 +465,25 @@ public abstract class Benefit implements ActionListener {
 		setUsed (tUsedState);
 		tCloseOnUse = aBenefitNode.getThisBooleanAttribute (AN_CLOSE_ON_USE);
 		setCloseOnUse (tCloseOnUse);
+	}
+	
+	public ShareCompany getOperatingCompany () {
+		ShareCompany tOperatingCompany;
+		Corporation tCorporation;
+		GameManager tGameManager;
+
+		tGameManager = privateCompany.getGameManager ();
+		tCorporation = tGameManager.getOperatingCompany ();
+		if (tCorporation != Corporation.NO_CORPORATION) {
+			if (tCorporation.isAShareCompany ()) {
+				tOperatingCompany = (ShareCompany) tCorporation;
+			} else {
+				tOperatingCompany = ShareCompany.NO_SHARE_COMPANY;
+			}
+		} else {
+			tOperatingCompany = ShareCompany.NO_SHARE_COMPANY;
+		}
+		
+		return tOperatingCompany;
 	}
 }
