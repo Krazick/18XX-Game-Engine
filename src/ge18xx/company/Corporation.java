@@ -194,6 +194,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		setBenefitInUse (Benefit.FAKE_BENEFIT);
 	}
 
+	public JPanel getButtonPanel () {
+		return corporationFrame.getButtonPanel ();
+	}
+	
 	public MessageBean getMessageBean () {
 		return bean;
 	}
@@ -2632,8 +2636,28 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	protected void configurePrivateBenefitButtons (JPanel aButtonRow) {
 		removeAllBenefitButtons (aButtonRow);
 		portfolio.configurePrivateCompanyBenefitButtons (aButtonRow);
+		addAllActorsBenefitButtons (aButtonRow);
 	}
 
+	private void addAllActorsBenefitButtons (JPanel aButtonRow) {
+		CorporationList tPrivates;
+		PrivateCompany tPrivate;
+		int tCount, tIndex;
+
+		tPrivates = corporationList.getPrivates ();
+		tCount = tPrivates.getCountOfOpen ();
+		if (tCount > 0) {
+			for (tIndex = 0; tIndex < tCount; tIndex++) {
+				tPrivate = (PrivateCompany) tPrivates.getCorporation (tIndex);
+				if (tPrivate.isClosed () || ! tPrivate.isPlayerOwned ()) {
+					if (tPrivate.hasActiveCompanyBenefits ()) {
+						tPrivate.addAllActorsBenefitButtons (aButtonRow);
+					}
+				}
+			}
+		}
+	}
+	
 	private void removeAllBenefitButtons (JPanel aButtonRow) {
 		CorporationList tPrivates;
 		PrivateCompany tPrivate;
