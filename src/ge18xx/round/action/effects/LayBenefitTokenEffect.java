@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.bank.Bank;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -73,13 +74,15 @@ public class LayBenefitTokenEffect extends ChangeMapEffect {
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (AN_TOKEN_TYPE, tokenType);
+		tEffectElement.setAttribute (AN_TOKEN_BONUS, tokenBonus);
 
 		return tEffectElement;
 	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " by " + actor.getName () + " to lay " + tokenType + " token on MapCell " + mapCellID + ".");
+		return (REPORT_PREFIX + name + " by " + actor.getName () + " to lay " + 
+				tokenType + " token on MapCell " + mapCellID + " with value " + Bank.formatCash (tokenBonus) + ".");
 	}
 
 	@Override
