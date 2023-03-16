@@ -45,7 +45,7 @@ public class TransferOwnershipAction extends CashTransferAction {
 		addEffect (tTransferOwnershipEffect);
 	}
 
-	private String getFromActorName () {
+	protected String getFromActorName () {
 		String tFromActorName;
 
 		tFromActorName = ActorI.NO_NAME;
@@ -53,7 +53,6 @@ public class TransferOwnershipAction extends CashTransferAction {
 			if (tEffect instanceof TransferOwnershipEffect) {
 				tFromActorName = ((TransferOwnershipEffect) tEffect).getActorName ();
 			}
-
 		}
 
 		return tFromActorName;
