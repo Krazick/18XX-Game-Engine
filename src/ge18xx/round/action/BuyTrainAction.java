@@ -97,7 +97,8 @@ public class BuyTrainAction extends TransferOwnershipAction {
 		return tSimpleActionReport;
 	}
 
-	private String getFromActorName () {
+	@Override
+	protected String getFromActorName () {
 		String tFromActorName = "";
 
 		for (Effect tEffect : effects) {
