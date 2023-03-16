@@ -1,6 +1,7 @@
 package ge18xx.company.benefit;
 
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -11,7 +12,11 @@ import ge18xx.company.CorporationFrame;
 import ge18xx.company.License;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.game.GameManager;
+import ge18xx.round.action.ActorI;
+import ge18xx.round.action.BuyLicenseAction;
 import ge18xx.round.action.effects.AddLicenseEffect;
+import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
@@ -22,7 +27,8 @@ public class LicenseBenefit extends Benefit {
 	final static AttributeName AN_MAP_CELL = new AttributeName ("mapCell");
 	final static AttributeName AN_LICENSE_VALUE = new AttributeName ("value");
 	int licenseCost;
-	String mapCellIDs;
+//	String mapCellIDs;
+	String [] mapCellIDs;
 	int value;
 	License.LicenseTypes licenseType;
 
@@ -57,7 +63,8 @@ public class LicenseBenefit extends Benefit {
 	}
 
 	public void setMapCellIDs (String aMapCellIDs) {
-		mapCellIDs = aMapCellIDs;
+//		mapCellIDs = aMapCellIDs;
+		mapCellIDs = aMapCellIDs.split (",");
 	}
 
 	public void setLicenseValue (int aLicenseValue) {
@@ -140,10 +147,32 @@ public class LicenseBenefit extends Benefit {
 	
 	private void handleBuyLicense () {
 		String tLicenseName;
-
+		License tLicense;
+		ShareCompany tShareCompany;
+		ShareCompany tOwningCompany;
+		CashTransferEffect tCashTransferEffect;
+		BuyLicenseAction tBuyLicenseAction;
+		String tOperatingRoundID;
+		GameManager tGameManager;
+		
 		tLicenseName = buildLicenseName ();
+		tShareCompany = getOperatingCompany ();
+		tOwningCompany = getOwningCompany ();
 		System.out.println ("Ready to Buy " + tLicenseName + " for " + Bank.formatCash (licenseCost) +
-					" from " + privateCompany.getOwnerName ());
+					" from " + tOwningCompany.getName ());
+		tLicense = getLicense ();
+		addLicense (tOwningCompany, tShareCompany, tLicense);
+		tCashTransferEffect = new CashTransferEffect (tShareCompany, tOwningCompany, licenseCost);
+		tShareCompany.addCash (-licenseCost);
+		tOwningCompany.addCash (licenseCost);
+		addAdditionalEffect (tCashTransferEffect);
+		tOperatingRoundID = tShareCompany.getOperatingRoundID ();
+		tBuyLicenseAction = new BuyLicenseAction (ActorI.ActionStates.OperatingRound, 
+										tOperatingRoundID, tShareCompany);
+		addAdditionalEffects (tBuyLicenseAction);
+		tGameManager = tShareCompany.getGameManager ();
+		tGameManager.addAction (tBuyLicenseAction);
+		tShareCompany.updateInfo ();
 	}
 
 	@Override
@@ -200,6 +229,14 @@ public class LicenseBenefit extends Benefit {
 		addAdditionalEffect (tAddLicenseEffect);
 	}
 
+	public void addLicense (ShareCompany aOwningCompany, ShareCompany aBuyingCompany, License aLicense) {
+		AddLicenseEffect tAddLicenseEffect;
+
+		aOwningCompany.addLicense (aLicense);
+		tAddLicenseEffect = new AddLicenseEffect (aOwningCompany, aBuyingCompany, licenseCost, aLicense);
+		addAdditionalEffect (tAddLicenseEffect);
+	}
+
 	public String buildLicenseName (License.LicenseTypes aType) {
 		String tLicenseName;
 		
@@ -214,5 +251,25 @@ public class LicenseBenefit extends Benefit {
 		tLicenseName = buildLicenseName (licenseType);
 	
 		return tLicenseName;
+	}
+	
+	public License getLicense () {
+		License tLicense;
+		String tLicenseName;
+		
+		tLicenseName = buildLicenseName (licenseType);
+		tLicense = new License (tLicenseName, licenseCost, value);
+		tLicense.setMapCellIDs (getAllMapCellIDs ());
+		tLicense.setTypeFromName (licenseType.toString ());
+		
+		return tLicense;
+	}
+	
+	public String getAllMapCellIDs () {
+		String tAllMapCellIDs;
+		
+		tAllMapCellIDs = Arrays.toString (mapCellIDs);
+		
+		return tAllMapCellIDs;
 	}
 }
