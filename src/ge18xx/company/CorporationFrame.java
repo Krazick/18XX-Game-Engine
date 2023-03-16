@@ -301,6 +301,10 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		isNetworkGame = aIsNetworkGame;
 	}
 
+	public JPanel getButtonPanel () {
+		return buttonsJPanel;
+	}
+	
 	public void updateUndoButton () {
 	}
 
