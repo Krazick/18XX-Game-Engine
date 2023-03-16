@@ -253,11 +253,19 @@ public class License extends Coupon {
 		return isCattleLicense;
 	}
 	
+	public String getLicenseName () {
+		String tLicenseName;
+		
+		tLicenseName = getName () + " License";
+		
+		return tLicenseName;
+	}
+	
 	public String getLicenseLabel () {
 		String tLicenseLabel;
 		int tPrice;
 		
-		tLicenseLabel = getName () + " License";
+		tLicenseLabel = getLicenseName ();
 		tPrice = getPrice ();
 		if (tPrice > 0) {
 			tLicenseLabel += " Price " + Bank.formatCash (tPrice);
