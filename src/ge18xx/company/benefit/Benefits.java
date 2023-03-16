@@ -170,6 +170,14 @@ public class Benefits {
 		}
 	}
 
+	public void addAllActorsBenefitButtons (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit.isAllActorsCompanyBenefit ()) {
+				tBenefit.configure (aPrivateCompany, aButtonRow);
+			}
+		}
+	}
+	
 	public boolean hasActiveCompanyBenefits () {
 		boolean tHasActiveCompanyBenefits = false;
 
