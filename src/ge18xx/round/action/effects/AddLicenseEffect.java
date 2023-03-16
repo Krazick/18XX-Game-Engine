@@ -84,7 +84,7 @@ public class AddLicenseEffect extends CashTransferEffect {
 		String tReport;
 		int tPrice;
 		
-		tReport = REPORT_PREFIX + SHORT_NAME + " " + license.getLicenseLabel () + " to " + getToActorName ();
+		tReport = REPORT_PREFIX + SHORT_NAME + " " + license.getLicenseName () + " to " + getToActorName ();
 		tPrice = license.getPrice ();
 		if (tPrice > 0) {
 			tReport += " for " +  Bank.formatCash (license.getPrice ());
