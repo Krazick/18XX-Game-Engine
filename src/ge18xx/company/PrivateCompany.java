@@ -154,6 +154,10 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		benefits.removeBenefitButtons (aButtonRow);
 	}
 
+	public void addAllActorsBenefitButtons (JPanel aButtonRow) {
+		benefits.addAllActorsBenefitButtons (this, aButtonRow);
+	}
+	
 	/**
 	 * Remove the Benefit Buttons (if any) that have Active Player Benefits or Active Company Benefits
 	 * from the Player Frame, or Corporate Benefit Frames Respectively.
@@ -368,6 +372,22 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		}
 
 		return tHolder;
+	}
+	
+	public Corporation getOwningCompany () {
+		Corporation tOwningCompany;
+		PortfolioHolderI tHolder;
+
+		tOwningCompany = Corporation.NO_CORPORATION;
+		if (isOwned ()) {
+			tHolder =  getPresident ();
+			if (tHolder.isACorporation ()) {
+				tOwningCompany = (Corporation) tHolder;
+			}
+		}
+
+		return tOwningCompany;
+
 	}
 
 	@Override
