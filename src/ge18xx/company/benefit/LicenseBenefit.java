@@ -6,11 +6,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
+import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.License;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
-import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.AttributeName;
@@ -95,22 +95,18 @@ public class LicenseBenefit extends Benefit {
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		JButton tBuyLicenseButton;
-		ShareCompany tOwningShareCompany;
-		PortfolioHolderI tOwner;
+		Corporation tCompany;
 		boolean tAddButton;
-		String tLicenseName;
 		
 		super.configure (aPrivateCompany, aButtonRow);
 		tAddButton = true;
 		if (shouldConfigure ()) {
-			tOwner = aPrivateCompany.getOwner ();
-			if (tOwner.isAShareCompany ()) {
-				tOwningShareCompany = (ShareCompany) tOwner;
-				tLicenseName = buildLicenseName ();
-				if (tOwningShareCompany.hasLicense (tLicenseName)) {
-					tAddButton = false;
-				}
+			if (allActors) {
+				tCompany = getOperatingCompany ();
+			} else {
+				tCompany = aPrivateCompany.getOwningCompany ();
 			}
+			tAddButton = ! companyHasLicense (tCompany);
 			if (!hasButton () && tAddButton) {
 				tBuyLicenseButton = new JButton (getNewButtonLabel ());
 				setButton (tBuyLicenseButton);
@@ -123,8 +119,31 @@ public class LicenseBenefit extends Benefit {
 		}
 	}
 
+	private boolean companyHasLicense (Corporation aCompany) {
+		ShareCompany tShareCompany;
+		boolean tCompanyHasLicense;
+		String tLicenseName;
+		
+		tCompanyHasLicense = false;
+		if (aCompany != Corporation.NO_CORPORATION) {
+			if (aCompany.isAShareCompany ()) {
+				tShareCompany = (ShareCompany) aCompany;
+				tLicenseName = buildLicenseName ();
+				if (tShareCompany.hasLicense (tLicenseName)) {
+					tCompanyHasLicense = true;
+				}
+			}
+		}
+
+		return tCompanyHasLicense;
+	}
+	
 	private void handleBuyLicense () {
-		System.out.println ("Ready to Buy License for " + privateCompany.getAbbrev ());
+		String tLicenseName;
+
+		tLicenseName = buildLicenseName ();
+		System.out.println ("Ready to Buy " + tLicenseName + " for " + Bank.formatCash (licenseCost) +
+					" from " + privateCompany.getOwnerName ());
 	}
 
 	@Override
@@ -145,15 +164,24 @@ public class LicenseBenefit extends Benefit {
 		String tBenefitInUseName;
 
 		if (buttonConfigured ()) {
-			tOwningCompany = getOwningCompany ();
-			tBenefitInUse = tOwningCompany.getBenefitInUse ();
-			tBenefitInUseName = tBenefitInUse.getName ();
-			if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
-				disableButton ();
-				setToolTip ("Another Benefit is currently in Use");
+			tOwningCompany = getOperatingCompany ();
+			if (tOwningCompany != ShareCompany.NO_SHARE_COMPANY) {
+				tBenefitInUse = tOwningCompany.getBenefitInUse ();
+				tBenefitInUseName = tBenefitInUse.getName ();
+				if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
+					disableButton ();
+					setToolTip ("Another Benefit is currently in Use");
+				} else if (tOwningCompany.getTreasury () < licenseCost) {
+					disableButton ();
+					setToolTip ("Company does not have the license cost of " + 
+								Bank.formatCash (licenseCost) + " available.");
+				} else {
+					enableButton ();
+					setToolTip ("All Good");
+				}
 			} else {
-				enableButton ();
-				setToolTip ("All Good");
+				disableButton ();
+				setToolTip ("No Owning Company Found");				
 			}
 		}
 	}
