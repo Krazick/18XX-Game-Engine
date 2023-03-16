@@ -232,7 +232,7 @@ public class LicenseBenefit extends Benefit {
 	public void addLicense (ShareCompany aOwningCompany, ShareCompany aBuyingCompany, License aLicense) {
 		AddLicenseEffect tAddLicenseEffect;
 
-		aOwningCompany.addLicense (aLicense);
+		aBuyingCompany.addLicense (aLicense);
 		tAddLicenseEffect = new AddLicenseEffect (aOwningCompany, aBuyingCompany, licenseCost, aLicense);
 		addAdditionalEffect (tAddLicenseEffect);
 	}
