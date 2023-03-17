@@ -19,6 +19,7 @@ import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLNode;
 
 public class LicenseBenefit extends Benefit {
@@ -42,7 +43,7 @@ public class LicenseBenefit extends Benefit {
 		License.LicenseTypes tLicenseType;
 
 		tLicenseCost = aXMLNode.getThisIntAttribute (AN_LICENSE_COST);
-		tMapCellIDs = aXMLNode.getThisAttribute (AN_MAP_CELL);
+		tMapCellIDs = aXMLNode.getThisAttribute (AN_MAP_CELL, GUI.EMPTY_STRING);
 		tLicenseValue = aXMLNode.getThisIntAttribute (AN_LICENSE_VALUE);
 		tTokenType = aXMLNode.getThisAttribute (MapBenefit.AN_TOKEN_TYPE);
 		tLicenseType = License.getTypeFromName (tTokenType);
