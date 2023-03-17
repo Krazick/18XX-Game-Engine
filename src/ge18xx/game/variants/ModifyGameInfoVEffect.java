@@ -27,7 +27,7 @@ public class ModifyGameInfoVEffect extends VariantEffect {
 			case "randomizeStartOrder" :
 				break;
 			default:
-				System.out.println ("Don't know what to do with " + attributeName);
+				System.err.println ("Don't know what to do with " + attributeName);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class ModifyGameInfoVEffect extends VariantEffect {
 				tGameInfo.setRandomizeStartOrder (state);
 				break;
 			default:
-				System.out.println ("Don't know what to do with " + attributeName);
+				System.err.println ("Don't know what to do with " + attributeName);
 		}
 	}
 

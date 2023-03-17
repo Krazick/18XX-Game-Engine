@@ -1180,7 +1180,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void checkForDestinationsReached () {
-		System.out.println ("Tile Placed, Check for Destinations Reached");
 		shareCompaniesFrame.checkForDestinationsReached ();
 	}
 
@@ -1517,16 +1516,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		tLastNetworkAction = networkJGameClient.getAutoSavedLastAction ();
 		if (tLastNetworkAction > tLastLocalAction) {
 			tNextActionNumber = tLastLocalAction + 1;
-			System.out.println ("Need to Retrieve Actions for " + getGameID () + " from " + tNextActionNumber + " to "
-					+ tLastNetworkAction);
-
 			for (tActionNumber = tNextActionNumber; tActionNumber <= tLastNetworkAction; tActionNumber++) {
 				tNextAction = networkJGameClient.fetchActionWithNumber (tActionNumber, getGameID ());
-				System.out.println ("Provided Action [" + tNextAction + "]");
 				handleNetworkAction (tNextAction);
 			}
-		} else {
-			System.out.println ("Actions are Current at " + tLastNetworkAction);
 		}
 
 	}

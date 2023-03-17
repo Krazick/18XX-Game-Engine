@@ -45,7 +45,7 @@ public class Capitalization {
 	}
 
 	public void printInfo (String aGameName) {
-		System.out.println ("Capitalization Info for " + aGameName + ":");
+		System.out.println ("Capitalization Info for " + aGameName + ":");		// PRINTLOG
 		System.out.println (levels.toString ());
 	}
 	
@@ -67,25 +67,4 @@ public class Capitalization {
 
 		return tCapitalizationLevel;
 	}
-
-//	Standard
-//	<Capitalizations>
-//		<Capitalization availableTrain="2" level="FULL" />
-//		<Capitalization availableTrain="3" level="FULL" />
-//		<Capitalization availableTrain="4" level="FULL" />
-//		<Capitalization availableTrain="5" level="FULL" />
-//		<Capitalization availableTrain="6" level="FULL" />
-//		<Capitalization availableTrain="Diesel" level="FULL" />
-//	</Capitalizations>
-
-// 	Versus 1856:
-//	<Capitalizations>
-//		<Capitalization availableTrain="2" level="Incremental_5" />
-//		<Capitalization availableTrain="3" level="Incremental_5" />
-//		<Capitalization availableTrain="4" level="Incremental_5" />
-//		<Capitalization availableTrain="5" level="Incremental_10" />
-//		<Capitalization availableTrain="6" level="FULL" />
-//		<Capitalization availableTrain="Diesel" level="FULL" />
-//	</Capitalizations>
-
 }

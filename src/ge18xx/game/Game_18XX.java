@@ -157,7 +157,7 @@ public class Game_18XX extends XMLFrame {
 		Dimension tDimension;
 		numberOfDisplays = GUI.getNumberOfDisplays ();
 		
-		System.out.println ("Number of Displays " + numberOfDisplays);
+		System.out.println ("Number of Displays " + numberOfDisplays);	// PRINTLOG
 		tDimension = GUI.getDefaultScreenSize ();
 		if (tDimension != null) {
 			System.out.println ("Default Display size " + tDimension.toString ());

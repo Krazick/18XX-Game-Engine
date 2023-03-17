@@ -34,7 +34,7 @@ public class ModifyTrainVEffect extends VariantEffect {
 			case "onLast" :
 				break;
 			default:
-				System.out.println ("Don't know what to do with " + attributeName);
+				System.err.println ("Don't know what to do with " + attributeName);
 		}
 	}
 
@@ -98,7 +98,7 @@ public class ModifyTrainVEffect extends VariantEffect {
 						tTrainInfo.setOnLastOrderAvailable (tValue);
 						break;
 					default:
-						System.out.println ("Don't know what to do with " + attributeName);
+						System.err.println ("Don't know what to do with " + attributeName);
 				}
 			}
 		}

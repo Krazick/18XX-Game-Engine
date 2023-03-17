@@ -474,7 +474,7 @@ public class GameInfo {
 	public void printActiveVariants () {
 		if (activeVariantEffects != VariantEffect.NO_VARIANT_EFFECTS) {
 			if (activeVariantEffects.size () > 0) {
-				System.out.println ("Variant Effects to be Active:");
+				System.out.println ("Variant Effects to be Active:");		// PRINTLOG
 				for (VariantEffect tVariantEffect : activeVariantEffects) {
 					System.out.println ("Variant Effect " + tVariantEffect.getAction ());
 				}
@@ -714,7 +714,7 @@ public class GameInfo {
 	public void printGameInfo () {
 		int tIndex;
 
-		System.out.println ("Title: " + name);
+		System.out.println ("Title: " + name);		// PRINTLOG
 		System.out.println ("SubTitle: " + subTitle);
 		System.out.println ("Location: " + location);
 		System.out.println ("Min Players: " + minPlayers);

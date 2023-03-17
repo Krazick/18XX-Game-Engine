@@ -58,8 +58,6 @@ public class AddPhaseVEffect extends PhaseInfoVEffect {
 	public void applyVariantEffect (GameManager aGameManager) {
 		PhaseManager tPhaseManager;
 
-		System.out.println (NAME + " being Applied" + " Have Phase " + phaseInfo.getName () + "." +
-					phaseInfo.getSubName () );
 		tPhaseManager = aGameManager.getPhaseManager ();
 		tPhaseManager.addPhase (phaseInfo);
 	}
