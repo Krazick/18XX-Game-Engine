@@ -85,7 +85,7 @@ public class ActionReportFrame extends XMLFrame {
 			scrollToBottom ();
 		}
 		catch (Exception eException) {
-			System.out.println (eException);
+			System.err.println (eException);
 		}
 	}
 

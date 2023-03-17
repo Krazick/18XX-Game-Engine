@@ -73,8 +73,6 @@ public class SetWaitStateAction extends Action {
 				tActor = tSetWaitStateEffect.getActor ();
 				tToActor = tSetWaitStateEffect.getToActor ();
 				addSetWaitStateEffect (tActor, tToActor, tOldState, tNewState);
-				System.out.println ("Added SetWaitStateEffect for " + tToActor.getName () +
-						" from " + tOldState + " to " + tNewState);
 			} else {
 				System.err.println ("Could not find Effect named " + tEffectName + " in Action named " +
 									aWaitedAction.getName ());
