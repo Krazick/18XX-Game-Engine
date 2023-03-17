@@ -73,7 +73,6 @@ public class PassiveTokenBenefit extends FreeLicenseBenefit {
 		for (tMapCellIndex = 0; tMapCellIndex < tMapCellCount; tMapCellIndex++) {
 			tMapCellID = getMapCellID (tMapCellIndex);
 			tMapCell = tHexMap.getMapCellForID (tMapCellID);
-			System.out.println ("Ready to Place " + tokenType + " Token at " + tMapCellID);
 			placeBenefitToken (tMapCell, tokenType, value);
 		}
 	}

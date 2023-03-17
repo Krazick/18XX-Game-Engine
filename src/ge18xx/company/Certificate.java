@@ -1441,11 +1441,12 @@ public class Certificate implements Comparable<Certificate> {
 			tOwnerName = " Owner: " + owner.getHolderName ();
 		}
 		if (isPresidentShare) {
-			System.out.print ("President's ");
+			System.out.print ("President's ");		// PRINTLOG method
 		}
 		tCorpType = corporation.getType ();
-		System.out.print ("Certificate for " + corporation.getName () + " " + tCorpType);
-		System.out.println (" is " + percentage + "% with Current Value " + Bank.formatCash (getValue ()) + tOwnerName);
+		System.out.print ("Certificate for " + corporation.getName () + " " + tCorpType);		// PRINTLOG method
+		System.out.println (" is " + percentage + "% with Current Value " + 
+						Bank.formatCash (getValue ()) + tOwnerName);
 	}
 
 	public boolean sameCertificate (LoadedCertificate aLoadedCertificate) {

@@ -784,7 +784,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public void prepareCorporation () {
-		System.out.println ("Ready to Prepare Corporation  for Operating -- OVERRIDDING SHOULD HANDLE");
 	}
 
 	public void declareBankruptcyAction () {
@@ -1692,14 +1691,14 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public void printOwnershipReport () {
-		System.out.println ("Who Owns this Corporation");
+		System.out.println ("Who Owns this Corporation");		// PRINTLOG method
 		corporationCertificates.printPortfolioInfo ();
 		System.out.println ("What this Corporation Owns");
 		portfolio.printPortfolioInfo ();
 	}
 
 	public void printReport () {
-		System.out.println ("ID: " + id + " Name [" + name + "] Abbrev [" + abbrev + "]");
+		System.out.println ("ID: " + id + " Name [" + name + "] Abbrev [" + abbrev + "]");	// PRINTLOG method
 		System.out.println ("President Share Holder Name is: " + getPresidentName ());
 		printOwnershipReport ();
 	}

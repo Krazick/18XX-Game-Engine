@@ -467,7 +467,6 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			corporation.payNoDividend ();
 		}
 		if (PAY_HALF_DIVIDEND.equals (tCommand)) {
-			System.out.println ("Pay Half Dividend Action");
 			corporation.payHalfDividend ();
 		}
 		if (PAY_FULL_DIVIDEND.equals (tCommand)) {

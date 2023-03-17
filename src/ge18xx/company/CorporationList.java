@@ -799,7 +799,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public void printReport () {
-		System.out.println ("Corporation Report");
+		System.out.println ("Corporation Report");		// PRINTLOG
 		for (Corporation tCorporation : corporations) {
 			tCorporation.printReport ();
 		}

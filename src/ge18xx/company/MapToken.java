@@ -157,7 +157,7 @@ public class MapToken extends Token {
 		for (tSideIndex = Location.MIN_SIDE; tSideIndex <= Location.MAX_SIDE; tSideIndex++) {
 			System.out.print (tSideIndex + " " + connectedSides [tSideIndex] + " " + DIVIDER + " ");
 		}
-		System.out.println ("");
+		System.out.println ("");		// PRINTLOG
 	}
 
 	@Override

@@ -102,7 +102,7 @@ public class Token {
 	}
 
 	public void printlog () {
-		System.out.println ("Token for " + tokenCompany.getAbbrev ());
+		System.out.println ("Token for " + tokenCompany.getAbbrev ());		// PRINTLOG
 	}
 
 	public void setCompany (TokenCompany aCompany) {

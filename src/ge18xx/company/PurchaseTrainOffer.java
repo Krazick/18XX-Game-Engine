@@ -45,7 +45,6 @@ public class PurchaseTrainOffer extends QueryOffer {
 			tTrainName = tPONode.getThisAttribute (AN_TRAIN_NAME);
 			setAmount (tAmount);
 			setTrainName (tTrainName);
-			System.out.println ("Train Name [" + tTrainName + "] ");
 		}
 	}
 
