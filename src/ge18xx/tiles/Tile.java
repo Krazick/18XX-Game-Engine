@@ -292,12 +292,7 @@ public class Tile implements Comparable<Object>, Cloneable {
 							tMapToken = tCity.getToken (tStationIndex);
 							if (tMapToken != MapToken.NO_MAP_TOKEN) {
 								tTokenCompany = tMapToken.getWhichCompany ();
-								System.out.println ("Returning Token for " + tTokenCompany.getAbbrev ()
-										+ " count before " + tTokenCompany.getTokenCount ());
-//								tTokenCompany.addMapToken (tMapToken);
 								tTokenCompany.setTokenUsed (tMapToken, false);
-								System.out.println ("Returning Token for " + tTokenCompany.getAbbrev () + " count now "
-										+ tTokenCompany.getTokenCount ());
 							}
 						}
 					}

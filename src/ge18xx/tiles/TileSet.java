@@ -168,7 +168,6 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		if (tTile != Tile.NO_TILE) {
 			tGameTile = getGameTileMatching (aTileNumber);
 			if (tGameTile != GameTile.NO_GAME_TILE) {
-				System.out.println ("Game Tile already contains Tile # " + aTileNumber + " add " + aQuantity);
 				if (aQuantity > 0) {
 					addNTileClones (tGameTile, tTile, aQuantity);
 					tGameTile.setUsedCount (0);
@@ -176,14 +175,12 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 					tGameTile.setTotalCount (tTotalCount);
 				}
 			} else {
-				System.out.println ("Game Tile does NOT contains Tile # " + aTileNumber + " add " + aQuantity);
 				if (aQuantity > 0) {
 					tTileAdded = addTile (tTile, aQuantity);
 					tGameTile = getGameTileMatching (aTileNumber);
 					addNTileClones (tGameTile, tTile, aQuantity);
 					tGameTile.setUsedCount (0);
 					if (tTileAdded) {
-						System.out.println ("Tile # " + aTileNumber + " added " + aQuantity + " to gameTiles.");
 						sortGameTiles ();
 					}
 				}

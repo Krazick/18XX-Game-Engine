@@ -357,7 +357,7 @@ public class RouteSegment {
 		} else {
 			tMapCellDetail = "ID " + mapCellID + " Tile Number " + tileNumber;
 		}
-		System.out.println (
+		System.out.println (			// PRINTLOG
 				"MapCell " + tMapCellDetail + " Track Starts " + start.getDetail () + " Ends " + end.getDetail ());
 	}
 
@@ -768,10 +768,6 @@ public class RouteSegment {
 				tTrainNumber = tTrack.getTrainNumber ();
 				clearTrainOnTrack (tTrack);
 
-//				System.out.println ("Original [" + tOriginalStart.getLocation () + " to " +  tOriginalEnd.getLocation () +
-//						"] UnRotated [" + tStartLocation.getLocation () + " to " +  tEndLocation.getLocation () +
-//						"] NextTrack [" + tNewStartLocation.getLocation () + " to " +  tNewEndLocation.getLocation () +
-//						"] NextTrack Rotated [" + tNewRotStart.getLocation () + " to " +  tNewRotEnd.getLocation () + "]");
 				if (tOriginalStart.getLocation () == tNewStartLocation.getLocation ()) {
 					if (tOriginalStart.getLocation () == tNewRotEnd.getLocation ()) {
 						end.setLocation (tNewRotStart);

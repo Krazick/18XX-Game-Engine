@@ -212,7 +212,7 @@ public class AuditFrame extends XMLFrame implements ItemListener, ActionListener
 
 		tActorName = getSelectedActorName ();
 		if (!actorName.endsWith (tActorName)) {
-			System.out.println ("Need to update Pulldown Menu to match Actor");
+			System.err.println ("Need to update Pulldown Menu to match Actor");
 		}
 	}
 

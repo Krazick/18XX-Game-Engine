@@ -1286,7 +1286,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 
 	public void handleRemoveRouteSegment (MapCell aSelectedMapCell) {
 		if (routeInformation.getSegmentCount () > 1) {
-			System.out.println ("Ready to remove MapCell " + aSelectedMapCell.getCellID ());
 			routeInformation.removeEndIfMapCell (aSelectedMapCell);
 		}
 	}

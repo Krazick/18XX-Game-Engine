@@ -390,7 +390,7 @@ public class RouteInformation {
 	public void printDetail () {
 		int tCenterIndex;
 
-		System.out.println ("----------- Start Route Information Detail ----------");
+		System.out.println ("----------- Start Route Information Detail ----------");		// PRINTLOG
 		System.out.println ((trainIndex + 1) + ". " + train.getName () + " Train, Total Revenue: " + totalRevenue
 				+ " Center Count " + getCenterCount ());
 		for (RouteSegment tRouteSegment : routeSegments) {
@@ -765,10 +765,10 @@ public class RouteInformation {
 
 		tInitialSegmentCount = getSegmentCount ();
 		if (tInitialSegmentCount == 0) {
-			System.out.println ("\nScenario 1 - Add Segment # 1");
+			System.out.println ("\nScenario 1 - Add Segment # 1");		// PRINTLOG
 			addRouteSegment (aRouteSegment, aRouteAction);
 		} else if (tInitialSegmentCount == 1) {
-			System.out.println ("\nScenario 2 - Add Segment # 2");
+			System.out.println ("\nScenario 2 - Add Segment # 2");		// PRINTLOG
 			if (previousSegmentNeedsFill ()) {
 				tContinueWork = fillEndPoint (aRouteSegment, aRouteAction);
 			} else {
@@ -780,10 +780,10 @@ public class RouteInformation {
 		} else if (tInitialSegmentCount > 1) {
 			tNewMapCell = aRouteSegment.getMapCell ();
 			if (lastMapCellIs (tNewMapCell)) {
-				System.out.println ("\nScenario 3 - Cycle Track");
+				System.out.println ("\nScenario 3 - Cycle Track");		// PRINTLOG
 				cycleToNextTrack (aRouteAction, aCorpID);
 			} else {
-				System.out.println ("\nScenario 4 - Add Route Segment # 3+");
+				System.out.println ("\nScenario 4 - Add Route Segment # 3+");	// PRINTLOG
 				tContinueWork = addNewPreviousSegment (aRouteSegment, aPhase, aCorpID, aRouteAction);
 				if (tContinueWork) {
 					tContinueWork = addNextRouteSegment (aRouteSegment, aCorpID, aRouteAction);
@@ -1113,8 +1113,6 @@ public class RouteInformation {
 		tLastRouteSegment = routeSegments.get (tLastRouteSegmentIndex);
 		tLastMapCell = tLastRouteSegment.getMapCell ();
 		if (tLastMapCell.getID ().equals (aMapCell.getCellID ())) {
-			System.out.println ("Last MapCell on Route matches the one to remove.");
-
 			tOperatingRoundID = trainCompany.getOperatingRoundID ();
 			tRemoveRouteSegmentsAction = new RemoveRouteSegmentsAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 					trainCompany);

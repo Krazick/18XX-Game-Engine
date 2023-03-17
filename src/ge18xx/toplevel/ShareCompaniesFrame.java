@@ -96,19 +96,15 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 			sellStockShare ();
 		}
 		if ("BuyShare".equals (tTheAction)) {
-			System.out.println ("Buy Share Button Clicked");
 			buyShare ();
 		}
 		if ("PayDividend".equals (tTheAction)) {
-			System.out.println ("Pay Dividend Button Clicked");
 			payDividend ();
 		}
 		if ("HoldDividend".equals (tTheAction)) {
-			System.out.println ("Hold Dividend Button Clicked");
 			holdDividend ();
 		}
 		if ("AllSoldOut".equals (tTheAction)) {
-			System.out.println ("All Sold Out Button Clicked");
 			allSoldOut ();
 		}
 		market.updateAllFrames ();

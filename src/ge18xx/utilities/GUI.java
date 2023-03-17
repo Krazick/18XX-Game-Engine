@@ -57,7 +57,6 @@ public interface GUI {
 		Dimension tDimension;
 		
 		tGraphicsDevices = GraphicsEnvironment.getLocalGraphicsEnvironment ().getScreenDevices ();
-		System.out.println ("Number of Devices found " + tGraphicsDevices.length);
 		if ((aDeviceIndex > 0) && (aDeviceIndex < tGraphicsDevices.length)) {
 			tGraphicsDevice = tGraphicsDevices [aDeviceIndex];
 			tDimension = getSizeOfDevice (tGraphicsDevice);

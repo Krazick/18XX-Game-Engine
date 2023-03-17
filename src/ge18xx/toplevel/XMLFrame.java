@@ -255,7 +255,7 @@ public class XMLFrame extends JFrame {
 		String tGameName = getGameName ();
 
 		if (aGameFrameConfig == Config.NO_GAME_FRAME) {
-			System.out.println ("No Configuration Data for " + tGameName);
+			System.err.println ("No Configuration Data for " + tGameName);
 		} else {
 			setFrameToConfigDefaults (aGameFrameConfig, aVisibility);
 		}

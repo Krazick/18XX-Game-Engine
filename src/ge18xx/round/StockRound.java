@@ -151,7 +151,7 @@ public class StockRound extends Round {
 	}
 
 	public void printRoundInfo () {
-		System.out.println (" " + NAME + " " + idPart1);
+		System.out.println (" " + NAME + " " + idPart1);	// PRINTLOG
 		System.out.println ("  Player Count " + playerManager.getPlayerCount ());
 		System.out.println ("  Current Player Index " + currentPlayerIndex);
 		System.out.println ("  Priority Player Index " + priorityPlayerIndex);

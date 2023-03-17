@@ -157,7 +157,7 @@ public class OperatingRound extends Round {
 	}
 
 	public void printRoundInfo () {
-		System.out.println (" Operating Round " + idPart1 + "." + idPart2);
+		System.out.println (" Operating Round " + idPart1 + "." + idPart2);	// PRINTLOG
 	}
 
 	@Override

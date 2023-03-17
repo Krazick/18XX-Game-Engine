@@ -746,7 +746,7 @@ public class RoundManager implements ActionListener {
 	}
 
 	public void printRoundInfo () {
-		System.out.println ("Round Manager Information Report");
+		System.out.println ("Round Manager Information Report");	// PRINTLOG
 		System.out.println ("Currently this is a " + currentRoundType);
 		System.out.println ("Current OR " + currentOR + " Max OR " + operatingRoundCount + " Added OR " + addedOR);
 		stockRound.printRoundInfo ();

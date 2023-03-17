@@ -84,8 +84,6 @@ public class MessageBean {
 	public void sendMessages  () {
 		String tOldMessage;
 		
-//		System.out.println ("Send Bean [" + propertyName + "] Messages Count " + 
-//							messages.size () +  " " + messages.toString ());
 		if (active) {
 			tOldMessage = oldMessage;
 			for (String tNewMessage : messages) {

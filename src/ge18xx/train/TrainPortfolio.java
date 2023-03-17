@@ -462,7 +462,7 @@ public class TrainPortfolio implements TrainHolderI {
 	}
 
 	public void printNameAndQty (String aPortfolioHolderName) {
-		System.out.println ("Portfolio Holder " + aPortfolioHolderName);
+		System.out.println ("Portfolio Holder " + aPortfolioHolderName);		// PRINTLOG
 		System.out.println ("Owned Trains [" + getTrainNameAndQty (ALL_TRAINS) + "]");
 		System.out.println ("Available Trains [" + getTrainNameAndQty (AVAILABLE_TRAINS) + "]");
 		System.out.println ("Future Trains [" + getTrainNameAndQty (FUTURE_TRAINS) + "]");

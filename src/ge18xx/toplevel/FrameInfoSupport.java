@@ -140,13 +140,8 @@ public class FrameInfoSupport implements ActionListener {
 	public void handleFrameReset (String aFrameName) {
 		XMLFrame tFoundXMLFrame;
 
-		System.out.println ("Reset Button selected for [" + aFrameName + "]");
 		tFoundXMLFrame = getFrameNamed (aFrameName);
 		if (tFoundXMLFrame != XMLFrame.NO_XML_FRAME) {
-			System.out.println ("Found Frame with X = " + tFoundXMLFrame.getLocation ().x + " and Y = "
-					+ tFoundXMLFrame.getLocation ().y);
-			System.out.println ("Default X " + tFoundXMLFrame.getDefaultXLocation ());
-			System.out.println ("Default Y " + tFoundXMLFrame.getDefaultYLocation ());
 			tFoundXMLFrame.setLocation (100, 100);
 			tFoundXMLFrame.showFrame ();
 		}

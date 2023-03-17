@@ -216,7 +216,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 	}
 
 	public void printlog () {
-		System.out.println ("Tile Type value " + type + " Name is " + NAMES [type]);
+		System.out.println ("Tile Type value " + type + " Name is " + NAMES [type]);	// PRINTLOG
 	}
 
 	private void setPaints () {

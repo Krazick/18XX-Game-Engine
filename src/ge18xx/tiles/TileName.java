@@ -141,7 +141,7 @@ public class TileName extends Feature implements Cloneable {
 
 	@Override
 	public void printlog () {
-		System.out.println ("Tile Name " + name);
+		System.out.println ("Tile Name " + name);		// PRINTLOG
 		super.printlog ();
 	}
 

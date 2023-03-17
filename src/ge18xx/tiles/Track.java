@@ -836,12 +836,12 @@ public class Track implements Cloneable {
 	}
 
 	public void printlog () {
-		System.out.print ("Enter ");
+		System.out.print ("Enter ");			// PRINTLOG
 		enter.printlog ();
 		System.out.print ("Exit ");
 		exit.printlog ();
 		gauge.printlog ();
-		System.out.println ("Train Number Using " + trainNumberUsing);
+		System.out.println ("Train Number Using " + trainNumberUsing);	// PRINTLOG
 	}
 
 	public void setTrainNumber (int aTrainNumber) {

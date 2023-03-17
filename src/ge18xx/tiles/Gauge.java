@@ -206,7 +206,7 @@ public class Gauge implements Cloneable {
 	}
 
 	public void printlog () {
-		System.out.println ("Gauge Value " + gauge + " Name is " + NAMES [gauge]);
+		System.out.println ("Gauge Value " + gauge + " Name is " + NAMES [gauge]);	// PRINTLOG
 	}
 
 	public boolean TrainCanUse () {
