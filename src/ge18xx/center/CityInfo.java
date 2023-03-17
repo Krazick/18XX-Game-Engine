@@ -361,10 +361,10 @@ public class CityInfo implements Cloneable {
 	}
 
 	public void printCityInfo () {
-		System.out
-				.println ("City ID " + id + ", Type " + type + ", Name [" + name + "] on Map Cell " + getMapCellID ());
+		System.out.println ("City ID " + id + ", Type " + type + ", Name [" + 
+				name + "] on Map Cell " + getMapCellID ());
 		if (corporation == Corporation.NO_CORPORATION) {
-			System.out.println ("No Corporation Base");
+			System.out.println ("No Corporation Base");		// PRINTLOG method
 		} else {
 			System.out.println ("Base for " + corporation.getAbbrev () + " Corporation");
 		}

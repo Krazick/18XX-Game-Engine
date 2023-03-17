@@ -493,7 +493,7 @@ public class Revenues extends Feature {
 		int tRevenueCount;
 
 		tRevenueCount = getRevenueCount ();
-		System.out.println ("Revenue Count is " + tRevenueCount);
+		System.out.println ("Revenue Count is " + tRevenueCount);	// PRINTLOG method
 		for (tIndex = 0; tIndex < tRevenueCount; tIndex++) {
 			System.out.println ("Revenue " + tIndex + " is " + getValueIndexToString (tIndex) + " Phase "
 					+ getPhaseIndexToString (tIndex));

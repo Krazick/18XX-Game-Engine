@@ -1178,7 +1178,7 @@ public class City extends RevenueCenter implements Cloneable {
 		int tIndex;
 
 		super.printlog ();
-		System.out.println ("City size " + stationCount);
+		System.out.println ("City size " + stationCount);		// PRINTLOG method
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
 			if (hasNoMapTokenAtStation (tIndex)) {
 				System.out.println ("City at index " + tIndex + " has no Stations");

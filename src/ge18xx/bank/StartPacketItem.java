@@ -160,8 +160,8 @@ public class StartPacketItem implements ParsingRoutineI {
 	}
 
 	void printStartPacketItemInfo () {
-		System.out.println ("Start Packet Item Information");
-		System.out.println ("  Corporation ID [" + corporationId + "] Discount Amount [" + discountAmount + "]");
+		System.out.println ("Start Packet Item Information");	// PRINTLOG method
+		System.out.println ("  Corporation ID [" + corporationId + "] Discount Amount [" + discountAmount + "]");	
 		if (certificate != Certificate.NO_CERTIFICATE) {
 			System.out.print ("  ");
 			certificate.printCertificateInfo ();

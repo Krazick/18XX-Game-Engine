@@ -28,7 +28,6 @@ public class LicenseBenefit extends Benefit {
 	final static AttributeName AN_MAP_CELL = new AttributeName ("mapCell");
 	final static AttributeName AN_LICENSE_VALUE = new AttributeName ("value");
 	int licenseCost;
-//	String mapCellIDs;
 	String [] mapCellIDs;
 	int value;
 	License.LicenseTypes licenseType;
@@ -147,7 +146,6 @@ public class LicenseBenefit extends Benefit {
 	}
 	
 	private void handleBuyLicense () {
-		String tLicenseName;
 		License tLicense;
 		ShareCompany tShareCompany;
 		ShareCompany tOwningCompany;
@@ -156,11 +154,8 @@ public class LicenseBenefit extends Benefit {
 		String tOperatingRoundID;
 		GameManager tGameManager;
 		
-		tLicenseName = buildLicenseName ();
 		tShareCompany = getOperatingCompany ();
 		tOwningCompany = getOwningCompany ();
-		System.out.println ("Ready to Buy " + tLicenseName + " for " + Bank.formatCash (licenseCost) +
-					" from " + tOwningCompany.getName ());
 		tLicense = getLicense ();
 		addLicense (tOwningCompany, tShareCompany, tLicense);
 		tCashTransferEffect = new CashTransferEffect (tShareCompany, tOwningCompany, licenseCost);

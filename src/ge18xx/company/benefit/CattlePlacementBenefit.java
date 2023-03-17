@@ -102,7 +102,6 @@ public class CattlePlacementBenefit extends MapBenefit {
 			tCanHoldCattleToken = tSelectedMapCell.canHoldCattleToken ();
 			if (tCanHoldCattleToken) {
 				setMapCellID (tSelectedMapCell);
-				System.out.println ("Ready to place " + tokenType + " Token on " + getMapCellID ());
 				placeBenefitToken (tSelectedMapCell, tokenType, this, tokenBonus);
 			}
 		}

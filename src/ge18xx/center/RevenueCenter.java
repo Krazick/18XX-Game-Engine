@@ -523,7 +523,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 
 	@Override
 	public void printlog () {
-		System.out.println ("Revenue Center id " + id + " Name " + name);
+		System.out.println ("Revenue Center id " + id + " Name " + name);	// PRINTLOG method
 		super.printlog ();
 		cityInfo.printCityInfo ();
 	}

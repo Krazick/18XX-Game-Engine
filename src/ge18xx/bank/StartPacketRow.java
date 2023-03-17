@@ -221,7 +221,7 @@ public class StartPacketRow implements ParsingRoutineI {
 	}
 
 	void printStartPacketRow () {
-		System.out.println ("Start Packet Row # " + rowNumber);
+		System.out.println ("Start Packet Row # " + rowNumber);		// PRINTLOG method
 		for (StartPacketItem tStartPacketItem : startPacketItems) {
 			tStartPacketItem.printStartPacketItemInfo ();
 		}

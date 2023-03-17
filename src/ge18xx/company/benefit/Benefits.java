@@ -211,7 +211,6 @@ public class Benefits {
 			if (tFoundBenefitName.equals (aBenefitName)) {
 				tQueryExchangeBenefit = (QueryExchangeBenefit) tBenefit;
 				tQueryExchangeBenefit.setUsed (false);
-				System.out.println ("Enabled " + tBenefit.getName ());
 			}
 		}
 	}
@@ -225,7 +224,6 @@ public class Benefits {
 			if (tFoundBenefitName.equals (aBenefitName)) {
 				tQueryExchangeBenefit = (QueryExchangeBenefit) tBenefit;
 				tQueryExchangeBenefit.setUsed (true);
-				System.out.println ("Disabled " + tBenefit.getName ());
 			}
 		}
 	}

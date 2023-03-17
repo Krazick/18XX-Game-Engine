@@ -535,7 +535,7 @@ public class Centers implements Cloneable {
 	}
 
 	public void printlog () {
-		System.out.println ("Revenue Centers Log Printout:");
+		System.out.println ("Revenue Centers Log Printout:");	// PRINTLOG method
 		for (RevenueCenter tCenter : centers) {
 			tCenter.printlog ();
 		}
