@@ -18,7 +18,6 @@ public final class FakeBenefit extends Benefit {
 
 	@Override
 	public String getNewButtonLabel () {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

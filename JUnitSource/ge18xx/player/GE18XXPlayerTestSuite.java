@@ -10,7 +10,7 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 public class GE18XXPlayerTestSuite {
 
 	public GE18XXPlayerTestSuite () {
-		// TODO Auto-generated constructor stub
+
 	}
 
 }

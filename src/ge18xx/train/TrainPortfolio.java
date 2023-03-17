@@ -802,7 +802,6 @@ public class TrainPortfolio implements TrainHolderI {
 
 		tAvailableTrains = getAvailableTrains ();
 		if (tAvailableTrains.length > 0) {
-		// TODO -- If tAvailableTrains has NO Trains, return NO_TRAIN and Test
 			tNextAvailableTrain = tAvailableTrains [0];
 		} else {
 			tNextAvailableTrain = Train.NO_TRAIN;

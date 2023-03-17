@@ -121,7 +121,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	MessageBean bean;
 	ActorI.ActorTypes actorType = ActorI.ActorTypes.Player;
 
-
 	public Player (String aName, PlayerManager aPlayerManager, int aCertificateLimit) {
 		GameManager tGameManager;
 		MessageBean tBean;
