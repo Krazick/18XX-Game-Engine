@@ -237,7 +237,7 @@ public class PhaseInfo {
 	}
 
 	public void printPhaseInfo () {
-		System.out.println ("Phase Name " + name);
+		System.out.println ("Phase Name " + name);		// PRINTLOG
 		System.out.println ("SubPhase Name " + subName);
 		System.out.println ("Rounds " + rounds);
 		System.out.println ("Tiles " + getTiles ());

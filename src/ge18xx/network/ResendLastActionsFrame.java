@@ -180,7 +180,6 @@ public class ResendLastActionsFrame extends XMLFrame implements ActionListener {
 		tNetworkLastActionNumber = 0;
 		if (tGameManager.isNetworkGame ()) {
 			tLastAction = tGameManager.requestGameSupport (JGameClient.REQUEST_LAST_ACTION);
-			System.out.println ("Action Number Request Response " + tLastAction);
 			tMatcher = REQUEST_ACTION_PATTERN.matcher (tLastAction);
 			if (tMatcher.find ()) {
 				tNetworkLastActionNumber = Integer.parseInt (tMatcher.group (1));

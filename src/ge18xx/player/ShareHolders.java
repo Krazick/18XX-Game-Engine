@@ -65,7 +65,7 @@ public class ShareHolders {
 
 		for (ShareHolder tShareHolder : shareHolders) {
 			tShareHolderInfo = tShareHolder.getShareHolderInfo (tShareHolder);
-			System.out.println (tShareHolderInfo);
+			System.out.println (tShareHolderInfo);		// PRINTLOG
 		}
 	}
 }

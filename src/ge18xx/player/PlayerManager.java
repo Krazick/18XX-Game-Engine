@@ -1279,7 +1279,7 @@ public class PlayerManager {
 	}
 
 	public void printAllPlayersInfo () {
-		System.out.println ("==== All Players Information STARTED ====");
+		System.out.println ("==== All Players Information STARTED ====");	// PRINTLOG
 		for (Player tPlayer : players) {
 			tPlayer.printPlayerInfo ();
 		}
@@ -1392,8 +1392,6 @@ public class PlayerManager {
 				}
 			}
 			if (tCurrentPresident == aPlayer) {
-				System.out.println ("Current President " + tCurrentPresident.getName ()
-						+ " is Selling Stock, need to check for change");
 				tNewPresident = findNewPresident (tShareCompany, aPlayer, tCurrentPresident);
 				if ((tNewPresident != tCurrentPresident) && (tNewPresident != Player.NO_PLAYER)) {
 					exchangePresidentCertificate (tShareCompany, tCurrentPresident, tNewPresident, tSellStockAction);
@@ -1484,12 +1482,9 @@ public class PlayerManager {
 	public void undoAction (Player aPlayer) {
 		boolean tActionUndone;
 		Action tActionToUndo;
-//		Action tLastActionDone;
 		Player tCurrentPlayer;
-//		String tLastActionActor, tUndoneActionActor;
 
 		tActionToUndo = stockRound.getLastAction ();
-//		tUndoneActionActor = tActionToUndo.getActorName ();
 		tActionUndone = stockRound.undoLastAction ();
 		if (tActionUndone) {
 			aPlayer.updatePlayerInfo ();
@@ -1500,14 +1495,6 @@ public class PlayerManager {
 				tCurrentPlayer.showPlayerFrame ();
 				tCurrentPlayer.updatePlayerInfo ();
 			}
-//			tLastActionDone = stockRound.getLastAction ();
-//			if (tLastActionDone != Action.NO_ACTION) {
-//				tLastActionActor = tLastActionDone.getActorName ();
-//				if (!tLastActionActor.equals (tUndoneActionActor)) {
-//					aPlayer.hidePlayerFrame ();
-//				}
-//			}
-			System.out.println ("Last Action undone successfully");
 		} else {
 			System.err.println ("**** Undo Action failed ****");
 		}

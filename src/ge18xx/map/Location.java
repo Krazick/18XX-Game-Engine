@@ -638,7 +638,7 @@ public class Location implements Cloneable {
 	}
 
 	public void printlog () {
-		System.out.println ("Location is " + location);
+		System.out.println ("Location is " + location);		// PRINTLOG
 	}
 
 	protected int rotateLocation (int aMinValue, int aOrientation, int aMod) {

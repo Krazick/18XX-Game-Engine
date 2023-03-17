@@ -46,11 +46,11 @@ public class SoldCompanies {
 	}
 
 	public void printInfo () {
-		System.out.print ("Sold Companies are [ ");
+		System.out.print ("Sold Companies are [ ");		// PRINTLOG
 		for (String tCompanyAbbrev : soldCompanies) {
 			System.out.print (tCompanyAbbrev + " ");
 		}
-		System.out.println ("]");
+		System.out.println ("]");						// PRINTLOG
 	}
 
 	public String uniqueCompanies (String aDelimeter) {

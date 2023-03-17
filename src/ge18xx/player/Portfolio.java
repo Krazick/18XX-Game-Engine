@@ -1676,7 +1676,7 @@ public class Portfolio implements CertificateHolderI {
 	public void printCompactPortfolioInfo () {
 		String tCompanyName, tPreviousName;
 
-		System.out.println ("Portfolio:");
+		System.out.println ("Portfolio:");		// PRINTLOG
 		if (certificates.size () == 0) {
 			System.out.print (">> NO CERTIFICATES IN PORTFOLIO <<");
 		} else {
@@ -1694,7 +1694,7 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public void printPortfolioInfo () {
-		System.out.println ("Portfolio for " + getHolderName () + ":");
+		System.out.println ("Portfolio for " + getHolderName () + ":");	// PRINTLOG
 		if (certificates.size () == 0) {
 			System.out.println (">> NO CERTIFICATES IN PORTFOLIO <<");
 		} else {

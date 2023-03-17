@@ -1285,7 +1285,7 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public void printlog () {
-		System.out.println ("Map Cell " + id);
+		System.out.println ("Map Cell " + id);		// PRINTLOG
 	}
 
 	public void setTile (Tile aTile) {

@@ -36,8 +36,7 @@ public class Vertex {
 		}
 		tTileInfo = mapCell.getTileInfo ();
 
-		System.out.println ("Vertex"
-				+ " ID: " + id + " MapCell ID " + mapCell.getID () +
+		System.out.println ("Vertex" + " ID: " + id + " MapCell ID " + mapCell.getID () +		// PRINTLOG
 				" Location " + location.getLocation () + tEdgeInfo + tTileInfo);
 	}
 
@@ -217,7 +216,7 @@ public class Vertex {
 					}
 				}
 			} else {
-				System.out.println ("No Map Cell found as neighbor on side " + tNeighborLoc);
+				System.err.println ("No Map Cell found as neighbor on side " + tNeighborLoc);
 			}
 		}
 	}
@@ -272,12 +271,8 @@ public class Vertex {
 					tRemoteVertex = tEdge.getOtherVertex (tVertexToVisit);
 					tRemoteID = tRemoteVertex.getID ();
 					if (tVisited.contains (tRemoteID)) {
-//						System.out.println ("Remote Vertex " + tRemoteID + " already Visited, not Adding");
 					} else {
-						if (tNextToVisit.contains (tRemoteVertex)) {
-//							System.out.println ("Remote Vertex " + tRemoteID + " already in Visit List, not Adding");
-						} else {
-//							System.out.println ("Remote Vertex " + tRemoteID + " added for Visiting");
+						if (! tNextToVisit.contains (tRemoteVertex)) {
 							tNextToVisit.add (tRemoteVertex);
 						}
 					}

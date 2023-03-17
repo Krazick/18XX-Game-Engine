@@ -1374,8 +1374,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		
 		tCanPass = false;
 		tCanChangeState = primaryActionState.canChangeState (ActionStates.Pass);
-		System.out.println (name + " Player State " + primaryActionState.toString () + " can change to " + 
-							ActionStates.Pass.toString () + " flag is " + tCanChangeState);
 		if (tCanChangeState) {
 			primaryActionState = ActionStates.Pass;
 			tCanPass = true;
@@ -1402,7 +1400,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void printPlayerInfo () {
 		printPlayerStateInfo ();
-		System.out.println ("Bought Share State is " + boughtShare);
+		System.out.println ("Bought Share State is " + boughtShare);		// PRINTLOG
 		System.out.println ("Bid on Share State is " + bidShare);
 
 		escrows.printAllEscrows ();
@@ -1411,7 +1409,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public void printPlayerStateInfo () {
-		System.out.println ("Player " + name + " cash " + Bank.formatCash (treasury));
+		System.out.println ("Player " + name + " cash " + Bank.formatCash (treasury));	// PRINTLOG
 		System.out.println ("Primary Action State [" + primaryActionState.toString () + "]");
 		System.out.println ("Auction Action State [" + auctionActionState.toString () + "]");
 	}

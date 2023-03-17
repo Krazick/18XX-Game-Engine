@@ -162,10 +162,6 @@ public class SavedGamesPanel extends JPanel {
 				+ ".save" + tFileUtils.xml;
 		tAutoSaveFileName = jGameClient.getAutoSaveFileName ();
 		if (!tNewSaveGameFile.equals (tAutoSaveFileName)) {
-//			System.out.println ("Selected Saved Game is [" + tSelectedGame + "]");
-//			System.out.println (" Part 0 [" + tSelectedParts [0] + "]" + " Part 1 [" + tSelectedParts [1] + "]"
-//					+ " Part 2 [" + tSelectedParts [2] + "]" + " Part 3 [" + tSelectedParts [3] + "]");
-//			System.out.println ("New Auto Save File Name: " + tNewSaveGameFile);
 			jGameClient.setAutoSaveFileName (tNewSaveGameFile);
 			jGameClient.updateReadyButton (JGameClient.PLAY_GAME, true, GUI.NO_TOOL_TIP);
 		}

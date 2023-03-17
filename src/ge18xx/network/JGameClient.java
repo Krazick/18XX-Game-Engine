@@ -384,7 +384,12 @@ public class JGameClient extends XMLFrame {
 	}
 
 	public void printButtonStatus (JButton aButton) {
-		System.out.println (aButton.getActionCommand () + " Button is Enabled [" + aButton.isEnabled () + "]");
+		String tActionCommand;
+		Boolean tEnabled;
+		
+		tActionCommand = aButton.getActionCommand ();
+		tEnabled = aButton.isEnabled ();
+		System.out.println (tActionCommand + " Button is Enabled [" + tEnabled + "]");	// PRINTLOG
 	}
 
 	public void setForUnconnected () {
@@ -1298,8 +1303,6 @@ public class JGameClient extends XMLFrame {
 		gameManager.loadAutoSavedGame (autoSaveFileName);
 		serverHandler.sendUserActive (getGameID ());
 		refreshPlayers ();
-		System.out.println ("Should have Game Manager Load the Network Game, and Start Playing " + 
-					"with Game ID [" + getGameID () + "]");
 		swapToGameActivity ();
 	}
 	

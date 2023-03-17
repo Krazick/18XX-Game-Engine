@@ -224,7 +224,6 @@ public class ChatServerHandler extends ServerHandler {
 
 		tGameID = jClient.getGameID ();
 		tUserName = jClient.getPlayerName ();
-		System.out.println ("Ready to attempt Server Connect");
 		tGameSupportXML = buildGameSupportXML (tGameID, "<Reconnect name=\"" + tUserName + "\">");
 		println (tGameSupportXML);
 		startHeartbeat ();

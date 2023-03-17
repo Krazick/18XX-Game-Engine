@@ -685,7 +685,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				toggleSelectedMapCell (aSelectedMapCell);
 			} else {
 				if (aSelectedMapCell == MapCell.NO_MAP_CELL) {
-					System.out.println ("No Selected Map Cell provided");
+					System.err.println ("No Selected Map Cell provided");
 				} else {
 					System.err.println ("The Map Cell " + aSelectedMapCell.getID () + " is currently NOT Selectable (1)");
 				}
@@ -714,8 +714,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 					}
 				} else {
 					if (containsMapCellSMC (aSelectedMapCell)) {
-						System.out.println ("Previous Map Cell " + aPreviousSelectedMapCell.getID () + " New Map Cell "
-								+ aSelectedMapCell.getID () + " Tile Was Placed " + wasTilePlaced ());
 						if (aSelectedMapCell.isSelectable ()) {
 							aPreviousSelectedMapCell.lockTileOrientation ();
 							toggleSelectedMapCell (aPreviousSelectedMapCell);	
@@ -1485,18 +1483,15 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 		printMapGraphInfo ("Full MapGraph ", mapGraph.getVertexes ());
 		tBaseVertexes = mapGraph.getVertexesWithToken (aTokenCompany);
-//		printMapGraphInfo ("-----\nMap Graph of Bases for " + aTokenCompany.getAbbrev () + " ", tBaseVertexes);
 		tEmptyMapCells = mapGraph.getEmptyMapCellsWithCompany (tBaseVertexes);
-		System.out.println ("Empty Map Cell Count " + tEmptyMapCells.size ());
 		for (MapCell tMapCell : tEmptyMapCells) {
-			System.out.println ("Empty Map Cell " + tMapCell.getID ());
 			selectableMapCells.addMapCell (tMapCell);
 			mapFrame.repaint ();
 		}
 	}
 
 	public void printMapGraphInfo (String aTitle, List<Vertex> aMapGraph) {
-		System.out.println (aTitle + aMapGraph.size ());
+		System.out.println (aTitle + aMapGraph.size ());		// PRINTLOG
 
 		for (Vertex tVertex : aMapGraph) {
 			tVertex.printInfo ();

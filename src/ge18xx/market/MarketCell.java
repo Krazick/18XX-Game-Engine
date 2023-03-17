@@ -727,7 +727,7 @@ public class MarketCell {
 	};
 
 	public void printMarketCellInfo () {
-		System.out.println ("Market Cell at " + coordinates + " value of " + value);
+		System.out.println ("Market Cell at " + coordinates + " value of " + value);		// PRINTLOG
 	}
 
 	public void redrawMarket () {

@@ -317,12 +317,16 @@ public class Bidders {
 	public void printAllBidderEscrows () {
 		int tNumberOfBidders = getNumberOfBidders ();
 		Player tBidder;
+		String tName;
+		String tCash;
 
 		if (tNumberOfBidders > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tNumberOfBidders; tBidderIndex++) {
 				tBidder = (Player) getCashHolderAt (tBidderIndex);
 				tBidder.printAllEscrows ();
-				System.out.println ("Player " + tBidder.getName () + " cash " + Bank.formatCash (tBidder.getCash ()));
+				tName = tBidder.getName ();
+				tCash = Bank.formatCash (tBidder.getCash ());
+				System.out.println ("Player " + tName + " cash " + tCash);	// PRINTLOG
 			}
 		}
 	}

@@ -39,7 +39,7 @@ public class PhaseManager {
 	}
 
 	public void printAllPhaseNames () {
-		System.out.println ("----");
+		System.out.println ("----");		// PRINTLOG
 		for (PhaseInfo tPhaseInfo : phases) {
 			System.out.println ("Phase Name " + tPhaseInfo.getFullName ());
 		}
@@ -191,7 +191,7 @@ public class PhaseManager {
 		PhaseInfo tPhaseInfo;
 
 		for (tPhaseIndex = 0; tPhaseIndex < phases.size (); tPhaseIndex++) {
-			System.out.println ("----> Phase Index " + tPhaseIndex);
+			System.out.println ("----> Phase Index " + tPhaseIndex);		// PRINTLOG
 			tPhaseInfo = phases.get (tPhaseIndex);
 			tPhaseInfo.printPhaseInfo ();
 		}
