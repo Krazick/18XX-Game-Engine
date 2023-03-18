@@ -678,7 +678,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	}
 
-	public void handleSingleMapCellSelect (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell) {
+	public void handleSingleMapCellSelect (MapCell aSelectedMapCell, MapCell aPreviousSelectedMapCell, 
+							MouseEvent aMouseEvent) {
 
 		if (aPreviousSelectedMapCell == MapCell.NO_MAP_CELL) {
 			if (containsMapCellSMC (aSelectedMapCell)) {
@@ -699,7 +700,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 						// Tile is on Cell. Check if Locked Orientation.
 						if (!aSelectedMapCell.isTileOrientationLocked ()) {
 							// Tile Orientation is not locked, time to Rotate in place
-							rotateTileInPlace (aSelectedMapCell, DO_ADD_ACTION);
+							rotateTileInPlace (aSelectedMapCell, DO_ADD_ACTION, aMouseEvent);
 						} else {
 							// Tile Orientation is locked, Toggle Cell selection
 							toggleSelectedMapCell (aSelectedMapCell);
@@ -727,11 +728,13 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 
-	public void rotateTileInPlace (MapCell aThisMapCell, boolean aAddAction) {
-		boolean tCanAllTracksExit;
-		int tTileOrient, tCountOfRotations, tPossible;
+	public void rotateTileInPlace (MapCell aThisMapCell, boolean aAddAction, MouseEvent aMouseEvent) {
+		int tCountOfRotations;
+		int tPossible;
 		int tSteps;
-		int tNewOrientation, tPreviousOrientation;
+		int tNewOrientation;
+		int tPreviousOrientation;
+		boolean tShiftDown;
 		Tile tTile;
 		RotateTileAction tRotateTileAction;
 		GameManager tGameManager;
@@ -744,16 +747,13 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			tTile = aThisMapCell.getTile ();
 			tPossible = aThisMapCell.getTileOrient ();
 			tPreviousOrientation = tPossible;
-			tSteps = 0;
-			tCanAllTracksExit = false;
-			for (tTileOrient = 0; ((!tCanAllTracksExit) && (tTileOrient < 6)); tTileOrient++) {
-				tPossible = (tPossible + 1) % 6;
-				tSteps++;
-				if (aThisMapCell.getAllowedRotation (tPossible)) {
-					tCanAllTracksExit = aThisMapCell.canAllTracksExit (tTile, tPossible);
-				}
+			tShiftDown = aMouseEvent.isShiftDown ();
+			tSteps = aThisMapCell.calculateSteps (tPossible, tTile, tShiftDown);
+			if (tShiftDown) {
+				aThisMapCell.rotateTileLeft (tSteps);
+			} else {
+				aThisMapCell.rotateTileRight (tSteps);
 			}
-			aThisMapCell.rotateTileRight (tSteps);
 			if (tTile.getRevenueCenterCount () == 2) {
 				// Two Revenue Centers, need to Swap Tokens -- "OO" in 1830 and 1856 to keep on
 				// the correct centers -- a bit kludgy
@@ -993,6 +993,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		int tTerrainType[] = new int [15];
 		int tTerrainCost[] = new int [15];
 		int tDefaultHexSize;
+		int tRow;
+		int tCol;
 
 		tXMLMapRoot = aXMLDocument.getDocumentNode ();
 		tCols = tXMLMapRoot.getThisIntAttribute (AN_COLS);
@@ -1012,8 +1014,10 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 		theRowIDs = getIDs (tRowStartID);
 		theColIDs = getIDs (tColStartID);
-		map = new MapCell [tRows] [tCols];
-		map [0] [0] = new MapCell (this, tDirection);
+		buildMapArray (tCols, tRows);
+		tRow = 0;
+		tCol = 0;
+		setMapCell (tRow, tCol, tDirection);
 		map [0] [0].setTerrainFillColor (tFillColor);
 		hex = new Hex (map [0] [0].getMapDirection ());
 		tDefaultHexSize = mapFrame.getDefaultHexScale ();
@@ -1044,8 +1048,8 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 					}
 				}
 			} else if (EN_ROW.equals (tChildName)) {
-				tLoadedRow = loadXMLRow (tChildNode, tTerrainCost, tTerrainType, tCols, tDefaultTerrainType, theRowIDs,
-						theColIDs);
+				tLoadedRow = loadXMLRow (tChildNode, tTerrainCost, tTerrainType, tCols, tDefaultTerrainType,
+								theRowIDs, theColIDs);
 				if (!tLoadedRow) {
 					System.err.println ("Found too many columns to Load on Row.");
 				}
@@ -1055,6 +1059,21 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		setSingleMapCellSelect (false);
 		setMapSize ();
 		mapFrame.setDefaultFrameInfo ();
+	}
+
+	public void setMapCell (int aRow, int aCol, String aDirection) {
+		MapCell tMapCell;
+		
+		tMapCell = new MapCell (this, aDirection);
+		setMapCell (aRow, aCol, tMapCell);
+	}
+	
+	public void setMapCell (int aRow, int aCol, MapCell aMapCell) {
+		map [aRow] [aCol] = aMapCell;
+	}
+
+	public void buildMapArray (int aCols, int aRows) {
+		map = new MapCell [aRows] [aCols];
 	}
 
 	/*
@@ -1123,7 +1142,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tSelectedMapCell = getMapCellContainingPoint (tPoint);
 		tPreviousSelectedMapCell = getSelectedMapCell ();
 		if (singleMapCellSelect) {
-			handleSingleMapCellSelect (tSelectedMapCell, tPreviousSelectedMapCell);
+			handleSingleMapCellSelect (tSelectedMapCell, tPreviousSelectedMapCell, aMouseEvent);
 		} else {
 			if (tShiftDown && mapFrame.isSelectRouteMode ()) {
 				mapFrame.handleRemoveRouteSegment (tSelectedMapCell);
