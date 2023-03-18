@@ -254,7 +254,7 @@ public class GameTile {
 	}
 
 	public void rotateTileLeft () {
-		tileOrient = (tileOrient - 1) % 6;
+		tileOrient = ((tileOrient - 1) + 6) % 6;
 	}
 
 	public void rotateTileRight () {
