@@ -358,7 +358,8 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		GameTile tGameTile = getTileContainingPoint (tPoint);
 		GameTile tRotateGameTile;
 		GameTile tPreviousGameTile;
-
+		Boolean tShiftDown;
+		
 		if (tGameTile != GameTile.NO_GAME_TILE) {
 			if (tGameTile.tileAvailable ()) {
 				if (singleTileSelect) {
@@ -381,7 +382,13 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 		} else {
 			tRotateGameTile = getRotateTileContainingPoint (tPoint);
 			if (tRotateGameTile != GameTile.NO_GAME_TILE) {
-				tRotateGameTile.rotateTileRight ();
+				tShiftDown = aMouseEvent.isShiftDown ();
+
+				if (tShiftDown) {
+					tRotateGameTile.rotateTileLeft ();
+				} else {
+					tRotateGameTile.rotateTileRight ();
+				}
 			}
 			tileTrayFrameToFront ();
 		}
