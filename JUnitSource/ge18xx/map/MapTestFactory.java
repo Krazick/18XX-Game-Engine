@@ -65,7 +65,33 @@ public class MapTestFactory {
 
 		return tMapCell;
 	}
+	
+	public MapCell buildMapCellMock (String aID) {
+		MapCell mMapCell;
+		
+		mMapCell = Mockito.mock (MapCell.class);
+		Mockito.when (mMapCell.getID ()).thenReturn (aID);
+		
+		return mMapCell;
+	}
+	
+	public MapCell buildMapCellMock (String aID, int aXCenter, int aYCenter) {
+		MapCell mMapCell;
+		
+		mMapCell = Mockito.mock (MapCell.class);
+		Mockito.when (mMapCell.getID ()).thenReturn (aID);
+		Mockito.when (mMapCell.getXCenter ()).thenReturn (aXCenter);
+		Mockito.when (mMapCell.getYCenter ()).thenReturn (aYCenter);
+		
+		return mMapCell;
+	}
 
+	public void setMockAllowedRotation (MapCell mMapCell, int aIndex, boolean aAllowed) {
+		if (mMapCell != MapCell.NO_MAP_CELL) {
+			Mockito.when (mMapCell.getAllowedRotation (aIndex)).thenReturn (aAllowed);
+		}
+	}
+	
 	public Hex buildHex () {
 		Hex tHex;
 		
