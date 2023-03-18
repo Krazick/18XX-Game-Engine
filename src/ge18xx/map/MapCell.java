@@ -89,7 +89,8 @@ public class MapCell implements Comparator<Object> {
 	boolean blockedSides[] = new boolean [6];
 	int trainUsingSide[] = new int [6]; // Train Number using the side;
 	MapCell neighbors[];
-	int XCenter, YCenter;
+	int XCenter;
+	int YCenter;
 	int tileNumber;
 	int tileOrient;
 	int startingTileNumber;
@@ -243,6 +244,30 @@ public class MapCell implements Comparator<Object> {
 		if (tile != Tile.NO_TILE) {
 			tile.clearAllStations ();
 		}
+	}
+	
+	public int calculateSteps (int aPossible, Tile aTile, boolean aShiftDown) {
+		boolean tCanAllTracksExit;
+		int tTileOrient;
+		int tSteps;
+		int tIncrement;
+		
+		tSteps = 0;
+		tCanAllTracksExit = false;
+		if (aShiftDown) {
+			tIncrement = -1;
+		} else {
+			tIncrement = 1;
+		}
+		for (tTileOrient = 0; ((!tCanAllTracksExit) && (tTileOrient < 6)); tTileOrient++) {
+			aPossible = (aPossible + tIncrement) % 6;
+			tSteps++;
+			if (getAllowedRotation (aPossible)) {
+				tCanAllTracksExit = canAllTracksExit (aTile, aPossible);
+			}
+		}
+		
+		return tSteps;
 	}
 
 	public boolean canAllTracksExit (Tile aTile, int aTileOrient) {
@@ -1462,6 +1487,20 @@ public class MapCell implements Comparator<Object> {
 		return tSameTypeCount;
 	}
 
+	public void rotateTileLeft (int aSteps) {
+		if (isTileOnCell ()) {
+			if (!tileOrientLocked) {
+				if (aSteps > 0) {
+					setTileOrient ((tileOrient + aSteps) % 6);
+				}
+			} else {
+				System.err.println ("The Tile Orientation is Locked on MapCell " + getID ());
+			}
+		} else {
+			System.err.println ("No Tile found on this Map Cell " + getID ());
+		}
+	}
+
 	public void rotateTileRight (int aSteps) {
 		if (isTileOnCell ()) {
 			if (!tileOrientLocked) {
@@ -1478,6 +1517,10 @@ public class MapCell implements Comparator<Object> {
 
 	public void setTileOrient (int aNewTileOrientation) {
 		tileOrient = aNewTileOrientation;
+	}
+
+	public void rotateTileLeft () {
+		rotateTileLeft (1);
 	}
 
 	public void rotateTileRight () {
