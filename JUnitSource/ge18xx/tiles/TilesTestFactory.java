@@ -56,6 +56,15 @@ public class TilesTestFactory {
 
 		return tTile;
 	}
+	
+	public Tile buildTileMock (int aNumber) {
+		Tile mTile;
+		
+		mTile = Mockito.mock (Tile.class);
+		Mockito.when (mTile.getNumber ()).thenReturn (aNumber);
+		
+		return mTile;
+	}
 
 	public Feature buildFeature () {
 		Feature tFeature;
