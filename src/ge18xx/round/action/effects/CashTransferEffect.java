@@ -28,13 +28,21 @@ public class CashTransferEffect extends ToEffect {
 	}
 
 	public CashTransferEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount) {
-		super (NAME, aFromActor, aToActor);
+		this (NAME, aFromActor, aToActor, aCashAmount);
+	}
+	
+	public CashTransferEffect (String aName, ActorI aFromActor, ActorI aToActor, int aCashAmount) {
+		super (aName, aFromActor, aToActor);
 		setCash (aCashAmount);
 	}
 
 	public CashTransferEffect (XMLNode aEffectNode, GameManager aGameManager) {
+		this (NAME, aEffectNode, aGameManager);
+	}
+	
+	public CashTransferEffect (String aName, XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		setName (NAME);
+		setName (aName);
 
 		int tCashAmount;
 
@@ -94,7 +102,8 @@ public class CashTransferEffect extends ToEffect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		CashHolderI tToCashHolder, tFromCashHolder;
+		CashHolderI tToCashHolder;
+		CashHolderI tFromCashHolder;
 
 		tEffectApplied = false;
 		tToCashHolder = (CashHolderI) getToActor ();
@@ -108,7 +117,8 @@ public class CashTransferEffect extends ToEffect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-		CashHolderI tToCashHolder, tFromCashHolder;
+		CashHolderI tToCashHolder;
+		CashHolderI tFromCashHolder;
 
 		tEffectUndone = false;
 		tToCashHolder = (CashHolderI) getToActor ();
