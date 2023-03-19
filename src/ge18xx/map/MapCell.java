@@ -255,7 +255,7 @@ public class MapCell implements Comparator<Object> {
 		tSteps = 0;
 		tCanAllTracksExit = false;
 		if (aShiftDown) {
-			tIncrement = -1;
+			tIncrement = 5;
 		} else {
 			tIncrement = 1;
 		}
@@ -564,14 +564,6 @@ public class MapCell implements Comparator<Object> {
 
 	public boolean forID (String aID) {
 		return (aID.equals (id));
-	}
-
-	public boolean getAllowedRotation (int aIndex) {
-		if ((aIndex < 0) || (aIndex > 5)) {
-			return false;
-		} else {
-			return allowedRotations [aIndex];
-		}
 	}
 
 	public Terrain getBaseTerrain () {
@@ -1491,7 +1483,7 @@ public class MapCell implements Comparator<Object> {
 		if (isTileOnCell ()) {
 			if (!tileOrientLocked) {
 				if (aSteps > 0) {
-					setTileOrient ((tileOrient + aSteps) % 6);
+					setTileOrient ((tileOrient - aSteps + 6) % 6);
 				}
 			} else {
 				System.err.println ("The Tile Orientation is Locked on MapCell " + getID ());
@@ -1687,6 +1679,14 @@ public class MapCell implements Comparator<Object> {
 
 		for (aIndex = 0; aIndex < 6; aIndex++) {
 			setAllowedRotation (aIndex, aAllowed);
+		}
+	}
+
+	public boolean getAllowedRotation (int aIndex) {
+		if ((aIndex < 0) || (aIndex > 5)) {
+			return false;
+		} else {
+			return allowedRotations [aIndex];
 		}
 	}
 
