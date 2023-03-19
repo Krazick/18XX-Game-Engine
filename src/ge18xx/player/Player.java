@@ -111,6 +111,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	boolean bidShare;
 	boolean triggeredAuction;
 	int treasury;
+	RoundDividends roundDividends;
 	Benefit benefitInUse;
 	Escrows escrows;
 	QueryOffer queryOffer;
@@ -125,9 +126,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		GameManager tGameManager;
 		MessageBean tBean;
 		String tActorType;
+		int tMaxRounds;
 		
 		tGameManager = aPlayerManager.getGameManager ();
 		tActorType = actorType.toString () + " " + aName;
+		tMaxRounds = tGameManager.getMaxRounds ();
+		roundDividends = new RoundDividends (tMaxRounds);
 		tBean = new MessageBean (tActorType);
 		setMessageBean (tBean);
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, tGameManager);
@@ -280,6 +284,11 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		updateListeners (PLAYER_CASH_CHANGED + " by " + aAmount);
 	}
 
+	@Override
+	public void addCashToDividends (int aAmount, int aOperatingRoundID) {
+		roundDividends.addDividend (aOperatingRoundID, aAmount);
+	}
+	
 	@Override
 	public void addCertificate (Certificate aCertificate) {
 		portfolio.addCertificate (aCertificate);
@@ -643,6 +652,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tTotalEscrow;
 	}
 
+	public String getAllDividends () {
+		String tAllDividends;
+		
+		tAllDividends = roundDividends.getAllRoundsDividends ();
+		
+		return tAllDividends;
+	}
+	
 	public GameManager getGameManager () {
 		return playerManager.getGameManager ();
 	}
@@ -1644,6 +1661,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		JPanel tOwnershipPanel;
 		JLabel tCertCountLabel;
 		JLabel tTotalValueLabel;
+		JLabel tDividendsLabel;
 		JLabel tSoldCompanies;
 
 		buildPlayerLabel (aPriorityPlayerIndex, aPlayerIndex);
@@ -1658,8 +1676,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tTotalValueLabel = new JLabel ("Total Value: " + Bank.formatCash (getTotalValue ()));
 		playerJPanel.add (tTotalValueLabel);
 
+		tDividendsLabel = new JLabel ("Dividends: " + roundDividends.getAllRoundsDividends ());
+		playerJPanel.add (tDividendsLabel);
+		
 		tCertCountLabel = new JLabel (buildCertCountInfo ("Certificates "));
 		playerJPanel.add (tCertCountLabel);
+		
 		tOwnershipPanel = portfolio.buildOwnershipPanel ();
 		if (tOwnershipPanel != Portfolio.NO_PORTFOLIO_JPANEL) {
 			playerJPanel.add (tOwnershipPanel);
