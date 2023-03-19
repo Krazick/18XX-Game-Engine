@@ -1559,6 +1559,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		int tRevenueGenerated;
 		PayFullDividendAction tPayFullDividendAction;
 		String tOperatingRoundID;
+		int tOperatingRoundPart2;
 		ShareCompany tShareCompany;
 		OperatingRound tOperatingRound;
 		boolean tStatusUpdated;
@@ -1575,11 +1576,12 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tNewStatus = status;
 			tOperatingRoundID = corporationList.getOperatingRoundID ();
 			tOperatingRound = corporationList.getOperatingRound ();
+			tOperatingRoundPart2 = tOperatingRound.getIDPart2 ();
 			tPayFullDividendAction = new PayFullDividendAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID,
 					this);
 			if (tRevenueGenerated > 0) {
 				// Pay the Dividend to the Stock Holders not the TrainCompany (this)
-				payShareHolders (tPayFullDividendAction);
+				payShareHolders (tPayFullDividendAction, tOperatingRoundPart2);
 			}
 			// If a Share Company -- Adjust the Market Cell regardless of how much dividend
 			// is paid
@@ -1596,7 +1598,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 	}
 
-	public void payShareHolders (PayFullDividendAction aPayFullDividendAction) {
+	public void payShareHolders (PayFullDividendAction aPayFullDividendAction, int aOperatingRoundPart2) {
 		ShareHolders tShareHolders;
 		int tCertificateCount;
 		int tCertificateIndex;
@@ -1634,8 +1636,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				if (tPortfolioHolder.isAPlayer ()) {
 					tPlayer = (Player) tPortfolioHolder;
 					tBank.transferCashTo (tPlayer, tDividendForShares);
+					tPlayer.addCashToDividends (tDividendForShares, aOperatingRoundPart2);
 					tPlayer.updatePlayerJPanel ();
-					aPayFullDividendAction.addCashTransferEffect (tBank, tPlayer, tDividendForShares);
+					aPayFullDividendAction.addPayCashDividendEffect (tBank, tPlayer, 
+										tDividendForShares, aOperatingRoundPart2);
 				} else if (tPortfolioHolder.isABankPool ()) {
 					tBank.transferCashTo (this, tDividendForShares);
 					aPayFullDividendAction.addCashTransferEffect (tBank, this, tDividendForShares);
