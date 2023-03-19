@@ -4,6 +4,7 @@ import org.mockito.Mockito;
 
 import ge18xx.game.GameTestFactory;
 import ge18xx.map.Location;
+import ge18xx.map.MapCell;
 import ge18xx.map.MapTestFactory;
 import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
@@ -64,6 +65,14 @@ public class TilesTestFactory {
 		Mockito.when (mTile.getNumber ()).thenReturn (aNumber);
 		
 		return mTile;
+	}
+	
+	public void setMockCanAllTracksExit (Tile mTile, MapCell aMapCell, int aTileOrient, boolean aCanExit) {
+		
+//		mTile.canAllTracksExit (mapCell, aTileOrient)
+		if (mTile != Tile.NO_TILE) {
+			Mockito.when (mTile.canAllTracksExit (aMapCell, aTileOrient)).thenReturn (aCanExit);
+		}
 	}
 
 	public Feature buildFeature () {
