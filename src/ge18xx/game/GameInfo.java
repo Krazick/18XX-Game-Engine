@@ -62,8 +62,10 @@ public class GameInfo {
 	final AttributeName AN_RANDOMIZE_START_ORDER = new AttributeName ("randomizeStartOrder");
 	final AttributeName AN_FIRST_TOKEN_COST = new AttributeName ("firstTokenCost");
 	final AttributeName AN_LATER_TOKEN_COST = new AttributeName ("laterTokenCost");
+	final AttributeName AN_MAX_ROUNDS = new AttributeName ("maxRounds");
 	final AttributeName AN_NO_TOUCH_PASS = new AttributeName ("noTouchPass");
-
+	final AttributeName AN_OPTIONAL_OR = new AttributeName ("optionalOR");
+	
 	static final int NO_GAME_ID = 0;
 	static final String NO_NAME = "<NONE>";
 	static final int NO_MIN_PLAYERS = 0;
@@ -86,6 +88,7 @@ public class GameInfo {
 	int loanInterest;
 	int firstTokenCost;
 	int laterTokenCost;
+	int maxRounds;
 	String currencyFormat;
 	String subTitle;
 	String location;
@@ -101,6 +104,7 @@ public class GameInfo {
 	boolean canPayHalfDividend;
 	boolean loans;
 	boolean randomizeStartOrder;
+	boolean optionalOR;
 	boolean testGraphs;		// For DEBUGing Development testing of new Graphs
 	int bankPoolShareLimit; // Limit on # of shares in Bank Pool
 	int playerShareLimit; // Limit on # of shares a Player may Hold
@@ -143,6 +147,7 @@ public class GameInfo {
 		int tLoanInterest;
 		int tFirstTokenCost;
 		int tLaterTokenCost;
+		int tMaxRounds;
 		boolean tHasPrivates;
 		boolean tHasMinors;
 		boolean tHasShares;
@@ -152,6 +157,7 @@ public class GameInfo {
 		boolean tRandomizeStartOrder;
 		boolean tCanPayHalfDividend;
 		boolean tNoTouchPass;
+		boolean tOptionalOR;
 		
 		tGameID = aCellNode.getThisAttribute (AN_GAME_ID);
 		tID = aCellNode.getThisIntAttribute (AN_ID);
@@ -167,6 +173,7 @@ public class GameInfo {
 		tProducers = aCellNode.getThisAttribute (AN_PRODUCERS);
 		tReleaseDate = aCellNode.getThisAttribute (AN_RELEASE_DATE);
 
+		tOptionalOR = aCellNode.getThisBooleanAttribute (AN_OPTIONAL_OR);
 		tNoTouchPass = aCellNode.getThisBooleanAttribute (AN_NO_TOUCH_PASS);
 		tTestGraphs = aCellNode.getThisBooleanAttribute (AN_TEST_GRAPHS);
 		tHasPrivates = aCellNode.getThisBooleanAttribute (AN_PRIVATES);
@@ -180,6 +187,7 @@ public class GameInfo {
 		tOperateBeforeSale = aCellNode.getThisBooleanAttribute (AN_OPERATE_BEFORE_SALE);
 		tRandomizeStartOrder = aCellNode.getThisBooleanAttribute (AN_RANDOMIZE_START_ORDER);
 		tCanPayHalfDividend = aCellNode.getThisBooleanAttribute (AN_CAN_PAY_HALF);
+		tMaxRounds = aCellNode.getThisIntAttribute (AN_MAX_ROUNDS);
 
 		setGameID (tGameID);
 		setValues (tID, tName, tMinPlayers, tMaxPlayers, tBankTotal, tCurrencyFormat);
@@ -190,12 +198,14 @@ public class GameInfo {
 		setLoanInterest (tLoanInterest);
 		setFirstTokenCost (tFirstTokenCost);
 		setLaterTokenCost (tLaterTokenCost);
+		setMaxRounds (tMaxRounds);
 		setStatus (tStatus);
 		setOperateBeforeSale (tOperateBeforeSale);
 		setRandomizeStartOrder (tRandomizeStartOrder);
 		setCanPayHalfDividend (tCanPayHalfDividend);
 		setTestGraphs (tTestGraphs);
 		setNoTouchPass (tNoTouchPass);
+		setOptionalOR (tOptionalOR);
 
 		tBankPoolShareLimit = aCellNode.getThisIntAttribute (AN_BANK_POOL_SHARE_LIMIT);
 		tPlayerShareLimit = aCellNode.getThisIntAttribute (AN_PLAYER_SHARE_LIMIT);
@@ -687,6 +697,10 @@ public class GameInfo {
 		return trains [aIndex];
 	}
 
+	public int getMaxRounds () {
+		return maxRounds;
+	}
+	
 	public boolean hasMinors () {
 		return hasMinors;
 	}
@@ -755,6 +769,10 @@ public class GameInfo {
 		laterTokenCost = aLaterTokenCost;
 	}
 	
+	public void setMaxRounds (int aMaxRounds) {
+		maxRounds = aMaxRounds;
+	}
+	
 	public void setOperateBeforeSale (boolean aOperateBeforeSale) {
 		operateBeforeSale = aOperateBeforeSale;
 	}
@@ -773,6 +791,10 @@ public class GameInfo {
 
 	public void setNoTouchPass (boolean aNoTouchPass) {
 		noTouchPass = aNoTouchPass;
+	}
+
+	public void setOptionalOR (boolean aOptionalOR) {
+		optionalOR = aOptionalOR;
 	}
 	
 	public void setStatus (String aStatus) {
@@ -814,6 +836,11 @@ public class GameInfo {
 	 */
 	public boolean noTouchPass () {
 		return noTouchPass;
+	}
+	
+	
+	public boolean optionalOR () {
+		return optionalOR;
 	}
 	
 	public boolean isATestGame () {
