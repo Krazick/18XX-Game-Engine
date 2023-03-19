@@ -58,6 +58,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	JLabel playerBidAmount;
 	JLabel playerPortfolioLabel;
 	JLabel playerTotalValue;
+	JLabel playerDividends;
 	JButton passButton;
 	JButton buyBidButton;
 	JButton sellButton;
@@ -140,6 +141,9 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 		playerTotalValue = new JLabel ("");
 		addPlayerInfoJPanelLabel (playerTotalValue);
+		
+		playerDividends = new JLabel ("");
+		addPlayerInfoJPanelLabel (playerDividends);
 	}
 
 	private void updatePanelBorder () {
@@ -464,7 +468,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		if (player != Player.NO_PLAYER) {
 			tPortfolioValue = player.getPortfolioValue ();
 		}
-		playerPortfolioLabel.setText ("Portfolio Value: " + Bank.formatCash (tPortfolioValue));
+		playerPortfolioLabel.setText ("Portfolio: " + Bank.formatCash (tPortfolioValue));
 		setTotalValueLabel ();
 	}
 
@@ -484,16 +488,26 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				tEscrowValue = player.getTotalEscrow ();
 			}
 			tTotalValue = tPortfolioValue + tCashValue + tEscrowValue;
-			playerTotalValue.setText ("Total Value: " + Bank.formatCash (tTotalValue));
+			playerTotalValue.setText ("Total: " + Bank.formatCash (tTotalValue));
 		}
 	}
 
+	public void setPlayerDividendsLabel () {
+		String tDividends;
+		
+		if (playerDividends != GUI.NO_LABEL) {
+			tDividends = player.getAllDividends ();
+			playerDividends.setText ("Dividends: " + tDividends);
+		}
+	}
+	
 	public void updatePlayerInfo (GameManager aGameManager) {
 		updatePanelBorder ();
 		setCashLabel ();
 		updateCertificateInfo ();
 		updatePortfolioInfo ();
 		setPortfolioValueLabel ();
+		setPlayerDividendsLabel ();
 		updateBankJPanel (aGameManager);
 		updateButtons ();
 	}
