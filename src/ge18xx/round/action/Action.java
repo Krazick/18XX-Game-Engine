@@ -11,6 +11,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.PayCashDividendEffect;
 import ge18xx.round.action.effects.RefundEscrowEffect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -514,7 +515,8 @@ public class Action {
 			if ((aActorName.equals (tActorName)) || 
 				(aActorName.equals (tToActorName))) {
 				if ((tEffect instanceof CashTransferEffect) || 
-					(tEffect instanceof RefundEscrowEffect)) {
+					(tEffect instanceof RefundEscrowEffect) ||
+					(tEffect instanceof PayCashDividendEffect)) {
 					tEffectsThisActorAreCash = true;
 				}
 			}
