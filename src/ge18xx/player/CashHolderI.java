@@ -24,5 +24,9 @@ public interface CashHolderI extends ActorI {
 
 	public abstract void transferCashTo (CashHolderI aToCashHolder, int aAmount);
 	
+	public default void addCashToDividends (int aAmount, int aOperatingRoundID) {
+		// Only a Player needs to track this for reporting
+	}
+	
 	public abstract void updateListeners (String aMessage);
 }
