@@ -661,6 +661,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tMarket.getAllStartCells ();
 	}
 
+	public int getMaxRounds () {
+		return activeGame.getMaxRounds ();
+	}
+	
 	private void createTileTray () {
 		String tActiveGameName;
 		TileTrayFrame tTileTrayFrame;
