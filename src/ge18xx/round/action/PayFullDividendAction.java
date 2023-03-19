@@ -3,11 +3,13 @@ package ge18xx.round.action;
 import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
+import ge18xx.player.CashHolderI;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.PayCashDividendEffect;
 import ge18xx.utilities.XMLNode;
 
 public class PayFullDividendAction extends ChangeMarketCellAction {
@@ -28,6 +30,15 @@ public class PayFullDividendAction extends ChangeMarketCellAction {
 		setName (NAME);
 	}
 
+	public void addPayCashDividendEffect (CashHolderI aFromCashHolder, CashHolderI aToCashHolder, 
+						int aCashAmount, int aOperatingRoundID) {
+		PayCashDividendEffect tPayCashDividendEffect;
+
+		tPayCashDividendEffect = new PayCashDividendEffect (aFromCashHolder, aToCashHolder, 
+						aCashAmount, aOperatingRoundID);
+		addEffect (tPayCashDividendEffect);
+	}
+	
 	@Override
 	public void addChangeCorporationStatusEffect (ActorI aActor, ActorI.ActionStates aPreviousState,
 			ActorI.ActionStates aNewState) {
