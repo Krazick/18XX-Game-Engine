@@ -834,17 +834,30 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 
 	public void setRevenueCenters (Centers aCenters) {
-		int tCenterCount, tCenterIndex;
-		RevenueCenter tRevenueCenter, tTileRevenueCenter;
-		Corporation tCorporation;
+		int tCenterCount;
+		int tCenterIndex;
+		RevenueCenter tRevenueCenter;
+		RevenueCenter tTileRevenueCenter;
+		City tCity;
+		City tDestinationCity;
+		Corporation tBaseCorporation;
 
 		tCenterCount = aCenters.size ();
 		if (tCenterCount > 0) {
 			for (tCenterIndex = 0; tCenterIndex < tCenterCount; tCenterIndex++) {
 				tRevenueCenter = getRevenueCenter (tCenterIndex);
-				tCorporation = tRevenueCenter.getCorporation ();
-				tTileRevenueCenter = getRevenueCenter (tCenterIndex);
-				tTileRevenueCenter.setCorporationHome (tCorporation);
+				if (tRevenueCenter.isCity ()) {
+					tCity = (City) tRevenueCenter;
+					if (tCity.isDestination ()) {
+						tDestinationCity = tCity.clone ();
+						tDestinationCity.setTemporary (true);
+						addCenter (tDestinationCity);
+					} else {
+						tBaseCorporation = tRevenueCenter.getCorporation ();
+						tTileRevenueCenter = getRevenueCenter (tCenterIndex);
+						tTileRevenueCenter.setCorporationHome (tBaseCorporation);
+					}
+				}
 			}
 		}
 	}
