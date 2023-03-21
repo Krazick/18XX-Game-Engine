@@ -28,6 +28,7 @@ import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.market.MarketCell;
 import ge18xx.round.AuctionRound;
+import ge18xx.round.OperatingRound;
 import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
 import ge18xx.round.StockRound;
@@ -37,6 +38,7 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BidStockAction;
 import ge18xx.round.action.BuyStockAction;
 import ge18xx.round.action.ChangeStateAction;
+import ge18xx.round.action.ClearRoundDividendsAction;
 import ge18xx.round.action.DonePlayerAction;
 import ge18xx.round.action.ExchangeStockAction;
 import ge18xx.round.action.GenericActor;
@@ -169,7 +171,8 @@ public class PlayerManager {
 	}
 
 	public void clearAllPlayerPasses () {
-		Player.ActionStates tOldState, tNewState;
+		Player.ActionStates tOldState;
+		Player.ActionStates tNewState;
 		ChangeStateAction tChangeStateAction;
 
 		tChangeStateAction = new ChangeStateAction (stockRound.getRoundType (), stockRound.getID (), stockRound);
@@ -189,6 +192,40 @@ public class PlayerManager {
 		}
 	}
 
+	public void clearAllPlayerDividends () {
+		ClearRoundDividendsAction tClearRoundDividendsAction;
+		String tOperatingRoundID;
+		int tORIndex;
+		int tMaxORs;
+		int tPreviousAmount;
+		OperatingRound tOperatingRound;
+		RoundManager tRoundManager;
+		
+		tRoundManager = gameManager.getRoundManager ();
+		tOperatingRound = tRoundManager.getOperatingRound ();
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
+		tClearRoundDividendsAction = new ClearRoundDividendsAction (ActorI.ActionStates.OperatingRound, 
+							tOperatingRoundID, tOperatingRound);
+		tMaxORs = gameManager.getMaxRounds ();
+		for (Player tPlayer : players) {
+			for (tORIndex = 1; tORIndex <= tMaxORs; tORIndex ++) {
+				tPreviousAmount = tPlayer.getRoundDividends (tORIndex);
+				if (tPreviousAmount != 0) {
+					tClearRoundDividendsAction.addClearRoundDividendEffect (tPlayer, tPreviousAmount, tORIndex);
+					tPlayer.clearRoundDividends (tORIndex);
+				}
+			}
+		}
+		if (!gameManager.applyingAction ()) {
+			tClearRoundDividendsAction.setChainToPrevious (true);
+			addAction (tClearRoundDividendsAction);
+		}
+	}
+	
+	public int getOperatingRoundCount () {
+		return gameManager.getOperatingRoundCount ();
+	}
+	
 	public void clearAllPlayerSelections () {
 		for (Player tPlayer : players) {
 			tPlayer.clearAllSelections ();
