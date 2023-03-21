@@ -28,5 +28,9 @@ public interface CashHolderI extends ActorI {
 		// Only a Player needs to track this for reporting
 	}
 	
+	public default void clearRoundDividends (int aOperatingRoundID) {
+		// Only a Player needs to track this for reporting		
+	}
+	
 	public abstract void updateListeners (String aMessage);
 }
