@@ -971,6 +971,7 @@ public class RoundManager implements ActionListener {
 		tIDPart1 = incrementRoundIDPart1 (operatingRound);
 		tIDPart2 = 1;
 		setRoundToOperatingRound (tIDPart1, tIDPart2);
+		playerManager.clearAllPlayerDividends ();
 		// If no Minor of Share company operates, the Operating Round failed to
 		// start,
 		// Revenues were paid by Private Companies
