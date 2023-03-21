@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.player.CashHolderI;
 import ge18xx.round.RoundManager;
@@ -33,7 +34,7 @@ public class PayCashDividendEffect extends CashTransferEffect {
 	}
 	
 	public int getOperatingRoundPart2 () {
-		return operatingRoundPart2 ;
+		return operatingRoundPart2;
 	}
 
 	@Override
@@ -45,7 +46,13 @@ public class PayCashDividendEffect extends CashTransferEffect {
 
 		return tEffectElement;
 	}
-	
+
+	@Override
+	public String getEffectReport (RoundManager aRoundManager) {
+		return (REPORT_PREFIX + name + " of " + Bank.formatCash (cash) + " from " + getActorName () + " to "
+				+ getToActorName () + " in Operating Round " + operatingRoundPart2 + ".");
+	}
+
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
