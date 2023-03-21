@@ -196,6 +196,19 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return bean;
 	}
 	
+	public int getRoundDividends (int aRoundID) {
+		return roundDividends.getDividends (aRoundID);
+	}
+	
+	public void clearRoundDividends () {
+		roundDividends.clearDividends ();
+	}
+	
+	@Override
+	public void clearRoundDividends (int aRoundID) {
+		roundDividends.clearDividends (aRoundID);
+	}
+	
 	public void clearJustBoughtForAllCerts () {
 		portfolio.clearJustBoughtForAllCerts ();
 	}
@@ -654,8 +667,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public String getAllDividends () {
 		String tAllDividends;
+		int tOperatingRoundCount;
 		
-		tAllDividends = roundDividends.getAllRoundsDividends ();
+		tOperatingRoundCount = playerManager.getOperatingRoundCount ();
+		tAllDividends = roundDividends.getAllRoundsDividends (tOperatingRoundCount);
 		
 		return tAllDividends;
 	}
@@ -1676,7 +1691,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tTotalValueLabel = new JLabel ("Total Value: " + Bank.formatCash (getTotalValue ()));
 		playerJPanel.add (tTotalValueLabel);
 
-		tDividendsLabel = new JLabel ("Dividends: " + roundDividends.getAllRoundsDividends ());
+		tDividendsLabel = new JLabel ("Dividends: " + getAllDividends ());
 		playerJPanel.add (tDividendsLabel);
 		
 		tCertCountLabel = new JLabel (buildCertCountInfo ("Certificates "));
