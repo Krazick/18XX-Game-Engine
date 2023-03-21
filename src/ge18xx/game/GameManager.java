@@ -2907,6 +2907,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
+	public int getOperatingRoundCount () {
+		return roundManager.getOperatingRoundCount ();
+	}
+	
 	public int getCurrentPhase () {
 		return phaseManager.getCurrentPhase ();
 	}
