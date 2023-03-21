@@ -950,16 +950,17 @@ public class City extends RevenueCenter implements Cloneable {
 				g.setColor (aCityColor);
 				g.fillOval (X1, Y1, width, height);
 			}
-			tIsCorporationBase = isCorporationBase ();
-			if (tIsCorporationBase) {
-				tCorpID = getHomeCompanyID ();
-				if (!cityHasStation (tCorpID)) {
-					drawCorporationBase (g, X1, Y1, width, height);
-				}
-			}
 			tIsDestination = isDestination ();
 			if (tIsDestination) {
 				drawDestination (g, X1, Y1, width, height);
+			} else {
+				tIsCorporationBase = isCorporationBase ();
+				if (tIsCorporationBase) {
+					tCorpID = getHomeCompanyID ();
+					if (!cityHasStation (tCorpID)) {
+						drawCorporationBase (g, X1, Y1, width, height);
+					}
+				}
 			}
 		}
 
