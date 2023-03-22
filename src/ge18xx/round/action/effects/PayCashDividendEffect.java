@@ -56,11 +56,12 @@ public class PayCashDividendEffect extends CashTransferEffect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		CashHolderI tFromCashHolder;
+		CashHolderI tToCashHolder;
 
 		tEffectApplied = false;
-		tFromCashHolder = (CashHolderI) getActor ();
-		tFromCashHolder.addCashToDividends (cash, operatingRoundPart2);
+		tToCashHolder = (CashHolderI) getToActor ();
+		tToCashHolder.addCashToDividends (cash, operatingRoundPart2);
+		super.applyEffect (aRoundManager);
 		tEffectApplied = true;
 
 		return tEffectApplied;
@@ -69,11 +70,12 @@ public class PayCashDividendEffect extends CashTransferEffect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-		CashHolderI tFromCashHolder;
+		CashHolderI tToCashHolder;
 
 		tEffectUndone = false;
-		tFromCashHolder = (CashHolderI) getActor ();
-		tFromCashHolder.addCashToDividends (-cash, operatingRoundPart2);
+		tToCashHolder = (CashHolderI) getToActor ();
+		tToCashHolder.addCashToDividends (-cash, operatingRoundPart2);
+		super.undoEffect (aRoundManager);
 		tEffectUndone = true;
 
 		return tEffectUndone;
