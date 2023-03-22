@@ -712,6 +712,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		XMLElement tXMLEscrows;
 		XMLElement tXMLQueryOfferElements;
 		String tCompaniesSold;
+		int tOperatingRoundCount;
+		
 
 		tCompaniesSold = soldCompanies.toString (DELIMITER);
 		tXMLElement = getPlayerElement (aXMLDocument);
@@ -723,6 +725,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.setAttribute (AN_BID_SHARE, bidShare);
 		tXMLElement.setAttribute (AN_TRIGGERED_AUCTION, triggeredAuction);
 		tXMLElement.setAttribute (AN_SOLD_COMPANIES, tCompaniesSold);
+		tOperatingRoundCount = playerManager.getOperatingRoundCount ();
+		roundDividends.addDividendAttribute (tXMLElement, tOperatingRoundCount);
+		
 		tXMLPortofolioElements = portfolio.getElements (aXMLDocument);
 		tXMLElement.appendChild (tXMLPortofolioElements);
 		tXMLEscrows = escrows.getEscrowXML (aXMLDocument);
@@ -1212,6 +1217,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tState = aPlayerNode.getThisAttribute (AN_PRIMARY_STATE);
 		tGenericActor = new GenericActor ();
 		primaryActionState = tGenericActor.getPlayerState (tState);
+		roundDividends.parseDividendAtribute (aPlayerNode);
 		tState = aPlayerNode.getThisAttribute (AN_AUCTION_STATE);
 		auctionActionState = tGenericActor.getPlayerState (tState);
 		exchangedPrezShare = aPlayerNode.getThisAttribute (AN_EXCHANGED_PREZ_SHARE);
