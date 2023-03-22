@@ -3,8 +3,14 @@ package ge18xx.player;
 import java.util.Arrays;
 
 import ge18xx.bank.Bank;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.GUI;
+import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
 
 public class RoundDividends {
+	public final static AttributeName AN_DIVIDENDS = new AttributeName ("dividends");
+	public final static AttributeName AN_DIVIDEND_COUNT = new AttributeName ("dividendCount");
 
 	int maxRoundID;
 	int currentRoundIndex;
@@ -14,6 +20,42 @@ public class RoundDividends {
 		maxRoundID = aMaxRoundID;
 		dividends = new int [maxRoundID];
 		clearDividends ();
+	}
+	
+	public void parseDividendAtribute (XMLNode aPlayerNode) {
+		String tDividends;
+		String tAllDividends [];
+		int tDividendCount;
+		int tIndex;
+		int tValue;
+		
+		tDividends = aPlayerNode.getThisAttribute (AN_DIVIDENDS);
+		if (tDividends != GUI.NULL_STRING) {
+			tDividendCount = aPlayerNode.getThisIntAttribute (AN_DIVIDEND_COUNT);
+			tAllDividends = tDividends.split (GUI.SPLIT);
+			clearDividends ();
+			if (tAllDividends.length > 0) {
+				for (tIndex = 0; tIndex < tDividendCount; tIndex++) {
+					tValue = Integer.parseInt (tAllDividends [tIndex]);
+					addDividend ((tIndex + 1), tValue);
+				}
+			}
+		}
+	}
+	
+	public void addDividendAttribute (XMLElement aXMLElement, int aOperatingRoundCount) {
+		String tDividendAttribute;
+		int tIndex;
+		
+		tDividendAttribute = GUI.EMPTY_STRING;
+		for (tIndex = 1; tIndex <= aOperatingRoundCount; tIndex++) {
+			if (tDividendAttribute != GUI.EMPTY_STRING) {
+				tDividendAttribute += GUI.SPLIT;
+			}
+			tDividendAttribute += getDividends (tIndex);
+		}
+		aXMLElement.setAttribute (AN_DIVIDEND_COUNT, aOperatingRoundCount);
+		aXMLElement.setAttribute (AN_DIVIDENDS, tDividendAttribute);
 	}
 
 	public void clearDividends () {
