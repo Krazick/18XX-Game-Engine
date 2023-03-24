@@ -36,27 +36,20 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 public class MarketCell {
-	final static AttributeName AN_VALUE = new AttributeName ("value");
-	final static AttributeName AN_REGION = new AttributeName ("region");
 	public final static ElementName EN_MARKET_CELL = new ElementName ("MarketCell");
+	public final static ElementName EN_SOLD_OUT = new ElementName ("SoldOut");
+	public final static ElementName EN_NO_DIVIDEND = new ElementName ("NoDividend");
+	public final static ElementName EN_HALF_DIVIDEND = new ElementName ("HalfDividend");
+	public final static ElementName EN_FULL_DIVIDEND = new ElementName ("FullDividend");
+	public final static ElementName EN_SHARE_SELL = new ElementName ("ShareSale");
+	public final static AttributeName AN_VALUE = new AttributeName ("value");
+	public final static AttributeName AN_REGION = new AttributeName ("region");
+
 	public final static String NO_COORDINATES = null;
 	public final static MarketCell NO_MARKET_CELL = null;
 	public final static MarketCell NO_SHARE_PRICE = null;
-	Market market;
-	int value;
-	int xCenter, yCenter;
-	MarketRegion marketRegion;
-	boolean isSelected;
-	MarketCell neighbors[];
-	Movement SoldOut, NoDividend, HalfDividend, FullDividend, ShareSale;
-	String coordinates;
-	TokenStack tokens;
-
-	static final MarketRegion REGIONS[] = { MarketRegion.Normal, MarketRegion.Yellow, MarketRegion.Brown,
-			MarketRegion.Green, MarketRegion.Ledge, MarketRegion.Orange, MarketRegion.Closed, MarketRegion.Start,
-			MarketRegion.Unused };
-	static Movement OUT, NONE, HALF, FULL, SHARE, DOWN, UP;
-	static int neighborCount = 0;
+	public final static int NO_STOCK_PRICE = 0;
+	
 	static final int NEIGHBOR_UP = 0;
 	static final int NEIGHBOR_RIGHT = 1;
 	static final int NEIGHBOR_DOWN = 2;
@@ -64,7 +57,39 @@ public class MarketCell {
 	static final int NEIGHBOR_DOWN_RIGHT = 4;
 	static final int NEIGHBOR_NONE = -1;
 	static final String NO_COORDS = "<NONE>";
-	public static final int NO_STOCK_PRICE = 0;
+	static final MarketRegion REGIONS[] = { 
+			MarketRegion.Normal, 
+			MarketRegion.Yellow,
+			MarketRegion.Brown,
+			MarketRegion.Green, 
+			MarketRegion.Ledge, 
+			MarketRegion.Orange, 
+			MarketRegion.Closed, 
+			MarketRegion.Start,
+			MarketRegion.Unused };
+	static Movement OUT;
+	static Movement NONE;
+	static Movement HALF;
+	static Movement FULL;
+	static Movement SHARE;
+	static Movement DOWN;
+	static Movement UP;
+	static int neighborCount = 0;
+	
+	Market market;
+	int value;
+	int xCenter;
+	int yCenter;
+	MarketRegion marketRegion;
+	boolean isSelected;
+	MarketCell neighbors[];
+	Movement soldOut;
+	Movement noDividend;
+	Movement halfDividend;
+	Movement fullDividend;
+	Movement shareSale;
+	String coordinates;
+	TokenStack tokens;
 
 	public MarketCell () {
 		Movement tNoMovement = new Movement ();
@@ -136,9 +161,12 @@ public class MarketCell {
 	}
 
 	public boolean containingPoint (Point2D.Double aPoint, int aWidth, int aHeight) {
-		int tXTopLeft, tYTopLeft;
-		int tXBottomRight, tYBottomRight;
-		int tX, tY;
+		int tXTopLeft;
+		int tYTopLeft;
+		int tXBottomRight;
+		int tYBottomRight;
+		int tX;
+		int tY;
 		boolean tContains = false;
 
 		tX = (int) aPoint.getX ();
@@ -157,9 +185,12 @@ public class MarketCell {
 	}
 
 	public boolean containingPoint (Point aPoint, int aWidth, int aHeight) {
-		int tXTopLeft, tYTopLeft;
-		int tXBottomRight, tYBottomRight;
-		int tX, tY;
+		int tXTopLeft;
+		int tYTopLeft;
+		int tXBottomRight;
+		int tYBottomRight;
+		int tX;
+		int tY;
 		boolean tContains = false;
 
 		tX = (int) aPoint.getX ();
@@ -187,24 +218,16 @@ public class MarketCell {
 
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tElement;
-		final ElementName EN_SOLD_OUT = new ElementName ("SoldOut");
-		final ElementName EN_NO_DIVIDEND = new ElementName ("NoDividend");
-		final ElementName EN_HALF_DIVIDEND = new ElementName ("HalfDividend");
-		final ElementName EN_FULL_DIVIDEND = new ElementName ("FullDividend");
-		final ElementName EN_SHARE_SELL = new ElementName ("ShareSale");
-		final ElementName EN_MARKET_CELL = new ElementName ("MarketCell");
-		final AttributeName AN_REGION = new AttributeName ("region");
-		final AttributeName AN_VALUE = new AttributeName ("value");
 
 		tElement = aXMLDocument.createElement (EN_MARKET_CELL);
 		tElement.setAttribute (AN_REGION, getName ());
 		if (!isClosed () && !isUnused ()) {
 			tElement.setAttribute (AN_VALUE, value);
-			createMoveElement (aXMLDocument, tElement, SoldOut, EN_SOLD_OUT);
-			createMoveElement (aXMLDocument, tElement, NoDividend, EN_NO_DIVIDEND);
-			createMoveElement (aXMLDocument, tElement, HalfDividend, EN_HALF_DIVIDEND);
-			createMoveElement (aXMLDocument, tElement, FullDividend, EN_FULL_DIVIDEND);
-			createMoveElement (aXMLDocument, tElement, ShareSale, EN_SHARE_SELL);
+			createMoveElement (aXMLDocument, tElement, soldOut, EN_SOLD_OUT);
+			createMoveElement (aXMLDocument, tElement, noDividend, EN_NO_DIVIDEND);
+			createMoveElement (aXMLDocument, tElement, halfDividend, EN_HALF_DIVIDEND);
+			createMoveElement (aXMLDocument, tElement, fullDividend, EN_FULL_DIVIDEND);
+			createMoveElement (aXMLDocument, tElement, shareSale, EN_SHARE_SELL);
 		}
 
 		return tElement;
@@ -235,8 +258,13 @@ public class MarketCell {
 	}
 
 	public void draw (Graphics g, int width, int height) {
-		int x1, y1, valueWidth;
-		int arrowHeadHeight, arrowHeadWidth, arrowDownOffset, arrowSideOffset;
+		int x1;
+		int y1;
+		int valueWidth;
+		int arrowHeadHeight;
+		int arrowHeadWidth;
+		int arrowDownOffset;
+		int arrowSideOffset;
 		String valueLabel;
 		MarketCell tLeftCell = getNeighborLeft ();
 		MarketCell tRightCell = getNeighborRight ();
@@ -394,7 +422,10 @@ public class MarketCell {
 	}
 
 	private void drawTokenStack (Graphics g, int width, int height) {
-		int tWidth, tHeight, xTL, yTL;
+		int tWidth;
+		int tHeight;
+		int xTL;
+		int yTL;
 
 		if (tokens.getTokenCount () > 0) {
 			tWidth = width / 3;
@@ -423,16 +454,18 @@ public class MarketCell {
 	}
 
 	public int getCellCountToBottom () {
-		int tCellsToBottom, tNeighbor;
-		MarketCell tMarketCell, tPreviousMarketCell;
+		int tCellsToBottom;
+		int tNeighbor;
+		MarketCell tMarketCell;
+		MarketCell tPreviousMarketCell;
 
 		tCellsToBottom = 0;
 		tPreviousMarketCell = this;
-		tNeighbor = tPreviousMarketCell.ShareSale.getMoveNeighbor ();
+		tNeighbor = tPreviousMarketCell.shareSale.getMoveNeighbor ();
 		tMarketCell = tPreviousMarketCell.getProperNeighbor (tNeighbor);
 		while (tPreviousMarketCell != tMarketCell) {
 			tPreviousMarketCell = tMarketCell;
-			tNeighbor = tPreviousMarketCell.ShareSale.getMoveNeighbor ();
+			tNeighbor = tPreviousMarketCell.shareSale.getMoveNeighbor ();
 			tMarketCell = tPreviousMarketCell.getProperNeighbor (tNeighbor);
 			tCellsToBottom++;
 		}
@@ -448,7 +481,7 @@ public class MarketCell {
 		MarketCell tMarketCell;
 		int tNeighbor;
 
-		tNeighbor = NoDividend.getMoveNeighbor ();
+		tNeighbor = noDividend.getMoveNeighbor ();
 		tMarketCell = getProperNeighbor (tNeighbor);
 
 		return tMarketCell;
@@ -458,7 +491,7 @@ public class MarketCell {
 		MarketCell tMarketCell;
 		int tNeighbor;
 
-		tNeighbor = HalfDividend.getMoveNeighbor ();
+		tNeighbor = halfDividend.getMoveNeighbor ();
 		tMarketCell = getProperNeighbor (tNeighbor);
 
 		return tMarketCell;
@@ -468,7 +501,7 @@ public class MarketCell {
 		MarketCell tMarketCell;
 		int tNeighbor;
 
-		tNeighbor = FullDividend.getMoveNeighbor ();
+		tNeighbor = fullDividend.getMoveNeighbor ();
 		tMarketCell = getProperNeighbor (tNeighbor);
 
 		return tMarketCell;
@@ -567,7 +600,7 @@ public class MarketCell {
 			}
 		}
 		if (tMoveDown) {
-			tNeighbor = ShareSale.getMoveNeighbor ();
+			tNeighbor = shareSale.getMoveNeighbor ();
 			tMarketCell = getProperNeighbor (tNeighbor);
 		} else {
 			tMarketCell = this;
@@ -580,7 +613,7 @@ public class MarketCell {
 		MarketCell tMarketCell;
 		int tNeighbor;
 
-		tNeighbor = SoldOut.getMoveNeighbor ();
+		tNeighbor = soldOut.getMoveNeighbor ();
 		tMarketCell = getProperNeighbor (tNeighbor);
 
 		return tMarketCell;
@@ -651,7 +684,7 @@ public class MarketCell {
 	}
 
 	public boolean isFullDividendUp () {
-		return (FullDividend.equals (UP));
+		return (fullDividend.equals (UP));
 	}
 
 	public boolean isLedge () {
@@ -659,7 +692,7 @@ public class MarketCell {
 	}
 
 	public boolean isNoDividendDown () {
-		return (NoDividend.equals (DOWN));
+		return (noDividend.equals (DOWN));
 	}
 
 	public boolean isOpen () {
@@ -668,7 +701,8 @@ public class MarketCell {
 
 	public boolean isRightOf (MarketCell aMarketCell2) {
 		boolean tIsRightOf;
-		int tColID1, tColID2;
+		int tColID1;
+		int tColID2;
 
 		tColID1 = Integer.parseInt (coordinates.substring (1));
 		tColID2 = Integer.parseInt (aMarketCell2.getCoordinates ().substring (1));
@@ -683,7 +717,8 @@ public class MarketCell {
 
 	public boolean isAbove (MarketCell aMarketCell2) {
 		boolean tIsAbove;
-		String tCoordinates1, tCoordinates2;
+		String tCoordinates1;
+		String tCoordinates2;
 
 		tCoordinates1 = coordinates;
 		tCoordinates2 = aMarketCell2.getCoordinates ();
@@ -773,11 +808,11 @@ public class MarketCell {
 			UP = new Movement (-1, 0);
 		}
 		value = aValue;
-		SoldOut = aOut;
-		NoDividend = aNone;
-		HalfDividend = aHalf;
-		FullDividend = aFull;
-		ShareSale = aShare;
+		soldOut = aOut;
+		noDividend = aNone;
+		halfDividend = aHalf;
+		fullDividend = aFull;
+		shareSale = aShare;
 		if (neighborCount == 0) {
 			neighborCount = aNeighborCount;
 		}
