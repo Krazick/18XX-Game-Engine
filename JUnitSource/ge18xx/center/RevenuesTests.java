@@ -1,5 +1,7 @@
 package ge18xx.center;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -7,6 +9,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import ge18xx.map.Location;
 
 @DisplayName ("Testing Revenues Class")
 class RevenuesTests {
@@ -41,6 +45,10 @@ class RevenuesTests {
 //		Arguments: Value, Location Phase
 		revenueList = new Revenues (10, 20, 0);
 		assertEquals (1, revenueList.getRevenueCount (), "New Revenue List - Three Args");
+		assertTrue (revenueList.isValidLocation ());
+		
+		revenueList = new Revenues (10, Location.NO_LOCATION, 0);
+		assertFalse (revenueList.isValidLocation ());
 	}
 
 	@Test
