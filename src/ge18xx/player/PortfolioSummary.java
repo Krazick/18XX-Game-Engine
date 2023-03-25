@@ -5,11 +5,11 @@ import javax.swing.border.Border;
 public class PortfolioSummary {
 	String abbrev;
 	String type;
+	String note;
 	int count;
 	int percentage;
 	boolean isPresident;
 	Border corporateColorBorder;
-	String note;
 	public final static String PRIVATE_CORP_TYPE = "Private";
 	public final static String MINOR_CORP_TYPE = "Minor";
 	public final static String SHARE_CORP_TYPE = "Share";
@@ -73,7 +73,6 @@ public class PortfolioSummary {
 
 		tOwnershipLabel = getAbbrev () + " ";
 		if (PRIVATE_CORP_TYPE.equals (type)) {
-//			tOwnershipLabel += type + " 1 Prez Cert";
 			tOwnershipLabel += type + " Cert";
 		} else if (SHARE_CORP_TYPE.equals (type)) {
 			tOwnershipLabel +=  getCertCountText () + getPercentageText ();

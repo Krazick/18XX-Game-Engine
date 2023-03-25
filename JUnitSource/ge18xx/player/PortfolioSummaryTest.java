@@ -85,7 +85,7 @@ class PortfolioSummaryTest {
 		tCount = 1;
 		tPercentage = 50;
 		tIsPresident = false;
-		tNote = "Minor Prez Test Case Note";
+		tNote = "Minor Not Prez Test Case Note";
 
 		tColorBorder = BorderFactory.createLineBorder (Color.blue, 1);
 
@@ -172,7 +172,6 @@ class PortfolioSummaryTest {
 			Border tFoundBorder;
 
 			tSummary = privatePortfolioSummary.getSummary ();
-//			assertEquals ("PrivateTest Private 1 Prez Cert", tSummary);
 			assertEquals ("PrivateTest Private Cert", tSummary);
 
 			assertEquals ("Private", privatePortfolioSummary.getType ());
@@ -208,7 +207,7 @@ class PortfolioSummaryTest {
 			assertEquals ("MinorNPrezTest Minor 1 Cert/50%", tSummary);
 
 			assertEquals ("Minor", minorPortfolioSummary.getType ());
-			assertEquals ("Minor Prez Test Case Note", minorPortfolioSummary.getNote ());
+			assertEquals ("Minor Not Prez Test Case Note", minorPortfolioSummary.getNote ());
 
 			tFoundBorder = minorPortfolioSummary.getCorporateColorBorder ();
 			assertNull (tFoundBorder);
