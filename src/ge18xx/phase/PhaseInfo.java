@@ -74,8 +74,16 @@ public class PhaseInfo {
 	}
 
 	public PhaseInfo (XMLNode aCellNode) {
-		int tName, tSubName, tRounds, tTrainLimit, tMinorTrainLimit, tGovtTrainLimit;
-		boolean tCanBuyPrivate, tClosePrivate, tGovernmentCanForm, tGovernmentMustForm;
+		int tName;
+		int tSubName;
+		int tRounds;
+		int tTrainLimit;
+		int tMinorTrainLimit;
+		int tGovtTrainLimit;
+		boolean tCanBuyPrivate;
+		boolean tClosePrivate;
+		boolean tGovernmentCanForm;
+		boolean tGovernmentMustForm;
 		boolean tCanBuyTrain;
 		boolean tLoansAllowed;
 		String tOffBoard, tTileColors;
@@ -93,6 +101,7 @@ public class PhaseInfo {
 		tMinorTrainLimit = aCellNode.getThisIntAttribute (AN_MINOR_TRAIN_LIMIT, NO_LIMIT);
 		tGovtTrainLimit = aCellNode.getThisIntAttribute (AN_GOVT_TRAIN_LIMIT, NO_LIMIT);
 		tOffBoard = aCellNode.getThisAttribute (AN_OFF_BOARD);
+		
 		tCanBuyPrivate = aCellNode.getThisBooleanAttribute (AN_CAN_BUY_PRIVATE);
 		tCanBuyTrain = aCellNode.getThisBooleanAttribute (AN_CAN_BUY_TRAIN);
 		tClosePrivate = aCellNode.getThisBooleanAttribute (AN_CLOSE_PRIVATES);
