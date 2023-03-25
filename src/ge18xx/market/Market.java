@@ -38,7 +38,6 @@ import ge18xx.utilities.XMLNodeList;
 public class Market extends JLabel implements LoadableXMLI, MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = 1L;
 	public final static ElementName EN_MARKET = new ElementName ("Market");
-//	final ElementName EN_MARKET = new ElementName ("Market");
 	final static ElementName EN_ROW = new ElementName ("Row");
 	final static AttributeName AN_COLS = new AttributeName ("cols");
 	final static AttributeName AN_ROWS = new AttributeName ("rows");
