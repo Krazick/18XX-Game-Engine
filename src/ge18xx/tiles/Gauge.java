@@ -54,25 +54,25 @@ public class Gauge implements Cloneable {
 		}
 	}
 
-	public Gauge getBaseGauge () {
-		Gauge tBaseGauge;
-
-		if (hasBase ()) {
-			if (gauge == FERRY) {
-				tBaseGauge = new Gauge (FERRY_BASE);
-			} else if (gauge == METER_GAUGE) {
-				tBaseGauge = new Gauge (METER_BASE);
-			} else if (gauge == TUNNEL) {
-				tBaseGauge = new Gauge (METER_BASE);
-			} else {
-				tBaseGauge = NO_GAUGE;
-			}
-		} else {
-			tBaseGauge = NO_GAUGE;
-		}
-
-		return tBaseGauge;
-	}
+//	public Gauge getBaseGauge () {
+//		Gauge tBaseGauge;
+//
+//		if (hasBase ()) {
+//			if (gauge == FERRY) {
+//				tBaseGauge = new Gauge (FERRY_BASE);
+//			} else if (gauge == METER_GAUGE) {
+//				tBaseGauge = new Gauge (METER_BASE);
+//			} else if (gauge == TUNNEL) {
+//				tBaseGauge = new Gauge (METER_BASE);
+//			} else {
+//				tBaseGauge = NO_GAUGE;
+//			}
+//		} else {
+//			tBaseGauge = NO_GAUGE;
+//		}
+//
+//		return tBaseGauge;
+//	}
 
 	public Color getColor () {
 		Color color;
@@ -173,13 +173,13 @@ public class Gauge implements Cloneable {
 		return gauge;
 	}
 
-	public boolean hasBase () {
-		if ((gauge == FERRY) || (gauge == METER_GAUGE)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	public boolean hasBase () {
+//		if ((gauge == FERRY) || (gauge == METER_GAUGE)) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 
 	public boolean isDashed () {
 		if ((gauge == FERRY) || (gauge == METER_GAUGE) || (gauge == TUNNEL)) {

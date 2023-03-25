@@ -141,17 +141,17 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return tracks.add (aTrack);
 	}
 
-	public boolean addTrack (int aEnter, int aExit, int aGaugeType) {
-		Gauge baseGauge;
-		Gauge tGauge = new Gauge (aGaugeType);
-
-		baseGauge = tGauge.getBaseGauge ();
-		if (baseGauge != null) {
-			addTrack (new Track (aEnter, aExit, baseGauge));
-		}
-
-		return addTrack (new Track (aEnter, aExit, tGauge));
-	}
+//	public boolean addTrack (int aEnter, int aExit, int aGaugeType) {
+//		Gauge baseGauge;
+//		Gauge tGauge = new Gauge (aGaugeType);
+//
+//		baseGauge = tGauge.getBaseGauge ();
+//		if (baseGauge != null) {
+//			addTrack (new Track (aEnter, aExit, baseGauge));
+//		}
+//
+//		return addTrack (new Track (aEnter, aExit, tGauge));
+//	}
 
 	public void appendTokensState (XMLDocument aXMLDocument, XMLElement aMapCellElement) {
 		if (hasCenters ()) {
