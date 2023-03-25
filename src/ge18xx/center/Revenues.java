@@ -45,10 +45,10 @@ public class Revenues extends Feature {
 	static final int MAX_LAYOUT_STYLE = LAYOUT_SPLIT;
 	static final String LAYOUT_NAMES[] = { "circle", "oval", "horizontal", "vertical", "split" };
 	int layoutStyle;
-	List<Revenue> revenues = new LinkedList<> ();
+	List<Revenue> revenues;
 
 	public Revenues () {
-		revenues = new LinkedList<> ();
+		initializeRevenues ();
 		setValues (Revenue.NO_REVENUE_VALUE, Location.CENTER_CITY_LOC, Revenue.ALL_PHASES, LAYOUT_CIRCLE);
 	}
 
@@ -58,7 +58,7 @@ public class Revenues extends Feature {
 		int tRevenueCount;
 		int tRevenueIndex;
 
-		revenues = new LinkedList<> ();
+		initializeRevenues ();
 		if (aRevenues != NO_REVENUES) {
 			tRevenueCount = aRevenues.getRevenueCount ();
 			for (tRevenueIndex = 0; tRevenueIndex < tRevenueCount; tRevenueIndex++) {
@@ -74,15 +74,19 @@ public class Revenues extends Feature {
 	}
 
 	public Revenues (int aValue, int aLocation, int aPhase) {
-		revenues = new LinkedList<> ();
+		initializeRevenues ();
 		setValues (aValue, aLocation, aPhase, LAYOUT_CIRCLE);
 	}
 
 	public Revenues (int aValue, int aLocation, int aPhase, int aLayoutStyle) {
-		revenues = new LinkedList<> ();
+		initializeRevenues ();
 		setValues (aValue, aLocation, aPhase, aLayoutStyle);
 	}
 
+	private void initializeRevenues () {
+		revenues = new LinkedList<Revenue> ();
+	}
+	
 	public void addRevenue (Revenue aRevenue) {
 		revenues.add (aRevenue);
 	}
