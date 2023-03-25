@@ -60,5 +60,23 @@ public class PlayerTestFactory {
 
 		return mPlayer;
 	}
-
+	
+	/**
+	 * Build a basic Player with the Provided Name, PlayerManager and Cash
+	 *
+	 * @param aName Name to return when 'getName' method is called by mocked object
+	 * @param aPlayerManager the Player Manager to add this player to
+	 * @param aCash the initial amount of Cash to give to the player
+	 *
+	 * @return the constructed Player
+	 *
+	 */
+	public Player buildPlayer (String aName, PlayerManager aPlayerManager, int aCash) {
+		Player aPlayer;
+		
+		aPlayer = new Player (aName, aPlayerManager, aCash);
+		aPlayerManager.addPlayer (aPlayer);
+		
+		return aPlayer;
+	}
 }
