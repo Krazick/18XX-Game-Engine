@@ -266,7 +266,7 @@ public class RouteInformation {
 	public void addRouteSegment (RouteSegment aRouteSegment, RouteAction aRouteAction) {
 		MapCell tMapCell;
 		Location tStartLocation;
-		int tEndLocation;
+		Location tEndLocation;
 
 		if (revenueCenters != null) {
 			addRevenueCenter (aRouteSegment);
