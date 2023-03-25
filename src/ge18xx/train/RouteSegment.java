@@ -32,9 +32,9 @@ public class RouteSegment {
 	Tile tile;
 	String mapCellID;
 	int tileNumber;
+	int cost; // For Ferry/Tunnel/Bridge Fee
 	NodeInformation start;
 	NodeInformation end;
-	int cost; // For Ferry/Tunnel/Bridge Fee
 	Gauge gauge; // Track Gauge
 	Logger logger;
 
@@ -333,7 +333,8 @@ public class RouteSegment {
 	}
 
 	public void applyRCInfo (int aPhase, int aCorpID) {
-		Location tStartLocation, tEndLocation;
+		Location tStartLocation;
+		Location tEndLocation;
 
 		tStartLocation = start.getLocation ();
 		if (tile.getRunThroughCenter () != RevenueCenter.NO_CENTER) {
@@ -556,7 +557,8 @@ public class RouteSegment {
 
 	public void clearTrainOnTrack (Track aTrack) {
 		RevenueCenter tRevenueCenter;
-		Location tSide, tEnd;
+		Location tSide;
+		Location tEnd;
 
 		if (aTrack != Track.NO_TRACK) {
 			aTrack.setTrainNumber (0);
@@ -614,8 +616,11 @@ public class RouteSegment {
 	}
 
 	public boolean isSideUsed () {
-		boolean tIsEnterSideUsed = false, tIsExitSideUsed = false, tIsSideUsed;
+		boolean tIsEnterSideUsed = false;
+		boolean tIsExitSideUsed = false;
+		boolean tIsSideUsed;
 		Location tSide;
+		
 		if (isStartASide ()) {
 			tSide = getStartLocationIsSide ();
 			tIsEnterSideUsed = mapCell.isTrainUsingSide (tSide.getLocation ());
@@ -696,8 +701,10 @@ public class RouteSegment {
 	 * @return the Next useable Track Segment.
 	 */
 	public Track getNextTrack (int aCurrentIndex, Location aStartLocation, Location aEndLocation) {
-		Track tNextTrack, tFoundTrack = Track.NO_TRACK;
-		int tNextIndex, tTrackCount;
+		Track tNextTrack;
+		Track tFoundTrack = Track.NO_TRACK;
+		int tNextIndex;
+		int tTrackCount;
 		boolean tTestedAll = false;
 
 		// Want to move to Next Track Index, cycling back to first (which is zero)
@@ -816,7 +823,8 @@ public class RouteSegment {
 
 	public XMLElement getElement (XMLDocument aXMLDocument) {
 		XMLElement tXMLElement;
-		XMLElement tXMLStartElement, tXMLEndElement;
+		XMLElement tXMLStartElement;
+		XMLElement tXMLEndElement;
 
 		tXMLElement = aXMLDocument.createElement (EN_ROUTE_SEGMENT);
 		tXMLElement.setAttribute (AN_MAP_CELL_ID, mapCell.getCellID ());
