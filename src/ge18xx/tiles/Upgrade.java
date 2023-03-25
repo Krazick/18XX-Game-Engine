@@ -128,7 +128,8 @@ public class Upgrade {
 	}
 
 	public Location getToFromLocation (Location aFromLocation, int aRotation) {
-		int tFromLocation, tIndex;
+		int tFromLocation;
+		int tIndex;
 		Location tToLocation;
 
 		tToLocation = Location.NO_LOC;
@@ -143,7 +144,8 @@ public class Upgrade {
 	}
 
 	public int getToFromIndex (int aFromLocation, int aRotation) {
-		int tIndex, tToIndex;
+		int tIndex;
+		int tToIndex;
 
 		tToIndex = Location.CENTER_CITY_LOC;
 		for (tIndex = 0; tIndex < RCfrom.length; tIndex++) {
