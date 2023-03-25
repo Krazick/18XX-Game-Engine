@@ -458,17 +458,23 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 
 	@Override
 	public void paintComponent (Graphics aGraphics) {
-		int tX, tY, Xoffset, Yoffset, tIndex, tYNumOffset;
-		int tWidth, tHeight;
+		int tX;
+		int tY;
+		int tXoffset;
+		int tYoffset;
+		int tIndex;
+		int tYNumOffset;
+		int tWidth;
+		int tHeight;
 		Tile tTile;
 
-		Xoffset = Double.valueOf (Hex.getWidth () * 2.25).intValue ();
-		Yoffset = hex.getYd () * 2 + 25;
+		tXoffset = Double.valueOf (Hex.getWidth () * 2.25).intValue ();
+		tYoffset = hex.getYd () * 2 + 25;
 		tYNumOffset = hex.getYd () + 17;
 		tWidth = Hex.getWidth ();
 		tHeight = hex.getYd () + 5;
-		tX = Xoffset - tWidth;
-		tY = Yoffset - tHeight;
+		tX = tXoffset - tWidth;
+		tY = tYoffset - tHeight;
 		tIndex = 0;
 
 		for (GameTile tGameTile : gameTiles) {
@@ -481,11 +487,11 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 			}
 			tIndex++;
 			if (tIndex == TILES_PER_ROW) {
-				tX = Xoffset - tWidth;
-				tY += Yoffset;
+				tX = tXoffset - tWidth;
+				tY += tYoffset;
 				tIndex = 0;
 			} else {
-				tX += Xoffset;
+				tX += tXoffset;
 			}
 		}
 	}
