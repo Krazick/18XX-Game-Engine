@@ -56,25 +56,26 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 public class PlayerManager {
-	final AttributeName AN_NAME = new AttributeName ("name");
+	public static final AttributeName AN_NAME = new AttributeName ("name");
 	public static final int BID_INCREMENT = 5;
-	public final static int NO_PLAYER_INDEX = -1;
-	public final static String NO_PLAYER_NAME = null;
-	public final static PlayerManager NO_PLAYER_MANAGER = null;
+	public static final int NO_PLAYER_INDEX = -1;
+	public static final String NO_PLAYER_NAME = null;
+	public static final List<Player> NO_PLAYERS = null;
+	public static final PlayerManager NO_PLAYER_MANAGER = null;
 
 	public enum STOCK_BUY_IN {
 		StockRound, AuctionRound, OperatingRound
 	} // Round a Stock Certificate was purchased
 
 	public final static boolean AUCTION_BUY = false;
-	public final static List<Player> players = new LinkedList<> ();
-	private final static List<Player> NO_PLAYERS = null;
 	GameManager gameManager;
 	StockRound stockRound;
 	AuctionRound auctionRound;
 	ParPriceFrame parPriceFrame;
+	List<Player> players;
 
 	public PlayerManager (GameManager aGameManager) {
+		players = new LinkedList<Player> ();
 		gameManager = aGameManager;
 		setStockRound (StockRound.NO_STOCK_ROUND);
 	}
