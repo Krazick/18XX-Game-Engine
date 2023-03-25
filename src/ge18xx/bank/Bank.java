@@ -52,6 +52,13 @@ public class Bank extends GameBank implements CashHolderI {
 	public static final int NO_BANK_CASH = 0;
 	public static final String NO_FORMAT = null;
 	
+	JLabel bankCashLabel;
+	boolean bankIsBroken;
+	Portfolio closedPortfolio;
+	TrainPortfolio rustedTrainsPortfolio;
+	StartPacketFrame startPacketFrame;
+	int treasury;
+
 	public static String formatCash (int aCashAmount) {
 		String tFormatted;
 
@@ -95,14 +102,6 @@ public class Bank extends GameBank implements CashHolderI {
 		}
 	};
 	
-	JLabel bankCashLabel;
-	boolean bankIsBroken;
-	Portfolio closedPortfolio;
-	TrainPortfolio rustedTrainsPortfolio;
-	StartPacketFrame startPacketFrame;
-
-	int treasury;
-
 	public Bank (int aTreasury, GameManager aGameManager) {
 		super (NAME, aGameManager);
 
