@@ -14,6 +14,7 @@ import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
+import ge18xx.player.PlayerTestFactory;
 
 @DisplayName ("CashTransferEffect Constructor Tests")
 class CashTransferEffectTestConstructor {
@@ -23,7 +24,8 @@ class CashTransferEffectTestConstructor {
 	Player actorGamma;
 	GameManager mGameManager;
 	PlayerManager playerManager;
-	GameTestFactory testFactory;
+	PlayerTestFactory playerTestFactory;
+	GameTestFactory gameTestFactory;
 	int cashAmount;
 
 	@BeforeEach
@@ -33,16 +35,17 @@ class CashTransferEffectTestConstructor {
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterBeta";
 		tPlayer3Name = "ToEffectTesterGamma";
-		testFactory = new GameTestFactory ();
-		mGameManager = testFactory.buildGameManagerMock (tClientName);
+		gameTestFactory = new GameTestFactory ();
+		mGameManager = gameTestFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
-		playerManager = new PlayerManager (mGameManager);
+		playerTestFactory = new PlayerTestFactory (mGameManager);
+		playerManager = playerTestFactory.buildPlayerManager ();
 		effectAlpha = new CashTransferEffect ();
 		cashAmount = 100;
-		actorBeta = new Player (tPlayer2Name, playerManager, 0);
-		actorGamma = new Player (tPlayer3Name, playerManager, 0);
+		actorBeta = playerTestFactory.buildPlayer (tPlayer2Name, playerManager, 0);
+		actorGamma = playerTestFactory.buildPlayer (tPlayer3Name, playerManager, 0);
 		effectBeta = new CashTransferEffect (actorBeta, actorGamma, cashAmount);
 	}
 
