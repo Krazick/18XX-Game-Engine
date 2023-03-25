@@ -29,12 +29,15 @@ class EscrowTests {
 	GameTestFactory gameTestFactory;
 	PlayerTestFactory playerTestFactory;
 	CertificateTestFactory certificateTestFactory;
+	BankTestFactory bankTestFactory;
+	Bank mBank;
 	
 	@BeforeEach
 	void setUp () throws Exception {
 		gameTestFactory = new GameTestFactory ();
 		mGameManager = gameTestFactory.buildGameManager ();
 		playerTestFactory = new PlayerTestFactory (mGameManager);
+		bankTestFactory = new BankTestFactory ();
 
 		certificateTestFactory = new CertificateTestFactory ();
 		mCertificate = certificateTestFactory.buildCertificateMock ();
@@ -103,11 +106,7 @@ class EscrowTests {
 	@Test
 	@DisplayName ("Transfer Cash to Test")
 	void transferCashToTest () {
-		BankTestFactory tBankTestFactory;
-		Bank mBank;
-
-		tBankTestFactory = new BankTestFactory ();
-		mBank = tBankTestFactory.buildBankMock (mGameManager);
+		mBank = bankTestFactory.buildBankMock (mGameManager);
 		Mockito.doNothing ().when (mBank).addCash (anyInt ());
 
 		primaryEscrow.transferCashTo (mBank, 20);
