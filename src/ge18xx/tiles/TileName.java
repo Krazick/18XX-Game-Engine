@@ -83,32 +83,35 @@ public class TileName extends Feature implements Cloneable {
 		draw (g, X, Y, 0, aHex);
 	}
 
-	public void draw (Graphics g, int X, int Y, int aTileOrient, Hex aHex) {
-		int width, height, X1, Y1;
+	public void draw (Graphics aGraphics, int aX, int aY, int aTileOrient, Hex aHex) {
+		int tWidth;
+		int tHeight;
+		int tX1;
+		int tY1;
 		Location tLocation;
-		Point xy;
+		Point tPoint;
 		Font tnewFont, tCurrentFont;
 
 		if (!(name.equals (NO_NAME))) {
 			if (!(name.equals (NO_NAME2))) {
-				tCurrentFont = g.getFont ();
+				tCurrentFont = aGraphics.getFont ();
 				tnewFont = new Font ("Dialog", Font.PLAIN, 10);
-				g.setFont (tnewFont);
-				width = g.getFontMetrics ().stringWidth (name);
-				height = g.getFontMetrics ().getHeight ();
+				aGraphics.setFont (tnewFont);
+				tWidth = aGraphics.getFontMetrics ().stringWidth (name);
+				tHeight = aGraphics.getFontMetrics ().getHeight ();
 				if (location.isNoLocation ()) {
-					X1 = X - width / 2;
-					Y1 = Y + height / 2;
+					tX1 = aX - tWidth / 2;
+					tY1 = aY + tHeight / 2;
 				} else {
 					tLocation = location.rotateLocation (aTileOrient);
-					xy = tLocation.calcCenter (aHex);
-					X1 = X + xy.x - width / 2;
-					Y1 = Y + xy.y + height / 2;
+					tPoint = tLocation.calcCenter (aHex);
+					tX1 = aX + tPoint.x - tWidth / 2;
+					tY1 = aY + tPoint.y + tHeight / 2;
 				}
 
-				g.setColor (Color.black);
-				g.drawString (name, X1, Y1);
-				g.setFont (tCurrentFont);
+				aGraphics.setColor (Color.black);
+				aGraphics.drawString (name, tX1, tY1);
+				aGraphics.setFont (tCurrentFont);
 			}
 		}
 	}
