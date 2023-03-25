@@ -110,8 +110,8 @@ public class PhaseManager {
 	}
 
 	public String getCurrentOffBoard () {
-		String tCurrentOffBoard = "";
 		PhaseInfo tCurrentPhaseInfo = getCurrentPhaseInfo ();
+		String tCurrentOffBoard = "";
 
 		if (tCurrentPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
 			tCurrentOffBoard = tCurrentPhaseInfo.getOffBoard ();
@@ -121,8 +121,9 @@ public class PhaseManager {
 	}
 
 	public int getPhaseIndex (String aFullPhaseName) {
-		int tMatchingPhaseIndex, tPhaseIndex;
 		PhaseInfo tPhaseInfo;
+		int tMatchingPhaseIndex;
+		int tPhaseIndex;
 
 		tMatchingPhaseIndex = NO_PHASE;
 		for (tPhaseIndex = 0; tPhaseIndex < phases.size (); tPhaseIndex++) {
@@ -162,9 +163,9 @@ public class PhaseManager {
 			Bank aBank) {
 		TrainInfo tTrainInfo;
 		PhaseInfo tCurrentPhase;
+		String tRustTrainName;
 		int tPhaseIndex;
 		int tOldPhaseIndex;
-		String tRustTrainName;
 
 		tTrainInfo = aTrain.getTrainInfo ();
 		tCurrentPhase = getCurrentPhaseInfo ();
@@ -187,8 +188,8 @@ public class PhaseManager {
 	}
 
 	public void printAllPhaseInfos () {
-		int tPhaseIndex;
 		PhaseInfo tPhaseInfo;
+		int tPhaseIndex;
 
 		for (tPhaseIndex = 0; tPhaseIndex < phases.size (); tPhaseIndex++) {
 			System.out.println ("----> Phase Index " + tPhaseIndex);		// PRINTLOG
@@ -206,8 +207,8 @@ public class PhaseManager {
 	}
 
 	public boolean canBuyTrainInPhase () {
-		boolean tCanBuyTrainInPhase = false;
 		PhaseInfo tPhaseInfo;
+		boolean tCanBuyTrainInPhase = false;
 
 		tPhaseInfo = getCurrentPhaseInfo ();
 		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
