@@ -16,9 +16,10 @@ import ge18xx.utilities.XMLNode;
 
 class Movement {
 	public final static Movement NO_MOVEMENT = null;
-	int rowAdjust, colAdjust;
 	final static AttributeName AN_ROW_ADJUST = new AttributeName ("rowAdjust");
 	final static AttributeName AN_COL_ADJUST = new AttributeName ("colAdjust");
+	int rowAdjust;
+	int colAdjust;
 
 	public Movement () {
 		this (0, 0);
@@ -29,7 +30,12 @@ class Movement {
 	}
 
 	public Movement (XMLNode aChildNode) {
-		this (aChildNode.getThisIntAttribute (AN_ROW_ADJUST), aChildNode.getThisIntAttribute (AN_COL_ADJUST));
+		int tRowAdjust;
+		int tColAdjust;
+		
+		tRowAdjust = aChildNode.getThisIntAttribute (AN_ROW_ADJUST);
+		tColAdjust = aChildNode.getThisIntAttribute (AN_COL_ADJUST);
+		setValues (tRowAdjust, tColAdjust);
 	}
 
 	public XMLElement createElement (XMLDocument aXMLDocument, ElementName aElementName) {
