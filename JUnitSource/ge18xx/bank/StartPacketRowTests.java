@@ -24,8 +24,6 @@ class StartPacketRowTests {
 	private StartPacketRow packetRow2;
 	private Certificate mCertificateAlpha;
 	private Certificate mCertificateGamma;
-//	private Certificate mCertificateDelta;
-//	private Certificate mCertificateChi;
 
 	@BeforeEach
 	void setUp () throws Exception {
@@ -51,10 +49,6 @@ class StartPacketRowTests {
 		Mockito.when (mCertificateAlpha.getCompanyAbbrev ()).thenReturn ("ASC");
 		mCertificateGamma = certificateTestFactory.buildCertificateMock ();
 		Mockito.when (mCertificateGamma.getCompanyAbbrev ()).thenReturn ("GPC");
-//		mCertificateDelta = certificateTestFactory.buildCertificateMock ();
-//		Mockito.when (mCertificateGamma.getCompanyAbbrev ()).thenReturn ("DPC");
-//		mCertificateChi = certificateTestFactory.buildCertificateMock ();
-//		Mockito.when (mCertificateGamma.getCompanyAbbrev ()).thenReturn ("CPC");
 	}
 
 	private StartPacketRow constructStartPacketRow (String aStartPacketRowTextXML) {
@@ -79,7 +73,6 @@ class StartPacketRowTests {
 		assertFalse (packetRow1.isRowEmpty ());
 		assertEquals (1, packetRow1.getItemCount ());
 		assertFalse (packetRow2.isOneLeftInRow ());
-//		assertEquals (packetRow1.getCertificateInRow (1));
 	}
 
 	@Test
