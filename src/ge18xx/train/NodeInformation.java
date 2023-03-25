@@ -18,10 +18,10 @@ public class NodeInformation {
 	final static AttributeName AN_BONUS = new AttributeName ("bonus");
 
 	Location location; // Location
+	RevenueCenter revenueCenter; // If a RevenueCenter, it is saved here
 	boolean corpStation; // Operating Corp Station (true or false)
 	boolean openFlow; // Open Flow for Train Running Through (true or false)
 	boolean hasRevenueCenter; // Has a Revenue Center
-	RevenueCenter revenueCenter; // If a RevenueCenter, it is saved here
 	int revenue; // Revenue
 	int bonus; // Bonus (for Cattle or Port)
 
@@ -42,8 +42,12 @@ public class NodeInformation {
 	}
 
 	public NodeInformation (XMLNode aNodeInfoNode) {
-		boolean tCorpStation, tHasRevenueCenter, tOpenFlow;
-		int tBonus, tLocationInt, tRevenue;
+		boolean tCorpStation;
+		boolean tHasRevenueCenter;
+		boolean tOpenFlow;
+		int tBonus;
+		int tLocationInt;
+		int tRevenue;
 		Location tLocation;
 
 		tCorpStation = aNodeInfoNode.getThisBooleanAttribute (AN_CORP_STATION);
@@ -267,14 +271,6 @@ public class NodeInformation {
 			}
 		}
 	}
-
-//	Location location;		//	Location
-//	boolean corpStation;	//	Operating Corp Station (true or false)
-//	boolean openFlow;		//	Open Flow for Train Running Through (true or false)
-//	boolean hasRevenueCenter;	// Has a Revenue Center
-//	RevenueCenter revenueCenter;	// If a RevenueCenter, it is saved here
-//	int revenue;			//	Revenue
-//	int bonus;				//	Bonus (for Cattle or Port)
 
 	public void updateNode (Tile aNewTile, NodeInformation aOtherNode, int tOrientation) {
 		// If this Location is a NOT a Side, need to update - ie No Revenue Centers on a
