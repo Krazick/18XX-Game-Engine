@@ -34,12 +34,6 @@ class RevenueTests {
 	void tearDown () throws Exception {
 	}
 
-//	@ParameterizedTest
-//	@ValueSource(strings = { "racecar", "radar", "able was I ere I saw elba" })
-//	void palindromes(String candidate) {
-//	    assertTrue(StringUtils.isPalindrome(candidate));
-//	}
-
 	@Test
 	@DisplayName ("Revenue Constructor Test No Args")
 	public void RevenueTestConstructorNoArgs () {
