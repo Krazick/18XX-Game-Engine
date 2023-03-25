@@ -2,6 +2,7 @@ package ge18xx.player;
 
 import org.mockito.Mockito;
 
+import ge18xx.company.Certificate;
 import ge18xx.game.GameManager;
 
 public class PlayerTestFactory {
@@ -72,11 +73,29 @@ public class PlayerTestFactory {
 	 *
 	 */
 	public Player buildPlayer (String aName, PlayerManager aPlayerManager, int aCash) {
-		Player aPlayer;
+		Player tPlayer;
 		
-		aPlayer = new Player (aName, aPlayerManager, aCash);
-		aPlayerManager.addPlayer (aPlayer);
+		tPlayer = new Player (aName, aPlayerManager, aCash);
+		aPlayerManager.addPlayer (tPlayer);
 		
-		return aPlayer;
+		return tPlayer;
+	}
+	
+	public Escrow buildEscrow (Certificate aCertificate, int aEscrowValue) {
+		Escrow tEscrow;
+		
+		tEscrow = new Escrow (aCertificate, aEscrowValue);
+		
+		return tEscrow;
+	}
+	
+	public Escrow buildEscrowMock (Certificate aCertificate, int aEscrowValue) {
+		Escrow mEscrow;
+		
+		mEscrow = Mockito.mock (Escrow.class);
+		Mockito.when (mEscrow.getCertificate ()).thenReturn (aCertificate);
+		Mockito.when (mEscrow.getCash ()).thenReturn (aEscrowValue);
+
+		return mEscrow;
 	}
 }
