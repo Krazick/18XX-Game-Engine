@@ -49,12 +49,12 @@ public class TrainInfo {
 	int quantity;
 	int triggerMainPhase;
 	int triggerMinorPhase;
-	String rust;
-	String tileInfo;
 	int discountPrice;
-	String tradeInTrains;
 	int onFirstOrderAvailable;
 	int onLastOrderAvailable;
+	String rust;
+	String tileInfo;
+	String tradeInTrains;
 
 	public TrainInfo () {
 		train = new Train ();
@@ -71,12 +71,23 @@ public class TrainInfo {
 
 	public TrainInfo (XMLNode aCellNode) {
 		String tRust;
-		int tQuantity, tTriggerMainPhase, tTriggerMinorPhase;
-		String tName, tTriggerPhase;
-		String tRevenueCenters, tTownRevenueCenters;
-		String tGaugeValue, tTileInfo;
-		int tMajorCount, tMinorCount;
-		int tPrice, tDiscountPrice, tGauge, tOrder, tOnFirstOrderAvailable, tOnLastOrderAvailable;
+		String tName;
+		String tTriggerPhase;
+		String tRevenueCenters;
+		String tTownRevenueCenters;
+		String tGaugeValue;
+		String tTileInfo;
+		int tQuantity;
+		int tTriggerMainPhase;
+		int tTriggerMinorPhase;
+		int tMajorCount;
+		int tMinorCount;
+		int tPrice;
+		int tDiscountPrice;
+		int tGauge;
+		int tOrder;
+		int tOnFirstOrderAvailable;
+		int tOnLastOrderAvailable;
 		String tTradeInTrains;
 		String [] tSplit = null;
 
@@ -248,7 +259,6 @@ public class TrainInfo {
 		train.setTrainInfo (this);
 		unlimited_quantity = false;
 		onFirstOrderAvailable = aOnFirstOrderAvailable;
-//		onLastOrderAvailable = aOnLastOrderAvailable;
 		setOnLastOrderAvailable (aOnLastOrderAvailable);
 	}
 
