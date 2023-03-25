@@ -50,7 +50,8 @@ public class Track implements Cloneable {
 	public Track (XMLNode aNode) {
 		String tGaugeName;
 		int tGaugeType;
-		int tEnter, tExit;
+		int tEnter;
+		int tExit;
 		Gauge tGauge;
 
 		tEnter = aNode.getThisIntAttribute (AN_ENTER);
@@ -174,21 +175,22 @@ public class Track implements Cloneable {
 		g.setClip (tPreviousClip);
 	}
 
-	public void drawDeadEnd (Graphics g, int X, int Y, Location tEnter, Hex aHex, Paint aBaseColor) {
-		int enterSide = tEnter.getLocation ();
-		int x[], y[];
-		int aTrackWidth = aHex.getTrackWidth ();
-		int halfTrackWidth = aTrackWidth / 2;
+	public void drawDeadEnd (Graphics aGraphics, int X, int Y, Location aEnter, Hex aHex, Paint aBaseColor) {
+		int enterSide = aEnter.getLocation ();
+		int x[];
+		int y[];
+		int tTrackWidth = aHex.getTrackWidth ();
+		int tHalfTrackWidth = tTrackWidth / 2;
 		int Xd = aHex.getXd ();
 		int Yd = aHex.getYd ();
-		int depthY = Yd / 3;
-		Paint trackColor;
-		int maxXDisplacement = (int) (Xd * 1.57143);
-		int minXDisplacement = (int) (Xd * 1.42857);
-		int maxYDisplacement = (int) (Yd * 0.57143);
-		int minYDisplacement = (int) (Yd * 0.42857);
-		Graphics2D g2d = (Graphics2D) g;
-		Stroke tCurrentStroke = g2d.getStroke ();
+		int tDepthY = Yd / 3;
+		int tMaxXDisplacement = (int) (Xd * 1.57143);
+		int tMinXDisplacement = (int) (Xd * 1.42857);
+		int tMaxYDisplacement = (int) (Yd * 0.57143);
+		int tMinYDisplacement = (int) (Yd * 0.42857);
+		Paint tTrackColor;
+		Graphics2D tGraphics2D = (Graphics2D) aGraphics;
+		Stroke tCurrentStroke = tGraphics2D.getStroke ();
 		BasicStroke tTrackStroke;
 
 		x = new int [4];
@@ -198,157 +200,160 @@ public class Track implements Cloneable {
 		}
 		switch (enterSide) {
 		case (0):
-			x [0] = X - halfTrackWidth;
+			x [0] = X - tHalfTrackWidth;
 			y [0] = Y - Yd;
-			x [1] = X + halfTrackWidth;
+			x [1] = X + tHalfTrackWidth;
 			y [1] = y [0];
 			x [2] = X;
-			y [2] = Y - (int) (depthY * 1.75);
+			y [2] = Y - (int) (tDepthY * 1.75);
 			break;
 
 		case (1):
-			x [0] = X + minXDisplacement;
-			y [0] = Y - maxYDisplacement;
-			x [1] = X + maxXDisplacement;
-			y [1] = Y - minYDisplacement;
+			x [0] = X + tMinXDisplacement;
+			y [0] = Y - tMaxYDisplacement;
+			x [1] = X + tMaxXDisplacement;
+			y [1] = Y - tMinYDisplacement;
 			x [2] = X + Xd;
-			y [2] = Y - depthY;
+			y [2] = Y - tDepthY;
 			break;
 
 		case (2):
-			x [0] = X + maxXDisplacement;
-			y [0] = Y + minYDisplacement;
-			x [1] = X + minXDisplacement;
-			y [1] = Y + maxYDisplacement;
+			x [0] = X + tMaxXDisplacement;
+			y [0] = Y + tMinYDisplacement;
+			x [1] = X + tMinXDisplacement;
+			y [1] = Y + tMaxYDisplacement;
 			x [2] = X + Xd;
-			y [2] = Y + depthY;
+			y [2] = Y + tDepthY;
 			break;
 
 		case (3):
-			x [0] = X - halfTrackWidth;
+			x [0] = X - tHalfTrackWidth;
 			y [0] = Y + Yd;
-			x [1] = X + halfTrackWidth;
+			x [1] = X + tHalfTrackWidth;
 			y [1] = y [0];
 			x [2] = X;
-			y [2] = Y + (int) (depthY * 1.75);
+			y [2] = Y + (int) (tDepthY * 1.75);
 			break;
 
 		case (4):
-			x [0] = X - maxXDisplacement - 1;
-			y [0] = Y + minYDisplacement;
-			x [1] = X - minXDisplacement - 1;
-			y [1] = Y + maxYDisplacement;
+			x [0] = X - tMaxXDisplacement - 1;
+			y [0] = Y + tMinYDisplacement;
+			x [1] = X - tMinXDisplacement - 1;
+			y [1] = Y + tMaxYDisplacement;
 			x [2] = X - Xd;
-			y [2] = Y + depthY;
+			y [2] = Y + tDepthY;
 			break;
 
 		case (5):
-			x [0] = X - maxXDisplacement - 1;
-			y [0] = Y - minYDisplacement;
-			x [1] = X - minXDisplacement - 1;
-			y [1] = Y - maxYDisplacement;
+			x [0] = X - tMaxXDisplacement - 1;
+			y [0] = Y - tMinYDisplacement;
+			x [1] = X - tMinXDisplacement - 1;
+			y [1] = Y - tMaxYDisplacement;
 			x [2] = X - Xd;
-			y [2] = Y - depthY;
+			y [2] = Y - tDepthY;
 			break;
 
 		case (6):
 			x [0] = X - Yd;
-			y [0] = Y - halfTrackWidth;
+			y [0] = Y - tHalfTrackWidth;
 			x [1] = x [0];
-			y [1] = Y + halfTrackWidth;
-			x [2] = X - (int) (depthY * 1.75);
+			y [1] = Y + tHalfTrackWidth;
+			x [2] = X - (int) (tDepthY * 1.75);
 			y [2] = Y;
 			break;
 
 		case (7):
-			x [0] = X - minYDisplacement;
-			y [0] = Y - maxXDisplacement;
-			x [1] = X - maxYDisplacement;
-			y [1] = Y - minXDisplacement;
-			x [2] = X - depthY;
+			x [0] = X - tMinYDisplacement;
+			y [0] = Y - tMaxXDisplacement;
+			x [1] = X - tMaxYDisplacement;
+			y [1] = Y - tMinXDisplacement;
+			x [2] = X - tDepthY;
 			y [2] = Y - Xd;
 			break;
 
 		case (8):
-			x [0] = X + maxYDisplacement;
-			y [0] = Y - minXDisplacement;
-			x [1] = X + minYDisplacement;
-			y [1] = Y - maxXDisplacement;
-			x [2] = X + depthY;
+			x [0] = X + tMaxYDisplacement;
+			y [0] = Y - tMinXDisplacement;
+			x [1] = X + tMinYDisplacement;
+			y [1] = Y - tMaxXDisplacement;
+			x [2] = X + tDepthY;
 			y [2] = Y - Xd;
 			break;
 
 		case (9):
 			x [0] = X + Yd;
-			y [0] = Y - halfTrackWidth;
+			y [0] = Y - tHalfTrackWidth;
 			x [1] = x [0];
-			y [1] = Y + halfTrackWidth;
-			x [2] = X + (int) (depthY * 1.75);
+			y [1] = Y + tHalfTrackWidth;
+			x [2] = X + (int) (tDepthY * 1.75);
 			y [2] = Y;
 			break;
 
 		case (10):
-			x [0] = X + minYDisplacement;
-			y [0] = Y + maxXDisplacement - 1;
-			x [1] = X + maxYDisplacement;
-			y [1] = Y + minXDisplacement - 1;
-			x [2] = X + depthY;
+			x [0] = X + tMinYDisplacement;
+			y [0] = Y + tMaxXDisplacement - 1;
+			x [1] = X + tMaxYDisplacement;
+			y [1] = Y + tMinXDisplacement - 1;
+			x [2] = X + tDepthY;
 			y [2] = Y + Xd;
 			break;
 
 		case (11):
-			x [0] = X - minYDisplacement;
-			y [0] = Y + maxXDisplacement - 1;
-			x [1] = X - maxYDisplacement;
-			y [1] = Y + minXDisplacement - 1;
-			x [2] = X - depthY;
+			x [0] = X - tMinYDisplacement;
+			y [0] = Y + tMaxXDisplacement - 1;
+			x [1] = X - tMaxYDisplacement;
+			y [1] = Y + tMinXDisplacement - 1;
+			x [2] = X - tDepthY;
 			y [2] = Y + Xd;
 			break;
 		}
 		x [3] = x [0];
 		y [3] = y [0];
 		tTrackStroke = getTrackStroke (aHex);
-		g2d.setStroke (tTrackStroke);
-		trackColor = getColor (aBaseColor);
-		g2d.setPaint (trackColor);
-		g2d.fillPolygon (x, y, 3);
-		g2d.setStroke (tCurrentStroke);
+		tGraphics2D.setStroke (tTrackStroke);
+		tTrackColor = getColor (aBaseColor);
+		tGraphics2D.setPaint (tTrackColor);
+		tGraphics2D.fillPolygon (x, y, 3);
+		tGraphics2D.setStroke (tCurrentStroke);
 	}
 
-	public void drawGentleTurn (Graphics g, int X, int Y, Location aEnter, Location aExit, Hex aHex, Paint aBaseColor) {
-		int tTrackRadius, tTrackDiameter, topLeftX, topLeftY;
-		int exitValue = aExit.getLocation ();
-		Graphics2D g2d = (Graphics2D) g;
-		Stroke tCurrentStroke = g2d.getStroke ();
+	public void drawGentleTurn (Graphics aGraphics, int X, int Y, Location aEnter, Location aExit, Hex aHex, Paint aBaseColor) {
+		Graphics2D tGraphics2D = (Graphics2D) aGraphics;
+		Stroke tCurrentStroke = tGraphics2D.getStroke ();
 		BasicStroke tTrackStroke;
-		boolean tDraw;
+		int tTrackRadius;
+		int tTrackDiameter;
+		int tTopLeftX;
+		int tTopLeftY;
+		int tExitValue = aExit.getLocation ();
 		int Xd = aHex.getXd ();
 		int Yd = aHex.getYd ();
-		boolean direction = Hex.getDirection ();
-		Paint trackColor;
+		boolean tDirection = Hex.getDirection ();
+		boolean tDraw;
+		Paint tTrackColor;
 
 		tTrackRadius = Hex.getWidth () + Xd;
 		tTrackDiameter = tTrackRadius + tTrackRadius;
 		tDraw = true;
-		topLeftX = 0;
-		topLeftY = 0;
+		tTopLeftX = 0;
+		tTopLeftY = 0;
 		switch (aEnter.getLocation ()) {
 		case (0):
-			if (exitValue == 2) {
-				if (direction) {
-					topLeftX = X - Yd - tTrackRadius;
-					topLeftY = Y - tTrackDiameter;
+			if (tExitValue == 2) {
+				if (tDirection) {
+					tTopLeftX = X - Yd - tTrackRadius;
+					tTopLeftY = Y - tTrackDiameter;
 				} else {
-					topLeftX = X;
-					topLeftY = Y - Yd - tTrackRadius;
+					tTopLeftX = X;
+					tTopLeftY = Y - Yd - tTrackRadius;
 				}
-			} else if (exitValue == 4) {
-				if (direction) {
-					topLeftX = X - Yd - tTrackRadius;
-					topLeftY = Y;
+			} else if (tExitValue == 4) {
+				if (tDirection) {
+					tTopLeftX = X - Yd - tTrackRadius;
+					tTopLeftY = Y;
 				} else {
-					topLeftX = X - tTrackDiameter;
-					topLeftY = Y - Yd - tTrackRadius;
+					tTopLeftX = X - tTrackDiameter;
+					tTopLeftY = Y - Yd - tTrackRadius;
 				}
 			} else {
 				tDraw = false;
@@ -356,21 +361,21 @@ public class Track implements Cloneable {
 			break;
 
 		case (1):
-			if (exitValue == 3) {
-				if (direction) {
-					topLeftX = X + Yd - tTrackRadius;
-					topLeftY = Y - tTrackDiameter;
+			if (tExitValue == 3) {
+				if (tDirection) {
+					tTopLeftX = X + Yd - tTrackRadius;
+					tTopLeftY = Y - tTrackDiameter;
 				} else {
-					topLeftX = X;
-					topLeftY = Y + Yd - tTrackRadius;
+					tTopLeftX = X;
+					tTopLeftY = Y + Yd - tTrackRadius;
 				}
-			} else if (exitValue == 5) {
-				if (direction) {
-					topLeftX = X - Yd * 2 - tTrackRadius;
-					topLeftY = Y - tTrackRadius;
+			} else if (tExitValue == 5) {
+				if (tDirection) {
+					tTopLeftX = X - Yd * 2 - tTrackRadius;
+					tTopLeftY = Y - tTrackRadius;
 				} else {
-					topLeftX = X - tTrackRadius;
-					topLeftY = Y - Yd * 2 - tTrackRadius;
+					tTopLeftX = X - tTrackRadius;
+					tTopLeftY = Y - Yd * 2 - tTrackRadius;
 				}
 			} else {
 				tDraw = false;
@@ -378,52 +383,50 @@ public class Track implements Cloneable {
 			break;
 
 		case (2):
-			if (direction) {
-				topLeftX = X + Yd * 2 - tTrackRadius;
-				topLeftY = Y - tTrackRadius;
+			if (tDirection) {
+				tTopLeftX = X + Yd * 2 - tTrackRadius;
+				tTopLeftY = Y - tTrackRadius;
 			} else {
-				topLeftX = X - tTrackRadius;
-				topLeftY = Y + Yd * 2 - tTrackRadius;
+				tTopLeftX = X - tTrackRadius;
+				tTopLeftY = Y + Yd * 2 - tTrackRadius;
 			}
 			break;
 
 		case (3):
-			if (direction) {
-				topLeftX = X + Yd - tTrackRadius;
-				topLeftY = Y;
+			if (tDirection) {
+				tTopLeftX = X + Yd - tTrackRadius;
+				tTopLeftY = Y;
 			} else {
-				topLeftX = X - tTrackDiameter;
-				topLeftY = Y + Yd - tTrackRadius;
+				tTopLeftX = X - tTrackDiameter;
+				tTopLeftY = Y + Yd - tTrackRadius;
 			}
 			break;
 
 		default:
 			tDraw = false;
 		}
-		trackColor = getColor (aBaseColor);
+		tTrackColor = getColor (aBaseColor);
 		tTrackStroke = getTrackStroke (aHex);
-		g2d.setStroke (tTrackStroke);
-		g2d.setPaint (trackColor);
+		tGraphics2D.setStroke (tTrackStroke);
+		tGraphics2D.setPaint (tTrackColor);
 		if (tDraw) {
-			g2d.drawOval (topLeftX, topLeftY, tTrackDiameter, tTrackDiameter);
+			tGraphics2D.drawOval (tTopLeftX, tTopLeftY, tTrackDiameter, tTrackDiameter);
 		}
-		g2d.setStroke (tCurrentStroke);
-		// Draw Center line Track in Yellow - Debugging Only
-		// g.setColor (Color.yellow);
-		// if (tDraw) {
-		// g.drawOval (topLeftX, topLeftY, tTrackDiameter, tTrackDiameter);
-		// }
+		tGraphics2D.setStroke (tCurrentStroke);
 	}
 
 	public void drawSharpTurn (Graphics g, int X, int Y, Location aEnter, Location aExit, Hex aHex, Paint aBaseColor) {
-		int topLeftX, topLeftY, tTrackDiameter, tTrackRadius;
-		boolean tDraw;
 		int exitValue = aExit.getLocation ();
 		Graphics2D g2d = (Graphics2D) g;
 		Stroke tCurrentStroke = g2d.getStroke ();
 		BasicStroke tTrackStroke;
+		int topLeftX;
+		int topLeftY;
+		int tTrackDiameter;
+		int tTrackRadius;
 		int Yd = aHex.getYd ();
 		boolean direction = Hex.getDirection ();
+		boolean tDraw;
 		Paint trackColor;
 
 		tTrackRadius = aHex.getXd ();
@@ -559,8 +562,11 @@ public class Track implements Cloneable {
 		int tStopY = 0;
 		int tStartSliceNum = 0;
 		int tStopSliceNum = 0;
-		int tempEnter, tempExit;
-		Location tEnter, tExit, tSwap;
+		int tempEnter;
+		int tempExit;
+		Location tEnter;
+		Location tExit;
+		Location tSwap;
 		Point displace;
 		int tDraw = 0;
 		Shape tPreviousClip;
