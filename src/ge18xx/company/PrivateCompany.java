@@ -513,15 +513,29 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	public boolean hasAnyPassiveCompanyBenefits () {
-		return benefits.hasAnyPassiveCompanyBenefits ();
+		boolean tHasAnyPassiveCompanyBenefits;
+		
+		if (benefits == Benefits.NO_BENEFITS) {
+			tHasAnyPassiveCompanyBenefits = false;
+		} else {
+			tHasAnyPassiveCompanyBenefits = benefits.hasAnyPassiveCompanyBenefits ();
+		}
+		
+		return tHasAnyPassiveCompanyBenefits;
 	}
 	
 	public PassiveEffectBenefit getUnusedPassiveCompanyBenefit () {
 		PassiveEffectBenefit tPassiveEffectBenefit;
 		
-		tPassiveEffectBenefit = benefits.getUnusedPassiveCompanyBenefit ();
+		
+		if (benefits == Benefits.NO_BENEFITS) {
+			tPassiveEffectBenefit = (PassiveEffectBenefit) Benefit.NO_BENEFIT;
+		} else {
+			tPassiveEffectBenefit = benefits.getUnusedPassiveCompanyBenefit ();
+		}
 		
 		return tPassiveEffectBenefit;
+
 	}
 	
 	public void handlePassiveBenefits (ShareCompany aShareCompany, Action aAction) {
