@@ -407,7 +407,8 @@ public class TrainPortfolio implements TrainHolderI {
 	@Override
 	public Train getTrain (String aName) {
 		Train tTrain;
-		int tIndex, tCount;
+		int tIndex;
+		int tCount;
 		String tTrainName;
 
 		tTrain = Train.NO_TRAIN;
@@ -470,12 +471,17 @@ public class TrainPortfolio implements TrainHolderI {
 
 	@Override
 	public String getTrainNameAndQty (String aStatus) {
-		String tNameAndQuantity, tName;
+		String tNameAndQuantity;
+		String tName;
 		String tNames[];
 		int tQuantities[];
-		int tIndex1, tCount1, tIndex2, tCount2;
+		int tIndex1;
+		int tCount1;
+		int tIndex2;
+		int tCount2;
 		Train tTrain;
-		boolean tFoundTrain, tAddTrain;
+		boolean tFoundTrain;
+		boolean tAddTrain;
 
 		tCount1 = getTrainCount ();
 		tNameAndQuantity = "";
@@ -548,7 +554,9 @@ public class TrainPortfolio implements TrainHolderI {
 
 	@Override
 	public int getTrainQuantity (String aName) {
-		int tTrainQuantity, tCount, tIndex;
+		int tTrainQuantity;
+		int tCount;
+		int tIndex;
 		String tTrainName;
 
 		tTrainQuantity = 0;
@@ -605,7 +613,8 @@ public class TrainPortfolio implements TrainHolderI {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aTrainNode) {
 			String tTrainName;
-			int tTrainStatus, tTrainOrder;
+			int tTrainStatus;
+			int tTrainOrder;
 			Train tTrain;
 
 			tTrainName = aTrainNode.getThisAttribute (Train.AN_NAME);
@@ -704,7 +713,8 @@ public class TrainPortfolio implements TrainHolderI {
 	@Override
 	public boolean removeSelectedTrain () {
 		boolean tTrainRemoved;
-		int tIndex, tCount;
+		int tIndex;
+		int tCount;
 		Train tTrain;
 
 		tCount = getTrainCount ();
@@ -728,7 +738,8 @@ public class TrainPortfolio implements TrainHolderI {
 	@Override
 	public boolean removeTrain (String aTrainName) {
 		boolean tTrainRemoved;
-		int tIndex, tCount;
+		int tIndex;
+		int tCount;
 		Train tTrain;
 
 		tCount = getTrainCount ();
