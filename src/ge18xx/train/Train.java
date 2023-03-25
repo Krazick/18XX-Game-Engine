@@ -478,8 +478,6 @@ public class Train extends Coupon implements Comparable<Object> {
 		cityCount = aMajorCity;
 		townCount = aMinorCity;
 
-//		name = aName;
-//		setPrice (aPrice);
 		setStatus (NOT_AVAILABLE);
 		setTrainInfo (TrainInfo.NO_TRAIN_INFO);
 		setCurrentRouteInformation (RouteInformation.NO_ROUTE_INFORMATION);
@@ -582,10 +580,11 @@ public class Train extends Coupon implements Comparable<Object> {
 			TrainRevenueFrame aTrainRevenueFrame) {
 		boolean tRouteStarted = false;
 		Color tColor = Color.BLUE;
-		int tRegionBonus = 0, tSpecialBonus = 0;
+		int tRegionBonus = 0;
+		int tSpecialBonus = 0;
+		int tCorpID;
 		RevenueCenter tRevenueCenter;
 		RouteSegment tRouteSegment;
-		int tCorpID;
 		RouteAction tRouteAction;
 		NodeInformation tEndNode;
 
@@ -618,7 +617,8 @@ public class Train extends Coupon implements Comparable<Object> {
 		RouteSegment tRouteSegment;
 		int tCorpID;
 		RouteAction tRouteAction;
-		NodeInformation tStartNode, tEndNode;
+		NodeInformation tStartNode;
+		NodeInformation tEndNode;
 		RevenueCenter tRevenueCenter;
 
 		if (currentRouteInformation != RouteInformation.NO_ROUTE_INFORMATION) {
@@ -646,9 +646,11 @@ public class Train extends Coupon implements Comparable<Object> {
 			String aRoundID, int aPhase, TrainCompany aTrainCompany, TrainRevenueFrame aTrainRevenueFrame) {
 		RouteSegment tPreviousRouteSegment;
 		boolean tSetNewEndPoint;
-		int tPreviousEndLocation, tPreviousStartLocation;
+		int tPreviousEndLocation;
+		int tPreviousStartLocation;
 		Location tPreviousEnd;
-		Track tOldTrack, tNewTrack;
+		Track tOldTrack;
+		Track tNewTrack;
 
 		if (currentRouteInformation == RouteInformation.NO_ROUTE_INFORMATION) {
 			tSetNewEndPoint = false;
