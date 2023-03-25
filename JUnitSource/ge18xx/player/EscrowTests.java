@@ -26,19 +26,20 @@ class EscrowTests {
 	Escrow primaryEscrow;
 	Certificate mCertificate;
 	GameManager mGameManager;
-
+	GameTestFactory gameTestFactory;
+	PlayerTestFactory playerTestFactory;
+	CertificateTestFactory certificateTestFactory;
+	
 	@BeforeEach
 	void setUp () throws Exception {
-		CertificateTestFactory tCertificateTestFactory;
+		gameTestFactory = new GameTestFactory ();
+		mGameManager = gameTestFactory.buildGameManager ();
+		playerTestFactory = new PlayerTestFactory (mGameManager);
 
-		tCertificateTestFactory = new CertificateTestFactory ();
-		mCertificate = tCertificateTestFactory.buildCertificateMock ();
+		certificateTestFactory = new CertificateTestFactory ();
+		mCertificate = certificateTestFactory.buildCertificateMock ();
 
-		primaryEscrow = new Escrow (mCertificate, 120);
-		GameTestFactory tGameTestFactory;
-
-		tGameTestFactory = new GameTestFactory ();
-		mGameManager = tGameTestFactory.buildGameManager ();
+		primaryEscrow = playerTestFactory.buildEscrow (mCertificate, 120);
 	}
 
 	@Nested
