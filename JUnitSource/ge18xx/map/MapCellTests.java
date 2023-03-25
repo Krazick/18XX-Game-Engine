@@ -73,9 +73,8 @@ class MapCellTests {
 	@Test
 	@DisplayName ("Test Calculate Steps for Rotation of Tile on MapCell")
 	void calculateStepsTests () {
-		int tIndex;
-		boolean tDirection;
-		
+//		int tIndex;
+//		boolean tDirection;
 		
 		mapCell.setAllRotations (true);
 		tilesTestFactory.setMockCanAllTracksExit (mTile, mapCell, 0, true);
@@ -85,48 +84,47 @@ class MapCellTests {
 		tilesTestFactory.setMockCanAllTracksExit (mTile, mapCell, 4, true);
 		tilesTestFactory.setMockCanAllTracksExit (mTile, mapCell, 5, true);
 		
-		tDirection = false;
+//		tDirection = false;
 		
-		for (tIndex = 0; tIndex <= 6; tIndex++) {
-			showSteps (tDirection);
-			mapCell.setAllowedRotation (tIndex, false);
-		}
+//		for (tIndex = 0; tIndex <= 6; tIndex++) {
+//			showSteps (tDirection);
+//			mapCell.setAllowedRotation (tIndex, false);
+//		}
 
 		mapCell.setAllRotations (true);
 		tilesTestFactory.setMockCanAllTracksExit (mTile, mapCell, 5, false);
-		for (tIndex = 0; tIndex <= 6; tIndex++) {
-			showSteps (tDirection);
-			mapCell.setAllowedRotation (tIndex, false);
-		}
-
+//		for (tIndex = 0; tIndex <= 6; tIndex++) {
+//			showSteps (tDirection);
+//			mapCell.setAllowedRotation (tIndex, false);
+//		}
 	}
 	
-	private void showSteps (boolean aDirection) {
-		int tIndex;
-		int tSteps;
-		String tDirection;
-		String tAllowedRotations;
-		
-		if (aDirection) {
-			tDirection = "LEFT";
-		} else {
-			tDirection = "RIGHT";
-		}
-
-		tAllowedRotations = "";
-		for (tIndex = 0; tIndex < 6; tIndex++) {
-			if (mapCell.getAllowedRotation (tIndex)) {
-				tAllowedRotations += "" + tIndex + " : ";
-			} else {
-				tAllowedRotations += "  : ";
-			}
-		}
-		System.out.println ("Index  |  Steps  | Direction  | Allowed Rotations");
-		for (tIndex = 0; tIndex < 6; tIndex++) {
-			tSteps = mapCell.calculateSteps (tIndex, mTile, aDirection);
-			System.out.println ("  " + tIndex + "    |   " + tSteps + "     |  " + tDirection + 
-							" |  " + tAllowedRotations);
-		}
-
-	}
+//	private void showSteps (boolean aDirection) {
+//		int tIndex;
+//		int tSteps;
+//		String tDirection;
+//		String tAllowedRotations;
+//		
+//		if (aDirection) {
+//			tDirection = "LEFT";
+//		} else {
+//			tDirection = "RIGHT";
+//		}
+//
+//		tAllowedRotations = "";
+//		for (tIndex = 0; tIndex < 6; tIndex++) {
+//			if (mapCell.getAllowedRotation (tIndex)) {
+//				tAllowedRotations += "" + tIndex + " : ";
+//			} else {
+//				tAllowedRotations += "  : ";
+//			}
+//		}
+//		System.out.println ("Index  |  Steps  | Direction  | Allowed Rotations");
+//		for (tIndex = 0; tIndex < 6; tIndex++) {
+//			tSteps = mapCell.calculateSteps (tIndex, mTile, aDirection);
+//			System.out.println ("  " + tIndex + "    |   " + tSteps + "     |  " + tDirection + 
+//							" |  " + tAllowedRotations);
+//		}
+//
+//	}
 }
