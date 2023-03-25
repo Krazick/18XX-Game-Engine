@@ -39,11 +39,11 @@ public class RouteInformation {
 	final static AttributeName AN_PHASE = new AttributeName ("phase");
 	public static RouteInformation NO_ROUTE_INFORMATION = null;
 	private String NO_MESSAGE = "";
+	
 	Train train; // Reference to actual Train
-	int trainIndex; // Index for Train within TrainPortfolio
 	Color color; // Route Color
+	int trainIndex; // Index for Train within TrainPortfolio
 	int totalRevenue; // Total Revenue for Route
-	String roundID; // Operating Round ID when Route was Run
 	int regionBonus; // Bonus (Special Region-to-Region connection)
 	int specialBonus; // Bonus (Special Train/Car used)
 	int phase;
@@ -51,6 +51,7 @@ public class RouteInformation {
 	ArrayList<RevenueCenter> revenueCenters;
 	TrainRevenueFrame trainRevenueFrame;
 	TrainCompany trainCompany;
+	String roundID; // Operating Round ID when Route was Run
 	String warningMessage;
 
 	// Collection of Route Segments
@@ -79,9 +80,14 @@ public class RouteInformation {
 
 	public RouteInformation (Train aTrain, XMLNode aRouteNode, TrainPortfolio aTrainPortfolio) {
 		XMLNodeList tXMLNodeList;
-		String tTrainName, tProvidedTrainName;
-		int tPhase, tRegionBonus, tSpecialBonus, tTotalRevenue, tTrainIndex;
+		String tTrainName;
+		String tProvidedTrainName;
 		String tRoundID;
+		int tPhase;
+		int tRegionBonus;
+		int tSpecialBonus;
+		int tTotalRevenue;
+		int tTrainIndex;
 		TrainRevenueFrame tTrainRevenueFrame;
 		TrainCompany tTrainCompany;
 		CashHolderI tTrainHolder;
@@ -146,7 +152,8 @@ public class RouteInformation {
 	public void loadRouteSegments (RouteInformation aRouteInformation, XMLNode aRouteSegmentsNode) {
 		XMLNode tRouteSegmentNode;
 		NodeList tRoutesChildren;
-		int tRoutesNodeCount, tRouteIndex;
+		int tRoutesNodeCount;
+		int tRouteIndex;
 		String tRouteNodeName;
 		RouteSegment tRouteSegment;
 
@@ -168,7 +175,8 @@ public class RouteInformation {
 	}
 
 	public void copyRouteSegments (RouteInformation aRouteToCopyFrom) {
-		int tSegmentCount, tSegmentIndex;
+		int tSegmentCount;
+		int tSegmentIndex;
 		RouteSegment tNewRouteSegment;
 		RouteSegment tOldSegment;
 
@@ -198,7 +206,8 @@ public class RouteInformation {
 	};
 
 	public void highlightRouteSegments (HexMap aMap) {
-		int tSegmentCount, tSegmentIndex;
+		int tSegmentCount;
+		int tSegmentIndex;
 		RouteSegment tRouteSegment;
 
 		tSegmentCount = getSegmentCount ();
@@ -256,7 +265,8 @@ public class RouteInformation {
 
 	public void addRouteSegment (RouteSegment aRouteSegment, RouteAction aRouteAction) {
 		MapCell tMapCell;
-		Location tStartLocation, tEndLocation;
+		Location tStartLocation;
+		int tEndLocation;
 
 		if (revenueCenters != null) {
 			addRevenueCenter (aRouteSegment);
@@ -528,8 +538,11 @@ public class RouteInformation {
 
 	public boolean isRouteTooLong () {
 		boolean tRouteIsTooLong = false;
-		int tCityCount, tTownCount;
-		int tRouteCityCount, tRouteTownCount, tRouteRCCount;
+		int tCityCount;
+		int tTownCount;
+		int tRouteCityCount;
+		int tRouteTownCount;
+		int tRouteRCCount;
 		int tTrueCityCount;
 
 		tTrueCityCount = train.getTrueCityCount ();
@@ -606,7 +619,8 @@ public class RouteInformation {
 
 	private boolean isRouteLooped () {
 		boolean tIsRouteLooped = false;
-		int tSegmentCount, tSegmentIndex;
+		int tSegmentCount;
+		int tSegmentIndex;
 		RouteSegment tRouteSegment;
 		NodeInformation tARouteNode;
 		String tMapCellID;
@@ -630,10 +644,13 @@ public class RouteInformation {
 
 	private boolean isRevenueCenterReused (String aMapCellId, NodeInformation aRouteNode, int aSourceIndex) {
 		boolean tIsRouteLooped = false;
-		Location tLocation, tNodeLocation;
-		int tSegmentIndex, tSegmentCount;
+		Location tLocation;
+		Location tNodeLocation;
+		int tSegmentIndex;
+		int tSegmentCount;
 		RouteSegment tRouteSegment;
-		String tMapCellId, tPreviousMapCellId;
+		String tMapCellId;
+		String tPreviousMapCellId;
 		NodeInformation tRouteNode;
 
 		tLocation = aRouteNode.getLocation ();
@@ -706,7 +723,8 @@ public class RouteInformation {
 
 	private boolean hasACorpStation () {
 		boolean tHasACorpStation = false;
-		int tSegmentIndex, tSegmentCount;
+		int tSegmentIndex;
+		int tSegmentCount;
 		RouteSegment tRouteSegment;
 
 		tSegmentCount = getSegmentCount ();
@@ -796,11 +814,13 @@ public class RouteInformation {
 
 	public void cycleToNextTrack (RouteAction aRouteAction, int aCorpID) {
 		RouteSegment tLastRouteSegment;
-		Track tLastTrack, tNextTrack;
+		Track tLastTrack;
+		Track tNextTrack;
 		int tTrainNumber;
 		boolean tCycledToNextTrack;
 		MapCell tMapCell;
-		Location tStartLocation, tEndLocation;
+		Location tStartLocation;
+		Location tEndLocation;
 		Location tOldEndLocation;
 
 		tTrainNumber = getTrainIndex () + 1;
@@ -855,12 +875,16 @@ public class RouteInformation {
 	private boolean addNewPreviousSegment (RouteSegment aRouteSegment, int aPhase, int aCorpID,
 			RouteAction aRouteAction) {
 		boolean tAddNewPreviousSegment = false;
-		RouteSegment tPreviousSegment, tNewPreviousSegment;
-		MapCell tCurrentMapCell, tPreviousMapCell;
-		int tSegmentCount, tTrainNumber;
-		int tPreviousEnd, tPreviousSide;
+		RouteSegment tPreviousSegment;
+		RouteSegment tNewPreviousSegment;
+		MapCell tCurrentMapCell;
+		MapCell tPreviousMapCell;
 		Track tTrack;
 		Location tPreviousEndLocation;
+		int tSegmentCount;
+		int tTrainNumber;
+		int tPreviousEnd;
+		int tPreviousSide;
 		int tCurrentCellNeighborSide;
 		RevenueCenter tPreviousRevenueCenter;
 
@@ -927,7 +951,8 @@ public class RouteInformation {
 	private boolean addNextRouteSegment (RouteSegment aRouteSegment, int aCorpID, RouteAction aRouteAction) {
 		boolean tAddNextRouteSegment = false;
 		int tCurrentSide;
-		MapCell tCurrentMapCell, tPreviousMapCell;
+		MapCell tCurrentMapCell;
+		MapCell tPreviousMapCell;
 		RouteSegment tPreviousSegment;
 		Location tPossibleEnd;
 		Track tTrack;
