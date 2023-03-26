@@ -166,7 +166,9 @@ public class MapGraph {
 		while (! tQueueVertexIDs.isEmpty ()) {
 			tVertexID = tQueueVertexIDs.remove (0);
 			tVertex = getVertexWithID (tVertexID);
-			tVertex.visitNeighbors (tQueueVertexIDs, visitedVertexes);
+			if (tVertex != Vertex.NO_VERTEX) {
+				tVertex.visitNeighbors (tQueueVertexIDs, visitedVertexes);
+			}
 		}
 	}
 	
@@ -176,10 +178,12 @@ public class MapGraph {
 				
 		tFoundInBFS = false;
 		for (Vertex tVertex : visitedVertexes) {
-			if (! tVertex.isOnSide ()) {
-				tFoundMapCellID = tVertex.getMapCellID ();
-				if (tFoundMapCellID.equals (aMapCellID)) {
-					tFoundInBFS = true;
+			if (tVertex != Vertex.NO_VERTEX) {
+				if (! tVertex.isOnSide ()) {
+					tFoundMapCellID = tVertex.getMapCellID ();
+					if (tFoundMapCellID.equals (aMapCellID)) {
+						tFoundInBFS = true;
+					}
 				}
 			}
 		}
