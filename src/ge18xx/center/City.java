@@ -316,8 +316,10 @@ public class City extends RevenueCenter implements Cloneable {
 	@Override
 	public City clone () {
 		int tIndex;
-
-		City tCity = (City) super.clone ();
+		City tCity;
+		CityInfo tCityInfo;
+		
+		tCity = (City) super.clone ();
 		tCity.stationCount = stationCount;
 		if (stationCount > 0) {
 			tCity.corpStations = new MapToken [stationCount];
@@ -325,6 +327,8 @@ public class City extends RevenueCenter implements Cloneable {
 				tCity.corpStations [tIndex] = corpStations [tIndex];
 			}
 		}
+		tCityInfo = tCity.getCityInfo ();
+		tCityInfo.setRevenueCenter (tCity);
 
 		return tCity;
 	}
