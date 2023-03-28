@@ -688,8 +688,8 @@
 		<TileName location="43" name="Toronto" />
 		<Track enter="1" exit="7" gauge="NORMAL" />
 		<Track enter="4" exit="10" gauge="NORMAL" />
-		<RevenueCenter id="-1" location="8" name="" number="0"
-			type="Destination City" />
+<!--  	<RevenueCenter id="-1" location="8" name="" number="0"
+			type="Destination City" />		-->
 		<RevenueCenter id="-1" location="7" name="" number="1"
 			type="Single City">
 			<Revenue location="12" phase="1" value="30" />
