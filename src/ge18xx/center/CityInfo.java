@@ -76,6 +76,16 @@ public class CityInfo implements Cloneable {
 		nameLocation = new Location (tLocation);
 	}
 
+	public void copyCityInfo (CityInfo aCityInfo) {
+		id = aCityInfo.getID ();
+		name = aCityInfo.getName ();
+		nameLocation = aCityInfo.getNameLocation ();
+		type = aCityInfo.getType ();
+		corporation = aCityInfo.getCorporation ();
+		mapCell = aCityInfo.getMapCell ();
+		center = aCityInfo.getRevenueCenter ();
+	}
+	
 	public void clearCorporation () {
 		corporation = Corporation.NO_CORPORATION;
 	}
