@@ -51,7 +51,7 @@ public class RevenueCenterType implements Cloneable {
 	public RevenueCenterType (String aTypeName) {
 		setType (getTypeFromName (aTypeName));
 	}
-
+	
 	public boolean canPlaceStation () {
 		boolean canPlaceStation = false;
 
