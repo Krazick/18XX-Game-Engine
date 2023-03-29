@@ -73,8 +73,37 @@ public class Centers implements Cloneable {
 		centers = aCenters;
 	}
 
-	public boolean add (RevenueCenter aCenter) {
-		return centers.add (aCenter);
+	public boolean add (RevenueCenter aRevenueCenter) {
+		boolean tCenterAdded;
+		RevenueCenterType tProvidedCenterType;
+		RevenueCenterType tRevenueCenterType;
+		int tType;
+		int tProvidedType;
+		int tProvidedLocation;
+		int tLocation;
+		
+		tProvidedCenterType = aRevenueCenter.getRevenueCenterType ();
+		tProvidedType = tProvidedCenterType.getType ();
+		tProvidedLocation = aRevenueCenter.getLocationToInt ();
+		tCenterAdded = true;
+		// TODO Test if the Revenue Center to add is already Present (Type and Location match and don't add if they do
+		for (RevenueCenter tRevenueCenter : centers) {
+			tRevenueCenterType = tRevenueCenter.getRevenueCenterType ();
+			tType = tRevenueCenterType.getType ();
+			tLocation = tRevenueCenter.getLocationToInt ();
+			if (tProvidedType == tType) {
+				if (tLocation == tProvidedLocation) {
+					tCenterAdded = false;
+				}
+			}
+			
+		}
+
+		if (tCenterAdded) {
+			tCenterAdded = centers.add (aRevenueCenter);
+		}
+		
+		return tCenterAdded;
 	}
 
 	public boolean remove (RevenueCenter aCenter) {
