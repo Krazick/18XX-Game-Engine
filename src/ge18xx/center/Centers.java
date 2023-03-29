@@ -597,13 +597,27 @@ public class Centers implements Cloneable {
 
 	public void copyCityInfo (Tile aTile) {
 		RevenueCenter tDestinationCity;
+		RevenueCenter tTileRevenueCenter;
 		CityInfo tCityInfo;
+		CityInfo tTileCityInfo;
+		int tLocation;
 
 		for (RevenueCenter tCenter : centers) {
+			tLocation = tCenter.getLocationToInt ();
 			tCityInfo = tCenter.getCityInfo ();
 			if (tCityInfo != CityInfo.NO_CITY_INFO) {
-				tCityInfo.setRevenueCenter (tCenter);
-				aTile.setCityInfo (tCityInfo);
+				tTileRevenueCenter = aTile.getCenterAtLocation (tLocation);
+				if (tTileRevenueCenter != RevenueCenter.NO_CENTER) {
+					tTileCityInfo = tTileRevenueCenter.getCityInfo ();
+					if (tTileCityInfo != CityInfo.NO_CITY_INFO) {
+						tTileCityInfo.copyCityInfo (tCityInfo);
+						tTileCityInfo.setRevenueCenter (tTileRevenueCenter);
+					} else {
+						aTile.setCityInfo (tCityInfo);
+					}
+				} else {
+					aTile.setCityInfo (tCityInfo);
+				}
 			}
 			if (tCenter.isDestination ()) {
 				tDestinationCity = tCenter.clone ();
