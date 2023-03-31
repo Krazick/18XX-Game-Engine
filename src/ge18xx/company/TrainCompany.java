@@ -2059,7 +2059,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public void doFinalTrainBuySteps (TrainCompany aOwningTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction) {
-		ActorI.ActionStates tCurrentCorporationStatus, tNewCorporationStatus;
+		ActorI.ActionStates tCurrentCorporationStatus;
+		ActorI.ActionStates tNewCorporationStatus;
 		TrainPortfolio tCompanyPortfolio, tOwningPortfolio;
 
 		tCompanyPortfolio = getTrainPortfolio ();
