@@ -87,4 +87,8 @@ public class PrivatesFrame extends CorporationTableFrame {
 	public Benefit findBenefit (String aBenefitName) {
 		return companies.findBenefit (aBenefitName);
 	}
+	
+	public void printCompanies () {
+		companies.printReport ();
+	}
 }
