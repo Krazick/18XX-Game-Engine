@@ -755,9 +755,19 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public void closeAll (BuyTrainAction aBuyTrainAction) {
+		GameManager tGameManager;
+
+		// Need to deactivate all Beans, Because the Close method changes the State of the Company
+		// And then it notifies all Beans to update the Round Frame, which includes sorting the Companies in the List
+		// That leaves the order different in the middle of this loop, causing some companies not being closed.
+		
+		tGameManager = getGameManager ();
+		tGameManager.activateAllBeans (false);
 		for (Corporation tCorporation : corporations) {
 			tCorporation.close (aBuyTrainAction);
 		}
+		tGameManager.activateAllBeans (true);
+		tGameManager.sendAllBeanMessages ();
 	}
 
 	// Payment to Privates -- Single Owner (Player or Corporation)
@@ -798,6 +808,14 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 	}
 
+	public void printAbbrevs () {
+		System.out.println ("List has " + corporations.size ());
+		for (Corporation tCorporation : corporations) {
+			System.out.println ("ID: " + tCorporation.getID () + " Abbrev: " + tCorporation.getAbbrev ());
+		}
+
+	}
+	
 	public void printReport () {
 		System.out.println ("Corporation Report");		// PRINTLOG
 		for (Corporation tCorporation : corporations) {
