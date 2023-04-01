@@ -788,7 +788,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	public void declareBankruptcyAction () {
 		DeclareBankruptcyAction tDeclareBankruptcyAction;
-		ActorI.ActionStates tCurrentStatus, tNewStatus;
+		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tNewStatus;
 		OperatingRound tOperatingRound;
 		String tOperatingRoundID;
 
@@ -809,7 +810,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	public void doneAction () {
 		boolean tStatusUpdated;
-		ActorI.ActionStates tCurrentStatus, tNewStatus;
+		ActorI.ActionStates tCurrentStatus;
+		ActorI.ActionStates tNewStatus;
 		DoneCorpAction tDoneAction;
 		OperatingRound tOperatingRound;
 		String tOperatingRoundID;
@@ -1252,10 +1254,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tHasTwoBases;
 	}
 	
-//	public MapToken popMapToken () {
-//		return MapToken.NO_MAP_TOKEN;
-//	}
-	
 	// TokenCompany will Override
 	public MapToken getMapToken () {
 		return MapToken.NO_MAP_TOKEN;
@@ -1544,7 +1542,16 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public boolean isUnowned () {
-		return (status == ActorI.ActionStates.Unowned);
+		boolean tIsUnowned;
+		
+		if ((status == ActorI.ActionStates.Unowned)  ||
+			(status == ActorI.ActionStates.Unformed)) {
+			tIsUnowned = true;
+		} else {
+			tIsUnowned = false;
+		}
+		
+		return tIsUnowned;
 	}
 
 	public boolean isFormed () {
@@ -1638,7 +1645,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public void loadStatus (XMLNode aXMLNode) {
-		String tLoadedStatus, tCurrentStatus;
+		String tLoadedStatus;
+		String tCurrentStatus;
 		ActorI.ActionStates tLoadedState;
 		GenericActor tGenericActor;
 
@@ -2026,15 +2034,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	 * @return TRUE if this is a ShareCompany that has at least one Outstanding Loan, otherwise FALSE
 	 */
 	public boolean needToHandleLoans () {
-//		ShareCompany tShareCompany;
 		boolean tNeedToHandleLoans;
 
 		tNeedToHandleLoans = false;
 		if (isAShareCompany ()) {
-//			tShareCompany = (ShareCompany) this;
-//			if (tShareCompany.hasOutstandingLoans ()) {
-//				tNeedToHandleLoans = true;
-//			}
 			tNeedToHandleLoans = hasOutstandingLoans ();
 		}
 
