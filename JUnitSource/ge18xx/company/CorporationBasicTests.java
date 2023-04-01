@@ -105,12 +105,7 @@ class CorporationBasicTests {
 	class TestDifferentStates {
 		@Test
 		@DisplayName ("Valid for IsOperating Method")
-		void testIsOperating () {
-			// (status == ActorI.ActionStates.Closed) ||
-			// (status == ActorI.ActionStates.Unowned) ||
-			// (status == ActorI.ActionStates.Owned) ||
-			// (status == ActorI.ActionStates.Operated) ||
-			// (status == ActorI.ActionStates.NotOperated)
+		void isOperatingTest () {
 			corporation.setAbbrev ("BRC");
 			corporation.setName ("Basic Railway Company");
 
@@ -139,17 +134,63 @@ class CorporationBasicTests {
 			assertTrue (corporation.isOperating ());
 
 			corporation.resetStatus (ActorI.ActionStates.Closed);
+			assertFalse (corporation.isOperating ());
+
+			corporation.resetStatus (ActorI.ActionStates.WillFloat);
+			assertFalse (corporation.isOperating ());
+
+			corporation.resetStatus (ActorI.ActionStates.MayFloat);
+			assertFalse (corporation.isOperating ());
+
+			corporation.resetStatus (ActorI.ActionStates.Unformed);
 			assertFalse (corporation.isOperating ());
 		}
 
 		@Test
-		@DisplayName ("Valid for shouldOperate Method")
-		void testShouldOperate () {
-			// (status == ActorI.ActionStates.Closed) ||
-			// (status == ActorI.ActionStates.Unowned) ||
-			// (status == ActorI.ActionStates.Owned) ||
-			// (status == ActorI.ActionStates.Operated)
+		@DisplayName ("Valid for isStationLaid Method")
+		void isStationLaidTest () {
+			corporation.setAbbrev ("BRC");
+			corporation.setName ("Basic Railway Company");
 
+			corporation.setStatus (ActorI.ActionStates.Unowned);
+			assertFalse (corporation.isStationLaid ());
+			
+			corporation.resetStatus (ActorI.ActionStates.StationLaid);
+			assertTrue (corporation.isStationLaid ());
+		}
+		
+		@Test
+		@DisplayName ("Valid for inActive Method")
+		void isInActiveTest () {
+			corporation.setAbbrev ("BRC");
+			corporation.setName ("Basic Railway Company");
+
+			corporation.setStatus (ActorI.ActionStates.Unowned);
+			assertFalse (corporation.isInActive ());
+			
+			corporation.resetStatus (ActorI.ActionStates.Inactive);
+			assertTrue (corporation.isInActive ());
+		}
+		
+		@Test
+		@DisplayName ("Valid for isFormed Method")
+		void isFormedTest () {
+			corporation.setAbbrev ("BRC");
+			corporation.setName ("Basic Railway Company");
+
+			corporation.setStatus (ActorI.ActionStates.Unowned);
+			assertTrue (corporation.isFormed ());
+			
+			corporation.resetStatus (ActorI.ActionStates.Inactive);
+			assertTrue (corporation.isFormed ());
+			
+			corporation.resetStatus (ActorI.ActionStates.Unformed);
+			assertFalse (corporation.isFormed ());
+		}
+		
+		@Test
+		@DisplayName ("Valid for shouldOperate Method")
+		void shouldOperateTest () {
 			corporation.setAbbrev ("BRC");
 			corporation.setName ("Basic Railway Company");
 
@@ -178,12 +219,15 @@ class CorporationBasicTests {
 			assertTrue (corporation.shouldOperate ());
 
 			corporation.resetStatus (ActorI.ActionStates.Closed);
+			assertFalse (corporation.shouldOperate ());
+
+			corporation.resetStatus (ActorI.ActionStates.Unformed);
 			assertFalse (corporation.shouldOperate ());
 		}
 
 		@Test
 		@DisplayName ("Valid for didOperate Method")
-		void testDidOperate () {
+		void didOperateTest () {
 			// (status == ActorI.ActionStates.Operated)
 
 			corporation.setAbbrev ("BRC");
@@ -198,7 +242,7 @@ class CorporationBasicTests {
 
 		@Test
 		@DisplayName ("Valid for didPartiallyOperate Method")
-		void testDidPartiallyOperate () {
+		void didPartiallyOperateTest () {
 			corporation.setAbbrev ("BRC");
 			corporation.setName ("Basic Railway Company");
 
@@ -221,6 +265,12 @@ class CorporationBasicTests {
 			assertTrue (corporation.didPartiallyOperate ());
 
 			corporation.resetStatus (ActorI.ActionStates.TileAndStationLaid);
+			assertTrue (corporation.didPartiallyOperate ());
+
+			corporation.resetStatus (ActorI.ActionStates.HandledLoanInterest);
+			assertTrue (corporation.didPartiallyOperate ());
+
+			corporation.resetStatus (ActorI.ActionStates.WaitingResponse);
 			assertTrue (corporation.didPartiallyOperate ());
 
 			corporation.resetStatus (ActorI.ActionStates.OperatedTrain);
@@ -249,7 +299,7 @@ class CorporationBasicTests {
 
 	@Test
 	@DisplayName ("Test various 'isA<something>' method")
-	void testCorporationIsAMethods () {
+	void corporationIsAMethodsTest () {
 		assertFalse (corporation.isAPlayer ());
 		assertFalse (corporation.isAPrivateCompany ());
 		assertFalse (corporation.isATrainCompany ());
@@ -263,7 +313,7 @@ class CorporationBasicTests {
 
 	@Test
 	@DisplayName ("Test base Get Methods")
-	void testCorporationGetMethods () {
+	void corporationGetMethodsTest () {
 		assertEquals (-1, corporation.getCurrentValue ());
 		assertEquals ("<NONE> will operate null", corporation.getDoLabel ());
 		assertEquals ("<NONE> is operating null", corporation.getOperatingLabel ());
