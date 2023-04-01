@@ -269,13 +269,17 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		String tRoundID;
 		OperatingRound tOperatingRound;
 		ActorI.ActionStates tRoundType;
-		ActorI.ActionStates tCurrentCorporationState, tNewCorporationState;
+		ActorI.ActionStates tCurrentCorporationState;
+		ActorI.ActionStates tNewCorporationState;
+		GameManager tGameManager;
 
 		tCorporationStateChanged = false;
 		tOperatingRound = getOperatingRound ();
 		tRoundID = tOperatingRound.getID ();
 		tRoundType = tOperatingRound.getRoundType ();
 		tChangeCorporationStatesAction = new ChangeStateAction (tRoundType, tRoundID, tOperatingRound);
+		tGameManager = getGameManager ();
+		tGameManager.activateAllBeans (false);
 		for (Corporation tCorporation : corporations) {
 			tCurrentCorporationState = tCorporation.getStatus ();
 			tCorporation.clearOperatedStatus ();
@@ -290,6 +294,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			tChangeCorporationStatesAction.setChainToPrevious (true);
 			addAction (tChangeCorporationStatesAction);
 		}
+		tGameManager.activateAllBeans (true);
+		tGameManager.sendAllBeanMessages ();
 	}
 
 	public void closeCompany (int aCompanyID, TransferOwnershipAction aTransferOwnershipAction) {
