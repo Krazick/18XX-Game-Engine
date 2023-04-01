@@ -1452,6 +1452,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return (status == ActorI.ActionStates.StationLaid);
 	}
 
+	public boolean isInActive () {
+		return (status == ActorI.ActionStates.Inactive);
+	}
+
 	public boolean isPlayerOwned () {
 		boolean tPresidentIsAPlayer;
 
@@ -1466,10 +1470,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	public boolean isSelectedForBuy () {
 		return corporationCertificates.isSelectedForBuy ();
-	}
-
-	public boolean isInActive () {
-		return (status == ActorI.ActionStates.Inactive);
 	}
 
 	// Private Company will override
