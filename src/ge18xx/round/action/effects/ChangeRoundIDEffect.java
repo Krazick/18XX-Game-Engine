@@ -112,6 +112,9 @@ public class ChangeRoundIDEffect extends Effect {
 			System.out.println ("Actor " + actor.getName () + " is not a recognized Round Instance");
 		} else {
 			tRound.setID (oldRoundID);
+			if (tRound.isAOperatingRound ()) {
+				aRoundManager.setCurrentOR (tRound.getIDPart2 ());
+			}
 			tEffectUndone = true;
 		}
 
