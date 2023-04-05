@@ -199,6 +199,44 @@ public class XMLNode {
 		}
 	}
 
+	public long getThisLongAttribute (AttributeName aAttributeName) {
+		long tAttributeValue;
+		String tAttributeName;
+
+		tAttributeValue = 0;
+		if (aAttributeName.hasValue ()) {
+			tAttributeName = aAttributeName.getString ();
+			tAttributeValue = getThisLongAttribute (tAttributeName, tAttributeValue);
+		}
+
+		return tAttributeValue;
+	}
+
+	public long getThisLongAttribute (AttributeName aAttributeName, long aDefaultValue) {
+		long tAttributeValue;
+		String tAttributeName;
+
+		tAttributeValue = aDefaultValue;
+		if (aAttributeName.hasValue ()) {
+			tAttributeName = aAttributeName.getString ();
+			tAttributeValue = getThisLongAttribute (tAttributeName, aDefaultValue);
+		}
+
+		return tAttributeValue;
+	}
+
+	/* PRIVATE */
+	private long getThisLongAttribute (String aAttributeName, long aDefaultValue) {
+		String tValue;
+
+		tValue = getThisAttribute (aAttributeName);
+		if (tValue == NO_VALUE) {
+			return aDefaultValue;
+		} else {
+			return Integer.parseInt (tValue);
+		}
+	}
+
 	public Color getThisColorAttribute (AttributeName aAttributeName) {
 		String tColorValues;
 		Color tColor;
