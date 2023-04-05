@@ -1,6 +1,7 @@
 package ge18xx.round.action;
 
 import java.lang.reflect.Constructor;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import ge18xx.utilities.XMLNode;
 public class Action {
 	public final static String NO_NAME = ">> NO ACTION NAME <<";
 	public final static Action NO_ACTION = null;
+	public final static int NO_NUMBER = 0;
 	public final static ActorI.ActionStates NO_ROUND_TYPE = ActorI.ActionStates.NoRound;
 	public final static String NO_ROUND_ID = ">> NO ROUND ID <<";
 	public final static String REPORT_PREFIX = "-";
@@ -34,12 +36,14 @@ public class Action {
 	static final AttributeName AN_ROUND_TYPE = new AttributeName ("roundType");
 	static final AttributeName AN_ROUND_ID = new AttributeName ("roundID");
 	static final AttributeName AN_CHAIN_PREVIOUS = new AttributeName ("chainPrevious");
+	static final AttributeName AN_DATE_TIME = new AttributeName ("dateTime");
 	String name;
 	ActorI.ActionStates roundType;
 	String roundID;
 	ActorI actor;
 	int number;
 	int totalCash;
+	long dateTime;
 	List<Effect> effects;
 	Boolean chainToPrevious;	// Chain this Action to Previous Action --
 							// If Undo This Action, Undo Previous Action as well - Default is FALSE;
@@ -49,43 +53,53 @@ public class Action {
 	}
 
 	public Action (String aName) {
-		setNumber (0);
-		setName (aName);
-		setActor (ActorI.NO_ACTOR);
-		setRoundType (NO_ROUND_TYPE);
-		setRoundID (NO_ROUND_ID);
-		setChainToPrevious (false);
-		effects = new LinkedList<> ();
+		setValues (aName, NO_ROUND_TYPE, NO_ROUND_ID, ActorI.NO_ACTOR, NO_NUMBER);
 	}
 
 	public Action (Action aAction) {
-		setName (aAction.getName ());
-		setActor (aAction.getActor ());
-		setRoundType (aAction.getRoundType ());
-		setRoundID (aAction.getRoundID ());
-		setChainToPrevious (false);
-		effects = new LinkedList<> ();
+		setValues (aAction.getName (), aAction.getRoundType (), aAction.getRoundID (), 
+					aAction.getActor (), aAction.getNumber ());
 	}
 
 	public Action (ActorI.ActionStates aRoundType, String aRoundID, ActorI aActor) {
-		setName (NO_NAME);
+		setValues (NO_NAME, aRoundType, aRoundID, aActor, NO_NUMBER);
+	}
+
+	private void setValues (String aName, ActorI.ActionStates aRoundType, String aRoundID, 
+			ActorI aActor, int aNumber) {
+		Date tNow;
+		
+		tNow = new Date ();
+		setDateTime (tNow.getTime ());
+
+		setNumber (aNumber);
 		setActor (aActor);
 		setRoundType (aRoundType);
 		setRoundID (aRoundID);
 		setChainToPrevious (false);
 		effects = new LinkedList<> ();
 	}
-
+	
+	private void setDateTime (long aDateTime) {
+		dateTime = aDateTime;
+	}
+	
 	public Action (XMLNode aActionNode, GameManager aGameManager) {
-		String tActionName, tRoundTypeString, tRoundID, tActorName;
+		String tActionName;
+		String tRoundTypeString;
+		String tRoundID;
+		String tActorName;
 		ActorI tActor;
 		ActorI.ActionStates tRoundType;
 		Boolean tChainToPrevious;
-		int tNumber, tTotalCash;
+		int tNumber;
+		int tTotalCash;
+		long tDateTime;
 
 		tActionName = aActionNode.getThisAttribute (AN_NAME);
 		tNumber = aActionNode.getThisIntAttribute (AN_NUMBER);
 		tTotalCash = aActionNode.getThisIntAttribute (AN_TOTAL_CASH);
+		tDateTime = aActionNode.getThisLongAttribute (AN_DATE_TIME);
 		tRoundTypeString = aActionNode.getThisAttribute (AN_ROUND_TYPE);
 		tRoundID = aActionNode.getThisAttribute (AN_ROUND_ID);
 		tActorName = aActionNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
@@ -93,15 +107,11 @@ public class Action {
 		tActor = aGameManager.getActor (tActorName);
 		tRoundType = aGameManager.getRoundType (tRoundTypeString);
 
-		setName (tActionName);
-		setNumber (tNumber);
-		setTotalCash (tTotalCash);
-		setActor (tActor);
-		setRoundType (tRoundType);
-		setRoundID (tRoundID);
-		setChainToPrevious (tChainToPrevious);
-		effects = new LinkedList<Effect> ();
+		setValues (tActionName, tRoundType, tRoundID, tActor, tNumber);
 
+		setChainToPrevious (tChainToPrevious);
+		setTotalCash (tTotalCash);
+		setDateTime (tDateTime);
 		parseActionNode (aActionNode, aGameManager, tActionName, tNumber);
 	}
 
@@ -244,6 +254,7 @@ public class Action {
 		tActionElement.setAttribute (AN_CLASS, this.getClass ().getName ());
 		tActionElement.setAttribute (AN_NAME, getName ());
 		tActionElement.setAttribute (AN_NUMBER, getNumber ());
+		tActionElement.setAttribute (AN_DATE_TIME, dateTime);
 		tActionElement.setAttribute (AN_TOTAL_CASH, getTotalCash ());
 		tActionElement.setAttribute (AN_ROUND_TYPE, getRoundType ().toString ());
 		tActionElement.setAttribute (AN_ROUND_ID, getRoundID ());
