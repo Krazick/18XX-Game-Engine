@@ -65,6 +65,10 @@ public class XMLElement {
 		setAttribute (aAttributeName, Integer.valueOf (aValue).toString ());
 	}
 
+	public void setAttribute (AttributeName aAttributeName, long aValue) {
+		setAttribute (aAttributeName, Long.valueOf (aValue).toString ());
+	}
+
 	public void setAttribute (AttributeName aAttributeName, boolean aValue) {
 		setAttribute (aAttributeName, Boolean.valueOf (aValue).toString ());
 	}
