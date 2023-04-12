@@ -298,7 +298,9 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		NodeList tChildren;
 		XMLNode tChildNode;
 		String tChildName;
-		int tChildrenCount, tIndex;
+		int tChildrenCount;
+		int tIndex;
+		int tGameCount;
 
 		tChildren = aCellNode.getChildNodes ();
 		tChildrenCount = tChildren.getLength ();
@@ -306,7 +308,6 @@ public class GameSet implements LoadableXMLI, ActionListener {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
 			if (EN_GAMES.equals (tChildName)) {
-				int tGameCount;
 				tXMLNodeList = new XMLNodeList (gameInfoParsingRoutine);
 
 				tGameCount = tXMLNodeList.getChildCount (tChildNode, GameInfo.EN_GAME_INFO);
