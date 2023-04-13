@@ -72,9 +72,12 @@ public class Game_18XX extends XMLFrame {
 	private final String ENTER_USER_NAME = "Must Enter User Name";
 	private final String OK_TEXT = "OK";
 	private final String QUIT_TEXT = "Quit";
+	private static final String VERSION = "version";
+	public static final String RESOURCE_NAME = "ge18xx";
+	public static final String GAME_NAME = "GE18XX";
 	public static final String NO_PATH = null;
 	public final String DATA_URL_BASE = "DataURLBase";
-	protected ResourceBundle resbundle;
+	protected ResourceBundle resourceBundle;
 	protected AboutBox aboutBox;
 	protected JMenu fileMenu, gameMenu;
 	protected Action newAction, openAction, closeAction, saveAction, saveAsAction, saveConfigAction;
@@ -114,17 +117,15 @@ public class Game_18XX extends XMLFrame {
 	String absolutePath;
 	int numberOfDisplays;
 
-	public Game_18XX () {
-		this (true);
+	public Game_18XX (ResourceBundle aResourceBundle) {
+		this (aResourceBundle, true);
 	}
 
-	public Game_18XX (boolean aVisible) {
+	public Game_18XX (ResourceBundle aResourceBundle, boolean aVisible) {
 		super ("", GameManager.NO_GAME_MANAGER);
 
-		// The ResourceBundle below contains all of the strings used in this
-		// application. ResourceBundles are useful for localizing applications.
-		// New localities can be added by adding additional properties files.
-		loadResourceBundle ("ge18xx");
+		setResourceBundle (aResourceBundle);
+		setTitle ();
 		
 		currentRelativePath = Paths.get ("");
 		absolutePath = currentRelativePath.toAbsolutePath ().toString ();
@@ -194,17 +195,33 @@ public class Game_18XX extends XMLFrame {
 		return absolutePath;
 	}
 	
-	private void loadResourceBundle (String aGameEngineName) {
+	public void setTitle () {
 		String tTitle;
-
-		if (aGameEngineName.length () > 0) {
-			resbundle = ResourceBundle.getBundle (aGameEngineName + ".game.MyResources", Locale.getDefault ());
-			tTitle = resbundle.getString ("frameTitle");
-		} else {
-			tTitle = "Generic Game Engine";
-		}
+		
+		tTitle = resourceBundle.getString ("frameTitle");
 		setTitle (tTitle);
 	}
+
+	private void setResourceBundle (ResourceBundle aResourceBundle) {
+		
+		// The ResourceBundle below contains all of the strings used in this
+		// application. ResourceBundles are useful for localizing applications.
+		// New localities can be added by adding additional properties files.
+		resourceBundle = aResourceBundle;
+		
+	}
+	
+//	private void loadResourceBundle (String aGameEngineName) {
+//		String tTitle;
+//
+//		if (aGameEngineName.length () > 0) {
+//			resbundle = ResourceBundle.getBundle (aGameEngineName + ".game.MyResources", Locale.getDefault ());
+//			tTitle = resbundle.getString ("frameTitle");
+//		} else {
+//			tTitle = "Generic Game Engine";
+//		}
+//		setTitle (tTitle);
+//	}
 
 	public void onExit () {
 		int tConfirm;
@@ -240,7 +257,7 @@ public class Game_18XX extends XMLFrame {
 
 		if (getLogger () == null) {
 			tAppVersion = getGEVersion ();
-			tXMLConfigFileDir = resbundle.getString ("configDir");
+			tXMLConfigFileDir = resourceBundle.getString ("configDir");
 			loggerLookup.setupLogger (aUserName, aAppName, tAppVersion, tXMLConfigFileDir, 
 								this, ge18xx.game.Game_18XX.class);
 		}
@@ -251,7 +268,7 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	public String getGEVersion () {
-		return resbundle.getString ("version");
+		return resourceBundle.getString (VERSION);
 	}
 
 	public String getUserDir () {
@@ -278,7 +295,7 @@ public class Game_18XX extends XMLFrame {
 		String tIconPath;
 		ImageIcon tIcon;
 
-		tIconPath = resbundle.getString ("iconImage");
+		tIconPath = resourceBundle.getString ("iconImage");
 		tIcon = new ImageIcon (tIconPath);
 		iconImage = tIcon.getImage ();
 
@@ -311,7 +328,7 @@ public class Game_18XX extends XMLFrame {
 
 		setupAutoSavesAndLogDirectory ();
 		if (NetworkPlayer.validPlayerName (tClientName)) {
-			setupLogger (tClientName, "GE18XX");
+			setupLogger (tClientName, GAME_NAME);
 			setGameManager (new GameManager (this, tClientName));
 			enableGameStartItems ();
 			newGameButton.requestFocusInWindow ();
@@ -396,7 +413,7 @@ public class Game_18XX extends XMLFrame {
 		tPrimaryPanel.setLayout (new BoxLayout (tPrimaryPanel, BoxLayout.Y_AXIS));
 		
 		tGameEngineTitle = new JLabel ("Game Engine Title");
-		tGameEngineTitle.setText (resbundle.getString ("message"));
+		tGameEngineTitle.setText (resourceBundle.getString ("message"));
 		tGameEngineTitle.setFont (new Font ("Lucida Grande", Font.BOLD, 20));
 		tGameEngineTitle.setAlignmentX (Component.CENTER_ALIGNMENT);
 
@@ -513,7 +530,7 @@ public class Game_18XX extends XMLFrame {
 		int tMenuIndex;
 
 		gameMenu = new JMenu ("Game");
-		tMenuItemCount = Integer.parseInt (resbundle.getString ("MenuItemCount"));
+		tMenuItemCount = Integer.parseInt (resourceBundle.getString ("MenuItemCount"));
 		gameMenuItems = new JMenuItem [tMenuItemCount];
 		tMenuIndex = 0;
 		tMenuIndex = addGameMenu (tMenuIndex, showMapAction);
@@ -553,40 +570,40 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	private void setupGameSpecificActions (int aShortcutKeyMask) {
-		showMapAction = new showMapActionClass (resbundle.getString ("showMapItem"),
+		showMapAction = new showMapActionClass (resourceBundle.getString ("showMapItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_M, aShortcutKeyMask));
-		showMarketAction = new showMarketActionClass (resbundle.getString ("showMarketItem"),
+		showMarketAction = new showMarketActionClass (resourceBundle.getString ("showMarketItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_K, aShortcutKeyMask));
-		showCitiesAction = new showCitiesActionClass (resbundle.getString ("showCitiesItem"),
+		showCitiesAction = new showCitiesActionClass (resourceBundle.getString ("showCitiesItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_L, aShortcutKeyMask));
-		showTileTrayAction = new showTileTrayActionClass (resbundle.getString ("showTileTrayItem"),
+		showTileTrayAction = new showTileTrayActionClass (resourceBundle.getString ("showTileTrayItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_T, aShortcutKeyMask));
-		showPrivatesAction = new showPrivatesActionClass (resbundle.getString ("showPrivatesItem"),
+		showPrivatesAction = new showPrivatesActionClass (resourceBundle.getString ("showPrivatesItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_P, aShortcutKeyMask));
-		showShareCompaniesAction = new showShareCompaniesActionClass (resbundle.getString ("showShareCompaniesItem"),
+		showShareCompaniesAction = new showShareCompaniesActionClass (resourceBundle.getString ("showShareCompaniesItem"),
 				null);
-		showChatClientAction = new showChatClientActionClass (resbundle.getString ("showChatClientItem"), null);
-		showRoundFrameAction = new showRoundFrameActionClass (resbundle.getString ("showRoundFrameItem"), null);
-		showAuditFrameAction = new showAuditFrameActionClass (resbundle.getString ("showAuditFrameItem"), null);
+		showChatClientAction = new showChatClientActionClass (resourceBundle.getString ("showChatClientItem"), null);
+		showRoundFrameAction = new showRoundFrameActionClass (resourceBundle.getString ("showRoundFrameItem"), null);
+		showAuditFrameAction = new showAuditFrameActionClass (resourceBundle.getString ("showAuditFrameItem"), null);
 		showActionReportFrameAction = new showActionReportFrameActionClass (
-				resbundle.getString ("showActionReportFrameItem"), null);
-		resendLastActions = new resendLastActionsClass (resbundle.getString ("resendLastActions"), null);
+				resourceBundle.getString ("showActionReportFrameItem"), null);
+		resendLastActions = new resendLastActionsClass (resourceBundle.getString ("resendLastActions"), null);
 	}
 
 	private void setupGenericActions (int aShortcutKeyMask) {
 		// Create actions that can be used by menus, buttons, toolbars, etc.
-		userPreferencesAction = new userPreferencesActionClass (resbundle.getString ("preferencesItem"), null);
-		newAction = new newActionClass (resbundle.getString ("newItem"),
+		userPreferencesAction = new userPreferencesActionClass (resourceBundle.getString ("preferencesItem"), null);
+		newAction = new newActionClass (resourceBundle.getString ("newItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_N, aShortcutKeyMask));
-		openAction = new openActionClass (resbundle.getString ("openItem"),
+		openAction = new openActionClass (resourceBundle.getString ("openItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_O, aShortcutKeyMask));
-		closeAction = new closeActionClass (resbundle.getString ("closeItem"),
+		closeAction = new closeActionClass (resourceBundle.getString ("closeItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_W, aShortcutKeyMask));
-		saveAction = new saveActionClass (resbundle.getString ("saveItem"),
+		saveAction = new saveActionClass (resourceBundle.getString ("saveItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_S, aShortcutKeyMask));
-		saveAsAction = new saveAsActionClass (resbundle.getString ("saveAsItem"));
-		saveConfigAction = new saveConfigActionClass (resbundle.getString ("saveConfigItem"));
-		exitAction = new exitActionClass (resbundle.getString ("exitItem"),
+		saveAsAction = new saveAsActionClass (resourceBundle.getString ("saveAsItem"));
+		saveConfigAction = new saveConfigActionClass (resourceBundle.getString ("saveConfigItem"));
+		exitAction = new exitActionClass (resourceBundle.getString ("exitItem"),
 				KeyStroke.getKeyStroke (KeyEvent.VK_Q, aShortcutKeyMask));
 	}
 
@@ -690,10 +707,10 @@ public class Game_18XX extends XMLFrame {
 
 	public void enableGameMenuItems () {
 		int tMenuItemIndex, tMenuItemCount;
-		String tMinorMenuText = resbundle.getString ("showMinorsItem");
-		String tPrivateMenuText = resbundle.getString ("showPrivatesItem");
-		String tChatClientText = resbundle.getString ("showChatClientItem");
-		String tResendLastActionsText = resbundle.getString ("resendLastActions");
+		String tMinorMenuText = resourceBundle.getString ("showMinorsItem");
+		String tPrivateMenuText = resourceBundle.getString ("showPrivatesItem");
+		String tChatClientText = resourceBundle.getString ("showChatClientItem");
+		String tResendLastActionsText = resourceBundle.getString ("resendLastActions");
 		String tMenuText;
 		boolean tEnableMenuItem;
 
@@ -774,7 +791,7 @@ public class Game_18XX extends XMLFrame {
 	public String getURLValue (String aResourceName) {
 		String tURLBase;
 		
-		tURLBase = resbundle.getString (aResourceName);
+		tURLBase = resourceBundle.getString (aResourceName);
 		
 		return tURLBase;
 	}
@@ -1108,13 +1125,43 @@ public class Game_18XX extends XMLFrame {
 			// These calls must come before any AWT or Swing code is called,
 			// otherwise the Mac menu bar will use the class name as the application name.
 			System.setProperty ("apple.laf.useScreenMenuBar", "true");
-			System.setProperty ("com.apple.mrj.application.apple.menu.about.name", "GE18XX Test");
+			System.setProperty ("com.apple.mrj.application.apple.menu.about.name", GAME_NAME + " Test");
 		}
 	}
 
-	public static void main (String aArgs[]) {		
-		setupForMac ();
+	static ResourceBundle readResourceBundle (String aGameEngineName) {
+		ResourceBundle tResourceBundle;
 
-		new Game_18XX ();
+		if (aGameEngineName.length () > 0) {
+			tResourceBundle = ResourceBundle.getBundle (aGameEngineName + ".game.MyResources", Locale.getDefault ());
+		} else {
+			tResourceBundle = null;
+		}
+		
+		return tResourceBundle;
+	}
+
+	public static void main (String aArgs []) {
+		ResourceBundle tResourceBundle;
+		boolean tLaunchGameEngine;
+		
+		setupForMac ();
+		tResourceBundle = readResourceBundle (RESOURCE_NAME);
+		tLaunchGameEngine = true;
+		
+		if (aArgs.length > 0) {
+			if (aArgs [0].equals (VERSION)) {
+				System.out.println ("Version: " + tResourceBundle.getString ("version"));
+				tLaunchGameEngine = false;
+			}
+		}
+		
+		if (tLaunchGameEngine) {
+			if (tResourceBundle != null) {
+				new Game_18XX (tResourceBundle);
+			} else {
+				System.err.println ("Resource Bundle for " + RESOURCE_NAME + " not found");
+			}
+		}
 	}
 }
