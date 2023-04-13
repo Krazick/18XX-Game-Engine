@@ -2916,10 +2916,15 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public int getTotalCash () {
-		int tTotalCash = 0;
-		int tBankCash, tAllPlayerCash, tAllCorpCash, tAllEscrows;
-		int tAllMinorCash, tAllShareCash;
+		int tTotalCash;
+		int tBankCash;
+		int tAllPlayerCash;
+		int tAllCorpCash;
+		int tAllEscrows;
+		int tAllMinorCash;
+		int tAllShareCash;
 
+		tTotalCash = 0;
 		tBankCash = bank.getCash ();
 		tAllEscrows = privatesFrame.getTotalEscrow ();
 		tAllPlayerCash = playerManager.getTotalPlayerCash ();
