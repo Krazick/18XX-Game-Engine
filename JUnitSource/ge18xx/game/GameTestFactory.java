@@ -1,6 +1,7 @@
 package ge18xx.game;
 
 import java.io.File;
+import java.util.ResourceBundle;
 
 import org.mockito.Mockito;
 
@@ -56,9 +57,14 @@ public class GameTestFactory {
 
 	public Game_18XX buildGame18XX (String aClientName) {
 		Game_18XX tGame_18XX;
+		ResourceBundle tResourceBundle;
+		String tResourceName;
+		
+		tResourceName = Game_18XX.RESOURCE_NAME;
+		tResourceBundle = Game_18XX.readResourceBundle (tResourceName);
 
-		tGame_18XX = new Game_18XX (false);
-		tGame_18XX.setupLogger (aClientName, "GE18XX_JUNIT");
+		tGame_18XX = new Game_18XX (tResourceBundle, false);
+		tGame_18XX.setupLogger (aClientName, Game_18XX.GAME_NAME + "_JUNIT");
 
 		return tGame_18XX;
 	}
