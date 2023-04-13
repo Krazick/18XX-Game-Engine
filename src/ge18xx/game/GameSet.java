@@ -32,6 +32,7 @@ import ge18xx.network.JGameClient;
 import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
@@ -41,6 +42,7 @@ import ge18xx.utilities.XMLNodeList;
 public class GameSet implements LoadableXMLI, ActionListener {
 	final ElementName EN_GAMES = new ElementName ("Games");
 	final ElementName EN_NETWORK = new ElementName ("Network");
+	final AttributeName AN_GE_VERSION = new AttributeName ("ge18XXVersion");
 	public static final int NO_GAME_SELECTED = -1;
 	public static final GameSet NO_GAME_SET = null;
 	private static final String NO_DESCRIPTION = "<html><body><h3>Game Description</h3><p>NO GAME SELECTED</p></body></html>";
@@ -67,8 +69,10 @@ public class GameSet implements LoadableXMLI, ActionListener {
 	JLabel gameDescriptionLabel;
 	int selectedGameIndex;
 	int gameIndex;
+	String geVersion;
 
 	public GameSet (PlayerInputFrame aPlayerInputFrame) {
+		setGEVersion (GUI.NULL_STRING);
 		gameInfo = GameInfo.NO_GAMES;
 		setSelectedGame (NO_GAME_SELECTED);
 		gameInfoJPanel = new JPanel ();
@@ -124,13 +128,15 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		JGameClient tNetworkGameJClient;
 		String tPlayerName;
 		String tChatTitle;
-
+		String tVersionMismatch;
+		
 		tGameManager = playerInputFrame.getGameManager ();
 		tGameManager.createUserPreferencesFrame ();
 		tPlayerName = tGameManager.getClientUserName ();
 		playerInputFrame.clearOtherPlayers (tPlayerName);
 		tChatTitle = tGameManager.createFrameTitle (JGameClient.BASE_TITLE);
-		tNetworkGameJClient = new JGameClient (tChatTitle, tGameManager);
+		tVersionMismatch = versionCompare (tGameManager);
+		tNetworkGameJClient = new JGameClient (tChatTitle, tGameManager, tVersionMismatch);
 		tGameManager.setNetworkJGameClient (tNetworkGameJClient);
 		tGameManager.setNotifyNetwork (true);
 		tNetworkGameJClient.addLocalPlayer (tPlayerName, false);
@@ -141,6 +147,25 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		playerInputFrame.setVisible (false);
 	}
 
+	public String versionCompare (GameManager aGameManager) {
+		String tGameManagerGEVersion;
+		String tXMLDataGEVersion;
+		String tVersionMisMatch;
+
+		tGameManagerGEVersion = aGameManager.getGEVersion ();
+		tXMLDataGEVersion = getGEVersion ();
+		if (tGameManagerGEVersion.equals (tXMLDataGEVersion)) {
+			System.out.println ("Version of GE and XML GE are the same");
+			tVersionMisMatch = GUI.EMPTY_STRING;
+		} else {
+			System.out.println ("Game Manager GE Version " + tGameManagerGEVersion);
+			System.out.println ("Game Set XML Data GE Version " + tXMLDataGEVersion);
+			tVersionMisMatch = "Game Engine Version MisMatch [GE " + tGameManagerGEVersion + "] [XML " + tXMLDataGEVersion + "]";
+		}
+
+		return tVersionMisMatch;
+	}
+	
 	public void addGameInfo (JPanel aGamePanel) {
 		JPanel tGamesJPanel;
 		int tGameCount;
@@ -293,11 +318,20 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		ParseGameConfig (tXMLGameSetRoot);
 	}
 
+	public void setGEVersion (String aGEVersion) {
+		geVersion = aGEVersion;
+	}
+	
+	public String getGEVersion () {
+		return geVersion;
+	}
+	
 	public void ParseGameConfig (XMLNode aCellNode) {
 		XMLNodeList tXMLNodeList;
 		NodeList tChildren;
 		XMLNode tChildNode;
 		String tChildName;
+		String tGEVersion;
 		int tChildrenCount;
 		int tIndex;
 		int tGameCount;
@@ -308,6 +342,8 @@ public class GameSet implements LoadableXMLI, ActionListener {
 			tChildNode = new XMLNode (tChildren.item (tIndex));
 			tChildName = tChildNode.getNodeName ();
 			if (EN_GAMES.equals (tChildName)) {
+				tGEVersion = tChildNode.getThisAttribute (AN_GE_VERSION);
+				setGEVersion (tGEVersion);
 				tXMLNodeList = new XMLNodeList (gameInfoParsingRoutine);
 
 				tGameCount = tXMLNodeList.getChildCount (tChildNode, GameInfo.EN_GAME_INFO);
