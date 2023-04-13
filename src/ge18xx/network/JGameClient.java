@@ -152,14 +152,13 @@ public class JGameClient extends XMLFrame {
 	private JPanel messagePanel;
 	private JPanel bottomPanel;
 	private JList<NetworkPlayer> playerList;
-//	private JList<String> savedGamesList;
-//	private DefaultListModel<String> savedGamesListModel;
 
 	private HeartbeatThread heartbeatThread;
 	private Thread hbeatThread;
 	private Thread serverThread;
 	private SimpleAttributeSet normal = new SimpleAttributeSet ();
 	private SimpleAttributeSet iSaid = new SimpleAttributeSet ();
+	private SimpleAttributeSet errorStyle = new SimpleAttributeSet ();
 
 	// GE18XX Specific Objects
 	private NetworkGameSupport gameManager;
@@ -175,15 +174,28 @@ public class JGameClient extends XMLFrame {
 	private String autoSaveFileName;
 	private Logger logger;
 	private boolean gameStarted = false;
+	private boolean versionMismatch = false;
 
 	public JGameClient (String aTitle, NetworkGameSupport aGameManager) {
 		this (aTitle, aGameManager, DEFAULT_REMOTE_SERVER_IP, DEFAULT_SERVER_PORT);
 	}
-
+	
+	public JGameClient (String aTitle, NetworkGameSupport aGameManager, String aVersionMismatch) {
+		this (aTitle, aGameManager, aVersionMismatch, DEFAULT_REMOTE_SERVER_IP, DEFAULT_SERVER_PORT);
+	}
+	
 	public JGameClient (String aTitle, NetworkGameSupport aGameManager, String aServerIP, int aServerPort) {
+		this (aTitle, aGameManager, GUI.EMPTY_STRING, DEFAULT_REMOTE_SERVER_IP, DEFAULT_SERVER_PORT);
+	}
+
+	public JGameClient (String aTitle, NetworkGameSupport aGameManager, String aVersionMismatch, 
+			String aServerIP, int aServerPort) {
 		super (aTitle, (GameManager) aGameManager);
 		Point tNewPoint;
 
+		StyleConstants.setBold (errorStyle, true);
+		StyleConstants.setFontSize (errorStyle, 16);
+		
 		gameManager = aGameManager;
 		networkPlayers = new NetworkPlayers (gameManager);
 		gameSupportHandler = new GameSupportHandler (this);
@@ -199,6 +211,18 @@ public class JGameClient extends XMLFrame {
 			setVisible (true);
 			logger = gameManager.getLogger ();
 		}
+		handleVersionMismatch (aVersionMismatch);
+	}
+	
+	private void handleVersionMismatch (String aVersionMismatch) {
+		if (aVersionMismatch.equals (GUI.EMPTY_STRING)) {
+			System.out.println ("Version of GE and XML GE are the same");
+		} else {
+			versionMismatch = true;
+			appendToChat (aVersionMismatch, errorStyle);
+			appendToChat ("Upgrade your Game Engine to Latest Version ", errorStyle);
+		}
+		updateConnectButton (false, aVersionMismatch);
 	}
 
 	public void updateFrame () {
@@ -399,16 +423,17 @@ public class JGameClient extends XMLFrame {
 		sendMessageButton.setToolTipText (NOT_CONNECTED);
 		chooseGameButton.setEnabled (false);
 		chooseGameButton.setToolTipText (NOT_CONNECTED);
-		disconnectButton.setEnabled (false);
-		disconnectButton.setToolTipText (NOT_CONNECTED);
+		updateDisconnectButton (false, NOT_CONNECTED);
 		refreshPlayersButton.setEnabled (false);
 		refreshPlayersButton.setToolTipText (NOT_CONNECTED);
 
 		awayFromKeyboardAFKButton.setEnabled (false);
 		awayFromKeyboardAFKButton.setToolTipText (NOT_CONNECTED);
-		connectButton.setEnabled (true);
-		connectButton.setToolTipText (GUI.NO_TOOL_TIP);
-		connectButton.requestFocusInWindow ();
+		if (versionMismatch) {
+			updateConnectButton (false, "Game Engine Version Mis-Match");
+		} else {
+			updateConnectButton (true, GUI.NO_TOOL_TIP);
+		}
 		updateReadyButton (SELECT_GAME, false, NOT_CONNECTED);
 
 		messageField.setEnabled (false);
@@ -431,12 +456,10 @@ public class JGameClient extends XMLFrame {
 //		Debugging for Saved Game setup in Network
 //		stopHeartbeatDelivery ();
 
-		connectButton.setEnabled (false);
-		connectButton.setToolTipText (ALREADY_CONNECTED);
+		updateConnectButton (false, ALREADY_CONNECTED);
 		sendMessageButton.setEnabled (true);
 		sendMessageButton.setToolTipText (GUI.NO_TOOL_TIP);
-		disconnectButton.setEnabled (true);
-		disconnectButton.setToolTipText ("For Debugging Purposes ONLY");
+		updateDisconnectButton (true, "For Debugging Purposes ONLY");
 		awayFromKeyboardAFKButton.setEnabled (true);
 		awayFromKeyboardAFKButton.setToolTipText (GUI.NO_TOOL_TIP);
 		refreshPlayersButton.setEnabled (true);
@@ -451,6 +474,19 @@ public class JGameClient extends XMLFrame {
 		messageField.setFocusable (true);
 		messageField.requestFocusInWindow ();
 		gameManager.updateDisconnectButton ();
+	}
+
+	public void updateDisconnectButton (boolean aEnabled, String aToolTip) {
+		disconnectButton.setEnabled (aEnabled);
+		disconnectButton.setToolTipText (aToolTip);
+	}
+
+	public void updateConnectButton (boolean aEnabled, String aToolTip) {
+		connectButton.setEnabled (aEnabled);
+		connectButton.setToolTipText (aToolTip);
+		if (aEnabled) {
+			connectButton.requestFocusInWindow ();
+		}
 	}
 
 	public void requestSavedGames () {
