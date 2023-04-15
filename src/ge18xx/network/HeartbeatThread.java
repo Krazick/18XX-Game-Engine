@@ -111,9 +111,11 @@ public class HeartbeatThread implements Runnable {
 
 	public void stopHeartbeatDelivery () {
 		sendHeartbeat = false;
+		continueRunning = false;
 	}
 
 	public void startHeartbeatDelivery () {
 		sendHeartbeat = true;
+		continueRunning = true;
 	}
 }
