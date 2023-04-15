@@ -215,14 +215,18 @@ public class JGameClient extends XMLFrame {
 	}
 	
 	private void handleVersionMismatch (String aVersionMismatch) {
+		boolean tEnableConnect;
+		
 		if (aVersionMismatch.equals (GUI.EMPTY_STRING)) {
 			System.out.println ("Version of GE and XML GE are the same");
+			tEnableConnect = true;
 		} else {
 			versionMismatch = true;
+			tEnableConnect = false;
 			appendToChat (aVersionMismatch, errorStyle);
 			appendToChat ("Upgrade your Game Engine to Latest Version ", errorStyle);
 		}
-		updateConnectButton (false, aVersionMismatch);
+		updateConnectButton (tEnableConnect, aVersionMismatch);
 	}
 
 	public void updateFrame () {
