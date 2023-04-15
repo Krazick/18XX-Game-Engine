@@ -218,7 +218,6 @@ public class JGameClient extends XMLFrame {
 		boolean tEnableConnect;
 		
 		if (aVersionMismatch.equals (GUI.EMPTY_STRING)) {
-			System.out.println ("Version of GE and XML GE are the same");
 			tEnableConnect = true;
 		} else {
 			versionMismatch = true;
