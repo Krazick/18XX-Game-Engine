@@ -155,11 +155,8 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		tGameManagerGEVersion = aGameManager.getGEVersion ();
 		tXMLDataGEVersion = getGEVersion ();
 		if (tGameManagerGEVersion.equals (tXMLDataGEVersion)) {
-			System.out.println ("Version of GE and XML GE are the same");
 			tVersionMisMatch = GUI.EMPTY_STRING;
 		} else {
-			System.out.println ("Game Manager GE Version " + tGameManagerGEVersion);
-			System.out.println ("Game Set XML Data GE Version " + tXMLDataGEVersion);
 			tVersionMisMatch = "Game Engine Version MisMatch [GE " + tGameManagerGEVersion + "] [XML " + tXMLDataGEVersion + "]";
 		}
 
