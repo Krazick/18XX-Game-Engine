@@ -2384,24 +2384,28 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void handleNetworkAction (String aNetworkAction) {
 		XMLDocument tXMLNetworkAction;
-		XMLNode tActionNode, tGSResponseNode;
+		XMLNode tActionNode;
+		XMLNode tGSResponseNode;
 		NodeList tActionChildren;
 		String tGSRNodeName;
 		String tActionNodeName;
-		int tActionNodeCount, tActionIndex;
+		int tActionNodeCount;
+		int tActionIndex;
 
 		tXMLNetworkAction = new XMLDocument ();
 		tXMLNetworkAction = tXMLNetworkAction.ParseXMLString (aNetworkAction);
 		tGSResponseNode = tXMLNetworkAction.getDocumentNode ();
-		tGSRNodeName = tGSResponseNode.getNodeName ();
-		if (GameSupportHandler.GS_RESPONSE_TAG.equals (tGSRNodeName)) {
-			tActionChildren = tGSResponseNode.getChildNodes ();
-			tActionNodeCount = tActionChildren.getLength ();
-			for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
-				tActionNode = new XMLNode (tActionChildren.item (tActionIndex));
-				tActionNodeName = tActionNode.getNodeName ();
-				if (Action.EN_ACTION.equals (tActionNodeName)) {
-					sendNetworkAction (tActionNode);
+		if (tGSResponseNode != XMLNode.NO_NODE) {
+			tGSRNodeName = tGSResponseNode.getNodeName ();
+			if (GameSupportHandler.GS_RESPONSE_TAG.equals (tGSRNodeName)) {
+				tActionChildren = tGSResponseNode.getChildNodes ();
+				tActionNodeCount = tActionChildren.getLength ();
+				for (tActionIndex = 0; tActionIndex < tActionNodeCount; tActionIndex++) {
+					tActionNode = new XMLNode (tActionChildren.item (tActionIndex));
+					tActionNodeName = tActionNode.getNodeName ();
+					if (Action.EN_ACTION.equals (tActionNodeName)) {
+						sendNetworkAction (tActionNode);
+					}
 				}
 			}
 		}
