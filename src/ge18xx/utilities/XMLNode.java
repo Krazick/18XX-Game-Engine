@@ -228,13 +228,17 @@ public class XMLNode {
 	/* PRIVATE */
 	private long getThisLongAttribute (String aAttributeName, long aDefaultValue) {
 		String tValue;
-
+		long tLongValue;
+		
 		tValue = getThisAttribute (aAttributeName);
 		if (tValue == NO_VALUE) {
-			return aDefaultValue;
+			tLongValue = aDefaultValue;
+
 		} else {
-			return Integer.parseInt (tValue);
+			tLongValue = Long.parseLong (tValue);
 		}
+		
+		return tLongValue;
 	}
 
 	public Color getThisColorAttribute (AttributeName aAttributeName) {
