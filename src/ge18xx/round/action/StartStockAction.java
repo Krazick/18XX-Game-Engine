@@ -1,8 +1,6 @@
-package ge18xx.round;
+package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
-import ge18xx.round.action.Action;
-import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.StartStockEffect;
 import ge18xx.utilities.XMLNode;
