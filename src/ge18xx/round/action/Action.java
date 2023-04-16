@@ -40,7 +40,7 @@ public class Action {
 	String name;
 	ActorI.ActionStates roundType;
 	String roundID;
-	ActorI actor;
+	protected ActorI actor;
 	int number;
 	int totalCash;
 	long dateTime;
