@@ -31,6 +31,7 @@ import ge18xx.round.AuctionRound;
 import ge18xx.round.OperatingRound;
 import ge18xx.round.Round;
 import ge18xx.round.RoundManager;
+import ge18xx.round.StartStockAction;
 import ge18xx.round.StockRound;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
@@ -1508,9 +1509,14 @@ public class PlayerManager {
 
 	public void showPlayerFrame (int aPlayerIndex) {
 		Player tPlayer;
+		StartStockAction tStartStockAction;
 
 		tPlayer = players.get (aPlayerIndex);
+		tStartStockAction = new StartStockAction (stockRound.getRoundType (), stockRound.getID (), tPlayer);
+		tStartStockAction.addStartStockEffect (tPlayer);
+		gameManager.addAction (tStartStockAction);
 		tPlayer.showPlayerFrame ();
+		
 	}
 
 	public void startAuctionRound (boolean aCreateNewAuctionAction) {
