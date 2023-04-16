@@ -37,7 +37,7 @@ public class SetWaitStateAction extends Action {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " requested all players WAIT.";
 
