@@ -72,6 +72,7 @@ public class Action {
 		tNow = new Date ();
 		setDateTime (tNow.getTime ());
 
+		setName (aName);
 		setNumber (aNumber);
 		setActor (aActor);
 		setRoundType (aRoundType);
