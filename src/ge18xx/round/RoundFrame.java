@@ -32,6 +32,7 @@ public class RoundFrame extends XMLFrame {
 	public final static String BASE_TITLE = "Round";
 	private static final long serialVersionUID = 1L;
 	private static final String DO_STOCK_ACTION = " do Stock Action";
+	private static final String DOING_STOCK_ACTION = " is doing Stock Action";
 	private static final String PLAYER_DO_AUCTION = "Player do Auction Action";
 	private static final String COMPANY_DO_ACTION = "Company do Action";
 	private static final String PLAYER_DO_STOCK = "Player" + DO_STOCK_ACTION;
@@ -69,6 +70,7 @@ public class RoundFrame extends XMLFrame {
 	Logger logger;
 	int padding1;
 	int padding2;
+	boolean playerDoingAction;
 	String currentRoundOf;
 	RoundManager roundManager;
 
@@ -82,6 +84,7 @@ public class RoundFrame extends XMLFrame {
 		logger = roundManager.getLogger ();
 		padding1 = 10;
 		padding2 = 5;
+		setPlayerDoingAction (false);
 		listenerPanels = new LinkedList<ListenerPanel> ();
 		buildRoundJPanel ();
 		tJMenuBar = roundManager.getJMenuBar ();
@@ -95,6 +98,10 @@ public class RoundFrame extends XMLFrame {
 
 	private void setRoundManager (RoundManager aRoundManager) {
 		roundManager = aRoundManager;
+	}
+	
+	public void setPlayerDoingAction (boolean aPlayerDoingAction) {
+		playerDoingAction = aPlayerDoingAction;
 	}
 	
 	public void setListenerPanels (boolean aListen) {
@@ -280,10 +287,17 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	public void setCurrentPlayerText (String aPlayerName) {
+		String tDoButtonAction;
+		
 		if (passButton != GUI.NO_BUTTON) {
 			passButton.setText (aPlayerName + " " + PASS_STOCK_TEXT);
 		}
-		updateDoButtonText (aPlayerName + DO_STOCK_ACTION);
+		if (playerDoingAction) {
+			tDoButtonAction = aPlayerName + DOING_STOCK_ACTION;
+		} else {
+			tDoButtonAction = aPlayerName + DO_STOCK_ACTION;
+		}
+		updateDoButtonText (tDoButtonAction);
 		setActionForCurrentPlayer ();
 		updatePassButton ();
 	}
