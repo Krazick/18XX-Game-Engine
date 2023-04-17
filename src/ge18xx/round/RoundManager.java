@@ -316,6 +316,10 @@ public class RoundManager implements ActionListener {
 		roundFrame.updateAllCorporationsJPanel ();
 	}
 
+	public void setPlayerDoingAction (boolean aPlayerDoingAction) {
+		roundFrame.setPlayerDoingAction (aPlayerDoingAction);
+	}
+
 	public void setButtonLabel (String aActionButtonLabel) {
 		roundFrame.updateDoButtonText (aActionButtonLabel);
 	}
@@ -768,6 +772,7 @@ public class RoundManager implements ActionListener {
 			if (stockRound != StockRound.NO_STOCK_ROUND) {
 				tPlayerName = stockRound.getCurrentPlayerName ();
 				if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
+					roundFrame.setPlayerDoingAction (false);
 					roundFrame.setCurrentPlayerText (tPlayerName);
 					roundFrame.toTheFront ();
 				}
