@@ -2,6 +2,7 @@ package ge18xx.round.action.effects;
 
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
 
@@ -33,4 +34,15 @@ public class StartStockEffect extends Effect {
 		setName (NAME);
 	}
 
+	@Override
+	public boolean applyEffect (RoundManager aRoundManager) {
+		boolean tEffectApplied;
+
+		aRoundManager.setPlayerDoingAction (true);
+		
+		tEffectApplied = true;
+		
+		return tEffectApplied;
+		
+	}
 }
