@@ -15,6 +15,7 @@ public class StartStockAction extends Action {
 
 	public StartStockAction (Action aAction) {
 		super (aAction);
+		setName (NAME);
 	}
 
 	public StartStockAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
@@ -24,6 +25,7 @@ public class StartStockAction extends Action {
 
 	public StartStockAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
+		setName (NAME);
 	}
 	
 	@Override
