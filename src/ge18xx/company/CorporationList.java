@@ -40,6 +40,7 @@ import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.CashHolderI;
+import ge18xx.player.Player;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.ListenerPanel;
 import ge18xx.round.OperatingRound;
@@ -780,9 +781,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public void payPrivateRevenues (Bank aBank, OperatingRound aOperatingRound) {
 		PrivateCompany tPrivate;
 		int tRevenue;
+		int tOperatingRoundID2;
+		String tOperatingRoundID;
 		PortfolioHolderI tOwner;
 		CashHolderI tOwnerCashHolder;
 		PayRevenueAction tPayRevenueAction;
+		Player tPlayer;
 
 		for (Corporation tCorporation : corporations) {
 			if (tCorporation.isActive ()) {
@@ -790,9 +794,15 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 					tPrivate = (PrivateCompany) tCorporation;
 					tRevenue = tPrivate.getRevenue ();
 					tOwner = tPrivate.getOwner ();
+					tOperatingRoundID = aOperatingRound.getID ();
 					tOwnerCashHolder = (CashHolderI) tOwner;
+					if (tOwner.isAPlayer ()) {
+						tPlayer = (Player) tOwner;
+						tOperatingRoundID2 = aOperatingRound.getIDPart2 ();
+						tPlayer.addCashToDividends (tRevenue, tOperatingRoundID2);
+					}
 					aBank.transferCashTo (tOwnerCashHolder, tRevenue);
-					tPayRevenueAction = new PayRevenueAction (aOperatingRound.getRoundType (), aOperatingRound.getID (),
+					tPayRevenueAction = new PayRevenueAction (aOperatingRound.getRoundType (), tOperatingRoundID,
 							tPrivate);
 					tPayRevenueAction.addCashTransferEffect (aBank, tOwnerCashHolder, tRevenue);
 					aOperatingRound.addAction (tPayRevenueAction);
