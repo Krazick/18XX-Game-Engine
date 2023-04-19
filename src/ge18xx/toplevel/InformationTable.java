@@ -18,8 +18,6 @@ public abstract class InformationTable extends JPanel {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	Object [] [] data;
-	String [] headers;
 	JTable table;
 	TableModel18XX tm18xx;
 
