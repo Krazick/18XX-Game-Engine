@@ -61,6 +61,8 @@ public class ShareCompany extends TokenCompany {
 	String startCell;
 	int parPrice;
 	int loanCount;
+	int parPriceColumn;
+	int sharePriceColumn;
 	boolean mustBuyCoupon;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
 
@@ -87,7 +89,9 @@ public class ShareCompany extends TokenCompany {
 		tCurrentColumn = super.addAllDataElements (aCorporationList, aRowIndex, tCurrentColumn);
 		aCorporationList.addDataElement (getDestinationLabel (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getDestinationLocationInt (), aRowIndex, tCurrentColumn++);
+		parPriceColumn = tCurrentColumn;
 		aCorporationList.addDataElement (getSParPrice (), aRowIndex, tCurrentColumn++);
+		sharePriceColumn = tCurrentColumn;
 		aCorporationList.addDataElement (getSharePrice (), aRowIndex, tCurrentColumn++);
 		aCorporationList.addDataElement (getLoanCount (), aRowIndex, tCurrentColumn++);
 
@@ -347,15 +351,39 @@ public class ShareCompany extends TokenCompany {
 	}
 	
 	public String getDestinationLabel () {
-		return destinationInfo.getLabel ();
+		String tDestinationLabel;
+		
+		if (destinationInfo == DestinationInfo.NO_DESTINATION_INFO) {
+			tDestinationLabel = "NONE";
+		} else {
+			tDestinationLabel = destinationInfo.getLabel ();
+		}
+		
+		return tDestinationLabel;
 	}
 
 	public int getDestinationLocationInt () {
-		return destinationInfo.getLocationInt ();
+		int tDestinationInt;
+		
+		if (destinationInfo == DestinationInfo.NO_DESTINATION_INFO) {
+			tDestinationInt = 0;
+		} else {
+			tDestinationInt = destinationInfo.getLocationInt ();
+		}
+		
+		return tDestinationInt;
 	}
 
 	public Location getDestinationLocation () {
-		return destinationInfo.getLocation ();
+		Location tDestinationLocation;
+		
+		if (destinationInfo == DestinationInfo.NO_DESTINATION_INFO) {
+			tDestinationLocation = Location.NO_LOC;
+		} else {
+			tDestinationLocation = destinationInfo.getLocation ();
+		}
+		
+		return tDestinationLocation;
 	}
 
 	/**
@@ -829,7 +857,7 @@ public class ShareCompany extends TokenCompany {
 		parPrice = aParPrice;
 		if (parPrice != NO_PAR_PRICE) {
 			tRowIndex = corporationList.getRowIndex (this);
-			corporationList.addDataElement (parPrice, tRowIndex, 17);
+			corporationList.addDataElement (parPrice, tRowIndex, parPriceColumn);
 		}
 		updateListeners (SET_PAR_PRICE);
 	}
@@ -856,7 +884,7 @@ public class ShareCompany extends TokenCompany {
 		sharePrice = aSharePrice;
 		if (aSharePrice != MarketCell.NO_SHARE_PRICE) {
 			tRowIndex = corporationList.getRowIndex (this);
-			corporationList.addDataElement (sharePrice.getValue (), tRowIndex, 18);
+			corporationList.addDataElement (sharePrice.getValue (), tRowIndex, sharePriceColumn);
 		}
 	}
 
