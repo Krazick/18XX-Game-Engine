@@ -7,6 +7,7 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class DestinationInfo {
+	public static final DestinationInfo NO_DESTINATION_INFO = null;
 	static final AttributeName AN_DESTINATION = new AttributeName ("destination");
 	static final AttributeName AN_REACHED = new AttributeName ("reached");
 	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
@@ -21,26 +22,6 @@ public class DestinationInfo {
 
 	public DestinationInfo (XMLNode aChildNode) {
 		loadStatus (aChildNode);
-//		Location tLocation;
-//		int tCapitalizationLevel;
-//		int tDestinationLocation;
-//		String tDestinationLabel;
-//		boolean tReached;
-//		
-//		tCapitalizationLevel = aChildNode.getThisIntAttribute (AN_CAPITALIZATION_LEVEL);
-//		setCapitalizationLevel (tCapitalizationLevel);
-//		tDestinationLocation = aChildNode.getThisIntAttribute (AN_DESTINATION_LOCATION, Location.NO_LOCATION);
-//		if (tDestinationLocation == Location.NO_LOCATION) {
-//			setLocation (Location.NO_LOC);
-//			setReached (true);
-//		} else {
-//			tLocation = new Location (tDestinationLocation);
-//			setLocation (tLocation);
-//			tReached = aChildNode.getThisBooleanAttribute (AN_REACHED);
-//			setReached (tReached);
-//			tDestinationLabel = aChildNode.getThisAttribute (AN_DESTINATION);
-//			setLabel (tDestinationLabel);
-//		}
 	}
 
 	public void loadStatus (XMLNode aXMLNode) {
@@ -56,6 +37,7 @@ public class DestinationInfo {
 		if (tDestinationLocation == Location.NO_LOCATION) {
 			setLocation (Location.NO_LOC);
 			setReached (true);
+			setLabel ("NONE");
 		} else {
 			tLocation = new Location (tDestinationLocation);
 			setLocation (tLocation);
