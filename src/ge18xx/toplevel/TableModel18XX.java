@@ -16,7 +16,8 @@ public class TableModel18XX extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String [] headers;
 	private Object [] [] data;
-	int rowCount, colCount;
+	int rowCount;
+	int colCount;
 
 	public TableModel18XX (int aRowCount, int aColCount) {
 		data = new Object [aRowCount] [aColCount];
