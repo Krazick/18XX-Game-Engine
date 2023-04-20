@@ -75,6 +75,16 @@ public class MinorCompany extends TokenCompany {
 	public ElementName getElementName () {
 		return EN_MINOR_COMPANY;
 	}
+	
+	@Override
+	public String buildCorpInfoLabel () {
+		String tCorpInfoLabel;
+		
+		tCorpInfoLabel = super.buildCorpInfoLabel ();
+		tCorpInfoLabel += "<br>" + "Price: " + getValue ();
+		
+		return tCorpInfoLabel;
+	}
 
 	public String getOwner () {
 		if (isOwned ()) {
