@@ -29,7 +29,6 @@ import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -788,16 +787,11 @@ public abstract class TokenCompany extends TrainCompany {
 
 	@Override
 	public String buildCorpInfoLabel () {
-		return buildCorpInfoLabel (GUI.NULL_STRING);
-	}
-	
-	@Override
-	public String buildCorpInfoLabel (String aLoanInfo) {
-		String tCorpLabel = "";
+		String tCorpLabel;
 
-		tCorpLabel = super.buildCorpInfoLabel (aLoanInfo);
+		tCorpLabel = super.buildCorpInfoLabel ();
 		tCorpLabel += "<br>Tokens: " + getTokenCount ();
-		tCorpLabel = "<html>" + tCorpLabel + "</html>";
+//		tCorpLabel = "<html>" + tCorpLabel + "</html>";
 
 		return tCorpLabel;
 	}

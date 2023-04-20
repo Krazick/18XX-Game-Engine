@@ -418,11 +418,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 
 	@Override
 	public String buildCorpInfoLabel () {
-		return buildCorpInfoLabel (GUI.NULL_STRING);
-	}
-
-	@Override
-	public String buildCorpInfoLabel (String aLoanInfo) {
 		String tCorpLabel;
 		String tThisRevenue;
 
@@ -438,9 +433,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tCorpLabel += "<br>[" + getStatusName () + "]";
 			tCorpLabel += "<br>Prez: " + getPresidentName ();
 			tCorpLabel += "<br>Treasury: " + Bank.formatCash (getCash ());
-			if (aLoanInfo != GUI.NULL_STRING) {
-				tCorpLabel += "<br>" + aLoanInfo;
-			}
 			if (canOperate ()) {
 				tCorpLabel += "<br>" + trainPortfolio.getTrainList ();
 				tThisRevenue = getFormattedThisRevenue ();
