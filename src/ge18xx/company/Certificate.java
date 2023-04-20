@@ -27,7 +27,6 @@ import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Bidder;
 import ge18xx.player.Bidders;
 import ge18xx.player.CashHolderI;
-import ge18xx.player.ParPriceFrame;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.PortfolioHolderI;
@@ -1033,15 +1032,18 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public int getComboParValue () {
-		int tIParPrice = ParPriceFrame.NO_PAR_PRICE_VALUE;
+		int tParPrice;
 		String tSelectedValue;
 
-		tSelectedValue = (String) parValuesCombo.getSelectedItem ();
-		if (!NO_PAR_PRICE.equals (tSelectedValue)) {
-			tIParPrice = Integer.parseInt ((String) parValuesCombo.getSelectedItem ());
+		tParPrice = getParPrice ();
+		if (tParPrice == ShareCompany.NO_PAR_PRICE) {
+			tSelectedValue = (String) parValuesCombo.getSelectedItem ();
+			if (!NO_PAR_PRICE.equals (tSelectedValue)) {
+				tParPrice = Integer.parseInt ((String) parValuesCombo.getSelectedItem ());
+			}
 		}
 
-		return tIParPrice;
+		return tParPrice;
 	}
 
 	public String getCompanyAbbrev () {
@@ -1134,28 +1136,31 @@ public class Certificate implements Comparable<Certificate> {
 		return percentage;
 	}
 
-	// TODO: 1835 When updating for minor Companies, need to update this
-	// appropriately.
 	public int getParValue () {
-		int iValue;
-		int iParPrice;
-		float fSinglePercentPrice;
+		int tValue;
+		int tParPrice;
+		float tSinglePercentPrice;
+		PrivateCompany tPrivate;
+		MinorCompany tMinor;
 
-		iValue = 0;
+		tValue = 0;
 		if (corporation.isAShareCompany ()) {
-			iParPrice = getParPrice ();
-			fSinglePercentPrice = (float) iParPrice / PhaseInfo.STANDARD_SHARE_SIZE;
-			iValue = (int) (fSinglePercentPrice * percentage);
+			tParPrice = getParPrice ();
+			tSinglePercentPrice = (float) tParPrice / PhaseInfo.STANDARD_SHARE_SIZE;
+			tValue = (int) (tSinglePercentPrice * percentage);
+		} else if (corporation.isAMinorCompany ()) {
+			tMinor = (MinorCompany) corporation;
+			tValue = tMinor.getValue ();
 		} else if (corporation.isAPrivateCompany ()) {
 			if (hasBidders ()) {
-				iValue = bidders.getHighestBid ();
+				tValue = bidders.getHighestBid ();
 			} else {
-				PrivateCompany tPrivate = (PrivateCompany) corporation;
-				iValue = tPrivate.getValue () - getDiscount ();
+				tPrivate = (PrivateCompany) corporation;
+				tValue = tPrivate.getValue () - getDiscount ();
 			}
 		}
 
-		return iValue;
+		return tValue;
 	}
 
 	public Color getRegionColor () {
