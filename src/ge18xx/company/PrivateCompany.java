@@ -264,37 +264,40 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	@Override
 	public String buildCorpInfoLabel () {
-		String tCorpLabel = "";
 		int tBidderCount;
+		String tCorpInfoLabel;
 		String tBidderNames;
+		String tPriceLabel;
+		String tRevenueLabel;
 
-		tCorpLabel = getAbbrev () + "<br>";
+		tCorpInfoLabel = getAbbrev () + "<br>";
+		tPriceLabel = "<br>Price: " + Bank.formatCash (getCost ());
+		tRevenueLabel = "<br>Revenue: " + Bank.formatCash (getRevenue ());
 		if (isActive ()) {
-			tCorpLabel += buildPercentOwnedLabel ();
-			tCorpLabel += "<br>Prez: " + getPresidentName ();
-			tCorpLabel += "<br>Price: " + Bank.formatCash (getCost ());
-			tCorpLabel += "<br>Revenue: " + Bank.formatCash (getRevenue ());
+			tCorpInfoLabel += buildPercentOwnedLabel ();
+			tCorpInfoLabel += "<br>Prez: " + getPresidentName ();
+			tCorpInfoLabel += tPriceLabel;
+			tCorpInfoLabel += tRevenueLabel;
 		} else {
-			tCorpLabel += "[" + getStatusName () + "]";
+			tCorpInfoLabel += "[" + getStatusName () + "]";
 			tBidderCount = getBidderCount ();
 			if (tBidderCount > 0) {
 				tBidderNames = getBidderNames ();
 				if (tBidderCount == 1) {
-					tCorpLabel += "<br>" + getBidderCount () + " Bidder: " + tBidderNames;
+					tCorpInfoLabel += "<br>" + getBidderCount () + " Bidder: " + tBidderNames;
 				} else {
-					tCorpLabel += "<br>" + getBidderCount () + " Bidders (" + tBidderNames + ")";
+					tCorpInfoLabel += "<br>" + getBidderCount () + " Bidders (" + tBidderNames + ")";
 				}
-				tCorpLabel += "<br>Highest Bid " + Bank.formatCash (corporationCertificates.getHighestBid ());
+				tCorpInfoLabel += "<br>Highest Bid " + Bank.formatCash (corporationCertificates.getHighestBid ());
 			}
-			tCorpLabel += "<br>Price: " + Bank.formatCash (getCost ());
-			tCorpLabel += "<br>Revenue: " + Bank.formatCash (getRevenue ());
+			tCorpInfoLabel += tPriceLabel;
+			tCorpInfoLabel += tRevenueLabel;
 			if (getDiscount () > 0) {
-				tCorpLabel += "<br>Discount: " + Bank.formatCash (getDiscount ());
+				tCorpInfoLabel += "<br>Discount: " + Bank.formatCash (getDiscount ());
 			}
 		}
-		tCorpLabel = "<html>" + tCorpLabel + "</html>";
 
-		return tCorpLabel;
+		return tCorpInfoLabel;
 	}
 
 	@Override
