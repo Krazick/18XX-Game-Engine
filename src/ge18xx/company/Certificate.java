@@ -910,13 +910,18 @@ public class Certificate implements Comparable<Certificate> {
 	public int getValue () {
 		int iValue;
 		int iSharePrice;
-
+		PrivateCompany tPrivate;
+		MinorCompany tMinor;
+		
 		iValue = 0;
 		if (corporation.isAShareCompany ()) {
 			iSharePrice = getSharePrice ();
 			iValue = calcCertificateValue (iSharePrice);
-		} else if (corporation.isAPrivateCompany ()) {
-			PrivateCompany tPrivate = (PrivateCompany) corporation;
+		} else if (corporation.isAMinorCompany ()) {
+			tMinor = (MinorCompany) corporation;
+			iValue = tMinor.getValue ();
+		}else if (corporation.isAPrivateCompany ()) {
+			tPrivate = (PrivateCompany) corporation;
 			iValue = tPrivate.getValue ();
 		}
 
@@ -1103,18 +1108,21 @@ public class Certificate implements Comparable<Certificate> {
 
 	public int getParPrice () {
 		int tParPrice;
-
+		ShareCompany tShare;
+		MinorCompany tMinor;
+		PrivateCompany tPrivate;
+		
 		tParPrice = ShareCompany.NO_PAR_PRICE;
 		if (corporation.isAShareCompany ()) {
-			ShareCompany tShare = (ShareCompany) corporation;
+			tShare = (ShareCompany) corporation;
 
 			tParPrice = tShare.getParPrice ();
 		} else if (corporation.isAMinorCompany ()) {
-			MinorCompany tMinor = (MinorCompany) corporation;
+			tMinor = (MinorCompany) corporation;
 
 			tParPrice = tMinor.getValue ();
 		} else if (corporation.isAPrivateCompany ()) {
-			PrivateCompany tPrivate = (PrivateCompany) corporation;
+			tPrivate = (PrivateCompany) corporation;
 
 			tParPrice = tPrivate.getValue ();
 		}
