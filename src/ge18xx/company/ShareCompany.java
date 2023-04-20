@@ -29,7 +29,6 @@ import ge18xx.round.action.ReachedDestinationAction;
 import ge18xx.round.action.RedeemLoanAction;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -1036,17 +1035,16 @@ public class ShareCompany extends TokenCompany {
 
 	@Override
 	public String buildCorpInfoLabel () {
-		String tCorpLabel;
+		String tCorpInfoLabel;
 		String tLoanInfo;
 		
+		tCorpInfoLabel = super.buildCorpInfoLabel ();
 		if (gameHasLoans ()) {
-			tLoanInfo = "Loan Count: " + loanCount;
-		} else {
-			tLoanInfo = GUI.NULL_STRING;
+			tLoanInfo = "<br>Loan Count: " + loanCount;
+			tCorpInfoLabel += tLoanInfo;
 		}
-		tCorpLabel = super.buildCorpInfoLabel (tLoanInfo);
-		
-		return tCorpLabel;
+
+		return tCorpInfoLabel;
 	}
 	
 	@Override
