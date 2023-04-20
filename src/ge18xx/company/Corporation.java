@@ -1325,12 +1325,13 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	 */
 	public JLabel buildCorpInfoJLabel () {
 		JLabel tLabel;
-		String tCorpLabel;
+		String tCorpInfoLabel;
 		Border tCorpBorder;
 
-		tCorpLabel = buildCorpInfoLabel ();
+		tCorpInfoLabel = buildCorpInfoLabel ();
+		tCorpInfoLabel = "<html>" + tCorpInfoLabel + "</html>";
 		tCorpBorder = setupBorder ();
-		tLabel = new JLabel (tCorpLabel);
+		tLabel = new JLabel (tCorpInfoLabel);
 		tLabel.setBorder (tCorpBorder);
 
 		return tLabel;
