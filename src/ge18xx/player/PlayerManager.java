@@ -886,11 +886,20 @@ public class PlayerManager {
 			BuyStockAction aBuyStockAction) {
 		PortfolioHolderI tFromHolder;
 		PortfolioHolderI tToHolder;
+		boolean tTransferGood;
+		StartPacketPortfolio tStartPacketPortfolio;
 
-		aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
-		tFromHolder = aFromPortfolio.getHolder ();
-		tToHolder = aToPortfolio.getHolder ();
-		aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate, tToHolder);
+		tTransferGood = aToPortfolio.transferOneCertificateOwnership (aFromPortfolio, aCertificate);
+		if (tTransferGood) {
+			tFromHolder = aFromPortfolio.getHolder ();
+			tToHolder = aToPortfolio.getHolder ();
+			aBuyStockAction.addTransferOwnershipEffect (tFromHolder, aCertificate, tToHolder);
+			
+			if (aFromPortfolio instanceof StartPacketPortfolio) {
+				tStartPacketPortfolio = (StartPacketPortfolio) aFromPortfolio;
+				tStartPacketPortfolio.removeCertificateFromStartPacketRow (aCertificate, aBuyStockAction);
+			}
+		}
 	}
 
 	public int getThisPlayerIndex (Player aPlayer) {
