@@ -435,6 +435,31 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		
 	}
 	
+	public String getCertificateLocation (Certificate aCertificate) {
+		StartPacketRow tStartPacketRow;
+		String tCertificateLocation;
+		int tRowCount;
+		int tRowIndex;
+		int tRowLocation;
+		boolean tFoundCertificate;
+		
+		tCertificateLocation = "";
+		tRowCount = startPacketRows.size ();
+		tFoundCertificate = false;
+		for (tRowIndex = 0; tRowIndex < tRowCount; tRowIndex++) {
+			if (! tFoundCertificate) {
+				tStartPacketRow = startPacketRows.get (tRowIndex);
+				tRowLocation = tStartPacketRow.getCerticateLocation (aCertificate);
+				if (tRowLocation != StartPacketRow.NO_ROW_LOCATION) {
+					tFoundCertificate = true;
+					tCertificateLocation = tRowIndex + "," + tRowLocation;
+				}
+			}
+		}
+		
+		return tCertificateLocation;
+	}
+	
 	public void removeCertificateFromRow (Certificate aCertificate) {
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
 			tStartPacketRow.removeCertificate (aCertificate);
