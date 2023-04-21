@@ -656,7 +656,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	private boolean canBankHoldStock () {
-		boolean tCanBankHoldStock = true;
+		boolean tCanBankHoldStock;
 		String tCompanyAbbrev;
 		Certificate tCertificate;
 		Corporation tCorporation;
@@ -666,15 +666,18 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		int tMustSellSharePercentage;
 		int tSmallestSharePercentage;
 
+		tCanBankHoldStock = true;
 		tCertificate = player.getCertificateToExchange ();
-		tCorporation = tCertificate.getCorporation ();
-		tCompanyAbbrev = tCertificate.getCompanyAbbrev ();
-		tNextPossiblePrez = player.getNextPossiblePrez (tCompanyAbbrev);
-		tCurrentPlayerPercent = player.getPercentOwnedOf (tCorporation);
-		tNextPrezPercent = tNextPossiblePrez.getPercentOwnedOf (tCorporation);
-		tSmallestSharePercentage = tCorporation.getSmallestSharePercentage ();
-		tMustSellSharePercentage = tCurrentPlayerPercent - tNextPrezPercent + tSmallestSharePercentage;
-		tCanBankHoldStock = !player.willOverfillBankPool (tMustSellSharePercentage, tCorporation);
+		if (tCertificate != Certificate.NO_CERTIFICATE) {
+			tCorporation = tCertificate.getCorporation ();
+			tCompanyAbbrev = tCertificate.getCompanyAbbrev ();
+			tNextPossiblePrez = player.getNextPossiblePrez (tCompanyAbbrev);
+			tCurrentPlayerPercent = player.getPercentOwnedOf (tCorporation);
+			tNextPrezPercent = tNextPossiblePrez.getPercentOwnedOf (tCorporation);
+			tSmallestSharePercentage = tCorporation.getSmallestSharePercentage ();
+			tMustSellSharePercentage = tCurrentPlayerPercent - tNextPrezPercent + tSmallestSharePercentage;
+			tCanBankHoldStock = !player.willOverfillBankPool (tMustSellSharePercentage, tCorporation);
+		}
 
 		return tCanBankHoldStock;
 	}
