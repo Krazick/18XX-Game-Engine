@@ -79,7 +79,9 @@ public class Portfolio implements CertificateHolderI {
 
 	/* These items change during the Game, must be saved/loaded */
 	List<Certificate> certificates;
-	int privateIndex, minorIndex, shareIndex;
+	int privateIndex;
+	int minorIndex;
+	int shareIndex;
 
 	public Portfolio () {
 		this (PortfolioHolderI.NO_HOLDER);
@@ -214,11 +216,13 @@ public class Portfolio implements CertificateHolderI {
 		JPanel tCertificateInfoJPanel;
 		JPanel tCorporationJPanel;
 		JPanel tScrollableCorpJPanel;
+		JScrollPane tCorporationScrollPane;
 		Certificate tCertificateToShow;
 		int tCount;
-		String tCertificateType, tPrevShareCorpAbbrev, tShareCorpAbbrev;
+		String tCertificateType;
+		String tPrevShareCorpAbbrev;
+		String tShareCorpAbbrev;
 		boolean tIsBankPortfolioHolder = false;
-		JScrollPane tCorporationScrollPane;
 
 		tCount = 0;
 		tScrollableCorpJPanel = buildEmptyCorpJPanel (aCorpType);
@@ -283,7 +287,9 @@ public class Portfolio implements CertificateHolderI {
 		Certificate tCertificateToShow;
 		Corporation tCorporationForCert;
 		int tCount, tCertCount, tCertTotalPercent;
-		String tCertificateType, tPrevShareCorpAbbrev, tShareCorpAbbrev;
+		String tCertificateType;
+		String tPrevShareCorpAbbrev;
+		String tShareCorpAbbrev;
 		boolean tIsBankPortfolioHolder = true;
 
 		tCount = 0;
