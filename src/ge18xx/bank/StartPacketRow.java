@@ -24,6 +24,7 @@ public class StartPacketRow implements ParsingRoutineI {
 	private static final AttributeName AN_ROW = new AttributeName ("row");
 	private static final ElementName EN_CERTIFICATE = new ElementName ("Certificate");
 	public static final StartPacketRow NO_START_PACKET_ROW = null;
+	public static final int NO_ROW_LOCATION = -1;
 	int rowNumber;
 	StartPacketFrame startPacketFrame;
 	List<StartPacketItem> startPacketItems;
@@ -130,6 +131,12 @@ public class StartPacketRow implements ParsingRoutineI {
 		return tItemCertificate;
 	}
 
+	public void removeCertificateInRow (int aIndex) {
+		if (validIndex (aIndex)) {
+			startPacketItems.remove (aIndex);
+		}
+	}
+	
 	public Certificate getCertificateToAuction () {
 		Certificate tCertificateToAuction;
 		Certificate tCertificate;
@@ -255,5 +262,42 @@ public class StartPacketRow implements ParsingRoutineI {
 		}
 
 		return tValidIndex;
+	}
+
+	public void removeCertificate (Certificate aCertificate) {
+		StartPacketItem tStartPacketItem;
+		int tItemCount;
+		int tItemFound;
+		int tItemIndex;
+		
+		tItemCount = getItemCount ();
+		tItemFound = NO_ROW_LOCATION;
+		for (tItemIndex = 0; tItemIndex < tItemCount; tItemIndex++) {
+			tStartPacketItem = startPacketItems.get (tItemIndex);
+			if (tStartPacketItem.containsCertificate (aCertificate)) {
+				tItemFound = tItemIndex;
+			}
+		}
+		if (tItemFound >= 0) {
+			startPacketItems.remove (tItemFound);
+		}
+	}
+
+	public int getCerticateLocation (Certificate aCertificate) {
+		StartPacketItem tStartPacketItem;
+		int tItemCount;
+		int tItemFound;
+		int tItemIndex;
+
+		tItemCount = getItemCount ();
+		tItemFound = NO_ROW_LOCATION;
+		for (tItemIndex = 0; tItemIndex < tItemCount; tItemIndex++) {
+			tStartPacketItem = startPacketItems.get (tItemIndex);
+			if (tStartPacketItem.containsCertificate (aCertificate)) {
+				tItemFound = tItemIndex;
+			}
+		}
+
+		return tItemFound;
 	}
 }
