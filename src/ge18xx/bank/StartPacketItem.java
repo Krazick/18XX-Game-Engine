@@ -206,4 +206,16 @@ public class StartPacketItem implements ParsingRoutineI {
 	void setStartPacketRow (StartPacketRow aStartPacketRow) {
 		startPacketRow = aStartPacketRow;
 	}
+
+	public boolean containsCertificate (Certificate aCertificate) {
+		boolean tContainsCertificate;
+		
+		if (certificate == aCertificate) {
+			tContainsCertificate = true;
+		} else {
+			tContainsCertificate = false;
+		}
+		
+		return tContainsCertificate;
+	}
 }
