@@ -40,8 +40,10 @@ import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.FrameButton;
 import ge18xx.game.GameManager;
+import ge18xx.round.action.BuyStockAction;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -1335,7 +1337,6 @@ public class Portfolio implements CertificateHolderI {
 	public Certificate getThisCertificate (Certificate aCertificate) {
 		Certificate tCertificate;
 		Certificate tPortfolioCertificate;
-		StartPacketFrame tStartPacketFrame;
 		int tIndex;
 		int tCertificateCount;
 
@@ -1346,15 +1347,25 @@ public class Portfolio implements CertificateHolderI {
 			if (tPortfolioCertificate == aCertificate) {
 				tCertificate = tPortfolioCertificate;
 				certificates.remove (tIndex);
-				if (holder instanceof StartPacketFrame) {
-					tStartPacketFrame = (StartPacketFrame) holder;
-					tStartPacketFrame.removeCertificateFromRow (tCertificate);
-				}
 				holder.updateListeners (CERTIFICATE_REMOVED + " from " + holder.getName ());
 			}
 		}
 
 		return tCertificate;
+	}
+
+	public void removeCertificateFromStartPacketRow (Certificate aCertificate, BuyStockAction aBuyStockAction) {
+		StartPacketFrame tStartPacketFrame;
+		String tCertificateLocation;
+		
+		tCertificateLocation = GUI.NULL_STRING;
+		if (holder instanceof StartPacketFrame) {
+			tStartPacketFrame = (StartPacketFrame) holder;
+			tCertificateLocation = tStartPacketFrame.getCertificateLocation (aCertificate);
+			tStartPacketFrame.removeCertificateFromRow (aCertificate);
+		}
+		System.out.println ("Removed a Certificate " + aCertificate.getCompanyAbbrev () + " from Start Packet Location " + tCertificateLocation);
+		
 	}
 
 	@Override
@@ -1754,7 +1765,7 @@ public class Portfolio implements CertificateHolderI {
 	public void sortByOwners () {
 		Collections.sort (certificates, orderByOwner);
 	}
-
+	
 	public boolean transferOneCertificateOwnership (Portfolio aFromPortfolio, Certificate aCertificate) {
 		Certificate tThisCertificate;
 		Certificate tCertificate;
