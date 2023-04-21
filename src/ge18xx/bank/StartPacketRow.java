@@ -196,6 +196,21 @@ public class StartPacketRow implements ParsingRoutineI {
 		return startPacketItems.isEmpty ();
 	}
 
+	boolean isRowSoldOut (Portfolio aStartPacketPortfolio) {
+		boolean tIsRowSoldOut;
+		Certificate tThisCertificate;
+
+		tIsRowSoldOut = true;
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			tThisCertificate = tStartPacketItem.getCertificate ();
+			if (startPacketFrame.hasThisCertificate (tThisCertificate)) {
+				tIsRowSoldOut = false;
+			}
+		}
+
+		return tIsRowSoldOut;
+	}
+	
 	boolean isRowNotSoldOut (Portfolio aStartPacketPortfolio) {
 		boolean tRowNotSoldOut = true;
 		Certificate tThisCertificate;
