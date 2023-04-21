@@ -35,6 +35,11 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	private static final long serialVersionUID = 1L;
 	public static final String SP_NAME = "Start Packet";
 	public static final String SPFRAME_SUFFIX = " " + SP_NAME + " Frame";
+
+	List<StartPacketRow> startPacketRows;
+	StartPacketPortfolio portfolio;
+	JPanel portfolioInfoJPanel;
+
 	ParsingRoutineI itemParsingRoutine = new ParsingRoutineI () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
@@ -44,8 +49,6 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 			startPacketRows.add (tStartPacketRow);
 		}
 	};
-	StartPacketPortfolio portfolio;
-	JPanel portfolioInfoJPanel;
 
 	ParsingRoutineI startPacketParsingRoutine = new ParsingRoutineI () {
 		@Override
@@ -56,8 +59,6 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 			tXMLNodeList.parseXMLNodeList (aChildNode, EN_ITEM);
 		}
 	};
-
-	List<StartPacketRow> startPacketRows;
 
 	public StartPacketFrame (String aFrameName, GameManager aGameManager) {
 		super (aFrameName, aGameManager);
@@ -97,7 +98,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 			} else {
 				tSelectedButtonLabel = Player.BID_LABEL;
 			}
-			if (tStartPacketRow.isRowNotSoldOut (portfolio)) {
+			if (! tStartPacketRow.isRowSoldOut (portfolio)) {
 				tRowJPanel = tStartPacketRow.buildRowJPanel (tSelectedButtonLabel, aItemListener, aPlayer,
 						aGameManager);
 				tSPPortfolioJPanel.add (Box.createVerticalGlue ());
@@ -170,7 +171,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	private int getActiveRowCount () {
 		int tActiveRowCount = 0;
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
-			if (tStartPacketRow.isRowNotSoldOut (portfolio)) {
+			if (! tStartPacketRow.isRowSoldOut (portfolio)) {
 				tActiveRowCount++;
 			}
 		}
@@ -211,7 +212,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 
 			StartPacketRow tStartPacketRow = startPacketRows.get (tIndex);
 
-			if (tStartPacketRow.isRowNotSoldOut (portfolio)) {
+			if (! tStartPacketRow.isRowSoldOut (portfolio)) {
 				if (tFirstActiveRow == NO_ACTIVE_ROW) {
 					tFirstActiveRow = tIndex;
 				}
