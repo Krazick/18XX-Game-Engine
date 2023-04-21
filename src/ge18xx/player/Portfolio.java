@@ -31,6 +31,7 @@ import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
+import ge18xx.bank.StartPacketFrame;
 import ge18xx.company.Certificate;
 import ge18xx.company.CertificateHolderI;
 import ge18xx.company.Corporation;
@@ -1332,8 +1333,11 @@ public class Portfolio implements CertificateHolderI {
 
 	// Get the Specific Certificate that matches and REMOVE it from the Portfolio
 	public Certificate getThisCertificate (Certificate aCertificate) {
-		Certificate tCertificate, tPortfolioCertificate;
-		int tIndex, tCertificateCount;
+		Certificate tCertificate;
+		Certificate tPortfolioCertificate;
+		StartPacketFrame tStartPacketFrame;
+		int tIndex;
+		int tCertificateCount;
 
 		tCertificate = Certificate.NO_CERTIFICATE;
 		tCertificateCount = certificates.size ();
@@ -1342,6 +1346,10 @@ public class Portfolio implements CertificateHolderI {
 			if (tPortfolioCertificate == aCertificate) {
 				tCertificate = tPortfolioCertificate;
 				certificates.remove (tIndex);
+				if (holder instanceof StartPacketFrame) {
+					tStartPacketFrame = (StartPacketFrame) holder;
+					tStartPacketFrame.removeCertificateFromRow (tCertificate);
+				}
 				holder.updateListeners (CERTIFICATE_REMOVED + " from " + holder.getName ());
 			}
 		}

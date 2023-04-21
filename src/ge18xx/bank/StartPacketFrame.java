@@ -434,4 +434,11 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	public void updateListeners (String aMessage) {
 		
 	}
+	
+	public void removeCertificateFromRow (Certificate aCertificate) {
+		for (StartPacketRow tStartPacketRow : startPacketRows) {
+			tStartPacketRow.removeCertificate (aCertificate);
+		}
+
+	}
 }
