@@ -38,11 +38,14 @@ public class PhaseInfo {
 	static final AttributeName AN_GOVERNMENT_MUST_FORM = new AttributeName ("governmentMustForm");
 	static final AttributeName AN_MIN_TO_FLOAT = new AttributeName ("minToFloat");
 	static final AttributeName AN_MIN_TO_FLOAT_LAST = new AttributeName ("minToFloatLast");
+	static final AttributeName AN_MAJOR_TILE_LAYS = new AttributeName ("majorTileLays");
+	static final AttributeName AN_MINOR_TILE_LAYS = new AttributeName ("minorTileLays");
 	static final int SORT_PHASE1_BEFORE_PHASE2 = -100;
 	static final int SORT_PHASE2_BEFORE_PHASE1 = 100;
 
 	public static final int STANDARD_MIN_SHARES = 6;
 	public static final int STANDARD_SHARE_SIZE = 10;
+	public static final int DEFAULT_TILE_LAYS = 1;
 	public static final int NO_LIMIT = 99;
 	public static final int NO_NAME = 0;
 	public static final int NO_ROUNDS = 0;
@@ -52,6 +55,8 @@ public class PhaseInfo {
 	int subName;
 	int rounds;
 	String tiles[];
+	int majorTileLays;
+	int minorTileLays;
 	int trainLimit;
 	int minorTrainLimit;
 	int govtTrainLimit;
@@ -86,7 +91,8 @@ public class PhaseInfo {
 		boolean tGovernmentMustForm;
 		boolean tCanBuyTrain;
 		boolean tLoansAllowed;
-		String tOffBoard, tTileColors;
+		String tOffBoard;
+		String tTileColors;
 		String tTiles[];
 
 		tName = aCellNode.getThisIntAttribute (AN_NAME);
@@ -110,7 +116,7 @@ public class PhaseInfo {
 		tGovernmentMustForm = aCellNode.getThisBooleanAttribute (AN_GOVERNMENT_MUST_FORM);
 		setValues (tName, tSubName, tRounds, tTiles, tTrainLimit, tMinorTrainLimit, tGovtTrainLimit, tOffBoard,
 				tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tLoansAllowed, tGovernmentCanForm, tGovernmentMustForm);
-		parseFloatMinValues (aCellNode);
+		parseMajorMinorValues (aCellNode);
 	}
 
 	public XMLElement getElement (XMLDocument aXMLDocument) {
@@ -147,16 +153,35 @@ public class PhaseInfo {
 		return tXMLElement;
 	}
 
-	// minToFloat="2" minToFloatLast="3" />
-	private void parseFloatMinValues (XMLNode aCellNode) {
+	private void parseMajorMinorValues (XMLNode aCellNode) {
 		int tValue;
 
 		tValue = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT, STANDARD_MIN_SHARES);
 		setMinToFloat (tValue);
 		tValue = aCellNode.getThisIntAttribute (AN_MIN_TO_FLOAT_LAST, STANDARD_MIN_SHARES);
 		setMinToFloatLast (tValue);
+		tValue = aCellNode.getThisIntAttribute (AN_MAJOR_TILE_LAYS, DEFAULT_TILE_LAYS);
+		setMajorTileLays (tValue);
+		tValue = aCellNode.getThisIntAttribute (AN_MINOR_TILE_LAYS, DEFAULT_TILE_LAYS);
+		setMinorTileLays (tValue);
 	}
 
+	private void setMajorTileLays (int aValue) {
+		majorTileLays = aValue;
+	}
+
+	private void setMinorTileLays (int aValue) {
+		minorTileLays = aValue;
+	}
+
+	public int getMajorTileLays () {
+		return majorTileLays;
+	}
+	
+	public int getMinorTileLays () {
+		return minorTileLays;
+	}
+	
 	private void setMinToFloat (int aValue) {
 		minToFloat = aValue;
 	}
