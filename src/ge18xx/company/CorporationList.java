@@ -556,10 +556,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public int getNextToOperate () {
-		int tNextToOperate = NO_CORPORATION_INDEX;
-		int tCount = getCorporationCount ();
+		int tNextToOperate;
+		int tCount;
 		Corporation tCorporation;
 
+		tNextToOperate = NO_CORPORATION_INDEX;
+		tCount = getCorporationCount ();
 		for (int tIndex = 0; tIndex < tCount; tIndex++) {
 			tCorporation = corporations.get (tIndex);
 			if (tCorporation.shouldOperate () && (tNextToOperate == NO_CORPORATION_INDEX)) {
@@ -572,7 +574,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 
 	public int getRowIndex (Corporation aCorporation) {
-		int tRowIndex, tRowIndexFound;
+		int tRowIndex;
+		int tRowIndexFound;
 
 		tRowIndex = 0;
 		tRowIndexFound = 0;
@@ -1083,10 +1086,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public TrainCompany getOperatingTrainCompany () {
-		TrainCompany tTrainCompany = (TrainCompany) Corporation.NO_CORPORATION;
+		TrainCompany tTrainCompany;
 
+		tTrainCompany = (TrainCompany) Corporation.NO_CORPORATION;
 		for (Corporation tCorporation : corporations) {
-			if (tCorporation.isOperating () && (tTrainCompany == Corporation.NO_CORPORATION)) {
+			if (tCorporation.isOperating () && 
+					(tTrainCompany == Corporation.NO_CORPORATION)) {
 				tTrainCompany = (TrainCompany) tCorporation;
 			}
 		}
@@ -1098,7 +1103,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		ShareCompany tOperatingCompany = (ShareCompany) Corporation.NO_CORPORATION;
 
 		for (Corporation tCorporation : corporations) {
-			if (tCorporation.isOperating () && (tOperatingCompany == (ShareCompany) Corporation.NO_CORPORATION)) {
+			if (tCorporation.isOperating () && 
+					(tOperatingCompany == (ShareCompany) Corporation.NO_CORPORATION)) {
 				tOperatingCompany = (ShareCompany) tCorporation;
 			}
 		}
