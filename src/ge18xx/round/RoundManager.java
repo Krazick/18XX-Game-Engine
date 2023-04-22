@@ -1079,9 +1079,9 @@ public class RoundManager implements ActionListener {
 		return actionManager.undoLastAction (this);
 	}
 
-	public void updateCurrentCompanyFrame () {
-		operatingRound.updateCurrentCompanyFrame ();
-	}
+//	public void updateCurrentCompanyFrame () {
+//		operatingRound.updateCurrentCompanyFrame ();
+//	}
 
 	public void updateAllCorporationsBox () {
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
@@ -1196,17 +1196,18 @@ public class RoundManager implements ActionListener {
 		gameManager.setParPrice (aShareCompany, aParPrice);
 	}
 
-	public void updateActionLabel (ShareCompany aShareCompany) {
-		String tDoActionLabel = "DO THIS COMPANY";
+	public void updateActionLabel (TrainCompany aTrainCompany) {
+		String tDoActionLabel;
 		
-		if (aShareCompany.shouldOperate ()) {
-			tDoActionLabel = aShareCompany.getDoLabel ();
+		tDoActionLabel = "DO THIS COMPANY";
+		if (aTrainCompany.shouldOperate ()) {
+			tDoActionLabel = aTrainCompany.getDoLabel ();
 		}
-		if (aShareCompany.isOperating ()) {
-			tDoActionLabel = aShareCompany.getOperatingLabel ();
+		if (aTrainCompany.isOperating ()) {
+			tDoActionLabel = aTrainCompany.getOperatingLabel ();
 		}
 		setButtonLabel (tDoActionLabel);
-		if (isNetworkAndIsThisClient (aShareCompany.getPresidentName ())) {
+		if (isNetworkAndIsThisClient (aTrainCompany.getPresidentName ())) {
 			enableActionButton (true);
 		} else {
 			enableActionButton (false);
