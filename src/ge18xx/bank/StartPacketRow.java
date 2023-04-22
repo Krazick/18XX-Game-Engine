@@ -16,6 +16,7 @@ import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
@@ -50,6 +51,11 @@ public class StartPacketRow implements ParsingRoutineI {
 		tLayout = new BoxLayout (tRowJPanel, BoxLayout.X_AXIS);
 		tRowJPanel.setLayout (tLayout);
 		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			if (aSelectedButtonLabel.equals (Player.BID_LABEL)) {
+				if (! tStartPacketItem.getCanBeBidOn ()) {
+					aSelectedButtonLabel = GUI.EMPTY_STRING;
+				}
+			}
 			tRowItemJPanel = tStartPacketItem.buildStartPacketItemJPanel (aSelectedButtonLabel, aItemListener, aPlayer,
 					aGameManager);
 			tRowJPanel.add (Box.createHorizontalGlue ());
@@ -60,22 +66,19 @@ public class StartPacketRow implements ParsingRoutineI {
 		return tRowJPanel;
 	}
 
-	// Return true if only one is left. Needed to verify if next Certificate is in
-	// current row, or next row.
-
 	public void disableAllCheckedButtons (String aToolTip) {
 		for (StartPacketItem tStartPacketItem : startPacketItems) {
 			tStartPacketItem.disableCheckedButton (aToolTip);
 		}
 	}
 
-	public void enableAllCheckedButtons (String aToolTip, Player aPlayer) {
-		for (StartPacketItem tStartPacketItem : startPacketItems) {
-			if (!tStartPacketItem.hasBidOnThisCert (aPlayer)) {
-				tStartPacketItem.enableCheckedButton (aToolTip);
-			}
-		}
-	}
+//	public void enableAllCheckedButtons (String aToolTip, Player aPlayer) {
+//		for (StartPacketItem tStartPacketItem : startPacketItems) {
+//			if (!tStartPacketItem.hasBidOnThisCert (aPlayer)) {
+//				tStartPacketItem.enableCheckedButton (aToolTip);
+//			}
+//		}
+//	}
 
 	public Certificate getMustBuyCertificate () {
 		Certificate tMustBuyCertificate = Certificate.NO_CERTIFICATE;
