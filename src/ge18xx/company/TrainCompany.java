@@ -867,7 +867,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (didOperate () || isClosed () || ! isFormed ()) {
 			tCanOperate = false;
 		} else {
-			if ((status == ActorI.ActionStates.WillFloat) || (status == ActorI.ActionStates.StartedOperations)) {
+			if (isAMinorCompany () && isPlayerOwned ()) {
+				if ((status == ActorI.ActionStates.Owned) ||
+					(status == ActorI.ActionStates.NotOperated)) {
+					tCanOperate = true;
+				} else {
+					tCanOperate = false;
+				}
+			} else if ((status == ActorI.ActionStates.WillFloat) || 
+				(status == ActorI.ActionStates.StartedOperations)) {
 				tCanOperate = true;
 			} else {
 				tCanOperate = false;
@@ -2220,5 +2228,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 
 		return tForceBuyEnoughCash;
+	}
+	
+	public boolean hasFloated () {
+		return false;
+	}
+	
+	public void setDestinationCapitalizationLevel () {
+		
 	}
 }
