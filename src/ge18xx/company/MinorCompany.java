@@ -4,6 +4,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JPanel;
 
+import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -158,4 +159,18 @@ public class MinorCompany extends TokenCompany {
 	public int calculateStartingTreasury () {
 		return value;
 	}
+	
+	@Override
+	public boolean hasFloated () {
+		boolean tHasFloated;
+		
+		if (status == ActorI.ActionStates.Owned) {
+			tHasFloated = true;
+		} else {
+			tHasFloated = false;
+		}
+		
+		return tHasFloated;
+	}
+
 }
