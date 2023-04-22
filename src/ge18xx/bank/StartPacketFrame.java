@@ -124,12 +124,12 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 			tStartPacketRow.disableAllCheckedButtons (aToolTip);
 		}
 	}
-
-	public void enableAllCheckedButtons (String aToolTip, Player aPlayer) {
-		for (StartPacketRow tStartPacketRow : startPacketRows) {
-			tStartPacketRow.enableAllCheckedButtons (aToolTip, aPlayer);
-		}
-	}
+//
+//	public void enableAllCheckedButtons (String aToolTip, Player aPlayer) {
+//		for (StartPacketRow tStartPacketRow : startPacketRows) {
+//			tStartPacketRow.enableAllCheckedButtons (aToolTip, aPlayer);
+//		}
+//	}
 
 	public Certificate getMustBuyCertificate () {
 		Certificate tMustBuyCertificate = Certificate.NO_CERTIFICATE;
