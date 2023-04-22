@@ -788,7 +788,9 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				buyBidButton.setEnabled (aStocksToBuy);
 				buyBidButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE2);
 				buyBidButton.setText (Player.BUY_BID_LABEL);
-				enableAllStartPacketButtons ("");
+				// This re-enables all Start Packet Buttons and not sure why this was setup as such
+				// it then overrides all settings if limited by cash or other reasons.
+//				enableAllStartPacketButtons ("");
 			}
 		}
 	}
@@ -822,18 +824,18 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		updateBidAndEscrow ();
 	}
 
-	private void enableAllStartPacketButtons (String aToolTip) {
-		StartPacketFrame tStartPacketFrame;
-		Bank tBank;
-
-		if (player.isCurrentPlayer ()) {
-			tBank = player.getBank ();
-			if (!tBank.isStartPacketPortfolioEmpty ()) {
-				tStartPacketFrame = tBank.getStartPacketFrame ();
-				tStartPacketFrame.enableAllCheckedButtons (aToolTip, player);
-			}
-		}
-	}
+//	private void enableAllStartPacketButtons (String aToolTip) {
+//		StartPacketFrame tStartPacketFrame;
+//		Bank tBank;
+//
+//		if (player.isCurrentPlayer ()) {
+//			tBank = player.getBank ();
+//			if (!tBank.isStartPacketPortfolioEmpty ()) {
+//				tStartPacketFrame = tBank.getStartPacketFrame ();
+//				tStartPacketFrame.enableAllCheckedButtons (aToolTip, player);
+//			}
+//		}
+//	}
 
 	private void enableMustBuyPrivateButton () {
 		StartPacketFrame tStartPacketFrame;
