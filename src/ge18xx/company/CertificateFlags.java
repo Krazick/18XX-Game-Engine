@@ -11,7 +11,7 @@ public class CertificateFlags {
 	boolean playerHasSoldThisCompany;
 	boolean playerHasMaxShares;
 	boolean playerHasBoughtShare;
-	boolean hasMustBuyCertificate;
+	boolean playerHasMustBuyCertificate;
 	boolean playerAtCertLimit;
 	boolean boughtShare;
 	String companyAbbrev;
@@ -25,15 +25,14 @@ public class CertificateFlags {
 			playerHasSoldThisCompany = false;
 			playerHasMaxShares = false;
 			playerAtCertLimit = false;
-			playerHasBoughtShare = false;
-			playerHasBidOnThisCert = false;
-			hasMustBuyCertificate = false;
+			setPlayerHasBoughtShare (false);
+			setPlayerHasBidOnThisCertificate (false);
+			setPlayerHasMustBuyCertificate (false);
 			setPlayerCash (0);
 		}
 		
 		setPlayerHasEnoughCash (true);
-		playerHasEnoughCash = true;
-		playerHasEnoughCashToBid = true;
+		setPlayerHasEnoughToCashToBid (true);
 		setEnabled (false);
 	}
 
@@ -42,9 +41,9 @@ public class CertificateFlags {
 		playerHasSoldThisCompany = aPlayer.hasSoldCompany (companyAbbrev);
 		playerHasMaxShares = aPlayer.hasMaxShares (companyAbbrev);
 		playerAtCertLimit = aPlayer.atCertLimit ();
-		playerHasBoughtShare = aPlayer.hasBoughtShare ();
-		playerHasBidOnThisCert = aCertificate.hasBidOnThisCert (aPlayer);
-		hasMustBuyCertificate = aPlayer.hasMustBuyCertificate ();
+		setPlayerHasBoughtShare (aPlayer.hasBoughtShare ());
+		setPlayerHasBidOnThisCertificate (aCertificate.hasBidOnThisCert (aPlayer));
+		setPlayerHasMustBuyCertificate (aPlayer.hasMustBuyCertificate ());
 		setPlayerCash (aPlayer.getCash ());
 	}
 	
@@ -87,5 +86,29 @@ public class CertificateFlags {
 	
 	public boolean playerHasEnoughCashToBid () {
 		return playerHasEnoughCashToBid;
+	}
+	
+	public void setPlayerHasBidOnThisCertificate (boolean aPlayerHasBidOnThisCert) {
+		playerHasBidOnThisCert = aPlayerHasBidOnThisCert;
+	}
+	
+	public boolean playerHasBidOnThisCert () {
+		return playerHasBidOnThisCert;
+	}
+	
+	public void setPlayerHasMustBuyCertificate (boolean aPlayerHasMustBuyCertificate) {
+		playerHasMustBuyCertificate = aPlayerHasMustBuyCertificate;
+	}
+	
+	public boolean playerHasMustBuyCertificate () {
+		return playerHasMustBuyCertificate;
+	}
+	
+	public void setPlayerHasBoughtShare (boolean aPlayerHasBoughtShare) {
+		playerHasBoughtShare = aPlayerHasBoughtShare;
+	}
+	
+	public boolean playerHasBoughtShare () {
+		return playerHasBoughtShare;
 	}
 }
