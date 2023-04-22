@@ -165,12 +165,17 @@ public class MinorCompany extends TokenCompany {
 		boolean tHasFloated;
 		
 		if (status == ActorI.ActionStates.Owned) {
-			tHasFloated = true;
-		} else {
 			tHasFloated = false;
+		} else {
+			tHasFloated = true;
 		}
 		
 		return tHasFloated;
+	}
+
+	@Override
+	public boolean shouldFloat () {
+		return true;
 	}
 
 }
