@@ -2,9 +2,12 @@ package ge18xx.round;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
+
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -14,20 +17,28 @@ public class OperatingRound extends Round {
 	public final static OperatingRound NO_OPERATING_ROUND = null;
 	public final static String NAME = "Operating Round";
 	CorporationList privateCompanies;
-
 	CorporationList minorCompanies;
 	CorporationList shareCompanies;
+	String operatingType;
 
 	public OperatingRound (RoundManager aRoundManager, CorporationList aPrivates,
 			CorporationList aMinors, CorporationList aShares) {
 		super (aRoundManager);
 		setID (0, 0);
 		privateCompanies = aPrivates;
-
 		minorCompanies = aMinors;
 		shareCompanies = aShares;
+		setOperatingType (GUI.NULL_STRING);
 	}
 
+	public void setOperatingType (String aOperatingType) {
+		operatingType = aOperatingType;
+	}
+	
+	public String currentOperatingType () {
+		return operatingType;
+	}
+	
 	public boolean anyFloatedCompanies () {
 		boolean tAnyFloatedCompanies = false;
 
@@ -60,24 +71,66 @@ public class OperatingRound extends Round {
 	}
 
 	public void updateActionLabel () {
-		ShareCompany tShareCompany;
-		int tNextShareToOperate;
-		int tCurrentlyOperating;
+		boolean tFoundCurrentlyOperating;
+		boolean tFoundNextToOperate;
 
-		// TODO: Test if Minor Companies need to operate Before Share Companies
-		tCurrentlyOperating = shareCompanies.getCurrentlyOperating ();
-		if (tCurrentlyOperating != CorporationList.NO_CORPORATION_INDEX) {
-			tShareCompany = (ShareCompany) shareCompanies.getCorporation (tCurrentlyOperating);
-			roundManager.updateActionLabel (tShareCompany);
+		setOperatingType (GUI.NULL_STRING);
+		// Find the Currently Operating Minor Company
+		tFoundCurrentlyOperating = updateForCurrentlyOperating (minorCompanies);
+		if (!tFoundCurrentlyOperating) {
+			// If no Minor is Operating, find Currently Operating Share Company
+			tFoundCurrentlyOperating = updateForCurrentlyOperating (shareCompanies);
+			if (tFoundCurrentlyOperating) {
+				setOperatingType (Corporation.SHARE_COMPANY);
+			}
 		} else {
-			tNextShareToOperate = shareCompanies.getNextToOperate ();
-			if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
-				tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate);
-				roundManager.updateActionLabel (tShareCompany);
+			setOperatingType (Corporation.MINOR_COMPANY);
+		}
+		if (! tFoundCurrentlyOperating) {
+			tFoundNextToOperate = updateForNextToOperate (minorCompanies);
+			if (!tFoundNextToOperate) {
+				tFoundNextToOperate = updateForNextToOperate (shareCompanies);
+				if (tFoundNextToOperate) {
+					setOperatingType (Corporation.SHARE_COMPANY);
+				}
+			} else {
+				setOperatingType (Corporation.MINOR_COMPANY);
 			}
 		}
 	}
 
+	public boolean updateForNextToOperate (CorporationList aCompanies) {
+		boolean tFoundNextToOperate;
+		TrainCompany tTrainCompany;
+		int tNextShareToOperate;
+
+		tFoundNextToOperate = false;
+		tNextShareToOperate = aCompanies.getNextToOperate ();
+		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
+			tTrainCompany = (TrainCompany) aCompanies.getCorporation (tNextShareToOperate);
+			roundManager.updateActionLabel (tTrainCompany);
+			tFoundNextToOperate = true;
+		}
+
+		return tFoundNextToOperate;
+	}
+	
+	public boolean updateForCurrentlyOperating (CorporationList aCompanies) {
+		boolean tFoundCurrentOperating;
+		int tCurrentlyOperating;
+		TrainCompany tTrainCompany;
+		
+		tFoundCurrentOperating = false;
+		tCurrentlyOperating = aCompanies.getCurrentlyOperating ();
+		if (tCurrentlyOperating != CorporationList.NO_CORPORATION_INDEX) {
+			tTrainCompany = (TrainCompany) aCompanies.getCorporation (tCurrentlyOperating);
+			roundManager.updateActionLabel (tTrainCompany);
+			tFoundCurrentOperating = true;
+		}
+		
+		return tFoundCurrentOperating;
+	}
+	
 	public CorporationList getMinorCompanies () {
 		return minorCompanies;
 	}
@@ -162,28 +215,41 @@ public class OperatingRound extends Round {
 
 	@Override
 	public boolean roundIsDone () {
-		boolean tRoundDone;
+		boolean tMinorsAreDone;
+		boolean tSharesAreDone;
+		boolean tRoundIsDone;
 
-		tRoundDone = false;
-
-		// TODO: Test if all Train Companies (if any) have Operated, not just Share Companies
-		// (test Minors - 1835)
-
-		if (shareCompanies != CorporationList.NO_CORPORATION_LIST) {
-			tRoundDone = shareCompanies.haveAllCompaniesOperated ();
+		if (minorCompanies != CorporationList.NO_CORPORATION_LIST) {
+			tMinorsAreDone = minorCompanies.haveAllCompaniesOperated ();
+		} else {
+			tMinorsAreDone = true;
 		}
 
-		return tRoundDone;
+		if (shareCompanies != CorporationList.NO_CORPORATION_LIST) {
+			tSharesAreDone = shareCompanies.haveAllCompaniesOperated ();
+		} else {
+			tSharesAreDone = true;
+		}
+		
+		tRoundIsDone = tMinorsAreDone && tSharesAreDone;
+
+		return tRoundIsDone;
 	}
 
 	public boolean companyStartedOperating () {
 		int tNextShareToOperate;
 		boolean tCompanyStartedOperating;
 
-		tNextShareToOperate = getNextShareToOperate ();
+		tNextShareToOperate = getNextCompanyToOperate ();
 
 		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
-			tCompanyStartedOperating = shareCompanies.companyStartedOperating (tNextShareToOperate);
+			if (operatingType.equals (Corporation.SHARE_COMPANY)) {
+				tCompanyStartedOperating = shareCompanies.companyStartedOperating (tNextShareToOperate);
+			} else if (operatingType.equals (Corporation.MINOR_COMPANY)) {
+				tCompanyStartedOperating = minorCompanies.companyStartedOperating (tNextShareToOperate);
+			} else {
+				tCompanyStartedOperating = false;				
+			}
 		} else {
 			tCompanyStartedOperating = false;
 		}
@@ -194,61 +260,112 @@ public class OperatingRound extends Round {
 	public void prepareCorporation () {
 		int tNextShareToOperate;
 
-		tNextShareToOperate = getNextShareToOperate ();
+		tNextShareToOperate = getNextCompanyToOperate ();
 		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
-			shareCompanies.prepareCorporation (tNextShareToOperate);
+			if (operatingType.equals (Corporation.SHARE_COMPANY)) {
+				shareCompanies.prepareCorporation (tNextShareToOperate);
+			} else if (operatingType.equals (Corporation.MINOR_COMPANY)) {
+				minorCompanies.prepareCorporation (tNextShareToOperate);
+			}
 		}
 	}
 
 	public void showCurrentCompanyFrame () {
 		int tNextShareToOperate;
 
-		tNextShareToOperate = getNextShareToOperate ();
+		tNextShareToOperate = getNextCompanyToOperate ();
 		if (tNextShareToOperate != CorporationList.NO_CORPORATION_INDEX) {
-			shareCompanies.showCompanyFrame (tNextShareToOperate);
+			if (operatingType.equals (Corporation.SHARE_COMPANY)) {
+				shareCompanies.showCompanyFrame (tNextShareToOperate);
+			} else if (operatingType.equals (Corporation.MINOR_COMPANY)) {
+				minorCompanies.showCompanyFrame (tNextShareToOperate);
+			}
 		}
 	}
 
-	public int getNextShareToOperate () {
-		int tNextShareIndexToOperate;
-		ShareCompany tShareCompany;
+	public int getNextCompanyToOperate (CorporationList aTrainCompanies) {
+		TrainCompany tTrainCompany;
+		int tNextCompanyToOperate;
 		int tStartingTreasury;
-
-		// TODO: 1835 - Need to check for Minor Companies BEFORE Share Companies
-
-		tNextShareIndexToOperate = shareCompanies.getNextToOperate ();
-		if (tNextShareIndexToOperate != CorporationList.NO_CORPORATION_INDEX) {
-			tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareIndexToOperate);
-			if (!tShareCompany.hasFloated ()) {
-				if (tShareCompany.shouldFloat ()) {
-					tShareCompany.setDestinationCapitalizationLevel ();
-					tStartingTreasury = tShareCompany.calculateStartingTreasury ();
-					tShareCompany.floatCompany (tStartingTreasury);
+		
+		tNextCompanyToOperate = aTrainCompanies.getNextToOperate ();
+		if (tNextCompanyToOperate != CorporationList.NO_CORPORATION_INDEX) {
+			tTrainCompany = (TrainCompany) aTrainCompanies.getCorporation (tNextCompanyToOperate);
+			if (! tTrainCompany.hasFloated () ) {
+				if (tTrainCompany.shouldFloat ()) {
+					tTrainCompany.setDestinationCapitalizationLevel ();
+					tStartingTreasury = tTrainCompany.calculateStartingTreasury ();
+					tTrainCompany.floatCompany (tStartingTreasury);
 				} else {
-					tNextShareIndexToOperate = CorporationList.NO_CORPORATION_INDEX;
+					tNextCompanyToOperate =  CorporationList.NO_CORPORATION_INDEX;
 				}
 			}
 		}
-
-		return tNextShareIndexToOperate;
+		
+		return tNextCompanyToOperate;
 	}
-
-	public void updateCurrentCompanyFrame () {
-		int tNextShareToOperate;
-		ShareCompany tShareCompany;
-
-		// Need for every time a Company Operates, to be sure to provide capitalization
-		tNextShareToOperate = getNextShareToOperate ();
-		tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate);
-		tShareCompany.updateFrameInfo ();
+	
+	public int getNextCompanyToOperate () {
+		int tNextCompanyToOperate;
+		
+		tNextCompanyToOperate = getNextCompanyToOperate (minorCompanies);
+		if (tNextCompanyToOperate == CorporationList.NO_CORPORATION_INDEX) {
+			tNextCompanyToOperate = getNextCompanyToOperate (shareCompanies);
+			if (tNextCompanyToOperate != CorporationList.NO_CORPORATION_INDEX) {
+				setOperatingType (Corporation.SHARE_COMPANY);
+			}
+		} else {
+			setOperatingType (Corporation.MINOR_COMPANY);
+		}
+		
+		return tNextCompanyToOperate;
 	}
+	
+//	public int getNextShareToOperate () {
+//		int tNextShareIndexToOperate;
+//		ShareCompany tShareCompany;
+//		int tStartingTreasury;
+//
+//		// TODO: 1835 - Need to check for Minor Companies BEFORE Share Companies
+//
+//		tNextShareIndexToOperate = shareCompanies.getNextToOperate ();
+//		if (tNextShareIndexToOperate != CorporationList.NO_CORPORATION_INDEX) {
+//			tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareIndexToOperate);
+//			if (!tShareCompany.hasFloated ()) {
+//				if (tShareCompany.shouldFloat ()) {
+//					tShareCompany.setDestinationCapitalizationLevel ();
+//					tStartingTreasury = tShareCompany.calculateStartingTreasury ();
+//					tShareCompany.floatCompany (tStartingTreasury);
+//				} else {
+//					tNextShareIndexToOperate = CorporationList.NO_CORPORATION_INDEX;
+//				}
+//			}
+//		}
+//
+//		return tNextShareIndexToOperate;
+//	}
+
+//	public void updateCurrentCompanyFrame () {
+//		int tNextShareToOperate;
+//		ShareCompany tShareCompany;
+//
+//		// Need for every time a Company Operates, to be sure to provide capitalization
+//		tNextShareToOperate = getNextCompanyToOperate ();
+//		tShareCompany = (ShareCompany) shareCompanies.getCorporation (tNextShareToOperate);
+//		tShareCompany.updateFrameInfo ();
+//	}
 
 	public Corporation getOperatingCompany () {
 		Corporation tCorporation;
 
-		tCorporation = shareCompanies.getOperatingCompany ();
+		tCorporation = shareCompanies.getOperatingTrainCompany ();
 		if (tCorporation == Corporation.NO_CORPORATION) {
-			tCorporation = minorCompanies.getOperatingCompany ();
+			tCorporation = minorCompanies.getOperatingTrainCompany ();
+			if (tCorporation != Corporation.NO_CORPORATION) {
+				setOperatingType (Corporation.SHARE_COMPANY);
+			}
+		} else {
+			setOperatingType (Corporation.MINOR_COMPANY);
 		}
 
 		return tCorporation;
