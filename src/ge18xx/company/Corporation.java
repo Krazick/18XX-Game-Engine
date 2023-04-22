@@ -1079,8 +1079,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	private String createButtonLabel (String aActionVerb) {
 		String tLabel;
-
-		tLabel = getPresidentName () + aActionVerb + getName ();
+		String tCompanyName;
+		
+		tCompanyName = getName ();
+		tLabel = getPresidentName () + aActionVerb + tCompanyName;
 
 		return tLabel;
 	}
@@ -1276,7 +1278,15 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	@Override
 	public String getName () {
-		return name;
+		String tCompanyName;
+		
+		if (isAMinorCompany ()) {
+			tCompanyName = "Minor " + getAbbrev () + " [" + name + "]";
+		} else {
+			tCompanyName = name;
+		}
+		
+		return tCompanyName;
 	}
 	
 	/**
@@ -1849,7 +1859,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 					tStatusUpdated = true;
 				}
 			} else {
-				if ((aStatus == ActorI.ActionStates.WillFloat) ||
+				if (isAMinorCompany ()) {
+					status = aStatus;
+					tStatusUpdated = true;
+				} else if ((aStatus == ActorI.ActionStates.WillFloat) ||
 					(aStatus == ActorI.ActionStates.Closed)) {
 					status = aStatus;
 					tStatusUpdated = true;
@@ -2097,7 +2110,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		boolean tShouldOperate;
 
 		tShouldOperate = true;
-		if ((status == ActorI.ActionStates.Closed) ||
+		if (isAMinorCompany ()) {
+			if (status == ActorI.ActionStates.Owned) {
+				tShouldOperate = true;
+			}
+		} else if ((status == ActorI.ActionStates.Closed) ||
 			(status == ActorI.ActionStates.Unowned) ||
 			(status == ActorI.ActionStates.Owned) ||
 			(status == ActorI.ActionStates.Operated) ||
