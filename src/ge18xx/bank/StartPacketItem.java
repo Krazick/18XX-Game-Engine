@@ -176,7 +176,6 @@ public class StartPacketItem implements ParsingRoutineI {
 				freeCertificate.printCertificateInfo ();
 			}
 		}
-
 	}
 
 	public void setCertificate (Certificate aCertificate) {
