@@ -292,18 +292,15 @@ public class Certificate implements Comparable<Certificate> {
 		JLabel tRevenueLabel;
 		JLabel tLoanCountLabel;
 		JLabel tDiscountLabel;
-		boolean tPlayerHasBidOnThisCert;
 		boolean tPlayerHasSoldThisCompany;
 		boolean tPlayerHasMaxShares;
-		boolean tPlayerHasBoughtShare;
-		boolean tHasMustBuyCertificate;
 		boolean tPlayerAtCertLimit;
 		int tRevenue;
 		int tDiscount;
 		String tCompanyAbbrev;
 		String tBoughtShare;
 		String tRevenueInfo;
-		String tToolTip = "";
+		String tToolTip;
 		CertificateFlags tCertificateFlags;
 
 		if (aPlayer != Player.NO_PLAYER) {
@@ -311,17 +308,11 @@ public class Certificate implements Comparable<Certificate> {
 			tPlayerHasSoldThisCompany = aPlayer.hasSoldCompany (tCompanyAbbrev);
 			tPlayerHasMaxShares = aPlayer.hasMaxShares (tCompanyAbbrev);
 			tPlayerAtCertLimit = aPlayer.atCertLimit ();
-			tPlayerHasBoughtShare = aPlayer.hasBoughtShare ();
-			tPlayerHasBidOnThisCert = hasBidOnThisCert (aPlayer);
-			tHasMustBuyCertificate = aPlayer.hasMustBuyCertificate ();
 		} else {
 			tCompanyAbbrev = "NONE";
 			tPlayerHasSoldThisCompany = false;
 			tPlayerHasMaxShares = false;
 			tPlayerAtCertLimit = false;
-			tPlayerHasBoughtShare = false;
-			tPlayerHasBidOnThisCert = false;
-			tHasMustBuyCertificate = false;
 		}
 		
 		tCertificateFlags = new CertificateFlags (this, aPlayer);
@@ -349,20 +340,19 @@ public class Certificate implements Comparable<Certificate> {
 		tCertificateFlags.setPlayerHasEnoughToCashToBid (addBidderLabels (tCertificateInfoJPanel, 
 								tCertificateFlags.getPlayerCash ()));
 
+		tToolTip = GUI.EMPTY_STRING;
 		if (aCheckBoxLabel.equals (Player.SELL_LABEL)) {
 			updateSellCheckBox (aCheckBoxLabel, aItemListener, aGameManager, tCertificateInfoJPanel);
 		} else if (aCheckBoxLabel.equals (Player.BUY_LABEL) || aCheckBoxLabel.equals (Player.BUY_AT_PAR_LABEL)) {
 			if (canBeBought ()) {
-				tToolTip = "";
-
 				tCertificateFlags.setEnabled (false);			
 				if (! tCertificateFlags.playerHasEnoughCash ()) {
 					tToolTip = NOT_ENOUGH_CASH;
-				} else if (tPlayerHasBoughtShare) {
+				} else if (tCertificateFlags.playerHasBoughtShare ()) {
 					tBoughtShare = aPlayer.boughtShare ();
 					if (canBuyMultiple ()) {
 						if (tBoughtShare.equals (tCompanyAbbrev)) {
-							tPlayerHasBoughtShare = false;
+							tCertificateFlags.setPlayerHasBoughtShare (false);
 							tCertificateFlags.setEnabled (true);
 						} else {
 							tToolTip = ALREADY_BOUGHT;
@@ -370,7 +360,7 @@ public class Certificate implements Comparable<Certificate> {
 					} else {
 						tToolTip = ALREADY_BOUGHT;
 					}
-				} else if (tPlayerHasBidOnThisCert) {
+				} else if (tCertificateFlags.playerHasBidOnThisCert ()) {
 					tToolTip = ALREADY_BID_ON_CERT;
 				} else if (tPlayerHasSoldThisCompany) {
 					tToolTip = ALREADY_SOLD;
@@ -397,23 +387,7 @@ public class Certificate implements Comparable<Certificate> {
 				tCertificateInfoJPanel.add (tDiscountLabel);
 			}
 		} else if (aCheckBoxLabel.equals (Player.BID_LABEL)) {
-			if (canBeBidUpon ()) {
-				tCertificateFlags.setEnabled (false);			
-				if (tPlayerHasBoughtShare) {
-					tToolTip = ALREADY_BOUGHT;
-				} else if (tPlayerHasBidOnThisCert) {
-					tToolTip = ALREADY_BID_ON_CERT;
-				} else if (! tCertificateFlags.playerHasEnoughCashToBid ()) {
-					tToolTip = NOT_ENOUGH_CASH_TO_BID;
-				} else if (tHasMustBuyCertificate) {
-					tToolTip = HAVE_MUST_BUY;
-				} else {
-					tCertificateFlags.setEnabled (true);
-				}
-				checkBox = setupCheckedButton (aCheckBoxLabel, tCertificateFlags.enabled (), tToolTip, aItemListener);
-				setFrameButton (checkBox, getCompanyAbbrev () + " Share");
-				tCertificateInfoJPanel.add (checkBox);
-			}
+			updateBidLabel (aCheckBoxLabel, aItemListener, tCertificateInfoJPanel, tCertificateFlags);
 		} else if (aCheckBoxLabel.equals ("")) {
 
 		} else {
@@ -421,6 +395,30 @@ public class Certificate implements Comparable<Certificate> {
 		}
 
 		return tCertificateInfoJPanel;
+	}
+
+	public void updateBidLabel (String aCheckBoxLabel, ItemListener aItemListener, JPanel aCertificateInfoJPanel,
+								CertificateFlags aCertificateFlags) {
+		String tToolTip;
+		
+		if (canBeBidUpon ()) {
+			tToolTip = GUI.EMPTY_STRING;
+			aCertificateFlags.setEnabled (false);			
+			if (aCertificateFlags.playerHasBoughtShare ()) {
+				tToolTip = ALREADY_BOUGHT;
+			} else if (aCertificateFlags.playerHasBidOnThisCert ()) {
+				tToolTip = ALREADY_BID_ON_CERT;
+			} else if (! aCertificateFlags.playerHasEnoughCashToBid ()) {
+				tToolTip = NOT_ENOUGH_CASH_TO_BID;
+			} else if (aCertificateFlags.playerHasMustBuyCertificate ()) {
+				tToolTip = HAVE_MUST_BUY;
+			} else {
+				aCertificateFlags.setEnabled (true);
+			}
+			checkBox = setupCheckedButton (aCheckBoxLabel, aCertificateFlags.enabled (), tToolTip, aItemListener);
+			setFrameButton (checkBox, getCompanyAbbrev () + " Share");
+			aCertificateInfoJPanel.add (checkBox);
+		}
 	}
 
 	private void updateSellCheckBox (String aCheckBoxLabel, ItemListener aItemListener, GameManager aGameManager,
