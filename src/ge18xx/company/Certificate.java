@@ -253,23 +253,58 @@ public class Certificate implements Comparable<Certificate> {
 		return tBankPoolAtLimit;
 	}
 
+	public void handlePrice (String aCheckBoxLabel, ItemListener aItemListener, boolean aIsBankHolder, 
+							JPanel aCertificateInfoJPanel, CertificateFlags aCertificateFlags) {
+		JLabel tLabel;
+		int tPrice;
+		boolean tPlayerHasEnoughCash;
+		Integer [] tParValues;
+
+		if (aCheckBoxLabel.equals (GUI.EMPTY_STRING)) {
+			tPrice = getValue ();
+		} else {
+			if (aIsBankHolder && aCheckBoxLabel.equals (Player.BUY_AT_PAR_LABEL)) {
+				if (hasParPrice ()) {
+					tPrice = getParPrice ();
+					aCertificateFlags.enoughPlayerCash (tPrice);
+				} else {
+					tParValues = buildParValuesCombo (aItemListener, aCertificateInfoJPanel);
+					// Update the Par Value Combo Box, and confirm or deny the Player has enough
+					// Cash to buy Cheapest.
+					tPlayerHasEnoughCash = updateParValuesComboBox (parValuesCombo, tParValues, aCertificateFlags.getPlayerCash ());
+					aCertificateFlags.setPlayerHasEnoughCash (tPlayerHasEnoughCash);
+					tPrice = 0;
+				}
+			} else {
+				tPrice = getValue ();
+				aCertificateFlags.enoughPlayerCash (tPrice);
+			}
+		}
+		if (tPrice != 0) {
+			tLabel = new JLabel ("Price: " + Bank.formatCash (tPrice));
+			aCertificateInfoJPanel.add (tLabel);
+		}
+	}
+	
 	public JPanel buildCertificateInfoJPanel (String aCheckBoxLabel, ItemListener aItemListener, boolean aIsBankHolder,
 											Player aPlayer, GameManager aGameManager) {
 		JPanel tCertificateInfoJPanel;
-		JLabel tLabel;
-		JLabel tLastRevenueLabel;
+		JLabel tRevenueLabel;
 		JLabel tLoanCountLabel;
 		JLabel tDiscountLabel;
-		String tRevenueInfo;
-		String tToolTip = "";
-		int tRevenue, tPrice, tPlayerCash, tDiscount;
-		boolean tEnabled = false;
-		boolean tPlayerHasEnoughCash, tPlayerHasBidOnThisCert, tPlayerHasEnoughCashToBid;
-		boolean tPlayerHasSoldThisCompany, tPlayerHasMaxShares, tPlayerHasBoughtShare;
-		boolean tHasMustBuyCertificate, tPlayerAtCertLimit;
+		boolean tPlayerHasBidOnThisCert;
+		boolean tPlayerHasSoldThisCompany;
+		boolean tPlayerHasMaxShares;
+		boolean tPlayerHasBoughtShare;
+		boolean tHasMustBuyCertificate;
+		boolean tPlayerAtCertLimit;
+		int tRevenue;
+		int tDiscount;
 		String tCompanyAbbrev;
 		String tBoughtShare;
-		Integer [] tParValues;
+		String tRevenueInfo;
+		String tToolTip = "";
+		CertificateFlags tCertificateFlags;
 
 		if (aPlayer != Player.NO_PLAYER) {
 			tCompanyAbbrev = getCompanyAbbrev ();
@@ -278,7 +313,6 @@ public class Certificate implements Comparable<Certificate> {
 			tPlayerAtCertLimit = aPlayer.atCertLimit ();
 			tPlayerHasBoughtShare = aPlayer.hasBoughtShare ();
 			tPlayerHasBidOnThisCert = hasBidOnThisCert (aPlayer);
-			tPlayerCash = aPlayer.getCash ();
 			tHasMustBuyCertificate = aPlayer.hasMustBuyCertificate ();
 		} else {
 			tCompanyAbbrev = "NONE";
@@ -287,44 +321,24 @@ public class Certificate implements Comparable<Certificate> {
 			tPlayerAtCertLimit = false;
 			tPlayerHasBoughtShare = false;
 			tPlayerHasBidOnThisCert = false;
-			tPlayerCash = 0;
 			tHasMustBuyCertificate = false;
 		}
-
+		
+		tCertificateFlags = new CertificateFlags (this, aPlayer);
 		tCertificateInfoJPanel = buildBasicCertInfoJPanel ();
-
-		tPlayerHasEnoughCash = true;
-		tPlayerHasEnoughCashToBid = true;
-		if (aIsBankHolder && aCheckBoxLabel.equals (Player.BUY_AT_PAR_LABEL)) {
-			if (hasParPrice ()) {
-				tPrice = getParPrice ();
-				tPlayerHasEnoughCash = (tPrice > tPlayerCash);
-			} else {
-				tParValues = buildParValuesCombo (aItemListener, tCertificateInfoJPanel);
-				// Update the Par Value Combo Box, and confirm or deny the Player has enough
-				// Cash to buy Cheapest.
-				tPlayerHasEnoughCash = updateParValuesComboBox (parValuesCombo, tParValues, tPlayerCash);
-				tPrice = 0;
-			}
-		} else {
-			tPrice = getValue ();
-			tPlayerHasEnoughCash = (tPrice > tPlayerCash);
-		}
-		if (tPrice != 0) {
-			tLabel = new JLabel ("Price: " + Bank.formatCash (tPrice));
-			tCertificateInfoJPanel.add (tLabel);
-		}
+		handlePrice (aCheckBoxLabel, aItemListener, aIsBankHolder, tCertificateInfoJPanel, tCertificateFlags);
+	
 		if (isAPrivateCompany ()) {
 			tRevenue = getRevenue ();
 			if (tRevenue != Revenue.NO_REVENUE_VALUE) {
 				tRevenueInfo = "Revenue: " + Bank.formatCash (tRevenue);
-				tLabel = new JLabel (tRevenueInfo);
-				tCertificateInfoJPanel.add (tLabel);
+				tRevenueLabel = new JLabel (tRevenueInfo);
+				tCertificateInfoJPanel.add (tRevenueLabel);
 			}
 		} else {
 			if (corporation.canOperate ()) {
-				tLastRevenueLabel = new JLabel ("Revenue: " + corporation.getFormattedThisRevenue ());
-				tCertificateInfoJPanel.add (tLastRevenueLabel);
+				tRevenueLabel = new JLabel ("Revenue: " + corporation.getFormattedThisRevenue ());
+				tCertificateInfoJPanel.add (tRevenueLabel);
 			}
 			if (corporation.gameHasLoans ()) {
 				tLoanCountLabel = new JLabel ("Loans: " + corporation.getLoanCount ());
@@ -332,23 +346,24 @@ public class Certificate implements Comparable<Certificate> {
 			}
 		}
 
-		tPlayerHasEnoughCashToBid = addBidderLabels (tCertificateInfoJPanel, tPlayerCash);
+		tCertificateFlags.setPlayerHasEnoughToCashToBid (addBidderLabels (tCertificateInfoJPanel, 
+								tCertificateFlags.getPlayerCash ()));
 
 		if (aCheckBoxLabel.equals (Player.SELL_LABEL)) {
 			updateSellCheckBox (aCheckBoxLabel, aItemListener, aGameManager, tCertificateInfoJPanel);
 		} else if (aCheckBoxLabel.equals (Player.BUY_LABEL) || aCheckBoxLabel.equals (Player.BUY_AT_PAR_LABEL)) {
 			if (canBeBought ()) {
 				tToolTip = "";
-				tEnabled = false;
 
-				if (tPlayerHasEnoughCash) {
+				tCertificateFlags.setEnabled (false);			
+				if (! tCertificateFlags.playerHasEnoughCash ()) {
 					tToolTip = NOT_ENOUGH_CASH;
 				} else if (tPlayerHasBoughtShare) {
 					tBoughtShare = aPlayer.boughtShare ();
 					if (canBuyMultiple ()) {
 						if (tBoughtShare.equals (tCompanyAbbrev)) {
 							tPlayerHasBoughtShare = false;
-							tEnabled = true;
+							tCertificateFlags.setEnabled (true);
 						} else {
 							tToolTip = ALREADY_BOUGHT;
 						}
@@ -364,13 +379,13 @@ public class Certificate implements Comparable<Certificate> {
 				} else if (tPlayerAtCertLimit) {
 					tToolTip = AT_CERT_LIMIT;
 				} else {
-					tEnabled = true;
+					tCertificateFlags.setEnabled (true);
 				}
 				if (checkBox == GUI.NO_CHECK_BOX) {
-					checkBox = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);
+					checkBox = setupCheckedButton (aCheckBoxLabel, tCertificateFlags.enabled (), tToolTip, aItemListener);
 					setFrameButton (checkBox, getCompanyAbbrev () + " Share");
 				} else {
-					updateCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);
+					updateCheckedButton (aCheckBoxLabel, tCertificateFlags.enabled (), tToolTip, aItemListener);
 				}
 				tCertificateInfoJPanel.add (checkBox);
 			} else {
@@ -383,25 +398,24 @@ public class Certificate implements Comparable<Certificate> {
 			}
 		} else if (aCheckBoxLabel.equals (Player.BID_LABEL)) {
 			if (canBeBidUpon ()) {
+				tCertificateFlags.setEnabled (false);			
 				if (tPlayerHasBoughtShare) {
 					tToolTip = ALREADY_BOUGHT;
 				} else if (tPlayerHasBidOnThisCert) {
 					tToolTip = ALREADY_BID_ON_CERT;
-				} else if (tPlayerHasEnoughCashToBid) {
+				} else if (! tCertificateFlags.playerHasEnoughCashToBid ()) {
 					tToolTip = NOT_ENOUGH_CASH_TO_BID;
-				} else if (tPlayerHasEnoughCash) {
-					tToolTip = NOT_ENOUGH_CASH;
 				} else if (tHasMustBuyCertificate) {
 					tToolTip = HAVE_MUST_BUY;
 				} else {
-					tEnabled = true;
+					tCertificateFlags.setEnabled (true);
 				}
-				checkBox = setupCheckedButton (aCheckBoxLabel, tEnabled, tToolTip, aItemListener);
+				checkBox = setupCheckedButton (aCheckBoxLabel, tCertificateFlags.enabled (), tToolTip, aItemListener);
 				setFrameButton (checkBox, getCompanyAbbrev () + " Share");
 				tCertificateInfoJPanel.add (checkBox);
 			}
 		} else if (aCheckBoxLabel.equals ("")) {
-//			System.err.println ("CHECKBOX Label equal EMPTY String");
+
 		} else {
 			System.err.println ("No label that matches [" + aCheckBoxLabel + "]");
 		}
@@ -430,13 +444,6 @@ public class Certificate implements Comparable<Certificate> {
 					tNoSaleToolTip = "Can Sell Stock";
 				}
 				checkBox = setupCheckedButton (aCheckBoxLabel, tCanBeSold, tNoSaleToolTip, aItemListener);
-
-//				if (canBeSold (aGameManager)) {
-//					checkBox = setupCheckedButton (aCheckBoxLabel, true, GUI.NO_TOOL_TIP, aItemListener);
-//				} else {
-//					checkBox = setupCheckedButton (aCheckBoxLabel, false, getReasonForNoSale (aGameManager),
-//							aItemListener);
-//				}
 			}
 			setFrameButton (checkBox, tGroupName);
 			aCertificateInfoJPanel.add (checkBox);
@@ -589,13 +596,16 @@ public class Certificate implements Comparable<Certificate> {
 
 	private boolean addBidderLabels (JPanel aCertificateInfoPanel, int aPlayerCash) {
 		JLabel tLabel;
-		boolean tPlayerHasEnoughCashToBid = false;
+		boolean tPlayerHasEnoughCashToBid;
 		String tBidderInfo;
 		Player tBidder;
 		int tAmount;
-		int tHighestBid = 0;
-		int tBidderCount = getNumberOfBidders ();
+		int tHighestBid;
+		int tBidderCount;
+		int tValue;
 
+		tHighestBid = 0;
+		tBidderCount = getNumberOfBidders ();
 		if (tBidderCount > 0) {
 			for (int tBidderIndex = 0; tBidderIndex < tBidderCount; tBidderIndex++) {
 				tBidder = (Player) getCashHolderAt (tBidderIndex);
@@ -607,7 +617,10 @@ public class Certificate implements Comparable<Certificate> {
 				tLabel = new JLabel (tBidderInfo);
 				aCertificateInfoPanel.add (tLabel);
 			}
-			tPlayerHasEnoughCashToBid = ((tHighestBid + PlayerManager.BID_INCREMENT) > aPlayerCash);
+			tPlayerHasEnoughCashToBid = (aPlayerCash >= (tHighestBid + PlayerManager.BID_INCREMENT));
+		} else {
+			tValue = getValue ();
+			tPlayerHasEnoughCashToBid = (aPlayerCash >= (tValue + PlayerManager.BID_INCREMENT));
 		}
 
 		return tPlayerHasEnoughCashToBid;
@@ -1656,11 +1669,15 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public boolean updateParValuesComboBox (JComboBox<String> aParValuesCombo, Integer [] aParValues, int aPlayerCash) {
-		int tIndex, tSize, tParValue, tMinSharePrice, tMinPrice;
-		boolean tNotEnoughForCheapest;
+		int tIndex;
+		int tSize;
+		int tParValue;
+		int tMinSharePrice;
+		int tMinPrice;
+		boolean tEnoughForCheapest;
 
 		tMinPrice = 1000;
-		tNotEnoughForCheapest = false;
+		tEnoughForCheapest = false;
 		fillParValueComboBox (aParValuesCombo, aParValues);
 		if (aParValues != null) {
 			tSize = aParValues.length;
@@ -1671,12 +1688,12 @@ public class Certificate implements Comparable<Certificate> {
 				}
 			}
 			tMinSharePrice = calcCertificateValue (tMinPrice);
-			if (tMinSharePrice > aPlayerCash) {
-				tNotEnoughForCheapest = true;
+			if (tMinSharePrice <= aPlayerCash) {
+				tEnoughForCheapest = true;
 			}
 		}
 
-		return tNotEnoughForCheapest;
+		return tEnoughForCheapest;
 	}
 
 	public void fillParValueComboBox (JComboBox<String> aParValuesCombo, Integer [] aParValues) {
