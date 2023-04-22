@@ -362,10 +362,10 @@ public class OperatingRound extends Round {
 		if (tCorporation == Corporation.NO_CORPORATION) {
 			tCorporation = minorCompanies.getOperatingTrainCompany ();
 			if (tCorporation != Corporation.NO_CORPORATION) {
-				setOperatingType (Corporation.SHARE_COMPANY);
+				setOperatingType (Corporation.MINOR_COMPANY);
 			}
 		} else {
-			setOperatingType (Corporation.MINOR_COMPANY);
+			setOperatingType (Corporation.SHARE_COMPANY);
 		}
 
 		return tCorporation;
