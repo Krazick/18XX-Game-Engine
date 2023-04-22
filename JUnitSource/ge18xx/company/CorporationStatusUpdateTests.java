@@ -79,7 +79,7 @@ class CorporationStatusUpdateTests {
 
 		deltaMinorCompany.forceSetStatus (ActorI.ActionStates.Owned);
 		deltaMinorCompany.setStatus (ActorI.ActionStates.NotOperated);
-		assertNotEquals ("Not Operated", deltaMinorCompany.getStatusName ());
+		assertEquals ("Not Operated", deltaMinorCompany.getStatusName ());
 	}
 
 	@Test
