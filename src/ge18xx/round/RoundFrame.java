@@ -247,31 +247,33 @@ public class RoundFrame extends XMLFrame {
 		FastBuyButton tFastBuyButton;
 
 		tGameManager = roundManager.getGameManager ();
-		fastBuyJPanel.removeAll ();
-		tCurrentPlayer = tGameManager.getCurrentPlayer ();
-		tHasMoreFastBuys = true;
-		tFastBuyIndex = 0;
-		while (tHasMoreFastBuys) {
-			tFastBuyCertificate = tCurrentPlayer.getNextFastBuyCertificate (tFastBuyIndex);
-			if (tFastBuyCertificate != Certificate.NO_CERTIFICATE) {
-				tPlayerName = tCurrentPlayer.getName ();
-				if (tGameManager.isNetworkAndIsThisClient (tPlayerName)) {
-					tButtonLabel = tPlayerName + " Fast Buy of " + tFastBuyCertificate.getCompanyAbbrev () + " for " +
-								Bank.formatCash (tFastBuyCertificate.getParPrice ());
-					tFastBuyButton = new FastBuyButton (tButtonLabel, tFastBuyCertificate);
-					setupButton (BUY_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT, tFastBuyButton);
-					addButtonAndSpace (fastBuyJPanel, tFastBuyButton);
-					if (tCurrentPlayer.hasBoughtShare ()) {
-						tFastBuyButton.setEnabled (false);
-						tFastBuyButton.setToolTipText ("Already Bought a Share of Stock");
-					} else {
-						tFastBuyButton.setEnabled (true);
-						tFastBuyButton.setToolTipText ("Buy another Share of your Company Stock");
+		if (tGameManager.isStartPacketPortfolioEmpty ()) {
+			fastBuyJPanel.removeAll ();
+			tCurrentPlayer = tGameManager.getCurrentPlayer ();
+			tHasMoreFastBuys = true;
+			tFastBuyIndex = 0;
+			while (tHasMoreFastBuys) {
+				tFastBuyCertificate = tCurrentPlayer.getNextFastBuyCertificate (tFastBuyIndex);
+				if (tFastBuyCertificate != Certificate.NO_CERTIFICATE) {
+					tPlayerName = tCurrentPlayer.getName ();
+					if (tGameManager.isNetworkAndIsThisClient (tPlayerName)) {
+						tButtonLabel = tPlayerName + " Fast Buy of " + tFastBuyCertificate.getCompanyAbbrev () + 
+								" for " + Bank.formatCash (tFastBuyCertificate.getParPrice ());
+						tFastBuyButton = new FastBuyButton (tButtonLabel, tFastBuyCertificate);
+						setupButton (BUY_STOCK_ACTION, roundManager, Component.CENTER_ALIGNMENT, tFastBuyButton);
+						addButtonAndSpace (fastBuyJPanel, tFastBuyButton);
+						if (tCurrentPlayer.hasBoughtShare ()) {
+							tFastBuyButton.setEnabled (false);
+							tFastBuyButton.setToolTipText ("Already Bought a Share of Stock");
+						} else {
+							tFastBuyButton.setEnabled (true);
+							tFastBuyButton.setToolTipText ("Buy another Share of your Company Stock");
+						}
 					}
+					tFastBuyIndex++;
+				} else {
+					tHasMoreFastBuys = false;
 				}
-				tFastBuyIndex++;
-			} else {
-				tHasMoreFastBuys = false;
 			}
 		}
 	}
