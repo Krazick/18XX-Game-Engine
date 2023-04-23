@@ -2111,8 +2111,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 		tShouldOperate = true;
 		if (isAMinorCompany ()) {
-			if (status == ActorI.ActionStates.Owned) {
-				tShouldOperate = true;
+			if ((status == ActorI.ActionStates.Closed) ||
+				(status == ActorI.ActionStates.Unowned) ||
+				(status == ActorI.ActionStates.Operated) ||
+				(status == ActorI.ActionStates.Unformed)) {
+				tShouldOperate = false;
 			}
 		} else if ((status == ActorI.ActionStates.Closed) ||
 			(status == ActorI.ActionStates.Unowned) ||
