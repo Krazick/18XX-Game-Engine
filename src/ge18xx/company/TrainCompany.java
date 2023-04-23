@@ -429,11 +429,13 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 					tCorpLabel += "*";
 				}
 			}
-			tCorpLabel += "<br>[" + getBankPoolPercentage () + "%&nbsp; in Bank Pool]";
+			if (! isAMinorCompany ()) {
+				tCorpLabel += "<br>[" + getBankPoolPercentage () + "%&nbsp; in Bank Pool]";
+			}
 			tCorpLabel += "<br>[" + getStatusName () + "]";
 			tCorpLabel += "<br>Prez: " + getPresidentName ();
 			tCorpLabel += "<br>Treasury: " + Bank.formatCash (getCash ());
-			if (canOperate ()) {
+			if (canOperate () || didOperate ()) {
 				tCorpLabel += "<br>" + trainPortfolio.getTrainList ();
 				tThisRevenue = getFormattedThisRevenue ();
 				tCorpLabel += "<br>This Revenue: " + tThisRevenue;
@@ -868,7 +870,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tCanOperate = false;
 		} else {
 			if (isAMinorCompany () && isPlayerOwned ()) {
-				if ((status == ActorI.ActionStates.Owned) ||
+				if (isOperating ()) {
+					tCanOperate = true;
+				} else if ((status == ActorI.ActionStates.Owned) ||
+					(status == ActorI.ActionStates.Operated) ||
 					(status == ActorI.ActionStates.NotOperated)) {
 					tCanOperate = true;
 				} else {
