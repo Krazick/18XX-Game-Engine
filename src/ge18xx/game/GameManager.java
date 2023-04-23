@@ -2107,6 +2107,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		return tNewPoint;
 	}
+	
+	public boolean isStartPacketPortfolioEmpty () {
+		return bank.isStartPacketPortfolioEmpty ();
+	}
 
 	public Point getOffsetPlayerFrame () {
 		Point tNewPoint;
