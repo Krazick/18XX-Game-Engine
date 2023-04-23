@@ -73,28 +73,33 @@ public class OperatingRound extends Round {
 	public void updateActionLabel () {
 		boolean tFoundCurrentlyOperating;
 		boolean tFoundNextToOperate;
+		boolean tHaveFoundOperating;
 
 		setOperatingType (GUI.NULL_STRING);
+		tHaveFoundOperating = false;
 		// Find the Currently Operating Minor Company
 		tFoundCurrentlyOperating = updateForCurrentlyOperating (minorCompanies);
 		if (!tFoundCurrentlyOperating) {
-			// If no Minor is Operating, find Currently Operating Share Company
+			tFoundNextToOperate = updateForNextToOperate (minorCompanies);
+			if (tFoundNextToOperate) {
+				setOperatingType (Corporation.MINOR_COMPANY);
+				tHaveFoundOperating = true;
+			}
+		} else {
+			tHaveFoundOperating = true;
+		}
+		
+		// If no Minor is Operating, find Currently Operating Share Company
+		
+		if (! tHaveFoundOperating) {
 			tFoundCurrentlyOperating = updateForCurrentlyOperating (shareCompanies);
 			if (tFoundCurrentlyOperating) {
 				setOperatingType (Corporation.SHARE_COMPANY);
-			}
-		} else {
-			setOperatingType (Corporation.MINOR_COMPANY);
-		}
-		if (! tFoundCurrentlyOperating) {
-			tFoundNextToOperate = updateForNextToOperate (minorCompanies);
-			if (!tFoundNextToOperate) {
+			} else {
 				tFoundNextToOperate = updateForNextToOperate (shareCompanies);
 				if (tFoundNextToOperate) {
 					setOperatingType (Corporation.SHARE_COMPANY);
 				}
-			} else {
-				setOperatingType (Corporation.MINOR_COMPANY);
 			}
 		}
 	}
