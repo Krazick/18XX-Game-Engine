@@ -80,8 +80,9 @@ public class CashTransferEffect extends ToEffect {
 	}
 
 	public int getEffectDebit (String aActorName) {
-		int tDebit = AuditFrame.NO_DEBIT;
+		int tDebit;
 
+		tDebit = AuditFrame.NO_DEBIT;
 		if (isActor (aActorName)) {
 			tDebit = cash;
 		}
@@ -90,8 +91,9 @@ public class CashTransferEffect extends ToEffect {
 	}
 
 	public int getEffectCredit (String aActorName) {
-		int tCredit = AuditFrame.NO_CREDIT;
+		int tCredit;
 
+		tCredit = AuditFrame.NO_CREDIT;
 		if (isToActor (aActorName)) {
 			tCredit = cash;
 		}
