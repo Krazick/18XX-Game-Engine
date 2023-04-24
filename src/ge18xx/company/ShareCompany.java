@@ -768,6 +768,7 @@ public class ShareCompany extends TokenCompany {
 		return (status == ActorI.ActionStates.WillFloat);
 	}
 
+	@Override
 	public boolean hasFloated () {
 		boolean tHasFloated;
 
@@ -916,6 +917,7 @@ public class ShareCompany extends TokenCompany {
 		return destinationInfo.getCapitalizationLevel ();
 	}
 	
+	@Override
 	public void setDestinationCapitalizationLevel () {
 		int tCapitalizationLevel;
 		
