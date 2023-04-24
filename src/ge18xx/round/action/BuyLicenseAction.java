@@ -5,7 +5,9 @@ import ge18xx.company.License;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.AddLicenseEffect;
+import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLNode;
 
 public class BuyLicenseAction extends TransferOwnershipAction {
@@ -35,8 +37,8 @@ public class BuyLicenseAction extends TransferOwnershipAction {
 
 		tFromActorName = ActorI.NO_NAME;
 		for (Effect tEffect : effects) {
-			if (tEffect instanceof AddLicenseEffect) {
-				tFromActorName = ((AddLicenseEffect) tEffect).getActorName ();
+			if (tEffect instanceof CashTransferEffect) {
+				tFromActorName = ((CashTransferEffect) tEffect).getActorName ();
 			}
 		}
 
@@ -48,12 +50,13 @@ public class BuyLicenseAction extends TransferOwnershipAction {
 	}
 
 	public String getLicenseName () {
-		String tLicenseName = "";
+		String tLicenseName;
 		AddLicenseEffect tAddLicenseEffect;
 		License tLicense;
 
+		tLicenseName = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
-			if (tLicenseName.equals ("")) {
+			if (tLicenseName.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof AddLicenseEffect) {
 					tAddLicenseEffect = (AddLicenseEffect) tEffect;
 					tLicense = tAddLicenseEffect.getLicense ();
@@ -67,14 +70,14 @@ public class BuyLicenseAction extends TransferOwnershipAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 		String tFromActorName;
 		String tToActorName;
 		String tLicenseName;
 		int tTotalPrice;
 		
-		tFromActorName = getFromActorName ();
-		tToActorName = getToActorName ();
+		tToActorName = getFromActorName (); // This Actor is Buying the License
+		tFromActorName = getToActorName (); // Buying the License FROM this ACtor
 		tTotalPrice = getCashAmount ();
 		tLicenseName = getLicenseName ();
 		tSimpleActionReport = tToActorName + " bought a " + tLicenseName + " from " + tFromActorName + " for " +
