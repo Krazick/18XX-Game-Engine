@@ -12,10 +12,10 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class AddLicenseEffect extends CashTransferEffect {
+public class AddLicenseEffect extends ToEffect {
 	public final static String SHORT_NAME = "Add ";
 	public final static String NAME = SHORT_NAME + "License";
-	final static AttributeName AN_CASH = new AttributeName ("License");
+	final static AttributeName AN_LICENSE = new AttributeName ("License");
 	License license;
 	
 	public AddLicenseEffect () {
@@ -24,12 +24,11 @@ public class AddLicenseEffect extends CashTransferEffect {
 
 	public AddLicenseEffect (String aName) {
 		super (aName);
-		setCash (NO_CASH);
 		setToActor (ActorI.NO_ACTOR);
 	}
 
-	public AddLicenseEffect (ActorI aFromActor, ActorI aToActor, int aCashAmount, License aLicense) {
-		super (aFromActor, aToActor, aCashAmount);
+	public AddLicenseEffect (ActorI aFromActor, ActorI aToActor, License aLicense) {
+		super (NAME, aFromActor, aToActor);
 		setLicense (aLicense);
 		setName (NAME);
 	}
@@ -93,7 +92,7 @@ public class AddLicenseEffect extends CashTransferEffect {
 		
 		return (tReport);
 	}
-
+	
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
