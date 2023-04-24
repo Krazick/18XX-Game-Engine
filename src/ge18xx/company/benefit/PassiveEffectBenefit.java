@@ -36,7 +36,7 @@ public class PassiveEffectBenefit extends Benefit {
 		
 		aOwningCompany.addLicense (aLicense);
 		tBank = aOwningCompany.getBank ();
-		tAddLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
+		tAddLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, aLicense);
 		addAdditionalEffect (tAddLicenseEffect);
 	}
 }

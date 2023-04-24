@@ -221,7 +221,7 @@ public class LicenseBenefit extends Benefit {
 
 		aOwningCompany.addLicense (aLicense);
 		tBank = aOwningCompany.getBank ();
-		tAddLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, 0, aLicense);
+		tAddLicenseEffect = new AddLicenseEffect (tBank, aOwningCompany, aLicense);
 		addAdditionalEffect (tAddLicenseEffect);
 	}
 
@@ -229,7 +229,7 @@ public class LicenseBenefit extends Benefit {
 		AddLicenseEffect tAddLicenseEffect;
 
 		aBuyingCompany.addLicense (aLicense);
-		tAddLicenseEffect = new AddLicenseEffect (aOwningCompany, aBuyingCompany, licenseCost, aLicense);
+		tAddLicenseEffect = new AddLicenseEffect (aOwningCompany, aBuyingCompany, aLicense);
 		addAdditionalEffect (tAddLicenseEffect);
 	}
 
