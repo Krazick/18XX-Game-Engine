@@ -620,10 +620,15 @@ public class ActionManager {
 	}
 
 	public void fillAuditFrame (AuditFrame aAuditFrame, String aActorName) {
-		int tTotalActionCount, tActionIndex;
 		Action tAction;
-		String tActionEventDescription, tActionName;
-		int tDebit, tCredit, tActionNumber, tFoundActionCount;
+		int tTotalActionCount;
+		int tActionIndex;
+		int tDebit;
+		int tCredit;
+		int tActionNumber;
+		int tFoundActionCount;
+		String tActionEventDescription;
+		String tActionName;
 		String tRoundID;
 
 		if (aActorName != ActorI.NO_NAME) {
@@ -640,7 +645,6 @@ public class ActionManager {
 							handleAuctionReporting (aAuditFrame, aActorName, tAction, tActionName, tActionNumber);
 						} else if (tAction.effectsForActorAreCash (aActorName)) {
 							tFoundActionCount++;
-
 							tActionEventDescription = tActionName + ": " + tAction.getSimpleActionReport ();
 							tDebit = tAction.getEffectDebit (aActorName);
 							tCredit = tAction.getEffectCredit (aActorName);
