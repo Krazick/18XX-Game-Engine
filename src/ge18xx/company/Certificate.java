@@ -410,17 +410,17 @@ public class Certificate implements Comparable<Certificate> {
 		return tHasBenefitWithFreeCert;
 	}
 	
-	public String getFreeCertInfo () {
-		String tFreeCertInfo;
+	public JLabel getFreeCertLabel () {
+		JLabel tFreeCertLabel;
 		PrivateCompany tPrivateCompany;
 
-		tFreeCertInfo = GUI.EMPTY_STRING;
+		tFreeCertLabel = GUI.NO_LABEL;
 		if (isAPrivateCompany ()) {
 			tPrivateCompany = (PrivateCompany) getCorporation ();
-			tFreeCertInfo = tPrivateCompany.getFreeCertInfo ();
+			tFreeCertLabel = tPrivateCompany.getFreeCertLabel ();
 		}
 		
-		return tFreeCertInfo;
+		return tFreeCertLabel;
 	}
 	
 	public void updateBidLabel (String aCheckBoxLabel, ItemListener aItemListener, JPanel aCertificateInfoJPanel,
@@ -542,6 +542,9 @@ public class Certificate implements Comparable<Certificate> {
 		tCertificateInfoJPanel.setBorder (tCertInfoBorder2);
 
 		tCertInfo = getCompanyAbbrev () + " (" + getPercentage () + "%)";
+		if (corporation.isAMinorCompany ()) {
+			tCertInfo = "Minor " + tCertInfo;
+		}
 		tLabel = new JLabel (tCertInfo);
 		tNote = corporation.getNote ();
 		tLabel.setToolTipText (tNote);
