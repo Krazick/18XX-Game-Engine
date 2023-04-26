@@ -5,9 +5,12 @@ import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import org.w3c.dom.NodeList;
 
@@ -337,26 +340,39 @@ public class Benefits {
 		return tHasFreeCertBenefit;
 	}
 	
-	public String getFreeCertInfo () {
-		String tFreeCertInfo;
+	public JLabel getFreeCertLabel () {
+		JLabel tFreeCertLabel;
+		String tFreeCertText;
 		FreeCertificateBenefit tFreeCertificateBenefit;
 		Certificate tFreeCertificate;
+		Border tBorder1;
+		Border tBorder2;
+		Border tBorder;
+		Corporation tCorporation;
 		
-		tFreeCertInfo = GUI.EMPTY_STRING;
+		tFreeCertLabel = GUI.NO_LABEL;
+		tFreeCertText = GUI.EMPTY_STRING;
 		for (Benefit tBenefit : benefits) {
-			if (tBenefit.isPassivePlayerBenefit () && (tFreeCertInfo.length () == 0)) {
+			if (tBenefit.isPassivePlayerBenefit () && (tFreeCertText.length () == 0)) {
 				if (tBenefit instanceof FreeCertificateBenefit) {
 					tFreeCertificateBenefit = (FreeCertificateBenefit) tBenefit;
 					tFreeCertificate = tFreeCertificateBenefit.getShareCertificate ();
-					tFreeCertInfo = "Free " + tFreeCertificate.getPercentage () + "% of " + 
+					tFreeCertText = "Free " + tFreeCertificate.getPercentage () + "% of " + 
 								tFreeCertificate.getCompanyAbbrev ();
 					if (tFreeCertificate.isPresidentShare ()) {
-						tFreeCertInfo += " President";
+						tFreeCertText += " President";
 					}
+					tFreeCertLabel = new JLabel (tFreeCertText);
+					tCorporation = tFreeCertificate.getCorporation ();
+					tBorder1 = BorderFactory.createLineBorder (tCorporation.getBgColor (), 2);
+					tBorder2 = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+					tBorder = BorderFactory.createCompoundBorder (tBorder1, tBorder2);
+					tFreeCertLabel.setBorder(tBorder);
+
 				}
 			}
 		}
 
-		return tFreeCertInfo;
+		return tFreeCertLabel;
 	}
 }
