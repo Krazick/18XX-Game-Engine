@@ -1,6 +1,7 @@
 package ge18xx.round.action;
 
 import ge18xx.bank.Bank;
+import ge18xx.bank.StartPacketItem;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
@@ -45,6 +46,10 @@ public class TransferOwnershipAction extends CashTransferAction {
 		addEffect (tTransferOwnershipEffect);
 	}
 
+	public void addRemoveStartPacketItem (ActorI aActor, StartPacketItem aStartPacketItem, int aItemRow, int aItemColumn) {
+		
+	}
+	
 	protected String getFromActorName () {
 		String tFromActorName;
 
