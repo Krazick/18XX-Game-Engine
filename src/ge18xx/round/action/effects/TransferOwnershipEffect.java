@@ -37,20 +37,15 @@ public class TransferOwnershipEffect extends ToEffect {
 		super (aEffectNode, aGameManager);
 
 		String tCompanyAbbrev;
-		String tFromActorName;
-		ActorI tFromActor;
 		Certificate tCertificate;
 		int tPercentage;
 		boolean tPresidentShare;
 
 		tCompanyAbbrev = aEffectNode.getThisAttribute (AN_COMPANY_ABBREV);
-		tFromActorName = aEffectNode.getThisAttribute (ActorI.AN_FROM_ACTOR_NAME);
-		tFromActor = aGameManager.getActor (tFromActorName);
 		tPercentage = aEffectNode.getThisIntAttribute (AN_SHARE_PERCENT);
 		tPresidentShare = aEffectNode.getThisBooleanAttribute (AN_PRESIDENT_SHARE);
 		tCertificate = aGameManager.getCertificate (tCompanyAbbrev, tPercentage, tPresidentShare);
 		setCertificate (tCertificate);
-		setActor (tFromActor);
 	}
 
 	public Certificate getCertificate () {
