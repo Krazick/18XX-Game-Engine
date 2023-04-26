@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import org.w3c.dom.NodeList;
 
+import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
 import ge18xx.utilities.ElementName;
@@ -295,6 +296,19 @@ public class Benefits {
 		return tHasAnyPassiveCompanyBenefits;
 	}
 	
+	public boolean hasAnyPassivePlayerBenefits () {
+		boolean tHasAnyPassivePlayerBenefits;
+		
+		tHasAnyPassivePlayerBenefits = false;
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit.isPassivePlayerBenefit ()) {
+				tHasAnyPassivePlayerBenefits = true;
+			}
+		}
+		
+		return tHasAnyPassivePlayerBenefits;
+	}
+	
 	public PassiveEffectBenefit getUnusedPassiveCompanyBenefit () {
 		PassiveEffectBenefit tPassiveBenefit;
 		
@@ -310,4 +324,39 @@ public class Benefits {
 		return tPassiveBenefit;
 	}
 
+	public boolean hasFreeCertBenefit () {
+		boolean tHasFreeCertBenefit;
+		
+		tHasFreeCertBenefit = false;
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit.isPassivePlayerBenefit () && !tHasFreeCertBenefit) {
+				tHasFreeCertBenefit = tBenefit instanceof FreeCertificateBenefit;
+			}
+		}
+		
+		return tHasFreeCertBenefit;
+	}
+	
+	public String getFreeCertInfo () {
+		String tFreeCertInfo;
+		FreeCertificateBenefit tFreeCertificateBenefit;
+		Certificate tFreeCertificate;
+		
+		tFreeCertInfo = GUI.EMPTY_STRING;
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit.isPassivePlayerBenefit () && (tFreeCertInfo.length () == 0)) {
+				if (tBenefit instanceof FreeCertificateBenefit) {
+					tFreeCertificateBenefit = (FreeCertificateBenefit) tBenefit;
+					tFreeCertificate = tFreeCertificateBenefit.getShareCertificate ();
+					tFreeCertInfo = "Free " + tFreeCertificate.getPercentage () + "% of " + 
+								tFreeCertificate.getCompanyAbbrev ();
+					if (tFreeCertificate.isPresidentShare ()) {
+						tFreeCertInfo += " President";
+					}
+				}
+			}
+		}
+
+		return tFreeCertInfo;
+	}
 }
