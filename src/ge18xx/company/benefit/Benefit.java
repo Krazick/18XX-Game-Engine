@@ -304,6 +304,18 @@ public abstract class Benefit implements ActionListener {
 		return tIsPassiveCompanyBenefit;
 	}
 
+	public boolean isPassivePlayerBenefit () {
+		boolean tIsPassivePlayerBenefit;
+
+		if (isAPlayerBenefit () && (passive)) {
+			tIsPassivePlayerBenefit = true;
+		} else {
+			tIsPassivePlayerBenefit = false;
+		}
+
+		return tIsPassivePlayerBenefit;
+	}
+
 	public boolean isAllActorsCompanyBenefit () {
 		boolean tIsAllActorsCompanyBenefit;
 
