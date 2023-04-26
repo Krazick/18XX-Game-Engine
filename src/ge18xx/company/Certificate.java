@@ -397,6 +397,32 @@ public class Certificate implements Comparable<Certificate> {
 		return tCertificateInfoJPanel;
 	}
 
+	public boolean hasBenfitWithFreeCert () {
+		PrivateCompany tPrivateCompany;
+		boolean tHasBenefitWithFreeCert;
+		
+		tHasBenefitWithFreeCert = false;
+		if (isAPrivateCompany ()) {
+			tPrivateCompany = (PrivateCompany) getCorporation ();
+			tHasBenefitWithFreeCert = tPrivateCompany.hasBenefitWithFreeCert ();
+		}
+		
+		return tHasBenefitWithFreeCert;
+	}
+	
+	public String getFreeCertInfo () {
+		String tFreeCertInfo;
+		PrivateCompany tPrivateCompany;
+
+		tFreeCertInfo = GUI.EMPTY_STRING;
+		if (isAPrivateCompany ()) {
+			tPrivateCompany = (PrivateCompany) getCorporation ();
+			tFreeCertInfo = tPrivateCompany.getFreeCertInfo ();
+		}
+		
+		return tFreeCertInfo;
+	}
+	
 	public void updateBidLabel (String aCheckBoxLabel, ItemListener aItemListener, JPanel aCertificateInfoJPanel,
 								CertificateFlags aCertificateFlags) {
 		String tToolTip;
