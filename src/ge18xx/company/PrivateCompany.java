@@ -5,6 +5,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
@@ -593,11 +594,11 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return tHasBenefitsWithFreeCert;
 	}
 	
-	public String getFreeCertInfo () {
-		String tFreeCertInfo;
+	public JLabel getFreeCertLabel () {
+		JLabel tFreeCertLabel;
 		
-		tFreeCertInfo = benefits.getFreeCertInfo ();
+		tFreeCertLabel = benefits.getFreeCertLabel ();
 		
-		return tFreeCertInfo;
+		return tFreeCertLabel;
 	}
 }
