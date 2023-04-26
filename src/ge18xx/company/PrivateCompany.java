@@ -530,7 +530,6 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public PassiveEffectBenefit getUnusedPassiveCompanyBenefit () {
 		PassiveEffectBenefit tPassiveEffectBenefit;
 		
-		
 		if (benefits == Benefits.NO_BENEFITS) {
 			tPassiveEffectBenefit = (PassiveEffectBenefit) Benefit.NO_BENEFIT;
 		} else {
@@ -540,7 +539,19 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return tPassiveEffectBenefit;
 
 	}
-	
+
+	public boolean hasAnyPassivePlayerBenefits () {
+		boolean tHasAnyPassivePlayerBenefits;
+		
+		if (benefits == Benefits.NO_BENEFITS) {
+			tHasAnyPassivePlayerBenefits = false;
+		} else {
+			tHasAnyPassivePlayerBenefits = benefits.hasAnyPassivePlayerBenefits ();
+		}
+		
+		return tHasAnyPassivePlayerBenefits;
+	}
+
 	public void handlePassiveBenefits (ShareCompany aShareCompany, Action aAction) {
 		PassiveEffectBenefit tPassiveBenefit;
 		boolean tWhileMore;
@@ -569,5 +580,24 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	@Override
 	public void completeBenefitInUse (Corporation aCorporation) {
 
+	}
+	
+	public boolean hasBenefitWithFreeCert () {
+		boolean tHasBenefitsWithFreeCert;
+		
+		tHasBenefitsWithFreeCert = false;
+		if (hasAnyPassivePlayerBenefits ()) {
+			tHasBenefitsWithFreeCert = benefits.hasFreeCertBenefit ();
+		}
+		
+		return tHasBenefitsWithFreeCert;
+	}
+	
+	public String getFreeCertInfo () {
+		String tFreeCertInfo;
+		
+		tFreeCertInfo = benefits.getFreeCertInfo ();
+		
+		return tFreeCertInfo;
 	}
 }
