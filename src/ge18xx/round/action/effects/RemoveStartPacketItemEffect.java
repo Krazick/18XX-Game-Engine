@@ -3,8 +3,11 @@ package ge18xx.round.action.effects;
 import ge18xx.bank.StartPacketItem;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class RemoveStartPacketItemEffect extends Effect {
@@ -35,6 +38,17 @@ public class RemoveStartPacketItemEffect extends Effect {
 	public RemoveStartPacketItemEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
+		
+		int aItemRow;
+		int aItemCol;
+		StartPacketItem tStartPacketItem;
+		
+		tStartPacketItem = new StartPacketItem (aEffectNode);
+		aItemRow = aEffectNode.getThisIntAttribute (AN_ITEM_ROW);
+		aItemCol = aEffectNode.getThisIntAttribute (AN_ITEM_COL);
+		setStartPacketItem (tStartPacketItem);
+		setItemRow (aItemRow);
+		setItemCol (aItemCol);
 	}
 	
 	public RemoveStartPacketItemEffect (ActorI aActor, StartPacketItem aStartPacketItem, 
@@ -68,4 +82,28 @@ public class RemoveStartPacketItemEffect extends Effect {
 	public int getItemCol () {
 		return itemCol;
 	}
+	
+	@Override
+	public String getEffectReport (RoundManager aRoundManager) {
+		String tEffectReport;
+		
+		tEffectReport = REPORT_PREFIX + name + " " + startPacketItem.getCorporationAbbrev () + 
+					" from " + itemRow + "," + itemCol +".";
+					
+		return tEffectReport;
+	}
+
+	@Override
+	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
+		XMLElement tEffectElement;
+
+		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
+		startPacketItem.getEffectElements (aXMLDocument, tEffectElement);
+		
+		tEffectElement.setAttribute (AN_ITEM_ROW, itemRow);
+		tEffectElement.setAttribute (AN_ITEM_COL, itemCol);
+
+		return tEffectElement;
+	}
+
 }
