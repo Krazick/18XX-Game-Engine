@@ -135,7 +135,8 @@ public class TransferOwnershipEffect extends ToEffect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		PortfolioHolderI tFromHolder;
-		Portfolio tToPortfolio, tFromPortfolio;
+		Portfolio tToPortfolio;
+		Portfolio tFromPortfolio;
 
 		tEffectUndone = false;
 		tToPortfolio = getToPortfolio ();
