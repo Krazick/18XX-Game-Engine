@@ -1,6 +1,9 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.bank.Bank;
+import ge18xx.bank.StartPacketFrame;
 import ge18xx.bank.StartPacketItem;
+import ge18xx.bank.StartPacketRow;
 import ge18xx.company.benefit.Benefit;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -104,6 +107,24 @@ public class RemoveStartPacketItemEffect extends Effect {
 		tEffectElement.setAttribute (AN_ITEM_COL, itemCol);
 
 		return tEffectElement;
+	}
+
+	@Override
+	public boolean undoEffect (RoundManager aRoundManager) {
+		boolean tEffectUndone;
+		Bank tBank;
+		StartPacketFrame tStartPacketFrame;
+		StartPacketRow tStartPacketRow;
+
+		tEffectUndone = false;
+		tBank = aRoundManager.getBank ();
+		tStartPacketFrame = tBank.getStartPacketFrame ();
+		tStartPacketRow = tStartPacketFrame.getStartPacketRowAt (itemRow);
+		tStartPacketRow.addStartPacketItem (startPacketItem, itemCol);
+
+		tEffectUndone = true;
+
+		return tEffectUndone;
 	}
 
 }
