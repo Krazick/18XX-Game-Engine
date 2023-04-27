@@ -32,6 +32,7 @@ import javax.swing.border.Border;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.bank.StartPacketFrame;
+import ge18xx.bank.StartPacketItem;
 import ge18xx.company.Certificate;
 import ge18xx.company.CertificateHolderI;
 import ge18xx.company.Corporation;
@@ -1357,14 +1358,25 @@ public class Portfolio implements CertificateHolderI {
 	public void removeCertificateFromStartPacketRow (Certificate aCertificate, BuyStockAction aBuyStockAction) {
 		StartPacketFrame tStartPacketFrame;
 		String tCertificateLocation;
+		String [] tCertificateLocations;
+		StartPacketItem tStartPacketItem;
+		int tItemRow;
+		int tItemCol;
 		
 		tCertificateLocation = GUI.NULL_STRING;
 		if (holder instanceof StartPacketFrame) {
 			tStartPacketFrame = (StartPacketFrame) holder;
 			tCertificateLocation = tStartPacketFrame.getCertificateLocation (aCertificate);
-			tStartPacketFrame.removeCertificateFromRow (aCertificate);
+			tStartPacketItem = tStartPacketFrame.removeCertificateFromRow (aCertificate);
+			if (tStartPacketItem != StartPacketItem.NO_START_PACKET_ITEM) {
+				tCertificateLocations = tCertificateLocation.split (",");
+				tItemRow = Integer.parseInt(tCertificateLocations [0]);
+				tItemCol = Integer.parseInt (tCertificateLocations [1]);
+				aBuyStockAction.addRemoveStartPacketItemEffect (holder, tStartPacketItem, tItemRow, tItemCol);
+			}
 		}
-		System.out.println ("Removed a Certificate " + aCertificate.getCompanyAbbrev () + " from Start Packet Location " + tCertificateLocation);
+		System.out.println ("Removed a Certificate " + aCertificate.getCompanyAbbrev () + 
+				" from Start Packet Location " + tCertificateLocation);
 		
 	}
 
