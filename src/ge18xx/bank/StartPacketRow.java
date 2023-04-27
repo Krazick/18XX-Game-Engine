@@ -72,14 +72,6 @@ public class StartPacketRow implements ParsingRoutineI {
 		}
 	}
 
-//	public void enableAllCheckedButtons (String aToolTip, Player aPlayer) {
-//		for (StartPacketItem tStartPacketItem : startPacketItems) {
-//			if (!tStartPacketItem.hasBidOnThisCert (aPlayer)) {
-//				tStartPacketItem.enableCheckedButton (aToolTip);
-//			}
-//		}
-//	}
-
 	public Certificate getMustBuyCertificate () {
 		Certificate tMustBuyCertificate = Certificate.NO_CERTIFICATE;
 
@@ -119,6 +111,10 @@ public class StartPacketRow implements ParsingRoutineI {
 		tStartPacketItem.setStartPacketRow (this);
 	}
 
+	public void addStartPacketItem (StartPacketItem tStartPacketItem, int tCol) {
+		startPacketItems.add (tCol, tStartPacketItem);
+	}
+	
 	public Certificate getCertificateInRow (int aIndex) {
 		Certificate tItemCertificate;
 		StartPacketItem tStartPacketItem;
