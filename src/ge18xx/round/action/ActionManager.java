@@ -27,15 +27,15 @@ public class ActionManager {
 	public final static int STARTING_ACTION_NUMBER = 100;
 	public final static int DEFAULT_ACTION_NUMBER = 0;
 	public final static int PREVIOUS_ACTION = 1;
+	public final static ElementName EN_REMOVE_ACTION = new ElementName ("RemoveAction");
+	private final static String ACTION_NUMBER_RESPONSE = "<GSResponse><ActionNumber newNumber=\"(\\d+)\"></GSResponse>";
+	private final static Pattern ACTION_NUMBER_PATTERN = Pattern.compile (ACTION_NUMBER_RESPONSE);
 	List<Action> actions;
 	List<Action> actionsToRemove;
 	ActionReportFrame actionReportFrame;
 	RoundManager roundManager;
 	GameManager gameManager;
 	int actionNumber;
-	private final static String ACTION_NUMBER_RESPONSE = "<GSResponse><ActionNumber newNumber=\"(\\d+)\"></GSResponse>";
-	private final static Pattern ACTION_NUMBER_PATTERN = Pattern.compile (ACTION_NUMBER_RESPONSE);
-	public static final ElementName EN_REMOVE_ACTION = new ElementName ("RemoveAction");
 	Logger logger;
 
 	public ActionManager (RoundManager aRoundManager) {
@@ -486,15 +486,17 @@ public class ActionManager {
 
 		tLastAction = getLastAction ();
 		appendReport ("\nUNDOING: " + tLastAction.getBriefActionReport () + "\n");
-		tLastAction.printBriefActionReport ();
+		tLastAction.printBriefActionReport ();			// DEBUGING CONSOLE OUTPUT
 		tLastActionUndone = tLastAction.undoAction (aRoundManager);
 		if (aNotifyNetwork) {
 			undoLastActionNetwork ();
 		}
 		if (tLastActionUndone) {
 			removeLastAction ();
-			if (tLastAction.getChainToPrevious ()) {
-				tLastActionUndone = undoLastAction (aRoundManager, false);
+			if (! actions.isEmpty ()) {
+				if (tLastAction.getChainToPrevious ()) {
+					tLastActionUndone = undoLastAction (aRoundManager, false);
+				}
 			}
 		}
 
