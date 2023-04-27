@@ -454,10 +454,18 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return tCertificateLocation;
 	}
 	
-	public void removeCertificateFromRow (Certificate aCertificate) {
+	public StartPacketItem removeCertificateFromRow (Certificate aCertificate) {
+		StartPacketItem tStartPacketItem;
+		StartPacketItem tRemovedStartPacketItem;
+		
+		tRemovedStartPacketItem = StartPacketItem.NO_START_PACKET_ITEM;
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
-			tStartPacketRow.removeCertificate (aCertificate);
+			tStartPacketItem = tStartPacketRow.removeCertificate (aCertificate);
+			if (tStartPacketItem != StartPacketItem.NO_START_PACKET_ITEM) {
+				tRemovedStartPacketItem = tStartPacketItem;
+			}
 		}
 
+		return tRemovedStartPacketItem;
 	}
 }

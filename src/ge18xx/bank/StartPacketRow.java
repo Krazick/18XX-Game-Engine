@@ -267,7 +267,7 @@ public class StartPacketRow implements ParsingRoutineI {
 		return tValidIndex;
 	}
 
-	public void removeCertificate (Certificate aCertificate) {
+	public StartPacketItem removeCertificate (Certificate aCertificate) {
 		StartPacketItem tStartPacketItem;
 		int tItemCount;
 		int tItemFound;
@@ -282,8 +282,12 @@ public class StartPacketRow implements ParsingRoutineI {
 			}
 		}
 		if (tItemFound >= 0) {
-			startPacketItems.remove (tItemFound);
+			tStartPacketItem = startPacketItems.remove (tItemFound);
+		} else {
+			tStartPacketItem = StartPacketItem.NO_START_PACKET_ITEM;
 		}
+		
+		return tStartPacketItem;
 	}
 
 	public int getCerticateLocation (Certificate aCertificate) {

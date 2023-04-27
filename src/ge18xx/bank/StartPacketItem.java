@@ -13,6 +13,8 @@ import ge18xx.player.Portfolio;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.ParsingRoutineI;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
@@ -109,6 +111,10 @@ public class StartPacketItem implements ParsingRoutineI {
 		return corporationId;
 	}
 
+	public String getCorporationAbbrev () {
+		return certificate.getCompanyAbbrev ();
+	}
+	
 	public int getDiscountAmount () {
 		return discountAmount;
 	}
@@ -167,6 +173,13 @@ public class StartPacketItem implements ParsingRoutineI {
 		return tAllCertsLoaded;
 	}
 
+	public void getEffectElements (XMLDocument aXMLDocument, XMLElement aXMLElement) {
+		
+		aXMLElement.setAttribute (AN_CORPORATION_ID, corporationId);
+		aXMLElement.setAttribute (AN_DISCOUNT_AMOUNT, discountAmount);
+		aXMLElement.setAttribute (AN_CAN_BE_BID_ON, canBeBidOn);
+	}
+	
 	void printStartPacketItemInfo () {
 		System.out.println ("Start Packet Item Information");	// PRINTLOG method
 		System.out.println ("  Corporation ID [" + corporationId + "] Discount Amount [" + discountAmount + "]");	
