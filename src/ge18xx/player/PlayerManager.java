@@ -1523,9 +1523,9 @@ public class PlayerManager {
 		tPlayer = players.get (aPlayerIndex);
 		tStartStockAction = new StartStockAction (stockRound.getRoundType (), stockRound.getID (), tPlayer);
 		tStartStockAction.addStartStockEffect (tPlayer);
+		tStartStockAction.setChainToPrevious (true);
 		gameManager.addAction (tStartStockAction);
 		tPlayer.showPlayerFrame ();
-		
 	}
 
 	public void startAuctionRound (boolean aCreateNewAuctionAction) {
@@ -1541,13 +1541,24 @@ public class PlayerManager {
 		tActionUndone = stockRound.undoLastAction ();
 		if (tActionUndone) {
 			aPlayer.updatePlayerInfo ();
-			if ((tActionToUndo instanceof PassAction) || (tActionToUndo instanceof DonePlayerAction)) {
+			if ((tActionToUndo instanceof PassAction) || 
+				(tActionToUndo instanceof DonePlayerAction)) {
 				aPlayer.hidePlayerFrame ();
 
 				tCurrentPlayer = getCurrentPlayer ();
 				tCurrentPlayer.showPlayerFrame ();
 				tCurrentPlayer.updatePlayerInfo ();
+			} else if ((tActionToUndo instanceof BuyStockAction) || 
+						(tActionToUndo instanceof BidStockAction) ||
+						(tActionToUndo instanceof SellStockAction)) {
+				tCurrentPlayer = getCurrentPlayer ();
+				tCurrentPlayer.showPlayerFrame ();
+				tCurrentPlayer.updatePlayerInfo ();
+			} else if (tActionToUndo instanceof StartStockAction) {
+				tCurrentPlayer = getCurrentPlayer ();
+				tCurrentPlayer.hidePlayerFrame ();
 			}
+
 		} else {
 			System.err.println ("**** Undo Action failed ****");
 		}
