@@ -1079,10 +1079,6 @@ public class RoundManager implements ActionListener {
 		return actionManager.undoLastAction (this);
 	}
 
-//	public void updateCurrentCompanyFrame () {
-//		operatingRound.updateCurrentCompanyFrame ();
-//	}
-
 	public void updateAllCorporationsBox () {
 		if (roundFrame != RoundFrame.NO_ROUND_FRAME) {
 			roundFrame.updateAllCorporationsJPanel ();
