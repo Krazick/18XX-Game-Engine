@@ -43,6 +43,16 @@ public class StartStockEffect extends Effect {
 		tEffectApplied = true;
 		
 		return tEffectApplied;
+	}
+	
+	@Override
+	public boolean undoEffect (RoundManager aRoundManager) {
+		boolean tEffectUndone;
 		
+		aRoundManager.setPlayerDoingAction (false);
+		
+		tEffectUndone = true;
+		
+		return tEffectUndone;
 	}
 }
