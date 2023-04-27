@@ -38,7 +38,9 @@ public class FreeLicenseBenefit extends PassiveEffectBenefit {
 		
 		setCorporationID (tCorporationID);
 		setLicenseCost (tLicenseCost);
-		setMapCellIDs (tMapCellIDs);
+		if (tMapCellIDs != null) {
+			setMapCellIDs (tMapCellIDs);
+		}
 		setLicenseValue (tLicenseValue);
 		setLicenseType (tLicenseType);
 
