@@ -1,8 +1,6 @@
 package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
-import ge18xx.player.Player;
-import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
