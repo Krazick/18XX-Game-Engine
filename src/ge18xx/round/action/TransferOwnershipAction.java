@@ -7,7 +7,7 @@ import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.CloseCorporationEffect;
 import ge18xx.round.action.effects.Effect;
-import ge18xx.round.action.effects.RemoveStartPacketItemEffect;
+import ge18xx.round.action.effects.StartPacketItemSetAvailableEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
 import ge18xx.utilities.XMLNode;
 
@@ -47,11 +47,10 @@ public class TransferOwnershipAction extends CashTransferAction {
 		addEffect (tTransferOwnershipEffect);
 	}
 
-	public void addRemoveStartPacketItemEffect (ActorI aActor, StartPacketItem aStartPacketItem, 
-										int aItemRow, int aItemColumn) {
-		RemoveStartPacketItemEffect tRemoveStartPacketItemEffect;
+	public void startPacketItemSetAvailableEffect (ActorI aActor, StartPacketItem aStartPacketItem, boolean aAvailable) {
+		StartPacketItemSetAvailableEffect tRemoveStartPacketItemEffect;
 		
-		tRemoveStartPacketItemEffect = new RemoveStartPacketItemEffect (aActor, aStartPacketItem, aItemRow, aItemColumn);
+		tRemoveStartPacketItemEffect = new StartPacketItemSetAvailableEffect (aActor, aStartPacketItem, aAvailable);
 		addEffect (tRemoveStartPacketItemEffect);
 	}
 	
