@@ -1535,28 +1535,22 @@ public class PlayerManager {
 	public void undoAction (Player aPlayer) {
 		boolean tActionUndone;
 		Action tActionToUndo;
+		Action tLastAction;
 		Player tCurrentPlayer;
 
 		tActionToUndo = stockRound.getLastAction ();
 		tActionUndone = stockRound.undoLastAction ();
 		if (tActionUndone) {
 			aPlayer.updatePlayerInfo ();
-			if ((tActionToUndo instanceof PassAction) || 
-				(tActionToUndo instanceof DonePlayerAction)) {
-				aPlayer.hidePlayerFrame ();
-
-				tCurrentPlayer = getCurrentPlayer ();
-				tCurrentPlayer.showPlayerFrame ();
-				tCurrentPlayer.updatePlayerInfo ();
-			} else if ((tActionToUndo instanceof BuyStockAction) || 
-						(tActionToUndo instanceof BidStockAction) ||
-						(tActionToUndo instanceof SellStockAction)) {
-				tCurrentPlayer = getCurrentPlayer ();
-				tCurrentPlayer.showPlayerFrame ();
-				tCurrentPlayer.updatePlayerInfo ();
-			} else if (tActionToUndo instanceof StartStockAction) {
-				tCurrentPlayer = getCurrentPlayer ();
+			tCurrentPlayer = getCurrentPlayer ();
+			tCurrentPlayer.updatePlayerInfo ();
+			tLastAction = stockRound.getLastAction ();
+			if (tLastAction == Action.NO_ACTION) {
 				tCurrentPlayer.hidePlayerFrame ();
+			} else if (! gameManager.isNetworkGame ()) {
+				if (tActionToUndo instanceof StartStockAction) {
+					tCurrentPlayer.showPlayerFrame ();
+				}
 			}
 
 		} else {
