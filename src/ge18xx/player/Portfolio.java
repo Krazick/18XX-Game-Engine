@@ -44,7 +44,6 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.BuyStockAction;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
-import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -1355,29 +1354,20 @@ public class Portfolio implements CertificateHolderI {
 		return tCertificate;
 	}
 
-	public void removeCertificateFromStartPacketRow (Certificate aCertificate, BuyStockAction aBuyStockAction) {
+	public void setCertificateFromStartPacketAvailability (Certificate aCertificate, BuyStockAction aBuyStockAction) {
 		StartPacketFrame tStartPacketFrame;
-		String tCertificateLocation;
-		String [] tCertificateLocations;
 		StartPacketItem tStartPacketItem;
-		int tItemRow;
-		int tItemCol;
+		boolean tAvailable;
 		
-		tCertificateLocation = GUI.NULL_STRING;
 		if (holder instanceof StartPacketFrame) {
 			tStartPacketFrame = (StartPacketFrame) holder;
-			tCertificateLocation = tStartPacketFrame.getCertificateLocation (aCertificate);
 			tStartPacketItem = tStartPacketFrame.removeCertificateFromRow (aCertificate);
 			if (tStartPacketItem != StartPacketItem.NO_START_PACKET_ITEM) {
-				tCertificateLocations = tCertificateLocation.split (",");
-				tItemRow = Integer.parseInt(tCertificateLocations [0]);
-				tItemCol = Integer.parseInt (tCertificateLocations [1]);
-				aBuyStockAction.addRemoveStartPacketItemEffect (holder, tStartPacketItem, tItemRow, tItemCol);
+				tAvailable = tStartPacketItem.available ();
+				aBuyStockAction.startPacketItemSetAvailableEffect (holder, tStartPacketItem, tAvailable);
 			}
 		}
-		System.out.println ("Removed a Certificate " + aCertificate.getCompanyAbbrev () + 
-				" from Start Packet Location " + tCertificateLocation);
-		
+		System.out.println ("The Certificate for " + aCertificate.getCompanyAbbrev () + " is now unavailable");
 	}
 
 	@Override
