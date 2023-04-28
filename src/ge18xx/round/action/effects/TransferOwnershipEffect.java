@@ -3,6 +3,7 @@ package ge18xx.round.action.effects;
 import ge18xx.bank.Bank;
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
+import ge18xx.company.PrivateCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
@@ -135,11 +136,16 @@ public class TransferOwnershipEffect extends ToEffect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		PortfolioHolderI tFromHolder;
+		PrivateCompany tPrivateCompany;
 		Portfolio tToPortfolio;
 		Portfolio tFromPortfolio;
 
 		tEffectUndone = false;
 		tToPortfolio = getToPortfolio ();
+		if (certificate.isAPrivateCompany ()) {
+			tPrivateCompany = (PrivateCompany) certificate.getCorporation ();
+			tPrivateCompany.removeBenefitButtons ();
+		}
 		certificate.resetFrameButton ();
 		tFromHolder = (PortfolioHolderI) getActor ();
 		tFromPortfolio = tFromHolder.getPortfolio ();
