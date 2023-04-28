@@ -897,7 +897,7 @@ public class PlayerManager {
 			
 			if (aFromPortfolio instanceof StartPacketPortfolio) {
 				tStartPacketPortfolio = (StartPacketPortfolio) aFromPortfolio;
-				tStartPacketPortfolio.removeCertificateFromStartPacketRow (aCertificate, aBuyStockAction);
+				tStartPacketPortfolio.setCertificateFromStartPacketAvailability (aCertificate, aBuyStockAction);
 			}
 		}
 	}
