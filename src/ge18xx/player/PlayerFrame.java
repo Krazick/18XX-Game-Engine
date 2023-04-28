@@ -513,9 +513,13 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	public void updateButtons () {
-		boolean tStocksToSell, tActionsToUndo, tStocksToSellSame;
-		boolean tPrezToExchange, tCanCompleteTurn;
-		boolean tStocksToSellOverfill, tMustBuy;
+		boolean tStocksToSell;
+		boolean tActionsToUndo;
+		boolean tStocksToSellSame;
+		boolean tPrezToExchange;
+		boolean tCanCompleteTurn;
+		boolean tStocksToSellOverfill;
+		boolean tMustBuy;
 		boolean tHasSelectedOneToExchange;
 
 		tMustBuy = hasMustBuyCertificate ();
@@ -539,7 +543,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		} else {
 			setPassButton ();
 		}
-		player.addPrivateBenefitButtons (buttonJPanel);
+		player.updatePrivateBenefitButtons (buttonJPanel);
 	}
 
 	private void updatePassDoneButton (String tLabel, String tAction) {
