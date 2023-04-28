@@ -12,6 +12,7 @@ import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -19,34 +20,39 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 public class StartPacketItem implements ParsingRoutineI {
+	public static final AttributeName AN_CORPORATION_ID = new AttributeName ("corporationId");
+	public static final AttributeName AN_PERCENTAGE = new AttributeName ("percentage");
+	private static final AttributeName AN_AVAILABLE = new AttributeName ("available");
 	private static final AttributeName AN_CAN_BE_BID_ON = new AttributeName ("canBeBidOn");
-	private static final AttributeName AN_CORPORATION_ID = new AttributeName ("corporationId");
 	private static final AttributeName AN_DISCOUNT_AMOUNT = new AttributeName ("discountAmount");
-	private static final AttributeName AN_PERCENTAGE = new AttributeName ("percentage");
 	private static final ElementName EN_FREE_CERTIFICATE = new ElementName ("FreeCertificate");
 
 	public static StartPacketItem NO_START_PACKET_ITEM = null;
-	boolean canBeBidOn;
+	StartPacketRow startPacketRow;
 	Certificate certificate;
 	Certificate freeCertificate;
+	boolean canBeBidOn;
+	boolean available;
 	int corporationId;
 	int discountAmount;
 	int freeCertificateCorporationId;
 	int freeCertificateCorporationPercentage;
-	StartPacketRow startPacketRow;
 
 	public StartPacketItem (XMLNode aNode) {
 		XMLNodeList tXMLNodeList;
 		int tCorporationID;
+		boolean tAvailable;
 		
 		tCorporationID = aNode.getThisIntAttribute (AN_CORPORATION_ID, Corporation.NO_ID);
 		setCorporationID (tCorporationID);
 		discountAmount = aNode.getThisIntAttribute (AN_DISCOUNT_AMOUNT, 0);
 		canBeBidOn = aNode.getThisBooleanAttribute (AN_CAN_BE_BID_ON);
+		tAvailable = aNode.getThisBooleanAttribute (AN_AVAILABLE);
 		setFreeCertificateCorporationId (Corporation.NO_ID);
 		setFreeCertificateCorporationPercentage (0);
 		tXMLNodeList = new XMLNodeList (this);
 		tXMLNodeList.parseXMLNodeList (aNode, EN_FREE_CERTIFICATE);
+		setAvailable (tAvailable);
 	}
 
 	public JPanel buildStartPacketItemJPanel (String aSelectedButtonLabel, ItemListener aItemListener, Player aPlayer,
@@ -54,16 +60,28 @@ public class StartPacketItem implements ParsingRoutineI {
 		JPanel tCertificateInfoPanel;
 		JLabel tFreeCertLabel;
 
-		tCertificateInfoPanel = certificate.buildCertificateInfoJPanel (aSelectedButtonLabel, aItemListener, true,
-				aPlayer, aGameManager);
-		if (certificate.hasBenfitWithFreeCert ()) {
-			tFreeCertLabel = certificate.getFreeCertLabel ();
-			tCertificateInfoPanel.add (tFreeCertLabel);
+		if (available) {
+			tCertificateInfoPanel = certificate.buildCertificateInfoJPanel (aSelectedButtonLabel, aItemListener, true,
+					aPlayer, aGameManager);
+			if (certificate.hasBenfitWithFreeCert ()) {
+				tFreeCertLabel = certificate.getFreeCertLabel ();
+				tCertificateInfoPanel.add (tFreeCertLabel);
+			}
+		} else {
+			tCertificateInfoPanel = GUI.NO_PANEL;
 		}
 		
 		return tCertificateInfoPanel;
 	}
 
+	public void setAvailable (boolean aAvailable) {
+		available = aAvailable;
+	}
+	
+	public boolean available () {
+		return available;
+	}
+	
 	public void disableCheckedButton (String aToolTip) {
 		certificate.setStateCheckedButton (false, aToolTip);
 	}
