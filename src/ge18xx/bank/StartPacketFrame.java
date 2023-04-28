@@ -429,6 +429,19 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		
 	}
 	
+	public StartPacketItem getStartPacketItem (int aCorporationID) {
+		StartPacketItem tStartPacketItem;
+		
+		tStartPacketItem = StartPacketItem.NO_START_PACKET_ITEM;
+		for (StartPacketRow tStartPacketRow : startPacketRows) {
+			if (tStartPacketItem == StartPacketItem.NO_START_PACKET_ITEM) {
+				tStartPacketItem = tStartPacketRow.getStartPacketItem (aCorporationID);
+			}	
+		}
+		
+		return tStartPacketItem;
+	}
+	
 	public String getCertificateLocation (Certificate aCertificate) {
 		StartPacketRow tStartPacketRow;
 		String tCertificateLocation;

@@ -58,14 +58,29 @@ public class StartPacketRow implements ParsingRoutineI {
 			}
 			tRowItemJPanel = tStartPacketItem.buildStartPacketItemJPanel (aSelectedButtonLabel, aItemListener, aPlayer,
 					aGameManager);
-			tRowJPanel.add (Box.createHorizontalGlue ());
-			tRowJPanel.add (tRowItemJPanel);
-			tRowJPanel.add (Box.createHorizontalGlue ());
+			if (tRowItemJPanel != GUI.NO_PANEL) {
+				tRowJPanel.add (Box.createHorizontalGlue ());
+				tRowJPanel.add (tRowItemJPanel);
+				tRowJPanel.add (Box.createHorizontalGlue ());
+			}
 		}
 
 		return tRowJPanel;
 	}
 
+	public int getAvailableItemCount () {
+		int tAvailableItemCount;
+		
+		tAvailableItemCount = 0;
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			if (tStartPacketItem.available ()) {
+				tAvailableItemCount++;
+			}
+		}
+
+		return tAvailableItemCount;
+	}
+	
 	public void disableAllCheckedButtons (String aToolTip) {
 		for (StartPacketItem tStartPacketItem : startPacketItems) {
 			tStartPacketItem.disableCheckedButton (aToolTip);
@@ -129,12 +144,12 @@ public class StartPacketRow implements ParsingRoutineI {
 
 		return tItemCertificate;
 	}
-
-	public void removeCertificateInRow (int aIndex) {
-		if (validIndex (aIndex)) {
-			startPacketItems.remove (aIndex);
-		}
-	}
+//
+//	public void removeCertificateInRow (int aIndex) {
+//		if (validIndex (aIndex)) {
+//			startPacketItems.remove (aIndex);
+//		}
+//	}
 	
 	public Certificate getCertificateToAuction () {
 		Certificate tCertificateToAuction;
@@ -262,6 +277,21 @@ public class StartPacketRow implements ParsingRoutineI {
 
 		return tValidIndex;
 	}
+	
+	public StartPacketItem getStartPacketItem (int aCorporationID) {
+		StartPacketItem tFoundStartPacketItem;
+		
+		tFoundStartPacketItem = StartPacketItem.NO_START_PACKET_ITEM;
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			if (tFoundStartPacketItem == StartPacketItem.NO_START_PACKET_ITEM) {
+				if (tStartPacketItem.getCorporationId () == aCorporationID) {
+					tFoundStartPacketItem = tStartPacketItem;
+				}
+			}	
+		}
+		
+		return tFoundStartPacketItem;
+	}
 
 	public StartPacketItem removeCertificate (Certificate aCertificate) {
 		StartPacketItem tStartPacketItem;
@@ -278,7 +308,8 @@ public class StartPacketRow implements ParsingRoutineI {
 			}
 		}
 		if (tItemFound >= 0) {
-			tStartPacketItem = startPacketItems.remove (tItemFound);
+			tStartPacketItem = startPacketItems.get (tItemFound);
+			tStartPacketItem.setAvailable (false);
 		} else {
 			tStartPacketItem = StartPacketItem.NO_START_PACKET_ITEM;
 		}
