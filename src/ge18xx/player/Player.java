@@ -103,7 +103,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	int certificateLimit;
 	JLabel rfPlayerLabel;
 	JLabel cashLabel;
-	JPanel playerJPanel = GUI.NO_PANEL;
+	JPanel playerJPanel;
 	Logger logger;
 
 	/* These attributes below change during the game, need to save/load them */
@@ -134,6 +134,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		roundDividends = new RoundDividends (tMaxRounds);
 		tBean = new MessageBean (tActorType);
 		setMessageBean (tBean);
+		playerJPanel = GUI.NO_PANEL;
 		buildPlayer (aName, aPlayerManager, aCertificateLimit, tGameManager);
 		setGameHasCompanies (tGameManager);
 	}
@@ -221,7 +222,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return benefitInUse;
 	}
 
-	protected void addPrivateBenefitButtons (JPanel aButtonRow) {
+	protected void updatePrivateBenefitButtons (JPanel aButtonRow) {
 		portfolio.configurePrivatePlayerBenefitButtons (aButtonRow);
 	}
 
