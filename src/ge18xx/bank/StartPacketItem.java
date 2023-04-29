@@ -59,6 +59,7 @@ public class StartPacketItem implements ParsingRoutineI {
 			GameManager aGameManager) {
 		JPanel tCertificateInfoPanel;
 		JLabel tFreeCertLabel;
+		JLabel tExchangeCertLabel;
 
 		if (available) {
 			tCertificateInfoPanel = certificate.buildCertificateInfoJPanel (aSelectedButtonLabel, aItemListener, true,
@@ -66,6 +67,10 @@ public class StartPacketItem implements ParsingRoutineI {
 			if (certificate.hasBenfitWithFreeCert ()) {
 				tFreeCertLabel = certificate.getFreeCertLabel ();
 				tCertificateInfoPanel.add (tFreeCertLabel);
+			}
+			if (certificate.hasExchangeBenefit ()) {
+				tExchangeCertLabel = certificate.getExchangeCertLabel ();
+				tCertificateInfoPanel.add (tExchangeCertLabel);
 			}
 		} else {
 			tCertificateInfoPanel = GUI.NO_PANEL;
