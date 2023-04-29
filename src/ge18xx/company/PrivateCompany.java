@@ -540,6 +540,18 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		return tPassiveEffectBenefit;
 
 	}
+	
+	public boolean hasAnyPlayerBenefits () {
+		boolean tHasAnyPassivePlayerBenefits;
+		
+		if (benefits == Benefits.NO_BENEFITS) {
+			tHasAnyPassivePlayerBenefits = false;
+		} else {
+			tHasAnyPassivePlayerBenefits = true;
+		}
+		
+		return tHasAnyPassivePlayerBenefits;
+	}
 
 	public boolean hasAnyPassivePlayerBenefits () {
 		boolean tHasAnyPassivePlayerBenefits;
@@ -583,6 +595,26 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	}
 	
+	public boolean hasExchangeBenefit () {
+		boolean tHasExchangeBenefit;
+		
+		if (hasAnyPlayerBenefits ()) {
+			tHasExchangeBenefit = benefits.hasExchangeBenefit ();
+		} else {
+			tHasExchangeBenefit = false;
+		}
+
+		return tHasExchangeBenefit;
+	}
+	
+	public JLabel getExchangeCertLabel () {
+		JLabel tFreeCertLabel;
+		
+		tFreeCertLabel = benefits.getExchangeCertLabel ();
+		
+		return tFreeCertLabel;
+	}
+
 	public boolean hasBenefitWithFreeCert () {
 		boolean tHasBenefitsWithFreeCert;
 		

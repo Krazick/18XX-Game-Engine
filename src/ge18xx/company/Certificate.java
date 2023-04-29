@@ -396,6 +396,32 @@ public class Certificate implements Comparable<Certificate> {
 
 		return tCertificateInfoJPanel;
 	}
+	
+	public boolean hasExchangeBenefit () {
+		PrivateCompany tPrivateCompany;
+		boolean tHasExchangeBenefit;
+		
+		tHasExchangeBenefit = false;
+		if (isAPrivateCompany ()) {
+			tPrivateCompany = (PrivateCompany) getCorporation ();
+			tHasExchangeBenefit = tPrivateCompany.hasExchangeBenefit ();
+		}
+		
+		return tHasExchangeBenefit;
+	}
+	
+	public JLabel getExchangeCertLabel () {
+		JLabel tFreeCertLabel;
+		PrivateCompany tPrivateCompany;
+
+		tFreeCertLabel = GUI.NO_LABEL;
+		if (isAPrivateCompany ()) {
+			tPrivateCompany = (PrivateCompany) getCorporation ();
+			tFreeCertLabel = tPrivateCompany.getExchangeCertLabel ();
+		}
+		
+		return tFreeCertLabel;
+	}
 
 	public boolean hasBenfitWithFreeCert () {
 		PrivateCompany tPrivateCompany;

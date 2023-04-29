@@ -327,6 +327,55 @@ public class Benefits {
 		return tPassiveBenefit;
 	}
 
+	public boolean hasExchangeBenefit () {
+		boolean tHasExchangeBenefit;
+		
+		tHasExchangeBenefit = false;
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit.isAPlayerBenefit () && !tHasExchangeBenefit) {
+				tHasExchangeBenefit = tBenefit instanceof ExchangeBenefit;
+			}
+		}
+
+		return tHasExchangeBenefit;
+	}
+	
+	public JLabel getExchangeCertLabel () {
+		JLabel tExchangeCertLabel;
+		String tExchangeCertText;
+		ExchangeBenefit tExchangeBenefit;
+		Certificate tExchangeCertificate;
+		Border tBorder1;
+		Border tBorder2;
+		Border tBorder;
+		Corporation tCorporation;
+		
+		tExchangeCertLabel = GUI.NO_LABEL;
+		tExchangeCertText = GUI.EMPTY_STRING;
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit.isAPlayerBenefit () && (tExchangeCertText.length () == 0)) {
+				if (tBenefit instanceof ExchangeBenefit) {
+					tExchangeBenefit = (ExchangeBenefit) tBenefit;
+					tExchangeCertificate = tExchangeBenefit.getShareCertificate ();
+					tExchangeCertText = "Player Exchange for " + tExchangeCertificate.getPercentage () + "% of " + 
+								tExchangeCertificate.getCompanyAbbrev ();
+					if (tExchangeCertificate.isPresidentShare ()) {
+						tExchangeCertText += " President";
+					}
+					tExchangeCertLabel = new JLabel (tExchangeCertText);
+					tCorporation = tExchangeCertificate.getCorporation ();
+					tBorder1 = BorderFactory.createLineBorder (tCorporation.getBgColor (), 2);
+					tBorder2 = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+					tBorder = BorderFactory.createCompoundBorder (tBorder1, tBorder2);
+					tExchangeCertLabel.setBorder(tBorder);
+
+				}
+			}
+		}
+
+		return tExchangeCertLabel;
+	}
+
 	public boolean hasFreeCertBenefit () {
 		boolean tHasFreeCertBenefit;
 		
