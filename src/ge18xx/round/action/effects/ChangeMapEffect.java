@@ -89,8 +89,6 @@ public class ChangeMapEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 
-		tEffectUndone = false;
-		System.out.println ("Undo " + name + " by " + actor.getName ());
 		tEffectUndone = true;
 
 		return tEffectUndone;
