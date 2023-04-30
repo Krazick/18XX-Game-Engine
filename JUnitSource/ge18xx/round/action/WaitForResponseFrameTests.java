@@ -52,7 +52,6 @@ class WaitForResponseFrameTests {
 		Mockito.when (mPlayerBeta.getPrimaryActionState ()).thenReturn (tNoWaitState);
 
 		waitForReponseFrame = new WaitForReponseFrame ("Test Waiting for Response Frame ", mPlayerBeta, mPlayerAlpha);
-		System.out.println ("Wait For Response Frame setup");
 	}
 
 	@Test
@@ -62,7 +61,6 @@ class WaitForResponseFrameTests {
 
 		tFoundPoint = new Point (200, 200);
 		assertEquals (tFoundPoint, mPlayerManager.getOffsetRoundFramePoint ());
-		System.out.println ("Running in Test");
 		waitForReponseFrame.showFrame ();
 		Thread.sleep (1000);
 		waitForReponseFrame.hideFrame ();
