@@ -82,10 +82,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public static final AttributeName AN_FORMATION_REQUIREMENT = new AttributeName ("formationRequirement");
 	public static final AttributeName AN_FORMATION_MADATORY_PHASE = new AttributeName ("formationMandatoryPhase");
 	public static final String CORPORATION_STATUS_CHANGE = "CORPORATION STATUS CHANGE";
-	public static final String NO_NOTE = "";
+	public static final String NO_NOTE = GUI.EMPTY_STRING;
 	public static final String NO_REASON = ">>NO REASON<<";
-	public static final String NO_PRESIDENT = "";
-	public static final String NO_ABBREV = null;
+	public static final String NO_PRESIDENT = GUI.EMPTY_STRING;
+	public static final String NO_ABBREV = GUI.NULL_STRING;
 	public static final String NO_NAME_STRING = "<NONE>";
 	public static final String PRIVATE_COMPANY = "Private";
 	public static final String MINOR_COMPANY = "Minor";
@@ -99,7 +99,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	static final String enum_closed = ActionStates.Closed.toString ();
 	static final String enum_operated = ActionStates.Operated.toString ();
 	static final String enum_not_operated = ActionStates.NotOperated.toString ();
-	static final String NO_HOME_GRID = null;
+	static final String NO_HOME_GRID = GUI.NULL_STRING;
 	static final int NO_COST = -1;
 	static final int NO_NAME_INT = -1;
 	static final int SORT_CO1_BEFORE_CO2 = -100;
@@ -734,7 +734,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		boolean tDidPartiallyOperate;
 
 		tDidPartiallyOperate = false;
-		if ((status == ActorI.ActionStates.TileLaid) ||
+		if ((status == ActorI.ActionStates.StartedOperations) ||
+			(status == ActorI.ActionStates.TileLaid) ||
 			(status == ActorI.ActionStates.Tile2Laid) ||
 			(status == ActorI.ActionStates.TileUpgraded) ||
 			(status == ActorI.ActionStates.StationLaid) ||
@@ -2222,7 +2223,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		int tCompareCanOperate;
 		TrainCompany tCompany1, tCompany2;
 
-		if (this.isAShareCompany ()) {
+		if (isAShareCompany ()) {
 			tCompany1 = (TrainCompany) this;
 			tCompany2 = (TrainCompany) aCorporation;
 			tCanOperate1 = tCompany1.canOperate ();
@@ -2323,7 +2324,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public int compareShare (Corporation aCorporation) {
 		int tCompareShare;
 
-		if ((this.isAShareCompany ()) && (aCorporation.isAShareCompany ())) {
+		if ((isAShareCompany ()) && (aCorporation.isAShareCompany ())) {
 			tCompareShare = 0;
 		} else {
 			tCompareShare = compareID (aCorporation);
@@ -2586,7 +2587,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 
 	public void enterSelectRouteMode (RouteInformation aRouteInformation) {
 //		Override in Train Company Class
-
 	}
 
 	public void exitSelectRouteMode () {
