@@ -2,6 +2,8 @@ package ge18xx.company.benefit;
 
 import java.util.Arrays;
 
+import javax.swing.JLabel;
+
 import ge18xx.company.Corporation;
 import ge18xx.company.License;
 import ge18xx.company.ShareCompany;
@@ -169,5 +171,16 @@ public class FreeLicenseBenefit extends PassiveEffectBenefit {
 		tBenefitUsedEffect = new BenefitUsedEffect (aShareCompany, this);
 		addAdditionalEffect (tBenefitUsedEffect);
 		addAdditionalEffects (aAction);
+	}
+	
+	@Override
+	public JLabel getBenefitLabel () {
+		JLabel tBenefitLabel;
+		String tBenefitText;
+		
+		tBenefitText = "Free " + licenseType + " License for " + getAllMapCellIDs ();		
+		tBenefitLabel = new JLabel (tBenefitText);
+		
+		return tBenefitLabel;
 	}
 }

@@ -3,6 +3,7 @@ package ge18xx.company.benefit;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
@@ -166,5 +167,17 @@ public class PortPlacementBenefit extends MapBenefit {
 			disableButton ();
 			setToolTip ("No Selected Map Cell");
 		}
+	}
+	
+	@Override
+	public JLabel getBenefitLabel () {
+		JLabel tBenefitLabel;
+		String tBenefitText;
+		
+		tBenefitText = "Port Placement on any Anchor MapCell.";
+		
+		tBenefitLabel = new JLabel (tBenefitText);
+		
+		return tBenefitLabel;
 	}
 }

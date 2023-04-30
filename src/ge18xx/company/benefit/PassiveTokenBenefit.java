@@ -1,5 +1,7 @@
 package ge18xx.company.benefit;
 
+import javax.swing.JLabel;
+
 import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
@@ -8,6 +10,7 @@ import ge18xx.map.MapCell;
 import ge18xx.round.action.Action;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLNode;
 
 public class PassiveTokenBenefit extends FreeLicenseBenefit {
@@ -75,5 +78,14 @@ public class PassiveTokenBenefit extends FreeLicenseBenefit {
 			tMapCell = tHexMap.getMapCellForID (tMapCellID);
 			placeBenefitToken (tMapCell, tokenType, value);
 		}
+	}
+	
+	@Override
+	public JLabel getBenefitLabel () {
+		JLabel tBenefitLabel;
+		
+		tBenefitLabel = GUI.NO_LABEL;
+		
+		return tBenefitLabel;
 	}
 }

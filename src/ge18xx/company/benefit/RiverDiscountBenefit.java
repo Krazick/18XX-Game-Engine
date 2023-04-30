@@ -1,5 +1,8 @@
 package ge18xx.company.benefit;
 
+import javax.swing.JLabel;
+
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLNode;
 
 public class RiverDiscountBenefit extends Benefit {
@@ -23,5 +26,14 @@ public class RiverDiscountBenefit extends Benefit {
 	public String getNewButtonLabel () {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public JLabel getBenefitLabel () {
+		JLabel tBenefitLabel;
+		
+		tBenefitLabel = GUI.NO_LABEL;
+		
+		return tBenefitLabel;
 	}
 }

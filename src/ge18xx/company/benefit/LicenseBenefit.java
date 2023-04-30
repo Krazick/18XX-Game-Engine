@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.util.Arrays;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
@@ -267,5 +268,14 @@ public class LicenseBenefit extends Benefit {
 		tAllMapCellIDs = Arrays.toString (mapCellIDs);
 		
 		return tAllMapCellIDs;
+	}
+	
+	@Override
+	public JLabel getBenefitLabel () {
+		JLabel tBenefitLabel;
+		
+		tBenefitLabel = GUI.NO_LABEL;
+		
+		return tBenefitLabel;
 	}
 }

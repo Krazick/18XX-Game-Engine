@@ -1,5 +1,9 @@
 package ge18xx.company.benefit;
 
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.border.Border;
+
 import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
@@ -79,5 +83,18 @@ public abstract class CertificateBenefit extends Benefit {
 	@Override
 	public String getNewButtonLabel () {
 		return NO_BUTTON_LABEL;
+	}
+	
+	protected void setBorder (Certificate aShareCertificate, JLabel tBenefitLabel) {
+		Border tBorder;
+		Border tBorder1;
+		Border tBorder2;
+		Corporation tCorporation;
+
+		tCorporation = aShareCertificate.getCorporation ();
+		tBorder1 = BorderFactory.createLineBorder (tCorporation.getBgColor (), 2);
+		tBorder2 = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+		tBorder = BorderFactory.createCompoundBorder (tBorder1, tBorder2);
+		tBenefitLabel.setBorder(tBorder);
 	}
 }

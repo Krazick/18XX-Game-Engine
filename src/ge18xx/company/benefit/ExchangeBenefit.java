@@ -3,6 +3,7 @@ package ge18xx.company.benefit;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.company.Certificate;
@@ -124,5 +125,22 @@ public class ExchangeBenefit extends CertificateBenefit {
 		tPrivateCertificate = privateCompany.getPresidentCertificate ();
 		tOwner.exchangeCertificate (tPrivateCertificate);
 		removeButton ();
+	}
+	
+	@Override
+	public JLabel getBenefitLabel () {
+		JLabel tBenefitLabel;
+		String tLabelText;
+		Certificate tShareCertificate;
+		
+		tShareCertificate = getShareCertificate ();
+		tLabelText = "Exchange for " + tShareCertificate.getPercentage () + "% of " + tShareCertificate.getCompanyAbbrev ();
+		if (tShareCertificate.isPresidentShare ()) {
+			tLabelText += " President";
+		}
+		tBenefitLabel = new JLabel (tLabelText);
+		setBorder (tShareCertificate, tBenefitLabel);
+
+		return tBenefitLabel;
 	}
 }

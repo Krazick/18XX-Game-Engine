@@ -3,6 +3,7 @@ package ge18xx.company.benefit;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.center.City;
@@ -193,4 +194,21 @@ public class TokenPlacementBenefit extends MapBenefit {
 			setToolTip ("All Good");
 		}
 	}
+	
+	
+	@Override
+	public JLabel getBenefitLabel () {
+		JLabel tBenefitLabel;
+		String tBenefitText;
+		
+		tBenefitText = "Token Placement on " + getMapCellID ();
+		if (extraTokenPlacement) {
+			tBenefitText = "Extra " + tBenefitText;
+		}
+		
+		tBenefitLabel = new JLabel (tBenefitText);
+		
+		return tBenefitLabel;
+	}
+
 }

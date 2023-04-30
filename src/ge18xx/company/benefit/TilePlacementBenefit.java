@@ -3,6 +3,7 @@ package ge18xx.company.benefit;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.company.Corporation;
@@ -188,5 +189,20 @@ public class TilePlacementBenefit extends MapBenefit {
 	@Override
 	public boolean changeState () {
 		return !extraTilePlacement;
+	}
+	
+	@Override
+	public JLabel getBenefitLabel () {
+		JLabel tBenefitLabel;
+		String tBenefitText;
+		
+		tBenefitText = "Tile Placement on " + getMapCellID ();
+		if (extraTilePlacement) {
+			tBenefitText = "Extra " + tBenefitText;
+		}
+		
+		tBenefitLabel = new JLabel (tBenefitText);
+		
+		return tBenefitLabel;
 	}
 }
