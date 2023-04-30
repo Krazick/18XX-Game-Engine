@@ -5,7 +5,6 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
@@ -595,42 +594,46 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	}
 	
-	public boolean hasExchangeBenefit () {
-		boolean tHasExchangeBenefit;
-		
-		if (hasAnyPlayerBenefits ()) {
-			tHasExchangeBenefit = benefits.hasExchangeBenefit ();
-		} else {
-			tHasExchangeBenefit = false;
-		}
-
-		return tHasExchangeBenefit;
+	public Benefits getBenefits () {
+		return benefits;
 	}
-	
-	public JLabel getExchangeCertLabel () {
-		JLabel tFreeCertLabel;
-		
-		tFreeCertLabel = benefits.getExchangeCertLabel ();
-		
-		return tFreeCertLabel;
-	}
-
-	public boolean hasBenefitWithFreeCert () {
-		boolean tHasBenefitsWithFreeCert;
-		
-		tHasBenefitsWithFreeCert = false;
-		if (hasAnyPassivePlayerBenefits ()) {
-			tHasBenefitsWithFreeCert = benefits.hasFreeCertBenefit ();
-		}
-		
-		return tHasBenefitsWithFreeCert;
-	}
-	
-	public JLabel getFreeCertLabel () {
-		JLabel tFreeCertLabel;
-		
-		tFreeCertLabel = benefits.getFreeCertLabel ();
-		
-		return tFreeCertLabel;
-	}
+//	
+//	public boolean hasExchangeBenefit () {
+//		boolean tHasExchangeBenefit;
+//		
+//		if (hasAnyPlayerBenefits ()) {
+//			tHasExchangeBenefit = benefits.hasExchangeBenefit ();
+//		} else {
+//			tHasExchangeBenefit = false;
+//		}
+//
+//		return tHasExchangeBenefit;
+//	}
+//	
+//	public JLabel getExchangeCertLabel () {
+//		JLabel tFreeCertLabel;
+//		
+//		tFreeCertLabel = benefits.getExchangeCertLabel ();
+//		
+//		return tFreeCertLabel;
+//	}
+//
+//	public boolean hasBenefitWithFreeCert () {
+//		boolean tHasBenefitsWithFreeCert;
+//		
+//		tHasBenefitsWithFreeCert = false;
+//		if (hasAnyPassivePlayerBenefits ()) {
+//			tHasBenefitsWithFreeCert = benefits.hasFreeCertBenefit ();
+//		}
+//		
+//		return tHasBenefitsWithFreeCert;
+//	}
+//	
+//	public JLabel getFreeCertLabel () {
+//		JLabel tFreeCertLabel;
+//		
+//		tFreeCertLabel = benefits.getFreeCertLabel ();
+//		
+//		return tFreeCertLabel;
+//	}
 }
