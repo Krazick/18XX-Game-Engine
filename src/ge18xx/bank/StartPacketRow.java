@@ -138,18 +138,10 @@ public class StartPacketRow implements ParsingRoutineI {
 		if (validIndex (aIndex)) {
 			tStartPacketItem = startPacketItems.get (aIndex);
 			tItemCertificate = tStartPacketItem.getCertificate ();
-		} else {
-			System.err.println ("Only " + getItemCount () + " Items in Row, asked for " + aIndex);
 		}
 
 		return tItemCertificate;
 	}
-//
-//	public void removeCertificateInRow (int aIndex) {
-//		if (validIndex (aIndex)) {
-//			startPacketItems.remove (aIndex);
-//		}
-//	}
 	
 	public Certificate getCertificateToAuction () {
 		Certificate tCertificateToAuction;
