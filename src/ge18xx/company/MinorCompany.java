@@ -2,11 +2,16 @@ package ge18xx.company;
 
 import java.awt.event.ItemListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
+import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -186,5 +191,34 @@ public class MinorCompany extends TokenCompany {
 		
 		return tShouldFloat;
 	}
+	
+	protected void setBorder (Corporation aCorporation, JLabel tBenefitLabel) {
+		Border tBorder;
+		Border tBorder1;
+		Border tBorder2;
 
+		tBorder1 = BorderFactory.createLineBorder (aCorporation.getBgColor (), 2);
+		tBorder2 = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+		tBorder = BorderFactory.createCompoundBorder (tBorder1, tBorder2);
+		tBenefitLabel.setBorder(tBorder);
+	}
+
+	public JLabel getBenefitLabel () {
+		JLabel tBenefitLabel;
+		String tBenefitText;
+		Corporation tUpgradeCorporation;
+		GameManager tGameManager;
+		 
+		tGameManager = getGameManager ();
+		tUpgradeCorporation = tGameManager.getCorporationByID (upgradeToID);
+		if (tUpgradeCorporation == Corporation.NO_CORPORATION) {
+			tBenefitLabel = GUI.NO_LABEL;
+		} else {
+			tBenefitText = "Upgrade to " + upgradePercentage + "% of " + tUpgradeCorporation.getAbbrev ();		
+			tBenefitLabel = new JLabel (tBenefitText);
+			setBorder (tUpgradeCorporation, tBenefitLabel);
+		}
+		
+		return tBenefitLabel;
+	}
 }
