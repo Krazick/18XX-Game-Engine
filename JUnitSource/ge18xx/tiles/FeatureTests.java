@@ -73,8 +73,6 @@ class FeatureTests {
 		tXValue = (int) tCalculatedCenter.getX ();
 		tYValue = (int) tCalculatedCenter.getY ();
 		verify (mLocation).calcCenter (tHex);
-		System.out.println ("Calculated Center " + tCalculatedCenter.getX () + ", " + tCalculatedCenter.getY ());
-		System.out.println ("Point " + tPoint.getX () + ", " + tPoint.getY ());
 		assertEquals (100, tXValue);
 		assertEquals (100, tYValue);
 	}
@@ -97,10 +95,8 @@ class FeatureTests {
 	@Test
 	@DisplayName ("Test Feature Setting Locations")
 	public void FeatureSetLocationsTest () {
-//		Location tFeatureAlphaLocation;
 		Location tFeatureBetaLocation;
 
-//		locationSide = null;
 		featureAlpha.setLocation (null);
 		assertTrue (featureAlpha.isNoLocation (), "Feature Alpha with no Location (null) - TRUE");
 		assertFalse (featureBeta.isNoLocation (), "Feature Beta with no Location (null) - FALSE");
@@ -115,8 +111,6 @@ class FeatureTests {
 		assertTrue (featureAlpha.isAtLocation (locationCenter),
 				"Feature Center at Center - With 'isAtLocation' Method");
 
-//		tFeatureAlphaLocation = featureAlpha.getLocation ();
-//		assertNotSame (Location.NO_LOC, tFeatureAlphaLocation, "Side Location (null) and Feature Alpha Location Objects are not the same");
 		tFeatureBetaLocation = featureBeta.getLocation ();
 		assertSame (locationDeadEnd, tFeatureBetaLocation,
 				"Dead End Location (null) and Feature Beta Location Objects are the same");
