@@ -2,7 +2,6 @@ package ge18xx.bank;
 
 import java.awt.event.ItemListener;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.company.Certificate;
@@ -58,20 +57,11 @@ public class StartPacketItem implements ParsingRoutineI {
 	public JPanel buildStartPacketItemJPanel (String aSelectedButtonLabel, ItemListener aItemListener, Player aPlayer,
 			GameManager aGameManager) {
 		JPanel tCertificateInfoPanel;
-		JLabel tFreeCertLabel;
-		JLabel tExchangeCertLabel;
 
 		if (available) {
 			tCertificateInfoPanel = certificate.buildCertificateInfoJPanel (aSelectedButtonLabel, aItemListener, true,
 					aPlayer, aGameManager);
-			if (certificate.hasBenfitWithFreeCert ()) {
-				tFreeCertLabel = certificate.getFreeCertLabel ();
-				tCertificateInfoPanel.add (tFreeCertLabel);
-			}
-			if (certificate.hasExchangeBenefit ()) {
-				tExchangeCertLabel = certificate.getExchangeCertLabel ();
-				tCertificateInfoPanel.add (tExchangeCertLabel);
-			}
+			certificate.addBenefitLabels (tCertificateInfoPanel);
 		} else {
 			tCertificateInfoPanel = GUI.NO_PANEL;
 		}

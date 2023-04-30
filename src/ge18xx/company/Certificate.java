@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ItemListener;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -19,6 +20,8 @@ import javax.swing.border.CompoundBorder;
 import ge18xx.bank.Bank;
 import ge18xx.bank.BankPool;
 import ge18xx.center.Revenue;
+import ge18xx.company.benefit.Benefit;
+import ge18xx.company.benefit.Benefits;
 import ge18xx.game.FrameButton;
 import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
@@ -396,7 +399,41 @@ public class Certificate implements Comparable<Certificate> {
 
 		return tCertificateInfoJPanel;
 	}
-	
+
+	public void addBenefitLabels (JPanel aCertificateInfoPanel) {
+//		JLabel tFreeCertLabel;
+//		JLabel tExchangeCertLabel;
+		JLabel tBenefitLabel;
+		PrivateCompany tPrivateCompany;
+		Benefits tAllBenefits;
+		List<Benefit> tBenefits;
+
+		
+		if (isAPrivateCompany ()) {
+			tPrivateCompany = (PrivateCompany) getCorporation ();
+			tAllBenefits = tPrivateCompany.getBenefits ();
+			if (tAllBenefits != null) {
+				tBenefits = tAllBenefits.getBenefits ();
+				if (tBenefits != null) {
+					for (Benefit tBenefit : tBenefits) {
+						tBenefitLabel = tBenefit.getBenefitLabel ();
+						if (tBenefitLabel != GUI.NO_LABEL) {
+							aCertificateInfoPanel.add (tBenefitLabel);
+						}
+					}
+				}
+			}
+		}
+//		if (hasBenfitWithFreeCert ()) {
+//			tFreeCertLabel = getFreeCertLabel ();
+//			aCertificateInfoPanel.add (tFreeCertLabel);
+//		}
+//		if (hasExchangeBenefit ()) {
+//			tExchangeCertLabel = getExchangeCertLabel ();
+//			aCertificateInfoPanel.add (tExchangeCertLabel);
+//		}
+	}
+
 	public boolean hasExchangeBenefit () {
 		PrivateCompany tPrivateCompany;
 		boolean tHasExchangeBenefit;
