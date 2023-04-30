@@ -401,10 +401,9 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public void addBenefitLabels (JPanel aCertificateInfoPanel) {
-//		JLabel tFreeCertLabel;
-//		JLabel tExchangeCertLabel;
 		JLabel tBenefitLabel;
 		PrivateCompany tPrivateCompany;
+		MinorCompany tMinorCompany;
 		Benefits tAllBenefits;
 		List<Benefit> tBenefits;
 
@@ -423,67 +422,13 @@ public class Certificate implements Comparable<Certificate> {
 					}
 				}
 			}
+		} else if (isAMinorCompany ()) {
+			tMinorCompany = (MinorCompany) getCorporation ();
+			tBenefitLabel = tMinorCompany.getBenefitLabel ();
+			if (tBenefitLabel != GUI.NO_LABEL) {
+				aCertificateInfoPanel.add (tBenefitLabel);
+			}
 		}
-//		if (hasBenfitWithFreeCert ()) {
-//			tFreeCertLabel = getFreeCertLabel ();
-//			aCertificateInfoPanel.add (tFreeCertLabel);
-//		}
-//		if (hasExchangeBenefit ()) {
-//			tExchangeCertLabel = getExchangeCertLabel ();
-//			aCertificateInfoPanel.add (tExchangeCertLabel);
-//		}
-	}
-
-	public boolean hasExchangeBenefit () {
-		PrivateCompany tPrivateCompany;
-		boolean tHasExchangeBenefit;
-		
-		tHasExchangeBenefit = false;
-		if (isAPrivateCompany ()) {
-			tPrivateCompany = (PrivateCompany) getCorporation ();
-			tHasExchangeBenefit = tPrivateCompany.hasExchangeBenefit ();
-		}
-		
-		return tHasExchangeBenefit;
-	}
-	
-	public JLabel getExchangeCertLabel () {
-		JLabel tFreeCertLabel;
-		PrivateCompany tPrivateCompany;
-
-		tFreeCertLabel = GUI.NO_LABEL;
-		if (isAPrivateCompany ()) {
-			tPrivateCompany = (PrivateCompany) getCorporation ();
-			tFreeCertLabel = tPrivateCompany.getExchangeCertLabel ();
-		}
-		
-		return tFreeCertLabel;
-	}
-
-	public boolean hasBenfitWithFreeCert () {
-		PrivateCompany tPrivateCompany;
-		boolean tHasBenefitWithFreeCert;
-		
-		tHasBenefitWithFreeCert = false;
-		if (isAPrivateCompany ()) {
-			tPrivateCompany = (PrivateCompany) getCorporation ();
-			tHasBenefitWithFreeCert = tPrivateCompany.hasBenefitWithFreeCert ();
-		}
-		
-		return tHasBenefitWithFreeCert;
-	}
-	
-	public JLabel getFreeCertLabel () {
-		JLabel tFreeCertLabel;
-		PrivateCompany tPrivateCompany;
-
-		tFreeCertLabel = GUI.NO_LABEL;
-		if (isAPrivateCompany ()) {
-			tPrivateCompany = (PrivateCompany) getCorporation ();
-			tFreeCertLabel = tPrivateCompany.getFreeCertLabel ();
-		}
-		
-		return tFreeCertLabel;
 	}
 	
 	public void updateBidLabel (String aCheckBoxLabel, ItemListener aItemListener, JPanel aCertificateInfoJPanel,
