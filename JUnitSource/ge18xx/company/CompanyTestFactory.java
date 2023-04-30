@@ -9,11 +9,13 @@ import org.mockito.Mockito;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
 
 public class CompanyTestFactory {
 	public final TokenCompanyConcrete NO_TOKEN_COMPANY = null;
+	public final TrainCompanyConcrete NO_TRAIN_COMPANY = null;
 	public final int NO_COMPANY_INDEX = 99;
 	private GameTestFactory gameTestFactory;
 	private UtilitiesTestFactory utilitiesTestFactory;
@@ -108,6 +110,41 @@ public class CompanyTestFactory {
 		return mPrivateCompany;
 	}
 
+	public TrainCompany buildATrainCompany (int aCompanyIndex) {
+		TrainCompanyConcrete tTrainCompany;
+		String tTrainCompany1TestXML = "<Share id=\"991\" name=\"Test Train Pennsylvania\" abbrev=\"TTPRR\" homeCell1=\"H12\" \n"
+				+ "	homeLocation1=\"14\" bgColor=\"Dark Green\" fgColor=\"White\" tokens=\"4\"> \n"
+				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
+				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
+				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
+		String tTrainCompany2TestXML = "<Share id=\"992\" name=\"Test Train Baltimore and Ohio\" abbrev=\"TTBNO\" homeCell1=\"I15\" \n"
+				+ "	homeLocation1=\"21\" bgColor=\"Deep Blue\" fgColor=\"White\" tokens=\"3\"> \n"
+				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
+				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
+				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
+	
+		CorporationList mCorporationList;
+		GameManager mGameManager;
+		PhaseInfo mPhaseInfo;
+		CorporationFrame mCorporationFrame;
+		
+		tTrainCompany = NO_TRAIN_COMPANY;
+		
+		mGameManager = gameTestFactory.buildGameManagerMock ();
+		mPhaseInfo = gameTestFactory.buildPhaseInfoMock ();
+		mCorporationList = buildCorporationListMock (mGameManager, mPhaseInfo);
+
+		if (aCompanyIndex == 1) {
+			tTrainCompany = buildTrainCompany (tTrainCompany1TestXML, tTrainCompany, mCorporationList);
+		} else if (aCompanyIndex == 2) {
+			tTrainCompany = buildTrainCompany (tTrainCompany2TestXML, tTrainCompany, mCorporationList);			
+		}
+		
+		mCorporationFrame = buildCorporationFrameMock ();
+		tTrainCompany.setCorporationFrame (mCorporationFrame);
+		return tTrainCompany;
+	}
+
 	public TokenCompany buildATokenCompany (int aCompanyIndex) {
 		TokenCompanyConcrete tTokenCompany;
 		String tTokenCompany1TestXML = "<Share id=\"991\" name=\"Test Token Pennsylvania\" abbrev=\"TTPRR\" homeCell1=\"H12\" \n"
@@ -140,6 +177,7 @@ public class CompanyTestFactory {
 		
 		mCorporationFrame = buildCorporationFrameMock ();
 		tTokenCompany.setCorporationFrame (mCorporationFrame);
+		
 		return tTokenCompany;
 	}
 
@@ -220,6 +258,19 @@ public class CompanyTestFactory {
 		}
 
 		return tShareCompany;
+	}
+
+	private TrainCompanyConcrete buildTrainCompany (String aTrainCompanyTestXML, TrainCompanyConcrete aTrainCompany,
+			CorporationList mCorporationList) {
+		XMLNode tTrainCompanyNode;
+
+		tTrainCompanyNode = utilitiesTestFactory.buildXMLNode (aTrainCompanyTestXML);
+		if (tTrainCompanyNode != XMLNode.NO_NODE) {
+			aTrainCompany = new TrainCompanyConcrete (tTrainCompanyNode, mCorporationList);
+			aTrainCompany.setTestingFlag (true);
+		}
+
+		return aTrainCompany;
 	}
 
 	private TokenCompanyConcrete buildTokenCompany (String aTokenCompanyTestXML, TokenCompanyConcrete aTokenCompany,
@@ -325,6 +376,50 @@ public class CompanyTestFactory {
 		Mockito.when (mMinorCompany.getAbbrev ()).thenReturn ("MMC");
 
 		return mMinorCompany;
+	}
+	
+	// Class to create Concrete Train Company rather than a specific extended class for Testing
+	
+	class TrainCompanyConcrete extends TrainCompany {
+		
+		public TrainCompanyConcrete (int aID, String aName) {
+			super (aID, aName);
+		}
+
+		public TrainCompanyConcrete (XMLNode aChildNode, CorporationList aCorporationList) {
+			super (aChildNode, aCorporationList);
+		}
+
+		@Override
+		public JPanel buildPrivateCertJPanel (ItemListener aItemListener, int aAvailableCash) {
+			return GUI.NO_PANEL;
+		}
+
+		@Override
+		public int calculateStartingTreasury () {
+			return 0;
+		}
+
+		@Override
+		protected boolean choiceForBaseToken () {
+			return false;
+		}
+	}
+
+	public TrainCompany buildTrainCompanyConcrete () {
+		TrainCompany cTrainCompany;
+		
+		cTrainCompany = buildTrainCompanyConcrete (NO_COMPANY_INDEX, "TEST TRAIN COMPANY");
+		
+		return cTrainCompany;
+	}
+
+	public TrainCompany buildTrainCompanyConcrete (int aCompanyID, String aCompanyName) {
+		TrainCompany cTrainCompany;
+		
+		cTrainCompany = new TrainCompanyConcrete (aCompanyID, aCompanyName);
+		
+		return cTrainCompany;
 	}
 
 	// Class to create Concrete Token Company rather than a specific extended class for Testing
