@@ -32,8 +32,6 @@ class TileNameTests {
 		tTileName1 = new TileName ("Seattle", 20);
 		assertEquals ("San Diego", tTileName2.getName (), "Clone Tile Name 2");
 		assertEquals ("Seattle", tTileName1.getName (), "Constructor 2 Args");
-
-		tTileName2.printlog ();
 	}
 
 }
