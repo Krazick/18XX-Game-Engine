@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.company.Corporation;
@@ -497,5 +498,13 @@ public abstract class Benefit implements ActionListener {
 		}
 		
 		return tOperatingCompany;
+	}
+	
+	public JLabel getBenefitLabel () {
+		JLabel tBenefitLabel;
+	
+		tBenefitLabel = new JLabel ("NO BENEFIT INFO");
+
+		return tBenefitLabel;
 	}
 }
