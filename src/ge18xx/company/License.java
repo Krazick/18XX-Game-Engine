@@ -80,10 +80,19 @@ public class License extends Coupon {
 	}
 	
 	public void setValues (LicenseTypes aType, int aPrice, int aBenefitValue) {
+		boolean tIsPortLicense;
+		
 		setType (aType);
 		setBenefitValue (aBenefitValue);
 		
-		setIsPortLicense (false);
+		if ((aType == LicenseTypes.PORT) || 
+			(aType == LicenseTypes.OPEN_PORT) ||
+			(aType == LicenseTypes.CLOSED_PORT)) {
+			tIsPortLicense = true;
+		} else {
+			tIsPortLicense = false;
+		}
+		setIsPortLicense (tIsPortLicense);
 		setMapCellIDs (NO_MAP_CELL_IDS);
 	}
 
