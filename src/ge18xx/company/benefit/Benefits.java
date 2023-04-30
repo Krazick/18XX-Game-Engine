@@ -5,16 +5,12 @@ import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 import org.w3c.dom.NodeList;
 
-import ge18xx.company.Certificate;
 import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
 import ge18xx.utilities.ElementName;
@@ -33,6 +29,10 @@ public class Benefits {
 		parseBenefits (aBenefitsNode, aCorporation);
 	}
 
+	public List<Benefit> getBenefits () {
+		return benefits;
+	}
+	
 	private void parseBenefits (XMLNode aBenefitsNode, Corporation aCorporation) {
 		XMLNode tBenefitNode;
 		NodeList tBenefitChildren;
@@ -325,103 +325,5 @@ public class Benefits {
 		}
 		
 		return tPassiveBenefit;
-	}
-
-	public boolean hasExchangeBenefit () {
-		boolean tHasExchangeBenefit;
-		
-		tHasExchangeBenefit = false;
-		for (Benefit tBenefit : benefits) {
-			if (tBenefit.isAPlayerBenefit () && !tHasExchangeBenefit) {
-				tHasExchangeBenefit = tBenefit instanceof ExchangeBenefit;
-			}
-		}
-
-		return tHasExchangeBenefit;
-	}
-	
-	public JLabel getExchangeCertLabel () {
-		JLabel tExchangeCertLabel;
-		String tExchangeCertText;
-		ExchangeBenefit tExchangeBenefit;
-		Certificate tExchangeCertificate;
-		Border tBorder1;
-		Border tBorder2;
-		Border tBorder;
-		Corporation tCorporation;
-		
-		tExchangeCertLabel = GUI.NO_LABEL;
-		tExchangeCertText = GUI.EMPTY_STRING;
-		for (Benefit tBenefit : benefits) {
-			if (tBenefit.isAPlayerBenefit () && (tExchangeCertText.length () == 0)) {
-				if (tBenefit instanceof ExchangeBenefit) {
-					tExchangeBenefit = (ExchangeBenefit) tBenefit;
-					tExchangeCertificate = tExchangeBenefit.getShareCertificate ();
-					tExchangeCertText = "Player Exchange for " + tExchangeCertificate.getPercentage () + "% of " + 
-								tExchangeCertificate.getCompanyAbbrev ();
-					if (tExchangeCertificate.isPresidentShare ()) {
-						tExchangeCertText += " President";
-					}
-					tExchangeCertLabel = new JLabel (tExchangeCertText);
-					tCorporation = tExchangeCertificate.getCorporation ();
-					tBorder1 = BorderFactory.createLineBorder (tCorporation.getBgColor (), 2);
-					tBorder2 = BorderFactory.createEmptyBorder(2, 2, 2, 2);
-					tBorder = BorderFactory.createCompoundBorder (tBorder1, tBorder2);
-					tExchangeCertLabel.setBorder(tBorder);
-
-				}
-			}
-		}
-
-		return tExchangeCertLabel;
-	}
-
-	public boolean hasFreeCertBenefit () {
-		boolean tHasFreeCertBenefit;
-		
-		tHasFreeCertBenefit = false;
-		for (Benefit tBenefit : benefits) {
-			if (tBenefit.isPassivePlayerBenefit () && !tHasFreeCertBenefit) {
-				tHasFreeCertBenefit = tBenefit instanceof FreeCertificateBenefit;
-			}
-		}
-		
-		return tHasFreeCertBenefit;
-	}
-	
-	public JLabel getFreeCertLabel () {
-		JLabel tFreeCertLabel;
-		String tFreeCertText;
-		FreeCertificateBenefit tFreeCertificateBenefit;
-		Certificate tFreeCertificate;
-		Border tBorder1;
-		Border tBorder2;
-		Border tBorder;
-		Corporation tCorporation;
-		
-		tFreeCertLabel = GUI.NO_LABEL;
-		tFreeCertText = GUI.EMPTY_STRING;
-		for (Benefit tBenefit : benefits) {
-			if (tBenefit.isPassivePlayerBenefit () && (tFreeCertText.length () == 0)) {
-				if (tBenefit instanceof FreeCertificateBenefit) {
-					tFreeCertificateBenefit = (FreeCertificateBenefit) tBenefit;
-					tFreeCertificate = tFreeCertificateBenefit.getShareCertificate ();
-					tFreeCertText = "Free " + tFreeCertificate.getPercentage () + "% of " + 
-								tFreeCertificate.getCompanyAbbrev ();
-					if (tFreeCertificate.isPresidentShare ()) {
-						tFreeCertText += " President";
-					}
-					tFreeCertLabel = new JLabel (tFreeCertText);
-					tCorporation = tFreeCertificate.getCorporation ();
-					tBorder1 = BorderFactory.createLineBorder (tCorporation.getBgColor (), 2);
-					tBorder2 = BorderFactory.createEmptyBorder(2, 2, 2, 2);
-					tBorder = BorderFactory.createCompoundBorder (tBorder1, tBorder2);
-					tFreeCertLabel.setBorder(tBorder);
-
-				}
-			}
-		}
-
-		return tFreeCertLabel;
 	}
 }

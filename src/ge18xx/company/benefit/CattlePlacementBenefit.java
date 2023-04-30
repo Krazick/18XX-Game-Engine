@@ -3,6 +3,7 @@ package ge18xx.company.benefit;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.company.CorporationFrame;
@@ -147,4 +148,17 @@ public class CattlePlacementBenefit extends MapBenefit {
 			setToolTip ("No Selected Map Cell");
 		}
 	}
+	
+	
+	@Override
+	public JLabel getBenefitLabel () {
+		JLabel tBenefitLabel;
+		String tBenefitText;
+		
+		tBenefitText = "Cattle Token Placement on " + getMapCellID ();		
+		tBenefitLabel = new JLabel (tBenefitText);
+		
+		return tBenefitLabel;
+	}
+
 }
