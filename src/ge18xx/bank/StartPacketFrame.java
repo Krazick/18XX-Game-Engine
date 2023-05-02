@@ -22,6 +22,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLNode;
@@ -35,6 +36,7 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 	private static final long serialVersionUID = 1L;
 	public static final String SP_NAME = "Start Packet";
 	public static final String SPFRAME_SUFFIX = " " + SP_NAME + " Frame";
+	public enum StartPacketStates { NO_ROWS, FIRST_ROW, SECOND_ROW, OTHER_ROWS, ALL_ROWS };
 
 	List<StartPacketRow> startPacketRows;
 	StartPacketPortfolio portfolio;
@@ -85,32 +87,79 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		BoxLayout tSPLayout;
 		boolean tPreviousRowSoldOut;
 		String tSelectedButtonLabel;
+		StartPacketStates tSPState;
+		int tRowCount;
+		int tBuyNItems;
 
 		tSPPortfolioJPanel = new JPanel ();
 		tSPLayout = new BoxLayout (tSPPortfolioJPanel, BoxLayout.Y_AXIS);
 		tSPPortfolioJPanel.setLayout (tSPLayout);
 		tSPPortfolioJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
 		tPreviousRowSoldOut = true;
-
+		tSPState = getInitialSPState ();
 		for (StartPacketRow tStartPacketRow : startPacketRows) {
-			if (tPreviousRowSoldOut) {
-				tSelectedButtonLabel = Player.BUY_LABEL;
-			} else {
-				tSelectedButtonLabel = Player.BID_LABEL;
-			}
-			if (! tStartPacketRow.isRowSoldOut (portfolio)) {
-				tRowJPanel = tStartPacketRow.buildRowJPanel (tSelectedButtonLabel, aItemListener, aPlayer,
-						aGameManager);
+			tBuyNItems = tStartPacketRow.getBuyNItems ();
+			tSelectedButtonLabel = getButtonLabel (tPreviousRowSoldOut, tBuyNItems);
+			tRowCount = tStartPacketRow.getAvailableItemCount ();
+			if (tRowCount > 0) {
+				if (tSPState != StartPacketStates.ALL_ROWS)  {
+					if (tSPState == StartPacketStates.NO_ROWS) {
+						tSPState = StartPacketStates.FIRST_ROW;
+						tBuyNItems = tRowCount;
+					} else if (tSPState == StartPacketStates.FIRST_ROW) {
+						tSPState = StartPacketStates.SECOND_ROW;
+					} else if (tSPState == StartPacketStates.SECOND_ROW) {
+						tSPState = StartPacketStates.OTHER_ROWS;
+						tSelectedButtonLabel = GUI.EMPTY_STRING;
+					} else if (tSPState == StartPacketStates.OTHER_ROWS) {
+						tSelectedButtonLabel = GUI.EMPTY_STRING;
+					}
+				}
+				tRowJPanel = tStartPacketRow.buildRowJPanel (tSelectedButtonLabel, tPreviousRowSoldOut, tBuyNItems,
+						aItemListener, aPlayer, aGameManager);
 				tSPPortfolioJPanel.add (Box.createVerticalGlue ());
 				tSPPortfolioJPanel.add (tRowJPanel);
 				tSPPortfolioJPanel.add (Box.createVerticalGlue ());
 				tPreviousRowSoldOut = false;
+			} else {
+				if (tSPState == StartPacketStates.FIRST_ROW) {
+					tSPState = StartPacketStates.OTHER_ROWS;
+				}
 			}
 		}
 
 		return tSPPortfolioJPanel;
 	}
 
+	public StartPacketStates getInitialSPState () {
+		StartPacketStates tStartPacketState;
+		int tBuyNItems;
+		
+		tStartPacketState = StartPacketStates.ALL_ROWS;
+		for (StartPacketRow tStartPacketRow : startPacketRows) {
+			tBuyNItems = tStartPacketRow.getBuyNItems ();
+			if (tBuyNItems > 0) {
+				tStartPacketState = StartPacketStates.NO_ROWS;
+			}
+		}
+		
+		return tStartPacketState;
+	}
+	
+	public String getButtonLabel (boolean aPreviousRowSoldOut, int aBuyNItems) {
+		String tButtonLabel;
+		
+		if (aPreviousRowSoldOut) {
+			tButtonLabel = Player.BUY_LABEL;
+		} else if (aBuyNItems == 0) {
+			tButtonLabel = Player.BID_LABEL;
+		} else {
+			tButtonLabel = Player.BUY_LABEL;
+		}
+		
+		return tButtonLabel;
+	}
+	
 	public void clearSelections () {
 		portfolio.clearSelections ();
 	}

@@ -22,50 +22,103 @@ import ge18xx.utilities.XMLNode;
 import ge18xx.utilities.XMLNodeList;
 
 public class StartPacketRow implements ParsingRoutineI {
-	private static final AttributeName AN_ROW = new AttributeName ("row");
 	private static final ElementName EN_CERTIFICATE = new ElementName ("Certificate");
+	private static final AttributeName AN_ROW = new AttributeName ("row");
+	private static final AttributeName AN_BUY_N_ITEMS = new AttributeName ("buyNItems");
 	public static final StartPacketRow NO_START_PACKET_ROW = null;
 	public static final int NO_ROW_LOCATION = -1;
 	int rowNumber;
+	int buyNItems;
 	StartPacketFrame startPacketFrame;
 	List<StartPacketItem> startPacketItems;
 
 	StartPacketRow (XMLNode aNode) {
 		XMLNodeList tXMLNodeList;
-
-		rowNumber = aNode.getThisIntAttribute (AN_ROW);
+		int tBuyNItems;
+		int tRowNumber;
+		
+		tRowNumber = aNode.getThisIntAttribute (AN_ROW);
+		tBuyNItems = aNode.getThisIntAttribute (AN_BUY_N_ITEMS, 0);
 		startPacketItems = new LinkedList<> ();
 		tXMLNodeList = new XMLNodeList (this);
 		tXMLNodeList.parseXMLNodeList (aNode, EN_CERTIFICATE);
 		setStartPacket (StartPacketFrame.NO_START_PACKET);
+		setRowNumber (tRowNumber);
+		setBuyNItems (tBuyNItems);
 	}
 
-	public JPanel buildRowJPanel (String aSelectedButtonLabel, ItemListener aItemListener, Player aPlayer,
-			GameManager aGameManager) {
+	public void setRowNumber (int aRowNumber) {
+		rowNumber = aRowNumber;
+	}
+	
+	public void setBuyNItems (int aBuyNItems) {
+		buyNItems = aBuyNItems;
+	}
+	
+	public int getBuyNItems () {
+		return buyNItems;
+	}
+	
+	public int getRowNumber () {
+		return rowNumber;
+	}
+	
+	public JPanel buildRowJPanel (String aSelectedButtonLabel, boolean aPreviousRowSoldOut, int aBuyNItems,
+			ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
 		JPanel tRowJPanel;
-		JPanel tRowItemJPanel;
 		BoxLayout tLayout;
+		int tItemsShownAsBuy;
 
 		tRowJPanel = new JPanel ();
 		tRowJPanel.setBorder (BorderFactory.createTitledBorder ("Row " + rowNumber));
 		tLayout = new BoxLayout (tRowJPanel, BoxLayout.X_AXIS);
 		tRowJPanel.setLayout (tLayout);
+		tItemsShownAsBuy = 0;
 		for (StartPacketItem tStartPacketItem : startPacketItems) {
-			if (aSelectedButtonLabel.equals (Player.BID_LABEL)) {
-				if (! tStartPacketItem.getCanBeBidOn ()) {
-					aSelectedButtonLabel = GUI.EMPTY_STRING;
+			if (tStartPacketItem.available ()) {
+				if (! aPreviousRowSoldOut) {
+					if (tItemsShownAsBuy < aBuyNItems) {
+						buildAndAddRowItem (aSelectedButtonLabel, aItemListener, aPlayer, aGameManager, tRowJPanel,
+								tStartPacketItem);
+						tItemsShownAsBuy++;
+					} else {
+						if (aSelectedButtonLabel.equals (Player.BID_LABEL)) {
+							if (! tStartPacketItem.getCanBeBidOn ()) {
+								aSelectedButtonLabel = GUI.EMPTY_STRING;
+							}
+						} else {
+							aSelectedButtonLabel = GUI.EMPTY_STRING;
+						}
+						buildAndAddRowItem (aSelectedButtonLabel, aItemListener, aPlayer, aGameManager, tRowJPanel,
+								tStartPacketItem);
+					}
+				} else {
+					if (aSelectedButtonLabel.equals (Player.BID_LABEL)) {
+						if (! tStartPacketItem.getCanBeBidOn ()) {
+							aSelectedButtonLabel = GUI.EMPTY_STRING;
+						}
+					}
+					buildAndAddRowItem (aSelectedButtonLabel, aItemListener, aPlayer, aGameManager, tRowJPanel,
+							tStartPacketItem);
+					
 				}
-			}
-			tRowItemJPanel = tStartPacketItem.buildStartPacketItemJPanel (aSelectedButtonLabel, aItemListener, aPlayer,
-					aGameManager);
-			if (tRowItemJPanel != GUI.NO_PANEL) {
-				tRowJPanel.add (Box.createHorizontalGlue ());
-				tRowJPanel.add (tRowItemJPanel);
-				tRowJPanel.add (Box.createHorizontalGlue ());
-			}
+		}
 		}
 
 		return tRowJPanel;
+	}
+
+	public void buildAndAddRowItem (String aSelectedButtonLabel, ItemListener aItemListener, Player aPlayer,
+			GameManager aGameManager, JPanel tRowJPanel, StartPacketItem aStartPacketItem) {
+		JPanel tRowItemJPanel;
+		
+		tRowItemJPanel = aStartPacketItem.buildStartPacketItemJPanel (aSelectedButtonLabel, aItemListener, aPlayer,
+				aGameManager);
+		if (tRowItemJPanel != GUI.NO_PANEL) {
+			tRowJPanel.add (Box.createHorizontalGlue ());
+			tRowJPanel.add (tRowItemJPanel);
+			tRowJPanel.add (Box.createHorizontalGlue ());
+		}
 	}
 
 	public int getAvailableItemCount () {
