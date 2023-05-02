@@ -122,6 +122,11 @@ public class MinorCompany extends TokenCompany {
 	public boolean isAMinorCompany () {
 		return true;
 	}
+	
+	@Override
+	public boolean mustBuyTrain () {
+		return false;
+	}
 
 	public boolean isOwned () {
 		boolean isOwned;
