@@ -94,7 +94,8 @@ public class TransferOwnershipEffect extends ToEffect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		PortfolioHolderI tFromHolder;
-		Portfolio tToPortfolio, tFromPortfolio;
+		Portfolio tToPortfolio;
+		Portfolio tFromPortfolio;
 
 		tEffectApplied = false;
 		tToPortfolio = getToPortfolio ();
