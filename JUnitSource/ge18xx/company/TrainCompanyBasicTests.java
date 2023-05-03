@@ -50,6 +50,9 @@ class TrainCompanyBasicTests {
 		
 		tPortLicense = trainCompany.getPortLicense ();
 		assertEquals (tNewPortLicense, tPortLicense);
+		
+		assertTrue (trainCompany.hasLicense ("Port"));
+		assertFalse (trainCompany.hasLicense ("Tunnel"));
 	}
 	
 	@Test 
@@ -78,4 +81,34 @@ class TrainCompanyBasicTests {
 		assertFalse (trainCompany.removeLicense (tNewPortLicense));
 	}
 
+	@Test
+	@DisplayName ("Test getting Specific Licenses")
+	void getLicenseByTypeTests () {
+		License tPortLicense;
+		License tNewLicense;
+		License tNewPortLicense;
+		License tFoundLicense;
+		int tPrice;
+		int tBenefitValue;
+
+		tPortLicense = trainCompany.getLicense (License.LicenseTypes.PORT);
+		assertNull (tPortLicense);
+		
+		tPrice = 50;
+		tBenefitValue = 10;
+		tNewLicense = new License (License.LicenseTypes.BRIDGE, tPrice, tBenefitValue);
+		trainCompany.addLicense (tNewLicense);
+		tNewPortLicense = new License (License.LicenseTypes.PORT, tPrice, tBenefitValue);
+		trainCompany.addLicense (tNewPortLicense);
+
+		tFoundLicense = trainCompany.getLicense (License.LicenseTypes.TUNNEL);
+		assertNull (tFoundLicense);
+		
+		tFoundLicense = trainCompany.getLicense (License.LicenseTypes.BRIDGE);
+		assertEquals (tFoundLicense, tNewLicense);
+		
+		tFoundLicense = trainCompany.getLicense (License.LicenseTypes.PORT);
+		assertEquals (tFoundLicense, tNewPortLicense);
+		
+	}
 }
