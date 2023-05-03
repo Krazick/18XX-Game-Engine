@@ -315,7 +315,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			corporationCertificates.addCertificate (tCertificate);
 		}
 	}
-
+	
 	public void addAction (Action aAction) {
 		corporationList.addAction (aAction);
 	}
@@ -384,10 +384,17 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 				tLabel = new JLabel (Portfolio.NO_CERTIFICATES);
 				tPortfolioInfoJPanel.add (tLabel);
 			} else {
-				tTitle = "Privates";
-				tCertsPanel = portfolio.buildPortfolioJPanel (tTitle, true, false, false, "", aItemListener,
-						aGameManager);
-				tPortfolioInfoJPanel.add (tCertsPanel);
+				if (isAMinorCompany ()) {
+					tTitle = MINOR_COMPANY;
+					tCertsPanel = portfolio.buildPortfolioJPanel (tTitle, false, true, false, "", aItemListener,
+							aGameManager);
+					tPortfolioInfoJPanel.add (tCertsPanel);
+				} else {
+					tTitle = "Privates";
+					tCertsPanel = portfolio.buildPortfolioJPanel (tTitle, true, false, false, "", aItemListener,
+							aGameManager);
+					tPortfolioInfoJPanel.add (tCertsPanel);
+				}
 			}
 		}
 
