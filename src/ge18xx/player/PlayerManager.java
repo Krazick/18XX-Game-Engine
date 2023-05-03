@@ -1519,12 +1519,18 @@ public class PlayerManager {
 	public void showPlayerFrame (int aPlayerIndex) {
 		Player tPlayer;
 		StartStockAction tStartStockAction;
+		RoundManager tRoundManager;
 
 		tPlayer = players.get (aPlayerIndex);
-		tStartStockAction = new StartStockAction (stockRound.getRoundType (), stockRound.getID (), tPlayer);
-		tStartStockAction.addStartStockEffect (tPlayer);
-		tStartStockAction.setChainToPrevious (true);
-		gameManager.addAction (tStartStockAction);
+		if (! tPlayer.hasActed ()) {
+			tStartStockAction = new StartStockAction (stockRound.getRoundType (), stockRound.getID (), tPlayer);
+			tStartStockAction.addStartStockEffect (tPlayer);
+			tStartStockAction.setChainToPrevious (true);
+			gameManager.addAction (tStartStockAction);
+			tRoundManager = gameManager.getRoundManager ();
+			tRoundManager.setPlayerDoingAction (true);
+			tRoundManager.updateRoundFrame ();
+		}
 		tPlayer.showPlayerFrame ();
 	}
 
