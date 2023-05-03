@@ -858,13 +858,16 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public boolean hasActed () {
-		boolean tHasActed = true;
+		boolean tHasActed;
 
 		// If the Primary Action State for the Player is NoAction or Pass,
 		// the Player has NOT Acted, otherwise the Player Has Acted
 
-		if ((primaryActionState == ActionStates.NoAction) || (primaryActionState == ActionStates.Pass)) {
+		if ((primaryActionState == ActionStates.NoAction) || 
+			(primaryActionState == ActionStates.Pass)) {
 			tHasActed = false;
+		} else {
+			tHasActed = true;
 		}
 
 		return tHasActed;
@@ -1507,7 +1510,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void showPlayerFrame () {
 		Point tOffsetRoundFramePoint;
 
-		if (playerManager.isNetworkAndIsThisClient (name) || ! playerManager.isNetworkGame ()) {
+		if (playerManager.isNetworkAndIsThisClient (name) || 
+			! playerManager.isNetworkGame ()) {
 			if (!playerFrame.isLocationFixed ()) {
 				tOffsetRoundFramePoint = getOffsetRoundFramePoint ();
 				playerFrame.setLocation (tOffsetRoundFramePoint);
