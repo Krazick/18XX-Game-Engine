@@ -767,6 +767,21 @@ public class Certificate implements Comparable<Certificate> {
 		return tCanBeOwnedBy;
 	}
 
+	public boolean onlyOwnedBy (String aOwner) {
+		boolean tOnlyOwnedBy;
+		
+		tOnlyOwnedBy = false;
+		if (allowedOwners.length == 1) {
+			for (String tAllowedOwner : allowedOwners) {
+				if (aOwner.equals (tAllowedOwner)) {
+					tOnlyOwnedBy = true;
+				}
+			}
+		}
+		
+		return tOnlyOwnedBy;
+	}
+	
 	public boolean canBeBidUpon () {
 		boolean tCanBeBidUpon;
 
