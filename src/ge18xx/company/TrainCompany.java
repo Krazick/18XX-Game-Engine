@@ -1609,6 +1609,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		double tDividendFor1Percent;
 		Certificate tCertificate;
 		PortfolioHolderI tPortfolioHolder;
+		TrainCompany tTrainCompany;
 		Player tPlayer;
 		CertificateHolderI tCertificateHolder;
 		Bank tBank;
@@ -1643,6 +1644,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				} else if (tPortfolioHolder.isABankPool ()) {
 					tBank.transferCashTo (this, tDividendForShares);
 					aPayFullDividendAction.addCashTransferEffect (tBank, this, tDividendForShares);
+				} else if (tPortfolioHolder.isATrainCompany ()) {
+					tTrainCompany  = (TrainCompany) tPortfolioHolder;
+					tBank.transferCashTo (tTrainCompany, tDividendForShares);
+					tTrainCompany.addCashToDividends (tDividendForShares, aOperatingRoundPart2);
+					tTrainCompany.updateCorporationFrame ();
+					aPayFullDividendAction.addPayCashDividendEffect (tBank, tTrainCompany, 
+										tDividendForShares, aOperatingRoundPart2);
+				
 				}
 				// TODO: non-1830 Games Test if Portfolio Holder is Bank or Bank Pool -- and if
 				// game states if these pay Corporation, pay those share there
