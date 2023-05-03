@@ -88,7 +88,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	static final String UNDO = "Undo";
 	JPanel bankJPanel;
 	JPanel certJPanel;
-	JPanel privatesBox;
+	JPanel privatesPanel;
 	JPanel corporationJPanel;
 	JPanel otherCorpsJPanel;
 	JPanel corporationAllInfoJPanel;
@@ -166,9 +166,9 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 		if (corporation.gameHasPrivates ()) {
 			if (corporation.isAShareCompany ()) {
-				privatesBox = new JPanel ();
-				privatesBox.setLayout (new BoxLayout (privatesBox, BoxLayout.Y_AXIS));
-				corporationJPanel.add (privatesBox);
+				privatesPanel = new JPanel ();
+				privatesPanel.setLayout (new BoxLayout (privatesPanel, BoxLayout.Y_AXIS));
+				corporationJPanel.add (privatesPanel);
 				corporationJPanel.add (Box.createVerticalStrut (10));
 			}
 		}
@@ -710,29 +710,30 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		}
 	}
 
-	public void fillPrivatesBox () { // To show Privates that are owned by the Players
+	public void fillPrivatesPanel () { // To show Privates that are owned by the Players
 		GameManager tGameManager;
-		int tCountOpenPrivates, tCountPlayerOwnedPrivates;
+		int tCountOpenPrivates;
+		int tCountPlayerOwnedPrivates;
 		ShareCompany tShareCompany;
 
 		if (corporation.isAShareCompany ()) {
 			tGameManager = corporation.getGameManager ();
 			tCountOpenPrivates = tGameManager.getCountOfOpenPrivates ();
-			privatesBox.removeAll ();
+			privatesPanel.removeAll ();
 			if (tCountOpenPrivates > 0) {
 				tCountPlayerOwnedPrivates = tGameManager.getCountOfPlayerOwnedPrivates ();
 				if (tCountPlayerOwnedPrivates > 0) {
 					tShareCompany = (ShareCompany) corporation;
 					privatesJPanel = tShareCompany.buildPrivatesForPurchaseJPanel (this);
-					privatesBox.add (Box.createVerticalGlue ());
-					privatesBox.add (privatesJPanel);
-					privatesBox.add (Box.createVerticalGlue ());
+					privatesPanel.add (Box.createVerticalGlue ());
+					privatesPanel.add (privatesJPanel);
+					privatesPanel.add (Box.createVerticalGlue ());
 				} else {
 					JLabel NoPrivatesLeft = new JLabel ("No Privates Left for purchase");
-					privatesBox.add (NoPrivatesLeft);
+					privatesPanel.add (NoPrivatesLeft);
 				}
-				privatesBox.repaint ();
-				privatesBox.revalidate ();
+				privatesPanel.repaint ();
+				privatesPanel.revalidate ();
 			}
 		}
 	}
@@ -1597,7 +1598,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	public void updateBuyableItems () {
 		fillCertPortfolioJPanel ();
-		fillPrivatesBox ();
+		fillPrivatesPanel ();
 		updateBankJPanel ();
 		updateOtherCorpsJPanel ();
 	}
