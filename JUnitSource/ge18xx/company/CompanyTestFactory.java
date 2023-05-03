@@ -142,6 +142,7 @@ public class CompanyTestFactory {
 		
 		mCorporationFrame = buildCorporationFrameMock ();
 		tTrainCompany.setCorporationFrame (mCorporationFrame);
+		
 		return tTrainCompany;
 	}
 
