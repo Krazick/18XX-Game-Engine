@@ -1367,7 +1367,6 @@ public class Portfolio implements CertificateHolderI {
 				aBuyStockAction.startPacketItemSetAvailableEffect (holder, tStartPacketItem, tAvailable);
 			}
 		}
-		System.out.println ("The Certificate for " + aCertificate.getCompanyAbbrev () + " is now unavailable");
 	}
 
 	@Override
