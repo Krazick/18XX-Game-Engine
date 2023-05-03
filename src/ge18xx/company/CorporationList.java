@@ -92,8 +92,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public boolean anyCanOperate () {
-		boolean tAnyCanOperate = false;
+		boolean tAnyCanOperate;
 
+		tAnyCanOperate = false;
 		for (Corporation tCorporation : corporations) {
 			tAnyCanOperate = tAnyCanOperate || tCorporation.canOperate ();
 		}
@@ -191,10 +192,11 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		JPanel tPrivatesJPanel;
 		BoxLayout tLayout;
 		JPanel tPrivateCertJPanel;
-		Dimension tMinSize = new Dimension (20, 70);
+		Dimension tMinSize;
 		int tCount;
 		String tTitle;
 
+		tMinSize = new Dimension (20, 70);
 		tPrivatesJPanel = new JPanel ();
 		tLayout = new BoxLayout (tPrivatesJPanel, BoxLayout.X_AXIS);
 		tPrivatesJPanel.setLayout (tLayout);
@@ -225,8 +227,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public String getOperatingOwnerName () {
-		String tOwnerName = ActorI.NO_NAME;
+		String tOwnerName;
 
+		tOwnerName = ActorI.NO_NAME;
 		if (typeName.equals (TYPE_NAMES [0])) {
 			tOwnerName = roundManager.getOperatingOwnerName ();
 		} else {
@@ -241,10 +244,11 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public String getOwnerWhoWillOperate () {
-		String tOwnerName = ActorI.NO_NAME;
+		String tOwnerName;
 		int tNextToOperate;
 		Corporation tNextCorpToOperate;
 
+		tOwnerName = ActorI.NO_NAME;
 		if (typeName.equals (TYPE_NAMES [0])) {
 			tOwnerName = roundManager.getOperatingOwnerName ();
 		} else {
@@ -325,6 +329,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 	public void discardExcessTrains (BankPool aBankPool, BuyTrainAction aBuyTrainAction) {
 		TrainCompany tTrainCompany;
+		
 		for (Corporation tCorporation : corporations) {
 			if (tCorporation.isATrainCompany ()) {
 				tTrainCompany = (TrainCompany) tCorporation;
@@ -334,8 +339,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public boolean anyPrivatesUnowned () {
-		boolean tAnyPrivatesUnowned = false;
+		boolean tAnyPrivatesUnowned;
 
+		tAnyPrivatesUnowned = false;
 		if (gameHasPrivates ()) {
 			if (typeName != ElementName.NO_ELEMENT_NAME) {
 				if (typeName.equals (TYPE_NAMES [0])) {
@@ -410,9 +416,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	@Override
 	public int getColCount () {
 		Corporation tCorporation;
-		Iterator<Corporation> tCorporationIter = corporations.iterator ();
+		Iterator<Corporation> tCorporationIter;
 		int tColCount;
 
+		tCorporationIter = corporations.iterator ();
 		if (tCorporationIter.hasNext ()) {
 			tCorporation = tCorporationIter.next ();
 			tColCount = tCorporation.fieldCount ();
@@ -541,10 +548,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public int getCurrentlyOperating () {
-		int tCurrentlyOperating = NO_CORPORATION_INDEX;
-		int tCount = getCorporationCount ();
+		int tCurrentlyOperating;
+		int tCount;
 		Corporation tCorporation;
 
+		tCurrentlyOperating = NO_CORPORATION_INDEX;
+		tCount = getCorporationCount ();
 		for (int tIndex = 0; tIndex < tCount; tIndex++) {
 			tCorporation = corporations.get (tIndex);
 			if (tCorporation.isOperating () && (tCurrentlyOperating == NO_CORPORATION_INDEX)) {
@@ -684,7 +693,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public void loadJTable () {
-		int tColCount, tRowCount;
+		int tColCount;
+		int tRowCount;
 		int tRowIndex;
 		PrivateCompany tPrivate;
 		ShareCompany tShare;
@@ -724,8 +734,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 	public void loadStates (XMLNode aXMLNode) {
 		XMLNodeList tXMLNodeList;
-		ElementName tElementName = getElementName ();
+		ElementName tElementName;
 
+		tElementName = getElementName ();
 		tXMLNodeList = new XMLNodeList (corporationParsingRoutine);
 		tXMLNodeList.parseXMLNodeList (aXMLNode, tElementName);
 	}
@@ -859,8 +870,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 	public void setTypeName (ElementName aTypeName) {
 		int tIndex;
-		boolean tFoundType = false;
+		boolean tFoundType;
 
+		tFoundType = false;
 		for (tIndex = 0; (tIndex < 3) && !tFoundType; tIndex++) {
 			if (aTypeName.equals (TYPE_NAMES [tIndex])) {
 				tFoundType = true;
@@ -950,7 +962,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		JPanel tScrollableCorpJPanel;
 
 		JScrollPane tScrollCorpPane;
-		Color tFgColor, tBgColor;
+		Color tFgColor;
+		Color tBgColor;
 		TrainCompany tTrainCompany;
 		Border tBorder;
 
@@ -995,8 +1008,13 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public Border setupBorder (boolean aSamePresident, Color aFgColor, Color aBgColor) {
-		Border tPanelBorder, tBackgroundBorder, tOuterBorder, tRaisedBevel;
-		Border tLoweredBevel, tBevelBorder1, tBevelBorder2;
+		Border tPanelBorder;
+		Border tBackgroundBorder;
+		Border tOuterBorder;
+		Border tRaisedBevel;
+		Border tLoweredBevel;
+		Border tBevelBorder1;
+		Border tBevelBorder2;
 
 		tBackgroundBorder = setupBackgroundBorder (5);
 		if (aSamePresident) {
@@ -1032,7 +1050,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public Border setupBorder (Color aFgColor, Color aBgColor) {
-		Border tCorpBorder, tOuterBorder, tInnerBorder;
+		Border tCorpBorder;
+		Border tOuterBorder;
+		Border tInnerBorder;
 
 		tOuterBorder = setupOuterBorder (aFgColor, aBgColor);
 		tInnerBorder = setupBackgroundBorder (2);
@@ -1042,21 +1062,24 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public boolean isSelectedTrainItem (String aCurrentAbbrev, Object aItem) {
-		boolean tSelectedTrainItem = false;
+		boolean tSelectedTrainItem;
 		int tSelectedTrainCount;
 
 		tSelectedTrainCount = getSelectedTrainCount (aCurrentAbbrev);
 		if (tSelectedTrainCount > 0) {
 			tSelectedTrainItem = true;
+		} else {
+			tSelectedTrainItem = false;
 		}
 
 		return tSelectedTrainItem;
 	}
 
 	public int getSelectedTrainCount (String aCurrentAbbrev) {
-		int tSelectedCount = 0;
+		int tSelectedCount;
 		TrainHolderI tTrainHolder;
 
+		tSelectedCount = 0;
 		for (Corporation tCorporation : corporations) {
 			if (tCorporation.isActive ()) {
 				if (!aCurrentAbbrev.equals (tCorporation.getAbbrev ())) {
@@ -1072,8 +1095,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public TrainHolderI getOtherSelectedTrainHolder (String aCurrentAbbrev) {
-		TrainHolderI tTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
+		TrainHolderI tTrainHolder;
 
+		tTrainHolder = TrainHolderI.NO_TRAIN_HOLDER;
 		for (Corporation tCorporation : corporations) {
 			if (tTrainHolder == TrainHolderI.NO_TRAIN_HOLDER) {
 				if (!aCurrentAbbrev.equals (tCorporation.getAbbrev ())) {
@@ -1088,10 +1112,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	public TrainCompany getOperatingTrainCompany () {
 		TrainCompany tTrainCompany;
 
-		tTrainCompany = (TrainCompany) Corporation.NO_CORPORATION;
+		tTrainCompany = TrainCompany.NO_TRAIN_COMPANY;
 		for (Corporation tCorporation : corporations) {
 			if (tCorporation.isOperating () && 
-					(tTrainCompany == Corporation.NO_CORPORATION)) {
+				(tTrainCompany == TrainCompany.NO_TRAIN_COMPANY)) {
 				tTrainCompany = (TrainCompany) tCorporation;
 			}
 		}
@@ -1100,11 +1124,12 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public ShareCompany getOperatingCompany () {
-		ShareCompany tOperatingCompany = (ShareCompany) Corporation.NO_CORPORATION;
+		ShareCompany tOperatingCompany;
 
+		tOperatingCompany = ShareCompany.NO_SHARE_COMPANY;
 		for (Corporation tCorporation : corporations) {
 			if (tCorporation.isOperating () && 
-					(tOperatingCompany == (ShareCompany) Corporation.NO_CORPORATION)) {
+					(tOperatingCompany == ShareCompany.NO_SHARE_COMPANY)) {
 				tOperatingCompany = (ShareCompany) tCorporation;
 			}
 		}
@@ -1119,9 +1144,11 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public PrivateCompany getPrivateCompanyAtMapCell (MapCell aMapCell) {
-		PrivateCompany tPrivateCompany = (PrivateCompany) Corporation.NO_CORPORATION;
-		MapCell tHomeCity1, tHomeCity2;
+		PrivateCompany tPrivateCompany;
+		MapCell tHomeCity1;
+		MapCell tHomeCity2;
 
+		tPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
 		for (Corporation tCorporation : corporations) {
 			if (!tCorporation.isClosed ()) {
 				tHomeCity1 = tCorporation.getHomeCity1 ();
@@ -1132,7 +1159,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 					}
 				}
 				if ((tHomeCity2 != MapCell.NO_MAP_CELL) &&
-					(tPrivateCompany == (PrivateCompany) Corporation.NO_CORPORATION)) {
+					(tPrivateCompany == PrivateCompany.NO_PRIVATE_COMPANY)) {
 					if (tHomeCity2 == aMapCell) {
 						tPrivateCompany = (PrivateCompany) tCorporation;
 					}
@@ -1155,9 +1182,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public int getTotalCorpCash () {
-		int tTotalCorpCash = 0;
+		int tTotalCorpCash;
 		TrainCompany tTrainCompany;
 
+		tTotalCorpCash = 0;
 		for (Corporation tCorporation : corporations) {
 			if (tCorporation.isATrainCompany ()) {
 				tTrainCompany = (TrainCompany) tCorporation;
@@ -1169,8 +1197,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public int getTotalEscrow () {
-		int tTotalEscrow = 0;
+		int tTotalEscrow;
 		PrivateCompany tPrivateCompany;
+		
+		tTotalEscrow = 0;
 		for (Corporation tCorporation : corporations) {
 			if (tCorporation.isAPrivateCompany ()) {
 				tPrivateCompany = (PrivateCompany) tCorporation;
@@ -1212,9 +1242,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	}
 
 	public Benefit findBenefit (String aBenefitName) {
-		Benefit tFoundBenefit = Benefit.NO_BENEFIT;
+		Benefit tFoundBenefit;
 		PrivateCompany tPrivateCompany;
 
+		tFoundBenefit = Benefit.NO_BENEFIT;
 		for (Corporation tCorporation : corporations) {
 			if (tFoundBenefit == Benefit.NO_BENEFIT) {
 				if (tCorporation.isAPrivateCompany ()) {
