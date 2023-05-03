@@ -193,7 +193,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		setupTrainRevenueFrame ();
 		setCorporationFrame ();
 		setForceBuyCouponFrame (ForceBuyCouponFrame.NO_FRAME);
-		// TODO: Parse out PurchaseOffer Element if present
 	}
 
 	@Override
@@ -201,11 +200,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		License tFoundPortLicense;
 		
 		tFoundPortLicense = License.NO_LICENSE;
-		if (licenses.size () > 0) {
-			for (License tLicense : licenses) {
-				if (tLicense.isPortLicense ()) {
-					tFoundPortLicense = tLicense;
-				}
+		for (License tLicense : licenses) {
+			if (tLicense.isPortLicense ()) {
+				tFoundPortLicense = tLicense;
 			}
 		}
 		
@@ -217,11 +214,9 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		License tFoundLicense;
 		
 		tFoundLicense = License.NO_LICENSE;
-		if (licenses.size () > 0) {
-			for (License tLicense : licenses) {
-				if (tLicense.isLicenseOfType (aType)) {
-					tFoundLicense = tLicense;
-				}
+		for (License tLicense : licenses) {
+			if (tLicense.isLicenseOfType (aType)) {
+				tFoundLicense = tLicense;
 			}
 		}
 		
