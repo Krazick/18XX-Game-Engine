@@ -1,10 +1,10 @@
 package ge18xx.player;
-
-import java.awt.event.ItemListener;
-
-import javax.swing.JPanel;
-
-import ge18xx.game.GameManager;
+//
+//import java.awt.event.ItemListener;
+//
+//import javax.swing.JPanel;
+//
+//import ge18xx.game.GameManager;
 
 public class StartPacketPortfolio extends Portfolio {
 	public final static StartPacketPortfolio NO_START_PACKET = null;
@@ -13,11 +13,11 @@ public class StartPacketPortfolio extends Portfolio {
 		super (aHolder);
 	}
 
-	@Override
-	public JPanel buildPortfolioJPanel (String aTitle, boolean aPrivates, boolean aMinors,
-			boolean aShares, String aSelectedButtonLabel, ItemListener aItemListener, GameManager aGameManager) {
-		super.buildPortfolioJPanel (aTitle);
-
-		return portfolioInfoJPanel;
-	}
+//	@Override
+//	public JPanel buildPortfolioJPanel (String aTitle, boolean aPrivates, boolean aMinors,
+//			boolean aShares, String aSelectedButtonLabel, ItemListener aItemListener, GameManager aGameManager) {
+//		super.buildPortfolioJPanel (aTitle);
+//
+//		return portfolioInfoJPanel;
+//	}
 }
