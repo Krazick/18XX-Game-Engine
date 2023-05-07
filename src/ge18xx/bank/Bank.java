@@ -433,7 +433,6 @@ public class Bank extends GameBank implements CashHolderI {
 				tCertificate = tCorporation.getCorporationCertificate (tCertificateIndex);
 				if (tCertificate.onlyOwnedBy (Corporation.MINOR_COMPANY)) {
 					tCorporation.addCertificate (tCertificate);
-					System.out.println ("Bank Added Certificate to Minor " + tCertificate.getCompanyAbbrev ());
 				} else {
 					addCertificate (tCertificate);
 				}
