@@ -2,6 +2,7 @@ package ge18xx.company;
 
 import java.awt.Component;
 import java.awt.event.ItemListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -501,6 +502,10 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	@Override
 	protected boolean choiceForBaseToken () {
 		return false;
+	}
+	
+	public void getOwnerTypeBenefits (List<Benefit> aOwnerTypeBenefits) {
+		benefits.getOwnerTypeBenefits (aOwnerTypeBenefits);
 	}
 
 	public Benefit findBenefit (String aBenefitName) {
