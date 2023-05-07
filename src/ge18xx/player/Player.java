@@ -1319,9 +1319,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		List<Benefit> tOwnerTypeBenefits;
 		
 		tOwnerTypeBenefits = portfolio.getOwnerTypeBenefits ();
-		if (tOwnerTypeBenefits.size () > 0) {
-			System.out.println ("Owner Type Benefits " + tOwnerTypeBenefits);
-		}
 
 		return tOwnerTypeBenefits;
 	}
