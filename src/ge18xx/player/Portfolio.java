@@ -39,6 +39,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.LoadedCertificate;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.benefit.Benefit;
 import ge18xx.game.FrameButton;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.BuyStockAction;
@@ -124,18 +125,20 @@ public class Portfolio implements CertificateHolderI {
 		}
 	}
 
-	public JPanel buildCertificateJPanel (String aTitle, String aCorpType, String aSelectedButtonLabel,
+	public JPanel buildCertificateJPanel (String aCorpType, String aSelectedButtonLabel,
 			ItemListener aItemListener, GameManager aGameManager) {
 		JPanel tCertificateJPanel;
 		JPanel tCertificateInfoJPanel;
 		int tCount;
 		String tCertificateType;
+		String tTitle;
 		boolean tIsBankPortfolioHolder;
 
 		tCount = 0;
 		tCertificateJPanel = new JPanel ();
-		if (aTitle != null) {
-			tCertificateJPanel.setBorder (BorderFactory.createTitledBorder (aTitle));
+		tTitle = aCorpType + "s";
+		if (tTitle != null) {
+			tCertificateJPanel.setBorder (BorderFactory.createTitledBorder (tTitle));
 		}
 		tCertificateJPanel.setLayout (new BoxLayout (tCertificateJPanel, BoxLayout.X_AXIS));
 		tCertificateJPanel.setAlignmentY (Component.CENTER_ALIGNMENT);
@@ -400,20 +403,22 @@ public class Portfolio implements CertificateHolderI {
 	// (Found via GameManager), building a separate CertPanel with the specific
 	// type, and add it
 	// to the portfolioInfoJPanel.
-	public JPanel buildPortfolioJPanel (String tTitle, boolean aPrivates, boolean aMinors,
+	public JPanel buildPortfolioJPanel (boolean aPrivates, boolean aMinors,
 			boolean aShares, String aSelectedButtonLabel, ItemListener aItemListener, GameManager aGameManager) {
-		JPanel tPrivateCertPanel, tMinorCertPanel, tShareCertPanel;
+		JPanel tPrivateCertPanel;
+		JPanel tMinorCertPanel;
+		JPanel tShareCertPanel;
 
 		buildPortfolioJPanel ("Portfolio");
 
 		if (aPrivates) {
-			tPrivateCertPanel = buildCertificateJPanel (tTitle, Corporation.PRIVATE_COMPANY, aSelectedButtonLabel,
+			tPrivateCertPanel = buildCertificateJPanel (Corporation.PRIVATE_COMPANY, aSelectedButtonLabel,
 					aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tPrivateCertPanel);
 			privateIndex = portfolioInfoJPanel.getComponentCount () - 1;
 		}
 		if (aMinors) {
-			tMinorCertPanel = buildCertificateJPanel (tTitle, Corporation.MINOR_COMPANY, aSelectedButtonLabel,
+			tMinorCertPanel = buildCertificateJPanel (Corporation.MINOR_COMPANY, aSelectedButtonLabel,
 					aItemListener, aGameManager);
 			addJCAndVGlue (portfolioInfoJPanel, tMinorCertPanel);
 			minorIndex = portfolioInfoJPanel.getComponentCount () - 1;
@@ -1765,6 +1770,21 @@ public class Portfolio implements CertificateHolderI {
 
 	public void sortByOwners () {
 		Collections.sort (certificates, orderByOwner);
+	}
+	
+	public List<Benefit> getOwnerTypeBenefits () {
+		List<Benefit> tOwnerTypeBenefits;
+		PrivateCompany tPrivateCompany;
+		
+		tOwnerTypeBenefits = new LinkedList<Benefit> ();
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isAPrivateCompany ()) {
+				tPrivateCompany = (PrivateCompany) tCertificate.getCorporation ();
+				tPrivateCompany.getOwnerTypeBenefits (tOwnerTypeBenefits);
+			}
+		}
+		
+		return tOwnerTypeBenefits;
 	}
 	
 	public boolean transferOneCertificateOwnership (Portfolio aFromPortfolio, Certificate aCertificate) {
