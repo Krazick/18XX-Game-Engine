@@ -36,6 +36,7 @@ import ge18xx.map.MapCell;
 import ge18xx.market.MarketCell;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.CashHolderI;
+import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.player.PortfolioHolderLoaderI;
@@ -373,7 +374,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		JLabel tLabel;
 		JPanel tPortfolioInfoJPanel;
 		JPanel tCertsPanel;
-		String tTitle;
 
 		tPortfolioInfoJPanel = new JPanel ();
 		if (portfolio == Portfolio.NO_PORTFOLIO) {
@@ -385,13 +385,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 				tPortfolioInfoJPanel.add (tLabel);
 			} else {
 				if (isAMinorCompany ()) {
-					tTitle = MINOR_COMPANY;
-					tCertsPanel = portfolio.buildPortfolioJPanel (tTitle, false, true, false, "", aItemListener,
+					tCertsPanel = portfolio.buildPortfolioJPanel (false, true, false, "", aItemListener,
 							aGameManager);
 					tPortfolioInfoJPanel.add (tCertsPanel);
 				} else {
-					tTitle = "Privates";
-					tCertsPanel = portfolio.buildPortfolioJPanel (tTitle, true, false, false, "", aItemListener,
+					tCertsPanel = portfolio.buildPortfolioJPanel (true, false, false, "", aItemListener,
 							aGameManager);
 					tPortfolioInfoJPanel.add (tCertsPanel);
 				}
@@ -2667,6 +2665,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		removeAllBenefitButtons (aButtonRow);
 		portfolio.configurePrivateCompanyBenefitButtons (aButtonRow);
 		addAllActorsBenefitButtons (aButtonRow);
+		if (isAShareCompany ()) {
+			addAllOwnerTypeBenefitButtons (aButtonRow);
+		}
 	}
 
 	private void addAllActorsBenefitButtons (JPanel aButtonRow) {
@@ -2682,6 +2683,27 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 				if (tPrivate.isClosed () || ! tPrivate.isPlayerOwned ()) {
 					if (tPrivate.hasActiveCompanyBenefits ()) {
 						tPrivate.addAllActorsBenefitButtons (aButtonRow);
+					}
+				}
+			}
+		}
+	}
+	
+	private void addAllOwnerTypeBenefitButtons (JPanel aButtonRow) {
+		List<Benefit> tOwnerBenefitButtons;
+		PortfolioHolderI tPresident;
+		Player tPresidentPlayer;
+		PrivateCompany tPrivateCompany;
+		
+		tPresident = getPresident ();
+		if (tPresident != PortfolioHolderI.NO_HOLDER) {
+			if (tPresident.isAPlayer ()) {
+				tPresidentPlayer = (Player) tPresident;
+				tOwnerBenefitButtons = tPresidentPlayer.getOwnerTypeBenefits ();
+				for (Benefit tBenefit : tOwnerBenefitButtons) {
+					if (tBenefit.isActiveCompanyBenefit ()) {
+						tPrivateCompany = tBenefit.getPrivateCompany ();
+						tBenefit.configure (tPrivateCompany, aButtonRow);
 					}
 				}
 			}
