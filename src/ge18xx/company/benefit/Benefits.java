@@ -110,6 +110,14 @@ public class Benefits {
 		return tMatchedBenefit;
 	}
 
+	public void getOwnerTypeBenefits (List<Benefit> aOwnerTypeBenefits) {
+		for (Benefit tBenefit : benefits) {
+			if (tBenefit.isOwnerTypeBenefit ()) {
+				aOwnerTypeBenefits.add (tBenefit);
+			}
+		}
+	}
+	
 	public JButton findButtonFor (JPanel aButtonRow, String aButtonLabel) {
 		JButton tThisButton;
 		JButton tFoundButton = GUI.NO_BUTTON;
