@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import ge18xx.company.Corporation;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.Action;
@@ -34,6 +35,7 @@ public abstract class Benefit implements ActionListener {
 	public final static AttributeName AN_CLOSE_ON_USE = new AttributeName ("closeOnUse");
 	public final static AttributeName AN_PASSIVE = new AttributeName ("passive");
 	public final static AttributeName AN_ACTOR_TYPE = new AttributeName ("actorType");
+	public final static AttributeName AN_OWNER_TYPE = new AttributeName ("ownerType");
 	public final static JPanel NO_BUTTON_PANEL = GUI.NO_PANEL;
 	public final static Benefit NO_BENEFIT = null;
 	public final static String NO_BENEFIT_NAME = null;
@@ -42,6 +44,7 @@ public abstract class Benefit implements ActionListener {
 	public static final Benefit FAKE_BENEFIT = new FakeBenefit (); 
 
 	ActorI.ActorTypes actorType;
+	ActorI.ActorTypes ownerType;
 	boolean closeOnUse;
 	boolean used;
 	boolean passive;
@@ -52,6 +55,15 @@ public abstract class Benefit implements ActionListener {
 	Benefit previousBenefitInUse;
 	String name;
 	ArrayList<Effect> additionalEffects;
+	
+	@Override
+	public String toString () {
+		String tString;
+		
+		tString = "Private " + privateCompany.getAbbrev () + " Benefit " + name + " Actor " + actorType;
+				
+		return tString;
+	}
 	
 	public Benefit () {
 		setName (NAME);
@@ -70,8 +82,10 @@ public abstract class Benefit implements ActionListener {
 		boolean tUsed;
 		boolean tAllActors;
 		String tActorType;
+		String tOwnerType;
 
 		tActorType = aXMLNode.getThisAttribute (AN_ACTOR_TYPE);
+		tOwnerType = aXMLNode.getThisAttribute (AN_OWNER_TYPE);
 		tClose = aXMLNode.getThisBooleanAttribute (AN_CLOSE_ON_USE);
 		tPassive = aXMLNode.getThisBooleanAttribute (AN_PASSIVE);
 		tUsed = aXMLNode.getThisBooleanAttribute (AN_USED);
@@ -81,6 +95,7 @@ public abstract class Benefit implements ActionListener {
 		setPassive (tPassive);
 		setActorType (tActorType);
 		setAllActors (tAllActors);
+		setOwnerType (tOwnerType);
 		setDefaults ();
 		setAdditionalEffects ();
 	}
@@ -91,6 +106,18 @@ public abstract class Benefit implements ActionListener {
 	
 	public void clearAdditionalEffects () {
 		setAdditionalEffects ();
+	}
+	
+	public boolean isOwnerTypeBenefit () {
+		boolean tOwnerTypeBenefit;
+		
+		if (ownerType == ActorI.ActorTypes.NO_TYPE) {
+			tOwnerTypeBenefit = false;
+		} else {
+			tOwnerTypeBenefit = true;
+		}
+		
+		return tOwnerTypeBenefit;
 	}
 	
 	public void addAdditionalEffect (Effect aEffect) {
@@ -211,19 +238,25 @@ public abstract class Benefit implements ActionListener {
 		return privateCompany;
 	}
 
-	protected ShareCompany getOwningCompany () {
-		ShareCompany tShareCompany;
+	protected TrainCompany getOwningCompany () {
+		TrainCompany tTrainCompany;
 		ActorI tOwner;
 
-		tShareCompany = (ShareCompany) Corporation.NO_CORPORATION;
+		tTrainCompany = (TrainCompany) Corporation.NO_CORPORATION;
 		tOwner = privateCompany.getOwner ();
 		if (tOwner != ActorI.NO_ACTOR) {
 			if (tOwner.isACorporation ()) {
-				tShareCompany = (ShareCompany) tOwner;
+				tTrainCompany = (TrainCompany) tOwner;
+			} else if (tOwner.isAPlayer ()) {
+				
 			}
 		}
 
-		return tShareCompany;
+		return tTrainCompany;
+	}
+
+	private void setOwnerType (String aActorType) {
+		ownerType = ActorI.ActorTypes.fromString (aActorType);
 	}
 
 	private void setActorType (String aActorType) {
@@ -417,7 +450,6 @@ public abstract class Benefit implements ActionListener {
 
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
 		setPrivateCompany (aPrivateCompany);
-		// Should have sub-class override to configure for the type of Benefit
 	}
 
 	@Override
