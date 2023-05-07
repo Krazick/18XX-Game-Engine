@@ -7,11 +7,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.center.City;
+import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.MapToken;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.TokenInfo.TokenType;
+import ge18xx.company.TrainCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.tiles.Tile;
@@ -37,10 +39,16 @@ public class TokenPlacementBenefit extends MapBenefit {
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
+		TrainCompany tTrainCompany;
+		ShareCompany tShareCompany;
 
 		tActionCommand = aEvent.getActionCommand ();
 		if (CorporationFrame.PLACE_TOKEN_PRIVATE.equals (tActionCommand)) {
-			handlePlaceToken ();
+			tTrainCompany = getOperatingCompany ();
+			if (tTrainCompany.isAShareCompany ()) {
+				tShareCompany = (ShareCompany) tTrainCompany;
+				handlePlaceToken (tShareCompany);
+			}
 		}
 	}
 
@@ -51,8 +59,15 @@ public class TokenPlacementBenefit extends MapBenefit {
 
 	@Override
 	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow) {
-		JButton tPlaceTokenButton;
+		TrainCompany tOwningCompany;
 
+		tOwningCompany = getOwningCompany ();
+		configure (aPrivateCompany, aButtonRow, tOwningCompany);
+	}
+
+	public void configure (PrivateCompany aPrivateCompany, JPanel aButtonRow, TrainCompany aOperatingCompany) {
+		JButton tPlaceTokenButton;
+		
 		super.configure (aPrivateCompany, aButtonRow);
 		if (shouldConfigure ()) {
 			if (!hasButton ()) {
@@ -63,10 +78,14 @@ public class TokenPlacementBenefit extends MapBenefit {
 				tPlaceTokenButton.addActionListener (this);
 				aButtonRow.add (tPlaceTokenButton);
 			}
-			updateButton ();
-		}
-	}
 
+			if (aOperatingCompany != Corporation.NO_CORPORATION) {
+				updateButton (aOperatingCompany);
+			}
+		}
+
+	}
+	
 	@Override
 	public String getName () {
 		String tName;
@@ -91,19 +110,24 @@ public class TokenPlacementBenefit extends MapBenefit {
 		return tNewButtonText;
 	}
 
-	private void handlePlaceToken () {
+//	private void handlePlaceToken () {
+//		ShareCompany tShareCompany;
+//		
+//		tShareCompany = (ShareCompany) getOwningCompany ();
+//		handlePlaceToken (tShareCompany);
+//	}
+	
+	private void handlePlaceToken (ShareCompany aShareCompany) {
 		HexMap tMap;
 		MapCell tMapCell;
 		MapToken tMapToken;
 		MapFrame tMapFrame;
 		TokenType tTokenType;
 		Tile tTile;
-		ShareCompany tOwningCompany;
 		City tCity;
 		int tCityCount;
 
-		tOwningCompany = getOwningCompany ();
-		capturePreviousBenefitInUse (tOwningCompany, this);
+		capturePreviousBenefitInUse (aShareCompany, this);
 
 		tMap = getMap ();
 		tMap.clearAllSelected ();
@@ -117,11 +141,11 @@ public class TokenPlacementBenefit extends MapBenefit {
 				if (tCityCount == 1) {
 					tCity = (City) tTile.getRevenueCenter (0);
 					// Local Client, need to add the Lay Token Action
-					tMapToken = tOwningCompany.getLastMapToken ();
-					tTokenType = tOwningCompany.getTokenType (tMapToken);
-					tMap.putMapTokenDown (tOwningCompany, tMapToken, tTokenType, tCity, tMapCell, true);
+					tMapToken = aShareCompany.getLastMapToken ();
+					tTokenType = aShareCompany.getTokenType (tMapToken);
+					tMap.putMapTokenDown (aShareCompany, tMapToken, tTokenType, tCity, tMapCell, true);
 				} else if (tCityCount > 1) {
-					tOwningCompany.enterPlaceTokenMode ();
+					aShareCompany.enterPlaceTokenMode ();
 					tMap.addMapCellSMC (tMapCell);
 					tMapFrame = getMapFrame ();
 					tMapFrame.updatePutTokenButton (City.NO_CITY, tMapCell);
@@ -134,8 +158,8 @@ public class TokenPlacementBenefit extends MapBenefit {
 	}
 
 	private boolean hasTokenOnTile () {
-		ShareCompany tOwningCompany;
-		boolean tHasTokenOnTile = true;
+		TrainCompany tOwningCompany;
+		boolean tHasTokenOnTile;
 		MapCell tMapCell;
 
 		tOwningCompany = getOwningCompany ();
@@ -146,14 +170,16 @@ public class TokenPlacementBenefit extends MapBenefit {
 	}
 
 	private boolean hasTokens () {
-		ShareCompany tOwningCompany;
-		boolean tHasTokens = true;
+		TrainCompany tOwningCompany;
+		boolean tHasTokens;
 		int tTokenCount;
 
 		tOwningCompany = getOwningCompany ();
 		tTokenCount = tOwningCompany.getTokenCount ();
 		if (tTokenCount == 0) {
 			tHasTokens = false;
+		} else {
+			tHasTokens = true;
 		}
 
 		return tHasTokens;
@@ -170,12 +196,17 @@ public class TokenPlacementBenefit extends MapBenefit {
 
 	@Override
 	public void updateButton () {
-		ShareCompany tOwningCompany;
+		TrainCompany tOwningCompany;
+
+		tOwningCompany = getOwningCompany ();
+		updateButton (tOwningCompany);
+	}
+	
+	public void updateButton (TrainCompany aOperatingCompany) {
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
 
-		tOwningCompany = getOwningCompany ();
-		tBenefitInUse = tOwningCompany.getBenefitInUse ();
+		tBenefitInUse = aOperatingCompany.getBenefitInUse ();
 		tBenefitInUseName = tBenefitInUse.getName ();
 		if ((tBenefitInUse.isRealBenefit ()) && (!NAME.equals (tBenefitInUseName))) {
 			disableButton ();

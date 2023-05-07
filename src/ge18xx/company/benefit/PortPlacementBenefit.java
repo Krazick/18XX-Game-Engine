@@ -12,6 +12,7 @@ import ge18xx.company.License;
 import ge18xx.company.PortLicense;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.effects.AddLicenseEffect;
 import ge18xx.utilities.AttributeName;
@@ -93,7 +94,7 @@ public class PortPlacementBenefit extends MapBenefit {
 		PortLicense tPortLicense;
 		String tLicenseName;
 
-		tOwningCompany = getOwningCompany ();
+		tOwningCompany = (ShareCompany) getOwningCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
 
 		tSelectedMapCell = getSelectedMapCell ();
@@ -139,7 +140,7 @@ public class PortPlacementBenefit extends MapBenefit {
 
 	@Override
 	public void updateButton () {
-		ShareCompany tOwningCompany;
+		TrainCompany tOwningCompany;
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
 		MapCell tSelectedMapCell;

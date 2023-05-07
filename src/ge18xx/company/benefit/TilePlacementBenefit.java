@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.PrivateCompany;
-import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
 import ge18xx.utilities.AttributeName;
@@ -103,17 +103,17 @@ public class TilePlacementBenefit extends MapBenefit {
 
 	private boolean ownerHasEnoughCash () {
 		boolean tOwnerHasEnoughCash = false;
-		ShareCompany tShareCompany;
+		TrainCompany tTrainCompany;
 		HexMap tMap;
 		MapCell tMapCell;
 		int tCost;
 
-		tShareCompany = getOwningCompany ();
-		if (tShareCompany != Corporation.NO_CORPORATION) {
+		tTrainCompany = getOwningCompany ();
+		if (tTrainCompany != Corporation.NO_CORPORATION) {
 			tMap = getMap ();
 			tMapCell = tMap.getMapCellForID (mapCellID);
 			tCost = tMapCell.getCostToLayTile ();
-			if (tShareCompany.getTreasury () >= tCost) {
+			if (tTrainCompany.getTreasury () >= tCost) {
 				tOwnerHasEnoughCash = true;
 			}
 		}
@@ -123,11 +123,11 @@ public class TilePlacementBenefit extends MapBenefit {
 
 	private boolean ownerLaidTile () {
 		boolean tOwnerLaidTile = false;
-		ShareCompany tShareCompany;
+		TrainCompany tTrainCompany;
 
-		tShareCompany = getOwningCompany ();
-		if (tShareCompany != Corporation.NO_CORPORATION) {
-			if (tShareCompany.hasLaidTile ()) {
+		tTrainCompany = getOwningCompany ();
+		if (tTrainCompany != Corporation.NO_CORPORATION) {
+			if (tTrainCompany.hasLaidTile ()) {
 				tOwnerLaidTile = true;
 			}
 		}
@@ -153,7 +153,7 @@ public class TilePlacementBenefit extends MapBenefit {
 	private void handlePlaceTile () {
 		HexMap tMap;
 		MapCell tMapCell;
-		ShareCompany tOwningCompany;
+		TrainCompany tOwningCompany;
 
 		tOwningCompany = getOwningCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
@@ -178,7 +178,7 @@ public class TilePlacementBenefit extends MapBenefit {
 
 	@Override
 	public void abortUse () {
-		ShareCompany tOwningCompany;
+		TrainCompany tOwningCompany;
 
 		tOwningCompany = getOwningCompany ();
 		resetBenefitInUse (tOwningCompany);

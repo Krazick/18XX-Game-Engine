@@ -2,8 +2,8 @@ package ge18xx.company.benefit;
 
 import javax.swing.JLabel;
 
-import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
 import ge18xx.map.MapCell;
@@ -34,7 +34,7 @@ public class PassiveTokenBenefit extends FreeLicenseBenefit {
 
 	@Override
 	public void handlePassive (ShareCompany aShareCompany, Action aAction) {
-		Corporation tOwningCompany;
+		TrainCompany tOwningCompany;
 
 		placeAllBenefitTokens (aAction);
 		tOwningCompany = getOwningCompany ();

@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import ge18xx.company.CorporationFrame;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TrainCompany;
 import ge18xx.map.MapCell;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLNode;
@@ -95,7 +96,7 @@ public class CattlePlacementBenefit extends MapBenefit {
 		boolean tCanHoldCattleToken;
 		ShareCompany tOwningCompany;
 
-		tOwningCompany = getOwningCompany ();
+		tOwningCompany = (ShareCompany) getOwningCompany ();
 		capturePreviousBenefitInUse (tOwningCompany, this);
 
 		tSelectedMapCell = getSelectedMapCell ();
@@ -119,7 +120,7 @@ public class CattlePlacementBenefit extends MapBenefit {
 
 	@Override
 	public void updateButton () {
-		ShareCompany tOwningCompany;
+		TrainCompany tOwningCompany;
 		Benefit tBenefitInUse;
 		String tBenefitInUseName;
 		MapCell tSelectedMapCell;

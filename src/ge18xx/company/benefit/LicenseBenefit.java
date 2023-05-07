@@ -156,7 +156,7 @@ public class LicenseBenefit extends Benefit {
 		GameManager tGameManager;
 		
 		tShareCompany = getOperatingCompany ();
-		tOwningCompany = getOwningCompany ();
+		tOwningCompany =  (ShareCompany) getOwningCompany ();
 		tLicense = getLicense ();
 		addLicense (tOwningCompany, tShareCompany, tLicense);
 		tCashTransferEffect = new CashTransferEffect (tShareCompany, tOwningCompany, licenseCost);
