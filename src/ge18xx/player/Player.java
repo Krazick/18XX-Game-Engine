@@ -321,13 +321,13 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public JPanel buildPortfolioJPanel (ItemListener aItemListener) {
 		GameManager tGameManager;
-		String tTitle;
-
+		JPanel tPortfolioPanel;
+		
 		tGameManager = playerManager.getGameManager ();
-		tTitle = "Privates";
-
-		return portfolio.buildPortfolioJPanel (tTitle, gameHasPrivates, gameHasMinors, gameHasShares,
-				SELL_LABEL, aItemListener, tGameManager);
+		tPortfolioPanel =  portfolio.buildPortfolioJPanel (gameHasPrivates, gameHasMinors, gameHasShares,
+					SELL_LABEL, aItemListener, tGameManager);
+		
+		return tPortfolioPanel;
 	}
 
 	public boolean atCertLimit () {
@@ -1291,10 +1291,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	 */
 	public void buyAction () {
 		boolean tNextShareHasBids;
-		Certificate tCertificate;
-		List<Certificate> tCertificatesToBuy;
 		boolean tCreateNewAuctionAction;
 		boolean tConfirmBuyShare;
+		Certificate tCertificate;
+		List<Certificate> tCertificatesToBuy;
 		
 		tConfirmBuyShare = confirmBuyShareAction ();
 		if (tConfirmBuyShare) {	
@@ -1315,6 +1315,17 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		updateListeners (PLAYER_PORTFOLIO_CHANGED + " - BOUGHT");
 	}
 
+	public List<Benefit> getOwnerTypeBenefits () {
+		List<Benefit> tOwnerTypeBenefits;
+		
+		tOwnerTypeBenefits = portfolio.getOwnerTypeBenefits ();
+		if (tOwnerTypeBenefits.size () > 0) {
+			System.out.println ("Owner Type Benefits " + tOwnerTypeBenefits);
+		}
+
+		return tOwnerTypeBenefits;
+	}
+	
 	public boolean confirmBuyShareAction () {
 		boolean tConfirmedBuyShareAction;
 		int tResponse;
