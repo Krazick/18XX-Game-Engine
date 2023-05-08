@@ -1418,7 +1418,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 			System.err.println("Put Tile Down Button Selected, no Map Cell Selected from Frame");
 		} else {
 			removeAllSMC ();
-//			fillAllSMC ();
 			tTilePlaced = tSelectedMapCell.putTileDown (tileSet);
 			setTilePlaced (tTilePlaced);
 			selectableMapCells.addMapCell (tSelectedMapCell);
