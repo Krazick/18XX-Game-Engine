@@ -1313,10 +1313,10 @@ public class MapCell implements Comparator<Object> {
 		tileOrientLocked = aTileOrientLocked;
 	}
 
-	public void putTile (Tile aTile, int aTileOrient, boolean aStarting) {
-		putTile (aTile, aTileOrient);
-		setStartingTile (aStarting);
-	}
+//	public void putTile (Tile aTile, int aTileOrient, boolean aStarting) {
+//		putTile (aTile, aTileOrient);
+//		setStartingTile (aStarting);
+//	}
 
 	public void putTile (Tile aTile, int aTileOrient) {
 		int tNewTileNumber;
@@ -1390,8 +1390,9 @@ public class MapCell implements Comparator<Object> {
 		int tUpgradeCount;
 		int tTileNumber;
 		int tPossibleOrientation;
-		boolean tTilePlaced = false;
+		boolean tTilePlaced;
 
+		tTilePlaced = false;
 		if (isTileOnCell ()) {
 			// Tile on MapCell -- Upgrade Required
 			tTileOnMapCell = getTile ();
