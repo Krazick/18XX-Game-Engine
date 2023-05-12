@@ -1166,6 +1166,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return phaseManager.getTrainLimit (aGovtRailway);
 	}
 
+	public int getMinorTileLays () {
+		return phaseManager.getMinorTileLays ();
+	}
+	
+	public int getMajorTileLays () {
+		return phaseManager.getMajorTileLays ();
+	}
+	
 	public Train getBankPoolTrain (String aTrainName) {
 		return bankPool.getTrain (aTrainName);
 	}
@@ -1630,6 +1638,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				}
 			}
 			fixLoadedRoutes ();
+			updateStartPacket ();
 			if ((activeGame != GameInfo.NO_GAME_INFO) && (playerManager.getPlayerCount () > 1)) {
 				tLoadedSaveGame = true;
 			}
@@ -1752,6 +1761,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
+	public void updateStartPacket () {
+		bank.updateStartPacket ();
+	}
+	
 	public boolean mapVisible () {
 		return mapFrame.isVisible ();
 	}
