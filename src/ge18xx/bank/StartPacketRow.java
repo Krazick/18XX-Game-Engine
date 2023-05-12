@@ -338,6 +338,17 @@ public class StartPacketRow implements ParsingRoutineI {
 		return tFoundStartPacketItem;
 	}
 
+	public void updateStartPacketRow () {
+		Certificate tCertificate;
+		
+		for (StartPacketItem tStartPacketItem : startPacketItems) {
+			tCertificate = tStartPacketItem.getCertificate ();
+			if (! startPacketFrame.hasThisCertificate (tCertificate)) {
+				tStartPacketItem.setAvailable (false);
+			}
+		}
+	}
+	
 	public StartPacketItem removeCertificate (Certificate aCertificate) {
 		StartPacketItem tStartPacketItem;
 		int tItemCount;
