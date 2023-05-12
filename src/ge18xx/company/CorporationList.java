@@ -364,7 +364,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			}
 		}
 	}
-
+	
 	public void removeAllBids () {
 		for (Corporation tCorporation : corporations) {
 			tCorporation.removeAllBids ();
@@ -508,6 +508,26 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		}
 	}
 
+	public int getMajorTileLays () {
+		GameManager tGameManager;
+		int tMajorTileLays;
+		
+		tGameManager = getGameManager ();
+		tMajorTileLays = tGameManager.getMajorTileLays ();
+		
+		return tMajorTileLays;
+	}
+
+	public int getMinorTileLays () {
+		GameManager tGameManager;
+		int tMinorTileLays;
+		
+		tGameManager = getGameManager ();
+		tMinorTileLays = tGameManager.getMinorTileLays ();
+		
+		return tMinorTileLays;
+	}
+	
 	public int getCountOfOpen () {
 		int tCountOfOpen;
 
@@ -936,13 +956,14 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		JPanel tFullCorpsJPanel;
 		JPanel tOtherCorpsInfoJPanel;
 		JPanel tOtherCorpsJPanel1;
-
+		String tTitle;
+		
+		tTitle = " Other " + typeName + " Corporations - In Operating Order ";
 		tFullCorpsJPanel = new JPanel ();
 		tFullCorpsJPanel.setLayout (new BoxLayout (tFullCorpsJPanel, BoxLayout.X_AXIS));
 		tOtherCorpsJPanel1 = new JPanel ();
 		tOtherCorpsJPanel1.setLayout (new BoxLayout (tOtherCorpsJPanel1, BoxLayout.Y_AXIS));
-		tOtherCorpsJPanel1
-				.setBorder (BorderFactory.createTitledBorder (" Other Train Corporations - In Operating Order "));
+		tOtherCorpsJPanel1.setBorder (BorderFactory.createTitledBorder (tTitle));
 
 		tOtherCorpsInfoJPanel = buildOtherCorpsInfoJPanel (aCorporationFrame, aBuyingCorporation, aGameManager,
 				aFullTrainPortfolio, aCanBuyTrain, aDisableToolTipReason);
