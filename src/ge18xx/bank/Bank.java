@@ -168,6 +168,10 @@ public class Bank extends GameBank implements CashHolderI {
 		return tStartPacketJPanel;
 	}
 
+	public void updateStartPacket () {
+		startPacketFrame.updateStartPacket ();
+	}
+	
 	public boolean canStartOperatingRound () {
 		return startPacketFrame.noMustSellLeft ();
 	}

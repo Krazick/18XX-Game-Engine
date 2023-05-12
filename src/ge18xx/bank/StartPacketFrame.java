@@ -516,6 +516,12 @@ public class StartPacketFrame extends XMLFrame implements LoadableXMLI, Portfoli
 		return tCertificateLocation;
 	}
 	
+	public void updateStartPacket () {
+		for (StartPacketRow tStartPacketRow : startPacketRows) {
+			tStartPacketRow.updateStartPacketRow ();
+		}
+	}
+	
 	public StartPacketItem removeCertificateFromRow (Certificate aCertificate) {
 		StartPacketItem tStartPacketItem;
 		StartPacketItem tRemovedStartPacketItem;
