@@ -36,24 +36,6 @@ public class MinorCompany extends TokenCompany {
 		super (aChildNode, aCorporationList);
 		upgradeToID = aChildNode.getThisIntAttribute (AN_UPGRADE_ID);
 		upgradePercentage = aChildNode.getThisIntAttribute (AN_UPGRADE_PERCENTAGE);
-//		fillPortfolio ();
-	}
-
-	public void fillPortfolio () {
-		Certificate tCertificate;
-		int tCertificateCount;
-		int tIndex;
-		
-		tCertificateCount = corporationCertificates.getCertificateTotalCount ();
-		
-		for (tIndex = 0; tIndex < tCertificateCount; tIndex++) {
-			tCertificate = corporationCertificates.getCertificate (tIndex);
-			if (tCertificate.onlyOwnedBy (MINOR_COMPANY)) {
-				tCertificate.setOwner (portfolio);
-				portfolio.addCertificate (tCertificate);
-				System.out.println ("Added Certificate for Minor " + abbrev);
-			}
-		}
 	}
 	
 	@Override
@@ -91,6 +73,7 @@ public class MinorCompany extends TokenCompany {
 
 		tXMLCorporationState = aXMLDocument.createElement (EN_MINOR_COMPANY);
 		getCorporationStateElement (tXMLCorporationState, aXMLDocument);
+		super.appendOtherElements (tXMLCorporationState, aXMLDocument);
 
 		return tXMLCorporationState;
 	}
@@ -108,6 +91,15 @@ public class MinorCompany extends TokenCompany {
 		tCorpInfoLabel += "<br>" + "Price: " + getValue ();
 		
 		return tCorpInfoLabel;
+	}
+
+	@Override
+	public int getAllowedTileLays () {
+		int tAllowedTileLays;
+		
+		tAllowedTileLays = corporationList.getMinorTileLays ();
+		
+		return tAllowedTileLays;
 	}
 
 	public String getOwner () {
