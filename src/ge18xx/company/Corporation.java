@@ -939,6 +939,14 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return status;
 	}
 
+	public int getAllowedTileLays () {
+		int tAllowedTileLays;
+		
+		tAllowedTileLays = 1;
+		
+		return tAllowedTileLays;
+	}
+	
 	@Override
 	public Bank getBank () {
 		return corporationList.getBank ();
