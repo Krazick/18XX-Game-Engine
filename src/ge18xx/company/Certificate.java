@@ -1509,22 +1509,31 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public void printCertificateInfo () {
-		String tOwnerName;
-		String tCorpType;
+		String tCertificateInfo;
 
+		tCertificateInfo = getCertificateInfo ();
+		System.out.println (tCertificateInfo);
+	}
+
+	public String getCertificateInfo () {
+		String tCertificateInfo;
+		String tCorpType;
+		String tOwnerName;
+		
 		tOwnerName = " >> NOT OWNED <<";
 		if (owner != CertificateHolderI.NO_OWNER) {
 			tOwnerName = " Owner: " + owner.getHolderName ();
 		}
 		if (isPresidentShare) {
-			System.out.print ("President's ");		// PRINTLOG method
+			tCertificateInfo = "President's ";
 		}
 		tCorpType = corporation.getType ();
-		System.out.print ("Certificate for " + corporation.getName () + " " + tCorpType);		// PRINTLOG method
-		System.out.println (" is " + percentage + "% with Current Value " + 
-						Bank.formatCash (getValue ()) + tOwnerName);
-	}
+		tCertificateInfo = "Certificate for " + corporation.getName () + " " + tCorpType + " is " + 
+					percentage + "% with Current Value " + Bank.formatCash (getValue ()) + tOwnerName;
 
+		return tCertificateInfo;
+	}
+	
 	public boolean sameCertificate (LoadedCertificate aLoadedCertificate) {
 		boolean tCompareValue;
 		String tAbbrev;
