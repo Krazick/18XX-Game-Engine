@@ -651,13 +651,22 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 	public void fillOtherCorpsJPanel (boolean aCanBuyTrain, String aDisableToolTipReason) {
 		GameManager tGameManager;
 		CorporationList tShareCorporations;
+		CorporationList tMinorCorporations;
 		JPanel tCorporationsTrainsJPanel;
+		JPanel tMinorCorporationsTrainsJPanel;
 
 		if (isCorporationSet ()) {
 			if (corporation.isOperating ()) {
 				tGameManager = corporation.getGameManager ();
 				if (tGameManager != GameManager.NO_GAME_MANAGER) {
 					otherCorpsJPanel.removeAll ();
+					tMinorCorporations = tGameManager.getMinorCompanies ();
+					if (tMinorCorporations.getCountOfOpen () > 0) {
+						tMinorCorporationsTrainsJPanel = tMinorCorporations.buildFullCorpsJPanel (this, corporation,
+								tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
+						otherCorpsJPanel.add (Box.createHorizontalGlue ());
+						otherCorpsJPanel.add (tMinorCorporationsTrainsJPanel);					
+					}
 					tShareCorporations = tGameManager.getShareCompanies ();
 					tCorporationsTrainsJPanel = tShareCorporations.buildFullCorpsJPanel (this, corporation,
 							tGameManager, TrainPortfolio.FULL_TRAIN_PORTFOLIO, aCanBuyTrain, aDisableToolTipReason);
