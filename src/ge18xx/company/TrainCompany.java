@@ -1836,6 +1836,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		ActorI.ActionStates tNewStatus;
 		ActorI.ActionStates tTargetStatus;
 		int tCostToLayTile;
+		int tAllowedTileLays;
 		Bank tBank;
 		String tTokens;
 		String tBases;
@@ -1855,7 +1856,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tCostToLayTile = aMapCell.getCostToLayTile (aTile);
 		tOperatingRoundID = corporationList.getOperatingRoundID ();
 		tLayTileAction = new LayTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
-
+		tAllowedTileLays = getAllowedTileLays ();
+		System.out.println ("For the Company " + name + " (" + getAbbrev () + ") " + tAllowedTileLays + " Tile(s) can be laid.");
 		if (aPreviousTile != Tile.NO_TILE) {
 			tRemoveTileAction = new RemoveTileAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, this);
 			tRemoveTileAction.addRemoveTileEffect (this, aMapCell, aPreviousTile, aPreviousOrientation, aPreviousTokens,
