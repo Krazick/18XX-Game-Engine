@@ -41,7 +41,7 @@ public class PrivatesFrame extends CorporationTableFrame {
 	public void applyCloseToPrivates () {
 		companies.applyClose ();
 	}
-
+	
 	@Override
 	public void removeAllBids () {
 		companies.removeAllBids ();
