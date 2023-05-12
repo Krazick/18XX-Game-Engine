@@ -255,6 +255,15 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	@Override
+	public int getAllowedTileLays () {
+		int tAllowedTileLays;
+		
+		tAllowedTileLays = corporationList.getMajorTileLays ();
+		
+		return tAllowedTileLays;
+	}
+	
+	@Override
 	public String reasonForNoBuyPrivate () {
 		return "Cannot buy Private in current Phase";
 	}
