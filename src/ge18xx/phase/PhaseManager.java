@@ -19,7 +19,9 @@ public class PhaseManager {
 	public static final List<PhaseInfo> NO_PHASES = null;
 	public static final int NO_PHASE = -1;
 	public static final int FIRST_PHASE = 0;
-	public final static ElementName EN_PHASE = new ElementName ("Phase");
+	public static final int MINIMUM_TRAIN_LIMIT = 1;
+	public static final int MINIMUM_TILE_LAY_LIMIT = 1;
+	public static final ElementName EN_PHASE = new ElementName ("Phase");
 	final static AttributeName AN_CURRENT_PHASE = new AttributeName ("currentPhase");
 	List<PhaseInfo> phases;
 	int currentPhase;
@@ -69,6 +71,32 @@ public class PhaseManager {
 		}
 
 		return tLoansAllowed;
+	}
+	
+	public int getMinorTileLays () {
+		PhaseInfo tPhaseInfo;
+		int tMinorTileLays;
+		
+		tMinorTileLays = MINIMUM_TILE_LAY_LIMIT;
+		tPhaseInfo = getCurrentPhaseInfo ();
+		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
+			tMinorTileLays = tPhaseInfo.getMinorTileLays ();
+		}
+		
+		return tMinorTileLays;
+	}
+
+	public int getMajorTileLays () {
+		PhaseInfo tPhaseInfo;
+		int tMajorTileLays;
+		
+		tMajorTileLays = MINIMUM_TILE_LAY_LIMIT;
+		tPhaseInfo = getCurrentPhaseInfo ();
+		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
+			tMajorTileLays = tPhaseInfo.getMajorTileLays ();
+		}
+		
+		return tMajorTileLays;
 	}
 	
 	public PhaseInfo getCurrentPhaseInfo () {
@@ -138,10 +166,15 @@ public class PhaseManager {
 
 	public int getMinorTrainLimit () {
 		PhaseInfo tPhaseInfo;
+		int tTrainLimit;
 
 		tPhaseInfo = getCurrentPhaseInfo ();
-
-		return tPhaseInfo.getMinorTrainLimit ();
+		tTrainLimit = MINIMUM_TRAIN_LIMIT;
+		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
+			tTrainLimit = tPhaseInfo.getMinorTrainLimit ();
+		}
+		
+		return tTrainLimit;
 	}
 
 	public int getTrainLimit (boolean aGovtRailway) {
@@ -149,13 +182,15 @@ public class PhaseManager {
 		int tTrainLimit;
 
 		tPhaseInfo = getCurrentPhaseInfo ();
-
-		if (aGovtRailway) {
-			tTrainLimit = tPhaseInfo.getGovtTrainLimit ();
-		} else {
-			tTrainLimit = tPhaseInfo.getTrainLimit ();
+		tTrainLimit = MINIMUM_TRAIN_LIMIT;
+		if (tPhaseInfo != PhaseInfo.NO_PHASE_INFO) {
+			if (aGovtRailway) {
+				tTrainLimit = tPhaseInfo.getGovtTrainLimit ();
+			} else {
+				tTrainLimit = tPhaseInfo.getTrainLimit ();
+			}
 		}
-
+		
 		return tTrainLimit;
 	}
 
