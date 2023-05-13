@@ -113,6 +113,21 @@ public class DestinationInfo {
 		}
 	}
 
+	public int calculateEscrowToRelease (ShareCompany aShareCompany) {
+		int tEscrowReleased;
+		int tSharesSold;
+		int tParPrice;
+		
+		tEscrowReleased = 0;
+		tSharesSold = aShareCompany.getSharesOwned ();
+		tParPrice = aShareCompany.getParPrice ();
+		if (tSharesSold > 5) {
+			tEscrowReleased = (tSharesSold - 5) * tParPrice;
+		}
+		
+		return tEscrowReleased;
+	}
+
 	public void getDestinationInfo (XMLElement aXMLCorporationState) {
 		aXMLCorporationState.setAttribute (AN_CAPITALIZATION_LEVEL, getCapitalizationLevel ());
 		if (location != Location.NO_LOC) {
