@@ -69,37 +69,33 @@ public class AllCorporationsPanel extends ListenerPanel {
 	}
 	
 	public void updateAllCorporationsJPanel () {
-		JPanel tCompanyJPanel;
 		OperatingRound tOperatingRound;
-		int tCorporationCount;
 		CorporationList tCorporationList;
 
-		tOperatingRound = roundManager.getOperatingRound ();
-		tCorporationCount = tOperatingRound.getPrivateCompanyCount ();
 		removeAll ();
-		if (tCorporationCount > 0) {
-			tCorporationList = tOperatingRound.getPrivateCompanies ();
-			tCompanyJPanel = tCorporationList.buildCompanyJPanel (true);
-			add (tCompanyJPanel);
-			add (Box.createVerticalStrut (10));
-		}
+		tOperatingRound = roundManager.getOperatingRound ();
+		tCorporationList = tOperatingRound.getPrivateCompanies ();
+		buildCorpListPanel (tCorporationList);
 
-		tCorporationCount = tOperatingRound.getMinorCompanyCount ();
-		if (tCorporationCount > 0) {
-			tCorporationList = tOperatingRound.getMinorCompanies ();
-			tCompanyJPanel = tCorporationList.buildCompanyJPanel (true);
-			add (tCompanyJPanel);
-			add (Box.createVerticalStrut (10));
-		}
+		tCorporationList = tOperatingRound.getMinorCompanies ();
+		buildCorpListPanel (tCorporationList);
 
-		tCorporationCount = tOperatingRound.getShareCompanyCount ();
-		if (tCorporationCount > 0) {
-			tCorporationList = tOperatingRound.getShareCompanies ();
-			tCompanyJPanel = tCorporationList.buildCompanyJPanel (false);
-			add (tCompanyJPanel);
-			add (Box.createVerticalStrut (10));
-		}
+		tCorporationList = tOperatingRound.getShareCompanies ();
+		buildCorpListPanel (tCorporationList);
+		
 		revalidate ();
+	}
+
+	public void buildCorpListPanel (CorporationList aCorporationList) {
+		JPanel tCompanyJPanel;
+		int tCorporationCount;
+		
+		tCorporationCount = aCorporationList.getCorporationCount ();
+		if (tCorporationCount > 0) {
+			tCompanyJPanel = aCorporationList.buildCompanyJPanel (true);
+			add (tCompanyJPanel);
+			add (Box.createVerticalStrut (10));
+		}
 	}
 
 	@Override
