@@ -505,7 +505,9 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 	
 	public void getOwnerTypeBenefits (List<Benefit> aOwnerTypeBenefits) {
-		benefits.getOwnerTypeBenefits (aOwnerTypeBenefits);
+		if (benefits != Benefits.NO_BENEFITS) {
+			benefits.getOwnerTypeBenefits (aOwnerTypeBenefits);
+		}
 	}
 
 	public Benefit findBenefit (String aBenefitName) {
@@ -602,43 +604,5 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public Benefits getBenefits () {
 		return benefits;
 	}
-//	
-//	public boolean hasExchangeBenefit () {
-//		boolean tHasExchangeBenefit;
-//		
-//		if (hasAnyPlayerBenefits ()) {
-//			tHasExchangeBenefit = benefits.hasExchangeBenefit ();
-//		} else {
-//			tHasExchangeBenefit = false;
-//		}
-//
-//		return tHasExchangeBenefit;
-//	}
-//	
-//	public JLabel getExchangeCertLabel () {
-//		JLabel tFreeCertLabel;
-//		
-//		tFreeCertLabel = benefits.getExchangeCertLabel ();
-//		
-//		return tFreeCertLabel;
-//	}
-//
-//	public boolean hasBenefitWithFreeCert () {
-//		boolean tHasBenefitsWithFreeCert;
-//		
-//		tHasBenefitsWithFreeCert = false;
-//		if (hasAnyPassivePlayerBenefits ()) {
-//			tHasBenefitsWithFreeCert = benefits.hasFreeCertBenefit ();
-//		}
-//		
-//		return tHasBenefitsWithFreeCert;
-//	}
-//	
-//	public JLabel getFreeCertLabel () {
-//		JLabel tFreeCertLabel;
-//		
-//		tFreeCertLabel = benefits.getFreeCertLabel ();
-//		
-//		return tFreeCertLabel;
-//	}
+
 }
