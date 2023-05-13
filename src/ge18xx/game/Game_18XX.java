@@ -105,7 +105,7 @@ public class Game_18XX extends XMLFrame {
 	JMenuItem frameInfoMenuItem;
 	JMenuItem exitMenuItem;
 	private JTextField clientUserName;
-	private JButton newGameButton;
+	private JButton okButton;
 	private JButton quitButton;
 	private JButton disconnectButton;
 	
@@ -331,10 +331,14 @@ public class Game_18XX extends XMLFrame {
 			setupLogger (tClientName, GAME_NAME);
 			setGameManager (new GameManager (this, tClientName));
 			enableGameStartItems ();
-			newGameButton.requestFocusInWindow ();
+			okButton.requestFocusInWindow ();
+			okButton.setEnabled (true);
+			okButton.setToolTipText (GUI.EMPTY_STRING);
 		} else if (!(tClientName.equals (""))) {
 			clientUserName.setText ("INVALID NAME");
 			clientUserName.requestFocusInWindow ();
+			okButton.setEnabled (false);
+			okButton.setToolTipText ("Client User Name enter is Invalid");
 		}
 	}
 
@@ -357,14 +361,14 @@ public class Game_18XX extends XMLFrame {
 			}
 		});
 
-		newGameButton.addActionListener (new ActionListener () {
+		okButton.addActionListener (new ActionListener () {
 			@Override
 			public void actionPerformed (ActionEvent aEvent) {
 				newGame ();
 			}
 		});
 
-		newGameButton.addKeyListener (new KeyAdapter () {
+		okButton.addKeyListener (new KeyAdapter () {
 			@Override
 			public void keyReleased (KeyEvent e) {
 				if (e.getKeyCode () == KeyEvent.VK_ENTER) {
@@ -459,11 +463,11 @@ public class Game_18XX extends XMLFrame {
 
 		tButtonPanel = new JPanel ();
 		tButtonPanel.setLayout (new BoxLayout (tButtonPanel, BoxLayout.X_AXIS));
-		newGameButton = new JButton (OK_TEXT);
+		okButton = new JButton (OK_TEXT);
 		quitButton = new JButton (QUIT_TEXT);
 		disconnectButton = new JButton (JGameClient.DISCONNECT);
 		tButtonPanel.add (Box.createHorizontalStrut (10));
-		tButtonPanel.add (newGameButton);
+		tButtonPanel.add (okButton);
 		tButtonPanel.add (Box.createHorizontalStrut (10));
 		tButtonPanel.add (quitButton);
 		tButtonPanel.add (Box.createHorizontalStrut (10));
@@ -685,8 +689,8 @@ public class Game_18XX extends XMLFrame {
 	}
 
 	public void disableGameButtons () {
-		newGameButton.setEnabled (false);
-		newGameButton.setToolTipText (ENTER_USER_NAME);
+		okButton.setEnabled (false);
+		okButton.setToolTipText (ENTER_USER_NAME);
 	}
 
 	public void disableGameStartItems () {
@@ -700,8 +704,8 @@ public class Game_18XX extends XMLFrame {
 	public void enableGameStartItems () {
 		enableNewMenuItem ();
 		enableOpenMenuItem ();
-		newGameButton.setEnabled (true);
-		newGameButton.setToolTipText (GUI.NO_TOOL_TIP);
+		okButton.setEnabled (true);
+		okButton.setToolTipText (GUI.NO_TOOL_TIP);
 		clientUserName.setEnabled (true);
 	}
 
