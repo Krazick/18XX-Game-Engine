@@ -46,6 +46,7 @@ public class AllCorporationsPanel extends ListenerPanel {
 	private void observeCorporations () {
 		CorporationList tCorporationList;
 		boolean tListenersAdded;
+		int tCorporationCount;
 		
 		addMessage (Corporation.CORPORATION_STATUS_CHANGE);
 		addMessage (TrainCompany.CORPORATION_CASH_CHANGED);
@@ -56,11 +57,20 @@ public class AllCorporationsPanel extends ListenerPanel {
 		tListenersAdded = true;
 		
 		tCorporationList = roundManager.getShareCompanies ();
-		tListenersAdded = tListenersAdded && tCorporationList.addListeners (this);;
+		tCorporationCount = tCorporationList.getCorporationCount ();
+		if (tCorporationCount > 0) {
+			tListenersAdded = tListenersAdded && tCorporationList.addListeners (this);
+		}
 		tCorporationList = roundManager.getMinors ();
-		tListenersAdded = tListenersAdded && tCorporationList.addListeners (this);
+		tCorporationCount = tCorporationList.getCorporationCount ();
+		if (tCorporationCount > 0) {
+			tListenersAdded = tListenersAdded && tCorporationList.addListeners (this);
+		}
 		tCorporationList = roundManager.getPrivates ();
-		tListenersAdded = tListenersAdded && tCorporationList.addListeners (this);
+		tCorporationCount = tCorporationList.getCorporationCount ();
+		if (tCorporationCount > 0) {
+			tListenersAdded = tListenersAdded && tCorporationList.addListeners (this);
+		}
 		
 		if (! tListenersAdded) {
 			System.err.println ("Not all Listeners added.");
