@@ -165,8 +165,6 @@ public class ShareCompany extends TokenCompany {
 		OperatingRound tOperatingRound;
 		boolean tReachedDestination;
 		int tEscrowReleased;
-		int tSharesSold;
-		int tParPrice;
 		int tOldCapitalizationLevel;
 		int tNewCapitalizationLevel;
 		Bank tBank;
@@ -184,18 +182,22 @@ public class ShareCompany extends TokenCompany {
 		tReachedDestinationAction.addReachedDestinationEffect (this, tReachedDestination, 
 				tOldCapitalizationLevel, tNewCapitalizationLevel);
 		
-		tEscrowReleased = 0;
-		tSharesSold = getSharesOwned ();
-		tParPrice = getParPrice ();
-		if (tSharesSold > 5) {
-			tEscrowReleased = (tSharesSold - 5) * tParPrice;
-		}
+		tEscrowReleased = destinationInfo.calculateEscrowToRelease (this);
 		tBank.transferCashTo (this, tEscrowReleased);
 
 		tReachedDestinationAction.addCashTransferEffect (tBank, this, tEscrowReleased);
 		corporationList.addAction (tReachedDestinationAction);
 	}
 
+	@Override
+	public int calculateEscrowToRelease () {
+		int tEscrowCalculated;
+		
+		tEscrowCalculated = destinationInfo.calculateEscrowToRelease (this);
+		
+		return tEscrowCalculated;
+	}
+	
 	public void setReachedDestination (boolean aReached) {
 		destinationInfo.setReached (aReached);
 	}

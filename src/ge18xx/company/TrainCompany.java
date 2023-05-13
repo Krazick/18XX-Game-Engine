@@ -415,17 +415,28 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public String buildCorpInfoLabel () {
 		String tCorpLabel;
 		String tThisRevenue;
-
+		String tEscrow;
+		int tEscrowAmount;
+		
 		tCorpLabel = getAbbrev () + "&nbsp;";
+		tEscrow = GUI.EMPTY_STRING;
 		if (isActive ()) {
 			tCorpLabel += buildPercentOwnedLabel ();
 			if (hasDestination ()) {
 				if (hasReachedDestination ()) {
 					tCorpLabel += "*";
+				} else {
+					tEscrowAmount = calculateEscrowToRelease ();
+					if (tEscrowAmount > 0) {
+						tEscrow += "<br>Escrow: " + Bank.formatCash (tEscrowAmount);
+					}
 				}
 			}
 			if (! isAMinorCompany ()) {
 				tCorpLabel += "<br>[" + getBankPoolPercentage () + "%&nbsp; in Bank Pool]";
+			}
+			if (tEscrow.length () > 0) {
+				tCorpLabel += tEscrow;
 			}
 			tCorpLabel += "<br>[" + getStatusName () + "]";
 			tCorpLabel += "<br>Prez: " + getPresidentName ();
@@ -440,6 +451,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 
 		return tCorpLabel;
+	}
+	
+	public int calculateEscrowToRelease () {
+		return 0;
 	}
 
 	public Border setupBorder (boolean aSamePresident) {
