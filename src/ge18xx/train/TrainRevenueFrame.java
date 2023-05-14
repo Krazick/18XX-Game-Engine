@@ -31,6 +31,7 @@ import ge18xx.game.GameManager;
 import ge18xx.game.Game_18XX;
 import ge18xx.map.HexMap;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.tiles.Track;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
@@ -775,6 +776,7 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		JPanel tTrainRevenueJPanel;
 		BoxLayout tLayoutX;
 		Train tTrain;
+		Color tPaintColor;
 
 		// TODO -- MUST Figure out way to give Diesels an infinite length
 
@@ -784,7 +786,11 @@ public class TrainRevenueFrame extends XMLFrame implements ActionListener, Prope
 		tLayoutX = new BoxLayout (tTrainRevenueJPanel, BoxLayout.X_AXIS);
 		tTrainRevenueJPanel.setLayout (tLayoutX);
 
-		tTrainLabel = new JLabel (tTrain.getName () + " Train #" + (aTrainIndex + 1));
+		tPaintColor = (Color) Track.getPaintColor (aTrainIndex + 1);
+		tTrainLabel = new JLabel ("  " + tTrain.getName () + " Train #" + (aTrainIndex + 1) + "  ");
+		tTrainLabel.setOpaque (true);
+		tTrainLabel.setBackground (tPaintColor);
+		
 		tTrainRevenueJPanel.add (tTrainLabel);
 		buildRevenuesByTrain (aTrainIndex, tCityCount, tTrain, tTrainRevenueJPanel);
 		totalRevenueByEachTrain [aTrainIndex] = new JLabel ("0");
