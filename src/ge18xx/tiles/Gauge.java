@@ -54,26 +54,6 @@ public class Gauge implements Cloneable {
 		}
 	}
 
-//	public Gauge getBaseGauge () {
-//		Gauge tBaseGauge;
-//
-//		if (hasBase ()) {
-//			if (gauge == FERRY) {
-//				tBaseGauge = new Gauge (FERRY_BASE);
-//			} else if (gauge == METER_GAUGE) {
-//				tBaseGauge = new Gauge (METER_BASE);
-//			} else if (gauge == TUNNEL) {
-//				tBaseGauge = new Gauge (METER_BASE);
-//			} else {
-//				tBaseGauge = NO_GAUGE;
-//			}
-//		} else {
-//			tBaseGauge = NO_GAUGE;
-//		}
-//
-//		return tBaseGauge;
-//	}
-
 	public Color getColor () {
 		Color color;
 
