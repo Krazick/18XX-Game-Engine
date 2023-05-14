@@ -727,52 +727,56 @@ public class Track implements Cloneable {
 		return aLocation;
 	}
 
-	public Paint getColor (int aTrainNumber) {
-		Paint color;
+	public static Paint getPaintColor (int aTrainNumber) {
+		Paint tPaintColor;
 
 		switch (aTrainNumber) {
 		case (1):
-			color = Color.green;
+			tPaintColor = Color.green;
 			break;
 
 		case (2):
-			color = Color.orange;
+			tPaintColor = Color.orange;
 			break;
 
 		case (3):
-			color = Color.red;
+			tPaintColor = Color.red;
 			break;
 
 		case (4):
-			color = Color.magenta;
+			tPaintColor = Color.magenta;
 			break;
 
 		case (5):
-			color = Color.cyan;
+			tPaintColor = Color.cyan;
 			break;
 
 		case (6):
-			color = Color.pink;
+			tPaintColor = Color.pink;
 			break;
 
 		default:
-			color = Color.black;
+			tPaintColor = Color.black;
 			break;
 		}
 
-		return color;
+		return tPaintColor;
 	}
 
 	public Paint getColor (Paint aBaseColor) {
+		Paint tPaintColor;
+		
 		if (gauge.isOverpass () || gauge.isFerryBase ()) {
-			return aBaseColor;
+			tPaintColor = aBaseColor;
 		} else {
 			if (trainNumberUsing == NO_TRAIN) {
-				return gauge.getColor ();
+				tPaintColor = gauge.getColor ();
 			} else {
-				return (getColor (trainNumberUsing));
+				tPaintColor = getPaintColor (trainNumberUsing);
 			}
 		}
+		
+		return tPaintColor;
 	}
 
 	public int getEnterLocationInt () {
