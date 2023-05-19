@@ -16,6 +16,7 @@ import java.io.IOException;
 import ge18xx.toplevel.LoadableXMLI;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+//import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLNode;
@@ -231,8 +232,11 @@ public class TileType implements Cloneable, LoadableXMLI {
 	private static void setStaticPaints (int aPaintCount) {
 		TexturePaint tTexturePaint;
 		int tGridSize;
+//		int tAlpha;
+//		Color tTransparent;
 
 		tGridSize = 5;
+//		tAlpha = 75;
 		paints = new Paint [aPaintCount] [2];
 		paints [NO_TYPE] [0] = Color.lightGray;
 		paints [YELLOW] [0]  = Color.yellow;
@@ -249,6 +253,7 @@ public class TileType implements Cloneable, LoadableXMLI {
 		// Highlight Section
 		paints [NO_TYPE] [1] = Color.lightGray;
 		tTexturePaint = XMLNode.createTexture (Color.yellow, Color.lightGray, tGridSize);	// YELLOW_HIGHLIGHT
+//		tTransparent = GUI.makeTransparent (Color.yellow, tAlpha);
 		paints [YELLOW] [1] = tTexturePaint;
 		tTexturePaint = XMLNode.createTexture (Color.green, Color.lightGray, tGridSize);	// GREEN HIGHLIGHT
 		paints [GREEN] [1] = tTexturePaint;
