@@ -228,9 +228,10 @@ public class Portfolio implements CertificateHolderI {
 		String tCertificateType;
 		String tPrevShareCorpAbbrev;
 		String tShareCorpAbbrev;
-		boolean tIsBankPortfolioHolder = false;
+		boolean tIsBankPortfolioHolder;
 
 		tCount = 0;
+		tIsBankPortfolioHolder = false;
 		tScrollableCorpJPanel = buildEmptyCorpJPanel (aCorpType);
 		tCorporationJPanel = buildEmptyCorpJPanel (null);
 		tPrevShareCorpAbbrev = NO_COMPANY_YET;
@@ -296,11 +297,12 @@ public class Portfolio implements CertificateHolderI {
 		String tCertificateType;
 		String tPrevShareCorpAbbrev;
 		String tShareCorpAbbrev;
-		boolean tIsBankPortfolioHolder = true;
+		boolean tIsBankPortfolioHolder;
 
 		tCount = 0;
 		tCertCount = 0;
 		tCertTotalPercent = 0;
+		tIsBankPortfolioHolder = true;
 		tScrollableCorpJPanel = buildEmptyCorpJPanel (aCorpType);
 		tCorporationJPanel = buildEmptyCorpJPanel (null);
 		tPrevShareCorpAbbrev = NO_COMPANY_YET;
