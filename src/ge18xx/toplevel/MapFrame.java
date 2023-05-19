@@ -800,32 +800,38 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	}
 
 	public String canPlaceTokenToolTip (Corporation aCorporation, City aSelectedCity, MapCell aMapCell) {
-		String tCanPlaceTokenToolTip = "";
+		String tCanPlaceTokenToolTip;
 		Corporation tBaseCorporation;
-		String tBaseAbbrev, tCorporationAbbrev;
+		String tBaseAbbrev;
+		String tCorporationAbbrev;
 		int tCorporationID;
 
+		tCanPlaceTokenToolTip = GUI.EMPTY_STRING;
 		tCorporationID = aCorporation.getID ();
 		if (aMapCell != MapCell.NO_MAP_CELL) {
 			if (aMapCell.hasStation (tCorporationID)) {
 				tCanPlaceTokenToolTip = "Map Cell already has this Company's Token";
 			} else if (aSelectedCity != City.NO_CITY) {
-				tBaseCorporation = aSelectedCity.getTokenCorporation ();
-				if (tBaseCorporation == Corporation.NO_CORPORATION) {
-					if (!hasFreeStation (aSelectedCity)) {
-						tCanPlaceTokenToolTip = "No Free Station on City";
-					}
+				if (aSelectedCity.isDestination ()) {
+					tCanPlaceTokenToolTip = "Selected City is a Destination, cannot Place Token Here";
 				} else {
-					tBaseAbbrev = tBaseCorporation.getAbbrev ();
-					tCorporationAbbrev = aCorporation.getAbbrev ();
-					if (aSelectedCity.cityHasStation (tCorporationID)) {
-						tCanPlaceTokenToolTip = "City already has this Company's Token";
-					} else if (tBaseAbbrev.equals (tCorporationAbbrev)) {
+					tBaseCorporation = aSelectedCity.getTokenCorporation ();
+					if (tBaseCorporation == Corporation.NO_CORPORATION) {
 						if (!hasFreeStation (aSelectedCity)) {
-							tCanPlaceTokenToolTip = NOT_BASE_CORPORATION;
+							tCanPlaceTokenToolTip = "No Free Station on City";
 						}
-					} else if (!baseHasFreeStation (aSelectedCity)) {
-						tCanPlaceTokenToolTip = "No Free Station on City";
+					} else {
+						tBaseAbbrev = tBaseCorporation.getAbbrev ();
+						tCorporationAbbrev = aCorporation.getAbbrev ();
+						if (aSelectedCity.cityHasStation (tCorporationID)) {
+							tCanPlaceTokenToolTip = "City already has this Company's Token";
+						} else if (tBaseAbbrev.equals (tCorporationAbbrev)) {
+							if (!hasFreeStation (aSelectedCity)) {
+								tCanPlaceTokenToolTip = NOT_BASE_CORPORATION;
+							}
+						} else if (!baseHasFreeStation (aSelectedCity)) {
+							tCanPlaceTokenToolTip = "No Free Station on City";
+						}
 					}
 				}
 			}
@@ -835,32 +841,34 @@ public class MapFrame extends XMLFrame implements ActionListener {
 	}
 
 	public boolean canPlaceToken (Corporation aCorporation, City aSelectedCity, MapCell aMapCell) {
-		boolean tCanPlaceToken = false;
+		boolean tCanPlaceToken;
 		Corporation tBaseCorporation;
-//		String tBaseAbbrev, tCorporationAbbrev;
 		int tCorporationID;
 
+		tCanPlaceToken = false;
 		tCorporationID = aCorporation.getID ();
 		if (aMapCell != MapCell.NO_MAP_CELL) {
 			if (aMapCell.hasStation (tCorporationID)) {
 				tCanPlaceToken = false;
 			} else if (aSelectedCity != City.NO_CITY) {
-				tBaseCorporation = aSelectedCity.getTokenCorporation ();
-				if (tBaseCorporation == Corporation.NO_CORPORATION) {
-					if (hasFreeStation (aSelectedCity)) {
-						tCanPlaceToken = true;
-					}
+				if (aSelectedCity.isDestination ()) {
+					tCanPlaceToken = false;
 				} else {
-//					tBaseAbbrev = tBaseCorporation.getAbbrev ();
-//					tCorporationAbbrev = aCorporation.getAbbrev ();
-					if (aSelectedCity.cityHasStation (tCorporationID)) {
-						tCanPlaceToken = false;
-					} else if (isHomeMapCell (aCorporation, aSelectedCity)) {
+					tBaseCorporation = aSelectedCity.getTokenCorporation ();
+					if (tBaseCorporation == Corporation.NO_CORPORATION) {
 						if (hasFreeStation (aSelectedCity)) {
 							tCanPlaceToken = true;
 						}
-					} else if (baseHasFreeStation (aSelectedCity)) {
-						tCanPlaceToken = true;
+					} else {
+						if (aSelectedCity.cityHasStation (tCorporationID)) {
+							tCanPlaceToken = false;
+						} else if (isHomeMapCell (aCorporation, aSelectedCity)) {
+							if (hasFreeStation (aSelectedCity)) {
+								tCanPlaceToken = true;
+							}
+						} else if (baseHasFreeStation (aSelectedCity)) {
+							tCanPlaceToken = true;
+						}
 					}
 				}
 			}
