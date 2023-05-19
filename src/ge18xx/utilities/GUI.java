@@ -79,4 +79,12 @@ public interface GUI {
 		
 		return tDimension;
 	}
+	
+	public static Color makeTransparent(Color aSource, int aAlpha) {
+		Color tTransparent;
+		
+		tTransparent = new Color(aSource.getRed(), aSource.getGreen(), aSource.getBlue(), aAlpha);
+		
+		return tTransparent;
+	}
 }
