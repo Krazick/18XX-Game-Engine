@@ -13,6 +13,47 @@ public class TilesTestFactory {
 	GameTestFactory gameTestFactory;
 	UtilitiesTestFactory utilitiesTestFactory;
 	MapTestFactory mapTestFactory;
+	String testTiles [] = {
+		"<Tile number=\"9995\" type=\"Yellow\" fixed=\"true\">\n"
+		+ "	<TileName location=\"43\" name=\"Toronto\" />\n"
+		+ "	<Track enter=\"1\" exit=\"7\" gauge=\"NORMAL\" />\n"
+		+ "	<Track enter=\"4\" exit=\"10\" gauge=\"NORMAL\" />\n"
+		+ "	<RevenueCenter id=\"-1\" location=\"8\" name=\"\" number=\"0\" type=\"Destination City\" />\n"
+		+ "	<RevenueCenter id=\"-1\" location=\"7\" name=\"\" number=\"1\" type=\"Single City\">\n"
+		+ "		<Revenue location=\"12\" phase=\"1\" value=\"30\" />\n"
+		+ "	</RevenueCenter>\n"
+		+ "	<RevenueCenter id=\"-1\" location=\"10\" name=\"\" number=\"1\" type=\"Single City\">\n"
+		+ "		<Revenue location=\"-1\" phase=\"1\" value=\"30\" />\n"
+		+ "	</RevenueCenter>\n"
+		+ "</Tile>\n" ,
+		
+		"<Tile number=\"14\" type=\"Green\">\n"
+		+ "		<Track enter=\"0\" exit=\"50\" gauge=\"NORMAL\" />\n"
+		+ "		<Track enter=\"1\" exit=\"50\" gauge=\"NORMAL\" />\n"
+		+ "		<Track enter=\"3\" exit=\"50\" gauge=\"NORMAL\" />\n"
+		+ "		<Track enter=\"4\" exit=\"50\" gauge=\"NORMAL\" />\n"
+		+ "		<RevenueCenter id=\"-1\" location=\"50\" name=\"\" number=\"2\"\n"
+		+ "			type=\"Double City\">\n"
+		+ "			<Revenue location=\"42\" phase=\"0\" value=\"30\" />\n" + "		</RevenueCenter>\n"
+		+ "	</Tile>\n" ,
+		
+		"<Tile number=\"120\" type=\"Green\">\n "
+		 + "    <TileName location=\"43\" name=\"Toronto\" />\n "
+		 + "    <Track enter=\"0\" exit=\"13\" gauge=\"NORMAL\" />\n "
+		 + "    <Track enter=\"1\" exit=\"13\" gauge=\"NORMAL\" />\n "
+		 + "    <Track enter=\"4\" exit=\"17\" gauge=\"NORMAL\" />\n "
+		 + "    <Track enter=\"5\" exit=\"17\" gauge=\"NORMAL\" />\n "
+		 + "    <RevenueCenter id=\"-1\" location=\"13\" name=\"\" number=\"1\"\n "
+		 + "            type=\"Single City\">\n "
+		 + "            <Revenue location=\"12\" phase=\"0\" value=\"60\" />\n "
+		 + "    </RevenueCenter>\n "
+		 + "    <RevenueCenter id=\"-1\" location=\"17\" name=\"\" number=\"1\"\n "
+		 + "            type=\"Single City\">\n "
+		 + "            <Revenue location=\"-1\" phase=\"0\" value=\"60\" />\n "
+		 + "    </RevenueCenter>\n "
+		 + "</Tile>\n "
+
+	};
 
 	public TilesTestFactory () {
 		this (MapTestFactory.NO_MAP_TEST_FACTORY);
@@ -28,18 +69,10 @@ public class TilesTestFactory {
 		}
 	}
 
-	public Tile buildTile () {
+	public Tile buildTile (int aTileIndex) {
 		Tile tTile;
-		String tTileXML = "	<Tile number=\"14\" type=\"Green\">\n"
-				+ "		<Track enter=\"0\" exit=\"50\" gauge=\"NORMAL\" />\n"
-				+ "		<Track enter=\"1\" exit=\"50\" gauge=\"NORMAL\" />\n"
-				+ "		<Track enter=\"3\" exit=\"50\" gauge=\"NORMAL\" />\n"
-				+ "		<Track enter=\"4\" exit=\"50\" gauge=\"NORMAL\" />\n"
-				+ "		<RevenueCenter id=\"-1\" location=\"50\" name=\"\" number=\"2\"\n"
-				+ "			type=\"Double City\">\n"
-				+ "			<Revenue location=\"42\" phase=\"0\" value=\"30\" />\n" + "		</RevenueCenter>\n"
-				+ "	</Tile>\n" + "";
-
+		String tTileXML;
+		tTileXML = testTiles [aTileIndex];
 		tTile = constructTile (tTileXML);
 
 		return tTile;
@@ -69,7 +102,6 @@ public class TilesTestFactory {
 	
 	public void setMockCanAllTracksExit (Tile mTile, MapCell aMapCell, int aTileOrient, boolean aCanExit) {
 		
-//		mTile.canAllTracksExit (mapCell, aTileOrient)
 		if (mTile != Tile.NO_TILE) {
 			Mockito.when (mTile.canAllTracksExit (aMapCell, aTileOrient)).thenReturn (aCanExit);
 		}
