@@ -985,23 +985,35 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		ShareCompany tShareCompany;
 		int tCorporationIndex;
 		int tMaxCorporations;
-		MapCell tMapCell;
-		String tDestinationMapCellID;
 		
 		tCorporationList = aCorporationFrame.getCompanies ();
 		if (tCorporationList != CorporationList.NO_CORPORATION_LIST) {
 			tMaxCorporations = tCorporationList.getRowCount ();
 			for (tCorporationIndex = 0; tCorporationIndex < tMaxCorporations; tCorporationIndex++) {
 				tShareCompany = (ShareCompany) tCorporationList.getCorporation (tCorporationIndex);
-				tDestinationMapCellID = tShareCompany.getDestinationLabel ();
-				if (tDestinationMapCellID != GUI.NULL_STRING) {
-					tMapCell = this.map.getMapCellForID (tDestinationMapCellID);
-					tShareCompany.setDestinationMapCell (tMapCell);
-					if (tMapCell != MapCell.NO_MAP_CELL) {
-						tMapCell.setDestinationCorpID (tShareCompany.getID ());
-					}
-				}
+				setDestinationCorpID (tShareCompany);
 			}
+		}
+	}
+
+	public void setDestinationCorpID (ShareCompany aShareCompany) {
+		MapCell tMapCell;
+		String tDestinationMapCellID;
+		
+		tDestinationMapCellID = aShareCompany.getDestinationLabel ();
+		if (tDestinationMapCellID != GUI.NULL_STRING) {
+			tMapCell = map.getMapCellForID (tDestinationMapCellID);
+			aShareCompany.setDestinationMapCell (tMapCell);
+			setDestinationCorpID (aShareCompany, tMapCell);
+		}
+	}
+
+	public void setDestinationCorpID (ShareCompany aShareCompany, MapCell aMapCell) {
+		int tShareCompanyID;
+		
+		tShareCompanyID = aShareCompany.getID ();
+		if (aMapCell != MapCell.NO_MAP_CELL) {
+			aMapCell.setDestinationCorpID (tShareCompanyID);
 		}
 	}
 
