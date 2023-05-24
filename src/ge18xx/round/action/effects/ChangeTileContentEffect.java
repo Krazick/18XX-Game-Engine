@@ -139,7 +139,7 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 				tRevenueCenter = tTile.getRevenueCenter (tIndex);
 				tLocation = tRevenueCenter.getLocation ();
 				tLocation = tLocation.rotateLocation (aMapCell.getTileOrient ());
-				aMapCell.setCorporation (tShareCompany, tLocation);
+				aMapCell.setCorporationHome (tShareCompany, tLocation);
 			}
 		}
 	}

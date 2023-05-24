@@ -297,7 +297,7 @@ public class RemoveHomeEffect extends Effect {
 			aLocation = tRevenueCenter.getLocation ();
 			aLocation = aLocation.rotateLocation (aMapCell.getTileOrient ());
 		}
-		aMapCell.setCorporation (aShareCompany, aLocation);
+		aMapCell.setCorporationHome (aShareCompany, aLocation);
 		tEffectUndone = true;
 		
 		return tEffectUndone;

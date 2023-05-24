@@ -1800,7 +1800,7 @@ public class MapCell implements Comparator<Object> {
 		return tHomeRemoved;
 	}
 	
-	public void setCorporation (Corporation aCorporation, Location aLocation) {
+	public void setCorporationHome (Corporation aCorporation, Location aLocation) {
 		Location tNewLocation;
 
 		centers.setCorporationHome (aCorporation, aLocation);

@@ -1037,7 +1037,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 					tMapCell = map.getMapCellForID (tCellID);
 					if (tMapCell != MapCell.NO_MAP_CELL) {
 						tCorporation.setHome1 (tMapCell, tLocation);
-						tMapCell.setCorporation (tCorporation, tLocation);
+						tMapCell.setCorporationHome (tCorporation, tLocation);
 					}
 					tCellID = tCorporation.getHomeCityGrid2 ();
 					tLocation = tCorporation.getHomeLocation2 ();
@@ -1047,7 +1047,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 						}
 						if (tMapCell != MapCell.NO_MAP_CELL) {
 							tCorporation.setHome2 (tMapCell, tLocation);
-							tMapCell.setCorporation (tCorporation, tLocation);
+							tMapCell.setCorporationHome (tCorporation, tLocation);
 						}
 					}
 					if (tCorporation.isAShareCompany ()) {
@@ -1060,7 +1060,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 									tMapCell = map.getMapCellForID (tCellID);
 									if (tMapCell != MapCell.NO_MAP_CELL) {
 										tShareCompany.setDestination (tMapCell, tLocation);
-										tMapCell.setCorporation (tShareCompany, tLocation);
+										tMapCell.setCorporationHome (tShareCompany, tLocation);
 									}
 								}
 							}
