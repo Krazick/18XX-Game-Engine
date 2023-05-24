@@ -109,7 +109,7 @@ class MapTokenTests {
 		tMapCell = tMapTestFactory.buildMapCell ();
 		tLocation = tMapTestFactory.buildLocation ();
 		tTilesTestFactory = new TilesTestFactory ();
-		tTile = tTilesTestFactory.buildTile ();
+		tTile = tTilesTestFactory.buildTile (1);
 		tMapCell.putTile (tTile, 0);
 
 		assertFalse (mapToken.tokenPlaced ());
@@ -169,7 +169,7 @@ class MapTokenTests {
 
 		tMapTestFactory = new MapTestFactory ();
 		tTilesTestFactory = new TilesTestFactory ();
-		tTile = tTilesTestFactory.buildTile ();
+		tTile = tTilesTestFactory.buildTile (1);
 		tMapCell3 = tMapTestFactory.buildMapCell ("T3");
 		tLocation3 = tMapTestFactory.buildLocation ();
 		tMapCell3.putTile (tTile, 0);
