@@ -8,25 +8,36 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import ge18xx.center.RevenueCenter;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
+import ge18xx.game.GameManager;
+import ge18xx.game.GameTestFactory;
+import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
+import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TilesTestFactory;
+import ge18xx.tiles.Upgrade;
 
 class MapCellTests {
 	MapCell mapCell;
 	MapTestFactory mapTestFactory;
 	TilesTestFactory tilesTestFactory;
 	CompanyTestFactory companyTestFactory;
+	GameTestFactory gameTestFactory;
 	ShareCompany alphaShareCompany;
 	ShareCompany betaShareCompany;
 	Tile mTile;
+	GameManager mGameManager;
+	TileSet tileSet;
 	
 	@BeforeEach
 	void setUp () throws Exception {
+		gameTestFactory = new GameTestFactory ();
+		mGameManager = gameTestFactory.buildGameManagerMock ();
 		mapTestFactory = new MapTestFactory ();
 		mapCell = mapTestFactory.buildMapCell ();
 		tilesTestFactory = new TilesTestFactory (mapTestFactory);
@@ -112,8 +123,9 @@ class MapCellTests {
 		int tExpectedCount;
 		int tExpectedBaseCorpIDs [];
 		
-		tTile9995 = tilesTestFactory.buildTile (0);
-		tTile120 = tilesTestFactory.buildTile (2);
+		setupTileSet (mGameManager);
+		tTile9995 = addTileAndUpgrade (0);
+		tTile120 = addTileAndUpgrade (2);
 		
 		assertEquals (tTile9995.getNumber (), 9995);
 		assertEquals (tTile120.getNumber (), 120);
@@ -144,8 +156,31 @@ class MapCellTests {
 		tExpectedBaseCorpIDs [1] = tAlpahCorpID;
 		tExpectedBaseCorpIDs [2] = Corporation.NO_ID;
 		verifyCorporationBasesOnMapCell (tExpectedCount, tExpectedBaseCorpIDs);
+		
+		mapCell.upgradeTile (tileSet, tTile120);
 	}
 
+	void setupTileSet (GameManager mGameManager) {
+		Mockito.when (mGameManager.getActiveGameName ()).thenReturn ("Mock GameManager MapCellTests");
+		tileSet = tilesTestFactory.buildTileSet (mGameManager);
+	}
+	
+	Tile addTileAndUpgrade (int aTileIndex) {
+		Tile tTile;
+		GameTile tGameTile;
+		Upgrade tUpgrade;
+		int tTileNumber;
+
+		tTile = tilesTestFactory.buildTile (aTileIndex);
+		tileSet.addTile (tTile, 1);
+		tUpgrade = tilesTestFactory.buildUpgrade (aTileIndex);
+		tTileNumber = tTile.getNumber ();
+		tGameTile = tileSet.getGameTile (tTileNumber);
+		tGameTile.addUpgrade (tUpgrade);
+		
+		return tTile;
+	}
+	
 	void verifyCorporationBasesOnMapCell (int aExpectedCount, int aCorpIDBases []) {
 		RevenueCenter tCenterFound;
 		int tCenterCount;
