@@ -2,10 +2,12 @@ package ge18xx.tiles;
 
 import org.mockito.Mockito;
 
+import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.map.MapTestFactory;
+import ge18xx.toplevel.TileTrayFrame;
 import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
 
@@ -52,7 +54,23 @@ public class TilesTestFactory {
 		 + "            <Revenue location=\"-1\" phase=\"0\" value=\"60\" />\n "
 		 + "    </RevenueCenter>\n "
 		 + "</Tile>\n "
-
+	};
+	String testUpgrades [] = {
+		  " <Upgrade toNumber=\"120\" rotations=\"0\">\n "
+		+ "		<RevenueCenter from=\"7\" to=\"13\" />\n "
+		+ "		<RevenueCenter from=\"10\" to=\"17\" />\n "
+		+ "	</Upgrade>\n ",
+		  "	<Upgrade toNumber=\"63\" rotations=\"0\">\n "
+		+ "		<RevenueCenter from=\"50\" to=\"50\" />\n "
+		+ "	</Upgrade>\n "
+		+ "	<Upgrade toNumber=\"125\" rotations=\"0,1,2,3,4,5\">\n "
+		+ "		<BaseTileName value=\"L\" />\n "
+		+ "		<RevenueCenter from=\"50\" to=\"50\" />\n "
+		+ "</Upgrade>\n ",
+		 " <Upgrade toNumber=\"122\" rotations=\"0\">\n "
+		+ "		<RevenueCenter from=\"13\" to=\"13\" />\n "
+		+ "		<RevenueCenter from=\"17\" to=\"17\" />\n "
+		+ " </Upgrade>\n "
 	};
 
 	public TilesTestFactory () {
@@ -69,15 +87,39 @@ public class TilesTestFactory {
 		}
 	}
 
+	public Upgrade buildUpgrade (int aTileIndex) {
+		Upgrade tUpgrade;
+		String tUpgradeXML;
+		
+		tUpgradeXML = testUpgrades [aTileIndex];
+		tUpgrade = constructUpgrade (tUpgradeXML);
+		
+		return tUpgrade;
+	}
+	
 	public Tile buildTile (int aTileIndex) {
 		Tile tTile;
 		String tTileXML;
+		
 		tTileXML = testTiles [aTileIndex];
 		tTile = constructTile (tTileXML);
 
 		return tTile;
 	}
 
+	private Upgrade constructUpgrade (String aUpgradeXML) {
+		XMLNode tUpgradeXMLNode;
+		Upgrade tUpgrade;
+		
+		tUpgrade = Upgrade.NO_UPGRADE;
+		tUpgradeXMLNode = utilitiesTestFactory.buildXMLNode (aUpgradeXML);
+		if (tUpgradeXMLNode != XMLNode.NO_NODE) {
+			tUpgrade = new Upgrade (tUpgradeXMLNode);
+		}
+		
+		return tUpgrade;
+	}
+	
 	private Tile constructTile (String aTileTextXML) {
 		XMLNode tTileXMLNode;
 		Tile tTile;
@@ -210,5 +252,15 @@ public class TilesTestFactory {
 		Mockito.when (mFeature2.getLocation2 ()).thenReturn (aLocation2);
 
 		return mFeature2;
+	}
+	
+	public TileSet buildTileSet (GameManager aGameManager) {
+		TileSet tTileSet;
+		TileTrayFrame tTileTrayFrame;
+		
+		tTileTrayFrame = gameTestFactory.buildTileTrayFrame (aGameManager);
+		tTileSet = new TileSet (tTileTrayFrame);
+		
+		return tTileSet;
 	}
 }
