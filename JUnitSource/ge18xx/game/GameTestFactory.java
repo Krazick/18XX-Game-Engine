@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 
 import ge18xx.phase.PhaseInfo;
 import ge18xx.toplevel.PlayerInputFrame;
+import ge18xx.toplevel.TileTrayFrame;
 import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
 
@@ -120,5 +121,16 @@ public class GameTestFactory {
 //		allowedTilesLabel.setText ("Tile Colors: " + tPhaseInfo.getTiles ());
 		
 		return mPhaseInfo;
+	}
+	
+	public TileTrayFrame buildTileTrayFrame (GameManager aGameManager) {
+		TileTrayFrame tTileTrayFrame;
+		String tFrameName;
+		
+		tFrameName = TileTrayFrame.BASE_TITLE;
+		
+		tTileTrayFrame = new TileTrayFrame (tFrameName, aGameManager);
+		
+		return tTileTrayFrame;
 	}
 }
