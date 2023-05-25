@@ -3,11 +3,16 @@ package ge18xx.map;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import ge18xx.center.RevenueCenter;
+import ge18xx.company.CompanyTestFactory;
+import ge18xx.company.Corporation;
+import ge18xx.company.ShareCompany;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TilesTestFactory;
 
@@ -15,6 +20,9 @@ class MapCellTests {
 	MapCell mapCell;
 	MapTestFactory mapTestFactory;
 	TilesTestFactory tilesTestFactory;
+	CompanyTestFactory companyTestFactory;
+	ShareCompany alphaShareCompany;
+	ShareCompany betaShareCompany;
 	Tile mTile;
 	
 	@BeforeEach
@@ -23,6 +31,9 @@ class MapCellTests {
 		mapCell = mapTestFactory.buildMapCell ();
 		tilesTestFactory = new TilesTestFactory (mapTestFactory);
 		mTile = tilesTestFactory.buildTileMock (7);
+		companyTestFactory = new CompanyTestFactory ();
+		alphaShareCompany = companyTestFactory.buildAShareCompany (1);
+		betaShareCompany = companyTestFactory.buildAShareCompany (2);
 	}
 
 	@Test
@@ -73,8 +84,6 @@ class MapCellTests {
 	@Test
 	@DisplayName ("Test Calculate Steps for Rotation of Tile on MapCell")
 	void calculateStepsTests () {
-//		int tIndex;
-//		boolean tDirection;
 		
 		mapCell.setAllRotations (true);
 		tilesTestFactory.setMockCanAllTracksExit (mTile, mapCell, 0, true);
@@ -84,47 +93,71 @@ class MapCellTests {
 		tilesTestFactory.setMockCanAllTracksExit (mTile, mapCell, 4, true);
 		tilesTestFactory.setMockCanAllTracksExit (mTile, mapCell, 5, true);
 		
-//		tDirection = false;
-		
-//		for (tIndex = 0; tIndex <= 6; tIndex++) {
-//			showSteps (tDirection);
-//			mapCell.setAllowedRotation (tIndex, false);
-//		}
-
 		mapCell.setAllRotations (true);
 		tilesTestFactory.setMockCanAllTracksExit (mTile, mapCell, 5, false);
-//		for (tIndex = 0; tIndex <= 6; tIndex++) {
-//			showSteps (tDirection);
-//			mapCell.setAllowedRotation (tIndex, false);
-//		}
 	}
-	
-//	private void showSteps (boolean aDirection) {
-//		int tIndex;
-//		int tSteps;
-//		String tDirection;
-//		String tAllowedRotations;
-//		
-//		if (aDirection) {
-//			tDirection = "LEFT";
-//		} else {
-//			tDirection = "RIGHT";
-//		}
-//
-//		tAllowedRotations = "";
-//		for (tIndex = 0; tIndex < 6; tIndex++) {
-//			if (mapCell.getAllowedRotation (tIndex)) {
-//				tAllowedRotations += "" + tIndex + " : ";
-//			} else {
-//				tAllowedRotations += "  : ";
-//			}
-//		}
-//		System.out.println ("Index  |  Steps  | Direction  | Allowed Rotations");
-//		for (tIndex = 0; tIndex < 6; tIndex++) {
-//			tSteps = mapCell.calculateSteps (tIndex, mTile, aDirection);
-//			System.out.println ("  " + tIndex + "    |   " + tSteps + "     |  " + tDirection + 
-//							" |  " + tAllowedRotations);
-//		}
-//
-//	}
+		
+	@Test
+	@DisplayName ("Test Toronto Tile Upgrade on MapCell")
+	void toronotTileUpgradeTest () {
+		Tile tTile9995;
+		Tile tTile120;
+		Location tCorpLocation;
+		Location tOtherLocation;
+		RevenueCenter tCenterFound;
+		RevenueCenter tOtherCenterFound;
+		int tDestinationCorpID;
+		int tAlpahCorpID;
+		int tBetaCorpID;
+		int tExpectedCount;
+		int tExpectedBaseCorpIDs [];
+		
+		tTile9995 = tilesTestFactory.buildTile (0);
+		tTile120 = tilesTestFactory.buildTile (2);
+		
+		assertEquals (tTile9995.getNumber (), 9995);
+		assertEquals (tTile120.getNumber (), 120);
+		assertFalse (mapCell.isTileOnCell ());
+		
+		mapCell.putTile (tTile9995, 0);
+		tCorpLocation = new Location (7);
+		tOtherLocation = new Location (10);
+		mapCell.setCorporationHome (alphaShareCompany, tCorpLocation);
+		tAlpahCorpID = alphaShareCompany.getID ();
+		assertTrue (mapCell.isTileOnCell ());
+		tCenterFound = mapCell.getCenterAtLocation (tCorpLocation);
+		assertNotNull (tCenterFound);
+		tOtherCenterFound = mapCell.getCenterAtLocation (tOtherLocation);
+		assertNotNull (tOtherCenterFound);
+		
+		tBetaCorpID = betaShareCompany.getID ();	
+		tDestinationCorpID = mapCell.getDestinationCorpID ();
+		assertEquals (Corporation.NO_ID, tDestinationCorpID);
+		
+		mapCell.setDestinationCorpID (tBetaCorpID);
+		tDestinationCorpID = mapCell.getDestinationCorpID ();
+		assertEquals (tBetaCorpID, tDestinationCorpID);
+		
+		tExpectedCount = 3;
+		tExpectedBaseCorpIDs = new int [tExpectedCount];
+		tExpectedBaseCorpIDs [0] = Corporation.NO_ID;
+		tExpectedBaseCorpIDs [1] = tAlpahCorpID;
+		tExpectedBaseCorpIDs [2] = Corporation.NO_ID;
+		verifyCorporationBasesOnMapCell (tExpectedCount, tExpectedBaseCorpIDs);
+	}
+
+	void verifyCorporationBasesOnMapCell (int aExpectedCount, int aCorpIDBases []) {
+		RevenueCenter tCenterFound;
+		int tCenterCount;
+		int tCenterIndex;
+		int tCorpID;
+		
+		tCenterCount = mapCell.getRevenueCenterCount ();
+		assertEquals (aExpectedCount, tCenterCount);
+		for (tCenterIndex = 0; tCenterIndex < tCenterCount; tCenterIndex++) {
+			tCenterFound = mapCell.getRevenueCenter (tCenterIndex);
+			tCorpID = tCenterFound.getHomeCompanyID ();
+			assertEquals (aCorpIDBases [tCenterIndex], tCorpID);
+		}
+	}
 }
