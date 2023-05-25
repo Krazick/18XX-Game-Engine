@@ -866,12 +866,22 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public RevenueCenter getRevenueCenter (int aCenterIndex) {
-		return centers.get (aCenterIndex);
+		RevenueCenter tFoundRevenueCenter;
+		
+		tFoundRevenueCenter = RevenueCenter.NO_CENTER;
+		if (isTileOnCell ()) {
+			tFoundRevenueCenter = tile.getCenterAt (aCenterIndex);
+		} else {
+			tFoundRevenueCenter = centers.get (aCenterIndex);
+		}
+
+		return tFoundRevenueCenter;
 	}
 
 	public RevenueCenter getRevenueCenterAt (Location aLocation) {
-		RevenueCenter tFoundRevenueCenter = RevenueCenter.NO_CENTER;
+		RevenueCenter tFoundRevenueCenter;
 
+		tFoundRevenueCenter = RevenueCenter.NO_CENTER;
 		if (isTileOnCell ()) {
 			tFoundRevenueCenter = tile.getCenterAtLocation (aLocation);
 		} else {
@@ -882,7 +892,15 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public int getRevenueCenterCount () {
-		return centers.size ();
+		int tRevenueCenterCount;
+		
+		if (isTileOnCell ()) {
+			tRevenueCenterCount = tile.getCenterCount ();
+		} else {
+			tRevenueCenterCount = centers.size ();
+		}
+		
+		return tRevenueCenterCount;
 	}
 
 	public int getRevenueCenterID () {
