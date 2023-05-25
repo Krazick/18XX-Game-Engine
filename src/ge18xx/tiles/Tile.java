@@ -463,6 +463,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return centers.getRunThroughCenter ();
 	}
 
+	public RevenueCenter getCenterAt (int aCenterIndex) {
+		return centers.get (aCenterIndex);
+	}
+	
 	public RevenueCenter getCenterAtLocation (Location aLocation) {
 		return centers.getRevenueCenterAtLocation (aLocation);
 	}
