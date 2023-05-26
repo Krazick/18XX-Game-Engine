@@ -85,10 +85,10 @@ public class MapCell implements Comparator<Object> {
 	boolean selected;
 	boolean startingTile; // If the board has a initial tile placed, need to have terrain features show
 							// through.
-	boolean allowedRotations[] = new boolean [6];
-	boolean blockedSides[] = new boolean [6];
-	int trainUsingSide[] = new int [6]; // Train Number using the side;
-	MapCell neighbors[];
+	boolean allowedRotations [] = new boolean [6];
+	boolean blockedSides [] = new boolean [6];
+	int trainUsingSide [] = new int [6]; // Train Number using the side;
+	MapCell neighbors [];
 	int XCenter;
 	int YCenter;
 	int tileNumber;
@@ -1251,7 +1251,8 @@ public class MapCell implements Comparator<Object> {
 				}
 				tCategory = tTerrain.getCategory (tChildNode);
 				if (Terrain.AN_BASE.equals (tCategory)) {
-					baseTerrain = tTerrain;
+					setBaseTerrain (tTerrain);
+//					baseTerrain = tTerrain;
 				} else if (Terrain.AN_OPTIONAL.equals (tCategory)) {
 					if (terrain1 == Terrain.NO_TERRAINX) {
 						terrain1 = tTerrain;
@@ -1894,7 +1895,7 @@ public class MapCell implements Comparator<Object> {
 		}
 		terrain1 = Terrain.NO_TERRAINX;
 		terrain2 = Terrain.NO_TERRAINX;
-		baseTerrain = new Terrain (aBaseTerrain);
+		setBaseTerrain (aBaseTerrain);
 		putTile (aTile, aTileOrient);
 		clearSelected ();
 		startingTileNumber = Tile.NOT_A_TILE;
@@ -1903,6 +1904,14 @@ public class MapCell implements Comparator<Object> {
 		clearAllTrainsUsingSides ();
 	}
 
+	public void setBaseTerrain (Terrain aBaseTerrain) {
+		baseTerrain = aBaseTerrain;
+	}
+	
+	public void setBaseTerrain (int aBaseTerrain) {
+		setBaseTerrain (new Terrain (aBaseTerrain));
+	}
+	
 	public void setScale (int hexScale, Hex aHex) {
 		aHex.setScale (hexScale);
 	}
