@@ -30,6 +30,8 @@ class MapCellIntegrationTests {
 	ShareCompany betaShareCompany;
 	GameManager mGameManager;
 	TileSet tileSet;
+	Tile tile9995;
+	Tile tile120;
 	
 	@BeforeEach
 	void setUp () throws Exception {
@@ -39,15 +41,28 @@ class MapCellIntegrationTests {
 		mapCell = mapTestFactory.buildMapCell ("N11");
 		tilesTestFactory = new TilesTestFactory (mapTestFactory);
 		companyTestFactory = new CompanyTestFactory ();
+		
 		alphaShareCompany = companyTestFactory.buildAShareCompany (1);
 		betaShareCompany = companyTestFactory.buildAShareCompany (2);
+		setupTileSet (mGameManager);
+		tile9995 = addTileAndUpgrade (0);
+		tile120 = addTileAndUpgrade (2);
+		
+		setupMockNeighbors ();
 	}
 	
 	@Test
 	@DisplayName ("Test Toronto Tile Upgrade on MapCell")
-	void toronotTileUpgradeTest () {
-		Tile tTile9995;
-		Tile tTile120;
+	void toronotTileUpgradeTest () {		
+		prepareAndVerifyMapCell ();
+		
+		// ================= Upgrade Tile to 120 ==============
+		
+		mapCell.upgradeTile (tileSet, tile120);
+		verifyMapCellAfterupgrade ();
+	}
+	
+	void verifyMapCellAfterupgrade () {
 		Location tCorpLocation;
 		Location tOtherLocation;
 		RevenueCenter tCenterFound;
@@ -57,28 +72,70 @@ class MapCellIntegrationTests {
 		int tBetaCorpID;
 		int tExpectedCount;
 		int tExpectedBaseCorpIDs [];
+		int tExpectedCenterTypes [];
 		
-		setupTileSet (mGameManager);
-		tTile9995 = addTileAndUpgrade (0);
-		tTile120 = addTileAndUpgrade (2);
+		tAlpahCorpID = alphaShareCompany.getID ();
+		tBetaCorpID = betaShareCompany.getID ();	
+		tExpectedCount = 3;
+		tExpectedBaseCorpIDs = new int [tExpectedCount];
+		tExpectedCenterTypes = new int [tExpectedCount];
+		tExpectedBaseCorpIDs [0] = Corporation.NO_ID;
+		tExpectedBaseCorpIDs [1] = tAlpahCorpID;
+		tExpectedBaseCorpIDs [2] = Corporation.NO_ID;
 		
-		assertEquals (tTile9995.getNumber (), 9995);
-		assertEquals (tTile120.getNumber (), 120);
+		tExpectedCenterTypes [0] = 16;
+		tExpectedCenterTypes [1] = 3;
+		tExpectedCenterTypes [2] = 3;
+		
+		verifyInformationOnMapCell (tExpectedCount, tExpectedBaseCorpIDs, tExpectedCenterTypes);
+		
+		tDestinationCorpID = mapCell.getDestinationCorpID ();
+		assertEquals (tBetaCorpID, tDestinationCorpID);
+		
+		tCorpLocation = new Location (13);
+		tOtherLocation = new Location (17);
+		
+		tCenterFound = mapCell.getCenterAtLocation (tCorpLocation);
+		assertNotNull (tCenterFound);
+		assertEquals (alphaShareCompany, tCenterFound.getCorporation ());
+		
+		tOtherCenterFound = mapCell.getCenterAtLocation (tOtherLocation);
+		assertNotNull (tOtherCenterFound);
+		assertNull (tOtherCenterFound.getCorporation ());
+	}
+
+	void prepareAndVerifyMapCell () {
+		Location tCorpLocation;
+		Location tOtherLocation;
+		RevenueCenter tCenterFound;
+		RevenueCenter tOtherCenterFound;
+		int tDestinationCorpID;
+		int tAlpahCorpID;
+		int tBetaCorpID;
+		int tExpectedCount;
+		int tExpectedBaseCorpIDs [];
+		int tExpectedCenterTypes [];
+
+		assertEquals (tile9995.getNumber (), 9995);
+		assertEquals (tile120.getNumber (), 120);
 		assertFalse (mapCell.isTileOnCell ());
 		
-		mapCell.putTile (tTile9995, 0);
-		
-		setupMockNeighbors ();
-		
+		mapCell.putTile (tile9995, 0);
+		mapCell.setStartingTile (true);
+
+		assertTrue (mapCell.isTileOnCell ());
+
 		tCorpLocation = new Location (7);
 		tOtherLocation = new Location (10);
 		mapCell.setCorporationHome (alphaShareCompany, tCorpLocation);
 		tAlpahCorpID = alphaShareCompany.getID ();
-		assertTrue (mapCell.isTileOnCell ());
 		tCenterFound = mapCell.getCenterAtLocation (tCorpLocation);
 		assertNotNull (tCenterFound);
+		assertEquals (alphaShareCompany, tCenterFound.getCorporation ());
+		
 		tOtherCenterFound = mapCell.getCenterAtLocation (tOtherLocation);
 		assertNotNull (tOtherCenterFound);
+		assertNull (tOtherCenterFound.getCorporation ());
 		
 		tBetaCorpID = betaShareCompany.getID ();	
 		tDestinationCorpID = mapCell.getDestinationCorpID ();
@@ -93,12 +150,14 @@ class MapCellIntegrationTests {
 		tExpectedBaseCorpIDs [0] = Corporation.NO_ID;
 		tExpectedBaseCorpIDs [1] = tAlpahCorpID;
 		tExpectedBaseCorpIDs [2] = Corporation.NO_ID;
-		verifyCorporationBasesOnMapCell (tExpectedCount, tExpectedBaseCorpIDs);
 		
-		mapCell.upgradeTile (tileSet, tTile120);
-		verifyCorporationBasesOnMapCell (tExpectedCount, tExpectedBaseCorpIDs);
+		tExpectedCenterTypes = new int [tExpectedCount];
+		tExpectedCenterTypes [0] = 16;
+		tExpectedCenterTypes [1] = 3;
+		tExpectedCenterTypes [2] = 3;
+		verifyInformationOnMapCell (tExpectedCount, tExpectedBaseCorpIDs, tExpectedCenterTypes);
 	}
-
+	
 	void setupMockNeighbors () {
 		Terrain tClearTerrain;
 		Terrain tOceanTerrain;
@@ -107,8 +166,8 @@ class MapCellIntegrationTests {
 		tOceanTerrain = new Terrain (Terrain.OCEAN);
 		setupMockNeighbor (0, tClearTerrain, "N9");
 		setupMockNeighbor (1, tClearTerrain, "O10");
-		setupMockNeighbor (2, tClearTerrain, "O12");
-		setupMockNeighbor (3, tClearTerrain, "N13");
+		setupMockNeighbor (2, tOceanTerrain, "O12");
+		setupMockNeighbor (3, tOceanTerrain, "N13");
 		setupMockNeighbor (4, tClearTerrain, "M12");
 		setupMockNeighbor (5, tClearTerrain, "M10");
 	}
@@ -148,18 +207,25 @@ class MapCellIntegrationTests {
 		return tTile;
 	}
 	
-	void verifyCorporationBasesOnMapCell (int aExpectedCount, int aCorpIDBases []) {
+	void verifyInformationOnMapCell (int aExpectedCount, int aCorpIDBases [], int aExpectedCenterTypes []) {
 		RevenueCenter tCenterFound;
 		int tCenterCount;
 		int tCenterIndex;
 		int tCorpID;
+		int tCenterType;
+		int tLocation;
 		
 		tCenterCount = mapCell.getRevenueCenterCount ();
 		assertEquals (aExpectedCount, tCenterCount);
 		for (tCenterIndex = 0; tCenterIndex < tCenterCount; tCenterIndex++) {
 			tCenterFound = mapCell.getRevenueCenter (tCenterIndex);
 			tCorpID = tCenterFound.getHomeCompanyID ();
+			tCenterType = tCenterFound.getRevenueCenterType ().getType ();
+			tLocation = tCenterFound.getLocationToInt ();
+			System.out.println ("MapCell Center Index " + tCenterIndex + " Corp ID " + tCorpID + 
+						" Center Type " + tCenterType + " Location " + tLocation);
 			assertEquals (aCorpIDBases [tCenterIndex], tCorpID);
+			assertEquals (aExpectedCenterTypes [tCenterIndex], tCenterType);
 		}
 	}
 
