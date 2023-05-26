@@ -2105,7 +2105,7 @@ public class MapCell implements Comparator<Object> {
 						if (tCity.isDestination ()) {
 							tDestinationCity = tCity.clone ();
 							tDestinationCity.setTemporary (true);
-							aNewTile.addCenter (tDestinationCity);
+							aNewTile.addCenter (0, tDestinationCity);
 						} else if (tCity.isCorporationBase ()) {
 							tBaseCorporation = tCity.getCorporation ();
 							aNewTile.setCorporationHome (tBaseCorporation, tNewCityLocation);
