@@ -129,6 +129,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 		return (centers.add (aRevenueCenter));
 	}
 	
+	public boolean addCenter (int aIndex, RevenueCenter aRevenueCenter) {
+		return (centers.add (aIndex, aRevenueCenter));
+	}
+	
 	public boolean removeCenter (RevenueCenter aRevenueCenter) {
 		return (centers.remove (aRevenueCenter));
 	}
