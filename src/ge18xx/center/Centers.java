@@ -73,7 +73,30 @@ public class Centers implements Cloneable {
 		centers = aCenters;
 	}
 
+	public boolean add (int aIndex, RevenueCenter aRevenueCenter) {
+		boolean tCenterAdded;
+		
+		tCenterAdded = shouldAddCenter (aRevenueCenter);
+		if (tCenterAdded) {
+			centers.add (aIndex, aRevenueCenter);
+		}
+		
+		return tCenterAdded;
+	}
+	
 	public boolean add (RevenueCenter aRevenueCenter) {
+		boolean tCenterAdded;
+		
+		tCenterAdded = shouldAddCenter (aRevenueCenter);
+
+		if (tCenterAdded) {
+			tCenterAdded = centers.add (aRevenueCenter);
+		}
+		
+		return tCenterAdded;
+	}
+
+	public boolean shouldAddCenter (RevenueCenter aRevenueCenter) {
 		boolean tCenterAdded;
 		RevenueCenterType tProvidedCenterType;
 		RevenueCenterType tRevenueCenterType;
@@ -86,7 +109,6 @@ public class Centers implements Cloneable {
 		tProvidedType = tProvidedCenterType.getType ();
 		tProvidedLocation = aRevenueCenter.getLocationToInt ();
 		tCenterAdded = true;
-		// TODO Test if the Revenue Center to add is already Present (Type and Location match and don't add if they do
 		for (RevenueCenter tRevenueCenter : centers) {
 			tRevenueCenterType = tRevenueCenter.getRevenueCenterType ();
 			tType = tRevenueCenterType.getType ();
@@ -98,10 +120,6 @@ public class Centers implements Cloneable {
 			}
 			
 		}
-
-		if (tCenterAdded) {
-			tCenterAdded = centers.add (aRevenueCenter);
-		}
 		
 		return tCenterAdded;
 	}
@@ -111,9 +129,17 @@ public class Centers implements Cloneable {
 	}
 	
 	public void removeTemporaryCenters () {
-		for (RevenueCenter tRevenueCenter : centers) {
+		int tCenterIndex;
+		int tCenterCount;
+		RevenueCenter tRevenueCenter;
+		
+		tCenterCount = size ();
+		for (tCenterIndex = 0; tCenterIndex < tCenterCount; tCenterIndex++) {
+			tRevenueCenter = centers.get (tCenterIndex);
 			if (tRevenueCenter.isTemporary ()) {
 				remove (tRevenueCenter);
+				tCenterIndex--;
+				tCenterCount--;
 			}
 		}
 	}
