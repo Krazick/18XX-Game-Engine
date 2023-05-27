@@ -14,11 +14,15 @@ import ge18xx.company.Corporation;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
+import ge18xx.round.RoundManager;
+import ge18xx.round.RoundTestFactory;
+import ge18xx.round.action.effects.LayTileEffect;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.tiles.TilesTestFactory;
 import ge18xx.tiles.Upgrade;
+import ge18xx.utilities.GUI;
 
 class MapCellIntegrationTests {
 	MapCell mapCell;
@@ -30,13 +34,18 @@ class MapCellIntegrationTests {
 	ShareCompany betaShareCompany;
 	GameManager mGameManager;
 	TileSet tileSet;
+	RoundTestFactory roundTestFactory;
+	RoundManager mRoundManager;
 	Tile tile9995;
 	Tile tile120;
+	LayTileEffect layTileEffect;
 	
 	@BeforeEach
 	void setUp () throws Exception {
 		gameTestFactory = new GameTestFactory ();
 		mGameManager = gameTestFactory.buildGameManagerMock ();
+		roundTestFactory = new RoundTestFactory ();
+		mRoundManager = roundTestFactory.buildRoundManagerMock ();
 		mapTestFactory = new MapTestFactory ();
 		mapCell = mapTestFactory.buildMapCell ("N11");
 		tilesTestFactory = new TilesTestFactory (mapTestFactory);
@@ -53,16 +62,48 @@ class MapCellIntegrationTests {
 	
 	@Test
 	@DisplayName ("Test Toronto Tile Upgrade on MapCell")
-	void toronotTileUpgradeTest () {		
+	void toronotTileUpgradeTest () {	
+		
+		System.out.println ("Apply MapCell Upgrade Tile Test");
+
 		prepareAndVerifyMapCell ();
 		
 		// ================= Upgrade Tile to 120 ==============
 		
 		mapCell.upgradeTile (tileSet, tile120);
-		verifyMapCellAfterupgrade ();
+		verifyMapCellAfterUpgrade ();
 	}
 	
-	void verifyMapCellAfterupgrade () {
+	@Test
+	@DisplayName ("Test Toronto TileUpgrade via LayTileEffect")
+	void tornotoLayTileEffectUpgradeTest () {
+		HexMap mHexMap;
+		
+		System.out.println ("Apply LayTileEffect Test");
+		prepareAndVerifyMapCell ();
+		buildLayTileEffect ();
+		mHexMap = mapTestFactory.buildHexMapMock ();
+		Mockito.when (mHexMap.getMapCellForID ("N11")).thenReturn (mapCell);
+		Mockito.when (mRoundManager.getTileSet ()).thenReturn (tileSet);
+		Mockito.when (mRoundManager.getGameMap ()).thenReturn (mHexMap);
+		Mockito.when (mRoundManager.getShareCompany ("TPRR")).thenReturn (alphaShareCompany);
+		layTileEffect.applyEffect (mRoundManager);
+		verifyMapCellAfterUpgrade ();
+	}
+	
+//	"<Effect actor=\"TBNO\" bases=\"TPRR,1\" class=\"ge18xx.round.action.effects.LayTileEffect\" isAPrivate=\"false\" mapCellID=\"N11\" name=\"Lay Tile\" tileNumber=\"120\" tileOrientation=\"0\" tokens=\"\"/>\n "	
+//	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aTokens,
+//			String aBases) {
+	void buildLayTileEffect () {
+		String tTokens;
+		String tBases;
+		
+		tTokens = GUI.EMPTY_STRING;
+		tBases = "TPRR,1";
+		layTileEffect = new LayTileEffect (alphaShareCompany, mapCell, tile120, 0, tTokens, tBases);
+	}
+	
+	void verifyMapCellAfterUpgrade () {
 		Location tCorpLocation;
 		Location tOtherLocation;
 		RevenueCenter tCenterFound;
@@ -196,12 +237,17 @@ class MapCellIntegrationTests {
 		GameTile tGameTile;
 		Upgrade tUpgrade;
 		int tTileNumber;
+		int tQuantity;
 
+		tQuantity = 1;
 		tTile = tilesTestFactory.buildTile (aTileIndex);
-		tileSet.addTile (tTile, 1);
-		tUpgrade = tilesTestFactory.buildUpgrade (aTileIndex);
+		tileSet.addTile (tTile, tQuantity);
 		tTileNumber = tTile.getNumber ();
+		
 		tGameTile = tileSet.getGameTile (tTileNumber);
+		tileSet.addNTileClones (tGameTile, tTile, tQuantity);
+		
+		tUpgrade = tilesTestFactory.buildUpgrade (aTileIndex);
 		tGameTile.addUpgrade (tUpgrade);
 		
 		return tTile;
