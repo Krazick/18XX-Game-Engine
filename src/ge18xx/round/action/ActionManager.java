@@ -476,7 +476,8 @@ public class ActionManager {
 		tLastActionUndone = undoLastAction (aRoundManager, true);
 		aRoundManager.updateAllFrames ();
 		removeUndoneActionsFromNetwork ();
-
+		gameManager.autoSaveGame ();
+		
 		return tLastActionUndone;
 	}
 

@@ -1558,7 +1558,7 @@ public class PlayerManager {
 					tCurrentPlayer.showPlayerFrame ();
 				}
 			}
-
+			gameManager.autoSaveGame ();
 		} else {
 			System.err.println ("**** Undo Action failed ****");
 		}
