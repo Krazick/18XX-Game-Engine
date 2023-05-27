@@ -61,7 +61,7 @@ class ChangeMapEffectTests {
 		mapTestFactory = new MapTestFactory ();
 		mapCell1 = mapTestFactory.buildMapCell ();
 		mapCell2 = mapTestFactory.buildMapCell ("T4");
-		mHexMap = mapTestFactory.buildMockHexMap ();
+		mHexMap = mapTestFactory.buildHexMapMock ();
 		mapBenefit = benefitTestFactory.buildMapBenefit (privateSV);
 		effectAlpha = new ChangeMapEffect (sharePenn, mapCell1);
 		effectBeta = new ChangeMapEffect (sharePenn, mapCell2);
