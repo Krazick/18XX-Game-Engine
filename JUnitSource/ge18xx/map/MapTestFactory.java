@@ -28,7 +28,7 @@ public class MapTestFactory {
 		return tHexMap;
 	}
 
-	public HexMap buildMockHexMap () {
+	public HexMap buildHexMapMock () {
 		MapCell tMapCell;
 		HexMap mHexMap;
 
