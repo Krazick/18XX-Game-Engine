@@ -279,6 +279,12 @@ public class Centers implements Cloneable {
 		}
 	}
 
+	public void loadBaseStates (XMLNode aMapCellNode) {
+		for (RevenueCenter tRevenueCenter : centers) {
+			tRevenueCenter.loadBaseStates (aMapCellNode);
+		}
+	}
+
 	public void loadStationsStates (XMLNode aMapCellNode) {
 		for (RevenueCenter tRevenueCenter : centers) {
 			tRevenueCenter.loadStationsStates (aMapCellNode);
