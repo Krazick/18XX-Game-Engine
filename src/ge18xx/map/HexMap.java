@@ -857,6 +857,7 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				}
 				if (isTileOnCell (tRow, tCol)) {
 					map [tRow] [tCol].loadStationsStates (aMapCellNode);
+					map [tRow] [tCol].loadBaseStates (aMapCellNode);
 				}
 			}
 		}
