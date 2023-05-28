@@ -1203,6 +1203,12 @@ public class MapCell implements Comparator<Object> {
 		return tIsTrackToSide;
 	}
 
+	public void loadBaseStates (XMLNode aMapCellNode) {
+		if (isTileOnCell ()) {
+			tile.loadBaseStates (aMapCellNode);
+		}
+	}
+
 	public void loadStationsStates (XMLNode aMapCellNode) {
 		if (isTileOnCell ()) {
 			tile.loadStationsStates (aMapCellNode);
