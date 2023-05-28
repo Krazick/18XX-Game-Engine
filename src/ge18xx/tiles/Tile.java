@@ -767,6 +767,12 @@ public class Tile implements Comparable<Object>, Cloneable {
 		
 		return tStationIndex;
 	}
+	
+	public void loadBaseStates (XMLNode aMapCellNode) {
+		if (hasCenters ()) {
+			centers.loadBaseStates (aMapCellNode);
+		}
+	}
 
 	public void loadStationsStates (XMLNode aMapCellNode) {
 		if (hasCenters ()) {
