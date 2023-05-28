@@ -42,6 +42,7 @@ public class City extends RevenueCenter implements Cloneable {
 	public static final AttributeName AN_NUMBER = new AttributeName ("number");
 	public static final AttributeName AN_COMPANY = new AttributeName ("company");
 	public static final AttributeName AN_STATION_INDEX = new AttributeName ("stationIndex");
+	public static final ElementName CorporationBase = new ElementName ("CorporationBase");
 	public static final ElementName EN_CORPORATE_STATION = new ElementName ("CorporateStation");
 	public static final City NO_CITY = null;
 	static final int NO_STATIONS = 0;
@@ -1111,6 +1112,40 @@ public class City extends RevenueCenter implements Cloneable {
 	public boolean isDestination () {
 		return (type.isDestination ());
 	}
+
+	@Override
+	public void loadBaseStates (XMLNode aMapCellNode) {
+		XMLNodeList tXMLNodeList;
+
+		tXMLNodeList = new XMLNodeList (baseParsingRoutine, this);
+		tXMLNodeList.parseXMLNodeList (aMapCellNode, EN_CORPORATE_BASE);
+	}
+
+	ParsingRoutineI baseParsingRoutine = new ParsingRoutineIO () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
+			int tLocation;
+			String tAbbrev;
+			MapCell tMapCell;
+			TokenCompany tTokenCompany;
+
+			City tCity;
+
+			tCity = (City) aMetaObject;
+			tAbbrev = aChildNode.getThisAttribute (Corporation.AN_ABBREV);
+			tLocation = aChildNode.getThisIntAttribute (Location.AN_LOCATION);
+			
+			if (location.getLocation () == tLocation) {
+				tMapCell = tCity.cityInfo.getMapCell ();
+				tTokenCompany = tMapCell.getTokenCompany (tAbbrev);
+				if (tTokenCompany == TokenCompany.NO_TOKEN_COMPANY) {
+					logger.info ("Did not find a Token Company with abbrev " + tAbbrev);
+				} else {
+					tCity.setCorporationHome (tTokenCompany);
+				}
+			}
+		}
+	};
 
 	@Override
 	public void loadStationsStates (XMLNode aMapCellNode) {
