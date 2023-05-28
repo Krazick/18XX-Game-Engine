@@ -513,6 +513,10 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		return tIsSingleSelected;
 	}
 
+	public void loadBaseStates (XMLNode aMapCellNode) {
+		/* Should not get here... can only load Stations onto City Revenue Center */
+	}
+
 	public void loadStationsStates (XMLNode aMapCellNode) {
 		/* Should not get here... can only load Stations onto City Revenue Center */
 	}
