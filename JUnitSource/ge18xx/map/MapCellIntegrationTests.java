@@ -78,15 +78,22 @@ class MapCellIntegrationTests {
 	@DisplayName ("Test Toronto TileUpgrade via LayTileEffect")
 	void tornotoLayTileEffectUpgradeTest () {
 		HexMap mHexMap;
+		RevenueCenter tDestinationCity;
+		Tile tTile;
 		
 		System.out.println ("Apply LayTileEffect Test");
 		prepareAndVerifyMapCell ();
+		tTile = mapCell.getTile ();
+		tDestinationCity = tTile.getCenterAt (0);
+		mapCell.removeTile ();
+		mapCell.addRevenueCenter (0, tDestinationCity);
 		buildLayTileEffect ();
 		mHexMap = mapTestFactory.buildHexMapMock ();
 		Mockito.when (mHexMap.getMapCellForID ("N11")).thenReturn (mapCell);
 		Mockito.when (mRoundManager.getTileSet ()).thenReturn (tileSet);
 		Mockito.when (mRoundManager.getGameMap ()).thenReturn (mHexMap);
 		Mockito.when (mRoundManager.getShareCompany ("TPRR")).thenReturn (alphaShareCompany);
+		
 		layTileEffect.applyEffect (mRoundManager);
 		verifyMapCellAfterUpgrade ();
 	}
@@ -245,6 +252,7 @@ class MapCellIntegrationTests {
 		tTileNumber = tTile.getNumber ();
 		
 		tGameTile = tileSet.getGameTile (tTileNumber);
+		tGameTile.setOverride (true);
 		tileSet.addNTileClones (tGameTile, tTile, tQuantity);
 		
 		tUpgrade = tilesTestFactory.buildUpgrade (aTileIndex);
@@ -273,6 +281,7 @@ class MapCellIntegrationTests {
 			assertEquals (aCorpIDBases [tCenterIndex], tCorpID);
 			assertEquals (aExpectedCenterTypes [tCenterIndex], tCenterType);
 		}
+		System.out.println ("----");
 	}
 
 }
