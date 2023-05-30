@@ -236,6 +236,10 @@ public class MapCell implements Comparator<Object> {
 		return tIsTrainUsingSide;
 	}
 
+	public boolean addRevenueCenter (int aIndex, RevenueCenter aRC) {
+		return centers.add (aIndex, aRC);
+	}
+
 	public boolean addRevenueCenter (RevenueCenter aRC) {
 		return centers.add (aRC);
 	}
@@ -1499,9 +1503,15 @@ public class MapCell implements Comparator<Object> {
 
 	public boolean sameTypeCount (GameTile aGameTile) {
 		boolean tSameTypeCount;
+		int tGameTypeCount;
+		int tMapCellTypeCount;
+		
+		tGameTypeCount = aGameTile.getTypeCount ();
+		tMapCellTypeCount = getTypeCount ();
 
-		tSameTypeCount = (aGameTile.getTypeCount () == getTypeCount ());
-
+//		tSameTypeCount = (aGameTile.getTypeCount () == getTypeCount ());
+		tSameTypeCount = (tGameTypeCount == tMapCellTypeCount);
+		
 		return tSameTypeCount;
 	}
 

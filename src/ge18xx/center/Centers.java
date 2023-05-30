@@ -540,6 +540,7 @@ public class Centers implements Cloneable {
 				}
 			}
 		}
+		
 		return tTypeCount;
 	}
 
@@ -630,31 +631,28 @@ public class Centers implements Cloneable {
 	public void copyCityInfo (Tile aTile) {
 		RevenueCenter tDestinationCity;
 		RevenueCenter tTileRevenueCenter;
+		RevenueCenter tCenter;
 		CityInfo tCityInfo;
 		CityInfo tTileCityInfo;
-		int tLocation;
-
-		for (RevenueCenter tCenter : centers) {
-			tLocation = tCenter.getLocationToInt ();
+		int tCenterCount;
+		
+		tCenterCount = centers.size ();
+		for (int tCenterIndex = 0; tCenterIndex < tCenterCount; tCenterIndex++) {
+			tCenter = centers.get (tCenterIndex);
 			tCityInfo = tCenter.getCityInfo ();
-			if (tCityInfo != CityInfo.NO_CITY_INFO) {
-				tTileRevenueCenter = aTile.getCenterAtLocation (tLocation);
+			if (tCenter.isDestination ()) {
+				tDestinationCity = tCenter.clone ();
+				tDestinationCity.setTemporary (true);
+				aTile.addCenter (0, tDestinationCity);
+			} else {
+				tTileRevenueCenter = aTile.getCenterAt (tCenterIndex);
 				if (tTileRevenueCenter != RevenueCenter.NO_CENTER) {
 					tTileCityInfo = tTileRevenueCenter.getCityInfo ();
 					if (tTileCityInfo != CityInfo.NO_CITY_INFO) {
 						tTileCityInfo.copyCityInfo (tCityInfo);
 						tTileCityInfo.setRevenueCenter (tTileRevenueCenter);
-					} else {
-						aTile.setCityInfo (tCityInfo);
 					}
-				} else {
-					aTile.setCityInfo (tCityInfo);
 				}
-			}
-			if (tCenter.isDestination ()) {
-				tDestinationCity = tCenter.clone ();
-				tDestinationCity.setTemporary (true);
-				aTile.addCenter (tDestinationCity);
 			}
 		}
 	}
