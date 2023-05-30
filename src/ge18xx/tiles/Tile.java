@@ -468,7 +468,15 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 
 	public RevenueCenter getCenterAt (int aCenterIndex) {
-		return centers.get (aCenterIndex);
+		RevenueCenter tCenter;
+		
+		if (aCenterIndex >= centers.size ()) {
+			tCenter = RevenueCenter.NO_CENTER;
+		} else {
+			tCenter = centers.get (aCenterIndex);
+		}
+		
+		return tCenter;
 	}
 	
 	public RevenueCenter getCenterAtLocation (Location aLocation) {
