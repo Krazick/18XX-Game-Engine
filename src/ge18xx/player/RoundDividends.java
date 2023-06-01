@@ -19,7 +19,7 @@ public class RoundDividends {
 	public RoundDividends (int aMaxRoundID) {
 		maxRoundID = aMaxRoundID;
 		dividends = new int [maxRoundID];
-		clearDividends ();
+		clear ();
 	}
 	
 	public void parseDividendAtribute (XMLNode aPlayerNode) {
@@ -33,7 +33,7 @@ public class RoundDividends {
 		if (tDividends != GUI.NULL_STRING) {
 			tDividendCount = aPlayerNode.getThisIntAttribute (AN_DIVIDEND_COUNT);
 			tAllDividends = tDividends.split (GUI.SPLIT);
-			clearDividends ();
+			clear ();
 			if (tAllDividends.length > 0) {
 				for (tIndex = 0; tIndex < tDividendCount; tIndex++) {
 					tValue = Integer.parseInt (tAllDividends [tIndex]);
@@ -58,7 +58,7 @@ public class RoundDividends {
 		aXMLElement.setAttribute (AN_DIVIDENDS, tDividendAttribute);
 	}
 
-	public void clearDividends () {
+	public void clear () {
 		Arrays.fill (dividends, 0);
 	}
 	
@@ -66,7 +66,7 @@ public class RoundDividends {
 		return (aRoundID - 1);
 	}
 	
-	public void clearDividends (int aRoundID) {
+	public void clear (int aRoundID) {
 		dividends [realIndex (aRoundID)] = 0;
 	}
 	
