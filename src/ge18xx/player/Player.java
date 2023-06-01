@@ -111,6 +111,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	boolean bidShare;
 	boolean triggeredAuction;
 	int treasury;
+	AllPercentBought allPercentBought;
 	RoundDividends roundDividends;
 	Benefit benefitInUse;
 	Escrows escrows;
@@ -175,6 +176,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setExchangedPrezShare (NO_STOCK_TO_SELL);
 		setRFPlayerLabel (aName);
 		setCertificateLimit (aCertificateLimit);
+		allPercentBought = new AllPercentBought ();
 		soldCompanies = new SoldCompanies ();
 		escrows = new Escrows (this);
 		tBenefitInUse = new FakeBenefit ();
@@ -202,17 +204,21 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 	
 	public void clearRoundDividends () {
-		roundDividends.clearDividends ();
+		roundDividends.clear ();
+	}
+	
+	public void clearAllPercentBought () {
+		allPercentBought.clear ();
 	}
 	
 	@Override
 	public void clearRoundDividends (int aRoundID) {
-		roundDividends.clearDividends (aRoundID);
+		roundDividends.clear (aRoundID);
 	}
-	
-	public void clearJustBoughtForAllCerts () {
-		portfolio.clearJustBoughtForAllCerts ();
-	}
+//	
+//	public void clearJustBoughtForAllCerts () {
+//		portfolio.clearJustBoughtForAllCerts ();
+//	}
 	
 	public void setBenefitInUse (Benefit aBenefitInUse) {
 		benefitInUse = aBenefitInUse;
