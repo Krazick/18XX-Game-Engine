@@ -1011,7 +1011,8 @@ public class RoundManager implements ActionListener {
 		setRoundToStockRound (tIDPart1);
 		gameManager.bringMarketToFront ();
 		stockRound.prepareStockRound ();
-		playerManager.clearJustBoughtForAllPlayers ();
+//		playerManager.clearJustBoughtForAllPlayers ();
+		playerManager.clearAllPercentBought ();
 		roundFrame.updateAll ();
 	}
 
