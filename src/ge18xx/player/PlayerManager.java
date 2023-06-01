@@ -112,12 +112,18 @@ public class PlayerManager {
 			tPlayer.updateListeners (aMessage);
 		}
 	}
-
-	public void clearJustBoughtForAllPlayers () {
+	
+	public void clearAllPercentBought () {
 		for (Player tPlayer : players) {
-			tPlayer.clearJustBoughtForAllCerts ();
+			tPlayer.clearAllPercentBought ();
 		}
 	}
+//
+//	public void clearJustBoughtForAllPlayers () {
+//		for (Player tPlayer : players) {
+//			tPlayer.clearJustBoughtForAllCerts ();
+//		}
+//	}
 	
 	public String getPlayersInOrder () {
 		String tPlayersInOrder = "";
