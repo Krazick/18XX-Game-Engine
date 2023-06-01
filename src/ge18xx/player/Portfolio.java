@@ -192,12 +192,12 @@ public class Portfolio implements CertificateHolderI {
 
 		return tCertInfo;
 	}
-
-	public void clearJustBoughtForAllCerts () {
-		for (Certificate tCertificate : certificates) {
-			tCertificate.setJustBought (false);
-		}
-	}
+//
+//	public void clearJustBoughtForAllCerts () {
+//		for (Certificate tCertificate : certificates) {
+//			tCertificate.setJustBought (false);
+//		}
+//	}
 	
 	public JPanel buildShareCertificateJPanel (String aCorpType, String aSelectedButtonLabel,
 			ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
@@ -1807,9 +1807,9 @@ public class Portfolio implements CertificateHolderI {
 				tCertificate = aFromPortfolio.getThisCertificate (tThisCertificate);
 				if (tCertificate != Certificate.NO_CERTIFICATE) {
 					tCertificate.setOwner (this);
-					if (isAPlayer ()) {
-						tCertificate.setJustBought (true);
-					}
+//					if (isAPlayer ()) {
+//						tCertificate.setJustBought (true);
+//					}
 					tCertificate.sortCorporationCertificates ();
 					addCertificate (tCertificate);
 					tCertificate.resetFrameButton ();
@@ -1878,9 +1878,9 @@ public class Portfolio implements CertificateHolderI {
 				tCertificate = aFromPortfolio.getCertificateFor (aCorporation);
 				if (tCertificate != Certificate.NO_CERTIFICATE) {
 					tCertificate.setOwner (this);
-					if (isAPlayer ()) {
-						tCertificate.setJustBought (true);
-					}
+//					if (isAPlayer ()) {
+//						tCertificate.setJustBought (true);
+//					}
 					tCertificate.sortCorporationCertificates ();
 					addCertificate (tCertificate);
 					tTransferGood = true;
