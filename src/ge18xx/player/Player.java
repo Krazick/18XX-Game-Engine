@@ -210,7 +210,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void clearAllPercentBought () {
 		allPercentBought.clear ();
 	}
-	
+
 	@Override
 	public void clearRoundDividends (int aRoundID) {
 		roundDividends.clear (aRoundID);
@@ -219,6 +219,22 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 //	public void clearJustBoughtForAllCerts () {
 //		portfolio.clearJustBoughtForAllCerts ();
 //	}
+	
+	public int getPercentBought (String aAbbrev) {
+		int tPercentBought;
+		
+		tPercentBought = allPercentBought.getPercentFor (aAbbrev);
+		
+		return tPercentBought;
+	}
+	
+	public boolean noTouchPass () {
+		boolean tNoTouchPass;
+		
+		tNoTouchPass = playerManager.noTouchPass ();
+		
+		return tNoTouchPass;
+	}
 	
 	public void setBenefitInUse (Benefit aBenefitInUse) {
 		benefitInUse = aBenefitInUse;
@@ -1381,12 +1397,32 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 		tRoundType = ActorI.ActionStates.StockRound;
 		tRoundID = playerManager.getStockRoundID ();
+		
+		updatePercentBought (aCertificatesToBuy);
+		
 		tBuyStockAction = new BuyStockAction (tRoundType, tRoundID, this);
 		tBuyStockAction = playerManager.buyAction (this, aCertificatesToBuy, PlayerManager.STOCK_BUY_IN.StockRound,
 				tBuyStockAction);
 		playerManager.addAction (tBuyStockAction);
 	}
 
+	public void updatePercentBought (List<Certificate> aCertificatesToBuy) {
+		int tPercentBought;
+		String tAbbrev;
+
+		tPercentBought = 0;
+		tAbbrev = GUI.EMPTY_STRING;
+		for (Certificate tCertificateBought : aCertificatesToBuy) {
+			if (tCertificateBought.isAShareCompany ()) {
+				tPercentBought += tCertificateBought.getPercentage ();
+				tAbbrev = tCertificateBought.getCompanyAbbrev ();
+			}
+		}
+		if (tPercentBought > 0) {
+			allPercentBought.addNewPercentBought (tAbbrev, tPercentBought);
+		}
+	}
+	
 	public void doneAction () {
 		playerManager.doneAction (this);
 		updateListeners (PLAYER_STATUS_CHANGED + " - DONE");
@@ -1703,7 +1739,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		JLabel tTotalValueLabel;
 		JLabel tDividendsLabel;
 		JLabel tSoldCompanies;
+		GameManager tGameManager;
 
+		tGameManager = playerManager.getGameManager ();
 		buildPlayerLabel (aPriorityPlayerIndex, aPlayerIndex);
 		playerJPanel.add (rfPlayerLabel);
 		updateCashLabel ();
@@ -1722,7 +1760,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tCertCountLabel = new JLabel (buildCertCountInfo ("Certificates "));
 		playerJPanel.add (tCertCountLabel);
 		
-		tOwnershipPanel = portfolio.buildOwnershipPanel ();
+		tOwnershipPanel = portfolio.buildOwnershipPanel (tGameManager);
 		if (tOwnershipPanel != Portfolio.NO_PORTFOLIO_JPANEL) {
 			playerJPanel.add (tOwnershipPanel);
 		}
