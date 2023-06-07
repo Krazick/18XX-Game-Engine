@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName ("Portfolio Summary")
 class PortfolioSummaryTest {
 	PortfolioSummary sharePrezPortfolioSummary;
+	PortfolioSummary sharePrezPortfolioSummaryNTP;
 	PortfolioSummary sharePortfolioSummary;
 	PortfolioSummary privatePortfolioSummary;
 	PortfolioSummary minorPrezPortfolioSummary;
@@ -28,6 +29,8 @@ class PortfolioSummaryTest {
 		String tType;
 		int tCount;
 		int tPercentage;
+		int tPercentBought;
+		boolean tNoTouchPass;
 		boolean tIsPresident;
 		Border tColorBorder;
 		String tNote;
@@ -36,25 +39,30 @@ class PortfolioSummaryTest {
 		tType = "Share";
 		tCount = 3;
 		tPercentage = 30;
+		tPercentBought = 0;
 		tIsPresident = true;
 		tNote = "Test Case Note";
-
+		tNoTouchPass = false;
+		
 		tColorBorder = BorderFactory.createLineBorder (Color.black, 1);
 
-		sharePrezPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tIsPresident,
-				tColorBorder, tNote);
+		sharePrezPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, tIsPresident,tColorBorder, tNote, tNoTouchPass);
 
+		tPercentage = 20;
+		tNoTouchPass = true;
+		sharePrezPortfolioSummaryNTP = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, tIsPresident,tColorBorder, tNote, tNoTouchPass);
+		
 		tAbbrev = "NPrezTest";
 		tType = "Share";
-		tCount = 3;
-		tPercentage = 30;
+		tCount = 2;
+		tPercentage = 20;
 		tIsPresident = false;
 		tNote = "Test Case Note Not Prez";
+		tNoTouchPass = false;
 
 		tColorBorder = BorderFactory.createLineBorder (Color.black, 1);
 
-		sharePortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tIsPresident,
-				tColorBorder, tNote);
+		sharePortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, tIsPresident,tColorBorder, tNote, tNoTouchPass);
 
 		tAbbrev = "PrivateTest";
 		tType = "Private";
@@ -65,8 +73,8 @@ class PortfolioSummaryTest {
 
 		tColorBorder = BorderFactory.createLineBorder (Color.blue, 1);
 
-		privatePortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tIsPresident,
-				tColorBorder, tNote);
+		privatePortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, 
+				tIsPresident, tColorBorder, tNote, tNoTouchPass);
 
 		tAbbrev = "MinorTest";
 		tType = "Minor";
@@ -77,8 +85,8 @@ class PortfolioSummaryTest {
 
 		tColorBorder = BorderFactory.createLineBorder (Color.blue, 1);
 
-		minorPrezPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tIsPresident,
-				tColorBorder, tNote);
+		minorPrezPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought,
+				tIsPresident,tColorBorder, tNote, tNoTouchPass);
 
 		tAbbrev = "MinorNPrezTest";
 		tType = "Minor";
@@ -89,8 +97,8 @@ class PortfolioSummaryTest {
 
 		tColorBorder = BorderFactory.createLineBorder (Color.blue, 1);
 
-		minorPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tIsPresident,
-				tColorBorder, tNote);
+		minorPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought,
+				tIsPresident,tColorBorder, tNote, tNoTouchPass);
 	}
 
 	@Test
@@ -115,17 +123,37 @@ class PortfolioSummaryTest {
 	}
 
 	@Test
+	@DisplayName ("Test adding 0 Percent Bought to Share Company, with No Touch Pass (NTP)")
+	void add0PercentBoughtTest () {
+		String tSummary;
+
+//		sharePrezPortfolioSummaryNTP.addPercentBought (0);
+		tSummary = sharePrezPortfolioSummaryNTP.getSummary ();
+		assertEquals ("BnOTest 3 Certs/20% Prez", tSummary);
+	}
+
+	@Test
+	@DisplayName ("Test adding Percent Bought to Share Company, with No Touch Pass (NTP)")
+	void addPercentBoughtTest () {
+		String tSummary;
+
+		sharePrezPortfolioSummaryNTP.addPercentBought (20);
+		tSummary = sharePrezPortfolioSummaryNTP.getSummary ();
+		assertEquals ("BnOTest 3 Certs/0% + 20% Prez", tSummary);
+	}
+
+	@Test
 	@DisplayName ("Test setting Prez for initia Non-Prez Share Company")
 	void setPresidentTest () {
 		String tSummary;
 
 		sharePortfolioSummary.setIsPresident (true);
 		tSummary = sharePortfolioSummary.getSummary ();
-		assertEquals ("NPrezTest 3 Certs/30% Prez", tSummary);
+		assertEquals ("NPrezTest 2 Certs/20% Prez", tSummary);
 
 		sharePortfolioSummary.setIsPresident (false);
 		tSummary = sharePortfolioSummary.getSummary ();
-		assertEquals ("NPrezTest 3 Certs/30% Prez", tSummary);
+		assertEquals ("NPrezTest 2 Certs/20%", tSummary);
 	}
 
 	@Nested
@@ -156,7 +184,7 @@ class PortfolioSummaryTest {
 			Border tFoundBorder;
 
 			tSummary = sharePortfolioSummary.getSummary ();
-			assertEquals ("NPrezTest 3 Certs/30%", tSummary);
+			assertEquals ("NPrezTest 2 Certs/20%", tSummary);
 
 			assertEquals ("Share", sharePortfolioSummary.getType ());
 			assertEquals ("Test Case Note Not Prez", sharePortfolioSummary.getNote ());

@@ -8,6 +8,8 @@ public class PortfolioSummary {
 	String note;
 	int count;
 	int percentage;
+	int percentBought;
+	boolean noTouchPass;
 	boolean isPresident;
 	Border corporateColorBorder;
 	public final static String PRIVATE_CORP_TYPE = "Private";
@@ -15,11 +17,13 @@ public class PortfolioSummary {
 	public final static String SHARE_CORP_TYPE = "Share";
 	public final static Border NO_BORDER = null;
 
-	PortfolioSummary (String aAbbrev, String aType, int aCount, int aPercentage, boolean aIsPresident,
-			Border aCorporateColorBorder, String aNote) {
+	PortfolioSummary (String aAbbrev, String aType, int aCount, int aPercentage, int aPercentBought, 
+			boolean aIsPresident, Border aCorporateColorBorder, String aNote, boolean aNoTouchPass) {
 		abbrev = aAbbrev;
 		count = aCount;
 		percentage = aPercentage;
+		percentBought = aPercentBought;
+		noTouchPass = aNoTouchPass;
 		isPresident = aIsPresident;
 		if (SHARE_CORP_TYPE.equals (aType)) {
 			corporateColorBorder = aCorporateColorBorder;
@@ -62,10 +66,12 @@ public class PortfolioSummary {
 		percentage += aPercentage;
 	}
 
+	public void addPercentBought (int aPercentBought) {
+		percentBought += aPercentBought;
+	}
+	
 	public void setIsPresident (boolean aIsPresident) {
-		if (aIsPresident) {
-			isPresident = aIsPresident;
-		}
+		isPresident = aIsPresident;
 	}
 
 	public String getSummary () {
@@ -90,7 +96,21 @@ public class PortfolioSummary {
 	}
 
 	private String getPercentageText () {
-		return getPrecentage () + "%";
+		String tGetPercentageText;
+		int tPercentCanSell;
+		
+		if (noTouchPass) {
+			tPercentCanSell = percentage - percentBought;
+			if (percentBought > 0) {
+				tGetPercentageText = tPercentCanSell + "% + " + percentBought + "%";
+			} else {
+				tGetPercentageText = percentage + "%";
+			}
+		} else {
+			tGetPercentageText = percentage + "%";
+		}
+		
+		return tGetPercentageText;
 	}
 
 	private String getCertCountText () {
