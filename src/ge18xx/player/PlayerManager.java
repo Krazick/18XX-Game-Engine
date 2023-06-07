@@ -125,6 +125,10 @@ public class PlayerManager {
 //		}
 //	}
 	
+	public boolean noTouchPass () {
+		return gameManager.noTouchPass ();
+	}
+	
 	public String getPlayersInOrder () {
 		String tPlayersInOrder = "";
 
