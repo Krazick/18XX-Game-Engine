@@ -1958,11 +1958,12 @@ public class Portfolio implements CertificateHolderI {
 		return tAbbrevAndType;
 	}
 
-	public JPanel buildOwnershipPanel () {
-		JPanel tOwnershipPanel = NO_PORTFOLIO_JPANEL;
+	public JPanel buildOwnershipPanel (GameManager aGameManager) {
+		JPanel tOwnershipPanel;
 		JLabel tCertificateOwnershipLabel;
 		List<PortfolioSummary> tPortfolioSummary;
 		PortfolioSummary tASummary;
+		Player tPlayer;
 		String tAbbrev;
 		String tOwnershipLabel;
 		String tNote;
@@ -1971,11 +1972,15 @@ public class Portfolio implements CertificateHolderI {
 		String tType;
 		int tCount;
 		int tPercentage;
+		int tPercentBought;
+		boolean tNoTouchPass;
 		boolean tIsPresident;
 		boolean tHandledCertificate;
+		
 		Border tCorporateColorBorder;
 		Corporation tCorporation;
 
+		tOwnershipPanel = NO_PORTFOLIO_JPANEL;
 		if (certificates.size () > 0) {
 			tOwnershipPanel = new JPanel ();
 			tOwnershipPanel.setLayout (new BoxLayout (tOwnershipPanel, BoxLayout.Y_AXIS));
@@ -2013,9 +2018,15 @@ public class Portfolio implements CertificateHolderI {
 				if (!tHandledCertificate) {
 					tCorporation = tCertificate.getCorporation ();
 					tCorporateColorBorder = tCorporation.setupBorder ();
+					tPercentBought = 0;
+					tNoTouchPass = aGameManager.noTouchPass ();
+					if (holder.isAPlayer ()) {
+						tPlayer = (Player) holder;
+						tPercentBought = tPlayer.getPercentBought (tAbbrev);
+					}
 					tNote = tCorporation.getNote ();
-					tASummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tIsPresident,
-							tCorporateColorBorder, tNote);
+					tASummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought,
+							tIsPresident, tCorporateColorBorder, tNote, tNoTouchPass);
 					tPortfolioSummary.add (tASummary);
 				}
 			}
