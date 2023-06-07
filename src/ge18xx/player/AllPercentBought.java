@@ -52,10 +52,12 @@ public class AllPercentBought {
 	
 	public int getPercentFor (String aAbbrev) {
 		int tFoundPercent;
+		String tAbbrev;
 		
 		tFoundPercent = 0;
+		tAbbrev = aAbbrev.trim ();
 		for (PercentBought tPercentBought : allPercentBought) {
-			if (tPercentBought.isAbbrev (aAbbrev)) {
+			if (tPercentBought.isAbbrev (tAbbrev)) {
 				tFoundPercent = tPercentBought.getPercent ();
 			}
 		}
