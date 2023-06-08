@@ -215,10 +215,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void clearRoundDividends (int aRoundID) {
 		roundDividends.clear (aRoundID);
 	}
-//	
-//	public void clearJustBoughtForAllCerts () {
-//		portfolio.clearJustBoughtForAllCerts ();
-//	}
 	
 	public int getPercentBought (String aAbbrev) {
 		int tPercentBought;
@@ -734,6 +730,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		XMLElement tXMLPortofolioElements;
 		XMLElement tXMLEscrows;
 		XMLElement tXMLQueryOfferElements;
+		XMLElement tXMLAllPercentBoughtElements;
 		String tCompaniesSold;
 		int tOperatingRoundCount;
 		
@@ -751,6 +748,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tOperatingRoundCount = playerManager.getOperatingRoundCount ();
 		roundDividends.addDividendAttribute (tXMLElement, tOperatingRoundCount);
 		
+		tXMLAllPercentBoughtElements = allPercentBought.getElements (aXMLDocument);
+		tXMLElement.appendChild (tXMLAllPercentBoughtElements);
 		tXMLPortofolioElements = portfolio.getElements (aXMLDocument);
 		tXMLElement.appendChild (tXMLPortofolioElements);
 		tXMLEscrows = escrows.getEscrowXML (aXMLDocument);
@@ -1232,6 +1231,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void loadState (XMLNode aPlayerNode) {
 		String tState;
 		String tSoldCompanies;
+		XMLNodeList tXMLAllPercentBoughtNodeList;
 		XMLNodeList tXMLPortfolioNodeList;
 		XMLNodeList tXMLQueryOfferNodeList;
 		GenericActor tGenericActor;
@@ -1252,9 +1252,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 		tSoldCompanies = aPlayerNode.getThisAttribute (AN_SOLD_COMPANIES);
 		soldCompanies.parse (DELIMITER, tSoldCompanies);
+		
+		tXMLAllPercentBoughtNodeList = new XMLNodeList (AllPercentBoughtParsingRoutine);
+		tXMLAllPercentBoughtNodeList.parseXMLNodeList (aPlayerNode, AllPercentBought.EN_ALL_PERCENT_BOUGHT);
+	
 		tXMLPortfolioNodeList = new XMLNodeList (portfolioParsingRoutine);
 		tXMLPortfolioNodeList.parseXMLNodeList (aPlayerNode, Portfolio.EN_PORTFOLIO);
+		
 		escrows.loadEscrowState (aPlayerNode);
+		
 		tGameManager = getGameManager ();
 		tXMLQueryOfferNodeList = new XMLNodeList (queryParsingRoutine, tGameManager);
 		tXMLQueryOfferNodeList.parseXMLNodeList (aPlayerNode, QueryOffer.EN_QUERY_OFFER);
@@ -1296,6 +1302,13 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
 			portfolio.loadPortfolio (aChildNode);
+		}
+	};
+
+	ParsingRoutineI AllPercentBoughtParsingRoutine = new ParsingRoutineI () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			allPercentBought.loadAllPercentBought (aChildNode);
 		}
 	};
 
