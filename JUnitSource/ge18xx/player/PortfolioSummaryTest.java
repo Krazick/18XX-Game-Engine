@@ -127,7 +127,6 @@ class PortfolioSummaryTest {
 	void add0PercentBoughtTest () {
 		String tSummary;
 
-//		sharePrezPortfolioSummaryNTP.addPercentBought (0);
 		tSummary = sharePrezPortfolioSummaryNTP.getSummary ();
 		assertEquals ("BnOTest 3 Certs/20% Prez", tSummary);
 	}
