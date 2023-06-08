@@ -3,7 +3,15 @@ package ge18xx.player;
 import java.util.LinkedList;
 import java.util.List;
 
+import ge18xx.utilities.ElementName;
+import ge18xx.utilities.ParsingRoutineI;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
+import ge18xx.utilities.XMLNodeList;
+
 public class AllPercentBought {
+	public final static ElementName EN_ALL_PERCENT_BOUGHT = new ElementName ("AllPercentBought");
 	List<PercentBought> allPercentBought;
 	
 	public AllPercentBought () {
@@ -20,6 +28,25 @@ public class AllPercentBought {
 				addNewPercentBought (aAbbrev, aPercentBought);
 			}
 		}
+		removeIfEmpty (aAbbrev);
+	}
+	
+	private void removeIfEmpty (String aAbbrev) {
+		if (getPercentFor (aAbbrev) == 0) {
+			removePercentFor (aAbbrev);
+		}
+	}
+	
+	private void removePercentFor (String aAbbrev) {
+		String tAbbrev;
+		
+		tAbbrev = aAbbrev.trim ();
+		for (PercentBought tPercentBought : allPercentBought) {
+			if (tPercentBought.isAbbrev (tAbbrev)) {
+				allPercentBought.remove (tPercentBought);
+			}
+		}
+
 	}
 	
 	public void addPercent (String aAbbrev, int aPercentBought) {
@@ -68,4 +95,36 @@ public class AllPercentBought {
 	public void clear () {
 		allPercentBought.clear ();
 	}
+	
+	public XMLElement getElements (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+		XMLElement tXMLPercentBoughtElement;
+
+		tXMLElement = aXMLDocument.createElement (EN_ALL_PERCENT_BOUGHT);
+		for (PercentBought tPercentBought : allPercentBought) {
+			tXMLPercentBoughtElement = tPercentBought.getElement (aXMLDocument);
+			tXMLElement.appendChild (tXMLPercentBoughtElement);
+		}
+
+		return tXMLElement;
+	}
+	
+	public void loadAllPercentBought (XMLNode aXMLNode) {
+		XMLNodeList tXMLNodeList;
+
+		tXMLNodeList = new XMLNodeList (percentBoughtParsingRoutine);
+		tXMLNodeList.parseXMLNodeList (aXMLNode, PercentBought.EN_PERCENT_BOUGHT);
+	}
+
+	ParsingRoutineI percentBoughtParsingRoutine = new ParsingRoutineI () {
+		@Override
+		public void foundItemMatchKey1 (XMLNode aChildNode) {
+			String tAbbrev;
+			int tPercent;
+			
+			tAbbrev = aChildNode.getThisAttribute (PercentBought.AN_ABBREV);
+			tPercent = aChildNode.getThisIntAttribute (PercentBought.AN_PERCENT);
+			addPercentBought (tAbbrev, tPercent);
+		}
+	};
 }
