@@ -215,6 +215,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	public void clearRoundDividends (int aRoundID) {
 		roundDividends.clear (aRoundID);
 	}
+
+	public void addPercentBought (String aAbbrev, int aPercent) {
+		allPercentBought.addPercentBought (aAbbrev, aPercent);
+	}
 	
 	public int getPercentBought (String aAbbrev) {
 		int tPercentBought;
@@ -1411,15 +1415,15 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tRoundType = ActorI.ActionStates.StockRound;
 		tRoundID = playerManager.getStockRoundID ();
 		
-		updatePercentBought (aCertificatesToBuy);
-		
 		tBuyStockAction = new BuyStockAction (tRoundType, tRoundID, this);
+		updatePercentBought (aCertificatesToBuy, tBuyStockAction);
+		
 		tBuyStockAction = playerManager.buyAction (this, aCertificatesToBuy, PlayerManager.STOCK_BUY_IN.StockRound,
 				tBuyStockAction);
 		playerManager.addAction (tBuyStockAction);
 	}
 
-	public void updatePercentBought (List<Certificate> aCertificatesToBuy) {
+	public void updatePercentBought (List<Certificate> aCertificatesToBuy, BuyStockAction aBuyStockAction) {
 		int tPercentBought;
 		String tAbbrev;
 
@@ -1433,6 +1437,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		}
 		if (tPercentBought > 0) {
 			allPercentBought.addNewPercentBought (tAbbrev, tPercentBought);
+			aBuyStockAction.addSetPercentBoughtEffect (this, tAbbrev, tPercentBought);
 		}
 	}
 	
