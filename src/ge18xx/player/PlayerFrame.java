@@ -270,6 +270,18 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		return player.hasSelectedPrivateToBidOn ();
 	}
 
+	public boolean canSellSelectedStocks () {
+		boolean tCanSellSelectedStocks;
+		
+		if (gameManager.noTouchPass ()) {
+			tCanSellSelectedStocks = player.canSellSelectedStocks ();
+		} else {
+			tCanSellSelectedStocks = true;
+		}
+		
+		return tCanSellSelectedStocks;
+	}
+	
 	public boolean hasSelectedSameStocksToSell () {
 		boolean tHasSelectedSameStocksToSell;
 
@@ -521,6 +533,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		boolean tStocksToSellOverfill;
 		boolean tMustBuy;
 		boolean tHasSelectedOneToExchange;
+		boolean tCanSellSelectedStocks;
 
 		tMustBuy = hasMustBuyCertificate ();
 		tStocksToSell = hasSelectedStocksToSell ();
@@ -530,9 +543,11 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		tPrezToExchange = hasSelectedPrezToExchange ();
 		tHasSelectedOneToExchange = hasSelectedOneToExchange ();
 		tCanCompleteTurn = canCompleteTurn ();
-
+		tCanSellSelectedStocks = canSellSelectedStocks ();
+		
 		updatePassButton (tCanCompleteTurn, tMustBuy);
-		updateSellButton (tStocksToSell, tStocksToSellSame, tStocksToSellOverfill, tPrezToExchange);
+		updateSellButton (tStocksToSell, tStocksToSellSame, tStocksToSellOverfill, 
+						tPrezToExchange, tCanSellSelectedStocks);
 		updateBuyButton (canBuy);
 		updateExchangeButton (tPrezToExchange, tHasSelectedOneToExchange);
 		updateUndoButton (tActionsToUndo);
@@ -610,7 +625,9 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	}
 
 	private void updateSellButton (boolean aStocksToSell, boolean aStocksToSellSame, boolean aStocksToSellOverfill,
-			boolean aPrezToExchange) {
+			boolean aPrezToExchange, boolean aCanSellSelectedStocks) {
+		String tToolTip;
+		
 		if (! handledWaiting (sellButton)) {
 			if (aStocksToSell) {
 				if (aPrezToExchange) {
@@ -620,8 +637,14 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 					sellButton.setEnabled (false);
 					sellButton.setToolTipText ("Stocks selected to be Sold will Overfill BankPool");
 				} else if (aStocksToSellSame) {
-					sellButton.setEnabled (aStocksToSell);
-					sellButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
+					if (aCanSellSelectedStocks) {
+						sellButton.setEnabled (aStocksToSell);
+						sellButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
+					} else {
+						sellButton.setEnabled (false);
+						tToolTip = "Cannot sell Certificates bought this stock round (no-touch-pass)";
+						sellButton.setToolTipText (tToolTip);
+					}
 				} else {
 					sellButton.setEnabled (aStocksToSellSame);
 					sellButton.setToolTipText (
@@ -698,7 +721,6 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		boolean tPrivateToBidOn;
 		boolean tNormalBuy;
 		Certificate tMustBuyCertificate;
-//		int tCostToBuy;
 
 		tStocksToBuy = hasSelectedStocksToBuy ();
 		tPrivateToBidOn = hasSelectedPrivateToBidOn ();
@@ -707,7 +729,6 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 			tNormalBuy = true;
 		} else if (tStocksToBuy) {
 			if (player.getCountSelectedCosToBuy () == 1) {
-//				tCostToBuy = player.getCostSelectedStockToBuy ();
 				tMustBuyCertificate = player.getMustBuyCertificate ();
 				if (tMustBuyCertificate != Certificate.NO_CERTIFICATE) {
 					buyBidButton.setEnabled (true);
@@ -792,9 +813,6 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 				buyBidButton.setEnabled (aStocksToBuy);
 				buyBidButton.setToolTipText (NO_STOCK_SELECTED_FOR_SALE2);
 				buyBidButton.setText (Player.BUY_BID_LABEL);
-				// This re-enables all Start Packet Buttons and not sure why this was setup as such
-				// it then overrides all settings if limited by cash or other reasons.
-//				enableAllStartPacketButtons ("");
 			}
 		}
 	}
@@ -827,19 +845,6 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		updatePortfolioInfo ();
 		updateBidAndEscrow ();
 	}
-
-//	private void enableAllStartPacketButtons (String aToolTip) {
-//		StartPacketFrame tStartPacketFrame;
-//		Bank tBank;
-//
-//		if (player.isCurrentPlayer ()) {
-//			tBank = player.getBank ();
-//			if (!tBank.isStartPacketPortfolioEmpty ()) {
-//				tStartPacketFrame = tBank.getStartPacketFrame ();
-//				tStartPacketFrame.enableAllCheckedButtons (aToolTip, player);
-//			}
-//		}
-//	}
 
 	private void enableMustBuyPrivateButton () {
 		StartPacketFrame tStartPacketFrame;
