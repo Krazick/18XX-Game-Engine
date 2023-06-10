@@ -45,6 +45,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.BuyStockAction;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.ParsingRoutineI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -983,6 +984,19 @@ public class Portfolio implements CertificateHolderI {
 		return tSelectedPercent;
 	}
 
+	public String getSelectedAbbrevToSell () {
+		String tSelectedAbbrevToSell;
+		
+		tSelectedAbbrevToSell = GUI.EMPTY_STRING;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isSelected ()) {
+				tSelectedAbbrevToSell += tCertificate.getCompanyAbbrev ();
+			}
+		}
+
+		return tSelectedAbbrevToSell;
+	}
+	
 	public int getPresidentPercent (Corporation corporation) {
 		String tCertificateOwnerName;
 		String tPresidentName;
@@ -1963,6 +1977,7 @@ public class Portfolio implements CertificateHolderI {
 		JLabel tCertificateOwnershipLabel;
 		List<PortfolioSummary> tPortfolioSummary;
 		PortfolioSummary tASummary;
+		Certificate tPresidentCertificate;
 		Player tPlayer;
 		String tAbbrev;
 		String tOwnershipLabel;
@@ -2000,8 +2015,15 @@ public class Portfolio implements CertificateHolderI {
 				tAbbrevAndType1 = buildAbbrevAndType (tAbbrev, tType);
 				tCount = 1;
 				tPercentage = tCertificate.getPercentage ();
-				tIsPresident = tCertificate.isPresidentShare ();
 				tHandledCertificate = false;
+				
+				tCorporation = tCertificate.getCorporation ();
+				tPresidentCertificate = tCorporation.getPresidentCertificate ();
+				if (hasThisCertificate (tPresidentCertificate)) {
+					tIsPresident = true;
+				} else {
+					tIsPresident = false;
+				}
 				for (PortfolioSummary tASingleSummary : tPortfolioSummary) {
 					// Test with both Abbrev and Type, to be sure to show B&O Private the B&O Share
 					// Company Certs when owned by
@@ -2016,7 +2038,6 @@ public class Portfolio implements CertificateHolderI {
 					}
 				}
 				if (!tHandledCertificate) {
-					tCorporation = tCertificate.getCorporation ();
 					tCorporateColorBorder = tCorporation.setupBorder ();
 					tPercentBought = 0;
 					tNoTouchPass = aGameManager.noTouchPass ();
