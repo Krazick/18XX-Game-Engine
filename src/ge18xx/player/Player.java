@@ -1005,6 +1005,28 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tHasSelectedSameStocksToSell;
 	}
 
+	public boolean canSellSelectedStocks () {
+		boolean tCanSellSelectedStocks;
+		String tSelectedAbbrev;
+		int tSelectedPercent;
+		int tPercentCanSell;
+		int tPercentBought;
+		int tPercentOwned;
+		
+		tSelectedAbbrev = portfolio.getSelectedAbbrevToSell ();
+		tSelectedPercent = getSelectedPercent ();
+		tPercentBought = allPercentBought.getPercentFor (tSelectedAbbrev);
+		tPercentOwned = portfolio.getCertificatePercentageFor (tSelectedAbbrev);
+		tPercentCanSell = tPercentOwned - tPercentBought;
+		if (tPercentCanSell >= tSelectedPercent) {
+			tCanSellSelectedStocks = true;
+		} else {
+			tCanSellSelectedStocks = false;
+		}
+		
+		return tCanSellSelectedStocks;
+	}
+	
 	public Certificate getMustBuyCertificate () {
 		Certificate tMustBuyCertificate = Certificate.NO_CERTIFICATE;
 		Bank tBank;
@@ -1436,7 +1458,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 			}
 		}
 		if (tPercentBought > 0) {
-			allPercentBought.addNewPercentBought (tAbbrev, tPercentBought);
+			allPercentBought.addPercentBought (tAbbrev, tPercentBought);
 			aBuyStockAction.addSetPercentBoughtEffect (this, tAbbrev, tPercentBought);
 		}
 	}
