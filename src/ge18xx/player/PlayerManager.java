@@ -113,18 +113,6 @@ public class PlayerManager {
 		}
 	}
 	
-	public void clearAllPercentBought () {
-		for (Player tPlayer : players) {
-			tPlayer.clearAllPercentBought ();
-		}
-	}
-//
-//	public void clearJustBoughtForAllPlayers () {
-//		for (Player tPlayer : players) {
-//			tPlayer.clearJustBoughtForAllCerts ();
-//		}
-//	}
-	
 	public boolean noTouchPass () {
 		return gameManager.noTouchPass ();
 	}
@@ -281,6 +269,16 @@ public class PlayerManager {
 	public void clearAllExchangedShares () {
 		for (Player tPlayer : players) {
 			tPlayer.setExchangedPrezShare (Player.NO_STOCK_TO_SELL);
+		}
+	}
+	
+	/**
+	 * Clear All Percent Bought for All Players
+	 *
+	 */
+	public void clearAllPercentBought () {
+		for (Player tPlayer : players) {
+			tPlayer.clearAllPercentBought ();
 		}
 	}
 
