@@ -80,5 +80,4 @@ public class PayCashDividendEffect extends CashTransferEffect {
 
 		return tEffectUndone;
 	}
-
 }
