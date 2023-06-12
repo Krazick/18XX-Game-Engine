@@ -2,6 +2,8 @@ package ge18xx.round.action;
 
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
+import ge18xx.player.CashHolderI;
+import ge18xx.round.action.effects.PayCashRevenueEffect;
 import ge18xx.utilities.XMLNode;
 
 public class PayRevenueAction extends CashTransferAction {
@@ -33,4 +35,12 @@ public class PayRevenueAction extends CashTransferAction {
 		return tSimpleActionReport;
 	}
 
+	public void addPayCashRevenueEffect (CashHolderI aFromCashHolder, CashHolderI aToCashHolder, 
+						int aCashAmount, int aOperatingRoundID) {
+		PayCashRevenueEffect tPayCashRevenueEffect;
+
+		tPayCashRevenueEffect = new PayCashRevenueEffect (aFromCashHolder, aToCashHolder, 
+						aCashAmount, aOperatingRoundID);
+		addEffect (tPayCashRevenueEffect);
+	}
 }
