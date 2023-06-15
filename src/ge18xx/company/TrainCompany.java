@@ -274,8 +274,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public void prepareCorporation () {
 		PreparedCorporationAction tPreparedCorporationAction;
 		String tOperatingRoundID;
-		ActorI.ActionStates tPreviousStatus, tNewStatus;
-		int tCurrentRevenue, tPreviousRevenue;
+		ActorI.ActionStates tPreviousStatus;
+		ActorI.ActionStates tNewStatus;
+		int tCurrentRevenue;
+		int tPreviousRevenue;
 		ShareCompany tShareCompany;
 
 		tPreviousStatus = getActionStatus ();
@@ -295,13 +297,14 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		if (tCurrentRevenue != tPreviousRevenue) {
 			tPreparedCorporationAction.addUpdateLastRevenueEffect (this, thisRevenue, lastRevenue);
 		}
-		if (this.isAShareCompany ()) {
+		if (isAShareCompany ()) {
 			tShareCompany = (ShareCompany) this;
 			if (tShareCompany.wasLoanTaken ()) {
 				tShareCompany.setLoanTaken (false);
 				tPreparedCorporationAction.addGetLoanEffect (this, true, false);
 			}
 		}
+		tPreparedCorporationAction.addShowFrameEffect (this, corporationFrame);
 		tPreparedCorporationAction.setChainToPrevious (true);
 		addAction (tPreparedCorporationAction);
 		setHasLaidTile (false);
