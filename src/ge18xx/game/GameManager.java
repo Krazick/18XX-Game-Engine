@@ -2832,16 +2832,19 @@ public class GameManager extends Component implements NetworkGameSupport {
 		networkJGameClient.appendToGameActivity (aGameActivity);
 	}
 
-	public JFrame getJFrameName (String aJFrameTitle) {
-		JFrame tJFrame = null;
+	public XMLFrame getXMLFrameName (String aXMLFrameTitle) {
+		XMLFrame tXMLFrameFound;
 
-		if (aJFrameTitle != null) {
-			if (aJFrameTitle.equals (auctionFrame.getTitle ())) {
-				tJFrame = auctionFrame;
+		tXMLFrameFound = XMLFrame.NO_XML_FRAME;
+		if (aXMLFrameTitle != null) {
+			for (XMLFrame tXMLFrame : configFrames) {
+				if (aXMLFrameTitle.equals (tXMLFrame.getTitle ())) {
+					tXMLFrameFound = tXMLFrame;
+				}
 			}
 		}
 
-		return tJFrame;
+		return tXMLFrameFound;
 	}
 
 	public void revalidateAuctionFrame () {
