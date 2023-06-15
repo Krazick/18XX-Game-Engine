@@ -1,10 +1,9 @@
 package ge18xx.round.action;
 
-import javax.swing.JFrame;
-
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.ShowFrameEffect;
+import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.XMLNode;
 
 public class ShowFrameAction extends Action {
@@ -25,10 +24,10 @@ public class ShowFrameAction extends Action {
 		setName (NAME);
 	}
 
-	public void AddShowFrameEffect (ActorI aActor, JFrame aJFrame) {
+	public void AddShowFrameEffect (ActorI aActor, XMLFrame aXMLFrame) {
 		ShowFrameEffect tShowFrameEffect;
 
-		tShowFrameEffect = new ShowFrameEffect (aActor, aJFrame);
+		tShowFrameEffect = new ShowFrameEffect (aActor, aXMLFrame);
 		addEffect (tShowFrameEffect);
 	}
 }
