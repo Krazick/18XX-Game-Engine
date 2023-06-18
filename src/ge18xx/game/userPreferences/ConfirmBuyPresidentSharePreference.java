@@ -11,12 +11,14 @@ import ge18xx.utilities.XMLNode;
 
 public class ConfirmBuyPresidentSharePreference extends ConfirmDecisionPreference implements ItemListener {
 	public final static String decisionType = "BuyPresidentShare";
+	public final static String buttonText = "Provide Buy President Share confirmation Box";
 	JCheckBox confirmBuyPresidentShare;
 
 	public ConfirmBuyPresidentSharePreference (GameManager aGameManager) {
 		super (aGameManager);
 		setDecisionType (decisionType);
-		setupCheckbox ();
+		confirmBuyPresidentShare = new JCheckBox ();
+		setupCheckbox (this, confirmBuyPresidentShare, buttonText);
 	}
 
 	@Override
@@ -24,21 +26,13 @@ public class ConfirmBuyPresidentSharePreference extends ConfirmDecisionPreferenc
 		aUserPreferencesPanel.add (confirmBuyPresidentShare);
 		super.buildUserPreferences (aUserPreferencesPanel);
 	}
+	
 	@Override
 	public void parsePreference (XMLNode aChildNode) {
 		boolean tChoice;
 
 		tChoice = parseBooleanPreference (aChildNode, AN_CHOICE, confirmBuyPresidentShare);
 		setDecisionChoice (tChoice);
-	}
-
-	private void setupCheckbox () {
-		if (confirmBuyPresidentShare == null) {
-			confirmBuyPresidentShare = new JCheckBox ("Provide Buy President Share confirmation Box");
-			confirmBuyPresidentShare.setSelected (false);
-			confirmBuyPresidentShare.addItemListener (this);
-			confirmBuyPresidentShare.addActionListener (this);
-		}
 	}
 
 	@Override

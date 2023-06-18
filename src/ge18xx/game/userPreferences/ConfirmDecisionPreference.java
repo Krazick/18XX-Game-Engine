@@ -1,6 +1,9 @@
 package ge18xx.game.userPreferences;
 
+import java.awt.event.ItemListener;
+
 import javax.swing.Box;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import ge18xx.game.GameManager;
@@ -21,6 +24,7 @@ public class ConfirmDecisionPreference extends UserPreference {
 	public static final AttributeName AN_CHOICE= new AttributeName ("choice");
 	public String decisionType;
 	boolean decisionChoice;
+	JCheckBox checkBox;
 
 	public ConfirmDecisionPreference (GameManager aGameManager) {
 		super (aGameManager);
@@ -47,6 +51,14 @@ public class ConfirmDecisionPreference extends UserPreference {
 		return decisionChoice;
 	}
 	
+	protected void setupCheckbox (ItemListener aItemListener, JCheckBox aCheckBox, String aButtonText) {
+		checkBox = aCheckBox;
+		checkBox.setSelected (false);
+		checkBox.addItemListener (aItemListener);
+		checkBox.addActionListener (this);
+		checkBox.setText (aButtonText);	
+	}
+
 	@Override
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tConfirmDecisionElement;

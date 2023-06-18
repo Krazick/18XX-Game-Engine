@@ -3,7 +3,6 @@ package ge18xx.game.userPreferences;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
@@ -14,23 +13,22 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class ClientNameInFramePreference extends UserPreference implements ItemListener {
+public class ClientNameInFramePreference extends ConfirmDecisionPreference implements ItemListener {
 	public static final ElementName EN_CLIENT_NAME = new ElementName ("ClientName");
 	public static final AttributeName AN_IN_FRAME = new AttributeName ("inFrame");
+	public final static String buttonText = "Show Client Name in Frame Titles (Network Games Only)";
 	JCheckBox clientNameInFrame;
 	
 	public ClientNameInFramePreference (GameManager aGameManager) {
 		super (aGameManager);
+		clientNameInFrame = new JCheckBox ();
+		setupCheckbox (this, clientNameInFrame, buttonText);
 	}
 
 	@Override
 	public void buildUserPreferences (JPanel aUserPreferencesPanel) {
-		clientNameInFrame = new JCheckBox ("Show Client Name in Frame Titles (Network Games Only)");
-		clientNameInFrame.setSelected (false);
-		clientNameInFrame.addItemListener (this);
-		clientNameInFrame.addActionListener (this);
 		aUserPreferencesPanel.add (clientNameInFrame);
-		aUserPreferencesPanel.add (Box.createVerticalStrut (5));
+		super.buildUserPreferences (aUserPreferencesPanel);
 	}
 	
 	public boolean showClientNameInFrameTitle () {
