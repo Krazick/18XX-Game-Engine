@@ -1956,6 +1956,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 					this);
 			tOperatedTrainsAction.addChangeCorporationStatusEffect (this, tCurrentStatus, tNewStatus);
 			tOperatedTrainsAction.addGeneratedRevenueEffect (this, aRevenue, tTrainCount);
+			tOperatedTrainsAction.setChainToPrevious (true);
 			tOperatingRound = corporationList.getOperatingRound ();
 			tOperatingRound.addAction (tOperatedTrainsAction);
 			tOperatingRound.updateRoundFrame ();
