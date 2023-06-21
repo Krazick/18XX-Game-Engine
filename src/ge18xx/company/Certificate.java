@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -102,15 +103,13 @@ public class Certificate implements Comparable<Certificate> {
 	FrameButton frameButton;
 	JComboBox<String> parValuesCombo;
 	Bidders bidders;
-//	boolean justBought;
 
 	public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage,
 			CertificateHolderI aOwner) {
 		setValues (aCorporation, aIsPresidentShare, aPercentage, aOwner);
 		setParValuesCombo (GUI.NO_COMBO_BOX);
 		setCheckBox (GUI.NO_CHECK_BOX);
-		setFrameButton (checkBox, "");
-//		setJustBought (false);
+		setFrameButton (checkBox, GUI.EMPTY_STRING);
 	}
 
 	public Certificate (Certificate aCertificate) {
@@ -121,10 +120,9 @@ public class Certificate implements Comparable<Certificate> {
 			setCorporation (aCertificate.getCorporation ());
 			setOwner (aCertificate.getOwner ());
 			setCheckBox (GUI.NO_CHECK_BOX);
-			setFrameButton (checkBox, "");
+			setFrameButton (checkBox, GUI.EMPTY_STRING);
 			setParValuesCombo (GUI.NO_COMBO_BOX);
 			bidders = new Bidders (this);
-//			setJustBought (false);
 		}
 	}
 
@@ -135,14 +133,6 @@ public class Certificate implements Comparable<Certificate> {
 	public void setParValuesCombo (JComboBox<String> aParValuesCombo) {
 		parValuesCombo = aParValuesCombo;
 	}
-//	
-//	public void setJustBought (boolean aJustBought) {
-//		justBought = aJustBought;
-//	}
-//	
-//	public boolean justBought () {
-//		return justBought;
-//	}
 	
 	private void setFrameButton (JCheckBox aJCheckBox, String aGroupName) {
 		if (aJCheckBox != GUI.NO_CHECK_BOX) {
@@ -534,18 +524,17 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public JPanel buildBasicCertInfoJPanel () {
+		BoxLayout tInfoBoxLayout;
 		JPanel tCertificateInfoJPanel;
-		JLabel tLabel;
+		JButton tInfoButton;
+		JLabel tPrimaryLabel;
 		String tCertInfo;
 		String tNote;
 		CompoundBorder tCertInfoBorder2;
-		int tPadding;
 		
 		tCertificateInfoJPanel = new JPanel ();
-		tCertificateInfoJPanel.setLayout (new BoxLayout (tCertificateInfoJPanel, BoxLayout.Y_AXIS));
-		tPadding = 3;
-		tCertificateInfoJPanel.setBorder (BorderFactory.createEmptyBorder (tPadding, tPadding, tPadding, tPadding));
-		tCertificateInfoJPanel.setAlignmentX (Component.CENTER_ALIGNMENT);
+		tInfoBoxLayout = new BoxLayout (tCertificateInfoJPanel, BoxLayout.Y_AXIS);
+		tCertificateInfoJPanel.setLayout (tInfoBoxLayout);
 		tCertInfoBorder2 = setupCIPBorder ();
 		tCertificateInfoJPanel.setBorder (tCertInfoBorder2);
 
@@ -553,16 +542,20 @@ public class Certificate implements Comparable<Certificate> {
 		if (corporation.isAMinorCompany ()) {
 			tCertInfo = "Minor " + tCertInfo;
 		}
-		tLabel = new JLabel (tCertInfo);
-		tNote = corporation.getNote ();
-		tLabel.setToolTipText (tNote);
-		tCertificateInfoJPanel.add (tLabel);
-
 		if (isPresidentShare) {
-			tLabel = new JLabel ("PREZ SHARE");
-			tCertificateInfoJPanel.add (tLabel);
+			tCertInfo += " PREZ SHARE";
 		}
-
+		
+		tPrimaryLabel = new JLabel (tCertInfo);
+		
+		tNote = corporation.getNote ();
+		tPrimaryLabel.setToolTipText (tNote);
+		tCertificateInfoJPanel.add (tPrimaryLabel);
+		if (isPresidentShare) {
+			tInfoButton = new JButton ("Info");
+			tCertificateInfoJPanel.add (tInfoButton);
+		}
+		
 		return tCertificateInfoJPanel;
 	}
 
