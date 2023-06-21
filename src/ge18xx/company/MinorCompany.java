@@ -27,15 +27,21 @@ import ge18xx.utilities.XMLNode;
 public class MinorCompany extends TokenCompany {
 	public static final MinorCompany NO_MINOR_COMPANY = null;
 	public static final ElementName EN_MINOR_COMPANY = new ElementName ("Minor");
+	static final AttributeName AN_FORM_UPGRADE = new AttributeName ("formUpgrade");
+	static final AttributeName AN_FORM_PHASE = new AttributeName ("formPhase");
 	static final AttributeName AN_UPGRADE_ID = new AttributeName ("upgradeID");
 	static final AttributeName AN_UPGRADE_PERCENTAGE = new AttributeName ("upgradePercentage");
 	int upgradeToID;
 	int upgradePercentage;
+	boolean formUpgrade;
+	String formPhase;
 
 	public MinorCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
 		upgradeToID = aChildNode.getThisIntAttribute (AN_UPGRADE_ID);
 		upgradePercentage = aChildNode.getThisIntAttribute (AN_UPGRADE_PERCENTAGE);
+		formUpgrade = aChildNode.getThisBooleanAttribute (AN_FORM_UPGRADE);
+		formPhase = aChildNode.getThisAttribute (AN_FORM_PHASE);
 	}
 	
 	@Override
@@ -102,6 +108,14 @@ public class MinorCompany extends TokenCompany {
 		return tAllowedTileLays;
 	}
 
+	public boolean canFormUpgrade () {
+		return formUpgrade;
+	}
+	
+	public String getFormPhase () {
+		return formPhase;
+	}
+	
 	public String getOwner () {
 		if (isOwned ()) {
 			return getPresidentName ();
