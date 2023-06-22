@@ -479,19 +479,47 @@ public class Certificate implements Comparable<Certificate> {
 
 	private String updateExchangeCheckBox (ItemListener aItemListener, GameManager aGameManager) {
 		String tGroupName;
+		boolean tEnableCheckbox;
+		String tToolTip;
+		String tButtonLabel;
+		
 		tGroupName = getCompanyAbbrev () + " President Share";
+		tEnableCheckbox = false;
+		tToolTip = GUI.NO_TOOL_TIP;	
+		tButtonLabel = Player.EXCHANGE_LABEL;
 		if (canBeExchanged (aGameManager)) {
-			checkBox = setupCheckedButton (Player.EXCHANGE_LABEL, true, GUI.NO_TOOL_TIP, aItemListener);
+			tEnableCheckbox = calcCheckboxState ();
+			// TODO -- Test if the Checkbox should be "Exchange for YYY" or "Form XXX"
+			checkBox = setupCheckedButton (tButtonLabel, tEnableCheckbox, tToolTip, aItemListener);
 		} else {
 			// TODO -- Find the Reason cannot Exchange:
 			// No other player owns at least 20%, Company hasn't operated yet, Bank Pool cannot hold enough
 			//
-			checkBox = setupCheckedButton (Player.EXCHANGE_LABEL, false, CANNOT_EXCHANGE_PRESIDENT,
-					aItemListener);
+			tToolTip = CANNOT_EXCHANGE_PRESIDENT;
+			checkBox = setupCheckedButton (tButtonLabel, tEnableCheckbox, tToolTip, aItemListener);
 		}
+		
 		return tGroupName;
 	}
 
+	public boolean calcCheckboxState () {
+		boolean tCalcCheckBoxState;
+		MinorCompany tMinorCompany;
+		
+		tCalcCheckBoxState = false;
+		if (isAMinorCompany ()) {
+			tMinorCompany = (MinorCompany) getCorporation ();
+			if (tMinorCompany.canFormUpgrade ()) {
+				tCalcCheckBoxState = true;
+			} else {
+				// TODO Test if the company being exchanged into has been formed (ask Game Manager)
+				// if has formed state is TRUE
+			}
+		}
+		
+		return tCalcCheckBoxState;
+	}
+	
 	public void enableParValuesCombo (boolean aEnable) {
 		if (parValuesCombo != GUI.NO_COMBO_BOX) {
 			parValuesCombo.setEnabled (aEnable);
