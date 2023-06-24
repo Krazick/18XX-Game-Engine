@@ -943,7 +943,8 @@ public class TileSet extends JLabel implements LoadableXMLI, MouseListener, Mous
 	}
 
 	public void setTraySize () {
-		int tMaxX, tMaxY;
+		int tMaxX;
+		int tMaxY;
 		int tRowCount;
 		Dimension tNewDimension;
 
