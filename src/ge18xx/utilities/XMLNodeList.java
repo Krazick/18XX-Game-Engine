@@ -112,6 +112,8 @@ public class XMLNodeList {
 	public void parseXMLNodeList (XMLNode aNode, ElementName aThisChildName1, ElementName aThisChildName2) {
 		XMLNode tChildNode;
 		NodeList tChildren;
+		String tChildName1;
+		String tChildName2;
 		int tChildrenCount;
 		int tIndex;
 
@@ -120,8 +122,10 @@ public class XMLNodeList {
 			tChildrenCount = tChildren.getLength ();
 			for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 				tChildNode = new XMLNode (tChildren.item (tIndex));
-				testAndCallback1 (tChildNode, aThisChildName1.getString ());
-				testAndCallback2 (tChildNode, aThisChildName2.getString ());
+				tChildName1 = aThisChildName1.getString ();
+				tChildName2 = aThisChildName2.getString ();
+				testAndCallback1 (tChildNode, tChildName1);
+				testAndCallback2 (tChildNode, tChildName2);
 			}
 		}
 	}
