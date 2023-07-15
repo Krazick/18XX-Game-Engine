@@ -103,6 +103,7 @@ public class Certificate implements Comparable<Certificate> {
 	FrameButton frameButton;
 	JComboBox<String> parValuesCombo;
 	Bidders bidders;
+	CertificateInfoDialog infoDialog;
 
 	public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage,
 			CertificateHolderI aOwner) {
@@ -110,19 +111,37 @@ public class Certificate implements Comparable<Certificate> {
 		setParValuesCombo (GUI.NO_COMBO_BOX);
 		setCheckBox (GUI.NO_CHECK_BOX);
 		setFrameButton (checkBox, GUI.EMPTY_STRING);
+		
+		setupInfoDialog (aCorporation);
 	}
 
+	public void setupInfoDialog (Corporation aCorporation) {
+		String tInfoTitle;
+		
+		infoDialog = new CertificateInfoDialog ();
+		tInfoTitle = "Info for " + aCorporation.getAbbrev () + " Certificate";
+		infoDialog.setTitle (tInfoTitle);
+	}
+
+	public void setCertificateInfoDialog (Certificate aCertificate) {
+		infoDialog.setCertificate (aCertificate);
+	}
+	
 	public Certificate (Certificate aCertificate) {
+		Corporation tCorporation;
+		
 		if (aCertificate != NO_CERTIFICATE) {
 			isPresidentShare = aCertificate.isPresidentShare ();
 			percentage = aCertificate.getPercentage ();
 			allowedOwners = aCertificate.allowedOwners.clone ();
-			setCorporation (aCertificate.getCorporation ());
+			tCorporation = aCertificate.getCorporation ();
+			setCorporation (tCorporation);
 			setOwner (aCertificate.getOwner ());
 			setCheckBox (GUI.NO_CHECK_BOX);
 			setFrameButton (checkBox, GUI.EMPTY_STRING);
 			setParValuesCombo (GUI.NO_COMBO_BOX);
 			bidders = new Bidders (this);
+			setupInfoDialog (tCorporation);
 		}
 	}
 
@@ -156,7 +175,7 @@ public class Certificate implements Comparable<Certificate> {
 		}
 	}
 
-	public Certificate (XMLNode aNode) {
+	public Certificate (XMLNode aNode, Corporation aCorporation) {
 		String tAllowedOwners = null;
 
 		if (AN_DIRECTOR.hasValue ()) {
@@ -179,12 +198,13 @@ public class Certificate implements Comparable<Certificate> {
 		if (tAllowedOwners != null) {
 			allowedOwners = tAllowedOwners.split (",");
 		}
-		setCorporation (Corporation.NO_CORPORATION);
+		setCorporation (aCorporation);
 		setOwner (CertificateHolderI.NO_OWNER);
 		setParValuesCombo (GUI.NO_COMBO_BOX);
 		setCheckBox (GUI.NO_CHECK_BOX);
 		setFrameButton (checkBox, "");
 		bidders = new Bidders (this);
+		setupInfoDialog (aCorporation);
 	}
 
 	/**
@@ -581,7 +601,10 @@ public class Certificate implements Comparable<Certificate> {
 		tCertificateInfoJPanel.add (tPrimaryLabel);
 		if (isPresidentShare) {
 			tInfoButton = new JButton ("Info");
+			tInfoButton.setActionCommand (CertificateInfoDialog.GET_INFO);
+			tInfoButton.addActionListener (infoDialog);
 			tCertificateInfoJPanel.add (tInfoButton);
+			
 		}
 		
 		return tCertificateInfoJPanel;
