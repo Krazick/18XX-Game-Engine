@@ -15,6 +15,7 @@ public class CertificateTestFactory {
 		Certificate tCertificate;
 		
 		tCertificate = new Certificate (aCorporation, aIsPresidentShare, aPercentage, aOwner);
+		tCertificate.setCertificateInfoDialog (tCertificate);
 		
 		return tCertificate;
 	}
