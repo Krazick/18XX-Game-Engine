@@ -306,8 +306,9 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		int tCertificateQuantity;
 		int tQtyIndex;
 
-		tCertificate = new Certificate (aChildNode);
-		tCertificate.setCorporation (this);
+		tCertificate = new Certificate (aChildNode, this);
+//		tCertificate.setCorporation (this);
+		tCertificate.setCertificateInfoDialog (tCertificate);
 		tCertificateQuantity = aChildNode.getThisIntAttribute (AN_QUANTITY, 1);
 		for (tQtyIndex = 0; tQtyIndex < tCertificateQuantity; tQtyIndex++) {
 			if (tQtyIndex > 0) {
