@@ -103,77 +103,8 @@ public class Certificate implements Comparable<Certificate> {
 	FrameButton frameButton;
 	JComboBox<String> parValuesCombo;
 	Bidders bidders;
-	CertificateInfoDialog infoDialog;
+	CertificateInfoFrame infoFrame;
 
-	public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage,
-			CertificateHolderI aOwner) {
-		setValues (aCorporation, aIsPresidentShare, aPercentage, aOwner);
-		setParValuesCombo (GUI.NO_COMBO_BOX);
-		setCheckBox (GUI.NO_CHECK_BOX);
-		setFrameButton (checkBox, GUI.EMPTY_STRING);
-		
-		setupInfoDialog (aCorporation);
-	}
-
-	public void setupInfoDialog (Corporation aCorporation) {
-		String tInfoTitle;
-		
-		infoDialog = new CertificateInfoDialog ();
-		tInfoTitle = "Info for " + aCorporation.getAbbrev () + " Certificate";
-		infoDialog.setTitle (tInfoTitle);
-	}
-
-	public void setCertificateInfoDialog (Certificate aCertificate) {
-		infoDialog.setCertificate (aCertificate);
-	}
-	
-	public Certificate (Certificate aCertificate) {
-		Corporation tCorporation;
-		
-		if (aCertificate != NO_CERTIFICATE) {
-			isPresidentShare = aCertificate.isPresidentShare ();
-			percentage = aCertificate.getPercentage ();
-			allowedOwners = aCertificate.allowedOwners.clone ();
-			tCorporation = aCertificate.getCorporation ();
-			setCorporation (tCorporation);
-			setOwner (aCertificate.getOwner ());
-			setCheckBox (GUI.NO_CHECK_BOX);
-			setFrameButton (checkBox, GUI.EMPTY_STRING);
-			setParValuesCombo (GUI.NO_COMBO_BOX);
-			bidders = new Bidders (this);
-			setupInfoDialog (tCorporation);
-		}
-	}
-
-	public void setCheckBox (JCheckBox aCheckBox) {
-		checkBox = aCheckBox;
-	}
-
-	public void setParValuesCombo (JComboBox<String> aParValuesCombo) {
-		parValuesCombo = aParValuesCombo;
-	}
-	
-	private void setFrameButton (JCheckBox aJCheckBox, String aGroupName) {
-		if (aJCheckBox != GUI.NO_CHECK_BOX) {
-			frameButton = new FrameButton (aJCheckBox, aGroupName);
-		}
-	}
-
-	public FrameButton getFrameButton () {
-		return frameButton;
-	}
-
-	public void clearFrameButton () {
-		if (frameButton != FrameButton.NO_FRAME_BUTTON) {
-			frameButton.setVisible (false);
-		}
-	}
-
-	public void resetFrameButton () {
-		if (frameButton != FrameButton.NO_FRAME_BUTTON) {
-			frameButton.setVisible (true);
-		}
-	}
 
 	public Certificate (XMLNode aNode, Corporation aCorporation) {
 		String tAllowedOwners = null;
@@ -204,7 +135,77 @@ public class Certificate implements Comparable<Certificate> {
 		setCheckBox (GUI.NO_CHECK_BOX);
 		setFrameButton (checkBox, "");
 		bidders = new Bidders (this);
-		setupInfoDialog (aCorporation);
+		setupInfoFrame (aCorporation);
+	}
+	
+	public Certificate (Certificate aCertificate) {
+		Corporation tCorporation;
+		
+		if (aCertificate != NO_CERTIFICATE) {
+			isPresidentShare = aCertificate.isPresidentShare ();
+			percentage = aCertificate.getPercentage ();
+			allowedOwners = aCertificate.allowedOwners.clone ();
+			tCorporation = aCertificate.getCorporation ();
+			setCorporation (tCorporation);
+			setOwner (aCertificate.getOwner ());
+			setCheckBox (GUI.NO_CHECK_BOX);
+			setFrameButton (checkBox, GUI.EMPTY_STRING);
+			setParValuesCombo (GUI.NO_COMBO_BOX);
+			bidders = new Bidders (this);
+			setupInfoFrame (tCorporation);
+		}
+	}
+
+	public Certificate (Corporation aCorporation, boolean aIsPresidentShare, int aPercentage,
+			CertificateHolderI aOwner) {
+		setValues (aCorporation, aIsPresidentShare, aPercentage, aOwner);
+		setParValuesCombo (GUI.NO_COMBO_BOX);
+		setCheckBox (GUI.NO_CHECK_BOX);
+		setFrameButton (checkBox, GUI.EMPTY_STRING);
+		
+		setupInfoFrame (aCorporation);
+	}
+
+	public void setupInfoFrame (Corporation aCorporation) {
+		String tInfoTitle;
+		
+		infoFrame = new CertificateInfoFrame ();
+		tInfoTitle = "Info for " + aCorporation.getAbbrev () + " Certificate";
+		infoFrame.setTitle (tInfoTitle);
+	}
+
+	public void setCertificateInfoDialog (Certificate aCertificate) {
+		infoFrame.setCertificate (aCertificate);
+	}
+
+	public void setCheckBox (JCheckBox aCheckBox) {
+		checkBox = aCheckBox;
+	}
+
+	public void setParValuesCombo (JComboBox<String> aParValuesCombo) {
+		parValuesCombo = aParValuesCombo;
+	}
+	
+	private void setFrameButton (JCheckBox aJCheckBox, String aGroupName) {
+		if (aJCheckBox != GUI.NO_CHECK_BOX) {
+			frameButton = new FrameButton (aJCheckBox, aGroupName);
+		}
+	}
+
+	public FrameButton getFrameButton () {
+		return frameButton;
+	}
+
+	public void clearFrameButton () {
+		if (frameButton != FrameButton.NO_FRAME_BUTTON) {
+			frameButton.setVisible (false);
+		}
+	}
+
+	public void resetFrameButton () {
+		if (frameButton != FrameButton.NO_FRAME_BUTTON) {
+			frameButton.setVisible (true);
+		}
 	}
 
 	/**
@@ -601,8 +602,8 @@ public class Certificate implements Comparable<Certificate> {
 		tCertificateInfoJPanel.add (tPrimaryLabel);
 		if (isPresidentShare) {
 			tInfoButton = new JButton ("Info");
-			tInfoButton.setActionCommand (CertificateInfoDialog.GET_INFO);
-			tInfoButton.addActionListener (infoDialog);
+			tInfoButton.setActionCommand (CertificateInfoFrame.GET_INFO);
+			tInfoButton.addActionListener (infoFrame);
 			tCertificateInfoJPanel.add (tInfoButton);
 			
 		}
