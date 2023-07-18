@@ -12,6 +12,7 @@ import ge18xx.company.Corporation;
 
 import ge18xx.company.CorporationList;
 import ge18xx.company.MinorCompany;
+import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -48,5 +49,20 @@ public class MinorCompaniesFrame extends CorporationTableFrame {
 
 		return tMinorCompany;
 	}
+	
+	public void fillCertificateInfo (GameManager aGameManager) {
+		MinorCompany tMinorCompany;
+		int tIndex;
+		int tCorpCount;
 
+		if (companies != CorporationList.NO_CORPORATION_LIST) {
+			tCorpCount = companies.getRowCount ();
+			if (tCorpCount > 0) {
+				for (tIndex = 0; tIndex < tCorpCount; tIndex++) {
+					tMinorCompany = (MinorCompany) companies.getCorporation (tIndex);
+					tMinorCompany.fillCertificateInfo (aGameManager);
+				}
+			}
+		}
+	}
 }

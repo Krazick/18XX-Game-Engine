@@ -21,6 +21,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
+import ge18xx.game.GameManager;
 import ge18xx.market.Market;
 import ge18xx.market.MarketCell;
 import ge18xx.round.RoundManager;
@@ -365,6 +366,22 @@ public class ShareCompaniesFrame extends CorporationTableFrame implements Action
 				for (tIndex = 0; tIndex < tCorpCount; tIndex++) {
 					tShareCompany = (ShareCompany) companies.getCorporation (tIndex);
 					tShareCompany.setStartCell (market);
+				}
+			}
+		}
+	}
+	
+	public void fillCertificateInfo (GameManager aGameManager) {
+		ShareCompany tShareCompany;
+		int tIndex;
+		int tCorpCount;
+
+		if (companies != CorporationList.NO_CORPORATION_LIST) {
+			tCorpCount = companies.getRowCount ();
+			if (tCorpCount > 0) {
+				for (tIndex = 0; tIndex < tCorpCount; tIndex++) {
+					tShareCompany = (ShareCompany) companies.getCorporation (tIndex);
+					tShareCompany.fillCertificateInfo (aGameManager);
 				}
 			}
 		}

@@ -16,6 +16,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.PrivateCompany;
 import ge18xx.company.benefit.Benefit;
+import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -58,6 +59,22 @@ public class PrivatesFrame extends CorporationTableFrame {
 	@Override
 	public XMLElement getCorporationStateElements (XMLDocument aXMLDocument) {
 		return (super.getCorporationStateElements (aXMLDocument, EN_PRIVATES));
+	}
+	
+	public void fillCertificateInfo (GameManager aGameManager) {
+		PrivateCompany tPrivateCompany;
+		int tIndex;
+		int tCorpCount;
+
+		if (companies != CorporationList.NO_CORPORATION_LIST) {
+			tCorpCount = companies.getRowCount ();
+			if (tCorpCount > 0) {
+				for (tIndex = 0; tIndex < tCorpCount; tIndex++) {
+					tPrivateCompany = (PrivateCompany) companies.getCorporation (tIndex);
+					tPrivateCompany.fillCertificateInfo (aGameManager);
+				}
+			}
+		}
 	}
 
 	public boolean gameHasPrivates () {
