@@ -1341,6 +1341,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public void setDiscount (int aDiscount) {
 	}
 
+	public void fillCertificateInfo (GameManager aGameManager) {
+		corporationCertificates.fillCertificateInfo (aGameManager);
+	}
+	
 	/**
 	 * Build the generic Corporation Info Label to be added to the Company JPanel
 	 *

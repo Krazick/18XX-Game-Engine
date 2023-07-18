@@ -469,13 +469,20 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public void applyDiscount () {
-		boolean tDiscountApplied = false;
+		boolean tDiscountApplied;
 
+		tDiscountApplied = false;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.getMustSell () && !tDiscountApplied) {
 				tCertificate.applyDiscount ();
 				tDiscountApplied = true;
 			}
+		}
+	}
+	
+	public void fillCertificateInfo (GameManager aGameManager) {
+		for (Certificate tCertificate : certificates) {
+			tCertificate.fillCertificateInfo (aGameManager);
 		}
 	}
 

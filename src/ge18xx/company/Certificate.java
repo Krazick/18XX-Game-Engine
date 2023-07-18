@@ -174,6 +174,10 @@ public class Certificate implements Comparable<Certificate> {
 		infoFrame.setTitle (tInfoTitle);
 	}
 
+	public void fillCertificateInfo (GameManager aGameManager) {
+		infoFrame.setGameManager ("Certificate Info Frame", aGameManager);
+	}
+	
 	public void setCertificateInfoDialog (Certificate aCertificate) {
 		infoFrame.setCertificate (aCertificate);
 	}
