@@ -561,6 +561,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tXMLDocument = readXMLfromURL (tActiveGameName, tType);
 			try {
 				tMinorCompaniesFrame.loadXML (tXMLDocument, tMinorCompaniesFrame.getCompanies ());
+				tMinorCompaniesFrame.fillCertificateInfo (this);
 			} catch (Exception tException) {
 				logger.error (tException);
 			}
@@ -586,6 +587,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tXMLDocument = readXMLfromURL (tActiveGameName, tType);
 			try {
 				tPrivatesFrame.loadXML (tXMLDocument, tPrivatesFrame.getCompanies ());
+				tPrivatesFrame.fillCertificateInfo (this);
 			} catch (Exception tException) {
 				logger.error (tException);
 			}
@@ -624,6 +626,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tShareCompaniesFrame.updateCorpComboBox ();
 				tParValues = tMarket.getAllStartCells ();
 				tShareCompaniesFrame.updateParValuesComboBox (tParValues);
+				tShareCompaniesFrame.fillCertificateInfo (this);
 			} catch (Exception tException) {
 				logger.error (tException);
 			}
