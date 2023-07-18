@@ -50,6 +50,14 @@ public class XMLFrame extends JFrame {
 
 	public XMLFrame (String aFrameName, GameManager aGameManager) {
 		super ();
+		setGameManager (aFrameName, aGameManager);
+	}
+
+	public XMLFrame () {
+		super ();
+	}
+	
+	public void setGameManager (String aFrameName, GameManager aGameManager) {
 		setGameManager (aGameManager);
 		if (gameManager == GameManager.NO_GAME_MANAGER) {
 			gameName = GameManager.NO_GAME_NAME;
