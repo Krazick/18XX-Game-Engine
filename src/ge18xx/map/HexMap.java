@@ -1233,7 +1233,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tMaxX = getMaxX ();
 		tMaxY = getMaxY ();
 		tMaxSize = new Dimension (tMaxX, tMaxY);
-		System.out.println ("Setting Max Size to " + tMaxX + ", " + tMaxY);
 		setPreferredSize (tMaxSize);
 	}
 

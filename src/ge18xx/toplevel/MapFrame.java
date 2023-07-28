@@ -628,7 +628,6 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		
 		tMaxWidth = map.getMaxWidth ();
 		tMaxHeight = map.getMaxHeight ();
-		System.out.println ("Max Width " + tMaxWidth + "  Max Height " + tMaxHeight);
 
 		scrollPane.setPreferredSize (new Dimension (tMaxWidth, tMaxHeight));
 	}
