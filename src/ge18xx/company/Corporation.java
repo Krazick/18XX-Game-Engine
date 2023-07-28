@@ -2814,4 +2814,12 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public License getLicense (LicenseTypes aType) {
 		return License.NO_LICENSE;
 	}
+	
+	public String getCompanyInfo () {
+		String tCompanyInfo;
+		
+		tCompanyInfo = getType () + " Company " + getName () + " (" + getAbbrev () + ")";
+		
+		return tCompanyInfo;
+	}
 }
