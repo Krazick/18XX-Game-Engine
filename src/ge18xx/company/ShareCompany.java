@@ -80,7 +80,7 @@ public class ShareCompany extends TokenCompany {
 		setNoPrice ();
 		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, tLoanCount, tLoanTaken, tStartCell);
 	}
-	
+
 	@Override
 	public int addAllDataElements (CorporationList aCorporationList, int aRowIndex, int aStartColumn) {
 		int tCurrentColumn = aStartColumn;
