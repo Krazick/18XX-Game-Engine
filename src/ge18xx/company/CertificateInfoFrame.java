@@ -32,7 +32,6 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	@Override
 	public void setGameManager (String aFrameTitle, GameManager aGameManager) {
 		super.setGameManager (aFrameTitle, aGameManager);
-		System.out.println ("Certificate Info Dialog - Setting Game Manager for  " + certificate.getCompanyName ());
 		fillFrame ();
 	}
 	
@@ -41,7 +40,6 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		String tTheAction;
 
 		tTheAction = aActionEvent.getActionCommand ();
-		System.out.println ("Certificate Info Dialog - Action " + tTheAction);
 		if (GET_INFO.equals (tTheAction)) {
 			setVisible (true);
 		}
@@ -49,6 +47,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 
 	public void fillFrame () {
 		Corporation tCorporation;
+		String tCompanyInfo;
 		JLabel tTitle;
 		JLabel tNote;
 		JLabel tPrice;
@@ -59,8 +58,8 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		certificateInfoJPanel.setBorder (BorderFactory.createEmptyBorder (padding1, padding1, padding1, padding1));
 
 		tCorporation = certificate.getCorporation ();
-		tTitle = new JLabel ("Certificate for " + certificate.getCompanyName () + " (" + 
-							certificate.getCompanyAbbrev () + ")");
+		tCompanyInfo = tCorporation.getCompanyInfo ();
+		tTitle = new JLabel ("Certificate for " + tCompanyInfo);
 		certificateInfoJPanel.add (tTitle);
 		certificateInfoJPanel.add (Box.createVerticalGlue ());
 		tNote = new JLabel (tCorporation.getNote ());
