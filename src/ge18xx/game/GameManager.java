@@ -2639,6 +2639,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		XMLDocument tXMLDocument = XMLDocument.NO_XML_DOCUMENT;
 		String tConfigFileName;
 		File tConfigFile;
+		Config tConfigData;
 
 		tConfigFileName = getConfigFileName ();
 		tConfigFile = new File (tConfigFileName);
@@ -2653,15 +2654,20 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 			if (tXMLDocument != XMLDocument.NO_XML_DOCUMENT) {
 				XMLNode tXMLNode = tXMLDocument.getDocumentNode ();
-				configData = new Config (tXMLNode, this);
+				tConfigData = new Config (tXMLNode, this);
 			} else {
-				configData = new Config (this);
+				tConfigData = new Config (this);
 			}
 		} else {
-			configData = new Config (this);
+			tConfigData = new Config (this);
 		}
+		setConfigData (tConfigData);
 	}
 
+	public void setConfigData (Config aConfigData) {
+		configData = aConfigData;
+	}
+	
 	public void saveConfig (boolean aOverwriteFile) {
 		XMLDocument tXMLDocument;
 		File tConfigFile;
