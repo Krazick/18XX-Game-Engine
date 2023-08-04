@@ -48,7 +48,9 @@ public interface ActorI {
 
 	public enum ActionStates {
 		// Player Primary States
-		NoAction ("No Action"), 
+		NoAction ("No Action", 
+			Arrays.asList (new String [] { "Passed", "Acted", "Sold", "Bought",
+											"Bought and Sold", "Bought, Sold and Done", "Done", "Bid", "Bid and Done" })),
 		Pass ("Passed", Arrays.asList (new String [] {"No Action"})), 
 		Acted ("Acted"),
 		Bought ("Bought", Arrays.asList (new String [] {"No Action"})),
@@ -62,25 +64,43 @@ public interface ActorI {
 		WaitState ("Wait State", Arrays.asList (new String [] {"No Action"})),
 		
 		// Player Auction States
-		Bidder ("Bidder"), AuctionPass ("Auction Passed"),
-		AuctionRaise ("Auction Raised"), NotBidder ("Not a Bidder"),
+		Bidder ("Bidder"), 
+		AuctionPass ("Auction Passed"),
+		AuctionRaise ("Auction Raised"), 
+		NotBidder ("Not a Bidder"),
 
-		NoRound ("No Round", "NR"), StockRound ("Stock Round", "SR"), 		// Round States
-		OperatingRound ("Operating Round", "OR"), AuctionRound ("Auction Round", "AR"),
+		NoRound ("No Round", "NR"),  					// Round States
+		StockRound ("Stock Round", "SR"),
+		OperatingRound ("Operating Round", "OR"), 
+		AuctionRound ("Auction Round", "AR"),
+		FormationRound ("Formation Round", "FR"),
 
-		Unowned ("Unowned"), Owned ("Owned"), 								// Corporation States
-		Closed ("Closed"), MayFloat ("May Float"), 
-		WillFloat ("Will Float"), NotOperated ("Not Operated"),
-		StartedOperations ("Started Operating"), TileLaid ("Tile Laid"),
-		Tile2Laid ("Second Tile Laid"), TileUpgraded ("Tile Upgraded"),
-		StationLaid ("Station Laid"), TileAndStationLaid ("Tile and Station Laid"),
-		OperatedTrain ("Operated Train"), HandledLoanInterest ("Handled Loan Interest"),
-		HoldDividend ("No Dividend Paid"), HalfDividend ("Half Dividend Paid"),
-		FullDividend ("Full Dividend Paid"), BoughtTrain ("Bought Train"),
-		Operated ("Operated"), Unformed ("Unformed"), 
-		Inactive ("INACTIVE"), WaitingResponse ("Waiting for Response"), 
-		Fixed ("Fixed"), NoState ("No State"), 
-		Bankrupt ("Bankrupt"), Recievership ("Recievership");
+		Unowned ("Unowned"),  							// Corporation States
+		Owned ("Owned"),
+		Closed ("Closed"),
+		MayFloat ("May Float"), 
+		WillFloat ("Will Float"), 
+		NotOperated ("Not Operated"),
+		StartedOperations ("Started Operating"), 
+		TileLaid ("Tile Laid"),
+		Tile2Laid ("Second Tile Laid"), 
+		TileUpgraded ("Tile Upgraded"),
+		StationLaid ("Station Laid"), 
+		TileAndStationLaid ("Tile and Station Laid"),
+		OperatedTrain ("Operated Train"), 
+		HandledLoanInterest ("Handled Loan Interest"),
+		HoldDividend ("No Dividend Paid"), 
+		HalfDividend ("Half Dividend Paid"),
+		FullDividend ("Full Dividend Paid"), 
+		BoughtTrain ("Bought Train"),
+		Operated ("Operated"), 
+		Unformed ("Unformed"), 
+		Inactive ("INACTIVE"), 
+		WaitingResponse ("Waiting for Response"), 
+		Fixed ("Fixed"), 
+		NoState ("No State"), 
+		Bankrupt ("Bankrupt"), 
+		Recievership ("Recievership");
 
 		private String enumString;
 		private String enumAbbrev;
