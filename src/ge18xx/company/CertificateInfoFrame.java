@@ -1,5 +1,6 @@
 package ge18xx.company;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -38,13 +39,30 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	@Override
 	public void actionPerformed (ActionEvent aActionEvent) {
 		String tTheAction;
-
+		Point tLocation;
+		
 		tTheAction = aActionEvent.getActionCommand ();
 		if (GET_INFO.equals (tTheAction)) {
+			tLocation = getOffset ();
+			setLocation (tLocation);
 			setVisible (true);
 		}
 	}
 
+	private Point getOffset () {
+		Point tOffsetLocation;
+		CertificateHolderI tOwner;
+		
+		tOwner = certificate.getOwner ();
+		if (tOwner.isACorporation ()) {
+			tOffsetLocation = gameManager.getOffsetCorporationFrame ();
+		} else {
+			tOffsetLocation = gameManager.getOffsetPlayerFrame ();
+		}
+		
+		return tOffsetLocation;
+	}
+	
 	public void fillFrame () {
 		Corporation tCorporation;
 		String tCompanyInfo;
