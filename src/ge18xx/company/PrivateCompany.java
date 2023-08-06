@@ -601,6 +601,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 
 	}
 	
+	@Override
 	public Benefits getBenefits () {
 		return benefits;
 	}
