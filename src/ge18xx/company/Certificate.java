@@ -107,8 +107,9 @@ public class Certificate implements Comparable<Certificate> {
 
 
 	public Certificate (XMLNode aNode, Corporation aCorporation) {
-		String tAllowedOwners = null;
+		String tAllowedOwners;
 
+		tAllowedOwners = null;
 		if (AN_DIRECTOR.hasValue ()) {
 			isPresidentShare = aNode.getThisBooleanAttribute (AN_DIRECTOR);
 		} else {
@@ -152,7 +153,9 @@ public class Certificate implements Comparable<Certificate> {
 			setFrameButton (checkBox, GUI.EMPTY_STRING);
 			setParValuesCombo (GUI.NO_COMBO_BOX);
 			bidders = new Bidders (this);
-			setupInfoFrame (tCorporation);
+			
+			infoFrame = aCertificate.getCertificateInfoFrame ();
+//			setupInfoFrame (tCorporation);
 		}
 	}
 
@@ -174,8 +177,13 @@ public class Certificate implements Comparable<Certificate> {
 		infoFrame.setTitle (tInfoTitle);
 	}
 
+	public CertificateInfoFrame getCertificateInfoFrame () {
+		return infoFrame;
+	}
+	
 	public void fillCertificateInfo (GameManager aGameManager) {
 		infoFrame.setGameManager ("Certificate Info Frame", aGameManager);
+		setCertificateInfoDialog (this);
 	}
 	
 	public void setCertificateInfoDialog (Certificate aCertificate) {
