@@ -19,6 +19,8 @@ public class CompanyTestFactory {
 	public final int NO_COMPANY_INDEX = 99;
 	private GameTestFactory gameTestFactory;
 	private UtilitiesTestFactory utilitiesTestFactory;
+	private GameManager mGameManager;
+	private CorporationList mCorporationList;
 
 	/**
 	 * Builds the Company Test Factory by creating the gameTestFactory and get the Utilities Test Factory
@@ -28,6 +30,9 @@ public class CompanyTestFactory {
 	public CompanyTestFactory () {
 		gameTestFactory = new GameTestFactory ();
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
+		mGameManager = gameTestFactory.buildGameManagerMock ();
+		mCorporationList = Mockito.mock (CorporationList.class);
+		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 	}
 
 	/**
@@ -40,6 +45,7 @@ public class CompanyTestFactory {
 	public CompanyTestFactory (GameTestFactory aGameTestFactory) {
 		gameTestFactory = aGameTestFactory;
 		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
+		mGameManager = gameTestFactory.buildGameManagerMock ();
 	}
 
 	/**
@@ -65,26 +71,35 @@ public class CompanyTestFactory {
 	 */
 	
 	public PrivateCompany buildAPrivateCompany (int tCompanyIndex) {
-		String tPrivateCompany1TestXML = "	<Private id=\"802\" name=\"TEST-Champlain &amp; St. Lawrence\" abbrev=\"TEST-C&amp;SL\" cost=\"40\" \n"
+		String tPrivateCompany1TestXML = "<Private id=\"802\" name=\"TEST-Champlain &amp; St. Lawrence\" abbrev=\"TEST-C&amp;SL\" cost=\"40\" \n"
 				+ "		revenue=\"10\" homeCell1=\"B20\" homeLocation1=\"7\" homeLocation2=\"12\" \n"
 				+ "		note=\"A Corporation owning the C&amp;SL may lay a tile onC&amp;SL's hex even if this hex is not connected to the Corporation's Railhead. This free tile placement is in addition to the Corporation's tile placement — For this turn only the Corporation may play two tiles. The tile played on the C&amp;SL hex does not have to connect to any existing adjacent track.\"\n"
 				+ "		special=\"Free Tile Placement\">\n" + "		<Benefits>\n"
 				+ "			<Benefit actorType=\"Share Company\" class=\"ge18xx.company.benefit.TilePlacementBenefit\" extra=\"true\" mapCell=\"B20\" cost=\"0\" passive=\"false\"/>\n"
 				+ "		</Benefits>\n" + "		<Certificate director=\"YES\" percentage=\"100\"\n"
-				+ "			allowedOwners=\"IPO,Player,Share\" />\n" + "	</Private>\n" + "";
+				+ "			allowedOwners=\"IPO,Player,Share\" />\n" + "	</Private>\n";
+		String tPrivateCompany2TestXML = "<Private id=\"805\" name=\"TEST-Camden &amp; Amboy\" abbrev=\"TEST-C&amp;A\"\n"
+				+ "		cost=\"160\" revenue=\"25\" homeCell1=\"H18\" homeLocation1=\"15\" homeLocation2=\"45\" \n"
+				+ "		note=\"The initial purchaser of the C&amp;A immediately receives a 10% share of PRR stock without further payment. This action does NOT close the C&amp;A. The PRR Corporation will not be running at this point, but the stock may be retained or sold subject to the ordinary rules of the game (see  8.1, last paragraph).\"\n"
+				+ "		special=\"Free 10% TPRR\">\n"
+				+ "		<Benefits>\n"
+				+ "			<Benefit actorType=\"Player\" class=\"ge18xx.company.benefit.FreeCertificateBenefit\" corporationID=\"901\" certificatePercentage=\"10\" passive=\"true\"/>\n"
+				+ "		</Benefits>\n"
+				+ "		<Certificate director=\"YES\" percentage=\"100\"\n"
+				+ "			allowedOwners=\"IPO,Player,Share\" />\n"
+				+ "	</Private>\n";
 		PrivateCompany tPrivateCompany;
-		CorporationList mCorporationList;
-		GameManager mGameManager;
 		
 		tPrivateCompany = PrivateCompany.NO_PRIVATE_COMPANY;
-		mCorporationList = Mockito.mock (CorporationList.class);
-		mGameManager = gameTestFactory.buildGameManagerMock ();
-		Mockito.when (mCorporationList.getGameManager ()).thenReturn (mGameManager);
 
 		if (tCompanyIndex == 1) {
 			tPrivateCompany = buildPrivateCompany (tPrivateCompany1TestXML, tPrivateCompany, mCorporationList);
+		} else if (tCompanyIndex == 2) {
+			tPrivateCompany = buildPrivateCompany (tPrivateCompany2TestXML, tPrivateCompany, mCorporationList);
 		}
 
+		tPrivateCompany.fillCertificateInfo (mGameManager);
+		
 		return tPrivateCompany;
 	}
 
@@ -146,6 +161,14 @@ public class CompanyTestFactory {
 		return tTrainCompany;
 	}
 
+	public GameManager getGameManagerMock () {
+		return mGameManager;
+	}
+	
+	public CorporationList getCorporationListMock () {
+		return mCorporationList;
+	}
+	
 	public TokenCompany buildATokenCompany (int aCompanyIndex) {
 		TokenCompanyConcrete tTokenCompany;
 		String tTokenCompany1TestXML = "<Share id=\"991\" name=\"Test Token Pennsylvania\" abbrev=\"TTPRR\" homeCell1=\"H12\" \n"
