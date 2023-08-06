@@ -96,15 +96,17 @@ public class XMLNodeList {
 	public void parseXMLNodeList (XMLNode aNode, ElementName aThisChildName) {
 		XMLNode tChildNode;
 		NodeList tChildren;
+		String tChildName;
 		int tChildrenCount;
 		int tIndex;
 
 		tChildren = aNode.getChildNodes ();
+		tChildName = aThisChildName.getString ();
 		if (tChildren != null) {
 			tChildrenCount = tChildren.getLength ();
 			for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 				tChildNode = new XMLNode (tChildren.item (tIndex));
-				testAndCallback1 (tChildNode, aThisChildName.getString ());
+				testAndCallback1 (tChildNode, tChildName);
 			}
 		}
 	}
@@ -118,12 +120,12 @@ public class XMLNodeList {
 		int tIndex;
 
 		tChildren = aNode.getChildNodes ();
+		tChildName1 = aThisChildName1.getString ();
+		tChildName2 = aThisChildName2.getString ();
 		if (tChildren != null) {
 			tChildrenCount = tChildren.getLength ();
 			for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 				tChildNode = new XMLNode (tChildren.item (tIndex));
-				tChildName1 = aThisChildName1.getString ();
-				tChildName2 = aThisChildName2.getString ();
 				testAndCallback1 (tChildNode, tChildName1);
 				testAndCallback2 (tChildNode, tChildName2);
 			}
@@ -134,17 +136,24 @@ public class XMLNodeList {
 			ElementName aThisChildName3) {
 		XMLNode tChildNode;
 		NodeList tChildren;
+		String tChildName1;
+		String tChildName2;
+		String tChildName3;
+
 		int tChildrenCount;
 		int tIndex;
 
 		tChildren = aNode.getChildNodes ();
+		tChildName1 = aThisChildName1.getString ();
+		tChildName2 = aThisChildName2.getString ();
+		tChildName3 = aThisChildName3.getString ();
 		if (tChildren != null) {
 			tChildrenCount = tChildren.getLength ();
 			for (tIndex = 0; tIndex < tChildrenCount; tIndex++) {
 				tChildNode = new XMLNode (tChildren.item (tIndex));
-				testAndCallback1 (tChildNode, aThisChildName1.getString ());
-				testAndCallback2 (tChildNode, aThisChildName2.getString ());
-				testAndCallback3 (tChildNode, aThisChildName3.getString ());
+				testAndCallback1 (tChildNode, tChildName1);
+				testAndCallback2 (tChildNode, tChildName2);
+				testAndCallback3 (tChildNode, tChildName3);
 			}
 		}
 	}
