@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
+import ge18xx.company.benefit.Benefits;
 import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
 
@@ -64,18 +65,22 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	}
 	
 	public void fillFrame () {
+		Benefits tBenefits;
+
 		Corporation tCorporation;
 		String tCompanyInfo;
 		JLabel tTitle;
 		JLabel tNote;
 		JLabel tPrice;
 		JLabel tRevenue;
+		JLabel tBenefitLabel;
 		
 		certificateInfoJPanel = new JPanel ();
 		certificateInfoJPanel.setLayout (new BoxLayout (certificateInfoJPanel, BoxLayout.Y_AXIS));
 		certificateInfoJPanel.setBorder (BorderFactory.createEmptyBorder (padding1, padding1, padding1, padding1));
 
 		tCorporation = certificate.getCorporation ();
+		tBenefits = tCorporation.getBenefits ();
 		tCompanyInfo = tCorporation.getCompanyInfo ();
 		tTitle = new JLabel ("Certificate for " + tCompanyInfo);
 		certificateInfoJPanel.add (tTitle);
@@ -92,6 +97,15 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 			tRevenue = new JLabel ("Revenue: " +  Bank.formatCash (tCorporation.getRevenue ()));
 			certificateInfoJPanel.add (tRevenue);
 			certificateInfoJPanel.add (Box.createVerticalGlue ());
+		}
+		if (tBenefits == Benefits.NO_BENEFITS) {
+			tBenefitLabel = new JLabel ("Benefits: NO BENEFITS");
+			certificateInfoJPanel.add (tBenefitLabel);
+			certificateInfoJPanel.add (Box.createVerticalGlue ());
+		} else {
+			tBenefitLabel = new JLabel ("Benefits for this Corporation:");
+			certificateInfoJPanel.add (tBenefitLabel);
+			certificate.addBenefitLabels (certificateInfoJPanel);
 		}
 		add (certificateInfoJPanel);
 		setSize (500, 500);
