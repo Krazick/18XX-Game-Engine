@@ -1,5 +1,7 @@
 package ge18xx.company.benefit;
 
+import java.awt.Color;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
@@ -90,9 +92,11 @@ public abstract class CertificateBenefit extends Benefit {
 		Border tBorder1;
 		Border tBorder2;
 		Corporation tCorporation;
+		Color tColor;
 
 		tCorporation = aShareCertificate.getCorporation ();
-		tBorder1 = BorderFactory.createLineBorder (tCorporation.getBgColor (), 2);
+		tColor = tCorporation.getBgColor ();
+		tBorder1 = BorderFactory.createLineBorder (tColor, 2);
 		tBorder2 = BorderFactory.createEmptyBorder(2, 2, 2, 2);
 		tBorder = BorderFactory.createCompoundBorder (tBorder1, tBorder2);
 		tBenefitLabel.setBorder(tBorder);
