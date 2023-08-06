@@ -2822,4 +2822,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		
 		return tCompanyInfo;
 	}
+	
+	public Benefits getBenefits () {
+		return Benefits.NO_BENEFITS;
+	}
 }
