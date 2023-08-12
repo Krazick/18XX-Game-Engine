@@ -1161,11 +1161,29 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		if (aMapCell != MapCell.NO_MAP_CELL) {
 			tMapCellID = aMapCell.getID ();
 		} else {
-			tMapCellID = null;
+			tMapCellID = MapCell.NO_ID;
 		}
 		return tMapCellID;
 	}
 
+	public String getHomeLocations () {
+		String tHomeLocations;
+		String tHomeMapCell1;
+		String tHomeMapCell2;
+		
+		tHomeMapCell1 = getCorpHome1MapID ();
+		tHomeMapCell2 = getCorpHome2MapID ();
+		
+		tHomeLocations = "Home MapCell ID " + tHomeMapCell1;
+		if (tHomeMapCell1 != tHomeMapCell2) {
+			if (tHomeMapCell2 != MapCell.NO_ID) {
+				tHomeLocations += " ID2 " + tHomeMapCell2;
+			}
+		}
+		
+		return tHomeLocations;
+	}
+	
 	public String getCorpHome1MapID () {
 		MapCell tMapCell;
 		String tMapCellID;
@@ -2821,7 +2839,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		
 		return tCompanyInfo;
 	}
-	
+		
 	public Benefits getBenefits () {
 		return Benefits.NO_BENEFITS;
 	}
