@@ -97,8 +97,6 @@ public class CompanyTestFactory {
 		} else if (tCompanyIndex == 2) {
 			tPrivateCompany = buildPrivateCompany (tPrivateCompany2TestXML, tPrivateCompany, mCorporationList);
 		}
-
-		tPrivateCompany.fillCertificateInfo (mGameManager);
 		
 		return tPrivateCompany;
 	}
