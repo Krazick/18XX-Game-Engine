@@ -16,15 +16,23 @@ import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
 
 public class CertificateInfoFrame extends XMLFrame implements ActionListener {
+	public static CertificateInfoFrame NO_CERTIFICATE_INFO_FRAME = null;
 	public static final String GET_INFO = "GET INFO";
 	private static final long serialVersionUID = 1L;
 	private Certificate certificate;
 	private JPanel certificateInfoJPanel;
 	int padding1;
 
-	public CertificateInfoFrame () {
+	public CertificateInfoFrame (Certificate aCertificate, GameManager aGameManager) {
 		super ();
+		String tInfoTitle;
+		Corporation tCorporation;
+		
 		padding1 = 10;
+		setCertificate (aCertificate);
+		tCorporation = certificate.getCorporation ();
+		tInfoTitle = "Info for " + tCorporation.getAbbrev () + " Certificate";
+		setGameManager (tInfoTitle, aGameManager);
 	}
 
 	public void setCertificate (Certificate aCertificate) {
