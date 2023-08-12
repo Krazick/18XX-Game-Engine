@@ -76,8 +76,12 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		Benefits tBenefits;
 
 		Corporation tCorporation;
+		String tCompanyType;
 		String tCompanyInfo;
+		String tPercentPrezInfo;
+		String tHomeLocations;
 		JLabel tTitle;
+		JLabel tHomeLocationsJLabel;
 		JLabel tNote;
 		JLabel tPrice;
 		JLabel tRevenue;
@@ -88,34 +92,49 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		certificateInfoJPanel.setBorder (BorderFactory.createEmptyBorder (padding1, padding1, padding1, padding1));
 
 		tCorporation = certificate.getCorporation ();
-		tBenefits = tCorporation.getBenefits ();
+		tCompanyType = tCorporation.getType ();
 		tCompanyInfo = tCorporation.getCompanyInfo ();
-		tTitle = new JLabel ("Certificate for " + tCompanyInfo);
+		tPercentPrezInfo = certificate.getPercentPrezInfo ();
+		tTitle = new JLabel (tPercentPrezInfo + " Certificate for " + tCompanyInfo);
 		certificateInfoJPanel.add (tTitle);
-		certificateInfoJPanel.add (Box.createVerticalGlue ());
+		certificateInfoJPanel.add (Box.createVerticalStrut (10));
+		
+		tHomeLocations = tCorporation.getHomeLocations ();
+		tHomeLocationsJLabel = new JLabel (tHomeLocations);
+		certificateInfoJPanel.add (tHomeLocationsJLabel);
+		
+		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		tNote = new JLabel (tCorporation.getNote ());
 		certificateInfoJPanel.add (tNote);
-		certificateInfoJPanel.add (Box.createVerticalGlue ());
+		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		
 		tPrice = new JLabel ("Price: " + Bank.formatCash (certificate.getValue ()));
 		certificateInfoJPanel.add (tPrice);
-		certificateInfoJPanel.add (Box.createVerticalGlue ());
+		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		
-		if (tCorporation.isAPrivateCompany ()) {
-			tRevenue = new JLabel ("Revenue: " +  Bank.formatCash (tCorporation.getRevenue ()));
-			certificateInfoJPanel.add (tRevenue);
-			certificateInfoJPanel.add (Box.createVerticalGlue ());
-		}
-		if (tBenefits == Benefits.NO_BENEFITS) {
-			tBenefitLabel = new JLabel ("Benefits: NO BENEFITS");
-			certificateInfoJPanel.add (tBenefitLabel);
-			certificateInfoJPanel.add (Box.createVerticalGlue ());
-		} else {
-			tBenefitLabel = new JLabel ("Benefits for this Corporation:");
-			certificateInfoJPanel.add (tBenefitLabel);
-			certificate.addBenefitLabels (certificateInfoJPanel);
+		tRevenue = new JLabel ("Revenue: " +  Bank.formatCash (tCorporation.getRevenue ()));
+		certificateInfoJPanel.add (tRevenue);
+		certificateInfoJPanel.add (Box.createVerticalStrut (10));
+		
+		
+		if (! tCorporation.isAShareCompany ()) {
+			tBenefits = tCorporation.getBenefits ();
+			
+			if ((tCorporation.isAPrivateCompany ())  && (tBenefits == Benefits.NO_BENEFITS)) {
+				tBenefitLabel = new JLabel ("Benefits: NO BENEFITS");
+				certificateInfoJPanel.add (tBenefitLabel);
+			} else if ((tCorporation.isAPrivateCompany ()) && (tBenefits != Benefits.NO_BENEFITS)) {
+				tBenefitLabel = new JLabel ("Benefits for this "+ tCompanyType + " Corporation:");
+				certificateInfoJPanel.add (tBenefitLabel);
+				certificate.addBenefitLabels (certificateInfoJPanel, true);
+			} else {
+				tBenefitLabel = new JLabel ("Benefits for this "+ tCompanyType + " Corporation:");
+				certificateInfoJPanel.add (tBenefitLabel);
+				certificate.addBenefitLabels (certificateInfoJPanel, true);
+			}
 		}
 		add (certificateInfoJPanel);
-		setSize (500, 500);
+		pack ();
+		setPreferredSize (getPreferredSize ());
 	}
 }
