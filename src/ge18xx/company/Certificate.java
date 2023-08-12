@@ -93,7 +93,6 @@ public class Certificate implements Comparable<Certificate> {
 	static final float X_RIGHT_ALIGNMENT = 1.0f;
 	public static final String NO_PAR_PRICE = "???";
 
-//	Border REDLINE_BORDER = BorderFactory.createLineBorder (Color.red);
 	Corporation corporation;
 	boolean isPresidentShare;
 	int percentage;
@@ -134,9 +133,8 @@ public class Certificate implements Comparable<Certificate> {
 		setOwner (CertificateHolderI.NO_OWNER);
 		setParValuesCombo (GUI.NO_COMBO_BOX);
 		setCheckBox (GUI.NO_CHECK_BOX);
-		setFrameButton (checkBox, "");
+		setFrameButton (checkBox, GUI.EMPTY_STRING);
 		bidders = new Bidders (this);
-		setupInfoFrame (aCorporation);
 	}
 	
 	public Certificate (Certificate aCertificate) {
@@ -153,9 +151,6 @@ public class Certificate implements Comparable<Certificate> {
 			setFrameButton (checkBox, GUI.EMPTY_STRING);
 			setParValuesCombo (GUI.NO_COMBO_BOX);
 			bidders = new Bidders (this);
-			
-			infoFrame = aCertificate.getCertificateInfoFrame ();
-//			setupInfoFrame (tCorporation);
 		}
 	}
 
@@ -165,16 +160,25 @@ public class Certificate implements Comparable<Certificate> {
 		setParValuesCombo (GUI.NO_COMBO_BOX);
 		setCheckBox (GUI.NO_CHECK_BOX);
 		setFrameButton (checkBox, GUI.EMPTY_STRING);
+	}
+
+	public void setupInfoBuffon (JPanel tCertificateInfoJPanel) {
+		JButton tInfoButton;
 		
-		setupInfoFrame (aCorporation);
+		tInfoButton = new JButton ("Info");
+		if (infoFrame == CertificateInfoFrame.NO_CERTIFICATE_INFO_FRAME) {
+			setupInfoFrame (corporation);
+		}
+		tInfoButton.setActionCommand (CertificateInfoFrame.GET_INFO);
+		tInfoButton.addActionListener (infoFrame);
+		tCertificateInfoJPanel.add (tInfoButton);
 	}
 
 	public void setupInfoFrame (Corporation aCorporation) {
-		String tInfoTitle;
+		GameManager tGameManager;
 		
-		infoFrame = new CertificateInfoFrame ();
-		tInfoTitle = "Info for " + aCorporation.getAbbrev () + " Certificate";
-		infoFrame.setTitle (tInfoTitle);
+		tGameManager = aCorporation.getGameManager ();
+		infoFrame = new CertificateInfoFrame (this, tGameManager);
 	}
 
 	public CertificateInfoFrame getCertificateInfoFrame () {
@@ -587,7 +591,6 @@ public class Certificate implements Comparable<Certificate> {
 	public JPanel buildBasicCertInfoJPanel () {
 		BoxLayout tInfoBoxLayout;
 		JPanel tCertificateInfoJPanel;
-		JButton tInfoButton;
 		JLabel tPrimaryLabel;
 		String tCertInfo;
 		String tNote;
@@ -612,13 +615,7 @@ public class Certificate implements Comparable<Certificate> {
 		tNote = corporation.getNote ();
 		tPrimaryLabel.setToolTipText (tNote);
 		tCertificateInfoJPanel.add (tPrimaryLabel);
-		if (isPresidentShare) {
-			tInfoButton = new JButton ("Info");
-			tInfoButton.setActionCommand (CertificateInfoFrame.GET_INFO);
-			tInfoButton.addActionListener (infoFrame);
-			tCertificateInfoJPanel.add (tInfoButton);
-			
-		}
+		setupInfoBuffon (tCertificateInfoJPanel);
 		
 		return tCertificateInfoJPanel;
 	}
