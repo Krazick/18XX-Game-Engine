@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -319,17 +320,13 @@ public class Certificate implements Comparable<Certificate> {
 	public JPanel buildCertificateInfoJPanel (String aCheckBoxLabel, ItemListener aItemListener, boolean aIsBankHolder,
 											Player aPlayer, GameManager aGameManager) {
 		JPanel tCertificateInfoJPanel;
-		JLabel tRevenueLabel;
-		JLabel tLoanCountLabel;
 		JLabel tDiscountLabel;
 		boolean tPlayerHasSoldThisCompany;
 		boolean tPlayerHasMaxShares;
 		boolean tPlayerAtCertLimit;
-		int tRevenue;
 		int tDiscount;
 		String tCompanyAbbrev;
 		String tBoughtShare;
-		String tRevenueInfo;
 		String tToolTip;
 		CertificateFlags tCertificateFlags;
 
@@ -347,25 +344,10 @@ public class Certificate implements Comparable<Certificate> {
 		
 		tCertificateFlags = new CertificateFlags (this, aPlayer);
 		tCertificateInfoJPanel = buildBasicCertInfoJPanel ();
+		
 		handlePrice (aCheckBoxLabel, aItemListener, aIsBankHolder, tCertificateInfoJPanel, tCertificateFlags);
-	
-		if (isAPrivateCompany ()) {
-			tRevenue = getRevenue ();
-			if (tRevenue != Revenue.NO_REVENUE_VALUE) {
-				tRevenueInfo = "Revenue: " + Bank.formatCash (tRevenue);
-				tRevenueLabel = new JLabel (tRevenueInfo);
-				tCertificateInfoJPanel.add (tRevenueLabel);
-			}
-		} else {
-			if (corporation.canOperate ()) {
-				tRevenueLabel = new JLabel ("Revenue: " + corporation.getFormattedThisRevenue ());
-				tCertificateInfoJPanel.add (tRevenueLabel);
-			}
-			if (corporation.gameHasLoans ()) {
-				tLoanCountLabel = new JLabel ("Loans: " + corporation.getLoanCount ());
-				tCertificateInfoJPanel.add (tLoanCountLabel);
-			}
-		}
+		handleRevenue (tCertificateInfoJPanel);
+		handleLoans (tCertificateInfoJPanel);
 
 		tCertificateFlags.setPlayerHasEnoughToCashToBid (addBidderLabels (tCertificateInfoJPanel, 
 								tCertificateFlags.getPlayerCash ()));
@@ -427,24 +409,57 @@ public class Certificate implements Comparable<Certificate> {
 		return tCertificateInfoJPanel;
 	}
 
-	public void addBenefitLabels (JPanel aCertificateInfoPanel) {
+	public void handleRevenue (JPanel tCertificateInfoJPanel) {
+		JLabel tRevenueLabel;
+		int tRevenue;
+		String tRevenueInfo;
+		
+		if (isAPrivateCompany ()) {
+			tRevenue = getRevenue ();
+			if (tRevenue != Revenue.NO_REVENUE_VALUE) {
+				tRevenueInfo = "Revenue: " + Bank.formatCash (tRevenue);
+				tRevenueLabel = new JLabel (tRevenueInfo);
+				tCertificateInfoJPanel.add (tRevenueLabel);
+			}
+		} else {
+			if (corporation.canOperate ()) {
+				tRevenueLabel = new JLabel ("Revenue: " + corporation.getFormattedThisRevenue ());
+				tCertificateInfoJPanel.add (tRevenueLabel);
+			}
+		}
+	}
+
+	public void handleLoans (JPanel tCertificateInfoJPanel) {
+		JLabel tLoanCountLabel;
+		
+		if (! isAPrivateCompany ()) {
+			if (corporation.gameHasLoans ()) {
+				tLoanCountLabel = new JLabel ("Loans: " + corporation.getLoanCount ());
+				tCertificateInfoJPanel.add (tLoanCountLabel);
+			}
+		}
+	}
+
+	public void addBenefitLabels (JPanel aCertificateInfoPanel, boolean aAddStrut) {
 		JLabel tBenefitLabel;
 		PrivateCompany tPrivateCompany;
 		MinorCompany tMinorCompany;
 		Benefits tAllBenefits;
 		List<Benefit> tBenefits;
 
-		
 		if (isAPrivateCompany ()) {
 			tPrivateCompany = (PrivateCompany) getCorporation ();
 			tAllBenefits = tPrivateCompany.getBenefits ();
-			if (tAllBenefits != null) {
+			if (tAllBenefits != Benefits.NO_BENEFITS) {
 				tBenefits = tAllBenefits.getBenefits ();
-				if (tBenefits != null) {
+				if (tBenefits != Benefits.NO_BENEFITS) {
 					for (Benefit tBenefit : tBenefits) {
 						tBenefitLabel = tBenefit.getBenefitLabel ();
 						if (tBenefitLabel != GUI.NO_LABEL) {
 							aCertificateInfoPanel.add (tBenefitLabel);
+							if (aAddStrut) {
+								aCertificateInfoPanel.add (Box.createVerticalStrut (10));
+							}
 						}
 					}
 				}
@@ -458,6 +473,17 @@ public class Certificate implements Comparable<Certificate> {
 		}
 	}
 	
+	public String getPercentPrezInfo () {
+		String tPercentPrez;
+		
+		tPercentPrez = getPercentage () + "% ";
+		if (isPresidentShare ()) {
+			tPercentPrez += " President";
+		}
+		
+		return tPercentPrez;
+	}
+
 	public void updateBidLabel (String aCheckBoxLabel, ItemListener aItemListener, JPanel aCertificateInfoJPanel,
 								CertificateFlags aCertificateFlags) {
 		String tToolTip;
