@@ -684,6 +684,18 @@ public class ShareCompany extends TokenCompany {
 		return parPrice;
 	}
 
+	public String getFormattedParPrice () {
+		String tFormattedParPrice;
+		
+		if (parPrice == NO_PAR_PRICE) {
+			tFormattedParPrice = "NO PAR PRICE";
+		} else {
+			tFormattedParPrice = Bank.formatCash (parPrice);
+		}
+		
+		return tFormattedParPrice;
+	}
+	
 	public String getSParPrice () {
 		if (parPrice == NO_PAR_PRICE) {
 			return "NO PAR";
