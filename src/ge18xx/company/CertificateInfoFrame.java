@@ -14,6 +14,7 @@ import ge18xx.bank.Bank;
 import ge18xx.company.benefit.Benefits;
 import ge18xx.game.GameManager;
 import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.GUI;
 
 public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	public static CertificateInfoFrame NO_CERTIFICATE_INFO_FRAME = null;
@@ -76,16 +77,20 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		Benefits tBenefits;
 
 		Corporation tCorporation;
+		ShareCompany tShareCompany;
 		String tCompanyType;
 		String tCompanyInfo;
 		String tPercentPrezInfo;
 		String tHomeLocations;
+		String tNote;
 		JLabel tTitle;
 		JLabel tHomeLocationsJLabel;
-		JLabel tNote;
+		JLabel tDestination;
+		JLabel tNoteJLabel;
 		JLabel tPrice;
+		JLabel tParPriceJLabel;
 		JLabel tRevenue;
-		JLabel tBenefitLabel;
+		JLabel tBenefitJLabel;
 		
 		certificateInfoJPanel = new JPanel ();
 		certificateInfoJPanel.setLayout (new BoxLayout (certificateInfoJPanel, BoxLayout.Y_AXIS));
@@ -104,10 +109,24 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		certificateInfoJPanel.add (tHomeLocationsJLabel);
 		
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
-		tNote = new JLabel (tCorporation.getNote ());
-		certificateInfoJPanel.add (tNote);
-		certificateInfoJPanel.add (Box.createVerticalStrut (10));
+		tNote = tCorporation.getNote ();
+		if (tNote != GUI.EMPTY_STRING) {
+			tNoteJLabel = new JLabel (tNote);
+			certificateInfoJPanel.add (tNoteJLabel);
+			certificateInfoJPanel.add (Box.createVerticalStrut (10));
+		}
 		
+		if (tCorporation.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) tCorporation;
+			if (tShareCompany.hasDestination ()) {
+				tDestination = new JLabel ("Destination MapCell ID:  " + tShareCompany.getDestinationLabel ());
+				certificateInfoJPanel.add (tDestination);
+				certificateInfoJPanel.add (Box.createVerticalStrut (10));		
+			}
+			tParPriceJLabel = new JLabel ("Par Price: " + tShareCompany.getFormattedParPrice ());
+			certificateInfoJPanel.add (tParPriceJLabel);
+			certificateInfoJPanel.add (Box.createVerticalStrut (10));		
+		}
 		tPrice = new JLabel ("Price: " + Bank.formatCash (certificate.getValue ()));
 		certificateInfoJPanel.add (tPrice);
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
@@ -121,15 +140,15 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 			tBenefits = tCorporation.getBenefits ();
 			
 			if ((tCorporation.isAPrivateCompany ())  && (tBenefits == Benefits.NO_BENEFITS)) {
-				tBenefitLabel = new JLabel ("Benefits: NO BENEFITS");
-				certificateInfoJPanel.add (tBenefitLabel);
+				tBenefitJLabel = new JLabel ("Benefits: NO BENEFITS");
+				certificateInfoJPanel.add (tBenefitJLabel);
 			} else if ((tCorporation.isAPrivateCompany ()) && (tBenefits != Benefits.NO_BENEFITS)) {
-				tBenefitLabel = new JLabel ("Benefits for this "+ tCompanyType + " Corporation:");
-				certificateInfoJPanel.add (tBenefitLabel);
+				tBenefitJLabel = new JLabel ("Benefits for this "+ tCompanyType + " Corporation:");
+				certificateInfoJPanel.add (tBenefitJLabel);
 				certificate.addBenefitLabels (certificateInfoJPanel, true);
 			} else {
-				tBenefitLabel = new JLabel ("Benefits for this "+ tCompanyType + " Corporation:");
-				certificateInfoJPanel.add (tBenefitLabel);
+				tBenefitJLabel = new JLabel ("Benefits for this "+ tCompanyType + " Corporation:");
+				certificateInfoJPanel.add (tBenefitJLabel);
 				certificate.addBenefitLabels (certificateInfoJPanel, true);
 			}
 		}
