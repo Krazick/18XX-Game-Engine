@@ -142,6 +142,9 @@ class CorporationBasicTests {
 			corporation.resetStatus (ActorI.ActionStates.MayFloat);
 			assertFalse (corporation.isOperating ());
 
+			corporation.resetStatus (ActorI.ActionStates.StartedOperations);
+			assertFalse (corporation.isOperating ());
+
 			corporation.resetStatus (ActorI.ActionStates.Unformed);
 			assertFalse (corporation.isOperating ());
 		}
@@ -251,6 +254,9 @@ class CorporationBasicTests {
 
 			corporation.resetStatus (ActorI.ActionStates.Operated);
 			assertFalse (corporation.didPartiallyOperate ());
+
+			corporation.resetStatus (ActorI.ActionStates.StartedOperations);
+			assertTrue (corporation.didPartiallyOperate ());
 
 			corporation.resetStatus (ActorI.ActionStates.StationLaid);
 			assertTrue (corporation.didPartiallyOperate ());
