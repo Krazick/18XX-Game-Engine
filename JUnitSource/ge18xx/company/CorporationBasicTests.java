@@ -143,7 +143,7 @@ class CorporationBasicTests {
 			assertFalse (corporation.isOperating ());
 
 			corporation.resetStatus (ActorI.ActionStates.StartedOperations);
-			assertFalse (corporation.isOperating ());
+			assertTrue (corporation.isOperating ());
 
 			corporation.resetStatus (ActorI.ActionStates.Unformed);
 			assertFalse (corporation.isOperating ());
