@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -19,6 +20,7 @@ import ge18xx.utilities.GUI;
 public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	public static CertificateInfoFrame NO_CERTIFICATE_INFO_FRAME = null;
 	public static final String GET_INFO = "GET INFO";
+	public static final String OK_STRING = "OK";
 	private static final long serialVersionUID = 1L;
 	private Certificate certificate;
 	private JPanel certificateInfoJPanel;
@@ -57,6 +59,9 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 			setLocation (tLocation);
 			setVisible (true);
 		}
+		if (OK_STRING.equals (tTheAction)) {
+			setVisible (false);
+		}
 	}
 
 	private Point getOffset () {
@@ -77,7 +82,6 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		Benefits tBenefits;
 
 		Corporation tCorporation;
-		ShareCompany tShareCompany;
 		String tCompanyType;
 		String tCompanyInfo;
 		String tPercentPrezInfo;
@@ -85,12 +89,11 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		String tNote;
 		JLabel tTitle;
 		JLabel tHomeLocationsJLabel;
-		JLabel tDestination;
 		JLabel tNoteJLabel;
 		JLabel tPrice;
-		JLabel tParPriceJLabel;
 		JLabel tRevenue;
 		JLabel tBenefitJLabel;
+		JButton tOKButton;
 		
 		certificateInfoJPanel = new JPanel ();
 		certificateInfoJPanel.setLayout (new BoxLayout (certificateInfoJPanel, BoxLayout.Y_AXIS));
@@ -116,17 +119,7 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 			certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		}
 		
-		if (tCorporation.isAShareCompany ()) {
-			tShareCompany = (ShareCompany) tCorporation;
-			if (tShareCompany.hasDestination ()) {
-				tDestination = new JLabel ("Destination MapCell ID:  " + tShareCompany.getDestinationLabel ());
-				certificateInfoJPanel.add (tDestination);
-				certificateInfoJPanel.add (Box.createVerticalStrut (10));		
-			}
-			tParPriceJLabel = new JLabel ("Par Price: " + tShareCompany.getFormattedParPrice ());
-			certificateInfoJPanel.add (tParPriceJLabel);
-			certificateInfoJPanel.add (Box.createVerticalStrut (10));		
-		}
+		updateWithShareCompanyInfo (tCorporation);
 		tPrice = new JLabel ("Price: " + Bank.formatCash (certificate.getValue ()));
 		certificateInfoJPanel.add (tPrice);
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
@@ -152,8 +145,50 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 				certificate.addBenefitLabels (certificateInfoJPanel, true);
 			}
 		}
+		certificateInfoJPanel.add (Box.createVerticalStrut (10));
+		
+		tOKButton = new JButton (OK_STRING);
+		tOKButton.setActionCommand (OK_STRING);
+		tOKButton.addActionListener (this);
+		certificateInfoJPanel.add (tOKButton);
+		
 		add (certificateInfoJPanel);
 		pack ();
 		setPreferredSize (getPreferredSize ());
+	}
+
+	public void updateWithShareCompanyInfo (Corporation tCorporation) {
+		ShareCompany tShareCompany;
+		String tDestinationReached;
+		JLabel tDestination;
+		JLabel tDestinationReachedLabel;
+		JLabel tParPriceJLabel;
+		JLabel tEscrow;
+		
+		if (tCorporation.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) tCorporation;
+			if (tShareCompany.hasDestination ()) {
+				tDestination = new JLabel ("Destination MapCell ID:  " + tShareCompany.getDestinationLabel ());
+				certificateInfoJPanel.add (tDestination);
+				certificateInfoJPanel.add (Box.createVerticalStrut (10));
+				tDestinationReached = "Destination ";
+				if (tShareCompany.hasReachedDestination ()) {
+					tDestinationReached += "has been Reached.";
+				} else {
+					tDestinationReached += "has not been Reached";
+				}
+				tDestinationReachedLabel = new JLabel (tDestinationReached);
+				certificateInfoJPanel.add (tDestinationReachedLabel);
+				certificateInfoJPanel.add (Box.createVerticalStrut (10));
+				
+			}
+			tEscrow  = new JLabel ("Escrow held " + Bank.formatCash (tShareCompany.calculateEscrowToRelease ()));
+			certificateInfoJPanel.add (tEscrow);
+			certificateInfoJPanel.add (Box.createVerticalStrut (10));		
+
+			tParPriceJLabel = new JLabel ("Par Price: " + tShareCompany.getFormattedParPrice ());
+			certificateInfoJPanel.add (tParPriceJLabel);
+			certificateInfoJPanel.add (Box.createVerticalStrut (10));
+		}
 	}
 }
