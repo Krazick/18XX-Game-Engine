@@ -2130,7 +2130,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			(status == ActorI.ActionStates.Owned) ||
 			(status == ActorI.ActionStates.Operated) ||
 			(status == ActorI.ActionStates.NotOperated) ||
-			(status == ActorI.ActionStates.StartedOperations) ||
 			(status == ActorI.ActionStates.Unformed)) {
 			isOperating = false;
 		}
