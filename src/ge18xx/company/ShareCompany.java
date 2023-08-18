@@ -297,7 +297,6 @@ public class ShareCompany extends TokenCompany {
 			tCloseCompanyAction = new CloseCompanyAction (tRoundType, tRoundID, this);
 			tHexMap = tGameManager.getGameMap ();
 			tHexMap.removeAllMapTokens (this, tCloseCompanyAction);
-			
 		} else {
 			System.out.println ("Tested Share Company " + getAbbrev () + " for Closing");
 		}
