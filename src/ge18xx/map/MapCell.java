@@ -1262,7 +1262,6 @@ public class MapCell implements Comparator<Object> {
 				tCategory = tTerrain.getCategory (tChildNode);
 				if (Terrain.AN_BASE.equals (tCategory)) {
 					setBaseTerrain (tTerrain);
-//					baseTerrain = tTerrain;
 				} else if (Terrain.AN_OPTIONAL.equals (tCategory)) {
 					if (terrain1 == Terrain.NO_TERRAINX) {
 						terrain1 = tTerrain;
