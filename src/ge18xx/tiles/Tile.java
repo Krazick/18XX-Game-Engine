@@ -32,6 +32,7 @@ import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.map.MapGraph;
 import ge18xx.map.Vertex;
+import ge18xx.round.action.CloseCompanyAction;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
@@ -1197,4 +1198,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 		return tNumberDiff;
 	}
+	
+	public void removeMapTokens (TokenCompany aTokenCompany, String aMapCellID, 
+			CloseCompanyAction aCloseCompanyAction) {
+		centers.removeMapTokens (aTokenCompany, aMapCellID, aCloseCompanyAction);
+	}
+
 }
