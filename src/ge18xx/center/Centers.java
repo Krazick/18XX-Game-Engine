@@ -743,12 +743,15 @@ public class Centers implements Cloneable {
 	
 	public void removeMapTokens (TokenCompany aTokenCompany, String aMapCellID, 
 								CloseCompanyAction aCloseCompanyAction) {
-//		TokenInfo.TokenType tType;
+		int tTokenCompanyID;
+		City tCity;
 		
+		tTokenCompanyID = aTokenCompany.getID ();
 		for (RevenueCenter tRevenueCenter : centers) {
-			if (tRevenueCenter.cityHasStation (aTokenCompany.getID ())) {
-				if (tRevenueCenter.withBaseForCorp (aTokenCompany)) {
-					
+			if (tRevenueCenter.cityHasStation (tTokenCompanyID)) {
+				tCity = (City) tRevenueCenter;
+				if (tCity.withBaseForCorp (aTokenCompany)) {
+					tCity.returnStation (aTokenCompany);
 				}
 //				aCloseCompanyAction.addRemoveMapTokenEffect
 			}
