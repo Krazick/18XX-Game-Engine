@@ -2651,6 +2651,8 @@ public class MapCell implements Comparator<Object> {
 	}
 	
 	public void removeMapTokens (TokenCompany aTokenCompany, CloseCompanyAction aCloseCompanyAction) {
-		centers.removeMapTokens (aTokenCompany, id, aCloseCompanyAction);
+		if (isTileOnCell ()) {
+			tile.removeMapTokens (aTokenCompany, id, aCloseCompanyAction);
+		}
 	}
 }
