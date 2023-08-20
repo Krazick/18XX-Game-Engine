@@ -193,12 +193,6 @@ public class Portfolio implements CertificateHolderI {
 
 		return tCertInfo;
 	}
-//
-//	public void clearJustBoughtForAllCerts () {
-//		for (Certificate tCertificate : certificates) {
-//			tCertificate.setJustBought (false);
-//		}
-//	}
 	
 	public JPanel buildShareCertificateJPanel (String aCorpType, String aSelectedButtonLabel,
 			ItemListener aItemListener, Player aPlayer, GameManager aGameManager) {
@@ -997,7 +991,7 @@ public class Portfolio implements CertificateHolderI {
 		tSelectedAbbrevToSell = GUI.EMPTY_STRING;
 		for (Certificate tCertificate : certificates) {
 			if (tCertificate.isSelected ()) {
-				tSelectedAbbrevToSell += tCertificate.getCompanyAbbrev ();
+				tSelectedAbbrevToSell = tCertificate.getCompanyAbbrev ();
 			}
 		}
 
