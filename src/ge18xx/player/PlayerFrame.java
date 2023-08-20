@@ -39,6 +39,10 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 	public static final String WAITING_FOR_PAR_PRICE = "Waiting for the Par Price of new Company to be Set";
 	public static final String NOT_ENOUGH_CASH = "Does not have enough cash";
 	public static final String NO_PAR_PRICE_SET = "No Par Price Selected Yet";
+	public static final String NO_TOUCH_PASS = "Cannot sell Certificates bought this stock round (no-touch-pass)";
+	public static final String MUST_EXCHANGE = "Must Exchange President Share before selecting stock to sell";
+	public static final String WILL_OVERFILL = "Stocks selected to be Sold will Overfill BankPool";
+	public static final String DIFFERENT_COMPANIES = "Stocks selected to sell are different companies, sell one company stock at a time";
 	static final String DONE = "Done";
 	static final String UNDO = "Undo";
 	static final String PASS = "Pass";
@@ -626,29 +630,25 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 	private void updateSellButton (boolean aStocksToSell, boolean aStocksToSellSame, boolean aStocksToSellOverfill,
 			boolean aPrezToExchange, boolean aCanSellSelectedStocks) {
-		String tToolTip;
-		
 		if (! handledWaiting (sellButton)) {
 			if (aStocksToSell) {
 				if (aPrezToExchange) {
 					sellButton.setEnabled (false);
-					sellButton.setToolTipText ("Must Exchange President Share before selecting stock to sell");
+					sellButton.setToolTipText (MUST_EXCHANGE);
 				} else if (aStocksToSellOverfill) {
 					sellButton.setEnabled (false);
-					sellButton.setToolTipText ("Stocks selected to be Sold will Overfill BankPool");
+					sellButton.setToolTipText (WILL_OVERFILL);
 				} else if (aStocksToSellSame) {
 					if (aCanSellSelectedStocks) {
 						sellButton.setEnabled (aStocksToSell);
 						sellButton.setToolTipText (STOCK_SELECTED_FOR_SALE);
 					} else {
 						sellButton.setEnabled (false);
-						tToolTip = "Cannot sell Certificates bought this stock round (no-touch-pass)";
-						sellButton.setToolTipText (tToolTip);
+						sellButton.setToolTipText (NO_TOUCH_PASS);
 					}
 				} else {
 					sellButton.setEnabled (aStocksToSellSame);
-					sellButton.setToolTipText (
-							"Stocks selected to sell are different companies, sell one company stock at a time");
+					sellButton.setToolTipText (DIFFERENT_COMPANIES);
 				}
 			} else {
 				sellButton.setEnabled (aStocksToSell);
