@@ -15,7 +15,6 @@ import ge18xx.train.TrainPortfolio;
 public class AllCorporationsPanel extends ListenerPanel {
 	private static final String NAME = "All Corporations";
 	private static final long serialVersionUID = 1L;
-//	private static final String ALL_CORPORATIONS_JPANEL_LABEL = "All Corporations Information";
 
 	public AllCorporationsPanel (RoundManager aRoundManager) {
 		super (aRoundManager, NAME);
@@ -75,7 +74,6 @@ public class AllCorporationsPanel extends ListenerPanel {
 		if (! tListenersAdded) {
 			System.err.println ("Not all Listeners added.");
 		}
-
 	}
 	
 	public void updateAllCorporationsJPanel () {
