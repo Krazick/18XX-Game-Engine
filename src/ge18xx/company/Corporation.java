@@ -128,13 +128,13 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	CorporationFrame corporationFrame;
 	CorporationList corporationList;
 	Benefit benefitInUse;
-	Portfolio portfolio; // All Certificates Owned by the Corporation (Privates, Minors, it's own, and
-							// others)
-	// Use this portfolio to find what this company can sell.
-	Portfolio corporationCertificates; // A copy of all of this Corporation's Certificates -- regardless of who owns
-										// them.
-	// Use this portfolio to pay-out dividends -- to the owners. It goes in here
-	// once, and never leaves.
+	Portfolio portfolio; 	// All Certificates Owned by the Corporation (Privates, Minors, it's own,
+							// and others). Use this portfolio to find what this company can sell.
+	
+	Portfolio corporationCertificates; 	// A copy of all of this Corporation's Certificates -- 
+										// regardless of who owns them.
+										// Use this portfolio to pay-out dividends -- to the owners. 
+										// It goes in here once, and never leaves.
 
 	public Corporation () {
 		this (NO_ID, NO_NAME);
@@ -151,7 +151,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		
 		tActorType = actorType.toString () + " " + aAbbrev;
 		bean = new MessageBean (tActorType);
-		setValues (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, aStatus, aGovtRailway);
+		setValues (aID, aName, aAbbrev, aHomeCity1, aHomeLocation1, aHomeCity2, aHomeLocation2, 
+					aStatus, aGovtRailway);
 	}
 
 	/**
