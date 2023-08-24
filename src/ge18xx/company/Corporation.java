@@ -2705,7 +2705,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		int tCount, tIndex;
 
 		tPrivates = corporationList.getPrivates ();
-		tCount = tPrivates.getCountOfOpen ();
+		tCount = tPrivates.getCorporationCount ();
 		if (tCount > 0) {
 			for (tIndex = 0; tIndex < tCount; tIndex++) {
 				tPrivate = (PrivateCompany) tPrivates.getCorporation (tIndex);
@@ -2745,7 +2745,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		int tCount, tIndex;
 
 		tPrivates = corporationList.getPrivates ();
-		tCount = tPrivates.getCountOfOpen ();
+		tCount = tPrivates.getCorporationCount ();
 		if (tCount > 0) {
 			for (tIndex = 0; tIndex < tCount; tIndex++) {
 				tPrivate = (PrivateCompany) tPrivates.getCorporation (tIndex);
