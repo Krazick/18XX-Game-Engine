@@ -42,5 +42,4 @@ public class ClearAllRoutesAction extends RouteAction {
 
 		return tSimpleActionReport;
 	}
-
 }

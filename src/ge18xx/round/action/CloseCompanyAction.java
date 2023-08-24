@@ -20,5 +20,4 @@ public class CloseCompanyAction extends TransferOwnershipAction {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
-
 }
