@@ -64,7 +64,6 @@ public class LicenseBenefit extends Benefit {
 	}
 
 	public void setMapCellIDs (String aMapCellIDs) {
-//		mapCellIDs = aMapCellIDs;
 		mapCellIDs = aMapCellIDs.split (",");
 	}
 
@@ -98,6 +97,35 @@ public class LicenseBenefit extends Benefit {
 		if (CorporationFrame.BUY_LICENSE.equals (tActionCommand)) {
 			handleBuyLicense ();
 		}
+	}
+	
+	@Override
+	public boolean shouldConfigure () {
+		boolean tShouldConfigure;
+		ShareCompany tOperatingCompany;
+		GameManager tGameManager;
+		
+		tShouldConfigure = true;
+
+		// If the Benefit is Passive, NEVER Configure
+		
+		if (passive) {
+			tShouldConfigure = false;
+		} else if (allActors) {
+			// If it is an AllActors Benefit, and it is a Player Benefit. Don't Configure
+			// If it is NOT a Player Benefit (ie Company Benefit) Then always Configure
+			if (isAPlayerBenefit ()) {
+				tShouldConfigure = false;
+			} else {
+				tGameManager = privateCompany.getGameManager ();
+				tOperatingCompany = (ShareCompany) tGameManager.getOperatingCompany ();
+				tShouldConfigure = !companyHasLicense (tOperatingCompany);
+			}
+		} else {
+			tShouldConfigure = super.shouldConfigure ();
+		}
+		
+		return tShouldConfigure;
 	}
 
 	@Override
@@ -148,28 +176,39 @@ public class LicenseBenefit extends Benefit {
 	
 	private void handleBuyLicense () {
 		License tLicense;
-		ShareCompany tShareCompany;
+		Bank tBank;
+		ShareCompany tBuyingCompany;
 		ShareCompany tOwningCompany;
 		CashTransferEffect tCashTransferEffect;
 		BuyLicenseAction tBuyLicenseAction;
 		String tOperatingRoundID;
 		GameManager tGameManager;
 		
-		tShareCompany = getOperatingCompany ();
-		tOwningCompany =  (ShareCompany) getOwningCompany ();
+		clearAdditionalEffects ();
 		tLicense = getLicense ();
-		addLicense (tOwningCompany, tShareCompany, tLicense);
-		tCashTransferEffect = new CashTransferEffect (tShareCompany, tOwningCompany, licenseCost);
-		tShareCompany.addCash (-licenseCost);
-		tOwningCompany.addCash (licenseCost);
-		addAdditionalEffect (tCashTransferEffect);
-		tOperatingRoundID = tShareCompany.getOperatingRoundID ();
+		tBuyingCompany = getOperatingCompany ();
+		tOwningCompany =  (ShareCompany) getOwningCompany ();
+		if (tOwningCompany != Corporation.NO_CORPORATION) {
+			addLicense (tOwningCompany, tBuyingCompany, tLicense);
+			tCashTransferEffect = new CashTransferEffect (tBuyingCompany, tOwningCompany, licenseCost);
+			tBuyingCompany.addCash (-licenseCost);
+			tOwningCompany.addCash (licenseCost);
+			addAdditionalEffect (tCashTransferEffect);
+		} else {
+			tBank = tBuyingCompany.getBank ();
+			addLicense (tBuyingCompany, tLicense);
+			tCashTransferEffect = new CashTransferEffect (tBuyingCompany, tBank, licenseCost);
+			tBuyingCompany.addCash (-licenseCost);
+			tBank.addCash (licenseCost);
+			addAdditionalEffect (tCashTransferEffect);
+		}
+		tOperatingRoundID = tBuyingCompany.getOperatingRoundID ();
 		tBuyLicenseAction = new BuyLicenseAction (ActorI.ActionStates.OperatingRound, 
-										tOperatingRoundID, tShareCompany);
+										tOperatingRoundID, tBuyingCompany);
 		addAdditionalEffects (tBuyLicenseAction);
-		tGameManager = tShareCompany.getGameManager ();
+		tGameManager = tBuyingCompany.getGameManager ();
 		tGameManager.addAction (tBuyLicenseAction);
-		tShareCompany.updateInfo ();
+		tBuyingCompany.updateInfo ();
 	}
 
 	@Override
