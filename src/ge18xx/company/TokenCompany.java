@@ -786,14 +786,15 @@ public abstract class TokenCompany extends TrainCompany {
 	}
 
 	@Override
-	public String buildCorpInfoLabel () {
-		String tCorpLabel;
+	public JPanel buildCorpInfoJPanel () {
+		JPanel tCorpInfoPanel;
+		JLabel tTokens;
 
-		tCorpLabel = super.buildCorpInfoLabel ();
-		tCorpLabel += "<br>Tokens: " + getTokenCount ();
-//		tCorpLabel = "<html>" + tCorpLabel + "</html>";
+		tCorpInfoPanel = super.buildCorpInfoJPanel ();
+		tTokens = new JLabel ("Tokens: " + getTokenCount ());
+		tCorpInfoPanel.add (tTokens);
 
-		return tCorpLabel;
+		return tCorpInfoPanel;
 	}
 
 	@Override

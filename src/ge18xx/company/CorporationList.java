@@ -136,8 +136,8 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 	 */
 	public JPanel buildCompanyJPanel (boolean aAllCompanies) {
 		JPanel tCompanyJPanel;
+		JPanel tCorpInfoJPanel;
 		String tBoxLabel;
-		JLabel tCorpInfoLabel;
 
 		tBoxLabel = getThisTypeName () + " Companies";
 		if (aAllCompanies) {
@@ -151,9 +151,9 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 		sortByOperatingOrder ();
 		for (Corporation tCorporation : corporations) {
-			tCorpInfoLabel = tCorporation.buildCorpInfoJLabel ();
+			tCorpInfoJPanel = tCorporation.buildCorpInfo ();
 			tCompanyJPanel.add (Box.createHorizontalStrut (10));
-			tCompanyJPanel.add (tCorpInfoLabel);
+			tCompanyJPanel.add (tCorpInfoJPanel);
 		}
 
 		return tCompanyJPanel;

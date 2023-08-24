@@ -4,8 +4,10 @@ import java.awt.Component;
 import java.awt.event.ItemListener;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
@@ -264,41 +266,57 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	@Override
-	public String buildCorpInfoLabel () {
+	public JPanel buildCorpInfoJPanel () {
 		int tBidderCount;
-		String tCorpInfoLabel;
 		String tBidderNames;
-		String tPriceLabel;
-		String tRevenueLabel;
-
-		tCorpInfoLabel = getAbbrev () + "<br>";
-		tPriceLabel = "<br>Price: " + Bank.formatCash (getCost ());
-		tRevenueLabel = "<br>Revenue: " + Bank.formatCash (getRevenue ());
+		JPanel tCorpInfoJPanel;
+		JLabel tCorpName;
+		JLabel tPrice;
+		JLabel tRevenue;
+		JLabel tPercentOwned;
+		JLabel tPresidentName;
+		JLabel tStatus;
+		JLabel tBidderInfo;
+		JLabel tHighestBid;
+		JLabel tDiscount;
+		
+		tCorpInfoJPanel = new JPanel ();
+		tCorpInfoJPanel.setLayout (new BoxLayout (tCorpInfoJPanel, BoxLayout.Y_AXIS));
+		tCorpName = new JLabel (getAbbrev ());
+		tPrice = new JLabel ("Price: " + Bank.formatCash (getCost ()));
+		tRevenue =  new JLabel ("Revenue: " + Bank.formatCash (getRevenue ()));
+		tCorpInfoJPanel.add (tCorpName);
 		if (isActive ()) {
-			tCorpInfoLabel += buildPercentOwnedLabel ();
-			tCorpInfoLabel += "<br>Prez: " + getPresidentName ();
-			tCorpInfoLabel += tPriceLabel;
-			tCorpInfoLabel += tRevenueLabel;
+			tPercentOwned = new JLabel (buildPercentOwnedLabel ());
+			tCorpInfoJPanel.add (tPercentOwned);
+			tPresidentName = new JLabel ("Prez: " + getPresidentName ());
+			tCorpInfoJPanel.add (tPresidentName);
+			tCorpInfoJPanel.add (tPrice);
+			tCorpInfoJPanel.add (tRevenue);
 		} else {
-			tCorpInfoLabel += "[" + getStatusName () + "]";
+			tStatus = new JLabel ("[" + getStatusName () + "]");
+			tCorpInfoJPanel.add (tStatus);
 			tBidderCount = getBidderCount ();
 			if (tBidderCount > 0) {
 				tBidderNames = getBidderNames ();
 				if (tBidderCount == 1) {
-					tCorpInfoLabel += "<br>" + getBidderCount () + " Bidder: " + tBidderNames;
+					tBidderInfo = new JLabel (getBidderCount () + " Bidder: " + tBidderNames);;
 				} else {
-					tCorpInfoLabel += "<br>" + getBidderCount () + " Bidders (" + tBidderNames + ")";
+					tBidderInfo = new JLabel (getBidderCount () + " Bidders (" + tBidderNames + ")");
 				}
-				tCorpInfoLabel += "<br>Highest Bid " + Bank.formatCash (corporationCertificates.getHighestBid ());
+				tCorpInfoJPanel.add (tBidderInfo);
+				tHighestBid = new JLabel ("Highest Bid " + Bank.formatCash (corporationCertificates.getHighestBid ()));
+				tCorpInfoJPanel.add (tHighestBid);
 			}
-			tCorpInfoLabel += tPriceLabel;
-			tCorpInfoLabel += tRevenueLabel;
+			tCorpInfoJPanel.add (tPrice);
+			tCorpInfoJPanel.add (tRevenue);
 			if (getDiscount () > 0) {
-				tCorpInfoLabel += "<br>Discount: " + Bank.formatCash (getDiscount ());
+				tDiscount = new JLabel ("Discount: " + Bank.formatCash (getDiscount ()));
+				tCorpInfoJPanel.add (tDiscount);
 			}
 		}
 
-		return tCorpInfoLabel;
+		return tCorpInfoJPanel;
 	}
 
 	@Override

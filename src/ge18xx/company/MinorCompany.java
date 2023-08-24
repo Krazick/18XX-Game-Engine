@@ -90,13 +90,15 @@ public class MinorCompany extends TokenCompany {
 	}
 	
 	@Override
-	public String buildCorpInfoLabel () {
-		String tCorpInfoLabel;
+	public JPanel buildCorpInfoJPanel () {
+		JPanel tCorpInfoJPanel;
+		JLabel tPrice;
 		
-		tCorpInfoLabel = super.buildCorpInfoLabel ();
-		tCorpInfoLabel += "<br>" + "Price: " + getValue ();
+		tCorpInfoJPanel = super.buildCorpInfoJPanel ();
+		tPrice = new JLabel ("Price: " + getValue ());
+		tCorpInfoJPanel.add (tPrice);
 		
-		return tCorpInfoLabel;
+		return tCorpInfoJPanel;
 	}
 
 	@Override

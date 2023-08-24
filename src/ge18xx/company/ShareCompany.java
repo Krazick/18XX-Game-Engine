@@ -2,6 +2,7 @@ package ge18xx.company;
 
 import java.awt.event.ItemListener;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
@@ -1058,17 +1059,17 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	@Override
-	public String buildCorpInfoLabel () {
-		String tCorpInfoLabel;
-		String tLoanInfo;
+	public JPanel buildCorpInfoJPanel () {
+		JPanel tCorpInfoJPanel;
+		JLabel tLoanInfo;
 		
-		tCorpInfoLabel = super.buildCorpInfoLabel ();
+		tCorpInfoJPanel = super.buildCorpInfoJPanel ();
 		if (gameHasLoans ()) {
-			tLoanInfo = "<br>Loan Count: " + loanCount;
-			tCorpInfoLabel += tLoanInfo;
+			tLoanInfo = new JLabel ("Loan Count: " + loanCount);
+			tCorpInfoJPanel.add (tLoanInfo);
 		}
 
-		return tCorpInfoLabel;
+		return tCorpInfoJPanel;
 	}
 	
 	@Override

@@ -1369,23 +1369,24 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	 * @return The constructed JLabel with the Corporation Info
 	 *
 	 */
-	public JLabel buildCorpInfoJLabel () {
-		JLabel tLabel;
-		String tCorpInfoLabel;
+	public JPanel buildCorpInfo () {
+		JPanel tCorpInfoJPanel;
 		Border tCorpBorder;
 
-		tCorpInfoLabel = buildCorpInfoLabel ();
-		tCorpInfoLabel = "<html>" + tCorpInfoLabel + "</html>";
+		tCorpInfoJPanel = buildCorpInfoJPanel ();
 		tCorpBorder = setupBorder ();
-		tLabel = new JLabel (tCorpInfoLabel);
-		tLabel.setBorder (tCorpBorder);
+		tCorpInfoJPanel.setBorder (tCorpBorder);
 
-		return tLabel;
+		return tCorpInfoJPanel;
 	}
 
 	// Train Company and Private Company will Override
-	public String buildCorpInfoLabel () {
-		return ">> OVERRIDE buildCorpInfoLabel <<";
+	public JPanel buildCorpInfoJPanel () {
+		JPanel tCorpInfoJPanel;
+		
+		tCorpInfoJPanel = null;
+		
+		return tCorpInfoJPanel;
 	}
 	
 	public String buildCorpInfoLabel (String aLoanInfo) {

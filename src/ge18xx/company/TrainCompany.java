@@ -415,45 +415,65 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	@Override
-	public String buildCorpInfoLabel () {
-		String tCorpLabel;
-		String tThisRevenue;
-		String tEscrow;
+	public JPanel buildCorpInfoJPanel () {
+		JPanel tCorpInfoJPanel;
+		JLabel tCorpLabel;
+		JLabel tBankPoolOwned;
+		JLabel tEscrow;
+		JLabel tStatus;
+		JLabel tPresidentName;
+		JLabel tTreasury;
+		JLabel tTrainList;
+		JLabel tThisRevenue;
 		int tEscrowAmount;
+		String tCorpName;
 		
-		tCorpLabel = getAbbrev () + "&nbsp;";
-		tEscrow = GUI.EMPTY_STRING;
+		tCorpName = getAbbrev ();
+		tCorpInfoJPanel = new JPanel ();
+		tCorpInfoJPanel.setLayout (new BoxLayout (tCorpInfoJPanel, BoxLayout.Y_AXIS));
+		tCorpLabel = new JLabel (getAbbrev ());
+		tEscrowAmount = 0;
+		tStatus = new JLabel ("[" + getStatusName () + "]");
 		if (isActive ()) {
-			tCorpLabel += buildPercentOwnedLabel ();
+			tCorpName += " " + buildPercentOwnedLabel ();
+			tEscrow = new JLabel ();
 			if (hasDestination ()) {
 				if (hasReachedDestination ()) {
-					tCorpLabel += "*";
+					tCorpName += " *";
 				} else {
 					tEscrowAmount = calculateEscrowToRelease ();
 					if (tEscrowAmount > 0) {
-						tEscrow += "<br>Escrow: " + Bank.formatCash (tEscrowAmount);
+						tEscrow.setText (tCorpName);
 					}
 				}
 			}
+			tCorpLabel.setText (tCorpName);
+			tCorpInfoJPanel.add (tCorpLabel);
+
 			if (! isAMinorCompany ()) {
-				tCorpLabel += "<br>[" + getBankPoolPercentage () + "%&nbsp; in Bank Pool]";
+				tBankPoolOwned =  new JLabel ("[" + getBankPoolPercentage () + " in Bank Pool]");
+				tCorpInfoJPanel.add (tBankPoolOwned);
 			}
-			if (tEscrow.length () > 0) {
-				tCorpLabel += tEscrow;
+			if (tEscrowAmount > 0) {
+				tCorpInfoJPanel.add (tEscrow);
 			}
-			tCorpLabel += "<br>[" + getStatusName () + "]";
-			tCorpLabel += "<br>Prez: " + getPresidentName ();
-			tCorpLabel += "<br>Treasury: " + Bank.formatCash (getCash ());
+			tCorpInfoJPanel.add ((tStatus));
+			tPresidentName = new JLabel ("Prez: " + getPresidentName ());
+			tCorpInfoJPanel.add (tPresidentName);
+			tTreasury = new JLabel ("Treasury: " + Bank.formatCash (getCash ()));
+			tCorpInfoJPanel.add (tTreasury);
 			if (canOperate () || didOperate ()) {
-				tCorpLabel += "<br>" + trainPortfolio.getTrainList ();
-				tThisRevenue = getFormattedThisRevenue ();
-				tCorpLabel += "<br>This Revenue: " + tThisRevenue;
+				tTrainList = new JLabel (trainPortfolio.getTrainList ());
+				tCorpInfoJPanel.add (tTrainList);
+				tThisRevenue = new JLabel ("This Revenue: " + getFormattedThisRevenue ());
+				tCorpInfoJPanel.add (tThisRevenue);
 			}
 		} else {
-			tCorpLabel += "<br>[" + getStatusName () + "]";
+			tCorpInfoJPanel.add (tCorpLabel);
+			tCorpInfoJPanel.add (tStatus);
 		}
 
-		return tCorpLabel;
+		return tCorpInfoJPanel;
 	}
 	
 	public int calculateEscrowToRelease () {
