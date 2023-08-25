@@ -3,6 +3,7 @@ package ge18xx.company;
 import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -93,10 +94,17 @@ public class MinorCompany extends TokenCompany {
 	public JPanel buildCorpInfoJPanel () {
 		JPanel tCorpInfoJPanel;
 		JLabel tPrice;
+		JButton tInfoButton;
+		Certificate tCertificate;
 		
 		tCorpInfoJPanel = super.buildCorpInfoJPanel ();
 		tPrice = new JLabel ("Price: " + getValue ());
 		tCorpInfoJPanel.add (tPrice);
+		
+		tCertificate = corporationCertificates.getCertificate (0);
+		tCertificate.setupInfoBuffon ();
+		tInfoButton = tCertificate.getInfoButton ();
+		tCorpInfoJPanel.add (tInfoButton);
 		
 		return tCorpInfoJPanel;
 	}

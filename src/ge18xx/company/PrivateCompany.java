@@ -269,8 +269,10 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	public JPanel buildCorpInfoJPanel () {
 		int tBidderCount;
 		String tBidderNames;
+		Certificate tCertificate;
 		JPanel tCorpInfoJPanel;
 		JLabel tCorpName;
+		JButton tInfoButton;
 		JLabel tPrice;
 		JLabel tRevenue;
 		JLabel tPercentOwned;
@@ -286,6 +288,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		tPrice = new JLabel ("Price: " + Bank.formatCash (getCost ()));
 		tRevenue =  new JLabel ("Revenue: " + Bank.formatCash (getRevenue ()));
 		tCorpInfoJPanel.add (tCorpName);
+
 		if (isActive ()) {
 			tPercentOwned = new JLabel (buildPercentOwnedLabel ());
 			tCorpInfoJPanel.add (tPercentOwned);
@@ -315,6 +318,10 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 				tCorpInfoJPanel.add (tDiscount);
 			}
 		}
+		tCertificate = corporationCertificates.getCertificate (0);
+		tCertificate.setupInfoBuffon ();
+		tInfoButton = tCertificate.getInfoButton ();
+		tCorpInfoJPanel.add (tInfoButton);
 
 		return tCorpInfoJPanel;
 	}
