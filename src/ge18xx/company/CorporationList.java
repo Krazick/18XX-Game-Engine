@@ -152,9 +152,10 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		sortByOperatingOrder ();
 		for (Corporation tCorporation : corporations) {
 			tCorpInfoJPanel = tCorporation.buildCorpInfo ();
-			tCompanyJPanel.add (Box.createHorizontalStrut (10));
+			tCompanyJPanel.add (Box.createHorizontalGlue ());
 			tCompanyJPanel.add (tCorpInfoJPanel);
 		}
+		tCompanyJPanel.add (Box.createHorizontalStrut (10));
 
 		return tCompanyJPanel;
 	}
