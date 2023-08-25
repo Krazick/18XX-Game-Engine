@@ -451,7 +451,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 			tCorpInfoJPanel.add (tCorpLabel);
 
 			if (! isAMinorCompany ()) {
-				tBankPoolOwned =  new JLabel ("[" + getBankPoolPercentage () + " in Bank Pool]");
+				tBankPoolOwned =  new JLabel ("[" + getBankPoolPercentage () + "% in Bank Pool]");
 				tCorpInfoJPanel.add (tBankPoolOwned);
 			}
 			if (tEscrowAmount > 0) {
