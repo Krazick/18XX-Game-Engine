@@ -104,7 +104,7 @@ public class Certificate implements Comparable<Certificate> {
 	JComboBox<String> parValuesCombo;
 	Bidders bidders;
 	CertificateInfoFrame infoFrame;
-
+	JButton infoButton;
 
 	public Certificate (XMLNode aNode, Corporation aCorporation) {
 		String tAllowedOwners;
@@ -163,16 +163,15 @@ public class Certificate implements Comparable<Certificate> {
 		setFrameButton (checkBox, GUI.EMPTY_STRING);
 	}
 
-	public void setupInfoBuffon (JPanel tCertificateInfoJPanel) {
-		JButton tInfoButton;
-		
-		tInfoButton = new JButton ("Info");
-		if (infoFrame == CertificateInfoFrame.NO_CERTIFICATE_INFO_FRAME) {
-			setupInfoFrame (corporation);
+	public void setupInfoBuffon () {
+		if (infoButton == GUI.NO_BUTTON) {
+			infoButton = new JButton ("Info");
+			if (infoFrame == CertificateInfoFrame.NO_CERTIFICATE_INFO_FRAME) {
+				setupInfoFrame (corporation);
+			}
+			infoButton.setActionCommand (CertificateInfoFrame.GET_INFO);
+			infoButton.addActionListener (infoFrame);
 		}
-		tInfoButton.setActionCommand (CertificateInfoFrame.GET_INFO);
-		tInfoButton.addActionListener (infoFrame);
-		tCertificateInfoJPanel.add (tInfoButton);
 	}
 
 	public void setupInfoFrame (Corporation aCorporation) {
@@ -184,6 +183,10 @@ public class Certificate implements Comparable<Certificate> {
 
 	public CertificateInfoFrame getCertificateInfoFrame () {
 		return infoFrame;
+	}
+	
+	public JButton getInfoButton () {
+		return infoButton;
 	}
 	
 	public void fillCertificateInfo (GameManager aGameManager) {
@@ -348,6 +351,8 @@ public class Certificate implements Comparable<Certificate> {
 		handlePrice (aCheckBoxLabel, aItemListener, aIsBankHolder, tCertificateInfoJPanel, tCertificateFlags);
 		handleRevenue (tCertificateInfoJPanel);
 		handleLoans (tCertificateInfoJPanel);
+		setupInfoBuffon ();
+		tCertificateInfoJPanel.add (infoButton);
 
 		tCertificateFlags.setPlayerHasEnoughToCashToBid (addBidderLabels (tCertificateInfoJPanel, 
 								tCertificateFlags.getPlayerCash ()));
@@ -641,7 +646,6 @@ public class Certificate implements Comparable<Certificate> {
 		tNote = corporation.getNote ();
 		tPrimaryLabel.setToolTipText (tNote);
 		tCertificateInfoJPanel.add (tPrimaryLabel);
-		setupInfoBuffon (tCertificateInfoJPanel);
 		
 		return tCertificateInfoJPanel;
 	}
