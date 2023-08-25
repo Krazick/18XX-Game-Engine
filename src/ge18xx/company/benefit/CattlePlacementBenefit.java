@@ -150,7 +150,6 @@ public class CattlePlacementBenefit extends MapBenefit {
 		}
 	}
 	
-	
 	@Override
 	public JLabel getBenefitLabel () {
 		JLabel tBenefitLabel;
@@ -161,5 +160,4 @@ public class CattlePlacementBenefit extends MapBenefit {
 		
 		return tBenefitLabel;
 	}
-
 }
