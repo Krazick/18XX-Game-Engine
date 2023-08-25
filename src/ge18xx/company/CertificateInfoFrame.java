@@ -79,8 +79,6 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 	}
 	
 	public void fillFrame () {
-		Benefits tBenefits;
-
 		Corporation tCorporation;
 		String tCompanyType;
 		String tCompanyInfo;
@@ -92,7 +90,6 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		JLabel tNoteJLabel;
 		JLabel tPrice;
 		JLabel tRevenue;
-		JLabel tBenefitJLabel;
 		JButton tOKButton;
 		
 		certificateInfoJPanel = new JPanel ();
@@ -128,10 +125,25 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		certificateInfoJPanel.add (tRevenue);
 		certificateInfoJPanel.add (Box.createVerticalStrut (10));
 		
+		fillBenefits (tCorporation, tCompanyType);
+		certificateInfoJPanel.add (Box.createVerticalStrut (10));
+		
+		tOKButton = new JButton (OK_STRING);
+		tOKButton.setActionCommand (OK_STRING);
+		tOKButton.addActionListener (this);
+		certificateInfoJPanel.add (tOKButton);
+		
+		add (certificateInfoJPanel);
+		pack ();
+		setPreferredSize (getPreferredSize ());
+	}
+
+	public void fillBenefits (Corporation tCorporation, String tCompanyType) {
+		Benefits tBenefits;
+		JLabel tBenefitJLabel;
 		
 		if (! tCorporation.isAShareCompany ()) {
 			tBenefits = tCorporation.getBenefits ();
-			
 			if ((tCorporation.isAPrivateCompany ())  && (tBenefits == Benefits.NO_BENEFITS)) {
 				tBenefitJLabel = new JLabel ("Benefits: NO BENEFITS");
 				certificateInfoJPanel.add (tBenefitJLabel);
@@ -145,16 +157,6 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 				certificate.addBenefitLabels (certificateInfoJPanel, true);
 			}
 		}
-		certificateInfoJPanel.add (Box.createVerticalStrut (10));
-		
-		tOKButton = new JButton (OK_STRING);
-		tOKButton.setActionCommand (OK_STRING);
-		tOKButton.addActionListener (this);
-		certificateInfoJPanel.add (tOKButton);
-		
-		add (certificateInfoJPanel);
-		pack ();
-		setPreferredSize (getPreferredSize ());
 	}
 
 	public void updateWithShareCompanyInfo (Corporation tCorporation) {
