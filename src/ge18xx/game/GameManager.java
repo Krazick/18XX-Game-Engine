@@ -2114,12 +2114,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public Point getOffsetCorporationFrame () {
 		CorporationFrame tCorporationFrame;
 		Corporation tOperatingCorporation;
+
 		Point tNewPoint;
 
 		tOperatingCorporation = roundManager.getOperatingCompany ();
-		tCorporationFrame = tOperatingCorporation.getCorporationFrame ();
-		tNewPoint = tCorporationFrame.getOffsetFrame ();
-
+		if (tOperatingCorporation == Corporation.NO_CORPORATION) {
+			tNewPoint = roundManager.getOffsetRoundFrame ();
+		} else {
+			tCorporationFrame = tOperatingCorporation.getCorporationFrame ();
+			tNewPoint = tCorporationFrame.getOffsetFrame ();
+		}
+		
 		return tNewPoint;
 	}
 	
