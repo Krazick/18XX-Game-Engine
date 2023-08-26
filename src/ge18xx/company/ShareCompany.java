@@ -205,7 +205,15 @@ public class ShareCompany extends TokenCompany {
 	
 	@Override
 	public boolean hasReachedDestination () {
-		return destinationInfo.hasReached ();
+		boolean tHasReachedDestination;
+		
+		if (hasDestination ()) {
+			tHasReachedDestination = destinationInfo.hasReached ();
+		} else {
+			tHasReachedDestination = true;
+		}
+		
+		return tHasReachedDestination;
 	}
 	
 	public JPanel buildPrivatesForPurchaseJPanel (ItemListener aItemListener) {
