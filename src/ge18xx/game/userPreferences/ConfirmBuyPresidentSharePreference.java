@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import ge18xx.game.GameManager;
 import ge18xx.utilities.XMLNode;
 
-public class ConfirmBuyPresidentSharePreference extends ConfirmDecisionPreference implements ItemListener {
+public class ConfirmBuyPresidentSharePreference extends TrueFalseDecisionPreference implements ItemListener {
 	public final static String decisionType = "BuyPresidentShare";
 	public final static String buttonText = "Provide Buy President Share confirmation Box";
 	JCheckBox confirmBuyPresidentShare;

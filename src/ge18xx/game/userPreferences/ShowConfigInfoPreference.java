@@ -13,7 +13,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class ShowConfigInfoPreference extends ConfirmDecisionPreference implements ItemListener {
+public class ShowConfigInfoPreference extends TrueFalseDecisionPreference implements ItemListener {
 	public static final ElementName EN_CONFIG_INFO = new ElementName ("ConfigInfo");
 	public static final AttributeName AN_SHOW = new AttributeName ("show");
 	public final static String buttonText = "Show Config Info File (full Path) when saving";

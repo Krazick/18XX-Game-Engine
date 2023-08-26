@@ -13,7 +13,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class ClientNameInFramePreference extends ConfirmDecisionPreference implements ItemListener {
+public class ClientNameInFramePreference extends TrueFalseDecisionPreference implements ItemListener {
 	public static final ElementName EN_CLIENT_NAME = new ElementName ("ClientName");
 	public static final AttributeName AN_IN_FRAME = new AttributeName ("inFrame");
 	public final static String buttonText = "Show Client Name in Frame Titles (Network Games Only)";

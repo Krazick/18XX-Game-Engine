@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import ge18xx.game.GameManager;
 import ge18xx.utilities.XMLNode;
 
-public class ConfirmDontBuyTrainPreference extends ConfirmDecisionPreference implements ItemListener {
+public class ConfirmDontBuyTrainPreference extends TrueFalseDecisionPreference implements ItemListener {
 	public final static String decisionType = "DontBuyTrain";
 	public final static String buttonText = "Provide \"Do Not Buy Train\" Reminder Confirmation Box.";
 	JCheckBox confirmDontBuyTrain;
