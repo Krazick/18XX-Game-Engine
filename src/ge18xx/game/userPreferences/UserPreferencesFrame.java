@@ -29,6 +29,7 @@ public class UserPreferencesFrame extends XMLFrame {
 	private static final int ShowConfigIndex = 2;
 	private static final int ConfirmDontBuyTrainIndex = 3;
 	private static final int ConfirmBuyPresidentShareIndex = 4;
+	private static final int AlwaysShowEscrow = 5;
 	JTabbedPane tabbedPane;
 	JPanel userPreferencesPanel;
 	JPanel frameInfoPanel;
@@ -95,6 +96,9 @@ public class UserPreferencesFrame extends XMLFrame {
 		buildUserPreferences (tUserPreference);
 		
 		tUserPreference = new ConfirmBuyPresidentSharePreference (aGameManager);
+		buildUserPreferences (tUserPreference);
+		
+		tUserPreference = new ShowEscrowPreference (aGameManager);
 		buildUserPreferences (tUserPreference);
 	}
 	
@@ -171,6 +175,14 @@ public class UserPreferencesFrame extends XMLFrame {
 		return tConfirmBuyPresidentSharePreference.getConfirmBuyPresidentShare ();
 	}
 
+	public boolean getAlwaysShowEscrowPreference () {
+		ShowEscrowPreference tShowEscrowPreference;
+		
+		tShowEscrowPreference = (ShowEscrowPreference) userPreferences.get (AlwaysShowEscrow);
+		
+		return tShowEscrowPreference.getAlwaysShowEscrow ();
+	}
+
 	public XMLElement createElement (XMLDocument aXMLDocument) {
 		XMLElement tPreferencesElement;
 		
@@ -192,7 +204,7 @@ public class UserPreferencesFrame extends XMLFrame {
 		PlayerOrderPreference tPlayerOrderPreference;
 		ClientNameInFramePreference tClientNameInFramePreference;
 		ShowConfigInfoPreference tShowConfigInfoPreference;
-		ConfirmDecisionPreference tConfirmDecisionPreference;
+		TrueFalseDecisionPreference tConfirmDecisionPreference;
 		
 		tChildren = aPreferencesNode.getChildNodes ();
 		tNodeCount = tChildren.getLength ();
@@ -212,12 +224,16 @@ public class UserPreferencesFrame extends XMLFrame {
 					tShowConfigInfoPreference = (ShowConfigInfoPreference) userPreferences.get (ShowConfigIndex);
 					tShowConfigInfoPreference.parsePreference (tChildNode);
 				}
-				if (ConfirmDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
-					tConfirmDecisionPreference = (ConfirmDecisionPreference) userPreferences.get (ConfirmDontBuyTrainIndex);
+				if (TrueFalseDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
+					tConfirmDecisionPreference = (TrueFalseDecisionPreference) userPreferences.get (ConfirmDontBuyTrainIndex);
 					tConfirmDecisionPreference.parsePreference (tChildNode);
 				}
-				if (ConfirmDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
-					tConfirmDecisionPreference = (ConfirmDecisionPreference) userPreferences.get (ConfirmBuyPresidentShareIndex);
+				if (TrueFalseDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
+					tConfirmDecisionPreference = (TrueFalseDecisionPreference) userPreferences.get (ConfirmBuyPresidentShareIndex);
+					tConfirmDecisionPreference.parsePreference (tChildNode);
+				}
+				if (TrueFalseDecisionPreference.EN_CONFIRM_DECISION.equals (tNodeName)) {
+					tConfirmDecisionPreference = (TrueFalseDecisionPreference) userPreferences.get (AlwaysShowEscrow);
 					tConfirmDecisionPreference.parsePreference (tChildNode);
 				}
 			}
