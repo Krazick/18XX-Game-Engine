@@ -2820,6 +2820,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return userPreferencesFrame.confirmBuyPresidentShare ();
 	}
 	
+	public boolean getAlwaysShowEscrow () {
+		return userPreferencesFrame.getAlwaysShowEscrowPreference ();
+	}
+
 	@Override
 	public int getSelectedGameIndex () {
 		return playerInputFrame.getSelectedGameIndex ();
