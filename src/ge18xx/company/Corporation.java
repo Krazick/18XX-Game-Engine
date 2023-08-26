@@ -1417,7 +1417,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return corporationCertificates.getPlayerOrCorpOwnedPercentageFor (this)/PhaseInfo.STANDARD_SHARE_SIZE;
 	}
 
-	public String buildPercentOwnedLabel () {
+	public String buildPercentOwned () {
 		return "[" + getPlayerOrCorpOwnedPercentage () + "% Owned]";
 	}
 	
