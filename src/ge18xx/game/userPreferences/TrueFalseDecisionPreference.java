@@ -18,7 +18,7 @@ import ge18xx.utilities.XMLNode;
 //    Buy the President Share of a Stock (in case it was chosen by accident)
 //    Perform 'DONE' during Company Operation if train does not have a Train -- not required if company MUST buy a Train
 
-public class ConfirmDecisionPreference extends UserPreference {
+public class TrueFalseDecisionPreference extends UserPreference {
 	public static final ElementName EN_CONFIRM_DECISION = new ElementName ("ConfirmDecision");
 	public static final AttributeName AN_TYPE= new AttributeName ("type");
 	public static final AttributeName AN_CHOICE= new AttributeName ("choice");
@@ -26,7 +26,7 @@ public class ConfirmDecisionPreference extends UserPreference {
 	boolean decisionChoice;
 	JCheckBox checkBox;
 
-	public ConfirmDecisionPreference (GameManager aGameManager) {
+	public TrueFalseDecisionPreference (GameManager aGameManager) {
 		super (aGameManager);
 	}
 
