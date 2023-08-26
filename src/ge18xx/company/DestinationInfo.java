@@ -119,10 +119,12 @@ public class DestinationInfo {
 		int tParPrice;
 		
 		tEscrowReleased = 0;
-		tSharesSold = aShareCompany.getSharesOwned ();
-		tParPrice = aShareCompany.getParPrice ();
-		if (tSharesSold > 5) {
-			tEscrowReleased = (tSharesSold - 5) * tParPrice;
+		if (!reached) {
+			tSharesSold = aShareCompany.getSharesOwned ();
+			tParPrice = aShareCompany.getParPrice ();
+			if (tSharesSold > 5) {
+				tEscrowReleased = (tSharesSold - 5) * tParPrice;
+			}
 		}
 		
 		return tEscrowReleased;
