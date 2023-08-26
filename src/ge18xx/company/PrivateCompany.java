@@ -290,7 +290,7 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 		tCorpInfoJPanel.add (tCorpName);
 
 		if (isActive ()) {
-			tPercentOwned = new JLabel (buildPercentOwnedLabel ());
+			tPercentOwned = new JLabel (buildPercentOwned ());
 			tCorpInfoJPanel.add (tPercentOwned);
 			tPresidentName = new JLabel ("Prez: " + getPresidentName ());
 			tCorpInfoJPanel.add (tPresidentName);
