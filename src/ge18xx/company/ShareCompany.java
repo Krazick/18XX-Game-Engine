@@ -183,7 +183,7 @@ public class ShareCompany extends TokenCompany {
 		tReachedDestinationAction.addReachedDestinationEffect (this, tReachedDestination, 
 				tOldCapitalizationLevel, tNewCapitalizationLevel);
 		
-		tEscrowReleased = destinationInfo.calculateEscrowToRelease (this);
+		tEscrowReleased = calculateEscrowToRelease ();
 		tBank.transferCashTo (this, tEscrowReleased);
 
 		tReachedDestinationAction.addCashTransferEffect (tBank, this, tEscrowReleased);
