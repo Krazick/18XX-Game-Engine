@@ -351,8 +351,6 @@ public class Certificate implements Comparable<Certificate> {
 		handlePrice (aCheckBoxLabel, aItemListener, aIsBankHolder, tCertificateInfoJPanel, tCertificateFlags);
 		handleRevenue (tCertificateInfoJPanel);
 		handleLoans (tCertificateInfoJPanel);
-		setupInfoBuffon ();
-		tCertificateInfoJPanel.add (infoButton);
 
 		tCertificateFlags.setPlayerHasEnoughToCashToBid (addBidderLabels (tCertificateInfoJPanel, 
 								tCertificateFlags.getPlayerCash ()));
@@ -410,6 +408,8 @@ public class Certificate implements Comparable<Certificate> {
 		} else {
 			System.err.println ("No label that matches [" + aCheckBoxLabel + "]");
 		}
+		setupInfoBuffon ();
+		tCertificateInfoJPanel.add (infoButton);
 
 		return tCertificateInfoJPanel;
 	}
