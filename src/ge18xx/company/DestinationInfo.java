@@ -13,6 +13,11 @@ public class DestinationInfo {
 	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
 	static final AttributeName AN_ESCROW = new AttributeName ("escrow");
+	// TODO:
+	// Should take the location, and MapCell and make a sub-item "Destination" that is an array.
+	// This will allow for 1853 to support multiple Destinations (setup in the initial contract
+	// that can be used to determine if -ALL- Destinations have been reached, the escrow is then released.
+	// 1856 will use same destination, and the variable escrow.
 	Location location;
 	MapCell mapCell;
 	String label;
