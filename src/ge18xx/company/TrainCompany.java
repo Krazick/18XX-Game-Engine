@@ -457,8 +457,10 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		tCorpInfoJPanel = new JPanel ();
 		tCorpInfoJPanel.setLayout (new BoxLayout (tCorpInfoJPanel, BoxLayout.Y_AXIS));
 		tCorpAbbrev = getAbbrev ();
-		if (hasReachedDestination ()) {
-			tCorpAbbrev += "*";
+		if (hasDestination ()) {
+			if (hasReachedDestination ()) {
+				tCorpAbbrev += "*";
+			}
 		}
 		tCorpLabel = new JLabel (tCorpAbbrev);
 		tCorpInfoJPanel.add (tCorpLabel);
