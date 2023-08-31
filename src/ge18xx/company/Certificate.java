@@ -164,14 +164,12 @@ public class Certificate implements Comparable<Certificate> {
 	}
 
 	public void setupInfoBuffon () {
-		if (infoButton == GUI.NO_BUTTON) {
-			infoButton = new JButton ("Info");
-			if (infoFrame == CertificateInfoFrame.NO_CERTIFICATE_INFO_FRAME) {
-				setupInfoFrame (corporation);
-			}
-			infoButton.setActionCommand (CertificateInfoFrame.GET_INFO);
-			infoButton.addActionListener (infoFrame);
+		infoButton = new JButton ("Info");
+		if (infoFrame == CertificateInfoFrame.NO_CERTIFICATE_INFO_FRAME) {
+			setupInfoFrame (corporation);
 		}
+		infoButton.setActionCommand (CertificateInfoFrame.GET_INFO);
+		infoButton.addActionListener (infoFrame);
 	}
 
 	public void setupInfoFrame (Corporation aCorporation) {
