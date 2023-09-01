@@ -304,6 +304,10 @@ public class GameInfo {
 		}
 	};
 
+	public void setGameManager (GameManager aGameManager) {
+		phaseManager.setGameManager (aGameManager);
+	}
+	
 	public void setVariants (Variant [] aVariants) {
 		variants = aVariants;
 	}
