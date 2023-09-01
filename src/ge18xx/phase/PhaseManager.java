@@ -1,15 +1,19 @@
 package ge18xx.phase;
 
+import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.List;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
+import ge18xx.company.special.TriggerClass;
+import ge18xx.game.GameManager;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -25,12 +29,18 @@ public class PhaseManager {
 	final static AttributeName AN_CURRENT_PHASE = new AttributeName ("currentPhase");
 	List<PhaseInfo> phases;
 	int currentPhase;
+	GameManager gameManager;
+	TriggerClass [] triggerClasses;
 
 	public PhaseManager () {
 		phases = new LinkedList<> ();
 		setCurrentPhase (NO_PHASE);
 	}
 
+	public void setGameManager (GameManager aGameManager) {
+		gameManager = aGameManager;
+	}
+	
 	public void addPhase (PhaseInfo aPhase) {
 		if (phases == NO_PHASES) {
 			System.err.println ("Phases Linked List not Initialized");
@@ -194,11 +204,22 @@ public class PhaseManager {
 		return tTrainLimit;
 	}
 
+	public String getTriggerClass () {
+		String tTriggerClass;
+		PhaseInfo tPhaseInfo;
+		
+		tPhaseInfo = getCurrentPhaseInfo ();
+		tTriggerClass = tPhaseInfo.getTriggerClass ();
+		
+		return tTriggerClass;
+	}
+	
 	public void performPhaseChange (TrainCompany aTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction,
 			Bank aBank) {
 		TrainInfo tTrainInfo;
 		PhaseInfo tCurrentPhase;
 		String tRustTrainName;
+		String tTriggerClass;
 		int tPhaseIndex;
 		int tOldPhaseIndex;
 
@@ -219,9 +240,40 @@ public class PhaseManager {
 			if (tCurrentPhase.getClosePrivates ()) {
 				aBank.closeAllPrivates (aBuyTrainAction);
 			}
+			
+			tTriggerClass = getTriggerClass ();
+			if (tTriggerClass != GUI.NULL_STRING) {
+				System.out.println ("Ready to Trigger Class [" + tTriggerClass + "]");
+				callTriggerClass (tTriggerClass);
+			}
 		}
 	}
 
+	public void callTriggerClass (String aTriggerClass) {
+		Class<?> tTriggerClass;
+		Constructor<?> tTriggerConstructor;
+		TriggerClass tTriggerClassActual;
+		
+		try {
+			tTriggerClass = Class.forName (aTriggerClass);
+			tTriggerConstructor = tTriggerClass.getConstructor (gameManager.getClass ());
+			tTriggerClassActual = (TriggerClass) tTriggerConstructor.newInstance (gameManager);
+			addTriggerClass (tTriggerClassActual);
+		} catch (ClassNotFoundException tException) {
+			System.err.println (
+					"Could not find Class for Effect " + aTriggerClass + " due to Rename and using old Save Game");
+		} catch (Exception tException) {
+			System.err.println ("Caught Exception with message ");
+			System.err.println ("Class name " + aTriggerClass);
+			tException.printStackTrace ();
+		}
+	}
+	
+	public void addTriggerClass (TriggerClass aTriggerClass) {
+//		triggerClasses.add (tTriggerClassActual);
+
+	}
+	
 	public void printAllPhaseInfos () {
 		PhaseInfo tPhaseInfo;
 		int tPhaseIndex;
