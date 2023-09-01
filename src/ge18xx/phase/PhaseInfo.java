@@ -40,6 +40,8 @@ public class PhaseInfo {
 	static final AttributeName AN_MIN_TO_FLOAT_LAST = new AttributeName ("minToFloatLast");
 	static final AttributeName AN_MAJOR_TILE_LAYS = new AttributeName ("majorTileLays");
 	static final AttributeName AN_MINOR_TILE_LAYS = new AttributeName ("minorTileLays");
+	static final AttributeName AN_TRIGGER_CLASS = new AttributeName ("triggerClass");
+	
 	static final int SORT_PHASE1_BEFORE_PHASE2 = -100;
 	static final int SORT_PHASE2_BEFORE_PHASE1 = 100;
 
@@ -72,10 +74,11 @@ public class PhaseInfo {
 	boolean governmentCanForm;
 	boolean governmentMustForm;
 	String offBoard;
+	String triggerClass;
 
 	public PhaseInfo () {
 		setValues (NO_NAME, NO_NAME, NO_ROUNDS, NO_TILES, NO_LIMIT, NO_LIMIT, NO_LIMIT, NO_OFF_BOARD, false, false,
-				false, false, false, false);
+				false, false, false, false, null);
 	}
 
 	public PhaseInfo (XMLNode aCellNode) {
@@ -94,6 +97,7 @@ public class PhaseInfo {
 		String tOffBoard;
 		String tTileColors;
 		String tTiles[];
+		String tTriggerClass;
 
 		tName = aCellNode.getThisIntAttribute (AN_NAME);
 		tSubName = aCellNode.getThisIntAttribute (AN_SUB_NAME);
@@ -114,8 +118,11 @@ public class PhaseInfo {
 		tLoansAllowed = aCellNode.getThisBooleanAttribute (AN_LOANS_ALLOWED);
 		tGovernmentCanForm = aCellNode.getThisBooleanAttribute (AN_GOVERNMENT_CAN_FORM);
 		tGovernmentMustForm = aCellNode.getThisBooleanAttribute (AN_GOVERNMENT_MUST_FORM);
+		tTriggerClass = aCellNode.getThisAttribute (AN_TRIGGER_CLASS);
+		
 		setValues (tName, tSubName, tRounds, tTiles, tTrainLimit, tMinorTrainLimit, tGovtTrainLimit, tOffBoard,
-				tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tLoansAllowed, tGovernmentCanForm, tGovernmentMustForm);
+				tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tLoansAllowed, tGovernmentCanForm, tGovernmentMustForm,
+				tTriggerClass);
 		parseMajorMinorValues (aCellNode);
 	}
 
@@ -288,7 +295,8 @@ public class PhaseInfo {
 
 	public void setValues (int aName, int aSubName, int aRounds, String [] aTiles, int aTrainLimit,
 			int aMinorTrainLimit, int aGovtTrainLimit, String aOffBoard, boolean aCanBuyPrivate, boolean aCanBuyTrain,
-			boolean aClosePrivates, boolean aLoansAllowed, boolean aGovernmentCanForm, boolean aGovernmentMustForm) {
+			boolean aClosePrivates, boolean aLoansAllowed, boolean aGovernmentCanForm, 
+			boolean aGovernmentMustForm, String aTriggerClass) {
 		name = aName;
 		subName = aSubName;
 		rounds = aRounds;
@@ -304,12 +312,17 @@ public class PhaseInfo {
 		governmentCanForm = aGovernmentCanForm;
 		governmentMustForm = aGovernmentMustForm;
 		willFloat = 6;
+		triggerClass = aTriggerClass;
 	}
 
 	public boolean canBuyTrainInPhase () {
 		return canBuyTrain;
 	}
 
+	public String getTriggerClass () {
+		return triggerClass;
+	}
+	
 	public boolean loansAllowed () {
 		return loansAllowed;
 	}
