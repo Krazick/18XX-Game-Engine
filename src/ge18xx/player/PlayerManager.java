@@ -98,6 +98,10 @@ public class PlayerManager {
 		}
 	}
 	
+	public List<Player> getPlayers () {
+		return players;
+	}
+	
 	public void addMessageBeans () {
 		MessageBean tBean;
 		
