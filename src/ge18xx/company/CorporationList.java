@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -1281,6 +1282,21 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tFoundBenefit;
 	}
 
+	public ShareCompany findCompanyWithSpecial (JButton aJButton) {
+		ShareCompany tFoundShareCompany;
+		ShareCompany tShareCompany;
+		
+		tFoundShareCompany = ShareCompany.NO_SHARE_COMPANY;
+		for (Corporation tCorporation : corporations) {
+			tShareCompany = (ShareCompany) tCorporation;
+			if (tShareCompany.hasSpecialButton (aJButton)) {
+				tFoundShareCompany = tShareCompany;
+			}
+		}
+		
+		return tFoundShareCompany;
+	}
+	
 	// Pass method calls over to Round Manager
 
 	public void addAction (Action aAction) {
