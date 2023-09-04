@@ -1,7 +1,10 @@
 package ge18xx.company;
 
 import java.awt.event.ItemListener;
+import java.util.LinkedList;
+import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -65,7 +68,8 @@ public class ShareCompany extends TokenCompany {
 	int sharePriceColumn;
 	boolean mustBuyCoupon;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
-
+	List<JButton> specialButtons;
+	
 	public ShareCompany (XMLNode aChildNode, CorporationList aCorporationList) {
 		super (aChildNode, aCorporationList);
 		int tParPrice;
@@ -74,12 +78,14 @@ public class ShareCompany extends TokenCompany {
 		String tStartCell;
 
 		destinationInfo = new DestinationInfo (aChildNode);
+		specialButtons = new LinkedList<JButton> ();
 		tStartCell = aChildNode.getThisAttribute (AN_START_PRICE, NO_START_CELL);
 		tParPrice = aChildNode.getThisIntAttribute (AN_PAR_PRICE, NO_PAR_PRICE);
 		tLoanCount = aChildNode.getThisIntAttribute (AN_LOAN_COUNT, NO_LOANS);
 		tLoanTaken = aChildNode.getThisBooleanAttribute (AN_LOAN_TAKEN);
 		setNoPrice ();
 		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, tLoanCount, tLoanTaken, tStartCell);
+		
 	}
 
 	@Override
@@ -1090,5 +1096,22 @@ public class ShareCompany extends TokenCompany {
 	 */
 	@Override
 	public void removeBenefitButtons () {
+	}
+	
+	public void addSpecialButton (JButton aSpecialButton) {
+		specialButtons.add (aSpecialButton);
+	}
+	
+	public boolean hasSpecialButton (JButton aSpecialButton) {
+		boolean tHasSpecialButton;
+		
+		tHasSpecialButton = false;
+		for (JButton tSpecialButton : specialButtons) {
+			if (tSpecialButton == aSpecialButton) {
+				tHasSpecialButton = true;
+			}
+		}
+		
+		return tHasSpecialButton;
 	}
 }
