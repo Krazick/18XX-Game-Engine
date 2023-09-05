@@ -352,7 +352,7 @@ public class XMLFrame extends JFrame {
 	}
 
 	public void hideFrame () {
-		this.setVisible (false);
+		setVisible (false);
 	}
 	
 	public void setScrollPanePSize (Dimension aNewDimension) {
