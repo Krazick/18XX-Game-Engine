@@ -1521,7 +1521,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	}
 
 	public void hideTrainRevenueFrame () {
-		trainRevenueFrame.setVisible (false);
+		trainRevenueFrame.hideFrame ();
 	}
 
 	@Override
@@ -2252,7 +2252,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		// Need to clear the Frame Setup Flag for the Next Company Operating to be able
 		// to update.
 		trainRevenueFrame.setFrameSetup (false);
-		trainRevenueFrame.setVisible (false);
+		trainRevenueFrame.hideFrame ();
 	}
 
 	@Override

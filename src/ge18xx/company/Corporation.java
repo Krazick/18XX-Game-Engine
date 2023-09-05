@@ -1478,7 +1478,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public void hideFrame () {
-		corporationFrame.setVisible (false);
+		corporationFrame.hideFrame ();
 	}
 
 	public boolean isActive () {

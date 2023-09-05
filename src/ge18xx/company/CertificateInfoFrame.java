@@ -57,10 +57,10 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		if (GET_INFO.equals (tTheAction)) {
 			tLocation = getOffset ();
 			setLocation (tLocation);
-			setVisible (true);
+			showFrame ();
 		}
 		if (OK_STRING.equals (tTheAction)) {
-			setVisible (false);
+			hideFrame ();
 		}
 	}
 
