@@ -3,6 +3,7 @@ package ge18xx.company.special;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,6 +20,7 @@ import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
+import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.utilities.GUI;
 
@@ -35,13 +37,15 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	boolean repaymentFinished;
 	Player player;
 	GameManager gameManager;
+	LoanRepayment loanRepayment;
 	
-	public PlayerLoanRepaymentJPanel (GameManager aGameManager, Player aPlayer, boolean aActingPresident) {
-		player = aPlayer;
+	public PlayerLoanRepaymentJPanel (GameManager aGameManager, LoanRepayment aLoanRepayment, Player aPlayer, 
+							boolean aActingPresident) {
 		gameManager = aGameManager;
+		loanRepayment = aLoanRepayment;
+		player = aPlayer;
 		repaymentFinished = false;
 		buildPlayerLoanRepaymentJPanel (aActingPresident);
-		System.out.println ("Ready to build Player Loan Repayment Panel for " + aPlayer.getName ());
 	}
 
 	public void buildPlayerLoanRepaymentJPanel (boolean aActingPlayer) {
@@ -79,6 +83,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 			tToolTip = GUI.EMPTY_STRING;
 		} else {
 			tToolTip= "One or more Companies have loans to be repaid";
+			tToolTip = GUI.EMPTY_STRING;
 		}
 		tDone = buildSpecialButton (DONE, DONE, tToolTip);
 		add (tDone);
@@ -295,18 +300,37 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		JButton tActivatedButton;
 		
 		tActionCommand = aEvent.getActionCommand ();
-		System.out.println ("Action Command selected: " + tActionCommand);
+		System.out.println ("Action Command selected: " + tActionCommand + " for " + player.getName ());
 		tActivatedButton = getActivatedButton (aEvent);
 		if (tActivatedButton != GUI.NO_BUTTON) {
 			tShareCompany = findShareCompany (tActivatedButton);
-			System.out.println ("Button for Share Company " + tShareCompany.getAbbrev ());
 			if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
-				tPlayer = (Player) tShareCompany.getPresident ();
-				System.out.println ("President of Company is " + tPlayer.getName ());
+				System.out.println ("Button for Share Company " + tShareCompany.getAbbrev ());
+				if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
+					tPlayer = (Player) tShareCompany.getPresident ();
+					System.out.println ("President of Company is " + tPlayer.getName ());
+				}
 			}
+		}
+		if (tActionCommand.equals (DONE)) {
+			handlePlayerDone ();
 		}
 	}
 
+	public void handlePlayerDone () {
+		List<Player> tPlayers;
+		PlayerManager tPlayerManager;
+		
+		repaymentFinished = true;
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayers = tPlayerManager.getPlayers ();
+		loanRepayment.updateToNextPlayer (tPlayers);
+	}
+	
+	public boolean repaymentFinished () {
+		return repaymentFinished;
+	}
+	
 	public JButton getActivatedButton (ActionEvent aEvent) {
 		JButton tActivatedButton;
 		Object tSource;
