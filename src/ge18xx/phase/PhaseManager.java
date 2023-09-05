@@ -243,7 +243,6 @@ public class PhaseManager {
 			
 			tTriggerClass = getTriggerClass ();
 			if (tTriggerClass != GUI.NULL_STRING) {
-				System.out.println ("Ready to Trigger Class [" + tTriggerClass + "]");
 				callTriggerClass (tTriggerClass);
 			}
 		}
