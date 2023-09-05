@@ -20,11 +20,6 @@ import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 
 public class LoanRepayment extends TriggerClass implements ActionListener {
-	public static final String PAY_FROM_TREASURY = "Pay From Treasury";
-	public static final String PAY_FROM_PRESIDENT = "Pay From President";
-	public static final String CONFIRM_REPAYMENT = "Confirm Repayment";
-	public static final String PAY_TREASURY = "PayTreasury";
-	public static final String PAY_PRESIDENT = "PayPresident";
 	public static final String DONE = "Done";
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 
@@ -89,14 +84,20 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		tFirstPresident = findActingPresident ();
 		if (tActingPresident == tFirstPresident) {
 			tFoundNextPlayer = false;
-			System.out.println ("All Players processed");
+			allRepaymentsDone ();
 		} else {
 			tFoundNextPlayer = true;
+			currentPlayerIndex = tNextPlayerIndex;
+			System.out.println ("Updated to Next Player " + tActingPresident.getName () + " (" + tNextPlayerIndex + ")");
 			updatePlayers (aPlayers, tActingPresident);
-			System.out.println ("Updated to Next Player");
 		}
 		
 		return tFoundNextPlayer;
+	}
+	
+	public void allRepaymentsDone () {
+		System.out.println ("All Players processed");
+		allLoanRepaymentFrame.hideFrame ();
 	}
 	
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
@@ -105,7 +106,7 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		PlayerLoanRepaymentJPanel tPlayerLoanRepaymentPanel;
 		
 		currentPlayerDone = false;
-
+		allLoanRepaymentJPanel.removeAll ();
 		for (Player tPlayer : aPlayers) {
 			if (aActingPresident == tPlayer) {
 				tBackgroundColor = Color.ORANGE;
@@ -115,11 +116,12 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 				tActingPlayer = false;
 			}
 
-			tPlayerLoanRepaymentPanel = new PlayerLoanRepaymentJPanel (gameManager, tPlayer, tActingPlayer);
+			tPlayerLoanRepaymentPanel = new PlayerLoanRepaymentJPanel (gameManager, this, tPlayer, tActingPlayer);
 			tPlayerLoanRepaymentPanel.setBackground (tBackgroundColor);
 			allLoanRepaymentJPanel.add (tPlayerLoanRepaymentPanel);
 			allLoanRepaymentJPanel.add (Box.createVerticalStrut (10));
 		}
+		allLoanRepaymentJPanel.revalidate ();
 	}
 
 	public Player findActingPresident () {
