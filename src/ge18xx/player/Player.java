@@ -1233,7 +1233,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	}
 
 	public void hidePlayerFrame () {
-		playerFrame.setVisible (false);
+		playerFrame.hideFrame ();
 	}
 
 	public boolean isWaiting () {
