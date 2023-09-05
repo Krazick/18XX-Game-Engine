@@ -351,6 +351,10 @@ public class XMLFrame extends JFrame {
 		revalidate ();
 	}
 
+	public void hideFrame () {
+		this.setVisible (false);
+	}
+	
 	public void setScrollPanePSize (Dimension aNewDimension) {
 		if (scrollPane != null) {
 			scrollPane.setPreferredSize (aNewDimension);
