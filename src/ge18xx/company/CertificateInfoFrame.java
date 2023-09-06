@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.benefit.Benefits;
@@ -91,10 +92,12 @@ public class CertificateInfoFrame extends XMLFrame implements ActionListener {
 		JLabel tPrice;
 		JLabel tRevenue;
 		JButton tOKButton;
+		Border tMargin;
 		
+		tMargin = BorderFactory.createEmptyBorder (padding1, padding1, padding1, padding1);
 		certificateInfoJPanel = new JPanel ();
 		certificateInfoJPanel.setLayout (new BoxLayout (certificateInfoJPanel, BoxLayout.Y_AXIS));
-		certificateInfoJPanel.setBorder (BorderFactory.createEmptyBorder (padding1, padding1, padding1, padding1));
+		certificateInfoJPanel.setBorder (tMargin);
 
 		tCorporation = certificate.getCorporation ();
 		tCompanyType = tCorporation.getType ();
