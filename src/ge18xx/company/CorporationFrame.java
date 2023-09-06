@@ -133,7 +133,7 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 
 	public CorporationFrame (String aFrameName, Corporation aCorporation, boolean aIsNetworkGame, GameManager aGameManager) {
 		super (((aCorporation != Corporation.NO_CORPORATION) ? aCorporation.getName () + " " : "") + aFrameName, aGameManager);
-
+		
 		certJPanel = GUI.NO_PANEL;
 		corporation = aCorporation;
 		if (isCorporationSet ()) {
