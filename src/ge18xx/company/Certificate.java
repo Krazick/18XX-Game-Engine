@@ -61,12 +61,11 @@ public class Certificate implements Comparable<Certificate> {
 	public static AttributeName AN_ALLOWED_OWNERS = new AttributeName ("allowedOwners");
 	public static ElementName EN_CERTIFICATE = new ElementName ("Certificate");
 	public static ElementName EN_BIDDERS = new ElementName ("Bidders");
-	public static String NO_OWNER_NAME = "";
+	public static String NO_OWNER_NAME = GUI.EMPTY_STRING;
 	private static String SHARE_OWNER = "Share";
 	private static String IPO_OWNER = "IPO";
 	private static String PLAYER_OWNER = "Player";
-	private static String BANK_POOL_OWNER = "BankPool";
-	public static final String NO_CERTIFICATE_NAME = "";
+	public static final String NO_CERTIFICATE_NAME = GUI.EMPTY_STRING;
 	public static final Certificate NO_CERTIFICATE = null;
 	public static final String NO_REASON = ">> NO REASON <<";
 	public static final String NOT_ENOUGH_CASH = "You do not have enough cash to Buy";
@@ -79,7 +78,6 @@ public class Certificate implements Comparable<Certificate> {
 	public static final String NO_SHARE_PRICE = "No Share Price set";
 	public static final String CANNOT_SELL_PRIVATE = "Cannot sell a Private Company";
 	public static final String CANNOT_SELL_MINOR = "Cannot sell a Minor Company";
-	public static final String BANK_POOL_AT_LIMIT = "Bank Pool at Share Limit";
 	public static final String CANNOT_SELL_PRESIDENT = "Cannot directly sell President Share";
 	public static final String CANNOT_EXCHANGE_PRESIDENT = "Cannot exchange President Share";
 	public static final String COMPANY_NOT_OPERATED = "This Share Company has NOT operated yet";
@@ -93,6 +91,9 @@ public class Certificate implements Comparable<Certificate> {
 	static final float X_CENTER_ALIGNMENT = 0.5f;
 	static final float X_RIGHT_ALIGNMENT = 1.0f;
 	public static final String NO_PAR_PRICE = "???";
+	
+	private String BANK_POOL_AT_LIMIT = "Bank Pool at Share Limit";
+	private String BANK_POOL_OWNER = "Bank";
 
 	Corporation corporation;
 	boolean isPresidentShare;
@@ -162,7 +163,7 @@ public class Certificate implements Comparable<Certificate> {
 		setCheckBox (GUI.NO_CHECK_BOX);
 		setFrameButton (checkBox, GUI.EMPTY_STRING);
 	}
-
+	
 	public void setupInfoBuffon () {
 		infoButton = new JButton ("Info");
 		if (infoFrame == CertificateInfoFrame.NO_CERTIFICATE_INFO_FRAME) {
