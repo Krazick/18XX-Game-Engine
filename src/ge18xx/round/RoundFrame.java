@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 import org.apache.logging.log4j.Logger;
 
@@ -115,9 +117,13 @@ public class RoundFrame extends XMLFrame {
 	}
 
 	private void buildRoundJPanel () {
+		Border tMargin;
+		
 		roundJPanel = new JPanel ();
 		roundJPanel.setLayout (new BoxLayout (roundJPanel, BoxLayout.Y_AXIS));
-		roundJPanel.setBorder (BorderFactory.createEmptyBorder (padding1, padding1, padding1, padding1));
+		tMargin = new EmptyBorder (10,10,10,10);
+
+		roundJPanel.setBorder (tMargin);
 
 		buildHeaderJPanel ();
 		roundJPanel.add (headerJPanel);
