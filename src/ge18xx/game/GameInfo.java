@@ -34,10 +34,12 @@ import ge18xx.utilities.XMLNodeList;
 public class GameInfo {
 	public static final GameInfo NO_GAME_INFO = null;
 	public static final GameInfo [] NO_GAMES = null;
-	public static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
+	public static final String CORPORATION = "corporation";
+	public static final String BANK = "bank";
+	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");
+	static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
 	static final AttributeName AN_ID = new AttributeName ("id");
 	static final AttributeName AN_NAME = new AttributeName ("name");
-	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");
 	final AttributeName AN_TEST_GRAPHS = new AttributeName ("testGraphs");
 	final AttributeName AN_STATUS = new AttributeName ("status");
 	final AttributeName AN_LOANS = new AttributeName ("loans");
@@ -65,7 +67,9 @@ public class GameInfo {
 	final AttributeName AN_MAX_ROUNDS = new AttributeName ("maxRounds");
 	final AttributeName AN_NO_TOUCH_PASS = new AttributeName ("noTouchPass");
 	final AttributeName AN_OPTIONAL_OR = new AttributeName ("optionalOR");
-	
+	final AttributeName AN_BANK_POOL_DIVIDENDS = new AttributeName ("bankPoolDividends");
+	final AttributeName AN_IPO_DIVIDENDS = new AttributeName ("ipoDividends");
+
 	static final int NO_GAME_ID = 0;
 	static final String NO_NAME = "<NONE>";
 	static final int NO_MIN_PLAYERS = 0;
@@ -96,6 +100,8 @@ public class GameInfo {
 	String producers;
 	String releaseDate;
 	String status;
+	String bankPoolDividends;
+	String ipoDividends;
 	boolean noTouchPass;
 	boolean operateBeforeSale;
 	boolean hasPrivates;
@@ -128,6 +134,7 @@ public class GameInfo {
 		setOtherValues (NO_NAME, NO_NAME, NO_NAME, NO_NAME, NO_NAME);
 		setBankPoolShareLimit (NO_SHARE_LIMIT);
 		setPlayerShareLimit (NO_SHARE_LIMIT);
+		setDividendPayments (CORPORATION, BANK);
 		setHasCompanies (false, false, false);
 	}
 
@@ -138,11 +145,27 @@ public class GameInfo {
 		String tChildName;
 		String tGameID;
 		String tStatus;
-		String tName, tCurrencyFormat, tSubTitle, tLocation, tDesigners, tProducers, tReleaseDate;
-		int tID, tMinPlayers, tMaxPlayers, tBankTotal, tFileCount;
-		int tChildrenCount, tIndex, tVariantCount;
-		int tTrainCount, tPlayerCount;
-		int tBankPoolShareLimit, tPlayerShareLimit;
+		String tName;
+		String tCurrencyFormat;
+		String tSubTitle;
+		String tLocation;
+		String tDesigners;
+		String tProducers;
+		String tReleaseDate;
+		String tBankPoolDividends;
+		String tIpoDividends;
+		int tID;
+		int tMinPlayers;
+		int tMaxPlayers;
+		int tBankTotal;
+		int tFileCount;
+		int tChildrenCount;
+		int tIndex;
+		int tVariantCount;
+		int tTrainCount;
+		int tPlayerCount;
+		int tBankPoolShareLimit;
+		int tPlayerShareLimit;
 		int tLoanAmount;
 		int tLoanInterest;
 		int tFirstTokenCost;
@@ -172,6 +195,8 @@ public class GameInfo {
 		tDesigners = aCellNode.getThisAttribute (AN_DESIGNERS);
 		tProducers = aCellNode.getThisAttribute (AN_PRODUCERS);
 		tReleaseDate = aCellNode.getThisAttribute (AN_RELEASE_DATE);
+		tBankPoolDividends = aCellNode.getThisAttribute (AN_BANK_POOL_DIVIDENDS);
+		tIpoDividends = aCellNode.getThisAttribute (AN_IPO_DIVIDENDS);
 
 		tOptionalOR = aCellNode.getThisBooleanAttribute (AN_OPTIONAL_OR);
 		tNoTouchPass = aCellNode.getThisBooleanAttribute (AN_NO_TOUCH_PASS);
@@ -200,6 +225,7 @@ public class GameInfo {
 		setLaterTokenCost (tLaterTokenCost);
 		setMaxRounds (tMaxRounds);
 		setStatus (tStatus);
+		setDividendPayments (tBankPoolDividends, tIpoDividends);
 		setOperateBeforeSale (tOperateBeforeSale);
 		setRandomizeStartOrder (tRandomizeStartOrder);
 		setCanPayHalfDividend (tCanPayHalfDividend);
@@ -805,6 +831,11 @@ public class GameInfo {
 		status = aStatus;
 	}
 
+	public void setDividendPayments (String aBankPoolDividends, String aIpoDividends) {
+		bankPoolDividends = aBankPoolDividends;
+		ipoDividends = aIpoDividends;
+	}
+	
 	public void setHasCompanies (boolean aHasPrivates, boolean aHasMinors, boolean aHasShares) {
 		hasPrivates = aHasPrivates;
 		hasMinors = aHasMinors;
@@ -842,7 +873,14 @@ public class GameInfo {
 		return noTouchPass;
 	}
 	
-	
+	public String getBankPoolDividends () {
+		return bankPoolDividends;
+	}
+
+	public String getIpoPoolDividends () {
+		return ipoDividends;
+	}
+
 	public boolean optionalOR () {
 		return optionalOR;
 	}
