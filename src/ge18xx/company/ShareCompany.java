@@ -68,6 +68,7 @@ public class ShareCompany extends TokenCompany {
 	int sharePriceColumn;
 	boolean mustBuyCoupon;
 	boolean loanTaken;	// Flag set to TRUE if a Loan was taken this OR (limit 1 loan per OR)
+	boolean repaymentHandled;
 	List<JButton> specialButtons;
 	
 	public ShareCompany (XMLNode aChildNode, CorporationList aCorporationList) {
@@ -410,6 +411,14 @@ public class ShareCompany extends TokenCompany {
 		return tDestinationLocation;
 	}
 
+	public void setRepaymentHandled (boolean aRepaymentHandled) {
+		repaymentHandled = aRepaymentHandled;
+	}
+	
+	public boolean wasRepaymentHandled () {
+		return repaymentHandled;
+	}
+	
 	/**
 	 * Flag if the Corporation has taken a loan in this Operating Round.
 	 *
@@ -948,6 +957,7 @@ public class ShareCompany extends TokenCompany {
 		setSharePrice (aSharePrice);
 		setParPrice (aParPrice);
 		setValues (aLoanCount, aLoanTaken, aStartCell);
+		setRepaymentHandled (false);
 	}
 
 	public int getDestinationCapitalizationLevel () {
