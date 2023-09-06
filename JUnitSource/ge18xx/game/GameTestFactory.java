@@ -115,10 +115,6 @@ public class GameTestFactory {
 		Mockito.when (mPhaseInfo.getFullName ()).thenReturn ("TEST1");
 		Mockito.when (mPhaseInfo.getTrainLimit ()).thenReturn (1);
 		Mockito.when (mPhaseInfo.getTiles ()).thenReturn ("TEST_TILES");
-
-//		phaseNameLabel.setText ("Current Phase Name " + tPhaseInfo.getFullName ());
-//		trainLimitLabel.setText ("Train Limit: " + tPhaseInfo.getTrainLimit ());
-//		allowedTilesLabel.setText ("Tile Colors: " + tPhaseInfo.getTiles ());
 		
 		return mPhaseInfo;
 	}
