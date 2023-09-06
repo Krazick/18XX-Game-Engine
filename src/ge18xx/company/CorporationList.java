@@ -157,6 +157,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 			tCompanyJPanel.add (tCorpInfoJPanel);
 		}
 		tCompanyJPanel.add (Box.createHorizontalStrut (10));
+		tCompanyJPanel.add (Box.createHorizontalGlue ());
 
 		return tCompanyJPanel;
 	}
