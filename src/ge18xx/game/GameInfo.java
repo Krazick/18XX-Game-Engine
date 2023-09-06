@@ -36,6 +36,7 @@ public class GameInfo {
 	public static final GameInfo [] NO_GAMES = null;
 	public static final String CORPORATION = "corporation";
 	public static final String BANK = "bank";
+	public static final String BANK_POOL_NAME = "Bank Pool";
 	public static final ElementName EN_GAME_INFO = new ElementName ("GameInfo");
 	static final AttributeName AN_GAME_ID = new AttributeName ("gameID");
 	static final AttributeName AN_ID = new AttributeName ("id");
@@ -69,6 +70,7 @@ public class GameInfo {
 	final AttributeName AN_OPTIONAL_OR = new AttributeName ("optionalOR");
 	final AttributeName AN_BANK_POOL_DIVIDENDS = new AttributeName ("bankPoolDividends");
 	final AttributeName AN_IPO_DIVIDENDS = new AttributeName ("ipoDividends");
+	final AttributeName AN_BANK_POOL_NAME = new AttributeName ("bankPoolName");
 
 	static final int NO_GAME_ID = 0;
 	static final String NO_NAME = "<NONE>";
@@ -102,6 +104,7 @@ public class GameInfo {
 	String status;
 	String bankPoolDividends;
 	String ipoDividends;
+	String bankPoolName;
 	boolean noTouchPass;
 	boolean operateBeforeSale;
 	boolean hasPrivates;
@@ -134,7 +137,7 @@ public class GameInfo {
 		setOtherValues (NO_NAME, NO_NAME, NO_NAME, NO_NAME, NO_NAME);
 		setBankPoolShareLimit (NO_SHARE_LIMIT);
 		setPlayerShareLimit (NO_SHARE_LIMIT);
-		setDividendPayments (CORPORATION, BANK);
+		setDividendPayments (CORPORATION, BANK, BANK_POOL_NAME);
 		setHasCompanies (false, false, false);
 	}
 
@@ -154,6 +157,7 @@ public class GameInfo {
 		String tReleaseDate;
 		String tBankPoolDividends;
 		String tIpoDividends;
+		String tBankPoolName;
 		int tID;
 		int tMinPlayers;
 		int tMaxPlayers;
@@ -197,6 +201,7 @@ public class GameInfo {
 		tReleaseDate = aCellNode.getThisAttribute (AN_RELEASE_DATE);
 		tBankPoolDividends = aCellNode.getThisAttribute (AN_BANK_POOL_DIVIDENDS);
 		tIpoDividends = aCellNode.getThisAttribute (AN_IPO_DIVIDENDS);
+		tBankPoolName = aCellNode.getThisAttribute (AN_BANK_POOL_NAME, BANK_POOL_NAME);
 
 		tOptionalOR = aCellNode.getThisBooleanAttribute (AN_OPTIONAL_OR);
 		tNoTouchPass = aCellNode.getThisBooleanAttribute (AN_NO_TOUCH_PASS);
@@ -225,7 +230,7 @@ public class GameInfo {
 		setLaterTokenCost (tLaterTokenCost);
 		setMaxRounds (tMaxRounds);
 		setStatus (tStatus);
-		setDividendPayments (tBankPoolDividends, tIpoDividends);
+		setDividendPayments (tBankPoolDividends, tIpoDividends, tBankPoolName);
 		setOperateBeforeSale (tOperateBeforeSale);
 		setRandomizeStartOrder (tRandomizeStartOrder);
 		setCanPayHalfDividend (tCanPayHalfDividend);
@@ -831,9 +836,10 @@ public class GameInfo {
 		status = aStatus;
 	}
 
-	public void setDividendPayments (String aBankPoolDividends, String aIpoDividends) {
+	public void setDividendPayments (String aBankPoolDividends, String aIpoDividends, String aBankPoolName) {
 		bankPoolDividends = aBankPoolDividends;
 		ipoDividends = aIpoDividends;
+		bankPoolName = aBankPoolName;
 	}
 	
 	public void setHasCompanies (boolean aHasPrivates, boolean aHasMinors, boolean aHasShares) {
@@ -879,6 +885,10 @@ public class GameInfo {
 
 	public String getIpoPoolDividends () {
 		return ipoDividends;
+	}
+
+	public String getBankPoolName () {
+		return bankPoolName;
 	}
 
 	public boolean optionalOR () {

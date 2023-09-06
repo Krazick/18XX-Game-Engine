@@ -42,7 +42,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		String tActorType;
 		
 		gameManager = aGameManager;
-		name = aName;
+		setName (aName);
 		tPortfolio = new Portfolio (this);
 		tTrainPortfolio = new TrainPortfolio ();
 		setPortfolio (tPortfolio);
@@ -51,6 +51,10 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		bean = new MessageBean (tActorType);
 	}
 
+	public void setName (String aName) {
+		name = aName;
+	}
+	
 	public MessageBean getMessageBean () {
 		return bean;
 	}

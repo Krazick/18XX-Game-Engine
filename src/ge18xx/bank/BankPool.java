@@ -4,6 +4,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JPanel;
 
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
@@ -28,7 +29,9 @@ public class BankPool extends GameBank {
 	public static final ElementName EN_BANK_POOL_STATE = new ElementName ("BankPool");
 	public static final String NAME = "Bank Pool";
 	public static final BankPool NO_BANK_POOL = null;
-
+	
+	String bankPoolName = NAME;
+	
 	ParsingRoutineI bankPoolParsingRoutine = new ParsingRoutine2I () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
@@ -45,7 +48,12 @@ public class BankPool extends GameBank {
 		super (NAME, aGameManager);
 
 		Bank tBank;
-
+		GameInfo tGameInfo;
+		String tBankPoolName;
+		
+		tGameInfo = gameManager.getActiveGame ();
+		tBankPoolName = tGameInfo.getBankPoolName ();
+		setName (tBankPoolName);
 		tBank = aGameManager.getBank ();
 		trainPortfolio.setPortfolioHolder (tBank);
 	}

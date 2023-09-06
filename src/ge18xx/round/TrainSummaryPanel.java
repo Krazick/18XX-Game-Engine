@@ -110,6 +110,8 @@ public class TrainSummaryPanel extends ListenerPanel {
 		tBankName = aBankWithTrains.getName ();
 		if (aBankWithTrains.hasAnyTrains ()) {
 			tBankTrainSummary = tBankName + GUI.NEWLINE + GUI.NEWLINE + aBankWithTrains.getTrainSummary ();
+		} else if (tBankName == GUI.NULL_STRING) {
+			tBankTrainSummary = TrainPortfolio.NO_TRAINS_TEXT;
 		} else if (tBankName.equals (Bank.NAME)){
 			tBankTrainSummary = TrainPortfolio.NO_TRAINS_TEXT;
 		}
