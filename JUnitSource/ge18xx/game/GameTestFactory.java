@@ -83,10 +83,19 @@ public class GameTestFactory {
 		return mGameManager;
 	}
 
+	public GameInfo buildGameInfoMock () {
+		GameInfo mGameInfo = Mockito.mock (GameInfo.class);
+		
+		Mockito.when (mGameInfo.getName ()).thenReturn ("1830Test");
+
+		return mGameInfo;
+	}
+
 	public GameInfo buildGameInfo () {
 		String t1830TestXML = "<GameInfo id=\"1\" name=\"1830TEST\" minPlayers=\"2\" maxPlayers=\"6\" bankTotal=\"1500\"  \n"
 				+ "   currencyFormat=\"$ ###,###\" subtitle=\"1830 Test\" location=\"JUNIT TEST DATA\"\n"
 				+ "   privates=\"true\" shares=\"true\" bankPoolShareLimit=\"5\" playerShareLimit=\"6\">\n"
+				+ "   ipoDividends=\"Bank\" bankPoolDividends=\"corporation\"\n"
 				+ "   <PlayerInfo><Player numPlayers=\"2\" startingCash=\"600\" certificateLimit=\"28\" /></PlayerInfo>\n"
 				+ "   <Phases><Phase name=\"1\" subName=\"1\" rounds=\"1\" tiles=\"Yellow\" trainLimit=\"4\"/></Phases>\n"
 				+ "   <Trains><Train name=\"2\" order=\"1\" revenueCenters=\"2\" quantity=\"6\" price=\"80\" /></Trains>\n"
