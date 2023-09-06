@@ -1119,7 +1119,11 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	public GameManager getGameManager () {
-		return corporationList.getGameManager ();
+		GameManager tGameManager;
+		
+		tGameManager = corporationList.getGameManager ();
+		
+		return tGameManager;
 	}
 
 	// Train Company will override
