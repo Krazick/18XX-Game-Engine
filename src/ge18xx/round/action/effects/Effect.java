@@ -168,11 +168,13 @@ public abstract class Effect {
 	}
 	
 	Effect (XMLNode aEffectNode, GameManager aGameManager) {
-		String tEffectName, tActorName;
+		String tEffectName;
+		String tActorName;
 		ActorI tActor;
-		boolean tIsAPrivate;
-		String tBenefitPrivateAbbrev, tBenefitName;
+		String tBenefitPrivateAbbrev;
+		String tBenefitName;
 		boolean tBenefitUsed;
+		boolean tIsAPrivate;
 
 		tEffectName = aEffectNode.getThisAttribute (AN_NAME);
 		tActorName = aEffectNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
@@ -201,10 +203,12 @@ public abstract class Effect {
 	}
 
 	public boolean actorIsSet () {
-		boolean tActorSet = false;
+		boolean tActorSet;
 
 		if (actor != NO_ACTOR) {
 			tActorSet = true;
+		} else {
+			tActorSet = false;
 		}
 
 		return tActorSet;
@@ -213,9 +217,13 @@ public abstract class Effect {
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 		String tActorName;
+		Class<? extends Effect> tClass;
+		String tClassName;
 
 		tEffectElement = aXMLDocument.createElement (EN_EFFECT);
-		tEffectElement.setAttribute (AN_CLASS, this.getClass ().getName ());
+		tClass = getClass ();
+		tClassName = tClass.getName ();
+		tEffectElement.setAttribute (AN_CLASS, tClassName);
 		if (actor.isACorporation ()) {
 			tActorName = ((Corporation) actor).getAbbrev ();
 		} else {
