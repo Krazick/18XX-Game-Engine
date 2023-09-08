@@ -11,6 +11,7 @@ public class PortfolioSummary {
 	int percentBought;
 	boolean noTouchPass;
 	boolean isPresident;
+	boolean willFold;
 	Border corporateColorBorder;
 	public final static String PRIVATE_CORP_TYPE = "Private";
 	public final static String MINOR_CORP_TYPE = "Minor";
@@ -18,7 +19,8 @@ public class PortfolioSummary {
 	public final static Border NO_BORDER = null;
 
 	PortfolioSummary (String aAbbrev, String aType, int aCount, int aPercentage, int aPercentBought, 
-			boolean aIsPresident, Border aCorporateColorBorder, String aNote, boolean aNoTouchPass) {
+			boolean aIsPresident, Border aCorporateColorBorder, String aNote, boolean aNoTouchPass,
+			boolean aWillFold) {
 		abbrev = aAbbrev;
 		count = aCount;
 		percentage = aPercentage;
@@ -32,6 +34,7 @@ public class PortfolioSummary {
 		}
 		note = aNote;
 		type = aType;
+		willFold = aWillFold;
 	}
 
 	public String getAbbrev () {
@@ -127,5 +130,9 @@ public class PortfolioSummary {
 
 	public String getNote () {
 		return note;
+	}
+	
+	public boolean willFold () {
+		return willFold;
 	}
 }
