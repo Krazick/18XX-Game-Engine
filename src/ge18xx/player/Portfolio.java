@@ -1992,6 +1992,7 @@ public class Portfolio implements CertificateHolderI {
 		boolean tNoTouchPass;
 		boolean tIsPresident;
 		boolean tHandledCertificate;
+		boolean tCorporationIsFolding;
 		
 		Border tCorporateColorBorder;
 		Corporation tCorporation;
@@ -2000,7 +2001,8 @@ public class Portfolio implements CertificateHolderI {
 		if (certificates.size () > 0) {
 			tOwnershipPanel = new JPanel ();
 			tOwnershipPanel.setLayout (new BoxLayout (tOwnershipPanel, BoxLayout.Y_AXIS));
-
+			tCorporationIsFolding = false;
+			
 			tPortfolioSummary = new LinkedList<> ();
 			for (Certificate tCertificate : certificates) {
 				tType = PortfolioSummary.SHARE_CORP_TYPE;
@@ -2019,6 +2021,9 @@ public class Portfolio implements CertificateHolderI {
 				tHandledCertificate = false;
 				
 				tCorporation = tCertificate.getCorporation ();
+				if (tCorporation.willFold ()) {
+					tCorporationIsFolding = true;
+				}
 				tPresidentCertificate = tCorporation.getPresidentCertificate ();
 				if (hasThisCertificate (tPresidentCertificate)) {
 					tIsPresident = true;
@@ -2048,12 +2053,16 @@ public class Portfolio implements CertificateHolderI {
 					}
 					tNote = tCorporation.getNote ();
 					tASummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought,
-							tIsPresident, tCorporateColorBorder, tNote, tNoTouchPass);
+							tIsPresident, tCorporateColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
 					tPortfolioSummary.add (tASummary);
 				}
+				tCorporationIsFolding = false;
 			}
 			for (PortfolioSummary tASingleSummary : tPortfolioSummary) {
 				tOwnershipLabel = tASingleSummary.getSummary ();
+				if (tASingleSummary.willFold ()) {
+					tOwnershipLabel = "** " + tOwnershipLabel + " **";
+				}
 				tCertificateOwnershipLabel = new JLabel (tOwnershipLabel);
 				tCorporateColorBorder = tASingleSummary.getCorporateColorBorder ();
 				if (tCorporateColorBorder != PortfolioSummary.NO_BORDER) {
