@@ -1,9 +1,11 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.company.ShareCompany;
+import ge18xx.company.special.LoanRepayment;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
@@ -56,7 +58,7 @@ public class SetRepaymentHandledEffect extends Effect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + actor.getName () + ".");
+		return (REPORT_PREFIX + name + " for " + actor.getName () + " to TRUE.");
 	}
 
 	@Override
@@ -68,12 +70,17 @@ public class SetRepaymentHandledEffect extends Effect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		ShareCompany tShareCompany;
-
+		GameManager tGameManager;
+		XMLFrame tAllLoanRepaymentJPanel;
+		
 		tEffectApplied = false;
 		if (actor.isATrainCompany ()) {
 			tShareCompany = (ShareCompany) actor;
 			tShareCompany.setRepaymentHandled (replaymentHandled);
 			tEffectApplied = true;
+			tGameManager = aRoundManager.getGameManager ();
+			tAllLoanRepaymentJPanel = tGameManager.getXMLFrameName (LoanRepayment.FRAME_TITLE);
+			tAllLoanRepaymentJPanel.revalidate ();
 		}
 
 		return tEffectApplied;
@@ -83,11 +90,16 @@ public class SetRepaymentHandledEffect extends Effect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		ShareCompany tShareCompany;
-		
+		GameManager tGameManager;
+		XMLFrame tAllLoanRepaymentJPanel;
+	
 		tEffectUndone = false;
 		if (actor.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) actor;
 			tShareCompany.setRepaymentHandled (false);
+			tGameManager = aRoundManager.getGameManager ();
+			tAllLoanRepaymentJPanel = tGameManager.getXMLFrameName (LoanRepayment.FRAME_TITLE);
+			tAllLoanRepaymentJPanel.revalidate ();
 		}
 		tEffectUndone = true;
 
