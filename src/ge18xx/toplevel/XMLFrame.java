@@ -30,14 +30,14 @@ import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class XMLFrame extends JFrame {
-	public GameManager gameManager;
+	public static final XMLFrame NO_XML_FRAME = null;
 	
 	public static enum Visibility {
 		ON, OFF, CONFIG_VALUE
 	}
 
 	private static final long serialVersionUID = 1L;
-	public static final XMLFrame NO_XML_FRAME = null;
+	public GameManager gameManager;
 	boolean defaultVisible;
 	int defaultWidth;
 	int defaultHeight;
