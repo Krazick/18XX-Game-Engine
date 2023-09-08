@@ -32,6 +32,7 @@ class PortfolioSummaryTest {
 		int tPercentBought;
 		boolean tNoTouchPass;
 		boolean tIsPresident;
+		boolean tCorporationIsFolding;
 		Border tColorBorder;
 		String tNote;
 
@@ -43,14 +44,15 @@ class PortfolioSummaryTest {
 		tIsPresident = true;
 		tNote = "Test Case Note";
 		tNoTouchPass = false;
+		tCorporationIsFolding = false;
 		
 		tColorBorder = BorderFactory.createLineBorder (Color.black, 1);
 
-		sharePrezPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, tIsPresident,tColorBorder, tNote, tNoTouchPass);
+		sharePrezPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
 
 		tPercentage = 20;
 		tNoTouchPass = true;
-		sharePrezPortfolioSummaryNTP = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, tIsPresident,tColorBorder, tNote, tNoTouchPass);
+		sharePrezPortfolioSummaryNTP = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
 		
 		tAbbrev = "NPrezTest";
 		tType = "Share";
@@ -62,7 +64,7 @@ class PortfolioSummaryTest {
 
 		tColorBorder = BorderFactory.createLineBorder (Color.black, 1);
 
-		sharePortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, tIsPresident,tColorBorder, tNote, tNoTouchPass);
+		sharePortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
 
 		tAbbrev = "PrivateTest";
 		tType = "Private";
@@ -74,7 +76,7 @@ class PortfolioSummaryTest {
 		tColorBorder = BorderFactory.createLineBorder (Color.blue, 1);
 
 		privatePortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought, 
-				tIsPresident, tColorBorder, tNote, tNoTouchPass);
+				tIsPresident, tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
 
 		tAbbrev = "MinorTest";
 		tType = "Minor";
@@ -86,7 +88,7 @@ class PortfolioSummaryTest {
 		tColorBorder = BorderFactory.createLineBorder (Color.blue, 1);
 
 		minorPrezPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought,
-				tIsPresident,tColorBorder, tNote, tNoTouchPass);
+				tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
 
 		tAbbrev = "MinorNPrezTest";
 		tType = "Minor";
@@ -98,7 +100,7 @@ class PortfolioSummaryTest {
 		tColorBorder = BorderFactory.createLineBorder (Color.blue, 1);
 
 		minorPortfolioSummary = new PortfolioSummary (tAbbrev, tType, tCount, tPercentage, tPercentBought,
-				tIsPresident,tColorBorder, tNote, tNoTouchPass);
+				tIsPresident,tColorBorder, tNote, tNoTouchPass, tCorporationIsFolding);
 	}
 
 	@Test
