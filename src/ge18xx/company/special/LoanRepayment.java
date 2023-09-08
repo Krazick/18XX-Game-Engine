@@ -22,7 +22,8 @@ import ge18xx.utilities.GUI;
 public class LoanRepayment extends TriggerClass implements ActionListener {
 	public static final String DONE = "Done";
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
-
+	public static final String FRAME_TITLE = "Loan Repayment Frame";
+	
 	XMLFrame allLoanRepaymentFrame;
 	GameManager gameManager;
 	int currentPlayerIndex;
@@ -30,11 +31,10 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	JPanel allLoanRepaymentJPanel;
 	
 	public LoanRepayment (GameManager aGameManager) {
-		String tFrameName;
-		
+		String tFullFrameTitle;
 		gameManager = aGameManager;
-		tFrameName = "Loan Repayment Frame";
-		buildAllPlayers (tFrameName);
+		tFullFrameTitle = gameManager.createFrameTitle (FRAME_TITLE);
+		buildAllPlayers (tFullFrameTitle);
 	}
 
 	public void buildAllPlayers (String aFrameName) {
@@ -56,6 +56,7 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		
 		tRoundFrameOffset = gameManager.getOffsetRoundFrame ();
 		allLoanRepaymentFrame.setLocation (tRoundFrameOffset);
+		gameManager.addNewFrame (allLoanRepaymentFrame);
 		allLoanRepaymentFrame.showFrame ();
 	}
 
