@@ -2849,4 +2849,8 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	public Benefits getBenefits () {
 		return Benefits.NO_BENEFITS;
 	}
+	
+	public boolean willFold () {
+		return false;
+	}
 }

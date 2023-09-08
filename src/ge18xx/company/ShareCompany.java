@@ -419,6 +419,19 @@ public class ShareCompany extends TokenCompany {
 		return repaymentHandled;
 	}
 	
+	@Override
+	public boolean willFold () {
+		boolean tWillFold;
+		
+		if (wasRepaymentHandled () && hasOutstandingLoans ()) {
+			tWillFold = true;
+		} else {
+			tWillFold = false;
+		}
+		
+		return tWillFold;
+	}
+	
 	/**
 	 * Flag if the Corporation has taken a loan in this Operating Round.
 	 *
