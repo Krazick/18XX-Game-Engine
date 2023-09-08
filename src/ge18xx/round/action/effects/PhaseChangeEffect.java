@@ -86,7 +86,7 @@ public class PhaseChangeEffect extends Effect {
 		tEffectApplied = false;
 		tPhaseManager = aRoundManager.getPhaseManager ();
 		tPhaseManager.setCurrentPhase (newPhaseIndex);
-		tPhaseManager.callTriggerClass (NAME);
+		tPhaseManager.handleTriggerClass ();
 		aRoundManager.revalidateTileTrayFrame ();
 		tEffectApplied = true;
 
