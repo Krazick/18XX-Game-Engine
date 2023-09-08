@@ -110,8 +110,13 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		allLoanRepaymentJPanel.removeAll ();
 		for (Player tPlayer : aPlayers) {
 			if (aActingPresident == tPlayer) {
-				tBackgroundColor = Color.ORANGE;
-				tActingPlayer = true;
+				if (gameManager.getClientUserName ().equals (aActingPresident.getName ())) {
+					tBackgroundColor = Color.ORANGE;
+					tActingPlayer = true;
+				} else {
+					tBackgroundColor = GUI.defaultColor;
+					tActingPlayer = false;
+				}
 			} else {
 				tBackgroundColor = GUI.defaultColor;
 				tActingPlayer = false;
