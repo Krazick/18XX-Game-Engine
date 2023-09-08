@@ -22,6 +22,8 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.round.action.ActorI;
+import ge18xx.round.action.RepaymentHandledAction;
 import ge18xx.utilities.GUI;
 
 public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener {
@@ -402,10 +404,19 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	}
 	
 	public void handleConfirmRepayment (ShareCompany aShareCompany) {
-		aShareCompany.setRepaymentHandled (true);
-		System.out.println ("Company [" + aShareCompany.getName () + "] Loan Repayments Confirmed");
-		updatePlayers ();
+		RepaymentHandledAction tRepaymentHandledAction;
+		String tOperatingRoundID;
+	
 		
+		tOperatingRoundID = aShareCompany.getOperatingRoundID ();
+		tRepaymentHandledAction = new RepaymentHandledAction (ActorI.ActionStates.OperatingRound, 
+								tOperatingRoundID, aShareCompany);
+		aShareCompany.setRepaymentHandled (true);
+		tRepaymentHandledAction.addSetRepaymentHandledEffect (aShareCompany, repaymentFinished);
+
+		System.out.println ("Company [" + aShareCompany.getAbbrev () + "] Loan Repayments Confirmed");
+		updatePlayers ();
+		aShareCompany.addAction (tRepaymentHandledAction);
 		// move Shares over to "Forming CGR" column
 	}
 	
