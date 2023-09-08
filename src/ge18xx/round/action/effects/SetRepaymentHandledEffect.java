@@ -72,6 +72,7 @@ public class SetRepaymentHandledEffect extends Effect {
 		ShareCompany tShareCompany;
 		GameManager tGameManager;
 		XMLFrame tAllLoanRepaymentJPanel;
+		String tFullFrameTitle;
 		
 		tEffectApplied = false;
 		if (actor.isATrainCompany ()) {
@@ -79,7 +80,8 @@ public class SetRepaymentHandledEffect extends Effect {
 			tShareCompany.setRepaymentHandled (replaymentHandled);
 			tEffectApplied = true;
 			tGameManager = aRoundManager.getGameManager ();
-			tAllLoanRepaymentJPanel = tGameManager.getXMLFrameName (LoanRepayment.FRAME_TITLE);
+			tFullFrameTitle = tGameManager.createFrameTitle (LoanRepayment.FRAME_TITLE);
+			tAllLoanRepaymentJPanel = tGameManager.getXMLFrameName (tFullFrameTitle);
 			tAllLoanRepaymentJPanel.revalidate ();
 		}
 
