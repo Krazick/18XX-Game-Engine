@@ -219,7 +219,6 @@ public class PhaseManager {
 		TrainInfo tTrainInfo;
 		PhaseInfo tCurrentPhase;
 		String tRustTrainName;
-		String tTriggerClass;
 		int tPhaseIndex;
 		int tOldPhaseIndex;
 
@@ -241,10 +240,16 @@ public class PhaseManager {
 				aBank.closeAllPrivates (aBuyTrainAction);
 			}
 			
-			tTriggerClass = getTriggerClass ();
-			if (tTriggerClass != GUI.NULL_STRING) {
-				callTriggerClass (tTriggerClass);
-			}
+			handleTriggerClass ();
+		}
+	}
+
+	public void handleTriggerClass () {
+		String tTriggerClass;
+		
+		tTriggerClass = getTriggerClass ();
+		if (tTriggerClass != GUI.NULL_STRING) {
+			callTriggerClass (tTriggerClass);
 		}
 	}
 
