@@ -110,6 +110,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	String exchangedPrezShare;
 	boolean bidShare;
 	boolean triggeredAuction;
+	boolean repaymentFinished;
 	int treasury;
 	AllPercentBought allPercentBought;
 	RoundDividends roundDividends;
@@ -184,6 +185,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setQueryOffer (QueryOffer.NO_QUERY_OFFER);
 		playerManager = aPlayerManager;
 		buildPlayerFrame (aGameManager);
+		setRepaymentFinished (false);
 	}
 
 	private void buildPlayerFrame (GameManager aGameManager) {
@@ -1921,6 +1923,14 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tCertificate = portfolio.getNextFastBuyCertificate (aFastBuyIndex, this);
 
 		return tCertificate;
+	}
+	
+	public void setRepaymentFinished (boolean aRepaymentFinished) {
+		repaymentFinished = aRepaymentFinished;
+	}
+	
+	public boolean getRepaymentFinished () {
+		return repaymentFinished;
 	}
 	
 	@Override
