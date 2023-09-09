@@ -36,18 +36,16 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	public static final String DONE = "Done";
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 
-	boolean repaymentFinished;
-	JButton done;
 	Player player;
 	GameManager gameManager;
 	LoanRepayment loanRepayment;
+	JButton done;
 	
 	public PlayerLoanRepaymentJPanel (GameManager aGameManager, LoanRepayment aLoanRepayment, Player aPlayer, 
 							boolean aActingPresident) {
 		gameManager = aGameManager;
 		loanRepayment = aLoanRepayment;
 		player = aPlayer;
-		repaymentFinished = false;
 		buildPlayerLoanRepaymentJPanel (aActingPresident);
 	}
 
@@ -101,23 +99,30 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		int tCertificateIndex;
 		boolean tAllCompaniesHandled;
 		
-		tPortfolio = player.getPortfolio ();
-		tCertificateCount = tPortfolio.getCertificateTotalCount ();
-		tAllCompaniesHandled = true;
-		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
-			tCertificate = tPortfolio.getCertificate (tCertificateIndex);
-			if (tCertificate.isAShareCompany ()) {
-				if (tCertificate.isPresidentShare ()) {
-					tShareCompany = tCertificate.getShareCompany ();
-					if (! tShareCompany.wasRepaymentHandled ()) {
-						tAllCompaniesHandled = false;
-						tToolTip = "Not all Share Companies have confirmed loan repayments";
-						done.setToolTipText (tToolTip);
+		if (repaymentFinished ()) {
+			done.setEnabled (false);
+			tToolTip = "President already compled all loan paybacks";
+			done.setToolTipText (tToolTip);
+		} else {
+			tPortfolio = player.getPortfolio ();
+			tCertificateCount = tPortfolio.getCertificateTotalCount ();
+			tAllCompaniesHandled = true;
+			for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
+				tCertificate = tPortfolio.getCertificate (tCertificateIndex);
+				if (tCertificate.isAShareCompany ()) {
+					if (tCertificate.isPresidentShare ()) {
+						tShareCompany = tCertificate.getShareCompany ();
+						if (! tShareCompany.wasRepaymentHandled ()) {
+							tAllCompaniesHandled = false;
+							tToolTip = "Not all Share Companies have confirmed loan repayments";
+							done.setToolTipText (tToolTip);
+						}
 					}
 				}
 			}
+		
+			done.setEnabled (tAllCompaniesHandled);
 		}
-		done.setEnabled (tAllCompaniesHandled);
 	}
 	
 	public JPanel buildPlayerPortfolioJPanel (Portfolio aPlayerPortfolio) {
@@ -191,7 +196,8 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		return tShareCompanyJPanel;
 	}
 
-	public void buildSpecialButtons (ShareCompany aShareCompany, JPanel aShareCompanyJPanel, boolean aActingPlayer) {
+	public void buildSpecialButtons (ShareCompany aShareCompany, JPanel aShareCompanyJPanel, 
+					boolean aActingPlayer) {
 		JButton tPayFromTreasury;
 		JButton tPayFromPresident;
 		JButton tConfirm;
@@ -329,7 +335,6 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		Player tPlayer;
 		JButton tActivatedButton;
 		
-		
 		tActionCommand = aEvent.getActionCommand ();
 		System.out.println ("Action Command selected: " + tActionCommand + " for " + player.getName ());
 		tActivatedButton = getActivatedButton (aEvent);
@@ -370,7 +375,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 				tLoanCount = Math.min (tTotalLoanCount, tTreasury/tLoanAmount);
 				System.out.println ("Corporate Treasury " + tTreasury + "  Loans out " + tTotalLoanCount + "  Payback " + tLoanCount);
 				aShareCompany.redeemLoans (tLoanCount);
-				updatePlayers ();
+				loanRepayment.rebuildSpecialPanel (player);
 			}
 		}
 	}
@@ -389,33 +394,23 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 			if (tTreasury >= tLoanAmount) {
 				System.out.println ("President Treasury " + tTreasury + "  Loans out " + tTotalLoanCount + "  Payback " + tLoanCount);
 				aShareCompany.redeemLoans (tLoanCount, tLoanAmount);
-				updatePlayers ();
+				loanRepayment.rebuildSpecialPanel (player);
 			}
 		}
-	}
-	
-	public void updatePlayers () {
-		PlayerManager tPlayerManager;
-		List<Player> tPlayers;
-
-		tPlayerManager = gameManager.getPlayerManager ();
-		tPlayers = tPlayerManager.getPlayers ();
-		loanRepayment.updatePlayers (tPlayers, player);
 	}
 	
 	public void handleConfirmRepayment (ShareCompany aShareCompany) {
 		RepaymentHandledAction tRepaymentHandledAction;
 		String tOperatingRoundID;
-	
 		
 		tOperatingRoundID = aShareCompany.getOperatingRoundID ();
 		tRepaymentHandledAction = new RepaymentHandledAction (ActorI.ActionStates.OperatingRound, 
 								tOperatingRoundID, aShareCompany);
 		aShareCompany.setRepaymentHandled (true);
-		tRepaymentHandledAction.addSetRepaymentHandledEffect (aShareCompany, repaymentFinished);
+		tRepaymentHandledAction.addSetRepaymentHandledEffect (aShareCompany, repaymentFinished ());
 
 		System.out.println ("Company [" + aShareCompany.getAbbrev () + "] Loan Repayments Confirmed");
-		updatePlayers ();
+		loanRepayment.rebuildSpecialPanel (player);
 		aShareCompany.addAction (tRepaymentHandledAction);
 		// move Shares over to "Forming CGR" column
 	}
@@ -424,14 +419,14 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
 		
-		repaymentFinished = true;
+		player.setRepaymentFinished (true);
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		loanRepayment.updateToNextPlayer (tPlayers);
 	}
 	
 	public boolean repaymentFinished () {
-		return repaymentFinished;
+		return player.getRepaymentFinished ();
 	}
 	
 	public JButton getActivatedButton (ActionEvent aEvent) {
