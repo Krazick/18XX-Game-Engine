@@ -2,7 +2,7 @@ package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.effects.SetRepaymentHandledEffect;
+import ge18xx.round.action.effects.SetRepaymentFinishedEffect;
 import ge18xx.utilities.XMLNode;
 
 public class RepaymentHandledAction extends ChangeStateAction {
@@ -27,10 +27,10 @@ public class RepaymentHandledAction extends ChangeStateAction {
 	}
 
 	public void addSetRepaymentHandledEffect (ActorI aActor, boolean aRepaymentHandled) {
-		SetRepaymentHandledEffect tSetRepaymentHandledEffect;
+		SetRepaymentFinishedEffect tSetRepaymentHandledEffect;
 		
 		if (actor.isACorporation ()) {
-			tSetRepaymentHandledEffect = new SetRepaymentHandledEffect (aActor, aRepaymentHandled);
+			tSetRepaymentHandledEffect = new SetRepaymentFinishedEffect (aActor, aRepaymentHandled);
 			addEffect (tSetRepaymentHandledEffect);
 		}
 	}
