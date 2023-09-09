@@ -22,7 +22,7 @@ import ge18xx.utilities.GUI;
 public class LoanRepayment extends TriggerClass implements ActionListener {
 	public static final String DONE = "Done";
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
-	public static final String FRAME_TITLE = "Loan Repayment Frame";
+	public static final String FRAME_TITLE = "Loan Repayment";
 	
 	XMLFrame allLoanRepaymentFrame;
 	GameManager gameManager;
@@ -32,8 +32,10 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	
 	public LoanRepayment (GameManager aGameManager) {
 		String tFullFrameTitle;
+		
 		gameManager = aGameManager;
 		tFullFrameTitle = gameManager.createFrameTitle (FRAME_TITLE);
+		gameManager.setTriggerClass (this);
 		buildAllPlayers (tFullFrameTitle);
 	}
 
@@ -101,16 +103,28 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		allLoanRepaymentFrame.hideFrame ();
 	}
 	
+	@Override
+	public void rebuildSpecialPanel (Player aActingPlayer) {
+		List<Player> tPlayers;
+		PlayerManager tPlayerManager;
+		
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayers = tPlayerManager.getPlayers ();
+		updatePlayers (tPlayers, aActingPlayer);
+	}
+	
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
 		Color tBackgroundColor;
 		boolean tActingPlayer;
+		String tActingPresidentName;
 		PlayerLoanRepaymentJPanel tPlayerLoanRepaymentPanel;
 		
 		currentPlayerDone = false;
 		allLoanRepaymentJPanel.removeAll ();
 		for (Player tPlayer : aPlayers) {
 			if (aActingPresident == tPlayer) {
-				if (gameManager.getClientUserName ().equals (aActingPresident.getName ())) {
+				tActingPresidentName = aActingPresident.getName ();
+				if (gameManager.isNetworkAndIsThisClient (tActingPresidentName)) {
 					tBackgroundColor = Color.ORANGE;
 					tActingPlayer = true;
 				} else {
