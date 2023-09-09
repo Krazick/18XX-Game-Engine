@@ -34,6 +34,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
+import ge18xx.company.special.TriggerClass;
 import ge18xx.game.userPreferences.UserPreferencesFrame;
 import ge18xx.game.variants.VariantEffect;
 import ge18xx.map.HexMap;
@@ -141,6 +142,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	PhaseManager phaseManager;
 	BankPool bankPool;
 	Bank bank;
+	TriggerClass triggerClass;
 
 	// Various Frames the Game Manager tracks -- 
 	// Consider adding to a "FrameManager" Class
@@ -263,6 +265,14 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return userDir;
 	}
 
+	public void setTriggerClass (TriggerClass aTriggerClass) {
+		triggerClass = aTriggerClass;
+	}
+	
+	public TriggerClass getTriggerClass () {
+		return triggerClass;
+	}
+	
 	public void setLoadSavedFile (File aLoadSavedFile) {
 		loadSavedFile = aLoadSavedFile;
 	}
