@@ -1,6 +1,5 @@
 package ge18xx.company.special;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +16,6 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.toplevel.XMLFrame;
-import ge18xx.utilities.GUI;
 
 public class LoanRepayment extends TriggerClass implements ActionListener {
 	public static final String DONE = "Done";
@@ -114,33 +112,17 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	}
 	
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
-		Color tBackgroundColor;
-		boolean tActingPlayer;
-		String tActingPresidentName;
 		PlayerLoanRepaymentJPanel tPlayerLoanRepaymentPanel;
 		
 		currentPlayerDone = false;
 		allLoanRepaymentJPanel.removeAll ();
 		for (Player tPlayer : aPlayers) {
-			if (aActingPresident == tPlayer) {
-				tActingPresidentName = aActingPresident.getName ();
-				if (gameManager.isNetworkAndIsThisClient (tActingPresidentName)) {
-					tBackgroundColor = Color.ORANGE;
-					tActingPlayer = true;
-				} else {
-					tBackgroundColor = GUI.defaultColor;
-					tActingPlayer = false;
-				}
-			} else {
-				tBackgroundColor = GUI.defaultColor;
-				tActingPlayer = false;
-			}
 
-			tPlayerLoanRepaymentPanel = new PlayerLoanRepaymentJPanel (gameManager, this, tPlayer, tActingPlayer);
-			tPlayerLoanRepaymentPanel.setBackground (tBackgroundColor);
+			tPlayerLoanRepaymentPanel = new PlayerLoanRepaymentJPanel (gameManager, this, tPlayer, aActingPresident);
 			allLoanRepaymentJPanel.add (tPlayerLoanRepaymentPanel);
 			allLoanRepaymentJPanel.add (Box.createVerticalStrut (10));
 		}
+		allLoanRepaymentJPanel.repaint ();
 		allLoanRepaymentJPanel.revalidate ();
 	}
 
