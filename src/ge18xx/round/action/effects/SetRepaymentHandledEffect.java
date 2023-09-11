@@ -11,31 +11,36 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class SetRepaymentFinishedEffect extends Effect {
-	public final static String NAME = "Set Repayment Finished";
-	final static AttributeName AN_REPAYMENT_FINISHED = new AttributeName ("repaymentFinished");
-	boolean replaymentFinished;
+public class SetRepaymentHandledEffect extends Effect {
+	public final static String NAME = "Set Repayment Handled";
+	final static AttributeName AN_REPAYMENT_HANDLED = new AttributeName ("repaymentHandled");
+	boolean replaymentHandled;
 
-	public SetRepaymentFinishedEffect () {
+	public SetRepaymentHandledEffect () {
 		super ();
 		setName (NAME);
 	}
 
-	public SetRepaymentFinishedEffect (String aName) {
+	public SetRepaymentHandledEffect (String aName) {
 		super (aName);
 	}
 
-	public SetRepaymentFinishedEffect (String aName, ActorI aActor) {
+	public SetRepaymentHandledEffect (String aName, ActorI aActor) {
 		super (aName, aActor);
 	}
 
-	public SetRepaymentFinishedEffect (ActorI aActor, boolean aRepaymentFinished) {
+	public SetRepaymentHandledEffect (ActorI aActor, boolean aRepaymentHandled) {
 		super (NAME, aActor);
-		setRepaymentFinished (aRepaymentFinished);
+		setRepaymentHandled (aRepaymentHandled);
 	}
 
-	public SetRepaymentFinishedEffect (XMLNode aEffectNode, GameManager aGameManager) {
+	public SetRepaymentHandledEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
+		boolean tRepaymentHandled;
+		
+		tRepaymentHandled = aEffectNode.getThisBooleanAttribute (AN_REPAYMENT_HANDLED);
+		setRepaymentHandled (tRepaymentHandled);
+
 	}
 
 	@Override
@@ -43,17 +48,17 @@ public class SetRepaymentFinishedEffect extends Effect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
-		tEffectElement.setAttribute (AN_REPAYMENT_FINISHED, replaymentFinished);
+		tEffectElement.setAttribute (AN_REPAYMENT_HANDLED, replaymentHandled);
 
 		return tEffectElement;
 	}
 
-	public void setRepaymentFinished (boolean aRepaymentFinished) {
-		replaymentFinished = aRepaymentFinished;
+	public void setRepaymentHandled (boolean aRepaymentFinished) {
+		replaymentHandled = aRepaymentFinished;
 	}
 	
-	public boolean getRepaymentFinished () {
-		return replaymentFinished;
+	public boolean getRepaymentHandled () {
+		return replaymentHandled;
 	}
 
 	@Override
@@ -76,7 +81,7 @@ public class SetRepaymentFinishedEffect extends Effect {
 		if (actor.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) actor;
 			tPresident = (Player) tShareCompany.getPresident ();
-			tShareCompany.setRepaymentHandled (replaymentFinished);
+			tShareCompany.setRepaymentHandled (replaymentHandled);
 			tEffectApplied = true;
 			rebuildSpecialPanel (aRoundManager, tPresident);
 		}
