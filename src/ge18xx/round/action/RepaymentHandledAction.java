@@ -1,8 +1,10 @@
 package ge18xx.round.action;
 
+import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
+import ge18xx.player.Player;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.effects.SetRepaymentFinishedEffect;
+import ge18xx.round.action.effects.SetRepaymentHandledEffect;
 import ge18xx.utilities.XMLNode;
 
 public class RepaymentHandledAction extends ChangeStateAction {
@@ -27,10 +29,10 @@ public class RepaymentHandledAction extends ChangeStateAction {
 	}
 
 	public void addSetRepaymentHandledEffect (ActorI aActor, boolean aRepaymentHandled) {
-		SetRepaymentFinishedEffect tSetRepaymentHandledEffect;
+		SetRepaymentHandledEffect tSetRepaymentHandledEffect;
 		
 		if (actor.isACorporation ()) {
-			tSetRepaymentHandledEffect = new SetRepaymentFinishedEffect (aActor, aRepaymentHandled);
+			tSetRepaymentHandledEffect = new SetRepaymentHandledEffect (aActor, aRepaymentHandled);
 			addEffect (tSetRepaymentHandledEffect);
 		}
 	}
@@ -38,8 +40,17 @@ public class RepaymentHandledAction extends ChangeStateAction {
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
-
-		tSimpleActionReport = actor.getName () + " has handled Loan Repayment.";
+		Corporation tCorporation;
+		Player tPlayer;
+		
+		if (actor.isAShareCompany ()) {
+			tCorporation = (Corporation) actor;
+			tPlayer = (Player) tCorporation.getPresident ();
+			tSimpleActionReport = tPlayer.getName () + " has handled Loan Repayment for " + 
+					tCorporation.getAbbrev () + ".";
+		} else {
+			tSimpleActionReport = "The actor is not a Corporation";
+		}
 
 		return tSimpleActionReport;
 	}
