@@ -42,33 +42,62 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	JButton done;
 	
 	public PlayerLoanRepaymentJPanel (GameManager aGameManager, LoanRepayment aLoanRepayment, Player aPlayer, 
-							boolean aActingPresident) {
+							Player aActingPresident) {
+		String tActingPresidentName;
+		Color tBackgroundColor;
+		Border tActingBorder;
+		boolean tActingPlayer;
+
 		gameManager = aGameManager;
 		loanRepayment = aLoanRepayment;
 		player = aPlayer;
-		buildPlayerLoanRepaymentJPanel (aActingPresident);
+		
+		if (aActingPresident == aPlayer) {
+			tActingPresidentName = aActingPresident.getName ();
+			if (gameManager.isNetworkAndIsThisClient (tActingPresidentName)) {
+				tBackgroundColor = Color.ORANGE;
+				tActingPlayer = true;
+			} else {
+				tBackgroundColor = GUI.defaultColor;
+				tActingPlayer = false;
+			}
+		} else {
+			
+			tBackgroundColor = GUI.defaultColor;
+			tActingPlayer = false;
+		}
+		tActingBorder = BorderFactory.createLineBorder (tBackgroundColor, 5);
+		buildPlayerLoanRepaymentJPanel (tActingPlayer, tActingBorder);
+		setBackground (tBackgroundColor);
 	}
 
-	public void buildPlayerLoanRepaymentJPanel (boolean aActingPlayer) {
+	public void buildPlayerLoanRepaymentJPanel (boolean aActingPlayer, Border aActingBorder) {
 		JLabel tPresidentName;
 		JLabel tPresidentTreasury;
+		JPanel tPlayerInfo;
 		JPanel tPortfolio;
 		JPanel tCompanies;
 		Portfolio tPlayerPortfolio;
 		Border tBasicBorder;
 		Border tMargin;
 		Border tBorder;
+		Border tCombinedBorder;
 		String tToolTip;
 		
 		setLayout (new BoxLayout (this, BoxLayout.X_AXIS));
 		tMargin = new EmptyBorder (10,10,10,10);
 
+		tPlayerInfo = new JPanel ();
+		tPlayerInfo.setLayout (new BoxLayout (tPlayerInfo, BoxLayout.Y_AXIS));
 		tPresidentName = new JLabel ("Name: " + player.getName ());
-		add (tPresidentName);
-		add (Box.createHorizontalStrut (10));
+		tPlayerInfo.add (tPresidentName);
+		tPlayerInfo.add (Box.createVerticalStrut (10));
 	
 		tPresidentTreasury = new JLabel ("Cash: " + Bank.formatCash (player.getCash ()));
-		add (tPresidentTreasury);
+		tPlayerInfo.add (tPresidentTreasury);
+		tPlayerInfo.add (Box.createVerticalStrut (10));
+		
+		add (tPlayerInfo);
 		add (Box.createHorizontalStrut (10));
 		
 		tPlayerPortfolio = player.getPortfolio ();
@@ -86,7 +115,8 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		
 		tBasicBorder = BorderFactory.createLineBorder (Color.black, 1);
 		tMargin = new EmptyBorder (10,10,10,10);
-		tBorder = BorderFactory.createCompoundBorder (tBasicBorder, tMargin);
+		tCombinedBorder = BorderFactory.createCompoundBorder (tMargin, aActingBorder);
+		tBorder = BorderFactory.createCompoundBorder (tBasicBorder, tCombinedBorder);
 		setBorder (tBorder);
 	}
 	
@@ -402,12 +432,14 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	public void handleConfirmRepayment (ShareCompany aShareCompany) {
 		RepaymentHandledAction tRepaymentHandledAction;
 		String tOperatingRoundID;
+		boolean tRepaymentHandled;
 		
 		tOperatingRoundID = aShareCompany.getOperatingRoundID ();
 		tRepaymentHandledAction = new RepaymentHandledAction (ActorI.ActionStates.OperatingRound, 
 								tOperatingRoundID, aShareCompany);
-		aShareCompany.setRepaymentHandled (true);
-		tRepaymentHandledAction.addSetRepaymentHandledEffect (aShareCompany, repaymentFinished ());
+		tRepaymentHandled = true;
+		aShareCompany.setRepaymentHandled (tRepaymentHandled);
+		tRepaymentHandledAction.addSetRepaymentHandledEffect (aShareCompany, tRepaymentHandled);
 
 		System.out.println ("Company [" + aShareCompany.getAbbrev () + "] Loan Repayments Confirmed");
 		loanRepayment.rebuildSpecialPanel (player);
