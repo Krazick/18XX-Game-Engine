@@ -24,6 +24,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.RepaymentHandledAction;
+import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.GUI;
 
 public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener {
@@ -173,16 +174,24 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	public JPanel buildPlayerCompaniesJPanel (Portfolio aPlayerPortfolio, boolean aActingPlayer) {
 		JPanel tPlayerCompaniesJPanel;
 		JPanel tShareCompanyJPanel;
-		JLabel tTitle;
+		JPanel tTitlePanel;
+		JLabel tTitleLabel;
 		ShareCompany tShareCompany;
 		Certificate tCertificate;
+		String tTitle;
 		int tCertificateCount;
 		int tCertificateIndex;
 		
 		tPlayerCompaniesJPanel = new JPanel ();
 		tPlayerCompaniesJPanel.setLayout (new BoxLayout (tPlayerCompaniesJPanel, BoxLayout.Y_AXIS));
-		tTitle = new JLabel ("Companies");
-		tPlayerCompaniesJPanel.add (tTitle);
+		
+		tTitlePanel = new JPanel ();
+		tTitlePanel.setLayout (new BoxLayout (tTitlePanel, BoxLayout.X_AXIS));
+		tTitle = "Companies where " + player.getName () + " is President";
+		tTitleLabel = new JLabel (tTitle);
+		tTitlePanel.add (tTitleLabel);
+		tPlayerCompaniesJPanel.add (tTitlePanel);
+		
 		tCertificateCount = aPlayerPortfolio.getCertificateTotalCount ();
 		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
 			tCertificate = aPlayerPortfolio.getCertificate (tCertificateIndex);
@@ -199,26 +208,35 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 
 	public JPanel buildCompanyJPanel (ShareCompany aShareCompany, boolean aActingPlayer) {
 		JPanel tShareCompanyJPanel;
+		JPanel tCompanyInfoJPanel;
 		JLabel tCompanyAbbrev;
 		JLabel tLoans;
 		JLabel tTreasury;
+		JLabel tTrains;
 		Border tCorporateColorBorder;
+		TrainPortfolio tTrainPortfolio;
 		
 		tShareCompanyJPanel = new JPanel ();
 		tShareCompanyJPanel.setLayout (new BoxLayout (tShareCompanyJPanel, BoxLayout.X_AXIS));
 		tCorporateColorBorder = aShareCompany.setupBorder ();
 		tShareCompanyJPanel.setBorder (tCorporateColorBorder);
 		
+		tCompanyInfoJPanel = new JPanel ();
+		tCompanyInfoJPanel.setLayout (new BoxLayout (tCompanyInfoJPanel, BoxLayout.Y_AXIS));
 		tCompanyAbbrev = new JLabel (aShareCompany.getAbbrev ());
-		tShareCompanyJPanel.add (tCompanyAbbrev);
-		tShareCompanyJPanel.add (Box.createHorizontalStrut (10));
+		tCompanyInfoJPanel.add (tCompanyAbbrev);
 		
 		tLoans = new JLabel ("Loans: " + aShareCompany.getLoanCount ());
-		tShareCompanyJPanel.add (tLoans);
-		tShareCompanyJPanel.add (Box.createHorizontalStrut (10));
+		tCompanyInfoJPanel.add (tLoans);
 
 		tTreasury = new JLabel ("Treasury: " + Bank.formatCash (aShareCompany.getTreasury ()));
-		tShareCompanyJPanel.add (tTreasury);
+		tCompanyInfoJPanel.add (tTreasury);
+		
+		tTrainPortfolio = aShareCompany.getTrainPortfolio ();
+		tTrains = new JLabel (tTrainPortfolio.getTrainList ());
+		tCompanyInfoJPanel.add (tTrains);
+
+		tShareCompanyJPanel.add (tCompanyInfoJPanel);
 		tShareCompanyJPanel.add (Box.createHorizontalStrut (10));
 
 		buildSpecialButtons (aShareCompany, tShareCompanyJPanel, aActingPlayer);
