@@ -48,7 +48,8 @@ public class ChangeTileContentEffect extends ChangeTileEffect {
 	public ChangeTileContentEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
-		String tTokens, tBases;
+		String tTokens;
+		String tBases;
 
 		tTokens = aEffectNode.getThisAttribute (AN_TOKENS);
 		tBases = aEffectNode.getThisAttribute (AN_BASES);
