@@ -22,6 +22,10 @@ public class ToEffect extends Effect {
 		this (aName, NO_ACTOR, NO_TO_ACTOR);
 	}
 
+	public ToEffect (String aName, ActorI aFromActor) {
+		this (aName, aFromActor, NO_TO_ACTOR);
+	}
+	
 	public ToEffect (String aName, ActorI aFromActor, ActorI aToActor) {
 		super (aName, aFromActor);
 		setToActor (aToActor);
