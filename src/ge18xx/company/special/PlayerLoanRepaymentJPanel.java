@@ -23,6 +23,7 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.RepaymentFinishedAction;
 import ge18xx.round.action.RepaymentHandledAction;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.GUI;
@@ -468,11 +469,24 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	public void handlePlayerDone () {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
+		RepaymentFinishedAction tRepaymentFinishedAction;
+		Player tNewPlayer;
+		String tOperatingRoundID;
+		
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		
 		player.setRepaymentFinished (true);
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		loanRepayment.updateToNextPlayer (tPlayers);
+		tNewPlayer = loanRepayment.getCurrentPlayer ();
+		
+		tRepaymentFinishedAction = new RepaymentFinishedAction (ActorI.ActionStates.OperatingRound, 
+				tOperatingRoundID, player);
+		tRepaymentFinishedAction.addRepaymentFinishedEffect (player, true);
+		tRepaymentFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
+		loanRepayment.rebuildSpecialPanel (tNewPlayer);
+		gameManager.addAction (tRepaymentFinishedAction);
 	}
 	
 	public boolean repaymentFinished () {
