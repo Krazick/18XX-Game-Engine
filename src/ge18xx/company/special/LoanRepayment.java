@@ -72,6 +72,7 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		updatePlayers (tPlayers, tActingPresident);
 	}
 
+	@Override
 	public boolean updateToNextPlayer (List<Player> aPlayers) {
 		Player tActingPresident;
 		Player tFirstPresident;
@@ -94,6 +95,16 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		}
 		
 		return tFoundNextPlayer;
+	}
+	
+	public Player getCurrentPlayer () {
+		Player tCurrentPlayer;
+		PlayerManager tPlayerManager;
+		
+		tPlayerManager = gameManager.getPlayerManager ();
+		tCurrentPlayer = tPlayerManager.getPlayer (currentPlayerIndex);
+
+		return tCurrentPlayer;
 	}
 	
 	public void allRepaymentsDone () {
