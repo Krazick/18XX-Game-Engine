@@ -47,13 +47,15 @@ public class ToEffect extends Effect {
 		String tActorName;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, ActorI.AN_FROM_ACTOR_NAME);
-		if (toActor.isACorporation ()) {
-			tActorName = ((Corporation) toActor).getAbbrev ();
-		} else {
-			tActorName = getToActorName ();
+		if (toActor != ActorI.NO_ACTOR) {
+			if (toActor.isACorporation ()) {
+				tActorName = ((Corporation) toActor).getAbbrev ();
+			} else {
+				tActorName = getToActorName ();
+			}
+			tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, tActorName);
 		}
-		tEffectElement.setAttribute (ActorI.AN_TO_ACTOR_NAME, tActorName);
-
+		
 		return tEffectElement;
 	}
 
