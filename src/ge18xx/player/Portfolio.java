@@ -67,7 +67,7 @@ public class Portfolio implements CertificateHolderI {
 	public final static AttributeName AN_SHARE_INDEX = new AttributeName ("shareIndex");
 	public final static boolean REMOVE_CERTIFICATE = true;
 	public final static Portfolio NO_PORTFOLIO = null;
-	public final static JPanel NO_PORTFOLIO_JPANEL = null;
+//	public final static JPanel NO_PORTFOLIO_JPANEL = null;
 	public final static String CERTIFICATE_ADDED = "CERTIFICATE ADDED";
 	public final static String CERTIFICATE_REMOVED = "CERTIFICATE REMOVED";
 	public final static String NO_PORTFOLIO_LABEL = ">> NO PORTFOLIO <<";
@@ -1997,7 +1997,7 @@ public class Portfolio implements CertificateHolderI {
 		Border tCorporateColorBorder;
 		Corporation tCorporation;
 
-		tOwnershipPanel = NO_PORTFOLIO_JPANEL;
+		tOwnershipPanel = GUI.NO_PANEL;
 		if (certificates.size () > 0) {
 			tOwnershipPanel = new JPanel ();
 			tOwnershipPanel.setLayout (new BoxLayout (tOwnershipPanel, BoxLayout.Y_AXIS));

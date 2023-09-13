@@ -1803,7 +1803,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		playerJPanel.add (tCertCountLabel);
 		
 		tOwnershipPanel = portfolio.buildOwnershipPanel (tGameManager);
-		if (tOwnershipPanel != Portfolio.NO_PORTFOLIO_JPANEL) {
+		if (tOwnershipPanel != GUI.NO_PANEL) {
 			playerJPanel.add (tOwnershipPanel);
 		}
 		tSoldCompanies = soldCompanies.buildSoldCompaniesLabel ();
