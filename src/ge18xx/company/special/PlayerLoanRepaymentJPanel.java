@@ -64,7 +64,6 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 				tActingPlayer = false;
 			}
 		} else {
-			
 			tBackgroundColor = GUI.defaultColor;
 			tActingPlayer = false;
 		}
