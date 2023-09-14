@@ -18,6 +18,8 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.round.action.Action;
+import ge18xx.round.action.BuyTrainAction;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 
@@ -32,13 +34,18 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	boolean currentPlayerDone;
 	JPanel allLoanRepaymentJPanel;
 
-	public LoanRepayment (GameManager aGameManager) {
+	public LoanRepayment (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
 		String tFullFrameTitle;
+		Player tCurrentPlayer;
 		
 		gameManager = aGameManager;
 		tFullFrameTitle = gameManager.createFrameTitle (FRAME_TITLE);
 		gameManager.setTriggerClass (this);
 		buildAllPlayers (tFullFrameTitle);
+		if (aBuyTrainAction != Action.NO_ACTION) {
+			tCurrentPlayer = getCurrentPlayer ();
+			aBuyTrainAction.addTriggerClassEffect (tCurrentPlayer);
+		}
 	}
 
 	public void buildAllPlayers (String aFrameName) {
@@ -55,11 +62,12 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		allLoanRepaymentJPanel.setLayout (new BoxLayout (allLoanRepaymentJPanel, BoxLayout.Y_AXIS));
 
 		setupPlayers ();
-		allLoanRepaymentFrame.add (allLoanRepaymentJPanel);
+		allLoanRepaymentFrame.buildScrollPane (allLoanRepaymentJPanel);
 
 		tRoundFrameOffset = gameManager.getOffsetRoundFrame ();
 		allLoanRepaymentFrame.setLocation (tRoundFrameOffset);
 		gameManager.addNewFrame (allLoanRepaymentFrame);
+		
 		allLoanRepaymentFrame.showFrame ();
 	}
 
@@ -192,5 +200,10 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		System.out.println ("Repayment Frame Action Triggered");
+	}
+	
+	@Override
+	public void hideSpecialPanel () {
+		allLoanRepaymentFrame.hideFrame ();
 	}
 }
