@@ -8,6 +8,7 @@ import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.special.TriggerClass;
 import ge18xx.game.GameManager;
+import ge18xx.round.action.Action;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
@@ -240,28 +241,35 @@ public class PhaseManager {
 				aBank.closeAllPrivates (aBuyTrainAction);
 			}
 			
-			handleTriggerClass ();
+			handleTriggerClass (aBuyTrainAction);
 		}
 	}
 
 	public void handleTriggerClass () {
+		Action tAction;
+		
+		tAction = Action.NO_ACTION;
+		handleTriggerClass (tAction);
+	}
+	
+	public void handleTriggerClass (Action aAction) {
 		String tTriggerClass;
 		
 		tTriggerClass = getTriggerClass ();
 		if (tTriggerClass != GUI.NULL_STRING) {
-			callTriggerClass (tTriggerClass);
+			callTriggerClass (tTriggerClass, aAction);
 		}
 	}
 
-	public void callTriggerClass (String aTriggerClass) {
+	public void callTriggerClass (String aTriggerClass, Action aAction) {
 		Class<?> tTriggerClass;
 		Constructor<?> tTriggerConstructor;
 		TriggerClass tTriggerClassActual;
 		
 		try {
 			tTriggerClass = Class.forName (aTriggerClass);
-			tTriggerConstructor = tTriggerClass.getConstructor (gameManager.getClass ());
-			tTriggerClassActual = (TriggerClass) tTriggerConstructor.newInstance (gameManager);
+			tTriggerConstructor = tTriggerClass.getConstructor (gameManager.getClass (), aAction.getClass ());
+			tTriggerClassActual = (TriggerClass) tTriggerConstructor.newInstance (gameManager, aAction);
 			addTriggerClass (tTriggerClassActual);
 		} catch (ClassNotFoundException tException) {
 			System.err.println (
@@ -274,7 +282,6 @@ public class PhaseManager {
 	}
 	
 	public void addTriggerClass (TriggerClass aTriggerClass) {
-//		triggerClasses.add (tTriggerClassActual);
 
 	}
 	
