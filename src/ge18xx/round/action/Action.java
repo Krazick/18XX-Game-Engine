@@ -14,6 +14,7 @@ import ge18xx.round.action.effects.CashTransferEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PayCashDividendEffect;
 import ge18xx.round.action.effects.RefundEscrowEffect;
+import ge18xx.round.action.effects.TriggerClassEffect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -568,5 +569,12 @@ public class Action {
 		tAllNullEffects = false;
 		
 		return tAllNullEffects;
+	}
+	
+	public void addTriggerClassEffect (ActorI aActor) {
+		TriggerClassEffect tTriggerClassEffect;
+
+		tTriggerClassEffect = new TriggerClassEffect (aActor);
+		addEffect (tTriggerClassEffect);
 	}
 }
