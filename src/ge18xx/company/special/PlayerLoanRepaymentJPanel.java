@@ -36,12 +36,14 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	public static final String PAY_TREASURY = "PayTreasury";
 	public static final String PAY_PRESIDENT = "PayPresident";
 	public static final String DONE = "Done";
+	public static final String UNDO = "Undo";
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 
 	Player player;
 	GameManager gameManager;
 	LoanRepayment loanRepayment;
 	JButton done;
+	JButton undo;
 	
 	public PlayerLoanRepaymentJPanel (GameManager aGameManager, LoanRepayment aLoanRepayment, Player aPlayer, 
 							Player aActingPresident) {
@@ -78,6 +80,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		JPanel tPlayerInfo;
 		JPanel tPortfolio;
 		JPanel tCompanies;
+		JPanel tDoneUndo;
 		Portfolio tPlayerPortfolio;
 		Border tBasicBorder;
 		Border tMargin;
@@ -111,8 +114,20 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		
 		tToolTip = GUI.EMPTY_STRING;
 		done = buildSpecialButton (DONE, DONE, tToolTip);
-		updateDoneButton ();
-		add (done);
+		undo = buildSpecialButton (UNDO, UNDO, tToolTip);
+		updateDoneButton (aActingPlayer);
+		updateUndoButton (aActingPlayer);
+		tDoneUndo = new JPanel ();
+		tDoneUndo.setLayout (new BoxLayout (tDoneUndo, BoxLayout.Y_AXIS));
+
+		tDoneUndo.add (Box.createVerticalGlue ());
+		tDoneUndo.add (Box.createVerticalStrut (10));
+		tDoneUndo.add (done);
+		tDoneUndo.add (Box.createVerticalGlue ());
+		tDoneUndo.add (undo);
+		tDoneUndo.add (Box.createVerticalStrut (10));
+		tDoneUndo.add (Box.createVerticalGlue ());
+		add (tDoneUndo);
 		
 		tBasicBorder = BorderFactory.createLineBorder (Color.black, 1);
 		tMargin = new EmptyBorder (10,10,10,10);
@@ -121,7 +136,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		setBorder (tBorder);
 	}
 	
-	public void updateDoneButton () {
+	public void updateDoneButton (boolean aActingPlayer) {
 		String tToolTip;
 		Portfolio tPortfolio;
 		Certificate tCertificate;
@@ -130,29 +145,44 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		int tCertificateIndex;
 		boolean tAllCompaniesHandled;
 		
-		if (repaymentFinished ()) {
-			done.setEnabled (false);
-			tToolTip = "President already compled all loan paybacks";
-			done.setToolTipText (tToolTip);
-		} else {
-			tPortfolio = player.getPortfolio ();
-			tCertificateCount = tPortfolio.getCertificateTotalCount ();
-			tAllCompaniesHandled = true;
-			for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
-				tCertificate = tPortfolio.getCertificate (tCertificateIndex);
-				if (tCertificate.isAShareCompany ()) {
-					if (tCertificate.isPresidentShare ()) {
-						tShareCompany = tCertificate.getShareCompany ();
-						if (! tShareCompany.wasRepaymentHandled ()) {
-							tAllCompaniesHandled = false;
-							tToolTip = "Not all Share Companies have confirmed loan repayments";
-							done.setToolTipText (tToolTip);
+		if (aActingPlayer) {
+			if (repaymentFinished ()) {
+				done.setEnabled (false);
+				tToolTip = "President already completed all loan paybacks";
+				done.setToolTipText (tToolTip);
+			} else {
+				tPortfolio = player.getPortfolio ();
+				tCertificateCount = tPortfolio.getCertificateTotalCount ();
+				tAllCompaniesHandled = true;
+				for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
+					tCertificate = tPortfolio.getCertificate (tCertificateIndex);
+					if (tCertificate.isAShareCompany ()) {
+						if (tCertificate.isPresidentShare ()) {
+							tShareCompany = tCertificate.getShareCompany ();
+							if (! tShareCompany.wasRepaymentHandled ()) {
+								tAllCompaniesHandled = false;
+								tToolTip = "Not all Share Companies have confirmed loan repayments";
+								done.setToolTipText (tToolTip);
+							}
 						}
 					}
 				}
+			
+				done.setEnabled (tAllCompaniesHandled);
 			}
-		
-			done.setEnabled (tAllCompaniesHandled);
+		} else {
+			tToolTip = NOT_ACTING_PRESIDENT;
+			done.setToolTipText (tToolTip);
+			done.setEnabled (false);
+		}
+	}
+	
+	public void updateUndoButton (boolean aActingPlayer) {
+		if (aActingPlayer) {
+			undo.setEnabled (true);
+		} else {
+			undo.setToolTipText (NOT_ACTING_PRESIDENT);
+			undo.setEnabled (false);
 		}
 	}
 	
@@ -407,6 +437,10 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		if (tActionCommand.equals (DONE)) {
 			handlePlayerDone ();
 		}
+		if (tActionCommand.equals (UNDO)) {
+			handlePlayerUndo ();
+		}
+
 	}
 
 	public void handleRepayFromTreasury (ShareCompany aShareCompany) {
@@ -486,6 +520,11 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		tRepaymentFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
 		loanRepayment.rebuildSpecialPanel (tNewPlayer);
 		gameManager.addAction (tRepaymentFinishedAction);
+	}
+	
+	public void handlePlayerUndo () {
+		
+		player.undoAction ();
 	}
 	
 	public boolean repaymentFinished () {
