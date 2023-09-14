@@ -31,6 +31,17 @@ public class SpecialPanelEffect extends ToEffect {
 		setName (NAME);
 	}
 
+	public void hideSpecialPanel (RoundManager aRoundManager) {
+		GameManager tGameManager;
+		TriggerClass tTriggerClass;
+		
+		tGameManager = aRoundManager.getGameManager ();
+		tTriggerClass = tGameManager.getTriggerClass ();
+		if (tTriggerClass != TriggerClass.NO_TRIGGER_CLASS) {
+			tTriggerClass.hideSpecialPanel ();
+		}
+	}
+	
 	public void rebuildSpecialPanel (RoundManager aRoundManager, Player aPresident) {
 		GameManager tGameManager;
 		TriggerClass tTriggerClass;
