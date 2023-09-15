@@ -350,7 +350,7 @@ public class ActionManager {
 		}
 	}
 
-	private Action getAction (GameManager aGameManager, XMLNode tActionNode) throws ClassNotFoundException,
+	private Action getAction (GameManager aGameManager, XMLNode aActionNode) throws ClassNotFoundException,
 			NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		String tANodeName;
 		String tClassName;
@@ -358,14 +358,14 @@ public class ActionManager {
 		Class<?> tActionToLoad;
 		Constructor<?> tActionConstructor;
 
-		tANodeName = tActionNode.getNodeName ();
+		tANodeName = aActionNode.getNodeName ();
 		if (Action.EN_ACTION.equals (tANodeName)) {
 			// Use Reflections to identify the Action and call the constructor with the
 			// XMLNode and the Game Manager
-			tClassName = tActionNode.getThisAttribute (Action.AN_CLASS);
+			tClassName = aActionNode.getThisAttribute (Action.AN_CLASS);
 			tActionToLoad = Class.forName (tClassName);
-			tActionConstructor = tActionToLoad.getConstructor (tActionNode.getClass (), aGameManager.getClass ());
-			tAction = (Action) tActionConstructor.newInstance (tActionNode, aGameManager);
+			tActionConstructor = tActionToLoad.getConstructor (aActionNode.getClass (), aGameManager.getClass ());
+			tAction = (Action) tActionConstructor.newInstance (aActionNode, aGameManager);
 		}
 
 		return tAction;
