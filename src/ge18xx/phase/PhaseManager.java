@@ -8,7 +8,6 @@ import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.special.TriggerClass;
 import ge18xx.game.GameManager;
-import ge18xx.round.action.Action;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.train.Train;
 import ge18xx.train.TrainInfo;
@@ -246,31 +245,66 @@ public class PhaseManager {
 	}
 
 	public void handleTriggerClass () {
-		Action tAction;
-		
-		tAction = Action.NO_ACTION;
-		handleTriggerClass (tAction);
-	}
-	
-	public void handleTriggerClass (Action aAction) {
 		String tTriggerClass;
 		
 		tTriggerClass = getTriggerClass ();
 		if (tTriggerClass != GUI.NULL_STRING) {
-			callTriggerClass (tTriggerClass, aAction);
+			callTriggerClass (tTriggerClass);
+		}
+
+	}
+
+	public void handleTriggerClass (BuyTrainAction aBuyTrainAction) {
+		String tTriggerClass;
+		
+		tTriggerClass = getTriggerClass ();
+		if (tTriggerClass != GUI.NULL_STRING) {
+			callTriggerClass (tTriggerClass, aBuyTrainAction);
 		}
 	}
 
-	public void callTriggerClass (String aTriggerClass, Action aAction) {
+	public void callTriggerClass (String aTriggerClass) {
 		Class<?> tTriggerClass;
+		Class<?> tGameManagerClass;
 		Constructor<?> tTriggerConstructor;
 		TriggerClass tTriggerClassActual;
 		
 		try {
 			tTriggerClass = Class.forName (aTriggerClass);
-			tTriggerConstructor = tTriggerClass.getConstructor (gameManager.getClass (), aAction.getClass ());
-			tTriggerClassActual = (TriggerClass) tTriggerConstructor.newInstance (gameManager, aAction);
+			tGameManagerClass = gameManager.getClass ();
+			tTriggerConstructor = tTriggerClass.getConstructor (tGameManagerClass);
+			tTriggerClassActual = (TriggerClass) tTriggerConstructor.newInstance (gameManager);
 			addTriggerClass (tTriggerClassActual);
+		} catch (NoSuchMethodException tException) {
+			System.err.println ("Could not find Method for Class " + aTriggerClass);
+					tException.printStackTrace ();
+		} catch (ClassNotFoundException tException) {
+			System.err.println (
+					"Could not find Class for Effect " + aTriggerClass + " due to Rename and using old Save Game");
+		} catch (Exception tException) {
+			System.err.println ("Caught Exception with message ");
+			System.err.println ("Class name " + aTriggerClass);
+			tException.printStackTrace ();
+		}
+	}
+
+	public void callTriggerClass (String aTriggerClass, BuyTrainAction aBuyTrainAction) {
+		Class<?> tTriggerClass;
+		Class<?> tGameManagerClass;
+		Class<?> tBTActionClass;
+		Constructor<?> tTriggerConstructor;
+		TriggerClass tTriggerClassActual;
+		
+		try {
+			tTriggerClass = Class.forName (aTriggerClass);
+			tGameManagerClass = gameManager.getClass ();
+			tBTActionClass = aBuyTrainAction.getClass ();
+			tTriggerConstructor = tTriggerClass.getConstructor (tGameManagerClass, tBTActionClass);
+			tTriggerClassActual = (TriggerClass) tTriggerConstructor.newInstance (gameManager, aBuyTrainAction);
+			addTriggerClass (tTriggerClassActual);
+		} catch (NoSuchMethodException tException) {
+			System.err.println ("Could not find Method for Class " + aTriggerClass);
+					tException.printStackTrace ();
 		} catch (ClassNotFoundException tException) {
 			System.err.println (
 					"Could not find Class for Effect " + aTriggerClass + " due to Rename and using old Save Game");
