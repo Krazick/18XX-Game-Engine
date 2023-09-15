@@ -34,18 +34,25 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	boolean currentPlayerDone;
 	JPanel allLoanRepaymentJPanel;
 
+	
 	public LoanRepayment (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
-		String tFullFrameTitle;
+		this (aGameManager);
+		
 		Player tCurrentPlayer;
+		
+		if (aBuyTrainAction != Action.NO_ACTION) {
+			tCurrentPlayer = getCurrentPlayer ();
+			aBuyTrainAction.addTriggerClassEffect (tCurrentPlayer);
+		}
+	}
+	
+	public LoanRepayment (GameManager aGameManager) {
+		String tFullFrameTitle;
 		
 		gameManager = aGameManager;
 		tFullFrameTitle = gameManager.createFrameTitle (FRAME_TITLE);
 		gameManager.setTriggerClass (this);
 		buildAllPlayers (tFullFrameTitle);
-		if (aBuyTrainAction != Action.NO_ACTION) {
-			tCurrentPlayer = getCurrentPlayer ();
-			aBuyTrainAction.addTriggerClassEffect (tCurrentPlayer);
-		}
 	}
 
 	public void buildAllPlayers (String aFrameName) {
