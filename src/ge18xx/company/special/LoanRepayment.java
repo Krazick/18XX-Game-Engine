@@ -18,8 +18,11 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
-import ge18xx.round.action.Action;
-import ge18xx.round.action.BuyTrainAction;
+import ge18xx.round.OperatingRound;
+import ge18xx.round.RoundManager;
+//import ge18xx.round.action.Action;
+//import ge18xx.round.action.BuyTrainAction;
+import ge18xx.round.action.SpecialPanelAction;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 
@@ -34,17 +37,17 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	boolean currentPlayerDone;
 	JPanel allLoanRepaymentJPanel;
 
-	
-	public LoanRepayment (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
-		this (aGameManager);
-		
-		Player tCurrentPlayer;
-		
-		if (aBuyTrainAction != Action.NO_ACTION) {
-			tCurrentPlayer = getCurrentPlayer ();
-			aBuyTrainAction.addTriggerClassEffect (tCurrentPlayer);
-		}
-	}
+//	
+//	public LoanRepayment (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
+//		this (aGameManager);
+//		
+//		Player tCurrentPlayer;
+//		
+//		if (aBuyTrainAction != Action.NO_ACTION) {
+//			tCurrentPlayer = getCurrentPlayer ();
+//			aBuyTrainAction.addTriggerClassEffect (tCurrentPlayer);
+//		}
+//	}
 	
 	public LoanRepayment (GameManager aGameManager) {
 		String tFullFrameTitle;
@@ -192,6 +195,21 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		
 		allLoanRepaymentJPanel.repaint ();
 		allLoanRepaymentJPanel.revalidate ();
+		addSpecialPanelRefresh (aActingPresident);
+	}
+
+	public void addSpecialPanelRefresh (Player aActingPresident) {
+		OperatingRound tOperatingRound;
+		RoundManager tRoundManager;
+		SpecialPanelAction tSpecialPanelAction;
+		BankPool tBankPool;
+		
+		tRoundManager = gameManager.getRoundManager ();
+		tOperatingRound = tRoundManager.getOperatingRound ();
+		tSpecialPanelAction = new SpecialPanelAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), aActingPresident);
+		tBankPool = gameManager.getBankPool ();
+		tSpecialPanelAction.addSpecialPanelEffect (aActingPresident, tBankPool);
+		gameManager.addAction (tSpecialPanelAction);
 	}
 
 	public Player findActingPresident () {
