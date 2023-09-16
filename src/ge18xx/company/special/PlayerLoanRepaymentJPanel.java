@@ -430,7 +430,6 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 					} else if (tActionCommand.equals (CONFIRM_REPAYMENT)) {
 						handleConfirmRepayment (tShareCompany);
 					}
-					
 				}
 			}
 		}
