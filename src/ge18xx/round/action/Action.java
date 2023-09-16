@@ -397,7 +397,7 @@ public class Action {
 			if (tEffectUndone) {
 				tEffectsUndoneCount++;
 			} else {
-				tErrorReport = "Failed trying to undo Action " + name + " Effect: " + tEffect.getName () + "\n";
+				tErrorReport = "Failed trying to undo " + name + ". Effect: " + tEffect.getName () + "\n";
 				tUndoFailureReason = tEffect.getUndoFailureReason ();
 				aRoundManager.appendErrorReport (tErrorReport);
 				aRoundManager.appendErrorReport (tUndoFailureReason);
