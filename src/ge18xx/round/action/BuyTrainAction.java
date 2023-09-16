@@ -13,6 +13,7 @@ import ge18xx.round.action.effects.SpecialPanelEffect;
 import ge18xx.round.action.effects.TransferTrainEffect;
 import ge18xx.round.action.effects.UpgradeTrainEffect;
 import ge18xx.train.Train;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLNode;
 
 public class BuyTrainAction extends TransferOwnershipAction {
@@ -91,7 +92,7 @@ public class BuyTrainAction extends TransferOwnershipAction {
 
 	@Override
 	public String getSimpleActionReport () {
-		String tSimpleActionReport = "";
+		String tSimpleActionReport;
 
 		tSimpleActionReport = actor.getName () + " bought a " + getTrainBought () + " Train for "
 				+ Bank.formatCash (getCashAmount ()) + " from " + getFromActorName () + ".";
@@ -101,10 +102,11 @@ public class BuyTrainAction extends TransferOwnershipAction {
 
 	@Override
 	protected String getFromActorName () {
-		String tFromActorName = "";
+		String tFromActorName;
 
+		tFromActorName = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
-			if (tFromActorName.equals ("")) {
+			if (tFromActorName.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof TransferTrainEffect) {
 					tFromActorName = ((TransferTrainEffect) tEffect).getActorName ();
 				}
@@ -115,10 +117,11 @@ public class BuyTrainAction extends TransferOwnershipAction {
 	}
 
 	private String getTrainBought () {
-		String tTrainName = "";
+		String tTrainName ;
 
+		tTrainName = GUI.EMPTY_STRING;
 		for (Effect tEffect : effects) {
-			if (tTrainName.equals ("")) {
+			if (tTrainName.equals (GUI.EMPTY_STRING)) {
 				if (tEffect instanceof TransferTrainEffect) {
 					tTrainName = ((TransferTrainEffect) tEffect).getTrainName ();
 				}
