@@ -38,12 +38,14 @@ public class UpdateToNextPlayerEffect extends SpecialPanelEffect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Player tPlayer;
+		int tPlayerIndex;
 		
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
 			updateToNextPlayer (aRoundManager);
-			rebuildSpecialPanel (aRoundManager, tPlayer);
+			tPlayerIndex = getPlayerIndex (aRoundManager, tPlayer);
+			rebuildSpecialPanel (aRoundManager, tPlayerIndex);
 			tEffectApplied = true;
 		}
 
@@ -74,12 +76,14 @@ public class UpdateToNextPlayerEffect extends SpecialPanelEffect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Player tPresident;
+		int tPlayerIndex;
 		
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tPresident = (Player) actor;
 			tPresident.setRepaymentFinished (false);
-			rebuildSpecialPanel (aRoundManager, tPresident);
+			tPlayerIndex = getPlayerIndex (aRoundManager, tPresident);
+			rebuildSpecialPanel (aRoundManager, tPlayerIndex);
 			tEffectUndone = true;
 		}
 
