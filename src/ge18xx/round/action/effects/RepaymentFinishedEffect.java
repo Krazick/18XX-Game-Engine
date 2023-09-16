@@ -42,12 +42,14 @@ public class RepaymentFinishedEffect extends SpecialPanelEffect {
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Player tPlayer;
+		int tPlayerIndex;
 		
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
 			tPlayer.setRepaymentFinished (replaymentFinished);
-			rebuildSpecialPanel (aRoundManager, tPlayer);
+			tPlayerIndex = getPlayerIndex (aRoundManager, tPlayer);
+			rebuildSpecialPanel (aRoundManager, tPlayerIndex);
 			tEffectApplied = true;
 		}
 
@@ -58,12 +60,14 @@ public class RepaymentFinishedEffect extends SpecialPanelEffect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Player tPlayer;
+		int tPlayerIndex;
 		
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
 			tPlayer.setRepaymentFinished (false);
-			rebuildSpecialPanel (aRoundManager, tPlayer);
+			tPlayerIndex = getPlayerIndex (aRoundManager, tPlayer);
+			rebuildSpecialPanel (aRoundManager, tPlayerIndex);
 			tEffectUndone = true;
 		}
 
