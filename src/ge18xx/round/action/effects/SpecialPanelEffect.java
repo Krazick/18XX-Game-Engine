@@ -4,6 +4,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.special.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
+import ge18xx.player.PlayerManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
@@ -47,17 +48,26 @@ public class SpecialPanelEffect extends ToEffect {
 		}
 	}
 	
-	public void rebuildSpecialPanel (RoundManager aRoundManager, Player aPresident) {
+	public void rebuildSpecialPanel (RoundManager aRoundManager, int aCurrentPlayerIndex) {
 		GameManager tGameManager;
 		TriggerClass tTriggerClass;
 		
 		tGameManager = aRoundManager.getGameManager ();
 		tTriggerClass = tGameManager.getTriggerClass ();
 		if (tTriggerClass != TriggerClass.NO_TRIGGER_CLASS) {
-			tTriggerClass.rebuildSpecialPanel (aPresident);
+			tTriggerClass.rebuildSpecialPanel (aCurrentPlayerIndex);
 		}
 	}
-	
+
+	public int getPlayerIndex (RoundManager aRoundManager, Player aPlayer) {
+		PlayerManager tPlayerManager;
+		int tPlayerIndex;
+		
+		tPlayerManager = aRoundManager.getPlayerManager ();
+		tPlayerIndex = tPlayerManager.getPlayerIndex (aPlayer);
+		
+		return tPlayerIndex;
+	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
@@ -74,12 +84,16 @@ public class SpecialPanelEffect extends ToEffect {
 		boolean tEffectApplied;
 		ShareCompany tShareCompany;
 		Player tPresident;
+		PlayerManager tPlayerManager;
+		int tCurrentPlayerIndex;
 		
 		tEffectApplied = false;
 		if (actor.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) actor;
 			tPresident = (Player) tShareCompany.getPresident ();
-			rebuildSpecialPanel (aRoundManager, tPresident);
+			tPlayerManager = aRoundManager.getPlayerManager ();
+			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
+			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectApplied = true;
 		}
 
@@ -90,11 +104,21 @@ public class SpecialPanelEffect extends ToEffect {
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
 		Player tPlayer;
+		PlayerManager tPlayerManager;
+		int tCurrentPlayerIndex;
+		
+		tPlayerManager = aRoundManager.getPlayerManager ();
 		
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
-			rebuildSpecialPanel (aRoundManager, tPlayer);
+			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPlayer);
+			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
+			tEffectUndone = true;
+		} else if (toActor.isAPlayer ()) {
+			tPlayer = (Player) toActor;
+			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPlayer);
+			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectUndone = true;
 		}
 
