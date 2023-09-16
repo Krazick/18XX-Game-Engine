@@ -16,7 +16,7 @@ public class TriggerClass {
 		
 	}
 
-	public void rebuildSpecialPanel (Player aActingPlayer) {
+	public void rebuildSpecialPanel (int aCurrentPlayerIndex) {
 	
 	}
 	
