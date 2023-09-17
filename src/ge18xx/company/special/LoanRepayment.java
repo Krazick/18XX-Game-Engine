@@ -55,7 +55,6 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		if (aBuyTrainAction != Action.NO_ACTION) {
 			tActingPlayer = findActingPresident ();
 			aBuyTrainAction.addShowSpecialPanelEffect (tActingPlayer, tActingPlayer);
-			// Add a SHOW FRAME Effect for the Special Panel
 		}
 	}
 
@@ -86,15 +85,25 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
 		Player tActingPresident;
+		int tCurrentPlayerIndex;
 		
 		tActingPresident = findActingPresident ();
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
-		currentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
+		tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
+		setCurrentPlayerIndex (tCurrentPlayerIndex);
 		updatePlayers (tPlayers, tActingPresident);
-		addSpecialPanelRefresh (tActingPresident);
 	}
 
+	@Override
+	public void setCurrentPlayerIndex (int aCurrentPlayerIndex) {
+		currentPlayerIndex = aCurrentPlayerIndex;
+	}
+	
+	public int getCurrentPlayerIndex () {
+		return currentPlayerIndex;
+	}
+	
 	public JPanel buildOpenMarketPortfolio () {
 		JPanel tOpenMarketJPanel;
 		BankPool tOpenMarket;
@@ -147,10 +156,9 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 			allRepaymentsDone ();
 		} else {
 			tFoundNextPlayer = true;
-			currentPlayerIndex = tNextPlayerIndex;
+			setCurrentPlayerIndex (tNextPlayerIndex);
 			System.out.println ("Updated to Next Player " + tActingPresident.getName () + " (" + tNextPlayerIndex + ")");
 			updatePlayers (aPlayers, tActingPresident);
-			addSpecialPanelRefresh (tActingPresident);
 		}
 		
 		return tFoundNextPlayer;
@@ -200,21 +208,6 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		
 		allLoanRepaymentJPanel.repaint ();
 		allLoanRepaymentJPanel.revalidate ();
-	}
-
-	public void addSpecialPanelRefresh (Player aActingPresident) {
-//		OperatingRound tOperatingRound;
-//		RoundManager tRoundManager;
-//		SpecialPanelAction tSpecialPanelAction;
-//		BankPool tBankPool;
-//		
-//		tRoundManager = gameManager.getRoundManager ();
-//		tOperatingRound = tRoundManager.getOperatingRound ();
-//		tSpecialPanelAction = new SpecialPanelAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), aActingPresident);
-//		tSpecialPanelAction.setChainToPrevious (true);
-//		tBankPool = gameManager.getBankPool ();
-//		tSpecialPanelAction.addSpecialPanelEffect (aActingPresident, tBankPool);
-//		gameManager.addAction (tSpecialPanelAction);
 	}
 
 	public Player findActingPresident () {
