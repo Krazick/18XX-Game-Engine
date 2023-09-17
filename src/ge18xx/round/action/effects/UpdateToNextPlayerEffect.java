@@ -35,6 +35,11 @@ public class UpdateToNextPlayerEffect extends SpecialPanelEffect {
 	}
 
 	@Override
+	public String getEffectReport (RoundManager aRoundManager) {
+		return (REPORT_PREFIX + name + " from " + actor.getName () + " to " + toActor.getName () + ".");
+	}
+
+	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
 		Player tPlayer;
@@ -75,6 +80,8 @@ public class UpdateToNextPlayerEffect extends SpecialPanelEffect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
+		GameManager tGameManager;
+		TriggerClass tTriggerClass;
 		Player tPresident;
 		int tPlayerIndex;
 		
@@ -83,6 +90,9 @@ public class UpdateToNextPlayerEffect extends SpecialPanelEffect {
 			tPresident = (Player) actor;
 			tPresident.setRepaymentFinished (false);
 			tPlayerIndex = getPlayerIndex (aRoundManager, tPresident);
+			tGameManager = aRoundManager.getGameManager ();
+			tTriggerClass = tGameManager.getTriggerClass ();
+			tTriggerClass.setCurrentPlayerIndex (tPlayerIndex);
 			rebuildSpecialPanel (aRoundManager, tPlayerIndex);
 			tEffectUndone = true;
 		}
