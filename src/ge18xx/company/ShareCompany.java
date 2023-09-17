@@ -680,6 +680,7 @@ public class ShareCompany extends TokenCompany {
 
 	public void redeemLoans (int aLoanRedemptionCount, int aPresidentContribution) {
 		int tNewLoanCount;
+		int tOldLoanCount;
 		int tLoanRedemptionAmount;
 		RedeemLoanAction tRedeemLoanAction;
 		Bank tBank;
@@ -690,6 +691,7 @@ public class ShareCompany extends TokenCompany {
 			System.err.println ("Asked to repay " + aLoanRedemptionCount + " however the company only has " + 
 								loanCount + " outstanding loans.");
 		} else {
+			tOldLoanCount = loanCount;
 			tNewLoanCount = loanCount - aLoanRedemptionCount;
 			tLoanRedemptionAmount = loanAmount * aLoanRedemptionCount;
 
@@ -699,7 +701,7 @@ public class ShareCompany extends TokenCompany {
 				setLoanCount (tNewLoanCount);
 				tRedeemLoanAction = new RedeemLoanAction (tOperatingRound.getRoundType (), tOperatingRound.getID (), this);
 				addNeededCashTransferEffect (tRedeemLoanAction, aPresidentContribution);
-				tRedeemLoanAction.addUpdateLoanCountEffect (this, loanCount, tNewLoanCount);
+				tRedeemLoanAction.addUpdateLoanCountEffect (this, tOldLoanCount, tNewLoanCount);
 				tRedeemLoanAction.addCashTransferEffect (this, tBank, tLoanRedemptionAmount);
 
 				transferCashTo (tBank, tLoanRedemptionAmount);
