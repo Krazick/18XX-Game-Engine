@@ -466,10 +466,8 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	
 	public int getCurrentPlayerIndex () {
 		int tCurrentPlayerIndex;
-		PlayerManager tPlayerManager;
-		
-		tPlayerManager = gameManager.getPlayerManager ();
-		tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (player);
+
+		tCurrentPlayerIndex = loanRepayment.getCurrentPlayerIndex ();
 		
 		return tCurrentPlayerIndex;
 	}
@@ -523,7 +521,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		RepaymentFinishedAction tRepaymentFinishedAction;
 		Player tNewPlayer;
 		String tOperatingRoundID;
-		int tCurrentPlayerIndex;
+//		int tCurrentPlayerIndex;
 		
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		
@@ -537,19 +535,24 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 				tOperatingRoundID, player);
 		tRepaymentFinishedAction.addRepaymentFinishedEffect (player, true);
 		tRepaymentFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
-		tCurrentPlayerIndex = getCurrentPlayerIndex ();
-
-		loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
+//		tCurrentPlayerIndex = getCurrentPlayerIndex ();
+//
+//		loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
 
 		gameManager.addAction (tRepaymentFinishedAction);
 	}
 	
 	public void handlePlayerUndo () {
 		int tCurrentPlayerIndex;
+		int tPlayerIndex;
+		
+		tPlayerIndex = getCurrentPlayerIndex ();
 		
 		player.undoAction ();
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
 
+		System.out.println ("Player Undoing Action. PlayerIndex " + tPlayerIndex + 
+				" == Previous PlayerIndex " + tCurrentPlayerIndex);
 		loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
 
 	}
