@@ -512,7 +512,6 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
 
 		aShareCompany.addAction (tRepaymentHandledAction);
-		// move Shares over to "Forming CGR" column
 	}
 	
 	public void handlePlayerDone () {
@@ -521,7 +520,6 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		RepaymentFinishedAction tRepaymentFinishedAction;
 		Player tNewPlayer;
 		String tOperatingRoundID;
-//		int tCurrentPlayerIndex;
 		
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		
@@ -535,9 +533,6 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 				tOperatingRoundID, player);
 		tRepaymentFinishedAction.addRepaymentFinishedEffect (player, true);
 		tRepaymentFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
-//		tCurrentPlayerIndex = getCurrentPlayerIndex ();
-//
-//		loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
 
 		gameManager.addAction (tRepaymentFinishedAction);
 	}
