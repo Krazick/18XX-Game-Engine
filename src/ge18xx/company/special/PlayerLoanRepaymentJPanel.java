@@ -545,7 +545,13 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	}
 	
 	public void handlePlayerUndo () {
+		int tCurrentPlayerIndex;
+		
 		player.undoAction ();
+		tCurrentPlayerIndex = getCurrentPlayerIndex ();
+
+		loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
+
 	}
 	
 	public boolean repaymentFinished () {
