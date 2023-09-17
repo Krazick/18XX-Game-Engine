@@ -27,4 +27,8 @@ public class TriggerClass {
 	public boolean updateToNextPlayer (List<Player> aPlayers) {
 		return false;
 	}
+	
+	public void setCurrentPlayerIndex (int aCurrentPlayerIndex) {
+		
+	}
 }
