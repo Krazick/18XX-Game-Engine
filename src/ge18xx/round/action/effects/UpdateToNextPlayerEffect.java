@@ -42,14 +42,11 @@ public class UpdateToNextPlayerEffect extends SpecialPanelEffect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		Player tPlayer;
 		int tPlayerIndex;
 		
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
-			tPlayer = (Player) actor;
-			updateToNextPlayer (aRoundManager);
-			tPlayerIndex = getPlayerIndex (aRoundManager, tPlayer);
+			tPlayerIndex = updateToNextPlayer (aRoundManager);
 			rebuildSpecialPanel (aRoundManager, tPlayerIndex);
 			tEffectApplied = true;
 		}
@@ -57,24 +54,24 @@ public class UpdateToNextPlayerEffect extends SpecialPanelEffect {
 		return tEffectApplied;
 	}
 
-	public boolean updateToNextPlayer (RoundManager aRoundManager) {
+	public int updateToNextPlayer (RoundManager aRoundManager) {
 		GameManager tGameManager;
 		PlayerManager tPlayerManager;
 		TriggerClass tTriggerClass;
 		List<Player> tPlayers;
-		boolean tSuccess;
+		int tNextPlayerIndex;
 		
 		tGameManager = aRoundManager.getGameManager ();
 		tPlayerManager = tGameManager.getPlayerManager ();
 		tTriggerClass = tGameManager.getTriggerClass ();
 		tPlayers = tPlayerManager.getPlayers ();
 		if (tTriggerClass != TriggerClass.NO_TRIGGER_CLASS) {
-			tSuccess = tTriggerClass.updateToNextPlayer (tPlayers);
+			tNextPlayerIndex = tTriggerClass.updateToNextPlayer (tPlayers);
 		} else {
-			tSuccess = false;
+			tNextPlayerIndex = 0;
 		}
 		
-		return tSuccess;
+		return tNextPlayerIndex;
 	}
 
 	@Override
