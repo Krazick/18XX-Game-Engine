@@ -54,6 +54,7 @@ public class ShareCompany extends TokenCompany {
 	static final AttributeName AN_DESTINATION = new AttributeName ("destination");
 	static final AttributeName AN_DESTINATION_LOCATION = new AttributeName ("destinationLocation");
 	static final AttributeName AN_CAPITALIZATION_LEVEL = new AttributeName ("capitalizationLevel");
+	static final AttributeName AN_REPAYMENT_HANDLED = new AttributeName ("repaymentHandled");
 	public static final String NO_START_CELL = null;
 	public static final String SET_PAR_PRICE = "SET PAR PRICE";
 	public static final int NO_PAR_PRICE = -1;
@@ -76,6 +77,7 @@ public class ShareCompany extends TokenCompany {
 		int tParPrice;
 		int tLoanCount;
 		boolean tLoanTaken;
+		boolean tRepaymentHandled;
 		String tStartCell;
 
 		destinationInfo = new DestinationInfo (aChildNode);
@@ -84,8 +86,9 @@ public class ShareCompany extends TokenCompany {
 		tParPrice = aChildNode.getThisIntAttribute (AN_PAR_PRICE, NO_PAR_PRICE);
 		tLoanCount = aChildNode.getThisIntAttribute (AN_LOAN_COUNT, NO_LOANS);
 		tLoanTaken = aChildNode.getThisBooleanAttribute (AN_LOAN_TAKEN);
+		tRepaymentHandled = aChildNode.getThisBooleanAttribute (AN_REPAYMENT_HANDLED);
 		setNoPrice ();
-		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, tLoanCount, tLoanTaken, tStartCell);
+		setValues (tParPrice, MarketCell.NO_SHARE_PRICE, tLoanCount, tLoanTaken, tRepaymentHandled, tStartCell);
 		
 	}
 
@@ -366,6 +369,7 @@ public class ShareCompany extends TokenCompany {
 		if (gameHasLoans ()) {
 			aXMLCorporationState.setAttribute (AN_LOAN_COUNT, loanCount);
 			aXMLCorporationState.setAttribute (AN_LOAN_TAKEN, loanTaken);
+			aXMLCorporationState.setAttribute (AN_REPAYMENT_HANDLED, repaymentHandled);
 		}
 		destinationInfo.getDestinationInfo (aXMLCorporationState);
 		super.getCorporationStateElement (aXMLCorporationState, aXMLDocument);
@@ -872,6 +876,7 @@ public class ShareCompany extends TokenCompany {
 		if (gameHasLoans ()) {
 			setLoanCount (aXMLNode.getThisIntAttribute (AN_LOAN_COUNT));
 			setLoanTaken (aXMLNode.getThisBooleanAttribute (AN_LOAN_TAKEN));
+			setRepaymentHandled (aXMLNode.getThisBooleanAttribute (AN_REPAYMENT_HANDLED));
 		}
 		if (this.hasDestination ()) {
 			destinationInfo.loadStatus (aXMLNode);
@@ -968,11 +973,11 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	private void setValues (int aParPrice, MarketCell aSharePrice, int aLoanCount,
-							boolean aLoanTaken, String aStartCell) {
+							boolean aLoanTaken, boolean aRepaymentHandled, String aStartCell) {
 		setSharePrice (aSharePrice);
 		setParPrice (aParPrice);
 		setValues (aLoanCount, aLoanTaken, aStartCell);
-		setRepaymentHandled (false);
+		setRepaymentHandled (aRepaymentHandled);
 	}
 
 	public int getDestinationCapitalizationLevel () {

@@ -75,6 +75,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	final static AttributeName AN_BOUGHT_SHARE = new AttributeName ("boughtShare");
 	final static AttributeName AN_BID_SHARE = new AttributeName ("bidShare");
 	final static AttributeName AN_TRIGGERED_AUCTION = new AttributeName ("triggeredAuction");
+	final static AttributeName AN_REPAYMENT_FINISHED = new AttributeName ("repaymentFinished");
 	public static final String SELL_LABEL = "Sell";
 	public static final String BUY_LABEL = "Buy";
 	public static final String BUY_AT_PAR_LABEL = "Buy at Par";
@@ -751,6 +752,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.setAttribute (AN_BID_SHARE, bidShare);
 		tXMLElement.setAttribute (AN_TRIGGERED_AUCTION, triggeredAuction);
 		tXMLElement.setAttribute (AN_SOLD_COMPANIES, tCompaniesSold);
+		tXMLElement.setAttribute (AN_REPAYMENT_FINISHED, repaymentFinished);
 		tOperatingRoundCount = playerManager.getOperatingRoundCount ();
 		roundDividends.addDividendAttribute (tXMLElement, tOperatingRoundCount);
 		
