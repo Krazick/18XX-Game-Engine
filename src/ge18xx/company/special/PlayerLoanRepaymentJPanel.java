@@ -49,9 +49,10 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 							Player aActingPresident) {
 		String tActingPresidentName;
 		Color tBackgroundColor;
+		Color tBorderColor;
 		Border tActingBorder;
 		boolean tActingPlayer;
-
+		
 		gameManager = aGameManager;
 		loanRepayment = aLoanRepayment;
 		player = aPlayer;
@@ -60,20 +61,23 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 			tActingPresidentName = aActingPresident.getName ();
 			if (gameManager.isNetworkAndIsThisClient (tActingPresidentName)) {
 				tBackgroundColor = Color.ORANGE;
+				tBorderColor = Color.ORANGE;
 				tActingPlayer = true;
 			} else {
 				tBackgroundColor = GUI.defaultColor;
+				tBorderColor = Color.ORANGE;
 				tActingPlayer = false;
 			}
 		} else {
 			tBackgroundColor = GUI.defaultColor;
+			tBorderColor = Color.BLACK;
 			tActingPlayer = false;
 		}
-		tActingBorder = BorderFactory.createLineBorder (tBackgroundColor, 5);
+		tActingBorder = BorderFactory.createLineBorder (tBorderColor, 3);
 		buildPlayerLoanRepaymentJPanel (tActingPlayer, tActingBorder);
 		setBackground (tBackgroundColor);
 	}
-
+	
 	public void buildPlayerLoanRepaymentJPanel (boolean aActingPlayer, Border aActingBorder) {
 		JLabel tPresidentName;
 		JLabel tPresidentTreasury;
@@ -82,9 +86,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		JPanel tCompanies;
 		JPanel tDoneUndo;
 		Portfolio tPlayerPortfolio;
-		Border tBasicBorder;
 		Border tMargin;
-		Border tBorder;
 		Border tCombinedBorder;
 		String tToolTip;
 		
@@ -129,11 +131,9 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		tDoneUndo.add (Box.createVerticalGlue ());
 		add (tDoneUndo);
 		
-		tBasicBorder = BorderFactory.createLineBorder (Color.black, 1);
 		tMargin = new EmptyBorder (10,10,10,10);
-		tCombinedBorder = BorderFactory.createCompoundBorder (tMargin, aActingBorder);
-		tBorder = BorderFactory.createCompoundBorder (tBasicBorder, tCombinedBorder);
-		setBorder (tBorder);
+		tCombinedBorder = BorderFactory.createCompoundBorder (aActingBorder, tMargin);
+		setBorder (tCombinedBorder);
 	}
 	
 	public void updateDoneButton (boolean aActingPlayer) {
@@ -410,19 +410,14 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
 		ShareCompany tShareCompany;
-		Player tPlayer;
 		JButton tActivatedButton;
 		
 		tActionCommand = aEvent.getActionCommand ();
-		System.out.println ("Action Command selected: " + tActionCommand + " for " + player.getName ());
 		tActivatedButton = getActivatedButton (aEvent);
 		if (tActivatedButton != GUI.NO_BUTTON) {
 			tShareCompany = findShareCompany (tActivatedButton);
 			if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
-				System.out.println ("Button for Share Company " + tShareCompany.getAbbrev ());
 				if (tShareCompany != ShareCompany.NO_SHARE_COMPANY) {
-					tPlayer = (Player) tShareCompany.getPresident ();
-					System.out.println ("President of Company is " + tPlayer.getName ());
 					if (tActionCommand.equals (PAY_TREASURY)) {
 						handleRepayFromTreasury (tShareCompany);
 					} else if (tActionCommand.equals (PAY_PRESIDENT)) {
@@ -439,7 +434,6 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		if (tActionCommand.equals (UNDO)) {
 			handlePlayerUndo ();
 		}
-
 	}
 
 	public void handleRepayFromTreasury (ShareCompany aShareCompany) {
