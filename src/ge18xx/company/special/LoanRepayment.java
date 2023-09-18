@@ -140,7 +140,7 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	}
 
 	@Override
-	public boolean updateToNextPlayer (List<Player> aPlayers) {
+	public int updateToNextPlayer (List<Player> aPlayers) {
 		Player tActingPresident;
 		Player tFirstPresident;
 		PlayerManager tPlayerManager;
@@ -152,16 +152,14 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		tActingPresident = tPlayerManager.getPlayer (tNextPlayerIndex);
 		tFirstPresident = findActingPresident ();
 		if (tActingPresident == tFirstPresident) {
-			tFoundNextPlayer = false;
 			allRepaymentsDone ();
 		} else {
-			tFoundNextPlayer = true;
 			setCurrentPlayerIndex (tNextPlayerIndex);
 			System.out.println ("Updated to Next Player " + tActingPresident.getName () + " (" + tNextPlayerIndex + ")");
 			updatePlayers (aPlayers, tActingPresident);
 		}
 		
-		return tFoundNextPlayer;
+		return tNextPlayerIndex;
 	}
 	
 	public Player getCurrentPlayer () {
