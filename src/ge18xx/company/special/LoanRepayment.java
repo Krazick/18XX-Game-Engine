@@ -51,7 +51,6 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		tFullFrameTitle = gameManager.createFrameTitle (FRAME_TITLE);
 		gameManager.setTriggerClass (this);
 		buildAllPlayers (tFullFrameTitle);
-		System.out.println ("Calling LoanRepayment Constructor with aBuyTrainAction");
 		if (aBuyTrainAction != Action.NO_ACTION) {
 			tActingPlayer = findActingPresident ();
 			aBuyTrainAction.addShowSpecialPanelEffect (tActingPlayer, tActingPlayer);
@@ -145,7 +144,7 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		Player tFirstPresident;
 		PlayerManager tPlayerManager;
 		int tNextPlayerIndex;
-		boolean tFoundNextPlayer;
+
 		
 		tPlayerManager = gameManager.getPlayerManager ();
 		tNextPlayerIndex = tPlayerManager.getNextPlayerIndex (currentPlayerIndex);
@@ -155,7 +154,6 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 			allRepaymentsDone ();
 		} else {
 			setCurrentPlayerIndex (tNextPlayerIndex);
-			System.out.println ("Updated to Next Player " + tActingPresident.getName () + " (" + tNextPlayerIndex + ")");
 			updatePlayers (aPlayers, tActingPresident);
 		}
 		
@@ -173,7 +171,6 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	}
 	
 	public void allRepaymentsDone () {
-		System.out.println ("All Players processed");
 		allLoanRepaymentFrame.hideFrame ();
 	}
 	
@@ -220,7 +217,6 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
-		System.out.println ("Repayment Frame Action Triggered");
 	}
 	
 	@Override
