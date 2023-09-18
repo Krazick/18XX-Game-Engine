@@ -1,6 +1,5 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
@@ -42,15 +41,13 @@ public class ShowSpecialPanelEffect extends SpecialPanelEffect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		ShareCompany tShareCompany;
 		Player tPresident;
 		PlayerManager tPlayerManager;
 		int tCurrentPlayerIndex;
 		
 		tEffectApplied = false;
-		if (actor.isAShareCompany ()) {
-			tShareCompany = (ShareCompany) actor;
-			tPresident = (Player) tShareCompany.getPresident ();
+		if (actor.isAPlayer ()) {
+			tPresident = (Player) actor;
 			tPlayerManager = aRoundManager.getPlayerManager ();
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
 			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
@@ -67,7 +64,6 @@ public class ShowSpecialPanelEffect extends SpecialPanelEffect {
 		tEffectUndone = false;
 		hideSpecialPanel (aRoundManager);
 		tEffectUndone = true;
-
 
 		return tEffectUndone;
 	}
