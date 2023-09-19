@@ -1413,6 +1413,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return corporationCertificates.getBankPoolPercentage (this);
 	}
 
+	public int getSharesInBankPool () {
+		return corporationCertificates.getBankPoolPercentage (this)/PhaseInfo.STANDARD_SHARE_SIZE;
+	}
+
 	public int getPlayerOrCorpOwnedPercentage () {
 		return corporationCertificates.getPlayerOrCorpOwnedPercentageFor (this);
 	}
