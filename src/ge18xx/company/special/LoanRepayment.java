@@ -31,6 +31,7 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	XMLFrame allLoanRepaymentFrame;
 	GameManager gameManager;
 	int currentPlayerIndex;
+	int shareFoldCount;
 	boolean currentPlayerDone;
 	JPanel allLoanRepaymentJPanel;
 	
@@ -78,8 +79,25 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		gameManager.addNewFrame (allLoanRepaymentFrame);
 		
 		allLoanRepaymentFrame.showFrame ();
+		setShareFoldCount (0);
 	}
 
+	public void setShareFoldCount (int aCountToFold) {
+		shareFoldCount = aCountToFold;
+	}
+	
+	public void addShareFoldCount (int aShareCountToFold) {
+		shareFoldCount += aShareCountToFold;
+	}
+	
+	public int getShareFoldCount () {
+		return shareFoldCount;
+	}
+	
+	public boolean haveSharesToFold () {
+		return shareFoldCount > 0;
+	}
+	
 	public void setupPlayers () {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
@@ -171,6 +189,11 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	}
 	
 	public void allRepaymentsDone () {
+		if (haveSharesToFold ()) {
+			System.out.println ("There are " + getShareFoldCount () + " Shares to fold into CGR");
+		} else {
+			System.out.println ("No Shares into CGR");
+		}
 		allLoanRepaymentFrame.hideFrame ();
 	}
 	
