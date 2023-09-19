@@ -60,12 +60,12 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		if (aActingPresident == aPlayer) {
 			tActingPresidentName = aActingPresident.getName ();
 			if (gameManager.isNetworkAndIsThisClient (tActingPresidentName)) {
-				tBackgroundColor = Color.ORANGE;
-				tBorderColor = Color.ORANGE;
+				tBackgroundColor = gameManager.getAlertColor ();
+				tBorderColor = gameManager.getAlertColor ();
 				tActingPlayer = true;
 			} else {
 				tBackgroundColor = GUI.defaultColor;
-				tBorderColor = Color.ORANGE;
+				tBorderColor = gameManager.getAlertColor ();
 				tActingPlayer = false;
 			}
 		} else {
@@ -489,6 +489,8 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		RepaymentHandledAction tRepaymentHandledAction;
 		String tOperatingRoundID;
 		boolean tRepaymentHandled;
+		String tNotification;
+		String tFormingCompany;
 		int tCurrentPlayerIndex;
 		int tShareFoldCount;
 		int tNewShareFoldCount;
@@ -503,7 +505,14 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		if (aShareCompany.willFold ()) {
 			tShareFoldCount = aShareCompany.getShareFoldCount ();
 			loanRepayment.addShareFoldCount (tShareFoldCount);
+			
+			tFormingCompany = "CGR";
 			tNewShareFoldCount = loanRepayment.getShareFoldCount ();
+			
+			tNotification = aShareCompany.getAbbrev () + " will fold " + tShareFoldCount + " Shares into the " + tFormingCompany +
+					". Total New Share Fold Count is " + tNewShareFoldCount;
+			loanRepayment.setNotificationText (tNotification);
+					
 			tRepaymentHandledAction.addShareFoldCountEffect (aShareCompany, tOldShareFoldCount, tNewShareFoldCount);
 			System.out.println ("Total Share Fold Count " + loanRepayment.getShareFoldCount ());
 		}
