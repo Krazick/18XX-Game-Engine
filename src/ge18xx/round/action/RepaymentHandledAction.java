@@ -5,6 +5,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.SetRepaymentHandledEffect;
+import ge18xx.round.action.effects.ShareFoldCountEffect;
 import ge18xx.utilities.XMLNode;
 
 public class RepaymentHandledAction extends ChangeStateAction {
@@ -37,6 +38,15 @@ public class RepaymentHandledAction extends ChangeStateAction {
 		}
 	}
 
+	public void addShareFoldCountEffect (ActorI aActor, int aOldShareFoldCount, int aNewShareFoldCount) {
+		ShareFoldCountEffect tShareFoldCountEffect;
+		
+		if (actor.isACorporation ()) {
+			tShareFoldCountEffect = new ShareFoldCountEffect (aActor, aOldShareFoldCount, aNewShareFoldCount);
+			addEffect (tShareFoldCountEffect);
+		}
+	}
+	
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
