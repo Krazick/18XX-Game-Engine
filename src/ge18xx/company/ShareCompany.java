@@ -423,6 +423,14 @@ public class ShareCompany extends TokenCompany {
 		return repaymentHandled;
 	}
 	
+	public int getShareFoldCount () {
+		int tShareFoldCount;
+		
+		tShareFoldCount = getSharesInBankPool () + getSharesOwnedByPlayerOrCorp ();
+		
+		return tShareFoldCount;
+	}
+	
 	@Override
 	public boolean willFold () {
 		boolean tWillFold;
