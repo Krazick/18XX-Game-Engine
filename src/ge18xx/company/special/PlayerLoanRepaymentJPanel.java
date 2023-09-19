@@ -449,7 +449,6 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		if (tTotalLoanCount > 0) {
 			if (tTreasury >= tLoanAmount) {
 				tLoanCount = Math.min (tTotalLoanCount, tTreasury/tLoanAmount);
-				System.out.println ("Corporate Treasury " + tTreasury + "  Loans out " + tTotalLoanCount + "  Payback " + tLoanCount);
 				aShareCompany.redeemLoans (tLoanCount);
 				tCurrentPlayerIndex = getCurrentPlayerIndex ();
 
@@ -479,7 +478,6 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		tLoanCount = 1;
 		if (tTotalLoanCount > 0) {
 			if (tTreasury >= tLoanAmount) {
-				System.out.println ("President Treasury " + tTreasury + "  Loans out " + tTotalLoanCount + "  Payback " + tLoanCount);
 				tCurrentPlayerIndex = getCurrentPlayerIndex ();
 				aShareCompany.redeemLoans (tLoanCount, tLoanAmount);
 				loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
@@ -492,15 +490,26 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		String tOperatingRoundID;
 		boolean tRepaymentHandled;
 		int tCurrentPlayerIndex;
+		int tShareFoldCount;
+		int tNewShareFoldCount;
+		int tOldShareFoldCount;
 		
 		tOperatingRoundID = aShareCompany.getOperatingRoundID ();
 		tRepaymentHandledAction = new RepaymentHandledAction (ActorI.ActionStates.OperatingRound, 
 								tOperatingRoundID, aShareCompany);
 		tRepaymentHandled = true;
 		aShareCompany.setRepaymentHandled (tRepaymentHandled);
+		tOldShareFoldCount = loanRepayment.getShareFoldCount ();
+		if (aShareCompany.willFold ()) {
+			tShareFoldCount = aShareCompany.getShareFoldCount ();
+			loanRepayment.addShareFoldCount (tShareFoldCount);
+			tNewShareFoldCount = loanRepayment.getShareFoldCount ();
+			tRepaymentHandledAction.addShareFoldCountEffect (aShareCompany, tOldShareFoldCount, tNewShareFoldCount);
+			System.out.println ("Total Share Fold Count " + loanRepayment.getShareFoldCount ());
+		}
+
 		tRepaymentHandledAction.addSetRepaymentHandledEffect (aShareCompany, tRepaymentHandled);
 
-		System.out.println ("Company [" + aShareCompany.getAbbrev () + "] Loan Repayments Confirmed");
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
 
 		loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
@@ -533,17 +542,10 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	
 	public void handlePlayerUndo () {
 		int tCurrentPlayerIndex;
-		int tPlayerIndex;
-		
-		tPlayerIndex = getCurrentPlayerIndex ();
 		
 		player.undoAction ();
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
-
-		System.out.println ("Player Undoing Action. PlayerIndex " + tPlayerIndex + 
-				" == Previous PlayerIndex " + tCurrentPlayerIndex);
 		loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
-
 	}
 	
 	public boolean repaymentFinished () {
