@@ -1,5 +1,7 @@
 package ge18xx.company.special;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,12 +36,15 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	int shareFoldCount;
 	boolean currentPlayerDone;
 	JPanel allLoanRepaymentJPanel;
+	JPanel bottomJPanel;
+	String notificationText;
 	
 	public LoanRepayment (GameManager aGameManager) {
 		String tFullFrameTitle;
 		
 		gameManager = aGameManager;
 		tFullFrameTitle = gameManager.createFrameTitle (FRAME_TITLE);
+		setNotificationText ("Time to repay company outstanding Loans");
 		gameManager.setTriggerClass (this);
 		buildAllPlayers (tFullFrameTitle);
 	}
@@ -50,6 +55,7 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		
 		gameManager = aGameManager;
 		tFullFrameTitle = gameManager.createFrameTitle (FRAME_TITLE);
+		setNotificationText ("Time to repay company outstanding Loans");
 		gameManager.setTriggerClass (this);
 		buildAllPlayers (tFullFrameTitle);
 		if (aBuyTrainAction != Action.NO_ACTION) {
@@ -119,20 +125,6 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	
 	public int getCurrentPlayerIndex () {
 		return currentPlayerIndex;
-	}
-	
-	public JPanel buildOpenMarketPortfolio () {
-		JPanel tOpenMarketJPanel;
-		BankPool tOpenMarket;
-		Portfolio tOpenMarketPortfolio;
-		
-		tOpenMarketJPanel = new JPanel ();
-		tOpenMarket = gameManager.getBankPool ();
-		
-		tOpenMarketPortfolio = tOpenMarket.getPortfolio ();
-		tOpenMarketJPanel = buildPortfolioJPanel (tOpenMarketPortfolio);
-
-		return tOpenMarketJPanel;
 	}
 	
 	public JPanel buildPortfolioJPanel (Portfolio aPortfolio) {
@@ -211,7 +203,6 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
 		PlayerLoanRepaymentJPanel tPlayerLoanRepaymentPanel;
-		JPanel tOpenMarketJPanel;
 		
 		currentPlayerDone = false;
 		allLoanRepaymentJPanel.removeAll ();
@@ -221,11 +212,58 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 			allLoanRepaymentJPanel.add (tPlayerLoanRepaymentPanel);
 			allLoanRepaymentJPanel.add (Box.createVerticalStrut (10));
 		}
-		tOpenMarketJPanel = buildOpenMarketPortfolio ();
-		allLoanRepaymentJPanel.add (tOpenMarketJPanel);
+		bottomJPanel = buildBottomJPanel ();
+		allLoanRepaymentJPanel.add (bottomJPanel);
 		
 		allLoanRepaymentJPanel.repaint ();
 		allLoanRepaymentJPanel.revalidate ();
+	}
+
+	public void setNotificationText (String aNotificationText) {
+		notificationText = aNotificationText;
+	}
+	
+	public JPanel buildBottomJPanel () {
+		JPanel tBottomJPanel;
+		JPanel tOpenMarketJPanel;
+		JPanel tNotificationJPanel;
+		JLabel tNotificationLabel;
+		Color tColor;
+		
+		tColor = gameManager.getAlertColor ();
+		tNotificationJPanel = new JPanel ();
+		tNotificationLabel = new JLabel (notificationText);
+		tNotificationLabel.setFont (new Font ("Courier New", Font.BOLD, 16));
+		
+		tNotificationJPanel.add (tNotificationLabel);
+		tNotificationJPanel.setBackground (tColor);
+		
+		tBottomJPanel = new JPanel ();
+		tBottomJPanel.setLayout (new BoxLayout (tBottomJPanel, BoxLayout.X_AXIS));
+		tBottomJPanel.add (Box.createHorizontalGlue ());
+		tBottomJPanel.add (tNotificationJPanel);
+		tBottomJPanel.add (Box.createHorizontalStrut (20));
+		
+		tOpenMarketJPanel = buildOpenMarketPortfolio ();
+		tBottomJPanel.add (tOpenMarketJPanel);
+		
+		tBottomJPanel.add (Box.createHorizontalGlue ());
+
+		return tBottomJPanel;
+	}
+	
+	public JPanel buildOpenMarketPortfolio () {
+		JPanel tOpenMarketJPanel;
+		BankPool tOpenMarket;
+		Portfolio tOpenMarketPortfolio;
+		
+		tOpenMarketJPanel = new JPanel ();
+		tOpenMarket = gameManager.getBankPool ();
+		
+		tOpenMarketPortfolio = tOpenMarket.getPortfolio ();
+		tOpenMarketJPanel = buildPortfolioJPanel (tOpenMarketPortfolio);
+
+		return tOpenMarketJPanel;
 	}
 
 	public Player findActingPresident () {
