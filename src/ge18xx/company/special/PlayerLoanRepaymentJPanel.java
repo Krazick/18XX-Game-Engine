@@ -514,7 +514,6 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 			loanRepayment.setNotificationText (tNotification);
 					
 			tRepaymentHandledAction.addShareFoldCountEffect (aShareCompany, tOldShareFoldCount, tNewShareFoldCount);
-			System.out.println ("Total Share Fold Count " + loanRepayment.getShareFoldCount ());
 		}
 
 		tRepaymentHandledAction.addSetRepaymentHandledEffect (aShareCompany, tRepaymentHandled);
