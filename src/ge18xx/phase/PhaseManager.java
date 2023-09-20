@@ -147,6 +147,16 @@ public class PhaseManager {
 		currentPhase = aXMLNode.getThisIntAttribute (AN_CURRENT_PHASE);
 	}
 
+	public int getFormingCompanyId () {
+		PhaseInfo tCurrentPhaseInfo;
+		int tFormingCompanyId;
+		
+		tCurrentPhaseInfo = getCurrentPhaseInfo ();
+		tFormingCompanyId = tCurrentPhaseInfo.getFormingCompanyId ();
+		
+		return tFormingCompanyId;
+	}
+	
 	public String getCurrentOffBoard () {
 		PhaseInfo tCurrentPhaseInfo = getCurrentPhaseInfo ();
 		String tCurrentOffBoard = "";

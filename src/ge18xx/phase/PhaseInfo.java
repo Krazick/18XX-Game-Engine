@@ -41,6 +41,7 @@ public class PhaseInfo {
 	static final AttributeName AN_MAJOR_TILE_LAYS = new AttributeName ("majorTileLays");
 	static final AttributeName AN_MINOR_TILE_LAYS = new AttributeName ("minorTileLays");
 	static final AttributeName AN_TRIGGER_CLASS = new AttributeName ("triggerClass");
+	static final AttributeName AN_FORM_COMPANY_ID = new AttributeName ("formCompanyID");
 	
 	static final int SORT_PHASE1_BEFORE_PHASE2 = -100;
 	static final int SORT_PHASE2_BEFORE_PHASE1 = 100;
@@ -67,6 +68,7 @@ public class PhaseInfo {
 					// Company
 	int minToFloatLast; // Minimum number of Shares sold to Float the Company when last Train of Phase
 						// has been Sold (ie when next train purchase triggers Phase Change)
+	int formCompanyId;
 	boolean canBuyPrivate;
 	boolean canBuyTrain;
 	boolean closePrivates;
@@ -78,7 +80,7 @@ public class PhaseInfo {
 
 	public PhaseInfo () {
 		setValues (NO_NAME, NO_NAME, NO_ROUNDS, NO_TILES, NO_LIMIT, NO_LIMIT, NO_LIMIT, NO_OFF_BOARD, false, false,
-				false, false, false, false, null);
+				false, false, false, false, null, 0);
 	}
 
 	public PhaseInfo (XMLNode aCellNode) {
@@ -88,6 +90,7 @@ public class PhaseInfo {
 		int tTrainLimit;
 		int tMinorTrainLimit;
 		int tGovtTrainLimit;
+		int tFormCompanyId;
 		boolean tCanBuyPrivate;
 		boolean tClosePrivate;
 		boolean tGovernmentCanForm;
@@ -119,10 +122,11 @@ public class PhaseInfo {
 		tGovernmentCanForm = aCellNode.getThisBooleanAttribute (AN_GOVERNMENT_CAN_FORM);
 		tGovernmentMustForm = aCellNode.getThisBooleanAttribute (AN_GOVERNMENT_MUST_FORM);
 		tTriggerClass = aCellNode.getThisAttribute (AN_TRIGGER_CLASS);
+		tFormCompanyId = aCellNode.getThisIntAttribute (AN_FORM_COMPANY_ID);
 		
 		setValues (tName, tSubName, tRounds, tTiles, tTrainLimit, tMinorTrainLimit, tGovtTrainLimit, tOffBoard,
 				tCanBuyPrivate, tCanBuyTrain, tClosePrivate, tLoansAllowed, tGovernmentCanForm, tGovernmentMustForm,
-				tTriggerClass);
+				tTriggerClass, tFormCompanyId);
 		parseMajorMinorValues (aCellNode);
 	}
 
@@ -156,6 +160,8 @@ public class PhaseInfo {
 		if (governmentMustForm) {
 			tXMLElement.setAttribute (AN_GOVERNMENT_MUST_FORM, governmentMustForm);
 		}
+		tXMLElement.setAttribute (AN_TRIGGER_CLASS, triggerClass);
+		tXMLElement.setAttribute (AN_FORM_COMPANY_ID, formCompanyId);
 
 		return tXMLElement;
 	}
@@ -296,7 +302,7 @@ public class PhaseInfo {
 	public void setValues (int aName, int aSubName, int aRounds, String [] aTiles, int aTrainLimit,
 			int aMinorTrainLimit, int aGovtTrainLimit, String aOffBoard, boolean aCanBuyPrivate, boolean aCanBuyTrain,
 			boolean aClosePrivates, boolean aLoansAllowed, boolean aGovernmentCanForm, 
-			boolean aGovernmentMustForm, String aTriggerClass) {
+			boolean aGovernmentMustForm, String aTriggerClass, int aFormCompanyId) {
 		name = aName;
 		subName = aSubName;
 		rounds = aRounds;
@@ -313,8 +319,13 @@ public class PhaseInfo {
 		governmentMustForm = aGovernmentMustForm;
 		willFloat = 6;
 		triggerClass = aTriggerClass;
+		formCompanyId = aFormCompanyId;
 	}
 
+	public int getFormingCompanyId () {
+		return formCompanyId;
+	}
+	
 	public boolean canBuyTrainInPhase () {
 		return canBuyTrain;
 	}
