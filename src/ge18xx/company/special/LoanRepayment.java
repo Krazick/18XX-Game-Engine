@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -16,11 +17,14 @@ import javax.swing.border.EmptyBorder;
 
 import ge18xx.bank.BankPool;
 import ge18xx.company.Corporation;
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.Action;
+import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
@@ -28,40 +32,100 @@ import ge18xx.utilities.GUI;
 public class LoanRepayment extends TriggerClass implements ActionListener {
 	public static final String DONE = "Done";
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
+	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans";
+	public static final String NO_OUTSTANDING_LOANS = "There are no outstanding Loans to repay. %s will not form.";
 	public static final String FRAME_TITLE = "Loan Repayment";
+	public static final String CONTINUE = "Continue";
+	public static final String FOLD = "Fold";
 	
 	XMLFrame allLoanRepaymentFrame;
 	GameManager gameManager;
 	int currentPlayerIndex;
 	int shareFoldCount;
 	boolean currentPlayerDone;
+	ActionStates formationState;
 	JPanel allLoanRepaymentJPanel;
 	JPanel bottomJPanel;
+	JButton continueButton;
 	String notificationText;
-	
-	public LoanRepayment (GameManager aGameManager) {
-		String tFullFrameTitle;
-		
-		gameManager = aGameManager;
-		tFullFrameTitle = gameManager.createFrameTitle (FRAME_TITLE);
-		setNotificationText ("Time to repay company outstanding Loans");
-		gameManager.setTriggerClass (this);
-		buildAllPlayers (tFullFrameTitle);
-	}
+	ShareCompany formingShareCompany;
 	
 	public LoanRepayment (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
 		String tFullFrameTitle;
 		Player tActingPlayer;
 		
 		gameManager = aGameManager;
-		tFullFrameTitle = gameManager.createFrameTitle (FRAME_TITLE);
-		setNotificationText ("Time to repay company outstanding Loans");
+		tFullFrameTitle = setFormationState (ActorI.ActionStates.LoanRepayment);
+		
+		setNotificationText (TIME_TO_REPAY);
+		continueButton = GUI.NO_BUTTON;
 		gameManager.setTriggerClass (this);
+		setFormingShareCompany ();
+		
 		buildAllPlayers (tFullFrameTitle);
 		if (aBuyTrainAction != Action.NO_ACTION) {
 			tActingPlayer = findActingPresident ();
 			aBuyTrainAction.addShowSpecialPanelEffect (tActingPlayer, tActingPlayer);
 		}
+	}
+
+	public String setFormationState (ActionStates aFormationState) {
+		String tFullFrameTitle;
+		
+		formationState = aFormationState;
+		tFullFrameTitle = gameManager.createFrameTitle (formationState.toString ());
+		if (allLoanRepaymentFrame != XMLFrame.NO_XML_FRAME) {
+			setFrameTitle (tFullFrameTitle);
+		}
+		
+		return tFullFrameTitle;
+	}
+
+	public void setFormingShareCompany () {
+		int tFormingCompanyID;
+		Corporation tFormingCompany;
+		tFormingCompanyID = gameManager.getFormingCompanyId ();
+		tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
+		if (tFormingCompany.isAShareCompany ()) {
+			formingShareCompany = (ShareCompany) tFormingCompany;
+		}
+	}
+
+	public String getFormingCompanyAbbrev () {
+		return formingShareCompany.getAbbrev ();
+	}
+	
+	public void buildContinueButton (String aActionCommand) {
+		String tToolTip;
+		
+		tToolTip = GUI.EMPTY_STRING;
+		continueButton = buildSpecialButton (CONTINUE, aActionCommand, tToolTip, this);
+	}
+	
+	public JButton buildSpecialButton (String aTitle, String aActionCommand, String aToolTip, ActionListener aActionListener) {
+		JButton tSpecialButton;
+		boolean tEnabled;
+		
+		tEnabled = getEnabled (aToolTip);
+		tSpecialButton = new JButton (aTitle);
+		tSpecialButton.setActionCommand (aActionCommand);
+		tSpecialButton.setEnabled (tEnabled);
+		tSpecialButton.setToolTipText (aToolTip);
+		tSpecialButton.addActionListener (aActionListener);
+		
+		return tSpecialButton;
+	}
+
+	public boolean getEnabled (String aToolTip) {
+		boolean tEnabled;
+		
+		if (GUI.EMPTY_STRING.equals (aToolTip)) {
+			tEnabled = true;
+		} else {
+			tEnabled = false;
+		}
+		
+		return tEnabled;
 	}
 
 	public void buildAllPlayers (String aFrameName) {
@@ -88,6 +152,10 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		setShareFoldCount (0);
 	}
 
+	public void setFrameTitle (String aFrameTitle) {
+		allLoanRepaymentFrame.setTitle (aFrameTitle);
+	}
+	
 	public void setShareFoldCount (int aCountToFold) {
 		shareFoldCount = aCountToFold;
 	}
@@ -155,7 +223,6 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		PlayerManager tPlayerManager;
 		int tNextPlayerIndex;
 
-		
 		tPlayerManager = gameManager.getPlayerManager ();
 		tNextPlayerIndex = tPlayerManager.getNextPlayerIndex (currentPlayerIndex);
 		tActingPresident = tPlayerManager.getPlayer (tNextPlayerIndex);
@@ -181,12 +248,20 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	}
 	
 	public void allRepaymentsDone () {
+		String tFormingAbbrev;
+		String tNotification;
+		
+		tFormingAbbrev = formingShareCompany.getAbbrev ();
 		if (haveSharesToFold ()) {
-			System.out.println ("There are " + getShareFoldCount () + " Shares to fold into CGR");
+			System.out.println ("There are " + getShareFoldCount () + " Shares to fold into " + tFormingAbbrev);
+			buildContinueButton (FOLD);
 		} else {
-			System.out.println ("No Shares into CGR");
+			tNotification = String.format (NO_OUTSTANDING_LOANS, tFormingAbbrev);
+			setNotificationText (tNotification);
+			buildContinueButton (CONTINUE);
+			System.out.println ("No Shares are folding into " + tFormingAbbrev);
 		}
-		allLoanRepaymentFrame.hideFrame ();
+		rebuildSpecialPanel (currentPlayerIndex);
 	}
 	
 	@Override
@@ -246,6 +321,10 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		
 		tOpenMarketJPanel = buildOpenMarketPortfolio ();
 		tBottomJPanel.add (tOpenMarketJPanel);
+		if (continueButton != GUI.NO_BUTTON) {
+			tBottomJPanel.add (Box.createHorizontalStrut (10));
+			tBottomJPanel.add (continueButton);
+		}
 		
 		tBottomJPanel.add (Box.createHorizontalGlue ());
 
@@ -278,6 +357,20 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
+		String tActionCommand;
+		
+		tActionCommand = aEvent.getActionCommand ();
+		if (tActionCommand.equals (FOLD)) {
+			handleFoldIntoFormingCompany ();
+		} else if (tActionCommand.equals (CONTINUE)) {
+			hideSpecialPanel ();
+		}
+	}
+	
+	public void handleFoldIntoFormingCompany () {
+		System.out.println ("Ready to FOLD Companies");
+		setFormationState (ActorI.ActionStates.ShareExchange);
+		setupPlayers ();
 	}
 	
 	@Override
