@@ -676,7 +676,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	public int getMaxRounds () {
 		return activeGame.getMaxRounds ();
 	}
-	
+		
 	private void createTileTray () {
 		String tActiveGameName;
 		TileTrayFrame tTileTrayFrame;
@@ -896,6 +896,10 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tCertificate;
 	}
 
+	public int getFormingCompanyId () {
+		return phaseManager.getFormingCompanyId ();
+	}
+	
 	public String getCompaniesFileName () {
 		return getFileName (File18XX.COMPANIES_TYPE);
 	}
