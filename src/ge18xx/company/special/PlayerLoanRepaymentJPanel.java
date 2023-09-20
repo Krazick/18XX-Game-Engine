@@ -115,8 +115,8 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		add (tCompanies);
 		
 		tToolTip = GUI.EMPTY_STRING;
-		done = buildSpecialButton (DONE, DONE, tToolTip);
-		undo = buildSpecialButton (UNDO, UNDO, tToolTip);
+		done = loanRepayment.buildSpecialButton (DONE, DONE, tToolTip, this);
+		undo = loanRepayment.buildSpecialButton (UNDO, UNDO, tToolTip, this);
 		updateDoneButton (aActingPlayer);
 		updateUndoButton (aActingPlayer);
 		tDoneUndo = new JPanel ();
@@ -286,7 +286,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		} else {
 			tToolTip = NOT_ACTING_PRESIDENT;
 		}
-		tPayFromTreasury = buildSpecialButton (PAY_FROM_TREASURY, PAY_TREASURY, tToolTip);
+		tPayFromTreasury = loanRepayment.buildSpecialButton (PAY_FROM_TREASURY, PAY_TREASURY, tToolTip, this);
 		aShareCompanyJPanel.add (tPayFromTreasury);
 		aShareCompanyJPanel.add (Box.createHorizontalStrut (10));
 		aShareCompany.addSpecialButton (tPayFromTreasury);
@@ -296,7 +296,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		} else {
 			tToolTip = NOT_ACTING_PRESIDENT;
 		}
-		tPayFromPresident = buildSpecialButton (PAY_FROM_PRESIDENT, PAY_PRESIDENT, tToolTip);
+		tPayFromPresident = loanRepayment.buildSpecialButton (PAY_FROM_PRESIDENT, PAY_PRESIDENT, tToolTip, this);
 		aShareCompanyJPanel.add (tPayFromPresident);
 		aShareCompany.addSpecialButton (tPayFromPresident);
 		
@@ -305,7 +305,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		} else {
 			tToolTip = NOT_ACTING_PRESIDENT;
 		}
-		tConfirm = buildSpecialButton (CONFIRM_REPAYMENT, CONFIRM_REPAYMENT, tToolTip);
+		tConfirm = loanRepayment.buildSpecialButton (CONFIRM_REPAYMENT, CONFIRM_REPAYMENT, tToolTip, this);
 		aShareCompanyJPanel.add (tConfirm);
 		aShareCompany.addSpecialButton (tConfirm);
 	}
@@ -378,32 +378,6 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		}
 		
 		return tToolTip;
-	}
-
-	public JButton buildSpecialButton (String aTitle, String aActionCommand, String aToolTip) {
-		JButton tSpecialButton;
-		boolean tEnabled;
-		
-		tEnabled = getEnabled (aToolTip);
-		tSpecialButton = new JButton (aTitle);
-		tSpecialButton.setActionCommand (aActionCommand);
-		tSpecialButton.setEnabled (tEnabled);
-		tSpecialButton.setToolTipText (aToolTip);
-		tSpecialButton.addActionListener (this);
-		
-		return tSpecialButton;
-	}
-
-	public boolean getEnabled (String aToolTip) {
-		boolean tEnabled;
-		
-		if (GUI.EMPTY_STRING.equals (aToolTip)) {
-			tEnabled = true;
-		} else {
-			tEnabled = false;
-		}
-		
-		return tEnabled;
 	}
 
 	@Override
@@ -506,7 +480,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 			tShareFoldCount = aShareCompany.getShareFoldCount ();
 			loanRepayment.addShareFoldCount (tShareFoldCount);
 			
-			tFormingCompany = "CGR";
+			tFormingCompany = loanRepayment.getFormingCompanyAbbrev ();
 			tNewShareFoldCount = loanRepayment.getShareFoldCount ();
 			
 			tNotification = aShareCompany.getAbbrev () + " will fold " + tShareFoldCount + " Shares into the " + tFormingCompany +
