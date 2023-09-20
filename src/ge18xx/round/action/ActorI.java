@@ -69,13 +69,23 @@ public interface ActorI {
 		AuctionRaise ("Auction Raised"), 
 		NotBidder ("Not a Bidder"),
 
-		NoRound ("No Round", "NR"),  					// Round States
+		// Player Formation States
+		LoanRepayment ("Loan Repayment", Arrays.asList (new String [] {"No Action"})),
+		ShareExchange ("Share Exchange", Arrays.asList (new String [] {"Loan Repayment"})),
+		ConfirmFormingPresident ("Confirm Forming President", Arrays.asList (new String [] {"Share Exchange"})),
+		TokenExchange ("Token Exchange", Arrays.asList (new String [] {"Confirm Forming President"})),
+		AssetCollection ("Asset Collection", Arrays.asList (new String [] {"Token Exchange"})),
+		StockValueCalculation ("Stock Value Calculation", Arrays.asList (new String [] {"Asset Collection"})),
+		
+		// Round States
+		NoRound ("No Round", "NR"),
 		StockRound ("Stock Round", "SR"),
 		OperatingRound ("Operating Round", "OR"), 
 		AuctionRound ("Auction Round", "AR"),
 		FormationRound ("Formation Round", "FR"),
 
-		Unowned ("Unowned"),  							// Corporation States
+		// Corporation States
+		Unowned ("Unowned"), 
 		Owned ("Owned"),
 		Closed ("Closed"),
 		MayFloat ("May Float"), 
