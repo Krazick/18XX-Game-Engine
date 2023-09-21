@@ -24,6 +24,10 @@ public class TriggerClass {
 		
 	}
 	
+	public void showSpecialPanel () {
+		
+	}
+	
 	public int updateToNextPlayer (List<Player> aPlayers) {
 		return 0;
 	}
