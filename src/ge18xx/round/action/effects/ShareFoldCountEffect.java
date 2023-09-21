@@ -1,17 +1,20 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.company.ShareCompany;
 import ge18xx.company.special.LoanRepayment;
 import ge18xx.company.special.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public class ShareFoldCountEffect extends Effect {
 	public final static String NAME = "Share Fold Count";
-	final static AttributeName AN_OLD_SHARE_FOLD_COUNT = new AttributeName ("OldShareFoldCount");
-	final static AttributeName AN_NEW_SHARE_FOLD_COUNT = new AttributeName ("NewShareFoldCount");
+	final static AttributeName AN_OLD_SHARE_FOLD_COUNT = new AttributeName ("oldShareFoldCount");
+	final static AttributeName AN_NEW_SHARE_FOLD_COUNT = new AttributeName ("newShareFoldCount");
 	int oldShareFoldCount;
 	int newShareFoldCount;
 
@@ -45,6 +48,17 @@ public class ShareFoldCountEffect extends Effect {
 		setNewShareFoldCount (tNewShareFoldCount);
 	}
 
+	@Override
+	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
+		XMLElement tEffectElement;
+
+		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
+		tEffectElement.setAttribute (AN_OLD_SHARE_FOLD_COUNT, oldShareFoldCount);
+		tEffectElement.setAttribute (AN_NEW_SHARE_FOLD_COUNT, newShareFoldCount);
+
+		return tEffectElement;
+	}
+
 	public void setNewShareFoldCount (int aNewShareFoldCount) {
 		newShareFoldCount = aNewShareFoldCount;
 	}
@@ -72,6 +86,10 @@ public class ShareFoldCountEffect extends Effect {
 		TriggerClass tTriggerClass;
 		LoanRepayment tLoanRepayment;
 		GameManager tGameManager;
+		String tNotification;
+		String tFoldingCompanyAbbrev;
+		ShareCompany tShareCompany;
+		int tShareFoldCount;
 		
 		tEffectApplied = false;
 		if (actor.isAShareCompany ()) {
@@ -79,7 +97,12 @@ public class ShareFoldCountEffect extends Effect {
 			tTriggerClass = tGameManager.getTriggerClass ();
 			if (tTriggerClass instanceof LoanRepayment) {
 				tLoanRepayment = (LoanRepayment) tTriggerClass;
+				tShareCompany = (ShareCompany) actor;
+				tFoldingCompanyAbbrev = tShareCompany.getAbbrev ();
+				tShareFoldCount = tShareCompany.getShareFoldCount ();
 				tLoanRepayment.setShareFoldCount (newShareFoldCount);
+				tNotification = tLoanRepayment.buildFoldNotification (tFoldingCompanyAbbrev, tShareFoldCount);
+				tLoanRepayment.setNotificationText (tNotification);
 				tEffectApplied = true;
 			}
 		}
