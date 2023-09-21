@@ -50,10 +50,8 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	String notificationText;
 	ShareCompany formingShareCompany;
 	
-	public LoanRepayment (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
+	public LoanRepayment (GameManager aGameManager) {
 		String tFullFrameTitle;
-		Player tActingPlayer;
-		
 		gameManager = aGameManager;
 		tFullFrameTitle = setFormationState (ActorI.ActionStates.LoanRepayment);
 		
@@ -63,6 +61,13 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		setFormingShareCompany ();
 		
 		buildAllPlayers (tFullFrameTitle);
+	}
+
+	public LoanRepayment (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
+		this (aGameManager);
+		
+		Player tActingPlayer;
+		
 		if (aBuyTrainAction != Action.NO_ACTION) {
 			tActingPlayer = findActingPresident ();
 			aBuyTrainAction.addShowSpecialPanelEffect (tActingPlayer, tActingPlayer);
@@ -368,13 +373,29 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	}
 	
 	public void handleFoldIntoFormingCompany () {
-		System.out.println ("Ready to FOLD Companies");
 		setFormationState (ActorI.ActionStates.ShareExchange);
 		setupPlayers ();
+	}
+	
+	public String buildFoldNotification (String aFoldingCompanyAbbrev, int aShareFoldCount) {
+		String tNotification;
+		String tFormingCompanyAbbrev;
+		
+		tFormingCompanyAbbrev = getFormingCompanyAbbrev ();
+
+		tNotification = aFoldingCompanyAbbrev + " will fold " + aShareFoldCount + " Shares into the " + tFormingCompanyAbbrev +
+				". Total New Share Fold Count is " + shareFoldCount;
+		
+		return tNotification;
 	}
 	
 	@Override
 	public void hideSpecialPanel () {
 		allLoanRepaymentFrame.hideFrame ();
+	}
+	
+	@Override
+	public void showSpecialPanel () {
+		allLoanRepaymentFrame.showFrame ();
 	}
 }
