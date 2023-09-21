@@ -462,9 +462,9 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	public void handleConfirmRepayment (ShareCompany aShareCompany) {
 		RepaymentHandledAction tRepaymentHandledAction;
 		String tOperatingRoundID;
-		boolean tRepaymentHandled;
 		String tNotification;
-		String tFormingCompany;
+		String tFoldingCompanyAbbrev;
+		boolean tRepaymentHandled;
 		int tCurrentPlayerIndex;
 		int tShareFoldCount;
 		int tNewShareFoldCount;
@@ -480,11 +480,10 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 			tShareFoldCount = aShareCompany.getShareFoldCount ();
 			loanRepayment.addShareFoldCount (tShareFoldCount);
 			
-			tFormingCompany = loanRepayment.getFormingCompanyAbbrev ();
 			tNewShareFoldCount = loanRepayment.getShareFoldCount ();
 			
-			tNotification = aShareCompany.getAbbrev () + " will fold " + tShareFoldCount + " Shares into the " + tFormingCompany +
-					". Total New Share Fold Count is " + tNewShareFoldCount;
+			tFoldingCompanyAbbrev = aShareCompany.getAbbrev ();
+			tNotification = loanRepayment.buildFoldNotification (tFoldingCompanyAbbrev, tShareFoldCount);
 			loanRepayment.setNotificationText (tNotification);
 					
 			tRepaymentHandledAction.addShareFoldCountEffect (aShareCompany, tOldShareFoldCount, tNewShareFoldCount);
