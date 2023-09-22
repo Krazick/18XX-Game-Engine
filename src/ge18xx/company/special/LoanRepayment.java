@@ -232,10 +232,10 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		tNextPlayerIndex = tPlayerManager.getNextPlayerIndex (currentPlayerIndex);
 		tActingPresident = tPlayerManager.getPlayer (tNextPlayerIndex);
 		tFirstPresident = findActingPresident ();
+		setCurrentPlayerIndex (tNextPlayerIndex);
 		if (tActingPresident == tFirstPresident) {
 			allRepaymentsDone ();
 		} else {
-			setCurrentPlayerIndex (tNextPlayerIndex);
 			updatePlayers (aPlayers, tActingPresident);
 		}
 		
