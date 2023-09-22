@@ -29,7 +29,7 @@ import ge18xx.round.action.SpecialPanelAction;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.GUI;
 
-public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener {
+public class PlayerFormationPhase extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	public static final String PAY_FROM_TREASURY = "Pay From Treasury";
 	public static final String PAY_FROM_PRESIDENT = "Pay From President";
@@ -42,11 +42,11 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 
 	Player player;
 	GameManager gameManager;
-	LoanRepayment loanRepayment;
+	FormationPhase formationPhase;
 	JButton done;
 	JButton undo;
 	
-	public PlayerLoanRepaymentJPanel (GameManager aGameManager, LoanRepayment aLoanRepayment, Player aPlayer, 
+	public PlayerFormationPhase (GameManager aGameManager, FormationPhase aLoanRepayment, Player aPlayer, 
 							Player aActingPresident) {
 		String tActingPresidentName;
 		Color tBackgroundColor;
@@ -55,7 +55,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		boolean tActingPlayer;
 		
 		gameManager = aGameManager;
-		loanRepayment = aLoanRepayment;
+		formationPhase = aLoanRepayment;
 		player = aPlayer;
 		
 		if (aActingPresident == aPlayer) {
@@ -116,8 +116,8 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		add (tCompanies);
 		
 		tToolTip = GUI.EMPTY_STRING;
-		done = loanRepayment.buildSpecialButton (DONE, DONE, tToolTip, this);
-		undo = loanRepayment.buildSpecialButton (UNDO, UNDO, tToolTip, this);
+		done = formationPhase.buildSpecialButton (DONE, DONE, tToolTip, this);
+		undo = formationPhase.buildSpecialButton (UNDO, UNDO, tToolTip, this);
 		updateDoneButton (aActingPlayer);
 		updateUndoButton (aActingPlayer);
 		tDoneUndo = new JPanel ();
@@ -287,7 +287,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		} else {
 			tToolTip = NOT_ACTING_PRESIDENT;
 		}
-		tPayFromTreasury = loanRepayment.buildSpecialButton (PAY_FROM_TREASURY, PAY_TREASURY, tToolTip, this);
+		tPayFromTreasury = formationPhase.buildSpecialButton (PAY_FROM_TREASURY, PAY_TREASURY, tToolTip, this);
 		aShareCompanyJPanel.add (tPayFromTreasury);
 		aShareCompanyJPanel.add (Box.createHorizontalStrut (10));
 		aShareCompany.addSpecialButton (tPayFromTreasury);
@@ -297,7 +297,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		} else {
 			tToolTip = NOT_ACTING_PRESIDENT;
 		}
-		tPayFromPresident = loanRepayment.buildSpecialButton (PAY_FROM_PRESIDENT, PAY_PRESIDENT, tToolTip, this);
+		tPayFromPresident = formationPhase.buildSpecialButton (PAY_FROM_PRESIDENT, PAY_PRESIDENT, tToolTip, this);
 		aShareCompanyJPanel.add (tPayFromPresident);
 		aShareCompany.addSpecialButton (tPayFromPresident);
 		
@@ -306,7 +306,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		} else {
 			tToolTip = NOT_ACTING_PRESIDENT;
 		}
-		tConfirm = loanRepayment.buildSpecialButton (CONFIRM_REPAYMENT, CONFIRM_REPAYMENT, tToolTip, this);
+		tConfirm = formationPhase.buildSpecialButton (CONFIRM_REPAYMENT, CONFIRM_REPAYMENT, tToolTip, this);
 		aShareCompanyJPanel.add (tConfirm);
 		aShareCompany.addSpecialButton (tConfirm);
 	}
@@ -433,7 +433,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 	public int getCurrentPlayerIndex () {
 		int tCurrentPlayerIndex;
 
-		tCurrentPlayerIndex = loanRepayment.getCurrentPlayerIndex ();
+		tCurrentPlayerIndex = formationPhase.getCurrentPlayerIndex ();
 		
 		return tCurrentPlayerIndex;
 	}
@@ -464,7 +464,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
 		aShareCompany.redeemLoans (tLoanCount, tPresidentContribution);
-		loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
+		formationPhase.rebuildSpecialPanel (tCurrentPlayerIndex);
 		tOperatingRoundID = aShareCompany.getOperatingRoundID ();
 		tSpecialPanelAction = new SpecialPanelAction (ActorI.ActionStates.OperatingRound, 
 								tOperatingRoundID, aShareCompany);
@@ -488,16 +488,16 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 								tOperatingRoundID, aShareCompany);
 		tRepaymentHandled = true;
 		aShareCompany.setRepaymentHandled (tRepaymentHandled);
-		tOldShareFoldCount = loanRepayment.getShareFoldCount ();
+		tOldShareFoldCount = formationPhase.getShareFoldCount ();
 		if (aShareCompany.willFold ()) {
 			tShareFoldCount = aShareCompany.getShareFoldCount ();
-			loanRepayment.addShareFoldCount (tShareFoldCount);
+			formationPhase.addShareFoldCount (tShareFoldCount);
 			
-			tNewShareFoldCount = loanRepayment.getShareFoldCount ();
+			tNewShareFoldCount = formationPhase.getShareFoldCount ();
 			
 			tFoldingCompanyAbbrev = aShareCompany.getAbbrev ();
-			tNotification = loanRepayment.buildFoldNotification (tFoldingCompanyAbbrev, tShareFoldCount);
-			loanRepayment.setNotificationText (tNotification);
+			tNotification = formationPhase.buildFoldNotification (tFoldingCompanyAbbrev, tShareFoldCount);
+			formationPhase.setNotificationText (tNotification);
 					
 			tRepaymentHandledAction.addShareFoldCountEffect (aShareCompany, tOldShareFoldCount, tNewShareFoldCount);
 		}
@@ -506,7 +506,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
 
-		loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
+		formationPhase.rebuildSpecialPanel (tCurrentPlayerIndex);
 
 		aShareCompany.addAction (tRepaymentHandledAction);
 	}
@@ -523,8 +523,8 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		player.setRepaymentFinished (true);
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
-		loanRepayment.updateToNextPlayer (tPlayers);
-		tNewPlayer = loanRepayment.getCurrentPlayer ();
+		formationPhase.updateToNextPlayer (tPlayers);
+		tNewPlayer = formationPhase.getCurrentPlayer ();
 		
 		tRepaymentFinishedAction = new RepaymentFinishedAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, player);
@@ -539,7 +539,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		
 		player.undoAction ();
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
-		loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
+		formationPhase.rebuildSpecialPanel (tCurrentPlayerIndex);
 	}
 	
 	public boolean repaymentFinished () {

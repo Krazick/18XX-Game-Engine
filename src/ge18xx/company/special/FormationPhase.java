@@ -29,7 +29,7 @@ import ge18xx.round.action.BuyTrainAction;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 
-public class LoanRepayment extends TriggerClass implements ActionListener {
+public class FormationPhase extends TriggerClass implements ActionListener {
 	public static final String DONE = "Done";
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans";
@@ -50,7 +50,7 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	String notificationText;
 	ShareCompany formingShareCompany;
 	
-	public LoanRepayment (GameManager aGameManager) {
+	public FormationPhase (GameManager aGameManager) {
 		String tFullFrameTitle;
 		gameManager = aGameManager;
 		tFullFrameTitle = setFormationState (ActorI.ActionStates.LoanRepayment);
@@ -63,7 +63,7 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 		buildAllPlayers (tFullFrameTitle);
 	}
 
-	public LoanRepayment (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
+	public FormationPhase (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
 		this (aGameManager);
 		
 		Player tActingPlayer;
@@ -282,13 +282,13 @@ public class LoanRepayment extends TriggerClass implements ActionListener {
 	}
 	
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
-		PlayerLoanRepaymentJPanel tPlayerLoanRepaymentPanel;
+		PlayerFormationPhase tPlayerLoanRepaymentPanel;
 		
 		currentPlayerDone = false;
 		allLoanRepaymentJPanel.removeAll ();
 		for (Player tPlayer : aPlayers) {
 
-			tPlayerLoanRepaymentPanel = new PlayerLoanRepaymentJPanel (gameManager, this, tPlayer, aActingPresident);
+			tPlayerLoanRepaymentPanel = new PlayerFormationPhase (gameManager, this, tPlayer, aActingPresident);
 			allLoanRepaymentJPanel.add (tPlayerLoanRepaymentPanel);
 			allLoanRepaymentJPanel.add (Box.createVerticalStrut (10));
 		}
