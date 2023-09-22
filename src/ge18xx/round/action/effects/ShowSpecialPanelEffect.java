@@ -33,6 +33,7 @@ public class ShowSpecialPanelEffect extends SpecialPanelEffect {
 	public ShowSpecialPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 	}
+	
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
 		return (REPORT_PREFIX + name + " for " + actor.getName ());
