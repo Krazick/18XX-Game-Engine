@@ -25,6 +25,7 @@ import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.RepaymentFinishedAction;
 import ge18xx.round.action.RepaymentHandledAction;
+import ge18xx.round.action.SpecialPanelAction;
 import ge18xx.train.TrainPortfolio;
 import ge18xx.utilities.GUI;
 
@@ -415,7 +416,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		int tLoanAmount;
 		int tTotalLoanCount;
 		int tTreasury;
-		int tCurrentPlayerIndex;
+		int tPresidentContribution;
 		
 		tTreasury = aShareCompany.getTreasury ();
 		tTotalLoanCount = aShareCompany.getLoanCount ();
@@ -423,10 +424,8 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		if (tTotalLoanCount > 0) {
 			if (tTreasury >= tLoanAmount) {
 				tLoanCount = Math.min (tTotalLoanCount, tTreasury/tLoanAmount);
-				aShareCompany.redeemLoans (tLoanCount);
-				tCurrentPlayerIndex = getCurrentPlayerIndex ();
-
-				loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
+				tPresidentContribution = 0;
+				redeemLoanAndUpdate (aShareCompany, tLoanCount, tPresidentContribution);
 			}
 		}
 	}
@@ -444,7 +443,7 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		int tTreasury;
 		int tLoanCount;
 		int tTotalLoanCount;
-		int tCurrentPlayerIndex;
+		int tPresidentContribution;
 		
 		tTotalLoanCount = aShareCompany.getLoanCount ();
 		tLoanAmount = aShareCompany.getLoanAmount ();
@@ -452,11 +451,25 @@ public class PlayerLoanRepaymentJPanel extends JPanel implements ActionListener 
 		tLoanCount = 1;
 		if (tTotalLoanCount > 0) {
 			if (tTreasury >= tLoanAmount) {
-				tCurrentPlayerIndex = getCurrentPlayerIndex ();
-				aShareCompany.redeemLoans (tLoanCount, tLoanAmount);
-				loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
+				tPresidentContribution = tLoanAmount;
+				redeemLoanAndUpdate (aShareCompany, tLoanCount, tPresidentContribution);
 			}
 		}
+	}
+
+	public void redeemLoanAndUpdate (ShareCompany aShareCompany, int tLoanCount, int tPresidentContribution) {
+		int tCurrentPlayerIndex;
+		SpecialPanelAction tSpecialPanelAction;
+		String tOperatingRoundID;
+		
+		tCurrentPlayerIndex = getCurrentPlayerIndex ();
+		aShareCompany.redeemLoans (tLoanCount, tPresidentContribution);
+		loanRepayment.rebuildSpecialPanel (tCurrentPlayerIndex);
+		tOperatingRoundID = aShareCompany.getOperatingRoundID ();
+		tSpecialPanelAction = new SpecialPanelAction (ActorI.ActionStates.OperatingRound, 
+								tOperatingRoundID, aShareCompany);
+		tSpecialPanelAction.addSpecialPanelEffect (aShareCompany, aShareCompany);
+		aShareCompany.addAction (tSpecialPanelAction);
 	}
 	
 	public void handleConfirmRepayment (ShareCompany aShareCompany) {
