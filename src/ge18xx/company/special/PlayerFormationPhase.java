@@ -112,7 +112,13 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		add (tPortfolio);
 		add (Box.createHorizontalStrut (10));
 	
-		tCompanies = buildPlayerCompaniesJPanel (tPlayerPortfolio, aActingPlayer);
+		if (formationPhase.getFormationState ().equals ((ActorI.ActionStates.LoanRepayment))) {
+			tCompanies = buildPlayerCompaniesJPanel (tPlayerPortfolio, aActingPlayer);
+		} else if (formationPhase.getFormationState ().equals ((ActorI.ActionStates.ShareExchange))) {
+			tCompanies = buildPlayerShareExchangePanel (tPlayerPortfolio, aActingPlayer);
+		} else {
+			tCompanies = new JPanel ();
+		}
 		add (tCompanies);
 		
 		tToolTip = GUI.EMPTY_STRING;
@@ -200,6 +206,18 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		tPlayerPortfolioJPanel.add (tOwnershipPanel);
 		
 		return tPlayerPortfolioJPanel;
+	}
+	
+	// new method needed -- buildPlayerShareExchangePanel
+	public JPanel buildPlayerShareExchangePanel (Portfolio aPlayerPortfolio, boolean aActingPlayer) {
+		JPanel tPlayerShareExchangePanel;
+		JLabel tShareExchangeLabel;
+		
+		tPlayerShareExchangePanel = new JPanel ();
+		tShareExchangeLabel = new JLabel ("Player Share Exchange Panel");
+		tPlayerShareExchangePanel.add (tShareExchangeLabel);
+		
+		return tPlayerShareExchangePanel;
 	}
 	
 	public JPanel buildPlayerCompaniesJPanel (Portfolio aPlayerPortfolio, boolean aActingPlayer) {
@@ -468,7 +486,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		tOperatingRoundID = aShareCompany.getOperatingRoundID ();
 		tSpecialPanelAction = new SpecialPanelAction (ActorI.ActionStates.OperatingRound, 
 								tOperatingRoundID, aShareCompany);
-		tSpecialPanelAction.addSpecialPanelEffect (aShareCompany, aShareCompany);
+		tSpecialPanelAction.addShowSpecialPanelEffect (aShareCompany, aShareCompany);
 		aShareCompany.addAction (tSpecialPanelAction);
 	}
 	

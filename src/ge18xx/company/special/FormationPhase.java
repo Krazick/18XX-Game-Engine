@@ -26,6 +26,7 @@ import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BuyTrainAction;
+import ge18xx.round.action.SpecialPanelAction;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 
@@ -34,17 +35,16 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans";
 	public static final String NO_OUTSTANDING_LOANS = "There are no outstanding Loans to repay. %s will not form.";
-	public static final String FRAME_TITLE = "Loan Repayment";
 	public static final String CONTINUE = "Continue";
 	public static final String FOLD = "Fold";
 	
-	XMLFrame allLoanRepaymentFrame;
+	XMLFrame formationFrame;
 	GameManager gameManager;
 	int currentPlayerIndex;
 	int shareFoldCount;
 	boolean currentPlayerDone;
 	ActionStates formationState;
-	JPanel allLoanRepaymentJPanel;
+	JPanel formationJPanel;
 	JPanel bottomJPanel;
 	JButton continueButton;
 	String notificationText;
@@ -52,6 +52,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public FormationPhase (GameManager aGameManager) {
 		String tFullFrameTitle;
+		
 		gameManager = aGameManager;
 		tFullFrameTitle = setFormationState (ActorI.ActionStates.LoanRepayment);
 		
@@ -79,15 +80,20 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		formationState = aFormationState;
 		tFullFrameTitle = gameManager.createFrameTitle (formationState.toString ());
-		if (allLoanRepaymentFrame != XMLFrame.NO_XML_FRAME) {
+		if (formationFrame != XMLFrame.NO_XML_FRAME) {
 			setFrameTitle (tFullFrameTitle);
 		}
 		
 		return tFullFrameTitle;
 	}
 
+	public ActorI.ActionStates getFormationState () {
+		return formationState;
+	}
+	
 	public void setFormingShareCompany () {
 		int tFormingCompanyID;
+		
 		Corporation tFormingCompany;
 		tFormingCompanyID = gameManager.getFormingCompanyId ();
 		tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
@@ -106,59 +112,33 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tToolTip = GUI.EMPTY_STRING;
 		continueButton = buildSpecialButton (CONTINUE, aActionCommand, tToolTip, this);
 	}
-	
-	public JButton buildSpecialButton (String aTitle, String aActionCommand, String aToolTip, ActionListener aActionListener) {
-		JButton tSpecialButton;
-		boolean tEnabled;
-		
-		tEnabled = getEnabled (aToolTip);
-		tSpecialButton = new JButton (aTitle);
-		tSpecialButton.setActionCommand (aActionCommand);
-		tSpecialButton.setEnabled (tEnabled);
-		tSpecialButton.setToolTipText (aToolTip);
-		tSpecialButton.addActionListener (aActionListener);
-		
-		return tSpecialButton;
-	}
-
-	public boolean getEnabled (String aToolTip) {
-		boolean tEnabled;
-		
-		if (GUI.EMPTY_STRING.equals (aToolTip)) {
-			tEnabled = true;
-		} else {
-			tEnabled = false;
-		}
-		
-		return tEnabled;
-	}
 
 	public void buildAllPlayers (String aFrameName) {
 		Border tMargin;
 		Point tRoundFrameOffset;
 		
-		allLoanRepaymentFrame = new XMLFrame (aFrameName, gameManager);
-		allLoanRepaymentFrame.setSize (800, 600);
+		formationFrame = new XMLFrame (aFrameName, gameManager);
+		formationFrame.setSize (800, 600);
 		
-		allLoanRepaymentJPanel = new JPanel ();
+		formationJPanel = new JPanel ();
 		tMargin = new EmptyBorder (10,10,10,10);
-		allLoanRepaymentJPanel.setBorder (tMargin);
+		formationJPanel.setBorder (tMargin);
 		
-		allLoanRepaymentJPanel.setLayout (new BoxLayout (allLoanRepaymentJPanel, BoxLayout.Y_AXIS));
+		formationJPanel.setLayout (new BoxLayout (formationJPanel, BoxLayout.Y_AXIS));
 
 		setupPlayers ();
-		allLoanRepaymentFrame.buildScrollPane (allLoanRepaymentJPanel);
+		formationFrame.buildScrollPane (formationJPanel);
 
 		tRoundFrameOffset = gameManager.getOffsetRoundFrame ();
-		allLoanRepaymentFrame.setLocation (tRoundFrameOffset);
-		gameManager.addNewFrame (allLoanRepaymentFrame);
+		formationFrame.setLocation (tRoundFrameOffset);
+		gameManager.addNewFrame (formationFrame);
 		
-		allLoanRepaymentFrame.showFrame ();
+		formationFrame.showFrame ();
 		setShareFoldCount (0);
 	}
 
 	public void setFrameTitle (String aFrameTitle) {
-		allLoanRepaymentFrame.setTitle (aFrameTitle);
+		formationFrame.setTitle (aFrameTitle);
 	}
 	
 	public void setShareFoldCount (int aCountToFold) {
@@ -275,6 +255,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		PlayerManager tPlayerManager;
 		Player tActingPlayer;
 		
+		this.showSpecialPanel ();
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		tActingPlayer = tPlayers.get (aCurrentPlayerIndex);
@@ -285,18 +266,18 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		PlayerFormationPhase tPlayerLoanRepaymentPanel;
 		
 		currentPlayerDone = false;
-		allLoanRepaymentJPanel.removeAll ();
+		formationJPanel.removeAll ();
 		for (Player tPlayer : aPlayers) {
 
 			tPlayerLoanRepaymentPanel = new PlayerFormationPhase (gameManager, this, tPlayer, aActingPresident);
-			allLoanRepaymentJPanel.add (tPlayerLoanRepaymentPanel);
-			allLoanRepaymentJPanel.add (Box.createVerticalStrut (10));
+			formationJPanel.add (tPlayerLoanRepaymentPanel);
+			formationJPanel.add (Box.createVerticalStrut (10));
 		}
 		bottomJPanel = buildBottomJPanel ();
-		allLoanRepaymentJPanel.add (bottomJPanel);
+		formationJPanel.add (bottomJPanel);
 		
-		allLoanRepaymentJPanel.repaint ();
-		allLoanRepaymentJPanel.revalidate ();
+		formationJPanel.repaint ();
+		formationJPanel.revalidate ();
 	}
 
 	public void setNotificationText (String aNotificationText) {
@@ -391,11 +372,22 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	@Override
 	public void hideSpecialPanel () {
-		allLoanRepaymentFrame.hideFrame ();
+		SpecialPanelAction tSpecialPanelAction;
+		String tOperatingRoundID;
+		Player tCurrentPlayer;
+		
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
+		tCurrentPlayer = getCurrentPlayer ();
+		tSpecialPanelAction = new SpecialPanelAction (ActorI.ActionStates.OperatingRound, 
+										tOperatingRoundID, tCurrentPlayer);
+		tSpecialPanelAction.addHideSpecialPanelEffect (tCurrentPlayer, tCurrentPlayer);
+		gameManager.addAction (tSpecialPanelAction);
+
+		formationFrame.hideFrame ();
 	}
 	
 	@Override
 	public void showSpecialPanel () {
-		allLoanRepaymentFrame.showFrame ();
+		formationFrame.showFrame ();
 	}
 }
