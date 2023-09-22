@@ -2,11 +2,12 @@ package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.effects.SpecialPanelEffect;
+import ge18xx.round.action.effects.HideSpecialPanelEffect;
+import ge18xx.round.action.effects.ShowSpecialPanelEffect;
 import ge18xx.utilities.XMLNode;
 
 public class SpecialPanelAction extends Action {
-	public final static String NAME = "Special Panel";
+	public final static String NAME = "Show Special Panel";
 
 	public SpecialPanelAction () {
 		this (NAME);
@@ -30,11 +31,18 @@ public class SpecialPanelAction extends Action {
 		setName (NAME);
 	}
 
-	public void addSpecialPanelEffect (ActorI aFromActor, ActorI aToActor) {
-		SpecialPanelEffect tSpecialPanelEffect;
+	public void addHideSpecialPanelEffect (ActorI aFromActor, ActorI aToActor) {
+		HideSpecialPanelEffect tHideSpecialPanelEffect;
 		
-		tSpecialPanelEffect = new SpecialPanelEffect (aFromActor, aToActor);
-		addEffect (tSpecialPanelEffect);
+		tHideSpecialPanelEffect = new HideSpecialPanelEffect (aFromActor, aToActor);
+		addEffect (tHideSpecialPanelEffect);
+	}
+
+	public void addShowSpecialPanelEffect (ActorI aFromActor, ActorI aToActor) {
+		ShowSpecialPanelEffect tShowSpecialPanelEffect;
+		
+		tShowSpecialPanelEffect = new ShowSpecialPanelEffect (aFromActor, aToActor);
+		addEffect (tShowSpecialPanelEffect);
 	}
 
 	@Override
