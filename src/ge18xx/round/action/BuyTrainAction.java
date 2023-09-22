@@ -9,7 +9,7 @@ import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.PhaseChangeEffect;
 import ge18xx.round.action.effects.RustTrainEffect;
 import ge18xx.round.action.effects.ShowSpecialPanelEffect;
-import ge18xx.round.action.effects.SpecialPanelEffect;
+//import ge18xx.round.action.effects.SpecialPanelEffect;
 import ge18xx.round.action.effects.TransferTrainEffect;
 import ge18xx.round.action.effects.UpgradeTrainEffect;
 import ge18xx.train.Train;
@@ -137,11 +137,11 @@ public class BuyTrainAction extends TransferOwnershipAction {
 		tShowSpecialPanelEffect = new ShowSpecialPanelEffect (aFromActor, aToActor);
 		addEffect (tShowSpecialPanelEffect);
 	}
-
-	public void addSpecialPanelEffect (ActorI aFromActor, ActorI aToActor) {
-		SpecialPanelEffect tSpecialPanelEffect;
-		
-		tSpecialPanelEffect = new SpecialPanelEffect (aFromActor, aToActor);
-		addEffect (tSpecialPanelEffect);
-	}
+//
+//	public void addSpecialPanelEffect (ActorI aFromActor, ActorI aToActor) {
+//		SpecialPanelEffect tSpecialPanelEffect;
+//		
+//		tSpecialPanelEffect = new SpecialPanelEffect (aFromActor, aToActor);
+//		addEffect (tSpecialPanelEffect);
+//	}
 }
