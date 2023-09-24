@@ -841,7 +841,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tBank = (Bank) tTrainHolder;
 				tFirstTrainOfType = corporationList.isFirstTrainOfType (tTrain);
 				tBank.makeTrainsAvailable (tTrain, aBuyTrainAction);
-//				tNextAvailableTrain = tBank.getNextAvailableTrain ();
 			}
 		}
 		addTrain (tTrain);
