@@ -1574,7 +1574,6 @@ public class PlayerManager {
 		} else {
 			System.err.println ("**** Undo Action failed ****");
 		}
-		stockRound.printBriefActionReport ();
 	}
 
 	public void updateAllRFPlayerLabels () {
