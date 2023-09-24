@@ -155,6 +155,14 @@ public interface ActorI {
 			return enumString;
 		}
 
+		public String toNoSpaceString () {
+			String tNoSpaceString;
+			
+			tNoSpaceString = enumString.replaceAll("\\s+","");
+			
+			return tNoSpaceString;
+		}
+		
 		public String toAbbrev () {
 			return enumAbbrev;
 		}
