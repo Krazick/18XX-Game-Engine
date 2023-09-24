@@ -69,7 +69,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		tPlayerShareExchangePanel.add (Box.createVerticalStrut (5));
 	
 		if (	foldingCompanyCount == 0) {
-			tToolTip = "No Shares till be exchanged for " + formationPhase.getFormingCompanyAbbrev ();;
+			tToolTip = "No Shares will be exchanged for " + formationPhase.getFormingCompanyAbbrev ();;
 		} else if (! aActingPlayer) {
 			tToolTip = NOT_ACTING_PRESIDENT;
 		} else {
@@ -134,7 +134,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		tFormingCompanyAbbrev = formationPhase.getFormingCompanyAbbrev ();
 		tShareExchangeText = GUI.EMPTY_STRING;
 		if  (tTotalShareCount == 0) {
-			tShareExchangeText = "No Shares till be exchanged for " + tFormingCompanyAbbrev;
+			tShareExchangeText = "No Shares will be exchanged for " + tFormingCompanyAbbrev;
 		} else {
 			if (foldingCompanyCount == 1) {
 				tShareExchangeText = tShareExchange.get (0);
