@@ -1282,6 +1282,14 @@ public class Certificate implements Comparable<Certificate> {
 		return percentage;
 	}
 
+	public int getShareCount () {
+		int tShareCount;
+		
+		tShareCount = percentage / PhaseInfo.STANDARD_SHARE_SIZE;
+		
+		return tShareCount;
+	}
+	
 	public int getParValue () {
 		int tValue;
 		int tParPrice;
