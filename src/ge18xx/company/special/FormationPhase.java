@@ -76,9 +76,11 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		if (aBuyTrainAction != Action.NO_ACTION) {
 			tActingPlayer = findActingPresident ();
 			aBuyTrainAction.addShowSpecialPanelEffect (tActingPlayer, tActingPlayer);
+			aBuyTrainAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState, formationState);
 		}
 	}
 
+	@Override
 	public String setFormationState (ActionStates aFormationState) {
 		String tFullFrameTitle;
 		
@@ -97,8 +99,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public void setFormingShareCompany () {
 		int tFormingCompanyID;
-		
 		Corporation tFormingCompany;
+		
 		tFormingCompanyID = gameManager.getFormingCompanyId ();
 		tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
 		if (tFormingCompany.isAShareCompany ()) {
