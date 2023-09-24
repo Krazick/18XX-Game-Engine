@@ -262,16 +262,10 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	public void handlePlayerDone () {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
-//		RepaymentFinishedAction tRepaymentFinishedAction;
-//		Player tNewPlayer;
-//		String tOperatingRoundID;
-//		
-//		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		formationPhase.updateToNextPlayer (tPlayers);
-//		tNewPlayer = formationPhase.getCurrentPlayer ();
 		
 			// Action to move to Next player
 	}
