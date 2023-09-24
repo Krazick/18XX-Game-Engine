@@ -22,6 +22,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
@@ -42,6 +43,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	GameManager gameManager;
 	int currentPlayerIndex;
 	int shareFoldCount;
+
 	boolean currentPlayerDone;
 	ActionStates formationState;
 	JPanel formationJPanel;
@@ -49,6 +51,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	JButton continueButton;
 	String notificationText;
 	ShareCompany formingShareCompany;
+	Player actingPresident;
 	
 	public FormationPhase (GameManager aGameManager) {
 		String tFullFrameTitle;
@@ -58,6 +61,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		setNotificationText (TIME_TO_REPAY);
 		continueButton = GUI.NO_BUTTON;
+		actingPresident = Player.NO_PLAYER;
 		gameManager.setTriggerClass (this);
 		setFormingShareCompany ();
 		
@@ -160,15 +164,14 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public void setupPlayers () {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
-		Player tActingPresident;
 		int tCurrentPlayerIndex;
 		
-		tActingPresident = findActingPresident ();
+		findActingPresident ();
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
-		tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tActingPresident);
+		tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (actingPresident);
 		setCurrentPlayerIndex (tCurrentPlayerIndex);
-		updatePlayers (tPlayers, tActingPresident);
+		updatePlayers (tPlayers, actingPresident);
 	}
 
 	@Override
@@ -255,7 +258,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		PlayerManager tPlayerManager;
 		Player tActingPlayer;
 		
-		this.showSpecialPanel ();
+		showSpecialPanel ();
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		tActingPlayer = tPlayers.get (aCurrentPlayerIndex);
@@ -334,9 +337,16 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public Player findActingPresident () {
 		Corporation tActingCorporation;
 		Player tActingPlayer;
+		PortfolioHolderI tPresident;
 		
-		tActingCorporation = gameManager.getOperatingCompany ();
-		tActingPlayer = (Player) tActingCorporation.getPresident ();
+		if (actingPresident == Player.NO_PLAYER) {
+			tActingCorporation = gameManager.getOperatingCompany ();
+			tPresident = tActingCorporation.getPresident ();
+			tActingPlayer = (Player) tPresident;
+			actingPresident = tActingPlayer;
+		} else {
+			tActingPlayer = actingPresident;
+		}
 		
 		return tActingPlayer;
 	}
@@ -381,6 +391,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tSpecialPanelAction = new SpecialPanelAction (ActorI.ActionStates.OperatingRound, 
 										tOperatingRoundID, tCurrentPlayer);
 		tSpecialPanelAction.addHideSpecialPanelEffect (tCurrentPlayer, tCurrentPlayer);
+		tSpecialPanelAction.setChainToPrevious (true);
 		gameManager.addAction (tSpecialPanelAction);
 
 		formationFrame.hideFrame ();
