@@ -70,7 +70,7 @@ public interface ActorI {
 		NotBidder ("Not a Bidder"),
 
 		// Player Formation States
-		LoanRepayment ("Loan Repayment", Arrays.asList (new String [] {"No Action"})),
+		LoanRepayment ("Loan Repayment", Arrays.asList (new String [] {"No State"})),
 		ShareExchange ("Share Exchange", Arrays.asList (new String [] {"Loan Repayment"})),
 		ConfirmFormingPresident ("Confirm Forming President", Arrays.asList (new String [] {"Share Exchange"})),
 		TokenExchange ("Token Exchange", Arrays.asList (new String [] {"Confirm Forming President"})),
