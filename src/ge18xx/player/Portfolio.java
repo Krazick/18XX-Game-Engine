@@ -67,7 +67,6 @@ public class Portfolio implements CertificateHolderI {
 	public final static AttributeName AN_SHARE_INDEX = new AttributeName ("shareIndex");
 	public final static boolean REMOVE_CERTIFICATE = true;
 	public final static Portfolio NO_PORTFOLIO = null;
-//	public final static JPanel NO_PORTFOLIO_JPANEL = null;
 	public final static String CERTIFICATE_ADDED = "CERTIFICATE ADDED";
 	public final static String CERTIFICATE_REMOVED = "CERTIFICATE REMOVED";
 	public final static String NO_PORTFOLIO_LABEL = ">> NO PORTFOLIO <<";
@@ -591,6 +590,20 @@ public class Portfolio implements CertificateHolderI {
 		}
 
 		return tCertificate;
+	}
+
+	@Override
+	public int getShareCountFor (Corporation aCorporation) {
+		int tCount;
+
+		tCount = 0;
+		for (Certificate tCertificate : certificates) {
+			if (tCertificate.isForThis (aCorporation)) {
+				tCount += tCertificate.getShareCount ();
+			}
+		}
+
+		return tCount;
 	}
 
 	@Override
@@ -1822,9 +1835,6 @@ public class Portfolio implements CertificateHolderI {
 				tCertificate = aFromPortfolio.getThisCertificate (tThisCertificate);
 				if (tCertificate != Certificate.NO_CERTIFICATE) {
 					tCertificate.setOwner (this);
-//					if (isAPlayer ()) {
-//						tCertificate.setJustBought (true);
-//					}
 					tCertificate.sortCorporationCertificates ();
 					addCertificate (tCertificate);
 					tCertificate.resetFrameButton ();
@@ -2071,6 +2081,10 @@ public class Portfolio implements CertificateHolderI {
 				tCertificateOwnershipLabel.setToolTipText (tASingleSummary.getNote ());
 				tOwnershipPanel.add (tCertificateOwnershipLabel);
 			}
+		} else {
+			tOwnershipPanel = new JPanel ();
+			tCertificateOwnershipLabel = new JLabel ("NO CERTIFICATES");
+			tOwnershipPanel.add (tCertificateOwnershipLabel);
 		}
 
 		return tOwnershipPanel;
