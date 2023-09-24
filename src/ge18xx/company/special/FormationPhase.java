@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.swing.Box;
@@ -274,7 +276,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		formationJPanel.removeAll ();
 		for (Player tPlayer : aPlayers) {
 
-			tPlayerLoanRepaymentPanel = new PlayerFormationPhase (gameManager, this, tPlayer, aActingPresident);
+//			tPlayerLoanRepaymentPanel = new LoanRepayment (gameManager, this, tPlayer, aActingPresident);
+			tPlayerLoanRepaymentPanel = buildPlayerPanel (tPlayer, aActingPresident);
 			formationJPanel.add (tPlayerLoanRepaymentPanel);
 			formationJPanel.add (Box.createVerticalStrut (10));
 		}
@@ -285,6 +288,37 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		formationJPanel.revalidate ();
 	}
 
+	public PlayerFormationPhase buildPlayerPanel (Player aPlayer, Player aActingPresident) {
+		PlayerFormationPhase tPlayerFormationPhase;
+		String tClassName;
+		Class<?> tPhaseToLoad;
+		Constructor<?> tPhaseConstructor;
+
+		tPlayerFormationPhase = PlayerFormationPhase.NO_PLAYER_FORMATION_PHASE;
+		tClassName = "ge18xx.company.special." + formationState.toNoSpaceString ();
+		try {
+			tPhaseToLoad = Class.forName (tClassName);
+			tPhaseConstructor = tPhaseToLoad.getConstructor (gameManager.getClass (), this.getClass (), 
+						aPlayer.getClass (), aPlayer.getClass ());
+			tPlayerFormationPhase = (PlayerFormationPhase) tPhaseConstructor.newInstance (gameManager, this, aPlayer, aActingPresident);
+		} catch (NoSuchMethodException | SecurityException e) {
+			System.err.println ("Error trying to get Constructor");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+
+		return tPlayerFormationPhase;
+	}
+	
 	public void setNotificationText (String aNotificationText) {
 		notificationText = aNotificationText;
 	}
