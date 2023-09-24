@@ -33,8 +33,10 @@ public class ChangeCorporationStatusEffect extends Effect {
 	public ChangeCorporationStatusEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 
-		String tPreviousStateName, tNewStateName;
-		ActorI.ActionStates tPreviousState, tNewState;
+		String tPreviousStateName;
+		String tNewStateName;
+		ActorI.ActionStates tPreviousState;
+		ActorI.ActionStates tNewState;
 
 		tPreviousStateName = aEffectNode.getThisAttribute (AN_PREVIOUS_STATE);
 		tNewStateName = aEffectNode.getThisAttribute (AN_NEW_STATE);
