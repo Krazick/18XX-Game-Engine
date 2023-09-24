@@ -20,7 +20,9 @@ public interface CertificateHolderI {
 	public abstract Certificate getCertificate (int aIndex);
 
 	public abstract int getCertificateCountFor (Corporation aCorporation);
-
+	
+	public abstract int getShareCountFor (Corporation aCorporation);
+	
 	public abstract int getCertificatePercentageFor (Corporation aCorporation);
 
 	public abstract String getHolderName ();
