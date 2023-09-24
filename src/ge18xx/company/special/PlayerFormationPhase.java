@@ -784,8 +784,10 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		int tCurrentPlayerIndex;
 		
 		player.undoAction ();
-		tCurrentPlayerIndex = getCurrentPlayerIndex ();
-		formationPhase.rebuildSpecialPanel (tCurrentPlayerIndex);
+		if (formationPhase.getFormationState () != ActorI.ActionStates.NoState) {
+			tCurrentPlayerIndex = getCurrentPlayerIndex ();
+			formationPhase.rebuildSpecialPanel (tCurrentPlayerIndex);
+		}
 	}
 	
 	public boolean sharesExchanged () {
