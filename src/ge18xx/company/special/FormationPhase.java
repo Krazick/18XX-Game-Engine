@@ -195,7 +195,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		tPortfolioJPanel = new JPanel ();
 		tPortfolioJPanel.setLayout (new BoxLayout (tPortfolioJPanel, BoxLayout.Y_AXIS));
-		tTitle = new JLabel ("Open Market Portfolio");
+		tTitle = new JLabel (BankPool.NAME + " Portfolio");
 		tPortfolioJPanel.add (tTitle);
 		tOwnershipPanel = aPortfolio.buildOwnershipPanel (gameManager);
 		if (tOwnershipPanel == GUI.NO_PANEL) {
@@ -270,15 +270,14 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	}
 	
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
-		PlayerFormationPhase tPlayerLoanRepaymentPanel;
+		PlayerFormationPhase tPlayerJPanel;
 		
 		currentPlayerDone = false;
 		formationJPanel.removeAll ();
 		for (Player tPlayer : aPlayers) {
 
-//			tPlayerLoanRepaymentPanel = new LoanRepayment (gameManager, this, tPlayer, aActingPresident);
-			tPlayerLoanRepaymentPanel = buildPlayerPanel (tPlayer, aActingPresident);
-			formationJPanel.add (tPlayerLoanRepaymentPanel);
+			tPlayerJPanel = buildPlayerPanel (tPlayer, aActingPresident);
+			formationJPanel.add (tPlayerJPanel);
 			formationJPanel.add (Box.createVerticalStrut (10));
 		}
 		bottomJPanel = buildBottomJPanel ();
