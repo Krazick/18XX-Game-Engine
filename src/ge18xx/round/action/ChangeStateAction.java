@@ -171,19 +171,10 @@ public class ChangeStateAction extends ChangePlayerAction {
 	@Override
 	public boolean undoAction (RoundManager aRoundManager) {
 		boolean tActionUndone;
-//		Player tCurrentPlayer;
-//		PlayerManager tPlayerManager;
 		ActorI.ActionStates aCurrentRoundType;
 		ActorI.ActionStates aPreviousRoundType;
 
-		aCurrentRoundType = aRoundManager.getCurrentRoundType ();
-//		if (aCurrentRoundType.equals (ActorI.ActionStates.StockRound)) {
-//			tPlayerManager = aRoundManager.getPlayerManager ();
-//			tCurrentPlayer = tPlayerManager.getCurrentPlayer ();
-//			tCurrentPlayer.hidePlayerFrame ();
-//		} else if (aCurrentRoundType.equals (ActorI.ActionStates.OperatingRound)) {
-//			System.out.println ("Need to find current Operating Company, and Close it's Frame");
-//		}
+		aCurrentRoundType = aRoundManager.getCurrentRoundType (); 
 
 		tActionUndone = super.undoAction (aRoundManager);
 
