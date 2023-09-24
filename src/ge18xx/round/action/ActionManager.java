@@ -401,21 +401,21 @@ public class ActionManager {
 		}
 	}
 
-	public void printLastXActions (List<Action> aActions, int aCount) {
-		int tActionCount;
-		Action tActionToPrint;
-		int tPrintedCount = 0;
-
-		tActionCount = aActions.size ();
-		if (tActionCount > 0) {
-			for (int tIndex = tActionCount; (tIndex > 0) && (tPrintedCount < aCount); tIndex--, tPrintedCount++) {
-				tActionToPrint = aActions.get (tIndex - 1);
-				tActionToPrint.printBriefActionReport ();
-			}
-		} else {
-			System.out.println ("$$$ No Actions in list to print");
-		}
-	}
+//	public void printLastXActions (List<Action> aActions, int aCount) {
+//		int tActionCount;
+//		Action tActionToPrint;
+//		int tPrintedCount = 0;
+//
+//		tActionCount = aActions.size ();
+//		if (tActionCount > 0) {
+//			for (int tIndex = tActionCount; (tIndex > 0) && (tPrintedCount < aCount); tIndex--, tPrintedCount++) {
+//				tActionToPrint = aActions.get (tIndex - 1);
+//				tActionToPrint.printBriefActionReport ();
+//			}
+//		} else {
+//			System.out.println ("$$$ No Actions in list to print");
+//		}
+//	}
 
 	public void removeUndoneActionsFromNetwork () {
 		String tRemoveActionXML;
@@ -487,7 +487,7 @@ public class ActionManager {
 
 		tLastAction = getLastAction ();
 		appendReport ("\nUNDOING: " + tLastAction.getBriefActionReport () + "\n");
-		tLastAction.printBriefActionReport ();			// DEBUGING CONSOLE OUTPUT
+//		tLastAction.printBriefActionReport ();			// DEBUGING CONSOLE OUTPUT
 		tLastActionUndone = tLastAction.undoAction (aRoundManager);
 		if (aNotifyNetwork) {
 			undoLastActionNetwork ();
@@ -534,17 +534,17 @@ public class ActionManager {
 				tExpectedActionNumber = actionNumber + 1;
 				tThisActionNumber = tAction.getNumber ();
 
-				System.out.println ("----------- Action Number " + actionNumber + " Received " + tThisActionNumber
-						+ " -------------");
-				tAction.printActionReport (roundManager);
+//				System.out.println ("----------- Action Number " + actionNumber + " Received " + tThisActionNumber
+//						+ " -------------");
+//				tAction.printActionReport (roundManager);
 				if (isSyncActionNumber (tAction)) {
 					setActionNumber (tThisActionNumber);
 					justAddAction (tAction);
 				} else {
 					if ((tThisActionNumber < STARTING_ACTION_NUMBER) || (tThisActionNumber > tExpectedActionNumber)
 							|| (tThisActionNumber == tExpectedActionNumber)) {
-						System.out.println ("\nReceived Action Number " + tThisActionNumber
-								+ " the Expected Action Number is " + tExpectedActionNumber + " Processing\n");
+//						System.out.println ("\nReceived Action Number " + tThisActionNumber
+//								+ " the Expected Action Number is " + tExpectedActionNumber + " Processing\n");
 						if (tThisActionNumber == tExpectedActionNumber) {
 							setActionNumber (tExpectedActionNumber);
 						}
@@ -583,8 +583,8 @@ public class ActionManager {
 		}
 		gameManager.setNotifyNetwork (true);
 //		Once we are done applying these Actions, we then can reset this back to Notify
-		System.out.println (
-				"----------- Finshed Handling Action, Latest Action Number is " + actionNumber + " -------------");
+//		System.out.println (
+//				"----------- Finshed Handling Action, Latest Action Number is " + actionNumber + " -------------");
 //		gameManager.setFrameBackgrounds ();
 	}
 
