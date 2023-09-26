@@ -564,6 +564,25 @@ public class Portfolio implements CertificateHolderI {
 		return certificates.size ();
 	}
 
+	public int getUniqueCompanyCount () {
+		int tUniqueCompanyCount;
+		String tPreviousAbbrev;
+		String tAbbrev;
+		
+		tUniqueCompanyCount = 0;
+		tPreviousAbbrev = GUI.EMPTY_STRING;
+		for (Certificate tCertificate : certificates) {
+			tAbbrev = tCertificate.getCompanyAbbrev ();
+			if (! tAbbrev.equals (tPreviousAbbrev)) {
+				tUniqueCompanyCount++;
+				tPreviousAbbrev = tAbbrev;
+			}
+		}
+
+		return tUniqueCompanyCount;
+
+	}
+	
 	public Certificate getCertificateFor (Corporation aCorporation) {
 		return getCertificateFor (aCorporation, REMOVE_CERTIFICATE);
 	}
