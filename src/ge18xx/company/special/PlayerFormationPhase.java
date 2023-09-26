@@ -50,7 +50,6 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		gameManager = aGameManager;
 		formationPhase = aLoanRepayment;
 		player = aPlayer;
-		
 		if (aActingPresident == aPlayer) {
 			tActingPresidentName = aActingPresident.getName ();
 			if (gameManager.isNetworkAndIsThisClient (tActingPresidentName)) {
@@ -266,8 +265,6 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		formationPhase.updateToNextPlayer (tPlayers);
-		
-			// Action to move to Next player
 	}
 	
 	public void handlePlayerUndo () {
@@ -305,6 +302,6 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	}
 
 	public JPanel buildCompanyJPanel (ShareCompany aShareCompany, boolean aActingPlayer) {
-				return null;
+		return null;
 	}
 }
