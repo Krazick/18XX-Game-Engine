@@ -453,6 +453,7 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		JLabel tTrainList;
 		JLabel tThisRevenue;
 		String tCorpAbbrev;
+		BankPool tBankPool;
 		
 		tCorpInfoJPanel = new JPanel ();
 		tCorpInfoJPanel.setLayout (new BoxLayout (tCorpInfoJPanel, BoxLayout.Y_AXIS));
@@ -474,7 +475,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 				tCorpInfoJPanel.add (tEscrowLabel);
 			}
 			if (! isAMinorCompany ()) {
-				tBankPoolOwned =  new JLabel ("[" + getBankPoolPercentage () + "% in Bank Pool]");
+				tBankPool = getBankPool ();
+				tBankPoolOwned =  new JLabel ("[" + getBankPoolPercentage () + "% in " + tBankPool.getName () + "]");
 				tCorpInfoJPanel.add (tBankPoolOwned);
 			}			
 			tPresidentName = new JLabel ("Prez: " + getPresidentName ());
