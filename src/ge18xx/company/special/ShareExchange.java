@@ -197,7 +197,7 @@ public class ShareExchange extends PlayerFormationPhase {
 			tFormingCompanyID = gameManager.getFormingCompanyId ();
 			tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
 			tFormingAbbrev = tFormingCompany.getAbbrev ();
-			if (formationPhase.getShareFoldCount () > 10) {
+			if (formationPhase.getShareFoldCount () > 20) {
 				tPercentage = PhaseInfo.STANDARD_SHARE_SIZE/2;
 			} else {
 				tPercentage = PhaseInfo.STANDARD_SHARE_SIZE;
