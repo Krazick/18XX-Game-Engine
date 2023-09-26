@@ -347,7 +347,7 @@ public class XMLFrame extends JFrame {
 
 	public void showFrame () {
 		toTheFront ();
-		pack ();
+//		pack ();
 		revalidate ();
 	}
 
