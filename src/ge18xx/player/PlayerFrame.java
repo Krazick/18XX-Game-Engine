@@ -898,6 +898,7 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		GameManager tGameManager;
 		Portfolio tPortfolio;
 		Bank tBank;
+		BankPool tBankPool;
 		StartPacketFrame tStartPacketFrame;
 
 		tGameManager = player.getGameManager ();
@@ -906,15 +907,16 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 		buttonsInfoFrame.prepareExplainButtons (tPortfolio);
 
 		tBank = tGameManager.getBank ();
+		tBankPool = tGameManager.getBankPool ();
 		tStartPacketFrame = tBank.getStartPacketFrame ();
 		if (tStartPacketFrame.isStartPacketPortfolioEmpty ()) {
 			tPortfolio = tGameManager.getBankPortfolio ();
-			buttonsInfoFrame.fillWithCheckBoxes (tPortfolio, "Bank");
+			buttonsInfoFrame.fillWithCheckBoxes (tPortfolio, tBank.getName ());
 		} else {
 			buttonsInfoFrame.fillWithCheckBoxes (tStartPacketFrame);
 		}
 		tPortfolio = tGameManager.getBankPoolPortfolio ();
-		buttonsInfoFrame.fillWithCheckBoxes (tPortfolio, "Bank Pool");
+		buttonsInfoFrame.fillWithCheckBoxes (tPortfolio, tBankPool.getName ());
 
 		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}
