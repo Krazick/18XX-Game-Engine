@@ -137,7 +137,6 @@ public class Certificate implements Comparable<Certificate> {
 		setCheckBox (GUI.NO_CHECK_BOX);
 		setFrameButton (checkBox, GUI.EMPTY_STRING);
 		bidders = new Bidders (this);
-		setBankPoolLimitMessage ();
 	}
 	
 	public Certificate (Certificate aCertificate) {
@@ -154,7 +153,6 @@ public class Certificate implements Comparable<Certificate> {
 			setFrameButton (checkBox, GUI.EMPTY_STRING);
 			setParValuesCombo (GUI.NO_COMBO_BOX);
 			bidders = new Bidders (this);
-			setBankPoolLimitMessage ();
 		}
 	}
 
@@ -164,16 +162,6 @@ public class Certificate implements Comparable<Certificate> {
 		setParValuesCombo (GUI.NO_COMBO_BOX);
 		setCheckBox (GUI.NO_CHECK_BOX);
 		setFrameButton (checkBox, GUI.EMPTY_STRING);
-		setBankPoolLimitMessage ();
-	}
-	
-	public void setBankPoolLimitMessage () {
-		BankPool tBankPool;
-		String tBankPoolName;
-		
-		tBankPool = corporation.getBankPool ();
-		tBankPoolName = tBankPool.getName ();
-		BANK_POOL_AT_LIMIT = tBankPoolName + BANK_POOL_AT_LIMIT;
 	}
 	
 	public void setupInfoBuffon () {
@@ -1123,7 +1111,8 @@ public class Certificate implements Comparable<Certificate> {
 	public String getReasonForNoSale (GameManager aGameManager) {
 		String tReason;
 		ShareCompany tShareCompany;
-
+		BankPool tBankPool;
+		
 		tReason = NO_REASON;
 		if (isAPrivateCompany ()) {
 			tReason = CANNOT_SELL_PRIVATE;
@@ -1132,7 +1121,8 @@ public class Certificate implements Comparable<Certificate> {
 		} else if (aGameManager.isFirstStockRound ()) {
 			tReason = NO_SALE_FIRST_STOCK_ROUND;
 		} else if (bankPoolAtLimit (aGameManager)) {
-			tReason = BANK_POOL_AT_LIMIT;
+			tBankPool = corporation.getBankPool ();
+			tReason = tBankPool.getName () + BANK_POOL_AT_LIMIT;
 		} else if (!hasParPrice ()) {
 			tReason = NO_SHARE_PRICE;
 		} else if (isPresidentShare && (!aGameManager.canSellPresidentShare ())) {
