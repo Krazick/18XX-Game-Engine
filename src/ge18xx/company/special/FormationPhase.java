@@ -163,7 +163,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		gameManager.addNewFrame (formationFrame);
 		
 		tWidth = 1140;
-		tHeight = 110 * gameManager.getCountOfCanOperate ();
+//		tHeight = 110 * gameManager.getCountOfCanOperate ();
+		tHeight = panelHeight ();
 		System.out.println ("Width " + tWidth + " Height " + tHeight + " Shares Open " + gameManager.getCountOfCanOperate ());
 		formationFrame.setSize (tWidth,  tHeight);
 		formationFrame.showFrame ();
@@ -171,6 +172,33 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		setShareFoldCount (0);
 	}
 
+	private int panelHeight () {
+		int tPanelHeight;
+		int tPlayerHeight;
+		int tPlayerCount;
+		int tCompanyCount;
+		int tCompanyHeight;
+		int tOpenMarketCompanyCount;
+		int tOpenMarketHeight;
+		BankPool tOpenMarket;
+		Portfolio tOpenMarketPortfolio;
+		
+		tPlayerCount = getPlayerCount ();
+		tPlayerHeight = 50 * tPlayerCount;
+		
+		tCompanyCount = gameManager.getCountOfCanOperate ();
+		tCompanyHeight = 85 * tCompanyCount;
+		
+		tOpenMarket = gameManager.getBankPool ();
+		tOpenMarketPortfolio = tOpenMarket.getPortfolio ();
+		tOpenMarketCompanyCount = tOpenMarketPortfolio.getUniqueCompanyCount ();
+		tOpenMarketHeight = 20 * (tOpenMarketCompanyCount + 1);
+		
+		tPanelHeight = tPlayerHeight + tCompanyHeight + tOpenMarketHeight + 40;
+		
+		return tPanelHeight;
+	}
+	
 	public void setFrameTitle (String aFrameTitle) {
 		formationFrame.setTitle (aFrameTitle);
 	}
@@ -189,6 +217,18 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public boolean haveSharesToFold () {
 		return shareFoldCount > 0;
+	}
+	
+	private int getPlayerCount () {
+		PlayerManager tPlayerManager;
+		List<Player> tPlayers;
+		int tPlayerCount;
+		
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayers = tPlayerManager.getPlayers ();
+		tPlayerCount = tPlayers.size ();
+		
+		return tPlayerCount;
 	}
 	
 	public void setupPlayers () {
