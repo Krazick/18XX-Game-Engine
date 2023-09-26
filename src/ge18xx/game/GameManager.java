@@ -1691,11 +1691,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 			if (GameInfo.EN_GAME_INFO.equals (tChildName)) {
 				loadGameInfo (tChildNode);
-			}
-			if (PlayerInputFrame.EN_PLAYERS.equals (tChildName)) {
+			} else if (PlayerInputFrame.EN_PLAYERS.equals (tChildName)) {
 				playerManager.loadPlayers (tChildNode, activeGame);
-			}
-			if (PhaseManager.EN_PHASE.equals (tChildName)) {
+			} else if (PhaseManager.EN_PHASE.equals (tChildName)) {
 				phaseManager.loadPhase (tChildNode);
 			}
 			if (aGameInitiated) {
@@ -1719,35 +1717,27 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void handleIfGameInitiated (XMLNode aChildNode, String aChildName) {
+		System.out.println ("Loading Child Node with name " + aChildName);
 		if (Action.EN_ACTIONS.equals (aChildName)) {
 			roundManager.loadActions (aChildNode, this);
-		}
-		if (RoundManager.EN_ROUNDS.equals (aChildName)) {
+		} else  if (RoundManager.EN_ROUNDS.equals (aChildName)) {
 			roundManager.loadRoundStates (aChildNode);
-		}
-		if (Player.EN_PLAYER_STATES.equals (aChildName)) {
+		} else if (Player.EN_PLAYER_STATES.equals (aChildName)) {
 			playerManager.loadPlayerStates (aChildNode);
-		}
-		if (Bank.EN_BANK_STATE.equals (aChildName)) {
+		} else if (Bank.EN_BANK_STATE.equals (aChildName)) {
 			bank.loadBankState (aChildNode);
-		}
-		if (BankPool.EN_BANK_POOL_STATE.equals (aChildName)) {
+		} else if (BankPool.EN_BANK_POOL_STATE.equals (aChildName)) {
 			bankPool.loadBankPoolState (aChildNode);
-		}
-		if (Market.EN_MARKET.equals (aChildName)) {
+		} else if (Market.EN_MARKET.equals (aChildName)) {
 			marketFrame.loadMarketTokens (aChildNode);
-		}
-		if (PrivatesFrame.EN_PRIVATES.equals (aChildName)) {
+		} else if (PrivatesFrame.EN_PRIVATES.equals (aChildName)) {
 			privatesFrame.loadStates (aChildNode);
 			cleanupLoadedPrivates ();
-		}
-		if (MinorCompaniesFrame.EN_MINORS.equals (aChildName)) {
+		} else if (MinorCompaniesFrame.EN_MINORS.equals (aChildName)) {
 			minorCompaniesFrame.loadStates (aChildNode);
-		}
-		if (ShareCompaniesFrame.EN_SHARES.equals (aChildName)) {
+		} else if (ShareCompaniesFrame.EN_SHARES.equals (aChildName)) {
 			shareCompaniesFrame.loadStates (aChildNode);
-		}
-		if (HexMap.EN_MAP.equals (aChildName)) {
+		} else if (HexMap.EN_MAP.equals (aChildName)) {
 			mapFrame.loadMapStates (aChildNode);
 		}
 	}
