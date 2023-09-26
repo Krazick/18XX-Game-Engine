@@ -1717,7 +1717,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void handleIfGameInitiated (XMLNode aChildNode, String aChildName) {
-		System.out.println ("Loading Child Node with name " + aChildName);
 		if (Action.EN_ACTIONS.equals (aChildName)) {
 			roundManager.loadActions (aChildNode, this);
 		} else  if (RoundManager.EN_ROUNDS.equals (aChildName)) {
