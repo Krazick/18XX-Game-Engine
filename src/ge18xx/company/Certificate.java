@@ -92,7 +92,7 @@ public class Certificate implements Comparable<Certificate> {
 	static final float X_RIGHT_ALIGNMENT = 1.0f;
 	public static final String NO_PAR_PRICE = "???";
 	
-	private String BANK_POOL_AT_LIMIT = "Bank Pool at Share Limit";
+	private String BANK_POOL_AT_LIMIT = " at Share Limit";
 	private String BANK_POOL_OWNER = "Bank";
 
 	Corporation corporation;
@@ -137,6 +137,7 @@ public class Certificate implements Comparable<Certificate> {
 		setCheckBox (GUI.NO_CHECK_BOX);
 		setFrameButton (checkBox, GUI.EMPTY_STRING);
 		bidders = new Bidders (this);
+		setBankPoolLimitMessage ();
 	}
 	
 	public Certificate (Certificate aCertificate) {
@@ -153,6 +154,7 @@ public class Certificate implements Comparable<Certificate> {
 			setFrameButton (checkBox, GUI.EMPTY_STRING);
 			setParValuesCombo (GUI.NO_COMBO_BOX);
 			bidders = new Bidders (this);
+			setBankPoolLimitMessage ();
 		}
 	}
 
@@ -162,6 +164,16 @@ public class Certificate implements Comparable<Certificate> {
 		setParValuesCombo (GUI.NO_COMBO_BOX);
 		setCheckBox (GUI.NO_CHECK_BOX);
 		setFrameButton (checkBox, GUI.EMPTY_STRING);
+		setBankPoolLimitMessage ();
+	}
+	
+	public void setBankPoolLimitMessage () {
+		BankPool tBankPool;
+		String tBankPoolName;
+		
+		tBankPool = corporation.getBankPool ();
+		tBankPoolName = tBankPool.getName ();
+		BANK_POOL_AT_LIMIT = tBankPoolName + BANK_POOL_AT_LIMIT;
 	}
 	
 	public void setupInfoBuffon () {
