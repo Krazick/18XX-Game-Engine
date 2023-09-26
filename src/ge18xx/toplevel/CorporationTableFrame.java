@@ -111,6 +111,10 @@ public class CorporationTableFrame extends XMLFrame {
 		return companies.getCountOfOpen ();
 	}
 
+	public int getCountOfOperatingCompanies () {
+		return companies.getCountOfOperatingCompanies ();
+	}
+
 	public int getCountOfPlayerOwnedCompanies () {
 		return companies.getCountOfPlayerOwned ();
 	}
