@@ -1212,7 +1212,7 @@ public class Portfolio implements CertificateHolderI {
 
 			tLoadedCertificate = new LoadedCertificate (aChildNode);
 			tHolder = (PortfolioHolderLoaderI) holder;
-			if (tHolder.getName ().equals (BankPool.NAME)) {
+			if (tHolder.isABankPool ()) {
 				tCurrentHolder = ((BankPool) tHolder).getCurrentHolderGM (tLoadedCertificate);
 			} else {
 				tCurrentHolder = tHolder.getCurrentHolder (tLoadedCertificate);
