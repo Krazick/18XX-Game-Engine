@@ -829,6 +829,7 @@ public class ShareCompany extends TokenCompany {
 		boolean tCanOperate = true;
 
 		if ((status == ActorI.ActionStates.Unowned) ||
+			(status == ActorI.ActionStates.Unformed) ||
 			(status == ActorI.ActionStates.Owned) ||
 			(status == ActorI.ActionStates.Closed)) {
 			tCanOperate = false;
