@@ -30,8 +30,6 @@ public class BankPool extends GameBank {
 	public static final String NAME = "Bank Pool";
 	public static final BankPool NO_BANK_POOL = null;
 	
-	String bankPoolName = NAME;
-	
 	ParsingRoutineI bankPoolParsingRoutine = new ParsingRoutine2I () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode) {
@@ -57,7 +55,7 @@ public class BankPool extends GameBank {
 		tBank = aGameManager.getBank ();
 		trainPortfolio.setPortfolioHolder (tBank);
 	}
-
+	
 	@Override
 	public JPanel buildPortfolioInfoJPanel (ItemListener aItemListener, Player aPlayer) {
 		return buildPortfolioInfoJPanel (aItemListener, aPlayer, Player.BUY_LABEL);
