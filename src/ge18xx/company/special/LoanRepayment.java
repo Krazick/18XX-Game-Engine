@@ -185,6 +185,7 @@ public class LoanRepayment extends PlayerFormationPhase {
 	
 		formationPhase.rebuildSpecialPanel (tCurrentPlayerIndex);
 	
+		formationPhase.setFirstAction (false);
 		aShareCompany.addAction (tRepaymentHandledAction);
 	}
 
@@ -340,9 +341,13 @@ public class LoanRepayment extends PlayerFormationPhase {
 		aShareCompany.redeemLoans (tLoanCount, tPresidentContribution);
 		formationPhase.rebuildSpecialPanel (tCurrentPlayerIndex);
 		tOperatingRoundID = aShareCompany.getOperatingRoundID ();
-		tSpecialPanelAction = new SpecialPanelAction (ActorI.ActionStates.OperatingRound, 
-								tOperatingRoundID, aShareCompany);
-		tSpecialPanelAction.addShowSpecialPanelEffect (aShareCompany, aShareCompany);
-		aShareCompany.addAction (tSpecialPanelAction);
+		if (formationPhase.getFirstAction ()) {
+			tSpecialPanelAction = new SpecialPanelAction (ActorI.ActionStates.OperatingRound, 
+									tOperatingRoundID, aShareCompany);
+			tSpecialPanelAction.addShowSpecialPanelEffect (aShareCompany, aShareCompany);
+			tSpecialPanelAction.setChainToPrevious (true);
+			aShareCompany.addAction (tSpecialPanelAction);
+		}
+		formationPhase.setFirstAction (false);
 	}
 }
