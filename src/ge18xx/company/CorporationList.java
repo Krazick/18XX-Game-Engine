@@ -543,6 +543,19 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 
 		return tCountOfOpen;
 	}
+	
+	public int getCountOfOperatingCompanies () {
+		int tCountOfCanOperate;
+
+		tCountOfCanOperate = 0;
+		for (Corporation tCorporation : corporations) {
+			if (tCorporation.canOperate ()) {
+				tCountOfCanOperate++;
+			}
+		}
+
+		return tCountOfCanOperate;
+	}
 
 	public int getCountOfPlayerOwned () {
 		int tCountOfPlayerOwned;
