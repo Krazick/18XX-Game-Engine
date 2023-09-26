@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ge18xx.bank.Bank;
+import ge18xx.bank.BankPool;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
@@ -384,6 +385,8 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 		int tCertCount;
 		int tLiquidCertificateValue;
 		int tBankPoolShareLimit;
+		BankPool tBankPool;
+		Corporation tCorporation;
 		// Determine Sale Limits for Certificates from other Companies, limited by Bank
 		// Pool Limits
 
@@ -404,15 +407,18 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 					tLiquidCertificateValue += tCertificate.getCost ();
 					tCertCount++;
 				} else {
+					tCorporation = tCertificate.getCorporation ();
+					tBankPool = tCorporation.getBankPool ();
 					if (tSellLimit > 0) {
-						tReason = "Bank Pool can only hold " + tSellLimit + " more " + tCurrentAbbrev + " Certificate";
+						tReason = tBankPool.getName () + " can only hold " + tSellLimit + " more " + 
+									tCurrentAbbrev + " Certificate";
 						if (tSellLimit > 1) {
 							tReason += "s";
 						}
 					} else {
 						tBankPoolShareLimit = tCertificate.getBankPoolShareLimit (gameManager);
-						tReason = "Bank Pool has reached the limit of " + tBankPoolShareLimit + " Certificates of "
-								+ tCertificate.getCompanyAbbrev ();
+						tReason = tBankPool.getName () + " has reached the limit of " + tBankPoolShareLimit + 
+								" Certificates of " + tCertificate.getCompanyAbbrev ();
 					}
 					aResons.add (tReason);
 				}
