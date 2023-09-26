@@ -38,7 +38,6 @@ public class ShareExchange extends PlayerFormationPhase {
 			Player aActingPresident) {
 		super (aGameManager, aLoanRepayment, aPlayer, aActingPresident);
 		setSharesExchanged (false);
-
 	}
 
 	public void setSharesExchanged (boolean aSharesExchanged) {
@@ -194,7 +193,6 @@ public class ShareExchange extends PlayerFormationPhase {
 				}
 			}
 		}
-		
 		if (totalExchangeCount > 0) {
 			tFormingCompanyID = gameManager.getFormingCompanyId ();
 			tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
@@ -214,6 +212,9 @@ public class ShareExchange extends PlayerFormationPhase {
 									formationPhase.getShareFoldCount ());
 				}
 			}
+			if (! formationPhase.getFormingPresidentAssigned ()) {
+				assignPresident (tBankPortfolio, tPercentage, tFormingCompany, tTransferOwnershipAction);
+			}
 		}
 		if (tTransferOwnershipAction.getEffectCount () > 0) {
 			tTransferOwnershipAction.printActionReport (gameManager.getRoundManager ());
@@ -227,6 +228,39 @@ public class ShareExchange extends PlayerFormationPhase {
 		formationPhase.rebuildSpecialPanel (formationPhase.getCurrentPlayerIndex ());
 	}
 
+	public void assignPresident (Portfolio aBankPortfolio, int aPercentage, Corporation aFormingCompany, 
+					TransferOwnershipAction aTransferOwnershipAction) {
+		Certificate tPresidentCertificate;
+		Certificate tHalfPresidentCertificate;
+		Certificate tExchangeCertificate;
+		Portfolio tPlayerPortfolio;
+		Bank tBank;
+		int tOwnedPercentage;
+		String tFormingAbbrev;
+		
+		tBank = gameManager.getBank ();
+		tPlayerPortfolio = player.getPortfolio ();
+		tOwnedPercentage = tPlayerPortfolio.getPercentageFor (aFormingCompany);
+		tFormingAbbrev = aFormingCompany.getAbbrev ();
+		if (tOwnedPercentage >= aPercentage) {
+			tPresidentCertificate = aBankPortfolio.getCertificate (tFormingAbbrev, aPercentage * 2, true);
+			if (tPresidentCertificate != Certificate.NO_CERTIFICATE) {
+				tExchangeCertificate = tPlayerPortfolio.getCertificate (tFormingAbbrev, aPercentage, false);
+				transferShare (player, tBank, tExchangeCertificate, aTransferOwnershipAction);
+				tExchangeCertificate = tPlayerPortfolio.getCertificate (tFormingAbbrev, aPercentage, false);
+				transferShare (player, tBank, tExchangeCertificate, aTransferOwnershipAction);
+				transferShare (tBank, player, tPresidentCertificate, aTransferOwnershipAction);
+				formationPhase.setFormingPresidentAssigned  (true);
+			} else {
+				tHalfPresidentCertificate = aBankPortfolio.getCertificate (tFormingAbbrev, aPercentage, true);
+				tExchangeCertificate = tPlayerPortfolio.getCertificate (tFormingAbbrev, aPercentage, false);
+				transferShare (player, tBank, tExchangeCertificate, aTransferOwnershipAction);
+				transferShare (tBank, player, tHalfPresidentCertificate, aTransferOwnershipAction);		
+				formationPhase.setFormingPresidentAssigned  (true);
+			}
+		}
+	}
+	
 	public void transferShare (PortfolioHolderI aFromActor, ActorI aToActor, Certificate aCertificate, 
 					TransferOwnershipAction aTransferOwnershipAction) {
 		Portfolio tPlayerPortfolio;
