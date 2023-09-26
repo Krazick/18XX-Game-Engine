@@ -47,6 +47,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	int shareFoldCount;
 
 	boolean currentPlayerDone;
+	boolean firstAction;
+	boolean formingPresidentAssigned;
 	ActionStates formationState;
 	JPanel formationJPanel;
 	JPanel bottomJPanel;
@@ -70,6 +72,22 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		buildAllPlayers (tFullFrameTitle);
 	}
 
+	public void setFirstAction (boolean aFirstAction) {
+		firstAction = aFirstAction;
+	}
+	
+	public boolean getFirstAction () {
+		return firstAction;
+	}
+
+	public void setFormingPresidentAssigned (boolean aformingPresidentAssigned) {
+		formingPresidentAssigned = aformingPresidentAssigned;
+	}
+	
+	public boolean getFormingPresidentAssigned () {
+		return formingPresidentAssigned;
+	}
+	
 	public FormationPhase (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
 		this (aGameManager);
 		
@@ -108,6 +126,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		if (tFormingCompany.isAShareCompany ()) {
 			formingShareCompany = (ShareCompany) tFormingCompany;
 		}
+		setFormingPresidentAssigned (false);
 	}
 
 	public String getFormingCompanyAbbrev () {
@@ -124,6 +143,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public void buildAllPlayers (String aFrameName) {
 		Border tMargin;
 		Point tRoundFrameOffset;
+		int tHeight;
+		int tWidth;
 		
 		formationFrame = new XMLFrame (aFrameName, gameManager);
 		formationFrame.setSize (800, 600);
@@ -141,7 +162,12 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		formationFrame.setLocation (tRoundFrameOffset);
 		gameManager.addNewFrame (formationFrame);
 		
+		tWidth = 1140;
+		tHeight = 110 * gameManager.getCountOfCanOperate ();
+		System.out.println ("Width " + tWidth + " Height " + tHeight + " Shares Open " + gameManager.getCountOfCanOperate ());
+		formationFrame.setSize (tWidth,  tHeight);
 		formationFrame.showFrame ();
+		
 		setShareFoldCount (0);
 	}
 
@@ -282,7 +308,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		}
 		bottomJPanel = buildBottomJPanel ();
 		formationJPanel.add (bottomJPanel);
-		
+
 		formationJPanel.repaint ();
 		formationJPanel.revalidate ();
 	}
