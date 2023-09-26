@@ -1,10 +1,12 @@
 package ge18xx.round.action;
 
+import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.StateChangeEffect;
+import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.XMLNode;
 
 public class ChangeStateAction extends ChangePlayerAction {
@@ -173,7 +175,9 @@ public class ChangeStateAction extends ChangePlayerAction {
 		boolean tActionUndone;
 		ActorI.ActionStates aCurrentRoundType;
 		ActorI.ActionStates aPreviousRoundType;
-
+		XMLFrame tOperatingCompanyFrame;
+		Corporation tOperatingCompany;
+		
 		aCurrentRoundType = aRoundManager.getCurrentRoundType (); 
 
 		tActionUndone = super.undoAction (aRoundManager);
@@ -182,7 +186,10 @@ public class ChangeStateAction extends ChangePlayerAction {
 		if (aPreviousRoundType.equals (ActorI.ActionStates.StockRound)) {
 
 		} else if (aCurrentRoundType.equals (ActorI.ActionStates.OperatingRound)) {
-			System.out.println ("Need to find current Operating Company, and Show it's Frame");
+			tOperatingCompany = aRoundManager.getOperatingCompany ();
+			tOperatingCompanyFrame = tOperatingCompany.getCorporationFrame ();
+			tOperatingCompanyFrame.showFrame ();
+//			System.out.println ("Need to find current Operating Company, and Show it's Frame");
 		}
 
 		return tActionUndone;
