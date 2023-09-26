@@ -1036,6 +1036,16 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return tCountOfShares;
 	}
 
+	public int getCountOfCanOperate () {
+		int tCountOfShares = 0;
+
+		if (shareCompaniesFrame != ShareCompaniesFrame.NO_SHARES_FRAME) {
+			tCountOfShares = shareCompaniesFrame.getCountOfOperatingCompanies ();
+		}
+
+		return tCountOfShares;
+	}
+
 	public PortfolioHolderLoaderI getCurrentHolder (LoadedCertificate aLoadedCertificate) {
 		PortfolioHolderLoaderI tCurrentHolder;
 
