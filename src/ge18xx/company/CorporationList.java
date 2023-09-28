@@ -497,7 +497,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		GenericActor tGenericActor;
 
 		tGenericActor = new GenericActor ();
-		tCorporationState = tGenericActor.getCorporationActionState (aCorpStateName);
+		tCorporationState = tGenericActor.getState (aCorpStateName);
 
 		return tCorporationState;
 	}
