@@ -46,6 +46,9 @@ public interface ActorI {
 		}
 	}
 
+	//  Remember that if ActionStates are updated, need to update corresponding methods in GenericActor
+	//	to convert from the name to the specific state
+	
 	public enum ActionStates {
 		// Player Primary States
 		NoAction ("No Action", 
