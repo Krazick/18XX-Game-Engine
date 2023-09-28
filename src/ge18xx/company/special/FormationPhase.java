@@ -49,6 +49,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	boolean currentPlayerDone;
 	boolean firstAction;
 	boolean formingPresidentAssigned;
+	boolean allPlayerSharesHandled;
 	ActionStates formationState;
 	JPanel formationJPanel;
 	JPanel bottomJPanel;
@@ -68,14 +69,26 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		actingPresident = Player.NO_PLAYER;
 		gameManager.setTriggerClass (this);
 		setFormingShareCompany ();
-		
+		setAllPlayerSharesHandled (false);
 		buildAllPlayers (tFullFrameTitle);
+	}
+
+	public FormationPhase (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
+		this (aGameManager);
+		
+		Player tActingPlayer;
+		
+		if (aBuyTrainAction != Action.NO_ACTION) {
+			tActingPlayer = findActingPresident ();
+			aBuyTrainAction.addShowSpecialPanelEffect (tActingPlayer, tActingPlayer);
+			aBuyTrainAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState, formationState);
+		}
 	}
 
 	public void setFirstAction (boolean aFirstAction) {
 		firstAction = aFirstAction;
 	}
-	
+
 	public boolean getFirstAction () {
 		return firstAction;
 	}
@@ -87,17 +100,13 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public boolean getFormingPresidentAssigned () {
 		return formingPresidentAssigned;
 	}
+
+	public void setAllPlayerSharesHandled (boolean aAllPlayerSharesHandled) {
+		allPlayerSharesHandled = aAllPlayerSharesHandled;
+	}
 	
-	public FormationPhase (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
-		this (aGameManager);
-		
-		Player tActingPlayer;
-		
-		if (aBuyTrainAction != Action.NO_ACTION) {
-			tActingPlayer = findActingPresident ();
-			aBuyTrainAction.addShowSpecialPanelEffect (tActingPlayer, tActingPlayer);
-			aBuyTrainAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState, formationState);
-		}
+	public boolean getAllPlayerSharesHandled () {
+		return allPlayerSharesHandled;
 	}
 
 	@Override
@@ -163,7 +172,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		gameManager.addNewFrame (formationFrame);
 		
 		tWidth = 1140;
-//		tHeight = 110 * gameManager.getCountOfCanOperate ();
 		tHeight = panelHeight ();
 		System.out.println ("Width " + tWidth + " Height " + tHeight + " Shares Open " + gameManager.getCountOfCanOperate ());
 		formationFrame.setSize (tWidth,  tHeight);
@@ -287,7 +295,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tFirstPresident = findActingPresident ();
 		setCurrentPlayerIndex (tNextPlayerIndex);
 		if (tActingPresident == tFirstPresident) {
-			allRepaymentsDone ();
+			allPlayersHandled ();
 		} else {
 			updatePlayers (aPlayers, tActingPresident);
 		}
@@ -305,19 +313,24 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		return tCurrentPlayer;
 	}
 	
-	public void allRepaymentsDone () {
+	public void allPlayersHandled () {
 		String tFormingAbbrev;
 		String tNotification;
 		
 		tFormingAbbrev = formingShareCompany.getAbbrev ();
-		if (haveSharesToFold ()) {
-			System.out.println ("There are " + getShareFoldCount () + " Shares to fold into " + tFormingAbbrev);
-			buildContinueButton (FOLD);
-		} else {
-			tNotification = String.format (NO_OUTSTANDING_LOANS, tFormingAbbrev);
-			setNotificationText (tNotification);
-			buildContinueButton (CONTINUE);
-			System.out.println ("No Shares are folding into " + tFormingAbbrev);
+		if (formationState == ActorI.ActionStates.LoanRepayment) {
+			if (haveSharesToFold ()) {
+				System.out.println ("There are " + getShareFoldCount () + " Shares to fold into " + tFormingAbbrev);
+				buildContinueButton (FOLD);
+			} else {
+				tNotification = String.format (NO_OUTSTANDING_LOANS, tFormingAbbrev);
+				setNotificationText (tNotification);
+				buildContinueButton (CONTINUE);
+				System.out.println ("No Shares are folding into " + tFormingAbbrev);
+			}
+		} else if (formationState == ActorI.ActionStates.ShareExchange) {
+			System.out.println ("All Players Shares have been Exchanged");
+			setAllPlayerSharesHandled (true);
 		}
 		rebuildSpecialPanel (currentPlayerIndex);
 	}
