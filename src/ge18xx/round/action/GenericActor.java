@@ -26,6 +26,9 @@ public class GenericActor implements ActorI {
 		if (tState == ActionStates.NoState) {
 			tState = getRoundType (aState);
 		}
+		if (tState == ActionStates.NoState) {
+			tState = getCompanySpecialState (aState);
+		}
 
 		return tState;
 	}
@@ -75,16 +78,47 @@ public class GenericActor implements ActorI {
 
 		return tPlayerState;
 	}
+	public ActorI.ActionStates getCompanySpecialState (String aState) {
+		ActorI.ActionStates tCorporationState;
 
-//	Unowned, Owned, Closed, MayFloat, WillFloat, NotOperated, StartedOperations, 	HandledLoanInterest,	
-//	TileLaid, Tile2Laid, TileUpgraded, StationLaid, TileAndStationLaid, OperatedTrain,
-//	HoldDividend, HalfDividend, FullDividend, BoughtTrain, Operated, 
-//	Fixed, Inactive, WaitingResponse, Bankrupt, Recievership
+		tCorporationState = ActionStates.NoState;
 
+//		These are the States needed for New Company Formation ( 1856 - CGR, 1835 - Prussian )
+//		LoanRepayment ("Loan Repayment", Arrays.asList (new String [] {"No State"})),
+//		ShareExchange ("Share Exchange", Arrays.asList (new String [] {"Loan Repayment"})),
+//		ConfirmFormingPresident ("Confirm Forming President", Arrays.asList (new String [] {"Share Exchange"})),
+//		TokenExchange ("Token Exchange", Arrays.asList (new String [] {"Confirm Forming President"})),
+//		AssetCollection ("Asset Collection", Arrays.asList (new String [] {"Token Exchange"})),
+//		StockValueCalculation ("Stock Value Calculation", Arrays.asList (new String [] {"Asset Collection"})),
+
+		if (aState.equals (ActionStates.LoanRepayment.toString ())) {
+			tCorporationState = ActionStates.LoanRepayment;
+		} else if (aState.equals (ActionStates.ShareExchange.toString ())) {
+			tCorporationState = ActionStates.ShareExchange;
+		} else if (aState.equals (ActionStates.ConfirmFormingPresident.toString ())) {
+			tCorporationState = ActionStates.ConfirmFormingPresident;
+		} else if (aState.equals (ActionStates.TokenExchange.toString ())) {
+			tCorporationState = ActionStates.TokenExchange;
+		} else if (aState.equals (ActionStates.AssetCollection.toString ())) {
+			tCorporationState = ActionStates.AssetCollection;
+		} else if (aState.equals (ActionStates.StockValueCalculation.toString ())) {
+			tCorporationState = ActionStates.StockValueCalculation;
+		}
+		
+		return tCorporationState;
+	}
+		
 	public ActorI.ActionStates getCorporationActionState (String aState) {
 		ActorI.ActionStates tCorporationState;
 
 		tCorporationState = ActionStates.NoState;
+		
+//		Unowned, Owned, Closed, MayFloat, WillFloat, NotOperated, StartedOperations, 
+//		HandledLoanInterest,	 TileLaid, Tile2Laid, TileUpgraded, StationLaid, 
+//		TileAndStationLaid, OperatedTrain,
+//		HoldDividend, HalfDividend, FullDividend, BoughtTrain, Operated, 
+//		Fixed, Inactive, WaitingResponse, Bankrupt, Recievership
+		
 		if (aState.equals (ActionStates.Unowned.toString ())) {						// 1
 			tCorporationState = ActionStates.Unowned;
 		} else if (aState.equals (ActionStates.Owned.toString ())) {					// 2
