@@ -228,6 +228,10 @@ public class ShareExchange extends PlayerFormationPhase {
 		formationPhase.rebuildSpecialPanel (formationPhase.getCurrentPlayerIndex ());
 	}
 
+	public void handleOpenMarketShareExchange () {
+		
+	}
+	
 	public void assignPresident (Portfolio aBankPortfolio, int aPercentage, Corporation aFormingCompany, 
 					TransferOwnershipAction aTransferOwnershipAction) {
 		Certificate tPresidentCertificate;
@@ -281,6 +285,8 @@ public class ShareExchange extends PlayerFormationPhase {
 		tActionCommand = aEvent.getActionCommand ();
 		if (tActionCommand.equals (EXCHANGE)) {
 			handleShareExchange ();
+		} else if (tActionCommand.equals (DONE)) {
+			handlePlayerDone ();
 		} else {
 			super.actionPerformed (aEvent);
 		}
@@ -312,5 +318,8 @@ public class ShareExchange extends PlayerFormationPhase {
 	@Override
 	public void handlePlayerDone () {
 		super.handlePlayerDone ();
+		if (formationPhase.getAllPlayerSharesHandled ()) {
+			System.out.println ("All Players Done, now handle Open Market");
+		}
 	}
 }
