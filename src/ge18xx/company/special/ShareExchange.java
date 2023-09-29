@@ -177,7 +177,8 @@ public class ShareExchange extends PlayerFormationPhase {
 		tPlayerPortfolio = player.getPortfolio ();
 		tCertificateCount = tPlayerPortfolio.getCertificateTotalCount ();
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
-		tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, player);
+		tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
+							tOperatingRoundID, player);
 		for (String tCompanyAbbrev : shareCompaniesHandled) {
 			tShareCompany = gameManager.getShareCompany (tCompanyAbbrev);
 			tCertificateCount = tPlayerPortfolio.getCertificateTotalCount ();
@@ -196,12 +197,8 @@ public class ShareExchange extends PlayerFormationPhase {
 		if (totalExchangeCount > 0) {
 			tFormingCompanyID = gameManager.getFormingCompanyId ();
 			tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
-			tFormingAbbrev = tFormingCompany.getAbbrev ();
-			if (formationPhase.getShareFoldCount () > 20) {
-				tPercentage = PhaseInfo.STANDARD_SHARE_SIZE/2;
-			} else {
-				tPercentage = PhaseInfo.STANDARD_SHARE_SIZE;
-			}
+			tFormingAbbrev = getFormingAbbrev ();
+			tPercentage = getPercentageForExchange ();
 			System.out.println ("All Players Total Exchange Count " +  formationPhase.getShareFoldCount ());
 			for (tFoldingIndex = 0; tFoldingIndex < totalExchangeCount; tFoldingIndex++) {
 				tFoldedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
@@ -226,10 +223,88 @@ public class ShareExchange extends PlayerFormationPhase {
 		exchange.setToolTipText ("President has not completed all share exchanges");
 		updateDoneButton (true);
 		formationPhase.rebuildSpecialPanel (formationPhase.getCurrentPlayerIndex ());
+		gameManager.addAction (tTransferOwnershipAction);
+	}
+
+	public String getFormingAbbrev () {
+		Corporation tFormingCompany;
+		int tFormingCompanyID;
+		String tFormingAbbrev;
+	
+		tFormingCompanyID = gameManager.getFormingCompanyId ();
+		tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
+		tFormingAbbrev = tFormingCompany.getAbbrev ();
+
+		return tFormingAbbrev;
+	}
+	
+	public int getPercentageForExchange () {
+		int tPercentage;
+		
+		if (formationPhase.getShareFoldCount () > 20) {
+			tPercentage = PhaseInfo.STANDARD_SHARE_SIZE/2;
+		} else {
+			tPercentage = PhaseInfo.STANDARD_SHARE_SIZE;
+		}
+		return tPercentage;
 	}
 
 	public void handleOpenMarketShareExchange () {
+		BankPool tBankPool;
+		Portfolio tBankPoolPortfolio;
+		int tPortfolioIndex;
+		int tCertificateCount;
+		int tExchangeCount;
+		int tNewCount;
+		int tNewIndex;
+		int tPercentage;
+		String tOperatingRoundID;
+		String tFormingAbbrev;
+		Bank tBank;
+		Portfolio tBankPortfolio;
+		Corporation tCorporation;
+		Certificate tCertificate;
+		TransferOwnershipAction tTransferOwnershipAction;
 		
+		tBank = gameManager.getBank ();
+		tBankPortfolio = tBank.getPortfolio ();
+		tBankPool = gameManager.getBankPool ();
+		tBankPoolPortfolio = tBankPool.getPortfolio ();
+		tCertificateCount = tBankPoolPortfolio.getCertificateTotalCount ();
+		if (tCertificateCount > 0) {
+			tExchangeCount = 0;
+			tPercentage = getPercentageForExchange ();
+			tOperatingRoundID = gameManager.getOperatingRoundID ();
+
+			tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
+								tOperatingRoundID, player);
+
+			for (tPortfolioIndex = (tCertificateCount - 1); tPortfolioIndex >= 0; tPortfolioIndex--) {
+				tCertificate = tBankPoolPortfolio.getCertificate (tPortfolioIndex);
+				tCorporation = tCertificate.getCorporation ();
+				if (tCorporation.willFold ()) {
+					transferShareToClosed (tBankPool, tCertificate, tTransferOwnershipAction);
+					tExchangeCount++;
+				}
+			}
+			tNewCount = tExchangeCount / 2;
+			if (tNewCount > 0) {
+				for (tNewIndex = 0; tNewIndex < tNewCount; tNewIndex++) {
+					tFormingAbbrev = getFormingAbbrev ();
+
+					tCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
+					if (tCertificate != Certificate.NO_CERTIFICATE) {
+						transferShare (tBank, tBankPool, tCertificate, tTransferOwnershipAction);
+					} else {
+						System.err.println ("No certificate available with All Players Total Exchange Count " + 
+										formationPhase.getShareFoldCount ());
+					}
+
+				}
+			}
+			formationPhase.rebuildSpecialPanel (formationPhase.getCurrentPlayerIndex ());
+			gameManager.addAction (tTransferOwnershipAction);
+		}
 	}
 	
 	public void assignPresident (Portfolio aBankPortfolio, int aPercentage, Corporation aFormingCompany, 
@@ -265,6 +340,19 @@ public class ShareExchange extends PlayerFormationPhase {
 		}
 	}
 	
+	public void transferShareToClosed (PortfolioHolderI aFromActor, Certificate aCertificate, 
+						TransferOwnershipAction aTransferOwnershipAction) {
+		Portfolio tPlayerPortfolio;
+		Portfolio tClosedPortfolio;
+		Bank tBank;
+	
+		tBank = gameManager.getBank ();
+		tClosedPortfolio = tBank.getClosedPortfolio ();
+		tPlayerPortfolio = aFromActor.getPortfolio ();
+		tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, aCertificate);
+		aTransferOwnershipAction.addTransferOwnershipEffect (aFromActor, aCertificate, tBank);
+	}
+
 	public void transferShare (PortfolioHolderI aFromActor, ActorI aToActor, Certificate aCertificate, 
 					TransferOwnershipAction aTransferOwnershipAction) {
 		Portfolio tPlayerPortfolio;
@@ -319,7 +407,7 @@ public class ShareExchange extends PlayerFormationPhase {
 	public void handlePlayerDone () {
 		super.handlePlayerDone ();
 		if (formationPhase.getAllPlayerSharesHandled ()) {
-			System.out.println ("All Players Done, now handle Open Market");
+			handleOpenMarketShareExchange ();
 		}
 	}
 }
