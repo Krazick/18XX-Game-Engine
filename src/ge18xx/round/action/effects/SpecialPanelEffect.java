@@ -19,6 +19,10 @@ public class SpecialPanelEffect extends ToEffect {
 	public SpecialPanelEffect (String aName) {
 		super (aName);
 	}
+	
+	public SpecialPanelEffect (ActorI aToActor) {
+		super (NAME, aToActor);
+	}
 
 	public SpecialPanelEffect (ActorI aFromActor, ActorI aToActor) {
 		this (NAME, aToActor, aFromActor);
@@ -34,7 +38,6 @@ public class SpecialPanelEffect extends ToEffect {
 
 	public SpecialPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
-		setName (NAME);
 	}
 
 	public void hideSpecialPanel (RoundManager aRoundManager) {
@@ -105,6 +108,8 @@ public class SpecialPanelEffect extends ToEffect {
 		boolean tEffectUndone;
 		Player tPlayer;
 		PlayerManager tPlayerManager;
+		ShareCompany tShareCompany;
+		Player tPresident;
 		int tCurrentPlayerIndex;
 		
 		tPlayerManager = aRoundManager.getPlayerManager ();
@@ -115,14 +120,15 @@ public class SpecialPanelEffect extends ToEffect {
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPlayer);
 			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectUndone = true;
-		} else if (toActor.isAPlayer ()) {
-			tPlayer = (Player) toActor;
-			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPlayer);
+		} else if (actor.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) actor;
+			tPresident = (Player) tShareCompany.getPresident ();
+			tPlayerManager = aRoundManager.getPlayerManager ();
+			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
 			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectUndone = true;
 		}
 
 		return tEffectUndone;
-
 	}
 }

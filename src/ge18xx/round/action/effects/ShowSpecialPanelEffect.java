@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
@@ -7,15 +8,19 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
 
-public class ShowSpecialPanelEffect extends SpecialPanelEffect {
+public class ShowSpecialPanelEffect extends RebuildSpecialPanelEffect {
 	public final static String NAME = "Show Special Panel";
-
+	
 	public ShowSpecialPanelEffect () {
 		this (NAME);
 	}
 
 	public ShowSpecialPanelEffect (String aName) {
 		super (aName);
+	}
+
+	public ShowSpecialPanelEffect (ActorI aFromActor) {
+		super (NAME, aFromActor);
 	}
 
 	public ShowSpecialPanelEffect (ActorI aFromActor, ActorI aToActor) {
@@ -45,16 +50,25 @@ public class ShowSpecialPanelEffect extends SpecialPanelEffect {
 		Player tPresident;
 		PlayerManager tPlayerManager;
 		int tCurrentPlayerIndex;
+		ShareCompany tShareCompany;
 		
 		tEffectApplied = false;
+		tPlayerManager = aRoundManager.getPlayerManager ();
+		tCurrentPlayerIndex = 0;
+		tPresident = Player.NO_PLAYER;
 		if (actor.isAPlayer ()) {
 			tPresident = (Player) actor;
-			tPlayerManager = aRoundManager.getPlayerManager ();
+		} else if (actor.isAShareCompany ()) {
+			tShareCompany = (ShareCompany) actor;
+			tPresident = (Player) tShareCompany.getPresident ();
+		}
+
+		if (tPresident != Player.NO_PLAYER) {
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
 			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectApplied = true;
 		}
-
+		
 		return tEffectApplied;
 	}
 

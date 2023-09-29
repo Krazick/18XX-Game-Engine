@@ -7,7 +7,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
 
 public class SetFormationStateEffect extends ChangeCorporationStatusEffect {
-	public final static String NAME = "formation State";
+	public final static String NAME = "Set Formation State";
 
 	public SetFormationStateEffect () {
 		super ();
