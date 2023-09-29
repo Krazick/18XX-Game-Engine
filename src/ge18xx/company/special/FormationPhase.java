@@ -29,7 +29,6 @@ import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BuyTrainAction;
-import ge18xx.round.action.SpecialPanelAction;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 
