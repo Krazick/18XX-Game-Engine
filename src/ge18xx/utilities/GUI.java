@@ -87,4 +87,17 @@ public interface GUI {
 		
 		return tTransparent;
 	}
+	
+	// Use as a Utility Function to Throw an Exception and Print a Stack Trace
+	public default void goBoom () {
+		int boomVariable;
+		
+		try {
+			boomVariable = 5/0;
+		} catch (Throwable e) {
+			System.err.println ("Generated an Exception, to generate the STACK TRACE");
+			e.printStackTrace ();
+		}
+	}
+
 }
