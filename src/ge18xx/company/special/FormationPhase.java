@@ -36,6 +36,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public static final String DONE = "Done";
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans";
+	public static final String NOT_CURRENT_PLAYER = "You are not the current President";
 	public static final String NO_OUTSTANDING_LOANS = "There are no outstanding Loans to repay. %s will not form.";
 	public static final String CONTINUE = "Continue";
 	public static final String FOLD = "Fold";
@@ -338,6 +339,22 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		updatePlayers (tPlayers, tActingPlayer);
 	}
 	
+	public void updateContinueButton () {
+		Player tCurrentPlayer;
+		
+		if (continueButton != GUI.NO_BUTTON) {
+			tCurrentPlayer = getCurrentPlayer ();
+			if (tCurrentPlayer == actingPresident) {
+				continueButton.setEnabled (true);
+				continueButton.setToolTipText (GUI.EMPTY_STRING);
+			} else {
+				continueButton.setEnabled (false);
+				continueButton.setToolTipText (NOT_CURRENT_PLAYER);
+
+			}
+		}
+	}
+	
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
 		PlayerFormationPhase tPlayerJPanel;
 		
@@ -351,7 +368,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		}
 		bottomJPanel = buildBottomJPanel ();
 		formationJPanel.add (bottomJPanel);
-
+		updateContinueButton ();
 		formationJPanel.repaint ();
 		formationJPanel.revalidate ();
 	}
