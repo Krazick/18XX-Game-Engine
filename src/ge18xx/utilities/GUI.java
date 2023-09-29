@@ -92,8 +92,10 @@ public interface GUI {
 	public default void goBoom () {
 		int boomVariable;
 		
+		boomVariable = 1;
 		try {
 			boomVariable = 5/0;
+			System.out.println ("Boom Variable is " + boomVariable);
 		} catch (Throwable e) {
 			System.err.println ("Generated an Exception, to generate the STACK TRACE");
 			e.printStackTrace ();
