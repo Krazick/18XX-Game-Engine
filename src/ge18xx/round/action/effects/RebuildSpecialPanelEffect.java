@@ -1,6 +1,8 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.company.Corporation;
+import ge18xx.company.special.FormationPhase;
+import ge18xx.company.special.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
@@ -43,18 +45,21 @@ public class RebuildSpecialPanelEffect extends SpecialPanelEffect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-		Player tPresident;
-		PlayerManager tPlayerManager;
 		int tCurrentPlayerIndex;
-		Corporation tCorporation;
+		TriggerClass tTriggerClass;
+		FormationPhase tFormationPhase;
+		GameManager tGameManager;
 		
 		tEffectApplied = false;
-		tCorporation = aRoundManager.getOperatingCompany ();
-		tPresident = (Player) tCorporation.getPresident ();
-		tPlayerManager = aRoundManager.getPlayerManager ();
-		tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
-		rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
-		tEffectApplied = true;
+		
+		tGameManager = aRoundManager.getGameManager ();
+		tTriggerClass = tGameManager.getTriggerClass ();
+		if (tTriggerClass instanceof FormationPhase) {
+			tFormationPhase = (FormationPhase) tTriggerClass;
+			tCurrentPlayerIndex = tFormationPhase.getCurrentPlayerIndex ();
+			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
+			tEffectApplied = true;
+		}
 
 		return tEffectApplied;
 	}
