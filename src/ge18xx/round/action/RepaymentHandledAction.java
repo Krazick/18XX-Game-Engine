@@ -4,6 +4,7 @@ import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.effects.RebuildSpecialPanelEffect;
 import ge18xx.round.action.effects.SetRepaymentHandledEffect;
 import ge18xx.round.action.effects.ShareFoldCountEffect;
 import ge18xx.utilities.XMLNode;
@@ -45,6 +46,13 @@ public class RepaymentHandledAction extends ChangeStateAction {
 			tShareFoldCountEffect = new ShareFoldCountEffect (aActor, aOldShareFoldCount, aNewShareFoldCount);
 			addEffect (tShareFoldCountEffect);
 		}
+	}
+	
+	public void addRebuildSpecialPanelEffect (ActorI aFromActor) {
+		RebuildSpecialPanelEffect tRebuildSpecialPanelEffect;
+		
+		tRebuildSpecialPanelEffect = new RebuildSpecialPanelEffect (aFromActor);
+		addEffect (tRebuildSpecialPanelEffect);
 	}
 	
 	@Override
