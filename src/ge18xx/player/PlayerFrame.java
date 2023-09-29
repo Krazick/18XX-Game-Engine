@@ -920,4 +920,15 @@ public class PlayerFrame extends XMLFrame implements ItemListener {
 
 		buttonsInfoFrame.handleExplainButtons (tNewPoint);
 	}
+	
+	@Override
+	public void showFrame () {
+		if (gameManager.isNetworkGame ()) {
+			if (gameManager.isNetworkAndIsThisClient (getName ())) {
+				super.showFrame ();
+			}
+		} else {
+			super.showFrame ();
+		}
+	}
 }

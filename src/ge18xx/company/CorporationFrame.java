@@ -28,8 +28,10 @@ import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.phase.PhaseInfo;
+import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
+import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.toplevel.XMLFrame;
@@ -1695,6 +1697,26 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 			updateForceBuyTrainButton ();
 			updateBuyPrivateButton ();
 			updateDoneButton ();
+		}
+	}
+	
+	@Override
+	public void showFrame () {
+		Player tPlayer;
+		PortfolioHolderI tHolder;
+		String tPlayerName;
+		
+		tHolder = corporation.getPresident ();
+		if (tHolder.isAPlayer ()) {
+			tPlayer = (Player) tHolder;
+			tPlayerName = tPlayer.getName ();
+			if (gameManager.isNetworkGame ()) {
+				if (gameManager.isNetworkAndIsThisClient (tPlayerName)) {
+					super.showFrame ();
+				}
+			} else {
+				super.showFrame ();
+			}
 		}
 	}
 }
