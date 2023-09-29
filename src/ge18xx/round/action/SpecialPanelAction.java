@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.HideSpecialPanelEffect;
+import ge18xx.round.action.effects.RebuildSpecialPanelEffect;
 import ge18xx.round.action.effects.ShowSpecialPanelEffect;
 import ge18xx.utilities.XMLNode;
 
@@ -38,11 +39,18 @@ public class SpecialPanelAction extends Action {
 		addEffect (tHideSpecialPanelEffect);
 	}
 
-	public void addShowSpecialPanelEffect (ActorI aFromActor, ActorI aToActor) {
+	public void addShowSpecialPanelEffect (ActorI aFromActor) {
 		ShowSpecialPanelEffect tShowSpecialPanelEffect;
 		
-		tShowSpecialPanelEffect = new ShowSpecialPanelEffect (aFromActor, aToActor);
+		tShowSpecialPanelEffect = new ShowSpecialPanelEffect (aFromActor);
 		addEffect (tShowSpecialPanelEffect);
+	}
+
+	public void addRebuildSpecialPanelEffect (ActorI aFromActor) {
+		RebuildSpecialPanelEffect tRebuildSpecialPanelEffect;
+		
+		tRebuildSpecialPanelEffect = new RebuildSpecialPanelEffect (aFromActor);
+		addEffect (tRebuildSpecialPanelEffect);
 	}
 
 	@Override
