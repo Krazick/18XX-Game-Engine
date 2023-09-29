@@ -47,7 +47,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	int shareFoldCount;
 
 	boolean currentPlayerDone;
-	boolean firstAction;
 	boolean formingPresidentAssigned;
 	boolean allPlayerSharesHandled;
 	ActionStates formationState;
@@ -83,14 +82,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			aBuyTrainAction.addShowSpecialPanelEffect (tActingPlayer, tActingPlayer);
 			aBuyTrainAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState, formationState);
 		}
-	}
-
-	public void setFirstAction (boolean aFirstAction) {
-		firstAction = aFirstAction;
-	}
-
-	public boolean getFirstAction () {
-		return firstAction;
 	}
 
 	public void setFormingPresidentAssigned (boolean aformingPresidentAssigned) {
@@ -473,6 +464,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		if (tActionCommand.equals (FOLD)) {
 			handleFoldIntoFormingCompany ();
 		} else if (tActionCommand.equals (CONTINUE)) {
+			System.out.println ("Formation Phase - Action Performing HIDE Special Panel");
 			hideSpecialPanel ();
 		}
 	}
@@ -488,7 +480,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		tFormingCompanyAbbrev = getFormingCompanyAbbrev ();
 
-		tNotification = aFoldingCompanyAbbrev + " will fold " + aShareFoldCount + " Shares into the " + tFormingCompanyAbbrev +
+		tNotification = aFoldingCompanyAbbrev + " will fold " + aShareFoldCount + 
+				" Shares into the " + tFormingCompanyAbbrev +
 				". Total New Share Fold Count is " + shareFoldCount;
 		
 		return tNotification;
@@ -496,18 +489,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	@Override
 	public void hideSpecialPanel () {
-		SpecialPanelAction tSpecialPanelAction;
-		String tOperatingRoundID;
-		Player tCurrentPlayer;
-		
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
-		tCurrentPlayer = getCurrentPlayer ();
-		tSpecialPanelAction = new SpecialPanelAction (ActorI.ActionStates.OperatingRound, 
-										tOperatingRoundID, tCurrentPlayer);
-		tSpecialPanelAction.addHideSpecialPanelEffect (tCurrentPlayer, tCurrentPlayer);
-		tSpecialPanelAction.setChainToPrevious (true);
-		gameManager.addAction (tSpecialPanelAction);
-
+		System.out.println ("Formation Phase - Hiding Special Panel");
 		formationFrame.hideFrame ();
 	}
 	
