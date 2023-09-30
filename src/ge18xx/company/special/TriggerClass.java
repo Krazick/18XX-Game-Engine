@@ -45,7 +45,8 @@ public class TriggerClass {
 		return GUI.EMPTY_STRING;
 	}
 	
-	public JButton buildSpecialButton (String aTitle, String aActionCommand, String aToolTip, ActionListener aActionListener) {
+	public JButton buildSpecialButton (String aTitle, String aActionCommand, String aToolTip, 
+						ActionListener aActionListener) {
 		JButton tSpecialButton;
 		boolean tEnabled;
 		
