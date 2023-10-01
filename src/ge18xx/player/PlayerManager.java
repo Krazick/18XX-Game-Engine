@@ -808,13 +808,9 @@ public class PlayerManager {
 		return tCashToBuy;
 	}
 
-	private void handlePresidentialTransfer (Player aPlayer, TransferOwnershipAction aTransferOwnershipAction,
+	public void handlePresidentialTransfer (Player aPlayer, TransferOwnershipAction aTransferOwnershipAction,
 			ShareCompany aShareCompany, Player aCurrentPresident) {
 		Player tNewPresident;
-
-		// TODO: Extract method out to test and handle Presidential Exchange
-		// Use this method to handle Private Exchange that tests and handles
-		// Presidential Exchange
 
 		// If we have a Current President, and the Current Player is Not the President,
 		// Check to see if the Current Player now owns more and we have to Exchange
@@ -827,6 +823,80 @@ public class PlayerManager {
 						aTransferOwnershipAction);
 			}
 		}
+	}
+
+	public void handlePresidentialTransfer (TransferOwnershipAction aTransferOwnershipAction,
+			ShareCompany aShareCompany, Player aCurrentPresident) {
+		Player tNewPresident;
+		
+		if (aCurrentPresident != Player.NO_PLAYER) {
+			tNewPresident = findNewPresident (aShareCompany,aCurrentPresident);
+			if ((tNewPresident != aCurrentPresident) && (tNewPresident != Player.NO_PLAYER)) {
+				exchangePresidentCertificate (aShareCompany, aCurrentPresident, tNewPresident,
+						aTransferOwnershipAction);
+			}
+		}
+	}
+
+	public Player findNewPresident (ShareCompany aShareCompany, Player aCurrentPresident) {
+		Player tNewPresident;
+		Player tNextPlayer;
+		int tCurrentPlayerIndex;
+		int tNextPlayerIndex;
+		int tCurrentMaxPercentage;
+		int tNextPercentOwned;
+		int tCurrentPresidentPercentage;
+
+		tCurrentPresidentPercentage = aCurrentPresident.getPercentOwnedOf (aShareCompany);
+		tCurrentMaxPercentage = tCurrentPresidentPercentage;
+		tNewPresident = Player.NO_PLAYER;
+		
+		tCurrentPlayerIndex = getPlayerIndex (aCurrentPresident);
+		tNextPlayerIndex = getNextPlayerIndex (tCurrentPlayerIndex);
+		while (tNextPlayerIndex != tCurrentPlayerIndex) {
+			tNextPlayer = getPlayer (tNextPlayerIndex);
+			tNextPercentOwned = tNextPlayer.getPercentOwnedOf (aShareCompany);
+			if (tNextPercentOwned > tCurrentMaxPercentage) {
+				tCurrentMaxPercentage = tNextPercentOwned;
+				tNewPresident = tNextPlayer;
+			}
+			tNextPlayerIndex = getNextPlayerIndex (tNextPlayerIndex);
+		}
+
+		return tNewPresident;
+
+	}
+	
+	public Player findNewPresident (ShareCompany aShareCompany, Player aCurrentPlayer, Player aCurrentPresident) {
+		Player tNewPresident;
+		Player tNextPlayer;
+		int tCurrentPlayerIndex;
+		int tNextPlayerIndex;
+		int tCurrentMaxPercentage;
+		int tNextPercentOwned;
+		int tCurrentPresidentPercentage;
+
+		tCurrentPresidentPercentage = aCurrentPresident.getPercentOwnedOf (aShareCompany);
+
+		tNewPresident = Player.NO_PLAYER;
+		tCurrentMaxPercentage = aCurrentPlayer.getPercentOwnedOf (aShareCompany);
+		if (tCurrentMaxPercentage > tCurrentPresidentPercentage) {
+			tNewPresident = aCurrentPlayer;
+		} else {
+			tCurrentPlayerIndex = getPlayerIndex (aCurrentPlayer);
+			tNextPlayerIndex = getNextPlayerIndex (tCurrentPlayerIndex);
+			while (tNextPlayerIndex != tCurrentPlayerIndex) {
+				tNextPlayer = getPlayer (tNextPlayerIndex);
+				tNextPercentOwned = tNextPlayer.getPercentOwnedOf (aShareCompany);
+				if (tNextPercentOwned > tCurrentMaxPercentage) {
+					tCurrentMaxPercentage = tNextPercentOwned;
+					tNewPresident = tNextPlayer;
+				}
+				tNextPlayerIndex = getNextPlayerIndex (tNextPlayerIndex);
+			}
+		}
+
+		return tNewPresident;
 	}
 
 	public ParPriceFrame buildParPriceFrame (Player aPlayer, Certificate aCertificate) {
@@ -1093,34 +1163,6 @@ public class PlayerManager {
 				tNewPresident = tNextPlayer;
 			}
 			tNextPlayerIndex = getNextPlayerIndex (tNextPlayerIndex);
-		}
-
-		return tNewPresident;
-	}
-
-	public Player findNewPresident (ShareCompany aShareCompany, Player aCurrentPlayer, Player aCurrentPresident) {
-		Player tNewPresident, tNextPlayer;
-		int tCurrentPlayerIndex, tNextPlayerIndex;
-		int tCurrentMaxPercentage, tNextPercentOwned, tCurrentPresidentPercentage;
-
-		tCurrentPresidentPercentage = aCurrentPresident.getPercentOwnedOf (aShareCompany);
-
-		tNewPresident = Player.NO_PLAYER;
-		tCurrentMaxPercentage = aCurrentPlayer.getPercentOwnedOf (aShareCompany);
-		if (tCurrentMaxPercentage > tCurrentPresidentPercentage) {
-			tNewPresident = aCurrentPlayer;
-		} else {
-			tCurrentPlayerIndex = getPlayerIndex (aCurrentPlayer);
-			tNextPlayerIndex = getNextPlayerIndex (tCurrentPlayerIndex);
-			while (tNextPlayerIndex != tCurrentPlayerIndex) {
-				tNextPlayer = getPlayer (tNextPlayerIndex);
-				tNextPercentOwned = tNextPlayer.getPercentOwnedOf (aShareCompany);
-				if (tNextPercentOwned > tCurrentMaxPercentage) {
-					tCurrentMaxPercentage = tNextPercentOwned;
-					tNewPresident = tNextPlayer;
-				}
-				tNextPlayerIndex = getNextPlayerIndex (tNextPlayerIndex);
-			}
 		}
 
 		return tNewPresident;
