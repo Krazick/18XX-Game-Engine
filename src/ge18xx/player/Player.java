@@ -1444,8 +1444,8 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tBuyStockAction = new BuyStockAction (tRoundType, tRoundID, this);
 		updatePercentBought (aCertificatesToBuy, tBuyStockAction);
 		
-		tBuyStockAction = playerManager.buyAction (this, aCertificatesToBuy, PlayerManager.STOCK_BUY_IN.StockRound,
-				tBuyStockAction);
+		tBuyStockAction = playerManager.buyAction (this, aCertificatesToBuy,
+				PlayerManager.STOCK_BUY_IN.StockRound, tBuyStockAction);
 		playerManager.addAction (tBuyStockAction);
 	}
 
