@@ -661,11 +661,15 @@ public class Tile implements Comparable<Object>, Cloneable {
 	public String getToolTip (int aPhase) {
 		String tTip;
 		String tRevenue;
+		String tTileName;
 
 		tTip = GUI.NO_TOOL_TIP;
 		tTip += "Tile: " + getTypeName () + " " + getNumberToString () + "<br>";
 		if (name != TileName.NO_TILE_NAME) {
-			tTip += "Tile Name: " + getTileName ().getName () + "<br>";
+			tTileName = getTileName ().getName ();
+			if (tTileName.length () > 0) {
+				tTip += "Tile Name: " + tTileName + "<br>";
+			}
 		}
 		tRevenue = getRevenueValue (aPhase);
 		if (! tRevenue.equals (GUI.EMPTY_STRING)) {

@@ -2437,11 +2437,13 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public int getCostToLayTile (Tile aTile) {
-		int tCostToLay;
 		TileType tTileType;
 		TileName tTileName;
+		int tCostToLay;
 		int tTileTypeInt;
-		int tTotalTerrainCost = getTotalTerrainCost ();
+		int tTotalTerrainCost;
+		
+		tTotalTerrainCost = getTotalTerrainCost ();
 		tCostToLay = 0;
 
 		if (aTile == Tile.NO_TILE) {
