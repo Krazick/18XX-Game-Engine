@@ -18,6 +18,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Player;
+import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
@@ -302,8 +303,41 @@ public class ShareExchange extends PlayerFormationPhase {
 
 				}
 			}
-			formationPhase.rebuildSpecialPanel (formationPhase.getCurrentPlayerIndex ());
+			formationPhase.rebuildSpecialPanel ();
 			gameManager.addAction (tTransferOwnershipAction);
+		}
+	}
+	public void confirmFormingPresident () {
+		PlayerManager tPlayerManager;
+		Player tCurrentPresident;
+		PortfolioHolderI tCurrentHolder;
+		TransferOwnershipAction tTransferOwnershipAction;
+		String tOperatingRoundID;
+		Corporation tCorporation;
+		ShareCompany tFormingCompany;
+		int tFormingCompanyID;
+	
+		System.out.println ("Check to see if the Forming Company President is correctly Assigned");
+		tFormingCompanyID = gameManager.getFormingCompanyId ();
+		tCorporation = gameManager.getCorporationByID (tFormingCompanyID);
+		if (tCorporation.isAShareCompany ()) {
+			tFormingCompany = (ShareCompany) tCorporation;
+			tPlayerManager = gameManager.getPlayerManager ();
+			tCurrentHolder = tFormingCompany.getPresident ();
+			if (tCurrentHolder.isAPlayer ()) {
+				tCurrentPresident = (Player) tCurrentHolder;
+				tOperatingRoundID = gameManager.getOperatingRoundID ();
+				tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
+						tOperatingRoundID, player);
+				tPlayerManager.handlePresidentialTransfer (tTransferOwnershipAction, tFormingCompany, tCurrentPresident);
+				gameManager.addAction (tTransferOwnershipAction);
+				formationPhase.rebuildSpecialPanel ();
+			} else {
+				System.err.println ("The Current President is not a Player");
+				// No Player holds enough to be President
+			}
+		} else {
+			System.err.println ("The Forming Company ID found is NOT a Share Company");
 		}
 	}
 	
@@ -408,6 +442,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		super.handlePlayerDone ();
 		if (formationPhase.getAllPlayerSharesHandled ()) {
 			handleOpenMarketShareExchange ();
+			confirmFormingPresident ();
 		}
 	}
 }
