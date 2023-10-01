@@ -187,9 +187,10 @@ public class ChangeStateAction extends ChangePlayerAction {
 
 		} else if (aCurrentRoundType.equals (ActorI.ActionStates.OperatingRound)) {
 			tOperatingCompany = aRoundManager.getOperatingCompany ();
-			tOperatingCompanyFrame = tOperatingCompany.getCorporationFrame ();
-			tOperatingCompanyFrame.showFrame ();
-//			System.out.println ("Need to find current Operating Company, and Show it's Frame");
+			if (tOperatingCompany != Corporation.NO_CORPORATION) {
+				tOperatingCompanyFrame = tOperatingCompany.getCorporationFrame ();
+				tOperatingCompanyFrame.showFrame ();
+			}
 		}
 
 		return tActionUndone;
