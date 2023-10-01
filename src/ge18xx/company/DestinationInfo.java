@@ -124,7 +124,7 @@ public class DestinationInfo {
 		int tParPrice;
 		
 		tEscrowReleased = 0;
-		if (!reached) {
+		if (reached) {
 			tSharesSold = aShareCompany.getSharesOwned ();
 			tParPrice = aShareCompany.getParPrice ();
 			if (tSharesSold > 5) {
