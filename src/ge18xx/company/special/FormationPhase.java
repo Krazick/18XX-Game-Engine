@@ -326,6 +326,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		rebuildSpecialPanel (currentPlayerIndex);
 	}
 	
+	public void rebuildSpecialPanel () {
+		rebuildSpecialPanel (getCurrentPlayerIndex ());
+	}
+	
 	@Override
 	public void rebuildSpecialPanel (int aCurrentPlayerIndex) {
 		List<Player> tPlayers;
