@@ -990,18 +990,18 @@ public class MapCell implements Comparator<Object> {
 
 		if (baseTerrain.isSelectable ()) {
 			tTip = "<html>Cell <b>" + getCellID () + "</b><br>";
-			if (baseTileName != TileName.NO_TILE_NAME) {
-				tTileName = baseTileName.getName ();
-				if (tTileName.length () > 0) {
-					tTip += "Tile Name: " + baseTileName.getName () + "<br>";
-				}
-			}
 			if (tile != Tile.NO_TILE) {
 				tCurrentPhase = hexMap.getCurrentPhase () + 1;
 				tTip += "Tile Orientation: " + tileOrient + "<br>";
 				tTip += tile.getToolTip (tCurrentPhase);
 			} else {
-				if (centers.size () > 0) {
+				if (baseTileName != TileName.NO_TILE_NAME) {
+					tTileName = baseTileName.getName ();
+					if (tTileName.length () > 0) {
+						tTip += "Tile Name: " + baseTileName.getName () + "<br>";
+					}
+				}
+ 				if (centers.size () > 0) {
 					tTip += centers.getToolTip ();
 				}
 			}

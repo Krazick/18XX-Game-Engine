@@ -664,6 +664,9 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 		tTip = GUI.NO_TOOL_TIP;
 		tTip += "Tile: " + getTypeName () + " " + getNumberToString () + "<br>";
+		if (name != TileName.NO_TILE_NAME) {
+			tTip += "Tile Name: " + getTileName ().getName () + "<br>";
+		}
 		tRevenue = getRevenueValue (aPhase);
 		if (! tRevenue.equals (GUI.EMPTY_STRING)) {
 			tRevenue = Bank.formatCash (tRevenue);
