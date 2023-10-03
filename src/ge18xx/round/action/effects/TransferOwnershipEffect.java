@@ -80,7 +80,7 @@ public class TransferOwnershipEffect extends ToEffect {
 
 		return tEffectReport;
 	}
-
+	
 	@Override
 	public void printEffectReport (RoundManager aRoundManager) {
 		System.out.println (getEffectReport (aRoundManager));
