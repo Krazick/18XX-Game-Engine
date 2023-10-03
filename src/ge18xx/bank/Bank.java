@@ -609,4 +609,14 @@ public class Bank extends GameBank implements CashHolderI {
 	public void updateListeners (String aMessage) {
 		super.updateListeners (aMessage);
 	}
+	
+	@Override
+	public void printInfo () {
+		System.out.println ("Bank Closed Portfolio Count " + closedPortfolio.getCertificateTotalCount ());
+		closedPortfolio.printCompactPortfolioInfo ();
+		
+		System.out.println ("Bank Portfolio Count " + portfolio.getCertificateTotalCount ());
+		super.printInfo ();
+		rustedTrainsPortfolio.printNameAndQty (TrainPortfolio.RUSTED_TRAINS);
+	}
 }
