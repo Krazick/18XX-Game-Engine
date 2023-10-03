@@ -33,6 +33,7 @@ import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 
 public class FormationPhase extends TriggerClass implements ActionListener {
+	public static final FormationPhase NO_FORMATION_PHASE = null;
 	public static final String DONE = "Done";
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans";
