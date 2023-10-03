@@ -71,5 +71,4 @@ public class TriggerClass {
 		
 		return tEnabled;
 	}
-
 }
