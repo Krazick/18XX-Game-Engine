@@ -224,6 +224,20 @@ public class PhaseManager {
 		return tTriggerClass;
 	}
 	
+	public boolean hasTriggerClass () {
+		String tTriggerClass;
+		boolean tHasTriggerClass;
+		
+		tTriggerClass = getTriggerClass ();
+		if (tTriggerClass != GUI.NULL_STRING) {
+			tHasTriggerClass = true;
+		} else {
+			tHasTriggerClass = false;
+		}
+		
+		return tHasTriggerClass;
+	}
+	
 	public void performPhaseChange (TrainCompany aTrainCompany, Train aTrain, BuyTrainAction aBuyTrainAction,
 			Bank aBank) {
 		TrainInfo tTrainInfo;
@@ -258,7 +272,7 @@ public class PhaseManager {
 		String tTriggerClass;
 		
 		tTriggerClass = getTriggerClass ();
-		if (tTriggerClass != GUI.NULL_STRING) {
+		if (hasTriggerClass ()) {
 			callTriggerClass (tTriggerClass);
 		}
 
@@ -268,7 +282,7 @@ public class PhaseManager {
 		String tTriggerClass;
 		
 		tTriggerClass = getTriggerClass ();
-		if (tTriggerClass != GUI.NULL_STRING) {
+		if (hasTriggerClass ()) {
 			callTriggerClass (tTriggerClass, aBuyTrainAction);
 		}
 	}
