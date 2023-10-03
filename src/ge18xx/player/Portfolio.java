@@ -1754,22 +1754,36 @@ public class Portfolio implements CertificateHolderI {
 	}
 
 	public void printCompactPortfolioInfo () {
-		String tCompanyName, tPreviousName;
+		String tCompanyName;
+		String tPreviousName;
+		int tTotalPercent;
+		int tPercent;
 
 		System.out.println ("Portfolio:");		// PRINTLOG
 		if (certificates.size () == 0) {
 			System.out.print (">> NO CERTIFICATES IN PORTFOLIO <<");
 		} else {
 			tPreviousName = "";
+			tTotalPercent = 0;
+
 			for (Certificate tCertificate : certificates) {
 				tCompanyName = tCertificate.getCompanyName ();
 				if (!(tCompanyName.equals (tPreviousName))) {
-					System.out.print ("\nCertificates For " + tCompanyName + " ");
+					if (tPreviousName.length () > 0) {
+						System.out.println ("] " + tTotalPercent + "% ");
+					}
+					tTotalPercent = 0;
+					System.out.print ("Certificates For " + tCompanyName + " [");
 					tPreviousName = tCompanyName;
 				}
-				System.out.print (tCertificate.getPercentage () + " ");
+				tPercent = tCertificate.getPercentage ();
+				System.out.print (tPercent + "% ");
+				if (tCertificate.isPresidentShare ()) {
+					System.out.print ("Prez ");
+				}
+				tTotalPercent += tPercent;
 			}
-			System.out.println ("\n");
+			System.out.println ("] " + tTotalPercent + "% \n");
 		}
 	}
 
