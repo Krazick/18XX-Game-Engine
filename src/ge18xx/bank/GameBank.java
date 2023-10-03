@@ -316,7 +316,7 @@ public class GameBank implements TrainHolderI, PortfolioHolderLoaderI {
 		trainPortfolio.loadTrainPortfolioFromBank (aTrainPortfolioNode, tBank);
 	}
 
-	public void printBankInfo () {
+	public void printInfo () {
 		trainPortfolio.printNameAndQty (name);
 		portfolio.printCompactPortfolioInfo ();
 	}
