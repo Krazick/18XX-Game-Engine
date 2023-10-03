@@ -86,10 +86,17 @@ public class Game_18XX extends XMLFrame {
 	protected Action selectGameAction, showActionReportFrameAction, showPlayerInputAction;
 
 	// Game18XX Specific Menu Actions
-	protected Action showMapAction, showMarketAction, showCitiesAction, showPrivatesAction;
-	protected Action showTileTrayAction, showMinorCompaniesAction;
-	protected Action showChatClientAction, showRoundFrameAction, showShareCompaniesAction;
+	protected Action showMapAction;
+	protected Action showMarketAction;
+	protected Action showCitiesAction;
+	protected Action showPrivatesAction;
+	protected Action showTileTrayAction;
+	protected Action showMinorCompaniesAction;
+	protected Action showChatClientAction;
+	protected Action showRoundFrameAction;
+	protected Action showShareCompaniesAction;
 	protected Action showAuditFrameAction;
+	protected Action showFormationPhaseFrameAction;
 	protected Action resendLastActions;
 	
 	// More Generic Game Engine Fields
@@ -545,6 +552,7 @@ public class Game_18XX extends XMLFrame {
 		tMenuIndex = addGameMenu (tMenuIndex, showTileTrayAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showRoundFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showAuditFrameAction);
+		tMenuIndex = addGameMenu (tMenuIndex, showFormationPhaseFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showActionReportFrameAction);
 		tMenuIndex = addGameMenu (tMenuIndex, showChatClientAction);
 		tMenuIndex = addGameMenu (tMenuIndex, resendLastActions);
@@ -589,6 +597,8 @@ public class Game_18XX extends XMLFrame {
 		showChatClientAction = new showChatClientActionClass (resourceBundle.getString ("showChatClientItem"), null);
 		showRoundFrameAction = new showRoundFrameActionClass (resourceBundle.getString ("showRoundFrameItem"), null);
 		showAuditFrameAction = new showAuditFrameActionClass (resourceBundle.getString ("showAuditFrameItem"), null);
+		showFormationPhaseFrameAction = new showFormationPhaseFrameActionClass (
+				resourceBundle.getString ("showFormationPhaseFrameItem"), null);
 		showActionReportFrameAction = new showActionReportFrameActionClass (
 				resourceBundle.getString ("showActionReportFrameItem"), null);
 		resendLastActions = new resendLastActionsClass (resourceBundle.getString ("resendLastActions"), null);
@@ -715,6 +725,7 @@ public class Game_18XX extends XMLFrame {
 		String tPrivateMenuText = resourceBundle.getString ("showPrivatesItem");
 		String tChatClientText = resourceBundle.getString ("showChatClientItem");
 		String tResendLastActionsText = resourceBundle.getString ("resendLastActions");
+		String tShowFormationPhaseText = resourceBundle.getString ("showFormationPhaseFrameItem");
 		String tMenuText;
 		boolean tEnableMenuItem;
 
@@ -744,6 +755,12 @@ public class Game_18XX extends XMLFrame {
 					tEnableMenuItem = true;
 				} else {
 					tEnableMenuItem = false;
+				}
+			} else if (tMenuText.equals (tShowFormationPhaseText)) {
+				if (gameManager.hasTriggerClass ()) {
+					tEnableMenuItem = true;
+				} else {
+					tEnableMenuItem = true;
 				}
 			} else {
 				tEnableMenuItem = true;
@@ -967,6 +984,20 @@ public class Game_18XX extends XMLFrame {
 		@Override
 		public void actionPerformed (ActionEvent e) {
 			gameManager.showAuditFrame ();
+		}
+	}
+
+	public class showFormationPhaseFrameActionClass extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public showFormationPhaseFrameActionClass (String text, KeyStroke shortcut) {
+			super (text);
+			putValue (ACCELERATOR_KEY, shortcut);
+		}
+
+		@Override
+		public void actionPerformed (ActionEvent e) {
+			gameManager.showFormationPhaseFrame ();
 		}
 	}
 
