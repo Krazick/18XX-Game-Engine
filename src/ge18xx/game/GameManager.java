@@ -34,6 +34,7 @@ import ge18xx.company.ShareCompany;
 import ge18xx.company.Token;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.Benefit;
+import ge18xx.company.special.FormationPhase;
 import ge18xx.company.special.TriggerClass;
 import ge18xx.game.userPreferences.UserPreferencesFrame;
 import ge18xx.game.variants.VariantEffect;
@@ -2953,6 +2954,28 @@ public class GameManager extends Component implements NetworkGameSupport {
 		auditFrame.setVisible (true);
 	}
 
+	public boolean hasTriggerClass () {
+		return phaseManager.hasTriggerClass ();
+	}
+	
+	public void showFormationPhaseFrame () {
+		FormationPhase tFormationPhase;
+		
+		if (hasTriggerClass ()) {
+			tFormationPhase = FormationPhase.NO_FORMATION_PHASE;
+			if (triggerClass == TriggerClass.NO_TRIGGER_CLASS) {
+				tFormationPhase = new FormationPhase (this);
+			} else if (triggerClass instanceof FormationPhase) {
+				tFormationPhase = (FormationPhase) triggerClass;
+			}
+			if (tFormationPhase != FormationPhase.NO_FORMATION_PHASE) {
+				tFormationPhase.showSpecialPanel ();
+			} else {
+				System.err.println ("Formation Phase not available to be shown");
+			}
+		}
+	}
+	
 	public void fillAuditFrame (String aActorName) {
 		roundManager.fillAuditFrame (auditFrame, aActorName);
 	}
