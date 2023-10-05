@@ -263,7 +263,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tPortfolioJPanel = new JPanel ();
 		tBankPool = gameManager.getBankPool ();
 		tPortfolioJPanel.setLayout (new BoxLayout (tPortfolioJPanel, BoxLayout.Y_AXIS));
-		tTitle = new JLabel (tBankPool.getName () + " Portfolio");
+		tTitle = new JLabel (tBankPool.getName ());
 		tPortfolioJPanel.add (tTitle);
 		tOwnershipPanel = aPortfolio.buildOwnershipPanel (gameManager);
 		if (tOwnershipPanel == GUI.NO_PANEL) {
