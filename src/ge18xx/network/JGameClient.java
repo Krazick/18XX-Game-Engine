@@ -114,7 +114,8 @@ public class JGameClient extends XMLFrame {
 	private final String REFRESH = "REFRESH";
 	private final String AFK = "AFK";
 	private final String SEND = "SEND";
-	public static final String PLAY_GAME = "PLAY GAME";
+	public static final String PLAY_GAME = "PLAY SAVED GAME";
+	public static final String PLAY_SAVED_GAME = "PLAY SAVED GAME";
 	private final String START_GAME = "START";
 	private final String NO_SELECTED_GAME = null;
 	// Static Labels
