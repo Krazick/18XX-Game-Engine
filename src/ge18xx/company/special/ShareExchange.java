@@ -22,12 +22,13 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ShareExchangeFinishedAction;
 import ge18xx.round.action.TransferOwnershipAction;
 import ge18xx.utilities.GUI;
 
 public class ShareExchange extends PlayerFormationPhase {
 	public static final String EXCHANGE = "Exchange Shares";
-
+	public static final int SHARES_NEEDED_FOR_2ND_ISSUE = 21;
 	private static final long serialVersionUID = 1L;
 	boolean sharesExchanged;
 	boolean oneShareToBankPool;
@@ -248,7 +249,7 @@ public class ShareExchange extends PlayerFormationPhase {
 	public int getPercentageForExchange () {
 		int tPercentage;
 		
-		if (formationPhase.getShareFoldCount () > 20) {
+		if (formationPhase.getShareFoldCount () > SHARES_NEEDED_FOR_2ND_ISSUE) {
 			tPercentage = PhaseInfo.STANDARD_SHARE_SIZE/2;
 		} else {
 			tPercentage = PhaseInfo.STANDARD_SHARE_SIZE;
@@ -312,7 +313,10 @@ public class ShareExchange extends PlayerFormationPhase {
 			formationPhase.rebuildSpecialPanel ();
 			gameManager.addAction (tTransferOwnershipAction);
 		}
+		System.out.println ("\nBank Portfolio after Open Market Exchange");
+		tBank.printInfo ();
 	}
+	
 	public void confirmFormingPresident () {
 		PlayerManager tPlayerManager;
 		Player tCurrentPresident;
@@ -323,7 +327,6 @@ public class ShareExchange extends PlayerFormationPhase {
 		ShareCompany tFormingCompany;
 		int tFormingCompanyID;
 	
-		System.out.println ("Check to see if the Forming Company President is correctly Assigned");
 		tFormingCompanyID = gameManager.getFormingCompanyId ();
 		tCorporation = gameManager.getCorporationByID (tFormingCompanyID);
 		if (tCorporation.isAShareCompany ()) {
@@ -380,6 +383,84 @@ public class ShareExchange extends PlayerFormationPhase {
 		}
 	}
 	
+	public void handleIPOShareClosing () {
+		Portfolio tBankIPOPortfolio;
+		ShareCompany tShareCompany;
+		TransferOwnershipAction tTransferOwnershipAction;
+		Certificate tCertificate;
+		String tOperatingRoundID;
+		Bank tBank;
+		int tCertificatesTransferred;
+		int tIPOIndex;
+		int tIPOCount;
+		
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
+		tBank = gameManager.getBank ();
+		tBankIPOPortfolio = tBank.getPortfolio ();
+		tIPOCount = tBankIPOPortfolio.getCertificateTotalCount ();
+		tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
+				tOperatingRoundID, player);
+		tCertificatesTransferred = 0;
+		for (tIPOIndex = tIPOCount - 1; tIPOIndex >= 0; tIPOIndex--) {
+			tCertificate = tBankIPOPortfolio.getCertificate (tIPOIndex);
+			if (tCertificate.isAShareCompany ()) {
+				tShareCompany = tCertificate.getShareCompany ();
+				if (tShareCompany.willFold ()) {
+					transferShareToClosed (tBank, tCertificate, tTransferOwnershipAction);
+					tCertificatesTransferred++;
+				}
+			}
+		}
+		if (tCertificatesTransferred > 0) {
+			gameManager.addAction (tTransferOwnershipAction);
+		}
+		System.out.println ("\n======Bank Portfolio after IPO Closing");
+		tBank.printInfo ();
+	}
+	
+	public void closeFormingCompanyAlternateIssue () {
+		int tPercentage;
+		int tPrezPercentage;
+		int tFormingCompanyID;
+		boolean tMoreCerts;
+		Portfolio tBankIPOPortfolio;
+		ShareCompany tFormingCompany;
+		Corporation tCorporation;
+		TransferOwnershipAction tTransferOwnershipAction;
+		Certificate tCertificate;
+		String tOperatingRoundID;
+		String tFormingAbbrev;
+		Bank tBank;
+
+		tPercentage = getPercentageForExchange ()/2;
+		tPrezPercentage = tPercentage * 2;
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
+		tBank = gameManager.getBank ();
+		tBankIPOPortfolio = tBank.getPortfolio ();
+		tFormingCompanyID = gameManager.getFormingCompanyId ();
+		tCorporation = (ShareCompany)gameManager.getCorporationByID (tFormingCompanyID);
+		if (tCorporation.isAShareCompany ()) {
+			tFormingCompany = (ShareCompany) tCorporation;
+			tFormingAbbrev = tFormingCompany.getAbbrev ();
+			tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
+					tOperatingRoundID, player);
+			tCertificate = Certificate.NO_CERTIFICATE;
+			tMoreCerts = true;
+			while (tMoreCerts) {
+				tCertificate = tBankIPOPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
+				if (tCertificate != Certificate.NO_CERTIFICATE) {
+					transferShareToClosed (tBank, tCertificate, tTransferOwnershipAction);
+				} else {
+					tMoreCerts = false;
+				}
+			}
+			tCertificate = tBankIPOPortfolio.getCertificate (tFormingAbbrev, tPrezPercentage, true);
+			transferShareToClosed (tBank, tCertificate, tTransferOwnershipAction);
+		}
+		System.out.println ("\n****** Bank Portfolio after Alternate Issue Shares were Closed");
+		tBank.printInfo ();
+	}
+	
 	public void transferShareToClosed (PortfolioHolderI aFromActor, Certificate aCertificate, 
 						TransferOwnershipAction aTransferOwnershipAction) {
 		Portfolio tPlayerPortfolio;
@@ -388,7 +469,6 @@ public class ShareExchange extends PlayerFormationPhase {
 	
 		tBank = gameManager.getBank ();
 		tClosedPortfolio = tBank.getClosedPortfolio ();
-		tBank.printInfo ();
 		tPlayerPortfolio = aFromActor.getPortfolio ();
 		tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, aCertificate);
 		aTransferOwnershipAction.addTransferOwnershipEffect (aFromActor, aCertificate, tBank);
@@ -447,9 +527,26 @@ public class ShareExchange extends PlayerFormationPhase {
 	@Override
 	public void handlePlayerDone () {
 		super.handlePlayerDone ();
+		
+		ShareExchangeFinishedAction tShareExchangeFinishedAction;
+		String tOperatingRoundID;
+		Player tNewPlayer;
+		
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
+		tShareExchangeFinishedAction = new ShareExchangeFinishedAction (ActorI.ActionStates.OperatingRound, 
+				tOperatingRoundID, player);
+		tNewPlayer = formationPhase.getCurrentPlayer ();
+
+		tShareExchangeFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
+		gameManager.addAction (tShareExchangeFinishedAction);
+
 		if (formationPhase.getAllPlayerSharesHandled ()) {
 			handleOpenMarketShareExchange ();
 			confirmFormingPresident ();
+			handleIPOShareClosing ();
+			closeFormingCompanyAlternateIssue ();
+		} else {
+
 		}
 	}
 }
