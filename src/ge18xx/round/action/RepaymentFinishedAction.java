@@ -4,10 +4,9 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.RepaymentFinishedEffect;
-import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
 import ge18xx.utilities.XMLNode;
 
-public class RepaymentFinishedAction extends Action {
+public class RepaymentFinishedAction extends FormationPhaseAction {
 	public final static String NAME = "Repayment Finished";
 
 	public RepaymentFinishedAction () {
@@ -35,20 +34,12 @@ public class RepaymentFinishedAction extends Action {
 		addEffect (tRepaymentFinishedEffect);
 	}
 
-	public void addUpdateToNextPlayerEffect (ActorI aFromActor, ActorI aToActor) {
-		UpdateToNextPlayerEffect tUpdateToNextPlayerEffect;
-
-		tUpdateToNextPlayerEffect = new UpdateToNextPlayerEffect (aFromActor, aToActor);
-		addEffect (tUpdateToNextPlayerEffect);
-	}
-
 	@Override
 	public String getSimpleActionReport () {
 		String tSimpleActionReport = "";
 
-		tSimpleActionReport = actor.getName () + " has finished all Loan Repayments";
+		tSimpleActionReport = actor.getName () + " has performed a Formation Phase Action";
 
 		return tSimpleActionReport;
 	}
-
 }
