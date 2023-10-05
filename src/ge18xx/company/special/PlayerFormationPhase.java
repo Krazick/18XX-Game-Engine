@@ -35,9 +35,9 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	protected Player player;
 	protected GameManager gameManager;
 	protected FormationPhase formationPhase;
+	protected List<String> shareCompaniesHandled;
 	JButton done;
 	JButton undo;
-	protected List<String> shareCompaniesHandled;
 
 	public PlayerFormationPhase (GameManager aGameManager, FormationPhase aLoanRepayment, Player aPlayer, 
 							Player aActingPresident) {
