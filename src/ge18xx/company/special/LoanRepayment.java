@@ -29,9 +29,8 @@ public class LoanRepayment extends PlayerFormationPhase {
 	public static final String PAY_PRESIDENT = "PayPresident";
 
 	private static final long serialVersionUID = 1L;
-	boolean sharesExchanged;
 	boolean oneShareToBankPool;
-	JButton exchange;
+//	JButton exchange;
 	int foldingCompanyCount;
 	int totalExchangeCount;
 
