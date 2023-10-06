@@ -311,10 +311,9 @@ public class ShareExchange extends PlayerFormationPhase {
 				}
 			}
 			formationPhase.rebuildSpecialPanel ();
+			tTransferOwnershipAction.setChainToPrevious (true);
 			gameManager.addAction (tTransferOwnershipAction);
 		}
-		System.out.println ("\nBank Portfolio after Open Market Exchange");
-		tBank.printInfo ();
 	}
 	
 	public void confirmFormingPresident () {
@@ -339,6 +338,7 @@ public class ShareExchange extends PlayerFormationPhase {
 				tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
 						tOperatingRoundID, player);
 				tPlayerManager.handlePresidentialTransfer (tTransferOwnershipAction, tFormingCompany, tCurrentPresident);
+				tTransferOwnershipAction.setChainToPrevious (true);
 				gameManager.addAction (tTransferOwnershipAction);
 				formationPhase.rebuildSpecialPanel ();
 			} else {
