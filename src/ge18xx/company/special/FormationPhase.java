@@ -29,6 +29,7 @@ import ge18xx.round.action.Action;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BuyTrainAction;
+import ge18xx.round.action.ChangeFormationPhaseStateAction;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 
@@ -493,8 +494,21 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	}
 	
 	public void handleFoldIntoFormingCompany () {
+		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
+		String tOperatingRoundID;
+		ActorI.ActionStates tOldFormationState;
+		ActorI.ActionStates tNewFormationState;
+		
+		tOldFormationState = getFormationState ();
 		setFormationState (ActorI.ActionStates.ShareExchange);
 		setupPlayers ();
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
+		tNewFormationState = getFormationState ();
+
+		tChangeFormationPhaseStateAction = new ChangeFormationPhaseStateAction (ActorI.ActionStates.OperatingRound, 
+				tOperatingRoundID, actingPresident);
+		tChangeFormationPhaseStateAction.addSetFormationStateEffect (actingPresident, tOldFormationState, tNewFormationState);
+		gameManager.addAction (tChangeFormationPhaseStateAction);
 	}
 	
 	public String buildFoldNotification (String aFoldingCompanyAbbrev, int aShareFoldCount) {
