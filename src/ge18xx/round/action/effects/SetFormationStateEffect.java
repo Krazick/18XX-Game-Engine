@@ -63,5 +63,4 @@ public class SetFormationStateEffect extends ChangeCorporationStatusEffect {
 
 		return tEffectUndone;
 	}
-
 }
