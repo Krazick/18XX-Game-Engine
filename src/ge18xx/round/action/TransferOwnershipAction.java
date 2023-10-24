@@ -47,6 +47,14 @@ public class TransferOwnershipAction extends CashTransferAction {
 		addEffect (tTransferOwnershipEffect);
 	}
 
+	public void addTransferOwnershipEffect (ActorI afromActor, String aFromName, Certificate aCertificate, ActorI aToActor,
+			String aToName) {
+		TransferOwnershipEffect tTransferOwnershipEffect;
+
+		tTransferOwnershipEffect = new TransferOwnershipEffect (afromActor, aFromName, aCertificate, aToActor, aToName);
+		addEffect (tTransferOwnershipEffect);
+	}
+
 	public void startPacketItemSetAvailableEffect (ActorI aActor, StartPacketItem aStartPacketItem, boolean aAvailable) {
 		StartPacketItemSetAvailableEffect tRemoveStartPacketItemEffect;
 		
