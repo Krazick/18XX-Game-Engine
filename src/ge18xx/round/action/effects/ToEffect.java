@@ -13,6 +13,7 @@ public class ToEffect extends Effect {
 	public final static String NO_NAME = ">>NO TO EFFECT NAME<<";
 	public final static ActorI NO_TO_ACTOR = null;
 	ActorI toActor;
+	String toName;
 
 	public ToEffect () {
 		this (NO_NAME);
@@ -28,7 +29,14 @@ public class ToEffect extends Effect {
 	
 	public ToEffect (String aName, ActorI aFromActor, ActorI aToActor) {
 		super (aName, aFromActor);
+		
 		setToActor (aToActor);
+	}
+	
+	public ToEffect (String aName, ActorI aFromActor, String aFromName, ActorI aToActor, String aToName) {
+		super (aName, aFromActor, aFromName);
+		setToActor (aToActor);
+		setToName (aToName);
 	}
 
 	public ToEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -41,6 +49,10 @@ public class ToEffect extends Effect {
 		setToActor (tToActor);
 	}
 
+	public void setToName (String aToName) {
+		toName = aToName;
+	}
+	
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
@@ -70,17 +82,16 @@ public class ToEffect extends Effect {
 
 	public void setToActor (ActorI aToActor) {
 		toActor = aToActor;
+		if (toActor != NO_TO_ACTOR) {
+			setToName (aToActor.getName ());
+		} else {
+			setToName (ActorI.NO_NAME);
+		}
 	}
 
 	@Override
 	public String getToActorName () {
-		String tActorName = ActorI.NO_NAME;
-
-		if (toActor != NO_TO_ACTOR) {
-			tActorName = toActor.getName ();
-		}
-
-		return tActorName;
+		return toName;
 	}
 
 	public boolean isToActor (String aActorName) {
