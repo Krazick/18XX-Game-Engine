@@ -48,6 +48,8 @@ public class Bank extends GameBank implements CashHolderI {
 	static String format;
 	private static Logger logger;
 	public static final String NAME = "Bank";
+	public static final String CLOSED = "Bank Closed";
+	public static final String IPO = "Bank IPO";
 	public static final Bank NO_BANK = null;
 	public static final int NO_BANK_CASH = 0;
 	public static final String NO_FORMAT = null;
