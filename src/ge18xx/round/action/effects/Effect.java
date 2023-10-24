@@ -30,6 +30,7 @@ public abstract class Effect {
 
 	String name;
 	ActorI actor;
+	String fromName;
 	boolean isAPrivate;
 	boolean benefitUsed;
 	String benefitName;
@@ -46,6 +47,10 @@ public abstract class Effect {
 	}
 
 	Effect (String aName, ActorI aActor) {
+		this (aName, aActor, NO_BENEFIT_IN_USE);
+	}
+	
+	Effect (String aName, ActorI aActor, String aFromName) {
 		this (aName, aActor, NO_BENEFIT_IN_USE);
 	}
 
@@ -79,6 +84,14 @@ public abstract class Effect {
 
 	}
 
+	protected void setFromName (String aFromName) {
+		fromName = aFromName;
+	}
+	
+	protected String getFromName () {
+		return fromName;
+	}
+	
 	protected void setBenefitUsed (boolean aBenefitUsed) {
 		benefitUsed = aBenefitUsed;
 	}
