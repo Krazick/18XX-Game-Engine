@@ -25,13 +25,17 @@ public class TransferOwnershipEffect extends ToEffect {
 		super ();
 		setName (NAME);
 		setCertificate (Certificate.NO_CERTIFICATE);
-		setToActor (ActorI.NO_ACTOR);
 	}
 
 	public TransferOwnershipEffect (ActorI aFromActor, Certificate aCertificate, ActorI aToActor) {
 		super (NAME, aFromActor, aToActor);
 		setCertificate (aCertificate);
-		setToActor (aToActor);
+	}
+	
+	public TransferOwnershipEffect (ActorI aFromActor, String aFromName, Certificate aCertificate, ActorI aToActor, 
+			String aToName) {
+		super (NAME, aFromActor, aFromName, aToActor, aToName);
+		setCertificate (aCertificate);
 	}
 
 	public TransferOwnershipEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -71,12 +75,15 @@ public class TransferOwnershipEffect extends ToEffect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		String tEffectReport = "";
-
+		String tEffectReport;
+		String tToActorName;
+		
+		tEffectReport = "";
 		tEffectReport += REPORT_PREFIX + name + " of ";
 		tEffectReport += certificate.getPercentage () + "% of " + certificate.getCompanyAbbrev ();
 		tEffectReport += " from " + getActorName ();
-		tEffectReport += " to " + getToActorName () + ".";
+		tToActorName = getToActorName ();
+		tEffectReport += " to " + tToActorName + ".";
 
 		return tEffectReport;
 	}
