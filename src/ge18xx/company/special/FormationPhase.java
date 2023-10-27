@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 import ge18xx.bank.BankPool;
 import ge18xx.company.Corporation;
+import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
@@ -42,6 +43,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public static final String NO_OUTSTANDING_LOANS = "There are no outstanding Loans to repay. %s will not form.";
 	public static final String CONTINUE = "Continue";
 	public static final String FOLD = "Fold";
+	public static final String TOKEN_EXCHANGE = "TokenExchange";
+	public static final String ASSET_COLLECTION = "AssetCollection";
 	
 	XMLFrame formationFrame;
 	GameManager gameManager;
@@ -220,6 +223,36 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		return shareFoldCount > 0;
 	}
 	
+	public boolean hasTokensToExchange () {
+		boolean tHasTokensToExchange;
+		int tCompanyTokensToExchange;
+		int tCompanyIndex;
+		int tCompanyCount;
+		ShareCompany tShareCompany;
+		CorporationList tShareCompanies;
+		
+		tHasTokensToExchange = false;
+		tCompanyTokensToExchange = 0;
+		if (formationState == ActorI.ActionStates.ShareExchange) {
+			tShareCompanies = gameManager.getShareCompanies ();
+			tCompanyCount = tShareCompanies.getRowCount ();
+			for (tCompanyIndex = 0; tCompanyIndex < tCompanyCount; tCompanyIndex++) {
+				tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tCompanyCount);
+				if (tShareCompany.willFold ()) {
+					if (tShareCompany.sharesFolded ()) {
+						tCompanyTokensToExchange++;
+					}
+				}
+			}
+		}
+		
+		if (tCompanyTokensToExchange > 0) {
+			tHasTokensToExchange = true;
+		}
+		
+		return tHasTokensToExchange;
+	}
+	
 	private int getPlayerCount () {
 		PlayerManager tPlayerManager;
 		List<Player> tPlayers;
@@ -317,6 +350,9 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			if (haveSharesToFold ()) {
 				System.out.println ("There are " + getShareFoldCount () + " Shares to fold into " + tFormingAbbrev);
 				buildContinueButton (FOLD);
+			} else if (hasTokensToExchange ()) {
+				System.out.println ("Ready to do " + TOKEN_EXCHANGE);
+				buildContinueButton (TOKEN_EXCHANGE);
 			} else {
 				tNotification = String.format (NO_OUTSTANDING_LOANS, tFormingAbbrev);
 				setNotificationText (tNotification);
