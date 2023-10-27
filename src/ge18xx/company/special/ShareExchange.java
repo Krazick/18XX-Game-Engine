@@ -367,17 +367,17 @@ public class ShareExchange extends PlayerFormationPhase {
 		if (tOwnedPercentage >= aPercentage) {
 			tPresidentCertificate = aBankPortfolio.getCertificate (tFormingAbbrev, aPercentage * 2, true);
 			if (tPresidentCertificate != Certificate.NO_CERTIFICATE) {
-				transferShare (tBank, player, tPresidentCertificate, aTransferOwnershipAction);
+				transferShare (tBank, Bank.IPO, player, tPresidentCertificate, aTransferOwnershipAction);
 				tExchangeCertificate = tPlayerPortfolio.getCertificate (tFormingAbbrev, aPercentage, false);
-				transferShare (player, tBank, tExchangeCertificate, aTransferOwnershipAction);
+				transferShare (player, player.getName (), tBank, Bank.IPO, tExchangeCertificate, aTransferOwnershipAction);
 				tExchangeCertificate = tPlayerPortfolio.getCertificate (tFormingAbbrev, aPercentage, false);
-				transferShare (player, tBank, tExchangeCertificate, aTransferOwnershipAction);
+				transferShare (player, player.getName (), tBank, Bank.IPO, tExchangeCertificate, aTransferOwnershipAction);
 				formationPhase.setFormingPresidentAssigned  (true);
 			} else {
 				tHalfPresidentCertificate = aBankPortfolio.getCertificate (tFormingAbbrev, aPercentage, true);
 				tExchangeCertificate = tPlayerPortfolio.getCertificate (tFormingAbbrev, aPercentage, false);
-				transferShare (player, tBank, tExchangeCertificate, aTransferOwnershipAction);
-				transferShare (tBank, player, tHalfPresidentCertificate, aTransferOwnershipAction);		
+				transferShare (player, player.getName (), tBank, Bank.IPO, tExchangeCertificate, aTransferOwnershipAction);
+				transferShare (tBank, Bank.IPO, player, tHalfPresidentCertificate, aTransferOwnershipAction);		
 				formationPhase.setFormingPresidentAssigned  (true);
 			}
 		}
@@ -496,12 +496,10 @@ public class ShareExchange extends PlayerFormationPhase {
 
 	public void transferShare (PortfolioHolderI aFromActor, String aFromName, ActorI aToActor, Certificate aCertificate, 
 					TransferOwnershipAction aTransferOwnershipAction) {
-		String tFromName;
 		String tToName;
 		
-		tFromName = aFromActor.getName ();
 		tToName = ActorI.NO_NAME;
-		transferShare (aFromActor, tFromName, aToActor, tToName, aCertificate, aTransferOwnershipAction);
+		transferShare (aFromActor, aFromName, aToActor, tToName, aCertificate, aTransferOwnershipAction);
 	}
 	
 	public void transferShare (PortfolioHolderI aFromActor, String aFromName, ActorI aToActor, String aToName, 
@@ -512,9 +510,10 @@ public class ShareExchange extends PlayerFormationPhase {
 	
 		tFromActorPortfolio = aFromActor.getPortfolio ();
 		tToHolder = (PortfolioHolderI) aToActor;
+		aToName = aToActor.getName ();
 		tToActorPortfolio = tToHolder.getPortfolio ();
-		tToActorPortfolio.transferOneCertificateOwnership (tFromActorPortfolio, aCertificate);
-		aTransferOwnershipAction.addTransferOwnershipEffect (aFromActor, aCertificate, aToActor);
+		tToActorPortfolio.transferOneCertificateOwnership (tFromActorPortfolio,  aCertificate);
+		aTransferOwnershipAction.addTransferOwnershipEffect (aFromActor, aFromName, aCertificate, aToActor, aToName);
 	}
 	
 	@Override
