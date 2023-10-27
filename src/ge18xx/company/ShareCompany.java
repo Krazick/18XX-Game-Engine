@@ -423,6 +423,17 @@ public class ShareCompany extends TokenCompany {
 		return repaymentHandled;
 	}
 	
+	public boolean sharesFolded () {
+		boolean tSharesFolded;
+		
+		tSharesFolded = false;
+		if (getShareFoldCount () == 0) {
+			tSharesFolded = true;
+		}
+		
+		return tSharesFolded;
+	}
+	
 	public int getShareFoldCount () {
 		int tShareFoldCount;
 		
