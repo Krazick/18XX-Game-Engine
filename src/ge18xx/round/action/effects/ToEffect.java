@@ -12,6 +12,7 @@ import ge18xx.utilities.XMLNode;
 public class ToEffect extends Effect {
 	public final static String NO_NAME = ">>NO TO EFFECT NAME<<";
 	public final static ActorI NO_TO_ACTOR = null;
+	static final AttributeName AN_TO_NAME = new AttributeName ("toName");
 	ActorI toActor;
 	String toName;
 
@@ -42,11 +43,14 @@ public class ToEffect extends Effect {
 	public ToEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		String tToActorName;
+		String tToName;
 		ActorI tToActor;
 
 		tToActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
+		tToName = aEffectNode.getThisAttribute (AN_TO_NAME);
 		tToActor = aGameManager.getActor (tToActorName);
 		setToActor (tToActor);
+		setToName (tToName);
 	}
 
 	public void setToName (String aToName) {

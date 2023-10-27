@@ -23,6 +23,7 @@ public abstract class Effect {
 	public final static AttributeName AN_CLASS = new AttributeName ("class");
 	public final static AttributeName AN_IS_A_PRIVATE = new AttributeName ("isAPrivate");
 	static final AttributeName AN_NAME = new AttributeName ("name");
+	static final AttributeName AN_FROM_NAME = new AttributeName ("fromName");
 	final static AttributeName AN_BENEFIT_USED = new AttributeName ("benefitUsed");
 	final static AttributeName AN_BENEFIT_NAME = new AttributeName ("benefitName");
 	final static AttributeName AN_BENEFIT_PRIVATE_ABBREV = new AttributeName ("benefitPrivateAbbrev");
@@ -52,6 +53,7 @@ public abstract class Effect {
 	
 	Effect (String aName, ActorI aActor, String aFromName) {
 		this (aName, aActor, NO_BENEFIT_IN_USE);
+		setFromName (aFromName);
 	}
 
 	Effect (String aName, ActorI aActor, Benefit aBenefitInUse) {
@@ -186,11 +188,14 @@ public abstract class Effect {
 		ActorI tActor;
 		String tBenefitPrivateAbbrev;
 		String tBenefitName;
+		String tFromName;
 		boolean tBenefitUsed;
 		boolean tIsAPrivate;
 
 		tEffectName = aEffectNode.getThisAttribute (AN_NAME);
 		tActorName = aEffectNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
+		tFromName = aEffectNode.getThisAttribute (AN_FROM_NAME);
+		setFromName (tFromName);
 		tIsAPrivate = aEffectNode.getThisBooleanAttribute (AN_IS_A_PRIVATE);
 		if (tActorName == ActorI.NO_NAME) {
 			tActorName = aEffectNode.getThisAttribute (ActorI.AN_FROM_ACTOR_NAME);
@@ -243,6 +248,7 @@ public abstract class Effect {
 			tActorName = getActorName ();
 		}
 		tEffectElement.setAttribute (AN_NAME, getName ());
+		tEffectElement.setAttribute (AN_FROM_NAME, getFromName ());
 		tEffectElement.setAttribute (aActorAN, tActorName);
 		tEffectElement.setAttribute (AN_IS_A_PRIVATE, isAPrivate);
 
@@ -301,7 +307,15 @@ public abstract class Effect {
 	}
 
 	public String getActorName () {
-		return actor.getName ();
+		String tFromActorName;
+		
+		if (fromName == ActorI.NO_NAME) {
+			tFromActorName = actor.getName ();
+		} else {
+			tFromActorName = fromName;
+		}
+		
+		return tFromActorName;
 	}
 
 	public boolean undoEffect (RoundManager aRoundManager) {
