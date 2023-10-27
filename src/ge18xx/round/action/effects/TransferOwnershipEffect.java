@@ -81,6 +81,9 @@ public class TransferOwnershipEffect extends ToEffect {
 		tEffectReport = "";
 		tEffectReport += REPORT_PREFIX + name + " of ";
 		tEffectReport += certificate.getPercentage () + "% of " + certificate.getCompanyAbbrev ();
+		if (certificate.isPresidentShare ()) {
+			tEffectReport += " (President Share)";
+		}
 		tEffectReport += " from " + getActorName ();
 		tToActorName = getToActorName ();
 		tEffectReport += " to " + tToActorName + ".";
