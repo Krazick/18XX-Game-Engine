@@ -31,6 +31,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.ChangeFormationPhaseStateAction;
+import ge18xx.round.action.ChangeStateAction;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 
@@ -143,6 +144,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		tToolTip = GUI.EMPTY_STRING;
 		continueButton = buildSpecialButton (CONTINUE, aActionCommand, tToolTip, this);
+		System.out.println ("Building Continue button with Action [" + aActionCommand + "]");
 	}
 
 	public void buildAllPlayers (String aFrameName) {
@@ -150,7 +152,11 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		Point tRoundFrameOffset;
 		int tHeight;
 		int tWidth;
+		List<Player> tPlayers;
+		PlayerManager tPlayerManager;
 		
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayers = tPlayerManager.getPlayers ();
 		formationFrame = new XMLFrame (aFrameName, gameManager);
 		formationFrame.setSize (800, 600);
 		
@@ -159,8 +165,13 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		formationJPanel.setBorder (tMargin);
 		
 		formationJPanel.setLayout (new BoxLayout (formationJPanel, BoxLayout.Y_AXIS));
+		
 
-		setupPlayers ();
+		for (Player tPlayer : tPlayers) {
+			tPlayer.setPrimaryActionState (ActorI.ActionStates.CompanyFormation);
+		}
+
+		setupPlayers (tPlayerManager, tPlayers);
 		formationFrame.buildScrollPane (formationJPanel);
 
 		tRoundFrameOffset = gameManager.getOffsetRoundFrame ();
@@ -237,7 +248,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			tShareCompanies = gameManager.getShareCompanies ();
 			tCompanyCount = tShareCompanies.getRowCount ();
 			for (tCompanyIndex = 0; tCompanyIndex < tCompanyCount; tCompanyIndex++) {
-				tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tCompanyCount);
+				tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tCompanyIndex);
 				if (tShareCompany.willFold ()) {
 					if (tShareCompany.sharesFolded ()) {
 						tCompanyTokensToExchange++;
@@ -268,14 +279,19 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public void setupPlayers () {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
+		
+		tPlayerManager = gameManager.getPlayerManager ();
+		tPlayers = tPlayerManager.getPlayers ();
+		setupPlayers (tPlayerManager, tPlayers);
+	}
+	
+	public void setupPlayers (PlayerManager aPlayerManager, List<Player> aPlayers) {
 		int tCurrentPlayerIndex;
 		
 		findActingPresident ();
-		tPlayerManager = gameManager.getPlayerManager ();
-		tPlayers = tPlayerManager.getPlayers ();
-		tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (actingPresident);
+		tCurrentPlayerIndex = aPlayerManager.getPlayerIndex (actingPresident);
 		setCurrentPlayerIndex (tCurrentPlayerIndex);
-		updatePlayers (tPlayers, actingPresident);
+		updatePlayers (aPlayers, actingPresident);
 	}
 
 	@Override
@@ -314,10 +330,24 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public int updateToNextPlayer (List<Player> aPlayers) {
 		Player tActingPresident;
 		Player tFirstPresident;
+		Player tCurrentPlayer;
 		PlayerManager tPlayerManager;
 		int tNextPlayerIndex;
-
+		ActorI.ActionStates tOldState;
+		ActorI.ActionStates tNewState;
+		ChangeStateAction tChangeStateAction;
+		
 		tPlayerManager = gameManager.getPlayerManager ();
+		
+		tCurrentPlayer = aPlayers.get (currentPlayerIndex);
+		tOldState = tCurrentPlayer.getPrimaryActionState ();
+		tCurrentPlayer.setPrimaryActionState (formationState);
+		tNewState = tCurrentPlayer.getPrimaryActionState ();;
+		tChangeStateAction = new ChangeStateAction (ActorI.ActionStates.FormationRound, "1", tCurrentPlayer);
+		tChangeStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
+		gameManager.addAction (tChangeStateAction);
+		rebuildSpecialPanel (currentPlayerIndex);
+
 		tNextPlayerIndex = tPlayerManager.getNextPlayerIndex (currentPlayerIndex);
 		tActingPresident = tPlayerManager.getPlayer (tNextPlayerIndex);
 		tFirstPresident = findActingPresident ();
@@ -350,9 +380,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			if (haveSharesToFold ()) {
 				System.out.println ("There are " + getShareFoldCount () + " Shares to fold into " + tFormingAbbrev);
 				buildContinueButton (FOLD);
-			} else if (hasTokensToExchange ()) {
-				System.out.println ("Ready to do " + TOKEN_EXCHANGE);
-				buildContinueButton (TOKEN_EXCHANGE);
 			} else {
 				tNotification = String.format (NO_OUTSTANDING_LOANS, tFormingAbbrev);
 				setNotificationText (tNotification);
@@ -362,6 +389,23 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		} else if (formationState == ActorI.ActionStates.ShareExchange) {
 			System.out.println ("All Players Shares have been Exchanged");
 			setAllPlayerSharesHandled (true);
+			if (hasTokensToExchange ()) {
+				System.out.println ("Ready to do " + TOKEN_EXCHANGE);
+				buildContinueButton (TOKEN_EXCHANGE);
+			}
+		}
+
+		rebuildSpecialPanel (currentPlayerIndex);
+	}
+	
+	public void allPlayerSharesExchanged () {
+		if (formationState == ActorI.ActionStates.ShareExchange) {
+			System.out.println ("All Players Shares have been Exchanged");
+			setAllPlayerSharesHandled (true);
+			if (hasTokensToExchange ()) {
+				System.out.println ("Ready to do " + TOKEN_EXCHANGE);
+				buildContinueButton (TOKEN_EXCHANGE);
+			}
 		}
 		rebuildSpecialPanel (currentPlayerIndex);
 	}
@@ -405,7 +449,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		currentPlayerDone = false;
 		formationJPanel.removeAll ();
 		for (Player tPlayer : aPlayers) {
-
 			tPlayerJPanel = buildPlayerPanel (tPlayer, aActingPresident);
 			formationJPanel.add (tPlayerJPanel);
 			formationJPanel.add (Box.createVerticalStrut (10));
@@ -429,7 +472,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			tPhaseToLoad = Class.forName (tClassName);
 			tPhaseConstructor = tPhaseToLoad.getConstructor (gameManager.getClass (), this.getClass (), 
 						aPlayer.getClass (), aPlayer.getClass ());
-			tPlayerFormationPhase = (PlayerFormationPhase) tPhaseConstructor.newInstance (gameManager, this, aPlayer, aActingPresident);
+			tPlayerFormationPhase = (PlayerFormationPhase) tPhaseConstructor.newInstance (gameManager, this, aPlayer,
+					aActingPresident);
 		} catch (NoSuchMethodException | SecurityException e) {
 			System.err.println ("Error trying to get Constructor");
 			e.printStackTrace();
@@ -521,12 +565,36 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		String tActionCommand;
 		
 		tActionCommand = aEvent.getActionCommand ();
+		System.out.println ("Action Command " + tActionCommand);
 		if (tActionCommand.equals (FOLD)) {
 			handleFoldIntoFormingCompany ();
 		} else if (tActionCommand.equals (CONTINUE)) {
 			System.out.println ("Formation Phase - Action Performing HIDE Special Panel");
 			hideSpecialPanel ();
+		} else if (tActionCommand.equals (TOKEN_EXCHANGE)) {
+			System.out.println ("Formation Phase - Action Performing change state to TOKEN EXCHANGE");
+			handleTokenExchange ();
 		}
+	}
+	
+	public void handleTokenExchange () {
+		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
+		String tOperatingRoundID;
+		ActorI.ActionStates tOldFormationState;
+		ActorI.ActionStates tNewFormationState;
+		
+		System.out.println ("Formation Phase - Token Exchange");
+		tOldFormationState = getFormationState ();
+		setFormationState (ActorI.ActionStates.TokenExchange);
+		setupPlayers ();
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
+		tNewFormationState = getFormationState ();
+
+		tChangeFormationPhaseStateAction = new ChangeFormationPhaseStateAction (ActorI.ActionStates.OperatingRound, 
+				tOperatingRoundID, actingPresident);
+		tChangeFormationPhaseStateAction.addSetFormationStateEffect (actingPresident, tOldFormationState, tNewFormationState);
+		gameManager.addAction (tChangeFormationPhaseStateAction);
+
 	}
 	
 	public void handleFoldIntoFormingCompany () {
