@@ -36,9 +36,9 @@ public class ShareExchange extends PlayerFormationPhase {
 	int foldingCompanyCount;
 	int totalExchangeCount;
 
-	public ShareExchange (GameManager aGameManager, FormationPhase aLoanRepayment, Player aPlayer,
+	public ShareExchange (GameManager aGameManager, FormationPhase aShareExchange, Player aPlayer,
 			Player aActingPresident) {
-		super (aGameManager, aLoanRepayment, aPlayer, aActingPresident);
+		super (aGameManager, aShareExchange, aPlayer, aActingPresident);
 		setSharesExchanged (false);
 	}
 
@@ -555,27 +555,27 @@ public class ShareExchange extends PlayerFormationPhase {
 	
 	@Override
 	public void handlePlayerDone () {
-		super.handlePlayerDone ();
-		
 		ShareExchangeFinishedAction tShareExchangeFinishedAction;
 		String tOperatingRoundID;
 		Player tNewPlayer;
 		
+		super.handlePlayerDone ();
+		if (formationPhase.getAllPlayerSharesHandled ()) {
+			handleOpenMarketShareExchange ();
+			confirmFormingPresident ();
+			handleIPOShareClosing ();
+			closeFormingCompanyAlternateIssue ();
+			// -- Test to update to Next Phase (Token Exchange)
+			formationPhase.allPlayerSharesExchanged ();
+		}
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tShareExchangeFinishedAction = new ShareExchangeFinishedAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, player);
 		tNewPlayer = formationPhase.getCurrentPlayer ();
 
 		tShareExchangeFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
+		tShareExchangeFinishedAction.setChainToPrevious (true);
 		gameManager.addAction (tShareExchangeFinishedAction);
 
-		if (formationPhase.getAllPlayerSharesHandled ()) {
-			handleOpenMarketShareExchange ();
-			confirmFormingPresident ();
-			handleIPOShareClosing ();
-			closeFormingCompanyAlternateIssue ();
-		} else {
-
-		}
 	}
 }
