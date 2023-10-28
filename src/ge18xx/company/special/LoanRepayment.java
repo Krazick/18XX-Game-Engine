@@ -326,6 +326,7 @@ public class LoanRepayment extends PlayerFormationPhase {
 				tOperatingRoundID, player);
 		tRepaymentFinishedAction.addRepaymentFinishedEffect (player, true);
 		tRepaymentFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
+		tRepaymentFinishedAction.setChainToPrevious (true);
 		gameManager.addAction (tRepaymentFinishedAction);
 	}
 
