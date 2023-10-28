@@ -30,14 +30,12 @@ public class LoanRepayment extends PlayerFormationPhase {
 
 	private static final long serialVersionUID = 1L;
 	boolean oneShareToBankPool;
-//	JButton exchange;
 	int foldingCompanyCount;
 	int totalExchangeCount;
 
 	public LoanRepayment (GameManager aGameManager, FormationPhase aLoanRepayment, Player aPlayer,
 			Player aActingPresident) {
 		super (aGameManager, aLoanRepayment, aPlayer, aActingPresident);
-		
 	}
 
 	public String confirmRepayment (ShareCompany aShareCompany) {
