@@ -38,8 +38,9 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	protected List<String> shareCompaniesHandled;
 	JButton done;
 	JButton undo;
+	JLabel presidentNameLabel;
 
-	public PlayerFormationPhase (GameManager aGameManager, FormationPhase aLoanRepayment, Player aPlayer, 
+	public PlayerFormationPhase (GameManager aGameManager, FormationPhase aFormationPhase, Player aPlayer, 
 							Player aActingPresident) {
 		String tActingPresidentName;
 		Color tBackgroundColor;
@@ -48,7 +49,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		boolean tActingPlayer;
 		
 		gameManager = aGameManager;
-		formationPhase = aLoanRepayment;
+		formationPhase = aFormationPhase;
 		player = aPlayer;
 		if (aActingPresident == aPlayer) {
 			tActingPresidentName = aActingPresident.getName ();
@@ -72,7 +73,6 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	}
 	
 	public void buildPlayerJPanel (boolean aActingPlayer, Border aActingBorder) {
-		JLabel tPresidentName;
 		JLabel tPresidentTreasury;
 		JPanel tPlayerInfo;
 		JPanel tPortfolio;
@@ -88,8 +88,8 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 
 		tPlayerInfo = new JPanel ();
 		tPlayerInfo.setLayout (new BoxLayout (tPlayerInfo, BoxLayout.Y_AXIS));
-		tPresidentName = new JLabel ("Name: " + player.getName ());
-		tPlayerInfo.add (tPresidentName);
+		presidentNameLabel = new JLabel ("Name: " + player.getName () + " [" + player.getStateName () + "]");
+		tPlayerInfo.add (presidentNameLabel);
 		tPlayerInfo.add (Box.createVerticalStrut (10));
 	
 		tPresidentTreasury = new JLabel ("Cash: " + Bank.formatCash (player.getCash ()));
