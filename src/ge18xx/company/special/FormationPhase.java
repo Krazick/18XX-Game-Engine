@@ -569,23 +569,21 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		if (tActionCommand.equals (FOLD)) {
 			handleFoldIntoFormingCompany ();
 		} else if (tActionCommand.equals (CONTINUE)) {
-			System.out.println ("Formation Phase - Action Performing HIDE Special Panel");
 			hideSpecialPanel ();
 		} else if (tActionCommand.equals (TOKEN_EXCHANGE)) {
-			System.out.println ("Formation Phase - Action Performing change state to TOKEN EXCHANGE");
 			handleTokenExchange ();
 		}
 	}
 	
-	public void handleTokenExchange () {
+	public void handleFormationStateChange (ActorI.ActionStates aNewFormationState) {
 		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
 		String tOperatingRoundID;
 		ActorI.ActionStates tOldFormationState;
 		ActorI.ActionStates tNewFormationState;
 		
-		System.out.println ("Formation Phase - Token Exchange");
+		System.out.println ("Formation Phase - " + aNewFormationState.toString ());
 		tOldFormationState = getFormationState ();
-		setFormationState (ActorI.ActionStates.TokenExchange);
+		setFormationState (aNewFormationState);
 		setupPlayers ();
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tNewFormationState = getFormationState ();
@@ -596,23 +594,44 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		gameManager.addAction (tChangeFormationPhaseStateAction);
 
 	}
+
+	public void handleTokenExchange () {
+		handleFormationStateChange (ActorI.ActionStates.TokenExchange);
+//		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
+//		String tOperatingRoundID;
+//		ActorI.ActionStates tOldFormationState;
+//		ActorI.ActionStates tNewFormationState;
+//		
+//		System.out.println ("Formation Phase - Token Exchange");
+//		tOldFormationState = getFormationState ();
+//		setFormationState (ActorI.ActionStates.TokenExchange);
+//		setupPlayers ();
+//		tOperatingRoundID = gameManager.getOperatingRoundID ();
+//		tNewFormationState = getFormationState ();
+//
+//		tChangeFormationPhaseStateAction = new ChangeFormationPhaseStateAction (ActorI.ActionStates.OperatingRound, 
+//				tOperatingRoundID, actingPresident);
+//		tChangeFormationPhaseStateAction.addSetFormationStateEffect (actingPresident, tOldFormationState, tNewFormationState);
+//		gameManager.addAction (tChangeFormationPhaseStateAction);
+	}
 	
 	public void handleFoldIntoFormingCompany () {
-		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
-		String tOperatingRoundID;
-		ActorI.ActionStates tOldFormationState;
-		ActorI.ActionStates tNewFormationState;
-		
-		tOldFormationState = getFormationState ();
-		setFormationState (ActorI.ActionStates.ShareExchange);
-		setupPlayers ();
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
-		tNewFormationState = getFormationState ();
-
-		tChangeFormationPhaseStateAction = new ChangeFormationPhaseStateAction (ActorI.ActionStates.OperatingRound, 
-				tOperatingRoundID, actingPresident);
-		tChangeFormationPhaseStateAction.addSetFormationStateEffect (actingPresident, tOldFormationState, tNewFormationState);
-		gameManager.addAction (tChangeFormationPhaseStateAction);
+		handleFormationStateChange (ActorI.ActionStates.ShareExchange);
+//		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
+//		String tOperatingRoundID;
+//		ActorI.ActionStates tOldFormationState;
+//		ActorI.ActionStates tNewFormationState;
+//		
+//		tOldFormationState = getFormationState ();
+//		setFormationState (ActorI.ActionStates.ShareExchange);
+//		setupPlayers ();
+//		tOperatingRoundID = gameManager.getOperatingRoundID ();
+//		tNewFormationState = getFormationState ();
+//
+//		tChangeFormationPhaseStateAction = new ChangeFormationPhaseStateAction (ActorI.ActionStates.OperatingRound, 
+//				tOperatingRoundID, actingPresident);
+//		tChangeFormationPhaseStateAction.addSetFormationStateEffect (actingPresident, tOldFormationState, tNewFormationState);
+//		gameManager.addAction (tChangeFormationPhaseStateAction);
 	}
 	
 	public String buildFoldNotification (String aFoldingCompanyAbbrev, int aShareFoldCount) {
