@@ -76,7 +76,6 @@ public interface ActorI {
 		CompanyFormation ("Company Formation", Arrays.asList (new String [] {"No State", "Pass", "Done"})),
 		LoanRepayment ("Loan Repayment", Arrays.asList (new String [] {"Company Formation"})),
 		ShareExchange ("Share Exchange", Arrays.asList (new String [] {"Loan Repayment"})),
-		ConfirmFormingPresident ("Confirm Forming President", Arrays.asList (new String [] {"Share Exchange"})),
 		TokenExchange ("Token Exchange", Arrays.asList (new String [] {"Confirm Forming President"})),
 		AssetCollection ("Asset Collection", Arrays.asList (new String [] {"Token Exchange"})),
 		StockValueCalculation ("Stock Value Calculation", Arrays.asList (new String [] {"Asset Collection"})),
