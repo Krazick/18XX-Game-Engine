@@ -79,31 +79,30 @@ public class GenericActor implements ActorI {
 		return tPlayerState;
 	}
 	public ActorI.ActionStates getCompanySpecialState (String aState) {
-		ActorI.ActionStates tCorporationState;
+		ActorI.ActionStates tPlayerState;
 
-		tCorporationState = ActionStates.NoState;
+		tPlayerState = ActionStates.NoState;
 
 //		These are the States needed for New Company Formation ( 1856 - CGR, 1835 - Prussian )
 //		LoanRepayment ("Loan Repayment", Arrays.asList (new String [] {"No State"})),
 //		ShareExchange ("Share Exchange", Arrays.asList (new String [] {"Loan Repayment"})),
-//		ConfirmFormingPresident ("Confirm Forming President", Arrays.asList (new String [] {"Share Exchange"})),
 //		TokenExchange ("Token Exchange", Arrays.asList (new String [] {"Confirm Forming President"})),
 //		AssetCollection ("Asset Collection", Arrays.asList (new String [] {"Token Exchange"})),
 //		StockValueCalculation ("Stock Value Calculation", Arrays.asList (new String [] {"Asset Collection"})),
 
 		if (aState.equals (ActionStates.LoanRepayment.toString ())) {
-			tCorporationState = ActionStates.LoanRepayment;
+			tPlayerState = ActionStates.LoanRepayment;
 		} else if (aState.equals (ActionStates.ShareExchange.toString ())) {
-			tCorporationState = ActionStates.ShareExchange;
+			tPlayerState = ActionStates.ShareExchange;
 		} else if (aState.equals (ActionStates.TokenExchange.toString ())) {
-			tCorporationState = ActionStates.TokenExchange;
+			tPlayerState = ActionStates.TokenExchange;
 		} else if (aState.equals (ActionStates.AssetCollection.toString ())) {
-			tCorporationState = ActionStates.AssetCollection;
+			tPlayerState = ActionStates.AssetCollection;
 		} else if (aState.equals (ActionStates.StockValueCalculation.toString ())) {
-			tCorporationState = ActionStates.StockValueCalculation;
+			tPlayerState = ActionStates.StockValueCalculation;
 		}
 		
-		return tCorporationState;
+		return tPlayerState;
 	}
 		
 	public ActorI.ActionStates getCorporationActionState (String aState) {
