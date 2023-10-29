@@ -27,7 +27,7 @@ public class GenericActor implements ActorI {
 			tState = getRoundType (aState);
 		}
 		if (tState == ActionStates.NoState) {
-			tState = getCompanySpecialState (aState);
+			tState = getPlayerFormationState (aState);
 		}
 
 		return tState;
@@ -78,7 +78,7 @@ public class GenericActor implements ActorI {
 
 		return tPlayerState;
 	}
-	public ActorI.ActionStates getCompanySpecialState (String aState) {
+	public ActorI.ActionStates getPlayerFormationState (String aState) {
 		ActorI.ActionStates tPlayerState;
 
 		tPlayerState = ActionStates.NoState;
