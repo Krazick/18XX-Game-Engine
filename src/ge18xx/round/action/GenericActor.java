@@ -95,8 +95,6 @@ public class GenericActor implements ActorI {
 			tCorporationState = ActionStates.LoanRepayment;
 		} else if (aState.equals (ActionStates.ShareExchange.toString ())) {
 			tCorporationState = ActionStates.ShareExchange;
-		} else if (aState.equals (ActionStates.ConfirmFormingPresident.toString ())) {
-			tCorporationState = ActionStates.ConfirmFormingPresident;
 		} else if (aState.equals (ActionStates.TokenExchange.toString ())) {
 			tCorporationState = ActionStates.TokenExchange;
 		} else if (aState.equals (ActionStates.AssetCollection.toString ())) {
