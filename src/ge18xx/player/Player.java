@@ -111,7 +111,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 	String exchangedPrezShare;
 	boolean bidShare;
 	boolean triggeredAuction;
-	boolean repaymentFinished;
 	int treasury;
 	AllPercentBought allPercentBought;
 	RoundDividends roundDividends;
@@ -186,7 +185,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		setQueryOffer (QueryOffer.NO_QUERY_OFFER);
 		playerManager = aPlayerManager;
 		buildPlayerFrame (aGameManager);
-		setRepaymentFinished (false);
 	}
 
 	private void buildPlayerFrame (GameManager aGameManager) {
@@ -752,7 +750,6 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tXMLElement.setAttribute (AN_BID_SHARE, bidShare);
 		tXMLElement.setAttribute (AN_TRIGGERED_AUCTION, triggeredAuction);
 		tXMLElement.setAttribute (AN_SOLD_COMPANIES, tCompaniesSold);
-		tXMLElement.setAttribute (AN_REPAYMENT_FINISHED, repaymentFinished);
 		tOperatingRoundCount = playerManager.getOperatingRoundCount ();
 		roundDividends.addDividendAttribute (tXMLElement, tOperatingRoundCount);
 		
@@ -1927,12 +1924,16 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		return tCertificate;
 	}
 	
-	public void setRepaymentFinished (boolean aRepaymentFinished) {
-		repaymentFinished = aRepaymentFinished;
-	}
-	
 	public boolean getRepaymentFinished () {
-		return repaymentFinished;
+		boolean tRepaymemtFinished;
+		
+		if (primaryActionState == ActionStates.LoanRepayment) {
+			tRepaymemtFinished = true;
+		} else {
+			tRepaymemtFinished = false;
+		}
+		
+		return tRepaymemtFinished;
 	}
 	
 	@Override
