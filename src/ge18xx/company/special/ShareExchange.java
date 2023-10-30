@@ -30,7 +30,6 @@ public class ShareExchange extends PlayerFormationPhase {
 	public static final String EXCHANGE = "Exchange Shares";
 	public static final int SHARES_NEEDED_FOR_2ND_ISSUE = 21;
 	private static final long serialVersionUID = 1L;
-	boolean sharesExchanged;
 	boolean oneShareToBankPool;
 	JButton exchange;
 	int foldingCompanyCount;
@@ -39,11 +38,6 @@ public class ShareExchange extends PlayerFormationPhase {
 	public ShareExchange (GameManager aGameManager, FormationPhase aShareExchange, Player aPlayer,
 			Player aActingPresident) {
 		super (aGameManager, aShareExchange, aPlayer, aActingPresident);
-		setSharesExchanged (false);
-	}
-
-	public void setSharesExchanged (boolean aSharesExchanged) {
-		sharesExchanged = aSharesExchanged;
 	}
 	
 	@Override
@@ -162,7 +156,6 @@ public class ShareExchange extends PlayerFormationPhase {
 		Bank tBank;
 		Portfolio tBankPortfolio;
 		Portfolio tPlayerPortfolio;
-
 		Corporation tFormingCompany;
 		Certificate tCertificate;
 		Certificate tFoldedCertificate;
@@ -221,7 +214,6 @@ public class ShareExchange extends PlayerFormationPhase {
 		} else {
 			System.err.println ("No Effects in the Action");
 		}
-		setSharesExchanged (true);
 		exchange.setEnabled (false);
 		exchange.setToolTipText ("President has not completed all share exchanges");
 		updateDoneButton (true);
@@ -525,27 +517,34 @@ public class ShareExchange extends PlayerFormationPhase {
 		}
 	}
 	
-	public boolean sharesExchanged () {
-		return sharesExchanged;
+	public boolean getSharesExchanged () {
+		boolean tSharesExchanged;
+		
+		if (player.getSharesExchanged ()) {
+			tSharesExchanged = true;
+		} else {
+			tSharesExchanged = false;
+		}
+		
+		return tSharesExchanged;
 	}
 	
 	@Override
 	public void updateDoneButton () {
 		String tToolTip;
 
-		if (sharesExchanged ()) {
-			done.setEnabled (true);
+		tToolTip = GUI.NO_TOOL_TIP;
+		if (getSharesExchanged ()) {
+			done.setEnabled (false);
 			tToolTip = "President already completed all share exchanges";
-			done.setToolTipText (tToolTip);
 		} else if (foldingCompanyCount == 0) {
 			done.setEnabled (true);
 			tToolTip = "President has no shares to exchanges";
-			done.setToolTipText (tToolTip);
 		} else {
 			done.setEnabled (false);
 			tToolTip = "President has not completed all share exchanges";
-			done.setToolTipText (tToolTip);
 		}
+		done.setToolTipText (tToolTip);
 	}
 	
 	@Override
