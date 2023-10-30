@@ -1,7 +1,6 @@
 package ge18xx.round.action.effects;
 
 import ge18xx.game.GameManager;
-import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
@@ -42,12 +41,9 @@ public class TriggerClassEffect extends SpecialPanelEffect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
-		Player tPresident;
 		
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
-			tPresident = (Player) actor;
-			tPresident.setRepaymentFinished (false);
 			hideSpecialPanel (aRoundManager);
 			tEffectUndone = true;
 		}
