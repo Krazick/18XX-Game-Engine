@@ -85,7 +85,6 @@ public class UpdateToNextPlayerEffect extends SpecialPanelEffect {
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tPresident = (Player) actor;
-			tPresident.setRepaymentFinished (false);
 			tPlayerIndex = getPlayerIndex (aRoundManager, tPresident);
 			tGameManager = aRoundManager.getGameManager ();
 			tTriggerClass = tGameManager.getTriggerClass ();
