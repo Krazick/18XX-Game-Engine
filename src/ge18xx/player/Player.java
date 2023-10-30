@@ -1923,6 +1923,13 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 		return tCertificate;
 	}
+
+	@Override
+	public void updateListeners (String aMessage) {
+		bean.addMessage (aMessage);
+	}
+
+	// Methods to test if Player has completed Formation Phase States
 	
 	public boolean getRepaymentFinished () {
 		boolean tRepaymemtFinished;
@@ -1935,9 +1942,52 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		
 		return tRepaymemtFinished;
 	}
+		
+	public boolean getSharesExchanged () {
+		boolean tSharesExchanged;
+		
+		if (primaryActionState == ActionStates.ShareExchange) {
+			tSharesExchanged = true;
+		} else {
+			tSharesExchanged = false;
+		}
+		
+		return tSharesExchanged;
+	}
 	
-	@Override
-	public void updateListeners (String aMessage) {
-		bean.addMessage (aMessage);
+	public boolean getTokensExchanged () {
+		boolean tTokensExchanged;
+		
+		if (primaryActionState == ActionStates.TokenExchange) {
+			tTokensExchanged = true;
+		} else {
+			tTokensExchanged = false;
+		}
+		
+		return tTokensExchanged;
+	}
+	
+	public boolean getAssetsCollected () {
+		boolean tAssetsCollected;
+		
+		if (primaryActionState == ActionStates.AssetCollection) {
+			tAssetsCollected = true;
+		} else {
+			tAssetsCollected = false;
+		}
+		
+		return tAssetsCollected;
+	}
+	
+	public boolean getStockValueCalculated () {
+		boolean tStockValueCalculated;
+		
+		if (primaryActionState == ActionStates.StockValueCalculation) {
+			tStockValueCalculated = true;
+		} else {
+			tStockValueCalculated = false;
+		}
+		
+		return tStockValueCalculated;
 	}
 }
