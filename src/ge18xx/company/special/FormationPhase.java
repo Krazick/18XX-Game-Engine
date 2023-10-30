@@ -46,6 +46,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public static final String FOLD = "Fold";
 	public static final String TOKEN_EXCHANGE = "TokenExchange";
 	public static final String ASSET_COLLECTION = "AssetCollection";
+	public static final String STOCK_VALUE_CALCULATION = "StockValueCalculation";
 	
 	XMLFrame formationFrame;
 	GameManager gameManager;
@@ -234,6 +235,22 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		return shareFoldCount > 0;
 	}
 	
+	public boolean hasAssetsToCollect () {
+		boolean tHasAssetsToCollect;
+		
+		tHasAssetsToCollect = true;
+		
+		return tHasAssetsToCollect;
+	}
+	
+	public boolean hasStockValueToCalculate () {
+		boolean tHasStockValueToCalculate;
+		
+		tHasStockValueToCalculate = true;
+		
+		return tHasStockValueToCalculate;
+	}
+	
 	public boolean hasTokensToExchange () {
 		boolean tHasTokensToExchange;
 		int tCompanyTokensToExchange;
@@ -393,6 +410,18 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 				System.out.println ("Ready to do " + TOKEN_EXCHANGE);
 				buildContinueButton (TOKEN_EXCHANGE);
 			}
+		} else if (formationState == ActorI.ActionStates.TokenExchange) {
+			System.out.println ("All Folded Companies have had Tokens Exchanged");
+			if (hasAssetsToCollect ()) {
+				System.out.println ("Ready to do " + ASSET_COLLECTION);
+				buildContinueButton (ASSET_COLLECTION);
+			}
+		} else if (formationState == ActorI.ActionStates.StockValueCalculation) {
+			System.out.println ("All Folded Companies have had Assets Collected");
+			if (hasStockValueToCalculate ()) {
+				System.out.println ("Ready to do " + STOCK_VALUE_CALCULATION);
+				buildContinueButton (STOCK_VALUE_CALCULATION);
+			}
 		}
 
 		rebuildSpecialPanel (currentPlayerIndex);
@@ -400,10 +429,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public void allPlayerSharesExchanged () {
 		if (formationState == ActorI.ActionStates.ShareExchange) {
-			System.out.println ("All Players Shares have been Exchanged");
 			setAllPlayerSharesHandled (true);
 			if (hasTokensToExchange ()) {
-				System.out.println ("Ready to do " + TOKEN_EXCHANGE);
 				buildContinueButton (TOKEN_EXCHANGE);
 			}
 		}
@@ -572,6 +599,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			hideSpecialPanel ();
 		} else if (tActionCommand.equals (TOKEN_EXCHANGE)) {
 			handleTokenExchange ();
+		} else if (tActionCommand.equals (ASSET_COLLECTION)) {
+			handleTokenExchange ();
+		} else if (tActionCommand.equals (STOCK_VALUE_CALCULATION)) {
+			handleTokenExchange ();
 		}
 	}
 	
@@ -597,43 +628,20 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 
 	public void handleTokenExchange () {
 		handleFormationStateChange (ActorI.ActionStates.TokenExchange);
-//		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
-//		String tOperatingRoundID;
-//		ActorI.ActionStates tOldFormationState;
-//		ActorI.ActionStates tNewFormationState;
-//		
-//		System.out.println ("Formation Phase - Token Exchange");
-//		tOldFormationState = getFormationState ();
-//		setFormationState (ActorI.ActionStates.TokenExchange);
-//		setupPlayers ();
-//		tOperatingRoundID = gameManager.getOperatingRoundID ();
-//		tNewFormationState = getFormationState ();
-//
-//		tChangeFormationPhaseStateAction = new ChangeFormationPhaseStateAction (ActorI.ActionStates.OperatingRound, 
-//				tOperatingRoundID, actingPresident);
-//		tChangeFormationPhaseStateAction.addSetFormationStateEffect (actingPresident, tOldFormationState, tNewFormationState);
-//		gameManager.addAction (tChangeFormationPhaseStateAction);
 	}
 	
 	public void handleFoldIntoFormingCompany () {
 		handleFormationStateChange (ActorI.ActionStates.ShareExchange);
-//		ChangeFormationPhaseStateAction tChangeFormationPhaseStateAction;
-//		String tOperatingRoundID;
-//		ActorI.ActionStates tOldFormationState;
-//		ActorI.ActionStates tNewFormationState;
-//		
-//		tOldFormationState = getFormationState ();
-//		setFormationState (ActorI.ActionStates.ShareExchange);
-//		setupPlayers ();
-//		tOperatingRoundID = gameManager.getOperatingRoundID ();
-//		tNewFormationState = getFormationState ();
-//
-//		tChangeFormationPhaseStateAction = new ChangeFormationPhaseStateAction (ActorI.ActionStates.OperatingRound, 
-//				tOperatingRoundID, actingPresident);
-//		tChangeFormationPhaseStateAction.addSetFormationStateEffect (actingPresident, tOldFormationState, tNewFormationState);
-//		gameManager.addAction (tChangeFormationPhaseStateAction);
+	}
+
+	public void handleAssetCollection () {
+		handleFormationStateChange (ActorI.ActionStates.AssetCollection);
 	}
 	
+	public void handleStockValueCalculation () {
+		handleFormationStateChange (ActorI.ActionStates.StockValueCalculation);
+	}
+
 	public String buildFoldNotification (String aFoldingCompanyAbbrev, int aShareFoldCount) {
 		String tNotification;
 		String tFormingCompanyAbbrev;
@@ -649,7 +657,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	@Override
 	public void hideSpecialPanel () {
-		System.out.println ("Formation Phase - Hiding Special Panel");
 		formationFrame.hideFrame ();
 	}
 	

@@ -203,7 +203,6 @@ public class ShareExchange extends PlayerFormationPhase {
 			tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
 			tFormingAbbrev = getFormingAbbrev ();
 			tPercentage = getPercentageForExchange ();
-			System.out.println ("All Players Total Exchange Count " +  formationPhase.getShareFoldCount ());
 			for (tFoldingIndex = 0; tFoldingIndex < totalExchangeCount; tFoldingIndex++) {
 				tFoldedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
 				if (tFoldedCertificate != Certificate.NO_CERTIFICATE) {
@@ -416,8 +415,6 @@ public class ShareExchange extends PlayerFormationPhase {
 		if (tCertificatesTransferred > 0) {
 			gameManager.addAction (tTransferOwnershipAction);
 		}
-		System.out.println ("\n======Bank Portfolio after IPO Closing");
-		tBank.printInfo ();
 	}
 	
 	public void closeFormingCompanyAlternateIssue () {
@@ -461,8 +458,6 @@ public class ShareExchange extends PlayerFormationPhase {
 			tCertificate = tBankIPOPortfolio.getCertificate (tFormingAbbrev, tPrezPercentage, true);
 			transferShareToClosed (tBank, tCertificate, tTransferOwnershipAction);
 		}
-		System.out.println ("\n****** Bank Portfolio after Alternate Issue Shares were Closed");
-		tBank.printInfo ();
 	}
 	
 	public void transferShareToClosed (PortfolioHolderI aFromActor, Certificate aCertificate, 
