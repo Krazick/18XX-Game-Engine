@@ -16,7 +16,6 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
-import ge18xx.round.action.RepaymentFinishedAction;
 import ge18xx.round.action.RepaymentHandledAction;
 import ge18xx.round.action.SpecialPanelAction;
 import ge18xx.utilities.GUI;
@@ -27,7 +26,8 @@ public class LoanRepayment extends PlayerFormationPhase {
 	public static final String CONFIRM_REPAYMENT = "Confirm Repayment";
 	public static final String PAY_TREASURY = "PayTreasury";
 	public static final String PAY_PRESIDENT = "PayPresident";
-
+	private static final String PAYBACK_COMPLETED = "President already completed all loan paybacks";
+	private static final String LOANS_REPAYMENTS_NEEDED = "Not all Share Companies have confirmed loan repayments";
 	private static final long serialVersionUID = 1L;
 	boolean oneShareToBankPool;
 	int foldingCompanyCount;
@@ -278,7 +278,7 @@ public class LoanRepayment extends PlayerFormationPhase {
 		if (repaymentFinished ()) {
 			if (formationPhase.getFormationState ().equals ((ActorI.ActionStates.LoanRepayment))) {
 				done.setEnabled (false);
-				tToolTip = "President already completed all loan paybacks";
+				tToolTip = PAYBACK_COMPLETED;
 				done.setToolTipText (tToolTip);
 			} else {
 				done.setEnabled (false);
@@ -296,7 +296,7 @@ public class LoanRepayment extends PlayerFormationPhase {
 						tShareCompany = tCertificate.getShareCompany ();
 						if (! tShareCompany.wasRepaymentHandled ()) {
 							tAllCompaniesHandled = false;
-							tToolTip = "Not all Share Companies have confirmed loan repayments";
+							tToolTip = LOANS_REPAYMENTS_NEEDED;
 							done.setToolTipText (tToolTip);
 						}
 					}
@@ -310,24 +310,10 @@ public class LoanRepayment extends PlayerFormationPhase {
 	public void handlePlayerDone () {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
-		RepaymentFinishedAction tRepaymentFinishedAction;
-		Player tNewPlayer;
-		String tOperatingRoundID;
-		
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		formationPhase.updateToNextPlayer (tPlayers);
-		tNewPlayer = formationPhase.getCurrentPlayer ();
-		
-		player.setRepaymentFinished (true);
-		tRepaymentFinishedAction = new RepaymentFinishedAction (ActorI.ActionStates.OperatingRound, 
-				tOperatingRoundID, player);
-		tRepaymentFinishedAction.addRepaymentFinishedEffect (player, true);
-		tRepaymentFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
-		tRepaymentFinishedAction.setChainToPrevious (true);
-		gameManager.addAction (tRepaymentFinishedAction);
 	}
 
 	public void redeemLoanAndUpdate (ShareCompany aShareCompany, int tLoanCount, int tPresidentContribution) {
