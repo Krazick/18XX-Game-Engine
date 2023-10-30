@@ -181,7 +181,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		tWidth = 1140;
 		tHeight = panelHeight ();
-		System.out.println ("Width " + tWidth + " Height " + tHeight + " Shares Open " + gameManager.getCountOfCanOperate ());
 		formationFrame.setSize (tWidth,  tHeight);
 		formationFrame.showFrame ();
 		
