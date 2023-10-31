@@ -70,15 +70,15 @@ public class MapCell implements Comparator<Object> {
 	public static final AttributeName AN_BENEFIT_VALUE = new AttributeName ("benefitValue");
 	public static final ElementName EN_BLOCKED = new ElementName ("Blocked");
 	public static final ElementName EN_MAP_CELL = new ElementName ("MapCell");
-	public static final String NO_ID = "";
+	public static final String NO_ID = GUI.EMPTY_STRING;
 	public static final MapCell NO_MAP_CELL = null;
 	public static final MapCell [] [] NO_MAP_CELLS = null;
 	public static final MapCell NO_DESTINATION = null;
 	public static final int NO_ORIENTATION = 0;
 	public static final int NO_ROTATION = -1;
 	static final boolean NOT_ON_TILE = false;
-	static final String NO_NAME = "";
-	static final String NO_BLOCKED_SIDES = "";
+	static final String NO_NAME = GUI.EMPTY_STRING;
+	static final String NO_BLOCKED_SIDES = GUI.EMPTY_STRING;
 	static final String NO_DIRECTION = null;
 	static boolean mapDirection;
 	boolean tileOrientLocked;
