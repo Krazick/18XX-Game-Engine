@@ -170,7 +170,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	}
 	
 	public JPanel buildPlayerCompaniesJPanel (Portfolio aPlayerPortfolio, boolean aActingPlayer) {
-		JPanel tPlayerCompaniesJPanel;
+		JPanel tCompanyInfoPanel;
 		JPanel tShareCompanyJPanel;
 		JPanel tTitlePanel;
 		JLabel tTitleLabel;
@@ -180,15 +180,15 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		int tCertificateCount;
 		int tCertificateIndex;
 		
-		tPlayerCompaniesJPanel = new JPanel ();
-		tPlayerCompaniesJPanel.setLayout (new BoxLayout (tPlayerCompaniesJPanel, BoxLayout.Y_AXIS));
+		tCompanyInfoPanel = new JPanel ();
+		tCompanyInfoPanel.setLayout (new BoxLayout (tCompanyInfoPanel, BoxLayout.Y_AXIS));
 		
 		tTitlePanel = new JPanel ();
 		tTitlePanel.setLayout (new BoxLayout (tTitlePanel, BoxLayout.X_AXIS));
 		tTitle = "Companies where " + player.getName () + " is President";
 		tTitleLabel = new JLabel (tTitle);
 		tTitlePanel.add (tTitleLabel);
-		tPlayerCompaniesJPanel.add (tTitlePanel);
+		tCompanyInfoPanel.add (tTitlePanel);
 		
 		tCertificateCount = aPlayerPortfolio.getCertificateTotalCount ();
 		for (tCertificateIndex = 0; tCertificateIndex < tCertificateCount; tCertificateIndex++) {
@@ -196,12 +196,12 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 			if (tCertificate.isAShareCompany () && tCertificate.isPresidentShare ()) {
 				tShareCompany = tCertificate.getShareCompany ();
 				tShareCompanyJPanel = buildCompanyJPanel (tShareCompany, aActingPlayer);
-				tPlayerCompaniesJPanel.add (tShareCompanyJPanel);
-				tPlayerCompaniesJPanel.add (Box.createVerticalStrut (5));
+				tCompanyInfoPanel.add (tShareCompanyJPanel);
+				tCompanyInfoPanel.add (Box.createVerticalStrut (5));
 			}
 		}
 
-		return tPlayerCompaniesJPanel;
+		return tCompanyInfoPanel;
 	}
 
 	public JPanel buildCompanyJPanel (ShareCompany aShareCompany, boolean aActingPlayer, JPanel aShareCompanyJPanel) {
