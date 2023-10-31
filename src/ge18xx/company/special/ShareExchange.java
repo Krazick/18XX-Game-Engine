@@ -193,14 +193,17 @@ public class ShareExchange extends PlayerFormationPhase {
 					if ((tCertificate.getPercentage () == PhaseInfo.STANDARD_SHARE_SIZE) && oneShareToBankPool) {
 						transferShare (player, tBankPool, tCertificate, tTransferOwnershipAction1);
 						oneShareToBankPool = false;
-						tNotification += "Transferred 1 Share of (" + tCompanyAbbrev + ") ";
+						tNotification += player.getName () + " transferred 1 Share of (" + tCompanyAbbrev + ") to " + 
+										tBankPool.getName ();
 					} else {
 						tExchangeCount += tCertificate.getShareCount ();
 						transferShareToClosed (player, tCertificate, tTransferOwnershipAction1);
 					}
 				}
 			}
-			tNotification += "Exchanged " + tExchangeCount + " Shares of (" + tCompanyAbbrev + ") ";
+			if (tExchangeCount > 0) {
+				tNotification += player.getName () + " exchanged " + tExchangeCount + " Shares of (" + tCompanyAbbrev + ") ";
+			}
 		}
 		if (totalExchangeCount > 0) {
 			tFormingCompanyID = gameManager.getFormingCompanyId ();
@@ -222,7 +225,7 @@ public class ShareExchange extends PlayerFormationPhase {
 			tNotification += "for " + totalExchangeCount + " Shares of " + tFormingAbbrev;
 			tPresidentName = tFormingCompany.getPresidentName ();
 			if (! GUI.EMPTY_STRING.equals (tPresidentName)) {
-				tNotification += ", New President is " + tPresidentName;
+				tNotification += ", President is " + tPresidentName;
 			}
 		}
 
@@ -278,6 +281,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		int tPercentage;
 		String tOperatingRoundID;
 		String tFormingAbbrev;
+		String tNotification;
 		Bank tBank;
 		Portfolio tBankPortfolio;
 		Corporation tCorporation;
@@ -307,6 +311,7 @@ public class ShareExchange extends PlayerFormationPhase {
 			}
 			tNewCount = tExchangeCount / 2;
 			if (tNewCount > 0) {
+				tFormingAbbrev = GUI.EMPTY_STRING;
 				for (tNewIndex = 0; tNewIndex < tNewCount; tNewIndex++) {
 					tFormingAbbrev = getFormingAbbrev ();
 
@@ -319,7 +324,13 @@ public class ShareExchange extends PlayerFormationPhase {
 					}
 
 				}
+				tNotification = tBankPool.getName () + " exchanged " + tExchangeCount + " Shares into " + tNewCount + 
+						" Shares of " + tFormingAbbrev;
+			} else {
+				
+				tNotification = tBankPool.getName () + " moved 1 Share into the Closed Portfolio.";
 			}
+			formationPhase.setNotificationText (tNotification);
 			formationPhase.rebuildSpecialPanel ();
 			tTransferOwnershipAction.setChainToPrevious (true);
 			gameManager.addAction (tTransferOwnershipAction);
@@ -332,6 +343,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		PortfolioHolderI tCurrentHolder;
 		TransferOwnershipAction tTransferOwnershipAction;
 		String tOperatingRoundID;
+		String tNotification;
 		Corporation tCorporation;
 		ShareCompany tFormingCompany;
 		int tFormingCompanyID;
@@ -350,7 +362,9 @@ public class ShareExchange extends PlayerFormationPhase {
 				tPlayerManager.handlePresidentialTransfer (tTransferOwnershipAction, tFormingCompany, tCurrentPresident);
 				tTransferOwnershipAction.setChainToPrevious (true);
 				gameManager.addAction (tTransferOwnershipAction);
+				tNotification = tFormingCompany.getPresidentName () + " is the new President of the " + tFormingCompany.getAbbrev ();
 				formationPhase.rebuildSpecialPanel ();
+				formationPhase.setNotificationText (tNotification);
 			} else {
 				System.err.println ("The Current President is not a Player");
 				// No Player holds enough to be President
