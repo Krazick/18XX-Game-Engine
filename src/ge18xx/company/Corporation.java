@@ -1168,6 +1168,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		} else {
 			tMapCellID = MapCell.NO_ID;
 		}
+		
 		return tMapCellID;
 	}
 
