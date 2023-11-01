@@ -344,7 +344,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 
 	@Override
 	public int updateToNextPlayer (List<Player> aPlayers) {
-		Player tActingPresident;
+		Player tNextPlayer;
 		Player tFirstPresident;
 		Player tCurrentPlayer;
 		PlayerManager tPlayerManager;
@@ -361,17 +361,20 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tNewState = tCurrentPlayer.getPrimaryActionState ();;
 		tChangeStateAction = new ChangeStateAction (ActorI.ActionStates.FormationRound, "1", tCurrentPlayer);
 		tChangeStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
-		gameManager.addAction (tChangeStateAction);
 		rebuildSpecialPanel (currentPlayerIndex);
 
 		tNextPlayerIndex = tPlayerManager.getNextPlayerIndex (currentPlayerIndex);
-		tActingPresident = tPlayerManager.getPlayer (tNextPlayerIndex);
+		tNextPlayer = tPlayerManager.getPlayer (tNextPlayerIndex);
 		tFirstPresident = findActingPresident ();
+		
+		tChangeStateAction.addUpdateToNextPlayerEffect (tCurrentPlayer, tCurrentPlayer, tNextPlayer);
+		gameManager.addAction (tChangeStateAction);
+		
 		setCurrentPlayerIndex (tNextPlayerIndex);
-		if (tActingPresident == tFirstPresident) {
+		if (tNextPlayer == tFirstPresident) {
 			allPlayersHandled ();
 		} else {
-			updatePlayers (aPlayers, tActingPresident);
+			updatePlayers (aPlayers, tNextPlayer);
 		}
 		
 		return tNextPlayerIndex;
