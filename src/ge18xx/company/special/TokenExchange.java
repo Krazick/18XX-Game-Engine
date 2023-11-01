@@ -1,7 +1,10 @@
 package ge18xx.company.special;
 
+import java.awt.event.ActionEvent;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -33,14 +36,30 @@ import ge18xx.utilities.GUI;
 
 public class TokenExchange extends PlayerFormationPhase {
 	private static final long serialVersionUID = 1L;
+	public static String EXCHANGE_HOME_TOKEN = "ExchangeHomeTokens";
+	public static String EXCHANGE_NON_HOME_TOKEN = "ExchangeNonHomeTokens";
 
-	int formingCompanyPresidentIndex;
+//	int formingCompanyPresidentIndex;
+	boolean homeTokensExchanges;
+	boolean nonHomeTokenExchanges;
+	JButton homeTokensExchange;
+	JButton nonHomeTokensExchange;
 	
 	public TokenExchange (GameManager aGameManager, FormationPhase aTokenExchange, Player aPlayer,
 			Player aActingPresident) {
 		super (aGameManager, aTokenExchange, aPlayer, aActingPresident);
+		setHomeTokenExchanges (false);
+		setNonHomeTokenExchanges (false);
 	}
 
+	public void setHomeTokenExchanges (boolean aHomeTokenExchanges) {
+		homeTokensExchanges = aHomeTokenExchanges;
+	}
+
+	public void setNonHomeTokenExchanges (boolean aNonHomeTokenExchanges) {
+		nonHomeTokenExchanges = aNonHomeTokenExchanges;
+	}
+	
 	@Override
 	public JPanel buildPlayerCompaniesJPanel (Portfolio aPlayerPortfolio, boolean aActingPlayer) {
 		JPanel tCompanyInfoPanel;
@@ -77,6 +96,7 @@ public class TokenExchange extends PlayerFormationPhase {
 	public JPanel buildCompanyJPanel (ShareCompany aFormingShareCompany, boolean aActingPlayer) {
 		JPanel tShareCompanyJPanel;
 		JLabel tHomeTokensLabel;
+		JLabel tNonHomeTokensLabel;
 		Border tCorporateColorBorder;
 		String tExchangeHomeTokens;
 		String tAbbrevs;
@@ -87,7 +107,7 @@ public class TokenExchange extends PlayerFormationPhase {
 		
 		tShareCompanyJPanel = new JPanel ();
 		tShareCompanyJPanel = new JPanel ();
-		tShareCompanyJPanel.setLayout (new BoxLayout (tShareCompanyJPanel, BoxLayout.X_AXIS));
+		tShareCompanyJPanel.setLayout (new BoxLayout (tShareCompanyJPanel, BoxLayout.Y_AXIS));
 
 		// NOTE:   
 		// Exchange Home Tokens of (ABC, DEF, GHI...) for XXX Tokens   
@@ -112,10 +132,14 @@ public class TokenExchange extends PlayerFormationPhase {
 		System.out.println ("Abbrevs: " + tAbbrevs + " Full Label: " + tExchangeHomeTokens);
 		tHomeTokensLabel = new JLabel (tExchangeHomeTokens);
 		tShareCompanyJPanel.add (tHomeTokensLabel);
-
-//		tShareCompanyJPanel = super.buildCompanyJPanel (aShareCompany, aActingPlayer, tShareCompanyJPanel);
 		
-//		buildSpecialButtons (aShareCompany, tShareCompanyJPanel, aActingPlayer);
+		buildSpecialButtons (aFormingShareCompany, tShareCompanyJPanel, aActingPlayer);
+		tShareCompanyJPanel.add (homeTokensExchange);
+		tNonHomeTokensLabel = new JLabel ("Non-Home Tokens Exchange Choices");
+		tShareCompanyJPanel.add (tNonHomeTokensLabel);
+		// Add Checkbox for each Non-Home Token
+		
+		tShareCompanyJPanel.add (nonHomeTokensExchange);
 		
 		return tShareCompanyJPanel;
 	}
@@ -139,6 +163,52 @@ public class TokenExchange extends PlayerFormationPhase {
 		}
 		
 		return tHomeTokenInfo;
+	}
+	
+	public void buildSpecialButtons (ShareCompany aFormingShareCompany, JPanel tShareCompanyPanel, boolean aActingPlayer) {
+		
+		homeTokensExchange = formationPhase.buildSpecialButton ("Exchange all Home Tokens", EXCHANGE_HOME_TOKEN, 
+					GUI.EMPTY_STRING, this);
+		nonHomeTokensExchange = formationPhase.buildSpecialButton ("Exchange all Non-Home Tokens", EXCHANGE_NON_HOME_TOKEN, 
+				GUI.EMPTY_STRING, this);	
+	}
+	
+	@Override
+	public void actionPerformed (ActionEvent aEvent) {
+		String tActionCommand;
+		
+		tActionCommand = aEvent.getActionCommand ();
+		if (tActionCommand.equals (EXCHANGE_HOME_TOKEN)) {
+			exchangeHomeTokens ();
+		} else if (tActionCommand.equals (EXCHANGE_NON_HOME_TOKEN)) {
+			exchangeNonHomeTokens ();
+		}
+	}
+	
+	@Override
+	public void updateDoneButton () {
+		String tToolTip;
+
+		tToolTip = GUI.NO_TOOL_TIP;
+		if (homeTokensExchanges) {
+			done.setEnabled (false);
+			tToolTip = "President already completed all Home Token exchanges";
+		} else if (nonHomeTokenExchanges) {
+			done.setEnabled (false);
+			tToolTip = "President already completed all Non-Home Token exchanges";
+		} else {
+			done.setEnabled (false);
+			tToolTip = "President has not completed all token exchanges";
+		}
+		done.setToolTipText (tToolTip);
+	}
+
+	public void exchangeHomeTokens () {
+		System.out.println ("Ready to Exchange all Homes Tokens");
+	}
+
+	public void exchangeNonHomeTokens () {
+		System.out.println ("Ready to Exchange all Non-Homes Tokens");
 	}
 	
 	@Override
