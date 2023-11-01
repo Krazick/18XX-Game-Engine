@@ -6,6 +6,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.StateChangeEffect;
+import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.XMLNode;
 
@@ -39,6 +40,15 @@ public class ChangeStateAction extends ChangePlayerAction {
 		} else {
 			tStateChangeEffect = new StateChangeEffect (aActor, aOldState, aNewState);
 			addEffect (tStateChangeEffect);
+		}
+	}
+	
+	public void addUpdateToNextPlayerEffect (ActorI aActor, ActorI aOldPlayer, ActorI aNewPlayer) {
+		UpdateToNextPlayerEffect tUpdateToNextPlayerEffect;;
+
+		if (actor.isAPlayer ()) {
+			tUpdateToNextPlayerEffect = new UpdateToNextPlayerEffect (aActor.getName (), aOldPlayer, aNewPlayer);
+			addEffect (tUpdateToNextPlayerEffect);
 		}
 	}
 
