@@ -194,7 +194,7 @@ public abstract class Effect {
 
 		tEffectName = aEffectNode.getThisAttribute (AN_NAME);
 		tActorName = aEffectNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
-		tFromName = aEffectNode.getThisAttribute (AN_FROM_NAME);
+		tFromName = aEffectNode.getThisAttribute (AN_FROM_NAME, tActorName);
 		setFromName (tFromName);
 		tIsAPrivate = aEffectNode.getThisBooleanAttribute (AN_IS_A_PRIVATE);
 		if (tActorName == ActorI.NO_NAME) {
