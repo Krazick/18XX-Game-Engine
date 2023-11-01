@@ -362,7 +362,7 @@ public class ShareExchange extends PlayerFormationPhase {
 				tPlayerManager.handlePresidentialTransfer (tTransferOwnershipAction, tFormingCompany, tCurrentPresident);
 				tTransferOwnershipAction.setChainToPrevious (true);
 				gameManager.addAction (tTransferOwnershipAction);
-				tNotification = tFormingCompany.getPresidentName () + " is the new President of the " + tFormingCompany.getAbbrev ();
+				tNotification = tFormingCompany.getPresidentName () + " is the President of the " + tFormingCompany.getAbbrev ();
 				formationPhase.rebuildSpecialPanel ();
 				formationPhase.setNotificationText (tNotification);
 			} else {
@@ -490,7 +490,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		transferShareToClosed (aFromActor, aFromActor.getName (), aCertificate, aTransferOwnershipAction);
 	}
 	
-	public void transferShareToClosed (PortfolioHolderI aFromActor, String tFromName, Certificate aCertificate, 
+	public void transferShareToClosed (PortfolioHolderI aFromActor, String aFromName, Certificate aCertificate, 
 						TransferOwnershipAction aTransferOwnershipAction) {
 		Portfolio tPlayerPortfolio;
 		Portfolio tClosedPortfolio;
@@ -500,7 +500,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		tClosedPortfolio = tBank.getClosedPortfolio ();
 		tPlayerPortfolio = aFromActor.getPortfolio ();
 		tClosedPortfolio.transferOneCertificateOwnership (tPlayerPortfolio, aCertificate);
-		aTransferOwnershipAction.addTransferOwnershipEffect (aFromActor, tFromName, aCertificate, 
+		aTransferOwnershipAction.addTransferOwnershipEffect (aFromActor, aFromName, aCertificate, 
 						tBank, Bank.CLOSED);
 	}
 
@@ -550,18 +550,6 @@ public class ShareExchange extends PlayerFormationPhase {
 		}
 	}
 	
-	public boolean getSharesExchanged () {
-		boolean tSharesExchanged;
-		
-		if (player.getSharesExchanged ()) {
-			tSharesExchanged = true;
-		} else {
-			tSharesExchanged = false;
-		}
-		
-		return tSharesExchanged;
-	}
-	
 	@Override
 	public void updateDoneButton () {
 		String tToolTip;
@@ -580,6 +568,18 @@ public class ShareExchange extends PlayerFormationPhase {
 		done.setToolTipText (tToolTip);
 	}
 	
+	public boolean getSharesExchanged () {
+		boolean tSharesExchanged;
+		
+		if (player.getSharesExchanged ()) {
+			tSharesExchanged = true;
+		} else {
+			tSharesExchanged = false;
+		}
+		
+		return tSharesExchanged;
+	}
+
 	@Override
 	public void handlePlayerDone () {
 		ShareExchangeFinishedAction tShareExchangeFinishedAction;
