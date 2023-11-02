@@ -826,10 +826,12 @@ public class GameManager extends Component implements NetworkGameSupport {
 		ActorI tActor;
 		String tBankName;
 		String tBankPoolName;
+		String tStartPacketFrameName;
 		
 		tActor = ActorI.NO_ACTOR;
 		tBankName = bank.getName ();
 		tBankPoolName = bankPool.getName ();
+		tStartPacketFrameName = bank.getStartPacketFrameName ();
 		if (aActorName == ActorI.NO_NAME) {
 			logger.error ("Actor Name IS NULL<-----");
 		} else {
@@ -837,7 +839,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tActor = bank;
 			} else if (aActorName.equals (tBankPoolName)) {
 				tActor = bankPool;
-			} else if (aActorName.equals (bank.getStartPacketFrameName ())) {
+			} else if (aActorName.equals (tStartPacketFrameName)) {
 				tActor = bank.getStartPacketFrame ();
 			} else {
 				if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
