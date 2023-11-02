@@ -359,6 +359,10 @@ public class Bank extends GameBank implements CashHolderI {
 		return tXMLElement;
 	}
 
+	public void setStartPacketFrame (StartPacketFrame aStartPacket) {
+		startPacketFrame = aStartPacket;
+	}
+
 	public StartPacketFrame getStartPacketFrame () {
 		return startPacketFrame;
 	}
@@ -567,10 +571,6 @@ public class Bank extends GameBank implements CashHolderI {
 
 	public void setRustedTrainsPortfolio (TrainPortfolio aRustedTrainsPortfolio) {
 		rustedTrainsPortfolio = aRustedTrainsPortfolio;
-	}
-
-	public void setStartPacketFrame (StartPacketFrame aStartPacket) {
-		startPacketFrame = aStartPacket;
 	}
 
 	public void setup (GameInfo aActiveGame) {
