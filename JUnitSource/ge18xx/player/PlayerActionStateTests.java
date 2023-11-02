@@ -33,7 +33,7 @@ class PlayerActionStateTests {
 		gameTestFactory = new GameTestFactory ();
 		gameManager = gameTestFactory.buildGameManager ();
 		tGameInfo = gameTestFactory.buildGameInfo ();
-		gameManager.setGame (tGameInfo);
+		gameManager.setGameInfo (tGameInfo);
 		tConfigData = new Config (gameManager);
 		gameManager.setConfigData (tConfigData);
 		
