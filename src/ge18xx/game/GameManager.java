@@ -191,7 +191,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		fileGEFilter = new FileGEFilter ("18XX Save Game - XML", fileUtils);
 		setUserDir ();
 		setDefaults ();
-		setGame (GameInfo.NO_GAME_INFO);
+		setGameInfo (GameInfo.NO_GAME_INFO);
 	}
 
 	public GameManager (String aClientUserName) {
@@ -815,40 +815,58 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public ActorI getActor (String aActorName) {
-		return getActor (aActorName, false);
+		ActorI tFoundActor;
+		
+		tFoundActor = getActor (aActorName, false);
+		
+		return tFoundActor;
 	}
 
 	public ActorI getActor (String aActorName, boolean aLookingForPrivate) {
 		ActorI tActor;
-
+		String tBankName;
+		String tBankPoolName;
+		
 		tActor = ActorI.NO_ACTOR;
+		tBankName = bank.getName ();
+		tBankPoolName = bankPool.getName ();
 		if (aActorName == ActorI.NO_NAME) {
 			logger.error ("Actor Name IS NULL<-----");
 		} else {
-			if (aActorName.equals (bank.getName ())) {
+			if (aActorName.equals (tBankName)) {
 				tActor = bank;
-			} else if (aActorName.equals (bankPool.getName ())) {
+			} else if (aActorName.equals (tBankPoolName)) {
 				tActor = bankPool;
 			} else if (aActorName.equals (bank.getStartPacketFrameName ())) {
 				tActor = bank.getStartPacketFrame ();
 			} else {
-				tActor = playerManager.getActor (aActorName);
+				if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
+					tActor = playerManager.getActor (aActorName);
+				}
 			}
 
 			if (tActor == ActorI.NO_ACTOR) {
-				tActor = shareCompaniesFrame.getActor (aActorName);
+				if (shareCompaniesFrame != ShareCompaniesFrame.NO_SHARES_FRAME) {
+					tActor = shareCompaniesFrame.getActor (aActorName);
+				}
 			}
 
 			if (aLookingForPrivate || (tActor == ActorI.NO_ACTOR)) {
-				tActor = privatesFrame.getActor (aActorName);
+				if (privatesFrame != PrivatesFrame.NO_PRIVATES_FRAME) {
+					tActor = privatesFrame.getActor (aActorName);
+				}
 			}
 
 			if (tActor == ActorI.NO_ACTOR) {
-				tActor = minorCompaniesFrame.getActor (aActorName);
+				if (minorCompaniesFrame != MinorCompaniesFrame.NO_MINORS_FRAME) { 
+					tActor = minorCompaniesFrame.getActor (aActorName);
+				}
 			}
 
 			if (tActor == ActorI.NO_ACTOR) {
-				tActor = roundManager.getActor (aActorName);
+				if (roundManager != RoundManager.NO_ROUND_MANAGER) {
+					tActor = roundManager.getActor (aActorName);
+				}
 			}
 		}
 
@@ -1272,7 +1290,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void initiateGame (GameInfo aGameInfo) {
-		setGame (aGameInfo);
+		setGameInfo (aGameInfo);
 		initiateGame ();
 		activateCommunications ();
 		// For Normal Start, we need to Notify Clients of Actions
@@ -1392,11 +1410,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
-	private void setBank (int aInitialTreasury) {
+	public void setBank (int aInitialTreasury) {
 		bank = new Bank (aInitialTreasury, this);
 	}
 
-	private void setBankPool (BankPool aBankPool) {
+	public void setBankPool (BankPool aBankPool) {
 		bankPool = aBankPool;
 	}
 
@@ -1973,8 +1991,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		addNewFrame (aXMLFrame);
 	}
 
-	public void setGame (GameInfo aGame) {
-		activeGame = aGame;
+	public void setGameInfo (GameInfo aGameInfo) {
+		activeGame = aGameInfo;
 		if (activeGame != GameInfo.NO_GAME_INFO) {
 			activeGame.setGameID (gameID);
 		}
