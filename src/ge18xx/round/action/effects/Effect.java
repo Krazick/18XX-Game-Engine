@@ -196,10 +196,11 @@ public abstract class Effect {
 		tActorName = aEffectNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
 		tFromName = aEffectNode.getThisAttribute (AN_FROM_NAME, tActorName);
 		setFromName (tFromName);
-		tIsAPrivate = aEffectNode.getThisBooleanAttribute (AN_IS_A_PRIVATE);
 		if (tActorName == ActorI.NO_NAME) {
 			tActorName = aEffectNode.getThisAttribute (ActorI.AN_FROM_ACTOR_NAME);
 		}
+		
+		tIsAPrivate = aEffectNode.getThisBooleanAttribute (AN_IS_A_PRIVATE);
 
 		tActor = aGameManager.getActor (tActorName, tIsAPrivate);
 		if (tActor == ActorI.NO_ACTOR) {
@@ -306,7 +307,7 @@ public abstract class Effect {
 		return ActorI.NO_NAME;
 	}
 
-	public String getActorName () {
+	public String getFromActorName () {
 		String tFromActorName;
 		
 		if (fromName == ActorI.NO_NAME) {
@@ -314,6 +315,14 @@ public abstract class Effect {
 		} else {
 			tFromActorName = fromName;
 		}
+		
+		return tFromActorName;
+	}
+
+	public String getActorName () {
+		String tFromActorName;
+		
+		tFromActorName = actor.getName ();
 		
 		return tFromActorName;
 	}
