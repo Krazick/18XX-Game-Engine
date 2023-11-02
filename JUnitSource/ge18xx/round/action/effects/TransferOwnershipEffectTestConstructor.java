@@ -41,6 +41,29 @@ class TransferOwnershipEffectTestConstructor {
 	CertificateTestFactory certificateTestFactory;
 	Certificate certificate;
 
+	/*
+	<GA><Action actor="JeffW" chainPrevious="true" class="ge18xx.round.action.TransferOwnershipAction" dateTime="1698871606396" name="Transfer Ownership Action" number="1354" roundID="10.2" roundType="Operating Round" totalCash="12000">
+	<Effects>
+		<Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CGR" fromActor="Bank IPO" fromName="Bank IPO" isAPrivate="false" name="Transfer Ownership" percentage="10" president="true" toActor="JeffW"/>
+		<Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CGR" fromActor="JeffW" fromName="JeffW" isAPrivate="false" name="Transfer Ownership" percentage="5" president="false" toActor="Bank"/>
+		<Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CGR" fromActor="JeffW" fromName="JeffW" isAPrivate="false" name="Transfer Ownership" percentage="5" president="false" toActor="Bank"/>
+	</Effects></Action></GA>
+
+
+<GA><Action actor="JeffW" chainPrevious="false" class="ge18xx.round.action.TransferOwnershipAction" dateTime="1698872783625" name="Transfer Ownership Action" number="1355" roundID="10.2" roundType="Operating Round" totalCash="12000">
+<Effects>
+<Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="BBG" fromActor="JeffW" fromName="JeffW" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="Bank Closed"/><Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="BBG" fromActor="JeffW" fromName="JeffW" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="Bank Closed"/><Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="BBG" fromActor="JeffW" fromName="JeffW" isAPrivate="false" name="Transfer Ownership" percentage="20" president="true" toActor="Bank Closed"/><Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CV" fromActor="JeffW" fromName="JeffW" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="Bank Closed"/><Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CV" fromActor="JeffW" fromName="JeffW" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="Bank Closed"/><Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CV" fromActor="JeffW" fromName="JeffW" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="Bank Closed"/><Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CV" fromActor="JeffW" fromName="JeffW" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="Bank Closed"/><Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CV" fromActor="JeffW" fromName="JeffW" isAPrivate="false" name="Transfer Ownership" percentage="20" president="true" toActor="Bank Closed"/><Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CGR" fromActor="Bank" fromName="Bank IPO" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="JeffW"/><Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CGR" fromActor="Bank" fromName="Bank IPO" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="JeffW"/><Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CGR" fromActor="Bank" fromName="Bank IPO" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="JeffW"/><Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CGR" fromActor="Bank" fromName="Bank IPO" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="JeffW"/><Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CGR" fromActor="Bank" fromName="Bank IPO" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="JeffW"/></Effects></Action></GA>
+
+<GA><Action actor="JeffW" chainPrevious="true" class="ge18xx.round.action.TransferOwnershipAction" dateTime="1698872783625" name="Transfer Ownership Action" number="1356" roundID="10.2" roundType="Operating Round" totalCash="12000">
+<Effects>
+
+<Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CGR" fromActor="Bank" fromName="Bank IPO" isAPrivate="false" name="Transfer Ownership" percentage="20" president="true" toActor="JeffW"/>
+<Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CGR" fromActor="JeffW" fromName="JeffW" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="Bank"/>
+<Effect class="ge18xx.round.action.effects.TransferOwnershipEffect" companyAbbrev="CGR" fromActor="JeffW" fromName="JeffW" isAPrivate="false" name="Transfer Ownership" percentage="10" president="false" toActor="Bank"/>
+</Effects></Action></GA>
+
+	*/
+	
 	@BeforeEach
 	void setUp () throws Exception {
 		String tClientName;
@@ -91,11 +114,12 @@ class TransferOwnershipEffectTestConstructor {
 
 	@Test
 	@DisplayName ("Simple Constructor Tests")
-	void test () {
+	void TransferOwnershipConstrucorTests () {
 		Player tFoundPlayer;
 		Player tFoundToPlayer;
 		Certificate tCertificate;
-		String tReportResult = "--Effect: Transfer Ownership of 20% of TPRR from ToEffectTesterAlpha to ToEffectTesterDelta.";
+		String tReportResult = "--Effect: Transfer Ownership of 20% of TPRR (President Share) from ToEffectTesterAlpha to ToEffectTesterDelta.";
+		
 
 		assertEquals ("TPRR", certificate.getCompanyAbbrev ());
 		assertFalse (effectAlpha.actorIsSet (), "Actor is Set");
@@ -121,6 +145,5 @@ class TransferOwnershipEffectTestConstructor {
 		assertTrue (effectBeta.applyEffect (null));
 		assertFalse (effectBeta.wasNewStateAuction ());
 		assertTrue (effectBeta.undoEffect (null));
-
 	}
 }
