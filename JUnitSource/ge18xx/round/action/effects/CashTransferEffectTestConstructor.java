@@ -10,11 +10,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import ge18xx.bank.Bank;
+import ge18xx.bank.BankPool;
+import ge18xx.bank.BankTestFactory;
+import ge18xx.bank.StartPacketFrame;
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.PlayerTestFactory;
+import ge18xx.round.RoundManager;
+import ge18xx.round.RoundTestFactory;
+import ge18xx.utilities.UtilitiesTestFactory;
+import ge18xx.utilities.XMLNode;
 
 @DisplayName ("CashTransferEffect Constructor Tests")
 class CashTransferEffectTestConstructor {
@@ -23,25 +32,55 @@ class CashTransferEffectTestConstructor {
 	Player actorBeta;
 	Player actorGamma;
 	GameManager mGameManager;
+	GameManager gameManager;
+	RoundManager mRoundManager;
+	Bank bank;
+	BankPool bankPool;
 	PlayerManager playerManager;
 	PlayerTestFactory playerTestFactory;
 	GameTestFactory gameTestFactory;
+	RoundTestFactory roundTestFactory;
+	BankTestFactory bankTestFactory;
+	private UtilitiesTestFactory utilitiesTestFactory;
 	int cashAmount;
 
 	@BeforeEach
 	void setUp () throws Exception {
-		String tClientName, tPlayer2Name, tPlayer3Name;
+		String tClientName;
+		String tPlayer2Name;
+		String tPlayer3Name;
+		StartPacketFrame tStartPacketFrame;
+		GameInfo tGameInfo;
 
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterBeta";
 		tPlayer3Name = "ToEffectTesterGamma";
 		gameTestFactory = new GameTestFactory ();
+		utilitiesTestFactory = gameTestFactory.getUtilitiesTestFactory ();
+		roundTestFactory = new RoundTestFactory ();
+		bankTestFactory = new BankTestFactory ();
+		
+		gameManager = gameTestFactory.buildGameManager (tClientName);
 		mGameManager = gameTestFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
+
+		tGameInfo = gameTestFactory.buildGameInfo ();
+		gameManager.setGameInfo (tGameInfo);
+
+		mRoundManager = roundTestFactory.buildRoundManagerMock ();
+		bankPool = bankTestFactory.buildBankPool (gameManager);
+		gameManager.setBank (100);
+		gameManager.setBankPool (bankPool);
+		bank = gameManager.getBank ();
+		tStartPacketFrame = new StartPacketFrame ("Test CashTransfer Frame", mGameManager);
+		bank.setStartPacketFrame (tStartPacketFrame);
+		
 		playerTestFactory = new PlayerTestFactory (mGameManager);
 		playerManager = playerTestFactory.buildPlayerManager ();
+		gameManager.setPlayerManager (playerManager);
+		
 		effectAlpha = new CashTransferEffect ();
 		cashAmount = 100;
 		actorBeta = playerTestFactory.buildPlayer (tPlayer2Name, playerManager, 0);
@@ -99,5 +138,29 @@ class CashTransferEffectTestConstructor {
 		assertEquals (100, effectBeta.getEffectCredit (actorGamma.getName ()));
 		assertEquals (0, effectBeta.getEffectDebit (actorGamma.getName ()));
 		assertEquals (0, effectBeta.getEffectCredit (actorBeta.getName ()));
+	}
+	
+	private XMLNode buildEffectXMLNode (String aEffectTextXML) {
+		XMLNode tEffectXMLNode;
+		
+		tEffectXMLNode = utilitiesTestFactory.buildXMLNode (aEffectTextXML);
+
+		return tEffectXMLNode;
+	}
+
+	@Test 
+	@DisplayName ("CashTransfer Display Report Test")
+	void cashTransferReportTest () {
+		XMLNode tEffectXMLNode;
+		String tEffectReport;
+		CashTransferEffect tEffectGamma;
+		
+		String tCashTransferReportXML = "<Effect cash=\"250\" class=\"ge18xx.round.action.effects.CashTransferEffect\" fromActor=\"Bank\" isAPrivate=\"false\" name=\"Cash Transfer\" toActor=\"CV\"/>";
+		
+		tEffectXMLNode = buildEffectXMLNode (tCashTransferReportXML);
+		
+		tEffectGamma = new CashTransferEffect (tEffectXMLNode, gameManager);
+		tEffectReport = tEffectGamma.getEffectReport (mRoundManager);
+		System.out.println (tEffectReport);
 	}
 }
