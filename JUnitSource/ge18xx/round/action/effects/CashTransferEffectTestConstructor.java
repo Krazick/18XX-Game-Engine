@@ -155,12 +155,13 @@ class CashTransferEffectTestConstructor {
 		String tEffectReport;
 		CashTransferEffect tEffectGamma;
 		
-		String tCashTransferReportXML = "<Effect cash=\"250\" class=\"ge18xx.round.action.effects.CashTransferEffect\" fromActor=\"Bank\" isAPrivate=\"false\" name=\"Cash Transfer\" toActor=\"CV\"/>";
+		String tCashTransferReportXML = "<Effect cash=\"250\" class=\"ge18xx.round.action.effects.CashTransferEffect\" fromActor=\"Bank\" isAPrivate=\"false\" name=\"Cash Transfer\" toActor=\"ToEffectTesterGamma\"/>";
 		
 		tEffectXMLNode = buildEffectXMLNode (tCashTransferReportXML);
 		
 		tEffectGamma = new CashTransferEffect (tEffectXMLNode, gameManager);
 		tEffectReport = tEffectGamma.getEffectReport (mRoundManager);
+		assertEquals ("--Effect: Cash Transfer of 250 from Bank to ToEffectTesterGamma.", tEffectReport);
 		System.out.println (tEffectReport);
 	}
 }
