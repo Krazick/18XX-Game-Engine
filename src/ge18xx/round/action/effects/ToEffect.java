@@ -5,6 +5,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -86,16 +87,21 @@ public class ToEffect extends Effect {
 
 	public void setToActor (ActorI aToActor) {
 		toActor = aToActor;
-		if (toActor != NO_TO_ACTOR) {
-			setToName (aToActor.getName ());
-		} else {
-			setToName (ActorI.NO_NAME);
-		}
 	}
 
 	@Override
 	public String getToActorName () {
-		return toName;
+		String tToName;
+		
+		if (toName == GUI.NULL_STRING) {
+			tToName = toActor.getName ();
+		} else if (toName.equals (GUI.EMPTY_STRING)) {
+			tToName = toActor.getName ();
+		} else {
+			tToName = toName;
+		}
+		
+		return tToName;
 	}
 
 	public boolean isToActor (String aActorName) {
