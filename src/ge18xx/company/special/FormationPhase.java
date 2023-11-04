@@ -146,7 +146,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		tToolTip = GUI.EMPTY_STRING;
 		continueButton = buildSpecialButton (CONTINUE, aActionCommand, tToolTip, this);
-		System.out.println ("Building Continue button with Action [" + aActionCommand + "]");
 	}
 
 	public void buildAllPlayers (String aFrameName) {
@@ -398,19 +397,16 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tFormingAbbrev = formingShareCompany.getAbbrev ();
 		if (formationState == ActorI.ActionStates.LoanRepayment) {
 			if (haveSharesToFold ()) {
-				System.out.println ("There are " + getShareFoldCount () + " Shares to fold into " + tFormingAbbrev);
 				buildContinueButton (FOLD);
 			} else {
 				tNotification = String.format (NO_OUTSTANDING_LOANS, tFormingAbbrev);
 				setNotificationText (tNotification);
 				buildContinueButton (CONTINUE);
-				System.out.println ("No Shares are folding into " + tFormingAbbrev);
 			}
 		} else if (formationState == ActorI.ActionStates.ShareExchange) {
 			System.out.println ("All Players Shares have been Exchanged");
 			setAllPlayerSharesHandled (true);
 			if (hasTokensToExchange ()) {
-				System.out.println ("Ready to do " + TOKEN_EXCHANGE);
 				buildContinueButton (TOKEN_EXCHANGE);
 			}
 		} else if (formationState == ActorI.ActionStates.TokenExchange) {
@@ -597,7 +593,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		String tActionCommand;
 		
 		tActionCommand = aEvent.getActionCommand ();
-		System.out.println ("Action Command " + tActionCommand);
 		if (tActionCommand.equals (FOLD)) {
 			handleFoldIntoFormingCompany ();
 		} else if (tActionCommand.equals (CONTINUE)) {
