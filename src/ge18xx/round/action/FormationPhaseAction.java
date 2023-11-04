@@ -2,6 +2,7 @@ package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import ge18xx.round.action.effects.UpdateToNextPlayerEffect;
 import ge18xx.utilities.XMLNode;
 
@@ -31,6 +32,13 @@ public class FormationPhaseAction extends Action {
 
 		tUpdateToNextPlayerEffect = new UpdateToNextPlayerEffect (aFromActor, aToActor);
 		addEffect (tUpdateToNextPlayerEffect);
+	}
+
+	public void addRebuildFormationPanelEffect (ActorI aFromActor) {
+		RebuildFormationPanelEffect tRebuildFormationPanelEffect;
+		
+		tRebuildFormationPanelEffect = new RebuildFormationPanelEffect (aFromActor);
+		addEffect (tRebuildFormationPanelEffect);
 	}
 
 	@Override

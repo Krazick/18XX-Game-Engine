@@ -436,7 +436,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		rebuildFormationPanel (currentPlayerIndex);
 	}
 	
-	public void rebuildSpecialPanel () {
+	public void rebuildFormationPanel () {
 		rebuildFormationPanel (getCurrentPlayerIndex ());
 	}
 	

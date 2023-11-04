@@ -177,7 +177,7 @@ public class LoanRepayment extends PlayerFormationPhase {
 		}
 	
 		tRepaymentHandledAction.addSetRepaymentHandledEffect (aShareCompany, tRepaymentHandled);
-		tRepaymentHandledAction.addRebuildSpecialPanelEffect (aShareCompany);
+		tRepaymentHandledAction.addRebuildFormationPanelEffect (aShareCompany);
 	
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
 	

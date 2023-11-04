@@ -40,9 +40,11 @@ public class SetFormationStateEffect extends ChangeCorporationStatusEffect {
 			tGameManager = aRoundManager.getGameManager ();
 			tTriggerClass = tGameManager.getTriggerClass ();
 			tTriggerClass.setFormationState (newState);
+			
 			tFormationPhase = (FormationPhase) tTriggerClass;
 			tCurrentPlayerIndex = tFormationPhase.getCurrentPlayerIndex ();
 			tTriggerClass.rebuildFormationPanel (tCurrentPlayerIndex);
+			
 			tEffectApplied = true;
 		} else {
 			setApplyFailureReason ("Actor " + actor.getName () + " is not a Player.");

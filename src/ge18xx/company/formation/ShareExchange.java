@@ -252,6 +252,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		exchange.setToolTipText ("President has not completed all share exchanges");
 		updateDoneButton (true);
 		formationPhase.rebuildFormationPanel (formationPhase.getCurrentPlayerIndex ());
+		tTransferOwnershipAction2.addRebuildFormationPanelEffect (player);
 		gameManager.addAction (tTransferOwnershipAction1);
 		if (tTransferOwnershipAction2.getEffectCount () > 0) {
 			tTransferOwnershipAction2.setChainToPrevious (true);
@@ -343,8 +344,9 @@ public class ShareExchange extends PlayerFormationPhase {
 				tNotification = tBankPool.getName () + " moved 1 Share into the Closed Portfolio.";
 			}
 			formationPhase.setNotificationText (tNotification);
-			formationPhase.rebuildSpecialPanel ();
+			formationPhase.rebuildFormationPanel ();
 			tTransferOwnershipAction.setChainToPrevious (true);
+			tTransferOwnershipAction.addRebuildFormationPanelEffect (player);
 			gameManager.addAction (tTransferOwnershipAction);
 		}
 	}
@@ -375,7 +377,7 @@ public class ShareExchange extends PlayerFormationPhase {
 				tTransferOwnershipAction.setChainToPrevious (true);
 				gameManager.addAction (tTransferOwnershipAction);
 				tNotification = tFormingCompany.getPresidentName () + " is the President of the " + tFormingCompany.getAbbrev ();
-				formationPhase.rebuildSpecialPanel ();
+				formationPhase.rebuildFormationPanel ();
 				formationPhase.setNotificationText (tNotification);
 			} else {
 				System.err.println ("The Current President is not a Player");
@@ -450,6 +452,7 @@ public class ShareExchange extends PlayerFormationPhase {
 			}
 		}
 		if (tCertificatesTransferred > 0) {
+			tTransferOwnershipAction.addRebuildFormationPanelEffect (player);
 			gameManager.addAction (tTransferOwnershipAction);
 		}
 	}
@@ -613,8 +616,8 @@ public class ShareExchange extends PlayerFormationPhase {
 		tNewPlayer = formationPhase.getCurrentPlayer ();
 
 		tShareExchangeFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
+		tShareExchangeFinishedAction.addRebuildFormationPanelEffect (player);
 		tShareExchangeFinishedAction.setChainToPrevious (true);
 		gameManager.addAction (tShareExchangeFinishedAction);
-
 	}
 }

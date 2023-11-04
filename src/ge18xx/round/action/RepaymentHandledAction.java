@@ -48,11 +48,11 @@ public class RepaymentHandledAction extends ChangeStateAction {
 		}
 	}
 	
-	public void addRebuildSpecialPanelEffect (ActorI aFromActor) {
-		RebuildFormationPanelEffect tRebuildSpecialPanelEffect;
+	public void addRebuildFormationPanelEffect (ActorI aFromActor) {
+		RebuildFormationPanelEffect tRebuildFormationPanelEffect;
 		
-		tRebuildSpecialPanelEffect = new RebuildFormationPanelEffect (aFromActor);
-		addEffect (tRebuildSpecialPanelEffect);
+		tRebuildFormationPanelEffect = new RebuildFormationPanelEffect (aFromActor);
+		addEffect (tRebuildFormationPanelEffect);
 	}
 	
 	@Override
