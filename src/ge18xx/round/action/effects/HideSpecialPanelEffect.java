@@ -64,7 +64,7 @@ public class HideSpecialPanelEffect extends SpecialPanelEffect {
 			tPresident = (Player) actor;
 			tPlayerManager = aRoundManager.getPlayerManager ();
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
-			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
+			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectUndone = true;
 		}
 

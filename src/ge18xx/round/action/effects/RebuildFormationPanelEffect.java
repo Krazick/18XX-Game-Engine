@@ -54,7 +54,7 @@ public class RebuildFormationPanelEffect extends SpecialPanelEffect {
 		if (tTriggerClass instanceof FormationPhase) {
 			tFormationPhase = (FormationPhase) tTriggerClass;
 			tCurrentPlayerIndex = tFormationPhase.getCurrentPlayerIndex ();
-			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
+			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectApplied = true;
 		}
 

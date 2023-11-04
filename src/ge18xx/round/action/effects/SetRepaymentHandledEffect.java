@@ -82,7 +82,7 @@ public class SetRepaymentHandledEffect extends SpecialPanelEffect {
 			tPresident = (Player) tShareCompany.getPresident ();
 			tShareCompany.setRepaymentHandled (replaymentHandled);
 			tPlayerIndex = getPlayerIndex (aRoundManager, tPresident);
-			rebuildSpecialPanel (aRoundManager, tPlayerIndex);
+			rebuildFormationPanel (aRoundManager, tPlayerIndex);
 			tEffectApplied = true;
 		}
 
@@ -102,7 +102,7 @@ public class SetRepaymentHandledEffect extends SpecialPanelEffect {
 			tShareCompany.setRepaymentHandled (false);
 			tPresident = (Player) tShareCompany.getPresident ();
 			tPlayerIndex = getPlayerIndex (aRoundManager, tPresident);
-			rebuildSpecialPanel (aRoundManager, tPlayerIndex);
+			rebuildFormationPanel (aRoundManager, tPlayerIndex);
 			tEffectUndone = true;
 		}
 

@@ -51,7 +51,7 @@ public class SpecialPanelEffect extends ToEffect {
 		}
 	}
 	
-	public void rebuildSpecialPanel (RoundManager aRoundManager, int aCurrentPlayerIndex) {
+	public void rebuildFormationPanel (RoundManager aRoundManager, int aCurrentPlayerIndex) {
 		GameManager tGameManager;
 		TriggerClass tTriggerClass;
 		
@@ -96,7 +96,7 @@ public class SpecialPanelEffect extends ToEffect {
 			tPresident = (Player) tShareCompany.getPresident ();
 			tPlayerManager = aRoundManager.getPlayerManager ();
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
-			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
+			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectApplied = true;
 		}
 
@@ -118,14 +118,14 @@ public class SpecialPanelEffect extends ToEffect {
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPlayer);
-			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
+			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectUndone = true;
 		} else if (actor.isAShareCompany ()) {
 			tShareCompany = (ShareCompany) actor;
 			tPresident = (Player) tShareCompany.getPresident ();
 			tPlayerManager = aRoundManager.getPlayerManager ();
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
-			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
+			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectUndone = true;
 		}
 

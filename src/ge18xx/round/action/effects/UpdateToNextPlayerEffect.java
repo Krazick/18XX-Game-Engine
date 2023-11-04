@@ -47,7 +47,7 @@ public class UpdateToNextPlayerEffect extends SpecialPanelEffect {
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			tPlayerIndex = updateToNextPlayer (aRoundManager);
-			rebuildSpecialPanel (aRoundManager, tPlayerIndex);
+			rebuildFormationPanel (aRoundManager, tPlayerIndex);
 			tEffectApplied = true;
 		}
 
@@ -89,7 +89,7 @@ public class UpdateToNextPlayerEffect extends SpecialPanelEffect {
 			tGameManager = aRoundManager.getGameManager ();
 			tTriggerClass = tGameManager.getTriggerClass ();
 			tTriggerClass.setCurrentPlayerIndex (tPlayerIndex);
-			rebuildSpecialPanel (aRoundManager, tPlayerIndex);
+			rebuildFormationPanel (aRoundManager, tPlayerIndex);
 			tEffectUndone = true;
 		}
 

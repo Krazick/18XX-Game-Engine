@@ -65,7 +65,7 @@ public class ShowSpecialPanelEffect extends RebuildFormationPanelEffect {
 
 		if (tPresident != Player.NO_PLAYER) {
 			tCurrentPlayerIndex = tPlayerManager.getPlayerIndex (tPresident);
-			rebuildSpecialPanel (aRoundManager, tCurrentPlayerIndex);
+			rebuildFormationPanel (aRoundManager, tCurrentPlayerIndex);
 			tEffectApplied = true;
 		}
 		
