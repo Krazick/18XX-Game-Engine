@@ -11,10 +11,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import ge18xx.bank.Bank;
+import ge18xx.bank.BankPool;
+import ge18xx.bank.BankTestFactory;
 import ge18xx.company.Certificate;
 import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.company.ShareCompany;
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameTestFactory;
 import ge18xx.phase.PhaseInfo;
@@ -22,7 +26,10 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.PlayerTestFactory;
 import ge18xx.player.Portfolio;
+import ge18xx.round.RoundManager;
+import ge18xx.round.RoundTestFactory;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.TransferOwnershipAction;
 
 @DisplayName ("Transfer Ownership Effect Constructor Tests")
 class TransferOwnershipEffectTestConstructor {
@@ -33,13 +40,19 @@ class TransferOwnershipEffectTestConstructor {
 	Player mPlayerActorAlpha;
 	Player mPlayerActorDelta;
 	GameManager mGameManager;
+	GameManager gameManager;
 	PhaseInfo mPhaseInfo = Mockito.mock (PhaseInfo.class);
 	PlayerManager playerManager;
-	GameTestFactory testFactory;
+	GameTestFactory gameTestFactory;
 	CompanyTestFactory companyTestFactory;
 	PlayerTestFactory playerTestFactory;
 	CertificateTestFactory certificateTestFactory;
 	Certificate certificate;
+	Bank bank;
+	BankPool bankPool;
+	BankTestFactory bankTestFactory;
+	RoundTestFactory roundTestFactory;
+	RoundManager roundManager;
 
 	/*
 	<GA><Action actor="JeffW" chainPrevious="true" class="ge18xx.round.action.TransferOwnershipAction" dateTime="1698871606396" name="Transfer Ownership Action" number="1354" roundID="10.2" roundType="Operating Round" totalCash="12000">
@@ -71,18 +84,31 @@ class TransferOwnershipEffectTestConstructor {
 		String tPlayer3Name;
 		Portfolio mPortfolioAlpha;
 		Portfolio mPortfolioDelta;
+		GameInfo tGameInfo;
 
 		tClientName = "TFBuster";
 		tPlayer2Name = "ToEffectTesterAlpha";
 		tPlayer3Name = "ToEffectTesterDelta";
-		testFactory = new GameTestFactory ();
-		companyTestFactory = new CompanyTestFactory (testFactory);
+		gameTestFactory = new GameTestFactory ();
+		companyTestFactory = new CompanyTestFactory (gameTestFactory);
 		certificateTestFactory = new CertificateTestFactory ();
-
-		mGameManager = testFactory.buildGameManagerMock (tClientName);
+		bankTestFactory = new BankTestFactory ();
+		roundTestFactory = new RoundTestFactory ();
+		
+		gameManager = gameTestFactory.buildGameManager (tClientName);
+		mGameManager = gameTestFactory.buildGameManagerMock (tClientName);
 		Mockito.when (mGameManager.gameHasPrivates ()).thenReturn (true);
 		Mockito.when (mGameManager.gameHasMinors ()).thenReturn (false);
 		Mockito.when (mGameManager.gameHasShares ()).thenReturn (true);
+		
+		tGameInfo = gameTestFactory.buildGameInfo ();
+		gameManager.setGameInfo (tGameInfo);
+		bankPool = bankTestFactory.buildBankPool (gameManager);
+		gameManager.setBank (100);
+		gameManager.setBankPool (bankPool);
+		bank = gameManager.getBank ();
+		roundManager = roundTestFactory.buildRoundManagerMock ();
+
 		playerTestFactory = new PlayerTestFactory (mGameManager);
 		playerManager = playerTestFactory.buildPlayerManager ();
 
@@ -120,7 +146,6 @@ class TransferOwnershipEffectTestConstructor {
 		Certificate tCertificate;
 		String tReportResult = "--Effect: Transfer Ownership of 20% of TPRR (President Share) from ToEffectTesterAlpha to ToEffectTesterDelta.";
 		
-
 		assertEquals ("TPRR", certificate.getCompanyAbbrev ());
 		assertFalse (effectAlpha.actorIsSet (), "Actor is Set");
 		assertEquals (ActorI.NO_NAME, effectAlpha.getToActorName ());
@@ -145,5 +170,20 @@ class TransferOwnershipEffectTestConstructor {
 		assertTrue (effectBeta.applyEffect (null));
 		assertFalse (effectBeta.wasNewStateAuction ());
 		assertTrue (effectBeta.undoEffect (null));
+	}
+	
+	@Test
+	@DisplayName ("Test with Action Created")
+	void TransferOwnershipWithActionCreation () {
+		TransferOwnershipAction tTransferOwnershipAction;
+		String tOperatingRoundID;
+		String tFromName;
+		
+		tOperatingRoundID = "1.1";
+		tFromName = "Alpha Tester";
+		tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, mPlayerActorAlpha);
+
+		tTransferOwnershipAction.addTransferOwnershipEffect (mPlayerActorAlpha, tFromName, certificate, bank, Bank.CLOSED);
+		tTransferOwnershipAction.printActionReport (roundManager);
 	}
 }
