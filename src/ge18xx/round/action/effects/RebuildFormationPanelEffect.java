@@ -1,7 +1,7 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.company.special.FormationPhase;
-import ge18xx.company.special.TriggerClass;
+import ge18xx.company.formation.FormationPhase;
+import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;

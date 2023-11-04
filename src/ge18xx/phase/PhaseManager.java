@@ -6,7 +6,7 @@ import java.util.List;
 
 import ge18xx.bank.Bank;
 import ge18xx.company.TrainCompany;
-import ge18xx.company.special.TriggerClass;
+import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.train.Train;

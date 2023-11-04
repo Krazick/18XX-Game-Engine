@@ -1,4 +1,4 @@
-package ge18xx.company.special;
+package ge18xx.company.formation;
 
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;

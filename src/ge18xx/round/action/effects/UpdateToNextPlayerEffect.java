@@ -2,7 +2,7 @@ package ge18xx.round.action.effects;
 
 import java.util.List;
 
-import ge18xx.company.special.TriggerClass;
+import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;

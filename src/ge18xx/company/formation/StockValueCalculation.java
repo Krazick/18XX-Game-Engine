@@ -1,4 +1,4 @@
-package ge18xx.company.special;
+package ge18xx.company.formation;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
