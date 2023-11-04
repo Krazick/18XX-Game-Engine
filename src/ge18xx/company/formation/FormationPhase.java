@@ -493,7 +493,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		Constructor<?> tPhaseConstructor;
 
 		tPlayerFormationPhase = PlayerFormationPhase.NO_PLAYER_FORMATION_PHASE;
-		tClassName = "ge18xx.company.special." + formationState.toNoSpaceString ();
+		tClassName = "ge18xx.company.formation." + formationState.toNoSpaceString ();
 		try {
 			tPhaseToLoad = Class.forName (tClassName);
 			tPhaseConstructor = tPhaseToLoad.getConstructor (gameManager.getClass (), this.getClass (), 
