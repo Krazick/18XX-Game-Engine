@@ -211,9 +211,6 @@ public class ActionManager {
 		tAppendAction = false;
 		if (gameManager.isNetworkGame () && gameManager.getNotifyNetwork ()) {
 			tXMLFormat = aAction.getXMLFormat (JGameClient.EN_GAME_ACTIVITY);
-			
-			System.out.println (tXMLFormat);
-			
 			tXMLFormat = tXMLFormat.replaceAll ("\n", "");
 			sendGameActivity (tXMLFormat, false);
 			tAppendAction = true;
