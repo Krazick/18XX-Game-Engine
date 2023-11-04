@@ -1296,7 +1296,7 @@ public class CorporationList extends InformationTable implements LoadableXMLI, P
 		return tFoundBenefit;
 	}
 
-	public ShareCompany findCompanyWithSpecial (JButton aJButton) {
+	public ShareCompany findCompanyWithButton (JButton aJButton) {
 		ShareCompany tFoundShareCompany;
 		ShareCompany tShareCompany;
 		

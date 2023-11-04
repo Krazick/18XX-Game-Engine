@@ -296,7 +296,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		CorporationList tShareCompanies;
 		
 		tShareCompanies = gameManager.getShareCompanies ();
-		tFoundShareCompany = tShareCompanies.findCompanyWithSpecial (aActivatedButton);
+		tFoundShareCompany = tShareCompanies.findCompanyWithButton (aActivatedButton);
 		
 		return tFoundShareCompany;
 	}
