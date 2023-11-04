@@ -8,7 +8,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
 
-public class ShowSpecialPanelEffect extends RebuildSpecialPanelEffect {
+public class ShowSpecialPanelEffect extends RebuildFormationPanelEffect {
 	public final static String NAME = "Show Special Panel";
 	
 	public ShowSpecialPanelEffect () {

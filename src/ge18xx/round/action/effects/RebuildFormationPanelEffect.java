@@ -7,30 +7,30 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
 
-public class RebuildSpecialPanelEffect extends SpecialPanelEffect {
+public class RebuildFormationPanelEffect extends SpecialPanelEffect {
 	public final static String NAME = "Rebuild Special Panel";
 
-	public RebuildSpecialPanelEffect () {
+	public RebuildFormationPanelEffect () {
 		this (NAME);
 	}
 
-	public RebuildSpecialPanelEffect (String aName) {
+	public RebuildFormationPanelEffect (String aName) {
 		super (aName);
 	}
 
-	public RebuildSpecialPanelEffect (ActorI aFromActor) {
+	public RebuildFormationPanelEffect (ActorI aFromActor) {
 		super (NAME, aFromActor);
 	}
 
-	public RebuildSpecialPanelEffect (String aName, ActorI aToActor) {
+	public RebuildFormationPanelEffect (String aName, ActorI aToActor) {
 		super (aName, aToActor);
 	}
 
-	public RebuildSpecialPanelEffect (String aName, ActorI aToActor, ActorI aFromActor) {
+	public RebuildFormationPanelEffect (String aName, ActorI aToActor, ActorI aFromActor) {
 		super (aName, aToActor, aFromActor);
 	}
 
-	public RebuildSpecialPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {
+	public RebuildFormationPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 	}
 	
