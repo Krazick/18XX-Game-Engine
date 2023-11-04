@@ -273,7 +273,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		player.undoAction ();
 		if (formationPhase.getFormationState () != ActorI.ActionStates.NoState) {
 			tCurrentPlayerIndex = getCurrentPlayerIndex ();
-			formationPhase.rebuildSpecialPanel (tCurrentPlayerIndex);
+			formationPhase.rebuildFormationPanel (tCurrentPlayerIndex);
 		}
 	}
 	

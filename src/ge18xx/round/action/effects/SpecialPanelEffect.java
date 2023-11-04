@@ -47,7 +47,7 @@ public class SpecialPanelEffect extends ToEffect {
 		tGameManager = aRoundManager.getGameManager ();
 		tTriggerClass = tGameManager.getTriggerClass ();
 		if (tTriggerClass != TriggerClass.NO_TRIGGER_CLASS) {
-			tTriggerClass.hideSpecialPanel ();
+			tTriggerClass.hideFormationPanel ();
 		}
 	}
 	
@@ -58,7 +58,7 @@ public class SpecialPanelEffect extends ToEffect {
 		tGameManager = aRoundManager.getGameManager ();
 		tTriggerClass = tGameManager.getTriggerClass ();
 		if (tTriggerClass != TriggerClass.NO_TRIGGER_CLASS) {
-			tTriggerClass.rebuildSpecialPanel (aCurrentPlayerIndex);
+			tTriggerClass.rebuildFormationPanel (aCurrentPlayerIndex);
 		}
 	}
 

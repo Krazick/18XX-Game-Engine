@@ -361,7 +361,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tNewState = tCurrentPlayer.getPrimaryActionState ();;
 		tChangeStateAction = new ChangeStateAction (ActorI.ActionStates.FormationRound, "1", tCurrentPlayer);
 		tChangeStateAction.addStateChangeEffect (tCurrentPlayer, tOldState, tNewState);
-		rebuildSpecialPanel (currentPlayerIndex);
+		rebuildFormationPanel (currentPlayerIndex);
 
 		tNextPlayerIndex = tPlayerManager.getNextPlayerIndex (currentPlayerIndex);
 		tNextPlayer = tPlayerManager.getPlayer (tNextPlayerIndex);
@@ -423,7 +423,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			}
 		}
 
-		rebuildSpecialPanel (currentPlayerIndex);
+		rebuildFormationPanel (currentPlayerIndex);
 	}
 	
 	public void allPlayerSharesExchanged () {
@@ -433,20 +433,20 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 				buildContinueButton (TOKEN_EXCHANGE);
 			}
 		}
-		rebuildSpecialPanel (currentPlayerIndex);
+		rebuildFormationPanel (currentPlayerIndex);
 	}
 	
 	public void rebuildSpecialPanel () {
-		rebuildSpecialPanel (getCurrentPlayerIndex ());
+		rebuildFormationPanel (getCurrentPlayerIndex ());
 	}
 	
 	@Override
-	public void rebuildSpecialPanel (int aCurrentPlayerIndex) {
+	public void rebuildFormationPanel (int aCurrentPlayerIndex) {
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
 		Player tActingPlayer;
 		
-		showSpecialPanel ();
+		showFormationPanel ();
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
 		tActingPlayer = tPlayers.get (aCurrentPlayerIndex);
@@ -596,7 +596,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		if (tActionCommand.equals (FOLD)) {
 			handleFoldIntoFormingCompany ();
 		} else if (tActionCommand.equals (CONTINUE)) {
-			hideSpecialPanel ();
+			hideFormationPanel ();
 		} else if (tActionCommand.equals (TOKEN_EXCHANGE)) {
 			handleTokenExchange ();
 		} else if (tActionCommand.equals (ASSET_COLLECTION)) {
@@ -656,12 +656,12 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	}
 	
 	@Override
-	public void hideSpecialPanel () {
+	public void hideFormationPanel () {
 		formationFrame.hideFrame ();
 	}
 	
 	@Override
-	public void showSpecialPanel () {
+	public void showFormationPanel () {
 		formationFrame.showFrame ();
 	}
 }

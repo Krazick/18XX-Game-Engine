@@ -251,7 +251,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		exchange.setEnabled (false);
 		exchange.setToolTipText ("President has not completed all share exchanges");
 		updateDoneButton (true);
-		formationPhase.rebuildSpecialPanel (formationPhase.getCurrentPlayerIndex ());
+		formationPhase.rebuildFormationPanel (formationPhase.getCurrentPlayerIndex ());
 		gameManager.addAction (tTransferOwnershipAction1);
 		if (tTransferOwnershipAction2.getEffectCount () > 0) {
 			tTransferOwnershipAction2.setChainToPrevious (true);

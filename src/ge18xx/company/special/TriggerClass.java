@@ -21,15 +21,15 @@ public class TriggerClass {
 		
 	}
 
-	public void rebuildSpecialPanel (int aCurrentPlayerIndex) {
+	public void rebuildFormationPanel (int aCurrentPlayerIndex) {
 	
 	}
 	
-	public void hideSpecialPanel () {
+	public void hideFormationPanel () {
 		
 	}
 	
-	public void showSpecialPanel () {
+	public void showFormationPanel () {
 		
 	}
 	

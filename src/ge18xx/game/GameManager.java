@@ -2989,7 +2989,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tFormationPhase = (FormationPhase) triggerClass;
 			}
 			if (tFormationPhase != FormationPhase.NO_FORMATION_PHASE) {
-				tFormationPhase.showSpecialPanel ();
+				tFormationPhase.showFormationPanel ();
 			} else {
 				System.err.println ("Formation Phase not available to be shown");
 			}
