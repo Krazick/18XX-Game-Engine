@@ -14,6 +14,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
@@ -529,15 +530,17 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		JPanel tBottomJPanel;
 		JPanel tOpenMarketJPanel;
 		JPanel tNotificationJPanel;
-		JLabel tNotificationLabel;
+		JTextArea tNotiricationArea;
 		Color tColor;
 		
 		tColor = gameManager.getAlertColor ();
 		tNotificationJPanel = new JPanel ();
-		tNotificationLabel = new JLabel (notificationText);
-		tNotificationLabel.setFont (new Font ("Courier New", Font.BOLD, 16));
-		
-		tNotificationJPanel.add (tNotificationLabel);
+		tNotiricationArea = new JTextArea (5, 80);
+		tNotiricationArea.setText (notificationText);
+		tNotiricationArea.setFont (new Font ("Courier New", Font.BOLD, 16));
+		tNotiricationArea.setLineWrap (true);
+		tNotiricationArea.setWrapStyleWord (true);
+		tNotificationJPanel.add (tNotiricationArea);
 		tNotificationJPanel.setBackground (tColor);
 		
 		tBottomJPanel = new JPanel ();
