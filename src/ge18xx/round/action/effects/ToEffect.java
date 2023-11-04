@@ -93,14 +93,25 @@ public class ToEffect extends Effect {
 	public String getToActorName () {
 		String tToName;
 		
-		if (toName == GUI.NULL_STRING) {
-			tToName = toActor.getName ();
-		} else if (toName.equals (GUI.EMPTY_STRING)) {
-			tToName = toActor.getName ();
+		if (toActor == ActorI.NO_ACTOR) {
+			tToName = GUI.NULL_STRING;
 		} else {
-			tToName = toName;
+			tToName = toActor.getName ();
 		}
-		
+
+//		if (toName == GUI.NULL_STRING) {
+//			if (toActor == ActorI.NO_ACTOR) {
+//				tToName = GUI.NULL_STRING;
+//			} else {
+//				tToName = toActor.getName ();
+//			}
+//			
+//		} else if (toName.equals (GUI.EMPTY_STRING)) {
+//			tToName = toActor.getName ();
+//		} else {
+//			tToName = toName;
+//		}
+//		
 		return tToName;
 	}
 
