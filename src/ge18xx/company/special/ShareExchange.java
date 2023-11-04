@@ -169,6 +169,9 @@ public class ShareExchange extends PlayerFormationPhase {
 		String tFormingAbbrev;
 		String tNotification;
 		String tPresidentName;
+		String tTransferNotification;
+		String tExchangeNotification;
+		boolean tTransferred;
 		
 		// Notification Text:
 		// Exchanged X Shares of (AAA){, X Shares (XX%) of (AAA) ...} for X Shares of (ZZZ)
@@ -183,7 +186,10 @@ public class ShareExchange extends PlayerFormationPhase {
 							tOperatingRoundID, player);
 		tTransferOwnershipAction2 = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, player);
+		tExchangeNotification = player.getName () + " exchanged ";
+		tTransferNotification = player.getName () + " transferred ";
 		tNotification = GUI.EMPTY_STRING;
+		tTransferred = false;
 		for (String tCompanyAbbrev : shareCompaniesHandled) {
 			tCertificateCount = tPlayerPortfolio.getCertificateTotalCount ();
 			tExchangeCount = 0;
@@ -193,8 +199,9 @@ public class ShareExchange extends PlayerFormationPhase {
 					if ((tCertificate.getPercentage () == PhaseInfo.STANDARD_SHARE_SIZE) && oneShareToBankPool) {
 						transferShare (player, tBankPool, tCertificate, tTransferOwnershipAction1);
 						oneShareToBankPool = false;
-						tNotification += player.getName () + " transferred 1 Share of (" + tCompanyAbbrev + ") to " + 
-										tBankPool.getName ();
+						tTransferNotification += "1 Share of " + tCompanyAbbrev + " to " + 
+										tBankPool.getName () + ". ";
+						tTransferred = true;
 					} else {
 						tExchangeCount += tCertificate.getShareCount ();
 						transferShareToClosed (player, tCertificate, tTransferOwnershipAction1);
@@ -202,9 +209,14 @@ public class ShareExchange extends PlayerFormationPhase {
 				}
 			}
 			if (tExchangeCount > 0) {
-				tNotification += player.getName () + " exchanged " + tExchangeCount + " Shares of (" + tCompanyAbbrev + ") ";
+				tExchangeNotification += tExchangeCount + " Shares of " + tCompanyAbbrev + " ";
 			}
 		}
+		if (tTransferred) {
+			tNotification = tTransferNotification;
+		}
+		tNotification += tExchangeNotification;
+		
 		if (totalExchangeCount > 0) {
 			tFormingCompanyID = gameManager.getFormingCompanyId ();
 			tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
