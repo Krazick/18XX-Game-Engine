@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.company.special.FormationPhase;
 import ge18xx.company.special.TriggerClass;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
@@ -31,12 +32,17 @@ public class SetFormationStateEffect extends ChangeCorporationStatusEffect {
 		boolean tEffectApplied;
 		GameManager tGameManager;
 		TriggerClass tTriggerClass;
-		
+		int tCurrentPlayerIndex;
+		FormationPhase tFormationPhase;
+
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			tGameManager = aRoundManager.getGameManager ();
 			tTriggerClass = tGameManager.getTriggerClass ();
 			tTriggerClass.setFormationState (newState);
+			tFormationPhase = (FormationPhase) tTriggerClass;
+			tCurrentPlayerIndex = tFormationPhase.getCurrentPlayerIndex ();
+			tTriggerClass.rebuildSpecialPanel (tCurrentPlayerIndex);
 			tEffectApplied = true;
 		} else {
 			setApplyFailureReason ("Actor " + actor.getName () + " is not a Player.");
