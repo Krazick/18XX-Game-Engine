@@ -40,7 +40,7 @@ public class SpecialPanelEffect extends ToEffect {
 		super (aEffectNode, aGameManager);
 	}
 
-	public void hideSpecialPanel (RoundManager aRoundManager) {
+	public void hideFormationPanel (RoundManager aRoundManager) {
 		GameManager tGameManager;
 		TriggerClass tTriggerClass;
 		

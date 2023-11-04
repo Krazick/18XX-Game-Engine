@@ -45,7 +45,7 @@ public class HideSpecialPanelEffect extends SpecialPanelEffect {
 		
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
-			hideSpecialPanel (aRoundManager);
+			hideFormationPanel (aRoundManager);
 			tEffectApplied = true;
 		}
 

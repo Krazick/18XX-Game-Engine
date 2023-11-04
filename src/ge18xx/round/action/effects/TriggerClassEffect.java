@@ -44,7 +44,7 @@ public class TriggerClassEffect extends SpecialPanelEffect {
 		
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
-			hideSpecialPanel (aRoundManager);
+			hideFormationPanel (aRoundManager);
 			tEffectUndone = true;
 		}
 

@@ -77,7 +77,7 @@ public class ShowSpecialPanelEffect extends RebuildFormationPanelEffect {
 		boolean tEffectUndone;
 
 		tEffectUndone = false;
-		hideSpecialPanel (aRoundManager);
+		hideFormationPanel (aRoundManager);
 		tEffectUndone = true;
 
 		return tEffectUndone;
