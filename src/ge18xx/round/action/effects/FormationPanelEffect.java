@@ -9,34 +9,34 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
 
-public class SpecialPanelEffect extends ToEffect {
+public class FormationPanelEffect extends ToEffect {
 	public final static String NAME = "Special Panel";
 
-	public SpecialPanelEffect () {
+	public FormationPanelEffect () {
 		this (NAME);
 	}
 
-	public SpecialPanelEffect (String aName) {
+	public FormationPanelEffect (String aName) {
 		super (aName);
 	}
 	
-	public SpecialPanelEffect (ActorI aToActor) {
+	public FormationPanelEffect (ActorI aToActor) {
 		super (NAME, aToActor);
 	}
 
-	public SpecialPanelEffect (ActorI aFromActor, ActorI aToActor) {
+	public FormationPanelEffect (ActorI aFromActor, ActorI aToActor) {
 		this (NAME, aToActor, aFromActor);
 	}
 	
-	public SpecialPanelEffect (String aName, ActorI aToActor) {
+	public FormationPanelEffect (String aName, ActorI aToActor) {
 		super (aName, aToActor);
 	}
 	
-	public SpecialPanelEffect (String aName, ActorI aToActor, ActorI aFromActor) {
+	public FormationPanelEffect (String aName, ActorI aToActor, ActorI aFromActor) {
 		super (aName, aToActor, aFromActor);
 	}
 
-	public SpecialPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {
+	public FormationPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 	}
 

@@ -7,7 +7,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
 
-public class HideSpecialPanelEffect extends SpecialPanelEffect {
+public class HideSpecialPanelEffect extends FormationPanelEffect {
 	public final static String NAME = "Hide Special Panel";
 
 	public HideSpecialPanelEffect () {

@@ -10,7 +10,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class SetRepaymentHandledEffect extends SpecialPanelEffect {
+public class SetRepaymentHandledEffect extends FormationPanelEffect {
 	public final static String NAME = "Set Repayment Handled";
 	final static AttributeName AN_REPAYMENT_HANDLED = new AttributeName ("repaymentHandled");
 	boolean replaymentHandled;

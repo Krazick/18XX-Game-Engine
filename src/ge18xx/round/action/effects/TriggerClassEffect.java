@@ -5,7 +5,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
 
-public class TriggerClassEffect extends SpecialPanelEffect {
+public class TriggerClassEffect extends FormationPanelEffect {
 	public final static String NAME = "Trigger Class";
 
 	public TriggerClassEffect () {
