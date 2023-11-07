@@ -698,10 +698,13 @@ public class ShareCompany extends TokenCompany {
 	}
 
 	public void redeemLoans (int aLoanRedemptionCount) {
-		redeemLoans (aLoanRedemptionCount, 0);
+		boolean tHandledRepayment;
+		
+		tHandledRepayment = false;
+		redeemLoans (aLoanRedemptionCount, 0, tHandledRepayment);
 	}
 
-	public void redeemLoans (int aLoanRedemptionCount, int aPresidentContribution) {
+	public void redeemLoans (int aLoanRedemptionCount, int aPresidentContribution, boolean aHandledRepayment) {
 		int tNewLoanCount;
 		int tOldLoanCount;
 		int tLoanRedemptionAmount;
@@ -726,7 +729,9 @@ public class ShareCompany extends TokenCompany {
 				addNeededCashTransferEffect (tRedeemLoanAction, aPresidentContribution);
 				tRedeemLoanAction.addUpdateLoanCountEffect (this, tOldLoanCount, tNewLoanCount);
 				tRedeemLoanAction.addCashTransferEffect (this, tBank, tLoanRedemptionAmount);
-
+				if (aHandledRepayment) {
+					tRedeemLoanAction.addRebuildFormationPanelEffect (this);
+				}
 				transferCashTo (tBank, tLoanRedemptionAmount);
 				setLoanCount (tNewLoanCount);
 				corporationList.addAction (tRedeemLoanAction);
