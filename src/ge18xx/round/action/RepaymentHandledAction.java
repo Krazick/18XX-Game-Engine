@@ -10,7 +10,7 @@ import ge18xx.round.action.effects.ShareFoldCountEffect;
 import ge18xx.utilities.XMLNode;
 
 public class RepaymentHandledAction extends ChangeStateAction {
-	public final static String NAME = "RepayementHandledAction";
+	public final static String NAME = "Repayement Handled";
 
 	public RepaymentHandledAction () {
 		this (NAME);
