@@ -17,7 +17,6 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.RepaymentHandledAction;
-import ge18xx.round.action.SpecialPanelAction;
 import ge18xx.utilities.GUI;
 
 public class LoanRepayment extends PlayerFormationPhase {
@@ -318,17 +317,11 @@ public class LoanRepayment extends PlayerFormationPhase {
 
 	public void redeemLoanAndUpdate (ShareCompany aShareCompany, int tLoanCount, int tPresidentContribution) {
 		int tCurrentPlayerIndex;
-		SpecialPanelAction tSpecialPanelAction;
-		String tOperatingRoundID;
+		boolean tHandledRepayment;
 		
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
-		aShareCompany.redeemLoans (tLoanCount, tPresidentContribution);
+		tHandledRepayment = true;
+		aShareCompany.redeemLoans (tLoanCount, tPresidentContribution, tHandledRepayment);
 		formationPhase.rebuildFormationPanel (tCurrentPlayerIndex);
-		tOperatingRoundID = aShareCompany.getOperatingRoundID ();
-		tSpecialPanelAction = new SpecialPanelAction (ActorI.ActionStates.OperatingRound, 
-								tOperatingRoundID, aShareCompany);
-		tSpecialPanelAction.addRebuildSpecialPanelEffect (aShareCompany);
-		tSpecialPanelAction.setChainToPrevious (true);
-		aShareCompany.addAction (tSpecialPanelAction);
 	}
 }
