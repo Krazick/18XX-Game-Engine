@@ -404,7 +404,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 				buildContinueButton (CONTINUE);
 			}
 		} else if (formationState == ActorI.ActionStates.ShareExchange) {
-			System.out.println ("All Players Shares have been Exchanged");
 			setAllPlayerSharesHandled (true);
 			if (hasTokensToExchange ()) {
 				buildContinueButton (TOKEN_EXCHANGE);
@@ -520,6 +519,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public void setNotificationText (String aNotificationText) {
 		notificationText = aNotificationText;
+	}
+	
+	public String getNotificationText () {
+		return notificationText;
 	}
 	
 	public JPanel buildBottomJPanel () {
