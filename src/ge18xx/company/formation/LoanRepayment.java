@@ -171,13 +171,13 @@ public class LoanRepayment extends PlayerFormationPhase {
 			tFoldingCompanyAbbrev = aShareCompany.getAbbrev ();
 			tNotification = formationPhase.buildFoldNotification (tFoldingCompanyAbbrev, tShareFoldCount);
 			formationPhase.setNotificationText (tNotification);
-					
 			tRepaymentHandledAction.addShareFoldCountEffect (aShareCompany, tOldShareFoldCount, tNewShareFoldCount);
+			tRepaymentHandledAction.addSetNotificationEffect (aShareCompany, tNotification);
 		}
 	
 		tRepaymentHandledAction.addSetRepaymentHandledEffect (aShareCompany, tRepaymentHandled);
 		tRepaymentHandledAction.addRebuildFormationPanelEffect (aShareCompany);
-	
+
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
 	
 		formationPhase.rebuildFormationPanel (tCurrentPlayerIndex);
