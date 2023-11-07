@@ -9,8 +9,8 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
 
-public class FormationPanelEffect extends ToEffect {
-	public final static String NAME = "Special Panel";
+public class FormationPanelEffect extends Effect {
+	public final static String NAME = "Formation Panel";
 
 	public FormationPanelEffect () {
 		this (NAME);
@@ -23,17 +23,9 @@ public class FormationPanelEffect extends ToEffect {
 	public FormationPanelEffect (ActorI aToActor) {
 		super (NAME, aToActor);
 	}
-
-	public FormationPanelEffect (ActorI aFromActor, ActorI aToActor) {
-		this (NAME, aToActor, aFromActor);
-	}
 	
 	public FormationPanelEffect (String aName, ActorI aToActor) {
 		super (aName, aToActor);
-	}
-	
-	public FormationPanelEffect (String aName, ActorI aToActor, ActorI aFromActor) {
-		super (aName, aToActor, aFromActor);
 	}
 
 	public FormationPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {

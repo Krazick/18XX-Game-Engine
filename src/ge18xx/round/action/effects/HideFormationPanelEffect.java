@@ -7,30 +7,30 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
 
-public class HideSpecialPanelEffect extends FormationPanelEffect {
+public class HideFormationPanelEffect extends FormationPanelEffect {
 	public final static String NAME = "Hide Special Panel";
 
-	public HideSpecialPanelEffect () {
+	public HideFormationPanelEffect () {
 		this (NAME);
 	}
 
-	public HideSpecialPanelEffect (String aName) {
+	public HideFormationPanelEffect (String aName) {
 		super (aName);
 	}
+//
+//	public HideFormationPanelEffect (ActorI aFromActor, ActorI aToActor) {
+//		super (aFromActor, aToActor);
+//	}
 
-	public HideSpecialPanelEffect (ActorI aFromActor, ActorI aToActor) {
-		super (aFromActor, aToActor);
-	}
-
-	public HideSpecialPanelEffect (String aName, ActorI aToActor) {
+	public HideFormationPanelEffect (String aName, ActorI aToActor) {
 		super (aName, aToActor);
 	}
 
-	public HideSpecialPanelEffect (String aName, ActorI aToActor, ActorI aFromActor) {
-		super (aName, aToActor, aFromActor);
-	}
+//	public HideFormationPanelEffect (String aName, ActorI aToActor, ActorI aFromActor) {
+//		super (aName, aToActor, aFromActor);
+//	}
 
-	public HideSpecialPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {
+	public HideFormationPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 	}
 

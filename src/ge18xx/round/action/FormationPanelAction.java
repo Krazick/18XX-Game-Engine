@@ -2,55 +2,54 @@ package ge18xx.round.action;
 
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
-import ge18xx.round.action.effects.HideSpecialPanelEffect;
 import ge18xx.round.action.effects.RebuildFormationPanelEffect;
-import ge18xx.round.action.effects.ShowSpecialPanelEffect;
+import ge18xx.round.action.effects.ShowFormationPanelEffect;
 import ge18xx.utilities.XMLNode;
 
-public class SpecialPanelAction extends Action {
-	public final static String NAME = "Show Special Panel";
+public class FormationPanelAction extends Action {
+	public final static String NAME = "Show Formation Panel";
 
-	public SpecialPanelAction () {
+	public FormationPanelAction () {
 		this (NAME);
 	}
 
-	public SpecialPanelAction (String aName) {
+	public FormationPanelAction (String aName) {
 		super (aName);
 	}
 
-	public SpecialPanelAction (Action aAction) {
+	public FormationPanelAction (Action aAction) {
 		super (aAction);
 	}
 
-	public SpecialPanelAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
+	public FormationPanelAction (ActionStates aRoundType, String aRoundID, ActorI aActor) {
 		super (aRoundType, aRoundID, aActor);
 		setName (NAME);
 	}
 
-	public SpecialPanelAction (XMLNode aActionNode, GameManager aGameManager) {
+	public FormationPanelAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
+//
+//	public void addHideFormationPanelEffect (ActorI aFromActor, ActorI aToActor) {
+//		HideFormationPanelEffect tHideFormationPanelEffect;
+//		
+//		tHideFormationPanelEffect = new HideFormationPanelEffect (aFromActor, aToActor);
+//		addEffect (tHideFormationPanelEffect);
+//	}
 
-	public void addHideSpecialPanelEffect (ActorI aFromActor, ActorI aToActor) {
-		HideSpecialPanelEffect tHideSpecialPanelEffect;
+	public void addShowFormationPanelEffect (ActorI aFromActor) {
+		ShowFormationPanelEffect tShowFormationPanelEffect;
 		
-		tHideSpecialPanelEffect = new HideSpecialPanelEffect (aFromActor, aToActor);
-		addEffect (tHideSpecialPanelEffect);
+		tShowFormationPanelEffect = new ShowFormationPanelEffect (aFromActor);
+		addEffect (tShowFormationPanelEffect);
 	}
 
-	public void addShowSpecialPanelEffect (ActorI aFromActor) {
-		ShowSpecialPanelEffect tShowSpecialPanelEffect;
+	public void addRebuildFormationPanelEffect (ActorI aFromActor) {
+		RebuildFormationPanelEffect tRebuildFormationPanelEffect;
 		
-		tShowSpecialPanelEffect = new ShowSpecialPanelEffect (aFromActor);
-		addEffect (tShowSpecialPanelEffect);
-	}
-
-	public void addRebuildSpecialPanelEffect (ActorI aFromActor) {
-		RebuildFormationPanelEffect tRebuildSpecialPanelEffect;
-		
-		tRebuildSpecialPanelEffect = new RebuildFormationPanelEffect (aFromActor);
-		addEffect (tRebuildSpecialPanelEffect);
+		tRebuildFormationPanelEffect = new RebuildFormationPanelEffect (aFromActor);
+		addEffect (tRebuildFormationPanelEffect);
 	}
 
 	@Override

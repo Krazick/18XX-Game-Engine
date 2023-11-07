@@ -829,7 +829,8 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 
 	private void buyCoupon () {
 		int tLoanCountToRepay;
-
+		boolean tHandlingRepayment;
+		
 		if (mustBuyCoupon instanceof Train) {
 			mustBuyCoupon.setSelection ();
 			shareCompany.buyTrain (presidentContribution);
@@ -838,8 +839,9 @@ public class ForceBuyCouponFrame extends JFrame implements ActionListener, ItemL
 			shareCompany.updateFrameInfo ();
 			shareCompany.setMustBuyCoupon (false);
 		} else if (mustBuyCoupon instanceof LoanRedemptionCoupon) {
+			tHandlingRepayment = false;
 			tLoanCountToRepay = mustBuyCoupon.getPrice ()/shareCompany.getLoanAmount ();
-			shareCompany.redeemLoans (tLoanCountToRepay, presidentContribution);
+			shareCompany.redeemLoans (tLoanCountToRepay, presidentContribution, tHandlingRepayment);
 			shareCompany.setMustBuyCoupon (false);
 		} else {
 			System.err.println ("The Must Buy Coupon " + mustBuyCoupon.getName () + " is not a recognized type.");
