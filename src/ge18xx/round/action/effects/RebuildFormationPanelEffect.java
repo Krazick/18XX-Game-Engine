@@ -22,12 +22,8 @@ public class RebuildFormationPanelEffect extends FormationPanelEffect {
 		super (NAME, aFromActor);
 	}
 
-	public RebuildFormationPanelEffect (String aName, ActorI aToActor) {
-		super (aName, aToActor);
-	}
-
-	public RebuildFormationPanelEffect (String aName, ActorI aToActor, ActorI aFromActor) {
-		super (aName, aToActor, aFromActor);
+	public RebuildFormationPanelEffect (String aName, ActorI aFromActor) {
+		super (aName, aFromActor);
 	}
 
 	public RebuildFormationPanelEffect (XMLNode aEffectNode, GameManager aGameManager) {
