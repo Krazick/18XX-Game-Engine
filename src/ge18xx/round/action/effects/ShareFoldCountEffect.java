@@ -77,7 +77,8 @@ public class ShareFoldCountEffect extends Effect {
 	
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + actor.getName () + " from " + getOldShareFoldCount () + " to " + getNewShareFoldCount ());
+		return (REPORT_PREFIX + name + " for " + actor.getName () + " from " + getOldShareFoldCount () + 
+					" to " + getNewShareFoldCount ());
 	}
 
 	@Override
@@ -101,8 +102,10 @@ public class ShareFoldCountEffect extends Effect {
 				tFoldingCompanyAbbrev = tShareCompany.getAbbrev ();
 				tShareFoldCount = tShareCompany.getShareFoldCount ();
 				tLoanRepayment.setShareFoldCount (newShareFoldCount);
+				
 				tNotification = tLoanRepayment.buildFoldNotification (tFoldingCompanyAbbrev, tShareFoldCount);
 				tLoanRepayment.setNotificationText (tNotification);
+				
 				tEffectApplied = true;
 			}
 		}
