@@ -5,6 +5,7 @@ import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.RebuildFormationPanelEffect;
+import ge18xx.round.action.effects.SetNotificationEffect;
 import ge18xx.round.action.effects.SetRepaymentHandledEffect;
 import ge18xx.round.action.effects.ShareFoldCountEffect;
 import ge18xx.utilities.XMLNode;
@@ -47,7 +48,16 @@ public class RepaymentHandledAction extends ChangeStateAction {
 			addEffect (tShareFoldCountEffect);
 		}
 	}
-	
+
+	public void addSetNotificationEffect (ActorI aActor, String aNotificationText) {
+		SetNotificationEffect tSetNotificationEffect;
+		
+		if (actor.isACorporation ()) {
+			tSetNotificationEffect = new SetNotificationEffect (aActor, aNotificationText);
+			addEffect (tSetNotificationEffect);
+		}
+	}
+
 	public void addRebuildFormationPanelEffect (ActorI aFromActor) {
 		RebuildFormationPanelEffect tRebuildFormationPanelEffect;
 		
