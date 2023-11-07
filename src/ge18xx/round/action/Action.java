@@ -33,11 +33,11 @@ public class Action {
 	public final static AttributeName AN_NUMBER = new AttributeName ("number");
 	public final static AttributeName AN_TOTAL_CASH = new AttributeName ("totalCash");
 	public final static AttributeName AN_CLASS = new AttributeName ("class");
-	static final AttributeName AN_NAME = new AttributeName ("name");
-	static final AttributeName AN_ROUND_TYPE = new AttributeName ("roundType");
-	static final AttributeName AN_ROUND_ID = new AttributeName ("roundID");
-	static final AttributeName AN_CHAIN_PREVIOUS = new AttributeName ("chainPrevious");
-	static final AttributeName AN_DATE_TIME = new AttributeName ("dateTime");
+	public final static AttributeName AN_NAME = new AttributeName ("name");
+	public final static AttributeName AN_ROUND_TYPE = new AttributeName ("roundType");
+	public final static AttributeName AN_ROUND_ID = new AttributeName ("roundID");
+	public final static AttributeName AN_CHAIN_PREVIOUS = new AttributeName ("chainPrevious");
+	public final static AttributeName AN_DATE_TIME = new AttributeName ("dateTime");
 	String name;
 	ActorI.ActionStates roundType;
 	String roundID;
@@ -82,10 +82,6 @@ public class Action {
 		effects = new LinkedList<> ();
 	}
 	
-	private void setDateTime (long aDateTime) {
-		dateTime = aDateTime;
-	}
-	
 	public Action (XMLNode aActionNode, GameManager aGameManager) {
 		String tActionName;
 		String tRoundTypeString;
@@ -115,6 +111,10 @@ public class Action {
 		setTotalCash (tTotalCash);
 		setDateTime (tDateTime);
 		parseActionNode (aActionNode, aGameManager, tActionName, tNumber);
+	}
+	
+	private void setDateTime (long aDateTime) {
+		dateTime = aDateTime;
 	}
 
 	private void parseActionNode (XMLNode aActionNode, GameManager aGameManager, String aActionName, int aNumber) {
@@ -187,7 +187,7 @@ public class Action {
 	public int getTotalCash () {
 		return totalCash;
 	}
-
+	
 	public boolean actorIsSet () {
 		boolean tActorSet;
 
