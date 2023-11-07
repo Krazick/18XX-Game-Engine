@@ -394,15 +394,20 @@ public class ShareExchange extends PlayerFormationPhase {
 		Certificate tHalfPresidentCertificate;
 		Certificate tExchangeCertificate;
 		Portfolio tPlayerPortfolio;
+//		Portfolio tPresidentPortfolio;
+//
+//		Player tPresident;
 		Bank tBank;
 		int tOwnedPercentage;
+		int tPresidentPercentage;
 		String tFormingAbbrev;
 		
 		tBank = gameManager.getBank ();
+		tPresidentPercentage = aFormingCompany.getPresidentPercent ();
 		tPlayerPortfolio = player.getPortfolio ();
 		tOwnedPercentage = tPlayerPortfolio.getPercentageFor (aFormingCompany);
 		tFormingAbbrev = aFormingCompany.getAbbrev ();
-		if (tOwnedPercentage >= aPercentage) {
+		if (tOwnedPercentage > tPresidentPercentage) {
 			tPresidentCertificate = aBankPortfolio.getCertificate (tFormingAbbrev, aPercentage * 2, true);
 			if (tPresidentCertificate != Certificate.NO_CERTIFICATE) {
 				transferShare (tBank, Bank.IPO, player, tPresidentCertificate, aTransferOwnershipAction);
@@ -599,8 +604,17 @@ public class ShareExchange extends PlayerFormationPhase {
 	public void handlePlayerDone () {
 		ShareExchangeFinishedAction tShareExchangeFinishedAction;
 		String tOperatingRoundID;
-		Player tNewPlayer;
+//		Player tNewPlayer;
 		
+		tOperatingRoundID = gameManager.getOperatingRoundID ();
+		tShareExchangeFinishedAction = new ShareExchangeFinishedAction (ActorI.ActionStates.OperatingRound, 
+				tOperatingRoundID, player);
+//		tNewPlayer = formationPhase.getCurrentPlayer ();
+
+//		tShareExchangeFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
+//		tShareExchangeFinishedAction.addRebuildFormationPanelEffect (player);
+//		tShareExchangeFinishedAction.setChainToPrevious (true);
+		gameManager.addAction (tShareExchangeFinishedAction);
 		super.handlePlayerDone ();
 		if (formationPhase.getAllPlayerSharesHandled ()) {
 			handleOpenMarketShareExchange ();
@@ -610,14 +624,5 @@ public class ShareExchange extends PlayerFormationPhase {
 			// -- Test to update to Next Phase (Token Exchange)
 			formationPhase.allPlayerSharesExchanged ();
 		}
-		tOperatingRoundID = gameManager.getOperatingRoundID ();
-		tShareExchangeFinishedAction = new ShareExchangeFinishedAction (ActorI.ActionStates.OperatingRound, 
-				tOperatingRoundID, player);
-		tNewPlayer = formationPhase.getCurrentPlayer ();
-
-		tShareExchangeFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
-		tShareExchangeFinishedAction.addRebuildFormationPanelEffect (player);
-		tShareExchangeFinishedAction.setChainToPrevious (true);
-		gameManager.addAction (tShareExchangeFinishedAction);
 	}
 }
