@@ -3,6 +3,7 @@ package ge18xx.round.action;
 import ge18xx.bank.Bank;
 import ge18xx.game.GameManager;
 import ge18xx.round.action.ActorI.ActionStates;
+import ge18xx.round.action.effects.RebuildFormationPanelEffect;
 import ge18xx.utilities.XMLNode;
 
 public class RedeemLoanAction extends GetLoanAction {
@@ -43,5 +44,12 @@ public class RedeemLoanAction extends GetLoanAction {
 		tSimpleActionReport = actor.getName () + " redeemed a Goverment Loan of the amount " + Bank.formatCash (getCashAmount ());
 
 		return tSimpleActionReport;
+	}
+	
+	public void addRebuildFormationPanelEffect (ActorI aFromActor) {
+		RebuildFormationPanelEffect tRebuildFormationPanelEffect;
+		
+		tRebuildFormationPanelEffect = new RebuildFormationPanelEffect (aFromActor);
+		addEffect (tRebuildFormationPanelEffect);
 	}
 }
