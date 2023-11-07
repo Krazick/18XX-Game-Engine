@@ -10,7 +10,7 @@ import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.XMLNode;
 
-public class UpdateToNextPlayerEffect extends FormationPanelEffect {
+public class UpdateToNextPlayerEffect extends ToFormationPanelEffect {
 	public final static String NAME = "Update to Next Player";
 
 	public UpdateToNextPlayerEffect () {
