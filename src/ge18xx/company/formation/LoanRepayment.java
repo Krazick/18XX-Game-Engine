@@ -149,7 +149,6 @@ public class LoanRepayment extends PlayerFormationPhase {
 		RepaymentHandledAction tRepaymentHandledAction;
 		String tOperatingRoundID;
 		String tNotification;
-		String tFoldingCompanyAbbrev;
 		boolean tRepaymentHandled;
 		int tCurrentPlayerIndex;
 		int tShareFoldCount;
@@ -168,8 +167,7 @@ public class LoanRepayment extends PlayerFormationPhase {
 			
 			tNewShareFoldCount = formationPhase.getShareFoldCount ();
 			
-			tFoldingCompanyAbbrev = aShareCompany.getAbbrev ();
-			tNotification = formationPhase.buildFoldNotification (tFoldingCompanyAbbrev, tShareFoldCount);
+			tNotification = formationPhase.buildFoldNotification (aShareCompany, tShareFoldCount);
 			formationPhase.setNotificationText (tNotification);
 			tRepaymentHandledAction.addShareFoldCountEffect (aShareCompany, tOldShareFoldCount, tNewShareFoldCount);
 			tRepaymentHandledAction.addSetNotificationEffect (aShareCompany, tNotification);
