@@ -253,6 +253,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		updateDoneButton (true);
 		formationPhase.rebuildFormationPanel (formationPhase.getCurrentPlayerIndex ());
 		tTransferOwnershipAction2.addRebuildFormationPanelEffect (player);
+		tTransferOwnershipAction2.addSetNotificationEffect (player, tNotification);
 		gameManager.addAction (tTransferOwnershipAction1);
 		if (tTransferOwnershipAction2.getEffectCount () > 0) {
 			tTransferOwnershipAction2.setChainToPrevious (true);
@@ -347,6 +348,7 @@ public class ShareExchange extends PlayerFormationPhase {
 			formationPhase.rebuildFormationPanel ();
 			tTransferOwnershipAction.setChainToPrevious (true);
 			tTransferOwnershipAction.addRebuildFormationPanelEffect (player);
+			tTransferOwnershipAction.addSetNotificationEffect (player, tNotification);
 			gameManager.addAction (tTransferOwnershipAction);
 		}
 	}
@@ -373,10 +375,10 @@ public class ShareExchange extends PlayerFormationPhase {
 				tOperatingRoundID = gameManager.getOperatingRoundID ();
 				tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
 						tOperatingRoundID, player);
+				tNotification = tFormingCompany.getPresidentName () + " is the President of the " + tFormingCompany.getAbbrev ();
 				tPlayerManager.handlePresidentialTransfer (tTransferOwnershipAction, tFormingCompany, tCurrentPresident);
 				tTransferOwnershipAction.setChainToPrevious (true);
 				gameManager.addAction (tTransferOwnershipAction);
-				tNotification = tFormingCompany.getPresidentName () + " is the President of the " + tFormingCompany.getAbbrev ();
 				formationPhase.rebuildFormationPanel ();
 				formationPhase.setNotificationText (tNotification);
 			} else {
@@ -394,9 +396,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		Certificate tHalfPresidentCertificate;
 		Certificate tExchangeCertificate;
 		Portfolio tPlayerPortfolio;
-//		Portfolio tPresidentPortfolio;
-//
-//		Player tPresident;
+
 		Bank tBank;
 		int tOwnedPercentage;
 		int tPresidentPercentage;
@@ -604,16 +604,11 @@ public class ShareExchange extends PlayerFormationPhase {
 	public void handlePlayerDone () {
 		ShareExchangeFinishedAction tShareExchangeFinishedAction;
 		String tOperatingRoundID;
-//		Player tNewPlayer;
 		
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tShareExchangeFinishedAction = new ShareExchangeFinishedAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, player);
-//		tNewPlayer = formationPhase.getCurrentPlayer ();
 
-//		tShareExchangeFinishedAction.addUpdateToNextPlayerEffect (player, tNewPlayer);
-//		tShareExchangeFinishedAction.addRebuildFormationPanelEffect (player);
-//		tShareExchangeFinishedAction.setChainToPrevious (true);
 		gameManager.addAction (tShareExchangeFinishedAction);
 		super.handlePlayerDone ();
 		if (formationPhase.getAllPlayerSharesHandled ()) {

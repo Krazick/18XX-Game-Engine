@@ -8,6 +8,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.action.effects.CloseCorporationEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.RebuildFormationPanelEffect;
+import ge18xx.round.action.effects.SetNotificationEffect;
 import ge18xx.round.action.effects.StartPacketItemSetAvailableEffect;
 import ge18xx.round.action.effects.TransferOwnershipEffect;
 import ge18xx.utilities.XMLNode;
@@ -61,6 +62,13 @@ public class TransferOwnershipAction extends CashTransferAction {
 		
 		tRebuildFormationPanelEffect = new RebuildFormationPanelEffect (aFromActor);
 		addEffect (tRebuildFormationPanelEffect);
+	}
+	
+	public void addSetNotificationEffect (ActorI aActor, String aNotificationText) {
+		SetNotificationEffect tSetNotificationEffect;
+		
+		tSetNotificationEffect = new SetNotificationEffect (aActor, aNotificationText);
+		addEffect (tSetNotificationEffect);
 	}
 
 	public void startPacketItemSetAvailableEffect (ActorI aActor, StartPacketItem aStartPacketItem, boolean aAvailable) {
