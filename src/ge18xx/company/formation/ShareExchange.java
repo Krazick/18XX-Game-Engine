@@ -28,7 +28,6 @@ import ge18xx.utilities.GUI;
 
 public class ShareExchange extends PlayerFormationPhase {
 	public static final String EXCHANGE = "Exchange Shares";
-	public static final int SHARES_NEEDED_FOR_2ND_ISSUE = 21;
 	private static final long serialVersionUID = 1L;
 	boolean oneShareToBankPool;
 	JButton exchange;
@@ -121,7 +120,8 @@ public class ShareExchange extends PlayerFormationPhase {
 				}
 			}
 		}
-		totalExchangeCount = tTotalShareCount/2;
+//		totalExchangeCount = tTotalShareCount/2;
+		totalExchangeCount = formationPhase.getSharesReceived (tTotalShareCount);
 		if (tTotalShareCount % 2 != 0) {
 			oneShareToBankPool = true;
 		}
@@ -221,7 +221,7 @@ public class ShareExchange extends PlayerFormationPhase {
 			tFormingCompanyID = gameManager.getFormingCompanyId ();
 			tFormingCompany = gameManager.getCorporationByID (tFormingCompanyID);
 			tFormingAbbrev = getFormingAbbrev ();
-			tPercentage = getPercentageForExchange ();
+			tPercentage = formationPhase.getPercentageForExchange ();
 			for (tFoldingIndex = 0; tFoldingIndex < totalExchangeCount; tFoldingIndex++) {
 				tFoldedCertificate = tBankPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
 				if (tFoldedCertificate != Certificate.NO_CERTIFICATE) {
@@ -253,7 +253,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		updateDoneButton (true);
 		formationPhase.rebuildFormationPanel (formationPhase.getCurrentPlayerIndex ());
 		tTransferOwnershipAction2.addRebuildFormationPanelEffect (player);
-		tTransferOwnershipAction2.addSetNotificationEffect (player, tNotification);
+		tTransferOwnershipAction1.addSetNotificationEffect (player, tNotification);
 		gameManager.addAction (tTransferOwnershipAction1);
 		if (tTransferOwnershipAction2.getEffectCount () > 0) {
 			tTransferOwnershipAction2.setChainToPrevious (true);
@@ -273,16 +273,6 @@ public class ShareExchange extends PlayerFormationPhase {
 		return tFormingAbbrev;
 	}
 	
-	public int getPercentageForExchange () {
-		int tPercentage;
-		
-		if (formationPhase.getShareFoldCount () > SHARES_NEEDED_FOR_2ND_ISSUE) {
-			tPercentage = PhaseInfo.STANDARD_SHARE_SIZE/2;
-		} else {
-			tPercentage = PhaseInfo.STANDARD_SHARE_SIZE;
-		}
-		return tPercentage;
-	}
 
 	public void handleOpenMarketShareExchange () {
 		BankPool tBankPool;
@@ -309,7 +299,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		tCertificateCount = tBankPoolPortfolio.getCertificateTotalCount ();
 		if (tCertificateCount > 0) {
 			tExchangeCount = 0;
-			tPercentage = getPercentageForExchange ();
+			tPercentage = formationPhase.getPercentageForExchange ();
 			tOperatingRoundID = gameManager.getOperatingRoundID ();
 
 			tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
@@ -477,7 +467,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		String tFromName;
 		Bank tBank;
 
-		tPercentage = getPercentageForExchange ()/2;
+		tPercentage = formationPhase.getPercentageForExchange ()/2;
 		tPrezPercentage = tPercentage * 2;
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tBank = gameManager.getBank ();

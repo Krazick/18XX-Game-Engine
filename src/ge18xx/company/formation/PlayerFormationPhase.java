@@ -128,11 +128,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		tCombinedBorder = BorderFactory.createCompoundBorder (aActingBorder, tMargin);
 		setBorder (tCombinedBorder);
 	}
-	
-	public void updateDoneButton () {
 		
-	}
-	
 	public void updateDoneButton (boolean aActingPlayer) {
 		String tToolTip;
 		
@@ -143,6 +139,9 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 			done.setToolTipText (tToolTip);
 			done.setEnabled (false);
 		}
+	}
+	
+	public void updateDoneButton () {
 	}
 	
 	public void updateUndoButton (boolean aActingPlayer) {

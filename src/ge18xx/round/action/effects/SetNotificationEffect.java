@@ -81,12 +81,13 @@ public class SetNotificationEffect extends Effect {
 
 	public void setNotificationText (GameManager aGameManager, String aNotificationText) {
 		TriggerClass tTriggerClass;
-		FormationPhase tLoanRepayment;
+		FormationPhase tFormationPbase;
 
 		tTriggerClass = aGameManager.getTriggerClass ();
 		if (tTriggerClass instanceof FormationPhase) {
-			tLoanRepayment = (FormationPhase) tTriggerClass;
-			tLoanRepayment.setNotificationText (aNotificationText);
+			tFormationPbase = (FormationPhase) tTriggerClass;
+			tFormationPbase.setNotificationText (aNotificationText);
+			tFormationPbase.refreshPanel ();
 		}
 	}
 	
