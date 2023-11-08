@@ -23,6 +23,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
+import ge18xx.phase.PhaseInfo;
 import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.player.Portfolio;
@@ -48,6 +49,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public static final String TOKEN_EXCHANGE = "TokenExchange";
 	public static final String ASSET_COLLECTION = "AssetCollection";
 	public static final String STOCK_VALUE_CALCULATION = "StockValueCalculation";
+	public static final int SHARES_NEEDED_FOR_2ND_ISSUE = 21;
 	
 	XMLFrame formationFrame;
 	GameManager gameManager;
@@ -62,6 +64,9 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	JPanel bottomJPanel;
 	JButton continueButton;
 	String notificationText;
+	JPanel notificationJPanel;
+	JTextArea notiricationArea;
+
 	ShareCompany formingShareCompany;
 	Player actingPresident;
 	
@@ -78,6 +83,22 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		setFormingShareCompany ();
 		setAllPlayerSharesHandled (false);
 		buildAllPlayers (tFullFrameTitle);
+	}
+	
+	public void buildNotificationJPanel () {
+		Color tColor;
+		
+		if (notificationJPanel == null) {
+			notificationJPanel = new JPanel ();
+			notiricationArea = new JTextArea (5, 80);
+			notiricationArea.setFont (new Font ("Courier New", Font.BOLD, 16));
+			notiricationArea.setLineWrap (true);
+			notiricationArea.setWrapStyleWord (true);
+			notificationJPanel.add (notiricationArea);
+			tColor = gameManager.getAlertColor ();
+			notificationJPanel.setBackground (tColor);
+
+		}
 	}
 
 	public FormationPhase (GameManager aGameManager, BuyTrainAction aBuyTrainAction) {
@@ -106,6 +127,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public boolean getAllPlayerSharesHandled () {
 		return allPlayerSharesHandled;
+	}
+
+	public void updateDoneButton () {
+		
 	}
 
 	@Override
@@ -224,10 +249,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public void addShareFoldCount (int aShareCountToFold) {
 		shareFoldCount += aShareCountToFold;
-	}
-	
-	public int getShareFoldCount () {
-		return shareFoldCount;
 	}
 	
 	public boolean haveSharesToFold () {
@@ -478,6 +499,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			formationJPanel.add (tPlayerJPanel);
 			formationJPanel.add (Box.createVerticalStrut (10));
 		}
+		buildNotificationJPanel ();
 		bottomJPanel = buildBottomJPanel ();
 		formationJPanel.add (bottomJPanel);
 		updateContinueButton ();
@@ -528,24 +550,14 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public JPanel buildBottomJPanel () {
 		JPanel tBottomJPanel;
 		JPanel tOpenMarketJPanel;
-		JPanel tNotificationJPanel;
-		JTextArea tNotiricationArea;
-		Color tColor;
 		
-		tColor = gameManager.getAlertColor ();
-		tNotificationJPanel = new JPanel ();
-		tNotiricationArea = new JTextArea (5, 80);
-		tNotiricationArea.setText (notificationText);
-		tNotiricationArea.setFont (new Font ("Courier New", Font.BOLD, 16));
-		tNotiricationArea.setLineWrap (true);
-		tNotiricationArea.setWrapStyleWord (true);
-		tNotificationJPanel.add (tNotiricationArea);
-		tNotificationJPanel.setBackground (tColor);
+		notiricationArea.setText (notificationText);
+		System.out.println ("UPDATE Notification Text to [" + notificationText + "]");
 		
 		tBottomJPanel = new JPanel ();
 		tBottomJPanel.setLayout (new BoxLayout (tBottomJPanel, BoxLayout.X_AXIS));
 		tBottomJPanel.add (Box.createHorizontalGlue ());
-		tBottomJPanel.add (tNotificationJPanel);
+		tBottomJPanel.add (notificationJPanel);
 		tBottomJPanel.add (Box.createHorizontalStrut (20));
 		
 		tOpenMarketJPanel = buildOpenMarketPortfolio ();
@@ -644,16 +656,59 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public void handleStockValueCalculation () {
 		handleFormationStateChange (ActorI.ActionStates.StockValueCalculation);
 	}
+	
+	public int getSharesReceived (int aSharesExchanged) {
+		int tSharesReceived;
+		
+		tSharesReceived = aSharesExchanged/2;
+		
+		return tSharesReceived;
+	}
+	
+	public int getPercentageForExchange () {
+		int tPercentage;
+		
+		if (shareFoldCount > SHARES_NEEDED_FOR_2ND_ISSUE) {
+			tPercentage = PhaseInfo.STANDARD_SHARE_SIZE/2;
+		} else {
+			tPercentage = PhaseInfo.STANDARD_SHARE_SIZE;
+		}
+		
+		return tPercentage;
+	}
+	
+	public int getShareFoldCount () {
+		return shareFoldCount;
+	}
 
-	public String buildFoldNotification (String aFoldingCompanyAbbrev, int aShareFoldCount) {
+	public String buildFoldNotification (ShareCompany aFoldingCompany, int aShareFoldCount) {
 		String tNotification;
 		String tFormingCompanyAbbrev;
+		String tFoldingCompanyAbbrev;
+		String tTotalSharesFolded;
+		String tPresidentName;
+		int tNewShareCount;
+		int tSharePercentage;
 		
 		tFormingCompanyAbbrev = getFormingCompanyAbbrev ();
-
-		tNotification = aFoldingCompanyAbbrev + " will fold " + aShareFoldCount + 
-				" Shares into the " + tFormingCompanyAbbrev +
-				". Total New Share Fold Count is " + shareFoldCount;
+		tFoldingCompanyAbbrev = aFoldingCompany.getAbbrev ();
+		tPresidentName = aFoldingCompany.getPresidentName ();
+		tNotification = tFoldingCompanyAbbrev + " will fold " + aShareFoldCount + 
+				" Shares into the " + tFormingCompanyAbbrev + ".";
+		
+		tNewShareCount = getSharesReceived (aShareFoldCount);
+		
+		tTotalSharesFolded = " A total of " + shareFoldCount + " Shares will be folded into " + tFormingCompanyAbbrev + ".";
+		
+		tSharePercentage = getPercentageForExchange ();
+		tNotification += " " + tFormingCompanyAbbrev + " will issue " + tNewShareCount + " shares at " + tSharePercentage + 
+				"% per Share to " + tPresidentName + " of the First ";
+		if (tSharePercentage != PhaseInfo.STANDARD_SHARE_SIZE) {
+			tNotification += "and Second Issues.";
+		} else {
+			tNotification += "Issue.";
+		}
+		tNotification += tTotalSharesFolded;
 		
 		return tNotification;
 	}
@@ -666,5 +721,9 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	@Override
 	public void showFormationPanel () {
 		formationFrame.showFrame ();
+	}
+	
+	public void refreshPanel () {
+		formationFrame.repaint ();
 	}
 }
