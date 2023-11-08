@@ -828,12 +828,15 @@ public class PlayerManager {
 	public void handlePresidentialTransfer (TransferOwnershipAction aTransferOwnershipAction,
 			ShareCompany aShareCompany, Player aCurrentPresident) {
 		Player tNewPresident;
+		String tNotification;
 		
 		if (aCurrentPresident != Player.NO_PLAYER) {
 			tNewPresident = findNewPresident (aShareCompany,aCurrentPresident);
 			if ((tNewPresident != aCurrentPresident) && (tNewPresident != Player.NO_PLAYER)) {
 				exchangePresidentCertificate (aShareCompany, aCurrentPresident, tNewPresident,
 						aTransferOwnershipAction);
+				tNotification = "New President of " + aShareCompany.getAbbrev () + " is " + tNewPresident.getName ();
+				aTransferOwnershipAction.addSetNotificationEffect (aCurrentPresident, tNotification);
 			}
 		}
 	}
