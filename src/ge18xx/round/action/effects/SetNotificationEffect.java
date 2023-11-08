@@ -66,19 +66,12 @@ public class SetNotificationEffect extends Effect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
-//		TriggerClass tTriggerClass;
-//		FormationPhase tLoanRepayment;
 		GameManager tGameManager;
 
 		tEffectApplied = false;
 		
 		tGameManager = aRoundManager.getGameManager ();
 		setNotificationText (tGameManager, notificationText);
-//		tTriggerClass = tGameManager.getTriggerClass ();
-//		if (tTriggerClass instanceof FormationPhase) {
-//			tLoanRepayment = (FormationPhase) tTriggerClass;
-//			tLoanRepayment.setNotificationText (notificationText);
-//		}
 		// set the Notification Text properly
 		
 		tEffectApplied = true;
