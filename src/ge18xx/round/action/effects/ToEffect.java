@@ -55,7 +55,18 @@ public class ToEffect extends Effect {
 	}
 
 	public String getToNickName () {
-		return toNickName;
+		String tToNickName;
+		
+		tToNickName = GUI.NULL_STRING;
+		if (toNickName == GUI.NULL_STRING) {
+			tToNickName = GUI.NULL_STRING;
+		} else if (toNickName == GUI.EMPTY_STRING) {
+			tToNickName = GUI.NULL_STRING;		
+		} else {
+			tToNickName = toNickName;
+		}
+		
+		return tToNickName;
 	}
 
 	public void setToNickName (String aToNickName) {
@@ -91,6 +102,18 @@ public class ToEffect extends Effect {
 
 	public void setToActor (ActorI aToActor) {
 		toActor = aToActor;
+	}
+	
+	public String getToDisplayName () {
+		String tToDisplayName;
+		
+		tToDisplayName = getToNickName ();
+		
+		if (tToDisplayName == GUI.NULL_STRING) {
+			tToDisplayName = toActor.getName ();
+		}
+
+		return tToDisplayName;
 	}
 
 	@Override
