@@ -13,9 +13,9 @@ import ge18xx.utilities.XMLNode;
 public class ToEffect extends Effect {
 	public final static String NO_NAME = ">>NO TO EFFECT NAME<<";
 	public final static ActorI NO_TO_ACTOR = null;
-	static final AttributeName AN_TO_NAME = new AttributeName ("toName");
+	static final AttributeName AN_TO_NICK_NAME = new AttributeName ("toNickName");
 	ActorI toActor;
-	String toName;
+	String toNickName;
 
 	public ToEffect () {
 		this (NO_NAME);
@@ -35,27 +35,31 @@ public class ToEffect extends Effect {
 		setToActor (aToActor);
 	}
 	
-	public ToEffect (String aName, ActorI aFromActor, String aFromName, ActorI aToActor, String aToName) {
-		super (aName, aFromActor, aFromName);
+	public ToEffect (String aName, ActorI aFromActor, String aFromNickName, ActorI aToActor, String aToNickName) {
+		super (aName, aFromActor, aFromNickName);
 		setToActor (aToActor);
-		setToName (aToName);
+		setToNickName (aToNickName);
 	}
 
 	public ToEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		String tToActorName;
-		String tToName;
+		String tToNickName;
 		ActorI tToActor;
 
 		tToActorName = aEffectNode.getThisAttribute (ActorI.AN_TO_ACTOR_NAME);
-		tToName = aEffectNode.getThisAttribute (AN_TO_NAME);
+		tToNickName = aEffectNode.getThisAttribute (AN_TO_NICK_NAME);
 		tToActor = aGameManager.getActor (tToActorName);
 		setToActor (tToActor);
-		setToName (tToName);
+		setToNickName (tToNickName);
 	}
 
-	public void setToName (String aToName) {
-		toName = aToName;
+	public String getToNickName () {
+		return toNickName;
+	}
+
+	public void setToNickName (String aToNickName) {
+		toNickName = aToNickName;
 	}
 	
 	@Override
@@ -99,19 +103,6 @@ public class ToEffect extends Effect {
 			tToName = toActor.getName ();
 		}
 
-//		if (toName == GUI.NULL_STRING) {
-//			if (toActor == ActorI.NO_ACTOR) {
-//				tToName = GUI.NULL_STRING;
-//			} else {
-//				tToName = toActor.getName ();
-//			}
-//			
-//		} else if (toName.equals (GUI.EMPTY_STRING)) {
-//			tToName = toActor.getName ();
-//		} else {
-//			tToName = toName;
-//		}
-//		
 		return tToName;
 	}
 
