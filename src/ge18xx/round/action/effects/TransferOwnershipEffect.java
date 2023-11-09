@@ -77,6 +77,7 @@ public class TransferOwnershipEffect extends ToEffect {
 	public String getEffectReport (RoundManager aRoundManager) {
 		String tEffectReport;
 		String tToActorName;
+		String tFromActorName;
 		
 		tEffectReport = "";
 		tEffectReport += REPORT_PREFIX + name + " of ";
@@ -84,10 +85,14 @@ public class TransferOwnershipEffect extends ToEffect {
 		if (certificate.isPresidentShare ()) {
 			tEffectReport += " (President Share)";
 		}
-		tEffectReport += " from " + getActorName ();
-		tToActorName = getToActorName ();
+//		tFromActorName = getActorName ();
+		tFromActorName = getFromDisplayName ();
+		tEffectReport += " from " + tFromActorName;
+		tToActorName = getToDisplayName ();
 		tEffectReport += " to " + tToActorName + ".";
 
+		// --Effect: Transfer Ownership of 10% of CV from JeffW to Bank.
+		
 		return tEffectReport;
 	}
 	
