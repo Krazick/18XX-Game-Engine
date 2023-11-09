@@ -32,6 +32,7 @@ public abstract class Effect {
 	String name;
 	ActorI actor;
 	String fromName;
+	String nickName;
 	boolean isAPrivate;
 	boolean benefitUsed;
 	String benefitName;
@@ -53,7 +54,8 @@ public abstract class Effect {
 	
 	Effect (String aName, ActorI aActor, String aFromName) {
 		this (aName, aActor, NO_BENEFIT_IN_USE);
-		setFromName (aFromName);
+//		setFromName (aFromName);
+		setNickName (aFromName);
 	}
 
 	Effect (String aName, ActorI aActor, Benefit aBenefitInUse) {
@@ -84,6 +86,37 @@ public abstract class Effect {
 
 	public void postParse (ActorI aActor) {
 
+	}
+	
+	public String getNickName () {
+		String tNickName;
+		
+		tNickName = GUI.NULL_STRING;
+		if (nickName == GUI.NULL_STRING) {
+			tNickName = GUI.NULL_STRING;
+		} else if (nickName == GUI.EMPTY_STRING) {
+			tNickName = GUI.NULL_STRING;		
+		} else {
+			tNickName = nickName;
+		}
+		
+		return tNickName;
+	}
+
+	public void setNickName (String aNickName) {
+		nickName = aNickName;
+	}
+	
+	public String getFromDisplayName () {
+		String tDisplayName;
+		
+		tDisplayName = getNickName ();
+		
+		if (tDisplayName == GUI.NULL_STRING) {
+			tDisplayName = actor.getName ();
+		}
+
+		return tDisplayName;
 	}
 
 	protected void setFromName (String aFromName) {
