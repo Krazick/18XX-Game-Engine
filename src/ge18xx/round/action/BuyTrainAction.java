@@ -131,11 +131,11 @@ public class BuyTrainAction extends TransferOwnershipAction {
 		return tTrainName;
 	}
 	
-	public void addShowSpecialPanelEffect (ActorI aFromActor) {
-		ShowFormationPanelEffect tShowSpecialPanelEffect;
+	public void addShowFormationPanelEffect (ActorI aFromActor) {
+		ShowFormationPanelEffect tShowFormationPanelEffect;
 		
-		tShowSpecialPanelEffect = new ShowFormationPanelEffect (aFromActor);
-		addEffect (tShowSpecialPanelEffect);
+		tShowFormationPanelEffect = new ShowFormationPanelEffect (aFromActor);
+		addEffect (tShowFormationPanelEffect);
 	}
 
 	public void addSetFormationStateEffect (ActorI aFromActor, ActorI.ActionStates aOldFormationState,

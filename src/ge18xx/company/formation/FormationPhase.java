@@ -108,7 +108,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		if (aBuyTrainAction != Action.NO_ACTION) {
 			tActingPlayer = findActingPresident ();
-			aBuyTrainAction.addShowSpecialPanelEffect (tActingPlayer);
+			aBuyTrainAction.addShowFormationPanelEffect (tActingPlayer);
 			aBuyTrainAction.addSetFormationStateEffect (tActingPlayer, ActorI.ActionStates.NoState, formationState);
 		}
 	}
