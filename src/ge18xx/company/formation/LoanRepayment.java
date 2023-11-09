@@ -179,7 +179,6 @@ public class LoanRepayment extends PlayerFormationPhase {
 		tCurrentPlayerIndex = getCurrentPlayerIndex ();
 	
 		formationPhase.rebuildFormationPanel (tCurrentPlayerIndex);
-	
 		aShareCompany.addAction (tRepaymentHandledAction);
 	}
 
