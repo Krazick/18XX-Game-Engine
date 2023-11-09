@@ -47,7 +47,7 @@ public class ChangeStateAction extends ChangePlayerAction {
 		UpdateToNextPlayerEffect tUpdateToNextPlayerEffect;;
 
 		if (actor.isAPlayer ()) {
-			tUpdateToNextPlayerEffect = new UpdateToNextPlayerEffect (aActor.getName (), aOldPlayer, aNewPlayer);
+			tUpdateToNextPlayerEffect = new UpdateToNextPlayerEffect (aOldPlayer, aNewPlayer);
 			addEffect (tUpdateToNextPlayerEffect);
 		}
 	}
