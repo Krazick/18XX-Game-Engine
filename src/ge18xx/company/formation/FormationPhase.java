@@ -500,7 +500,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			formationJPanel.add (Box.createVerticalStrut (10));
 		}
 		buildNotificationJPanel ();
-//		bottomJPanel = buildBottomJPanel ();
 		buildBottomJPanel ();
 		formationJPanel.add (bottomJPanel);
 		updateContinueButton ();
@@ -551,7 +550,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	}
 	
 	public void buildBottomJPanel () {
-//		JPanel tBottomJPanel;
 		JPanel tOpenMarketJPanel;
 		
 		notiricationArea.setText (notificationText);
@@ -576,8 +574,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			bottomJPanel.add (Box.createHorizontalStrut (10));
 			bottomJPanel.add (continueButton);
 		}
-
-//		return tBottomJPanel;
 	}
 	
 	public JPanel buildOpenMarketPortfolio () {
