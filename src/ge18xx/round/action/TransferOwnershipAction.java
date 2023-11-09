@@ -49,11 +49,11 @@ public class TransferOwnershipAction extends CashTransferAction {
 		addEffect (tTransferOwnershipEffect);
 	}
 
-	public void addTransferOwnershipEffect (ActorI afromActor, String aFromName, Certificate aCertificate, ActorI aToActor,
-			String aToName) {
+	public void addTransferOwnershipEffect (ActorI afromActor, String aFromNickName, Certificate aCertificate, ActorI aToActor,
+			String aToNickName) {
 		TransferOwnershipEffect tTransferOwnershipEffect;
 
-		tTransferOwnershipEffect = new TransferOwnershipEffect (afromActor, aFromName, aCertificate, aToActor, aToName);
+		tTransferOwnershipEffect = new TransferOwnershipEffect (afromActor, aFromNickName, aCertificate, aToActor, aToNickName);
 		addEffect (tTransferOwnershipEffect);
 	}
 
