@@ -120,7 +120,6 @@ public class ShareExchange extends PlayerFormationPhase {
 				}
 			}
 		}
-//		totalExchangeCount = tTotalShareCount/2;
 		totalExchangeCount = formationPhase.getSharesReceived (tTotalShareCount);
 		if (tTotalShareCount % 2 != 0) {
 			oneShareToBankPool = true;
@@ -172,9 +171,6 @@ public class ShareExchange extends PlayerFormationPhase {
 		String tTransferNotification;
 		String tExchangeNotification;
 		boolean tTransferred;
-		
-		// Notification Text:
-		// Exchanged X Shares of (AAA){, X Shares (XX%) of (AAA) ...} for X Shares of (ZZZ)
 		
 		tBankPool = gameManager.getBankPool ();
 		tBank = gameManager.getBank ();
@@ -241,11 +237,6 @@ public class ShareExchange extends PlayerFormationPhase {
 			}
 		}
 
-		if (tTransferOwnershipAction1.getEffectCount () > 0) {
-			tTransferOwnershipAction1.printActionReport (gameManager.getRoundManager ());
-		} else {
-			System.err.println ("No Effects in the Action");
-		}
 		formationPhase.setNotificationText (tNotification);
 
 		exchange.setEnabled (false);
@@ -373,7 +364,6 @@ public class ShareExchange extends PlayerFormationPhase {
 				formationPhase.setNotificationText (tNotification);
 			} else {
 				System.err.println ("The Current President is not a Player");
-				// No Player holds enough to be President
 			}
 		} else {
 			System.err.println ("The Forming Company ID found is NOT a Share Company");
@@ -452,7 +442,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		}
 	}
 	
-	public void closeFormingCompanyAlternateIssue () {
+	public void closeFormingCompanySecondIssue () {
 		int tPercentage;
 		int tPrezPercentage;
 		int tFormingCompanyID;
@@ -532,7 +522,7 @@ public class ShareExchange extends PlayerFormationPhase {
 		transferShare (aFromActor, aFromName, aToActor, tToName, aCertificate, aTransferOwnershipAction);
 	}
 	
-	public void transferShare (PortfolioHolderI aFromActor, String aFromName, ActorI aToActor, String aToName, 
+	public void transferShare (PortfolioHolderI aFromActor, String aFromNickName, ActorI aToActor, String aToNickName, 
 				Certificate aCertificate, TransferOwnershipAction aTransferOwnershipAction) {
 		Portfolio tFromActorPortfolio;
 		Portfolio tToActorPortfolio;
@@ -540,10 +530,10 @@ public class ShareExchange extends PlayerFormationPhase {
 	
 		tFromActorPortfolio = aFromActor.getPortfolio ();
 		tToHolder = (PortfolioHolderI) aToActor;
-		aToName = aToActor.getName ();
+		aToNickName = aToActor.getName ();
 		tToActorPortfolio = tToHolder.getPortfolio ();
 		tToActorPortfolio.transferOneCertificateOwnership (tFromActorPortfolio,  aCertificate);
-		aTransferOwnershipAction.addTransferOwnershipEffect (aFromActor, aFromName, aCertificate, aToActor, aToName);
+		aTransferOwnershipAction.addTransferOwnershipEffect (aFromActor, aFromNickName, aCertificate, aToActor, aToNickName);
 	}
 	
 	@Override
@@ -605,7 +595,7 @@ public class ShareExchange extends PlayerFormationPhase {
 			handleOpenMarketShareExchange ();
 			confirmFormingPresident ();
 			handleIPOShareClosing ();
-			closeFormingCompanyAlternateIssue ();
+			closeFormingCompanySecondIssue ();
 			// -- Test to update to Next Phase (Token Exchange)
 			formationPhase.allPlayerSharesExchanged ();
 		}
