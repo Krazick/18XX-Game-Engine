@@ -541,8 +541,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public void setNotificationText (String aNotificationText) {
 		notificationText = aNotificationText;
-		System.out.println ("In setNotificationText -- notificationText ID " + System.identityHashCode (notificationText));
-
 	}
 	
 	public String getNotificationText () {
@@ -553,7 +551,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		JPanel tOpenMarketJPanel;
 		
 		notiricationArea.setText (notificationText);
-		System.out.println ("UPDATE Notification Text to [" + notificationText + "]");
 		
 		if (bottomJPanel == null) {
 			bottomJPanel = new JPanel ();
