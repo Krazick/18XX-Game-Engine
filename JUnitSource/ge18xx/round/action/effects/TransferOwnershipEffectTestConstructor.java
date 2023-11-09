@@ -119,6 +119,8 @@ class TransferOwnershipEffectTestConstructor {
 		
 		mPortfolioAlpha = Mockito.mock (Portfolio.class);
 		Mockito.when (mPlayerActorAlpha.getPortfolio ()).thenReturn (mPortfolioAlpha);
+		Mockito.when (mPlayerActorAlpha.getName ()).thenReturn (tPlayer2Name);
+		Mockito.when (mPlayerActorAlpha.getAbbrev ()).thenReturn (tPlayer2Name);
 		Mockito.when (mPortfolioAlpha.transferOneCertificateOwnership (any (Portfolio.class), any (Certificate.class))).thenReturn (true);
 
 		mPortfolioDelta = Mockito.mock (Portfolio.class);
@@ -175,15 +177,87 @@ class TransferOwnershipEffectTestConstructor {
 	@Test
 	@DisplayName ("Test with Action Created")
 	void TransferOwnershipWithActionCreation () {
-		TransferOwnershipAction tTransferOwnershipAction;
+		TransferOwnershipAction tTransferOwnershipAction1;
+		TransferOwnershipAction tTransferOwnershipAction2;
+		TransferOwnershipAction tTransferOwnershipAction3;
 		String tOperatingRoundID;
 		String tFromName;
+		String tToName;
+		String tExpectedActionReport1;
+		String tExpectedActionReport2;
+		String tExpectedActionReport3;
+		String tExpectedEffectReport1;
+		String tExpectedEffectReport2;
+		String tExpectedEffectReport3;
 		
 		tOperatingRoundID = "1.1";
 		tFromName = "Alpha Tester";
-		tTransferOwnershipAction = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, tOperatingRoundID, mPlayerActorAlpha);
+		tToName = "Alpha Tester";
+		
+		tExpectedEffectReport1 = "--Effect: Transfer Ownership of 20% of TPRR (President Share) from Alpha Tester to Bank Closed.";
+		tExpectedEffectReport2 = "--Effect: Transfer Ownership of 20% of TPRR (President Share) from Bank IPO to Alpha Tester.";
+		tExpectedEffectReport3 = "--Effect: Transfer Ownership of 20% of TPRR (President Share) from Bank to ToEffectTesterAlpha.";
+		tExpectedActionReport1 = "0. Operating Round 1.1: ToEffectTesterAlpha performed Transfer Ownership Action Chain to Previous [false]\n"
+				+ tExpectedEffectReport1;
+		tExpectedActionReport2 = "0. Operating Round 1.1: ToEffectTesterAlpha performed Transfer Ownership Action Chain to Previous [false]\n"
+				+ tExpectedEffectReport2;
+		tExpectedActionReport3 = "0. Operating Round 1.1: ToEffectTesterAlpha performed Transfer Ownership Action Chain to Previous [false]\n"
+				+ tExpectedEffectReport3;
+	
+		tTransferOwnershipAction1 = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
+						tOperatingRoundID, mPlayerActorAlpha);
 
-		tTransferOwnershipAction.addTransferOwnershipEffect (mPlayerActorAlpha, tFromName, certificate, bank, Bank.CLOSED);
-		tTransferOwnershipAction.printActionReport (roundManager);
+		transferOwnershipTest (tTransferOwnershipAction1, mPlayerActorAlpha, tFromName, bank, Bank.CLOSED, 
+					tExpectedActionReport1, tExpectedEffectReport1);
+	
+		tTransferOwnershipAction2 = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
+				tOperatingRoundID, mPlayerActorAlpha);
+		transferOwnershipTest (tTransferOwnershipAction2, bank, Bank.IPO, mPlayerActorAlpha, tToName, 
+				tExpectedActionReport2, tExpectedEffectReport2);
+
+		tTransferOwnershipAction3 = new TransferOwnershipAction (ActorI.ActionStates.OperatingRound, 
+				tOperatingRoundID, mPlayerActorAlpha);
+		transferOwnershipTest (tTransferOwnershipAction3, bank, mPlayerActorAlpha,  
+				tExpectedActionReport3, tExpectedEffectReport3);
+		//--Effect: Transfer Ownership of 10% of CV from JeffW to Bank.
 	}
+
+	public void transferOwnershipTest (TransferOwnershipAction aTransferOwnershipAction, ActorI aFrom, String aFromName, 
+				ActorI aTo, String aToName, String aExpectedActionReport, String aExpectedEffectReport) {
+		TransferOwnershipEffect tTransferOwnershipEffect;
+		String tActionReport;
+		String tEffectReport;
+		
+		aTransferOwnershipAction.addTransferOwnershipEffect (aFrom, aFromName, certificate, aTo, aToName);
+		
+		tTransferOwnershipEffect = (TransferOwnershipEffect) aTransferOwnershipAction.getEffect (0);
+		
+		tActionReport = aTransferOwnershipAction.getActionReport (roundManager);
+		tEffectReport = tTransferOwnershipEffect.getEffectReport (roundManager);
+		
+		aTransferOwnershipAction.printActionReport (roundManager);
+	
+		assertEquals (aExpectedActionReport, tActionReport);
+		assertEquals (aExpectedEffectReport, tEffectReport);
+	}
+	
+	public void transferOwnershipTest (TransferOwnershipAction aTransferOwnershipAction, ActorI aFrom, 
+			ActorI aTo, String aExpectedActionReport, String aExpectedEffectReport) {
+		TransferOwnershipEffect tTransferOwnershipEffect;
+		String tActionReport;
+		String tEffectReport;
+		
+		aTransferOwnershipAction.addTransferOwnershipEffect (aFrom, certificate, aTo);
+		
+		tTransferOwnershipEffect = (TransferOwnershipEffect) aTransferOwnershipAction.getEffect (0);
+		
+		tActionReport = aTransferOwnershipAction.getActionReport (roundManager);
+		tEffectReport = tTransferOwnershipEffect.getEffectReport (roundManager);
+		
+		aTransferOwnershipAction.printActionReport (roundManager);
+	
+		assertEquals (aExpectedActionReport, tActionReport);
+		assertEquals (aExpectedEffectReport, tEffectReport);
+	}
+
 }
