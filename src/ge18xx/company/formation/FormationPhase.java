@@ -500,7 +500,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			formationJPanel.add (Box.createVerticalStrut (10));
 		}
 		buildNotificationJPanel ();
-		bottomJPanel = buildBottomJPanel ();
+//		bottomJPanel = buildBottomJPanel ();
+		buildBottomJPanel ();
 		formationJPanel.add (bottomJPanel);
 		updateContinueButton ();
 		formationJPanel.repaint ();
@@ -541,35 +542,42 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public void setNotificationText (String aNotificationText) {
 		notificationText = aNotificationText;
+		System.out.println ("In setNotificationText -- notificationText ID " + System.identityHashCode (notificationText));
+
 	}
 	
 	public String getNotificationText () {
 		return notificationText;
 	}
 	
-	public JPanel buildBottomJPanel () {
-		JPanel tBottomJPanel;
+	public void buildBottomJPanel () {
+//		JPanel tBottomJPanel;
 		JPanel tOpenMarketJPanel;
 		
 		notiricationArea.setText (notificationText);
 		System.out.println ("UPDATE Notification Text to [" + notificationText + "]");
 		
-		tBottomJPanel = new JPanel ();
-		tBottomJPanel.setLayout (new BoxLayout (tBottomJPanel, BoxLayout.X_AXIS));
-		tBottomJPanel.add (Box.createHorizontalGlue ());
-		tBottomJPanel.add (notificationJPanel);
-		tBottomJPanel.add (Box.createHorizontalStrut (20));
+		if (bottomJPanel == null) {
+			bottomJPanel = new JPanel ();
+	
+			bottomJPanel.setLayout (new BoxLayout (bottomJPanel, BoxLayout.X_AXIS));
+			bottomJPanel.add (Box.createHorizontalGlue ());
+			bottomJPanel.add (notificationJPanel);
+			bottomJPanel.add (Box.createHorizontalStrut (20));
+			
+			tOpenMarketJPanel = buildOpenMarketPortfolio ();
+			bottomJPanel.add (tOpenMarketJPanel);
 		
-		tOpenMarketJPanel = buildOpenMarketPortfolio ();
-		tBottomJPanel.add (tOpenMarketJPanel);
-		if (continueButton != GUI.NO_BUTTON) {
-			tBottomJPanel.add (Box.createHorizontalStrut (10));
-			tBottomJPanel.add (continueButton);
+			bottomJPanel.add (Box.createHorizontalGlue ());
+
 		}
 		
-		tBottomJPanel.add (Box.createHorizontalGlue ());
+		if (continueButton != GUI.NO_BUTTON) {
+			bottomJPanel.add (Box.createHorizontalStrut (10));
+			bottomJPanel.add (continueButton);
+		}
 
-		return tBottomJPanel;
+//		return tBottomJPanel;
 	}
 	
 	public JPanel buildOpenMarketPortfolio () {
