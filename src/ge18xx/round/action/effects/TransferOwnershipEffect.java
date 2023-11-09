@@ -32,9 +32,9 @@ public class TransferOwnershipEffect extends ToEffect {
 		setCertificate (aCertificate);
 	}
 	
-	public TransferOwnershipEffect (ActorI aFromActor, String aFromName, Certificate aCertificate, ActorI aToActor, 
-			String aToName) {
-		super (NAME, aFromActor, aFromName, aToActor, aToName);
+	public TransferOwnershipEffect (ActorI aFromActor, String aFromNickName, Certificate aCertificate, ActorI aToActor, 
+			String aToNickName) {
+		super (NAME, aFromActor, aFromNickName, aToActor, aToNickName);
 		setCertificate (aCertificate);
 	}
 
