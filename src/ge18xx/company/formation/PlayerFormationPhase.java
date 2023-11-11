@@ -28,6 +28,7 @@ import ge18xx.utilities.GUI;
 
 public class PlayerFormationPhase extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
+	public static final String CONTINUE = "Continue";
 	public static final String DONE = "Done";
 	public static final String UNDO = "Undo";
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
@@ -36,9 +37,12 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	protected GameManager gameManager;
 	protected FormationPhase formationPhase;
 	protected List<String> shareCompaniesHandled;
-	JButton done;
-	JButton undo;
+	JPanel buttonsPanel;
+	JButton continueButton;
+	JButton doneButton;
+	JButton undoButton;
 	JLabel presidentNameLabel;
+	boolean actingPlayer;
 
 	public PlayerFormationPhase (GameManager aGameManager, FormationPhase aFormationPhase, Player aPlayer, 
 							Player aActingPresident) {
@@ -46,7 +50,6 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		Color tBackgroundColor;
 		Color tBorderColor;
 		Border tActingBorder;
-		boolean tActingPlayer;
 		
 		gameManager = aGameManager;
 		formationPhase = aFormationPhase;
@@ -56,19 +59,19 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 			if (gameManager.isNetworkAndIsThisClient (tActingPresidentName)) {
 				tBackgroundColor = gameManager.getAlertColor ();
 				tBorderColor = gameManager.getAlertColor ();
-				tActingPlayer = true;
+				actingPlayer = true;
 			} else {
 				tBackgroundColor = GUI.defaultColor;
 				tBorderColor = gameManager.getAlertColor ();
-				tActingPlayer = false;
+				actingPlayer = false;
 			}
 		} else {
 			tBackgroundColor = GUI.defaultColor;
 			tBorderColor = Color.BLACK;
-			tActingPlayer = false;
+			actingPlayer = false;
 		}
 		tActingBorder = BorderFactory.createLineBorder (tBorderColor, 3);
-		buildPlayerJPanel (tActingPlayer, tActingBorder);
+		buildPlayerJPanel (actingPlayer, tActingBorder);
 		setBackground (tBackgroundColor);
 	}
 	
@@ -77,11 +80,9 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		JPanel tPlayerInfo;
 		JPanel tPortfolio;
 		JPanel tCompanies;
-		JPanel tDoneUndo;
 		Portfolio tPlayerPortfolio;
 		Border tMargin;
 		Border tCombinedBorder;
-		String tToolTip;
 		
 		setLayout (new BoxLayout (this, BoxLayout.X_AXIS));
 		tMargin = new EmptyBorder (10,10,10,10);
@@ -107,28 +108,52 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		tCompanies = buildPlayerCompaniesJPanel (tPlayerPortfolio, aActingPlayer);
 		add (tCompanies);
 		
-		tToolTip = GUI.EMPTY_STRING;
-		done = formationPhase.buildSpecialButton (DONE, DONE, tToolTip, this);
-		undo = formationPhase.buildSpecialButton (UNDO, UNDO, tToolTip, this);
-		updateDoneButton (aActingPlayer);
-		updateUndoButton (aActingPlayer);
-		tDoneUndo = new JPanel ();
-		tDoneUndo.setLayout (new BoxLayout (tDoneUndo, BoxLayout.Y_AXIS));
-
-		tDoneUndo.add (Box.createVerticalGlue ());
-		tDoneUndo.add (Box.createVerticalStrut (10));
-		tDoneUndo.add (done);
-		tDoneUndo.add (Box.createVerticalGlue ());
-		tDoneUndo.add (undo);
-		tDoneUndo.add (Box.createVerticalStrut (10));
-		tDoneUndo.add (Box.createVerticalGlue ());
-		add (tDoneUndo);
+		buildButtonsPanel (aActingPlayer, CONTINUE);
 		
 		tMargin = new EmptyBorder (10,10,10,10);
 		tCombinedBorder = BorderFactory.createCompoundBorder (aActingBorder, tMargin);
 		setBorder (tCombinedBorder);
 	}
+	
+	public void buildButtonsPanel (boolean aActingPlayer, String aContinueCommand) {
+		String tToolTip;
 		
+		tToolTip = GUI.EMPTY_STRING;
+		continueButton = formationPhase.buildSpecialButton (CONTINUE, aContinueCommand, tToolTip, this);
+		doneButton = formationPhase.buildSpecialButton (DONE, DONE, tToolTip, this);
+		undoButton = formationPhase.buildSpecialButton (UNDO, UNDO, tToolTip, this);
+		
+		buttonsPanel = new JPanel ();
+		buttonsPanel.setLayout (new BoxLayout (buttonsPanel, BoxLayout.Y_AXIS));
+
+		buttonsPanel.add (Box.createVerticalGlue ());
+		buttonsPanel.add (Box.createVerticalStrut (10));
+		buttonsPanel.add (continueButton);
+		buttonsPanel.add (Box.createVerticalStrut (10));
+		buttonsPanel.add (doneButton);
+		buttonsPanel.add (Box.createVerticalStrut (10));
+		buttonsPanel.add (undoButton);
+		buttonsPanel.add (Box.createVerticalStrut (10));
+		buttonsPanel.add (Box.createVerticalGlue ());
+		updateContinueButton (aActingPlayer);
+		updateDoneButton (aActingPlayer);
+		updateUndoButton (aActingPlayer);
+		
+		add (buttonsPanel);
+	}
+	
+	public void updateContinueButton () {
+	}
+	
+	public void updateContinueButton (boolean aActingPlayer) {
+		if (aActingPlayer) {
+			continueButton.setVisible (true);
+		} else {
+			continueButton.setVisible (false);
+		}
+		updateContinueButton ();
+	}
+	
 	public void updateDoneButton (boolean aActingPlayer) {
 		String tToolTip;
 		
@@ -136,8 +161,8 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 			updateDoneButton ();
 		} else {
 			tToolTip = NOT_ACTING_PRESIDENT;
-			done.setToolTipText (tToolTip);
-			done.setEnabled (false);
+			doneButton.setToolTipText (tToolTip);
+			doneButton.setEnabled (false);
 		}
 	}
 	
@@ -146,10 +171,10 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	
 	public void updateUndoButton (boolean aActingPlayer) {
 		if (aActingPlayer) {
-			undo.setEnabled (true);
+			undoButton.setEnabled (true);
 		} else {
-			undo.setToolTipText (NOT_ACTING_PRESIDENT);
-			undo.setEnabled (false);
+			undoButton.setToolTipText (NOT_ACTING_PRESIDENT);
+			undoButton.setEnabled (false);
 		}
 	}
 	
