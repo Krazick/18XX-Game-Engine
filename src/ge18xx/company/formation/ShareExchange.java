@@ -264,7 +264,6 @@ public class ShareExchange extends PlayerFormationPhase {
 		return tFormingAbbrev;
 	}
 	
-
 	public void handleOpenMarketShareExchange () {
 		BankPool tBankPool;
 		Portfolio tBankPoolPortfolio;
@@ -545,6 +544,8 @@ public class ShareExchange extends PlayerFormationPhase {
 			handleShareExchange ();
 		} else if (tActionCommand.equals (DONE)) {
 			handlePlayerDone ();
+		} else if (tActionCommand.equals (FormationPhase.TOKEN_EXCHANGE)) {
+			formationPhase.handleTokenExchange ();
 		} else {
 			super.actionPerformed (aEvent);
 		}
@@ -556,18 +557,40 @@ public class ShareExchange extends PlayerFormationPhase {
 
 		tToolTip = GUI.NO_TOOL_TIP;
 		if (getSharesExchanged ()) {
-			done.setEnabled (false);
+			doneButton.setEnabled (false);
 			tToolTip = "President already completed all share exchanges";
 		} else if (foldingCompanyCount == 0) {
-			done.setEnabled (true);
+			doneButton.setEnabled (true);
 			tToolTip = "President has no shares to exchanges";
 		} else {
-			done.setEnabled (false);
+			doneButton.setEnabled (false);
 			tToolTip = "President has not completed all share exchanges";
 		}
-		done.setToolTipText (tToolTip);
+		doneButton.setToolTipText (tToolTip);
 	}
 	
+	@Override
+	public void updateContinueButton () {
+		String tToolTip;
+		
+		if (getSharesExchanged () && actingPlayer) {
+			if (formationPhase.getFormationState ().equals ((ActorI.ActionStates.ShareExchange))) {
+				continueButton.setEnabled (true);
+				tToolTip = "All Shares have been exchanged, proceed to Token Exchange";			
+				continueButton.setToolTipText (tToolTip);
+				continueButton.setVisible (true);
+			} else {
+				continueButton.setEnabled (false);
+				tToolTip = "Not Ready Yet";
+				continueButton.setToolTipText (tToolTip);
+				continueButton.setVisible (false);
+			}	
+			continueButton.setActionCommand (FormationPhase.TOKEN_EXCHANGE);
+		} else {
+			continueButton.setVisible (false);
+		}
+	}
+
 	public boolean getSharesExchanged () {
 		boolean tSharesExchanged;
 		
@@ -596,8 +619,6 @@ public class ShareExchange extends PlayerFormationPhase {
 			confirmFormingPresident ();
 			handleIPOShareClosing ();
 			closeFormingCompanySecondIssue ();
-			// -- Test to update to Next Phase (Token Exchange)
-			formationPhase.allPlayerSharesExchanged ();
 		}
 	}
 }
