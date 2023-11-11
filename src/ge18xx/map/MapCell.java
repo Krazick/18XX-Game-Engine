@@ -83,8 +83,7 @@ public class MapCell implements Comparator<Object> {
 	static boolean mapDirection;
 	boolean tileOrientLocked;
 	boolean selected;
-	boolean startingTile; // If the board has a initial tile placed, need to have terrain features show
-							// through.
+	boolean startingTile; // If the board has a initial tile placed, need to have terrain features show through.
 	boolean allowedRotations [] = new boolean [6];
 	boolean blockedSides [] = new boolean [6];
 	int trainUsingSide [] = new int [6]; // Train Number using the side;

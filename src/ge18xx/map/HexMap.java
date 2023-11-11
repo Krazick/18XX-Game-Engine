@@ -79,13 +79,13 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	MapFrame mapFrame;
 	SelectableMapCells selectableMapCells;
 	MapGraph mapGraph;
+	Logger logger;
+	boolean selectRevenueCenter;
+	boolean selectTrackSegment;
 	boolean tilePlaced;
 	boolean placeTileMode;
 	boolean singleMapCellSelect; // Set true if in mode to select a SINGLE Hex Map Cell, selecting a different
-	// should unselect ALL and leave only the single map cell selected.
-	boolean selectRevenueCenter;
-	boolean selectTrackSegment;
-	Logger logger;
+								// should unselect ALL and leave only the single map cell selected.
 
 	public HexMap (MapFrame aMapFrame) {
 		mapFrame = aMapFrame;
