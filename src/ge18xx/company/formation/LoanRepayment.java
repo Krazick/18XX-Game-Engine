@@ -240,6 +240,11 @@ public class LoanRepayment extends PlayerFormationPhase {
 					}
 				}
 			}
+			if (tActionCommand.equals (FormationPhase.FOLD)) {
+				formationPhase.handleFoldIntoFormingCompany ();
+			} else if (tActionCommand.equals (CONTINUE)) {
+				formationPhase.hideFormationPanel ();
+			}
 		}
 	}
 	
@@ -262,6 +267,39 @@ public class LoanRepayment extends PlayerFormationPhase {
 	}
 
 	@Override
+	public void updateContinueButton () {
+		String tToolTip;
+		String tFormingCompanyAbbrev;
+		
+		if (repaymentFinished () && actingPlayer) {
+			if (formationPhase.getFormationState ().equals ((ActorI.ActionStates.LoanRepayment))) {
+				tFormingCompanyAbbrev = formationPhase.getFormingCompanyAbbrev ();
+				continueButton.setEnabled (true);
+				tToolTip = GUI.EMPTY_STRING;
+				if (formationPhase.haveSharesToFold ()) {
+					tToolTip = "There are Outstanding Loans, " + tFormingCompanyAbbrev + " will Form.";
+				} else {
+					tToolTip = "No Outstanding Loans, " + tFormingCompanyAbbrev + " will not Form.";			
+				}
+				continueButton.setToolTipText (tToolTip);
+				continueButton.setVisible (true);
+			} else {
+				continueButton.setEnabled (false);
+				tToolTip = "Not Ready Yet";
+				continueButton.setToolTipText (tToolTip);
+				continueButton.setVisible (false);
+			}	
+			if (formationPhase.haveSharesToFold ()) {
+				continueButton.setActionCommand (FormationPhase.FOLD);
+			} else {
+				continueButton.setActionCommand (CONTINUE);
+			}
+		} else {
+			continueButton.setVisible (false);
+		}
+	}
+	
+	@Override
 	public void updateDoneButton () {
 		String tToolTip;
 		Portfolio tPortfolio;
@@ -273,13 +311,13 @@ public class LoanRepayment extends PlayerFormationPhase {
 
 		if (repaymentFinished ()) {
 			if (formationPhase.getFormationState ().equals ((ActorI.ActionStates.LoanRepayment))) {
-				done.setEnabled (false);
+				doneButton.setEnabled (false);
 				tToolTip = PAYBACK_COMPLETED;
-				done.setToolTipText (tToolTip);
+				doneButton.setToolTipText (tToolTip);
 			} else {
-				done.setEnabled (false);
+				doneButton.setEnabled (false);
 				tToolTip = "Not Ready Yet";
-				done.setToolTipText (tToolTip);
+				doneButton.setToolTipText (tToolTip);
 			}	
 		} else {
 			tPortfolio = player.getPortfolio ();
@@ -293,12 +331,12 @@ public class LoanRepayment extends PlayerFormationPhase {
 						if (! tShareCompany.wasRepaymentHandled ()) {
 							tAllCompaniesHandled = false;
 							tToolTip = LOANS_REPAYMENTS_NEEDED;
-							done.setToolTipText (tToolTip);
+							doneButton.setToolTipText (tToolTip);
 						}
 					}
 				}
 			}
-			done.setEnabled (tAllCompaniesHandled);
+			doneButton.setEnabled (tAllCompaniesHandled);
 		}
 	}
 	
