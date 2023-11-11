@@ -152,7 +152,13 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public void CalcGridCenters () {
-		int rowIndex, colIndex, Xc, Yc, toggle, temp_2DLR, temp_DUP_dwidth;
+		int rowIndex;
+		int colIndex;
+		int Xc;
+		int Yc;
+		int toggle;
+		int temp_2DLR;
+		int temp_DUP_dwidth;
 		int rowCount;
 		int colCount;
 
@@ -211,7 +217,10 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	}
 
 	public void clearAllSelected () {
-		int rowIndex, colIndex, rowCount, colCount;
+		int rowIndex;
+		int colIndex;
+		int rowCount;
+		int colCount;
 
 		rowCount = getRowCount ();
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
@@ -232,7 +241,10 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	 * @param aTrainNumber The Train Number to clear
 	 */
 	public void clearTrain (int aTrainNumber) {
-		int rowIndex, colIndex, rowCount, colCount;
+		int rowIndex;
+		int colIndex;
+		int rowCount;
+		int colCount;
 
 		rowCount = getRowCount ();
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
@@ -250,7 +262,10 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	 *
 	 */
 	public void clearAllTrains () {
-		int rowIndex, colIndex, rowCount, colCount;
+		int rowIndex;
+		int colIndex;
+		int rowCount;
+		int colCount;
 
 		rowCount = getRowCount ();
 		for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
@@ -262,15 +277,42 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 
+	public void collectNonHomeMapCellIDs (int aCorpID, List<String> aNonHomeMapCellIDs) {
+		int tRowIndex;
+		int tColIndex;
+		int tRowCount;
+		int tColCount;
+		String tMapCellID;
+		Location tLocation;
+		String tMapCellIDandLocation;
+
+		tRowCount = getRowCount ();
+		for (tRowIndex = 0; (tRowIndex < tRowCount); tRowIndex++) {
+			tColCount = getColCount (tRowIndex);
+			for (tColIndex = 0; (tColIndex < tColCount); tColIndex++) {
+				if (map [tRowIndex] [tColIndex].hasStation (aCorpID)) {
+					tMapCellID = map [tRowIndex] [tColIndex].getID ();
+					tLocation = map [tRowIndex] [tColIndex].getLocationWithStation (aCorpID);
+					tMapCellIDandLocation = aCorpID + ":" + tMapCellID + ":" + tLocation.getLocation ();
+					aNonHomeMapCellIDs.add (tMapCellIDandLocation);
+				}
+			}
+		}
+
+	}
+	
 	public boolean hasStation (int aCorpID) {
-		int rowIndex, colIndex, rowCount, colCount;
+		int tRowIndex;
+		int tColIndex;
+		int tRowCount;
+		int tColCount;
 		boolean tHasStation = false;
 
-		rowCount = getRowCount ();
-		for (rowIndex = 0; (rowIndex < rowCount) && !tHasStation; rowIndex++) {
-			colCount = getColCount (rowIndex);
-			for (colIndex = 0; (colIndex < colCount) && !tHasStation; colIndex++) {
-				if (map [rowIndex] [colIndex].hasStation (aCorpID)) {
+		tRowCount = getRowCount ();
+		for (tRowIndex = 0; (tRowIndex < tRowCount) && !tHasStation; tRowIndex++) {
+			tColCount = getColCount (tRowIndex);
+			for (tColIndex = 0; (tColIndex < tColCount) && !tHasStation; tColIndex++) {
+				if (map [tRowIndex] [tColIndex].hasStation (aCorpID)) {
 					tHasStation = true;
 				}
 			}
