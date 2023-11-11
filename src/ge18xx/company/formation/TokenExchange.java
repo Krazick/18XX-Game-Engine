@@ -1,6 +1,8 @@
 package ge18xx.company.formation;
 
 import java.awt.event.ActionEvent;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -13,6 +15,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
+import ge18xx.map.HexMap;
 import ge18xx.map.Location;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
@@ -38,12 +41,12 @@ public class TokenExchange extends PlayerFormationPhase {
 	private static final long serialVersionUID = 1L;
 	public static String EXCHANGE_HOME_TOKEN = "ExchangeHomeTokens";
 	public static String EXCHANGE_NON_HOME_TOKEN = "ExchangeNonHomeTokens";
-
-//	int formingCompanyPresidentIndex;
 	boolean homeTokensExchanges;
 	boolean nonHomeTokenExchanges;
 	JButton homeTokensExchange;
 	JButton nonHomeTokensExchange;
+	List<String> homeMapCellIDs;
+	List<String> nonHomeMapCellIDs;
 	
 	public TokenExchange (GameManager aGameManager, FormationPhase aTokenExchange, Player aPlayer,
 			Player aActingPresident) {
@@ -100,6 +103,7 @@ public class TokenExchange extends PlayerFormationPhase {
 		Border tCorporateColorBorder;
 		String tExchangeHomeTokens;
 		String tAbbrevs;
+		String tNonHomeStations;
 		ShareCompany tShareCompany;
 		CorporationList tShareCompanies;
 		int tShareIndex;
@@ -109,6 +113,8 @@ public class TokenExchange extends PlayerFormationPhase {
 		tShareCompanyJPanel = new JPanel ();
 		tShareCompanyJPanel.setLayout (new BoxLayout (tShareCompanyJPanel, BoxLayout.Y_AXIS));
 
+		homeMapCellIDs = new LinkedList<String> ();
+		nonHomeMapCellIDs = new LinkedList<String> ();
 		// NOTE:   
 		// Exchange Home Tokens of (ABC, DEF, GHI...) for XXX Tokens   
 		tCorporateColorBorder = aFormingShareCompany.setupBorder ();
@@ -135,8 +141,13 @@ public class TokenExchange extends PlayerFormationPhase {
 		
 		buildSpecialButtons (aFormingShareCompany, tShareCompanyJPanel, aActingPlayer);
 		tShareCompanyJPanel.add (homeTokensExchange);
+		
+		collectNonHomeMapTokens ();
 		tNonHomeTokensLabel = new JLabel ("Non-Home Tokens Exchange Choices");
 		tShareCompanyJPanel.add (tNonHomeTokensLabel);
+		tNonHomeStations = nonHomeMapCellIDs.toString ();
+		System.out.println (tNonHomeStations);
+		
 		// Add Checkbox for each Non-Home Token
 		
 		tShareCompanyJPanel.add (nonHomeTokensExchange);
@@ -149,20 +160,42 @@ public class TokenExchange extends PlayerFormationPhase {
 		String tAbbrev;
 		String tHomeMapCell1;
 		String tHomeMapCell2;
-		Location tHomeLocation1;
-		Location tHomeLocation2;
 		
 		tAbbrev = aShareCompany.getAbbrev ();
 		tHomeMapCell1 = aShareCompany.getCorpHome1MapID ();
-		tHomeLocation1 = aShareCompany.getHomeLocation1 ();
 		tHomeMapCell2 = aShareCompany.getCorpHome2MapID ();
-		tHomeLocation2 = aShareCompany.getHomeLocation2 ();
-		tHomeTokenInfo = tAbbrev + " [" + tHomeMapCell1 + ", " + tHomeLocation1 + "]";
+		homeMapCellIDs.add (tHomeMapCell1);
+		homeMapCellIDs.add (tHomeMapCell2);
+		tHomeTokenInfo = tAbbrev + " [" + tHomeMapCell1 + "]";
 		if (! GUI.EMPTY_STRING.equals (tHomeMapCell2)) {
-			tHomeTokenInfo += " & [" + tHomeMapCell2 + ", " + tHomeLocation2 + "]";
+			tHomeTokenInfo += " & [" + tHomeMapCell2 + "]";
 		}
 		
 		return tHomeTokenInfo;
+	}
+	
+	public void collectNonHomeMapTokens () {
+		HexMap tHexMap;
+		int tCorpID;
+		int tShareIndex;
+		int tShareCount;
+		Corporation tShareCompany;
+		CorporationList tShareCompanies;
+
+		tHexMap = gameManager.getGameMap ();
+		tShareCompanies = gameManager.getShareCompanies ();
+		tShareCount = tShareCompanies.getCorporationCount ();
+		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
+			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
+			if (tShareCompany != Corporation.NO_CORPORATION) {
+				if (tShareCompany.willFold ()) {
+					tCorpID = tShareCompany.getID ();
+					tHexMap.collectNonHomeMapCellIDs (tCorpID, nonHomeMapCellIDs);
+
+				}
+			}
+		}
+		
 	}
 	
 	public void buildSpecialButtons (ShareCompany aFormingShareCompany, JPanel tShareCompanyPanel, boolean aActingPlayer) {
@@ -178,10 +211,15 @@ public class TokenExchange extends PlayerFormationPhase {
 		String tActionCommand;
 		
 		tActionCommand = aEvent.getActionCommand ();
+		
 		if (tActionCommand.equals (EXCHANGE_HOME_TOKEN)) {
 			exchangeHomeTokens ();
 		} else if (tActionCommand.equals (EXCHANGE_NON_HOME_TOKEN)) {
 			exchangeNonHomeTokens ();
+		} else if (tActionCommand.equals (DONE)) {
+			handlePlayerDone ();
+		} else if (tActionCommand.equals (FormationPhase.ASSET_COLLECTION)) {
+			formationPhase.allPlayersHandled  ();
 		}
 	}
 	
@@ -191,16 +229,16 @@ public class TokenExchange extends PlayerFormationPhase {
 
 		tToolTip = GUI.NO_TOOL_TIP;
 		if (homeTokensExchanges) {
-			done.setEnabled (false);
+			doneButton.setEnabled (false);
 			tToolTip = "President already completed all Home Token exchanges";
 		} else if (nonHomeTokenExchanges) {
-			done.setEnabled (false);
+			doneButton.setEnabled (false);
 			tToolTip = "President already completed all Non-Home Token exchanges";
 		} else {
-			done.setEnabled (false);
+			doneButton.setEnabled (false);
 			tToolTip = "President has not completed all token exchanges";
 		}
-		done.setToolTipText (tToolTip);
+		doneButton.setToolTipText (tToolTip);
 	}
 
 	public void exchangeHomeTokens () {
@@ -219,9 +257,6 @@ public class TokenExchange extends PlayerFormationPhase {
 		
 		super.handlePlayerDone ();
 
-//		if (formationPhase.getAllPlayerTokensExchanged ()) {
-//
-//		}
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
 		tTokenExchangeFinishedAction = new TokenExchangeFinishedAction (ActorI.ActionStates.OperatingRound, 
 				tOperatingRoundID, player);
