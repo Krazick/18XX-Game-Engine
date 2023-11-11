@@ -11,7 +11,6 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -39,7 +38,6 @@ import ge18xx.utilities.GUI;
 
 public class FormationPhase extends TriggerClass implements ActionListener {
 	public static final FormationPhase NO_FORMATION_PHASE = null;
-	public static final String DONE = "Done";
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans";
 	public static final String NOT_CURRENT_PLAYER = "You are not the current President";
@@ -62,7 +60,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	ActionStates formationState;
 	JPanel formationJPanel;
 	JPanel bottomJPanel;
-	JButton continueButton;
+//	JButton continueButton;
 	String notificationText;
 	JPanel notificationJPanel;
 	JTextArea notiricationArea;
@@ -77,7 +75,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tFullFrameTitle = setFormationState (ActorI.ActionStates.LoanRepayment);
 		
 		setNotificationText (TIME_TO_REPAY);
-		continueButton = GUI.NO_BUTTON;
 		actingPresident = Player.NO_PLAYER;
 		gameManager.setTriggerClass (this);
 		setFormingShareCompany ();
@@ -166,12 +163,12 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		return formingShareCompany.getAbbrev ();
 	}
 	
-	public void buildContinueButton (String aActionCommand) {
-		String tToolTip;
-		
-		tToolTip = GUI.EMPTY_STRING;
-		continueButton = buildSpecialButton (CONTINUE, aActionCommand, tToolTip, this);
-	}
+//	public void buildContinueButton (String aActionCommand) {
+//		String tToolTip;
+//		
+//		tToolTip = GUI.EMPTY_STRING;
+//		continueButton = buildSpecialButton (CONTINUE, aActionCommand, tToolTip, this);
+//	}
 
 	public void buildAllPlayers (String aFrameName) {
 		Border tMargin;
@@ -273,29 +270,21 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	
 	public boolean hasTokensToExchange () {
 		boolean tHasTokensToExchange;
-		int tCompanyTokensToExchange;
 		int tCompanyIndex;
 		int tCompanyCount;
 		ShareCompany tShareCompany;
 		CorporationList tShareCompanies;
 		
 		tHasTokensToExchange = false;
-		tCompanyTokensToExchange = 0;
 		if (formationState == ActorI.ActionStates.ShareExchange) {
 			tShareCompanies = gameManager.getShareCompanies ();
 			tCompanyCount = tShareCompanies.getRowCount ();
 			for (tCompanyIndex = 0; tCompanyIndex < tCompanyCount; tCompanyIndex++) {
 				tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tCompanyIndex);
 				if (tShareCompany.willFold ()) {
-					if (tShareCompany.sharesFolded ()) {
-						tCompanyTokensToExchange++;
-					}
+					tHasTokensToExchange = true;
 				}
 			}
-		}
-		
-		if (tCompanyTokensToExchange > 0) {
-			tHasTokensToExchange = true;
 		}
 		
 		return tHasTokensToExchange;
@@ -417,42 +406,24 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		tFormingAbbrev = formingShareCompany.getAbbrev ();
 		if (formationState == ActorI.ActionStates.LoanRepayment) {
-			if (haveSharesToFold ()) {
-				buildContinueButton (FOLD);
-			} else {
+			if (! haveSharesToFold ()) {
 				tNotification = String.format (NO_OUTSTANDING_LOANS, tFormingAbbrev);
 				setNotificationText (tNotification);
-				buildContinueButton (CONTINUE);
 			}
 		} else if (formationState == ActorI.ActionStates.ShareExchange) {
 			setAllPlayerSharesHandled (true);
-			if (hasTokensToExchange ()) {
-				buildContinueButton (TOKEN_EXCHANGE);
-			}
 		} else if (formationState == ActorI.ActionStates.TokenExchange) {
 			System.out.println ("All Folded Companies have had Tokens Exchanged");
 			if (hasAssetsToCollect ()) {
 				System.out.println ("Ready to do " + ASSET_COLLECTION);
-				buildContinueButton (ASSET_COLLECTION);
 			}
 		} else if (formationState == ActorI.ActionStates.StockValueCalculation) {
 			System.out.println ("All Folded Companies have had Assets Collected");
 			if (hasStockValueToCalculate ()) {
 				System.out.println ("Ready to do " + STOCK_VALUE_CALCULATION);
-				buildContinueButton (STOCK_VALUE_CALCULATION);
 			}
 		}
 
-		rebuildFormationPanel (currentPlayerIndex);
-	}
-	
-	public void allPlayerSharesExchanged () {
-		if (formationState == ActorI.ActionStates.ShareExchange) {
-			setAllPlayerSharesHandled (true);
-			if (hasTokensToExchange ()) {
-				buildContinueButton (TOKEN_EXCHANGE);
-			}
-		}
 		rebuildFormationPanel (currentPlayerIndex);
 	}
 	
@@ -473,22 +444,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		updatePlayers (tPlayers, tActingPlayer);
 	}
 	
-	public void updateContinueButton () {
-		Player tCurrentPlayer;
-		
-		if (continueButton != GUI.NO_BUTTON) {
-			tCurrentPlayer = getCurrentPlayer ();
-			if (tCurrentPlayer == actingPresident) {
-				continueButton.setEnabled (true);
-				continueButton.setToolTipText (GUI.EMPTY_STRING);
-			} else {
-				continueButton.setEnabled (false);
-				continueButton.setToolTipText (NOT_CURRENT_PLAYER);
-
-			}
-		}
-	}
-	
 	public void updatePlayers (List<Player> aPlayers, Player aActingPresident) {
 		PlayerFormationPhase tPlayerJPanel;
 		
@@ -502,7 +457,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		buildNotificationJPanel ();
 		buildBottomJPanel ();
 		formationJPanel.add (bottomJPanel);
-		updateContinueButton ();
 		formationJPanel.repaint ();
 		formationJPanel.revalidate ();
 	}
@@ -564,12 +518,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			bottomJPanel.add (tOpenMarketJPanel);
 		
 			bottomJPanel.add (Box.createHorizontalGlue ());
-
-		}
-		
-		if (continueButton != GUI.NO_BUTTON) {
-			bottomJPanel.add (Box.createHorizontalStrut (10));
-			bottomJPanel.add (continueButton);
 		}
 	}
 	
@@ -607,17 +555,21 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	@Override
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
-		
+	
 		tActionCommand = aEvent.getActionCommand ();
-		if (tActionCommand.equals (FOLD)) {
-			handleFoldIntoFormingCompany ();
-		} else if (tActionCommand.equals (CONTINUE)) {
+		applyCommand (tActionCommand);
+	}
+	
+	public void applyCommand (String aActionCommand) {
+		if (aActionCommand.equals (CONTINUE)) {
 			hideFormationPanel ();
-		} else if (tActionCommand.equals (TOKEN_EXCHANGE)) {
+		} else if (aActionCommand.equals (FOLD)) {
+			handleFoldIntoFormingCompany ();
+		} else if (aActionCommand.equals (TOKEN_EXCHANGE)) {
 			handleTokenExchange ();
-		} else if (tActionCommand.equals (ASSET_COLLECTION)) {
+		} else if (aActionCommand.equals (ASSET_COLLECTION)) {
 			handleTokenExchange ();
-		} else if (tActionCommand.equals (STOCK_VALUE_CALCULATION)) {
+		} else if (aActionCommand.equals (STOCK_VALUE_CALCULATION)) {
 			handleTokenExchange ();
 		}
 	}
@@ -642,12 +594,12 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 
 	}
 
-	public void handleTokenExchange () {
-		handleFormationStateChange (ActorI.ActionStates.TokenExchange);
-	}
-	
 	public void handleFoldIntoFormingCompany () {
 		handleFormationStateChange (ActorI.ActionStates.ShareExchange);
+	}
+
+	public void handleTokenExchange () {
+		handleFormationStateChange (ActorI.ActionStates.TokenExchange);
 	}
 
 	public void handleAssetCollection () {
