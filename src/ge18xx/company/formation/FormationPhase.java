@@ -60,7 +60,7 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	ActionStates formationState;
 	JPanel formationJPanel;
 	JPanel bottomJPanel;
-//	JButton continueButton;
+	JPanel openMarketJPanel;
 	String notificationText;
 	JPanel notificationJPanel;
 	JTextArea notiricationArea;
@@ -162,13 +162,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public String getFormingCompanyAbbrev () {
 		return formingShareCompany.getAbbrev ();
 	}
-	
-//	public void buildContinueButton (String aActionCommand) {
-//		String tToolTip;
-//		
-//		tToolTip = GUI.EMPTY_STRING;
-//		continueButton = buildSpecialButton (CONTINUE, aActionCommand, tToolTip, this);
-//	}
 
 	public void buildAllPlayers (String aFrameName) {
 		Border tMargin;
@@ -328,29 +321,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public int getCurrentPlayerIndex () {
 		return currentPlayerIndex;
 	}
-	
-	public JPanel buildPortfolioJPanel (Portfolio aPortfolio) {
-		JPanel tPortfolioJPanel;
-		JPanel tOwnershipPanel;
-		JLabel tTitle;
-		JLabel tEmptyOpenMarket;
-		BankPool tBankPool;
-		
-		tPortfolioJPanel = new JPanel ();
-		tBankPool = gameManager.getBankPool ();
-		tPortfolioJPanel.setLayout (new BoxLayout (tPortfolioJPanel, BoxLayout.Y_AXIS));
-		tTitle = new JLabel (tBankPool.getName ());
-		tPortfolioJPanel.add (tTitle);
-		tOwnershipPanel = aPortfolio.buildOwnershipPanel (gameManager);
-		if (tOwnershipPanel == GUI.NO_PANEL) {
-			tEmptyOpenMarket = new JLabel ("NO CERTIFICATES IN OPEN MARKET");
-			tPortfolioJPanel.add (tEmptyOpenMarket);
-		} else {
-			tPortfolioJPanel.add (tOwnershipPanel);
-		}
-		
-		return tPortfolioJPanel;
-	}
 
 	@Override
 	public int updateToNextPlayer (List<Player> aPlayers) {
@@ -501,38 +471,54 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		return notificationText;
 	}
 	
-	public void buildBottomJPanel () {
-		JPanel tOpenMarketJPanel;
-		
+	public void buildBottomJPanel () {		
 		notiricationArea.setText (notificationText);
 		
 		if (bottomJPanel == null) {
 			bottomJPanel = new JPanel ();
-	
 			bottomJPanel.setLayout (new BoxLayout (bottomJPanel, BoxLayout.X_AXIS));
+			
 			bottomJPanel.add (Box.createHorizontalGlue ());
 			bottomJPanel.add (notificationJPanel);
 			bottomJPanel.add (Box.createHorizontalStrut (20));
-			
-			tOpenMarketJPanel = buildOpenMarketPortfolio ();
-			bottomJPanel.add (tOpenMarketJPanel);
-		
-			bottomJPanel.add (Box.createHorizontalGlue ());
 		}
+		
+		buildOpenMarketPortfolio ();
 	}
 	
-	public JPanel buildOpenMarketPortfolio () {
-		JPanel tOpenMarketJPanel;
+	public void buildOpenMarketPortfolio () {
 		BankPool tOpenMarket;
 		Portfolio tOpenMarketPortfolio;
 		
-		tOpenMarketJPanel = new JPanel ();
+		if (openMarketJPanel == GUI.NO_PANEL) {
+			openMarketJPanel = new JPanel ();
+			bottomJPanel.add (openMarketJPanel);
+		}
 		tOpenMarket = gameManager.getBankPool ();
 		
 		tOpenMarketPortfolio = tOpenMarket.getPortfolio ();
-		tOpenMarketJPanel = buildPortfolioJPanel (tOpenMarketPortfolio);
+		buildPortfolioJPanel (tOpenMarketPortfolio);
+		bottomJPanel.add (Box.createHorizontalGlue ());
+	}
 
-		return tOpenMarketJPanel;
+	public void buildPortfolioJPanel (Portfolio aPortfolio) {
+		JPanel tOwnershipPanel;
+		JLabel tTitle;
+		JLabel tEmptyOpenMarket;
+		BankPool tBankPool;
+		
+		tBankPool = gameManager.getBankPool ();
+		openMarketJPanel.removeAll ();
+		openMarketJPanel.setLayout (new BoxLayout (openMarketJPanel, BoxLayout.Y_AXIS));
+		tTitle = new JLabel (tBankPool.getName ());
+		openMarketJPanel.add (tTitle);
+		tOwnershipPanel = aPortfolio.buildOwnershipPanel (gameManager);
+		if (tOwnershipPanel == GUI.NO_PANEL) {
+			tEmptyOpenMarket = new JLabel ("NO CERTIFICATES IN OPEN MARKET");
+			openMarketJPanel.add (tEmptyOpenMarket);
+		} else {
+			openMarketJPanel.add (tOwnershipPanel);
+		}
 	}
 
 	public Player findActingPresident () {
