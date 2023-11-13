@@ -50,11 +50,6 @@ public class City extends RevenueCenter implements Cloneable {
 	int stationCount;
 	MapToken corpStations [];
 
-//	public City () {
-//		this (RevenueCenterType.NO_REVENUE_CENTER, NO_STATIONS, Location.NO_LOCATION, NO_ID, NO_NAME, NO_VALUE,
-//				new TileType ());
-//	}
-
 	public City (XMLNode aNode) {
 		super (aNode);
 		int tNumber = aNode.getThisIntAttribute (AN_NUMBER);
@@ -188,10 +183,11 @@ public class City extends RevenueCenter implements Cloneable {
 
 	@Override
 	public boolean cityHasStation (int aCorpID) {
-		boolean tHasStation = false;
+		boolean tHasStation;
 		int tIndex;
 		int tPlacedTokenCorpID;
 
+		tHasStation = false;
 		for (tIndex = 0; tIndex < stationCount; tIndex++) {
 			if (hasMapTokenAtStation (tIndex)) {
 				tPlacedTokenCorpID = corpStations [tIndex].getCorporationID ();
