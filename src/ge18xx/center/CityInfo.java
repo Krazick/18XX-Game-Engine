@@ -409,8 +409,9 @@ public class CityInfo implements Cloneable {
 	}
 
 	public boolean withBaseForCorp (Corporation aCorporation) {
-		boolean tWithBaseForCorp = false;
+		boolean tWithBaseForCorp;
 
+		tWithBaseForCorp = false;
 		if (corporation == aCorporation) {
 			tWithBaseForCorp = true;
 		}
