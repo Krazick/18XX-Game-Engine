@@ -21,6 +21,7 @@ import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
 import ge18xx.round.action.CloseCompanyAction;
+import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileName;
@@ -738,7 +739,6 @@ public class Centers implements Cloneable {
 		}
 
 		return tCenter;
-
 	}
 	
 	public void removeMapTokens (TokenCompany aTokenCompany, String aMapCellID, 
@@ -756,7 +756,24 @@ public class Centers implements Cloneable {
 //				aCloseCompanyAction.addRemoveMapTokenEffect
 			}
 		}
-
 	}
 
+	public void replaceMapToken (String [] aMapCellInfo, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
+									ReplaceTokenAction aReplaceTokenAction) {
+		System.out.println ("Center is ready to Replace Map Token");
+		
+		int tTokenCompanyID;
+		City tCity;
+		
+		tTokenCompanyID = aFoldingCompany.getID ();
+		for (RevenueCenter tRevenueCenter : centers) {
+			if (tRevenueCenter.cityHasStation (tTokenCompanyID)) {
+				tCity = (City) tRevenueCenter;
+				if (tCity.withBaseForCorp (aFoldingCompany)) {
+					tCity.returnStation (aFoldingCompany);
+				}
+			}
+		}
+
+	}
 }
