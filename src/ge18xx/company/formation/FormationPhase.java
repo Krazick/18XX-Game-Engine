@@ -94,7 +94,6 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			notificationJPanel.add (notiricationArea);
 			tColor = gameManager.getAlertColor ();
 			notificationJPanel.setBackground (tColor);
-
 		}
 	}
 
@@ -157,6 +156,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 			formingShareCompany = (ShareCompany) tFormingCompany;
 		}
 		setFormingPresidentAssigned (false);
+	}
+
+	public ShareCompany getFormingCompany () {
+		return formingShareCompany;
 	}
 
 	public String getFormingCompanyAbbrev () {
