@@ -42,6 +42,7 @@ import ge18xx.company.TokenCompany;
 import ge18xx.company.TrainCompany;
 import ge18xx.company.benefit.MapBenefit;
 import ge18xx.round.action.CloseCompanyAction;
+import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.tiles.Feature2;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
@@ -2514,7 +2515,6 @@ public class MapCell implements Comparator<Object> {
 	}
 
 	public boolean hasConnectingTrackBetween (int aThisLocation, int aThatLocation) {
-//		Location tRawThisLocation, tRawThatLocation;
 		Track tTrack;
 		boolean tHasTrack;
 		
@@ -2524,19 +2524,7 @@ public class MapCell implements Comparator<Object> {
 		} else {
 			tHasTrack = true;
 		}
-//		if ((aThisLocation == Location.DEAD_END_LOC) && 
-//			((aThatLocation >= Location.MIN_SIDE) && (aThatLocation <= Location.MAX_SIDE))) {
-//			aThisLocation = aThatLocation + Location.DEAD_END0_LOC;
-//		} else if ((aThatLocation == Location.DEAD_END_LOC) &&
-//				((aThisLocation >= Location.MIN_SIDE) && (aThisLocation <= Location.MAX_SIDE))) {
-//			aThatLocation = aThatLocation + Location.DEAD_END0_LOC;
-//		}
-//		tRawThisLocation = new Location (aThisLocation);
-//		tRawThatLocation = new Location (aThatLocation);
-//		tRawThisLocation = unrotateIfSide (tRawThisLocation);
-//		tRawThatLocation = unrotateIfSide (tRawThatLocation);
-//
-//		return tile.hasConnectingTrackBetween (tRawThisLocation, tRawThatLocation);
+
 		return tHasTrack;
 	}
 
@@ -2654,6 +2642,13 @@ public class MapCell implements Comparator<Object> {
 	public void removeMapTokens (TokenCompany aTokenCompany, CloseCompanyAction aCloseCompanyAction) {
 		if (isTileOnCell ()) {
 			tile.removeMapTokens (aTokenCompany, id, aCloseCompanyAction);
+		}
+	}
+	
+	public void replaceMapToken (String [] aMapCellInfo, MapToken aNewMapToken, TokenCompany aFoldingCompany,
+								ReplaceTokenAction aReplaceTokenAction) {
+		if (isTileOnCell ()) {
+			tile.replaceMapToken (aMapCellInfo, aNewMapToken, aFoldingCompany, aReplaceTokenAction);
 		}
 	}
 }
