@@ -40,6 +40,7 @@ import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.CloseCompanyAction;
+import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.round.action.RotateTileAction;
 import ge18xx.tiles.GameTile;
 import ge18xx.tiles.Tile;
@@ -277,14 +278,14 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		}
 	}
 
-	public void collectNonHomeMapCellIDs (int aCorpID, List<String> aNonHomeMapCellIDs) {
+	public void collectNonHomeMapCellIDs (int aCorpID, String aAbbrev, List<String> aHomeMapCellIDs, List<String> aNonHomeMapCellIDs) {
 		int tRowIndex;
 		int tColIndex;
 		int tRowCount;
 		int tColCount;
 		String tMapCellID;
 		Location tLocation;
-		String tMapCellIDandLocation;
+		String tTokenLocation;
 
 		tRowCount = getRowCount ();
 		for (tRowIndex = 0; (tRowIndex < tRowCount); tRowIndex++) {
@@ -293,12 +294,36 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				if (map [tRowIndex] [tColIndex].hasStation (aCorpID)) {
 					tMapCellID = map [tRowIndex] [tColIndex].getID ();
 					tLocation = map [tRowIndex] [tColIndex].getLocationWithStation (aCorpID);
-					tMapCellIDandLocation = aCorpID + ":" + tMapCellID + ":" + tLocation.getLocation ();
-					aNonHomeMapCellIDs.add (tMapCellIDandLocation);
+					tTokenLocation = buildTokenLocation (aCorpID, aAbbrev, tMapCellID, tLocation);
+					if (! aHomeMapCellIDs.contains (tTokenLocation)) {
+						aNonHomeMapCellIDs.add (tTokenLocation);
+					} else {
+						System.out.println ("Map Cell ID " + tMapCellID + " is the home Map Cell for another folding company.");
+					}
 				}
 			}
 		}
 
+	}
+	
+	public String getTokenLocation (String aMapCellID, String aAbbrev, int aCorpID) {
+		MapCell tMapCell;
+		Location tMapCelllLocation;
+		String tTokenLocation;
+		
+		tMapCell = getMapCellForID (aMapCellID);
+		tMapCelllLocation = tMapCell.getLocationWithStation (aCorpID);
+		tTokenLocation = buildTokenLocation (aCorpID, aAbbrev, aMapCellID, tMapCelllLocation);
+		
+		return tTokenLocation;
+	}
+
+	public String buildTokenLocation (int aCorpID, String aAbbrev, String aMapCellID, Location aLocation) {
+		String tTokenLocation;
+		
+		tTokenLocation = aCorpID + ":" + aAbbrev + ":" + aMapCellID + ":" + aLocation.getLocation ();
+		
+		return tTokenLocation;
 	}
 	
 	public boolean hasStation (int aCorpID) {
@@ -1621,5 +1646,27 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 				tMapCell.fillMapGraph (mapGraph);
 			}
 		}
+	}
+	
+	public String getCompanyAbbrev (String aHomeMapCellID) {
+		String tCompanyAbbrev;
+		String tMapCellInfo [];
+		
+		tMapCellInfo = aHomeMapCellID.split (":");
+		tCompanyAbbrev = tMapCellInfo [1];
+		
+		return tCompanyAbbrev;
+	}
+	
+	public void replaceMapToken (String aHomeMapCellID, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
+			ReplaceTokenAction aReplaceTokenAction) {
+		MapCell tMapCell;
+		String tMapCellID;
+		String tMapCellInfo [];
+		
+		tMapCellInfo = aHomeMapCellID.split (":");
+		tMapCellID = tMapCellInfo [2];
+		tMapCell = getMapCellForID (tMapCellID);
+		tMapCell.replaceMapToken (tMapCellInfo, aNewMapToken, aFoldingCompany, aReplaceTokenAction);
 	}
 }
