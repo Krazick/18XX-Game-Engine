@@ -75,6 +75,5 @@ public class LayTokenAction extends ChangeMapAction {
 		tSimpleActionReport = actor.getName () + " laid a Token on Map Cell " + getMapCellID ();
 
 		return tSimpleActionReport;
-
 	}
 }
