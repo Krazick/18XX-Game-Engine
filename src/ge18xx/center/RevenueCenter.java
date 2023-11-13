@@ -678,7 +678,7 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 	}
 
 	public boolean withBaseForCorp (Corporation aCorporation) {
-		boolean tBaseForCorp = false;
+		boolean tBaseForCorp;
 
 		tBaseForCorp = cityInfo.withBaseForCorp (aCorporation);
 
