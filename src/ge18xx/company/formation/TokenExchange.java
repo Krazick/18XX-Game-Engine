@@ -13,13 +13,16 @@ import javax.swing.border.Border;
 
 import ge18xx.company.Corporation;
 import ge18xx.company.CorporationList;
+import ge18xx.company.MapToken;
 import ge18xx.company.ShareCompany;
+import ge18xx.company.TokenCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
-import ge18xx.map.Location;
 import ge18xx.player.Player;
 import ge18xx.player.Portfolio;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
+import ge18xx.round.action.ReplaceTokenAction;
 import ge18xx.round.action.TokenExchangeFinishedAction;
 import ge18xx.utilities.GUI;
 
@@ -47,6 +50,7 @@ public class TokenExchange extends PlayerFormationPhase {
 	JButton nonHomeTokensExchange;
 	List<String> homeMapCellIDs;
 	List<String> nonHomeMapCellIDs;
+	ReplaceTokenAction replaceTokenAction;
 	
 	public TokenExchange (GameManager aGameManager, FormationPhase aTokenExchange, Player aPlayer,
 			Player aActingPresident) {
@@ -102,7 +106,7 @@ public class TokenExchange extends PlayerFormationPhase {
 		JLabel tNonHomeTokensLabel;
 		Border tCorporateColorBorder;
 		String tExchangeHomeTokens;
-		String tAbbrevs;
+		String tTokenLocations;
 		String tNonHomeStations;
 		ShareCompany tShareCompany;
 		CorporationList tShareCompanies;
@@ -122,20 +126,20 @@ public class TokenExchange extends PlayerFormationPhase {
 		tExchangeHomeTokens = "Exchange Home Tokens of (";
 		tShareCompanies = gameManager.getShareCompanies ();
 		tShareCount = tShareCompanies.getCorporationCount ();
-		tAbbrevs = GUI.EMPTY_STRING;
+		tTokenLocations = GUI.EMPTY_STRING;
 		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
 			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
 			if (tShareCompany != Corporation.NO_CORPORATION) {
 				if (tShareCompany.willFold ()) {
-					if (! GUI.EMPTY_STRING.equals (tAbbrevs)) {
-						tAbbrevs += ", ";
+					if (! GUI.EMPTY_STRING.equals (tTokenLocations)) {
+						tTokenLocations += ", ";
 					}
-					tAbbrevs += collectHomeTokenInfo (tShareCompany);
+					tTokenLocations += collectHomeTokenInfo (tShareCompany);
 				}
 			}
 		}
-		tExchangeHomeTokens += tAbbrevs + ")";
-		System.out.println ("Abbrevs: " + tAbbrevs + " Full Label: " + tExchangeHomeTokens);
+		tExchangeHomeTokens += tTokenLocations + ")";
+		System.out.println (tExchangeHomeTokens);
 		tHomeTokensLabel = new JLabel (tExchangeHomeTokens);
 		tShareCompanyJPanel.add (tHomeTokensLabel);
 		
@@ -155,47 +159,77 @@ public class TokenExchange extends PlayerFormationPhase {
 		return tShareCompanyJPanel;
 	}
 
-	public String collectHomeTokenInfo (ShareCompany aShareCompany) {
+	public String collectHomeTokenInfo (TokenCompany aTokenCompany) {
 		String tHomeTokenInfo;
 		String tAbbrev;
 		String tHomeMapCell1;
 		String tHomeMapCell2;
+		String tTokenLocation;
+		int tCorpID;
+		HexMap tHexMap;
 		
-		tAbbrev = aShareCompany.getAbbrev ();
-		tHomeMapCell1 = aShareCompany.getCorpHome1MapID ();
-		tHomeMapCell2 = aShareCompany.getCorpHome2MapID ();
-		homeMapCellIDs.add (tHomeMapCell1);
-		homeMapCellIDs.add (tHomeMapCell2);
-		tHomeTokenInfo = tAbbrev + " [" + tHomeMapCell1 + "]";
+		tHexMap = gameManager.getGameMap ();
+		tAbbrev = aTokenCompany.getAbbrev ();
+		tHomeMapCell1 = aTokenCompany.getCorpHome1MapID ();
+		tCorpID = aTokenCompany.getID ();
+		tTokenLocation = tHexMap.getTokenLocation (tHomeMapCell1, tAbbrev, tCorpID);
+		homeMapCellIDs.add (tTokenLocation);
+		tHomeTokenInfo = "[" + tTokenLocation + "]";
+		
+		tHomeMapCell2 = aTokenCompany.getCorpHome2MapID ();
 		if (! GUI.EMPTY_STRING.equals (tHomeMapCell2)) {
-			tHomeTokenInfo += " & [" + tHomeMapCell2 + "]";
+			tTokenLocation = tHexMap.getTokenLocation (tHomeMapCell2, tAbbrev, tCorpID);
+			if (! homeMapCellIDs.contains (tTokenLocation)) {
+				tHomeTokenInfo += " & [" + tTokenLocation + "]";
+				homeMapCellIDs.add (tTokenLocation);
+			}
 		}
 		
 		return tHomeTokenInfo;
 	}
 	
+	
 	public void collectNonHomeMapTokens () {
 		HexMap tHexMap;
 		int tCorpID;
 		int tShareIndex;
+		int tMinorIndex;
+		int tMinorCount;
 		int tShareCount;
-		Corporation tShareCompany;
+		Corporation tTokenCompany;
 		CorporationList tShareCompanies;
+		CorporationList tMinorCompanies;
+		String tAbbrev;
 
 		tHexMap = gameManager.getGameMap ();
+		tTokenCompany = Corporation.NO_CORPORATION;
 		tShareCompanies = gameManager.getShareCompanies ();
 		tShareCount = tShareCompanies.getCorporationCount ();
 		for (tShareIndex = 0; tShareIndex < tShareCount; tShareIndex++) {
-			tShareCompany = (ShareCompany) tShareCompanies.getCorporation (tShareIndex);
-			if (tShareCompany != Corporation.NO_CORPORATION) {
-				if (tShareCompany.willFold ()) {
-					tCorpID = tShareCompany.getID ();
-					tHexMap.collectNonHomeMapCellIDs (tCorpID, nonHomeMapCellIDs);
-
+			tTokenCompany = (TokenCompany) tShareCompanies.getCorporation (tShareIndex);
+			if (tTokenCompany != Corporation.NO_CORPORATION) {
+				if (tTokenCompany.willFold ()) {
+					tCorpID = tTokenCompany.getID ();
+					tAbbrev = tTokenCompany.getAbbrev ();
+					tHexMap.collectNonHomeMapCellIDs (tCorpID, tAbbrev, homeMapCellIDs, nonHomeMapCellIDs);
 				}
 			}
 		}
-		
+		if (tTokenCompany == Corporation.NO_CORPORATION) {
+			tMinorCompanies = gameManager.getMinorCompanies ();
+			tMinorCount = tMinorCompanies.getCorporationCount ();
+			for (tMinorIndex = 0; tMinorIndex < tMinorCount; tMinorIndex++) {
+				tTokenCompany = (TokenCompany) tMinorCompanies.getCorporation (tMinorIndex);
+				if (tTokenCompany != Corporation.NO_CORPORATION) {
+					if (tTokenCompany.willFold ()) {
+						tCorpID = tTokenCompany.getID ();
+						tAbbrev = tTokenCompany.getAbbrev ();
+						tHexMap.collectNonHomeMapCellIDs (tCorpID, tAbbrev, homeMapCellIDs, nonHomeMapCellIDs);
+					}
+				}
+			}
+
+		}
 	}
 	
 	public void buildSpecialButtons (ShareCompany aFormingShareCompany, JPanel tShareCompanyPanel, boolean aActingPlayer) {
@@ -242,11 +276,48 @@ public class TokenExchange extends PlayerFormationPhase {
 	}
 
 	public void exchangeHomeTokens () {
+		HexMap tHexMap;
+		MapToken tNewMapToken;
+		ShareCompany tFormingShareCompany;
+		TokenCompany tFoldingCompany;
+		String tCompanyAbbrev;
+		CorporationList tShareCompanies;
+		CorporationList tMinorCompanies;
+		
+		tHexMap = gameManager.getGameMap ();
+		tShareCompanies = gameManager.getShareCompanies ();
+		tMinorCompanies = gameManager.getMinorCompanies ();
+		tFormingShareCompany = formationPhase.getFormingCompany ();
+		tNewMapToken = tFormingShareCompany.getLastMapToken ();
+				
 		System.out.println ("Ready to Exchange all Homes Tokens");
+		for (String tHomeMapCellID : homeMapCellIDs) {
+			System.out.println ("Swap out Token on MapCellID " + tHomeMapCellID);
+			tCompanyAbbrev = tHexMap.getCompanyAbbrev (tHomeMapCellID);
+			tFoldingCompany = (TokenCompany) tShareCompanies.getCorporation (tCompanyAbbrev);
+			if (tFoldingCompany == Corporation.NO_CORPORATION) {
+				tFoldingCompany = (TokenCompany) tMinorCompanies.getCorporation (tCompanyAbbrev);
+			}
+			tHexMap.replaceMapToken (tHomeMapCellID, tNewMapToken, tFoldingCompany, replaceTokenAction);
+		}
 	}
 
+	public void prepareAction (TokenCompany aTokenCompany) {
+		RoundManager tRoundManager;
+		ActorI.ActionStates tRoundType;
+		String tRoundID;
+		
+		tRoundManager = gameManager.getRoundManager ();
+		tRoundType = tRoundManager.getCurrentRoundType ();
+		tRoundID = tRoundManager.getCurrentRoundOf ();
+		replaceTokenAction = new ReplaceTokenAction (tRoundType, tRoundID, aTokenCompany);
+	}
+	
 	public void exchangeNonHomeTokens () {
 		System.out.println ("Ready to Exchange all Non-Homes Tokens");
+		for (String tNonHomeMapCellID : nonHomeMapCellIDs) {
+			System.out.println ("Swap out Token on MapCellID " + tNonHomeMapCellID);
+		}
 	}
 	
 	@Override
