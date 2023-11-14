@@ -1170,14 +1170,16 @@ public class City extends RevenueCenter implements Cloneable {
 			tLocation = aChildNode.getThisIntAttribute (Location.AN_LOCATION);
 			tIndex = aChildNode.getThisIntAttribute (AN_STATION_INDEX);
 			
-			if (location.getLocation () == tLocation) {
-				tMapCell = tCity.cityInfo.getMapCell ();
-				tTokenCompany = tMapCell.getTokenCompany (tAbbrev);
-				if (tTokenCompany == TokenCompany.NO_TOKEN_COMPANY) {
-					logger.info ("Did not find a Token Company with abbrev " + tAbbrev);
-				} else {
-					tMapToken = (MapToken) tTokenCompany.getTokenAt (tTokenIndex);
-					tCity.setStation (tIndex, tMapToken);
+			if (tCity.canPlaceStation ()) {
+				if (location.getLocation () == tLocation) {
+					tMapCell = tCity.cityInfo.getMapCell ();
+					tTokenCompany = tMapCell.getTokenCompany (tAbbrev);
+					if (tTokenCompany == TokenCompany.NO_TOKEN_COMPANY) {
+						logger.info ("Did not find a Token Company with abbrev " + tAbbrev);
+					} else {
+						tMapToken = (MapToken) tTokenCompany.getTokenAt (tTokenIndex);
+						tCity.setStation (tIndex, tMapToken);
+					}
 				}
 			}
 		}
