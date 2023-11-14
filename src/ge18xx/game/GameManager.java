@@ -532,6 +532,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tMapFrame.loadXMLColorScheme (tXMLDocument, tileTrayFrame.getTileType ());
 		} catch (Exception tException) {
 			logger.error ("Problem Loading Color Scheme: " + tException);
+			tException.printStackTrace ();
 		}
 	}
 
@@ -553,6 +554,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tMarketFrame.loadXML (tXMLDocument, tMarketFrame.getMarket ());
 			} catch (Exception tException) {
 				logger.error (tException);
+				tException.printStackTrace ();
 			}
 		}
 	}
@@ -576,6 +578,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tMinorCompaniesFrame.fillCertificateInfo (this);
 			} catch (Exception tException) {
 				logger.error (tException);
+				tException.printStackTrace ();
 			}
 		}
 	}
@@ -602,6 +605,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tPrivatesFrame.fillCertificateInfo (this);
 			} catch (Exception tException) {
 				logger.error (tException);
+				tException.printStackTrace ();
 			}
 		}
 	}
@@ -641,6 +645,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 				tShareCompaniesFrame.fillCertificateInfo (this);
 			} catch (Exception tException) {
 				logger.error (tException);
+				tException.printStackTrace ();
 			}
 		}
 	}
