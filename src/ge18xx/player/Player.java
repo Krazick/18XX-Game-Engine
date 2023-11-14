@@ -173,6 +173,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		portfolio = new Portfolio (this);
 		clearAuctionActionState ();
 		clearPrimaryActionState ();
+		clearPlayerFlags ();
 		setTriggeredAuction (false);
 		setExchangedPrezShare (NO_STOCK_TO_SELL);
 		setRFPlayerLabel (aName);
@@ -540,6 +541,9 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 
 	public void clearPrimaryActionState () {
 		primaryActionState = ActionStates.NoAction;
+	}
+	
+	public void clearPlayerFlags () {
 		setBoughtShare (NO_SHARE_BOUGHT);
 		setBidShare (false);
 		if (playerManager != PlayerManager.NO_PLAYER_MANAGER) {
@@ -1269,7 +1273,12 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		boughtShare = aPlayerNode.getThisAttribute (AN_BOUGHT_SHARE, NO_SHARE_BOUGHT);
 		tState = aPlayerNode.getThisAttribute (AN_PRIMARY_STATE);
 		tGenericActor = new GenericActor ();
-		primaryActionState = tGenericActor.getPlayerState (tState);
+		clearPrimaryActionState ();
+		clearPlayerFlags ();
+		setPrimaryActionState (tGenericActor.getPlayerState (tState));
+		if (primaryActionState == ActorI.ActionStates.NoState) {
+			setPrimaryActionState (tGenericActor.getPlayerFormationState (tState));
+		}
 		roundDividends.parseDividendAtribute (aPlayerNode);
 		tState = aPlayerNode.getThisAttribute (AN_AUCTION_STATE);
 		auctionActionState = tGenericActor.getPlayerState (tState);
@@ -1297,7 +1306,7 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		// Then just like an Action or Effect, use reflections to load it.
 		// Can this be a generic method in 'QueryOffer' that both here and Train Company can call it?
 	}
-
+	
 	ParsingRoutineI queryParsingRoutine = new ParsingRoutineIO () {
 		@Override
 		public void foundItemMatchKey1 (XMLNode aChildNode, Object aMetaObject) {
@@ -1508,7 +1517,10 @@ public class Player implements ActionListener, EscrowHolderI, PortfolioHolderLoa
 		tCanPass = false;
 		tCanChangeState = primaryActionState.canChangeState (ActionStates.Pass);
 		if (tCanChangeState) {
-			primaryActionState = ActionStates.Pass;
+			clearPrimaryActionState ();
+			clearPlayerFlags ();
+			setPrimaryActionState (ActionStates.Pass);
+//			primaryActionState = ActionStates.Pass;
 			tCanPass = true;
 		} else {
 			System.err.println ("Player has acted already, can't Pass");
