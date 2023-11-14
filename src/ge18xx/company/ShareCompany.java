@@ -903,7 +903,7 @@ public class ShareCompany extends TokenCompany {
 			setLoanTaken (aXMLNode.getThisBooleanAttribute (AN_LOAN_TAKEN));
 			setRepaymentHandled (aXMLNode.getThisBooleanAttribute (AN_REPAYMENT_HANDLED));
 		}
-		if (this.hasDestination ()) {
+		if (hasDestination ()) {
 			destinationInfo.loadStatus (aXMLNode);
 		}
 	}
