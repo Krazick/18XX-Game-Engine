@@ -184,7 +184,7 @@ public class PlayerManager {
 			tOldState = tPlayer.getPrimaryActionState ();
 
 			tPlayer.clearPrimaryActionState ();
-
+			tPlayer.clearPlayerFlags ();
 			tNewState = tPlayer.getPrimaryActionState ();
 			if (tChangeStateAction != ChangeStateAction.NO_CHANGE_STATE_ACTION) {
 				tChangeStateAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
@@ -263,6 +263,7 @@ public class PlayerManager {
 		tPlayer = getPlayer (aPlayerIndex);
 		if (tPlayer != Player.NO_PLAYER) {
 			tPlayer.clearPrimaryActionState ();
+			tPlayer.clearPlayerFlags ();
 		}
 	}
 
@@ -429,6 +430,25 @@ public class PlayerManager {
 		return players.size ();
 	}
 
+	public boolean isInCompanyFormationState () {
+		Player tPlayer;
+		boolean tIsCompanyFormationState;
+		ActorI.ActionStates tActionState;
+		GenericActor tGenericActor;
+		
+		tPlayer = getPlayer (0);
+		tGenericActor = new GenericActor ();
+
+		tActionState = tPlayer.getPrimaryActionState ();
+		if (tGenericActor.isFormationRound (tActionState)) {
+			tIsCompanyFormationState = true;
+		} else {
+			tIsCompanyFormationState = false;
+		}
+		
+		return tIsCompanyFormationState;
+	}
+	
 	public XMLElement getPlayerElements (XMLDocument tXMLDocument) {
 		XMLElement tXMLElement;
 		XMLElement tPlayerElement;
