@@ -33,10 +33,25 @@ import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.BuyTrainAction;
 import ge18xx.round.action.ChangeFormationPhaseStateAction;
 import ge18xx.round.action.ChangeStateAction;
+import ge18xx.round.action.GenericActor;
 import ge18xx.toplevel.XMLFrame;
+import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
+import ge18xx.utilities.XMLDocument;
+import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
 
 public class FormationPhase extends TriggerClass implements ActionListener {
+	public final static ElementName EN_FORMATION_PHASE = new ElementName ("FormationPhase");
+	public final static AttributeName AN_CURRENT_PLAYER_INDEX = new AttributeName ("currentPlayerIndex");
+	public final static AttributeName AN_SHARE_FOLD_COUNT = new AttributeName ("shareFoldCount");
+	public final static AttributeName AN_CURRENT_PLAYER_DONE = new AttributeName ("currentPlayerDone");
+	public final static AttributeName AN_FORMING_PRESIDENT_ASSIGNED = new AttributeName ("formingPresidentAssigned");
+	public final static AttributeName AN_ALL_PLAYER_SHARES_HANDLED = new AttributeName ("allPlayerSharesHandled");
+	public final static AttributeName AN_FORMATION_STATE = new AttributeName ("formationState");
+	public final static AttributeName AN_NOTITIFCATION_TEXT = new AttributeName ("notificationText");
+	public final static AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
 	public static final FormationPhase NO_FORMATION_PHASE = null;
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans";
@@ -76,12 +91,69 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		setNotificationText (TIME_TO_REPAY);
 		actingPresident = Player.NO_PLAYER;
-		gameManager.setTriggerClass (this);
 		setFormingShareCompany ();
 		setAllPlayerSharesHandled (false);
 		buildAllPlayers (tFullFrameTitle);
+		gameManager.setTriggerClass (this);
+		gameManager.setFormationPhase (this);
+	}
+
+	public FormationPhase (XMLNode aXMLNode, GameManager aGameManager) {
+		this (aGameManager);
+		
+		int tCurrentPlayerIndex;
+		int tShareFoldCount;
+		boolean tCurrentPlayerDone;
+		boolean tFormingPresidentAssigned;
+		boolean allPlayerSharesHandled;
+		String tState;
+		String tNotificationText;
+		Player tPlayer;
+		String tPlayerName;
+		GenericActor tGenericActor;
+		ActorI.ActionStates tFormationState;
+		
+		tCurrentPlayerIndex = aXMLNode.getThisIntAttribute (AN_CURRENT_PLAYER_INDEX);
+		tShareFoldCount = aXMLNode.getThisIntAttribute (AN_SHARE_FOLD_COUNT);
+		tCurrentPlayerDone = aXMLNode.getThisBooleanAttribute (AN_CURRENT_PLAYER_DONE);
+		tFormingPresidentAssigned = aXMLNode.getThisBooleanAttribute (AN_FORMING_PRESIDENT_ASSIGNED);
+		allPlayerSharesHandled = aXMLNode.getThisBooleanAttribute (AN_ALL_PLAYER_SHARES_HANDLED);
+		tState = aXMLNode.getThisAttribute (AN_FORMATION_STATE);
+		tGenericActor = new GenericActor ();
+		tFormationState = tGenericActor.getPlayerFormationState (tState);
+		tNotificationText = aXMLNode.getThisAttribute (AN_NOTITIFCATION_TEXT);
+		tPlayerName = aXMLNode.getThisAttribute (AN_ACTING_PRESIDENT);
+		
+		setCurrentPlayerIndex (tCurrentPlayerIndex);
+		setShareFoldCount (tShareFoldCount);
+		setCurrentPlayerDone (tCurrentPlayerDone);
+		setFormingPresidentAssigned (tFormingPresidentAssigned);
+		setAllPlayerSharesHandled (allPlayerSharesHandled);
+		setFormationState (tFormationState);
+		setNotificationText (tNotificationText);
+		
+		tPlayer = (Player) gameManager.getActor (tPlayerName);
+		if (tPlayer != Player.NO_PLAYER) {
+			actingPresident = tPlayer;
+		}
 	}
 	
+	public XMLElement getFormationElements (XMLDocument aXMLDocument) {
+		XMLElement tXMLElement;
+
+		tXMLElement = aXMLDocument.createElement (EN_FORMATION_PHASE);
+		tXMLElement.setAttribute (AN_CURRENT_PLAYER_INDEX, currentPlayerIndex);
+		tXMLElement.setAttribute (AN_SHARE_FOLD_COUNT, shareFoldCount);
+		tXMLElement.setAttribute (AN_CURRENT_PLAYER_DONE, currentPlayerDone);
+		tXMLElement.setAttribute (AN_FORMING_PRESIDENT_ASSIGNED, formingPresidentAssigned);
+		tXMLElement.setAttribute (AN_ALL_PLAYER_SHARES_HANDLED, allPlayerSharesHandled);
+		tXMLElement.setAttribute (AN_FORMATION_STATE, formationState.toString ());
+		tXMLElement.setAttribute (AN_NOTITIFCATION_TEXT, notificationText);
+		tXMLElement.setAttribute (AN_ACTING_PRESIDENT, actingPresident.getName ());
+
+		return tXMLElement;
+	}
+
 	public void buildNotificationJPanel () {
 		Color tColor;
 		
@@ -173,6 +245,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		int tWidth;
 		List<Player> tPlayers;
 		PlayerManager tPlayerManager;
+		ActorI.ActionStates tCurrentState;
+		GenericActor tGenericActor;
 		
 		tPlayerManager = gameManager.getPlayerManager ();
 		tPlayers = tPlayerManager.getPlayers ();
@@ -185,9 +259,12 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		
 		formationJPanel.setLayout (new BoxLayout (formationJPanel, BoxLayout.Y_AXIS));
 		
-
+		tGenericActor = new GenericActor ();
 		for (Player tPlayer : tPlayers) {
-			tPlayer.setPrimaryActionState (ActorI.ActionStates.CompanyFormation);
+			tCurrentState = tPlayer.getPrimaryActionState ();
+			if (! tGenericActor.isFormationRound (tCurrentState)) {
+				tPlayer.setPrimaryActionState (ActorI.ActionStates.CompanyFormation);
+			}
 		}
 
 		setupPlayers (tPlayerManager, tPlayers);
@@ -434,6 +511,10 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		formationJPanel.revalidate ();
 	}
 
+	public void setCurrentPlayerDone (Boolean aCurrentPlayerDone) {
+		currentPlayerDone = aCurrentPlayerDone;
+	}
+	
 	public PlayerFormationPhase buildPlayerPanel (Player aPlayer, Player aActingPresident) {
 		PlayerFormationPhase tPlayerFormationPhase;
 		String tClassName;
@@ -532,12 +613,18 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		if (actingPresident == Player.NO_PLAYER) {
 			tActingCorporation = gameManager.getOperatingCompany ();
 			tPresident = tActingCorporation.getPresident ();
-			tActingPlayer = (Player) tPresident;
-			actingPresident = tActingPlayer;
-		} else {
-			tActingPlayer = actingPresident;
+			if (tPresident.isAPlayer ()) {
+				tActingPlayer = (Player) tPresident;
+				actingPresident = tActingPlayer;
+			} else {
+				actingPresident = Player.NO_PLAYER;
+			}
+//			tActingPlayer
+//		} else {
+//			tActingPlayer = actingPresident;
 		}
-		
+		tActingPlayer = actingPresident;
+	
 		return tActingPlayer;
 	}
 
