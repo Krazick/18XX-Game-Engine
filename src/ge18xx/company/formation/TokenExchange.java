@@ -233,11 +233,23 @@ public class TokenExchange extends PlayerFormationPhase {
 	}
 	
 	public void buildSpecialButtons (ShareCompany aFormingShareCompany, JPanel tShareCompanyPanel, boolean aActingPlayer) {
+		String tToolTip;
+		Player tCurrentPlayer;
+		Player tFormingPresident;
+		ShareCompany tFormingCompany;
 		
+		tFormingCompany = formationPhase.getFormingCompany ();
+		tFormingPresident = (Player) tFormingCompany.getPresident ();
+		tCurrentPlayer = formationPhase.getCurrentPlayer ();
+		if (tCurrentPlayer == tFormingPresident) {
+			tToolTip = GUI.EMPTY_STRING;
+		} else {
+			tToolTip = NOT_ACTING_PRESIDENT;
+		}
 		homeTokensExchange = formationPhase.buildSpecialButton ("Exchange all Home Tokens", EXCHANGE_HOME_TOKEN, 
-					GUI.EMPTY_STRING, this);
+				tToolTip, this);
 		nonHomeTokensExchange = formationPhase.buildSpecialButton ("Exchange all Non-Home Tokens", EXCHANGE_NON_HOME_TOKEN, 
-				GUI.EMPTY_STRING, this);	
+				tToolTip, this);	
 	}
 	
 	@Override
