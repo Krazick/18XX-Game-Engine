@@ -90,7 +90,10 @@ public class GenericActor implements ActorI {
 //		AssetCollection ("Asset Collection", Arrays.asList (new String [] {"Token Exchange"})),
 //		StockValueCalculation ("Stock Value Calculation", Arrays.asList (new String [] {"Asset Collection"})),
 
-		if (aState.equals (ActionStates.LoanRepayment.toString ())) {
+		
+		if (aState.equals (ActionStates.CompanyFormation.toString ())) {
+			tPlayerState = ActionStates.CompanyFormation;
+		} else if (aState.equals (ActionStates.LoanRepayment.toString ())) {
 			tPlayerState = ActionStates.LoanRepayment;
 		} else if (aState.equals (ActionStates.ShareExchange.toString ())) {
 			tPlayerState = ActionStates.ShareExchange;
@@ -100,11 +103,32 @@ public class GenericActor implements ActorI {
 			tPlayerState = ActionStates.AssetCollection;
 		} else if (aState.equals (ActionStates.StockValueCalculation.toString ())) {
 			tPlayerState = ActionStates.StockValueCalculation;
+		} else if (aState.equals (ActionStates.FormationComplete.toString ())) {
+			tPlayerState = ActionStates.FormationComplete;
 		}
 		
 		return tPlayerState;
 	}
+	
+	public boolean isFormationRound (ActorI.ActionStates aState) {
+		boolean tIsFormationRound;
+		String tStateName;
 		
+		tIsFormationRound = false;
+		tStateName = aState.toString ();
+		if (tStateName.equals (ActionStates.CompanyFormation.toString ()) 	||
+			tStateName.equals (ActionStates.LoanRepayment.toString ())		||
+			tStateName.equals (ActionStates.ShareExchange.toString ())		||
+			tStateName.equals (ActionStates.TokenExchange.toString ())		||
+			tStateName.equals (ActionStates.AssetCollection.toString ())		||
+			tStateName.equals (ActionStates.StockValueCalculation.toString ()) ||
+			tStateName.equals (ActionStates.FormationComplete.toString ())) {
+			tIsFormationRound = true;
+		}
+
+		return tIsFormationRound;
+	}
+	
 	public ActorI.ActionStates getCorporationActionState (String aState) {
 		ActorI.ActionStates tCorporationState;
 
