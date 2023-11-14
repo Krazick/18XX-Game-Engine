@@ -37,6 +37,7 @@ import ge18xx.player.PlayerManager;
 import ge18xx.player.PortfolioHolderI;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.WinAuctionAction;
+import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
@@ -189,6 +190,9 @@ public class Certificate implements Comparable<Certificate> {
 	}
 	
 	public void fillCertificateInfo (GameManager aGameManager) {
+		if (infoFrame == XMLFrame.NO_XML_FRAME) {
+			setupInfoFrame (getCorporation ());
+		}
 		infoFrame.setGameManager ("Certificate Info Frame", aGameManager);
 		setCertificateInfoDialog (this);
 	}
