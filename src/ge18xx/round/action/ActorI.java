@@ -79,6 +79,7 @@ public interface ActorI {
 		TokenExchange ("Token Exchange", Arrays.asList (new String [] {"Confirm Forming President"})),
 		AssetCollection ("Asset Collection", Arrays.asList (new String [] {"Token Exchange"})),
 		StockValueCalculation ("Stock Value Calculation", Arrays.asList (new String [] {"Asset Collection"})),
+		FormationComplete ("Formation Complete",Arrays.asList (new String [] {"Loan Repayment", "Stock Value Calculation"})),
 		
 		// Round States
 		NoRound ("No Round", "NR"),
