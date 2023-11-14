@@ -144,6 +144,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 	BankPool bankPool;
 	Bank bank;
 	TriggerClass triggerClass;
+	FormationPhase formationPhase;
 
 	// Various Frames the Game Manager tracks -- 
 	// Consider adding to a "FrameManager" Class
@@ -1687,6 +1688,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 					tPlayersLoaded = true;
 				}
 			}
+			if (playerManager.isInCompanyFormationState ()) {
+				prepareFormationPhase ();
+				showFormationPhaseFrame ();
+			}
+
 			fixLoadedRoutes ();
 			updateStartPacket ();
 			if ((activeGame != GameInfo.NO_GAME_INFO) && (playerManager.getPlayerCount () > 1)) {
@@ -1738,6 +1744,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 	}
 
 	public void handleIfGameInitiated (XMLNode aChildNode, String aChildName) {
+		FormationPhase tFormationPhase;
+		
 		if (Action.EN_ACTIONS.equals (aChildName)) {
 			roundManager.loadActions (aChildNode, this);
 		} else  if (RoundManager.EN_ROUNDS.equals (aChildName)) {
@@ -1759,6 +1767,9 @@ public class GameManager extends Component implements NetworkGameSupport {
 			shareCompaniesFrame.loadStates (aChildNode);
 		} else if (HexMap.EN_MAP.equals (aChildName)) {
 			mapFrame.loadMapStates (aChildNode);
+		} else if (FormationPhase.EN_FORMATION_PHASE.equals (aChildName)) {
+			tFormationPhase = new FormationPhase (aChildNode, this);
+			setFormationPhase (tFormationPhase);
 		}
 	}
 
@@ -1893,7 +1904,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 		/* Save The Tile Placements, Orientations, and Token Placements */
 		tXMLElement = mapFrame.getMapStateElements (tXMLDocument);
 		tSaveGameElement.appendChild (tXMLElement);
-
+		
+		/* Save the FormationPhase */
+		if (formationPhase != FormationPhase.NO_FORMATION_PHASE) {
+			tXMLElement = formationPhase.getFormationElements (tXMLDocument);
+			tSaveGameElement.appendChild (tXMLElement);
+		}
+		
 		// Append Save Game Element to Document just before outputing it.
 		tXMLDocument.appendChild (tSaveGameElement);
 
@@ -2978,22 +2995,31 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return phaseManager.hasTriggerClass ();
 	}
 	
+	public void setFormationPhase (FormationPhase aFormationPhase) {
+		formationPhase = aFormationPhase;
+	}
+	
 	public void showFormationPhaseFrame () {
-		FormationPhase tFormationPhase;
-		
 		if (hasTriggerClass ()) {
-			tFormationPhase = FormationPhase.NO_FORMATION_PHASE;
-			if (triggerClass == TriggerClass.NO_TRIGGER_CLASS) {
-				tFormationPhase = new FormationPhase (this);
-			} else if (triggerClass instanceof FormationPhase) {
-				tFormationPhase = (FormationPhase) triggerClass;
-			}
-			if (tFormationPhase != FormationPhase.NO_FORMATION_PHASE) {
-				tFormationPhase.showFormationPanel ();
+			prepareFormationPhase ();
+			if (formationPhase != FormationPhase.NO_FORMATION_PHASE) {
+				formationPhase.rebuildFormationPanel ();
 			} else {
 				System.err.println ("Formation Phase not available to be shown");
 			}
 		}
+	}
+
+	public void prepareFormationPhase () {
+		FormationPhase tFormationPhase;
+		
+		tFormationPhase = FormationPhase.NO_FORMATION_PHASE;
+		if (triggerClass == TriggerClass.NO_TRIGGER_CLASS) {
+			tFormationPhase = new FormationPhase (this);
+		} else if (triggerClass instanceof FormationPhase) {
+			tFormationPhase = (FormationPhase) triggerClass;
+		}
+		setFormationPhase (tFormationPhase);
 	}
 	
 	public void fillAuditFrame (String aActorName) {
