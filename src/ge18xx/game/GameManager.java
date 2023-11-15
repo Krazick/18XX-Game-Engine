@@ -8,7 +8,9 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -621,6 +623,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		XMLDocument tXMLDocument;
 		int tLoanAmount;
 		int tLoanInterest;
+		CorporationList tCorporationList;
 
 		if (gameIsStarted ()) {
 			tType =  Corporation.COMPANIES;
@@ -632,7 +635,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 			setShareCompaniesFrame (tShareCompaniesFrame);
 			tXMLDocument = readXMLfromURL (tActiveGameName, tType);
 			try {
-				tShareCompaniesFrame.loadXML (tXMLDocument, tShareCompaniesFrame.getCompanies ());
+				tCorporationList = tShareCompaniesFrame.getCompanies ();
+				tShareCompaniesFrame.loadXML (tXMLDocument, tCorporationList);
 				tMarket = marketFrame.getMarket ();
 				tLoanAmount = activeGame.getLoanAmount ();
 				tLoanInterest = activeGame.getLoanInterest ();
@@ -695,7 +699,6 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 		if (gameIsStarted ()) {
 			tActiveGameName = getActiveGameName ();
-
 			tFrameTitle = createFrameTitle (TileTrayFrame.BASE_TITLE);
 			tTileTrayFrame = new TileTrayFrame (tFrameTitle, this);
 			setTileTrayFrame (tTileTrayFrame);
@@ -1342,16 +1345,13 @@ public class GameManager extends Component implements NetworkGameSupport {
 			roundManager = new RoundManager (this, playerManager);
 			setupGamePieces ();
 			setGameChanged (true);
-
 			setupBank ();
 			tPhaseManager = activeGame.getPhaseManager ();
 			tPhaseManager.setCurrentPhase (PhaseManager.FIRST_PHASE);
 			setPhaseManager (tPhaseManager);
-			
 			activeGame.setupVariants ();
 			activeGame.applyActiveVariantEffects (this);
 			activeGame.setGameManager (this);
-			
 			removeInactiveCompanies ();
 			playerInputFrame.randomizePlayerOrder ();
 			setupPlayers ();
@@ -1359,18 +1359,17 @@ public class GameManager extends Component implements NetworkGameSupport {
 			tMinors = getMinorCompanies ();
 			tShares = getShareCompanies ();
 			collectAllBeans ();
-			
 			autoSaveFileName = constructAutoSaveFileName (AUTO_SAVES_DIR);
 			autoSaveActionReportFileName = constructASARFileName (AUTO_SAVES_DIR, ".action.txt");
 			autoSaveFile = new File (autoSaveFileName);
 			autoSaveActionReportFile = new File (autoSaveActionReportFileName);
-
 			roundManager.initiateGame (tPrivates, tMinors, tShares);
 			if (!activeGame.isATestGame ()) {
 				roundManager.showInitialFrames ();
 			}
 
 			logger.info ("Game has started with AutoSave Name " + autoSaveFileName);
+			
 			gameStarted = true;
 			createAuditFrame ();
 			applyConfigSettings ();
@@ -1592,12 +1591,21 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	}
 
+	public void printDateTime (String aLabel) {
+		Date tNow;
+		SimpleDateFormat tSimpleFormat;
+		
+		tNow = new Date ();
+		tSimpleFormat = new SimpleDateFormat ("|hh:mm:ss|SSS");
+		System.out.println (aLabel + " " + tSimpleFormat.format (tNow));
+	}
+	
 	private boolean loadSavedXMLFile () {
 		List<ActionStates> tAuctionStates;
 		boolean tGoodLoad = false;
 		int tLastActionNumber;
 		String tGameName;
-
+		
 		setNotifyNetwork (false);
 		if (loadXMLFile (loadSavedFile)) {
 			if (isNetworkGame ()) {
