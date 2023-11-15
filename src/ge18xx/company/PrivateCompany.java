@@ -385,11 +385,17 @@ public class PrivateCompany extends Corporation implements ParsingRoutine2I {
 	}
 
 	public String getOwnerName () {
+		String tOwnerName;
+		Bank tBank;
+		
 		if (isOwned ()) {
-			return getPresidentName ();
+			tOwnerName = getPresidentName ();
 		} else {
-			return NO_PRESIDENT;
+			tBank = corporationList.getBank ();
+			tOwnerName = tBank.getName ();
 		}
+		
+		return tOwnerName;
 	}
 
 	public PortfolioHolderI getOwner () {
