@@ -770,6 +770,7 @@ public class Centers implements Cloneable {
 			if (tRevenueCenter.cityHasStation (tTokenCompanyID)) {
 				tCity = (City) tRevenueCenter;
 				if (tCity.withBaseForCorp (aFoldingCompany)) {
+
 					tCity.returnStation (aFoldingCompany);
 				}
 			}
