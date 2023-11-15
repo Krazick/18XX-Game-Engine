@@ -1668,5 +1668,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tMapCellID = tMapCellInfo [2];
 		tMapCell = getMapCellForID (tMapCellID);
 		tMapCell.replaceMapToken (tMapCellInfo, aNewMapToken, aFoldingCompany, aReplaceTokenAction);
+		redrawMap ();
 	}
 }
