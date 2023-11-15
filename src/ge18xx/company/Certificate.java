@@ -1248,12 +1248,14 @@ public class Certificate implements Comparable<Certificate> {
 
 	public String getOwnerName () {
 		String tOwnerName = NO_OWNER_NAME;
-
+		
 		if (owner != CertificateHolderI.NO_OWNER) {
 			if (owner.isAPlayer ()) {
 				tOwnerName = owner.getHolderName ();
 			} else if (owner.isACorporation ()) {
 				tOwnerName = owner.getHolderAbbrev ();
+			} else if (owner.isABank ()) {
+				tOwnerName = BANK_POOL_OWNER;
 			}
 		}
 
