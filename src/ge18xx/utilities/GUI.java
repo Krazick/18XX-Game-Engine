@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -102,4 +104,23 @@ public interface GUI {
 		}
 	}
 
+	public static String formatDateTime (String aLabel, long aDateTime) {
+		Date tDateTime;
+		String tFormatDateTime;
+		
+		tDateTime = new Date (aDateTime);
+		tFormatDateTime = formatDateTime (aLabel, tDateTime);
+		
+		return tFormatDateTime;
+	}
+	
+	public static String formatDateTime (String aLabel, Date aDateTime) {
+		String tFormatDateTime;
+		SimpleDateFormat tSimpleFormat;
+		
+		tSimpleFormat = new SimpleDateFormat ("|hh:mm:ss|SSS");
+		tFormatDateTime = aLabel + " " + tSimpleFormat.format (aDateTime);
+		
+		return tFormatDateTime;
+	}
 }
