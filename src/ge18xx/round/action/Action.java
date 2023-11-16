@@ -122,8 +122,12 @@ public class Action {
 		XMLNode tEffectNode;
 		NodeList tEffectsChildren;
 		NodeList tEffectChildren;
-		int tEffectNodeCount, tEffectsNodeCount, tEffectIndex, tEffectsIndex;
-		String tEffectsNodeName, tEffectNodeName;
+		int tEffectNodeCount;
+		int tEffectsNodeCount;
+		int tEffectIndex;
+		int tEffectsIndex;
+		String tEffectsNodeName;
+		String tEffectNodeName;
 		String tClassName;
 		Effect tEffect;
 		Class<?> tEffectToLoad;
