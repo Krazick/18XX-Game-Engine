@@ -176,7 +176,7 @@ public class ActionManager {
 
 	public void addAction (Action aAction) {
 		boolean tAllNullEffects;
-
+		
 		tAllNullEffects = aAction.allNullEffects ();
 		if (tAllNullEffects) {
 			logger.debug (aAction.getBriefActionReport () + " All Null Effects " + tAllNullEffects
