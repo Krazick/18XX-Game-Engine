@@ -8,7 +8,6 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -86,6 +85,7 @@ import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.FileGEFilter;
 import ge18xx.utilities.FileUtils;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.JFileMChooser;
 import ge18xx.utilities.MessageBean;
 import ge18xx.utilities.XMLDocument;
@@ -1593,11 +1593,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public void printDateTime (String aLabel) {
 		Date tNow;
-		SimpleDateFormat tSimpleFormat;
+		String tDateTime;
 		
 		tNow = new Date ();
-		tSimpleFormat = new SimpleDateFormat ("|hh:mm:ss|SSS");
-		System.out.println (aLabel + " " + tSimpleFormat.format (tNow));
+		tDateTime = GUI.formatDateTime (aLabel, tNow);
+		System.out.println (tDateTime);
 	}
 	
 	private boolean loadSavedXMLFile () {
