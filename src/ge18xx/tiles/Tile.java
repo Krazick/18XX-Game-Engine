@@ -1200,10 +1200,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 		centers.removeMapTokens (aTokenCompany, aMapCellID, aCloseCompanyAction);
 	}
 
-	public void replaceMapToken (String [] aMapCellInfo, MapToken aNewMapToken, TokenCompany aFoldingCompany,
-								ReplaceTokenAction aReplaceTokenAction) {
+	public void replaceMapToken (String [] aMapCellInfo, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
+								MapCell aMapCell, ReplaceTokenAction aReplaceTokenAction) {
 		System.out.println ("Replace Map Token on Tile " + this.getNumberToString () + " Info: " + aMapCellInfo [0] + " : " + 
 				aMapCellInfo [1] + " : " + aMapCellInfo [2] + " : " + aMapCellInfo [3] + " : ");
-		centers.replaceMapToken (aMapCellInfo, aNewMapToken, aFoldingCompany, aReplaceTokenAction);
+		centers.replaceMapToken (aMapCellInfo, aNewMapToken, aFoldingCompany, aMapCell, this, aReplaceTokenAction);
 	}
 }
