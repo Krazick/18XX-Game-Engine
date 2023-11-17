@@ -17,6 +17,7 @@ import ge18xx.company.Corporation;
 import ge18xx.company.MapToken;
 import ge18xx.company.Token;
 import ge18xx.company.TokenCompany;
+import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.map.Hex;
 import ge18xx.map.Location;
 import ge18xx.map.MapCell;
@@ -759,19 +760,32 @@ public class Centers implements Cloneable {
 	}
 
 	public void replaceMapToken (String [] aMapCellInfo, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
-									ReplaceTokenAction aReplaceTokenAction) {
-		System.out.println ("Center is ready to Replace Map Token");
-		
+								MapCell aMapCell, Tile aTile, ReplaceTokenAction aReplaceTokenAction) {
 		int tTokenCompanyID;
+		int tRevenueCenterCount;
+		int tRevenueCenterIndex;
+		int tTokenIndex;
+		RevenueCenter tRevenueCenter;
+		MapToken tMapToken;
+		TokenType tTokenType;
 		City tCity;
 		
 		tTokenCompanyID = aFoldingCompany.getID ();
-		for (RevenueCenter tRevenueCenter : centers) {
+		tRevenueCenterCount = centers.size ();
+		for (tRevenueCenterIndex = 0; tRevenueCenterIndex < tRevenueCenterCount; tRevenueCenterIndex++) {
+			tRevenueCenter = centers.get (tRevenueCenterIndex);
 			if (tRevenueCenter.cityHasStation (tTokenCompanyID)) {
 				tCity = (City) tRevenueCenter;
 				if (tCity.withBaseForCorp (aFoldingCompany)) {
-
-					tCity.returnStation (aFoldingCompany);
+					System.out.println ("Center is ready to Return Map Token");
+					tMapToken = tCity.returnStation (aFoldingCompany);
+					tTokenType = tMapToken.getTokenType ();
+					tTokenIndex = aFoldingCompany.getTokenIndex (tMapToken);
+					aReplaceTokenAction.addRemoveTokenEffect (aFoldingCompany, aMapCell, aTile, tRevenueCenterIndex,
+							tTokenType, tTokenIndex);
+					if (tRevenueCenterIndex > 0) {
+						aReplaceTokenAction.setChainToPrevious (true);
+					}
 				}
 			}
 		}
