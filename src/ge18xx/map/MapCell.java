@@ -2648,7 +2648,7 @@ public class MapCell implements Comparator<Object> {
 	public void replaceMapToken (String [] aMapCellInfo, MapToken aNewMapToken, TokenCompany aFoldingCompany,
 								ReplaceTokenAction aReplaceTokenAction) {
 		if (isTileOnCell ()) {
-			tile.replaceMapToken (aMapCellInfo, aNewMapToken, aFoldingCompany, aReplaceTokenAction);
+			tile.replaceMapToken (aMapCellInfo, aNewMapToken, aFoldingCompany, this, aReplaceTokenAction);
 		}
 	}
 }
