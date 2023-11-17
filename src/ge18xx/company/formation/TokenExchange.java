@@ -256,6 +256,7 @@ public class TokenExchange extends PlayerFormationPhase {
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
 		
+		
 		tActionCommand = aEvent.getActionCommand ();
 		
 		if (tActionCommand.equals (EXCHANGE_HOME_TOKEN)) {
@@ -266,6 +267,8 @@ public class TokenExchange extends PlayerFormationPhase {
 			handlePlayerDone ();
 		} else if (tActionCommand.equals (FormationPhase.ASSET_COLLECTION)) {
 			formationPhase.allPlayersHandled  ();
+		} else {
+			super.actionPerformed (aEvent);
 		}
 	}
 	
@@ -301,7 +304,6 @@ public class TokenExchange extends PlayerFormationPhase {
 		tMinorCompanies = gameManager.getMinorCompanies ();
 		tFormingShareCompany = formationPhase.getFormingCompany ();
 		tNewMapToken = tFormingShareCompany.getLastMapToken ();
-				
 		System.out.println ("Ready to Exchange all Homes Tokens");
 		for (String tHomeMapCellID : homeMapCellIDs) {
 			System.out.println ("Swap out Token on MapCellID " + tHomeMapCellID);
@@ -310,7 +312,10 @@ public class TokenExchange extends PlayerFormationPhase {
 			if (tFoldingCompany == Corporation.NO_CORPORATION) {
 				tFoldingCompany = (TokenCompany) tMinorCompanies.getCorporation (tCompanyAbbrev);
 			}
+			prepareAction (tFoldingCompany);
+
 			tHexMap.replaceMapToken (tHomeMapCellID, tNewMapToken, tFoldingCompany, replaceTokenAction);
+			gameManager.addAction (replaceTokenAction);
 		}
 	}
 
