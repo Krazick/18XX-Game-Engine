@@ -135,6 +135,16 @@ public class LayTokenEffect extends ChangeMapEffect {
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
+		String tActionVerb;
+
+		tActionVerb = "Apply";
+		tEffectApplied = layToken (aRoundManager, tActionVerb);
+
+		return tEffectApplied;
+	}
+
+	public boolean layToken (RoundManager aRoundManager, String aActionVerb) {
+		boolean tEffectApplied;
 		Tile tTile;
 		MapCell tMapCell;
 		MapToken tMapToken;
@@ -142,7 +152,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 		TokenCompany tTokenCompany;
 		City tCity;
 		HexMap tGameMap;
-
+		
 		tGameMap = aRoundManager.getGameMap ();
 		tEffectApplied = false;
 		tMapCell = getMapCell (tGameMap);
@@ -160,14 +170,13 @@ public class LayTokenEffect extends ChangeMapEffect {
 				tGameMap.redrawMap ();
 				tEffectApplied = true;
 			} else {
-				System.err.println ("Apply " + getName () + " by " + getActor ().getName ()
-						+ " Fails since this is not a Token Company");
+				System.err.println (aActionVerb + " " + getName () + " by " + getActor ().getName () +
+						" Fails since this is not a Token Company");
 			}
 		} else {
-			System.err.println (
-					"Apply " + getName () + " by " + getActor ().getName () + " Fails since Tile Numbers don't match");
+			System.err.println (aActionVerb + " " + getName () + " by " + getActor ().getName () + 
+						" Fails since Tile Numbers don't match");
 		}
-
 		return tEffectApplied;
 	}
 	
@@ -178,16 +187,28 @@ public class LayTokenEffect extends ChangeMapEffect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
+		String tActionVerb;
+		
+		tActionVerb = "Undone";
+		tEffectUndone = removeToken (aRoundManager, tActionVerb);
+
+		return tEffectUndone;
+	}
+
+	public boolean removeToken (RoundManager aRoundManager, String aActionVerb) {
 		Tile tTile;
-		MapCell tMapCell, tCorpHomeCell1, tCorpHomeCell2;
+		MapCell tMapCell;
+		MapCell tCorpHomeCell1;
+		MapCell tCorpHomeCell2;
 		Corporation tCorporation;
 		TokenCompany tTokenCompany;
 		int tCorporationID;
 		int tTokenAtID;
 		HexMap tGameMap;
+		boolean tEffectUndone;
 
-		tGameMap = getMap (aRoundManager);
 		tEffectUndone = false;
+		tGameMap = getMap (aRoundManager);
 		tMapCell = getMapCell (tGameMap);
 		tTile = tMapCell.getTile ();
 		if (tTile.getNumber () == tileNumber) {
@@ -214,18 +235,18 @@ public class LayTokenEffect extends ChangeMapEffect {
 					tTokenCompany.updateFrameInfo ();
 					tEffectUndone = true;
 				} else {
-					System.err.println ("Undo " + getName () + " by " + getActor ().getName () + 
-										" Fails since TokenAtID " + tTokenAtID + " doesn't match the RCIndex " + revenueCenterIndex);
+					System.err.println (aActionVerb + " " + getName () + " by " + getActor ().getName () + 
+										" Fails since TokenAtID " + tTokenAtID + " doesn't match the RCIndex " + 
+										revenueCenterIndex);
 				}
 			} else {
-				System.err.println ("Undo " + getName () + " by " + getActor ().getName ()
-						+ " Fails since this is not a Token Company");
+				System.err.println (aActionVerb + " " + getName () + " by " + getActor ().getName () +
+						" Fails since this is not a Token Company");
 			}
 		} else {
-			System.err.println (
-					"Undo " + getName () + " by " + getActor ().getName () + " Fails since Tile Numbers don't match");
+			System.err.println (aActionVerb +" " + getName () + " by " + getActor ().getName () + 
+								" Fails since Tile Numbers don't match");
 		}
-
 		return tEffectUndone;
 	}
 }
