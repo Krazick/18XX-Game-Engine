@@ -294,6 +294,7 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 	public void handlePlayerUndo () {
 		int tCurrentPlayerIndex;
 		
+		System.out.println ("Player hit UNDO ------");
 		player.undoAction ();
 		if (formationPhase.getFormationState () != ActorI.ActionStates.NoState) {
 			tCurrentPlayerIndex = getCurrentPlayerIndex ();
