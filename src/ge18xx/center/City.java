@@ -236,12 +236,13 @@ public class City extends RevenueCenter implements Cloneable {
 		corpStations [aIndex] = MapToken.NO_MAP_TOKEN;
 	}
 
-	public void returnStation (TokenCompany aTokenCompany) {
+	public MapToken returnStation (TokenCompany aTokenCompany) {
 		int tIndex;
 		int tCorporationId;
 		boolean tFound;
 		MapToken tMapToken;
 
+		tMapToken = MapToken.NO_MAP_TOKEN;
 		if (stationCount > 0) {
 			tFound = false;
 			for (tIndex = 0; tIndex < stationCount; tIndex++) {
@@ -263,6 +264,7 @@ public class City extends RevenueCenter implements Cloneable {
 			}
 		}
 
+		return tMapToken;
 	}
 
 	public void clearStation (int aCorporationId) {
