@@ -52,6 +52,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	public final static AttributeName AN_FORMATION_STATE = new AttributeName ("formationState");
 	public final static AttributeName AN_NOTITIFCATION_TEXT = new AttributeName ("notificationText");
 	public final static AttributeName AN_ACTING_PRESIDENT = new AttributeName ("actingPresident");
+	public final static AttributeName AN_HOME_TOKENS_EXCHANGED = new AttributeName ("homeTokensExchanged");
+	public final static AttributeName AN_NON_HOME_TOKENS_EXCHANGED = new AttributeName ("nonHomeTokensExchanged");
 	public static final FormationPhase NO_FORMATION_PHASE = null;
 	public static final String NOT_ACTING_PRESIDENT = "You are not the Acting President";
 	public static final String TIME_TO_REPAY = "Time to repay company outstanding Loans";
@@ -72,6 +74,9 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 	boolean currentPlayerDone;
 	boolean formingPresidentAssigned;
 	boolean allPlayerSharesHandled;
+	boolean homeTokensExchanged;
+	boolean nonHomeTokensExchanged;
+
 	ActionStates formationState;
 	JPanel formationJPanel;
 	JPanel bottomJPanel;
@@ -93,6 +98,9 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		actingPresident = Player.NO_PLAYER;
 		setFormingShareCompany ();
 		setAllPlayerSharesHandled (false);
+		setHomeTokensExchanged (false);
+		setNonHomeTokensExchanged (false);
+
 		buildAllPlayers (tFullFrameTitle);
 		gameManager.setTriggerClass (this);
 		gameManager.setFormationPhase (this);
@@ -105,7 +113,9 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		int tShareFoldCount;
 		boolean tCurrentPlayerDone;
 		boolean tFormingPresidentAssigned;
-		boolean allPlayerSharesHandled;
+		boolean tAllPlayerSharesHandled;
+		boolean tHomeTokensExchanged;
+		boolean tNonHomeTokensExchanged;
 		String tState;
 		String tNotificationText;
 		Player tPlayer;
@@ -117,8 +127,12 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tShareFoldCount = aXMLNode.getThisIntAttribute (AN_SHARE_FOLD_COUNT);
 		tCurrentPlayerDone = aXMLNode.getThisBooleanAttribute (AN_CURRENT_PLAYER_DONE);
 		tFormingPresidentAssigned = aXMLNode.getThisBooleanAttribute (AN_FORMING_PRESIDENT_ASSIGNED);
-		allPlayerSharesHandled = aXMLNode.getThisBooleanAttribute (AN_ALL_PLAYER_SHARES_HANDLED);
+		tHomeTokensExchanged = aXMLNode.getThisBooleanAttribute (AN_HOME_TOKENS_EXCHANGED);
+		tNonHomeTokensExchanged = aXMLNode.getThisBooleanAttribute (AN_NON_HOME_TOKENS_EXCHANGED);
+		tAllPlayerSharesHandled = aXMLNode.getThisBooleanAttribute (AN_ALL_PLAYER_SHARES_HANDLED);
+		
 		tState = aXMLNode.getThisAttribute (AN_FORMATION_STATE);
+		
 		tGenericActor = new GenericActor ();
 		tFormationState = tGenericActor.getPlayerFormationState (tState);
 		tNotificationText = aXMLNode.getThisAttribute (AN_NOTITIFCATION_TEXT);
@@ -128,7 +142,9 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		setShareFoldCount (tShareFoldCount);
 		setCurrentPlayerDone (tCurrentPlayerDone);
 		setFormingPresidentAssigned (tFormingPresidentAssigned);
-		setAllPlayerSharesHandled (allPlayerSharesHandled);
+		setAllPlayerSharesHandled (tAllPlayerSharesHandled);
+		setHomeTokensExchanged (tHomeTokensExchanged);
+		setNonHomeTokensExchanged (tNonHomeTokensExchanged);
 		setFormationState (tFormationState);
 		setNotificationText (tNotificationText);
 		
@@ -147,6 +163,8 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		tXMLElement.setAttribute (AN_CURRENT_PLAYER_DONE, currentPlayerDone);
 		tXMLElement.setAttribute (AN_FORMING_PRESIDENT_ASSIGNED, formingPresidentAssigned);
 		tXMLElement.setAttribute (AN_ALL_PLAYER_SHARES_HANDLED, allPlayerSharesHandled);
+		tXMLElement.setAttribute (AN_HOME_TOKENS_EXCHANGED, homeTokensExchanged);
+		tXMLElement.setAttribute (AN_NON_HOME_TOKENS_EXCHANGED, nonHomeTokensExchanged);
 		tXMLElement.setAttribute (AN_FORMATION_STATE, formationState.toString ());
 		tXMLElement.setAttribute (AN_NOTITIFCATION_TEXT, notificationText);
 		tXMLElement.setAttribute (AN_ACTING_PRESIDENT, actingPresident.getName ());
@@ -154,6 +172,22 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		return tXMLElement;
 	}
 
+	public void setHomeTokensExchanged (boolean aHomeTokenExchanged) {
+		homeTokensExchanged = aHomeTokenExchanged;
+	}
+
+	public void setNonHomeTokensExchanged (boolean aNonHomeTokenExchanged) {
+		nonHomeTokensExchanged = aNonHomeTokenExchanged;
+	}
+	
+	public boolean getHomeTokensExchanged () {
+		return homeTokensExchanged;
+	}
+	
+	public boolean getNonHomeTokensExchanged () {
+		return nonHomeTokensExchanged;
+	}
+	
 	public void buildNotificationJPanel () {
 		Color tColor;
 		
@@ -706,6 +740,18 @@ public class FormationPhase extends TriggerClass implements ActionListener {
 		return tPercentage;
 	}
 	
+	public int getPercentageNotForExchange () {
+		int tPercentage;
+		
+		if (shareFoldCount > SHARES_NEEDED_FOR_2ND_ISSUE) {
+			tPercentage = PhaseInfo.STANDARD_SHARE_SIZE;
+		} else {
+			tPercentage = PhaseInfo.STANDARD_SHARE_SIZE/2;
+		}
+		
+		return tPercentage;
+	}
+
 	public int getShareFoldCount () {
 		return shareFoldCount;
 	}
