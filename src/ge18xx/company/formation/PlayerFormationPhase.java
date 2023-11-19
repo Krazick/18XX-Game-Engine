@@ -135,11 +135,20 @@ public class PlayerFormationPhase extends JPanel implements ActionListener {
 		buttonsPanel.add (undoButton);
 		buttonsPanel.add (Box.createVerticalStrut (10));
 		buttonsPanel.add (Box.createVerticalGlue ());
+		updateAllButtons (aActingPlayer);
+		
+		add (buttonsPanel);
+	}
+
+	public void updateSpecialButtons (boolean aActingPlayer) {
+		
+	}
+	
+	public void updateAllButtons (boolean aActingPlayer) {
 		updateContinueButton (aActingPlayer);
 		updateDoneButton (aActingPlayer);
 		updateUndoButton (aActingPlayer);
-		
-		add (buttonsPanel);
+		updateSpecialButtons (aActingPlayer);
 	}
 	
 	public void updateContinueButton () {
