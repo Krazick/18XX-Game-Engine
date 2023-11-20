@@ -262,7 +262,6 @@ public class TokenExchange extends PlayerFormationPhase {
 	public void actionPerformed (ActionEvent aEvent) {
 		String tActionCommand;
 		
-		
 		tActionCommand = aEvent.getActionCommand ();
 		
 		if (tActionCommand.equals (EXCHANGE_HOME_TOKEN)) {
@@ -347,6 +346,7 @@ public class TokenExchange extends PlayerFormationPhase {
 		}
 		doneButton.setToolTipText (tToolTip);
 	}
+	
 	@Override
 	public void updateContinueButton () {
 		String tToolTip;
