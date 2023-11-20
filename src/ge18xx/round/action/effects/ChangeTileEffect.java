@@ -25,15 +25,27 @@ public class ChangeTileEffect extends ChangeMapEffect {
 		super (aName);
 	}
 
+	public ChangeTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile) {
+		this (aActor, aMapCell, aTile, MapCell.NO_ORIENTATION, NO_BENEFIT_IN_USE);
+	}
+	
 	public ChangeTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation) {
 		this (aActor, aMapCell, aTile, aOrientation, NO_BENEFIT_IN_USE);
 	}
 
 	public ChangeTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, Benefit aBenefitInUse) {
 		super (aActor, aMapCell, aBenefitInUse);
+		
+		int tOrientation;
+		
 		setName (NAME);
 		setTileNumber (aTile.getNumber ());
-		setOrientation (aOrientation);
+		if (aOrientation == MapCell.NO_ORIENTATION) {
+			tOrientation = aMapCell.getTileOrient ();
+		} else {
+			tOrientation = aOrientation;
+		}
+		setOrientation (tOrientation);
 	}
 
 	public ChangeTileEffect (XMLNode aEffectNode, GameManager aGameManager) {
