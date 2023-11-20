@@ -35,7 +35,10 @@ public class CityInfo implements Cloneable {
 	public static final ElementName EN_CITY_INFO = new ElementName ("CityInfo");
 	public static final CityInfo NO_CITY_INFO = null;
 	public static final String NO_NAME = "";
-	int id, type, mapX, mapY;
+	int id;
+	int type;
+	int mapX;
+	int mapY;
 	String name;
 	Location nameLocation;
 	RevenueCenter center;
