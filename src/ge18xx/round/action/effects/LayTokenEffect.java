@@ -51,8 +51,8 @@ public class LayTokenEffect extends ChangeMapEffect {
 		Tile tTile;
 
 		tRevenueCenterIndex = aEffectNode.getThisIntAttribute (MapCell.AN_REVENUE_CENTER_INDEX);
-		tTokenType = aEffectNode.getThisAttribute (TokenInfo.AN_AVAILABLE_TOKEN_TYPE);
 		tTileNumber = aEffectNode.getThisIntAttribute (Tile.AN_TILE_NUMBER);
+		tTokenType = aEffectNode.getThisAttribute (TokenInfo.AN_AVAILABLE_TOKEN_TYPE);
 		tTokenIndex = aEffectNode.getThisIntAttribute (Tokens.AN_TOKEN_INDEX);
 		tTile = aGameManager.getTile (tTileNumber);
 		setTileNumber (tTile);
