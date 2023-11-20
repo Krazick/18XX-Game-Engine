@@ -203,10 +203,15 @@ public class Centers implements Cloneable {
 		}
 	}
 
-	public void clearCityInfoCorporation (Corporation aCorporation) {
+	public boolean clearCityInfoCorporation (Corporation aCorporation) {
+		boolean tClearedCorporation;
+
+		tClearedCorporation = false;
 		for (RevenueCenter tCenter : centers) {
-			tCenter.clearCityInfoCorporation (aCorporation);
+			tClearedCorporation = tCenter.clearCityInfoCorporation (aCorporation);
 		}
+		
+		return tClearedCorporation;
 	}
 
 	public void returnStation (TokenCompany aTokenCompany) {
@@ -759,15 +764,43 @@ public class Centers implements Cloneable {
 		}
 	}
 
+	public void removeMapToken (TokenCompany aFoldingCompany, MapCell aMapCell, Tile aTile,
+					ReplaceTokenAction aReplaceTokenAction, int aRevenueCenterIndex, City aCity) {
+		int tTokenIndex;
+		MapToken tMapToken;
+		TokenType tTokenType;
+		
+		System.out.println ("Center is ready to Return Map Token");
+		tMapToken = aCity.returnStation (aFoldingCompany);
+		tTokenType = tMapToken.getTokenType ();
+		tTokenIndex = aFoldingCompany.getTokenIndex (tMapToken);
+		aReplaceTokenAction.addRemoveTokenEffect (aFoldingCompany, aMapCell, aTile, aRevenueCenterIndex,
+				tTokenType, tTokenIndex);
+		if (aRevenueCenterIndex > 0) {
+			aReplaceTokenAction.setChainToPrevious (true);
+		}
+	}
+	
+	public void clearBaseCorporation (TokenCompany aFoldingCompany, MapCell aMapCell, Tile aTile,
+					ReplaceTokenAction aReplaceTokenAction, int aRevenueCenterIndex, City aCity) {
+		boolean tCorporationCleared;
+		
+		System.out.println ("Center is ready to Clear Base Corporation");
+		tCorporationCleared = aCity.clearCorporation (aFoldingCompany);
+		if (tCorporationCleared) {
+			aReplaceTokenAction.addClearCorporationEffect (aFoldingCompany, aMapCell, aTile, aRevenueCenterIndex);
+		} else {
+			System.err.println ("Corporation was NOT cleared");
+		}
+
+	}
+	
 	public void replaceMapToken (String [] aMapCellInfo, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
 								MapCell aMapCell, Tile aTile, ReplaceTokenAction aReplaceTokenAction) {
 		int tTokenCompanyID;
 		int tRevenueCenterCount;
 		int tRevenueCenterIndex;
-		int tTokenIndex;
 		RevenueCenter tRevenueCenter;
-		MapToken tMapToken;
-		TokenType tTokenType;
 		City tCity;
 		
 		tTokenCompanyID = aFoldingCompany.getID ();
@@ -777,18 +810,10 @@ public class Centers implements Cloneable {
 			if (tRevenueCenter.cityHasStation (tTokenCompanyID)) {
 				tCity = (City) tRevenueCenter;
 				if (tCity.withBaseForCorp (aFoldingCompany)) {
-					System.out.println ("Center is ready to Return Map Token");
-					tMapToken = tCity.returnStation (aFoldingCompany);
-					tTokenType = tMapToken.getTokenType ();
-					tTokenIndex = aFoldingCompany.getTokenIndex (tMapToken);
-					aReplaceTokenAction.addRemoveTokenEffect (aFoldingCompany, aMapCell, aTile, tRevenueCenterIndex,
-							tTokenType, tTokenIndex);
-					if (tRevenueCenterIndex > 0) {
-						aReplaceTokenAction.setChainToPrevious (true);
-					}
+					removeMapToken (aFoldingCompany, aMapCell, aTile, aReplaceTokenAction, tRevenueCenterIndex, tCity);
+					clearBaseCorporation (aFoldingCompany, aMapCell, aTile, aReplaceTokenAction, tRevenueCenterIndex, tCity);
 				}
 			}
 		}
-
 	}
 }
