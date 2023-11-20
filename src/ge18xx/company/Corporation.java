@@ -1547,6 +1547,7 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 	}
 
 	// Token Company will override
+	@Override
 	public boolean isATokenCompany () {
 		return false;
 	}
