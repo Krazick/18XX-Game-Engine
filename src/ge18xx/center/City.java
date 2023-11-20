@@ -85,10 +85,6 @@ public class City extends RevenueCenter implements Cloneable {
 		setRevenueLocation (aCity.revenues.getLocation ());
 	}
 
-//	public City (int aType, int aNumber, int aLocation, int aValue, TileType aTileType) {
-//		this (aType, aNumber, NO_ID, aLocation, NO_NAME, aValue, aTileType);
-//	}
-
 	public City (int aType, int aNumber, int aID, int aLocation, String aName, int aValue, TileType aTileType) {
 		super (aType, aID, aLocation, aName, aValue, aTileType);
 		setValues (aNumber);
@@ -236,6 +232,14 @@ public class City extends RevenueCenter implements Cloneable {
 		corpStations [aIndex] = MapToken.NO_MAP_TOKEN;
 	}
 
+	public boolean clearCorporation (TokenCompany aTokenCompany) {
+		boolean tCorporationCleared;
+		
+		tCorporationCleared = cityInfo.clearCorporation (aTokenCompany);
+		
+		return tCorporationCleared;
+	}
+	
 	public MapToken returnStation (TokenCompany aTokenCompany) {
 		int tIndex;
 		int tCorporationId;
