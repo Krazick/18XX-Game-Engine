@@ -213,6 +213,10 @@ public interface ActorI {
 	public default boolean isAPrivateCompany () {
 		return false;
 	}
+	
+	public default boolean isATokenCompany () {
+		return false;
+	}
 
 	public default boolean isATrainCompany () {
 		return false;
