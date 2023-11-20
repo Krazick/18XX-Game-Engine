@@ -228,8 +228,12 @@ public class Tile implements Comparable<Object>, Cloneable {
 		centers.clearStation (aCorporationId);
 	}
 
-	public void clearCorporation (Corporation aCorporation) {
-		centers.clearCityInfoCorporation (aCorporation);
+	public boolean clearCorporation (Corporation aCorporation) {
+		boolean tClearedCorporation;
+		
+		tClearedCorporation = centers.clearCityInfoCorporation (aCorporation);
+		
+		return tClearedCorporation;
 	}
 
 	public MapToken getMapTokenFor (int aCorporationID) {
