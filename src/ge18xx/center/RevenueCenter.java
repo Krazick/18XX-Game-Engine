@@ -198,8 +198,12 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		cityInfo.clearCorporation ();
 	}
 
-	public void clearCityInfoCorporation (Corporation aCorporation) {
-		cityInfo.clearCorporation (aCorporation);
+	public boolean clearCityInfoCorporation (Corporation aCorporation) {
+		boolean tClearedCorporation;
+
+		tClearedCorporation = cityInfo.clearCorporation (aCorporation);
+		
+		return tClearedCorporation;
 	}
 
 	public void clearCityInfoMapCell () {
