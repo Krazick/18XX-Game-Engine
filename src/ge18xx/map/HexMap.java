@@ -297,8 +297,6 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 					tTokenLocation = buildTokenLocation (aCorpID, aAbbrev, tMapCellID, tLocation);
 					if (! aHomeMapCellIDs.contains (tTokenLocation)) {
 						aNonHomeMapCellIDs.add (tTokenLocation);
-					} else {
-						System.out.println ("Map Cell ID " + tMapCellID + " is the home Map Cell for another folding company.");
 					}
 				}
 			}
