@@ -247,6 +247,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 			System.err.println (aActionVerb +" " + getName () + " by " + getActor ().getName () + 
 								" Fails since Tile Numbers don't match");
 		}
+		
 		return tEffectUndone;
 	}
 }
