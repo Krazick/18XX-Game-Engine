@@ -37,7 +37,6 @@ public class RemoveTokenEffect extends LayTokenEffect {
 		String tActionVerb;
 		
 		tEffectApplied = false;
-		System.out.println ("Ready to Apply " + name);
 		tActionVerb = "Apply";
 		tEffectApplied = removeToken (aRoundManager, tActionVerb);
 		
