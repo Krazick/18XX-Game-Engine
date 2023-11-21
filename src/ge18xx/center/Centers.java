@@ -770,7 +770,6 @@ public class Centers implements Cloneable {
 		MapToken tMapToken;
 		TokenType tTokenType;
 		
-		System.out.println ("Center is ready to Return Map Token");
 		tMapToken = aCity.returnStation (aFoldingCompany);
 		tTokenType = tMapToken.getTokenType ();
 		tTokenIndex = aFoldingCompany.getTokenIndex (tMapToken);
@@ -785,7 +784,6 @@ public class Centers implements Cloneable {
 					ReplaceTokenAction aReplaceTokenAction, int aRevenueCenterIndex, City aCity) {
 		boolean tCorporationCleared;
 		
-		System.out.println ("Center is ready to Clear Base Corporation");
 		tCorporationCleared = aCity.clearCorporation (aFoldingCompany);
 		if (tCorporationCleared) {
 			aReplaceTokenAction.addClearCorporationEffect (aFoldingCompany, aMapCell, aTile, aRevenueCenterIndex);
@@ -793,6 +791,19 @@ public class Centers implements Cloneable {
 			System.err.println ("Corporation was NOT cleared");
 		}
 
+	}
+	
+	public void layMapToken (TokenCompany aFoldingCompany, MapToken aMapToken, MapCell aMapCell, Tile aTile,
+			ReplaceTokenAction aReplaceTokenAction, int aRevenueCenterIndex, City aCity) {
+		TokenType tTokenType;
+		int tTokenIndex;
+		TokenCompany tTokenCompany;
+		
+		aCity.placeStation (aMapToken);
+		tTokenType = aMapToken.getTokenType ();
+		tTokenCompany = aMapToken.getTokenCompany ();
+		tTokenIndex = tTokenCompany.getTokenIndex (aMapToken);
+		aReplaceTokenAction.addLayTokenEffect (tTokenCompany, aMapCell, aTile, aRevenueCenterIndex, tTokenType, tTokenIndex);
 	}
 	
 	public void replaceMapToken (String [] aMapCellInfo, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
@@ -812,6 +823,9 @@ public class Centers implements Cloneable {
 				if (tCity.withBaseForCorp (aFoldingCompany)) {
 					removeMapToken (aFoldingCompany, aMapCell, aTile, aReplaceTokenAction, tRevenueCenterIndex, tCity);
 					clearBaseCorporation (aFoldingCompany, aMapCell, aTile, aReplaceTokenAction, tRevenueCenterIndex, tCity);
+					layMapToken (aFoldingCompany, aNewMapToken, aMapCell, aTile, aReplaceTokenAction,
+								tRevenueCenterIndex, tCity);
+					
 				}
 			}
 		}
