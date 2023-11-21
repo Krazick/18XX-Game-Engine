@@ -1,7 +1,9 @@
 package ge18xx.company;
 
+import ge18xx.bank.Bank;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 
@@ -21,7 +23,25 @@ public class TokenInfo {
 	public static TokenInfo NO_TOKEN_INFO = null;
 	public static TokenType NO_TOKEN_TYPE = null;
 	public enum TokenType {
-		MARKET, HOME1, HOME2, FIXED_COST, RANGE_COST, NO_TYPE, MAP
+		MARKET ("Market"), 
+		HOME1 ("Home1"), 
+		HOME2 ("Home2"), 
+		FIXED_COST ("FixedCost"),
+		RANGE_COST ("RangeCost"), 
+		NO_TYPE ("NoType"), 
+		MAP ("Map");
+		
+		private String enumString;
+		
+		TokenType (String aEnumString) {
+			enumString = aEnumString;
+		}
+		
+		@Override
+		public String toString () {
+			return enumString;
+		}
+
 	}
 
 	Token token;
@@ -42,6 +62,26 @@ public class TokenInfo {
 		setTokenType (aTokenType);
 		setCost (aCost);
 		setUsed (false);
+	}
+	
+	public void printInfo (int aIndex) {
+		String tTokenInfo;
+		String tTokenTypeInfo;
+		
+		tTokenInfo = GUI.EMPTY_STRING;
+		if (token == Token.NO_TOKEN) {
+			tTokenInfo = "No Token";
+		} else {
+			tTokenInfo = token.getInfo ();
+		}
+		tTokenTypeInfo = GUI.EMPTY_STRING;
+		if (tokenType == TokenType.NO_TYPE) {
+			tTokenTypeInfo = "No TokenInfo";
+		} else {
+			tTokenTypeInfo = tokenType.toString ();
+		}
+		System.out.println (aIndex + ": " + tTokenInfo + " " + tTokenTypeInfo + " Cost: " + 
+							Bank.formatCash (cost) + " Used: " + used);
 	}
 
 	private void setToken (Token aToken) {
@@ -226,4 +266,5 @@ public class TokenInfo {
 		
 		return tTokenInfoElement;
 	}
+	
 }

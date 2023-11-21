@@ -49,7 +49,7 @@ public class Tokens {
 		int tTokenCount;
 		TokenInfo tEmptyTokenInfo;
 		
-		tTokenCount = aTokenCount + 1;
+		tTokenCount = aTokenCount;
 		tokens = new ArrayList<TokenInfo> (tTokenCount);
 		tEmptyTokenInfo = new TokenInfo ();
 		nextIndex = 0;
@@ -102,18 +102,23 @@ public class Tokens {
 		}
 	};
 
+	public void setStartIndex (int aStartIndex) {
+		startIndex = aStartIndex;
+	}
+	
 	public void addNewToken (Token aToken, TokenType aTokenType, int aCost) {
 		TokenInfo tTokenInfo;
 		
 		tTokenInfo = new TokenInfo (aToken, aTokenType, aCost);
 		if (aTokenType == TokenType.MARKET) {
 			tokens.set (MARKET_INDEX, tTokenInfo);
+			setStartIndex (HOME1_INDEX);
 		} else if (aTokenType == TokenType.HOME1) {
 			tokens.set (HOME1_INDEX, tTokenInfo);
-			startIndex = HOME1_INDEX + 1;
+			setStartIndex (HOME1_INDEX + 1);
 		} else if (aTokenType == TokenType.HOME2) {
 			tokens.set (HOME2_INDEX, tTokenInfo);
-			startIndex = HOME2_INDEX + 1;
+			setStartIndex (HOME2_INDEX + 1);
 		} else {
 			if (nextIndex == 0) {
 				nextIndex = startIndex;
@@ -365,6 +370,18 @@ public class Tokens {
 		return tTokenCost;
 	}
 
+	public void printInfo () {
+		int tIndex;
+		int tTokenCount;
+		TokenInfo tTokenInfo;
+		
+		tTokenCount = getTokenCount ();
+		for (tIndex = 0; tIndex < tTokenCount; tIndex++) {
+			tTokenInfo = tokens.get (tIndex);
+			tTokenInfo.printInfo (tIndex);
+		}
+	}
+		
 	public void setTokenUsed (Token aUsedToken, boolean aUsed) {
 		int tIndex;
 		int tTokenCount;

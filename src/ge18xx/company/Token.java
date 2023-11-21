@@ -11,6 +11,7 @@ import java.awt.Graphics;
 //
 
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 
@@ -39,7 +40,24 @@ public class Token {
 		setTokenType (aType);
 	}
 	
-
+	public String getInfo () {
+		String tInfo;
+		
+		tInfo = GUI.EMPTY_STRING;
+		if (tokenCompany == TokenCompany.NO_TOKEN_COMPANY) {
+			tInfo = "No Company";
+		} else {
+			tInfo = "Abbrev: " + tokenCompany.getAbbrev ();
+		}
+		if (type == TokenInfo.NO_TOKEN_TYPE) {
+			tInfo += " No Info";
+		} else {
+			tInfo += " " + type;
+		}
+		
+		return tInfo;
+	}
+	
 	public void setTokenType (TokenInfo.TokenType aTokenType) {
 		type = aTokenType;
 	}

@@ -29,11 +29,14 @@ import ge18xx.tiles.Tile;
 import ge18xx.toplevel.MapFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
 public abstract class TokenCompany extends TrainCompany {
+	final static AttributeName AN_TOKEN_TYPE = new AttributeName ("tokenType");
+	final static AttributeName AN_ALL_TOKENS_COST = new AttributeName ("allTokensCost");
 	final static AttributeName AN_TOKENS = new AttributeName ("tokens");
 	final static AttributeName AN_AVAILABLE_TOKEN_COUNT = new AttributeName ("availableTokenCount");
 	public final static ElementName EN_TOKEN_COMPANY = new ElementName ("TokenCompany");
@@ -58,7 +61,9 @@ public abstract class TokenCompany extends TrainCompany {
 	// 4) GetTokenCount () -- No Arg, gets the count of available MapTokens (never counts the MarketToken Type)
 	
 	Tokens tokens;
+	int allTokensCost;
 	int totalTokenCount;
+	String tokenType;
 
 	public TokenCompany (int aID, String aName) {
 		super (aID, aName);
@@ -69,17 +74,28 @@ public abstract class TokenCompany extends TrainCompany {
 		super (aChildNode, aCorporationList);
 
 		int tTotalTokenCount;
+		int tAllTokensCost;
+		String tTokenType;
 		
 		tTotalTokenCount = aChildNode.getThisIntAttribute (AN_TOKENS);
+		tAllTokensCost = aChildNode.getThisIntAttribute (AN_ALL_TOKENS_COST);
+		tTokenType = aChildNode.getThisAttribute (AN_TOKEN_TYPE);
 		setTotalTokenCount (tTotalTokenCount);
+		setAllTokensCost (tAllTokensCost);
 		setupAllTokens (tTotalTokenCount);
+		setTokenType (tTokenType);
 	}
 	
 	private void setupAllTokens (int aTotalTokenCount) {
 		Token tMarketToken;
+		int tAddForFirstHome;
 		
 		setTotalTokenCount (aTotalTokenCount);
-		tokens = new Tokens (totalTokenCount);
+		tAddForFirstHome = 0;
+		if (hasHomeCell ()) {
+			tAddForFirstHome = 1;
+		}
+		tokens = new Tokens (totalTokenCount + tAddForFirstHome);
 		tMarketToken = new Token (this, TokenType.MARKET);
 		tokens.addNewToken (tMarketToken, TokenType.MARKET, Token.NO_COST);
 		setupNewMapTokens ();
@@ -93,8 +109,16 @@ public abstract class TokenCompany extends TrainCompany {
 		addNTokens (totalTokenCount, tMapToken);
 	}
 
+	public void setTokenType (String aTokenType) {
+		tokenType = aTokenType;
+	}
+	
 	public void setTotalTokenCount (int aTotalTokenCount) {
 		totalTokenCount = aTotalTokenCount;
+	}
+
+	public void setAllTokensCost (int aAllTokensCost) {
+		allTokensCost = aAllTokensCost;
 	}
 
 	public void addNTokens (int aCount, MapToken aMapToken) {
@@ -106,7 +130,15 @@ public abstract class TokenCompany extends TrainCompany {
 
 		tCost = Token.NO_COST;
 		tStartIndex = 1;
+		// TODO: For the Token Type (Fixed Cost vs Distance) MUST get from XML Game Info File, not static 1835 for Example
 		tTokenTypeToAdd = TokenType.FIXED_COST;
+		if (tokenType != GUI.NULL_STRING) {
+			if (tokenType.equals (TokenType.FIXED_COST.toString ())) {
+				System.out.println ("Fixed Cost Token Type");
+			} else 	if (tokenType.equals (TokenType.RANGE_COST.toString ())) {
+				System.out.println ("Range Cost Token Type");
+			}
+		}
 		if (homeCityGrid1 != XMLNode.NO_VALUE) {
 			tStartIndex++;
 			tMapToken = new MapToken (aMapToken, tCost, TokenType.HOME1);
@@ -117,8 +149,15 @@ public abstract class TokenCompany extends TrainCompany {
 			tMapToken = new MapToken (aMapToken, tCost, TokenType.HOME2);
 			tokens.addNewToken (tMapToken, TokenType.HOME2, tCost);
 		}
+		if (tStartIndex == 1) {
+			tStartIndex++;
+		}
+		
+		// TODO: Must get the FIXED Cost from the XML Game Info Data File
 		for (tIndex = tStartIndex; tIndex <= aCount; tIndex++) {
-			if (tIndex == tStartIndex) {
+			if (allTokensCost > Token.NO_COST) {
+				tCost = allTokensCost;
+			} else if (tIndex == tStartIndex) {
 				tCost = 40;
 			} else if (tIndex > tStartIndex) {
 				tCost = 100;
