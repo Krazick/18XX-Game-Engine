@@ -35,7 +35,7 @@ public class ReplaceTokenAction extends LayTokenAction {
 		return tSimpleActionReport;
 	}
 	
-	public void addRemoveTokenEffect (ActorI aFromActor,MapCell aMapCell, Tile aTile, int aRevenueCenterIndex,
+	public void addRemoveTokenEffect (ActorI aFromActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex,
 			TokenType aTokenType, int aTokenIndex) {
 		RemoveTokenEffect tRemoveTokenEffect;
 		
@@ -44,7 +44,7 @@ public class ReplaceTokenAction extends LayTokenAction {
 		addEffect (tRemoveTokenEffect);
 	}
 	
-	public void addClearCorporationEffect (ActorI aFromActor,MapCell aMapCell, Tile aTile, int aRevenueCenterIndex) {
+	public void addClearCorporationEffect (ActorI aFromActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex) {
 		ClearCorporationEffect tClearCorporationEffect;
 		
 		tClearCorporationEffect = new ClearCorporationEffect (aFromActor, aMapCell, aTile, aRevenueCenterIndex);
