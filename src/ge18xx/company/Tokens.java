@@ -239,10 +239,12 @@ public class Tokens {
 		
 		tAvailableTokenCount = 0;
 		tTokenCount = getTokenCount ();
-		for (tTokenIndex = 1; tTokenIndex < tTokenCount; tTokenIndex++) {
+		for (tTokenIndex = 0; tTokenIndex < tTokenCount; tTokenIndex++) {
 			tTokenInfo = tokens.get (tTokenIndex);
 			if (! tTokenInfo.isUsed ()) {
-				tAvailableTokenCount++;
+				if (! tTokenInfo.isHomeToken ()) {
+					tAvailableTokenCount++;
+				}
 			}
 		}
 		
@@ -254,7 +256,11 @@ public class Tokens {
 		Token tToken;
 		
 		tTokenInfo = tokens.get (aIndex);
-		tToken = tTokenInfo.getToken ();
+		if (tTokenInfo != TokenInfo.NO_TOKEN_INFO) {
+			tToken = tTokenInfo.getToken ();
+		} else {
+			tToken = Token.NO_TOKEN;
+		}
 		
 		return tToken;
 	}
