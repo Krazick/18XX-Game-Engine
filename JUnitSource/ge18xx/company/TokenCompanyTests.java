@@ -9,17 +9,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.round.action.ActorI;
 
 @DisplayName ("Token Company Tests")
 class TokenCompanyTests {
 	CompanyTestFactory companyTestFactory;
 	TokenCompany tokenCompany;
+	TokenCompany tokenCompany2;
 
 	@BeforeEach
 	void setUp () throws Exception {
 		companyTestFactory = new CompanyTestFactory ();
 		tokenCompany = companyTestFactory.buildATokenCompany (1);
+		tokenCompany2 = companyTestFactory.buildATokenCompany (2);
 	}
 
 	@AfterEach
@@ -46,11 +49,37 @@ class TokenCompanyTests {
 		
 		assertEquals (4, tokenCompany.getTokenCount ());
 		assertEquals ("Token Count: 4", tokenCompany.getTokenLabel ());
-		assertEquals (4, tokenCompany.getTokenCount ());
 		
 		tFetchedToken = tokenCompany.getMapToken ();
 		assertTrue (tFetchedToken.isAMapToken ());
 		assertTrue (tFetchedToken instanceof MapToken);
+	}
+	
+	@Test
+	@DisplayName ("Test all Tokens are good")
+	void validateAllTokensTest () {
+		int tTokenCount;
+		int tTokenIndex;
+		Token tFetchedToken;
+		
+		tTokenCount = tokenCompany2.getTokenCount ();
+		assertEquals (9, tTokenCount);
+		for (tTokenIndex = 0; tTokenIndex < tTokenCount; tTokenIndex++) {
+			tFetchedToken = tokenCompany2.getTokenAt (tTokenIndex);
+			if (tTokenIndex == 0) {
+				assertEquals (TokenType.MARKET, tFetchedToken.getTokenType ());
+				assertEquals (tTokenIndex, tFetchedToken.getTokenIndex ());
+				assertEquals ("TTBNO", tFetchedToken.getCorporationAbbrev ());
+			} else if (tTokenIndex == 1){
+				assertEquals (TokenType.HOME1, tFetchedToken.getTokenType ());
+				assertEquals (tTokenIndex, tFetchedToken.getTokenIndex ());
+				assertEquals ("TTBNO", tFetchedToken.getCorporationAbbrev ());
+			} else if (tTokenIndex > 1){
+				assertEquals (TokenType.FIXED_COST, tFetchedToken.getTokenType ());
+				assertEquals (tTokenIndex, tFetchedToken.getTokenIndex ());
+				assertEquals ("TTBNO", tFetchedToken.getCorporationAbbrev ());
+			} 
+		}
 	}
 	
 	@Test
