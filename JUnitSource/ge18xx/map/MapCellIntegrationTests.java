@@ -64,8 +64,6 @@ class MapCellIntegrationTests {
 	@DisplayName ("Test Toronto Tile Upgrade on MapCell")
 	void toronotTileUpgradeTest () {	
 		
-		System.out.println ("Apply MapCell Upgrade Tile Test");
-
 		prepareAndVerifyMapCell ();
 		
 		// ================= Upgrade Tile to 120 ==============
@@ -80,8 +78,7 @@ class MapCellIntegrationTests {
 		HexMap mHexMap;
 		RevenueCenter tDestinationCity;
 		Tile tTile;
-		
-		System.out.println ("Apply LayTileEffect Test");
+
 		prepareAndVerifyMapCell ();
 		tTile = mapCell.getTile ();
 		tDestinationCity = tTile.getCenterAt (0);
@@ -98,9 +95,6 @@ class MapCellIntegrationTests {
 		verifyMapCellAfterUpgrade ();
 	}
 	
-//	"<Effect actor=\"TBNO\" bases=\"TPRR,1\" class=\"ge18xx.round.action.effects.LayTileEffect\" isAPrivate=\"false\" mapCellID=\"N11\" name=\"Lay Tile\" tileNumber=\"120\" tileOrientation=\"0\" tokens=\"\"/>\n "	
-//	public LayTileEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aOrientation, String aTokens,
-//			String aBases) {
 	void buildLayTileEffect () {
 		String tTokens;
 		String tBases;
@@ -267,7 +261,6 @@ class MapCellIntegrationTests {
 		int tCenterIndex;
 		int tCorpID;
 		int tCenterType;
-		int tLocation;
 		
 		tCenterCount = mapCell.getRevenueCenterCount ();
 		assertEquals (aExpectedCount, tCenterCount);
@@ -275,13 +268,8 @@ class MapCellIntegrationTests {
 			tCenterFound = mapCell.getRevenueCenter (tCenterIndex);
 			tCorpID = tCenterFound.getHomeCompanyID ();
 			tCenterType = tCenterFound.getRevenueCenterType ().getType ();
-			tLocation = tCenterFound.getLocationToInt ();
-			System.out.println ("MapCell Center Index " + tCenterIndex + " Corp ID " + tCorpID + 
-						" Center Type " + tCenterType + " Location " + tLocation);
 			assertEquals (aCorpIDBases [tCenterIndex], tCorpID);
 			assertEquals (aExpectedCenterTypes [tCenterIndex], tCenterType);
 		}
-		System.out.println ("----");
 	}
-
 }

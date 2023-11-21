@@ -8,10 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+//import org.mockito.Mockito;
 
 import ge18xx.company.Certificate;
-import ge18xx.company.CertificateTestFactory;
+//import ge18xx.company.CertificateTestFactory;
 import ge18xx.company.CompanyTestFactory;
 import ge18xx.utilities.UtilitiesTestFactory;
 import ge18xx.utilities.XMLNode;
@@ -19,11 +19,11 @@ import ge18xx.utilities.XMLNode;
 class StartPacketRowTests {
 	private CompanyTestFactory companyTestFactory;
 	private UtilitiesTestFactory utilitiesTestFactory;
-	private CertificateTestFactory certificateTestFactory;
+//	private CertificateTestFactory certificateTestFactory;
 	private StartPacketRow packetRow1;
 	private StartPacketRow packetRow2;
-	private Certificate mCertificateAlpha;
-	private Certificate mCertificateGamma;
+//	private Certificate mCertificateAlpha;
+//	private Certificate mCertificateGamma;
 
 	@BeforeEach
 	void setUp () throws Exception {
@@ -42,13 +42,13 @@ class StartPacketRowTests {
 
 		companyTestFactory = new CompanyTestFactory ();
 		utilitiesTestFactory = companyTestFactory.getUtilitiesTestFactory ();
-		certificateTestFactory = new CertificateTestFactory ();
+//		certificateTestFactory = new CertificateTestFactory ();
 		packetRow1 = constructStartPacketRow (tPacketRow1);
 		packetRow2 = constructStartPacketRow (tPacketRow2);
-		mCertificateAlpha = certificateTestFactory.buildCertificateMock ();
-		Mockito.when (mCertificateAlpha.getCompanyAbbrev ()).thenReturn ("ASC");
-		mCertificateGamma = certificateTestFactory.buildCertificateMock ();
-		Mockito.when (mCertificateGamma.getCompanyAbbrev ()).thenReturn ("GPC");
+//		mCertificateAlpha = certificateTestFactory.buildCertificateMock ();
+//		Mockito.when (mCertificateAlpha.getCompanyAbbrev ()).thenReturn ("ASC");
+//		mCertificateGamma = certificateTestFactory.buildCertificateMock ();
+//		Mockito.when (mCertificateGamma.getCompanyAbbrev ()).thenReturn ("GPC");
 	}
 
 	private StartPacketRow constructStartPacketRow (String aStartPacketRowTextXML) {

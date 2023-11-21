@@ -118,26 +118,41 @@ class StartPacketItemConstructorTests {
 			Mockito.when (mCertificateAlpha.isSelected ()).thenReturn (false);
 			packetItem2.setCertificate (mCertificateAlpha);
 			assertFalse (packetItem2.isSelected ());
-
 		}
 
 		@Test
-		@DisplayName ("Test hasBidOnThisCert Method")
-		void hasBidWithMockedCertificateTest () {
-			GameTestFactory tGameTestFactory;
-			GameManager tGameManager;
-			PlayerTestFactory tPlayerTestFactory;
+		@DisplayName ("Test hasBidOnThisCert Method - TRUE")
+		void hasBidWithMockedCertificateTrueTest () {
 			Player mPlayer;
 
-			tGameTestFactory = new GameTestFactory ();
-			tGameManager = tGameTestFactory.buildGameManager ();
-			tPlayerTestFactory = new PlayerTestFactory (tGameManager);
-			mPlayer = tPlayerTestFactory.buildPlayerMock ("SPIPlayer");
+			mPlayer = prepareMockedPlayer ();
 
 			Mockito.when (mCertificateGamma.hasBidOnThisCert (any (Player.class))).thenReturn (true);
 			packetItem1.setCertificate (mCertificateGamma);
 
 			assertTrue (packetItem1.hasBidOnThisCert (mPlayer));
+		}
+
+		public Player prepareMockedPlayer () {
+			GameTestFactory tGameTestFactory;
+			GameManager tGameManager;
+			PlayerTestFactory tPlayerTestFactory;
+			Player mPlayer;
+			
+			tGameTestFactory = new GameTestFactory ();
+			tGameManager = tGameTestFactory.buildGameManager ();
+			tPlayerTestFactory = new PlayerTestFactory (tGameManager);
+			mPlayer = tPlayerTestFactory.buildPlayerMock ("SPIPlayer");
+			
+			return mPlayer;
+		}
+		
+		@Test
+		@DisplayName ("Test hasBidOnThisCert Method - FALSE")
+		void hasBidWithMockedCertificateFalseTest () {
+			Player mPlayer;
+
+			mPlayer = prepareMockedPlayer ();
 
 			Mockito.when (mCertificateAlpha.hasBidOnThisCert (any (Player.class))).thenReturn (false);
 			packetItem2.setCertificate (mCertificateAlpha);
