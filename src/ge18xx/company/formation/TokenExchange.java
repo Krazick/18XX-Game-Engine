@@ -129,7 +129,6 @@ public class TokenExchange extends PlayerFormationPhase {
 				}
 			}
 			tExchangeHomeTokens += tTokenLocations + ")";
-			System.out.println (tExchangeHomeTokens);
 		} else {
 			tExchangeHomeTokens = "All Home Tokens have been exchanged";
 		}
