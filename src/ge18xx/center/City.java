@@ -1196,25 +1196,26 @@ public class City extends RevenueCenter implements Cloneable {
 	}
 
 	public boolean placeStation (MapToken aStation, MapCell aMapCell) {
-		int index, do_more;
-		boolean good_placement;
+		int tIndex;
+		int tDoMore;
+		boolean tPlacedStation;
 
-		good_placement = false;
-		do_more = -1;
-		for (index = 0; (index < stationCount) && (do_more == -1); index++) {
-			if (hasNoMapTokenAtStation (index)) {
-				good_placement = true;
-				do_more = index;
-				corpStations [index] = aStation;
-				corpStations [index].setMapCell (aMapCell);
-				corpStations [index].setLocation (getLocation ());
-			} else if (corpStations [index].isSameCompany (aStation)) {
+		tPlacedStation = false;
+		tDoMore = -1;
+		for (tIndex = 0; (tIndex < stationCount) && (tDoMore == -1); tIndex++) {
+			if (hasNoMapTokenAtStation (tIndex)) {
+				tPlacedStation = true;
+				tDoMore = tIndex;
+				corpStations [tIndex] = aStation;
+				corpStations [tIndex].setMapCell (aMapCell);
+				corpStations [tIndex].setLocation (getLocation ());
+			} else if (corpStations [tIndex].isSameCompany (aStation)) {
 				/* Oops, already have this company station on this tile/hex */
-				do_more = index;
+				tDoMore = tIndex;
 			}
 		}
 
-		return (good_placement);
+		return (tPlacedStation);
 	}
 
 	@Override
