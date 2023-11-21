@@ -196,6 +196,19 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		setBenefitInUse (Benefit.FAKE_BENEFIT);
 	}
 
+	public boolean hasHomeCell () {
+		boolean tHasHomeCell;
+		
+		tHasHomeCell = false;
+		if (homeCityGrid1 != null) {
+			if (homeCityGrid1.length () > 0) {
+				tHasHomeCell = true;
+			}
+		}
+		
+		return tHasHomeCell;
+	}
+	
 	public JPanel getButtonPanel () {
 		return corporationFrame.getButtonPanel ();
 	}
