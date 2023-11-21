@@ -54,7 +54,6 @@ public abstract class Effect {
 	
 	Effect (String aName, ActorI aActor, String aFromName) {
 		this (aName, aActor, NO_BENEFIT_IN_USE);
-//		setFromName (aFromName);
 		setNickName (aFromName);
 	}
 
