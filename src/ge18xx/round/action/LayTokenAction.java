@@ -30,12 +30,18 @@ public class LayTokenAction extends ChangeMapAction {
 		super (aActionNode, aGameManager);
 		setName (NAME);
 	}
-
+	
+	public void addLayTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
+			TokenType aTokenType, int aTokenIndex) {
+		this.addLayTokenEffect (aActor, aMapCell, aTile, aRevenueCenterIndex, aTokenType, aTokenIndex, Benefit.NO_BENEFIT);
+	}
+	
 	public void addLayTokenEffect (ActorI aActor, MapCell aMapCell, Tile aTile, int aRevenueCenterIndex, 
 									TokenType aTokenType, int aTokenIndex, Benefit aBenefitInUse) {
 		LayTokenEffect tLayTokenEffect;
 
-		tLayTokenEffect = new LayTokenEffect (aActor, aMapCell, aTile, aRevenueCenterIndex, aTokenType, aTokenIndex, aBenefitInUse);
+		tLayTokenEffect = new LayTokenEffect (aActor, aMapCell, aTile, aRevenueCenterIndex, aTokenType, 
+									aTokenIndex, aBenefitInUse);
 		addEffect (tLayTokenEffect);
 	}
 
@@ -43,7 +49,8 @@ public class LayTokenAction extends ChangeMapAction {
 									Location aHomeLocation1, Location aHomeLocation2) {
 		RemoveHomeEffect tRemoveHomeEffect;
 
-		tRemoveHomeEffect = new RemoveHomeEffect (aActor, aCorporationAbbrev, aHomeCity1, aHomeCity2, aHomeLocation1, aHomeLocation2);
+		tRemoveHomeEffect = new RemoveHomeEffect (aActor, aCorporationAbbrev, aHomeCity1, aHomeCity2, 
+									aHomeLocation1, aHomeLocation2);
 		addEffect (tRemoveHomeEffect);
 	}
 
