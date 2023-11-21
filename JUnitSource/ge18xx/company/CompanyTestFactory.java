@@ -175,7 +175,7 @@ public class CompanyTestFactory {
 				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
 				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
 		String tTokenCompany2TestXML = "<Share id=\"992\" name=\"Test Token Baltimore and Ohio\" abbrev=\"TTBNO\" homeCell1=\"I15\" \n"
-				+ "	homeLocation1=\"21\" bgColor=\"Deep Blue\" fgColor=\"White\" tokens=\"3\"> \n"
+				+ "	homeLocation1=\"21\" bgColor=\"Deep Blue\" fgColor=\"White\" tokens=\"9\"> \n"
 				+ "	<Certificate director=\"YES\" percentage=\"20\" allowedOwners=\"IPO,Player\" /> \n"
 				+ "	<Certificate director=\"NO\" percentage=\"10\" quantity=\"8\" \n"
 				+ "		allowedOwners=\"IPO,Player,BankPool\" /> \n" + "</Share>";
