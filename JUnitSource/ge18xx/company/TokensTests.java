@@ -552,7 +552,7 @@ class TokensTests {
 		assertEquals (4, tokens4.getAvailableTokenCount ());
 		tFoundToken = tokens4.getToken (TokenInfo.TokenType.MARKET);
 		tokens4.setTokenUsed (tFoundToken, true);
-		assertEquals (4, tokens4.getAvailableTokenCount ());
+		assertEquals (3, tokens4.getAvailableTokenCount ());
 		
 		tFoundMapToken1 = tokens4.getMapToken (TokenInfo.TokenType.HOME1);
 		tokens4.setTokenUsed (tFoundMapToken1, true);
