@@ -20,13 +20,13 @@ class TokensTests {
 		
 		companyTestFactory = new CompanyTestFactory ();
 		
-		tTokenCount = 2;
-		tokens2 = new Tokens (tTokenCount);
 		tTokenCount = 3;
-		tokens3 = new Tokens (tTokenCount);
+		tokens2 = new Tokens (tTokenCount);
 		tTokenCount = 4;
-		tokens4 = new Tokens (tTokenCount);
+		tokens3 = new Tokens (tTokenCount);
 		tTokenCount = 5;
+		tokens4 = new Tokens (tTokenCount);
+		tTokenCount = 6;
 		tokens5 = new Tokens (tTokenCount);
 	}
 
