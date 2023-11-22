@@ -610,14 +610,19 @@ public class Centers implements Cloneable {
 		}
 	}
 
-	public void setCorporationHome (Corporation aCorporation, Location aNewCityLocation) {
+	public boolean  setCorporationHome (Corporation aCorporation, Location aNewCityLocation) {
+		boolean tCorporationHomeSet;
+		
+		tCorporationHomeSet = false;
 		for (RevenueCenter tCenter : centers) {
 			if (tCenter.isAtLocation (aNewCityLocation)) {
 				if ((tCenter instanceof City) || (tCenter instanceof PrivateRailwayCenter)) {
-					tCenter.setCorporationHome (aCorporation);
+					tCorporationHomeSet = tCenter.setCorporationHome (aCorporation);
 				}
 			}
 		}
+		
+		return tCorporationHomeSet;
 	}
 
 	public boolean removeHome (Corporation aCorporation, Location aLocation) {
