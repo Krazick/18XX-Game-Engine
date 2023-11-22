@@ -2624,8 +2624,6 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 			tHomeMapCellHasTile = homeCity1.isTileOnCell ();
 		} else if (homeCity2 != MapCell.NO_MAP_CELL) {
 			tHomeMapCellHasTile = true;
-		} else {
-			System.err.println ("Home City 1 Map Cell is NOT SET -- PROBLEM!");
 		}
 
 		return tHomeMapCellHasTile;
