@@ -9,10 +9,10 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class SetHasLaidTileEffect extends Effect {
+public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
 	public final static String NAME = "Set Has Laid Tile";
 	final static AttributeName AN_HAS_LAID_TILE = new AttributeName ("hasLaidTile");
-	boolean hasLaidTile;
+//	boolean hasLaidTile;
 
 	public SetHasLaidTileEffect () {
 		super ();
@@ -28,8 +28,8 @@ public class SetHasLaidTileEffect extends Effect {
 	}
 
 	public SetHasLaidTileEffect (ActorI aActor, boolean aHasLaidTile) {
-		super (NAME, aActor);
-		setHasLaidTile (aHasLaidTile);
+		super (NAME, aActor, aHasLaidTile);
+//		setHasLaidTile (aHasLaidTile);
 	}
 
 	public SetHasLaidTileEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -41,19 +41,19 @@ public class SetHasLaidTileEffect extends Effect {
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
 
-		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
-		tEffectElement.setAttribute (AN_HAS_LAID_TILE, hasLaidTile);
+		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN, AN_HAS_LAID_TILE);
+//		tEffectElement.setAttribute (AN_HAS_LAID_TILE, hasLaidTile);
 
 		return tEffectElement;
 	}
 
-	public void setHasLaidTile (boolean aHasLaidTile) {
-		hasLaidTile = aHasLaidTile;
-	}
-
-	public boolean getHasLaidTile () {
-		return hasLaidTile;
-	}
+//	public void setHasLaidTile (boolean aHasLaidTile) {
+//		hasLaidTile = aHasLaidTile;
+//	}
+//
+//	public boolean getHasLaidTile () {
+//		return hasLaidTile;
+//	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
@@ -73,7 +73,7 @@ public class SetHasLaidTileEffect extends Effect {
 		tEffectApplied = false;
 		if (actor.isATrainCompany ()) {
 			tTrainCompany = (TrainCompany) actor;
-			tTrainCompany.setHasLaidTile (hasLaidTile);
+			tTrainCompany.setHasLaidTile (getBooleanFlag ());
 			tEffectApplied = true;
 		}
 
@@ -88,7 +88,7 @@ public class SetHasLaidTileEffect extends Effect {
 		tEffectUndone = false;
 		if (actor.isATrainCompany ()) {
 			tTrainCompany = (TrainCompany) actor;
-			tTrainCompany.setHasLaidTile (false);
+			tTrainCompany.setHasLaidTile (! getBooleanFlag ());
 		}
 		tEffectUndone = true;
 
