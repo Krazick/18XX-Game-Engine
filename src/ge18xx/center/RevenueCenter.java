@@ -563,9 +563,14 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		cityInfo = aCityInfo;
 	}
 	
-	public void setCorporationHome (Corporation aCorporation) {
+	public boolean setCorporationHome (Corporation aCorporation) {
+		boolean tCorporationHomeSet;
+		
+		tCorporationHomeSet = true;
 		setupCityInfo ();
 		cityInfo.setCorporationHome (aCorporation, this);
+		
+		return tCorporationHomeSet;
 	}
 
 	public boolean removeHome (Corporation aCorporation) {
