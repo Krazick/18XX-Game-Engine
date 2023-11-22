@@ -16,6 +16,7 @@ import ge18xx.round.action.ActorI;
 import ge18xx.tiles.Tile;
 import ge18xx.tiles.TileSet;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -152,11 +153,13 @@ public class LayTokenEffect extends ChangeMapEffect {
 		TokenCompany tTokenCompany;
 		City tCity;
 		HexMap tGameMap;
+		String tFailureReason;
 		
 		tGameMap = aRoundManager.getGameMap ();
 		tEffectApplied = false;
 		tMapCell = getMapCell (tGameMap);
 		tTile = tMapCell.getTile ();
+		tFailureReason = GUI.EMPTY_STRING;
 		if (tTile.getNumber () == tileNumber) {
 			tCorporation = (Corporation) getActor ();
 			if (tCorporation.isATokenCompany ()) {
@@ -170,13 +173,21 @@ public class LayTokenEffect extends ChangeMapEffect {
 				tGameMap.redrawMap ();
 				tEffectApplied = true;
 			} else {
-				System.err.println (aActionVerb + " " + getName () + " by " + getActor ().getName () +
-						" Fails since this is not a Token Company");
+				tFailureReason = aActionVerb + " " + getName () + " by " + getActor ().getName () +
+						" Fails since this is not a Token Company";
 			}
 		} else {
-			System.err.println (aActionVerb + " " + getName () + " by " + getActor ().getName () + 
-						" Fails since Tile Numbers don't match");
+			tFailureReason = aActionVerb + " " + getName () + " by " + getActor ().getName () + 
+						" Fails since Tile Numbers don't match";
 		}
+		if (! tEffectApplied) {
+			if (name.equals (NAME)) {
+				setApplyFailureReason (tFailureReason);
+			} else {
+				setUndoFailureReason (tFailureReason);
+			}
+		}
+		
 		return tEffectApplied;
 	}
 	
@@ -206,11 +217,13 @@ public class LayTokenEffect extends ChangeMapEffect {
 		int tTokenAtID;
 		HexMap tGameMap;
 		boolean tEffectUndone;
+		String tFailureReason;
 
 		tEffectUndone = false;
 		tGameMap = getMap (aRoundManager);
 		tMapCell = getMapCell (tGameMap);
 		tTile = tMapCell.getTile ();
+		tFailureReason = GUI.EMPTY_STRING;
 		if (tTile.getNumber () == tileNumber) {
 			tCorporation = (Corporation) getActor ();
 			if (tCorporation.isATokenCompany ()) {
@@ -235,19 +248,26 @@ public class LayTokenEffect extends ChangeMapEffect {
 					tTokenCompany.updateFrameInfo ();
 					tEffectUndone = true;
 				} else {
-					System.err.println (aActionVerb + " " + getName () + " by " + getActor ().getName () + 
+					tFailureReason = aActionVerb + " " + getName () + " by " + getActor ().getName () + 
 										" Fails since TokenAtID " + tTokenAtID + " doesn't match the RCIndex " + 
-										revenueCenterIndex);
+										revenueCenterIndex;
 				}
 			} else {
-				System.err.println (aActionVerb + " " + getName () + " by " + getActor ().getName () +
-						" Fails since this is not a Token Company");
+				tFailureReason = aActionVerb + " " + getName () + " by " + getActor ().getName () +
+						" Fails since this is not a Token Company";
 			}
 		} else {
-			System.err.println (aActionVerb +" " + getName () + " by " + getActor ().getName () + 
+			setUndoFailureReason (aActionVerb +" " + getName () + " by " + getActor ().getName () + 
 								" Fails since Tile Numbers don't match");
 		}
-		
+		if (! tEffectUndone) {
+			if (name.equals (NAME)) {
+				setUndoFailureReason (tFailureReason);
+			} else {
+				setApplyFailureReason (tFailureReason);
+			}
+		}
+
 		return tEffectUndone;
 	}
 }
