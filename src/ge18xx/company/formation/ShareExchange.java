@@ -442,7 +442,6 @@ public class ShareExchange extends PlayerFormationPhase {
 	}
 	
 	public void closeFormingCompanySecondIssue () {
-//		int tSharesClosed;
 		int tPercentage;
 		int tPrezPercentage;
 		int tFormingCompanyID;
@@ -457,7 +456,6 @@ public class ShareExchange extends PlayerFormationPhase {
 		String tFromName;
 		Bank tBank;
 
-//		tSharesClosed = 0;
 		tPercentage = formationPhase.getPercentageNotForExchange ();
 		tPrezPercentage = tPercentage * 2;
 		tOperatingRoundID = gameManager.getOperatingRoundID ();
@@ -465,8 +463,6 @@ public class ShareExchange extends PlayerFormationPhase {
 		tBankIPOPortfolio = tBank.getPortfolio ();
 		tFormingCompanyID = gameManager.getFormingCompanyId ();
 		tCorporation = (ShareCompany)gameManager.getCorporationByID (tFormingCompanyID);
-//		System.out.println ("Close shares from 1st/2nd Issue with base " + tPercentage + 
-//							"% and Prez " + tPrezPercentage + "%");
 		if (tCorporation.isAShareCompany ()) {
 			tFormingCompany = (ShareCompany) tCorporation;
 			tFormingAbbrev = tFormingCompany.getAbbrev ();
@@ -479,7 +475,6 @@ public class ShareExchange extends PlayerFormationPhase {
 				tCertificate = tBankIPOPortfolio.getCertificate (tFormingAbbrev, tPercentage, false);
 				if (tCertificate != Certificate.NO_CERTIFICATE) {
 					transferShareToClosed (tBank, tFromName, tCertificate, tTransferOwnershipAction);
-//					tSharesClosed++;
 				} else {
 					tMoreCerts = false;
 				}
