@@ -1,5 +1,6 @@
 package ge18xx.round.action.effects;
 
+import ge18xx.center.RevenueCenter;
 import ge18xx.company.TokenCompany;
 import ge18xx.game.GameManager;
 import ge18xx.map.HexMap;
@@ -62,7 +63,8 @@ public class ClearCorporationEffect extends ChangeTileEffect {
 			} else {
 				setApplyFailureReason ("Specified Tile Number " + tTileNumber + " Does not match the Tile on the MapCell");
 			}
-			
+		} else {
+			setApplyFailureReason ("The Actor " + actor.getName () + " is not a TokenCompany.");
 		}
 		
 		return tEffectApplied;
@@ -71,10 +73,33 @@ public class ClearCorporationEffect extends ChangeTileEffect {
 	@Override
 	public boolean undoEffect (RoundManager aRoundManager) {
 		boolean tEffectUndone;
+		TokenCompany tTokenCompany;
+		int tTileNumber;
+		Tile tTile;
+		MapCell tMapCell;
+		HexMap tHexMap;
+		GameManager tGameManager;
+		RevenueCenter tRevenueCenter;
 		
 		tEffectUndone = false;
-//		tEffectUndone = layToken (aRoundManager, tActionVerb);
-		
+		if (actor.isATokenCompany ()) {
+			tTokenCompany = (TokenCompany) actor;
+			tGameManager = aRoundManager.getGameManager ();
+			tHexMap = tGameManager.getGameMap ();
+			tMapCell = getMapCell (tHexMap);
+			tTileNumber = tMapCell.getTileNumber ();
+			tTile = tMapCell.getTile ();
+			if (tTileNumber == tTile.getNumber ()) {
+				tRevenueCenter = tTile.getRevenueCenter (revenueCenterIndex);
+				tEffectUndone = tRevenueCenter.setCorporationHome (tTokenCompany);
+			} else {
+				setUndoFailureReason ("Specified Tile Number " + tTileNumber + " Does not match the Tile on the MapCell");
+			}
+
+		} else {
+			setUndoFailureReason ("The Actor " + actor.getName () + " is not a TokenCompany.");
+		}
+
 		return tEffectUndone;
 	}
 }
