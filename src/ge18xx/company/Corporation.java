@@ -412,10 +412,10 @@ public abstract class Corporation extends Observable implements PortfolioHolderL
 		return tPortfolioInfoJPanel;
 	}
 
-	// Token Company will Override
-	public JLabel buildTokenLabel () {
-		return GUI.NO_LABEL;
-	}
+//	// Token Company will Override
+//	public JLabel buildTokenLabel () {
+//		return GUI.NO_LABEL;
+//	}
 
 	// Share Company will Override
 	public void buyPrivate (boolean tVisible) {
