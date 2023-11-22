@@ -834,8 +834,8 @@ public class Tile implements Comparable<Object>, Cloneable {
 		centers.printlog ();
 	}
 
-	public void setCorporationHome (Corporation aHomeCorporation, Location aNewCityLocation) {
-		centers.setCorporationHome (aHomeCorporation, aNewCityLocation);
+	public boolean setCorporationHome (Corporation aHomeCorporation, Location aNewCityLocation) {
+		return centers.setCorporationHome (aHomeCorporation, aNewCityLocation);
 	}
 
 	public boolean removeHome (Corporation aHomeCorporation, Location aNewCityLocation) {
