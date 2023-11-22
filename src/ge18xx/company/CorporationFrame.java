@@ -243,31 +243,32 @@ public class CorporationFrame extends XMLFrame implements ActionListener, ItemLi
 		corporationInfoJPanel = new JPanel ();
 		corporationInfoJPanel.setLayout (new BoxLayout (corporationInfoJPanel, BoxLayout.X_AXIS));
 		corporationInfoJPanel.setAlignmentX (CENTER_ALIGNMENT);
-		statusLabel = new JLabel ("");
+		statusLabel = new JLabel (GUI.EMPTY_STRING);
 		corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 		corporationInfoJPanel.add (statusLabel);
 		corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 		setStatusLabel ();
+		presidentLabel = new JLabel (GUI.EMPTY_STRING);
+		treasuryLabel = new JLabel (GUI.EMPTY_STRING);
+		lastRevenueLabel = new JLabel (GUI.EMPTY_STRING);
+		tokenLabel = new JLabel (GUI.EMPTY_STRING);
+		loanCountLabel = new JLabel (GUI.EMPTY_STRING);
 		if (corporation.isActive ()) {
-			presidentLabel = new JLabel ("");
 			corporationInfoJPanel.add (presidentLabel);
 			setPresidentLabel ();
 			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
-			treasuryLabel = new JLabel ("");
 			corporationInfoJPanel.add (treasuryLabel);
 			setTreasuryLabel ();
-			tokenLabel = corporation.buildTokenLabel ();
+//			tokenLabel = corporation.buildTokenLabel ();
 			if (tokenLabel != GUI.NO_LABEL) {
 				corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 				corporationInfoJPanel.add (tokenLabel);
 				setTokenLabel ();
 			}
 			corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
-			lastRevenueLabel = new JLabel ("");
 			corporationInfoJPanel.add (lastRevenueLabel);
 			setLastRevenueLabel ();
 			if (corporation.gameHasLoans ()) {
-				loanCountLabel = new JLabel ("");
 				corporationInfoJPanel.add (Box.createRigidArea (aMinSize));
 				corporationInfoJPanel.add (loanCountLabel);
 				setLoanCountLabel ();
