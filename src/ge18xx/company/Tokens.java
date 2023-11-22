@@ -96,8 +96,6 @@ public class Tokens {
 			if (tTokenInfo.isMatchingTokenType (tTokenType)) {
 				tTokenInfo.setUsed (tTokenUsed);
 				tTokenInfo.setCost (tTokenCost);
-			} else {
-				System.err.println ("TokenInfo at " + tTokenIndex + " has Type " + tTokenInfo.getTokenType () + " Looking for " + tTokenType);
 			}
 		}
 	};
