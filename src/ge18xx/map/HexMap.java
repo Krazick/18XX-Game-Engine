@@ -318,8 +318,13 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 
 	public String buildTokenLocation (int aCorpID, String aAbbrev, String aMapCellID, Location aLocation) {
 		String tTokenLocation;
-		
-		tTokenLocation = aCorpID + ":" + aAbbrev + ":" + aMapCellID + ":" + aLocation.getLocation ();
+		int tLocationInt;
+		if (aLocation == Location.NO_LOC) {
+			tLocationInt = Location.CENTER_CITY_LOC;
+		} else {
+			tLocationInt = aLocation.getLocation ();
+		}
+		tTokenLocation = aCorpID + ":" + aAbbrev + ":" + aMapCellID + ":" + tLocationInt;
 		
 		return tTokenLocation;
 	}
