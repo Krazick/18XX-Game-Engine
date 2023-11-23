@@ -260,21 +260,21 @@ public class CityInfo implements Cloneable {
 		return 4;
 	}
 
-	public TokenCompany getTokenCorporation () {
-		TokenCompany tTokenCompany;
+	public TokenCompany getBaseCompany () {
+		TokenCompany tBaseCompany;
 
-		tTokenCompany = TokenCompany.NO_TOKEN_COMPANY;
+		tBaseCompany = TokenCompany.NO_TOKEN_COMPANY;
 		if (corporation != Corporation.NO_CORPORATION) {
 			if (!mapCell.hasStation (corporation.getID ())) {
 				try {
-					tTokenCompany = (TokenCompany) corporation;
+					tBaseCompany = (TokenCompany) corporation;
 				} catch (ClassCastException e) {
 
 				}
 			}
 		}
 
-		return tTokenCompany;
+		return tBaseCompany;
 	}
 
 	public Corporation getCorporation () {
