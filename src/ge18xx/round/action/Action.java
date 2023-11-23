@@ -1,6 +1,7 @@
 package ge18xx.round.action;
 
 import java.lang.reflect.Constructor;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -204,6 +205,10 @@ public class Action {
 	}
 
 	public void addEffect (Effect aEffect) {
+		int tEffectCount;
+		
+		tEffectCount = effects.size ();
+		aEffect.setOrder (tEffectCount);
 		effects.add (aEffect);
 	}
 
@@ -414,16 +419,16 @@ public class Action {
 		aRoundManager.updateAllCorporationsBox ();
 		if (tActionUndone) {
 			if (tEffectsUndoneCount == 1) {
-				tReport = "There was 1 Effect that was successfully Undone\n";
+				tReport = "\nThere was 1 Effect that was successfully Undone\n";
 			} else {
-				tReport = "There were " + tEffectsUndoneCount + " Effects that were successfully Undone\n";
+				tReport = "\nThere were " + tEffectsUndoneCount + " Effects that were successfully Undone\n";
 			}
 			aRoundManager.appendReport (tReport);
 		} else {
 			if (tErrorCount == 1) {
-				tReport = "There was 1 Effect that Failed the Undo Effect Step\n";
+				tReport = "\nThere was 1 Effect that Failed the Undo Effect Step\n";
 			} else {
-				tReport = "There were " + tErrorCount + " Effects that Failed the Undo Effect Steps\n";
+				tReport = "\nThere were " + tErrorCount + " Effects that Failed the Undo Effect Steps\n";
 			}
 			aRoundManager.appendReport (tReport);
 		}
@@ -581,4 +586,18 @@ public class Action {
 		tTriggerClassEffect = new TriggerClassEffect (aActor);
 		addEffect (tTriggerClassEffect);
 	}
+	
+	public void reverseEffects () {
+//		effects.sort (Collections.reverseOrder ());
+		
+		Collections.sort (effects, new EffectComparator ());
+	}
+	
+	public class EffectComparator implements java.util.Comparator<Effect> {
+	    @Override
+		public int compare (Effect aEffectA, Effect aEffectB) {
+			return aEffectB.getOrder () - aEffectA.getOrder ();
+		}
+	}
+
 }
