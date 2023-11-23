@@ -318,16 +318,16 @@ public abstract class RevenueCenter extends Feature implements Cloneable {
 		return (cityInfo != CityInfo.NO_CITY_INFO);
 	}
 
-	public TokenCompany getTokenCorporation () {
-		TokenCompany tTokenCompany;
+	public TokenCompany getBaseCorporation () {
+		TokenCompany tBaseCompany;
 
 		if (validCityInfo ()) {
-			tTokenCompany = cityInfo.getTokenCorporation ();
+			tBaseCompany = cityInfo.getBaseCompany ();
 		} else {
-			tTokenCompany = TokenCompany.NO_TOKEN_COMPANY;
+			tBaseCompany = TokenCompany.NO_TOKEN_COMPANY;
 		}
 
-		return tTokenCompany;
+		return tBaseCompany;
 	}
 
 	public Corporation getCorporation () {
