@@ -760,16 +760,17 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		completeBenefitInUse (tOperatingCompany);
 	}
 	
-	public void putMapTokenDown (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType, City aCity, 
+	public boolean putMapTokenDown (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType, City aCity, 
 								MapCell aMapCell, boolean aAddLayTokenAction) {
 		Tile tTile;
 		boolean tTokenPlaced;
-		TokenCompany tTokenCompany;
+		TokenCompany tBaseCompany;
 		int tRevenueCenterIndex;
 		int tCorporationID;
 		int tTokenIndex;
 
-		tTokenCompany = aCity.getTokenCorporation ();
+		tBaseCompany = aCity.getBaseCorporation ();
+		tTokenPlaced = false;
 		if (aMapToken == MapToken.NO_MAP_TOKEN) {
 			System.err.println ("Company has no tokens to place");
 		} else {
@@ -779,23 +780,52 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				tTile = aMapCell.getTile ();
 				tRevenueCenterIndex = tTile.getStationIndex (tCorporationID);
 				tTokenIndex = aTokenCompany.getTokenIndex (aMapToken);
-				aTokenCompany.tokenWasPlaced (aMapCell, tTile, tRevenueCenterIndex, aMapToken, tTokenIndex, aAddLayTokenAction);
+				aTokenCompany.tokenWasPlaced (aMapCell, tTile, tRevenueCenterIndex, aMapToken, tTokenIndex,
+											aAddLayTokenAction);
 				completeBenefitInUse (aTokenCompany);
 				putTokenButton.setEnabled (false);
 				putTokenButton.setToolTipText (TOKEN_ALREADY_PLACED);
-				// If we have placed the Token and there was a Base Corporation Tile, clear out
-				// any other Bases for this Corporation from this Tile
-				// Primarily for EIRE that starts with a choice of two spots in the Tile.
-				if (tTokenCompany == aTokenCompany) {
-					tTile = aMapCell.getTile ();
-					if (tTile != Tile.NO_TILE) {
-						tTile.clearCorporation (aTokenCompany);
-					}
-				}
+				clearSecondaryBases (aTokenCompany, aMapCell, tBaseCompany);
 			} else {
-				System.err.println ("Token Placement Failed.");
+				System.err.println ("Token Placement Failed.***");
 			}
 			map.clearAllSelected ();
+		}
+		
+		return tTokenPlaced;
+	}
+
+	// TODO: The fact that this is applying another Map Effect (to clear Base Companies), 
+	// it should also add an additional Map Effect to the Action so that it can be undone
+	// This may also need to be called when a choice of two bases, on different tiles that needed to be cleared
+	public void clearSecondaryBases (TokenCompany aTokenCompany, MapCell aMapCell, TokenCompany aBaseCompany) {
+		Tile tTile;
+		int tCityCount;
+		int tCityIndex;
+		City tCity;
+		int tBaseCount;
+		
+		// If we have placed the Token and there was a Base Corporation Tile, clear out
+		// any other Bases for this Corporation from this Tile
+		// Primarily for Companies (like EIRE, THB) that starts with a choice of two spots in the Tile.
+		if (aBaseCompany == aTokenCompany) {
+			tTile = aMapCell.getTile ();
+			if (tTile != Tile.NO_TILE) {
+				tCityCount = tTile.getCenterCount ();
+				tBaseCount = 0;
+				if (tCityCount > 1) {
+					for (tCityIndex = 0; tCityIndex < tCityCount; tCityIndex++) {
+						tCity = tTile.getCityAt (tCityIndex);
+						if (tCity.withBaseForCorp (aBaseCompany)) {
+							tBaseCount++;
+						}
+					}
+				}
+				// Simply having more than one City with bases, need to clear all bases.
+				if (tBaseCount > 1) {
+					tTile.clearCorporation (aTokenCompany);
+				}
+			}
 		}
 	}
 
@@ -819,7 +849,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				if (aSelectedCity.isDestination ()) {
 					tCanPlaceTokenToolTip = "Selected City is a Destination, cannot Place Token Here";
 				} else {
-					tBaseCorporation = aSelectedCity.getTokenCorporation ();
+					tBaseCorporation = aSelectedCity.getBaseCorporation ();
 					if (tBaseCorporation == Corporation.NO_CORPORATION) {
 						if (!hasFreeStation (aSelectedCity)) {
 							tCanPlaceTokenToolTip = "No Free Station on City";
@@ -858,7 +888,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 				if (aSelectedCity.isDestination ()) {
 					tCanPlaceToken = false;
 				} else {
-					tBaseCorporation = aSelectedCity.getTokenCorporation ();
+					tBaseCorporation = aSelectedCity.getBaseCorporation ();
 					if (tBaseCorporation == Corporation.NO_CORPORATION) {
 						if (hasFreeStation (aSelectedCity)) {
 							tCanPlaceToken = true;
@@ -887,7 +917,7 @@ public class MapFrame extends XMLFrame implements ActionListener {
 		String tBaseAbbrev;
 		String tCorporationAbbrev;
 		
-		tBaseCorporation = aSelectedCity.getTokenCorporation ();
+		tBaseCorporation = aSelectedCity.getBaseCorporation ();
 		tBaseAbbrev = tBaseCorporation.getAbbrev ();
 		tCorporationAbbrev = aCorporation.getAbbrev ();
 		if (tBaseAbbrev.equals (tCorporationAbbrev)) {
