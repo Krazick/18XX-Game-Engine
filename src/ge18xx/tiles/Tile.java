@@ -323,8 +323,10 @@ public class Tile implements Comparable<Object>, Cloneable {
 	}
 
 	public String getCorporationBases () {
-		String tCorporationBases = NO_BASES, tCorporationBase;
-		int tCityCenterCount, tCityIndex;
+		String tCorporationBases = NO_BASES;
+		String tCorporationBase;
+		int tCityCenterCount;
+		int tCityIndex;
 		RevenueCenter tRevenueCenter;
 		City tCity;
 		String tAbbrev;
@@ -1206,8 +1208,6 @@ public class Tile implements Comparable<Object>, Cloneable {
 
 	public void replaceMapToken (String [] aMapCellInfo, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
 								MapCell aMapCell, ReplaceTokenAction aReplaceTokenAction) {
-		System.out.println ("Replace Map Token on Tile " + this.getNumberToString () + " Info: " + aMapCellInfo [0] + " : " + 
-				aMapCellInfo [1] + " : " + aMapCellInfo [2] + " : " + aMapCellInfo [3] + " : ");
 		centers.replaceMapToken (aMapCellInfo, aNewMapToken, aFoldingCompany, aMapCell, this, aReplaceTokenAction);
 	}
 }
