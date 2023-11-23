@@ -3,8 +3,11 @@ package ge18xx.round.action;
 import ge18xx.company.TokenInfo.TokenType;
 import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
+import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ClearCorporationEffect;
+import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.RemoveTokenEffect;
+import ge18xx.round.action.effects.SetHomeTokensExchangedEffect;
 import ge18xx.tiles.Tile;
 import ge18xx.utilities.XMLNode;
 
@@ -49,5 +52,26 @@ public class ReplaceTokenAction extends LayTokenAction {
 		
 		tClearCorporationEffect = new ClearCorporationEffect (aFromActor, aMapCell, aTile, aRevenueCenterIndex);
 		addEffect (tClearCorporationEffect);
+	}
+	
+	public void addSetHomeTokensExchangedEffect (ActorI aFromActor, boolean aHomeTokensExchanged) {
+		SetHomeTokensExchangedEffect tSetHomeTokensExchangedEffect;
+		
+		tSetHomeTokensExchangedEffect = new SetHomeTokensExchangedEffect (aFromActor, aHomeTokensExchanged);
+		addEffect (tSetHomeTokensExchangedEffect);
+	}
+	
+	// TODO: Consider options:
+	// 1) Reverse order ALWAYS before undoing.
+	// 2) Use flag on the Action that if set will reverse before undoing. This is applied when Action is created
+	@Override
+	public boolean undoAction (RoundManager aRoundManager) {
+		boolean tActionUndone;
+		
+		reverseEffects ();
+		tActionUndone = super.undoAction (aRoundManager);
+		reverseEffects ();
+		
+		return tActionUndone;
 	}
 }
