@@ -22,6 +22,7 @@ public abstract class Effect {
 	public final static String REPORT_PREFIX = "--" + EN_EFFECT + ": ";
 	public final static AttributeName AN_CLASS = new AttributeName ("class");
 	public final static AttributeName AN_IS_A_PRIVATE = new AttributeName ("isAPrivate");
+	static final AttributeName AN_ORDER = new AttributeName ("order");
 	static final AttributeName AN_NAME = new AttributeName ("name");
 	static final AttributeName AN_FROM_NAME = new AttributeName ("fromName");
 	final static AttributeName AN_BENEFIT_USED = new AttributeName ("benefitUsed");
@@ -29,6 +30,7 @@ public abstract class Effect {
 	final static AttributeName AN_BENEFIT_PRIVATE_ABBREV = new AttributeName ("benefitPrivateAbbrev");
 	final static Benefit NO_BENEFIT_IN_USE = null;
 
+	int order;
 	String name;
 	ActorI actor;
 	String fromName;
@@ -72,6 +74,7 @@ public abstract class Effect {
 		} else {
 			setNoBenefitInUse ();
 		}
+		setOrder (1);
 	}
 
 	/**
@@ -150,6 +153,14 @@ public abstract class Effect {
 		return benefitUsed;
 	}
 
+	public void setOrder (int aOrder) {
+		order = aOrder;
+	}
+	
+	public int getOrder () {
+		return order;
+	}
+	
 	protected String getBenefitEffectReport () {
 		String tBenefitEffectReport = "";
 		String tUsed;
@@ -223,7 +234,9 @@ public abstract class Effect {
 		String tFromName;
 		boolean tBenefitUsed;
 		boolean tIsAPrivate;
+		int tOrder;
 
+		tOrder = aEffectNode.getThisIntAttribute (AN_ORDER, 0);
 		tEffectName = aEffectNode.getThisAttribute (AN_NAME);
 		tActorName = aEffectNode.getThisAttribute (ActorI.AN_ACTOR_NAME);
 		tFromName = aEffectNode.getThisAttribute (AN_FROM_NAME, tActorName);
@@ -240,6 +253,7 @@ public abstract class Effect {
 		}
 		setName (tEffectName);
 		setActor (tActor);
+		setOrder (tOrder);
 
 		tBenefitPrivateAbbrev = aEffectNode.getThisAttribute (AN_BENEFIT_PRIVATE_ABBREV);
 		tBenefitName = aEffectNode.getThisAttribute (AN_BENEFIT_NAME);
@@ -284,6 +298,7 @@ public abstract class Effect {
 		tEffectElement.setAttribute (AN_FROM_NAME, getFromName ());
 		tEffectElement.setAttribute (aActorAN, tActorName);
 		tEffectElement.setAttribute (AN_IS_A_PRIVATE, isAPrivate);
+		tEffectElement.setAttribute (AN_ORDER, order);
 
 		if (benefitName != Benefit.NO_BENEFIT_NAME) {
 			if (benefitName.length () > 0) {
@@ -305,7 +320,7 @@ public abstract class Effect {
 	}
 
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + name + " for " + getActorName () + ".");
+		return (order + " " + REPORT_PREFIX + name + " for " + getActorName () + ".");
 	}
 
 	public void printEffectReport (RoundManager aRoundManager) {
