@@ -12,7 +12,6 @@ import ge18xx.utilities.XMLNode;
 public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
 	public final static String NAME = "Set Has Laid Tile";
 	final static AttributeName AN_HAS_LAID_TILE = new AttributeName ("hasLaidTile");
-//	boolean hasLaidTile;
 
 	public SetHasLaidTileEffect () {
 		super ();
@@ -29,7 +28,6 @@ public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
 
 	public SetHasLaidTileEffect (ActorI aActor, boolean aHasLaidTile) {
 		super (NAME, aActor, aHasLaidTile);
-//		setHasLaidTile (aHasLaidTile);
 	}
 
 	public SetHasLaidTileEffect (XMLNode aEffectNode, GameManager aGameManager) {
@@ -42,18 +40,9 @@ public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
 		XMLElement tEffectElement;
 
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN, AN_HAS_LAID_TILE);
-//		tEffectElement.setAttribute (AN_HAS_LAID_TILE, hasLaidTile);
 
 		return tEffectElement;
 	}
-
-//	public void setHasLaidTile (boolean aHasLaidTile) {
-//		hasLaidTile = aHasLaidTile;
-//	}
-//
-//	public boolean getHasLaidTile () {
-//		return hasLaidTile;
-//	}
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
@@ -75,6 +64,8 @@ public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
 			tTrainCompany = (TrainCompany) actor;
 			tTrainCompany.setHasLaidTile (getBooleanFlag ());
 			tEffectApplied = true;
+		} else {
+			setApplyFailureReason ("The provided Actor " + actor.getName () + " is not a Train Company");
 		}
 
 		return tEffectApplied;
@@ -89,6 +80,8 @@ public class SetHasLaidTileEffect extends ChangeBooleanFlagEffect {
 		if (actor.isATrainCompany ()) {
 			tTrainCompany = (TrainCompany) actor;
 			tTrainCompany.setHasLaidTile (! getBooleanFlag ());
+		} else {
+			setUndoFailureReason ("The provided Actor " + actor.getName () + " is not a Train Company");
 		}
 		tEffectUndone = true;
 
