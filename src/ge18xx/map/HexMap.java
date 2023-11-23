@@ -374,9 +374,13 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tElement;
 	}
 
-	public void putMapTokenDown (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType, City aCity, 
+	public boolean putMapTokenDown (TokenCompany aTokenCompany, MapToken aMapToken, TokenType aTokenType, City aCity, 
 					MapCell aMapCell, boolean aAddLayTokenAtion) {
-		mapFrame.putMapTokenDown (aTokenCompany, aMapToken, aTokenType, aCity, aMapCell, aAddLayTokenAtion);
+		boolean tTokenPlaced;
+		
+		tTokenPlaced = mapFrame.putMapTokenDown (aTokenCompany, aMapToken, aTokenType, aCity, aMapCell, aAddLayTokenAtion);
+		
+		return tTokenPlaced;
 	}
 
 	public int getColCount (int thisRow) {
@@ -1671,6 +1675,5 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		tMapCellID = tMapCellInfo [2];
 		tMapCell = getMapCellForID (tMapCellID);
 		tMapCell.replaceMapToken (tMapCellInfo, aNewMapToken, aFoldingCompany, aReplaceTokenAction);
-		redrawMap ();
 	}
 }
