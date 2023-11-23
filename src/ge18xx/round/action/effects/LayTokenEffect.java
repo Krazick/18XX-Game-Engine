@@ -145,7 +145,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 	}
 
 	public boolean layToken (RoundManager aRoundManager, String aActionVerb) {
-		boolean tEffectApplied;
+		boolean tTokenPlaced;
 		Tile tTile;
 		MapCell tMapCell;
 		MapToken tMapToken;
@@ -156,7 +156,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 		String tFailureReason;
 		
 		tGameMap = aRoundManager.getGameMap ();
-		tEffectApplied = false;
+		tTokenPlaced = false;
 		tMapCell = getMapCell (tGameMap);
 		tTile = tMapCell.getTile ();
 		tFailureReason = GUI.EMPTY_STRING;
@@ -169,9 +169,15 @@ public class LayTokenEffect extends ChangeMapEffect {
 				// Apply effect on Remote Client, don't want to add a new LayTokenAction (or
 				// spend money)
 
-				tGameMap.putMapTokenDown (tTokenCompany, tMapToken, tokenType, tCity, tMapCell, false);
+				tTokenPlaced = tGameMap.putMapTokenDown (tTokenCompany, tMapToken, tokenType, tCity, tMapCell, false);
+				if (! tTokenPlaced) {
+					if (tMapToken == MapToken.NO_MAP_TOKEN) {
+						tFailureReason = "No Map Tokens available to Place";
+					} else {
+						tFailureReason = "The City failed to place the Map Token";
+					}
+				}
 				tGameMap.redrawMap ();
-				tEffectApplied = true;
 			} else {
 				tFailureReason = aActionVerb + " " + getName () + " by " + getActor ().getName () +
 						" Fails since this is not a Token Company";
@@ -180,7 +186,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 			tFailureReason = aActionVerb + " " + getName () + " by " + getActor ().getName () + 
 						" Fails since Tile Numbers don't match";
 		}
-		if (! tEffectApplied) {
+		if (! tTokenPlaced) {
 			if (name.equals (NAME)) {
 				setApplyFailureReason (tFailureReason);
 			} else {
@@ -188,7 +194,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 			}
 		}
 		
-		return tEffectApplied;
+		return tTokenPlaced;
 	}
 	
 	public TileSet getTileSet (RoundManager aRoundManager) {
@@ -216,10 +222,10 @@ public class LayTokenEffect extends ChangeMapEffect {
 		int tCorporationID;
 		int tTokenAtID;
 		HexMap tGameMap;
-		boolean tEffectUndone;
+		boolean tTokenRemoved;
 		String tFailureReason;
 
-		tEffectUndone = false;
+		tTokenRemoved = false;
 		tGameMap = getMap (aRoundManager);
 		tMapCell = getMapCell (tGameMap);
 		tTile = tMapCell.getTile ();
@@ -246,7 +252,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 					tTile.returnStation (tTokenCompany);
 					tGameMap.redrawMap ();
 					tTokenCompany.updateFrameInfo ();
-					tEffectUndone = true;
+					tTokenRemoved = true;
 				} else {
 					tFailureReason = aActionVerb + " " + getName () + " by " + getActor ().getName () + 
 										" Fails since TokenAtID " + tTokenAtID + " doesn't match the RCIndex " + 
@@ -260,7 +266,7 @@ public class LayTokenEffect extends ChangeMapEffect {
 			setUndoFailureReason (aActionVerb +" " + getName () + " by " + getActor ().getName () + 
 								" Fails since Tile Numbers don't match");
 		}
-		if (! tEffectUndone) {
+		if (! tTokenRemoved) {
 			if (name.equals (NAME)) {
 				setUndoFailureReason (tFailureReason);
 			} else {
@@ -268,6 +274,6 @@ public class LayTokenEffect extends ChangeMapEffect {
 			}
 		}
 
-		return tEffectUndone;
+		return tTokenRemoved;
 	}
 }
