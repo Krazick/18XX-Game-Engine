@@ -5,7 +5,6 @@ import ge18xx.game.GameManager;
 import ge18xx.map.MapCell;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.effects.ClearCorporationEffect;
-import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.RemoveTokenEffect;
 import ge18xx.round.action.effects.SetHomeTokensExchangedEffect;
 import ge18xx.tiles.Tile;
