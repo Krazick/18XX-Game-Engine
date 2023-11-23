@@ -376,25 +376,32 @@ public class TokenExchange extends PlayerFormationPhase {
 		String tCompanyAbbrev;
 		CorporationList tShareCompanies;
 		CorporationList tMinorCompanies;
+		int tCountReplacements;
 		
 		tHexMap = gameManager.getGameMap ();
 		tShareCompanies = gameManager.getShareCompanies ();
 		tMinorCompanies = gameManager.getMinorCompanies ();
 		tFormingShareCompany = formationPhase.getFormingCompany ();
 		tNewMapToken = tFormingShareCompany.getLastMapToken ();
-		System.out.println ("Ready to Exchange all Homes Tokens");
+		tCountReplacements = 0;
 		for (String tHomeMapCellID : homeMapCellIDs) {
-			System.out.println ("Swap out Token on MapCellID " + tHomeMapCellID);
 			tCompanyAbbrev = tHexMap.getCompanyAbbrev (tHomeMapCellID);
 			tFoldingCompany = (TokenCompany) tShareCompanies.getCorporation (tCompanyAbbrev);
 			if (tFoldingCompany == Corporation.NO_CORPORATION) {
 				tFoldingCompany = (TokenCompany) tMinorCompanies.getCorporation (tCompanyAbbrev);
 			}
 			prepareAction (tFoldingCompany);
-
+			
 			tHexMap.replaceMapToken (tHomeMapCellID, tNewMapToken, tFoldingCompany, replaceTokenAction);
+			tCountReplacements++;
+			if (tCountReplacements > 1) {
+				replaceTokenAction.setChainToPrevious (true);
+			}
+			replaceTokenAction.addSetHomeTokensExchangedEffect (tFoldingCompany, true);
+			
 			gameManager.addAction (replaceTokenAction);
 		}
+		tHexMap.redrawMap ();
 		formationPhase.setHomeTokensExchanged (true);
 		formationPhase.rebuildFormationPanel ();
 	}
