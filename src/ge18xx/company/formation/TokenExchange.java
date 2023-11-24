@@ -1,5 +1,7 @@
 package ge18xx.company.formation;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -44,6 +47,7 @@ public class TokenExchange extends PlayerFormationPhase {
 	private static final long serialVersionUID = 1L;
 	public static String EXCHANGE_HOME_TOKEN = "ExchangeHomeTokens";
 	public static String EXCHANGE_NON_HOME_TOKEN = "ExchangeNonHomeTokens";
+	JPanel nonHomeCheckboxesPanel;
 	JButton homeTokensExchange;
 	JButton nonHomeTokensExchange;
 	JLabel homeTokensLabel;
@@ -103,15 +107,14 @@ public class TokenExchange extends PlayerFormationPhase {
 		int tShareCount;
 		
 		tShareCompanyJPanel = new JPanel ();
-		tShareCompanyJPanel = new JPanel ();
-		tShareCompanyJPanel.setLayout (new BoxLayout (tShareCompanyJPanel, BoxLayout.Y_AXIS));
-
+		tShareCompanyJPanel.setLayout (new BoxLayout (tShareCompanyJPanel, BoxLayout.Y_AXIS));	
 		homeMapCellIDs = new LinkedList<String> ();
 		nonHomeMapCellIDs = new LinkedList<String> ();
 		// NOTE:   
 		// Exchange Home Tokens of (ABC, DEF, GHI...) for XXX Tokens   
 		tCorporateColorBorder = aFormingShareCompany.setupBorder ();
 		tShareCompanyJPanel.setBorder (tCorporateColorBorder);
+		
 		tExchangeHomeTokens = "Exchange Home Tokens of (";
 		tShareCompanies = gameManager.getShareCompanies ();
 		tShareCount = tShareCompanies.getCorporationCount ();
@@ -134,6 +137,7 @@ public class TokenExchange extends PlayerFormationPhase {
 		}
 		homeTokensLabel = new JLabel (tExchangeHomeTokens);
 		tShareCompanyJPanel.add (homeTokensLabel);
+		homeTokensLabel.setAlignmentX (Component.LEFT_ALIGNMENT);
 		
 		buildSpecialButtons (aFormingShareCompany, tShareCompanyJPanel, aActingPlayer);
 		tShareCompanyJPanel.add (homeTokensExchange);
@@ -143,17 +147,38 @@ public class TokenExchange extends PlayerFormationPhase {
 			nonHomeTokensLabel = new JLabel ("Non-Home Tokens Exchange Choices");
 		} else {
 			nonHomeTokensLabel = new JLabel ("All Non-Home Tokens have been Exchanged");
-			
 		}
 		tShareCompanyJPanel.add (nonHomeTokensLabel);
+		nonHomeTokensLabel.setAlignmentX (Component.LEFT_ALIGNMENT);
 		tNonHomeStations = nonHomeMapCellIDs.toString ();
 		System.out.println (tNonHomeStations);
 		
 		// Add Checkbox for each Non-Home Token
 		
+		buildNonHomeCheckboxes ();
+		tShareCompanyJPanel.add (nonHomeCheckboxesPanel);
+		nonHomeCheckboxesPanel.setAlignmentX (Component.LEFT_ALIGNMENT);
 		tShareCompanyJPanel.add (nonHomeTokensExchange);
+		nonHomeTokensExchange.setAlignmentX (Component.LEFT_ALIGNMENT);
 		
 		return tShareCompanyJPanel;
+	}
+	
+	public void buildNonHomeCheckboxes () {
+		JCheckBox tMapCellIDCheckbox;
+		String tMapCellInfo [];
+		String tMapCellID;
+	
+		nonHomeCheckboxesPanel = new JPanel ();
+		nonHomeCheckboxesPanel.setLayout (new BoxLayout (nonHomeCheckboxesPanel, BoxLayout.X_AXIS));
+		for (String tNonHomeMapCellID : nonHomeMapCellIDs) {
+			tMapCellInfo = tNonHomeMapCellID.split (":");
+			tMapCellID = tMapCellInfo [1] + " on " + tMapCellInfo [2];
+			tMapCellIDCheckbox = new JCheckBox (tMapCellID);
+			
+			nonHomeCheckboxesPanel.add (tMapCellIDCheckbox);
+		}
+
 	}
 	
 	public boolean getHomeTokensExchanged () {
@@ -163,6 +188,7 @@ public class TokenExchange extends PlayerFormationPhase {
 	public boolean getNonHomeTokensExchanged () {
 		return formationPhase.getNonHomeTokensExchanged ();
 	}
+	
 	public String collectHomeTokenInfo (TokenCompany aTokenCompany) {
 		String tHomeTokenInfo;
 		String tAbbrev;
