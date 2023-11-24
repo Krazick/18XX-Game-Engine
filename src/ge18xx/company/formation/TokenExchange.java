@@ -1,6 +1,5 @@
 package ge18xx.company.formation;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
