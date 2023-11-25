@@ -140,27 +140,29 @@ public class Train extends Coupon implements Comparable<Object> {
 		return getName () + " " + TYPE_NAME;
 	}
 
-	public JPanel buildCertificateInfoJPanel (ItemListener aItemListener, String aActionLabel, boolean aActionEnabled,
+	public JPanel buildTrainInfoJPanel (ItemListener aItemListener, String aActionLabel, boolean aActionEnabled,
 			String aActionToolTip) {
-		JPanel tCertificateInfoPanel;
+		JPanel tTrainInfoPanel;
 
-		tCertificateInfoPanel = buildCouponInfoPanel ();
-		if (aActionLabel != null) {
-			if (actionCheckbox == GUI.NO_CHECK_BOX) {
-				actionCheckbox = new JCheckBox (aActionLabel);
-				setFrameButton (actionCheckbox, getFullName ());
-			} else {
-				actionCheckbox.setText (aActionLabel);
+		tTrainInfoPanel = buildCouponInfoPanel ();
+		if (aActionLabel != GUI.NULL_STRING) {
+			if (aActionLabel != GUI.EMPTY_STRING) {
+				if (actionCheckbox == GUI.NO_CHECK_BOX) {
+					actionCheckbox = new JCheckBox (aActionLabel);
+					setFrameButton (actionCheckbox, getFullName ());
+				} else {
+					actionCheckbox.setText (aActionLabel);
+				}
+				actionCheckbox.addItemListener (aItemListener);
+				actionCheckbox.setEnabled (aActionEnabled);
+				actionCheckbox.setToolTipText (aActionToolTip);
+				tTrainInfoPanel.add (actionCheckbox);
 			}
-			actionCheckbox.addItemListener (aItemListener);
-			actionCheckbox.setEnabled (aActionEnabled);
-			actionCheckbox.setToolTipText (aActionToolTip);
-			tCertificateInfoPanel.add (actionCheckbox);
 		} else {
 			clearActionCheckbox (aActionLabel, aActionToolTip);
 		}
 
-		return tCertificateInfoPanel;
+		return tTrainInfoPanel;
 	}
 
 	public int getDiscountCost () {
