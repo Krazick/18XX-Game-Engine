@@ -3,7 +3,6 @@ package ge18xx.company;
 import ge18xx.player.Player;
 
 public class CertificateFlags {
-
 	boolean enabled;
 	boolean playerHasEnoughCash;
 	boolean playerHasBidOnThisCert;
