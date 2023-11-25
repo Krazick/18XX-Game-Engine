@@ -79,8 +79,8 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 	public static final int NO_REVENUE_GENERATED = -1;
 	public static final String NO_REVENUE = "0";
 	public static final JPanel NO_JPANEL = null;
-	static final int NO_COST = 0;
-	static final int NO_CASH = 0;
+	public static final int NO_COST = 0;
+	public static final int NO_CASH = 0;
 	static final float LEFT_ALIGNMENT = 0.0f;
 	static final int INFINITE_PRICE = 99999;
 	ArrayList<License> licenses;
