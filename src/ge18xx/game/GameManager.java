@@ -38,7 +38,6 @@ import ge18xx.company.benefit.Benefit;
 import ge18xx.company.formation.FormationPhase;
 import ge18xx.company.formation.TriggerClass;
 import ge18xx.game.userPreferences.UserPreferencesFrame;
-import ge18xx.game.variants.VariantEffect;
 import ge18xx.map.HexMap;
 import ge18xx.market.Market;
 import ge18xx.network.GameSupportHandler;
@@ -1154,6 +1153,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 		return phaseManager;
 	}
 
+	@Override
 	public PlayerInputFrame getPlayerInputFrame () {
 		return playerInputFrame;
 	}
@@ -2540,7 +2540,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 					if (Action.EN_ACTION.equals (tActionNodeName)) {
 						sendNetworkAction (tActionNode);
 					} else if (JGameClient.EN_GAME_SELECTION.equals (tActionNodeName)) {
-						handleGameSelection (tActionNode);
+						networkJGameClient.handleGameSelection (tActionNode);
 					} else if (JGameClient.EN_PLAYER_ORDER.equals (tActionNodeName)) {
 						tPlayerOrder = tActionNode.getThisAttribute (JGameClient.AN_PLAYER_ORDER);
 						tBroadcast = tActionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
@@ -2558,37 +2558,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 			}
 		}
 	}
-
-	public void handleGameSelection (XMLNode aGameSelectionNode) {
-		int tGameIndex;
-		String tBroadcast;
-		String tGameID;
-		String tNodeName;
-		int tIndex;
-		int tChildCount;
-		NodeList tChildren;
-		XMLNode tChildNode;
-		XMLNode tVariantEffectsNode;
-
-		tGameIndex = aGameSelectionNode.getThisIntAttribute (JGameClient.AN_GAME_INDEX);
-		tBroadcast = aGameSelectionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
-		tGameID = aGameSelectionNode.getThisAttribute (JGameClient.AN_GAME_ID);
-		tChildren = aGameSelectionNode.getChildNodes ();
-		tChildCount = tChildren.getLength ();
-		tVariantEffectsNode = VariantEffect.NO_VARIANT_EFFECTS_NODE;
-		for (tIndex = 0; tIndex < tChildCount; tIndex++) {
-			tChildNode = new XMLNode (tChildren.item (tIndex));
-			tNodeName = tChildNode.getNodeName ();
-			if (VariantEffect.EN_VARIANT_EFFECTS.equals (tNodeName)) {
-				tVariantEffectsNode = tChildNode;
-			}
-		}
-
-		setGameID (tGameID);
-		playerInputFrame.handleGameSelection (tGameIndex, tVariantEffectsNode, tBroadcast);
-		networkJGameClient.updateReadyButton ("READY", true, "Hit when ready to play");
-	}
-
+	
 	public void setApplyingAction (boolean aApplyingAction) {
 		applyingNetworkAction = aApplyingAction;
 	}
@@ -2903,7 +2873,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		}
 	}
 
-	private void setGameID (String aGameID) {
+	@Override
+	public void setGameID (String aGameID) {
 		gameID = aGameID;
 	}
 

@@ -36,6 +36,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import org.apache.logging.log4j.Logger;
+import org.w3c.dom.NodeList;
 
 import ge18xx.game.GameInfo;
 // TODO Work out ways to remove imports that refer to ge18xx Packages
@@ -44,6 +45,8 @@ import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameSet;
 import ge18xx.game.SavedGames;
+import ge18xx.game.variants.VariantEffect;
+import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
@@ -51,6 +54,7 @@ import ge18xx.utilities.GUI;
 import ge18xx.utilities.Validators;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
+import ge18xx.utilities.XMLNode;
 
 public class JGameClient extends XMLFrame {
 	private static final long serialVersionUID = 1L;
@@ -109,7 +113,7 @@ public class JGameClient extends XMLFrame {
 	private static final String SHOW_SAVED_GAMES = "SHOW SAVED GAMES";
 	private static final String START_NEW_GAME = "START NEW GAME";
 	private static final String SELECT_GAME = "SELECT GAME";
-	private static final String READY_TO_PLAY = "READY";
+	public static final String READY_TO_PLAY = "READY";
 //	private final String ACTIVE = "ACTIVE";
 	private final String REFRESH = "REFRESH";
 	private final String AFK = "AFK";
@@ -512,6 +516,38 @@ public class JGameClient extends XMLFrame {
 
 			gameManager.parseNetworkSavedGames (tSavedGamesXML);
 		}
+	}
+
+	public void handleGameSelection (XMLNode aGameSelectionNode) {
+		int tGameIndex;
+		String tBroadcast;
+		String tGameID;
+		String tNodeName;
+		int tIndex;
+		int tChildCount;
+		NodeList tChildren;
+		XMLNode tChildNode;
+		XMLNode tVariantEffectsNode;
+		PlayerInputFrame tPlayerInputFrame;
+
+		tGameIndex = aGameSelectionNode.getThisIntAttribute (JGameClient.AN_GAME_INDEX);
+		tBroadcast = aGameSelectionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
+		tGameID = aGameSelectionNode.getThisAttribute (JGameClient.AN_GAME_ID);
+		tChildren = aGameSelectionNode.getChildNodes ();
+		tChildCount = tChildren.getLength ();
+		tVariantEffectsNode = VariantEffect.NO_VARIANT_EFFECTS_NODE;
+		for (tIndex = 0; tIndex < tChildCount; tIndex++) {
+			tChildNode = new XMLNode (tChildren.item (tIndex));
+			tNodeName = tChildNode.getNodeName ();
+			if (VariantEffect.EN_VARIANT_EFFECTS.equals (tNodeName)) {
+				tVariantEffectsNode = tChildNode;
+			}
+		}
+
+		gameManager.setGameID (tGameID);
+		tPlayerInputFrame = gameManager.getPlayerInputFrame ();
+		tPlayerInputFrame.handleGameSelection (tGameIndex, tVariantEffectsNode, tBroadcast);
+		updateReadyButton (READY_TO_PLAY, true, "Hit when ready to play");
 	}
 
 	public void startHeartbeat () {

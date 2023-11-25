@@ -5,6 +5,7 @@ import java.awt.Point;
 import org.apache.logging.log4j.Logger;
 
 import ge18xx.game.GameInfo;
+import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.FileUtils;
 import ge18xx.utilities.XMLElement;
@@ -72,4 +73,7 @@ public interface NetworkGameSupport {
 	
 	public String getEnvironmentVersionInfo ();
 
+	public void setGameID (String aGameID);
+	
+	public PlayerInputFrame getPlayerInputFrame ();
 }
