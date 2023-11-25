@@ -5,6 +5,7 @@ import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.utilities.AttributeName;
+import ge18xx.utilities.GUI;
 import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
@@ -38,7 +39,13 @@ public class BoughtShareEffect extends Effect {
 	}
 
 	public void setBoughtShare (String aBoughtShare) {
-		boughtShare = aBoughtShare;
+		if (aBoughtShare == GUI.NULL_STRING) {
+			boughtShare = aBoughtShare;
+		} else if (aBoughtShare.equals (GUI.EMPTY_STRING)) {
+			boughtShare = GUI.NULL_STRING;
+		} else {
+			boughtShare = aBoughtShare;
+		}
 	}
 
 	@Override
@@ -53,7 +60,16 @@ public class BoughtShareEffect extends Effect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + actor.getName () + " " + name + " a share of stock (" + boughtShare + ") this Stock Round.");
+		String tReport;
+		
+		if (boughtShare == Player.NO_SHARE_BOUGHT) {
+			tReport = REPORT_PREFIX + actor.getName () + " is clearing the " + name + " flag.";
+		} else {
+			tReport = REPORT_PREFIX + actor.getName () + " " + name + " a share of stock (" + 
+						boughtShare + ") this Stock Round.";
+		}
+
+		return tReport;
 	}
 
 	@Override
@@ -71,6 +87,8 @@ public class BoughtShareEffect extends Effect {
 			tPlayer = (Player) actor;
 			tPlayer.setBoughtShare (boughtShare);
 			tEffectApplied = true;
+		} else {
+			setApplyFailureReason ("This is not a Player");
 		}
 		// If the Actor is NOT A Player, this Effect should not have been Added, so Complain
 
@@ -87,6 +105,8 @@ public class BoughtShareEffect extends Effect {
 			tPlayer = (Player) actor;
 			tPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
 			tEffectUndone = true;
+		} else {
+			setUndoFailureReason ("This is not a Player");
 		}
 		// If the Actor is NOT A Player, this Effect should not have been Added, so Complain
 
