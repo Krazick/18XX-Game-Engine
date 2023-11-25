@@ -9,7 +9,7 @@ import ge18xx.utilities.XMLDocument;
 import ge18xx.utilities.XMLElement;
 import ge18xx.utilities.XMLNode;
 
-public class BidShareEffect extends Effect {
+public class BidShareEffect extends ChangeBooleanFlagEffect {
 	public final static String NAME = "Bid On a Share";
 
 	public BidShareEffect () {
@@ -17,10 +17,10 @@ public class BidShareEffect extends Effect {
 		setName (NAME);
 	}
 
-	public BidShareEffect (ActorI aActor) {
-		super (NAME, aActor);
+	public BidShareEffect (ActorI aActor, boolean aBidOnShare) {
+		super (NAME, aActor, aBidOnShare);
 	}
-
+	
 	public BidShareEffect (XMLNode aEffectNode, GameManager aGameManager) {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
@@ -41,7 +41,15 @@ public class BidShareEffect extends Effect {
 
 	@Override
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (REPORT_PREFIX + actor.getName () + " " + name + " this StockRound.");
+		String tReport;
+		
+		if (booleanFlag) {
+			tReport = REPORT_PREFIX + actor.getName () + " has " + name + " this StockRound";
+		} else {
+			tReport = REPORT_PREFIX + actor.getName () + " is clearing the " + name + " flag.";
+		}
+		
+		return tReport;
 	}
 
 	@Override
@@ -57,7 +65,9 @@ public class BidShareEffect extends Effect {
 		tEffectApplied = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
-			tPlayer.setBidShare (true);
+			tPlayer.setBidShare (booleanFlag);
+		} else {
+			setApplyFailureReason ("This is not a Player");
 		}
 
 		tEffectApplied = true;
@@ -73,7 +83,9 @@ public class BidShareEffect extends Effect {
 		tEffectUndone = false;
 		if (actor.isAPlayer ()) {
 			tPlayer = (Player) actor;
-			tPlayer.setBidShare (false);
+			tPlayer.setBidShare (! booleanFlag);
+		} else {
+			setUndoFailureReason ("This is not a Player");
 		}
 
 		tEffectUndone = true;
