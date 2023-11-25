@@ -3,6 +3,8 @@ package ge18xx.round.action;
 import ge18xx.company.Corporation;
 import ge18xx.game.GameManager;
 import ge18xx.round.RoundManager;
+import ge18xx.round.action.effects.BidShareEffect;
+import ge18xx.round.action.effects.BoughtShareEffect;
 import ge18xx.round.action.effects.ChangeCorporationStatusEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.StateChangeEffect;
@@ -58,6 +60,20 @@ public class ChangeStateAction extends ChangePlayerAction {
 
 		tChangeCorporationStatusEffect = new ChangeCorporationStatusEffect (aActor, aPreviousState, aNewState);
 		addEffect (tChangeCorporationStatusEffect);
+	}
+
+	public void addBidShareEffect (ActorI aPlayer, boolean aBidOnShare) {
+		BidShareEffect tBidShareEffect;
+		
+		tBidShareEffect = new BidShareEffect (aPlayer, aBidOnShare);
+		addEffect (tBidShareEffect);
+	}
+
+	public void addBoughtShareEffect (ActorI aActor, String aBoughtShare) {
+		BoughtShareEffect tBoughtShareEffect;
+
+		tBoughtShareEffect = new BoughtShareEffect (aActor, aBoughtShare);
+		addEffect (tBoughtShareEffect);
 	}
 
 	@Override

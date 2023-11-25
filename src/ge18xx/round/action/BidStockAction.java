@@ -7,7 +7,6 @@ import ge18xx.player.CashHolderI;
 import ge18xx.player.Escrow;
 import ge18xx.round.action.ActorI.ActionStates;
 import ge18xx.round.action.effects.AuctionStateChangeEffect;
-import ge18xx.round.action.effects.BidShareEffect;
 import ge18xx.round.action.effects.BidToCertificateEffect;
 import ge18xx.round.action.effects.Effect;
 import ge18xx.round.action.effects.EscrowCashTransferEffect;
@@ -30,13 +29,6 @@ public class BidStockAction extends CashTransferAction {
 	public BidStockAction (XMLNode aActionNode, GameManager aGameManager) {
 		super (aActionNode, aGameManager);
 		setName (NAME);
-	}
-
-	public void addBidShareEffect (ActorI aActor) {
-		BidShareEffect tBidShareEffect;
-
-		tBidShareEffect = new BidShareEffect (aActor);
-		addEffect (tBidShareEffect);
 	}
 
 	@Override

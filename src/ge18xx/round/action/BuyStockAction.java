@@ -2,7 +2,7 @@ package ge18xx.round.action;
 
 import ge18xx.company.ShareCompany;
 import ge18xx.game.GameManager;
-import ge18xx.round.action.effects.BoughtShareEffect;
+//import ge18xx.round.action.effects.BoughtShareEffect;
 import ge18xx.round.action.effects.SetParValueEffect;
 import ge18xx.round.action.effects.SetPercentBoughtEffect;
 
@@ -27,12 +27,13 @@ public class BuyStockAction extends TransferOwnershipAction {
 		setName (NAME);
 	}
 
-	public void addBoughtShareEffect (ActorI aActor, String aBoughtShare) {
-		BoughtShareEffect tBoughtShareEffect;
-
-		tBoughtShareEffect = new BoughtShareEffect (aActor, aBoughtShare);
-		addEffect (tBoughtShareEffect);
-	}
+//	@Override
+//	public void addBoughtShareEffect (ActorI aActor, String aBoughtShare) {
+//		BoughtShareEffect tBoughtShareEffect;
+//
+//		tBoughtShareEffect = new BoughtShareEffect (aActor, aBoughtShare);
+//		addEffect (tBoughtShareEffect);
+//	}
 	
 	public void addSetPercentBoughtEffect (ActorI aActor, String aAbbrev, int aPercent) {
 		SetPercentBoughtEffect tSetPercentBoughtEffect;
