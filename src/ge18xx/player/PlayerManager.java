@@ -547,10 +547,14 @@ public class PlayerManager {
 
 	public void bidAction (Player aPlayer) {
 		BidStockAction tBidStockAction;
-		Player.ActionStates tOldState, tNewState, tOldAuctionState, tNewAuctionState;
+		Player.ActionStates tOldState;
+		Player.ActionStates tNewState;
+		Player.ActionStates tOldAuctionState;
+		Player.ActionStates tNewAuctionState;
 		Escrow tEscrow;
 		Certificate tCertificateToBidOn;
 		int tCashValue;
+		boolean tBidShare;
 
 		tOldState = aPlayer.getPrimaryActionState ();
 		tOldAuctionState = aPlayer.getAuctionActionState ();
@@ -560,8 +564,9 @@ public class PlayerManager {
 				tBidStockAction = new BidStockAction (stockRound.getRoundType (), stockRound.getID (), aPlayer);
 				tCashValue = tCertificateToBidOn.getHighestBid ();
 				tCashValue += BID_INCREMENT;
-				aPlayer.setBidShare (true);
-				tBidStockAction.addBidShareEffect (aPlayer);
+				tBidShare = true;
+				aPlayer.setBidShare (tBidShare);
+				tBidStockAction.addBidShareEffect (aPlayer, tBidShare);
 				tEscrow = aPlayer.addEscrowInfo (tCertificateToBidOn, tCashValue);
 				tBidStockAction.addCashTransferEffect (aPlayer, tEscrow, tCashValue);
 				tBidStockAction.addBidToCertificateEffect (aPlayer, tCertificateToBidOn, tCashValue);
@@ -1027,8 +1032,10 @@ public class PlayerManager {
 	}
 	
 	public void doneAction (Player aPlayer) {
-		int tNextPlayerIndex, tCurrentPlayerIndex;
-		int tOldPriorityPlayerIndex, tThisPlayerIndex;
+		int tNextPlayerIndex;
+		int tCurrentPlayerIndex;
+		int tOldPriorityPlayerIndex;
+		int tThisPlayerIndex;
 		Player tOldPriorityPlayer;
 		DonePlayerAction tDonePlayerAction;
 
@@ -1057,17 +1064,21 @@ public class PlayerManager {
 		aPlayer.updatePortfolioInfo ();
 		stockRound.setPriorityPlayer (tNextPlayerIndex);
 		stockRound.updateRFPlayerLabel (tOldPriorityPlayer);
-		moveToNextPlayer (tNextPlayerIndex);
+		moveToNextPlayer (tNextPlayerIndex, tDonePlayerAction);
 		addAction (tDonePlayerAction);
 		gameManager.resetRoundFrameBackgrounds ();
 	}
 
-	private void moveToNextPlayer (int aNextPlayerIndex) {
+	private void moveToNextPlayer (int aNextPlayerIndex, ChangeStateAction aChangeStateAction) {
 		Player tNextPlayer;
-
+		boolean tBidShare;
 		tNextPlayer = getPlayer (aNextPlayerIndex);
+
 		tNextPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
-		tNextPlayer.setBidShare (false);
+		aChangeStateAction.addBoughtShareEffect (tNextPlayer, Player.NO_SHARE_BOUGHT);
+		tBidShare = false;
+		tNextPlayer.setBidShare (tBidShare);
+		aChangeStateAction.addBidShareEffect (tNextPlayer, tBidShare);
 		tNextPlayer.updatePortfolioInfo ();
 		stockRound.setCurrentPlayer (aNextPlayerIndex, true);
 		stockRound.updateRFPlayerLabel (tNextPlayer);
@@ -1355,16 +1366,16 @@ public class PlayerManager {
 			tPassAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
 			tPassAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
 			stockRound.updateRFPlayerLabel (aPlayer);
-			addAction (tPassAction);
 
 			if (tHaveAllPassed) {
 				if (!stockRound.startOperatingRound ()) {
 					clearAllPlayerPasses ();
-					moveToNextPlayer (tNextPlayerIndex);
+					moveToNextPlayer (tNextPlayerIndex, tPassAction);
 				}
 			} else {
-				moveToNextPlayer (tNextPlayerIndex);
+				moveToNextPlayer (tNextPlayerIndex, tPassAction);
 			}
+			addAction (tPassAction);
 		} else {
 			System.err.println ("Player has acted in this Stock Round, cannot Pass");
 		}
