@@ -371,7 +371,7 @@ public class Certificate implements Comparable<Certificate> {
 							tCertificateFlags.setPlayerHasBoughtShare (false);
 							tCertificateFlags.setEnabled (true);
 						} else {
-							tToolTip = ALREADY_BOUGHT;
+							tToolTip = ALREADY_BOUGHT + " " + tCompanyAbbrev;
 						}
 					} else {
 						tToolTip = ALREADY_BOUGHT;
