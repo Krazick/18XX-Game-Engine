@@ -1355,6 +1355,12 @@ public class PlayerManager {
 			tCurrentPlayerIndex = stockRound.getCurrentPlayerIndex ();
 			tNextPlayerIndex = stockRound.getNextPlayerIndex ();
 			tHaveAllPassed = haveAllPassed ();
+			
+			tPassAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
+			tPassAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
+			stockRound.updateRFPlayerLabel (aPlayer);
+			addAction (tPassAction);
+			
 			if (tHaveAllPassed) {
 				// Test result -- if True, continue
 				// If False -- clear all Pass Flags, and move to Next Player, continuing Stock
@@ -1363,9 +1369,6 @@ public class PlayerManager {
 					applyDiscountIfMustSell (aPlayer, tPassAction);
 				}
 			}
-			tPassAction.addStateChangeEffect (aPlayer, tOldState, tNewState);
-			tPassAction.addNewCurrentPlayerEffect (aPlayer, tCurrentPlayerIndex, tNextPlayerIndex);
-			stockRound.updateRFPlayerLabel (aPlayer);
 
 			if (tHaveAllPassed) {
 				if (!stockRound.startOperatingRound ()) {
@@ -1375,7 +1378,6 @@ public class PlayerManager {
 			} else {
 				moveToNextPlayer (tNextPlayerIndex, tPassAction);
 			}
-			addAction (tPassAction);
 		} else {
 			System.err.println ("Player has acted in this Stock Round, cannot Pass");
 		}
