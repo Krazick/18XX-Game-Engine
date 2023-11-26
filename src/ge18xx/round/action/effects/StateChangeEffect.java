@@ -1,6 +1,5 @@
 package ge18xx.round.action.effects;
 
-import ge18xx.bank.StartPacketFrame;
 import ge18xx.game.GameManager;
 import ge18xx.player.Player;
 import ge18xx.round.RoundManager;
@@ -143,9 +142,6 @@ public class StateChangeEffect extends Effect {
 				aRoundManager.startStockRound ();
 			}
 		} else if (actor.isABank ()) {
-			if (actor instanceof StartPacketFrame) {
-
-			}
 			setApplyFailureReason ("The Actor is a Bank, which does not have a State to Change");
 		} else if (actor.isACorporation ()) {
 			setApplyFailureReason ("The Actor is a Corporation, and should not have a State Change Effect");
