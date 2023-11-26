@@ -41,7 +41,6 @@ public class TokenInfo {
 		public String toString () {
 			return enumString;
 		}
-
 	}
 
 	Token token;
