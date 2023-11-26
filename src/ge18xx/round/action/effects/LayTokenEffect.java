@@ -93,12 +93,14 @@ public class LayTokenEffect extends ChangeMapEffect {
 	@Override
 	public XMLElement getEffectElement (XMLDocument aXMLDocument, AttributeName aActorAN) {
 		XMLElement tEffectElement;
-
+		String tTokenTypeString;
+		
 		tEffectElement = super.getEffectElement (aXMLDocument, aActorAN);
 		tEffectElement.setAttribute (Tile.AN_TILE_NUMBER, tileNumber);
 		tEffectElement.setAttribute (MapCell.AN_REVENUE_CENTER_INDEX, getRevenueCenterIndex ());
 		tEffectElement.setAttribute (Tokens.AN_TOKEN_INDEX, getTokenIndex ());
-		tEffectElement.setAttribute (TokenInfo.AN_AVAILABLE_TOKEN_TYPE, tokenType.toString ());
+		tTokenTypeString = tokenType.toString ();
+		tEffectElement.setAttribute (TokenInfo.AN_AVAILABLE_TOKEN_TYPE, tTokenTypeString);
 
 		return tEffectElement;
 	}
