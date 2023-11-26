@@ -320,7 +320,7 @@ public abstract class Effect {
 	}
 
 	public String getEffectReport (RoundManager aRoundManager) {
-		return (order + " " + REPORT_PREFIX + name + " for " + getActorName () + ".");
+		return (" " + REPORT_PREFIX + name + " for " + getActorName () + ".");
 	}
 
 	public void printEffectReport (RoundManager aRoundManager) {
