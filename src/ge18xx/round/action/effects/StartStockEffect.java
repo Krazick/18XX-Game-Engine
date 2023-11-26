@@ -33,7 +33,16 @@ public class StartStockEffect extends Effect {
 		super (aEffectNode, aGameManager);
 		setName (NAME);
 	}
-
+	
+	@Override
+	public String getEffectReport (RoundManager aRoundManager) {
+		String tEffectReport;
+	
+		tEffectReport = " " + REPORT_PREFIX + name + " activity for " + getActorName () + ".";
+		
+		return tEffectReport;
+	}
+	
 	@Override
 	public boolean applyEffect (RoundManager aRoundManager) {
 		boolean tEffectApplied;
