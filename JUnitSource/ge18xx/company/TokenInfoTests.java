@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DisplayName ("Token Info Tests")
 class TokenInfoTests {
 	TokenInfo tokenInfo;
+	Token mapToken;
 	CompanyTestFactory companyTestFactory;
 	Token mToken;
 	MapToken mMapToken1;
@@ -28,8 +29,19 @@ class TokenInfoTests {
 		mToken = companyTestFactory.buildTokenMock ();
 		mMapToken1 = companyTestFactory.buildMapTokenMock ();
 		mMapToken2 = companyTestFactory.buildMapTokenMock ();
+		mapToken = companyTestFactory.buildToken ();
 	}
 
+	@DisplayName ("TokenType To String Tests")
+	@Test
+	void tokenTypeToStringTest () {
+		TokenInfo.TokenType tTokenInfo;
+		
+		tTokenInfo  = mapToken.getTokenType ();
+		System.out.println ("Map Token Info: " + mapToken.getCorporationAbbrev () +
+				" Type: " + tTokenInfo.toString ());
+	}
+	
 	@Nested
 	@DisplayName ("TokenInfo IS ... TOKEN Tests")
 	class TokenInfoCreationTests {
