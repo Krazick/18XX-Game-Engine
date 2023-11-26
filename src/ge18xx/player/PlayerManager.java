@@ -1368,9 +1368,6 @@ public class PlayerManager {
 				if (!stockRound.canStartOperatingRound ()) {
 					applyDiscountIfMustSell (aPlayer, tPassAction);
 				}
-			}
-
-			if (tHaveAllPassed) {
 				if (!stockRound.startOperatingRound ()) {
 					clearAllPlayerPasses ();
 					moveToNextPlayer (tNextPlayerIndex, tPassAction);
