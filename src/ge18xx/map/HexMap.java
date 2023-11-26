@@ -1353,11 +1353,12 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 	@Override
 	public void stateChanged (ChangeEvent aEvent) {
 		JSlider tSource;
-
+		int tHexScale;
+		
 		tSource = (JSlider) aEvent.getSource ();
 		if (!tSource.getValueIsAdjusting ()) {
-			int hexScale = tSource.getValue ();
-			setHexScale (hexScale);
+			tHexScale = tSource.getValue ();
+			setHexScale (tHexScale);
 		}
 	}
 
