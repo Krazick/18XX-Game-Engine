@@ -4,6 +4,8 @@ import ge18xx.player.Player;
 import ge18xx.player.PlayerManager;
 import ge18xx.round.action.ActorI;
 import ge18xx.round.action.ChangeStateAction;
+import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.XMLDocument;
@@ -176,23 +178,32 @@ public class StockRound extends Round {
 		setStartRoundPriorityIndex (getPriorityIndex ());
 	}
 
-	public void setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious) {
+	public StateChangeEffect setCurrentPlayer (int aPlayerIndex, boolean aChainToPrevious) {
 		ActorI.ActionStates tOldState = ActorI.ActionStates.NoState;
 		ActorI.ActionStates tNewState = ActorI.ActionStates.NoState;
 		Player tPlayer = Player.NO_PLAYER;
 		ChangeStateAction tChangeStateAction;
+		StateChangeEffect tStateChangeEffect;
 
 		tPlayer = playerManager.getPlayer (aPlayerIndex);
+		tStateChangeEffect = (StateChangeEffect) Effect.NO_EFFECT;
 		if (tPlayer != Player.NO_PLAYER) {
-			tChangeStateAction = new ChangeStateAction (getRoundType (), getID (), tPlayer);
 			setCurrentPlayerIndex (aPlayerIndex);
 			tOldState = tPlayer.getPrimaryActionState ();
 			playerManager.clearPlayerPrimaryStateAt (currentPlayerIndex);
 			tNewState = tPlayer.getPrimaryActionState ();
+			
+			tChangeStateAction = new ChangeStateAction (getRoundType (), getID (), tPlayer);
 			tChangeStateAction.addStateChangeEffect (tPlayer, tOldState, tNewState);
-			tChangeStateAction.setChainToPrevious (aChainToPrevious);
-			addAction (tChangeStateAction);
+			tStateChangeEffect = (StateChangeEffect) tChangeStateAction.getEffect (0);
+			if (! tStateChangeEffect.nullEffect ()) {
+				tStateChangeEffect = (StateChangeEffect) Effect.NO_EFFECT;
+			}
+//			tChangeStateAction.setChainToPrevious (aChainToPrevious);
+//			addAction (tChangeStateAction);
 		}
+		
+		return tStateChangeEffect;
 	}
 
 	public void setPlayerManager (PlayerManager aPlayerManager) {
