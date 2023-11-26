@@ -46,6 +46,8 @@ import ge18xx.round.action.PassAction;
 import ge18xx.round.action.SellStockAction;
 import ge18xx.round.action.StartStockAction;
 import ge18xx.round.action.TransferOwnershipAction;
+import ge18xx.round.action.effects.Effect;
+import ge18xx.round.action.effects.StateChangeEffect;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.MessageBean;
@@ -1072,6 +1074,7 @@ public class PlayerManager {
 	private void moveToNextPlayer (int aNextPlayerIndex, ChangeStateAction aChangeStateAction) {
 		Player tNextPlayer;
 		boolean tBidShare;
+		StateChangeEffect tStateChangeEffect;
 		tNextPlayer = getPlayer (aNextPlayerIndex);
 
 		tNextPlayer.setBoughtShare (Player.NO_SHARE_BOUGHT);
@@ -1080,7 +1083,10 @@ public class PlayerManager {
 		tNextPlayer.setBidShare (tBidShare);
 		aChangeStateAction.addBidShareEffect (tNextPlayer, tBidShare);
 		tNextPlayer.updatePortfolioInfo ();
-		stockRound.setCurrentPlayer (aNextPlayerIndex, true);
+		tStateChangeEffect = stockRound.setCurrentPlayer (aNextPlayerIndex, true);
+		if (tStateChangeEffect != Effect.NO_EFFECT) {
+			aChangeStateAction.addEffect (tStateChangeEffect);
+		}
 		stockRound.updateRFPlayerLabel (tNextPlayer);
 	}
 
