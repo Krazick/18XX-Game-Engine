@@ -97,7 +97,7 @@ public abstract class CertificateBenefit extends Benefit {
 		tCorporation = aShareCertificate.getCorporation ();
 		tColor = tCorporation.getBgColor ();
 		tBorder1 = BorderFactory.createLineBorder (tColor, 2);
-		tBorder2 = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+		tBorder2 = BorderFactory.createEmptyBorder (2, 2, 2, 2);
 		tBorder = BorderFactory.createCompoundBorder (tBorder1, tBorder2);
 		tBenefitLabel.setBorder(tBorder);
 	}
