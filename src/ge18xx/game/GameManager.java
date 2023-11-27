@@ -2520,7 +2520,8 @@ public class GameManager extends Component implements NetworkGameSupport {
 		XMLNode tXMLGameActivityNode;
 		XMLNode tActionNode;
 		NodeList tActionChildren;
-		int tActionNodeCount, tActionIndex;
+		int tActionNodeCount;
+		int tActionIndex;
 		String tActionNodeName;
 		String tGANodeName;
 		String tBroadcast;
@@ -2540,7 +2541,7 @@ public class GameManager extends Component implements NetworkGameSupport {
 					if (Action.EN_ACTION.equals (tActionNodeName)) {
 						sendNetworkAction (tActionNode);
 					} else if (JGameClient.EN_GAME_SELECTION.equals (tActionNodeName)) {
-						networkJGameClient.handleGameSelection (tActionNode);
+						networkJGameClient.handleGameSelection (tActionNode, playerInputFrame);
 					} else if (JGameClient.EN_PLAYER_ORDER.equals (tActionNodeName)) {
 						tPlayerOrder = tActionNode.getThisAttribute (JGameClient.AN_PLAYER_ORDER);
 						tBroadcast = tActionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);

@@ -38,16 +38,17 @@ import javax.swing.text.StyleConstants;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NodeList;
 
-import ge18xx.game.GameInfo;
 // TODO Work out ways to remove imports that refer to ge18xx Packages
 // Intention here is to break out ge18xx.utilities to it's own JAR File first
 // And then have the ge18xx.network to it's own JAR File that requires the utilities JAR.
+import ge18xx.game.GameInfo;
 import ge18xx.game.GameManager;
 import ge18xx.game.GameSet;
 import ge18xx.game.SavedGames;
 import ge18xx.game.variants.VariantEffect;
 import ge18xx.toplevel.PlayerInputFrame;
 import ge18xx.toplevel.XMLFrame;
+
 import ge18xx.utilities.AttributeName;
 import ge18xx.utilities.ElementName;
 import ge18xx.utilities.GUI;
@@ -518,7 +519,7 @@ public class JGameClient extends XMLFrame {
 		}
 	}
 
-	public void handleGameSelection (XMLNode aGameSelectionNode) {
+	public void handleGameSelection (XMLNode aGameSelectionNode, PlayerInputFrame aPlayerInputFrame) {
 		int tGameIndex;
 		String tBroadcast;
 		String tGameID;
@@ -528,7 +529,6 @@ public class JGameClient extends XMLFrame {
 		NodeList tChildren;
 		XMLNode tChildNode;
 		XMLNode tVariantEffectsNode;
-		PlayerInputFrame tPlayerInputFrame;
 
 		tGameIndex = aGameSelectionNode.getThisIntAttribute (JGameClient.AN_GAME_INDEX);
 		tBroadcast = aGameSelectionNode.getThisAttribute (JGameClient.AN_BROADCAST_MESSAGE);
@@ -543,10 +543,8 @@ public class JGameClient extends XMLFrame {
 				tVariantEffectsNode = tChildNode;
 			}
 		}
-
 		gameManager.setGameID (tGameID);
-		tPlayerInputFrame = gameManager.getPlayerInputFrame ();
-		tPlayerInputFrame.handleGameSelection (tGameIndex, tVariantEffectsNode, tBroadcast);
+		aPlayerInputFrame.handleGameSelection (tGameIndex, tVariantEffectsNode, tBroadcast);
 		updateReadyButton (READY_TO_PLAY, true, "Hit when ready to play");
 	}
 
@@ -883,7 +881,7 @@ public class JGameClient extends XMLFrame {
 		updateReadyButton (SELECT_GAME, false, WAITING_FOR_GAME);
 	}
 
-	public void handleGameSelection (int aGameIndex, String aGameName) {
+	public void setSelectedGame (int aGameIndex, String aGameName) {
 		selectedGameIndex = aGameIndex;
 		selectedGameName = aGameName;
 		updateReadyButton (SELECT_GAME, true, GAME_SELECTED);
