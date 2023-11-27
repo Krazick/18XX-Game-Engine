@@ -118,7 +118,7 @@ public class GameSet implements LoadableXMLI, ActionListener {
 		setGameRadioButtons (playerInputFrame.getPlayerCount (), playerInputFrame.getBadPlayerList ());
 		if ((playerInputFrame.isNetworkGame () && aNotify)) {
 			tJGameClient = playerInputFrame.getNetworkJGameClient ();
-			tJGameClient.handleGameSelection (aGameIndex, gameInfo [aGameIndex].getName ());
+			tJGameClient.setSelectedGame (aGameIndex, gameInfo [aGameIndex].getName ());
 		}
 		playerInputFrame.pack ();
 	}

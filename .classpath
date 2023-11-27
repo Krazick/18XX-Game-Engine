@@ -7,7 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="JUnitSource"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/log4j2.18"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Mockito"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
@@ -16,5 +15,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="/Users/marksmith/eclipse-workspace/JARS/log4j/apache-log4j-2.18.0-bin"/>
+	<classpathentry kind="lib" path="/Users/marksmith/eclipse-workspace/JARS/geUtilities.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
