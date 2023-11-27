@@ -419,19 +419,23 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		int tEscrowAmount;
 		GameManager tGameManager;
 		
-		tGameManager = this.getGameManager ();
+		tGameManager = getGameManager ();
 		if (tGameManager.hasDestinations ()) {
 			tEscrowAmount = calculateEscrowToRelease ();
-			if (tEscrowAmount > 0) {
-				tEscrowLabel = new JLabel ("Escrow: " + Bank.formatCash (tEscrowAmount));
-			} else if (tGameManager.getAlwaysShowEscrow ()) {
-				if (hasReachedDestination ()) {
-					tEscrowLabel = new JLabel ("Escrow: All Paid");
-				} else {
-					tEscrowLabel = new JLabel ("Escrow: No Escrow");
-				}
+			if (hasReachedDestination ()) {
+				tEscrowLabel = new JLabel ("Escrow: All Paid");
 			} else {
-				tEscrowLabel = GUI.NO_LABEL;
+				if (tEscrowAmount > 0) {
+					tEscrowLabel = new JLabel ("Escrow: " + Bank.formatCash (tEscrowAmount));
+				} else if (tGameManager.getAlwaysShowEscrow ()) {
+					if (hasReachedDestination ()) {
+						tEscrowLabel = new JLabel ("Escrow: All Paid");
+					} else {
+						tEscrowLabel = new JLabel ("Escrow: No Escrow");
+					}
+				} else {
+					tEscrowLabel = GUI.NO_LABEL;
+				}
 			}
 		} else {
 			tEscrowLabel = GUI.NO_LABEL;
@@ -440,6 +444,15 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		return tEscrowLabel;
 	}
 	
+	public int calculateEscrowToRelease () {
+		return 0;
+	}
+	
+	@Override
+	public boolean hasReachedDestination () {
+		return false;
+	}
+
 	@Override
 	public JPanel buildCorpInfoJPanel () {
 		JPanel tCorpInfoJPanel;
@@ -492,10 +505,6 @@ public abstract class TrainCompany extends Corporation implements CashHolderI, T
 		}
 
 		return tCorpInfoJPanel;
-	}
-	
-	public int calculateEscrowToRelease () {
-		return 0;
 	}
 
 	public Border setupBorder (boolean aSamePresident) {
