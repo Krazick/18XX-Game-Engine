@@ -38,10 +38,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
-import org.apache.logging.log4j.Logger;
-
-import ge18xx.network.JGameClient;
-
 //
 //Game_18XX.java
 //Game_18XX
@@ -54,6 +50,7 @@ import ge18xx.network.JGameClient;
 //	http://developer.apple.com/techpubs/java/java.html
 //
 
+import ge18xx.network.JGameClient;
 import ge18xx.network.NetworkPlayer;
 import ge18xx.toplevel.AboutBox;
 import ge18xx.toplevel.PlayerInputFrame;
@@ -61,6 +58,9 @@ import ge18xx.toplevel.XMLFrame;
 import ge18xx.utilities.GUI;
 import ge18xx.utilities.Sound;
 import ge18xx.utilities.XMLDocument;
+
+import org.apache.logging.log4j.Logger;
+
 import log4j2.plugins.LoggerLookup;
 
 // TODO -- Create an abstract Super Class that is "GameEngineFrame" that has non-specific objects
