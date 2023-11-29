@@ -461,7 +461,10 @@ class TokensTests {
 		MapToken mMap2Token;
 		MapToken mMap3Token;
 		MapToken tFoundLastMapToken;
+		MapToken tFoundLastMapToken0;
+		MapToken tFoundLastMapToken1;
 		MapToken tFoundLastMapToken2;
+		MapToken tFoundLastMapToken3;
 		
 		mMarketToken = companyTestFactory.buildTokenMock ();
 		tokens4.addNewToken (mMarketToken, TokenInfo.TokenType.MARKET, 0);
@@ -474,12 +477,20 @@ class TokensTests {
 		mMap3Token = companyTestFactory.buildMapTokenMock ();
 		tokens4.addNewToken (mMap3Token, TokenInfo.TokenType.RANGE_COST, 0);
 
-		tFoundLastMapToken = tokens4.getLastMapToken (TokenInfo.TokenType.RANGE_COST);
-		assertEquals (mMap3Token, tFoundLastMapToken);
-
-		tokens4.setTokenUsed (tFoundLastMapToken, true);
+		tFoundLastMapToken3 = tokens4.getLastMapToken (TokenInfo.TokenType.RANGE_COST);
+		assertEquals (mMap3Token, tFoundLastMapToken3);
+		tokens4.setTokenUsed (tFoundLastMapToken3, true);
+		
 		tFoundLastMapToken2 = tokens4.getLastMapToken (TokenInfo.TokenType.RANGE_COST);
-		assertEquals (MapToken.NO_MAP_TOKEN, tFoundLastMapToken2);
+		assertEquals (mMap2Token, tFoundLastMapToken2);
+		tokens4.setTokenUsed (tFoundLastMapToken2, true);
+		
+		tFoundLastMapToken1 = tokens4.getLastMapToken (TokenInfo.TokenType.RANGE_COST);
+		assertEquals (mMap1Token, tFoundLastMapToken1);
+		tokens4.setTokenUsed (tFoundLastMapToken1, true);
+		
+		tFoundLastMapToken0 = tokens4.getLastMapToken (TokenInfo.TokenType.RANGE_COST);
+		assertEquals (MapToken.NO_MAP_TOKEN, tFoundLastMapToken0);
 
 		tFoundLastMapToken = tokens4.getLastMapToken (TokenInfo.TokenType.FIXED_COST);
 		assertEquals (MapToken.NO_MAP_TOKEN, tFoundLastMapToken);

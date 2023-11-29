@@ -209,15 +209,23 @@ public class Tokens {
 		MapToken tMapToken;
 		TokenInfo tLastMapTokenInfo;
 		int tTokenCount;
+		int tTokenIndex;
+		boolean tFound;
 		
 		tTokenCount = getTokenCount ();
-		tLastMapTokenInfo = tokens.get (tTokenCount - 1);
-		if (tLastMapTokenInfo.isMatchingTokenType (aTokenType)) {
+		tFound = false;
+		tTokenIndex = tTokenCount - 1;
+		tLastMapTokenInfo = TokenInfo.NO_TOKEN_INFO;
+		while (! tFound && (tTokenIndex > 0)) {
+			tLastMapTokenInfo = tokens.get (tTokenIndex);
 			if (tLastMapTokenInfo.isUsed ()) {
-				tMapToken = MapToken.NO_MAP_TOKEN;
+				tTokenIndex--;
 			} else {
-				tMapToken = tLastMapTokenInfo.getMapToken ();
+				tFound = true;
 			}
+		}
+		if (tLastMapTokenInfo.isMatchingTokenType (aTokenType)) {
+			tMapToken = tLastMapTokenInfo.getMapToken ();
 		} else {
 			tMapToken = MapToken.NO_MAP_TOKEN;
 		}
