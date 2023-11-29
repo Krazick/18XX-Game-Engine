@@ -91,7 +91,10 @@ public class Hex {
 	}
 
 	public Shape clipToHex (Graphics g, int Xo, int Yo) {
-		int xp[], yp[], npnts = x.length, index;
+		int xp[];
+		int yp[];
+		int npnts = x.length;
+		int index;
 		Polygon tClipPolygon;
 		Shape tPreviousClip;
 		Area tNewClip;
@@ -126,7 +129,10 @@ public class Hex {
 	}
 
 	private Polygon buildOffsetPolygon (int aXc, int aYc) {
-		int xp[], yp[], index, npnts = x.length;
+		int xp[];
+		int yp[];
+		int npnts = x.length;
+		int index;
 		Polygon offsetHexPolygon;
 
 		xp = new int [npnts];
@@ -149,7 +155,10 @@ public class Hex {
 	}
 
 	public void drawBorders (Graphics g, int Xo, int Yo, boolean drawBorder, boolean aBlockedSides []) {
-		int xp[], yp[], npnts = x.length, index;
+		int xp[];
+		int yp[];
+		int npnts = x.length;
+		int index;
 		Polygon tClipPolygon;
 		Area tNewClip;
 		Area tHexClip;
@@ -206,7 +215,8 @@ public class Hex {
 	}
 
 	public void drawHill (Graphics g, int Xc, int Yc, Paint aFillPaint) {
-		double tDwidth6, tDwidth5;
+		double tDwidth6;
+		double tDwidth5;
 		int X1, X2, X3, Y1, Y2, Y3;
 
 		tDwidth5 = dwidth / 6;
