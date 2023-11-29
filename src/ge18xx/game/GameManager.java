@@ -1652,10 +1652,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 
 	public boolean loadXMLFile (File aSaveGame) {
 		boolean tXMLFileWasLoaded;
-
+		XMLDocument tXMLDocument;
+		
 		if (aSaveGame != null) {
 			try {
-				XMLDocument tXMLDocument = new XMLDocument (aSaveGame);
+				tXMLDocument = new XMLDocument (aSaveGame);
 				tXMLFileWasLoaded = loadXMLSavedGame (tXMLDocument);
 			} catch (Exception eException) {
 				logger.error ("Oops, mucked up the XML Save Game File Access [" + aSaveGame.getName () + "].");
@@ -1674,8 +1675,11 @@ public class GameManager extends Component implements NetworkGameSupport {
 		boolean tLoadedSaveGame;
 		XMLNode tXMLSaveGame;
 		NodeList tChildren;
-		int tChildrenCount, tIndex;
-		boolean tGameIdentified = false, tPlayersLoaded = false, tGameInitiated = false;
+		int tChildrenCount;
+		int tIndex;
+		boolean tGameIdentified = false;
+		boolean tPlayersLoaded = false;
+		boolean tGameInitiated = false;
 
 		tLoadedSaveGame = false;
 		if (aXMLDocument.validDocument ()) {
