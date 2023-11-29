@@ -100,6 +100,8 @@ public class TokenExchange extends PlayerFormationPhase {
 		String tExchangeHomeTokens;
 		String tTokenLocations;
 		String tNonHomeStations;
+		String tSimpleTokenInfo;
+		String tTokenLocation;
 		ShareCompany tShareCompany;
 		CorporationList tShareCompanies;
 		int tShareIndex;
@@ -126,7 +128,9 @@ public class TokenExchange extends PlayerFormationPhase {
 						if (! GUI.EMPTY_STRING.equals (tTokenLocations)) {
 							tTokenLocations += ", ";
 						}
-						tTokenLocations += collectHomeTokenInfo (tShareCompany);
+						tTokenLocation = collectHomeTokenInfo (tShareCompany);
+						tSimpleTokenInfo = getSimpleTokenInfo (tTokenLocation);
+						tTokenLocations += tSimpleTokenInfo;
 					}
 				}
 			}
@@ -165,19 +169,26 @@ public class TokenExchange extends PlayerFormationPhase {
 	
 	public void buildNonHomeCheckboxes () {
 		JCheckBox tMapCellIDCheckbox;
-		String tMapCellInfo [];
-		String tMapCellID;
+		String tSimpleTokenInfo;
 	
 		nonHomeCheckboxesPanel = new JPanel ();
 		nonHomeCheckboxesPanel.setLayout (new BoxLayout (nonHomeCheckboxesPanel, BoxLayout.X_AXIS));
 		for (String tNonHomeMapCellID : nonHomeMapCellIDs) {
-			tMapCellInfo = tNonHomeMapCellID.split (":");
-			tMapCellID = tMapCellInfo [1] + " on " + tMapCellInfo [2];
-			tMapCellIDCheckbox = new JCheckBox (tMapCellID);
+			tSimpleTokenInfo = getSimpleTokenInfo (tNonHomeMapCellID);
+			tMapCellIDCheckbox = new JCheckBox (tSimpleTokenInfo);
 			
 			nonHomeCheckboxesPanel.add (tMapCellIDCheckbox);
 		}
+	}
 
+	public String getSimpleTokenInfo (String aMapCellInfo) {
+		String [] tMapCellInfo;
+		String tSimpleTokenInfo;
+		
+		tMapCellInfo = aMapCellInfo.split (":");
+		tSimpleTokenInfo = tMapCellInfo [1] + " on " + tMapCellInfo [2];
+		
+		return tSimpleTokenInfo;
 	}
 	
 	public boolean getHomeTokensExchanged () {
@@ -203,6 +214,7 @@ public class TokenExchange extends PlayerFormationPhase {
 		tCorpID = aTokenCompany.getID ();
 		tTokenLocation = tHexMap.getTokenLocation (tHomeMapCell1, tAbbrev, tCorpID);
 		homeMapCellIDs.add (tTokenLocation);
+
 		tHomeTokenInfo = "[" + tTokenLocation + "]";
 		
 		tHomeMapCell2 = aTokenCompany.getCorpHome2MapID ();
@@ -393,7 +405,7 @@ public class TokenExchange extends PlayerFormationPhase {
 		}
 	}
 
-	public void exchangeHomeTokens () {
+	public void exchangeTokens (List<String> aMapCellIDs, boolean tExchangeHomeTokens) {
 		HexMap tHexMap;
 		MapToken tNewMapToken;
 		ShareCompany tFormingShareCompany;
@@ -407,9 +419,9 @@ public class TokenExchange extends PlayerFormationPhase {
 		tShareCompanies = gameManager.getShareCompanies ();
 		tMinorCompanies = gameManager.getMinorCompanies ();
 		tFormingShareCompany = formationPhase.getFormingCompany ();
-		tNewMapToken = tFormingShareCompany.getLastMapToken ();
 		tCountReplacements = 0;
-		for (String tHomeMapCellID : homeMapCellIDs) {
+		for (String tHomeMapCellID : aMapCellIDs) {
+			tNewMapToken = tFormingShareCompany.getLastMapToken ();
 			tCompanyAbbrev = tHexMap.getCompanyAbbrev (tHomeMapCellID);
 			tFoldingCompany = (TokenCompany) tShareCompanies.getCorporation (tCompanyAbbrev);
 			if (tFoldingCompany == Corporation.NO_CORPORATION) {
@@ -422,12 +434,19 @@ public class TokenExchange extends PlayerFormationPhase {
 			if (tCountReplacements > 1) {
 				replaceTokenAction.setChainToPrevious (true);
 			}
-			replaceTokenAction.addSetHomeTokensExchangedEffect (tFoldingCompany, true);
-			
+			if (tExchangeHomeTokens) {
+				replaceTokenAction.addSetHomeTokensExchangedEffect (tFoldingCompany, true);
+			} else {
+				replaceTokenAction.addSetNonHomeTokensExchangedEffect (tFoldingCompany, true);
+			}
 			gameManager.addAction (replaceTokenAction);
 		}
 		tHexMap.redrawMap ();
-		formationPhase.setHomeTokensExchanged (true);
+		if (tExchangeHomeTokens) {
+			formationPhase.setHomeTokensExchanged (true);
+		} else {
+			formationPhase.setNonHomeTokensExchanged (true);
+		}
 		formationPhase.rebuildFormationPanel ();
 	}
 
@@ -442,11 +461,16 @@ public class TokenExchange extends PlayerFormationPhase {
 		replaceTokenAction = new ReplaceTokenAction (tRoundType, tRoundID, aTokenCompany);
 	}
 	
+	public void exchangeHomeTokens () {
+		exchangeTokens (homeMapCellIDs, true);
+	}
+		
 	public void exchangeNonHomeTokens () {
 		System.out.println ("Ready to Exchange all Non-Homes Tokens");
 		for (String tNonHomeMapCellID : nonHomeMapCellIDs) {
 			System.out.println ("Swap out Token on MapCellID " + tNonHomeMapCellID);
 		}
+		exchangeTokens (nonHomeMapCellIDs, false);
 	}
 	
 	@Override

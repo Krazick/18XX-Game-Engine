@@ -789,8 +789,6 @@ public class Centers implements Cloneable {
 		tCorporationCleared = aCity.clearCorporation (aFoldingCompany);
 		if (tCorporationCleared) {
 			aReplaceTokenAction.addClearCorporationEffect (aFoldingCompany, aMapCell, aTile, aRevenueCenterIndex);
-		} else {
-			System.err.println ("Corporation was NOT cleared");
 		}
 	}
 	
@@ -821,7 +819,7 @@ public class Centers implements Cloneable {
 			tRevenueCenter = centers.get (tRevenueCenterIndex);
 			if (tRevenueCenter.cityHasStation (tTokenCompanyID)) {
 				tCity = (City) tRevenueCenter;
-				if (tCity.withBaseForCorp (aFoldingCompany)) {
+				if (tCity.cityHasStation (tTokenCompanyID)) {
 					removeMapToken (aFoldingCompany, aMapCell, aTile, aReplaceTokenAction, tRevenueCenterIndex, tCity);
 					clearBaseCorporation (aFoldingCompany, aMapCell, aTile, aReplaceTokenAction, tRevenueCenterIndex, tCity);
 					layMapToken (aFoldingCompany, aNewMapToken, aMapCell, aTile, aReplaceTokenAction,

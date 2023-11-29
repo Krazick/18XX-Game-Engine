@@ -60,6 +60,13 @@ public class ReplaceTokenAction extends LayTokenAction {
 		addEffect (tSetHomeTokensExchangedEffect);
 	}
 	
+	public void addSetNonHomeTokensExchangedEffect (ActorI aFromActor, boolean aHomeTokensExchanged) {
+		SetHomeTokensExchangedEffect tSetHomeTokensExchangedEffect;
+		
+		tSetHomeTokensExchangedEffect = new SetHomeTokensExchangedEffect (aFromActor, aHomeTokensExchanged);
+		addEffect (tSetHomeTokensExchangedEffect);
+	}
+	
 	// TODO: Consider options:
 	// 1) Reverse order ALWAYS before undoing.
 	// 2) Use flag on the Action that if set will reverse before undoing. This is applied when Action is created

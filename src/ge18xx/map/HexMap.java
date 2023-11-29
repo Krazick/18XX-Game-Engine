@@ -1666,13 +1666,13 @@ public class HexMap extends JLabel implements LoadableXMLI, MouseListener, Mouse
 		return tCompanyAbbrev;
 	}
 	
-	public void replaceMapToken (String aHomeMapCellID, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
+	public void replaceMapToken (String aMapCellID, MapToken aNewMapToken, TokenCompany aFoldingCompany, 
 			ReplaceTokenAction aReplaceTokenAction) {
 		MapCell tMapCell;
 		String tMapCellID;
 		String tMapCellInfo [];
 		
-		tMapCellInfo = aHomeMapCellID.split (":");
+		tMapCellInfo = aMapCellID.split (":");
 		tMapCellID = tMapCellInfo [2];
 		tMapCell = getMapCellForID (tMapCellID);
 		tMapCell.replaceMapToken (tMapCellInfo, aNewMapToken, aFoldingCompany, aReplaceTokenAction);
